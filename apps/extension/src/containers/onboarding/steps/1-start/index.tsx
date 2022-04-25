@@ -7,6 +7,7 @@ import { PageWrapper } from '@src/components/layout'
 import { Text, Box, Flex, StyledLink } from 'ui/src/components/atoms'
 import { useStore } from '@src/store'
 import { onBoardingSteps } from '@src/store/onboarding'
+import { Z3usText } from 'ui/src/components/z3us-text'
 import { CheckItem } from './check-item'
 
 const setupItems = {
@@ -55,12 +56,12 @@ export const Start = (): JSX.Element => {
 	return (
 		<PageWrapper css={{ flex: '1', position: 'relative', display: 'flex', flexDirection: 'column' }}>
 			<Flex css={{ pt: '$4' }}>
-				<Text bold uppercase css={{ fontSize: '42px', lineHeight: '42px', position: 'relative' }}>
-					z3us
+				<Box css={{ position: 'relative' }}>
 					<Pill color="gradientGreen" css={{ position: 'absolute', top: '-22px', left: '-1px' }}>
 						BETA
 					</Pill>
-				</Text>
+					<Z3usText css={{ width: '130px', height: '40px' }} />
+				</Box>
 			</Flex>
 			<Box css={{ pt: '$6' }}>
 				<Text medium size="9">
