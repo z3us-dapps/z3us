@@ -1,3 +1,4 @@
+/* eslint-disable prefer-regex-literals */
 import base64url from 'base64url'
 import {
 	generateRegistrationOptions,
@@ -33,6 +34,20 @@ const mapAuthenticator = (authenticator: Authenticator) => ({
 	transports: authenticator.transports,
 })
 
+/**
+ * https://w3c.github.io/webauthn/#rp-id
+ *
+ * By default, the RP ID for a WebAuthn operation is set to the caller’s origin's effective domain.
+ * This default MAY be overridden by the caller, as long as the caller-specified RP ID value is a registrable domain suffix of or is equal to the caller’s origin's effective domain.
+ *
+ * Note: An RP ID is based on a host's domain name. It does not itself include a scheme or port, as an origin does.
+ * The RP ID of a public key credential determines its scope.
+ *
+ * I.e., it determines the set of origins on which the public key credential may be exercised, as follows:
+ * 	- The RP ID must be equal to the origin's effective domain, or a registrable domain suffix of the origin's effective domain.
+ * 	- The origin's scheme must be https.
+ * 	- The origin's port is unrestricted.
+ */
 export class CredentialsService {
 	private storage: BrowserStorageService
 
@@ -52,8 +67,8 @@ export class CredentialsService {
 	reset = async (): Promise<void> => this.storage.removeItem(credentialsKey)
 
 	generateRegistrationOptions = async (
-		rpName: string,
 		rpID: string,
+		rpName: string,
 		userID: string,
 		userName: string,
 		userDisplayName: string,
@@ -75,13 +90,13 @@ export class CredentialsService {
 		}
 
 		const options = generateRegistrationOptions({
-			rpName,
 			rpID,
+			rpName,
 			userID,
 			userName,
 			userDisplayName,
-			attestationType: 'none',
 			excludeCredentials,
+			attestationType: 'none',
 			authenticatorSelection: {
 				authenticatorAttachment: 'platform',
 				userVerification: 'required',

@@ -124,6 +124,7 @@ export const CreatePassword = (): JSX.Element => {
 					</Text>
 				</InputFeedBack>
 
+				{/* @TODO: uncomment once webauthn is supported from extension/addon origin (xxxxxx is an invalid domain) */}
 				{false && state.isWebAuthSupported && (
 					<Box css={{ marginTop: '$3', width: '100%' }}>
 						<Button

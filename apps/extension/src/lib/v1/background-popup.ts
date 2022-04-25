@@ -130,8 +130,8 @@ export default function NewV1BackgroundPopupActions(
 	) {
 		try {
 			const resp = await credentials.generateRegistrationOptions(
-				payload.rpName,
 				payload.rpID,
+				payload.rpName,
 				payload.userID,
 				payload.userName,
 				payload.userDisplayName,
