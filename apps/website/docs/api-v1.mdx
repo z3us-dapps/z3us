@@ -1,0 +1,90 @@
+---
+title: 'API v1'
+date: 'July 25, 2021'
+description: 'API v1 documentation'
+thumbnailUrl: '/python-variables-thumbnail.jpeg'
+tags: ['api', 'v1']
+---
+
+# v1
+
+v1 provider API is promise based, and user is expected to catch and handle errors, promises will resolve whenever possible it is users responsibility to timeout if promise hangs.
+
+<SyntaxHighlighter language="typescript">
+	{`
+declare global {
+	interface Window {
+		z3us: {
+			v1: {
+				hasWallet: () => Promise<boolean>
+				isConnected: () => Promise<boolean>
+				connect: () => Promise<string>
+				addresses: () => Promise<string[]>
+				disconnect: () => Promise<void>
+				encrypt: (message: string, fromAddress: string, toAddress: string) => Promise<string>
+				decrypt: (message: string, fromAddress: string) => Promise<string>
+				balances: () => Promise<unknown>
+				stakes: () => Promise<unknown>
+				unstakes: () => Promise<unknown>
+				sendTransaction: (payload: { symbol: string; fromAddress: string; transaction: any }) => Promise<any>
+			}
+		}
+	}
+}
+  `}
+</SyntaxHighlighter>
+
+## Error handling
+
+To handle errors simply use `try/catch` block, function will throw in case of action declined or unexpected error. There is no timeout at the moment on the promise, be carefull to avoid deadlocks and handle resonable timout on webiste end according to your action.
+
+<SyntaxHighlighter language="typescript">
+	{`
+try {
+	const response = await window.z3us.v1.balances()
+} catch (error) {
+	console.error(error)
+}
+  `}
+</SyntaxHighlighter>
+
+## Connecting
+
+Priaror to connecting please verify that `window.z3us` is available and that user has initialized their wallet. To **connect** use `window.z3us.v1.connect()` which will return currently selected address.
+
+<SyntaxHighlighter language="typescript">
+	{`
+if (window.z3us) {
+	return
+}
+const hasWallet = await window.z3us.v1.hasWallet()
+if (!hasWallet) {
+	return
+}
+const selectedAddress = await window.z3us.v1.connect()
+  `}
+</SyntaxHighlighter>
+
+Once user authorizes your website popup will not show again (unless they remove the permissions) and `connect` will return selected address.
+
+## Disconnecting
+
+Your webiste might be disconnected by user from popup or you can call **disconnect** method, which will trigger popup again next time you call **connect**.
+
+<SyntaxHighlighter language="typescript">
+	{`
+await window.z3us.v1.disconnect()
+  `}
+</SyntaxHighlighter>
+
+[z3us](https://z3us.com) injects a global API into websites visited by its users at `window.z3us`. This API allows users to interact with wallet and [radix](https://www.radixdlt.com/) blockchain.
+
+### Example React implementation
+
+Implementation may contain errors, it is meant as an example and reference only.
+
+#### Demo
+
+If you wish to see code used for this demo please visit our [example](https://github.com/z3us-technologies/z3us/blob/master/apps/website/components/pages/example-v1/index.tsx).
+
+<ExampleV1 />

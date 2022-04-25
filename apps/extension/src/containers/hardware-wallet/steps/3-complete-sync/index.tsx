@@ -1,0 +1,95 @@
+import React, { useEffect } from 'react'
+import { useStore } from '@src/store'
+import { useLocation } from 'wouter'
+import { useImmer } from 'use-immer'
+import { steps } from '@src/store/hardware-wallet'
+import { PageWrapper, PageHeading, PageSubHeading } from '@src/components/layout'
+import Button from 'ui/src/components/button'
+import { Flex, Text, Box } from 'ui/src/components/atoms'
+import InputFeedBack from 'ui/src/components/input/input-feedback'
+
+export const CompleteSync = (): JSX.Element => {
+	const [, setLocation] = useLocation()
+
+	const { addresses, connectHW, setStep } = useStore(state => ({
+		addresses: state.hwPublicAddresses,
+		connectHW: state.connectHWAction,
+		setStep: state.setHardwareWalletStepAction,
+	}))
+
+	const [state, setState] = useImmer({
+		isLoading: false,
+		isButtonDisabled: true,
+		errorMessage: '',
+	})
+
+	useEffect(() => {
+		setState(draft => {
+			draft.isButtonDisabled = addresses.length < 1
+		})
+	}, [addresses])
+
+	const handleContinue = async () => {
+		if (state.isButtonDisabled) {
+			return
+		}
+		setState(draft => {
+			draft.isLoading = true
+		})
+		try {
+			await connectHW()
+			setStep(steps.SELECT_DEVICE)
+			setLocation('/wallet/account')
+		} catch (error) {
+			setState(draft => {
+				draft.errorMessage = error?.message || error
+			})
+		}
+		setState(draft => {
+			draft.isLoading = false
+		})
+	}
+
+	return (
+		<PageWrapper
+			css={{
+				flex: '1',
+				position: 'relative',
+				display: 'flex',
+				flexDirection: 'column',
+				width: '100%',
+				flexBasis: '100%',
+			}}
+		>
+			<Box css={{ width: '100%' }}>
+				<PageHeading>Connect hardware wallet</PageHeading>
+				<PageSubHeading>Click `Go to wallet` below, to go to your wallet and begin using z3us wallet.</PageSubHeading>
+			</Box>
+			<Box css={{ mt: '$8', flex: '1' }}>
+				<InputFeedBack showFeedback={state.errorMessage !== ''} animateHeight={31}>
+					<Text color="red" medium>
+						{state.errorMessage}
+					</Text>
+				</InputFeedBack>
+			</Box>
+			<Flex css={{ width: '100%' }}>
+				<Button
+					fullWidth
+					color="primary"
+					size="6"
+					onClick={handleContinue}
+					css={{ flex: '1' }}
+					disabled={state.isButtonDisabled}
+					loading={state.isLoading}
+				>
+					Go to wallet
+				</Button>
+			</Flex>
+			<Flex justify="center" align="center" css={{ height: '48px', ta: 'center', mt: '$2', width: '100%' }}>
+				<Text medium size="3" color="muted">
+					Step 3 of 3
+				</Text>
+			</Flex>
+		</PageWrapper>
+	)
+}

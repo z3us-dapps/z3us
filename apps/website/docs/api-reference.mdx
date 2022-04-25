@@ -1,0 +1,27 @@
+---
+title: 'API Reference'
+date: 'July 25, 2021'
+description: "Provider API"
+thumbnailUrl: '/python-variables-thumbnail.jpeg'
+tags: ['api', 'reference', 'provider']
+---
+
+# Provider API
+
+[z3us](https://z3us.com) injects a global API into websites visited by its users at `window.z3us`. This API allows users to interact with wallet and [radix](https://www.radixdlt.com/) blockchain.
+
+## Versioning
+
+API is versioned and will support up to 2 most recent versions to ensure users have time to update when the breaking change is introduced.
+
+<SyntaxHighlighter language="typescript">
+	{`
+declare global {
+	interface Window {
+		z3us: {
+			v1: { ... }
+		}
+	}
+}
+  `}
+</SyntaxHighlighter>

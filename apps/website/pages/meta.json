@@ -1,0 +1,22 @@
+{
+	"*": {
+		"type": "page"
+	},
+	"index": {
+		"title": "Home",
+		"hidden": true,
+		"theme": {
+			"layout": "raw"
+		}
+	},
+	"docs": "Docs",
+	"blog": "Blog",
+	"terms": {
+		"title": "Terms of Use",
+		"hidden": true
+	},
+	"privacy": {
+		"title": "Privacy Policy",
+		"hidden": true
+	}
+}

@@ -1,0 +1,56 @@
+import React from 'react'
+import { useStore } from '@src/store'
+import { CSS } from 'ui/src/theme'
+import { CopyIcon } from '@radix-ui/react-icons'
+import { Flex, Text } from 'ui/src/components/atoms'
+import Button from 'ui/src/components/button'
+import ButtonTipFeedback from 'ui/src/components/button-tip-feedback'
+import { getShortAddress } from '@src/utils/string-utils'
+import { copyTextToClipboard } from '@src/utils/copy-to-clipboard'
+
+interface IProps {
+	address: string
+	isCopyButtonVisible?: boolean
+	css: CSS
+}
+
+const defaultProps = {
+	isCopyButtonVisible: true,
+}
+
+export const AccountAddress: React.FC<IProps> = ({ address, isCopyButtonVisible, css }: IProps) => {
+	const { addressBook } = useStore(state => ({
+		addressBook: state.addressBook,
+	}))
+
+	const entry = addressBook[address]
+	const shortAddress = getShortAddress(address)
+
+	const handleCopyAddress = () => {
+		copyTextToClipboard(address)
+	}
+
+	return (
+		<Flex align="center">
+			<Text size="3" medium css={{ ...(css as any) }}>
+				{entry?.name ? `${entry.name} (${shortAddress})` : shortAddress}
+			</Text>
+			{isCopyButtonVisible ? (
+				<ButtonTipFeedback feedback="Address copied" delay={500} css={{ backgroundColor: '$bgPanel' }}>
+					<Button
+						size="1"
+						iconOnly
+						color="ghost"
+						onClick={handleCopyAddress}
+						css={{ ...(css as any) }}
+						//css={{ fill: '#330867', color: '#330867' }}
+					>
+						<CopyIcon />
+					</Button>
+				</ButtonTipFeedback>
+			) : null}
+		</Flex>
+	)
+}
+
+AccountAddress.defaultProps = defaultProps
