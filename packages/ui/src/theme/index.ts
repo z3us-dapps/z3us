@@ -21,7 +21,7 @@ const { createTheme, styled, getCssText, config, css } = createStitches({
 			untitled: 'Untitled Sans, -apple-system, system-ui, sans-serif',
 			mono: 'Söhne Mono, monospace',
 			montserrat: '"Montserrat", sans-serif',
-			fira: 'Fira Sans, sans-serif',
+			fira: '"Fira Sans", sans-serif',
 		},
 		fontSizes: {
 			1: '11px',

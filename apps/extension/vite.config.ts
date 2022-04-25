@@ -4,7 +4,6 @@ import rollupInject from '@rollup/plugin-inject'
 import { visualizer } from 'rollup-plugin-visualizer'
 import webExtension from '@samrum/vite-plugin-web-extension'
 import react from '@vitejs/plugin-react'
-import viteFonts from 'vite-plugin-fonts'
 import chrome from './chrome'
 import firefox from './firefox'
 
@@ -28,15 +27,7 @@ export default defineConfig({
 			stream: 'vite-compatible-readable-stream',
 		},
 	},
-	plugins: [
-		react(),
-		visualizer(),
-		viteFonts({
-			google: {
-				families: ['Montserrat'],
-			},
-		}),
-	],
+	plugins: [react(), visualizer()],
 	build: {
 		outDir: path.resolve(__dirname, `dist/${process.env.APP_TARGET}`),
 		sourcemap: true,
