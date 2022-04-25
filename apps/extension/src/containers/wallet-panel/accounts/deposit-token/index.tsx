@@ -33,9 +33,7 @@ export const DepositToken: React.FC = () => {
 
 	const liquidBalances = balances?.account_balances?.liquid_balances || []
 	const selectedToken = liquidBalances?.find(balance => balance.rri === rri)
-	const selectedTokenAmmount = selectedToken
-		? new BigNumber(selectedToken.amount).shiftedBy(-18)
-		: new BigNumber(0)
+	const selectedTokenAmmount = selectedToken ? new BigNumber(selectedToken.amount).shiftedBy(-18) : new BigNumber(0)
 	const address = account?.address?.toString()
 	const shortAddress = getShortAddress(address)
 
@@ -72,9 +70,9 @@ export const DepositToken: React.FC = () => {
 			<SendReceiveHeader backLocation={isDepositTokenRoute ? `/account/token/${rri}` : '/account'} />
 			<Box css={{ pt: '20px', px: '23px', flex: '1' }}>
 				<Box>
-					<Text css={{ fontSize: '32px', lineHeight: '38px', fontWeight: '800' }}>Deposit {token?.name}</Text>
+					<Text css={{ fontSize: '32px', lineHeight: '38px', fontWeight: '800' }}>Deposit</Text>
 					<Text css={{ fontSize: '14px', lineHeight: '17px', fontWeight: '500', mt: '20px' }}>
-						Deposit token into account
+						Deposit {token?.name}.
 					</Text>
 				</Box>
 				<AccountSelector

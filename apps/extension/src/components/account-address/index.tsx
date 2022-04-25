@@ -37,14 +37,7 @@ export const AccountAddress: React.FC<IProps> = ({ address, isCopyButtonVisible,
 			</Text>
 			{isCopyButtonVisible ? (
 				<ButtonTipFeedback feedback="Address copied" delay={500} css={{ backgroundColor: '$bgPanel' }}>
-					<Button
-						size="1"
-						iconOnly
-						color="ghost"
-						onClick={handleCopyAddress}
-						css={{ ...(css as any) }}
-						//css={{ fill: '#330867', color: '#330867' }}
-					>
+					<Button size="1" iconOnly color="ghost" onClick={handleCopyAddress} css={{ ...(css as any) }}>
 						<CopyIcon />
 					</Button>
 				</ButtonTipFeedback>
