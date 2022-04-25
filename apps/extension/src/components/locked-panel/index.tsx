@@ -69,6 +69,7 @@ export const LockedPanel: React.FC = () => {
 				handleUnlock(password)
 			}
 		} catch (error) {
+			// eslint-disable-next-line no-console
 			console.error(error)
 		}
 	}

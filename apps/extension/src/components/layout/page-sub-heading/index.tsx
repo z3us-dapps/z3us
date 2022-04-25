@@ -8,7 +8,7 @@ interface IProps {
 }
 
 export const PageSubHeading: React.FC<IProps> = ({ children, css }: IProps) => (
-	<Text css={{ fontSize: '14px', lineHeight: '17px', fontWeight: '500', mt: '20px', ...css }}>{children}</Text>
+	<Text css={{ fontSize: '14px', lineHeight: '19px', fontWeight: '500', mt: '19px', ...css }}>{children}</Text>
 )
 
 PageSubHeading.defaultProps = {

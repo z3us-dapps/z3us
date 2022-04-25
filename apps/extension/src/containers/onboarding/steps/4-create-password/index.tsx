@@ -38,6 +38,7 @@ export const CreatePassword = (): JSX.Element => {
 					draft.isWebAuthSupported = isSupported
 				})
 			} catch (error) {
+				// eslint-disable-next-line no-console
 				console.warn(error)
 			}
 		}
@@ -108,9 +109,13 @@ export const CreatePassword = (): JSX.Element => {
 		>
 			<Box css={{ width: '100%' }}>
 				<PageHeading>Create password</PageHeading>
-				<PageSubHeading>You will use this to unlock your wallet.</PageSubHeading>
+				<PageSubHeading>
+					You will use this password to unlock
+					<br />
+					your wallet.
+				</PageSubHeading>
 			</Box>
-			<Box css={{ mt: '$8', flex: '1' }}>
+			<Box css={{ pt: '33px', flex: '1' }}>
 				<Box css={{ width: '100%' }}>
 					<Input type="password" size="2" placeholder="Enter password" onChange={handlePassword} />
 				</Box>

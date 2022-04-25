@@ -3,7 +3,7 @@ import { HDMasterSeed, HDPathRadix, PrivateKey, AccountAddress } from '@radixdlt
 import { useImmer } from 'use-immer'
 import { useStore } from '@src/store'
 import { CopyIcon } from '@radix-ui/react-icons'
-import SimpleBar from 'simplebar-react'
+import { ScrollArea } from '@src/components/scroll-area'
 import { copyTextToClipboard } from '@src/utils/copy-to-clipboard'
 import ButtonTipFeedback from 'ui/src/components/button-tip-feedback'
 import { onBoardingSteps } from '@src/store/onboarding'
@@ -81,7 +81,7 @@ export const ImportAccounts = (): JSX.Element => {
 		<PageWrapper css={{ flex: '1', position: 'relative', display: 'flex', flexDirection: 'column' }}>
 			<Box>
 				<PageHeading>Import accounts</PageHeading>
-				<PageSubHeading>Use slider to select accounts to import.</PageSubHeading>
+				<PageSubHeading>Drag slider to select the number of accounts that you would like to import.</PageSubHeading>
 			</Box>
 			<Box css={{ mt: '$4', flex: '1' }}>
 				<Box
@@ -90,15 +90,10 @@ export const ImportAccounts = (): JSX.Element => {
 						br: '$2',
 						border: '1px solid $borderPanel',
 						position: 'relative',
-						height: '297px',
+						height: '278px',
 					}}
 				>
-					<SimpleBar
-						style={{
-							height: '100%',
-							position: 'relative',
-						}}
-					>
+					<ScrollArea>
 						<Box css={{ pt: '$4', pb: '$2', px: '$3' }}>
 							<StyledSlider
 								defaultValue={[state.amount]}
@@ -139,7 +134,7 @@ export const ImportAccounts = (): JSX.Element => {
 								)
 							})}
 						</Box>
-					</SimpleBar>
+					</ScrollArea>
 				</Box>
 				<InputFeedBack showFeedback={state.showError} animateHeight={31}>
 					<Text color="red" medium>
