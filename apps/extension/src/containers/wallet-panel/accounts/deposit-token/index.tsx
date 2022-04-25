@@ -89,7 +89,6 @@ export const DepositToken: React.FC = () => {
 					/>
 				)}
 				<Flex justify="center" css={{ mt: '24px' }}>
-					{/*TODO: make this a shared component*/}
 					<Flex
 						align="center"
 						justify="center"

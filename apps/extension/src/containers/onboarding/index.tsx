@@ -1,5 +1,6 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useLocation } from 'wouter'
+import { useImmer } from 'use-immer'
 import { onBoardingSteps } from '@src/store/onboarding'
 import { LeftArrowIcon } from 'ui/src/components/icons'
 import Button from 'ui/src/components/button'
@@ -19,12 +20,19 @@ import { useColorMode } from '@src/hooks/use-color-mode'
 export const OnboardingWorkFlow: React.FC = () => {
 	const [, setLocation] = useLocation()
 	const isDarkMode = useColorMode()
-	const { onBoardingStep, setOnboardingStep, setIsRestoreWorkflow, isRestoreWorkflow } = useStore(state => ({
-		onBoardingStep: state.onBoardingStep,
-		setOnboardingStep: state.setOnboardingStepAction,
-		setIsRestoreWorkflow: state.setIsRestoreWorkflowAction,
-		isRestoreWorkflow: state.isRestoreWorkflow,
-	}))
+	const { onBoardingStep, setOnboardingStep, setIsRestoreWorkflow, isRestoreWorkflow, hasKeystore } = useStore(
+		state => ({
+			onBoardingStep: state.onBoardingStep,
+			setOnboardingStep: state.setOnboardingStepAction,
+			setIsRestoreWorkflow: state.setIsRestoreWorkflowAction,
+			isRestoreWorkflow: state.isRestoreWorkflow,
+			hasKeystore: state.hasKeystoreAction,
+		}),
+	)
+
+	const [state, setState] = useImmer({
+		isBackButtonVisible: false,
+	})
 
 	const handleBackClick = () => {
 		switch (onBoardingStep) {
@@ -56,6 +64,18 @@ export const OnboardingWorkFlow: React.FC = () => {
 		}
 	}
 
+	useEffect(() => {
+		const load = async () => {
+			const hasKeystoreWallet = await hasKeystore()
+			if (hasKeystoreWallet) {
+				setState(draft => {
+					draft.isBackButtonVisible = true
+				})
+			}
+		}
+		load()
+	}, [])
+
 	return (
 		<Flex
 			direction="column"
@@ -82,7 +102,19 @@ export const OnboardingWorkFlow: React.FC = () => {
 			}}
 		>
 			<Flex justify="between" css={{ height: '48px', position: 'relative', pt: '6px', pl: '6px', pr: '6px' }}>
-				<Button color="ghost" onClick={handleBackClick} iconOnly size="3" aria-label="back" css={{ mt: '2px' }}>
+				<Button
+					color="ghost"
+					onClick={handleBackClick}
+					iconOnly
+					size="3"
+					aria-label="back"
+					css={{
+						mt: '2px',
+						pe: state.isBackButtonVisible ? 'auto' : 'none',
+						opacity: state.isBackButtonVisible ? '1' : '0',
+						transition: '$default',
+					}}
+				>
 					<LeftArrowIcon />
 				</Button>
 				<WalletMenu />

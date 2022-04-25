@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react'
 import { useLocation } from 'wouter'
 import { useStore } from '@src/store'
+import { useImmer } from 'use-immer'
 import { useColorMode } from '@src/hooks/use-color-mode'
 import { LockedPanel } from '@src/components/locked-panel'
 import { AnimatePresence, motion } from 'framer-motion'
@@ -52,6 +53,9 @@ export const WalletPanel = (): JSX.Element => {
 		account: state.account,
 		hasKeystore: state.hasKeystoreAction,
 	}))
+	const [state, setState] = useImmer({
+		hasCheckedKeyStore: false,
+	})
 	const [page, direction] = activeApp
 	const routes = Object.values(routesInfo)
 	const currentRoute = routesInfo[page]
@@ -60,6 +64,9 @@ export const WalletPanel = (): JSX.Element => {
 	useEffect(() => {
 		const load = async () => {
 			const hasKeystoreWallet = await hasKeystore()
+			setState(draft => {
+				draft.hasCheckedKeyStore = true
+			})
 			if (!hasKeystoreWallet) {
 				window.location.hash = '#/onboarding'
 			}
@@ -80,6 +87,10 @@ export const WalletPanel = (): JSX.Element => {
 			window.location.hash = `#/wallet/account`
 		}
 	}, [location])
+
+	if (!state.hasCheckedKeyStore) {
+		return <div />
+	}
 
 	return (
 		<>
