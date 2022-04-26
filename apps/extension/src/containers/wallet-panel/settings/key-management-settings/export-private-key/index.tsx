@@ -73,7 +73,7 @@ export const ExportPrivateKey: React.FC = () => {
 	return (
 		<AlertDialog>
 			<AlertDialogTrigger asChild>
-				<Button size="5" color="tertiary" fullWidth>
+				<Button size="4" color="tertiary" fullWidth>
 					Export private key
 				</Button>
 			</AlertDialogTrigger>

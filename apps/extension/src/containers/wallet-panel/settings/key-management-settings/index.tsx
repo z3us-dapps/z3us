@@ -146,7 +146,7 @@ export const KeyManagementSettings: React.FC = () => {
 			<Box css={{ mt: '$3' }}>
 				<AlertDialog>
 					<AlertDialogTrigger asChild>
-						<Button size="5" color="red" fullWidth>
+						<Button size="4" color="red" fullWidth>
 							Remove wallet
 						</Button>
 					</AlertDialogTrigger>

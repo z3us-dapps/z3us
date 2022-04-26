@@ -82,7 +82,19 @@ export const OnboardingWorkFlow: React.FC = () => {
 			}}
 		>
 			<Flex justify="between" css={{ height: '48px', position: 'relative', pt: '6px', pl: '6px', pr: '6px' }}>
-				<Button color="ghost" onClick={handleBackClick} iconOnly size="3" aria-label="back" css={{ mt: '2px' }}>
+				<Button
+					color="ghost"
+					onClick={handleBackClick}
+					iconOnly
+					size="3"
+					aria-label="back"
+					css={{
+						mt: '2px',
+						transition: '$default',
+						//opacity: true ? '1' : '0',
+						//pe: true ? 'auto' : 'none',
+					}}
+				>
 					<LeftArrowIcon />
 				</Button>
 				<WalletMenu />
