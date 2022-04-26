@@ -14,7 +14,7 @@ import { useNativeToken } from '@src/services/react-query/queries/radix'
 import { CloseIcon } from 'ui/src/components/icons'
 import Button from 'ui/src/components/button'
 import Input from 'ui/src/components/input'
-import { Tooltip, TooltipTrigger, TooltipContent } from 'ui/src/components/tool-tip'
+import { Tooltip, TooltipTrigger, TooltipContent, TooltipArrow } from 'ui/src/components/tool-tip'
 import { Dialog, DialogTrigger, DialogContent } from 'ui/src/components/dialog'
 import { Box, Text, Flex } from 'ui/src/components/atoms'
 import { SlippageBox } from '@src/components/slippage-box'
@@ -83,9 +83,9 @@ export const StakeModal: React.FC<IProps> = ({ trigger, tooltipMessage, validato
 				<TooltipTrigger asChild onClick={handleOnClick}>
 					{trigger}
 				</TooltipTrigger>
-				<TooltipContent>
+				<TooltipContent sideOffset={3} css={{ backgroundColor: '$bgPanel2' }}>
+					<TooltipArrow css={{ fill: '$bgPanel2' }} />
 					{tooltipMessage}
-					<TooltipContent />
 				</TooltipContent>
 			</Tooltip>
 		</DialogTrigger>

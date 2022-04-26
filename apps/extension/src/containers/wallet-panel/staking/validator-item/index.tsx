@@ -4,7 +4,7 @@ import { DownloadIcon, UploadIcon, ExternalLinkIcon, Cross2Icon } from '@radix-u
 import { getShortAddress } from '@src/utils/string-utils'
 import { Box, Flex, Text } from 'ui/src/components/atoms'
 import { Popover, PopoverTrigger, PopoverContent, PopoverClose } from 'ui/src/components/popover'
-import { Tooltip, TooltipContent, TooltipTrigger } from 'ui/src/components/tool-tip'
+import { Tooltip, TooltipContent, TooltipTrigger, TooltipArrow } from 'ui/src/components/tool-tip'
 import Button from 'ui/src/components/button'
 import { formatBigNumber } from '@src/utils/formatters'
 import BigNumber from 'bignumber.js'
@@ -162,9 +162,9 @@ export const ValidatorItem = ({ validator, totalStakes, style }: IProps): JSX.El
 									<ExternalLinkIcon />
 								</Button>
 							</TooltipTrigger>
-							<TooltipContent>
-								Go to explorer
-								<TooltipContent />
+							<TooltipContent sideOffset={3} css={{ backgroundColor: '$bgPanel2' }}>
+								<TooltipArrow css={{ fill: '$bgPanel2' }} />
+								Activity
 							</TooltipContent>
 						</Tooltip>
 					</Flex>

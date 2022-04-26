@@ -50,9 +50,7 @@ export const SendToken: React.FC = () => {
 	const shortAddress = getShortAddress(address)
 	const liquidBalances = balances?.account_balances?.liquid_balances || []
 	const selectedToken = liquidBalances?.find(balance => balance.rri === state.rri)
-	const selectedTokenAmmount = selectedToken
-		? new BigNumber(selectedToken.amount).shiftedBy(-18)
-		: new BigNumber(0)
+	const selectedTokenAmmount = selectedToken ? new BigNumber(selectedToken.amount).shiftedBy(-18) : new BigNumber(0)
 	const tokenSymbol = token?.symbol.toUpperCase()
 
 	useEffect(() => {
@@ -243,7 +241,7 @@ export const SendToken: React.FC = () => {
 											</Button>
 										</TooltipTrigger>
 										<TooltipContent sideOffset={3}>
-											<TooltipArrow />
+											<TooltipArrow offset={10} />
 											Select maximum {tokenSymbol}
 										</TooltipContent>
 									</Tooltip>
