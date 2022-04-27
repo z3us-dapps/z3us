@@ -28,6 +28,7 @@ export const TokenRow = ({ rri, amount, loading, disableClick }: IProps): JSX.El
 	return (
 		<Button
 			onClick={disableClick ? null : handleTokenClick}
+			clickable={!disableClick}
 			css={{
 				margin: '0',
 				padding: '0',

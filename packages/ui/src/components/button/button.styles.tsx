@@ -330,6 +330,11 @@ export const StyledButton = styled(
 			},
 			clickable: {
 				false: {
+					'&:active': {
+						[`& ${StyledRipple}`]: {
+							display: 'none',
+						},
+					},
 					cursor: 'default',
 					pe: 'none',
 				},
