@@ -1,10 +1,10 @@
 import React, { useEffect } from 'react'
 import { useStore } from '@src/store'
-import { ScrollArea } from '@src/components/scroll-area'
 import { Box, Flex, MotionBox, Text } from 'ui/src/components/atoms'
 import { useLocation } from 'wouter'
 import { UpArrowWideIcon } from 'ui/src/components/icons'
 import Button from 'ui/src/components/button'
+import { SLIDE_PANEL_HEIGHT, SLIDE_PANEL_EXPAND_HEIGHT } from '@src/containers/wallet-panel/config'
 
 interface IProps {
 	children: React.ReactNode
@@ -57,7 +57,7 @@ export const SlideUpPanel: React.FC<IProps> = ({ children, name }: IProps) => {
 			<MotionBox
 				variants={{
 					contracted: {
-						height: '170px',
+						height: `${SLIDE_PANEL_HEIGHT}px`,
 						transition: {
 							type: 'spring',
 							stiffness: 200,
@@ -65,7 +65,7 @@ export const SlideUpPanel: React.FC<IProps> = ({ children, name }: IProps) => {
 						},
 					},
 					expanded: () => ({
-						height: '459px',
+						height: `${SLIDE_PANEL_EXPAND_HEIGHT}px`,
 						transition: {
 							delay: 0,
 							type: 'spring',
@@ -87,9 +87,7 @@ export const SlideUpPanel: React.FC<IProps> = ({ children, name }: IProps) => {
 				>
 					<Text css={{ fontSize: '20px', lineHeight: '20px', fontWeight: '700' }}>{name}</Text>
 				</Box>
-				<Box css={{ height: 'calc(100% - 30px)', position: 'relative' }}>
-					<ScrollArea>{children}</ScrollArea>
-				</Box>
+				<Box css={{ height: 'calc(100% - 30px)', position: 'relative' }}>{children}</Box>
 			</MotionBox>
 		</Box>
 	)

@@ -4,6 +4,9 @@ import { AccountsIcon, StakingIcon, SettingsIcon } from 'ui/src/components/icons
 export const APP_HEIGHT = 600
 export const APP_WIDTH = 360
 export const PANEL_HEIGHT = '552px'
+export const SLIDE_PANEL_HEADER_HEIGHT = 30
+export const SLIDE_PANEL_HEIGHT = 140
+export const SLIDE_PANEL_EXPAND_HEIGHT = 459
 
 export const EXPLORER_URL = 'https://explorer.radixdlt.com/#'
 
