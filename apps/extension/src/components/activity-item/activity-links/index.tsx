@@ -6,7 +6,7 @@ import { Action, Transaction } from '@src/services/types'
 import { getShortAddress } from '@src/utils/string-utils'
 import Button from 'ui/src/components/button'
 import ButtonTipFeedback from 'ui/src/components/button-tip-feedback'
-import { Tooltip, TooltipContent, TooltipTrigger } from 'ui/src/components/tool-tip'
+import { Tooltip, TooltipContent, TooltipTrigger, TooltipArrow } from 'ui/src/components/tool-tip'
 import { Popover, PopoverTrigger, PopoverContent, PopoverClose } from 'ui/src/components/popover'
 import { copyTextToClipboard } from '@src/utils/copy-to-clipboard'
 import { ActivityType } from '@src/components/activity-type'
@@ -159,9 +159,10 @@ export const ActivityLinks: React.FC<IProps> = ({ accountAddress, tx, activity }
 						<ExternalLinkIcon />
 					</Button>
 				</TooltipTrigger>
-				<TooltipContent>
+
+				<TooltipContent sideOffset={1} css={{ backgroundColor: '$bgPanel' }}>
+					<TooltipArrow css={{ fill: '$bgPanel' }} />
 					Go to explorer
-					<TooltipContent />
 				</TooltipContent>
 			</Tooltip>
 		</>

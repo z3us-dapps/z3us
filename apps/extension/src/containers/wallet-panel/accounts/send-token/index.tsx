@@ -241,7 +241,7 @@ export const SendToken: React.FC = () => {
 											</Button>
 										</TooltipTrigger>
 										<TooltipContent sideOffset={3}>
-											<TooltipArrow offset={10} />
+											<TooltipArrow offset={15} />
 											Select maximum {tokenSymbol}
 										</TooltipContent>
 									</Tooltip>

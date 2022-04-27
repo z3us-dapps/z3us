@@ -162,7 +162,7 @@ export const ValidatorItem = ({ validator, totalStakes, style }: IProps): JSX.El
 									<ExternalLinkIcon />
 								</Button>
 							</TooltipTrigger>
-							<TooltipContent sideOffset={3} css={{ backgroundColor: '$bgPanel2' }}>
+							<TooltipContent sideOffset={5} css={{ backgroundColor: '$bgPanel2' }}>
 								<TooltipArrow css={{ fill: '$bgPanel2' }} />
 								Activity
 							</TooltipContent>

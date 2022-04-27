@@ -83,7 +83,7 @@ export const StakeModal: React.FC<IProps> = ({ trigger, tooltipMessage, validato
 				<TooltipTrigger asChild onClick={handleOnClick}>
 					{trigger}
 				</TooltipTrigger>
-				<TooltipContent sideOffset={3} css={{ backgroundColor: '$bgPanel2' }}>
+				<TooltipContent sideOffset={5} css={{ backgroundColor: '$bgPanel2' }}>
 					<TooltipArrow css={{ fill: '$bgPanel2' }} />
 					{tooltipMessage}
 				</TooltipContent>

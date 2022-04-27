@@ -169,7 +169,7 @@ export const AddressBook: React.FC = () => {
 														</StyledLink>
 													</Text>
 												</TooltipTrigger>
-												<TooltipContent side="top" sideOffset={5}>
+												<TooltipContent sideOffset={5}>
 													<TooltipArrow />
 													Go to explorer
 												</TooltipContent>
@@ -211,7 +211,7 @@ export const AddressBook: React.FC = () => {
 															</Button>
 														</TooltipTrigger>
 														<TooltipContent sideOffset={5}>
-															<TooltipArrow />
+															<TooltipArrow offset={15} />
 															Remove account
 														</TooltipContent>
 													</Tooltip>

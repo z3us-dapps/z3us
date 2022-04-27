@@ -135,7 +135,7 @@ export const Accounts: React.FC = () => {
 														</StyledLink>
 													</Text>
 												</TooltipTrigger>
-												<TooltipContent side="top" sideOffset={5}>
+												<TooltipContent sideOffset={5}>
 													<TooltipArrow />
 													Go to explorer
 												</TooltipContent>
@@ -183,7 +183,7 @@ export const Accounts: React.FC = () => {
 															</Button>
 														</TooltipTrigger>
 														<TooltipContent sideOffset={5}>
-															<TooltipArrow />
+															<TooltipArrow offset={6} />
 															{isLastAddress ? 'Remove account' : 'Can only remove the last account'}
 														</TooltipContent>
 													</Tooltip>
