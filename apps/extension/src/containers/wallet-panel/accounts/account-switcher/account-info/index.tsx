@@ -18,7 +18,7 @@ export const AccountInfo = ({ address }: Props): JSX.Element => {
 		addressBook: state.addressBook,
 	}))
 	const entry = addressBook[address]
-	const color = entry?.colorSettings[ColorSettings.COLOR_TEXT] || '#330867'
+	const color = entry?.colorSettings?.[ColorSettings.COLOR_TEXT] || '#330867'
 	const background =
 		entry?.background || 'radial-gradient(circle at 50% 0%, rgb(238, 171, 224) 50%, rgb(247, 219, 191) 76%)'
 
