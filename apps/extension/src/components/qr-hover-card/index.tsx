@@ -36,24 +36,22 @@ export const QrHoverCard: React.FC = () => {
 			<PopoverContent sideOffset={0} css={{ width: '180px', backgroundColor: '$bgPanel', padding: '$4' }}>
 				<Flex css={{ flexDirection: 'column', gap: 7 }}>
 					<Flex css={{ flexDirection: 'column', gap: 5 }}>
-						<Text>
-							<Flex align="center">
-								<Text size="2" bold>
-									{entry?.name ? entry.name : 'Address:'}
-								</Text>
-								<Text size="2" css={{ ml: '$1', mr: '$1' }}>
-									{shortAddress}
-								</Text>
-								<ButtonTipFeedback feedback="Address copied" delay={500} css={{ backgroundColor: '$bgPanel' }}>
-									<Button size="1" iconOnly color="ghost" onClick={handleCopyAddress}>
+						<Flex align="start" css={{ flexWrap: 'wrap' }}>
+							<Text size="2" bold truncate css={{ maxWidth: '167px', pb: '4px', mr: '4px' }}>
+								{entry?.name ? entry.name : 'Address:'}
+							</Text>
+							<Flex align="start">
+								{shortAddress}
+								<ButtonTipFeedback feedback="Address copied" delay={500} css={{ color: '$bgPanel' }}>
+									<Button size="1" iconOnly color="ghost" onClick={handleCopyAddress} css={{ mt: '-5px' }}>
 										<CopyIcon />
 									</Button>
 								</ButtonTipFeedback>
-								<PopoverClose aria-label="Close">
-									<Cross2Icon />
-								</PopoverClose>
 							</Flex>
-						</Text>
+							<PopoverClose aria-label="Close">
+								<Cross2Icon />
+							</PopoverClose>
+						</Flex>
 						<Flex
 							align="center"
 							justify="center"
