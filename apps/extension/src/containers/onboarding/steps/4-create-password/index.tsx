@@ -64,7 +64,8 @@ export const CreatePassword = (): JSX.Element => {
 		})
 	}
 
-	const handleContinue = async () => {
+	const handleContinue = async (e: React.ChangeEvent<HTMLFormElement>) => {
+		e.preventDefault()
 		if (state.password === state.confirmPassword) {
 			setPassword(state.confirmPassword)
 			setOnboradingStep(onBoardingSteps.CREATE_WALLET)
@@ -107,61 +108,64 @@ export const CreatePassword = (): JSX.Element => {
 				flexBasis: '100%',
 			}}
 		>
-			<Box css={{ width: '100%' }}>
-				<PageHeading>Create password</PageHeading>
-				<PageSubHeading>
-					You will use this password to unlock
-					<br />
-					your wallet.
-				</PageSubHeading>
-			</Box>
-			<Box css={{ pt: '33px', flex: '1' }}>
+			<form onSubmit={handleContinue} style={{ display: 'flex', flexDirection: 'column', flex: '1' }}>
 				<Box css={{ width: '100%' }}>
-					<Input type="password" size="2" placeholder="Enter password" onChange={handlePassword} />
+					<PageHeading>Create password</PageHeading>
+					<PageSubHeading>
+						You will use this password to unlock
+						<br />
+						your wallet.
+					</PageSubHeading>
 				</Box>
-				<Box css={{ marginTop: '$3', width: '100%' }}>
-					<Input type="password" size="2" placeholder="Confirm password" onChange={handleConfirmPassword} />
-				</Box>
-
-				<InputFeedBack showFeedback={state.showError} animateHeight={31}>
-					<Text color="red" medium>
-						{state.errorMessage}
-					</Text>
-				</InputFeedBack>
-
-				{/* @TODO: uncomment once webauthn is supported from extension/addon origin (xxxxxx is an invalid domain) */}
-				{false && state.isWebAuthSupported && (
-					<Box css={{ marginTop: '$3', width: '100%' }}>
-						<Button
-							fullWidth
-							color="primary"
-							size="6"
-							disabled={state.isButtonDisabled}
-							onClick={handleRegisterCredentials}
-							css={{ flex: '1' }}
-						>
-							Add credentials
-						</Button>
+				<Box css={{ pt: '33px', flex: '1' }}>
+					<Box css={{ width: '100%' }}>
+						<Input type="password" size="2" placeholder="Enter password" onChange={handlePassword} />
 					</Box>
-				)}
-			</Box>
-			<Flex css={{ width: '100%' }}>
-				<Button
-					fullWidth
-					color="primary"
-					size="6"
-					disabled={state.isButtonDisabled}
-					onClick={handleContinue}
-					css={{ flex: '1' }}
-				>
-					Save
-				</Button>
-			</Flex>
-			<Flex justify="center" align="center" css={{ height: '48px', ta: 'center', mt: '$2', width: '100%' }}>
-				<Text medium size="3" color="muted">
-					{isRestoreWorkflow ? 'Step 3 of 4 ' : 'Step 2 of 3'}
-				</Text>
-			</Flex>
+					<Box css={{ marginTop: '$3', width: '100%' }}>
+						<Input type="password" size="2" placeholder="Confirm password" onChange={handleConfirmPassword} />
+					</Box>
+
+					<InputFeedBack showFeedback={state.showError} animateHeight={31}>
+						<Text color="red" medium>
+							{state.errorMessage}
+						</Text>
+					</InputFeedBack>
+
+					{/* @TODO: uncomment once webauthn is supported from extension/addon origin (xxxxxx is an invalid domain) */}
+					{false && state.isWebAuthSupported && (
+						<Box css={{ marginTop: '$3', width: '100%' }}>
+							<Button
+								fullWidth
+								color="primary"
+								size="6"
+								disabled={state.isButtonDisabled}
+								onClick={handleRegisterCredentials}
+								css={{ flex: '1' }}
+							>
+								Add credentials
+							</Button>
+						</Box>
+					)}
+				</Box>
+				<Flex css={{ width: '100%' }}>
+					<Button
+						fullWidth
+						color="primary"
+						size="6"
+						type="submit"
+						disabled={state.isButtonDisabled}
+						//onClick={handleContinue}
+						css={{ flex: '1' }}
+					>
+						Save
+					</Button>
+				</Flex>
+				<Flex justify="center" align="center" css={{ height: '48px', ta: 'center', mt: '$2', width: '100%' }}>
+					<Text medium size="3" color="muted">
+						{isRestoreWorkflow ? 'Step 3 of 4 ' : 'Step 2 of 3'}
+					</Text>
+				</Flex>
+			</form>
 		</PageWrapper>
 	)
 }
