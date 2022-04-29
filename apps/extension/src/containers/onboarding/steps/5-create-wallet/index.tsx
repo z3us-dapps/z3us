@@ -83,7 +83,7 @@ export const CreateWallet = (): JSX.Element => {
 			<Box css={{ width: '100%' }}>
 				<PageHeading>Created wallet</PageHeading>
 				<PageSubHeading>
-					Click &apos;Go to wallet&apos; below to navigate to your wallet and begin using your z3us wallet.
+					Click &apos;Go to wallet&apos; below to navigate and begin using your z3us wallet.
 				</PageSubHeading>
 			</Box>
 			<Box css={{ mt: '$8', flex: '1' }}>

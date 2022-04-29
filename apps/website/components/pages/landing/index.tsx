@@ -117,6 +117,7 @@ export const LandingPage: React.FC = () => {
 													size="6"
 													color="secondary"
 													css={{ width: '200px', '&&': { backgroundColor: '#ff9400' } }}
+													clickable={false}
 												>
 													Coming soon{' '}
 													<Box css={{ width: '20px' }}>

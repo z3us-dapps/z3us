@@ -35,11 +35,11 @@ export const CheckItem: React.FC<IProps> = ({ name, comingSoon }: IProps) => (
 		{comingSoon ? (
 			<Tooltip>
 				<TooltipTrigger asChild>
-					<Button size="1" color="ghost" iconOnly>
+					<Button size="1" color="ghost" iconOnly clickable={false}>
 						<InfoCircledIcon />
 					</Button>
 				</TooltipTrigger>
-				<TooltipContent side="top">
+				<TooltipContent sideOffset={3} side="bottom">
 					<TooltipArrow />
 					Coming soon!
 				</TooltipContent>

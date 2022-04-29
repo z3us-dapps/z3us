@@ -12,7 +12,7 @@ import { CheckItem } from './check-item'
 
 const setupItems = {
 	send: { title: 'Send and receive tokens.', comingSoon: false },
-	earn: { title: 'Earn XRD through staking.', comingSoon: false },
+	earn: { title: 'Earn XRD by staking.', comingSoon: false },
 	sign: { title: 'Sign DApp transactions.', comingSoon: false },
 	view: { title: 'View and manage your NFTs.', comingSoon: true },
 	trade: { title: 'Swap tokens using wallet DEX.', comingSoon: true },
