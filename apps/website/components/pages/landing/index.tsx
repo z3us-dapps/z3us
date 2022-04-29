@@ -48,6 +48,21 @@ export const LandingPage: React.FC = () => (
 				css={{
 					background: 'radial-gradient(circle, rgba(115,24,205,1) 0%, rgba(115,24,205,0.7) 100%)',
 					minHeight: '100vh',
+					position: 'relative',
+					'&:before': {
+						content: '',
+						position: 'absolute',
+						pe: 'none',
+						top: '0',
+						left: '0',
+						right: '0',
+						bottom: '0',
+						backgroundImage: 'url(/images/greek-repeat.jpeg)',
+						backgroundRepeat: 'repeat',
+						opacity: '0.03',
+						minHeight: '100%',
+						'mask-image': 'radial-gradient(circle at 50% 50%, transparent 40%, black)',
+					},
 				}}
 			>
 				<Container gap={0}>
