@@ -50,7 +50,7 @@ export const WalletPanel = (): JSX.Element => {
 	const { activeApp, account, hasKeystore } = useStore(state => ({
 		activeApp: state.activeApp,
 		account: state.account,
-		hasKeystore: state.hasKeystoreAction,
+		hasKeystore: state.hasKeystore,
 	}))
 	const [page, direction] = activeApp
 	const routes = Object.values(routesInfo)
@@ -58,14 +58,10 @@ export const WalletPanel = (): JSX.Element => {
 	const walletPanelBgColor = currentRoute.bgColor[isDarkMode ? 1 : 0]
 
 	useEffect(() => {
-		const load = async () => {
-			const hasKeystoreWallet = await hasKeystore()
-			if (!hasKeystoreWallet) {
-				window.location.hash = '#/onboarding'
-			}
+		if (!hasKeystore) {
+			window.location.hash = '#/onboarding'
 		}
-		load()
-	}, [])
+	}, [hasKeystore])
 
 	useEffect(() => {
 		if (location === '/onboarding') {

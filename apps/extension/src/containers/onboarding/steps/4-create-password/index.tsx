@@ -14,8 +14,8 @@ export const CreatePassword = (): JSX.Element => {
 		state => ({
 			setPassword: state.setPasswordAction,
 			setOnboradingStep: state.setOnboardingStepAction,
-			registerCredential: state.registerCredential,
-			removeCredential: state.removeCredential,
+			registerCredential: state.registerCredentialAction,
+			removeCredential: state.removeCredentialAction,
 			isRestoreWorkflow: state.isRestoreWorkflow,
 		}),
 	)
@@ -32,11 +32,11 @@ export const CreatePassword = (): JSX.Element => {
 	useEffect(() => {
 		const load = async () => {
 			try {
-				await removeCredential()
 				const isSupported = await isWebAuthSupported()
 				setState(draft => {
 					draft.isWebAuthSupported = isSupported
 				})
+				await removeCredential()
 			} catch (error) {
 				// eslint-disable-next-line no-console
 				console.warn(error)

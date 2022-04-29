@@ -43,10 +43,15 @@ export type WalletStore = {
 	unlockWalletAction: (password: string) => Promise<void>
 	resetWalletAction: () => Promise<void>
 	lockAction: () => Promise<void>
-	hasAuth: () => Promise<boolean>
-	removeCredential: () => Promise<void>
-	registerCredential: (userID: string, userName: string, userDisplayName: string, password: string) => Promise<string>
-	authenticate: () => Promise<string>
+	hasAuthAction: () => Promise<boolean>
+	removeCredentialAction: () => Promise<void>
+	registerCredentialAction: (
+		userID: string,
+		userName: string,
+		userDisplayName: string,
+		password: string,
+	) => Promise<string>
+	authenticateAction: () => Promise<string>
 
 	hasKeystore: boolean
 	account: AccountT | null
@@ -180,7 +185,7 @@ const selectNetwork = (state: WalletStore, newIndex: number) => {
 export const createWalletStore = (set, get) => ({
 	...defaultState,
 
-	hasAuth: async () => {
+	hasAuthAction: async () => {
 		const { messanger } = get()
 		if (!messanger) {
 			throw new Error('Messanger not initialized!')
@@ -188,7 +193,7 @@ export const createWalletStore = (set, get) => ({
 		return messanger.sendActionMessageFromPopup(AUTH_HAS, null)
 	},
 
-	removeCredential: async () => {
+	removeCredentialAction: async () => {
 		const { messanger } = get()
 		if (!messanger) {
 			throw new Error('Messanger not initialized!')
@@ -199,7 +204,7 @@ export const createWalletStore = (set, get) => ({
 		return resp
 	},
 
-	registerCredential: async (userID: string, userName: string, userDisplayName: string, password: string) => {
+	registerCredentialAction: async (userID: string, userName: string, userDisplayName: string, password: string) => {
 		const { messanger } = get()
 		if (!messanger) {
 			throw new Error('Messanger not initialized!')
@@ -225,7 +230,7 @@ export const createWalletStore = (set, get) => ({
 		return resp
 	},
 
-	authenticate: async () => {
+	authenticateAction: async () => {
 		const { messanger } = get()
 		if (!messanger) {
 			throw new Error('Messanger not initialized!')

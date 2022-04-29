@@ -12,7 +12,7 @@ const FIVE_MINUTES = 1000 * 60 * 5
 
 const now = performance.now()
 const browserService = new BrowserService()
-const storage = new BrowserStorageService(browser.storage)
+const storage = new BrowserStorageService(browserService, browser.storage)
 const credentials = new CredentialsService(storage)
 // eslint-disable-next-line no-restricted-globals
 const vault = new VaultService(storage, self.crypto)

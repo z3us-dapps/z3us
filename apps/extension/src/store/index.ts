@@ -3,6 +3,7 @@ import create, { GetState, Mutate, SetState, State, StateCreator, StoreApi } fro
 import produce, { Draft } from 'immer'
 import shallow from 'zustand/shallow'
 import { persist, devtools } from 'zustand/middleware'
+import { BrowserService } from '@src/services/browser'
 import { BrowserStorageService } from '@src/services/browser-storage'
 import { createThemeStore, ThemeStore, whiteList as themeWhiteList } from './theme'
 import { createWalletStore, WalletStore, whiteList as walletWhiteList } from './wallet'
@@ -64,7 +65,8 @@ const useStoreBase = create<
 			{
 				name,
 				partialize: state => Object.fromEntries(Object.entries(state).filter(([key]) => storeWhiteList.includes(key))),
-				getStorage: () => new BrowserStorageService(browser?.storage || null),
+				getStorage: () =>
+					new BrowserStorageService(browser?.storage ? new BrowserService() : null, browser?.storage || null),
 			},
 		),
 		{ name: 'prefix' },

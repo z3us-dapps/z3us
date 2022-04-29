@@ -14,20 +14,16 @@ import { Decrypt } from './decrypt'
 import { Transaction } from './transaction'
 
 export const Notification: React.FC = () => {
-	const { account, hasKeystoreAction } = useStore(state => ({
-		hasKeystoreAction: state.hasKeystoreAction,
+	const { account, hasKeystore } = useStore(state => ({
+		hasKeystore: state.hasKeystore,
 		account: state.account,
 	}))
 
 	useEffect(() => {
-		const load = async () => {
-			const hasKeystoreWallet = await hasKeystoreAction()
-			if (!hasKeystoreWallet) {
-				window.location.hash = '#/onboarding'
-			}
+		if (!hasKeystore) {
+			window.location.hash = '#/onboarding'
 		}
-		load()
-	}, [])
+	}, [hasKeystore])
 
 	if (!account) {
 		return <LockedPanel />

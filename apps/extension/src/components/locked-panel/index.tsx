@@ -20,8 +20,8 @@ export const LockedPanel: React.FC = () => {
 		network: state.networks[state.selectedNetworkIndex],
 		setActiveAccount: state.selectAccountAction,
 		addToast: state.addToastAction,
-		hasAuth: state.hasAuth,
-		authenticate: state.authenticate,
+		hasAuth: state.hasAuthAction,
+		authenticate: state.authenticateAction,
 	}))
 	const [state, setState] = useImmer({
 		password: '',
