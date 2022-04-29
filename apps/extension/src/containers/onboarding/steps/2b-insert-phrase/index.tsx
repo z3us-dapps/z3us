@@ -38,6 +38,7 @@ export const InsertPhrase = (): JSX.Element => {
 
 	const handleContinue = async (e: React.ChangeEvent<HTMLFormElement>) => {
 		e.preventDefault()
+		if (isButtonDisabled) return
 		if (state.words.length > 0) {
 			const mnemomicRes = await Mnemonic.fromEnglishWords(state.words)
 			if (mnemomicRes.isErr()) {
