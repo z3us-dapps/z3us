@@ -62,11 +62,12 @@ export default function NewV1BackgroundInpageActions(
 		const url = new URL(tab.url)
 
 		const state = useStore.getState()
-		const { approvedWebsites, selectedAccountIndex, publicAddresses } = state
+		const { approvedWebsites, selectedAccountIndex, publicAddresses, hwPublicAddresses } = state
+		const allAddresses = [...publicAddresses, ...hwPublicAddresses]
 
 		if (url.host in approvedWebsites) {
-			if (publicAddresses.length > 0) {
-				sendInpageMessage(port, id, payload, publicAddresses[selectedAccountIndex])
+			if (allAddresses.length > 0) {
+				sendInpageMessage(port, id, payload, allAddresses[selectedAccountIndex])
 				return
 			}
 		}
@@ -94,9 +95,9 @@ export default function NewV1BackgroundInpageActions(
 		}
 
 		const state = useStore.getState()
-		const { publicAddresses } = state
+		const { publicAddresses, hwPublicAddresses } = state
 
-		sendInpageMessage(port, id, payload, publicAddresses)
+		sendInpageMessage(port, id, payload, [...publicAddresses, ...hwPublicAddresses])
 	}
 
 	async function encrypt(port: Runtime.Port, id: string, payload: any) {
@@ -176,10 +177,11 @@ export default function NewV1BackgroundInpageActions(
 		}
 
 		const state = useStore.getState()
-		const { networks, selectedNetworkIndex, selectedAccountIndex, publicAddresses } = state
+		const { networks, selectedNetworkIndex, selectedAccountIndex, publicAddresses, hwPublicAddresses } = state
+		const allAddresses = [...publicAddresses, ...hwPublicAddresses]
 
 		const network = networks[selectedNetworkIndex]
-		const address = publicAddresses[selectedAccountIndex]
+		const address = allAddresses[selectedAccountIndex]
 
 		const service = new RadixService(network.url)
 
@@ -198,10 +200,11 @@ export default function NewV1BackgroundInpageActions(
 		}
 
 		const state = useStore.getState()
-		const { networks, selectedNetworkIndex, selectedAccountIndex, publicAddresses } = state
+		const { networks, selectedNetworkIndex, selectedAccountIndex, publicAddresses, hwPublicAddresses } = state
+		const allAddresses = [...publicAddresses, ...hwPublicAddresses]
 
 		const network = networks[selectedNetworkIndex]
-		const address = publicAddresses[selectedAccountIndex]
+		const address = allAddresses[selectedAccountIndex]
 
 		const service = new RadixService(network.url)
 
@@ -220,10 +223,11 @@ export default function NewV1BackgroundInpageActions(
 		}
 
 		const state = useStore.getState()
-		const { networks, selectedNetworkIndex, selectedAccountIndex, publicAddresses } = state
+		const { networks, selectedNetworkIndex, selectedAccountIndex, publicAddresses, hwPublicAddresses } = state
+		const allAddresses = [...publicAddresses, ...hwPublicAddresses]
 
 		const network = networks[selectedNetworkIndex]
-		const address = publicAddresses[selectedAccountIndex]
+		const address = allAddresses[selectedAccountIndex]
 
 		const service = new RadixService(network.url)
 

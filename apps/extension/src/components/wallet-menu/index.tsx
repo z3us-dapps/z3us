@@ -109,7 +109,7 @@ export const WalletMenu: React.FC = () => {
 
 					{account && (
 						<>
-							<DropdownMenuItem onSelect={handleConnectHW} css={{ display: 'none' }}>
+							<DropdownMenuItem onSelect={handleConnectHW}>
 								<span>Connect hardware wallet</span>
 								<DropdownMenuRightSlot>
 									<StackIcon />

@@ -5,11 +5,7 @@ import { HDMasterSeed } from '@radixdlt/crypto'
 import { MessageService, PORT_NAME } from '@src/services/messanger'
 import { GET } from '@src/lib/actions'
 
-const messanger = new MessageService(
-	'extension',
-	browser?.runtime?.connect ? browser.runtime.connect({ name: PORT_NAME }) : null,
-	browser?.runtime?.connect ? null : window,
-)
+const messanger = new MessageService('extension', browser.runtime.connect({ name: PORT_NAME }), null)
 
 export const useVault = () => {
 	const { networkIndex, accountIndex, setMasterSeed, setHasKeystore, setMessanger } = useStore(state => ({
@@ -18,7 +14,6 @@ export const useVault = () => {
 		setMasterSeed: state.setMasterSeedAction,
 		setHasKeystore: state.setHasKeystoreAction,
 		setMessanger: state.setMessangerAction,
-		setPublicAddresses: state.setPublicAddressesAction,
 	}))
 
 	useEffect(() => {

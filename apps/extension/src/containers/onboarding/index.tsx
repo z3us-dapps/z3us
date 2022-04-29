@@ -28,6 +28,7 @@ export const OnboardingWorkFlow: React.FC = () => {
 			hasKeystore: state.hasKeystore,
 		}),
 	)
+	const showBackBtn = hasKeystore || onBoardingStep !== onBoardingSteps.START
 
 	const handleBackClick = () => {
 		switch (onBoardingStep) {
@@ -94,8 +95,8 @@ export const OnboardingWorkFlow: React.FC = () => {
 					css={{
 						mt: '2px',
 						transition: '$default',
-						pe: hasKeystore ? 'auto' : 'none',
-						opacity: hasKeystore ? '1' : '0',
+						pe: showBackBtn ? 'auto' : 'none',
+						opacity: showBackBtn ? '1' : '0',
 					}}
 				>
 					<LeftArrowIcon />

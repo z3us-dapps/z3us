@@ -15,7 +15,7 @@ export const AccountNaviation: React.FC = () => {
 		state => ({
 			activeApp: state.activeApp,
 			account: state.account,
-			addresses: state.publicAddresses,
+			addresses: [...state.publicAddresses, ...state.hwPublicAddresses],
 			addressBook: state.addressBook,
 			expanded: state.accountPanelExpanded,
 			activeSlideIndex: state.activeSlideIndex,

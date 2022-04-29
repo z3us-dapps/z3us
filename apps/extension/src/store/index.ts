@@ -9,12 +9,12 @@ import { createThemeStore, ThemeStore, whiteList as themeWhiteList } from './the
 import { createWalletStore, WalletStore, whiteList as walletWhiteList } from './wallet'
 import { createToastsStore, ToastsStore } from './toasts'
 import { createOnBoardingStore, OnBoardingStore } from './onboarding'
-import { createHardwareWalletStore, HardwareWalletStore, whiteList as hwWhiteList } from './hardware-wallet'
+import { createHardwareWalletStore, HardwareWalletStore } from './hardware-wallet'
 
 /**
  * These store keys will be persisted in local storage
  */
-const storeWhiteList = [...themeWhiteList, ...walletWhiteList, ...hwWhiteList]
+const storeWhiteList = [...themeWhiteList, ...walletWhiteList]
 
 type AppStore = ThemeStore & ToastsStore & WalletStore & OnBoardingStore & HardwareWalletStore
 
@@ -65,8 +65,7 @@ const useStoreBase = create<
 			{
 				name,
 				partialize: state => Object.fromEntries(Object.entries(state).filter(([key]) => storeWhiteList.includes(key))),
-				getStorage: () =>
-					new BrowserStorageService(browser?.storage ? new BrowserService() : null, browser?.storage || null),
+				getStorage: () => new BrowserStorageService(new BrowserService(), browser.storage),
 			},
 		),
 		{ name: 'prefix' },

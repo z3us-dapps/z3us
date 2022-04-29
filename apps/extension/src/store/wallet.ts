@@ -1,5 +1,7 @@
+import TransportNodeHid from '@ledgerhq/hw-transport-webhid'
 import { Network as NetworkID, Account, AccountT, AccountAddress, SigningKey } from '@radixdlt/application'
 import { HDPathRadix, PrivateKey, HDMasterSeed, HDMasterSeedT } from '@radixdlt/crypto'
+import { HardwareWalletLedger } from '@radixdlt/hardware-ledger'
 import { startRegistration, startAuthentication } from '@simplewebauthn/browser'
 import { JSONToHex } from '@src/utils/encoding'
 import { MessageService } from '@src/services/messanger'
@@ -17,6 +19,7 @@ import {
 	AUTH_VERIFY_AUTHENTICATION,
 } from '@src/lib/actions'
 import { ColorSettings } from '@src/services/types'
+import { HardwareWalletT } from '@radixdlt/hardware-wallet'
 
 export type Network = {
 	id: NetworkID
@@ -55,11 +58,26 @@ export type WalletStore = {
 
 	hasKeystore: boolean
 	account: AccountT | null
+
 	masterSeed: MasterSeed
 	setMasterSeedAction: (seed: MasterSeed) => void
 	setHasKeystoreAction: (hasKeystore: boolean) => void
 
+	hardwareWallet: HardwareWalletT | null
+	setHardwareWalletAction: (hardwareWallet: HardwareWalletT) => void
+	setHWPublicAddressesAction: (addresses: string[]) => void
+	removeLastHWPublicAddressAction: () => void
+	sendAPDUAction: (
+		cla: number,
+		ins: number,
+		p1: number,
+		p2: number,
+		data?: Buffer,
+		statusList?: number[],
+	) => Promise<Buffer>
+
 	publicAddresses: string[]
+	hwPublicAddresses: string[]
 	addressBook: { [key: string]: AddressBookEntry }
 	setPublicAddressesAction: (addresses: string[]) => void
 	removeLastPublicAddressAction: () => void
@@ -103,6 +121,7 @@ export type WalletStore = {
 export const whiteList = [
 	'walletUnlockTimeoutInMinutes',
 	'publicAddresses',
+	'hwPublicAddresses',
 	'addressBook',
 	'networks',
 	'activeSlideIndex',
@@ -119,10 +138,12 @@ const mainnetURL = new URL('https://mainnet.radixdlt.com')
 const stokenetURL = new URL('https://stokenet.radixdlt.com')
 
 const defaultState = {
-	account: null,
 	messanger: null,
-	masterSeed: null,
+	account: null,
 	hasKeystore: false,
+	masterSeed: null,
+	hardwareWallet: null,
+	hwPublicAddresses: [],
 	publicAddresses: [],
 	addressBook: {},
 
@@ -142,11 +163,40 @@ const defaultState = {
 	pendingActions: {},
 }
 
+export const connectHW = (state: WalletStore) => {
+	if (state.selectedAccountIndex < state.publicAddresses.length) return
+
+	const selectedAccountIndex = state.selectedAccountIndex - state.publicAddresses.length
+
+	if (!state.hardwareWallet) {
+		state.hardwareWallet = await HardwareWalletLedger.create({ send: state.sendAPDUAction }).toPromise()
+	}
+
+	const hdPath = HDPathRadix.create({ address: { index: selectedAccountIndex, isHardened: true } })
+	const hardwareSigningKey = await state.hardwareWallet.makeSigningKey(hdPath, false).toPromise()
+
+	const signingKey = SigningKey.fromHDPathWithHWSigningKey({ hdPath, hardwareSigningKey })
+
+	const network = state.networks[state.selectedNetworkIndex]
+	const address = AccountAddress.fromPublicKeyAndNetwork({
+		publicKey: signingKey.publicKey,
+		network: network.id,
+	})
+
+	state.account = Account.create({ address, signingKey })
+	if (state.hwPublicAddresses.length <= selectedAccountIndex) {
+		state.hwPublicAddresses = [...state.hwPublicAddresses, address.toString()]
+	} else {
+		state.hwPublicAddresses[selectedAccountIndex] = address.toString()
+	}
+}
+
 const setMasterSeed = (state: WalletStore, seed: MasterSeed) => {
-	state.hasKeystore = true
 	state.masterSeed = seed
 
 	if (!seed) return
+
+	if (state.selectedAccountIndex >= state.publicAddresses.length) return
 
 	const key = seed
 		.masterNode()
@@ -169,6 +219,8 @@ const setMasterSeed = (state: WalletStore, seed: MasterSeed) => {
 	state.account = Account.create({ address, signingKey })
 	if (state.publicAddresses.length <= state.selectedAccountIndex) {
 		state.publicAddresses = [...state.publicAddresses, address.toString()]
+	} else {
+		state.publicAddresses[state.selectedAccountIndex] = address.toString()
 	}
 }
 
@@ -176,11 +228,19 @@ const selectAccount = (state: WalletStore, newIndex: number) => {
 	state.selectedAccountIndex = newIndex
 	state.activeSlideIndex = newIndex
 	setMasterSeed(state, state.masterSeed)
+	connectHW(state)
 }
 
 const selectNetwork = (state: WalletStore, newIndex: number) => {
+	for (let i = 0; i < state.publicAddresses.length + state.hwPublicAddresses.length; i += 1) {
+		state.selectedNetworkIndex = i
+		setMasterSeed(state, state.masterSeed)
+		connectHW(state)
+	}
+
 	state.selectedNetworkIndex = newIndex
 	setMasterSeed(state, state.masterSeed)
+	connectHW(state)
 }
 
 export const createWalletStore = (set, get) => ({
@@ -304,11 +364,14 @@ export const createWalletStore = (set, get) => ({
 		if (!messanger) {
 			throw new Error('Messanger not initialized!')
 		}
-		const { seed } = await messanger.sendActionMessageFromPopup(NEW, {
+		const { seed, hasKeystore } = await messanger.sendActionMessageFromPopup(NEW, {
 			words,
 			password,
 		})
-		set(state => setMasterSeed(state, HDMasterSeed.fromSeed(Buffer.from(seed, 'hex'))))
+		set(state => {
+			state.hasKeystore = hasKeystore
+			setMasterSeed(state, HDMasterSeed.fromSeed(Buffer.from(seed, 'hex')))
+		})
 	},
 
 	unlockWalletAction: async (password: string) => {
@@ -316,8 +379,12 @@ export const createWalletStore = (set, get) => ({
 		if (!messanger) {
 			throw new Error('Messanger not initialized!')
 		}
-		const { seed } = await messanger.sendActionMessageFromPopup(UNLOCK, password)
-		set(state => setMasterSeed(state, HDMasterSeed.fromSeed(Buffer.from(seed, 'hex'))))
+		const { seed, hasKeystore } = await messanger.sendActionMessageFromPopup(UNLOCK, password)
+
+		set(state => {
+			state.hasKeystore = hasKeystore
+			setMasterSeed(state, HDMasterSeed.fromSeed(Buffer.from(seed, 'hex')))
+		})
 	},
 
 	resetWalletAction: async () => {
@@ -362,6 +429,53 @@ export const createWalletStore = (set, get) => ({
 		})
 	},
 
+	setHardwareWalletAction: (hardwareWallet: HardwareWalletT): void =>
+		set(state => {
+			state.hardwareWallet = hardwareWallet
+		}),
+
+	connectHWAction: () =>
+		new Promise<void>((resolve, reject) => {
+			set(async state => {
+				try {
+					await connectHW(state)
+					resolve()
+				} catch (error) {
+					reject(error)
+				}
+			})
+		}),
+
+	sendAPDUAction: async (cla: number, ins: number, p1: number, p2: number, data?: Buffer, statusList?: number[]) => {
+		const devices = await TransportNodeHid.list()
+		if (devices.length === 0) {
+			throw new Error('No device selected')
+		}
+		const transport = await TransportNodeHid.open(devices[0])
+		try {
+			const result = await transport.send(cla, ins, p1, p2, data, statusList)
+			transport.close()
+			return result
+		} catch (e) {
+			transport.close()
+			throw e
+		}
+	},
+
+	setHWPublicAddressesAction: (addresses: string[]) => {
+		set(state => {
+			state.hwPublicAddresses = addresses
+		})
+	},
+
+	removeLastHWPublicAddressAction: () => {
+		set(state => {
+			if (state.hwPublicAddresses.length > 1) {
+				state.hwPublicAddresses = state.hwPublicAddresses.slice(0, -1)
+			}
+		})
+	},
+
 	setPublicAddressesAction: (addresses: string[]) => {
 		set(state => {
 			state.publicAddresses = addresses
@@ -402,7 +516,13 @@ export const createWalletStore = (set, get) => ({
 			for (let i = 0; i < state.publicAddresses.length; i += 1) {
 				if (state.publicAddresses[i] === address) {
 					selectAccount(state, i)
-					break
+					return
+				}
+			}
+			for (let i = 0; i < state.hwPublicAddresses.length; i += 1) {
+				if (state.hwPublicAddresses[i] === address) {
+					selectAccount(state, i)
+					return
 				}
 			}
 		})
@@ -443,7 +563,7 @@ export const createWalletStore = (set, get) => ({
 			}
 
 			state.activeSlideIndex = newIndex
-			if (newIndex < state.publicAddresses.length && newIndex >= 0) {
+			if (newIndex < state.publicAddresses.length + state.hwPublicAddresses.length && newIndex >= 0) {
 				selectAccount(state, newIndex)
 			}
 		})

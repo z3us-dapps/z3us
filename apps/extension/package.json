@@ -25,6 +25,7 @@
 		"@radixdlt/application": "^4.0.16",
 		"@radixdlt/crypto": "^2.1.12",
 		"@radixdlt/hardware-ledger": "^2.1.32",
+		"@radixdlt/hardware-wallet": "^2.1.15",
 		"@radixdlt/networking": "^2.1.15",
 		"@radixdlt/primitives": "^3.0.7",
 		"@radixdlt/util": "^2.1.5",

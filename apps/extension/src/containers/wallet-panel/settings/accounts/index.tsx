@@ -23,7 +23,7 @@ import { AccountModal } from './account-modal'
 
 export const Accounts: React.FC = () => {
 	const { addresses, addressBook, setAddressBookEntry, removeLastPublicAddress, addToast } = useStore(state => ({
-		addresses: state.publicAddresses,
+		addresses: [...state.publicAddresses, ...state.hwPublicAddresses],
 		addressBook: state.addressBook,
 		setAddressBookEntry: state.setAddressBookEntryAction,
 		removeLastPublicAddress: state.removeLastPublicAddressAction,

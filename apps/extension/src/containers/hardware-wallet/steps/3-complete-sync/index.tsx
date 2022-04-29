@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import { useStore } from '@src/store'
 import { useLocation } from 'wouter'
 import { useImmer } from 'use-immer'
@@ -19,18 +19,11 @@ export const CompleteSync = (): JSX.Element => {
 
 	const [state, setState] = useImmer({
 		isLoading: false,
-		isButtonDisabled: true,
 		errorMessage: '',
 	})
 
-	useEffect(() => {
-		setState(draft => {
-			draft.isButtonDisabled = addresses.length < 1
-		})
-	}, [addresses])
-
 	const handleContinue = async () => {
-		if (state.isButtonDisabled) {
+		if (addresses.length < 1) {
 			return
 		}
 		setState(draft => {
@@ -79,7 +72,7 @@ export const CompleteSync = (): JSX.Element => {
 					size="6"
 					onClick={handleContinue}
 					css={{ flex: '1' }}
-					disabled={state.isButtonDisabled}
+					disabled={addresses.length < 1}
 					loading={state.isLoading}
 				>
 					Go to wallet

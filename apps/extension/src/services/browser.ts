@@ -18,6 +18,7 @@ export class BrowserService {
 		if (!lastError) {
 			return undefined
 		}
+		console.error('checkForError', lastError.message)
 		return new Error(lastError.message)
 	}
 

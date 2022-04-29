@@ -5,19 +5,22 @@ import { ReloadIcon } from '@radix-ui/react-icons'
 import { steps } from '@src/store/hardware-wallet'
 import { PageWrapper, PageHeading, PageSubHeading } from '@src/components/layout'
 import ButtonTipFeedback from 'ui/src/components/button-tip-feedback'
-import Transport from '@ledgerhq/hw-transport-webhid'
 import { Flex, Box, Text } from 'ui/src/components/atoms'
+import InputFeedBack from 'ui/src/components/input/input-feedback'
 import Button from 'ui/src/components/button'
+import { HardwareWalletLedger } from '@radixdlt/hardware-ledger'
 
 const isHIDSupported = !!window?.navigator?.hid
 
 export const SelectDevice = (): JSX.Element => {
-	const { setStep } = useStore(state => ({
+	const { setStep, hardwareWallet, setHardwareWallet, sendAPDU } = useStore(state => ({
+		hardwareWallet: state.hardwareWallet,
 		setStep: state.setHardwareWalletStepAction,
+		setHardwareWallet: state.setHardwareWalletAction,
+		sendAPDU: state.sendAPDUAction,
 	}))
 
 	const [state, setState] = useImmer({
-		device: null,
 		isLoading: false,
 		errorMessage: '',
 	})
@@ -25,17 +28,18 @@ export const SelectDevice = (): JSX.Element => {
 	const handleRefreshDevices = async () => {
 		setState(draft => {
 			draft.isLoading = true
+			draft.errorMessage = ''
 		})
 
-		try {
-			const device = await Transport.request()
-			setState(draft => {
-				draft.device = device
-			})
-		} catch (error) {
-			setState(draft => {
-				draft.device = null
-			})
+		if (!hardwareWallet) {
+			try {
+				const hw = await HardwareWalletLedger.create({ send: sendAPDU }).toPromise()
+				setHardwareWallet(hw)
+			} catch (error) {
+				setState(draft => {
+					draft.errorMessage = error?.message || error
+				})
+			}
 		}
 
 		setState(draft => {
@@ -70,7 +74,7 @@ export const SelectDevice = (): JSX.Element => {
 						color="primary"
 						size="6"
 						loading={state.isLoading}
-						disabled={!isHIDSupported}
+						disabled={!isHIDSupported || !!hardwareWallet}
 						onClick={handleRefreshDevices}
 						css={{ flex: '1' }}
 					>
@@ -78,6 +82,11 @@ export const SelectDevice = (): JSX.Element => {
 						Connect
 					</Button>
 				</ButtonTipFeedback>
+				<InputFeedBack showFeedback={!!state.errorMessage} animateHeight={31}>
+					<Text color="red" medium>
+						{state.errorMessage}
+					</Text>
+				</InputFeedBack>
 			</Box>
 			<Flex css={{ width: '100%' }}>
 				<Button
@@ -86,7 +95,7 @@ export const SelectDevice = (): JSX.Element => {
 					size="6"
 					onClick={handleContinue}
 					loading={state.isLoading}
-					disabled={!isHIDSupported || !state.device}
+					disabled={!isHIDSupported || !hardwareWallet}
 					css={{ flex: '1' }}
 				>
 					Next

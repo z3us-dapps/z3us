@@ -43,7 +43,10 @@ export class VaultService {
 
 	get = async () => {
 		if (!this.masterSeed) {
-			return {}
+			const hasKeystore = await this.has()
+			return {
+				hasKeystore,
+			}
 		}
 		return this.reload()
 	}
