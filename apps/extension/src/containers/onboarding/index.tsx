@@ -19,15 +19,13 @@ import { useColorMode } from '@src/hooks/use-color-mode'
 export const OnboardingWorkFlow: React.FC = () => {
 	const [, setLocation] = useLocation()
 	const isDarkMode = useColorMode()
-	const { onBoardingStep, setOnboardingStep, setIsRestoreWorkflow, isRestoreWorkflow, hasKeystore } = useStore(
-		state => ({
-			onBoardingStep: state.onBoardingStep,
-			setOnboardingStep: state.setOnboardingStepAction,
-			setIsRestoreWorkflow: state.setIsRestoreWorkflowAction,
-			isRestoreWorkflow: state.isRestoreWorkflow,
-			hasKeystore: state.hasKeystore,
-		}),
-	)
+	const { onBoardingStep, setOnboardingStep, setIsRestoreWorkflow, isRestoreWorkflow } = useStore(state => ({
+		onBoardingStep: state.onBoardingStep,
+		setOnboardingStep: state.setOnboardingStepAction,
+		setIsRestoreWorkflow: state.setIsRestoreWorkflowAction,
+		isRestoreWorkflow: state.isRestoreWorkflow,
+		//hasKeystore: state.hasKeystore,
+	}))
 
 	const handleBackClick = () => {
 		switch (onBoardingStep) {
@@ -94,8 +92,8 @@ export const OnboardingWorkFlow: React.FC = () => {
 					css={{
 						mt: '2px',
 						transition: '$default',
-						pe: hasKeystore ? 'auto' : 'none',
-						opacity: hasKeystore ? '1' : '0',
+						//pe: hasKeystore && !onBoardingSteps.START ? 'auto' : 'none',
+						//opacity: hasKeystore && !onBoardingSteps.START ? '1' : '0',
 					}}
 				>
 					<LeftArrowIcon />
