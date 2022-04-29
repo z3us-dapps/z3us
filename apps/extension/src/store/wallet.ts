@@ -48,9 +48,11 @@ export type WalletStore = {
 	registerCredential: (userID: string, userName: string, userDisplayName: string, password: string) => Promise<string>
 	authenticate: () => Promise<string>
 
+	hasKeystore: boolean
 	account: AccountT | null
 	masterSeed: MasterSeed
 	setMasterSeedAction: (seed: MasterSeed) => void
+	setHasKeystoreAction: (hasKeystore: boolean) => void
 
 	publicAddresses: string[]
 	addressBook: { [key: string]: AddressBookEntry }
@@ -115,6 +117,7 @@ const defaultState = {
 	account: null,
 	messanger: null,
 	masterSeed: null,
+	hasKeystore: false,
 	publicAddresses: [],
 	addressBook: {},
 
@@ -339,6 +342,12 @@ export const createWalletStore = (set, get) => ({
 
 	setMasterSeedAction: (seed: MasterSeed) => {
 		set(state => setMasterSeed(state, seed))
+	},
+
+	setHasKeystoreAction: (hasKeystore: boolean) => {
+		set(state => {
+			state.hasKeystore = hasKeystore
+		})
 	},
 
 	setMessangerAction: (messanger: MessageService) => {

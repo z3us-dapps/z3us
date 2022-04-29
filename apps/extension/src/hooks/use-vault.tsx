@@ -12,10 +12,11 @@ const messanger = new MessageService(
 )
 
 export const useVault = () => {
-	const { networkIndex, accountIndex, setMasterSeed, setMessanger } = useStore(state => ({
+	const { networkIndex, accountIndex, setMasterSeed, setHasKeystore, setMessanger } = useStore(state => ({
 		networkIndex: state.selectedNetworkIndex,
 		accountIndex: state.selectedAccountIndex,
 		setMasterSeed: state.setMasterSeedAction,
+		setHasKeystore: state.setHasKeystoreAction,
 		setMessanger: state.setMessangerAction,
 		setPublicAddresses: state.setPublicAddressesAction,
 	}))
@@ -23,7 +24,8 @@ export const useVault = () => {
 	useEffect(() => {
 		const load = async () => {
 			try {
-				const { seed } = await messanger.sendActionMessageFromPopup(GET, null)
+				const { seed, hasKeystore } = await messanger.sendActionMessageFromPopup(GET, null)
+				setHasKeystore(hasKeystore)
 				if (seed) {
 					setMasterSeed(HDMasterSeed.fromSeed(Buffer.from(seed, 'hex')))
 				}

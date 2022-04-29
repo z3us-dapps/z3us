@@ -102,6 +102,8 @@ export class VaultService {
 	private reload = async () => {
 		await this.resetTimer()
 
+		const hasKeystore = await this.has()
+
 		return {
 			mnemonic: {
 				strength: this.mnemonic.strength,
@@ -111,6 +113,7 @@ export class VaultService {
 				language: this.mnemonic.language,
 			} as MnemonicProps,
 			seed: this.masterSeed.seed.toString('hex'),
+			hasKeystore,
 		}
 	}
 
