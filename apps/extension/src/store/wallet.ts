@@ -163,7 +163,7 @@ const defaultState = {
 	pendingActions: {},
 }
 
-export const connectHW = (state: WalletStore) => {
+export const connectHW = async (state: WalletStore) => {
 	if (state.selectedAccountIndex < state.publicAddresses.length) return
 
 	const selectedAccountIndex = state.selectedAccountIndex - state.publicAddresses.length

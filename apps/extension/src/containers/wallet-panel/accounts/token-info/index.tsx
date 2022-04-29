@@ -60,7 +60,7 @@ export const TokenInfo = (): JSX.Element => {
 						css={{ width: '50px', height: '50px', borderRadius: '50%' }}
 					/>
 				</Box>
-				<Text bold size="6" css={{ mt: '15px' }}>
+				<Text bold size="6" css={{ mt: '15px', pb: '5px' }}>
 					{token.name} ({token.symbol.toLocaleUpperCase()})
 				</Text>
 				<TokenPrice symbol={token.symbol} ammount={selectedTokenAmmount} />

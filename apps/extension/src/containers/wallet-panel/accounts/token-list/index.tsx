@@ -37,7 +37,7 @@ const AllBalances: React.FC = () => {
 				customScrollParent={customScrollParent}
 				totalCount={liquidBalances.length}
 				data={liquidBalances}
-				itemContent={(i, { rri, amount }) => <TokenRow key={rri} rri={rri} amount={amount} disableClick />}
+				itemContent={(i, { rri, amount }) => <TokenRow i={i} key={rri} rri={rri} amount={amount} disableClick />}
 			/>
 		</ScrollArea>
 	) : (
@@ -71,7 +71,7 @@ const AccountBalances: React.FC = () => {
 				customScrollParent={customScrollParent}
 				totalCount={liquidBalances.length}
 				data={liquidBalances}
-				itemContent={(i, { rri, amount }) => <TokenRow key={rri} rri={rri} amount={amount} loading={isLoading} />}
+				itemContent={(i, { rri, amount }) => <TokenRow i={i} key={rri} rri={rri} amount={amount} loading={isLoading} />}
 			/>
 		</ScrollArea>
 	) : (
