@@ -8,10 +8,10 @@ import { useImmer } from 'use-immer'
 import { Container, Grid } from '@nextui-org/react'
 import { Box, Text, Flex, StyledLink } from 'ui/src/components/atoms'
 import Button from 'ui/src/components/button'
-import { Header } from '../../header'
-import { Z3usBrandLanding } from '../../z3us-brand-landing'
+import { Header } from 'components/header'
+import { Z3usBrandLanding } from 'components/z3us-brand-landing'
 import { Z3usLogoText } from 'ui/src/components/z3us-logo-text'
-import shadowImage from '../../../public/images/landing-shadow.png'
+import shadowImage from 'public/images/landing-shadow.png'
 
 export const LandingPage: React.FC = () => {
 	const [state, setState] = useImmer({

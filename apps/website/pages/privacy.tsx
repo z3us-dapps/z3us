@@ -7,9 +7,9 @@ import React from 'react'
 import { Box, Flex } from 'ui/src/components/atoms'
 import { NextSeo } from 'next-seo'
 import { Container, Grid } from '@nextui-org/react'
-import { Header } from '../components/header'
-import { Footer } from '../components/footer'
-import { MdxTheme } from '../components/mdx-theme'
+import { Header } from 'components/header'
+import { Footer } from 'components/footer'
+import { MdxTheme } from 'components/mdx-theme'
 import docsGlobalStyles from './docs/docs.styles'
 
 const DocsIndex = ({ docs, mdxSource }) => {

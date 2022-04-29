@@ -15,7 +15,7 @@ import { TelegramIcon, GithubIcon, TwitterIcon } from 'ui/src/components/icons'
 import Link from 'next/link'
 import { useTheme } from 'next-themes'
 import { Z3usText } from 'ui/src/components/z3us-text'
-import { urls } from '../../config'
+import { urls } from 'config'
 
 interface IProps {
 	isLandingPage?: boolean

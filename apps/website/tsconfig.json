@@ -3,7 +3,11 @@
 	"compilerOptions": {
 		"baseUrl": ".",
 		"paths": {
-			"@src/*": ["src/*"]
+			"@/config/": ["config/index.ts"],
+			"@/public/*": ["public/*"],
+			"@/components/*": ["components/*"],
+			"@/hooks/*": ["hooks/*"],
+			"@/docs/*": ["docs/*"]
 		}
 	},
 	"include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],
