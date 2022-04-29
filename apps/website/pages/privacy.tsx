@@ -1,18 +1,14 @@
-/* eslint-disable */
 import fs from 'fs'
 import path from 'path'
 import matter from 'gray-matter'
 import { serialize } from 'next-mdx-remote/serialize'
 import React from 'react'
-import { Box, Flex } from 'ui/src/components/atoms'
 import { NextSeo } from 'next-seo'
-import { Container, Grid } from '@nextui-org/react'
-import { Header } from 'components/header'
-import { Footer } from 'components/footer'
+import { SinglePageDocs } from 'components/pages/single-page-docs'
 import { MdxTheme } from 'components/mdx-theme'
 import docsGlobalStyles from './docs/docs.styles'
 
-const DocsIndex = ({ docs, mdxSource }) => {
+const DocsIndex = ({ mdxSource }) => {
 	docsGlobalStyles()
 	return (
 		<>
@@ -39,26 +35,9 @@ const DocsIndex = ({ docs, mdxSource }) => {
 					],
 				}}
 			/>
-			<Flex direction="column" css={{ minHeight: '100vh' }}>
-				<Header />
-				<Box
-					css={{
-						position: 'relative',
-						flex: '1',
-					}}
-				>
-					<Container gap={0}>
-						<Grid.Container gap={0}>
-							<Grid xs={8}>
-								<Box css={{ width: '100%', pb: '100px' }}>
-									<MdxTheme mdxSource={mdxSource} />
-								</Box>
-							</Grid>
-						</Grid.Container>
-					</Container>
-				</Box>
-				<Footer />
-			</Flex>
+			<SinglePageDocs>
+				<MdxTheme mdxSource={mdxSource} />
+			</SinglePageDocs>
 		</>
 	)
 }
