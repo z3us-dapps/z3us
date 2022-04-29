@@ -15,6 +15,7 @@ import { TelegramIcon, GithubIcon, TwitterIcon } from 'ui/src/components/icons'
 import Link from 'next/link'
 import { useTheme } from 'next-themes'
 import { Z3usText } from 'ui/src/components/z3us-text'
+import { config } from 'config'
 
 interface IProps {
 	isLandingPage?: boolean
@@ -112,13 +113,13 @@ export const Header: React.FC<IProps> = ({ isLandingPage }: IProps) => {
 								</StyledLink>
 							</Link>
 						) : null}
-						<Button target="_blank" href="http://github.com/" as="a" size="3" color="ghost" iconOnly>
+						<Button target="_blank" href={config.GITHUB_URL} as="a" size="3" color="ghost" iconOnly>
 							<GithubIcon />
 						</Button>
-						<Button target="_blank" href="http://github.com/" as="a" size="3" color="ghost" iconOnly>
+						<Button target="_blank" href={config.TWITTER_URL} as="a" size="3" color="ghost" iconOnly>
 							<TwitterIcon />
 						</Button>
-						<Button target="_blank" href="https://t.me/z3usdapp" as="a" size="3" color="ghost" iconOnly>
+						<Button target="_blank" href={config.TELEGRAM_URL} as="a" size="3" color="ghost" iconOnly>
 							<TelegramIcon />
 						</Button>
 						{!isLandingPage ? (

@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { useStore } from '@src/store'
+import { useEventListener } from 'usehooks-ts'
 import { CopyIcon } from '@radix-ui/react-icons'
 import { onBoardingSteps } from '@src/store/onboarding'
 import { copyTextToClipboard } from '@src/utils/copy-to-clipboard'
@@ -50,6 +51,12 @@ export const GeneratePhrase = (): JSX.Element => {
 	const handleCopyMnemomic = () => {
 		copyTextToClipboard(mnemonic?.words.join(' '))
 	}
+
+	useEventListener('keypress', e => {
+		if (e.code === 'Enter') {
+			handleContinue()
+		}
+	})
 
 	return (
 		<PageWrapper css={{ flex: '1', position: 'relative', display: 'flex', flexDirection: 'column' }}>

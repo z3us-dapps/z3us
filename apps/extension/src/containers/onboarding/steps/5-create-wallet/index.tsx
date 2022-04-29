@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react'
+import { useEventListener } from 'usehooks-ts'
 import { useStore } from '@src/store'
 import { useLocation } from 'wouter'
 import { useImmer } from 'use-immer'
@@ -68,6 +69,12 @@ export const CreateWallet = (): JSX.Element => {
 			draft.isButtonDisabled = false
 		})
 	}
+
+	useEventListener('keypress', e => {
+		if (e.code === 'Enter') {
+			handleContinue()
+		}
+	})
 
 	return (
 		<PageWrapper

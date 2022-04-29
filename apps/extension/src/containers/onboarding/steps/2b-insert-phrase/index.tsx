@@ -36,7 +36,9 @@ export const InsertPhrase = (): JSX.Element => {
 		})
 	}
 
-	const handleContinue = async () => {
+	const handleContinue = async (e: React.ChangeEvent<HTMLFormElement>) => {
+		e.preventDefault()
+		if (isButtonDisabled) return
 		if (state.words.length > 0) {
 			const mnemomicRes = await Mnemonic.fromEnglishWords(state.words)
 			if (mnemomicRes.isErr()) {
@@ -59,33 +61,28 @@ export const InsertPhrase = (): JSX.Element => {
 				<PageHeading>Secret phrase</PageHeading>
 				<PageSubHeading>Restore an existing wallet with your secret recovery phrase.</PageSubHeading>
 			</Box>
-			<Box css={{ mt: '$6', flex: '1' }}>
-				<Input
-					as="textarea"
-					size="2"
-					placeholder="Enter secret phrase"
-					onChange={handleWords}
-					error={state.showError}
-					css={{ height: '140px' }}
-				/>
-				<InputFeedBack showFeedback={state.showError} animateHeight={31}>
-					<Text medium color="red">
-						{state.errorMessage}
-					</Text>
-				</InputFeedBack>
-			</Box>
-			<Flex css={{ width: '100%' }}>
-				<Button
-					fullWidth
-					color="primary"
-					size="6"
-					disabled={isButtonDisabled}
-					onClick={handleContinue}
-					css={{ flex: '1' }}
-				>
-					Import recovery phrase
-				</Button>
-			</Flex>
+			<form onSubmit={handleContinue} style={{ flex: '1', display: 'flex', flexDirection: 'column' }}>
+				<Box css={{ mt: '$6', flex: '1' }}>
+					<Input
+						as="textarea"
+						size="2"
+						placeholder="Enter secret phrase"
+						onChange={handleWords}
+						error={state.showError}
+						css={{ height: '140px' }}
+					/>
+					<InputFeedBack showFeedback={state.showError} animateHeight={31}>
+						<Text medium color="red">
+							{state.errorMessage}
+						</Text>
+					</InputFeedBack>
+				</Box>
+				<Flex css={{ width: '100%' }}>
+					<Button fullWidth color="primary" size="6" disabled={isButtonDisabled} css={{ flex: '1' }} type="submit">
+						Import recovery phrase
+					</Button>
+				</Flex>
+			</form>
 			<Flex justify="center" align="center" css={{ height: '48px', ta: 'center', mt: '$2', width: '100%' }}>
 				<Text medium size="3" color="muted">
 					Step 1 of 4

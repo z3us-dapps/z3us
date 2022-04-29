@@ -1,6 +1,7 @@
 import React, { useState, useRef } from 'react'
 import { CSS } from '../../theme'
 import { Tooltip, TooltipTrigger, TooltipContent, TooltipArrow } from '../tool-tip'
+import { Box } from '../atoms/box'
 
 export interface IProps {
 	children: React.ReactElement
@@ -51,8 +52,8 @@ const ButtonTipFeedback: React.FC<IProps> = ({
 		<Tooltip open={feedbackVisible}>
 			<TooltipTrigger asChild>{clonedButton}</TooltipTrigger>
 			<TooltipContent side="top" sideOffset={sideOffset} css={{ ...(css as any) }}>
-				{showToolTipArrow ? <TooltipArrow /> : null}
-				{feedback}
+				{showToolTipArrow ? <TooltipArrow css={{ ...(css as any) }} /> : null}
+				<Box css={{ color: '$txtDefault' }}>{feedback}</Box>
 			</TooltipContent>
 		</Tooltip>
 	)

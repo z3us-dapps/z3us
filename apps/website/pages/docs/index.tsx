@@ -3,16 +3,16 @@ import fs from 'fs'
 import path from 'path'
 import matter from 'gray-matter'
 import { serialize } from 'next-mdx-remote/serialize'
-import Link from 'next/link'
-import Image from 'next/image'
+//import Link from 'next/link'
+//import Image from 'next/image'
 import React from 'react'
-import { Text, Box, Flex, StyledLink } from 'ui/src/components/atoms'
+import { Box, Flex } from 'ui/src/components/atoms'
 import { NextSeo } from 'next-seo'
 import { Container, Grid } from '@nextui-org/react'
-import { Header } from '../../components/header'
-import { Footer } from '../../components/footer'
-import { SideMenu } from '../../components/side-menu'
-import { MdxTheme } from '../../components/mdx-theme'
+import { Header } from 'components/header'
+import { Footer } from 'components/footer'
+import { MdxTheme } from 'components/mdx-theme'
+import { SideMenu } from 'components/side-menu'
 import docsGlobalStyles from './docs.styles'
 
 const DocsIndex = ({ docs, mdxSource }) => {
@@ -48,19 +48,6 @@ const DocsIndex = ({ docs, mdxSource }) => {
 					css={{
 						position: 'relative',
 						flex: '1',
-						'&:before': {
-							content: '',
-							position: 'absolute',
-							pe: 'none',
-							top: '0',
-							left: '0',
-							right: '0',
-							bottom: '0',
-							//backgroundImage: 'url(/images/greek-repeat.jpeg)',
-							//opacity: '0.04',
-							//backgroundImage: 'url("/images/unlock-bg.jpg")',
-							//backgroundSize: '100%',
-						},
 					}}
 				>
 					<Container gap={0}>
@@ -70,9 +57,6 @@ const DocsIndex = ({ docs, mdxSource }) => {
 							</Grid>
 							<Grid xs={6}>
 								<Box css={{ width: '100%', pb: '100px' }}>
-									{/*<Text size="10" css={{ pb: '$3' }}>
-										Introduction
-									</Text>*/}
 									<MdxTheme mdxSource={mdxSource} />
 								</Box>
 							</Grid>

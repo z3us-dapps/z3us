@@ -15,7 +15,7 @@ const docsGlobalStyles = globalCss({
 			bottom: '0',
 			backgroundImage: 'url(/images/greek-repeat.jpeg)',
 			backgroundRepeat: 'repeat',
-			opacity: '0.04',
+			opacity: '0.03',
 			minHeight: '100%',
 		},
 		'> div': {

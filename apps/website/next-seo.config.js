@@ -1,12 +1,14 @@
+import { config } from 'config'
+
 export default {
 	openGraph: {
 		type: 'website',
 		locale: 'en_IE',
-		url: 'https://www.url.ie/',
-		site_name: 'SiteName',
+		url: config.Z3US_URL,
+		site_name: 'z3us web 3 wallet',
 	},
 	twitter: {
-		handle: '@handle',
+		handle: `@${config.TWITTER_HANDLE}`,
 		site: '@site',
 		cardType: 'summary_large_image',
 	},

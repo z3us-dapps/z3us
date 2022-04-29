@@ -4,7 +4,7 @@ import SyntaxHighlighter from 'react-syntax-highlighter'
 import { MDXRemote } from 'next-mdx-remote'
 import Button from 'ui/src/components/button'
 import { Example as ExampleV1 } from '../pages/example-v1'
-import { Text, Box, Flex, StyledLink } from 'ui/src/components/atoms'
+import { Text, StyledLink } from 'ui/src/components/atoms'
 
 const components = {
 	Button,

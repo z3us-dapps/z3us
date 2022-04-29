@@ -8,8 +8,8 @@ import Toast, { useToastControls } from 'ui/src/components/toasts'
 import Input from 'ui/src/components/input'
 import AlertCard from 'ui/src/components/alert-card'
 import { Box, Flex, Text } from 'ui/src/components/atoms'
-import { useZ3usWallet } from '../../../hooks/use-z3us-wallet'
-import Seperator from '../../seperator'
+import { useZ3usWallet } from 'hooks/use-z3us-wallet'
+import Seperator from 'components/seperator'
 
 const XRD = {
 	symbol: 'xrd',
@@ -108,8 +108,8 @@ export const Example = () => {
 			const msg = state.encrypted
 				? state.encrypted
 				: state.message
-					? Message.createPlaintext(state.message).bytes.toString('hex')
-					: ''
+				? Message.createPlaintext(state.message).bytes.toString('hex')
+				: ''
 			const tx = newTxFromState(state.to, address, state.amount, msg)
 			const response = await sendTransaction({ symbol: XRD.symbol, transaction: tx, fromAddress: address.toString() })
 			console.log(response)

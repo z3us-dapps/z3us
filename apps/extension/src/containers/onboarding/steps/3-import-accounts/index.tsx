@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react'
 import { HDMasterSeed, HDPathRadix, PrivateKey, AccountAddress } from '@radixdlt/application'
+import { useEventListener } from 'usehooks-ts'
 import { useImmer } from 'use-immer'
 import { useStore } from '@src/store'
 import { CopyIcon } from '@radix-ui/react-icons'
@@ -76,6 +77,12 @@ export const ImportAccounts = (): JSX.Element => {
 			draft.amount = track
 		})
 	}
+
+	useEventListener('keypress', e => {
+		if (e.code === 'Enter') {
+			handleContinue()
+		}
+	})
 
 	return (
 		<PageWrapper css={{ flex: '1', position: 'relative', display: 'flex', flexDirection: 'column' }}>
