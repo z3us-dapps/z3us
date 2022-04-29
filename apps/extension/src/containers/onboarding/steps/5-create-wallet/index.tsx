@@ -45,7 +45,6 @@ export const CreateWallet = (): JSX.Element => {
 	}, [mnemonic, password])
 
 	const handleContinue = async () => {
-		setIsRestoreWorkflow(false)
 		if (state.isButtonDisabled) {
 			return
 		}
@@ -57,6 +56,7 @@ export const CreateWallet = (): JSX.Element => {
 			setPassword(null)
 			setMnemomic(null)
 			setOnboradingStep(onBoardingSteps.START)
+			setIsRestoreWorkflow(false)
 			setLocation('/wallet/account')
 		} catch (error) {
 			setState(draft => {

@@ -143,6 +143,7 @@ const defaultState = {
 }
 
 const setMasterSeed = (state: WalletStore, seed: MasterSeed) => {
+	state.hasKeystore = true
 	state.masterSeed = seed
 
 	if (!seed) return
