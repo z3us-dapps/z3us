@@ -68,6 +68,11 @@ browser.runtime.onConnect.addListener(port => {
 	const portMessageIDs: { [key: string]: unknown } = {}
 
 	port.onDisconnect.addListener(() => {
+		if (port.error) {
+			// eslint-disable-next-line no-console
+			console.error(`Disconnected due to an error: ${port.error.message}`)
+		}
+
 		Object.keys(portMessageIDs).forEach(async id => {
 			delete actionsToConfirm[id]
 
@@ -90,7 +95,11 @@ browser.runtime.onConnect.addListener(port => {
 				if (action in inpageActionHandlers) {
 					portMessageIDs[id] = {}
 					await useStore.persist.rehydrate()
-					inpageActionHandlers[action](port, id, payload)
+					try {
+						inpageActionHandlers[action](port, id, payload)
+					} catch (error) {
+						sendInpageMessage(port, id, payload, { code: 500, error: error?.message || error })
+					}
 				} else {
 					sendInpageMessage(port, id, payload, { code: 400, error: 'Bad request' })
 				}
@@ -99,7 +108,11 @@ browser.runtime.onConnect.addListener(port => {
 				if (action in popupActionHandlers) {
 					portMessageIDs[id] = {}
 					await useStore.persist.rehydrate()
-					popupActionHandlers[action](port, id, payload)
+					try {
+						popupActionHandlers[action](port, id, payload)
+					} catch (error) {
+						sendInpageMessage(port, id, payload, { code: 500, error: error?.message || error })
+					}
 				} else {
 					sendPopupMessage(port, id, payload, { code: 400, error: 'Bad request' })
 				}

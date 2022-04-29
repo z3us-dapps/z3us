@@ -13,27 +13,85 @@ export class BrowserService {
 		this.currentPopupId = null
 	}
 
+	checkForError = () => {
+		const { lastError } = this.browser.runtime
+		if (!lastError) {
+			return undefined
+		}
+		return new Error(lastError.message)
+	}
+
 	getCurrentTab = async () => {
 		const queryOptions = { active: true, currentWindow: true }
 		const [tab] = await this.browser.tabs.query(queryOptions)
+
+		const error = this.checkForError()
+		if (error) {
+			throw error
+		}
+
 		return tab
 	}
 
-	openWindow = async (createData: Windows.CreateCreateDataType): Promise<Windows.Window> =>
-		this.browser.windows.create(createData)
+	openWindow = async (createData: Windows.CreateCreateDataType): Promise<Windows.Window> => {
+		const window = this.browser.windows.create(createData)
 
-	updateWindowPosition = async (windowId, options) => this.browser.windows.update(windowId, options)
+		const error = this.checkForError()
+		if (error) {
+			throw error
+		}
 
-	getLastFocusedWindow = async () => this.browser.windows.getLastFocused()
+		return window
+	}
 
-	getAllWindows = async () => this.browser.windows.getAll()
+	updateWindowPosition = async (windowId, options): Promise<Windows.Window> => {
+		const window = this.browser.windows.update(windowId, options)
+
+		const error = this.checkForError()
+		if (error) {
+			throw error
+		}
+
+		return window
+	}
+
+	getLastFocusedWindow = async (): Promise<Windows.Window> => {
+		const window = this.browser.windows.getLastFocused()
+
+		const error = this.checkForError()
+		if (error) {
+			throw error
+		}
+
+		return window
+	}
+
+	getAllWindows = async (): Promise<Windows.Window[]> => {
+		const windows = this.browser.windows.getAll()
+
+		const error = this.checkForError()
+		if (error) {
+			throw error
+		}
+
+		return windows
+	}
 
 	closeCurrentPopup = async () => {
+		if (this.currentPopupId === null) {
+			return
+		}
+
 		const windows = await this.getAllWindows()
 		const popup = windows ? windows.find(w => w && w.type === 'popup' && w.id === this.currentPopupId) : null
+
+		this.currentPopupId = null
 		if (popup) {
 			this.browser.windows.remove(popup.id)
-			this.currentPopupId = null
+			const error = this.checkForError()
+			if (error) {
+				throw error
+			}
 		}
 	}
 

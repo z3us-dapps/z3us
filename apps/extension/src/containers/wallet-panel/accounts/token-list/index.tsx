@@ -100,8 +100,6 @@ const Balances: React.FC = () => {
 		? SLIDE_PANEL_EXPAND_HEIGHT - SLIDE_PANEL_HEADER_HEIGHT
 		: SLIDE_PANEL_HEIGHT - SLIDE_PANEL_HEADER_HEIGHT
 
-	console.log(calculateHeight, 99)
-
 	return (
 		<Box css={{ position: 'relative', height: `${calculateHeight}px` }}>
 			{activeSlideIndex === -1 ? <AllBalances /> : <AccountBalances />}
