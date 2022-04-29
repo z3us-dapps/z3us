@@ -59,7 +59,7 @@ export const LandingPage: React.FC = () => (
 						bottom: '0',
 						backgroundImage: 'url(/images/greek-repeat.jpeg)',
 						backgroundRepeat: 'repeat',
-						opacity: '0.03',
+						opacity: '0.05',
 						minHeight: '100%',
 						'mask-image': 'radial-gradient(circle at 50% 50%, transparent 40%, black)',
 					},
