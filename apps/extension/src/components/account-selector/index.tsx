@@ -75,7 +75,10 @@ export const AccountSelector: React.FC<IProps> = ({
 						<CircleAvatar />
 					</Box>
 					<Box css={{ flex: '1' }}>
-						<Text css={{ fontSize: '14px', lineHeight: '17px', fontWeight: '500', mt: '2px' }}>
+						<Text
+							truncate
+							css={{ fontSize: '14px', lineHeight: '17px', fontWeight: '500', mt: '2px', maxWidth: '200px' }}
+						>
 							{addressBook[selected]?.name ? `${addressBook[selected].name} (${shortAddress})` : shortAddress}
 						</Text>
 						{tokenSymbol && tokenAmount && (
@@ -96,9 +99,11 @@ export const AccountSelector: React.FC<IProps> = ({
 						{accounts.map(account => (
 							<SelectItem key={account.index} value={account.shortAddress}>
 								<SelectItemText>
-									{addressBook[account.addr]?.name
-										? `${addressBook[account.addr].name} (${account.shortAddress})`
-										: account.shortAddress}
+									<Text size="2" bold truncate css={{ maxWidth: '292px' }}>
+										{addressBook[account.addr]?.name
+											? `${addressBook[account.addr].name} (${account.shortAddress})`
+											: account.shortAddress}
+									</Text>
 								</SelectItemText>
 								<SelectItemIndicator />
 							</SelectItem>
