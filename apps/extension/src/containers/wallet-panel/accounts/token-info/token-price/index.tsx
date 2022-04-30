@@ -14,10 +14,7 @@ interface Props {
 
 export const TokenPrice = ({ symbol, ammount }: Props): JSX.Element => {
 	const { isLoading, data: ticker } = useUSDTicker(symbol)
-	const tokenPercentageChange = `${ticker.change < 0 ? '' : '+'}${ticker.change.toFixed(2).toLocaleString()}%`
-	const tokenPrice = formatBigNumber(new BigNumber(ticker.last_price), 'USD', 2)
 	const tokenPriceHeight = '70px'
-	const accountTokenAmmount = formatBigNumber(ammount.multipliedBy(ticker.last_price), 'USD', 2)
 
 	if (isLoading) {
 		return (
@@ -26,9 +23,14 @@ export const TokenPrice = ({ symbol, ammount }: Props): JSX.Element => {
 			</Box>
 		)
 	}
+
 	if (!ticker) {
 		return <Box css={{ minHeight: tokenPriceHeight }} />
 	}
+
+	const tokenPercentageChange = `${ticker.change < 0 ? '' : '+'}${ticker.change.toFixed(2).toLocaleString()}%`
+	const tokenPrice = formatBigNumber(new BigNumber(ticker.last_price), 'USD', 2)
+	const accountTokenAmmount = formatBigNumber(ammount.multipliedBy(ticker.last_price), 'USD', 2)
 
 	return (
 		<Flex direction="column" align="center" css={{ minHeight: tokenPriceHeight }}>
