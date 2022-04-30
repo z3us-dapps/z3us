@@ -1,6 +1,9 @@
 import React from 'react'
 import { useAccountValue } from '@src/services/react-query/queries/account'
 import { Flex, Box, Text } from 'ui/src/components/atoms'
+import Button from 'ui/src/components/button'
+import { Tooltip, TooltipContent, TooltipTrigger, TooltipArrow } from 'ui/src/components/tool-tip'
+import { ActivityIcon } from 'ui/src/components/icons'
 import { formatBigNumber } from '@src/utils/formatters'
 import { AccountAddress } from '@src/components/account-address'
 import PriceTicker from 'ui/src/components/price-ticker'
@@ -122,6 +125,21 @@ export const AccountInfo = ({ address }: IProps): JSX.Element => {
 					</Text>
 				</PriceLabel>
 			</Flex>
+			<Tooltip>
+				<TooltipTrigger asChild>
+					<Button
+						size="3"
+						color="ghost"
+						css={{ zIndex: 2, position: 'absolute', bottom: '$1', right: '$1', color, fill: color }}
+					>
+						<ActivityIcon />
+					</Button>
+				</TooltipTrigger>
+				<TooltipContent side="top" sideOffset={5}>
+					<TooltipArrow />
+					Edit account
+				</TooltipContent>
+			</Tooltip>
 		</Flex>
 	)
 }
