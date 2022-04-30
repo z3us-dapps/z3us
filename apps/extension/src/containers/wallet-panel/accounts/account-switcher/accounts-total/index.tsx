@@ -16,7 +16,24 @@ export const AccountsTotal = (): JSX.Element => {
 		<Flex
 			align="center"
 			justify="center"
-			css={{ border: '1px solid $borderPanel2', height: '100%', borderRadius: '14px', boxShadow: '$shadowPanel2' }}
+			css={{
+				border: '1px solid $borderPanel2',
+				height: '100%',
+				borderRadius: '14px',
+				boxShadow: '$shadowPanel2',
+				position: 'relative',
+				'&::after': {
+					content: '""',
+					borderRadius: '12px',
+					position: 'absolute',
+					top: '0',
+					bottom: '0',
+					left: '0',
+					right: '0',
+					border: '2px solid #fff',
+					pointerEvents: 'none',
+				},
+			}}
 		>
 			<Box css={{ textAlign: 'center' }}>
 				<Text size="5" css={{ pb: '$1' }}>

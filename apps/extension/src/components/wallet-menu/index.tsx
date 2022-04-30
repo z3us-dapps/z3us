@@ -3,8 +3,7 @@ import { useStore } from '@src/store'
 import { useLocation } from 'wouter'
 import Button from 'ui/src/components/button'
 import { LockClosedIcon, ChevronRightIcon, StackIcon } from '@radix-ui/react-icons'
-import { Box } from 'ui/src/components/atoms'
-import { MotionBox } from 'ui/src/components/atoms'
+import { Box, MotionBox } from 'ui/src/components/atoms'
 import {
 	DropdownMenu,
 	DropdownMenuTrigger,

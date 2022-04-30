@@ -2,7 +2,6 @@ import React from 'react'
 import { useAccountValue } from '@src/services/react-query/queries/account'
 import { Flex, Box, Text } from 'ui/src/components/atoms'
 import Button from 'ui/src/components/button'
-import { Tooltip, TooltipContent, TooltipTrigger, TooltipArrow } from 'ui/src/components/tool-tip'
 import { ActivityIcon } from 'ui/src/components/icons'
 import { formatBigNumber } from '@src/utils/formatters'
 import { AccountAddress } from '@src/components/account-address'
@@ -11,6 +10,7 @@ import PriceLabel from 'ui/src/components/price-label'
 import LoaderBars from 'ui/src/components/loader-bars'
 import { useStore } from '@src/store'
 import { ColorSettings } from '@src/services/types'
+import { AccountModal } from '@src/containers/wallet-panel/settings/accounts/account-modal'
 
 type IProps = {
 	address: string
@@ -40,7 +40,9 @@ export const AccountInfo = ({ address }: IProps): JSX.Element => {
 				height: '100%',
 				borderRadius: '14px',
 				'&::before': {
-					content: '""',
+					// @TODO: might remove this element, testing now
+					display: 'none',
+					//content: '""',
 					borderRadius: '12px',
 					position: 'absolute',
 					top: '0',
@@ -121,22 +123,13 @@ export const AccountInfo = ({ address }: IProps): JSX.Element => {
 					</Text>
 				</PriceLabel>
 			</Flex>
-			<Tooltip>
-				<TooltipTrigger asChild>
-					<Button
-						iconOnly
-						size="3"
-						color="ghost"
-						css={{ zIndex: 2, position: 'absolute', bottom: '$1', right: '$1', color, fill: color }}
-					>
+			<Box css={{ zIndex: 2, position: 'absolute', top: '$2', right: '$2' }}>
+				<AccountModal address={address} toolTipSideOffset={3} toolTipBgColor="$bgPanel" toolTipMessage="Edit">
+					<Button iconOnly size="3" color="ghost" css={{ color, fill: color }}>
 						<ActivityIcon />
 					</Button>
-				</TooltipTrigger>
-				<TooltipContent side="top" sideOffset={5}>
-					<TooltipArrow />
-					Edit account
-				</TooltipContent>
-			</Tooltip>
+				</AccountModal>
+			</Box>
 		</Flex>
 	)
 }

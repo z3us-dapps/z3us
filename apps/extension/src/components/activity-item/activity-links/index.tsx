@@ -160,7 +160,7 @@ export const ActivityLinks: React.FC<IProps> = ({ accountAddress, tx, activity }
 					</Button>
 				</TooltipTrigger>
 
-				<TooltipContent sideOffset={1} css={{ backgroundColor: '$bgPanel' }}>
+				<TooltipContent sideOffset={3} css={{ backgroundColor: '$bgPanel' }}>
 					<TooltipArrow css={{ fill: '$bgPanel' }} />
 					Go to explorer
 				</TooltipContent>
