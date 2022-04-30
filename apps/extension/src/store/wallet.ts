@@ -450,7 +450,6 @@ export const createWalletStore = (set, get) => ({
 			Object.values(addresses).forEach(address => {
 				state.addressBook[address] = {
 					isOwn: true,
-					isHardWallet: true,
 					background: defaultEntryBackground,
 					...state.addressBook[address],
 				}
@@ -621,7 +620,6 @@ export const createWalletStore = (set, get) => ({
 					draft.account = Account.create({ address, signingKey })
 					draft.addressBook[address.toString()] = {
 						isOwn: true,
-						isHardWallet: true,
 						background: defaultEntryBackground,
 						...state.addressBook[address.toString()],
 					}
