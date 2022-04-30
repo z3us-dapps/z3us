@@ -68,14 +68,18 @@ const sharedColorButtonStyle = {
 
 interface IProps {
 	children?: React.ReactNode
+	toolTipSideOffset?: number
+	toolTipBgColor?: string
 	address: string
 }
 
 const defaultProps = {
 	children: undefined,
+	toolTipSideOffset: 3,
+	toolTipBgColor: '$bgPanel2',
 }
 
-export const AccountModal: React.FC<IProps> = ({ children, address }) => {
+export const AccountModal: React.FC<IProps> = ({ children, toolTipSideOffset, toolTipBgColor, address }) => {
 	const { addressBook, setAddressBookEntry } = useStore(state => ({
 		addressBook: state.addressBook,
 		setAddressBookEntry: state.setAddressBookEntryAction,
@@ -140,11 +144,15 @@ export const AccountModal: React.FC<IProps> = ({ children, address }) => {
 			<DialogTrigger asChild>
 				<Tooltip>
 					<TooltipTrigger asChild onClick={handleOnClick}>
-						<Box>{children || <AvatarButton background={entry?.background} />}</Box>
+						{children || (
+							<Box>
+								<AvatarButton background={entry?.background} />
+							</Box>
+						)}
 					</TooltipTrigger>
-					<TooltipContent sideOffset={3} side="top">
-						<TooltipArrow />
-						Edit
+					<TooltipContent sideOffset={toolTipSideOffset} css={{ backgroundColor: toolTipBgColor }}>
+						<TooltipArrow css={{ fill: toolTipBgColor }} />
+						Edit account
 					</TooltipContent>
 				</Tooltip>
 			</DialogTrigger>
