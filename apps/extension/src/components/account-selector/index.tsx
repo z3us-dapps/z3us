@@ -42,6 +42,10 @@ export const AccountSelector: React.FC<IProps> = ({
 	}))
 	const [selected, setSelected] = useState(accounts.find(_account => _account.shortAddress === shortAddress).addr)
 
+	const entry = addressBook[selected]
+	const addressBookName = entry?.name
+	const addressBookBackground = entry?.background
+
 	const handleValueChange = (account: string) => {
 		const selectedAccount = accounts.find(_account => _account.shortAddress === account)
 		onAccountChange(selectedAccount.index)
@@ -72,14 +76,14 @@ export const AccountSelector: React.FC<IProps> = ({
 						<Text />
 					</SelectValue>
 					<Box css={{ p: '8px' }}>
-						<CircleAvatar />
+						<CircleAvatar background={addressBookBackground} />
 					</Box>
 					<Box css={{ flex: '1' }}>
 						<Text
 							truncate
 							css={{ fontSize: '14px', lineHeight: '17px', fontWeight: '500', mt: '2px', maxWidth: '200px' }}
 						>
-							{addressBook[selected]?.name ? `${addressBook[selected].name} (${shortAddress})` : shortAddress}
+							{addressBookName ? `${addressBookName} (${shortAddress})` : shortAddress}
 						</Text>
 						{tokenSymbol && tokenAmount && (
 							<Text color="muted" css={{ fontSize: '14px', lineHeight: '17px', fontWeight: '500', mt: '3px' }}>

@@ -136,7 +136,7 @@ export const AccountModal: React.FC<IProps> = ({ address }) => {
 				<Tooltip>
 					<TooltipTrigger asChild onClick={handleOnClick}>
 						<Box>
-							<AvatarButton background="#3f8c87" />
+							<AvatarButton background={entry?.background} />
 						</Box>
 					</TooltipTrigger>
 					<TooltipContent sideOffset={3} side="top">

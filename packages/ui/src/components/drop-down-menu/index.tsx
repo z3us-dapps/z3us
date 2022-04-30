@@ -131,6 +131,7 @@ const StyledEllipsisWrapper = styled('div', {
 	whiteSpace: 'nowrap',
 	overflow: 'hidden',
 	textOverflow: 'ellipsis',
+	pr: '10px',
 })
 
 const HamburgerSvg = ({ css }: CSS) => (
