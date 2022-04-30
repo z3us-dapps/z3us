@@ -1,6 +1,7 @@
 import React, { useRef, useState, useEffect } from 'react'
 import { useStore } from '@src/store'
 import { PlusIcon } from 'ui/src/components/icons'
+import { useEventListener } from 'usehooks-ts'
 import { Box, Flex, MotionBox, Text } from 'ui/src/components/atoms'
 import Button from 'ui/src/components/button'
 import { AccountSwitcherButtons } from './account-switcher-buttons'
@@ -22,7 +23,7 @@ export const AccountSwitcher = (): JSX.Element => {
 	const [xVal, setXVal] = useState(LEFT_OFFSET + activeSlideIndex * -SLIDER_WIDTH)
 	const containerRef = useRef(null)
 	const containerWidth = containerRef.current?.offsetWidth
-	const isNewAccountSlide = activeSlideIndex === addresses.length
+	const isAccountBtnsVisible = activeSlideIndex > -1 && activeSlideIndex < addresses.length
 
 	useEffect(() => {
 		setXVal(LEFT_OFFSET + activeSlideIndex * -SLIDER_WIDTH)
@@ -35,6 +36,15 @@ export const AccountSwitcher = (): JSX.Element => {
 	const handleAddAccount = async () => {
 		await selectAccount(addresses.length)
 	}
+
+	useEventListener('keydown', e => {
+		if (e.code === 'ArrowLeft' && activeSlideIndex > -1) {
+			handleSlideClick(activeSlideIndex - 1)
+		}
+		if (e.code === 'ArrowRight' && activeSlideIndex < addresses.length) {
+			handleSlideClick(activeSlideIndex + 1)
+		}
+	})
 
 	return (
 		<Flex
@@ -109,12 +119,12 @@ export const AccountSwitcher = (): JSX.Element => {
 
 			<Box
 				css={{
-					opacity: isNewAccountSlide ? '0' : '1',
-					pointerEvents: isNewAccountSlide ? 'none' : 'all',
+					opacity: isAccountBtnsVisible ? '1' : '0',
+					pointerEvents: isAccountBtnsVisible ? 'all' : 'none',
 					transition: '$default',
 				}}
 			>
-				{activeSlideIndex >= 0 && <AccountSwitcherButtons />}
+				<AccountSwitcherButtons />
 			</Box>
 		</Flex>
 	)
