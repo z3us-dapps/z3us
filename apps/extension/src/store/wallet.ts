@@ -141,6 +141,8 @@ const rpName = 'z3us'
 const mainnetURL = new URL('https://mainnet.radixdlt.com')
 const stokenetURL = new URL('https://stokenet.radixdlt.com')
 
+const defaultEntryBackground = 'radial-gradient(circle at 50% 0%, rgb(238, 171, 224) 50%, rgb(247, 219, 191) 76%)'
+
 const defaultState = {
 	hasKeystore: false,
 	account: null,
@@ -422,7 +424,7 @@ export const createWalletStore = (set, get) => ({
 			state.hwPublicAddresses = addresses
 			Object.values(addresses).forEach(address => {
 				if (!state.addressBook[address]) {
-					state.addressBook[address] = { isOwn: true }
+					state.addressBook[address] = { isOwn: true, background: defaultEntryBackground }
 				}
 			})
 		})
@@ -433,7 +435,7 @@ export const createWalletStore = (set, get) => ({
 			state.publicAddresses = addresses
 			Object.values(addresses).forEach(address => {
 				if (!state.addressBook[address]) {
-					state.addressBook[address] = { isOwn: true }
+					state.addressBook[address] = { isOwn: true, background: defaultEntryBackground }
 				}
 			})
 		})

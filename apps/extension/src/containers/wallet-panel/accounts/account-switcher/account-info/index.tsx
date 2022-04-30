@@ -23,10 +23,6 @@ export const AccountInfo = ({ address }: IProps): JSX.Element => {
 	const entry = addressBook[address]
 	const color = entry?.colorSettings?.[ColorSettings.COLOR_TEXT] || '#330867'
 
-	// @TODO: remove the default later, we want this to be in the store when the wallet is created
-	//const background =
-	//entry?.background || 'radial-gradient(circle at 50% 0%, rgb(238, 171, 224) 50%, rgb(247, 219, 191) 76%)'
-	const background = entry?.background
 	const { isLoading, value, change } = useAccountValue()
 	const accountValue = formatBigNumber(value, 'USD', 2)
 	const accountPercentageChange = !value.isEqualTo(0)
@@ -39,7 +35,7 @@ export const AccountInfo = ({ address }: IProps): JSX.Element => {
 			css={{
 				border: '1px solid #fff',
 				position: 'relative',
-				background,
+				background: entry.background,
 				boxShadow: '$accountPanelShadow',
 				height: '100%',
 				borderRadius: '14px',
