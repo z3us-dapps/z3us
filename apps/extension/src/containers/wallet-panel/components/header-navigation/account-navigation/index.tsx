@@ -53,7 +53,7 @@ export const AccountNaviation: React.FC = () => {
 					opacity: expanded ? 1 : 0,
 				}}
 			>
-				<Text size="4" medium css={{ mr: '$1' }}>
+				<Text truncate size="4" medium css={{ mr: '$1', maxWidth: '220px' }}>
 					{entry?.name ? `${entry.name} (${shortAddress})` : shortAddress}
 				</Text>
 				<ButtonTipFeedback feedback="Address copied" delay={500} css={{ backgroundColor: '$bgPanel' }}>
