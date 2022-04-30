@@ -1,5 +1,5 @@
 import React from 'react'
-import { LightningBoltIcon } from '@heroicons/react/solid'
+//import { LightningBoltIcon } from '@heroicons/react/solid'
 import Link from 'next/link'
 import Image from 'next/image'
 import { NextSeo } from 'next-seo'
@@ -74,7 +74,14 @@ export const LandingPage: React.FC = () => (
 									<Flex align="center" css={{ position: 'relative' }}>
 										<Z3usBrandLanding />
 										<Box
-											css={{ width: '507px', height: '197px', position: 'absolute', bottom: '-90px', left: '-90px' }}
+											css={{
+												width: '507px',
+												height: '197px',
+												position: 'absolute',
+												bottom: '-90px',
+												left: '-90px',
+												pointerEvents: ' none',
+											}}
 										>
 											<Image alt="shadow" src={shadowImage} layout="fixed" width={507} height={197} />
 										</Box>
@@ -98,7 +105,7 @@ export const LandingPage: React.FC = () => (
 												}}
 											>
 												{/*defi, nft, token, crypto, staking, animate text with anime.js */}
-												<Box as="span" css={{ position: 'relative', color_: '#27ff00', textTransform: 'capitalize' }}>
+												<Box as="span" css={{ position: 'relative', textTransform: 'capitalize' }}>
 													web3
 												</Box>
 											</Box>{' '}
@@ -118,17 +125,22 @@ export const LandingPage: React.FC = () => (
 										<Flex css={{ mt: '$6' }}>
 											<Button
 												target="_blank"
-												href="https://www.radixdlt.com/"
+												href={config.TELEGRAM_URL}
 												as="a"
 												size="6"
 												color="secondary"
-												css={{ width: '200px', '&&': { backgroundColor: '#ff9400' } }}
+												css={{
+													width: '200px',
+													'&&': {
+														backgroundColor: '#ff9400',
+														hover: {
+															backgroundColor: '#ffa72e',
+														},
+													},
+												}}
 												clickable={false}
 											>
-												Coming soon{' '}
-												<Box css={{ width: '20px' }}>
-													<LightningBoltIcon />
-												</Box>
+												Get BETA access!
 											</Button>
 										</Flex>
 									</Box>
