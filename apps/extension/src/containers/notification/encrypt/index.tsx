@@ -9,7 +9,7 @@ import { CONFIRM } from '@src/lib/actions'
 import { EncryptMessage } from '@src/services/radix/message'
 import { getShortAddress } from '@src/utils/string-utils'
 import { useImmer } from 'use-immer'
-import InputFeedback from 'ui/src/components/input/input-feedback'
+import { HardwareWalletReconnect } from '@src/components/hardware-wallet-reconnect'
 
 export const Encrypt = (): JSX.Element => {
 	const [, { id }] = useRoute<{ id: string }>('/encrypt/:id')
@@ -84,11 +84,7 @@ export const Encrypt = (): JSX.Element => {
 					</PageSubHeading>
 				</Box>
 				<Box css={{ mt: '$8', flex: '1' }}>
-					<InputFeedback showFeedback={!account}>
-						<Text color="red" medium>
-							Unable to derive account, if you are using hard wallet ensure ledger is connected and app opened
-						</Text>
-					</InputFeedback>
+					<HardwareWalletReconnect />
 				</Box>
 				<Flex
 					direction="column"

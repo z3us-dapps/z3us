@@ -18,19 +18,19 @@ const defaultProps = {
 }
 
 export const InputFeedback: React.FC<IProps> = ({ children, showFeedback, animateHeight, css }: IProps) => (
-		<AnimatePresence>
-			{showFeedback && (
-				<MotionBox
-					initial={{ opacity: 0, height: '0px' }}
-					animate={{ opacity: 1, height: `${animateHeight}px` }}
-					exit={{ opacity: 1, height: '0px' }}
-					css={{ ...(css as any) }}
-				>
-					{children}
-				</MotionBox>
-			)}
-		</AnimatePresence>
-	)
+	<AnimatePresence>
+		{showFeedback && (
+			<MotionBox
+				initial={{ opacity: 0, height: '0px' }}
+				animate={{ opacity: 1, height: `${animateHeight}px` }}
+				exit={{ opacity: 1, height: '0px' }}
+				css={{ ...(css as any) }}
+			>
+				{children}
+			</MotionBox>
+		)}
+	</AnimatePresence>
+)
 
 if (__DEV__) {
 	InputFeedback.displayName = 'z3us ui - input feedback'

@@ -6,7 +6,6 @@ import BigNumber from 'bignumber.js'
 import { BuildTransaction, FinalizeTransaction, SubmitSignedTransaction } from '@src/services/radix/transactions'
 import { Box, Text, Flex, StyledLink } from 'ui/src/components/atoms'
 import Button from 'ui/src/components/button'
-import InputFeedback from 'ui/src/components/input/input-feedback'
 import { PageWrapper, PageHeading, PageSubHeading } from '@src/components/layout'
 import { getShortAddress } from '@src/utils/string-utils'
 import { useStore } from '@src/store'
@@ -15,6 +14,7 @@ import { hexToJSON } from '@src/utils/encoding'
 import { SlippageBox } from '@src/components/slippage-box'
 import { CONFIRM } from '@src/lib/actions'
 import { ActivityType } from '@src/components/activity-type'
+import { HardwareWalletReconnect } from '@src/components/hardware-wallet-reconnect'
 
 export const Transaction = (): JSX.Element => {
 	const [, { id }] = useRoute<{ id: string }>('/transaction/:id')
@@ -136,13 +136,7 @@ export const Transaction = (): JSX.Element => {
 					</PageSubHeading>
 				</Box>
 				<Box css={{ mt: '$8', flex: '1' }}>
-					<InputFeedback showFeedback={!account || state.errorMessage !== ''}>
-						<Text color="red" medium>
-							{!account
-								? 'Unable to derive account, if you are using hard wallet ensure ledger is connected and app opened'
-								: state.errorMessage}
-						</Text>
-					</InputFeedback>
+					<HardwareWalletReconnect />
 				</Box>
 				<Box>
 					{tx && tx.actions && (

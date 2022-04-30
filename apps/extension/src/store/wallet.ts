@@ -66,6 +66,7 @@ export type WalletStore = {
 	setHasKeystoreAction: (hasKeystore: boolean) => void
 
 	hardwareWallet: HardwareWalletT | null
+	connectHW: () => void
 	sendAPDUAction: (
 		cla: number,
 		ins: number,
@@ -386,6 +387,15 @@ export const createWalletStore = (set, get) => ({
 			state.hardwareWallet = hardwareWallet
 		}),
 
+	connectHW: async () => {
+		const hw = await HardwareWalletLedger.create({ send: get().sendAPDUAction }).toPromise()
+		set(draft => {
+			draft.hardwareWallet = hw
+		})
+		const state = get()
+		await state.selectAccountAction(state.selectedAccountIndex)
+	},
+
 	sendAPDUAction: async (cla: number, ins: number, p1: number, p2: number, data?: Buffer, statusList?: number[]) => {
 		const devices = await TransportNodeHid.list()
 		if (devices.length === 0) {
@@ -488,7 +498,7 @@ export const createWalletStore = (set, get) => ({
 			draft.selectedNetworkIndex = newIndex
 		})
 
-		let state = get()
+		const state = get()
 		const network = state.networks[state.selectedNetworkIndex]
 
 		const publicIndexes = Object.keys(state.publicAddresses)
@@ -519,18 +529,6 @@ export const createWalletStore = (set, get) => ({
 		}
 
 		const hwIndexes = Object.keys(state.hwPublicAddresses)
-		if (hwIndexes.length > 0 && !state.hardwareWallet) {
-			try {
-				const hw = await HardwareWalletLedger.create({ send: state.sendAPDUAction }).toPromise()
-				set(draft => {
-					draft.hardwareWallet = hw
-				})
-				state = get()
-			} catch (error) {
-				console.error(error)
-				return
-			}
-		}
 		for (let i = 0; i < hwIndexes.length; i += 1) {
 			// eslint-disable-next-line no-await-in-loop
 			const signingKey = await getHWSigningKeyForIndex(state, +hwIndexes[i])
@@ -557,6 +555,7 @@ export const createWalletStore = (set, get) => ({
 			}
 		}
 	},
+
 	selectAccountAction: async (newIndex: number) => {
 		set(draft => {
 			draft.selectedAccountIndex = newIndex
@@ -580,6 +579,10 @@ export const createWalletStore = (set, get) => ({
 					draft.publicAddresses[publicIndexes[newIndex]] = address.toString()
 					draft.account = Account.create({ address, signingKey })
 				})
+			} else {
+				set(draft => {
+					draft.account = null
+				})
 			}
 		} else if (newIndex < publicIndexes.length + hwIndexes.length) {
 			const signingKey = await getHWSigningKeyForIndex(state, +hwIndexes[newIndex - publicIndexes.length])
@@ -593,6 +596,10 @@ export const createWalletStore = (set, get) => ({
 					draft.hwPublicAddresses[hwIndexes[newIndex - publicIndexes.length]] = address.toString()
 					draft.account = Account.create({ address, signingKey })
 				})
+			} else {
+				set(draft => {
+					draft.account = null
+				})
 			}
 		} else {
 			const index = publicIndexes.length > 0 ? +publicIndexes[publicIndexes.length - 1] + 1 : 0
@@ -604,8 +611,14 @@ export const createWalletStore = (set, get) => ({
 				})
 
 				set(draft => {
+					draft.selectedAccountIndex = draft.publicAddresses.length
+					draft.activeSlideIndex = draft.publicAddresses.length
 					draft.publicAddresses[publicIndexes[publicIndexes.length]] = address.toString()
 					draft.account = Account.create({ address, signingKey })
+				})
+			} else {
+				set(draft => {
+					draft.account = null
 				})
 			}
 		}
