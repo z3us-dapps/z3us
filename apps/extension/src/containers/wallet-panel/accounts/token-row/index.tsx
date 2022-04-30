@@ -9,13 +9,14 @@ import { TokenLoadingRow } from '@src/components/token-loading-row'
 import { TokenPrice } from './token-price'
 
 interface IProps {
+	i: number
 	rri: string
 	amount: string | BigNumber
 	loading?: boolean
 	disableClick?: boolean
 }
 
-export const TokenRow = ({ rri, amount, loading, disableClick }: IProps): JSX.Element => {
+export const TokenRow = ({ i, rri, amount, loading, disableClick }: IProps): JSX.Element => {
 	const { isLoading: isLoadingTokenInfo, data: token } = useTokenInfo(rri)
 	const [, setLocation] = useLocation()
 	const isLoadingComplete = !loading && !isLoadingTokenInfo
@@ -35,18 +36,13 @@ export const TokenRow = ({ rri, amount, loading, disableClick }: IProps): JSX.El
 				width: '100%',
 				display: 'block',
 				textAlign: 'left',
-				'&:first-child': {
-					div: {
-						borderTop: '0',
-					},
-				},
 				cursor: isLoadingComplete && !disableClick ? 'pointer' : 'default',
 			}}
 		>
 			<Flex
 				css={{
 					height: '70px',
-					borderTop: '1px solid $borderPanel',
+					borderTop: `1px solid ${i === 0 ? 'transparent' : '$borderPanel'}`,
 					transition: 'background-color 150ms ease-out',
 					background: '$bgPanel',
 					'&:hover': {

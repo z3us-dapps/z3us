@@ -15,12 +15,13 @@ import { EXPLORER_URL } from '../../config'
 const LEFT_COL_WIDTH = '150px'
 
 interface IProps {
+	i: number
 	totalStakes: BigNumber
 	validator: Validator
 	style: React.CSSProperties
 }
 
-export const ValidatorItem = ({ validator, totalStakes, style }: IProps): JSX.Element => {
+export const ValidatorItem = ({ i, validator, totalStakes, style }: IProps): JSX.Element => {
 	const {
 		address,
 		name,
@@ -39,7 +40,10 @@ export const ValidatorItem = ({ validator, totalStakes, style }: IProps): JSX.El
 
 	return (
 		<div style={style}>
-			<Flex align="center" css={{ borderTop: '1px solid $borderPanel', px: '$3', py: '$2' }}>
+			<Flex
+				align="center"
+				css={{ borderTop: `1px solid ${i === 0 ? 'transparent' : '$borderPanel'}`, px: '$3', py: '$2' }}
+			>
 				<Box>
 					<Popover>
 						<PopoverTrigger asChild>

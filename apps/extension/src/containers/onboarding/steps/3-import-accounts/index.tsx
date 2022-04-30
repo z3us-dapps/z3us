@@ -6,6 +6,7 @@ import { useStore } from '@src/store'
 import { CopyIcon } from '@radix-ui/react-icons'
 import { ScrollArea } from '@src/components/scroll-area'
 import { copyTextToClipboard } from '@src/utils/copy-to-clipboard'
+import { Checkbox, CheckIcon } from 'ui/src/components/checkbox'
 import ButtonTipFeedback from 'ui/src/components/button-tip-feedback'
 import { onBoardingSteps } from '@src/store/onboarding'
 import InputFeedBack from 'ui/src/components/input/input-feedback'
@@ -124,7 +125,10 @@ export const ImportAccounts = (): JSX.Element => {
 								const addressString = address.toString()
 								return (
 									<Flex as="li" align="center" key={addressString} css={{ px: '$3', pt: '$2' }}>
-										<Text as="label" htmlFor="select" truncate css={{ maxWidth: '261px', pr: '$2' }}>
+										<Checkbox id="select" size="1" onChange={() => {}}>
+											<CheckIcon />
+										</Checkbox>
+										<Text as="label" htmlFor="select" truncate css={{ maxWidth: '228px', pl: '$2', pr: '$2' }}>
 											{addressString}
 										</Text>
 										<ButtonTipFeedback feedback="Address copied">
