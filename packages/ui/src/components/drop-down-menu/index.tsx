@@ -85,7 +85,6 @@ const StyledContent = styled(DropdownMenuPrimitive.Content, {
 	},
 })
 
-
 const StyledItem = styled(DropdownMenuPrimitive.Item, { ...sharedItemStyles })
 const StyledCheckboxItem = styled(DropdownMenuPrimitive.CheckboxItem, {
 	...sharedItemStyles,
@@ -122,10 +121,17 @@ const StyledArrow = styled(DropdownMenuPrimitive.Arrow, {
 })
 
 const RightSlot = styled('div', {
-	marginLeft: 'auto',
-	paddingLeft: 20,
+	marginleft: 'auto',
+	paddingleft: 20,
 	// ':focus > &': { color: 'white' },
 	// '[data-disabled] &': { color: '#aaa' },
+})
+
+const StyledEllipsisWrapper = styled('div', {
+	whiteSpace: 'nowrap',
+	overflow: 'hidden',
+	textOverflow: 'ellipsis',
+	pr: '10px',
 })
 
 const HamburgerSvg = ({ css }: CSS) => (
@@ -184,4 +190,5 @@ export const DropdownMenuLabel = StyledLabel
 export const DropdownMenuSeparator = StyledSeparator
 export const DropdownMenuArrow = StyledArrow
 export const DropdownMenuRightSlot = RightSlot
+export const DropdownMenuEllipsis = StyledEllipsisWrapper
 export const DropdownMenuHamburgerIcon = HamburgerSvg

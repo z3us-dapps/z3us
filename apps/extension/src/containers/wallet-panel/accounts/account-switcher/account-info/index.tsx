@@ -1,6 +1,9 @@
 import React from 'react'
 import { useAccountValue } from '@src/services/react-query/queries/account'
 import { Flex, Box, Text } from 'ui/src/components/atoms'
+import Button from 'ui/src/components/button'
+import { Tooltip, TooltipContent, TooltipTrigger, TooltipArrow } from 'ui/src/components/tool-tip'
+import { ActivityIcon } from 'ui/src/components/icons'
 import { formatBigNumber } from '@src/utils/formatters'
 import { AccountAddress } from '@src/components/account-address'
 import PriceTicker from 'ui/src/components/price-ticker'
@@ -9,19 +12,21 @@ import LoaderBars from 'ui/src/components/loader-bars'
 import { useStore } from '@src/store'
 import { ColorSettings } from '@src/services/types'
 
-type Props = {
+type IProps = {
 	address: string
 }
 
-export const AccountInfo = ({ address }: Props): JSX.Element => {
+export const AccountInfo = ({ address }: IProps): JSX.Element => {
 	const { addressBook } = useStore(state => ({
 		addressBook: state.addressBook,
 	}))
 	const entry = addressBook[address]
 	const color = entry?.colorSettings?.[ColorSettings.COLOR_TEXT] || '#330867'
-	const background =
-		entry?.background || 'radial-gradient(circle at 50% 0%, rgb(238, 171, 224) 50%, rgb(247, 219, 191) 76%)'
 
+	// @TODO: remove the default later, we want this to be in the store when the wallet is created
+	//const background =
+	//entry?.background || 'radial-gradient(circle at 50% 0%, rgb(238, 171, 224) 50%, rgb(247, 219, 191) 76%)'
+	const background = entry?.background
 	const { isLoading, value, change } = useAccountValue()
 	const accountValue = formatBigNumber(value, 'USD', 2)
 	const accountPercentageChange = !value.isEqualTo(0)
@@ -120,6 +125,22 @@ export const AccountInfo = ({ address }: Props): JSX.Element => {
 					</Text>
 				</PriceLabel>
 			</Flex>
+			<Tooltip>
+				<TooltipTrigger asChild>
+					<Button
+						iconOnly
+						size="3"
+						color="ghost"
+						css={{ zIndex: 2, position: 'absolute', bottom: '$1', right: '$1', color, fill: color }}
+					>
+						<ActivityIcon />
+					</Button>
+				</TooltipTrigger>
+				<TooltipContent side="top" sideOffset={5}>
+					<TooltipArrow />
+					Edit account
+				</TooltipContent>
+			</Tooltip>
 		</Flex>
 	)
 }

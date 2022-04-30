@@ -46,7 +46,6 @@ export const SendToken: React.FC = () => {
 
 	const { data: balances } = useTokenBalances()
 	const { data: token } = useTokenInfo(state.rri)
-
 	const shortAddress = getShortAddress(accountAddress)
 	const liquidBalances = balances?.account_balances?.liquid_balances || []
 	const selectedToken = liquidBalances?.find(balance => balance.rri === state.rri)
@@ -100,7 +99,7 @@ export const SendToken: React.FC = () => {
 				network.url,
 				account,
 				state.rri,
-				account.address.toString(),
+				accountAddress,
 				state.to,
 				state.amount,
 				state.message,
@@ -207,14 +206,12 @@ export const SendToken: React.FC = () => {
 								<Text css={{ fontSize: '32px', lineHeight: '38px', fontWeight: '800' }}>Send</Text>
 								<Text css={{ fontSize: '14px', lineHeight: '17px', fontWeight: '500', mt: '20px' }}>From:</Text>
 							</Box>
-
 							<AccountSelector
 								shortAddress={shortAddress}
 								tokenAmount={formatBigNumber(selectedTokenAmmount)}
 								tokenSymbol={tokenSymbol}
 								onAccountChange={handleAccountChange}
 							/>
-
 							<Box>
 								<Flex align="center" css={{ mt: '14px', position: 'relative' }}>
 									<Tooltip>

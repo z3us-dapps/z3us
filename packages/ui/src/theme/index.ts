@@ -167,7 +167,6 @@ export const sharedItemStyles = css({
 	paddingLeft: 10,
 	userSelect: 'none',
 	transition: '$default',
-
 	'&[data-disabled]': {
 		color: '$txtDisabled',
 		pointerEvents: 'none',

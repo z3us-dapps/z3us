@@ -3,6 +3,7 @@ import { useStore } from '@src/store'
 import { useLocation } from 'wouter'
 import Button from 'ui/src/components/button'
 import { LockClosedIcon, ChevronRightIcon, StackIcon } from '@radix-ui/react-icons'
+import { Box } from 'ui/src/components/atoms'
 import { MotionBox } from 'ui/src/components/atoms'
 import {
 	DropdownMenu,
@@ -64,7 +65,7 @@ export const WalletMenu: React.FC = () => {
 				>
 					<DropdownMenu>
 						<DropdownMenuTriggerItem>
-							<span>Theme</span>
+							<Box css={{ flex: '1', pr: '$1' }}>Theme</Box>
 							<DropdownMenuRightSlot>
 								<ChevronRightIcon />
 							</DropdownMenuRightSlot>
@@ -89,7 +90,7 @@ export const WalletMenu: React.FC = () => {
 
 					<DropdownMenu>
 						<DropdownMenuTriggerItem>
-							<span>Network</span>
+							<Box css={{ flex: '1', pr: '$1' }}>Network</Box>
 							<DropdownMenuRightSlot>
 								<ChevronRightIcon />
 							</DropdownMenuRightSlot>
@@ -109,13 +110,13 @@ export const WalletMenu: React.FC = () => {
 					{seed && (
 						<>
 							<DropdownMenuItem onSelect={handleConnectHW}>
-								<span>Connect hardware wallet</span>
+								<Box css={{ flex: '1', pr: '$2' }}>Connect hardware wallet</Box>
 								<DropdownMenuRightSlot>
 									<StackIcon />
 								</DropdownMenuRightSlot>
 							</DropdownMenuItem>
 							<DropdownMenuItem onSelect={handleLockWallet}>
-								<span>Lock wallet</span>
+								<Box css={{ flex: '1' }}>Lock wallet</Box>
 								<DropdownMenuRightSlot>
 									<LockClosedIcon />
 								</DropdownMenuRightSlot>

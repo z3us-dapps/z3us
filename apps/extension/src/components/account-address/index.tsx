@@ -32,7 +32,7 @@ export const AccountAddress: React.FC<IProps> = ({ address, isCopyButtonVisible,
 
 	return (
 		<Flex align="center">
-			<Text size="3" medium css={{ ...(css as any) }}>
+			<Text size="3" truncate medium css={{ maxWidth: '240px', ...(css as any) }}>
 				{entry?.name ? `${entry.name} (${shortAddress})` : shortAddress}
 			</Text>
 			{isCopyButtonVisible ? (

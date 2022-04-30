@@ -7,9 +7,11 @@ import {
 	DropdownMenuRadioGroup,
 	DropdownMenuRadioItem,
 	DropdownMenuItemIndicator,
+	DropdownMenuEllipsis,
 } from 'ui/src/components/drop-down-menu'
 import { Tooltip, TooltipTrigger, TooltipContent, TooltipArrow } from 'ui/src/components/tool-tip'
 import Button from 'ui/src/components/button'
+import { Text } from 'ui/src/components/atoms'
 
 interface IProps {
 	selectedAddress: string
@@ -21,7 +23,7 @@ export const AddressBookSelector: React.FC<IProps> = ({ selectedAddress, onSelec
 		addressBook: state.addressBook,
 	}))
 
-	const selectedName = addressBook?.[selectedAddress]?.name ? addressBook?.[selectedAddress].name : 'Select'
+	const selectedName = addressBook?.[selectedAddress]?.name || 'Select'
 	const entries = Object.entries(addressBook).filter(([, { name }]) => !!name)
 	const hasAddressBook = entries.length > 0
 
@@ -34,14 +36,18 @@ export const AddressBookSelector: React.FC<IProps> = ({ selectedAddress, onSelec
 			<Tooltip>
 				<TooltipTrigger asChild>
 					<DropdownMenuTrigger asChild>
-						<Button
-							size="1"
-							color="tertiary"
-							css={{
-								textTransform: 'uppercase',
-							}}
-						>
-							{selectedName}
+						<Button size="1" color="tertiary">
+							<Text
+								truncate
+								bold
+								size="1"
+								css={{
+									textTransform: 'uppercase',
+									maxWidth: '200px',
+								}}
+							>
+								{selectedName}
+							</Text>
 						</Button>
 					</DropdownMenuTrigger>
 				</TooltipTrigger>
@@ -55,7 +61,7 @@ export const AddressBookSelector: React.FC<IProps> = ({ selectedAddress, onSelec
 				side="bottom"
 				sideOffset={12}
 				alignOffset={-2}
-				css={{ minWidth: '120px' }}
+				css={{ minWidth: '120px', maxWidth: '200px' }}
 				onCloseAutoFocus={e => {
 					e.preventDefault()
 				}}
@@ -63,8 +69,10 @@ export const AddressBookSelector: React.FC<IProps> = ({ selectedAddress, onSelec
 				<DropdownMenuRadioGroup value={selectedAddress} onValueChange={handleValueChange}>
 					{entries.map(([address, { name }]) => (
 						<DropdownMenuRadioItem key={address} value={address}>
-							<DropdownMenuItemIndicator />
-							{name}
+							<DropdownMenuEllipsis>
+								<DropdownMenuItemIndicator />
+								{name}
+							</DropdownMenuEllipsis>
 						</DropdownMenuRadioItem>
 					))}
 				</DropdownMenuRadioGroup>
