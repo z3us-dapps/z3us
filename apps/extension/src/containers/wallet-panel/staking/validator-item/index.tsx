@@ -45,6 +45,8 @@ export const ValidatorItem = ({ i, validator, totalStakes, style }: IProps): JSX
 		backgroundColor = 'red'
 	} else if (validatorFee >= 1.5) {
 		backgroundColor = 'orange'
+	} else if (validatorFee === 0) {
+		backgroundColor = 'green'
 	}
 
 	return (
