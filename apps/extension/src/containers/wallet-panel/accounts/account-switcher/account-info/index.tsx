@@ -44,7 +44,9 @@ export const AccountInfo = ({ address }: IProps): JSX.Element => {
 				height: '100%',
 				borderRadius: '14px',
 				'&::before': {
-					content: '""',
+					// @TODO: might remove this element, testing now
+					display: 'none',
+					//content: '""',
 					borderRadius: '12px',
 					position: 'absolute',
 					top: '0',
@@ -126,7 +128,7 @@ export const AccountInfo = ({ address }: IProps): JSX.Element => {
 				</PriceLabel>
 			</Flex>
 			<Box css={{ zIndex: 2, position: 'absolute', top: '$2', right: '$2' }}>
-				<AccountModal address={address} toolTipSideOffset={3} toolTipBgColor="$bgPanel">
+				<AccountModal address={address} toolTipSideOffset={3} toolTipBgColor="$bgPanel" toolTipMessage="Edit">
 					<Button iconOnly size="3" color="ghost" css={{ color, fill: color }}>
 						<ActivityIcon />
 					</Button>
