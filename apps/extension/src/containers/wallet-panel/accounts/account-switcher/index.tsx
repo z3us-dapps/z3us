@@ -13,7 +13,7 @@ const LEFT_OFFSET = 26 - SLIDER_WIDTH
 
 export const AccountSwitcher = (): JSX.Element => {
 	const { addresses, activeSlideIndex, selectAccount, setActiveSlide } = useStore(state => ({
-		addresses: [...state.publicAddresses, ...state.hwPublicAddresses],
+		addresses: Object.values({ ...state.publicAddresses, ...state.hwPublicAddresses }),
 		activeSlideIndex: state.activeSlideIndex,
 		selectAccount: state.selectAccountAction,
 		setActiveSlide: state.setActiveSlideIndexAction,
@@ -27,12 +27,12 @@ export const AccountSwitcher = (): JSX.Element => {
 		setXVal(LEFT_OFFSET + activeSlideIndex * -SLIDER_WIDTH)
 	}, [activeSlideIndex])
 
-	const handleSlideClick = (idx: number) => {
-		setActiveSlide(idx)
+	const handleSlideClick = async (idx: number) => {
+		await setActiveSlide(idx)
 	}
 
-	const handleAddAccount = () => {
-		selectAccount(addresses.length)
+	const handleAddAccount = async () => {
+		await selectAccount(addresses.length)
 	}
 
 	return (

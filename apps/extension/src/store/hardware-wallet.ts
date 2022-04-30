@@ -8,7 +8,6 @@ export type HardwareWalletStore = {
 	hardwareWalletStep: string
 
 	setHardwareWalletStepAction: (step: string) => void
-	connectHWAction: () => Promise<void>
 }
 
 export const createHardwareWalletStore = set => ({

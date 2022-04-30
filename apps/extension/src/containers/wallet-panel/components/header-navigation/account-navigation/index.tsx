@@ -10,12 +10,14 @@ import ButtonTipFeedback from 'ui/src/components/button-tip-feedback'
 import { Box, Flex, Text } from 'ui/src/components/atoms'
 import { ACCOUNTS } from '@src/containers/wallet-panel/config'
 
+const accountUrl = `/wallet/account`
+
 export const AccountNaviation: React.FC = () => {
 	const { activeApp, account, addressBook, addresses, expanded, activeSlideIndex, setActiveSlide } = useStore(
 		state => ({
 			activeApp: state.activeApp,
 			account: state.account,
-			addresses: [...state.publicAddresses, ...state.hwPublicAddresses],
+			addresses: Object.values({ ...state.publicAddresses, ...state.hwPublicAddresses }),
 			addressBook: state.addressBook,
 			expanded: state.accountPanelExpanded,
 			activeSlideIndex: state.activeSlideIndex,
@@ -31,10 +33,9 @@ export const AccountNaviation: React.FC = () => {
 	const entry = addressBook[addtString]
 	const shortAddress = getShortAddress(addtString)
 
-	const handleBreadCrumbClick = (idx: number) => {
-		const accountUrl = `/wallet/account`
+	const handleBreadCrumbClick = async (idx: number) => {
+		await setActiveSlide(idx)
 		setLocation(accountUrl)
-		setActiveSlide(idx)
 	}
 
 	const handleCopyAddress = () => {

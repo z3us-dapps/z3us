@@ -46,8 +46,8 @@ export const DepositToken: React.FC = () => {
 		setRRI(changeToken.rri)
 	}
 
-	const handleAccountChange = (accountIndex: number) => {
-		selectAccount(accountIndex)
+	const handleAccountChange = async (accountIndex: number) => {
+		await selectAccount(accountIndex)
 	}
 
 	if (!account) {

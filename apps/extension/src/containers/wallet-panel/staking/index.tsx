@@ -33,36 +33,36 @@ export const Staking: React.FC = () => {
 
 	useEffect(() => {
 		const newPositions = {}
-			; (stakedPositions?.pendingStakes || []).map(({ validator, amount }) => {
-				newPositions[validator.toString()] = {
-					...newPositions[validator.toString()],
-					pendingStakes: new BigNumber(amount).shiftedBy(-18),
-				}
-			})
-			; (stakedPositions?.stakes || []).map(({ validator, amount }) => {
-				newPositions[validator.toString()] = {
-					...newPositions[validator.toString()],
-					stakes: new BigNumber(amount).shiftedBy(-18),
-				}
-			})
-			; (unstakePositions?.unstakes || []).map(({ validator, amount }) => {
-				newPositions[validator.toString()] = {
-					...newPositions[validator.toString()],
-					unstakes: new BigNumber(amount).shiftedBy(-18),
-				}
-			})
-			; (unstakePositions?.pendingUnstakes || []).map(({ validator, amount }) => {
-				newPositions[validator.toString()] = {
-					...newPositions[validator.toString()],
-					pendingUnstakes: new BigNumber(amount).shiftedBy(-18),
-				}
-			})
+		;(stakedPositions?.pendingStakes || []).map(({ validator, amount }) => {
+			newPositions[validator.toString()] = {
+				...newPositions[validator.toString()],
+				pendingStakes: new BigNumber(amount).shiftedBy(-18),
+			}
+		})
+		;(stakedPositions?.stakes || []).map(({ validator, amount }) => {
+			newPositions[validator.toString()] = {
+				...newPositions[validator.toString()],
+				stakes: new BigNumber(amount).shiftedBy(-18),
+			}
+		})
+		;(unstakePositions?.unstakes || []).map(({ validator, amount }) => {
+			newPositions[validator.toString()] = {
+				...newPositions[validator.toString()],
+				unstakes: new BigNumber(amount).shiftedBy(-18),
+			}
+		})
+		;(unstakePositions?.pendingUnstakes || []).map(({ validator, amount }) => {
+			newPositions[validator.toString()] = {
+				...newPositions[validator.toString()],
+				pendingUnstakes: new BigNumber(amount).shiftedBy(-18),
+			}
+		})
 
 		setPositions(newPositions)
 	}, [stakedPositions, unstakePositions])
 
-	const handleAccountChange = (accountIndex: number) => {
-		selectAccount(accountIndex)
+	const handleAccountChange = async (accountIndex: number) => {
+		await selectAccount(accountIndex)
 	}
 
 	return (

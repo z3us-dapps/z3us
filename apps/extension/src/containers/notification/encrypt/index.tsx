@@ -58,8 +58,8 @@ export const Encrypt = (): JSX.Element => {
 		})
 	}
 
-	const handleAccountChange = (accountIndex: number) => {
-		selectAccount(accountIndex)
+	const handleAccountChange = async (accountIndex: number) => {
+		await selectAccount(accountIndex)
 	}
 
 	return (

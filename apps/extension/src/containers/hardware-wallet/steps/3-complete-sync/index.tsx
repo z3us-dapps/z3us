@@ -11,9 +11,8 @@ import InputFeedBack from 'ui/src/components/input/input-feedback'
 export const CompleteSync = (): JSX.Element => {
 	const [, setLocation] = useLocation()
 
-	const { addresses, connectHW, setStep } = useStore(state => ({
-		addresses: state.hwPublicAddresses,
-		connectHW: state.connectHWAction,
+	const { addresses, setStep } = useStore(state => ({
+		addresses: Object.values(state.hwPublicAddresses),
 		setStep: state.setHardwareWalletStepAction,
 	}))
 
@@ -30,7 +29,6 @@ export const CompleteSync = (): JSX.Element => {
 			draft.isLoading = true
 		})
 		try {
-			await connectHW()
 			setStep(steps.SELECT_DEVICE)
 			setLocation('/wallet/account')
 		} catch (error) {

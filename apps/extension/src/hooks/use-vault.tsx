@@ -22,7 +22,7 @@ export const useVault = () => {
 				const { seed, hasKeystore } = await messanger.sendActionMessageFromPopup(GET, null)
 				setHasKeystore(hasKeystore)
 				if (seed) {
-					setMasterSeed(HDMasterSeed.fromSeed(Buffer.from(seed, 'hex')))
+					await setMasterSeed(HDMasterSeed.fromSeed(Buffer.from(seed, 'hex')))
 				}
 			} catch (error: unknown) {
 				// eslint-disable-next-line no-console

@@ -46,6 +46,7 @@ export type WalletStore = {
 	unlockWalletAction: (password: string) => Promise<void>
 	resetWalletAction: () => Promise<void>
 	lockAction: () => Promise<void>
+	// WebAuthn actions
 	hasAuthAction: () => Promise<boolean>
 	removeCredentialAction: () => Promise<void>
 	registerCredentialAction: (
@@ -60,13 +61,10 @@ export type WalletStore = {
 	account: AccountT | null
 
 	masterSeed: MasterSeed
-	setMasterSeedAction: (seed: MasterSeed) => void
+	setMasterSeedAction: (seed: MasterSeed) => Promise<void>
 	setHasKeystoreAction: (hasKeystore: boolean) => void
 
 	hardwareWallet: HardwareWalletT | null
-	setHardwareWalletAction: (hardwareWallet: HardwareWalletT) => void
-	setHWPublicAddressesAction: (addresses: string[]) => void
-	removeLastHWPublicAddressAction: () => void
 	sendAPDUAction: (
 		cla: number,
 		ins: number,
@@ -76,31 +74,36 @@ export type WalletStore = {
 		statusList?: number[],
 	) => Promise<Buffer>
 
-	publicAddresses: string[]
-	hwPublicAddresses: string[]
-	addressBook: { [key: string]: AddressBookEntry }
-	setPublicAddressesAction: (addresses: string[]) => void
-	removeLastPublicAddressAction: () => void
+	hwPublicAddresses: { [key: number]: string }
+	setHardwareWalletAction: (hardwareWallet: HardwareWalletT) => void
+	setHWPublicAddressesAction: (addresses: { [key: number]: string }) => void
+	removeHWPublicAddressAction: (index: number) => void
+
+	publicAddresses: { [key: number]: string }
+	setPublicAddressesAction: (addresses: { [key: number]: string }) => void
+	removePublicAddressAction: (index: number) => void
 	setAddressBookEntryAction: (address: string, entry: AddressBookEntry) => void
 	removeAddressBookEntryAction: (address: string) => void
+
+	addressBook: { [key: string]: AddressBookEntry }
 
 	walletUnlockTimeoutInMinutes: number
 	setWalletUnclokTimeoutInMinutesAction: (timeoutInMinutes: number) => void
 
 	selectedAccountIndex: number
-	selectAccountAction: (newIndex: number) => void
-	selectAccountForAddressAction: (address: string) => void
+	selectAccountAction: (newIndex: number) => Promise<void>
+	selectAccountForAddressAction: (address: string) => Promise<void>
 
 	networks: Network[]
 	selectedNetworkIndex: number
-	selectNetworkAction: (newIndex: number) => void
+	selectNetworkAction: (newIndex: number) => Promise<void>
 	addNetworkAction: (id: NetworkID, url: URL) => void
 
 	activeApp: Array<string | number>
 	setActiveAppAction: (activeApp: Array<string | number>) => void
 
 	activeSlideIndex: number
-	setActiveSlideIndexAction: (newIndex: number) => void
+	setActiveSlideIndexAction: (newIndex: number) => Promise<void>
 
 	accountPanelExpanded: boolean
 	setAccountPanelExpandedAction: (expanded: boolean) => void
@@ -138,13 +141,13 @@ const mainnetURL = new URL('https://mainnet.radixdlt.com')
 const stokenetURL = new URL('https://stokenet.radixdlt.com')
 
 const defaultState = {
-	messanger: null,
-	account: null,
 	hasKeystore: false,
+	account: null,
+	messanger: null,
 	masterSeed: null,
 	hardwareWallet: null,
-	hwPublicAddresses: [],
-	publicAddresses: [],
+	hwPublicAddresses: {},
+	publicAddresses: {},
 	addressBook: {},
 
 	networks: [
@@ -163,84 +166,28 @@ const defaultState = {
 	pendingActions: {},
 }
 
-export const connectHW = (state: WalletStore) => {
-	if (state.selectedAccountIndex < state.publicAddresses.length) return
-
-	const selectedAccountIndex = state.selectedAccountIndex - state.publicAddresses.length
-
+const getHWSigningKeyForIndex = async (state: WalletStore, index: number) => {
 	if (!state.hardwareWallet) {
 		state.hardwareWallet = await HardwareWalletLedger.create({ send: state.sendAPDUAction }).toPromise()
 	}
 
-	const hdPath = HDPathRadix.create({ address: { index: selectedAccountIndex, isHardened: true } })
+	const hdPath = HDPathRadix.create({ address: { index, isHardened: true } })
 	const hardwareSigningKey = await state.hardwareWallet.makeSigningKey(hdPath, false).toPromise()
 
-	const signingKey = SigningKey.fromHDPathWithHWSigningKey({ hdPath, hardwareSigningKey })
-
-	const network = state.networks[state.selectedNetworkIndex]
-	const address = AccountAddress.fromPublicKeyAndNetwork({
-		publicKey: signingKey.publicKey,
-		network: network.id,
-	})
-
-	state.account = Account.create({ address, signingKey })
-	if (state.hwPublicAddresses.length <= selectedAccountIndex) {
-		state.hwPublicAddresses = [...state.hwPublicAddresses, address.toString()]
-	} else {
-		state.hwPublicAddresses[selectedAccountIndex] = address.toString()
-	}
+	return SigningKey.fromHDPathWithHWSigningKey({ hdPath, hardwareSigningKey })
 }
 
-const setMasterSeed = (state: WalletStore, seed: MasterSeed) => {
-	state.masterSeed = seed
-
-	if (!seed) return
-
-	if (state.selectedAccountIndex >= state.publicAddresses.length) return
-
-	const key = seed
-		.masterNode()
-		.derive(HDPathRadix.create({ address: { index: state.selectedAccountIndex, isHardened: true } }))
+const getSigningKeyForIndex = async (state: WalletStore, index: number) => {
+	const key = state.masterSeed.masterNode().derive(HDPathRadix.create({ address: { index, isHardened: true } }))
 
 	const pk = PrivateKey.fromHex(key.privateKey.toString())
 	if (pk.isErr()) {
 		throw pk.error
 	}
 
-	const signingKey = SigningKey.fromPrivateKey({
+	return SigningKey.fromPrivateKey({
 		privateKey: pk.value,
 	})
-
-	const address = AccountAddress.fromPublicKeyAndNetwork({
-		publicKey: key.publicKey,
-		network: state.networks[state.selectedNetworkIndex].id,
-	})
-
-	state.account = Account.create({ address, signingKey })
-	if (state.publicAddresses.length <= state.selectedAccountIndex) {
-		state.publicAddresses = [...state.publicAddresses, address.toString()]
-	} else {
-		state.publicAddresses[state.selectedAccountIndex] = address.toString()
-	}
-}
-
-const selectAccount = (state: WalletStore, newIndex: number) => {
-	state.selectedAccountIndex = newIndex
-	state.activeSlideIndex = newIndex
-	setMasterSeed(state, state.masterSeed)
-	connectHW(state)
-}
-
-const selectNetwork = (state: WalletStore, newIndex: number) => {
-	for (let i = 0; i < state.publicAddresses.length + state.hwPublicAddresses.length; i += 1) {
-		state.selectedNetworkIndex = i
-		setMasterSeed(state, state.masterSeed)
-		connectHW(state)
-	}
-
-	state.selectedNetworkIndex = newIndex
-	setMasterSeed(state, state.masterSeed)
-	connectHW(state)
 }
 
 export const createWalletStore = (set, get) => ({
@@ -368,10 +315,12 @@ export const createWalletStore = (set, get) => ({
 			words,
 			password,
 		})
-		set(state => {
-			state.hasKeystore = hasKeystore
-			setMasterSeed(state, HDMasterSeed.fromSeed(Buffer.from(seed, 'hex')))
+		set(draft => {
+			draft.hasKeystore = hasKeystore
+			draft.masterSeed = HDMasterSeed.fromSeed(Buffer.from(seed, 'hex'))
 		})
+		const { selectAccountAction, selectedAccountIndex } = get()
+		return selectAccountAction(selectedAccountIndex)
 	},
 
 	unlockWalletAction: async (password: string) => {
@@ -381,10 +330,12 @@ export const createWalletStore = (set, get) => ({
 		}
 		const { seed, hasKeystore } = await messanger.sendActionMessageFromPopup(UNLOCK, password)
 
-		set(state => {
-			state.hasKeystore = hasKeystore
-			setMasterSeed(state, HDMasterSeed.fromSeed(Buffer.from(seed, 'hex')))
+		set(draft => {
+			draft.hasKeystore = hasKeystore
+			draft.masterSeed = HDMasterSeed.fromSeed(Buffer.from(seed, 'hex'))
 		})
+		const { selectAccountAction, selectedAccountIndex } = get()
+		return selectAccountAction(selectedAccountIndex)
 	},
 
 	resetWalletAction: async () => {
@@ -413,8 +364,12 @@ export const createWalletStore = (set, get) => ({
 		})
 	},
 
-	setMasterSeedAction: (seed: MasterSeed) => {
-		set(state => setMasterSeed(state, seed))
+	setMasterSeedAction: async (seed: MasterSeed) => {
+		set(draft => {
+			draft.masterSeed = seed
+		})
+		const { selectAccountAction, selectedAccountIndex } = get()
+		return selectAccountAction(selectedAccountIndex)
 	},
 
 	setHasKeystoreAction: (hasKeystore: boolean) => {
@@ -434,18 +389,6 @@ export const createWalletStore = (set, get) => ({
 			state.hardwareWallet = hardwareWallet
 		}),
 
-	connectHWAction: () =>
-		new Promise<void>((resolve, reject) => {
-			set(async state => {
-				try {
-					await connectHW(state)
-					resolve()
-				} catch (error) {
-					reject(error)
-				}
-			})
-		}),
-
 	sendAPDUAction: async (cla: number, ins: number, p1: number, p2: number, data?: Buffer, statusList?: number[]) => {
 		const devices = await TransportNodeHid.list()
 		if (devices.length === 0) {
@@ -462,31 +405,45 @@ export const createWalletStore = (set, get) => ({
 		}
 	},
 
-	setHWPublicAddressesAction: (addresses: string[]) => {
+	setHWPublicAddressesAction: (addresses: { [key: number]: string }) => {
 		set(state => {
 			state.hwPublicAddresses = addresses
 		})
 	},
 
-	removeLastHWPublicAddressAction: () => {
+	removeHWPublicAddressAction: (index: number) => {
 		set(state => {
-			if (state.hwPublicAddresses.length > 1) {
-				state.hwPublicAddresses = state.hwPublicAddresses.slice(0, -1)
+			const { hwPublicAddresses } = state
+
+			const address = hwPublicAddresses[index]
+			if (address) {
+				delete state.addressBook[address]
+				state.addressBook = { ...state.addressBook }
 			}
+
+			delete hwPublicAddresses[index]
+			state.hwPublicAddresses = { ...hwPublicAddresses }
 		})
 	},
 
-	setPublicAddressesAction: (addresses: string[]) => {
+	setPublicAddressesAction: (addresses: { [key: number]: string }) => {
 		set(state => {
 			state.publicAddresses = addresses
 		})
 	},
 
-	removeLastPublicAddressAction: () => {
+	removePublicAddressAction: (index: number) => {
 		set(state => {
-			if (state.publicAddresses.length > 1) {
-				state.publicAddresses = state.publicAddresses.slice(0, -1)
+			const { publicAddresses } = state
+
+			const address = publicAddresses[index]
+			if (address) {
+				delete state.addressBook[address]
+				state.addressBook = { ...state.addressBook }
 			}
+
+			delete publicAddresses[index]
+			state.publicAddresses = { ...publicAddresses }
 		})
 	},
 
@@ -503,29 +460,114 @@ export const createWalletStore = (set, get) => ({
 		})
 	},
 
-	selectNetworkAction: (newIndex: number) => {
-		set(state => selectNetwork(state, newIndex))
-	},
-
-	selectAccountAction: (newIndex: number) => {
-		set(state => selectAccount(state, newIndex))
-	},
-
-	selectAccountForAddressAction: (address: string) => {
-		set(state => {
-			for (let i = 0; i < state.publicAddresses.length; i += 1) {
-				if (state.publicAddresses[i] === address) {
-					selectAccount(state, i)
-					return
-				}
-			}
-			for (let i = 0; i < state.hwPublicAddresses.length; i += 1) {
-				if (state.hwPublicAddresses[i] === address) {
-					selectAccount(state, i)
-					return
-				}
-			}
+	selectNetworkAction: async (newIndex: number) => {
+		set(draft => {
+			draft.selectedNetworkIndex = newIndex
 		})
+
+		const state = get()
+		const network = state.networks[state.selectedNetworkIndex]
+
+		const publicIndexes = Object.keys(state.publicAddresses)
+		for (let i = 0; i < publicIndexes.length; i += 1) {
+			// eslint-disable-next-line no-await-in-loop
+			const signingKey = await getSigningKeyForIndex(state, +publicIndexes[i])
+			const address = AccountAddress.fromPublicKeyAndNetwork({
+				publicKey: signingKey.publicKey,
+				network: network.id,
+			})
+
+			set(draft => {
+				draft.publicAddresses[publicIndexes[i]] = address.toString()
+			})
+
+			if (state.selectedAccountIndex === i) {
+				set(draft => {
+					draft.account = Account.create({ address, signingKey })
+				})
+			}
+		}
+
+		const hwIndexes = Object.keys(state.hwPublicAddresses)
+		for (let i = 0; i < hwIndexes.length; i += 1) {
+			// eslint-disable-next-line no-await-in-loop
+			const signingKey = await getHWSigningKeyForIndex(state, +hwIndexes[i])
+			const address = AccountAddress.fromPublicKeyAndNetwork({
+				publicKey: signingKey.publicKey,
+				network: network.id,
+			})
+
+			set(draft => {
+				draft.hwPublicAddresses[hwIndexes[i]] = address.toString()
+			})
+
+			if (state.selectedAccountIndex === i + publicIndexes.length) {
+				set(draft => {
+					draft.account = Account.create({ address, signingKey })
+				})
+			}
+		}
+	},
+
+	selectAccountAction: async (newIndex: number) => {
+		set(draft => {
+			draft.selectedAccountIndex = newIndex
+			draft.activeSlideIndex = newIndex
+		})
+
+		const state = get()
+		const network = state.networks[state.selectedNetworkIndex]
+
+		const publicIndexes = Object.keys(state.publicAddresses)
+		const hwIndexes = Object.keys(state.hwPublicAddresses)
+
+		if (newIndex < publicIndexes.length) {
+			const signingKey = await getSigningKeyForIndex(state, +publicIndexes[newIndex])
+			const address = AccountAddress.fromPublicKeyAndNetwork({
+				publicKey: signingKey.publicKey,
+				network: network.id,
+			})
+
+			set(draft => {
+				draft.publicAddresses[publicIndexes[newIndex]] = address.toString()
+				draft.account = Account.create({ address, signingKey })
+			})
+		} else {
+			const signingKey = await getHWSigningKeyForIndex(state, +hwIndexes[newIndex + publicIndexes.length])
+			const address = AccountAddress.fromPublicKeyAndNetwork({
+				publicKey: signingKey.publicKey,
+				network: network.id,
+			})
+
+			set(draft => {
+				draft.hwPublicAddresses[hwIndexes[newIndex + publicIndexes.length]] = address.toString()
+				draft.account = Account.create({ address, signingKey })
+			})
+		}
+	},
+
+	selectAccountForAddressAction: async (address: string) => {
+		let selectedAccount = null
+		const { selectAccountAction, publicAddresses, hwPublicAddresses } = get()
+
+		const publicIndexes = Object.keys(publicAddresses)
+		for (let i = 0; i < publicIndexes.length; i += 1) {
+			if (publicAddresses[publicIndexes[i]] === address) {
+				selectedAccount = i
+				break
+			}
+		}
+		if (!selectedAccount) {
+			const hwIndexes = Object.keys(hwPublicAddresses)
+			for (let i = 0; i < hwIndexes.length; i += 1) {
+				if (hwPublicAddresses[hwIndexes[i]] === address) {
+					selectedAccount = i
+					break
+				}
+			}
+		}
+
+		return selectAccountAction(selectedAccount)
 	},
 
 	addNetworkAction: (id: NetworkID, url: URL) => {
@@ -554,19 +596,30 @@ export const createWalletStore = (set, get) => ({
 		})
 	},
 
-	setActiveSlideIndexAction: (newIndex: number) => {
-		set(state => {
-			if (state.publicAddresses.length > 0) {
-				newIndex = Math.min(state.publicAddresses.length, newIndex)
-			} else if (newIndex > 1) {
-				newIndex = 1
-			}
+	setActiveSlideIndexAction: async (newIndex: number) => {
+		const { publicAddresses, hwPublicAddresses } = get()
+		const publicIndexes = Object.keys(publicAddresses)
+		const hwIndexes = Object.keys(hwPublicAddresses)
 
-			state.activeSlideIndex = newIndex
-			if (newIndex < state.publicAddresses.length + state.hwPublicAddresses.length && newIndex >= 0) {
-				selectAccount(state, newIndex)
-			}
+		const maxIndex = publicIndexes.length + hwIndexes.length
+
+		if (maxIndex > 0) {
+			newIndex = Math.min(maxIndex, newIndex)
+		} else if (newIndex > 1) {
+			newIndex = 1
+		}
+
+		set(draft => {
+			draft.activeSlideIndex = newIndex
 		})
+
+		const { selectAccountAction } = get()
+
+		if (newIndex < maxIndex && newIndex >= 0) {
+			return selectAccountAction(newIndex)
+		}
+
+		return undefined
 	},
 
 	approveWebsiteAction: (host: string) => {

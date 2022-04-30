@@ -22,13 +22,15 @@ import {
 import { AccountModal } from './account-modal'
 
 export const Accounts: React.FC = () => {
-	const { addresses, addressBook, setAddressBookEntry, removeLastPublicAddress, addToast } = useStore(state => ({
-		addresses: [...state.publicAddresses, ...state.hwPublicAddresses],
-		addressBook: state.addressBook,
-		setAddressBookEntry: state.setAddressBookEntryAction,
-		removeLastPublicAddress: state.removeLastPublicAddressAction,
-		addToast: state.addToastAction,
-	}))
+	const { addresses, addressBook, setAddressBookEntry, removePublicAddress, removeHWPublicAddress, addToast } =
+		useStore(state => ({
+			addresses: Object.values({ ...state.publicAddresses, ...state.hwPublicAddresses }),
+			addressBook: state.addressBook,
+			setAddressBookEntry: state.setAddressBookEntryAction,
+			removePublicAddress: state.removePublicAddressAction,
+			removeHWPublicAddress: state.removeHWPublicAddressAction,
+			addToast: state.addToastAction,
+		}))
 	const [state, setState] = useImmer({
 		editing: '',
 		tempEdit: '',
@@ -62,8 +64,10 @@ export const Accounts: React.FC = () => {
 		})
 	}
 
-	const handleRemoveLastAccount = () => {
-		removeLastPublicAddress()
+	const handleRemoveAccount = (idx: number) => {
+		removePublicAddress(idx)
+		removeHWPublicAddress(idx)
+
 		setState(draft => {
 			draft.isRemoveAccountDialogOpen = false
 		})
@@ -98,7 +102,6 @@ export const Accounts: React.FC = () => {
 			<Box>
 				{addresses.map((address, idx) => {
 					const isEditing = address === state.editing
-					const isLastAddress = addresses.length - 1 === idx
 					return (
 						<Flex key={address} align="center" css={{ flex: '1', position: 'relative' }}>
 							<Flex align="center" css={{ flex: '1', height: '$9' }}>
@@ -172,52 +175,44 @@ export const Accounts: React.FC = () => {
 												<Box>
 													<Tooltip>
 														<TooltipTrigger asChild>
-															<Button
-																disabled={!isLastAddress}
-																size="1"
-																color="ghost"
-																iconOnly
-																onClick={handleOpenDialog}
-															>
+															<Button size="1" color="ghost" iconOnly onClick={handleOpenDialog}>
 																<TrashIcon />
 															</Button>
 														</TooltipTrigger>
 														<TooltipContent sideOffset={5}>
 															<TooltipArrow offset={6} />
-															{isLastAddress ? 'Remove account' : 'Can only remove the last account'}
+															Remove account
 														</TooltipContent>
 													</Tooltip>
 												</Box>
 											</AlertDialogTrigger>
-											{isLastAddress && (
-												<AlertDialogContent>
-													<Box css={{ p: '$1' }}>
-														<AlertDialogTitle>
-															<Text medium size="5">
-																Remove account?
-															</Text>
-														</AlertDialogTitle>
-														<AlertDialogDescription>
-															<Text size="3">
-																Are you sure you want to remove this account from the wallet? You can restore it later
-																by adding more accounts.
-															</Text>
-														</AlertDialogDescription>
-														<Flex css={{ mt: '$2' }} justify="end" gap={2}>
-															<AlertDialogAction asChild>
-																<Button size="2" color="red" onClick={() => handleRemoveLastAccount()}>
-																	Remove
-																</Button>
-															</AlertDialogAction>
-															<AlertDialogCancel asChild>
-																<Button size="2" color="tertiary" onClick={handleCloseDialog}>
-																	Cancel
-																</Button>
-															</AlertDialogCancel>
-														</Flex>
-													</Box>
-												</AlertDialogContent>
-											)}
+											<AlertDialogContent>
+												<Box css={{ p: '$1' }}>
+													<AlertDialogTitle>
+														<Text medium size="5">
+															Remove account?
+														</Text>
+													</AlertDialogTitle>
+													<AlertDialogDescription>
+														<Text size="3">
+															Are you sure you want to remove this account from the wallet? You can restore it later by
+															adding more accounts.
+														</Text>
+													</AlertDialogDescription>
+													<Flex css={{ mt: '$2' }} justify="end" gap={2}>
+														<AlertDialogAction asChild>
+															<Button size="2" color="red" onClick={() => handleRemoveAccount(idx)}>
+																Remove
+															</Button>
+														</AlertDialogAction>
+														<AlertDialogCancel asChild>
+															<Button size="2" color="tertiary" onClick={handleCloseDialog}>
+																Cancel
+															</Button>
+														</AlertDialogCancel>
+													</Flex>
+												</Box>
+											</AlertDialogContent>
 										</AlertDialog>
 									</>
 								)}

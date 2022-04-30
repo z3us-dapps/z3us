@@ -36,7 +36,7 @@ export const LockedPanel: React.FC = () => {
 		})
 
 		try {
-			setActiveAccount(0)
+			await setActiveAccount(0)
 			await unlockWalletAction(password)
 		} catch (error) {
 			if (state.passwordError) {

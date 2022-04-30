@@ -126,8 +126,8 @@ export const SendToken: React.FC = () => {
 		})
 	}
 
-	const handleAccountChange = (accountIndex: number) => {
-		selectAccount(accountIndex)
+	const handleAccountChange = async (accountIndex: number) => {
+		await selectAccount(accountIndex)
 		setState(draft => {
 			draft.rri = ''
 			draft.amount = ''

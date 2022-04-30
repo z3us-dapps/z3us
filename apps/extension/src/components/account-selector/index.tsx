@@ -34,7 +34,7 @@ export const AccountSelector: React.FC<IProps> = ({
 }: IProps) => {
 	const { accounts, addressBook } = useStore(state => ({
 		addressBook: state.addressBook,
-		accounts: [...state.publicAddresses, ...state.hwPublicAddresses].map((addr, index) => ({
+		accounts: Object.values({ ...state.publicAddresses, ...state.hwPublicAddresses }).map((addr, index) => ({
 			index,
 			addr,
 			shortAddress: getShortAddress(addr),
