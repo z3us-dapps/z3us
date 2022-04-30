@@ -1,4 +1,5 @@
-import React from 'react'
+import React, { useEffect } from 'react'
+import { useImmer } from 'use-immer'
 import { useAccountValue } from '@src/services/react-query/queries/account'
 import { Flex, Box, Text } from 'ui/src/components/atoms'
 import Button from 'ui/src/components/button'
@@ -19,17 +20,33 @@ type IProps = {
 }
 
 export const AccountInfo = ({ address }: IProps): JSX.Element => {
-	const { addressBook } = useStore(state => ({
+	const { addressBook, activeSlideIndex } = useStore(state => ({
 		addressBook: state.addressBook,
+		activeSlideIndex: state.activeSlideIndex,
 	}))
+	const [state, setState] = useImmer({
+		accountValue: '',
+	})
 	const entry = addressBook[address]
 	const color = entry?.colorSettings?.[ColorSettings.COLOR_TEXT] || '#330867'
 
 	const { isLoading, value, change } = useAccountValue()
-	const accountValue = formatBigNumber(value, 'USD', 2)
+	//const accountValue = formatBigNumber(value, 'USD', 2)
 	const accountPercentageChange = !value.isEqualTo(0)
 		? `${change.isGreaterThan(0) ? '+' : ''}${change.div(value).multipliedBy(100).toFixed(2).toLocaleString()}%`
 		: '0.00%'
+
+	useEffect(() => {
+		// NOTE: set to this value, to force the ticker animation
+		setState(draft => {
+			draft.accountValue = '$4.44'
+		})
+		setTimeout(() => {
+			setState(draft => {
+				draft.accountValue = formatBigNumber(value, 'USD', 2)
+			})
+		}, 200)
+	}, [activeSlideIndex])
 
 	return (
 		<Flex
@@ -97,7 +114,7 @@ export const AccountInfo = ({ address }: IProps): JSX.Element => {
 							transition: '$default',
 						}}
 					>
-						<PriceTicker value={accountValue} />
+						<PriceTicker value={state.accountValue} refresh={activeSlideIndex} />
 					</Text>
 					<Box
 						css={{
@@ -121,7 +138,7 @@ export const AccountInfo = ({ address }: IProps): JSX.Element => {
 					}}
 				>
 					<Text size="2" bold>
-						<PriceTicker value={accountPercentageChange} />
+						<PriceTicker value={accountPercentageChange} refresh={activeSlideIndex} />
 					</Text>
 				</PriceLabel>
 			</Flex>

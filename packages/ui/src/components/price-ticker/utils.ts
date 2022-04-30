@@ -9,13 +9,4 @@ function warnNonProduction(message: string) {
 	}
 }
 
-function getMoneyString(numericValue: number): string {
-	return numericValue.toLocaleString('en-US', {
-		style: 'currency',
-		currency: 'USD',
-		minimumFractionDigits: 2,
-		maximumFractionDigits: 2,
-	})
-}
-
-export { domExists, warnNonProduction, getMoneyString }
+export { domExists, warnNonProduction }

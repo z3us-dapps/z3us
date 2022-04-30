@@ -5,7 +5,7 @@ import { CSS } from '../../theme'
 import withDefaults from '../../utils/with-defaults'
 import { __DEV__ } from '../../utils/assertion'
 import Rollup from './rollup'
-import { domExists, warnNonProduction, getMoneyString } from './utils'
+import { domExists, warnNonProduction } from './utils'
 import { StyledPriceWrapper, PriceTickerVariantsProps } from './price-ticker.styles'
 
 export interface Props {
@@ -16,6 +16,7 @@ export interface Props {
 	dictionary?: string[]
 	constantKeys?: string[]
 	colors?: string[]
+	refresh?: any
 }
 
 const defaultProps = {
@@ -23,6 +24,7 @@ const defaultProps = {
 	speed: 500,
 	constantKeys: ['-', '$', '.', '%'],
 	direction: 'up',
+	refresh: undefined,
 }
 
 type NativeAttrs = Omit<React.HTMLAttributes<unknown>, keyof Props>
@@ -31,7 +33,18 @@ export type PriceTickerProps = Props & NativeAttrs & PriceTickerVariantsProps & 
 
 const PriceTicker = React.forwardRef<HTMLDivElement, React.PropsWithChildren<PriceTickerProps>>(
 	(props, ref: React.Ref<HTMLDivElement | null>) => {
-		const { as, value: valueFromProps, direction, speed, constantKeys, dictionary, colors, css, ...rest } = props
+		const {
+			as,
+			value: valueFromProps,
+			direction,
+			speed,
+			constantKeys,
+			dictionary,
+			colors,
+			refresh,
+			css,
+			...rest
+		} = props
 		const wrapperRef = useRef<HTMLDivElement>(null)
 		useImperativeHandle(ref, () => wrapperRef.current)
 
@@ -75,7 +88,7 @@ const PriceTicker = React.forwardRef<HTMLDivElement, React.PropsWithChildren<Pri
 					return width
 				}),
 			)
-		}, [valueFromProps])
+		}, [valueFromProps, refresh])
 
 		useEffect(() => {
 			if (initialRender.current && currentWidths.length) {
