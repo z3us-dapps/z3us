@@ -549,17 +549,17 @@ export const createWalletStore = (set, get) => ({
 			}
 		}
 	},
-
 	selectAccountAction: async (newIndex: number) => {
 		set(draft => {
 			draft.selectedAccountIndex = newIndex
 			draft.activeSlideIndex = newIndex
 		})
 
-		let state = get()
+		const state = get()
 		const network = state.networks[state.selectedNetworkIndex]
-
+		const hwIndexes = Object.keys(state.hwPublicAddresses)
 		const publicIndexes = Object.keys(state.publicAddresses)
+
 		if (newIndex < publicIndexes.length) {
 			const signingKey = await getSigningKeyForIndex(state, +publicIndexes[newIndex])
 			if (signingKey) {
@@ -573,20 +573,7 @@ export const createWalletStore = (set, get) => ({
 					draft.account = Account.create({ address, signingKey })
 				})
 			}
-		} else {
-			const hwIndexes = Object.keys(state.hwPublicAddresses)
-			if (hwIndexes.length > 0 && !state.hardwareWallet) {
-				try {
-					const hw = await HardwareWalletLedger.create({ send: state.sendAPDUAction }).toPromise()
-					set(draft => {
-						draft.hardwareWallet = hw
-					})
-					state = get()
-				} catch (error) {
-					console.error(error)
-					return
-				}
-			}
+		} else if (newIndex < publicIndexes.length + hwIndexes.length) {
 			const signingKey = await getHWSigningKeyForIndex(state, +hwIndexes[newIndex - publicIndexes.length])
 			if (signingKey) {
 				const address = AccountAddress.fromPublicKeyAndNetwork({
@@ -596,6 +583,20 @@ export const createWalletStore = (set, get) => ({
 
 				set(draft => {
 					draft.hwPublicAddresses[hwIndexes[newIndex - publicIndexes.length]] = address.toString()
+					draft.account = Account.create({ address, signingKey })
+				})
+			}
+		} else {
+			const index = publicIndexes.length > 0 ? +publicIndexes[publicIndexes.length - 1] + 1 : 0
+			const signingKey = await getSigningKeyForIndex(state, index)
+			if (signingKey) {
+				const address = AccountAddress.fromPublicKeyAndNetwork({
+					publicKey: signingKey.publicKey,
+					network: network.id,
+				})
+
+				set(draft => {
+					draft.publicAddresses[publicIndexes[publicIndexes.length]] = address.toString()
 					draft.account = Account.create({ address, signingKey })
 				})
 			}
