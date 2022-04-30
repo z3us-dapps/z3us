@@ -32,6 +32,7 @@ const PRESET_COLOR_MINDARO = 'preset_color_mindaro'
 const PRESET_COLOR_CERISE = 'preset_color_cerise'
 const PRESET_COLOR_JACARTA = 'preset_color_jacarta'
 const PRESET_COLOR_CORNFLOW_BLUE = 'preset_color_cornflower_blue'
+const PRESET_COLOR_MARTINIQUE = 'preset_color_martinique'
 
 const presetMap = {
 	[PRESET_COLOR_LIGHT_ORCHID]: {
@@ -72,6 +73,14 @@ const presetMap = {
 		[ColorSettings.COLOR_SECONDARY]: '#f2cacd',
 		[ColorSettings.COLOR_SECONDARY_STOP]: '100',
 		[ColorSettings.COLOR_TEXT]: '#ffe9ff',
+		[ColorSettings.GRADIENT_TYPE]: 'radial',
+	},
+	[PRESET_COLOR_MARTINIQUE]: {
+		[ColorSettings.COLOR_PRIMARY]: '#282c4e',
+		[ColorSettings.COLOR_PRIMARY_STOP]: '50',
+		[ColorSettings.COLOR_SECONDARY]: '#04211e',
+		[ColorSettings.COLOR_SECONDARY_STOP]: '150',
+		[ColorSettings.COLOR_TEXT]: '#defffb',
 		[ColorSettings.GRADIENT_TYPE]: 'radial',
 	},
 }
