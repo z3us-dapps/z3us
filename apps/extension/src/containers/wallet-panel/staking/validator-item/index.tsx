@@ -141,7 +141,7 @@ export const ValidatorItem = ({ i, validator, totalStakes, style }: IProps): JSX
 													Share
 												</Text>
 												<Flex justify="end" css={{ flex: '1' }}>
-													<Text size="2" color="muted">
+													<Text size="2" color={isExternalStakeAccepted ? backgroundColor || 'muted' : 'muted'}>
 														{validatorFee}%
 													</Text>
 												</Flex>
