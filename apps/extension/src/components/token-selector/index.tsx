@@ -2,18 +2,13 @@ import React from 'react'
 import { RightArrowIcon } from 'ui/src/components/icons'
 import { ChevronDownIcon } from '@radix-ui/react-icons'
 import {
-	Select,
-	SelectTrigger,
-	SelectValue,
-	SelectContent,
-	SelectViewport,
-	SelectGroup,
-	SelectItem,
-	SelectItemText,
-	SelectItemIndicator,
-	SelectScrollUpButton,
-	SelectScrollDownButton,
-} from 'ui/src/components/select'
+	DropdownMenu,
+	DropdownMenuTrigger,
+	DropdownMenuContent,
+	DropdownMenuRadioGroup,
+	DropdownMenuRadioItem,
+	DropdownMenuItemIndicator,
+} from 'ui/src/components/drop-down-menu'
 import { CircleAvatar } from '@src/components/circle-avatar'
 import { Box, Text, Flex } from 'ui/src/components/atoms'
 import Button from 'ui/src/components/button'
@@ -36,9 +31,12 @@ export const TokenSelector: React.FC<IProps> = ({ triggerType, token, tokens, on
 		onTokenChange(rri)
 	}
 
+	const menuAlign = triggerType === 'input' ? 'end' : 'start'
+	const menuWidth = triggerType === 'input' ? '120px' : '314px'
+
 	return (
-		<Select defaultValue={token.rri} onValueChange={handleValueChange}>
-			<SelectTrigger aria-label="Token selector" asChild>
+		<DropdownMenu>
+			<DropdownMenuTrigger asChild>
 				{(() => {
 					switch (triggerType) {
 						case 'input':
@@ -68,10 +66,12 @@ export const TokenSelector: React.FC<IProps> = ({ triggerType, token, tokens, on
 												fallbackText={token?.symbol}
 											/>
 										</Box>
-										<Text size="4" uppercase css={{ pr: '$1', fontWeight: '600' }}>
-											<SelectValue />
+										<Text truncate size="4" uppercase css={{ pr: '$1', fontWeight: '600', maxWidth: '60px' }}>
+											{parseResourceIdentifier(token.rri).name}
 										</Text>
-										<ChevronDownIcon />
+										<Box css={{ flexShrink: '0' }}>
+											<ChevronDownIcon />
+										</Box>
 									</Flex>
 								</Button>
 							)
@@ -94,47 +94,48 @@ export const TokenSelector: React.FC<IProps> = ({ triggerType, token, tokens, on
 										},
 									}}
 								>
-									<SelectValue>
-										<Text />
-									</SelectValue>
 									<Box css={{ p: '8px' }}>
 										<CircleAvatar image={token?.image || token?.iconURL} />
 									</Box>
 									<Box css={{ flex: '1' }}>
 										<Flex css={{ mt: '2px' }}>
 											<Text css={{ fontSize: '14px', lineHeight: '17px', fontWeight: '500' }}>Token:</Text>
-											<Text uppercase css={{ fontSize: '14px', lineHeight: '17px', fontWeight: '500', ml: '4px' }}>
+											<Text
+												truncate
+												uppercase
+												css={{ fontSize: '14px', lineHeight: '17px', fontWeight: '500', ml: '4px', maxWidth: '200px' }}
+											>
 												{parseResourceIdentifier(token.rri).name}
 											</Text>
 										</Flex>
 									</Box>
-									<Box css={{ pr: '$1' }}>
+									<Box css={{ pr: '$1', flexShrink: '0' }}>
 										<RightArrowIcon />
 									</Box>
 								</Button>
 							)
 					}
 				})()}
-			</SelectTrigger>
-			<SelectContent>
-				<SelectScrollUpButton>{'>'}</SelectScrollUpButton>
-				<SelectViewport>
-					<SelectGroup>
-						{tokens.map(_token => (
-							<SelectItem key={_token} value={_token}>
-								<SelectItemText>
-									<Text bold uppercase>
-										{parseResourceIdentifier(_token).name}
-									</Text>
-								</SelectItemText>
-								<SelectItemIndicator />
-							</SelectItem>
-						))}
-					</SelectGroup>
-				</SelectViewport>
-				<SelectScrollDownButton>{'>'}</SelectScrollDownButton>
-			</SelectContent>
-		</Select>
+			</DropdownMenuTrigger>
+			<DropdownMenuContent
+				avoidCollisions={false}
+				align={menuAlign}
+				side="bottom"
+				sideOffset={10}
+				css={{ minWidth: menuWidth }}
+			>
+				<DropdownMenuRadioGroup value={token.rri} onValueChange={handleValueChange}>
+					{tokens.map(_token => (
+						<DropdownMenuRadioItem key={_token} value={_token}>
+							<DropdownMenuItemIndicator />
+							<Text size="2" bold truncate css={{ maxWidth: '274px' }}>
+								{parseResourceIdentifier(_token).name}
+							</Text>
+						</DropdownMenuRadioItem>
+					))}
+				</DropdownMenuRadioGroup>
+			</DropdownMenuContent>
+		</DropdownMenu>
 	)
 }
 
