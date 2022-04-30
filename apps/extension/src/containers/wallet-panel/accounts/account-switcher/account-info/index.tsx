@@ -128,6 +128,7 @@ export const AccountInfo = ({ address }: IProps): JSX.Element => {
 			<Tooltip>
 				<TooltipTrigger asChild>
 					<Button
+						iconOnly
 						size="3"
 						color="ghost"
 						css={{ zIndex: 2, position: 'absolute', bottom: '$1', right: '$1', color, fill: color }}
