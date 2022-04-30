@@ -1,6 +1,7 @@
 import React from 'react'
 import { useStore } from '@src/store'
 import { useImmer } from 'use-immer'
+import { useEventListener } from 'usehooks-ts'
 import { onBoardingSteps } from '@src/store/onboarding'
 import Input from 'ui/src/components/input'
 import InputFeedBack from 'ui/src/components/input/input-feedback'
@@ -36,8 +37,7 @@ export const InsertPhrase = (): JSX.Element => {
 		})
 	}
 
-	const handleContinue = async (e: React.ChangeEvent<HTMLFormElement>) => {
-		e.preventDefault()
+	const handleContinue = async () => {
 		if (isButtonDisabled) return
 		if (state.words.length > 0) {
 			const mnemomicRes = await Mnemonic.fromEnglishWords(state.words)
@@ -55,13 +55,24 @@ export const InsertPhrase = (): JSX.Element => {
 		setOnboardingStep(onBoardingSteps.IMPORT_ACCOUNTS)
 	}
 
+	const handleFormSubmit = async (e: React.ChangeEvent<HTMLFormElement>) => {
+		e.preventDefault()
+		await handleContinue()
+	}
+
+	useEventListener('keypress', async e => {
+		if (e.code === 'Enter') {
+			await handleContinue()
+		}
+	})
+
 	return (
 		<PageWrapper css={{ flex: '1', position: 'relative', display: 'flex', flexDirection: 'column' }}>
 			<Box>
 				<PageHeading>Secret phrase</PageHeading>
 				<PageSubHeading>Restore an existing wallet with your secret recovery phrase.</PageSubHeading>
 			</Box>
-			<form onSubmit={handleContinue} style={{ flex: '1', display: 'flex', flexDirection: 'column' }}>
+			<form onSubmit={handleFormSubmit} style={{ flex: '1', display: 'flex', flexDirection: 'column' }}>
 				<Box css={{ mt: '$6', flex: '1' }}>
 					<Input
 						as="textarea"

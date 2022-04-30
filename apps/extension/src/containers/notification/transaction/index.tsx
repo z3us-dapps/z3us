@@ -18,8 +18,9 @@ import { ActivityType } from '@src/components/activity-type'
 export const Transaction = (): JSX.Element => {
 	const [, { id }] = useRoute<{ id: string }>('/transaction/:id')
 
-	const { account, sendResponse, network, action, selectAccountForAddress } = useStore(state => ({
+	const { account, accountAddress, sendResponse, network, action, selectAccountForAddress } = useStore(state => ({
 		account: state.account,
+		accountAddress: state.getCurrentAddressAction(),
 		sendResponse: state.sendResponseAction,
 		selectAccountForAddress: state.selectAccountForAddressAction,
 		network: state.networks[state.selectedNetworkIndex],
@@ -29,10 +30,8 @@ export const Transaction = (): JSX.Element => {
 				: {},
 	}))
 
-	const accountAddress = account.address.toString()
-
 	const [state, setState] = useImmer({
-		shortAddress: getShortAddress(account?.address?.toString()),
+		shortAddress: getShortAddress(accountAddress),
 		fee: null,
 		transaction: null,
 		errorMessage: '',
@@ -48,12 +47,12 @@ export const Transaction = (): JSX.Element => {
 	}, [fromAddress])
 
 	useEffect(() => {
-		if (account?.address) {
+		if (accountAddress) {
 			setState(draft => {
-				draft.shortAddress = getShortAddress(account?.address?.toString())
+				draft.shortAddress = getShortAddress(accountAddress)
 			})
 		}
-	}, [account])
+	}, [accountAddress])
 
 	useEffect(() => {
 		if (tx && account?.address.toString() === fromAddress) {
@@ -158,18 +157,17 @@ export const Transaction = (): JSX.Element => {
 											<Flex css={{ position: 'relative', pb: '15px' }}>
 												<Text css={{ flex: '1' }}>From account:</Text>
 												<Text>{getShortAddress(toAccount)}</Text>
-											</Flex>)}
+											</Flex>
+										)}
 										{fromAccount && (
 											<Flex css={{ position: 'relative', pb: '15px' }}>
 												<Text css={{ flex: '1' }}>To account:</Text>
 												<Text>{getShortAddress(fromAccount)}</Text>
-											</Flex>)}
+											</Flex>
+										)}
 										{state.fee && (
 											<Flex css={{ position: 'relative', pb: '15px' }}>
-												<SlippageBox
-													css={{ border: 'none' }}
-													fee={new BigNumber(state.fee).shiftedBy(-18)}
-												/>
+												<SlippageBox css={{ border: 'none' }} fee={new BigNumber(state.fee).shiftedBy(-18)} />
 											</Flex>
 										)}
 									</Box>

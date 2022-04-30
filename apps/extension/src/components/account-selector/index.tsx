@@ -34,11 +34,13 @@ export const AccountSelector: React.FC<IProps> = ({
 }: IProps) => {
 	const { accounts, addressBook } = useStore(state => ({
 		addressBook: state.addressBook,
-		accounts: Object.values({ ...state.publicAddresses, ...state.hwPublicAddresses }).map((addr, index) => ({
-			index,
-			addr,
-			shortAddress: getShortAddress(addr),
-		})),
+		accounts: [...Object.values(state.publicAddresses), ...Object.values(state.hwPublicAddresses)].map(
+			(addr, index) => ({
+				index,
+				addr,
+				shortAddress: getShortAddress(addr),
+			}),
+		),
 	}))
 	const [selected, setSelected] = useState(accounts.find(_account => _account.shortAddress === shortAddress).addr)
 

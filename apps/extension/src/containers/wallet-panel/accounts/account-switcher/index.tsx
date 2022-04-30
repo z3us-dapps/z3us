@@ -13,11 +13,12 @@ const LEFT_OFFSET = 26 - SLIDER_WIDTH
 
 export const AccountSwitcher = (): JSX.Element => {
 	const { addresses, activeSlideIndex, selectAccount, setActiveSlide } = useStore(state => ({
-		addresses: Object.values({ ...state.publicAddresses, ...state.hwPublicAddresses }),
+		addresses: [...Object.values(state.publicAddresses), ...Object.values(state.hwPublicAddresses)],
 		activeSlideIndex: state.activeSlideIndex,
 		selectAccount: state.selectAccountAction,
 		setActiveSlide: state.setActiveSlideIndexAction,
 	}))
+
 	const [xVal, setXVal] = useState(LEFT_OFFSET + activeSlideIndex * -SLIDER_WIDTH)
 	const containerRef = useRef(null)
 	const containerWidth = containerRef.current?.offsetWidth

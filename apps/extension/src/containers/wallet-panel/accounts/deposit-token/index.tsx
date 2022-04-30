@@ -23,8 +23,8 @@ export const DepositToken: React.FC = () => {
 	const [rri, setRRI] = useState(getParamString(params, 'rri') || DEFAULT_XRD_RRI)
 
 	const isDarkMode = useColorMode()
-	const { account, selectAccount } = useStore(state => ({
-		account: state.account,
+	const { accountAddress, selectAccount } = useStore(state => ({
+		accountAddress: state.getCurrentAddressAction(),
 		selectAccount: state.selectAccountAction,
 	}))
 
@@ -34,11 +34,10 @@ export const DepositToken: React.FC = () => {
 	const liquidBalances = balances?.account_balances?.liquid_balances || []
 	const selectedToken = liquidBalances?.find(balance => balance.rri === rri)
 	const selectedTokenAmmount = selectedToken ? new BigNumber(selectedToken.amount).shiftedBy(-18) : new BigNumber(0)
-	const address = account?.address?.toString()
-	const shortAddress = getShortAddress(address)
+	const shortAddress = getShortAddress(accountAddress)
 
 	const handleCopyAddressToClipboard = () => {
-		copyTextToClipboard(address)
+		copyTextToClipboard(accountAddress)
 	}
 
 	const handleSelectedTokenChange = (tokenRRI: string) => {
@@ -48,10 +47,6 @@ export const DepositToken: React.FC = () => {
 
 	const handleAccountChange = async (accountIndex: number) => {
 		await selectAccount(accountIndex)
-	}
-
-	if (!account) {
-		return <div>loading</div>
 	}
 
 	return (
@@ -95,7 +90,7 @@ export const DepositToken: React.FC = () => {
 						css={{ border: '1px solid', borderColor: '$borderPanel2', width: '200px', height: '200px', br: '$2' }}
 					>
 						<QRCodeSVG
-							value={address}
+							value={accountAddress}
 							size={180}
 							fgColor={isDarkMode ? '#a6a6a6' : '#161718'}
 							bgColor={isDarkMode ? '#161718' : '#ffffff'}

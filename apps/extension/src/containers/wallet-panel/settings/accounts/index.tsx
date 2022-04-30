@@ -22,15 +22,13 @@ import {
 import { AccountModal } from './account-modal'
 
 export const Accounts: React.FC = () => {
-	const { addresses, addressBook, setAddressBookEntry, removePublicAddress, removeHWPublicAddress, addToast } =
-		useStore(state => ({
-			addresses: Object.values({ ...state.publicAddresses, ...state.hwPublicAddresses }),
-			addressBook: state.addressBook,
-			setAddressBookEntry: state.setAddressBookEntryAction,
-			removePublicAddress: state.removePublicAddressAction,
-			removeHWPublicAddress: state.removeHWPublicAddressAction,
-			addToast: state.addToastAction,
-		}))
+	const { addresses, addressBook, setAddressBookEntry, removeAddress, addToast } = useStore(state => ({
+		addresses: [...Object.values(state.publicAddresses), ...Object.values(state.hwPublicAddresses)],
+		addressBook: state.addressBook,
+		setAddressBookEntry: state.setAddressBookEntryAction,
+		removeAddress: state.removeAccountAddressAction,
+		addToast: state.addToastAction,
+	}))
 	const [state, setState] = useImmer({
 		editing: '',
 		tempEdit: '',
@@ -65,8 +63,7 @@ export const Accounts: React.FC = () => {
 	}
 
 	const handleRemoveAccount = (idx: number) => {
-		removePublicAddress(idx)
-		removeHWPublicAddress(idx)
+		removeAddress(idx)
 
 		setState(draft => {
 			draft.isRemoveAccountDialogOpen = false

@@ -15,14 +15,13 @@ export const AccountActivity: React.FC = () => {
 	const [customScrollParent, setCustomScrollParent] = useState(null)
 	const observer = useRef<IntersectionObserver | null>(null)
 
-	const { account, selectAccount } = useStore(state => ({
-		account: state.account,
+	const { accountAddress, selectAccount } = useStore(state => ({
+		accountAddress: state.getCurrentAddressAction(),
 		selectAccount: state.selectAccountAction,
 	}))
 	const { isFetching, data, error, fetchNextPage, hasNextPage } = useTransactionHistory()
 
-	const address = account?.address?.toString()
-	const shortAddress = getShortAddress(address)
+	const shortAddress = getShortAddress(accountAddress)
 
 	const flatten =
 		data?.pages
@@ -50,10 +49,6 @@ export const AccountActivity: React.FC = () => {
 		},
 		[observer, isFetching, hasNextPage],
 	)
-
-	if (!account) {
-		return null
-	}
 
 	return (
 		<Flex

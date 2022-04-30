@@ -13,9 +13,9 @@ import { CONFIRM } from '@src/lib/actions'
 export const Connect = (): JSX.Element => {
 	const [, { id }] = useRoute<{ id: string }>('/connect/:id')
 
-	const { account, sendResponse, action, approveWebsite, declineWebsite, selectAccount, approvedWebsites } = useStore(
-		state => ({
-			account: state.account,
+	const { accountAddress, sendResponse, action, approveWebsite, declineWebsite, selectAccount, approvedWebsites } =
+		useStore(state => ({
+			accountAddress: state.getCurrentAddressAction(),
 			sendResponse: state.sendResponseAction,
 			approvedWebsites: state.approvedWebsites,
 			approveWebsite: state.approveWebsiteAction,
@@ -25,21 +25,20 @@ export const Connect = (): JSX.Element => {
 				state.pendingActions[id] && state.pendingActions[id].payloadHex
 					? hexToJSON(state.pendingActions[id].payloadHex)
 					: {},
-		}),
-	)
+		}))
 
 	const { host, request } = action
-	const [shortAddress, setShortAddress] = useState(getShortAddress(account?.address?.toString()))
+	const [shortAddress, setShortAddress] = useState(getShortAddress(accountAddress))
 
 	useEffect(() => {
-		if (account?.address) {
-			setShortAddress(getShortAddress(account?.address?.toString()))
+		if (accountAddress) {
+			setShortAddress(getShortAddress(accountAddress))
 		}
-	}, [account])
+	}, [accountAddress])
 
 	useEffect(() => {
 		if (host in approvedWebsites) {
-			sendResponse(CONFIRM, { id, host, payload: { request, value: account?.address?.toString() } })
+			sendResponse(CONFIRM, { id, host, payload: { request, value: accountAddress } })
 		}
 	}, [approvedWebsites])
 

@@ -55,16 +55,6 @@ const AccountBalances: React.FC = () => {
 	const liquidBalances = balances?.account_balances?.liquid_balances || []
 	const hasLiquidBalances = liquidBalances.length > 0
 
-	if (!isLoading && !balances) {
-		return (
-			<Box css={{ p: '$4' }}>
-				<Text medium size="4">
-					No tokens in account.
-				</Text>
-			</Box>
-		)
-	}
-
 	const list = hasLiquidBalances ? (
 		<ScrollArea scrollableNodeProps={{ ref: setCustomScrollParent }}>
 			<Virtuoso

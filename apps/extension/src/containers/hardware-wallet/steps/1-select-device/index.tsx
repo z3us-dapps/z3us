@@ -1,6 +1,7 @@
 import React from 'react'
 import { useImmer } from 'use-immer'
 import { useStore } from '@src/store'
+import { useEventListener } from 'usehooks-ts'
 import { ReloadIcon } from '@radix-ui/react-icons'
 import { steps } from '@src/store/hardware-wallet'
 import { PageWrapper, PageHeading, PageSubHeading } from '@src/components/layout'
@@ -48,8 +49,17 @@ export const SelectDevice = (): JSX.Element => {
 	}
 
 	const handleContinue = () => {
+		if (!isHIDSupported || !hardwareWallet) {
+			return
+		}
 		setStep(steps.IMPORT_ACCOUNTS)
 	}
+
+	useEventListener('keypress', e => {
+		if (e.code === 'Enter') {
+			handleContinue()
+		}
+	})
 
 	return (
 		<PageWrapper css={{ flex: '1', position: 'relative', display: 'flex', flexDirection: 'column' }}>

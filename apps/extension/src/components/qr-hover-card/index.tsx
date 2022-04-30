@@ -13,17 +13,16 @@ import { useColorMode } from '@src/hooks/use-color-mode'
 
 export const QrHoverCard: React.FC = () => {
 	const isDarkMode = useColorMode()
-	const { account, addressBook } = useStore(state => ({
-		account: state.account,
+	const { accountAddress, addressBook } = useStore(state => ({
+		accountAddress: state.getCurrentAddressAction(),
 		addressBook: state.addressBook,
 	}))
 
-	const addtString = account?.address.toString()
-	const entry = addressBook[addtString]
-	const shortAddress = getShortAddress(addtString)
+	const entry = addressBook[accountAddress]
+	const shortAddress = getShortAddress(accountAddress)
 
 	const handleCopyAddress = () => {
-		copyTextToClipboard(addtString)
+		copyTextToClipboard(accountAddress)
 	}
 
 	return (
@@ -58,7 +57,7 @@ export const QrHoverCard: React.FC = () => {
 							css={{ border: '1px solid', borderColor: '$borderPanel2', height: '180px', br: '$1' }}
 						>
 							<QRCodeSVG
-								value={addtString}
+								value={accountAddress}
 								size={160}
 								fgColor={isDarkMode ? '#a6a6a6' : '#161718'}
 								bgColor={isDarkMode ? '#161718' : '#ffffff'}

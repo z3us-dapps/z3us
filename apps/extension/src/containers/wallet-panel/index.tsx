@@ -47,9 +47,9 @@ const pageStyle = {
 export const WalletPanel = (): JSX.Element => {
 	const [location] = useLocation()
 	const isDarkMode = useColorMode()
-	const { activeApp, account, hasKeystore } = useStore(state => ({
+	const { activeApp, seed, hasKeystore } = useStore(state => ({
 		activeApp: state.activeApp,
-		account: state.account,
+		seed: state.masterSeed,
 		hasKeystore: state.hasKeystore,
 	}))
 	const [page, direction] = activeApp
@@ -81,7 +81,7 @@ export const WalletPanel = (): JSX.Element => {
 		<>
 			<MotionBox
 				initial={false}
-				animate={account ? 'unlocked' : 'locked'}
+				animate={seed ? 'unlocked' : 'locked'}
 				css={{
 					width: '100%',
 					height: '100%',

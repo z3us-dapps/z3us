@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react'
+import { useEventListener } from 'usehooks-ts'
 import { AccountAddress, SigningKey } from '@radixdlt/application'
 import { HDPathRadix } from '@radixdlt/crypto'
 import { useImmer } from 'use-immer'
@@ -6,6 +7,7 @@ import { useStore } from '@src/store'
 import { CopyIcon } from '@radix-ui/react-icons'
 import SimpleBar from 'simplebar-react'
 import { copyTextToClipboard } from '@src/utils/copy-to-clipboard'
+import { Checkbox, CheckIcon } from 'ui/src/components/checkbox'
 import ButtonTipFeedback from 'ui/src/components/button-tip-feedback'
 import { steps } from '@src/store/hardware-wallet'
 import { getShortAddress } from '@src/utils/string-utils'
@@ -15,18 +17,22 @@ import { Flex, Text, Box } from 'ui/src/components/atoms'
 import Button from 'ui/src/components/button'
 
 export const ImportAccounts = (): JSX.Element => {
-	const { hardwareWallet, network, setStep, setPublicAddresses } = useStore(state => ({
+	const { hardwareWallet, hwPublicAddresses, network, setStep, setPublicAddresses } = useStore(state => ({
 		hardwareWallet: state.hardwareWallet,
+		hwPublicAddresses: state.hwPublicAddresses,
 		network: state.networks[state.selectedNetworkIndex],
 		setStep: state.setHardwareWalletStepAction,
 		setPublicAddresses: state.setHWPublicAddressesAction,
 	}))
 	const [state, setState] = useImmer({
 		addresses: [],
+		selectedIndexes: Object.fromEntries(Object.entries(hwPublicAddresses).map(([k]) => [k, true])),
 		isLoading: false,
 		errorMessage: '',
 		hardwareWallet: null,
 	})
+
+	const selectedAmount = Object.values(state.selectedIndexes).filter(v => v).length
 
 	useEffect(() => {
 		const load = async () => {
@@ -68,10 +74,31 @@ export const ImportAccounts = (): JSX.Element => {
 		load()
 	}, [])
 
+	const handleSelectIndex = (index: number) => checked => {
+		setState(draft => {
+			draft.selectedIndexes = { ...draft.selectedIndexes, [index]: checked === true }
+		})
+	}
+
 	const handleContinue = () => {
-		setPublicAddresses(state.addresses)
+		const addressMap = {}
+		state.addresses.forEach((address, index) => {
+			if (state.selectedIndexes[index]) {
+				addressMap[index] = address
+			}
+		})
+		if (Object.keys(addressMap).length <= 0) {
+			return
+		}
+		setPublicAddresses(addressMap)
 		setStep(steps.COMPLETE)
 	}
+
+	useEventListener('keypress', e => {
+		if (e.code === 'Enter') {
+			handleContinue()
+		}
+	})
 
 	return (
 		<PageWrapper css={{ flex: '1', position: 'relative', display: 'flex', flexDirection: 'column' }}>
@@ -98,10 +125,18 @@ export const ImportAccounts = (): JSX.Element => {
 								maxHeight: '350px',
 							}}
 						>
-							{state.addresses.map(address => {
+							{state.addresses.map((address, index) => {
 								const addressString = address.toString()
 								return (
 									<Flex as="li" align="center" key={addressString} css={{ px: '$3', pt: '$2' }}>
+										<Checkbox
+											id="select"
+											onCheckedChange={handleSelectIndex(index)}
+											checked={!!state.selectedIndexes[index]}
+											css={{ pr: '$2' }}
+										>
+											<CheckIcon />
+										</Checkbox>
 										<Text truncate css={{ maxWidth: '270px', pr: '$2' }}>
 											{getShortAddress(addressString)}
 										</Text>
@@ -130,8 +165,15 @@ export const ImportAccounts = (): JSX.Element => {
 				</InputFeedBack>
 			</Box>
 			<Flex css={{ width: '100%' }}>
-				<Button fullWidth color="primary" size="6" onClick={handleContinue} css={{ flex: '1' }}>
-					Import 4 accounts
+				<Button
+					fullWidth
+					color="primary"
+					size="6"
+					disabled={selectedAmount <= 0}
+					onClick={handleContinue}
+					css={{ flex: '1' }}
+				>
+					{`Import ${selectedAmount} accounts`}
 				</Button>
 			</Flex>
 			<Flex justify="center" align="center" css={{ height: '48px', ta: 'center', mt: '$2', width: '100%' }}>

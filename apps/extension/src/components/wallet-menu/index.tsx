@@ -20,8 +20,8 @@ import {
 export const WalletMenu: React.FC = () => {
 	const [, setLocation] = useLocation()
 
-	const { account, theme, setTheme, networks, selectedNetworkIndex, selectNetwork, lock } = useStore(state => ({
-		account: state.account,
+	const { seed, theme, setTheme, networks, selectedNetworkIndex, selectNetwork, lock } = useStore(state => ({
+		seed: state.masterSeed,
 		theme: state.theme,
 		setTheme: state.setThemeAction,
 
@@ -34,7 +34,6 @@ export const WalletMenu: React.FC = () => {
 
 	const handleSelectNetwork = async (value: string) => {
 		await selectNetwork(+value)
-		await lock()
 	}
 
 	const handleLockWallet = async () => lock()
@@ -107,7 +106,7 @@ export const WalletMenu: React.FC = () => {
 						</DropdownMenuContent>
 					</DropdownMenu>
 
-					{account && (
+					{seed && (
 						<>
 							<DropdownMenuItem onSelect={handleConnectHW}>
 								<span>Connect hardware wallet</span>

@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react'
 import { useStore } from '@src/store'
 import { useImmer } from 'use-immer'
+import { useEventListener } from 'usehooks-ts'
 import { onBoardingSteps } from '@src/store/onboarding'
 import { PageWrapper, PageHeading, PageSubHeading } from '@src/components/layout'
 import Button from 'ui/src/components/button'
@@ -64,8 +65,8 @@ export const CreatePassword = (): JSX.Element => {
 		})
 	}
 
-	const handleContinue = async (e: React.ChangeEvent<HTMLFormElement>) => {
-		e.preventDefault()
+	const handleContinue = async () => {
+		if (state.isButtonDisabled) return
 		if (state.password === state.confirmPassword) {
 			setPassword(state.confirmPassword)
 			setOnboradingStep(onBoardingSteps.CREATE_WALLET)
@@ -97,6 +98,17 @@ export const CreatePassword = (): JSX.Element => {
 		}
 	}
 
+	const handleFormSubmit = async (e: React.ChangeEvent<HTMLFormElement>) => {
+		e.preventDefault()
+		await handleContinue()
+	}
+
+	useEventListener('keypress', async e => {
+		if (e.code === 'Enter') {
+			await handleContinue()
+		}
+	})
+
 	return (
 		<PageWrapper
 			css={{
@@ -108,7 +120,7 @@ export const CreatePassword = (): JSX.Element => {
 				flexBasis: '100%',
 			}}
 		>
-			<form onSubmit={handleContinue} style={{ display: 'flex', flexDirection: 'column', flex: '1' }}>
+			<form onSubmit={handleFormSubmit} style={{ display: 'flex', flexDirection: 'column', flex: '1' }}>
 				<Box css={{ width: '100%' }}>
 					<PageHeading>Create password</PageHeading>
 					<PageSubHeading>
@@ -154,7 +166,6 @@ export const CreatePassword = (): JSX.Element => {
 						size="6"
 						type="submit"
 						disabled={state.isButtonDisabled}
-						//onClick={handleContinue}
 						css={{ flex: '1' }}
 					>
 						Save

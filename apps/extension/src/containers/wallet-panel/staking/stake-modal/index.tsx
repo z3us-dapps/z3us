@@ -33,9 +33,10 @@ export const StakeModal: React.FC<IProps> = ({ trigger, tooltipMessage, validato
 	const [, setLocation] = useLocation()
 	const { data: token } = useNativeToken()
 
-	const { addToast, account, addressBook, network } = useStore(state => ({
+	const { addToast, account, accountAddress, addressBook, network } = useStore(state => ({
 		addToast: state.addToastAction,
 		account: state.account,
+		accountAddress: state.getCurrentAddressAction(),
 		addressBook: state.addressBook,
 		network: state.networks[state.selectedNetworkIndex],
 	}))
@@ -49,9 +50,8 @@ export const StakeModal: React.FC<IProps> = ({ trigger, tooltipMessage, validato
 		isModalOpen: false,
 	})
 
-	const address = account?.address?.toString()
-	const entry = addressBook[address]
-	const shortAddress = getShortAddress(address)
+	const entry = addressBook[accountAddress]
+	const shortAddress = getShortAddress(accountAddress)
 
 	const handleOnClick = () => {
 		setState(draft => {
@@ -112,13 +112,7 @@ export const StakeModal: React.FC<IProps> = ({ trigger, tooltipMessage, validato
 		})
 		try {
 			const method = reduceStake ? UnstakeTokens : StakeTokens
-			const { transaction, fee } = await method(
-				network.url,
-				token.rri,
-				account.address.toString(),
-				state.validator,
-				state.amount,
-			)
+			const { transaction, fee } = await method(network.url, token.rri, accountAddress, state.validator, state.amount)
 			setState(draft => {
 				draft.fee = fee
 				draft.transaction = transaction

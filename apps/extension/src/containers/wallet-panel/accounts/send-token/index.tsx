@@ -25,10 +25,11 @@ export const SendToken: React.FC = () => {
 	const inputToAddressRef = useRef(null)
 
 	const [isSendTokenRoute, params] = useRoute('/account/send/:rri')
-	const { addToast, account, selectAccount, network } = useStore(state => ({
+	const { addToast, account, accountAddress, selectAccount, network } = useStore(state => ({
 		addToast: state.addToastAction,
 		selectAccount: state.selectAccountAction,
 		account: state.account,
+		accountAddress: state.getCurrentAddressAction(),
 		network: state.networks[state.selectedNetworkIndex],
 	}))
 
@@ -46,8 +47,7 @@ export const SendToken: React.FC = () => {
 	const { data: balances } = useTokenBalances()
 	const { data: token } = useTokenInfo(state.rri)
 
-	const address = account?.address?.toString()
-	const shortAddress = getShortAddress(address)
+	const shortAddress = getShortAddress(accountAddress)
 	const liquidBalances = balances?.account_balances?.liquid_balances || []
 	const selectedToken = liquidBalances?.find(balance => balance.rri === state.rri)
 	const selectedTokenAmmount = selectedToken ? new BigNumber(selectedToken.amount).shiftedBy(-18) : new BigNumber(0)
@@ -62,7 +62,7 @@ export const SendToken: React.FC = () => {
 		}
 		if (liquidBalances) {
 			setState(draft => {
-				draft.rri = liquidBalances?.[0].rri
+				draft.rri = liquidBalances?.[0]?.rri
 			})
 		}
 	}, [balances, state.rri])
@@ -92,9 +92,6 @@ export const SendToken: React.FC = () => {
 	}
 
 	const handlePrepareTx = async () => {
-		if (!account) {
-			return
-		}
 		setState(draft => {
 			draft.isLoading = true
 		})
@@ -170,10 +167,6 @@ export const SendToken: React.FC = () => {
 			draft.transaction = null
 			draft.isLoading = false
 		})
-	}
-
-	if (!account) {
-		return null
 	}
 
 	return (

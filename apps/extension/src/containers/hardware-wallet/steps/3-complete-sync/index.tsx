@@ -2,6 +2,7 @@ import React from 'react'
 import { useStore } from '@src/store'
 import { useLocation } from 'wouter'
 import { useImmer } from 'use-immer'
+import { useEventListener } from 'usehooks-ts'
 import { steps } from '@src/store/hardware-wallet'
 import { PageWrapper, PageHeading, PageSubHeading } from '@src/components/layout'
 import Button from 'ui/src/components/button'
@@ -40,6 +41,12 @@ export const CompleteSync = (): JSX.Element => {
 			draft.isLoading = false
 		})
 	}
+
+	useEventListener('keypress', e => {
+		if (e.code === 'Enter') {
+			handleContinue()
+		}
+	})
 
 	return (
 		<PageWrapper

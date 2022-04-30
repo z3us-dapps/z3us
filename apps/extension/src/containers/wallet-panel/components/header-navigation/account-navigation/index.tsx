@@ -13,11 +13,11 @@ import { ACCOUNTS } from '@src/containers/wallet-panel/config'
 const accountUrl = `/wallet/account`
 
 export const AccountNaviation: React.FC = () => {
-	const { activeApp, account, addressBook, addresses, expanded, activeSlideIndex, setActiveSlide } = useStore(
+	const { activeApp, accountAddress, addressBook, addresses, expanded, activeSlideIndex, setActiveSlide } = useStore(
 		state => ({
 			activeApp: state.activeApp,
-			account: state.account,
-			addresses: Object.values({ ...state.publicAddresses, ...state.hwPublicAddresses }),
+			accountAddress: state.getCurrentAddressAction(),
+			addresses: [...Object.values(state.publicAddresses), ...Object.values(state.hwPublicAddresses)],
 			addressBook: state.addressBook,
 			expanded: state.accountPanelExpanded,
 			activeSlideIndex: state.activeSlideIndex,
@@ -29,9 +29,8 @@ export const AccountNaviation: React.FC = () => {
 	const [isAccountMatch] = useRoute('/wallet/account')
 	const isNavVisible = page === ACCOUNTS && isAccountMatch && !expanded
 
-	const addtString = account?.address.toString()
-	const entry = addressBook[addtString]
-	const shortAddress = getShortAddress(addtString)
+	const entry = addressBook[accountAddress]
+	const shortAddress = getShortAddress(accountAddress)
 
 	const handleBreadCrumbClick = async (idx: number) => {
 		await setActiveSlide(idx)
@@ -39,7 +38,7 @@ export const AccountNaviation: React.FC = () => {
 	}
 
 	const handleCopyAddress = () => {
-		copyTextToClipboard(account?.address?.toString())
+		copyTextToClipboard(accountAddress)
 	}
 
 	return (

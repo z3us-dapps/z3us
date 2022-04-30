@@ -32,12 +32,11 @@ import {
 import { RadixService } from '@src/services/radix'
 
 export const NetworkSettings: React.FC = () => {
-	const { networks, selectedNetworkIndex, selectNetwork, addNetwork, lock, addToast } = useStore(state => ({
+	const { networks, selectedNetworkIndex, selectNetwork, addNetwork, addToast } = useStore(state => ({
 		networks: state.networks,
 		selectedNetworkIndex: state.selectedNetworkIndex,
 		selectNetwork: state.selectNetworkAction,
 		addNetwork: state.addNetworkAction,
-		lock: state.lockAction,
 		addToast: state.addToastAction,
 	}))
 
@@ -50,7 +49,6 @@ export const NetworkSettings: React.FC = () => {
 
 	const handleSelectNetwork = async (value: string) => {
 		await selectNetwork(+value)
-		await lock()
 	}
 
 	const handleOpenDialog = () => {

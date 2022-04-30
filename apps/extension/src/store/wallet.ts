@@ -59,6 +59,7 @@ export type WalletStore = {
 
 	hasKeystore: boolean
 	account: AccountT | null
+	getCurrentAddressAction: () => string
 
 	masterSeed: MasterSeed
 	setMasterSeedAction: (seed: MasterSeed) => Promise<void>
@@ -77,13 +78,13 @@ export type WalletStore = {
 	hwPublicAddresses: { [key: number]: string }
 	setHardwareWalletAction: (hardwareWallet: HardwareWalletT) => void
 	setHWPublicAddressesAction: (addresses: { [key: number]: string }) => void
-	removeHWPublicAddressAction: (index: number) => void
 
 	publicAddresses: { [key: number]: string }
 	setPublicAddressesAction: (addresses: { [key: number]: string }) => void
-	removePublicAddressAction: (index: number) => void
-	setAddressBookEntryAction: (address: string, entry: AddressBookEntry) => void
+
 	removeAddressBookEntryAction: (address: string) => void
+	setAddressBookEntryAction: (address: string, entry: AddressBookEntry) => void
+	removeAccountAddressAction: (index: number) => void
 
 	addressBook: { [key: string]: AddressBookEntry }
 
@@ -168,7 +169,12 @@ const defaultState = {
 
 const getHWSigningKeyForIndex = async (state: WalletStore, index: number) => {
 	if (!state.hardwareWallet) {
-		state.hardwareWallet = await HardwareWalletLedger.create({ send: state.sendAPDUAction }).toPromise()
+		try {
+			state.hardwareWallet = await HardwareWalletLedger.create({ send: state.sendAPDUAction }).toPromise()
+		} catch (error) {
+			console.error(error)
+			return null
+		}
 	}
 
 	const hdPath = HDPathRadix.create({ address: { index, isHardened: true } })
@@ -178,6 +184,8 @@ const getHWSigningKeyForIndex = async (state: WalletStore, index: number) => {
 }
 
 const getSigningKeyForIndex = async (state: WalletStore, index: number) => {
+	if (!state.masterSeed) return null
+
 	const key = state.masterSeed.masterNode().derive(HDPathRadix.create({ address: { index, isHardened: true } }))
 
 	const pk = PrivateKey.fromHex(key.privateKey.toString())
@@ -394,35 +402,37 @@ export const createWalletStore = (set, get) => ({
 		if (devices.length === 0) {
 			throw new Error('No device selected')
 		}
-		const transport = await TransportNodeHid.open(devices[0])
+
+		const device = devices[0]
+		if (device.opened) {
+			await device.close()
+		}
+
+		const transport = await TransportNodeHid.open(device)
 		try {
 			const result = await transport.send(cla, ins, p1, p2, data, statusList)
-			transport.close()
+			await transport.close()
 			return result
 		} catch (e) {
-			transport.close()
+			await transport.close()
 			throw e
 		}
+	},
+
+	getCurrentAddressAction: () => {
+		const state = get()
+		const publicIndexes = Object.keys(state.publicAddresses)
+
+		if (state.selectedAccountIndex < publicIndexes.length) {
+			return state.publicAddresses[state.selectedAccountIndex]
+		}
+
+		return state.hwPublicAddresses[state.selectedAccountIndex - publicIndexes.length]
 	},
 
 	setHWPublicAddressesAction: (addresses: { [key: number]: string }) => {
 		set(state => {
 			state.hwPublicAddresses = addresses
-		})
-	},
-
-	removeHWPublicAddressAction: (index: number) => {
-		set(state => {
-			const { hwPublicAddresses } = state
-
-			const address = hwPublicAddresses[index]
-			if (address) {
-				delete state.addressBook[address]
-				state.addressBook = { ...state.addressBook }
-			}
-
-			delete hwPublicAddresses[index]
-			state.hwPublicAddresses = { ...hwPublicAddresses }
 		})
 	},
 
@@ -432,18 +442,32 @@ export const createWalletStore = (set, get) => ({
 		})
 	},
 
-	removePublicAddressAction: (index: number) => {
+	removeAccountAddressAction: (index: number) => {
 		set(state => {
-			const { publicAddresses } = state
+			const publicIndexes = Object.keys(state.publicAddresses)
+			if (index < publicIndexes.length) {
+				const address = state.publicAddresses[publicIndexes[index]]
+				if (address) {
+					delete state.addressBook[address]
+					state.addressBook = { ...state.addressBook }
+				}
 
-			const address = publicAddresses[index]
-			if (address) {
-				delete state.addressBook[address]
-				state.addressBook = { ...state.addressBook }
+				delete state.publicAddresses[publicIndexes[index]]
+				state.publicAddresses = { ...state.publicAddresses }
+			} else {
+				const hwIndexes = Object.keys(state.hwPublicAddresses)
+				const address = state.hwPublicAddresses[hwIndexes[index - publicIndexes.length]]
+				if (address) {
+					delete state.addressBook[address]
+					state.addressBook = { ...state.addressBook }
+				}
+
+				delete state.hwPublicAddresses[hwIndexes[index - publicIndexes.length]]
+				state.hwPublicAddresses = { ...state.hwPublicAddresses }
 			}
-
-			delete publicAddresses[index]
-			state.publicAddresses = { ...publicAddresses }
+			if (state.selectedAccountIndex >= index) {
+				state.selectedAccountIndex -= 1
+			}
 		})
 	},
 
@@ -472,19 +496,22 @@ export const createWalletStore = (set, get) => ({
 		for (let i = 0; i < publicIndexes.length; i += 1) {
 			// eslint-disable-next-line no-await-in-loop
 			const signingKey = await getSigningKeyForIndex(state, +publicIndexes[i])
-			const address = AccountAddress.fromPublicKeyAndNetwork({
-				publicKey: signingKey.publicKey,
-				network: network.id,
-			})
-
-			set(draft => {
-				draft.publicAddresses[publicIndexes[i]] = address.toString()
-			})
-
-			if (state.selectedAccountIndex === i) {
-				set(draft => {
-					draft.account = Account.create({ address, signingKey })
+			if (signingKey) {
+				const address = AccountAddress.fromPublicKeyAndNetwork({
+					publicKey: signingKey.publicKey,
+					network: network.id,
 				})
+
+				if (state.selectedAccountIndex === i) {
+					set(draft => {
+						draft.publicAddresses[publicIndexes[i]] = address.toString()
+						draft.account = Account.create({ address, signingKey })
+					})
+				} else {
+					set(draft => {
+						draft.publicAddresses[publicIndexes[i]] = address.toString()
+					})
+				}
 			}
 		}
 
@@ -492,19 +519,22 @@ export const createWalletStore = (set, get) => ({
 		for (let i = 0; i < hwIndexes.length; i += 1) {
 			// eslint-disable-next-line no-await-in-loop
 			const signingKey = await getHWSigningKeyForIndex(state, +hwIndexes[i])
-			const address = AccountAddress.fromPublicKeyAndNetwork({
-				publicKey: signingKey.publicKey,
-				network: network.id,
-			})
-
-			set(draft => {
-				draft.hwPublicAddresses[hwIndexes[i]] = address.toString()
-			})
-
-			if (state.selectedAccountIndex === i + publicIndexes.length) {
-				set(draft => {
-					draft.account = Account.create({ address, signingKey })
+			if (signingKey) {
+				const address = AccountAddress.fromPublicKeyAndNetwork({
+					publicKey: signingKey.publicKey,
+					network: network.id,
 				})
+
+				if (state.selectedAccountIndex === i + publicIndexes.length) {
+					set(draft => {
+						draft.hwPublicAddresses[hwIndexes[i]] = address.toString()
+						draft.account = Account.create({ address, signingKey })
+					})
+				} else {
+					set(draft => {
+						draft.hwPublicAddresses[hwIndexes[i]] = address.toString()
+					})
+				}
 			}
 		}
 	},
@@ -519,30 +549,33 @@ export const createWalletStore = (set, get) => ({
 		const network = state.networks[state.selectedNetworkIndex]
 
 		const publicIndexes = Object.keys(state.publicAddresses)
-		const hwIndexes = Object.keys(state.hwPublicAddresses)
-
 		if (newIndex < publicIndexes.length) {
 			const signingKey = await getSigningKeyForIndex(state, +publicIndexes[newIndex])
-			const address = AccountAddress.fromPublicKeyAndNetwork({
-				publicKey: signingKey.publicKey,
-				network: network.id,
-			})
+			if (signingKey) {
+				const address = AccountAddress.fromPublicKeyAndNetwork({
+					publicKey: signingKey.publicKey,
+					network: network.id,
+				})
 
-			set(draft => {
-				draft.publicAddresses[publicIndexes[newIndex]] = address.toString()
-				draft.account = Account.create({ address, signingKey })
-			})
+				set(draft => {
+					draft.publicAddresses[publicIndexes[newIndex]] = address.toString()
+					draft.account = Account.create({ address, signingKey })
+				})
+			}
 		} else {
-			const signingKey = await getHWSigningKeyForIndex(state, +hwIndexes[newIndex + publicIndexes.length])
-			const address = AccountAddress.fromPublicKeyAndNetwork({
-				publicKey: signingKey.publicKey,
-				network: network.id,
-			})
+			const hwIndexes = Object.keys(state.hwPublicAddresses)
+			const signingKey = await getHWSigningKeyForIndex(state, +hwIndexes[newIndex - publicIndexes.length])
+			if (signingKey) {
+				const address = AccountAddress.fromPublicKeyAndNetwork({
+					publicKey: signingKey.publicKey,
+					network: network.id,
+				})
 
-			set(draft => {
-				draft.hwPublicAddresses[hwIndexes[newIndex + publicIndexes.length]] = address.toString()
-				draft.account = Account.create({ address, signingKey })
-			})
+				set(draft => {
+					draft.hwPublicAddresses[hwIndexes[newIndex - publicIndexes.length]] = address.toString()
+					draft.account = Account.create({ address, signingKey })
+				})
+			}
 		}
 	},
 

@@ -14,9 +14,9 @@ import { Decrypt } from './decrypt'
 import { Transaction } from './transaction'
 
 export const Notification: React.FC = () => {
-	const { account, hasKeystore } = useStore(state => ({
+	const { seed, hasKeystore } = useStore(state => ({
 		hasKeystore: state.hasKeystore,
-		account: state.account,
+		seed: state.masterSeed,
 	}))
 
 	useEffect(() => {
@@ -25,7 +25,7 @@ export const Notification: React.FC = () => {
 		}
 	}, [hasKeystore])
 
-	if (!account) {
+	if (!seed) {
 		return <LockedPanel />
 	}
 
@@ -42,23 +42,17 @@ export const Notification: React.FC = () => {
 				backgroundColor: '$bgPanel',
 			}}
 		>
-			{account ? (
-				<>
-					<Flex justify="end" css={{ height: '48px', position: 'relative', pt: '6px', pl: '6px', pr: '6px' }}>
-						<WalletMenu />
-					</Flex>
-					<RouterScope base="/notification" hook={useHashLocation as any}>
-						<AnimatedSwitch css={{ display: 'flex', flexDirection: 'column', flex: '1' }}>
-							<Route path="/connect/:id" component={Connect} />
-							<Route path="/encrypt/:id" component={Encrypt} />
-							<Route path="/decrypt/:id" component={Decrypt} />
-							<Route path="/transaction/:id" component={Transaction} />
-						</AnimatedSwitch>
-					</RouterScope>
-				</>
-			) : (
-				<LockedPanel />
-			)}
+			<Flex justify="end" css={{ height: '48px', position: 'relative', pt: '6px', pl: '6px', pr: '6px' }}>
+				<WalletMenu />
+			</Flex>
+			<RouterScope base="/notification" hook={useHashLocation as any}>
+				<AnimatedSwitch css={{ display: 'flex', flexDirection: 'column', flex: '1' }}>
+					<Route path="/connect/:id" component={Connect} />
+					<Route path="/encrypt/:id" component={Encrypt} />
+					<Route path="/decrypt/:id" component={Decrypt} />
+					<Route path="/transaction/:id" component={Transaction} />
+				</AnimatedSwitch>
+			</RouterScope>
 		</Flex>
 	)
 }

@@ -13,8 +13,9 @@ import { DecryptMessage } from '@src/services/radix/message'
 export const Decrypt = (): JSX.Element => {
 	const [, { id }] = useRoute<{ id: string }>('/decrypt/:id')
 
-	const { account, sendResponse, selectAccount, selectAccountForAddress, action } = useStore(state => ({
+	const { account, accountAddress, sendResponse, selectAccount, selectAccountForAddress, action } = useStore(state => ({
 		account: state.account,
+		accountAddress: state.getCurrentAddressAction(),
 		sendResponse: state.sendResponseAction,
 		selectAccount: state.selectAccountAction,
 		selectAccountForAddress: state.selectAccountForAddressAction,
@@ -28,17 +29,17 @@ export const Decrypt = (): JSX.Element => {
 		host,
 		request: { message, fromAddress },
 	} = action
-	const [shortAddress, setShortAddress] = useState(getShortAddress(account?.address?.toString()))
+	const [shortAddress, setShortAddress] = useState(getShortAddress(accountAddress))
 
 	useEffect(() => {
 		selectAccountForAddress(fromAddress)
 	}, [fromAddress])
 
 	useEffect(() => {
-		if (account?.address) {
-			setShortAddress(getShortAddress(account?.address?.toString()))
+		if (accountAddress) {
+			setShortAddress(getShortAddress(accountAddress))
 		}
-	}, [account])
+	}, [accountAddress])
 
 	const handleCancel = async () => {
 		await sendResponse(CONFIRM, {

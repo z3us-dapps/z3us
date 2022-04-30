@@ -63,7 +63,7 @@ export default function NewV1BackgroundInpageActions(
 
 		const state = useStore.getState()
 		const { approvedWebsites, selectedAccountIndex, publicAddresses, hwPublicAddresses } = state
-		const allAddresses = Object.values({ ...publicAddresses, ...hwPublicAddresses })
+		const allAddresses = [...Object.values(publicAddresses), ...Object.values(hwPublicAddresses)]
 
 		if (url.host in approvedWebsites) {
 			if (allAddresses.length > 0) {
@@ -97,7 +97,7 @@ export default function NewV1BackgroundInpageActions(
 		const state = useStore.getState()
 		const { publicAddresses, hwPublicAddresses } = state
 
-		sendInpageMessage(port, id, payload, Object.values({ ...publicAddresses, ...hwPublicAddresses }))
+		sendInpageMessage(port, id, payload, [...Object.values(publicAddresses), ...Object.values(hwPublicAddresses)])
 	}
 
 	async function encrypt(port: Runtime.Port, id: string, payload: any) {
@@ -178,7 +178,7 @@ export default function NewV1BackgroundInpageActions(
 
 		const state = useStore.getState()
 		const { networks, selectedNetworkIndex, selectedAccountIndex, publicAddresses, hwPublicAddresses } = state
-		const allAddresses = Object.values({ ...publicAddresses, ...hwPublicAddresses })
+		const allAddresses = [...Object.values(publicAddresses), ...Object.values(hwPublicAddresses)]
 
 		const network = networks[selectedNetworkIndex]
 		const address = allAddresses[selectedAccountIndex]
@@ -201,7 +201,7 @@ export default function NewV1BackgroundInpageActions(
 
 		const state = useStore.getState()
 		const { networks, selectedNetworkIndex, selectedAccountIndex, publicAddresses, hwPublicAddresses } = state
-		const allAddresses = Object.values({ ...publicAddresses, ...hwPublicAddresses })
+		const allAddresses = [...Object.values(publicAddresses), ...Object.values(hwPublicAddresses)]
 
 		const network = networks[selectedNetworkIndex]
 		const address = allAddresses[selectedAccountIndex]
@@ -224,7 +224,7 @@ export default function NewV1BackgroundInpageActions(
 
 		const state = useStore.getState()
 		const { networks, selectedNetworkIndex, selectedAccountIndex, publicAddresses, hwPublicAddresses } = state
-		const allAddresses = Object.values({ ...publicAddresses, ...hwPublicAddresses })
+		const allAddresses = [...Object.values(publicAddresses), ...Object.values(hwPublicAddresses)]
 
 		const network = networks[selectedNetworkIndex]
 		const address = allAddresses[selectedAccountIndex]

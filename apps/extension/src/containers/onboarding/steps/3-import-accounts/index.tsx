@@ -25,9 +25,12 @@ export const ImportAccounts = (): JSX.Element => {
 	const [state, setState] = useImmer({
 		amount: 0,
 		addresses: [],
+		selectedIndexes: {},
 		showError: false,
 		errorMessage: '',
 	})
+
+	const selectedAmount = Object.values(state.selectedIndexes).filter(v => v).length
 
 	useEffect(() => {
 		if (!mnemonic) {
@@ -68,15 +71,30 @@ export const ImportAccounts = (): JSX.Element => {
 		load()
 	}, [mnemonic, state.amount])
 
-	const handleContinue = () => {
-		setPublicAddresses(state.addresses)
-		setOnboardingStep(onBoardingSteps.CREATE_PASSWORD)
-	}
-
 	const handleSliderChange = ([track]: Array<number>) => {
 		setState(draft => {
 			draft.amount = track
 		})
+	}
+
+	const handleSelectIndex = (index: number) => checked => {
+		setState(draft => {
+			draft.selectedIndexes = { ...draft.selectedIndexes, [index]: checked === true }
+		})
+	}
+
+	const handleContinue = () => {
+		const addressMap = {}
+		state.addresses.forEach((address, index) => {
+			if (state.selectedIndexes[index]) {
+				addressMap[index] = address
+			}
+		})
+		if (Object.keys(addressMap).length <= 0) {
+			return
+		}
+		setPublicAddresses(addressMap)
+		setOnboardingStep(onBoardingSteps.CREATE_PASSWORD)
 	}
 
 	useEventListener('keypress', e => {
@@ -121,11 +139,16 @@ export const ImportAccounts = (): JSX.Element => {
 							</StyledSlider>
 						</Box>
 						<Box as="ul" css={{ pb: '$3' }}>
-							{state.addresses.map(address => {
+							{state.addresses.map((address, index) => {
 								const addressString = address.toString()
 								return (
 									<Flex as="li" align="center" key={addressString} css={{ px: '$3', pt: '$2' }}>
-										<Checkbox id="select" size="1" onChange={() => {}}>
+										<Checkbox
+											id="select"
+											onCheckedChange={handleSelectIndex(index)}
+											checked={!!state.selectedIndexes[index]}
+											css={{ pr: '$2' }}
+										>
 											<CheckIcon />
 										</Checkbox>
 										<Text as="label" htmlFor="select" truncate css={{ maxWidth: '228px', pl: '$2', pr: '$2' }}>
@@ -156,8 +179,15 @@ export const ImportAccounts = (): JSX.Element => {
 				</InputFeedBack>
 			</Box>
 			<Flex css={{ width: '100%' }}>
-				<Button fullWidth color="primary" size="6" onClick={handleContinue} css={{ flex: '1' }}>
-					{`Import ${state.amount + 1} accounts`}
+				<Button
+					fullWidth
+					color="primary"
+					size="6"
+					disabled={selectedAmount <= 0}
+					onClick={handleContinue}
+					css={{ flex: '1' }}
+				>
+					{`Import ${selectedAmount} accounts`}
 				</Button>
 			</Flex>
 			<Flex justify="center" align="center" css={{ height: '48px', ta: 'center', mt: '$2', width: '100%' }}>

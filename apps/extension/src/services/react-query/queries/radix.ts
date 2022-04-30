@@ -47,11 +47,10 @@ export const useTokenInfos = (rris: Array<string>) => {
 }
 
 export const useTokenBalances = () => {
-	const { account, network } = useStore(state => ({
-		account: state.account,
+	const { address, network } = useStore(state => ({
+		address: state.getCurrentAddressAction(),
 		network: state.networks[state.selectedNetworkIndex],
 	}))
-	const address = account?.address.toString()
 
 	const service = new RadixService(network.url)
 
@@ -67,7 +66,7 @@ export const useAllAccountsTokenBalances = (): Array<{
 	amount: BigNumber
 }> => {
 	const { addresses, network } = useStore(state => ({
-		addresses: Object.values({ ...state.publicAddresses, ...state.hwPublicAddresses }),
+		addresses: [...Object.values(state.publicAddresses), ...Object.values(state.hwPublicAddresses)],
 		network: state.networks[state.selectedNetworkIndex],
 	}))
 	const service = new RadixService(network.url)
@@ -102,12 +101,11 @@ export const useAllAccountsTokenBalances = (): Array<{
 }
 
 export const useStakedPositions = () => {
-	const { account, network } = useStore(state => ({
-		account: state.account,
+	const { address, network } = useStore(state => ({
+		address: state.getCurrentAddressAction(),
 		network: state.networks[state.selectedNetworkIndex],
 	}))
 	const service = new RadixService(network.url)
-	const address = account?.address.toString()
 
 	return useQuery(['useStakedPositions', address], async () => service.stakesForAddress(address), {
 		enabled: !!address,
@@ -115,12 +113,11 @@ export const useStakedPositions = () => {
 }
 
 export const useUnstakePositions = () => {
-	const { account, network } = useStore(state => ({
-		account: state.account,
+	const { address, network } = useStore(state => ({
+		address: state.getCurrentAddressAction(),
 		network: state.networks[state.selectedNetworkIndex],
 	}))
 	const service = new RadixService(network.url)
-	const address = account?.address.toString()
 
 	return useQuery(['useUnstakePositions', address], async () => service.unstakesForAddress(address), {
 		enabled: !!address,
@@ -176,12 +173,11 @@ export const useTransactionHistory = (size = 30) => {
 	const maxLimit = 30
 	size = Math.min(size, maxLimit)
 
-	const { account, network } = useStore(state => ({
-		account: state.account,
+	const { address, network } = useStore(state => ({
+		address: state.getCurrentAddressAction(),
 		network: state.networks[state.selectedNetworkIndex],
 	}))
 	const service = new RadixService(network.url)
-	const address = account?.address.toString()
 
 	return useInfiniteQuery(
 		['useTransactionHistory', address],

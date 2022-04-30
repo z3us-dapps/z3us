@@ -25,7 +25,7 @@ import { AccountAddress } from '@radixdlt/account'
 
 export const AddressBook: React.FC = () => {
 	const { addressBook, setAddressBookEntry, handleRemoveAddress, addToast } = useStore(state => ({
-		addresses: Object.values({ ...state.publicAddresses, ...state.hwPublicAddresses }),
+		addresses: [...Object.values(state.publicAddresses), ...Object.values(state.hwPublicAddresses)],
 		addressBook: state.addressBook,
 		setAddressBookEntry: state.setAddressBookEntryAction,
 		handleRemoveAddress: state.removeAddressBookEntryAction,

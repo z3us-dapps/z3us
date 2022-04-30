@@ -18,8 +18,8 @@ import { ValidatorList } from './validator-list'
 const TAB_HEIGHT = '246px'
 
 export const Staking: React.FC = () => {
-	const { account, selectAccount } = useStore(state => ({
-		account: state.account,
+	const { accountAddress, selectAccount } = useStore(state => ({
+		accountAddress: state.getCurrentAddressAction(),
 		selectAccount: state.selectAccountAction,
 	}))
 	const [positions, setPositions] = useState({})
@@ -28,8 +28,7 @@ export const Staking: React.FC = () => {
 	const { data: totalStakesValue } = useTotalDelegatedStake()
 
 	const totalStakes = new BigNumber(totalStakesValue)
-	const address = account?.address?.toString()
-	const shortAddress = getShortAddress(address)
+	const shortAddress = getShortAddress(accountAddress)
 
 	useEffect(() => {
 		const newPositions = {}

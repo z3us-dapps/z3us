@@ -14,8 +14,8 @@ import { isWebAuthSupported } from '@src/services/credentials'
 export const LockedPanel: React.FC = () => {
 	const inputRef = useRef(null)
 	const isDarkMode = useColorMode()
-	const { account, unlockWalletAction, setActiveAccount, addToast, hasAuth, authenticate } = useStore(state => ({
-		account: state.account,
+	const { seed, unlockWalletAction, setActiveAccount, addToast, hasAuth, authenticate } = useStore(state => ({
+		seed: state.masterSeed,
 		unlockWalletAction: state.unlockWalletAction,
 		network: state.networks[state.selectedNetworkIndex],
 		setActiveAccount: state.selectAccountAction,
@@ -28,7 +28,7 @@ export const LockedPanel: React.FC = () => {
 		passwordError: false,
 		isLoading: false,
 	})
-	const hasWallet = !!account
+	const hasWallet = !!seed
 
 	const handleUnlock = async password => {
 		setState(draft => {

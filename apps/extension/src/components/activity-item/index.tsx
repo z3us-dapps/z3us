@@ -32,12 +32,11 @@ const defaultProps = {
 }
 
 export const ActivityItem = React.forwardRef<HTMLDivElement, IProps>(({ tx, activity, css, showAvatarShadow }, ref) => {
-	const { account } = useStore(state => ({
-		account: state.account,
+	const { accountAddress } = useStore(state => ({
+		accountAddress: state.getCurrentAddressAction(),
 	}))
 	const { data: token } = useTokenInfo(activity?.rri)
 	const tokenImage = token?.image || token?.iconURL
-	const accountAddress = account.address.toString()
 
 	return (
 		<div ref={ref} style={{ paddingBottom: '12px' }}>
