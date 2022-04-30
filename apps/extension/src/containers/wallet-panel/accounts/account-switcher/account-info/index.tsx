@@ -21,7 +21,6 @@ export const AccountInfo = ({ address }: Props): JSX.Element => {
 	const color = entry?.colorSettings?.[ColorSettings.COLOR_TEXT] || '#330867'
 	const background =
 		entry?.background || 'radial-gradient(circle at 50% 0%, rgb(238, 171, 224) 50%, rgb(247, 219, 191) 76%)'
-
 	const { isLoading, value, change } = useAccountValue()
 	const accountValue = formatBigNumber(value, 'USD', 2)
 	const accountPercentageChange = !value.isEqualTo(0)
