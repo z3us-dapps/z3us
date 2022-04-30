@@ -9,6 +9,7 @@ export interface IProps {
 	showToolTipArrow?: boolean
 	delay?: number
 	sideOffset?: number
+	bgColor?: string
 	css?: CSS
 }
 
@@ -16,6 +17,7 @@ const defaultProps = {
 	showToolTipArrow: true,
 	delay: 1000,
 	sideOffset: 5,
+	bgColor: '$bgColor2',
 	css: undefined,
 }
 
@@ -25,6 +27,7 @@ const ButtonTipFeedback: React.FC<IProps> = ({
 	sideOffset,
 	showToolTipArrow,
 	delay,
+	bgColor,
 	css,
 }: IProps) => {
 	const timeoutRef = useRef(null)
@@ -51,9 +54,9 @@ const ButtonTipFeedback: React.FC<IProps> = ({
 	return (
 		<Tooltip open={feedbackVisible}>
 			<TooltipTrigger asChild>{clonedButton}</TooltipTrigger>
-			<TooltipContent side="top" sideOffset={sideOffset} css={{ ...(css as any) }}>
-				{showToolTipArrow ? <TooltipArrow css={{ ...(css as any) }} /> : null}
-				<Box css={{ color: '$txtDefault' }}>{feedback}</Box>
+			<TooltipContent side="top" sideOffset={sideOffset} css={{ ...(css as any), backgroundColor: bgColor }}>
+				{showToolTipArrow ? <TooltipArrow css={{ fill: bgColor }} /> : null}
+				<Box css={{ fill: '$txtDefault' }}>{feedback}</Box>
 			</TooltipContent>
 		</Tooltip>
 	)
