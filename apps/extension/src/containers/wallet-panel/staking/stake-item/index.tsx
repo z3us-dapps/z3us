@@ -82,17 +82,16 @@ export const StakeItem: React.FC<IProps> = ({
 				</Flex>
 				<Flex>
 					<Text>
-						{apy(
-							new BigNumber(validator.totalDelegatedStake).shiftedBy(-18),
-							total,
-							validator.validatorFee,
-						).toFormat(2)}
+						{apy(new BigNumber(validator.totalDelegatedStake).shiftedBy(-18), total, validator.validatorFee).toFormat(
+							2,
+						)}
 						%
 					</Text>
 				</Flex>
 			</Flex>
 			<Flex justify="end">
 				<StakeModal
+					validatorAddress={valdiatorAddress}
 					trigger={
 						<Button color="primary" size="1">
 							Stake
@@ -101,6 +100,7 @@ export const StakeItem: React.FC<IProps> = ({
 				/>
 				<StakeModal
 					reduceStake
+					validatorAddress={valdiatorAddress}
 					trigger={
 						<Button color="tertiary" size="1" css={{ ml: '$2' }}>
 							Reduce stake

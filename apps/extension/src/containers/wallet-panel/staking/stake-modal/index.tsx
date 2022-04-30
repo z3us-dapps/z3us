@@ -134,7 +134,6 @@ export const StakeModal: React.FC<IProps> = ({ trigger, tooltipMessage, validato
 		setState(draft => {
 			draft.isLoading = true
 		})
-
 		try {
 			const { blob } = await await FinalizeTransaction(network.url, account, token.symbol, state.transaction)
 			await SubmitSignedTransaction(network.url, account, blob)
@@ -201,7 +200,7 @@ export const StakeModal: React.FC<IProps> = ({ trigger, tooltipMessage, validato
 						{state.transaction ? (
 							<Button
 								size="6"
-								color="red"
+								color="primary"
 								aria-label="confirm"
 								css={{ px: '0', flex: '1' }}
 								onClick={handleConfirm}
