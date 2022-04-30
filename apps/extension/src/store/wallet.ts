@@ -33,6 +33,7 @@ export type MasterSeed = HDMasterSeedT | null
 export type AddressBookEntry = {
 	name?: string
 	isOwn?: boolean
+	isHardWallet?: boolean
 	background?: string
 	colorSettings?: { [key in ColorSettings]: string }
 }
@@ -433,8 +434,11 @@ export const createWalletStore = (set, get) => ({
 		set(state => {
 			state.hwPublicAddresses = addresses
 			Object.values(addresses).forEach(address => {
-				if (!state.addressBook[address]) {
-					state.addressBook[address] = { isOwn: true, background: defaultEntryBackground }
+				state.addressBook[address] = {
+					isOwn: true,
+					isHardWallet: true,
+					background: defaultEntryBackground,
+					...state.addressBook[address],
 				}
 			})
 		})
@@ -444,8 +448,11 @@ export const createWalletStore = (set, get) => ({
 		set(state => {
 			state.publicAddresses = addresses
 			Object.values(addresses).forEach(address => {
-				if (!state.addressBook[address]) {
-					state.addressBook[address] = { isOwn: true, background: defaultEntryBackground }
+				state.addressBook[address] = {
+					isOwn: true,
+					isHardWallet: true,
+					background: defaultEntryBackground,
+					...state.addressBook[address],
 				}
 			})
 		})
@@ -474,9 +481,8 @@ export const createWalletStore = (set, get) => ({
 				delete state.hwPublicAddresses[hwIndexes[index - publicIndexes.length]]
 				state.hwPublicAddresses = { ...state.hwPublicAddresses }
 			}
-			if (state.selectedAccountIndex >= index) {
-				state.selectedAccountIndex -= 1
-			}
+			state.selectedAccountIndex = 0
+			state.activeSlideIndex = -1
 		})
 	},
 
@@ -611,10 +617,16 @@ export const createWalletStore = (set, get) => ({
 				})
 
 				set(draft => {
-					draft.selectedAccountIndex = draft.publicAddresses.length
-					draft.activeSlideIndex = draft.publicAddresses.length
-					draft.publicAddresses[publicIndexes[publicIndexes.length]] = address.toString()
+					draft.publicAddresses[index] = address.toString()
 					draft.account = Account.create({ address, signingKey })
+					draft.addressBook[address.toString()] = {
+						isOwn: true,
+						isHardWallet: true,
+						background: defaultEntryBackground,
+						...state.addressBook[address.toString()],
+					}
+					draft.selectedAccountIndex = publicIndexes.length
+					draft.activeSlideIndex = publicIndexes.length
 				})
 			} else {
 				set(draft => {
