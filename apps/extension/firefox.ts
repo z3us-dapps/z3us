@@ -16,7 +16,16 @@ export default {
 		default_popup: 'index.html',
 		default_title: 'z3us',
 	},
-	permissions: ['storage', 'unlimitedStorage', 'notifications', 'activeTab', 'geolocation', 'webRequest', 'hid'],
+	permissions: [
+		'storage',
+		'unlimitedStorage',
+		'notifications',
+		'activeTab',
+		'geolocation',
+		'webRequest',
+		'hid',
+		'https://*/*',
+	],
 	background: {
 		scripts: ['src/lib/background.ts'],
 		persistent: true,
