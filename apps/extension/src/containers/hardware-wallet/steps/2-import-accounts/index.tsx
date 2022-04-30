@@ -168,7 +168,7 @@ export const ImportAccounts = (): JSX.Element => {
 					fullWidth
 					color="primary"
 					size="6"
-					disabled={selectedAmount <= 0}
+					disabled={!(selectedAmount > 0 && state.addresses.length > 0)}
 					onClick={handleContinue}
 					css={{ flex: '1' }}
 				>

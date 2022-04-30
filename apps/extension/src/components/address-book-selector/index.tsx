@@ -12,6 +12,7 @@ import {
 import { Tooltip, TooltipTrigger, TooltipContent, TooltipArrow } from 'ui/src/components/tool-tip'
 import Button from 'ui/src/components/button'
 import { Text } from 'ui/src/components/atoms'
+import { getShortAddress } from '@src/utils/string-utils'
 
 interface IProps {
 	selectedAddress: string
@@ -23,8 +24,10 @@ export const AddressBookSelector: React.FC<IProps> = ({ selectedAddress, onSelec
 		addressBook: state.addressBook,
 	}))
 
-	const selectedName = addressBook?.[selectedAddress]?.name || 'Select'
-	const entries = Object.entries(addressBook).filter(([, { name }]) => !!name)
+	const selectedName = selectedAddress
+		? addressBook?.[selectedAddress]?.name || getShortAddress(selectedAddress)
+		: 'Select'
+	const entries = Object.entries(addressBook)
 	const hasAddressBook = entries.length > 0
 
 	const handleValueChange = (address: string) => {
@@ -71,7 +74,7 @@ export const AddressBookSelector: React.FC<IProps> = ({ selectedAddress, onSelec
 						<DropdownMenuRadioItem key={address} value={address}>
 							<DropdownMenuEllipsis>
 								<DropdownMenuItemIndicator />
-								{name}
+								{name || getShortAddress(address)}
 							</DropdownMenuEllipsis>
 						</DropdownMenuRadioItem>
 					))}

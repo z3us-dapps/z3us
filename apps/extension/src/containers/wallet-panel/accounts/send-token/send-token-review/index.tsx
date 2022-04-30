@@ -1,5 +1,6 @@
 import React from 'react'
 import BigNumber from 'bignumber.js'
+import { useQueryClient } from 'react-query'
 import { useLocation } from 'wouter'
 import { Token } from '@src/services/types'
 import { FinalizeTransaction, SubmitSignedTransaction } from '@src/services/radix/transactions'
@@ -38,6 +39,7 @@ export const SendTokenReview: React.FC<IProps> = ({
 	onExit,
 }: IProps) => {
 	const [, setLocation] = useLocation()
+	const queryClient = useQueryClient()
 	const { account, addressBook, network } = useStore(state => ({
 		account: state.account,
 		addressBook: state.addressBook,
@@ -80,6 +82,7 @@ export const SendTokenReview: React.FC<IProps> = ({
 				draft.txID = txID
 			})
 			const result = await SubmitSignedTransaction(network.url, account, blob)
+			await queryClient.invalidateQueries()
 			setState(draft => {
 				draft.txID = result.txID
 				draft.errorMessage = ''

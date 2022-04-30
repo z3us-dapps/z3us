@@ -1,4 +1,3 @@
-import { QueryClient } from 'react-query'
 import { RadixService } from '@src/services/radix'
 import { Message } from '@radixdlt/crypto'
 import {
@@ -16,33 +15,6 @@ import {
 import BigNumber from 'bignumber.js'
 import { createEncryptedMessage, createPlaintextMessage } from './message'
 import { parseAccountAddress } from './serializer'
-
-const queryClient = new QueryClient({
-	defaultOptions: {
-		queries: {
-			staleTime: Infinity,
-		},
-	},
-})
-
-export const clearTokenBalancesCache = (networkId: Network, address: string) =>
-	queryClient.removeQueries(['useTokenBalances', networkId, address], { exact: true })
-
-export const clearStakedPositionsCache = (networkId: Network, address: string) =>
-	queryClient.removeQueries(['useStakedPositions', networkId, address], { exact: true })
-
-export const clearUnstakePositionsCache = (networkId: Network, address: string) =>
-	queryClient.removeQueries(['useUnstakePositions', networkId, address], { exact: true })
-
-export const clearTransactionHistoryCache = (networkId: Network, address: string) =>
-	queryClient.removeQueries(['useTransactionHistory', networkId, address], { exact: true })
-
-export const clearAccountCache = (networkId: Network, address: string) => {
-	clearTokenBalancesCache(networkId, address)
-	clearStakedPositionsCache(networkId, address)
-	clearUnstakePositionsCache(networkId, address)
-	clearTransactionHistoryCache(networkId, address)
-}
 
 const buildAmount = (value: string): AmountT => {
 	const bigAmount = new BigNumber(value)
@@ -65,12 +37,7 @@ export const BuildTransaction = async (nodeURL: URL, payload: any) => {
 
 export const SubmitSignedTransaction = async (nodeURL: URL, account: AccountT, signedTransaction: string) => {
 	const service = new RadixService(nodeURL)
-
-	const resp = await service.submitSignedTransaction(account.network, signedTransaction)
-
-	clearAccountCache(account.network, account.address.toString())
-
-	return resp
+	return service.submitSignedTransaction(account.network, signedTransaction)
 }
 
 export const FinalizeTransaction = async (

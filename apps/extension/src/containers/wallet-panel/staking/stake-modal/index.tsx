@@ -1,4 +1,5 @@
 import React from 'react'
+import { useQueryClient } from 'react-query'
 import { useImmer } from 'use-immer'
 import { useStore } from '@src/store'
 import { useLocation } from 'wouter'
@@ -31,6 +32,7 @@ export const StakeModal: React.FC<IProps> = ({ trigger, tooltipMessage, validato
 	const stakeTitle = reduceStake ? 'Unstake' : 'Stake'
 
 	const [, setLocation] = useLocation()
+	const queryClient = useQueryClient()
 	const { data: token } = useNativeToken()
 
 	const { addToast, account, accountAddress, addressBook, network } = useStore(state => ({
@@ -110,6 +112,7 @@ export const StakeModal: React.FC<IProps> = ({ trigger, tooltipMessage, validato
 		setState(draft => {
 			draft.isLoading = true
 		})
+
 		try {
 			const method = reduceStake ? UnstakeTokens : StakeTokens
 			const { transaction, fee } = await method(network.url, token.rri, accountAddress, state.validator, state.amount)
@@ -135,10 +138,15 @@ export const StakeModal: React.FC<IProps> = ({ trigger, tooltipMessage, validato
 			draft.isLoading = true
 		})
 		try {
-			const { blob } = await await FinalizeTransaction(network.url, account, token.symbol, state.transaction)
+			const { blob } = await FinalizeTransaction(network.url, account, token.symbol, state.transaction)
 			await SubmitSignedTransaction(network.url, account, blob)
-
-			setLocation(`/account/token/${token.rri}`)
+			await queryClient.invalidateQueries()
+			setState(draft => {
+				draft.fee = null
+				draft.transaction = null
+				draft.isModalOpen = false
+			})
+			setLocation(`/wallet/account/token/${token.rri}`)
 		} catch (error) {
 			addToast({
 				type: 'error',

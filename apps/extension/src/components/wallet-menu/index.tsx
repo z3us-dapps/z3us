@@ -39,7 +39,10 @@ export const WalletMenu: React.FC = () => {
 
 	const handleLockWallet = async () => lock()
 
-	const handleConnectHW = () => setLocation('#/hardware-wallet')
+	const handleConnectHW = () => {
+		window.open(`${window.location.origin}/index.html#/hardware-wallet`)
+		setLocation('#/hardware-wallet')
+	}
 
 	return (
 		<MotionBox animate={isOpen ? 'open' : 'closed'}>

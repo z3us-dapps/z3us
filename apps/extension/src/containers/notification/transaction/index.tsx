@@ -1,5 +1,6 @@
 /* eslint-disable react/no-array-index-key */
 import React, { useEffect } from 'react'
+import { useQueryClient } from 'react-query'
 import { useImmer } from 'use-immer'
 import BigNumber from 'bignumber.js'
 import { BuildTransaction, FinalizeTransaction, SubmitSignedTransaction } from '@src/services/radix/transactions'
@@ -17,6 +18,7 @@ import { ActivityType } from '@src/components/activity-type'
 
 export const Transaction = (): JSX.Element => {
 	const [, { id }] = useRoute<{ id: string }>('/transaction/:id')
+	const queryClient = useQueryClient()
 
 	const { account, accountAddress, sendResponse, network, action, selectAccountForAddress } = useStore(state => ({
 		account: state.account,
@@ -96,6 +98,7 @@ export const Transaction = (): JSX.Element => {
 		try {
 			const { blob } = await FinalizeTransaction(network.url, account, symbol, state.transaction)
 			const result = await SubmitSignedTransaction(network.url, account, blob)
+			await queryClient.invalidateQueries()
 
 			sendResponse(CONFIRM, { id, host, payload: result })
 		} catch (error) {

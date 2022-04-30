@@ -31,7 +31,7 @@ export const CompleteSync = (): JSX.Element => {
 		})
 		try {
 			setStep(steps.SELECT_DEVICE)
-			setLocation('/wallet/account')
+			setLocation('#/wallet/account')
 		} catch (error) {
 			setState(draft => {
 				draft.errorMessage = error?.message || error

@@ -168,14 +168,7 @@ const defaultState = {
 }
 
 const getHWSigningKeyForIndex = async (state: WalletStore, index: number) => {
-	if (!state.hardwareWallet) {
-		try {
-			state.hardwareWallet = await HardwareWalletLedger.create({ send: state.sendAPDUAction }).toPromise()
-		} catch (error) {
-			console.error(error)
-			return null
-		}
-	}
+	if (!state.hardwareWallet) return null
 
 	const hdPath = HDPathRadix.create({ address: { index, isHardened: true } })
 	const hardwareSigningKey = await state.hardwareWallet.makeSigningKey(hdPath, false).toPromise()
@@ -215,9 +208,7 @@ export const createWalletStore = (set, get) => ({
 			throw new Error('Messanger not initialized!')
 		}
 
-		const resp = await messanger.sendActionMessageFromPopup(AUTH_RESET, null)
-
-		return resp
+		return messanger.sendActionMessageFromPopup(AUTH_RESET, null)
 	},
 
 	registerCredentialAction: async (userID: string, userName: string, userDisplayName: string, password: string) => {
@@ -237,13 +228,11 @@ export const createWalletStore = (set, get) => ({
 
 		const credential = await startRegistration(options)
 
-		const resp = await messanger.sendActionMessageFromPopup(AUTH_VERIFY_REGISTRATION, {
+		return messanger.sendActionMessageFromPopup(AUTH_VERIFY_REGISTRATION, {
 			expectedRPID: window.location.hostname,
 			expectedOrigin: window.location.origin,
 			credential,
 		})
-
-		return resp
 	},
 
 	authenticateAction: async () => {
@@ -256,13 +245,11 @@ export const createWalletStore = (set, get) => ({
 
 		const credential = await startAuthentication(options)
 
-		const resp = await messanger.sendActionMessageFromPopup(AUTH_VERIFY_AUTHENTICATION, {
+		return messanger.sendActionMessageFromPopup(AUTH_VERIFY_AUTHENTICATION, {
 			expectedRPID: window.location.hostname,
 			expectedOrigin: window.location.origin,
 			credential,
 		})
-
-		return resp
 	},
 
 	authRegistrationOptions: async () => {
@@ -433,12 +420,22 @@ export const createWalletStore = (set, get) => ({
 	setHWPublicAddressesAction: (addresses: { [key: number]: string }) => {
 		set(state => {
 			state.hwPublicAddresses = addresses
+			Object.values(addresses).forEach(address => {
+				if (!state.addressBook[address]) {
+					state.addressBook[address] = { isOwn: true }
+				}
+			})
 		})
 	},
 
 	setPublicAddressesAction: (addresses: { [key: number]: string }) => {
 		set(state => {
 			state.publicAddresses = addresses
+			Object.values(addresses).forEach(address => {
+				if (!state.addressBook[address]) {
+					state.addressBook[address] = { isOwn: true }
+				}
+			})
 		})
 	},
 
@@ -489,7 +486,7 @@ export const createWalletStore = (set, get) => ({
 			draft.selectedNetworkIndex = newIndex
 		})
 
-		const state = get()
+		let state = get()
 		const network = state.networks[state.selectedNetworkIndex]
 
 		const publicIndexes = Object.keys(state.publicAddresses)
@@ -516,6 +513,18 @@ export const createWalletStore = (set, get) => ({
 		}
 
 		const hwIndexes = Object.keys(state.hwPublicAddresses)
+		if (hwIndexes.length > 0 && !state.hardwareWallet) {
+			try {
+				const hw = await HardwareWalletLedger.create({ send: state.sendAPDUAction }).toPromise()
+				set(draft => {
+					draft.hardwareWallet = hw
+				})
+				state = get()
+			} catch (error) {
+				console.error(error)
+				return
+			}
+		}
 		for (let i = 0; i < hwIndexes.length; i += 1) {
 			// eslint-disable-next-line no-await-in-loop
 			const signingKey = await getHWSigningKeyForIndex(state, +hwIndexes[i])
@@ -545,7 +554,7 @@ export const createWalletStore = (set, get) => ({
 			draft.activeSlideIndex = newIndex
 		})
 
-		const state = get()
+		let state = get()
 		const network = state.networks[state.selectedNetworkIndex]
 
 		const publicIndexes = Object.keys(state.publicAddresses)
@@ -564,6 +573,18 @@ export const createWalletStore = (set, get) => ({
 			}
 		} else {
 			const hwIndexes = Object.keys(state.hwPublicAddresses)
+			if (hwIndexes.length > 0 && !state.hardwareWallet) {
+				try {
+					const hw = await HardwareWalletLedger.create({ send: state.sendAPDUAction }).toPromise()
+					set(draft => {
+						draft.hardwareWallet = hw
+					})
+					state = get()
+				} catch (error) {
+					console.error(error)
+					return
+				}
+			}
 			const signingKey = await getHWSigningKeyForIndex(state, +hwIndexes[newIndex - publicIndexes.length])
 			if (signingKey) {
 				const address = AccountAddress.fromPublicKeyAndNetwork({

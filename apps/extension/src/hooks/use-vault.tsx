@@ -24,9 +24,10 @@ export const useVault = () => {
 				if (seed) {
 					await setMasterSeed(HDMasterSeed.fromSeed(Buffer.from(seed, 'hex')))
 				}
-			} catch (error: unknown) {
+			} catch (error) {
 				// eslint-disable-next-line no-console
 				console.error(error)
+				window.location.reload()
 			}
 			setMessanger(messanger)
 		}
@@ -38,9 +39,10 @@ export const useVault = () => {
 		const load = async () => {
 			try {
 				await messanger.sendActionMessageFromPopup(GET, null) // extend session
-			} catch (error: unknown) {
+			} catch (error) {
 				// eslint-disable-next-line no-console
 				console.error(error)
+				window.location.reload()
 			}
 		}
 

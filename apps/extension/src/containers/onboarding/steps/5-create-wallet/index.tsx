@@ -58,7 +58,7 @@ export const CreateWallet = (): JSX.Element => {
 			setMnemomic(null)
 			setOnboradingStep(onBoardingSteps.START)
 			setIsRestoreWorkflow(false)
-			setLocation('/wallet/account')
+			setLocation('#/wallet/account')
 		} catch (error) {
 			setState(draft => {
 				draft.showError = true
