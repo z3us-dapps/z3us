@@ -1,23 +1,24 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect } from 'react'
 import { Box, Flex, Text, StyledLink, Image } from 'ui/src/components/atoms'
 import Button from 'ui/src/components/button'
-import { AccountSelector } from '@src/components/account-selector'
 import { PageWrapper, PageHeading, PageSubHeading } from '@src/components/layout'
-import { getShortAddress } from '@src/utils/string-utils'
 import { useStore } from '@src/store'
 import { useRoute } from 'wouter'
 import { hexToJSON } from '@src/utils/encoding'
 import { CONFIRM } from '@src/lib/actions'
 import { EncryptMessage } from '@src/services/radix/message'
+import { getShortAddress } from '@src/utils/string-utils'
+import { useImmer } from 'use-immer'
+import InputFeedback from 'ui/src/components/input/input-feedback'
 
 export const Encrypt = (): JSX.Element => {
 	const [, { id }] = useRoute<{ id: string }>('/encrypt/:id')
 
-	const { account, accountAddress, sendResponse, selectAccount, selectAccountForAddress, action } = useStore(state => ({
+	const { account, accountAddress, addressBook, sendResponse, selectAccountForAddress, action } = useStore(state => ({
 		account: state.account,
+		addressBook: state.addressBook,
 		accountAddress: state.getCurrentAddressAction(),
 		sendResponse: state.sendResponseAction,
-		selectAccount: state.selectAccountAction,
 		selectAccountForAddress: state.selectAccountForAddressAction,
 		action:
 			state.pendingActions[id] && state.pendingActions[id].payloadHex
@@ -29,15 +30,24 @@ export const Encrypt = (): JSX.Element => {
 		host,
 		request: { toAddress, message, fromAddress },
 	} = action
-	const [shortAddress, setShortAddress] = useState(getShortAddress(accountAddress))
+
+	const [state, setState] = useImmer({
+		entry: addressBook[accountAddress],
+		shortAddress: getShortAddress(accountAddress),
+	})
 
 	useEffect(() => {
-		selectAccountForAddress(fromAddress)
+		if (fromAddress) {
+			selectAccountForAddress(fromAddress)
+		}
 	}, [fromAddress])
 
 	useEffect(() => {
 		if (accountAddress) {
-			setShortAddress(getShortAddress(accountAddress))
+			setState(draft => {
+				draft.entry = addressBook[accountAddress]
+				draft.shortAddress = getShortAddress(accountAddress)
+			})
 		}
 	}, [accountAddress])
 
@@ -51,16 +61,13 @@ export const Encrypt = (): JSX.Element => {
 	}
 
 	const handleConfirm = async () => {
+		if (!account) return
 		const ecnrypted = await EncryptMessage(account, toAddress, message)
 		sendResponse(CONFIRM, {
 			id,
 			host,
 			payload: { request: action.request, value: ecnrypted.toString('hex') },
 		})
-	}
-
-	const handleAccountChange = async (accountIndex: number) => {
-		await selectAccount(accountIndex)
 	}
 
 	return (
@@ -76,8 +83,12 @@ export const Encrypt = (): JSX.Element => {
 						.
 					</PageSubHeading>
 				</Box>
-				<Box css={{ py: '$5' }}>
-					<AccountSelector shortAddress={shortAddress} onAccountChange={handleAccountChange} />
+				<Box css={{ mt: '$8', flex: '1' }}>
+					<InputFeedback showFeedback={!account}>
+						<Text color="red" medium>
+							Unable to derive account, if you are using hard wallet ensure ledger is connected and app opened
+						</Text>
+					</InputFeedback>
 				</Box>
 				<Flex
 					direction="column"
@@ -88,7 +99,10 @@ export const Encrypt = (): JSX.Element => {
 					<Box css={{ pb: '$3' }}>
 						<Image src="/images/z3us-spinner.svg" css={{ width: '90px', height: '90px' }} />
 					</Box>
-					<Text size="6">Poseidon finance - degen defi ...</Text>
+					<Flex css={{ position: 'relative', pb: '15px' }}>
+						<Text css={{ flex: '1' }}>Using account:</Text>
+						<Text>{state?.entry?.name ? `${state?.entry.name} (${state.shortAddress})` : state.shortAddress}</Text>
+					</Flex>
 					<StyledLink href="#" target="_blank">
 						<Text size="4" color="muted" css={{ mt: '$2' }}>
 							{host}
@@ -109,6 +123,7 @@ export const Encrypt = (): JSX.Element => {
 				</Button>
 				<Button
 					onClick={handleConfirm}
+					disabled={!account}
 					size="6"
 					color="primary"
 					aria-label="confirm encrypt wallet"

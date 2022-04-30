@@ -20,19 +20,23 @@ export const Transaction = (): JSX.Element => {
 	const [, { id }] = useRoute<{ id: string }>('/transaction/:id')
 	const queryClient = useQueryClient()
 
-	const { account, accountAddress, sendResponse, network, action, selectAccountForAddress } = useStore(state => ({
-		account: state.account,
-		accountAddress: state.getCurrentAddressAction(),
-		sendResponse: state.sendResponseAction,
-		selectAccountForAddress: state.selectAccountForAddressAction,
-		network: state.networks[state.selectedNetworkIndex],
-		action:
-			state.pendingActions[id] && state.pendingActions[id].payloadHex
-				? hexToJSON(state.pendingActions[id].payloadHex)
-				: {},
-	}))
+	const { account, accountAddress, addressBook, sendResponse, network, action, selectAccountForAddress } = useStore(
+		state => ({
+			account: state.account,
+			addressBook: state.addressBook,
+			accountAddress: state.getCurrentAddressAction(),
+			sendResponse: state.sendResponseAction,
+			selectAccountForAddress: state.selectAccountForAddressAction,
+			network: state.networks[state.selectedNetworkIndex],
+			action:
+				state.pendingActions[id] && state.pendingActions[id].payloadHex
+					? hexToJSON(state.pendingActions[id].payloadHex)
+					: {},
+		}),
+	)
 
 	const [state, setState] = useImmer({
+		entry: addressBook[accountAddress],
 		shortAddress: getShortAddress(accountAddress),
 		fee: null,
 		transaction: null,
@@ -45,12 +49,15 @@ export const Transaction = (): JSX.Element => {
 	} = action
 
 	useEffect(() => {
-		selectAccountForAddress(fromAddress)
+		if (fromAddress) {
+			selectAccountForAddress(fromAddress)
+		}
 	}, [fromAddress])
 
 	useEffect(() => {
 		if (accountAddress) {
 			setState(draft => {
+				draft.entry = addressBook[accountAddress]
 				draft.shortAddress = getShortAddress(accountAddress)
 			})
 		}
@@ -86,6 +93,7 @@ export const Transaction = (): JSX.Element => {
 	}
 
 	const handleConfirm = async () => {
+		if (!account) return
 		if (!state.transaction) {
 			sendResponse(CONFIRM, {
 				id,
@@ -128,9 +136,11 @@ export const Transaction = (): JSX.Element => {
 					</PageSubHeading>
 				</Box>
 				<Box css={{ mt: '$8', flex: '1' }}>
-					<InputFeedback showFeedback={state.errorMessage !== ''} animateHeight={31}>
+					<InputFeedback showFeedback={!account || state.errorMessage !== ''}>
 						<Text color="red" medium>
-							{state.errorMessage}
+							{!account
+								? 'Unable to derive account, if you are using hard wallet ensure ledger is connected and app opened'
+								: state.errorMessage}
 						</Text>
 					</InputFeedback>
 				</Box>
@@ -156,16 +166,22 @@ export const Transaction = (): JSX.Element => {
 												<ActivityType activity={activity} accountAddress={accountAddress} />
 											</Box>
 										</Flex>
-										{toAccount && (
-											<Flex css={{ position: 'relative', pb: '15px' }}>
-												<Text css={{ flex: '1' }}>From account:</Text>
-												<Text>{getShortAddress(toAccount)}</Text>
-											</Flex>
-										)}
 										{fromAccount && (
 											<Flex css={{ position: 'relative', pb: '15px' }}>
+												<Text css={{ flex: '1' }}>From account:</Text>
+												<Text>
+													{state?.entry?.name ? `${state?.entry.name} (${state.shortAddress})` : state.shortAddress}
+												</Text>
+											</Flex>
+										)}
+										{toAccount && (
+											<Flex css={{ position: 'relative', pb: '15px' }}>
 												<Text css={{ flex: '1' }}>To account:</Text>
-												<Text>{getShortAddress(fromAccount)}</Text>
+												<Text>
+													{addressBook[toAccount]?.name
+														? `${addressBook[toAccount]?.name} (${getShortAddress(toAccount)})`
+														: getShortAddress(toAccount)}
+												</Text>
 											</Flex>
 										)}
 										{state.fee && (
@@ -193,6 +209,7 @@ export const Transaction = (): JSX.Element => {
 				</Button>
 				<Button
 					onClick={handleConfirm}
+					disabled={!account}
 					size="6"
 					color="primary"
 					aria-label="confirm transaction wallet"

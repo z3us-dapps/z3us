@@ -511,6 +511,10 @@ export const createWalletStore = (set, get) => ({
 						draft.publicAddresses[publicIndexes[i]] = address.toString()
 					})
 				}
+			} else if (state.selectedAccountIndex === i) {
+				set(draft => {
+					draft.account = null
+				})
 			}
 		}
 
@@ -546,6 +550,10 @@ export const createWalletStore = (set, get) => ({
 						draft.hwPublicAddresses[hwIndexes[i]] = address.toString()
 					})
 				}
+			} else if (state.selectedAccountIndex === i + publicIndexes.length) {
+				set(draft => {
+					draft.account = null
+				})
 			}
 		}
 	},
@@ -617,7 +625,7 @@ export const createWalletStore = (set, get) => ({
 			const hwIndexes = Object.keys(hwPublicAddresses)
 			for (let i = 0; i < hwIndexes.length; i += 1) {
 				if (hwPublicAddresses[hwIndexes[i]] === address) {
-					selectedAccount = i
+					selectedAccount = i + publicIndexes.length
 					break
 				}
 			}

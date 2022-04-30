@@ -91,6 +91,7 @@ export const SendToken: React.FC = () => {
 	}
 
 	const handlePrepareTx = async () => {
+		if (!account) return
 		setState(draft => {
 			draft.isLoading = true
 		})
@@ -330,7 +331,7 @@ export const SendToken: React.FC = () => {
 								css={{ flex: '1' }}
 								onClick={handlePrepareTx}
 								fullWidth
-								loading={state.isLoading}
+								loading={state.isLoading || !account}
 								disabled={!state.to || !state.amount}
 							>
 								Review send

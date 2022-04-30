@@ -71,6 +71,8 @@ export const SendTokenReview: React.FC<IProps> = ({
 	}
 
 	const handleConfirmSend = async () => {
+		if (!account) return
+
 		setState(draft => {
 			draft.isSendingAlertOpen = true
 			draft.isSendingTransaction = true
@@ -153,6 +155,7 @@ export const SendTokenReview: React.FC<IProps> = ({
 							aria-label="confirm send token"
 							css={{ px: '0', flex: '1', ml: '$1' }}
 							onClick={handleConfirmSend}
+							disabled={!account}
 							fullWidth
 						>
 							Confirm send

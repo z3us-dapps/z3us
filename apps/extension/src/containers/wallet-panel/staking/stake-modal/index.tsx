@@ -134,6 +134,7 @@ export const StakeModal: React.FC<IProps> = ({ trigger, tooltipMessage, validato
 	}
 
 	const handleConfirm = async () => {
+		if (!account) return
 		setState(draft => {
 			draft.isLoading = true
 		})
@@ -212,6 +213,7 @@ export const StakeModal: React.FC<IProps> = ({ trigger, tooltipMessage, validato
 								aria-label="confirm"
 								css={{ px: '0', flex: '1' }}
 								onClick={handleConfirm}
+								disabled={!account}
 								loading={state.isLoading}
 							>
 								Confirm
