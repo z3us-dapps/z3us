@@ -48,16 +48,16 @@ export const LockedPanel: React.FC = () => {
 				})
 			}
 			setState(draft => {
-				draft.isLoading = false
 				draft.passwordError = true
 			})
 
 			if (inputRef.current) {
 				inputRef.current.focus()
 			}
-
-			throw error
 		}
+		setState(draft => {
+			draft.isLoading = false
+		})
 	}
 
 	const unlockWithWebAuth = async () => {

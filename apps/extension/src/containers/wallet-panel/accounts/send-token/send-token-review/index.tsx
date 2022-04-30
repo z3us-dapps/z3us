@@ -82,7 +82,6 @@ export const SendTokenReview: React.FC<IProps> = ({
 			const result = await SubmitSignedTransaction(network.url, account, blob)
 			setState(draft => {
 				draft.txID = result.txID
-				draft.isSendingTransaction = false
 				draft.errorMessage = ''
 			})
 
@@ -91,8 +90,10 @@ export const SendTokenReview: React.FC<IProps> = ({
 			setState(draft => {
 				draft.errorMessage = (error?.message || error).toString().trim()
 			})
-			throw error
 		}
+		setState(draft => {
+			draft.isSendingTransaction = false
+		})
 	}
 
 	return (

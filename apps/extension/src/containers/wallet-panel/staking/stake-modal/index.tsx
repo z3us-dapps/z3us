@@ -118,9 +118,6 @@ export const StakeModal: React.FC<IProps> = ({ trigger, tooltipMessage, validato
 				draft.transaction = transaction
 			})
 		} catch (error) {
-			setState(draft => {
-				draft.isLoading = false
-			})
 			addToast({
 				type: 'error',
 				title: 'Failed to build transaction',
@@ -128,6 +125,9 @@ export const StakeModal: React.FC<IProps> = ({ trigger, tooltipMessage, validato
 				duration: 8000,
 			})
 		}
+		setState(draft => {
+			draft.isLoading = false
+		})
 	}
 
 	const handleConfirm = async () => {

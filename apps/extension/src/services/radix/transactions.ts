@@ -63,11 +63,14 @@ export const BuildTransaction = async (nodeURL: URL, payload: any) => {
 	return service.buildRawTransaction(payload)
 }
 
-export const SubmitSignedTransaction = (nodeURL: URL, account: AccountT, signedTransaction: string) => {
+export const SubmitSignedTransaction = async (nodeURL: URL, account: AccountT, signedTransaction: string) => {
 	const service = new RadixService(nodeURL)
 
+	const resp = await service.submitSignedTransaction(account.network, signedTransaction)
+
 	clearAccountCache(account.network, account.address.toString())
-	return service.submitSignedTransaction(account.network, signedTransaction)
+
+	return resp
 }
 
 export const FinalizeTransaction = async (

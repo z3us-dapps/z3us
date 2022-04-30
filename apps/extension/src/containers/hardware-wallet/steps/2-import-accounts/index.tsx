@@ -63,7 +63,6 @@ export const ImportAccounts = (): JSX.Element => {
 				setState(draft => {
 					draft.errorMessage = (error?.message || error).toString().trim()
 				})
-				throw error
 			}
 
 			setState(draft => {
