@@ -105,7 +105,7 @@ export const Accounts: React.FC = () => {
 								<Flex align="center" css={{ flex: '1', maxWidth: '240px' }}>
 									{isEditing ? (
 										<>
-											<AccountModal address={address} />
+											<AccountModal address={address}  />
 											<Box css={{ width: '202px', ml: '8px' }}>
 												<Input
 													selectOnMount

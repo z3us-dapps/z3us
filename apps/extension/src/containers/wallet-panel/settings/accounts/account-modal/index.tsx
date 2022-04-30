@@ -67,10 +67,15 @@ const sharedColorButtonStyle = {
 }
 
 interface IProps {
+	children?: React.ReactNode
 	address: string
 }
 
-export const AccountModal: React.FC<IProps> = ({ address }) => {
+const defaultProps = {
+	children: undefined,
+}
+
+export const AccountModal: React.FC<IProps> = ({ children, address }) => {
 	const { addressBook, setAddressBookEntry } = useStore(state => ({
 		addressBook: state.addressBook,
 		setAddressBookEntry: state.setAddressBookEntryAction,
@@ -135,13 +140,11 @@ export const AccountModal: React.FC<IProps> = ({ address }) => {
 			<DialogTrigger asChild>
 				<Tooltip>
 					<TooltipTrigger asChild onClick={handleOnClick}>
-						<Box>
-							<AvatarButton background={entry?.background} />
-						</Box>
+						<Box>{children || <AvatarButton background={entry?.background} />}</Box>
 					</TooltipTrigger>
 					<TooltipContent sideOffset={3} side="top">
 						<TooltipArrow />
-						Edit color
+						Edit
 					</TooltipContent>
 				</Tooltip>
 			</DialogTrigger>
@@ -341,3 +344,5 @@ export const AccountModal: React.FC<IProps> = ({ address }) => {
 		</Dialog>
 	)
 }
+
+AccountModal.defaultProps = defaultProps

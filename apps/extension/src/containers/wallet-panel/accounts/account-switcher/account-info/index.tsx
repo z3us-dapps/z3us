@@ -2,7 +2,6 @@ import React from 'react'
 import { useAccountValue } from '@src/services/react-query/queries/account'
 import { Flex, Box, Text } from 'ui/src/components/atoms'
 import Button from 'ui/src/components/button'
-import { Tooltip, TooltipContent, TooltipTrigger, TooltipArrow } from 'ui/src/components/tool-tip'
 import { ActivityIcon } from 'ui/src/components/icons'
 import { formatBigNumber } from '@src/utils/formatters'
 import { AccountAddress } from '@src/components/account-address'
@@ -11,6 +10,7 @@ import PriceLabel from 'ui/src/components/price-label'
 import LoaderBars from 'ui/src/components/loader-bars'
 import { useStore } from '@src/store'
 import { ColorSettings } from '@src/services/types'
+import { AccountModal } from '@src/containers/wallet-panel/settings/accounts/account-modal'
 
 type IProps = {
 	address: string
@@ -125,22 +125,16 @@ export const AccountInfo = ({ address }: IProps): JSX.Element => {
 					</Text>
 				</PriceLabel>
 			</Flex>
-			<Tooltip>
-				<TooltipTrigger asChild>
-					<Button
-						iconOnly
-						size="3"
-						color="ghost"
-						css={{ zIndex: 2, position: 'absolute', bottom: '$1', right: '$1', color, fill: color }}
-					>
-						<ActivityIcon />
-					</Button>
-				</TooltipTrigger>
-				<TooltipContent side="top" sideOffset={5}>
-					<TooltipArrow />
-					Edit account
-				</TooltipContent>
-			</Tooltip>
+			<AccountModal address={address}>
+				<Button
+					iconOnly
+					size="3"
+					color="ghost"
+					css={{ zIndex: 2, position: 'absolute', bottom: '$1', right: '$1', color, fill: color }}
+				>
+					<ActivityIcon />
+				</Button>
+			</AccountModal>
 		</Flex>
 	)
 }
