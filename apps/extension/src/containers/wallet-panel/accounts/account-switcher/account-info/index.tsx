@@ -138,7 +138,7 @@ export const AccountInfo = ({ address }: IProps): JSX.Element => {
 					}}
 				>
 					<Text size="2" bold>
-						<PriceTicker value={accountPercentageChange} refresh={activeSlideIndex} />
+						<PriceTicker value={accountPercentageChange} refresh={state.accountValue} />
 					</Text>
 				</PriceLabel>
 			</Flex>
@@ -150,7 +150,7 @@ export const AccountInfo = ({ address }: IProps): JSX.Element => {
 				</AccountModal>
 			</Box>
 			{entry?.isHardWallet && (
-				<Box css={{ zIndex: 2, position: 'absolute', bottom: '$1', left: '$1' }}>
+				<Box css={{ zIndex: 2, position: 'absolute', bottom: '$2', left: '$2' }}>
 					<Tooltip>
 						<TooltipTrigger asChild>
 							<Button iconOnly size="3" color="ghost" css={{ color, fill: color }}>
