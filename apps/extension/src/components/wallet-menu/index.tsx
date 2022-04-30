@@ -2,7 +2,8 @@ import React, { useState } from 'react'
 import { useStore } from '@src/store'
 import { useLocation } from 'wouter'
 import Button from 'ui/src/components/button'
-import { LockClosedIcon, ChevronRightIcon, StackIcon } from '@radix-ui/react-icons'
+import { LockClosedIcon, ChevronRightIcon } from '@radix-ui/react-icons'
+import { HardwareWalletIcon } from 'ui/src/components/icons'
 import { Box, MotionBox } from 'ui/src/components/atoms'
 import {
 	DropdownMenu,
@@ -112,9 +113,9 @@ export const WalletMenu: React.FC = () => {
 					{seed && (
 						<>
 							<DropdownMenuItem onSelect={handleConnectHW}>
-								<Box css={{ flex: '1', pr: '$2' }}>Connect hardware wallet</Box>
+								<Box css={{ flex: '1', pr: '$4' }}>Connect hardware wallet</Box>
 								<DropdownMenuRightSlot>
-									<StackIcon />
+									<HardwareWalletIcon />
 								</DropdownMenuRightSlot>
 							</DropdownMenuItem>
 							<DropdownMenuItem onSelect={handleLockWallet}>
