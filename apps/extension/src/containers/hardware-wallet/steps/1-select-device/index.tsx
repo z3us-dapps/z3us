@@ -72,7 +72,7 @@ export const SelectDevice = (): JSX.Element => {
 				<Box>
 					<PageHeading>Unsupported</PageHeading>
 					<PageSubHeading>
-						Your browser does not allow connection with USB device. Please update your brwoser to the latest version or
+						Your browser does not allow connection with USB device. Please update your browser to the latest version or
 						use different one.
 					</PageSubHeading>
 				</Box>
