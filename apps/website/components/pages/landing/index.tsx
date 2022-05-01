@@ -128,7 +128,7 @@ export const LandingPage: React.FC = () => {
 											<Flex css={{ mt: '$6' }}>
 												<Button
 													target="_blank"
-													href={config.TELEGRAM_URL}
+													href="https://t.me/z3us_dapps/4"
 													as="a"
 													size="6"
 													color="secondary"
