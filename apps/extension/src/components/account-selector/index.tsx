@@ -2,18 +2,13 @@ import React, { useState } from 'react'
 import { useStore } from '@src/store'
 import { RightArrowIcon } from 'ui/src/components/icons'
 import {
-	Select,
-	SelectTrigger,
-	SelectValue,
-	SelectContent,
-	SelectViewport,
-	SelectGroup,
-	SelectItem,
-	SelectItemText,
-	SelectItemIndicator,
-	SelectScrollUpButton,
-	SelectScrollDownButton,
-} from 'ui/src/components/select'
+	DropdownMenu,
+	DropdownMenuTrigger,
+	DropdownMenuContent,
+	DropdownMenuRadioGroup,
+	DropdownMenuRadioItem,
+	DropdownMenuItemIndicator,
+} from 'ui/src/components/drop-down-menu'
 import { CircleAvatar } from '@src/components/circle-avatar'
 import { Box, Text } from 'ui/src/components/atoms'
 import Button from 'ui/src/components/button'
@@ -55,8 +50,8 @@ export const AccountSelector: React.FC<IProps> = ({
 	}
 
 	return (
-		<Select value={shortAddress} onValueChange={handleValueChange}>
-			<SelectTrigger aria-label="Account selector" asChild>
+		<DropdownMenu>
+			<DropdownMenuTrigger asChild>
 				<Button
 					css={{
 						display: 'flex',
@@ -74,16 +69,13 @@ export const AccountSelector: React.FC<IProps> = ({
 						},
 					}}
 				>
-					<SelectValue>
-						<Text />
-					</SelectValue>
 					<Box css={{ p: '8px' }}>
 						<CircleAvatar background={addressBookBackground} />
 					</Box>
 					<Box css={{ flex: '1' }}>
 						<Text
 							truncate
-							css={{ fontSize: '14px', lineHeight: '17px', fontWeight: '500', mt: '2px', maxWidth: '200px' }}
+							css={{ fontSize: '14px', lineHeight: '17px', fontWeight: '500', mt: '2px', maxWidth: '210px' }}
 						>
 							{addressBookName ? `${addressBookName} (${shortAddress})` : shortAddress}
 						</Text>
@@ -97,28 +89,28 @@ export const AccountSelector: React.FC<IProps> = ({
 						<RightArrowIcon />
 					</Box>
 				</Button>
-			</SelectTrigger>
-			<SelectContent css={{ maxWidth: '360px' }}>
-				<SelectScrollUpButton>{'>'}</SelectScrollUpButton>
-				<SelectViewport>
-					<SelectGroup>
-						{accounts.map(account => (
-							<SelectItem key={account.index} value={account.shortAddress}>
-								<SelectItemText>
-									<Text size="2" bold truncate css={{ maxWidth: '292px' }}>
-										{addressBook[account.addr]?.name
-											? `${addressBook[account.addr].name} (${account.shortAddress})`
-											: account.shortAddress}
-									</Text>
-								</SelectItemText>
-								<SelectItemIndicator />
-							</SelectItem>
-						))}
-					</SelectGroup>
-				</SelectViewport>
-				<SelectScrollDownButton>{'>'}</SelectScrollDownButton>
-			</SelectContent>
-		</Select>
+			</DropdownMenuTrigger>
+			<DropdownMenuContent
+				avoidCollisions={false}
+				align="start"
+				side="bottom"
+				sideOffset={10}
+				css={{ minWidth: '120px', width: '314px' }}
+			>
+				<DropdownMenuRadioGroup value={shortAddress} onValueChange={handleValueChange}>
+					{accounts.map(account => (
+						<DropdownMenuRadioItem key={account.index} value={account.shortAddress}>
+							<DropdownMenuItemIndicator />
+							<Text size="2" bold truncate css={{ maxWidth: '274px' }}>
+								{addressBook[account.addr]?.name
+									? `${addressBook[account.addr].name} (${account.shortAddress})`
+									: account.shortAddress}
+							</Text>
+						</DropdownMenuRadioItem>
+					))}
+				</DropdownMenuRadioGroup>
+			</DropdownMenuContent>
+		</DropdownMenu>
 	)
 }
 
