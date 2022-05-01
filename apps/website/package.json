@@ -1,6 +1,6 @@
 {
 	"name": "z3us-website",
-	"version": "0.0.0",
+	"version": "1.0.0",
 	"private": true,
 	"scripts": {
 		"dev": "yarn next_kill_port && yarn next_dev",
