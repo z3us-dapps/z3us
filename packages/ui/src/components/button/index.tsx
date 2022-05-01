@@ -24,6 +24,7 @@ export interface IProps {
 	iconOnly?: boolean
 	circle?: boolean
 	fullWidth?: boolean
+	active?: boolean
 	icon?: React.ReactNode
 	iconRight?: React.ReactNode
 	onClick?: React.MouseEventHandler<HTMLButtonElement>
@@ -40,6 +41,7 @@ const defaultProps = {
 	iconOnly: false,
 	circle: false,
 	fullWidth: false,
+	active: false,
 }
 
 type NativeAttrs = Omit<React.ButtonHTMLAttributes<unknown>, keyof IProps>
@@ -47,8 +49,8 @@ type NativeAttrs = Omit<React.ButtonHTMLAttributes<unknown>, keyof IProps>
 export type ButtonProps = IProps & NativeAttrs & ButtonVariantsProps & { css?: CSS }
 
 const Button = React.forwardRef<HTMLButtonElement, React.PropsWithChildren<ButtonProps>>(
-	(
-		{
+	(props, ref: React.Ref<HTMLButtonElement | null>) => {
+		const {
 			children,
 			size,
 			color,
@@ -57,15 +59,14 @@ const Button = React.forwardRef<HTMLButtonElement, React.PropsWithChildren<Butto
 			iconOnly,
 			circle,
 			fullWidth,
+			active,
 			onClick,
 			href,
 			target,
 			clickable,
 			css,
 			...rest
-		},
-		ref: React.Ref<HTMLButtonElement | null>,
-	) => {
+		} = props
 		const [buttonWidth, setButtonWidth] = useState(0)
 		const rippleRef = useRef<HTMLElement>(null)
 		const buttonRef = useRef<HTMLButtonElement>(null)
@@ -106,6 +107,7 @@ const Button = React.forwardRef<HTMLButtonElement, React.PropsWithChildren<Butto
 				clickable={clickable}
 				href={href}
 				target={target}
+				active={active}
 				css={{
 					...(buttonWidth
 						? {

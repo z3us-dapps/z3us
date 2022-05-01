@@ -290,6 +290,16 @@ export const StyledButton = styled(
 					width: '100%',
 				},
 			},
+			active: {
+				true: {
+					'&:before': {
+						display: 'none',
+					},
+					'&:after': {
+						display: 'none',
+					},
+				},
+			},
 			iconOnly: {
 				true: {
 					justifyContent: 'center',
@@ -514,6 +524,26 @@ export const StyledButton = styled(
 				color: 'tertiary',
 				disabled: true,
 				css: {
+					'&:hover': {
+						backgroundColor: '$buttonBgTertiary',
+					},
+				},
+			},
+			{
+				color: 'primary',
+				active: true,
+				css: {
+					backgroundColor: '$buttonBgPrimaryHover',
+					'&:hover': {
+						backgroundColor: '$buttonBgPrimaryHover',
+					},
+				},
+			},
+			{
+				color: 'tertiary',
+				active: true,
+				css: {
+					backgroundColor: '$buttonBgTertiaryHover',
 					'&:hover': {
 						backgroundColor: '$buttonBgTertiaryHover',
 					},
