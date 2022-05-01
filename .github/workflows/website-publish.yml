@@ -34,3 +34,4 @@ jobs:
         with:
           deploy_key: ${{ secrets.ACTIONS_DEPLOY_KEY }}
           publish_dir: ./apps/website/out
+          cname: z3us.com
