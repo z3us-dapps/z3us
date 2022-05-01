@@ -1,5 +1,4 @@
 import React from 'react'
-//import { LightningBoltIcon } from '@heroicons/react/solid'
 import Link from 'next/link'
 import Image from 'next/image'
 import { NextSeo } from 'next-seo'
@@ -18,6 +17,7 @@ export const LandingPage: React.FC = () => {
 	return (
 		<>
 			<NextSeo
+				title="An open source UX driven web3 wallet built for DeFi & NFTs "
 				openGraph={{
 					type: 'website',
 					url: config.Z3US_URL,
