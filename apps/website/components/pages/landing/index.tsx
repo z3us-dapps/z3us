@@ -9,9 +9,9 @@ import Button from 'ui/src/components/button'
 import { Header } from 'components/header'
 import { Z3usBrandLanding } from 'components/z3us-brand-landing'
 import { Z3usLogoText } from 'ui/src/components/z3us-logo-text'
-import { useMediaQuery } from '@/hooks/use-media-query'
 import shadowImage from 'public/images/landing-shadow.png'
 import { config } from 'config'
+import { useMediaQuery } from '@/hooks/use-media-query'
 
 export const LandingPage: React.FC = () => {
 	// TODO: add break points to config
