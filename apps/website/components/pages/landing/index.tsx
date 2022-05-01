@@ -133,6 +133,7 @@ export const LandingPage: React.FC = () => {
 													css={{
 														width: '200px',
 														'&&': {
+															color: '$white',
 															backgroundColor: '#ff9400',
 															hover: {
 																backgroundColor: '#ffa72e',

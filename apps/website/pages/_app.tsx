@@ -16,11 +16,12 @@ const siteGlobalStyles = globalCss({
 
 export default function Nextra({ Component, pageProps }) {
 	const getLayout = Component.getLayout || (page => page)
+	globalStyles()
+	siteGlobalStyles()
+
 	return getLayout(
 		<SSRProvider>
 			<DefaultSeo {...SEO} />
-			{globalStyles()}
-			{siteGlobalStyles()}
 			<ThemeProvider
 				attribute="class"
 				defaultTheme="system"

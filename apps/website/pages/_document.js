@@ -14,8 +14,8 @@ class MyDocument extends Document {
 		return (
 			<Html>
 				<Head>
-					{CssBaseline.flush()}
 					<style id="stitches" dangerouslySetInnerHTML={{ __html: getCssText() }} />
+					{CssBaseline.flush()}
 					<link rel="preload" href="/fonts/FiraSans-Bold.woff" as="font" type="font/woff" crossOrigin="anonymous" />
 					<link rel="preload" href="/fonts/FiraSans-Bold.woff2" as="font" type="font/woff2" crossOrigin="anonymous" />
 					<link rel="preload" href="/fonts/FiraSans-Medium.woff" as="font" type="font/woff" crossOrigin="anonymous" />
@@ -97,10 +97,6 @@ class MyDocument extends Document {
 `,
 						}}
 					/>
-					{/* - <link
-						href="https://fonts.googleapis.com/css2?family=Fira+Sans:wght@400;500;700&family=Montserrat:wght@400;500;700&display=optional"
-						rel="stylesheet"
-					/>- */}
 				</Head>
 				<body>
 					<Main />
