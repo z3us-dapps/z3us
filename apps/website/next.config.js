@@ -3,10 +3,6 @@ const isProd = process.env.NODE_ENV === 'production'
 
 const nextConfig = withTM({
 	reactStrictMode: true,
-	/**
-	 * Tell Next.js where the `public` folder is.
-	 */
-	assetPrefix: isProd ? '/z3us/' : '',
 	webpack: (config, { buildId, dev, isServer, defaultLoaders, webpack }) => {
 		config.resolve = {
 			...config.resolve,
