@@ -41,7 +41,7 @@ export const TokenRow = ({ i, rri, amount, loading, disableClick }: IProps): JSX
 		>
 			<Flex
 				css={{
-					height: '70px',
+					height: '68px',
 					borderTop: `1px solid ${i === 0 ? 'transparent' : '$borderPanel'}`,
 					transition: 'background-color 150ms ease-out',
 					background: '$bgPanel',
@@ -52,7 +52,7 @@ export const TokenRow = ({ i, rri, amount, loading, disableClick }: IProps): JSX
 			>
 				{isLoadingComplete && token ? (
 					<>
-						<Box css={{ pt: '17px', mr: '13px', pl: '$4' }}>
+						<Box css={{ pt: '16px', mr: '13px', pl: '$4' }}>
 							<Box css={{ width: '36px', height: '36px', borderRadius: '50%', overflow: 'hidden' }}>
 								<Box as="img" src={token?.image || token?.iconURL} css={{ width: '36px', height: '36px' }} />
 							</Box>
