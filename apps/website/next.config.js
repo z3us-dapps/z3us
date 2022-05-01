@@ -6,7 +6,7 @@ const nextConfig = withTM({
 	/**
 	 * Tell Next.js where the `public` folder is.
 	 */
-	// assetPrefix: isProd ? '/z3us/' : '',
+	assetPrefix: isProd ? '/z3us/' : '',
 	exportPathMap: async function (defaultPathMap, { dev, dir, outDir, distDir, buildId }) {
 		return {
 			'/': { page: '/' },
