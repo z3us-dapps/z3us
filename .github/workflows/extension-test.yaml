@@ -29,7 +29,7 @@ jobs:
       - name: Install dependencies
         run: |-
           cd apps/extension
-          yarn
+          yarn --ignore-engines
       - name: Run build
         run: |-
           cd apps/extension

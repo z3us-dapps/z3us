@@ -9,6 +9,10 @@ jobs:
     steps:
       - name: Copy Files
         uses: actions/checkout@v3
+      - name: Setup Node
+        uses: actions/setup-node@v3
+        with:
+          node-version: 15.5.0
       - name: Print Node version
         run: node -v
       - name: Print yarn version
@@ -16,7 +20,7 @@ jobs:
       - name: Install dependencies
         run: |-
           cd apps/website
-          yarn
+          yarn --ignore-engines
       - name: Run build
         run: |-
           cd apps/website
