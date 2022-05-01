@@ -422,12 +422,13 @@ export const createWalletStore = (set, get) => ({
 	getCurrentAddressAction: () => {
 		const state = get()
 		const publicIndexes = Object.keys(state.publicAddresses)
+		const hwIndexes = Object.keys(state.hwPublicAddresses)
 
 		if (state.selectedAccountIndex < publicIndexes.length) {
-			return state.publicAddresses[state.selectedAccountIndex]
+			return state.publicAddresses[publicIndexes[state.selectedAccountIndex]]
 		}
 
-		return state.hwPublicAddresses[state.selectedAccountIndex - publicIndexes.length]
+		return state.hwPublicAddresses[hwIndexes[state.selectedAccountIndex - publicIndexes.length]]
 	},
 
 	setHWPublicAddressesAction: (addresses: { [key: number]: string }) => {
