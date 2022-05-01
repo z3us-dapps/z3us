@@ -1,6 +1,6 @@
 {
 	"name": "z3us-extension",
-	"version": "1.0.2",
+	"version": "1.0.3",
 	"engines": {
 		"yarn": "^1.22.10",
 		"node": "^15.5.0"

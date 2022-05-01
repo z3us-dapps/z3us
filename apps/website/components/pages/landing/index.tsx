@@ -25,13 +25,13 @@ export const LandingPage: React.FC = () => {
 					description: 'A community centric open source browser wallet for the Radix DLT network.',
 					images: [
 						{
-							url: `${config.Z3US_URL}/og-image.jpg`,
+							url: `${config.Z3US_URL}/og-image-1.png`,
 							width: 800,
 							height: 600,
 							alt: 'Og Image Alt',
 						},
 						{
-							url: `${config.Z3US_URL}/og-image-2.jpg`,
+							url: `${config.Z3US_URL}/og-image-2.png`,
 							width: 800,
 							height: 600,
 							alt: 'Og Image Alt 2',
@@ -128,7 +128,7 @@ export const LandingPage: React.FC = () => {
 											<Flex css={{ mt: '$6' }}>
 												<Button
 													target="_blank"
-													href={config.TELEGRAM_URL}
+													href="https://t.me/z3us_dapps/4"
 													as="a"
 													size="6"
 													color="secondary"
