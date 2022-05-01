@@ -1,19 +1,34 @@
-/* eslint-disable react/no-array-index-key */
-import React, { useRef, useCallback, useEffect } from 'react'
+import React, { useRef, useCallback, useEffect, useState } from 'react'
+import { useStore } from '@src/store'
 import { ScrollArea } from '@src/components/scroll-area'
 import { useTransactionHistory } from '@src/services/react-query/queries/radix'
 import { ActivityItem } from '@src/components/activity-item'
 import { useRoute } from 'wouter'
 import { Text, Box } from 'ui/src/components/atoms'
+
+import { Virtuoso } from 'react-virtuoso'
 import { getSplitParams } from '@src/utils/url-utils'
+import {
+	SLIDE_PANEL_HEIGHT,
+	SLIDE_PANEL_EXPAND_HEIGHT,
+	SLIDE_PANEL_HEADER_HEIGHT,
+} from '@src/containers/wallet-panel/config'
 import { SlideUpPanel } from '../slide-up-panel'
 import { TokenInfo } from '../token-info'
 
 export const Token: React.FC = () => {
+	const { expanded } = useStore(state => ({
+		expanded: state.accountPanelExpanded,
+	}))
+	const [customScrollParent, setCustomScrollParent] = useState(null)
 	const [, params] = useRoute('/account/token/:rri')
 	const rri = getSplitParams(params)
 	const observer = useRef<IntersectionObserver | null>(null)
 	const { isFetching, data, error, fetchNextPage, hasNextPage } = useTransactionHistory(10)
+
+	const calculateHeight = expanded
+		? SLIDE_PANEL_EXPAND_HEIGHT - SLIDE_PANEL_HEADER_HEIGHT
+		: SLIDE_PANEL_HEIGHT - SLIDE_PANEL_HEADER_HEIGHT
 
 	const flatten =
 		data?.pages
@@ -50,36 +65,39 @@ export const Token: React.FC = () => {
 		<>
 			<TokenInfo />
 			<SlideUpPanel name="Activity">
-				<ScrollArea>
-					<Box
-						css={{
-							'> div:first-child': {
-								'> div': {
-									borderTop: 'none',
-								},
-							},
-						}}
-					>
-						{flatten.map(({ t, a }: any, i) => (
-							<ActivityItem
-								key={i}
-								ref={data.pages.length === i + 1 ? lastElementRef : null}
-								tx={t}
-								activity={a}
-								css={{
-									height: '76px',
-									alignItems: 'center',
-									width: '100%',
-									borderTop: '1px solid $borderPanel',
-									bg: '$bgPanel',
-									mb: '0',
-									br: '0',
-									px: '$2',
-								}}
-							/>
-						))}
-					</Box>
-				</ScrollArea>
+				<Box css={{ position: 'relative', height: `${calculateHeight}px` }}>
+					<ScrollArea scrollableNodeProps={{ ref: setCustomScrollParent }}>
+						<Virtuoso
+							customScrollParent={customScrollParent}
+							totalCount={flatten.length}
+							data={flatten}
+							// eslint-disable-next-line react/no-unstable-nested-components
+							itemContent={(i, { a, t }) => (
+								<ActivityItem
+									ref={data.pages.length === i + 1 ? lastElementRef : null}
+									tx={t}
+									activity={a}
+									css={{
+										height: '68px',
+										alignItems: 'center',
+										width: '100%',
+										borderTop: `1px solid ${i === 0 ? 'transparent' : '$borderPanel'}`,
+										bg: '$bgPanel',
+										br: '0',
+										px: '$2',
+										display: 'flex',
+										textAlign: 'left',
+										'&:hover': {
+											background: '$bgPanelHover',
+										},
+									}}
+								/>
+							)}
+						/>
+					</ScrollArea>
+				</Box>
+
+				{/*@TODO: clean this error state*/}
 				{error && <Text>Error: {(error as any)?.message}</Text>}
 			</SlideUpPanel>
 		</>

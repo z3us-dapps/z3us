@@ -1,5 +1,4 @@
 /* eslint-disable react/no-array-index-key, react/no-unstable-nested-components */
-// @TODO: fix no-unstable-nested
 import React, { useRef, useCallback, useState } from 'react'
 import { useStore } from '@src/store'
 import { useTransactionHistory } from '@src/services/react-query/queries/radix'
@@ -84,19 +83,27 @@ export const AccountActivity: React.FC = () => {
 							customScrollParent={customScrollParent}
 							totalCount={flatten.length}
 							data={flatten}
+							// eslint-disable-next-line react/no-unstable-nested-components
 							itemContent={(i, { a, t }) => (
 								<ActivityItem
 									ref={data.pages.length === i + 1 ? lastElementRef : null}
 									tx={t}
 									activity={a}
+									isIsoStyled
 									css={{
-										height: '76px',
+										height: '68px',
 										alignItems: 'center',
 										width: '100%',
 										border: '1px solid $borderPanel',
 										bg: '$bgPanel2',
 										br: '$3',
-										px: '$2',
+										pr: '$2',
+										pl: '0',
+										display: 'flex',
+										textAlign: 'left',
+										'&:hover': {
+											background: '$bgPanelHover',
+										},
 									}}
 								/>
 							)}

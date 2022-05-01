@@ -3,8 +3,7 @@ import { useImmer } from 'use-immer'
 import { useAccountValue } from '@src/services/react-query/queries/account'
 import { Flex, Box, Text } from 'ui/src/components/atoms'
 import Button from 'ui/src/components/button'
-import { HardwareWalletIcon } from 'ui/src/components/icons'
-import { ActivityIcon } from 'ui/src/components/icons'
+import { ActivityIcon, HardwareWalletIcon } from 'ui/src/components/icons'
 import { formatBigNumber } from '@src/utils/formatters'
 import { AccountAddress } from '@src/components/account-address'
 import PriceTicker from 'ui/src/components/price-ticker'
@@ -58,22 +57,6 @@ export const AccountInfo = ({ address }: IProps): JSX.Element => {
 				boxShadow: '$accountPanelShadow',
 				height: '100%',
 				borderRadius: '14px',
-				'&::before': {
-					// @TODO: might remove this element, testing now
-					display: 'none',
-					//content: '""',
-					borderRadius: '12px',
-					position: 'absolute',
-					top: '0',
-					left: '0',
-					bottom: '0',
-					right: '0',
-					pointerEvents: 'none',
-					opacity: '0.7',
-					'background-image': 'url("/images/img-noise-300x170.png")',
-					'background-size': '100%',
-					'mask-image': 'radial-gradient(circle at 50% 50%, transparent 40%, black)',
-				},
 				'&::after': {
 					content: '""',
 					borderRadius: '12px',

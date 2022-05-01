@@ -1,3 +1,4 @@
+/* eslint-disable */
 import React from 'react'
 import { useStore } from '@src/store'
 import BigNumber from 'bignumber.js'
@@ -6,6 +7,7 @@ import { useTokenInfo } from '@src/services/react-query/queries/radix'
 import { formatBigNumber } from '@src/utils/formatters'
 import { Box, Flex, Text } from 'ui/src/components/atoms'
 import { CircleAvatar } from '@src/components/circle-avatar'
+import Button from 'ui/src/components/button'
 import { CSS } from 'ui/src/theme'
 import { ActivityLinks } from './activity-links'
 import { ActivityType } from '../activity-type'
@@ -14,24 +16,16 @@ interface IProps {
 	tx: Transaction
 	activity: Action
 	css?: CSS
-	showAvatarShadow?: boolean
+	isIsoStyled?: boolean
+	paddingBottom?: string
 }
 
 const defaultProps = {
-	css: {
-		height: '76px',
-		alignItems: 'center',
-		width: '100%',
-		border: '1px solid $borderPanel',
-		bg: '$bgPanel2',
-		mb: '12px',
-		br: '$3',
-		px: '$2',
-	},
-	showAvatarShadow: true,
+	css: {},
+	isIsoStyled: false,
 }
 
-export const ActivityItem = React.forwardRef<HTMLDivElement, IProps>(({ tx, activity, css, showAvatarShadow }, ref) => {
+export const ActivityItem = React.forwardRef<HTMLDivElement, IProps>(({ tx, activity, css, isIsoStyled }, ref) => {
 	const { accountAddress } = useStore(state => ({
 		accountAddress: state.getCurrentAddressAction(),
 	}))
@@ -39,24 +33,44 @@ export const ActivityItem = React.forwardRef<HTMLDivElement, IProps>(({ tx, acti
 	const tokenImage = token?.image || token?.iconURL
 
 	return (
-		<div ref={ref} style={{ paddingBottom: '12px' }}>
-			<Flex
+		<div ref={ref} style={{ paddingBottom: isIsoStyled ? '12px' : '0' }}>
+			<Button
 				css={{
 					...(css as any),
 				}}
 			>
-				<CircleAvatar shadow={showAvatarShadow} borderWidth={0} image={tokenImage} width={36} height={36} />
-				<Flex direction="column" css={{ pl: '$3', flex: '1' }}>
+				<Box css={{ mr: '13px', pl: '$2' }}>
+					<Box css={{ width: '36px', height: '36px', borderRadius: '50%', overflow: 'hidden' }}>
+						<Box as="img" src={tokenImage} css={{ width: '36px', height: '36px' }} />
+					</Box>
+				</Box>
+				<Flex direction="column" css={{ flex: '1' }}>
 					<Flex align="center">
 						<Flex css={{ flex: '1' }}>
 							<Box css={{ maxWidth: '145px' }}>
-								<Text truncate medium size="4" css={{ mt: '5px' }}>
-									{token?.symbol?.toLocaleUpperCase()}{' '}
-									<Box as="span">{formatBigNumber(new BigNumber(activity.amount).shiftedBy(-18))}&nbsp;</Box>
+								<Text
+									truncate
+									bold
+									size="3"
+									css={{
+										...(isIsoStyled
+											? {
+													fontSize: '14px',
+													lineHeight: '16px',
+											  }
+											: {
+													fontSize: '16px',
+													lineHeight: '22px',
+											  }),
+										display: 'flex',
+									}}
+								>
+									<Box css={{ pr: '$1' }}>{formatBigNumber(new BigNumber(activity.amount).shiftedBy(-18))}</Box>
+									<Box>{token?.symbol?.toLocaleUpperCase()}</Box>
 								</Text>
-								<Flex align="center">
+								{/*<Flex align="center">
 									<ActivityLinks activity={activity} tx={tx} accountAddress={accountAddress} />
-								</Flex>
+								</Flex>*/}
 							</Box>
 						</Flex>
 						<Flex align="center" css={{ pl: '$1' }}>
@@ -64,7 +78,7 @@ export const ActivityItem = React.forwardRef<HTMLDivElement, IProps>(({ tx, acti
 						</Flex>
 					</Flex>
 				</Flex>
-			</Flex>
+			</Button>
 		</div>
 	)
 })
