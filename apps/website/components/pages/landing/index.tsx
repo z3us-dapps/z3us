@@ -1,14 +1,12 @@
 import React from 'react'
 import Link from 'next/link'
-import Image from 'next/image'
 import { NextSeo } from 'next-seo'
 import { Container, Grid } from '@nextui-org/react'
-import { Box, Text, Flex, StyledLink } from 'ui/src/components/atoms'
+import { Box, Text, Flex, StyledLink, Image } from 'ui/src/components/atoms'
 import Button from 'ui/src/components/button'
 import { Header } from 'components/header'
 import { Z3usBrandLanding } from 'components/z3us-brand-landing'
 import { Z3usLogoText } from 'ui/src/components/z3us-logo-text'
-import shadowImage from 'public/images/landing-shadow.png'
 import { config } from 'config'
 import { useMediaQuery } from '@/hooks/use-media-query'
 
@@ -87,7 +85,7 @@ export const LandingPage: React.FC = () => {
 													pointerEvents: ' none',
 												}}
 											>
-												<Image alt="shadow" src={shadowImage} layout="fixed" width={507} height={197} />
+												<Image as="img" alt="shadow" src="/images/landing-shadow.png" width={507} height={197} />
 											</Box>
 										</Flex>
 									</Grid>
