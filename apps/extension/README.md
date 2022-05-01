@@ -1,2 +1,2 @@
 # ⚡ z3us ⚡ 
-## website
+## extension
