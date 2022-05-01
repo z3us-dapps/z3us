@@ -1,0 +1,22 @@
+name: Publish website
+on:
+  push:
+    tags:
+      - 'v**'
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Copy Files
+        uses: actions/checkout@v2
+      - name: Print Node version
+        run: node -v
+      - name: Print yarn version
+        run: yarn -v
+      - name: Install dependencies
+        run: yarn
+      - name: deploy
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          deploy_key: ${{ secrets.ACTIONS_DEPLOY_KEY }}
+          publish_dir: ./apps/website/out
