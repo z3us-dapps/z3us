@@ -1,28 +1,30 @@
-name: Publish website
+name: website - publish
 on:
   push:
     tags:
-      - 'v**'
+      - 'v**\+web'
 jobs:
   publish:
     runs-on: ubuntu-latest
     steps:
       - name: Copy Files
         uses: actions/checkout@v3
-      - name: Setup Node
-        uses: actions/setup-node@v3
-        with:
-          node-version: 15.5.0
       - name: Print Node version
         run: node -v
       - name: Print yarn version
         run: yarn -v
       - name: Install dependencies
-        run: yarn
-      - name: Build
-        run: cd apps/website && yarn build
-      - name: Export
-        run: cd apps/website && yarn export
+        run: |-
+          cd apps/website
+          yarn
+      - name: Run build
+        run: |-
+          cd apps/website
+          yarn build
+      - name: Run export
+        run: |-
+          cd apps/website
+          yarn export
       - name: Publish
         uses: peaceiris/actions-gh-pages@v3
         with:

@@ -1,0 +1,32 @@
+name: website - test
+on:
+  push:
+    branches:
+      - main
+      - develop
+    paths:
+      - 'apps/website/**'
+  pull_request:
+    branches:
+      - main
+      - develop
+    paths:
+      - 'apps/website/**'
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Copy Files
+        uses: actions/checkout@v3
+      - name: Print Node version
+        run: node -v
+      - name: Print yarn version
+        run: yarn -v
+      - name: Install dependencies
+        run: |-
+          cd apps/website
+          yarn
+      - name: Run build
+        run: |-
+          cd apps/website
+          yarn build
