@@ -14,13 +14,7 @@ import { config } from 'config'
 import { useMediaQuery } from '@/hooks/use-media-query'
 
 export const LandingPage: React.FC = () => {
-	// TODO: add break points to config
-	const isXs = useMediaQuery(650)
-	const isMd = useMediaQuery(960)
-	console.log('isMd:', isMd)
-	const isSm = useMediaQuery(650)
 	const isLg = useMediaQuery(1280)
-	console.log('isLg:', isLg)
 	return (
 		<>
 			<NextSeo
