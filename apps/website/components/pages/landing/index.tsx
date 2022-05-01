@@ -106,12 +106,11 @@ export const LandingPage: React.FC = () => (
 											>
 												{/*defi, nft, token, crypto, staking, animate text with anime.js */}
 												<Box as="span" css={{ position: 'relative', textTransform: 'capitalize' }}>
-													web3
+													Coming soon!
 												</Box>
-											</Box>{' '}
-											wallet
+											</Box>
 										</Text>
-										<Text size="9" regular css={{ py: '$3' }}>
+										<Text size="9" regular css={{ py: '$3', pr: '100px' }}>
 											A community centric open source browser wallet for the{' '}
 											<StyledLink bubble href="https://www.radixdlt.com/">
 												Radix DLT
@@ -147,7 +146,7 @@ export const LandingPage: React.FC = () => (
 							</Grid.Container>
 						</Flex>
 						<Box css={{ py: '$5' }}>
-							<Flex>
+							<Flex justify="end">
 								<Flex>
 									<Link href="/" passHref>
 										<StyledLink>
@@ -164,7 +163,7 @@ export const LandingPage: React.FC = () => (
 										</StyledLink>
 									</Link>
 								</Flex>
-								<Flex justify="end" gap="3" css={{ flex: '1' }}>
+								{/*<Flex justify="end" gap="3" css={{ flex: '1' }}>
 									<Link href="/privacy" passHref>
 										<StyledLink underlineOnHover>
 											<Text>Privacy</Text>
@@ -175,7 +174,7 @@ export const LandingPage: React.FC = () => (
 											<Text>Terms</Text>
 										</StyledLink>
 									</Link>
-								</Flex>
+								</Flex>*/}
 							</Flex>
 						</Box>
 					</Flex>
