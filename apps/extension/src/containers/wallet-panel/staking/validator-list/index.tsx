@@ -26,7 +26,7 @@ export const ValidatorList: React.FC<IProps> = ({ totalStakes }: IProps) => {
 					// eslint-disable-next-line react/no-unstable-nested-components
 					itemContent={i => {
 						const validator = data[i]
-						return <ValidatorItem i={i} validator={validator} totalStakes={totalStakes} style={{ height: 44 }} />
+						return <ValidatorItem i={i} validator={validator} totalStakes={totalStakes} />
 					}}
 				/>
 			</ScrollArea>

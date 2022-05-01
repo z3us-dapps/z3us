@@ -18,10 +18,9 @@ interface IProps {
 	i: number
 	totalStakes: BigNumber
 	validator: Validator
-	style: React.CSSProperties
 }
 
-export const ValidatorItem = ({ i, validator, totalStakes, style }: IProps): JSX.Element => {
+export const ValidatorItem = ({ i, validator, totalStakes }: IProps): JSX.Element => {
 	const {
 		address,
 		name,
@@ -38,19 +37,12 @@ export const ValidatorItem = ({ i, validator, totalStakes, style }: IProps): JSX
 		window.open(`${EXPLORER_URL}/validators/${address.toString()}`)
 	}
 
-	let backgroundColor
+	let backgroundColor: string
 	if (!isExternalStakeAccepted) {
 		backgroundColor = 'gray'
-	} else if (validatorFee >= 3) {
-		backgroundColor = 'red'
-	} else if (validatorFee >= 1.5) {
-		backgroundColor = 'orange'
-	} else if (validatorFee === 0) {
-		backgroundColor = 'green'
 	}
-
 	return (
-		<div style={style}>
+		<div>
 			<Flex
 				align="center"
 				css={{
@@ -143,8 +135,10 @@ export const ValidatorItem = ({ i, validator, totalStakes, style }: IProps): JSX
 													Share
 												</Text>
 												<Flex justify="end" css={{ flex: '1' }}>
-													<Text size="2" color={isExternalStakeAccepted ? backgroundColor || 'muted' : 'muted'}>
-														{validatorFee}%
+													<Text size="2">
+														<span style={{ color: isExternalStakeAccepted ? backgroundColor : 'inherit' }}>
+															{validatorFee}%
+														</span>
 													</Text>
 												</Flex>
 											</Flex>
