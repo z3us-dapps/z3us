@@ -1,6 +1,6 @@
 import React from 'react'
 import { useImmer } from 'use-immer'
-import { Text, Box, Flex, StyledLink } from 'ui/src/components/atoms'
+import { Box, Flex, StyledLink } from 'ui/src/components/atoms'
 import { useEventListener } from 'usehooks-ts'
 import { LightningBoltIcon } from '@radix-ui/react-icons'
 import {
@@ -11,7 +11,7 @@ import {
 } from 'ui/src/components/drop-down-menu'
 import { Container } from '@nextui-org/react'
 import Button from 'ui/src/components/button'
-import { TelegramIcon, GithubIcon, TwitterIcon } from 'ui/src/components/icons'
+import { TelegramIcon, TwitterIcon } from 'ui/src/components/icons'
 import Link from 'next/link'
 import { useTheme } from 'next-themes'
 import { Z3usText } from 'ui/src/components/z3us-text'
@@ -104,7 +104,7 @@ export const Header: React.FC<IProps> = ({ isLandingPage }: IProps) => {
 							},
 						}}
 					>
-						{isLandingPage ? (
+						{/*{isLandingPage ? (
 							<Link href="/docs" passHref>
 								<StyledLink underlineOnHover css={{ mr: '$2' }}>
 									<Text fira size="6" css={{ pt: '1px' }}>
@@ -112,10 +112,10 @@ export const Header: React.FC<IProps> = ({ isLandingPage }: IProps) => {
 									</Text>
 								</StyledLink>
 							</Link>
-						) : null}
-						<Button target="_blank" href={config.GITHUB_URL} as="a" size="3" color="ghost" iconOnly>
+						) : null}*/}
+						{/*<Button target="_blank" href={config.GITHUB_URL} as="a" size="3" color="ghost" iconOnly>
 							<GithubIcon />
-						</Button>
+						</Button>*/}
 						<Button target="_blank" href={config.TWITTER_URL} as="a" size="3" color="ghost" iconOnly>
 							<TwitterIcon />
 						</Button>

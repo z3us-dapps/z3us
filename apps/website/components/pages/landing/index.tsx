@@ -138,7 +138,6 @@ export const LandingPage: React.FC = () => (
 														},
 													},
 												}}
-												clickable={false}
 											>
 												Get BETA access!
 											</Button>
