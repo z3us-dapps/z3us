@@ -12,7 +12,7 @@
 		"check-types": "tsc --noemit",
 		"eslint": "TIMING=1 eslint --fix",
 		"export": "next export",
-		"deploy": "rm -rf node_modules/.cache && next build && next export && touch out/.nojekyll && git add out/ && git commit -m \"build: deploy next-js to gh-pages\" && git subtree push --prefix out origin gh-pages",
+		"deploy": "rm -rf node_modules/.cache && next build && next export && touch out/.nojekyll",
 		"lint": "npm run eslint && npm run check-types"
 	},
 	"dependencies": {
