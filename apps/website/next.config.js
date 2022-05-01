@@ -3,6 +3,19 @@ const isProd = process.env.NODE_ENV === 'production'
 
 const nextConfig = withTM({
 	reactStrictMode: true,
+	/**
+	 * Tell Next.js where the `public` folder is.
+	 */
+	// assetPrefix: isProd ? '/z3us/' : '',
+	exportPathMap: async function (defaultPathMap, { dev, dir, outDir, distDir, buildId }) {
+		return {
+			'/': { page: '/' },
+		}
+	},
+	images: {
+		loader: 'akamai',
+		path: '',
+	},
 	webpack: (config, { buildId, dev, isServer, defaultLoaders, webpack }) => {
 		config.resolve = {
 			...config.resolve,
