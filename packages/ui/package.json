@@ -33,7 +33,7 @@
 		"autoprefixer": "^10.4.0",
 		"css-loader": "5.2.6",
 		"msw": "^0.36.7",
-		"msw-storybook-addon": "^1.6.0",
+		"msw-storybook-addon": "^1.6.3",
 		"sass": "^1.49.9",
 		"sass-loader": "10.1.1",
 		"storybook-addon-designs": "^6.2.1",
