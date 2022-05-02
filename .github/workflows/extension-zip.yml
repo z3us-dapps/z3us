@@ -31,10 +31,10 @@ jobs:
         uses: montudor/action-zip@v1
       - name: Build chrome zip
         run: zip -qq -r chrome.zip chrome
-        working-directory: dist
+        working-directory: apps/extension/dist
       - name: Build firefox zip
         run: zip -qq -r firefox.zip .
-        working-directory: dist/firefox
+        working-directory: apps/extension/dist/firefox
       - uses: actions/upload-artifact@v2
         with:
           name: chrome.zip
