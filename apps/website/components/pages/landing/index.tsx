@@ -1,15 +1,12 @@
 import React from 'react'
-//import { LightningBoltIcon } from '@heroicons/react/solid'
 import Link from 'next/link'
-import Image from 'next/image'
 import { NextSeo } from 'next-seo'
 import { Container, Grid } from '@nextui-org/react'
-import { Box, Text, Flex, StyledLink } from 'ui/src/components/atoms'
+import { Box, Text, Flex, StyledLink, Image } from 'ui/src/components/atoms'
 import Button from 'ui/src/components/button'
 import { Header } from 'components/header'
 import { Z3usBrandLanding } from 'components/z3us-brand-landing'
 import { Z3usLogoText } from 'ui/src/components/z3us-logo-text'
-import shadowImage from 'public/images/landing-shadow.png'
 import { config } from 'config'
 import { useMediaQuery } from '@/hooks/use-media-query'
 
@@ -18,6 +15,7 @@ export const LandingPage: React.FC = () => {
 	return (
 		<>
 			<NextSeo
+				title="An open source UX driven web3 wallet built for DeFi & NFTs "
 				openGraph={{
 					type: 'website',
 					url: config.Z3US_URL,
@@ -87,7 +85,7 @@ export const LandingPage: React.FC = () => {
 													pointerEvents: ' none',
 												}}
 											>
-												<Image alt="shadow" src={shadowImage} layout="fixed" width={507} height={197} />
+												<Image as="img" alt="shadow" src="/images/landing-shadow.png" width={507} height={197} />
 											</Box>
 										</Flex>
 									</Grid>
@@ -135,6 +133,7 @@ export const LandingPage: React.FC = () => {
 													css={{
 														width: '200px',
 														'&&': {
+															color: '$white',
 															backgroundColor: '#ff9400',
 															hover: {
 																backgroundColor: '#ffa72e',
