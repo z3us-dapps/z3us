@@ -5,7 +5,6 @@ import { Box } from '../atoms/box'
 import { Grid } from '../atoms/grid'
 import { Flex } from '../atoms/flex'
 import Button from '../button'
-
 import ButtonGroup from './index'
 
 export default {
@@ -35,6 +34,26 @@ const CombinedTemplate: React.FC = () => (
 						</Button>
 						<Button size="3" color="tertiary">
 							Button 3
+						</Button>
+					</ButtonGroup>
+				</Box>
+			</Grid>
+		</Flex>
+		<Flex justify="start" css={{ mt: '$8' }}>
+			<Grid flow="column" gap="4" css={{ border: '0px solid red' }}>
+				<Box>
+					<ButtonGroup>
+						<Button size="3" color="primary">
+							Button 1
+						</Button>
+						<Button size="3" color="primary" active>
+							Button 2
+						</Button>
+						<Button size="3" color="primary">
+							Button 3
+						</Button>
+						<Button size="3" color="primary">
+							Button 4
 						</Button>
 					</ButtonGroup>
 				</Box>
