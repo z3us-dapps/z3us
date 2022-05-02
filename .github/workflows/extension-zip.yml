@@ -1,6 +1,8 @@
 name: extension - zip
 on:
   push:
+    branches:
+      - main
     tags:
       - 'v**\+ext'
 jobs:
