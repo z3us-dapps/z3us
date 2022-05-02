@@ -27,19 +27,19 @@ jobs:
         run: |-
           cd apps/extension
           yarn build
-      - name: Get version without prefix
-        id: tmp
-        run: echo ::set-output name=tag::${GITHUB_REF#refs/*/v}
-      - name: Remove version cmd suffix
-        id: vars
-        run: echo ::set-output name=tag::${TAG%+ext}
-        env:
-          TAG: ${{steps.tmp.outputs.tag}}
-      - uses: actions/upload-artifact@v3
+      - uses: papeloto/action-zip@v1
         with:
-          name: chrome-${{ steps.vars.outputs.tag }}
-          path: apps/extension/dist/chrome
-      - uses: actions/upload-artifact@v3
+          files: apps/extension/dist/chrome
+          dest: chrome.zip
+      - uses: papeloto/action-zip@v1
         with:
-          name: firefox-${{ steps.vars.outputs.tag }}
-          path: apps/extension/dist/firefox/*
+          files: apps/extension/dist/firefox/
+          dest: firefox.zip
+      - name: Create Release
+        uses: softprops/action-gh-release@v1
+        with:
+          tag_name: ${{ github.ref }}
+          release_name: ${{ github.ref }}
+          files: |
+            chrome.zip
+            firefox.zip
