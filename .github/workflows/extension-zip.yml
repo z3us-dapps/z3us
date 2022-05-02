@@ -27,15 +27,19 @@ jobs:
         run: |-
           cd apps/extension
           yarn build
-      - name: Setup zip
-        uses: montudor/action-zip@v1
-      - name: Build chrome zip
-        run: zip -qq -r chrome.zip apps/extension/dist/chrome
-      - name: Build firefox zip
-        run: zip -qq -r firefox.zip apps/extension/dist/firefox/.
-      - uses: actions/upload-artifact@v2
+      - name: Get version without prefix
+        id: tmp
+        run: echo ::set-output name=tag::${GITHUB_REF#refs/*/v}
+      - name: Remove version cmd suffix
+        id: vars
+        run: echo ::set-output name=tag::${TAG%+ext}
+        env:
+          TAG: ${{steps.tmp.outputs.tag}}
+      - uses: actions/upload-artifact@v3
         with:
-          name: chrome.zip
-      - uses: actions/upload-artifact@v2
+          name: chrome-${{ steps.vars.outputs.tag }}
+          path: apps/extension/dist/chrome
+      - uses: actions/upload-artifact@v3
         with:
-          name: firefox.zip
+          name: firefox-${{ steps.vars.outputs.tag }}
+          path: apps/extension/dist/firefox/*
