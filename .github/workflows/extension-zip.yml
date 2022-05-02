@@ -1,0 +1,44 @@
+name: extension - zip
+on:
+  push:
+    branches:
+      - main
+    tags:
+      - 'v**\+ext'
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Copy Files
+        uses: actions/checkout@v3
+      - name: Setup Node
+        uses: actions/setup-node@v3
+        with:
+          node-version: 15.5.0
+      - name: Print Node version
+        run: node -v
+      - name: Print yarn version
+        run: yarn -v
+      - name: Install dependencies
+        run: |-
+          cd apps/extension
+          yarn --ignore-engines
+      - name: Run build
+        run: |-
+          cd apps/extension
+          yarn build
+      - name: Setup zip
+        uses: montudor/action-zip@v1
+      - name: Build chrome zip
+        uses: montudor/action-zip@v1
+        run: zip -qq -r chrome.zip chrome
+        working-directory: dist
+      - name: Build firefox zip
+        run: zip -qq -r firefox.zip .
+        working-directory: dist/firefox
+      - uses: actions/upload-artifact@v2
+        with:
+          name: chrome.zip
+      - uses: actions/upload-artifact@v2
+        with:
+          name: firefox.zip

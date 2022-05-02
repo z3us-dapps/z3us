@@ -1,6 +1,8 @@
 name: website - publish
 on:
   push:
+    branches:
+      - main
     tags:
       - 'v**\+web'
 jobs:
