@@ -30,7 +30,6 @@ jobs:
       - name: Setup zip
         uses: montudor/action-zip@v1
       - name: Build chrome zip
-        uses: montudor/action-zip@v1
         run: zip -qq -r chrome.zip chrome
         working-directory: dist
       - name: Build firefox zip
