@@ -1,10 +1,10 @@
 import type * as Stitches from '@stitches/react'
-import { createStitches, keyframes, globalCss } from '@stitches/react'
+import { createStitches } from '@stitches/react'
 import { lightColors, lightShadows } from './light-colors'
 import { darkColors, darkShadows } from './dark-colors'
 import { utils } from './utils'
 
-const { createTheme, styled, getCssText, config, css } = createStitches({
+export const { config, createTheme, css, getCssText, globalCss, styled, theme, keyframes } = createStitches({
 	utils,
 	media: {
 		bp1: '(min-width: 520px)',
@@ -106,12 +106,11 @@ const { createTheme, styled, getCssText, config, css } = createStitches({
 	},
 })
 
-const darkTheme = createTheme('dark-theme', {
+export const darkTheme = createTheme('dark-theme', {
 	shadows: darkShadows,
 	colors: darkColors,
 })
 
-export { styled, getCssText, darkTheme, keyframes, globalCss, config }
 export type { VariantProps } from '@stitches/react'
 export type CSS = Stitches.CSS<typeof config>
 
