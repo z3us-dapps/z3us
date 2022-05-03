@@ -139,7 +139,7 @@ export const ImportAccounts = (): JSX.Element => {
 										<Text truncate css={{ maxWidth: '270px', pr: '$2' }}>
 											{getShortAddress(addressString)}
 										</Text>
-										<ButtonTipFeedback feedback="Address copied">
+										<ButtonTipFeedback tooltip="Copy address">
 											<Button
 												color="ghost"
 												onClick={() => copyTextToClipboard(addressString)}

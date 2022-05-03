@@ -21,7 +21,7 @@ const Template: ComponentStory<typeof ButtonTipFeedback> = args => {
 	const as = 'div'
 	//return <Pill as={as}>{children}</Pill>
 	return (
-		<ButtonTipFeedback feedback="Phrase copied">
+		<ButtonTipFeedback tooltip="copy phrase" feedback="Phrase copied">
 			<Button onClick={() => {}} size="2" color="primary" css={{ position: 'absolute', bottom: '$2', right: '$2' }}>
 				Copy
 			</Button>
@@ -33,13 +33,9 @@ const CombinedTemplate: React.FC = () => (
 	<Box>
 		<Flex justify="start" css={{ border: '0px solid red' }}>
 			<Grid flow="column" gap="5" css={{ border: '0px solid red' }}>
-				<Box>
-					<ButtonTipFeedback feedback="Copied">
-						<Button
-							onClick={() => {}}
-							size="2"
-							color="primary"
-						>
+				<Box css={{ p: '$4' }}>
+					<ButtonTipFeedback tooltip="Copy address" feedback="Copied!" bgColor="$bgPanel">
+						<Button onClick={() => {}} size="2" color="primary">
 							Copy
 						</Button>
 					</ButtonTipFeedback>

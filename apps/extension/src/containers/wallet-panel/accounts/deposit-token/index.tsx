@@ -99,7 +99,7 @@ export const DepositToken: React.FC = () => {
 				</Flex>
 			</Box>
 			<Box css={{ px: '$2', pb: '$2' }}>
-				<ButtonTipFeedback feedback="Address copied" sideOffset={5} showToolTipArrow>
+				<ButtonTipFeedback tooltip="Copy address" sideOffset={5}>
 					<Button size="6" color="primary" aria-label="copy address" onClick={handleCopyAddressToClipboard} fullWidth>
 						Copy address
 					</Button>

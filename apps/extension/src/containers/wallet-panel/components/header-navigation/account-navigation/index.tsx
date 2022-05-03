@@ -56,7 +56,7 @@ export const AccountNaviation: React.FC = () => {
 				<Text truncate size="4" medium css={{ mr: '$1', maxWidth: '220px' }}>
 					{entry?.name ? `${entry.name} (${shortAddress})` : shortAddress}
 				</Text>
-				<ButtonTipFeedback feedback="Address copied" delay={500} bgColor="$bgPanel">
+				<ButtonTipFeedback tooltip="Copy address">
 					<Button size="1" iconOnly color="ghost" onClick={handleCopyAddress}>
 						<CopyIcon />
 					</Button>

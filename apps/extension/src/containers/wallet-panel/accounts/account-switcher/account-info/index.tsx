@@ -125,9 +125,9 @@ export const AccountInfo = ({ address }: IProps): JSX.Element => {
 					</Text>
 				</PriceLabel>
 			</Flex>
-			<Box css={{ zIndex: 2, position: 'absolute', top: '$2', right: '$2' }}>
+			<Box css={{ zIndex: 2, position: 'absolute', top: '$1', right: '$1' }}>
 				<AccountModal address={address} toolTipSideOffset={3} toolTipBgColor="$bgPanel" toolTipMessage="Edit">
-					<Button iconOnly size="3" color="ghost" css={{ color, fill: color }}>
+					<Button iconOnly size="2" color="ghost" css={{ color, fill: color }}>
 						<ActivityIcon />
 					</Button>
 				</AccountModal>

@@ -85,7 +85,7 @@ export const GeneratePhrase = (): JSX.Element => {
 							</Box>
 						))}
 					</Flex>
-					<ButtonTipFeedback feedback="Phrase copied">
+					<ButtonTipFeedback tooltip="Copy phrase">
 						<Button
 							onClick={handleCopyMnemomic}
 							size="2"

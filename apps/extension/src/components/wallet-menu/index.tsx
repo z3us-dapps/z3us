@@ -64,7 +64,7 @@ export const WalletMenu: React.FC = () => {
 					side="bottom"
 					sideOffset={6}
 					alignOffset={-5}
-					css={{ minWidth: '120px' }}
+					css={{ minWidth: '130px' }}
 				>
 					<DropdownMenu>
 						<DropdownMenuTriggerItem>
