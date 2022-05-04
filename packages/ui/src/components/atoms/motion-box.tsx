@@ -10,11 +10,11 @@ import { CSS } from '../../theme'
 const DEFAULT_TAG = 'div'
 
 type MotionBoxProps = {
-  children: React.ReactNode
+	children: React.ReactNode
 } & typeof defaultMotionBoxProps
 
 const defaultMotionBoxProps = {
-  children: null,
+	children: null,
 }
 
 type CSSProp = { css?: CSS }
@@ -22,11 +22,11 @@ type MotionBoxOwnProps = CSSProp & MotionProps
 type MotionBoxComponent = Polymorphic.ForwardRefComponent<typeof DEFAULT_TAG, MotionBoxOwnProps>
 
 const MotionBox = motion(
-  React.forwardRef(({ children, ...rest }: MotionBoxProps, forwardedRef) => (
-    <Box {...rest} ref={forwardedRef}>
-      {children}
-    </Box>
-  )),
+	React.forwardRef(({ children, ...rest }: MotionBoxProps, forwardedRef) => (
+		<Box {...rest} ref={forwardedRef}>
+			{children}
+		</Box>
+	)),
 ) as MotionBoxComponent
 
 MotionBox.defaultProps = defaultMotionBoxProps
