@@ -43,15 +43,17 @@ const StyledContent = styled(TooltipPrimitive.Content, {
 	'@media (prefers-reduced-motion: no-preference)': {
 		'&[data-state="closed"]': {
 			animation: `${animateOut} 300ms ease`,
+			animationFillMode: 'forwards',
 		},
 		animationDuration: '300ms',
+		animationFillMode: 'forwards',
 		animationTimingFunction: 'cubic-bezier(0.16, 1, 0.3, 1)',
 		willChange: 'transform, opacity',
 		'&[data-state="delayed-open"]': {
-			'&[data-side="top"]': { animationName: slideDownAndFade },
-			'&[data-side="right"]': { animationName: slideLeftAndFade },
-			'&[data-side="bottom"]': { animationName: slideUpAndFade },
-			'&[data-side="left"]': { animationName: slideRightAndFade },
+			'&[data-side="top"]': { animationName: slideDownAndFade, animationFillMode: 'forwards' },
+			'&[data-side="right"]': { animationName: slideLeftAndFade, animationFillMode: 'forwards' },
+			'&[data-side="bottom"]': { animationName: slideUpAndFade, animationFillMode: 'forwards' },
+			'&[data-side="left"]': { animationName: slideRightAndFade, animationFillMode: 'forwards' },
 		},
 	},
 })
