@@ -1,6 +1,6 @@
 /* eslint-disable react/jsx-props-no-spreading, @typescript-eslint/no-unused-vars */
 import * as PopoverPrimitive from '@radix-ui/react-popover'
-import { styled, sharedItemStyles, sharedFocus, keyframes } from '../../theme'
+import { styled, keyframes } from '../../theme'
 
 const slideUpAndFade = keyframes({
 	'0%': { opacity: 0, transform: 'translateY(2px)' },
@@ -41,13 +41,14 @@ const StyledContent = styled(PopoverPrimitive.Content, {
 		animationFillMode: 'forwards',
 		willChange: 'transform, opacity',
 		'&[data-state="open"]': {
-			'&[data-side="top"]': { animationName: slideDownAndFade },
-			'&[data-side="right"]': { animationName: slideLeftAndFade },
-			'&[data-side="bottom"]': { animationName: slideUpAndFade },
-			'&[data-side="left"]': { animationName: slideRightAndFade },
+			'&[data-side="top"]': { animationName: slideDownAndFade, animationFillMode: 'forwards' },
+			'&[data-side="right"]': { animationName: slideLeftAndFade, animationFillMode: 'forwards' },
+			'&[data-side="bottom"]': { animationName: slideUpAndFade, animationFillMode: 'forwards' },
+			'&[data-side="left"]': { animationName: slideRightAndFade, animationFillMode: 'forwards' },
 		},
 		'&[data-state="closed"]': {
 			animation: `${animateOut} 200ms ease`,
+			animationFillMode: 'forwards',
 		},
 	},
 })

@@ -79,9 +79,11 @@ const StyledContent = styled(DropdownMenuPrimitive.Content, {
 	// TODO: handle the no-motion preference
 	'&[data-state="open"]': {
 		animation: `${animateIn} 200ms ease`,
+		animationFillMode: 'forwards',
 	},
 	'&[data-state="closed"]': {
 		animation: `${animateOut} 200ms ease`,
+		animationFillMode: 'forwards',
 	},
 })
 
