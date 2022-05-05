@@ -15,12 +15,17 @@
 		"deploy": "rm -rf node_modules/.cache && next build && next export && touch out/.nojekyll",
 		"lint": "npm run eslint && npm run check-types"
 	},
+	"babelMacros": {
+		"twin": {
+			"preset": "stitches",
+			"stitchesConfig": "../../packages/ui/src/theme"
+		}
+	},
 	"dependencies": {
 		"@heroicons/react": "^1.0.6",
 		"@mdx-js/loader": "^1.6.22",
 		"@mdx-js/react": "^2.1.1",
 		"@next/mdx": "^11.0.1",
-		"@nextui-org/react": "^1.0.8-beta.5",
 		"@radix-ui/react-icons": "^1.1.0",
 		"@radixdlt/application": "^4.0.16",
 		"@react-aria/ssr": "^3.1.2",
@@ -54,10 +59,13 @@
 		"@types/node": "^17.0.0",
 		"@types/react": "^17.0.37",
 		"autoprefixer": "^10.4.0",
+		"babel-plugin-macros": "^3.1.0",
 		"config": "*",
 		"eslint": "^8.5.0",
 		"next-transpile-modules": "^9.0.0",
+		"tailwindcss": "^3.0.24",
 		"tsconfig": "*",
+		"twin.macro": "^2.8.2",
 		"typescript": "^4.5.4"
 	}
 }

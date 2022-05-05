@@ -1,12 +1,12 @@
 import React from 'react'
 import { Text, Box, Flex, StyledLink } from 'ui/src/components/atoms'
 import Link from 'next/link'
-import { Container } from '@nextui-org/react'
+//import { Container } from '@nextui-org/react'
 import { Z3usLogoText } from 'ui/src/components/z3us-logo-text'
 
 export const Footer: React.FC = () => (
 	<Box css={{ bg: '$bgPanelFooter', border: '1px solid $borderPanelFooter' }}>
-		<Container gap={0} css={{ border: '0px solid red' }}>
+		<Box>
 			<Flex align="center" css={{ py: '$10' }}>
 				<Box>
 					<Link href="/" passHref>
@@ -31,6 +31,6 @@ export const Footer: React.FC = () => (
 					</Link>
 				</Flex>
 			</Flex>
-		</Container>
+		</Box>
 	</Box>
 )

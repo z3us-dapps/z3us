@@ -1,17 +1,15 @@
+/* eslint-disable */
 import React from 'react'
 import Link from 'next/link'
 import { NextSeo } from 'next-seo'
-import { Container, Grid } from '@nextui-org/react'
 import { Box, Text, Flex, StyledLink, Image } from 'ui/src/components/atoms'
 import Button from 'ui/src/components/button'
 import { Header } from 'components/header'
 import { Z3usBrandLanding } from 'components/z3us-brand-landing'
 import { Z3usLogoText } from 'ui/src/components/z3us-logo-text'
 import { config } from 'config'
-import { useMediaQuery } from '@/hooks/use-media-query'
 
 export const LandingPage: React.FC = () => {
-	const isLg = useMediaQuery(1280)
 	return (
 		<>
 			<NextSeo
@@ -67,12 +65,12 @@ export const LandingPage: React.FC = () => {
 						},
 					}}
 				>
-					<Container gap={0}>
+					<Box>
 						<Flex direction="column" css={{ minHeight: '100vh' }}>
 							<Header isLandingPage />
 							<Flex align="center" css={{ flex: '1' }}>
-								<Grid.Container gap={0} justify="center">
-									<Grid xs={12} md={4} justify={isLg ? 'center' : 'flex-start'}>
+								<Box>
+									<Box>
 										<Flex justify="center" align="center" css={{ position: 'relative' }}>
 											<Z3usBrandLanding />
 											<Box
@@ -88,8 +86,8 @@ export const LandingPage: React.FC = () => {
 												<Image as="img" alt="shadow" src="/images/landing-shadow.png" width={507} height={197} />
 											</Box>
 										</Flex>
-									</Grid>
-									<Grid xs={12} md={6}>
+									</Box>
+									<Box>
 										<Box css={{ py: '50px' }}>
 											<Text as="h1" size="14" bold css={{ pb: '$2' }}>
 												<Box
@@ -145,8 +143,8 @@ export const LandingPage: React.FC = () => {
 												</Button>
 											</Flex>
 										</Box>
-									</Grid>
-								</Grid.Container>
+									</Box>
+								</Box>
 							</Flex>
 							<Box css={{ py: '$5' }}>
 								<Flex justify="end">
@@ -181,7 +179,7 @@ export const LandingPage: React.FC = () => {
 								</Flex>
 							</Box>
 						</Flex>
-					</Container>
+					</Box>
 				</Box>
 			</Box>
 		</>

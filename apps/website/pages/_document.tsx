@@ -1,15 +1,31 @@
 import React from 'react'
 import NextDocument, { Html, Head, Main, NextScript } from 'next/document'
 import { getCssText } from 'ui/src/theme'
-import { CssBaseline } from '@nextui-org/react'
 
 export default class Document extends NextDocument {
+	static async getInitialProps(ctx: any) {
+		try {
+			const initialProps = await NextDocument.getInitialProps(ctx)
+
+			return {
+				...initialProps,
+				styles: (
+					<>
+						{initialProps.styles}
+						{/* Stitches CSS for SSR */}
+						<style id="stitches" dangerouslySetInnerHTML={{ __html: getCssText() }} />
+					</>
+				),
+			}
+		} finally {
+			// @TODO: something in this block??
+		}
+	}
+
 	render() {
 		return (
 			<Html lang="en">
 				<Head>
-					<style id="stitches" dangerouslySetInnerHTML={{ __html: getCssText() }} />
-					{CssBaseline.flush()}
 					<link rel="preload" href="/fonts/FiraSans-Bold.woff" as="font" type="font/woff" crossOrigin="anonymous" />
 					<link rel="preload" href="/fonts/FiraSans-Bold.woff2" as="font" type="font/woff2" crossOrigin="anonymous" />
 					<link rel="preload" href="/fonts/FiraSans-Medium.woff" as="font" type="font/woff" crossOrigin="anonymous" />

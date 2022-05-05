@@ -34,6 +34,7 @@ const nextConfig = withTM({
 				os: require.resolve('os-browserify'),
 				path: require.resolve('path-browserify'),
 			},
+			preferRelative: true,
 		}
 
 		config.plugins = [

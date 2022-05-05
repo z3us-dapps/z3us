@@ -9,7 +9,7 @@ import {
 	DropdownMenuContent,
 	DropdownMenuItem,
 } from 'ui/src/components/drop-down-menu'
-import { Container } from '@nextui-org/react'
+//import { Container } from '@nextui-org/react'
 import Button from 'ui/src/components/button'
 import { TelegramIcon, TwitterIcon } from 'ui/src/components/icons'
 import { ToolTip } from 'ui/src/components/tool-tip'
@@ -68,7 +68,7 @@ export const Header: React.FC<IProps> = ({ isLandingPage }: IProps) => {
 				},
 			}}
 		>
-			<Container gap={0} css={{ position: 'relative', zIndex: '1' }}>
+			<Box>
 				<Flex>
 					<Box>
 						<Link href="/" passHref>
@@ -183,7 +183,7 @@ export const Header: React.FC<IProps> = ({ isLandingPage }: IProps) => {
 						) : null}
 					</Flex>
 				</Flex>
-			</Container>
+			</Box>
 		</Box>
 	)
 }

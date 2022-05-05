@@ -1,5 +1,5 @@
 import React from 'react'
-import { Container, Grid } from '@nextui-org/react'
+//import { Container, Grid } from '@nextui-org/react'
 import { Box, Flex } from 'ui/src/components/atoms'
 import { Header } from 'components/header'
 import { Footer } from 'components/footer'
@@ -17,13 +17,9 @@ export const SinglePageDocs: React.FC<IProps> = ({ children }: IProps) => (
 				flex: '1',
 			}}
 		>
-			<Container gap={0}>
-				<Grid.Container gap={0} justify="center">
-					<Grid xs={8}>
-						<Box css={{ width: '100%', pb: '100px' }}>{children}</Box>
-					</Grid>
-				</Grid.Container>
-			</Container>
+			<Box>
+				<Box css={{ width: '100%', pb: '100px' }}>{children}</Box>
+			</Box>
 		</Box>
 		<Footer />
 	</Flex>

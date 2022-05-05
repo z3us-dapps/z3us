@@ -1,10 +1,14 @@
-import type * as Stitches from '@stitches/react'
-import { createStitches } from '@stitches/react'
+/* eslint-disable @typescript-eslint/no-unused-vars */
+//import type * as Stitches from '@stitches/react'
+import { createStitches, CSS as StitchesCSS } from '@stitches/react'
+//import { createStitches } from '@stitches/react'
 import { lightColors, lightShadows } from './light-colors'
 import { darkColors, darkShadows } from './dark-colors'
 import { utils } from './utils'
 
-export const { config, createTheme, css, getCssText, globalCss, styled, theme, keyframes } = createStitches({
+export type { CSS } from '@stitches/react/types/css-util'
+
+export const stitches = createStitches({
 	utils,
 	media: {
 		bp1: '(min-width: 520px)',
@@ -106,13 +110,15 @@ export const { config, createTheme, css, getCssText, globalCss, styled, theme, k
 	},
 })
 
+export const { config, createTheme, css, getCssText, globalCss, styled, theme, keyframes } = stitches
+
 export const darkTheme = createTheme('dark-theme', {
 	shadows: darkShadows,
 	colors: darkColors,
 })
 
 export type { VariantProps } from '@stitches/react'
-export type CSS = Stitches.CSS<typeof config>
+//export type CSS = Stitches.CSS<typeof config>
 
 export const globalStyles = globalCss({
 	body: {
