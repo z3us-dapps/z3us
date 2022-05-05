@@ -37,9 +37,11 @@ const StyledOverlay = styled(DialogPrimitive.Overlay, {
 	inset: 0,
 	'&[data-state="open"]': {
 		animation: `${overlayAnimateIn} 200ms ease`,
+		animationFillMode: 'forwards',
 	},
 	'&[data-state="closed"]': {
 		animation: `${overlayAnimateOut} 200ms ease`,
+		animationFillMode: 'forwards',
 	},
 })
 
@@ -57,9 +59,11 @@ const StyledContent = styled(DialogPrimitive.Content, {
 	'&:focus': { outline: 'none' },
 	'&[data-state="open"]': {
 		animation: `${animateIn} 200ms ease`,
+		animationFillMode: 'forwards',
 	},
 	'&[data-state="closed"]': {
 		animation: `${animateOut} 200ms ease`,
+		animationFillMode: 'forwards',
 	},
 })
 

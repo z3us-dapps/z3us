@@ -36,7 +36,7 @@ export const AccountAddress: React.FC<IProps> = ({ address, isCopyButtonVisible,
 				{entry?.name ? `${entry.name} (${shortAddress})` : shortAddress}
 			</Text>
 			{isCopyButtonVisible ? (
-				<ButtonTipFeedback feedback="Address copied" delay={500} bgColor="$bgPanel">
+				<ButtonTipFeedback tooltip="Copy address" delay={500} bgColor="$bgPanel">
 					<Button size="1" iconOnly color="ghost" onClick={handleCopyAddress} css={{ ...(css as any) }}>
 						<CopyIcon />
 					</Button>

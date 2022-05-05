@@ -101,7 +101,7 @@ export const ExportPrivateKey: React.FC = () => {
 								<Flex css={{ overflow: 'hidden', flexWrap: 'wrap' }}>
 									<Text size="4">{seed.masterNode().privateKey.toString()}</Text>
 								</Flex>
-								<ButtonTipFeedback feedback="Phrase copied">
+								<ButtonTipFeedback tooltip="Copy phrase">
 									<Button
 										onClick={handleCopyMnemomic}
 										size="2"

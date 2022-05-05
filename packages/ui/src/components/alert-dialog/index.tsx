@@ -37,9 +37,11 @@ const StyledOverlayExtension = styled(AlertDialogPrimitive.Overlay, {
 	inset: 0,
 	'&[data-state="open"]': {
 		animation: `${overlayAnimateIn} 200ms ease`,
+		animationFillMode: 'forwards',
 	},
 	'&[data-state="closed"]': {
 		animation: `${overlayAnimateOut} 200ms ease`,
+		animationFillMode: 'forwards',
 	},
 })
 
@@ -55,9 +57,11 @@ const StyledContentExtension = styled(AlertDialogPrimitive.Content, {
 	'&:focus': { outline: 'none' },
 	'&[data-state="open"]': {
 		animation: `${animateIn} 200ms ease`,
+		animationFillMode: 'forwards',
 	},
 	'&[data-state="closed"]': {
 		animation: `${animateOut} 200ms ease`,
+		animationFillMode: 'forwards',
 	},
 })
 
