@@ -7,7 +7,9 @@ import {
 	DropdownMenu,
 	DropdownMenuTrigger,
 	DropdownMenuContent,
-	DropdownMenuItem,
+	DropdownMenuItemIndicator,
+	DropdownMenuRadioGroup,
+	DropdownMenuRadioItem,
 } from 'ui/src/components/drop-down-menu'
 import { Container } from '@nextui-org/react'
 import Button from 'ui/src/components/button'
@@ -31,9 +33,7 @@ export const Header: React.FC<IProps> = ({ isLandingPage }: IProps) => {
 		isScrolled: false,
 		isThemeMenuOpen: false,
 	})
-
 	const { theme, setTheme } = useTheme()
-	const toggleTheme = () => setTheme(theme === 'light' ? 'dark' : 'light')
 
 	useEventListener('scroll', () => {
 		if (window.scrollY > 0) {
@@ -96,12 +96,6 @@ export const Header: React.FC<IProps> = ({ isLandingPage }: IProps) => {
 								'-webkit-backface-visibility': 'hidden',
 								'-webkit-transform': 'translateZ(0) scale(1.0, 1.0)',
 								transform: 'translateZ(0)',
-								...(isLandingPage
-									? {
-											color: '$white',
-											fill: '$white',
-									  }
-									: {}),
 							},
 						}}
 					>
@@ -127,60 +121,61 @@ export const Header: React.FC<IProps> = ({ isLandingPage }: IProps) => {
 								<TelegramIcon />
 							</Button>
 						</ToolTip>
-						{!isLandingPage ? (
-							<DropdownMenu
-								onOpenChange={open => {
-									setState(draft => {
-										draft.isThemeMenuOpen = open
-									})
-								}}
-							>
-								<DropdownMenuTrigger asChild>
-									<Button size="3" color="ghost" iconOnly onClick={toggleTheme}>
-										<Box
-											css={{
-												color: state.isThemeMenuOpen ? '#5d1eaf' : 'defaultColor',
-											}}
-										>
-											<LightningBoltIcon />
-										</Box>
-									</Button>
-								</DropdownMenuTrigger>
+						<DropdownMenu
+							onOpenChange={open => {
+								setState(draft => {
+									draft.isThemeMenuOpen = open
+								})
+							}}
+						>
+							<DropdownMenuTrigger asChild>
+								<Box>
+									<ToolTip message="Theme">
+										<Button size="3" color="ghost" iconOnly>
+											<Box
+												css={{
+													color: state.isThemeMenuOpen ? '#5d1eaf' : 'defaultColor',
+													fill: state.isThemeMenuOpen ? '#5d1eaf' : 'defaultColor',
+												}}
+											>
+												<LightningBoltIcon />
+											</Box>
+										</Button>
+									</ToolTip>
+								</Box>
+							</DropdownMenuTrigger>
 
-								<DropdownMenuContent
-									avoidCollisions={false}
-									align="end"
-									side="bottom"
-									sideOffset={6}
-									alignOffset={-5}
-									css={{ minWidth: '120px' }}
-								>
-									<DropdownMenu>
-										<DropdownMenuItem
-											onSelect={() => {
-												setTheme('light')
-											}}
-										>
-											<span>Light</span>
-										</DropdownMenuItem>
-										<DropdownMenuItem
-											onSelect={() => {
-												setTheme('dark')
-											}}
-										>
-											<span>Dark</span>
-										</DropdownMenuItem>
-										<DropdownMenuItem
-											onSelect={() => {
-												setTheme('system')
-											}}
-										>
-											<span>System</span>
-										</DropdownMenuItem>
-									</DropdownMenu>
-								</DropdownMenuContent>
-							</DropdownMenu>
-						) : null}
+							<DropdownMenuContent
+								avoidCollisions={false}
+								align="end"
+								side="bottom"
+								sideOffset={6}
+								alignOffset={-5}
+								css={{ minWidth: '120px' }}
+							>
+								<DropdownMenu>
+									<DropdownMenuRadioGroup
+										value={theme}
+										onValueChange={_theme => {
+											setTheme(_theme)
+										}}
+									>
+										<DropdownMenuRadioItem value="light">
+											<DropdownMenuItemIndicator />
+											Light
+										</DropdownMenuRadioItem>
+										<DropdownMenuRadioItem value="dark">
+											<DropdownMenuItemIndicator />
+											Dark
+										</DropdownMenuRadioItem>
+										<DropdownMenuRadioItem value="system">
+											<DropdownMenuItemIndicator />
+											System
+										</DropdownMenuRadioItem>
+									</DropdownMenuRadioGroup>
+								</DropdownMenu>
+							</DropdownMenuContent>
+						</DropdownMenu>
 					</Flex>
 				</Flex>
 			</Container>

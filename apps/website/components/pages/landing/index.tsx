@@ -40,14 +40,14 @@ export const LandingPage: React.FC = () => {
 
 			<Box
 				css={{
-					background: '$black',
-					color: '$white',
+					//background: '$black',
+					//color: '$white',
 					minHeight: '100vh',
 				}}
 			>
 				<Box
 					css={{
-						background: 'radial-gradient(circle, rgba(115,24,205,1) 0%, rgba(115,24,205,0.7) 100%)',
+						//background: 'radial-gradient(circle, rgba(115,24,205,1) 0%, rgba(115,24,205,0.7) 100%)',
 						minHeight: '100vh',
 						px: '20px',
 						position: 'relative',
@@ -61,124 +61,91 @@ export const LandingPage: React.FC = () => {
 							bottom: '0',
 							backgroundImage: 'url(/images/greek-repeat.jpeg)',
 							backgroundRepeat: 'repeat',
-							opacity: '0.05',
+							opacity: '0.03',
 							minHeight: '100%',
 							'mask-image': 'radial-gradient(circle at 50% 50%, transparent 40%, black)',
 						},
 					}}
 				>
-					<Container gap={0}>
+					<Container gap={0} css={{ position: 'relative' }}>
 						<Flex direction="column" css={{ minHeight: '100vh' }}>
 							<Header isLandingPage />
-							<Flex align="center" css={{ flex: '1' }}>
-								<Grid.Container gap={0} justify="center">
-									<Grid xs={12} md={4} justify={isLg ? 'center' : 'flex-start'}>
-										<Flex justify="center" align="center" css={{ position: 'relative' }}>
-											<Z3usBrandLanding />
-											<Box
-												css={{
-													width: '507px',
-													height: '197px',
-													position: 'absolute',
-													bottom: '-90px',
-													left: '-90px',
-													pointerEvents: ' none',
-												}}
-											>
-												<Image as="img" alt="shadow" src="/images/landing-shadow.png" width={507} height={197} />
+							<Flex
+								css={{
+									flex: '1',
+									position: 'relative',
+									'&:before': {
+										content: '',
+										position: 'absolute',
+										pe: 'none',
+										top: '0',
+										left: '-40px',
+										right: '-40px',
+										bottom: '0',
+										background: 'linear-gradient(180deg, rgba(65,58,154,1) 0%, rgba(132,52,143,1) 100%)',
+										br: '20px',
+									},
+								}}
+							>
+								<Grid.Container
+									gap={0}
+									justify="center"
+									css={{
+										position: 'relative',
+										color: '$white',
+									}}
+								>
+									<Grid xs={12} md={1}></Grid>
+									<Grid xs={12} md={5} justify={isLg ? 'center' : 'flex-start'}>
+										<Flex align="center">
+											<Box>
+												<Text bold size="9">
+													Control
+												</Text>
 											</Box>
 										</Flex>
 									</Grid>
 									<Grid xs={12} md={6}>
-										<Box css={{ py: '50px' }}>
-											<Text as="h1" size="14" bold css={{ pb: '$2' }}>
-												<Box
-													as="span"
-													css={{
-														position: 'relative',
-														'&:before': {
-															content: '',
-															background: 'rgba(255,255,255,0.1)',
-															position: 'absolute',
-															transition: '$default',
-															br: '$2',
-															inset: '0px -5px -5px -5px',
-														},
-													}}
-												>
-													{/*defi, nft, token, crypto, staking, animate text with anime.js */}
-													<Box as="span" css={{ position: 'relative', textTransform: 'capitalize' }}>
-														Coming soon!
-													</Box>
-												</Box>
-											</Text>
-											<Text size="9" regular css={{ py: '$5' }}>
-												A community centric open source browser wallet for the{' '}
-												<StyledLink bubble href="https://www.radixdlt.com/">
-													Radix DLT
-												</StyledLink>{' '}
-												network.
-											</Text>
-											<Text fira size="7" regular css={{ py: '$3' }}>
-												Manage accounts, send and receive tokens, stake tokens to receive rewards and connect to DApps
-												from the z3us browser wallet.
-											</Text>
-											<Flex css={{ mt: '$6' }}>
-												<Button
-													target="_blank"
-													href="https://t.me/z3us_dapps/4"
-													as="a"
-													size="6"
-													color="secondary"
-													css={{
-														width: '200px',
-														'&&': {
-															color: '$white',
-															backgroundColor: '#ff9400',
-															hover: {
-																backgroundColor: '#ffa72e',
-															},
-														},
-													}}
-												>
-													Get BETA access!
-												</Button>
-											</Flex>
-										</Box>
+										<Box>sdf asdfasdf</Box>
 									</Grid>
 								</Grid.Container>
 							</Flex>
-							<Box css={{ py: '$5' }}>
-								<Flex justify="end">
-									<Flex>
-										<Link href="/" passHref>
-											<StyledLink>
-												<Z3usLogoText
-													css={{
-														width: '100px',
-														transition: '$default',
-														color: '#8b50a0',
-														'&:hover': {
-															color: '#fff',
-														},
-													}}
-												/>
-											</StyledLink>
-										</Link>
-									</Flex>
-									{/*<Flex justify="end" gap="3" css={{ flex: '1' }}>
-									<Link href="/privacy" passHref>
-										<StyledLink underlineOnHover>
-											<Text>Privacy</Text>
-										</StyledLink>
-									</Link>
-									<Link href="/terms" passHref>
-										<StyledLink underlineOnHover>
-											<Text>Terms</Text>
-										</StyledLink>
-									</Link>
-								</Flex>*/}
-								</Flex>
+							{/*FOOTER*/}
+							<Box css={{ py: '$8' }}>
+								<Grid.Container gap={0} justify="center">
+									<Grid xs={12} md={6} justify={isLg ? 'center' : 'flex-start'}>
+										<Flex align="center" css={{ position: 'relative' }}>
+											<Link href="/" passHref>
+												<StyledLink>
+													<Z3usLogoText
+														css={{
+															width: '100px',
+															transition: '$default',
+															color: '#8b50a0',
+															'&:hover': {
+																color: '#fff',
+															},
+														}}
+													/>
+												</StyledLink>
+											</Link>
+										</Flex>
+									</Grid>
+									<Grid xs={12} md={6}>
+										<Flex justify="end" gap="3" css={{ flex: '1' }}>
+											<Link href="/privacy" passHref>
+												<StyledLink underlineOnHover>
+													<Text>Privacy</Text>
+												</StyledLink>
+											</Link>
+											<Link href="/terms" passHref>
+												<StyledLink underlineOnHover>
+													<Text>Terms</Text>
+												</StyledLink>
+											</Link>
+										</Flex>
+									</Grid>
+								</Grid.Container>
 							</Box>
 						</Flex>
 					</Container>
