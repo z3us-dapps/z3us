@@ -41,7 +41,8 @@ export const QrHoverCard: React.FC = () => {
 							</Text>
 							<Flex align="start">
 								{shortAddress}
-								<ButtonTipFeedback feedback="Address copied" delay={500} css={{ color: '$bgPanel' }}>
+
+								<ButtonTipFeedback tooltip="Copy address" bgColor="$bgPanel">
 									<Button size="1" iconOnly color="ghost" onClick={handleCopyAddress} css={{ mt: '-5px' }}>
 										<CopyIcon />
 									</Button>

@@ -12,6 +12,7 @@ import {
 import { Container } from '@nextui-org/react'
 import Button from 'ui/src/components/button'
 import { TelegramIcon, TwitterIcon } from 'ui/src/components/icons'
+import { ToolTip } from 'ui/src/components/tool-tip'
 import Link from 'next/link'
 import { useTheme } from 'next-themes'
 import { Z3usText } from 'ui/src/components/z3us-text'
@@ -116,12 +117,16 @@ export const Header: React.FC<IProps> = ({ isLandingPage }: IProps) => {
 						{/*<Button target="_blank" href={config.GITHUB_URL} as="a" size="3" color="ghost" iconOnly>
 							<GithubIcon />
 						</Button>*/}
-						<Button target="_blank" href={config.TWITTER_URL} as="a" size="3" color="ghost" iconOnly>
-							<TwitterIcon />
-						</Button>
-						<Button target="_blank" href={config.TELEGRAM_URL} as="a" size="3" color="ghost" iconOnly>
-							<TelegramIcon />
-						</Button>
+						<ToolTip message="Twitter">
+							<Button target="_blank" href={config.TWITTER_URL} as="a" size="3" color="ghost" iconOnly>
+								<TwitterIcon />
+							</Button>
+						</ToolTip>
+						<ToolTip message="Telegram">
+							<Button target="_blank" href={config.TELEGRAM_URL} as="a" size="3" color="ghost" iconOnly>
+								<TelegramIcon />
+							</Button>
+						</ToolTip>
 						{!isLandingPage ? (
 							<DropdownMenu
 								onOpenChange={open => {

@@ -2,7 +2,7 @@
 import React from 'react'
 import { ThemeProvider } from 'next-themes'
 import { SSRProvider } from '@react-aria/ssr'
-import { globalStyles, darkTheme, globalCss } from 'ui/src/theme'
+import { globalCss, globalStyles, darkTheme } from 'ui/src/theme'
 import { DefaultSeo } from 'next-seo'
 import SEO from '../next-seo.config'
 
@@ -14,12 +14,11 @@ const siteGlobalStyles = globalCss({
 	},
 })
 
-export default function Nextra({ Component, pageProps }) {
-	const getLayout = Component.getLayout || (page => page)
+const Z3us = ({ Component, pageProps }) => {
 	globalStyles()
 	siteGlobalStyles()
 
-	return getLayout(
+	return (
 		<SSRProvider>
 			<DefaultSeo {...SEO} />
 			<ThemeProvider
@@ -32,6 +31,8 @@ export default function Nextra({ Component, pageProps }) {
 			>
 				<Component {...pageProps} />
 			</ThemeProvider>
-		</SSRProvider>,
+		</SSRProvider>
 	)
 }
+
+export default Z3us

@@ -72,7 +72,7 @@ export const ActivityLinks: React.FC<IProps> = ({ accountAddress, tx, activity }
 							{getShortAddress(tx.id)}
 						</StyledLink>
 					</Text>
-					<ButtonTipFeedback feedback="Copied" delay={500} bgColor="$bgPanel" sideOffset={10}>
+					<ButtonTipFeedback tooltip="Copy address" bgColor="$bgPanel" sideOffset={10}>
 						<Button size="1" iconOnly color="ghost" onClick={() => handleCopyAddress(tx.id)}>
 							<CopyIcon />
 						</Button>
@@ -88,7 +88,7 @@ export const ActivityLinks: React.FC<IProps> = ({ accountAddress, tx, activity }
 						<Text truncate color="muted" size="2" css={{ pr: '$1', maxWidth: RIGHT_COL_WIDTH }}>
 							{fromEntry?.name ? `${fromEntry.name} (${fromShortAddress})` : fromShortAddress}
 						</Text>
-						<ButtonTipFeedback feedback="Copied" delay={500} bgColor="$bgPanel" sideOffset={10}>
+						<ButtonTipFeedback tooltip="Copy address" bgColor="$bgPanel" sideOffset={10}>
 							<Button size="1" iconOnly color="ghost" onClick={() => handleCopyAddress(fromAccount)}>
 								<CopyIcon />
 							</Button>
@@ -105,7 +105,7 @@ export const ActivityLinks: React.FC<IProps> = ({ accountAddress, tx, activity }
 						<Text truncate color="muted" size="2" css={{ pr: '$1', maxWidth: RIGHT_COL_WIDTH }}>
 							{toEntry?.name ? `${toEntry.name} (${toShortAddress})` : toShortAddress}
 						</Text>
-						<ButtonTipFeedback feedback="Copied" delay={500} bgColor="$bgPanel" sideOffset={10}>
+						<ButtonTipFeedback tooltip="Copy address" delay={500} bgColor="$bgPanel" sideOffset={10}>
 							<Button size="1" iconOnly color="ghost" onClick={() => handleCopyAddress(toAccount)}>
 								<CopyIcon />
 							</Button>

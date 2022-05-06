@@ -107,7 +107,7 @@ export const ExportSecretPhrase: React.FC = () => {
 										</Box>
 									))}
 								</Flex>
-								<ButtonTipFeedback feedback="Phrase copied">
+								<ButtonTipFeedback tooltip="Copy phrase">
 									<Button
 										onClick={handleCopyMnemomic}
 										size="2"

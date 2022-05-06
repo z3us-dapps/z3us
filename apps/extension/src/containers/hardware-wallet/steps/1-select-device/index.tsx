@@ -78,7 +78,7 @@ export const SelectDevice = (): JSX.Element => {
 				</Box>
 			)}
 			<Box css={{ mt: '$8', flex: '1', width: '100%' }}>
-				<ButtonTipFeedback feedback="Refreshed">
+				<ButtonTipFeedback tooltip="refresh">
 					<Button
 						fullWidth
 						color="primary"
