@@ -19,11 +19,7 @@ export default {
 	permissions: [
 		'storage',
 		'unlimitedStorage',
-		'notifications',
-		'activeTab',
-		'geolocation',
 		'webRequest',
-		'hid',
 		'https://*/*',
 	],
 	background: {
