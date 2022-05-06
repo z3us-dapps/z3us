@@ -1,12 +1,25 @@
 name: extension - zip
 on:
-  push:
-    branches:
-      - main
-    tags:
-      - 'v**\+ext'
+  release:
+    types:
+      - released
 jobs:
+  check_tag:
+    runs-on: ubuntu-latest
+    outputs:
+      run_other_jobs: ${{ steps.check-tag.outputs.run_jobs }}
+    steps:
+      - name: check tag ${{ github.ref }}
+        id: check-tag
+        run: |
+          if [[${{ github.ref }} =~ refs\/tags\/release\/v**\+ext ]]; then
+            echo "::set-output name=run_jobs::true"
+          else
+            echo "::set-output name=run_jobs::false"
+          fi
   publish:
+    needs: [check_tag]
+    if: needs.check_tag.outputs.run_other_jobs == 'true'
     runs-on: ubuntu-latest
     steps:
       - name: Copy Files
@@ -31,21 +44,15 @@ jobs:
         with:
           files: apps/extension/dist/chrome
           dest: chrome.zip
-      - name: Upload to release
-        uses: svenstaro/upload-release-action@v2
-        with:
-          file: ${{ github.workspace }}/chrome.zip
-          tag: ${{ github.ref }}
-          overwrite: true
-          file_glob: true
       - uses: papeloto/action-zip@v1
         with:
           files: apps/extension/dist/firefox/
           dest: firefox.zip
-      - name: Upload to release
-        uses: svenstaro/upload-release-action@v2
+      - uses: shogo82148/actions-upload-release-asset@v1
         with:
-          file: ${{ github.workspace }}/firefox.zip
-          tag: ${{ github.ref }}
-          overwrite: true
-          file_glob: true
+          upload_url: ${{ github.event.release.upload_url }}
+          asset_path: ${{ github.workspace }}/chrome.zip
+      - uses: shogo82148/actions-upload-release-asset@v1
+        with:
+          upload_url: ${{ github.event.release.upload_url }}
+          asset_path: ${{ github.workspace }}/firefox.zip
