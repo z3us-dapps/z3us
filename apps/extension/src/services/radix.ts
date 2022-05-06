@@ -1,4 +1,4 @@
-import { TransactionIntent, SignedTransaction, Network, ActionType } from '@radixdlt/application'
+import { SignedTransaction, Network, ActionType } from '@radixdlt/application'
 import {
 	AccountBalancesResponse,
 	AccountStakesResponse,
@@ -6,6 +6,7 @@ import {
 	AccountUnstakesResponse,
 	apiVersion,
 	GatewayResponse,
+	TokenDeriveResponse,
 	TokenNativeResponse,
 	TokenResponse,
 	TransactionBuildResponse,
@@ -37,6 +38,7 @@ import {
 	parseTransactionIdentifier,
 	parseValidatorAddress,
 } from './radix/serializer'
+import { ExtendedActionType, IntendedAction } from './types'
 
 export class RadixService {
 	private networkURL: string
@@ -88,6 +90,16 @@ export class RadixService {
 		}
 		const response = await this.fetch<TokenNativeResponse>('token/native', body)
 		return handleNativeTokenResponse(response)
+	}
+
+	tokenDerive = async (network: Network, symbol: string, publicKeyHex: string) => {
+		const body = {
+			network_identifier: { network },
+			public_key: { hex: publicKeyHex },
+			symbol,
+		}
+		const response = await this.fetch<TokenDeriveResponse>('token/derive', body)
+		return response.token_identifier.rri
 	}
 
 	tokenInfo = async (v: string) => {
@@ -169,12 +181,12 @@ export class RadixService {
 		return handleBuildTransactionResponse(response)
 	}
 
-	buildTransaction = (transactionIntent: TransactionIntent, v: string) => {
+	buildTransaction = (v: string, actions: IntendedAction[], message?: Buffer) => {
 		const from = parseAccountAddress(v)
 
 		return this.buildRawTransaction({
 			network_identifier: { network: from.network },
-			actions: transactionIntent.actions.map(action => {
+			actions: actions.map(action => {
 				switch (action.type) {
 					case ActionType.TOKEN_TRANSFER:
 						return {
@@ -224,6 +236,57 @@ export class RadixService {
 								},
 							},
 						}
+					case ExtendedActionType.CREATE_TOKEN:
+						return {
+							type: 'CreateTokenDefinition',
+							token_properties: {
+								name: action.token.name,
+								description: action.token.description,
+								icon_url: action.token.icon_url,
+								url: action.token.url,
+								symbol: action.token.symbol,
+								is_supply_mutable: action.token.is_supply_mutable,
+								granularity: action.token.granularity,
+								owner: {
+									address: action.to_account.toString(),
+								},
+							},
+							token_supply: {
+								value: action.amount.toString(),
+								token_identifier: {
+									rri: action.rri.toString(),
+								},
+							},
+							to_account: {
+								address: action.to_account.toString(),
+							},
+						}
+					case ExtendedActionType.MINT_TOKENS:
+						return {
+							type: 'MintTokens',
+							to_account: {
+								address: action.to_account.toString(),
+							},
+							amount: {
+								value: action.amount.toString(),
+								token_identifier: {
+									rri: action.rri.toString(),
+								},
+							},
+						}
+					case ExtendedActionType.BURN_TOKENS:
+						return {
+							type: 'BurnTokens',
+							from_account: {
+								address: action.from_account.toString(),
+							},
+							amount: {
+								value: action.amount.toString(),
+								token_identifier: {
+									rri: action.rri.toString(),
+								},
+							},
+						}
 					default:
 						throw new Error(`Unknown action type`)
 				}
@@ -231,7 +294,7 @@ export class RadixService {
 			fee_payer: {
 				address: from.toString(),
 			},
-			message: transactionIntent.message ? transactionIntent.message.toString('hex') : undefined,
+			message: message ? message.toString('hex') : undefined,
 			disable_token_mint_and_burn: true,
 		})
 	}

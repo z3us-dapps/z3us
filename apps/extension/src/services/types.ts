@@ -1,4 +1,12 @@
 import {
+	AccountAddressT,
+	AmountT,
+	ResourceIdentifierT,
+	IntendedTransferTokensAction,
+	IntendedStakeTokensAction,
+	IntendedUnstakeTokensAction,
+} from '@radixdlt/application'
+import {
 	BurnTokens,
 	CreateTokenDefinition,
 	MintTokens,
@@ -79,3 +87,49 @@ export enum ColorSettings {
 	COLOR_TEXT = 'color_text',
 	GRADIENT_TYPE = 'gradient_type',
 }
+
+export enum ExtendedActionType {
+	CREATE_TOKEN = 'CreateTokenDefinition',
+	MINT_TOKENS = 'MintTokens',
+	BURN_TOKENS = 'BurnTokens',
+}
+
+export type NewTokenDefinition = {
+	name: string
+	description: string
+	icon_url: string
+	url: string
+	symbol: string
+	is_supply_mutable: boolean
+	granularity: string
+}
+
+export type IntendedCreateTokenDefinitionAction = Readonly<{
+	type: ExtendedActionType.CREATE_TOKEN
+	to_account: AccountAddressT
+	amount: AmountT
+	rri: ResourceIdentifierT
+	token: NewTokenDefinition
+}>
+
+export type IntendedMintTokensAction = Readonly<{
+	type: ExtendedActionType.MINT_TOKENS
+	to_account: AccountAddressT
+	amount: AmountT
+	rri: ResourceIdentifierT
+}>
+
+export type IntendedBurnTokensAction = Readonly<{
+	type: ExtendedActionType.BURN_TOKENS
+	from_account: AccountAddressT
+	amount: AmountT
+	rri: ResourceIdentifierT
+}>
+
+export type IntendedAction =
+	| IntendedTransferTokensAction
+	| IntendedStakeTokensAction
+	| IntendedUnstakeTokensAction
+	| IntendedCreateTokenDefinitionAction
+	| IntendedMintTokensAction
+	| IntendedBurnTokensAction

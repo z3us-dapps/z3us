@@ -20,10 +20,10 @@ export const ActivityType: React.FC<IProps> = ({ activity, accountAddress }: IPr
 			return <Pill color="inverse">Stake</Pill>
 		case 'UnstakeTokens':
 			return <Pill color="inverse">Unstake</Pill>
-		case 'BurnTokens':
-			return <Pill color="inverse">Burn</Pill>
 		case 'CreateTokenDefinition':
 			return <Pill color="inverse">Create Token</Pill>
+		case 'BurnTokens':
+			return <Pill color="inverse">Burn</Pill>
 		case 'MintTokens':
 			return <Pill color="inverse">Mint</Pill>
 		default:

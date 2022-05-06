@@ -85,9 +85,9 @@ export const SendToken: React.FC = () => {
 		})
 	}
 
-	const handleSetEncrypt = () => {
+	const handleSetEncrypt = checked => {
 		setState(draft => {
-			draft.encrypt = !state.encrypt
+			draft.encrypt = checked === true
 		})
 	}
 
@@ -306,7 +306,13 @@ export const SendToken: React.FC = () => {
 											opacity: state.message === '' ? 0 : 1,
 										}}
 									>
-										<Checkbox id="encrypt" size="1" onChange={handleSetEncrypt} disabled={state.message === ''}>
+										<Checkbox
+											id="encrypt"
+											size="1"
+											onCheckedChange={handleSetEncrypt}
+											disabled={state.message === ''}
+											checked={state.encrypt}
+										>
 											<CheckIcon />
 										</Checkbox>
 										<Text medium size="3" as="label" css={{ paddingLeft: '$2' }} htmlFor="encrypt">

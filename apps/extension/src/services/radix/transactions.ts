@@ -15,6 +15,7 @@ import {
 import BigNumber from 'bignumber.js'
 import { createEncryptedMessage, createPlaintextMessage } from './message'
 import { parseAccountAddress } from './serializer'
+import { ExtendedActionType, NewTokenDefinition } from '../types'
 
 const buildAmount = (value: string): AmountT => {
 	const bigAmount = new BigNumber(value)
@@ -107,7 +108,7 @@ export const TransferTokens = async (
 			messageBuffer = plain.bytes
 		}
 	}
-	return service.buildTransaction({ actions: [actionResult.value], message: messageBuffer }, from)
+	return service.buildTransaction(from, [actionResult.value], messageBuffer)
 }
 
 export const StakeTokens = async (nodeURL: URL, rri: string, from: string, validator: string, amount: string) => {
@@ -136,7 +137,7 @@ export const StakeTokens = async (nodeURL: URL, rri: string, from: string, valid
 	if (actionResult.isErr()) {
 		throw actionResult.error
 	}
-	return service.buildTransaction({ actions: [actionResult.value] }, from)
+	return service.buildTransaction(from, [actionResult.value])
 }
 
 export const UnstakeTokens = async (nodeURL: URL, rri: string, to: string, validator: string, amount: string) => {
@@ -165,7 +166,93 @@ export const UnstakeTokens = async (nodeURL: URL, rri: string, to: string, valid
 	if (actionResult.isErr()) {
 		throw actionResult.error
 	}
-	return service.buildTransaction({ actions: [actionResult.value] }, to)
+	return service.buildTransaction(to, [actionResult.value])
+}
+
+export const DeriveToken = async (nodeURL: URL, owner: string, symbol: string) => {
+	const service = new RadixService(nodeURL)
+
+	const ownerResult = AccountAddress.fromUnsafe(owner)
+	if (ownerResult.isErr()) {
+		throw ownerResult.error
+	}
+
+	const address = ownerResult.value
+
+	return service.tokenDerive(address.network, symbol, address.publicKey.toString())
+}
+
+export const CreateToken = async (
+	nodeURL: URL,
+	rri: string,
+	owner: string,
+	amount: string,
+	token: NewTokenDefinition,
+) => {
+	const service = new RadixService(nodeURL)
+
+	const rriResult = ResourceIdentifier.fromUnsafe(rri)
+	if (rriResult.isErr()) {
+		throw rriResult.error
+	}
+	const ownerResult = AccountAddress.fromUnsafe(owner)
+	if (ownerResult.isErr()) {
+		throw ownerResult.error
+	}
+
+	return service.buildTransaction(owner, [
+		{
+			type: ExtendedActionType.CREATE_TOKEN,
+			to_account: ownerResult.value,
+			amount: buildAmount(token.is_supply_mutable ? '0' : amount),
+			rri: rriResult.value,
+			token,
+		},
+	])
+}
+
+export const MintToken = async (nodeURL: URL, rri: string, to: string, amount: string) => {
+	const service = new RadixService(nodeURL)
+
+	const rriResult = ResourceIdentifier.fromUnsafe(rri)
+	if (rriResult.isErr()) {
+		throw rriResult.error
+	}
+	const toResult = AccountAddress.fromUnsafe(to)
+	if (toResult.isErr()) {
+		throw toResult.error
+	}
+
+	return service.buildTransaction(to, [
+		{
+			type: ExtendedActionType.MINT_TOKENS,
+			to_account: toResult.value,
+			amount: buildAmount(amount),
+			rri: rriResult.value,
+		},
+	])
+}
+
+export const BurnToken = async (nodeURL: URL, rri: string, from: string, amount: string) => {
+	const service = new RadixService(nodeURL)
+
+	const rriResult = ResourceIdentifier.fromUnsafe(rri)
+	if (rriResult.isErr()) {
+		throw rriResult.error
+	}
+	const fromResult = AccountAddress.fromUnsafe(from)
+	if (fromResult.isErr()) {
+		throw fromResult.error
+	}
+
+	return service.buildTransaction(from, [
+		{
+			type: ExtendedActionType.BURN_TOKENS,
+			from_account: fromResult.value,
+			amount: buildAmount(amount),
+			rri: rriResult.value,
+		},
+	])
 }
 
 export const decryptTransaction = async (account: AccountT, from: string, msg: string): Promise<string> => {

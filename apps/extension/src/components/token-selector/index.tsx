@@ -17,13 +17,14 @@ import { parseResourceIdentifier } from '@src/services/radix/serializer'
 
 interface IProps {
 	triggerType?: string
-	token: Token
+	token?: Token
 	tokens: string[]
 	onTokenChange: (token: string) => void
 }
 
 const defaultProps = {
 	triggerType: undefined,
+	token: undefined,
 }
 
 export const TokenSelector: React.FC<IProps> = ({ triggerType, token, tokens, onTokenChange }: IProps) => {
@@ -67,7 +68,7 @@ export const TokenSelector: React.FC<IProps> = ({ triggerType, token, tokens, on
 											/>
 										</Box>
 										<Text truncate size="4" uppercase css={{ pr: '$1', fontWeight: '600', maxWidth: '60px' }}>
-											{parseResourceIdentifier(token.rri).name}
+											{token ? parseResourceIdentifier(token.rri).name : 'Select'}
 										</Text>
 										<Box css={{ flexShrink: '0' }}>
 											<ChevronDownIcon />
@@ -105,7 +106,7 @@ export const TokenSelector: React.FC<IProps> = ({ triggerType, token, tokens, on
 												uppercase
 												css={{ fontSize: '14px', lineHeight: '17px', fontWeight: '500', ml: '4px', maxWidth: '200px' }}
 											>
-												{parseResourceIdentifier(token.rri).name}
+												{token ? parseResourceIdentifier(token.rri).name : 'Select'}
 											</Text>
 										</Flex>
 									</Box>
@@ -124,7 +125,7 @@ export const TokenSelector: React.FC<IProps> = ({ triggerType, token, tokens, on
 				sideOffset={10}
 				css={{ minWidth: menuWidth }}
 			>
-				<DropdownMenuRadioGroup value={token.rri} onValueChange={handleValueChange}>
+				<DropdownMenuRadioGroup value={token?.rri} onValueChange={handleValueChange}>
 					{tokens.map(_token => (
 						<DropdownMenuRadioItem key={_token} value={_token}>
 							<DropdownMenuItemIndicator />
