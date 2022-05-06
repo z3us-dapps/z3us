@@ -12,7 +12,7 @@ jobs:
       - name: check tag ${{ github.ref }}
         id: check-tag
         run: |
-          if [[${{ github.ref }} =~ refs\/tags\/release\/v**\+ext ]]; then
+          if [[ "${{ github.ref }}" =~ [^refs\/tags\/v**\+ext] ]]; then
             echo "::set-output name=run_jobs::true"
           else
             echo "::set-output name=run_jobs::false"
