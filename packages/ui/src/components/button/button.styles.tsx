@@ -58,7 +58,7 @@ export const StyledButton = styled(
 		justifyContent: 'center',
 		dflex: 'center',
 		appearance: 'none',
-		fontFamily: '$montserrat',
+		fontFamily: '$HaasGrotTextRound',
 		boxSizing: ' border-box',
 		us: 'none',
 		ta: 'center',

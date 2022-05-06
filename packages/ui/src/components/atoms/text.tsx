@@ -5,7 +5,7 @@ export const Text = styled('span', {
 	margin: '0',
 	fontWeight: 400,
 	fontVariantNumeric: 'tabular-nums',
-	fontFamily: '$montserrat',
+	fontFamily: '$HaasGrotTextRound',
 	display: 'block',
 
 	variants: {
@@ -80,10 +80,20 @@ export const Text = styled('span', {
 				fontSize: '$14',
 				lineHeight: '$14',
 			},
+			'15': {
+				fontSize: '$14',
+				lineHeight: '$14',
+			},
 		},
-		fira: {
+		// should use above > 20px
+		centra: {
 			true: {
-				fontFamily: '$fira',
+				fontFamily: '$Centra',
+			},
+		},
+		displayRound: {
+			true: {
+				fontFamily: '$HaasGrotDisplayRound',
 			},
 		},
 		gradient: {
@@ -110,6 +120,7 @@ export const Text = styled('span', {
 		bold: {
 			true: {
 				fontWeight: '700',
+				fontFamily: '$HaasGrotDisplayRound',
 			},
 		},
 		uppercase: {
@@ -137,6 +148,5 @@ export const Text = styled('span', {
 	},
 	defaultVariants: {
 		size: '3',
-		medium: true,
 	},
 })

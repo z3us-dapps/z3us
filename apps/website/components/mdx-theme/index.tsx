@@ -16,7 +16,7 @@ const components = {
 	h4: props => <Text size="7" css={{ py: '$3' }} {...props} />,
 	h5: props => <Text size="5" css={{ py: '$3' }} {...props} />,
 	h6: props => <Text size="4" css={{ py: '$3' }} {...props} />,
-	p: props => <Text fira size="7" regular css={{ py: '$3', lineHeight: '32px' }} {...props} />,
+	p: props => <Text size="7" regular css={{ py: '$3', lineHeight: '32px' }} {...props} />,
 	a: props => <StyledLink bubble {...props} />,
 }
 
@@ -26,7 +26,7 @@ interface IProps {
 
 export const MdxTheme: React.FC<IProps> = ({ mdxSource }: IProps) => {
 	return (
-		<Text fira size="5" regular css={{ width: '100%', lineHeight: '25px' }} as="div">
+		<Text size="5" regular css={{ width: '100%', lineHeight: '25px' }} as="div">
 			<MDXRemote {...mdxSource} components={components} />
 		</Text>
 	)

@@ -20,8 +20,9 @@ export const { config, createTheme, css, getCssText, globalCss, styled, theme, k
 		fonts: {
 			untitled: 'Untitled Sans, -apple-system, system-ui, sans-serif',
 			mono: 'Söhne Mono, monospace',
-			montserrat: '"Montserrat", sans-serif',
-			fira: '"Fira Sans", sans-serif',
+			Centra: "'Centra-Web', Arial",
+			HaasGrotTextRound: "'HaasGrotTextRound-Web', Arial",
+			HaasGrotDisplayRound: "'HaasGrotDispRound-Web', Arial",
 		},
 		fontSizes: {
 			1: '11px',
@@ -38,6 +39,7 @@ export const { config, createTheme, css, getCssText, globalCss, styled, theme, k
 			12: '52px',
 			13: '60px',
 			14: '68px',
+			15: '76px',
 		},
 		lineHeights: {
 			1: '13px',
@@ -54,6 +56,7 @@ export const { config, createTheme, css, getCssText, globalCss, styled, theme, k
 			12: '50px',
 			13: '58px',
 			14: '66px',
+			15: '74px',
 		},
 		space: {
 			1: '4px',
@@ -120,7 +123,7 @@ export const globalStyles = globalCss({
 		padding: '0',
 		fontWeight: 500,
 		fontVariantNumeric: 'tabular-nums',
-		fontFamily: '$montserrat',
+		fontFamily: '$HaasGrotTextRound',
 		fontSize: '$1',
 		textRendering: 'optimizeLegibility',
 		'font-smoothing': 'antialiased',
