@@ -7,9 +7,8 @@ import { MotionBox } from 'ui/src/components/atoms/motion-box'
 import { AnimatePresence } from 'framer-motion'
 import { useStore } from '@src/store'
 import { WalletMenu } from '@src/components/wallet-menu'
-import { SelectDevice } from '@src/containers/hardware-wallet/steps/1-select-device'
-import { ImportAccounts } from '@src/containers/hardware-wallet/steps/2-import-accounts'
-import { CompleteSync } from '@src/containers/hardware-wallet/steps/3-complete-sync'
+import { ImportAccounts } from '@src/containers/hardware-wallet/steps/1-import-accounts'
+import { CompleteSync } from '@src/containers/hardware-wallet/steps/2-complete-sync'
 import { Flex } from 'ui/src/components/atoms'
 import { useColorMode } from '@src/hooks/use-color-mode'
 
@@ -23,11 +22,8 @@ export const HardwareWallet: React.FC = () => {
 
 	const handleBackClick = () => {
 		switch (step) {
-			case steps.SELECT_DEVICE:
-				setLocation('#/wallet/account')
-				break
 			case steps.IMPORT_ACCOUNTS:
-				setStep(steps.SELECT_DEVICE)
+				setLocation('#/wallet/account')
 				break
 			case steps.COMPLETE:
 				setStep(steps.IMPORT_ACCOUNTS)
@@ -80,8 +76,6 @@ export const HardwareWallet: React.FC = () => {
 					>
 						{(() => {
 							switch (step) {
-								case steps.SELECT_DEVICE:
-									return <SelectDevice />
 								case steps.IMPORT_ACCOUNTS:
 									return <ImportAccounts />
 								case steps.COMPLETE:

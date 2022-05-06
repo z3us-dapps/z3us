@@ -1,4 +1,4 @@
-import TransportNodeHid from '@ledgerhq/hw-transport-webhid'
+import TransportWebHID from '@ledgerhq/hw-transport-webhid'
 import { Network as NetworkID, Account, AccountT, AccountAddress, SigningKey } from '@radixdlt/application'
 import { HDPathRadix, PrivateKey, HDMasterSeed, HDMasterSeedT } from '@radixdlt/crypto'
 import { HardwareWalletLedger } from '@radixdlt/hardware-ledger'
@@ -398,17 +398,7 @@ export const createWalletStore = (set, get) => ({
 	},
 
 	sendAPDUAction: async (cla: number, ins: number, p1: number, p2: number, data?: Buffer, statusList?: number[]) => {
-		const devices = await TransportNodeHid.list()
-		if (devices.length === 0) {
-			throw new Error('No device selected')
-		}
-
-		const device = devices[0]
-		if (device.opened) {
-			await device.close()
-		}
-
-		const transport = await TransportNodeHid.open(device)
+		const transport = await TransportWebHID.openConnected()
 		try {
 			const result = await transport.send(cla, ins, p1, p2, data, statusList)
 			await transport.close()
