@@ -31,15 +31,21 @@ jobs:
         with:
           files: apps/extension/dist/chrome
           dest: chrome.zip
+      - name: Upload to release
+        uses: svenstaro/upload-release-action@v2
+        with:
+          file: ${{ github.workspace }}/chrome.zip
+          tag: ${{ github.ref }}
+          overwrite: true
+          file_glob: true
       - uses: papeloto/action-zip@v1
         with:
           files: apps/extension/dist/firefox/
           dest: firefox.zip
-      - name: Create Release
-        uses: softprops/action-gh-release@v1
+      - name: Upload to release
+        uses: svenstaro/upload-release-action@v2
         with:
-          tag_name: ${{ github.ref }}
-          release_name: ${{ github.ref }}
-          files: |
-            chrome.zip
-            firefox.zip
+          file: ${{ github.workspace }}/firefox.zip
+          tag: ${{ github.ref }}
+          overwrite: true
+          file_glob: true
