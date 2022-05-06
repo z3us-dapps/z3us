@@ -9,10 +9,10 @@ jobs:
     outputs:
       run_other_jobs: ${{ steps.check-tag.outputs.run_jobs }}
     steps:
-      - name: check tag ${{ release.target_commitish }} - ${{ release.tag_name }}
+      - name: check tag ${{ github.release.target_commitish }} - ${{ github.release.tag_name }}
         id: check-tag
         run: |
-          if [[ "${{ release.target_commitish }}" == "main" && "${{ release.tag_name }}" =~ [^v**\+ext] ]]; then
+          if [[ "${{ github.release.target_commitish }}" == "main" && "${{ github.release.tag_name }}" =~ [^v**\+ext] ]]; then
             echo "::set-output name=run_jobs::true"
           else
             echo "::set-output name=run_jobs::false"
