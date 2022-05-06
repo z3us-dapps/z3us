@@ -1,5 +1,4 @@
 export const steps = {
-	SELECT_DEVICE: 'generate_phrase',
 	IMPORT_ACCOUNTS: 'import_accounts',
 	COMPLETE: 'complete',
 }
@@ -11,7 +10,7 @@ export type HardwareWalletStore = {
 }
 
 export const createHardwareWalletStore = set => ({
-	hardwareWalletStep: steps.SELECT_DEVICE,
+	hardwareWalletStep: steps.IMPORT_ACCOUNTS,
 
 	setHardwareWalletStepAction: (step: string): void =>
 		set(state => {

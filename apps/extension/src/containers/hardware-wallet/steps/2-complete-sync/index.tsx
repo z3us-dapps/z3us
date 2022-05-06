@@ -30,7 +30,7 @@ export const CompleteSync = (): JSX.Element => {
 			draft.isLoading = true
 		})
 		try {
-			setStep(steps.SELECT_DEVICE)
+			setStep(steps.IMPORT_ACCOUNTS)
 			setLocation('#/wallet/account')
 		} catch (error) {
 			setState(draft => {
@@ -85,7 +85,7 @@ export const CompleteSync = (): JSX.Element => {
 			</Flex>
 			<Flex justify="center" align="center" css={{ height: '48px', ta: 'center', mt: '$2', width: '100%' }}>
 				<Text medium size="3" color="muted">
-					Step 3 of 3
+					Step 2 of 2
 				</Text>
 			</Flex>
 		</PageWrapper>
