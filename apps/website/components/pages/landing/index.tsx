@@ -62,7 +62,7 @@ export const LandingPage: React.FC = () => {
 					<Container css={{ position: 'relative' }}>
 						<Flex direction="column" css={{ minHeight: '100vh' }}>
 							<Header isLandingPage />
-							<Flex>
+							<Flex css={{ flex: '1' }}>
 								<Grid.Container
 									gap={2}
 									justify="center"
@@ -92,8 +92,8 @@ export const LandingPage: React.FC = () => {
 													bottom: '0',
 													backgroundImage: 'url(/images/landing-lightening-bg.png)',
 													backgroundRepeat: 'no-repeat',
-													backgroundPosition: 'center right',
-													//opacity: '0.03',
+													backgroundPosition: 'top right',
+													opacity: '0.6',
 													minHeight: '100%',
 													//'mask-image': 'radial-gradient(circle at 50% 50%, transparent 40%, black)',
 												},
@@ -115,8 +115,13 @@ export const LandingPage: React.FC = () => {
 															as="a"
 															size="6"
 															color="secondary"
+															rounded
 															css={{
 																width: '200px',
+																backgroundColor: '#FFFFFF',
+																'&:hover': {
+																	backgroundColor: '#eee',
+																},
 															}}
 														>
 															Get BETA access
@@ -124,14 +129,18 @@ export const LandingPage: React.FC = () => {
 													</Flex>
 												</Box>
 											</Box>
-											<Box css={{ width: '50%', flexBasis: '50%', position: 'relative' }}>
-												<Text bold size="9"></Text>
-											</Box>
+											<Flex
+												align="center"
+												justify="center"
+												css={{ width: '50%', flexBasis: '50%', position: 'relative' }}
+											>
+												<img src="images/landing-product-bg.png" alt="product" style={{ width: '398px' }} />
+											</Flex>
 										</Flex>
 									</Grid>
 								</Grid.Container>
 							</Flex>
-							<Flex>
+							{/*<Flex>
 								<Grid.Container
 									gap={2}
 									justify="center"
@@ -194,7 +203,7 @@ export const LandingPage: React.FC = () => {
 										</Flex>
 									</Grid>
 								</Grid.Container>
-							</Flex>
+							</Flex>*/}
 
 							{/*FOOTER*/}
 							<Flex>
@@ -203,31 +212,31 @@ export const LandingPage: React.FC = () => {
 									justify="center"
 									css={{
 										position: 'relative',
-										mt: '67px',
+										mt: '47px',
 									}}
 								>
 									<Grid xs={6}>
 										<Flex align="center" css={{ width: '100%' }}>
-											<Box css={{ px: '24px' }}>
+											<Box css={{ p: '24px' }}>
 												<Text size="4" color="help">
-													&copy; Z3US {new Date().getFullYear()}
+													&copy; {new Date().getFullYear()} Z3US
 												</Text>
 											</Box>
 										</Flex>
 									</Grid>
 									<Grid xs={6}>
 										<Box css={{ width: '100%' }}>
-											<Flex justify="end" gap="3" css={{ flex: '1', px: '24px' }}>
+											<Flex justify="end" gap="3" css={{ flex: '1', p: '24px' }}>
 												<Link href="/privacy" passHref>
 													<StyledLink underlineOnHover>
-														<Text size="4" color="help">
+														<Text size="5" color="help">
 															Privacy
 														</Text>
 													</StyledLink>
 												</Link>
 												<Link href="/terms" passHref>
 													<StyledLink underlineOnHover>
-														<Text size="4" color="help">
+														<Text size="5" color="help">
 															Terms
 														</Text>
 													</StyledLink>
