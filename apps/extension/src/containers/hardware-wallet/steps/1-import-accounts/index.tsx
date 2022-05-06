@@ -1,10 +1,12 @@
-import React, { useEffect } from 'react'
+import React from 'react'
+import TransportWebHID from '@ledgerhq/hw-transport-webhid'
+import { HardwareWalletLedger } from '@radixdlt/hardware-ledger'
 import { useEventListener } from 'usehooks-ts'
 import { AccountAddress, SigningKey } from '@radixdlt/application'
 import { HDPathRadix } from '@radixdlt/crypto'
 import { useImmer } from 'use-immer'
 import { useStore } from '@src/store'
-import { CopyIcon } from '@radix-ui/react-icons'
+import { CopyIcon, ReloadIcon } from '@radix-ui/react-icons'
 import SimpleBar from 'simplebar-react'
 import { copyTextToClipboard } from '@src/utils/copy-to-clipboard'
 import { Checkbox, CheckIcon } from 'ui/src/components/checkbox'
@@ -16,80 +18,106 @@ import { PageWrapper, PageHeading, PageSubHeading } from '@src/components/layout
 import { Flex, Text, Box } from 'ui/src/components/atoms'
 import Button from 'ui/src/components/button'
 
+const isHIDSupported = !!window?.navigator?.hid
+
 export const ImportAccounts = (): JSX.Element => {
-	const { hardwareWallet, hwPublicAddresses, network, setStep, setPublicAddresses } = useStore(state => ({
-		hardwareWallet: state.hardwareWallet,
+	const { hwPublicAddresses, network, setStep, setPublicAddresses, sendAPDU } = useStore(state => ({
 		hwPublicAddresses: state.hwPublicAddresses,
 		network: state.networks[state.selectedNetworkIndex],
 		setStep: state.setHardwareWalletStepAction,
 		setPublicAddresses: state.setHWPublicAddressesAction,
+		sendAPDU: state.sendAPDUAction,
 	}))
+
 	const [state, setState] = useImmer({
 		addresses: [],
+		addressMap: {},
 		selectedIndexes: Object.fromEntries(Object.entries(hwPublicAddresses).map(([k]) => [k, true])),
 		isLoading: false,
+		isDerivingAccounts: false,
 		errorMessage: '',
-		hardwareWallet: null,
 	})
 
-	const selectedAmount = Object.values(state.selectedIndexes).filter(v => v).length
+	const selectedAmount = Object.keys(state.addressMap).length
 
-	useEffect(() => {
-		const load = async () => {
-			setState(draft => {
-				draft.isLoading = true
-			})
-
-			try {
-				const addresses = []
-				for (let i = 0; i < 4; i += 1) {
-					const hdPath = HDPathRadix.create({ address: { index: i, isHardened: true } })
-					// eslint-disable-next-line no-await-in-loop
-					const hardwareSigningKey = await hardwareWallet.makeSigningKey(hdPath, i === 0).toPromise()
-					const signingKey = SigningKey.fromHDPathWithHWSigningKey({ hdPath, hardwareSigningKey })
-					const address = AccountAddress.fromPublicKeyAndNetwork({
-						publicKey: signingKey.publicKey,
-						network: network.id,
-					})
-
-					addresses.push(address.toString())
-				}
-
-				setState(draft => {
-					draft.addresses = addresses
-					draft.errorMessage = ''
-				})
-			} catch (error) {
-				setState(draft => {
-					draft.errorMessage = (error?.message || error).toString().trim()
-				})
-			}
-
-			setState(draft => {
-				draft.isLoading = false
-			})
+	const handleRefreshDevices = async () => {
+		if (!isHIDSupported) {
+			return
 		}
 
-		load()
-	}, [])
+		setState(draft => {
+			draft.isDerivingAccounts = false
+			draft.isLoading = true
+			draft.errorMessage = ''
+		})
+
+		try {
+			const transport = await TransportWebHID.request()
+			await transport.close()
+
+			setState(draft => {
+				draft.isDerivingAccounts = true
+			})
+
+			const addresses = []
+			const hw = await HardwareWalletLedger.create({ send: sendAPDU }).toPromise()
+			for (let i = 0; i < 4; i += 1) {
+				const hdPath = HDPathRadix.create({ address: { index: i, isHardened: true } })
+				// eslint-disable-next-line no-await-in-loop
+				const hardwareSigningKey = await hw.makeSigningKey(hdPath, i === 0).toPromise()
+				const signingKey = SigningKey.fromHDPathWithHWSigningKey({ hdPath, hardwareSigningKey })
+				const address = AccountAddress.fromPublicKeyAndNetwork({
+					publicKey: signingKey.publicKey,
+					network: network.id,
+				})
+
+				addresses.push(address.toString())
+			}
+
+			const addressMap = {}
+			addresses.forEach((address, index) => {
+				if (state.selectedIndexes[index]) {
+					addressMap[index] = address
+				}
+			})
+
+			setState(draft => {
+				draft.addresses = addresses
+				draft.addressMap = addressMap
+				draft.errorMessage = ''
+			})
+		} catch (error) {
+			setState(draft => {
+				draft.errorMessage = (error?.message || error).toString().trim()
+			})
+		}
+		setState(draft => {
+			draft.isDerivingAccounts = false
+			draft.isLoading = false
+		})
+	}
 
 	const handleSelectIndex = (index: number) => checked => {
+		const selectedIndexes = { ...state.selectedIndexes, [index]: checked === true }
+
+		const addressMap = {}
+		state.addresses.forEach((address, idx) => {
+			if (state.selectedIndexes[idx]) {
+				addressMap[idx] = address
+			}
+		})
+
 		setState(draft => {
-			draft.selectedIndexes = { ...draft.selectedIndexes, [index]: checked === true }
+			draft.selectedIndexes = selectedIndexes
+			draft.addressMap = addressMap
 		})
 	}
 
 	const handleContinue = () => {
-		const addressMap = {}
-		state.addresses.forEach((address, index) => {
-			if (state.selectedIndexes[index]) {
-				addressMap[index] = address
-			}
-		})
-		if (Object.keys(addressMap).length <= 0) {
+		if (!isHIDSupported || selectedAmount <= 0) {
 			return
 		}
-		setPublicAddresses(addressMap)
+		setPublicAddresses(state.addressMap)
 		setStep(steps.COMPLETE)
 	}
 
@@ -101,10 +129,20 @@ export const ImportAccounts = (): JSX.Element => {
 
 	return (
 		<PageWrapper css={{ flex: '1', position: 'relative', display: 'flex', flexDirection: 'column' }}>
-			<Box>
-				<PageHeading>Import accounts</PageHeading>
-				<PageSubHeading>Select amount of accounts to import.</PageSubHeading>
-			</Box>
+			{isHIDSupported ? (
+				<Box>
+					<PageHeading>Import accounts</PageHeading>
+					<PageSubHeading>Please ensure your Ledger is connected and the Radix application is open.</PageSubHeading>
+				</Box>
+			) : (
+				<Box>
+					<PageHeading>Unsupported</PageHeading>
+					<PageSubHeading>
+						Your browser does not allow connection with USB device. Please update your browser to the latest version or
+						use different one.
+					</PageSubHeading>
+				</Box>
+			)}
 			<Box css={{ mt: '$8', flex: '1' }}>
 				<Box
 					css={{
@@ -157,9 +195,28 @@ export const ImportAccounts = (): JSX.Element => {
 						</SimpleBar>
 					</Box>
 				</Box>
-				<InputFeedBack showFeedback={state.errorMessage !== '' || state.isLoading} animateHeight={31}>
-					<Text color={state.errorMessage ? 'red' : 'help'} medium>
-						{state.errorMessage || 'Confirm on your device'}
+			</Box>
+			<Box css={{ mt: '$8', flex: '1', width: '100%' }}>
+				<Button
+					fullWidth
+					color="primary"
+					size="6"
+					loading={state.isLoading}
+					disabled={!isHIDSupported}
+					onClick={handleRefreshDevices}
+					css={{ flex: '1' }}
+				>
+					<ReloadIcon />
+					Connect
+				</Button>
+				<InputFeedBack showFeedback={!!state.errorMessage} animateHeight={31}>
+					<Text color="red" medium>
+						{state.errorMessage}
+					</Text>
+				</InputFeedBack>
+				<InputFeedBack showFeedback={state.isDerivingAccounts} animateHeight={31}>
+					<Text color="help" medium>
+						Confirm on your device
 					</Text>
 				</InputFeedBack>
 			</Box>
@@ -168,7 +225,7 @@ export const ImportAccounts = (): JSX.Element => {
 					fullWidth
 					color="primary"
 					size="6"
-					disabled={!(selectedAmount > 0 && state.addresses.length > 0)}
+					disabled={!isHIDSupported || selectedAmount <= 0}
 					onClick={handleContinue}
 					css={{ flex: '1' }}
 				>
@@ -177,7 +234,7 @@ export const ImportAccounts = (): JSX.Element => {
 			</Flex>
 			<Flex justify="center" align="center" css={{ height: '48px', ta: 'center', mt: '$2', width: '100%' }}>
 				<Text medium size="3" color="muted">
-					Step 2 of 3
+					Step 1 of 2
 				</Text>
 			</Flex>
 		</PageWrapper>

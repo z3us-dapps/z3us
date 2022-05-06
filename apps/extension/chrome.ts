@@ -21,7 +21,7 @@ export default {
 		'48': 'favicon-48x48.png',
 		'128': 'favicon-128x128.png',
 	},
-	permissions: ['storage', 'unlimitedStorage', 'notifications', 'activeTab', 'tabs', 'geolocation'],
+	permissions: ['storage', 'unlimitedStorage', 'tabs'],
 	host_permissions: ['<all_urls>'],
 	background: {
 		service_worker: 'src/lib/background.ts',
