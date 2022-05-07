@@ -1,5 +1,6 @@
 import React from 'react'
 import { useStore } from '@src/store'
+import { useQueryClient } from 'react-query'
 import { useLocation } from 'wouter'
 import { useImmer } from 'use-immer'
 import { useEventListener } from 'usehooks-ts'
@@ -11,6 +12,7 @@ import InputFeedBack from 'ui/src/components/input/input-feedback'
 
 export const CompleteSync = (): JSX.Element => {
 	const [, setLocation] = useLocation()
+	const queryClient = useQueryClient()
 
 	const { addresses, setStep } = useStore(state => ({
 		addresses: Object.values(state.hwPublicAddresses),
@@ -30,6 +32,7 @@ export const CompleteSync = (): JSX.Element => {
 			draft.isLoading = true
 		})
 		try {
+			await queryClient.invalidateQueries()
 			setStep(steps.IMPORT_ACCOUNTS)
 			setLocation('#/wallet/account')
 		} catch (error) {

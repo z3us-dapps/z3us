@@ -27,7 +27,6 @@ export const utils = {
 		paddingTop: value,
 		paddingBottom: value,
 	}),
-
 	m: (value: Stitches.PropertyValue<'margin'>) => ({
 		margin: value,
 	}),

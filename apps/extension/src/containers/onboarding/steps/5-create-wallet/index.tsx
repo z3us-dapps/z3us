@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react'
+import { useQueryClient } from 'react-query'
 import { useEventListener } from 'usehooks-ts'
 import { useStore } from '@src/store'
 import { useLocation } from 'wouter'
@@ -11,6 +12,7 @@ import InputFeedBack from 'ui/src/components/input/input-feedback'
 
 export const CreateWallet = (): JSX.Element => {
 	const [, setLocation] = useLocation()
+	const queryClient = useQueryClient()
 
 	const {
 		mnemonic,
@@ -54,6 +56,7 @@ export const CreateWallet = (): JSX.Element => {
 		})
 		try {
 			await createWallet(mnemonic.words, password)
+			await queryClient.invalidateQueries()
 			setPassword(null)
 			setMnemomic(null)
 			setOnboradingStep(onBoardingSteps.START)

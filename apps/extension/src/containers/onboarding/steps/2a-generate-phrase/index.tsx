@@ -17,7 +17,7 @@ export const GeneratePhrase = (): JSX.Element => {
 		setOnboardingStep: state.setOnboardingStepAction,
 	}))
 
-	const [strength] = useState<number>(18)
+	const [strength] = useState<number>(24)
 
 	useEffect(() => {
 		if (mnemonic) {

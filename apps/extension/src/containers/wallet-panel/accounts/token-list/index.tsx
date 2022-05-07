@@ -1,5 +1,4 @@
 /* eslint-disable react/no-unstable-nested-components */
-//@TODO: fix lint
 import React, { useState } from 'react'
 import { useStore } from '@src/store'
 import { useAllAccountsTokenBalances, useTokenBalances } from '@src/services/react-query/queries/radix'

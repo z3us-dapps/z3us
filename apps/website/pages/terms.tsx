@@ -4,8 +4,9 @@ import matter from 'gray-matter'
 import { serialize } from 'next-mdx-remote/serialize'
 import React from 'react'
 import { NextSeo } from 'next-seo'
-import { SinglePageDocs } from 'components/pages/single-page-docs'
 import { MdxTheme } from 'components/mdx-theme'
+import { SinglePageDocs } from 'components/pages/single-page-docs'
+import { config } from 'config'
 import docsGlobalStyles from './docs/docs.styles'
 
 const DocsIndex = ({ mdxSource }) => {
@@ -13,21 +14,21 @@ const DocsIndex = ({ mdxSource }) => {
 	return (
 		<>
 			<NextSeo
-				title="Privacy | z3us"
+				title="An open source UX driven web3 wallet built for DeFi & NFTs "
 				openGraph={{
 					type: 'website',
-					url: 'https://www.example.com/page',
-					title: 'Open Graph Title',
-					description: 'Open Graph Description',
+					url: config.Z3US_URL,
+					title: 'z3us web3 wallet',
+					description: 'A community centric open source browser wallet for the Radix DLT network.',
 					images: [
 						{
-							url: 'https://www.example.com/og-image.jpg',
+							url: `${config.Z3US_URL}/og-image-1.png`,
 							width: 800,
 							height: 600,
 							alt: 'Og Image Alt',
 						},
 						{
-							url: 'https://www.example.com/og-image-2.jpg',
+							url: `${config.Z3US_URL}/og-image-2.png`,
 							width: 800,
 							height: 600,
 							alt: 'Og Image Alt 2',
@@ -43,7 +44,7 @@ const DocsIndex = ({ mdxSource }) => {
 }
 
 export const getStaticProps = async () => {
-	const markdownWithMeta = fs.readFileSync(path.join('docs/privacy.mdx'), 'utf-8')
+	const markdownWithMeta = fs.readFileSync(path.join('docs/terms.mdx'), 'utf-8')
 	const { content } = matter(markdownWithMeta)
 	const mdxSource = await serialize(content)
 

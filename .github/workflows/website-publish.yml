@@ -1,12 +1,25 @@
 name: website - publish
 on:
-  push:
-    branches:
-      - main
-    tags:
-      - 'v**\+web'
+  release:
+    types:
+      - released
 jobs:
+  check_tag:
+    runs-on: ubuntu-latest
+    outputs:
+      run_other_jobs: ${{ steps.check-tag.outputs.run_jobs }}
+    steps:
+      - name: check tag ${{ github.event.release.target_commitish }} - ${{ github.event.release.tag_name }}
+        id: check-tag
+        run: |
+          if [[ ${{ github.event.release.target_commitish }} == "main" && ${{ github.event.release.tag_name }} =~ [^v**\+web] ]]; then
+            echo "::set-output name=run_jobs::true"
+          else
+            echo "::set-output name=run_jobs::false"
+          fi
   publish:
+    needs: [check_tag]
+    if: needs.check_tag.outputs.run_other_jobs == 'true'
     runs-on: ubuntu-latest
     steps:
       - name: Copy Files
