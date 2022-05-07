@@ -69,7 +69,7 @@ export const Header: React.FC<IProps> = ({ isLandingPage }: IProps) => {
 				},
 			}}
 		>
-			<Container css={{ position: 'relative' }}>
+			<Container css={{ position: 'relative', zIndex: '2' }}>
 				<Grid.Container
 					gap={2}
 					justify="center"

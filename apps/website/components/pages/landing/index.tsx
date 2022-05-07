@@ -6,10 +6,10 @@ import { Box, Text, Flex, StyledLink } from 'ui/src/components/atoms'
 import Button from 'ui/src/components/button'
 import { Header } from 'components/header'
 import { config } from 'config'
-import { useMediaQuery } from '@/hooks/use-media-query'
+//import { useMediaQuery } from '@/hooks/use-media-query'
 
 export const LandingPage: React.FC = () => {
-	const isLg = useMediaQuery(1280)
+	//const isLg = useMediaQuery(1280)
 	return (
 		<>
 			<NextSeo
@@ -116,6 +116,7 @@ export const LandingPage: React.FC = () => {
 														rounded
 														css={{
 															width: '200px',
+															color: '$black',
 															backgroundColor: '#FFFFFF',
 															'&:hover': {
 																backgroundColor: '#eee',
@@ -224,19 +225,16 @@ export const LandingPage: React.FC = () => {
 								</Grid>
 								<Grid xs={6}>
 									<Box css={{ width: '100%' }}>
-										<Flex justify="end" gap="3" css={{ flex: '1', p: '24px' }}>
+										<Flex justify="end" gap="3" css={{ flex: '1', p: '24px', color: '$txtHelp' }}>
 											<Link href="/privacy" passHref>
 												<StyledLink underlineOnHover>
-													<Text size="5" color="help">
-														Privacy
-													</Text>
+													<Text size="5">Privacy</Text>
 												</StyledLink>
 											</Link>
+
 											<Link href="/terms" passHref>
 												<StyledLink underlineOnHover>
-													<Text size="5" color="help">
-														Terms
-													</Text>
+													<Text size="5">Terms</Text>
 												</StyledLink>
 											</Link>
 										</Flex>
