@@ -57,89 +57,88 @@ export const LandingPage: React.FC = () => {
 						},
 					}}
 				>
+					<Header isLandingPage />
 					<Container css={{ position: 'relative' }}>
-						<Flex direction="column" css={{ minHeight: '100vh' }}>
-							<Header isLandingPage />
-							<Flex css={{ flex: '1' }}>
-								<Grid.Container
-									gap={2}
-									justify="center"
-									css={{
-										position: 'relative',
-									}}
-								>
-									<Grid xs={12} md={12}>
+						<Flex css={{ flex: '1' }}>
+							<Grid.Container
+								gap={2}
+								justify="center"
+								css={{
+									position: 'relative',
+								}}
+							>
+								<Grid xs={12} md={12}>
+									<Flex
+										align="center"
+										css={{
+											position: 'relative',
+											background: 'linear-gradient(180deg, #7345fc, #4f21e6 100%)',
+											borderRadius: '32px',
+											width: '100%',
+											gap: '12px',
+											color: '$white',
+											overflow: 'hidden',
+
+											'&:before': {
+												content: '',
+												position: 'absolute',
+												pe: 'none',
+												top: '0',
+												left: '0',
+												right: '0',
+												bottom: '0',
+												backgroundImage: 'url(/images/landing-lightening-bg.png)',
+												backgroundRepeat: 'no-repeat',
+												backgroundPosition: 'top right',
+												backgroundSize: 'auto 100%',
+												opacity: '0.7',
+												minHeight: '100%',
+												//'mask-image': 'radial-gradient(circle at 50% 50%, transparent 10%, black)',
+											},
+										}}
+									>
+										<Box css={{ width: '50%', flexBasis: '50%', position: 'relative' }}>
+											<Box css={{ pt: '150px', pb: '150px', pl: '105px' }}>
+												<Text bold size="14">
+													Control your future. Finance at your fingertips.
+												</Text>
+												<Text size="7" css={{ pt: '20px', lineHeight: '30px' }}>
+													Manage accounts, send and receive tokens, stake tokens to receive rewards and connect to DApps
+													from the Z3US browser wallet.
+												</Text>
+												<Flex css={{ mt: '$6' }}>
+													<Button
+														target="_blank"
+														href="https://t.me/z3us_dapps/4"
+														as="a"
+														size="6"
+														color="secondary"
+														rounded
+														css={{
+															width: '200px',
+															backgroundColor: '#FFFFFF',
+															'&:hover': {
+																backgroundColor: '#eee',
+															},
+														}}
+													>
+														Get BETA access
+													</Button>
+												</Flex>
+											</Box>
+										</Box>
 										<Flex
 											align="center"
-											css={{
-												position: 'relative',
-												background: 'linear-gradient(180deg, #7345fc, #4f21e6 100%)',
-												borderRadius: '32px',
-												width: '100%',
-												gap: '12px',
-												color: '$white',
-												overflow: 'hidden',
-
-												'&:before': {
-													content: '',
-													position: 'absolute',
-													pe: 'none',
-													top: '0',
-													left: '0',
-													right: '0',
-													bottom: '0',
-													backgroundImage: 'url(/images/landing-lightening-bg.png)',
-													backgroundRepeat: 'no-repeat',
-													backgroundPosition: 'top right',
-													backgroundSize: 'auto 100%',
-													opacity: '0.7',
-													minHeight: '100%',
-													//'mask-image': 'radial-gradient(circle at 50% 50%, transparent 10%, black)',
-												},
-											}}
+											justify="center"
+											css={{ width: '50%', flexBasis: '50%', position: 'relative', pt: '34px', pb: '44px' }}
 										>
-											<Box css={{ width: '50%', flexBasis: '50%', position: 'relative' }}>
-												<Box css={{ pt: '150px', pb: '150px', pl: '105px' }}>
-													<Text bold size="14">
-														Control your future. Finance at your fingertips.
-													</Text>
-													<Text size="7" css={{ pt: '20px', lineHeight: '30px' }}>
-														Manage accounts, send and receive tokens, stake tokens to receive rewards and connect to
-														DApps from the Z3US browser wallet.
-													</Text>
-													<Flex css={{ mt: '$6' }}>
-														<Button
-															target="_blank"
-															href="https://t.me/z3us_dapps/4"
-															as="a"
-															size="6"
-															color="secondary"
-															rounded
-															css={{
-																width: '200px',
-																backgroundColor: '#FFFFFF',
-																'&:hover': {
-																	backgroundColor: '#eee',
-																},
-															}}
-														>
-															Get BETA access
-														</Button>
-													</Flex>
-												</Box>
-											</Box>
-											<Flex
-												align="center"
-												justify="center"
-												css={{ width: '50%', flexBasis: '50%', position: 'relative', pt: '34px', pb: '34px' }}
-											>
-												<img src="images/landing-product-bg.png" alt="product" style={{ width: '398px' }} />
-											</Flex>
+											<img src="images/landing-product-bg.png" alt="product" style={{ width: '398px' }} />
 										</Flex>
-									</Grid>
-								</Grid.Container>
-							</Flex>
-							{/*<Flex>
+									</Flex>
+								</Grid>
+							</Grid.Container>
+						</Flex>
+						{/*<Flex>
 								<Grid.Container
 									gap={2}
 									justify="center"
@@ -204,47 +203,46 @@ export const LandingPage: React.FC = () => {
 								</Grid.Container>
 							</Flex>*/}
 
-							{/*FOOTER*/}
-							<Flex>
-								<Grid.Container
-									gap={2}
-									justify="center"
-									css={{
-										position: 'relative',
-										mt: '47px',
-									}}
-								>
-									<Grid xs={6}>
-										<Flex align="center" css={{ width: '100%' }}>
-											<Box css={{ p: '24px' }}>
-												<Text size="4" color="help">
-													&copy; {new Date().getFullYear()} Z3US
-												</Text>
-											</Box>
-										</Flex>
-									</Grid>
-									<Grid xs={6}>
-										<Box css={{ width: '100%' }}>
-											<Flex justify="end" gap="3" css={{ flex: '1', p: '24px' }}>
-												<Link href="/privacy" passHref>
-													<StyledLink underlineOnHover>
-														<Text size="5" color="help">
-															Privacy
-														</Text>
-													</StyledLink>
-												</Link>
-												<Link href="/terms" passHref>
-													<StyledLink underlineOnHover>
-														<Text size="5" color="help">
-															Terms
-														</Text>
-													</StyledLink>
-												</Link>
-											</Flex>
+						{/*FOOTER*/}
+						<Flex>
+							<Grid.Container
+								gap={2}
+								justify="center"
+								css={{
+									position: 'relative',
+									mt: '40px',
+								}}
+							>
+								<Grid xs={6}>
+									<Flex align="center" css={{ width: '100%' }}>
+										<Box css={{ p: '24px' }}>
+											<Text size="4" color="help">
+												&copy; {new Date().getFullYear()} Z3US
+											</Text>
 										</Box>
-									</Grid>
-								</Grid.Container>
-							</Flex>
+									</Flex>
+								</Grid>
+								<Grid xs={6}>
+									<Box css={{ width: '100%' }}>
+										<Flex justify="end" gap="3" css={{ flex: '1', p: '24px' }}>
+											<Link href="/privacy" passHref>
+												<StyledLink underlineOnHover>
+													<Text size="5" color="help">
+														Privacy
+													</Text>
+												</StyledLink>
+											</Link>
+											<Link href="/terms" passHref>
+												<StyledLink underlineOnHover>
+													<Text size="5" color="help">
+														Terms
+													</Text>
+												</StyledLink>
+											</Link>
+										</Flex>
+									</Box>
+								</Grid>
+							</Grid.Container>
 						</Flex>
 					</Container>
 				</Box>

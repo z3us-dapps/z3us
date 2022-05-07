@@ -16,7 +16,7 @@ const components = {
 	h4: props => <Text size="7" css={{ py: '$3' }} {...props} />,
 	h5: props => <Text size="5" css={{ py: '$3' }} {...props} />,
 	h6: props => <Text size="4" css={{ py: '$3' }} {...props} />,
-	p: props => <Text size="7" regular css={{ py: '$3', lineHeight: '32px' }} {...props} />,
+	p: props => <Text size="5" regular css={{ py: '$3', lineHeight: '24px' }} {...props} />,
 	a: props => <StyledLink bubble {...props} />,
 }
 

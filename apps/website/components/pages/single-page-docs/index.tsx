@@ -11,20 +11,17 @@ interface IProps {
 export const SinglePageDocs: React.FC<IProps> = ({ children }: IProps) => (
 	<Flex direction="column" css={{ minHeight: '100vh' }}>
 		<Header />
-		<Box
-			css={{
-				position: 'relative',
-				flex: '1',
-			}}
-		>
-			<Container gap={0}>
-				<Grid.Container gap={0} justify="center">
-					<Grid xs={8}>
-						<Box css={{ width: '100%', pb: '100px' }}>{children}</Box>
-					</Grid>
-				</Grid.Container>
+		<Flex css={{ flex: '1' }}>
+			<Container css={{ position: 'relative' }}>
+				<Flex>
+					<Grid.Container gap={0} justify="center">
+						<Grid xs={8}>
+							<Box css={{ width: '100%', pb: '100px' }}>{children}</Box>
+						</Grid>
+					</Grid.Container>
+				</Flex>
 			</Container>
-		</Box>
+		</Flex>
 		<Footer />
 	</Flex>
 )

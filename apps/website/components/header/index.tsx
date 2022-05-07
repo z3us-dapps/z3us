@@ -52,7 +52,7 @@ export const Header: React.FC<IProps> = ({ isLandingPage }: IProps) => {
 			css={{
 				position: !isLandingPage ? 'sticky' : 'relative',
 				top: '0',
-				height: '60px',
+				height: '72px',
 				zIndex: '1',
 				transition: '$default',
 				'&:after': {
@@ -69,121 +69,123 @@ export const Header: React.FC<IProps> = ({ isLandingPage }: IProps) => {
 				},
 			}}
 		>
-			<Grid.Container
-				gap={2}
-				justify="center"
-				css={{
-					position: 'relative',
-				}}
-			>
-				<Grid xs={6} css={{ '&&': { pb: '0' } }}>
-					<Flex align="center" css={{ width: '100%', px: '24px', pt: '10px' }}>
-						<Box>
-							<Link href="/" passHref>
-								<StyledLink css={{ display: 'inline-flex' }}>
-									<Z3usText
-										css={{
-											width: '110px',
-											height: 'auto',
-											color: '#7448fe',
-											transition: '$default',
-											'&:hover': {
-												color: '#ff9400',
-											},
-										}}
-									/>
-								</StyledLink>
-							</Link>
-						</Box>
-					</Flex>
-				</Grid>
-				<Grid xs={6} css={{ '&&': { pb: '0' } }}>
-					<Box css={{ width: '100%' }}>
-						<Flex css={{ width: '100%', px: '24px', pt: '10px' }}>
-							<Flex
-								gap="3"
-								align="center"
-								justify="end"
-								css={{
-									flex: '1',
-									svg: {
-										width: '20px',
-										'-webkit-backface-visibility': 'hidden',
-										'-webkit-transform': 'translateZ(0) scale(1.0, 1.0)',
-										transform: 'translateZ(0)',
-									},
-								}}
-							>
-								<ToolTip message="Twitter">
-									<Button target="_blank" href={config.TWITTER_URL} as="a" size="3" color="ghost" iconOnly>
-										<TwitterIcon />
-									</Button>
-								</ToolTip>
-								<ToolTip message="Telegram">
-									<Button target="_blank" href={config.TELEGRAM_URL} as="a" size="3" color="ghost" iconOnly>
-										<TelegramIcon />
-									</Button>
-								</ToolTip>
-								<DropdownMenu
-									onOpenChange={open => {
-										setState(draft => {
-											draft.isThemeMenuOpen = open
-										})
+			<Container css={{ position: 'relative' }}>
+				<Grid.Container
+					gap={2}
+					justify="center"
+					css={{
+						position: 'relative',
+					}}
+				>
+					<Grid xs={6} css={{ '&&': { pb: '0' } }}>
+						<Flex align="center" css={{ width: '100%', px: '24px', pt: '10px' }}>
+							<Box>
+								<Link href="/" passHref>
+									<StyledLink css={{ display: 'inline-flex' }}>
+										<Z3usText
+											css={{
+												width: '110px',
+												height: 'auto',
+												color: '#7448fe',
+												transition: '$default',
+												'&:hover': {
+													color: '#ff9400',
+												},
+											}}
+										/>
+									</StyledLink>
+								</Link>
+							</Box>
+						</Flex>
+					</Grid>
+					<Grid xs={6} css={{ '&&': { pb: '0' } }}>
+						<Box css={{ width: '100%' }}>
+							<Flex css={{ width: '100%', px: '24px', pt: '10px' }}>
+								<Flex
+									gap="3"
+									align="center"
+									justify="end"
+									css={{
+										flex: '1',
+										svg: {
+											width: '20px',
+											'-webkit-backface-visibility': 'hidden',
+											'-webkit-transform': 'translateZ(0) scale(1.0, 1.0)',
+											transform: 'translateZ(0)',
+										},
 									}}
 								>
-									<DropdownMenuTrigger asChild>
-										<Box>
-											<ToolTip message="Theme">
-												<Button size="3" color="ghost" iconOnly>
-													<Box
-														css={{
-															color: state.isThemeMenuOpen ? '#5d1eaf' : 'defaultColor',
-															fill: state.isThemeMenuOpen ? '#5d1eaf' : 'defaultColor',
-														}}
-													>
-														<LightningBoltIcon />
-													</Box>
-												</Button>
-											</ToolTip>
-										</Box>
-									</DropdownMenuTrigger>
-
-									<DropdownMenuContent
-										avoidCollisions={false}
-										align="end"
-										side="bottom"
-										sideOffset={6}
-										alignOffset={-5}
-										css={{ minWidth: '120px' }}
+									<ToolTip message="Twitter">
+										<Button target="_blank" href={config.TWITTER_URL} as="a" size="3" color="ghost" iconOnly>
+											<TwitterIcon />
+										</Button>
+									</ToolTip>
+									<ToolTip message="Telegram">
+										<Button target="_blank" href={config.TELEGRAM_URL} as="a" size="3" color="ghost" iconOnly>
+											<TelegramIcon />
+										</Button>
+									</ToolTip>
+									<DropdownMenu
+										onOpenChange={open => {
+											setState(draft => {
+												draft.isThemeMenuOpen = open
+											})
+										}}
 									>
-										<DropdownMenu>
-											<DropdownMenuRadioGroup
-												value={theme}
-												onValueChange={_theme => {
-													setTheme(_theme)
-												}}
-											>
-												<DropdownMenuRadioItem value="light">
-													<DropdownMenuItemIndicator />
-													Light
-												</DropdownMenuRadioItem>
-												<DropdownMenuRadioItem value="dark">
-													<DropdownMenuItemIndicator />
-													Dark
-												</DropdownMenuRadioItem>
-												<DropdownMenuRadioItem value="system">
-													<DropdownMenuItemIndicator />
-													System
-												</DropdownMenuRadioItem>
-											</DropdownMenuRadioGroup>
-										</DropdownMenu>
-									</DropdownMenuContent>
-								</DropdownMenu>
+										<DropdownMenuTrigger asChild>
+											<Box>
+												<ToolTip message="Theme">
+													<Button size="3" color="ghost" iconOnly>
+														<Box
+															css={{
+																color: state.isThemeMenuOpen ? '#5d1eaf' : 'defaultColor',
+																fill: state.isThemeMenuOpen ? '#5d1eaf' : 'defaultColor',
+															}}
+														>
+															<LightningBoltIcon />
+														</Box>
+													</Button>
+												</ToolTip>
+											</Box>
+										</DropdownMenuTrigger>
+
+										<DropdownMenuContent
+											avoidCollisions={false}
+											align="end"
+											side="bottom"
+											sideOffset={6}
+											alignOffset={-5}
+											css={{ minWidth: '120px' }}
+										>
+											<DropdownMenu>
+												<DropdownMenuRadioGroup
+													value={theme}
+													onValueChange={_theme => {
+														setTheme(_theme)
+													}}
+												>
+													<DropdownMenuRadioItem value="light">
+														<DropdownMenuItemIndicator />
+														Light
+													</DropdownMenuRadioItem>
+													<DropdownMenuRadioItem value="dark">
+														<DropdownMenuItemIndicator />
+														Dark
+													</DropdownMenuRadioItem>
+													<DropdownMenuRadioItem value="system">
+														<DropdownMenuItemIndicator />
+														System
+													</DropdownMenuRadioItem>
+												</DropdownMenuRadioGroup>
+											</DropdownMenu>
+										</DropdownMenuContent>
+									</DropdownMenu>
+								</Flex>
 							</Flex>
-						</Flex>
-					</Box>
-				</Grid>
-			</Grid.Container>
+						</Box>
+					</Grid>
+				</Grid.Container>
+			</Container>
 		</Box>
 	)
 }
