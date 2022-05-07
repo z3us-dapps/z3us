@@ -93,9 +93,10 @@ export const LandingPage: React.FC = () => {
 													backgroundImage: 'url(/images/landing-lightening-bg.png)',
 													backgroundRepeat: 'no-repeat',
 													backgroundPosition: 'top right',
-													opacity: '0.6',
+													backgroundSize: 'auto 100%',
+													opacity: '0.7',
 													minHeight: '100%',
-													//'mask-image': 'radial-gradient(circle at 50% 50%, transparent 40%, black)',
+													//'mask-image': 'radial-gradient(circle at 50% 50%, transparent 10%, black)',
 												},
 											}}
 										>
@@ -132,7 +133,7 @@ export const LandingPage: React.FC = () => {
 											<Flex
 												align="center"
 												justify="center"
-												css={{ width: '50%', flexBasis: '50%', position: 'relative' }}
+												css={{ width: '50%', flexBasis: '50%', position: 'relative', pt: '34px', pb: '34px' }}
 											>
 												<img src="images/landing-product-bg.png" alt="product" style={{ width: '398px' }} />
 											</Flex>
