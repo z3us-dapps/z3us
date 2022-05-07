@@ -5,3 +5,10 @@ export const config = {
 	TWITTER_URL: 'https://twitter.com/z3us_dapps',
 	TWITTER_HANDLE: 'z3us_dapps',
 }
+
+export const bp = {
+	sm: 650,
+	md: 960,
+	lg: 1280,
+	xl: 1400,
+}

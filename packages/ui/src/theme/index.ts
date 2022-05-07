@@ -7,10 +7,11 @@ import { utils } from './utils'
 export const { config, createTheme, css, getCssText, globalCss, styled, theme, keyframes } = createStitches({
 	utils,
 	media: {
-		bp1: '(min-width: 520px)',
-		bp2: '(min-width: 900px)',
-		bp3: '(min-width: 1200px)',
-		bp4: '(min-width: 1800px)',
+		xs: '(min-width: 420px)',
+		sm: '(min-width: 650px)',
+		md: '(min-width: 960px)',
+		lg: '(min-width: 1280px)',
+		xl: '(min-width: 1400px)',
 		motion: '(prefers-reduced-motion)',
 		hover: '(any-hover: hover)',
 		dark: '(prefers-color-scheme: dark)',
