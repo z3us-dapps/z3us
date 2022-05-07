@@ -5,7 +5,7 @@ import { Container, Grid } from '@nextui-org/react'
 import { Box, Text, Flex, StyledLink } from 'ui/src/components/atoms'
 import Button from 'ui/src/components/button'
 import { Header } from 'components/header'
-import { config, bp } from 'config'
+import { config } from 'config'
 
 export const LandingPage: React.FC = () => (
 	<>
