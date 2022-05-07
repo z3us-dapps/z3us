@@ -30,7 +30,7 @@ export const TokenInfo = (): JSX.Element => {
 	}
 
 	const handleGotoTokenExplorer = () => {
-		window.open(`${EXPLORER_URL}/token/${rri}`)
+		window.open(`${EXPLORER_URL}/tokens/${rri}`)
 	}
 
 	if (isLoading) {
