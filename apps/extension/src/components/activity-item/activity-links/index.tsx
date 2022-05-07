@@ -1,6 +1,6 @@
 import React from 'react'
 import { useStore } from '@src/store'
-import { CopyIcon } from '@radix-ui/react-icons'
+import { CopyIcon, ExternalLinkIcon } from '@radix-ui/react-icons'
 import { Text, Box, Flex, StyledLink } from 'ui/src/components/atoms'
 import { Action, Transaction } from '@src/services/types'
 import { getShortAddress } from '@src/utils/string-utils'
@@ -69,6 +69,7 @@ export const ActivityLinks: React.FC<IProps> = ({ accountAddress, tx, activity }
 							target="_blank"
 							href={`${EXPLORER_URL}/transactions/${tx.id}`}
 						>
+							<ExternalLinkIcon />
 							{getShortAddress(tx.id)}
 						</StyledLink>
 					</Text>

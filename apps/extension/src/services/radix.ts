@@ -184,6 +184,8 @@ export class RadixService {
 	buildTransaction = (v: string, actions: IntendedAction[], message?: Buffer) => {
 		const from = parseAccountAddress(v)
 
+		let disableTokenMintAndBurn = true
+
 		return this.buildRawTransaction({
 			network_identifier: { network: from.network },
 			actions: actions.map(action => {
@@ -262,6 +264,7 @@ export class RadixService {
 							},
 						}
 					case ExtendedActionType.MINT_TOKENS:
+						disableTokenMintAndBurn = false
 						return {
 							type: 'MintTokens',
 							to_account: {
@@ -275,6 +278,7 @@ export class RadixService {
 							},
 						}
 					case ExtendedActionType.BURN_TOKENS:
+						disableTokenMintAndBurn = false
 						return {
 							type: 'BurnTokens',
 							from_account: {
@@ -295,7 +299,7 @@ export class RadixService {
 				address: from.toString(),
 			},
 			message: message ? message.toString('hex') : undefined,
-			disable_token_mint_and_burn: true,
+			disable_token_mint_and_burn: disableTokenMintAndBurn,
 		})
 	}
 

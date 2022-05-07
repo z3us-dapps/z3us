@@ -14,6 +14,7 @@ import {
 import BigNumber from 'bignumber.js'
 import { StakeItem } from './stake-item'
 import { ValidatorList } from './validator-list'
+import { EXPLORER_URL } from '../config'
 
 const TAB_HEIGHT = '246px'
 
@@ -80,7 +81,7 @@ export const Staking: React.FC = () => {
 						<Text css={{ fontSize: '32px', lineHeight: '38px', fontWeight: '800' }}>Staking</Text>
 						<Text css={{ fontSize: '14px', lineHeight: '17px', fontWeight: '500', mt: '20px' }}>
 							Stake XRD with a{' '}
-							<StyledLink underline href="https://explorer.radixdlt.com/#/validators" target="_blank">
+							<StyledLink underline href={`${EXPLORER_URL}/validators`} target="_blank">
 								Radix validator
 							</StyledLink>
 							.
