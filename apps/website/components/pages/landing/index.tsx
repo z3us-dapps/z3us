@@ -6,10 +6,10 @@ import { Box, Text, Flex, StyledLink } from 'ui/src/components/atoms'
 import Button from 'ui/src/components/button'
 import { Header } from 'components/header'
 import { config } from 'config'
-//import { useMediaQuery } from '@/hooks/use-media-query'
+import { useMediaQuery } from '@/hooks/use-media-query'
 
 export const LandingPage: React.FC = () => {
-	//const isLg = useMediaQuery(1280)
+	const isLg = useMediaQuery(1280)
 	return (
 		<>
 			<NextSeo
@@ -39,7 +39,7 @@ export const LandingPage: React.FC = () => {
 			<Box>
 				<Box
 					css={{
-						minHeight: '100vh',
+						minHeight: isLg ? '100vh' : '100vh',
 						position: 'relative',
 						'&:before': {
 							content: '',

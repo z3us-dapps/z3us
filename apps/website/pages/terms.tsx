@@ -6,8 +6,8 @@ import React from 'react'
 import { NextSeo } from 'next-seo'
 import { MdxTheme } from 'components/mdx-theme'
 import { SinglePageDocs } from 'components/pages/single-page-docs'
-import docsGlobalStyles from './docs/docs.styles'
 import { config } from 'config'
+import docsGlobalStyles from './docs/docs.styles'
 
 const DocsIndex = ({ mdxSource }) => {
 	docsGlobalStyles()
