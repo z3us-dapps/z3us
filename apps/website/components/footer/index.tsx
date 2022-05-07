@@ -15,8 +15,8 @@ export const Footer: React.FC = () => (
 				}}
 			>
 				<Grid xs={6}>
-					<Flex align="center">
-						<Box css={{ py: '30px' }}>
+					<Flex align="center" css={{ py: '30px', '@xs': { px: '24px' }, '@md': { px: '0' } }}>
+						<Box>
 							<Link href="/">
 								<a>
 									<Z3usLogoText css={{ color: '$txtHelp' }} />
@@ -29,7 +29,12 @@ export const Footer: React.FC = () => (
 					</Flex>
 				</Grid>
 				<Grid xs={6}>
-					<Flex align="center" justify="end" gap="3" css={{ flex: '1', color: '$txtHelp' }}>
+					<Flex
+						align="center"
+						justify="end"
+						gap="3"
+						css={{ flex: '1', color: '$txtHelp', py: '30px', '@xs': { px: '24px' }, '@md': { px: '0' } }}
+					>
 						<Link href="/privacy" passHref>
 							<StyledLink underlineOnHover>
 								<Text>Privacy</Text>

@@ -15,7 +15,7 @@ export const SinglePageDocs: React.FC<IProps> = ({ children }: IProps) => (
 			<Container css={{ position: 'relative' }}>
 				<Flex>
 					<Grid.Container gap={0} justify="center">
-						<Grid xs={8}>
+						<Grid xs={12} md={8}>
 							<Box css={{ width: '100%', pb: '100px' }}>{children}</Box>
 						</Grid>
 					</Grid.Container>
