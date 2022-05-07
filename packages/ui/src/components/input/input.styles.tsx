@@ -19,7 +19,7 @@ export const StyledInput = styled('input', {
 	outline: 'none',
 	size: '100%',
 	width: '100%',
-	fontFamily: '$montserrat',
+	fontFamily: '$HaasGrotTextRound',
 	minWidth: 0,
 	boxSizing: 'border-box',
 	WebkitAppearance: 'none',
