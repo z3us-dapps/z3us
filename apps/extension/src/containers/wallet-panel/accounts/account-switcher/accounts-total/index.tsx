@@ -18,7 +18,10 @@ export const AccountsTotal = (): JSX.Element => {
 	const accountPercentageChange = !value.isEqualTo(0)
 		? `${change.isGreaterThan(0) ? '+' : ''}${change.div(value).multipliedBy(100).toFixed(2).toLocaleString()}%`
 		: '0.00%'
+
 	useEffect(() => {
+		if (isLoading) return
+
 		// NOTE: set to this value, to force the ticker animation
 		setState(draft => {
 			draft.accountValue = '$4.44'
