@@ -11,7 +11,7 @@ interface IProps {
 	name: string
 }
 
-export const SlideUpPanel: React.FC<IProps> = ({ children, name }: IProps) => {
+export const SlideUpPanel: React.FC<IProps> = ({ children, name }) => {
 	const [location] = useLocation()
 	const { expanded, setExpanded } = useStore(state => ({
 		expanded: state.accountPanelExpanded,

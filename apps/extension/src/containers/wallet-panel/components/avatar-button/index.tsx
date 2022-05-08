@@ -7,7 +7,7 @@ export interface IProps {
 	background: string
 }
 
-export const AvatarButton: React.FC<IProps> = ({ background }: IProps) => (
+export const AvatarButton: React.FC<IProps> = ({ background }) => (
 	<Box
 		css={{
 			cursor: 'pointer',

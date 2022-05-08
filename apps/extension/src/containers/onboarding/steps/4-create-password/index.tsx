@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import { useStore } from '@src/store'
 import { useImmer } from 'use-immer'
 import { useEventListener } from 'usehooks-ts'
@@ -8,43 +8,21 @@ import Button from 'ui/src/components/button'
 import { Flex, Text, Box } from 'ui/src/components/atoms'
 import Input from 'ui/src/components/input'
 import InputFeedBack from 'ui/src/components/input/input-feedback'
-import { isWebAuthSupported } from '@src/services/credentials'
 
 export const CreatePassword = (): JSX.Element => {
-	const { setPassword, setOnboradingStep, registerCredential, isRestoreWorkflow, removeCredential } = useStore(
-		state => ({
-			setPassword: state.setPasswordAction,
-			setOnboradingStep: state.setOnboardingStepAction,
-			registerCredential: state.registerCredentialAction,
-			removeCredential: state.removeCredentialAction,
-			isRestoreWorkflow: state.isRestoreWorkflow,
-		}),
-	)
+	const { setPassword, setOnboradingStep, isRestoreWorkflow } = useStore(state => ({
+		setPassword: state.setPasswordAction,
+		setOnboradingStep: state.setOnboardingStepAction,
+		isRestoreWorkflow: state.isRestoreWorkflow,
+	}))
 
 	const [state, setState] = useImmer({
 		password: '',
 		confirmPassword: '',
 		isButtonDisabled: true,
-		isWebAuthSupported: false,
 		showError: false,
 		errorMessage: '',
 	})
-
-	useEffect(() => {
-		const load = async () => {
-			try {
-				const isSupported = await isWebAuthSupported()
-				setState(draft => {
-					draft.isWebAuthSupported = isSupported
-				})
-				await removeCredential()
-			} catch (error) {
-				// eslint-disable-next-line no-console
-				console.warn(error)
-			}
-		}
-		load()
-	}, [])
 
 	const handlePassword = (event: React.ChangeEvent<HTMLInputElement>) => {
 		const password = event.currentTarget.value
@@ -70,26 +48,6 @@ export const CreatePassword = (): JSX.Element => {
 		if (state.password === state.confirmPassword) {
 			setPassword(state.confirmPassword)
 			setOnboradingStep(onBoardingSteps.CREATE_WALLET)
-		} else {
-			setState(draft => {
-				draft.showError = true
-				draft.errorMessage = 'Passwords do not match!'
-			})
-		}
-	}
-
-	const handleRegisterCredentials = async () => {
-		if (state.password === state.confirmPassword) {
-			try {
-				const password = await registerCredential('local', 'wallet@z3us.com', 'z3us credentials', state.confirmPassword)
-				setPassword(password)
-				setOnboradingStep(onBoardingSteps.CREATE_WALLET)
-			} catch (error) {
-				setState(draft => {
-					draft.showError = true
-					draft.errorMessage = error?.message || error
-				})
-			}
 		} else {
 			setState(draft => {
 				draft.showError = true
@@ -142,22 +100,6 @@ export const CreatePassword = (): JSX.Element => {
 							{state.errorMessage}
 						</Text>
 					</InputFeedBack>
-
-					{/* @TODO: uncomment once webauthn is supported from extension/addon origin (xxxxxx is an invalid domain) */}
-					{false && state.isWebAuthSupported && (
-						<Box css={{ marginTop: '$3', width: '100%' }}>
-							<Button
-								fullWidth
-								color="primary"
-								size="6"
-								disabled={state.isButtonDisabled}
-								onClick={handleRegisterCredentials}
-								css={{ flex: '1' }}
-							>
-								Add credentials
-							</Button>
-						</Box>
-					)}
 				</Box>
 				<Flex css={{ width: '100%' }}>
 					<Button

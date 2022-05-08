@@ -17,7 +17,7 @@ const defaultProps = {
 	css: { display: 'flex', alignItems: 'center', overflow: 'clip' },
 }
 
-export const InputFeedback: React.FC<IProps> = ({ children, showFeedback, animateHeight, css }: IProps) => (
+export const InputFeedback: React.FC<IProps> = ({ children, showFeedback, animateHeight, css }) => (
 	<AnimatePresence>
 		{showFeedback && (
 			<MotionBox

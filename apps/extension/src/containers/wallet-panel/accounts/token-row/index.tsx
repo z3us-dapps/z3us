@@ -16,7 +16,7 @@ interface IProps {
 	disableClick?: boolean
 }
 
-export const TokenRow = ({ i, rri, amount, loading, disableClick }: IProps): JSX.Element => {
+export const TokenRow: React.FC<IProps> = ({ i, rri, amount, loading, disableClick }) => {
 	const { isLoading: isLoadingTokenInfo, data: token } = useTokenInfo(rri)
 	const [, setLocation] = useLocation()
 	const isLoadingComplete = !loading && !isLoadingTokenInfo

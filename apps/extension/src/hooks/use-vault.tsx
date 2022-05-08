@@ -1,11 +1,13 @@
 import browser from 'webextension-polyfill'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { useStore } from '@src/store'
 import { HDMasterSeed } from '@radixdlt/crypto'
 import { MessageService, PORT_NAME } from '@src/services/messanger'
 import { GET } from '@src/lib/actions'
 
 const messanger = new MessageService('extension', browser.runtime.connect({ name: PORT_NAME }), null)
+
+const refreshInterval = 60 * 1000 // 1 minute
 
 export const useVault = () => {
 	const { networkIndex, accountIndex, setMasterSeed, setHasKeystore, setMessanger } = useStore(state => ({
@@ -16,7 +18,11 @@ export const useVault = () => {
 		setMessanger: state.setMessangerAction,
 	}))
 
+	const [time, setTime] = useState(Date.now())
+
 	useEffect(() => {
+		const interval = setInterval(() => setTime(Date.now()), refreshInterval)
+
 		const load = async () => {
 			try {
 				const { seed, hasKeystore } = await messanger.sendActionMessageFromPopup(GET, null)
@@ -33,6 +39,10 @@ export const useVault = () => {
 		}
 
 		load()
+
+		return () => {
+			clearInterval(interval)
+		}
 	}, [])
 
 	useEffect(() => {
@@ -47,5 +57,5 @@ export const useVault = () => {
 		}
 
 		load()
-	}, [networkIndex, accountIndex])
+	}, [networkIndex, accountIndex, time])
 }

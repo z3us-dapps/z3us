@@ -21,12 +21,7 @@ interface IProps {
 	onAccountChange: (account: number) => void
 }
 
-export const AccountSelector: React.FC<IProps> = ({
-	shortAddress,
-	tokenAmount,
-	tokenSymbol,
-	onAccountChange,
-}: IProps) => {
+export const AccountSelector: React.FC<IProps> = ({ shortAddress, tokenAmount, tokenSymbol, onAccountChange }) => {
 	const { accounts, addressBook } = useStore(state => ({
 		addressBook: state.addressBook,
 		accounts: [...Object.values(state.publicAddresses), ...Object.values(state.hwPublicAddresses)].map(

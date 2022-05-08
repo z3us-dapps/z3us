@@ -12,7 +12,7 @@ const defaultProps = {
 	css: undefined,
 }
 
-export const Z3usLogoText: React.FC<IProps> = ({ color, css }: IProps) => (
+export const Z3usLogoText: React.FC<IProps> = ({ color, css }) => (
 	<Box
 		as="svg"
 		width="138"

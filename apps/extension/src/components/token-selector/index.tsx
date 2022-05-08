@@ -27,7 +27,7 @@ const defaultProps = {
 	token: undefined,
 }
 
-export const TokenSelector: React.FC<IProps> = ({ triggerType, token, tokens, onTokenChange }: IProps) => {
+export const TokenSelector: React.FC<IProps> = ({ triggerType, token, tokens, onTokenChange }) => {
 	const handleValueChange = (rri: string) => {
 		onTokenChange(rri)
 	}

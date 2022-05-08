@@ -8,7 +8,7 @@ interface IProps {
 	children: React.ReactNode
 }
 
-export const SinglePageDocs: React.FC<IProps> = ({ children }: IProps) => (
+export const SinglePageDocs: React.FC<IProps> = ({ children }) => (
 	<Flex direction="column" css={{ minHeight: '100vh' }}>
 		<Header />
 		<Flex css={{ flex: '1' }}>

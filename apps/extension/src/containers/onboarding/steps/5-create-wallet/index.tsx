@@ -56,7 +56,7 @@ export const CreateWallet = (): JSX.Element => {
 		})
 		try {
 			await createWallet(mnemonic.words, password)
-			await queryClient.invalidateQueries()
+			await queryClient.invalidateQueries({ active: true, inactive: true, stale: true })
 			setPassword(null)
 			setMnemomic(null)
 			setOnboradingStep(onBoardingSteps.START)

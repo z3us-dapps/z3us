@@ -24,7 +24,7 @@ interface IProps {
 	trigger: React.ReactNode
 }
 
-export const CreateTokenModal: React.FC<IProps> = ({ trigger }: IProps) => {
+export const CreateTokenModal: React.FC<IProps> = ({ trigger }) => {
 	const [, setLocation] = useLocation()
 	const queryClient = useQueryClient()
 
@@ -133,7 +133,7 @@ export const CreateTokenModal: React.FC<IProps> = ({ trigger }: IProps) => {
 		try {
 			const { blob } = await FinalizeTransaction(network.url, account, state.symbol, state.transaction)
 			await SubmitSignedTransaction(network.url, account, blob)
-			await queryClient.invalidateQueries()
+			await queryClient.invalidateQueries({ active: true, inactive: true, stale: true })
 			setState(draft => {
 				draft.fee = null
 				draft.transaction = null

@@ -20,7 +20,7 @@ export const CircleAvatar: React.FC<IProps> = ({
 	borderWidth,
 	shadow,
 	background,
-}: IProps) =>
+}) =>
 	image ? (
 		<Box
 			css={{

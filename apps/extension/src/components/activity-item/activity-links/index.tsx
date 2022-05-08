@@ -22,7 +22,7 @@ const defaultProps = {
 	activity: undefined,
 }
 
-export const ActivityLinks: React.FC<IProps> = ({ accountAddress, tx, activity }: IProps) => {
+export const ActivityLinks: React.FC<IProps> = ({ accountAddress, tx, activity }) => {
 	const { addressBook } = useStore(state => ({
 		addressBook: state.addressBook,
 	}))

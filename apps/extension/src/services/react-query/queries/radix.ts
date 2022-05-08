@@ -61,10 +61,13 @@ export const useTokenBalances = () => {
 	})
 }
 
-export const useAllAccountsTokenBalances = (): Array<{
-	rri: string
-	amount: BigNumber
-}> => {
+export const useAllAccountsTokenBalances = (): {
+	isLoading: boolean
+	balances: Array<{
+		rri: string
+		amount: BigNumber
+	}>
+} => {
 	const { addresses, network } = useStore(state => ({
 		addresses: [...Object.values(state.publicAddresses), ...Object.values(state.hwPublicAddresses)],
 		network: state.networks[state.selectedNetworkIndex],
@@ -82,7 +85,9 @@ export const useAllAccountsTokenBalances = (): Array<{
 		},
 	}))
 
-	const rawBalances = useQueries(queries)?.filter(({ data }) => !!data) || []
+	const results = useQueries(queries)
+	const isLoading = results.some(result => result.isLoading)
+	const rawBalances = results?.filter(({ data }) => !!data) || []
 
 	const balanceMap = rawBalances.reduce((container, { data }) => {
 		const balances = data ? data.account_balances.liquid_balances : []
@@ -97,7 +102,7 @@ export const useAllAccountsTokenBalances = (): Array<{
 		return container
 	}, {})
 
-	return Object.values(balanceMap)
+	return { isLoading, balances: Object.values(balanceMap) }
 }
 
 export const useStakedPositions = () => {
