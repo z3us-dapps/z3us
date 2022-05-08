@@ -44,11 +44,6 @@ export const WalletMenu: React.FC = () => {
 		setLocation('#/hardware-wallet')
 	}
 
-	const handleCredentials = () => {
-		window.open(`${window.location.origin}/index.html#/credentials`)
-		setLocation('#/credentials')
-	}
-
 	return (
 		<MotionBox animate={isOpen ? 'open' : 'closed'}>
 			<DropdownMenu onOpenChange={setIsopen}>

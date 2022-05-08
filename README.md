@@ -36,4 +36,4 @@ yarn build
 📜 [License](LICENSE)
 -------
 
-Copyright (c)[Z3US](https://github.com/orgs/z3us-dapps/people?query=role%3Aowner).
+Copyright (c) [Z3US](https://github.com/orgs/z3us-dapps/people?query=role%3Aowner).
