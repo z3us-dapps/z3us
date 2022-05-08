@@ -44,9 +44,6 @@ export const ImportAccounts = (): JSX.Element => {
 	const selectedAmount = selectedIndexKeys.filter(idx => state.selectedIndexes?.[idx])?.length
 	const isHwAddressesLoaded = state.addresses?.length > 0
 
-	console.log('state', state)
-	console.log('isHwAddressesLoaded ', isHwAddressesLoaded)
-
 	const handleRefreshDevices = async () => {
 		if (!isHIDSupported) {
 			return
