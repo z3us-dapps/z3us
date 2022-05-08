@@ -1,13 +1,3 @@
-// TODO:
-// possibly remove  ?
-export const getHashedParams = (param: string) => {
-	const url = window.location.hash
-	const urlConatinsParams = url.includes('?')
-	const searchParams = urlConatinsParams ? `?${url.split('?')[1]}` : ''
-	const urlIncludesParam = url?.includes(param) || false
-	return [urlIncludesParam, searchParams]
-}
-
 export const setParams = (param: string) => {
 	// eslint-disable-next-line no-restricted-globals
 	history.replaceState({}, 'Title', param)

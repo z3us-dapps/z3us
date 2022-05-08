@@ -154,7 +154,13 @@ export const ImportAccounts = (): JSX.Element => {
 										<Text as="label" htmlFor="select" truncate css={{ maxWidth: '228px', pl: '$2', pr: '$2' }}>
 											{addressString}
 										</Text>
-										<ButtonTipFeedback tooltip="Copy address">
+										<ButtonTipFeedback
+											feedback="Copied"
+											tooltip="Copy address"
+											bgColor="$bgPanel"
+											sideOffset={5}
+											toolTipOffset={8}
+										>
 											<Button
 												color="ghost"
 												onClick={() => copyTextToClipboard(addressString)}

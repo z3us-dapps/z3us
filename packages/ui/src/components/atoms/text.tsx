@@ -3,9 +3,9 @@ import { styled } from '../../theme'
 export const Text = styled('span', {
 	lineHeight: '1',
 	margin: '0',
-	fontWeight: 400,
+	fontWeight: 500,
 	fontVariantNumeric: 'tabular-nums',
-	fontFamily: '$HaasGrotTextRound',
+	fontFamily: '$montserrat',
 	display: 'block',
 
 	variants: {
@@ -120,7 +120,6 @@ export const Text = styled('span', {
 		bold: {
 			true: {
 				fontWeight: '700',
-				fontFamily: '$HaasGrotDisplayRound',
 			},
 		},
 		uppercase: {

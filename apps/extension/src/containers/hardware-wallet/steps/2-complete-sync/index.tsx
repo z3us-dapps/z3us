@@ -1,22 +1,19 @@
 import React from 'react'
 import { useStore } from '@src/store'
+import AlertCard from 'ui/src/components/alert-card'
 import { useQueryClient } from 'react-query'
-import { useLocation } from 'wouter'
 import { useImmer } from 'use-immer'
 import { useEventListener } from 'usehooks-ts'
-import { steps } from '@src/store/hardware-wallet'
 import { PageWrapper, PageHeading, PageSubHeading } from '@src/components/layout'
 import Button from 'ui/src/components/button'
 import { Flex, Text, Box } from 'ui/src/components/atoms'
 import InputFeedBack from 'ui/src/components/input/input-feedback'
 
 export const CompleteSync = (): JSX.Element => {
-	const [, setLocation] = useLocation()
 	const queryClient = useQueryClient()
 
-	const { addresses, setStep } = useStore(state => ({
+	const { addresses } = useStore(state => ({
 		addresses: Object.values(state.hwPublicAddresses),
-		setStep: state.setHardwareWalletStepAction,
 	}))
 
 	const [state, setState] = useImmer({
@@ -33,8 +30,7 @@ export const CompleteSync = (): JSX.Element => {
 		})
 		try {
 			await queryClient.invalidateQueries({ active: true, inactive: true, stale: true })
-			setStep(steps.IMPORT_ACCOUNTS)
-			setLocation('#/wallet/account')
+			window.close()
 		} catch (error) {
 			setState(draft => {
 				draft.errorMessage = error?.message || error
@@ -53,21 +49,24 @@ export const CompleteSync = (): JSX.Element => {
 
 	return (
 		<PageWrapper
-			css={{
-				flex: '1',
-				position: 'relative',
-				display: 'flex',
-				flexDirection: 'column',
-				width: '100%',
-				flexBasis: '100%',
-			}}
+			css={{ flex: '1', position: 'relative', display: 'flex', flexDirection: 'column', maxHeight: '600px' }}
 		>
 			<Box css={{ width: '100%' }}>
-				<PageHeading>Connect hardware wallet</PageHeading>
-				<PageSubHeading>Click `Go to wallet` below, to go to your wallet and begin using z3us wallet.</PageSubHeading>
+				<PageHeading>Hardware wallet connected</PageHeading>
+				<PageSubHeading>
+					Click the `Close` button below, to close this window, and begin using Z3US wallet with the connected hardware
+					wallet connected.
+				</PageSubHeading>
 			</Box>
 			<Box css={{ mt: '$8', flex: '1' }}>
-				<InputFeedBack showFeedback={state.errorMessage !== ''} animateHeight={31}>
+				{addresses.length > 0 ? (
+					<AlertCard icon color="success">
+						<Text medium size="3" css={{ p: '$2' }}>
+							Click the Z3US extension icon to begin
+						</Text>
+					</AlertCard>
+				) : null}
+				<InputFeedBack showFeedback={state.errorMessage !== ''} animateHeight={60}>
 					<Text color="red" medium>
 						{state.errorMessage}
 					</Text>
@@ -83,7 +82,7 @@ export const CompleteSync = (): JSX.Element => {
 					disabled={addresses.length < 1}
 					loading={state.isLoading}
 				>
-					Go to wallet
+					Close
 				</Button>
 			</Flex>
 			<Flex justify="center" align="center" css={{ height: '48px', ta: 'center', mt: '$2', width: '100%' }}>

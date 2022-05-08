@@ -239,9 +239,7 @@ export const LandingPage: React.FC = () => (
 						<Grid xs={6}>
 							<Flex align="center" css={{ width: '100%' }}>
 								<Box css={{ p: '24px' }}>
-									<Text size="4" color="help">
-										&copy; {new Date().getFullYear()} Z3US
-									</Text>
+									<Text color="help">&copy; {new Date().getFullYear()} Z3US</Text>
 								</Box>
 							</Flex>
 						</Grid>
@@ -250,13 +248,13 @@ export const LandingPage: React.FC = () => (
 								<Flex justify="end" gap="3" css={{ flex: '1', p: '24px', color: '$txtHelp' }}>
 									<Link href="/privacy" passHref>
 										<StyledLink underlineOnHover>
-											<Text size="5">Privacy</Text>
+											<Text>Privacy</Text>
 										</StyledLink>
 									</Link>
 
 									<Link href="/terms" passHref>
 										<StyledLink underlineOnHover>
-											<Text size="5">Terms</Text>
+											<Text>Terms</Text>
 										</StyledLink>
 									</Link>
 								</Flex>

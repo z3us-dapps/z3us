@@ -27,7 +27,7 @@ interface IProps {
 }
 
 export const CheckItem: React.FC<IProps> = ({ name, comingSoon }) => (
-	<MotionBox variants={liVariants} as="li" css={{ display: 'flex', alignItems: 'center' }}>
+	<MotionBox variants={liVariants} as="li" css={{ display: 'flex', alignItems: 'center', position: 'relative' }}>
 		<Box css={{ mr: '$2', mt: '1px' }}>
 			<CheckboxIcon />
 		</Box>

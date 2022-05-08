@@ -73,7 +73,7 @@ export const WalletMenu: React.FC = () => {
 								<ChevronRightIcon />
 							</DropdownMenuRightSlot>
 						</DropdownMenuTriggerItem>
-						<DropdownMenuContent avoidCollisions side="right" css={{ minWidth: '80px' }}>
+						<DropdownMenuContent avoidCollisions side="right" css={{ minWidth: '90px' }}>
 							<DropdownMenuRadioGroup value={theme} onValueChange={setTheme}>
 								<DropdownMenuRadioItem value="light">
 									<DropdownMenuItemIndicator />

@@ -10,6 +10,7 @@ export interface IProps {
 	tooltip: string
 	feedback?: string
 	showToolTipArrow?: boolean
+	toolTipOffset?: number
 	delay?: number
 	sideOffset?: number
 	bgColor?: string
@@ -21,7 +22,8 @@ const ButtonTipFeedback: React.FC<IProps> = ({
 	feedback,
 	tooltip,
 	sideOffset,
-	showToolTipArrow,
+	showToolTipArrow = true,
+	toolTipOffset = 0,
 	delay,
 	bgColor,
 	css,
@@ -73,7 +75,7 @@ const ButtonTipFeedback: React.FC<IProps> = ({
 				sideOffset={sideOffset}
 				css={{ position: 'relative', ...(css as any), backgroundColor: bgColor }}
 			>
-				{showToolTipArrow ? <TooltipArrow css={{ fill: bgColor }} /> : null}
+				{showToolTipArrow ? <TooltipArrow offset={toolTipOffset} css={{ fill: bgColor }} /> : null}
 				<Box css={{ fill: '$txtDefault', opacity: isShowFeedback ? '0' : '1', transition: '$default' }}>{tooltip}</Box>
 				<Flex
 					justify="center"

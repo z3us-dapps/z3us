@@ -21,6 +21,8 @@ export const { config, createTheme, css, getCssText, globalCss, styled, theme, k
 		fonts: {
 			untitled: 'Untitled Sans, -apple-system, system-ui, sans-serif',
 			mono: 'Söhne Mono, monospace',
+			montserrat: '"Montserrat", sans-serif',
+			fira: '"Fira Sans", sans-serif',
 			Centra: "'Centra-Web', Arial",
 			HaasGrotTextRound: "'HaasGrotTextRound-Web', Arial",
 			HaasGrotDisplayRound: "'HaasGrotDispRound-Web', Arial",
@@ -124,7 +126,7 @@ export const globalStyles = globalCss({
 		padding: '0',
 		fontWeight: 500,
 		fontVariantNumeric: 'tabular-nums',
-		fontFamily: '$HaasGrotTextRound',
+		fontFamily: '$montserrat',
 		fontSize: '$1',
 		textRendering: 'optimizeLegibility',
 		'font-smoothing': 'antialiased',
@@ -188,7 +190,7 @@ export const sharedItemStyles = css({
 export const sharedItemIndicatorStyles = css({
 	position: 'absolute',
 	right: 0,
-	top: 0,
+	top: '1px',
 	width: 25,
 	display: 'inline-flex',
 	alignItems: 'center',

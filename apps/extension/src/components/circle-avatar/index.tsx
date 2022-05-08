@@ -40,7 +40,7 @@ export const CircleAvatar: React.FC<IProps> = ({
 				}}
 			>
 				<AvatarImage src={image} alt={fallbackText} />
-				<AvatarFallback delayMs={600}>{fallbackText}</AvatarFallback>
+				<AvatarFallback delayMs={600} css={{ borderRadius: '50%', backgroundColor: '$bgPanel' }} />
 			</Avatar>
 		</Box>
 	) : (
