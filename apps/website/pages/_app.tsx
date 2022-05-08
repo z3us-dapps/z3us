@@ -8,8 +8,13 @@ import SEO from '../next-seo.config'
 
 const siteGlobalStyles = globalCss({
 	body: {
+		minHeight: '100vh',
 		'> div': {
 			minHeight: '100vh',
+			//backgroundImage: 'url(/images/greek-repeat.jpeg)',
+			//backgroundRepeat: 'repeat',
+			//opacity: '0.03',
+			//'mask-image': 'radial-gradient(circle at 50% 30%, transparent 50%, black)',
 		},
 	},
 })

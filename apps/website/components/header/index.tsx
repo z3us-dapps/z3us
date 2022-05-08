@@ -7,9 +7,11 @@ import {
 	DropdownMenu,
 	DropdownMenuTrigger,
 	DropdownMenuContent,
-	DropdownMenuItem,
+	DropdownMenuItemIndicator,
+	DropdownMenuRadioGroup,
+	DropdownMenuRadioItem,
 } from 'ui/src/components/drop-down-menu'
-import { Container } from '@nextui-org/react'
+import { Container, Grid } from '@nextui-org/react'
 import Button from 'ui/src/components/button'
 import { TelegramIcon, TwitterIcon } from 'ui/src/components/icons'
 import { ToolTip } from 'ui/src/components/tool-tip'
@@ -31,9 +33,7 @@ export const Header: React.FC<IProps> = ({ isLandingPage }: IProps) => {
 		isScrolled: false,
 		isThemeMenuOpen: false,
 	})
-
 	const { theme, setTheme } = useTheme()
-	const toggleTheme = () => setTheme(theme === 'light' ? 'dark' : 'light')
 
 	useEventListener('scroll', () => {
 		if (window.scrollY > 0) {
@@ -50,8 +50,9 @@ export const Header: React.FC<IProps> = ({ isLandingPage }: IProps) => {
 	return (
 		<Box
 			css={{
-				position: 'sticky',
+				position: !isLandingPage ? 'sticky' : 'relative',
 				top: '0',
+				height: '72px',
 				zIndex: '1',
 				transition: '$default',
 				'&:after': {
@@ -68,121 +69,122 @@ export const Header: React.FC<IProps> = ({ isLandingPage }: IProps) => {
 				},
 			}}
 		>
-			<Container gap={0} css={{ position: 'relative', zIndex: '1' }}>
-				<Flex>
-					<Box>
-						<Link href="/" passHref>
-							<StyledLink css={{ mt: '31px', display: 'inline-flex' }}>
-								<Z3usText
+			<Container css={{ position: 'relative', zIndex: '2' }}>
+				<Grid.Container
+					gap={2}
+					justify="center"
+					css={{
+						position: 'relative',
+					}}
+				>
+					<Grid xs={6} css={{ '&&': { pb: '0' } }}>
+						<Flex align="center" css={{ width: '100%', px: '24px', pt: '10px' }}>
+							<Box>
+								<Link href="/" passHref>
+									<StyledLink css={{ display: 'inline-flex' }}>
+										<Z3usText
+											css={{
+												width: '110px',
+												height: 'auto',
+												color: '#7448fe',
+												transition: '$default',
+												'&:hover': {
+													color: '#ff9400',
+												},
+											}}
+										/>
+									</StyledLink>
+								</Link>
+							</Box>
+						</Flex>
+					</Grid>
+					<Grid xs={6} css={{ '&&': { pb: '0' } }}>
+						<Box css={{ width: '100%' }}>
+							<Flex css={{ width: '100%', px: '24px', pt: '10px' }}>
+								<Flex
+									gap="3"
+									align="center"
+									justify="end"
 									css={{
-										transition: '$default',
-										'&:hover': {
-											color: '#ff9400',
+										flex: '1',
+										svg: {
+											width: '20px',
+											'-webkit-backface-visibility': 'hidden',
+											'-webkit-transform': 'translateZ(0) scale(1.0, 1.0)',
+											transform: 'translateZ(0)',
 										},
 									}}
-								/>
-							</StyledLink>
-						</Link>
-					</Box>
-					<Flex
-						gap="3"
-						align="center"
-						justify="end"
-						css={{
-							flex: '1',
-							py: '$6',
-							svg: {
-								width: '20px',
-								'-webkit-backface-visibility': 'hidden',
-								'-webkit-transform': 'translateZ(0) scale(1.0, 1.0)',
-								transform: 'translateZ(0)',
-								...(isLandingPage
-									? {
-											color: '$white',
-											fill: '$white',
-									  }
-									: {}),
-							},
-						}}
-					>
-						{/*{isLandingPage ? (
-							<Link href="/docs" passHref>
-								<StyledLink underlineOnHover css={{ mr: '$2' }}>
-									<Text fira size="6" css={{ pt: '1px' }}>
-										Docs
-									</Text>
-								</StyledLink>
-							</Link>
-						) : null}*/}
-						{/*<Button target="_blank" href={config.GITHUB_URL} as="a" size="3" color="ghost" iconOnly>
-							<GithubIcon />
-						</Button>*/}
-						<ToolTip message="Twitter">
-							<Button target="_blank" href={config.TWITTER_URL} as="a" size="3" color="ghost" iconOnly>
-								<TwitterIcon />
-							</Button>
-						</ToolTip>
-						<ToolTip message="Telegram">
-							<Button target="_blank" href={config.TELEGRAM_URL} as="a" size="3" color="ghost" iconOnly>
-								<TelegramIcon />
-							</Button>
-						</ToolTip>
-						{!isLandingPage ? (
-							<DropdownMenu
-								onOpenChange={open => {
-									setState(draft => {
-										draft.isThemeMenuOpen = open
-									})
-								}}
-							>
-								<DropdownMenuTrigger asChild>
-									<Button size="3" color="ghost" iconOnly onClick={toggleTheme}>
-										<Box
-											css={{
-												color: state.isThemeMenuOpen ? '#5d1eaf' : 'defaultColor',
-											}}
-										>
-											<LightningBoltIcon />
-										</Box>
-									</Button>
-								</DropdownMenuTrigger>
-
-								<DropdownMenuContent
-									avoidCollisions={false}
-									align="end"
-									side="bottom"
-									sideOffset={6}
-									alignOffset={-5}
-									css={{ minWidth: '120px' }}
 								>
-									<DropdownMenu>
-										<DropdownMenuItem
-											onSelect={() => {
-												setTheme('light')
-											}}
+									<ToolTip message="Twitter">
+										<Button target="_blank" href={config.TWITTER_URL} as="a" size="3" color="ghost" iconOnly>
+											<TwitterIcon />
+										</Button>
+									</ToolTip>
+									<ToolTip message="Telegram">
+										<Button target="_blank" href={config.TELEGRAM_URL} as="a" size="3" color="ghost" iconOnly>
+											<TelegramIcon />
+										</Button>
+									</ToolTip>
+									<DropdownMenu
+										onOpenChange={open => {
+											setState(draft => {
+												draft.isThemeMenuOpen = open
+											})
+										}}
+									>
+										<DropdownMenuTrigger asChild>
+											<Box>
+												<ToolTip message="Theme">
+													<Button size="3" color="ghost" iconOnly>
+														<Box
+															css={{
+																color: state.isThemeMenuOpen ? '#5d1eaf' : 'defaultColor',
+																fill: state.isThemeMenuOpen ? '#5d1eaf' : 'defaultColor',
+															}}
+														>
+															<LightningBoltIcon />
+														</Box>
+													</Button>
+												</ToolTip>
+											</Box>
+										</DropdownMenuTrigger>
+
+										<DropdownMenuContent
+											avoidCollisions={false}
+											align="end"
+											side="bottom"
+											sideOffset={6}
+											alignOffset={-5}
+											css={{ minWidth: '120px' }}
 										>
-											<span>Light</span>
-										</DropdownMenuItem>
-										<DropdownMenuItem
-											onSelect={() => {
-												setTheme('dark')
-											}}
-										>
-											<span>Dark</span>
-										</DropdownMenuItem>
-										<DropdownMenuItem
-											onSelect={() => {
-												setTheme('system')
-											}}
-										>
-											<span>System</span>
-										</DropdownMenuItem>
+											<DropdownMenu>
+												<DropdownMenuRadioGroup
+													value={theme}
+													onValueChange={_theme => {
+														setTheme(_theme)
+													}}
+												>
+													<DropdownMenuRadioItem value="light">
+														<DropdownMenuItemIndicator />
+														Light
+													</DropdownMenuRadioItem>
+													<DropdownMenuRadioItem value="dark">
+														<DropdownMenuItemIndicator />
+														Dark
+													</DropdownMenuRadioItem>
+													<DropdownMenuRadioItem value="system">
+														<DropdownMenuItemIndicator />
+														System
+													</DropdownMenuRadioItem>
+												</DropdownMenuRadioGroup>
+											</DropdownMenu>
+										</DropdownMenuContent>
 									</DropdownMenu>
-								</DropdownMenuContent>
-							</DropdownMenu>
-						) : null}
-					</Flex>
-				</Flex>
+								</Flex>
+							</Flex>
+						</Box>
+					</Grid>
+				</Grid.Container>
 			</Container>
 		</Box>
 	)

@@ -58,7 +58,7 @@ export const StyledButton = styled(
 		justifyContent: 'center',
 		dflex: 'center',
 		appearance: 'none',
-		fontFamily: '$montserrat',
+		fontFamily: '$HaasGrotTextRound',
 		boxSizing: ' border-box',
 		us: 'none',
 		ta: 'center',
@@ -268,7 +268,7 @@ export const StyledButton = styled(
 					borderRadius: '$3',
 					height: '$12',
 					fontSize: '16px',
-					lineHeight: '17px',
+					lineHeight: '16px',
 					fontWeight: '600',
 					px: '20px',
 					[`& ${StyledTextWrapper}`]: {
@@ -288,6 +288,11 @@ export const StyledButton = styled(
 			fullWidth: {
 				true: {
 					width: '100%',
+				},
+			},
+			rounded: {
+				true: {
+					borderRadius: '25px',
 				},
 			},
 			active: {
