@@ -67,6 +67,7 @@ export const useAllAccountsTokenBalances = (): {
 		rri: string
 		amount: BigNumber
 	}>
+	staked: BigNumber
 } => {
 	const { addresses, network } = useStore(state => ({
 		addresses: [...Object.values(state.publicAddresses), ...Object.values(state.hwPublicAddresses)],
@@ -102,7 +103,13 @@ export const useAllAccountsTokenBalances = (): {
 		return container
 	}, {})
 
-	return { isLoading, balances: Object.values(balanceMap) }
+	const staked = rawBalances.reduce(
+		(container, { data }) =>
+			container.plus(new BigNumber(data.account_balances.staked_and_unstaking_balance.value).shiftedBy(-18)),
+		new BigNumber(0),
+	)
+
+	return { isLoading, balances: Object.values(balanceMap), staked }
 }
 
 export const useStakedPositions = () => {
