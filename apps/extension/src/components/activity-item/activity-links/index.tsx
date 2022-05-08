@@ -86,7 +86,7 @@ export const ActivityLinks: React.FC<IProps> = ({ accountAddress, tx, activity }
 							<ExternalLinkIcon />
 						</Button>
 					</ToolTip>
-					<ButtonTipFeedback tooltip="Copy address" sideOffset={5}>
+					<ButtonTipFeedback tooltip="Copy address" sideOffset={5} bgColor="$bgPanel2">
 						<Button
 							size="1"
 							iconOnly

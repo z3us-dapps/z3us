@@ -33,7 +33,7 @@ export const ValidatorList: React.FC<IProps> = ({ totalStakes }) => {
 		</Box>
 	) : (
 		<Flex align="center" justify="center" css={{ height: `${SCROLL_HEIGHT}px` }}>
-			<LoaderBars css={{ mt: '-30px' }} />
+			<LoaderBars />
 		</Flex>
 	)
 }
