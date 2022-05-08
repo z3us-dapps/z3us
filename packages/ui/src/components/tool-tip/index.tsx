@@ -74,7 +74,7 @@ interface IProps {
 }
 
 const toolTipDefaultProps = {
-	sideOffset: 5,
+	sideOffset: 3,
 	isArrowVisible: true,
 	side: 'bottom',
 	bgColor: '$bgPanel',

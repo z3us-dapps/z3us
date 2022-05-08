@@ -21,7 +21,7 @@ const ButtonTipFeedback: React.FC<IProps> = ({
 	children,
 	feedback = 'Copied',
 	tooltip,
-	sideOffset,
+	sideOffset = 3,
 	showToolTipArrow = true,
 	toolTipOffset = 0,
 	delay = 700,
