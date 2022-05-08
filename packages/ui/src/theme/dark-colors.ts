@@ -31,7 +31,7 @@ export const darkColors = {
 	txtButtonPrimary: '#000000',
 	txtPriceGreen: 'rgb(109 255 125)',
 	txtPriceRed: 'rgb(255 45 45 / 88%)',
-	txtError: '#b01f0c',
+	txtError: '#f8250a',
 	txtInputPlaceholder: '#8889a7',
 
 	borderPanel: '#434243',

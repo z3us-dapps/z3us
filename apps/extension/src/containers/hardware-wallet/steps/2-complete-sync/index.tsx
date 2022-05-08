@@ -53,14 +53,7 @@ export const CompleteSync = (): JSX.Element => {
 
 	return (
 		<PageWrapper
-			css={{
-				flex: '1',
-				position: 'relative',
-				display: 'flex',
-				flexDirection: 'column',
-				width: '100%',
-				flexBasis: '100%',
-			}}
+			css={{ flex: '1', position: 'relative', display: 'flex', flexDirection: 'column', maxHeight: '600px' }}
 		>
 			<Box css={{ width: '100%' }}>
 				<PageHeading>Connect hardware wallet</PageHeading>

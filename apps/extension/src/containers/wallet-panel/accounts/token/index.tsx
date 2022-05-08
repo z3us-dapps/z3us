@@ -5,7 +5,6 @@ import { useTransactionHistory } from '@src/services/react-query/queries/radix'
 import { ActivityItem } from '@src/components/activity-item'
 import { useRoute } from 'wouter'
 import { Text, Box } from 'ui/src/components/atoms'
-
 import { Virtuoso } from 'react-virtuoso'
 import { getSplitParams } from '@src/utils/url-utils'
 import {

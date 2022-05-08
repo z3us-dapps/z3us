@@ -1,12 +1,15 @@
+/* eslint-disable */
 import React from 'react'
 import TransportWebHID from '@ledgerhq/hw-transport-webhid'
+import AlertCard from 'ui/src/components/alert-card'
+import { AnimatePresence } from 'framer-motion'
 import { HardwareWalletLedger } from '@radixdlt/hardware-ledger'
 import { useEventListener } from 'usehooks-ts'
 import { AccountAddress, SigningKey } from '@radixdlt/application'
 import { HDPathRadix } from '@radixdlt/crypto'
 import { useImmer } from 'use-immer'
 import { useStore } from '@src/store'
-import { CopyIcon, ReloadIcon } from '@radix-ui/react-icons'
+import { CopyIcon, ReloadIcon, ExclamationTriangleIcon } from '@radix-ui/react-icons'
 import SimpleBar from 'simplebar-react'
 import { copyTextToClipboard } from '@src/utils/copy-to-clipboard'
 import { Checkbox, CheckIcon } from 'ui/src/components/checkbox'
@@ -15,7 +18,7 @@ import { steps } from '@src/store/hardware-wallet'
 import { getShortAddress } from '@src/utils/string-utils'
 import InputFeedBack from 'ui/src/components/input/input-feedback'
 import { PageWrapper, PageHeading, PageSubHeading } from '@src/components/layout'
-import { Flex, Text, Box } from 'ui/src/components/atoms'
+import { Flex, Text, Box, MotionBox } from 'ui/src/components/atoms'
 import Button from 'ui/src/components/button'
 
 const isHIDSupported = !!window?.navigator?.hid
@@ -38,7 +41,11 @@ export const ImportAccounts = (): JSX.Element => {
 		errorMessage: '',
 	})
 
-	const selectedAmount = Object.keys(state.addressMap).length
+	const selectedIndexKeys = Object.keys(state.selectedIndexes)
+	const selectedAmount = selectedIndexKeys.filter(idx => state.selectedIndexes?.[idx])?.length
+	const isHwAddressesLoaded = state.addresses?.length > 0
+
+	console.log('state', state)
 
 	const handleRefreshDevices = async () => {
 		if (!isHIDSupported) {
@@ -128,11 +135,15 @@ export const ImportAccounts = (): JSX.Element => {
 	})
 
 	return (
-		<PageWrapper css={{ flex: '1', position: 'relative', display: 'flex', flexDirection: 'column' }}>
+		<PageWrapper
+			css={{ flex: '1', position: 'relative', display: 'flex', flexDirection: 'column', maxHeight: '600px' }}
+		>
 			{isHIDSupported ? (
 				<Box>
 					<PageHeading>Import accounts</PageHeading>
-					<PageSubHeading>Please ensure your Ledger is connected and the Radix application is open.</PageSubHeading>
+					<Box>
+						<PageSubHeading>Connect your ledger to the Z3US wallet.</PageSubHeading>
+					</Box>
 				</Box>
 			) : (
 				<Box>
@@ -143,93 +154,97 @@ export const ImportAccounts = (): JSX.Element => {
 					</PageSubHeading>
 				</Box>
 			)}
-			<Box css={{ mt: '$8', flex: '1' }}>
-				<Box
-					css={{
-						background: '$bgPanel',
-						br: '$2',
-						border: '1px solid $borderPanel',
-						position: 'relative',
-						minHeight: '70px',
-						pb: '$3',
-					}}
-				>
-					<Box as="ul">
-						<SimpleBar
-							style={{
-								height: '100%',
-								position: 'relative',
-								maxHeight: '350px',
-							}}
-						>
-							{state.addresses.map((address, index) => {
-								const addressString = address.toString()
-								return (
-									<Flex as="li" align="center" key={addressString} css={{ px: '$3', pt: '$2' }}>
-										<Checkbox
-											id="select"
-											onCheckedChange={handleSelectIndex(index)}
-											checked={!!state.selectedIndexes[index]}
-											css={{ pr: '$2' }}
-										>
-											<CheckIcon />
-										</Checkbox>
-										<Text truncate css={{ maxWidth: '270px', pr: '$2' }}>
-											{getShortAddress(addressString)}
-										</Text>
-										<ButtonTipFeedback tooltip="Copy address">
-											<Button
-												color="ghost"
-												onClick={() => copyTextToClipboard(addressString)}
-												iconOnly
-												size="1"
-												aria-label="wallet qr code"
-												css={{ mt: '2px' }}
+			<Box css={{ flex: '1' }}>
+				<Box css={{ mt: '$8', flex: '1' }}>
+					<Box
+						css={{
+							background: '$bgPanel',
+							br: '$2',
+							border: '1px solid $borderPanel',
+							position: 'relative',
+							minHeight: '70px',
+							pb: '$3',
+						}}
+					>
+						<Box as="ul">
+							<SimpleBar
+								style={{
+									height: '100%',
+									position: 'relative',
+									maxHeight: '350px',
+								}}
+							>
+								{state.addresses.map((address, index) => {
+									const addressString = address.toString()
+									return (
+										<Flex as="li" align="center" key={addressString} css={{ px: '$3', pt: '$2' }}>
+											<Checkbox
+												id="select"
+												onCheckedChange={handleSelectIndex(index)}
+												checked={!!state.selectedIndexes[index]}
 											>
-												<CopyIcon />
-											</Button>
-										</ButtonTipFeedback>
-									</Flex>
-								)
-							})}
-						</SimpleBar>
+												<CheckIcon />
+											</Checkbox>
+											<Text truncate css={{ maxWidth: '270px', px: '$2' }}>
+												{getShortAddress(addressString)}
+											</Text>
+											<ButtonTipFeedback tooltip="Copy address">
+												<Button
+													color="ghost"
+													onClick={() => copyTextToClipboard(addressString)}
+													iconOnly
+													size="1"
+													aria-label="wallet qr code"
+													css={{ mt: '2px' }}
+												>
+													<CopyIcon />
+												</Button>
+											</ButtonTipFeedback>
+										</Flex>
+									)
+								})}
+							</SimpleBar>
+						</Box>
 					</Box>
 				</Box>
-			</Box>
-			<Box css={{ mt: '$8', flex: '1', width: '100%' }}>
-				<Button
-					fullWidth
-					color="primary"
-					size="6"
-					loading={state.isLoading}
-					disabled={!isHIDSupported}
-					onClick={handleRefreshDevices}
-					css={{ flex: '1' }}
-				>
-					<ReloadIcon />
-					Connect
-				</Button>
-				<InputFeedBack showFeedback={!!state.errorMessage} animateHeight={31}>
-					<Text color="red" medium>
-						{state.errorMessage}
-					</Text>
-				</InputFeedBack>
-				<InputFeedBack showFeedback={state.isDerivingAccounts} animateHeight={31}>
-					<Text color="help" medium>
-						Confirm on your device
-					</Text>
-				</InputFeedBack>
+				<Box css={{ mt: '$8', flex: '1', width: '100%' }}>
+					<Button
+						fullWidth
+						color="primary"
+						size="6"
+						loading={state.isLoading}
+						disabled={!isHIDSupported}
+						onClick={handleRefreshDevices}
+						css={{ flex: '1' }}
+					>
+						<ReloadIcon />
+						Connect
+					</Button>
+					<InputFeedBack showFeedback={!!state.errorMessage} animateHeight={60}>
+						<Text color="red" medium>
+							{state.errorMessage}
+						</Text>
+					</InputFeedBack>
+					<InputFeedBack showFeedback={state.isDerivingAccounts} animateHeight={60}>
+						<Flex align="center">
+							<Box css={{ mt: '6px' }}>
+								<ExclamationTriangleIcon />
+							</Box>
+							<Text css={{ pl: '$2' }}>Please confirm on your device.</Text>
+						</Flex>
+					</InputFeedBack>
+				</Box>
 			</Box>
 			<Flex css={{ width: '100%' }}>
 				<Button
 					fullWidth
 					color="primary"
 					size="6"
-					disabled={!isHIDSupported || selectedAmount <= 0}
+					disabled={!isHIDSupported || selectedAmount <= 0 || !isHwAddressesLoaded}
 					onClick={handleContinue}
 					css={{ flex: '1' }}
 				>
-					{`Import ${selectedAmount} accounts`}
+					{`Import ${isHwAddressesLoaded ? selectedAmount : '0'} accounts`}
 				</Button>
 			</Flex>
 			<Flex justify="center" align="center" css={{ height: '48px', ta: 'center', mt: '$2', width: '100%' }}>

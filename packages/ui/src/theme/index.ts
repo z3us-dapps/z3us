@@ -188,7 +188,7 @@ export const sharedItemStyles = css({
 export const sharedItemIndicatorStyles = css({
 	position: 'absolute',
 	right: 0,
-	top: 0,
+	top: '1px',
 	width: 25,
 	display: 'inline-flex',
 	alignItems: 'center',
