@@ -24,9 +24,11 @@ export const AddressBookSelector: React.FC<IProps> = ({ selectedAddress, onSelec
 		addressBook: state.addressBook,
 	}))
 
-	const selectedName = selectedAddress
-		? addressBook?.[selectedAddress]?.name || getShortAddress(selectedAddress)
-		: 'Select'
+	let selectedName = 'Select'
+	if (selectedAddress) {
+		selectedName = addressBook?.[selectedAddress]?.name || getShortAddress(selectedAddress)
+	}
+
 	const entries = Object.entries(addressBook)
 	const hasAddressBook = entries.length > 0
 
@@ -74,7 +76,7 @@ export const AddressBookSelector: React.FC<IProps> = ({ selectedAddress, onSelec
 						<DropdownMenuRadioItem key={address} value={address}>
 							<DropdownMenuEllipsis>
 								<DropdownMenuItemIndicator />
-								{name || getShortAddress(address)}
+								{name ? `${name} (${getShortAddress(address)})` : getShortAddress(address)}
 							</DropdownMenuEllipsis>
 						</DropdownMenuRadioItem>
 					))}
