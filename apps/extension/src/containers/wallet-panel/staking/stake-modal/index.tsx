@@ -142,7 +142,7 @@ export const StakeModal: React.FC<IProps> = ({ trigger, tooltipMessage, validato
 		try {
 			const { blob } = await FinalizeTransaction(network.url, account, token.symbol, state.transaction)
 			await SubmitSignedTransaction(network.url, account, blob)
-			await queryClient.invalidateQueries()
+			await queryClient.invalidateQueries({ active: true, inactive: true, stale: true })
 			setState(draft => {
 				draft.fee = null
 				draft.transaction = null

@@ -85,7 +85,7 @@ export const SendTokenReview: React.FC<IProps> = ({
 				draft.txID = txID
 			})
 			const result = await SubmitSignedTransaction(network.url, account, blob)
-			await queryClient.invalidateQueries()
+			await queryClient.invalidateQueries({ active: true, inactive: true, stale: true })
 			setState(draft => {
 				draft.txID = result.txID
 				draft.errorMessage = ''

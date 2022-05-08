@@ -32,7 +32,7 @@ export const CompleteSync = (): JSX.Element => {
 			draft.isLoading = true
 		})
 		try {
-			await queryClient.invalidateQueries()
+			await queryClient.invalidateQueries({ active: true, inactive: true, stale: true })
 			setStep(steps.IMPORT_ACCOUNTS)
 			setLocation('#/wallet/account')
 		} catch (error) {
