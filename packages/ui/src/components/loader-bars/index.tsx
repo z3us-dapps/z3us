@@ -8,10 +8,12 @@ import { Box } from '../atoms/box'
 
 export interface Props {
 	as?: keyof JSX.IntrinsicElements
+	size?: string
 }
 
 const defaultProps = {
 	as: 'span',
+	size: '2',
 }
 
 type NativeAttrs = Omit<React.HTMLAttributes<unknown>, keyof Props>
@@ -19,12 +21,12 @@ type NativeAttrs = Omit<React.HTMLAttributes<unknown>, keyof Props>
 export type PriceLabelProps = Props & NativeAttrs & LoaderBarsVariantsProps & { css?: CSS }
 
 const LoaderBars = React.forwardRef<HTMLDivElement, React.PropsWithChildren<PriceLabelProps>>(
-	({ children, as, css, color, ...rest }, ref: React.Ref<HTMLDivElement | null>) => {
+	({ children, as, size, css, color, ...rest }, ref: React.Ref<HTMLDivElement | null>) => {
 		const loaderBarRef = useRef<HTMLDivElement>(null)
 		useImperativeHandle(ref, () => loaderBarRef.current)
 
 		return (
-			<StyledLoaderBars ref={loaderBarRef} as={as} color={color} css={{ ...(css as any) }} {...rest}>
+			<StyledLoaderBars ref={loaderBarRef} as={as} size={size} color={color} css={{ ...(css as any) }} {...rest}>
 				<Box as="div">
 					<Box as="span" />
 					<Box as="span" />
