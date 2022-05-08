@@ -30,12 +30,13 @@ export const AccountInfo = ({ address }: IProps): JSX.Element => {
 	const color = entry?.colorSettings?.[ColorSettings.COLOR_TEXT] || '#330867'
 
 	const { isLoading, value, change } = useAccountValue()
-	//const accountValue = formatBigNumber(value, 'USD', 2)
 	const accountPercentageChange = !value.isEqualTo(0)
 		? `${change.isGreaterThan(0) ? '+' : ''}${change.div(value).multipliedBy(100).toFixed(2).toLocaleString()}%`
 		: '0.00%'
 
 	useEffect(() => {
+		if (isLoading) return
+
 		// NOTE: set to this value, to force the ticker animation
 		setState(draft => {
 			draft.accountValue = '$4.44'
@@ -45,7 +46,7 @@ export const AccountInfo = ({ address }: IProps): JSX.Element => {
 				draft.accountValue = formatBigNumber(value, 'USD', 2)
 			})
 		}, 200)
-	}, [activeSlideIndex])
+	}, [activeSlideIndex, isLoading])
 
 	return (
 		<Flex
