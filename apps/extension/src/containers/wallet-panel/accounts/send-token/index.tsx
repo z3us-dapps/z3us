@@ -246,7 +246,7 @@ export const SendToken: React.FC = () => {
 										type="number"
 										size="2"
 										value={state.amount}
-										placeholder={`Enter ${tokenSymbol} amount`}
+										placeholder="Enter amount"
 										onChange={handleSetAmount}
 									/>
 									{token && (
