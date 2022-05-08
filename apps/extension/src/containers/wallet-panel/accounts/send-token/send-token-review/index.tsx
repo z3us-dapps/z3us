@@ -125,11 +125,15 @@ export const SendTokenReview: React.FC<IProps> = ({
 					</Text>
 				</Box>
 				<InfoStatBlock
-					image=""
+					addressBookBackground={addressBook[address]?.background}
 					statSubTitle={`From: ${shortAddress} (${totalTokenAmount}${tokenSymbol})`}
 					statTitle={addressBook[address]?.name || ''}
 				/>
-				<InfoStatBlock image="" statSubTitle={`to: ${toShort}`} statTitle={addressBook[to]?.name || ''} />
+				<InfoStatBlock
+					addressBookBackground={addressBook[to]?.background}
+					statSubTitle={`to: ${toShort}`}
+					statTitle={addressBook[to]?.name || ''}
+				/>
 				<InfoStatBlock
 					image={token?.image || token?.iconURL}
 					statSubTitle="Amount:"
