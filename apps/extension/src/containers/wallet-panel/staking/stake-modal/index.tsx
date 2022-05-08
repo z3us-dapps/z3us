@@ -29,7 +29,7 @@ interface IProps {
 	reduceStake?: boolean
 }
 
-export const StakeModal: React.FC<IProps> = ({ trigger, tooltipMessage, validatorAddress, reduceStake }: IProps) => {
+export const StakeModal: React.FC<IProps> = ({ trigger, tooltipMessage, validatorAddress, reduceStake }) => {
 	const stakeTitle = reduceStake ? 'Unstake' : 'Stake'
 
 	const [, setLocation] = useLocation()

@@ -10,6 +10,7 @@ import { Toasts } from '@src/containers/toasts'
 import { useHashLocation, multipathMatcher } from '@src/hooks/use-hash-location'
 import { useColorMode } from '@src/hooks/use-color-mode'
 import { useVault } from '@src/hooks/use-vault'
+import { Credentials } from '@src/containers/credentials'
 
 export const App: React.FC = () => {
 	useColorMode()
@@ -39,6 +40,9 @@ export const App: React.FC = () => {
 					</Route>
 					<Route path="/hardware-wallet/:rest*">
 						<HardwareWallet />
+					</Route>
+					<Route path="/credentials/:rest*">
+						<Credentials />
 					</Route>
 					<Route component={WalletPanel} />
 				</Router>

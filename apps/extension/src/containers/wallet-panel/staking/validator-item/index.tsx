@@ -20,7 +20,7 @@ interface IProps {
 	validator: Validator
 }
 
-export const ValidatorItem = ({ i, validator, totalStakes }: IProps): JSX.Element => {
+export const ValidatorItem: React.FC<IProps> = ({ i, validator, totalStakes }) => {
 	const {
 		address,
 		name,

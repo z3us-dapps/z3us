@@ -19,7 +19,7 @@ interface IProps {
 	onSelectAddressBookAddress: (address: string) => void
 }
 
-export const AddressBookSelector: React.FC<IProps> = ({ selectedAddress, onSelectAddressBookAddress }: IProps) => {
+export const AddressBookSelector: React.FC<IProps> = ({ selectedAddress, onSelectAddressBookAddress }) => {
 	const { addressBook } = useStore(state => ({
 		addressBook: state.addressBook,
 	}))

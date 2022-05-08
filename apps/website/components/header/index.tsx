@@ -28,7 +28,7 @@ const defaultProps = {
 	isLandingPage: false,
 }
 
-export const Header: React.FC<IProps> = ({ isLandingPage }: IProps) => {
+export const Header: React.FC<IProps> = ({ isLandingPage }) => {
 	const [state, setState] = useImmer({
 		isScrolled: false,
 		isThemeMenuOpen: false,

@@ -38,7 +38,7 @@ export const SendTokenReview: React.FC<IProps> = ({
 	transaction,
 	fee,
 	onExit,
-}: IProps) => {
+}) => {
 	const [, setLocation] = useLocation()
 	const queryClient = useQueryClient()
 	const { account, addressBook, network } = useStore(state => ({

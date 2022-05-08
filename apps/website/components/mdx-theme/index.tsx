@@ -24,7 +24,7 @@ interface IProps {
 	mdxSource: any
 }
 
-export const MdxTheme: React.FC<IProps> = ({ mdxSource }: IProps) => {
+export const MdxTheme: React.FC<IProps> = ({ mdxSource }) => {
 	return (
 		<Text size="5" regular css={{ width: '100%', lineHeight: '25px' }} as="div">
 			<MDXRemote {...mdxSource} components={components} />

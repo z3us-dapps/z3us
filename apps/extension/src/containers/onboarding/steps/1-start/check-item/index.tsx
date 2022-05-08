@@ -26,7 +26,7 @@ interface IProps {
 	comingSoon: boolean
 }
 
-export const CheckItem: React.FC<IProps> = ({ name, comingSoon }: IProps) => (
+export const CheckItem: React.FC<IProps> = ({ name, comingSoon }) => (
 	<MotionBox variants={liVariants} as="li" css={{ display: 'flex', alignItems: 'center' }}>
 		<Box css={{ mr: '$2', mt: '1px' }}>
 			<CheckboxIcon />

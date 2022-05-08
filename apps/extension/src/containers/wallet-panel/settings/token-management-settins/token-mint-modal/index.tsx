@@ -18,7 +18,7 @@ interface IProps {
 	trigger: React.ReactNode
 }
 
-export const MintTokenModal: React.FC<IProps> = ({ trigger }: IProps) => {
+export const MintTokenModal: React.FC<IProps> = ({ trigger }) => {
 	const [, setLocation] = useLocation()
 	const queryClient = useQueryClient()
 

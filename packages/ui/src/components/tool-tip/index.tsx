@@ -78,7 +78,7 @@ const toolTipDefaultProps = {
 	isArrowVisible: true,
 }
 
-export const ToolTip: React.FC<IProps> = ({ children, message, isArrowVisible, sideOffset }: IProps) => (
+export const ToolTip: React.FC<IProps> = ({ children, message, isArrowVisible, sideOffset }) => (
 	<Tooltip>
 		<TooltipTrigger asChild>{children}</TooltipTrigger>
 		<TooltipContent sideOffset={sideOffset} side="bottom">

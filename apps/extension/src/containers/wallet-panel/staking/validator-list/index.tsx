@@ -13,7 +13,7 @@ interface IProps {
 	totalStakes?: BigNumber
 }
 
-export const ValidatorList: React.FC<IProps> = ({ totalStakes }: IProps) => {
+export const ValidatorList: React.FC<IProps> = ({ totalStakes }) => {
 	const [customScrollParent, setCustomScrollParent] = useState(null)
 	const { data = [] } = useValidators()
 

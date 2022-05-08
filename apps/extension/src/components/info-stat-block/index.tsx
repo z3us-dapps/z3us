@@ -9,7 +9,7 @@ interface IProps {
 	statTitle: string
 }
 
-export const InfoStatBlock: React.FC<IProps> = ({ image, addressBookBackground, statSubTitle, statTitle }: IProps) => (
+export const InfoStatBlock: React.FC<IProps> = ({ image, addressBookBackground, statSubTitle, statTitle }) => (
 	<Box
 		css={{
 			display: 'flex',

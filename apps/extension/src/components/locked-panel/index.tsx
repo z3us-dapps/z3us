@@ -65,8 +65,7 @@ export const LockedPanel: React.FC = () => {
 			const isSupported = await isWebAuthSupported()
 			const has = await hasAuth()
 			if (isSupported && has) {
-				const password = await authenticate()
-				handleUnlock(password)
+				handleUnlock(await authenticate())
 			}
 		} catch (error) {
 			// eslint-disable-next-line no-console

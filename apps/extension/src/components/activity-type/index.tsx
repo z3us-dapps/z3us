@@ -7,7 +7,7 @@ interface IProps {
 	activity: Action
 }
 
-export const ActivityType: React.FC<IProps> = ({ activity, accountAddress }: IProps) => {
+export const ActivityType: React.FC<IProps> = ({ activity, accountAddress }) => {
 	switch (activity.type) {
 		case 'TransferTokens': {
 			const isSend = activity.to_account !== accountAddress

@@ -18,7 +18,7 @@ type IProps = {
 	address: string
 }
 
-export const AccountInfo = ({ address }: IProps): JSX.Element => {
+export const AccountInfo: React.FC<IProps> = ({ address }) => {
 	const { addressBook, activeSlideIndex } = useStore(state => ({
 		addressBook: state.addressBook,
 		activeSlideIndex: state.activeSlideIndex,

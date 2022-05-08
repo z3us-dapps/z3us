@@ -7,7 +7,7 @@ interface IProps {
 	css?: CSS
 }
 
-export const PageWrapper: React.FC<IProps> = ({ children, css }: IProps) => (
+export const PageWrapper: React.FC<IProps> = ({ children, css }) => (
 	<Box css={{ py: '20px', px: '23px', ...css }}>{children}</Box>
 )
 

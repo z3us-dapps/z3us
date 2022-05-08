@@ -6,7 +6,7 @@ interface IProps {
 	docs: any
 }
 
-export const SideMenu: React.FC<IProps> = ({ docs }: IProps) => (
+export const SideMenu: React.FC<IProps> = ({ docs }) => (
 	<Box>
 		<Box css={{ pt: '$8', position: 'sticky', top: '81px' }}>
 			<Link href="/docs" passHref>

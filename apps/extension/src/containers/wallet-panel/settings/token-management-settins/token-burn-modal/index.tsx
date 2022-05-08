@@ -23,7 +23,7 @@ interface IProps {
 	trigger: React.ReactNode
 }
 
-export const BurnTokenModal: React.FC<IProps> = ({ trigger }: IProps) => {
+export const BurnTokenModal: React.FC<IProps> = ({ trigger }) => {
 	const inputAmountRef = useRef(null)
 
 	const [, setLocation] = useLocation()

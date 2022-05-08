@@ -24,7 +24,7 @@ interface IProps {
 	trigger: React.ReactNode
 }
 
-export const CreateTokenModal: React.FC<IProps> = ({ trigger }: IProps) => {
+export const CreateTokenModal: React.FC<IProps> = ({ trigger }) => {
 	const [, setLocation] = useLocation()
 	const queryClient = useQueryClient()
 

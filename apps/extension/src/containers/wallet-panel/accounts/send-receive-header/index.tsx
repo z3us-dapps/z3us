@@ -15,7 +15,7 @@ const defaultProps = {
 	onExit: () => {},
 }
 
-export const SendReceiveHeader: React.FC<IProps> = ({ backLocation, onExit }: IProps) => {
+export const SendReceiveHeader: React.FC<IProps> = ({ backLocation, onExit }) => {
 	const [, setLocation] = useLocation()
 
 	const handleBackClick = () => {
