@@ -1,37 +1,19 @@
 import React from 'react'
-import { useLocation } from 'wouter'
 import { steps } from '@src/store/hardware-wallet'
-import { LeftArrowIcon } from 'ui/src/components/icons'
-import Button from 'ui/src/components/button'
 import { MotionBox } from 'ui/src/components/atoms/motion-box'
 import { AnimatePresence } from 'framer-motion'
 import { useStore } from '@src/store'
-import { WalletMenu } from '@src/components/wallet-menu'
+import { Z3usText } from 'ui/src/components/z3us-text'
 import { ImportAccounts } from '@src/containers/hardware-wallet/steps/1-import-accounts'
 import { CompleteSync } from '@src/containers/hardware-wallet/steps/2-complete-sync'
 import { Flex } from 'ui/src/components/atoms'
 import { useColorMode } from '@src/hooks/use-color-mode'
 
 export const HardwareWallet: React.FC = () => {
-	const [, setLocation] = useLocation()
 	const isDarkMode = useColorMode()
-	const { step, setStep } = useStore(state => ({
+	const { step } = useStore(state => ({
 		step: state.hardwareWalletStep,
-		setStep: state.setHardwareWalletStepAction,
 	}))
-
-	const handleBackClick = () => {
-		switch (step) {
-			case steps.IMPORT_ACCOUNTS:
-				setLocation('#/wallet/account')
-				break
-			case steps.COMPLETE:
-				setStep(steps.IMPORT_ACCOUNTS)
-				break
-			default:
-				break
-		}
-	}
 
 	return (
 		<Flex
@@ -44,6 +26,7 @@ export const HardwareWallet: React.FC = () => {
 				top: '0',
 				left: '0',
 				backgroundColor: '$bgPanel',
+				minHeight: '100vh',
 				'&:before': {
 					content: '',
 					position: 'absolute',
@@ -58,13 +41,12 @@ export const HardwareWallet: React.FC = () => {
 				},
 			}}
 		>
-			<Flex justify="between" css={{ height: '48px', position: 'relative', pt: '6px', pl: '6px', pr: '6px' }}>
-				<Button color="ghost" onClick={handleBackClick} iconOnly size="3" aria-label="back" css={{ mt: '2px' }}>
-					<LeftArrowIcon />
-				</Button>
-				<WalletMenu />
+			<Flex align="start" css={{ pt: '$8', pb: '$2', width: '100%', maxWidth: '530px', mx: 'auto' }}>
+				<Flex css={{ flex: '1', pt: '7px' }}>
+					<Z3usText />
+				</Flex>
 			</Flex>
-			<Flex css={{ flex: '1' }}>
+			<Flex css={{ flex: '1', width: '100%', maxWidth: '580px', mx: 'auto' }}>
 				<AnimatePresence exitBeforeEnter>
 					<MotionBox
 						key={step}
