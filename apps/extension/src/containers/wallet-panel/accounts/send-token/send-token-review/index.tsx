@@ -133,7 +133,7 @@ export const SendTokenReview: React.FC<IProps> = ({
 				<InfoStatBlock
 					image={token?.image || token?.iconURL}
 					statSubTitle="Amount:"
-					statTitle={`${formatBigNumber(amount, tokenSymbol)} ${tokenSymbol}`}
+					statTitle={`${formatBigNumber(amount)} ${tokenSymbol}`}
 				/>
 				<SlippageBox token={token} amount={amount} fee={fee} />
 			</Box>
