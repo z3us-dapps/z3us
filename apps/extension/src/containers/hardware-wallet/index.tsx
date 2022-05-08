@@ -1,15 +1,12 @@
 import React from 'react'
 import { steps } from '@src/store/hardware-wallet'
-import { Cross2Icon } from '@radix-ui/react-icons'
 import { MotionBox } from 'ui/src/components/atoms/motion-box'
 import { AnimatePresence } from 'framer-motion'
 import { useStore } from '@src/store'
 import { Z3usText } from 'ui/src/components/z3us-text'
 import { ImportAccounts } from '@src/containers/hardware-wallet/steps/1-import-accounts'
 import { CompleteSync } from '@src/containers/hardware-wallet/steps/2-complete-sync'
-import Button from 'ui/src/components/button'
 import { Flex } from 'ui/src/components/atoms'
-import { ToolTip } from 'ui/src/components/tool-tip'
 import { useColorMode } from '@src/hooks/use-color-mode'
 
 export const HardwareWallet: React.FC = () => {
@@ -17,10 +14,6 @@ export const HardwareWallet: React.FC = () => {
 	const { step } = useStore(state => ({
 		step: state.hardwareWalletStep,
 	}))
-
-	const handleCloseWindow = () => {
-		window.close()
-	}
 
 	return (
 		<Flex
@@ -52,11 +45,6 @@ export const HardwareWallet: React.FC = () => {
 				<Flex css={{ flex: '1', pt: '7px' }}>
 					<Z3usText />
 				</Flex>
-				<ToolTip message="Close window">
-					<Button iconOnly size="2" color="ghost" onClick={handleCloseWindow}>
-						<Cross2Icon />
-					</Button>
-				</ToolTip>
 			</Flex>
 			<Flex css={{ flex: '1', width: '100%', maxWidth: '580px', mx: 'auto' }}>
 				<AnimatePresence exitBeforeEnter>
