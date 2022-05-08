@@ -2701,7 +2701,7 @@
   dependencies:
     "@babel/runtime" "^7.13.10"
 
-"@radix-ui/popper@0.1.0":
+"@radix-ui/popper@0.1.0", "@radix-ui/popper@^0.1.0":
   version "0.1.0"
   resolved "https://registry.yarnpkg.com/@radix-ui/popper/-/popper-0.1.0.tgz#c387a38f31b7799e1ea0d2bb1ca0c91c2931b063"
   integrity sha512-uzYeElL3w7SeNMuQpXiFlBhTT+JyaNMCwDfjKkrzugEcYrf5n52PHqncNdQPUtR42hJh8V9FsqyEDbDxkeNjJQ==

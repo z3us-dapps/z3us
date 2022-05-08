@@ -19,12 +19,12 @@ export interface IProps {
 
 const ButtonTipFeedback: React.FC<IProps> = ({
 	children,
-	feedback,
+	feedback = 'Copied',
 	tooltip,
 	sideOffset,
 	showToolTipArrow = true,
 	toolTipOffset = 0,
-	delay,
+	delay = 700,
 	bgColor,
 	css,
 }) => {

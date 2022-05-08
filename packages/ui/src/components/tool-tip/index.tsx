@@ -1,7 +1,7 @@
 import React from 'react'
 import { styled, keyframes } from '@stitches/react'
 import * as TooltipPrimitive from '@radix-ui/react-tooltip'
-//import { Side } from '@radix-ui/popper'
+import { Side } from '@radix-ui/popper'
 
 const animateOut = keyframes({
 	from: { transform: 'translateY(0)', opacity: 1 },
@@ -67,22 +67,24 @@ export const TooltipArrow = StyledArrow
 interface IProps {
 	children: React.ReactNode
 	message: string
+	bgColor?: string
 	sideOffset?: number
-	// TODO this type whyy ??
-	//side?: Side
+	side?: Side
 	isArrowVisible?: boolean
 }
 
 const toolTipDefaultProps = {
-	sideOffset: 3,
+	sideOffset: 5,
 	isArrowVisible: true,
+	side: 'bottom',
+	bgColor: '$bgPanel',
 }
 
-export const ToolTip: React.FC<IProps> = ({ children, message, isArrowVisible, sideOffset }) => (
+export const ToolTip = ({ children, message, isArrowVisible, sideOffset, bgColor, side }: IProps): JSX.Element => (
 	<Tooltip>
 		<TooltipTrigger asChild>{children}</TooltipTrigger>
-		<TooltipContent sideOffset={sideOffset} side="bottom">
-			{isArrowVisible ? <TooltipArrow /> : null}
+		<TooltipContent sideOffset={sideOffset} side={side} css={{ position: 'relative', backgroundColor: bgColor }}>
+			{isArrowVisible ? <TooltipArrow css={{ fill: bgColor }} /> : null}
 			{message}
 		</TooltipContent>
 	</Tooltip>
