@@ -38,7 +38,7 @@ export const SendTokenReview: React.FC<IProps> = ({
 	transaction,
 	fee,
 	onExit,
-}: IProps) => {
+}) => {
 	const [, setLocation] = useLocation()
 	const queryClient = useQueryClient()
 	const { account, addressBook, network } = useStore(state => ({
@@ -85,7 +85,7 @@ export const SendTokenReview: React.FC<IProps> = ({
 				draft.txID = txID
 			})
 			const result = await SubmitSignedTransaction(network.url, account, blob)
-			await queryClient.invalidateQueries()
+			await queryClient.invalidateQueries({ active: true, inactive: true, stale: true })
 			setState(draft => {
 				draft.txID = result.txID
 				draft.errorMessage = ''
@@ -115,7 +115,7 @@ export const SendTokenReview: React.FC<IProps> = ({
 				bottom: '0',
 			}}
 		>
-			<SendReceiveHeader />
+			<SendReceiveHeader onExit={handleGoBack} />
 			<HardwareWalletReconnect />
 			<Box css={{ p: '$2', px: '23px', flex: '1' }}>
 				<Box>
@@ -125,15 +125,19 @@ export const SendTokenReview: React.FC<IProps> = ({
 					</Text>
 				</Box>
 				<InfoStatBlock
-					image=""
+					addressBookBackground={addressBook[address]?.background}
 					statSubTitle={`From: ${shortAddress} (${totalTokenAmount}${tokenSymbol})`}
 					statTitle={addressBook[address]?.name || ''}
 				/>
-				<InfoStatBlock image="" statSubTitle={`to: ${toShort}`} statTitle={addressBook[to]?.name || ''} />
+				<InfoStatBlock
+					addressBookBackground={addressBook[to]?.background}
+					statSubTitle={`to: ${toShort}`}
+					statTitle={addressBook[to]?.name || ''}
+				/>
 				<InfoStatBlock
 					image={token?.image || token?.iconURL}
 					statSubTitle="Amount:"
-					statTitle={`${formatBigNumber(amount, tokenSymbol)} ${tokenSymbol}`}
+					statTitle={`${formatBigNumber(amount)} ${tokenSymbol}`}
 				/>
 				<SlippageBox token={token} amount={amount} fee={fee} />
 			</Box>

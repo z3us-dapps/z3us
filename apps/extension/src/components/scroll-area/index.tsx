@@ -12,7 +12,7 @@ const defaultProps = {
 	scrollableNodeProps: undefined,
 }
 
-export const ScrollArea: React.FC<IProps> = ({ children, scrollableNodeProps }: IProps) => {
+export const ScrollArea: React.FC<IProps> = ({ children, scrollableNodeProps }) => {
 	const sRef: any = useRef()
 	const observer = useRef<ResizeObserver | null>(null)
 

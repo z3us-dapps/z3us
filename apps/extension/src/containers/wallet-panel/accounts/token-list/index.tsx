@@ -17,8 +17,8 @@ import { TokenRow } from '../token-row'
 
 const AllBalances: React.FC = () => {
 	const [customScrollParent, setCustomScrollParent] = useState(null)
-	const liquidBalances = useAllAccountsTokenBalances()
-	const hasLiquidBalances = liquidBalances.length > 0
+	const { balances } = useAllAccountsTokenBalances()
+	const hasLiquidBalances = balances.length > 0
 
 	if (!hasLiquidBalances) {
 		return (
@@ -34,8 +34,8 @@ const AllBalances: React.FC = () => {
 		<ScrollArea scrollableNodeProps={{ ref: setCustomScrollParent }}>
 			<Virtuoso
 				customScrollParent={customScrollParent}
-				totalCount={liquidBalances.length}
-				data={liquidBalances}
+				totalCount={balances.length}
+				data={balances}
 				itemContent={(i, { rri, amount }) => <TokenRow i={i} key={rri} rri={rri} amount={amount} disableClick />}
 			/>
 		</ScrollArea>

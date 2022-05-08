@@ -37,7 +37,7 @@ export const Z3usBrandLanding: React.FC<IProps> = ({
 	showAnimation,
 	lightBgColor,
 	darkBgColor,
-}: IProps) => (
+}) => (
 	<Box css={{ width: `${width}px`, height: `${height}px`, position: 'relative' }}>
 		<Box
 			css={{

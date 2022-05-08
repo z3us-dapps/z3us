@@ -10,6 +10,7 @@ export default class Document extends NextDocument {
 				<Head>
 					<style id="stitches" dangerouslySetInnerHTML={{ __html: getCssText() }} />
 					{CssBaseline.flush()}
+					<meta name="google-site-verification" content="qH2HkPzX0nm-uuQu6U16MQ1-1ETITOEDmg2LQGExsXQ" />
 					<link rel="preload" href="/fonts/CentraNo1-Bold.woff" as="font" type="font/woff" crossOrigin="anonymous" />
 					<link rel="preload" href="/fonts/CentraNo1-Bold.woff2" as="font" type="font/woff2" crossOrigin="anonymous" />
 					<link

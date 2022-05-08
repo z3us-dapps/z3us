@@ -1,7 +1,6 @@
-/*eslint-disable*/
 import React from 'react'
 import { useStore } from '@src/store'
-import { Router, Route, useRoute, useLocation } from 'wouter'
+import { Router, Route } from 'wouter'
 import { Box, Flex } from 'ui/src/components/atoms'
 import { WalletPanel } from '@src/containers/wallet-panel'
 import { Notification } from '@src/containers/notification'
@@ -12,10 +11,10 @@ import { useHashLocation, multipathMatcher } from '@src/hooks/use-hash-location'
 import { useColorMode } from '@src/hooks/use-color-mode'
 import { useVault } from '@src/hooks/use-vault'
 import { domExists } from '@src/utils/dom-exists'
+import { Credentials } from '@src/containers/credentials'
 
 export const App: React.FC = () => {
 	const isHardwareWalletRoute = domExists && window.location.href.includes('index.html#/hardware-wallet')
-
 	useColorMode()
 	useVault()
 
@@ -49,6 +48,9 @@ export const App: React.FC = () => {
 					</Route>
 					<Route path="/hardware-wallet/:rest*">
 						<HardwareWallet />
+					</Route>
+					<Route path="/credentials/:rest*">
+						<Credentials />
 					</Route>
 					<Route component={WalletPanel} />
 				</Router>

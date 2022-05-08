@@ -38,7 +38,7 @@ export const Z3usSpinnerAnimation: React.FC<IProps> = ({
 	showAnimation,
 	lightBgColor,
 	darkBgColor,
-}: IProps) => {
+}) => {
 	const isDarkMode = useColorMode()
 	const bgColor = isDarkMode ? darkBgColor : lightBgColor
 	const z3usLogo = isDarkMode ? '/images/zeus-circle-brand-gold.svg' : '/images/z3us-spinner.svg'

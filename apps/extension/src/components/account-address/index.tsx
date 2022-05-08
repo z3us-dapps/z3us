@@ -18,7 +18,7 @@ const defaultProps = {
 	isCopyButtonVisible: true,
 }
 
-export const AccountAddress: React.FC<IProps> = ({ address, isCopyButtonVisible, css }: IProps) => {
+export const AccountAddress: React.FC<IProps> = ({ address, isCopyButtonVisible, css }) => {
 	const { addressBook } = useStore(state => ({
 		addressBook: state.addressBook,
 	}))

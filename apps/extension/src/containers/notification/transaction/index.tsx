@@ -106,7 +106,7 @@ export const Transaction = (): JSX.Element => {
 		try {
 			const { blob } = await FinalizeTransaction(network.url, account, symbol, state.transaction)
 			const result = await SubmitSignedTransaction(network.url, account, blob)
-			await queryClient.invalidateQueries()
+			await queryClient.invalidateQueries({ active: true, inactive: true, stale: true })
 
 			sendResponse(CONFIRM, { id, host, payload: result })
 		} catch (error) {

@@ -24,7 +24,7 @@ export const StakeItem: React.FC<IProps> = ({
 	stakes,
 	pendingUnstakes,
 	total,
-}: IProps) => {
+}) => {
 	const { isLoading, data: validator } = useLookupValidator(valdiatorAddress)
 
 	if (isLoading || !validator) {

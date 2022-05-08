@@ -12,7 +12,7 @@ interface IProps {
 	css?: any
 }
 
-export const SlippageBox: React.FC<IProps> = ({ token, amount, fee, css }: IProps) => {
+export const SlippageBox: React.FC<IProps> = ({ token, amount, fee, css }) => {
 	const { data: ticker } = useUSDTicker(token?.symbol)
 
 	if (!ticker) {

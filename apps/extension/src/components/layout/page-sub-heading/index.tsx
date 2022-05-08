@@ -7,7 +7,7 @@ interface IProps {
 	css?: CSS
 }
 
-export const PageSubHeading: React.FC<IProps> = ({ children, css }: IProps) => (
+export const PageSubHeading: React.FC<IProps> = ({ children, css }) => (
 	<Text css={{ fontSize: '14px', lineHeight: '19px', fontWeight: '500', mt: '19px', ...css }}>{children}</Text>
 )
 

@@ -12,7 +12,7 @@ interface IProps {
 }
 
 // NOTE see here: https://codesandbox.io/s/tvqol?file=/src/pages/botty/components/BottyDots.css
-export const EllipsisAnimation: React.FC<IProps> = ({ children }: IProps) => (
+export const EllipsisAnimation: React.FC<IProps> = ({ children }) => (
 	<Flex align="end">
 		{children}
 		<Text

@@ -9,17 +9,23 @@ const useGenericaccountsValue = (
 		rri: string
 		amount: string | BigNumber
 	}>,
+	isLoading: boolean,
 ) => {
 	const rris = balances.map(({ rri }) => rri)
-	const tokens = useTokenInfos(rris)?.filter(({ data }) => !!data) || []
-	const tickers = useUSDTickers(tokens.map(({ data }) => data.symbol))
 
+	let tokens = useTokenInfos(rris)
 	const isLoadingTokens = tokens.some(result => result.isLoading)
+	tokens = tokens?.filter(({ data }) => !!data) || []
+
+	const tickers = useUSDTickers(tokens.map(({ data }) => data.symbol))
+	const isLoadingTickers = tickers.some(result => result.isLoading)
+
+	if (isLoading) {
+		return accountValueLoadingState
+	}
 	if (isLoadingTokens) {
 		return accountValueLoadingState
 	}
-
-	const isLoadingTickers = tickers.some(result => result.isLoading)
 	if (isLoadingTickers) {
 		return accountValueLoadingState
 	}
@@ -61,18 +67,18 @@ const useGenericaccountsValue = (
 		[new BigNumber(0), new BigNumber(0)],
 	)
 
-	return { isLoading: false, value, change }
+	return { isLoading: isLoadingTokens || isLoadingTickers, value, change }
 }
 
 export const useAccountValue = () => {
-	const { data: rawBalances } = useTokenBalances()
+	const { data: rawBalances, isLoading } = useTokenBalances()
 	const balances = rawBalances ? rawBalances.account_balances.liquid_balances : []
 
-	return useGenericaccountsValue(balances)
+	return useGenericaccountsValue(balances, isLoading)
 }
 
 export const useAllAccountsValue = () => {
-	const balances = useAllAccountsTokenBalances()
+	const { isLoading, balances } = useAllAccountsTokenBalances()
 
-	return useGenericaccountsValue(balances)
+	return useGenericaccountsValue(balances, isLoading)
 }
