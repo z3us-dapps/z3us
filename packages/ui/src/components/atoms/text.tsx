@@ -120,7 +120,6 @@ export const Text = styled('span', {
 		bold: {
 			true: {
 				fontWeight: '700',
-				fontFamily: '$HaasGrotDisplayRound',
 			},
 		},
 		uppercase: {
