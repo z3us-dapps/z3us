@@ -115,7 +115,7 @@ export const SendTokenReview: React.FC<IProps> = ({
 				bottom: '0',
 			}}
 		>
-			<SendReceiveHeader />
+			<SendReceiveHeader onExit={handleGoBack} />
 			<HardwareWalletReconnect />
 			<Box css={{ p: '$2', px: '23px', flex: '1' }}>
 				<Box>

@@ -7,16 +7,19 @@ import { WalletMenu } from '@src/components/wallet-menu'
 
 interface IProps {
 	backLocation?: string
+	onExit?: () => void
 }
 
 const defaultProps = {
 	backLocation: undefined,
+	onExit: () => {},
 }
 
-export const SendReceiveHeader: React.FC<IProps> = ({ backLocation }: IProps) => {
+export const SendReceiveHeader: React.FC<IProps> = ({ backLocation, onExit }: IProps) => {
 	const [, setLocation] = useLocation()
 
 	const handleBackClick = () => {
+		onExit()
 		if (backLocation) {
 			setLocation(backLocation)
 		}
