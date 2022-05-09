@@ -256,6 +256,13 @@ export const BurnToken = async (nodeURL: URL, rri: string, from: string, amount:
 }
 
 export const decryptTransaction = async (account: AccountT, from: string, msg: string): Promise<string> => {
+	if (Message.isPlaintext(msg)) {
+		return Message.plaintextToString(Buffer.from(msg, 'hex'))
+	}
+	if (!Message.isEncrypted(msg)) {
+		return msg
+	}
+
 	const messageBuffer = Buffer.from(msg, 'hex')
 	const encryptedMessageResult = Message.fromBuffer(messageBuffer)
 	if (!encryptedMessageResult.isOk()) {

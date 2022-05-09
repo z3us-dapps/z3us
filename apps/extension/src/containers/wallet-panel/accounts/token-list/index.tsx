@@ -52,7 +52,7 @@ const AccountBalances: React.FC = () => {
 	const [customScrollParent, setCustomScrollParent] = useState(null)
 	const { isLoading = true, data } = useTokenBalances()
 	const liquidBalances = data?.account_balances?.liquid_balances || []
-	const staked = data.account_balances.staked_and_unstaking_balance.value
+	const staked = data?.account_balances?.staked_and_unstaking_balance.value
 	const hasLiquidBalances = liquidBalances.length > 0
 
 	const list = hasLiquidBalances ? (
@@ -67,7 +67,7 @@ const AccountBalances: React.FC = () => {
 						key={rri}
 						rri={rri}
 						amount={amount}
-						staked={symbol === 'xrd' ? staked : null}
+						staked={symbol === 'xrd' && staked ? staked : null}
 						loading={isLoading}
 					/>
 				)}
