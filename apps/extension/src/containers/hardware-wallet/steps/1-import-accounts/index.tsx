@@ -1,4 +1,3 @@
-/* eslint-disable */
 import React from 'react'
 import TransportWebHID from '@ledgerhq/hw-transport-webhid'
 import AlertCard from 'ui/src/components/alert-card'
@@ -152,7 +151,7 @@ export const ImportAccounts = (): JSX.Element => {
 				</Box>
 			)}
 			<Box css={{ flex: '1' }}>
-				<Box css={{ mt: '$8', flex: '1' }}></Box>
+				<Box css={{ mt: '$8', flex: '1' }} />
 				<Box css={{ mt: '$8', flex: '1', width: '100%' }}>
 					<MotionBox
 						key="address_animate"
