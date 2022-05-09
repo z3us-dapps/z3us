@@ -1,4 +1,3 @@
-/* eslint-disable */
 export type ThemeStore = {
 	theme: string
 	setThemeAction: (theme: string) => void

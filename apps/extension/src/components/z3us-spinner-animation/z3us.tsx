@@ -1,6 +1,8 @@
 import React from 'react'
 
-export const Z3usSvg = ({ color = '#6F37E6' }): JSX.Element => (
+const color = '#6F37E6'
+
+export const Z3usSvg = (): JSX.Element => (
 	<svg width="200" height="200" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" fill={color}>
 		<g>
 			<path
