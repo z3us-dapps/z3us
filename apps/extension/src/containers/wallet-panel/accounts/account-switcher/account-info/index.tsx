@@ -76,14 +76,14 @@ export const AccountInfo: React.FC<IProps> = ({ address }) => {
 				css={{ textAlign: 'center', position: 'relative', zIndex: '1', pt: '41px' }}
 			>
 				<AccountAddress address={address} css={{ fill: color, color }} />
-				<Text
-					bold
-					as="h2"
+				<Flex
+					justify="center"
 					css={{
 						pt: '2px',
 						pb: '2px',
 						height: '42px',
 						position: 'relative',
+						minWidth: '140px',
 					}}
 				>
 					<Text
@@ -112,7 +112,7 @@ export const AccountInfo: React.FC<IProps> = ({ address }) => {
 					>
 						<LoaderBars />
 					</Box>
-				</Text>
+				</Flex>
 				<PriceLabel
 					color={change.isGreaterThan(0) ? 'greenContrast' : 'redContrast'}
 					css={{
