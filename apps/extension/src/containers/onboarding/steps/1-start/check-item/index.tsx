@@ -1,7 +1,7 @@
 import React from 'react'
 import { Box, MotionBox, Text } from 'ui/src/components/atoms'
 import Button from 'ui/src/components/button'
-import { Tooltip, TooltipTrigger, TooltipContent, TooltipArrow } from 'ui/src/components/tool-tip'
+import { ToolTip } from 'ui/src/components/tool-tip'
 import { InfoCircledIcon, CheckboxIcon } from '@radix-ui/react-icons'
 
 const liVariants = {
@@ -33,17 +33,13 @@ export const CheckItem: React.FC<IProps> = ({ name, comingSoon }) => (
 		</Box>
 		<Text size="5">{name}</Text>
 		{comingSoon ? (
-			<Tooltip>
-				<TooltipTrigger asChild>
+			<ToolTip message="Coming soon!" bgColor="$bgPanel2" sideOffset={3} side="top">
+				<Box>
 					<Button size="1" color="ghost" iconOnly clickable={false}>
 						<InfoCircledIcon />
 					</Button>
-				</TooltipTrigger>
-				<TooltipContent sideOffset={3} side="bottom">
-					<TooltipArrow />
-					Coming soon!
-				</TooltipContent>
-			</Tooltip>
+				</Box>
+			</ToolTip>
 		) : null}
 	</MotionBox>
 )
