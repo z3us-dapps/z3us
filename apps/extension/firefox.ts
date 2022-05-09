@@ -13,15 +13,10 @@ export default {
 			'48': 'favicon-48x48.png',
 			'128': 'favicon-128x128.png',
 		},
-		default_popup: 'index.html',
+		default_popup: 'popup-theme-light.html',
 		default_title: 'z3us',
 	},
-	permissions: [
-		'storage',
-		'unlimitedStorage',
-		'webRequest',
-		'https://*/*',
-	],
+	permissions: ['storage', 'unlimitedStorage', 'webRequest', 'https://*/*'],
 	background: {
 		scripts: ['src/lib/background.ts'],
 		persistent: true,
@@ -34,7 +29,12 @@ export default {
 			js: ['src/lib/content-script.ts'],
 		},
 	],
-	web_accessible_resources: ['assets/inpage.js', 'assets/actions.js'],
+	web_accessible_resources: [
+		'popup-theme-dark.html',
+		'popup-theme-system.html',
+		'assets/inpage.js',
+		'assets/actions.js',
+	],
 	browser_specific_settings: {
 		gecko: {
 			id: 'webextension@z3us.com',
