@@ -81,6 +81,8 @@ export const WalletPanel = (): JSX.Element => {
 		return null
 	}
 
+	console.log(99, 'walletPanelBgColor ', walletPanelBgColor)
+
 	return (
 		<>
 			<MotionBox

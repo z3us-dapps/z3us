@@ -174,8 +174,6 @@ export const SendTokenReview: React.FC<IProps> = ({
 									<Z3usSpinnerAnimation
 										infinite={state.isSendingTransaction}
 										showAnimation={state.isSendingTransaction}
-										lightBgColor="$bgPanel2"
-										darkBgColor="$bgPanel2"
 									/>
 									<Text medium size="7" bold css={{ mt: '30px' }}>
 										{state.isSendingTransaction ? 'Sending transaction' : 'Transaction sent'}

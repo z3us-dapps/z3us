@@ -22,6 +22,7 @@ export const lightColors = {
 	bgPriceRed: 'rgb(255 164 164 / 59%)',
 	bgSkeleton1: 'rgba(255, 255, 255, 0.9)',
 	bgSkeleton2: 'rgba(255, 255, 255, 0.8)',
+	bgz3usLogoLoader: '#fbe9fd',
 
 	txtDefault: '#000000',
 	txtInverse: '#FFFFFF',
