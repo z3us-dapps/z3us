@@ -1,7 +1,6 @@
 import React, { useEffect } from 'react'
 import { useLocation } from 'wouter'
 import { useStore } from '@src/store'
-import { useColorMode } from '@src/hooks/use-color-mode'
 import { LockedPanel } from '@src/components/locked-panel'
 import { AnimatePresence, motion } from 'framer-motion'
 import { Box, MotionBox } from 'ui/src/components/atoms'
@@ -46,7 +45,6 @@ const pageStyle = {
 
 export const WalletPanel = (): JSX.Element => {
 	const [location] = useLocation()
-	const isDarkMode = useColorMode()
 	const { activeApp, seed, hasKeystore } = useStore(state => ({
 		activeApp: state.activeApp,
 		seed: state.masterSeed,
@@ -54,8 +52,6 @@ export const WalletPanel = (): JSX.Element => {
 	}))
 	const [page, direction] = activeApp
 	const routes = Object.values(routesInfo)
-	const currentRoute = routesInfo[page]
-	const walletPanelBgColor = currentRoute.bgColor[isDarkMode ? 1 : 0]
 
 	useEffect(() => {
 		if (!hasKeystore) {
@@ -81,8 +77,6 @@ export const WalletPanel = (): JSX.Element => {
 		return null
 	}
 
-	console.log(99, 'walletPanelBgColor ', walletPanelBgColor)
-
 	return (
 		<>
 			<MotionBox
@@ -93,7 +87,7 @@ export const WalletPanel = (): JSX.Element => {
 					height: '100%',
 					position: 'relative',
 					overflow: 'hidden',
-					background: walletPanelBgColor,
+					background: '$bgPanel2',
 					transition: 'background-color 300ms ease-out',
 				}}
 			>
