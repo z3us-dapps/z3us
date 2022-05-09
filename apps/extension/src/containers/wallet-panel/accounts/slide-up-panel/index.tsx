@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react'
+import { useEventListener } from 'usehooks-ts'
 import { useStore } from '@src/store'
 import { Box, Flex, MotionBox, Text } from 'ui/src/components/atoms'
 import { useLocation } from 'wouter'
@@ -17,6 +18,15 @@ export const SlideUpPanel: React.FC<IProps> = ({ children, name }) => {
 		expanded: state.accountPanelExpanded,
 		setExpanded: state.setAccountPanelExpandedAction,
 	}))
+
+	useEventListener('keydown', e => {
+		if (e.code === 'ArrowUp') {
+			setExpanded(true)
+		}
+		if (e.code === 'ArrowDown') {
+			setExpanded(false)
+		}
+	})
 
 	useEffect(() => {
 		setExpanded(false)
