@@ -1,5 +1,6 @@
 import React from 'react'
 import { useStore } from '@src/store'
+import { Message } from '@radixdlt/crypto'
 import { CopyIcon, ExternalLinkIcon } from '@radix-ui/react-icons'
 import { Text, Box, Flex, StyledLink } from 'ui/src/components/atoms'
 import { Action, Transaction } from '@src/services/types'
@@ -149,7 +150,7 @@ export const ActivityLinks: React.FC<IProps> = ({ accountAddress, tx, activity }
 				<Flex align="center" css={{ mt: '7px' }}>
 					<Box>
 						<Text size="2" truncate css={{ pb: '6px' }}>
-							Message:
+							{`Message: ${Message.isEncrypted(tx.message) ? `(ecrypted)` : ``}`}
 						</Text>
 						<Text color="help" css={{ maxWdith: '219px' }}>
 							<TransactionMessage tx={tx} activity={activity} />
