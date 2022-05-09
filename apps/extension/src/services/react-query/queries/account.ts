@@ -85,7 +85,9 @@ const useGenericaccountsValue = (
 export const useAccountValue = () => {
 	const { data: rawBalances, isLoading } = useTokenBalances()
 	const balances = rawBalances ? rawBalances.account_balances.liquid_balances : []
-	const staked = new BigNumber(rawBalances.account_balances.staked_and_unstaking_balance.value).shiftedBy(-18)
+	const staked = rawBalances
+		? new BigNumber(rawBalances.account_balances.staked_and_unstaking_balance.value).shiftedBy(-18)
+		: new BigNumber(0)
 
 	return useGenericaccountsValue(balances, staked, isLoading)
 }

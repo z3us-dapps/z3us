@@ -105,7 +105,9 @@ export const useAllAccountsTokenBalances = (): {
 
 	const staked = rawBalances.reduce(
 		(container, { data }) =>
-			container.plus(new BigNumber(data.account_balances.staked_and_unstaking_balance.value).shiftedBy(-18)),
+			data
+				? container.plus(new BigNumber(data.account_balances.staked_and_unstaking_balance.value).shiftedBy(-18))
+				: container,
 		new BigNumber(0),
 	)
 
