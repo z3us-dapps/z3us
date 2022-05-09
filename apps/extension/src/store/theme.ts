@@ -1,3 +1,4 @@
+/* eslint-disable */
 export type ThemeStore = {
 	theme: string
 	setThemeAction: (theme: string) => void
@@ -5,10 +6,19 @@ export type ThemeStore = {
 
 export const whiteList = ['theme']
 
+const popupHtmlMap = {
+	light: 'popup-theme-light.html',
+	dark: 'popup-theme-dark.html',
+	system: 'popup-theme-system.html',
+}
+
 export const createThemeStore = set => ({
 	theme: 'light',
 
-	setThemeAction: (theme: string) => {
+	setThemeAction: async (theme: string) => {
+		const popup = popupHtmlMap[theme]
+		await chrome.action.setPopup({ popup })
+
 		set(state => {
 			state.theme = theme
 		})
