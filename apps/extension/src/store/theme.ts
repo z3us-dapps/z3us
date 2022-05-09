@@ -1,3 +1,5 @@
+import browser from 'webextension-polyfill'
+
 export type ThemeStore = {
 	theme: string
 	setThemeAction: (theme: string) => void
@@ -16,7 +18,7 @@ export const createThemeStore = set => ({
 
 	setThemeAction: async (theme: string) => {
 		const popup = popupHtmlMap[theme]
-		await chrome.action.setPopup({ popup })
+		await browser.action.setPopup({ popup })
 
 		set(state => {
 			state.theme = theme
