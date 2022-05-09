@@ -9,7 +9,7 @@ import { Staking } from './staking'
 import { Settings } from './settings'
 import { FooterNavigation } from './components/footer-navigation'
 import { HeaderNavigation } from './components/header-navigation'
-import { routesInfo, PANEL_HEIGHT, APP_WIDTH } from './config'
+import { routesInfo, PANEL_HEIGHT, APP_WIDTH, ACCOUNTS, STAKING, SETTINGS } from './config'
 
 const pageVariants = {
 	enter: (_direction: number) => ({
@@ -87,7 +87,7 @@ export const WalletPanel = (): JSX.Element => {
 					height: '100%',
 					position: 'relative',
 					overflow: 'hidden',
-					background: '$bgPanel2',
+					background: page === ACCOUNTS ? '$bgPanel2' : '$bgPanel',
 					transition: 'background-color 300ms ease-out',
 				}}
 			>
@@ -124,7 +124,7 @@ export const WalletPanel = (): JSX.Element => {
 						}}
 					>
 						<AnimatePresence initial={false} custom={direction}>
-							{page === 'accounts' ? (
+							{page === ACCOUNTS ? (
 								<motion.div
 									key={`page-${activeApp}`}
 									initial="enter"
@@ -140,7 +140,7 @@ export const WalletPanel = (): JSX.Element => {
 									<Accounts />
 								</motion.div>
 							) : null}
-							{page === 'staking' ? (
+							{page === STAKING ? (
 								<motion.div
 									key={`page-${page}`}
 									initial="enter"
@@ -156,7 +156,7 @@ export const WalletPanel = (): JSX.Element => {
 									<Staking />
 								</motion.div>
 							) : null}
-							{page === 'settings' ? (
+							{page === SETTINGS ? (
 								<motion.div
 									key={`page-${page}`}
 									initial="enter"

@@ -21,21 +21,18 @@ export const routesInfo = {
 		id: ACCOUNTS,
 		name: 'Accounts',
 		icon: <AccountsIcon />,
-		bgColor: ['#f0f0f0', '#323337'],
 		href: 'account',
 	},
 	[STAKING]: {
 		id: STAKING,
 		name: 'Staking',
 		icon: <StakingIcon />,
-		bgColor: ['#ffffff', '#161718'],
 		href: 'staking',
 	},
 	[SETTINGS]: {
 		id: SETTINGS,
 		name: 'Settings',
 		icon: <SettingsIcon />,
-		bgColor: ['#ffffff', '#161718'],
 		href: 'settings',
 	},
 }
