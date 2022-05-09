@@ -77,6 +77,10 @@ export const WalletPanel = (): JSX.Element => {
 		}
 	}, [location])
 
+	if (!hasKeystore) {
+		return null
+	}
+
 	return (
 		<>
 			<MotionBox
