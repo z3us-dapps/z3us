@@ -40,7 +40,7 @@ export const WalletMenu: React.FC = () => {
 	const handleLockWallet = async () => lock()
 
 	const handleConnectHW = () => {
-		window.open(`${window.location.origin}/index.html#/hardware-wallet`)
+		window.open(`${window.location.origin}/popup-theme-light.html#/hardware-wallet`)
 		setLocation('#/hardware-wallet')
 	}
 
