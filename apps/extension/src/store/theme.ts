@@ -18,7 +18,12 @@ export const createThemeStore = set => ({
 
 	setThemeAction: async (theme: string) => {
 		const popup = popupHtmlMap[theme]
-		await browser.action.setPopup({ popup })
+
+		if (browser.browserAction) {
+			await browser.browserAction.setPopup({ popup })
+		} else if (browser.action) {
+			await browser.action.setPopup({ popup })
+		}
 
 		set(state => {
 			state.theme = theme

@@ -65,6 +65,7 @@ export const useAllAccountsTokenBalances = (): {
 	isLoading: boolean
 	balances: Array<{
 		rri: string
+		symbol: string
 		amount: BigNumber
 	}>
 	staked: BigNumber
@@ -94,7 +95,11 @@ export const useAllAccountsTokenBalances = (): {
 		const balances = data ? data.account_balances.liquid_balances : []
 		balances.forEach(balance => {
 			if (!container[balance.rri]) {
-				container[balance.rri] = { rri: balance.rri, amount: new BigNumber(balance.amount).shiftedBy(-18) }
+				container[balance.rri] = {
+					rri: balance.rri,
+					symbol: balance.symbol,
+					amount: new BigNumber(balance.amount).shiftedBy(-18),
+				}
 			} else {
 				container[balance.rri].amount = container[balance.rri].amount.plus(new BigNumber(balance.amount).shiftedBy(-18))
 			}

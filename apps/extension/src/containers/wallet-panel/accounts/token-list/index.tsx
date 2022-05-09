@@ -17,7 +17,7 @@ import { TokenRow } from '../token-row'
 
 const AllBalances: React.FC = () => {
 	const [customScrollParent, setCustomScrollParent] = useState(null)
-	const { balances } = useAllAccountsTokenBalances()
+	const { balances, staked } = useAllAccountsTokenBalances()
 	const hasLiquidBalances = balances.length > 0
 
 	if (!hasLiquidBalances) {
@@ -36,7 +36,16 @@ const AllBalances: React.FC = () => {
 				customScrollParent={customScrollParent}
 				totalCount={balances.length}
 				data={balances}
-				itemContent={(i, { rri, amount }) => <TokenRow i={i} key={rri} rri={rri} amount={amount} disableClick />}
+				itemContent={(i, { rri, amount, symbol }) => (
+					<TokenRow
+						i={i}
+						key={rri}
+						rri={rri}
+						amount={amount}
+						staked={symbol === 'xrd' && staked ? staked : null}
+						disableClick
+					/>
+				)}
 			/>
 		</ScrollArea>
 	) : (

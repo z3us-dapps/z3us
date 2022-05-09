@@ -81,7 +81,7 @@ export const TokenRow: React.FC<IProps> = ({ i, rri, amount, staked, loading, di
 									</Text>
 								)}
 							</Box>
-							<TokenPrice symbol={token.symbol} amount={amount} />
+							<TokenPrice symbol={token.symbol} amount={staked ? tokenAmount.plus(stakedAmount) : tokenAmount} />
 						</Flex>
 					</>
 				) : (
