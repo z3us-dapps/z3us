@@ -64,6 +64,25 @@ export const StyledLoaderBars = styled('div', {
 		},
 		size: {
 			1: {
+				width: '36px',
+				height: '20px',
+				span: {
+					width: '5px',
+					'&:nth-child(1)': {
+						transform: 'translate(0px,0)',
+					},
+					'&:nth-child(2)': {
+						transform: 'translate(9px,0)',
+					},
+					'&:nth-child(3)': {
+						transform: 'translate(18px,0)',
+					},
+					'&:nth-child(4)': {
+						transform: 'translate(27px,0)',
+					},
+				},
+			},
+			2: {
 				width: '52px',
 				height: '30px',
 				span: {
@@ -101,6 +120,25 @@ export const StyledLoaderBars = styled('div', {
 					},
 				},
 			},
+			4: {
+				width: '140px',
+				height: '80px',
+				span: {
+					width: '20px',
+					'&:nth-child(1)': {
+						transform: 'translate(0px,0)',
+					},
+					'&:nth-child(2)': {
+						transform: 'translate(40px,0)',
+					},
+					'&:nth-child(3)': {
+						transform: 'translate(80px,0)',
+					},
+					'&:nth-child(4)': {
+						transform: 'translate(120px,0)',
+					},
+				},
+			},
 		},
 		shadow: {
 			true: {
@@ -119,7 +157,6 @@ export const StyledLoaderBars = styled('div', {
 	},
 	defaultVariants: {
 		color: 'default',
-		size: '1',
 	},
 })
 

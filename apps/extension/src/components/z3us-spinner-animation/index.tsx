@@ -1,7 +1,8 @@
 import React from 'react'
 import { keyframes } from 'ui/src/theme'
-import { Image, Box } from 'ui/src/components/atoms'
+import { Box } from 'ui/src/components/atoms'
 import { useColorMode } from '@src/hooks/use-color-mode'
+import { Z3usSvg } from './z3us'
 
 const ANIMATION_TIME = '4000ms'
 
@@ -41,8 +42,7 @@ export const Z3usSpinnerAnimation: React.FC<IProps> = ({
 }) => {
 	const isDarkMode = useColorMode()
 	const bgColor = isDarkMode ? darkBgColor : lightBgColor
-	const z3usLogo = isDarkMode ? '/images/zeus-circle-brand-gold.svg' : '/images/z3us-spinner.svg'
-	const highLightColor = isDarkMode ? '#6a00ff' : '#00fff6'
+	const highLightColor = '#00fff6'
 
 	return (
 		<Box css={{ width: `${width}px`, height: `${height}px`, position: 'relative' }}>
@@ -103,7 +103,7 @@ export const Z3usSpinnerAnimation: React.FC<IProps> = ({
 							: {}),
 					}}
 				>
-					<Image src={z3usLogo} css={{ position: 'absolute', top: '0', left: '0', pe: 'none' }} />
+					<Z3usSvg />
 				</Box>
 			</Box>
 		</Box>

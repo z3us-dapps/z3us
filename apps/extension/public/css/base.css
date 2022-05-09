@@ -1,0 +1,72 @@
+@media (prefers-color-scheme: dark) {
+	.bg-theme-color {
+		background-color: #161718;
+	}
+}
+@media (prefers-color-scheme: light) {
+	.bg-theme-color {
+		background-color: #ffffff;
+	}
+}
+
+@font-face {
+	font-family: 'Montserrat';
+	font-weight: 400;
+	font-display: swap;
+	src: url('../fonts/Montserrat-Regular.woff2') format('woff2'), url('../fonts/Montserrat-Regular.woff') format('woff');
+}
+@font-face {
+	font-family: 'Montserrat';
+	font-weight: 500;
+	font-display: swap;
+	src: url('../fonts/Montserrat-Medium.woff2') format('woff2'), url('../fonts/Montserrat-Medium.woff') format('woff');
+}
+@font-face {
+	font-family: 'Montserrat';
+	font-weight: 700;
+	font-style: normal;
+	font-display: swap;
+	src: url('../fonts/Montserrat-Bold.woff2') format('woff2'), url('../fonts/Montserrat-Bold.woff') format('woff');
+}
+@font-face {
+	font-family: 'Centra-Web';
+	src: url('../fonts/CentraNo1-Bold.woff2') format('woff2'), url('../fonts/CentraNo1-Bold.woff') format('woff');
+	font-weight: 700;
+	font-style: normal;
+	font-display: swap;
+}
+@font-face {
+	font-family: 'HaasGrotTextRound-Web';
+	src: url('../fonts/HaasGrotTextRound-75Bold-Web.woff2') format('woff2'),
+		url('../fonts/HaasGrotTextRound-75Bold-Web.woff') format('woff');
+	font-weight: 700;
+	font-style: normal;
+	font-display: swap;
+}
+
+@font-face {
+	font-family: 'HaasGrotTextRound-Web';
+	src: url('../fonts/HaasGrotTextRound-65Medium-Web.woff2') format('woff2'),
+		url('../fonts/HaasGrotTextRound-65Medium-Web.woff') format('woff');
+	font-weight: 500;
+	font-display: swap;
+	font-style: normal;
+}
+
+@font-face {
+	font-family: 'HaasGrotTextRound-Web';
+	src: url('../fonts/HaasGrotTextRound-55Roman-Web.woff2') format('woff2'),
+		url('../fonts/HaasGrotTextRound-55Roman-Web.woff') format('woff');
+	font-weight: 400;
+	font-display: swap;
+	font-style: normal;
+}
+
+@font-face {
+	font-family: 'HaasGrotDispRound-Web';
+	src: url('../fonts/HaasGrotDispRound-75Bold-Web.woff2') format('woff2'),
+		url('../fonts/HaasGrotDispRound-75Bold-Web.woff') format('woff');
+	font-weight: 700;
+	font-display: swap;
+	font-style: normal;
+}

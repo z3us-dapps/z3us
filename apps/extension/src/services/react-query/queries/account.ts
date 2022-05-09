@@ -1,14 +1,23 @@
+import { Ticker } from '@src/services/types'
 import BigNumber from 'bignumber.js'
 import { useUSDTickers } from './bitfinex'
 import { useAllAccountsTokenBalances, useTokenBalances, useTokenInfos } from './radix'
 
 const accountValueLoadingState = { isLoading: true, value: new BigNumber(0), change: new BigNumber(0) }
 
+const calculateAmountValue = (ticker: Ticker, amount: string | BigNumber): BigNumber => {
+	if (amount instanceof BigNumber) {
+		return amount.multipliedBy(ticker.last_price)
+	}
+	return new BigNumber(amount).shiftedBy(-18).multipliedBy(ticker.last_price)
+}
+
 const useGenericaccountsValue = (
 	balances: Array<{
 		rri: string
 		amount: string | BigNumber
 	}>,
+	staked: string | BigNumber,
 	isLoading: boolean,
 ) => {
 	const rris = balances.map(({ rri }) => rri)
@@ -37,7 +46,7 @@ const useGenericaccountsValue = (
 			return map
 		}, {})
 
-	const tickerMap = (tickers || [])
+	const tickerMap: { [key: string]: Ticker } = (tickers || [])
 		.filter(({ data }) => !!data)
 		.reduce((map, { data: ticker }) => {
 			map[ticker.asset] = ticker
@@ -54,18 +63,21 @@ const useGenericaccountsValue = (
 			if (!ticker) {
 				return [totalValue, totalChange]
 			}
-			let tokenAmount
-			if (amount instanceof BigNumber) {
-				tokenAmount = amount
-			} else {
-				tokenAmount = new BigNumber(amount).shiftedBy(-18)
-			}
-			const tokenValue = tokenAmount.multipliedBy(ticker.last_price)
 
+			const tokenValue = calculateAmountValue(ticker, amount)
 			return [totalValue.plus(tokenValue), totalChange.plus(tokenValue.multipliedBy(ticker.change).div(100))]
 		},
 		[new BigNumber(0), new BigNumber(0)],
 	)
+
+	const ticker = tickerMap?.xrd
+	if (ticker) {
+		return {
+			isLoading: isLoadingTokens || isLoadingTickers,
+			value: value.plus(calculateAmountValue(ticker, staked)),
+			change,
+		}
+	}
 
 	return { isLoading: isLoadingTokens || isLoadingTickers, value, change }
 }
@@ -73,12 +85,15 @@ const useGenericaccountsValue = (
 export const useAccountValue = () => {
 	const { data: rawBalances, isLoading } = useTokenBalances()
 	const balances = rawBalances ? rawBalances.account_balances.liquid_balances : []
+	const staked = rawBalances
+		? new BigNumber(rawBalances.account_balances.staked_and_unstaking_balance.value).shiftedBy(-18)
+		: new BigNumber(0)
 
-	return useGenericaccountsValue(balances, isLoading)
+	return useGenericaccountsValue(balances, staked, isLoading)
 }
 
 export const useAllAccountsValue = () => {
-	const { isLoading, balances } = useAllAccountsTokenBalances()
+	const { isLoading, balances, staked } = useAllAccountsTokenBalances()
 
-	return useGenericaccountsValue(balances, isLoading)
+	return useGenericaccountsValue(balances, staked, isLoading)
 }

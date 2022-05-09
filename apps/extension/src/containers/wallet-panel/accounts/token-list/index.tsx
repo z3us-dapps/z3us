@@ -17,7 +17,7 @@ import { TokenRow } from '../token-row'
 
 const AllBalances: React.FC = () => {
 	const [customScrollParent, setCustomScrollParent] = useState(null)
-	const { balances } = useAllAccountsTokenBalances()
+	const { balances, staked } = useAllAccountsTokenBalances()
 	const hasLiquidBalances = balances.length > 0
 
 	if (!hasLiquidBalances) {
@@ -36,7 +36,16 @@ const AllBalances: React.FC = () => {
 				customScrollParent={customScrollParent}
 				totalCount={balances.length}
 				data={balances}
-				itemContent={(i, { rri, amount }) => <TokenRow i={i} key={rri} rri={rri} amount={amount} disableClick />}
+				itemContent={(i, { rri, amount, symbol }) => (
+					<TokenRow
+						i={i}
+						key={rri}
+						rri={rri}
+						amount={amount}
+						staked={symbol === 'xrd' && staked ? staked : null}
+						disableClick
+					/>
+				)}
 			/>
 		</ScrollArea>
 	) : (
@@ -50,8 +59,9 @@ const AllBalances: React.FC = () => {
 
 const AccountBalances: React.FC = () => {
 	const [customScrollParent, setCustomScrollParent] = useState(null)
-	const { isLoading = true, data: balances } = useTokenBalances()
-	const liquidBalances = balances?.account_balances?.liquid_balances || []
+	const { isLoading = true, data } = useTokenBalances()
+	const liquidBalances = data?.account_balances?.liquid_balances || []
+	const staked = data?.account_balances?.staked_and_unstaking_balance.value
 	const hasLiquidBalances = liquidBalances.length > 0
 
 	const list = hasLiquidBalances ? (
@@ -60,7 +70,16 @@ const AccountBalances: React.FC = () => {
 				customScrollParent={customScrollParent}
 				totalCount={liquidBalances.length}
 				data={liquidBalances}
-				itemContent={(i, { rri, amount }) => <TokenRow i={i} key={rri} rri={rri} amount={amount} loading={isLoading} />}
+				itemContent={(i, { rri, amount, symbol }) => (
+					<TokenRow
+						i={i}
+						key={rri}
+						rri={rri}
+						amount={amount}
+						staked={symbol === 'xrd' && staked ? staked : null}
+						loading={isLoading}
+					/>
+				)}
 			/>
 		</ScrollArea>
 	) : (

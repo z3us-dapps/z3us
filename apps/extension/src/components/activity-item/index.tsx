@@ -77,7 +77,7 @@ export const ActivityItem = React.forwardRef<HTMLDivElement, IProps>(({ tx, acti
 										</Text>
 										<Flex css={{ mr: '$2', mt: isIsoStyled ? '2px' : '0px' }}>
 											{tx.message && (
-												<Box css={{ mr: '3px', fill: '$txtHelp', color: '$txtHelp' }}>
+												<Box css={{ mr: '4px', fill: '$txtHelp', color: '$txtHelp' }}>
 													<EnvelopeClosedIcon style={{ color: 'currentColor', fill: 'currentColor' }} />
 												</Box>
 											)}

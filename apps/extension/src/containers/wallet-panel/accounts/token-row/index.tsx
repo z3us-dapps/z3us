@@ -12,14 +12,24 @@ interface IProps {
 	i: number
 	rri: string
 	amount: string | BigNumber
+	staked?: string | BigNumber
 	loading?: boolean
 	disableClick?: boolean
 }
 
-export const TokenRow: React.FC<IProps> = ({ i, rri, amount, loading, disableClick }) => {
+const defaultProps = {
+	staked: undefined,
+	loading: false,
+	disableClick: false,
+}
+
+export const TokenRow: React.FC<IProps> = ({ i, rri, amount, staked, loading, disableClick }) => {
 	const { isLoading: isLoadingTokenInfo, data: token } = useTokenInfo(rri)
 	const [, setLocation] = useLocation()
 	const isLoadingComplete = !loading && !isLoadingTokenInfo
+
+	const tokenAmount = amount instanceof BigNumber ? amount : new BigNumber(amount).shiftedBy(-18)
+	const stakedAmount = staked instanceof BigNumber ? staked : new BigNumber(staked).shiftedBy(-18)
 
 	const handleTokenClick = () => {
 		const tokenUrl = `/account/token/${rri}`
@@ -63,10 +73,15 @@ export const TokenRow: React.FC<IProps> = ({ i, rri, amount, loading, disableCli
 									{token.name} ({token.symbol.toLocaleUpperCase()})
 								</Text>
 								<Text color="help" size="3">
-									{formatBigNumber(amount instanceof BigNumber ? amount : new BigNumber(amount).shiftedBy(-18))}
+									{formatBigNumber(tokenAmount)}
 								</Text>
+								{staked && (
+									<Text color="help" size="3">
+										{`(${formatBigNumber(stakedAmount)})`}
+									</Text>
+								)}
 							</Box>
-							<TokenPrice symbol={token.symbol} amount={amount} />
+							<TokenPrice symbol={token.symbol} amount={staked ? tokenAmount.plus(stakedAmount) : tokenAmount} />
 						</Flex>
 					</>
 				) : (
@@ -79,7 +94,4 @@ export const TokenRow: React.FC<IProps> = ({ i, rri, amount, loading, disableCli
 	)
 }
 
-TokenRow.defaultProps = {
-	loading: false,
-	disableClick: false,
-}
+TokenRow.defaultProps = defaultProps

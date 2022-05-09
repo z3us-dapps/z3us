@@ -49,6 +49,7 @@
 		"workerDirectory": "public"
 	},
 	"dependencies": {
+		"@radix-ui/popper": "^0.1.0",
 		"@radix-ui/react-accordion": "^0.1.6",
 		"@radix-ui/react-alert-dialog": "^0.1.7",
 		"@radix-ui/react-avatar": "^0.1.4",

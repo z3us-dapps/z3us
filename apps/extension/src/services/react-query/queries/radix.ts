@@ -65,8 +65,10 @@ export const useAllAccountsTokenBalances = (): {
 	isLoading: boolean
 	balances: Array<{
 		rri: string
+		symbol: string
 		amount: BigNumber
 	}>
+	staked: BigNumber
 } => {
 	const { addresses, network } = useStore(state => ({
 		addresses: [...Object.values(state.publicAddresses), ...Object.values(state.hwPublicAddresses)],
@@ -93,7 +95,11 @@ export const useAllAccountsTokenBalances = (): {
 		const balances = data ? data.account_balances.liquid_balances : []
 		balances.forEach(balance => {
 			if (!container[balance.rri]) {
-				container[balance.rri] = { rri: balance.rri, amount: new BigNumber(balance.amount).shiftedBy(-18) }
+				container[balance.rri] = {
+					rri: balance.rri,
+					symbol: balance.symbol,
+					amount: new BigNumber(balance.amount).shiftedBy(-18),
+				}
 			} else {
 				container[balance.rri].amount = container[balance.rri].amount.plus(new BigNumber(balance.amount).shiftedBy(-18))
 			}
@@ -102,7 +108,15 @@ export const useAllAccountsTokenBalances = (): {
 		return container
 	}, {})
 
-	return { isLoading, balances: Object.values(balanceMap) }
+	const staked = rawBalances.reduce(
+		(container, { data }) =>
+			data
+				? container.plus(new BigNumber(data.account_balances.staked_and_unstaking_balance.value).shiftedBy(-18))
+				: container,
+		new BigNumber(0),
+	)
+
+	return { isLoading, balances: Object.values(balanceMap), staked }
 }
 
 export const useStakedPositions = () => {
