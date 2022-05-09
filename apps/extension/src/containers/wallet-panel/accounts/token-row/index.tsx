@@ -83,7 +83,7 @@ export const TokenRow: React.FC<IProps> = ({ i, rri, amount, staked, loading, di
 											<Text truncate color="muted" size="3" css={{ pl: '$1' }}>
 												{`(${formatBigNumber(stakedAmount)})`}
 											</Text>
-											<ToolTip message="Non liquid staked XRD" bgColor="$bgPanel2" sideOffset={3} side="top">
+											<ToolTip message="Non liquid staked XRD" sideOffset={3} side="top">
 												<Box css={{ mt: '-5px' }}>
 													<Button size="1" color="ghost" iconOnly clickable={false} css={{ color: '$txtMuted' }}>
 														<InfoCircledIcon />
