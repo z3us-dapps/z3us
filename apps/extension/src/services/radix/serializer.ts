@@ -122,6 +122,7 @@ export const parseTokenAmount = ({ value, token_identifier }: TokenAmount) => {
 		...defaultTokenSettings[rri.name],
 		amount: value,
 		rri: token_identifier.rri,
+		symbol: rri.name,
 	}
 }
 

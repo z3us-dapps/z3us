@@ -15,11 +15,16 @@ export const TokenInfo = (): JSX.Element => {
 	const [, params] = useRoute('/account/token/:rri')
 	const rri = getSplitParams(params)
 	const { isLoading, data: token } = useTokenInfo(rri)
-	const { data: balances } = useTokenBalances()
-	const liquidBalances = balances?.account_balances?.liquid_balances || []
+	const {
+		// eslint-disable-next-line @typescript-eslint/naming-convention
+		data: { account_balances },
+	} = useTokenBalances()
+	const liquidBalances = account_balances?.liquid_balances || []
+	const staked = account_balances.staked_and_unstaking_balance.value
 
 	const selectedToken = liquidBalances?.find(balance => balance.rri === rri)
 	const selectedTokenAmmount = selectedToken ? new BigNumber(selectedToken.amount).shiftedBy(-18) : new BigNumber(0)
+	const stakedAmount = selectedToken.symbol === 'xrd' ? new BigNumber(staked).shiftedBy(-18) : null
 
 	const handleSendClick = () => {
 		setLocation(`/account/send/${rri}`)
@@ -63,7 +68,10 @@ export const TokenInfo = (): JSX.Element => {
 				<Text bold size="6" css={{ mt: '15px', pb: '5px' }}>
 					{token.name} ({token.symbol.toLocaleUpperCase()})
 				</Text>
-				<TokenPrice symbol={token.symbol} ammount={selectedTokenAmmount} />
+				<TokenPrice
+					symbol={token.symbol}
+					ammount={token.symbol === 'xrd' ? selectedTokenAmmount.plus(stakedAmount) : selectedTokenAmmount}
+				/>
 				<Grid gap="5" columns="3" css={{ pt: '20px' }}>
 					<Tooltip>
 						<TooltipTrigger asChild>
