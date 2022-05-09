@@ -36,10 +36,9 @@ export const AccountInfo: React.FC<IProps> = ({ address }) => {
 
 	useEffect(() => {
 		if (isLoading) return
-
 		// NOTE: set to this value, to force the ticker animation
 		setState(draft => {
-			draft.accountValue = '$4.44'
+			draft.accountValue = '$0.00'
 		})
 		setTimeout(() => {
 			setState(draft => {
