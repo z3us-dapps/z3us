@@ -30,12 +30,14 @@ export const App: React.FC = () => {
 				transition: '$default',
 				...(isHardwareWalletRoute
 					? {
-							width: '100%',
-							height: '100%',
+							width: '100vw',
+							height: '100vh',
 					  }
 					: {
-							width: '360px',
-							height: '600px',
+							minWidth: '360px',
+							minHeight: '600px',
+							width: '100vw',
+							height: '100vh',
 					  }),
 			}}
 		>
