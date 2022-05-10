@@ -82,7 +82,7 @@ export const StakeItem: React.FC<IProps> = ({
 			{pendingUnstakes && (
 				<Flex css={{ pb: '$2' }}>
 					<Flex align="baseline" css={{ flex: '1' }}>
-						<Text>️Pending unstakes</Text>
+						<Text>️Pending Unstakes</Text>
 					</Flex>
 					<Flex>
 						<Text>{`${pendingUnstakes ? formatBigNumber(pendingUnstakes) : 0}`}</Text>

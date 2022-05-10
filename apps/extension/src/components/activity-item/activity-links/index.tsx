@@ -2,7 +2,7 @@ import React from 'react'
 import { useStore } from '@src/store'
 import { Message } from '@radixdlt/crypto'
 import { CopyIcon, ExternalLinkIcon } from '@radix-ui/react-icons'
-import { Text, Box, Flex, StyledLink } from 'ui/src/components/atoms'
+import { Text, Box, Flex } from 'ui/src/components/atoms'
 import { Action, Transaction } from '@src/types'
 import { getShortAddress } from '@src/utils/string-utils'
 import Button from 'ui/src/components/button'
@@ -46,7 +46,7 @@ export const ActivityLinks: React.FC<IProps> = ({ accountAddress, tx, activity }
 
 	return (
 		<Box css={{ p: '$3' }}>
-			<Flex css={{ mt: '0' }}>
+			<Flex css={{ mb: '$1', mt: '0' }}>
 				<Text bold size="3" truncate css={{ width: LEFT_COL_WIDTH }}>
 					Transaction:
 				</Text>
@@ -65,14 +65,7 @@ export const ActivityLinks: React.FC<IProps> = ({ accountAddress, tx, activity }
 				</Text>
 				<Flex align="center" justify="end" css={{ flex: '1' }}>
 					<Text color="help" size="2" css={{ pr: '$1' }}>
-						<StyledLink
-							css={{ color: '$txtHelp' }}
-							underline
-							target="_blank"
-							href={`${EXPLORER_URL}/transactions/${tx.id}`}
-						>
-							{getShortAddress(tx.id)}
-						</StyledLink>
+						{getShortAddress(tx.id)}
 					</Text>
 					<ToolTip message="Go to explorer" bgColor="$bgPanel2" sideOffset={3} side="top">
 						<Button
@@ -87,7 +80,7 @@ export const ActivityLinks: React.FC<IProps> = ({ accountAddress, tx, activity }
 							<ExternalLinkIcon />
 						</Button>
 					</ToolTip>
-					<ButtonTipFeedback tooltip="Copy address" sideOffset={3} bgColor="$bgPanel2">
+					<ButtonTipFeedback tooltip="Copy ID" sideOffset={3} bgColor="$bgPanel2">
 						<Button
 							size="1"
 							iconOnly

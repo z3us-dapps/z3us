@@ -180,7 +180,7 @@ export const StakeModal: React.FC<IProps> = ({ trigger, tooltipMessage, validato
 
 					<Box css={{ flex: '1' }}>
 						<Flex direction="column" align="center" css={{ bg: '$bgPanel2', width: '100%', p: '0', br: '$2' }}>
-							<Text medium size="7" bold css={{ mt: '35px' }}>
+							<Text medium size="8" bold css={{ mt: '35px' }}>
 								{validator?.name}
 							</Text>
 							<Text color="help" medium size="6" bold css={{ mt: '10px' }}>
