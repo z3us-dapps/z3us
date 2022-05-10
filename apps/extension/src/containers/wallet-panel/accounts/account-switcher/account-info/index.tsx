@@ -11,7 +11,7 @@ import PriceLabel from 'ui/src/components/price-label'
 import LoaderBars from 'ui/src/components/loader-bars'
 import { Tooltip, TooltipTrigger, TooltipContent, TooltipArrow } from 'ui/src/components/tool-tip'
 import { useStore } from '@src/store'
-import { ColorSettings } from '@src/services/types'
+import { ColorSettings } from '@src/types'
 import { AccountModal } from '@src/containers/wallet-panel/settings/accounts/account-modal'
 
 type IProps = {

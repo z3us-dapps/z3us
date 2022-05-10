@@ -1,4 +1,4 @@
-import { Ticker } from '@src/services/types'
+import { Ticker } from '@src/types'
 import BigNumber from 'bignumber.js'
 import { useUSDTickers } from './bitfinex'
 import { useAllAccountsTokenBalances, useTokenBalances, useTokenInfos } from './radix'

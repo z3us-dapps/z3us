@@ -12,7 +12,7 @@ import {
 import { CircleAvatar } from '@src/components/circle-avatar'
 import { Box, Text, Flex } from 'ui/src/components/atoms'
 import Button from 'ui/src/components/button'
-import { Token } from '@src/services/types'
+import { Token } from '@src/types'
 import { parseResourceIdentifier } from '@src/services/radix/serializer'
 
 interface IProps {

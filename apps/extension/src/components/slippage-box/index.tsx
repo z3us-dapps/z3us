@@ -3,7 +3,7 @@ import { formatBigNumber } from '@src/utils/formatters'
 import BigNumber from 'bignumber.js'
 import { Box, Text, Flex } from 'ui/src/components/atoms'
 import { useUSDTicker } from '@src/services/react-query/queries/bitfinex'
-import { Token } from '@src/services/types'
+import { Token } from '@src/types'
 
 interface IProps {
 	token?: Token

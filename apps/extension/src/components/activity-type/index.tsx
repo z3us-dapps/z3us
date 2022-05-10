@@ -1,5 +1,5 @@
 import React from 'react'
-import { Action } from '@src/services/types'
+import { Action } from '@src/types'
 import Pill from 'ui/src/components/pill'
 
 interface IProps {

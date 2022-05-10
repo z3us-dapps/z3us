@@ -1,4 +1,14 @@
-import { ColorSettings } from '@src/services/types'
+import React from 'react'
+import { AccountsIcon, StakingIcon, SettingsIcon } from 'ui/src/components/icons'
+import { ColorSettings } from '@src/types'
+
+export const defaultToken = { order: Number.MAX_SAFE_INTEGER }
+
+export const defaultTokenSettings = {
+	xrd: { image: 'images/token-images/xrd.png', order: 0 },
+	oci: { image: 'images/token-images/oci.png', order: 1 },
+	dgc: { image: 'images/token-images/dgc.png', order: 2 },
+}
 
 export const PRESET_COLOR_LIGHT_ORCHID = 'preset_color_light_orchid'
 export const PRESET_COLOR_MINDARO = 'preset_color_mindaro'
@@ -87,4 +97,46 @@ export const getDefaultBackgroundForIndex = (idx: number): string => {
 		preset[ColorSettings.COLOR_SECONDARY],
 		preset[ColorSettings.COLOR_SECONDARY_STOP],
 	)
+}
+
+export const APP_HEIGHT = 600
+export const APP_WIDTH = 360
+export const PANEL_HEIGHT = '552px'
+export const SLIDE_PANEL_HEADER_HEIGHT = 30
+export const SLIDE_PANEL_HEIGHT = 140
+export const SLIDE_PANEL_EXPAND_HEIGHT = 459
+
+export const EXPLORER_URL = 'https://explorer.radixdlt.com/#'
+
+export const ACCOUNTS = 'accounts'
+export const NFT = 'nft'
+export const SWAP = 'swap'
+export const STAKING = 'staking'
+export const SETTINGS = 'settings'
+
+export const routesInfo = {
+	[ACCOUNTS]: {
+		id: ACCOUNTS,
+		name: 'Accounts',
+		icon: <AccountsIcon />,
+		href: 'account',
+	},
+	[STAKING]: {
+		id: STAKING,
+		name: 'Staking',
+		icon: <StakingIcon />,
+		href: 'staking',
+	},
+	[SETTINGS]: {
+		id: SETTINGS,
+		name: 'Settings',
+		icon: <SettingsIcon />,
+		href: 'settings',
+	},
+}
+
+export const popupHtmlMap = {
+	light: 'popup-theme-light.html',
+	dark: 'popup-theme-dark.html',
+	system: 'popup-theme-system.html',
 }

@@ -11,8 +11,8 @@ import { Dialog, DialogTrigger, DialogContent } from 'ui/src/components/dialog'
 import { HexColorPicker } from 'react-colorful'
 import { Popover, PopoverArrow, PopoverContent, PopoverTrigger, PopoverClose } from 'ui/src/components/popover'
 import { Box, Text, Flex } from 'ui/src/components/atoms'
-import { ColorSettings } from '@src/services/types'
-import { colorMap, generateGradient, presetMap, PRESET_COLOR_LIGHT_ORCHID } from '@src/services/gradient'
+import { ColorSettings } from '@src/types'
+import { colorMap, generateGradient, presetMap, PRESET_COLOR_LIGHT_ORCHID } from '@src/config'
 import { AvatarButton } from '../../../components/avatar-button'
 
 const sharedColorButtonStyle = {

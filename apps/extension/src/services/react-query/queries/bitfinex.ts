@@ -1,6 +1,6 @@
 import { useQuery, useQueries } from 'react-query'
 import { BitFinexService } from '@src/services/bitfinex'
-import { Ticker } from '@src/services/types'
+import { Ticker } from '@src/types'
 
 export const USD = 'USD'
 

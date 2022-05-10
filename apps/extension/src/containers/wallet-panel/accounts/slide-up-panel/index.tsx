@@ -5,7 +5,7 @@ import { Box, Flex, MotionBox, Text } from 'ui/src/components/atoms'
 import { useLocation } from 'wouter'
 import { UpArrowWideIcon } from 'ui/src/components/icons'
 import Button from 'ui/src/components/button'
-import { SLIDE_PANEL_HEIGHT, SLIDE_PANEL_EXPAND_HEIGHT } from '@src/containers/wallet-panel/config'
+import { SLIDE_PANEL_HEIGHT, SLIDE_PANEL_EXPAND_HEIGHT } from '@src/config'
 
 interface IProps {
 	children: React.ReactNode

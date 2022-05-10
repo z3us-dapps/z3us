@@ -1,4 +1,5 @@
 import { SignedTransaction, Network, ActionType } from '@radixdlt/application'
+import { ExtendedActionType, IntendedAction } from '@src/types'
 import {
 	AccountBalancesResponse,
 	AccountStakesResponse,
@@ -38,7 +39,6 @@ import {
 	parseTransactionIdentifier,
 	parseValidatorAddress,
 } from './radix/serializer'
-import { ExtendedActionType, IntendedAction } from './types'
 
 export class RadixService {
 	private networkURL: string

@@ -3,7 +3,7 @@ import { useStore } from '@src/store'
 import { useRoute } from 'wouter'
 import { Box, Flex, Text } from 'ui/src/components/atoms'
 import Button from 'ui/src/components/button'
-import { routesInfo } from '@src/containers/wallet-panel/config'
+import { routesInfo } from '@src/config'
 
 export const FooterNavigation: React.FC = () => {
 	const { activeApp, setActiveApp } = useStore(state => ({

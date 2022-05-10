@@ -9,7 +9,7 @@ import {
 	SLIDE_PANEL_HEIGHT,
 	SLIDE_PANEL_EXPAND_HEIGHT,
 	SLIDE_PANEL_HEADER_HEIGHT,
-} from '@src/containers/wallet-panel/config'
+} from '@src/config'
 import { Box, Text, Flex } from 'ui/src/components/atoms'
 import { AccountSwitcher } from '../account-switcher'
 import { SlideUpPanel } from '../slide-up-panel'

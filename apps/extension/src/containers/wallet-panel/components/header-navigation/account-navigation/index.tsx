@@ -8,7 +8,7 @@ import { CopyIcon } from '@radix-ui/react-icons'
 import { copyTextToClipboard } from '@src/utils/copy-to-clipboard'
 import ButtonTipFeedback from 'ui/src/components/button-tip-feedback'
 import { Box, Flex, Text } from 'ui/src/components/atoms'
-import { ACCOUNTS } from '@src/containers/wallet-panel/config'
+import { ACCOUNTS } from '@src/config'
 
 const accountUrl = `/wallet/account`
 

@@ -1,3 +1,4 @@
+import { popupHtmlMap } from '@src/config'
 import browser from 'webextension-polyfill'
 
 export type ThemeStore = {
@@ -6,12 +7,6 @@ export type ThemeStore = {
 }
 
 export const whiteList = ['theme']
-
-const popupHtmlMap = {
-	light: 'popup-theme-light.html',
-	dark: 'popup-theme-dark.html',
-	system: 'popup-theme-system.html',
-}
 
 export const createThemeStore = set => ({
 	theme: 'light',

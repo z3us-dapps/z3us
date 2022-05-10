@@ -1,5 +1,5 @@
 import React from 'react'
-import { Validator } from '@src/services/types'
+import { Validator } from '@src/types'
 import { DownloadIcon, UploadIcon, InfoCircledIcon, Cross2Icon, ExternalLinkIcon } from '@radix-ui/react-icons'
 import { getShortAddress } from '@src/utils/string-utils'
 import { Box, Flex, Text } from 'ui/src/components/atoms'
@@ -10,7 +10,7 @@ import { formatBigNumber } from '@src/utils/formatters'
 import BigNumber from 'bignumber.js'
 import { apy } from '@src/utils/radix'
 import { StakeModal } from '../stake-modal'
-import { EXPLORER_URL } from '../../config'
+import { EXPLORER_URL } from '../../../../config'
 
 const LEFT_COL_WIDTH = '150px'
 

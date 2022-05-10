@@ -9,7 +9,7 @@ import { Staking } from './staking'
 import { Settings } from './settings'
 import { FooterNavigation } from './components/footer-navigation'
 import { HeaderNavigation } from './components/header-navigation'
-import { routesInfo, PANEL_HEIGHT, APP_WIDTH, ACCOUNTS, STAKING, SETTINGS } from './config'
+import { routesInfo, PANEL_HEIGHT, APP_WIDTH, ACCOUNTS, STAKING, SETTINGS } from '../../config'
 
 const pageVariants = {
 	enter: (_direction: number) => ({

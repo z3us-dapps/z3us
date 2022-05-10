@@ -18,8 +18,8 @@ import {
 	AUTH_AUTHENTICATION_OPTIONS,
 	AUTH_VERIFY_AUTHENTICATION,
 } from '@src/lib/actions'
-import { ColorSettings } from '@src/services/types'
-import { getDefaultBackgroundForIndex } from '@src/services/gradient'
+import { ColorSettings } from '@src/types'
+import { getDefaultBackgroundForIndex } from '@src/config'
 import { HardwareWalletT } from '@radixdlt/hardware-wallet'
 
 export type Network = {

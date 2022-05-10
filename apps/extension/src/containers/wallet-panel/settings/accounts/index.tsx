@@ -7,7 +7,7 @@ import { getShortAddress } from '@src/utils/string-utils'
 import { Box, Flex, Text, StyledLink } from 'ui/src/components/atoms'
 import { Pencil2Icon, CheckIcon, Cross2Icon } from '@radix-ui/react-icons'
 import { TrashIcon } from 'ui/src/components/icons'
-import { EXPLORER_URL } from '@src/containers/wallet-panel/config'
+import { EXPLORER_URL } from '@src/config'
 import Button from 'ui/src/components/button'
 import Input from 'ui/src/components/input'
 import {

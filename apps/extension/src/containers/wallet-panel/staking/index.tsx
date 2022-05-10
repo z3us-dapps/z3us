@@ -14,7 +14,7 @@ import {
 import BigNumber from 'bignumber.js'
 import { StakeItem } from './stake-item'
 import { ValidatorList } from './validator-list'
-import { EXPLORER_URL } from '../config'
+import { EXPLORER_URL } from '../../../config'
 
 const TAB_HEIGHT = '246px'
 

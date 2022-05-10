@@ -1,7 +1,7 @@
 import React from 'react'
 import { useStore } from '@src/store'
 import BigNumber from 'bignumber.js'
-import { Action, Transaction } from '@src/services/types'
+import { Action, Transaction } from '@src/types'
 import { Cross2Icon, EnvelopeClosedIcon } from '@radix-ui/react-icons'
 import { useTokenInfo } from '@src/services/react-query/queries/radix'
 import { formatBigNumber } from '@src/utils/formatters'

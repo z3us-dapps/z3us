@@ -1,6 +1,6 @@
 import React, { ReactElement } from 'react'
 import { useDecryptTransaction } from '@src/services/react-query/queries/radix'
-import { Action, Transaction } from '@src/services/types'
+import { Action, Transaction } from '@src/types'
 import LoaderBars from 'ui/src/components/loader-bars'
 
 interface TProps {
