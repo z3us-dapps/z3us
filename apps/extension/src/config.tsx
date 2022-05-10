@@ -87,9 +87,24 @@ export const generateGradient = (
 		: `linear-gradient(90deg, ${primary} ${primaryStop}%, ${secondary} ${secondaryStop}%)`
 }
 
+export const getDefaultColorSettingsForIndex = (idx: number): object => {
+	const keys = Object.keys(presetMap)
+	const preset = presetMap[keys[idx % keys.length]]
+
+	return {
+		[ColorSettings.COLOR_TEXT]: preset[ColorSettings.COLOR_TEXT],
+		[ColorSettings.GRADIENT_TYPE]: preset[ColorSettings.GRADIENT_TYPE],
+		[ColorSettings.COLOR_PRIMARY]: preset[ColorSettings.COLOR_PRIMARY],
+		[ColorSettings.COLOR_PRIMARY_STOP]: preset[ColorSettings.COLOR_PRIMARY_STOP],
+		[ColorSettings.COLOR_SECONDARY]: preset[ColorSettings.COLOR_SECONDARY],
+		[ColorSettings.COLOR_SECONDARY_STOP]: preset[ColorSettings.COLOR_SECONDARY_STOP],
+	}
+}
+
 export const getDefaultBackgroundForIndex = (idx: number): string => {
 	const keys = Object.keys(presetMap)
 	const preset = presetMap[keys[idx % keys.length]]
+
 	return generateGradient(
 		preset[ColorSettings.GRADIENT_TYPE],
 		preset[ColorSettings.COLOR_PRIMARY],
