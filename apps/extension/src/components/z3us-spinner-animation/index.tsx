@@ -16,6 +16,7 @@ interface IProps {
 	animationTime?: string
 	infinite?: boolean
 	showAnimation?: boolean
+	bgColor?: string
 }
 
 const defaultProps = {
@@ -24,11 +25,19 @@ const defaultProps = {
 	animationTime: ANIMATION_TIME,
 	infinite: false,
 	showAnimation: true,
+	bgColor: '$bgPanel',
 }
 
 const highLightColor = '#00fff6'
 
-export const Z3usSpinnerAnimation: React.FC<IProps> = ({ width, height, animationTime, infinite, showAnimation }) => (
+export const Z3usSpinnerAnimation: React.FC<IProps> = ({
+	width,
+	height,
+	animationTime,
+	infinite,
+	showAnimation,
+	bgColor,
+}) => (
 	<Box css={{ width: `${width}px`, height: `${height}px`, position: 'relative' }}>
 		<Box
 			css={{
@@ -56,7 +65,7 @@ export const Z3usSpinnerAnimation: React.FC<IProps> = ({ width, height, animatio
 						top: '-2px',
 						left: '-2px',
 						br: '50%',
-						backgroundImage: `linear-gradient(135deg, $bgPanel 0%,  $bgPanel 25%, ${highLightColor} 50%, $bgPanel 100%)`,
+						backgroundImage: `linear-gradient(135deg, ${bgColor} 0%, ${bgColor} 25%, ${highLightColor} 50%, ${bgColor} 100%)`,
 						animationDuration: '2000ms',
 						animationName: `${rotateOutAnimation}`,
 						animationIterationCount: 'infinite',

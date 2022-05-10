@@ -4,6 +4,7 @@ import { useQueryClient } from 'react-query'
 import { useLocation } from 'wouter'
 import { Token } from '@src/types'
 import { FinalizeTransaction, SubmitSignedTransaction } from '@src/services/radix/transactions'
+import InputFeedBack from 'ui/src/components/input/input-feedback'
 import { BuiltTransactionReadyToSign } from '@radixdlt/application'
 import { useImmer } from 'use-immer'
 import { useStore } from '@src/store'
@@ -71,6 +72,10 @@ export const SendTokenReview: React.FC<IProps> = ({
 		onExit()
 	}
 
+	const handleCloseTransactionModal = () => {
+		setLocation(`/account/token/${token.rri}`)
+	}
+
 	const handleConfirmSend = async () => {
 		if (!account) return
 
@@ -90,8 +95,6 @@ export const SendTokenReview: React.FC<IProps> = ({
 				draft.txID = result.txID
 				draft.errorMessage = ''
 			})
-
-			setLocation(`/account/token/${token.rri}`)
 		} catch (error) {
 			setState(draft => {
 				draft.errorMessage = (error?.message || error).toString().trim()
@@ -170,47 +173,101 @@ export const SendTokenReview: React.FC<IProps> = ({
 					<AlertDialogContent>
 						<Flex direction="column" css={{ p: '$2', position: 'relative' }}>
 							<Box css={{ flex: '1' }}>
-								<Flex direction="column" align="center" css={{ bg: '$bgPanel2', width: '100%', py: '$8', br: '$2' }}>
-									<Z3usSpinnerAnimation
-										infinite={state.isSendingTransaction}
-										showAnimation={state.isSendingTransaction}
-									/>
-									<Text medium size="7" bold css={{ mt: '30px' }}>
-										{state.isSendingTransaction ? 'Sending transaction' : 'Transaction sent'}
-									</Text>
-									<Box
-										css={{
-											display: 'block',
-											width: '100%',
-											pt: '$4',
-											textAlign: 'center',
-											opacity: state.errorMessage !== '' ? '1' : '0',
-											transition: '$default',
-										}}
-									>
-										<Text size="3" css={{ pb: '$2' }}>
-											Oh no! An
+								<Flex
+									direction="column"
+									align="center"
+									css={{ bg: '$bgPanel2', width: '100%', pt: '$8', pb: '$6', br: '$2' }}
+								>
+									<Z3usSpinnerAnimation showAnimation={false} bgColor="$bgPanel2" />
+									<Box css={{ pb: '$4', ta: 'center' }}>
+										<Flex css={{ mt: '30px' }}>
+											<Text medium size="6" bold css={{ position: 'relative' }}>
+												<Box as="span">{state.isSendingTransaction ? 'Sending transaction' : 'Transaction sent'}</Box>
+												<Box
+													as="span"
+													css={{
+														position: 'absolute',
+														top: '0',
+														right: '-22px',
+														width: '20px',
+														ta: 'left',
+														opacity: state.isSendingTransaction ? '1' : '0',
+														transition: '$default',
+													}}
+												>
+													<span className="ellipsis-anim">
+														<span>.</span>
+														<span>.</span>
+														<span>.</span>
+													</span>
+												</Box>
+											</Text>
+										</Flex>
+										<Text
+											size="4"
+											css={{
+												mt: '10px',
+												opacity: !state.isSendingTransaction ? '1' : '0',
+												transition: '$default',
+											}}
+										>
 											<StyledLink
 												underline
 												target="_blank"
 												href={state.txID ? `${EXPLORER_URL}/transactions/${state.txID}` : ``}
-												css={{ px: '$1', color: 'red' }}
+												css={{ px: '$1' }}
 											>
-												error
+												View on explorer
 											</StyledLink>
-											has occured.
 										</Text>
-										{!state.txID && state.errorMessage && (
-											<Text size="3" css={{ pb: '$2' }}>
-												{state.errorMessage}
-											</Text>
-										)}
-										<Button size="2" color="ghost" aria-label="go back" onClick={handleGoBack}>
-											<ArrowLeftIcon />
-											Go back
-										</Button>
 									</Box>
+									<InputFeedBack showFeedback={state.errorMessage !== ''} animateHeight={51}>
+										<Box
+											css={{
+												display: 'block',
+												width: '100%',
+												textAlign: 'center',
+												opacity: state.errorMessage !== '' ? '1' : '0',
+												transition: '$default',
+											}}
+										>
+											<Text size="3" css={{ pb: '$2' }}>
+												Oh no! An
+												<StyledLink
+													underline
+													target="_blank"
+													href={state.txID ? `${EXPLORER_URL}/transactions/${state.txID}` : ``}
+													css={{ px: '$1', color: 'red' }}
+												>
+													error
+												</StyledLink>
+												has occured.
+											</Text>
+											{!state.txID && state.errorMessage && (
+												<Text size="3" css={{ pb: '$2' }}>
+													{state.errorMessage}
+												</Text>
+											)}
+											<Button size="2" color="ghost" aria-label="go back" onClick={handleGoBack}>
+												<ArrowLeftIcon />
+												Go back
+											</Button>
+										</Box>
+									</InputFeedBack>
 								</Flex>
+							</Box>
+							<Box css={{ mt: '$2' }}>
+								<Button
+									size="6"
+									color="primary"
+									aria-label="Close confirm send"
+									css={{ px: '0', flex: '1' }}
+									onClick={handleCloseTransactionModal}
+									disabled={state.isSendingTransaction}
+									fullWidth
+								>
+									Close
+								</Button>
 							</Box>
 						</Flex>
 					</AlertDialogContent>

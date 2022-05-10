@@ -261,7 +261,7 @@ export const StyledButton = styled(
 					borderRadius: '$3',
 					height: '$12',
 					fontSize: '16px',
-					lineHeight: '16px',
+					lineHeight: '17px',
 					fontWeight: '600',
 					px: '20px',
 					[`& ${StyledTextWrapper}`]: {
