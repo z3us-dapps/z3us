@@ -131,7 +131,7 @@ export const SendTokenReview: React.FC<IProps> = ({
 				/>
 				<InfoStatBlock
 					addressBookBackground={addressBook[to]?.background}
-					statSubTitle={`to: ${toShort}`}
+					statSubTitle={`To: ${toShort}`}
 					statTitle={addressBook[to]?.name || ''}
 				/>
 				<InfoStatBlock

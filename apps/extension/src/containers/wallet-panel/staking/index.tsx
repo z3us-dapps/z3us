@@ -117,7 +117,7 @@ export const Staking: React.FC = () => {
 										) : (
 											<Flex justify="center" css={{ p: '$4', height: '100%', textAlign: 'center' }}>
 												<Box>
-													<Text medium size="6" css={{ mt: '62px' }}>
+													<Text bold size="6" css={{ mt: '62px' }}>
 														No stakes.
 													</Text>
 													<Text size="3" css={{ mt: '$1', maxWidth: '260px', display: 'block', lineHeight: '21px' }}>
