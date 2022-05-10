@@ -95,13 +95,6 @@ export const StyledButton = styled(
 			transform: 'translateX(-100px) skewX(-15deg)',
 			filter: 'blur(5px)',
 		},
-		'&:active': {
-			[`& ${StyledRipple}`]: {
-				opacity: '0.3',
-				transform: 'translate(-50%, -50%) scale(0)',
-				transition: 'transform 0s',
-			},
-		},
 
 		'&:hover': {
 			'&:before': {
@@ -352,6 +345,17 @@ export const StyledButton = styled(
 					},
 					cursor: 'default',
 					pe: 'none',
+				},
+			},
+			showRipple: {
+				true: {
+					'&:active': {
+						[`& ${StyledRipple}`]: {
+							opacity: '0.3',
+							transform: 'translate(-50%, -50%) scale(0)',
+							transition: 'transform 0s',
+						},
+					},
 				},
 			},
 			auto: {

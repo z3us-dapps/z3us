@@ -19,6 +19,7 @@ export interface IProps {
 	color?: NormalColors
 	size?: NormalSizes
 	clickable?: boolean
+	showRipple?: boolean
 	disabled?: boolean
 	loading?: boolean
 	iconOnly?: boolean
@@ -36,6 +37,7 @@ export interface IProps {
 
 const defaultProps = {
 	clickable: true,
+	showRipple: true,
 	disabled: false,
 	loading: false,
 	iconOnly: false,
@@ -64,6 +66,7 @@ const Button = React.forwardRef<HTMLButtonElement, React.PropsWithChildren<Butto
 			href,
 			target,
 			clickable,
+			showRipple,
 			css,
 			...rest
 		} = props
@@ -105,6 +108,7 @@ const Button = React.forwardRef<HTMLButtonElement, React.PropsWithChildren<Butto
 				fullWidth={fullWidth}
 				onClick={clickHandler}
 				clickable={clickable}
+				showRipple={showRipple}
 				href={href}
 				target={target}
 				active={active}
