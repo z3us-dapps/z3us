@@ -10,7 +10,7 @@ import { AccountsTotal } from './accounts-total'
 
 const SLIDER_WIDTH = 308
 const SLIDER_HEIGHT = 169
-const LEFT_OFFSET = 34 - SLIDER_WIDTH
+const LEFT_OFFSET = 26 - SLIDER_WIDTH
 
 export const AccountSwitcher = (): JSX.Element => {
 	const { addresses, activeSlideIndex, selectAccount, setActiveSlide } = useStore(state => ({

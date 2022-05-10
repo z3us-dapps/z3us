@@ -34,10 +34,8 @@ export const App: React.FC = () => {
 							height: '100vh',
 					  }
 					: {
-							minWidth: '360px',
-							minHeight: '600px',
-							width: '100vw',
-							height: '100vh',
+							width: '360px',
+							height: '600px',
 					  }),
 			}}
 		>
