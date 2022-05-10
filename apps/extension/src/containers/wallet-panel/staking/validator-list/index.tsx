@@ -16,8 +16,9 @@ interface IProps {
 export const ValidatorList: React.FC<IProps> = ({ totalStakes }) => {
 	const [customScrollParent, setCustomScrollParent] = useState(null)
 	const { data = [] } = useValidators()
+	const hasValidations = data.length > 0
 
-	return data ? (
+	return hasValidations ? (
 		<Box css={{ position: 'relative', height: `${SCROLL_HEIGHT}px` }}>
 			<ScrollArea scrollableNodeProps={{ ref: setCustomScrollParent }}>
 				<Virtuoso
