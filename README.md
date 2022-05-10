@@ -26,13 +26,6 @@ To build all apps and packages, run the following command:
 yarn build
 ```
 
-## Roadmap
-- [ ] Launch browser extension
-- [ ] Launch website and socials
-- [ ] Mobile apps
-- [ ] Swaps
-- [ ] Nfts
-
 📜 [License](LICENSE)
 -------
 
