@@ -29,7 +29,6 @@ export const TokenRow: React.FC<IProps> = ({ i, rri, amount, staked, loading, di
 	const { isLoading: isLoadingTokenInfo, data: token } = useTokenInfo(rri)
 	const [, setLocation] = useLocation()
 	const isLoadingComplete = !loading && !isLoadingTokenInfo
-
 	const tokenAmount = amount instanceof BigNumber ? amount : new BigNumber(amount).shiftedBy(-18)
 	const stakedAmount = staked instanceof BigNumber ? staked : new BigNumber(staked).shiftedBy(-18)
 
@@ -78,12 +77,12 @@ export const TokenRow: React.FC<IProps> = ({ i, rri, amount, staked, loading, di
 									<Text color="help" size="3">
 										{formatBigNumber(tokenAmount)}
 									</Text>
-									{staked && (
+									{staked && !stakedAmount.isZero() && (
 										<Flex css={{ maxWidth: '115px', position: 'relative' }}>
 											<Text truncate color="muted" size="3" css={{ pl: '$1' }}>
-												{`(${formatBigNumber(stakedAmount)})`}
+												+ staked
 											</Text>
-											<ToolTip message="Non liquid staked XRD" sideOffset={3} side="top">
+											<ToolTip message={formatBigNumber(stakedAmount)} sideOffset={3} side="top">
 												<Box css={{ mt: '-5px' }}>
 													<Button size="1" color="ghost" iconOnly clickable={false} css={{ color: '$txtMuted' }}>
 														<InfoCircledIcon />

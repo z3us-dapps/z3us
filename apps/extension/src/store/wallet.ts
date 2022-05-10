@@ -19,6 +19,7 @@ import {
 	AUTH_VERIFY_AUTHENTICATION,
 } from '@src/lib/actions'
 import { ColorSettings } from '@src/services/types'
+import { getDefaultBackgroundForIndex } from '@src/services/gradient'
 import { HardwareWalletT } from '@radixdlt/hardware-wallet'
 
 export type Network = {
@@ -142,8 +143,6 @@ const rpName = 'z3us'
 
 const mainnetURL = new URL('https://mainnet.radixdlt.com')
 const stokenetURL = new URL('https://stokenet.radixdlt.com')
-
-const defaultEntryBackground = 'radial-gradient(circle at 50% 0%, rgb(238, 171, 224) 50%, rgb(247, 219, 191) 76%)'
 
 const defaultState = {
 	hasKeystore: false,
@@ -424,11 +423,11 @@ export const createWalletStore = (set, get) => ({
 	setHWPublicAddressesAction: (addresses: { [key: number]: string }) => {
 		set(state => {
 			state.hwPublicAddresses = addresses
-			Object.values(addresses).forEach(address => {
+			Object.values(addresses).forEach((address, idx) => {
 				state.addressBook[address] = {
 					isOwn: true,
 					isHardWallet: true,
-					background: defaultEntryBackground,
+					background: getDefaultBackgroundForIndex(idx),
 					...state.addressBook[address],
 				}
 			})
@@ -438,10 +437,10 @@ export const createWalletStore = (set, get) => ({
 	setPublicAddressesAction: (addresses: { [key: number]: string }) => {
 		set(state => {
 			state.publicAddresses = addresses
-			Object.values(addresses).forEach(address => {
+			Object.values(addresses).forEach((address, idx) => {
 				state.addressBook[address] = {
 					isOwn: true,
-					background: defaultEntryBackground,
+					background: getDefaultBackgroundForIndex(idx),
 					...state.addressBook[address],
 				}
 			})
@@ -611,7 +610,7 @@ export const createWalletStore = (set, get) => ({
 					draft.account = Account.create({ address, signingKey })
 					draft.addressBook[address.toString()] = {
 						isOwn: true,
-						background: defaultEntryBackground,
+						background: getDefaultBackgroundForIndex(index),
 						...state.addressBook[address.toString()],
 					}
 					draft.selectedAccountIndex = publicIndexes.length

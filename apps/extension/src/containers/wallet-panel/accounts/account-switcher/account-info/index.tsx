@@ -19,6 +19,7 @@ type IProps = {
 }
 
 export const AccountInfo: React.FC<IProps> = ({ address }) => {
+	const { isLoading, value, change } = useAccountValue()
 	const { addressBook, activeSlideIndex } = useStore(state => ({
 		addressBook: state.addressBook,
 		activeSlideIndex: state.activeSlideIndex,
@@ -29,7 +30,6 @@ export const AccountInfo: React.FC<IProps> = ({ address }) => {
 	const entry = addressBook[address]
 	const color = entry?.colorSettings?.[ColorSettings.COLOR_TEXT] || '#330867'
 
-	const { isLoading, value, change } = useAccountValue()
 	const accountPercentageChange = !value.isEqualTo(0)
 		? `${change.isGreaterThan(0) ? '+' : ''}${change.div(value).multipliedBy(100).toFixed(2).toLocaleString()}%`
 		: '0.00%'

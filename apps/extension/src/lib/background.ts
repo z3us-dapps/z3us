@@ -21,6 +21,12 @@ const actionsToConfirm: {
 	[key: string]: Runtime.Port
 } = {}
 
+browser.runtime.onInstalled.addListener(async () => {
+	await useStore.persist.rehydrate()
+	const { setThemeAction, theme } = useStore.getState()
+	setThemeAction(theme)
+})
+
 const keepServiceWorkerActive = () =>
 	dispatchEvent(
 		new CustomEvent('keepactive', {
