@@ -69,22 +69,32 @@ interface IProps {
 	message: string
 	bgColor?: string
 	sideOffset?: number
+	arrowOffset?: number
 	side?: Side
 	isArrowVisible?: boolean
 }
 
 const toolTipDefaultProps = {
 	sideOffset: 3,
+	arrowOffset: 5,
 	isArrowVisible: true,
 	side: 'bottom',
 	bgColor: '$bgPanel',
 }
 
-export const ToolTip = ({ children, message, isArrowVisible, sideOffset, bgColor, side }: IProps): JSX.Element => (
+export const ToolTip = ({
+	children,
+	message,
+	isArrowVisible,
+	sideOffset,
+	arrowOffset,
+	bgColor,
+	side,
+}: IProps): JSX.Element => (
 	<Tooltip>
 		<TooltipTrigger asChild>{children}</TooltipTrigger>
 		<TooltipContent sideOffset={sideOffset} side={side} css={{ position: 'relative', backgroundColor: bgColor }}>
-			{isArrowVisible ? <TooltipArrow css={{ fill: bgColor }} /> : null}
+			{isArrowVisible ? <TooltipArrow offset={arrowOffset} css={{ fill: bgColor }} /> : null}
 			{message}
 		</TooltipContent>
 	</Tooltip>
