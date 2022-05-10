@@ -19,7 +19,7 @@ import {
 	AUTH_VERIFY_AUTHENTICATION,
 } from '@src/lib/actions'
 import { ColorSettings } from '@src/types'
-import { getDefaultBackgroundForIndex } from '@src/config'
+import { getDefaultBackgroundForIndex, getDefaultColorSettingsForIndex } from '@src/config'
 import { HardwareWalletT } from '@radixdlt/hardware-wallet'
 
 export type Network = {
@@ -428,6 +428,7 @@ export const createWalletStore = (set, get) => ({
 					isOwn: true,
 					isHardWallet: true,
 					background: getDefaultBackgroundForIndex(idx),
+					colorSettings: getDefaultColorSettingsForIndex(idx),
 					...state.addressBook[address],
 				}
 			})
@@ -441,6 +442,7 @@ export const createWalletStore = (set, get) => ({
 				state.addressBook[address] = {
 					isOwn: true,
 					background: getDefaultBackgroundForIndex(idx),
+					colorSettings: getDefaultColorSettingsForIndex(idx),
 					...state.addressBook[address],
 				}
 			})
@@ -611,6 +613,7 @@ export const createWalletStore = (set, get) => ({
 					draft.addressBook[address.toString()] = {
 						isOwn: true,
 						background: getDefaultBackgroundForIndex(index),
+						colorSettings: getDefaultColorSettingsForIndex(index),
 						...state.addressBook[address.toString()],
 					}
 					draft.selectedAccountIndex = publicIndexes.length
