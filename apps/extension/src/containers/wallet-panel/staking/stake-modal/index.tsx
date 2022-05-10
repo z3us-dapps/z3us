@@ -11,7 +11,7 @@ import {
 	StakeTokens,
 } from '@src/services/radix/transactions'
 import { useEventListener } from 'usehooks-ts'
-import { useNativeToken } from '@src/services/react-query/queries/radix'
+import { useNativeToken, useLookupValidator } from '@src/services/react-query/queries/radix'
 import { CloseIcon } from 'ui/src/components/icons'
 import Button from 'ui/src/components/button'
 import Input from 'ui/src/components/input'
@@ -30,11 +30,10 @@ interface IProps {
 }
 
 export const StakeModal: React.FC<IProps> = ({ trigger, tooltipMessage, validatorAddress, reduceStake }) => {
-	const stakeTitle = reduceStake ? 'Unstake' : 'Stake'
-
 	const [, setLocation] = useLocation()
 	const queryClient = useQueryClient()
 	const { data: token } = useNativeToken()
+	const { data: validator } = useLookupValidator(validatorAddress)
 
 	const { addToast, account, accountAddress, addressBook, network } = useStore(state => ({
 		addToast: state.addToastAction,
@@ -55,6 +54,7 @@ export const StakeModal: React.FC<IProps> = ({ trigger, tooltipMessage, validato
 
 	const entry = addressBook[accountAddress]
 	const shortAddress = getShortAddress(accountAddress)
+	const stakeTitle = reduceStake ? 'Unstake' : 'Stake'
 
 	const handleOnClick = () => {
 		setState(draft => {
@@ -172,19 +172,21 @@ export const StakeModal: React.FC<IProps> = ({ trigger, tooltipMessage, validato
 						iconOnly
 						aria-label="close stake modal"
 						size="3"
-						css={{ position: 'absolute', top: '16px', right: '16px' }}
+						css={{ position: 'absolute', top: '0px', right: '0px' }}
 						onClick={handleCloseModal}
 					>
 						<CloseIcon />
 					</Button>
 
 					<Box css={{ flex: '1' }}>
-						<Flex direction="column" align="center" css={{ bg: '$bgPanel2', width: '100%', p: '$5', br: '$2' }}>
-							<Box css={{ width: '50px', height: '50px', br: '50%', bg: 'grey', mt: '10px' }} />
-							<Text medium size="9" bold css={{ mt: '20px' }}>
+						<Flex direction="column" align="center" css={{ bg: '$bgPanel2', width: '100%', p: '0', br: '$2' }}>
+							<Text medium size="7" bold css={{ mt: '35px' }}>
+								{validator?.name}
+							</Text>
+							<Text color="help" medium size="6" bold css={{ mt: '10px' }}>
 								{stakeTitle}
 							</Text>
-							<Text medium size="4" css={{ mt: '20px', mb: '5px' }}>
+							<Text color="help" size="4" css={{ pb: '10px', mt: '10px', mb: '5px' }}>
 								{entry?.name ? `${entry.name} (${shortAddress})` : shortAddress}
 							</Text>
 						</Flex>
