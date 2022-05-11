@@ -12,14 +12,8 @@ import {
 	ValidatorAddressT,
 	AmountT,
 } from '@radixdlt/application'
-import { Token, Transaction, Action, Validator as InternalValidator } from '../types'
-
-const defaultToken = { order: Number.MAX_SAFE_INTEGER }
-export const defaultTokenSettings = {
-	xrd: { image: 'images/token-images/xrd.png', order: 0 },
-	oci: { image: 'images/token-images/oci.png', order: 1 },
-	dgc: { image: 'images/token-images/dgc.png', order: 2 },
-}
+import { defaultToken, defaultTokenSettings } from '@src/config'
+import { Token, Transaction, Action, Validator as InternalValidator } from '@src/types'
 
 export const parseTransactionIdentifier = (hash: string): TransactionIdentifierT => {
 	const result = TransactionIdentifier.create(hash)

@@ -20,7 +20,7 @@ import {
 	AlertDialogAction,
 	AlertDialogCancel,
 } from 'ui/src/components/alert-dialog'
-import { EXPLORER_URL } from '@src/containers/wallet-panel/config'
+import { EXPLORER_URL } from '@src/config'
 import { AccountAddress } from '@radixdlt/account'
 
 export const AddressBook: React.FC = () => {

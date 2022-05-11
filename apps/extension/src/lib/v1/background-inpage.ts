@@ -74,7 +74,7 @@ export default function NewV1BackgroundInpageActions(
 
 		actionsToConfirm[id] = port
 		state.addPendingActionAction(id, { host: url.host, request: payload })
-		await browser.showPopup(`/notification/connect/${id}`)
+		await browser.showPopup(state.theme, `/notification/connect/${id}`)
 	}
 
 	async function disconnect(port: Runtime.Port, id: string, payload: any) {
@@ -113,7 +113,7 @@ export default function NewV1BackgroundInpageActions(
 
 		actionsToConfirm[id] = port
 		state.addPendingActionAction(id, { host: url.host, request: payload })
-		await browser.showPopup(`/notification/encrypt/${id}`)
+		await browser.showPopup(state.theme, `/notification/encrypt/${id}`)
 	}
 
 	async function decrypt(port: Runtime.Port, id: string, payload: any) {
@@ -151,7 +151,7 @@ export default function NewV1BackgroundInpageActions(
 
 		actionsToConfirm[id] = port
 		state.addPendingActionAction(id, { host: url.host, request: payload })
-		await browser.showPopup(`/notification/decrypt/${id}`)
+		await browser.showPopup(state.theme, `/notification/decrypt/${id}`)
 	}
 
 	async function transaction(port: Runtime.Port, id: string, payload: any) {
@@ -167,7 +167,7 @@ export default function NewV1BackgroundInpageActions(
 
 		actionsToConfirm[id] = port
 		state.addPendingActionAction(id, { host: url.host, request: payload })
-		await browser.showPopup(`/notification/transaction/${id}`)
+		await browser.showPopup(state.theme, `/notification/transaction/${id}`)
 	}
 
 	async function balances(port: Runtime.Port, id: string, payload: any) {

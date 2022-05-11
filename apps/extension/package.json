@@ -1,6 +1,6 @@
 {
 	"name": "z3us-extension",
-	"version": "1.0.5",
+	"version": "1.0.6",
 	"engines": {
 		"yarn": "^1.22.10",
 		"node": "^15.5.0"
@@ -19,6 +19,7 @@
 	"dependencies": {
 		"@ledgerhq/hw-transport-webhid": "^6.24.1",
 		"@ledgerhq/hw-transport-webusb": "^6.24.1",
+		"@radix-ui/popper": "^0.1.0",
 		"@radix-ui/react-icons": "^1.1.0",
 		"@radix-ui/react-portal": "^0.1.4",
 		"@radixdlt/account": "^3.0.8",

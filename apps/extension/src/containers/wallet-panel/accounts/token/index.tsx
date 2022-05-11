@@ -11,7 +11,7 @@ import {
 	SLIDE_PANEL_HEIGHT,
 	SLIDE_PANEL_EXPAND_HEIGHT,
 	SLIDE_PANEL_HEADER_HEIGHT,
-} from '@src/containers/wallet-panel/config'
+} from '@src/config'
 import { SlideUpPanel } from '../slide-up-panel'
 import { TokenInfo } from '../token-info'
 

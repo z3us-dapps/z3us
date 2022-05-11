@@ -1,10 +1,11 @@
 import React, { useEffect } from 'react'
+import { useEventListener } from 'usehooks-ts'
 import { useStore } from '@src/store'
 import { Box, Flex, MotionBox, Text } from 'ui/src/components/atoms'
 import { useLocation } from 'wouter'
 import { UpArrowWideIcon } from 'ui/src/components/icons'
 import Button from 'ui/src/components/button'
-import { SLIDE_PANEL_HEIGHT, SLIDE_PANEL_EXPAND_HEIGHT } from '@src/containers/wallet-panel/config'
+import { SLIDE_PANEL_HEIGHT, SLIDE_PANEL_EXPAND_HEIGHT } from '@src/config'
 
 interface IProps {
 	children: React.ReactNode
@@ -17,6 +18,15 @@ export const SlideUpPanel: React.FC<IProps> = ({ children, name }) => {
 		expanded: state.accountPanelExpanded,
 		setExpanded: state.setAccountPanelExpandedAction,
 	}))
+
+	useEventListener('keydown', e => {
+		if (e.code === 'ArrowUp') {
+			setExpanded(true)
+		}
+		if (e.code === 'ArrowDown') {
+			setExpanded(false)
+		}
+	})
 
 	useEffect(() => {
 		setExpanded(false)

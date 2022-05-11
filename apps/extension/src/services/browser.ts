@@ -1,3 +1,4 @@
+import { popupHtmlMap } from '@src/config'
 import browser, { Windows } from 'webextension-polyfill'
 
 const NOTIFICATION_HEIGHT = 620
@@ -95,7 +96,7 @@ export class BrowserService {
 		}
 	}
 
-	showPopup = async (path: string = '/notification') => {
+	showPopup = async (theme: string, path: string = '/notification') => {
 		await this.closeCurrentPopup()
 
 		let left = 0
@@ -110,8 +111,10 @@ export class BrowserService {
 			left = Math.max(screenX + (outerWidth - NOTIFICATION_WIDTH), 0)
 		}
 
+		const popup = popupHtmlMap[theme]
+
 		const popupWindow = await this.openWindow({
-			url: browser.runtime.getURL(`index.html#${path}`),
+			url: browser.runtime.getURL(`${popup}#${path}`),
 			type: 'popup',
 			width: NOTIFICATION_WIDTH,
 			height: NOTIFICATION_HEIGHT,

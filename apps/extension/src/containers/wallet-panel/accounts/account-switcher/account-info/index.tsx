@@ -11,7 +11,7 @@ import PriceLabel from 'ui/src/components/price-label'
 import LoaderBars from 'ui/src/components/loader-bars'
 import { Tooltip, TooltipTrigger, TooltipContent, TooltipArrow } from 'ui/src/components/tool-tip'
 import { useStore } from '@src/store'
-import { ColorSettings } from '@src/services/types'
+import { ColorSettings } from '@src/types'
 import { AccountModal } from '@src/containers/wallet-panel/settings/accounts/account-modal'
 
 type IProps = {
@@ -19,6 +19,7 @@ type IProps = {
 }
 
 export const AccountInfo: React.FC<IProps> = ({ address }) => {
+	const { isLoading, value, change } = useAccountValue()
 	const { addressBook, activeSlideIndex } = useStore(state => ({
 		addressBook: state.addressBook,
 		activeSlideIndex: state.activeSlideIndex,
@@ -29,17 +30,15 @@ export const AccountInfo: React.FC<IProps> = ({ address }) => {
 	const entry = addressBook[address]
 	const color = entry?.colorSettings?.[ColorSettings.COLOR_TEXT] || '#330867'
 
-	const { isLoading, value, change } = useAccountValue()
 	const accountPercentageChange = !value.isEqualTo(0)
 		? `${change.isGreaterThan(0) ? '+' : ''}${change.div(value).multipliedBy(100).toFixed(2).toLocaleString()}%`
 		: '0.00%'
 
 	useEffect(() => {
 		if (isLoading) return
-
 		// NOTE: set to this value, to force the ticker animation
 		setState(draft => {
-			draft.accountValue = '$4.44'
+			draft.accountValue = '$0.00'
 		})
 		setTimeout(() => {
 			setState(draft => {
@@ -77,14 +76,14 @@ export const AccountInfo: React.FC<IProps> = ({ address }) => {
 				css={{ textAlign: 'center', position: 'relative', zIndex: '1', pt: '41px' }}
 			>
 				<AccountAddress address={address} css={{ fill: color, color }} />
-				<Text
-					bold
-					as="h2"
+				<Flex
+					justify="center"
 					css={{
 						pt: '2px',
 						pb: '2px',
 						height: '42px',
 						position: 'relative',
+						minWidth: '140px',
 					}}
 				>
 					<Text
@@ -113,7 +112,7 @@ export const AccountInfo: React.FC<IProps> = ({ address }) => {
 					>
 						<LoaderBars />
 					</Box>
-				</Text>
+				</Flex>
 				<PriceLabel
 					color={change.isGreaterThan(0) ? 'greenContrast' : 'redContrast'}
 					css={{
@@ -126,9 +125,15 @@ export const AccountInfo: React.FC<IProps> = ({ address }) => {
 					</Text>
 				</PriceLabel>
 			</Flex>
-			<Box css={{ zIndex: 2, position: 'absolute', top: '$1', right: '$1' }}>
-				<AccountModal address={address} toolTipSideOffset={3} toolTipBgColor="$bgPanel" toolTipMessage="Edit">
-					<Button iconOnly size="2" color="ghost" css={{ color, fill: color }}>
+			<Box css={{ zIndex: 2, position: 'absolute', top: '$2', right: '$2' }}>
+				<AccountModal
+					toolTipSide="top"
+					address={address}
+					toolTipSideOffset={3}
+					toolTipBgColor="$bgPanel"
+					toolTipMessage="Edit"
+				>
+					<Button iconOnly size="1" color="ghost" css={{ color, fill: color }}>
 						<ActivityIcon />
 					</Button>
 				</AccountModal>

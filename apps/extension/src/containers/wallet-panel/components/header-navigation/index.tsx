@@ -7,7 +7,7 @@ import { MotionBox } from 'ui/src/components/atoms'
 import { QrHoverCard } from '@src/components/qr-hover-card'
 import { WalletMenu } from '@src/components/wallet-menu'
 import { AnimatePresence } from 'framer-motion'
-import { ACCOUNTS } from '@src/containers/wallet-panel/config'
+import { ACCOUNTS } from '@src/config'
 import { AccountNaviation } from './account-navigation'
 
 export const HeaderNavigation = (): JSX.Element => {

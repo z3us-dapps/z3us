@@ -5,7 +5,7 @@ import { getSplitParams } from '@src/utils/url-utils'
 import { useRoute, useLocation } from 'wouter'
 import { Tooltip, TooltipTrigger, TooltipContent, TooltipArrow } from 'ui/src/components/tool-tip'
 import { Grid, Box, Flex, Text } from 'ui/src/components/atoms'
-import { EXPLORER_URL } from '@src/containers/wallet-panel/config'
+import { EXPLORER_URL } from '@src/config'
 import { UpRightIcon, DownLeftIcon, ExternalLinkIcon } from 'ui/src/components/icons'
 import Button from 'ui/src/components/button'
 import { TokenPrice } from './token-price'
@@ -24,7 +24,7 @@ export const TokenInfo = (): JSX.Element => {
 
 	const selectedToken = liquidBalances?.find(balance => balance.rri === rri)
 	const selectedTokenAmmount = selectedToken ? new BigNumber(selectedToken.amount).shiftedBy(-18) : new BigNumber(0)
-	const stakedAmount = selectedToken.symbol === 'xrd' && staked ? new BigNumber(staked).shiftedBy(-18) : null
+	const stakedAmount = selectedToken?.symbol === 'xrd' && staked ? new BigNumber(staked).shiftedBy(-18) : null
 
 	const handleSendClick = () => {
 		setLocation(`/account/send/${rri}`)

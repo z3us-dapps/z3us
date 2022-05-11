@@ -7,13 +7,11 @@ import { Box, Flex, MotionBox, Text, StyledLink } from 'ui/src/components/atoms'
 import Input from 'ui/src/components/input'
 import InputFeedBack from 'ui/src/components/input/input-feedback'
 import Button from 'ui/src/components/button'
-import { useColorMode } from '@src/hooks/use-color-mode'
 import { Z3usText } from 'ui/src/components/z3us-text'
 import { isWebAuthSupported } from '@src/services/credentials'
 
 export const LockedPanel: React.FC = () => {
 	const inputRef = useRef(null)
-	const isDarkMode = useColorMode()
 	const { seed, unlockWalletAction, setActiveAccount, addToast, hasAuth, authenticate } = useStore(state => ({
 		seed: state.masterSeed,
 		unlockWalletAction: state.unlockWalletAction,
@@ -105,29 +103,6 @@ export const LockedPanel: React.FC = () => {
 				width: '100%',
 				height: '100%',
 				backgroundColor: '$bgPanel',
-				'&:before': {
-					content: '',
-					position: 'absolute',
-					pe: 'auto',
-					top: '0',
-					left: '0',
-					right: '0',
-					bottom: '0',
-					opacity: isDarkMode ? '0.1' : '0.2',
-					//backgroundImage: 'url("/images/unlock-bg.jpg")',
-					backgroundSize: '100%',
-				},
-				'&:after': {
-					content: '',
-					position: 'absolute',
-					pe: 'auto',
-					top: '0',
-					left: '0',
-					right: '0',
-					bottom: '0',
-					opacity: '0.0',
-					backgroundImage: 'url("/images/z3us-spinner.svg")',
-				},
 			}}
 			animate={hasWallet ? 'unlocked' : 'locked'}
 			variants={{
@@ -163,7 +138,7 @@ export const LockedPanel: React.FC = () => {
 				</Flex>
 				<Flex align="center" justify="center" css={{ flex: '1' }}>
 					<Box>
-						<Z3usSpinnerAnimation darkBgColor="#161718" lightBgColor="#FFF" showAnimation={false} />
+						<Z3usSpinnerAnimation showAnimation={false} />
 						<Box css={{ ta: 'center', pt: '$8' }}>
 							<Z3usText css={{ width: '130px', height: '30px' }} />
 						</Box>

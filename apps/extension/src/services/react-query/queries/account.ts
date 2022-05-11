@@ -1,4 +1,4 @@
-import { Ticker } from '@src/services/types'
+import { Ticker } from '@src/types'
 import BigNumber from 'bignumber.js'
 import { useUSDTickers } from './bitfinex'
 import { useAllAccountsTokenBalances, useTokenBalances, useTokenInfos } from './radix'
@@ -71,15 +71,16 @@ const useGenericaccountsValue = (
 	)
 
 	const ticker = tickerMap?.xrd
-	if (ticker) {
-		return {
-			isLoading: isLoadingTokens || isLoadingTickers,
-			value: value.plus(calculateAmountValue(ticker, staked)),
-			change,
-		}
+	if (!ticker) {
+		return { isLoading: isLoadingTokens || isLoadingTickers, value, change }
 	}
 
-	return { isLoading: isLoadingTokens || isLoadingTickers, value, change }
+	const tokenValue = calculateAmountValue(ticker, staked)
+	return {
+		isLoading: isLoadingTokens || isLoadingTickers,
+		value: value.plus(tokenValue),
+		change: change.plus(tokenValue.multipliedBy(ticker.change).div(100)),
+	}
 }
 
 export const useAccountValue = () => {

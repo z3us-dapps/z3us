@@ -13,9 +13,9 @@ import {
 	AmountT,
 } from '@radixdlt/application'
 import BigNumber from 'bignumber.js'
+import { ExtendedActionType, NewTokenDefinition } from '@src/types'
 import { createEncryptedMessage, createPlaintextMessage } from './message'
 import { parseAccountAddress } from './serializer'
-import { ExtendedActionType, NewTokenDefinition } from '../types'
 
 const buildAmount = (value: string): AmountT => {
 	const bigAmount = new BigNumber(value)

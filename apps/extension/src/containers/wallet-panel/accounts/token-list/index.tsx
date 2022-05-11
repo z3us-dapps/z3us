@@ -5,11 +5,7 @@ import { useAllAccountsTokenBalances, useTokenBalances } from '@src/services/rea
 import { TokenLoadingRow } from '@src/components/token-loading-row'
 import { Virtuoso } from 'react-virtuoso'
 import { ScrollArea } from '@src/components/scroll-area'
-import {
-	SLIDE_PANEL_HEIGHT,
-	SLIDE_PANEL_EXPAND_HEIGHT,
-	SLIDE_PANEL_HEADER_HEIGHT,
-} from '@src/containers/wallet-panel/config'
+import { SLIDE_PANEL_HEIGHT, SLIDE_PANEL_EXPAND_HEIGHT, SLIDE_PANEL_HEADER_HEIGHT } from '@src/config'
 import { Box, Text, Flex } from 'ui/src/components/atoms'
 import { AccountSwitcher } from '../account-switcher'
 import { SlideUpPanel } from '../slide-up-panel'

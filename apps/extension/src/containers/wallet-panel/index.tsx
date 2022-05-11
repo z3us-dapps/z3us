@@ -1,7 +1,6 @@
 import React, { useEffect } from 'react'
 import { useLocation } from 'wouter'
 import { useStore } from '@src/store'
-import { useColorMode } from '@src/hooks/use-color-mode'
 import { LockedPanel } from '@src/components/locked-panel'
 import { AnimatePresence, motion } from 'framer-motion'
 import { Box, MotionBox } from 'ui/src/components/atoms'
@@ -10,7 +9,7 @@ import { Staking } from './staking'
 import { Settings } from './settings'
 import { FooterNavigation } from './components/footer-navigation'
 import { HeaderNavigation } from './components/header-navigation'
-import { routesInfo, PANEL_HEIGHT, APP_WIDTH } from './config'
+import { routesInfo, PANEL_HEIGHT, APP_WIDTH, ACCOUNTS, STAKING, SETTINGS } from '../../config'
 
 const pageVariants = {
 	enter: (_direction: number) => ({
@@ -46,7 +45,6 @@ const pageStyle = {
 
 export const WalletPanel = (): JSX.Element => {
 	const [location] = useLocation()
-	const isDarkMode = useColorMode()
 	const { activeApp, seed, hasKeystore } = useStore(state => ({
 		activeApp: state.activeApp,
 		seed: state.masterSeed,
@@ -54,8 +52,6 @@ export const WalletPanel = (): JSX.Element => {
 	}))
 	const [page, direction] = activeApp
 	const routes = Object.values(routesInfo)
-	const currentRoute = routesInfo[page]
-	const walletPanelBgColor = currentRoute.bgColor[isDarkMode ? 1 : 0]
 
 	useEffect(() => {
 		if (!hasKeystore) {
@@ -91,7 +87,7 @@ export const WalletPanel = (): JSX.Element => {
 					height: '100%',
 					position: 'relative',
 					overflow: 'hidden',
-					background: walletPanelBgColor,
+					background: page === ACCOUNTS ? '$bgPanel2' : '$bgPanel',
 					transition: 'background-color 300ms ease-out',
 				}}
 			>
@@ -128,7 +124,7 @@ export const WalletPanel = (): JSX.Element => {
 						}}
 					>
 						<AnimatePresence initial={false} custom={direction}>
-							{page === 'accounts' ? (
+							{page === ACCOUNTS ? (
 								<motion.div
 									key={`page-${activeApp}`}
 									initial="enter"
@@ -144,7 +140,7 @@ export const WalletPanel = (): JSX.Element => {
 									<Accounts />
 								</motion.div>
 							) : null}
-							{page === 'staking' ? (
+							{page === STAKING ? (
 								<motion.div
 									key={`page-${page}`}
 									initial="enter"
@@ -160,7 +156,7 @@ export const WalletPanel = (): JSX.Element => {
 									<Staking />
 								</motion.div>
 							) : null}
-							{page === 'settings' ? (
+							{page === SETTINGS ? (
 								<motion.div
 									key={`page-${page}`}
 									initial="enter"

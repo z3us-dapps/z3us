@@ -5,7 +5,9 @@ import { useTokenInfo } from '@src/services/react-query/queries/radix'
 import { useLocation } from 'wouter'
 import { Box, Flex, Text } from 'ui/src/components/atoms'
 import Button from 'ui/src/components/button'
+import { ToolTip } from 'ui/src/components/tool-tip'
 import { TokenLoadingRow } from '@src/components/token-loading-row'
+import { InfoCircledIcon } from '@radix-ui/react-icons'
 import { TokenPrice } from './token-price'
 
 interface IProps {
@@ -27,7 +29,6 @@ export const TokenRow: React.FC<IProps> = ({ i, rri, amount, staked, loading, di
 	const { isLoading: isLoadingTokenInfo, data: token } = useTokenInfo(rri)
 	const [, setLocation] = useLocation()
 	const isLoadingComplete = !loading && !isLoadingTokenInfo
-
 	const tokenAmount = amount instanceof BigNumber ? amount : new BigNumber(amount).shiftedBy(-18)
 	const stakedAmount = staked instanceof BigNumber ? staked : new BigNumber(staked).shiftedBy(-18)
 
@@ -39,7 +40,7 @@ export const TokenRow: React.FC<IProps> = ({ i, rri, amount, staked, loading, di
 	return (
 		<Button
 			onClick={disableClick ? null : handleTokenClick}
-			clickable={!disableClick}
+			showRipple={false}
 			css={{
 				margin: '0',
 				padding: '0',
@@ -72,14 +73,25 @@ export const TokenRow: React.FC<IProps> = ({ i, rri, amount, staked, loading, di
 								<Text css={{ fontSize: '16px', lineHeight: '22px', fontWeight: 'bold' }}>
 									{token.name} ({token.symbol.toLocaleUpperCase()})
 								</Text>
-								<Text color="help" size="3">
-									{formatBigNumber(tokenAmount)}
-								</Text>
-								{staked && (
+								<Flex>
 									<Text color="help" size="3">
-										{`(${formatBigNumber(stakedAmount)})`}
+										{formatBigNumber(tokenAmount)}
 									</Text>
-								)}
+									{staked && !stakedAmount.isZero() && (
+										<Flex css={{ maxWidth: '115px', position: 'relative' }}>
+											<Text truncate color="muted" size="3" css={{ pl: '$1' }}>
+												+ staked
+											</Text>
+											<ToolTip message={formatBigNumber(stakedAmount)} sideOffset={3} side="top">
+												<Box css={{ mt: '-5px' }}>
+													<Button size="1" color="ghost" iconOnly clickable={false} css={{ color: '$txtMuted' }}>
+														<InfoCircledIcon />
+													</Button>
+												</Box>
+											</ToolTip>
+										</Flex>
+									)}
+								</Flex>
 							</Box>
 							<TokenPrice symbol={token.symbol} amount={staked ? tokenAmount.plus(stakedAmount) : tokenAmount} />
 						</Flex>

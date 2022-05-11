@@ -3,7 +3,7 @@ import { useQuery, useQueries, useInfiniteQuery } from 'react-query'
 import { RadixService } from '@src/services/radix'
 import BigNumber from 'bignumber.js'
 import { decryptTransaction } from '@src/services/radix/transactions'
-import { Action, Transaction } from '@src/services/types'
+import { Action, Transaction } from '@src/types'
 
 export const useGatewayInfo = () => {
 	const network = useStore(state => state.networks[state.selectedNetworkIndex])

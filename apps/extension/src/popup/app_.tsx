@@ -14,7 +14,7 @@ import { domExists } from '@src/utils/dom-exists'
 import { Credentials } from '@src/containers/credentials'
 
 export const App: React.FC = () => {
-	const isHardwareWalletRoute = domExists && window.location.href.includes('index.html#/hardware-wallet')
+	const isHardwareWalletRoute = domExists && window.location.href.includes('popup-theme-light.html#/hardware-wallet')
 	useColorMode()
 	useVault()
 
@@ -30,8 +30,8 @@ export const App: React.FC = () => {
 				transition: '$default',
 				...(isHardwareWalletRoute
 					? {
-							width: '100%',
-							height: '100%',
+							width: '100vw',
+							height: '100vh',
 					  }
 					: {
 							width: '360px',
