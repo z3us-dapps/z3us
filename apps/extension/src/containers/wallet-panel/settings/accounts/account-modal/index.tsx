@@ -12,6 +12,7 @@ import { HexColorPicker } from 'react-colorful'
 import { Popover, PopoverArrow, PopoverContent, PopoverTrigger, PopoverClose } from 'ui/src/components/popover'
 import { Box, Text, Flex } from 'ui/src/components/atoms'
 import { ColorSettings } from '@src/types'
+import { Side } from '@radix-ui/popper'
 import { colorMap, generateGradient, presetMap, PRESET_COLOR_LIGHT_ORCHID } from '@src/config'
 import { AvatarButton } from '../../../components/avatar-button'
 
@@ -29,6 +30,7 @@ const sharedColorButtonStyle = {
 interface IProps {
 	children?: React.ReactNode
 	toolTipSideOffset?: number
+	toolTipSide?: Side
 	toolTipBgColor?: string
 	toolTipMessage?: string
 	address: string
@@ -37,17 +39,19 @@ interface IProps {
 const defaultProps = {
 	children: undefined,
 	toolTipSideOffset: 3,
+	toolTipSide: 'bottom',
 	toolTipBgColor: '$bgPanel2',
 	toolTipMessage: 'Edit color',
 }
 
-export const AccountModal: React.FC<IProps> = ({
+export const AccountModal = ({
 	children,
 	toolTipSideOffset,
 	toolTipBgColor,
 	toolTipMessage,
+	toolTipSide,
 	address,
-}) => {
+}: IProps): JSX.Element => {
 	const { addressBook, setAddressBookEntry } = useStore(state => ({
 		addressBook: state.addressBook,
 		setAddressBookEntry: state.setAddressBookEntryAction,
@@ -118,7 +122,7 @@ export const AccountModal: React.FC<IProps> = ({
 							</Box>
 						)}
 					</TooltipTrigger>
-					<TooltipContent sideOffset={toolTipSideOffset} css={{ backgroundColor: toolTipBgColor }}>
+					<TooltipContent side={toolTipSide} sideOffset={toolTipSideOffset} css={{ backgroundColor: toolTipBgColor }}>
 						<TooltipArrow css={{ fill: toolTipBgColor }} />
 						{toolTipMessage}
 					</TooltipContent>

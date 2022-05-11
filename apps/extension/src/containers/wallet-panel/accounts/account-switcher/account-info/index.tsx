@@ -125,9 +125,15 @@ export const AccountInfo: React.FC<IProps> = ({ address }) => {
 					</Text>
 				</PriceLabel>
 			</Flex>
-			<Box css={{ zIndex: 2, position: 'absolute', top: '$1', right: '$1' }}>
-				<AccountModal address={address} toolTipSideOffset={3} toolTipBgColor="$bgPanel" toolTipMessage="Edit">
-					<Button iconOnly size="2" color="ghost" css={{ color, fill: color }}>
+			<Box css={{ zIndex: 2, position: 'absolute', top: '$2', right: '$2' }}>
+				<AccountModal
+					toolTipSide="top"
+					address={address}
+					toolTipSideOffset={3}
+					toolTipBgColor="$bgPanel"
+					toolTipMessage="Edit"
+				>
+					<Button iconOnly size="1" color="ghost" css={{ color, fill: color }}>
 						<ActivityIcon />
 					</Button>
 				</AccountModal>
