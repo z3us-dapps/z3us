@@ -15,8 +15,8 @@ export const LandingPage: React.FC = () => (
 			openGraph={{
 				type: 'website',
 				url: config.Z3US_URL,
-				title: 'Z3US web3 wallet',
-				description: 'A community centric open source browser wallet for the Radix DLT network.',
+				title: config.OPEN_GRAPH_TITLE,
+				description: config.OPEN_GRAPH_DESCRIPTION,
 				images: [
 					{
 						url: `${config.Z3US_URL}/og-image-1.png`,

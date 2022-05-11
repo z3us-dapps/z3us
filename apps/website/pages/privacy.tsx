@@ -18,8 +18,8 @@ const DocsIndex = ({ mdxSource }) => {
 				openGraph={{
 					type: 'website',
 					url: config.Z3US_URL,
-					title: 'z3us web3 wallet',
-					description: 'A community centric open source browser wallet for the Radix DLT network.',
+					title: config.OPEN_GRAPH_TITLE,
+					description: config.OPEN_GRAPH_DESCRIPTION,
 					images: [
 						{
 							url: `${config.Z3US_URL}/og-image-1.png`,
