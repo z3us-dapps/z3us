@@ -69,6 +69,8 @@ export class VaultService {
 	}
 
 	lock = () => {
+		// eslint-disable-next-line no-console
+		console.log('LOCK ', this)
 		if (this.timer) {
 			clearTimeout(this.timer)
 		}
@@ -137,6 +139,8 @@ export class VaultService {
 		const { walletUnlockTimeoutInMinutes = 5 } = state
 
 		if (this.timer) {
+			// eslint-disable-next-line no-console
+			console.log('reset Timer ', this)
 			clearTimeout(this.timer)
 		}
 
