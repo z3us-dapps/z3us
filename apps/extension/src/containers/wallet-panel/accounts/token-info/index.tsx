@@ -24,7 +24,7 @@ export const TokenInfo = (): JSX.Element => {
 
 	const selectedToken = liquidBalances?.find(balance => balance.rri === rri)
 	const selectedTokenAmmount = selectedToken ? new BigNumber(selectedToken.amount).shiftedBy(-18) : new BigNumber(0)
-	const stakedAmount = selectedToken.symbol === 'xrd' && staked ? new BigNumber(staked).shiftedBy(-18) : null
+	const stakedAmount = selectedToken?.symbol === 'xrd' && staked ? new BigNumber(staked).shiftedBy(-18) : null
 
 	const handleSendClick = () => {
 		setLocation(`/account/send/${rri}`)
