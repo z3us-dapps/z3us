@@ -8,18 +8,17 @@ import { Virtuoso } from 'react-virtuoso'
 import { ScrollArea } from '@src/components/scroll-area'
 import { ActivityItem } from '@src/components/activity-item'
 import { Box, Text, Flex } from 'ui/src/components/atoms'
+import LoaderBars from 'ui/src/components/loader-bars'
 import { SendReceiveHeader } from '../send-receive-header'
 
 export const AccountActivity: React.FC = () => {
 	const [customScrollParent, setCustomScrollParent] = useState(null)
 	const observer = useRef<IntersectionObserver | null>(null)
-
 	const { accountAddress, selectAccount } = useStore(state => ({
 		accountAddress: state.getCurrentAddressAction(),
 		selectAccount: state.selectAccountAction,
 	}))
 	const { isFetching, data, error, fetchNextPage, hasNextPage } = useTransactionHistory()
-
 	const shortAddress = getShortAddress(accountAddress)
 
 	const flatten =
@@ -30,6 +29,8 @@ export const AccountActivity: React.FC = () => {
 					.reduce((container, t) => [...container, ...t.actions.map(a => ({ t, a }))], []),
 			)
 			.reduce((container, page) => [...container, ...page], []) || []
+
+	const hasActivities = flatten.length > 0
 
 	const handleAccountChange = async (accountIndex: number) => {
 		await selectAccount(accountIndex)
@@ -79,35 +80,41 @@ export const AccountActivity: React.FC = () => {
 						<Box css={{ pb: '12px' }}>
 							<AccountSelector shortAddress={shortAddress} onAccountChange={handleAccountChange} />
 						</Box>
-						<Virtuoso
-							customScrollParent={customScrollParent}
-							totalCount={flatten.length}
-							data={flatten}
-							// eslint-disable-next-line react/no-unstable-nested-components
-							itemContent={(i, { a, t }) => (
-								<ActivityItem
-									ref={data.pages.length === i + 1 ? lastElementRef : null}
-									tx={t}
-									activity={a}
-									isIsoStyled
-									css={{
-										height: '68px',
-										alignItems: 'center',
-										width: '100%',
-										border: '1px solid $borderPanel',
-										bg: '$bgPanel2',
-										br: '$3',
-										pr: '$2',
-										pl: '0',
-										display: 'flex',
-										textAlign: 'left',
-										'&:hover': {
-											background: '$bgPanelHover',
-										},
-									}}
-								/>
-							)}
-						/>
+						{hasActivities ? (
+							<Virtuoso
+								customScrollParent={customScrollParent}
+								totalCount={flatten.length}
+								data={flatten}
+								// eslint-disable-next-line react/no-unstable-nested-components
+								itemContent={(i, { a, t }) => (
+									<ActivityItem
+										ref={data.pages.length === i + 1 ? lastElementRef : null}
+										tx={t}
+										activity={a}
+										isIsoStyled
+										css={{
+											height: '68px',
+											alignItems: 'center',
+											width: '100%',
+											border: '1px solid $borderPanel',
+											bg: '$bgPanel2',
+											br: '$3',
+											pr: '$2',
+											pl: '0',
+											display: 'flex',
+											textAlign: 'left',
+											'&:hover': {
+												background: '$bgPanelHover',
+											},
+										}}
+									/>
+								)}
+							/>
+						) : (
+							<Flex justify="center" css={{ width: '100%', mt: '$4' }}>
+								<LoaderBars />
+							</Flex>
+						)}
 					</Box>
 				</ScrollArea>
 			</Box>
