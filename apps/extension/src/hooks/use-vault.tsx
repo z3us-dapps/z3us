@@ -48,12 +48,8 @@ export const useVault = () => {
 	useEffect(() => {
 		const load = async () => {
 			try {
-				// eslint-disable-next-line no-console
-				console.log('use vault 1 ', networkIndex, accountIndex, time)
 				await messanger.sendActionMessageFromPopup(GET, null) // extend session
 			} catch (error) {
-				// eslint-disable-next-line no-console
-				console.log('use vault 2 ', networkIndex, accountIndex, time)
 				// eslint-disable-next-line no-console
 				console.error(error)
 				window.location.reload()
