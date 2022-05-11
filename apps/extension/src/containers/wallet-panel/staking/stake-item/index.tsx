@@ -1,11 +1,13 @@
 import React from 'react'
-import { ExternalLinkIcon } from '@radix-ui/react-icons'
+import { ExternalLinkIcon, HomeIcon } from '@radix-ui/react-icons'
+import { ToolTip } from 'ui/src/components/tool-tip'
 import { Box, Flex, Text, StyledLink } from 'ui/src/components/atoms'
 import Button from 'ui/src/components/button'
 import BigNumber from 'bignumber.js'
 import { apy } from '@src/utils/radix'
 import { useLookupValidator } from '@src/services/react-query/queries/radix'
 import { formatBigNumber } from '@src/utils/formatters'
+import { EXPLORER_URL } from '@src/config'
 import { StakeModal } from '../stake-modal'
 
 interface IProps {
@@ -35,18 +37,29 @@ export const StakeItem: React.FC<IProps> = ({
 		<Box css={{ px: '$4', pb: '$4', pt: '$3', borderTop: `1px solid ${border ? '$borderPanel' : 'transparent'}` }}>
 			<Flex css={{ position: 'relative' }}>
 				<Box css={{ flex: '1', pt: '6px' }}>
-					<StyledLink underlineOnHover href={validator.infoURL.toString()} target="_blank">
-						<Text bold truncate css={{ pb: '$3', maxWidth: '250px' }}>
-							{validator.name}
-						</Text>
-					</StyledLink>
+					<Text bold truncate css={{ pb: '$3', maxWidth: '250px' }}>
+						{validator.name}
+					</Text>
 				</Box>
 
-				<StyledLink underlineOnHover href={validator.infoURL.toString()} target="_blank">
-					<Button iconOnly color="ghost" size="1">
-						<ExternalLinkIcon />
-					</Button>
-				</StyledLink>
+				<ToolTip message="Go to website" side="top" bgColor="$bgPanel2">
+					<StyledLink underlineOnHover href={validator.infoURL.toString()} target="_blank">
+						<Button iconOnly color="ghost" size="1">
+							<HomeIcon />
+						</Button>
+					</StyledLink>
+				</ToolTip>
+				<ToolTip arrowOffset={7} message="Go to explorer" side="top" bgColor="$bgPanel2">
+					<StyledLink
+						underlineOnHover
+						href={`${EXPLORER_URL}/validators/${validator.address.toString()}`}
+						target="_blank"
+					>
+						<Button iconOnly color="ghost" size="1">
+							<ExternalLinkIcon />
+						</Button>
+					</StyledLink>
+				</ToolTip>
 			</Flex>
 			<Flex css={{ pb: '$2' }}>
 				<Text css={{ flex: '1' }}>️Fee / Uptime</Text>
@@ -69,7 +82,7 @@ export const StakeItem: React.FC<IProps> = ({
 			{pendingUnstakes && (
 				<Flex css={{ pb: '$2' }}>
 					<Flex align="baseline" css={{ flex: '1' }}>
-						<Text>️Pending unstakes</Text>
+						<Text>️Pending Unstakes</Text>
 					</Flex>
 					<Flex>
 						<Text>{`${pendingUnstakes ? formatBigNumber(pendingUnstakes) : 0}`}</Text>

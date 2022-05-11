@@ -153,7 +153,7 @@ export const KeyManagementSettings: React.FC = () => {
 					<AlertDialogContent>
 						<AlertDialogTitle>Remove wallet?</AlertDialogTitle>
 						<AlertDialogDescription>
-							This action cannot be undone. please ensure you have your secret phrase backed up.
+							This action cannot be undone. Please ensure you have your secret phrase backed up.
 						</AlertDialogDescription>
 						<Flex justify="end">
 							<AlertDialogCancel asChild>

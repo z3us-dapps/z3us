@@ -40,7 +40,7 @@ export const TokenRow: React.FC<IProps> = ({ i, rri, amount, staked, loading, di
 	return (
 		<Button
 			onClick={disableClick ? null : handleTokenClick}
-			clickable={!disableClick}
+			showRipple={false}
 			css={{
 				margin: '0',
 				padding: '0',
