@@ -2,6 +2,7 @@ import React from 'react'
 import { keyframes } from 'ui/src/theme'
 import { Box } from 'ui/src/components/atoms'
 import { Z3usSvg } from './z3us'
+import { Z3usBoltsSvg } from './z3us-bolts'
 
 const ANIMATION_TIME = '4000ms'
 
@@ -17,6 +18,7 @@ interface IProps {
 	infinite?: boolean
 	showAnimation?: boolean
 	bgColor?: string
+	animationPlayState?: string
 }
 
 const defaultProps = {
@@ -26,6 +28,7 @@ const defaultProps = {
 	infinite: false,
 	showAnimation: true,
 	bgColor: '$bgPanel',
+	animationPlayState: 'running',
 }
 
 const highLightColor = '#00fff6'
@@ -37,6 +40,7 @@ export const Z3usSpinnerAnimation: React.FC<IProps> = ({
 	infinite,
 	showAnimation,
 	bgColor,
+	animationPlayState,
 }) => (
 	<Box css={{ width: `${width}px`, height: `${height}px`, position: 'relative' }}>
 		<Box
@@ -92,9 +96,21 @@ export const Z3usSpinnerAnimation: React.FC<IProps> = ({
 					...(showAnimation
 						? { animation: `${rotateOutAnimation} ${animationTime} linear ${infinite ? 'infinite' : ''}` }
 						: {}),
+					animationPlayState,
 				}}
 			>
 				<Z3usSvg />
+			</Box>
+			<Box
+				css={{
+					width: `${width}px`,
+					height: `${height}px`,
+					position: 'absolute',
+					top: '0',
+					left: '0',
+				}}
+			>
+				<Z3usBoltsSvg />
 			</Box>
 		</Box>
 	</Box>

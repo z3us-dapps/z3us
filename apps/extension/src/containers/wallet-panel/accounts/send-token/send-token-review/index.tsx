@@ -178,7 +178,12 @@ export const SendTokenReview: React.FC<IProps> = ({
 									align="center"
 									css={{ bg: '$bgPanel2', width: '100%', pt: '$8', pb: '$6', br: '$2' }}
 								>
-									<Z3usSpinnerAnimation showAnimation={false} bgColor="$bgPanel2" />
+									<Z3usSpinnerAnimation
+										infinite
+										animationPlayState={state.isSendingTransaction ? 'running' : 'paused'}
+										animationTime="5000ms"
+										bgColor="$bgPanel2"
+									/>
 									<Box css={{ pb: '$4', ta: 'center' }}>
 										<Flex css={{ mt: '30px' }}>
 											<Text medium size="6" bold css={{ position: 'relative' }}>
