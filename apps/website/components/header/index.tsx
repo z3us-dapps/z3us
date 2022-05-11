@@ -11,9 +11,11 @@ import {
 	DropdownMenuRadioGroup,
 	DropdownMenuRadioItem,
 } from 'ui/src/components/drop-down-menu'
-import { Container, Grid } from '@nextui-org/react'
+
+import { Container } from 'components/container'
+import { Grid } from '@nextui-org/react'
 import Button from 'ui/src/components/button'
-import { TelegramIcon, TwitterIcon } from 'ui/src/components/icons'
+import { TelegramIcon, TwitterIcon, GithubIcon } from 'ui/src/components/icons'
 import { ToolTip } from 'ui/src/components/tool-tip'
 import Link from 'next/link'
 import { useTheme } from 'next-themes'
@@ -52,9 +54,9 @@ export const Header: React.FC<IProps> = ({ isLandingPage }) => {
 			css={{
 				position: !isLandingPage ? 'sticky' : 'relative',
 				top: '0',
-				height: '72px',
 				zIndex: '1',
 				transition: '$default',
+				minHeight: '72px',
 				'&:after': {
 					content: '',
 					background: !isLandingPage && state.isScrolled ? '$bgPanelHeaderTransparent' : 'transparent',
@@ -70,16 +72,10 @@ export const Header: React.FC<IProps> = ({ isLandingPage }) => {
 			}}
 		>
 			<Container css={{ position: 'relative', zIndex: '2' }}>
-				<Grid.Container
-					gap={2}
-					justify="center"
-					css={{
-						position: 'relative',
-					}}
-				>
-					<Grid xs={6} css={{ '&&': { pb: '0' } }}>
-						<Flex align="center" css={{ width: '100%', px: '24px', pt: '10px' }}>
-							<Box>
+				<Grid.Container gap={0} justify="center">
+					<Grid xs={6}>
+						<Flex align="center" css={{ width: '100r', px: '36px', pb: '6px' }}>
+							<Box css={{ pt: '27px' }}>
 								<Link href="/" passHref>
 									<StyledLink css={{ display: 'inline-flex' }}>
 										<Z3usText
@@ -98,11 +94,11 @@ export const Header: React.FC<IProps> = ({ isLandingPage }) => {
 							</Box>
 						</Flex>
 					</Grid>
-					<Grid xs={6} css={{ '&&': { pb: '0' } }}>
+					<Grid xs={6}>
 						<Box css={{ width: '100%' }}>
-							<Flex css={{ width: '100%', px: '24px', pt: '10px' }}>
+							<Flex css={{ width: '100%', px: '36px', pt: '20px' }}>
 								<Flex
-									gap="3"
+									gap="2"
 									align="center"
 									justify="end"
 									css={{
@@ -115,12 +111,17 @@ export const Header: React.FC<IProps> = ({ isLandingPage }) => {
 										},
 									}}
 								>
-									<ToolTip message="Twitter">
+									<ToolTip message="GitHub" bgColor="$bgPanel2">
+										<Button target="_blank" href={config.GITHUB_URL} as="a" size="3" color="ghost" iconOnly>
+											<GithubIcon />
+										</Button>
+									</ToolTip>
+									<ToolTip message="Twitter" bgColor="$bgPanel2">
 										<Button target="_blank" href={config.TWITTER_URL} as="a" size="3" color="ghost" iconOnly>
 											<TwitterIcon />
 										</Button>
 									</ToolTip>
-									<ToolTip message="Telegram">
+									<ToolTip message="Telegram" bgColor="$bgPanel2">
 										<Button target="_blank" href={config.TELEGRAM_URL} as="a" size="3" color="ghost" iconOnly>
 											<TelegramIcon />
 										</Button>
@@ -134,7 +135,7 @@ export const Header: React.FC<IProps> = ({ isLandingPage }) => {
 									>
 										<DropdownMenuTrigger asChild>
 											<Box>
-												<ToolTip message="Theme">
+												<ToolTip message="Theme" bgColor="$bgPanel2">
 													<Button size="3" color="ghost" iconOnly>
 														<Box
 															css={{
@@ -148,7 +149,6 @@ export const Header: React.FC<IProps> = ({ isLandingPage }) => {
 												</ToolTip>
 											</Box>
 										</DropdownMenuTrigger>
-
 										<DropdownMenuContent
 											avoidCollisions={false}
 											align="end"
