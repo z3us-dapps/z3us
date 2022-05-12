@@ -15,7 +15,7 @@ export const Footer: React.FC = () => (
 							<Box>
 								<Link href="/">
 									<a>
-										<Z3usLogoText css={{ color: '$txtHelp' }} />
+										<Z3usLogoText css={{ color: '$txtMuted' }} />
 									</a>
 								</Link>
 								<Box css={{ mt: '$2', display: 'block' }}>
@@ -39,13 +39,12 @@ export const Footer: React.FC = () => (
 							align="center"
 							justify="end"
 							gap="3"
-							css={{ flex: '1', color: '$txtHelp', py: '30px', '@xs': { px: '24px' }, '@md': { px: '0' } }}
+							css={{ flex: '1', color: '$txtMuted', py: '30px', '@xs': { px: '24px' }, '@md': { px: '0' } }}
 						>
 							<Link href="/privacy" passHref>
 								<StyledLink underlineOnHover>
 									<Text
 										as="p"
-										color="muted"
 										css={{
 											fontFamily: '$HaasGrotTextRound',
 											fontSize: '13px',
@@ -60,7 +59,6 @@ export const Footer: React.FC = () => (
 								<StyledLink underlineOnHover>
 									<Text
 										as="p"
-										color="muted"
 										css={{
 											fontFamily: '$HaasGrotTextRound',
 											fontSize: '13px',
