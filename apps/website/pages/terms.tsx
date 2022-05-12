@@ -14,7 +14,7 @@ const DocsIndex = ({ mdxSource }) => {
 	return (
 		<>
 			<NextSeo
-				title="An open source UX driven web3 wallet built for DeFi & NFTs "
+				title="Terms"
 				openGraph={{
 					type: 'website',
 					url: config.Z3US_URL,

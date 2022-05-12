@@ -25,7 +25,17 @@ export const Footer: React.FC = () => (
 								</a>
 							</Link>
 							<Box css={{ mt: '$2', display: 'block' }}>
-								<Text color="muted">&copy; {new Date().getFullYear()} Z3US</Text>
+								<Text
+									as="p"
+									color="muted"
+									css={{
+										fontFamily: '$HaasGrotTextRound',
+										fontSize: '13px',
+										lineHeight: '14px',
+									}}
+								>
+									&copy; {new Date().getFullYear()} Z3US
+								</Text>
 							</Box>
 						</Box>
 					</Flex>
@@ -39,12 +49,32 @@ export const Footer: React.FC = () => (
 					>
 						<Link href="/privacy" passHref>
 							<StyledLink underlineOnHover>
-								<Text>Privacy</Text>
+								<Text
+									as="p"
+									color="muted"
+									css={{
+										fontFamily: '$HaasGrotTextRound',
+										fontSize: '13px',
+										lineHeight: '14px',
+									}}
+								>
+									Privacy
+								</Text>
 							</StyledLink>
 						</Link>
 						<Link href="/terms" passHref>
 							<StyledLink underlineOnHover>
-								<Text>Terms</Text>
+								<Text
+									as="p"
+									color="muted"
+									css={{
+										fontFamily: '$HaasGrotTextRound',
+										fontSize: '13px',
+										lineHeight: '14px',
+									}}
+								>
+									Terms
+								</Text>
 							</StyledLink>
 						</Link>
 					</Flex>
