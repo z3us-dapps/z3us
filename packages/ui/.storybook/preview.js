@@ -5,7 +5,6 @@ import { darkTheme, globalStyles } from '../src/theme'
 import { INITIAL_VIEWPORTS } from '@storybook/addon-viewport'
 import { initializeWorker, mswDecorator } from 'msw-storybook-addon'
 import { handlers } from '../.mocks/handlers'
-import globalCss from '../src/ui.scss'
 
 // msw
 initializeWorker()
@@ -51,7 +50,7 @@ export const decorators = [
 		}
 
 		return (
-			<div className={globalCss} style={{ padding: '10px' }}>
+			<div style={{ padding: '10px' }}>
 				<Story />
 			</div>
 		)
