@@ -14,7 +14,13 @@ import { FireFoxIcon } from './firefox-icon'
 import { EdgeIcon } from './edge-icon'
 
 export const BrowserIconLinks = (): JSX.Element => (
-	<Flex align="center" gap="2" css={{ svg: { width: '30px', height: '30px' } }}>
+	<Flex
+		align="center"
+		css={{
+			'@xs': { gap: '20px', svg: { width: '40px', height: '40px' } },
+			'@md': { gap: '12px', svg: { width: '30px', height: '30px' } },
+		}}
+	>
 		<ToolTip message="Chrome" bgColor="$bgPanel2">
 			<Button target="_blank" href={config.CHROME_STORE_URL} as="a" size="5" color="ghost" iconOnly>
 				<ChromeIcon />

@@ -59,14 +59,14 @@ export const LandingPage: React.FC = () => (
 								bottom: '0',
 								backgroundImage: 'url(/images/landing-lightening-bg.png)',
 								backgroundRepeat: 'no-repeat',
-								backgroundPosition: '-100px -100px',
 								backgroundSize: 'auto 100%',
-								opacity: '0.7',
+								opacity: '0.4',
 								minHeight: '100%',
 							},
 							'@md': {
 								flexDirection: 'row',
 								'&:before': {
+									opacity: '0.7',
 									backgroundRepeat: 'no-repeat',
 									backgroundPosition: 'top right',
 									backgroundSize: 'auto 100%',
@@ -82,6 +82,7 @@ export const LandingPage: React.FC = () => (
 								pt: '20px',
 								pb: '50px',
 								px: '20px',
+								'@xs': { px: '5%' },
 								'@md': { width: '50%', flexBasis: '50%', pt: '150px', pb: '150px', pl: '40px' },
 								'@lg': { pl: '100px' },
 							}}
@@ -92,8 +93,8 @@ export const LandingPage: React.FC = () => (
 									size="14"
 									css={{
 										fontFamily: '$HaasGrotDisplayRound',
-										fontSize: '60px',
-										lineHeight: '64px',
+										'@xs': { fontSize: '40px', lineHeight: '48px' },
+										'@md': { fontSize: '60px', lineHeight: '64px' },
 									}}
 								>
 									Control your future. DeFi at your fingertips.
@@ -133,7 +134,12 @@ export const LandingPage: React.FC = () => (
 										Install BETA
 									</Button>
 								</Flex>
-								<Flex align="center" direction="column" css={{ mt: '$5', width: '100%', maxWidth: '180px' }}>
+								<Flex
+									justify="center"
+									align="center"
+									direction="column"
+									css={{ mt: '$5', width: '100%', '@xs': { maxWidth: '100%' }, '@md': { maxWidth: '180px' } }}
+								>
 									<Text css={{ pb: '15px', fontFamily: '$HaasGrotTextRound', fontSize: '13px', lineHeight: '14px' }}>
 										Available in:
 									</Text>
