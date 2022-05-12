@@ -77,13 +77,14 @@ export const Header: React.FC<IProps> = ({ isLandingPage }) => {
 							<Flex
 								align="center"
 								css={{
+									width: '100%',
 									pb: '6px',
 									'@md': {
 										px: '24px',
 									},
 								}}
 							>
-								<Box css={{ pt: '27px' }}>
+								<Box css={{ pt: '27px', width: '100%' }}>
 									<Link href="/" passHref>
 										<StyledLink css={{ display: 'inline-flex' }}>
 											<Z3usText
