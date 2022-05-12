@@ -1,14 +1,13 @@
 import React from 'react'
 import { Text, Box, Flex, StyledLink } from 'ui/src/components/atoms'
 import Link from 'next/link'
-import { Container } from 'components/container'
-
+import { PageContainer } from 'components/page-container'
 import { Grid } from '@nextui-org/react'
 import { Z3usLogoText } from 'ui/src/components/z3us-logo-text'
 
 export const Footer: React.FC = () => (
 	<Box css={{ bg: '$bgPanelFooter', border: '1px solid $borderPanelFooter', pb: '20px' }}>
-		<Container>
+		<PageContainer>
 			<Grid.Container
 				gap={2}
 				justify="center"
@@ -80,6 +79,6 @@ export const Footer: React.FC = () => (
 					</Flex>
 				</Grid>
 			</Grid.Container>
-		</Container>
+		</PageContainer>
 	</Box>
 )

@@ -14650,7 +14650,7 @@ prompts@^2.0.1, prompts@^2.4.0:
     kleur "^3.0.3"
     sisteransi "^1.0.5"
 
-prop-types@^15.0.0, prop-types@^15.6.0, prop-types@^15.6.1, prop-types@^15.7.2:
+prop-types@^15.0.0, prop-types@^15.6.0, prop-types@^15.6.1, prop-types@^15.7.2, prop-types@^15.8.0:
   version "15.8.1"
   resolved "https://registry.yarnpkg.com/prop-types/-/prop-types-15.8.1.tgz#67d87bf1a694f48435cf332c24af10214a3140b5"
   integrity sha512-oj87CgZICdulUohogVAR7AjlC0327U4el4L6eAvOqCeudMDVU0NThNaV+b9Df4dXgSP1gXMTnPdhfe/2qDH5cg==
@@ -14943,6 +14943,13 @@ react-fast-compare@^3.0.1, react-fast-compare@^3.2.0:
   version "3.2.0"
   resolved "https://registry.yarnpkg.com/react-fast-compare/-/react-fast-compare-3.2.0.tgz#641a9da81b6a6320f270e89724fb45a0b39e43bb"
   integrity sha512-rtGImPZ0YyLrscKI9xTpV8psd6I8VAtjKCzQDlzyDvqJA8XOW78TXYQwNRNd8g8JZnDu8q9Fu/1v4HPAVwVdHA==
+
+react-grid-system@^8.1.4:
+  version "8.1.4"
+  resolved "https://registry.yarnpkg.com/react-grid-system/-/react-grid-system-8.1.4.tgz#089605170a8b9c95a8e89bb04663ea8568f532da"
+  integrity sha512-OQOIEovH48Q+5Mw1F/xAf0ZSk78TnMwOlu4u/VczK+Gp3K8pJj3NeyBSu63d3152h/zSGiaYaVjFyBla9xIweg==
+  dependencies:
+    prop-types "^15.8.0"
 
 react-helmet-async@^1.0.7:
   version "1.2.2"

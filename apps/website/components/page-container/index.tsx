@@ -11,15 +11,15 @@ const defaultProps = {
 	css: undefined,
 }
 
-export const Container: React.FC<IProps> = ({ children, css }) => (
+export const PageContainer: React.FC<IProps> = ({ children, css }) => (
 	<Box
 		css={{
 			position: 'relative',
-			maxWidth: '1288px',
+			maxWidth: '1294px',
 			width: '100%',
-			px: '25px',
+			px: '15px',
 			mx: 'auto',
-			'@xs': { border: '0px solid white', px: '10px' },
+			'@xs': { border: '0px solid white' },
 			'@sm': { border: '0px solid green', px: '20px' },
 			'@md': { border: '0px solid yellow' },
 			'@lg': { border: '0px solid blue' },
@@ -31,4 +31,4 @@ export const Container: React.FC<IProps> = ({ children, css }) => (
 	</Box>
 )
 
-Container.defaultProps = defaultProps
+PageContainer.defaultProps = defaultProps
