@@ -1,7 +1,7 @@
 import { config } from 'config'
 
 export default {
-	titleTemplate: 'z3us - %s',
+	titleTemplate: 'Z3US - %s',
 	openGraph: {
 		type: 'website',
 		locale: 'en_IE',
