@@ -5,6 +5,7 @@ import { SSRProvider } from '@react-aria/ssr'
 import { globalCss, globalStyles, darkTheme } from 'ui/src/theme'
 import { DefaultSeo } from 'next-seo'
 import SEO from '../next-seo.config'
+import './global.scss'
 
 const siteGlobalStyles = globalCss({
 	body: {

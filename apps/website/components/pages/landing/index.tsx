@@ -3,9 +3,9 @@ import Link from 'next/link'
 import { NextSeo } from 'next-seo'
 import { Container, Row, Col } from 'react-grid-system'
 import { Box, Text, Flex, StyledLink } from 'ui/src/components/atoms'
-import Button from 'ui/src/components/button'
 import { Header } from 'components/header'
 import { PageContainer } from 'components/page-container'
+import { FlashCtaButton } from 'components/flash-cta-button'
 import { config } from 'config'
 import { BrowserIconLinks } from './browser-icon-links'
 
@@ -113,27 +113,7 @@ export const LandingPage: React.FC = () => (
 										the Z3US browser wallet.
 									</Text>
 									<Flex css={{ mt: '$6', justifyContent: 'center', '@md': { justifyContent: 'flex-start' } }}>
-										<Button
-											target="_blank"
-											href="https://t.me/z3us_dapps/4"
-											as="a"
-											size="6"
-											color="secondary"
-											rounded
-											css={{
-												width: '180px',
-												color: '$black',
-												backgroundColor: '#FFFFFF',
-												fontFamily: '$HaasGrotTextRound',
-												fontSize: '18px',
-												lineHeight: '24px',
-												'&:hover': {
-													backgroundColor: '#eee',
-												},
-											}}
-										>
-											Install BETA
-										</Button>
+										<FlashCtaButton />
 									</Flex>
 									<Flex
 										justify="center"
