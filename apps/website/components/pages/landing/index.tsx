@@ -7,6 +7,7 @@ import Button from 'ui/src/components/button'
 import { Header } from 'components/header'
 import { Container } from 'components/container'
 import { config } from 'config'
+import { BrowserIconLinks } from './browser-icon-links'
 
 export const LandingPage: React.FC = () => (
 	<>
@@ -48,7 +49,6 @@ export const LandingPage: React.FC = () => (
 							gap: '12px',
 							color: '$white',
 							overflow: 'hidden',
-
 							'&:before': {
 								content: '',
 								position: 'absolute',
@@ -64,7 +64,6 @@ export const LandingPage: React.FC = () => (
 								opacity: '0.7',
 								minHeight: '100%',
 							},
-
 							'@md': {
 								flexDirection: 'row',
 								'&:before': {
@@ -91,17 +90,23 @@ export const LandingPage: React.FC = () => (
 								<Text
 									bold
 									size="14"
-									//css={{
-									//backgroundColor: 'yellow',
-									//'@xs': { backgroundColor: 'brown' },
-									//'@sm': { backgroundColor: 'green' },
-									//'@md': { backgroundColor: 'purple' },
-									//'@lg': { backgroundColor: 'red' },
-									//}}
+									css={{
+										fontFamily: '$HaasGrotDisplayRound',
+										fontSize: '60px',
+										lineHeight: '64px',
+									}}
 								>
-									Control your future. Finance at your fingertips.
+									Control your future. DeFi at your fingertips.
 								</Text>
-								<Text size="7" css={{ pt: '20px', lineHeight: '30px' }}>
+								<Text
+									size="7"
+									css={{
+										pt: '20px',
+										fontFamily: '$HaasGrotTextRound',
+										fontSize: '20px',
+										lineHeight: '30px',
+									}}
+								>
 									Manage accounts, send and receive tokens, stake tokens to receive rewards and connect to DApps from
 									the Z3US browser wallet.
 								</Text>
@@ -114,16 +119,25 @@ export const LandingPage: React.FC = () => (
 										color="secondary"
 										rounded
 										css={{
-											width: '200px',
+											width: '180px',
 											color: '$black',
 											backgroundColor: '#FFFFFF',
+											fontFamily: '$HaasGrotTextRound',
+											fontSize: '18px',
+											lineHeight: '24px',
 											'&:hover': {
 												backgroundColor: '#eee',
 											},
 										}}
 									>
-										Get BETA access
+										Install BETA
 									</Button>
+								</Flex>
+								<Flex align="center" direction="column" css={{ mt: '$5', width: '100%', maxWidth: '180px' }}>
+									<Text css={{ pb: '15px', fontFamily: '$HaasGrotTextRound', fontSize: '13px', lineHeight: '14px' }}>
+										Available in:
+									</Text>
+									<BrowserIconLinks />
 								</Flex>
 							</Box>
 						</Box>
@@ -156,7 +170,17 @@ export const LandingPage: React.FC = () => (
 					<Grid xs={6}>
 						<Flex align="center" css={{ width: '100%' }}>
 							<Box css={{ px: '24px' }}>
-								<Text color="help">&copy; {new Date().getFullYear()} Z3US</Text>
+								<Text
+									as="p"
+									color="help"
+									css={{
+										fontFamily: '$HaasGrotTextRound',
+										fontSize: '13px',
+										lineHeight: '14px',
+									}}
+								>
+									&copy; {new Date().getFullYear()} Z3US
+								</Text>
 							</Box>
 						</Flex>
 					</Grid>
@@ -165,13 +189,31 @@ export const LandingPage: React.FC = () => (
 							<Flex justify="end" gap="3" css={{ flex: '1', px: '24px', color: '$txtHelp' }}>
 								<Link href="/privacy" passHref>
 									<StyledLink underlineOnHover>
-										<Text>Privacy</Text>
+										<Text
+											as="p"
+											css={{
+												fontFamily: '$HaasGrotTextRound',
+												fontSize: '13px',
+												lineHeight: '14px',
+											}}
+										>
+											Privacy
+										</Text>
 									</StyledLink>
 								</Link>
 
 								<Link href="/terms" passHref>
 									<StyledLink underlineOnHover>
-										<Text>Terms</Text>
+										<Text
+											as="p"
+											css={{
+												fontFamily: '$HaasGrotTextRound',
+												fontSize: '13px',
+												lineHeight: '14px',
+											}}
+										>
+											Terms
+										</Text>
 									</StyledLink>
 								</Link>
 							</Flex>
