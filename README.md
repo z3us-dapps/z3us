@@ -1,6 +1,6 @@
 # ⚡ z3us ⚡ 
 
-This [Turborepo](https://turborepo.org/) monorepo is home to the z3us browser extension wallet for the [Radix](https://www.radixdlt.com/) DLT network.
+This [Turborepo](https://turborepo.org/) monorepo is home to the Z3US browser extension wallet for the [Radix](https://www.radixdlt.com/) DLT network.
 
 ## Quick Start
 

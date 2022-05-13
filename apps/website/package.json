@@ -22,7 +22,6 @@
 		"@next/mdx": "^11.0.1",
 		"@radix-ui/react-icons": "^1.1.0",
 		"@radixdlt/application": "^4.0.16",
-		"@react-aria/ssr": "^3.1.2",
 		"@sindresorhus/slugify": "^2.1.0",
 		"assert": "^2.0.0",
 		"bignumber.js": "^9.0.2",
