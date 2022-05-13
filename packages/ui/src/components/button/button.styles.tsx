@@ -65,7 +65,7 @@ export const StyledButton = styled(
 		whiteSpace: 'nowrap',
 		transition: '$default',
 		position: 'relative',
-		overflow: 'clip',
+		overflow: 'hidden',
 		textDecoration: 'none',
 		border: 'none',
 		cursor: 'pointer',

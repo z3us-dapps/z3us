@@ -6,7 +6,7 @@ export default {
 		type: 'website',
 		locale: 'en_IE',
 		url: config.Z3US_URL,
-		site_name: 'z3us web 3 wallet',
+		site_name: 'Z3US - An open source UX driven wallet for Radix DLT',
 	},
 	twitter: {
 		handle: `@${config.TWITTER_HANDLE}`,

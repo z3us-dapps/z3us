@@ -6,8 +6,8 @@ export const config = {
 	TELEGRAM_URL: 'https://t.me/z3us_dapps',
 	TWITTER_URL: 'https://twitter.com/z3us_dapps',
 	TWITTER_HANDLE: 'z3us_dapps',
-	CHROME_STORE_URL: 'https://chrome.google.com/webstore/category/extensions',
-	FIREFOX_STORE_URL: 'https://addons.mozilla.org/en-US/firefox/',
+	CHROME_STORE_URL: 'https://chrome.google.com/webstore/detail/z3us/icpikagpkkbldbfjlbefnmmmcohbjije',
+	FIREFOX_STORE_URL: 'https://addons.mozilla.org/addon/z3us/',
 }
 
 export const bp = {

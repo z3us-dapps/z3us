@@ -27,7 +27,7 @@ export const BrowserIconLinks = (): JSX.Element => (
 			</Button>
 		</ToolTip>
 		<ToolTip message="Firefox" bgColor="$bgPanel2">
-			<Button target="_blank" href={config.CHROME_STORE_URL} as="a" size="5" color="ghost" iconOnly>
+			<Button target="_blank" href={config.FIREFOX_STORE_URL} as="a" size="5" color="ghost" iconOnly>
 				<FireFoxIcon />
 			</Button>
 		</ToolTip>
