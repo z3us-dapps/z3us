@@ -1,7 +1,6 @@
 /* eslint-disable react/jsx-props-no-spreading */
 import React from 'react'
 import { ThemeProvider } from 'next-themes'
-import { SSRProvider } from '@react-aria/ssr'
 import { globalCss, globalStyles, darkTheme } from 'ui/src/theme'
 import { DefaultSeo } from 'next-seo'
 import SEO from '../next-seo.config'
@@ -37,7 +36,7 @@ const Z3us = ({ Component, pageProps }) => {
 	siteGlobalStyles()
 
 	return (
-		<SSRProvider>
+		<>
 			<DefaultSeo {...SEO} />
 			<ThemeProvider
 				attribute="class"
@@ -49,7 +48,7 @@ const Z3us = ({ Component, pageProps }) => {
 			>
 				<Component {...pageProps} />
 			</ThemeProvider>
-		</SSRProvider>
+		</>
 	)
 }
 
