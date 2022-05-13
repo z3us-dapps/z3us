@@ -1,3 +1,19 @@
+:root {
+	--fg: #000;
+	--bg: #fff;
+}
+
+.dark-theme {
+	--fg: #fff;
+	--bg: #161718;
+}
+
+html,
+body {
+	padding: 0;
+	margin: 0;
+}
+
 .landing-cta-btn {
 	-webkit-tap-highlight-color: transparent;
 	cursor: pointer;
