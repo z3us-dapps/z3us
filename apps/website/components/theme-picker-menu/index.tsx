@@ -45,14 +45,7 @@ export const ThemePickerMenu: React.FC = () => {
 					</ToolTip>
 				</Box>
 			</DropdownMenuTrigger>
-			<DropdownMenuContent
-				avoidCollisions={false}
-				align="end"
-				side="bottom"
-				sideOffset={6}
-				alignOffset={-5}
-				css={{ minWidth: '120px' }}
-			>
+			<DropdownMenuContent align="end" side="bottom" sideOffset={10} alignOffset={-5} css={{ minWidth: '100px' }}>
 				<DropdownMenu>
 					<DropdownMenuRadioGroup
 						value={theme}

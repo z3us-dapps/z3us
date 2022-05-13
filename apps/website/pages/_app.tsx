@@ -10,6 +10,7 @@ const siteGlobalStyles = globalCss({
 	body: {
 		minHeight: '100vh',
 		backgroundColor: '$bgPanel',
+		position: 'relative',
 		'&:before': {
 			content: '',
 			position: 'absolute',

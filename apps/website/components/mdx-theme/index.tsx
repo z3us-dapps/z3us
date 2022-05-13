@@ -41,7 +41,7 @@ const components = {
 				fontFamily: '$HaasGrotTextRound',
 				fontSize: '15px',
 				lineHeight: '22px',
-				'@md': { fontSize: '16px', lineHeight: '26px' },
+				'@sm': { fontSize: '16px', lineHeight: '26px' },
 			}}
 			{...props}
 		/>

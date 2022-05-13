@@ -44,7 +44,7 @@ export const Header: React.FC<IProps> = ({ isLandingPage }) => {
 				top: '0',
 				zIndex: '1',
 				transition: '$default',
-				minHeight: '72px',
+				py: !isLandingPage && state.isScrolled ? '10px' : '20px',
 				'&:after': {
 					content: '',
 					background: !isLandingPage && state.isScrolled ? '$bgPanelHeaderTransparent' : 'transparent',
@@ -64,32 +64,28 @@ export const Header: React.FC<IProps> = ({ isLandingPage }) => {
 					<Row>
 						<Col>
 							<Flex
-								align="center"
 								css={{
 									width: '100%',
-									pb: '6px',
 									'@md': {
 										px: '24px',
 									},
 								}}
 							>
-								<Box css={{ pt: '27px', width: '100%' }}>
-									<Link href="/" passHref>
-										<StyledLink css={{ display: 'inline-flex' }}>
-											<Z3usText
-												css={{
-													width: '110px',
-													height: 'auto',
-													color: '#7448fe',
-													transition: '$default',
-													'&:hover': {
-														color: '#ff9400',
-													},
-												}}
-											/>
-										</StyledLink>
-									</Link>
-								</Box>
+								<Link href="/" passHref>
+									<StyledLink css={{ display: 'inline-flex', mt: '8px' }}>
+										<Z3usText
+											css={{
+												width: '110px',
+												height: 'auto',
+												color: '#7448fe',
+												transition: '$default',
+												'&:hover': {
+													color: '#ff9400',
+												},
+											}}
+										/>
+									</StyledLink>
+								</Link>
 							</Flex>
 						</Col>
 						<Col>
@@ -97,7 +93,6 @@ export const Header: React.FC<IProps> = ({ isLandingPage }) => {
 								<Flex
 									css={{
 										width: '100%',
-										pt: '20px',
 										'@md': {
 											px: '24px',
 										},

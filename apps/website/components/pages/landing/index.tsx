@@ -81,19 +81,21 @@ export const LandingPage: React.FC = () => (
 									width: '100%',
 									flexBasis: '100%',
 									position: 'relative',
-									pt: '20px',
+									pt: '10px',
 									pb: '50px',
 									px: '20px',
 									'@xs': { px: '5%' },
-									'@md': { width: '50%', flexBasis: '50%', pt: '150px', pb: '150px', pl: '40px' },
+									'@sm': { px: '15%' },
+									'@md': { width: '50%', flexBasis: '50%', pt: '150px', pb: '150px', pl: '40px', pr: '0px ' },
 									'@lg': { pl: '100px' },
 								}}
 							>
 								<Box>
 									<Text
 										bold
-										size="14"
 										css={{
+											fontSize: '40px',
+											lineHeight: '44px',
 											fontFamily: '$HaasGrotDisplayRound',
 											'@xs': { fontSize: '40px', lineHeight: '48px' },
 											'@md': { fontSize: '60px', lineHeight: '64px' },
@@ -106,8 +108,9 @@ export const LandingPage: React.FC = () => (
 										css={{
 											pt: '20px',
 											fontFamily: '$HaasGrotTextRound',
-											fontSize: '20px',
-											lineHeight: '30px',
+											fontSize: '18px',
+											lineHeight: '22px',
+											'@md': { fontSize: '20px', lineHeight: '30px' },
 										}}
 									>
 										Manage accounts, send and receive tokens, stake tokens to receive rewards and connect to DApps from
@@ -154,7 +157,7 @@ export const LandingPage: React.FC = () => (
 				<Row>
 					<Col>
 						<Flex align="center" css={{ width: '100%', pt: '30px' }}>
-							<Box css={{ px: '24px' }}>
+							<Box css={{ px: '0px', '@md': { px: '24px' } }}>
 								<Text
 									as="p"
 									color="help"
@@ -174,7 +177,13 @@ export const LandingPage: React.FC = () => (
 							<Flex
 								align="center"
 								justify="end"
-								css={{ flex: '1', px: '24px', color: '$txtHelp', pt: '21px', pb: '20px' }}
+								css={{
+									flex: '1',
+									color: '$txtHelp',
+									pt: '21px',
+									pb: '20px',
+									'@md': { px: '24px' },
+								}}
 							>
 								<Link href="/privacy" passHref>
 									<StyledLink underlineOnHover>

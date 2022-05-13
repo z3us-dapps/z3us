@@ -12,6 +12,7 @@ export const BrowserIconLinks = (): JSX.Element => (
 	<Flex
 		align="center"
 		css={{
+			gap: '10px',
 			'@xs': { gap: '20px', svg: { width: '40px', height: '40px' } },
 			'@md': { gap: '12px', svg: { width: '30px', height: '30px' } },
 		}}

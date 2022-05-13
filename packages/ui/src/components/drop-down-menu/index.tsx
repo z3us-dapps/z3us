@@ -48,7 +48,16 @@ const StyledContent = styled(DropdownMenuPrimitive.Content, {
 		height: '9px',
 		pointerEvents: 'none',
 	},
-
+	'&[data-side="top"]': {
+		'&::before': {
+			top: 'unset',
+			bottom: '-7px',
+		},
+		'&::after': {
+			top: 'unset',
+			bottom: '-1px',
+		},
+	},
 	'&[data-align="end"]': {
 		'&::before': {
 			left: 'unset',
