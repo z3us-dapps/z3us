@@ -171,7 +171,11 @@ export const LandingPage: React.FC = () => (
 					</Col>
 					<Col>
 						<Box css={{ width: '100%' }}>
-							<Flex align="center" justify="end" css={{ flex: '1', px: '24px', color: '$txtHelp', pt: '21px' }}>
+							<Flex
+								align="center"
+								justify="end"
+								css={{ flex: '1', px: '24px', color: '$txtHelp', pt: '21px', pb: '20px' }}
+							>
 								<Link href="/privacy" passHref>
 									<StyledLink underlineOnHover>
 										<Text
