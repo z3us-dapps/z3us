@@ -199,7 +199,7 @@ export const useTransactionHistory = (size = 30) => {
 	const service = new RadixService(network.url)
 
 	return useInfiniteQuery(
-		['useTransactionHistory', address],
+		['useTransactionHistory', address, size],
 		async ({ pageParam }) => {
 			const { cursor, transactions } = await service.transactionHistory(address, size, pageParam)
 			return {
@@ -215,6 +215,20 @@ export const useTransactionHistory = (size = 30) => {
 			enabled: !!address,
 		},
 	)
+}
+
+export const useLastFiveTransactions = () => {
+	const { address, network } = useStore(state => ({
+		address: state.getCurrentAddressAction(),
+		network: state.networks[state.selectedNetworkIndex],
+	}))
+	const service = new RadixService(network.url)
+
+	return useQuery(['useLastFiveTransactions', address], async () => service.transactionHistory(address, 5), {
+		staleTime: 15 * 1000,
+		refetchInterval: 15 * 1000,
+		enabled: !!address,
+	})
 }
 
 export const useDecryptTransaction = (tx: Transaction, activity?: Action) => {
