@@ -4,6 +4,7 @@ import { NextSeo } from 'next-seo'
 import { Container, Row, Col } from 'react-grid-system'
 import { Box, Text, Flex, StyledLink } from 'ui/src/components/atoms'
 import { Header } from 'components/header'
+import { ThemePickerMenu } from 'components/theme-picker-menu'
 import { PageContainer } from 'components/page-container'
 import { FlashCtaButton } from 'components/flash-cta-button'
 import { config } from 'config'
@@ -170,7 +171,7 @@ export const LandingPage: React.FC = () => (
 					</Col>
 					<Col>
 						<Box css={{ width: '100%' }}>
-							<Flex justify="end" gap="3" css={{ flex: '1', px: '24px', color: '$txtHelp', pt: '30px' }}>
+							<Flex align="center" justify="end" css={{ flex: '1', px: '24px', color: '$txtHelp', pt: '21px' }}>
 								<Link href="/privacy" passHref>
 									<StyledLink underlineOnHover>
 										<Text
@@ -185,9 +186,8 @@ export const LandingPage: React.FC = () => (
 										</Text>
 									</StyledLink>
 								</Link>
-
 								<Link href="/terms" passHref>
-									<StyledLink underlineOnHover>
+									<StyledLink underlineOnHover css={{ ml: '12px', mr: '4px' }}>
 										<Text
 											as="p"
 											css={{
@@ -200,6 +200,7 @@ export const LandingPage: React.FC = () => (
 										</Text>
 									</StyledLink>
 								</Link>
+								<ThemePickerMenu />
 							</Flex>
 						</Box>
 					</Col>

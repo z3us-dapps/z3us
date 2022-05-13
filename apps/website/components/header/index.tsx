@@ -2,22 +2,12 @@ import React from 'react'
 import { useImmer } from 'use-immer'
 import { Box, Flex, StyledLink } from 'ui/src/components/atoms'
 import { useEventListener } from 'usehooks-ts'
-import { LightningBoltIcon } from '@radix-ui/react-icons'
-import {
-	DropdownMenu,
-	DropdownMenuTrigger,
-	DropdownMenuContent,
-	DropdownMenuItemIndicator,
-	DropdownMenuRadioGroup,
-	DropdownMenuRadioItem,
-} from 'ui/src/components/drop-down-menu'
 import { PageContainer } from 'components/page-container'
 import { Container, Row, Col } from 'react-grid-system'
 import Button from 'ui/src/components/button'
 import { TelegramIcon, TwitterIcon, GithubIcon } from 'ui/src/components/icons'
 import { ToolTip } from 'ui/src/components/tool-tip'
 import Link from 'next/link'
-import { useTheme } from 'next-themes'
 import { Z3usText } from 'ui/src/components/z3us-text'
 import { config } from 'config'
 
@@ -34,7 +24,6 @@ export const Header: React.FC<IProps> = ({ isLandingPage }) => {
 		isScrolled: false,
 		isThemeMenuOpen: false,
 	})
-	const { theme, setTheme } = useTheme()
 
 	useEventListener('scroll', () => {
 		if (window.scrollY > 0) {
@@ -143,60 +132,6 @@ export const Header: React.FC<IProps> = ({ isLandingPage }) => {
 												<TelegramIcon />
 											</Button>
 										</ToolTip>
-										<DropdownMenu
-											onOpenChange={open => {
-												setState(draft => {
-													draft.isThemeMenuOpen = open
-												})
-											}}
-										>
-											<DropdownMenuTrigger asChild>
-												<Box>
-													<ToolTip message="Theme" bgColor="$bgPanel2">
-														<Button size="3" color="ghost" iconOnly>
-															<Box
-																css={{
-																	color: state.isThemeMenuOpen ? '#5d1eaf' : 'defaultColor',
-																	fill: state.isThemeMenuOpen ? '#5d1eaf' : 'defaultColor',
-																}}
-															>
-																<LightningBoltIcon />
-															</Box>
-														</Button>
-													</ToolTip>
-												</Box>
-											</DropdownMenuTrigger>
-											<DropdownMenuContent
-												avoidCollisions={false}
-												align="end"
-												side="bottom"
-												sideOffset={6}
-												alignOffset={-5}
-												css={{ minWidth: '120px' }}
-											>
-												<DropdownMenu>
-													<DropdownMenuRadioGroup
-														value={theme}
-														onValueChange={_theme => {
-															setTheme(_theme)
-														}}
-													>
-														<DropdownMenuRadioItem value="light">
-															<DropdownMenuItemIndicator />
-															Light
-														</DropdownMenuRadioItem>
-														<DropdownMenuRadioItem value="dark">
-															<DropdownMenuItemIndicator />
-															Dark
-														</DropdownMenuRadioItem>
-														<DropdownMenuRadioItem value="system">
-															<DropdownMenuItemIndicator />
-															System
-														</DropdownMenuRadioItem>
-													</DropdownMenuRadioGroup>
-												</DropdownMenu>
-											</DropdownMenuContent>
-										</DropdownMenu>
 									</Flex>
 								</Flex>
 							</Box>

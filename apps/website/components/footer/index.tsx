@@ -1,6 +1,8 @@
 import React from 'react'
 import { Text, Box, Flex, StyledLink } from 'ui/src/components/atoms'
 import Link from 'next/link'
+import { ThemePickerMenu } from 'components/theme-picker-menu'
+
 import { Container, Row, Col } from 'react-grid-system'
 import { PageContainer } from 'components/page-container'
 import { Z3usLogoText } from 'ui/src/components/z3us-logo-text'
@@ -15,13 +17,13 @@ export const Footer: React.FC = () => (
 							<Box>
 								<Link href="/">
 									<a>
-										<Z3usLogoText css={{ color: '$txtMuted' }} />
+										<Z3usLogoText css={{ color: '$txtHelp' }} />
 									</a>
 								</Link>
 								<Box css={{ mt: '$2', display: 'block' }}>
 									<Text
 										as="p"
-										color="muted"
+										color="help"
 										css={{
 											fontFamily: '$HaasGrotTextRound',
 											fontSize: '13px',
@@ -38,8 +40,7 @@ export const Footer: React.FC = () => (
 						<Flex
 							align="center"
 							justify="end"
-							gap="3"
-							css={{ flex: '1', color: '$txtMuted', py: '30px', '@xs': { px: '24px' }, '@md': { px: '0' } }}
+							css={{ flex: '1', color: '$txtHelp', py: '30px', '@xs': { px: '24px' }, '@md': { px: '0' } }}
 						>
 							<Link href="/privacy" passHref>
 								<StyledLink underlineOnHover>
@@ -56,7 +57,7 @@ export const Footer: React.FC = () => (
 								</StyledLink>
 							</Link>
 							<Link href="/terms" passHref>
-								<StyledLink underlineOnHover>
+								<StyledLink underlineOnHover css={{ ml: '12px', mr: '4px' }}>
 									<Text
 										as="p"
 										css={{
@@ -69,6 +70,7 @@ export const Footer: React.FC = () => (
 									</Text>
 								</StyledLink>
 							</Link>
+							<ThemePickerMenu />
 						</Flex>
 					</Col>
 				</Row>

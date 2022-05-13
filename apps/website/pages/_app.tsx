@@ -10,12 +10,23 @@ import './global.scss'
 const siteGlobalStyles = globalCss({
 	body: {
 		minHeight: '100vh',
+		backgroundColor: '$bgPanel',
+		'&:before': {
+			content: '',
+			position: 'absolute',
+			top: '0',
+			left: '0',
+			right: '0',
+			bottom: '0',
+			backgroundImage: 'url(/images/greek-repeat.jpeg)',
+			backgroundRepeat: 'repeat',
+			'mask-image': 'radial-gradient(circle at 50% 30%, transparent 50%, black)',
+			opacity: '0.15',
+			pe: 'none',
+		},
 		'> div': {
+			position: 'relative',
 			minHeight: '100vh',
-			//backgroundImage: 'url(/images/greek-repeat.jpeg)',
-			//backgroundRepeat: 'repeat',
-			//opacity: '0.03',
-			//'mask-image': 'radial-gradient(circle at 50% 30%, transparent 50%, black)',
 		},
 	},
 })

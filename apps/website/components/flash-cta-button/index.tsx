@@ -3,8 +3,9 @@ import { Box } from 'ui/src/components/atoms'
 import Button from 'ui/src/components/button'
 import { config } from 'config'
 
+// @TODO: move to utils
 const fnBrowserDetect = () => {
-	let userAgent = navigator?.userAgent
+	const userAgent = navigator?.userAgent
 	let browserName: string
 
 	if (userAgent.match(/chrome|chromium|crios/i)) {
