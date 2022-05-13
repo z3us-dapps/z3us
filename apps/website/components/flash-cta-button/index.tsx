@@ -1,7 +1,27 @@
-import React, { useRef, useEffect } from 'react'
+import React, { useRef, useEffect, useState } from 'react'
 import { Box } from 'ui/src/components/atoms'
 import Button from 'ui/src/components/button'
 import { config } from 'config'
+
+const fnBrowserDetect = () => {
+	let userAgent = navigator?.userAgent
+	let browserName: string
+
+	if (userAgent.match(/chrome|chromium|crios/i)) {
+		browserName = 'chrome'
+	} else if (userAgent.match(/firefox|fxios/i)) {
+		browserName = 'firefox'
+	} else if (userAgent.match(/safari/i)) {
+		browserName = 'safari'
+	} else if (userAgent.match(/opr\//i)) {
+		browserName = 'opera'
+	} else if (userAgent.match(/edg/i)) {
+		browserName = 'edge'
+	} else {
+		browserName = 'No browser detection'
+	}
+	return browserName
+}
 
 const createSVG = (width: number, height: number, radius: number) => {
 	const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg')
@@ -23,8 +43,14 @@ const createSVG = (width: number, height: number, radius: number) => {
 
 export const FlashCtaButton = (): JSX.Element => {
 	const buttonRef = useRef(null)
+	const [ctaLink, setCtaLink] = useState(config.CHROME_STORE_URL)
 
 	useEffect(() => {
+		const browserName = fnBrowserDetect()
+		if (browserName === 'firefox') {
+			setCtaLink(config.FIREFOX_STORE_URL)
+		}
+
 		const button = document.getElementsByClassName('landing-cta-btn')?.[0]
 		if (button) {
 			const borderRadius = 25
@@ -56,7 +82,7 @@ export const FlashCtaButton = (): JSX.Element => {
 		<Box ref={buttonRef} className="landing-cta-btn">
 			<Button
 				target="_blank"
-				href={config.TELEGRAM_URL}
+				href={ctaLink}
 				as="a"
 				size="6"
 				color="secondary"
