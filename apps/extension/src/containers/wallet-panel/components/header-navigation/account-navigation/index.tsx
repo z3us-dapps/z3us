@@ -10,8 +10,6 @@ import ButtonTipFeedback from 'ui/src/components/button-tip-feedback'
 import { Box, Flex, Text } from 'ui/src/components/atoms'
 import { ACCOUNTS } from '@src/config'
 
-const accountUrl = `/wallet/account`
-
 export const AccountNaviation: React.FC = () => {
 	const { activeApp, accountAddress, addressBook, addresses, expanded, activeSlideIndex, setActiveSlide } = useStore(
 		state => ({
@@ -34,7 +32,7 @@ export const AccountNaviation: React.FC = () => {
 
 	const handleBreadCrumbClick = async (idx: number) => {
 		await setActiveSlide(idx)
-		setLocation(accountUrl)
+		setLocation('/wallet/account')
 	}
 
 	const handleCopyAddress = () => {
