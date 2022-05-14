@@ -1,5 +1,6 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useImmer } from 'use-immer'
+import { darkTheme } from 'ui/src/theme'
 import { Box } from 'ui/src/components/atoms'
 import { LightningBoltIcon } from '@radix-ui/react-icons'
 import {
@@ -19,7 +20,16 @@ export const ThemePickerMenu: React.FC = () => {
 		isScrolled: false,
 		isThemeMenuOpen: false,
 	})
-	const { theme, setTheme } = useTheme()
+	const { resolvedTheme, theme, setTheme } = useTheme()
+
+	useEffect(() => {
+		const root = document.documentElement
+		if (resolvedTheme === 'dark') {
+			root.classList.add(darkTheme)
+		} else {
+			root.classList.remove(darkTheme)
+		}
+	}, [resolvedTheme])
 
 	return (
 		<DropdownMenu

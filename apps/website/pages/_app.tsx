@@ -1,7 +1,7 @@
 /* eslint-disable react/jsx-props-no-spreading */
 import React from 'react'
 import { ThemeProvider } from 'next-themes'
-import { globalCss, globalStyles, darkTheme } from 'ui/src/theme'
+import { globalCss, globalStyles } from 'ui/src/theme'
 import { DefaultSeo } from 'next-seo'
 import SEO from '../next-seo.config'
 import './global.scss'
@@ -39,14 +39,7 @@ const Z3us = ({ Component, pageProps }) => {
 	return (
 		<>
 			<DefaultSeo {...SEO} />
-			<ThemeProvider
-				attribute="class"
-				defaultTheme="system"
-				value={{
-					light: 'light-theme',
-					dark: darkTheme,
-				}}
-			>
+			<ThemeProvider forcedTheme={Component.theme || undefined} defaultTheme="system">
 				<Component {...pageProps} />
 			</ThemeProvider>
 		</>
