@@ -98,10 +98,22 @@ export const LandingPage: React.FC = () => (
 											lineHeight: '44px',
 											fontFamily: '$HaasGrotDisplayRound',
 											'@xs': { fontSize: '40px', lineHeight: '48px' },
+											'@md': { fontSize: '60px', lineHeight: '64px', whiteSpace: 'nowrap' },
+										}}
+									>
+										Control your future.
+									</Text>
+									<Text
+										bold
+										css={{
+											fontSize: '40px',
+											lineHeight: '44px',
+											fontFamily: '$HaasGrotDisplayRound',
+											'@xs': { fontSize: '40px', lineHeight: '48px' },
 											'@md': { fontSize: '60px', lineHeight: '64px' },
 										}}
 									>
-										Control your future. DeFi at your fingertips.
+										DeFi at your fingertips.
 									</Text>
 									<Text
 										size="7"
@@ -142,7 +154,6 @@ export const LandingPage: React.FC = () => (
 									position: 'relative',
 									pt: '20px',
 									pb: '0px',
-									px: '20px',
 									img: {
 										maxWidth: '100%',
 									},
