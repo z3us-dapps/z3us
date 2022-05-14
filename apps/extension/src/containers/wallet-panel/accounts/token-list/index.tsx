@@ -2,11 +2,11 @@
 import React, { useState } from 'react'
 import { useStore } from '@src/store'
 import { useAllAccountsTokenBalances, useTokenBalances } from '@src/services/react-query/queries/radix'
-import { TokenLoadingRow } from '@src/components/token-loading-row'
+import { TokenLoadingRows } from '@src/components/token-loading-row'
 import { Virtuoso } from 'react-virtuoso'
 import { ScrollArea } from '@src/components/scroll-area'
 import { SLIDE_PANEL_HEIGHT, SLIDE_PANEL_EXPAND_HEIGHT, SLIDE_PANEL_HEADER_HEIGHT } from '@src/config'
-import { Box, Text, Flex } from 'ui/src/components/atoms'
+import { Box, Text } from 'ui/src/components/atoms'
 import { AccountSwitcher } from '../account-switcher'
 import { SlideUpPanel } from '../slide-up-panel'
 import { TokenRow } from '../token-row'
@@ -84,37 +84,7 @@ const AccountBalances: React.FC = () => {
 		</Box>
 	)
 
-	return isLoading ? (
-		<Flex direction="column" align="center" justify="start" css={{ height: '140px' }}>
-			<Flex
-				css={{
-					height: '68px',
-					width: '100%',
-					background: '$bgPanel',
-					px: '$4',
-				}}
-			>
-				<Flex align="center" justify="center" css={{ width: '100%' }}>
-					<TokenLoadingRow />
-				</Flex>
-			</Flex>
-			<Flex
-				css={{
-					height: '68px',
-					width: '100%',
-					borderTop: '1px solid $borderPanel',
-					background: '$bgPanel',
-					px: '$4',
-				}}
-			>
-				<Flex align="center" justify="center" css={{ width: '100%' }}>
-					<TokenLoadingRow />
-				</Flex>
-			</Flex>
-		</Flex>
-	) : (
-		list
-	)
+	return isLoading ? <TokenLoadingRows /> : list
 }
 
 const Balances: React.FC = () => {
