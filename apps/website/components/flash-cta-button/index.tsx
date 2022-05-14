@@ -91,7 +91,7 @@ export const FlashCtaButton = (): JSX.Element => {
 				css={{
 					width: '180px',
 					color: '$black',
-					backgroundColor: '#dddddd',
+					backgroundColor: '#eeeeee',
 					fontFamily: '$HaasGrotTextRound',
 					fontSize: '18px',
 					lineHeight: '24px',
