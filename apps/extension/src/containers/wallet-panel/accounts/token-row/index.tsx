@@ -6,7 +6,6 @@ import { useLocation } from 'wouter'
 import { Box, Flex, Text } from 'ui/src/components/atoms'
 import Button from 'ui/src/components/button'
 import { ToolTip } from 'ui/src/components/tool-tip'
-import { TokenLoadingRow } from '@src/components/token-loading-row'
 import { InfoCircledIcon } from '@radix-ui/react-icons'
 import { TokenPrice } from './token-price'
 
@@ -97,9 +96,7 @@ export const TokenRow: React.FC<IProps> = ({ i, rri, amount, staked, loading, di
 						</Flex>
 					</>
 				) : (
-					<Box css={{ width: '100%', p: '$3' }}>
-						<TokenLoadingRow />
-					</Box>
+					<Flex align="center" justify="center" css={{ width: '100%' }} />
 				)}
 			</Flex>
 		</Button>

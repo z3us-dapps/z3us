@@ -85,9 +85,32 @@ const AccountBalances: React.FC = () => {
 	)
 
 	return isLoading ? (
-		<Flex direction="column" align="center" justify="start" css={{ height: '140px', px: '$4', pt: '$4' }}>
-			<TokenLoadingRow />
-			<TokenLoadingRow />
+		<Flex direction="column" align="center" justify="start" css={{ height: '140px' }}>
+			<Flex
+				css={{
+					height: '68px',
+					width: '100%',
+					background: '$bgPanel',
+					px: '$4',
+				}}
+			>
+				<Flex align="center" justify="center" css={{ width: '100%' }}>
+					<TokenLoadingRow />
+				</Flex>
+			</Flex>
+			<Flex
+				css={{
+					height: '68px',
+					width: '100%',
+					borderTop: '1px solid $borderPanel',
+					background: '$bgPanel',
+					px: '$4',
+				}}
+			>
+				<Flex align="center" justify="center" css={{ width: '100%' }}>
+					<TokenLoadingRow />
+				</Flex>
+			</Flex>
 		</Flex>
 	) : (
 		list

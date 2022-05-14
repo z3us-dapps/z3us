@@ -52,7 +52,6 @@ export const TokenLoadingRow: React.FC = () => (
 			position: 'relative',
 			br: '$3',
 			height: '48px',
-			mb: '$3',
 			width: '100%',
 			overflow: 'hidden',
 			transition: '$default',
