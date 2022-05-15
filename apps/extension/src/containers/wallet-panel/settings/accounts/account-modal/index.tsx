@@ -2,7 +2,6 @@ import React from 'react'
 import { useImmer } from 'use-immer'
 import { useStore } from '@src/store'
 import { Cross2Icon } from '@radix-ui/react-icons'
-import { CloseIcon } from 'ui/src/components/icons'
 import { AccountAddress } from '@src/components/account-address'
 import Button from 'ui/src/components/button'
 import Input from 'ui/src/components/input'
@@ -73,6 +72,10 @@ export const AccountModal = ({
 
 	const handleCloseModal = () => {
 		setState(draft => {
+			draft[ColorSettings.COLOR_PRIMARY] = entry?.colorSettings[ColorSettings.COLOR_PRIMARY]
+			draft[ColorSettings.COLOR_SECONDARY] = entry?.colorSettings[ColorSettings.COLOR_SECONDARY]
+			draft[ColorSettings.COLOR_TEXT] = entry?.colorSettings[ColorSettings.COLOR_TEXT]
+			draft[ColorSettings.COLOR_BORDER] = entry?.colorSettings[ColorSettings.COLOR_BORDER]
 			draft.isModalOpen = false
 		})
 	}
@@ -109,6 +112,7 @@ export const AccountModal = ({
 			draft[ColorSettings.COLOR_PRIMARY] = presetMap[preset][ColorSettings.COLOR_PRIMARY]
 			draft[ColorSettings.COLOR_SECONDARY] = presetMap[preset][ColorSettings.COLOR_SECONDARY]
 			draft[ColorSettings.COLOR_TEXT] = presetMap[preset][ColorSettings.COLOR_TEXT]
+			draft[ColorSettings.COLOR_BORDER] = presetMap[preset][ColorSettings.COLOR_BORDER]
 		})
 	}
 
@@ -135,11 +139,11 @@ export const AccountModal = ({
 						color="ghost"
 						iconOnly
 						aria-label="close color select modal"
-						size="2"
+						size="1"
 						css={{ position: 'absolute', top: '$1', right: '$1', color: state[ColorSettings.COLOR_TEXT] }}
 						onClick={handleCloseModal}
 					>
-						<CloseIcon />
+						<Cross2Icon />
 					</Button>
 					<Flex
 						align="center"
