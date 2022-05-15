@@ -12,7 +12,7 @@ import { Popover, PopoverArrow, PopoverContent, PopoverTrigger, PopoverClose } f
 import { Box, Text, Flex } from 'ui/src/components/atoms'
 import { ColorSettings } from '@src/types'
 import { Side } from '@radix-ui/popper'
-import { colorMap, generateGradient, presetMap, PRESET_COLOR_LIGHT_ORCHID } from '@src/config'
+import { colorMap, generateGradient, presetMap, PRESET_COLOR_HELIOTROPE_SUNRISE } from '@src/config'
 import { AvatarButton } from '../../../components/avatar-button'
 
 const sharedColorButtonStyle = {
@@ -59,7 +59,7 @@ export const AccountModal = ({
 	const entry = addressBook[address]
 
 	const [state, setState] = useImmer({
-		...presetMap[PRESET_COLOR_LIGHT_ORCHID],
+		...presetMap[PRESET_COLOR_HELIOTROPE_SUNRISE],
 		...entry?.colorSettings,
 		isModalOpen: false,
 	})
@@ -74,6 +74,7 @@ export const AccountModal = ({
 		setState(draft => {
 			draft[ColorSettings.COLOR_PRIMARY] = entry?.colorSettings[ColorSettings.COLOR_PRIMARY]
 			draft[ColorSettings.COLOR_SECONDARY] = entry?.colorSettings[ColorSettings.COLOR_SECONDARY]
+			draft[ColorSettings.COLOR_TERTIARY] = entry?.colorSettings[ColorSettings.COLOR_TERTIARY]
 			draft[ColorSettings.COLOR_TEXT] = entry?.colorSettings[ColorSettings.COLOR_TEXT]
 			draft[ColorSettings.COLOR_BORDER] = entry?.colorSettings[ColorSettings.COLOR_BORDER]
 			draft.isModalOpen = false
@@ -87,6 +88,8 @@ export const AccountModal = ({
 			state[ColorSettings.COLOR_PRIMARY_STOP],
 			state[ColorSettings.COLOR_SECONDARY],
 			state[ColorSettings.COLOR_SECONDARY_STOP],
+			state[ColorSettings.COLOR_TERTIARY],
+			state[ColorSettings.COLOR_TERTIARY_STOP],
 		)
 
 		setAddressBookEntry(address, {
@@ -99,6 +102,8 @@ export const AccountModal = ({
 				[ColorSettings.COLOR_PRIMARY_STOP]: state[ColorSettings.COLOR_PRIMARY_STOP],
 				[ColorSettings.COLOR_SECONDARY]: state[ColorSettings.COLOR_SECONDARY],
 				[ColorSettings.COLOR_SECONDARY_STOP]: state[ColorSettings.COLOR_SECONDARY_STOP],
+				[ColorSettings.COLOR_TERTIARY]: state[ColorSettings.COLOR_TERTIARY],
+				[ColorSettings.COLOR_TERTIARY_STOP]: state[ColorSettings.COLOR_TERTIARY_STOP],
 			},
 		})
 
@@ -111,6 +116,7 @@ export const AccountModal = ({
 		setState(draft => {
 			draft[ColorSettings.COLOR_PRIMARY] = presetMap[preset][ColorSettings.COLOR_PRIMARY]
 			draft[ColorSettings.COLOR_SECONDARY] = presetMap[preset][ColorSettings.COLOR_SECONDARY]
+			draft[ColorSettings.COLOR_TERTIARY] = presetMap[preset][ColorSettings.COLOR_TERTIARY]
 			draft[ColorSettings.COLOR_TEXT] = presetMap[preset][ColorSettings.COLOR_TEXT]
 			draft[ColorSettings.COLOR_BORDER] = presetMap[preset][ColorSettings.COLOR_BORDER]
 		})
@@ -140,7 +146,7 @@ export const AccountModal = ({
 						iconOnly
 						aria-label="close color select modal"
 						size="1"
-						css={{ position: 'absolute', top: '$1', right: '$1', color: state[ColorSettings.COLOR_TEXT] }}
+						css={{ position: 'absolute', top: '$2', right: '$2', color: state[ColorSettings.COLOR_TEXT] }}
 						onClick={handleCloseModal}
 					>
 						<Cross2Icon />
@@ -155,6 +161,8 @@ export const AccountModal = ({
 								state[ColorSettings.COLOR_PRIMARY_STOP],
 								state[ColorSettings.COLOR_SECONDARY],
 								state[ColorSettings.COLOR_SECONDARY_STOP],
+								state[ColorSettings.COLOR_TERTIARY],
+								state[ColorSettings.COLOR_TERTIARY_STOP],
 							),
 							borderRadius: '4px 4px 0px 0px',
 							borderBottom: `2px solid ${state[ColorSettings.COLOR_BORDER]}`,
@@ -250,32 +258,34 @@ export const AccountModal = ({
 								</Flex>
 							</Box>
 						))}
-						<Box css={{ pt: '$3' }}>
-							<Text bold css={{ mb: '$2' }}>
-								Select preset:
-							</Text>
-							<Flex css={{ gap: '$3' }}>
-								{Object.entries(presetMap).map(([key, _color]) => (
-									<Box key={key} css={{ pb: '$3' }}>
-										<Button css={sharedColorButtonStyle} onClick={() => handleSelectPreset(key)}>
-											<Box
-												css={{
-													width: '100%',
-													height: '100%',
-													background: generateGradient(
-														_color[ColorSettings.GRADIENT_TYPE],
-														_color[ColorSettings.COLOR_PRIMARY],
-														_color[ColorSettings.COLOR_PRIMARY_STOP],
-														_color[ColorSettings.COLOR_SECONDARY],
-														_color[ColorSettings.COLOR_SECONDARY_STOP],
-													),
-												}}
-											/>
-										</Button>
-									</Box>
-								))}
-							</Flex>
-						</Box>
+					</Box>
+					<Box css={{ pt: '$2', px: '$5' }}>
+						<Text bold css={{ mb: '$2' }}>
+							Select preset:
+						</Text>
+						<Flex css={{ gap: '$3' }}>
+							{Object.entries(presetMap).map(([key, _color]) => (
+								<Box key={key} css={{ pb: '$3' }}>
+									<Button css={sharedColorButtonStyle} onClick={() => handleSelectPreset(key)}>
+										<Box
+											css={{
+												width: '100%',
+												height: '100%',
+												background: generateGradient(
+													_color[ColorSettings.GRADIENT_TYPE],
+													_color[ColorSettings.COLOR_PRIMARY],
+													_color[ColorSettings.COLOR_PRIMARY_STOP],
+													_color[ColorSettings.COLOR_SECONDARY],
+													_color[ColorSettings.COLOR_SECONDARY_STOP],
+													_color[ColorSettings.COLOR_TERTIARY],
+													_color[ColorSettings.COLOR_TERTIARY_STOP],
+												),
+											}}
+										/>
+									</Button>
+								</Box>
+							))}
+						</Flex>
 					</Box>
 					<Flex justify="end" gap="2" css={{ mt: '$3', p: '$3' }}>
 						<Button size="3" color="primary" aria-label="save" onClick={handleSaveGradient}>

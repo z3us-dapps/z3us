@@ -104,7 +104,7 @@ export const AccountInfo: React.FC<IProps> = ({ address }) => {
 					<Text
 						bold
 						as="h2"
-						displayRound
+						centra
 						css={{
 							fontSize: '32px',
 							lineHeight: '38px',

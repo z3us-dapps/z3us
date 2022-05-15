@@ -10,6 +10,7 @@ export const defaultTokenSettings = {
 	dgc: { image: 'images/token-images/dgc.png', order: 2 },
 }
 
+export const PRESET_COLOR_HELIOTROPE_SUNRISE = 'preset_color_heliotrope_sunrise'
 export const PRESET_COLOR_LIGHT_ORCHID = 'preset_color_light_orchid'
 export const PRESET_COLOR_MINDARO = 'preset_color_mindaro'
 export const PRESET_COLOR_CERISE = 'preset_color_cerise'
@@ -18,15 +19,26 @@ export const PRESET_COLOR_CORNFLOW_BLUE = 'preset_color_cornflower_blue'
 export const PRESET_COLOR_MARTINIQUE = 'preset_color_martinique'
 
 export const presetMap = {
-	[PRESET_COLOR_LIGHT_ORCHID]: {
-		[ColorSettings.COLOR_PRIMARY]: '#eeabe0',
+	[PRESET_COLOR_HELIOTROPE_SUNRISE]: {
+		[ColorSettings.COLOR_PRIMARY]: '#FE845E',
 		[ColorSettings.COLOR_PRIMARY_STOP]: '0',
-		[ColorSettings.COLOR_SECONDARY]: '#f7dbbf',
-		[ColorSettings.COLOR_SECONDARY_STOP]: '100',
-		[ColorSettings.COLOR_TEXT]: '#330867',
-		[ColorSettings.COLOR_BORDER]: '#cedff2',
+		[ColorSettings.COLOR_SECONDARY]: '#E08BAB',
+		[ColorSettings.COLOR_SECONDARY_STOP]: '18',
+		[ColorSettings.COLOR_TERTIARY]: '#946DFF',
+		[ColorSettings.COLOR_TERTIARY_STOP]: '60',
+		[ColorSettings.COLOR_TEXT]: '#0e0324',
+		[ColorSettings.COLOR_BORDER]: '#d9e4f3',
 		[ColorSettings.GRADIENT_TYPE]: 'radial',
 	},
+	//[PRESET_COLOR_LIGHT_ORCHID]: {
+	//[ColorSettings.COLOR_PRIMARY]: '#eeabe0',
+	//[ColorSettings.COLOR_PRIMARY_STOP]: '0',
+	//[ColorSettings.COLOR_SECONDARY]: '#f7dbbf',
+	//[ColorSettings.COLOR_SECONDARY_STOP]: '100',
+	//[ColorSettings.COLOR_TEXT]: '#330867',
+	//[ColorSettings.COLOR_BORDER]: '#cedff2',
+	//[ColorSettings.GRADIENT_TYPE]: 'radial',
+	//},
 	//[PRESET_COLOR_MINDARO]: {
 	//[ColorSettings.COLOR_PRIMARY]: '#d8fb91',
 	//[ColorSettings.COLOR_PRIMARY_STOP]: '0',
@@ -72,8 +84,9 @@ export const presetMap = {
 export const colorMap = {
 	[ColorSettings.COLOR_TEXT]: { title: 'Text color' },
 	[ColorSettings.COLOR_BORDER]: { title: 'Border color' },
-	[ColorSettings.COLOR_PRIMARY]: { title: 'Color 1' },
-	[ColorSettings.COLOR_SECONDARY]: { title: 'Color 2' },
+	[ColorSettings.COLOR_PRIMARY]: { title: 'Gradient color 1' },
+	[ColorSettings.COLOR_SECONDARY]: { title: 'Gradient color 2' },
+	[ColorSettings.COLOR_TERTIARY]: { title: 'Gradient color 3' },
 }
 
 export const generateGradient = (
@@ -82,10 +95,12 @@ export const generateGradient = (
 	primaryStop: string,
 	secondary: string,
 	secondaryStop: string,
+	tertiary: string,
+	tertiaryStop: string,
 ) => {
 	const isRadialGradient = gradientType === 'radial'
 	return isRadialGradient
-		? `radial-gradient(circle at 50% 0%, ${primary} ${primaryStop}%, ${secondary} ${secondaryStop}%)`
+		? `radial-gradient(77.21% 96.45% at 50% 100%, ${primary} ${primaryStop}%, ${secondary} ${secondaryStop}%, ${tertiary} ${tertiaryStop}%)`
 		: `linear-gradient(90deg, ${primary} ${primaryStop}%, ${secondary} ${secondaryStop}%)`
 }
 
@@ -113,6 +128,8 @@ export const getDefaultBackgroundForIndex = (idx: number): string => {
 		preset[ColorSettings.COLOR_PRIMARY_STOP],
 		preset[ColorSettings.COLOR_SECONDARY],
 		preset[ColorSettings.COLOR_SECONDARY_STOP],
+		preset[ColorSettings.COLOR_TERTIARY],
+		preset[ColorSettings.COLOR_TERTIARY_STOP],
 	)
 }
 
