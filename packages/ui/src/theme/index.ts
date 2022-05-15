@@ -126,7 +126,7 @@ export const globalStyles = globalCss({
 		padding: '0',
 		fontWeight: 500,
 		fontVariantNumeric: 'tabular-nums',
-		fontFamily: '$montserrat',
+		fontFamily: '$HaasGrotTextRound',
 		fontSize: '$1',
 		textRendering: 'optimizeLegibility',
 		'font-smoothing': 'antialiased',
