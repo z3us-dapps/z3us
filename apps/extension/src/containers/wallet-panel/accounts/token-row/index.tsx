@@ -78,12 +78,12 @@ export const TokenRow: React.FC<IProps> = ({ i, rri, amount, staked, loading, di
 									</Text>
 									{staked && !stakedAmount.isZero() && (
 										<Flex css={{ maxWidth: '115px', position: 'relative' }}>
-											<Text truncate color="muted" size="3" css={{ pl: '$1' }}>
+											<Text truncate color="help" size="3" css={{ pl: '$1' }}>
 												+ staked
 											</Text>
 											<ToolTip message={formatBigNumber(stakedAmount)} sideOffset={3} side="top">
 												<Box css={{ mt: '-5px' }}>
-													<Button size="1" color="ghost" iconOnly clickable={false} css={{ color: '$txtMuted' }}>
+													<Button size="1" color="ghost" iconOnly clickable={false} css={{ color: '$txtHelp' }}>
 														<InfoCircledIcon />
 													</Button>
 												</Box>
