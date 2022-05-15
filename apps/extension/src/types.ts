@@ -85,6 +85,7 @@ export enum ColorSettings {
 	COLOR_SECONDARY = 'color_secondary',
 	COLOR_SECONDARY_STOP = 'color_secondary_stop',
 	COLOR_TEXT = 'color_text',
+	COLOR_BORDER = 'color_border',
 	GRADIENT_TYPE = 'gradient_type',
 }
 

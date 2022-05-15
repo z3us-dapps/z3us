@@ -90,6 +90,7 @@ export const AccountModal = ({
 			background,
 			colorSettings: {
 				[ColorSettings.COLOR_TEXT]: state[ColorSettings.COLOR_TEXT],
+				[ColorSettings.COLOR_BORDER]: state[ColorSettings.COLOR_BORDER],
 				[ColorSettings.GRADIENT_TYPE]: state[ColorSettings.GRADIENT_TYPE],
 				[ColorSettings.COLOR_PRIMARY]: state[ColorSettings.COLOR_PRIMARY],
 				[ColorSettings.COLOR_PRIMARY_STOP]: state[ColorSettings.COLOR_PRIMARY_STOP],
@@ -135,7 +136,7 @@ export const AccountModal = ({
 						iconOnly
 						aria-label="close color select modal"
 						size="2"
-						css={{ position: 'absolute', top: '$1', right: '$1' }}
+						css={{ position: 'absolute', top: '$1', right: '$1', color: state[ColorSettings.COLOR_TEXT] }}
 						onClick={handleCloseModal}
 					>
 						<CloseIcon />
@@ -152,6 +153,7 @@ export const AccountModal = ({
 								state[ColorSettings.COLOR_SECONDARY_STOP],
 							),
 							borderRadius: '4px 4px 0px 0px',
+							borderBottom: `2px solid ${state[ColorSettings.COLOR_BORDER]}`,
 						}}
 					>
 						<Flex
@@ -185,7 +187,16 @@ export const AccountModal = ({
 							</Text>
 						</Flex>
 					</Flex>
-					<Box css={{ flex: '1', p: '$5', pb: '0' }}>
+					<Box
+						css={{
+							flex: '1',
+							p: '$5',
+							pb: '0',
+							display: 'grid',
+							gridTemplateColumns: '1fr 1fr',
+							gridColumnGap: '12px',
+						}}
+					>
 						{Object.entries(colorMap).map(([key, color]) => (
 							<Box key={key} css={{ pb: '$3' }}>
 								<Text bold>{color.title}:</Text>
@@ -230,60 +241,11 @@ export const AccountModal = ({
 												draft[key] = event.currentTarget.value
 											})
 										}}
-										css={{ width: '140px', ml: '$2' }}
+										css={{ width: '84px', ml: '$2' }}
 									/>
-									{key === ColorSettings.COLOR_PRIMARY ? (
-										<Input
-											value={state[ColorSettings.COLOR_PRIMARY_STOP]}
-											onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
-												setState(draft => {
-													draft[ColorSettings.COLOR_PRIMARY_STOP] = event.currentTarget.value
-												})
-											}}
-											css={{ width: '46px', ml: '$2' }}
-										/>
-									) : null}
-									{key === ColorSettings.COLOR_SECONDARY ? (
-										<Input
-											value={state[ColorSettings.COLOR_SECONDARY_STOP]}
-											onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
-												setState(draft => {
-													draft[ColorSettings.COLOR_SECONDARY_STOP] = event.currentTarget.value
-												})
-											}}
-											css={{ width: '46px', ml: '$2' }}
-										/>
-									) : null}
 								</Flex>
 							</Box>
 						))}
-
-						<Box css={{ pt: '$1' }}>
-							<Flex gap="3">
-								<Button
-									color={state[ColorSettings.GRADIENT_TYPE] === 'radial' ? 'primary' : 'tertiary'}
-									size="3"
-									onClick={() => {
-										setState(draft => {
-											draft[ColorSettings.GRADIENT_TYPE] = 'radial'
-										})
-									}}
-								>
-									Radial
-								</Button>
-								<Button
-									color={state[ColorSettings.GRADIENT_TYPE] === 'linear' ? 'primary' : 'tertiary'}
-									size="3"
-									onClick={() => {
-										setState(draft => {
-											draft[ColorSettings.GRADIENT_TYPE] = 'linear'
-										})
-									}}
-								>
-									Linear
-								</Button>
-							</Flex>
-						</Box>
 						<Box css={{ pt: '$3' }}>
 							<Text bold css={{ mb: '$2' }}>
 								Select preset:

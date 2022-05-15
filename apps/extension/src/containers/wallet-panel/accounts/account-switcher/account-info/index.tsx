@@ -30,6 +30,7 @@ export const AccountInfo: React.FC<IProps> = ({ address }) => {
 	})
 	const entry = addressBook[address]
 	const color = entry?.colorSettings?.[ColorSettings.COLOR_TEXT] || '#330867'
+	const borderColor = entry?.colorSettings?.[ColorSettings.COLOR_BORDER] || '#FFFFFF'
 
 	const accountPercentageChange = !value.isEqualTo(0)
 		? `${change.isGreaterThan(0) ? '+' : ''}${change.div(value).multipliedBy(100).toFixed(2).toLocaleString()}%`
@@ -52,7 +53,7 @@ export const AccountInfo: React.FC<IProps> = ({ address }) => {
 		<Flex
 			justify="center"
 			css={{
-				border: '1px solid #fff',
+				border: `1px solid ${borderColor}`,
 				position: 'relative',
 				background: entry?.background,
 				boxShadow: '$accountPanelShadow',
@@ -79,7 +80,7 @@ export const AccountInfo: React.FC<IProps> = ({ address }) => {
 					bottom: '-1px',
 					left: '-1px',
 					right: '-1px',
-					border: '2px solid #fff',
+					border: `2px solid ${borderColor}`,
 					pointerEvents: 'none',
 				},
 			}}

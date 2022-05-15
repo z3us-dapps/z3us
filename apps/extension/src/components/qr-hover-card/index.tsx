@@ -73,11 +73,6 @@ export const QrHoverCard = ({ css }: IProps): JSX.Element => {
 								bgColor={isDarkMode ? '#161718' : '#ffffff'}
 							/>
 						</Flex>
-						<Flex>
-							<Button size="4" color="ghost" aria-label="current wallet qr code" iconOnly css={{ ...(css as any) }}>
-								Edit Color
-							</Button>
-						</Flex>
 					</Flex>
 				</Flex>
 				<PopoverArrow offset={14} css={{ fill: '$bgPanel' }} />
