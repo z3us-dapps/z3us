@@ -83,7 +83,8 @@ export const FlashCtaButton = (): JSX.Element => {
 		<Box ref={buttonRef} className="landing-cta-btn">
 			<Button
 				target="_blank"
-				href={ctaLink}
+				//href={ctaLink}
+				href="#"
 				as="a"
 				size="6"
 				color="secondary"
@@ -97,7 +98,8 @@ export const FlashCtaButton = (): JSX.Element => {
 					lineHeight: '24px',
 				}}
 			>
-				<Box css={{ position: 'relative', zIndex: '2' }}>Install BETA</Box>
+				<Box css={{ position: 'relative', zIndex: '2' }}>COMING SOON!</Box>
+				{/*<Box css={{ position: 'relative', zIndex: '2' }}>Install BETA</Box>*/}
 			</Button>
 		</Box>
 	)
