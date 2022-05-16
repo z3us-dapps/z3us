@@ -10,30 +10,46 @@ export const useWatchTransactions = () => {
 		addToast: state.addToastAction,
 	}))
 
-	const {
-		data: { transactions },
-	} = useLastFiveTransactions() // @TODO: watch all available accounts not the only one selected
+	const results = useLastFiveTransactions()
+	const isLoading = results.some(result => result.isLoading)
+	const transactionMap = (results?.filter(({ data }) => !!data) || []).reduce(
+		(container, { data }) => ({ ...container, [data.address]: data?.transactions || [] }),
+		{},
+	)
 
-	const [lastTxId, setLastTxId] = useState(null)
+	const [lastTxs, setLastTxs] = useState({})
 
 	useEffect(() => {
-		if (!lastTxId) return
-		if (!transactions) return
-		for (let i = 0; i < transactions.length; i += 1) {
-			if (lastTxId === transactions[i].id) {
-				break
+		if (!isLoading) return
+		if (!transactionMap) return
+
+		const newLastTxs = { ...lastTxs }
+		Object.keys(transactionMap).forEach(address => {
+			const transactions = transactionMap[address]
+			const lastTxId = newLastTxs[address]?.id
+
+			if (lastTxId) {
+				for (let i = 0; i < transactions.length; i += 1) {
+					if (lastTxId === transactions[i].id) {
+						break
+					}
+					addToast({
+						type: 'info',
+						title,
+						duration: 5000,
+					})
+					browser.notifications.create(transactions[0].id, {
+						title,
+						type: 'basic',
+						message: 'There is a new transaction on your account',
+					})
+				}
 			}
-			addToast({
-				type: 'info',
-				title,
-				duration: 5000,
-			})
-			browser.notifications.create(transactions[0].id, {
-				title,
-				type: 'basic',
-				message: 'There is a new transaction on your account',
-			})
-		}
-		setLastTxId(transactions[0].id)
-	}, [transactions])
+			if (transactions.length > 0) {
+				newLastTxs[address] = transactions[0].id
+			}
+		})
+
+		setLastTxs(newLastTxs)
+	}, [isLoading, transactionMap])
 }
