@@ -6,7 +6,7 @@ export default {
 	author: 'https://z3us.com',
 	name: 'z3us',
 	short_name: 'z3us',
-	description: 'A community centric open source browser wallet for the Radix DLT network.',
+	description: 'An open source community centered browser wallet for the Radix DLT network.',
 	action: {
 		default_popup: 'popup-theme-light.html',
 		default_title: 'z3us',
