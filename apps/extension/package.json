@@ -86,7 +86,7 @@
 		"@types/lodash.merge": "^4.6.6",
 		"@types/node": "^15.12.2",
 		"@types/raf": "^3.4.0",
-		"@types/react": "^17.0.33",
+		"@types/react": "^18.0.9",
 		"@types/react-dom": "^17.0.10",
 		"@types/react-test-renderer": "^17.0.1",
 		"@types/w3c-web-hid": "^1.0.3",
