@@ -75,7 +75,7 @@ export const AccountInfo: React.FC<IProps> = ({ address }) => {
 				align="center"
 				css={{ textAlign: 'center', position: 'relative', zIndex: '1', pt: '41px' }}
 			>
-				<AccountAddress address={address} css={{ fill: color, color }} />
+				<AccountAddress isCopyButtonVisible={false} address={address} css={{ fill: color, color }} />
 				<Flex
 					justify="center"
 					css={{
@@ -89,6 +89,7 @@ export const AccountInfo: React.FC<IProps> = ({ address }) => {
 					<Text
 						bold
 						as="h2"
+						displayRound
 						css={{
 							fontSize: '32px',
 							lineHeight: '38px',
@@ -118,6 +119,8 @@ export const AccountInfo: React.FC<IProps> = ({ address }) => {
 					css={{
 						opacity: !isLoading ? '1' : '0',
 						transition: '$default',
+						p: '1px 4px 0px 4px',
+						height: '16px',
 					}}
 				>
 					<Text size="2" bold>

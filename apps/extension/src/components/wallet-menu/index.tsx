@@ -20,22 +20,13 @@ import {
 
 export const WalletMenu: React.FC = () => {
 	const [, setLocation] = useLocation()
-
-	const { seed, theme, setTheme, networks, selectedNetworkIndex, selectNetwork, lock } = useStore(state => ({
+	const { seed, theme, setTheme, lock } = useStore(state => ({
 		seed: state.masterSeed,
 		theme: state.theme,
 		setTheme: state.setThemeAction,
-
-		networks: state.networks,
-		selectedNetworkIndex: state.selectedNetworkIndex,
-		selectNetwork: state.selectNetworkAction,
 		lock: state.lockAction,
 	}))
 	const [isOpen, setIsopen] = useState(false)
-
-	const handleSelectNetwork = async (value: string) => {
-		await selectNetwork(+value)
-	}
 
 	const handleLockWallet = async () => lock()
 
@@ -90,26 +81,6 @@ export const WalletMenu: React.FC = () => {
 							</DropdownMenuRadioGroup>
 						</DropdownMenuContent>
 					</DropdownMenu>
-
-					<DropdownMenu>
-						<DropdownMenuTriggerItem>
-							<Box css={{ flex: '1', pr: '$1' }}>Network</Box>
-							<DropdownMenuRightSlot>
-								<ChevronRightIcon />
-							</DropdownMenuRightSlot>
-						</DropdownMenuTriggerItem>
-						<DropdownMenuContent side="right" css={{ minWidth: '100px' }}>
-							<DropdownMenuRadioGroup value={String(selectedNetworkIndex)} onValueChange={handleSelectNetwork}>
-								{networks?.map((network, idx) => (
-									<DropdownMenuRadioItem key={network.id} value={String(idx)}>
-										<DropdownMenuItemIndicator />
-										{network.id}
-									</DropdownMenuRadioItem>
-								))}
-							</DropdownMenuRadioGroup>
-						</DropdownMenuContent>
-					</DropdownMenu>
-
 					{seed && (
 						<>
 							<DropdownMenuItem onSelect={handleConnectHW}>

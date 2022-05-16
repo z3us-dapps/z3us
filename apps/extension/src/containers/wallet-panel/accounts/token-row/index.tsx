@@ -6,7 +6,6 @@ import { useLocation } from 'wouter'
 import { Box, Flex, Text } from 'ui/src/components/atoms'
 import Button from 'ui/src/components/button'
 import { ToolTip } from 'ui/src/components/tool-tip'
-import { TokenLoadingRow } from '@src/components/token-loading-row'
 import { InfoCircledIcon } from '@radix-ui/react-icons'
 import { TokenPrice } from './token-price'
 
@@ -79,12 +78,12 @@ export const TokenRow: React.FC<IProps> = ({ i, rri, amount, staked, loading, di
 									</Text>
 									{staked && !stakedAmount.isZero() && (
 										<Flex css={{ maxWidth: '115px', position: 'relative' }}>
-											<Text truncate color="muted" size="3" css={{ pl: '$1' }}>
+											<Text truncate color="help" size="3" css={{ pl: '$1' }}>
 												+ staked
 											</Text>
 											<ToolTip message={formatBigNumber(stakedAmount)} sideOffset={3} side="top">
 												<Box css={{ mt: '-5px' }}>
-													<Button size="1" color="ghost" iconOnly clickable={false} css={{ color: '$txtMuted' }}>
+													<Button size="1" color="ghost" iconOnly clickable={false} css={{ color: '$txtHelp' }}>
 														<InfoCircledIcon />
 													</Button>
 												</Box>
@@ -97,9 +96,7 @@ export const TokenRow: React.FC<IProps> = ({ i, rri, amount, staked, loading, di
 						</Flex>
 					</>
 				) : (
-					<Box css={{ width: '100%', p: '$3' }}>
-						<TokenLoadingRow />
-					</Box>
+					<Flex align="center" justify="center" css={{ width: '100%' }} />
 				)}
 			</Flex>
 		</Button>
