@@ -1,7 +1,6 @@
 import React from 'react'
 import NextDocument, { Html, Head, Main, NextScript } from 'next/document'
 import { getCssText } from 'ui/src/theme'
-import { CssBaseline } from '@nextui-org/react'
 
 export default class Document extends NextDocument {
 	render() {
@@ -9,8 +8,6 @@ export default class Document extends NextDocument {
 			<Html lang="en">
 				<Head>
 					<style id="stitches" dangerouslySetInnerHTML={{ __html: getCssText() }} />
-					{CssBaseline.flush()}
-					<meta name="google-site-verification" content="qH2HkPzX0nm-uuQu6U16MQ1-1ETITOEDmg2LQGExsXQ" />
 					<link rel="preload" href="/fonts/FiraSans-Bold.woff" as="font" type="font/woff" crossOrigin="anonymous" />
 					<link rel="preload" href="/fonts/FiraSans-Bold.woff2" as="font" type="font/woff2" crossOrigin="anonymous" />
 					<link rel="preload" href="/fonts/FiraSans-Medium.woff" as="font" type="font/woff" crossOrigin="anonymous" />
@@ -108,6 +105,28 @@ export default class Document extends NextDocument {
 					<style
 						dangerouslySetInnerHTML={{
 							__html: `
+:root {
+  --fg: #000;
+  --bg: #fff;
+}
+
+[data-theme='dark'] {
+  --fg: #fff;
+  --bg: #161718;
+}
+
+body {
+  background: var(--bg);
+  color: var(--fg);
+}
+
+
+html,
+body {
+  padding: 0;
+  margin: 0;
+}
+
 @font-face {
   font-family: 'Montserrat';
   font-weight: 400;

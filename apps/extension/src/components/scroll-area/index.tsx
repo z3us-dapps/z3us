@@ -15,6 +15,7 @@ const defaultProps = {
 export const ScrollArea: React.FC<IProps> = ({ children, scrollableNodeProps }) => {
 	const sRef: any = useRef()
 	const observer = useRef<ResizeObserver | null>(null)
+	const scrollObserver = useRef<ResizeObserver | null>(null)
 
 	const [state, setState] = useImmer({
 		isTopShadowVisible: false,
@@ -37,25 +38,38 @@ export const ScrollArea: React.FC<IProps> = ({ children, scrollableNodeProps }) 
 
 	useEffect(() => {
 		const scrollRef = sRef?.current?.getScrollElement()
-		const isScrollable = scrollRef.scrollHeight > scrollRef.clientHeight
-		setState(draft => {
-			draft.isBottmShadowVisible = isScrollable
-		})
+		const simpleBarContent = scrollRef.getElementsByClassName('simplebar-content')[0]
 		scrollRef.addEventListener('scroll', handleScroll, { passive: true })
 
-		observer.current = new ResizeObserver(() => {
-			// TODO
-			// DETECT finish resize with smart refs and timeouts
-			// refresh the the scrollRef
-			// update shadow state
+		observer.current = new ResizeObserver(entries => {
+			entries.forEach(entry => {
+				const contentBoxSize = Array.isArray(entry.contentBoxSize) ? entry.contentBoxSize[0] : entry.contentBoxSize
+				setState(draft => {
+					draft.isBottmShadowVisible = contentBoxSize.blockSize > scrollRef.clientHeight
+				})
+			})
 		})
+		scrollObserver.current = new ResizeObserver(entries => {
+			entries.forEach(entry => {
+				const contentBoxSize = Array.isArray(entry.contentBoxSize) ? entry.contentBoxSize[0] : entry.contentBoxSize
+				setState(draft => {
+					draft.isBottmShadowVisible = simpleBarContent.clientHeight > contentBoxSize.blockSize
+				})
+			})
+		})
+		if (simpleBarContent) {
+			observer.current.observe(simpleBarContent)
+		}
 		if (scrollRef) {
-			observer.current.observe(scrollRef)
+			scrollObserver.current.observe(scrollRef)
 		}
 		return () => {
 			scrollRef.removeEventListener('scroll', handleScroll)
 			if (observer.current) {
 				observer.current.disconnect()
+			}
+			if (scrollObserver.current) {
+				scrollObserver.current.disconnect()
 			}
 		}
 	}, [])

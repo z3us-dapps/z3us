@@ -1,6 +1,6 @@
 import React from 'react'
 import { useStore } from '@src/store'
-import { useRoute } from 'wouter'
+import { useLocation, useRoute } from 'wouter'
 import { Box, Flex, Text } from 'ui/src/components/atoms'
 import Button from 'ui/src/components/button'
 import { routesInfo } from '@src/config'
@@ -11,6 +11,7 @@ export const FooterNavigation: React.FC = () => {
 		setActiveApp: state.setActiveAppAction,
 	}))
 	const [page] = activeApp
+	const [, setLocation] = useLocation()
 	const [isSendRoute] = useRoute('/wallet/account/send')
 	const [isSendRouteRri] = useRoute('/wallet/account/send/:rri')
 	const [isSendConfirmRouteRri] = useRoute('/wallet/account/send/review/:rri')
@@ -43,6 +44,10 @@ export const FooterNavigation: React.FC = () => {
 						onClick={() => {
 							if (i !== currentPageIndex) {
 								setActiveApp([key, i - currentPageIndex])
+							}
+							// if clicking accounts while on accounts
+							if (i === 0 && currentPageIndex === 0) {
+								setLocation('/wallet/account')
 							}
 						}}
 						css={{
@@ -94,20 +99,6 @@ export const FooterNavigation: React.FC = () => {
 						>
 							{name}
 						</Text>
-						{/*TODO: remove this, when we replace with something, to blatant to copy phantom with this :)*/}
-						{/*{isActive && (
-							<MotionBox
-								layoutId="underline"
-								css={{
-									width: '100%',
-									height: '2px',
-									background: '#673add',
-									zIndex: '1',
-									position: 'absolute',
-									bottom: 0,
-								}}
-							/>
-						)}*/}
 					</Button>
 				)
 			})}

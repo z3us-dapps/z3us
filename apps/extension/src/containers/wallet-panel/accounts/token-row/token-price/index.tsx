@@ -32,7 +32,7 @@ export const TokenPrice = ({ symbol, amount }: Props): JSX.Element => {
 						2,
 					)}
 				</Text>
-				<PriceLabel color={ticker.change >= 0 ? 'green' : 'red'}>
+				<PriceLabel color={ticker.change >= 0 ? 'green' : 'red'} css={{ p: '1px 4px 0px 4px', height: '16px' }}>
 					<Text bold size="1">{`${ticker.change < 0 ? '' : '+'}${ticker.change.toFixed(2).toLocaleString()}%`}</Text>
 				</PriceLabel>
 			</Box>

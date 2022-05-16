@@ -1,6 +1,6 @@
 import React from 'react'
 import { keyframes } from 'ui/src/theme'
-import { Box } from 'ui/src/components/atoms'
+import { Box, Flex } from 'ui/src/components/atoms'
 
 const ANIMATION_DURATION = '1500ms'
 
@@ -52,7 +52,6 @@ export const TokenLoadingRow: React.FC = () => (
 			position: 'relative',
 			br: '$3',
 			height: '48px',
-			mb: '$3',
 			width: '100%',
 			overflow: 'hidden',
 			transition: '$default',
@@ -62,4 +61,34 @@ export const TokenLoadingRow: React.FC = () => (
 			animationTimingFunction: 'ease-in-out',
 		}}
 	/>
+)
+
+export const TokenLoadingRows: React.FC = () => (
+	<Flex direction="column" align="center" justify="start" css={{ height: '140px' }}>
+		<Flex
+			css={{
+				height: '68px',
+				width: '100%',
+				background: '$bgPanel',
+				px: '$4',
+			}}
+		>
+			<Flex align="center" justify="center" css={{ width: '100%' }}>
+				<TokenLoadingRow />
+			</Flex>
+		</Flex>
+		<Flex
+			css={{
+				height: '68px',
+				width: '100%',
+				borderTop: '1px solid $borderPanel',
+				background: '$bgPanel',
+				px: '$4',
+			}}
+		>
+			<Flex align="center" justify="center" css={{ width: '100%' }}>
+				<TokenLoadingRow />
+			</Flex>
+		</Flex>
+	</Flex>
 )

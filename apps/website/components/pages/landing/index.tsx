@@ -1,11 +1,14 @@
 import React from 'react'
 import Link from 'next/link'
 import { NextSeo } from 'next-seo'
-import { Container, Grid } from '@nextui-org/react'
+import { Container, Row, Col } from 'react-grid-system'
 import { Box, Text, Flex, StyledLink } from 'ui/src/components/atoms'
-import Button from 'ui/src/components/button'
 import { Header } from 'components/header'
+import { ThemePickerMenu } from 'components/theme-picker-menu'
+import { PageContainer } from 'components/page-container'
+import { FlashCtaButton } from 'components/flash-cta-button'
 import { config } from 'config'
+import { BrowserIconLinks } from './browser-icon-links'
 
 export const LandingPage: React.FC = () => (
 	<>
@@ -14,8 +17,8 @@ export const LandingPage: React.FC = () => (
 			openGraph={{
 				type: 'website',
 				url: config.Z3US_URL,
-				title: 'Z3US web3 wallet',
-				description: 'A community centric open source browser wallet for the Radix DLT network.',
+				title: config.OPEN_GRAPH_TITLE,
+				description: config.OPEN_GRAPH_DESCRIPTION,
 				images: [
 					{
 						url: `${config.Z3US_URL}/og-image-1.png`,
@@ -33,236 +36,200 @@ export const LandingPage: React.FC = () => (
 			}}
 		/>
 
-		<Box
-			css={{
-				position: 'relative',
-			}}
-		>
-			<Header isLandingPage />
-			<Container css={{ position: 'relative' }}>
-				<Flex css={{ flex: '1' }}>
-					<Grid.Container
-						gap={2}
-						justify="center"
-						css={{
-							position: 'relative',
-						}}
-					>
-						<Grid xs={12} md={12}>
-							<Flex
-								css={{
-									position: 'relative',
-									flexDirection: 'column-reverse',
-									background: 'linear-gradient(180deg, #7345fc, #4f21e6 100%)',
-									borderRadius: '32px',
-									width: '100%',
-									gap: '12px',
-									color: '$white',
-									overflow: 'hidden',
-
+		<Header isLandingPage />
+		<PageContainer>
+			<Container fluid>
+				<Row>
+					<Col>
+						<Flex
+							css={{
+								position: 'relative',
+								flexDirection: 'column-reverse',
+								background: 'linear-gradient(180deg, #7345fc, #4f21e6 100%)',
+								borderRadius: '32px',
+								width: '100%',
+								gap: '12px',
+								color: '$white',
+								overflow: 'hidden',
+								'&:before': {
+									content: '',
+									position: 'absolute',
+									pe: 'none',
+									top: '0',
+									left: '0',
+									right: '0',
+									bottom: '0',
+									backgroundImage: 'url(/images/landing-lightening-bg.png)',
+									backgroundRepeat: 'no-repeat',
+									backgroundSize: 'auto 100%',
+									opacity: '0.4',
+									minHeight: '100%',
+								},
+								'@md': {
+									flexDirection: 'row',
 									'&:before': {
-										content: '',
-										position: 'absolute',
-										pe: 'none',
-										top: '0',
-										left: '0',
-										right: '0',
-										bottom: '0',
-										backgroundImage: 'url(/images/landing-lightening-bg.png)',
-										backgroundRepeat: 'no-repeat',
-										backgroundPosition: '-100px -100px',
-										backgroundSize: 'auto 100%',
 										opacity: '0.7',
-										minHeight: '100%',
+										backgroundRepeat: 'no-repeat',
+										backgroundPosition: 'top right',
+										backgroundSize: 'auto 100%',
 									},
-
-									'@md': {
-										flexDirection: 'row',
-										'&:before': {
-											backgroundRepeat: 'no-repeat',
-											backgroundPosition: 'top right',
-											backgroundSize: 'auto 100%',
-										},
-									},
+								},
+							}}
+						>
+							<Box
+								css={{
+									width: '100%',
+									flexBasis: '100%',
+									position: 'relative',
+									pt: '10px',
+									pb: '50px',
+									px: '20px',
+									'@xs': { px: '5%' },
+									'@sm': { px: '15%' },
+									'@md': { width: '50%', flexBasis: '50%', pt: '150px', pb: '150px', pl: '40px', pr: '0px ' },
+									'@lg': { pl: '100px' },
 								}}
 							>
-								<Box
-									css={{
-										width: '100%',
-										flexBasis: '100%',
-										position: 'relative',
-										pt: '20px',
-										pb: '50px',
-										px: '20px',
-										'@md': { width: '50%', flexBasis: '50%', pt: '150px', pb: '150px', pl: '40px' },
-										'@lg': { pl: '100px' },
-									}}
-								>
-									<Box>
-										<Text
-											bold
-											size="14"
-											//css={{
-											//backgroundColor: 'yellow',
-											//'@xs': { backgroundColor: 'brown' },
-											//'@sm': { backgroundColor: 'green' },
-											//'@md': { backgroundColor: 'purple' },
-											//'@lg': { backgroundColor: 'red' },
-											//}}
-										>
-											Control your future. Finance at your fingertips.
+								<Box>
+									<Text
+										bold
+										css={{
+											fontSize: '40px',
+											lineHeight: '44px',
+											fontFamily: '$HaasGrotDisplayRound',
+											'@xs': { fontSize: '40px', lineHeight: '48px' },
+											'@md': { fontSize: '60px', lineHeight: '64px', whiteSpace: 'nowrap' },
+										}}
+									>
+										Control your future.
+									</Text>
+									<Text
+										bold
+										css={{
+											fontSize: '40px',
+											lineHeight: '44px',
+											fontFamily: '$HaasGrotDisplayRound',
+											'@xs': { fontSize: '40px', lineHeight: '48px' },
+											'@md': { fontSize: '60px', lineHeight: '64px' },
+										}}
+									>
+										DeFi at your fingertips.
+									</Text>
+									<Text
+										size="7"
+										css={{
+											pt: '20px',
+											fontFamily: '$HaasGrotTextRound',
+											fontSize: '18px',
+											lineHeight: '22px',
+											'@md': { fontSize: '20px', lineHeight: '30px' },
+										}}
+									>
+										Manage accounts, send and receive tokens, stake tokens to receive rewards and connect to DApps from
+										the Z3US browser wallet.
+									</Text>
+									<Flex css={{ mt: '$6', justifyContent: 'center', '@md': { justifyContent: 'flex-start' } }}>
+										<FlashCtaButton />
+									</Flex>
+									<Flex
+										justify="center"
+										align="center"
+										direction="column"
+										css={{ mt: '$5', width: '100%', '@xs': { maxWidth: '100%' }, '@md': { maxWidth: '180px' } }}
+									>
+										<Text css={{ pb: '15px', fontFamily: '$HaasGrotTextRound', fontSize: '13px', lineHeight: '14px' }}>
+											Available in:
 										</Text>
-										<Text size="7" css={{ pt: '20px', lineHeight: '30px' }}>
-											Manage accounts, send and receive tokens, stake tokens to receive rewards and connect to DApps
-											from the Z3US browser wallet.
-										</Text>
-										<Flex css={{ mt: '$6', justifyContent: 'center', '@md': { justifyContent: 'flex-start' } }}>
-											<Button
-												target="_blank"
-												href="https://t.me/z3us_dapps/4"
-												as="a"
-												size="6"
-												color="secondary"
-												rounded
-												css={{
-													width: '200px',
-													color: '$black',
-													backgroundColor: '#FFFFFF',
-													'&:hover': {
-														backgroundColor: '#eee',
-													},
-												}}
-											>
-												Get BETA access
-											</Button>
-										</Flex>
-									</Box>
+										<BrowserIconLinks />
+									</Flex>
 								</Box>
+							</Box>
 
-								<Flex
-									align="center"
-									justify="center"
-									css={{
-										width: '100%',
-										flexBasis: '100%',
-										position: 'relative',
-										pt: '20px',
-										pb: '0px',
-										px: '20px',
-										img: {
-											maxWidth: '100%',
-										},
-										'@md': { width: '50%', flexBasis: '50%', position: 'relative', pt: '34px', pb: '44px' },
-									}}
-								>
-									<img src="images/landing-product-bg.png" alt="product" style={{ width: '398px' }} />
-								</Flex>
+							<Flex
+								align="center"
+								justify="center"
+								css={{
+									width: '100%',
+									flexBasis: '100%',
+									position: 'relative',
+									pt: '20px',
+									pb: '0px',
+									img: {
+										maxWidth: '100%',
+									},
+									'@md': { width: '50%', flexBasis: '50%', position: 'relative', pt: '34px', pb: '44px' },
+								}}
+							>
+								<img src="images/landing-product-bg.png" alt="product" style={{ width: '398px' }} />
 							</Flex>
-						</Grid>
-					</Grid.Container>
-				</Flex>
-				{/*<Flex>
-								<Grid.Container
-									gap={2}
-									justify="center"
+						</Flex>
+					</Col>
+				</Row>
+				<Row>
+					<Col>
+						<Flex align="center" css={{ width: '100%', pt: '30px' }}>
+							<Box css={{ px: '0px', '@md': { px: '24px' } }}>
+								<Text
+									as="p"
+									color="help"
 									css={{
-										position: 'relative',
-										color: '$white',
+										fontFamily: '$HaasGrotTextRound',
+										fontSize: '13px',
+										lineHeight: '14px',
 									}}
 								>
-									<Grid xs={12} md={6} justify={isLg ? 'center' : 'flex-start'}>
-										<Flex
-											align="center"
-											css={{ py: '100px', backgroundColor: '#ffcd6c', borderRadius: '32px', width: '100%' }}
-										>
-											<Box>
-												<Text bold size="9">
-													Control your future. Finance at your fingertips.
-												</Text>
-												<Text size="6" css={{ pt: '20px' }}>
-													Manage accounts, send and receive tokens, stake tokens to receive rewards and connect to DApps
-													from the Z3US browser wallet.
-												</Text>
-											</Box>
-										</Flex>
-									</Grid>
-									<Grid xs={12} md={6}>
-										<Box css={{ backgroundColor: '#75ccb2', borderRadius: '32px', width: '100%' }}>sdf asdfasdf</Box>
-									</Grid>
-								</Grid.Container>
-							</Flex>
-
-							<Flex>
-								<Grid.Container
-									gap={2}
-									justify="center"
-									css={{
-										position: 'relative',
-									}}
-								>
-									<Grid xs={12} md={12}>
-										<Flex
-											align="center"
-											justify="center"
+									&copy; {new Date().getFullYear()} Z3US
+								</Text>
+							</Box>
+						</Flex>
+					</Col>
+					<Col>
+						<Box css={{ width: '100%' }}>
+							<Flex
+								align="center"
+								justify="end"
+								css={{
+									flex: '1',
+									color: '$txtHelp',
+									pt: '21px',
+									pb: '20px',
+									'@md': { px: '24px' },
+								}}
+							>
+								<Link href="/privacy" passHref>
+									<StyledLink underlineOnHover>
+										<Text
+											as="p"
 											css={{
-												background: '#e4ddf7',
-												borderRadius: '32px',
-												width: '100%',
-												gap: '12px',
-												textAlign: 'center',
+												fontFamily: '$HaasGrotTextRound',
+												fontSize: '13px',
+												lineHeight: '14px',
 											}}
 										>
-											<Box css={{ pt: '150px', pb: '150px', px: '105px' }}>
-												<Text bold size="14">
-													Control your future. Finance at your fingertips.
-												</Text>
-												<Text size="7" css={{ pt: '20px', lineHeight: '30px' }}>
-													Manage accounts, send and receive tokens, stake tokens to receive rewards and connect to DApps
-													from the Z3US browser wallet.
-												</Text>
-											</Box>
-										</Flex>
-									</Grid>
-								</Grid.Container>
-							</Flex>*/}
-
-				{/*FOOTER*/}
-				<Flex>
-					<Grid.Container
-						gap={2}
-						justify="center"
-						css={{
-							position: 'relative',
-							mt: '40px',
-						}}
-					>
-						<Grid xs={6}>
-							<Flex align="center" css={{ width: '100%' }}>
-								<Box css={{ p: '24px' }}>
-									<Text color="help">&copy; {new Date().getFullYear()} Z3US</Text>
-								</Box>
+											Privacy
+										</Text>
+									</StyledLink>
+								</Link>
+								<Link href="/terms" passHref>
+									<StyledLink underlineOnHover css={{ ml: '12px', mr: '4px' }}>
+										<Text
+											as="p"
+											css={{
+												fontFamily: '$HaasGrotTextRound',
+												fontSize: '13px',
+												lineHeight: '14px',
+											}}
+										>
+											Terms
+										</Text>
+									</StyledLink>
+								</Link>
+								<ThemePickerMenu />
 							</Flex>
-						</Grid>
-						<Grid xs={6}>
-							<Box css={{ width: '100%' }}>
-								<Flex justify="end" gap="3" css={{ flex: '1', p: '24px', color: '$txtHelp' }}>
-									<Link href="/privacy" passHref>
-										<StyledLink underlineOnHover>
-											<Text>Privacy</Text>
-										</StyledLink>
-									</Link>
-
-									<Link href="/terms" passHref>
-										<StyledLink underlineOnHover>
-											<Text>Terms</Text>
-										</StyledLink>
-									</Link>
-								</Flex>
-							</Box>
-						</Grid>
-					</Grid.Container>
-				</Flex>
+						</Box>
+					</Col>
+				</Row>
 			</Container>
-		</Box>
+		</PageContainer>
 	</>
 )
