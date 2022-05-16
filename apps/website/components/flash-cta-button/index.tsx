@@ -1,3 +1,4 @@
+/* eslint-disable */
 import React, { useRef, useEffect, useState } from 'react'
 import { Box } from 'ui/src/components/atoms'
 import Button from 'ui/src/components/button'
