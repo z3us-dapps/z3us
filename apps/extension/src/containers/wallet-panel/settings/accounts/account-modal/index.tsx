@@ -63,8 +63,6 @@ export const AccountModal = ({
 		isModalOpen: false,
 	})
 
-	console.log('state ', state)
-
 	const handleOnClick = () => {
 		setState(draft => {
 			draft.isModalOpen = !draft.isModalOpen

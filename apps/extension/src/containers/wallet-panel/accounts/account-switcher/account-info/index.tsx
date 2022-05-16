@@ -27,7 +27,6 @@ export const AccountInfo: React.FC<IProps> = ({ address }) => {
 		accountValue: '',
 	})
 	const entry = addressBook[address]
-	console.log('entry:', entry)
 	const color = entry?.colorSettings?.[ColorSettings.COLOR_TEXT] || '#330867'
 	const borderColor = entry?.colorSettings?.[ColorSettings.COLOR_BORDER] || '#FFFFFF'
 
