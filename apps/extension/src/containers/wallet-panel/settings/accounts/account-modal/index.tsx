@@ -12,7 +12,7 @@ import { Popover, PopoverArrow, PopoverContent, PopoverTrigger, PopoverClose } f
 import { Box, Text, Flex } from 'ui/src/components/atoms'
 import { ColorSettings } from '@src/types'
 import { Side } from '@radix-ui/popper'
-import { colorMap, generateGradient, presetMap, PRESET_COLOR_HELIOTROPE_SUNRISE } from '@src/config'
+import { colorMap, generateGradient, presetMap } from '@src/config'
 import { AvatarButton } from '../../../components/avatar-button'
 
 const sharedColorButtonStyle = {
@@ -59,10 +59,11 @@ export const AccountModal = ({
 	const entry = addressBook[address]
 
 	const [state, setState] = useImmer({
-		...presetMap[PRESET_COLOR_HELIOTROPE_SUNRISE],
 		...entry?.colorSettings,
 		isModalOpen: false,
 	})
+
+	console.log('state ', state)
 
 	const handleOnClick = () => {
 		setState(draft => {
@@ -73,23 +74,29 @@ export const AccountModal = ({
 	const handleCloseModal = () => {
 		setState(draft => {
 			draft[ColorSettings.COLOR_PRIMARY] = entry?.colorSettings[ColorSettings.COLOR_PRIMARY]
+			draft[ColorSettings.COLOR_PRIMARY_STOP] = entry?.colorSettings[ColorSettings.COLOR_PRIMARY_STOP]
 			draft[ColorSettings.COLOR_SECONDARY] = entry?.colorSettings[ColorSettings.COLOR_SECONDARY]
+			draft[ColorSettings.COLOR_SECONDARY_STOP] = entry?.colorSettings[ColorSettings.COLOR_SECONDARY_STOP]
 			draft[ColorSettings.COLOR_TERTIARY] = entry?.colorSettings[ColorSettings.COLOR_TERTIARY]
+			draft[ColorSettings.COLOR_TERTIARY_STOP] = entry?.colorSettings[ColorSettings.COLOR_TERTIARY_STOP]
 			draft[ColorSettings.COLOR_TEXT] = entry?.colorSettings[ColorSettings.COLOR_TEXT]
 			draft[ColorSettings.COLOR_BORDER] = entry?.colorSettings[ColorSettings.COLOR_BORDER]
+			draft[ColorSettings.GRADIENT_TYPE] = entry?.colorSettings[ColorSettings.GRADIENT_TYPE]
+			draft[ColorSettings.GRADIENT_START] = entry?.colorSettings[ColorSettings.GRADIENT_START]
 			draft.isModalOpen = false
 		})
 	}
 
 	const handleSaveGradient = () => {
 		const background = generateGradient(
-			state[ColorSettings.GRADIENT_TYPE],
 			state[ColorSettings.COLOR_PRIMARY],
 			state[ColorSettings.COLOR_PRIMARY_STOP],
 			state[ColorSettings.COLOR_SECONDARY],
 			state[ColorSettings.COLOR_SECONDARY_STOP],
 			state[ColorSettings.COLOR_TERTIARY],
 			state[ColorSettings.COLOR_TERTIARY_STOP],
+			state[ColorSettings.GRADIENT_TYPE],
+			state[ColorSettings.GRADIENT_START],
 		)
 
 		setAddressBookEntry(address, {
@@ -97,13 +104,14 @@ export const AccountModal = ({
 			colorSettings: {
 				[ColorSettings.COLOR_TEXT]: state[ColorSettings.COLOR_TEXT],
 				[ColorSettings.COLOR_BORDER]: state[ColorSettings.COLOR_BORDER],
-				[ColorSettings.GRADIENT_TYPE]: state[ColorSettings.GRADIENT_TYPE],
 				[ColorSettings.COLOR_PRIMARY]: state[ColorSettings.COLOR_PRIMARY],
 				[ColorSettings.COLOR_PRIMARY_STOP]: state[ColorSettings.COLOR_PRIMARY_STOP],
 				[ColorSettings.COLOR_SECONDARY]: state[ColorSettings.COLOR_SECONDARY],
 				[ColorSettings.COLOR_SECONDARY_STOP]: state[ColorSettings.COLOR_SECONDARY_STOP],
 				[ColorSettings.COLOR_TERTIARY]: state[ColorSettings.COLOR_TERTIARY],
 				[ColorSettings.COLOR_TERTIARY_STOP]: state[ColorSettings.COLOR_TERTIARY_STOP],
+				[ColorSettings.GRADIENT_TYPE]: state[ColorSettings.GRADIENT_TYPE],
+				[ColorSettings.GRADIENT_START]: state[ColorSettings.GRADIENT_START],
 			},
 		})
 
@@ -115,10 +123,15 @@ export const AccountModal = ({
 	const handleSelectPreset = (preset: string) => {
 		setState(draft => {
 			draft[ColorSettings.COLOR_PRIMARY] = presetMap[preset][ColorSettings.COLOR_PRIMARY]
+			draft[ColorSettings.COLOR_PRIMARY_STOP] = presetMap[preset][ColorSettings.COLOR_PRIMARY_STOP]
 			draft[ColorSettings.COLOR_SECONDARY] = presetMap[preset][ColorSettings.COLOR_SECONDARY]
+			draft[ColorSettings.COLOR_SECONDARY_STOP] = presetMap[preset][ColorSettings.COLOR_SECONDARY_STOP]
 			draft[ColorSettings.COLOR_TERTIARY] = presetMap[preset][ColorSettings.COLOR_TERTIARY]
+			draft[ColorSettings.COLOR_TERTIARY_STOP] = presetMap[preset][ColorSettings.COLOR_TERTIARY_STOP]
 			draft[ColorSettings.COLOR_TEXT] = presetMap[preset][ColorSettings.COLOR_TEXT]
 			draft[ColorSettings.COLOR_BORDER] = presetMap[preset][ColorSettings.COLOR_BORDER]
+			draft[ColorSettings.GRADIENT_TYPE] = presetMap[preset][ColorSettings.GRADIENT_TYPE]
+			draft[ColorSettings.GRADIENT_START] = presetMap[preset][ColorSettings.GRADIENT_START]
 		})
 	}
 
@@ -156,13 +169,14 @@ export const AccountModal = ({
 						justify="center"
 						css={{
 							background: generateGradient(
-								state[ColorSettings.GRADIENT_TYPE],
 								state[ColorSettings.COLOR_PRIMARY],
 								state[ColorSettings.COLOR_PRIMARY_STOP],
 								state[ColorSettings.COLOR_SECONDARY],
 								state[ColorSettings.COLOR_SECONDARY_STOP],
 								state[ColorSettings.COLOR_TERTIARY],
 								state[ColorSettings.COLOR_TERTIARY_STOP],
+								state[ColorSettings.GRADIENT_TYPE],
+								state[ColorSettings.GRADIENT_START],
 							),
 							borderRadius: '4px 4px 0px 0px',
 							borderBottom: `2px solid ${state[ColorSettings.COLOR_BORDER]}`,
@@ -272,13 +286,14 @@ export const AccountModal = ({
 												width: '100%',
 												height: '100%',
 												background: generateGradient(
-													_color[ColorSettings.GRADIENT_TYPE],
 													_color[ColorSettings.COLOR_PRIMARY],
 													_color[ColorSettings.COLOR_PRIMARY_STOP],
 													_color[ColorSettings.COLOR_SECONDARY],
 													_color[ColorSettings.COLOR_SECONDARY_STOP],
 													_color[ColorSettings.COLOR_TERTIARY],
 													_color[ColorSettings.COLOR_TERTIARY_STOP],
+													_color[ColorSettings.GRADIENT_TYPE],
+													_color[ColorSettings.GRADIENT_START],
 												),
 											}}
 										/>

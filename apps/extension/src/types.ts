@@ -89,6 +89,7 @@ export enum ColorSettings {
 	COLOR_TEXT = 'color_text',
 	COLOR_BORDER = 'color_border',
 	GRADIENT_TYPE = 'gradient_type',
+	GRADIENT_START = 'gradient_start',
 }
 
 export enum ExtendedActionType {

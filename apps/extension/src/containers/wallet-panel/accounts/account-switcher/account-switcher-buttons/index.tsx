@@ -22,15 +22,15 @@ export const AccountSwitcherButtons: React.FC = () => {
 
 	return (
 		<Flex justify="center">
-			<Grid gap="5" columns="3" css={{ pt: '18px' }}>
+			<Grid gap="5" columns="3" css={{ pt: '24px' }}>
 				<Tooltip>
 					<TooltipTrigger asChild>
 						<Button size="5" color="inverse" iconOnly circle onClick={handleSendClick}>
 							<UpRightIcon />
 						</Button>
 					</TooltipTrigger>
-					<TooltipContent sideOffset={3} css={{backgroundColor: '$bgPanel'}}>
-						<TooltipArrow css={{fill: '$bgPanel'}} />
+					<TooltipContent sideOffset={3} css={{ backgroundColor: '$bgPanel' }}>
+						<TooltipArrow css={{ fill: '$bgPanel' }} />
 						Send
 					</TooltipContent>
 				</Tooltip>
@@ -40,8 +40,8 @@ export const AccountSwitcherButtons: React.FC = () => {
 							<DownLeftIcon />
 						</Button>
 					</TooltipTrigger>
-					<TooltipContent sideOffset={3} css={{backgroundColor: '$bgPanel'}}>
-						<TooltipArrow css={{fill: '$bgPanel'}} />
+					<TooltipContent sideOffset={3} css={{ backgroundColor: '$bgPanel' }}>
+						<TooltipArrow css={{ fill: '$bgPanel' }} />
 						Deposit
 					</TooltipContent>
 				</Tooltip>
@@ -51,8 +51,8 @@ export const AccountSwitcherButtons: React.FC = () => {
 							<PulseIcon />
 						</Button>
 					</TooltipTrigger>
-					<TooltipContent sideOffset={3} css={{backgroundColor: '$bgPanel'}}>
-						<TooltipArrow css={{fill: '$bgPanel'}} />
+					<TooltipContent sideOffset={3} css={{ backgroundColor: '$bgPanel' }}>
+						<TooltipArrow css={{ fill: '$bgPanel' }} />
 						Activity
 					</TooltipContent>
 				</Tooltip>

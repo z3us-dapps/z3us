@@ -4,8 +4,7 @@ import { useAccountValue } from '@src/services/react-query/queries/account'
 import { QrHoverCard } from '@src/components/qr-hover-card'
 import { Flex, Box, Text } from 'ui/src/components/atoms'
 import Button from 'ui/src/components/button'
-import { ActivityIcon, HardwareWalletIcon } from 'ui/src/components/icons'
-//import { HardwareWalletIcon } from 'ui/src/components/icons'
+import { HardwareWalletIcon } from 'ui/src/components/icons'
 import { formatBigNumber } from '@src/utils/formatters'
 import { AccountAddress } from '@src/components/account-address'
 import PriceTicker from 'ui/src/components/price-ticker'
@@ -13,7 +12,6 @@ import LoaderBars from 'ui/src/components/loader-bars'
 import { Tooltip, TooltipTrigger, TooltipContent, TooltipArrow } from 'ui/src/components/tool-tip'
 import { useStore } from '@src/store'
 import { ColorSettings } from '@src/types'
-import { AccountModal } from '@src/containers/wallet-panel/settings/accounts/account-modal'
 
 type IProps = {
 	address: string
@@ -29,6 +27,7 @@ export const AccountInfo: React.FC<IProps> = ({ address }) => {
 		accountValue: '',
 	})
 	const entry = addressBook[address]
+	console.log('entry:', entry)
 	const color = entry?.colorSettings?.[ColorSettings.COLOR_TEXT] || '#330867'
 	const borderColor = entry?.colorSettings?.[ColorSettings.COLOR_BORDER] || '#FFFFFF'
 
@@ -135,19 +134,6 @@ export const AccountInfo: React.FC<IProps> = ({ address }) => {
 			</Flex>
 			<Box css={{ zIndex: 2, position: 'absolute', top: '$2', left: '$2' }}>
 				<QrHoverCard css={{ fill: color, color }} />
-			</Box>
-			<Box css={{ zIndex: 2, position: 'absolute', top: '$2', right: '$2' }}>
-				<AccountModal
-					toolTipSide="top"
-					address={address}
-					toolTipSideOffset={3}
-					toolTipBgColor="$bgPanel"
-					toolTipMessage="Edit"
-				>
-					<Button iconOnly size="1" color="ghost" css={{ color, fill: color }}>
-						<ActivityIcon />
-					</Button>
-				</AccountModal>
 			</Box>
 			{entry?.isHardWallet && (
 				<Box css={{ zIndex: 2, position: 'absolute', bottom: '$2', left: '$2' }}>
