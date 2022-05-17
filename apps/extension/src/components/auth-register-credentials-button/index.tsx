@@ -36,7 +36,7 @@ export const RegistreCredentialsButton: React.FC<ButtonProps> = props => {
 		const id = generateId()
 		const key = seed.masterNode().publicKey.toString()
 
-		await registerCredential(id, key, 'z3us credentials', `authn-${id}`)
+		await registerCredential(id, key, 'Z3US credentials', `authn-${id}`)
 
 		const { onClick } = props
 		if (onClick) {
