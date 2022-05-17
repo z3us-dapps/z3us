@@ -1,4 +1,3 @@
-/* eslint-disable */
 import React, { useRef, useEffect, useState } from 'react'
 import { Box } from 'ui/src/components/atoms'
 import Button from 'ui/src/components/button'
@@ -45,7 +44,7 @@ const createSVG = (width: number, height: number, radius: number) => {
 
 export const FlashCtaButton = (): JSX.Element => {
 	const buttonRef = useRef(null)
-	const [ctaLink, setCtaLink] = useState(config.CHROME_STORE_URL)
+	const [, setCtaLink] = useState(config.CHROME_STORE_URL)
 
 	useEffect(() => {
 		const browserName = fnBrowserDetect()
