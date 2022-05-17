@@ -1,2 +1,2 @@
-# ⚡ z3us ⚡ 
+# ⚡ Z3US ⚡ 
 ## website

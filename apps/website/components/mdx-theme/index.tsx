@@ -1,10 +1,10 @@
-/* eslint-disable */
+/* eslint-disable react/jsx-props-no-spreading */
 import React from 'react'
 import SyntaxHighlighter from 'react-syntax-highlighter'
 import { MDXRemote } from 'next-mdx-remote'
 import Button from 'ui/src/components/button'
-import { Example as ExampleV1 } from '../pages/example-v1'
 import { Text, StyledLink } from 'ui/src/components/atoms'
+import { Example as ExampleV1 } from '../pages/example-v1'
 
 const components = {
 	Button,
@@ -15,22 +15,21 @@ const components = {
 			as="h1"
 			bold
 			size="12"
+			displayRound
 			css={{
 				py: '$5',
-				fontFamily: '$HaasGrotDisplayRound',
 				fontSize: '26px',
 				lineHeight: '30px',
-
 				'@md': { fontSize: '36px', lineHeight: '46px' },
 			}}
 			{...props}
 		/>
 	),
-	h2: props => <Text as="h2" size="10" css={{ py: '$3' }} {...props} />,
-	h3: props => <Text as="h3" size="8" css={{ py: '$3' }} {...props} />,
-	h4: props => <Text as="h4" size="7" css={{ py: '$3' }} {...props} />,
-	h5: props => <Text as="h5" size="5" css={{ py: '$3' }} {...props} />,
-	h6: props => <Text as="h6" size="4" css={{ py: '$3' }} {...props} />,
+	h2: props => <Text displayRound as="h2" size="10" css={{ py: '$3' }} {...props} />,
+	h3: props => <Text displayRound as="h3" size="8" css={{ py: '$3' }} {...props} />,
+	h4: props => <Text displayRound as="h4" size="7" css={{ py: '$3' }} {...props} />,
+	h5: props => <Text displayRound as="h5" size="5" css={{ py: '$3' }} {...props} />,
+	h6: props => <Text displayRound as="h6" size="4" css={{ py: '$3' }} {...props} />,
 	p: props => (
 		<Text
 			as="p"
@@ -53,10 +52,8 @@ interface IProps {
 	mdxSource: any
 }
 
-export const MdxTheme: React.FC<IProps> = ({ mdxSource }) => {
-	return (
-		<Text size="5" regular css={{ width: '100%', lineHeight: '25px' }} as="div">
-			<MDXRemote {...mdxSource} components={components} />
-		</Text>
-	)
-}
+export const MdxTheme: React.FC<IProps> = ({ mdxSource }) => (
+	<Text size="5" regular css={{ width: '100%', lineHeight: '25px' }}>
+		<MDXRemote {...mdxSource} components={components} />
+	</Text>
+)

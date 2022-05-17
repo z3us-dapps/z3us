@@ -19,12 +19,12 @@ export interface IProps {
 
 const ButtonTipFeedback: React.FC<IProps> = ({
 	children,
-	feedback = 'Copied',
+	feedback,
 	tooltip,
-	sideOffset = 3,
-	showToolTipArrow = true,
-	toolTipOffset = 0,
-	delay = 700,
+	sideOffset,
+	showToolTipArrow,
+	toolTipOffset,
+	delay,
 	bgColor,
 	css,
 }) => {
@@ -98,6 +98,16 @@ const ButtonTipFeedback: React.FC<IProps> = ({
 			</TooltipContent>
 		</Tooltip>
 	)
+}
+
+ButtonTipFeedback.defaultProps = {
+	feedback: 'Copied',
+	sideOffset: 3,
+	showToolTipArrow: true,
+	toolTipOffset: 0,
+	delay: 700,
+	css: undefined,
+	bgColor: undefined,
 }
 
 export default ButtonTipFeedback

@@ -45,7 +45,7 @@ export default {
 		},
 		{
 			rel: 'mask-icon',
-			color: '#5bbad5',
+			color: '#8052ff',
 			href: '/images/favicon/safari-pinned-tab.svg',
 		},
 	],

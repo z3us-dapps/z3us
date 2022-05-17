@@ -4,9 +4,9 @@ export default {
 	manifest_version: 2,
 	version: pkg.version,
 	author: 'https://z3us.com',
-	name: 'z3us',
-	short_name: 'z3us',
-	description: 'A community centric open source browser wallet for the Radix DLT network.',
+	name: 'Z3US',
+	short_name: 'Z3US',
+	description: 'An open source community centered browser wallet for the Radix DLT network.',
 	browser_action: {
 		default_icon: {
 			'16': 'favicon-16x16.png',
@@ -14,9 +14,9 @@ export default {
 			'128': 'favicon-128x128.png',
 		},
 		default_popup: 'popup-theme-light.html',
-		default_title: 'z3us',
+		default_title: 'Z3US',
 	},
-	permissions: ['storage', 'unlimitedStorage', 'webRequest', 'https://*/*'],
+	permissions: ['storage', 'unlimitedStorage', 'webRequest', 'notifications', 'https://*/*'],
 	background: {
 		scripts: ['src/lib/background.ts'],
 		persistent: true,

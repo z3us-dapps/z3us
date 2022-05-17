@@ -2,6 +2,7 @@ import React from 'react'
 import Button from 'ui/src/components/button'
 import { useStore } from '@src/store'
 import { QRCodeSVG } from 'qrcode.react'
+import { CSS } from 'ui/src/theme'
 import { getShortAddress } from '@src/utils/string-utils'
 import { CopyIcon, Cross2Icon } from '@radix-ui/react-icons'
 import { QrCodeIcon } from 'ui/src/components/icons'
@@ -11,7 +12,15 @@ import { Text, Flex } from 'ui/src/components/atoms'
 import { Popover, PopoverArrow, PopoverContent, PopoverTrigger, PopoverClose } from 'ui/src/components/popover'
 import { useColorMode } from '@src/hooks/use-color-mode'
 
-export const QrHoverCard: React.FC = () => {
+export interface IProps {
+	css?: CSS
+}
+
+const defaultProps = {
+	css: undefined,
+}
+
+export const QrHoverCard = ({ css }: IProps): JSX.Element => {
 	const isDarkMode = useColorMode()
 	const { accountAddress, addressBook } = useStore(state => ({
 		accountAddress: state.getCurrentAddressAction(),
@@ -28,7 +37,7 @@ export const QrHoverCard: React.FC = () => {
 	return (
 		<Popover>
 			<PopoverTrigger asChild>
-				<Button size="4" color="ghost" aria-label="current wallet qr code" iconOnly>
+				<Button size="4" color="ghost" aria-label="current wallet qr code" iconOnly css={{ ...(css as any) }}>
 					<QrCodeIcon />
 				</Button>
 			</PopoverTrigger>
@@ -71,3 +80,5 @@ export const QrHoverCard: React.FC = () => {
 		</Popover>
 	)
 }
+
+QrHoverCard.defaultProps = defaultProps

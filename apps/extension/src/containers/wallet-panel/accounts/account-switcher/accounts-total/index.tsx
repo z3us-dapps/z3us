@@ -4,7 +4,6 @@ import { useAllAccountsValue } from '@src/services/react-query/queries/account'
 import { useStore } from '@src/store'
 import { Flex, Box, Text } from 'ui/src/components/atoms'
 import PriceTicker from 'ui/src/components/price-ticker'
-import PriceLabel from 'ui/src/components/price-label'
 import { formatBigNumber } from '@src/utils/formatters'
 
 export const AccountsTotal = (): JSX.Element => {
@@ -57,12 +56,13 @@ export const AccountsTotal = (): JSX.Element => {
 			}}
 		>
 			<Box css={{ textAlign: 'center' }}>
-				<Text size="5" css={{ pb: '$1' }}>
+				<Text medium size="5" css={{ pb: '$1' }}>
 					Total balance
 				</Text>
 				<Text
 					bold
 					as="h2"
+					centra
 					css={{
 						fontSize: '32px',
 						lineHeight: '38px',
@@ -71,17 +71,11 @@ export const AccountsTotal = (): JSX.Element => {
 				>
 					<PriceTicker value={state.accountValue} refresh={activeSlideIndex} />
 				</Text>
-				<PriceLabel
-					color={change.isGreaterThan(0) ? 'greenContrast' : 'redContrast'}
-					css={{
-						opacity: !isLoading ? '1' : '0',
-						transition: '$default',
-					}}
-				>
-					<Text size="2" bold>
+				<Flex justify="center" css={{ mt: '4px' }}>
+					<Text size="7">
 						<PriceTicker value={accountPercentageChange} refresh={activeSlideIndex} />
 					</Text>
-				</PriceLabel>
+				</Flex>
 			</Box>
 		</Flex>
 	)

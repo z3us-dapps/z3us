@@ -135,16 +135,20 @@ export const LandingPage: React.FC = () => (
 										justify="center"
 										align="center"
 										direction="column"
-										css={{ mt: '$5', width: '100%', '@xs': { maxWidth: '100%' }, '@md': { maxWidth: '180px' } }}
+										css={{
+											mt: '$5',
+											width: '100%',
+											'@xs': { maxWidth: '100%' },
+											'@md': { maxWidth: '180px' },
+										}}
 									>
-										<Text css={{ pb: '15px', fontFamily: '$HaasGrotTextRound', fontSize: '13px', lineHeight: '14px' }}>
+										<Text bold size="3" css={{ pb: '15px' }}>
 											Available in:
 										</Text>
 										<BrowserIconLinks />
 									</Flex>
 								</Box>
 							</Box>
-
 							<Flex
 								align="center"
 								justify="center"
