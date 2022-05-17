@@ -6,7 +6,7 @@ export default {
 	author: 'https://z3us.com',
 	name: 'Z3US',
 	short_name: 'Z3US',
-	description: 'A community centric open source browser wallet for the Radix DLT network.',
+	description: 'An open source community centered browser wallet for the Radix DLT network.',
 	browser_action: {
 		default_icon: {
 			'16': 'favicon-16x16.png',
@@ -16,7 +16,7 @@ export default {
 		default_popup: 'popup-theme-light.html',
 		default_title: 'Z3US',
 	},
-	permissions: ['storage', 'unlimitedStorage', 'webRequest', 'https://*/*'],
+	permissions: ['storage', 'unlimitedStorage', 'webRequest', 'notifications', 'https://*/*'],
 	background: {
 		scripts: ['src/lib/background.ts'],
 		persistent: true,

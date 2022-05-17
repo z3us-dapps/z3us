@@ -1,10 +1,10 @@
-/* eslint-disable */
+/* eslint-disable react/jsx-props-no-spreading */
 import React from 'react'
 import SyntaxHighlighter from 'react-syntax-highlighter'
 import { MDXRemote } from 'next-mdx-remote'
 import Button from 'ui/src/components/button'
-import { Example as ExampleV1 } from '../pages/example-v1'
 import { Text, StyledLink } from 'ui/src/components/atoms'
+import { Example as ExampleV1 } from '../pages/example-v1'
 
 const components = {
 	Button,
@@ -52,10 +52,8 @@ interface IProps {
 	mdxSource: any
 }
 
-export const MdxTheme: React.FC<IProps> = ({ mdxSource }) => {
-	return (
-		<Text size="5" regular css={{ width: '100%', lineHeight: '25px' }} as="div">
-			<MDXRemote {...mdxSource} components={components} />
-		</Text>
-	)
-}
+export const MdxTheme: React.FC<IProps> = ({ mdxSource }) => (
+	<Text size="5" regular css={{ width: '100%', lineHeight: '25px' }}>
+		<MDXRemote {...mdxSource} components={components} />
+	</Text>
+)
