@@ -30,7 +30,7 @@ export const Footer: React.FC = () => (
 											lineHeight: '14px',
 										}}
 									>
-										&copy; {new Date().getFullYear()} Z3US
+										&copy; {new Date().getFullYear()}
 									</Text>
 								</Box>
 							</Box>

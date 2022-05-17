@@ -1,6 +1,6 @@
 import React from 'react'
 import { useImmer } from 'use-immer'
-import { Box, Flex, StyledLink } from 'ui/src/components/atoms'
+import { Text, Box, Flex, StyledLink } from 'ui/src/components/atoms'
 import { useEventListener } from 'usehooks-ts'
 import { PageContainer } from 'components/page-container'
 import { Container, Row, Col } from 'react-grid-system'
@@ -112,6 +112,13 @@ export const Header: React.FC<IProps> = ({ isLandingPage }) => {
 											},
 										}}
 									>
+										<Link href="/docs" passHref>
+											<StyledLink underlineOnHover css={{ mr: '$2' }}>
+												<Text bold size="4" css={{ pt: '1px' }}>
+													Docs
+												</Text>
+											</StyledLink>
+										</Link>
 										<ToolTip message="GitHub" bgColor="$bgPanel2">
 											<Button target="_blank" href={config.GITHUB_URL} as="a" size="3" color="ghost" iconOnly>
 												<GithubIcon />

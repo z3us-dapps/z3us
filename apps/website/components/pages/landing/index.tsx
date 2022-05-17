@@ -136,7 +136,6 @@ export const LandingPage: React.FC = () => (
 										align="center"
 										direction="column"
 										css={{
-											display: 'none',
 											mt: '$5',
 											width: '100%',
 											'@xs': { maxWidth: '100%' },
