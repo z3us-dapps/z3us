@@ -88,7 +88,7 @@ export const FlashCtaButton = (): JSX.Element => {
 				href="#"
 				as="a"
 				size="6"
-				color="secondary"
+				color="ghost"
 				rounded
 				css={{
 					width: '180px',
