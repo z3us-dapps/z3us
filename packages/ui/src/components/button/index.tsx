@@ -126,8 +126,8 @@ Button.toString = () => '.z3us-ui-button'
 
 Button.defaultProps = {
 	as: 'button',
-	color: 'primary',
-	size: '3',
+	color: undefined,
+	size: undefined,
 	icon: undefined,
 	href: undefined,
 	target: undefined,

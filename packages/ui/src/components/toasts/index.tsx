@@ -99,11 +99,13 @@ const Toast = React.forwardRef<HTMLDivElement, React.PropsWithChildren<ToastProp
 			? createPortal(
 					<Box ref={ref} css={{ position: 'fixed', top: '0', width: '360px' }}>
 						<AnimatePresence>
-							{isShown && (
-								<ToastC key={uniqueId} type={type} onClickClose={() => close(uniqueId)}>
-									{children}
-								</ToastC>
-							)}
+							<Box>
+								{isShown && (
+									<ToastC key={uniqueId} type={type} onClickClose={() => close(uniqueId)}>
+										{children}
+									</ToastC>
+								)}
+							</Box>
 						</AnimatePresence>
 					</Box>,
 					document.querySelector('body'),
