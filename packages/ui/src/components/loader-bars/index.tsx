@@ -1,7 +1,6 @@
 /* eslint-disable react/jsx-props-no-spreading */
-import React, { PropsWithoutRef, RefAttributes, useImperativeHandle, useRef } from 'react'
+import React, { useImperativeHandle, useRef } from 'react'
 import { CSS } from '../../theme'
-import withDefaults from '../../utils/with-defaults'
 import { __DEV__ } from '../../utils/assertion'
 import { StyledLoaderBars, LoaderBarsVariantsProps } from './loader-bars.styles'
 import { Box } from '../atoms/box'
@@ -9,11 +8,7 @@ import { Box } from '../atoms/box'
 export interface Props {
 	as?: keyof JSX.IntrinsicElements
 	size?: string
-}
-
-const defaultProps = {
-	as: 'span',
-	size: '2',
+	css?: CSS
 }
 
 type NativeAttrs = Omit<React.HTMLAttributes<unknown>, keyof Props>
@@ -38,12 +33,16 @@ const LoaderBars = React.forwardRef<HTMLDivElement, React.PropsWithChildren<Pric
 	},
 )
 
-type LoaderBarsComponent<T, P = {}> = React.ForwardRefExoticComponent<PropsWithoutRef<P> & RefAttributes<T>>
-
 if (__DEV__) {
 	LoaderBars.displayName = 'z3usUI - loader bars'
 }
 
 LoaderBars.toString = () => '.z3us loader bars'
 
-export default withDefaults(LoaderBars, defaultProps) as LoaderBarsComponent<HTMLDivElement, PriceLabelProps>
+LoaderBars.defaultProps = {
+	as: 'span',
+	size: '2',
+	css: undefined,
+}
+
+export default LoaderBars

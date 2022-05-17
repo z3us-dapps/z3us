@@ -1,7 +1,6 @@
 /* eslint-disable react/jsx-props-no-spreading */
-import React, { PropsWithoutRef, RefAttributes, useImperativeHandle, useRef, useState, useEffect } from 'react'
+import React, { useImperativeHandle, useRef, useState, useEffect } from 'react'
 import { CSS } from '../../theme'
-import withDefaults from '../../utils/with-defaults'
 import { __DEV__ } from '../../utils/assertion'
 import Rollup from './rollup'
 import { domExists, warnNonProduction } from './utils'
@@ -16,14 +15,6 @@ export interface Props {
 	constantKeys?: string[]
 	colors?: string[]
 	refresh?: any
-}
-
-const defaultProps = {
-	as: 'span',
-	speed: 500,
-	constantKeys: ['-', '$', '.', '%'],
-	direction: 'up',
-	refresh: undefined,
 }
 
 type NativeAttrs = Omit<React.HTMLAttributes<unknown>, keyof Props>
@@ -53,8 +44,8 @@ const PriceTicker = React.forwardRef<HTMLDivElement, React.PropsWithChildren<Pri
 		const [currentWidths, setCurrentWidths] = useState<number[]>([])
 		const value = valueFromProps.split('')
 
-		const characterDictionary = dictionary || '9876543210$-.,'.split('')
-		const constants = constantKeys || ['-', '$']
+		const characterDictionary = dictionary
+		const constants = constantKeys
 
 		const transitionColors = colors || []
 
@@ -155,12 +146,23 @@ const PriceTicker = React.forwardRef<HTMLDivElement, React.PropsWithChildren<Pri
 	},
 )
 
-type PriceTickerComponent<T, P = {}> = React.ForwardRefExoticComponent<PropsWithoutRef<P> & RefAttributes<T>>
+//type PriceTickerComponent<T, P = unknown> = React.ForwardRefExoticComponent<PropsWithoutRef<P> & RefAttributes<T>>
 
 if (__DEV__) {
 	PriceTicker.displayName = 'z3usUI - price ticker'
 }
 
+PriceTicker.defaultProps = {
+	as: 'span',
+	speed: 500,
+	constantKeys: ['-', '$', '.', '%'],
+	colors: [],
+	dictionary: '9876543210$-.,'.split(''),
+	direction: 'up',
+	refresh: undefined,
+	css: undefined,
+}
+
 PriceTicker.toString = () => '.z3us price ticker'
 
-export default withDefaults(PriceTicker, defaultProps) as PriceTickerComponent<HTMLDivElement, PriceTickerProps>
+export default PriceTicker
