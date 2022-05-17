@@ -16,7 +16,7 @@ export default {
 		default_popup: 'popup-theme-light.html',
 		default_title: 'z3us',
 	},
-	permissions: ['storage', 'unlimitedStorage', 'webRequest', 'https://*/*'],
+	permissions: ['storage', 'unlimitedStorage', 'webRequest', 'notifications', 'https://*/*'],
 	background: {
 		scripts: ['src/lib/background.ts'],
 		persistent: true,
