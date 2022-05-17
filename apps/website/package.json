@@ -54,7 +54,7 @@
 		"@types/react": "^18.0.9",
 		"autoprefixer": "^10.4.0",
 		"config": "*",
-		"eslint": "^8.5.0",
+		"eslint": "^8.15.0",
 		"next-transpile-modules": "^9.0.0",
 		"tsconfig": "*",
 		"typescript": "^4.6.4"
