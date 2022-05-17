@@ -1,4 +1,4 @@
-# ⚡ z3us ⚡ 
+# ⚡ Z3US ⚡ 
 
 This [Turborepo](https://turborepo.org/) monorepo is home to the Z3US browser extension wallet for the [Radix](https://www.radixdlt.com/) DLT network.
 
@@ -11,7 +11,7 @@ Clone repo
 ```
 git clone git@github.com:z3us-dapps/z3us.git
 ```
-Go to `z3us` directory run
+Go to `Z3US` directory run
 
 ```
 yarn install --ignore-engines
@@ -41,8 +41,8 @@ yarn dev
 Now visit the website running locally at [localhost:4000](http://localhost:4000)
 
 ## Apps
-- `website`: z3us [Next.js](https://nextjs.org) website - [localhost:4000](http://localhost:4000)
-- `extension`: z3us wallet browser extension - [Vite](https://vitejs.dev/) and [React](https://reactjs.org/) - [localhost:8003](http://localhost:8003)
+- `website`: Z3US [Next.js](https://nextjs.org) website - [localhost:4000](http://localhost:4000)
+- `extension`: Z3US wallet browser extension - [Vite](https://vitejs.dev/) and [React](https://reactjs.org/) - [localhost:8003](http://localhost:8003)
  
 ## Packages
 - `ui`: a shared React component library using stiches [stitches](https://stitches.dev) and [radix ui](https://www.radix-ui.com/)

@@ -1,3 +1,3 @@
-# ⚡ z3us ⚡ 
+# ⚡ Z3US ⚡ 
 
 ## extension
