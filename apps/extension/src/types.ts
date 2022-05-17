@@ -84,8 +84,12 @@ export enum ColorSettings {
 	COLOR_PRIMARY_STOP = 'color_primary_stop',
 	COLOR_SECONDARY = 'color_secondary',
 	COLOR_SECONDARY_STOP = 'color_secondary_stop',
+	COLOR_TERTIARY = 'color_tertiary',
+	COLOR_TERTIARY_STOP = 'color_tertiary_stop',
 	COLOR_TEXT = 'color_text',
+	COLOR_BORDER = 'color_border',
 	GRADIENT_TYPE = 'gradient_type',
+	GRADIENT_START = 'gradient_start',
 }
 
 export enum ExtendedActionType {
