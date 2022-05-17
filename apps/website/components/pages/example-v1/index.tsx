@@ -142,7 +142,7 @@ export const Example = () => {
 
 	return (
 		<Box>
-			<Box css={{ p: '$8', maxWidth: '800px' }}>
+			<Box css={{ maxWidth: '100%' }}>
 				{!address ? (
 					<AlertCard icon color="warning" css={{ mt: '$4' }}>
 						<Text medium size="4" css={{ p: '$3' }}>

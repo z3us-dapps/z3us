@@ -56,11 +56,11 @@ const PostPage = ({ docs, frontMatter: { title, date }, mdxSource }) => {
 									<SideMenu docs={docs} />
 								</Col>
 								<Col>
-									<Box css={{ width: '100%', pb: '100px' }}>
+									<Box css={{ width: '100%', pb: '100px', maxWidth: '700px' }}>
 										<MdxTheme mdxSource={mdxSource} />
 									</Box>
 								</Col>
-								<Col xs={2}></Col>
+								<Col xs={1}></Col>
 							</Row>
 						</Container>
 					</PageContainer>
