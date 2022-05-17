@@ -12,34 +12,35 @@ export const useWatchTransactions = () => {
 		{},
 	)
 
-	const [lastTxs, setLastTxs] = useState({})
+	const [lastTxIds, setLastTxIds] = useState({})
 
 	useEffect(() => {
 		if (isLoading) return
 		if (!transactionMap) return
 
-		const newLastTxs = {}
+		const newLastTxIds = {}
 		Object.keys(transactionMap).forEach(address => {
 			const transactions = transactionMap[address]
-			const lastTxId = lastTxs[address]?.id
+			const lastTxId = lastTxIds[address]
 
 			if (lastTxId) {
 				for (let i = 0; i < transactions.length; i += 1) {
 					if (lastTxId === transactions[i].id) {
 						break
 					}
-					browser.notifications.create(transactions[0].id, {
+					browser.notifications.create(transactions[i].id, {
 						title,
 						type: 'basic',
 						message: 'There is a new transaction on your account',
+						iconUrl: browser.runtime.getURL('favicon-128x128.png'),
 					})
 				}
 			}
 			if (transactions.length > 0) {
-				newLastTxs[address] = transactions[0].id
+				newLastTxIds[address] = transactions[0].id
 			}
 		})
 
-		setLastTxs(newLastTxs)
+		setLastTxIds(newLastTxIds)
 	}, [isLoading, transactionMap])
 }
