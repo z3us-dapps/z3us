@@ -3,7 +3,6 @@ import { createPortal } from 'react-dom'
 import create from 'zustand'
 import shallow from 'zustand/shallow'
 import { AnimatePresence } from 'framer-motion'
-import { CSS } from '../../theme'
 import { __DEV__ } from '../../utils/assertion'
 import withDefaults from '../../utils/with-defaults'
 import { Toast as ToastC } from './toast'
@@ -47,7 +46,7 @@ const useToastStore = create<ToastsState>((set, get) => ({
 
 export interface Props {
 	uniqueId: string
-	children?: React.ReactNode
+	children: React.ReactNode
 	config: {
 		duration: number
 		type?: string
@@ -61,7 +60,7 @@ const defaultToastProps = {
 
 type NativeAttrs = Omit<React.HTMLAttributes<unknown>, keyof Props>
 
-export type ToastProps = Props & NativeAttrs & { css?: CSS }
+export type ToastProps = Props & NativeAttrs
 
 const Toast = React.forwardRef<HTMLDivElement, React.PropsWithChildren<ToastProps>>(
 	({ uniqueId, config, children }, ref: React.Ref<HTMLDivElement | null>) => {

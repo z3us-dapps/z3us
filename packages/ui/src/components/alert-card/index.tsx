@@ -1,8 +1,7 @@
 /* eslint-disable react/jsx-props-no-spreading */
-import React, { PropsWithoutRef, RefAttributes, useImperativeHandle, useRef } from 'react'
+import React, { useImperativeHandle, useRef } from 'react'
 import { Cross2Icon, ExclamationTriangleIcon, CheckCircledIcon, CrossCircledIcon } from '@radix-ui/react-icons'
 import { CSS } from '../../theme'
-import withDefaults from '../../utils/with-defaults'
 import { __DEV__ } from '../../utils/assertion'
 import { Box } from '../atoms/box'
 import Button from '../button'
@@ -12,12 +11,7 @@ export interface Props {
 	as?: keyof JSX.IntrinsicElements
 	icon?: React.ReactNode | boolean
 	onClose?: () => void
-}
-
-const defaultProps = {
-	as: 'div',
-	icon: false,
-	onClose: undefined,
+	css?: CSS
 }
 
 type NativeAttrs = Omit<React.HTMLAttributes<unknown>, keyof Props>
@@ -72,14 +66,17 @@ const AlertCard = React.forwardRef<HTMLDivElement, React.PropsWithChildren<Alert
 	},
 )
 
-type CardComponent<T, P = {}> = React.ForwardRefExoticComponent<PropsWithoutRef<P> & RefAttributes<T>> & {
-	Image: typeof Image
-}
-
 if (__DEV__) {
 	AlertCard.displayName = 'z3usUI - Alert card'
 }
 
 AlertCard.toString = () => '.z3us alert card'
 
-export default withDefaults(AlertCard, defaultProps) as CardComponent<HTMLDivElement, AlertCardProps>
+AlertCard.defaultProps = {
+	as: 'div',
+	icon: false,
+	onClose: undefined,
+	css: undefined,
+}
+
+export default AlertCard
