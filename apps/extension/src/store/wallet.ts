@@ -139,7 +139,7 @@ export const whiteList = [
 	'pendingActions',
 ]
 
-const rpName = 'z3us'
+const rpName = 'Z3US'
 
 const mainnetURL = new URL('https://mainnet.radixdlt.com')
 const stokenetURL = new URL('https://stokenet.radixdlt.com')

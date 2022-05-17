@@ -1,4 +1,3 @@
-/* eslint-disable */
 import { styled, VariantProps } from '../../theme'
 
 export const StyledPill = styled('div', {
