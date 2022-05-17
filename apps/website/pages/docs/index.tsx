@@ -3,13 +3,14 @@ import fs from 'fs'
 import path from 'path'
 import matter from 'gray-matter'
 import { serialize } from 'next-mdx-remote/serialize'
-//import Link from 'next/link'
 //import Image from 'next/image'
 import React from 'react'
-import { Box, Flex } from 'ui/src/components/atoms'
 import { NextSeo } from 'next-seo'
-import { Container, Grid } from '@nextui-org/react'
 import { Header } from 'components/header'
+import { Container, Row, Col } from 'react-grid-system'
+import { Box, Text, Flex, StyledLink } from 'ui/src/components/atoms'
+import { PageContainer } from 'components/page-container'
+import { config } from 'config'
 import { Footer } from 'components/footer'
 import { MdxTheme } from 'components/mdx-theme'
 import { SideMenu } from 'components/side-menu'
@@ -20,21 +21,21 @@ const DocsIndex = ({ docs, mdxSource }) => {
 	return (
 		<>
 			<NextSeo
-				title="Documentation | z3us"
+				title="Documentation"
 				openGraph={{
 					type: 'website',
-					url: 'https://www.example.com/page',
-					title: 'Open Graph Title',
-					description: 'Open Graph Description',
+					url: config.Z3US_URL,
+					title: config.OPEN_GRAPH_TITLE,
+					description: config.OPEN_GRAPH_DESCRIPTION,
 					images: [
 						{
-							url: 'https://www.example.com/og-image.jpg',
+							url: `${config.Z3US_URL}/og-image-1.png`,
 							width: 800,
 							height: 600,
 							alt: 'Og Image Alt',
 						},
 						{
-							url: 'https://www.example.com/og-image-2.jpg',
+							url: `${config.Z3US_URL}/og-image-2.png`,
 							width: 800,
 							height: 600,
 							alt: 'Og Image Alt 2',
@@ -50,18 +51,20 @@ const DocsIndex = ({ docs, mdxSource }) => {
 						flex: '1',
 					}}
 				>
-					<Container gap={0}>
-						<Grid.Container gap={0}>
-							<Grid xs={3}>
-								<SideMenu docs={docs} />
-							</Grid>
-							<Grid xs={6}>
-								<Box css={{ width: '100%', pb: '100px' }}>
-									<MdxTheme mdxSource={mdxSource} />
-								</Box>
-							</Grid>
-						</Grid.Container>
-					</Container>
+					<PageContainer>
+						<Container fluid>
+							<Row>
+								<Col xs={4}>
+									<SideMenu docs={docs} />
+								</Col>
+								<Col>
+									<Box css={{ width: '100%', pb: '100px' }}>
+										<MdxTheme mdxSource={mdxSource} />
+									</Box>
+								</Col>
+							</Row>
+						</Container>
+					</PageContainer>
 				</Box>
 				<Footer />
 			</Flex>

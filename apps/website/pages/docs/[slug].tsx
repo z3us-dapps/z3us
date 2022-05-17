@@ -4,12 +4,14 @@ import fs from 'fs'
 import path from 'path'
 import matter from 'gray-matter'
 import { NextSeo } from 'next-seo'
+import { Container, Row, Col } from 'react-grid-system'
 import { Box, Flex } from 'ui/src/components/atoms'
-import { Container, Grid } from '@nextui-org/react'
 import { Header } from 'components/header'
 import { Footer } from 'components/footer'
 import { MdxTheme } from 'components/mdx-theme'
 import { SideMenu } from 'components/side-menu'
+import { PageContainer } from 'components/page-container'
+import { config } from 'config'
 import docsGlobalStyles from './docs.styles'
 
 const PostPage = ({ docs, frontMatter: { title, date }, mdxSource }) => {
@@ -17,20 +19,21 @@ const PostPage = ({ docs, frontMatter: { title, date }, mdxSource }) => {
 	return (
 		<>
 			<NextSeo
+				title="Documentation"
 				openGraph={{
 					type: 'website',
-					url: 'https://www.example.com/page',
-					title: 'Open Graph Title',
-					description: 'Open Graph Description',
+					url: config.Z3US_URL,
+					title: config.OPEN_GRAPH_TITLE,
+					description: config.OPEN_GRAPH_DESCRIPTION,
 					images: [
 						{
-							url: 'https://www.example.com/og-image.jpg',
+							url: `${config.Z3US_URL}/og-image-1.png`,
 							width: 800,
 							height: 600,
 							alt: 'Og Image Alt',
 						},
 						{
-							url: 'https://www.example.com/og-image-2.jpg',
+							url: `${config.Z3US_URL}/og-image-2.png`,
 							width: 800,
 							height: 600,
 							alt: 'Og Image Alt 2',
@@ -38,28 +41,30 @@ const PostPage = ({ docs, frontMatter: { title, date }, mdxSource }) => {
 					],
 				}}
 			/>
-
 			<Flex direction="column" css={{ minHeight: '100vh' }}>
 				<Header />
-
-				<Box css={{ flex: '1' }}>
-					<Container gap={0}>
-						<Grid.Container gap={0}>
-							<Grid xs={3}>
-								<SideMenu docs={docs} />
-							</Grid>
-							<Grid xs={6}>
-								<Box css={{ width: '100%', pb: '100px' }}>
-									<MdxTheme mdxSource={mdxSource} />
-								</Box>
-							</Grid>
-							<Grid xs={3}>
-								<Flex justify="end" css={{ width: '100%', pr: '$3' }}></Flex>
-							</Grid>
-						</Grid.Container>
-					</Container>
+				<Box
+					css={{
+						position: 'relative',
+						flex: '1',
+					}}
+				>
+					<PageContainer>
+						<Container fluid>
+							<Row>
+								<Col xs={4}>
+									<SideMenu docs={docs} />
+								</Col>
+								<Col>
+									<Box css={{ width: '100%', pb: '100px' }}>
+										<MdxTheme mdxSource={mdxSource} />
+									</Box>
+								</Col>
+								<Col xs={2}></Col>
+							</Row>
+						</Container>
+					</PageContainer>
 				</Box>
-
 				<Footer />
 			</Flex>
 		</>
