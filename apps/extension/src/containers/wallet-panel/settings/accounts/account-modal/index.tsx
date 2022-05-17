@@ -2,7 +2,6 @@ import React from 'react'
 import { useImmer } from 'use-immer'
 import { useStore } from '@src/store'
 import { Cross2Icon } from '@radix-ui/react-icons'
-import { CloseIcon } from 'ui/src/components/icons'
 import { AccountAddress } from '@src/components/account-address'
 import Button from 'ui/src/components/button'
 import Input from 'ui/src/components/input'
@@ -13,7 +12,7 @@ import { Popover, PopoverArrow, PopoverContent, PopoverTrigger, PopoverClose } f
 import { Box, Text, Flex } from 'ui/src/components/atoms'
 import { ColorSettings } from '@src/types'
 import { Side } from '@radix-ui/popper'
-import { colorMap, generateGradient, presetMap, PRESET_COLOR_LIGHT_ORCHID } from '@src/config'
+import { colorMap, generateGradient, presetMap } from '@src/config'
 import { AvatarButton } from '../../../components/avatar-button'
 
 const sharedColorButtonStyle = {
@@ -60,7 +59,6 @@ export const AccountModal = ({
 	const entry = addressBook[address]
 
 	const [state, setState] = useImmer({
-		...presetMap[PRESET_COLOR_LIGHT_ORCHID],
 		...entry?.colorSettings,
 		isModalOpen: false,
 	})
@@ -73,28 +71,45 @@ export const AccountModal = ({
 
 	const handleCloseModal = () => {
 		setState(draft => {
+			draft[ColorSettings.COLOR_PRIMARY] = entry?.colorSettings[ColorSettings.COLOR_PRIMARY]
+			draft[ColorSettings.COLOR_PRIMARY_STOP] = entry?.colorSettings[ColorSettings.COLOR_PRIMARY_STOP]
+			draft[ColorSettings.COLOR_SECONDARY] = entry?.colorSettings[ColorSettings.COLOR_SECONDARY]
+			draft[ColorSettings.COLOR_SECONDARY_STOP] = entry?.colorSettings[ColorSettings.COLOR_SECONDARY_STOP]
+			draft[ColorSettings.COLOR_TERTIARY] = entry?.colorSettings[ColorSettings.COLOR_TERTIARY]
+			draft[ColorSettings.COLOR_TERTIARY_STOP] = entry?.colorSettings[ColorSettings.COLOR_TERTIARY_STOP]
+			draft[ColorSettings.COLOR_TEXT] = entry?.colorSettings[ColorSettings.COLOR_TEXT]
+			draft[ColorSettings.COLOR_BORDER] = entry?.colorSettings[ColorSettings.COLOR_BORDER]
+			draft[ColorSettings.GRADIENT_TYPE] = entry?.colorSettings[ColorSettings.GRADIENT_TYPE]
+			draft[ColorSettings.GRADIENT_START] = entry?.colorSettings[ColorSettings.GRADIENT_START]
 			draft.isModalOpen = false
 		})
 	}
 
 	const handleSaveGradient = () => {
 		const background = generateGradient(
-			state[ColorSettings.GRADIENT_TYPE],
 			state[ColorSettings.COLOR_PRIMARY],
 			state[ColorSettings.COLOR_PRIMARY_STOP],
 			state[ColorSettings.COLOR_SECONDARY],
 			state[ColorSettings.COLOR_SECONDARY_STOP],
+			state[ColorSettings.COLOR_TERTIARY],
+			state[ColorSettings.COLOR_TERTIARY_STOP],
+			state[ColorSettings.GRADIENT_TYPE],
+			state[ColorSettings.GRADIENT_START],
 		)
 
 		setAddressBookEntry(address, {
 			background,
 			colorSettings: {
 				[ColorSettings.COLOR_TEXT]: state[ColorSettings.COLOR_TEXT],
-				[ColorSettings.GRADIENT_TYPE]: state[ColorSettings.GRADIENT_TYPE],
+				[ColorSettings.COLOR_BORDER]: state[ColorSettings.COLOR_BORDER],
 				[ColorSettings.COLOR_PRIMARY]: state[ColorSettings.COLOR_PRIMARY],
 				[ColorSettings.COLOR_PRIMARY_STOP]: state[ColorSettings.COLOR_PRIMARY_STOP],
 				[ColorSettings.COLOR_SECONDARY]: state[ColorSettings.COLOR_SECONDARY],
 				[ColorSettings.COLOR_SECONDARY_STOP]: state[ColorSettings.COLOR_SECONDARY_STOP],
+				[ColorSettings.COLOR_TERTIARY]: state[ColorSettings.COLOR_TERTIARY],
+				[ColorSettings.COLOR_TERTIARY_STOP]: state[ColorSettings.COLOR_TERTIARY_STOP],
+				[ColorSettings.GRADIENT_TYPE]: state[ColorSettings.GRADIENT_TYPE],
+				[ColorSettings.GRADIENT_START]: state[ColorSettings.GRADIENT_START],
 			},
 		})
 
@@ -106,8 +121,15 @@ export const AccountModal = ({
 	const handleSelectPreset = (preset: string) => {
 		setState(draft => {
 			draft[ColorSettings.COLOR_PRIMARY] = presetMap[preset][ColorSettings.COLOR_PRIMARY]
+			draft[ColorSettings.COLOR_PRIMARY_STOP] = presetMap[preset][ColorSettings.COLOR_PRIMARY_STOP]
 			draft[ColorSettings.COLOR_SECONDARY] = presetMap[preset][ColorSettings.COLOR_SECONDARY]
+			draft[ColorSettings.COLOR_SECONDARY_STOP] = presetMap[preset][ColorSettings.COLOR_SECONDARY_STOP]
+			draft[ColorSettings.COLOR_TERTIARY] = presetMap[preset][ColorSettings.COLOR_TERTIARY]
+			draft[ColorSettings.COLOR_TERTIARY_STOP] = presetMap[preset][ColorSettings.COLOR_TERTIARY_STOP]
 			draft[ColorSettings.COLOR_TEXT] = presetMap[preset][ColorSettings.COLOR_TEXT]
+			draft[ColorSettings.COLOR_BORDER] = presetMap[preset][ColorSettings.COLOR_BORDER]
+			draft[ColorSettings.GRADIENT_TYPE] = presetMap[preset][ColorSettings.GRADIENT_TYPE]
+			draft[ColorSettings.GRADIENT_START] = presetMap[preset][ColorSettings.GRADIENT_START]
 		})
 	}
 
@@ -134,24 +156,28 @@ export const AccountModal = ({
 						color="ghost"
 						iconOnly
 						aria-label="close color select modal"
-						size="2"
-						css={{ position: 'absolute', top: '$1', right: '$1' }}
+						size="1"
+						css={{ position: 'absolute', top: '$2', right: '$2', color: state[ColorSettings.COLOR_TEXT] }}
 						onClick={handleCloseModal}
 					>
-						<CloseIcon />
+						<Cross2Icon />
 					</Button>
 					<Flex
 						align="center"
 						justify="center"
 						css={{
 							background: generateGradient(
-								state[ColorSettings.GRADIENT_TYPE],
 								state[ColorSettings.COLOR_PRIMARY],
 								state[ColorSettings.COLOR_PRIMARY_STOP],
 								state[ColorSettings.COLOR_SECONDARY],
 								state[ColorSettings.COLOR_SECONDARY_STOP],
+								state[ColorSettings.COLOR_TERTIARY],
+								state[ColorSettings.COLOR_TERTIARY_STOP],
+								state[ColorSettings.GRADIENT_TYPE],
+								state[ColorSettings.GRADIENT_START],
 							),
 							borderRadius: '4px 4px 0px 0px',
+							borderBottom: `2px solid ${state[ColorSettings.COLOR_BORDER]}`,
 						}}
 					>
 						<Flex
@@ -185,7 +211,16 @@ export const AccountModal = ({
 							</Text>
 						</Flex>
 					</Flex>
-					<Box css={{ flex: '1', p: '$5', pb: '0' }}>
+					<Box
+						css={{
+							flex: '1',
+							p: '$5',
+							pb: '0',
+							display: 'grid',
+							gridTemplateColumns: '1fr 1fr',
+							gridColumnGap: '12px',
+						}}
+					>
 						{Object.entries(colorMap).map(([key, color]) => (
 							<Box key={key} css={{ pb: '$3' }}>
 								<Text bold>{color.title}:</Text>
@@ -230,86 +265,40 @@ export const AccountModal = ({
 												draft[key] = event.currentTarget.value
 											})
 										}}
-										css={{ width: '140px', ml: '$2' }}
+										css={{ width: '84px', ml: '$2' }}
 									/>
-									{key === ColorSettings.COLOR_PRIMARY ? (
-										<Input
-											value={state[ColorSettings.COLOR_PRIMARY_STOP]}
-											onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
-												setState(draft => {
-													draft[ColorSettings.COLOR_PRIMARY_STOP] = event.currentTarget.value
-												})
-											}}
-											css={{ width: '46px', ml: '$2' }}
-										/>
-									) : null}
-									{key === ColorSettings.COLOR_SECONDARY ? (
-										<Input
-											value={state[ColorSettings.COLOR_SECONDARY_STOP]}
-											onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
-												setState(draft => {
-													draft[ColorSettings.COLOR_SECONDARY_STOP] = event.currentTarget.value
-												})
-											}}
-											css={{ width: '46px', ml: '$2' }}
-										/>
-									) : null}
 								</Flex>
 							</Box>
 						))}
-
-						<Box css={{ pt: '$1' }}>
-							<Flex gap="3">
-								<Button
-									color={state[ColorSettings.GRADIENT_TYPE] === 'radial' ? 'primary' : 'tertiary'}
-									size="3"
-									onClick={() => {
-										setState(draft => {
-											draft[ColorSettings.GRADIENT_TYPE] = 'radial'
-										})
-									}}
-								>
-									Radial
-								</Button>
-								<Button
-									color={state[ColorSettings.GRADIENT_TYPE] === 'linear' ? 'primary' : 'tertiary'}
-									size="3"
-									onClick={() => {
-										setState(draft => {
-											draft[ColorSettings.GRADIENT_TYPE] = 'linear'
-										})
-									}}
-								>
-									Linear
-								</Button>
-							</Flex>
-						</Box>
-						<Box css={{ pt: '$3' }}>
-							<Text bold css={{ mb: '$2' }}>
-								Select preset:
-							</Text>
-							<Flex css={{ gap: '$3' }}>
-								{Object.entries(presetMap).map(([key, _color]) => (
-									<Box key={key} css={{ pb: '$3' }}>
-										<Button css={sharedColorButtonStyle} onClick={() => handleSelectPreset(key)}>
-											<Box
-												css={{
-													width: '100%',
-													height: '100%',
-													background: generateGradient(
-														_color[ColorSettings.GRADIENT_TYPE],
-														_color[ColorSettings.COLOR_PRIMARY],
-														_color[ColorSettings.COLOR_PRIMARY_STOP],
-														_color[ColorSettings.COLOR_SECONDARY],
-														_color[ColorSettings.COLOR_SECONDARY_STOP],
-													),
-												}}
-											/>
-										</Button>
-									</Box>
-								))}
-							</Flex>
-						</Box>
+					</Box>
+					<Box css={{ pt: '$2', px: '$5' }}>
+						<Text bold css={{ mb: '$2' }}>
+							Select preset:
+						</Text>
+						<Flex css={{ gap: '$3' }}>
+							{Object.entries(presetMap).map(([key, _color]) => (
+								<Box key={key} css={{ pb: '$3' }}>
+									<Button css={sharedColorButtonStyle} onClick={() => handleSelectPreset(key)}>
+										<Box
+											css={{
+												width: '100%',
+												height: '100%',
+												background: generateGradient(
+													_color[ColorSettings.COLOR_PRIMARY],
+													_color[ColorSettings.COLOR_PRIMARY_STOP],
+													_color[ColorSettings.COLOR_SECONDARY],
+													_color[ColorSettings.COLOR_SECONDARY_STOP],
+													_color[ColorSettings.COLOR_TERTIARY],
+													_color[ColorSettings.COLOR_TERTIARY_STOP],
+													_color[ColorSettings.GRADIENT_TYPE],
+													_color[ColorSettings.GRADIENT_START],
+												),
+											}}
+										/>
+									</Button>
+								</Box>
+							))}
+						</Flex>
 					</Box>
 					<Flex justify="end" gap="2" css={{ mt: '$3', p: '$3' }}>
 						<Button size="3" color="primary" aria-label="save" onClick={handleSaveGradient}>

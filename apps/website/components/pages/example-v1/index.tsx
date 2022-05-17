@@ -67,7 +67,7 @@ export const Example = () => {
 	const [state, setState] = useImmer({
 		to: '',
 		amount: '',
-		message: 'this is z3us test',
+		message: 'this is Z3US test',
 		encrypted: '',
 		isAddressValid: false,
 	})
@@ -142,16 +142,16 @@ export const Example = () => {
 
 	return (
 		<Box>
-			<Box css={{ p: '$8', maxWidth: '800px' }}>
+			<Box css={{ maxWidth: '100%' }}>
 				{!address ? (
 					<AlertCard icon color="warning" css={{ mt: '$4' }}>
 						<Text medium size="4" css={{ p: '$3' }}>
-							Connect z3us wallet before sending transaction
+							Connect Z3US wallet before sending transaction
 						</Text>
 					</AlertCard>
 				) : null}
 
-				<Seperator title="Connect z3us wallet" />
+				<Seperator title="Connect Z3US wallet" />
 
 				<Flex align="center" css={{ pt: '0' }}>
 					<Button size="5" color="primary" onClick={!address ? handleConnectWallet : handleDisconnect}>
@@ -159,7 +159,7 @@ export const Example = () => {
 					</Button>
 				</Flex>
 
-				<Seperator title="Build transaction, sign and send with z3us wallet" />
+				<Seperator title="Build transaction, sign and send with Z3US wallet" />
 
 				<Box>
 					<Input value={address ? address.toString() : ''} size="2" placeholder="From address" disabled />

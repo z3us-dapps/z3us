@@ -1,4 +1,3 @@
-/* eslint-disable */
 import React, { useRef, useEffect, useState } from 'react'
 import { Box } from 'ui/src/components/atoms'
 import Button from 'ui/src/components/button'
@@ -45,7 +44,7 @@ const createSVG = (width: number, height: number, radius: number) => {
 
 export const FlashCtaButton = (): JSX.Element => {
 	const buttonRef = useRef(null)
-	const [ctaLink, setCtaLink] = useState(config.CHROME_STORE_URL)
+	const [, setCtaLink] = useState(config.CHROME_STORE_URL)
 
 	useEffect(() => {
 		const browserName = fnBrowserDetect()
@@ -88,7 +87,7 @@ export const FlashCtaButton = (): JSX.Element => {
 				href="#"
 				as="a"
 				size="6"
-				color="secondary"
+				color="ghost"
 				rounded
 				css={{
 					width: '180px',
@@ -99,8 +98,7 @@ export const FlashCtaButton = (): JSX.Element => {
 					lineHeight: '24px',
 				}}
 			>
-				<Box css={{ position: 'relative', zIndex: '2' }}>COMING SOON!</Box>
-				{/*<Box css={{ position: 'relative', zIndex: '2' }}>Install BETA</Box>*/}
+				<Box css={{ position: 'relative', zIndex: '2' }}>Install BETA</Box>
 			</Button>
 		</Box>
 	)

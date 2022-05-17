@@ -1,5 +1,4 @@
 /* eslint-disable react/jsx-props-no-spreading */
-/* eslint-disable */
 import React, { PropsWithoutRef, RefAttributes, useImperativeHandle, useRef, useState, useEffect } from 'react'
 import { CSS } from '../../theme'
 import withDefaults from '../../utils/with-defaults'

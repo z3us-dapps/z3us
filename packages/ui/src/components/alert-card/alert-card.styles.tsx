@@ -1,4 +1,4 @@
-/* eslint-disable */
+
 import { styled, VariantProps } from '../../theme'
 
 export const StyledAlertCard = styled('div', {

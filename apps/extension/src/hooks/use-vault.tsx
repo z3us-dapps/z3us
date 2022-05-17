@@ -16,6 +16,7 @@ export const useVault = () => {
 		setMasterSeed: state.setMasterSeedAction,
 		setHasKeystore: state.setHasKeystoreAction,
 		setMessanger: state.setMessangerAction,
+		addToast: state.addToastAction,
 	}))
 
 	const [time, setTime] = useState(Date.now())
