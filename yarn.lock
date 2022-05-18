@@ -14782,10 +14782,10 @@ react-use@^17.3.2:
     ts-easing "^0.2.0"
     tslib "^2.1.0"
 
-react-virtuoso@^2.9.2:
-  version "2.9.2"
-  resolved "https://registry.yarnpkg.com/react-virtuoso/-/react-virtuoso-2.9.2.tgz#fd3448cd41f88eb38777e7904bed2ed60517fbd4"
-  integrity sha512-xD9OOCrdPbEPPNLKOBreTez+qcO2LzvFkuQWnkpCVu7N1cCZnUvdRf5XMIJm+wWC1aXdqoWEtmBqQFeHfjUgXw==
+react-virtuoso@^2.11.0:
+  version "2.11.0"
+  resolved "https://registry.yarnpkg.com/react-virtuoso/-/react-virtuoso-2.11.0.tgz#56c23c2f7c322d4ea940b550581508ca6aaf699f"
+  integrity sha512-8Lb0duo23pceUR0f5FMh3qoSRtO6XTYD/Hh3JHjNtRcvTl9rq87rk182tbKNwVDc4zvlO0WLlxytmMuHxuHg6Q==
   dependencies:
     "@virtuoso.dev/react-urx" "^0.2.12"
     "@virtuoso.dev/urx" "^0.2.12"
@@ -15678,10 +15678,10 @@ simple-zustand-devtools@^1.0.0:
   resolved "https://registry.yarnpkg.com/simple-zustand-devtools/-/simple-zustand-devtools-1.0.1.tgz#0586c00190f52c842f7b25e4390730ec435cf85f"
   integrity sha512-/+g+XA7ojPRa+ZDPy1dHBwtf+nBn+ZWN5RUTRgz1lNl5ZTqETo2uhjCl7KzQWlKzLO7CfQrmxK+dTI/5iAF3/Q==
 
-simplebar-react@^2.3.6:
-  version "2.3.6"
-  resolved "https://registry.yarnpkg.com/simplebar-react/-/simplebar-react-2.3.6.tgz#27945a80b221caae8f241155cdba1bb6c201ebff"
-  integrity sha512-Igm/MRdt+LQ8edTTzjRoaATfXPPMByuUsVvHQHrkX7SH4jmvL85VshtOVcXFrOBspv9vqQtnIrOq/j9VmRSNDQ==
+simplebar-react@^2.3.7:
+  version "2.3.7"
+  resolved "https://registry.yarnpkg.com/simplebar-react/-/simplebar-react-2.3.7.tgz#238f12f06b8c4bbb1eb48d878f1c887052405859"
+  integrity sha512-C+yPcLq6W/Sqiexx89Jw0Z4RrWtjqXsWh/OHhZv7893HMZ96c32JZWWu8mfVlZxZaZ/8u9h66FzWCs3atzeu7g==
   dependencies:
     prop-types "^15.6.1"
     simplebar "^5.3.6"
