@@ -1,6 +1,7 @@
 import browser from 'webextension-polyfill'
 import { store as useStore } from '@src/store'
 import { RadixService } from '@src/services/radix'
+import { getShortAddress, getTransactionType } from '@src/utils/string-utils'
 
 export async function getLastTransactions() {
 	const state = useStore.getState()
@@ -12,10 +13,17 @@ export async function getLastTransactions() {
 	const service = new RadixService(network.url)
 
 	const results = await Promise.all(
-		allAddresses.map(async address => ({
-			address,
-			...(await service.transactionHistory(address)),
-		})),
+		allAddresses.map(async address => {
+			const { transactions } = await service.transactionHistory(address)
+			return {
+				address,
+				transactions:
+					transactions?.flatMap(tx => {
+						tx.actions = tx.actions.filter(a => a.from_account === address || a.to_account === address)
+						return tx.actions.length > 0 ? [tx] : []
+					}) || [],
+			}
+		}),
 	)
 	const transactionMap = results.reduce(
 		(container, { address, transactions }) => ({ ...container, [address]: transactions || [] }),
@@ -38,19 +46,24 @@ const watchTransactions = async () => {
 			const lastTxId = lastTxIds[address]
 			if (lastTxId) {
 				for (let i = 0; i < transactions.length; i += 1) {
-					if (lastTxId === transactions[i].id) {
+					const tx = transactions[i]
+					if (lastTxId === tx.id) {
 						break
 					}
-					browser.notifications.create(transactions[i].id, {
-						title: 'New transaction',
+					const activity = tx?.actions.length > 0 ? getTransactionType(address, tx.actions[0]) : 'Unknown'
+
+					browser.notifications.create(tx.id, {
 						type: 'basic',
-						message: 'There is a new transaction on your account',
 						iconUrl: browser.runtime.getURL('favicon-128x128.png'),
+						title: `New ${activity} Transaction`,
+						eventTime: tx?.sentAt.getTime(),
+						message: `There is a new ${activity} transaction on your account (${getShortAddress(address)}).`,
+
 					})
 					const { lastError } = browser.runtime
 					if (lastError) {
-						// eslint-disable-next-line no-console
-						console.error(lastError)
+						// eslint-disable-next-line @typescript-eslint/no-throw-literal
+						throw lastError
 					}
 				}
 			}
