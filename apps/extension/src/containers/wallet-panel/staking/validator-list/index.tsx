@@ -24,6 +24,7 @@ export const ValidatorList: React.FC<IProps> = ({ totalStakes }) => {
 				<Virtuoso
 					customScrollParent={customScrollParent}
 					totalCount={data.length}
+					react18ConcurrentRendering
 					// eslint-disable-next-line react/no-unstable-nested-components
 					itemContent={i => {
 						const validator = data[i]

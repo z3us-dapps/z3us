@@ -66,6 +66,7 @@ const AccountBalances: React.FC = () => {
 				customScrollParent={customScrollParent}
 				totalCount={liquidBalances.length}
 				data={liquidBalances}
+				react18ConcurrentRendering
 				itemContent={(i, { rri, amount, symbol }) => (
 					<TokenRow
 						i={i}
