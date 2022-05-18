@@ -135,7 +135,6 @@ export const LockedPanel: React.FC = () => {
 						justifyContent: 'space-between',
 					}}
 				>
-					{/*@NOTE: this will come back with multi wallet support */}
 					<Box css={{ opacity: '0', pe: 'none' }}>
 						<Z3usMenu />
 					</Box>
