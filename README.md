@@ -11,7 +11,7 @@ Clone repo
 ```
 git clone git@github.com:z3us-dapps/z3us.git
 ```
-Go to `Z3US` directory run
+Go to `z3us` directory run
 
 ```
 yarn install --ignore-engines

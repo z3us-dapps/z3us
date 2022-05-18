@@ -67,9 +67,9 @@
 		"@radix-ui/react-tooltip": "^0.1.7",
 		"@stitches/react": "^1.2.8",
 		"@storybook/react": "^6.4.22",
-		"@types/react": "^17.0.37",
+		"@types/react": "^18.0.9",
 		"@types/react-dom": "^17.0.11",
-		"framer-motion": "^6.2.3",
+		"framer-motion": "^6.3.3",
 		"react-use-measure": "^2.1.1",
 		"zustand": "^3.6.9"
 	}
