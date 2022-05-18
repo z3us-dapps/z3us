@@ -14782,10 +14782,10 @@ react-use@^17.3.2:
     ts-easing "^0.2.0"
     tslib "^2.1.0"
 
-react-virtuoso@^2.9.2:
-  version "2.9.2"
-  resolved "https://registry.yarnpkg.com/react-virtuoso/-/react-virtuoso-2.9.2.tgz#fd3448cd41f88eb38777e7904bed2ed60517fbd4"
-  integrity sha512-xD9OOCrdPbEPPNLKOBreTez+qcO2LzvFkuQWnkpCVu7N1cCZnUvdRf5XMIJm+wWC1aXdqoWEtmBqQFeHfjUgXw==
+react-virtuoso@^2.11.0:
+  version "2.11.0"
+  resolved "https://registry.yarnpkg.com/react-virtuoso/-/react-virtuoso-2.11.0.tgz#56c23c2f7c322d4ea940b550581508ca6aaf699f"
+  integrity sha512-8Lb0duo23pceUR0f5FMh3qoSRtO6XTYD/Hh3JHjNtRcvTl9rq87rk182tbKNwVDc4zvlO0WLlxytmMuHxuHg6Q==
   dependencies:
     "@virtuoso.dev/react-urx" "^0.2.12"
     "@virtuoso.dev/urx" "^0.2.12"
