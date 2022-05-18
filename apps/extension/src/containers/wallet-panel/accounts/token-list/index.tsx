@@ -109,6 +109,7 @@ export const TokenList: React.FC = () => {
 		addresses: [...Object.values(state.publicAddresses), ...Object.values(state.hwPublicAddresses)],
 		activeSlideIndex: state.activeSlideIndex,
 	}))
+	// @TODO: animate this, rather than conditionally show
 	const isSlideUpPanelVisible = activeSlideIndex < addresses.length
 
 	return (
