@@ -1,12 +1,16 @@
 /* eslint-disable react/jsx-props-no-spreading */
-import React, { useImperativeHandle, useRef } from 'react'
+import React, { PropsWithoutRef, RefAttributes, useImperativeHandle, useRef } from 'react'
 import { CSS } from '../../theme'
+import withDefaults from '../../utils/with-defaults'
 import { __DEV__ } from '../../utils/assertion'
 import { StyledButtonGroup, ButtonGroupVariantsProps } from './button-group.styles'
 
 export interface Props {
 	as?: keyof JSX.IntrinsicElements
-	css?: CSS
+}
+
+const defaultProps = {
+	as: 'div',
 }
 
 type NativeAttrs = Omit<React.HTMLAttributes<unknown>, keyof Props>
@@ -26,15 +30,14 @@ const ButtonGroup = React.forwardRef<HTMLDivElement, React.PropsWithChildren<Ale
 	},
 )
 
+type CardComponent<T, P = {}> = React.ForwardRefExoticComponent<PropsWithoutRef<P> & RefAttributes<T>> & {
+	Image: typeof Image
+}
+
 if (__DEV__) {
 	ButtonGroup.displayName = 'z3usUI - button group'
 }
 
 ButtonGroup.toString = () => '.z3us button group'
 
-ButtonGroup.defaultProps = {
-	as: 'div',
-	css: undefined,
-}
-
-export default ButtonGroup
+export default withDefaults(ButtonGroup, defaultProps) as CardComponent<HTMLDivElement, AlertCardProps>
