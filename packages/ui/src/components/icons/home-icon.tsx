@@ -2,7 +2,7 @@
 import * as React from 'react'
 import { IconProps } from './types'
 
-export const AccountsIcon = React.forwardRef<SVGSVGElement, IconProps>(
+export const HomeIcon = React.forwardRef<SVGSVGElement, IconProps>(
 	({ color = 'currentColor', ...props }, forwardedRef) => (
 		<svg
 			width="16"
@@ -26,4 +26,4 @@ export const AccountsIcon = React.forwardRef<SVGSVGElement, IconProps>(
 	),
 )
 
-export default AccountsIcon
+export default HomeIcon
