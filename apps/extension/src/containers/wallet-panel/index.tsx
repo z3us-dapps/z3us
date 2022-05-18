@@ -4,12 +4,12 @@ import { useStore } from '@src/store'
 import { LockedPanel } from '@src/components/locked-panel'
 import { AnimatePresence, motion } from 'framer-motion'
 import { Box, MotionBox } from 'ui/src/components/atoms'
+import { routesInfo, PANEL_HEIGHT, APP_WIDTH, ACCOUNTS, STAKING, SETTINGS } from '@src/config'
 import { Accounts } from './accounts'
 import { Staking } from './staking'
 import { Settings } from './settings'
 import { FooterNavigation } from './components/footer-navigation'
 import { HeaderNavigation } from './components/header-navigation'
-import { routesInfo, PANEL_HEIGHT, APP_WIDTH, ACCOUNTS, STAKING, SETTINGS } from '../../config'
 
 const pageVariants = {
 	enter: (_direction: number) => ({
