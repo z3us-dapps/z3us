@@ -15678,10 +15678,10 @@ simple-zustand-devtools@^1.0.0:
   resolved "https://registry.yarnpkg.com/simple-zustand-devtools/-/simple-zustand-devtools-1.0.1.tgz#0586c00190f52c842f7b25e4390730ec435cf85f"
   integrity sha512-/+g+XA7ojPRa+ZDPy1dHBwtf+nBn+ZWN5RUTRgz1lNl5ZTqETo2uhjCl7KzQWlKzLO7CfQrmxK+dTI/5iAF3/Q==
 
-simplebar-react@^2.3.6:
-  version "2.3.6"
-  resolved "https://registry.yarnpkg.com/simplebar-react/-/simplebar-react-2.3.6.tgz#27945a80b221caae8f241155cdba1bb6c201ebff"
-  integrity sha512-Igm/MRdt+LQ8edTTzjRoaATfXPPMByuUsVvHQHrkX7SH4jmvL85VshtOVcXFrOBspv9vqQtnIrOq/j9VmRSNDQ==
+simplebar-react@^2.3.7:
+  version "2.3.7"
+  resolved "https://registry.yarnpkg.com/simplebar-react/-/simplebar-react-2.3.7.tgz#238f12f06b8c4bbb1eb48d878f1c887052405859"
+  integrity sha512-C+yPcLq6W/Sqiexx89Jw0Z4RrWtjqXsWh/OHhZv7893HMZ96c32JZWWu8mfVlZxZaZ/8u9h66FzWCs3atzeu7g==
   dependencies:
     prop-types "^15.6.1"
     simplebar "^5.3.6"
