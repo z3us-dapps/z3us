@@ -11,6 +11,7 @@ export const StyledPill = styled('div', {
 	position: 'relative',
 	textTransform: 'uppercase',
 	fontWeight: 'bold',
+	fontFamily: '$HaasGrotDisplayRound',
 	fontSize: '$1',
 	lineHeight: '$1',
 	height: '20px',

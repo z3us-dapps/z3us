@@ -104,11 +104,22 @@ const Balances: React.FC = () => {
 	)
 }
 
-export const TokenList: React.FC = () => (
-	<>
-		<AccountSwitcher />
-		<SlideUpPanel name="Tokens">
-			<Balances />
-		</SlideUpPanel>
-	</>
-)
+export const TokenList: React.FC = () => {
+	const { addresses, activeSlideIndex } = useStore(state => ({
+		addresses: [...Object.values(state.publicAddresses), ...Object.values(state.hwPublicAddresses)],
+		activeSlideIndex: state.activeSlideIndex,
+	}))
+	// @TODO: animate this, rather than conditionally show
+	const isSlideUpPanelVisible = activeSlideIndex < addresses.length
+
+	return (
+		<>
+			<AccountSwitcher />
+			{isSlideUpPanelVisible ? (
+				<SlideUpPanel name="Tokens">
+					<Balances />
+				</SlideUpPanel>
+			) : null}
+		</>
+	)
+}

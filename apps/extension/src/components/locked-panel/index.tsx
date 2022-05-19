@@ -3,6 +3,7 @@ import { useStore } from '@src/store'
 import { useImmer } from 'use-immer'
 import { Z3usSpinnerAnimation } from '@src/components/z3us-spinner-animation'
 import { WalletMenu } from '@src/components/wallet-menu'
+import { Z3usMenu } from '@src/components/z3us-menu'
 import { Box, Flex, MotionBox, Text, StyledLink } from 'ui/src/components/atoms'
 import Input from 'ui/src/components/input'
 import InputFeedBack from 'ui/src/components/input/input-feedback'
@@ -131,9 +132,12 @@ export const LockedPanel: React.FC = () => {
 						pt: '6px',
 						pl: '6px',
 						pr: '6px',
-						justifyContent: 'flex-end',
+						justifyContent: 'space-between',
 					}}
 				>
+					<Box css={{ opacity: '0', pe: 'none' }}>
+						<Z3usMenu />
+					</Box>
 					<WalletMenu />
 				</Flex>
 				<Flex align="center" justify="center" css={{ flex: '1' }}>

@@ -4,11 +4,12 @@ import { useAccountValue } from '@src/services/react-query/queries/account'
 import { QrHoverCard } from '@src/components/qr-hover-card'
 import { Flex, Box, Text } from 'ui/src/components/atoms'
 import Button from 'ui/src/components/button'
-import { HardwareWalletIcon } from 'ui/src/components/icons'
+import { ActivityIcon, HardwareWalletIcon } from 'ui/src/components/icons'
 import { formatBigNumber } from '@src/utils/formatters'
 import { AccountAddress } from '@src/components/account-address'
 import PriceTicker from 'ui/src/components/price-ticker'
 import LoaderBars from 'ui/src/components/loader-bars'
+import { AccountModal } from '@src/containers/wallet-panel/settings/accounts/account-modal'
 import { Tooltip, TooltipTrigger, TooltipContent, TooltipArrow } from 'ui/src/components/tool-tip'
 import { useStore } from '@src/store'
 import { ColorSettings } from '@src/types'
@@ -131,6 +132,19 @@ export const AccountInfo: React.FC<IProps> = ({ address }) => {
 					<PriceTicker value={accountPercentageChange} refresh={state.accountValue} />
 				</Text>
 			</Flex>
+			<Box css={{ zIndex: 2, position: 'absolute', top: '$3', right: '$3' }}>
+				<AccountModal
+					toolTipSide="top"
+					address={address}
+					toolTipSideOffset={3}
+					toolTipBgColor="$bgPanel"
+					toolTipMessage="Edit"
+				>
+					<Button iconOnly size="1" color="ghost" css={{ color, fill: color }}>
+						<ActivityIcon />
+					</Button>
+				</AccountModal>
+			</Box>
 			<Box css={{ zIndex: 2, position: 'absolute', top: '$2', left: '$2' }}>
 				<QrHoverCard css={{ fill: color, color }} />
 			</Box>
