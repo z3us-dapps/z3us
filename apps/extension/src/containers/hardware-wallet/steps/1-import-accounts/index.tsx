@@ -76,9 +76,10 @@ export const ImportAccounts = (): JSX.Element => {
 				addresses.push(address.toString())
 			}
 
+			const selectedIndexes = Object.fromEntries(Object.entries(hwPublicAddresses).map(([k]) => [k, true]))
 			const addressMap = {}
 			addresses.forEach((address, index) => {
-				if (state.selectedIndexes[index]) {
+				if (selectedIndexes[index]) {
 					addressMap[index] = address
 				}
 			})
@@ -86,7 +87,7 @@ export const ImportAccounts = (): JSX.Element => {
 			setState(draft => {
 				draft.addresses = addresses
 				draft.addressMap = addressMap
-				draft.selectedIndexes = Object.fromEntries(Object.entries(hwPublicAddresses).map(([k]) => [k, true]))
+				draft.selectedIndexes = selectedIndexes
 				draft.errorMessage = ''
 			})
 		} catch (error) {
