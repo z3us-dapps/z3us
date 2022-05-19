@@ -1,6 +1,7 @@
 import React from 'react'
 import { AnimatePresence } from 'framer-motion'
 import { CSS } from '../../theme'
+import withDefaults from '../../utils/with-defaults'
 import { __DEV__ } from '../../utils/assertion'
 import { MotionBox } from '../atoms/motion-box'
 
@@ -11,20 +12,25 @@ export interface IProps {
 	css?: CSS
 }
 
-export const InputFeedback: React.FC<IProps> = ({ children, showFeedback, animateHeight, css }) => (
-	<AnimatePresence>
-		{showFeedback && (
-			<MotionBox
-				initial={{ opacity: 0, height: '0px' }}
-				animate={{ opacity: 1, height: `${animateHeight}px` }}
-				exit={{ opacity: 1, height: '0px' }}
-				css={{ ...(css as any) }}
-			>
-				{children}
-			</MotionBox>
-		)}
-	</AnimatePresence>
-)
+const defaultProps = {
+	animateHeight: 50,
+	css: { display: 'flex', alignItems: 'center', overflow: 'clip' },
+}
+
+export const InputFeedback: React.FC<IProps> = ({ children, showFeedback, animateHeight, css }: IProps) => (
+		<AnimatePresence>
+			{showFeedback && (
+				<MotionBox
+					initial={{ opacity: 0, height: '0px' }}
+					animate={{ opacity: 1, height: `${animateHeight}px` }}
+					exit={{ opacity: 1, height: '0px' }}
+					css={{ ...(css as any) }}
+				>
+					{children}
+				</MotionBox>
+			)}
+		</AnimatePresence>
+	)
 
 if (__DEV__) {
 	InputFeedback.displayName = 'z3us ui - input feedback'
@@ -32,9 +38,4 @@ if (__DEV__) {
 
 InputFeedback.toString = () => '.z3us-ui-input-feedback'
 
-InputFeedback.defaultProps = {
-	animateHeight: 50,
-	css: { display: 'flex', alignItems: 'center', overflow: 'clip' },
-}
-
-export default InputFeedback
+export default withDefaults(InputFeedback, defaultProps)

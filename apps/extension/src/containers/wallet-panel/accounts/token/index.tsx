@@ -72,7 +72,6 @@ export const Token: React.FC = () => {
 								customScrollParent={customScrollParent}
 								totalCount={flatten.length}
 								data={flatten}
-								react18ConcurrentRendering
 								// eslint-disable-next-line react/no-unstable-nested-components
 								itemContent={(i, { a, t }) => (
 									<ActivityItem

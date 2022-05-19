@@ -4,11 +4,13 @@ import { BrowserService } from '@src/services/browser'
 import { BrowserStorageService } from '@src/services/browser-storage'
 import { VaultService } from '@src/services/vault'
 import { PORT_NAME, TARGET_BACKGROUND, TARGET_INPAGE, TARGET_POPUP } from '@src/services/messanger'
-import watch from '@src/lib/v1/background-watcher'
 import NewV1BackgroundInpageActions from '@src/lib/v1/background-inpage'
 import NewV1BackgroundPopupActions from '@src/lib/v1/background-popup'
 import { CredentialsService } from '@src/services/credentials'
 
+const FIVE_MINUTES = 1000 * 60 * 5
+
+const now = performance.now()
 const browserService = new BrowserService()
 const storage = new BrowserStorageService(browserService, browser.storage)
 const credentials = new CredentialsService(storage)
@@ -18,6 +20,22 @@ const vault = new VaultService(storage, self.crypto)
 const actionsToConfirm: {
 	[key: string]: Runtime.Port
 } = {}
+
+browser.runtime.onInstalled.addListener(async () => {
+	await useStore.persist.rehydrate()
+	const { setThemeAction, theme } = useStore.getState()
+	setThemeAction(theme)
+})
+
+const keepServiceWorkerActive = () =>
+	dispatchEvent(
+		new CustomEvent('keepactive', {
+			// eslint-disable-next-line no-bitwise
+			detail: `Active at ${~~((performance.now() - now) / 1000 / 60)} minutes.`,
+		}),
+	)
+// eslint-disable-next-line no-console
+const handleKeepServiceWorkerActive = e => console.info(e.detail)
 
 function sendMessage(port: Runtime.Port, target: string, id: string, request: any, response: any) {
 	try {
@@ -48,14 +66,6 @@ const v1PopupActionHandlers = NewV1BackgroundPopupActions(
 
 const inpageActionHandlers = { ...v1InpageActionHandlers }
 const popupActionHandlers = { ...v1PopupActionHandlers }
-
-watch()
-
-browser.runtime.onInstalled.addListener(async () => {
-	await useStore.persist.rehydrate()
-	const { setThemeAction, theme } = useStore.getState()
-	setThemeAction(theme)
-})
 
 browser.runtime.onConnect.addListener(port => {
 	// eslint-disable-next-line no-console
@@ -118,3 +128,7 @@ browser.runtime.onConnect.addListener(port => {
 		}
 	})
 })
+
+// eslint-disable-next-line no-restricted-globals
+addEventListener('keepactive', handleKeepServiceWorkerActive)
+setInterval(keepServiceWorkerActive, FIVE_MINUTES)

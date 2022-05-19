@@ -7,6 +7,7 @@ export const StyledPill = styled('div', {
 	px: '$3',
 	br: '30px',
 	display: 'flex',
+	fontFamily: '$HaasGrotDisplayRound',
 	alignItems: 'center',
 	position: 'relative',
 	textTransform: 'uppercase',

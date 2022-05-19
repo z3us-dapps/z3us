@@ -140,7 +140,3 @@ export const AccordionContent = forwardRef<Ref, AccordionContentProps>(({ childr
 })
 
 AccordionContent.displayName = 'AccordionContent'
-
-AccordionContent.defaultProps = {
-	css: undefined,
-}

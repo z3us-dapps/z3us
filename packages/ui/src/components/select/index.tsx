@@ -35,9 +35,8 @@ const StyledContent = styled(SelectPrimitive.Content, {
 	backgroundColor: '$bgPanel',
 	border: '1px solid $borderPopup',
 	boxShadow: '$popup',
+	position: 'relative',
 	boxSizing: 'border-box',
-	position: 'relatvie',
-	zIndex: '999',
 
 	// TODO: handle the no-motion preference
 	'&[data-state="open"]': {

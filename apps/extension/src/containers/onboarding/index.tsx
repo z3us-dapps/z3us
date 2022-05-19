@@ -30,6 +30,8 @@ export const OnboardingWorkFlow: React.FC = () => {
 	)
 	const showBackBtn = hasKeystore || onBoardingStep !== onBoardingSteps.START
 
+	console.log('999 ', onBoardingStep, setOnboardingStep, setIsRestoreWorkflow, isRestoreWorkflow, hasKeystore)
+
 	const handleBackClick = () => {
 		switch (onBoardingStep) {
 			case onBoardingSteps.START:

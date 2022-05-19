@@ -1,7 +1,17 @@
 /* eslint-disable react/jsx-props-no-spreading, react/no-array-index-key */
-import React, { Children, useEffect, useState, useRef, MouseEvent, useImperativeHandle } from 'react'
+import React, {
+	Children,
+	useEffect,
+	useState,
+	useRef,
+	MouseEvent,
+	useImperativeHandle,
+	PropsWithoutRef,
+	RefAttributes,
+} from 'react'
 import { CSS } from '../../theme'
 import { NormalColors, NormalSizes } from '../../utils/prop-types'
+import withDefaults from '../../utils/with-defaults'
 import { __DEV__ } from '../../utils/assertion'
 import StyledButton, { ButtonVariantsProps, StyledLoader, StyledRipple, StyledTextWrapper } from './button.styles'
 
@@ -17,10 +27,23 @@ export interface IProps {
 	fullWidth?: boolean
 	active?: boolean
 	icon?: React.ReactNode
+	iconRight?: React.ReactNode
 	onClick?: React.MouseEventHandler<HTMLButtonElement>
 	as?: keyof JSX.IntrinsicElements
+	className?: string
 	href?: string
 	target?: string
+}
+
+const defaultProps = {
+	clickable: true,
+	showRipple: true,
+	disabled: false,
+	loading: false,
+	iconOnly: false,
+	circle: false,
+	fullWidth: false,
+	active: false,
 }
 
 type NativeAttrs = Omit<React.ButtonHTMLAttributes<unknown>, keyof IProps>
@@ -118,29 +141,12 @@ const Button = React.forwardRef<HTMLButtonElement, React.PropsWithChildren<Butto
 	},
 )
 
+type ButtonComponent<T, P = unknown> = React.ForwardRefExoticComponent<PropsWithoutRef<P> & RefAttributes<T>>
+
 if (__DEV__) {
 	Button.displayName = 'z3us ui - Button'
 }
 
 Button.toString = () => '.z3us-ui-button'
 
-Button.defaultProps = {
-	as: 'button',
-	color: undefined,
-	size: undefined,
-	icon: undefined,
-	href: undefined,
-	target: undefined,
-	onClick: undefined,
-	css: undefined,
-	clickable: true,
-	showRipple: true,
-	disabled: false,
-	loading: false,
-	iconOnly: false,
-	circle: false,
-	fullWidth: false,
-	active: false,
-}
-
-export default Button
+export default withDefaults(Button, defaultProps) as ButtonComponent<HTMLButtonElement, ButtonProps>

@@ -1,6 +1,6 @@
 {
 	"name": "z3us-extension",
-	"version": "1.0.7",
+	"version": "1.0.2",
 	"engines": {
 		"yarn": "^1.22.10",
 		"node": "^15.5.0"
@@ -42,7 +42,7 @@
 		"buffer": "^6.0.3",
 		"crypto-browserify": "^3.12.0",
 		"file-loader": "^6.2.0",
-		"framer-motion": "^6.3.3",
+		"framer-motion": "^6.2.8",
 		"hoist-non-react-statics": "^3.3.2",
 		"https-browserify": "^1.0.0",
 		"immer": "^9.0.12",
@@ -51,17 +51,17 @@
 		"path-browserify": "^1.0.1",
 		"process": "^0.11.10",
 		"qrcode.react": "^3.0.1",
-		"react": "^18.1.0",
+		"react": "^17.0.2",
 		"react-colorful": "^5.5.1",
-		"react-dom": "^18.1.0",
-		"react-query": "^3.39.0",
+		"react-dom": "^17.0.2",
+		"react-query": "^3.34.14",
 		"react-test-renderer": "^17.0.2",
 		"react-use": "^17.3.2",
-		"react-virtuoso": "^2.11.0",
+		"react-virtuoso": "^2.9.2",
 		"readable-stream": "^3.6.0",
 		"sass": "^1.49.9",
 		"simple-zustand-devtools": "^1.0.0",
-		"simplebar-react": "^2.3.7",
+		"simplebar-react": "^2.3.6",
 		"stream-browserify": "^3.0.0",
 		"stream-http": "^3.2.0",
 		"ui": "*",
@@ -86,12 +86,12 @@
 		"@types/lodash.merge": "^4.6.6",
 		"@types/node": "^15.12.2",
 		"@types/raf": "^3.4.0",
-		"@types/react": "^18.0.9",
+		"@types/react": "^17.0.33",
 		"@types/react-dom": "^17.0.10",
 		"@types/react-test-renderer": "^17.0.1",
 		"@types/w3c-web-hid": "^1.0.3",
 		"@types/webextension-polyfill": "^0.8.3",
 		"rollup-plugin-visualizer": "^5.6.0",
-		"typescript": "^4.6.4"
+		"typescript": "^4.6.3"
 	}
 }

@@ -30,24 +30,10 @@ const CombinedTemplate: React.FC = () => (
 				</Box>
 			</Grid>
 		</Flex>
-		<Flex justify="start" css={{ mt: '$6' }}>
-			<Grid flow="column" gap="4">
-				<Box>
-					<LoaderBars size="2" />
-				</Box>
-			</Grid>
-		</Flex>
-		<Flex justify="start" css={{ mt: '$6' }}>
+		<Flex justify="start" css={{mt: '$12'}}>
 			<Grid flow="column" gap="4">
 				<Box>
 					<LoaderBars size="3" />
-				</Box>
-			</Grid>
-		</Flex>
-		<Flex justify="start" css={{ mt: '$6' }}>
-			<Grid flow="column" gap="4">
-				<Box>
-					<LoaderBars size="4" />
 				</Box>
 			</Grid>
 		</Flex>

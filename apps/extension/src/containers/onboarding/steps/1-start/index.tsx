@@ -53,6 +53,8 @@ export const Start = (): JSX.Element => {
 		})
 	}, [])
 
+	console.log('LOOPing Object.entries(setupItems) ', Object.entries(setupItems))
+
 	return (
 		<PageWrapper css={{ flex: '1', position: 'relative', display: 'flex', flexDirection: 'column' }}>
 			<Flex css={{ pt: '$4' }}>

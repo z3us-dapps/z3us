@@ -50,7 +50,7 @@ export const Toast: React.FC<IProps> = ({
 	duration,
 	isAutoRemovable,
 	onClickClose,
-}) => {
+}: IProps) => {
 	const typeInfo = typeMap[type]
 
 	useEffect(() => {

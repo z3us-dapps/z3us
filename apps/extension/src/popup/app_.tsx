@@ -12,11 +12,13 @@ import { useColorMode } from '@src/hooks/use-color-mode'
 import { useVault } from '@src/hooks/use-vault'
 import { domExists } from '@src/utils/dom-exists'
 import { Credentials } from '@src/containers/credentials'
+//import { useWatchTransactions } from '@src/hooks/use-watch-transactions'
 
 export const App: React.FC = () => {
 	const isHardwareWalletRoute = domExists && window.location.href.includes('popup-theme-light.html#/hardware-wallet')
 	useColorMode()
 	useVault()
+	//useWatchTransactions()
 
 	const { messanger } = useStore(state => ({
 		messanger: state.messanger,

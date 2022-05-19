@@ -22,28 +22,28 @@
 		"clean": "rm -rf .turbo && rm -rf node_modules && rm -rf dist"
 	},
 	"devDependencies": {
-		"@storybook/addon-a11y": "^6.4.22",
-		"@storybook/addon-actions": "^6.4.22",
-		"@storybook/addon-essentials": "^6.4.22",
-		"@storybook/addon-links": "^6.4.22",
-		"@storybook/addon-storysource": "^6.4.22",
-		"@storybook/addon-viewport": "^6.4.22",
-		"@storybook/cli": "^6.4.22",
+		"@storybook/addon-a11y": "^6.4.15",
+		"@storybook/addon-actions": "^6.4.15",
+		"@storybook/addon-essentials": "^6.4.15",
+		"@storybook/addon-links": "^6.4.15",
+		"@storybook/addon-storysource": "^6.4.15",
+		"@storybook/addon-viewport": "^6.4.15",
+		"@storybook/cli": "^6.4.15",
 		"@storybook/preset-scss": "^1.0.3",
 		"autoprefixer": "^10.4.0",
 		"css-loader": "5.2.6",
 		"msw": "^0.36.7",
-		"msw-storybook-addon": "^1.6.3",
+		"msw-storybook-addon": "^1.6.0",
 		"sass": "^1.49.9",
 		"sass-loader": "10.1.1",
 		"storybook-addon-designs": "^6.2.1",
-		"storybook-addon-pseudo-states": "^1.9.0",
-		"storybook-dark-mode": "^1.1.0",
+		"storybook-addon-pseudo-states": "^1.0.0",
+		"storybook-dark-mode": "^1.0.9",
 		"style-loader": "2.0.0",
 		"swr": "^1.2.0",
 		"tsconfig": "*",
 		"tsup": "^5.11.13",
-		"typescript": "^4.6.4"
+		"typescript": "^4.5.3"
 	},
 	"msw": {
 		"workerDirectory": "public"
@@ -66,10 +66,10 @@
 		"@radix-ui/react-toggle": "^0.1.4",
 		"@radix-ui/react-tooltip": "^0.1.7",
 		"@stitches/react": "^1.2.8",
-		"@storybook/react": "^6.4.22",
-		"@types/react": "^18.0.9",
+		"@storybook/react": "^6.4.15",
+		"@types/react": "^17.0.37",
 		"@types/react-dom": "^17.0.11",
-		"framer-motion": "^6.3.3",
+		"framer-motion": "^6.2.3",
 		"react-use-measure": "^2.1.1",
 		"zustand": "^3.6.9"
 	}
