@@ -34,11 +34,12 @@ export const ImportAccounts = (): JSX.Element => {
 		addresses: [],
 		addressMap: {},
 		selectedIndexes: {},
-		selectedAmount: 0,
 		isLoading: false,
 		isDerivingAccounts: false,
 		errorMessage: '',
 	})
+
+	const selectedAmount = Object.keys(state.selectedIndexes).filter(idx => state.selectedIndexes?.[idx])?.length
 
 	const handleRefreshDevices = async () => {
 		if (!isHIDSupported) {
@@ -86,7 +87,6 @@ export const ImportAccounts = (): JSX.Element => {
 				draft.addresses = addresses
 				draft.addressMap = addressMap
 				draft.selectedIndexes = selectedIndexes
-				draft.selectedAmount = Object.keys(selectedIndexes).filter(idx => selectedIndexes?.[idx])?.length
 				draft.errorMessage = ''
 			})
 		} catch (error) {
@@ -105,7 +105,7 @@ export const ImportAccounts = (): JSX.Element => {
 
 		const addressMap = {}
 		state.addresses.forEach((address, idx) => {
-			if (state.selectedIndexes[idx]) {
+			if (selectedIndexes[idx]) {
 				addressMap[idx] = address
 			}
 		})
@@ -113,12 +113,11 @@ export const ImportAccounts = (): JSX.Element => {
 		setState(draft => {
 			draft.addressMap = addressMap
 			draft.selectedIndexes = selectedIndexes
-			draft.selectedAmount = Object.keys(selectedIndexes).filter(idx => selectedIndexes?.[idx])?.length
 		})
 	}
 
 	const handleContinue = () => {
-		if (!isHIDSupported || state.selectedAmount <= 0) {
+		if (!isHIDSupported || selectedAmount <= 0) {
 			return
 		}
 		setPublicAddresses(state.addressMap)
@@ -254,17 +253,11 @@ export const ImportAccounts = (): JSX.Element => {
 					fullWidth
 					color="primary"
 					size="6"
-					disabled={!isHIDSupported || state.selectedAmount <= 0 || !(state.addresses?.length > 0)}
+					disabled={!isHIDSupported || selectedAmount <= 0 || !(state.addresses?.length > 0)}
 					onClick={handleContinue}
 					css={{ flex: '1' }}
 				>
-					{state.selectedAmount > 0 ? (
-						<>
-							Import {state.selectedAmount} account{state.selectedAmount > 1 ? 's' : ''}
-						</>
-					) : (
-						<>Import</>
-					)}
+					{selectedAmount > 0 ? `Import ${selectedAmount} account ${selectedAmount > 1 ? 's' : ''}` : 'Import'}
 				</Button>
 			</Flex>
 			<Flex justify="center" align="center" css={{ height: '48px', ta: 'center', mt: '$2', width: '100%' }}>
