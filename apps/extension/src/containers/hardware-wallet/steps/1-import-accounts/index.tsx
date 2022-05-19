@@ -33,15 +33,13 @@ export const ImportAccounts = (): JSX.Element => {
 	const [state, setState] = useImmer({
 		addresses: [],
 		addressMap: {},
-		selectedIndexes: Object.fromEntries(Object.entries(hwPublicAddresses).map(([k]) => [k, true])),
+		selectedIndexes: {},
 		isLoading: false,
 		isDerivingAccounts: false,
 		errorMessage: '',
 	})
 
-	const selectedIndexKeys = Object.keys(state.selectedIndexes)
-	const selectedAmount = selectedIndexKeys.filter(idx => state.selectedIndexes?.[idx])?.length
-	const isHwAddressesLoaded = state.addresses?.length > 0
+	const selectedAmount = Object.keys(state.selectedIndexes).filter(idx => state.selectedIndexes?.[idx])?.length
 
 	const handleRefreshDevices = async () => {
 		if (!isHIDSupported) {
@@ -77,9 +75,10 @@ export const ImportAccounts = (): JSX.Element => {
 				addresses.push(address.toString())
 			}
 
+			const selectedIndexes = Object.fromEntries(Object.entries(hwPublicAddresses).map(([k]) => [k, true]))
 			const addressMap = {}
 			addresses.forEach((address, index) => {
-				if (state.selectedIndexes[index]) {
+				if (selectedIndexes[index]) {
 					addressMap[index] = address
 				}
 			})
@@ -87,6 +86,7 @@ export const ImportAccounts = (): JSX.Element => {
 			setState(draft => {
 				draft.addresses = addresses
 				draft.addressMap = addressMap
+				draft.selectedIndexes = selectedIndexes
 				draft.errorMessage = ''
 			})
 		} catch (error) {
@@ -105,14 +105,14 @@ export const ImportAccounts = (): JSX.Element => {
 
 		const addressMap = {}
 		state.addresses.forEach((address, idx) => {
-			if (state.selectedIndexes[idx]) {
+			if (selectedIndexes[idx]) {
 				addressMap[idx] = address
 			}
 		})
 
 		setState(draft => {
-			draft.selectedIndexes = selectedIndexes
 			draft.addressMap = addressMap
+			draft.selectedIndexes = selectedIndexes
 		})
 	}
 
@@ -160,7 +160,7 @@ export const ImportAccounts = (): JSX.Element => {
 						exit={{ opacity: 0, y: 0 }}
 						transition={{ duration: 0.2 }}
 					>
-						{!isHwAddressesLoaded ? (
+						{!(state.addresses?.length > 0) ? (
 							<Box>
 								<AlertCard icon color="warning" css={{ mt: '$4' }}>
 									<Text medium size="3" css={{ p: '$2' }}>
@@ -253,11 +253,17 @@ export const ImportAccounts = (): JSX.Element => {
 					fullWidth
 					color="primary"
 					size="6"
-					disabled={!isHIDSupported || selectedAmount <= 0 || !isHwAddressesLoaded}
+					disabled={!isHIDSupported || selectedAmount <= 0 || !(state.addresses?.length > 0)}
 					onClick={handleContinue}
 					css={{ flex: '1' }}
 				>
-					{`Import ${isHwAddressesLoaded ? selectedAmount : '0'} accounts`}
+					{selectedAmount > 0 ? (
+						<>
+							Import {selectedAmount} account{selectedAmount > 1 ? 's' : ''}
+						</>
+					) : (
+						<>Import</>
+					)}
 				</Button>
 			</Flex>
 			<Flex justify="center" align="center" css={{ height: '48px', ta: 'center', mt: '$2', width: '100%' }}>
