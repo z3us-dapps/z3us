@@ -29,7 +29,7 @@ In Chrome browser, go to chrome://extensions page and switch on developer mode. 
 Now click on the `LOAD UNPACKED` and browse to `apps/extension/dist/chrome`, this will install the Z3US wallet chrome extension.
 
 ## Adding extension to Firefox
-@TODO:
+In the Firefox browser navitate to `about:debugging#/runtime/this-firefox`. Click the button `Load temporary Add-on...`, then select compressed zip of the directory  `apps/extension/dist/firefox`.
 
 ## Website quick start
 
