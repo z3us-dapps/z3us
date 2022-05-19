@@ -21,7 +21,7 @@ export const Z3usMenu: React.FC = () => {
 		<MotionBox animate={isOpen ? 'open' : 'closed'}>
 			<DropdownMenu onOpenChange={setIsopen}>
 				<DropdownMenuTrigger asChild>
-					<Button iconOnly aria-label="wallet options" color="ghost" size="4" css={{ mr: '2px' }}>
+					<Button iconOnly aria-label="wallet options" color="ghost" size="4" css={{ mr: '2px' }} clickable={false}>
 						<Z3usIcon color="#7448ff" />
 					</Button>
 				</DropdownMenuTrigger>
