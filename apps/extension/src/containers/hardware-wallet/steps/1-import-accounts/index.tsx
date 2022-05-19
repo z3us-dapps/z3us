@@ -34,13 +34,11 @@ export const ImportAccounts = (): JSX.Element => {
 		addresses: [],
 		addressMap: {},
 		selectedIndexes: {},
+		selectedAmount: 0,
 		isLoading: false,
 		isDerivingAccounts: false,
 		errorMessage: '',
 	})
-
-	const selectedAmount = Object.keys(state.selectedIndexes).filter(idx => state.selectedIndexes?.[idx])?.length
-	const isHwAddressesLoaded = state.addresses?.length > 0
 
 	const handleRefreshDevices = async () => {
 		if (!isHIDSupported) {
@@ -88,6 +86,7 @@ export const ImportAccounts = (): JSX.Element => {
 				draft.addresses = addresses
 				draft.addressMap = addressMap
 				draft.selectedIndexes = selectedIndexes
+				draft.selectedAmount = Object.keys(selectedIndexes).filter(idx => selectedIndexes?.[idx])?.length
 				draft.errorMessage = ''
 			})
 		} catch (error) {
@@ -112,13 +111,14 @@ export const ImportAccounts = (): JSX.Element => {
 		})
 
 		setState(draft => {
-			draft.selectedIndexes = selectedIndexes
 			draft.addressMap = addressMap
+			draft.selectedIndexes = selectedIndexes
+			draft.selectedAmount = Object.keys(selectedIndexes).filter(idx => selectedIndexes?.[idx])?.length
 		})
 	}
 
 	const handleContinue = () => {
-		if (!isHIDSupported || selectedAmount <= 0) {
+		if (!isHIDSupported || state.selectedAmount <= 0) {
 			return
 		}
 		setPublicAddresses(state.addressMap)
@@ -161,7 +161,7 @@ export const ImportAccounts = (): JSX.Element => {
 						exit={{ opacity: 0, y: 0 }}
 						transition={{ duration: 0.2 }}
 					>
-						{!isHwAddressesLoaded ? (
+						{!(state.addresses?.length > 0) ? (
 							<Box>
 								<AlertCard icon color="warning" css={{ mt: '$4' }}>
 									<Text medium size="3" css={{ p: '$2' }}>
@@ -254,11 +254,11 @@ export const ImportAccounts = (): JSX.Element => {
 					fullWidth
 					color="primary"
 					size="6"
-					disabled={!isHIDSupported || selectedAmount <= 0 || !isHwAddressesLoaded}
+					disabled={!isHIDSupported || state.selectedAmount <= 0 || !(state.addresses?.length > 0)}
 					onClick={handleContinue}
 					css={{ flex: '1' }}
 				>
-					{`Import ${isHwAddressesLoaded ? selectedAmount : '0'} accounts`}
+					{`Import ${state.addresses?.length > 0 ? state.selectedAmount : '0'} accounts`}
 				</Button>
 			</Flex>
 			<Flex justify="center" align="center" css={{ height: '48px', ta: 'center', mt: '$2', width: '100%' }}>
