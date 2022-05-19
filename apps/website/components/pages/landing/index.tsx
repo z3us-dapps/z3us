@@ -113,7 +113,17 @@ export const LandingPage: React.FC = () => (
 											'@md': { fontSize: '60px', lineHeight: '64px' },
 										}}
 									>
-										DeFi at your fingertips.
+										<Box
+											as="span"
+											css={{
+												backgroundClip: 'text',
+												backgroundImage: 'linear-gradient(#e0a2ff 0%, #dbf2f2 50%, #ffffff 100%)',
+												'-webkit-text-fill-color': 'transparent',
+											}}
+										>
+											DeFi
+										</Box>{' '}
+										at your fingertips.
 									</Text>
 									<Text
 										size="7"

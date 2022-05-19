@@ -1,5 +1,6 @@
 import React from 'react'
 import { useImmer } from 'use-immer'
+import Pill from 'ui/src/components/pill'
 import { Text, Box, Flex, StyledLink } from 'ui/src/components/atoms'
 import { useEventListener } from 'usehooks-ts'
 import { PageContainer } from 'components/page-container'
@@ -64,8 +65,10 @@ export const Header: React.FC<IProps> = ({ isLandingPage }) => {
 					<Row>
 						<Col>
 							<Flex
+								align="start"
 								css={{
 									width: '100%',
+									position: 'relative',
 									'@md': {
 										px: '24px',
 									},
@@ -86,6 +89,11 @@ export const Header: React.FC<IProps> = ({ isLandingPage }) => {
 										/>
 									</StyledLink>
 								</Link>
+								<Box>
+									<Pill color="gradientGreen" css={{ ml: '10px', mt: '6px' }}>
+										BETA
+									</Pill>
+								</Box>
 							</Flex>
 						</Col>
 						<Col>
