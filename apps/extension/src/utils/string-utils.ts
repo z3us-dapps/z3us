@@ -15,7 +15,7 @@ export const getTransactionType = (address: string, activity: Action) => {
 		case 'TransferTokens': {
 			const isSend = activity.to_account !== address
 			if (isSend) {
-				return 'Withdraw'
+				return 'Send'
 			}
 			return 'Deposit'
 		}
