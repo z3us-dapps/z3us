@@ -217,23 +217,6 @@ export const useTransactionHistory = (size = 30) => {
 	)
 }
 
-export const useLastFiveTransactions = () => {
-	const { addresses, network } = useStore(state => ({
-		addresses: [...Object.values(state.publicAddresses), ...Object.values(state.hwPublicAddresses)],
-		network: state.networks[state.selectedNetworkIndex],
-	}))
-	const service = new RadixService(network.url)
-
-	const queries = addresses.map(address => ({
-		enabled: !!address,
-		staleTime: 15 * 1000,
-		refetchInterval: 15 * 1000,
-		queryKey: ['useTransactionHistory', address],
-		queryFn: async () => ({ ...(await service.transactionHistory(address, 5)), address }),
-	}))
-	return useQueries(queries)
-}
-
 export const useDecryptTransaction = (tx: Transaction, activity?: Action) => {
 	const { account } = useStore(state => ({
 		account: state.account,
