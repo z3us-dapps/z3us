@@ -8,7 +8,7 @@
 		"next_dev": "next dev --port 4000",
 		"build": "next build",
 		"start": "next start",
-		"test": "jest --detectOpenHandles --forceExit",
+		"test": "jest --clearCache --detectOpenHandles --forceExit",
 		"check-types": "tsc --noemit",
 		"eslint": "TIMING=1 eslint --fix",
 		"export": "next export",
