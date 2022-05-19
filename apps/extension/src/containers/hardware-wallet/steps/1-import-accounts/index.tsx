@@ -257,7 +257,13 @@ export const ImportAccounts = (): JSX.Element => {
 					onClick={handleContinue}
 					css={{ flex: '1' }}
 				>
-					{selectedAmount > 0 ? `Import ${selectedAmount} account ${selectedAmount > 1 ? 's' : ''}` : 'Import'}
+					{selectedAmount > 0 ? (
+						<>
+							Import {selectedAmount} account{selectedAmount > 1 ? 's' : ''}
+						</>
+					) : (
+						<>Import</>
+					)}
 				</Button>
 			</Flex>
 			<Flex justify="center" align="center" css={{ height: '48px', ta: 'center', mt: '$2', width: '100%' }}>
