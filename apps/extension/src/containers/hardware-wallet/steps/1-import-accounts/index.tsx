@@ -33,14 +33,13 @@ export const ImportAccounts = (): JSX.Element => {
 	const [state, setState] = useImmer({
 		addresses: [],
 		addressMap: {},
-		selectedIndexes: Object.fromEntries(Object.entries(hwPublicAddresses).map(([k]) => [k, true])),
+		selectedIndexes: {},
 		isLoading: false,
 		isDerivingAccounts: false,
 		errorMessage: '',
 	})
 
-	const selectedIndexKeys = Object.keys(state.selectedIndexes)
-	const selectedAmount = selectedIndexKeys.filter(idx => state.selectedIndexes?.[idx])?.length
+	const selectedAmount = Object.keys(state.selectedIndexes).filter(idx => state.selectedIndexes?.[idx])?.length
 	const isHwAddressesLoaded = state.addresses?.length > 0
 
 	const handleRefreshDevices = async () => {
@@ -87,6 +86,7 @@ export const ImportAccounts = (): JSX.Element => {
 			setState(draft => {
 				draft.addresses = addresses
 				draft.addressMap = addressMap
+				draft.selectedIndexes = Object.fromEntries(Object.entries(hwPublicAddresses).map(([k]) => [k, true]))
 				draft.errorMessage = ''
 			})
 		} catch (error) {
