@@ -118,6 +118,8 @@ export const SLIDE_PANEL_EXPAND_HEIGHT = 459
 
 export const EXPLORER_URL = 'https://explorer.radixdlt.com/#'
 
+export const Z3US_URL = 'https://z3us.com'
+
 export const ACCOUNTS = 'accounts'
 export const NFT = 'nft'
 export const SWAP = 'swap'

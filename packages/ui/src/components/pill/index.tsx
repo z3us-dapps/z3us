@@ -1,7 +1,8 @@
 /* eslint-disable react/jsx-props-no-spreading */
-import React, { useImperativeHandle, useRef } from 'react'
+import React, { PropsWithoutRef, RefAttributes, useImperativeHandle, useRef } from 'react'
 import { Cross2Icon } from '@radix-ui/react-icons'
 import { CSS } from '../../theme'
+import withDefaults from '../../utils/with-defaults'
 import { __DEV__ } from '../../utils/assertion'
 import Button from '../button'
 import { StyledPill, PillVariantsProps } from './pill.styles'
@@ -9,6 +10,11 @@ import { StyledPill, PillVariantsProps } from './pill.styles'
 export interface Props {
 	as?: keyof JSX.IntrinsicElements
 	onClose?: () => void
+}
+
+const defaultProps = {
+	as: 'div',
+	onClose: undefined,
 }
 
 type NativeAttrs = Omit<React.HTMLAttributes<unknown>, keyof Props>
@@ -40,16 +46,12 @@ const Pill = React.forwardRef<HTMLDivElement, React.PropsWithChildren<PillProps>
 	},
 )
 
+type PillComponent<T, P = {}> = React.ForwardRefExoticComponent<PropsWithoutRef<P> & RefAttributes<T>>
+
 if (__DEV__) {
 	Pill.displayName = 'z3usUI - Pill'
 }
 
 Pill.toString = () => '.z3us pill'
 
-Pill.defaultProps = {
-	as: 'div',
-	onClose: undefined,
-	css: undefined,
-}
-
-export default Pill
+export default withDefaults(Pill, defaultProps) as PillComponent<HTMLDivElement, PillProps>
