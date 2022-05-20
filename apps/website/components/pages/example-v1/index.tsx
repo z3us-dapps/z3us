@@ -61,9 +61,7 @@ function newTxFromState(to: string, from: AccountAddressT, amount: string, messa
 
 export const Example = () => {
 	const { show } = useToastControls()
-	//const { show, close, closeAll } = useToastControls()
 	const { address, connect, disconnect, encrypt, sendTransaction } = useZ3usWallet()
-
 	const [state, setState] = useImmer({
 		to: '',
 		amount: '',

@@ -5,7 +5,7 @@ export const config = {
 	GITHUB_URL: 'https://github.com/z3us-dapps',
 	GITHUB_FEEDBACK_URL: 'https://github.com/z3us-dapps/z3us/discussions/new?category=feedback',
 	TELEGRAM_URL: 'https://t.me/z3us_dapps',
-	DISCORD_URL: 'https://t.me/z3us_dapps',
+	DISCORD_URL: 'https://discord.com/invite/9StjkdvjAA',
 	TWITTER_URL: 'https://twitter.com/z3us_dapps',
 	TWITTER_HANDLE: 'z3us_dapps',
 	CHROME_STORE_URL: 'https://chrome.google.com/webstore/detail/z3us/icpikagpkkbldbfjlbefnmmmcohbjije',

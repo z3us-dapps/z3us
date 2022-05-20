@@ -1,15 +1,12 @@
-/* eslint-disable */
 import fs from 'fs'
 import path from 'path'
 import matter from 'gray-matter'
 import { serialize } from 'next-mdx-remote/serialize'
-//import Image from 'next/image'
 import React from 'react'
 import { NextSeo } from 'next-seo'
 import { Header } from 'components/header'
 import { Container, Row, Col } from 'react-grid-system'
-import { Box, Text, Flex, StyledLink } from 'ui/src/components/atoms'
-import Link from 'next/link'
+import { Box, Flex } from 'ui/src/components/atoms'
 import { PageContainer } from 'components/page-container'
 import { config } from 'config'
 import { Footer } from 'components/footer'
@@ -55,13 +52,16 @@ const DocsIndex = ({ docs, mdxSource }) => {
 					<PageContainer>
 						<Container fluid>
 							<Row>
-								<Col xs={4}>
+								<Col xs={3}>
 									<SideMenu docs={docs} />
 								</Col>
 								<Col>
 									<Box css={{ width: '100%', pb: '100px' }}>
 										<MdxTheme mdxSource={mdxSource} />
 									</Box>
+								</Col>
+								<Col xs={2}>
+									<Box />
 								</Col>
 							</Row>
 						</Container>

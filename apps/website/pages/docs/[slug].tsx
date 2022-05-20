@@ -1,23 +1,20 @@
-/* eslint-disable */
+import React from 'react'
 import { serialize } from 'next-mdx-remote/serialize'
 import fs from 'fs'
 import path from 'path'
 import matter from 'gray-matter'
 import { NextSeo } from 'next-seo'
 import { Container, Row, Col } from 'react-grid-system'
-import { Box, Flex, StyledLink, Text } from 'ui/src/components/atoms'
-import Link from 'next/link'
+import { Box, Flex } from 'ui/src/components/atoms'
 import { Header } from 'components/header'
 import { Footer } from 'components/footer'
 import { MdxTheme } from 'components/mdx-theme'
-{
-	/*import { SideMenu } from 'components/side-menu'*/
-}
+import { SideMenu } from 'components/side-menu'
 import { PageContainer } from 'components/page-container'
 import { config } from 'config'
 import docsGlobalStyles from './docs.styles'
 
-const PostPage = ({ docs, frontMatter: { title, date }, mdxSource }) => {
+const PostPage = ({ docs, mdxSource }) => {
 	docsGlobalStyles()
 	return (
 		<>
@@ -55,44 +52,17 @@ const PostPage = ({ docs, frontMatter: { title, date }, mdxSource }) => {
 					<PageContainer>
 						<Container fluid>
 							<Row>
-								<Col xs={4}>
-									{/*<SideMenu docs={docs} />*/}
-									<Box as="ul">
-										<Box as="li">
-											<Link href="/docs" passHref>
-												<StyledLink css={{ display: 'inline-flex', mt: '16px' }}>
-													<Text medium size="5">
-														Introduction
-													</Text>
-												</StyledLink>
-											</Link>
-										</Box>
-										<Box as="li">
-											<Link href="/docs/api-reference" passHref>
-												<StyledLink css={{ display: 'inline-flex', mt: '16px' }}>
-													<Text medium size="5">
-														API Reference
-													</Text>
-												</StyledLink>
-											</Link>
-										</Box>
-										<Box as="li">
-											<Link href="/docs/api-v1" passHref>
-												<StyledLink css={{ display: 'inline-flex', mt: '16px' }}>
-													<Text medium size="5">
-														API V1
-													</Text>
-												</StyledLink>
-											</Link>
-										</Box>
-									</Box>
+								<Col xs={3}>
+									<SideMenu docs={docs} />
 								</Col>
 								<Col>
 									<Box css={{ width: '100%', pb: '100px', maxWidth: '700px' }}>
 										<MdxTheme mdxSource={mdxSource} />
 									</Box>
 								</Col>
-								<Col xs={1}></Col>
+								<Col xs={2}>
+									<Box />
+								</Col>
 							</Row>
 						</Container>
 					</PageContainer>
@@ -128,7 +98,7 @@ const getStaticProps = async ({ params: { slug } }) => {
 			slug: filename.split('.')[0],
 		}
 	})
-	const markdownWithMeta = fs.readFileSync(path.join('docs', slug + '.mdx'), 'utf-8')
+	const markdownWithMeta = fs.readFileSync(path.join('docs', `${slug}.mdx`), 'utf-8')
 	const { data: frontMatter, content } = matter(markdownWithMeta)
 	const mdxSource = await serialize(content)
 
