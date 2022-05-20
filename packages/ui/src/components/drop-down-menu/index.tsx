@@ -157,8 +157,9 @@ const HamburgerSvg = ({ css }: CSS) => (
 	>
 		<motion.path
 			fill="transparent"
-			stroke-width="1"
-			stroke-linecap="round"
+			strokeWidth="1"
+			strokeLinecap="round"
+			d="M 2 2.5 L 20 2.5"
 			variants={{
 				closed: { d: 'M 2 2.5 L 20 2.5' },
 				open: { d: 'M 3 16.5 L 17 2.5' },
@@ -166,8 +167,8 @@ const HamburgerSvg = ({ css }: CSS) => (
 		/>
 		<motion.path
 			fill="transparent"
-			stroke-width="1"
-			stroke-linecap="round"
+			strokeWidth="1"
+			strokeLinecap="round"
 			d="M 2 9.423 L 20 9.423"
 			opacity="1"
 			variants={{
@@ -178,8 +179,9 @@ const HamburgerSvg = ({ css }: CSS) => (
 		/>
 		<motion.path
 			fill="transparent"
-			stroke-width="1"
-			stroke-linecap="round"
+			strokeWidth="1"
+			strokeLinecap="round"
+			d="M 2 16.346 L 20 16.346"
 			variants={{
 				closed: { d: 'M 2 16.346 L 20 16.346' },
 				open: { d: 'M 3 2.5 L 17 16.346' },

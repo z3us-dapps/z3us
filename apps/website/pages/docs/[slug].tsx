@@ -4,13 +4,7 @@ import fs from 'fs'
 import path from 'path'
 import matter from 'gray-matter'
 import { NextSeo } from 'next-seo'
-import { Container, Row, Col } from 'react-grid-system'
-import { Box, Flex } from 'ui/src/components/atoms'
-import { Header } from 'components/header'
-import { Footer } from 'components/footer'
-import { MdxTheme } from 'components/mdx-theme'
-import { SideMenu } from 'components/side-menu'
-import { PageContainer } from 'components/page-container'
+import { PageDocs } from 'components/pages/page-docs'
 import { config } from 'config'
 import docsGlobalStyles from './docs.styles'
 
@@ -41,34 +35,7 @@ const PostPage = ({ docs, mdxSource }) => {
 					],
 				}}
 			/>
-			<Flex direction="column" css={{ minHeight: '100vh' }}>
-				<Header />
-				<Box
-					css={{
-						position: 'relative',
-						flex: '1',
-					}}
-				>
-					<PageContainer>
-						<Container fluid>
-							<Row>
-								<Col xs={3}>
-									<SideMenu docs={docs} />
-								</Col>
-								<Col>
-									<Box css={{ width: '100%', pb: '100px', maxWidth: '700px' }}>
-										<MdxTheme mdxSource={mdxSource} />
-									</Box>
-								</Col>
-								<Col xs={2}>
-									<Box />
-								</Col>
-							</Row>
-						</Container>
-					</PageContainer>
-				</Box>
-				<Footer />
-			</Flex>
+			<PageDocs docs={docs} mdxSource={mdxSource} />
 		</>
 	)
 }

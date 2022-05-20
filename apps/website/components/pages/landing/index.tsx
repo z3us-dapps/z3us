@@ -1,7 +1,6 @@
 import React from 'react'
 import Link from 'next/link'
 import { NextSeo } from 'next-seo'
-import { Container, Row, Col } from 'react-grid-system'
 import { Box, Text, Flex, StyledLink } from 'ui/src/components/atoms'
 import { Header } from 'components/header'
 import { ThemePickerMenu } from 'components/theme-picker-menu'
@@ -38,212 +37,202 @@ export const LandingPage: React.FC = () => (
 
 		<Header isLandingPage />
 		<PageContainer>
-			<Container fluid>
-				<Row>
-					<Col>
-						<Flex
+			<Flex
+				css={{
+					position: 'relative',
+					flexDirection: 'column-reverse',
+					background: 'linear-gradient(180deg, #7345fc, #4f21e6 100%)',
+					borderRadius: '32px',
+					width: '100%',
+					gap: '12px',
+					color: '$white',
+					overflow: 'hidden',
+					'&:before': {
+						content: '',
+						position: 'absolute',
+						pe: 'none',
+						top: '0',
+						left: '0',
+						right: '0',
+						bottom: '0',
+						backgroundImage: 'url(/images/landing-lightening-bg.png)',
+						backgroundRepeat: 'no-repeat',
+						backgroundSize: 'auto 100%',
+						opacity: '0.4',
+						minHeight: '100%',
+					},
+					'@md': {
+						flexDirection: 'row',
+						'&:before': {
+							opacity: '0.7',
+							backgroundRepeat: 'no-repeat',
+							backgroundPosition: 'top right',
+							backgroundSize: 'auto 100%',
+						},
+					},
+				}}
+			>
+				<Box
+					css={{
+						width: '100%',
+						flexBasis: '100%',
+						position: 'relative',
+						pt: '10px',
+						pb: '50px',
+						px: '20px',
+						'@xs': { px: '5%' },
+						'@sm': { px: '15%' },
+						'@md': { width: '50%', flexBasis: '50%', pt: '150px', pb: '150px', pl: '40px', pr: '0px ' },
+						'@lg': { pl: '100px' },
+					}}
+				>
+					<Box>
+						<Text
+							bold
 							css={{
-								position: 'relative',
-								flexDirection: 'column-reverse',
-								background: 'linear-gradient(180deg, #7345fc, #4f21e6 100%)',
-								borderRadius: '32px',
-								width: '100%',
-								gap: '12px',
-								color: '$white',
-								overflow: 'hidden',
-								'&:before': {
-									content: '',
-									position: 'absolute',
-									pe: 'none',
-									top: '0',
-									left: '0',
-									right: '0',
-									bottom: '0',
-									backgroundImage: 'url(/images/landing-lightening-bg.png)',
-									backgroundRepeat: 'no-repeat',
-									backgroundSize: 'auto 100%',
-									opacity: '0.4',
-									minHeight: '100%',
-								},
-								'@md': {
-									flexDirection: 'row',
-									'&:before': {
-										opacity: '0.7',
-										backgroundRepeat: 'no-repeat',
-										backgroundPosition: 'top right',
-										backgroundSize: 'auto 100%',
-									},
-								},
+								fontSize: '40px',
+								lineHeight: '44px',
+								fontFamily: '$HaasGrotDisplayRound',
+								'@xs': { fontSize: '40px', lineHeight: '48px' },
+								'@md': { fontSize: '60px', lineHeight: '64px', whiteSpace: 'nowrap' },
+							}}
+						>
+							Control your future.
+						</Text>
+						<Text
+							bold
+							css={{
+								fontSize: '40px',
+								lineHeight: '44px',
+								fontFamily: '$HaasGrotDisplayRound',
+								'@xs': { fontSize: '40px', lineHeight: '48px' },
+								'@md': { fontSize: '60px', lineHeight: '64px' },
 							}}
 						>
 							<Box
+								as="span"
 								css={{
-									width: '100%',
-									flexBasis: '100%',
-									position: 'relative',
-									pt: '10px',
-									pb: '50px',
-									px: '20px',
-									'@xs': { px: '5%' },
-									'@sm': { px: '15%' },
-									'@md': { width: '50%', flexBasis: '50%', pt: '150px', pb: '150px', pl: '40px', pr: '0px ' },
-									'@lg': { pl: '100px' },
+									backgroundClip: 'text',
+									backgroundImage: 'linear-gradient(#e0a2ff 0%, #dbf2f2 50%, #ffffff 100%)',
+									'-webkit-text-fill-color': 'transparent',
 								}}
 							>
-								<Box>
-									<Text
-										bold
-										css={{
-											fontSize: '40px',
-											lineHeight: '44px',
-											fontFamily: '$HaasGrotDisplayRound',
-											'@xs': { fontSize: '40px', lineHeight: '48px' },
-											'@md': { fontSize: '60px', lineHeight: '64px', whiteSpace: 'nowrap' },
-										}}
-									>
-										Control your future.
-									</Text>
-									<Text
-										bold
-										css={{
-											fontSize: '40px',
-											lineHeight: '44px',
-											fontFamily: '$HaasGrotDisplayRound',
-											'@xs': { fontSize: '40px', lineHeight: '48px' },
-											'@md': { fontSize: '60px', lineHeight: '64px' },
-										}}
-									>
-										<Box
-											as="span"
-											css={{
-												backgroundClip: 'text',
-												backgroundImage: 'linear-gradient(#e0a2ff 0%, #dbf2f2 50%, #ffffff 100%)',
-												'-webkit-text-fill-color': 'transparent',
-											}}
-										>
-											DeFi
-										</Box>{' '}
-										at your fingertips.
-									</Text>
-									<Text
-										size="7"
-										css={{
-											pt: '20px',
-											fontFamily: '$HaasGrotTextRound',
-											fontSize: '18px',
-											lineHeight: '22px',
-											'@md': { fontSize: '20px', lineHeight: '30px' },
-										}}
-									>
-										Manage accounts, send and receive tokens, stake tokens to receive rewards and connect to DApps from
-										the Z3US browser wallet.
-									</Text>
-									<Flex css={{ mt: '$6', justifyContent: 'center', '@md': { justifyContent: 'flex-start' } }}>
-										<FlashCtaButton />
-									</Flex>
-									<Flex
-										justify="center"
-										align="center"
-										direction="column"
-										css={{
-											mt: '$5',
-											width: '100%',
-											'@xs': { maxWidth: '100%' },
-											'@md': { maxWidth: '180px' },
-										}}
-									>
-										<Text bold size="3" css={{ pb: '15px' }}>
-											Available in:
-										</Text>
-										<BrowserIconLinks />
-									</Flex>
-								</Box>
-							</Box>
-							<Flex
-								align="center"
-								justify="center"
-								css={{
-									width: '100%',
-									flexBasis: '100%',
-									position: 'relative',
-									pt: '20px',
-									pb: '0px',
-									img: {
-										maxWidth: '100%',
-									},
-									'@md': { width: '50%', flexBasis: '50%', position: 'relative', pt: '34px', pb: '44px' },
-								}}
-							>
-								<img src="images/landing-product-bg.png" alt="product" style={{ width: '398px' }} />
-							</Flex>
+								DeFi
+							</Box>{' '}
+							at your fingertips.
+						</Text>
+						<Text
+							size="7"
+							css={{
+								pt: '20px',
+								fontFamily: '$HaasGrotTextRound',
+								fontSize: '18px',
+								lineHeight: '22px',
+								'@md': { fontSize: '20px', lineHeight: '30px' },
+							}}
+						>
+							Manage accounts, send and receive tokens, stake tokens to receive rewards and connect to DApps from the
+							Z3US browser wallet.
+						</Text>
+						<Flex css={{ mt: '$6', justifyContent: 'center', '@md': { justifyContent: 'flex-start' } }}>
+							<FlashCtaButton />
 						</Flex>
-					</Col>
-				</Row>
-				<Row>
-					<Col>
-						<Flex align="center" css={{ width: '100%', pt: '30px' }}>
-							<Box css={{ px: '0px', '@md': { px: '24px' } }}>
+						<Flex
+							justify="center"
+							align="center"
+							direction="column"
+							css={{
+								mt: '$5',
+								width: '100%',
+								'@xs': { maxWidth: '100%' },
+								'@md': { maxWidth: '180px' },
+							}}
+						>
+							<Text bold size="3" css={{ pb: '15px' }}>
+								Available in:
+							</Text>
+							<BrowserIconLinks />
+						</Flex>
+					</Box>
+				</Box>
+				<Flex
+					align="center"
+					justify="center"
+					css={{
+						width: '100%',
+						flexBasis: '100%',
+						position: 'relative',
+						pt: '20px',
+						pb: '0px',
+						img: {
+							maxWidth: '100%',
+						},
+						'@md': { width: '50%', flexBasis: '50%', position: 'relative', pt: '34px', pb: '44px' },
+					}}
+				>
+					<img src="images/landing-product-bg.png" alt="product" style={{ width: '398px' }} />
+				</Flex>
+			</Flex>
+			<Flex align="start">
+				<Flex align="center" css={{ width: '100%', pt: '30px' }}>
+					<Box css={{ px: '0px', '@md': { px: '24px' } }}>
+						<Text
+							as="p"
+							color="help"
+							css={{
+								fontFamily: '$HaasGrotTextRound',
+								fontSize: '13px',
+								lineHeight: '14px',
+							}}
+						>
+							&copy; {new Date().getFullYear()} Z3US
+						</Text>
+					</Box>
+				</Flex>
+				<Box css={{ width: '100%' }}>
+					<Flex
+						align="center"
+						justify="end"
+						css={{
+							flex: '1',
+							color: '$txtHelp',
+							pt: '21px',
+							pb: '20px',
+							'@md': { px: '24px' },
+						}}
+					>
+						<Link href="/privacy" passHref>
+							<StyledLink underlineOnHover>
 								<Text
 									as="p"
-									color="help"
 									css={{
 										fontFamily: '$HaasGrotTextRound',
 										fontSize: '13px',
 										lineHeight: '14px',
 									}}
 								>
-									&copy; {new Date().getFullYear()} Z3US
+									Privacy
 								</Text>
-							</Box>
-						</Flex>
-					</Col>
-					<Col>
-						<Box css={{ width: '100%' }}>
-							<Flex
-								align="center"
-								justify="end"
-								css={{
-									flex: '1',
-									color: '$txtHelp',
-									pt: '21px',
-									pb: '20px',
-									'@md': { px: '24px' },
-								}}
-							>
-								<Link href="/privacy" passHref>
-									<StyledLink underlineOnHover>
-										<Text
-											as="p"
-											css={{
-												fontFamily: '$HaasGrotTextRound',
-												fontSize: '13px',
-												lineHeight: '14px',
-											}}
-										>
-											Privacy
-										</Text>
-									</StyledLink>
-								</Link>
-								<Link href="/terms" passHref>
-									<StyledLink underlineOnHover css={{ ml: '12px', mr: '4px' }}>
-										<Text
-											as="p"
-											css={{
-												fontFamily: '$HaasGrotTextRound',
-												fontSize: '13px',
-												lineHeight: '14px',
-											}}
-										>
-											Terms
-										</Text>
-									</StyledLink>
-								</Link>
-								<ThemePickerMenu />
-							</Flex>
-						</Box>
-					</Col>
-				</Row>
-			</Container>
+							</StyledLink>
+						</Link>
+						<Link href="/terms" passHref>
+							<StyledLink underlineOnHover css={{ ml: '12px', mr: '4px' }}>
+								<Text
+									as="p"
+									css={{
+										fontFamily: '$HaasGrotTextRound',
+										fontSize: '13px',
+										lineHeight: '14px',
+									}}
+								>
+									Terms
+								</Text>
+							</StyledLink>
+						</Link>
+						<ThemePickerMenu />
+					</Flex>
+				</Box>
+			</Flex>
 		</PageContainer>
 	</>
 )

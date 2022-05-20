@@ -4,17 +4,12 @@ import matter from 'gray-matter'
 import { serialize } from 'next-mdx-remote/serialize'
 import React from 'react'
 import { NextSeo } from 'next-seo'
-import { Header } from 'components/header'
-import { Container, Row, Col } from 'react-grid-system'
-import { Box, Flex } from 'ui/src/components/atoms'
-import { PageContainer } from 'components/page-container'
+import { PageDocs } from 'components/pages/page-docs'
 import { config } from 'config'
-import { Footer } from 'components/footer'
-import { MdxTheme } from 'components/mdx-theme'
-import { SideMenu } from 'components/side-menu'
+import { DocsPageProps } from 'types'
 import docsGlobalStyles from './docs.styles'
 
-const DocsIndex = ({ docs, mdxSource }) => {
+export const DocsIndex: React.FC<DocsPageProps> = ({ docs, mdxSource }) => {
 	docsGlobalStyles()
 	return (
 		<>
@@ -41,34 +36,7 @@ const DocsIndex = ({ docs, mdxSource }) => {
 					],
 				}}
 			/>
-			<Flex direction="column" css={{ minHeight: '100vh' }}>
-				<Header />
-				<Box
-					css={{
-						position: 'relative',
-						flex: '1',
-					}}
-				>
-					<PageContainer>
-						<Container fluid>
-							<Row>
-								<Col xs={3}>
-									<SideMenu docs={docs} />
-								</Col>
-								<Col>
-									<Box css={{ width: '100%', pb: '100px' }}>
-										<MdxTheme mdxSource={mdxSource} />
-									</Box>
-								</Col>
-								<Col xs={2}>
-									<Box />
-								</Col>
-							</Row>
-						</Container>
-					</PageContainer>
-				</Box>
-				<Footer />
-			</Flex>
+			<PageDocs docs={docs} mdxSource={mdxSource} />
 		</>
 	)
 }

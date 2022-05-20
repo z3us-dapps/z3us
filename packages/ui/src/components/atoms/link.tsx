@@ -35,7 +35,7 @@ export const StyledLink = styled('a', {
 					content: '',
 					position: 'absolute',
 					transition: '$default',
-					inset: '4px 0',
+					inset: '3px 0',
 					borderBottom: '1px dotted',
 					pe: 'none',
 				},

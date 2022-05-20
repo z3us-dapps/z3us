@@ -65,7 +65,7 @@ export const Example = () => {
 	const [state, setState] = useImmer({
 		to: '',
 		amount: '',
-		message: 'this is Z3US test',
+		message: 'This is a test message',
 		encrypted: '',
 		isAddressValid: false,
 	})
@@ -142,9 +142,9 @@ export const Example = () => {
 		<Box>
 			<Box css={{ maxWidth: '100%' }}>
 				{!address ? (
-					<AlertCard icon color="warning" css={{ mt: '$4' }}>
-						<Text medium size="4" css={{ p: '$3' }}>
-							Connect Z3US wallet before sending transaction
+					<AlertCard icon color="warning" css={{ mt: '$4', height: '40px' }}>
+						<Text medium size="4" css={{ mb: '3px', pl: '$3', mt: '8px' }}>
+							Connect Z3US wallet before attempting to send a transaction.
 						</Text>
 					</AlertCard>
 				) : null}
@@ -152,8 +152,8 @@ export const Example = () => {
 				<Seperator title="Connect Z3US wallet" />
 
 				<Flex align="center" css={{ pt: '0' }}>
-					<Button size="5" color="primary" onClick={!address ? handleConnectWallet : handleDisconnect}>
-						{!address ? 'Connect  ⚡' : 'Disconnect'}
+					<Button size="6" color="primary" onClick={!address ? handleConnectWallet : handleDisconnect}>
+						{!address ? 'Connect' : 'Disconnect'}
 					</Button>
 				</Flex>
 
@@ -177,7 +177,7 @@ export const Example = () => {
 						onChange={handleAmountChange}
 						disabled={!address}
 					/>
-					<Flex css={{ pt: '$4', width: '600px' }}>
+					<Flex css={{ pt: '$4', maxWidth: '600px', width: '100%' }}>
 						<Input
 							value={state.message}
 							as="textarea"
@@ -206,7 +206,7 @@ export const Example = () => {
 					</Flex>
 				</Box>
 			</Box>
-			<ul className="controls-list">
+			<ul>
 				<li>
 					<Toast config={{ type: 'success', duration: 4000 }} uniqueId="toast-first">
 						Transaction success
