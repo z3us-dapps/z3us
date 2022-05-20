@@ -6,7 +6,7 @@ import { useEventListener } from 'usehooks-ts'
 import { PageContainer } from 'components/page-container'
 import { Container, Row, Col } from 'react-grid-system'
 import Button from 'ui/src/components/button'
-import { TelegramIcon, TwitterIcon, GithubIcon } from 'ui/src/components/icons'
+import { DiscordIcon, TelegramIcon, TwitterIcon, GithubIcon } from 'ui/src/components/icons'
 import { ToolTip } from 'ui/src/components/tool-tip'
 import Link from 'next/link'
 import { Z3usText } from 'ui/src/components/z3us-text'
@@ -120,6 +120,11 @@ export const Header: React.FC<IProps> = ({ isLandingPage }) => {
 											},
 										}}
 									>
+										<StyledLink href={config.GITHUB_FEEDBACK_URL} underlineOnHover css={{ mr: '$2' }}>
+											<Text bold size="4" css={{ pt: '1px' }}>
+												Feedback
+											</Text>
+										</StyledLink>
 										<Link href="/docs" passHref>
 											<StyledLink underlineOnHover css={{ mr: '$2' }}>
 												<Text bold size="4" css={{ pt: '1px' }}>
@@ -140,6 +145,11 @@ export const Header: React.FC<IProps> = ({ isLandingPage }) => {
 										<ToolTip message="Telegram" bgColor="$bgPanel2">
 											<Button target="_blank" href={config.TELEGRAM_URL} as="a" size="3" color="ghost" iconOnly>
 												<TelegramIcon />
+											</Button>
+										</ToolTip>
+										<ToolTip message="Dicsord" bgColor="$bgPanel2">
+											<Button target="_blank" href={config.DISCORD_URL} as="a" size="3" color="ghost" iconOnly>
+												<DiscordIcon />
 											</Button>
 										</ToolTip>
 									</Flex>

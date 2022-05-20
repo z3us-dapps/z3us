@@ -16,9 +16,17 @@ export const Footer: React.FC = () => (
 						<Flex align="center" css={{ py: '30px', '@xs': { px: '24px' }, '@md': { px: '0' } }}>
 							<Box>
 								<Link href="/">
-									<a>
+									<StyledLink
+										css={{
+											display: 'inline-flex',
+											transition: '$default',
+											'&:hover': {
+												opacity: '0.8',
+											},
+										}}
+									>
 										<Z3usLogoText css={{ color: '$txtHelp' }} />
-									</a>
+									</StyledLink>
 								</Link>
 								<Box css={{ mt: '$2', display: 'block' }}>
 									<Text

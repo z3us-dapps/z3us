@@ -14,7 +14,7 @@ import { PageContainer } from 'components/page-container'
 import { config } from 'config'
 import { Footer } from 'components/footer'
 import { MdxTheme } from 'components/mdx-theme'
-//import { SideMenu } from 'components/side-menu'
+import { SideMenu } from 'components/side-menu'
 import docsGlobalStyles from './docs.styles'
 
 const DocsIndex = ({ docs, mdxSource }) => {
@@ -56,37 +56,7 @@ const DocsIndex = ({ docs, mdxSource }) => {
 						<Container fluid>
 							<Row>
 								<Col xs={4}>
-									{/*<SideMenu docs={docs} />*/}
-
-									<Box as="ul">
-										<Box as="li">
-											<Link href="/docs" passHref>
-												<StyledLink css={{ display: 'inline-flex', mt: '16px' }}>
-													<Text medium size="5">
-														Introduction
-													</Text>
-												</StyledLink>
-											</Link>
-										</Box>
-										<Box as="li">
-											<Link href="/docs/api-reference" passHref>
-												<StyledLink css={{ display: 'inline-flex', mt: '16px' }}>
-													<Text medium size="5">
-														API Reference
-													</Text>
-												</StyledLink>
-											</Link>
-										</Box>
-										<Box as="li">
-											<Link href="/docs/api-v1" passHref>
-												<StyledLink css={{ display: 'inline-flex', mt: '16px' }}>
-													<Text medium size="5">
-														API V1
-													</Text>
-												</StyledLink>
-											</Link>
-										</Box>
-									</Box>
+									<SideMenu docs={docs} />
 								</Col>
 								<Col>
 									<Box css={{ width: '100%', pb: '100px' }}>
