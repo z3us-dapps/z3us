@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useRef } from 'react'
 import { useQueryClient } from 'react-query'
 import { useImmer } from 'use-immer'
 import { useStore } from '@src/store'
@@ -11,7 +11,12 @@ import {
 	StakeTokens,
 } from '@src/services/radix/transactions'
 import { useEventListener } from 'usehooks-ts'
-import { useNativeToken, useLookupValidator } from '@src/services/react-query/queries/radix'
+import {
+	useNativeToken,
+	useLookupValidator,
+	useTokenBalances,
+	useStakedPositions,
+} from '@src/services/react-query/queries/radix'
 import { CloseIcon } from 'ui/src/components/icons'
 import Button from 'ui/src/components/button'
 import Input from 'ui/src/components/input'
@@ -21,6 +26,7 @@ import { Box, Text, Flex } from 'ui/src/components/atoms'
 import { SlippageBox } from '@src/components/slippage-box'
 import BigNumber from 'bignumber.js'
 import { HardwareWalletReconnect } from '@src/components/hardware-wallet-reconnect'
+import { formatBigNumber } from '@src/utils/formatters'
 
 interface IProps {
 	trigger: React.ReactNode
@@ -30,8 +36,11 @@ interface IProps {
 }
 
 export const StakeModal: React.FC<IProps> = ({ trigger, tooltipMessage, validatorAddress, reduceStake }) => {
+	const inputAmountRef = useRef(null)
 	const [, setLocation] = useLocation()
 	const queryClient = useQueryClient()
+	const { data: stakedPositions } = useStakedPositions()
+	const { data: balances } = useTokenBalances()
 	const { data: token } = useNativeToken()
 	const { data: validator } = useLookupValidator(validatorAddress)
 
@@ -42,6 +51,16 @@ export const StakeModal: React.FC<IProps> = ({ trigger, tooltipMessage, validato
 		addressBook: state.addressBook,
 		network: state.networks[state.selectedNetworkIndex],
 	}))
+
+	let amount = new BigNumber(0)
+	if (reduceStake) {
+		const staked = stakedPositions?.stakes.find(position => position.validator.toString() === validator.address)
+		amount = staked ? new BigNumber(staked.amount).shiftedBy(-18) : new BigNumber(0)
+	} else {
+		const liquidBalances = balances?.account_balances?.liquid_balances || []
+		const selectedToken = liquidBalances?.find(balance => balance.rri === token.rri)
+		amount = selectedToken ? new BigNumber(selectedToken.amount).shiftedBy(-18) : new BigNumber(0)
+	}
 
 	const [state, setState] = useImmer({
 		amount: '',
@@ -78,6 +97,13 @@ export const StakeModal: React.FC<IProps> = ({ trigger, tooltipMessage, validato
 		setState(draft => {
 			draft.amount = event.currentTarget.value
 		})
+	}
+
+	const handleUseMax = () => {
+		setState(draft => {
+			draft.amount = formatBigNumber(amount)
+		})
+		inputAmountRef.current.focus()
 	}
 
 	const wrappedTrigger = tooltipMessage ? (
@@ -200,7 +226,40 @@ export const StakeModal: React.FC<IProps> = ({ trigger, tooltipMessage, validato
 							/>
 						</Box>
 						<Box css={{ mt: '$2' }}>
-							<Input placeholder="Enter amount" onChange={handleSetAmount} />
+							<Flex align="center" css={{ mt: '14px', position: 'relative' }}>
+								<Tooltip>
+									<TooltipTrigger asChild>
+										<Button
+											size="1"
+											color="tertiary"
+											css={{
+												position: 'absolute',
+												top: '-4px',
+												right: '0',
+												textTransform: 'uppercase',
+											}}
+											onClick={handleUseMax}
+										>
+											MAX
+										</Button>
+									</TooltipTrigger>
+									<TooltipContent sideOffset={3}>
+										<TooltipArrow offset={15} />
+										Select maximum {token?.symbol.toUpperCase()}
+									</TooltipContent>
+								</Tooltip>
+								<Text css={{ fontSize: '14px', lineHeight: '17px', fontWeight: '500', flex: '1' }}>Amount:</Text>
+							</Flex>
+							<Box css={{ mt: '13px', position: 'relative' }}>
+								<Input
+									ref={inputAmountRef}
+									type="number"
+									size="2"
+									value={state.amount}
+									placeholder="Enter amount"
+									onChange={handleSetAmount}
+								/>
+							</Box>
 						</Box>
 						<SlippageBox
 							css={{ mt: '12px' }}
