@@ -90,7 +90,7 @@ export const Header: React.FC<IProps> = ({ isLandingPage }) => {
 									</StyledLink>
 								</Link>
 								<Box>
-									<Pill color="gradientGreen" css={{ ml: '10px', mt: '6px' }}>
+									<Pill color="gradientGreen" css={{ ml: '15px', mt: '6px' }}>
 										BETA
 									</Pill>
 								</Box>
