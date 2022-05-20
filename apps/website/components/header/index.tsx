@@ -147,7 +147,7 @@ export const Header: React.FC<IProps> = ({ isLandingPage }) => {
 												<TelegramIcon />
 											</Button>
 										</ToolTip>
-										<ToolTip message="Dicsord" bgColor="$bgPanel2">
+										<ToolTip message="Discord" bgColor="$bgPanel2">
 											<Button target="_blank" href={config.DISCORD_URL} as="a" size="3" color="ghost" iconOnly>
 												<DiscordIcon />
 											</Button>
