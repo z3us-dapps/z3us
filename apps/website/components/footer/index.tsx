@@ -2,7 +2,6 @@ import React from 'react'
 import { Text, Box, Flex, StyledLink } from 'ui/src/components/atoms'
 import Link from 'next/link'
 import { ThemePickerMenu } from 'components/theme-picker-menu'
-
 import { Container, Row, Col } from 'react-grid-system'
 import { PageContainer } from 'components/page-container'
 import { Z3usLogoText } from 'ui/src/components/z3us-logo-text'
@@ -15,7 +14,7 @@ export const Footer: React.FC = () => (
 					<Col>
 						<Flex align="center" css={{ py: '30px', '@xs': { px: '24px' }, '@md': { px: '0' } }}>
 							<Box>
-								<Link href="/">
+								<Link href="/" passHref>
 									<StyledLink
 										css={{
 											display: 'inline-flex',
