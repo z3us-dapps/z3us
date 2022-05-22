@@ -13,6 +13,8 @@ import {
 } from '@radixdlt/crypto'
 import { sharedStore } from '@src/store'
 import { BrowserStorageService } from '@src/services/browser-storage'
+import { sharedStoreKey } from '@src/config'
+import { SharedStore } from '@src/store/types'
 
 const keystoreKey = 'z3us-keystore'
 
@@ -34,7 +36,7 @@ export class VaultService {
 
 	has = async (): Promise<boolean> => {
 		try {
-			const keystore = await this.storage.getItem(keystoreKey, '')
+			const keystore = await this.storage.getItem(keystoreKey)
 			return !!keystore
 		} catch (err) {
 			return false
@@ -83,8 +85,9 @@ export class VaultService {
 	}
 
 	remove = async () => {
+		const suffix = await this.getKeystorePrefix()
 		await this.lock()
-		await this.storage.removeItem(keystoreKey)
+		await this.storage.removeItem(suffix ? `${keystoreKey}-${suffix}`: keystoreKey)
 	}
 
 	private load = async (keystore: KeystoreT, password: string) => {
@@ -121,11 +124,13 @@ export class VaultService {
 	}
 
 	private saveKeystore = async (keystore: KeystoreT) => {
-		await this.storage.setItem(keystoreKey, JSON.stringify(keystore, null, '\t'))
+		const suffix = await this.getKeystorePrefix()
+		await this.storage.setItem(suffix ? `${keystoreKey}-${suffix}`: keystoreKey, JSON.stringify(keystore, null, '\t'))
 	}
 
 	private loadKeystore = async (): Promise<KeystoreT> => {
-		const data = await this.storage.getItem(keystoreKey)
+		const suffix = await this.getKeystorePrefix()
+		const data = await this.storage.getItem(suffix ? `${keystoreKey}-${suffix}`: keystoreKey)
 		if (!data) {
 			throw new Error('No keystore!')
 		}
@@ -203,5 +208,14 @@ export class VaultService {
 			id,
 			version: 1,
 		}
+	}
+
+	private getKeystorePrefix = async () => {
+		const data = await this.storage.getItem(sharedStoreKey)
+		if (!data[sharedStoreKey]) {
+			return ''
+		}
+		const state = JSON.parse(data[sharedStoreKey])?.state as SharedStore
+		return state?.selectKeystoreName || ''
 	}
 }

@@ -103,7 +103,7 @@ export const factory = (set: SetState<AccountStore>, get: GetState<AccountStore>
 	getCurrentAddressAction: () => {
 		const { publicAddresses, selectedAccountIndex } = get()
 		const publicIndexes = Object.keys(publicAddresses)
-		return publicAddresses[publicIndexes[selectedAccountIndex]]
+		return publicAddresses[publicIndexes[selectedAccountIndex]]?.address
 	},
 
 	setPublicAddressesAction: (addresses: { [key: number]: string }) => {

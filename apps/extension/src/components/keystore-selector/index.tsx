@@ -35,12 +35,13 @@ export const KeystoreSelector: React.FC = () => {
 	const handleValueChange = async (keystoreId: string) => {
 		selectKeystore(keystoreId)
 		await lock()
-		lockWallet()
+		await lockWallet()
 	}
 
 	const handleAdd = async () => {
 		addKeystore(generateId())
-		lock() // clear background memory
+		await lock() // clear background memory
+		window.location.hash = '#/onboarding'
 	}
 
 	const handleRemove = (keystoreId: string) => async () => {

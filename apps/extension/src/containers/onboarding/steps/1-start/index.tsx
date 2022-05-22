@@ -8,7 +8,6 @@ import { Text, Box, Flex, StyledLink } from 'ui/src/components/atoms'
 import { useSharedStore } from '@src/store'
 import { onBoardingSteps } from '@src/store/onboarding'
 import { Z3usText } from 'ui/src/components/z3us-text'
-import { KeystoreSelector } from '@src/components/keystore-selector'
 import { CheckItem } from './check-item'
 
 const setupItems = {
@@ -80,9 +79,6 @@ export const Start = (): JSX.Element => {
 					))}
 				</MotionBox>
 			</MotionBox>
-			<Flex align="center" justify="center">
-				<KeystoreSelector />
-			</Flex>
 			<Flex>
 				<Button color="primary" size="6" onClick={handleCreateNewWallet} fullWidth>
 					Create new wallet

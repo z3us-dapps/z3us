@@ -33,7 +33,7 @@ export const WalletMenu: React.FC = () => {
 
 	const handleLockWallet = async () => {
 		await lock()
-		lockWallet()
+		await lockWallet()
 	}
 
 	const handleConnectHW = () => {
