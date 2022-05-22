@@ -1,4 +1,4 @@
-import { store as useStore } from '@src/store'
+import { accountStore, sharedStore } from '@src/store'
 import { Runtime } from 'webextension-polyfill'
 import { BrowserService } from '@src/services/browser'
 import { VaultService } from '@src/services/vault'
@@ -8,7 +8,7 @@ import {
 	HAS,
 	NEW,
 	GET,
-	RESET,
+	REMOVE,
 	LOCK,
 	UNLOCK,
 	AUTH_HAS,
@@ -40,13 +40,15 @@ export default function NewV1BackgroundPopupActions(
 		sendInpageMessage(port, id, payload.request, payload.value)
 		delete actionsToConfirm[id]
 
+		const { selectKeystoreName } = sharedStore.getState()
+		const useStore = accountStore(selectKeystoreName)
 		const state = useStore.getState()
 		state.removePendingActionAction(id)
 	}
 
-	async function reset(port: Runtime.Port, id: string, payload: any) {
+	async function remove(port: Runtime.Port, id: string, payload: any) {
 		try {
-			await vault.reset()
+			await vault.remove()
 			sendPopupMessage(port, id, payload, {})
 		} catch (error: any) {
 			sendPopupMessage(port, id, payload, { code: 500, error: error?.message || error })
@@ -199,7 +201,7 @@ export default function NewV1BackgroundPopupActions(
 		[HAS]: hasKeystore,
 		[NEW]: newKeychain,
 		[GET]: get,
-		[RESET]: reset,
+		[REMOVE]: remove,
 		[LOCK]: lock,
 		[UNLOCK]: unlock,
 		[AUTH_HAS]: authHas,

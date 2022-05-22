@@ -1,5 +1,5 @@
 import React from 'react'
-import { useStore } from '@src/store'
+import { useSharedStore, useStore } from '@src/store'
 import {
 	DropdownMenu,
 	DropdownMenuTrigger,
@@ -20,13 +20,20 @@ interface IProps {
 }
 
 export const AddressBookSelector: React.FC<IProps> = ({ selectedAddress, onSelectAddressBookAddress }) => {
-	const { addressBook } = useStore(state => ({
+	const { addressBook } = useSharedStore(state => ({
 		addressBook: state.addressBook,
+	}))
+
+	const { publicAddresses } = useStore(state => ({
+		publicAddresses: Object.values(state.publicAddresses),
 	}))
 
 	let selectedName = 'Select'
 	if (selectedAddress) {
-		selectedName = addressBook?.[selectedAddress]?.name || getShortAddress(selectedAddress)
+		selectedName =
+			addressBook?.[selectedAddress]?.name ||
+			publicAddresses.find(_account => _account.address === selectedAddress)?.name ||
+			getShortAddress(selectedAddress)
 	}
 
 	const entries = Object.entries(addressBook)
@@ -72,6 +79,14 @@ export const AddressBookSelector: React.FC<IProps> = ({ selectedAddress, onSelec
 				}}
 			>
 				<DropdownMenuRadioGroup value={selectedAddress} onValueChange={handleValueChange}>
+					{publicAddresses.map(({ address, name }) => (
+						<DropdownMenuRadioItem key={address} value={address}>
+							<DropdownMenuEllipsis>
+								<DropdownMenuItemIndicator />
+								{name ? `${name} (${getShortAddress(address)})` : getShortAddress(address)}
+							</DropdownMenuEllipsis>
+						</DropdownMenuRadioItem>
+					))}
 					{entries.map(([address, { name }]) => (
 						<DropdownMenuRadioItem key={address} value={address}>
 							<DropdownMenuEllipsis>

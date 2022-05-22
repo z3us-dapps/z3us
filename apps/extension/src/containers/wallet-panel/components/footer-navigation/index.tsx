@@ -1,12 +1,12 @@
 import React from 'react'
-import { useStore } from '@src/store'
+import { useSharedStore } from '@src/store'
 import { useLocation, useRoute } from 'wouter'
 import { Box, Flex, Text } from 'ui/src/components/atoms'
 import Button from 'ui/src/components/button'
 import { routesInfo } from '@src/config'
 
 export const FooterNavigation: React.FC = () => {
-	const { activeApp, setActiveApp } = useStore(state => ({
+	const { activeApp, setActiveApp } = useSharedStore(state => ({
 		activeApp: state.activeApp,
 		setActiveApp: state.setActiveAppAction,
 	}))

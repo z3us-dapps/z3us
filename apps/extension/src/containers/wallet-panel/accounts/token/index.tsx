@@ -1,5 +1,5 @@
 import React, { useRef, useCallback, useEffect, useState } from 'react'
-import { useStore } from '@src/store'
+import { useSharedStore } from '@src/store'
 import { ScrollArea } from '@src/components/scroll-area'
 import { TokenLoadingRows } from '@src/components/token-loading-row'
 import { useTransactionHistory } from '@src/services/react-query/queries/radix'
@@ -13,7 +13,7 @@ import { SlideUpPanel } from '../slide-up-panel'
 import { TokenInfo } from '../token-info'
 
 export const Token: React.FC = () => {
-	const { expanded } = useStore(state => ({
+	const { expanded } = useSharedStore(state => ({
 		expanded: state.accountPanelExpanded,
 	}))
 	const [customScrollParent, setCustomScrollParent] = useState(null)

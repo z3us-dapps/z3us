@@ -1,6 +1,6 @@
 import React from 'react'
 import { useImmer } from 'use-immer'
-import { useStore } from '@src/store'
+import { useSharedStore } from '@src/store'
 import { useEventListener } from 'usehooks-ts'
 import { Tooltip, TooltipTrigger, TooltipContent, TooltipArrow } from 'ui/src/components/tool-tip'
 import { Box, Flex, Text, StyledLink } from 'ui/src/components/atoms'
@@ -22,14 +22,17 @@ import {
 } from 'ui/src/components/alert-dialog'
 import { EXPLORER_URL } from '@src/config'
 import { AccountAddress } from '@radixdlt/account'
+import { AddressBookEntry } from '@src/store/types'
 
 export const AddressBook: React.FC = () => {
-	const { addressBook, setAddressBookEntry, handleRemoveAddress, addToast } = useStore(state => ({
-		addresses: [...Object.values(state.publicAddresses), ...Object.values(state.hwPublicAddresses)],
+	const { addToast } = useSharedStore(state => ({
+		addToast: state.addToastAction,
+	}))
+
+	const { addressBook, setAddressBookEntry, handleRemoveAddress } = useSharedStore(state => ({
 		addressBook: state.addressBook,
 		setAddressBookEntry: state.setAddressBookEntryAction,
 		handleRemoveAddress: state.removeAddressBookEntryAction,
-		addToast: state.addToastAction,
 	}))
 
 	const [state, setState] = useImmer({
@@ -42,10 +45,10 @@ export const AddressBook: React.FC = () => {
 		isAddAddressDialogOpen: false,
 	})
 
-	const handleEdit = (address: string) => {
+	const handleEdit = (entry: AddressBookEntry) => {
 		setState(draft => {
-			draft.editing = draft.editing === address ? '' : address
-			draft.tempEdit = addressBook[address]?.name
+			draft.editing = draft.editing === entry.address ? '' : entry.address
+			draft.tempEdit = entry?.name
 		})
 	}
 
@@ -79,7 +82,7 @@ export const AddressBook: React.FC = () => {
 		setState(draft => {
 			draft.editing = ''
 		})
-		setAddressBookEntry(state.editing, { name: state.tempEdit, isOwn: false })
+		setAddressBookEntry(state.editing, { name: state.tempEdit })
 	}
 
 	const handleSubmitForm = async (e: React.ChangeEvent<HTMLFormElement>) => {
@@ -95,7 +98,7 @@ export const AddressBook: React.FC = () => {
 				throw result.error
 			}
 
-			setAddressBookEntry(state.address, { name: state.name, isOwn: false })
+			setAddressBookEntry(state.address, { name: state.name })
 
 			setState(draft => {
 				draft.name = ''
@@ -129,10 +132,7 @@ export const AddressBook: React.FC = () => {
 	return (
 		<Box css={{ px: '$3', py: '$3' }}>
 			<Box>
-				{Object.entries(addressBook).map(([address, { name, isOwn }]) => {
-					if (isOwn) {
-						return null
-					}
+				{Object.entries(addressBook).map(([address, entry]) => {
 					const isEditing = address === state.editing
 					return (
 						<Flex key={address} align="center" css={{ flex: '1', position: 'relative' }}>
@@ -154,7 +154,7 @@ export const AddressBook: React.FC = () => {
 									) : (
 										<>
 											<Box css={{ maxWidth: '156px', pr: '$1' }}>
-												<Text truncate>{name}</Text>
+												<Text truncate>{entry?.name}</Text>
 											</Box>
 											<Tooltip>
 												<TooltipTrigger asChild>
@@ -192,7 +192,7 @@ export const AddressBook: React.FC = () => {
 									<>
 										<Tooltip>
 											<TooltipTrigger asChild>
-												<Button size="1" color="ghost" iconOnly onClick={() => handleEdit(address)}>
+												<Button size="1" color="ghost" iconOnly onClick={() => handleEdit(entry)}>
 													<Pencil2Icon />
 												</Button>
 											</TooltipTrigger>

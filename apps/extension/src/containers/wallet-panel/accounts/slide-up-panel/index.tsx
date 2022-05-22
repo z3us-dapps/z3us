@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 import { useEventListener } from 'usehooks-ts'
-import { useStore } from '@src/store'
+import { useSharedStore } from '@src/store'
 import { Box, Flex, MotionBox, Text } from 'ui/src/components/atoms'
 import { useLocation } from 'wouter'
 import { UpArrowWideIcon } from 'ui/src/components/icons'
@@ -14,7 +14,7 @@ interface IProps {
 
 export const SlideUpPanel: React.FC<IProps> = ({ children, name }) => {
 	const [location] = useLocation()
-	const { expanded, setExpanded } = useStore(state => ({
+	const { expanded, setExpanded } = useSharedStore(state => ({
 		expanded: state.accountPanelExpanded,
 		setExpanded: state.setAccountPanelExpandedAction,
 	}))

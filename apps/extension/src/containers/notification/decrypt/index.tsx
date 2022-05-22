@@ -2,7 +2,7 @@ import React, { useEffect } from 'react'
 import { Box, Flex, Text, StyledLink, Image } from 'ui/src/components/atoms'
 import Button from 'ui/src/components/button'
 import { PageWrapper, PageHeading, PageSubHeading } from '@src/components/layout'
-import { useStore } from '@src/store'
+import { useSharedStore, useStore } from '@src/store'
 import { useRoute } from 'wouter'
 import { hexToJSON } from '@src/utils/encoding'
 import { CONFIRM } from '@src/lib/actions'
@@ -14,17 +14,22 @@ import { HardwareWalletReconnect } from '@src/components/hardware-wallet-reconne
 export const Decrypt = (): JSX.Element => {
 	const [, { id }] = useRoute<{ id: string }>('/decrypt/:id')
 
-	const { account, accountAddress, addressBook, sendResponse, selectAccountForAddress, action } = useStore(state => ({
-		account: state.account,
-		addressBook: state.addressBook,
-		accountAddress: state.getCurrentAddressAction(),
+	const { sendResponse } = useSharedStore(state => ({
 		sendResponse: state.sendResponseAction,
-		selectAccountForAddress: state.selectAccountForAddressAction,
-		action:
-			state.pendingActions[id] && state.pendingActions[id].payloadHex
-				? hexToJSON(state.pendingActions[id].payloadHex)
-				: {},
 	}))
+
+	const { account, entry, selectAccountForAddress, action } = useStore(state => {
+		const accountAddress = state.getCurrentAddressAction()
+		return {
+			entry: Object.values(state.publicAddresses).find(_account => _account.address === accountAddress),
+			account: state.account,
+			selectAccountForAddress: state.selectAccountForAddressAction,
+			action:
+				state.pendingActions[id] && state.pendingActions[id].payloadHex
+					? hexToJSON(state.pendingActions[id].payloadHex)
+					: {},
+		}
+	})
 
 	const {
 		host,
@@ -32,8 +37,7 @@ export const Decrypt = (): JSX.Element => {
 	} = action
 
 	const [state, setState] = useImmer({
-		entry: addressBook[accountAddress],
-		shortAddress: getShortAddress(accountAddress),
+		shortAddress: getShortAddress(entry?.address),
 	})
 
 	useEffect(() => {
@@ -43,13 +47,12 @@ export const Decrypt = (): JSX.Element => {
 	}, [fromAddress])
 
 	useEffect(() => {
-		if (accountAddress) {
+		if (entry) {
 			setState(draft => {
-				draft.entry = addressBook[accountAddress]
-				draft.shortAddress = getShortAddress(accountAddress)
+				draft.shortAddress = getShortAddress(entry?.address)
 			})
 		}
-	}, [accountAddress])
+	}, [entry])
 
 	const handleCancel = async () => {
 		await sendResponse(CONFIRM, {
@@ -97,7 +100,7 @@ export const Decrypt = (): JSX.Element => {
 					</Box>
 					<Flex css={{ position: 'relative', pb: '15px' }}>
 						<Text css={{ flex: '1' }}>Using account:</Text>
-						<Text>{state?.entry?.name ? `${state?.entry.name} (${state.shortAddress})` : state.shortAddress}</Text>
+						<Text>{entry?.name ? `${entry.name} (${state.shortAddress})` : state.shortAddress}</Text>
 					</Flex>
 					<StyledLink href="#" target="_blank">
 						<Text size="4" color="muted" css={{ mt: '$2' }}>

@@ -1,7 +1,7 @@
 /* eslint-disable react/no-array-index-key */
 import React from 'react'
 import { useLocation, useRoute } from 'wouter'
-import { useStore } from '@src/store'
+import { useSharedStore, useStore } from '@src/store'
 import { getShortAddress } from '@src/utils/string-utils'
 import Button from 'ui/src/components/button'
 import { CopyIcon } from '@radix-ui/react-icons'
@@ -11,24 +11,22 @@ import { Box, Flex, Text } from 'ui/src/components/atoms'
 import { ACCOUNTS } from '@src/config'
 
 export const AccountNaviation: React.FC = () => {
-	const { activeApp, accountAddress, addressBook, addresses, expanded, activeSlideIndex, setActiveSlide } = useStore(
-		state => ({
-			activeApp: state.activeApp,
-			accountAddress: state.getCurrentAddressAction(),
-			addresses: [...Object.values(state.publicAddresses), ...Object.values(state.hwPublicAddresses)],
-			addressBook: state.addressBook,
-			expanded: state.accountPanelExpanded,
-			activeSlideIndex: state.activeSlideIndex,
-			setActiveSlide: state.setActiveSlideIndexAction,
-		}),
-	)
+	const { activeApp, expanded } = useSharedStore(state => ({
+		activeApp: state.activeApp,
+		expanded: state.accountPanelExpanded,
+	}))
+	const { entry, addresses, activeSlideIndex, setActiveSlide } = useStore(state => ({
+		addresses: Object.values(state.publicAddresses).map(({ address }) => address),
+		entry: Object.values(state.publicAddresses).find(_account => _account.address === state.getCurrentAddressAction()),
+		activeSlideIndex: state.activeSlideIndex,
+		setActiveSlide: state.setActiveSlideIndexAction,
+	}))
 	const [page] = activeApp
 	const [, setLocation] = useLocation()
 	const [isAccountMatch] = useRoute('/wallet/account')
 	const isNavVisible = page === ACCOUNTS && isAccountMatch && !expanded
 
-	const entry = addressBook[accountAddress]
-	const shortAddress = getShortAddress(accountAddress)
+	const shortAddress = getShortAddress(entry?.address)
 
 	const handleBreadCrumbClick = async (idx: number) => {
 		await setActiveSlide(idx)
@@ -36,7 +34,7 @@ export const AccountNaviation: React.FC = () => {
 	}
 
 	const handleCopyAddress = () => {
-		copyTextToClipboard(accountAddress)
+		copyTextToClipboard(entry?.address)
 	}
 
 	return (

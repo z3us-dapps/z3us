@@ -1,5 +1,5 @@
 import React from 'react'
-import { useStore } from '@src/store'
+import { useSharedStore } from '@src/store'
 import { useImmer } from 'use-immer'
 import { useEventListener } from 'usehooks-ts'
 import { onBoardingSteps } from '@src/store/onboarding'
@@ -10,7 +10,7 @@ import Input from 'ui/src/components/input'
 import InputFeedBack from 'ui/src/components/input/input-feedback'
 
 export const CreatePassword = (): JSX.Element => {
-	const { setPassword, setOnboradingStep, isRestoreWorkflow } = useStore(state => ({
+	const { setPassword, setOnboradingStep, isRestoreWorkflow } = useSharedStore(state => ({
 		setPassword: state.setPasswordAction,
 		setOnboradingStep: state.setOnboardingStepAction,
 		isRestoreWorkflow: state.isRestoreWorkflow,

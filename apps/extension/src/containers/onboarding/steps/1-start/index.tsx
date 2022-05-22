@@ -5,9 +5,10 @@ import { MotionBox } from 'ui/src/components/atoms/motion-box'
 import { useImmer } from 'use-immer'
 import { PageWrapper } from '@src/components/layout'
 import { Text, Box, Flex, StyledLink } from 'ui/src/components/atoms'
-import { useStore } from '@src/store'
+import { useSharedStore } from '@src/store'
 import { onBoardingSteps } from '@src/store/onboarding'
 import { Z3usText } from 'ui/src/components/z3us-text'
+import { KeystoreSelector } from '@src/components/keystore-selector'
 import { CheckItem } from './check-item'
 
 const setupItems = {
@@ -28,7 +29,7 @@ const ulVariants = {
 }
 
 export const Start = (): JSX.Element => {
-	const { setOnboardingStep, setIsRestoreWorkflow } = useStore(state => ({
+	const { setOnboardingStep, setIsRestoreWorkflow } = useSharedStore(state => ({
 		setOnboardingStep: state.setOnboardingStepAction,
 		setIsRestoreWorkflow: state.setIsRestoreWorkflowAction,
 	}))
@@ -79,6 +80,9 @@ export const Start = (): JSX.Element => {
 					))}
 				</MotionBox>
 			</MotionBox>
+			<Flex align="center" justify="center">
+				<KeystoreSelector />
+			</Flex>
 			<Flex>
 				<Button color="primary" size="6" onClick={handleCreateNewWallet} fullWidth>
 					Create new wallet

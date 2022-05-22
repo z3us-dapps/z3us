@@ -8,7 +8,7 @@ export const TARGET_INPAGE = 'z3us-inpage'
 export const TARGET_POPUP = 'z3us-popup'
 export const TARGET_BACKGROUND = 'z3us'
 
-export type MessageResponse = { code: number; error?: any; [key: string]: any }
+export type MessageResponse = { code: number; error?: any; [key: string]: any } | any
 
 export class MessageService {
 	private name: string

@@ -11,7 +11,7 @@ import {
 	MnemomicT,
 	MnemonicProps,
 } from '@radixdlt/crypto'
-import { store as useStore } from '@src/store'
+import { sharedStore } from '@src/store'
 import { BrowserStorageService } from '@src/services/browser-storage'
 
 const keystoreKey = 'z3us-keystore'
@@ -34,7 +34,7 @@ export class VaultService {
 
 	has = async (): Promise<boolean> => {
 		try {
-			const keystore = await this.storage.getItem(keystoreKey)
+			const keystore = await this.storage.getItem(keystoreKey, '')
 			return !!keystore
 		} catch (err) {
 			return false
@@ -82,7 +82,7 @@ export class VaultService {
 		return this.reload()
 	}
 
-	reset = async () => {
+	remove = async () => {
 		await this.lock()
 		await this.storage.removeItem(keystoreKey)
 	}
@@ -133,9 +133,7 @@ export class VaultService {
 	}
 
 	private resetTimer = async () => {
-		const state = useStore.getState()
-		const { walletUnlockTimeoutInMinutes = 5 } = state
-
+		const { walletUnlockTimeoutInMinutes = 5 } = sharedStore.getState()
 		if (this.timer) {
 			clearTimeout(this.timer)
 		}

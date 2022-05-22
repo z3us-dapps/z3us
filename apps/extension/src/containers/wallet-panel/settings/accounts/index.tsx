@@ -1,6 +1,6 @@
 import React from 'react'
 import { useImmer } from 'use-immer'
-import { useStore } from '@src/store'
+import { useSharedStore, useStore } from '@src/store'
 import { useEventListener } from 'usehooks-ts'
 import { Tooltip, TooltipTrigger, TooltipContent, TooltipArrow } from 'ui/src/components/tool-tip'
 import { getShortAddress } from '@src/utils/string-utils'
@@ -19,15 +19,18 @@ import {
 	AlertDialogAction,
 	AlertDialogCancel,
 } from 'ui/src/components/alert-dialog'
+import { AddressBookEntry } from '@src/store/types'
 import { AccountModal } from './account-modal'
 
 export const Accounts: React.FC = () => {
-	const { addresses, addressBook, setAddressBookEntry, removeAddress, addToast } = useStore(state => ({
-		addresses: [...Object.values(state.publicAddresses), ...Object.values(state.hwPublicAddresses)],
-		addressBook: state.addressBook,
-		setAddressBookEntry: state.setAddressBookEntryAction,
-		removeAddress: state.removeAccountAddressAction,
+	const { addToast } = useSharedStore(state => ({
 		addToast: state.addToastAction,
+	}))
+
+	const { publicAddresses, setAddressBookEntry, removeAddress } = useStore(state => ({
+		publicAddresses: state.publicAddresses,
+		setAddressBookEntry: state.setPublicAddressAction,
+		removeAddress: state.removePublicAddressesAction,
 	}))
 	const [state, setState] = useImmer({
 		editing: '',
@@ -35,10 +38,10 @@ export const Accounts: React.FC = () => {
 		isRemoveAccountDialogOpen: false,
 	})
 
-	const handleEdit = (address: string) => {
+	const handleEdit = (entry: AddressBookEntry) => {
 		setState(draft => {
-			draft.editing = draft.editing === address ? '' : address
-			draft.tempEdit = addressBook[address]?.name
+			draft.editing = draft.editing === entry.address ? '' : entry.address
+			draft.tempEdit = entry?.name
 		})
 	}
 
@@ -53,7 +56,7 @@ export const Accounts: React.FC = () => {
 		setState(draft => {
 			draft.editing = ''
 		})
-		setAddressBookEntry(state.editing, { name: state.tempEdit, isOwn: true })
+		setAddressBookEntry(state.editing, { name: state.tempEdit })
 	}
 
 	const editAccountName = (name: string) => {
@@ -97,15 +100,15 @@ export const Accounts: React.FC = () => {
 	return (
 		<Box css={{ px: '$3', py: '$3' }}>
 			<Box>
-				{addresses.map((address, idx) => {
-					const isEditing = address === state.editing
+				{Object.values(publicAddresses).map((entry, idx) => {
+					const isEditing = entry.address === state.editing
 					return (
-						<Flex key={address} align="center" css={{ flex: '1', position: 'relative' }}>
+						<Flex key={entry.address} align="center" css={{ flex: '1', position: 'relative' }}>
 							<Flex align="center" css={{ flex: '1', height: '$9' }}>
 								<Flex align="center" css={{ flex: '1', maxWidth: '240px' }}>
 									{isEditing ? (
 										<>
-											<AccountModal address={address} />
+											<AccountModal address={entry.address} />
 											<Box css={{ width: '202px', ml: '8px' }}>
 												<Input
 													selectOnMount
@@ -118,9 +121,9 @@ export const Accounts: React.FC = () => {
 										</>
 									) : (
 										<>
-											<AccountModal address={address} />
+											<AccountModal address={entry.address} />
 											<Box css={{ maxWidth: '136px', pr: '$1', ml: '$2' }}>
-												<Text truncate>{addressBook[address]?.name}</Text>
+												<Text truncate>{entry?.name}</Text>
 											</Box>
 											<Tooltip>
 												<TooltipTrigger asChild>
@@ -129,9 +132,9 @@ export const Accounts: React.FC = () => {
 															css={{ color: '$txtMuted' }}
 															underline
 															target="_blank"
-															href={`${EXPLORER_URL}accounts/${address}`}
+															href={`${EXPLORER_URL}accounts/${entry.address}`}
 														>
-															{getShortAddress(address)}
+															{getShortAddress(entry.address)}
 														</StyledLink>
 													</Text>
 												</TooltipTrigger>
@@ -158,7 +161,7 @@ export const Accounts: React.FC = () => {
 									<>
 										<Tooltip>
 											<TooltipTrigger asChild>
-												<Button size="1" color="ghost" iconOnly onClick={() => handleEdit(address)}>
+												<Button size="1" color="ghost" iconOnly onClick={() => handleEdit(entry)}>
 													<Pencil2Icon />
 												</Button>
 											</TooltipTrigger>

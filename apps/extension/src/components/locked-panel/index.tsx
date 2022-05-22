@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from 'react'
-import { useStore } from '@src/store'
+import { useSharedStore, useStore } from '@src/store'
 import { useImmer } from 'use-immer'
 import { Z3usSpinnerAnimation } from '@src/components/z3us-spinner-animation'
 import { WalletMenu } from '@src/components/wallet-menu'
@@ -10,17 +10,23 @@ import InputFeedBack from 'ui/src/components/input/input-feedback'
 import Button from 'ui/src/components/button'
 import { Z3usText } from 'ui/src/components/z3us-text'
 import { isWebAuthSupported } from '@src/services/credentials'
+import { KeystoreSelector } from '@src/components/keystore-selector'
 
 export const LockedPanel: React.FC = () => {
 	const inputRef = useRef(null)
-	const { seed, unlockWalletAction, setActiveAccount, addToast, hasAuth, authenticate } = useStore(state => ({
-		seed: state.masterSeed,
-		unlockWalletAction: state.unlockWalletAction,
-		network: state.networks[state.selectedNetworkIndex],
-		setActiveAccount: state.selectAccountAction,
+	const { addToast } = useSharedStore(state => ({
 		addToast: state.addToastAction,
+	}))
+	const { unlock, hasAuth, authenticate, setHasKeystore } = useSharedStore(state => ({
+		unlock: state.unlockWalletAction,
 		hasAuth: state.hasAuthAction,
 		authenticate: state.authenticateAction,
+		setHasKeystore: state.setHasKeystoreAction,
+	}))
+	const { seed, setSeed } = useStore(state => ({
+		seed: state.masterSeed,
+		network: state.networks[state.selectedNetworkIndex],
+		setSeed: state.setMasterSeedAction,
 	}))
 	const [state, setState] = useImmer({
 		password: '',
@@ -35,8 +41,9 @@ export const LockedPanel: React.FC = () => {
 		})
 
 		try {
-			await setActiveAccount(0)
-			await unlockWalletAction(password)
+			const newSeed = await unlock(password)
+			setHasKeystore(!!newSeed)
+			await setSeed(newSeed)
 		} catch (error) {
 			if (state.passwordError) {
 				addToast({
@@ -148,6 +155,11 @@ export const LockedPanel: React.FC = () => {
 						</Box>
 					</Box>
 				</Flex>
+
+				<Flex align="center" justify="center">
+					<KeystoreSelector />
+				</Flex>
+
 				<form onSubmit={handleSubmitForm}>
 					<Box css={{ p: '$6' }}>
 						<Box>

@@ -5,7 +5,7 @@ import { LeftArrowIcon } from 'ui/src/components/icons'
 import Button from 'ui/src/components/button'
 import { MotionBox } from 'ui/src/components/atoms/motion-box'
 import { AnimatePresence } from 'framer-motion'
-import { useStore } from '@src/store'
+import { useSharedStore } from '@src/store'
 import { Start } from '@src/containers/onboarding/steps/1-start'
 import { WalletMenu } from '@src/components/wallet-menu'
 import { GeneratePhrase } from '@src/containers/onboarding/steps/2a-generate-phrase'
@@ -19,15 +19,16 @@ import { useColorMode } from '@src/hooks/use-color-mode'
 export const OnboardingWorkFlow: React.FC = () => {
 	const [, setLocation] = useLocation()
 	const isDarkMode = useColorMode()
-	const { onBoardingStep, setOnboardingStep, setIsRestoreWorkflow, isRestoreWorkflow, hasKeystore } = useStore(
+	const { hasKeystore, onBoardingStep, setOnboardingStep, setIsRestoreWorkflow, isRestoreWorkflow } = useSharedStore(
 		state => ({
+			hasKeystore: state.hasKeystore,
 			onBoardingStep: state.onBoardingStep,
 			setOnboardingStep: state.setOnboardingStepAction,
 			setIsRestoreWorkflow: state.setIsRestoreWorkflowAction,
 			isRestoreWorkflow: state.isRestoreWorkflow,
-			hasKeystore: state.hasKeystore,
 		}),
 	)
+
 	const showBackBtn = hasKeystore || onBoardingStep !== onBoardingSteps.START
 
 	const handleBackClick = () => {

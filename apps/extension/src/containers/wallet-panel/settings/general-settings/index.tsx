@@ -1,10 +1,10 @@
 import React from 'react'
-import { useStore } from '@src/store'
+import { useSharedStore } from '@src/store'
 import { Box, Text } from 'ui/src/components/atoms'
 import { StyledSlider, StyledTrack, StyledThumb, StyledRange } from 'ui/src/components/slider'
 
 export const GeneralSettings: React.FC = () => {
-	const { unlockTimer, setWalletUnclokTimeoutInMinutes } = useStore(state => ({
+	const { unlockTimer, setWalletUnclokTimeoutInMinutes } = useSharedStore(state => ({
 		unlockTimer: state.walletUnlockTimeoutInMinutes,
 		setWalletUnclokTimeoutInMinutes: state.setWalletUnclokTimeoutInMinutesAction,
 	}))

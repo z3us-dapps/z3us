@@ -1,77 +1,114 @@
 import browser from 'webextension-polyfill'
-import create, { GetState, Mutate, SetState, State, StateCreator, StoreApi } from 'zustand'
-import produce, { Draft } from 'immer'
+import { useLayoutEffect, useRef } from 'react'
+import create, { GetState, Mutate, SetState, StoreApi } from 'zustand'
 import shallow from 'zustand/shallow'
 import { persist, devtools } from 'zustand/middleware'
 import { BrowserService } from '@src/services/browser'
 import { BrowserStorageService } from '@src/services/browser-storage'
-import { createThemeStore, ThemeStore, whiteList as themeWhiteList } from './theme'
-import { createWalletStore, WalletStore, whiteList as walletWhiteList } from './wallet'
-import { createToastsStore, ToastsStore } from './toasts'
-import { createOnBoardingStore, OnBoardingStore } from './onboarding'
-import { createHardwareWalletStore, HardwareWalletStore } from './hardware-wallet'
+import { defaultAccountStoreKey, sharedStoreKey } from '@src/config'
 
-/**
- * These store keys will be persisted in local storage
- */
-const storeWhiteList = [...themeWhiteList, ...walletWhiteList]
+import { factory as createToastsStore } from './toasts'
+import { factory as createThemeStore, whiteList as themeWhiteList } from './theme'
+import { factory as createOnBoardingStore } from './onboarding'
+import { factory as createSettingsStore, whiteList as settingsWhiteList } from './settings'
+import { factory as createBackgroundStore } from './background'
+import { factory as createKeystoresStore, whiteList as keystorehiteList } from './keystores'
+import { factory as createLocalWalletStore } from './wallet-local'
+import { factory as createHardwareWalletStore } from './wallet-hardware'
+import { factory as createWalletStore, whiteList as walletWhiteList } from './wallet'
 
-type AppStore = ThemeStore & ToastsStore & WalletStore & OnBoardingStore & HardwareWalletStore
+import { SharedStore, AccountStore } from './types'
+import { immer } from './immer'
 
-const immer =
-	<
-		T extends State,
-		CustomSetState extends SetState<T>,
-		CustomGetState extends GetState<T>,
-		CustomStoreApi extends StoreApi<T>,
-	>(
-		config: StateCreator<
-			T,
-			(partial: ((draft: Draft<T>) => T) | T, replace?: boolean) => Promise<void>,
-			CustomGetState,
-			CustomStoreApi
-		>,
-	): StateCreator<T, CustomSetState, CustomGetState, CustomStoreApi> =>
-	(set, get, api) =>
-		config(
-			async (partial, replace) => {
-				if (typeof partial !== 'function') {
-					return set(partial as T, replace)
-				}
-				const nextState = produce(partial as (state: Draft<T>) => T)
-				return set(nextState, replace)
-			},
-			get,
-			api,
-		)
+export const sharedStoreWhitelist = [...themeWhiteList, ...settingsWhiteList, ...keystorehiteList]
 
-export const name = 'z3us-store'
+export const accountStoreWhitelist = [...walletWhiteList]
 
-const useStoreBase = create<
-	AppStore,
-	SetState<AppStore>,
-	GetState<AppStore>,
-	Mutate<StoreApi<AppStore>, [['zustand/persist', Partial<AppStore>], ['zustand/devtools', never]]>
+export const sharedStore = create<
+	SharedStore,
+	SetState<SharedStore>,
+	GetState<SharedStore>,
+	Mutate<StoreApi<SharedStore>, [['zustand/persist', Partial<SharedStore>], ['zustand/devtools', never]]>
 >(
 	devtools(
 		persist(
 			immer((set, get) => ({
 				...createThemeStore(set),
 				...createToastsStore(set),
-				...createWalletStore(set, get),
 				...createOnBoardingStore(set),
-				...createHardwareWalletStore(set),
+				...createSettingsStore(set),
+				...createBackgroundStore(set, get),
+				...createKeystoresStore(set),
 			})),
 			{
-				name,
-				partialize: state => Object.fromEntries(Object.entries(state).filter(([key]) => storeWhiteList.includes(key))),
+				name: sharedStoreKey,
+				partialize: state =>
+					Object.fromEntries(Object.entries(state).filter(([key]) => sharedStoreWhitelist.includes(key))),
 				getStorage: () => new BrowserStorageService(new BrowserService(), browser.storage),
 			},
 		),
-		{ name: 'prefix' },
+		{ name: sharedStoreKey },
 	),
 )
 
-const useStore = ((selector, equalityFn = shallow) => useStoreBase(selector, equalityFn)) as typeof useStoreBase
+const accountStoreFactory = (name: string) =>
+	create<
+		AccountStore,
+		SetState<AccountStore>,
+		GetState<AccountStore>,
+		Mutate<StoreApi<AccountStore>, [['zustand/persist', Partial<AccountStore>], ['zustand/devtools', never]]>
+	>(
+		devtools(
+			persist(
+				immer((set, get) => ({
+					...createWalletStore(set, get),
+					...createLocalWalletStore(set, get),
+					...createHardwareWalletStore(set, get),
+				})),
+				{
+					name,
+					partialize: state =>
+						Object.fromEntries(Object.entries(state).filter(([key]) => accountStoreWhitelist.includes(key))),
+					getStorage: () => new BrowserStorageService(new BrowserService(), browser.storage),
+				},
+			),
+			{ name },
+		),
+	)
 
-export { useStoreBase as store, useStore }
+export const useSharedStore = ((selector, equalityFn = shallow) =>
+	sharedStore(selector, equalityFn)) as typeof sharedStore
+
+export const defaultAccountStore = accountStoreFactory(defaultAccountStoreKey)
+
+const accountStoreContainer: { [key: string]: typeof defaultAccountStore } = {
+	defaultAccountStoreKey: defaultAccountStore,
+}
+
+export const accountStore = (suffix: string): typeof defaultAccountStore => {
+	const name = !suffix ? defaultAccountStoreKey : `${defaultAccountStoreKey}-${suffix}`
+	let store = accountStoreContainer[name]
+	if (store) {
+		return store
+	}
+	store = accountStoreFactory(name)
+	accountStoreContainer[name] = store
+	return store
+}
+
+export const useAccountStore = (suffix: string): typeof defaultAccountStore =>
+	((selector, equalityFn = shallow) => accountStore(suffix)(selector, equalityFn)) as typeof defaultAccountStore
+
+export const useStore: typeof defaultAccountStore = ((selector, equalityFn = shallow) => {
+	const { keystoreName } = useSharedStore(state => ({
+		keystoreName: state.selectKeystoreName,
+	}))
+
+	const storeRef = useRef(accountStore(keystoreName))
+
+	useLayoutEffect(() => {
+		storeRef.current = accountStore(keystoreName)
+	}, [keystoreName])
+
+	return storeRef.current(selector, equalityFn)
+}) as typeof defaultAccountStore

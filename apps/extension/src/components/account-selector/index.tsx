@@ -22,26 +22,23 @@ interface IProps {
 }
 
 export const AccountSelector: React.FC<IProps> = ({ shortAddress, tokenAmount, tokenSymbol, onAccountChange }) => {
-	const { accounts, addressBook } = useStore(state => ({
-		addressBook: state.addressBook,
-		accounts: [...Object.values(state.publicAddresses), ...Object.values(state.hwPublicAddresses)].map(
-			(addr, index) => ({
-				index,
-				addr,
-				shortAddress: getShortAddress(addr),
-			}),
-		),
+	const { accounts } = useStore(state => ({
+		accounts: Object.values(state.publicAddresses).map((entry, index) => ({
+			...entry,
+			index,
+			shortAddress: getShortAddress(entry.address),
+		})),
 	}))
-	const [selected, setSelected] = useState(accounts.find(_account => _account.shortAddress === shortAddress).addr)
+	const [selected, setSelected] = useState(accounts.find(_account => _account.shortAddress === shortAddress).address)
 
-	const entry = addressBook[selected]
+	const entry = accounts.find(_account => _account.address === selected)
 	const addressBookName = entry?.name
 	const addressBookBackground = entry?.background
 
 	const handleValueChange = (account: string) => {
 		const selectedAccount = accounts.find(_account => _account.shortAddress === account)
 		onAccountChange(selectedAccount.index)
-		setSelected(selectedAccount.addr)
+		setSelected(selectedAccount.address)
 	}
 
 	return (
@@ -97,9 +94,7 @@ export const AccountSelector: React.FC<IProps> = ({ shortAddress, tokenAmount, t
 						<DropdownMenuRadioItem key={account.index} value={account.shortAddress}>
 							<DropdownMenuItemIndicator />
 							<Text size="2" bold truncate css={{ maxWidth: '274px' }}>
-								{addressBook[account.addr]?.name
-									? `${addressBook[account.addr].name} (${account.shortAddress})`
-									: account.shortAddress}
+								{entry?.name ? `${entry.name} (${account.shortAddress})` : account.shortAddress}
 							</Text>
 						</DropdownMenuRadioItem>
 					))}
