@@ -1,3 +1,4 @@
+import browser from 'webextension-polyfill'
 import { Mnemonic, KeystoreT } from '@radixdlt/application'
 import {
 	AES_GCM,
@@ -17,6 +18,20 @@ import { sharedStoreKey } from '@src/config'
 import { SharedStore } from '@src/store/types'
 
 const keystoreKey = 'z3us-keystore'
+
+const getKeystorePrefix = async () => {
+	const data = await browser.storage.local.get(sharedStoreKey)
+	const { lastError } = browser.runtime
+	if (lastError) {
+		// eslint-disable-next-line @typescript-eslint/no-throw-literal
+		throw lastError
+	}
+	if (!data[sharedStoreKey]) {
+		return ''
+	}
+	const state = JSON.parse(data[sharedStoreKey])?.state as SharedStore
+	return state?.selectKeystoreName || ''
+}
 
 export class VaultService {
 	private crypto: Crypto
@@ -85,9 +100,9 @@ export class VaultService {
 	}
 
 	remove = async () => {
-		const suffix = await this.getKeystorePrefix()
+		const suffix = await getKeystorePrefix()
 		await this.lock()
-		await this.storage.removeItem(suffix ? `${keystoreKey}-${suffix}`: keystoreKey)
+		await this.storage.removeItem(suffix ? `${keystoreKey}-${suffix}` : keystoreKey)
 	}
 
 	private load = async (keystore: KeystoreT, password: string) => {
@@ -124,13 +139,13 @@ export class VaultService {
 	}
 
 	private saveKeystore = async (keystore: KeystoreT) => {
-		const suffix = await this.getKeystorePrefix()
-		await this.storage.setItem(suffix ? `${keystoreKey}-${suffix}`: keystoreKey, JSON.stringify(keystore, null, '\t'))
+		const suffix = await getKeystorePrefix()
+		await this.storage.setItem(suffix ? `${keystoreKey}-${suffix}` : keystoreKey, JSON.stringify(keystore, null, '\t'))
 	}
 
 	private loadKeystore = async (): Promise<KeystoreT> => {
-		const suffix = await this.getKeystorePrefix()
-		const data = await this.storage.getItem(suffix ? `${keystoreKey}-${suffix}`: keystoreKey)
+		const suffix = await getKeystorePrefix()
+		const data = await this.storage.getItem(suffix ? `${keystoreKey}-${suffix}` : keystoreKey)
 		if (!data) {
 			throw new Error('No keystore!')
 		}
@@ -208,14 +223,5 @@ export class VaultService {
 			id,
 			version: 1,
 		}
-	}
-
-	private getKeystorePrefix = async () => {
-		const data = await this.storage.getItem(sharedStoreKey)
-		if (!data[sharedStoreKey]) {
-			return ''
-		}
-		const state = JSON.parse(data[sharedStoreKey])?.state as SharedStore
-		return state?.selectKeystoreName || ''
 	}
 }
