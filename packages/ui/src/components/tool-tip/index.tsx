@@ -37,8 +37,8 @@ const StyledContent = styled(TooltipPrimitive.Content, {
 	padding: '7px 10px',
 	fontSize: '$2',
 	lineHeight: 1,
-	color: '$txtDefault',
-	backgroundColor: '$bgPanel2',
+	color: '$bgtooltip1',
+	backgroundColor: '$ [',
 	boxShadow: '$tooltip',
 	'@media (prefers-reduced-motion: no-preference)': {
 		'&[data-state="closed"]': {

@@ -25,7 +25,7 @@ const ButtonTipFeedback: React.FC<IProps> = ({
 	showToolTipArrow = true,
 	toolTipOffset = 0,
 	delay = 700,
-	bgColor,
+	bgColor = '$bgtooltip1',
 	css,
 }) => {
 	const timeoutEnterRef = useRef(null)

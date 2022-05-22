@@ -149,15 +149,15 @@ export const AccountInfo: React.FC<IProps> = ({ address }) => {
 				<QrHoverCard css={{ fill: color, color }} />
 			</Box>
 			{entry?.isHardWallet && (
-				<Box css={{ zIndex: 2, position: 'absolute', bottom: '$2', left: '$2' }}>
+				<Box css={{ zIndex: 2, position: 'absolute', bottom: '$3', left: '$4' }}>
 					<Tooltip>
 						<TooltipTrigger asChild>
-							<Button iconOnly size="3" color="ghost" css={{ color, fill: color }}>
+							<Button iconOnly size="1" color="ghost" css={{ color, fill: color }}>
 								<HardwareWalletIcon />
 							</Button>
 						</TooltipTrigger>
 						<TooltipContent sideOffset={3}>
-							<TooltipArrow offset={15} />
+							<TooltipArrow offset={8} />
 							Harware wallet account
 						</TooltipContent>
 					</Tooltip>
