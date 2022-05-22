@@ -58,7 +58,7 @@ export const StyledButton = styled(
 		justifyContent: 'center',
 		dflex: 'center',
 		appearance: 'none',
-		fontFamily: '$HaasGrotDisplayRound',
+		fontFamily: '$HaasGrotTextRound',
 		boxSizing: ' border-box',
 		us: 'none',
 		ta: 'center',
@@ -198,7 +198,7 @@ export const StyledButton = styled(
 					height: '$6',
 					fontSize: '11px',
 					lineHeight: '11px',
-					fontWeight: '600',
+					fontWeight: '700',
 					px: '8px',
 					[`& ${StyledTextWrapper}`]: {
 						ml: '4px',
@@ -209,7 +209,7 @@ export const StyledButton = styled(
 					height: '$7',
 					fontSize: '12px',
 					lineHeight: '12px',
-					fontWeight: '600',
+					fontWeight: '700',
 					px: '10px',
 					[`& ${StyledTextWrapper}`]: {
 						ml: '4px',
@@ -220,7 +220,7 @@ export const StyledButton = styled(
 					height: '$8',
 					fontSize: '13px',
 					lineHeight: '13px',
-					fontWeight: '600',
+					fontWeight: '700',
 					px: '12px',
 					[`& ${StyledTextWrapper}`]: {
 						ml: '5px',
@@ -231,7 +231,7 @@ export const StyledButton = styled(
 					height: '$9',
 					fontSize: '14px',
 					lineHeight: '14px',
-					fontWeight: '600',
+					fontWeight: '700',
 					px: '14px',
 					[`& ${StyledTextWrapper}`]: {
 						ml: '6px',
@@ -241,8 +241,8 @@ export const StyledButton = styled(
 					borderRadius: '$3',
 					height: '$11',
 					fontSize: '15px',
-					lineHeight: '16px',
-					fontWeight: '600',
+					lineHeight: '15px',
+					fontWeight: '700',
 					px: '18px',
 					[`& ${StyledLoader}`]: {
 						'&:after': {
@@ -261,8 +261,8 @@ export const StyledButton = styled(
 					borderRadius: '$3',
 					height: '$12',
 					fontSize: '16px',
-					lineHeight: '17px',
-					fontWeight: '600',
+					lineHeight: '16px',
+					fontWeight: '700',
 					px: '20px',
 					[`& ${StyledTextWrapper}`]: {
 						ml: '8px',

@@ -7,13 +7,12 @@ export const StyledPill = styled('div', {
 	px: '$3',
 	br: '30px',
 	display: 'flex',
-	alignItems: 'center',
 	position: 'relative',
 	textTransform: 'uppercase',
 	fontWeight: 'bold',
-	fontFamily: '$HaasGrotDisplayRound',
+	fontFamily: '$HaasGrotTextRound',
 	fontSize: '$1',
-	lineHeight: '$1',
+	lineHeight: '19px',
 	height: '20px',
 	variants: {
 		color: {

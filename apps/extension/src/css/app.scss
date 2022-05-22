@@ -1,5 +1,11 @@
 @import 'simplebar/src/simplebar.css';
 
+@media (-webkit-min-device-pixel-ratio: 2), (min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+	body {
+		-webkit-font-smoothing: antialiased;
+	}
+}
+
 .ellipsis-anim span {
 	opacity: 0;
 	-webkit-animation: ellipsis-dot 1s infinite;

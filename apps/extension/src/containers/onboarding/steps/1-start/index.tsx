@@ -64,7 +64,7 @@ export const Start = (): JSX.Element => {
 				</Box>
 			</Flex>
 			<Box css={{ pt: '$6' }}>
-				<Text medium size="9">
+				<Text medium size="9" centra>
 					Setup your wallet to enter the world of DeFi on{' '}
 					<StyledLink as="a" href="https://www.radixdlt.com" target="_blank" bubble>
 						Radix DLT
