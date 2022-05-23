@@ -67,7 +67,7 @@
 		"ui": "*",
 		"use-immer": "^0.6.0",
 		"use-resize-observer": "^8.0.0",
-		"usehooks-ts": "^2.4.2",
+		"usehooks-ts": "^2.5.3",
 		"vite": "^2.9.5",
 		"vite-compatible-readable-stream": "^3.6.0",
 		"vite-plugin-fonts": "^0.3.0",
