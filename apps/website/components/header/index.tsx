@@ -1,7 +1,7 @@
 import React from 'react'
 import { useImmer } from 'use-immer'
 import Pill from 'ui/src/components/pill'
-import { Text, Box, Flex, StyledLink, MotionBox } from 'ui/src/components/atoms'
+import { Text, Box, Flex, StyledLink } from 'ui/src/components/atoms'
 import { useEventListener } from 'usehooks-ts'
 import { PageContainer } from 'components/page-container'
 import Button from 'ui/src/components/button'

@@ -80,9 +80,12 @@ export const MobileMenu = ({ isScrolled }: IProps): JSX.Element => {
 							initial={{ width: 0 }}
 							animate={{
 								width: 300,
+								transform: 'translateX(0px)',
+								transition: { duration: 0.3 },
 							}}
 							exit={{
 								width: 0,
+								transform: 'translateX(40px)',
 								transition: { delay: 0.3, duration: 0.3 },
 							}}
 							css={{
@@ -127,10 +130,10 @@ export const MobileMenu = ({ isScrolled }: IProps): JSX.Element => {
 										</StyledLink>
 										{subMenu ? (
 											<Box as="ul" css={{ pl: '30px' }}>
-												{subMenu.map(({ name, to, id }) => (
-													<Box key={id} as="li">
+												{subMenu.map(({ name: _name, to: _to, id: _id }) => (
+													<Box key={_id} as="li">
 														<StyledLink
-															href={to}
+															href={_to}
 															css={{
 																display: 'block',
 																backgroundColor: '$bgPanel2',
@@ -143,7 +146,7 @@ export const MobileMenu = ({ isScrolled }: IProps): JSX.Element => {
 															}}
 														>
 															<Text size="5" bold>
-																{name}
+																{_name}
 															</Text>
 														</StyledLink>
 													</Box>

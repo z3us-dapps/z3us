@@ -21,6 +21,9 @@ export const SideMenu: React.FC<Docs> = ({ docs }) => {
 					top: '81px',
 					maxWidth: '240px',
 					width: '100%',
+					'@sm': {
+						display: 'block',
+					},
 					li: {
 						a: {
 							position: 'relative',
