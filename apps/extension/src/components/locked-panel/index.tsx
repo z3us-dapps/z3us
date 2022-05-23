@@ -17,11 +17,10 @@ export const LockedPanel: React.FC = () => {
 	const { addToast } = useSharedStore(state => ({
 		addToast: state.addToastAction,
 	}))
-	const { unlock, hasAuth, authenticate, setHasKeystore } = useSharedStore(state => ({
+	const { unlock, hasAuth, authenticate } = useSharedStore(state => ({
 		unlock: state.unlockWalletAction,
 		hasAuth: state.hasAuthAction,
 		authenticate: state.authenticateAction,
-		setHasKeystore: state.setHasKeystoreAction,
 	}))
 	const { seed, setSeed } = useStore(state => ({
 		seed: state.masterSeed,
@@ -41,9 +40,7 @@ export const LockedPanel: React.FC = () => {
 		})
 
 		try {
-			const newSeed = await unlock(password)
-			setHasKeystore(!!newSeed)
-			await setSeed(newSeed)
+			await setSeed(await unlock(password))
 		} catch (error) {
 			if (state.passwordError) {
 				addToast({

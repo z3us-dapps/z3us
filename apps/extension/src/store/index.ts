@@ -82,18 +82,18 @@ export const useSharedStore = ((selector, equalityFn = shallow) =>
 export const defaultAccountStore = accountStoreFactory(defaultAccountStoreKey)
 
 const accountStoreContainer: { [key: string]: typeof defaultAccountStore } = {
-	defaultAccountStoreKey: defaultAccountStore,
+	[defaultAccountStoreKey]: defaultAccountStore,
 }
 
 export const accountStore = (suffix: string): typeof defaultAccountStore => {
 	const name = !suffix ? defaultAccountStoreKey : `${defaultAccountStoreKey}-${suffix}`
-	let store = accountStoreContainer[name]
+	const store = accountStoreContainer[name]
 	if (store) {
 		return store
 	}
-	store = accountStoreFactory(name)
-	accountStoreContainer[name] = store
-	return store
+	const newStore = accountStoreFactory(name)
+	accountStoreContainer[name] = newStore
+	return newStore
 }
 
 export const useAccountStore = (suffix: string): typeof defaultAccountStore =>

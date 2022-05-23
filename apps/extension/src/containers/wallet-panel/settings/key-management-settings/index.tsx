@@ -21,13 +21,12 @@ import { ExportSecretPhrase } from './export-secret-phrase'
 
 export const KeyManagementSettings: React.FC = () => {
 	const [, setLocation] = useLocation()
-	const { keystore, messanger, createWallet, removeWallet, removeKeystore, setHasKeystore } = useSharedStore(state => ({
+	const { keystore, messanger, createWallet, removeWallet, removeKeystore } = useSharedStore(state => ({
 		messanger: state.messanger,
 		keystore: state.selectKeystoreName,
 		createWallet: state.createWalletAction,
 		removeWallet: state.removeWalletAction,
 		removeKeystore: state.removeKeystore,
-		setHasKeystore: state.setHasKeystoreAction,
 	}))
 	const { reset, setSeed } = useStore(state => ({
 		reset: state.resetAction,
@@ -63,7 +62,6 @@ export const KeyManagementSettings: React.FC = () => {
 
 				const { mnemonic } = await messanger.sendActionMessageFromPopup(UNLOCK, state.password)
 				const seed = await createWallet(mnemonic.words, state.newPassword)
-				setHasKeystore(!!seed)
 				await setSeed(seed)
 
 				setState(draft => {
