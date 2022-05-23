@@ -1,6 +1,7 @@
 import React from 'react'
 import Link from 'next/link'
 import { NextSeo } from 'next-seo'
+import Image from 'next/image'
 import { Box, Text, Flex, StyledLink } from 'ui/src/components/atoms'
 import { Header } from 'components/header'
 import { ThemePickerMenu } from 'components/theme-picker-menu'
@@ -8,6 +9,9 @@ import { PageContainer } from 'components/page-container'
 import { FlashCtaButton } from 'components/flash-cta-button'
 import { config } from 'config'
 import { BrowserIconLinks } from './browser-icon-links'
+import ProductImage from '../../../public/images/landing-product-bg.png'
+import ProductUxImage from '../../../public/images/landing-product-ux-bg.png'
+import RadixLogoImage from '../../../public/images/radix-logo.svg'
 
 export const LandingPage: React.FC = () => (
 	<>
@@ -137,22 +141,6 @@ export const LandingPage: React.FC = () => (
 						<Flex css={{ mt: '$6', justifyContent: 'center', '@md': { justifyContent: 'flex-start' } }}>
 							<FlashCtaButton />
 						</Flex>
-						<Flex
-							justify="center"
-							align="center"
-							direction="column"
-							css={{
-								mt: '$5',
-								width: '100%',
-								'@xs': { maxWidth: '100%' },
-								'@md': { maxWidth: '180px' },
-							}}
-						>
-							<Text bold size="3" css={{ pb: '15px' }}>
-								Available in:
-							</Text>
-							<BrowserIconLinks />
-						</Flex>
 					</Box>
 				</Box>
 				<Flex
@@ -170,8 +158,83 @@ export const LandingPage: React.FC = () => (
 						'@md': { width: '50%', flexBasis: '50%', position: 'relative', pt: '34px', pb: '44px' },
 					}}
 				>
-					<img src="images/landing-product-bg.png" alt="product" style={{ width: '398px' }} />
+					<Image src={ProductImage} alt="Z3US Wallet" width={398} height={671} />
 				</Flex>
+			</Flex>
+			<Flex css={{ gap: '24px', mt: '24px' }}>
+				<Box css={{ width: '50%', flexBasis: '50%', backgroundColor: '#ffcb6b', borderRadius: '32px' }}>
+					<Box css={{ px: '50px', pt: '50px', pb: '20px' }}>
+						<Text displayRound size="12" css={{ color: '#5d3f09' }}>
+							UX driven.
+						</Text>
+					</Box>
+					<Flex justify="center" css={{ overflow: 'hidden', height: '572px' }}>
+						<Image layout="fixed" src={ProductUxImage} alt="Z3US Wallet" width={398} height={671} />
+					</Flex>
+				</Box>
+				<Flex
+					direction="column"
+					justify="end"
+					css={{ width: '50%', flexBasis: '50%', backgroundColor: '#75cdb1', borderRadius: '32px', p: '50px' }}
+				>
+					<Box>
+						<Image layout="fixed" src={RadixLogoImage} alt="Z3US Wallet" width={94} height={24} />
+						<Text displayRound size="15" css={{ color: '#14372c', mt: '$5' }}>
+							An open source community centered wallet for the Radix DLT network.
+						</Text>
+						<Text size="4" css={{ color: '#14372c', mt: '$3' }}>
+							<StyledLink underlineOnHover href={config.RADIX_URL}>
+								Learn more &#8594;
+							</StyledLink>
+						</Text>
+					</Box>
+				</Flex>
+			</Flex>
+			<Flex css={{ mt: '24px', pb: '40px' }}>
+				<Box
+					css={{
+						width: '100%',
+						flexBasis: '100%',
+						backgroundColor: '#e4dcf7',
+						borderRadius: '32px',
+						p: '70px',
+						pb: '60px',
+						ta: 'center',
+					}}
+				>
+					<Box css={{ mx: 'auto', ta: 'center', maxWidth: '60%' }}>
+						<Text displayRound size="14" css={{ color: '#3d3550' }}>
+							First class security with{' '}
+							<StyledLink bubble href="https://www.ledger.com/">
+								Ledger
+							</StyledLink>{' '}
+							support and transparent code.
+						</Text>
+						<Text color="help" size="4" css={{ mt: '20px', color: '#766e89' }}>
+							Download and use Z3US wallet for{' '}
+							<StyledLink underline href={config.RADIX_URL}>
+								Radix DLT
+							</StyledLink>{' '}
+							in your favourite browser today!
+						</Text>
+
+						<Flex
+							justify="center"
+							align="center"
+							direction="column"
+							css={{
+								mt: '$6',
+								width: '100%',
+								'@xs': { maxWidth: '100%' },
+							}}
+						>
+							<Text size="4" css={{ pb: '15px', color: '#766e89' }}>
+								Available in:
+							</Text>
+							<BrowserIconLinks />
+						</Flex>
+					</Box>
+				</Box>
 			</Flex>
 			<Flex align="start">
 				<Flex align="center" css={{ width: '100%', pt: '30px' }}>

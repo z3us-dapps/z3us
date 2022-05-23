@@ -8,7 +8,7 @@ import './global.scss'
 
 const siteGlobalStyles = globalCss({
 	body: {
-		minHeight: '100vh',
+		minHeight: '100vh !important',
 		backgroundColor: '$bgPanel',
 		position: 'relative',
 		'&:before': {
