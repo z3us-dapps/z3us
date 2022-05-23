@@ -39,8 +39,7 @@ declare global {
 
 ## Error handling
 
-To handle errors simply use `try/catch` block, function will throw in case of action declined or unexpected error.
-There is no timeout at the moment on the promise, be carefull to avoid deadlocks and handle resonable timouts on your webiste according to your action.
+To handle errors in a simple manner, use `try/catch` block, function will throw in case of action declined or unexpected error. There is no timeout at the moment on the promise, be careful to avoid deadlocks and handle reasonable timeouts on your website according to your action.
 
 <SyntaxHighlighter language="typescript">
 	{`
@@ -54,7 +53,7 @@ try {
 
 ## Connecting
 
-Priaror to connecting please verify that `window.z3us` is available and that user has initialized their wallet. To **connect** use `window.z3us.v1.connect()` which will return currently selected address.
+Prior to connecting, please verify that `window.z3us` is available and that user has initialised their wallet. To connect use window.z3us.v1.connect() which will return the currently selected address.
 
 <SyntaxHighlighter language="typescript">
 	{`
@@ -69,11 +68,11 @@ const selectedAddress = await window.z3us.v1.connect()
   `}
 </SyntaxHighlighter>
 
-Once user authorizes your website, the extension popup will not show again (unless they remove the permissions) and `connect` method will return selected address.
+Once the user authorises your website, the extension popup will not show again (unless they remove the permissions) and the `connect` method will return the selected address.
 
 ## Disconnecting
 
-Your webiste might be disconnected by user from extension popup or you can call **disconnect** method, which will trigger extension popup again next time you call **connect**.
+Your website might be disconnected by the user, or you can call _disconnect_ method, which will trigger extension popup again next time you call connect.
 
 <SyntaxHighlighter language="typescript">
 	{`
