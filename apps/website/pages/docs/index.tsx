@@ -1,23 +1,15 @@
-/* eslint-disable */
 import fs from 'fs'
 import path from 'path'
 import matter from 'gray-matter'
 import { serialize } from 'next-mdx-remote/serialize'
-//import Image from 'next/image'
 import React from 'react'
 import { NextSeo } from 'next-seo'
-import { Header } from 'components/header'
-import { Container, Row, Col } from 'react-grid-system'
-import { Box, Text, Flex, StyledLink } from 'ui/src/components/atoms'
-import Link from 'next/link'
-import { PageContainer } from 'components/page-container'
+import { PageDocs } from 'components/pages/page-docs'
 import { config } from 'config'
-import { Footer } from 'components/footer'
-import { MdxTheme } from 'components/mdx-theme'
-//import { SideMenu } from 'components/side-menu'
+import { DocsPageProps } from 'types'
 import docsGlobalStyles from './docs.styles'
 
-const DocsIndex = ({ docs, mdxSource }) => {
+export const DocsIndex: React.FC<DocsPageProps> = ({ docs, mdxSource }) => {
 	docsGlobalStyles()
 	return (
 		<>
@@ -44,61 +36,7 @@ const DocsIndex = ({ docs, mdxSource }) => {
 					],
 				}}
 			/>
-			<Flex direction="column" css={{ minHeight: '100vh' }}>
-				<Header />
-				<Box
-					css={{
-						position: 'relative',
-						flex: '1',
-					}}
-				>
-					<PageContainer>
-						<Container fluid>
-							<Row>
-								<Col xs={4}>
-									{/*<SideMenu docs={docs} />*/}
-
-									<Box as="ul">
-										<Box as="li">
-											<Link href="/docs" passHref>
-												<StyledLink css={{ display: 'inline-flex', mt: '16px' }}>
-													<Text medium size="5">
-														Introduction
-													</Text>
-												</StyledLink>
-											</Link>
-										</Box>
-										<Box as="li">
-											<Link href="/docs/api-reference" passHref>
-												<StyledLink css={{ display: 'inline-flex', mt: '16px' }}>
-													<Text medium size="5">
-														API Reference
-													</Text>
-												</StyledLink>
-											</Link>
-										</Box>
-										<Box as="li">
-											<Link href="/docs/api-v1" passHref>
-												<StyledLink css={{ display: 'inline-flex', mt: '16px' }}>
-													<Text medium size="5">
-														API V1
-													</Text>
-												</StyledLink>
-											</Link>
-										</Box>
-									</Box>
-								</Col>
-								<Col>
-									<Box css={{ width: '100%', pb: '100px' }}>
-										<MdxTheme mdxSource={mdxSource} />
-									</Box>
-								</Col>
-							</Row>
-						</Container>
-					</PageContainer>
-				</Box>
-				<Footer />
-			</Flex>
+			<PageDocs docs={docs} mdxSource={mdxSource} />
 		</>
 	)
 }

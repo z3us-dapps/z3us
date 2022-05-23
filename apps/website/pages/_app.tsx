@@ -26,8 +26,6 @@ const siteGlobalStyles = globalCss({
 			pe: 'none',
 		},
 		'> div:first-child': {
-			// @TODO: fix this z-index prop
-			zIndex: '2',
 			position: 'relative',
 			minHeight: '100vh',
 		},

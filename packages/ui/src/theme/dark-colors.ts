@@ -4,7 +4,7 @@ export const darkColors = {
 
 	bgPanel: '#161718',
 	bgPanel2: '#323232',
-	bgPanelHeaderTransparent: 'rgba(9,9,9, 0.6)',
+	bgPanelHeaderTransparent: 'rgba(9,9,9, 0.9)',
 	bgPanelFooter: '#1c1c1c',
 	bgPanelDialog: '$bgPanel2',
 	bgPanelHover: '#242424',
