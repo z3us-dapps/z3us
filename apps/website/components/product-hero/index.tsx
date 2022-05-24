@@ -1,5 +1,5 @@
-import React, { useState } from 'react'
-import { AccountsIcon, StakingIcon, SettingsIcon } from 'ui/src/components/icons'
+/* eslint-disable react/no-array-index-key */
+import React, { useState, useRef, useEffect } from 'react'
 import { Box, Flex, MotionBox, Text, Grid } from 'ui/src/components/atoms'
 import Button from 'ui/src/components/button'
 import { Tooltip, TooltipTrigger, TooltipContent, TooltipArrow } from 'ui/src/components/tool-tip'
@@ -14,6 +14,10 @@ import {
 	UpRightIcon,
 	DownLeftIcon,
 	ExternalLinkIcon,
+	AccountsIcon,
+	StakingIcon,
+	SettingsIcon,
+	PulseIcon,
 } from 'ui/src/components/icons'
 import { DropdownMenuHamburgerIcon } from 'ui/src/components/drop-down-menu'
 import RadixTokenImage from 'public/images/token-images/xrd.png'
@@ -22,8 +26,41 @@ import DelphiTokenImage from 'public/images/token-images/dph.png'
 import DogeTokenImage from 'public/images/token-images/dgc.png'
 import InuTokenImage from 'public/images/token-images/inu.png'
 
+const SLIDER_WIDTH = 308
+const SLIDER_HEIGHT = 169
+const LEFT_OFFSET = 26
 export const SLIDE_PANEL_HEIGHT = 144
 export const SLIDE_PANEL_EXPAND_HEIGHT = 462
+
+const ACCOUNT_SLIDES = [
+	{
+		id: 1,
+		address: 'rdx1...7hfy',
+		total: '$5184.68',
+		change: '2.31%',
+		bg: 'radial-gradient(77.21% 96.45% at 50% 100%, rgb(254, 132, 94) 0%, rgb(224, 139, 171) 18%, rgb(148, 109, 255) 60%)',
+		borderColor: 'rgb(217, 228, 243)',
+		color: 'rgb(14, 3, 36)',
+	},
+	{
+		id: 2,
+		address: 'rdx1...a1vm',
+		total: '$124.68',
+		change: '1.71%',
+		bg: 'radial-gradient(77.21% 96.45% at 50% 100%, rgb(232, 165, 75) 0%, rgb(229, 140, 93) 20%, rgb(174, 196, 221) 40%)',
+		borderColor: 'rgb(216, 228, 242)',
+		color: 'rgb(65, 22, 12)',
+	},
+	{
+		id: 3,
+		address: 'rdx1...6ffh',
+		total: '$30.18',
+		change: '2.19%',
+		bg: 'radial-gradient(78.38% 240.44% at 17.23% 25.44%, rgb(247, 219, 191) 0%, rgb(242, 190, 200) 50%, rgb(238, 171, 224) 100%)',
+		borderColor: 'rgb(255, 232, 238)',
+		color: 'rgb(14, 3, 36)',
+	},
+]
 
 const TOKENS = [
 	{ id: 1, token: 'Radix (XRD)', total: '100', price: '100', change: '100', image: RadixTokenImage },
@@ -277,6 +314,7 @@ export const ProductFooter = (): JSX.Element => (
 export const ProductShell: React.FC = ({ children }) => (
 	<Box
 		css={{
+			color: '$txtDefault',
 			position: 'relative',
 			width: '360px',
 			height: '628px',
@@ -290,72 +328,251 @@ export const ProductShell: React.FC = ({ children }) => (
 	</Box>
 )
 
-export const ProductHero = (): JSX.Element => (
-	<ProductShell>
-		<Flex
-			css={{
-				display: 'flex',
-				position: 'relative',
-				top: 0,
-				left: 0,
-				right: 0,
-				height: '48px',
-				pt: '17px',
-				pl: '6px',
-				pr: '6px',
-				justifyContent: 'space-between',
-			}}
-		>
-			<Button iconOnly aria-label="wallet options" color="ghost" size="4">
-				<Z3usIcon color="#7448ff" />
-			</Button>
-			<Button iconOnly aria-label="wallet options" color="ghost" size="3" css={{ mr: '2px' }}>
-				<DropdownMenuHamburgerIcon
-					css={{
-						stroke: '$iconDefault',
-					}}
-				/>
-			</Button>
-		</Flex>
-		<Box
-			css={{
-				position: 'absolute',
-				top: '48px',
-				bottom: '70px',
-				width: '100%',
-				color: '$txtDefault',
-			}}
-		>
-			<SlideUpPanel name="Tokens">
-				{TOKENS.map(token => (
-					<Flex
-						key={token.id}
+export const ProductHero = (): JSX.Element => {
+	const [activeSlideIndex, setActiveSlideIndex] = useState(0)
+
+	const [xVal, setXVal] = useState(LEFT_OFFSET + activeSlideIndex * -SLIDER_WIDTH)
+	const containerRef = useRef(null)
+	const containerWidth = containerRef.current?.offsetWidth
+
+	useEffect(() => {
+		setXVal(LEFT_OFFSET + activeSlideIndex * -SLIDER_WIDTH)
+	}, [activeSlideIndex])
+
+	return (
+		<ProductShell>
+			<Flex
+				css={{
+					display: 'flex',
+					position: 'relative',
+					top: 0,
+					left: 0,
+					right: 0,
+					height: '48px',
+					pt: '17px',
+					pl: '6px',
+					pr: '6px',
+					justifyContent: 'space-between',
+				}}
+			>
+				<Button iconOnly aria-label="wallet options" color="ghost" size="4">
+					<Z3usIcon color="#7448ff" />
+				</Button>
+				<Box>
+					{ACCOUNT_SLIDES.map((_, idx) => (
+						<Button
+							iconOnly
+							size="1"
+							key={idx}
+							onClick={() => setActiveSlideIndex(idx)}
+							css={{
+								transition: 'all 150ms ease-out',
+							}}
+						>
+							<Box
+								css={{
+									borderRadius: '50%',
+									transition: '$default',
+									background: '$txtDefault',
+									width: '5px',
+									height: '5px',
+									transformOrigin: 'center',
+									...(idx === activeSlideIndex
+										? { transform: 'scale(1.5) translate(0,0px)', opacity: '1' }
+										: { transform: 'scale(1.0)', opacity: '0.4' }),
+								}}
+							/>
+						</Button>
+					))}
+				</Box>
+				<Button iconOnly aria-label="wallet options" color="ghost" size="3" css={{ mr: '2px' }}>
+					<DropdownMenuHamburgerIcon
 						css={{
-							borderTop: `${token.id === 1 ? '0' : '1'}px solid`,
-							borderColor: '$borderPanel',
-							height: '68px',
-							px: '16px',
+							stroke: '$iconDefault',
 						}}
+					/>
+				</Button>
+			</Flex>
+			<Flex
+				ref={containerRef}
+				direction="column"
+				css={{ position: 'absolute', top: '50px', left: '0', right: '0', height: '279px', zIndex: '1' }}
+			>
+				<Box css={{ width: `${containerWidth}px`, height: `${SLIDER_HEIGHT}px`, position: 'relative', mt: '20px' }}>
+					<MotionBox
+						css={{ width: `${SLIDER_WIDTH * (ACCOUNT_SLIDES.length + 2)}px`, display: 'flex' }}
+						animate={{ x: xVal }}
+						initial={false}
+						transition={{ duration: 0.3 }}
 					>
-						<Box css={{ mt: '16px', img: { borderRadius: '50%' } }}>
-							<Image layout="fixed" src={token.image} alt="Z3US Wallet" width={36} height={36} />
-						</Box>
-						<Box css={{ flex: '1', pl: '14px', mt: '16px' }}>
-							<Text bold css={{ fontSize: '16px', lineHeight: '22px' }}>
-								{token.token}
-							</Text>
-							<Text color="help" size="3">
-								{token.total}
-							</Text>
-						</Box>
-						<Box css={{ mt: '24px' }} />
-					</Flex>
-				))}
-			</SlideUpPanel>
-		</Box>
-		<ProductFooter />
-	</ProductShell>
-)
+						{ACCOUNT_SLIDES.map((address, idx) => (
+							<Box
+								key={address.id}
+								onClick={() => setActiveSlideIndex(idx)}
+								css={{
+									width: `${SLIDER_WIDTH}px`,
+									height: `${SLIDER_HEIGHT}px`,
+									px: '6px',
+									py: '0',
+									border: 'none',
+									margin: 0,
+								}}
+							>
+								<Flex
+									justify="center"
+									css={{
+										border: `1px solid ${address.borderColor}`,
+										position: 'relative',
+										background: address.bg,
+										boxShadow: '$accountPanelShadow',
+										height: '100%',
+										borderRadius: '14px',
+										'&::before': {
+											content: '""',
+											position: 'absolute',
+											top: '0',
+											bottom: '0',
+											left: '0',
+											right: '0',
+											pointerEvents: 'none',
+											backgroundImage: 'url("/images/lightening-card-bg.svg")',
+											backgroundSize: '100%',
+											backgroundRepeat: 'no-repeat',
+											backgroundPosition: 'center 20px',
+										},
+										'&::after': {
+											content: '""',
+											borderRadius: '12px',
+											position: 'absolute',
+											top: '-1px',
+											bottom: '-1px',
+											left: '-1px',
+											right: '-1px',
+											border: `2px solid ${address.borderColor}`,
+											pointerEvents: 'none',
+										},
+									}}
+								>
+									<Flex
+										direction="column"
+										align="center"
+										css={{ textAlign: 'center', position: 'relative', zIndex: '1', pt: '39px' }}
+									>
+										<Text size="5" css={{ color: address.color }}>
+											{address.address}
+										</Text>
+										<Flex
+											justify="center"
+											css={{
+												pt: '4px',
+												pb: '0',
+												height: '42px',
+												position: 'relative',
+												minWidth: '140px',
+											}}
+										>
+											<Text
+												bold
+												as="h2"
+												centra
+												css={{
+													fontSize: '32px',
+													lineHeight: '38px',
+													color: address.color,
+													transition: '$default',
+												}}
+											>
+												{address.total}
+											</Text>
+										</Flex>
+										<Text size="7" css={{ fill: address.color, color: address.color, mt: '4px' }}>
+											{address.change}
+										</Text>
+									</Flex>
+								</Flex>
+							</Box>
+						))}
+					</MotionBox>
+				</Box>
+
+				<Flex justify="center" css={{ position: 'relative', zIndex: '1' }}>
+					<Grid gap="5" columns="3" css={{ pt: '24px' }}>
+						<Tooltip>
+							<TooltipTrigger asChild>
+								<Button size="5" color="inverse" iconOnly circle>
+									<UpRightIcon />
+								</Button>
+							</TooltipTrigger>
+							<TooltipContent sideOffset={3}>
+								<TooltipArrow css={{ fill: '$bgPanel' }} />
+								Send
+							</TooltipContent>
+						</Tooltip>
+						<Tooltip>
+							<TooltipTrigger asChild>
+								<Button size="5" color="inverse" iconOnly circle>
+									<DownLeftIcon />
+								</Button>
+							</TooltipTrigger>
+							<TooltipContent sideOffset={3} css={{ backgroundColor: '$bgPanel' }}>
+								<TooltipArrow css={{ fill: '$bgPanel' }} />
+								Deposit
+							</TooltipContent>
+						</Tooltip>
+						<Tooltip>
+							<TooltipTrigger asChild>
+								<Button size="5" color="inverse" iconOnly circle>
+									<PulseIcon />
+								</Button>
+							</TooltipTrigger>
+							<TooltipContent sideOffset={3} css={{ backgroundColor: '$bgPanel' }}>
+								<TooltipArrow css={{ fill: '$bgPanel' }} />
+								Activity
+							</TooltipContent>
+						</Tooltip>
+					</Grid>
+				</Flex>
+			</Flex>
+			<Box
+				css={{
+					position: 'absolute',
+					top: '48px',
+					bottom: '70px',
+					width: '100%',
+					color: '$txtDefault',
+				}}
+			>
+				<SlideUpPanel name="Tokens">
+					{TOKENS.map(token => (
+						<Flex
+							key={token.id}
+							css={{
+								borderTop: `${token.id === 1 ? '0' : '1'}px solid`,
+								borderColor: '$borderPanel',
+								height: '68px',
+								px: '16px',
+							}}
+						>
+							<Box css={{ mt: '16px', img: { borderRadius: '50%' } }}>
+								<Image layout="fixed" src={token.image} alt="Z3US Wallet" width={36} height={36} />
+							</Box>
+							<Box css={{ flex: '1', pl: '14px', mt: '16px' }}>
+								<Text bold css={{ fontSize: '16px', lineHeight: '22px' }}>
+									{token.token}
+								</Text>
+								<Text color="help" size="3">
+									{token.total}
+								</Text>
+							</Box>
+							<Box css={{ mt: '24px' }} />
+						</Flex>
+					))}
+				</SlideUpPanel>
+			</Box>
+			<ProductFooter />
+		</ProductShell>
+	)
+}
 
 export const ProductUx = (): JSX.Element => (
 	<ProductShell>
