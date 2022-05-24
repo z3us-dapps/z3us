@@ -1,11 +1,11 @@
 import { darkTheme } from 'ui/src/theme'
 import { useEffect, useState } from 'react'
-import { useStore } from '@src/store'
+import { useSharedStore } from '@src/store'
 
 const DARK_MODE_MEDIA_QUERY = '(prefers-color-scheme: dark)'
 
 export const useColorMode = () => {
-	const { theme } = useStore(state => ({
+	const { theme } = useSharedStore(state => ({
 		theme: state.theme,
 	}))
 
@@ -39,7 +39,7 @@ export const useColorMode = () => {
 					mediaList.removeListener(onSystemDarkModeChange)
 				}
 			}
-			return () => { }
+			return () => {}
 		},
 		[theme], // Only re-call effect when value changes
 	)

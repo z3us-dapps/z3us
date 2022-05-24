@@ -71,7 +71,7 @@ export const useAllAccountsTokenBalances = (): {
 	staked: BigNumber
 } => {
 	const { addresses, network } = useStore(state => ({
-		addresses: [...Object.values(state.publicAddresses), ...Object.values(state.hwPublicAddresses)],
+		addresses: Object.values(state.publicAddresses).map(({ address }) => address),
 		network: state.networks[state.selectedNetworkIndex],
 	}))
 	const service = new RadixService(network.url)

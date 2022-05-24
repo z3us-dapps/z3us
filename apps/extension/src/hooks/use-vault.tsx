@@ -1,6 +1,6 @@
 import browser from 'webextension-polyfill'
 import { useEffect, useState } from 'react'
-import { useStore } from '@src/store'
+import { useSharedStore, useStore } from '@src/store'
 import { HDMasterSeed } from '@radixdlt/crypto'
 import { MessageService, PORT_NAME } from '@src/services/messanger'
 import { GET } from '@src/lib/actions'
@@ -10,13 +10,15 @@ const messanger = new MessageService('extension', browser.runtime.connect({ name
 const refreshInterval = 60 * 1000 // 1 minute
 
 export const useVault = () => {
-	const { networkIndex, accountIndex, setMasterSeed, setHasKeystore, setMessanger } = useStore(state => ({
+	const { setHasKeystore, setMessanger } = useSharedStore(state => ({
+		keystore: state.selectKeystoreName,
+		setHasKeystore: state.setHasKeystoreAction,
+		setMessanger: state.setMessangerAction,
+	}))
+	const { networkIndex, accountIndex, setMasterSeed } = useStore(state => ({
 		networkIndex: state.selectedNetworkIndex,
 		accountIndex: state.selectedAccountIndex,
 		setMasterSeed: state.setMasterSeedAction,
-		setHasKeystore: state.setHasKeystoreAction,
-		setMessanger: state.setMessangerAction,
-		addToast: state.addToastAction,
 	}))
 
 	const [time, setTime] = useState(Date.now())
@@ -24,26 +26,28 @@ export const useVault = () => {
 	useEffect(() => {
 		const interval = setInterval(() => setTime(Date.now()), refreshInterval)
 
-		const load = async () => {
-			try {
-				const { seed, hasKeystore } = await messanger.sendActionMessageFromPopup(GET, null)
-				setHasKeystore(hasKeystore)
-				if (seed) {
-					await setMasterSeed(HDMasterSeed.fromSeed(Buffer.from(seed, 'hex')))
-				}
-			} catch (error) {
-				// eslint-disable-next-line no-console
-				console.error(error)
-				window.location.reload()
-			}
-			setMessanger(messanger)
-		}
-
-		load()
-
 		return () => {
 			clearInterval(interval)
 		}
+	}, [])
+
+	const init = async () => {
+		try {
+			const { seed, hasKeystore } = await messanger.sendActionMessageFromPopup(GET, null)
+			setHasKeystore(hasKeystore)
+			if (seed) {
+				await setMasterSeed(HDMasterSeed.fromSeed(Buffer.from(seed, 'hex')))
+			}
+		} catch (error) {
+			// eslint-disable-next-line no-console
+			console.error(error)
+			window.location.reload()
+		}
+		setMessanger(messanger)
+	}
+
+	useEffect(() => {
+		init()
 	}, [])
 
 	useEffect(() => {

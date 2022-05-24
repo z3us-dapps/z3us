@@ -1,5 +1,5 @@
 import React from 'react'
-import { useStore } from '@src/store'
+import { useSharedStore, useStore } from '@src/store'
 import { useImmer } from 'use-immer'
 import { Tooltip, TooltipTrigger, TooltipContent, TooltipArrow } from 'ui/src/components/tool-tip'
 import Button from 'ui/src/components/button'
@@ -7,9 +7,11 @@ import { Text, Flex } from 'ui/src/components/atoms'
 import InputFeedback from 'ui/src/components/input/input-feedback'
 
 export const HardwareWalletReconnect: React.FC = () => {
-	const { addToast, account, connectHW } = useStore(state => ({
-		account: state.account,
+	const { addToast } = useSharedStore(state => ({
 		addToast: state.addToastAction,
+	}))
+	const { account, connectHW } = useStore(state => ({
+		account: state.account,
 		connectHW: state.connectHW,
 	}))
 

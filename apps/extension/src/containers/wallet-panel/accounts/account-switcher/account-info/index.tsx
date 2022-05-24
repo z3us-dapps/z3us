@@ -20,14 +20,13 @@ type IProps = {
 
 export const AccountInfo: React.FC<IProps> = ({ address }) => {
 	const { isLoading, value, change } = useAccountValue()
-	const { addressBook, activeSlideIndex } = useStore(state => ({
-		addressBook: state.addressBook,
+	const { entry, activeSlideIndex } = useStore(state => ({
+		entry: Object.values(state.publicAddresses).find(_account => _account.address === address),
 		activeSlideIndex: state.activeSlideIndex,
 	}))
 	const [state, setState] = useImmer({
 		accountValue: '',
 	})
-	const entry = addressBook[address]
 	const color = entry?.colorSettings?.[ColorSettings.COLOR_TEXT] || '#330867'
 	const borderColor = entry?.colorSettings?.[ColorSettings.COLOR_BORDER] || '#FFFFFF'
 

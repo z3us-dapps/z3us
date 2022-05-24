@@ -1,5 +1,5 @@
 import React from 'react'
-import { useStore } from '@src/store'
+import { useSharedStore } from '@src/store'
 import { useImmer } from 'use-immer'
 import { useEventListener } from 'usehooks-ts'
 import { onBoardingSteps } from '@src/store/onboarding'
@@ -15,7 +15,7 @@ const errorMessages = {
 }
 
 export const InsertPhrase = (): JSX.Element => {
-	const { setMnemomic, setOnboardingStep } = useStore(state => ({
+	const { setMnemomic, setOnboardingStep } = useSharedStore(state => ({
 		setMnemomic: state.setMnemomicAction,
 		setOnboardingStep: state.setOnboardingStepAction,
 	}))

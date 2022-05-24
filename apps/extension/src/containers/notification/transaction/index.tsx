@@ -8,7 +8,7 @@ import { Box, Text, Flex, StyledLink } from 'ui/src/components/atoms'
 import Button from 'ui/src/components/button'
 import { PageWrapper, PageHeading, PageSubHeading } from '@src/components/layout'
 import { getShortAddress } from '@src/utils/string-utils'
-import { useStore } from '@src/store'
+import { useSharedStore, useStore } from '@src/store'
 import { useRoute } from 'wouter'
 import { hexToJSON } from '@src/utils/encoding'
 import { SlippageBox } from '@src/components/slippage-box'
@@ -20,24 +20,27 @@ export const Transaction = (): JSX.Element => {
 	const [, { id }] = useRoute<{ id: string }>('/transaction/:id')
 	const queryClient = useQueryClient()
 
-	const { account, accountAddress, addressBook, sendResponse, network, action, selectAccountForAddress } = useStore(
-		state => ({
-			account: state.account,
-			addressBook: state.addressBook,
-			accountAddress: state.getCurrentAddressAction(),
-			sendResponse: state.sendResponseAction,
-			selectAccountForAddress: state.selectAccountForAddressAction,
-			network: state.networks[state.selectedNetworkIndex],
-			action:
-				state.pendingActions[id] && state.pendingActions[id].payloadHex
-					? hexToJSON(state.pendingActions[id].payloadHex)
-					: {},
-		}),
-	)
+	const { addressBook, sendResponse } = useSharedStore(state => ({
+		addressBook: state.addressBook,
+		sendResponse: state.sendResponseAction,
+	}))
+
+	const { account, accountAddress, publicAddresses, network, selectAccountForAddress, action } = useStore(state => ({
+		accountAddress: state.getCurrentAddressAction(),
+		publicAddresses: Object.values(state.publicAddresses),
+		account: state.account,
+		network: state.networks[state.selectedNetworkIndex],
+		selectAccountForAddress: state.selectAccountForAddressAction,
+		action:
+			state.pendingActions[id] && state.pendingActions[id].payloadHex
+				? hexToJSON(state.pendingActions[id].payloadHex)
+				: {},
+	}))
+
+	const entry = publicAddresses.find(_account => _account.address === accountAddress)
 
 	const [state, setState] = useImmer({
-		entry: addressBook[accountAddress],
-		shortAddress: getShortAddress(accountAddress),
+		shortAddress: getShortAddress(entry?.address),
 		fee: null,
 		transaction: null,
 		errorMessage: '',
@@ -55,13 +58,12 @@ export const Transaction = (): JSX.Element => {
 	}, [fromAddress])
 
 	useEffect(() => {
-		if (accountAddress) {
+		if (entry) {
 			setState(draft => {
-				draft.entry = addressBook[accountAddress]
-				draft.shortAddress = getShortAddress(accountAddress)
+				draft.shortAddress = getShortAddress(entry?.address)
 			})
 		}
-	}, [accountAddress])
+	}, [entry])
 
 	useEffect(() => {
 		if (tx && account?.address.toString() === fromAddress) {
@@ -144,6 +146,8 @@ export const Transaction = (): JSX.Element => {
 							{tx.actions.map((activity, i) => {
 								const toAccount = activity?.to_account?.address
 								const fromAccount = activity?.from_account?.address
+								const toEntry =
+									addressBook[toAccount] || publicAddresses.find(_account => _account.address === toAccount)
 
 								return (
 									<Box
@@ -163,17 +167,15 @@ export const Transaction = (): JSX.Element => {
 										{fromAccount && (
 											<Flex css={{ position: 'relative', pb: '15px' }}>
 												<Text css={{ flex: '1' }}>From account:</Text>
-												<Text>
-													{state?.entry?.name ? `${state?.entry.name} (${state.shortAddress})` : state.shortAddress}
-												</Text>
+												<Text>{entry?.name ? `${entry.name} (${state.shortAddress})` : state.shortAddress}</Text>
 											</Flex>
 										)}
 										{toAccount && (
 											<Flex css={{ position: 'relative', pb: '15px' }}>
 												<Text css={{ flex: '1' }}>To account:</Text>
 												<Text>
-													{addressBook[toAccount]?.name
-														? `${addressBook[toAccount]?.name} (${getShortAddress(toAccount)})`
+													{toEntry?.name
+														? `${toEntry?.name} (${getShortAddress(toAccount)})`
 														: getShortAddress(toAccount)}
 												</Text>
 											</Flex>

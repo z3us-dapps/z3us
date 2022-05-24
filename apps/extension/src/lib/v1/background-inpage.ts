@@ -1,5 +1,5 @@
 import { Runtime } from 'webextension-polyfill'
-import { store as useStore } from '@src/store'
+import { accountStore, sharedStore } from '@src/store'
 import { Message, PublicKey } from '@radixdlt/crypto'
 import { BrowserService } from '@src/services/browser'
 import { VaultService } from '@src/services/vault'
@@ -32,6 +32,8 @@ export default function NewV1BackgroundInpageActions(
 		const tab = await browser.getCurrentTab()
 		const url = new URL(tab.url)
 
+		const { selectKeystoreName } = sharedStore.getState()
+		const useStore = accountStore(selectKeystoreName)
 		const state = useStore.getState()
 		const { approvedWebsites } = state
 
@@ -51,6 +53,8 @@ export default function NewV1BackgroundInpageActions(
 		const tab = await browser.getCurrentTab()
 		const url = new URL(tab.url)
 
+		const { selectKeystoreName } = sharedStore.getState()
+		const useStore = accountStore(selectKeystoreName)
 		const state = useStore.getState()
 		const { approvedWebsites } = state
 
@@ -61,9 +65,11 @@ export default function NewV1BackgroundInpageActions(
 		const tab = await browser.getCurrentTab()
 		const url = new URL(tab.url)
 
+		const { selectKeystoreName } = sharedStore.getState()
+		const useStore = accountStore(selectKeystoreName)
 		const state = useStore.getState()
-		const { approvedWebsites, selectedAccountIndex, publicAddresses, hwPublicAddresses } = state
-		const allAddresses = [...Object.values(publicAddresses), ...Object.values(hwPublicAddresses)]
+		const { approvedWebsites, selectedAccountIndex, publicAddresses } = state
+		const allAddresses = Object.values(publicAddresses).map(entry => entry.address)
 
 		if (url.host in approvedWebsites) {
 			if (allAddresses.length > 0) {
@@ -74,13 +80,17 @@ export default function NewV1BackgroundInpageActions(
 
 		actionsToConfirm[id] = port
 		state.addPendingActionAction(id, { host: url.host, request: payload })
-		await browser.showPopup(state.theme, `/notification/connect/${id}`)
+
+		const sharedState = sharedStore.getState()
+		await browser.showPopup(sharedState.theme, `/notification/connect/${id}`)
 	}
 
 	async function disconnect(port: Runtime.Port, id: string, payload: any) {
 		const tab = await browser.getCurrentTab()
 		const url = new URL(tab.url)
 
+		const { selectKeystoreName } = sharedStore.getState()
+		const useStore = accountStore(selectKeystoreName)
 		const state = useStore.getState()
 		const { declineWebsiteAction } = state
 
@@ -94,10 +104,17 @@ export default function NewV1BackgroundInpageActions(
 			return
 		}
 
+		const { selectKeystoreName } = sharedStore.getState()
+		const useStore = accountStore(selectKeystoreName)
 		const state = useStore.getState()
-		const { publicAddresses, hwPublicAddresses } = state
+		const { publicAddresses } = state
 
-		sendInpageMessage(port, id, payload, [...Object.values(publicAddresses), ...Object.values(hwPublicAddresses)])
+		sendInpageMessage(
+			port,
+			id,
+			payload,
+			Object.values(publicAddresses).map(entry => entry.address),
+		)
 	}
 
 	async function encrypt(port: Runtime.Port, id: string, payload: any) {
@@ -109,11 +126,15 @@ export default function NewV1BackgroundInpageActions(
 		const tab = await browser.getCurrentTab()
 		const url = new URL(tab.url)
 
+		const { selectKeystoreName } = sharedStore.getState()
+		const useStore = accountStore(selectKeystoreName)
 		const state = useStore.getState()
 
 		actionsToConfirm[id] = port
 		state.addPendingActionAction(id, { host: url.host, request: payload })
-		await browser.showPopup(state.theme, `/notification/encrypt/${id}`)
+
+		const sharedState = sharedStore.getState()
+		await browser.showPopup(sharedState.theme, `/notification/encrypt/${id}`)
 	}
 
 	async function decrypt(port: Runtime.Port, id: string, payload: any) {
@@ -147,11 +168,15 @@ export default function NewV1BackgroundInpageActions(
 		const tab = await browser.getCurrentTab()
 		const url = new URL(tab.url)
 
+		const { selectKeystoreName } = sharedStore.getState()
+		const useStore = accountStore(selectKeystoreName)
 		const state = useStore.getState()
 
 		actionsToConfirm[id] = port
 		state.addPendingActionAction(id, { host: url.host, request: payload })
-		await browser.showPopup(state.theme, `/notification/decrypt/${id}`)
+
+		const sharedState = sharedStore.getState()
+		await browser.showPopup(sharedState.theme, `/notification/decrypt/${id}`)
 	}
 
 	async function transaction(port: Runtime.Port, id: string, payload: any) {
@@ -163,11 +188,15 @@ export default function NewV1BackgroundInpageActions(
 		const tab = await browser.getCurrentTab()
 		const url = new URL(tab.url)
 
+		const { selectKeystoreName } = sharedStore.getState()
+		const useStore = accountStore(selectKeystoreName)
 		const state = useStore.getState()
 
 		actionsToConfirm[id] = port
 		state.addPendingActionAction(id, { host: url.host, request: payload })
-		await browser.showPopup(state.theme, `/notification/transaction/${id}`)
+
+		const sharedState = sharedStore.getState()
+		await browser.showPopup(sharedState.theme, `/notification/transaction/${id}`)
 	}
 
 	async function balances(port: Runtime.Port, id: string, payload: any) {
@@ -176,9 +205,11 @@ export default function NewV1BackgroundInpageActions(
 			return
 		}
 
+		const { selectKeystoreName } = sharedStore.getState()
+		const useStore = accountStore(selectKeystoreName)
 		const state = useStore.getState()
-		const { networks, selectedNetworkIndex, selectedAccountIndex, publicAddresses, hwPublicAddresses } = state
-		const allAddresses = [...Object.values(publicAddresses), ...Object.values(hwPublicAddresses)]
+		const { networks, selectedNetworkIndex, selectedAccountIndex, publicAddresses } = state
+		const allAddresses = Object.values(publicAddresses).map(entry => entry.address)
 
 		const network = networks[selectedNetworkIndex]
 		const address = allAddresses[selectedAccountIndex]
@@ -199,9 +230,11 @@ export default function NewV1BackgroundInpageActions(
 			return
 		}
 
+		const { selectKeystoreName } = sharedStore.getState()
+		const useStore = accountStore(selectKeystoreName)
 		const state = useStore.getState()
-		const { networks, selectedNetworkIndex, selectedAccountIndex, publicAddresses, hwPublicAddresses } = state
-		const allAddresses = [...Object.values(publicAddresses), ...Object.values(hwPublicAddresses)]
+		const { networks, selectedNetworkIndex, selectedAccountIndex, publicAddresses } = state
+		const allAddresses = Object.values(publicAddresses).map(entry => entry.address)
 
 		const network = networks[selectedNetworkIndex]
 		const address = allAddresses[selectedAccountIndex]
@@ -222,9 +255,11 @@ export default function NewV1BackgroundInpageActions(
 			return
 		}
 
+		const { selectKeystoreName } = sharedStore.getState()
+		const useStore = accountStore(selectKeystoreName)
 		const state = useStore.getState()
-		const { networks, selectedNetworkIndex, selectedAccountIndex, publicAddresses, hwPublicAddresses } = state
-		const allAddresses = [...Object.values(publicAddresses), ...Object.values(hwPublicAddresses)]
+		const { networks, selectedNetworkIndex, selectedAccountIndex, publicAddresses } = state
+		const allAddresses = Object.values(publicAddresses).map(entry => entry.address)
 
 		const network = networks[selectedNetworkIndex]
 		const address = allAddresses[selectedAccountIndex]

@@ -1,5 +1,5 @@
 import React from 'react'
-import { useStore } from '@src/store'
+import { useSharedStore } from '@src/store'
 import Button from 'ui/src/components/button'
 import { CloseIcon } from 'ui/src/components/icons'
 import { useRoute } from 'wouter'
@@ -11,7 +11,7 @@ import { ACCOUNTS } from '@src/config'
 import { AccountNaviation } from './account-navigation'
 
 export const HeaderNavigation = (): JSX.Element => {
-	const { activeApp } = useStore(state => ({
+	const { activeApp } = useSharedStore(state => ({
 		activeApp: state.activeApp,
 	}))
 	const [page] = activeApp

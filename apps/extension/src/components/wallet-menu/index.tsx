@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { useStore } from '@src/store'
+import { useSharedStore, useStore } from '@src/store'
 import { useLocation } from 'wouter'
 import Button from 'ui/src/components/button'
 import { LockClosedIcon, ChevronRightIcon } from '@radix-ui/react-icons'
@@ -20,15 +20,21 @@ import {
 
 export const WalletMenu: React.FC = () => {
 	const [, setLocation] = useLocation()
-	const { seed, theme, setTheme, lock } = useStore(state => ({
-		seed: state.masterSeed,
+	const { theme, setTheme, lock } = useSharedStore(state => ({
 		theme: state.theme,
 		setTheme: state.setThemeAction,
 		lock: state.lockAction,
 	}))
+	const { seed, lockWallet } = useStore(state => ({
+		seed: state.masterSeed,
+		lockWallet: state.lockAction,
+	}))
 	const [isOpen, setIsopen] = useState(false)
 
-	const handleLockWallet = async () => lock()
+	const handleLockWallet = async () => {
+		await lock()
+		await lockWallet()
+	}
 
 	const handleConnectHW = () => {
 		window.open(`${window.location.origin}/popup-theme-light.html#/hardware-wallet`)

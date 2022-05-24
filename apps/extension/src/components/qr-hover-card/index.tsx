@@ -22,16 +22,14 @@ const defaultProps = {
 
 export const QrHoverCard = ({ css }: IProps): JSX.Element => {
 	const isDarkMode = useColorMode()
-	const { accountAddress, addressBook } = useStore(state => ({
-		accountAddress: state.getCurrentAddressAction(),
-		addressBook: state.addressBook,
+	const { entry } = useStore(state => ({
+		entry: Object.values(state.publicAddresses).find(_account => _account.address === state.getCurrentAddressAction()),
 	}))
 
-	const entry = addressBook[accountAddress]
-	const shortAddress = getShortAddress(accountAddress)
+	const shortAddress = getShortAddress(entry?.address)
 
 	const handleCopyAddress = () => {
-		copyTextToClipboard(accountAddress)
+		copyTextToClipboard(entry?.address)
 	}
 
 	return (
@@ -67,7 +65,7 @@ export const QrHoverCard = ({ css }: IProps): JSX.Element => {
 							css={{ border: '1px solid', borderColor: '$borderPanel2', height: '180px', br: '$1' }}
 						>
 							<QRCodeSVG
-								value={accountAddress}
+								value={entry?.address}
 								size={160}
 								fgColor={isDarkMode ? '#a6a6a6' : '#161718'}
 								bgColor={isDarkMode ? '#161718' : '#ffffff'}

@@ -16,7 +16,7 @@ const CONFIRM = 'v1-confirm'
 const HAS = 'v1-has'
 const NEW = 'v1-new'
 const GET = 'v1-get'
-const RESET = 'v1-reset'
+const REMOVE = 'v1-remove'
 const LOCK = 'v1-lock'
 const UNLOCK = 'v1-unlock'
 const AUTH_HAS = 'v1-auth-has'
@@ -42,7 +42,7 @@ export {
 	HAS,
 	NEW,
 	GET,
-	RESET,
+	REMOVE,
 	LOCK,
 	UNLOCK,
 	AUTH_HAS,

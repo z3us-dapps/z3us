@@ -7,7 +7,7 @@ import { FinalizeTransaction, SubmitSignedTransaction } from '@src/services/radi
 import InputFeedBack from 'ui/src/components/input/input-feedback'
 import { BuiltTransactionReadyToSign } from '@radixdlt/application'
 import { useImmer } from 'use-immer'
-import { useStore } from '@src/store'
+import { useSharedStore, useStore } from '@src/store'
 import { formatBigNumber } from '@src/utils/formatters'
 import { getShortAddress } from '@src/utils/string-utils'
 import { ArrowLeftIcon } from '@radix-ui/react-icons'
@@ -42,9 +42,12 @@ export const SendTokenReview: React.FC<IProps> = ({
 }) => {
 	const [, setLocation] = useLocation()
 	const queryClient = useQueryClient()
-	const { account, addressBook, network } = useStore(state => ({
-		account: state.account,
+	const { addressBook } = useSharedStore(state => ({
 		addressBook: state.addressBook,
+	}))
+	const { account, network, publicAddresses } = useStore(state => ({
+		account: state.account,
+		publicAddresses: Object.values(state.publicAddresses),
 		network: state.networks[state.selectedNetworkIndex],
 	}))
 	const [state, setState] = useImmer({
@@ -55,7 +58,10 @@ export const SendTokenReview: React.FC<IProps> = ({
 	})
 
 	const address = account?.address?.toString()
+	const entry = addressBook[address] || publicAddresses.find(_account => _account.address === address)
 	const shortAddress = getShortAddress(address)
+
+	const toEntry = addressBook[to] || publicAddresses.find(_account => _account.address === to)
 	const toShort = getShortAddress(to)
 	const tokenSymbol = token.symbol.toUpperCase()
 
@@ -128,14 +134,14 @@ export const SendTokenReview: React.FC<IProps> = ({
 					</Text>
 				</Box>
 				<InfoStatBlock
-					addressBookBackground={addressBook[address]?.background}
+					addressBookBackground={entry?.background}
 					statSubTitle={`From: ${shortAddress} (${totalTokenAmount}${tokenSymbol})`}
-					statTitle={addressBook[address]?.name || ''}
+					statTitle={entry?.name || ''}
 				/>
 				<InfoStatBlock
-					addressBookBackground={addressBook[to]?.background}
+					addressBookBackground={toEntry?.background}
 					statSubTitle={`To: ${toShort}`}
-					statTitle={addressBook[to]?.name || ''}
+					statTitle={toEntry?.name || ''}
 				/>
 				<InfoStatBlock
 					image={token?.image || token?.iconURL}

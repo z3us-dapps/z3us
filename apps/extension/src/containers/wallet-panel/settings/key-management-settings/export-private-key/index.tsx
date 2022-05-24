@@ -1,6 +1,6 @@
 import React from 'react'
 import { useImmer } from 'use-immer'
-import { useStore } from '@src/store'
+import { useSharedStore, useStore } from '@src/store'
 import { Box, Flex, Text } from 'ui/src/components/atoms'
 import { copyTextToClipboard } from '@src/utils/copy-to-clipboard'
 import { CopyIcon } from '@radix-ui/react-icons'
@@ -20,8 +20,10 @@ import {
 import { UNLOCK } from '@src/lib/actions'
 
 export const ExportPrivateKey: React.FC = () => {
-	const { messanger, seed } = useStore(state => ({
+	const { messanger } = useSharedStore(state => ({
 		messanger: state.messanger,
+	}))
+	const { seed } = useStore(state => ({
 		seed: state.masterSeed,
 	}))
 

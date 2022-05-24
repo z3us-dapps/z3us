@@ -1,15 +1,17 @@
 import React, { useEffect } from 'react'
-import { useStore } from '@src/store'
+import { useSharedStore, useStore } from '@src/store'
 import { useImmer } from 'use-immer'
 import Button, { ButtonProps } from 'ui/src/components/button'
 import { isWebAuthSupported } from '@src/services/credentials'
 import { generateId } from '@src/utils/generate-id'
 
 export const RegistreCredentialsButton: React.FC<ButtonProps> = props => {
-	const { seed, registerCredential, removeCredential } = useStore(state => ({
-		seed: state.masterSeed,
+	const { registerCredential, removeCredential } = useSharedStore(state => ({
 		registerCredential: state.registerCredentialAction,
 		removeCredential: state.removeCredentialAction,
+	}))
+	const { seed } = useStore(state => ({
+		seed: state.masterSeed,
 	}))
 
 	const [state, setState] = useImmer({

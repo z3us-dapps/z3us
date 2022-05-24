@@ -1,8 +1,8 @@
 import React from 'react'
-import { steps } from '@src/store/hardware-wallet'
+import { connectHardwareWalletSteps } from '@src/store/onboarding'
 import { MotionBox } from 'ui/src/components/atoms/motion-box'
 import { AnimatePresence } from 'framer-motion'
-import { useStore } from '@src/store'
+import { useSharedStore } from '@src/store'
 import { Z3usText } from 'ui/src/components/z3us-text'
 import { ImportAccounts } from '@src/containers/hardware-wallet/steps/1-import-accounts'
 import { CompleteSync } from '@src/containers/hardware-wallet/steps/2-complete-sync'
@@ -11,8 +11,8 @@ import { useColorMode } from '@src/hooks/use-color-mode'
 
 export const HardwareWallet: React.FC = () => {
 	const isDarkMode = useColorMode()
-	const { step } = useStore(state => ({
-		step: state.hardwareWalletStep,
+	const { step } = useSharedStore(state => ({
+		step: state.connectHardwareWalletStep,
 	}))
 
 	return (
@@ -58,9 +58,9 @@ export const HardwareWallet: React.FC = () => {
 					>
 						{(() => {
 							switch (step) {
-								case steps.IMPORT_ACCOUNTS:
+								case connectHardwareWalletSteps.IMPORT_ACCOUNTS:
 									return <ImportAccounts />
-								case steps.COMPLETE:
+								case connectHardwareWalletSteps.COMPLETE:
 									return <CompleteSync />
 								default:
 									return null

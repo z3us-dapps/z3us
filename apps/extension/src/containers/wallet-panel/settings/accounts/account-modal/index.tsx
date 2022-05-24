@@ -51,12 +51,10 @@ export const AccountModal = ({
 	toolTipSide,
 	address,
 }: IProps): JSX.Element => {
-	const { addressBook, setAddressBookEntry } = useStore(state => ({
-		addressBook: state.addressBook,
-		setAddressBookEntry: state.setAddressBookEntryAction,
+	const { entry, setPublicAddress } = useStore(state => ({
+		entry: Object.values(state.publicAddresses).find(account => account.address === address),
+		setPublicAddress: state.setPublicAddressAction,
 	}))
-
-	const entry = addressBook[address]
 
 	const [state, setState] = useImmer({
 		...entry?.colorSettings,
@@ -97,7 +95,7 @@ export const AccountModal = ({
 			state[ColorSettings.GRADIENT_START],
 		)
 
-		setAddressBookEntry(address, {
+		setPublicAddress(address, {
 			background,
 			colorSettings: {
 				[ColorSettings.COLOR_TEXT]: state[ColorSettings.COLOR_TEXT],

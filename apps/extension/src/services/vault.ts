@@ -1,3 +1,4 @@
+import browser from 'webextension-polyfill'
 import { Mnemonic, KeystoreT } from '@radixdlt/application'
 import {
 	AES_GCM,
@@ -11,10 +12,26 @@ import {
 	MnemomicT,
 	MnemonicProps,
 } from '@radixdlt/crypto'
-import { store as useStore } from '@src/store'
+import { sharedStore } from '@src/store'
 import { BrowserStorageService } from '@src/services/browser-storage'
+import { sharedStoreKey } from '@src/config'
+import { SharedStore } from '@src/store/types'
 
 const keystoreKey = 'z3us-keystore'
+
+const getKeystorePrefix = async () => {
+	const data = await browser.storage.local.get(sharedStoreKey)
+	const { lastError } = browser.runtime
+	if (lastError) {
+		// eslint-disable-next-line @typescript-eslint/no-throw-literal
+		throw lastError
+	}
+	if (!data[sharedStoreKey]) {
+		return ''
+	}
+	const state = JSON.parse(data[sharedStoreKey])?.state as SharedStore
+	return state?.selectKeystoreName || ''
+}
 
 export class VaultService {
 	private crypto: Crypto
@@ -82,9 +99,10 @@ export class VaultService {
 		return this.reload()
 	}
 
-	reset = async () => {
+	remove = async () => {
+		const suffix = await getKeystorePrefix()
 		await this.lock()
-		await this.storage.removeItem(keystoreKey)
+		await this.storage.removeItem(suffix ? `${keystoreKey}-${suffix}` : keystoreKey)
 	}
 
 	private load = async (keystore: KeystoreT, password: string) => {
@@ -121,11 +139,13 @@ export class VaultService {
 	}
 
 	private saveKeystore = async (keystore: KeystoreT) => {
-		await this.storage.setItem(keystoreKey, JSON.stringify(keystore, null, '\t'))
+		const suffix = await getKeystorePrefix()
+		await this.storage.setItem(suffix ? `${keystoreKey}-${suffix}` : keystoreKey, JSON.stringify(keystore, null, '\t'))
 	}
 
 	private loadKeystore = async (): Promise<KeystoreT> => {
-		const data = await this.storage.getItem(keystoreKey)
+		const suffix = await getKeystorePrefix()
+		const data = await this.storage.getItem(suffix ? `${keystoreKey}-${suffix}` : keystoreKey)
 		if (!data) {
 			throw new Error('No keystore!')
 		}
@@ -133,9 +153,7 @@ export class VaultService {
 	}
 
 	private resetTimer = async () => {
-		const state = useStore.getState()
-		const { walletUnlockTimeoutInMinutes = 5 } = state
-
+		const { walletUnlockTimeoutInMinutes = 5 } = sharedStore.getState()
 		if (this.timer) {
 			clearTimeout(this.timer)
 		}

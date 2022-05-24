@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { useStore } from '@src/store'
+import { useSharedStore } from '@src/store'
 import { useEventListener } from 'usehooks-ts'
 import { CopyIcon } from '@radix-ui/react-icons'
 import { onBoardingSteps } from '@src/store/onboarding'
@@ -11,7 +11,7 @@ import { Flex, Text, Box } from 'ui/src/components/atoms'
 import { Mnemonic, StrengthT } from '@radixdlt/crypto'
 
 export const GeneratePhrase = (): JSX.Element => {
-	const { mnemonic, setMnemomic, setOnboardingStep } = useStore(state => ({
+	const { mnemonic, setMnemomic, setOnboardingStep } = useSharedStore(state => ({
 		mnemonic: state.mnemonic,
 		setMnemomic: state.setMnemomicAction,
 		setOnboardingStep: state.setOnboardingStepAction,

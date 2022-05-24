@@ -2,7 +2,7 @@ import React, { useEffect } from 'react'
 import { HDMasterSeed, HDPathRadix, PrivateKey, AccountAddress } from '@radixdlt/application'
 import { useEventListener } from 'usehooks-ts'
 import { useImmer } from 'use-immer'
-import { useStore } from '@src/store'
+import { useSharedStore, useStore } from '@src/store'
 import { CopyIcon } from '@radix-ui/react-icons'
 import { ScrollArea } from '@src/components/scroll-area'
 import { copyTextToClipboard } from '@src/utils/copy-to-clipboard'
@@ -16,10 +16,12 @@ import { Flex, Text, Box } from 'ui/src/components/atoms'
 import Button from 'ui/src/components/button'
 
 export const ImportAccounts = (): JSX.Element => {
-	const { mnemonic, network, setOnboardingStep, setPublicAddresses } = useStore(state => ({
+	const { mnemonic, setOnboardingStep } = useSharedStore(state => ({
 		mnemonic: state.mnemonic,
-		network: state.networks[state.selectedNetworkIndex],
 		setOnboardingStep: state.setOnboardingStepAction,
+	}))
+	const { network, setPublicAddresses } = useStore(state => ({
+		network: state.networks[state.selectedNetworkIndex],
 		setPublicAddresses: state.setPublicAddressesAction,
 	}))
 	const [state, setState] = useImmer({

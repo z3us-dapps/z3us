@@ -13,7 +13,7 @@ export const CompleteSync = (): JSX.Element => {
 	const queryClient = useQueryClient()
 
 	const { addresses } = useStore(state => ({
-		addresses: Object.values(state.hwPublicAddresses),
+		addresses: Object.values(state.publicAddresses).map(({ address }) => address),
 	}))
 
 	const [state, setState] = useImmer({
