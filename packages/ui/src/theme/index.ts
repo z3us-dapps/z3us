@@ -4,14 +4,22 @@ import { lightColors, lightShadows } from './light-colors'
 import { darkColors, darkShadows } from './dark-colors'
 import { utils } from './utils'
 
+export const mediaSizes = {
+	sx: 420,
+	sm: 650,
+	md: 960,
+	lg: 1280,
+	xl: 1400,
+}
+
 export const { config, createTheme, css, getCssText, globalCss, styled, theme, keyframes } = createStitches({
 	utils,
 	media: {
-		xs: '(min-width: 420px)',
-		sm: '(min-width: 650px)',
-		md: '(min-width: 960px)',
-		lg: '(min-width: 1280px)',
-		xl: '(min-width: 1400px)',
+		xs: `(min-width: ${mediaSizes.sx}px)`,
+		sm: `(min-width: ${mediaSizes.sm}px)`,
+		md: `(min-width: ${mediaSizes.md}px)`,
+		lg: `(min-width: ${mediaSizes.lg}px)`,
+		xl: `(min-width: ${mediaSizes.xl}px)`,
 		motion: '(prefers-reduced-motion)',
 		hover: '(any-hover: hover)',
 		dark: '(prefers-color-scheme: dark)',
