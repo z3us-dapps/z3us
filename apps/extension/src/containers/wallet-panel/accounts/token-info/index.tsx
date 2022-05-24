@@ -15,12 +15,9 @@ export const TokenInfo = (): JSX.Element => {
 	const [, params] = useRoute('/account/token/:rri')
 	const rri = getSplitParams(params)
 	const { isLoading, data: token } = useTokenInfo(rri)
-	const {
-		// eslint-disable-next-line @typescript-eslint/naming-convention
-		data: { account_balances },
-	} = useTokenBalances()
-	const liquidBalances = account_balances?.liquid_balances || []
-	const staked = account_balances?.staked_and_unstaking_balance.value
+	const { data } = useTokenBalances()
+	const liquidBalances = data?.account_balances?.liquid_balances || []
+	const staked = data?.account_balances?.staked_and_unstaking_balance.value
 
 	const selectedToken = liquidBalances?.find(balance => balance.rri === rri)
 	const selectedTokenAmmount = selectedToken ? new BigNumber(selectedToken.amount).shiftedBy(-18) : new BigNumber(0)

@@ -1,5 +1,5 @@
 import React from 'react'
-import { useStore } from '@src/store'
+import { useSharedStore, useStore } from '@src/store'
 import { Message } from '@radixdlt/crypto'
 import { CopyIcon, ExternalLinkIcon } from '@radix-ui/react-icons'
 import { Text, Box, Flex } from 'ui/src/components/atoms'
@@ -25,16 +25,20 @@ const defaultProps = {
 }
 
 export const ActivityLinks: React.FC<IProps> = ({ accountAddress, tx, activity }) => {
-	const { addressBook } = useStore(state => ({
+	const { addressBook } = useSharedStore(state => ({
 		addressBook: state.addressBook,
 	}))
 
+	const { publicAddresses } = useStore(state => ({
+		publicAddresses: Object.values(state.publicAddresses),
+	}))
+
 	const toAccount = activity?.to_account || activity?.to_validator
-	const toEntry = addressBook[toAccount]
+	const toEntry = addressBook[toAccount] || publicAddresses.find(_account => _account.address === toAccount)
 	const toShortAddress = getShortAddress(toAccount)
 
 	const fromAccount = activity?.from_account || activity?.from_validator
-	const fromEntry = addressBook[fromAccount]
+	const fromEntry = addressBook[fromAccount] || publicAddresses.find(_account => _account.address === fromAccount)
 	const fromShortAddress = getShortAddress(fromAccount)
 
 	const handleCopyAddress = (str: string) => {

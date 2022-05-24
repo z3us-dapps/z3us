@@ -1,7 +1,7 @@
 import React, { useRef } from 'react'
 import { useQueryClient } from 'react-query'
 import { useImmer } from 'use-immer'
-import { useStore } from '@src/store'
+import { useSharedStore, useStore } from '@src/store'
 import { useLocation } from 'wouter'
 import { getShortAddress } from '@src/utils/string-utils'
 import {
@@ -44,11 +44,13 @@ export const StakeModal: React.FC<IProps> = ({ trigger, tooltipMessage, validato
 	const { data: token } = useNativeToken()
 	const { data: validator } = useLookupValidator(validatorAddress)
 
-	const { addToast, account, accountAddress, addressBook, network } = useStore(state => ({
+	const { addToast } = useSharedStore(state => ({
 		addToast: state.addToastAction,
+	}))
+
+	const { account, entry, network } = useStore(state => ({
 		account: state.account,
-		accountAddress: state.getCurrentAddressAction(),
-		addressBook: state.addressBook,
+		entry: Object.values(state.publicAddresses).find(_account => _account.address === state.getCurrentAddressAction()),
 		network: state.networks[state.selectedNetworkIndex],
 	}))
 
@@ -71,8 +73,7 @@ export const StakeModal: React.FC<IProps> = ({ trigger, tooltipMessage, validato
 		isModalOpen: false,
 	})
 
-	const entry = addressBook[accountAddress]
-	const shortAddress = getShortAddress(accountAddress)
+	const shortAddress = getShortAddress(entry?.address)
 	const stakeTitle = reduceStake ? 'Unstake' : 'Stake'
 
 	const handleOnClick = () => {
@@ -142,7 +143,7 @@ export const StakeModal: React.FC<IProps> = ({ trigger, tooltipMessage, validato
 
 		try {
 			const method = reduceStake ? UnstakeTokens : StakeTokens
-			const { transaction, fee } = await method(network.url, token.rri, accountAddress, state.validator, state.amount)
+			const { transaction, fee } = await method(network.url, token.rri, entry?.address, state.validator, state.amount)
 			setState(draft => {
 				draft.fee = fee
 				draft.transaction = transaction

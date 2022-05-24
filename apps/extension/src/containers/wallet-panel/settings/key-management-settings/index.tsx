@@ -2,7 +2,7 @@ import React from 'react'
 import { useLocation } from 'wouter'
 import { UNLOCK } from '@src/lib/actions'
 import { useImmer } from 'use-immer'
-import { useStore } from '@src/store'
+import { useSharedStore, useStore } from '@src/store'
 import { Box, Flex, Text, Grid } from 'ui/src/components/atoms'
 import Button from 'ui/src/components/button'
 import Input from 'ui/src/components/input'
@@ -21,10 +21,16 @@ import { ExportSecretPhrase } from './export-secret-phrase'
 
 export const KeyManagementSettings: React.FC = () => {
 	const [, setLocation] = useLocation()
-	const { messanger, resetWallet, createWallet } = useStore(state => ({
+	const { keystore, messanger, createWallet, removeWallet, removeKeystore } = useSharedStore(state => ({
 		messanger: state.messanger,
+		keystore: state.selectKeystoreName,
 		createWallet: state.createWalletAction,
-		resetWallet: state.resetWalletAction,
+		removeWallet: state.removeWalletAction,
+		removeKeystore: state.removeKeystore,
+	}))
+	const { reset, setSeed } = useStore(state => ({
+		reset: state.resetAction,
+		setSeed: state.setMasterSeedAction,
 	}))
 
 	const [state, setState] = useImmer({
@@ -37,7 +43,11 @@ export const KeyManagementSettings: React.FC = () => {
 	})
 
 	const handleResetWallet = async () => {
-		await resetWallet()
+		await removeWallet()
+		reset()
+		if (keystore !== '') {
+			removeKeystore(keystore)
+		}
 		setLocation('#/onboarding')
 	}
 
@@ -51,8 +61,8 @@ export const KeyManagementSettings: React.FC = () => {
 				})
 
 				const { mnemonic } = await messanger.sendActionMessageFromPopup(UNLOCK, state.password)
-
-				await createWallet(mnemonic.words, state.newPassword)
+				const seed = await createWallet(mnemonic.words, state.newPassword)
+				await setSeed(seed)
 
 				setState(draft => {
 					draft.isLoading = false

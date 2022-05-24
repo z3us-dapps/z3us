@@ -1,21 +1,8 @@
 import { generateId } from '@src/utils/generate-id'
+import { SetState } from 'zustand'
+import { SharedStore, Toast, ToastsStore } from './types'
 
-interface Toast {
-	id?: string
-	children?: React.ReactNode
-	type: string
-	title?: string
-	subTitle?: string
-	duration?: number
-}
-
-export type ToastsStore = {
-	toasts: Array<Toast>
-	addToastAction: (toast?: Toast) => void
-	removeToastAction: (id: string) => void
-}
-
-export const createToastsStore = set => ({
+export const factory = (set: SetState<SharedStore>): ToastsStore => ({
 	toasts: [],
 
 	removeToastAction: (id: string) => {

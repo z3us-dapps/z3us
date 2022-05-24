@@ -1,12 +1,12 @@
 import browser from 'webextension-polyfill'
-import { store as useStore } from '@src/store'
+import { accountStore, defaultAccountStore, sharedStore } from '@src/store'
 import { RadixService } from '@src/services/radix'
 import { getShortAddress, getTransactionType } from '@src/utils/string-utils'
 
-export async function getLastTransactions() {
+export async function getLastTransactions(useStore: typeof defaultAccountStore) {
 	const state = useStore.getState()
-	const { networks, selectedNetworkIndex, publicAddresses, hwPublicAddresses } = state
-	const allAddresses = [...Object.values(publicAddresses), ...Object.values(hwPublicAddresses)]
+	const { networks, selectedNetworkIndex, publicAddresses } = state
+	const allAddresses = Object.values(publicAddresses).map(entry => entry.address)
 
 	const network = networks[selectedNetworkIndex]
 
@@ -33,9 +33,9 @@ export async function getLastTransactions() {
 }
 
 let lastTxIds = {}
-const watchTransactions = async () => {
+const watchTransactions = async (useStore: typeof defaultAccountStore) => {
 	try {
-		const transactionMap = await getLastTransactions()
+		const transactionMap = await getLastTransactions(useStore)
 		const newLastTxIds = {}
 		Object.keys(transactionMap).forEach(async address => {
 			const transactions = transactionMap[address]
@@ -58,7 +58,6 @@ const watchTransactions = async () => {
 						title: `New ${activity} Transaction`,
 						eventTime: tx?.sentAt.getTime(),
 						message: `There is a new ${activity} transaction on your account (${getShortAddress(address)}).`,
-
 					})
 					const { lastError } = browser.runtime
 					if (lastError) {
@@ -78,13 +77,17 @@ const watchTransactions = async () => {
 
 const keepServiceWorkerActive = () => dispatchEvent(new CustomEvent('backgroundwatcher'))
 
-const handleKeepServiceWorkerActive = async () => {
+const handleKeepServiceWorkerActive = () => async () => {
+	await sharedStore.persist.rehydrate()
+	const { selectKeystoreName } = sharedStore.getState()
+	const useStore = accountStore(selectKeystoreName)
 	await useStore.persist.rehydrate()
-	watchTransactions()
+
+	watchTransactions(useStore)
 }
 
 export default () => {
 	// eslint-disable-next-line no-restricted-globals
-	addEventListener('backgroundwatcher', handleKeepServiceWorkerActive)
+	addEventListener('backgroundwatcher', handleKeepServiceWorkerActive())
 	setInterval(keepServiceWorkerActive, 1000 * 15) // 15 seconds
 }

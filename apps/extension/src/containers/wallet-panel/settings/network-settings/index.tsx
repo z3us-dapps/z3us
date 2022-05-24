@@ -1,5 +1,5 @@
 import React from 'react'
-import { useStore } from '@src/store'
+import { useSharedStore, useStore } from '@src/store'
 import { useImmer } from 'use-immer'
 import { RightArrowIcon, PlusIcon } from 'ui/src/components/icons'
 import { InfoCircledIcon } from '@radix-ui/react-icons'
@@ -32,12 +32,15 @@ import {
 import { RadixService } from '@src/services/radix'
 
 export const NetworkSettings: React.FC = () => {
-	const { networks, selectedNetworkIndex, selectNetwork, addNetwork, addToast } = useStore(state => ({
+	const { addToast } = useSharedStore(state => ({
+		addToast: state.addToastAction,
+	}))
+
+	const { networks, selectedNetworkIndex, selectNetwork, addNetwork } = useStore(state => ({
 		networks: state.networks,
 		selectedNetworkIndex: state.selectedNetworkIndex,
 		selectNetwork: state.selectNetworkAction,
 		addNetwork: state.addNetworkAction,
-		addToast: state.addToastAction,
 	}))
 
 	const [state, setState] = useImmer({

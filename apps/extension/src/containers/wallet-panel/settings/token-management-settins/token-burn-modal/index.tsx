@@ -1,7 +1,7 @@
 import React, { useRef } from 'react'
 import { useQueryClient } from 'react-query'
 import { useImmer } from 'use-immer'
-import { useStore } from '@src/store'
+import { useSharedStore, useStore } from '@src/store'
 import { useLocation } from 'wouter'
 import { getShortAddress } from '@src/utils/string-utils'
 import { FinalizeTransaction, SubmitSignedTransaction, MintToken, DeriveToken } from '@src/services/radix/transactions'
@@ -29,8 +29,11 @@ export const BurnTokenModal: React.FC<IProps> = ({ trigger }) => {
 	const [, setLocation] = useLocation()
 	const queryClient = useQueryClient()
 
-	const { addToast, selectAccount, account, accountAddress, network } = useStore(state => ({
+	const { addToast } = useSharedStore(state => ({
 		addToast: state.addToastAction,
+	}))
+
+	const { selectAccount, account, accountAddress, network } = useStore(state => ({
 		selectAccount: state.selectAccountAction,
 		account: state.account,
 		accountAddress: state.getCurrentAddressAction(),

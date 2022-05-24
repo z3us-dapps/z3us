@@ -5,7 +5,7 @@ import { MotionBox } from 'ui/src/components/atoms/motion-box'
 import { useImmer } from 'use-immer'
 import { PageWrapper } from '@src/components/layout'
 import { Text, Box, Flex, StyledLink } from 'ui/src/components/atoms'
-import { useStore } from '@src/store'
+import { useSharedStore } from '@src/store'
 import { onBoardingSteps } from '@src/store/onboarding'
 import { Z3usText } from 'ui/src/components/z3us-text'
 import { CheckItem } from './check-item'
@@ -28,7 +28,7 @@ const ulVariants = {
 }
 
 export const Start = (): JSX.Element => {
-	const { setOnboardingStep, setIsRestoreWorkflow } = useStore(state => ({
+	const { setOnboardingStep, setIsRestoreWorkflow } = useSharedStore(state => ({
 		setOnboardingStep: state.setOnboardingStepAction,
 		setIsRestoreWorkflow: state.setIsRestoreWorkflowAction,
 	}))

@@ -26,15 +26,16 @@ const defaultProps = {
 }
 
 export const ActivityItem = React.forwardRef<HTMLDivElement, IProps>(({ tx, activity, css, isIsoStyled }, ref) => {
-	const { accountAddress, addressBook } = useStore(state => ({
-		accountAddress: state.getCurrentAddressAction(),
-		addressBook: state.addressBook,
-	}))
+	const { entry } = useStore(state => {
+		const accountAddress = state.getCurrentAddressAction()
+		return {
+			entry: Object.values(state.publicAddresses).find(_account => _account.address === accountAddress),
+		}
+	})
 	const { data: token } = useTokenInfo(activity?.rri)
 	const tokenImage = token?.image || token?.iconURL
 
-	const entry = addressBook[accountAddress]
-	const shortAddress = getShortAddress(accountAddress)
+	const shortAddress = getShortAddress(entry?.address)
 
 	return (
 		<div ref={ref} style={{ paddingBottom: isIsoStyled ? '12px' : '0' }}>
@@ -88,14 +89,14 @@ export const ActivityItem = React.forwardRef<HTMLDivElement, IProps>(({ tx, acti
 									</Box>
 								</Flex>
 								<Flex align="center" css={{ pl: '$1' }}>
-									<ActivityType activity={activity} accountAddress={accountAddress} />
+									<ActivityType activity={activity} accountAddress={entry?.address} />
 								</Flex>
 							</Flex>
 						</Flex>
 					</Button>
 				</PopoverTrigger>
 				<PopoverContent css={{ width: '300px' }}>
-					<ActivityLinks activity={activity} tx={tx} accountAddress={accountAddress} />
+					<ActivityLinks activity={activity} tx={tx} accountAddress={entry?.address} />
 					<PopoverClose aria-label="Close">
 						<Cross2Icon />
 					</PopoverClose>

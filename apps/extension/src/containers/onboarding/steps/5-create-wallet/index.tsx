@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react'
 import { useQueryClient } from 'react-query'
 import { useEventListener } from 'usehooks-ts'
-import { useStore } from '@src/store'
+import { useSharedStore, useStore } from '@src/store'
 import { useLocation } from 'wouter'
 import { useImmer } from 'use-immer'
 import { onBoardingSteps } from '@src/store/onboarding'
@@ -23,7 +23,7 @@ export const CreateWallet = (): JSX.Element => {
 		createWallet,
 		setIsRestoreWorkflow,
 		setOnboradingStep,
-	} = useStore(state => ({
+	} = useSharedStore(state => ({
 		mnemonic: state.mnemonic,
 		password: state.password,
 		createWallet: state.createWalletAction,
@@ -33,6 +33,9 @@ export const CreateWallet = (): JSX.Element => {
 		isRestoreWorkflow: state.isRestoreWorkflow,
 		setIsRestoreWorkflow: state.setIsRestoreWorkflowAction,
 		setOnboradingStep: state.setOnboardingStepAction,
+	}))
+	const { setSeed } = useStore(state => ({
+		setSeed: state.setMasterSeedAction,
 	}))
 
 	const [state, setState] = useImmer({
@@ -55,8 +58,10 @@ export const CreateWallet = (): JSX.Element => {
 			draft.isButtonDisabled = true
 		})
 		try {
-			await createWallet(mnemonic.words, password)
+			await setSeed(await createWallet(mnemonic.words, password))
+
 			await queryClient.invalidateQueries({ active: true, inactive: true, stale: true })
+
 			setPassword(null)
 			setMnemomic(null)
 			setOnboradingStep(onBoardingSteps.START)

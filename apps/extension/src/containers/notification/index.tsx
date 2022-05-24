@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react'
-import { useStore } from '@src/store'
+import { useSharedStore, useStore } from '@src/store'
 import { useHashLocation } from '@src/hooks/use-hash-location'
 import { AnimatedSwitch } from '@src/components/router-animated-switch'
 import { RouterScope } from '@src/components/router-scope'
@@ -14,8 +14,10 @@ import { Decrypt } from './decrypt'
 import { Transaction } from './transaction'
 
 export const Notification: React.FC = () => {
-	const { seed, hasKeystore } = useStore(state => ({
+	const { hasKeystore } = useSharedStore(state => ({
 		hasKeystore: state.hasKeystore,
+	}))
+	const { seed } = useStore(state => ({
 		seed: state.masterSeed,
 	}))
 

@@ -1,5 +1,5 @@
 import browser, { Runtime } from 'webextension-polyfill'
-import { store as useStore } from '@src/store'
+import { accountStore, sharedStore } from '@src/store'
 import { BrowserService } from '@src/services/browser'
 import { BrowserStorageService } from '@src/services/browser-storage'
 import { VaultService } from '@src/services/vault'
@@ -51,9 +51,12 @@ const popupActionHandlers = { ...v1PopupActionHandlers }
 
 watch()
 
-browser.runtime.onInstalled.addListener(async () => {
-	await useStore.persist.rehydrate()
-	const { setThemeAction, theme } = useStore.getState()
+browser.runtime.onInstalled.addListener(async details => {
+	if (details.reason === 'update' && details.previousVersion === '1.0.7') {
+		chrome.storage.local.clear() // clear state that is no longer compatible
+	}
+	await sharedStore.persist.rehydrate()
+	const { setThemeAction, theme } = sharedStore.getState()
 	setThemeAction(theme)
 })
 
@@ -72,6 +75,9 @@ browser.runtime.onConnect.addListener(port => {
 		Object.keys(portMessageIDs).forEach(async id => {
 			delete actionsToConfirm[id]
 
+			await sharedStore.persist.rehydrate()
+			const { selectKeystoreName } = sharedStore.getState()
+			const useStore = accountStore(selectKeystoreName)
 			await useStore.persist.rehydrate()
 
 			const state = useStore.getState()
@@ -90,6 +96,9 @@ browser.runtime.onConnect.addListener(port => {
 			case TARGET_INPAGE:
 				if (action in inpageActionHandlers) {
 					portMessageIDs[id] = {}
+					await sharedStore.persist.rehydrate()
+					const { selectKeystoreName } = sharedStore.getState()
+					const useStore = accountStore(selectKeystoreName)
 					await useStore.persist.rehydrate()
 					try {
 						inpageActionHandlers[action](port, id, payload)
@@ -103,6 +112,9 @@ browser.runtime.onConnect.addListener(port => {
 			case TARGET_POPUP:
 				if (action in popupActionHandlers) {
 					portMessageIDs[id] = {}
+					await sharedStore.persist.rehydrate()
+					const { selectKeystoreName } = sharedStore.getState()
+					const useStore = accountStore(selectKeystoreName)
 					await useStore.persist.rehydrate()
 					try {
 						popupActionHandlers[action](port, id, payload)

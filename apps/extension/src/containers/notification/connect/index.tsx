@@ -5,7 +5,7 @@ import { AccountSelector } from '@src/components/account-selector'
 import { PageWrapper, PageHeading, PageSubHeading } from '@src/components/layout'
 import { CheckboxIcon } from '@radix-ui/react-icons'
 import { getShortAddress } from '@src/utils/string-utils'
-import { useStore } from '@src/store'
+import { useSharedStore, useStore } from '@src/store'
 import { useRoute } from 'wouter'
 import { hexToJSON } from '@src/utils/encoding'
 import { CONFIRM } from '@src/lib/actions'
@@ -13,10 +13,12 @@ import { CONFIRM } from '@src/lib/actions'
 export const Connect = (): JSX.Element => {
 	const [, { id }] = useRoute<{ id: string }>('/connect/:id')
 
-	const { accountAddress, sendResponse, action, approveWebsite, declineWebsite, selectAccount, approvedWebsites } =
-		useStore(state => ({
+	const { sendResponse } = useSharedStore(state => ({
+		sendResponse: state.sendResponseAction,
+	}))
+	const { accountAddress, action, approveWebsite, declineWebsite, selectAccount, approvedWebsites } = useStore(
+		state => ({
 			accountAddress: state.getCurrentAddressAction(),
-			sendResponse: state.sendResponseAction,
 			approvedWebsites: state.approvedWebsites,
 			approveWebsite: state.approveWebsiteAction,
 			declineWebsite: state.declineWebsiteAction,
@@ -25,7 +27,8 @@ export const Connect = (): JSX.Element => {
 				state.pendingActions[id] && state.pendingActions[id].payloadHex
 					? hexToJSON(state.pendingActions[id].payloadHex)
 					: {},
-		}))
+		}),
+	)
 
 	const { host, request } = action
 	const [shortAddress, setShortAddress] = useState(getShortAddress(accountAddress))

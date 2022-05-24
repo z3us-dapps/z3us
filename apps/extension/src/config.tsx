@@ -2,6 +2,10 @@ import React from 'react'
 import { AccountsIcon, StakingIcon, SettingsIcon } from 'ui/src/components/icons'
 import { ColorSettings } from '@src/types'
 
+export const defaultAccountStoreKey = 'z3us-store'
+
+export const sharedStoreKey = 'z3us-store-shared'
+
 export const defaultToken = { order: Number.MAX_SAFE_INTEGER }
 
 export const defaultTokenSettings = {
@@ -114,7 +118,7 @@ export const generateGradient = (
 		gradientType === 'radial' ? 'radial' : 'linear'
 	}-gradient(${gradientStart}, ${primary} ${primaryStop}%, ${secondary} ${secondaryStop}%, ${tertiary} ${tertiaryStop}%)`
 
-export const getDefaultColorSettingsForIndex = (idx: number): object => {
+export const getDefaultColorSettingsForIndex = (idx: number): { [key in ColorSettings]: string } => {
 	const keys = Object.keys(presetMap)
 	const preset = presetMap[keys[idx % keys.length]]
 

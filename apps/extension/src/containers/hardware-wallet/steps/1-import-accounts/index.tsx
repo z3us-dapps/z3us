@@ -6,13 +6,13 @@ import { useEventListener } from 'usehooks-ts'
 import { AccountAddress, SigningKey } from '@radixdlt/application'
 import { HDPathRadix } from '@radixdlt/crypto'
 import { useImmer } from 'use-immer'
-import { useStore } from '@src/store'
+import { useSharedStore, useStore } from '@src/store'
 import { CopyIcon, ReloadIcon, ExclamationTriangleIcon } from '@radix-ui/react-icons'
 import SimpleBar from 'simplebar-react'
 import { copyTextToClipboard } from '@src/utils/copy-to-clipboard'
 import { Checkbox, CheckIcon } from 'ui/src/components/checkbox'
 import ButtonTipFeedback from 'ui/src/components/button-tip-feedback'
-import { steps } from '@src/store/hardware-wallet'
+import { connectHardwareWalletSteps } from '@src/store/onboarding'
 import { getShortAddress } from '@src/utils/string-utils'
 import InputFeedBack from 'ui/src/components/input/input-feedback'
 import { PageWrapper, PageHeading, PageSubHeading } from '@src/components/layout'
@@ -22,11 +22,13 @@ import Button from 'ui/src/components/button'
 const isHIDSupported = !!window?.navigator?.hid
 
 export const ImportAccounts = (): JSX.Element => {
-	const { hwPublicAddresses, network, setStep, setPublicAddresses, sendAPDU } = useStore(state => ({
-		hwPublicAddresses: state.hwPublicAddresses,
+	const { setStep } = useSharedStore(state => ({
+		setStep: state.setConnectHardwareWalletStepAction,
+	}))
+	const { publicAddresses, network, setPublicAddresses, sendAPDU } = useStore(state => ({
+		publicAddresses: state.publicAddresses,
 		network: state.networks[state.selectedNetworkIndex],
-		setStep: state.setHardwareWalletStepAction,
-		setPublicAddresses: state.setHWPublicAddressesAction,
+		setPublicAddresses: state.setPublicAddressesAction,
 		sendAPDU: state.sendAPDUAction,
 	}))
 
@@ -75,7 +77,7 @@ export const ImportAccounts = (): JSX.Element => {
 				addresses.push(address.toString())
 			}
 
-			const selectedIndexes = Object.fromEntries(Object.entries(hwPublicAddresses).map(([k]) => [k, true]))
+			const selectedIndexes = Object.fromEntries(Object.entries(publicAddresses).map(([k]) => [k, true]))
 			const addressMap = {}
 			addresses.forEach((address, index) => {
 				if (selectedIndexes[index]) {
@@ -121,7 +123,7 @@ export const ImportAccounts = (): JSX.Element => {
 			return
 		}
 		setPublicAddresses(state.addressMap)
-		setStep(steps.COMPLETE)
+		setStep(connectHardwareWalletSteps.COMPLETE)
 	}
 
 	useEventListener('keypress', e => {

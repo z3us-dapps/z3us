@@ -3,10 +3,10 @@ import * as Portal from '@radix-ui/react-portal'
 import { motion, AnimatePresence } from 'framer-motion'
 import { Toast } from 'ui/src/components/toasts/toast'
 import { Box } from 'ui/src/components/atoms'
-import { useStore } from '@src/store'
+import { useSharedStore } from '@src/store'
 
 export const Toasts: React.FC = () => {
-	const { toasts, removeToast } = useStore(state => ({
+	const { toasts, removeToast } = useSharedStore(state => ({
 		toasts: state.toasts,
 		addToast: state.addToastAction,
 		removeToast: state.removeToastAction,

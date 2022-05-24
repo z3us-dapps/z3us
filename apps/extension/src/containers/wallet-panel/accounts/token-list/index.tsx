@@ -1,6 +1,6 @@
 /* eslint-disable react/no-unstable-nested-components */
 import React, { useState } from 'react'
-import { useStore } from '@src/store'
+import { useSharedStore, useStore } from '@src/store'
 import { useAllAccountsTokenBalances, useTokenBalances } from '@src/services/react-query/queries/radix'
 import { TokenLoadingRows } from '@src/components/token-loading-row'
 import { Virtuoso } from 'react-virtuoso'
@@ -88,9 +88,11 @@ const AccountBalances: React.FC = () => {
 }
 
 const Balances: React.FC = () => {
-	const { activeSlideIndex, expanded } = useStore(state => ({
-		activeSlideIndex: state.activeSlideIndex,
+	const { expanded } = useSharedStore(state => ({
 		expanded: state.accountPanelExpanded,
+	}))
+	const { activeSlideIndex } = useStore(state => ({
+		activeSlideIndex: state.activeSlideIndex,
 	}))
 
 	const calculateHeight = expanded
@@ -106,7 +108,7 @@ const Balances: React.FC = () => {
 
 export const TokenList: React.FC = () => {
 	const { addresses, activeSlideIndex } = useStore(state => ({
-		addresses: [...Object.values(state.publicAddresses), ...Object.values(state.hwPublicAddresses)],
+		addresses: Object.values(state.publicAddresses).map(({ address }) => address),
 		activeSlideIndex: state.activeSlideIndex,
 	}))
 	// @TODO: animate this, rather than conditionally show

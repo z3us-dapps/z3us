@@ -1,5 +1,5 @@
 import React from 'react'
-import { useStore } from '@src/store'
+import { useSharedStore } from '@src/store'
 import { Router, Route } from 'wouter'
 import { Box, Flex } from 'ui/src/components/atoms'
 import { WalletPanel } from '@src/containers/wallet-panel'
@@ -18,7 +18,7 @@ export const App: React.FC = () => {
 	useColorMode()
 	useVault()
 
-	const { messanger } = useStore(state => ({
+	const { messanger } = useSharedStore(state => ({
 		messanger: state.messanger,
 	}))
 
