@@ -13,6 +13,9 @@ export const defaultTokenSettings = {
 export const PRESET_COLOR_HELIOTROPE_SUNRISE = 'preset_color_heliotrope_sunrise'
 export const PRESET_COLOR_PIGEON_POST = 'preset_color_pigeon_post'
 export const PRESET_COLOR_KOBI = 'preset_color_pigeon_kobi'
+export const PRESET_COLOR_HIBISCUS = 'preset_color_hibiscus'
+export const PRESET_COLOR_PORT_GORE = 'preset_color_port_gore'
+export const PRESET_COLOR_CORNFLOWER_BLUE = 'preset_color_cornflower_blue'
 
 export const presetMap = {
 	[PRESET_COLOR_HELIOTROPE_SUNRISE]: {
@@ -42,14 +45,50 @@ export const presetMap = {
 	[PRESET_COLOR_KOBI]: {
 		[ColorSettings.COLOR_PRIMARY]: '#F7DBBF',
 		[ColorSettings.COLOR_PRIMARY_STOP]: '0',
-		[ColorSettings.COLOR_SECONDARY]: '#EEABE0',
-		[ColorSettings.COLOR_SECONDARY_STOP]: '100',
+		[ColorSettings.COLOR_SECONDARY]: '#f2bec8',
+		[ColorSettings.COLOR_SECONDARY_STOP]: '50',
 		[ColorSettings.COLOR_TERTIARY]: '#EEABE0',
 		[ColorSettings.COLOR_TERTIARY_STOP]: '100',
 		[ColorSettings.COLOR_TEXT]: '#0e0324',
 		[ColorSettings.COLOR_BORDER]: '#ffe8ee',
 		[ColorSettings.GRADIENT_TYPE]: 'radial',
 		[ColorSettings.GRADIENT_START]: '78.38% 240.44% at 17.23% 25.44%',
+	},
+	[PRESET_COLOR_HIBISCUS]: {
+		[ColorSettings.COLOR_PRIMARY]: '#d13066',
+		[ColorSettings.COLOR_PRIMARY_STOP]: '0',
+		[ColorSettings.COLOR_SECONDARY]: '#953153',
+		[ColorSettings.COLOR_SECONDARY_STOP]: '50',
+		[ColorSettings.COLOR_TERTIARY]: '#332217',
+		[ColorSettings.COLOR_TERTIARY_STOP]: '100',
+		[ColorSettings.COLOR_TEXT]: '#e5cbb7',
+		[ColorSettings.COLOR_BORDER]: '#332217',
+		[ColorSettings.GRADIENT_TYPE]: 'linear',
+		[ColorSettings.GRADIENT_START]: '180deg',
+	},
+	[PRESET_COLOR_PORT_GORE]: {
+		[ColorSettings.COLOR_PRIMARY]: '#342559',
+		[ColorSettings.COLOR_PRIMARY_STOP]: '0',
+		[ColorSettings.COLOR_SECONDARY]: '#311973',
+		[ColorSettings.COLOR_SECONDARY_STOP]: '50',
+		[ColorSettings.COLOR_TERTIARY]: '#2d0792',
+		[ColorSettings.COLOR_TERTIARY_STOP]: '100',
+		[ColorSettings.COLOR_TEXT]: '#d8f9ff',
+		[ColorSettings.COLOR_BORDER]: '#d8f9ff',
+		[ColorSettings.GRADIENT_TYPE]: 'linear',
+		[ColorSettings.GRADIENT_START]: '90deg',
+	},
+	[PRESET_COLOR_CORNFLOWER_BLUE]: {
+		[ColorSettings.COLOR_PRIMARY]: '#3a3ea2',
+		[ColorSettings.COLOR_PRIMARY_STOP]: '0',
+		[ColorSettings.COLOR_SECONDARY]: '#4348d6',
+		[ColorSettings.COLOR_SECONDARY_STOP]: '50',
+		[ColorSettings.COLOR_TERTIARY]: '#777bf0 ',
+		[ColorSettings.COLOR_TERTIARY_STOP]: '100',
+		[ColorSettings.COLOR_TEXT]: '#ffe6ff',
+		[ColorSettings.COLOR_BORDER]: '#ffe6ff',
+		[ColorSettings.GRADIENT_TYPE]: 'radial',
+		[ColorSettings.GRADIENT_START]: '49.21% 50.45% at 50% 0%',
 	},
 }
 

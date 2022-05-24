@@ -26,11 +26,18 @@ export const StyledLink = styled('a', {
 				textDecoration: 'none',
 				position: 'relative',
 				cursor: 'pointer',
-				borderBottom: '1px dotted',
 				'&:hover': {
 					'&:before': {
 						opacity: 0.2,
 					},
+				},
+				'&:after': {
+					content: '',
+					position: 'absolute',
+					transition: '$default',
+					inset: '3px 0',
+					borderBottom: '1px dotted',
+					pe: 'none',
 				},
 				'&:before': {
 					content: '',
@@ -38,7 +45,8 @@ export const StyledLink = styled('a', {
 					position: 'absolute',
 					transition: '$default',
 					br: '$2',
-					inset: '-0px -4px -5px -4px',
+					inset: '2px -5px 1px -5px',
+					pe: 'none',
 				},
 			},
 		},

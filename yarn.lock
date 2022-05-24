@@ -14583,7 +14583,7 @@ prompts@^2.0.1, prompts@^2.4.0:
     kleur "^3.0.3"
     sisteransi "^1.0.5"
 
-prop-types@^15.0.0, prop-types@^15.6.0, prop-types@^15.6.1, prop-types@^15.8.0:
+prop-types@^15.0.0, prop-types@^15.6.0, prop-types@^15.6.1:
   version "15.8.1"
   resolved "https://registry.yarnpkg.com/prop-types/-/prop-types-15.8.1.tgz#67d87bf1a694f48435cf332c24af10214a3140b5"
   integrity sha512-oj87CgZICdulUohogVAR7AjlC0327U4el4L6eAvOqCeudMDVU0NThNaV+b9Df4dXgSP1gXMTnPdhfe/2qDH5cg==
@@ -14878,13 +14878,6 @@ react-fast-compare@^3.0.1, react-fast-compare@^3.2.0:
   resolved "https://registry.yarnpkg.com/react-fast-compare/-/react-fast-compare-3.2.0.tgz#641a9da81b6a6320f270e89724fb45a0b39e43bb"
   integrity sha512-rtGImPZ0YyLrscKI9xTpV8psd6I8VAtjKCzQDlzyDvqJA8XOW78TXYQwNRNd8g8JZnDu8q9Fu/1v4HPAVwVdHA==
 
-react-grid-system@^8.1.4:
-  version "8.1.4"
-  resolved "https://registry.yarnpkg.com/react-grid-system/-/react-grid-system-8.1.4.tgz#089605170a8b9c95a8e89bb04663ea8568f532da"
-  integrity sha512-OQOIEovH48Q+5Mw1F/xAf0ZSk78TnMwOlu4u/VczK+Gp3K8pJj3NeyBSu63d3152h/zSGiaYaVjFyBla9xIweg==
-  dependencies:
-    prop-types "^15.8.0"
-
 react-helmet-async@^1.0.7:
   version "1.2.2"
   resolved "https://registry.yarnpkg.com/react-helmet-async/-/react-helmet-async-1.2.2.tgz#38d58d32ebffbc01ba42b5ad9142f85722492389"
@@ -15084,6 +15077,13 @@ react-use@^17.3.2:
     throttle-debounce "^3.0.1"
     ts-easing "^0.2.0"
     tslib "^2.1.0"
+
+react-useportal@^1.0.16:
+  version "1.0.16"
+  resolved "https://registry.yarnpkg.com/react-useportal/-/react-useportal-1.0.16.tgz#d442b4f430d92e5e9f7adb40f59375d12c51caa2"
+  integrity sha512-sbmixDvJvWAS2YaGB4dA6e7EA08MXTjQxjcujC4WYLWSJOR2BsF3PnVAlJ9N70dDC/Z6zjgs8IKiaPzmGYHcXQ==
+  dependencies:
+    use-ssr "^1.0.22"
 
 react-virtuoso@^2.11.0:
   version "2.11.1"
@@ -17450,6 +17450,11 @@ use-sidecar@^1.0.1:
   dependencies:
     detect-node-es "^1.1.0"
     tslib "^1.9.3"
+
+use-ssr@^1.0.22:
+  version "1.0.24"
+  resolved "https://registry.yarnpkg.com/use-ssr/-/use-ssr-1.0.24.tgz#213a3df58f5ab9268e6fe1a57ad0a9de91e514d1"
+  integrity sha512-0MFps7ezL57/3o0yl4CvrHLlp9z20n1rQZV/lSRz7if+TUoM6POU1XdOvEjIgjgKeIhTEye1U0khrIYWCTWw4g==
 
 use@^3.1.0:
   version "3.1.1"

@@ -15,13 +15,13 @@ export const PageContainer: React.FC<IProps> = ({ children, css }) => (
 	<Box
 		css={{
 			position: 'relative',
-			maxWidth: '1294px',
+			maxWidth: '1264px',
 			width: '100%',
 			px: '15px',
 			mx: 'auto',
-			'@xs': { border: '0px solid white' },
+			'@xs': { border: '0px solid brown' },
 			'@sm': { border: '0px solid green', px: '20px' },
-			'@md': { border: '0px solid yellow' },
+			'@md': { border: '0px solid pink' },
 			'@lg': { border: '0px solid blue' },
 			'@xl': { border: '0px solid red' },
 			...(css as any),

@@ -1,15 +1,41 @@
 /* eslint-disable react/jsx-props-no-spreading */
+
 import React from 'react'
-import SyntaxHighlighter from 'react-syntax-highlighter'
+import { useTheme } from 'next-themes'
+import { PrismAsyncLight as SyntaxHighlighter } from 'react-syntax-highlighter'
+import syntaxStyleDark from 'react-syntax-highlighter/dist/cjs/styles/prism/duotone-dark'
+import syntaxStyleLight from 'react-syntax-highlighter/dist/cjs/styles/prism/duotone-light'
 import { MDXRemote } from 'next-mdx-remote'
 import Button from 'ui/src/components/button'
-import { Text, StyledLink } from 'ui/src/components/atoms'
+import { Box, Text, StyledLink } from 'ui/src/components/atoms'
 import { Example as ExampleV1 } from '../pages/example-v1'
 
-const components = {
+const generateComponents = (theme: string) => ({
 	Button,
 	ExampleV1,
-	SyntaxHighlighter,
+	SyntaxHighlighter: props => (
+		<Box
+			css={{
+				my: '$4',
+				pre: {
+					background: 'transparent !important',
+					p: '0em 1em !important',
+					fontSize: '0.85em !important',
+					br: '$3',
+					border: '1px solid',
+					borderColor: '$borderPanel2',
+					code: {
+						background: 'transparent !important',
+					},
+					span: {
+						tabSize: '2 !important',
+					},
+				},
+			}}
+		>
+			<SyntaxHighlighter style={theme === 'dark' ? syntaxStyleDark : syntaxStyleLight} {...props} />
+		</Box>
+	),
 	h1: props => (
 		<Text
 			as="h1"
@@ -46,14 +72,19 @@ const components = {
 		/>
 	),
 	a: props => <StyledLink as="a" bubble {...props} />,
-}
+})
 
 interface IProps {
 	mdxSource: any
 }
 
-export const MdxTheme: React.FC<IProps> = ({ mdxSource }) => (
-	<Text size="5" regular css={{ width: '100%', lineHeight: '25px' }}>
-		<MDXRemote {...mdxSource} components={components} />
-	</Text>
-)
+export const MdxTheme: React.FC<IProps> = ({ mdxSource }) => {
+	const { resolvedTheme } = useTheme()
+	const components = generateComponents(resolvedTheme)
+
+	return (
+		<Text size="5" regular css={{ width: '100%', lineHeight: '25px' }}>
+			<MDXRemote {...mdxSource} components={components} />
+		</Text>
+	)
+}
