@@ -3,6 +3,7 @@ export const config = {
 	OPEN_GRAPH_DESCRIPTION: 'A community centered open source browser wallet for the Radix DLT network.',
 	Z3US_URL: 'https://www.z3us.com',
 	GITHUB_URL: 'https://github.com/z3us-dapps',
+	RADIX_URL: 'https://www.radixdlt.com/',
 	GITHUB_FEEDBACK_URL: 'https://github.com/z3us-dapps/z3us/discussions/new?category=feedback',
 	TELEGRAM_URL: 'https://t.me/z3us_dapps',
 	DISCORD_URL: 'https://discord.com/invite/9StjkdvjAA',
