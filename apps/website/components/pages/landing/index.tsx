@@ -274,7 +274,7 @@ export const LandingPage: React.FC = () => {
 								<StyledLink underline href={config.RADIX_URL}>
 									Radix DLT
 								</StyledLink>{' '}
-								in your favourite browser today!
+								in your favorite browser today!
 							</Text>
 
 							<Flex
