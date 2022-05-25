@@ -47,6 +47,7 @@ export const lightColors = {
 	borderInputError: '#b01f0c',
 	borderPriceRed: 'rgb(237 152 152 / 59%)',
 	borderPriceGreen: 'rgb(51 202 51)',
+	borderTransparent: 'rgba(0, 0, 0, 0.1)',
 
 	iconDefault: '#000000',
 	iconDefaultInverse: '#FFFFFF',
