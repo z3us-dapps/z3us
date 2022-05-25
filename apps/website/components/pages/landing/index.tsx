@@ -215,11 +215,11 @@ export const LandingPage: React.FC = () => (
 						<Text
 							displayRound
 							size="12"
-							css={{ color: '#14372c', mt: '$5', '@md': { fontSize: '48px', lineHeight: '54px' } }}
+							css={{ color: '#14372c', mt: '$6', '@md': { fontSize: '48px', lineHeight: '54px' } }}
 						>
 							An open source community centered wallet for the Radix DLT network.
 						</Text>
-						<Text size="4" css={{ color: '#14372c', mt: '$3' }}>
+						<Text size="4" css={{ color: '#14372c', mt: '$6' }}>
 							<StyledLink underlineOnHover href={config.RADIX_URL}>
 								Learn more &#8594;
 							</StyledLink>
