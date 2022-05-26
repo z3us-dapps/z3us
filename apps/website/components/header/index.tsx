@@ -43,7 +43,7 @@ export const Header: React.FC<IProps> = ({ isLandingPage }) => {
 				css={{
 					position: !isLandingPage ? 'sticky' : 'relative',
 					top: '0',
-					zIndex: '2',
+					zIndex: '3',
 					transition: '$default',
 					pt: !isLandingPage && state.isScrolled ? '10px' : '20px',
 					pb: !isLandingPage && state.isScrolled ? '17px' : '20px',

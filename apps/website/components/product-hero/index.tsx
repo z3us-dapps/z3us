@@ -63,9 +63,9 @@ const ACCOUNT_SLIDES = [
 ]
 
 const TOKENS = [
-	{ id: 1, token: 'Radix (XRD)', total: '100', price: '100', change: '100', image: RadixTokenImage },
+	{ id: 1, token: 'Radix (XRD)', total: '59032', price: '100', change: '100', image: RadixTokenImage },
 	{ id: 2, token: 'Ociswap (OCI)', total: '100', price: '100', change: '100', image: OciTokenImage },
-	{ id: 3, token: 'Delphibets (DPH)', total: '100', price: '100', change: '100', image: DelphiTokenImage },
+	{ id: 3, token: 'Delphibets (DPH)', total: '50', price: '100', change: '100', image: DelphiTokenImage },
 	{ id: 4, token: 'Doge³ (DCG)', total: '100', price: '100', change: '100', image: DogeTokenImage },
 	{ id: 5, token: 'Radix Inu (INU)', total: '100', price: '100', change: '100', image: InuTokenImage },
 ]
@@ -181,6 +181,7 @@ export const ProductFooter = (): JSX.Element => (
 	>
 		<Flex css={{ pt: '7px' }}>
 			<Button
+				showRipple={false}
 				as="button"
 				css={{
 					flex: 1,
@@ -224,6 +225,7 @@ export const ProductFooter = (): JSX.Element => (
 				</Text>
 			</Button>
 			<Button
+				showRipple={false}
 				as="button"
 				css={{
 					flex: 1,
@@ -267,6 +269,7 @@ export const ProductFooter = (): JSX.Element => (
 			</Button>
 			<Button
 				as="button"
+				showRipple={false}
 				css={{
 					flex: 1,
 					padding: 0,
@@ -304,7 +307,7 @@ export const ProductFooter = (): JSX.Element => (
 						svg: { transition: 'all 300ms ease-out' },
 					}}
 				>
-					Settings
+					Settings1
 				</Text>
 			</Button>
 		</Flex>
