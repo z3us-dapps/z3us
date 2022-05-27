@@ -27,7 +27,9 @@ export const SendToken: React.FC = () => {
 
 	const [isSendTokenRoute, params] = useRoute('/account/send/:rri')
 
-	const { addToast } = useSharedStore(state => ({
+	const { hw, seed, addToast } = useSharedStore(state => ({
+		hw: state.hardwareWallet,
+		seed: state.masterSeed,
 		addToast: state.addToastAction,
 	}))
 
@@ -129,7 +131,7 @@ export const SendToken: React.FC = () => {
 	}
 
 	const handleAccountChange = async (accountIndex: number) => {
-		await selectAccount(accountIndex)
+		await selectAccount(accountIndex, hw, seed)
 		setState(draft => {
 			draft.rri = ''
 			draft.amount = ''

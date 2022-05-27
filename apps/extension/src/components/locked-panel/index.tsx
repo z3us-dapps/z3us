@@ -17,22 +17,23 @@ export const LockedPanel: React.FC = () => {
 	const { addToast } = useSharedStore(state => ({
 		addToast: state.addToastAction,
 	}))
-	const { unlock, hasAuth, authenticate } = useSharedStore(state => ({
+	const { unlock, hasAuth, authenticate, isUnlocked, setSeed, hw, seed } = useSharedStore(state => ({
+		isUnlocked: Boolean(state.masterSeed || state.hardwareWallet),
+		hw: state.hardwareWallet,
+		seed: state.masterSeed,
 		unlock: state.unlockWalletAction,
 		hasAuth: state.hasAuthAction,
 		authenticate: state.authenticateAction,
-	}))
-	const { seed, setSeed } = useStore(state => ({
-		seed: state.masterSeed,
-		network: state.networks[state.selectedNetworkIndex],
 		setSeed: state.setMasterSeedAction,
+	}))
+	const { selectAccount } = useStore(state => ({
+		selectAccount: state.selectAccountAction,
 	}))
 	const [state, setState] = useImmer({
 		password: '',
 		passwordError: false,
 		isLoading: false,
 	})
-	const hasWallet = !!seed
 
 	const handleUnlock = async password => {
 		setState(draft => {
@@ -41,6 +42,7 @@ export const LockedPanel: React.FC = () => {
 
 		try {
 			await setSeed(await unlock(password))
+			await selectAccount(0, hw, seed)
 		} catch (error) {
 			if (state.passwordError) {
 				addToast({
@@ -77,14 +79,13 @@ export const LockedPanel: React.FC = () => {
 	}
 
 	useEffect(() => {
-		if (hasWallet) {
-			setState(draft => {
-				draft.password = ''
-				draft.isLoading = false
-			})
-			unlockWithWebAuth()
-		}
-	}, [hasWallet])
+		if (isUnlocked) return
+		setState(draft => {
+			draft.password = ''
+			draft.isLoading = false
+		})
+		unlockWithWebAuth()
+	}, [isUnlocked])
 
 	const handleSubmitForm = (e: React.ChangeEvent<HTMLFormElement>) => {
 		e.preventDefault()
@@ -109,7 +110,7 @@ export const LockedPanel: React.FC = () => {
 				height: '100%',
 				backgroundColor: '$bgPanel',
 			}}
-			animate={hasWallet ? 'unlocked' : 'locked'}
+			animate={isUnlocked ? 'unlocked' : 'locked'}
 			variants={{
 				locked: {
 					transform: 'translateY(0px)',

@@ -109,13 +109,13 @@ export type KeystoresStore = {
 export type LocalWalletStore = {
 	masterSeed: HDMasterSeedT | null
 
-	setMasterSeedAction: (seed: HDMasterSeedT) => Promise<void>
+	setMasterSeedAction: (seed: HDMasterSeedT) => void
 }
 
 export type HardwareWalletStore = {
 	hardwareWallet: HardwareWalletT | null
 
-	connectHW: () => void
+	setHardwareWalletAction: (hw: HardwareWalletT) => void
 	sendAPDUAction: (
 		cla: number,
 		ins: number,
@@ -129,25 +129,40 @@ export type HardwareWalletStore = {
 export type WalletStore = {
 	account: AccountT | null
 	resetAction: () => void
-	lockAction: () => Promise<void>
 	getCurrentAddressAction: () => string
 
 	publicAddresses: { [key: number]: AddressBookEntry }
-	setPublicAddressesAction: (addresses: { [key: number]: string }) => void
+	setPublicAddressesAction: (addresses: { [key: number]: string }, isHW: boolean) => void
 	setPublicAddressAction: (address: string, entry: AddressBookEntry) => void
 	removePublicAddressesAction: (index: number) => void
 
 	networks: Network[]
 	selectedNetworkIndex: number
-	selectNetworkAction: (newIndex: number) => Promise<void>
+	selectNetworkAction: (
+		newIndex: number,
+		hardwareWallet: HardwareWalletT | null,
+		masterSeed: HDMasterSeedT | null,
+	) => Promise<void>
 	addNetworkAction: (id: NetworkID, url: URL) => void
 
 	selectedAccountIndex: number
-	selectAccountAction: (newIndex: number) => Promise<void>
-	selectAccountForAddressAction: (address: string) => Promise<void>
+	selectAccountAction: (
+		newIndex: number,
+		hardwareWallet: HardwareWalletT | null,
+		masterSeed: HDMasterSeedT | null,
+	) => Promise<void>
+	selectAccountForAddressAction: (
+		address: string,
+		hardwareWallet: HardwareWalletT | null,
+		masterSeed: HDMasterSeedT | null,
+	) => Promise<void>
 
 	activeSlideIndex: number
-	setActiveSlideIndexAction: (newIndex: number) => Promise<void>
+	setActiveSlideIndexAction: (
+		newIndex: number,
+		hardwareWallet: HardwareWalletT | null,
+		masterSeed: HDMasterSeedT | null,
+	) => Promise<void>
 
 	approvedWebsites: {
 		[key: string]: any
@@ -162,8 +177,15 @@ export type WalletStore = {
 	removePendingActionAction: (id: string) => void
 }
 
-export type SharedStore = ThemeStore & ToastsStore & OnBoardingStore & SettingsStore & BackgroundStore & KeystoresStore
+export type SharedStore = ThemeStore &
+	ToastsStore &
+	OnBoardingStore &
+	SettingsStore &
+	BackgroundStore &
+	KeystoresStore &
+	LocalWalletStore &
+	HardwareWalletStore
 
-export type AccountStore = WalletStore & LocalWalletStore & HardwareWalletStore
+export type AccountStore = WalletStore
 
 export type AppStore = SharedStore & AccountStore

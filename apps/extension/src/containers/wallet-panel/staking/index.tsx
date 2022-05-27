@@ -1,6 +1,6 @@
 /* eslint-disable react/jsx-props-no-spreading, array-callback-return */
 import React, { useState, useEffect } from 'react'
-import { useStore } from '@src/store'
+import { useSharedStore, useStore } from '@src/store'
 import { ScrollArea } from '@src/components/scroll-area'
 import { Box, Flex, Text, StyledLink } from 'ui/src/components/atoms'
 import { getShortAddress } from '@src/utils/string-utils'
@@ -19,6 +19,10 @@ import { EXPLORER_URL } from '../../../config'
 const TAB_HEIGHT = '246px'
 
 export const Staking: React.FC = () => {
+	const { hw, seed } = useSharedStore(state => ({
+		hw: state.hardwareWallet,
+		seed: state.masterSeed,
+	}))
 	const { accountAddress, selectAccount } = useStore(state => ({
 		accountAddress: state.getCurrentAddressAction(),
 		selectAccount: state.selectAccountAction,
@@ -62,7 +66,7 @@ export const Staking: React.FC = () => {
 	}, [stakedPositions, unstakePositions])
 
 	const handleAccountChange = async (accountIndex: number) => {
-		await selectAccount(accountIndex)
+		await selectAccount(accountIndex, hw, seed)
 	}
 
 	return (

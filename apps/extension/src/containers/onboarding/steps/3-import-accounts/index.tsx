@@ -95,7 +95,7 @@ export const ImportAccounts = (): JSX.Element => {
 		if (Object.keys(addressMap).length <= 0) {
 			return
 		}
-		setPublicAddresses(addressMap)
+		setPublicAddresses(addressMap, false)
 		setOnboardingStep(onBoardingSteps.CREATE_PASSWORD)
 	}
 

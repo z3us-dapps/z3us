@@ -1,21 +1,21 @@
 import { SigningKey } from '@radixdlt/application'
-import { HDPathRadix, PrivateKey } from '@radixdlt/crypto'
+import { HDMasterSeedT, HDPathRadix, PrivateKey } from '@radixdlt/crypto'
+import { HardwareWalletT } from '@radixdlt/hardware-wallet'
 import { getDefaultBackgroundForIndex, getDefaultColorSettingsForIndex } from '@src/config'
-import { HardwareWalletStore, LocalWalletStore } from './types'
 
-export const getHWSigningKeyForIndex = async (state: HardwareWalletStore, index: number) => {
-	if (!state.hardwareWallet) return null
+export const getHWSigningKeyForIndex = async (hardwareWallet: HardwareWalletT | null, index: number) => {
+	if (!hardwareWallet) return null
 
 	const hdPath = HDPathRadix.create({ address: { index, isHardened: true } })
-	const hardwareSigningKey = await state.hardwareWallet.makeSigningKey(hdPath, false).toPromise()
+	const hardwareSigningKey = await hardwareWallet.makeSigningKey(hdPath, false).toPromise()
 
 	return SigningKey.fromHDPathWithHWSigningKey({ hdPath, hardwareSigningKey })
 }
 
-export const getLocalSigningKeyForIndex = async (state: LocalWalletStore, index: number) => {
-	if (!state.masterSeed) return null
+export const getLocalSigningKeyForIndex = async (masterSeed: HDMasterSeedT | null, index: number) => {
+	if (!masterSeed) return null
 
-	const key = state.masterSeed.masterNode().derive(HDPathRadix.create({ address: { index, isHardened: true } }))
+	const key = masterSeed.masterNode().derive(HDPathRadix.create({ address: { index, isHardened: true } }))
 
 	const pk = PrivateKey.fromHex(key.privateKey.toString())
 	if (pk.isErr()) {

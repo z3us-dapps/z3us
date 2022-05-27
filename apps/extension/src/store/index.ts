@@ -1,5 +1,5 @@
 import browser from 'webextension-polyfill'
-import { useLayoutEffect, useRef } from 'react'
+import { useEffect, useRef } from 'react'
 import create, { GetState, Mutate, SetState, StoreApi } from 'zustand'
 import shallow from 'zustand/shallow'
 import { persist, devtools } from 'zustand/middleware'
@@ -39,6 +39,8 @@ export const sharedStore = create<
 				...createSettingsStore(set),
 				...createBackgroundStore(set, get),
 				...createKeystoresStore(set),
+				...createLocalWalletStore(set),
+				...createHardwareWalletStore(set),
 			})),
 			{
 				name: sharedStoreKey,
@@ -62,8 +64,6 @@ const accountStoreFactory = (name: string) =>
 			persist(
 				immer((set, get) => ({
 					...createWalletStore(set, get),
-					...createLocalWalletStore(set, get),
-					...createHardwareWalletStore(set, get),
 				})),
 				{
 					name,
@@ -106,7 +106,7 @@ export const useStore: typeof defaultAccountStore = ((selector, equalityFn = sha
 
 	const storeRef = useRef(accountStore(keystoreName))
 
-	useLayoutEffect(() => {
+	useEffect(() => {
 		storeRef.current = accountStore(keystoreName)
 	}, [keystoreName])
 

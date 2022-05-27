@@ -1,6 +1,6 @@
 /* eslint-disable react/no-array-index-key, react/no-unstable-nested-components */
 import React, { useRef, useCallback, useState } from 'react'
-import { useStore } from '@src/store'
+import { useSharedStore, useStore } from '@src/store'
 import { useTransactionHistory } from '@src/services/react-query/queries/radix'
 import { getShortAddress } from '@src/utils/string-utils'
 import { AccountSelector } from '@src/components/account-selector'
@@ -14,6 +14,10 @@ import { SendReceiveHeader } from '../send-receive-header'
 export const AccountActivity: React.FC = () => {
 	const [customScrollParent, setCustomScrollParent] = useState(null)
 	const observer = useRef<IntersectionObserver | null>(null)
+	const { hw, seed } = useSharedStore(state => ({
+		hw: state.hardwareWallet,
+		seed: state.masterSeed,
+	}))
 	const { accountAddress, selectAccount } = useStore(state => ({
 		accountAddress: state.getCurrentAddressAction(),
 		selectAccount: state.selectAccountAction,
@@ -33,7 +37,7 @@ export const AccountActivity: React.FC = () => {
 	const hasActivities = flatten.length > 0
 
 	const handleAccountChange = async (accountIndex: number) => {
-		await selectAccount(accountIndex)
+		await selectAccount(accountIndex, hw, seed)
 	}
 
 	const lastElementRef = useCallback(

@@ -32,7 +32,9 @@ import {
 import { RadixService } from '@src/services/radix'
 
 export const NetworkSettings: React.FC = () => {
-	const { addToast } = useSharedStore(state => ({
+	const { hw, seed, addToast } = useSharedStore(state => ({
+		hw: state.hardwareWallet,
+		seed: state.masterSeed,
 		addToast: state.addToastAction,
 	}))
 
@@ -51,7 +53,7 @@ export const NetworkSettings: React.FC = () => {
 	})
 
 	const handleSelectNetwork = async (value: string) => {
-		await selectNetwork(+value)
+		await selectNetwork(+value, hw, seed)
 	}
 
 	const handleOpenDialog = () => {

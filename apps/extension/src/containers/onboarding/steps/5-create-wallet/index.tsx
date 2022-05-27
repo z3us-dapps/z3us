@@ -23,6 +23,8 @@ export const CreateWallet = (): JSX.Element => {
 		createWallet,
 		setIsRestoreWorkflow,
 		setOnboradingStep,
+		setHasKeystore,
+		setSeed,
 	} = useSharedStore(state => ({
 		mnemonic: state.mnemonic,
 		password: state.password,
@@ -33,9 +35,11 @@ export const CreateWallet = (): JSX.Element => {
 		isRestoreWorkflow: state.isRestoreWorkflow,
 		setIsRestoreWorkflow: state.setIsRestoreWorkflowAction,
 		setOnboradingStep: state.setOnboardingStepAction,
-	}))
-	const { setSeed } = useStore(state => ({
+		setHasKeystore: state.setHasKeystoreAction,
 		setSeed: state.setMasterSeedAction,
+	}))
+	const { selectAccount } = useStore(state => ({
+		selectAccount: state.selectAccountAction,
 	}))
 
 	const [state, setState] = useImmer({
@@ -58,7 +62,10 @@ export const CreateWallet = (): JSX.Element => {
 			draft.isButtonDisabled = true
 		})
 		try {
-			await setSeed(await createWallet(mnemonic.words, password))
+			const seed = await createWallet(mnemonic.words, password)
+			setSeed(seed)
+			setHasKeystore(true)
+			await selectAccount(0, null, seed)
 
 			await queryClient.invalidateQueries({ active: true, inactive: true, stale: true })
 

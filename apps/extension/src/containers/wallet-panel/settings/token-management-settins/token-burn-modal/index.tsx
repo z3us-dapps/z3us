@@ -29,7 +29,9 @@ export const BurnTokenModal: React.FC<IProps> = ({ trigger }) => {
 	const [, setLocation] = useLocation()
 	const queryClient = useQueryClient()
 
-	const { addToast } = useSharedStore(state => ({
+	const { hw, seed, addToast } = useSharedStore(state => ({
+		hw: state.hardwareWallet,
+		seed: state.masterSeed,
 		addToast: state.addToastAction,
 	}))
 
@@ -61,7 +63,7 @@ export const BurnTokenModal: React.FC<IProps> = ({ trigger }) => {
 	const shortAddress = getShortAddress(accountAddress)
 
 	const handleAccountChange = async (accountIndex: number) => {
-		await selectAccount(accountIndex)
+		await selectAccount(accountIndex, hw, seed)
 	}
 
 	const handleSelectedTokenChange = (rri: string) => {

@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 import { useLocation } from 'wouter'
-import { useSharedStore, useStore } from '@src/store'
+import { useSharedStore } from '@src/store'
 import { LockedPanel } from '@src/components/locked-panel'
 import { AnimatePresence, motion } from 'framer-motion'
 import { Box, MotionBox } from 'ui/src/components/atoms'
@@ -45,12 +45,10 @@ const pageStyle = {
 
 export const WalletPanel = (): JSX.Element => {
 	const [location] = useLocation()
-	const { activeApp, hasKeystore } = useSharedStore(state => ({
+	const { isUnlocked, activeApp, hasKeystore } = useSharedStore(state => ({
 		activeApp: state.activeApp,
 		hasKeystore: state.hasKeystore,
-	}))
-	const { seed } = useStore(state => ({
-		seed: state.masterSeed,
+		isUnlocked: Boolean(state.masterSeed || state.hardwareWallet),
 	}))
 	const [page, direction] = activeApp
 	const routes = Object.values(routesInfo)
@@ -83,7 +81,7 @@ export const WalletPanel = (): JSX.Element => {
 		<>
 			<MotionBox
 				initial={false}
-				animate={seed ? 'unlocked' : 'locked'}
+				animate={isUnlocked ? 'unlocked' : 'locked'}
 				css={{
 					width: '100%',
 					height: '100%',

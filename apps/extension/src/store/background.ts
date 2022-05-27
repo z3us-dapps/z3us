@@ -82,6 +82,10 @@ export const factory = (set: SetState<SharedStore>, get: GetState<SharedStore>):
 			throw new Error('Messanger not initialized!')
 		}
 		await messanger.sendActionMessageFromPopup(LOCK, null)
+		set(state => {
+			state.hardwareWallet = null
+			state.masterSeed = null
+		})
 	},
 
 	hasAuthAction: async () => {

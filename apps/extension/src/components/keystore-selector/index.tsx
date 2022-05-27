@@ -1,5 +1,5 @@
 import React from 'react'
-import { useSharedStore, useStore } from '@src/store'
+import { useSharedStore } from '@src/store'
 import { RightArrowIcon, TrashIcon, PlusIcon } from 'ui/src/components/icons'
 import {
 	DropdownMenu,
@@ -28,14 +28,10 @@ export const KeystoreSelector: React.FC = () => {
 			removeWallet: state.removeWalletAction,
 		}),
 	)
-	const { lockWallet } = useStore(state => ({
-		lockWallet: state.lockAction,
-	}))
 
 	const handleValueChange = async (keystoreId: string) => {
 		selectKeystore(keystoreId)
 		await lock()
-		await lockWallet()
 	}
 
 	const handleAdd = async () => {

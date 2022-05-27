@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { useSharedStore, useStore } from '@src/store'
+import { useSharedStore } from '@src/store'
 import { useLocation } from 'wouter'
 import Button from 'ui/src/components/button'
 import { LockClosedIcon, ChevronRightIcon } from '@radix-ui/react-icons'
@@ -20,20 +20,17 @@ import {
 
 export const WalletMenu: React.FC = () => {
 	const [, setLocation] = useLocation()
-	const { theme, setTheme, lock } = useSharedStore(state => ({
+	const { seed, hw, theme, setTheme, lock } = useSharedStore(state => ({
 		theme: state.theme,
 		setTheme: state.setThemeAction,
 		lock: state.lockAction,
-	}))
-	const { seed, lockWallet } = useStore(state => ({
 		seed: state.masterSeed,
-		lockWallet: state.lockAction,
+		hw: state.hardwareWallet,
 	}))
 	const [isOpen, setIsopen] = useState(false)
 
 	const handleLockWallet = async () => {
 		await lock()
-		await lockWallet()
 	}
 
 	const handleConnectHW = () => {
@@ -88,20 +85,20 @@ export const WalletMenu: React.FC = () => {
 						</DropdownMenuContent>
 					</DropdownMenu>
 					{seed && (
-						<>
-							<DropdownMenuItem onSelect={handleConnectHW}>
-								<Box css={{ flex: '1', pr: '$4' }}>Connect hardware wallet</Box>
-								<DropdownMenuRightSlot>
-									<HardwareWalletIcon />
-								</DropdownMenuRightSlot>
-							</DropdownMenuItem>
-							<DropdownMenuItem onSelect={handleLockWallet}>
-								<Box css={{ flex: '1' }}>Lock wallet</Box>
-								<DropdownMenuRightSlot>
-									<LockClosedIcon />
-								</DropdownMenuRightSlot>
-							</DropdownMenuItem>
-						</>
+						<DropdownMenuItem onSelect={handleConnectHW}>
+							<Box css={{ flex: '1', pr: '$4' }}>Connect hardware wallet</Box>
+							<DropdownMenuRightSlot>
+								<HardwareWalletIcon />
+							</DropdownMenuRightSlot>
+						</DropdownMenuItem>
+					)}
+					{(seed || hw) && (
+						<DropdownMenuItem onSelect={handleLockWallet}>
+							<Box css={{ flex: '1' }}>Lock wallet</Box>
+							<DropdownMenuRightSlot>
+								<LockClosedIcon />
+							</DropdownMenuRightSlot>
+						</DropdownMenuItem>
 					)}
 				</DropdownMenuContent>
 			</DropdownMenu>

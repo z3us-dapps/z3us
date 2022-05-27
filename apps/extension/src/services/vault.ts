@@ -89,6 +89,7 @@ export class VaultService {
 		if (this.timer) {
 			clearTimeout(this.timer)
 		}
+		this.mnemonic = null
 		this.masterSeed = null
 		this.timer = null
 	}
