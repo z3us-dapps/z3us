@@ -25,7 +25,6 @@ import { Dialog, DialogTrigger, DialogContent } from 'ui/src/components/dialog'
 import { Box, Text, Flex } from 'ui/src/components/atoms'
 import { SlippageBox } from '@src/components/slippage-box'
 import BigNumber from 'bignumber.js'
-import { HardwareWalletReconnect } from '@src/components/hardware-wallet-reconnect'
 import { formatBigNumber } from '@src/utils/formatters'
 
 interface IProps {
@@ -217,7 +216,6 @@ export const StakeModal: React.FC<IProps> = ({ trigger, tooltipMessage, validato
 								{entry?.name ? `${entry.name} (${shortAddress})` : shortAddress}
 							</Text>
 						</Flex>
-						<HardwareWalletReconnect />
 						<Box css={{ mt: '$3' }}>
 							<Input
 								value={state.validator}

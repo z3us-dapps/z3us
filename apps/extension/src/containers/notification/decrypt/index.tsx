@@ -9,7 +9,6 @@ import { CONFIRM } from '@src/lib/actions'
 import { DecryptMessage } from '@src/services/radix/message'
 import { getShortAddress } from '@src/utils/string-utils'
 import { useImmer } from 'use-immer'
-import { HardwareWalletReconnect } from '@src/components/hardware-wallet-reconnect'
 
 export const Decrypt = (): JSX.Element => {
 	const [, { id }] = useRoute<{ id: string }>('/decrypt/:id')
@@ -87,9 +86,6 @@ export const Decrypt = (): JSX.Element => {
 						</StyledLink>
 						.
 					</PageSubHeading>
-				</Box>
-				<Box css={{ mt: '$8', flex: '1' }}>
-					<HardwareWalletReconnect />
 				</Box>
 				<Flex
 					direction="column"

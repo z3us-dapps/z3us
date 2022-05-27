@@ -17,7 +17,6 @@ import { Checkbox, CheckIcon } from 'ui/src/components/checkbox'
 import Input from 'ui/src/components/input'
 import { Dialog, DialogTrigger, DialogContent } from 'ui/src/components/dialog'
 import { Box, Text, Flex } from 'ui/src/components/atoms'
-import { HardwareWalletReconnect } from '@src/components/hardware-wallet-reconnect'
 import { AccountSelector } from '@src/components/account-selector'
 
 interface IProps {
@@ -182,7 +181,6 @@ export const CreateTokenModal: React.FC<IProps> = ({ trigger }) => {
 							<Text css={{ fontSize: '14px', lineHeight: '17px', fontWeight: '500', mt: '20px' }}>Owner:</Text>
 						</Box>
 						<AccountSelector shortAddress={shortAddress} onAccountChange={handleAccountChange} />
-						<HardwareWalletReconnect />
 						<Box css={{ mt: '$2' }}>
 							<Input placeholder="Enter name" onChange={handleSetValue('name')} />
 						</Box>

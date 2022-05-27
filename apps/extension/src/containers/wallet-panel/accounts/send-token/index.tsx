@@ -16,7 +16,6 @@ import { useRoute } from 'wouter'
 import { Box, Text, Flex, MotionBox } from 'ui/src/components/atoms'
 import { formatBigNumber } from '@src/utils/formatters'
 import { TokenSelector } from '@src/components/token-selector'
-import { HardwareWalletReconnect } from '@src/components/hardware-wallet-reconnect'
 import { AddressBookSelector } from '@src/components/address-book-selector'
 import { SendReceiveHeader } from '../send-receive-header'
 import { SendTokenReview } from './send-token-review'
@@ -220,7 +219,6 @@ export const SendToken: React.FC = () => {
 								tokenSymbol={tokenSymbol}
 								onAccountChange={handleAccountChange}
 							/>
-							<HardwareWalletReconnect />
 							<Box>
 								<Flex align="center" css={{ mt: '14px', position: 'relative' }}>
 									<Tooltip>

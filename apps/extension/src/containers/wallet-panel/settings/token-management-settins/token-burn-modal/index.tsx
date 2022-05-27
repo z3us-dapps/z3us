@@ -12,7 +12,6 @@ import Input from 'ui/src/components/input'
 import { Tooltip, TooltipTrigger, TooltipContent, TooltipArrow } from 'ui/src/components/tool-tip'
 import { Dialog, DialogTrigger, DialogContent } from 'ui/src/components/dialog'
 import { Box, Text, Flex } from 'ui/src/components/atoms'
-import { HardwareWalletReconnect } from '@src/components/hardware-wallet-reconnect'
 import { AccountSelector } from '@src/components/account-selector'
 import { useTokenBalances, useTokenInfo } from '@src/services/react-query/queries/radix'
 import { TokenSelector } from '@src/components/token-selector'
@@ -194,7 +193,6 @@ export const BurnTokenModal: React.FC<IProps> = ({ trigger }) => {
 							tokenSymbol={tokenSymbol}
 							onAccountChange={handleAccountChange}
 						/>
-						<HardwareWalletReconnect />
 						<Box>
 							<Flex align="center" css={{ mt: '14px', position: 'relative' }}>
 								<Tooltip>
