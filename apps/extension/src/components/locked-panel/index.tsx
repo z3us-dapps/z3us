@@ -10,7 +10,7 @@ import InputFeedBack from 'ui/src/components/input/input-feedback'
 import Button from 'ui/src/components/button'
 import { Z3usText } from 'ui/src/components/z3us-text'
 import { isWebAuthSupported } from '@src/services/credentials'
-import { KeystoreSelector } from '@src/components/keystore-selector'
+//import { KeystoreSelector } from '@src/components/keystore-selector'
 import { HardwareWalletReconnect } from '@src/components/hardware-wallet-reconnect'
 
 export const LockedPanel: React.FC = () => {
@@ -141,7 +141,7 @@ export const LockedPanel: React.FC = () => {
 						justifyContent: 'space-between',
 					}}
 				>
-					<Box css={{ opacity: '0', pe: 'none' }}>
+					<Box>
 						<Z3usMenu />
 					</Box>
 					<WalletMenu />
@@ -155,13 +155,15 @@ export const LockedPanel: React.FC = () => {
 					</Box>
 				</Flex>
 
+				{/*TODO: bring this back*/}
 				<Flex align="center" justify="center">
 					<HardwareWalletReconnect />
 				</Flex>
 
-				<Flex align="center" justify="center">
+				{/*TODO: remove this ?? */}
+				{/*<Flex align="center" justify="center">
 					<KeystoreSelector />
-				</Flex>
+				</Flex>*/}
 
 				<form onSubmit={handleSubmitForm}>
 					<Box css={{ p: '$6' }}>
