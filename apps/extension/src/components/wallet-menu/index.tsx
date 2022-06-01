@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { useSharedStore } from '@src/store'
-import { useLocation } from 'wouter'
 import Button from 'ui/src/components/button'
+import { useConnectHardwareWallet } from '@src/hooks/use-connect-hardware-wallet'
 import { ChevronRightIcon } from '@radix-ui/react-icons'
 import { HardwareWalletIcon } from 'ui/src/components/icons'
 import { Box, MotionBox } from 'ui/src/components/atoms'
@@ -19,7 +19,6 @@ import {
 } from 'ui/src/components/drop-down-menu'
 
 export const WalletMenu: React.FC = () => {
-	const [, setLocation] = useLocation()
 	const { seed, theme, setTheme } = useSharedStore(state => ({
 		theme: state.theme,
 		setTheme: state.setThemeAction,
@@ -27,11 +26,7 @@ export const WalletMenu: React.FC = () => {
 		seed: state.masterSeed,
 	}))
 	const [isOpen, setIsopen] = useState(false)
-
-	const handleConnectHW = () => {
-		window.open(`${window.location.origin}/popup-theme-light.html#/hardware-wallet`)
-		setLocation('#/hardware-wallet')
-	}
+	const [connectHardwareWallet] = useConnectHardwareWallet()
 
 	return (
 		<MotionBox animate={isOpen ? 'open' : 'closed'}>
@@ -80,7 +75,7 @@ export const WalletMenu: React.FC = () => {
 						</DropdownMenuContent>
 					</DropdownMenu>
 					{seed && (
-						<DropdownMenuItem onSelect={handleConnectHW}>
+						<DropdownMenuItem onSelect={connectHardwareWallet}>
 							<Box css={{ flex: '1', pr: '$4' }}>Connect ledger</Box>
 							<DropdownMenuRightSlot>
 								<HardwareWalletIcon />

@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react'
 import Button from 'ui/src/components/button'
+import { useConnectHardwareWallet } from '@src/hooks/use-connect-hardware-wallet'
 import { HardwareWalletIcon } from 'ui/src/components/icons'
 import Pill from 'ui/src/components/pill'
 import { MotionBox } from 'ui/src/components/atoms/motion-box'
@@ -33,7 +34,7 @@ export const Start = (): JSX.Element => {
 		setOnboardingStep: state.setOnboardingStepAction,
 		setIsRestoreWorkflow: state.setIsRestoreWorkflowAction,
 	}))
-
+	const [connectHardwareWallet] = useConnectHardwareWallet()
 	const [state, setState] = useImmer({
 		mounted: false,
 	})
@@ -91,7 +92,7 @@ export const Start = (): JSX.Element => {
 				</Button>
 			</Flex>
 			<Flex css={{ mt: '$2' }}>
-				<Button color="tertiary" size="5" onClick={handleRestoreFromPhrase} fullWidth>
+				<Button color="tertiary" size="5" onClick={connectHardwareWallet} fullWidth>
 					<Box as="span">Connect Ledger</Box>
 					<Box as="span" css={{ pl: '4px', mt: '1px' }}>
 						<HardwareWalletIcon />
