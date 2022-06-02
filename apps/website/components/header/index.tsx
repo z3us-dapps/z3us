@@ -30,7 +30,7 @@ export const Header: React.FC<IProps> = ({ isLandingPage }) => {
 			setState(draft => {
 				draft.isScrolled = true
 			})
-		} else if (window.scrollY === 0) {
+		} else if (window.scrollY <= 0) {
 			setState(draft => {
 				draft.isScrolled = false
 			})

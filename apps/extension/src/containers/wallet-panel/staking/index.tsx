@@ -121,7 +121,7 @@ export const Staking: React.FC = () => {
 														No stakes.
 													</Text>
 													<Text size="3" css={{ mt: '$1', maxWidth: '260px', display: 'block', lineHeight: '21px' }}>
-														Eary XRD by staking your tokens to a community validator.{'  '}
+														Earn XRD by staking your tokens to a community validator.{'  '}
 														<StyledLink
 															as="a"
 															href="https://learn.radixdlt.com/article/how-to-stake-and-unstake-xrd-in-the-desktop-wallet"
