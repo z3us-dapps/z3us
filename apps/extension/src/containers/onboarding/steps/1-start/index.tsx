@@ -1,15 +1,18 @@
 import React, { useEffect } from 'react'
+import { useLocation } from 'wouter'
 import Button from 'ui/src/components/button'
-import { useConnectHardwareWallet } from '@src/hooks/use-connect-hardware-wallet'
 import { HardwareWalletIcon } from 'ui/src/components/icons'
 import Pill from 'ui/src/components/pill'
 import { MotionBox } from 'ui/src/components/atoms/motion-box'
 import { useImmer } from 'use-immer'
 import { PageWrapper } from '@src/components/layout'
 import { Text, Box, Flex, StyledLink } from 'ui/src/components/atoms'
-import { useSharedStore } from '@src/store'
+import { useSharedStore, useStore } from '@src/store'
 import { onBoardingSteps } from '@src/store/onboarding'
 import { Z3usText } from 'ui/src/components/z3us-text'
+import { KeystoreType } from '@src/store/types'
+import { generateId } from '@src/utils/generate-id'
+import { popupHtmlMap } from '@src/config'
 import { CheckItem } from './check-item'
 
 const setupItems = {
@@ -30,23 +33,45 @@ const ulVariants = {
 }
 
 export const Start = (): JSX.Element => {
-	const { setOnboardingStep, setIsRestoreWorkflow } = useSharedStore(state => ({
+	const [, setLocation] = useLocation()
+	const { theme, setOnboardingStep, setIsRestoreWorkflow, lock, addKeystore } = useSharedStore(state => ({
+		theme: state.theme,
 		setOnboardingStep: state.setOnboardingStepAction,
 		setIsRestoreWorkflow: state.setIsRestoreWorkflowAction,
+		lock: state.lockAction,
+		addKeystore: state.addKeystoreAction,
 	}))
-	const [connectHardwareWallet] = useConnectHardwareWallet()
+	const { createNewKeystore } = useStore(state => ({
+		createNewKeystore: Object.keys(state.publicAddresses).length > 0,
+	}))
 	const [state, setState] = useImmer({
 		mounted: false,
 	})
 
-	const handleCreateNewWallet = () => {
+	const createKeystore = async (type: KeystoreType) => {
+		if (createNewKeystore || KeystoreType.LOCAL !== type) {
+			const id = generateId()
+			addKeystore(id, id, type)
+			await lock() // clear background memory
+		}
+	}
+
+	const handleCreateNewWallet = async () => {
+		await createKeystore(KeystoreType.LOCAL)
 		setIsRestoreWorkflow(false)
 		setOnboardingStep(onBoardingSteps.GENERATE_PHRASE)
 	}
 
-	const handleRestoreFromPhrase = () => {
+	const handleRestoreFromPhrase = async () => {
+		await createKeystore(KeystoreType.LOCAL)
 		setIsRestoreWorkflow(true)
 		setOnboardingStep(onBoardingSteps.INSERT_PHRASE)
+	}
+
+	const connectHardwareWallet = async () => {
+		await createKeystore(KeystoreType.HARDWARE)
+		window.open(`${window.location.origin}/${popupHtmlMap[theme]}#/hardware-wallet`)
+		setLocation('#/hardware-wallet')
 	}
 
 	useEffect(() => {

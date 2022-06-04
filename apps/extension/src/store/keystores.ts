@@ -1,9 +1,7 @@
 import { SetState } from 'zustand'
 import { KeystoresStore, KeystoreType, SharedStore } from './types'
 
-export const whiteList = ['keystores', 'selectKeystoreName']
-
-export const keystoreNameBlackList = ['shared', 'hw']
+export const whiteList = ['keystores', 'selectKeystoreId']
 
 export const factory = (set: SetState<SharedStore>): KeystoresStore => ({
 	hasKeystore: false,
@@ -17,9 +15,6 @@ export const factory = (set: SetState<SharedStore>): KeystoresStore => ({
 	},
 
 	addKeystoreAction: (id: string, name: string, type: KeystoreType) => {
-		if (keystoreNameBlackList.includes(id)) {
-			return
-		}
 		set(draft => {
 			draft.keystores = [...draft.keystores, { id, name, type }]
 			draft.selectKeystoreId = id
@@ -27,9 +22,6 @@ export const factory = (set: SetState<SharedStore>): KeystoresStore => ({
 	},
 
 	changeKeystoreNameAction: (id: string, name: string) => {
-		if (keystoreNameBlackList.includes(id)) {
-			return
-		}
 		set(draft => {
 			draft.keystores = draft.keystores.map(keystore => (keystore.id === id ? { ...keystore, name } : keystore))
 		})

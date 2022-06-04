@@ -1,7 +1,6 @@
 import React from 'react'
 import { useSharedStore } from '@src/store'
 import { useImmer } from 'use-immer'
-import { generateId } from '@src/utils/generate-id'
 import Button from 'ui/src/components/button'
 import { Z3usIcon, TrashIcon, HardwareWalletIcon } from 'ui/src/components/icons'
 import { ToolTip } from 'ui/src/components/tool-tip'
@@ -29,30 +28,19 @@ import {
 } from 'ui/src/components/drop-down-menu'
 import { KeystoreType } from '@src/store/types'
 
-const DEFAULT_KEYSTORE_NAME = 'main'
-
 export const Z3usMenu: React.FC = () => {
-	const {
-		keystores,
-		keystoreId,
-		selectKeystore,
-		addKeystore,
-		removeKeystore,
-		changeKeystoreName,
-		removeWallet,
-		lock,
-		isUnlocked,
-	} = useSharedStore(state => ({
-		keystores: state.keystores,
-		keystoreId: state.selectKeystoreId,
-		addKeystore: state.addKeystoreAction,
-		removeKeystore: state.removeKeystoreAction,
-		selectKeystore: state.selectKeystoreAction,
-		changeKeystoreName: state.changeKeystoreNameAction,
-		lock: state.lockAction,
-		removeWallet: state.removeWalletAction,
-		isUnlocked: Boolean(state.masterSeed || state.isHardwareWallet),
-	}))
+	const { keystores, keystoreId, selectKeystore, removeKeystore, changeKeystoreName, removeWallet, lock, isUnlocked } =
+		useSharedStore(state => ({
+			keystores: state.keystores,
+			keystoreId: state.selectKeystoreId,
+			addKeystore: state.addKeystoreAction,
+			removeKeystore: state.removeKeystoreAction,
+			selectKeystore: state.selectKeystoreAction,
+			changeKeystoreName: state.changeKeystoreNameAction,
+			lock: state.lockAction,
+			removeWallet: state.removeWalletAction,
+			isUnlocked: Boolean(state.masterSeed || state.isHardwareWallet),
+		}))
 
 	const [state, setState] = useImmer({
 		isOpen: false,
@@ -60,8 +48,6 @@ export const Z3usMenu: React.FC = () => {
 		editing: undefined,
 		tempEdit: '',
 	})
-
-	const hasMultipleKeystores = keystores?.length > 0
 
 	const handleLockWallet = async () => {
 		await lock()
@@ -72,18 +58,8 @@ export const Z3usMenu: React.FC = () => {
 		await lock()
 	}
 
-	const handleAddLocal = async () => {
-		const id = generateId()
-		addKeystore(id, id, KeystoreType.LOCAL)
-		await lock() // clear background memory
+	const handleAdd = () => {
 		window.location.hash = '#/onboarding'
-	}
-
-	const handleAddHardware = async () => {
-		const id = generateId()
-		addKeystore(id, id, KeystoreType.HARDWARE)
-		await lock() // clear background memory
-		window.location.hash = '#/hardware-wallet'
 	}
 
 	const confirmRemoveWallet = () => async () => {
@@ -134,7 +110,7 @@ export const Z3usMenu: React.FC = () => {
 	}
 
 	const handleSaveWalletName = () => {
-		changeKeystoreName(state.keystoreId, state.tempEdit)
+		changeKeystoreName(state.editing, state.tempEdit)
 		setState(draft => {
 			draft.editing = undefined
 			draft.tempEdit = undefined
@@ -151,84 +127,53 @@ export const Z3usMenu: React.FC = () => {
 						</Button>
 					</DropdownMenuTrigger>
 					<DropdownMenuContent side="bottom" sideOffset={6} alignOffset={-3} css={{ minWidth: '130px' }}>
-						{hasMultipleKeystores ? (
-							<DropdownMenu>
-								<DropdownMenuTriggerItem>
-									<Box css={{ flex: '1', pr: '$1' }}>Wallet</Box>
-									<DropdownMenuRightSlot>
-										<ChevronRightIcon />
-									</DropdownMenuRightSlot>
-								</DropdownMenuTriggerItem>
-								<DropdownMenuContent avoidCollisions side="right" css={{ minWidth: '180px' }}>
-									<DropdownMenuRadioGroup value={keystoreId} onValueChange={handleValueChange}>
-										<DropdownMenuRadioItem value="">
+						<DropdownMenu>
+							<DropdownMenuTriggerItem>
+								<Box css={{ flex: '1', pr: '$1' }}>Wallet</Box>
+								<DropdownMenuRightSlot>
+									<ChevronRightIcon />
+								</DropdownMenuRightSlot>
+							</DropdownMenuTriggerItem>
+							<DropdownMenuContent avoidCollisions side="right" css={{ minWidth: '180px' }}>
+								<DropdownMenuRadioGroup value={keystoreId} onValueChange={handleValueChange}>
+									{keystores.map(({ id, name, type }) => (
+										<DropdownMenuRadioItem key={id} value={id}>
 											<DropdownMenuItemIndicator css={{ width: '16px', left: '0', right: 'unset' }} />
 											<Flex align="center" css={{ width: '100%', pl: '$2' }}>
 												<Box css={{ flex: '1' }}>
 													<Text size="2" bold truncate css={{ maxWidth: '100px' }}>
-														{DEFAULT_KEYSTORE_NAME}
+														{name}
+														{type === KeystoreType.HARDWARE && <HardwareWalletIcon />}
 													</Text>
 												</Box>
 												<Box>
+													<ToolTip message="Delete">
+														<Button size="1" iconOnly color="ghost" onClick={() => handleRemoveWallet(id)}>
+															<TrashIcon />
+														</Button>
+													</ToolTip>
 													<ToolTip message="Edit">
-														<Button
-															size="1"
-															iconOnly
-															color="ghost"
-															onClick={() => handleEditWalletName(DEFAULT_KEYSTORE_NAME)}
-														>
+														<Button size="1" iconOnly color="ghost" onClick={() => handleEditWalletName(id)}>
 															<Pencil2Icon />
 														</Button>
 													</ToolTip>
 												</Box>
 											</Flex>
 										</DropdownMenuRadioItem>
-										{keystores.map(({ id, name, type }) => (
-											<DropdownMenuRadioItem key={keystoreId} value={keystoreId}>
-												<DropdownMenuItemIndicator css={{ width: '16px', left: '0', right: 'unset' }} />
-												<Flex align="center" css={{ width: '100%', pl: '$2' }}>
-													<Box css={{ flex: '1' }}>
-														<Text size="2" bold truncate css={{ maxWidth: '100px' }}>
-															{name}
-															{type === KeystoreType.HARDWARE && <HardwareWalletIcon />}
-														</Text>
-													</Box>
-													<Box>
-														<ToolTip message="Delete">
-															<Button size="1" iconOnly color="ghost" onClick={() => handleRemoveWallet(id)}>
-																<TrashIcon />
-															</Button>
-														</ToolTip>
-														<ToolTip message="Edit">
-															<Button size="1" iconOnly color="ghost" onClick={() => handleEditWalletName(id)}>
-																<Pencil2Icon />
-															</Button>
-														</ToolTip>
-													</Box>
-												</Flex>
-											</DropdownMenuRadioItem>
-										))}
-									</DropdownMenuRadioGroup>
-								</DropdownMenuContent>
-							</DropdownMenu>
-						) : null}
-						{isUnlocked ? (
+									))}
+								</DropdownMenuRadioGroup>
+							</DropdownMenuContent>
+						</DropdownMenu>
+						<DropdownMenuItem onSelect={handleAdd}>
+							<Box css={{ flex: '1', pr: '$4' }}>Add new wallet</Box>
+						</DropdownMenuItem>
+						{isUnlocked && (
 							<DropdownMenuItem onSelect={handleLockWallet}>
 								<Box css={{ flex: '1' }}>Lock wallet</Box>
 								<DropdownMenuRightSlot>
 									<LockClosedIcon />
 								</DropdownMenuRightSlot>
 							</DropdownMenuItem>
-						) : (
-							<>
-								<DropdownMenuItem onSelect={handleAddLocal}>
-									<Box css={{ flex: '1', pr: '$4' }}>Add local wallet</Box>
-								</DropdownMenuItem>
-
-								<DropdownMenuItem onSelect={handleAddHardware}>
-									<Box css={{ flex: '1', pr: '$4' }}>Add Hardware wallet</Box>
-								</DropdownMenuItem>
-							</>
 						)}
 					</DropdownMenuContent>
 				</DropdownMenu>
