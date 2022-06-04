@@ -108,11 +108,12 @@ export type KeystoresStore = {
 	setHasKeystoreAction: (hasKeystore: boolean) => void
 
 	selectKeystoreId: string
-	selectKeystore: (id: string) => void
+	selectKeystoreAction: (id: string) => void
 
 	keystores: Keystore[]
-	addKeystore: (id: string, name: string, type: KeystoreType) => void
-	removeKeystore: (id: string) => void
+	addKeystoreAction: (id: string, name: string, type: KeystoreType) => void
+	removeKeystoreAction: (id: string) => void
+	changeKeystoreNameAction: (id: string, name: string) => void
 }
 
 export type LocalWalletStore = {

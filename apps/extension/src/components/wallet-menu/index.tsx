@@ -1,8 +1,8 @@
 import React, { useState } from 'react'
 import { useSharedStore } from '@src/store'
-import { useLocation } from 'wouter'
 import Button from 'ui/src/components/button'
-import { LockClosedIcon, ChevronRightIcon } from '@radix-ui/react-icons'
+import { useConnectHardwareWallet } from '@src/hooks/use-connect-hardware-wallet'
+import { ChevronRightIcon } from '@radix-ui/react-icons'
 import { HardwareWalletIcon } from 'ui/src/components/icons'
 import { Box, MotionBox } from 'ui/src/components/atoms'
 import {
@@ -19,30 +19,20 @@ import {
 } from 'ui/src/components/drop-down-menu'
 
 export const WalletMenu: React.FC = () => {
-	const [, setLocation] = useLocation()
-	const { seed, hw, theme, setTheme, lock } = useSharedStore(state => ({
+	const { seed, theme, setTheme } = useSharedStore(state => ({
 		theme: state.theme,
 		setTheme: state.setThemeAction,
 		lock: state.lockAction,
 		seed: state.masterSeed,
-		hw: state.hardwareWallet,
 	}))
 	const [isOpen, setIsopen] = useState(false)
-
-	const handleLockWallet = async () => {
-		await lock()
-	}
-
-	const handleConnectHW = () => {
-		window.open(`${window.location.origin}/popup-theme-light.html#/hardware-wallet`)
-		setLocation('#/hardware-wallet')
-	}
+	const [connectHardwareWallet] = useConnectHardwareWallet()
 
 	return (
 		<MotionBox animate={isOpen ? 'open' : 'closed'}>
 			<DropdownMenu onOpenChange={setIsopen}>
 				<DropdownMenuTrigger asChild>
-					<Button iconOnly aria-label="wallet options" color="ghost" size="3" css={{ mt: '2px', mr: '2px' }}>
+					<Button iconOnly aria-label="wallet options" color="ghost" size="3">
 						<DropdownMenuHamburgerIcon
 							css={{
 								stroke: isOpen ? '$iconDefault' : '$iconDefault',
@@ -85,21 +75,21 @@ export const WalletMenu: React.FC = () => {
 						</DropdownMenuContent>
 					</DropdownMenu>
 					{seed && (
-						<DropdownMenuItem onSelect={handleConnectHW}>
-							<Box css={{ flex: '1', pr: '$4' }}>Connect hardware wallet</Box>
+						<DropdownMenuItem onSelect={connectHardwareWallet}>
+							<Box css={{ flex: '1', pr: '$4' }}>Connect ledger</Box>
 							<DropdownMenuRightSlot>
 								<HardwareWalletIcon />
 							</DropdownMenuRightSlot>
 						</DropdownMenuItem>
 					)}
-					{(seed || hw) && (
+					{/*{(seed || hw) && (
 						<DropdownMenuItem onSelect={handleLockWallet}>
 							<Box css={{ flex: '1' }}>Lock wallet</Box>
 							<DropdownMenuRightSlot>
 								<LockClosedIcon />
 							</DropdownMenuRightSlot>
 						</DropdownMenuItem>
-					)}
+					)}*/}
 				</DropdownMenuContent>
 			</DropdownMenu>
 		</MotionBox>

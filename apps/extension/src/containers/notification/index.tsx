@@ -16,7 +16,7 @@ import { Transaction } from './transaction'
 export const Notification: React.FC = () => {
 	const { isUnlocked, hasKeystore } = useSharedStore(state => ({
 		hasKeystore: state.hasKeystore,
-		isUnlocked: Boolean(state.hardwareWallet || state.masterSeed),
+		isUnlocked: Boolean(state.masterSeed || state.isHardwareWallet),
 	}))
 
 	useEffect(() => {

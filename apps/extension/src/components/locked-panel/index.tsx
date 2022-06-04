@@ -10,7 +10,6 @@ import InputFeedBack from 'ui/src/components/input/input-feedback'
 import Button from 'ui/src/components/button'
 import { Z3usText } from 'ui/src/components/z3us-text'
 import { isWebAuthSupported } from '@src/services/credentials'
-import { KeystoreSelector } from '@src/components/keystore-selector'
 import { KeystoreType } from '@src/store/types'
 
 export const LockedPanel: React.FC = () => {
@@ -155,7 +154,7 @@ export const LockedPanel: React.FC = () => {
 						justifyContent: 'space-between',
 					}}
 				>
-					<Box css={{ opacity: '0', pe: 'none' }}>
+					<Box>
 						<Z3usMenu />
 					</Box>
 					<WalletMenu />
@@ -169,31 +168,29 @@ export const LockedPanel: React.FC = () => {
 					</Box>
 				</Flex>
 
-				<Flex align="center" justify="center">
-					<KeystoreSelector />
-				</Flex>
-
 				<form onSubmit={handleSubmitForm}>
 					<Box css={{ p: '$6' }}>
-						<Box>
-							<Input
-								type="password"
-								size="2"
-								ref={inputRef}
-								placeholder="Enter password"
-								focusOnMount
-								value={state.password}
-								error={state.passwordError}
-								onChange={handlePasswordChange}
-							/>
-							<InputFeedBack showFeedback={state.passwordError} animateHeight={31}>
-								<StyledLink underlineOnHover href="#/onboarding" css={{ display: 'block', mt: '12px' }}>
-									<Text uppercase medium>
-										Forgot password?
-									</Text>
-								</StyledLink>
-							</InputFeedBack>
-						</Box>
+						{keystore.type === KeystoreType.LOCAL && (
+							<Box>
+								<Input
+									type="password"
+									size="2"
+									ref={inputRef}
+									placeholder="Enter password"
+									focusOnMount
+									value={state.password}
+									error={state.passwordError}
+									onChange={handlePasswordChange}
+								/>
+								<InputFeedBack showFeedback={state.passwordError} animateHeight={31}>
+									<StyledLink underlineOnHover href="#/onboarding" css={{ display: 'block', mt: '12px' }}>
+										<Text uppercase medium>
+											Forgot password?
+										</Text>
+									</StyledLink>
+								</InputFeedBack>
+							</Box>
+						)}
 						<Flex css={{ mt: '$3' }}>
 							<Button type="submit" loading={state.isLoading} color="primary" size="6" css={{ flex: '1' }}>
 								Unlock

@@ -48,7 +48,7 @@ export const WalletPanel = (): JSX.Element => {
 	const { isUnlocked, activeApp, hasKeystore } = useSharedStore(state => ({
 		activeApp: state.activeApp,
 		hasKeystore: state.hasKeystore,
-		isUnlocked: Boolean(state.masterSeed || state.hardwareWallet),
+		isUnlocked: Boolean(state.masterSeed || state.isHardwareWallet),
 	}))
 	const [page, direction] = activeApp
 	const routes = Object.values(routesInfo)

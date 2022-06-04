@@ -26,7 +26,7 @@ export const KeyManagementSettings: React.FC = () => {
 		keystore: state.keystores.find(({ id }) => id === state.selectKeystoreId),
 		createWallet: state.createWalletAction,
 		removeWallet: state.removeWalletAction,
-		removeKeystore: state.removeKeystore,
+		removeKeystore: state.removeKeystoreAction,
 		setSeed: state.setMasterSeedAction,
 	}))
 	const { reset, selectAccount } = useStore(state => ({
