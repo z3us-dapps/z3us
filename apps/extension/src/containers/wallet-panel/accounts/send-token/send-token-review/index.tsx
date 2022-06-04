@@ -15,6 +15,7 @@ import Button from 'ui/src/components/button'
 import { InfoStatBlock } from '@src/components/info-stat-block'
 import { SlippageBox } from '@src/components/slippage-box'
 import { Z3usSpinnerAnimation } from '@src/components/z3us-spinner-animation'
+import { HardwareWalletReconnect } from '@src/components/hardware-wallet-reconnect'
 import { EXPLORER_URL } from '@src/config'
 import { Box, Text, Flex, StyledLink } from 'ui/src/components/atoms'
 import { AlertDialog, AlertDialogTrigger, AlertDialogContent } from 'ui/src/components/alert-dialog'
@@ -124,6 +125,7 @@ export const SendTokenReview: React.FC<IProps> = ({
 			}}
 		>
 			<SendReceiveHeader onExit={handleGoBack} />
+			<HardwareWalletReconnect />
 			<Box css={{ p: '$2', px: '23px', flex: '1' }}>
 				<Box>
 					<Text css={{ fontSize: '32px', lineHeight: '38px', fontWeight: '800' }}>Confirm send</Text>

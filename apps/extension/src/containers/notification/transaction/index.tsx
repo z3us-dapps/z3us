@@ -14,6 +14,7 @@ import { hexToJSON } from '@src/utils/encoding'
 import { SlippageBox } from '@src/components/slippage-box'
 import { CONFIRM } from '@src/lib/actions'
 import { ActivityType } from '@src/components/activity-type'
+import { HardwareWalletReconnect } from '@src/components/hardware-wallet-reconnect'
 
 export const Transaction = (): JSX.Element => {
 	const [, { id }] = useRoute<{ id: string }>('/transaction/:id')
@@ -137,6 +138,9 @@ export const Transaction = (): JSX.Element => {
 						</StyledLink>
 						.
 					</PageSubHeading>
+				</Box>
+				<Box css={{ mt: '$8', flex: '1' }}>
+					<HardwareWalletReconnect />
 				</Box>
 				<Box>
 					{tx && tx.actions && (

@@ -10,6 +10,7 @@ import {
 	UnstakeTokens,
 	StakeTokens,
 } from '@src/services/radix/transactions'
+import { HardwareWalletReconnect } from '@src/components/hardware-wallet-reconnect'
 import { useEventListener } from 'usehooks-ts'
 import {
 	useNativeToken,
@@ -216,6 +217,7 @@ export const StakeModal: React.FC<IProps> = ({ trigger, tooltipMessage, validato
 								{entry?.name ? `${entry.name} (${shortAddress})` : shortAddress}
 							</Text>
 						</Flex>
+						<HardwareWalletReconnect />
 						<Box css={{ mt: '$3' }}>
 							<Input
 								value={state.validator}
