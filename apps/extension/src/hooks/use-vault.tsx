@@ -11,7 +11,6 @@ const refreshInterval = 60 * 1000 // 1 minute
 
 export const useVault = () => {
 	const { setHasKeystore, setMessanger, setMasterSeed } = useSharedStore(state => ({
-		keystore: state.selectKeystoreName,
 		setHasKeystore: state.setHasKeystoreAction,
 		setMessanger: state.setMessangerAction,
 		setMasterSeed: state.setMasterSeedAction,

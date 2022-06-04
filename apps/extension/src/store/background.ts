@@ -83,6 +83,7 @@ export const factory = (set: SetState<SharedStore>, get: GetState<SharedStore>):
 		}
 		await messanger.sendActionMessageFromPopup(LOCK, null)
 		set(state => {
+			state.isHardwareWallet = false
 			state.hardwareWallet = null
 			state.masterSeed = null
 		})

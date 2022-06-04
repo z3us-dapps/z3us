@@ -11,21 +11,26 @@ import Button from 'ui/src/components/button'
 import { Z3usText } from 'ui/src/components/z3us-text'
 import { isWebAuthSupported } from '@src/services/credentials'
 import { KeystoreSelector } from '@src/components/keystore-selector'
+import { KeystoreType } from '@src/store/types'
 
 export const LockedPanel: React.FC = () => {
 	const inputRef = useRef(null)
 	const { addToast } = useSharedStore(state => ({
 		addToast: state.addToastAction,
 	}))
-	const { unlock, hasAuth, authenticate, isUnlocked, setSeed, hw, seed } = useSharedStore(state => ({
-		isUnlocked: Boolean(state.masterSeed || state.hardwareWallet),
-		hw: state.hardwareWallet,
-		seed: state.masterSeed,
-		unlock: state.unlockWalletAction,
-		hasAuth: state.hasAuthAction,
-		authenticate: state.authenticateAction,
-		setSeed: state.setMasterSeedAction,
-	}))
+	const { keystore, unlock, unlockHW, hasAuth, authenticate, isUnlocked, setSeed, hw, seed } = useSharedStore(
+		state => ({
+			keystore: state.keystores.find(({ id }) => id === state.selectKeystoreId),
+			isUnlocked: Boolean(state.masterSeed || state.isHardwareWallet),
+			hw: state.hardwareWallet,
+			seed: state.masterSeed,
+			unlock: state.unlockWalletAction,
+			hasAuth: state.hasAuthAction,
+			authenticate: state.authenticateAction,
+			setSeed: state.setMasterSeedAction,
+			unlockHW: state.unlockHardwareWalletAction,
+		}),
+	)
 	const { selectAccount } = useStore(state => ({
 		selectAccount: state.selectAccountAction,
 	}))
@@ -41,8 +46,18 @@ export const LockedPanel: React.FC = () => {
 		})
 
 		try {
-			await setSeed(await unlock(password))
-			await selectAccount(0, hw, seed)
+			switch (keystore.type) {
+				case KeystoreType.LOCAL:
+					await setSeed(await unlock(password))
+					await selectAccount(0, hw, seed)
+					break
+				case KeystoreType.HARDWARE:
+					await unlockHW()
+					await selectAccount(0, hw, seed)
+					break
+				default:
+					throw new Error(`Unknown keystore ${keystore.id} (${keystore.name}) type: ${keystore.type}`)
+			}
 		} catch (error) {
 			if (state.passwordError) {
 				addToast({

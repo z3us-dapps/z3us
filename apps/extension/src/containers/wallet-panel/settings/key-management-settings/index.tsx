@@ -23,7 +23,7 @@ export const KeyManagementSettings: React.FC = () => {
 	const [, setLocation] = useLocation()
 	const { keystore, messanger, createWallet, removeWallet, removeKeystore, setSeed } = useSharedStore(state => ({
 		messanger: state.messanger,
-		keystore: state.selectKeystoreName,
+		keystore: state.keystores.find(({ id }) => id === state.selectKeystoreId),
 		createWallet: state.createWalletAction,
 		removeWallet: state.removeWalletAction,
 		removeKeystore: state.removeKeystore,
@@ -46,8 +46,8 @@ export const KeyManagementSettings: React.FC = () => {
 	const handleResetWallet = async () => {
 		await removeWallet()
 		reset()
-		if (keystore !== '') {
-			removeKeystore(keystore)
+		if (keystore) {
+			removeKeystore(keystore.id)
 		}
 		setLocation('#/onboarding')
 	}

@@ -1,5 +1,5 @@
 import { SetState } from 'zustand'
-import { KeystoresStore, SharedStore } from './types'
+import { KeystoresStore, KeystoreType, SharedStore } from './types'
 
 export const whiteList = ['keystores', 'selectKeystoreName']
 
@@ -8,7 +8,7 @@ export const keystoreNameBlackList = ['shared', 'hw']
 export const factory = (set: SetState<SharedStore>): KeystoresStore => ({
 	hasKeystore: false,
 	keystores: [],
-	selectKeystoreName: '',
+	selectKeystoreId: '',
 
 	setHasKeystoreAction: (hasKeystore: boolean) => {
 		set(state => {
@@ -16,28 +16,28 @@ export const factory = (set: SetState<SharedStore>): KeystoresStore => ({
 		})
 	},
 
-	addKeystore: async (keystoreId: string) => {
-		if (keystoreNameBlackList.includes(keystoreId)) {
+	addKeystore: async (id: string, name: string, type: KeystoreType) => {
+		if (keystoreNameBlackList.includes(id)) {
 			return
 		}
 		set(draft => {
-			draft.keystores = [...draft.keystores, keystoreId]
-			draft.selectKeystoreName = keystoreId
+			draft.keystores = [...draft.keystores, { id, name, type }]
+			draft.selectKeystoreId = id
 		})
 	},
 
 	removeKeystore: async (keystoreId: string) => {
 		set(draft => {
-			if (draft.selectKeystoreName === keystoreId) {
-				draft.selectKeystoreName = ''
+			if (draft.selectKeystoreId === keystoreId) {
+				draft.selectKeystoreId = ''
 			}
-			draft.keystores = draft.keystores.filter(id => keystoreId !== id)
+			draft.keystores = draft.keystores.filter(({ id }) => keystoreId !== id)
 		})
 	},
 
 	selectKeystore: async (keystoreId: string) => {
 		set(draft => {
-			draft.selectKeystoreName = draft.keystores.find(id => id === keystoreId) || ''
+			draft.selectKeystoreId = draft.keystores.find(({ id }) => id === keystoreId)?.id || ''
 		})
 	},
 })

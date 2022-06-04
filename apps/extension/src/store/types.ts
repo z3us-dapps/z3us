@@ -21,13 +21,22 @@ export type Network = {
 export type AddressBookEntry = {
 	name?: string
 	address?: string
-	isOwn?: boolean
-	isHardWallet?: boolean
 	background?: string
 	colorSettings?: { [key in ColorSettings]: string }
 }
 
 export type PendingAction = { payloadHex: string; createdAt: Date }
+
+export enum KeystoreType {
+	LOCAL = 'local',
+	HARDWARE = 'hardware',
+}
+
+export type Keystore = {
+	id: string
+	name: string
+	type: KeystoreType
+}
 
 export type ToastsStore = {
 	toasts: Array<Toast>
@@ -98,11 +107,11 @@ export type KeystoresStore = {
 	hasKeystore: boolean
 	setHasKeystoreAction: (hasKeystore: boolean) => void
 
-	selectKeystoreName: string
+	selectKeystoreId: string
 	selectKeystore: (id: string) => void
 
-	keystores: string[]
-	addKeystore: (id: string) => void
+	keystores: Keystore[]
+	addKeystore: (id: string, name: string, type: KeystoreType) => void
 	removeKeystore: (id: string) => void
 }
 
@@ -113,8 +122,10 @@ export type LocalWalletStore = {
 }
 
 export type HardwareWalletStore = {
-	hardwareWallet: HardwareWalletT | null
+	isHardwareWallet: boolean
+	unlockHardwareWalletAction: () => void
 
+	hardwareWallet: HardwareWalletT | null
 	setHardwareWalletAction: (hw: HardwareWalletT) => void
 	sendAPDUAction: (
 		cla: number,
@@ -132,7 +143,7 @@ export type WalletStore = {
 	getCurrentAddressAction: () => string
 
 	publicAddresses: { [key: number]: AddressBookEntry }
-	setPublicAddressesAction: (addresses: { [key: number]: string }, isHW: boolean) => void
+	setPublicAddressesAction: (addresses: { [key: number]: string }) => void
 	setPublicAddressAction: (address: string, entry: AddressBookEntry) => void
 	removePublicAddressesAction: (index: number) => void
 

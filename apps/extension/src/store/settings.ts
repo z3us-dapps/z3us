@@ -18,7 +18,7 @@ export const factory = (set: SetState<SharedStore>): SettingsStore => ({
 		set(state => {
 			state.addressBook = {
 				...state.addressBook,
-				[address]: { ...state.addressBook[address], address, ...settings, isOwn: false },
+				[address]: { ...state.addressBook[address], address, ...settings },
 			}
 		})
 	},

@@ -72,9 +72,8 @@ const updatePublicAddressEntry = async (
 		})
 		set(draft => {
 			draft.publicAddresses[index] = {
-				...getDefaultAddressEntry(index, false),
+				...getDefaultAddressEntry(index),
 				...state.publicAddresses[index],
-				isOwn: true,
 				address: address.toString(),
 			}
 		})
@@ -107,14 +106,13 @@ export const factory = (set: SetState<AccountStore>, get: GetState<AccountStore>
 		return publicAddresses[publicIndexes[selectedAccountIndex]]?.address
 	},
 
-	setPublicAddressesAction: (addresses: { [key: number]: string }, isHW: boolean) => {
+	setPublicAddressesAction: (addresses: { [key: number]: string }) => {
 		set(state => {
 			const publicAddresses = {}
 			Object.keys(addresses).forEach((key, index) => {
 				publicAddresses[key] = {
-					...getDefaultAddressEntry(index, isHW),
+					...getDefaultAddressEntry(index),
 					...state.publicAddresses[key],
-					isOwn: true,
 					address: addresses[key],
 				}
 			})
@@ -130,7 +128,7 @@ export const factory = (set: SetState<AccountStore>, get: GetState<AccountStore>
 			)
 			const entry = state.publicAddresses[publicIndexes[index]]
 			if (entry) {
-				state.publicAddresses = { ...state.publicAddresses, [index]: { ...entry, address, ...settings, isOwn: true } }
+				state.publicAddresses = { ...state.publicAddresses, [index]: { ...entry, ...settings, address } }
 			}
 		})
 	},

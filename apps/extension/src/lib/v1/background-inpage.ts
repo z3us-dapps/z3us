@@ -32,8 +32,8 @@ export default function NewV1BackgroundInpageActions(
 		const tab = await browser.getCurrentTab()
 		const url = new URL(tab.url)
 
-		const { selectKeystoreName } = sharedStore.getState()
-		const useStore = accountStore(selectKeystoreName)
+		const { selectKeystoreId } = sharedStore.getState()
+		const useStore = accountStore(selectKeystoreId)
 		const state = useStore.getState()
 		const { approvedWebsites } = state
 
@@ -53,8 +53,8 @@ export default function NewV1BackgroundInpageActions(
 		const tab = await browser.getCurrentTab()
 		const url = new URL(tab.url)
 
-		const { selectKeystoreName } = sharedStore.getState()
-		const useStore = accountStore(selectKeystoreName)
+		const { selectKeystoreId } = sharedStore.getState()
+		const useStore = accountStore(selectKeystoreId)
 		const state = useStore.getState()
 		const { approvedWebsites } = state
 
@@ -65,8 +65,8 @@ export default function NewV1BackgroundInpageActions(
 		const tab = await browser.getCurrentTab()
 		const url = new URL(tab.url)
 
-		const { selectKeystoreName } = sharedStore.getState()
-		const useStore = accountStore(selectKeystoreName)
+		const { selectKeystoreId } = sharedStore.getState()
+		const useStore = accountStore(selectKeystoreId)
 		const state = useStore.getState()
 		const { approvedWebsites, selectedAccountIndex, publicAddresses } = state
 		const allAddresses = Object.values(publicAddresses).map(entry => entry.address)
@@ -89,8 +89,8 @@ export default function NewV1BackgroundInpageActions(
 		const tab = await browser.getCurrentTab()
 		const url = new URL(tab.url)
 
-		const { selectKeystoreName } = sharedStore.getState()
-		const useStore = accountStore(selectKeystoreName)
+		const { selectKeystoreId } = sharedStore.getState()
+		const useStore = accountStore(selectKeystoreId)
 		const state = useStore.getState()
 		const { declineWebsiteAction } = state
 
@@ -104,8 +104,8 @@ export default function NewV1BackgroundInpageActions(
 			return
 		}
 
-		const { selectKeystoreName } = sharedStore.getState()
-		const useStore = accountStore(selectKeystoreName)
+		const { selectKeystoreId } = sharedStore.getState()
+		const useStore = accountStore(selectKeystoreId)
 		const state = useStore.getState()
 		const { publicAddresses } = state
 
@@ -126,8 +126,8 @@ export default function NewV1BackgroundInpageActions(
 		const tab = await browser.getCurrentTab()
 		const url = new URL(tab.url)
 
-		const { selectKeystoreName } = sharedStore.getState()
-		const useStore = accountStore(selectKeystoreName)
+		const { selectKeystoreId } = sharedStore.getState()
+		const useStore = accountStore(selectKeystoreId)
 		const state = useStore.getState()
 
 		actionsToConfirm[id] = port
@@ -168,8 +168,8 @@ export default function NewV1BackgroundInpageActions(
 		const tab = await browser.getCurrentTab()
 		const url = new URL(tab.url)
 
-		const { selectKeystoreName } = sharedStore.getState()
-		const useStore = accountStore(selectKeystoreName)
+		const { selectKeystoreId } = sharedStore.getState()
+		const useStore = accountStore(selectKeystoreId)
 		const state = useStore.getState()
 
 		actionsToConfirm[id] = port
@@ -188,8 +188,8 @@ export default function NewV1BackgroundInpageActions(
 		const tab = await browser.getCurrentTab()
 		const url = new URL(tab.url)
 
-		const { selectKeystoreName } = sharedStore.getState()
-		const useStore = accountStore(selectKeystoreName)
+		const { selectKeystoreId } = sharedStore.getState()
+		const useStore = accountStore(selectKeystoreId)
 		const state = useStore.getState()
 
 		actionsToConfirm[id] = port
@@ -205,8 +205,8 @@ export default function NewV1BackgroundInpageActions(
 			return
 		}
 
-		const { selectKeystoreName } = sharedStore.getState()
-		const useStore = accountStore(selectKeystoreName)
+		const { selectKeystoreId } = sharedStore.getState()
+		const useStore = accountStore(selectKeystoreId)
 		const state = useStore.getState()
 		const { networks, selectedNetworkIndex, selectedAccountIndex, publicAddresses } = state
 		const allAddresses = Object.values(publicAddresses).map(entry => entry.address)
@@ -230,8 +230,8 @@ export default function NewV1BackgroundInpageActions(
 			return
 		}
 
-		const { selectKeystoreName } = sharedStore.getState()
-		const useStore = accountStore(selectKeystoreName)
+		const { selectKeystoreId } = sharedStore.getState()
+		const useStore = accountStore(selectKeystoreId)
 		const state = useStore.getState()
 		const { networks, selectedNetworkIndex, selectedAccountIndex, publicAddresses } = state
 		const allAddresses = Object.values(publicAddresses).map(entry => entry.address)
@@ -255,8 +255,8 @@ export default function NewV1BackgroundInpageActions(
 			return
 		}
 
-		const { selectKeystoreName } = sharedStore.getState()
-		const useStore = accountStore(selectKeystoreName)
+		const { selectKeystoreId } = sharedStore.getState()
+		const useStore = accountStore(selectKeystoreId)
 		const state = useStore.getState()
 		const { networks, selectedNetworkIndex, selectedAccountIndex, publicAddresses } = state
 		const allAddresses = Object.values(publicAddresses).map(entry => entry.address)

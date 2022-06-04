@@ -122,7 +122,7 @@ export const ImportAccounts = (): JSX.Element => {
 		if (!isHIDSupported || selectedAmount <= 0) {
 			return
 		}
-		setPublicAddresses(state.addressMap, true)
+		setPublicAddresses(state.addressMap)
 		setStep(connectHardwareWalletSteps.COMPLETE)
 	}
 

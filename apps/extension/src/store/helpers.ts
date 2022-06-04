@@ -27,8 +27,7 @@ export const getLocalSigningKeyForIndex = async (masterSeed: HDMasterSeedT | nul
 	})
 }
 
-export const getDefaultAddressEntry = (index: number, isHardWallet: boolean) => ({
-	isHardWallet,
+export const getDefaultAddressEntry = (index: number) => ({
 	background: getDefaultBackgroundForIndex(index),
 	colorSettings: getDefaultColorSettingsForIndex(index),
 })

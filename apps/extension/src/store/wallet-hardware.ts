@@ -24,10 +24,17 @@ export const sendAPDUAction = async (
 
 export const factory = (set: SetState<SharedStore>): HardwareWalletStore => ({
 	hardwareWallet: null,
+	isHardwareWallet: false,
 
 	setHardwareWalletAction: (hw: HardwareWalletT) => {
 		set(draft => {
 			draft.hardwareWallet = hw
+		})
+	},
+
+	unlockHardwareWalletAction: () => {
+		set(draft => {
+			draft.isHardwareWallet = true
 		})
 	},
 

@@ -30,7 +30,7 @@ const getKeystorePrefix = async () => {
 		return ''
 	}
 	const state = JSON.parse(data[sharedStoreKey])?.state as SharedStore
-	return state?.selectKeystoreName || ''
+	return state?.selectKeystoreId || ''
 }
 
 export class VaultService {

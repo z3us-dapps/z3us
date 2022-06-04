@@ -100,15 +100,15 @@ export const useAccountStore = (suffix: string): typeof defaultAccountStore =>
 	((selector, equalityFn = shallow) => accountStore(suffix)(selector, equalityFn)) as typeof defaultAccountStore
 
 export const useStore: typeof defaultAccountStore = ((selector, equalityFn = shallow) => {
-	const { keystoreName } = useSharedStore(state => ({
-		keystoreName: state.selectKeystoreName,
+	const { keystorePrefix } = useSharedStore(state => ({
+		keystorePrefix: state.selectKeystoreId,
 	}))
 
-	const storeRef = useRef(accountStore(keystoreName))
+	const storeRef = useRef(accountStore(keystorePrefix))
 
 	useEffect(() => {
-		storeRef.current = accountStore(keystoreName)
-	}, [keystoreName])
+		storeRef.current = accountStore(keystorePrefix)
+	}, [keystorePrefix])
 
 	return storeRef.current(selector, equalityFn)
 }) as typeof defaultAccountStore
