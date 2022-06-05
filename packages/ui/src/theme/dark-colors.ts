@@ -46,6 +46,7 @@ export const darkColors = {
 	borderInputError: '#b01f0c',
 	borderPriceRed: 'rgb(107 35 35 / 64%)',
 	borderPriceGreen: 'rgb(17 144 17 / 64%)',
+	borderTransparent: 'rgba(255, 255, 255, 0.3)',
 
 	iconDefault: '#ffffff',
 	iconDefaultInverse: '#000000',

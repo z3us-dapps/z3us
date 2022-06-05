@@ -15,7 +15,7 @@ const links = [
 		id: 'docs',
 		subMenu: [
 			{ name: 'API Reference', to: '/docs/api-reference', id: 'api-reference' },
-			{ name: 'API V1', to: '/docs/docs/api-v1', id: 'api-v1' },
+			{ name: 'API V1', to: '/docs/api-v1', id: 'api-v1' },
 		],
 	},
 	{ name: 'Github', to: config.GITHUB_URL, id: 'github' },
@@ -58,7 +58,7 @@ export const MobileMenu = ({ isScrolled }: IProps): JSX.Element => {
 		isMenuOpen: false,
 	})
 
-	const handleCloseClick = () => {
+	const handleToggleMenu = () => {
 		setState(draft => {
 			draft.isMenuOpen = !state.isMenuOpen
 		})
@@ -165,14 +165,15 @@ export const MobileMenu = ({ isScrolled }: IProps): JSX.Element => {
 						top: isScrolled ? '5px' : '15px',
 						transition: '$default',
 						right: '$3',
-						zIndex: '1',
+						zIndex: '3',
 						'@sm': { display: 'none' },
 					}}
 				>
 					<MotionBox animate={state.isMenuOpen ? 'open' : 'closed'}>
-						<Button iconOnly aria-label="menu" color="ghost" size="5" css={{ mr: '2px' }} onClick={handleCloseClick}>
+						<Button iconOnly aria-label="menu" color="ghost" size="5" css={{ mr: '2px' }} onClick={handleToggleMenu}>
 							<DropdownMenuHamburgerIcon
 								css={{
+									mt: '4px',
 									stroke: '$iconDefault',
 								}}
 							/>

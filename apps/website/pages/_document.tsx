@@ -120,7 +120,6 @@ body {
   color: var(--fg);
 }
 
-
 html,
 body {
   padding: 0;
