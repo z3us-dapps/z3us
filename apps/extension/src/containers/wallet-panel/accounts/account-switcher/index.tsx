@@ -25,13 +25,16 @@ export const AccountSwitcher = (): JSX.Element => {
 	}))
 
 	const [xVal, setXVal] = useState(LEFT_OFFSET + activeSlideIndex * -SLIDER_WIDTH)
+	const [isAccountBtnsVisible, setIsAccountBtnsVisible] = useState(
+		activeSlideIndex > -1 && activeSlideIndex < addresses.length,
+	)
 	const containerRef = useRef(null)
 	const containerWidth = containerRef.current?.offsetWidth
-	const isAccountBtnsVisible = activeSlideIndex > -1 && activeSlideIndex < addresses.length
 
 	useEffect(() => {
 		setXVal(LEFT_OFFSET + activeSlideIndex * -SLIDER_WIDTH)
-	}, [activeSlideIndex])
+		setIsAccountBtnsVisible(activeSlideIndex > -1 && activeSlideIndex < addresses.length)
+	}, [activeSlideIndex, addresses])
 
 	const handleSlideClick = async (idx: number) => {
 		await setActiveSlide(idx, hw, seed)

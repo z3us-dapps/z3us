@@ -7,10 +7,10 @@ import PriceTicker from 'ui/src/components/price-ticker'
 import { formatBigNumber } from '@src/utils/formatters'
 
 export const AccountsTotal = (): JSX.Element => {
-	const { isLoading, value, change } = useAllAccountsValue()
 	const { activeSlideIndex } = useStore(state => ({
 		activeSlideIndex: state.activeSlideIndex,
 	}))
+	const { isLoading, value, change } = useAllAccountsValue()
 	const [state, setState] = useImmer({
 		accountValue: '',
 	})

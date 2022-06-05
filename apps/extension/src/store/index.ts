@@ -1,5 +1,5 @@
 import browser from 'webextension-polyfill'
-import { useEffect, useRef } from 'react'
+import { useLayoutEffect, useRef } from 'react'
 import create, { GetState, Mutate, SetState, StoreApi } from 'zustand'
 import shallow from 'zustand/shallow'
 import { persist, devtools } from 'zustand/middleware'
@@ -88,9 +88,8 @@ const accountStoreContainer: { [key: string]: typeof defaultAccountStore } = {
 export const accountStore = (suffix: string): typeof defaultAccountStore => {
 	const name = !suffix ? defaultAccountStoreKey : `${defaultAccountStoreKey}-${suffix}`
 	const store = accountStoreContainer[name]
-	if (store) {
-		return store
-	}
+	if (store) return store
+
 	const newStore = accountStoreFactory(name)
 	accountStoreContainer[name] = newStore
 	return newStore
@@ -100,15 +99,15 @@ export const useAccountStore = (suffix: string): typeof defaultAccountStore =>
 	((selector, equalityFn = shallow) => accountStore(suffix)(selector, equalityFn)) as typeof defaultAccountStore
 
 export const useStore: typeof defaultAccountStore = ((selector, equalityFn = shallow) => {
-	const { keystorePrefix } = useSharedStore(state => ({
-		keystorePrefix: state.selectKeystoreId,
+	const { keystoreId } = useSharedStore(state => ({
+		keystoreId: state.selectKeystoreId,
 	}))
 
-	const storeRef = useRef(accountStore(keystorePrefix))
+	const storeRef = useRef(accountStore(keystoreId))
 
-	useEffect(() => {
-		storeRef.current = accountStore(keystorePrefix)
-	}, [keystorePrefix])
+	useLayoutEffect(() => {
+		storeRef.current = accountStore(keystoreId)
+	}, [keystoreId])
 
 	return storeRef.current(selector, equalityFn)
 }) as typeof defaultAccountStore
