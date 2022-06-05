@@ -10,10 +10,9 @@ const messanger = new MessageService('extension', browser.runtime.connect({ name
 const refreshInterval = 60 * 1000 // 1 minute
 
 export const useVault = () => {
-	const { setMessanger, setMasterSeed, removeKeystore } = useSharedStore(state => ({
+	const { setMessanger, setMasterSeed } = useSharedStore(state => ({
 		setMessanger: state.setMessangerAction,
 		setMasterSeed: state.setMasterSeedAction,
-		removeKeystore: state.removeKeystoreAction,
 	}))
 	const { networkIndex, accountIndex, selectAccount } = useStore(state => ({
 		networkIndex: state.selectedNetworkIndex,
@@ -33,10 +32,7 @@ export const useVault = () => {
 
 	const init = async () => {
 		try {
-			const { seed, hasKeystore, keystoreId } = await messanger.sendActionMessageFromPopup(GET, null)
-			if (!hasKeystore && keystoreId) {
-				removeKeystore(keystoreId)
-			}
+			const { seed } = await messanger.sendActionMessageFromPopup(GET, null)
 			if (seed) {
 				const masterSeed = HDMasterSeed.fromSeed(Buffer.from(seed, 'hex'))
 				await setMasterSeed(masterSeed)

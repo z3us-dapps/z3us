@@ -60,7 +60,7 @@ export const StakeModal: React.FC<IProps> = ({ trigger, tooltipMessage, validato
 		amount = staked ? new BigNumber(staked.amount).shiftedBy(-18) : new BigNumber(0)
 	} else {
 		const liquidBalances = balances?.account_balances?.liquid_balances || []
-		const selectedToken = liquidBalances?.find(balance => balance.rri === token.rri)
+		const selectedToken = liquidBalances?.find(balance => balance.rri === token?.rri)
 		amount = selectedToken ? new BigNumber(selectedToken.amount).shiftedBy(-18) : new BigNumber(0)
 	}
 

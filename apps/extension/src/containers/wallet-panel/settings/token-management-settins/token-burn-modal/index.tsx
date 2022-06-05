@@ -67,10 +67,9 @@ export const BurnTokenModal: React.FC<IProps> = ({ trigger }) => {
 	}
 
 	const handleSelectedTokenChange = (rri: string) => {
-		const changeToken = liquidBalances?.find(balance => balance.rri === rri)
 		setState(draft => {
 			draft.amount = ''
-			draft.rri = changeToken.rri
+			draft.rri = rri
 		})
 	}
 

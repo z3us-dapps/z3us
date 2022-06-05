@@ -46,8 +46,7 @@ export const DepositToken: React.FC = () => {
 	}
 
 	const handleSelectedTokenChange = (tokenRRI: string) => {
-		const changeToken = liquidBalances?.find(balance => balance.rri === tokenRRI)
-		setRRI(changeToken.rri)
+		setRRI(tokenRRI)
 	}
 
 	const handleAccountChange = async (accountIndex: number) => {

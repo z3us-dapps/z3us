@@ -8,7 +8,8 @@ import { Text, Flex } from 'ui/src/components/atoms'
 import InputFeedback from 'ui/src/components/input/input-feedback'
 
 export const HardwareWalletReconnect: React.FC = () => {
-	const { addToast, sendAPDU, setHardwareWallet } = useSharedStore(state => ({
+	const { isHardwareWallet, addToast, sendAPDU, setHardwareWallet } = useSharedStore(state => ({
+		isHardwareWallet: state.isHardwareWallet,
 		addToast: state.addToastAction,
 		sendAPDU: state.sendAPDUAction,
 		setHardwareWallet: state.setHardwareWalletAction,
@@ -24,7 +25,7 @@ export const HardwareWalletReconnect: React.FC = () => {
 	})
 
 	const handleReconnectHW = async () => {
-		if (account) return
+		if (!isHardwareWallet || account) return
 		setState(draft => {
 			draft.isLoading = true
 		})
@@ -45,7 +46,7 @@ export const HardwareWalletReconnect: React.FC = () => {
 		})
 	}
 
-	if (account) {
+	if (!isHardwareWallet || account) {
 		return null
 	}
 

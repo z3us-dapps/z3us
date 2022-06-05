@@ -47,6 +47,10 @@ export const ImportAccounts = (): JSX.Element => {
 	})
 
 	const createKeystore = async () => {
+		if (!isHIDSupported) {
+			return
+		}
+
 		if (keystore && keystore.type === KeystoreType.HARDWARE && Object.keys(publicAddresses).length === 0) {
 			return
 		}
