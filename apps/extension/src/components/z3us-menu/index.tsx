@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useRef } from 'react'
 import { useSharedStore, useStore } from '@src/store'
 import { useImmer } from 'use-immer'
 import Button from 'ui/src/components/button'
@@ -44,7 +44,7 @@ export const Z3usMenu: React.FC = () => {
 	const { reset } = useStore(state => ({
 		reset: state.resetAction,
 	}))
-
+	const walletInputRef = useRef(null)
 	const [state, setState] = useImmer({
 		isOpen: false,
 		keystoreId: undefined,
@@ -94,10 +94,16 @@ export const Z3usMenu: React.FC = () => {
 	}
 
 	const handleEditWalletName = (keyStoreId: string) => {
+		const findKeystore = keystores.find(keystore => keystore.id === keyStoreId)
 		setState(draft => {
 			draft.editing = keyStoreId
-			draft.tempEdit = keyStoreId
+			draft.tempEdit = findKeystore?.name || keyStoreId
 		})
+
+		// select the input text when the dialog becomes visible
+		setTimeout(() => {
+			walletInputRef.current.select()
+		}, 50)
 	}
 
 	const editWalletName = (name: string) => {
@@ -121,6 +127,11 @@ export const Z3usMenu: React.FC = () => {
 		})
 	}
 
+	const handleSubmitForm = (e: React.ChangeEvent<HTMLFormElement>) => {
+		e.preventDefault()
+		handleSaveWalletName()
+	}
+
 	return (
 		<>
 			<MotionBox animate={state.isOpen ? 'open' : 'closed'}>
@@ -139,18 +150,24 @@ export const Z3usMenu: React.FC = () => {
 										<ChevronRightIcon />
 									</DropdownMenuRightSlot>
 								</DropdownMenuTriggerItem>
-								<DropdownMenuContent avoidCollisions side="right" css={{ minWidth: '180px' }}>
+								<DropdownMenuContent avoidCollisions side="right" css={{ minWidth: '200px' }}>
 									<DropdownMenuRadioGroup value={keystoreId} onValueChange={handleValueChange}>
 										{keystores.map(({ id, name, type }) => (
 											<DropdownMenuRadioItem key={id} value={id}>
 												<DropdownMenuItemIndicator css={{ width: '16px', left: '0', right: 'unset' }} />
-												<Flex align="center" css={{ width: '100%', pl: '$2' }}>
-													<Box css={{ flex: '1' }}>
+												<Flex align="center" css={{ width: '100%', pl: '$1' }}>
+													<Flex justify="start" align="center" css={{ flex: '1' }}>
 														<Text size="2" bold truncate css={{ maxWidth: '100px' }}>
 															{name}
-															{type === KeystoreType.HARDWARE && <HardwareWalletIcon />}
 														</Text>
-													</Box>
+														{type === KeystoreType.HARDWARE && (
+															<Box css={{ pl: '$1' }}>
+																<ToolTip message="Hardware wallet account">
+																	<HardwareWalletIcon />
+																</ToolTip>
+															</Box>
+														)}
+													</Flex>
 													{isUnlocked && keystoreId === id && (
 														<Box>
 															<ToolTip message="Delete">
@@ -188,33 +205,35 @@ export const Z3usMenu: React.FC = () => {
 			</MotionBox>
 			<AlertDialog open={!!state.editing}>
 				<AlertDialogContent>
-					<AlertDialogTitle>Edit wallet name</AlertDialogTitle>
-					<AlertDialogDescription>
-						<Text>
-							Enter name for your wallet and click <b>Save</b>.
-						</Text>
-						<Box css={{ pt: '$3', pb: '$1' }}>
-							<Input
-								focusOnMount
-								type="text"
-								value={state.tempEdit}
-								placeholder="Enter wallet name"
-								onChange={(e: React.ChangeEvent<HTMLInputElement>): void => editWalletName(e.target.value)}
-							/>
-						</Box>
-					</AlertDialogDescription>
-					<Flex justify="end">
-						<AlertDialogCancel asChild>
-							<Button size="2" color="tertiary" css={{ mr: '$2' }} onClick={handleCancelEditWalletName}>
-								Cancel
-							</Button>
-						</AlertDialogCancel>
-						<AlertDialogAction asChild>
-							<Button size="2" color="primary" onClick={handleSaveWalletName}>
-								Save
-							</Button>
-						</AlertDialogAction>
-					</Flex>
+					<form onSubmit={handleSubmitForm}>
+						<AlertDialogTitle>Edit wallet name</AlertDialogTitle>
+						<AlertDialogDescription>
+							<Text>
+								Enter name for your wallet and click <b>Save</b>.
+							</Text>
+							<Box css={{ pt: '$3', pb: '$1' }}>
+								<Input
+									ref={walletInputRef}
+									type="text"
+									value={state.tempEdit}
+									placeholder="Enter wallet name"
+									onChange={(e: React.ChangeEvent<HTMLInputElement>): void => editWalletName(e.target.value)}
+								/>
+							</Box>
+						</AlertDialogDescription>
+						<Flex justify="end">
+							<AlertDialogCancel asChild>
+								<Button size="2" color="tertiary" css={{ mr: '$2' }} onClick={handleCancelEditWalletName}>
+									Cancel
+								</Button>
+							</AlertDialogCancel>
+							<AlertDialogAction asChild>
+								<Button size="2" color="primary" type="submit">
+									Save
+								</Button>
+							</AlertDialogAction>
+						</Flex>
+					</form>
 				</AlertDialogContent>
 			</AlertDialog>
 			<AlertDialog open={!!state.keystoreId}>
