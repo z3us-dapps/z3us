@@ -11,6 +11,7 @@ import { Flex } from 'ui/src/components/atoms'
 import { Connect } from './connect'
 import { Encrypt } from './encrypt'
 import { Decrypt } from './decrypt'
+import { Sign } from './sign'
 import { Transaction } from './transaction'
 
 export const Notification: React.FC = () => {
@@ -50,6 +51,7 @@ export const Notification: React.FC = () => {
 					<Route path="/connect/:id" component={Connect} />
 					<Route path="/encrypt/:id" component={Encrypt} />
 					<Route path="/decrypt/:id" component={Decrypt} />
+					<Route path="/sign/:id" component={Sign} />
 					<Route path="/transaction/:id" component={Transaction} />
 				</AnimatedSwitch>
 			</RouterScope>

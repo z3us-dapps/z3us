@@ -15,6 +15,7 @@ import {
 	UNSTAKES,
 	ENCRYPT,
 	DESCRYPT,
+	SIGN,
 	SEND_TRANSACTION,
 } from '../actions'
 
@@ -179,6 +180,26 @@ export default function NewV1BackgroundInpageActions(
 		await browser.showPopup(sharedState.theme, `/notification/decrypt/${id}`)
 	}
 
+	async function sign(port: Runtime.Port, id: string, payload: any) {
+		const allowed = await isApprovedWebsite(port, id, payload)
+		if (!allowed) {
+			return
+		}
+
+		const tab = await browser.getCurrentTab()
+		const url = new URL(tab.url)
+
+		const { selectKeystoreId } = sharedStore.getState()
+		const useStore = accountStore(selectKeystoreId)
+		const state = useStore.getState()
+
+		actionsToConfirm[id] = port
+		state.addPendingActionAction(id, { host: url.host, request: payload })
+
+		const sharedState = sharedStore.getState()
+		await browser.showPopup(sharedState.theme, `/notification/sign/${id}`)
+	}
+
 	async function transaction(port: Runtime.Port, id: string, payload: any) {
 		const allowed = await isApprovedWebsite(port, id, payload)
 		if (!allowed) {
@@ -285,6 +306,7 @@ export default function NewV1BackgroundInpageActions(
 		[UNSTAKES]: unstakes,
 		[DESCRYPT]: decrypt,
 		[ENCRYPT]: encrypt,
+		[SIGN]: sign,
 		[SEND_TRANSACTION]: transaction,
 	}
 }

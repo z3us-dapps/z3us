@@ -4,13 +4,14 @@ import {
 	IS_CONNECTED,
 	CONNECT,
 	DISCONNECT,
+	SEND_TRANSACTION,
+	SIGN,
 	ACCOUNTS,
 	BALANCES,
 	STAKES,
 	UNSTAKES,
 	ENCRYPT,
 	DESCRYPT,
-	SEND_TRANSACTION,
 } from '../actions'
 
 export default function NewPublicV1(sendMessage: (action: string, payload?: any) => Promise<MessageResponse>) {
@@ -34,22 +35,25 @@ export default function NewPublicV1(sendMessage: (action: string, payload?: any)
 		return sendMessage(DESCRYPT, { message, fromAddress })
 	}
 
-	async function sendTransaction({
-		symbol,
-		fromAddress,
-		transaction,
-	}: {
-		symbol: string
-		fromAddress: string
-		transaction: any
-	}) {
-		if (!symbol) {
-			throw new Error('Invalid symbol')
+	async function sign(challenge: string) {
+		if (!challenge) {
+			throw new Error('Empty challenge')
 		}
+		return sendMessage(SIGN, { challenge })
+	}
+
+	async function submitTransaction({ transaction }: { transaction: any }) {
 		if (!transaction) {
 			throw new Error('Missing transactiond data')
 		}
-		return sendMessage(SEND_TRANSACTION, { symbol, fromAddress, transaction })
+		return sendMessage(SEND_TRANSACTION, { transaction })
+	}
+
+	/**
+	 * @deprecated Use submitTransaction() instead
+	 */
+	async function sendTransaction({ transaction }: { symbol: string; fromAddress: string; transaction: any }) {
+		return submitTransaction(transaction)
 	}
 
 	return {
@@ -61,8 +65,10 @@ export default function NewPublicV1(sendMessage: (action: string, payload?: any)
 		balances: () => sendMessage(BALANCES, {}),
 		stakes: () => sendMessage(STAKES, {}),
 		unstakes: () => sendMessage(UNSTAKES, {}),
+		sendTransaction,
+		submitTransaction,
 		encrypt,
 		decrypt,
-		sendTransaction,
+		sign,
 	}
 }

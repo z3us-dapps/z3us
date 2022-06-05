@@ -15,6 +15,7 @@ import { SlippageBox } from '@src/components/slippage-box'
 import { CONFIRM } from '@src/lib/actions'
 import { ActivityType } from '@src/components/activity-type'
 import { HardwareWalletReconnect } from '@src/components/hardware-wallet-reconnect'
+import { useTokenInfo } from '@src/services/react-query/queries/radix'
 
 export const Transaction = (): JSX.Element => {
 	const [, { id }] = useRoute<{ id: string }>('/transaction/:id')
@@ -50,14 +51,16 @@ export const Transaction = (): JSX.Element => {
 
 	const {
 		host,
-		request: { transaction: tx, symbol, fromAddress },
+		request: { transaction: tx },
 	} = action
 
+	const { data: token } = useTokenInfo(tx?.actions[0]?.from_account?.rri)
+
 	useEffect(() => {
-		if (fromAddress) {
-			selectAccountForAddress(fromAddress, hw, seed)
+		if (tx) {
+			selectAccountForAddress(tx?.actions[0]?.from_account?.address, hw, seed)
 		}
-	}, [fromAddress])
+	}, [tx])
 
 	useEffect(() => {
 		if (entry) {
@@ -68,7 +71,7 @@ export const Transaction = (): JSX.Element => {
 	}, [entry])
 
 	useEffect(() => {
-		if (tx && account?.address.toString() === fromAddress) {
+		if (tx) {
 			const build = async () => {
 				try {
 					const { fee, transaction } = await BuildTransaction(network.url, tx)
@@ -108,7 +111,7 @@ export const Transaction = (): JSX.Element => {
 		}
 
 		try {
-			const { blob } = await FinalizeTransaction(network.url, account, symbol, state.transaction)
+			const { blob } = await FinalizeTransaction(network.url, account, token.symbol, state.transaction)
 			const result = await SubmitSignedTransaction(network.url, account, blob)
 			await queryClient.invalidateQueries({ active: true, inactive: true, stale: true })
 
