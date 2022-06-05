@@ -22,7 +22,6 @@ declare global {
 				disconnect: () => Promise<void>
 				sign: (challenge: string) => Promise<string>
 				submitTransaction: (payload: { transaction: any }) => Promise<any>
-
 				encrypt: (message: string, fromAddress: string, toAddress: string) => Promise<string>
 				decrypt: (message: string, fromAddress: string) => Promise<string>
 				addresses: () => Promise<string[]>
