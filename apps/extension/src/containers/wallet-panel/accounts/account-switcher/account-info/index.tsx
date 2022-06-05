@@ -3,6 +3,7 @@ import { useImmer } from 'use-immer'
 import { useAccountValue } from '@src/services/react-query/queries/account'
 import { QrHoverCard } from '@src/components/qr-hover-card'
 import { Flex, Box, Text } from 'ui/src/components/atoms'
+import { ToolTip } from 'ui/src/components/tool-tip'
 import Button from 'ui/src/components/button'
 import { ActivityIcon, HardwareWalletIcon } from 'ui/src/components/icons'
 import { formatBigNumber } from '@src/utils/formatters'
@@ -10,7 +11,6 @@ import { AccountAddress } from '@src/components/account-address'
 import PriceTicker from 'ui/src/components/price-ticker'
 import LoaderBars from 'ui/src/components/loader-bars'
 import { AccountModal } from '@src/containers/wallet-panel/settings/accounts/account-modal'
-import { Tooltip, TooltipTrigger, TooltipContent, TooltipArrow } from 'ui/src/components/tool-tip'
 import { useSharedStore, useStore } from '@src/store'
 import { ColorSettings } from '@src/types'
 
@@ -152,17 +152,11 @@ export const AccountInfo: React.FC<IProps> = ({ address }) => {
 			</Box>
 			{isHardwareWallet && (
 				<Box css={{ zIndex: 2, position: 'absolute', bottom: '$2', left: '$2' }}>
-					<Tooltip>
-						<TooltipTrigger asChild>
-							<Button iconOnly size="3" color="ghost" css={{ color, fill: color }}>
-								<HardwareWalletIcon />
-							</Button>
-						</TooltipTrigger>
-						<TooltipContent sideOffset={3}>
-							<TooltipArrow offset={15} />
-							Harware wallet account
-						</TooltipContent>
-					</Tooltip>
+					<ToolTip message="Harware wallet account">
+						<Button iconOnly size="1" color="ghost" css={{ color, fill: color }}>
+							<HardwareWalletIcon />
+						</Button>
+					</ToolTip>
 				</Box>
 			)}
 		</Flex>
