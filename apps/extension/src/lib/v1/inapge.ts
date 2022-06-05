@@ -15,7 +15,7 @@ import {
 } from '../actions'
 
 export default function NewPublicV1(sendMessage: (action: string, payload?: any) => Promise<MessageResponse>) {
-	async function encrypt(message: string, fromAddress: string, toAddress: string) {
+	async function encrypt(message: string, fromAddress: string, toAddress: string): Promise<string> {
 		if (!message) {
 			throw new Error('Empty message')
 		}
@@ -25,7 +25,7 @@ export default function NewPublicV1(sendMessage: (action: string, payload?: any)
 		return sendMessage(ENCRYPT, { message, fromAddress, toAddress })
 	}
 
-	async function decrypt(message: string, fromAddress: string) {
+	async function decrypt(message: string, fromAddress: string): Promise<string> {
 		if (!message) {
 			throw new Error('Empty message')
 		}
@@ -35,14 +35,14 @@ export default function NewPublicV1(sendMessage: (action: string, payload?: any)
 		return sendMessage(DESCRYPT, { message, fromAddress })
 	}
 
-	async function sign(challenge: string) {
+	async function sign(challenge: string): Promise<string> {
 		if (!challenge) {
 			throw new Error('Empty challenge')
 		}
 		return sendMessage(SIGN, { challenge })
 	}
 
-	async function submitTransaction({ transaction }: { transaction: any }) {
+	async function submitTransaction({ transaction }: { transaction: any }): Promise<unknown> {
 		if (!transaction) {
 			throw new Error('Missing transactiond data')
 		}
@@ -52,23 +52,30 @@ export default function NewPublicV1(sendMessage: (action: string, payload?: any)
 	/**
 	 * @deprecated Use submitTransaction() instead
 	 */
-	async function sendTransaction({ transaction }: { symbol: string; fromAddress: string; transaction: any }) {
+	async function sendTransaction({
+		transaction,
+	}: {
+		symbol: string
+		fromAddress: string
+		transaction: any
+	}): Promise<unknown> {
 		return submitTransaction(transaction)
 	}
 
 	return {
-		hasWallet: () => sendMessage(HAS_WALLET, {}),
-		isConnected: () => sendMessage(IS_CONNECTED, {}),
-		connect: () => sendMessage(CONNECT, {}),
-		disconnect: () => sendMessage(DISCONNECT, {}),
-		accounts: () => sendMessage(ACCOUNTS, {}),
-		balances: () => sendMessage(BALANCES, {}),
-		stakes: () => sendMessage(STAKES, {}),
-		unstakes: () => sendMessage(UNSTAKES, {}),
-		sendTransaction,
+		hasWallet: (): Promise<boolean> => sendMessage(HAS_WALLET, {}),
+		isConnected: (): Promise<boolean> => sendMessage(IS_CONNECTED, {}),
+		connect: (): Promise<string> => sendMessage(CONNECT, {}),
+		disconnect: (): Promise<void> => sendMessage(DISCONNECT, {}),
+		sign,
 		submitTransaction,
+
+		accounts: (): Promise<string[]> => sendMessage(ACCOUNTS, {}),
+		balances: (): Promise<unknown> => sendMessage(BALANCES, {}),
+		stakes: (): Promise<unknown> => sendMessage(STAKES, {}),
+		unstakes: (): Promise<unknown> => sendMessage(UNSTAKES, {}),
 		encrypt,
 		decrypt,
-		sign,
+		sendTransaction,
 	}
 }
