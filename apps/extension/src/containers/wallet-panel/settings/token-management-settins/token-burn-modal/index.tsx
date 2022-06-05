@@ -12,8 +12,8 @@ import Input from 'ui/src/components/input'
 import { Tooltip, TooltipTrigger, TooltipContent, TooltipArrow } from 'ui/src/components/tool-tip'
 import { Dialog, DialogTrigger, DialogContent } from 'ui/src/components/dialog'
 import { Box, Text, Flex } from 'ui/src/components/atoms'
-import { HardwareWalletReconnect } from '@src/components/hardware-wallet-reconnect'
 import { AccountSelector } from '@src/components/account-selector'
+import { HardwareWalletReconnect } from '@src/components/hardware-wallet-reconnect'
 import { useTokenBalances, useTokenInfo } from '@src/services/react-query/queries/radix'
 import { TokenSelector } from '@src/components/token-selector'
 import { formatBigNumber } from '@src/utils/formatters'
@@ -29,7 +29,9 @@ export const BurnTokenModal: React.FC<IProps> = ({ trigger }) => {
 	const [, setLocation] = useLocation()
 	const queryClient = useQueryClient()
 
-	const { addToast } = useSharedStore(state => ({
+	const { hw, seed, addToast } = useSharedStore(state => ({
+		hw: state.hardwareWallet,
+		seed: state.masterSeed,
 		addToast: state.addToastAction,
 	}))
 
@@ -61,7 +63,7 @@ export const BurnTokenModal: React.FC<IProps> = ({ trigger }) => {
 	const shortAddress = getShortAddress(accountAddress)
 
 	const handleAccountChange = async (accountIndex: number) => {
-		await selectAccount(accountIndex)
+		await selectAccount(accountIndex, hw, seed)
 	}
 
 	const handleSelectedTokenChange = (rri: string) => {

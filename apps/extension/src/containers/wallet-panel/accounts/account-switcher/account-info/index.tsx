@@ -11,7 +11,7 @@ import PriceTicker from 'ui/src/components/price-ticker'
 import LoaderBars from 'ui/src/components/loader-bars'
 import { AccountModal } from '@src/containers/wallet-panel/settings/accounts/account-modal'
 import { Tooltip, TooltipTrigger, TooltipContent, TooltipArrow } from 'ui/src/components/tool-tip'
-import { useStore } from '@src/store'
+import { useSharedStore, useStore } from '@src/store'
 import { ColorSettings } from '@src/types'
 
 type IProps = {
@@ -20,6 +20,9 @@ type IProps = {
 
 export const AccountInfo: React.FC<IProps> = ({ address }) => {
 	const { isLoading, value, change } = useAccountValue()
+	const { isHardwareWallet } = useSharedStore(state => ({
+		isHardwareWallet: state.isHardwareWallet,
+	}))
 	const { entry, activeSlideIndex } = useStore(state => ({
 		entry: Object.values(state.publicAddresses).find(_account => _account.address === address),
 		activeSlideIndex: state.activeSlideIndex,
@@ -147,7 +150,7 @@ export const AccountInfo: React.FC<IProps> = ({ address }) => {
 			<Box css={{ zIndex: 2, position: 'absolute', top: '$2', left: '$2' }}>
 				<QrHoverCard css={{ fill: color, color }} />
 			</Box>
-			{entry?.isHardWallet && (
+			{isHardwareWallet && (
 				<Box css={{ zIndex: 2, position: 'absolute', bottom: '$2', left: '$2' }}>
 					<Tooltip>
 						<TooltipTrigger asChild>

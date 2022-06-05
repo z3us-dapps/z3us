@@ -20,9 +20,11 @@ export const Transaction = (): JSX.Element => {
 	const [, { id }] = useRoute<{ id: string }>('/transaction/:id')
 	const queryClient = useQueryClient()
 
-	const { addressBook, sendResponse } = useSharedStore(state => ({
+	const { hw, seed, addressBook, sendResponse } = useSharedStore(state => ({
 		addressBook: state.addressBook,
 		sendResponse: state.sendResponseAction,
+		hw: state.hardwareWallet,
+		seed: state.masterSeed,
 	}))
 
 	const { account, accountAddress, publicAddresses, network, selectAccountForAddress, action } = useStore(state => ({
@@ -53,7 +55,7 @@ export const Transaction = (): JSX.Element => {
 
 	useEffect(() => {
 		if (fromAddress) {
-			selectAccountForAddress(fromAddress)
+			selectAccountForAddress(fromAddress, hw, seed)
 		}
 	}, [fromAddress])
 

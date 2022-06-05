@@ -10,29 +10,34 @@ import InputFeedBack from 'ui/src/components/input/input-feedback'
 import Button from 'ui/src/components/button'
 import { Z3usText } from 'ui/src/components/z3us-text'
 import { isWebAuthSupported } from '@src/services/credentials'
-import { KeystoreSelector } from '@src/components/keystore-selector'
+import { KeystoreType } from '@src/store/types'
 
 export const LockedPanel: React.FC = () => {
 	const inputRef = useRef(null)
 	const { addToast } = useSharedStore(state => ({
 		addToast: state.addToastAction,
 	}))
-	const { unlock, hasAuth, authenticate } = useSharedStore(state => ({
-		unlock: state.unlockWalletAction,
-		hasAuth: state.hasAuthAction,
-		authenticate: state.authenticateAction,
-	}))
-	const { seed, setSeed } = useStore(state => ({
-		seed: state.masterSeed,
-		network: state.networks[state.selectedNetworkIndex],
-		setSeed: state.setMasterSeedAction,
+	const { keystore, unlock, unlockHW, hasAuth, authenticate, isUnlocked, setSeed, hw, seed } = useSharedStore(
+		state => ({
+			keystore: state.keystores.find(({ id }) => id === state.selectKeystoreId),
+			isUnlocked: Boolean(state.masterSeed || state.isHardwareWallet),
+			hw: state.hardwareWallet,
+			seed: state.masterSeed,
+			unlock: state.unlockWalletAction,
+			hasAuth: state.hasAuthAction,
+			authenticate: state.authenticateAction,
+			setSeed: state.setMasterSeedAction,
+			unlockHW: state.unlockHardwareWalletAction,
+		}),
+	)
+	const { selectAccount } = useStore(state => ({
+		selectAccount: state.selectAccountAction,
 	}))
 	const [state, setState] = useImmer({
 		password: '',
 		passwordError: false,
 		isLoading: false,
 	})
-	const hasWallet = !!seed
 
 	const handleUnlock = async password => {
 		setState(draft => {
@@ -40,7 +45,18 @@ export const LockedPanel: React.FC = () => {
 		})
 
 		try {
-			await setSeed(await unlock(password))
+			switch (keystore.type) {
+				case KeystoreType.LOCAL:
+					await setSeed(await unlock(password))
+					await selectAccount(0, hw, seed)
+					break
+				case KeystoreType.HARDWARE:
+					await unlockHW()
+					await selectAccount(0, hw, seed)
+					break
+				default:
+					throw new Error(`Unknown keystore ${keystore.id} (${keystore.name}) type: ${keystore.type}`)
+			}
 		} catch (error) {
 			if (state.passwordError) {
 				addToast({
@@ -77,14 +93,13 @@ export const LockedPanel: React.FC = () => {
 	}
 
 	useEffect(() => {
-		if (hasWallet) {
-			setState(draft => {
-				draft.password = ''
-				draft.isLoading = false
-			})
-			unlockWithWebAuth()
-		}
-	}, [hasWallet])
+		if (isUnlocked) return
+		setState(draft => {
+			draft.password = ''
+			draft.isLoading = false
+		})
+		unlockWithWebAuth()
+	}, [isUnlocked])
 
 	const handleSubmitForm = (e: React.ChangeEvent<HTMLFormElement>) => {
 		e.preventDefault()
@@ -109,7 +124,7 @@ export const LockedPanel: React.FC = () => {
 				height: '100%',
 				backgroundColor: '$bgPanel',
 			}}
-			animate={hasWallet ? 'unlocked' : 'locked'}
+			animate={isUnlocked ? 'unlocked' : 'locked'}
 			variants={{
 				locked: {
 					transform: 'translateY(0px)',
@@ -139,7 +154,7 @@ export const LockedPanel: React.FC = () => {
 						justifyContent: 'space-between',
 					}}
 				>
-					<Box css={{ opacity: '0', pe: 'none' }}>
+					<Box>
 						<Z3usMenu />
 					</Box>
 					<WalletMenu />
@@ -153,31 +168,29 @@ export const LockedPanel: React.FC = () => {
 					</Box>
 				</Flex>
 
-				<Flex align="center" justify="center">
-					<KeystoreSelector />
-				</Flex>
-
 				<form onSubmit={handleSubmitForm}>
 					<Box css={{ p: '$6' }}>
-						<Box>
-							<Input
-								type="password"
-								size="2"
-								ref={inputRef}
-								placeholder="Enter password"
-								focusOnMount
-								value={state.password}
-								error={state.passwordError}
-								onChange={handlePasswordChange}
-							/>
-							<InputFeedBack showFeedback={state.passwordError} animateHeight={31}>
-								<StyledLink underlineOnHover href="#/onboarding" css={{ display: 'block', mt: '12px' }}>
-									<Text uppercase medium>
-										Forgot password?
-									</Text>
-								</StyledLink>
-							</InputFeedBack>
-						</Box>
+						{keystore.type === KeystoreType.LOCAL && (
+							<Box>
+								<Input
+									type="password"
+									size="2"
+									ref={inputRef}
+									placeholder="Enter password"
+									focusOnMount
+									value={state.password}
+									error={state.passwordError}
+									onChange={handlePasswordChange}
+								/>
+								<InputFeedBack showFeedback={state.passwordError} animateHeight={31}>
+									<StyledLink underlineOnHover href="#/onboarding" css={{ display: 'block', mt: '12px' }}>
+										<Text uppercase medium>
+											Forgot password?
+										</Text>
+									</StyledLink>
+								</InputFeedBack>
+							</Box>
+						)}
 						<Flex css={{ mt: '$3' }}>
 							<Button type="submit" loading={state.isLoading} color="primary" size="6" css={{ flex: '1' }}>
 								Unlock

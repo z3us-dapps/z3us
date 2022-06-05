@@ -1,5 +1,5 @@
 import React, { useRef, useState, useEffect } from 'react'
-import { useStore } from '@src/store'
+import { useSharedStore, useStore } from '@src/store'
 import { PlusIcon } from 'ui/src/components/icons'
 import { useEventListener } from 'usehooks-ts'
 import { Box, Flex, MotionBox, Text } from 'ui/src/components/atoms'
@@ -13,6 +13,10 @@ const SLIDER_HEIGHT = 169
 const LEFT_OFFSET = 26 - SLIDER_WIDTH
 
 export const AccountSwitcher = (): JSX.Element => {
+	const { hw, seed } = useSharedStore(state => ({
+		hw: state.hardwareWallet,
+		seed: state.masterSeed,
+	}))
 	const { addresses, activeSlideIndex, selectAccount, setActiveSlide } = useStore(state => ({
 		addresses: Object.values(state.publicAddresses).map(({ address }) => address),
 		activeSlideIndex: state.activeSlideIndex,
@@ -30,11 +34,11 @@ export const AccountSwitcher = (): JSX.Element => {
 	}, [activeSlideIndex])
 
 	const handleSlideClick = async (idx: number) => {
-		await setActiveSlide(idx)
+		await setActiveSlide(idx, hw, seed)
 	}
 
 	const handleAddAccount = async () => {
-		await selectAccount(addresses.length)
+		await selectAccount(addresses.length, hw, seed)
 	}
 
 	useEventListener('keydown', e => {

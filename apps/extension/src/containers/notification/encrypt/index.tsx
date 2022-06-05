@@ -14,8 +14,10 @@ import { HardwareWalletReconnect } from '@src/components/hardware-wallet-reconne
 export const Encrypt = (): JSX.Element => {
 	const [, { id }] = useRoute<{ id: string }>('/encrypt/:id')
 
-	const { sendResponse } = useSharedStore(state => ({
+	const { hw, seed, sendResponse } = useSharedStore(state => ({
 		sendResponse: state.sendResponseAction,
+		hw: state.hardwareWallet,
+		seed: state.masterSeed,
 	}))
 
 	const { account, entry, selectAccountForAddress, action } = useStore(state => {
@@ -42,7 +44,7 @@ export const Encrypt = (): JSX.Element => {
 
 	useEffect(() => {
 		if (fromAddress) {
-			selectAccountForAddress(fromAddress)
+			selectAccountForAddress(fromAddress, hw, seed)
 		}
 	}, [fromAddress])
 

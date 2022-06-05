@@ -22,14 +22,14 @@ import Button from 'ui/src/components/button'
 const isHIDSupported = !!window?.navigator?.hid
 
 export const ImportAccounts = (): JSX.Element => {
-	const { setStep } = useSharedStore(state => ({
+	const { setStep, sendAPDU } = useSharedStore(state => ({
 		setStep: state.setConnectHardwareWalletStepAction,
+		sendAPDU: state.sendAPDUAction,
 	}))
-	const { publicAddresses, network, setPublicAddresses, sendAPDU } = useStore(state => ({
+	const { publicAddresses, network, setPublicAddresses } = useStore(state => ({
 		publicAddresses: state.publicAddresses,
 		network: state.networks[state.selectedNetworkIndex],
 		setPublicAddresses: state.setPublicAddressesAction,
-		sendAPDU: state.sendAPDUAction,
 	}))
 
 	const [state, setState] = useImmer({

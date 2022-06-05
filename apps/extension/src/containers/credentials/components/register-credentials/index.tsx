@@ -5,7 +5,7 @@ import { useEventListener } from 'usehooks-ts'
 import { PageWrapper, PageHeading, PageSubHeading } from '@src/components/layout'
 import { Flex, Text, Box } from 'ui/src/components/atoms'
 import InputFeedBack from 'ui/src/components/input/input-feedback'
-import { RegistreCredentialsButton } from '@src/components/auth-register-credentials-button'
+import { RegisterCredentialsButton } from '@src/components/auth-register-credentials-button'
 
 export const RegsiterCredentials = (): JSX.Element => {
 	const [, setLocation] = useLocation()
@@ -60,7 +60,7 @@ export const RegsiterCredentials = (): JSX.Element => {
 				</InputFeedBack>
 			</Box>
 			<Flex css={{ width: '100%' }}>
-				<RegistreCredentialsButton
+				<RegisterCredentialsButton
 					fullWidth
 					color="primary"
 					size="6"
@@ -69,7 +69,7 @@ export const RegsiterCredentials = (): JSX.Element => {
 					loading={state.isLoading}
 				>
 					Create credentials
-				</RegistreCredentialsButton>
+				</RegisterCredentialsButton>
 			</Flex>
 			<Flex justify="center" align="center" css={{ height: '48px', ta: 'center', mt: '$2', width: '100%' }}>
 				<Text medium size="3" color="muted">

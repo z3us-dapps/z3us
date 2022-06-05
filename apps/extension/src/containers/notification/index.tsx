@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react'
-import { useSharedStore, useStore } from '@src/store'
+import { useSharedStore } from '@src/store'
 import { useHashLocation } from '@src/hooks/use-hash-location'
 import { AnimatedSwitch } from '@src/components/router-animated-switch'
 import { RouterScope } from '@src/components/router-scope'
@@ -14,11 +14,9 @@ import { Decrypt } from './decrypt'
 import { Transaction } from './transaction'
 
 export const Notification: React.FC = () => {
-	const { hasKeystore } = useSharedStore(state => ({
+	const { isUnlocked, hasKeystore } = useSharedStore(state => ({
 		hasKeystore: state.hasKeystore,
-	}))
-	const { seed } = useStore(state => ({
-		seed: state.masterSeed,
+		isUnlocked: Boolean(state.masterSeed || state.isHardwareWallet),
 	}))
 
 	useEffect(() => {
@@ -27,7 +25,7 @@ export const Notification: React.FC = () => {
 		}
 	}, [hasKeystore])
 
-	if (!seed) {
+	if (!isUnlocked) {
 		return <LockedPanel />
 	}
 

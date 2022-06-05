@@ -40,8 +40,8 @@ export default function NewV1BackgroundPopupActions(
 		sendInpageMessage(port, id, payload.request, payload.value)
 		delete actionsToConfirm[id]
 
-		const { selectKeystoreName } = sharedStore.getState()
-		const useStore = accountStore(selectKeystoreName)
+		const { selectKeystoreId } = sharedStore.getState()
+		const useStore = accountStore(selectKeystoreId)
 		const state = useStore.getState()
 		state.removePendingActionAction(id)
 	}

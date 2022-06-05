@@ -10,6 +10,7 @@ import {
 	UnstakeTokens,
 	StakeTokens,
 } from '@src/services/radix/transactions'
+import { HardwareWalletReconnect } from '@src/components/hardware-wallet-reconnect'
 import { useEventListener } from 'usehooks-ts'
 import {
 	useNativeToken,
@@ -25,7 +26,6 @@ import { Dialog, DialogTrigger, DialogContent } from 'ui/src/components/dialog'
 import { Box, Text, Flex } from 'ui/src/components/atoms'
 import { SlippageBox } from '@src/components/slippage-box'
 import BigNumber from 'bignumber.js'
-import { HardwareWalletReconnect } from '@src/components/hardware-wallet-reconnect'
 import { formatBigNumber } from '@src/utils/formatters'
 
 interface IProps {
