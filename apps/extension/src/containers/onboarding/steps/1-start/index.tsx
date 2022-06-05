@@ -34,26 +34,29 @@ const ulVariants = {
 
 export const Start = (): JSX.Element => {
 	const [, setLocation] = useLocation()
-	const { theme, setOnboardingStep, setIsRestoreWorkflow, lock, addKeystore } = useSharedStore(state => ({
+	const { theme, keystoreId, setOnboardingStep, setIsRestoreWorkflow, lock, addKeystore } = useSharedStore(state => ({
 		theme: state.theme,
+		keystoreId: state.selectKeystoreId,
 		setOnboardingStep: state.setOnboardingStepAction,
 		setIsRestoreWorkflow: state.setIsRestoreWorkflowAction,
 		lock: state.lockAction,
 		addKeystore: state.addKeystoreAction,
 	}))
-	const { createNewKeystore } = useStore(state => ({
-		createNewKeystore: Object.keys(state.publicAddresses).length > 0,
+	const { publicAddresses } = useStore(state => ({
+		publicAddresses: state.publicAddresses,
 	}))
 	const [state, setState] = useImmer({
 		mounted: false,
 	})
 
 	const createKeystore = async (type: KeystoreType) => {
-		if (createNewKeystore || KeystoreType.LOCAL !== type) {
-			const id = generateId()
-			addKeystore(id, id, type)
-			await lock() // clear background memory
+		if (keystoreId && Object.keys(publicAddresses).length === 0) {
+			return
 		}
+
+		const id = generateId()
+		addKeystore(id, id, type)
+		await lock() // clear background memory
 	}
 
 	const handleCreateNewWallet = async () => {
@@ -69,7 +72,6 @@ export const Start = (): JSX.Element => {
 	}
 
 	const connectHardwareWallet = async () => {
-		await createKeystore(KeystoreType.HARDWARE)
 		window.open(`${window.location.origin}/${popupHtmlMap[theme]}#/hardware-wallet`)
 		setLocation('#/hardware-wallet')
 	}

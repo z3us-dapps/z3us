@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import TransportWebHID from '@ledgerhq/hw-transport-webhid'
 import AlertCard from 'ui/src/components/alert-card'
 import { HardwareWalletLedger } from '@radixdlt/hardware-ledger'
@@ -18,13 +18,18 @@ import InputFeedBack from 'ui/src/components/input/input-feedback'
 import { PageWrapper, PageHeading, PageSubHeading } from '@src/components/layout'
 import { Flex, Text, Box, MotionBox } from 'ui/src/components/atoms'
 import Button from 'ui/src/components/button'
+import { generateId } from '@src/utils/generate-id'
+import { KeystoreType } from '@src/store/types'
 
 const isHIDSupported = !!window?.navigator?.hid
 
 export const ImportAccounts = (): JSX.Element => {
-	const { setStep, sendAPDU } = useSharedStore(state => ({
+	const { keystore, setStep, sendAPDU, lock, addKeystore } = useSharedStore(state => ({
+		keystore: state.keystores.find(({ id }) => id === state.selectKeystoreId),
 		setStep: state.setConnectHardwareWalletStepAction,
 		sendAPDU: state.sendAPDUAction,
+		lock: state.lockAction,
+		addKeystore: state.addKeystoreAction,
 	}))
 	const { publicAddresses, network, setPublicAddresses } = useStore(state => ({
 		publicAddresses: state.publicAddresses,
@@ -40,6 +45,20 @@ export const ImportAccounts = (): JSX.Element => {
 		isDerivingAccounts: false,
 		errorMessage: '',
 	})
+
+	const createKeystore = async () => {
+		if (keystore && keystore.type === KeystoreType.HARDWARE && Object.keys(publicAddresses).length === 0) {
+			return
+		}
+
+		const id = generateId()
+		addKeystore(id, id, KeystoreType.HARDWARE)
+		await lock() // clear background memory
+	}
+
+	useEffect(() => {
+		createKeystore()
+	}, [])
 
 	const selectedAmount = Object.keys(state.selectedIndexes).filter(idx => state.selectedIndexes?.[idx])?.length
 
