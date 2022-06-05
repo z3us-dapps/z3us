@@ -1,7 +1,7 @@
 import React from 'react'
 import BigNumber from 'bignumber.js'
 import { formatBigNumber } from '@src/utils/formatters'
-import { useUSDTicker } from '@src/services/react-query/queries/bitfinex'
+import { useUSDTicker } from '@src/services/react-query/queries/tickers'
 import { Box, Flex, Text } from 'ui/src/components/atoms'
 import PriceLabel from 'ui/src/components/price-label'
 

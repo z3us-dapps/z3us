@@ -1,10 +1,11 @@
 import { useQuery, useQueries } from 'react-query'
-import { BitFinexService } from '@src/services/bitfinex'
 import { Ticker } from '@src/types'
+import { CoinGeckoService } from '@src/services/coingecko'
+// import { BitFinexService } from '@src/services/bitfinex'
 
 export const USD = 'USD'
 
-const service = new BitFinexService()
+const service = new CoinGeckoService()
 
 export const useUSDTicker = (asset: string) =>
 	useQuery(['useUSDTicker', asset], async (): Promise<Ticker> => service.getTicker(USD, asset), {
@@ -16,9 +17,8 @@ export const useUSDTickers = (assets: string[]) => {
 		queryKey: ['useUSDTicker', asset],
 		queryFn: async () => {
 			try {
-				const ticker = await service.getTicker(USD, asset)
-				return ticker
-			} catch (err: any) {
+				return await service.getTicker(USD, asset)
+			} catch (error: any) {
 				return null
 			}
 			return null
