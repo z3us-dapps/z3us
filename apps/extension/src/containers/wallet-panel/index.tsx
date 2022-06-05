@@ -45,19 +45,19 @@ const pageStyle = {
 
 export const WalletPanel = (): JSX.Element => {
 	const [location] = useLocation()
-	const { isUnlocked, activeApp, hasKeystore } = useSharedStore(state => ({
+	const { isUnlocked, activeApp, keystores } = useSharedStore(state => ({
 		activeApp: state.activeApp,
-		hasKeystore: state.hasKeystore,
+		keystores: state.keystores,
 		isUnlocked: Boolean(state.masterSeed || state.isHardwareWallet),
 	}))
 	const [page, direction] = activeApp
 	const routes = Object.values(routesInfo)
 
 	useEffect(() => {
-		if (!hasKeystore) {
+		if (keystores.length === 0) {
 			window.location.hash = '#/onboarding'
 		}
-	}, [hasKeystore])
+	}, [keystores])
 
 	useEffect(() => {
 		if (location === '/onboarding') {
@@ -73,7 +73,7 @@ export const WalletPanel = (): JSX.Element => {
 		}
 	}, [location])
 
-	if (!hasKeystore) {
+	if (keystores.length === 0) {
 		return null
 	}
 

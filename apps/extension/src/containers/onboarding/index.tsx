@@ -19,9 +19,9 @@ import { useColorMode } from '@src/hooks/use-color-mode'
 export const OnboardingWorkFlow: React.FC = () => {
 	const [, setLocation] = useLocation()
 	const isDarkMode = useColorMode()
-	const { hasKeystore, onBoardingStep, setOnboardingStep, setIsRestoreWorkflow, isRestoreWorkflow } = useSharedStore(
+	const { keystores, onBoardingStep, setOnboardingStep, setIsRestoreWorkflow, isRestoreWorkflow } = useSharedStore(
 		state => ({
-			hasKeystore: state.hasKeystore,
+			keystores: state.keystores,
 			onBoardingStep: state.onBoardingStep,
 			setOnboardingStep: state.setOnboardingStepAction,
 			setIsRestoreWorkflow: state.setIsRestoreWorkflowAction,
@@ -29,7 +29,7 @@ export const OnboardingWorkFlow: React.FC = () => {
 		}),
 	)
 
-	const showBackBtn = hasKeystore || onBoardingStep !== onBoardingSteps.START
+	const showBackBtn = keystores.length > 0 || onBoardingStep !== onBoardingSteps.START
 
 	const handleBackClick = () => {
 		switch (onBoardingStep) {

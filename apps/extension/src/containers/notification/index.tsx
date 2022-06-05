@@ -14,16 +14,16 @@ import { Decrypt } from './decrypt'
 import { Transaction } from './transaction'
 
 export const Notification: React.FC = () => {
-	const { isUnlocked, hasKeystore } = useSharedStore(state => ({
-		hasKeystore: state.hasKeystore,
+	const { isUnlocked, keystores } = useSharedStore(state => ({
+		keystores: state.keystores,
 		isUnlocked: Boolean(state.masterSeed || state.isHardwareWallet),
 	}))
 
 	useEffect(() => {
-		if (!hasKeystore) {
+		if (keystores.length === 0) {
 			window.location.hash = '#/onboarding'
 		}
-	}, [hasKeystore])
+	}, [keystores])
 
 	if (!isUnlocked) {
 		return <LockedPanel />

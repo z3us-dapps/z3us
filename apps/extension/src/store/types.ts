@@ -104,9 +104,6 @@ export type BackgroundStore = {
 }
 
 export type KeystoresStore = {
-	hasKeystore: boolean
-	setHasKeystoreAction: (hasKeystore: boolean) => void
-
 	selectKeystoreId: string
 	selectKeystoreAction: (id: string) => void
 

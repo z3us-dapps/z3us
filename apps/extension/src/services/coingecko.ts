@@ -2,8 +2,8 @@ import { Ticker } from '@src/types'
 
 const parseTicker = (ticker: any, currency: string) => ({
 	last_price: ticker[currency.toLowerCase()] as number,
-	change: ticker[`currency.toLowerCase()_24h_change`] as number,
-	volume: ticker[`currency.toLowerCase()_24h_vol`] as number,
+	change: ticker[`${currency.toLowerCase()}_24h_change`] as number,
+	volume: ticker[`${currency.toLowerCase()}_24h_vol`] as number,
 })
 
 // https://docs.google.com/spreadsheets/d/1wTTuxXt8n9q7C4NDXqQpI3wpKu1_5bGVmP9Xz0XGSyU/edit#gid=0
@@ -32,12 +32,12 @@ export class CoinGeckoService {
 	}
 
 	getTickers = async (currency: string, assets: string[]): Promise<{ [key: string]: Ticker }> => {
-		const ids = assets.flatMap(asset => (assetToCoingeckoIdMap[asset] ? [asset] : []))
+		const ids = assets.flatMap(asset => (assetToCoingeckoIdMap[asset] ? [assetToCoingeckoIdMap[asset]] : []))
 		if (ids.length === 0) {
 			return {}
 		}
 
-		const url = new URL(`${this.baseURL}/v3/simple/prices`)
+		const url = new URL(`${this.baseURL}/v3/simple/price`)
 		url.searchParams.set('ids', ids.join(','))
 		url.searchParams.set('vs_currencies', currency)
 		url.searchParams.set('include_24hr_vol', 'true')
