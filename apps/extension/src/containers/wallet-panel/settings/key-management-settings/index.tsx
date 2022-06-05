@@ -21,7 +21,7 @@ import { ExportSecretPhrase } from './export-secret-phrase'
 
 export const KeyManagementSettings: React.FC = () => {
 	const [, setLocation] = useLocation()
-	const { keystore, messanger, createWallet, removeWallet, removeKeystore, setSeed } = useSharedStore(state => ({
+	const { messanger, keystore, createWallet, removeWallet, removeKeystore, setSeed } = useSharedStore(state => ({
 		messanger: state.messanger,
 		keystore: state.keystores.find(({ id }) => id === state.selectKeystoreId),
 		createWallet: state.createWalletAction,

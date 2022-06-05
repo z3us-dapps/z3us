@@ -19,11 +19,7 @@ export interface Ticker {
 	asset: string
 	currency: string
 	change: number
-	bid: number
-	ask: number
 	last_price: number
-	low: number
-	high: number
 	volume: number
 }
 

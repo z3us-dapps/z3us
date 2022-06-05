@@ -51,7 +51,8 @@ export class VaultService {
 
 	has = async (): Promise<boolean> => {
 		try {
-			const keystore = await this.storage.getItem(keystoreKey)
+			const suffix = await getKeystorePrefix()
+			const keystore = await this.storage.getItem(`${keystoreKey}-${suffix}`)
 			return !!keystore
 		} catch (err) {
 			return false
@@ -60,8 +61,10 @@ export class VaultService {
 
 	get = async () => {
 		if (!this.masterSeed) {
+			const keystoreId = await getKeystorePrefix()
 			const hasKeystore = await this.has()
 			return {
+				keystoreId,
 				hasKeystore,
 			}
 		}
@@ -103,7 +106,7 @@ export class VaultService {
 	remove = async () => {
 		const suffix = await getKeystorePrefix()
 		await this.lock()
-		await this.storage.removeItem(suffix ? `${keystoreKey}-${suffix}` : keystoreKey)
+		await this.storage.removeItem(`${keystoreKey}-${suffix}`)
 	}
 
 	private load = async (keystore: KeystoreT, password: string) => {
@@ -124,6 +127,7 @@ export class VaultService {
 	private reload = async () => {
 		await this.resetTimer()
 
+		const keystoreId = await getKeystorePrefix()
 		const hasKeystore = await this.has()
 
 		return {
@@ -136,17 +140,18 @@ export class VaultService {
 			} as MnemonicProps,
 			seed: this.masterSeed.seed.toString('hex'),
 			hasKeystore,
+			keystoreId,
 		}
 	}
 
 	private saveKeystore = async (keystore: KeystoreT) => {
 		const suffix = await getKeystorePrefix()
-		await this.storage.setItem(suffix ? `${keystoreKey}-${suffix}` : keystoreKey, JSON.stringify(keystore, null, '\t'))
+		await this.storage.setItem(`${keystoreKey}-${suffix}`, JSON.stringify(keystore, null, '\t'))
 	}
 
 	private loadKeystore = async (): Promise<KeystoreT> => {
 		const suffix = await getKeystorePrefix()
-		const data = await this.storage.getItem(suffix ? `${keystoreKey}-${suffix}` : keystoreKey)
+		const data = await this.storage.getItem(`${keystoreKey}-${suffix}`)
 		if (!data) {
 			throw new Error('No keystore!')
 		}

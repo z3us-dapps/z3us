@@ -9,6 +9,7 @@ const STAKES = 'v1-stakes'
 const UNSTAKES = 'v1-unstakes'
 const ENCRYPT = 'v1-encrypt'
 const DESCRYPT = 'v1-decrypt'
+const SIGN = 'v1-sign'
 const SEND_TRANSACTION = 'v1-sendTransaction'
 
 // popup
@@ -37,6 +38,7 @@ export {
 	UNSTAKES,
 	ENCRYPT,
 	DESCRYPT,
+	SIGN,
 	SEND_TRANSACTION,
 	CONFIRM,
 	HAS,

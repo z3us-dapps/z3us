@@ -4,15 +4,8 @@ import { KeystoresStore, KeystoreType, SharedStore } from './types'
 export const whiteList = ['keystores', 'selectKeystoreId']
 
 export const factory = (set: SetState<SharedStore>): KeystoresStore => ({
-	hasKeystore: false,
 	keystores: [],
 	selectKeystoreId: '',
-
-	setHasKeystoreAction: (hasKeystore: boolean) => {
-		set(state => {
-			state.hasKeystore = hasKeystore
-		})
-	},
 
 	addKeystoreAction: (id: string, name: string, type: KeystoreType) => {
 		set(draft => {
@@ -33,6 +26,9 @@ export const factory = (set: SetState<SharedStore>): KeystoresStore => ({
 				draft.selectKeystoreId = ''
 			}
 			draft.keystores = draft.keystores.filter(({ id }) => keystoreId !== id)
+			if (draft.keystores.length > 0) {
+				draft.selectKeystoreId = draft.keystores[0].id
+			}
 		})
 	},
 

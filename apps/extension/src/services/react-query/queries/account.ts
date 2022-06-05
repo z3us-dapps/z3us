@@ -1,6 +1,6 @@
 import { Ticker } from '@src/types'
 import BigNumber from 'bignumber.js'
-import { useUSDTickers } from './bitfinex'
+import { useUSDTickers } from './tickers'
 import { useAllAccountsTokenBalances, useTokenBalances, useTokenInfos } from './radix'
 
 const accountValueLoadingState = { isLoading: true, value: new BigNumber(0), change: new BigNumber(0) }
