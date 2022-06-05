@@ -1,5 +1,5 @@
 import React from 'react'
-import { useSharedStore } from '@src/store'
+import { useSharedStore, useStore } from '@src/store'
 import { useImmer } from 'use-immer'
 import Button from 'ui/src/components/button'
 import { Z3usIcon, TrashIcon, HardwareWalletIcon } from 'ui/src/components/icons'
@@ -41,6 +41,9 @@ export const Z3usMenu: React.FC = () => {
 			removeWallet: state.removeWalletAction,
 			isUnlocked: Boolean(state.masterSeed || state.isHardwareWallet),
 		}))
+	const { reset } = useStore(state => ({
+		reset: state.resetAction,
+	}))
 
 	const [state, setState] = useImmer({
 		isOpen: false,
@@ -65,6 +68,7 @@ export const Z3usMenu: React.FC = () => {
 	const confirmRemoveWallet = () => async () => {
 		selectKeystore(state.keystoreId)
 		await removeWallet()
+		reset()
 		removeKeystore(state.keystoreId)
 		setState(draft => {
 			draft.keystoreId = undefined
@@ -146,18 +150,20 @@ export const Z3usMenu: React.FC = () => {
 														{type === KeystoreType.HARDWARE && <HardwareWalletIcon />}
 													</Text>
 												</Box>
-												<Box>
-													<ToolTip message="Delete">
-														<Button size="1" iconOnly color="ghost" onClick={() => handleRemoveWallet(id)}>
-															<TrashIcon />
-														</Button>
-													</ToolTip>
-													<ToolTip message="Edit">
-														<Button size="1" iconOnly color="ghost" onClick={() => handleEditWalletName(id)}>
-															<Pencil2Icon />
-														</Button>
-													</ToolTip>
-												</Box>
+												{isUnlocked && keystoreId === id && (
+													<Box>
+														<ToolTip message="Delete">
+															<Button size="1" iconOnly color="ghost" onClick={() => handleRemoveWallet(id)}>
+																<TrashIcon />
+															</Button>
+														</ToolTip>
+														<ToolTip message="Edit">
+															<Button size="1" iconOnly color="ghost" onClick={() => handleEditWalletName(id)}>
+																<Pencil2Icon />
+															</Button>
+														</ToolTip>
+													</Box>
+												)}
 											</Flex>
 										</DropdownMenuRadioItem>
 									))}
