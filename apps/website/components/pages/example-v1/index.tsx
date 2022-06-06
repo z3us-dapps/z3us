@@ -61,7 +61,7 @@ function newTxFromState(to: string, from: AccountAddressT, amount: string, messa
 
 export const Example = () => {
 	const { show } = useToastControls()
-	const { address, connect, disconnect, encrypt, sendTransaction } = useZ3usWallet()
+	const { address, connect, disconnect, encrypt, submitTransaction } = useZ3usWallet()
 	const [state, setState] = useImmer({
 		to: '',
 		amount: '',
@@ -109,7 +109,7 @@ export const Example = () => {
 				? Message.createPlaintext(state.message).bytes.toString('hex')
 				: ''
 			const tx = newTxFromState(state.to, address, state.amount, msg)
-			const response = await sendTransaction({ symbol: XRD.symbol, transaction: tx, fromAddress: address.toString() })
+			const response = await submitTransaction({ transaction: tx })
 			console.log(response)
 			show('toast-first')
 		} catch (error: unknown) {

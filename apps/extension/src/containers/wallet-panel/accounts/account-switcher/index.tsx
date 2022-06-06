@@ -4,6 +4,7 @@ import { PlusIcon } from 'ui/src/components/icons'
 import { useEventListener } from 'usehooks-ts'
 import { Box, Flex, MotionBox, Text } from 'ui/src/components/atoms'
 import Button from 'ui/src/components/button'
+import { HardwareWalletReconnect } from '@src/components/hardware-wallet-reconnect'
 import { AccountSwitcherButtons } from './account-switcher-buttons'
 import { AccountInfo } from './account-info'
 import { AccountsTotal } from './accounts-total'
@@ -13,7 +14,8 @@ const SLIDER_HEIGHT = 169
 const LEFT_OFFSET = 26 - SLIDER_WIDTH
 
 export const AccountSwitcher = (): JSX.Element => {
-	const { hw, seed } = useSharedStore(state => ({
+	const { isHardwareWallet, hw, seed } = useSharedStore(state => ({
+		isHardwareWallet: state.isHardwareWallet,
 		hw: state.hardwareWallet,
 		seed: state.masterSeed,
 	}))
@@ -112,18 +114,24 @@ export const AccountSwitcher = (): JSX.Element => {
 							css={{ border: '1px dashed #a8a8a8', height: '100%', borderRadius: '14px' }}
 						>
 							<Box css={{ textAlign: 'center' }}>
-								<Button size="5" color="inverse" iconOnly circle onClick={handleAddAccount} css={{ mt: '5px' }}>
-									<PlusIcon />
-								</Button>
-								<Text size="4" css={{ mt: '12px' }} medium>
-									New account
-								</Text>
+								{isHardwareWallet && !hw && (
+									<>
+										<Button size="5" color="inverse" iconOnly circle onClick={handleAddAccount} css={{ mt: '5px' }}>
+											<PlusIcon />
+										</Button>
+										<Text size="4" css={{ mt: '12px' }} medium>
+											New account
+										</Text>
+									</>
+								)}
+								<Box css={{ p: '10px' }}>
+									<HardwareWalletReconnect />
+								</Box>
 							</Box>
 						</Flex>
 					</Box>
 				</MotionBox>
 			</Box>
-
 			<Box
 				css={{
 					opacity: isAccountBtnsVisible ? '1' : '0',

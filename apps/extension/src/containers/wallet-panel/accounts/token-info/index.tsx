@@ -4,10 +4,11 @@ import { useTokenBalances, useTokenInfo } from '@src/services/react-query/querie
 import { getSplitParams } from '@src/utils/url-utils'
 import { useRoute, useLocation } from 'wouter'
 import { Tooltip, TooltipTrigger, TooltipContent, TooltipArrow } from 'ui/src/components/tool-tip'
-import { Grid, Box, Flex, Text } from 'ui/src/components/atoms'
+import { Grid, Flex, Text } from 'ui/src/components/atoms'
 import { EXPLORER_URL } from '@src/config'
 import { UpRightIcon, DownLeftIcon, ExternalLinkIcon } from 'ui/src/components/icons'
 import Button from 'ui/src/components/button'
+import { CircleAvatar } from '@src/components/circle-avatar'
 import { TokenPrice } from './token-price'
 
 export const TokenInfo = (): JSX.Element => {
@@ -55,13 +56,14 @@ export const TokenInfo = (): JSX.Element => {
 			}}
 		>
 			<Flex direction="column" align="center">
-				<Box css={{ width: '50px', height: '50px', borderRadius: '50%', overflow: 'hidden' }}>
-					<Box
-						as="img"
-						src={token?.image || token?.iconURL}
-						css={{ width: '50px', height: '50px', borderRadius: '50%' }}
-					/>
-				</Box>
+				<CircleAvatar
+					borderWidth={0}
+					shadow={false}
+					width={50}
+					height={50}
+					image={token?.image || token?.iconURL}
+					fallbackText={token?.symbol.toLocaleUpperCase()}
+				/>
 				<Text bold size="6" css={{ mt: '15px', pb: '5px' }}>
 					{token.name} ({token.symbol.toLocaleUpperCase()})
 				</Text>

@@ -6,6 +6,7 @@ import { useLocation } from 'wouter'
 import { Box, Flex, Text } from 'ui/src/components/atoms'
 import Button from 'ui/src/components/button'
 import { ToolTip } from 'ui/src/components/tool-tip'
+import { CircleAvatar } from '@src/components/circle-avatar'
 import { InfoCircledIcon } from '@radix-ui/react-icons'
 import { TokenPrice } from './token-price'
 
@@ -63,19 +64,14 @@ export const TokenRow: React.FC<IProps> = ({ i, rri, amount, staked, loading, di
 				{isLoadingComplete && token ? (
 					<>
 						<Box css={{ pt: '16px', mr: '13px', pl: '$4' }}>
-							<Box css={{ width: '36px', height: '36px', borderRadius: '50%', overflow: 'hidden' }}>
-								{token?.image || token?.iconURL ? (
-									<Box as="img" src={token?.image || token?.iconURL} css={{ width: '36px', height: '36px' }} />
-								) : (
-									<Flex
-										justify="center"
-										align="center"
-										css={{ width: '36px', height: '36px', fontSize: '12px', fontWeight: 'bold' }}
-									>
-										{(token?.symbol || '').substring(0, 2)}
-									</Flex>
-								)}
-							</Box>
+							<CircleAvatar
+								borderWidth={0}
+								shadow={false}
+								width={36}
+								height={36}
+								image={token?.image || token?.iconURL}
+								fallbackText={token?.symbol.toLocaleUpperCase()}
+							/>
 						</Box>
 						<Flex css={{ flex: 1, pr: '$5' }}>
 							<Box css={{ width: '60%', flexBasis: '60%', pt: '16px' }}>

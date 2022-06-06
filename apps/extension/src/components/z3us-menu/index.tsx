@@ -57,6 +57,7 @@ export const Z3usMenu: React.FC = () => {
 	}
 
 	const handleValueChange = async (id: string) => {
+		if (id === keystoreId) return
 		selectKeystore(id)
 		await lock()
 	}
@@ -159,28 +160,28 @@ export const Z3usMenu: React.FC = () => {
 														<Text size="2" bold truncate css={{ maxWidth: '100px' }}>
 															{name}
 														</Text>
-														{type === KeystoreType.HARDWARE && (
-															<Box css={{ pl: '$1' }}>
-																<ToolTip message="Hardware wallet account">
-																	<HardwareWalletIcon />
-																</ToolTip>
-															</Box>
-														)}
 													</Flex>
-													{isUnlocked && keystoreId === id && (
-														<Box>
-															<ToolTip message="Delete">
-																<Button size="1" iconOnly color="ghost" onClick={() => handleRemoveWallet(id)}>
-																	<TrashIcon />
-																</Button>
+													<Box>
+														{type === KeystoreType.HARDWARE && (
+															<ToolTip message="Hardware wallet account">
+																<HardwareWalletIcon />
 															</ToolTip>
-															<ToolTip message="Edit">
-																<Button size="1" iconOnly color="ghost" onClick={() => handleEditWalletName(id)}>
-																	<Pencil2Icon />
-																</Button>
-															</ToolTip>
-														</Box>
-													)}
+														)}
+														{isUnlocked && keystoreId === id && (
+															<>
+																<ToolTip message="Delete">
+																	<Button size="1" iconOnly color="ghost" onClick={() => handleRemoveWallet(id)}>
+																		<TrashIcon />
+																	</Button>
+																</ToolTip>
+																<ToolTip message="Edit">
+																	<Button size="1" iconOnly color="ghost" onClick={() => handleEditWalletName(id)}>
+																		<Pencil2Icon />
+																	</Button>
+																</ToolTip>
+															</>
+														)}
+													</Box>
 												</Flex>
 											</DropdownMenuRadioItem>
 										))}

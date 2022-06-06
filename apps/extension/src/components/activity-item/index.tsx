@@ -12,6 +12,7 @@ import { CSS } from 'ui/src/theme'
 import { Popover, PopoverTrigger, PopoverContent, PopoverClose } from 'ui/src/components/popover'
 import { ActivityLinks } from './activity-links'
 import { ActivityType } from '../activity-type'
+import { CircleAvatar } from '../circle-avatar'
 
 interface IProps {
 	tx: Transaction
@@ -47,9 +48,14 @@ export const ActivityItem = React.forwardRef<HTMLDivElement, IProps>(({ tx, acti
 						}}
 					>
 						<Box css={{ mr: '13px', pl: '$2' }}>
-							<Box css={{ width: '36px', height: '36px', borderRadius: '50%', overflow: 'hidden' }}>
-								<Box as="img" src={tokenImage} css={{ width: '36px', height: '36px' }} />
-							</Box>
+							<CircleAvatar
+								borderWidth={0}
+								shadow={false}
+								width={36}
+								height={36}
+								image={tokenImage}
+								fallbackText={token?.symbol.toLocaleUpperCase()}
+							/>
 						</Box>
 						<Flex direction="column" css={{ flex: '1' }}>
 							<Flex align="center">

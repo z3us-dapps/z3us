@@ -30,7 +30,7 @@ export const TokenPrice = ({ symbol, ammount }: Props): JSX.Element => {
 
 	const tokenPercentageChange = `${ticker.change < 0 ? '' : '+'}${ticker.change.toFixed(2).toLocaleString()}%`
 	const tokenPrice = formatBigNumber(new BigNumber(ticker.last_price), 'USD', 2)
-	const accountTokenAmmount = formatBigNumber(ammount.multipliedBy(ticker.last_price), 'USD', 2)
+	const accountTokenAmmount = formatBigNumber(ammount.multipliedBy(ticker.last_price), 'USD', 8)
 
 	return (
 		<Flex direction="column" align="center" css={{ minHeight: tokenPriceHeight }}>
