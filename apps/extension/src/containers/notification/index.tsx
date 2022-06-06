@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react'
-import { useSharedStore, useStore } from '@src/store'
+import { useSharedStore } from '@src/store'
 import { useHashLocation } from '@src/hooks/use-hash-location'
 import { AnimatedSwitch } from '@src/components/router-animated-switch'
 import { RouterScope } from '@src/components/router-scope'
@@ -11,23 +11,22 @@ import { Flex } from 'ui/src/components/atoms'
 import { Connect } from './connect'
 import { Encrypt } from './encrypt'
 import { Decrypt } from './decrypt'
+import { Sign } from './sign'
 import { Transaction } from './transaction'
 
 export const Notification: React.FC = () => {
-	const { hasKeystore } = useSharedStore(state => ({
-		hasKeystore: state.hasKeystore,
-	}))
-	const { seed } = useStore(state => ({
-		seed: state.masterSeed,
+	const { isUnlocked, keystores } = useSharedStore(state => ({
+		keystores: state.keystores,
+		isUnlocked: Boolean(state.masterSeed || state.isHardwareWallet),
 	}))
 
 	useEffect(() => {
-		if (!hasKeystore) {
+		if (keystores.length === 0) {
 			window.location.hash = '#/onboarding'
 		}
-	}, [hasKeystore])
+	}, [keystores])
 
-	if (!seed) {
+	if (!isUnlocked) {
 		return <LockedPanel />
 	}
 
@@ -52,6 +51,7 @@ export const Notification: React.FC = () => {
 					<Route path="/connect/:id" component={Connect} />
 					<Route path="/encrypt/:id" component={Encrypt} />
 					<Route path="/decrypt/:id" component={Decrypt} />
+					<Route path="/sign/:id" component={Sign} />
 					<Route path="/transaction/:id" component={Transaction} />
 				</AnimatedSwitch>
 			</RouterScope>

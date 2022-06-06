@@ -2,15 +2,18 @@ import React from 'react'
 import { useSharedStore } from '@src/store'
 import { Box, Text } from 'ui/src/components/atoms'
 import { StyledSlider, StyledTrack, StyledThumb, StyledRange } from 'ui/src/components/slider'
+import { GET } from '@src/lib/actions'
 
 export const GeneralSettings: React.FC = () => {
-	const { unlockTimer, setWalletUnclokTimeoutInMinutes } = useSharedStore(state => ({
+	const { messanger, unlockTimer, setWalletUnclokTimeoutInMinutes } = useSharedStore(state => ({
+		messanger: state.messanger,
 		unlockTimer: state.walletUnlockTimeoutInMinutes,
 		setWalletUnclokTimeoutInMinutes: state.setWalletUnclokTimeoutInMinutesAction,
 	}))
 
-	const handleChangeUnlockTime = ([minute]: Array<number>) => {
+	const handleChangeUnlockTime = async ([minute]: Array<number>) => {
 		setWalletUnclokTimeoutInMinutes(minute)
+		await messanger.sendActionMessageFromPopup(GET, null) // reload background timer
 	}
 
 	return (

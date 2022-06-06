@@ -2,13 +2,13 @@ import { Ticker } from '@src/types'
 
 // https://docs.bitfinex.com/reference#rest-public-ticker
 const parseTicker = (ticker: Array<string | number>) => ({
-	bid: ticker[0] as number,
-	ask: ticker[2] as number,
 	change: (ticker[5] as number) * 100,
 	last_price: ticker[6] as number,
 	volume: ticker[7] as number,
-	low: ticker[9] as number,
-	high: ticker[9] as number,
+	// bid: ticker[0] as number,
+	// ask: ticker[2] as number,
+	// low: ticker[9] as number,
+	// high: ticker[9] as number,
 })
 
 export class BitFinexService {
@@ -35,10 +35,10 @@ export class BitFinexService {
 		return { ...parseTicker(data as Array<string | number>), currency, asset }
 	}
 
-	getTickers = async (currency: string, assets: string[]): Promise<Ticker[]> => {
-		const path = `${this.baseURL}/v2/ticker/tickers?symbols=${assets
-			.map(asset => `t${asset.toUpperCase()}${currency.toUpperCase()}`)
-			.join(',')}`
+	getTickers = async (currency: string, assets: string[]): Promise<{ [key: string]: Ticker }> => {
+		const url = new URL(`${this.baseURL}/v2/ticker/tickers`)
+		url.searchParams.set('symbols', assets.map(asset => `t${asset.toUpperCase()}${currency.toUpperCase()}`).join(','))
+		const path = url.toString()
 
 		const response = await fetch(path, this.options)
 		if (response.status !== 200) {
@@ -47,10 +47,13 @@ export class BitFinexService {
 
 		const data = await response.json()
 
-		return (data as Array<Array<string | number>>).map((ticker, idx) => ({
-			...parseTicker(ticker),
-			currency,
-			asset: assets[idx],
-		}))
+		return (data as Array<Array<string | number>>).reduce((map, ticker, idx) => {
+			map[assets[idx]] = {
+				...parseTicker(ticker),
+				currency,
+				asset: assets[idx],
+			}
+			return map
+		}, {})
 	}
 }

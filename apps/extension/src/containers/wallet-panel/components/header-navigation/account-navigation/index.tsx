@@ -11,7 +11,9 @@ import { Box, Flex, Text } from 'ui/src/components/atoms'
 import { ACCOUNTS } from '@src/config'
 
 export const AccountNaviation: React.FC = () => {
-	const { activeApp, expanded } = useSharedStore(state => ({
+	const { hw, seed, activeApp, expanded } = useSharedStore(state => ({
+		hw: state.hardwareWallet,
+		seed: state.masterSeed,
 		activeApp: state.activeApp,
 		expanded: state.accountPanelExpanded,
 	}))
@@ -29,7 +31,7 @@ export const AccountNaviation: React.FC = () => {
 	const shortAddress = getShortAddress(entry?.address)
 
 	const handleBreadCrumbClick = async (idx: number) => {
-		await setActiveSlide(idx)
+		await setActiveSlide(idx, hw, seed)
 		setLocation('/wallet/account')
 	}
 

@@ -76,8 +76,8 @@ browser.runtime.onConnect.addListener(port => {
 			delete actionsToConfirm[id]
 
 			await sharedStore.persist.rehydrate()
-			const { selectKeystoreName } = sharedStore.getState()
-			const useStore = accountStore(selectKeystoreName)
+			const { selectKeystoreId } = sharedStore.getState()
+			const useStore = accountStore(selectKeystoreId)
 			await useStore.persist.rehydrate()
 
 			const state = useStore.getState()
@@ -97,8 +97,8 @@ browser.runtime.onConnect.addListener(port => {
 				if (action in inpageActionHandlers) {
 					portMessageIDs[id] = {}
 					await sharedStore.persist.rehydrate()
-					const { selectKeystoreName } = sharedStore.getState()
-					const useStore = accountStore(selectKeystoreName)
+					const { selectKeystoreId } = sharedStore.getState()
+					const useStore = accountStore(selectKeystoreId)
 					await useStore.persist.rehydrate()
 					try {
 						inpageActionHandlers[action](port, id, payload)
@@ -113,8 +113,8 @@ browser.runtime.onConnect.addListener(port => {
 				if (action in popupActionHandlers) {
 					portMessageIDs[id] = {}
 					await sharedStore.persist.rehydrate()
-					const { selectKeystoreName } = sharedStore.getState()
-					const useStore = accountStore(selectKeystoreName)
+					const { selectKeystoreId } = sharedStore.getState()
+					const useStore = accountStore(selectKeystoreId)
 					await useStore.persist.rehydrate()
 					try {
 						popupActionHandlers[action](port, id, payload)

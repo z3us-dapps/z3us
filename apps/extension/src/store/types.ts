@@ -21,13 +21,22 @@ export type Network = {
 export type AddressBookEntry = {
 	name?: string
 	address?: string
-	isOwn?: boolean
-	isHardWallet?: boolean
 	background?: string
 	colorSettings?: { [key in ColorSettings]: string }
 }
 
 export type PendingAction = { payloadHex: string; createdAt: Date }
+
+export enum KeystoreType {
+	LOCAL = 'local',
+	HARDWARE = 'hardware',
+}
+
+export type Keystore = {
+	id: string
+	name: string
+	type: KeystoreType
+}
 
 export type ToastsStore = {
 	toasts: Array<Toast>
@@ -95,27 +104,27 @@ export type BackgroundStore = {
 }
 
 export type KeystoresStore = {
-	hasKeystore: boolean
-	setHasKeystoreAction: (hasKeystore: boolean) => void
+	selectKeystoreId: string
+	selectKeystoreAction: (id: string) => void
 
-	selectKeystoreName: string
-	selectKeystore: (id: string) => void
-
-	keystores: string[]
-	addKeystore: (id: string) => void
-	removeKeystore: (id: string) => void
+	keystores: Keystore[]
+	addKeystoreAction: (id: string, name: string, type: KeystoreType) => void
+	removeKeystoreAction: (id: string) => void
+	changeKeystoreNameAction: (id: string, name: string) => void
 }
 
 export type LocalWalletStore = {
 	masterSeed: HDMasterSeedT | null
 
-	setMasterSeedAction: (seed: HDMasterSeedT) => Promise<void>
+	setMasterSeedAction: (seed: HDMasterSeedT) => void
 }
 
 export type HardwareWalletStore = {
-	hardwareWallet: HardwareWalletT | null
+	isHardwareWallet: boolean
+	unlockHardwareWalletAction: () => void
 
-	connectHW: () => void
+	hardwareWallet: HardwareWalletT | null
+	setHardwareWalletAction: (hw: HardwareWalletT) => void
 	sendAPDUAction: (
 		cla: number,
 		ins: number,
@@ -129,7 +138,6 @@ export type HardwareWalletStore = {
 export type WalletStore = {
 	account: AccountT | null
 	resetAction: () => void
-	lockAction: () => Promise<void>
 	getCurrentAddressAction: () => string
 
 	publicAddresses: { [key: number]: AddressBookEntry }
@@ -139,15 +147,31 @@ export type WalletStore = {
 
 	networks: Network[]
 	selectedNetworkIndex: number
-	selectNetworkAction: (newIndex: number) => Promise<void>
+	selectNetworkAction: (
+		newIndex: number,
+		hardwareWallet: HardwareWalletT | null,
+		masterSeed: HDMasterSeedT | null,
+	) => Promise<void>
 	addNetworkAction: (id: NetworkID, url: URL) => void
 
 	selectedAccountIndex: number
-	selectAccountAction: (newIndex: number) => Promise<void>
-	selectAccountForAddressAction: (address: string) => Promise<void>
+	selectAccountAction: (
+		newIndex: number,
+		hardwareWallet: HardwareWalletT | null,
+		masterSeed: HDMasterSeedT | null,
+	) => Promise<void>
+	selectAccountForAddressAction: (
+		address: string,
+		hardwareWallet: HardwareWalletT | null,
+		masterSeed: HDMasterSeedT | null,
+	) => Promise<void>
 
 	activeSlideIndex: number
-	setActiveSlideIndexAction: (newIndex: number) => Promise<void>
+	setActiveSlideIndexAction: (
+		newIndex: number,
+		hardwareWallet: HardwareWalletT | null,
+		masterSeed: HDMasterSeedT | null,
+	) => Promise<void>
 
 	approvedWebsites: {
 		[key: string]: any
@@ -162,8 +186,15 @@ export type WalletStore = {
 	removePendingActionAction: (id: string) => void
 }
 
-export type SharedStore = ThemeStore & ToastsStore & OnBoardingStore & SettingsStore & BackgroundStore & KeystoresStore
+export type SharedStore = ThemeStore &
+	ToastsStore &
+	OnBoardingStore &
+	SettingsStore &
+	BackgroundStore &
+	KeystoresStore &
+	LocalWalletStore &
+	HardwareWalletStore
 
-export type AccountStore = WalletStore & LocalWalletStore & HardwareWalletStore
+export type AccountStore = WalletStore
 
 export type AppStore = SharedStore & AccountStore

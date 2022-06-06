@@ -1,7 +1,7 @@
-import { GetState, SetState } from 'zustand'
+import { SetState } from 'zustand'
 import TransportWebHID from '@ledgerhq/hw-transport-webhid'
-import { HardwareWalletLedger } from '@radixdlt/hardware-ledger'
-import { AccountStore, HardwareWalletStore } from './types'
+import { HardwareWalletT } from '@radixdlt/hardware-wallet'
+import { HardwareWalletStore, SharedStore } from './types'
 
 export const sendAPDUAction = async (
 	cla: number,
@@ -22,16 +22,20 @@ export const sendAPDUAction = async (
 	}
 }
 
-export const factory = (set: SetState<AccountStore>, get: GetState<AccountStore>): HardwareWalletStore => ({
+export const factory = (set: SetState<SharedStore>): HardwareWalletStore => ({
 	hardwareWallet: null,
+	isHardwareWallet: false,
 
-	connectHW: async () => {
-		const hw = await HardwareWalletLedger.create({ send: get().sendAPDUAction }).toPromise()
+	setHardwareWalletAction: (hw: HardwareWalletT) => {
 		set(draft => {
 			draft.hardwareWallet = hw
 		})
-		const { selectAccountAction } = get()
-		return selectAccountAction(0)
+	},
+
+	unlockHardwareWalletAction: () => {
+		set(draft => {
+			draft.isHardwareWallet = true
+		})
 	},
 
 	sendAPDUAction,

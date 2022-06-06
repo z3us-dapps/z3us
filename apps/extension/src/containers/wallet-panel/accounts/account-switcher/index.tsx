@@ -1,9 +1,10 @@
 import React, { useRef, useState, useEffect } from 'react'
-import { useStore } from '@src/store'
+import { useSharedStore, useStore } from '@src/store'
 import { PlusIcon } from 'ui/src/components/icons'
 import { useEventListener } from 'usehooks-ts'
 import { Box, Flex, MotionBox, Text } from 'ui/src/components/atoms'
 import Button from 'ui/src/components/button'
+import { HardwareWalletReconnect } from '@src/components/hardware-wallet-reconnect'
 import { AccountSwitcherButtons } from './account-switcher-buttons'
 import { AccountInfo } from './account-info'
 import { AccountsTotal } from './accounts-total'
@@ -13,6 +14,11 @@ const SLIDER_HEIGHT = 169
 const LEFT_OFFSET = 26 - SLIDER_WIDTH
 
 export const AccountSwitcher = (): JSX.Element => {
+	const { isHardwareWallet, hw, seed } = useSharedStore(state => ({
+		isHardwareWallet: state.isHardwareWallet,
+		hw: state.hardwareWallet,
+		seed: state.masterSeed,
+	}))
 	const { addresses, activeSlideIndex, selectAccount, setActiveSlide } = useStore(state => ({
 		addresses: Object.values(state.publicAddresses).map(({ address }) => address),
 		activeSlideIndex: state.activeSlideIndex,
@@ -21,20 +27,23 @@ export const AccountSwitcher = (): JSX.Element => {
 	}))
 
 	const [xVal, setXVal] = useState(LEFT_OFFSET + activeSlideIndex * -SLIDER_WIDTH)
+	const [isAccountBtnsVisible, setIsAccountBtnsVisible] = useState(
+		activeSlideIndex > -1 && activeSlideIndex < addresses.length,
+	)
 	const containerRef = useRef(null)
 	const containerWidth = containerRef.current?.offsetWidth
-	const isAccountBtnsVisible = activeSlideIndex > -1 && activeSlideIndex < addresses.length
 
 	useEffect(() => {
 		setXVal(LEFT_OFFSET + activeSlideIndex * -SLIDER_WIDTH)
-	}, [activeSlideIndex])
+		setIsAccountBtnsVisible(activeSlideIndex > -1 && activeSlideIndex < addresses.length)
+	}, [activeSlideIndex, addresses])
 
 	const handleSlideClick = async (idx: number) => {
-		await setActiveSlide(idx)
+		await setActiveSlide(idx, hw, seed)
 	}
 
 	const handleAddAccount = async () => {
-		await selectAccount(addresses.length)
+		await selectAccount(addresses.length, hw, seed)
 	}
 
 	useEventListener('keydown', e => {
@@ -105,18 +114,24 @@ export const AccountSwitcher = (): JSX.Element => {
 							css={{ border: '1px dashed #a8a8a8', height: '100%', borderRadius: '14px' }}
 						>
 							<Box css={{ textAlign: 'center' }}>
-								<Button size="5" color="inverse" iconOnly circle onClick={handleAddAccount} css={{ mt: '5px' }}>
-									<PlusIcon />
-								</Button>
-								<Text size="4" css={{ mt: '12px' }} medium>
-									New account
-								</Text>
+								{isHardwareWallet && !hw && (
+									<>
+										<Button size="5" color="inverse" iconOnly circle onClick={handleAddAccount} css={{ mt: '5px' }}>
+											<PlusIcon />
+										</Button>
+										<Text size="4" css={{ mt: '12px' }} medium>
+											New account
+										</Text>
+									</>
+								)}
+								<Box css={{ p: '10px' }}>
+									<HardwareWalletReconnect />
+								</Box>
 							</Box>
 						</Flex>
 					</Box>
 				</MotionBox>
 			</Box>
-
 			<Box
 				css={{
 					opacity: isAccountBtnsVisible ? '1' : '0',

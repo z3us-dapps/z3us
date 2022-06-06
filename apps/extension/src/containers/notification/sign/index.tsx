@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react'
+import { sha256Twice } from '@radixdlt/crypto'
 import { Box, Flex, Text, StyledLink, Image } from 'ui/src/components/atoms'
 import Button from 'ui/src/components/button'
 import { PageWrapper, PageHeading, PageSubHeading } from '@src/components/layout'
@@ -6,13 +7,13 @@ import { useSharedStore, useStore } from '@src/store'
 import { useRoute } from 'wouter'
 import { hexToJSON } from '@src/utils/encoding'
 import { CONFIRM } from '@src/lib/actions'
-import { EncryptMessage } from '@src/services/radix/message'
 import { getShortAddress } from '@src/utils/string-utils'
 import { useImmer } from 'use-immer'
 import { HardwareWalletReconnect } from '@src/components/hardware-wallet-reconnect'
+import { AccountSelector } from '@src/components/account-selector'
 
-export const Encrypt = (): JSX.Element => {
-	const [, { id }] = useRoute<{ id: string }>('/encrypt/:id')
+export const Sign = (): JSX.Element => {
+	const [, { id }] = useRoute<{ id: string }>('/sign/:id')
 
 	const { hw, seed, sendResponse } = useSharedStore(state => ({
 		sendResponse: state.sendResponseAction,
@@ -20,12 +21,12 @@ export const Encrypt = (): JSX.Element => {
 		seed: state.masterSeed,
 	}))
 
-	const { account, entry, selectAccountForAddress, action } = useStore(state => {
+	const { account, entry, action, selectAccount } = useStore(state => {
 		const accountAddress = state.getCurrentAddressAction()
 		return {
+			selectAccount: state.selectAccountAction,
 			entry: Object.values(state.publicAddresses).find(_account => _account.address === accountAddress),
 			account: state.account,
-			selectAccountForAddress: state.selectAccountForAddressAction,
 			action:
 				state.pendingActions[id] && state.pendingActions[id].payloadHex
 					? hexToJSON(state.pendingActions[id].payloadHex)
@@ -35,18 +36,12 @@ export const Encrypt = (): JSX.Element => {
 
 	const {
 		host,
-		request: { toAddress, message, fromAddress },
+		request: { message },
 	} = action
 
 	const [state, setState] = useImmer({
 		shortAddress: getShortAddress(entry?.address),
 	})
-
-	useEffect(() => {
-		if (fromAddress) {
-			selectAccountForAddress(fromAddress, hw, seed)
-		}
-	}, [fromAddress])
 
 	useEffect(() => {
 		if (entry) {
@@ -55,6 +50,10 @@ export const Encrypt = (): JSX.Element => {
 			})
 		}
 	}, [entry])
+
+	const handleAccountChange = async (accountIndex: number) => {
+		await selectAccount(accountIndex, hw, seed)
+	}
 
 	const handleCancel = async () => {
 		await sendResponse(CONFIRM, {
@@ -67,11 +66,14 @@ export const Encrypt = (): JSX.Element => {
 
 	const handleConfirm = async () => {
 		if (!account) return
-		const ecnrypted = await EncryptMessage(account, toAddress, message)
+
+		const hashedMessage = sha256Twice(message)
+		const signature = await account.signHash(hashedMessage).toPromise()
+
 		sendResponse(CONFIRM, {
 			id,
 			host,
-			payload: { request: action.request, value: ecnrypted.toString('hex') },
+			payload: { request: action.request, value: signature.toDER() },
 		})
 	}
 
@@ -79,9 +81,9 @@ export const Encrypt = (): JSX.Element => {
 		<>
 			<PageWrapper css={{ flex: '1' }}>
 				<Box>
-					<PageHeading>Encrypt message</PageHeading>
+					<PageHeading>Sign</PageHeading>
 					<PageSubHeading>
-						Encrypt message from{' '}
+						Sign message from{' '}
 						<StyledLink underline href="#" target="_blank">
 							{host}
 						</StyledLink>
@@ -90,6 +92,9 @@ export const Encrypt = (): JSX.Element => {
 				</Box>
 				<Box css={{ mt: '$8', flex: '1' }}>
 					<HardwareWalletReconnect />
+				</Box>
+				<Box css={{ mt: '$8', flex: '1' }}>
+					<AccountSelector shortAddress={state.shortAddress} onAccountChange={handleAccountChange} />
 				</Box>
 				<Flex
 					direction="column"
@@ -117,7 +122,7 @@ export const Encrypt = (): JSX.Element => {
 					onClick={handleCancel}
 					size="6"
 					color="tertiary"
-					aria-label="cancel encrypt wallet"
+					aria-label="cancel"
 					css={{ px: '0', flex: '1', mr: '$1' }}
 				>
 					Cancel
@@ -127,7 +132,7 @@ export const Encrypt = (): JSX.Element => {
 					disabled={!account}
 					size="6"
 					color="primary"
-					aria-label="confirm encrypt wallet"
+					aria-label="confirm"
 					css={{ px: '0', flex: '1', ml: '$1' }}
 				>
 					Confirm

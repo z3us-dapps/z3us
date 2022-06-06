@@ -1,43 +1,40 @@
 import { SetState } from 'zustand'
-import { KeystoresStore, SharedStore } from './types'
+import { KeystoresStore, KeystoreType, SharedStore } from './types'
 
-export const whiteList = ['keystores', 'selectKeystoreName']
-
-export const keystoreNameBlackList = ['shared', 'hw']
+export const whiteList = ['keystores', 'selectKeystoreId']
 
 export const factory = (set: SetState<SharedStore>): KeystoresStore => ({
-	hasKeystore: false,
 	keystores: [],
-	selectKeystoreName: '',
+	selectKeystoreId: '',
 
-	setHasKeystoreAction: (hasKeystore: boolean) => {
-		set(state => {
-			state.hasKeystore = hasKeystore
+	addKeystoreAction: (id: string, name: string, type: KeystoreType) => {
+		set(draft => {
+			draft.keystores = [...draft.keystores, { id, name, type }]
+			draft.selectKeystoreId = id
 		})
 	},
 
-	addKeystore: async (keystoreId: string) => {
-		if (keystoreNameBlackList.includes(keystoreId)) {
-			return
-		}
+	changeKeystoreNameAction: (id: string, name: string) => {
 		set(draft => {
-			draft.keystores = [...draft.keystores, keystoreId]
-			draft.selectKeystoreName = keystoreId
+			draft.keystores = draft.keystores.map(keystore => (keystore.id === id ? { ...keystore, name } : keystore))
 		})
 	},
 
-	removeKeystore: async (keystoreId: string) => {
+	removeKeystoreAction: (keystoreId: string) => {
 		set(draft => {
-			if (draft.selectKeystoreName === keystoreId) {
-				draft.selectKeystoreName = ''
+			if (draft.selectKeystoreId === keystoreId) {
+				draft.selectKeystoreId = ''
 			}
-			draft.keystores = draft.keystores.filter(id => keystoreId !== id)
+			draft.keystores = draft.keystores.filter(({ id }) => keystoreId !== id)
+			if (draft.keystores.length > 0) {
+				draft.selectKeystoreId = draft.keystores[0].id
+			}
 		})
 	},
 
-	selectKeystore: async (keystoreId: string) => {
+	selectKeystoreAction: (keystoreId: string) => {
 		set(draft => {
-			draft.selectKeystoreName = draft.keystores.find(id => id === keystoreId) || ''
+			draft.selectKeystoreId = draft.keystores.find(({ id }) => id === keystoreId)?.id || ''
 		})
 	},
 })

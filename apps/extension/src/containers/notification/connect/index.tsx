@@ -13,8 +13,10 @@ import { CONFIRM } from '@src/lib/actions'
 export const Connect = (): JSX.Element => {
 	const [, { id }] = useRoute<{ id: string }>('/connect/:id')
 
-	const { sendResponse } = useSharedStore(state => ({
+	const { hw, seed, sendResponse } = useSharedStore(state => ({
 		sendResponse: state.sendResponseAction,
+		hw: state.hardwareWallet,
+		seed: state.masterSeed,
 	}))
 	const { accountAddress, action, approveWebsite, declineWebsite, selectAccount, approvedWebsites } = useStore(
 		state => ({
@@ -60,7 +62,7 @@ export const Connect = (): JSX.Element => {
 	}
 
 	const handleAccountChange = async (accountIndex: number) => {
-		await selectAccount(accountIndex)
+		await selectAccount(accountIndex, hw, seed)
 	}
 
 	return (

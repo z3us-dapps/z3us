@@ -96,7 +96,10 @@ export const TokenSelector: React.FC<IProps> = ({ triggerType, token, tokens, on
 									}}
 								>
 									<Box css={{ p: '8px' }}>
-										<CircleAvatar image={token?.image || token?.iconURL} />
+										<CircleAvatar
+											image={token?.image || token?.iconURL}
+											fallbackText={token?.symbol.toLocaleUpperCase()}
+										/>
 									</Box>
 									<Box css={{ flex: '1' }}>
 										<Flex css={{ mt: '2px' }}>

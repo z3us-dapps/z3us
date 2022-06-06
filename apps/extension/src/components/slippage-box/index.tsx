@@ -2,7 +2,7 @@ import React from 'react'
 import { formatBigNumber } from '@src/utils/formatters'
 import BigNumber from 'bignumber.js'
 import { Box, Text, Flex } from 'ui/src/components/atoms'
-import { useUSDTicker } from '@src/services/react-query/queries/bitfinex'
+import { useUSDTicker } from '@src/services/react-query/queries/tickers'
 import { Token } from '@src/types'
 
 interface IProps {

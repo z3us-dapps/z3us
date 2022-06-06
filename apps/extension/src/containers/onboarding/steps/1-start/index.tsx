@@ -1,19 +1,24 @@
 import React, { useEffect } from 'react'
+import { useLocation } from 'wouter'
 import Button from 'ui/src/components/button'
+import { HardwareWalletIcon } from 'ui/src/components/icons'
 import Pill from 'ui/src/components/pill'
 import { MotionBox } from 'ui/src/components/atoms/motion-box'
 import { useImmer } from 'use-immer'
 import { PageWrapper } from '@src/components/layout'
 import { Text, Box, Flex, StyledLink } from 'ui/src/components/atoms'
-import { useSharedStore } from '@src/store'
+import { useSharedStore, useStore } from '@src/store'
 import { onBoardingSteps } from '@src/store/onboarding'
 import { Z3usText } from 'ui/src/components/z3us-text'
+import { KeystoreType } from '@src/store/types'
+import { generateId } from '@src/utils/generate-id'
+import { popupHtmlMap } from '@src/config'
 import { CheckItem } from './check-item'
 
 const setupItems = {
 	send: { title: 'Send and receive tokens.', comingSoon: false },
 	earn: { title: 'Earn XRD by staking.', comingSoon: false },
-	sign: { title: 'Sign DApp transactions.', comingSoon: false },
+	//sign: { title: 'Sign DApp transactions.', comingSoon: false },
 	view: { title: 'View and manage your NFTs.', comingSoon: true },
 	trade: { title: 'Swap tokens using wallet DEX.', comingSoon: true },
 }
@@ -28,23 +33,47 @@ const ulVariants = {
 }
 
 export const Start = (): JSX.Element => {
-	const { setOnboardingStep, setIsRestoreWorkflow } = useSharedStore(state => ({
+	const [, setLocation] = useLocation()
+	const { theme, keystoreId, setOnboardingStep, setIsRestoreWorkflow, lock, addKeystore } = useSharedStore(state => ({
+		theme: state.theme,
+		keystoreId: state.selectKeystoreId,
 		setOnboardingStep: state.setOnboardingStepAction,
 		setIsRestoreWorkflow: state.setIsRestoreWorkflowAction,
+		lock: state.lockAction,
+		addKeystore: state.addKeystoreAction,
 	}))
-
+	const { publicAddresses } = useStore(state => ({
+		publicAddresses: state.publicAddresses,
+	}))
 	const [state, setState] = useImmer({
 		mounted: false,
 	})
 
-	const handleCreateNewWallet = () => {
+	const createKeystore = async (type: KeystoreType) => {
+		if (keystoreId && Object.keys(publicAddresses).length === 0) {
+			return
+		}
+
+		const id = generateId()
+		addKeystore(id, id, type)
+		await lock() // clear background memory
+	}
+
+	const handleCreateNewWallet = async () => {
+		await createKeystore(KeystoreType.LOCAL)
 		setIsRestoreWorkflow(false)
 		setOnboardingStep(onBoardingSteps.GENERATE_PHRASE)
 	}
 
-	const handleRestoreFromPhrase = () => {
+	const handleRestoreFromPhrase = async () => {
+		await createKeystore(KeystoreType.LOCAL)
 		setIsRestoreWorkflow(true)
 		setOnboardingStep(onBoardingSteps.INSERT_PHRASE)
+	}
+
+	const connectHardwareWallet = async () => {
+		window.open(`${window.location.origin}/${popupHtmlMap[theme]}#/hardware-wallet`)
+		setLocation('#/hardware-wallet')
 	}
 
 	useEffect(() => {
@@ -80,13 +109,21 @@ export const Start = (): JSX.Element => {
 				</MotionBox>
 			</MotionBox>
 			<Flex>
-				<Button color="primary" size="6" onClick={handleCreateNewWallet} fullWidth>
+				<Button color="primary" size="5" onClick={handleCreateNewWallet} fullWidth>
 					Create new wallet
 				</Button>
 			</Flex>
 			<Flex css={{ mt: '$2' }}>
-				<Button color="tertiary" size="6" onClick={handleRestoreFromPhrase} fullWidth>
+				<Button color="tertiary" size="5" onClick={handleRestoreFromPhrase} fullWidth>
 					Restore from seed
+				</Button>
+			</Flex>
+			<Flex css={{ mt: '$2' }}>
+				<Button color="tertiary" size="5" onClick={connectHardwareWallet} fullWidth>
+					<Box as="span">Connect Ledger</Box>
+					<Box as="span" css={{ pl: '4px', mt: '1px' }}>
+						<HardwareWalletIcon />
+					</Box>
 				</Button>
 			</Flex>
 		</PageWrapper>

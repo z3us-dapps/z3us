@@ -79,8 +79,8 @@ const keepServiceWorkerActive = () => dispatchEvent(new CustomEvent('backgroundw
 
 const handleKeepServiceWorkerActive = () => async () => {
 	await sharedStore.persist.rehydrate()
-	const { selectKeystoreName } = sharedStore.getState()
-	const useStore = accountStore(selectKeystoreName)
+	const { selectKeystoreId } = sharedStore.getState()
+	const useStore = accountStore(selectKeystoreId)
 	await useStore.persist.rehydrate()
 
 	watchTransactions(useStore)

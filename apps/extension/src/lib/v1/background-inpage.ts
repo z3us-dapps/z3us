@@ -4,6 +4,7 @@ import { Message, PublicKey } from '@radixdlt/crypto'
 import { BrowserService } from '@src/services/browser'
 import { VaultService } from '@src/services/vault'
 import { RadixService } from '@src/services/radix'
+import { KeystoreType } from '@src/store/types'
 import {
 	HAS_WALLET,
 	IS_CONNECTED,
@@ -15,6 +16,7 @@ import {
 	UNSTAKES,
 	ENCRYPT,
 	DESCRYPT,
+	SIGN,
 	SEND_TRANSACTION,
 } from '../actions'
 
@@ -32,8 +34,8 @@ export default function NewV1BackgroundInpageActions(
 		const tab = await browser.getCurrentTab()
 		const url = new URL(tab.url)
 
-		const { selectKeystoreName } = sharedStore.getState()
-		const useStore = accountStore(selectKeystoreName)
+		const { selectKeystoreId } = sharedStore.getState()
+		const useStore = accountStore(selectKeystoreId)
 		const state = useStore.getState()
 		const { approvedWebsites } = state
 
@@ -45,16 +47,18 @@ export default function NewV1BackgroundInpageActions(
 	}
 
 	async function hasWallet(port: Runtime.Port, id: string, payload: any) {
+		const { keystores, selectKeystoreId } = sharedStore.getState()
+		const keystore = keystores.find(key => key.id === selectKeystoreId)
 		const has = await vault.has()
-		sendInpageMessage(port, id, payload, has)
+		sendInpageMessage(port, id, payload, has || (keystore && keystore.type === KeystoreType.HARDWARE))
 	}
 
 	async function isConnected(port: Runtime.Port, id: string, payload: any) {
 		const tab = await browser.getCurrentTab()
 		const url = new URL(tab.url)
 
-		const { selectKeystoreName } = sharedStore.getState()
-		const useStore = accountStore(selectKeystoreName)
+		const { selectKeystoreId } = sharedStore.getState()
+		const useStore = accountStore(selectKeystoreId)
 		const state = useStore.getState()
 		const { approvedWebsites } = state
 
@@ -65,8 +69,8 @@ export default function NewV1BackgroundInpageActions(
 		const tab = await browser.getCurrentTab()
 		const url = new URL(tab.url)
 
-		const { selectKeystoreName } = sharedStore.getState()
-		const useStore = accountStore(selectKeystoreName)
+		const { selectKeystoreId, theme } = sharedStore.getState()
+		const useStore = accountStore(selectKeystoreId)
 		const state = useStore.getState()
 		const { approvedWebsites, selectedAccountIndex, publicAddresses } = state
 		const allAddresses = Object.values(publicAddresses).map(entry => entry.address)
@@ -81,16 +85,15 @@ export default function NewV1BackgroundInpageActions(
 		actionsToConfirm[id] = port
 		state.addPendingActionAction(id, { host: url.host, request: payload })
 
-		const sharedState = sharedStore.getState()
-		await browser.showPopup(sharedState.theme, `/notification/connect/${id}`)
+		await browser.showPopup(theme, `/notification/connect/${id}`)
 	}
 
 	async function disconnect(port: Runtime.Port, id: string, payload: any) {
 		const tab = await browser.getCurrentTab()
 		const url = new URL(tab.url)
 
-		const { selectKeystoreName } = sharedStore.getState()
-		const useStore = accountStore(selectKeystoreName)
+		const { selectKeystoreId } = sharedStore.getState()
+		const useStore = accountStore(selectKeystoreId)
 		const state = useStore.getState()
 		const { declineWebsiteAction } = state
 
@@ -104,8 +107,8 @@ export default function NewV1BackgroundInpageActions(
 			return
 		}
 
-		const { selectKeystoreName } = sharedStore.getState()
-		const useStore = accountStore(selectKeystoreName)
+		const { selectKeystoreId } = sharedStore.getState()
+		const useStore = accountStore(selectKeystoreId)
 		const state = useStore.getState()
 		const { publicAddresses } = state
 
@@ -126,15 +129,14 @@ export default function NewV1BackgroundInpageActions(
 		const tab = await browser.getCurrentTab()
 		const url = new URL(tab.url)
 
-		const { selectKeystoreName } = sharedStore.getState()
-		const useStore = accountStore(selectKeystoreName)
+		const { selectKeystoreId, theme } = sharedStore.getState()
+		const useStore = accountStore(selectKeystoreId)
 		const state = useStore.getState()
 
 		actionsToConfirm[id] = port
 		state.addPendingActionAction(id, { host: url.host, request: payload })
 
-		const sharedState = sharedStore.getState()
-		await browser.showPopup(sharedState.theme, `/notification/encrypt/${id}`)
+		await browser.showPopup(theme, `/notification/encrypt/${id}`)
 	}
 
 	async function decrypt(port: Runtime.Port, id: string, payload: any) {
@@ -168,15 +170,33 @@ export default function NewV1BackgroundInpageActions(
 		const tab = await browser.getCurrentTab()
 		const url = new URL(tab.url)
 
-		const { selectKeystoreName } = sharedStore.getState()
-		const useStore = accountStore(selectKeystoreName)
+		const { selectKeystoreId, theme } = sharedStore.getState()
+		const useStore = accountStore(selectKeystoreId)
 		const state = useStore.getState()
 
 		actionsToConfirm[id] = port
 		state.addPendingActionAction(id, { host: url.host, request: payload })
 
-		const sharedState = sharedStore.getState()
-		await browser.showPopup(sharedState.theme, `/notification/decrypt/${id}`)
+		await browser.showPopup(theme, `/notification/decrypt/${id}`)
+	}
+
+	async function sign(port: Runtime.Port, id: string, payload: any) {
+		const allowed = await isApprovedWebsite(port, id, payload)
+		if (!allowed) {
+			return
+		}
+
+		const tab = await browser.getCurrentTab()
+		const url = new URL(tab.url)
+
+		const { selectKeystoreId, theme } = sharedStore.getState()
+		const useStore = accountStore(selectKeystoreId)
+		const state = useStore.getState()
+
+		actionsToConfirm[id] = port
+		state.addPendingActionAction(id, { host: url.host, request: payload })
+
+		await browser.showPopup(theme, `/notification/sign/${id}`)
 	}
 
 	async function transaction(port: Runtime.Port, id: string, payload: any) {
@@ -188,15 +208,14 @@ export default function NewV1BackgroundInpageActions(
 		const tab = await browser.getCurrentTab()
 		const url = new URL(tab.url)
 
-		const { selectKeystoreName } = sharedStore.getState()
-		const useStore = accountStore(selectKeystoreName)
+		const { selectKeystoreId, theme } = sharedStore.getState()
+		const useStore = accountStore(selectKeystoreId)
 		const state = useStore.getState()
 
 		actionsToConfirm[id] = port
 		state.addPendingActionAction(id, { host: url.host, request: payload })
 
-		const sharedState = sharedStore.getState()
-		await browser.showPopup(sharedState.theme, `/notification/transaction/${id}`)
+		await browser.showPopup(theme, `/notification/transaction/${id}`)
 	}
 
 	async function balances(port: Runtime.Port, id: string, payload: any) {
@@ -205,8 +224,8 @@ export default function NewV1BackgroundInpageActions(
 			return
 		}
 
-		const { selectKeystoreName } = sharedStore.getState()
-		const useStore = accountStore(selectKeystoreName)
+		const { selectKeystoreId } = sharedStore.getState()
+		const useStore = accountStore(selectKeystoreId)
 		const state = useStore.getState()
 		const { networks, selectedNetworkIndex, selectedAccountIndex, publicAddresses } = state
 		const allAddresses = Object.values(publicAddresses).map(entry => entry.address)
@@ -230,8 +249,8 @@ export default function NewV1BackgroundInpageActions(
 			return
 		}
 
-		const { selectKeystoreName } = sharedStore.getState()
-		const useStore = accountStore(selectKeystoreName)
+		const { selectKeystoreId } = sharedStore.getState()
+		const useStore = accountStore(selectKeystoreId)
 		const state = useStore.getState()
 		const { networks, selectedNetworkIndex, selectedAccountIndex, publicAddresses } = state
 		const allAddresses = Object.values(publicAddresses).map(entry => entry.address)
@@ -255,8 +274,8 @@ export default function NewV1BackgroundInpageActions(
 			return
 		}
 
-		const { selectKeystoreName } = sharedStore.getState()
-		const useStore = accountStore(selectKeystoreName)
+		const { selectKeystoreId } = sharedStore.getState()
+		const useStore = accountStore(selectKeystoreId)
 		const state = useStore.getState()
 		const { networks, selectedNetworkIndex, selectedAccountIndex, publicAddresses } = state
 		const allAddresses = Object.values(publicAddresses).map(entry => entry.address)
@@ -285,6 +304,7 @@ export default function NewV1BackgroundInpageActions(
 		[UNSTAKES]: unstakes,
 		[DESCRYPT]: decrypt,
 		[ENCRYPT]: encrypt,
+		[SIGN]: sign,
 		[SEND_TRANSACTION]: transaction,
 	}
 }

@@ -1,4 +1,5 @@
 import React from 'react'
+import { HardwareWalletLedger } from '@radixdlt/hardware-ledger'
 import { useSharedStore, useStore } from '@src/store'
 import { useImmer } from 'use-immer'
 import { Tooltip, TooltipTrigger, TooltipContent, TooltipArrow } from 'ui/src/components/tool-tip'
@@ -7,12 +8,16 @@ import { Text, Flex } from 'ui/src/components/atoms'
 import InputFeedback from 'ui/src/components/input/input-feedback'
 
 export const HardwareWalletReconnect: React.FC = () => {
-	const { addToast } = useSharedStore(state => ({
+	const { isHardwareWallet, addToast, sendAPDU, setHardwareWallet } = useSharedStore(state => ({
+		isHardwareWallet: state.isHardwareWallet,
 		addToast: state.addToastAction,
+		sendAPDU: state.sendAPDUAction,
+		setHardwareWallet: state.setHardwareWalletAction,
 	}))
-	const { account, connectHW } = useStore(state => ({
+	const { account, selectAccount, accountIndex } = useStore(state => ({
 		account: state.account,
-		connectHW: state.connectHW,
+		accountIndex: state.selectedAccountIndex,
+		selectAccount: state.selectAccountAction,
 	}))
 
 	const [state, setState] = useImmer({
@@ -20,12 +25,14 @@ export const HardwareWalletReconnect: React.FC = () => {
 	})
 
 	const handleReconnectHW = async () => {
-		if (account) return
+		if (!isHardwareWallet || account) return
 		setState(draft => {
 			draft.isLoading = true
 		})
 		try {
-			await connectHW()
+			const hw = await HardwareWalletLedger.create({ send: sendAPDU }).toPromise()
+			setHardwareWallet(hw)
+			await selectAccount(accountIndex, hw, null)
 		} catch (error) {
 			addToast({
 				type: 'error',
@@ -39,7 +46,7 @@ export const HardwareWalletReconnect: React.FC = () => {
 		})
 	}
 
-	if (account) {
+	if (!isHardwareWallet || account) {
 		return null
 	}
 

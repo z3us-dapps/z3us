@@ -10,6 +10,7 @@ import {
 	UnstakeTokens,
 	StakeTokens,
 } from '@src/services/radix/transactions'
+import { HardwareWalletReconnect } from '@src/components/hardware-wallet-reconnect'
 import { useEventListener } from 'usehooks-ts'
 import {
 	useNativeToken,
@@ -25,7 +26,6 @@ import { Dialog, DialogTrigger, DialogContent } from 'ui/src/components/dialog'
 import { Box, Text, Flex } from 'ui/src/components/atoms'
 import { SlippageBox } from '@src/components/slippage-box'
 import BigNumber from 'bignumber.js'
-import { HardwareWalletReconnect } from '@src/components/hardware-wallet-reconnect'
 import { formatBigNumber } from '@src/utils/formatters'
 
 interface IProps {
@@ -60,7 +60,7 @@ export const StakeModal: React.FC<IProps> = ({ trigger, tooltipMessage, validato
 		amount = staked ? new BigNumber(staked.amount).shiftedBy(-18) : new BigNumber(0)
 	} else {
 		const liquidBalances = balances?.account_balances?.liquid_balances || []
-		const selectedToken = liquidBalances?.find(balance => balance.rri === token.rri)
+		const selectedToken = liquidBalances?.find(balance => balance.rri === token?.rri)
 		amount = selectedToken ? new BigNumber(selectedToken.amount).shiftedBy(-18) : new BigNumber(0)
 	}
 

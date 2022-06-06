@@ -39,6 +39,8 @@ export const sharedStore = create<
 				...createSettingsStore(set),
 				...createBackgroundStore(set, get),
 				...createKeystoresStore(set),
+				...createLocalWalletStore(set),
+				...createHardwareWalletStore(set),
 			})),
 			{
 				name: sharedStoreKey,
@@ -62,8 +64,6 @@ const accountStoreFactory = (name: string) =>
 			persist(
 				immer((set, get) => ({
 					...createWalletStore(set, get),
-					...createLocalWalletStore(set, get),
-					...createHardwareWalletStore(set, get),
 				})),
 				{
 					name,
@@ -88,9 +88,8 @@ const accountStoreContainer: { [key: string]: typeof defaultAccountStore } = {
 export const accountStore = (suffix: string): typeof defaultAccountStore => {
 	const name = !suffix ? defaultAccountStoreKey : `${defaultAccountStoreKey}-${suffix}`
 	const store = accountStoreContainer[name]
-	if (store) {
-		return store
-	}
+	if (store) return store
+
 	const newStore = accountStoreFactory(name)
 	accountStoreContainer[name] = newStore
 	return newStore
@@ -100,15 +99,15 @@ export const useAccountStore = (suffix: string): typeof defaultAccountStore =>
 	((selector, equalityFn = shallow) => accountStore(suffix)(selector, equalityFn)) as typeof defaultAccountStore
 
 export const useStore: typeof defaultAccountStore = ((selector, equalityFn = shallow) => {
-	const { keystoreName } = useSharedStore(state => ({
-		keystoreName: state.selectKeystoreName,
+	const { keystoreId } = useSharedStore(state => ({
+		keystoreId: state.selectKeystoreId,
 	}))
 
-	const storeRef = useRef(accountStore(keystoreName))
+	const storeRef = useRef(accountStore(keystoreId))
 
 	useLayoutEffect(() => {
-		storeRef.current = accountStore(keystoreName)
-	}, [keystoreName])
+		storeRef.current = accountStore(keystoreId)
+	}, [keystoreId])
 
 	return storeRef.current(selector, equalityFn)
 }) as typeof defaultAccountStore

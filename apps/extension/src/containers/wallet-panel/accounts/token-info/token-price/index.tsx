@@ -1,5 +1,5 @@
 import React from 'react'
-import { useUSDTicker } from '@src/services/react-query/queries/bitfinex'
+import { useUSDTicker } from '@src/services/react-query/queries/tickers'
 import { Text, Box, Flex } from 'ui/src/components/atoms'
 import BigNumber from 'bignumber.js'
 import PriceTicker from 'ui/src/components/price-ticker'
@@ -30,7 +30,7 @@ export const TokenPrice = ({ symbol, ammount }: Props): JSX.Element => {
 
 	const tokenPercentageChange = `${ticker.change < 0 ? '' : '+'}${ticker.change.toFixed(2).toLocaleString()}%`
 	const tokenPrice = formatBigNumber(new BigNumber(ticker.last_price), 'USD', 2)
-	const accountTokenAmmount = formatBigNumber(ammount.multipliedBy(ticker.last_price), 'USD', 2)
+	const accountTokenAmmount = formatBigNumber(ammount.multipliedBy(ticker.last_price), 'USD', 8)
 
 	return (
 		<Flex direction="column" align="center" css={{ minHeight: tokenPriceHeight }}>

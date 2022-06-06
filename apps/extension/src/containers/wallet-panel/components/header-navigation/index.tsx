@@ -3,9 +3,8 @@ import { useSharedStore } from '@src/store'
 import Button from 'ui/src/components/button'
 import { CloseIcon } from 'ui/src/components/icons'
 import { useRoute } from 'wouter'
-import { MotionBox } from 'ui/src/components/atoms'
+import { Box, MotionBox } from 'ui/src/components/atoms'
 import { WalletMenu } from '@src/components/wallet-menu'
-import { Z3usMenu } from '@src/components/z3us-menu'
 import { AnimatePresence } from 'framer-motion'
 import { ACCOUNTS } from '@src/config'
 import { AccountNaviation } from './account-navigation'
@@ -50,7 +49,7 @@ export const HeaderNavigation = (): JSX.Element => {
 				justifyContent: 'space-between',
 			}}
 		>
-			<Z3usMenu />
+			<Box css={{ width: '36px', height: '1px' }} />
 			<AccountNaviation />
 			<AnimatePresence>
 				{isTokenMatch && page === ACCOUNTS ? (
