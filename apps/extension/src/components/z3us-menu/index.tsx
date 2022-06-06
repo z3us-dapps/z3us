@@ -66,7 +66,6 @@ export const Z3usMenu: React.FC = () => {
 	}
 
 	const confirmRemoveWallet = () => async () => {
-		selectKeystore(state.keystoreId)
 		await removeWallet()
 		reset()
 		removeKeystore(state.keystoreId)
