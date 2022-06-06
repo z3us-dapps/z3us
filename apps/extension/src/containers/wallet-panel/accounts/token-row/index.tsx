@@ -64,7 +64,17 @@ export const TokenRow: React.FC<IProps> = ({ i, rri, amount, staked, loading, di
 					<>
 						<Box css={{ pt: '16px', mr: '13px', pl: '$4' }}>
 							<Box css={{ width: '36px', height: '36px', borderRadius: '50%', overflow: 'hidden' }}>
-								<Box as="img" src={token?.image || token?.iconURL} css={{ width: '36px', height: '36px' }} />
+								{token?.image || token?.iconURL ? (
+									<Box as="img" src={token?.image || token?.iconURL} css={{ width: '36px', height: '36px' }} />
+								) : (
+									<Flex
+										justify="center"
+										align="center"
+										css={{ width: '36px', height: '36px', fontSize: '12px', fontWeight: 'bold' }}
+									>
+										{(token?.symbol || '').substring(0, 2)}
+									</Flex>
+								)}
 							</Box>
 						</Box>
 						<Flex css={{ flex: 1, pr: '$5' }}>
