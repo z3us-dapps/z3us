@@ -3,6 +3,7 @@ import { useLocation } from 'wouter'
 import { useSharedStore } from '@src/store'
 import { LockedPanel } from '@src/components/locked-panel'
 import { AnimatePresence, motion } from 'framer-motion'
+import { Z3usMenu } from '@src/components/z3us-menu'
 import { Box, MotionBox } from 'ui/src/components/atoms'
 import { routesInfo, PANEL_HEIGHT, APP_WIDTH, ACCOUNTS, STAKING, SETTINGS } from '@src/config'
 import { Accounts } from './accounts'
@@ -180,6 +181,7 @@ export const WalletPanel = (): JSX.Element => {
 				</MotionBox>
 			) : null}
 			<LockedPanel />
+			<Z3usMenu />
 		</>
 	)
 }

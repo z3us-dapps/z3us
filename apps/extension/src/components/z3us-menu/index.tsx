@@ -132,11 +132,11 @@ export const Z3usMenu: React.FC = () => {
 	}
 
 	return (
-		<>
+		<Box css={{ position: 'fixed', top: '$1', left: '$1', zIndex: '1' }}>
 			<MotionBox animate={state.isOpen ? 'open' : 'closed'}>
 				<DropdownMenu onOpenChange={handleDropDownMenuOpenChange}>
 					<DropdownMenuTrigger asChild>
-						<Button iconOnly aria-label="wallet options" color="ghost" size="4" css={{ mr: '2px' }}>
+						<Button iconOnly aria-label="Z3US menu" color="ghost" size="4" css={{ mr: '2px' }}>
 							<Z3usIcon color="#7448ff" />
 						</Button>
 					</DropdownMenuTrigger>
@@ -255,6 +255,6 @@ export const Z3usMenu: React.FC = () => {
 					</Flex>
 				</AlertDialogContent>
 			</AlertDialog>
-		</>
+		</Box>
 	)
 }
