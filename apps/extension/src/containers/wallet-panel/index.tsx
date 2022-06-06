@@ -79,104 +79,106 @@ export const WalletPanel = (): JSX.Element => {
 
 	return (
 		<>
-			<MotionBox
-				initial={false}
-				animate={isUnlocked ? 'unlocked' : 'locked'}
-				css={{
-					width: '100%',
-					height: '100%',
-					position: 'relative',
-					overflow: 'hidden',
-					background: page === ACCOUNTS ? '$bgPanel2' : '$bgPanel',
-					transition: 'background-color 300ms ease-out',
-				}}
-			>
-				<HeaderNavigation />
-				<Box css={{ position: 'absolute', top: '48px', bottom: '0', left: '0', right: '0' }}>
-					<MotionBox
-						variants={{
-							locked: {
-								transform: `translateY(${PANEL_HEIGHT})`,
-								transition: {
-									type: 'spring',
-									stiffness: 200,
-									damping: 20,
+			{isUnlocked ? (
+				<MotionBox
+					initial={false}
+					animate={isUnlocked ? 'unlocked' : 'locked'}
+					css={{
+						width: '100%',
+						height: '100%',
+						position: 'relative',
+						overflow: 'hidden',
+						background: page === ACCOUNTS ? '$bgPanel2' : '$bgPanel',
+						transition: 'background-color 300ms ease-out',
+					}}
+				>
+					<HeaderNavigation />
+					<Box css={{ position: 'absolute', top: '48px', bottom: '0', left: '0', right: '0' }}>
+						<MotionBox
+							variants={{
+								locked: {
+									transform: `translateY(${PANEL_HEIGHT})`,
+									transition: {
+										type: 'spring',
+										stiffness: 200,
+										damping: 20,
+									},
 								},
-							},
-							unlocked: () => ({
-								transform: 'translateY(0px)',
-								transition: {
-									delay: 0,
-									type: 'spring',
-									stiffness: 200,
-									damping: 26,
-								},
-							}),
-						}}
-						css={{
-							display: 'flex',
-							flexDirection: 'column',
-							justifyContent: 'flex-end',
-							width: '100%',
-							position: 'absolute',
-							bottom: '0',
-							height: PANEL_HEIGHT,
-						}}
-					>
-						<AnimatePresence initial={false} custom={direction}>
-							{page === ACCOUNTS ? (
-								<motion.div
-									key={`page-${activeApp}`}
-									initial="enter"
-									animate="center"
-									exit="exit"
-									variants={pageVariants}
-									custom={direction}
-									style={{
-										...(pageStyle as any),
-									}}
-									transition={pageTransition}
-								>
-									<Accounts />
-								</motion.div>
-							) : null}
-							{page === STAKING ? (
-								<motion.div
-									key={`page-${page}`}
-									initial="enter"
-									animate="center"
-									exit="exit"
-									variants={pageVariants}
-									custom={direction}
-									style={{
-										...(pageStyle as any),
-									}}
-									transition={pageTransition}
-								>
-									<Staking />
-								</motion.div>
-							) : null}
-							{page === SETTINGS ? (
-								<motion.div
-									key={`page-${page}`}
-									initial="enter"
-									animate="center"
-									exit="exit"
-									variants={pageVariants}
-									custom={direction}
-									style={{
-										...(pageStyle as any),
-									}}
-									transition={pageTransition}
-								>
-									<Settings />
-								</motion.div>
-							) : null}
-						</AnimatePresence>
-						<FooterNavigation />
-					</MotionBox>
-				</Box>
-			</MotionBox>
+								unlocked: () => ({
+									transform: 'translateY(0px)',
+									transition: {
+										delay: 0,
+										type: 'spring',
+										stiffness: 200,
+										damping: 26,
+									},
+								}),
+							}}
+							css={{
+								display: 'flex',
+								flexDirection: 'column',
+								justifyContent: 'flex-end',
+								width: '100%',
+								position: 'absolute',
+								bottom: '0',
+								height: PANEL_HEIGHT,
+							}}
+						>
+							<AnimatePresence initial={false} custom={direction}>
+								{page === ACCOUNTS ? (
+									<motion.div
+										key={`page-${activeApp}`}
+										initial="enter"
+										animate="center"
+										exit="exit"
+										variants={pageVariants}
+										custom={direction}
+										style={{
+											...(pageStyle as any),
+										}}
+										transition={pageTransition}
+									>
+										<Accounts />
+									</motion.div>
+								) : null}
+								{page === STAKING ? (
+									<motion.div
+										key={`page-${page}`}
+										initial="enter"
+										animate="center"
+										exit="exit"
+										variants={pageVariants}
+										custom={direction}
+										style={{
+											...(pageStyle as any),
+										}}
+										transition={pageTransition}
+									>
+										<Staking />
+									</motion.div>
+								) : null}
+								{page === SETTINGS ? (
+									<motion.div
+										key={`page-${page}`}
+										initial="enter"
+										animate="center"
+										exit="exit"
+										variants={pageVariants}
+										custom={direction}
+										style={{
+											...(pageStyle as any),
+										}}
+										transition={pageTransition}
+									>
+										<Settings />
+									</motion.div>
+								) : null}
+							</AnimatePresence>
+							<FooterNavigation />
+						</MotionBox>
+					</Box>
+				</MotionBox>
+			) : null}
 			<LockedPanel />
 		</>
 	)
