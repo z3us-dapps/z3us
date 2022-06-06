@@ -49,7 +49,7 @@ export const HeaderNavigation = (): JSX.Element => {
 				justifyContent: 'space-between',
 			}}
 		>
-			<Box />
+			<Box css={{ width: '36px', height: '1px' }} />
 			<AccountNaviation />
 			<AnimatePresence>
 				{isTokenMatch && page === ACCOUNTS ? (

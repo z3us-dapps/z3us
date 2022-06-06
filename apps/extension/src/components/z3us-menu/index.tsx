@@ -132,7 +132,7 @@ export const Z3usMenu: React.FC = () => {
 	}
 
 	return (
-		<Box css={{ position: 'fixed', top: '$1', left: '$1', zIndex: '1' }}>
+		<Box css={{ position: 'fixed', top: '4px', left: '4px', zIndex: '1' }}>
 			<MotionBox animate={state.isOpen ? 'open' : 'closed'}>
 				<DropdownMenu onOpenChange={handleDropDownMenuOpenChange}>
 					<DropdownMenuTrigger asChild>
