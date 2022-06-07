@@ -45,6 +45,8 @@ export const AddressBookSelector: React.FC<IProps> = ({ selectedAddress, onSelec
 		onSelectAddressBookAddress(address)
 	}
 
+	if (publicAddresses.length === 0 && entries.length === 0) return null
+
 	return (
 		<DropdownMenu>
 			<Tooltip>
