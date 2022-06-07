@@ -24,9 +24,12 @@ export const AddressBookSelector: React.FC<IProps> = ({ selectedAddress, onSelec
 		addressBook: state.addressBook,
 	}))
 
-	const { publicAddresses } = useStore(state => ({
-		publicAddresses: Object.values(state.publicAddresses),
-	}))
+	const { publicAddresses } = useStore(state => {
+		const accountAddress = state.getCurrentAddressAction()
+		return {
+			publicAddresses: Object.values(state.publicAddresses).filter(({ address }) => address !== accountAddress),
+		}
+	})
 
 	let selectedName = 'Select'
 	if (selectedAddress) {
@@ -37,13 +40,12 @@ export const AddressBookSelector: React.FC<IProps> = ({ selectedAddress, onSelec
 	}
 
 	const entries = Object.entries(addressBook)
-	const hasAddressBook = entries.length > 0
 
 	const handleValueChange = (address: string) => {
 		onSelectAddressBookAddress(address)
 	}
 
-	return hasAddressBook ? (
+	return (
 		<DropdownMenu>
 			<Tooltip>
 				<TooltipTrigger asChild>
@@ -98,5 +100,5 @@ export const AddressBookSelector: React.FC<IProps> = ({ selectedAddress, onSelec
 				</DropdownMenuRadioGroup>
 			</DropdownMenuContent>
 		</DropdownMenu>
-	) : null
+	)
 }
