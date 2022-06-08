@@ -114,7 +114,7 @@ export const AccountSwitcher = (): JSX.Element => {
 							css={{ border: '1px dashed #a8a8a8', height: '100%', borderRadius: '14px' }}
 						>
 							<Box css={{ textAlign: 'center' }}>
-								{isHardwareWallet && !hw && (
+								{(seed || (isHardwareWallet && hw)) && (
 									<>
 										<Button size="5" color="inverse" iconOnly circle onClick={handleAddAccount} css={{ mt: '5px' }}>
 											<PlusIcon />
