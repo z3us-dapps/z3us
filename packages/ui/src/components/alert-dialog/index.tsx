@@ -28,7 +28,7 @@ const animateOut = keyframes({
 
 const StyledOverlayExtension = styled(AlertDialogPrimitive.Overlay, {
 	backgroundColor: '$bgTransparentDialog',
-	backdropFilter: 'blur(6px)',
+	backdropFilter: 'blur(5px)',
 	position: 'absolute',
 	width: EXT_WIDTH,
 	height: EXT_HEIGHT,
