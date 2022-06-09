@@ -54,7 +54,7 @@ export const SendReceiveHeader: React.FC<IProps> = ({ backLocation, onExit }) =>
 				right: 0,
 				height: '48px',
 				pt: '6px',
-				pl: '6px',
+				pl: '40px',
 				pr: '6px',
 			}}
 		>
