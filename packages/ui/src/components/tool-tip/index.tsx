@@ -38,7 +38,7 @@ const StyledContent = styled(TooltipPrimitive.Content, {
 	fontSize: '$2',
 	lineHeight: 1,
 	color: '$txtDefault',
-	backgroundColor: '$bgPanel2',
+	backgroundColor: '$bgToolTip1',
 	boxShadow: '$tooltip',
 	'@media (prefers-reduced-motion: no-preference)': {
 		'&[data-state="closed"]': {
@@ -79,7 +79,7 @@ const toolTipDefaultProps = {
 	arrowOffset: 5,
 	isArrowVisible: true,
 	side: 'bottom',
-	bgColor: '$bgPanel',
+	bgColor: '$bgToolTip1',
 }
 
 export const ToolTip = ({
