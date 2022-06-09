@@ -1,5 +1,6 @@
 import React, { useRef } from 'react'
 import { useSharedStore, useStore } from '@src/store'
+import { useRoute } from 'wouter'
 import { useImmer } from 'use-immer'
 import Button from 'ui/src/components/button'
 import { Z3usIcon, TrashIcon, HardwareWalletIcon } from 'ui/src/components/icons'
@@ -29,6 +30,11 @@ import {
 import { KeystoreType } from '@src/store/types'
 
 export const Z3usMenu: React.FC = () => {
+	const [isSendRoute] = useRoute('/wallet/account/send')
+	const [isSendRouteRri] = useRoute('/wallet/account/send/:rri')
+	const [isDepositRoute] = useRoute('/wallet/account/deposit')
+	const [isDepositRouteRri] = useRoute('/wallet/account/deposit/:rri')
+	const [isActivityRoute] = useRoute('/wallet/account/activity')
 	const { keystores, keystoreId, selectKeystore, removeKeystore, changeKeystoreName, removeWallet, lock, isUnlocked } =
 		useSharedStore(state => ({
 			keystores: state.keystores,
@@ -51,6 +57,7 @@ export const Z3usMenu: React.FC = () => {
 		editing: undefined,
 		tempEdit: '',
 	})
+	const isHideZ3usMenu = isSendRoute || isSendRouteRri || isDepositRoute || isDepositRouteRri || isActivityRoute
 
 	const handleLockWallet = async () => {
 		await lock()
@@ -133,7 +140,17 @@ export const Z3usMenu: React.FC = () => {
 	}
 
 	return (
-		<Box css={{ position: 'fixed', top: '4px', left: '4px', zIndex: '1' }}>
+		<Box
+			css={{
+				position: 'fixed',
+				top: '4px',
+				left: '4px',
+				zIndex: '1',
+				transition: '$default',
+				pe: isHideZ3usMenu ? 'none' : 'auto',
+				opacity: isHideZ3usMenu ? '0' : '1',
+			}}
+		>
 			<MotionBox animate={state.isOpen ? 'open' : 'closed'}>
 				<DropdownMenu onOpenChange={handleDropDownMenuOpenChange}>
 					<DropdownMenuTrigger asChild>
