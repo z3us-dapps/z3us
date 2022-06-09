@@ -29,7 +29,7 @@ const slideLeftAndFade = keyframes({
 })
 
 const StyledArrow = styled(TooltipPrimitive.Arrow, {
-	fill: '$bgPanel2',
+	fill: '$bgToolTip1',
 })
 
 const StyledContent = styled(TooltipPrimitive.Content, {

@@ -2,7 +2,7 @@ import React from 'react'
 import { useImmer } from 'use-immer'
 import { useSharedStore, useStore } from '@src/store'
 import { useEventListener } from 'usehooks-ts'
-import { Tooltip, TooltipTrigger, TooltipContent, TooltipArrow } from 'ui/src/components/tool-tip'
+import { ToolTip } from 'ui/src/components/tool-tip'
 import { getShortAddress } from '@src/utils/string-utils'
 import { Box, Flex, Text, StyledLink } from 'ui/src/components/atoms'
 import { Pencil2Icon, CheckIcon, Cross2Icon } from '@radix-ui/react-icons'
@@ -125,24 +125,18 @@ export const Accounts: React.FC = () => {
 											<Box css={{ maxWidth: '136px', pr: '$1', ml: '$2' }}>
 												<Text truncate>{entry?.name}</Text>
 											</Box>
-											<Tooltip>
-												<TooltipTrigger asChild>
-													<Text truncate>
-														<StyledLink
-															css={{ color: '$txtMuted' }}
-															underline
-															target="_blank"
-															href={`${EXPLORER_URL}accounts/${entry.address}`}
-														>
-															{getShortAddress(entry.address)}
-														</StyledLink>
-													</Text>
-												</TooltipTrigger>
-												<TooltipContent sideOffset={5}>
-													<TooltipArrow />
-													Go to explorer
-												</TooltipContent>
-											</Tooltip>
+											<ToolTip message="Go to explorer" side="top">
+												<Text truncate>
+													<StyledLink
+														css={{ color: '$txtMuted' }}
+														underline
+														target="_blank"
+														href={`${EXPLORER_URL}accounts/${entry.address}`}
+													>
+														{getShortAddress(entry.address)}
+													</StyledLink>
+												</Text>
+											</ToolTip>
 										</>
 									)}
 								</Flex>
@@ -159,31 +153,20 @@ export const Accounts: React.FC = () => {
 									</>
 								) : (
 									<>
-										<Tooltip>
-											<TooltipTrigger asChild>
-												<Button size="1" color="ghost" iconOnly onClick={() => handleEdit(entry)}>
-													<Pencil2Icon />
-												</Button>
-											</TooltipTrigger>
-											<TooltipContent sideOffset={5}>
-												<TooltipArrow />
-												Edit alias
-											</TooltipContent>
-										</Tooltip>
+										<ToolTip message="Edit alias" side="top">
+											<Button size="1" color="ghost" iconOnly onClick={() => handleEdit(entry)}>
+												<Pencil2Icon />
+											</Button>
+										</ToolTip>
+
 										<AlertDialog open={state.isRemoveAccountDialogOpen}>
 											<AlertDialogTrigger asChild>
 												<Box>
-													<Tooltip>
-														<TooltipTrigger asChild>
-															<Button size="1" color="ghost" iconOnly onClick={handleOpenDialog}>
-																<TrashIcon />
-															</Button>
-														</TooltipTrigger>
-														<TooltipContent sideOffset={5}>
-															<TooltipArrow offset={6} />
-															Remove account
-														</TooltipContent>
-													</Tooltip>
+													<ToolTip message="Remove account" side="top">
+														<Button size="1" color="ghost" iconOnly onClick={handleOpenDialog}>
+															<TrashIcon />
+														</Button>
+													</ToolTip>
 												</Box>
 											</AlertDialogTrigger>
 											<AlertDialogContent>

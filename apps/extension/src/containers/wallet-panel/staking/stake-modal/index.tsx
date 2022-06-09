@@ -56,7 +56,9 @@ export const StakeModal: React.FC<IProps> = ({ trigger, tooltipMessage, validato
 
 	let amount = new BigNumber(0)
 	if (reduceStake) {
-		const staked = validator ?stakedPositions?.stakes.find(position => position.validator.toString() === validator.address): null
+		const staked = validator
+			? stakedPositions?.stakes.find(position => position.validator.toString() === validator.address)
+			: null
 		amount = staked ? new BigNumber(staked.amount).shiftedBy(-18) : new BigNumber(0)
 	} else {
 		const liquidBalances = balances?.account_balances?.liquid_balances || []
@@ -113,8 +115,8 @@ export const StakeModal: React.FC<IProps> = ({ trigger, tooltipMessage, validato
 				<TooltipTrigger asChild onClick={handleOnClick}>
 					{trigger}
 				</TooltipTrigger>
-				<TooltipContent sideOffset={5} css={{ backgroundColor: '$bgPanel2' }}>
-					<TooltipArrow css={{ fill: '$bgPanel2' }} />
+				<TooltipContent sideOffset={5} side="top">
+					<TooltipArrow />
 					{tooltipMessage}
 				</TooltipContent>
 			</Tooltip>

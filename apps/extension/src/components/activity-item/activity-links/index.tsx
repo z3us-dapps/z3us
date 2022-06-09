@@ -71,7 +71,7 @@ export const ActivityLinks: React.FC<IProps> = ({ accountAddress, tx, activity }
 					<Text color="help" size="2" css={{ pr: '$1' }}>
 						{getShortAddress(tx.id)}
 					</Text>
-					<ToolTip message="Go to explorer" bgColor="$bgPanel2" sideOffset={3} side="top">
+					<ToolTip message="Go to explorer" sideOffset={3} side="top">
 						<Button
 							as="a"
 							size="1"
