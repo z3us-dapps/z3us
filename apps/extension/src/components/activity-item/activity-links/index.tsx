@@ -84,7 +84,7 @@ export const ActivityLinks: React.FC<IProps> = ({ accountAddress, tx, activity }
 							<ExternalLinkIcon />
 						</Button>
 					</ToolTip>
-					<ButtonTipFeedback tooltip="Copy ID" sideOffset={3} bgColor="$bgPanel2">
+					<ButtonTipFeedback tooltip="Copy ID" sideOffset={3}>
 						<Button
 							size="1"
 							iconOnly
@@ -106,7 +106,7 @@ export const ActivityLinks: React.FC<IProps> = ({ accountAddress, tx, activity }
 						<Text truncate color="help" size="2" css={{ pr: '$1', maxWidth: RIGHT_COL_WIDTH }}>
 							{fromEntry?.name ? `${fromEntry.name} (${fromShortAddress})` : fromShortAddress}
 						</Text>
-						<ButtonTipFeedback tooltip="Copy address" bgColor="$bgPanel2" sideOffset={10}>
+						<ButtonTipFeedback tooltip="Copy address" sideOffset={3}>
 							<Button
 								size="1"
 								iconOnly
@@ -129,7 +129,7 @@ export const ActivityLinks: React.FC<IProps> = ({ accountAddress, tx, activity }
 						<Text truncate color="help" size="2" css={{ pr: '$1', maxWidth: RIGHT_COL_WIDTH }}>
 							{toEntry?.name ? `${toEntry.name} (${toShortAddress})` : toShortAddress}
 						</Text>
-						<ButtonTipFeedback tooltip="Copy address" delay={500} bgColor="$bgPanel2" sideOffset={10}>
+						<ButtonTipFeedback tooltip="Copy address">
 							<Button
 								size="1"
 								iconOnly
