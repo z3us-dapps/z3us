@@ -56,7 +56,7 @@ export const StakeModal: React.FC<IProps> = ({ trigger, tooltipMessage, validato
 
 	let amount = new BigNumber(0)
 	if (reduceStake) {
-		const staked = stakedPositions?.stakes.find(position => position.validator.toString() === validator.address)
+		const staked = validator ?stakedPositions?.stakes.find(position => position.validator.toString() === validator.address): null
 		amount = staked ? new BigNumber(staked.amount).shiftedBy(-18) : new BigNumber(0)
 	} else {
 		const liquidBalances = balances?.account_balances?.liquid_balances || []
