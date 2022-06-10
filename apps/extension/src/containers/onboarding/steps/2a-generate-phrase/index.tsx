@@ -45,7 +45,7 @@ export const GeneratePhrase = (): JSX.Element => {
 	}, [])
 
 	const handleContinue = () => {
-		setOnboardingStep(onBoardingSteps.IMPORT_ACCOUNTS)
+		setOnboardingStep(onBoardingSteps.CREATE_PASSWORD)
 	}
 
 	const handleCopyMnemomic = () => {
