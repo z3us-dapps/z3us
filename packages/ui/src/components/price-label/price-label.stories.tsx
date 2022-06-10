@@ -27,23 +27,17 @@ const CombinedTemplate: React.FC = () => (
 			<Grid flow="column" gap="4">
 				<Box>
 					<PriceLabel color="green">
-						<Text bold size="3">
-							$5.23
-						</Text>
+						<Text size="3">$5.23</Text>
 					</PriceLabel>
 				</Box>
 				<Box>
 					<PriceLabel color="red">
-						<Text bold size="3">
-							$1.21
-						</Text>
+						<Text size="3">$1.21</Text>
 					</PriceLabel>
 				</Box>
 				<Box>
 					<PriceLabel color="warning">
-						<Text bold size="3">
-							$9.12
-						</Text>
+						<Text size="3">$9.12</Text>
 					</PriceLabel>
 				</Box>
 			</Grid>
@@ -55,16 +49,12 @@ const CombinedTemplate: React.FC = () => (
 			<Grid flow="column" gap="4">
 				<Box>
 					<PriceLabel color="greenContrast">
-						<Text bold size="3">
-							$5.23
-						</Text>
+						<Text size="3">$5.23</Text>
 					</PriceLabel>
 				</Box>
 				<Box>
 					<PriceLabel color="redContrast">
-						<Text bold size="3">
-							$1.21
-						</Text>
+						<Text size="3">$1.21</Text>
 					</PriceLabel>
 				</Box>
 			</Grid>
