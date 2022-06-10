@@ -5,7 +5,7 @@ async function bootstrap(options = {}) {
 	const browser = await puppeteer.launch({
 		headless: false,
 		devtools,
-		args: ['--disable-extensions-except=./dist/chrome', '--load-extension=./dist/chrome F'],
+		args: ['--disable-extensions-except=./dist/chrome', '--load-extension=./dist/chrome'],
 		...(slowMo && { slowMo }),
 	})
 
