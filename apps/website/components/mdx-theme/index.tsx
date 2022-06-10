@@ -1,5 +1,4 @@
 /* eslint-disable react/jsx-props-no-spreading */
-
 import React from 'react'
 import { useTheme } from 'next-themes'
 import { PrismAsyncLight as SyntaxHighlighter } from 'react-syntax-highlighter'
@@ -41,7 +40,6 @@ const generateComponents = (theme: string) => ({
 			as="h1"
 			bold
 			size="12"
-			displayRound
 			css={{
 				py: '$5',
 				fontSize: '26px',
@@ -51,11 +49,11 @@ const generateComponents = (theme: string) => ({
 			{...props}
 		/>
 	),
-	h2: props => <Text displayRound as="h2" size="10" css={{ py: '$3' }} {...props} />,
-	h3: props => <Text displayRound as="h3" size="8" css={{ py: '$3' }} {...props} />,
-	h4: props => <Text displayRound as="h4" size="7" css={{ py: '$3' }} {...props} />,
-	h5: props => <Text displayRound as="h5" size="5" css={{ py: '$3' }} {...props} />,
-	h6: props => <Text displayRound as="h6" size="4" css={{ py: '$3' }} {...props} />,
+	h2: props => <Text as="h2" size="10" css={{ py: '$3' }} {...props} />,
+	h3: props => <Text as="h3" size="8" css={{ py: '$3' }} {...props} />,
+	h4: props => <Text as="h4" size="7" css={{ py: '$3' }} {...props} />,
+	h5: props => <Text as="h5" size="5" css={{ py: '$3' }} {...props} />,
+	h6: props => <Text as="h6" size="4" css={{ py: '$3' }} {...props} />,
 	p: props => (
 		<Text
 			as="p"
@@ -63,7 +61,6 @@ const generateComponents = (theme: string) => ({
 			regular
 			css={{
 				py: '$3',
-				fontFamily: '$HaasGrotTextRound',
 				fontSize: '15px',
 				lineHeight: '22px',
 				'@sm': { fontSize: '16px', lineHeight: '26px' },

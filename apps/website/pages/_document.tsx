@@ -8,6 +8,12 @@ export default class Document extends NextDocument {
 			<Html lang="en">
 				<Head>
 					<style id="stitches" dangerouslySetInnerHTML={{ __html: getCssText() }} />
+					<link rel="preload" href="/fonts/Inter-Regular.woff" as="font" type="font/woff" crossOrigin="anonymous" />
+					<link rel="preload" href="/fonts/Inter-Regular.woff2" as="font" type="font/woff" crossOrigin="anonymous" />
+					<link rel="preload" href="/fonts/Inter-Medium.woff" as="font" type="font/woff" crossOrigin="anonymous" />
+					<link rel="preload" href="/fonts/Inter-Medium.woff2" as="font" type="font/woff" crossOrigin="anonymous" />
+					<link rel="preload" href="/fonts/Inter-Bold.woff" as="font" type="font/woff" crossOrigin="anonymous" />
+					<link rel="preload" href="/fonts/Inter-Bold.woff2" as="font" type="font/woff" crossOrigin="anonymous" />
 					<link rel="preload" href="/fonts/FiraSans-Bold.woff" as="font" type="font/woff" crossOrigin="anonymous" />
 					<link rel="preload" href="/fonts/FiraSans-Bold.woff2" as="font" type="font/woff2" crossOrigin="anonymous" />
 					<link rel="preload" href="/fonts/FiraSans-Medium.woff" as="font" type="font/woff" crossOrigin="anonymous" />
@@ -119,13 +125,29 @@ body {
   background: var(--bg);
   color: var(--fg);
 }
-
 html,
 body {
   padding: 0;
   margin: 0;
 }
-
+@font-face {
+  font-family: 'Inter';
+  font-weight: 400;
+  font-display: swap;
+  src: url(/fonts/Inter-Regular.woff2) format('woff2'), url(/fonts/Inter-Regular.woff) format('woff');
+}
+@font-face {
+  font-family: 'Inter';
+  font-weight: 500;
+  font-display: swap;
+  src: url(/fonts/Inter-Medium.woff2) format('woff2'), url(/fonts/Inter-Medium.woff) format('woff');
+}
+@font-face {
+  font-family: 'Inter';
+  font-weight: 700;
+  font-display: swap;
+  src: url(/fonts/Inter-Bold.woff2) format('woff2'), url(/fonts/Inter-Bold.woff) format('woff');
+}
 @font-face {
   font-family: 'Montserrat';
   font-weight: 400;

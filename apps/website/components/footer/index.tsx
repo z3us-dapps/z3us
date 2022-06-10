@@ -29,7 +29,6 @@ export const Footer: React.FC = () => (
 								as="p"
 								color="help"
 								css={{
-									fontFamily: '$HaasGrotTextRound',
 									fontSize: '13px',
 									lineHeight: '14px',
 								}}
@@ -49,7 +48,6 @@ export const Footer: React.FC = () => (
 							<Text
 								as="p"
 								css={{
-									fontFamily: '$HaasGrotTextRound',
 									fontSize: '13px',
 									lineHeight: '14px',
 								}}
@@ -63,7 +61,6 @@ export const Footer: React.FC = () => (
 							<Text
 								as="p"
 								css={{
-									fontFamily: '$HaasGrotTextRound',
 									fontSize: '13px',
 									lineHeight: '14px',
 								}}
