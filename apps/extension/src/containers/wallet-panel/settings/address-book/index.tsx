@@ -2,7 +2,7 @@ import React from 'react'
 import { useImmer } from 'use-immer'
 import { useSharedStore } from '@src/store'
 import { useEventListener } from 'usehooks-ts'
-import { Tooltip, TooltipTrigger, TooltipContent, TooltipArrow } from 'ui/src/components/tool-tip'
+import { ToolTip } from 'ui/src/components/tool-tip'
 import { Box, Flex, Text, StyledLink } from 'ui/src/components/atoms'
 import { getShortAddress } from '@src/utils/string-utils'
 import { PlusIcon } from 'ui/src/components/icons'
@@ -44,6 +44,8 @@ export const AddressBook: React.FC = () => {
 		errorMessage: '',
 		isAddAddressDialogOpen: false,
 	})
+
+	const hasAddresses = Object.entries(addressBook || [])?.length > 0
 
 	const handleEdit = (entry: AddressBookEntry) => {
 		setState(draft => {
@@ -156,24 +158,18 @@ export const AddressBook: React.FC = () => {
 											<Box css={{ maxWidth: '156px', pr: '$1' }}>
 												<Text truncate>{entry?.name}</Text>
 											</Box>
-											<Tooltip>
-												<TooltipTrigger asChild>
-													<Text truncate>
-														<StyledLink
-															css={{ color: '$txtMuted' }}
-															underline
-															target="_blank"
-															href={`${EXPLORER_URL}accounts/${address}`}
-														>
-															{getShortAddress(address)}
-														</StyledLink>
-													</Text>
-												</TooltipTrigger>
-												<TooltipContent sideOffset={5}>
-													<TooltipArrow />
-													Go to explorer
-												</TooltipContent>
-											</Tooltip>
+											<ToolTip message="Go to explorer" side="top">
+												<Text truncate>
+													<StyledLink
+														css={{ color: '$txtMuted' }}
+														underline
+														target="_blank"
+														href={`${EXPLORER_URL}accounts/${address}`}
+													>
+														{getShortAddress(address)}
+													</StyledLink>
+												</Text>
+											</ToolTip>
 										</>
 									)}
 								</Flex>
@@ -190,31 +186,19 @@ export const AddressBook: React.FC = () => {
 									</>
 								) : (
 									<>
-										<Tooltip>
-											<TooltipTrigger asChild>
-												<Button size="1" color="ghost" iconOnly onClick={() => handleEdit(entry)}>
-													<Pencil2Icon />
-												</Button>
-											</TooltipTrigger>
-											<TooltipContent sideOffset={5}>
-												<TooltipArrow />
-												Edit
-											</TooltipContent>
-										</Tooltip>
+										<ToolTip message="Edit" side="top">
+											<Button size="1" color="ghost" iconOnly onClick={() => handleEdit(entry)}>
+												<Pencil2Icon />
+											</Button>
+										</ToolTip>
 										<AlertDialog>
 											<AlertDialogTrigger asChild>
 												<Box>
-													<Tooltip>
-														<TooltipTrigger asChild>
-															<Button size="1" color="ghost" iconOnly>
-																<TrashIcon />
-															</Button>
-														</TooltipTrigger>
-														<TooltipContent sideOffset={5}>
-															<TooltipArrow offset={15} />
-															Remove account
-														</TooltipContent>
-													</Tooltip>
+													<ToolTip message="Remove account" side="top">
+														<Button size="1" color="ghost" iconOnly>
+															<TrashIcon />
+														</Button>
+													</ToolTip>
 												</Box>
 											</AlertDialogTrigger>
 											<AlertDialogContent>
@@ -249,10 +233,16 @@ export const AddressBook: React.FC = () => {
 					)
 				})}
 			</Box>
-			<Box css={{ mt: '0' }}>
+			<Box>
 				<AlertDialog open={state.isAddAddressDialogOpen}>
 					<AlertDialogTrigger asChild>
-						<Button size="4" color="primary" fullWidth onClick={handleOpenAddAddressDialog}>
+						<Button
+							size="4"
+							color="primary"
+							fullWidth
+							onClick={handleOpenAddAddressDialog}
+							css={{ mt: hasAddresses ? '$2' : '0' }}
+						>
 							<PlusIcon />
 							Add new address
 						</Button>

@@ -41,7 +41,7 @@ export const ThemePickerMenu: React.FC = () => {
 		>
 			<DropdownMenuTrigger asChild>
 				<Box>
-					<ToolTip message="Theme" bgColor="$bgPanel2">
+					<ToolTip message="Theme">
 						<Button size="3" color="ghost" iconOnly>
 							<Box
 								css={{

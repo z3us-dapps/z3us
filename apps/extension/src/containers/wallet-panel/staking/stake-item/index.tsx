@@ -42,14 +42,14 @@ export const StakeItem: React.FC<IProps> = ({
 					</Text>
 				</Box>
 
-				<ToolTip message="Go to website" side="top" bgColor="$bgPanel2">
+				<ToolTip message="Go to website" side="top">
 					<StyledLink underlineOnHover href={validator.infoURL.toString()} target="_blank">
 						<Button iconOnly color="ghost" size="1">
 							<HomeIcon />
 						</Button>
 					</StyledLink>
 				</ToolTip>
-				<ToolTip arrowOffset={7} message="Go to explorer" side="top" bgColor="$bgPanel2">
+				<ToolTip arrowOffset={7} message="Go to explorer" side="top">
 					<StyledLink
 						underlineOnHover
 						href={`${EXPLORER_URL}/validators/${validator.address.toString()}`}

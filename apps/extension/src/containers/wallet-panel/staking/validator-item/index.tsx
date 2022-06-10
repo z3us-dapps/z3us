@@ -53,7 +53,7 @@ export const ValidatorItem: React.FC<IProps> = ({ i, validator, totalStakes }) =
 					<Text truncate css={{ maxWidth: '175px' }}>
 						{name}
 					</Text>
-					<ToolTip message="Go to explorer" bgColor="$bgPanel2">
+					<ToolTip message="Go to explorer" side="top">
 						<Button
 							as="a"
 							size="1"
@@ -93,7 +93,7 @@ export const ValidatorItem: React.FC<IProps> = ({ i, validator, totalStakes }) =
 						<Popover>
 							<PopoverTrigger asChild>
 								<Box>
-									<ToolTip message="Validator info" bgColor="$bgPanel2">
+									<ToolTip message="Validator info" side="top">
 										<Button color="ghost" iconOnly aria-label="Validator info" size="1">
 											<InfoCircledIcon />
 										</Button>

@@ -48,8 +48,7 @@ export const QrHoverCard = ({ css }: IProps): JSX.Element => {
 							</Text>
 							<Flex align="start">
 								{shortAddress}
-
-								<ButtonTipFeedback tooltip="Copy address" bgColor="$bgPanel">
+								<ButtonTipFeedback tooltip="Copy address">
 									<Button size="1" iconOnly color="ghost" onClick={handleCopyAddress} css={{ mt: '-5px' }}>
 										<CopyIcon />
 									</Button>
