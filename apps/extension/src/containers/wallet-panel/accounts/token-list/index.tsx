@@ -3,6 +3,7 @@ import React, { useState } from 'react'
 import { useSharedStore, useStore } from '@src/store'
 import { useAllAccountsTokenBalances, useTokenBalances } from '@src/services/react-query/queries/radix'
 import { TokenLoadingRows } from '@src/components/token-loading-row'
+import { VisibleFadeAnimation } from '@src/components/visible-fade-animation'
 import { Virtuoso } from 'react-virtuoso'
 import { ScrollArea } from '@src/components/scroll-area'
 import { SLIDE_PANEL_HEIGHT, SLIDE_PANEL_EXPAND_HEIGHT, SLIDE_PANEL_HEADER_HEIGHT } from '@src/config'
@@ -111,17 +112,16 @@ export const TokenList: React.FC = () => {
 		addresses: Object.values(state.publicAddresses).map(({ address }) => address),
 		activeSlideIndex: state.activeSlideIndex,
 	}))
-	// @TODO: animate this, rather than conditionally show
 	const isSlideUpPanelVisible = activeSlideIndex < addresses.length
 
 	return (
 		<>
 			<AccountSwitcher />
-			{isSlideUpPanelVisible ? (
+			<VisibleFadeAnimation isVisible={isSlideUpPanelVisible}>
 				<SlideUpPanel name="Tokens">
 					<Balances />
 				</SlideUpPanel>
-			) : null}
+			</VisibleFadeAnimation>
 		</>
 	)
 }
