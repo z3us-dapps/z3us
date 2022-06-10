@@ -2,7 +2,7 @@ const { bootstrap } = require('./bootstrap')
 
 const DELAY = 1000
 
-describe('test text replacer extension with react app', () => {
+describe('e2e test Z3US website and Z3US extension', () => {
 	let extPage, appPage, browser
 
 	beforeAll(async () => {
