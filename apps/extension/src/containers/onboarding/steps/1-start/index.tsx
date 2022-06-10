@@ -109,7 +109,7 @@ export const Start = (): JSX.Element => {
 				</MotionBox>
 			</MotionBox>
 			<Flex>
-				<Button color="primary" size="5" onClick={handleCreateNewWallet} fullWidth>
+				<Button data-test-e2e="create-new-wallet" color="primary" size="5" onClick={handleCreateNewWallet} fullWidth>
 					Create new wallet
 				</Button>
 			</Flex>

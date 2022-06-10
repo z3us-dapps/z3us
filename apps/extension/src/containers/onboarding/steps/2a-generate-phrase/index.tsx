@@ -78,7 +78,7 @@ export const GeneratePhrase = (): JSX.Element => {
 						position: 'relative',
 					}}
 				>
-					<Flex css={{ overflow: 'hidden', flexWrap: 'wrap' }}>
+					<Flex data-test-e2e="create-new-wallet-mnemonic" css={{ overflow: 'hidden', flexWrap: 'wrap' }}>
 						{mnemonic?.words.map(word => (
 							<Box key={word} css={{ mr: '$2', mb: '$1' }}>
 								<Text size="4">{word}</Text>
@@ -99,7 +99,14 @@ export const GeneratePhrase = (): JSX.Element => {
 				</Box>
 			</Box>
 			<Flex css={{ width: '100%' }}>
-				<Button fullWidth color="primary" size="6" onClick={handleContinue} css={{ flex: '1' }}>
+				<Button
+					data-test-e2e="create-new-wallet-save-btn"
+					fullWidth
+					color="primary"
+					size="6"
+					onClick={handleContinue}
+					css={{ flex: '1' }}
+				>
 					Ok, I saved it!
 				</Button>
 			</Flex>
