@@ -17,7 +17,8 @@
 		"preview": "vite preview",
 		"check-types": "tsc --noemit",
 		"eslint": "eslint --ignore-path .eslintignore --ext .js,.ts,.tsx .",
-		"lint": "yarn run eslint && yarn run check-types"
+		"lint": "yarn run eslint && yarn run check-types",
+		"e2e": "jest --detectOpenHandles"
 	},
 	"dependencies": {
 		"@ledgerhq/hw-transport-webhid": "^6.24.1",
@@ -38,6 +39,7 @@
 		"@simplewebauthn/browser": "^5.1.0",
 		"@simplewebauthn/server": "^5.1.0",
 		"@stitches/react": "1.2.5",
+		"@types/puppeteer": "^5.4.6",
 		"@vitejs/plugin-react": "^1.2.0",
 		"base64url": "^3.0.1",
 		"bignumber.js": "^9.0.1",
@@ -53,6 +55,7 @@
 		"os-browserify": "^0.3.0",
 		"path-browserify": "^1.0.1",
 		"process": "^0.11.10",
+		"puppeteer": "^14.3.0",
 		"qrcode.react": "^3.0.1",
 		"react": "^17.0.2",
 		"react-colorful": "^5.5.1",
