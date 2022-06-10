@@ -94,7 +94,7 @@ export const AccountSelector: React.FC<IProps> = ({ shortAddress, tokenAmount, t
 						<DropdownMenuRadioItem key={account.index} value={account.shortAddress}>
 							<DropdownMenuItemIndicator />
 							<Text size="2" bold truncate css={{ maxWidth: '274px' }}>
-								{entry?.name ? `${entry.name} (${account.shortAddress})` : account.shortAddress}
+								{account?.name ? `${account.name} (${account.shortAddress})` : account.shortAddress}
 							</Text>
 						</DropdownMenuRadioItem>
 					))}
