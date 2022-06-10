@@ -16,7 +16,7 @@ export const darkColors = {
 	bgToggleActive: '#aca7d3',
 	bgSlider: '#000000',
 	bgSliderRange: '#aca7d3',
-	bgTransparentDialog: 'rgba(0,0,0, 0.7)',
+	bgTransparentDialog: 'rgba(0,0,0, 0.4)',
 	bgSliderTrack: '$buttonBgPrimary',
 	bgInput: '#111111',
 	bgLink: 'rgba(192,125,219,0.1)',
