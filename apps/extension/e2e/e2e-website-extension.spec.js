@@ -6,7 +6,7 @@ describe('e2e test Z3US website and Z3US extension', () => {
 	let extPage, appPage, browser
 
 	beforeAll(async () => {
-		const context = await bootstrap({ appUrl: 'http://localhost:4000/', slowMo: 50, devtools: true })
+		const context = await bootstrap({ appUrl: 'https://z3us.com/', slowMo: 50, devtools: true })
 
 		extPage = context.extPage
 		appPage = context.appPage
@@ -14,10 +14,10 @@ describe('e2e test Z3US website and Z3US extension', () => {
 	})
 
 	it('should render Z3US home page and browser extenstion as expected', async () => {
-		// User opens Z3US.com running on (http://localhost:4000/)
+		// User opens Z3US.com
 		appPage.bringToFront()
 
-		// When extension loads `Pill` component is expected to say `BETA F`
+		// When Z3US.com loads, the `Pill` component is expected to say `BETA`
 		const websitePill = await appPage.$('[data-test-e2e="pill"]')
 		await websitePill.type('BETA')
 
