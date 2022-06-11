@@ -1,5 +1,5 @@
-/* eslint-disable */
-import React, { useCallback, useState, useEffect, useMemo } from 'react'
+import React, { useState, useEffect, useMemo, useCallback } from 'react'
+import { useTokenBalances } from '@src/services/react-query/queries/radix'
 import { useImmer } from 'use-immer'
 import { SearchBox } from '@src/components/search-box'
 import { Cross2Icon } from '@radix-ui/react-icons'
@@ -10,34 +10,37 @@ import { Dialog, DialogTrigger, DialogContent } from 'ui/src/components/dialog'
 import * as ReactBeautifulDnd from 'react-beautiful-dnd'
 import { Box, Text, Flex } from 'ui/src/components/atoms'
 import { Side } from '@radix-ui/popper'
+import { Token } from './token'
+import { tokens } from './tokens'
 
-// MIGHT NEED TO USE THESE
-//export interface ItemType {
-//id: string
-//text: string
-//height: number
-//}
+const VISIBLE = 'visible'
+const NON_VISIBLE = 'non_visible'
+const TOKEN_SYMBOL = 'Symbol'
+const TOKEN_RRI = 'RRI'
+const TOKEN_NAME = 'Name'
 
-//export type ItemList = ItemType[]
-
-//export const createItemList = (itemCount: number): ItemList => {
-//const itemList: ItemList = []
-//for (let i = 0; i < itemCount; i++) {
-//itemList.push({
-//id: i.toString(),
-//text: `Item ${i}`,
-//height: Math.random() * 20,
-//})
-//}
-
-//return itemList
-//}
-
-const makeData = idSuffix =>
-	Array.from({ length: 500 }, (_, k) => ({
+const makeData = (idSuffix, length) =>
+	Array.from({ length }, (_, k) => ({
 		id: `id:${k}-${idSuffix}`,
 		text: `${idSuffix} - item -  ${k}`,
 	}))
+
+const makeTokenData = tokens => {
+	const tokenSymbols = tokens[TOKEN_SYMBOL]
+	const tokenNames = tokens[TOKEN_NAME]
+	const tokenRris = tokens[TOKEN_RRI]
+
+	return tokenSymbols.map((symbol, index) => {
+		const name = tokenNames[index]
+		const rri = tokenRris[index]
+		return {
+			id: rri,
+			symbol,
+			name,
+			rri,
+		}
+	})
+}
 
 interface IProps {
 	children?: React.ReactNode
@@ -59,13 +62,15 @@ export const TokenListSettingsModal = ({
 	toolTipMessage,
 	toolTipSide,
 }: IProps): JSX.Element => {
-	//const [items, setItems] = useState<ItemList>(createItemList(100))
-	const [items, setItems] = useState(() => ({
-		list1: makeData('list1'),
-		list2: makeData('list2'),
-	}))
+	const { data } = useTokenBalances()
+	console.log('data:', data)
+	const [state, setState] = useImmer({
+		isModalOpen: false,
+		[VISIBLE]: makeData(VISIBLE, 5),
+		[NON_VISIBLE]: makeTokenData(tokens),
+	})
 
-	const reorder = React.useCallback((items, droppableSourceId, droppableDestId, startIndex, endIndex) => {
+	const reorder = useCallback((items, droppableSourceId, droppableDestId, startIndex, endIndex) => {
 		const droppableSource = [...items[droppableSourceId]]
 		const droppableDest = [...items[droppableDestId]]
 		const [removed] = droppableSource.splice(startIndex, 1)
@@ -88,20 +93,20 @@ export const TokenListSettingsModal = ({
 				return
 			}
 
-			setItems(items =>
-				reorder(
-					items,
-					result.source.droppableId,
-					result.destination.droppableId,
-					result.source.index,
-					result.destination.index,
-				),
-			)
+			//setItems(items =>
+			//reorder(
+			//items,
+			//result.source.droppableId,
+			//result.destination.droppableId,
+			//result.source.index,
+			//result.destination.index,
+			//),
+			//)
 		},
-		[setItems, reorder],
+		[reorder],
 	)
 
-	const Item = React.useMemo(() => {
+	const Item = useMemo(() => {
 		return ({ provided, item, isDragging }) => {
 			// For borders and visual space,
 			// use container with padding rather than a margin
@@ -113,21 +118,11 @@ export const TokenListSettingsModal = ({
 					ref={provided.innerRef}
 					style={{ ...provided.draggableProps.style, paddingBottom: '8px' }}
 				>
-					<div
-						style={{
-							border: `1px solid ${isDragging ? 'red' : 'black'}`,
-						}}
-					>
-						{item.text}
-					</div>
+					<Token name={item.name} symbol={item.symbol} rri={item.rri} isDragging={isDragging} />
 				</div>
 			)
 		}
 	}, [])
-
-	const [state, setState] = useImmer({
-		isModalOpen: false,
-	})
 
 	const handleOnClick = () => {
 		setState(draft => {
@@ -151,6 +146,17 @@ export const TokenListSettingsModal = ({
 		// eslint-disable-next-line
 		console.log('search:', search)
 	}
+
+	useEffect(() => {
+		window.addEventListener('error', e => {
+			if (
+				e.message === 'ResizeObserver loop completed with undelivered notifications.' ||
+				e.message === 'ResizeObserver loop limit exceeded'
+			) {
+				e.stopImmediatePropagation()
+			}
+		})
+	}, [])
 
 	return (
 		<Dialog open={state.isModalOpen} modal={false}>
@@ -177,17 +183,58 @@ export const TokenListSettingsModal = ({
 					>
 						<Cross2Icon />
 					</Button>
-					<Box css={{ pt: '$4', px: '$5' }}>
-						<Text size="5" bold css={{ mb: '$2' }}>
+					<Box css={{ pt: '$5', px: '$5' }}>
+						<Text size="6" bold css={{ mb: '$2' }}>
 							Token list settings
 						</Text>
-						<Box css={{ mt: '$4' }}>
-							<SearchBox onSearch={handleSearchTokenList} placeholder="Search tokens" />
-						</Box>
+						<Text css={{ mt: '$3' }}>Drag and drop to change the order in which to display tokens.</Text>
 						<Box css={{ mt: '$2' }}>
+							<SearchBox showCancelOnlyWithValueButton onSearch={handleSearchTokenList} placeholder="Search tokens" />
+						</Box>
+						<Flex css={{ mt: '$3', gap: '12px' }}>
+							<Box css={{ flex: '1' }}>
+								<Text bold size="2">
+									Visible
+								</Text>
+							</Box>
+							<Box css={{ flex: '1' }}>
+								<Text bold size="2">
+									Non-visible
+								</Text>
+							</Box>
+						</Flex>
+						<Box
+							css={{
+								mt: '6px',
+								'.custom-scroll-bars': {
+									'scrollbar-width': 'auto',
+									'scrollbar-color': '#6e4af6 $bgPanel',
+									'&::-webkit-scrollbar': {
+										width: '10px',
+									},
+									'&::-webkit-scrollbar-track': {
+										background: 'var(--colors-bgPanelDialog)',
+									},
+									'&::-webkit-scrollbar-thumb': {
+										backgroundColor: '#6e4af6',
+										borderRadius: '10px',
+										$$scrollBorderColor: 'var(--colors-bgPanelDialog)',
+										border: '3px solid $$scrollBorderColor',
+									},
+								},
+							}}
+						>
+							<style>
+								{`
+									.height-preserving-container:empty {
+										min-height: calc(var(--child-height));
+										box-sizing: border-box;
+									}
+								`}
+							</style>
 							<ReactBeautifulDnd.DragDropContext onDragEnd={onDragEnd}>
-								<Flex css={{ '>div': { flex: '1' } }}>
-									{['list1', 'list2'].map(droppableId => {
+								<Flex css={{ gap: '12px', '> div': { flex: '1' } }}>
+									{[VISIBLE, NON_VISIBLE].map(droppableId => {
 										return (
 											<ReactBeautifulDnd.Droppable
 												key={droppableId}
@@ -197,28 +244,41 @@ export const TokenListSettingsModal = ({
 													<Item
 														provided={provided}
 														isDragging={snapshot.isDragging}
-														item={items[droppableId][rubric.source.index]}
+														item={state[droppableId][rubric.source.index]}
 													/>
 												)}
 											>
 												{provided => {
 													return (
 														<Virtuoso
+															className="custom-scroll-bars"
 															components={{
-																Item: React.useMemo(() => {
+																Item: useMemo(() => {
 																	return ({ children, ...props }) => {
+																		const [size, setSize] = useState(0)
+																		const knownSize = props['data-known-size']
+																		useEffect(() => {
+																			setSize(prevSize => {
+																				return knownSize == 0 ? prevSize : knownSize
+																			})
+																		}, [knownSize])
 																		return (
 																			// the height is necessary to prevent the item container from collapsing, which confuses Virtuoso measurements
-																			<div {...props} style={{ height: props['data-known-size'] || undefined }}>
+																			<Box
+																				{...props}
+																				className="height-preserving-container"
+																				// check styling in the style tag below
+																				css={{ '--child-height': `${size}px` }}
+																			>
 																				{children}
-																			</div>
+																			</Box>
 																		)
 																	}
 																}, []),
 															}}
 															scrollerRef={provided.innerRef}
-															data={items[droppableId]}
-															style={{ height: 300 }}
+															data={state[droppableId]}
+															style={{ height: 290 }}
 															itemContent={(index, item) => {
 																return (
 																	<ReactBeautifulDnd.Draggable draggableId={item.id} index={index} key={item.id}>
@@ -236,7 +296,7 @@ export const TokenListSettingsModal = ({
 							</ReactBeautifulDnd.DragDropContext>
 						</Box>
 					</Box>
-					<Flex justify="end" gap="2" css={{ mt: '$3', p: '$3' }}>
+					<Flex justify="end" gap="2" css={{ p: '$3', borderTop: '1px solid $borderPanel' }}>
 						<Button size="3" color="primary" aria-label="save" onClick={handleSaveTokenList}>
 							Save
 						</Button>

@@ -1,5 +1,5 @@
 /* eslint-disable react/no-unstable-nested-components */
-import React, { useState, useRef } from 'react'
+import React, { useState } from 'react'
 import { useSharedStore, useStore } from '@src/store'
 import { useAllAccountsTokenBalances, useTokenBalances } from '@src/services/react-query/queries/radix'
 import { TokenLoadingRows } from '@src/components/token-loading-row'
@@ -159,7 +159,9 @@ export const TokenList: React.FC = () => {
 					<SearchBox
 						onSearch={handleSearchTokenList}
 						onCancelSearch={handleCancelSearch}
+						showCancelButton
 						placeholder="Search tokens"
+						focusOnMount
 						css={{ position: 'absolute', top: '-22px', left: '14px', width: '298px', zIndex: '2' }}
 					/>
 				) : null}

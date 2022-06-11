@@ -15144,10 +15144,10 @@ react-useportal@^1.0.16:
   dependencies:
     use-ssr "^1.0.22"
 
-react-virtuoso@^2.11.0:
-  version "2.11.1"
-  resolved "https://registry.yarnpkg.com/react-virtuoso/-/react-virtuoso-2.11.1.tgz#d019b5571db0dc538af07cad864db2b77b08be25"
-  integrity sha512-a1UtTXOm86gxZY3PcZxbA+vbTRzWtfWUVkLXztKKJhNU5EKnTmzrzoibRWlB6tNiMYDTRp1VXmOjbuLHlWfRvA==
+react-virtuoso@^2.13.2:
+  version "2.13.2"
+  resolved "https://registry.yarnpkg.com/react-virtuoso/-/react-virtuoso-2.13.2.tgz#dc5403e57e3e5aec0f4fe222f61e152f2a7f8017"
+  integrity sha512-DuZpTCC0rY5SAKPHQoZPKX3xAYN2iAGcG3P1Z7JVjq/8727usIwpSwvXGomyCvBIC2DHBX4yX46nVZ97+C6Pkw==
   dependencies:
     "@virtuoso.dev/react-urx" "^0.2.12"
     "@virtuoso.dev/urx" "^0.2.12"
