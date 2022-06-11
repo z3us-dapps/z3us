@@ -51,7 +51,11 @@ export const OnboardingWorkFlow: React.FC = () => {
 				}
 				break
 			case onBoardingSteps.CREATE_PASSWORD:
-				setOnboardingStep(onBoardingSteps.IMPORT_ACCOUNTS)
+				if (isRestoreWorkflow) {
+					setOnboardingStep(onBoardingSteps.IMPORT_ACCOUNTS)
+				} else {
+					setOnboardingStep(onBoardingSteps.GENERATE_PHRASE)
+				}
 				break
 			case onBoardingSteps.CREATE_WALLET:
 				setOnboardingStep(onBoardingSteps.CREATE_PASSWORD)

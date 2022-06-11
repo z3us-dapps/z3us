@@ -477,7 +477,6 @@ export const ProductHero = (): JSX.Element => {
 											<Text
 												bold
 												as="h2"
-												centra
 												css={{
 													fontSize: '32px',
 													lineHeight: '38px',

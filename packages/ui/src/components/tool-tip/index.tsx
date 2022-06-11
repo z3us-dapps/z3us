@@ -29,7 +29,7 @@ const slideLeftAndFade = keyframes({
 })
 
 const StyledArrow = styled(TooltipPrimitive.Arrow, {
-	fill: '$bgPanel2',
+	fill: '$bgToolTip1',
 })
 
 const StyledContent = styled(TooltipPrimitive.Content, {
@@ -38,7 +38,7 @@ const StyledContent = styled(TooltipPrimitive.Content, {
 	fontSize: '$2',
 	lineHeight: 1,
 	color: '$txtDefault',
-	backgroundColor: '$bgPanel2',
+	backgroundColor: '$bgToolTip1',
 	boxShadow: '$tooltip',
 	'@media (prefers-reduced-motion: no-preference)': {
 		'&[data-state="closed"]': {
@@ -79,7 +79,7 @@ const toolTipDefaultProps = {
 	arrowOffset: 5,
 	isArrowVisible: true,
 	side: 'bottom',
-	bgColor: '$bgPanel',
+	bgColor: '$bgToolTip1',
 }
 
 export const ToolTip = ({

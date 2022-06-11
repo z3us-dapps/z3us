@@ -5,7 +5,7 @@ export const Text = styled('span', {
 	margin: '0',
 	fontWeight: 400,
 	fontVariantNumeric: 'tabular-nums',
-	fontFamily: '$HaasGrotTextRound',
+	fontFamily: 'inherit',
 	display: 'block',
 
 	variants: {
@@ -85,12 +85,13 @@ export const Text = styled('span', {
 				lineHeight: '$14',
 			},
 		},
-		// should use above > 20px
+		// TODO: remove this once we transition to Inter font
 		centra: {
 			true: {
 				fontFamily: '$Centra',
 			},
 		},
+		// TODO: remove this once we transition to Inter font
 		displayRound: {
 			true: {
 				fontFamily: '$HaasGrotDisplayRound',

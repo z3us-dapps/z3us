@@ -28,21 +28,21 @@ const CombinedTemplate: React.FC = () => (
 			<Grid flow="column" gap="4" css={{ border: '0px solid red' }}>
 				<Box>
 					<AlertCard color="success">
-						<Text medium size="4" css={{ p: '$3' }}>
+						<Text size="4" css={{ p: '$3' }}>
 							Success alert card
 						</Text>
 					</AlertCard>
 				</Box>
 				<Box>
 					<AlertCard color="error">
-						<Text medium size="4" css={{ p: '$3' }}>
+						<Text size="4" css={{ p: '$3' }}>
 							Error alert card
 						</Text>
 					</AlertCard>
 				</Box>
 				<Box>
 					<AlertCard color="warning">
-						<Text medium size="4" css={{ p: '$3' }}>
+						<Text size="4" css={{ p: '$3' }}>
 							Caution alert card
 						</Text>
 					</AlertCard>
@@ -53,7 +53,7 @@ const CombinedTemplate: React.FC = () => (
 			<Grid flow="column" gap="4" css={{ border: '0px solid red' }}>
 				<Box>
 					<AlertCard color="success" icon>
-						<Text medium size="4" css={{ p: '$3' }}>
+						<Text size="4" css={{ p: '$3' }}>
 							Success alert card
 						</Text>
 					</AlertCard>
@@ -67,7 +67,7 @@ const CombinedTemplate: React.FC = () => (
 				</Box>
 				<Box css={{ maxWidth: '250px' }}>
 					<AlertCard color="warning" icon={<LightningBoltIcon />}>
-						<Text medium size="4" css={{ p: '$3' }}>
+						<Text size="4" css={{ p: '$3' }}>
 							Caution alert card Caution alert card Caution alert card Caution alert card
 						</Text>
 					</AlertCard>

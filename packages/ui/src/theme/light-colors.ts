@@ -4,6 +4,8 @@ export const lightColors = {
 
 	bgPanel: '#ffffff',
 	bgPanel2: '#f1f1f1',
+	bgToolTip1: '#ffffff',
+	bgToolTip2: '#f1f1f1',
 	bgPanelHeaderTransparent: 'rgba(255,255,255, 0.7)',
 	bgPanelFooter: '#f1f1f1',
 	bgPanelDialog: '$bgPanel',
