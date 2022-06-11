@@ -1,13 +1,19 @@
 /* eslint-disable react/no-unstable-nested-components */
-import React, { useState } from 'react'
+import React, { useState, useRef } from 'react'
 import { useSharedStore, useStore } from '@src/store'
 import { useAllAccountsTokenBalances, useTokenBalances } from '@src/services/react-query/queries/radix'
 import { TokenLoadingRows } from '@src/components/token-loading-row'
+import { useImmer } from 'use-immer'
+import { ToolTip } from 'ui/src/components/tool-tip'
 import { VisibleFadeAnimation } from '@src/components/visible-fade-animation'
+import { TokenListSettingsModal } from '@src/components/token-list-settings-modal'
+import { RowsIcon, MagnifyingGlassIcon, Cross2Icon } from '@radix-ui/react-icons'
 import { Virtuoso } from 'react-virtuoso'
 import { ScrollArea } from '@src/components/scroll-area'
+import { SearchBox } from '@src/components/search-box'
+import Button from 'ui/src/components/button'
 import { SLIDE_PANEL_HEIGHT, SLIDE_PANEL_EXPAND_HEIGHT, SLIDE_PANEL_HEADER_HEIGHT } from '@src/config'
-import { Box, Text } from 'ui/src/components/atoms'
+import { Box, Text, Flex } from 'ui/src/components/atoms'
 import { AccountSwitcher } from '../account-switcher'
 import { SlideUpPanel } from '../slide-up-panel'
 import { TokenRow } from '../token-row'
@@ -112,13 +118,66 @@ export const TokenList: React.FC = () => {
 		addresses: Object.values(state.publicAddresses).map(({ address }) => address),
 		activeSlideIndex: state.activeSlideIndex,
 	}))
+	const [state, setState] = useImmer({
+		isSearching: false,
+	})
+
 	const isSlideUpPanelVisible = activeSlideIndex < addresses.length
+
+	const handleSearchTokenList = (search: string) => {
+		// eslint-disable-next-line
+		console.log('search:', search)
+	}
+
+	const handleToggleSearch = () => {
+		setState(draft => {
+			draft.isSearching = !draft.isSearching
+		})
+	}
+
+	const slideUpHeader = (
+		<>
+			<Box
+				css={{
+					px: '$4',
+					height: '30px',
+					borderBottom: '1px solid $borderPanel',
+					mt: '-10px',
+					position: 'relative',
+				}}
+			>
+				<Text bold css={{ fontSize: '20px', lineHeight: '20px', transform: 'translateY(-6px)' }}>
+					Tokens
+				</Text>
+				{state.isSearching ? (
+					<SearchBox
+						onSearch={handleSearchTokenList}
+						placeholder="Search"
+						showCancelButton={false}
+						css={{ position: 'absolute', top: '-17px', left: '10px', width: '140px', zIndex: '2' }}
+					/>
+				) : null}
+			</Box>
+			<Flex css={{ position: 'absolute', top: '30px', right: '12px', zIndex: '2', gap: '4px' }}>
+				<ToolTip message={state.isSearching ? 'Cancel search' : 'Search tokens'} side="top">
+					<Button iconOnly size="1" color="ghost" onClick={handleToggleSearch}>
+						{state.isSearching ? <Cross2Icon /> : <MagnifyingGlassIcon />}
+					</Button>
+				</ToolTip>
+				<TokenListSettingsModal toolTipSide="top" toolTipSideOffset={3} toolTipMessage="Edit token list">
+					<Button iconOnly size="1" color="ghost">
+						<RowsIcon />
+					</Button>
+				</TokenListSettingsModal>
+			</Flex>
+		</>
+	)
 
 	return (
 		<>
 			<AccountSwitcher />
 			<VisibleFadeAnimation isVisible={isSlideUpPanelVisible}>
-				<SlideUpPanel name="Tokens">
+				<SlideUpPanel headerComponent={slideUpHeader}>
 					<Balances />
 				</SlideUpPanel>
 			</VisibleFadeAnimation>

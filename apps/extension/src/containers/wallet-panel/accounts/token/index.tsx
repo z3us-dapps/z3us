@@ -5,8 +5,10 @@ import { TokenLoadingRows } from '@src/components/token-loading-row'
 import { useTransactionHistory } from '@src/services/react-query/queries/radix'
 import { ActivityItem } from '@src/components/activity-item'
 import { useRoute } from 'wouter'
-import { Text, Box } from 'ui/src/components/atoms'
+import { Box, Text, Flex } from 'ui/src/components/atoms'
+import { MagnifyingGlassIcon } from '@radix-ui/react-icons'
 import { Virtuoso } from 'react-virtuoso'
+import Button from 'ui/src/components/button'
 import { getSplitParams } from '@src/utils/url-utils'
 import { SLIDE_PANEL_HEIGHT, SLIDE_PANEL_EXPAND_HEIGHT, SLIDE_PANEL_HEADER_HEIGHT } from '@src/config'
 import { SlideUpPanel } from '../slide-up-panel'
@@ -59,10 +61,25 @@ export const Token: React.FC = () => {
 		[observer, isFetching, hasNextPage],
 	)
 
+	const slideUpHeader = (
+		<Box
+			css={{
+				px: '$4',
+				height: '30px',
+				borderBottom: '1px solid $borderPanel',
+				mt: '-10px',
+			}}
+		>
+			<Text bold css={{ fontSize: '20px', lineHeight: '20px', transform: 'translateY(-6px)' }}>
+				Activity
+			</Text>
+		</Box>
+	)
+
 	return (
 		<>
 			<TokenInfo />
-			<SlideUpPanel name="Activity">
+			<SlideUpPanel headerComponent={slideUpHeader}>
 				<Box css={{ position: 'relative', height: `${calculateHeight}px` }}>
 					{isLoading ? (
 						<TokenLoadingRows />

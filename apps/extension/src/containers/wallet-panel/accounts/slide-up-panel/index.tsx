@@ -9,10 +9,10 @@ import { SLIDE_PANEL_HEIGHT, SLIDE_PANEL_EXPAND_HEIGHT } from '@src/config'
 
 interface IProps {
 	children: React.ReactNode
-	name: string
+	headerComponent: React.ReactNode
 }
 
-export const SlideUpPanel: React.FC<IProps> = ({ children, name }) => {
+export const SlideUpPanel: React.FC<IProps> = ({ children, headerComponent }) => {
 	const [location] = useLocation()
 	const { expanded, setExpanded } = useSharedStore(state => ({
 		expanded: state.accountPanelExpanded,
@@ -87,16 +87,7 @@ export const SlideUpPanel: React.FC<IProps> = ({ children, name }) => {
 				initial={false}
 				animate={expanded ? 'expanded' : 'contracted'}
 			>
-				<Box
-					css={{
-						px: '$4',
-						height: '30px',
-						borderBottom: '1px solid $borderPanel',
-						mt: '-10px',
-					}}
-				>
-					<Text css={{ fontSize: '20px', lineHeight: '20px', fontWeight: '700' }}>{name}</Text>
-				</Box>
+				{headerComponent}
 				<Box css={{ height: 'calc(100% - 30px)', position: 'relative' }}>{children}</Box>
 			</MotionBox>
 		</Box>
