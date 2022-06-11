@@ -131,7 +131,13 @@ export const TokenList: React.FC = () => {
 
 	const handleToggleSearch = () => {
 		setState(draft => {
-			draft.isSearching = !draft.isSearching
+			draft.isSearching = true
+		})
+	}
+
+	const handleCancelSearch = () => {
+		setState(draft => {
+			draft.isSearching = false
 		})
 	}
 
@@ -152,20 +158,22 @@ export const TokenList: React.FC = () => {
 				{state.isSearching ? (
 					<SearchBox
 						onSearch={handleSearchTokenList}
-						placeholder="Search"
-						showCancelButton={false}
-						css={{ position: 'absolute', top: '-17px', left: '10px', width: '140px', zIndex: '2' }}
+						onCancelSearch={handleCancelSearch}
+						placeholder="Search tokens"
+						css={{ position: 'absolute', top: '-22px', left: '14px', width: '298px', zIndex: '2' }}
 					/>
 				) : null}
 			</Box>
-			<Flex css={{ position: 'absolute', top: '30px', right: '12px', zIndex: '2', gap: '4px' }}>
-				<ToolTip message={state.isSearching ? 'Cancel search' : 'Search tokens'} side="top">
-					<Button iconOnly size="1" color="ghost" onClick={handleToggleSearch}>
-						{state.isSearching ? <Cross2Icon /> : <MagnifyingGlassIcon />}
-					</Button>
-				</ToolTip>
+			<Flex css={{ position: 'absolute', top: '22px', right: '12px', zIndex: '2', gap: '4px' }}>
+				<VisibleFadeAnimation isVisible={!state.isSearching}>
+					<ToolTip message="Search tokens" side="top">
+						<Button iconOnly size="1" color="ghost" onClick={handleToggleSearch}>
+							<MagnifyingGlassIcon />
+						</Button>
+					</ToolTip>
+				</VisibleFadeAnimation>
 				<TokenListSettingsModal toolTipSide="top" toolTipSideOffset={3} toolTipMessage="Edit token list">
-					<Button iconOnly size="1" color="ghost">
+					<Button iconOnly size="1" color="ghost" onClick={handleCancelSearch}>
 						<RowsIcon />
 					</Button>
 				</TokenListSettingsModal>
