@@ -84,16 +84,16 @@ export const Start = (): JSX.Element => {
 
 	return (
 		<PageWrapper css={{ flex: '1', position: 'relative', display: 'flex', flexDirection: 'column' }}>
-			<Flex css={{ pt: '$4' }}>
+			<Flex css={{ pt: '$2' }}>
 				<Box css={{ position: 'relative' }}>
-					<Pill color="gradientGreen" css={{ position: 'absolute', top: '-22px', left: '-1px' }}>
+					<Pill data-test-e2e="pill" color="gradientGreen" css={{ position: 'absolute', top: '-22px', left: '-1px' }}>
 						BETA
 					</Pill>
 					<Z3usText css={{ width: '130px', height: '40px' }} />
 				</Box>
 			</Flex>
 			<Box css={{ pt: '$6' }}>
-				<Text medium size="9">
+				<Text bold size="9">
 					Setup your wallet to enter the world of DeFi on{' '}
 					<StyledLink as="a" href="https://www.radixdlt.com" target="_blank" bubble>
 						Radix DLT
@@ -109,7 +109,7 @@ export const Start = (): JSX.Element => {
 				</MotionBox>
 			</MotionBox>
 			<Flex>
-				<Button color="primary" size="5" onClick={handleCreateNewWallet} fullWidth>
+				<Button data-test-e2e="create-new-wallet" color="primary" size="5" onClick={handleCreateNewWallet} fullWidth>
 					Create new wallet
 				</Button>
 			</Flex>

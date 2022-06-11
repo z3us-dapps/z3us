@@ -114,6 +114,7 @@ export const CreateWallet = (): JSX.Element => {
 			</Box>
 			<Flex css={{ width: '100%' }}>
 				<Button
+					data-test-e2e="go-to-wallet-btn"
 					fullWidth
 					color="primary"
 					size="6"
