@@ -7,58 +7,37 @@ import Button from 'ui/src/components/button'
 import { Virtuoso } from 'react-virtuoso'
 import { Tooltip, TooltipTrigger, TooltipContent, TooltipArrow } from 'ui/src/components/tool-tip'
 import { Dialog, DialogTrigger, DialogContent } from 'ui/src/components/dialog'
-import { Draggable, DragDropContext, Droppable, DropResult, ResponderProvided } from 'react-beautiful-dnd'
+import * as ReactBeautifulDnd from 'react-beautiful-dnd'
 import { Box, Text, Flex } from 'ui/src/components/atoms'
 import { Side } from '@radix-ui/popper'
 
-export interface ItemType {
-	id: string
-	text: string
-	height: number
-}
+// MIGHT NEED TO USE THESE
+//export interface ItemType {
+//id: string
+//text: string
+//height: number
+//}
 
-export type ItemList = ItemType[]
+//export type ItemList = ItemType[]
 
-export const createItemList = (itemCount: number): ItemList => {
-	const itemList: ItemList = []
-	for (let i = 0; i < itemCount; i++) {
-		itemList.push({
-			id: i.toString(),
-			text: `Item ${i}`,
-			height: Math.random() * 20,
-		})
-	}
+//export const createItemList = (itemCount: number): ItemList => {
+//const itemList: ItemList = []
+//for (let i = 0; i < itemCount; i++) {
+//itemList.push({
+//id: i.toString(),
+//text: `Item ${i}`,
+//height: Math.random() * 20,
+//})
+//}
 
-	return itemList
-}
+//return itemList
+//}
 
-export const reorder = (list: ItemList, startIndex: number, endIndex: number) => {
-	const result = Array.from(list)
-	const [removed] = result.splice(startIndex, 1)
-	result.splice(endIndex, 0, removed)
-
-	return result
-}
-
-function Item({ provided, item, isDragging }) {
-	return (
-		<div style={{ paddingBottom: '8px' }}>
-			<div
-				{...provided.draggableProps}
-				{...provided.dragHandleProps}
-				ref={provided.innerRef}
-				style={provided.draggableProps.style}
-				className={`item ${isDragging ? 'is-dragging' : ''}`}
-			>
-				{item.text}
-			</div>
-		</div>
-	)
-}
-
-interface HProps {
-	children: React.ReactNode
-}
+const makeData = idSuffix =>
+	Array.from({ length: 500 }, (_, k) => ({
+		id: `id:${k}-${idSuffix}`,
+		text: `${idSuffix} - item -  ${k}`,
+	}))
 
 interface IProps {
 	children?: React.ReactNode
@@ -74,15 +53,77 @@ const defaultProps = {
 	toolTipMessage: '',
 }
 
-const itemCount = 30
-
 export const TokenListSettingsModal = ({
 	children,
 	toolTipSideOffset,
 	toolTipMessage,
 	toolTipSide,
 }: IProps): JSX.Element => {
-	const [itemList, setItemList] = useState<ItemList>(createItemList(itemCount))
+	//const [items, setItems] = useState<ItemList>(createItemList(100))
+	const [items, setItems] = useState(() => ({
+		list1: makeData('list1'),
+		list2: makeData('list2'),
+	}))
+
+	const reorder = React.useCallback((items, droppableSourceId, droppableDestId, startIndex, endIndex) => {
+		const droppableSource = [...items[droppableSourceId]]
+		const droppableDest = [...items[droppableDestId]]
+		const [removed] = droppableSource.splice(startIndex, 1)
+		droppableDest.splice(endIndex, 0, removed)
+
+		return {
+			...items,
+			[droppableSourceId]: droppableSource,
+			[droppableDestId]: droppableDest,
+		}
+	}, [])
+
+	const onDragEnd = React.useCallback(
+		result => {
+			if (!result.destination) {
+				return
+			}
+
+			if (result.source.index === result.destination.index) {
+				return
+			}
+
+			setItems(items =>
+				reorder(
+					items,
+					result.source.droppableId,
+					result.destination.droppableId,
+					result.source.index,
+					result.destination.index,
+				),
+			)
+		},
+		[setItems, reorder],
+	)
+
+	const Item = React.useMemo(() => {
+		return ({ provided, item, isDragging }) => {
+			// For borders and visual space,
+			// use container with padding rather than a margin
+			// margins confuse virtuoso rendering
+			return (
+				<div
+					{...provided.draggableProps}
+					{...provided.dragHandleProps}
+					ref={provided.innerRef}
+					style={{ ...provided.draggableProps.style, paddingBottom: '8px' }}
+				>
+					<div
+						style={{
+							border: `1px solid ${isDragging ? 'red' : 'black'}`,
+						}}
+					>
+						{item.text}
+					</div>
+				</div>
+			)
+		}
+	}, [])
 
 	const [state, setState] = useImmer({
 		isModalOpen: false,
@@ -109,17 +150,6 @@ export const TokenListSettingsModal = ({
 	const handleSearchTokenList = (search: string) => {
 		// eslint-disable-next-line
 		console.log('search:', search)
-	}
-
-	const onDragEnd = (result: DropResult, provided: ResponderProvided) => {
-		// dropped outside the list
-		if (!result.destination) {
-			return
-		}
-
-		const items = reorder(itemList, result.source.index, result.destination.index)
-
-		setItemList(items)
 	}
 
 	return (
@@ -155,64 +185,55 @@ export const TokenListSettingsModal = ({
 							<SearchBox onSearch={handleSearchTokenList} placeholder="Search tokens" />
 						</Box>
 						<Box css={{ mt: '$2' }}>
-							<div>
-								<style>
-									{`
-          .height-preserving-container:empty {
-            min-height: calc(var(--child-height));
-            box-sizing: border-box;
-          }
-      `}
-								</style>
-								<DragDropContext onDragEnd={onDragEnd}>
-									<Droppable
-										droppableId="droppable"
-										mode="virtual"
-										renderClone={(provided, snapshot, rubric) => (
-											<Item provided={provided} isDragging={snapshot.isDragging} item={itemList[rubric.source.index]} />
-										)}
-									>
-										{provided => {
-											return (
-												<Virtuoso
-													components={{
-														Item: props => {
-															const { children, ...rest } = props
-															const [size, setSize] = useState<number>(0)
-															const knownSize = rest['data-known-size']
-															useEffect(() => {
-																setSize(prevSize => {
-																	return knownSize == 0 ? prevSize : knownSize
-																})
-															}, [knownSize])
-															return (
-																<Box
-																	{...rest}
-																	className="height-preserving-container"
-																	// check styling in the style tag below
-																	css={{ '--child-height': `${size}px` }}
-																>
-																	{children}
-																</Box>
-															)
-														},
-													}}
-													scrollerRef={provided.innerRef}
-													data={itemList}
-													style={{ width: 200, height: 200 }}
-													itemContent={(index, item) => {
-														return (
-															<Draggable draggableId={item.id} index={index} key={item.id}>
-																{provided => <Item provided={provided} item={item} isDragging={false} />}
-															</Draggable>
-														)
-													}}
-												/>
-											)
-										}}
-									</Droppable>
-								</DragDropContext>
-							</div>
+							<ReactBeautifulDnd.DragDropContext onDragEnd={onDragEnd}>
+								<Flex css={{ '>div': { flex: '1' } }}>
+									{['list1', 'list2'].map(droppableId => {
+										return (
+											<ReactBeautifulDnd.Droppable
+												key={droppableId}
+												droppableId={droppableId}
+												mode="virtual"
+												renderClone={(provided, snapshot, rubric) => (
+													<Item
+														provided={provided}
+														isDragging={snapshot.isDragging}
+														item={items[droppableId][rubric.source.index]}
+													/>
+												)}
+											>
+												{provided => {
+													return (
+														<Virtuoso
+															components={{
+																Item: React.useMemo(() => {
+																	return ({ children, ...props }) => {
+																		return (
+																			// the height is necessary to prevent the item container from collapsing, which confuses Virtuoso measurements
+																			<div {...props} style={{ height: props['data-known-size'] || undefined }}>
+																				{children}
+																			</div>
+																		)
+																	}
+																}, []),
+															}}
+															scrollerRef={provided.innerRef}
+															data={items[droppableId]}
+															style={{ height: 300 }}
+															itemContent={(index, item) => {
+																return (
+																	<ReactBeautifulDnd.Draggable draggableId={item.id} index={index} key={item.id}>
+																		{provided => <Item provided={provided} item={item} isDragging={false} />}
+																	</ReactBeautifulDnd.Draggable>
+																)
+															}}
+														/>
+													)
+												}}
+											</ReactBeautifulDnd.Droppable>
+										)
+									})}
+								</Flex>
+							</ReactBeautifulDnd.DragDropContext>
 						</Box>
 					</Box>
 					<Flex justify="end" gap="2" css={{ mt: '$3', p: '$3' }}>
