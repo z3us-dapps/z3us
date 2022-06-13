@@ -15,6 +15,8 @@ const assetToCoingeckoIdMap = {
 export class CoinGeckoService {
 	private baseURL: string = 'https://api.coingecko.com/api'
 
+	private apiVersion: string = 'v3'
+
 	private options: RequestInit = {
 		method: 'GET',
 		mode: 'no-cors',
@@ -37,7 +39,7 @@ export class CoinGeckoService {
 			return {}
 		}
 
-		const url = new URL(`${this.baseURL}/v3/simple/price`)
+		const url = new URL(`${this.baseURL}/${this.apiVersion}/simple/price`)
 		url.searchParams.set('ids', ids.join(','))
 		url.searchParams.set('vs_currencies', currency)
 		url.searchParams.set('include_24hr_vol', 'true')
@@ -61,5 +63,49 @@ export class CoinGeckoService {
 			}
 			return map
 		}, {})
+	}
+
+	/**
+	 *
+	 * @param currency
+	 * @param asset
+	 * @param days
+	 * @param interval
+	 * @returns [
+	 * 		[
+	 * 			1653955200000,
+	 * 			0.08696098529035991
+	 * 		],
+	 * 		[
+	 * 			1654041600000,
+	 * 			0.08719793590425542
+	 * 		],
+	 * 	]
+	 */
+	getMarketChart = async (
+		currency: string,
+		asset: string,
+		days: number = 14,
+		interval: string = 'daily',
+	): Promise<number[][]> => {
+		const id = assetToCoingeckoIdMap[asset]
+		if (!id) {
+			return []
+		}
+
+		const url = new URL(`${this.baseURL}/${this.apiVersion}/coins/${id}/market_chart`)
+		url.searchParams.set('vs_currency', currency)
+		url.searchParams.set('interval', interval)
+		url.searchParams.set('days', `${days}`)
+		const path = url.toString()
+
+		const response = await fetch(path, this.options)
+		if (response.status !== 200) {
+			throw new Error(`Invalid request: ${response.status} recieved`)
+		}
+
+		const data = await response.json()
+
+		return data?.prices || []
 	}
 }

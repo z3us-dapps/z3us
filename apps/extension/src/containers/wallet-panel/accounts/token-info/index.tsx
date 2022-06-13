@@ -1,6 +1,7 @@
 import React from 'react'
 import BigNumber from 'bignumber.js'
 import { useTokenBalances, useTokenInfo } from '@src/services/react-query/queries/radix'
+import { useMarketChart } from '@src/services/react-query/queries/market'
 import { getSplitParams } from '@src/utils/url-utils'
 import { useRoute, useLocation } from 'wouter'
 import { Tooltip, TooltipTrigger, TooltipContent, TooltipArrow } from 'ui/src/components/tool-tip'
@@ -16,6 +17,7 @@ export const TokenInfo = (): JSX.Element => {
 	const [, params] = useRoute('/account/token/:rri')
 	const rri = getSplitParams(params)
 	const { isLoading, data: token } = useTokenInfo(rri)
+	const { data: chart } = useMarketChart(token?.symbol)
 	const { data } = useTokenBalances()
 	const liquidBalances = data?.account_balances?.liquid_balances || []
 	const staked = data?.account_balances?.staked_and_unstaking_balance.value
@@ -42,6 +44,8 @@ export const TokenInfo = (): JSX.Element => {
 	if (!token) {
 		return null
 	}
+
+	console.log(chart)
 
 	return (
 		<Flex
