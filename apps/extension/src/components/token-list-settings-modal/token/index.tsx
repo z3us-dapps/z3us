@@ -6,13 +6,11 @@ import { ToolTip } from 'ui/src/components/tool-tip'
 import { EXPLORER_URL } from '@src/config'
 
 interface IProps {
-	name: string
-	symbol: string
 	rri: string
 	isDragging: boolean
 }
 
-export const Token: React.FC<IProps> = ({ name, symbol, rri, isDragging }) => {
+export const Token: React.FC<IProps> = ({ rri, isDragging }) => {
 	const { data: token } = useTokenInfo(rri)
 
 	return (
@@ -43,10 +41,10 @@ export const Token: React.FC<IProps> = ({ name, symbol, rri, isDragging }) => {
 			</ToolTip>
 			<Box css={{ flex: '1', pl: '6px' }}>
 				<Text size="1" bold truncate css={{ maxWidth: '78px' }}>
-					{name}
+					{token?.name}
 				</Text>
 				<Text uppercase size="1" truncate css={{ mt: '1px', maxWidth: '78px' }}>
-					{symbol}
+					{token?.symbol}
 				</Text>
 			</Box>
 		</Flex>

@@ -1,3 +1,4 @@
+/* eslint-disable */
 import React, { useState, useEffect, useMemo, useCallback } from 'react'
 import { useTokenBalances } from '@src/services/react-query/queries/radix'
 import { useImmer } from 'use-immer'
@@ -15,31 +16,28 @@ import { tokens } from './tokens'
 
 const VISIBLE = 'visible'
 const NON_VISIBLE = 'non_visible'
-const TOKEN_SYMBOL = 'Symbol'
 const TOKEN_RRI = 'RRI'
-const TOKEN_NAME = 'Name'
 
-const makeData = (idSuffix, length) =>
-	Array.from({ length }, (_, k) => ({
-		id: `id:${k}-${idSuffix}`,
-		text: `${idSuffix} - item -  ${k}`,
-	}))
-
-const makeTokenData = tokens => {
-	const tokenSymbols = tokens[TOKEN_SYMBOL]
-	const tokenNames = tokens[TOKEN_NAME]
-	const tokenRris = tokens[TOKEN_RRI]
-
-	return tokenSymbols.map((symbol, index) => {
-		const name = tokenNames[index]
-		const rri = tokenRris[index]
+const makeVisibleTokenTokenData = visibleTokens => {
+	return visibleTokens.map(token => {
+		const rri = token?.rri
 		return {
 			id: rri,
-			symbol,
-			name,
 			rri,
 		}
 	})
+}
+
+const makeTokenData = (tokens, visibleTokens) => {
+	const tokenRris = tokens[TOKEN_RRI]
+	return tokenRris
+		.filter(_rri => !visibleTokens.find(_token => _token.rri === _rri))
+		.map(rri => {
+			return {
+				id: rri,
+				rri,
+			}
+		})
 }
 
 interface IProps {
@@ -63,11 +61,10 @@ export const TokenListSettingsModal = ({
 	toolTipSide,
 }: IProps): JSX.Element => {
 	const { data } = useTokenBalances()
-	console.log('data:', data)
 	const [state, setState] = useImmer({
 		isModalOpen: false,
-		[VISIBLE]: makeData(VISIBLE, 5),
-		[NON_VISIBLE]: makeTokenData(tokens),
+		[VISIBLE]: [],
+		[NON_VISIBLE]: [],
 	})
 
 	const reorder = useCallback((items, droppableSourceId, droppableDestId, startIndex, endIndex) => {
@@ -118,7 +115,7 @@ export const TokenListSettingsModal = ({
 					ref={provided.innerRef}
 					style={{ ...provided.draggableProps.style, paddingBottom: '8px' }}
 				>
-					<Token name={item.name} symbol={item.symbol} rri={item.rri} isDragging={isDragging} />
+					<Token rri={item.rri} isDragging={isDragging} />
 				</div>
 			)
 		}
@@ -148,6 +145,14 @@ export const TokenListSettingsModal = ({
 	}
 
 	useEffect(() => {
+		const visibleBalances = data?.account_balances?.liquid_balances
+		const visibleTokens = makeVisibleTokenTokenData(visibleBalances)
+
+		setState(draft => {
+			draft[VISIBLE] = visibleTokens
+			draft[NON_VISIBLE] = makeTokenData(tokens, visibleTokens)
+		})
+
 		window.addEventListener('error', e => {
 			if (
 				e.message === 'ResizeObserver loop completed with undelivered notifications.' ||
