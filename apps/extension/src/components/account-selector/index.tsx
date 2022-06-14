@@ -87,7 +87,7 @@ export const AccountSelector: React.FC<IProps> = ({ shortAddress, tokenAmount, t
 				align="start"
 				side="bottom"
 				sideOffset={10}
-				css={{ minWidth: '120px', width: '314px' }}
+				css={{ minWidth: '150px', maxWidth: '314px', width: '100%' }}
 			>
 				<DropdownMenuRadioGroup value={shortAddress} onValueChange={handleValueChange}>
 					{accounts.map(account => (

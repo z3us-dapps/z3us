@@ -2,8 +2,7 @@ import React from 'react'
 import { ScrollArea } from '@src/components/scroll-area'
 import { useImmer } from 'use-immer'
 import { KeyIcon, TrustedAppsIcon, NetworkIcon, AccountsIcon, AddressBookIcon } from 'ui/src/components/icons'
-import { LockClosedIcon } from '@radix-ui/react-icons'
-//import { LockClosedIcon, TokensIcon } from '@radix-ui/react-icons'
+import { LockClosedIcon, TokensIcon } from '@radix-ui/react-icons'
 import { Box, Flex, Text } from 'ui/src/components/atoms'
 import { Accordion, AccordionItem, AccordionTrigger, AccordionContent } from 'ui/src/components/accordion'
 import { AddressBook } from './address-book'
@@ -13,7 +12,7 @@ import { TrustedApps } from './trusted-apps'
 import { NetworkSettings } from './network-settings'
 import { KeyManagementSettings } from './key-management-settings'
 import { accordians } from './constants'
-//import { TokenManagementSettings } from './token-management-settins'
+import { TokenManagementSettings } from './token-management-settins'
 
 export const Settings: React.FC = () => {
 	const [state, setState] = useImmer({
@@ -121,7 +120,7 @@ export const Settings: React.FC = () => {
 									</AccordionContent>
 								</AccordionItem>
 
-								{/*<AccordionItem value={accordians.TOKEN_MANAGEMENT}>
+								<AccordionItem value={accordians.TOKEN_MANAGEMENT}>
 									<AccordionTrigger>
 										<Flex align="center" css={{ flex: '1' }}>
 											<TokensIcon />
@@ -133,7 +132,7 @@ export const Settings: React.FC = () => {
 									<AccordionContent css={{ padding: '0' }}>
 										<TokenManagementSettings />
 									</AccordionContent>
-								</AccordionItem>*/}
+								</AccordionItem>
 								<AccordionItem value={accordians.KEY_MANAGEMENT}>
 									<AccordionTrigger>
 										<Flex align="center" css={{ flex: '1' }}>
