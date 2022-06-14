@@ -60,7 +60,7 @@ const Input = React.forwardRef<FormElement, InputProps>(
 		}, [])
 
 		return (
-			<StyledInputWrapper css={{ ...(css as any) }}>
+			<StyledInputWrapper css={{ ...(css as any), textarea: { height: '100%' } }}>
 				<StyledInput
 					ref={inputRef}
 					value={value}
