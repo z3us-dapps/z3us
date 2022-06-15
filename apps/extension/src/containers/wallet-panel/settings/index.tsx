@@ -55,7 +55,7 @@ export const Settings: React.FC = () => {
 										<Flex align="center" css={{ flex: '1' }}>
 											<LockClosedIcon />
 											<Text size="3" medium css={{ ml: '$2' }}>
-												Lock settings
+												General settings
 											</Text>
 										</Flex>
 									</AccordionTrigger>

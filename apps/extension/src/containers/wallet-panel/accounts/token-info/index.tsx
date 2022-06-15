@@ -4,6 +4,8 @@ import { useTokenBalances, useTokenInfo } from '@src/services/react-query/querie
 import { useMarketChart } from '@src/services/react-query/queries/market'
 import { getSplitParams } from '@src/utils/url-utils'
 import { useRoute, useLocation } from 'wouter'
+import { useSharedStore } from '@src/store'
+import { useImmer } from 'use-immer'
 import { Tooltip, TooltipTrigger, TooltipContent, TooltipArrow } from 'ui/src/components/tool-tip'
 import { Grid, Flex, Text } from 'ui/src/components/atoms'
 import { EXPLORER_URL } from '@src/config'
@@ -16,11 +18,19 @@ export const TokenInfo = (): JSX.Element => {
 	const [, setLocation] = useLocation()
 	const [, params] = useRoute('/account/token/:rri')
 	const rri = getSplitParams(params)
+
 	const { isLoading, data: token } = useTokenInfo(rri)
-	const { data: chart } = useMarketChart(token?.symbol)
 	const { data } = useTokenBalances()
 	const liquidBalances = data?.account_balances?.liquid_balances || []
 	const staked = data?.account_balances?.staked_and_unstaking_balance.value
+
+	const { currency } = useSharedStore(state => ({
+		currency: state.currency,
+	}))
+	const [state] = useImmer({
+		days: 14,
+	})
+	const { data: chart } = useMarketChart(currency, token?.symbol, state.days)
 
 	const selectedToken = liquidBalances?.find(balance => balance.rri === rri)
 	const selectedTokenAmmount = selectedToken ? new BigNumber(selectedToken.amount).shiftedBy(-18) : new BigNumber(0)

@@ -24,5 +24,8 @@ const currencySettingsMap = {
 
 export const formatBigNumber = (x: BigNumber, currency = '', decimalPlaces: number = 8) =>
 	currency
-		? x.toFormat(decimalPlaces, { ...format, ...(currencySettingsMap[currency] || {}) })
+		? x.toFormat(decimalPlaces, {
+				...format,
+				...(currencySettingsMap[currency.toUpperCase()] || {}),
+		  })
 		: x.decimalPlaces(decimalPlaces).toString()

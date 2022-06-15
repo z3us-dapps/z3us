@@ -1,9 +1,10 @@
 import React from 'react'
 import BigNumber from 'bignumber.js'
 import { formatBigNumber } from '@src/utils/formatters'
-import { useUSDTicker } from '@src/services/react-query/queries/tickers'
+import { useTicker } from '@src/services/react-query/queries/tickers'
 import { Box, Flex, Text } from 'ui/src/components/atoms'
 import PriceLabel from 'ui/src/components/price-label'
+import { useSharedStore } from '@src/store'
 
 interface Props {
 	symbol: string
@@ -11,7 +12,10 @@ interface Props {
 }
 
 export const TokenPrice = ({ symbol, amount }: Props): JSX.Element => {
-	const { isLoading, data: ticker } = useUSDTicker(symbol)
+	const { currency } = useSharedStore(state => ({
+		currency: state.currency,
+	}))
+	const { isLoading, data: ticker } = useTicker(currency, symbol)
 
 	if (isLoading) {
 		return null
@@ -28,7 +32,7 @@ export const TokenPrice = ({ symbol, amount }: Props): JSX.Element => {
 						(amount instanceof BigNumber ? amount : new BigNumber(amount).shiftedBy(-18)).multipliedBy(
 							ticker.last_price,
 						),
-						'USD',
+						currency,
 						8,
 					)}
 				</Text>

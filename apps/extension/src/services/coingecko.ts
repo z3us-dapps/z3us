@@ -108,4 +108,18 @@ export class CoinGeckoService {
 
 		return data?.prices || []
 	}
+
+	getSupportedCurrencies = async (): Promise<string[]> => {
+		const url = new URL(`${this.baseURL}/${this.apiVersion}/simple/supported_vs_currencies`)
+		const path = url.toString()
+
+		const response = await fetch(path, this.options)
+		if (response.status !== 200) {
+			throw new Error(`Invalid request: ${response.status} recieved`)
+		}
+
+		const data = await response.json()
+
+		return data || []
+	}
 }

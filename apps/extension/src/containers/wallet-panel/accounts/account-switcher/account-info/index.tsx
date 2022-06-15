@@ -20,8 +20,9 @@ type IProps = {
 
 export const AccountInfo: React.FC<IProps> = ({ address }) => {
 	const { isLoading, value, change } = useAccountValue()
-	const { isHardwareWallet } = useSharedStore(state => ({
+	const { isHardwareWallet, currency } = useSharedStore(state => ({
 		isHardwareWallet: state.isHardwareWallet,
+		currency: state.currency,
 	}))
 	const { entry, activeSlideIndex } = useStore(state => ({
 		entry: Object.values(state.publicAddresses).find(_account => _account.address === address),
@@ -45,7 +46,7 @@ export const AccountInfo: React.FC<IProps> = ({ address }) => {
 		})
 		setTimeout(() => {
 			setState(draft => {
-				draft.accountValue = formatBigNumber(value, 'USD', 2)
+				draft.accountValue = formatBigNumber(value, currency, 2)
 			})
 		}, 200)
 	}, [activeSlideIndex, isLoading])

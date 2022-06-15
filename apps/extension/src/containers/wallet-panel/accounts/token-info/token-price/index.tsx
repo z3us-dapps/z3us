@@ -1,11 +1,12 @@
 import React from 'react'
-import { useUSDTicker } from '@src/services/react-query/queries/tickers'
+import { useTicker } from '@src/services/react-query/queries/tickers'
 import { Text, Box, Flex } from 'ui/src/components/atoms'
 import BigNumber from 'bignumber.js'
 import PriceTicker from 'ui/src/components/price-ticker'
 import PriceLabel from 'ui/src/components/price-label'
 import LoaderBars from 'ui/src/components/loader-bars'
 import { formatBigNumber } from '@src/utils/formatters'
+import { useSharedStore } from '@src/store'
 
 interface Props {
 	symbol: string
@@ -13,7 +14,10 @@ interface Props {
 }
 
 export const TokenPrice = ({ symbol, ammount }: Props): JSX.Element => {
-	const { isLoading, data: ticker } = useUSDTicker(symbol)
+	const { currency } = useSharedStore(state => ({
+		currency: state.currency,
+	}))
+	const { isLoading, data: ticker } = useTicker(currency, symbol)
 	const tokenPriceHeight = '70px'
 
 	if (isLoading) {
@@ -29,8 +33,8 @@ export const TokenPrice = ({ symbol, ammount }: Props): JSX.Element => {
 	}
 
 	const tokenPercentageChange = `${ticker.change < 0 ? '' : '+'}${ticker.change.toFixed(2).toLocaleString()}%`
-	const tokenPrice = formatBigNumber(new BigNumber(ticker.last_price), 'USD', 2)
-	const accountTokenAmmount = formatBigNumber(ammount.multipliedBy(ticker.last_price), 'USD', 8)
+	const tokenPrice = formatBigNumber(new BigNumber(ticker.last_price), currency, 2)
+	const accountTokenAmmount = formatBigNumber(ammount.multipliedBy(ticker.last_price), currency, 8)
 
 	return (
 		<Flex direction="column" align="center" css={{ minHeight: tokenPriceHeight }}>
