@@ -89,10 +89,22 @@ export const CreatePassword = (): JSX.Element => {
 				</Box>
 				<Box css={{ pt: '33px', flex: '1' }}>
 					<Box css={{ width: '100%' }}>
-						<Input type="password" size="2" placeholder="Enter password" onChange={handlePassword} />
+						<Input
+							data-test-e2e="wallet-confirm-password-one"
+							type="password"
+							size="2"
+							placeholder="Enter password"
+							onChange={handlePassword}
+						/>
 					</Box>
 					<Box css={{ marginTop: '$3', width: '100%' }}>
-						<Input type="password" size="2" placeholder="Confirm password" onChange={handleConfirmPassword} />
+						<Input
+							data-test-e2e="wallet-confirm-password-two"
+							type="password"
+							size="2"
+							placeholder="Confirm password"
+							onChange={handleConfirmPassword}
+						/>
 					</Box>
 
 					<InputFeedBack showFeedback={state.showError} animateHeight={31}>
@@ -103,6 +115,7 @@ export const CreatePassword = (): JSX.Element => {
 				</Box>
 				<Flex css={{ width: '100%' }}>
 					<Button
+						data-test-e2e="save-wallet-password-btn"
 						fullWidth
 						color="primary"
 						size="6"

@@ -51,9 +51,7 @@ export const SideMenu: React.FC<Docs> = ({ docs }) => {
 											: 'transparent',
 								}}
 							>
-								<Text displayRound size="5">
-									{doc.frontMatter.title}
-								</Text>
+								<Text size="5">{doc.frontMatter.title}</Text>
 							</StyledLink>
 						</Link>
 					</Box>

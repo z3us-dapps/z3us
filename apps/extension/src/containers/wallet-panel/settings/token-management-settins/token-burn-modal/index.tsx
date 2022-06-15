@@ -4,9 +4,11 @@ import { useImmer } from 'use-immer'
 import { useSharedStore, useStore } from '@src/store'
 import { useLocation } from 'wouter'
 import { getShortAddress } from '@src/utils/string-utils'
+import { Cross2Icon } from '@radix-ui/react-icons'
+import { PageHeading, PageSubHeading, PageWrapper } from '@src/components/layout'
+import { ScrollArea } from 'ui/src/components/scroll-area'
 import { FinalizeTransaction, SubmitSignedTransaction, MintToken, DeriveToken } from '@src/services/radix/transactions'
 import { useEventListener } from 'usehooks-ts'
-import { CloseIcon } from 'ui/src/components/icons'
 import Button from 'ui/src/components/button'
 import Input from 'ui/src/components/input'
 import { Tooltip, TooltipTrigger, TooltipContent, TooltipArrow } from 'ui/src/components/tool-tip'
@@ -169,101 +171,105 @@ export const BurnTokenModal: React.FC<IProps> = ({ trigger }) => {
 			<DialogTrigger asChild onClick={handleOnClick}>
 				{trigger}
 			</DialogTrigger>
-			<DialogContent>
-				<Flex direction="column" css={{ p: '$2', position: 'relative' }}>
-					<Button
-						color="ghost"
-						iconOnly
-						aria-label="close burn token modal"
-						size="3"
-						css={{ position: 'absolute', top: '16px', right: '16px' }}
-						onClick={handleCloseModal}
-					>
-						<CloseIcon />
-					</Button>
 
-					<Box css={{ flex: '1' }}>
-						<Box>
-							<Text css={{ fontSize: '32px', lineHeight: '38px', fontWeight: '800' }}>Burn</Text>
-							<Text css={{ fontSize: '14px', lineHeight: '17px', fontWeight: '500', mt: '20px' }}>From:</Text>
-						</Box>
-						<AccountSelector
-							shortAddress={shortAddress}
-							tokenAmount={formatBigNumber(selectedTokenAmmount)}
-							tokenSymbol={tokenSymbol}
-							onAccountChange={handleAccountChange}
-						/>
-						<HardwareWalletReconnect />
-						<Box>
-							<Flex align="center" css={{ mt: '14px', position: 'relative' }}>
-								<Tooltip>
-									<TooltipTrigger asChild>
-										<Button
-											size="1"
-											color="tertiary"
-											css={{
-												position: 'absolute',
-												top: '-4px',
-												right: '0',
-												textTransform: 'uppercase',
-											}}
-											onClick={handleUseMax}
-										>
-											MAX
-										</Button>
-									</TooltipTrigger>
-									<TooltipContent sideOffset={3}>
-										<TooltipArrow offset={15} />
-										Select maximum {tokenSymbol}
-									</TooltipContent>
-								</Tooltip>
-								<Text css={{ fontSize: '14px', lineHeight: '17px', fontWeight: '500', flex: '1' }}>Amount:</Text>
-							</Flex>
-							<Box css={{ mt: '13px', position: 'relative' }}>
-								<Input
-									ref={inputAmountRef}
-									type="number"
+			<DialogContent css={{ p: '0' }}>
+				<Box css={{ height: '350px', position: 'relative' }}>
+					<ScrollArea>
+						<PageWrapper css={{ position: 'relative' }}>
+							<Box>
+								<Button
+									color="ghost"
+									iconOnly
+									aria-label="close create token modal"
 									size="2"
-									value={state.amount}
-									placeholder={`Enter ${token?.symbol || ''} amount`}
-									onChange={handleSetValue('amount')}
+									css={{ position: 'absolute', top: '$3', right: '$3', zIndex: '1' }}
+									onClick={handleCloseModal}
+								>
+									<Cross2Icon />
+								</Button>
+								<Box css={{ width: '100%' }}>
+									<PageHeading>Burn</PageHeading>
+									<PageSubHeading>From</PageSubHeading>
+								</Box>
+								<AccountSelector
+									shortAddress={shortAddress}
+									tokenAmount={formatBigNumber(selectedTokenAmmount)}
+									tokenSymbol={tokenSymbol}
+									onAccountChange={handleAccountChange}
 								/>
-								<TokenSelector
-									triggerType="input"
-									token={token}
-									tokens={liquidBalances.map(balance => balance.rri)}
-									onTokenChange={handleSelectedTokenChange}
-								/>
+								<HardwareWalletReconnect />
+								<Box>
+									<Flex align="center" css={{ mt: '14px', position: 'relative' }}>
+										<Tooltip>
+											<TooltipTrigger asChild>
+												<Button
+													size="1"
+													color="tertiary"
+													css={{
+														position: 'absolute',
+														top: '-4px',
+														right: '0',
+														textTransform: 'uppercase',
+													}}
+													onClick={handleUseMax}
+												>
+													MAX
+												</Button>
+											</TooltipTrigger>
+											<TooltipContent sideOffset={3}>
+												<TooltipArrow offset={15} />
+												Select maximum {tokenSymbol}
+											</TooltipContent>
+										</Tooltip>
+										<Text css={{ fontSize: '14px', lineHeight: '17px', fontWeight: '500', flex: '1' }}>Amount:</Text>
+									</Flex>
+									<Box css={{ mt: '13px', position: 'relative' }}>
+										<Input
+											ref={inputAmountRef}
+											type="number"
+											size="2"
+											value={state.amount}
+											placeholder={`Enter ${token?.symbol || ''} amount`}
+											onChange={handleSetValue('amount')}
+										/>
+										<TokenSelector
+											triggerType="input"
+											token={token}
+											tokens={liquidBalances.map(balance => balance.rri)}
+											onTokenChange={handleSelectedTokenChange}
+										/>
+									</Box>
+								</Box>
 							</Box>
-						</Box>
-					</Box>
-					<Flex css={{ mt: '$3' }}>
-						{state.transaction ? (
-							<Button
-								size="6"
-								color="primary"
-								aria-label="confirm"
-								css={{ px: '0', flex: '1' }}
-								onClick={handleConfirm}
-								disabled={!account}
-								loading={state.isLoading}
-							>
-								Confirm
-							</Button>
-						) : (
-							<Button
-								size="6"
-								color="primary"
-								aria-label="burn"
-								css={{ px: '0', flex: '1' }}
-								onClick={handlePrepareTx}
-								loading={state.isLoading}
-							>
-								Burn
-							</Button>
-						)}
-					</Flex>
-				</Flex>
+							<Flex css={{ mt: '$4' }}>
+								{state.transaction ? (
+									<Button
+										size="5"
+										color="primary"
+										aria-label="confirm"
+										css={{ px: '0', flex: '1' }}
+										onClick={handleConfirm}
+										disabled={!account}
+										loading={state.isLoading}
+									>
+										Confirm
+									</Button>
+								) : (
+									<Button
+										size="5"
+										color="primary"
+										aria-label="burn"
+										css={{ px: '0', flex: '1' }}
+										onClick={handlePrepareTx}
+										loading={state.isLoading}
+									>
+										Burn
+									</Button>
+								)}
+							</Flex>
+						</PageWrapper>
+					</ScrollArea>
+				</Box>
 			</DialogContent>
 		</Dialog>
 	)

@@ -34,6 +34,7 @@ export const { config, createTheme, css, getCssText, globalCss, styled, theme, k
 			Centra: "'Centra-Web', Arial",
 			HaasGrotTextRound: "'HaasGrotTextRound-Web', Arial",
 			HaasGrotDisplayRound: "'HaasGrotDispRound-Web', Arial",
+			Inter: "'Inter', sans-serif",
 		},
 		fontSizes: {
 			1: '11px',
@@ -132,19 +133,27 @@ export const globalStyles = globalCss({
 	body: {
 		margin: '0',
 		padding: '0',
-		fontWeight: 500,
+		fontWeight: 400,
 		fontVariantNumeric: 'tabular-nums',
-		fontFamily: '$HaasGrotTextRound',
+		fontFamily: '$Inter',
 		fontSize: '$1',
 		textRendering: 'optimizeLegibility',
-		'font-smoothing': 'antialiased',
-		'-webkit-font-smoothing': 'antialiased',
+		'-moz-osx-font-smoothing': 'grayscale',
+		// Best for non-retina
+		'-webkit-font-smoothing': 'subpixel-antialiased',
 		color: '$txtDefault',
 		fill: '$txtDefault',
 		ul: {
 			margin: '0',
 			padding: '0',
 			listStyleType: 'none',
+		},
+		'@media (-webkit-min-device-pixel-ratio: 2), (min-device-pixel-ratio: 2), (min-resolution: 192dpi)': {
+			body: {
+				// Best for retina
+				'font-smoothing': 'antialiased',
+				'-webkit-font-smoothing': 'antialiased',
+			},
 		},
 	},
 })

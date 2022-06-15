@@ -101,7 +101,6 @@ export const LandingPage: React.FC = () => {
 								css={{
 									fontSize: '40px',
 									lineHeight: '44px',
-									fontFamily: '$HaasGrotDisplayRound',
 									'@xs': { fontSize: '40px', lineHeight: '48px' },
 									'@md': { fontSize: '60px', lineHeight: '64px', whiteSpace: 'nowrap' },
 								}}
@@ -113,7 +112,6 @@ export const LandingPage: React.FC = () => {
 								css={{
 									fontSize: '40px',
 									lineHeight: '44px',
-									fontFamily: '$HaasGrotDisplayRound',
 									'@xs': { fontSize: '40px', lineHeight: '48px' },
 									'@md': { fontSize: '60px', lineHeight: '64px' },
 								}}
@@ -134,7 +132,6 @@ export const LandingPage: React.FC = () => {
 								size="7"
 								css={{
 									pt: '20px',
-									fontFamily: '$HaasGrotTextRound',
 									fontSize: '18px',
 									lineHeight: '22px',
 									'@md': { fontSize: '20px', lineHeight: '30px' },
@@ -185,7 +182,7 @@ export const LandingPage: React.FC = () => {
 						}}
 					>
 						<Box css={{ px: '20px', pt: '50px', pb: '0px', '@md': { px: '50px' } }}>
-							<Text displayRound size="12" css={{ color: '#5d3f09' }}>
+							<Text size="12" css={{ color: '#5d3f09' }}>
 								UX driven.
 							</Text>
 						</Box>
@@ -230,11 +227,7 @@ export const LandingPage: React.FC = () => {
 							css={{ '@sm': { ta: 'center', maxWidth: '80%', mx: 'auto' }, '@md': { ta: 'left', maxWidth: '100%' } }}
 						>
 							<Image layout="fixed" src={RadixLogoImage} alt="Z3US Wallet" width={94} height={24} />
-							<Text
-								displayRound
-								size="12"
-								css={{ color: '#14372c', mt: '$6', '@md': { fontSize: '48px', lineHeight: '54px' } }}
-							>
+							<Text size="12" css={{ color: '#14372c', mt: '$6', '@md': { fontSize: '48px', lineHeight: '54px' } }}>
 								An open source community centered wallet for the Radix DLT network.
 							</Text>
 							<Text size="4" css={{ color: '#14372c', mt: '$6' }}>
@@ -270,7 +263,7 @@ export const LandingPage: React.FC = () => {
 								'@md': { maxWidth: '70%' },
 							}}
 						>
-							<Text displayRound css={{ color: '#3d3550', fontSize: '44px', lineHeight: '48px' }}>
+							<Text css={{ color: '#3d3550', fontSize: '44px', lineHeight: '48px' }}>
 								First class security with{' '}
 								<StyledLink bubble href="https://www.ledger.com/">
 									Ledger
@@ -310,7 +303,6 @@ export const LandingPage: React.FC = () => {
 								as="p"
 								color="help"
 								css={{
-									fontFamily: '$HaasGrotTextRound',
 									fontSize: '13px',
 									lineHeight: '14px',
 								}}
@@ -336,7 +328,6 @@ export const LandingPage: React.FC = () => {
 									<Text
 										as="p"
 										css={{
-											fontFamily: '$HaasGrotTextRound',
 											fontSize: '13px',
 											lineHeight: '14px',
 										}}
@@ -350,7 +341,6 @@ export const LandingPage: React.FC = () => {
 									<Text
 										as="p"
 										css={{
-											fontFamily: '$HaasGrotTextRound',
 											fontSize: '13px',
 											lineHeight: '14px',
 										}}
