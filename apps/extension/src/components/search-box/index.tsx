@@ -6,6 +6,10 @@ import Button from 'ui/src/components/button'
 import { Cross2Icon } from '@radix-ui/react-icons'
 import Input from 'ui/src/components/input'
 
+interface ImmerProps {
+	value: string
+}
+
 interface IProps {
 	css?: any
 	placeholder?: string
@@ -44,7 +48,7 @@ export const SearchBox: React.FC<IProps> = ({
 	focusOnMount,
 }) => {
 	const inputSearchRef = useRef(null)
-	const [state, setState] = useImmer({
+	const [state, setState] = useImmer<ImmerProps>({
 		value,
 	})
 	const debouncedValue = useDebounce<string>(state.value, debounce)

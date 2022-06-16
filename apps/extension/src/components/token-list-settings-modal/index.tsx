@@ -19,6 +19,8 @@ import { tokens } from './tokens'
 const VISIBLE = 'visible'
 const NON_VISIBLE = 'non_visible'
 const TOKEN_RRI = 'RRI'
+const TOKEN_NAME = 'Name'
+const TOKEN_SYMBOL = 'Symbol'
 
 interface IProps {
 	children?: React.ReactNode
@@ -45,12 +47,16 @@ const makeVisibleTokenTokenData = visibleTokens =>
 
 const makeTokenData = (_tokens, visibleTokens) => {
 	const tokenRris = _tokens[TOKEN_RRI]
-	return tokenRris
-		.filter(_rri => !visibleTokens.find(_token => _token.rri === _rri))
-		.map(rri => ({
-			id: rri,
-			rri,
-		}))
+	const tokenSymbols = _tokens[TOKEN_SYMBOL]
+	const tokenNames = _tokens[TOKEN_NAME]
+	const makeTokens = tokenRris.map((rri, index: number) => ({
+		id: rri,
+		rri,
+		name: tokenNames[index],
+		symbol: tokenSymbols[index],
+	}))
+
+	return makeTokens.filter(_t => !visibleTokens.find(_token => _token.rri === _t.rri))
 }
 
 const VirtuosoItem = React.memo(({ children, ...rest }) => {
@@ -96,10 +102,12 @@ export const TokenListSettingsModal = ({
 	toolTipSide,
 }: IProps): JSX.Element => {
 	const { data } = useTokenBalances()
+	const visibleTokens = makeVisibleTokenTokenData(data?.account_balances?.liquid_balances)
 	const [state, setState] = useImmer({
 		isModalOpen: false,
-		[VISIBLE]: [],
-		[NON_VISIBLE]: [],
+		search: '',
+		[VISIBLE]: visibleTokens,
+		[NON_VISIBLE]: makeTokenData(tokens, visibleTokens),
 	})
 
 	const onDragEnd = useCallback(
@@ -146,19 +154,19 @@ export const TokenListSettingsModal = ({
 	}
 
 	const handleSearchTokenList = (search: string) => {
-		// eslint-disable-next-line
-		console.log('search:', search)
+		setState(draft => {
+			draft.search = search
+		})
 	}
 
 	useEffect(() => {
-		const visibleBalances = data?.account_balances?.liquid_balances
-		const visibleTokens = makeVisibleTokenTokenData(visibleBalances)
-
 		setState(draft => {
-			draft[VISIBLE] = visibleTokens
-			draft[NON_VISIBLE] = makeTokenData(tokens, visibleTokens)
+			draft[NON_VISIBLE] = makeTokenData(tokens, draft[VISIBLE]).filter(_token => {
+				const search = state.search.toLowerCase()
+				return _token.name?.toLowerCase().includes(search) || _token.symbol?.toLowerCase().includes(search)
+			})
 		})
-	}, [])
+	}, [state.search])
 
 	useEventListener('error', e => {
 		if (
@@ -200,7 +208,13 @@ export const TokenListSettingsModal = ({
 						</Text>
 						<Text css={{ mt: '$3' }}>Drag and drop to change the order in which to display tokens.</Text>
 						<Box css={{ mt: '$2' }}>
-							<SearchBox showCancelOnlyWithValueButton onSearch={handleSearchTokenList} placeholder="Search tokens" />
+							<SearchBox
+								focusOnMount
+								showCancelOnlyWithValueButton
+								onSearch={handleSearchTokenList}
+								placeholder="Search tokens"
+								debounce={200}
+							/>
 						</Box>
 						<Flex css={{ mt: '$3', gap: '12px' }}>
 							<Box css={{ flex: '1' }}>
