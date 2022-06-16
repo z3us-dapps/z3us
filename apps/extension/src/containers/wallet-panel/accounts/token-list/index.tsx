@@ -18,6 +18,55 @@ import { AccountSwitcher } from '../account-switcher'
 import { SlideUpPanel } from '../slide-up-panel'
 import { TokenRow } from '../token-row'
 
+interface SProps {
+	isSearching: boolean
+	onSearch: (search: string) => void
+	onCancelSearch: () => void
+	onToggleSearch: () => void
+}
+
+const SlideUpHeader: React.FC<SProps> = ({ isSearching, onSearch, onCancelSearch, onToggleSearch }) => (
+	<>
+		<Box
+			css={{
+				px: '$4',
+				height: '30px',
+				borderBottom: '1px solid $borderPanel',
+				mt: '-10px',
+				position: 'relative',
+			}}
+		>
+			<Text bold css={{ fontSize: '20px', lineHeight: '20px', transform: 'translateY(-6px)' }}>
+				Tokens
+			</Text>
+			{isSearching ? (
+				<SearchBox
+					onSearch={onSearch}
+					onCancelSearch={onCancelSearch}
+					showCancelButton
+					placeholder="Search tokens"
+					focusOnMount
+					css={{ position: 'absolute', top: '-22px', left: '14px', width: '298px', zIndex: '2' }}
+				/>
+			) : null}
+		</Box>
+		<Flex css={{ position: 'absolute', top: '22px', right: '12px', zIndex: '2', gap: '4px' }}>
+			<VisibleFadeAnimation isVisible={!isSearching}>
+				<ToolTip message="Search tokens" side="top">
+					<Button iconOnly size="1" color="ghost" onClick={onToggleSearch}>
+						<MagnifyingGlassIcon />
+					</Button>
+				</ToolTip>
+			</VisibleFadeAnimation>
+			<TokenListSettingsModal toolTipSide="top" toolTipSideOffset={3} toolTipMessage="Edit token list">
+				<Button iconOnly size="1" color="ghost" onClick={onCancelSearch}>
+					<RowsIcon />
+				</Button>
+			</TokenListSettingsModal>
+		</Flex>
+	</>
+)
+
 const AllBalances: React.FC = () => {
 	const [customScrollParent, setCustomScrollParent] = useState(null)
 	const { balances, staked } = useAllAccountsTokenBalances()
@@ -141,53 +190,20 @@ export const TokenList: React.FC = () => {
 		})
 	}
 
-	const slideUpHeader = (
-		<>
-			<Box
-				css={{
-					px: '$4',
-					height: '30px',
-					borderBottom: '1px solid $borderPanel',
-					mt: '-10px',
-					position: 'relative',
-				}}
-			>
-				<Text bold css={{ fontSize: '20px', lineHeight: '20px', transform: 'translateY(-6px)' }}>
-					Tokens
-				</Text>
-				{state.isSearching ? (
-					<SearchBox
-						onSearch={handleSearchTokenList}
-						onCancelSearch={handleCancelSearch}
-						showCancelButton
-						placeholder="Search tokens"
-						focusOnMount
-						css={{ position: 'absolute', top: '-22px', left: '14px', width: '298px', zIndex: '2' }}
-					/>
-				) : null}
-			</Box>
-			<Flex css={{ position: 'absolute', top: '22px', right: '12px', zIndex: '2', gap: '4px' }}>
-				<VisibleFadeAnimation isVisible={!state.isSearching}>
-					<ToolTip message="Search tokens" side="top">
-						<Button iconOnly size="1" color="ghost" onClick={handleToggleSearch}>
-							<MagnifyingGlassIcon />
-						</Button>
-					</ToolTip>
-				</VisibleFadeAnimation>
-				<TokenListSettingsModal toolTipSide="top" toolTipSideOffset={3} toolTipMessage="Edit token list">
-					<Button iconOnly size="1" color="ghost" onClick={handleCancelSearch}>
-						<RowsIcon />
-					</Button>
-				</TokenListSettingsModal>
-			</Flex>
-		</>
-	)
-
 	return (
 		<>
 			<AccountSwitcher />
 			<VisibleFadeAnimation isVisible={isSlideUpPanelVisible}>
-				<SlideUpPanel headerComponent={slideUpHeader}>
+				<SlideUpPanel
+					headerComponent={
+						<SlideUpHeader
+							isSearching={state.isSearching}
+							onSearch={handleSearchTokenList}
+							onCancelSearch={handleCancelSearch}
+							onToggleSearch={handleToggleSearch}
+						/>
+					}
+				>
 					<Balances />
 				</SlideUpPanel>
 			</VisibleFadeAnimation>

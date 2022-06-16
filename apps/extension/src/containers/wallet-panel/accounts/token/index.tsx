@@ -12,6 +12,21 @@ import { SLIDE_PANEL_HEIGHT, SLIDE_PANEL_EXPAND_HEIGHT, SLIDE_PANEL_HEADER_HEIGH
 import { SlideUpPanel } from '../slide-up-panel'
 import { TokenInfo } from '../token-info'
 
+const SlideUpHeader: React.FC = () => (
+	<Box
+		css={{
+			px: '$4',
+			height: '30px',
+			borderBottom: '1px solid $borderPanel',
+			mt: '-10px',
+		}}
+	>
+		<Text bold css={{ fontSize: '20px', lineHeight: '20px', transform: 'translateY(-6px)' }}>
+			Activity
+		</Text>
+	</Box>
+)
+
 export const Token: React.FC = () => {
 	const { expanded } = useSharedStore(state => ({
 		expanded: state.accountPanelExpanded,
@@ -59,25 +74,10 @@ export const Token: React.FC = () => {
 		[observer, isFetching, hasNextPage],
 	)
 
-	const slideUpHeader = (
-		<Box
-			css={{
-				px: '$4',
-				height: '30px',
-				borderBottom: '1px solid $borderPanel',
-				mt: '-10px',
-			}}
-		>
-			<Text bold css={{ fontSize: '20px', lineHeight: '20px', transform: 'translateY(-6px)' }}>
-				Activity
-			</Text>
-		</Box>
-	)
-
 	return (
 		<>
 			<TokenInfo />
-			<SlideUpPanel headerComponent={slideUpHeader}>
+			<SlideUpPanel headerComponent={<SlideUpHeader />}>
 				<Box css={{ position: 'relative', height: `${calculateHeight}px` }}>
 					{isLoading ? (
 						<TokenLoadingRows />
