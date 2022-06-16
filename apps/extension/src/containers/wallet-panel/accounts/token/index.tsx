@@ -5,10 +5,8 @@ import { TokenLoadingRows } from '@src/components/token-loading-row'
 import { useTransactionHistory } from '@src/services/react-query/queries/radix'
 import { ActivityItem } from '@src/components/activity-item'
 import { useRoute } from 'wouter'
-import { Box, Text, Flex } from 'ui/src/components/atoms'
-import { MagnifyingGlassIcon } from '@radix-ui/react-icons'
+import { Box, Text } from 'ui/src/components/atoms'
 import { Virtuoso } from 'react-virtuoso'
-import Button from 'ui/src/components/button'
 import { getSplitParams } from '@src/utils/url-utils'
 import { SLIDE_PANEL_HEIGHT, SLIDE_PANEL_EXPAND_HEIGHT, SLIDE_PANEL_HEADER_HEIGHT } from '@src/config'
 import { SlideUpPanel } from '../slide-up-panel'
@@ -23,7 +21,7 @@ export const Token: React.FC = () => {
 	const rri = getSplitParams(params)
 	const observer = useRef<IntersectionObserver | null>(null)
 	const { isFetching, data, error, fetchNextPage, hasNextPage } = useTransactionHistory(10)
-	// @TODO: implment properly
+	// @TODO: implement properly
 	const isLoading = false
 
 	const calculateHeight = expanded

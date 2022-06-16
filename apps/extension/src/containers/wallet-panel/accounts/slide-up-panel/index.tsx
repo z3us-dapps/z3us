@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react'
 import { useEventListener } from 'usehooks-ts'
 import { useSharedStore } from '@src/store'
-import { Box, Flex, MotionBox, Text } from 'ui/src/components/atoms'
+import { Box, Flex, MotionBox } from 'ui/src/components/atoms'
 import { useLocation } from 'wouter'
 import { UpArrowWideIcon } from 'ui/src/components/icons'
 import Button from 'ui/src/components/button'

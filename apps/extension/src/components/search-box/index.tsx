@@ -45,7 +45,7 @@ export const SearchBox: React.FC<IProps> = ({
 }) => {
 	const inputSearchRef = useRef(null)
 	const [state, setState] = useImmer({
-		value: value,
+		value,
 	})
 	const debouncedValue = useDebounce<string>(state.value, debounce)
 

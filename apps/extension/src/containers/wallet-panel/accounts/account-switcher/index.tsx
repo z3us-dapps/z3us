@@ -48,10 +48,14 @@ export const AccountSwitcher = (): JSX.Element => {
 
 	useEventListener('keydown', e => {
 		if (e.code === 'ArrowLeft' && activeSlideIndex > -1) {
-			handleSlideClick(activeSlideIndex - 1)
+			// TOOD: bring this back when we can disable globally
+			// we do not want the cards switching when users are are using left and right arrows when using the search token input
+			//handleSlideClick(activeSlideIndex - 1)
 		}
 		if (e.code === 'ArrowRight' && activeSlideIndex < addresses.length) {
-			handleSlideClick(activeSlideIndex + 1)
+			// TOOD: bring this back when we can disable globally
+			// we do not want the cards switching when users are are using left and right arrows when using the search token input
+			//handleSlideClick(activeSlideIndex + 1)
 		}
 	})
 

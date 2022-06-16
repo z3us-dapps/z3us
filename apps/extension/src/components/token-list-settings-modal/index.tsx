@@ -1,5 +1,6 @@
-/* eslint-disable */
-import React, { useState, useEffect, useMemo, useCallback } from 'react'
+/* eslint-disable react/jsx-props-no-spreading, react/destructuring-assignment */
+import React, { useState, useEffect, useCallback } from 'react'
+import { useEventListener } from 'usehooks-ts'
 import { useTokenBalances } from '@src/services/react-query/queries/radix'
 import { useImmer } from 'use-immer'
 import { SearchBox } from '@src/components/search-box'
@@ -10,6 +11,7 @@ import { Tooltip, TooltipTrigger, TooltipContent, TooltipArrow } from 'ui/src/co
 import { Dialog, DialogTrigger, DialogContent } from 'ui/src/components/dialog'
 import * as ReactBeautifulDnd from 'react-beautiful-dnd'
 import { Box, Text, Flex } from 'ui/src/components/atoms'
+import { arrayMove } from 'ui/src/utils/array-move'
 import { Side } from '@radix-ui/popper'
 import { Token } from './token'
 import { tokens } from './tokens'
@@ -17,28 +19,6 @@ import { tokens } from './tokens'
 const VISIBLE = 'visible'
 const NON_VISIBLE = 'non_visible'
 const TOKEN_RRI = 'RRI'
-
-const makeVisibleTokenTokenData = visibleTokens => {
-	return visibleTokens.map(token => {
-		const rri = token?.rri
-		return {
-			id: rri,
-			rri,
-		}
-	})
-}
-
-const makeTokenData = (tokens, visibleTokens) => {
-	const tokenRris = tokens[TOKEN_RRI]
-	return tokenRris
-		.filter(_rri => !visibleTokens.find(_token => _token.rri === _rri))
-		.map(rri => {
-			return {
-				id: rri,
-				rri,
-			}
-		})
-}
 
 interface IProps {
 	children?: React.ReactNode
@@ -54,6 +34,61 @@ const defaultProps = {
 	toolTipMessage: '',
 }
 
+const makeVisibleTokenTokenData = visibleTokens =>
+	visibleTokens.map(token => {
+		const rri = token?.rri
+		return {
+			id: rri,
+			rri,
+		}
+	})
+
+const makeTokenData = (_tokens, visibleTokens) => {
+	const tokenRris = _tokens[TOKEN_RRI]
+	return tokenRris
+		.filter(_rri => !visibleTokens.find(_token => _token.rri === _rri))
+		.map(rri => ({
+			id: rri,
+			rri,
+		}))
+}
+
+const VirtuosoItem = React.memo(({ children, ...rest }) => {
+	const [size, setSize] = useState(0)
+	const knownSize = rest['data-known-size']
+	useEffect(() => {
+		setSize(prevSize => (knownSize === 0 ? prevSize : knownSize))
+	}, [knownSize])
+	return (
+		// the height is necessary to prevent the item container from collapsing, which confuses Virtuoso measurements
+		<Box
+			{...rest}
+			className="height-preserving-container"
+			// check styling in the style tag below
+			css={{ '--child-height': `${size}px` }}
+		>
+			{children}
+		</Box>
+	)
+})
+
+const Item = ({ provided, item, isDragging }) => (
+	<div
+		{...provided.draggableProps}
+		{...provided.dragHandleProps}
+		ref={provided.innerRef}
+		style={{ ...provided.draggableProps.style, paddingBottom: '8px' }}
+	>
+		<Token rri={item.rri} isDragging={isDragging} />
+	</div>
+)
+
+const VirtuosoItemContent = (index, item) => (
+	<ReactBeautifulDnd.Draggable key={item.id} draggableId={item.id} index={index}>
+		{provided => <Item provided={provided} item={item} isDragging={false} />}
+	</ReactBeautifulDnd.Draggable>
+)
+
 export const TokenListSettingsModal = ({
 	children,
 	toolTipSideOffset,
@@ -67,59 +102,30 @@ export const TokenListSettingsModal = ({
 		[NON_VISIBLE]: [],
 	})
 
-	const reorder = useCallback((items, droppableSourceId, droppableDestId, startIndex, endIndex) => {
-		const droppableSource = [...items[droppableSourceId]]
-		const droppableDest = [...items[droppableDestId]]
-		const [removed] = droppableSource.splice(startIndex, 1)
-		droppableDest.splice(endIndex, 0, removed)
-
-		return {
-			...items,
-			[droppableSourceId]: droppableSource,
-			[droppableDestId]: droppableDest,
-		}
-	}, [])
-
-	const onDragEnd = React.useCallback(
+	const onDragEnd = useCallback(
 		result => {
 			if (!result.destination) {
 				return
 			}
-
-			if (result.source.index === result.destination.index) {
-				return
+			const sourceDropId = result.source.droppableId
+			const destinationDropId = result.destination.droppableId
+			const sourceIndex = result.source.index
+			const destinationIndex = result.destination.index
+			if (sourceDropId === destinationDropId) {
+				setState(draft => {
+					draft[sourceDropId] = arrayMove(draft[sourceDropId], sourceIndex, destinationIndex)
+				})
 			}
-
-			//setItems(items =>
-			//reorder(
-			//items,
-			//result.source.droppableId,
-			//result.destination.droppableId,
-			//result.source.index,
-			//result.destination.index,
-			//),
-			//)
+			if (sourceDropId !== destinationDropId) {
+				const movingItem = state[sourceDropId][sourceIndex]
+				setState(draft => {
+					draft[sourceDropId].splice(sourceIndex, 1)
+					draft[destinationDropId].splice(destinationIndex, 0, movingItem)
+				})
+			}
 		},
-		[reorder],
+		[state[VISIBLE], state[NON_VISIBLE]],
 	)
-
-	const Item = useMemo(() => {
-		return ({ provided, item, isDragging }) => {
-			// For borders and visual space,
-			// use container with padding rather than a margin
-			// margins confuse virtuoso rendering
-			return (
-				<div
-					{...provided.draggableProps}
-					{...provided.dragHandleProps}
-					ref={provided.innerRef}
-					style={{ ...provided.draggableProps.style, paddingBottom: '8px' }}
-				>
-					<Token rri={item.rri} isDragging={isDragging} />
-				</div>
-			)
-		}
-	}, [])
 
 	const handleOnClick = () => {
 		setState(draft => {
@@ -152,16 +158,16 @@ export const TokenListSettingsModal = ({
 			draft[VISIBLE] = visibleTokens
 			draft[NON_VISIBLE] = makeTokenData(tokens, visibleTokens)
 		})
-
-		window.addEventListener('error', e => {
-			if (
-				e.message === 'ResizeObserver loop completed with undelivered notifications.' ||
-				e.message === 'ResizeObserver loop limit exceeded'
-			) {
-				e.stopImmediatePropagation()
-			}
-		})
 	}, [])
+
+	useEventListener('error', e => {
+		if (
+			e.message === 'ResizeObserver loop completed with undelivered notifications.' ||
+			e.message === 'ResizeObserver loop limit exceeded'
+		) {
+			e.stopImmediatePropagation()
+		}
+	})
 
 	return (
 		<Dialog open={state.isModalOpen} modal={false}>
@@ -239,64 +245,33 @@ export const TokenListSettingsModal = ({
 							</style>
 							<ReactBeautifulDnd.DragDropContext onDragEnd={onDragEnd}>
 								<Flex css={{ gap: '12px', '> div': { flex: '1' } }}>
-									{[VISIBLE, NON_VISIBLE].map(droppableId => {
-										return (
-											<ReactBeautifulDnd.Droppable
-												key={droppableId}
-												droppableId={droppableId}
-												mode="virtual"
-												renderClone={(provided, snapshot, rubric) => (
-													<Item
-														provided={provided}
-														isDragging={snapshot.isDragging}
-														item={state[droppableId][rubric.source.index]}
-													/>
-												)}
-											>
-												{provided => {
-													return (
-														<Virtuoso
-															className="custom-scroll-bars"
-															components={{
-																Item: useMemo(() => {
-																	return ({ children, ...props }) => {
-																		const [size, setSize] = useState(0)
-																		const knownSize = props['data-known-size']
-																		useEffect(() => {
-																			setSize(prevSize => {
-																				return knownSize == 0 ? prevSize : knownSize
-																			})
-																		}, [knownSize])
-																		return (
-																			// the height is necessary to prevent the item container from collapsing, which confuses Virtuoso measurements
-																			<Box
-																				{...props}
-																				className="height-preserving-container"
-																				// check styling in the style tag below
-																				css={{ '--child-height': `${size}px` }}
-																			>
-																				{children}
-																			</Box>
-																		)
-																	}
-																}, []),
-															}}
-															scrollerRef={provided.innerRef}
-															data={state[droppableId]}
-															style={{ height: 290 }}
-															itemContent={(index, item) => {
-																return (
-																	<ReactBeautifulDnd.Draggable draggableId={item.id} index={index} key={item.id}>
-																		{provided => <Item provided={provided} item={item} isDragging={false} />}
-																	</ReactBeautifulDnd.Draggable>
-																)
-															}}
-														/>
-													)
-												}}
-											</ReactBeautifulDnd.Droppable>
-										)
-									})}
+									{[VISIBLE, NON_VISIBLE].map(droppableId => (
+										<ReactBeautifulDnd.Droppable
+											key={droppableId}
+											droppableId={droppableId}
+											mode="virtual"
+											renderClone={(provided, snapshot, rubric) => (
+												<Item
+													provided={provided}
+													isDragging={snapshot.isDragging}
+													item={state[droppableId][rubric.source.index]}
+												/>
+											)}
+										>
+											{provided => (
+												<Virtuoso
+													className="custom-scroll-bars"
+													components={{
+														Item: VirtuosoItem,
+													}}
+													scrollerRef={provided.innerRef}
+													data={state[droppableId]}
+													style={{ height: 290 }}
+													itemContent={VirtuosoItemContent}
+												/>
+											)}
+										</ReactBeautifulDnd.Droppable>
+									))}
 								</Flex>
 							</ReactBeautifulDnd.DragDropContext>
 						</Box>
