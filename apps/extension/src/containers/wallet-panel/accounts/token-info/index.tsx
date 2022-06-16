@@ -1,5 +1,6 @@
 import React from 'react'
 import BigNumber from 'bignumber.js'
+import { Line } from 'react-chartjs-2'
 import { useTokenBalances, useTokenInfo } from '@src/services/react-query/queries/radix'
 import { useMarketChart } from '@src/services/react-query/queries/market'
 import { getSplitParams } from '@src/utils/url-utils'
@@ -13,6 +14,24 @@ import { UpRightIcon, DownLeftIcon, ExternalLinkIcon } from 'ui/src/components/i
 import Button from 'ui/src/components/button'
 import { CircleAvatar } from '@src/components/circle-avatar'
 import { TokenPrice } from './token-price'
+
+const options = {
+	responsive: true,
+	maintainAspectRatio: false,
+	elements: {
+		point: {
+			radius: 0,
+		},
+	},
+	scales: {
+		xAxis: {
+			display: false,
+		},
+		yAxis: {
+			display: false,
+		},
+	},
+}
 
 export const TokenInfo = (): JSX.Element => {
 	const [, setLocation] = useLocation()
@@ -55,8 +74,6 @@ export const TokenInfo = (): JSX.Element => {
 		return null
 	}
 
-	console.log(chart)
-
 	return (
 		<Flex
 			direction="column"
@@ -85,6 +102,26 @@ export const TokenInfo = (): JSX.Element => {
 					symbol={token.symbol}
 					ammount={token.symbol === 'xrd' ? selectedTokenAmmount.plus(stakedAmount) : selectedTokenAmmount}
 				/>
+				{chart?.length > 0 && (
+					<Grid gap="5" columns="1" css={{ pt: '20px' }}>
+						<Line
+							data={{
+								labels: chart.map(value => value[0]),
+								datasets: [
+									{
+										data: chart.map(value => value[1]),
+										backgroundColor: ['rgba(75, 192, 192, 0.4)'],
+										borderColor: ['rgba(75, 192, 192, 1)'],
+										borderWidth: 1,
+									},
+								],
+							}}
+							options={options}
+							height={null}
+							width={null}
+						/>
+					</Grid>
+				)}
 				<Grid gap="5" columns="3" css={{ pt: '20px' }}>
 					<Tooltip>
 						<TooltipTrigger asChild>
