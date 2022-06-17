@@ -65,7 +65,10 @@ export const AccountSwitcher = (): JSX.Element => {
 			direction="column"
 			css={{ position: 'absolute', top: '0px', left: '0', right: '0', height: '279px' }}
 		>
-			<Box css={{ width: `${containerWidth}px`, height: `${SLIDER_HEIGHT}px`, position: 'relative', mt: '20px' }}>
+			<Box
+				data-test-e2e="accounts-total-card"
+				css={{ width: `${containerWidth}px`, height: `${SLIDER_HEIGHT}px`, position: 'relative', mt: '20px' }}
+			>
 				<MotionBox
 					css={{ width: `${SLIDER_WIDTH * (addresses.length + 2)}px`, display: 'flex' }}
 					animate={{ x: xVal }}

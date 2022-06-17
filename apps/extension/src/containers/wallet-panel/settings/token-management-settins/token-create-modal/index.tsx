@@ -2,6 +2,8 @@ import React from 'react'
 import { useQueryClient } from 'react-query'
 import { useImmer } from 'use-immer'
 import { useSharedStore, useStore } from '@src/store'
+import { PageHeading, PageSubHeading, PageWrapper } from '@src/components/layout'
+import { ScrollArea } from 'ui/src/components/scroll-area'
 import { useLocation } from 'wouter'
 import { getShortAddress } from '@src/utils/string-utils'
 import {
@@ -11,7 +13,7 @@ import {
 	DeriveToken,
 } from '@src/services/radix/transactions'
 import { useEventListener } from 'usehooks-ts'
-import { CloseIcon } from 'ui/src/components/icons'
+import { Cross2Icon } from '@radix-ui/react-icons'
 import Button from 'ui/src/components/button'
 import { Checkbox, CheckIcon } from 'ui/src/components/checkbox'
 import Input from 'ui/src/components/input'
@@ -163,103 +165,104 @@ export const CreateTokenModal: React.FC<IProps> = ({ trigger }) => {
 			<DialogTrigger asChild onClick={handleOnClick}>
 				{trigger}
 			</DialogTrigger>
-			<DialogContent>
-				<Flex direction="column" css={{ p: '$2', position: 'relative', maxHeight: '400px', overflowX: 'scroll' }}>
-					<Button
-						color="ghost"
-						iconOnly
-						aria-label="close create token modal"
-						size="3"
-						css={{ position: 'absolute', top: '16px', right: '16px' }}
-						onClick={handleCloseModal}
-					>
-						<CloseIcon />
-					</Button>
-
-					<Box css={{ flex: '1' }}>
-						<Box>
-							<Text css={{ fontSize: '32px', lineHeight: '38px', fontWeight: '800' }}>Create</Text>
-							<Text css={{ fontSize: '14px', lineHeight: '17px', fontWeight: '500', mt: '20px' }}>Owner:</Text>
-						</Box>
-						<AccountSelector shortAddress={shortAddress} onAccountChange={handleAccountChange} />
-						<HardwareWalletReconnect />
-						<Box css={{ mt: '$2' }}>
-							<Input placeholder="Enter name" onChange={handleSetValue('name')} />
-						</Box>
-						<Box css={{ mt: '$2' }}>
-							<Input placeholder="Enter symbol" onChange={handleSetValue('symbol')} />
-						</Box>
-						<Box css={{ mt: '$2' }}>
-							<Flex
-								align="center"
-								justify="end"
-								css={{
-									width: '105px',
-									transition: '$default',
-									pe: 'auto',
-									opacity: 1,
-								}}
-							>
-								<Checkbox id="mutable" size="1" onCheckedChange={handleSetMutable} checked={state.is_supply_mutable}>
-									<CheckIcon />
-								</Checkbox>
-								<Text medium size="3" as="label" css={{ paddingLeft: '$2' }} htmlFor="mutable">
-									Is mutable
-								</Text>
-							</Flex>
-						</Box>
-						{!state.is_supply_mutable && (
-							<Box css={{ mt: '$2' }}>
-								<Input
-									placeholder="Enter amount"
-									onChange={handleSetValue('amount')}
-									disabled={state.is_supply_mutable}
-								/>
+			<DialogContent css={{ p: '0' }}>
+				<Box css={{ height: '500px', position: 'relative' }}>
+					<ScrollArea>
+						<PageWrapper css={{ position: 'relative' }}>
+							<Box>
+								<Button
+									color="ghost"
+									iconOnly
+									aria-label="close create token modal"
+									size="2"
+									css={{ position: 'absolute', top: '$3', right: '$3', zIndex: '1' }}
+									onClick={handleCloseModal}
+								>
+									<Cross2Icon />
+								</Button>
+								<Box css={{ width: '100%' }}>
+									<PageHeading>Create</PageHeading>
+									<PageSubHeading>Owner</PageSubHeading>
+								</Box>
+								<AccountSelector shortAddress={shortAddress} onAccountChange={handleAccountChange} />
+								<HardwareWalletReconnect />
+								<Box css={{ mt: '$4' }}>
+									<Input placeholder="Enter name" onChange={handleSetValue('name')} />
+								</Box>
+								<Box css={{ mt: '$2' }}>
+									<Input placeholder="Enter symbol" onChange={handleSetValue('symbol')} />
+								</Box>
+								<Box css={{ mt: '$2' }}>
+									<Flex align="center" justify="start">
+										<Checkbox
+											id="mutable"
+											size="1"
+											onCheckedChange={handleSetMutable}
+											checked={state.is_supply_mutable}
+										>
+											<CheckIcon />
+										</Checkbox>
+										<Text size="2" as="label" css={{ pl: '$2' }} htmlFor="mutable">
+											Is mutable
+										</Text>
+									</Flex>
+								</Box>
+								{!state.is_supply_mutable && (
+									<Box css={{ mt: '$2' }}>
+										<Input
+											placeholder="Enter amount"
+											onChange={handleSetValue('amount')}
+											disabled={state.is_supply_mutable}
+										/>
+									</Box>
+								)}
+								<Box css={{ flex: '1', mt: '$2' }}>
+									<Input
+										as="textarea"
+										size="1"
+										placeholder="Enter description"
+										onChange={handleSetValue('description')}
+										css={{ height: '80px' }}
+									/>
+								</Box>
+								<Box css={{ mt: '$2' }}>
+									<Input placeholder="Enter icon URL" onChange={handleSetValue('icon_url')} />
+								</Box>
+								<Box css={{ mt: '$2' }}>
+									<Input placeholder="Enter URL" onChange={handleSetValue('url')} />
+								</Box>
+								<Box>
+									<Flex css={{ mt: '$4' }}>
+										{state.transaction ? (
+											<Button
+												size="5"
+												color="primary"
+												aria-label="confirm"
+												css={{ px: '0', flex: '1' }}
+												onClick={handleConfirm}
+												disabled={!account}
+												loading={state.isLoading}
+											>
+												Confirm
+											</Button>
+										) : (
+											<Button
+												size="5"
+												color="primary"
+												aria-label="create"
+												css={{ px: '0', flex: '1' }}
+												onClick={handlePrepareTx}
+												loading={state.isLoading}
+											>
+												Create
+											</Button>
+										)}
+									</Flex>
+								</Box>
 							</Box>
-						)}
-						<Box css={{ mt: '$2' }}>
-							<Input
-								as="textarea"
-								size="2"
-								placeholder="Enter description"
-								onChange={handleSetValue('description')}
-								css={{ height: '70px' }}
-							/>
-						</Box>
-						<Box css={{ mt: '$2' }}>
-							<Input placeholder="Enter icon URL" onChange={handleSetValue('icon_url')} />
-						</Box>
-						<Box css={{ mt: '$2' }}>
-							<Input placeholder="Enter URL" onChange={handleSetValue('url')} />
-						</Box>
-					</Box>
-					<Flex css={{ mt: '$3' }}>
-						{state.transaction ? (
-							<Button
-								size="6"
-								color="primary"
-								aria-label="confirm"
-								css={{ px: '0', flex: '1' }}
-								onClick={handleConfirm}
-								disabled={!account}
-								loading={state.isLoading}
-							>
-								Confirm
-							</Button>
-						) : (
-							<Button
-								size="6"
-								color="primary"
-								aria-label="create"
-								css={{ px: '0', flex: '1' }}
-								onClick={handlePrepareTx}
-								loading={state.isLoading}
-							>
-								Create
-							</Button>
-						)}
-					</Flex>
-				</Flex>
+						</PageWrapper>
+					</ScrollArea>
+				</Box>
 			</DialogContent>
 		</Dialog>
 	)

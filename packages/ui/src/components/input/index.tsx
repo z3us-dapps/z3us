@@ -33,7 +33,7 @@ export type InputProps = IProps & typeof defaultProps & NativeAttrs & InputVaria
 
 const Input = React.forwardRef<FormElement, InputProps>(
 	(
-		{ type, onChange, placeholder, disabled, error, value, size, focusOnMount, selectOnMount, as, css, ...props },
+		{ type, onChange, placeholder, disabled, error, value, size, focusOnMount, selectOnMount, as, css, ...rest },
 		ref: React.Ref<FormElement | null>,
 	) => {
 		const inputRef = useRef<HTMLInputElement & HTMLTextAreaElement>(null)
@@ -60,7 +60,7 @@ const Input = React.forwardRef<FormElement, InputProps>(
 		}, [])
 
 		return (
-			<StyledInputWrapper css={{ ...(css as any) }}>
+			<StyledInputWrapper css={{ ...(css as any), textarea: { height: '100%' } }}>
 				<StyledInput
 					ref={inputRef}
 					value={value}
@@ -77,6 +77,7 @@ const Input = React.forwardRef<FormElement, InputProps>(
 					aria-readonly={readOnly}
 					aria-required={required}
 					aria-multiline={isTextarea}
+					{...rest}
 				/>
 				<StyledInputPlaceholder as="span">{placeholder}</StyledInputPlaceholder>
 			</StyledInputWrapper>

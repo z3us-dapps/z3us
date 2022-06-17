@@ -2,15 +2,16 @@ import React from 'react'
 import { useQueryClient } from 'react-query'
 import { useImmer } from 'use-immer'
 import { useSharedStore, useStore } from '@src/store'
+import { PageHeading, PageSubHeading, PageWrapper } from '@src/components/layout'
 import { useLocation } from 'wouter'
 import { getShortAddress } from '@src/utils/string-utils'
 import { FinalizeTransaction, SubmitSignedTransaction, MintToken, DeriveToken } from '@src/services/radix/transactions'
+import { Cross2Icon } from '@radix-ui/react-icons'
 import { useEventListener } from 'usehooks-ts'
-import { CloseIcon } from 'ui/src/components/icons'
 import Button from 'ui/src/components/button'
 import Input from 'ui/src/components/input'
 import { Dialog, DialogTrigger, DialogContent } from 'ui/src/components/dialog'
-import { Box, Text, Flex } from 'ui/src/components/atoms'
+import { Box, Flex } from 'ui/src/components/atoms'
 import { AccountSelector } from '@src/components/account-selector'
 import { HardwareWalletReconnect } from '@src/components/hardware-wallet-reconnect'
 
@@ -138,37 +139,34 @@ export const MintTokenModal: React.FC<IProps> = ({ trigger }) => {
 			<DialogTrigger asChild onClick={handleOnClick}>
 				{trigger}
 			</DialogTrigger>
-			<DialogContent>
-				<Flex direction="column" css={{ p: '$2', position: 'relative' }}>
+			<DialogContent css={{ p: '0' }}>
+				<PageWrapper css={{ position: 'relative' }}>
 					<Button
 						color="ghost"
 						iconOnly
-						aria-label="close mint token modal"
-						size="3"
-						css={{ position: 'absolute', top: '16px', right: '16px' }}
+						aria-label="close create token modal"
+						size="2"
+						css={{ position: 'absolute', top: '$3', right: '$3', zIndex: '1' }}
 						onClick={handleCloseModal}
 					>
-						<CloseIcon />
+						<Cross2Icon />
 					</Button>
-
-					<Box css={{ flex: '1' }}>
-						<Box>
-							<Text css={{ fontSize: '32px', lineHeight: '38px', fontWeight: '800' }}>Mint</Text>
-							<Text css={{ fontSize: '14px', lineHeight: '17px', fontWeight: '500', mt: '20px' }}>To:</Text>
-						</Box>
-						<AccountSelector shortAddress={shortAddress} onAccountChange={handleAccountChange} />
-						<HardwareWalletReconnect />
-						<Box css={{ mt: '$2' }}>
-							<Input placeholder="Enter symbol" onChange={handleSetValue('symbol')} />
-						</Box>
-						<Box css={{ mt: '$2' }}>
-							<Input placeholder="Enter amount" onChange={handleSetValue('amount')} />
-						</Box>
+					<Box css={{ width: '100%' }}>
+						<PageHeading>Mint</PageHeading>
+						<PageSubHeading>To:</PageSubHeading>
 					</Box>
-					<Flex css={{ mt: '$3' }}>
+					<AccountSelector shortAddress={shortAddress} onAccountChange={handleAccountChange} />
+					<HardwareWalletReconnect />
+					<Box css={{ mt: '$2' }}>
+						<Input placeholder="Enter symbol" onChange={handleSetValue('symbol')} />
+					</Box>
+					<Box css={{ mt: '$2' }}>
+						<Input placeholder="Enter amount" onChange={handleSetValue('amount')} />
+					</Box>
+					<Flex css={{ mt: '$4' }}>
 						{state.transaction ? (
 							<Button
-								size="6"
+								size="5"
 								color="primary"
 								aria-label="confirm"
 								css={{ px: '0', flex: '1' }}
@@ -180,7 +178,7 @@ export const MintTokenModal: React.FC<IProps> = ({ trigger }) => {
 							</Button>
 						) : (
 							<Button
-								size="6"
+								size="5"
 								color="primary"
 								aria-label="mint"
 								css={{ px: '0', flex: '1' }}
@@ -191,7 +189,7 @@ export const MintTokenModal: React.FC<IProps> = ({ trigger }) => {
 							</Button>
 						)}
 					</Flex>
-				</Flex>
+				</PageWrapper>
 			</DialogContent>
 		</Dialog>
 	)
