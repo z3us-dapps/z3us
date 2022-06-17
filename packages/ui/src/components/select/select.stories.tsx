@@ -42,7 +42,7 @@ const CombinedTemplate: React.FC = () => (
 	<Box>
 		<Flex gap="8" justify="start" css={{ border: '0px solid red' }}>
 			<Box>
-				<Select defaultValue="blueberry" open>
+				<Select defaultValue="blueberry">
 					<SelectTrigger aria-label="Food">
 						<SelectValue />
 						<SelectIcon>
@@ -163,24 +163,11 @@ const CombinedTemplate: React.FC = () => (
 			<Box>
 				<Select defaultValue="blueberry">
 					<SelectTrigger aria-label="Food" asChild>
-						<Button
-							css={{
-								display: 'flex',
-								align: 'center',
-								justifyContent: 'flex-start',
-								mt: '12px',
-								bg: '$bgPanel2',
-								borderRadius: '8px',
-								height: '64px',
-								position: 'relative',
-								width: '300px',
-								ta: 'left',
-								'&:hover': {
-									bg: '$bgPanelHover',
-								},
-							}}
-						>
+						<Button color="input" size="4" css={{ width: '200px' }}>
 							<SelectValue />
+							<SelectIcon>
+								<ChevronDownIcon />
+							</SelectIcon>
 						</Button>
 					</SelectTrigger>
 					<SelectContent>
@@ -192,33 +179,23 @@ const CombinedTemplate: React.FC = () => (
 								<SelectLabel>Fruits</SelectLabel>
 								<SelectItem value="apple">
 									<SelectItemText>Apple</SelectItemText>
-									<SelectItemIndicator>
-										<CheckIcon />
-									</SelectItemIndicator>
+									<SelectItemIndicator />
 								</SelectItem>
 								<SelectItem value="banana">
 									<SelectItemText>Banana</SelectItemText>
-									<SelectItemIndicator>
-										<CheckIcon />
-									</SelectItemIndicator>
+									<SelectItemIndicator />
 								</SelectItem>
 								<SelectItem value="blueberry">
 									<SelectItemText>Blueberry</SelectItemText>
-									<SelectItemIndicator>
-										<CheckIcon />
-									</SelectItemIndicator>
+									<SelectItemIndicator />
 								</SelectItem>
 								<SelectItem value="grapes">
 									<SelectItemText>Grapes</SelectItemText>
-									<SelectItemIndicator>
-										<CheckIcon />
-									</SelectItemIndicator>
+									<SelectItemIndicator />
 								</SelectItem>
 								<SelectItem value="pineapple">
 									<SelectItemText>Pineapple</SelectItemText>
-									<SelectItemIndicator>
-										<CheckIcon />
-									</SelectItemIndicator>
+									<SelectItemIndicator />
 								</SelectItem>
 							</SelectGroup>
 
