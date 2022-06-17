@@ -22,7 +22,12 @@ export const GeneralSettings: React.FC = () => {
 		<Box css={{ px: '$3', py: '$3' }}>
 			{!isHardwareWallet && (
 				<Box css={{ mt: '$3' }}>
-					<Text size="3">Wallet will automatically lock after:</Text>
+					<Text size="3">
+						Wallet will lock after:
+						<Box as="span" css={{ fontWeight: 'bold', pl: '2px' }}>
+							{unlockTimer} {unlockTimer === 1 ? 'minute' : 'minutes'}
+						</Box>
+					</Text>
 					<Box css={{ mt: '$3' }}>
 						<StyledSlider
 							onValueChange={handleChangeUnlockTime}
@@ -38,16 +43,13 @@ export const GeneralSettings: React.FC = () => {
 							<StyledThumb />
 						</StyledSlider>
 					</Box>
-					<Box css={{ mt: '10px' }}>
-						<Text bold size="3">
-							{unlockTimer} {unlockTimer === 1 ? 'minute' : 'minutes'}
-						</Text>
-					</Box>
 				</Box>
 			)}
 			<Box css={{ mt: '$3' }}>
-				<Text size="3">Price presentment currency:</Text>
-				<Box css={{ mt: '$3', py: '$5' }}>
+				<Text size="3" bold>
+					Currency preference:
+				</Text>
+				<Box css={{ py: '$3' }}>
 					<CurrencySelector />
 				</Box>
 			</Box>
