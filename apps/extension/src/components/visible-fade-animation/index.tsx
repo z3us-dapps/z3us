@@ -8,8 +8,8 @@ interface IProps {
 export const VisibleFadeAnimation: React.FC<IProps> = ({ isVisible, children }) => (
 	<Box
 		css={{
-			pe: !isVisible ? 'none' : 'auto',
-			opacity: !isVisible ? '0' : '1',
+			pe: isVisible ? 'auto' : 'none',
+			opacity: isVisible ? '1' : '0',
 			transition: '$default',
 		}}
 	>

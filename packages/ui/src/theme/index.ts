@@ -138,6 +138,8 @@ export const globalStyles = globalCss({
 		fontFamily: '$Inter',
 		fontSize: '$1',
 		textRendering: 'optimizeLegibility',
+		'-webkit-tap-highlight-color': 'transparent',
+		'-webkit-touch-callout': 'none',
 		'-moz-osx-font-smoothing': 'grayscale',
 		// Best for non-retina
 		'-webkit-font-smoothing': 'subpixel-antialiased',

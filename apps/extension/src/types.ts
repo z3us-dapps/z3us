@@ -23,6 +23,14 @@ export interface Ticker {
 	volume: number
 }
 
+export type KnownTokens = {
+	Name: string[]
+	Description: string[]
+	RRI: string[]
+	Symbol: string[]
+	TimeStamp: string[]
+}
+
 export type Activity = BurnTokens | CreateTokenDefinition | MintTokens | StakeTokens | TransferTokens | UnstakeTokens
 
 export type Action = {
@@ -59,6 +67,16 @@ export type Validator = {
 	uptimePercentage: number
 	proposalsMissed: number
 	proposalsCompleted: number
+}
+
+export type VisibleToken = {
+	rri: string
+	name: string
+	symbol: string
+}
+
+export type VisibleTokens = {
+	[rri: string]: VisibleToken
 }
 
 export type Token = {
