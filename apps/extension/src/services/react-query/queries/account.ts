@@ -102,5 +102,5 @@ export const useAccountValue = () => {
 export const useAllAccountsValue = () => {
 	const { isLoading, balances, staked } = useAllAccountsTokenBalances()
 
-	return useGenericaccountsValue(balances, staked, isLoading)
+	return useGenericaccountsValue(Object.values(balances), staked, isLoading)
 }

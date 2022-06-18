@@ -2,6 +2,7 @@ import { GetState, SetState } from 'zustand'
 import { Network as NetworkID, Account, AccountAddress, HDMasterSeedT } from '@radixdlt/application'
 import { HardwareWalletT } from '@radixdlt/hardware-wallet'
 import { JSONToHex } from '@src/utils/encoding'
+import { VisibleTokens } from '@src/types'
 import { getDefaultAddressEntry, getHWSigningKeyForIndex, getLocalSigningKeyForIndex } from './helpers'
 import { AccountStore, AddressBookEntry, WalletStore } from './types'
 
@@ -10,6 +11,7 @@ export const whiteList = [
 	'approvedWebsites',
 	'pendingActions',
 	'networks',
+	'visibleTokens',
 	'activeSlideIndex',
 	'selectedNetworkIndex',
 	'selectedAccountIndex',
@@ -29,6 +31,8 @@ const defaultState = {
 	activeSlideIndex: -1,
 	selectedNetworkIndex: 0,
 	selectedAccountIndex: 0,
+
+	visibleTokens: {},
 
 	publicAddresses: {},
 	approvedWebsites: {},
@@ -227,6 +231,12 @@ export const factory = (set: SetState<AccountStore>, get: GetState<AccountStore>
 		}
 
 		return undefined
+	},
+
+	setVisibleTokensAction: (visibleTokens: VisibleTokens) => {
+		set(state => {
+			state.visibleTokens = visibleTokens
+		})
 	},
 
 	approveWebsiteAction: (host: string) => {
