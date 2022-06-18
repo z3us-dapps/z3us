@@ -1,7 +1,9 @@
 /* eslint-disable react/jsx-props-no-spreading, react/destructuring-assignment */
 import React, { useState, useEffect, useCallback } from 'react'
+import { useStore } from '@src/store'
 import { useEventListener } from 'usehooks-ts'
 import { useTokenBalances } from '@src/services/react-query/queries/radix'
+import { useKnownTokens } from '@src/services/react-query/queries/radixscan'
 import { useImmer } from 'use-immer'
 import { SearchBox } from '@src/components/search-box'
 import { Cross2Icon } from '@radix-ui/react-icons'
@@ -11,16 +13,12 @@ import { Tooltip, TooltipTrigger, TooltipContent, TooltipArrow } from 'ui/src/co
 import { Dialog, DialogTrigger, DialogContent } from 'ui/src/components/dialog'
 import * as ReactBeautifulDnd from 'react-beautiful-dnd'
 import { Box, Text, Flex } from 'ui/src/components/atoms'
-import { arrayMove } from 'ui/src/utils/array-move'
 import { Side } from '@radix-ui/popper'
+import { Token as TokenBalance, VisibleTokens, VisibleToken } from '@src/types'
 import { Token } from './token'
-import { tokens } from './tokens'
 
 const VISIBLE = 'visible'
-const NON_VISIBLE = 'non_visible'
-const TOKEN_RRI = 'RRI'
-const TOKEN_NAME = 'Name'
-const TOKEN_SYMBOL = 'Symbol'
+const INVISIBLE = 'invisible'
 
 interface IProps {
 	children?: React.ReactNode
@@ -36,27 +34,43 @@ const defaultProps = {
 	toolTipMessage: '',
 }
 
-const makeVisibleTokenTokenData = visibleTokens =>
-	visibleTokens.map(token => {
-		const rri = token?.rri
-		return {
-			id: rri,
-			rri,
+const getIsQueryMatch = (search: string, _token: VisibleToken): boolean =>
+	(search !== '' && _token.name?.toLowerCase().includes(search)) || _token.symbol?.toLowerCase().includes(search)
+
+const makeVisibleTokenTokenData = (
+	_tokens: VisibleTokens,
+	visibleTokens: VisibleTokens,
+	availableBalances: TokenBalance[],
+): VisibleTokens => {
+	const vs = { ...visibleTokens }
+	availableBalances?.forEach(token => {
+		if (vs[token.rri]) {
+			return
+		}
+		const visibleToken = _tokens[token.rri]
+		if (visibleToken) {
+			vs[token.rri] = visibleToken
 		}
 	})
+	return vs
+}
 
-const makeTokenData = (_tokens, visibleTokens) => {
-	const tokenRris = _tokens[TOKEN_RRI]
-	const tokenSymbols = _tokens[TOKEN_SYMBOL]
-	const tokenNames = _tokens[TOKEN_NAME]
-	const makeTokens = tokenRris.map((rri, index: number) => ({
-		id: rri,
-		rri,
-		name: tokenNames[index],
-		symbol: tokenSymbols[index],
-	}))
-
-	return makeTokens.filter(_t => !visibleTokens.find(_token => _token.rri === _t.rri))
+const makeInvisibleTokenData = (
+	search: string,
+	_tokens: VisibleTokens,
+	visibleTokens: VisibleTokens,
+): VisibleTokens => {
+	const ivs = Object.values(_tokens).reduce((obj, item: VisibleToken) => {
+		if (!getIsQueryMatch(search, item)) {
+			return obj
+		}
+		obj[item.rri] = { ...item }
+		return obj
+	}, {})
+	Object.keys(visibleTokens).forEach(key => {
+		delete ivs[key]
+	})
+	return ivs
 }
 
 const VirtuosoItem = React.memo(({ children, ...rest }) => {
@@ -90,7 +104,7 @@ const Item = ({ provided, item, isDragging }) => (
 )
 
 const VirtuosoItemContent = (index, item) => (
-	<ReactBeautifulDnd.Draggable key={item.id} draggableId={item.id} index={index}>
+	<ReactBeautifulDnd.Draggable key={item.rri} draggableId={item.rri} index={index}>
 		{provided => <Item provided={provided} item={item} isDragging={false} />}
 	</ReactBeautifulDnd.Draggable>
 )
@@ -101,14 +115,30 @@ export const TokenListSettingsModal = ({
 	toolTipMessage,
 	toolTipSide,
 }: IProps): JSX.Element => {
-	const { data } = useTokenBalances()
-	const visibleTokens = makeVisibleTokenTokenData(data?.account_balances?.liquid_balances)
+	const { currentVisibleTokens, setVisibleTokens } = useStore(state => ({
+		currentVisibleTokens: state.visibleTokens,
+		setVisibleTokens: state.setVisibleTokensAction,
+	}))
+	const { data: balances } = useTokenBalances()
+	const { data: tokens } = useKnownTokens()
 	const [state, setState] = useImmer({
 		isModalOpen: false,
 		search: '',
-		[VISIBLE]: visibleTokens,
-		[NON_VISIBLE]: makeTokenData(tokens, visibleTokens),
+		[VISIBLE]: currentVisibleTokens,
+		[INVISIBLE]: {},
 	})
+
+	useEffect(() => {
+		if (!tokens) {
+			return
+		}
+		setState(draft => {
+			const visible = makeVisibleTokenTokenData(tokens, draft[VISIBLE], balances?.account_balances?.liquid_balances)
+
+			draft[VISIBLE] = visible
+			draft[INVISIBLE] = makeInvisibleTokenData(draft.search.toLowerCase(), tokens, visible)
+		})
+	}, [balances, tokens, currentVisibleTokens])
 
 	const onDragEnd = useCallback(
 		result => {
@@ -119,20 +149,47 @@ export const TokenListSettingsModal = ({
 			const destinationDropId = result.destination.droppableId
 			const sourceIndex = result.source.index
 			const destinationIndex = result.destination.index
+
 			if (sourceDropId === destinationDropId) {
-				setState(draft => {
-					draft[sourceDropId] = arrayMove(draft[sourceDropId], sourceIndex, destinationIndex)
-				})
+				if (destinationDropId === INVISIBLE) {
+					return
+				}
+				if (sourceIndex === destinationIndex) {
+					return
+				}
 			}
-			if (sourceDropId !== destinationDropId) {
-				const movingItem = state[sourceDropId][sourceIndex]
-				setState(draft => {
-					draft[sourceDropId].splice(sourceIndex, 1)
-					draft[destinationDropId].splice(destinationIndex, 0, movingItem)
-				})
-			}
+
+			setState(draft => {
+				const movingRRI = Object.keys(draft[sourceDropId])[sourceIndex]
+				const movingItem = draft[sourceDropId][movingRRI]
+
+				let visible = { ...draft[VISIBLE] }
+
+				if (sourceDropId === VISIBLE) {
+					delete visible[movingRRI]
+				}
+
+				if (destinationDropId === VISIBLE) {
+					if (Object.keys(visible).length <= destinationIndex) {
+						visible[movingRRI] = movingItem
+					} else {
+						visible = Object.values(visible).reduce((obj, item: VisibleToken, idx) => {
+							if (idx === destinationIndex) {
+								obj[movingRRI] = movingItem
+							}
+							obj[item.rri] = item
+							return obj
+						}, {})
+					}
+				}
+
+				visible = makeVisibleTokenTokenData(tokens, visible, balances?.account_balances?.liquid_balances)
+
+				draft[VISIBLE] = visible
+				draft[INVISIBLE] = makeInvisibleTokenData(draft.search.toLowerCase(), tokens, visible)
+			})
 		},
-		[state[VISIBLE], state[NON_VISIBLE]],
+		[state[VISIBLE], state[INVISIBLE]],
 	)
 
 	const handleOnClick = () => {
@@ -148,6 +205,7 @@ export const TokenListSettingsModal = ({
 	}
 
 	const handleSaveTokenList = () => {
+		setVisibleTokens(state[VISIBLE])
 		setState(draft => {
 			draft.isModalOpen = false
 		})
@@ -161,10 +219,7 @@ export const TokenListSettingsModal = ({
 
 	useEffect(() => {
 		setState(draft => {
-			draft[NON_VISIBLE] = makeTokenData(tokens, draft[VISIBLE]).filter(_token => {
-				const search = state.search.toLowerCase()
-				return _token.name?.toLowerCase().includes(search) || _token.symbol?.toLowerCase().includes(search)
-			})
+			draft[INVISIBLE] = makeInvisibleTokenData(draft.search.toLowerCase(), tokens, draft[VISIBLE])
 		})
 	}, [state.search])
 
@@ -259,33 +314,36 @@ export const TokenListSettingsModal = ({
 							</style>
 							<ReactBeautifulDnd.DragDropContext onDragEnd={onDragEnd}>
 								<Flex css={{ gap: '12px', '> div': { flex: '1' } }}>
-									{[VISIBLE, NON_VISIBLE].map(droppableId => (
-										<ReactBeautifulDnd.Droppable
-											key={droppableId}
-											droppableId={droppableId}
-											mode="virtual"
-											renderClone={(provided, snapshot, rubric) => (
-												<Item
-													provided={provided}
-													isDragging={snapshot.isDragging}
-													item={state[droppableId][rubric.source.index]}
-												/>
-											)}
-										>
-											{provided => (
-												<Virtuoso
-													className="custom-scroll-bars"
-													components={{
-														Item: VirtuosoItem,
-													}}
-													scrollerRef={provided.innerRef}
-													data={state[droppableId]}
-													style={{ height: 290 }}
-													itemContent={VirtuosoItemContent}
-												/>
-											)}
-										</ReactBeautifulDnd.Droppable>
-									))}
+									{[VISIBLE, INVISIBLE].map(droppableId => {
+										const items = Object.values(state[droppableId]) as VisibleTokens[]
+										return (
+											<ReactBeautifulDnd.Droppable
+												key={droppableId}
+												droppableId={droppableId}
+												mode="virtual"
+												renderClone={(provided, snapshot, rubric) => (
+													<Item
+														provided={provided}
+														isDragging={snapshot.isDragging}
+														item={items[rubric.source.index]}
+													/>
+												)}
+											>
+												{provided => (
+													<Virtuoso
+														className="custom-scroll-bars"
+														components={{
+															Item: VirtuosoItem,
+														}}
+														scrollerRef={provided.innerRef}
+														data={items}
+														style={{ height: 290 }}
+														itemContent={VirtuosoItemContent}
+													/>
+												)}
+											</ReactBeautifulDnd.Droppable>
+										)
+									})}
 								</Flex>
 							</ReactBeautifulDnd.DragDropContext>
 						</Box>

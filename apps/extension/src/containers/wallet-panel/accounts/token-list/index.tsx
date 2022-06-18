@@ -14,6 +14,7 @@ import { SearchBox } from '@src/components/search-box'
 import Button from 'ui/src/components/button'
 import { SLIDE_PANEL_HEIGHT, SLIDE_PANEL_EXPAND_HEIGHT, SLIDE_PANEL_HEADER_HEIGHT } from '@src/config'
 import { Box, Text, Flex } from 'ui/src/components/atoms'
+import { VisibleToken } from '@src/types'
 import { AccountSwitcher } from '../account-switcher'
 import { SlideUpPanel } from '../slide-up-panel'
 import { TokenRow } from '../token-row'
@@ -68,9 +69,13 @@ const SlideUpHeader: React.FC<SProps> = ({ isSearching, onSearch, onCancelSearch
 )
 
 const AllBalances: React.FC = () => {
+	const { visibleTokens } = useStore(state => ({
+		visibleTokens: state.visibleTokens,
+	}))
 	const [customScrollParent, setCustomScrollParent] = useState(null)
 	const { balances, staked } = useAllAccountsTokenBalances()
-	const hasLiquidBalances = balances.length > 0
+	const totalCount = Object.keys(balances).length
+	const hasLiquidBalances = Object.keys(balances).length > 0
 
 	if (!hasLiquidBalances) {
 		return (
@@ -86,8 +91,12 @@ const AllBalances: React.FC = () => {
 		<ScrollArea scrollableNodeProps={{ ref: setCustomScrollParent }}>
 			<Virtuoso
 				customScrollParent={customScrollParent}
-				totalCount={balances.length}
-				data={balances}
+				totalCount={totalCount}
+				data={Object.values(visibleTokens).map((visibleToken: VisibleToken) => ({
+					amount: '0',
+					...visibleToken,
+					...balances[visibleToken.rri],
+				}))}
 				itemContent={(i, { rri, amount, symbol }) => (
 					<TokenRow
 						i={i}
@@ -110,24 +119,36 @@ const AllBalances: React.FC = () => {
 }
 
 const AccountBalances: React.FC = () => {
+	const { visibleTokens } = useStore(state => ({
+		visibleTokens: state.visibleTokens,
+	}))
 	const [customScrollParent, setCustomScrollParent] = useState(null)
 	const { isLoading = true, data } = useTokenBalances()
 	const liquidBalances = data?.account_balances?.liquid_balances || []
 	const staked = data?.account_balances?.staked_and_unstaking_balance.value
 	const hasLiquidBalances = liquidBalances.length > 0
 
+	const balances = liquidBalances.reduce((obj, balance) => {
+		obj[balance.rri] = balance
+		return obj
+	}, {})
+
 	const list = hasLiquidBalances ? (
 		<ScrollArea scrollableNodeProps={{ ref: setCustomScrollParent }}>
 			<Virtuoso
 				customScrollParent={customScrollParent}
 				totalCount={liquidBalances.length}
-				data={liquidBalances}
+				data={Object.values(visibleTokens).map((visibleToken: VisibleToken) => ({
+					amount: '0',
+					...visibleToken,
+					...balances[visibleToken.rri],
+				}))}
 				itemContent={(i, { rri, amount, symbol }) => (
 					<TokenRow
 						i={i}
 						key={rri}
 						rri={rri}
-						amount={amount}
+						amount={amount || 0}
 						staked={symbol === 'xrd' && staked ? staked : null}
 						loading={isLoading}
 					/>

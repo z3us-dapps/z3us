@@ -2,7 +2,7 @@ import { Network as NetworkID, MnemomicT, AccountT } from '@radixdlt/application
 import { HDMasterSeedT } from '@radixdlt/crypto'
 import { HardwareWalletT } from '@radixdlt/hardware-wallet'
 import { MessageService } from '@src/services/messanger'
-import { ColorSettings } from '@src/types'
+import { ColorSettings, VisibleTokens } from '@src/types'
 
 export interface Toast {
 	id?: string
@@ -165,6 +165,9 @@ export type WalletStore = {
 		hardwareWallet: HardwareWalletT | null,
 		masterSeed: HDMasterSeedT | null,
 	) => Promise<void>
+
+	visibleTokens: VisibleTokens
+	setVisibleTokensAction: (visibleTokens: VisibleTokens) => void
 
 	activeSlideIndex: number
 	setActiveSlideIndexAction: (

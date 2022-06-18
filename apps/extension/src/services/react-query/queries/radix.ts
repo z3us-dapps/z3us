@@ -63,11 +63,13 @@ export const useTokenBalances = () => {
 
 export const useAllAccountsTokenBalances = (): {
 	isLoading: boolean
-	balances: Array<{
-		rri: string
-		symbol: string
-		amount: BigNumber
-	}>
+	balances: {
+		[rri: string]: {
+			rri: string
+			symbol: string
+			amount: BigNumber
+		}
+	}
 	staked: BigNumber
 } => {
 	const { addresses, network } = useStore(state => ({
@@ -116,7 +118,7 @@ export const useAllAccountsTokenBalances = (): {
 		new BigNumber(0),
 	)
 
-	return { isLoading, balances: Object.values(balanceMap), staked }
+	return { isLoading, balances: balanceMap, staked }
 }
 
 export const useStakedPositions = () => {
