@@ -117,6 +117,12 @@ export const StyledButton = styled(
 					color: '$buttonText',
 					fill: '$buttonText',
 				},
+				input: {
+					bg: '$bgInput',
+					border: '1px solid $borderInput',
+					color: '$txtDefault',
+					borderRadius: '$2',
+				},
 				primary: {
 					fill: '$txtButtonPrimary',
 					color: '$txtButtonPrimary',
@@ -555,6 +561,38 @@ export const StyledButton = styled(
 					backgroundColor: '$buttonBgTertiaryHover',
 					'&:hover': {
 						backgroundColor: '$buttonBgTertiaryHover',
+					},
+				},
+			},
+			{
+				color: 'input',
+				size: '4',
+				css: {
+					fontSize: '13px',
+					lineHeight: '13px',
+					fontWeight: '400',
+					pl: '10px',
+					pr: '5px',
+					justifyContent: 'start',
+					ta: 'left',
+					'> span:first-child': {
+						flex: '1',
+					},
+				},
+			},
+			{
+				color: 'input',
+				size: '6',
+				css: {
+					fontSize: '16px',
+					lineHeight: '16px',
+					fontWeight: '400',
+					pl: '16px',
+					pr: '5px',
+					justifyContent: 'start',
+					ta: 'left',
+					'> span:first-child': {
+						flex: '1',
 					},
 				},
 			},
