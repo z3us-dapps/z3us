@@ -44,7 +44,7 @@ export const Transaction = (): JSX.Element => {
 	const {
 		host,
 		request: {
-			transaction: { actions, message },
+			transaction: { actions = [], message = '' },
 		},
 	} = action
 

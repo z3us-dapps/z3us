@@ -31,9 +31,6 @@ export const safelyUnwrapAmount = (amount: number): string | null => {
 // https://redocly.github.io/redoc/?url=https://raw.githubusercontent.com/radixdlt/radixdlt-network-gateway/1.1.1/gateway-api-spec.yaml#tag/Transaction/paths/~1transaction~1build/post
 function newTxFromState(to: string, from: AccountAddressT, amount: string, message: string): object {
 	return {
-		network_identifier: {
-			network: from.network,
-		},
 		actions: [
 			{
 				type: 'TransferTokens',
@@ -51,11 +48,7 @@ function newTxFromState(to: string, from: AccountAddressT, amount: string, messa
 				},
 			},
 		],
-		fee_payer: {
-			address: from.toString(),
-		},
 		message,
-		disable_token_mint_and_burn: true,
 	}
 }
 
