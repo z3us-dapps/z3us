@@ -1,15 +1,11 @@
-import browser from 'webextension-polyfill'
 import { useCallback } from 'react'
 import { ActionType, PublicKeyT, sha256, SignatureT } from '@radixdlt/application'
 import { useSharedStore, useStore } from '@src/store'
 import { useRadix } from '@src/hooks/use-radix'
 import { ExtendedActionType, IntendedAction } from '@src/types'
 import { randomBytes } from 'crypto'
-import init, { compile_with_nonce } from 'pte-manifest-compiler'
+import { compile_with_nonce } from 'pte-manifest-compiler'
 import { DefaultApi, Configuration, ManifestBuilder } from 'pte-sdk'
-
-// import { ec } from 'elliptic'
-// export const curve = new ec('p256')
 
 const submitPTETransaction = async (body: any) => {
 	const response = await fetch(`https://pte01.radixdlt.com/transaction`, {
@@ -41,8 +37,6 @@ export const useTransaction = () => {
 
 	const buildTransactionFromManifest = useCallback(
 		async (manifest: string, nonce: number = randomBytes(4).readUInt32LE()) => {
-			const wasmPath = browser.runtime.getURL('pte_manifest_compiler_bg.wasm')
-			await init(wasmPath)
 			const transaction = compile_with_nonce(manifest, BigInt(nonce))
 			const hashToSign = sha256(Buffer.from(transaction))
 
@@ -59,14 +53,6 @@ export const useTransaction = () => {
 				}
 				signature = signatureResult.value
 				publicKey = node.publicKey
-
-				console.log('node', node)
-				console.log('hashToSign', hashToSign)
-				console.log('signature', signature)
-				console.log('publicKey', publicKey)
-
-				// const keyPair = curve.keyFromPrivate(seed.masterNode().privateKey.toString())
-				// signature = keyPair.sign(hashToSign.toString('hex'), { canonical: true })
 			}
 
 			const api = new DefaultApi(
@@ -82,26 +68,8 @@ export const useTransaction = () => {
 					signatures: [],
 				},
 			})
-			console.log(receipt)
+			console.log('receipt', receipt)
 
-			// const receipt = await api.submitTransaction({
-			// 	transaction: {
-			// 		manifest,
-			// 		nonce: {
-			// 			value: nonce,
-			// 		},
-			// 		signatures: [
-			// 			{
-			// 				publicKey: publicKey.toString(),
-			// 				signature: signature.toDER(),
-			// 			},
-			// 		],
-			// 	},
-			// })
-
-			// console.log(receipt)
-
-			// return receipt
 			return submitPTETransaction({
 				transaction: {
 					manifest,

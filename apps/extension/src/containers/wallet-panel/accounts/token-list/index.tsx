@@ -87,16 +87,22 @@ const AllBalances: React.FC = () => {
 		)
 	}
 
+	const values = Object.values(visibleTokens)
+	const tokenData =
+		values.length === 0
+			? Object.values(balances)
+			: values.map((visibleToken: VisibleToken) => ({
+					amount: '0',
+					...visibleToken,
+					...balances[visibleToken.rri],
+			  }))
+
 	const list = hasLiquidBalances ? (
 		<ScrollArea scrollableNodeProps={{ ref: setCustomScrollParent }}>
 			<Virtuoso
 				customScrollParent={customScrollParent}
 				totalCount={totalCount}
-				data={Object.values(visibleTokens).map((visibleToken: VisibleToken) => ({
-					amount: '0',
-					...visibleToken,
-					...balances[visibleToken.rri],
-				}))}
+				data={tokenData}
 				itemContent={(i, { rri, amount, symbol }) => (
 					<TokenRow
 						i={i}
@@ -133,16 +139,22 @@ const AccountBalances: React.FC = () => {
 		return obj
 	}, {})
 
+	const values = Object.values(visibleTokens)
+	const tokenData =
+		values.length === 0
+			? Object.values(balances)
+			: values.map((visibleToken: VisibleToken) => ({
+					amount: '0',
+					...visibleToken,
+					...balances[visibleToken.rri],
+			  }))
+
 	const list = hasLiquidBalances ? (
 		<ScrollArea scrollableNodeProps={{ ref: setCustomScrollParent }}>
 			<Virtuoso
 				customScrollParent={customScrollParent}
 				totalCount={liquidBalances.length}
-				data={Object.values(visibleTokens).map((visibleToken: VisibleToken) => ({
-					amount: '0',
-					...visibleToken,
-					...balances[visibleToken.rri],
-				}))}
+				data={tokenData}
 				itemContent={(i, { rri, amount, symbol }) => (
 					<TokenRow
 						i={i}

@@ -15,7 +15,7 @@ declare global {
 				balances: () => Promise<any>
 				stakes: () => Promise<any>
 				unstakes: () => Promise<any>
-				sendTransaction: (payload: { symbol: string; fromAddress: string; transaction: any }) => Promise<any>
+				submitTransaction: (payload: { actions?: any[]; message?: string; manifest?: string }) => Promise<any>
 			}
 		}
 	}

@@ -4,21 +4,25 @@ import { useQueryClient } from 'react-query'
 import { useImmer } from 'use-immer'
 import { Box, StyledLink } from 'ui/src/components/atoms'
 import Button from 'ui/src/components/button'
+import Input from 'ui/src/components/input'
 import { PageWrapper, PageHeading, PageSubHeading } from '@src/components/layout'
 import { useSharedStore, useStore } from '@src/store'
 import { useRoute } from 'wouter'
 import { hexToJSON } from '@src/utils/encoding'
 import { CONFIRM } from '@src/lib/actions'
 import { HardwareWalletReconnect } from '@src/components/hardware-wallet-reconnect'
+import { AccountSelector } from '@src/components/account-selector'
 import { useTokenInfo } from '@src/services/react-query/queries/radix'
 import { useTransaction } from '@src/hooks/use-transaction'
-import ActionsPreview from './components/actions.preview'
+import { getShortAddress } from '@src/utils/string-utils'
+import ActionsPreview from './components/actions-preview'
 
 export const Transaction = (): JSX.Element => {
 	const [, { id }] = useRoute<{ id: string }>('/transaction/:id')
 	const queryClient = useQueryClient()
 
-	const { buildTransactionFromActions, signTransaction, submitTransaction } = useTransaction()
+	const { buildTransactionFromActions, buildTransactionFromManifest, signTransaction, submitTransaction } =
+		useTransaction()
 	const { hw, seed, sendResponse } = useSharedStore(state => ({
 		addressBook: state.addressBook,
 		sendResponse: state.sendResponseAction,
@@ -26,8 +30,10 @@ export const Transaction = (): JSX.Element => {
 		seed: state.masterSeed,
 	}))
 
-	const { account, selectAccountForAddress, action } = useStore(state => ({
+	const { accountAddress, account, selectAccount, selectAccountForAddress, action } = useStore(state => ({
+		accountAddress: state.getCurrentAddressAction(),
 		account: state.account,
+		selectAccount: state.selectAccountAction,
 		selectAccountForAddress: state.selectAccountForAddressAction,
 		action:
 			state.pendingActions[id] && state.pendingActions[id].payloadHex
@@ -35,6 +41,7 @@ export const Transaction = (): JSX.Element => {
 				: {},
 	}))
 
+	const shortAddress = getShortAddress(accountAddress)
 	const [state, setState] = useImmer({
 		fee: null,
 		transaction: null,
@@ -43,21 +50,19 @@ export const Transaction = (): JSX.Element => {
 
 	const {
 		host,
-		request: {
-			transaction: { actions = [], message = '' },
-		},
+		request: { actions = [], message = '', manifest = '' },
 	} = action
 
-	const { data: token } = useTokenInfo(actions ? actions[0]?.from_account?.rri : '')
+	const { data: token } = useTokenInfo(actions.length > 0 ? actions[0]?.from_account?.rri : '')
 
 	useEffect(() => {
-		if (actions) {
+		if (actions.length > 0) {
 			selectAccountForAddress(actions[0]?.from_account?.address, hw, seed)
 		}
 	}, [actions])
 
 	useEffect(() => {
-		if (actions) {
+		if (actions.length > 0) {
 			const build = async () => {
 				try {
 					const { fee, transaction } = await buildTransactionFromActions(actions, message)
@@ -76,6 +81,10 @@ export const Transaction = (): JSX.Element => {
 		}
 	}, [account])
 
+	const handleAccountChange = async (accountIndex: number) => {
+		await selectAccount(accountIndex, hw, seed)
+	}
+
 	const handleCancel = async () => {
 		await sendResponse(CONFIRM, {
 			id,
@@ -87,7 +96,7 @@ export const Transaction = (): JSX.Element => {
 
 	const handleConfirm = async () => {
 		if (!account) return
-		if (!state.transaction) {
+		if (!state.transaction && !manifest) {
 			sendResponse(CONFIRM, {
 				id,
 				host,
@@ -95,12 +104,16 @@ export const Transaction = (): JSX.Element => {
 			})
 			return
 		}
-
 		try {
-			const { blob } = await signTransaction(token.symbol, state.transaction)
-			const result = await submitTransaction(blob)
-			await queryClient.invalidateQueries({ active: true, inactive: true, stale: true })
+			let result: unknown
+			if (state.transaction) {
+				const { blob } = await signTransaction(token.symbol, state.transaction)
+				result = await submitTransaction(blob)
+			} else if (manifest) {
+				result = await buildTransactionFromManifest(manifest)
+			}
 
+			await queryClient.invalidateQueries({ active: true, inactive: true, stale: true })
 			sendResponse(CONFIRM, { id, host, payload: result })
 		} catch (error) {
 			const errorMessage = (error?.message || error).toString().trim() || 'Failed to submit transaction'
@@ -134,6 +147,17 @@ export const Transaction = (): JSX.Element => {
 				<Box>
 					<ActionsPreview actions={actions} fee={state.fee} />
 				</Box>
+				{manifest && (
+					<Box>
+						<AccountSelector shortAddress={shortAddress} onAccountChange={handleAccountChange} />
+						<Input
+							value={manifest.length > 100000 ? 'Manifest is too large. Preview disabled' : manifest}
+							as="textarea"
+							size="2"
+							css={{ height: '140px', mt: '$8' }}
+						/>
+					</Box>
+				)}
 			</PageWrapper>
 
 			<PageWrapper css={{ display: 'flex', gridGap: '8px', borderTop: '1px solid $borderPanel' }}>

@@ -1,4 +1,5 @@
 import browser from 'webextension-polyfill'
+import init from 'pte-manifest-compiler'
 import { PORT_NAME, TARGET_BACKGROUND, TARGET_INPAGE } from '../services/messanger'
 
 const port = browser.runtime.connect({ name: PORT_NAME })
@@ -9,6 +10,10 @@ script.src = browser.runtime.getURL('assets/inpage.js')
 
 const head = document.head || document.getElementsByTagName('head')[0] || document.documentElement
 head.appendChild(script)
+
+const wasmPath = browser.runtime.getURL('pte_manifest_compiler_bg.wasm')
+// eslint-disable-next-line no-console
+init(wasmPath).catch(console.error)
 
 port.onMessage.addListener(message => {
 	if (message.target !== TARGET_INPAGE) {

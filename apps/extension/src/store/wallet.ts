@@ -183,7 +183,7 @@ export const factory = (set: SetState<AccountStore>, get: GetState<AccountStore>
 		hardwareWallet: HardwareWalletT | null,
 		masterSeed: HDMasterSeedT | null,
 	) => {
-		let selectedAccount = null
+		let selectedAccount = 0
 		const { selectAccountAction, publicAddresses } = get()
 
 		const publicIndexes = Object.keys(publicAddresses)

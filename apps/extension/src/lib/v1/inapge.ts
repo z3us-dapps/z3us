@@ -42,15 +42,15 @@ export default function NewPublicV1(sendMessage: (action: string, payload?: any)
 		return sendMessage(SIGN, { challenge })
 	}
 
-	async function submitTransaction({
-		transaction,
-	}: {
-		transaction: { actions?: any[]; message?: string; manifest?: string }
+	async function submitTransaction(payload: {
+		actions?: any[]
+		message?: string
+		manifest?: string
 	}): Promise<unknown> {
-		if (!transaction) {
-			throw new Error('Missing transactiond data')
+		if (!payload) {
+			throw new Error('Invalid transaction payload')
 		}
-		return sendMessage(SEND_TRANSACTION, { transaction })
+		return sendMessage(SEND_TRANSACTION, payload)
 	}
 
 	/**
