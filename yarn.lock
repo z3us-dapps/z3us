@@ -14717,6 +14717,19 @@ psl@^1.1.33:
   resolved "https://registry.yarnpkg.com/psl/-/psl-1.8.0.tgz#9326f8bcfb013adcc005fdff056acce020e51c24"
   integrity sha512-RIdOzyoavK+hA18OGGWDqUTsCLhtA7IcZ/6NCs4fFJaHBDab+pDDmDIByWFRQJq2Cd7r1OoQxBGKOaztq+hjIQ==
 
+pte-manifest-compiler@^0.1.22:
+  version "0.1.22"
+  resolved "https://registry.yarnpkg.com/pte-manifest-compiler/-/pte-manifest-compiler-0.1.22.tgz#5c8acab5f6ffa093829810fc74e714d3a541b3d0"
+  integrity sha512-4wanqmvlLQ08mPJdI0/GAyrLmBa7y6B9o0vUGnZcx3PUSHVMUUBTAYwQfugCkApBA0NVIv/TzGvOYWnyRKgQYA==
+
+pte-sdk@^0.1.22:
+  version "0.1.22"
+  resolved "https://registry.yarnpkg.com/pte-sdk/-/pte-sdk-0.1.22.tgz#75c5d9bc49457600a16bcccc608ba2dbe81d32e2"
+  integrity sha512-pcPzZc+ixPdZqWXgjZA/6+ODgKJbQeA6RkiVWEI1CblF1BgIRY52Ka30Sg4AjPdOCwUoDr4goMszNDx8Ng0Hfw==
+  dependencies:
+    buffer "^6.0.3"
+    isomorphic-fetch "^3.0.0"
+
 public-encrypt@^4.0.0:
   version "4.0.3"
   resolved "https://registry.yarnpkg.com/public-encrypt/-/public-encrypt-4.0.3.tgz#4fcc9d77a07e48ba7527e7cbe0de33d0701331e0"

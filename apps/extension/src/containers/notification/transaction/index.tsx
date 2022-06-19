@@ -2,37 +2,32 @@
 import React, { useEffect } from 'react'
 import { useQueryClient } from 'react-query'
 import { useImmer } from 'use-immer'
-import BigNumber from 'bignumber.js'
-import { BuildTransaction, FinalizeTransaction, SubmitSignedTransaction } from '@src/services/radix/transactions'
-import { Box, Text, Flex, StyledLink } from 'ui/src/components/atoms'
+import { Box, StyledLink } from 'ui/src/components/atoms'
 import Button from 'ui/src/components/button'
 import { PageWrapper, PageHeading, PageSubHeading } from '@src/components/layout'
-import { getShortAddress } from '@src/utils/string-utils'
 import { useSharedStore, useStore } from '@src/store'
 import { useRoute } from 'wouter'
 import { hexToJSON } from '@src/utils/encoding'
-import { SlippageBox } from '@src/components/slippage-box'
 import { CONFIRM } from '@src/lib/actions'
-import { ActivityType } from '@src/components/activity-type'
 import { HardwareWalletReconnect } from '@src/components/hardware-wallet-reconnect'
 import { useTokenInfo } from '@src/services/react-query/queries/radix'
+import { useTransaction } from '@src/hooks/use-transaction'
+import ActionsPreview from './components/actions.preview'
 
 export const Transaction = (): JSX.Element => {
 	const [, { id }] = useRoute<{ id: string }>('/transaction/:id')
 	const queryClient = useQueryClient()
 
-	const { hw, seed, addressBook, sendResponse } = useSharedStore(state => ({
+	const { buildTransactionFromActions, signTransaction, submitTransaction } = useTransaction()
+	const { hw, seed, sendResponse } = useSharedStore(state => ({
 		addressBook: state.addressBook,
 		sendResponse: state.sendResponseAction,
 		hw: state.hardwareWallet,
 		seed: state.masterSeed,
 	}))
 
-	const { account, accountAddress, publicAddresses, network, selectAccountForAddress, action } = useStore(state => ({
-		accountAddress: state.getCurrentAddressAction(),
-		publicAddresses: Object.values(state.publicAddresses),
+	const { account, selectAccountForAddress, action } = useStore(state => ({
 		account: state.account,
-		network: state.networks[state.selectedNetworkIndex],
 		selectAccountForAddress: state.selectAccountForAddressAction,
 		action:
 			state.pendingActions[id] && state.pendingActions[id].payloadHex
@@ -40,10 +35,7 @@ export const Transaction = (): JSX.Element => {
 				: {},
 	}))
 
-	const entry = publicAddresses.find(_account => _account.address === accountAddress)
-
 	const [state, setState] = useImmer({
-		shortAddress: getShortAddress(entry?.address),
 		fee: null,
 		transaction: null,
 		errorMessage: '',
@@ -51,30 +43,24 @@ export const Transaction = (): JSX.Element => {
 
 	const {
 		host,
-		request: { transaction: tx },
+		request: {
+			transaction: { actions, message },
+		},
 	} = action
 
-	const { data: token } = useTokenInfo(tx?.actions[0]?.from_account?.rri)
+	const { data: token } = useTokenInfo(actions ? actions[0]?.from_account?.rri : '')
 
 	useEffect(() => {
-		if (tx) {
-			selectAccountForAddress(tx?.actions[0]?.from_account?.address, hw, seed)
+		if (actions) {
+			selectAccountForAddress(actions[0]?.from_account?.address, hw, seed)
 		}
-	}, [tx])
+	}, [actions])
 
 	useEffect(() => {
-		if (entry) {
-			setState(draft => {
-				draft.shortAddress = getShortAddress(entry?.address)
-			})
-		}
-	}, [entry])
-
-	useEffect(() => {
-		if (tx) {
+		if (actions) {
 			const build = async () => {
 				try {
-					const { fee, transaction } = await BuildTransaction(network.url, tx)
+					const { fee, transaction } = await buildTransactionFromActions(actions, message)
 					setState(draft => {
 						draft.fee = fee
 						draft.transaction = transaction
@@ -111,20 +97,20 @@ export const Transaction = (): JSX.Element => {
 		}
 
 		try {
-			const { blob } = await FinalizeTransaction(network.url, account, token.symbol, state.transaction)
-			const result = await SubmitSignedTransaction(network.url, account, blob)
+			const { blob } = await signTransaction(token.symbol, state.transaction)
+			const result = await submitTransaction(blob)
 			await queryClient.invalidateQueries({ active: true, inactive: true, stale: true })
 
 			sendResponse(CONFIRM, { id, host, payload: result })
 		} catch (error) {
-			const message = (error?.message || error).toString().trim() || 'Failed to submit transaction'
+			const errorMessage = (error?.message || error).toString().trim() || 'Failed to submit transaction'
 			setState(draft => {
-				draft.errorMessage = message
+				draft.errorMessage = errorMessage
 			})
 			sendResponse(CONFIRM, {
 				id,
 				host,
-				payload: { request: action.request, value: { code: 500, error: message } },
+				payload: { request: action.request, value: { code: 500, error: errorMessage } },
 			})
 		}
 	}
@@ -146,55 +132,7 @@ export const Transaction = (): JSX.Element => {
 					<HardwareWalletReconnect />
 				</Box>
 				<Box>
-					{tx && tx.actions && (
-						<Box>
-							{tx.actions.map((activity, i) => {
-								const toAccount = activity?.to_account?.address
-								const fromAccount = activity?.from_account?.address
-								const toEntry =
-									addressBook[toAccount] || publicAddresses.find(_account => _account.address === toAccount)
-
-								return (
-									<Box
-										key={i}
-										css={{
-											borderTop: '1px solid $borderPanel',
-											mt: '$5',
-											py: '$5',
-										}}
-									>
-										<Flex css={{ position: 'relative', pb: '$3' }}>
-											<Text css={{ flex: '1' }}>Transaction type:</Text>
-											<Box css={{ position: 'relative', mt: '-3px' }}>
-												<ActivityType activity={activity} accountAddress={accountAddress} />
-											</Box>
-										</Flex>
-										{fromAccount && (
-											<Flex css={{ position: 'relative', pb: '15px' }}>
-												<Text css={{ flex: '1' }}>From account:</Text>
-												<Text>{entry?.name ? `${entry.name} (${state.shortAddress})` : state.shortAddress}</Text>
-											</Flex>
-										)}
-										{toAccount && (
-											<Flex css={{ position: 'relative', pb: '15px' }}>
-												<Text css={{ flex: '1' }}>To account:</Text>
-												<Text>
-													{toEntry?.name
-														? `${toEntry?.name} (${getShortAddress(toAccount)})`
-														: getShortAddress(toAccount)}
-												</Text>
-											</Flex>
-										)}
-										{state.fee && (
-											<Flex css={{ position: 'relative', pb: '15px' }}>
-												<SlippageBox css={{ border: 'none' }} fee={new BigNumber(state.fee).shiftedBy(-18)} />
-											</Flex>
-										)}
-									</Box>
-								)
-							})}
-						</Box>
-					)}
+					<ActionsPreview actions={actions} fee={state.fee} />
 				</Box>
 			</PageWrapper>
 

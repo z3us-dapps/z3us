@@ -33,6 +33,7 @@ export const useKnownTokens = () =>
 				const resp = await service.getKnownTokens()
 				return makeTokenData(resp)
 			} catch (error) {
+				// eslint-disable-next-line no-console
 				console.error(error)
 				return makeTokenData(tokens)
 			}

@@ -16,7 +16,7 @@ export default {
 		default_popup: 'popup-theme-light.html',
 		default_title: 'Z3US',
 	},
-	permissions: ['storage', 'unlimitedStorage', 'webRequest', 'notifications', 'https://*/*'],
+	permissions: ['storage', 'unlimitedStorage', 'webRequest', 'notifications', 'https://*/*', 'scripting'],
 	background: {
 		scripts: ['src/lib/background.ts'],
 		persistent: true,
@@ -34,6 +34,7 @@ export default {
 		'popup-theme-system.html',
 		'assets/inpage.js',
 		'assets/actions.js',
+		'pte_manifest_compiler_bg.wasm',
 	],
 	browser_specific_settings: {
 		gecko: {

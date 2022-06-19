@@ -21,7 +21,7 @@ export default {
 		'48': 'favicon-48x48.png',
 		'128': 'favicon-128x128.png',
 	},
-	permissions: ['storage', 'unlimitedStorage', 'tabs', 'notifications'],
+	permissions: ['storage', 'unlimitedStorage', 'tabs', 'notifications', 'scripting'],
 	host_permissions: ['<all_urls>'],
 	background: {
 		service_worker: 'src/lib/background.ts',
@@ -37,7 +37,13 @@ export default {
 	web_accessible_resources: [
 		{
 			matches: ['<all_urls>'],
-			resources: ['popup-theme-dark.html', 'popup-theme-system.html', 'assets/inpage.js', 'assets/actions.js'],
+			resources: [
+				'popup-theme-dark.html',
+				'popup-theme-system.html',
+				'assets/inpage.js',
+				'assets/actions.js',
+				'pte_manifest_compiler_bg.wasm',
+			],
 		},
 	],
 }

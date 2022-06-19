@@ -5,7 +5,6 @@ import { useSharedStore, useStore } from '@src/store'
 import { PageHeading, PageSubHeading, PageWrapper } from '@src/components/layout'
 import { useLocation } from 'wouter'
 import { getShortAddress } from '@src/utils/string-utils'
-import { FinalizeTransaction, SubmitSignedTransaction, MintToken, DeriveToken } from '@src/services/radix/transactions'
 import { Cross2Icon } from '@radix-ui/react-icons'
 import { useEventListener } from 'usehooks-ts'
 import Button from 'ui/src/components/button'
@@ -14,6 +13,9 @@ import { Dialog, DialogTrigger, DialogContent } from 'ui/src/components/dialog'
 import { Box, Flex } from 'ui/src/components/atoms'
 import { AccountSelector } from '@src/components/account-selector'
 import { HardwareWalletReconnect } from '@src/components/hardware-wallet-reconnect'
+import { useTokenMint } from '@src/hooks/use-token-mint'
+import { useTokenDerive } from '@src/hooks/use-token-derive'
+import { useTransaction } from '@src/hooks/use-transaction'
 
 interface IProps {
 	trigger: React.ReactNode
@@ -23,17 +25,20 @@ export const MintTokenModal: React.FC<IProps> = ({ trigger }) => {
 	const [, setLocation] = useLocation()
 	const queryClient = useQueryClient()
 
+	const mint = useTokenMint()
+	const derive = useTokenDerive()
+	const { signTransaction, submitTransaction } = useTransaction()
+
 	const { hw, seed, addToast } = useSharedStore(state => ({
 		hw: state.hardwareWallet,
 		seed: state.masterSeed,
 		addToast: state.addToastAction,
 	}))
 
-	const { selectAccount, account, accountAddress, network } = useStore(state => ({
+	const { selectAccount, account, accountAddress } = useStore(state => ({
 		selectAccount: state.selectAccountAction,
 		account: state.account,
 		accountAddress: state.getCurrentAddressAction(),
-		network: state.networks[state.selectedNetworkIndex],
 	}))
 
 	const [state, setState] = useImmer({
@@ -86,8 +91,8 @@ export const MintTokenModal: React.FC<IProps> = ({ trigger }) => {
 		})
 
 		try {
-			const rri = await DeriveToken(network.url, accountAddress, state.symbol)
-			const { transaction, fee } = await MintToken(network.url, rri, accountAddress, state.amount)
+			const rri = await derive(accountAddress, state.symbol)
+			const { transaction, fee } = await mint(rri, state.amount)
 			setState(draft => {
 				draft.rri = rri
 				draft.fee = fee
@@ -112,8 +117,8 @@ export const MintTokenModal: React.FC<IProps> = ({ trigger }) => {
 			draft.isLoading = true
 		})
 		try {
-			const { blob } = await FinalizeTransaction(network.url, account, state.symbol, state.transaction)
-			await SubmitSignedTransaction(network.url, account, blob)
+			const { blob } = await signTransaction(state.symbol, state.transaction)
+			await submitTransaction(blob)
 			await queryClient.invalidateQueries({ active: true, inactive: true, stale: true })
 			setState(draft => {
 				draft.fee = null
