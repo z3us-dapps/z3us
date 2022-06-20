@@ -1,5 +1,4 @@
 import React, { useEffect } from 'react'
-import { sha256Twice } from '@radixdlt/crypto'
 import { Box, Flex, Text, StyledLink, Image } from 'ui/src/components/atoms'
 import Button from 'ui/src/components/button'
 import { PageWrapper, PageHeading, PageSubHeading } from '@src/components/layout'
@@ -11,10 +10,12 @@ import { getShortAddress } from '@src/utils/string-utils'
 import { useImmer } from 'use-immer'
 import { HardwareWalletReconnect } from '@src/components/hardware-wallet-reconnect'
 import { AccountSelector } from '@src/components/account-selector'
+import { useSignature } from '@src/hooks/use-signature'
 
 export const Sign = (): JSX.Element => {
 	const [, { id }] = useRoute<{ id: string }>('/sign/:id')
 
+	const { sign } = useSignature()
 	const { hw, seed, sendResponse } = useSharedStore(state => ({
 		sendResponse: state.sendResponseAction,
 		hw: state.hardwareWallet,
@@ -34,10 +35,8 @@ export const Sign = (): JSX.Element => {
 		}
 	})
 
-	const {
-		host,
-		request: { message },
-	} = action
+	const { host, request = {} } = action
+	const { message = '' } = request
 
 	const [state, setState] = useImmer({
 		shortAddress: getShortAddress(entry?.address),
@@ -67,13 +66,10 @@ export const Sign = (): JSX.Element => {
 	const handleConfirm = async () => {
 		if (!account) return
 
-		const hashedMessage = sha256Twice(message)
-		const signature = await account.signHash(hashedMessage).toPromise()
-
 		sendResponse(CONFIRM, {
 			id,
 			host,
-			payload: { request: action.request, value: signature.toDER() },
+			payload: { request: action.request, value: await sign(message) },
 		})
 	}
 

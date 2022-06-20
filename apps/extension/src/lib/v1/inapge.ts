@@ -15,6 +15,9 @@ import {
 } from '../actions'
 
 export default function NewPublicV1(sendMessage: (action: string, payload?: any) => Promise<MessageResponse>) {
+	/**
+	 * @deprecated Use submitTransaction() instead with encryptMessage:true
+	 */
 	async function encrypt(message: string, fromAddress: string, toAddress: string): Promise<string> {
 		if (!message) {
 			throw new Error('Empty message')
@@ -25,6 +28,9 @@ export default function NewPublicV1(sendMessage: (action: string, payload?: any)
 		return sendMessage(ENCRYPT, { message, fromAddress, toAddress })
 	}
 
+	/**
+	 * @deprecated
+	 */
 	async function decrypt(message: string, fromAddress: string): Promise<string> {
 		if (!message) {
 			throw new Error('Empty message')
@@ -43,9 +49,10 @@ export default function NewPublicV1(sendMessage: (action: string, payload?: any)
 	}
 
 	async function submitTransaction(payload: {
+		manifest?: string
 		actions?: any[]
 		message?: string
-		manifest?: string
+		encryptMessage?: boolean
 	}): Promise<unknown> {
 		if (!payload) {
 			throw new Error('Invalid transaction payload')
@@ -78,6 +85,7 @@ export default function NewPublicV1(sendMessage: (action: string, payload?: any)
 		balances: (): Promise<unknown> => sendMessage(BALANCES, {}),
 		stakes: (): Promise<unknown> => sendMessage(STAKES, {}),
 		unstakes: (): Promise<unknown> => sendMessage(UNSTAKES, {}),
+
 		encrypt,
 		decrypt,
 		sendTransaction,

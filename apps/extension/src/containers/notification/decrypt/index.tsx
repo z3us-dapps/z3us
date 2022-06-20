@@ -33,10 +33,8 @@ export const Decrypt = (): JSX.Element => {
 		}
 	})
 
-	const {
-		host,
-		request: { message, fromAddress },
-	} = action
+	const { host, request = {} } = action
+	const { fromAddress, message = '' } = request
 
 	const [state, setState] = useImmer({
 		shortAddress: getShortAddress(entry?.address),

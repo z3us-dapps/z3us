@@ -11,10 +11,9 @@ import { useRoute } from 'wouter'
 import { hexToJSON } from '@src/utils/encoding'
 import { CONFIRM } from '@src/lib/actions'
 import { HardwareWalletReconnect } from '@src/components/hardware-wallet-reconnect'
-import { AccountSelector } from '@src/components/account-selector'
 import { useTokenInfo } from '@src/services/react-query/queries/radix'
 import { useTransaction } from '@src/hooks/use-transaction'
-import { getShortAddress } from '@src/utils/string-utils'
+import { useMessage } from '@src/hooks/use-message'
 import ActionsPreview from './components/actions-preview'
 
 export const Transaction = (): JSX.Element => {
@@ -23,49 +22,40 @@ export const Transaction = (): JSX.Element => {
 
 	const { buildTransactionFromActions, buildTransactionFromManifest, signTransaction, submitTransaction } =
 		useTransaction()
-	const { hw, seed, sendResponse } = useSharedStore(state => ({
+	const { createMessage } = useMessage()
+	const { sendResponse } = useSharedStore(state => ({
 		addressBook: state.addressBook,
 		sendResponse: state.sendResponseAction,
-		hw: state.hardwareWallet,
-		seed: state.masterSeed,
 	}))
 
-	const { accountAddress, account, selectAccount, selectAccountForAddress, action } = useStore(state => ({
-		accountAddress: state.getCurrentAddressAction(),
+	const { account, action } = useStore(state => ({
 		account: state.account,
-		selectAccount: state.selectAccountAction,
-		selectAccountForAddress: state.selectAccountForAddressAction,
 		action:
 			state.pendingActions[id] && state.pendingActions[id].payloadHex
 				? hexToJSON(state.pendingActions[id].payloadHex)
 				: {},
 	}))
 
-	const shortAddress = getShortAddress(accountAddress)
 	const [state, setState] = useImmer({
 		fee: null,
 		transaction: null,
 		errorMessage: '',
 	})
 
-	const {
-		host,
-		request: { actions = [], message = '', manifest = '' },
-	} = action
+	const { host, request = {} } = action
+	const { manifest = '', actions = [], message = '', encryptMessage = false } = request
 
-	const { data: token } = useTokenInfo(actions.length > 0 ? actions[0]?.from_account?.rri : '')
+	const rri = actions.find(a => !!a?.rri)?.rri || ''
+	const recipient = actions.find(a => !!a?.to_account)?.to_account || ''
 
-	useEffect(() => {
-		if (actions.length > 0) {
-			selectAccountForAddress(actions[0]?.from_account?.address, hw, seed)
-		}
-	}, [actions])
+	const { data: token } = useTokenInfo(rri)
 
 	useEffect(() => {
 		if (actions.length > 0) {
 			const build = async () => {
 				try {
-					const { fee, transaction } = await buildTransactionFromActions(actions, message)
+					const msg = await createMessage(message, encryptMessage ? recipient : undefined)
+					const { fee, transaction } = await buildTransactionFromActions(actions, msg)
 					setState(draft => {
 						draft.fee = fee
 						draft.transaction = transaction
@@ -80,10 +70,6 @@ export const Transaction = (): JSX.Element => {
 			build()
 		}
 	}, [account])
-
-	const handleAccountChange = async (accountIndex: number) => {
-		await selectAccount(accountIndex, hw, seed)
-	}
 
 	const handleCancel = async () => {
 		await sendResponse(CONFIRM, {
@@ -116,6 +102,7 @@ export const Transaction = (): JSX.Element => {
 			await queryClient.invalidateQueries({ active: true, inactive: true, stale: true })
 			sendResponse(CONFIRM, { id, host, payload: result })
 		} catch (error) {
+			console.error(error)
 			const errorMessage = (error?.message || error).toString().trim() || 'Failed to submit transaction'
 			setState(draft => {
 				draft.errorMessage = errorMessage
@@ -149,12 +136,11 @@ export const Transaction = (): JSX.Element => {
 				</Box>
 				{manifest && (
 					<Box>
-						<AccountSelector shortAddress={shortAddress} onAccountChange={handleAccountChange} />
 						<Input
 							value={manifest.length > 100000 ? 'Manifest is too large. Preview disabled' : manifest}
 							as="textarea"
 							size="2"
-							css={{ height: '140px', mt: '$8' }}
+							css={{ height: '300px' }}
 						/>
 					</Box>
 				)}

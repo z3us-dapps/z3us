@@ -1,11 +1,15 @@
 import { useCallback } from 'react'
-import { ActionType, PublicKeyT, sha256, SignatureT } from '@radixdlt/application'
-import { useSharedStore, useStore } from '@src/store'
+import { ActionType } from '@radixdlt/application'
+import { useStore } from '@src/store'
 import { useRadix } from '@src/hooks/use-radix'
+import { useSignature } from '@src/hooks/use-signature'
 import { ExtendedActionType, IntendedAction } from '@src/types'
 import { randomBytes } from 'crypto'
 import { compile_with_nonce } from 'pte-manifest-compiler'
-import { DefaultApi, Configuration, ManifestBuilder } from 'pte-sdk'
+import { Configuration, DefaultApi, ManifestBuilder } from 'pte-sdk'
+import { ec as Elliptic } from 'elliptic'
+
+const p256 = new Elliptic('p256')
 
 const submitPTETransaction = async (body: any) => {
 	const response = await fetch(`https://pte01.radixdlt.com/transaction`, {
@@ -23,14 +27,9 @@ const submitPTETransaction = async (body: any) => {
 
 export const useTransaction = () => {
 	const radix = useRadix()
-	const { seed, hw, isHardwareWallet } = useSharedStore(state => ({
-		isHardwareWallet: state.isHardwareWallet,
-		seed: state.masterSeed,
-		hw: state.hardwareWallet,
-	}))
-	const { address, account } = useStore(state => ({
+	const { sign, verify } = useSignature()
+	const { account } = useStore(state => ({
 		account: state.account,
-		address: state.getCurrentAddressAction(),
 	}))
 
 	const buildTransaction = useCallback((payload: any) => radix.buildTransaction(payload), [radix])
@@ -38,22 +37,7 @@ export const useTransaction = () => {
 	const buildTransactionFromManifest = useCallback(
 		async (manifest: string, nonce: number = randomBytes(4).readUInt32LE()) => {
 			const transaction = compile_with_nonce(manifest, BigInt(nonce))
-			const hashToSign = sha256(Buffer.from(transaction))
-
-			let signature: SignatureT
-			let publicKey: PublicKeyT
-			if (isHardwareWallet) {
-				signature = await hw.doSignHash({ hashToSign }).toPromise()
-				publicKey = await hw.getPublicKey({ display: true }).toPromise()
-			} else {
-				const node = seed.masterNode()
-				const signatureResult = await node.privateKey.sign(hashToSign)
-				if (!signatureResult.isOk()) {
-					throw signatureResult.error
-				}
-				signature = signatureResult.value
-				publicKey = node.publicKey
-			}
+			const paylaod = Buffer.from(transaction)
 
 			const api = new DefaultApi(
 				new Configuration({
@@ -61,29 +45,31 @@ export const useTransaction = () => {
 				}),
 			)
 
+			const publicKey = p256.keyFromPublic(account.publicKey.asData({ compressed: true })).getPublic(false, 'hex')
 			const receipt = await api.submitTransaction({
 				transaction: {
-					manifest: new ManifestBuilder().newAccount(publicKey.toString()).build().toString(),
-					nonce: await api.getNonce({ signers: [publicKey.toString()] }),
+					manifest: new ManifestBuilder().newAccount(publicKey).build().toString(),
+					nonce: await api.getNonce({ signers: [publicKey] }),
 					signatures: [],
 				},
 			})
-			console.log('receipt', receipt)
+			const address = receipt.newComponents[0]
+			console.log(address)
+
+			const signature = await sign(paylaod)
+			if (!verify(signature, paylaod)) {
+				throw new Error('Invalid signature')
+			}
 
 			return submitPTETransaction({
 				transaction: {
 					manifest,
 					nonce,
-					signatures: [
-						{
-							publicKey: publicKey.toString(),
-							signature: signature.toDER(),
-						},
-					],
+					signatures: [{ publicKey, signature }],
 				},
 			})
 		},
-		[radix, address],
+		[radix, account, sign, verify],
 	)
 
 	const buildTransactionFromActions = useCallback(
@@ -199,21 +185,20 @@ export const useTransaction = () => {
 					}
 				}),
 				fee_payer: {
-					address,
+					address: account.address.toString(),
 				},
 				message,
 				disable_token_mint_and_burn: disableTokenMintAndBurn,
 			})
 		},
-		[radix, address],
+		[radix, account],
 	)
 
 	const signTransaction = useCallback(
 		async (symbol: string, transaction: { blob: string; hashOfBlobToSign: string }) => {
 			const rriName = symbol.toLocaleLowerCase()
 			const nonXrdHRP = rriName !== 'xrd' ? rriName : undefined
-			const sign = account.sign(transaction, nonXrdHRP)
-			const signature = await sign.toPromise()
+			const signature = await account.sign(transaction, nonXrdHRP).toPromise()
 
 			return radix.finalizeTransaction(account.network, {
 				transaction,
