@@ -10,8 +10,6 @@ declare global {
 				connect: () => Promise<string>
 				addresses: () => Promise<string[]>
 				disconnect: () => Promise<any>
-				encrypt: (message: string, fromAddress: string, toAddress: string) => Promise<any>
-				decrypt: (message: string, fromAddress: string) => Promise<any>
 				balances: () => Promise<any>
 				stakes: () => Promise<any>
 				unstakes: () => Promise<any>
