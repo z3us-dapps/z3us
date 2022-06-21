@@ -204,38 +204,40 @@ export const TokenInfo = (): JSX.Element => {
 							height={null}
 							width={null}
 						/>
-						<Flex
-							justify="between"
-							css={{
-								position: 'absolute',
-								bottom: '10px',
-								left: '30px',
-								right: '30px',
-								height: 'auto',
-								zIndex: '2',
-							}}
-						>
-							{Object.entries(TIMEFRAMES).map(([id, { shortName }]) => (
-								<Button
-									onClick={() => handleClickTimeFrame(id)}
-									key={id}
-									css={{
-										fontSize: '12px',
-										fontWeight: '500',
-										px: '10px',
-										py: '5px',
-										br: '20px',
-										textTransform: 'uppercase',
-										backgroundColor: id === 'threeMonth' ? '$bgPanelHover' : 'transparent',
-										'&:hover': {
-											background: '$bgPanelHover',
-										},
-									}}
-								>
-									{shortName}
-								</Button>
-							))}
-						</Flex>
+						{false && (
+							<Flex
+								justify="between"
+								css={{
+									position: 'absolute',
+									bottom: '10px',
+									left: '30px',
+									right: '30px',
+									height: 'auto',
+									zIndex: '2',
+								}}
+							>
+								{Object.entries(TIMEFRAMES).map(([id, { shortName }]) => (
+									<Button
+										onClick={() => handleClickTimeFrame(id)}
+										key={id}
+										css={{
+											fontSize: '12px',
+											fontWeight: '500',
+											px: '10px',
+											py: '5px',
+											br: '20px',
+											textTransform: 'uppercase',
+											backgroundColor: id === 'threeMonth' ? '$bgPanelHover' : 'transparent',
+											'&:hover': {
+												background: '$bgPanelHover',
+											},
+										}}
+									>
+										{shortName}
+									</Button>
+								))}
+							</Flex>
+						)}
 					</Box>
 				)}
 			</Flex>
