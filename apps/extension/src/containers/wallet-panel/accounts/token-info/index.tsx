@@ -1,6 +1,7 @@
-import React from 'react'
+import React, { useCallback } from 'react'
 import BigNumber from 'bignumber.js'
 import { Line } from 'react-chartjs-2'
+import { InteractionMode } from 'chart.js'
 import { useTokenBalances, useTokenInfo } from '@src/services/react-query/queries/radix'
 import { useMarketChart } from '@src/services/react-query/queries/market'
 import { getSplitParams } from '@src/utils/url-utils'
@@ -24,6 +25,45 @@ const TIMEFRAMES = {
 	allTime: { id: 'All', shortName: 'All', days: 5 * 356 },
 }
 
+const defaultChartOptions = {
+	responsive: true,
+	maintainAspectRatio: false,
+	elements: {
+		point: {
+			radius: 0,
+			hoverRadius: 4,
+		},
+	},
+	interaction: {
+		mode: 'nearest' as InteractionMode,
+		intersect: false,
+		includeInvisible: true,
+	},
+	hover: {
+		mode: 'nearest' as InteractionMode,
+		intersect: false,
+		includeInvisible: true,
+	},
+	scales: {
+		xAxis: {
+			display: false,
+		},
+		yAxis: {
+			display: false,
+		},
+	},
+	plugins: {
+		tooltip: {
+			displayColors: false,
+			callbacks: {
+				title(items) {
+					return items.map(item => new Date(+item.label).toLocaleDateString())
+				},
+			},
+		},
+	},
+}
+
 export const TokenInfo = (): JSX.Element => {
 	const [, setLocation] = useLocation()
 	const [, params] = useRoute('/account/token/:rri')
@@ -41,6 +81,13 @@ export const TokenInfo = (): JSX.Element => {
 		days: 14,
 	})
 	const { data: chart } = useMarketChart(currency, token?.symbol, state.days)
+
+	const chartOptions = { ...defaultChartOptions }
+	const callbacks = chartOptions.plugins.tooltip.callbacks as any
+	callbacks.label = useCallback(
+		context => new Intl.NumberFormat('en-US', { style: 'currency', currency }).format(context.parsed.y),
+		[currency],
+	)
 
 	const selectedToken = liquidBalances?.find(balance => balance.rri === rri)
 	const selectedTokenAmmount = selectedToken ? new BigNumber(selectedToken.amount).shiftedBy(-18) : new BigNumber(0)
@@ -161,46 +208,7 @@ export const TokenInfo = (): JSX.Element => {
 									},
 								],
 							}}
-							options={{
-								responsive: true,
-								maintainAspectRatio: false,
-								elements: {
-									point: {
-										radius: 0,
-										hoverRadius: 4,
-									},
-								},
-								interaction: {
-									mode: 'nearest',
-									intersect: false,
-									includeInvisible: true,
-								},
-								hover: {
-									mode: 'nearest',
-									intersect: false,
-									includeInvisible: true,
-								},
-								scales: {
-									xAxis: {
-										display: false,
-									},
-									yAxis: {
-										display: false,
-									},
-								},
-								plugins: {
-									tooltip: {
-										callbacks: {
-											title(items) {
-												return items.map(item => new Date(+item.label).toLocaleDateString())
-											},
-											label(context) {
-												return new Intl.NumberFormat('en-US', { style: 'currency', currency }).format(context.parsed.y)
-											},
-										},
-									},
-								},
-							}}
+							options={chartOptions}
 							height={null}
 							width={null}
 						/>
