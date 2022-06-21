@@ -10,9 +10,14 @@ import { SLIDE_PANEL_HEIGHT, SLIDE_PANEL_EXPAND_HEIGHT } from '@src/config'
 interface IProps {
 	children: React.ReactNode
 	headerComponent: React.ReactNode
+	slidePanelHeight?: number
 }
 
-export const SlideUpPanel: React.FC<IProps> = ({ children, headerComponent }) => {
+const defaultProps = {
+	slidePanelHeight: SLIDE_PANEL_HEIGHT,
+}
+
+export const SlideUpPanel: React.FC<IProps> = ({ children, headerComponent, slidePanelHeight }) => {
 	const [location] = useLocation()
 	const { expanded, setExpanded } = useSharedStore(state => ({
 		expanded: state.accountPanelExpanded,
@@ -67,7 +72,7 @@ export const SlideUpPanel: React.FC<IProps> = ({ children, headerComponent }) =>
 			<MotionBox
 				variants={{
 					contracted: {
-						height: `${SLIDE_PANEL_HEIGHT}px`,
+						height: `${slidePanelHeight}px`,
 						transition: {
 							type: 'spring',
 							stiffness: 200,
@@ -93,3 +98,4 @@ export const SlideUpPanel: React.FC<IProps> = ({ children, headerComponent }) =>
 		</Box>
 	)
 }
+SlideUpPanel.defaultProps = defaultProps

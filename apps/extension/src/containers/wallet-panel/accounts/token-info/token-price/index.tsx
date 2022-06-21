@@ -38,11 +38,11 @@ export const TokenPrice = ({ symbol, ammount }: Props): JSX.Element => {
 
 	return (
 		<Flex direction="column" align="center" css={{ minHeight: tokenPriceHeight }}>
-			<Text css={{ fontSize: '32px', lineHeight: '38px', fontWeight: '800', pt: '2px' }}>
+			<Text size="8" bold css={{ pt: '2px' }}>
 				<PriceTicker value={accountTokenAmmount} />
 			</Text>
 			<Flex align="center" css={{ mt: '$2' }}>
-				<Text bold size="4" css={{ mr: '$2', mt: '-1px' }}>
+				<Text medium size="5" css={{ mr: '$2', mt: '-1px' }}>
 					{tokenPrice}
 				</Text>
 				<PriceLabel color={ticker.change > 0 ? 'green' : 'red'}>
