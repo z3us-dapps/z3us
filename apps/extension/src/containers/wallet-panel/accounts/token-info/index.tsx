@@ -16,12 +16,12 @@ import { CircleAvatar } from '@src/components/circle-avatar'
 import { TokenPrice } from './token-price'
 
 const TIMEFRAMES = {
-	week: { id: '1W', shortName: '1W' },
-	month: { id: '1M', shortName: '1M' },
-	threeMonth: { id: '3M', shortName: '3M' },
-	sixMonth: { id: '6M', shortName: '6M' },
-	oneYear: { id: '1Y', shortName: '1Y' },
-	allTime: { id: 'All', shortName: 'All' },
+	week: { id: '1W', shortName: '1W', days: 7 },
+	month: { id: '1M', shortName: '1M', days: 30 },
+	threeMonth: { id: '3M', shortName: '3M', days: 90 },
+	sixMonth: { id: '6M', shortName: '6M', days: 6 * 30 },
+	oneYear: { id: '1Y', shortName: '1Y', days: 356 },
+	allTime: { id: 'All', shortName: 'All', days: 5 * 356 },
 }
 
 export const TokenInfo = (): JSX.Element => {
@@ -37,7 +37,7 @@ export const TokenInfo = (): JSX.Element => {
 	const { currency } = useSharedStore(state => ({
 		currency: state.currency,
 	}))
-	const [state] = useImmer({
+	const [state, setState] = useImmer({
 		days: 14,
 	})
 	const { data: chart } = useMarketChart(currency, token?.symbol, state.days)
@@ -59,8 +59,9 @@ export const TokenInfo = (): JSX.Element => {
 	}
 
 	const handleClickTimeFrame = (id: string) => {
-		// eslint-disable-next-line
-		console.log('handleClickTimeFrame id:', id)
+		setState(draft => {
+			draft.days = TIMEFRAMES[id].days
+		})
 	}
 
 	if (isLoading) {
@@ -165,8 +166,19 @@ export const TokenInfo = (): JSX.Element => {
 								maintainAspectRatio: false,
 								elements: {
 									point: {
-										radius: 1,
+										radius: 0,
+										hoverRadius: 4,
 									},
+								},
+								interaction: {
+									mode: 'nearest',
+									intersect: false,
+									includeInvisible: true,
+								},
+								hover: {
+									mode: 'nearest',
+									intersect: false,
+									includeInvisible: true,
 								},
 								scales: {
 									xAxis: {
@@ -174,6 +186,18 @@ export const TokenInfo = (): JSX.Element => {
 									},
 									yAxis: {
 										display: false,
+									},
+								},
+								plugins: {
+									tooltip: {
+										callbacks: {
+											title(items) {
+												return items.map(item => new Date(+item.label * 1000).toLocaleDateString())
+											},
+											label(context) {
+												return new Intl.NumberFormat('en-US', { style: 'currency', currency }).format(context.parsed.y)
+											},
+										},
 									},
 								},
 							}}

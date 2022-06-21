@@ -6,6 +6,7 @@ import { ReactQueryDevtools } from 'react-query/devtools'
 import { App } from '@src/popup/app_'
 import { globalStyles } from 'ui/src/theme'
 import { enableMapSet } from 'immer'
+
 import '@src/css/app.scss'
 
 enableMapSet()
