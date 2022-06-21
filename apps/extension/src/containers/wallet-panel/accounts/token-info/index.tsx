@@ -8,29 +8,20 @@ import { useRoute, useLocation } from 'wouter'
 import { useSharedStore } from '@src/store'
 import { useImmer } from 'use-immer'
 import { Tooltip, TooltipTrigger, TooltipContent, TooltipArrow } from 'ui/src/components/tool-tip'
-import { Grid, Flex, Text } from 'ui/src/components/atoms'
+import { Grid, Flex, Text, Box } from 'ui/src/components/atoms'
 import { EXPLORER_URL } from '@src/config'
 import { UpRightIcon, DownLeftIcon, ExternalLinkIcon } from 'ui/src/components/icons'
 import Button from 'ui/src/components/button'
 import { CircleAvatar } from '@src/components/circle-avatar'
 import { TokenPrice } from './token-price'
 
-const options = {
-	responsive: true,
-	maintainAspectRatio: false,
-	elements: {
-		point: {
-			radius: 0,
-		},
-	},
-	scales: {
-		xAxis: {
-			display: false,
-		},
-		yAxis: {
-			display: false,
-		},
-	},
+const TIMEFRAMES = {
+	week: { id: '1W', shortName: '1W' },
+	month: { id: '1M', shortName: '1M' },
+	threeMonth: { id: '3M', shortName: '3M' },
+	sixMonth: { id: '6M', shortName: '6M' },
+	oneYear: { id: '1Y', shortName: '1Y' },
+	allTime: { id: 'All', shortName: 'All' },
 }
 
 export const TokenInfo = (): JSX.Element => {
@@ -67,6 +58,11 @@ export const TokenInfo = (): JSX.Element => {
 		window.open(`${EXPLORER_URL}/tokens/${rri}`)
 	}
 
+	const handleClickTimeFrame = (id: string) => {
+		// eslint-disable-next-line
+		console.log('handleClickTimeFrame id:', id)
+	}
+
 	if (isLoading) {
 		return null
 	}
@@ -82,7 +78,7 @@ export const TokenInfo = (): JSX.Element => {
 				top: '0px',
 				left: '0',
 				right: '0',
-				height: '280px',
+				height: '362px',
 				overflow: 'hidden',
 			}}
 		>
@@ -90,39 +86,19 @@ export const TokenInfo = (): JSX.Element => {
 				<CircleAvatar
 					borderWidth={0}
 					shadow={false}
-					width={50}
-					height={50}
+					width={36}
+					height={36}
 					image={token?.image || token?.iconURL}
 					fallbackText={token?.symbol.toLocaleUpperCase()}
 				/>
-				<Text bold size="6" css={{ mt: '15px', pb: '5px' }}>
+				<Text size="5" medium css={{ mt: '15px', pb: '5px' }}>
 					{token.name} ({token.symbol.toLocaleUpperCase()})
 				</Text>
 				<TokenPrice
 					symbol={token.symbol}
 					ammount={token.symbol === 'xrd' ? selectedTokenAmmount.plus(stakedAmount) : selectedTokenAmmount}
 				/>
-				{chart?.length > 0 && (
-					<Grid gap="5" columns="1" css={{ pt: '20px' }}>
-						<Line
-							data={{
-								labels: chart.map(value => value[0]),
-								datasets: [
-									{
-										data: chart.map(value => value[1]),
-										backgroundColor: ['rgba(75, 192, 192, 0.4)'],
-										borderColor: ['rgba(75, 192, 192, 1)'],
-										borderWidth: 1,
-									},
-								],
-							}}
-							options={options}
-							height={null}
-							width={null}
-						/>
-					</Grid>
-				)}
-				<Grid gap="5" columns="3" css={{ pt: '20px' }}>
+				<Grid gap="5" columns="3" css={{ pt: '0px' }}>
 					<Tooltip>
 						<TooltipTrigger asChild>
 							<Button size="5" color="inverse" iconOnly circle onClick={handleSendClick}>
@@ -157,6 +133,87 @@ export const TokenInfo = (): JSX.Element => {
 						</TooltipContent>
 					</Tooltip>
 				</Grid>
+				{chart?.length > 0 && (
+					<Box
+						css={{
+							position: 'relative',
+							mt: '0px',
+							width: '100%',
+							height: '170px',
+							zIndex: '1',
+							mx: '-15px',
+							canvas: {
+								position: 'relative',
+								mx: '-5px',
+							},
+						}}
+					>
+						<Line
+							data={{
+								labels: chart.map(value => value[0]),
+								datasets: [
+									{
+										data: chart.map(value => value[1]),
+										backgroundColor: ['rgba(255, 255, 255, 0.0)'],
+										borderColor: ['rgba(27, 27, 27, 1, 1.0)'],
+										borderWidth: 3,
+									},
+								],
+							}}
+							options={{
+								responsive: true,
+								maintainAspectRatio: false,
+								elements: {
+									point: {
+										radius: 1,
+									},
+								},
+								scales: {
+									xAxis: {
+										display: false,
+									},
+									yAxis: {
+										display: false,
+									},
+								},
+							}}
+							height={null}
+							width={null}
+						/>
+						<Flex
+							justify="between"
+							css={{
+								position: 'absolute',
+								bottom: '10px',
+								left: '30px',
+								right: '30px',
+								height: 'auto',
+								zIndex: '2',
+							}}
+						>
+							{Object.entries(TIMEFRAMES).map(([id, { shortName }]) => (
+								<Button
+									onClick={() => handleClickTimeFrame(id)}
+									key={id}
+									css={{
+										fontSize: '12px',
+										fontWeight: '500',
+										px: '10px',
+										py: '5px',
+										br: '20px',
+										textTransform: 'uppercase',
+										backgroundColor: id === 'threeMonth' ? '$bgPanelHover' : 'transparent',
+										'&:hover': {
+											background: '$bgPanelHover',
+										},
+									}}
+								>
+									{shortName}
+								</Button>
+							))}
+						</Flex>
+					</Box>
+				)}
 			</Flex>
 		</Flex>
 	)
