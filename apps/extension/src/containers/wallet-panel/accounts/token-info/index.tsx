@@ -192,7 +192,7 @@ export const TokenInfo = (): JSX.Element => {
 									tooltip: {
 										callbacks: {
 											title(items) {
-												return items.map(item => new Date(+item.label * 1000).toLocaleDateString())
+												return items.map(item => new Date(+item.label).toLocaleDateString())
 											},
 											label(context) {
 												return new Intl.NumberFormat('en-US', { style: 'currency', currency }).format(context.parsed.y)
