@@ -67,6 +67,13 @@ export default function NewPublicV1(sendMessage: (action: string, payload?: any)
 		return sendMessage(DESCRYPT, { message, fromAddress })
 	}
 
+	/**
+	 * @deprecated
+	 */
+	async function connectPTE(): Promise<string> {
+		return sendMessage(CONNECT, { pte: true })
+	}
+
 	return {
 		hasWallet: (): Promise<boolean> => sendMessage(HAS_WALLET, {}),
 		isConnected: (): Promise<boolean> => sendMessage(IS_CONNECTED, {}),
@@ -80,6 +87,7 @@ export default function NewPublicV1(sendMessage: (action: string, payload?: any)
 		stakes: (): Promise<unknown> => sendMessage(STAKES, {}),
 		unstakes: (): Promise<unknown> => sendMessage(UNSTAKES, {}),
 
+		connectPTE,
 		encrypt,
 		decrypt,
 		sendTransaction,

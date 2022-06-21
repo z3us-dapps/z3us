@@ -1,49 +1,56 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect } from 'react'
 import { Box, Flex, Text, StyledLink } from 'ui/src/components/atoms'
 import Button from 'ui/src/components/button'
-import { AccountSelector } from '@src/components/account-selector'
 import { PageWrapper, PageHeading, PageSubHeading } from '@src/components/layout'
 import { CheckboxIcon } from '@radix-ui/react-icons'
-import { getShortAddress } from '@src/utils/string-utils'
 import { useSharedStore, useStore } from '@src/store'
 import { useRoute } from 'wouter'
 import { hexToJSON } from '@src/utils/encoding'
 import { CONFIRM } from '@src/lib/actions'
+import { useBabylonPTE } from '@src/hooks/use-babylon-pte'
+import { ManifestBuilder } from 'pte-sdk'
 
 export const Connect = (): JSX.Element => {
 	const [, { id }] = useRoute<{ id: string }>('/connect/:id')
 
-	const { hw, seed, sendResponse } = useSharedStore(state => ({
+	const { service, publicKey } = useBabylonPTE()
+	const { sendResponse } = useSharedStore(state => ({
 		sendResponse: state.sendResponseAction,
-		hw: state.hardwareWallet,
-		seed: state.masterSeed,
 	}))
-	const { accountAddress, action, approveWebsite, declineWebsite, selectAccount, approvedWebsites } = useStore(
-		state => ({
-			accountAddress: state.getCurrentAddressAction(),
-			approvedWebsites: state.approvedWebsites,
-			approveWebsite: state.approveWebsiteAction,
-			declineWebsite: state.declineWebsiteAction,
-			selectAccount: state.selectAccountAction,
-			action:
-				state.pendingActions[id] && state.pendingActions[id].payloadHex
-					? hexToJSON(state.pendingActions[id].payloadHex)
-					: {},
-		}),
-	)
+	const { accountAddress, action, approveWebsite, declineWebsite, approvedWebsites } = useStore(state => ({
+		accountAddress: state.getCurrentAddressAction(),
+		approvedWebsites: state.approvedWebsites,
+		approveWebsite: state.approveWebsiteAction,
+		declineWebsite: state.declineWebsiteAction,
+		selectAccount: state.selectAccountAction,
+		action:
+			state.pendingActions[id] && state.pendingActions[id].payloadHex
+				? hexToJSON(state.pendingActions[id].payloadHex)
+				: {},
+	}))
 
 	const { host, request } = action
-	const [shortAddress, setShortAddress] = useState(getShortAddress(accountAddress))
+	const { pte = false } = request
 
-	useEffect(() => {
-		if (accountAddress) {
-			setShortAddress(getShortAddress(accountAddress))
-		}
-	}, [accountAddress])
+	const connectPTE = async () => {
+		const receipt = await service.submitTransaction({
+			transaction: {
+				manifest: new ManifestBuilder().newAccount(publicKey).build().toString(),
+				nonce: await service.getNonce({ signers: [publicKey] }),
+				signatures: [],
+			},
+		})
+		const address = receipt.newComponents[0]
+		sendResponse(CONFIRM, { id, host, payload: { request, value: address } })
+	}
 
 	useEffect(() => {
 		if (host in approvedWebsites) {
-			sendResponse(CONFIRM, { id, host, payload: { request, value: accountAddress } })
+			if (!pte) {
+				sendResponse(CONFIRM, { id, host, payload: { request, value: accountAddress } })
+				return
+			}
+			connectPTE()
 		}
 	}, [approvedWebsites])
 
@@ -61,10 +68,6 @@ export const Connect = (): JSX.Element => {
 		approveWebsite(host)
 	}
 
-	const handleAccountChange = async (accountIndex: number) => {
-		await selectAccount(accountIndex, hw, seed)
-	}
-
 	return (
 		<>
 			<PageWrapper css={{ flex: '1' }}>
@@ -77,9 +80,6 @@ export const Connect = (): JSX.Element => {
 						</StyledLink>
 						.
 					</PageSubHeading>
-				</Box>
-				<Box css={{ py: '$5' }}>
-					<AccountSelector shortAddress={shortAddress} onAccountChange={handleAccountChange} />
 				</Box>
 				<Box
 					css={{

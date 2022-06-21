@@ -6,28 +6,12 @@ import { useSignature } from '@src/hooks/use-signature'
 import { ExtendedActionType, IntendedAction } from '@src/types'
 import { randomBytes } from 'crypto'
 import { compile_with_nonce } from 'pte-manifest-compiler'
-import { Configuration, DefaultApi, ManifestBuilder } from 'pte-sdk'
-import { ec as Elliptic } from 'elliptic'
-
-const p256 = new Elliptic('p256')
-
-const submitPTETransaction = async (body: any) => {
-	const response = await fetch(`https://pte01.radixdlt.com/transaction`, {
-		method: 'POST',
-		body: JSON.stringify(body || {}),
-	})
-	const data = await response.json()
-
-	if (response.status !== 200) {
-		if (data?.message) throw new Error(data?.message)
-		throw new Error(`Failed gateway API request: ${response.statusText} (${response.text()})`)
-	}
-	return response.json()
-}
+import { useBabylonPTE } from './use-babylon-pte'
 
 export const useTransaction = () => {
 	const radix = useRadix()
-	const { sign, verify } = useSignature()
+	const { service: babylon, publicKey } = useBabylonPTE()
+	const { signPTE: sign, verify } = useSignature()
 	const { account } = useStore(state => ({
 		account: state.account,
 	}))
@@ -39,32 +23,15 @@ export const useTransaction = () => {
 			const transaction = compile_with_nonce(manifest, BigInt(nonce))
 			const paylaod = Buffer.from(transaction)
 
-			const api = new DefaultApi(
-				new Configuration({
-					basePath: 'https://pte01.radixdlt.com',
-				}),
-			)
-
-			const publicKey = p256.keyFromPublic(account.publicKey.asData({ compressed: true })).getPublic(false, 'hex')
-			const receipt = await api.submitTransaction({
-				transaction: {
-					manifest: new ManifestBuilder().newAccount(publicKey).build().toString(),
-					nonce: await api.getNonce({ signers: [publicKey] }),
-					signatures: [],
-				},
-			})
-			const address = receipt.newComponents[0]
-			console.log(address)
-
 			const signature = await sign(paylaod)
-			if (!verify(signature, paylaod)) {
-				throw new Error('Invalid signature')
-			}
+			// if (!verify(signature, paylaod)) {
+			// 	throw new Error('Invalid signature')
+			// }
 
-			return submitPTETransaction({
+			return babylon.submitTransaction({
 				transaction: {
 					manifest,
-					nonce,
+					nonce: { value: nonce },
 					signatures: [{ publicKey, signature }],
 				},
 			})

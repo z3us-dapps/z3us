@@ -6,43 +6,49 @@ import { useSharedStore, useStore } from '@src/store'
 import { useRoute } from 'wouter'
 import { hexToJSON } from '@src/utils/encoding'
 import { CONFIRM } from '@src/lib/actions'
-import { EncryptMessage } from '@src/services/radix/message'
 import { HardwareWalletReconnect } from '@src/components/hardware-wallet-reconnect'
+import { useBabylonPTE } from '@src/hooks/use-babylon-pte'
+import { ManifestBuilder } from 'pte-sdk'
 
-export const Encrypt = (): JSX.Element => {
-	const [, { id }] = useRoute<{ id: string }>('/encrypt/:id')
+export const Sign = (): JSX.Element => {
+	const [, { id }] = useRoute<{ id: string }>('/sign/:id')
 
+	const { service, publicKey } = useBabylonPTE()
 	const { sendResponse } = useSharedStore(state => ({
 		sendResponse: state.sendResponseAction,
 	}))
-
-	const { account, action } = useStore(state => ({
-		account: state.account,
+	const { action } = useStore(state => ({
 		action:
 			state.pendingActions[id] && state.pendingActions[id].payloadHex
 				? hexToJSON(state.pendingActions[id].payloadHex)
 				: {},
 	}))
 
-	const { host, request = {} } = action
-	const { toAddress, message = '' } = request
+	const { host, request } = action
 
 	const handleCancel = async () => {
 		await sendResponse(CONFIRM, {
 			id,
 			host,
-			payload: { request: action.request, value: { code: 403, error: 'Declined' } },
+			payload: { request, value: { code: 403, error: 'Declined' } },
 		})
 		window.close()
 	}
 
 	const handleConfirm = async () => {
-		if (!account) return
-		const ecnrypted = await EncryptMessage(account, toAddress, message)
+		const receipt = await service.submitTransaction({
+			transaction: {
+				manifest: new ManifestBuilder().newAccount(publicKey).build().toString(),
+				nonce: await service.getNonce({ signers: [publicKey] }),
+				signatures: [],
+			},
+		})
+		const address = receipt.newComponents[0]
+
 		sendResponse(CONFIRM, {
 			id,
 			host,
-			payload: { request: action.request, value: ecnrypted.toString('hex') },
+			payload: { request, value: address },
 		})
 	}
 
@@ -50,9 +56,9 @@ export const Encrypt = (): JSX.Element => {
 		<>
 			<PageWrapper css={{ flex: '1' }}>
 				<Box>
-					<PageHeading>Encrypt message</PageHeading>
+					<PageHeading>Sign</PageHeading>
 					<PageSubHeading>
-						Encrypt message from{' '}
+						Sign message from{' '}
 						<StyledLink underline href="#" target="_blank">
 							{host}
 						</StyledLink>
@@ -84,20 +90,19 @@ export const Encrypt = (): JSX.Element => {
 					onClick={handleCancel}
 					size="6"
 					color="tertiary"
-					aria-label="cancel encrypt wallet"
+					aria-label="cancel"
 					css={{ px: '0', flex: '1', mr: '$1' }}
 				>
 					Cancel
 				</Button>
 				<Button
 					onClick={handleConfirm}
-					disabled={!account}
 					size="6"
 					color="primary"
-					aria-label="confirm encrypt wallet"
+					aria-label="confirm"
 					css={{ px: '0', flex: '1', ml: '$1' }}
 				>
-					Confirm
+					Connect to Babylon PTE
 				</Button>
 			</PageWrapper>
 		</>

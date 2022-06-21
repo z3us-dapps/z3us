@@ -102,6 +102,7 @@ export const Transaction = (): JSX.Element => {
 			await queryClient.invalidateQueries({ active: true, inactive: true, stale: true })
 			sendResponse(CONFIRM, { id, host, payload: result })
 		} catch (error) {
+			// eslint-disable-next-line no-console
 			console.error(error)
 			const errorMessage = (error?.message || error).toString().trim() || 'Failed to submit transaction'
 			setState(draft => {
