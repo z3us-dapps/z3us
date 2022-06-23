@@ -1,5 +1,4 @@
 import React, { useEffect, useRef } from 'react'
-import { TransferTokens } from '@src/services/radix/transactions'
 import { AnimatePresence } from 'framer-motion'
 import { useSharedStore, useStore } from '@src/store'
 import { useImmer } from 'use-immer'
@@ -18,6 +17,7 @@ import { formatBigNumber } from '@src/utils/formatters'
 import { TokenSelector } from '@src/components/token-selector'
 import { AddressBookSelector } from '@src/components/address-book-selector'
 import { HardwareWalletReconnect } from '@src/components/hardware-wallet-reconnect'
+import { useTransferTokens } from '@src/hooks/use-token-transfer'
 import { SendReceiveHeader } from '../send-receive-header'
 import { SendTokenReview } from './send-token-review'
 
@@ -26,6 +26,7 @@ export const SendToken: React.FC = () => {
 	const inputToAddressRef = useRef(null)
 
 	const [isSendTokenRoute, params] = useRoute('/account/send/:rri')
+	const transferTokens = useTransferTokens()
 
 	const { hw, seed, addToast } = useSharedStore(state => ({
 		hw: state.hardwareWallet,
@@ -33,11 +34,10 @@ export const SendToken: React.FC = () => {
 		addToast: state.addToastAction,
 	}))
 
-	const { account, accountAddress, selectAccount, network } = useStore(state => ({
+	const { account, accountAddress, selectAccount } = useStore(state => ({
 		selectAccount: state.selectAccountAction,
 		account: state.account,
 		accountAddress: state.getCurrentAddressAction(),
-		network: state.networks[state.selectedNetworkIndex],
 	}))
 
 	const [state, setState] = useImmer({
@@ -103,16 +103,7 @@ export const SendToken: React.FC = () => {
 			draft.isLoading = true
 		})
 		try {
-			const { transaction, fee } = await TransferTokens(
-				network.url,
-				account,
-				state.rri,
-				accountAddress,
-				state.to,
-				state.amount,
-				state.message,
-				state.encrypt,
-			)
+			const { transaction, fee } = await transferTokens(state.rri, state.to, state.amount, state.message, state.encrypt)
 			setState(draft => {
 				draft.fee = fee
 				draft.transaction = transaction

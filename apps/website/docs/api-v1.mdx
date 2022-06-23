@@ -1,11 +1,9 @@
 ---
-title: 'Public API v1'
+title: 'API V1'
 order: 3
 ---
 
-<ExampleV1 />
-
-# v1
+# V1
 
 Provider API is promise based, and user is expected to catch and handle errors,
 promises will resolve whenever possible. It is up to the user to handle timeouts if promise hangs.
@@ -83,10 +81,3 @@ await window.z3us.v1.disconnect()
 </SyntaxHighlighter>
 
 [Z3US](https://z3us.com) injects a global API into websites visited by its users at `window.z3us`. This API allows users to interact with wallet and [Radix DLT](https://www.radixdlt.com/).
-
-## Example
-
-### React implementation
-
-If you wish to see code used for this demo please visit our [example](https://github.com/z3us-dapps/z3us/blob/master/apps/website/components/pages/example-v1/index.tsx).
-Implementation may contain errors, it is meant as an example and reference only.

@@ -7,11 +7,13 @@ import syntaxStyleLight from 'react-syntax-highlighter/dist/cjs/styles/prism/duo
 import { MDXRemote } from 'next-mdx-remote'
 import Button from 'ui/src/components/button'
 import { Box, Text, StyledLink } from 'ui/src/components/atoms'
-import { Example as ExampleV1 } from '../pages/example-v1'
+import { Example as ExampleOlympia } from '../pages/example-olympia'
+import { Example as ExampleBabylon } from '../pages/example-babylon'
 
 const generateComponents = (theme: string) => ({
 	Button,
-	ExampleV1,
+	ExampleOlympia,
+	ExampleBabylon,
 	SyntaxHighlighter: props => (
 		<Box
 			css={{

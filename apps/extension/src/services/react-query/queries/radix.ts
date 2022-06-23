@@ -2,8 +2,8 @@ import { useStore } from '@src/store'
 import { useQuery, useQueries, useInfiniteQuery } from 'react-query'
 import { RadixService } from '@src/services/radix'
 import BigNumber from 'bignumber.js'
-import { decryptTransaction } from '@src/services/radix/transactions'
 import { Action, Transaction } from '@src/types'
+import { useMessage } from '@src/hooks/use-message'
 
 export const useGatewayInfo = () => {
 	const network = useStore(state => state.networks[state.selectedNetworkIndex])
@@ -224,14 +224,15 @@ export const useDecryptTransaction = (tx: Transaction, activity?: Action) => {
 		account: state.account,
 	}))
 	const address = account?.address.toString()
+	const { decryptMessage } = useMessage()
 
 	return useQuery(
 		['useDecryptTransaction', address, tx.id],
 		async () => {
 			if (address === activity.from_account) {
-				return decryptTransaction(account, activity.to_account, tx.message)
+				return decryptMessage(activity.to_account, tx.message)
 			}
-			return decryptTransaction(account, activity.from_account, tx.message)
+			return decryptMessage(activity.from_account, tx.message)
 		},
 		{
 			enabled: !!activity && !!account,

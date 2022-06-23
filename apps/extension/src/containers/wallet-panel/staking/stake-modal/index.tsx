@@ -4,12 +4,6 @@ import { useImmer } from 'use-immer'
 import { useSharedStore, useStore } from '@src/store'
 import { useLocation } from 'wouter'
 import { getShortAddress } from '@src/utils/string-utils'
-import {
-	FinalizeTransaction,
-	SubmitSignedTransaction,
-	UnstakeTokens,
-	StakeTokens,
-} from '@src/services/radix/transactions'
 import { HardwareWalletReconnect } from '@src/components/hardware-wallet-reconnect'
 import { useEventListener } from 'usehooks-ts'
 import {
@@ -27,6 +21,9 @@ import { Box, Text, Flex } from 'ui/src/components/atoms'
 import { SlippageBox } from '@src/components/slippage-box'
 import BigNumber from 'bignumber.js'
 import { formatBigNumber } from '@src/utils/formatters'
+import { useTokenStake } from '@src/hooks/use-token-stake'
+import { useTokenUnstake } from '@src/hooks/use-token-unstake'
+import { useTransaction } from '@src/hooks/use-transaction'
 
 interface IProps {
 	trigger: React.ReactNode
@@ -39,6 +36,9 @@ export const StakeModal: React.FC<IProps> = ({ trigger, tooltipMessage, validato
 	const inputAmountRef = useRef(null)
 	const [, setLocation] = useLocation()
 	const queryClient = useQueryClient()
+	const stake = useTokenStake()
+	const unstake = useTokenUnstake()
+	const { signTransaction, submitTransaction } = useTransaction()
 	const { data: stakedPositions } = useStakedPositions()
 	const { data: balances } = useTokenBalances()
 	const { data: token } = useNativeToken()
@@ -48,10 +48,9 @@ export const StakeModal: React.FC<IProps> = ({ trigger, tooltipMessage, validato
 		addToast: state.addToastAction,
 	}))
 
-	const { account, entry, network } = useStore(state => ({
+	const { account, entry } = useStore(state => ({
 		account: state.account,
 		entry: Object.values(state.publicAddresses).find(_account => _account.address === state.getCurrentAddressAction()),
-		network: state.networks[state.selectedNetworkIndex],
 	}))
 
 	let amount = new BigNumber(0)
@@ -144,8 +143,8 @@ export const StakeModal: React.FC<IProps> = ({ trigger, tooltipMessage, validato
 		})
 
 		try {
-			const method = reduceStake ? UnstakeTokens : StakeTokens
-			const { transaction, fee } = await method(network.url, token.rri, entry?.address, state.validator, state.amount)
+			const method = reduceStake ? unstake : stake
+			const { transaction, fee } = await method(token.rri, state.validator, state.amount)
 			setState(draft => {
 				draft.fee = fee
 				draft.transaction = transaction
@@ -169,8 +168,8 @@ export const StakeModal: React.FC<IProps> = ({ trigger, tooltipMessage, validato
 			draft.isLoading = true
 		})
 		try {
-			const { blob } = await FinalizeTransaction(network.url, account, token.symbol, state.transaction)
-			await SubmitSignedTransaction(network.url, account, blob)
+			const { blob } = await signTransaction(token.symbol, state.transaction)
+			await submitTransaction(blob)
 			await queryClient.invalidateQueries({ active: true, inactive: true, stale: true })
 			setState(draft => {
 				draft.fee = null
