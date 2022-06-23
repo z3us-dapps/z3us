@@ -7,13 +7,10 @@ import { useSharedStore, useStore } from '@src/store'
 import { useRoute } from 'wouter'
 import { hexToJSON } from '@src/utils/encoding'
 import { CONFIRM } from '@src/lib/actions'
-import { useBabylonPTE } from '@src/hooks/use-babylon-pte'
-import { ManifestBuilder } from 'pte-sdk'
 
 export const Connect = (): JSX.Element => {
 	const [, { id }] = useRoute<{ id: string }>('/connect/:id')
 
-	const { service, publicKey } = useBabylonPTE()
 	const { sendResponse } = useSharedStore(state => ({
 		sendResponse: state.sendResponseAction,
 	}))
@@ -30,27 +27,10 @@ export const Connect = (): JSX.Element => {
 	}))
 
 	const { host, request } = action
-	const { pte = false } = request
-
-	const connectPTE = async () => {
-		const receipt = await service.submitTransaction({
-			transaction: {
-				manifest: new ManifestBuilder().newAccount(publicKey).build().toString(),
-				nonce: await service.getNonce({ signers: [publicKey] }),
-				signatures: [],
-			},
-		})
-		const address = receipt.newComponents[0]
-		sendResponse(CONFIRM, { id, host, payload: { request, value: address } })
-	}
 
 	useEffect(() => {
 		if (host in approvedWebsites) {
-			if (!pte) {
-				sendResponse(CONFIRM, { id, host, payload: { request, value: accountAddress } })
-				return
-			}
-			connectPTE()
+			sendResponse(CONFIRM, { id, host, payload: { request, value: accountAddress } })
 		}
 	}, [approvedWebsites])
 

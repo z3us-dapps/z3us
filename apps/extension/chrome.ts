@@ -21,7 +21,7 @@ export default {
 		'48': 'favicon-48x48.png',
 		'128': 'favicon-128x128.png',
 	},
-	permissions: ['storage', 'unlimitedStorage', 'tabs', 'notifications', 'scripting'],
+	permissions: ['storage', 'unlimitedStorage', 'tabs', 'notifications'],
 	host_permissions: ['<all_urls>'],
 	background: {
 		service_worker: 'src/lib/background.ts',
@@ -42,7 +42,7 @@ export default {
 				'popup-theme-system.html',
 				'assets/inpage.js',
 				'assets/actions.js',
-				'pte_manifest_compiler_bg.wasm',
+				// 'pte_manifest_compiler_bg.wasm',
 			],
 		},
 	],

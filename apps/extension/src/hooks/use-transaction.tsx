@@ -1,43 +1,41 @@
 import { useCallback } from 'react'
 import { ActionType } from '@radixdlt/application'
+import { ExtendedActionType, IntendedAction } from '@src/types'
 import { useStore } from '@src/store'
 import { useRadix } from '@src/hooks/use-radix'
-import { useSignature } from '@src/hooks/use-signature'
-import { ExtendedActionType, IntendedAction } from '@src/types'
-import { randomBytes } from 'crypto'
-import { compile_with_nonce } from 'pte-manifest-compiler'
-import { useBabylonPTE } from './use-babylon-pte'
+// import { useSignature } from '@src/hooks/use-signature'
+// import { randomBytes } from 'crypto'
+// import { compile_with_nonce } from 'pte-manifest-compiler'
 
 export const useTransaction = () => {
 	const radix = useRadix()
-	const { service: babylon, publicKey } = useBabylonPTE()
-	const { signPTE: sign, verify } = useSignature()
+	// const { sign, verify } = useSignature()
 	const { account } = useStore(state => ({
 		account: state.account,
 	}))
 
 	const buildTransaction = useCallback((payload: any) => radix.buildTransaction(payload), [radix])
 
-	const buildTransactionFromManifest = useCallback(
-		async (manifest: string, nonce: number = randomBytes(4).readUInt32LE()) => {
-			const transaction = compile_with_nonce(manifest, BigInt(nonce))
-			const paylaod = Buffer.from(transaction)
+	// const buildTransactionFromManifest = useCallback(
+	// 	async (manifest: string, nonce: number = randomBytes(4).readUInt32LE()) => {
+	// 		const transaction = compile_with_nonce(manifest, BigInt(nonce))
+	// 		const paylaod = Buffer.from(transaction)
 
-			const signature = await sign(paylaod)
-			// if (!verify(signature, paylaod)) {
-			// 	throw new Error('Invalid signature')
-			// }
+	// 		const signature = await sign(paylaod)
+	// 		if (!verify(signature, paylaod)) {
+	// 			throw new Error('Invalid signature')
+	// 		}
 
-			return babylon.submitTransaction({
-				transaction: {
-					manifest,
-					nonce: { value: nonce },
-					signatures: [{ publicKey, signature }],
-				},
-			})
-		},
-		[radix, account, sign, verify],
-	)
+	// 		return radix.submitTransaction({
+	// 			transaction: {
+	// 				manifest,
+	// 				nonce: { value: nonce },
+	// 				signatures: [{ publicKey: account.publicKey.toString(), signature }],
+	// 			},
+	// 		})
+	// 	},
+	// 	[radix, account, sign, verify],
+	// )
 
 	const buildTransactionFromActions = useCallback(
 		(actions: IntendedAction[], message?: string) => {
@@ -184,7 +182,7 @@ export const useTransaction = () => {
 	return {
 		buildTransaction,
 		buildTransactionFromActions,
-		buildTransactionFromManifest,
+		// buildTransactionFromManifest,
 		signTransaction,
 		submitTransaction,
 	}

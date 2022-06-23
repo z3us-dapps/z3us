@@ -15,7 +15,7 @@ const componentAddress = '0276b537d9fc474d86edd48bfaa2843e87b48765767357ab9e403d
 
 export const Example = () => {
 	const { show } = useToastControls()
-	const { connectPTE: connect, disconnect, submitTransaction } = useZ3usWallet()
+	const { connect, disconnect, submitTransaction } = useZ3usWallet()
 
 	const [state, setState] = useImmer({
 		time: new Date().getTime(),

@@ -43,7 +43,6 @@
 		"@vitejs/plugin-react": "^1.2.0",
 		"base64url": "^3.0.1",
 		"bignumber.js": "^9.0.1",
-		"bn.js": "^5.2.1",
 		"browserify-zlib": "^0.2.0",
 		"buffer": "^6.0.3",
 		"chart.js": "^3.8.0",

@@ -20,8 +20,12 @@ export const Transaction = (): JSX.Element => {
 	const [, { id }] = useRoute<{ id: string }>('/transaction/:id')
 	const queryClient = useQueryClient()
 
-	const { buildTransactionFromActions, buildTransactionFromManifest, signTransaction, submitTransaction } =
-		useTransaction()
+	const {
+		buildTransactionFromActions,
+		// buildTransactionFromManifest,
+		signTransaction,
+		submitTransaction,
+	} = useTransaction()
 	const { createMessage } = useMessage()
 	const { sendResponse } = useSharedStore(state => ({
 		addressBook: state.addressBook,
@@ -96,7 +100,8 @@ export const Transaction = (): JSX.Element => {
 				const { blob } = await signTransaction(token.symbol, state.transaction)
 				result = await submitTransaction(blob)
 			} else if (manifest) {
-				result = await buildTransactionFromManifest(manifest)
+				// result = await buildTransactionFromManifest(manifest)
+				throw new Error('Not supported yet.')
 			}
 
 			await queryClient.invalidateQueries({ active: true, inactive: true, stale: true })
