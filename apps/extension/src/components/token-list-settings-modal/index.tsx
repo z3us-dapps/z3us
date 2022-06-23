@@ -44,9 +44,7 @@ const makeVisibleTokenTokenData = (
 ): VisibleTokens => {
 	const vs = { ...visibleTokens }
 	availableBalances?.forEach(token => {
-		if (vs[token.rri]) {
-			return
-		}
+		if (vs[token.rri]) return
 		const visibleToken = _tokens[token.rri]
 		if (visibleToken) {
 			vs[token.rri] = visibleToken
@@ -129,9 +127,7 @@ export const TokenListSettingsModal = ({
 	})
 
 	useEffect(() => {
-		if (!tokens) {
-			return
-		}
+		if (!tokens) return
 		setState(draft => {
 			const visible = makeVisibleTokenTokenData(tokens, draft[VISIBLE], balances?.account_balances?.liquid_balances)
 
@@ -219,6 +215,7 @@ export const TokenListSettingsModal = ({
 
 	useEffect(() => {
 		setState(draft => {
+			if (!tokens) return
 			draft[INVISIBLE] = makeInvisibleTokenData(draft.search.toLowerCase(), tokens, draft[VISIBLE])
 		})
 	}, [state.search])
