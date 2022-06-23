@@ -175,11 +175,11 @@ export const sharedFocus = css({
 	},
 })
 
-export const sharedItemStyles = css({
+export const sharedItemStyles = {
 	all: 'unset',
 	position: 'relative',
 	fontSize: 12,
-	fontWeight: 700,
+	fontWeight: 500,
 	color: '$txtDefault',
 	zIndex: 1,
 	lineHeight: 1,
@@ -204,9 +204,9 @@ export const sharedItemStyles = css({
 		backgroundColor: '$bgPanelHover',
 		color: '$txtActive',
 	},
-})
+}
 
-export const sharedItemIndicatorStyles = css({
+export const sharedItemIndicatorStyles = {
 	position: 'absolute',
 	right: 0,
 	top: '1px',
@@ -227,4 +227,4 @@ export const sharedItemIndicatorStyles = css({
 		boxSizing: 'border-box',
 		pe: 'none',
 	},
-})
+}

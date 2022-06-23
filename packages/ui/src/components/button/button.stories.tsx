@@ -24,7 +24,17 @@ const Template: ComponentStory<typeof Button> = args => {
 }
 
 const SIZES: NormalSizes[] = ['1', '2', '3', '4', '5', '6']
-const COLORS: NormalColors[] = ['primary', 'primary', 'primary', 'secondary', 'tertiary', 'inverse', 'red', 'default']
+const COLORS: NormalColors[] = [
+	'primary',
+	'primary',
+	'primary',
+	'secondary',
+	'tertiary',
+	'inverse',
+	'red',
+	'input',
+	'default',
+]
 
 const CombinedTemplate: React.FC = () => (
 	<Box>

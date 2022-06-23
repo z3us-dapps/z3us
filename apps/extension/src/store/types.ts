@@ -78,6 +78,9 @@ export type SettingsStore = {
 
 	accountPanelExpanded: boolean
 	setAccountPanelExpandedAction: (expanded: boolean) => void
+
+	currency: string
+	setCurrencyAction: (currency: string) => void
 }
 
 export type BackgroundStore = {
