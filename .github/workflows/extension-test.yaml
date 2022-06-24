@@ -30,13 +30,27 @@ jobs:
         run: |-
           cd apps/extension
           yarn --ignore-engines
-        env:
-          PUPPETEER_SKIP_CHROMIUM_DOWNLOAD: 'true'
       - name: Run build
         run: |-
           cd apps/extension
           yarn build
+  end_to_end_tests:
+    name: Run Headful End-to-End Tests
+    runs-on: ubuntu-latest
+    env:
+      CI: 'true'
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v2
+      - name: Install node
+        uses: actions/setup-node@v2-beta
+        with:
+          node-version: 15.5.0
+      - name: Install stuff
+        run: yarn --ignore-engines
+        env:
+          PUPPETEER_SKIP_CHROMIUM_DOWNLOAD: 'true'
       - name: Run headful puppeteer tests
         uses: djp3/puppeteer-headful@master
         with:
-          args: yarn e2e --ignore-engines
+          args: yarn e2e
