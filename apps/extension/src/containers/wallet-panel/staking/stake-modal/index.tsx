@@ -211,10 +211,10 @@ export const StakeModal: React.FC<IProps> = ({ trigger, tooltipMessage, validato
 					</Button>
 					<Box css={{ flex: '1' }}>
 						<Flex direction="column" align="center" css={{ bg: '$bgPanel2', width: '100%', p: '0', br: '$2' }}>
-							<Text medium size="8" bold css={{ mt: '35px' }}>
+							<Text truncate medium size="6" bold css={{ mt: '35px', maxWidth: '240px' }}>
 								{validator?.name}
 							</Text>
-							<Text color="help" medium size="6" bold css={{ mt: '10px' }}>
+							<Text medium size="5" bold css={{ mt: '10px' }}>
 								{stakeTitle}
 							</Text>
 							<Text color="help" size="4" css={{ pb: '20px', mt: '10px', mb: '5px' }}>
