@@ -13,7 +13,7 @@ on:
     paths:
       - 'apps/extension/**'
 jobs:
-  test:
+  install_build_lint:
     runs-on: ubuntu-latest
     steps:
       - name: Copy Files
@@ -30,6 +30,10 @@ jobs:
         run: |-
           cd apps/extension
           yarn --ignore-engines
+      - name: Run lint
+        run: |-
+          cd apps/extension
+          yarn lint
       - name: Run build
         run: |-
           cd apps/extension
