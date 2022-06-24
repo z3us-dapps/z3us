@@ -30,7 +30,13 @@ jobs:
         run: |-
           cd apps/extension
           yarn --ignore-engines
+        env:
+          PUPPETEER_SKIP_CHROMIUM_DOWNLOAD: 'true'
       - name: Run build
         run: |-
           cd apps/extension
           yarn build
+      - name: Run headful puppeteer tests
+        uses: djp3/puppeteer-headful@master
+        with:
+          args: yarn e2e

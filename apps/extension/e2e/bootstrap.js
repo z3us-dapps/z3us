@@ -3,6 +3,7 @@ const puppeteer = require('puppeteer')
 async function bootstrap(options = {}) {
 	const { devtools = false, slowMo = false, appUrl } = options
 	const browser = await puppeteer.launch({
+		executablePath: process.env.PUPPETEER_EXEC_PATH, // set by docker container in github CI environment
 		headless: false,
 		devtools,
 		args: ['--disable-extensions-except=./dist/chrome', '--load-extension=./dist/chrome'],
