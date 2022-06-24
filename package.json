@@ -15,6 +15,7 @@
 		"dev": "turbo run dev --parallel",
 		"test": "turbo run test",
 		"lint": "turbo run lint",
+		"e2e": "turbo run e2e",
 		"deploy": "turbo run deploy",
 		"format": "prettier --write \"**/*.{ts,tsx,md}\"",
 		"prepare": "husky install"
@@ -68,6 +69,9 @@
 				]
 			},
 			"lint": {
+				"outputs": []
+			},
+			"e2e": {
 				"outputs": []
 			},
 			"dev": {
