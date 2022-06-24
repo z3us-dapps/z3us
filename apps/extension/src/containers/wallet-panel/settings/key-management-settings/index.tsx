@@ -61,9 +61,8 @@ export const KeyManagementSettings: React.FC = () => {
 		if (state.newPassword === state.confirmPassword) {
 			try {
 				setState(draft => {
-					draft.isLoading = false
+					draft.isLoading = true
 				})
-
 				const { mnemonic } = await messanger.sendActionMessageFromPopup(UNLOCK, state.password)
 				const seed = await createWallet(mnemonic.words, state.newPassword)
 				await setSeed(seed)
@@ -73,6 +72,9 @@ export const KeyManagementSettings: React.FC = () => {
 					draft.isLoading = false
 					draft.showError = false
 					draft.errorMessage = ''
+					draft.password = ''
+					draft.newPassword = ''
+					draft.confirmPassword = ''
 				})
 
 				addToast({
