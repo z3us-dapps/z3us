@@ -82,7 +82,7 @@ export const BurnTokenModal: React.FC<IProps> = ({ trigger }) => {
 
 	const handleUseMax = () => {
 		setState(draft => {
-			draft.amount = formatBigNumber(selectedTokenAmmount)
+			draft.amount = selectedTokenAmmount.toString()
 		})
 		inputAmountRef.current.focus()
 	}
@@ -158,6 +158,11 @@ export const BurnTokenModal: React.FC<IProps> = ({ trigger }) => {
 				draft.isModalOpen = false
 			})
 			setLocation(`/wallet/account/token/${state.rri}`)
+			addToast({
+				type: 'success',
+				title: 'Succesfully submited transaction to the network',
+				duration: 5000,
+			})
 		} catch (error) {
 			addToast({
 				type: 'error',

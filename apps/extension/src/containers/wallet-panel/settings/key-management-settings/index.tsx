@@ -21,14 +21,17 @@ import { ExportSecretPhrase } from './export-secret-phrase'
 
 export const KeyManagementSettings: React.FC = () => {
 	const [, setLocation] = useLocation()
-	const { messanger, keystore, createWallet, removeWallet, removeKeystore, setSeed } = useSharedStore(state => ({
-		messanger: state.messanger,
-		keystore: state.keystores.find(({ id }) => id === state.selectKeystoreId),
-		createWallet: state.createWalletAction,
-		removeWallet: state.removeWalletAction,
-		removeKeystore: state.removeKeystoreAction,
-		setSeed: state.setMasterSeedAction,
-	}))
+	const { messanger, keystore, createWallet, removeWallet, removeKeystore, setSeed, addToast } = useSharedStore(
+		state => ({
+			messanger: state.messanger,
+			keystore: state.keystores.find(({ id }) => id === state.selectKeystoreId),
+			createWallet: state.createWalletAction,
+			removeWallet: state.removeWalletAction,
+			removeKeystore: state.removeKeystoreAction,
+			setSeed: state.setMasterSeedAction,
+			addToast: state.addToastAction,
+		}),
+	)
 	const { reset, selectAccount } = useStore(state => ({
 		reset: state.resetAction,
 		selectAccount: state.selectAccountAction,
@@ -70,6 +73,12 @@ export const KeyManagementSettings: React.FC = () => {
 					draft.isLoading = false
 					draft.showError = false
 					draft.errorMessage = ''
+				})
+
+				addToast({
+					type: 'success',
+					title: 'Succesfully updated password',
+					duration: 5000,
 				})
 			} catch (error) {
 				setState(draft => {

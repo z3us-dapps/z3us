@@ -20,7 +20,6 @@ import { Dialog, DialogTrigger, DialogContent } from 'ui/src/components/dialog'
 import { Box, Text, Flex } from 'ui/src/components/atoms'
 import { SlippageBox } from '@src/components/slippage-box'
 import BigNumber from 'bignumber.js'
-import { formatBigNumber } from '@src/utils/formatters'
 import { useTokenStake } from '@src/hooks/use-token-stake'
 import { useTokenUnstake } from '@src/hooks/use-token-unstake'
 import { useTransaction } from '@src/hooks/use-transaction'
@@ -103,7 +102,7 @@ export const StakeModal: React.FC<IProps> = ({ trigger, tooltipMessage, validato
 
 	const handleUseMax = () => {
 		setState(draft => {
-			draft.amount = formatBigNumber(amount)
+			draft.amount = amount.toString()
 		})
 		inputAmountRef.current.focus()
 	}
@@ -177,6 +176,11 @@ export const StakeModal: React.FC<IProps> = ({ trigger, tooltipMessage, validato
 				draft.isModalOpen = false
 			})
 			setLocation(`/wallet/account/token/${token.rri}`)
+			addToast({
+				type: 'success',
+				title: 'Succesfully submited transaction to the network',
+				duration: 5000,
+			})
 		} catch (error) {
 			addToast({
 				type: 'error',

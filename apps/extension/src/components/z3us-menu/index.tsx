@@ -1,6 +1,6 @@
 import React, { useRef } from 'react'
+import { useLocation, useRoute } from 'wouter'
 import { useSharedStore, useStore } from '@src/store'
-import { useRoute } from 'wouter'
 import { useImmer } from 'use-immer'
 import Button from 'ui/src/components/button'
 import { Z3usIcon, TrashIcon, HardwareWalletIcon } from 'ui/src/components/icons'
@@ -30,6 +30,7 @@ import {
 import { KeystoreType } from '@src/store/types'
 
 export const Z3usMenu: React.FC = () => {
+	const [, setLocation] = useLocation()
 	const [isSendRoute] = useRoute('/wallet/account/send')
 	const [isSendRouteRri] = useRoute('/wallet/account/send/:rri')
 	const [isDepositRoute] = useRoute('/wallet/account/deposit')
@@ -66,6 +67,7 @@ export const Z3usMenu: React.FC = () => {
 	const handleValueChange = async (id: string) => {
 		if (id === keystoreId) return
 		selectKeystore(id)
+		setLocation('#/wallet/account')
 		await lock()
 	}
 
