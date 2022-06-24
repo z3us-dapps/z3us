@@ -39,6 +39,4 @@ jobs:
       - name: Run headful puppeteer tests
         uses: djp3/puppeteer-headful@master
         with:
-          node-version: 15.5.0
-        with:
           args: yarn e2e --ignore-engines
