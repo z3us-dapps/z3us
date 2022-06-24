@@ -28,7 +28,7 @@ export const CurrencySelector: React.FC = () => {
 
 	return (
 		<Select defaultValue="usd" value={currency.toLowerCase()} onValueChange={setCurrency}>
-			<SelectTrigger aria-label="Food" asChild>
+			<SelectTrigger aria-label="select currency" asChild>
 				<Button color="input" size="4" fullWidth>
 					<SelectValue />
 					<SelectIcon>
