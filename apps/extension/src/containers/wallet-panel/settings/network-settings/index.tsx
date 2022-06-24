@@ -2,7 +2,6 @@ import React from 'react'
 import { useSharedStore, useStore } from '@src/store'
 import { useImmer } from 'use-immer'
 import { RightArrowIcon, PlusIcon } from 'ui/src/components/icons'
-import { InfoCircledIcon } from '@radix-ui/react-icons'
 import { Box, Flex, Text } from 'ui/src/components/atoms'
 import Button from 'ui/src/components/button'
 import Input from 'ui/src/components/input'
@@ -179,9 +178,6 @@ export const NetworkSettings: React.FC = () => {
 									<Text medium size="5" css={{ pr: '2px' }}>
 										Add custom network
 									</Text>
-									<Button size="1" color="ghost" iconOnly>
-										<InfoCircledIcon />
-									</Button>
 								</Flex>
 							</AlertDialogTitle>
 							<AlertDialogDescription css={{ mt: '4px' }}>
