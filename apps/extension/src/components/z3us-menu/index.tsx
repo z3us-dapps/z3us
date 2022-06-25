@@ -82,6 +82,7 @@ export const Z3usMenu: React.FC = () => {
 		setState(draft => {
 			draft.keystoreId = undefined
 		})
+		handleLockWallet()
 	}
 
 	const handleRemoveWallet = (wallet: string) => {
