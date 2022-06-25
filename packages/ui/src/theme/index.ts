@@ -179,7 +179,7 @@ export const sharedItemStyles = {
 	all: 'unset',
 	position: 'relative',
 	fontSize: 12,
-	fontWeight: 500,
+	fontWeight: 700,
 	color: '$txtDefault',
 	zIndex: 1,
 	lineHeight: 1,
