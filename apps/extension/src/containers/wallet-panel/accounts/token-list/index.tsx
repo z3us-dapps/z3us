@@ -69,12 +69,12 @@ const SlideUpHeader: React.FC<SProps> = ({ isSearching, onSearch, onCancelSearch
 )
 
 const AllBalances: React.FC = () => {
-	const { visibleTokens } = useStore(state => ({
+	const { visibleTokens, tokenSearch } = useStore(state => ({
 		visibleTokens: state.visibleTokens,
+		tokenSearch: state.tokenSearch,
 	}))
 	const [customScrollParent, setCustomScrollParent] = useState(null)
 	const { balances, staked } = useAllAccountsTokenBalances()
-	const totalCount = Object.keys(balances).length
 	const hasLiquidBalances = Object.keys(balances).length > 0
 
 	if (!hasLiquidBalances) {
@@ -97,12 +97,19 @@ const AllBalances: React.FC = () => {
 					...balances[visibleToken.rri],
 			  }))
 
+	const searchedTokens = tokenData.filter(_token => {
+		const searchTerm = tokenSearch?.toLowerCase() || ''
+		const tokenName = _token?.name?.toLowerCase()
+		const tokenSymbol = _token?.symbol?.toLowerCase()
+		return tokenName.includes(searchTerm) || tokenSymbol.includes(searchTerm)
+	})
+
 	const list = hasLiquidBalances ? (
 		<ScrollArea scrollableNodeProps={{ ref: setCustomScrollParent }}>
 			<Virtuoso
 				customScrollParent={customScrollParent}
-				totalCount={totalCount}
-				data={tokenData}
+				totalCount={searchedTokens.length}
+				data={searchedTokens}
 				itemContent={(i, { rri, amount, symbol }) => (
 					<TokenRow
 						i={i}
@@ -125,8 +132,9 @@ const AllBalances: React.FC = () => {
 }
 
 const AccountBalances: React.FC = () => {
-	const { visibleTokens } = useStore(state => ({
+	const { visibleTokens, tokenSearch } = useStore(state => ({
 		visibleTokens: state.visibleTokens,
+		tokenSearch: state.tokenSearch,
 	}))
 	const [customScrollParent, setCustomScrollParent] = useState(null)
 	const { isLoading = true, data } = useTokenBalances()
@@ -149,12 +157,19 @@ const AccountBalances: React.FC = () => {
 					...balances[visibleToken.rri],
 			  }))
 
+	const searchedTokens = tokenData.filter(_token => {
+		const searchTerm = tokenSearch?.toLowerCase() || ''
+		const tokenName = _token?.name?.toLowerCase()
+		const tokenSymbol = _token?.symbol?.toLowerCase()
+		return tokenName.includes(searchTerm) || tokenSymbol.includes(searchTerm)
+	})
+
 	const list = hasLiquidBalances ? (
 		<ScrollArea scrollableNodeProps={{ ref: setCustomScrollParent }}>
 			<Virtuoso
 				customScrollParent={customScrollParent}
-				totalCount={liquidBalances.length}
-				data={tokenData}
+				totalCount={searchedTokens.length}
+				data={searchedTokens}
 				itemContent={(i, { rri, amount, symbol }) => (
 					<TokenRow
 						i={i}
@@ -200,6 +215,9 @@ export const TokenList: React.FC = () => {
 		addresses: Object.values(state.publicAddresses).map(({ address }) => address),
 		activeSlideIndex: state.activeSlideIndex,
 	}))
+	const { setTokenSearch } = useStore(state => ({
+		setTokenSearch: state.setTokenSearchAction,
+	}))
 	const [state, setState] = useImmer({
 		isSearching: false,
 	})
@@ -207,8 +225,7 @@ export const TokenList: React.FC = () => {
 	const isSlideUpPanelVisible = activeSlideIndex < addresses.length
 
 	const handleSearchTokenList = (search: string) => {
-		// eslint-disable-next-line
-		console.log('search:', search)
+		setTokenSearch(search)
 	}
 
 	const handleToggleSearch = () => {

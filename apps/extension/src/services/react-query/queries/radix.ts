@@ -67,6 +67,7 @@ export const useAllAccountsTokenBalances = (): {
 		[rri: string]: {
 			rri: string
 			symbol: string
+			name: string
 			amount: BigNumber
 		}
 	}

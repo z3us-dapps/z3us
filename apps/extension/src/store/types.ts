@@ -170,7 +170,9 @@ export type WalletStore = {
 	) => Promise<void>
 
 	visibleTokens: VisibleTokens
+	tokenSearch: string
 	setVisibleTokensAction: (visibleTokens: VisibleTokens) => void
+	setTokenSearchAction: (search: string) => void
 
 	activeSlideIndex: number
 	setActiveSlideIndexAction: (

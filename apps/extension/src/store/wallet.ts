@@ -33,6 +33,7 @@ const defaultState = {
 	selectedAccountIndex: 0,
 
 	visibleTokens: {},
+	tokenSearch: '',
 
 	publicAddresses: {},
 	approvedWebsites: {},
@@ -236,6 +237,12 @@ export const factory = (set: SetState<AccountStore>, get: GetState<AccountStore>
 	setVisibleTokensAction: (visibleTokens: VisibleTokens) => {
 		set(state => {
 			state.visibleTokens = visibleTokens
+		})
+	},
+
+	setTokenSearchAction: (search: string) => {
+		set(state => {
+			state.tokenSearch = search
 		})
 	},
 
