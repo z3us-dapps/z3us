@@ -99,9 +99,9 @@ const AllBalances: React.FC = () => {
 
 	const searchedTokens = tokenData.filter(_token => {
 		const searchTerm = tokenSearch?.toLowerCase() || ''
-		const tokenName = _token?.name?.toLowerCase()
-		const tokenSymbol = _token?.symbol?.toLowerCase()
-		return tokenName.includes(searchTerm) || tokenSymbol.includes(searchTerm)
+		const tokenName = _token?.name?.toLowerCase() || ''
+		const tokenSymbol = _token?.symbol?.toLowerCase() || ''
+		return tokenName?.includes(searchTerm) || tokenSymbol?.includes(searchTerm)
 	})
 
 	const list = hasLiquidBalances ? (
@@ -159,9 +159,9 @@ const AccountBalances: React.FC = () => {
 
 	const searchedTokens = tokenData.filter(_token => {
 		const searchTerm = tokenSearch?.toLowerCase() || ''
-		const tokenName = _token?.name?.toLowerCase()
-		const tokenSymbol = _token?.symbol?.toLowerCase()
-		return tokenName.includes(searchTerm) || tokenSymbol.includes(searchTerm)
+		const tokenName = _token?.name?.toLowerCase() || ''
+		const tokenSymbol = _token?.symbol?.toLowerCase() || ''
+		return tokenName?.includes(searchTerm) || tokenSymbol?.includes(searchTerm)
 	})
 
 	const list = hasLiquidBalances ? (
