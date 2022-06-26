@@ -85,7 +85,7 @@ export class CoinGeckoService {
 	getMarketChart = async (
 		currency: string,
 		asset: string,
-		days: number = 14,
+		days: number | string = 14,
 		interval: string = 'daily',
 	): Promise<number[][]> => {
 		const id = assetToCoingeckoIdMap[asset]
