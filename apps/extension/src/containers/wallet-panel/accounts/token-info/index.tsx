@@ -17,12 +17,12 @@ import { CircleAvatar } from '@src/components/circle-avatar'
 import { TokenPrice } from './token-price'
 
 const TIMEFRAMES = {
-	week: { id: '1W', shortName: '1W', days: 7 },
-	month: { id: '1M', shortName: '1M', days: 30 },
-	threeMonth: { id: '3M', shortName: '3M', days: 90 },
-	sixMonth: { id: '6M', shortName: '6M', days: 6 * 30 },
-	oneYear: { id: '1Y', shortName: '1Y', days: 356 },
-	allTime: { id: 'All', shortName: 'All', days: 'max' },
+	week: { shortName: '1W', days: 7 },
+	month: { shortName: '1M', days: 30 },
+	threeMonth: { shortName: '3M', days: 90 },
+	sixMonth: { shortName: '6M', days: 6 * 30 },
+	oneYear: { shortName: '1Y', days: 356 },
+	allTime: { shortName: 'All', days: 'max' },
 }
 
 const defaultChartOptions = {
@@ -78,7 +78,7 @@ export const TokenInfo = (): JSX.Element => {
 		currency: state.currency,
 	}))
 	const [state, setState] = useImmer({
-		selectedTimeFrame: '3M',
+		selectedTimeFrame: 'threeMonth',
 	})
 	const { data: chart } = useMarketChart(currency, token?.symbol, TIMEFRAMES[state.selectedTimeFrame].days)
 
@@ -223,7 +223,7 @@ export const TokenInfo = (): JSX.Element => {
 								zIndex: '2',
 							}}
 						>
-							{Object.values(TIMEFRAMES).map(({ id, shortName }) => (
+							{Object.entries(TIMEFRAMES).map(([id, { shortName }]) => (
 								<Button
 									onClick={() => handleClickTimeFrame(id)}
 									key={id}
