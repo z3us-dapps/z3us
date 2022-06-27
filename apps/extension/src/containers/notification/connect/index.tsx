@@ -19,7 +19,6 @@ export const Connect = (): JSX.Element => {
 		approvedWebsites: state.approvedWebsites,
 		approveWebsite: state.approveWebsiteAction,
 		declineWebsite: state.declineWebsiteAction,
-		selectAccount: state.selectAccountAction,
 		action:
 			state.pendingActions[id] && state.pendingActions[id].payloadHex
 				? hexToJSON(state.pendingActions[id].payloadHex)

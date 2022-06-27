@@ -47,10 +47,9 @@ const updatePublicAddressEntry = async (
 	hardwareWallet: HardwareWalletT | null,
 	masterSeed: HDMasterSeedT | null,
 ) => {
-	const network = state.networks[state.selectedNetworkIndex]
 	const publicIndexes = Object.keys(state.publicAddresses)
 
-	let index: number
+	let index: number = 0
 	let { selectedAccountIndex } = state
 	if (idx < publicIndexes.length) {
 		index = +publicIndexes[idx]
@@ -71,22 +70,22 @@ const updatePublicAddressEntry = async (
 		signingKey = await getHWSigningKeyForIndex(hardwareWallet, index)
 	}
 	if (signingKey) {
-		const address = AccountAddress.fromPublicKeyAndNetwork({
-			publicKey: signingKey.publicKey,
-			network: network.id,
-		})
 		set(draft => {
+			const network = draft.networks[draft.selectedNetworkIndex]
+			const address = AccountAddress.fromPublicKeyAndNetwork({
+				publicKey: signingKey.publicKey,
+				network: network.id,
+			})
+
 			draft.publicAddresses[index] = {
 				...getDefaultAddressEntry(index),
-				...state.publicAddresses[index],
+				...draft.publicAddresses[index],
 				address: address.toString(),
 			}
-		})
-		if (selectedAccountIndex === idx) {
-			set(draft => {
+			if (selectedAccountIndex === idx) {
 				draft.account = Account.create({ address, signingKey })
-			})
-		}
+			}
+		})
 	} else {
 		set(draft => {
 			draft.account = null

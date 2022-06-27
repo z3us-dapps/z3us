@@ -65,7 +65,7 @@ export const KeyManagementSettings: React.FC = () => {
 				})
 				const { mnemonic } = await messanger.sendActionMessageFromPopup(UNLOCK, state.password)
 				const seed = await createWallet(mnemonic.words, state.newPassword)
-				await setSeed(seed)
+				setSeed(seed)
 				await selectAccount(0, null, seed)
 
 				setState(draft => {
