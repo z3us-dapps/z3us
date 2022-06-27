@@ -20,7 +20,7 @@ export const useMessage = () => {
 			if (recipientAddress !== '') {
 				buffer = await EncryptMessage(account, recipientAddress, plaintext)
 			} else {
-				const plain = await Message.createPlaintext(plaintext)
+				const plain = Message.createPlaintext(plaintext)
 				buffer = plain.bytes
 			}
 			return buffer.toString('hex')
