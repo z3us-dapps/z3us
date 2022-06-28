@@ -176,7 +176,7 @@ export const Z3usMenu: React.FC = () => {
 											<DropdownMenuRadioItem key={id} value={id}>
 												<DropdownMenuItemIndicator css={{ width: '16px', left: '0', right: 'unset' }} />
 												<Flex align="center" css={{ width: '100%', pl: '$1' }}>
-													<Flex justify="start" align="center" css={{ flex: '1' }}>
+													<Flex justify="start" align="center" css={{ flex: '1', pr: '$2' }}>
 														<Text size="2" bold truncate css={{ maxWidth: '124px' }}>
 															{name}
 														</Text>
