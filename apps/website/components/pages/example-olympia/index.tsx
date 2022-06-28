@@ -126,7 +126,13 @@ export const Example = () => {
 							Connect Z3US wallet before attempting to send a transaction.
 						</Text>
 					</AlertCard>
-				) : null}
+				) : (
+					<AlertCard icon color="success" css={{ mt: '$4', height: '40px' }}>
+						<Text medium size="4" css={{ mb: '3px', pl: '$3', mt: '8px' }}>
+							Connected!
+						</Text>
+					</AlertCard>
+				)}
 
 				<Seperator title="Connect Z3US wallet" />
 
@@ -166,14 +172,14 @@ export const Example = () => {
 							onChange={handleMessageChange}
 							disabled={!address}
 						/>
-						<Box>
-							<Checkbox id="encrypt" size="1" onCheckedChange={handleSetEncrypt} checked={state.encrypt}>
-								<CheckIcon />
-							</Checkbox>
-							<Text medium size="3" as="label" css={{ paddingLeft: '$2' }} htmlFor="encrypt">
-								Encrypt
-							</Text>
-						</Box>
+					</Flex>
+					<Flex align="center" css={{ pt: '$3' }}>
+						<Checkbox id="encrypt" size="1" onCheckedChange={handleSetEncrypt} checked={state.encrypt}>
+							<CheckIcon />
+						</Checkbox>
+						<Text medium size="3" as="label" css={{ paddingLeft: '$2' }} htmlFor="encrypt">
+							Encrypt
+						</Text>
 					</Flex>
 
 					<Flex css={{ pt: '$4' }}>
