@@ -18,7 +18,8 @@
 		"check-types": "tsc --noemit",
 		"eslint": "eslint --ignore-path .eslintignore --ext .js,.ts,.tsx .",
 		"lint": "yarn run eslint && yarn run check-types",
-		"e2e": "jest --detectOpenHandles"
+		"test": "playwright test",
+		"test_headed": "playwright test --headed"
 	},
 	"dependencies": {
 		"@ledgerhq/hw-transport-webhid": "^6.24.1",
@@ -39,7 +40,6 @@
 		"@simplewebauthn/browser": "^5.1.0",
 		"@simplewebauthn/server": "^5.1.0",
 		"@stitches/react": "1.2.5",
-		"@types/puppeteer": "^5.4.6",
 		"@vitejs/plugin-react": "^1.2.0",
 		"base64url": "^3.0.1",
 		"bignumber.js": "^9.0.1",
@@ -61,7 +61,6 @@
 		"process": "^0.11.10",
 		"pte-manifest-compiler": "^0.1.22",
 		"pte-sdk": "^0.1.22",
-		"puppeteer": "^14.3.0",
 		"qrcode.react": "^3.0.1",
 		"react": "^17.0.2",
 		"react-beautiful-dnd": "^13.1.0",
@@ -106,6 +105,7 @@
 		"@types/w3c-web-hid": "^1.0.3",
 		"@types/webextension-polyfill": "^0.8.3",
 		"rollup-plugin-visualizer": "^5.6.0",
-		"typescript": "^4.6.3"
+		"typescript": "^4.6.3",
+		"@playwright/test": "^1.23.0"
 	}
 }
