@@ -1,5 +1,5 @@
 import React, { useRef, useCallback, useEffect, useState } from 'react'
-import { ScrollArea } from '@src/components/scroll-area'
+import { ScrollArea } from 'ui/src/components/scroll-area'
 import { TokenLoadingRows } from '@src/components/token-loading-row'
 import { useTransactionHistory } from '@src/services/react-query/queries/radix'
 import { ActivityItem } from '@src/components/activity-item'

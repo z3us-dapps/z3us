@@ -9,7 +9,7 @@ import { HDPathRadix } from '@radixdlt/crypto'
 import { useImmer } from 'use-immer'
 import { useSharedStore, useStore } from '@src/store'
 import { CopyIcon, ReloadIcon, ExclamationTriangleIcon } from '@radix-ui/react-icons'
-import SimpleBar from 'simplebar-react'
+import { ScrollArea } from 'ui/src/components/scroll-area'
 import { copyTextToClipboard } from '@src/utils/copy-to-clipboard'
 import { Checkbox, CheckIcon } from 'ui/src/components/checkbox'
 import ButtonTipFeedback from 'ui/src/components/button-tip-feedback'
@@ -231,14 +231,15 @@ export const ImportAccounts = (): JSX.Element => {
 									pb: '$3',
 								}}
 							>
-								<Box as="ul">
-									<SimpleBar
-										style={{
-											height: '100%',
-											position: 'relative',
-											maxHeight: '350px',
-										}}
-									>
+								<Box
+									as="ul"
+									css={{
+										height: '100%',
+										position: 'relative',
+										maxHeight: '350px',
+									}}
+								>
+									<ScrollArea>
 										{state.addresses.map((address, index) => {
 											const addressString = address.toString()
 											return (
@@ -268,7 +269,7 @@ export const ImportAccounts = (): JSX.Element => {
 												</Flex>
 											)
 										})}
-									</SimpleBar>
+									</ScrollArea>
 								</Box>
 							</Box>
 						)}

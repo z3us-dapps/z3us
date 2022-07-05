@@ -1,7 +1,7 @@
 /* eslint-disable react/jsx-props-no-spreading, array-callback-return */
 import React, { useState, useEffect } from 'react'
 import { useSharedStore, useStore } from '@src/store'
-import { ScrollArea } from '@src/components/scroll-area'
+import { ScrollArea } from 'ui/src/components/scroll-area'
 import { Box, Flex, Text, StyledLink } from 'ui/src/components/atoms'
 import { getShortAddress } from '@src/utils/string-utils'
 import { Tabs, TabsList, TabsContent, TabsTrigger } from 'ui/src/components/tabs'

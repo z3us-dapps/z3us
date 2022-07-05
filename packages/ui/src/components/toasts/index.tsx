@@ -48,15 +48,13 @@ export interface Props {
 	uniqueId: string
 	config: {
 		duration: number
-		type?: string
+		type: string
 	}
 }
 
 type NativeAttrs = Omit<React.HTMLAttributes<unknown>, keyof Props>
 
-const defaultToastProps = {
-	uniqueId: undefined,
-}
+const defaultToastProps = {}
 
 export type ToastProps = React.PropsWithChildren<PropsWithCSS<Props & NativeAttrs>>
 

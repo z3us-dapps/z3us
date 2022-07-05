@@ -1,5 +1,5 @@
 import React from 'react'
-import { ScrollArea } from '@src/components/scroll-area'
+import { ScrollArea } from 'ui/src/components/scroll-area'
 import { useImmer } from 'use-immer'
 import { KeyIcon, TrustedAppsIcon, NetworkIcon, AccountsIcon, AddressBookIcon } from 'ui/src/components/icons'
 import { LockClosedIcon, TokensIcon } from '@radix-ui/react-icons'
