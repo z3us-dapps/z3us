@@ -4,8 +4,8 @@ import React from 'react'
 // @TODO: remove polymorphic as it is depreceated
 import type * as Polymorphic from '@radix-ui/react-polymorphic'
 import { motion, MotionProps } from 'framer-motion'
+import { PropsWithCSS } from '../../types'
 import { Box } from './box'
-import { CSS } from '../../theme'
 
 const DEFAULT_TAG = 'div'
 
@@ -17,8 +17,7 @@ const defaultMotionBoxProps = {
 	children: null,
 }
 
-type CSSProp = { css?: CSS }
-type MotionBoxOwnProps = CSSProp & MotionProps
+type MotionBoxOwnProps = PropsWithCSS<MotionProps>
 type MotionBoxComponent = Polymorphic.ForwardRefComponent<typeof DEFAULT_TAG, MotionBoxOwnProps>
 
 const MotionBox = motion(

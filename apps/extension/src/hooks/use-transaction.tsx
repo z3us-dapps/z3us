@@ -1,4 +1,5 @@
 import { useCallback } from 'react'
+import { firstValueFrom } from 'rxjs'
 import { ActionType } from '@radixdlt/application'
 import { ExtendedActionType, IntendedAction } from '@src/types'
 import { useStore } from '@src/store'
@@ -163,7 +164,7 @@ export const useTransaction = () => {
 		async (symbol: string, transaction: { blob: string; hashOfBlobToSign: string }) => {
 			const rriName = symbol.toLocaleLowerCase()
 			const nonXrdHRP = rriName !== 'xrd' ? rriName : undefined
-			const signature = await account.sign(transaction, nonXrdHRP).toPromise()
+			const signature = await firstValueFrom(account.sign(transaction, nonXrdHRP))
 
 			return radix.finalizeTransaction(account.network, {
 				transaction,

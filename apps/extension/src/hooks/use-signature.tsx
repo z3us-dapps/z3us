@@ -1,4 +1,5 @@
 import { useCallback } from 'react'
+import { firstValueFrom } from 'rxjs'
 import { sha256, Signature } from '@radixdlt/application'
 import { useStore } from '@src/store'
 
@@ -10,7 +11,7 @@ export const useSignature = () => {
 	const sign = useCallback(
 		async (payload: string | Buffer): Promise<string> => {
 			const hashedMessage = sha256(payload)
-			const signature = await account.signHash(hashedMessage).toPromise()
+			const signature = await firstValueFrom(account.signHash(hashedMessage))
 			return signature.toDER()
 		},
 		[account],

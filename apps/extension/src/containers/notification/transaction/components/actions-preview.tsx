@@ -7,6 +7,84 @@ import { useSharedStore, useStore } from '@src/store'
 import { SlippageBox } from '@src/components/slippage-box'
 import { ActivityType } from '@src/components/activity-type'
 import { Action } from '@radixdlt/application'
+import { useTokenInfo } from '@src/services/react-query/queries/radix'
+import { formatBigNumber } from '@src/utils/formatters'
+
+interface ActionPreviewProps {
+	activity: any
+	fee?: string
+}
+
+const ActionPreview: React.FC<ActionPreviewProps> = ({ activity, fee }) => {
+	const { data: token } = useTokenInfo(activity?.amount?.token_identifier?.rri)
+	const { addressBook } = useSharedStore(state => ({
+		addressBook: state.addressBook,
+	}))
+	const { accountAddress, publicAddresses } = useStore(state => ({
+		accountAddress: state.getCurrentAddressAction(),
+		publicAddresses: Object.values(state.publicAddresses),
+	}))
+
+	const amount = activity?.amount?.value ? new BigNumber(activity.amount.value).shiftedBy(-18) : undefined
+
+	const fromAccount = activity?.from_account?.address
+	const fromEntry = addressBook[fromAccount] || publicAddresses.find(_account => _account.address === fromAccount)
+	const toAccount = activity?.to_account?.address
+	const toEntry = addressBook[toAccount] || publicAddresses.find(_account => _account.address === toAccount)
+
+	return (
+		<Box
+			css={{
+				borderTop: '1px solid $borderPanel',
+				mt: '$5',
+				py: '$5',
+			}}
+		>
+			<Flex css={{ position: 'relative', pb: '$3' }}>
+				<Text css={{ flex: '1' }}>Transaction type:</Text>
+				<Box css={{ position: 'relative', mt: '-3px' }}>
+					<ActivityType activity={activity} accountAddress={accountAddress} />
+				</Box>
+			</Flex>
+			{fromAccount && (
+				<Flex css={{ position: 'relative', pb: '15px' }}>
+					<Text css={{ flex: '1' }}>From account:</Text>
+					<Text>
+						{fromEntry?.name ? `${fromEntry?.name} (${getShortAddress(fromAccount)})` : getShortAddress(fromAccount)}
+					</Text>
+				</Flex>
+			)}
+			{toAccount && (
+				<Flex css={{ position: 'relative', pb: '15px' }}>
+					<Text css={{ flex: '1' }}>To account:</Text>
+					<Text>{toEntry?.name ? `${toEntry?.name} (${getShortAddress(toAccount)})` : getShortAddress(toAccount)}</Text>
+				</Flex>
+			)}
+			{amount && (
+				<Flex css={{ position: 'relative', pb: '15px' }}>
+					<Text css={{ flex: '1' }}>Amount:</Text>
+					<Text>
+						{formatBigNumber(amount)} {token?.symbol.toUpperCase()}
+					</Text>
+				</Flex>
+			)}
+			{fee && (
+				<Flex css={{ position: 'relative', pb: '15px' }}>
+					<SlippageBox
+						token={token}
+						css={{ border: 'none' }}
+						fee={fee ? new BigNumber(fee).shiftedBy(-18) : undefined}
+						amount={amount}
+					/>
+				</Flex>
+			)}
+		</Box>
+	)
+}
+
+ActionPreview.defaultProps = {
+	fee: null,
+}
 
 interface IProps {
 	actions?: Action[]
@@ -19,66 +97,15 @@ const defaultProps = {
 }
 
 const ActionsPreview: React.FC<IProps> = ({ actions, fee }) => {
-	const { addressBook } = useSharedStore(state => ({
-		addressBook: state.addressBook,
-	}))
-
-	const { accountAddress, publicAddresses } = useStore(state => ({
-		accountAddress: state.getCurrentAddressAction(),
-		publicAddresses: Object.values(state.publicAddresses),
-	}))
-
-	const entry = publicAddresses.find(_account => _account.address === accountAddress)
-	const shortAddress = getShortAddress(entry?.address)
-
 	if (!actions) {
 		return null
 	}
 
 	return (
-		<Box>
-			{actions.map((activity: any, i) => {
-				const toAccount = activity?.to_account?.address
-				const fromAccount = activity?.from_account?.address
-				const toEntry = addressBook[toAccount] || publicAddresses.find(_account => _account.address === toAccount)
-
-				return (
-					<Box
-						key={i}
-						css={{
-							borderTop: '1px solid $borderPanel',
-							mt: '$5',
-							py: '$5',
-						}}
-					>
-						<Flex css={{ position: 'relative', pb: '$3' }}>
-							<Text css={{ flex: '1' }}>Transaction type:</Text>
-							<Box css={{ position: 'relative', mt: '-3px' }}>
-								<ActivityType activity={activity} accountAddress={accountAddress} />
-							</Box>
-						</Flex>
-						{fromAccount && (
-							<Flex css={{ position: 'relative', pb: '15px' }}>
-								<Text css={{ flex: '1' }}>From account:</Text>
-								<Text>{entry?.name ? `${entry.name} (${shortAddress})` : shortAddress}</Text>
-							</Flex>
-						)}
-						{toAccount && (
-							<Flex css={{ position: 'relative', pb: '15px' }}>
-								<Text css={{ flex: '1' }}>To account:</Text>
-								<Text>
-									{toEntry?.name ? `${toEntry?.name} (${getShortAddress(toAccount)})` : getShortAddress(toAccount)}
-								</Text>
-							</Flex>
-						)}
-						{fee && (
-							<Flex css={{ position: 'relative', pb: '15px' }}>
-								<SlippageBox css={{ border: 'none' }} fee={new BigNumber(fee).shiftedBy(-18)} />
-							</Flex>
-						)}
-					</Box>
-				)
-			})}
+		<Box css={{ mt: '$2', maxHeight: '200px', overflowY: 'auto' }}>
+			{actions.map((activity: any, i) => (
+				<ActionPreview key={i} activity={activity} fee={fee} />
+			))}
 		</Box>
 	)
 }

@@ -1,4 +1,5 @@
 import { useCallback } from 'react'
+import { firstValueFrom } from 'rxjs'
 import { Message } from '@radixdlt/crypto'
 import { useStore } from '@src/store'
 import { EncryptMessage } from '@src/services/radix/message'
@@ -17,7 +18,7 @@ export const useMessage = () => {
 				throw new Error('Invalid message')
 			}
 			let buffer: Buffer
-			if (recipientAddress !== '') {
+			if (recipientAddress) {
 				buffer = await EncryptMessage(account, recipientAddress, plaintext)
 			} else {
 				const plain = Message.createPlaintext(plaintext)
@@ -49,7 +50,7 @@ export const useMessage = () => {
 			const fromAddress = parseAccountAddress(from)
 			const publicKeyOfOtherParty = fromAddress.publicKey
 
-			const message = await account.decrypt({ encryptedMessage, publicKeyOfOtherParty }).toPromise()
+			const message = await firstValueFrom(account.decrypt({ encryptedMessage, publicKeyOfOtherParty }))
 
 			if (!message) {
 				throw new Error('Failed to decrypt message.')

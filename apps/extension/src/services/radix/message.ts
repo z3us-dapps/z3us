@@ -1,3 +1,4 @@
+import { firstValueFrom } from 'rxjs'
 import { AccountT, AccountAddressT, AccountAddress } from '@radixdlt/application'
 import { EncryptedMessageT, Message, PlaintextMessageT } from '@radixdlt/crypto'
 
@@ -9,25 +10,25 @@ export const createEncryptedMessage = async (
 	account: AccountT,
 	to: AccountAddressT,
 ): Promise<EncryptedMessageT> =>
-	account
-		.encrypt({
+	firstValueFrom(
+		account.encrypt({
 			plaintext,
 			publicKeyOfOtherParty: to.publicKey,
-		})
-		.toPromise()
+		}),
+	)
 
 const decryptMessage = async (
 	encryptedMessage: Buffer | EncryptedMessageT,
 	account: AccountT,
 	from: AccountAddressT,
-): Promise<string> => account.decrypt({ encryptedMessage, publicKeyOfOtherParty: from.publicKey }).toPromise()
+): Promise<string> => firstValueFrom(account.decrypt({ encryptedMessage, publicKeyOfOtherParty: from.publicKey }))
 
 export const EncryptMessage = async (account: AccountT, to: string, message: string) => {
 	const toResult = AccountAddress.fromUnsafe(to)
 	if (toResult.isErr()) {
 		throw toResult.error
 	}
-	const ecnrypted = await createEncryptedMessage(message, account as AccountT, toResult.value)
+	const ecnrypted = await createEncryptedMessage(message, account, toResult.value)
 
 	return ecnrypted.combined()
 }

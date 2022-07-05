@@ -12,20 +12,22 @@ export interface Props {
 	as?: keyof JSX.IntrinsicElements
 	icon?: React.ReactNode | boolean
 	onClose?: () => void
-}
-
-const defaultProps = {
-	as: 'div',
-	icon: false,
-	onClose: undefined,
+	css?: CSS
 }
 
 type NativeAttrs = Omit<React.HTMLAttributes<unknown>, keyof Props>
 
-export type AlertCardProps = Props & NativeAttrs & AlertCardVariantsProps & { css?: CSS }
+export type AlertCardProps = Props & NativeAttrs & AlertCardVariantsProps
 
-const AlertCard = React.forwardRef<HTMLDivElement, React.PropsWithChildren<AlertCardProps>>(
-	({ children, as, css, icon, onClose, color, ...rest }, ref: React.Ref<HTMLDivElement | null>) => {
+const defaultProps: Partial<AlertCardProps> = {
+	as: 'div' as keyof JSX.IntrinsicElements,
+	icon: false,
+	onClose: undefined,
+	css: undefined,
+}
+
+const AlertCard = React.forwardRef<HTMLDivElement, React.PropsWithRef<React.PropsWithChildren<AlertCardProps>>>(
+	({ children, as, css, icon, onClose, color, ...rest }, ref) => {
 		const cardRef = useRef<HTMLDivElement>(null)
 		useImperativeHandle(ref, () => cardRef.current)
 		const isIconBool = typeof icon === 'boolean'

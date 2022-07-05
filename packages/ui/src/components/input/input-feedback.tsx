@@ -1,7 +1,6 @@
 import React from 'react'
 import { AnimatePresence } from 'framer-motion'
 import { CSS } from '../../theme'
-import withDefaults from '../../utils/with-defaults'
 import { __DEV__ } from '../../utils/assertion'
 import { MotionBox } from '../atoms/motion-box'
 
@@ -37,5 +36,6 @@ if (__DEV__) {
 }
 
 InputFeedback.toString = () => '.z3us-ui-input-feedback'
+InputFeedback.defaultProps = defaultProps
 
-export default withDefaults(InputFeedback, defaultProps)
+export default InputFeedback

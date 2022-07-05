@@ -1,11 +1,10 @@
-import React, { useEffect, useState, PropsWithoutRef, RefAttributes, useImperativeHandle, useRef } from 'react'
+import React, { useEffect, useState, useImperativeHandle, useRef } from 'react'
 import { createPortal } from 'react-dom'
 import create from 'zustand'
 import shallow from 'zustand/shallow'
 import { AnimatePresence } from 'framer-motion'
-import { CSS } from '../../theme'
+import { PropsWithCSS } from '../../types'
 import { __DEV__ } from '../../utils/assertion'
-import withDefaults from '../../utils/with-defaults'
 import { Toast as ToastC } from './toast'
 import { Box } from '../atoms'
 
@@ -47,75 +46,69 @@ const useToastStore = create<ToastsState>((set, get) => ({
 
 export interface Props {
 	uniqueId: string
-	children?: React.ReactNode
 	config: {
 		duration: number
 		type?: string
 	}
 }
 
-const defaultToastProps = {
-	uniqueId: undefined,
-	config: {},
-}
-
 type NativeAttrs = Omit<React.HTMLAttributes<unknown>, keyof Props>
 
-export type ToastProps = Props & NativeAttrs & { css?: CSS }
+const defaultToastProps = {
+	uniqueId: undefined,
+}
 
-const Toast = React.forwardRef<HTMLDivElement, React.PropsWithChildren<ToastProps>>(
-	({ uniqueId, config, children }, ref: React.Ref<HTMLDivElement | null>) => {
-		const toastRef = useRef<HTMLDivElement>(null)
-		useImperativeHandle(ref, () => toastRef.current)
+export type ToastProps = React.PropsWithChildren<PropsWithCSS<Props & NativeAttrs>>
 
-		const [isMounted, setIsMounted] = useState(false)
-		const { duration = 3500, type } = config
+const Toast = React.forwardRef<HTMLDivElement, ToastProps>(({ uniqueId, config, children }, ref) => {
+	const toastRef = useRef<HTMLDivElement>(null)
+	useImperativeHandle(ref, () => toastRef.current)
 
-		const { toastList, close } = useToastStore(
-			store => ({
-				toastList: store.toastList,
-				close: store.close,
-			}),
-			shallow,
-		)
+	const [isMounted, setIsMounted] = useState(false)
+	const { duration = 3500, type } = config
 
-		const isShown = toastList.has(uniqueId)
+	const { toastList, close } = useToastStore(
+		store => ({
+			toastList: store.toastList,
+			close: store.close,
+		}),
+		shallow,
+	)
 
-		useEffect(() => {
-			if (!isMounted) {
-				setIsMounted(true)
-			}
-			if (!duration || !isShown) {
-				return () => {}
-			}
+	const isShown = toastList.has(uniqueId)
 
-			const timeoutId = setTimeout(() => {
-				close(uniqueId)
-			}, duration)
+	useEffect(() => {
+		if (!isMounted) {
+			setIsMounted(true)
+		}
+		if (!duration || !isShown) {
+			return () => {}
+		}
 
-			return () => clearTimeout(timeoutId)
-		}, [uniqueId, isShown, duration, close, isMounted])
+		const timeoutId = setTimeout(() => {
+			close(uniqueId)
+		}, duration)
 
-		return isMounted
-			? createPortal(
-					<Box ref={ref} css={{ position: 'fixed', top: '0', width: '360px' }}>
-						<AnimatePresence>
-							<Box>
-								{isShown && (
-									<ToastC key={uniqueId} type={type} onClickClose={() => close(uniqueId)}>
-										{children}
-									</ToastC>
-								)}
-							</Box>
-						</AnimatePresence>
-					</Box>,
-					document.querySelector('body'),
-			  )
-			: null
-	},
-)
+		return () => clearTimeout(timeoutId)
+	}, [uniqueId, isShown, duration, close, isMounted])
 
-type ToastComponent<T, P = {}> = React.ForwardRefExoticComponent<PropsWithoutRef<P> & RefAttributes<T>>
+	return isMounted
+		? createPortal(
+				<Box ref={ref} css={{ position: 'fixed', top: '0', width: '360px' }}>
+					<AnimatePresence>
+						<Box>
+							{isShown && (
+								<ToastC key={uniqueId} type={type} onClickClose={() => close(uniqueId)}>
+									{children}
+								</ToastC>
+							)}
+						</Box>
+					</AnimatePresence>
+				</Box>,
+				document.querySelector('body'),
+		  )
+		: null
+})
 
 if (__DEV__) {
 	Toast.displayName = 'z3usUI - toast'
@@ -123,7 +116,9 @@ if (__DEV__) {
 
 Toast.toString = () => '.z3us toast'
 
-export default withDefaults(Toast, defaultToastProps) as ToastComponent<HTMLDivElement, ToastProps>
+Toast.defaultProps = defaultToastProps
+
+export default Toast
 
 export const useToastControls = () => {
 	const controls = useToastStore(
