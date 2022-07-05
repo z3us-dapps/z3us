@@ -47,7 +47,7 @@ const SlideUpHeader: React.FC<SProps> = ({ isSearching, onSearch, onCancelSearch
 					showCancelButton
 					placeholder="Search tokens"
 					focusOnMount
-					css={{ position: 'absolute', top: '-22px', left: '14px', width: '298px', zIndex: '2' }}
+					css={{ position: 'absolute', top: '-21px', left: '14px', width: '332px', zIndex: '3' }}
 				/>
 			) : null}
 		</Box>
