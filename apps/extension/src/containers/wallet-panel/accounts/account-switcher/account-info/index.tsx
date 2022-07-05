@@ -152,10 +152,12 @@ export const AccountInfo: React.FC<IProps> = ({ address }) => {
 			</Box>
 			{isHardwareWallet && (
 				<Box css={{ zIndex: 2, position: 'absolute', bottom: '$2', left: '$2' }}>
-					<ToolTip message="Harware wallet account">
-						<Button iconOnly size="1" color="ghost" css={{ color, fill: color }}>
-							<HardwareWalletIcon />
-						</Button>
+					<ToolTip arrowOffset={8} message="Hardware wallet account">
+						<Box>
+							<Button clickable={false} iconOnly size="1" color="ghost" css={{ color, fill: color }}>
+								<HardwareWalletIcon />
+							</Button>
+						</Box>
 					</ToolTip>
 				</Box>
 			)}
