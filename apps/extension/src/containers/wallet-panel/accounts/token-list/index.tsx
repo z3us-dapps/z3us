@@ -51,16 +51,16 @@ const SlideUpHeader: React.FC<SProps> = ({ isSearching, onSearch, onCancelSearch
 				/>
 			) : null}
 		</Box>
-		<Flex css={{ position: 'absolute', top: '22px', right: '12px', zIndex: '2', gap: '4px' }}>
+		<Flex css={{ position: 'absolute', top: '24px', right: '12px', zIndex: '2' }}>
 			<VisibleFadeAnimation isVisible={!isSearching}>
 				<ToolTip message="Search tokens" side="top">
-					<Button iconOnly size="1" color="ghost" onClick={onToggleSearch}>
+					<Button iconOnly size="2" color="ghost" onClick={onToggleSearch}>
 						<MagnifyingGlassIcon />
 					</Button>
 				</ToolTip>
 			</VisibleFadeAnimation>
 			<TokenListSettingsModal toolTipSide="top" toolTipSideOffset={3} toolTipMessage="Edit token list">
-				<Button iconOnly size="1" color="ghost" onClick={onCancelSearch}>
+				<Button iconOnly size="2" color="ghost" onClick={onCancelSearch}>
 					<RowsIcon />
 				</Button>
 			</TokenListSettingsModal>
