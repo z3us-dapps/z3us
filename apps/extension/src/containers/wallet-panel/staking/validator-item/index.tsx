@@ -45,7 +45,7 @@ export const ValidatorItem: React.FC<IProps> = ({ i, validator, totalStakes }) =
 				css={{
 					borderTop: `1px solid ${i === 0 ? 'transparent' : '$borderPanel'}`,
 					px: '$3',
-					py: '$2',
+					py: '$1',
 					backgroundColor,
 				}}
 			>

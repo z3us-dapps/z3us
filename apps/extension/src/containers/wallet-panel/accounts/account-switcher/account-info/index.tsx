@@ -134,7 +134,7 @@ export const AccountInfo: React.FC<IProps> = ({ address }) => {
 					<PriceTicker value={accountPercentageChange} refresh={state.accountValue} />
 				</Text>
 			</Flex>
-			<Box css={{ zIndex: 2, position: 'absolute', top: '$3', right: '$3' }}>
+			<Box css={{ zIndex: 2, position: 'absolute', top: '$2', right: '$2' }}>
 				<AccountModal
 					toolTipSide="top"
 					address={address}
