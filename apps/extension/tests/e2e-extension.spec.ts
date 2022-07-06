@@ -72,7 +72,7 @@ describe('The Extension page should', () => {
 		await page.waitForTimeout(DELAY)
 
 		// user enters password for wallet
-		const PASSWORD = 'jdfj__$$#12'
+		const PASSWORD = 'password'
 		const passwordOneSelector = '[data-test-e2e="wallet-confirm-password-one"]'
 		const passwordTwoSelector = '[data-test-e2e="wallet-confirm-password-two"]'
 		const passwordOne = await page.$(passwordOneSelector)
@@ -80,6 +80,21 @@ describe('The Extension page should', () => {
 		await passwordOne.fill(PASSWORD)
 		await passwordTwo.fill(PASSWORD)
 
+		// user clicks `save` password
+		const savePasswordBtnSelector = '[data-test-e2e="save-wallet-password-btn"]'
+		const savePasswordBtn = await page.$(savePasswordBtnSelector)
+		await savePasswordBtn.click()
+		await page.waitForTimeout(DELAY)
+
+		// user clicks `go to wallet`
+		const goToWalletBtnSelector = '[data-test-e2e="go-to-wallet-btn"]'
+		const goToWalletBtn = await page.$(goToWalletBtnSelector)
+		await goToWalletBtn.click()
+		await page.waitForTimeout(DELAY)
+
+		const totalCardSelector = '[data-test-e2e="accounts-total-card"]'
+		const totalCard = await page.$(totalCardSelector)
+		expect(totalCard.isVisible()).toBeTruthy()
 		await page.waitForTimeout(DELAY)
 	})
 })
