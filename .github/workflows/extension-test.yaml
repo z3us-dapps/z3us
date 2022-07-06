@@ -36,11 +36,11 @@ jobs:
           cd apps/extension
           yarn build
       - name: Install Playwright Browsers
-        run: npx playwright install --with-deps
+        run: npx playwright install-deps chromium
       - name: Run Playwright tests
         run: |-
           cd apps/extension
-          yarn test
+          xvfb-run --auto-servernum -- yarn test
       - uses: actions/upload-artifact@v2
         if: always()
         with:

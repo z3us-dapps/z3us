@@ -37,7 +37,7 @@ describe('The Extension page should', () => {
 
 	it('see the Z3US onboading ui', async () => {
 		const pillSelector = '[data-test-e2e="pill"]'
-		const onboardingPill = await page.$$(pillSelector)
-		expect(onboardingPill).toHaveLength(1)
+		const extOnBoardingPill = await page.$$(pillSelector)
+		expect(extOnBoardingPill).toHaveLength(1)
 	})
 })
