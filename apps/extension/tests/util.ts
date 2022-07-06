@@ -4,13 +4,9 @@ import { join } from 'path'
 
 export const EXTENSION_PATH = join(__dirname, '../dist/chrome')
 
-export const TAB_QUERY = 'div[draggable="true"] div[tabindex="-1"]'
-
-export const URLS = ['https://z3us.com/']
-
 export const isExtensionURL = (url: string) => url.startsWith('chrome-extension://')
 
-export const CLOSE_PAGES = async (browserContext: ChromiumBrowserContext) => {
+export const closePages = async (browserContext: ChromiumBrowserContext) => {
 	const pages = (await browserContext?.pages()) || []
 	for (const page of pages) {
 		const url = await page.url()
