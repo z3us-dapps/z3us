@@ -5,6 +5,8 @@ let page: Page
 let browserContext: ChromiumBrowserContext
 let extensionURL: string
 
+const DELAY = 3000
+
 describe('The Extension page should', () => {
 	beforeAll(async () => {
 		const init = await initBrowserWithExtension()
@@ -39,7 +41,45 @@ describe('The Extension page should', () => {
 		const pillSelector = '[data-test-e2e="pill"]'
 		const extOnBoardingPill = await page.$$(pillSelector)
 		expect(extOnBoardingPill).toHaveLength(1)
+
 		const pillText = await page.$eval(pillSelector, el => el.innerHTML)
 		expect(pillText).toEqual('BETA')
+
+		const shadowElem = await page.$(pillSelector)
+		const shadowElemText = await shadowElem.innerHTML()
+		expect(shadowElemText).toBe('BETA')
+	})
+
+	it('should be able to create new wallet', async () => {
+		const newWalletButtonSelector = '[data-test-e2e="create-new-wallet"]'
+		const newWalletBtn = await page.$$(newWalletButtonSelector)
+		expect(newWalletBtn).toHaveLength(1)
+
+		// click `new wallet button`
+		const pageNewWalletBtn = await page.$(newWalletButtonSelector)
+		await pageNewWalletBtn.click()
+		await page.waitForTimeout(DELAY)
+
+		// expect the secret phrase to have 24 words
+		const mnemonicWordsSelector = '[data-test-e2e="create-new-wallet-mnemonic"] span'
+		const mnemonicWords = await page.$$eval(mnemonicWordsSelector, nodes => nodes.map(node => node.innerHTML))
+		expect(mnemonicWords).toHaveLength(24)
+
+		// When user clicks the `Save` button
+		const savePhraseBtnSelector = '[data-test-e2e="create-new-wallet-save-btn"]'
+		const savePhraseBtn = await page.$(savePhraseBtnSelector)
+		await savePhraseBtn.click()
+		await page.waitForTimeout(DELAY)
+
+		// user enters password for wallet
+		const PASSWORD = 'jdfj__$$#12'
+		const passwordOneSelector = '[data-test-e2e="wallet-confirm-password-one"]'
+		const passwordTwoSelector = '[data-test-e2e="wallet-confirm-password-two"]'
+		const passwordOne = await page.$(passwordOneSelector)
+		const passwordTwo = await page.$(passwordTwoSelector)
+		await passwordOne.fill(PASSWORD)
+		await passwordTwo.fill(PASSWORD)
+
+		await page.waitForTimeout(DELAY)
 	})
 })
