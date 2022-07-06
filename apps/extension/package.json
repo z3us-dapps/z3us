@@ -18,8 +18,7 @@
 		"check-types": "tsc --noemit",
 		"eslint": "eslint --ignore-path .eslintignore --ext .js,.ts,.tsx .",
 		"lint": "yarn run eslint && yarn run check-types",
-		"test": "playwright test",
-		"test_headed": "playwright test --headed"
+		"test": "jest --maxWorkers=1  --detectOpenHandles --forceExit"
 	},
 	"dependencies": {
 		"@ledgerhq/hw-transport-webhid": "^6.24.1",
@@ -95,7 +94,6 @@
 		"@babel/preset-typescript": "^7.16.7",
 		"@types/chrome": "^0.0.181",
 		"@types/hoist-non-react-statics": "^3.3.1",
-		"@types/jest": "^26.0.23",
 		"@types/lodash.merge": "^4.6.6",
 		"@types/node": "^15.12.2",
 		"@types/raf": "^3.4.0",
@@ -104,8 +102,11 @@
 		"@types/react-test-renderer": "^17.0.1",
 		"@types/w3c-web-hid": "^1.0.3",
 		"@types/webextension-polyfill": "^0.8.3",
+		"@types/jest": "27.5.2",
 		"rollup-plugin-visualizer": "^5.6.0",
+		"jest-playwright-preset": "1.7.2",
+		"ts-jest": "28.0.5",
 		"typescript": "^4.6.3",
-		"@playwright/test": "^1.23.0"
+		"playwright": "1.23.1"
 	}
 }

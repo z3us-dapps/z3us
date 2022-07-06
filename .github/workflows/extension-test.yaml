@@ -40,7 +40,7 @@ jobs:
       - name: Run Playwright tests
         run: |-
           cd apps/extension
-          yarn playwright test
+          yarn test
       - uses: actions/upload-artifact@v2
         if: always()
         with:
