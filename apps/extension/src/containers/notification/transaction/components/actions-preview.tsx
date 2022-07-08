@@ -15,7 +15,7 @@ interface ActionPreviewProps {
 	fee?: string
 }
 
-const ActionPreview: React.FC<ActionPreviewProps> = ({ activity, fee }) => {
+const ActionPreview: React.FC<ActionPreviewProps> = ({ activity, fee: feeFromProps }) => {
 	const { data: token } = useTokenInfo(activity?.amount?.token_identifier?.rri)
 	const { addressBook } = useSharedStore(state => ({
 		addressBook: state.addressBook,
@@ -26,6 +26,7 @@ const ActionPreview: React.FC<ActionPreviewProps> = ({ activity, fee }) => {
 	}))
 
 	const amount = activity?.amount?.value ? new BigNumber(activity.amount.value).shiftedBy(-18) : undefined
+	const fee = feeFromProps ? new BigNumber(feeFromProps).shiftedBy(-18) : undefined
 
 	const fromAccount = activity?.from_account?.address
 	const fromEntry = addressBook[fromAccount] || publicAddresses.find(_account => _account.address === fromAccount)
@@ -68,16 +69,7 @@ const ActionPreview: React.FC<ActionPreviewProps> = ({ activity, fee }) => {
 					</Text>
 				</Flex>
 			)}
-			{fee && (
-				<Flex css={{ position: 'relative', pb: '15px' }}>
-					<SlippageBox
-						token={token}
-						css={{ border: 'none' }}
-						fee={fee ? new BigNumber(fee).shiftedBy(-18) : undefined}
-						amount={amount}
-					/>
-				</Flex>
-			)}
+			{fee && <SlippageBox token={token} fee={fee} amount={amount} />}
 		</Box>
 	)
 }
@@ -102,7 +94,7 @@ const ActionsPreview: React.FC<IProps> = ({ actions, fee }) => {
 	}
 
 	return (
-		<Box css={{ mt: '$2', maxHeight: '200px', overflowY: 'auto' }}>
+		<Box css={{ mt: '$2', maxHeight: '300px', overflowY: 'auto' }}>
 			{actions.map((activity: any, i) => (
 				<ActionPreview key={i} activity={activity} fee={fee} />
 			))}
