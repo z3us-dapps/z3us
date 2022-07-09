@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react'
+import { firstValueFrom } from 'rxjs'
 import TransportWebHID from '@ledgerhq/hw-transport-webhid'
 import AlertCard from 'ui/src/components/alert-card'
 import { HardwareWalletLedger } from '@radixdlt/hardware-ledger'
@@ -8,7 +9,7 @@ import { HDPathRadix } from '@radixdlt/crypto'
 import { useImmer } from 'use-immer'
 import { useSharedStore, useStore } from '@src/store'
 import { CopyIcon, ReloadIcon, ExclamationTriangleIcon } from '@radix-ui/react-icons'
-import SimpleBar from 'simplebar-react'
+import { ScrollArea } from 'ui/src/components/scroll-area'
 import { copyTextToClipboard } from '@src/utils/copy-to-clipboard'
 import { Checkbox, CheckIcon } from 'ui/src/components/checkbox'
 import ButtonTipFeedback from 'ui/src/components/button-tip-feedback'
@@ -20,14 +21,15 @@ import { Flex, Text, Box, MotionBox } from 'ui/src/components/atoms'
 import Button from 'ui/src/components/button'
 import { generateId } from '@src/utils/generate-id'
 import { KeystoreType } from '@src/store/types'
+import { useAPDU } from '@src/hooks/use-apdu'
 
 const isHIDSupported = !!window?.navigator?.hid
 
 export const ImportAccounts = (): JSX.Element => {
-	const { keystore, setStep, sendAPDU, lock, addKeystore } = useSharedStore(state => ({
+	const sendAPDU = useAPDU()
+	const { keystore, setStep, lock, addKeystore } = useSharedStore(state => ({
 		keystore: state.keystores.find(({ id }) => id === state.selectKeystoreId),
 		setStep: state.setConnectHardwareWalletStepAction,
-		sendAPDU: state.sendAPDUAction,
 		lock: state.lockAction,
 		addKeystore: state.addKeystoreAction,
 	}))
@@ -86,11 +88,11 @@ export const ImportAccounts = (): JSX.Element => {
 			})
 
 			const addresses = []
-			const hw = await HardwareWalletLedger.create({ send: sendAPDU }).toPromise()
+			const hw = await firstValueFrom(HardwareWalletLedger.create({ send: sendAPDU }))
 			for (let i = 0; i < 4; i += 1) {
 				const hdPath = HDPathRadix.create({ address: { index: i, isHardened: true } })
 				// eslint-disable-next-line no-await-in-loop
-				const hardwareSigningKey = await hw.makeSigningKey(hdPath, i === 0).toPromise()
+				const hardwareSigningKey = await firstValueFrom(hw.makeSigningKey(hdPath, i === 0))
 				const signingKey = SigningKey.fromHDPathWithHWSigningKey({ hdPath, hardwareSigningKey })
 				const address = AccountAddress.fromPublicKeyAndNetwork({
 					publicKey: signingKey.publicKey,
@@ -229,14 +231,15 @@ export const ImportAccounts = (): JSX.Element => {
 									pb: '$3',
 								}}
 							>
-								<Box as="ul">
-									<SimpleBar
-										style={{
-											height: '100%',
-											position: 'relative',
-											maxHeight: '350px',
-										}}
-									>
+								<Box
+									as="ul"
+									css={{
+										height: '100%',
+										position: 'relative',
+										maxHeight: '350px',
+									}}
+								>
+									<ScrollArea>
 										{state.addresses.map((address, index) => {
 											const addressString = address.toString()
 											return (
@@ -266,7 +269,7 @@ export const ImportAccounts = (): JSX.Element => {
 												</Flex>
 											)
 										})}
-									</SimpleBar>
+									</ScrollArea>
 								</Box>
 							</Box>
 						)}

@@ -1,23 +1,23 @@
 /* eslint-disable react/jsx-props-no-spreading */
 import React, { PropsWithoutRef, RefAttributes, useImperativeHandle, useRef } from 'react'
-import { CSS } from '../../theme'
 import withDefaults from '../../utils/with-defaults'
 import { __DEV__ } from '../../utils/assertion'
+import { PropsWithCSS } from '../../types'
 import { StyledButtonGroup, ButtonGroupVariantsProps } from './button-group.styles'
 
 export interface Props {
 	as?: keyof JSX.IntrinsicElements
 }
 
-const defaultProps = {
-	as: 'div',
-}
-
 type NativeAttrs = Omit<React.HTMLAttributes<unknown>, keyof Props>
 
-export type AlertCardProps = Props & NativeAttrs & ButtonGroupVariantsProps & { css?: CSS }
+export type AlertCardProps = Props & NativeAttrs & ButtonGroupVariantsProps
 
-const ButtonGroup = React.forwardRef<HTMLDivElement, React.PropsWithChildren<AlertCardProps>>(
+const defaultProps: Partial<AlertCardProps> = {
+	as: 'div' as keyof JSX.IntrinsicElements,
+}
+
+const ButtonGroup = React.forwardRef<HTMLDivElement, React.PropsWithChildren<PropsWithCSS<AlertCardProps>>>(
 	({ children, as, css, color, ...rest }, ref: React.Ref<HTMLDivElement | null>) => {
 		const cardRef = useRef<HTMLDivElement>(null)
 		useImperativeHandle(ref, () => cardRef.current)

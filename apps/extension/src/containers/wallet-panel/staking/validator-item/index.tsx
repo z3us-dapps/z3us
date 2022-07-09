@@ -9,8 +9,8 @@ import Button from 'ui/src/components/button'
 import { formatBigNumber } from '@src/utils/formatters'
 import BigNumber from 'bignumber.js'
 import { apy } from '@src/utils/radix'
+import { EXPLORER_URL } from '@src/config'
 import { StakeModal } from '../stake-modal'
-import { EXPLORER_URL } from '../../../../config'
 
 const LEFT_COL_WIDTH = '150px'
 
@@ -45,7 +45,7 @@ export const ValidatorItem: React.FC<IProps> = ({ i, validator, totalStakes }) =
 				css={{
 					borderTop: `1px solid ${i === 0 ? 'transparent' : '$borderPanel'}`,
 					px: '$3',
-					py: '$2',
+					py: '$1',
 					backgroundColor,
 				}}
 			>

@@ -182,7 +182,7 @@ export const LandingPage: React.FC = () => {
 						}}
 					>
 						<Box css={{ px: '20px', pt: '50px', pb: '0px', '@md': { px: '50px' } }}>
-							<Text size="12" css={{ color: '#5d3f09' }}>
+							<Text bold size="12" css={{ color: '#5d3f09' }}>
 								UX driven.
 							</Text>
 						</Box>
@@ -227,7 +227,11 @@ export const LandingPage: React.FC = () => {
 							css={{ '@sm': { ta: 'center', maxWidth: '80%', mx: 'auto' }, '@md': { ta: 'left', maxWidth: '100%' } }}
 						>
 							<Image layout="fixed" src={RadixLogoImage} alt="Z3US Wallet" width={94} height={24} />
-							<Text size="12" css={{ color: '#14372c', mt: '$6', '@md': { fontSize: '48px', lineHeight: '54px' } }}>
+							<Text
+								bold
+								size="12"
+								css={{ color: '#14372c', mt: '$6', '@md': { fontSize: '48px', lineHeight: '54px' } }}
+							>
 								An open source community centered wallet for the Radix DLT network.
 							</Text>
 							<Text size="4" css={{ color: '#14372c', mt: '$6' }}>
@@ -263,7 +267,7 @@ export const LandingPage: React.FC = () => {
 								'@md': { maxWidth: '70%' },
 							}}
 						>
-							<Text css={{ color: '#3d3550', fontSize: '44px', lineHeight: '48px' }}>
+							<Text bold css={{ color: '#3d3550', fontSize: '44px', lineHeight: '48px' }}>
 								First class security with{' '}
 								<StyledLink bubble href="https://www.ledger.com/">
 									Ledger

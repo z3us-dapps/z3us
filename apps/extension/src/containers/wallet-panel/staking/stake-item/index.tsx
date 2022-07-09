@@ -17,6 +17,7 @@ interface IProps {
 	pendingStakes?: BigNumber
 	stakes?: BigNumber
 	pendingUnstakes?: BigNumber
+	search: string
 }
 
 export const StakeItem: React.FC<IProps> = ({
@@ -26,10 +27,13 @@ export const StakeItem: React.FC<IProps> = ({
 	stakes,
 	pendingUnstakes,
 	total,
+	search,
 }) => {
 	const { isLoading, data: validator } = useLookupValidator(valdiatorAddress)
+	const isSearchMatch =
+		validator?.name?.toLowerCase().includes(search) || validator?.infoURL?.toLowerCase().includes(search)
 
-	if (isLoading || !validator) {
+	if (isLoading || !validator || !isSearchMatch) {
 		return null
 	}
 

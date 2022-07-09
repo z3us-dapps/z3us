@@ -12,11 +12,11 @@ import { useColorMode } from '@src/hooks/use-color-mode'
 import { useVault } from '@src/hooks/use-vault'
 import { domExists } from '@src/utils/dom-exists'
 import { Credentials } from '@src/containers/credentials'
-import { useManifestCompoler } from '@src/hooks/use-manifest-compiler'
+// import { useManifestCompoler } from '@src/hooks/use-manifest-compiler'
 
 export const App: React.FC = () => {
 	const isHardwareWalletRoute = domExists && window.location.href.includes('html#/hardware-wallet')
-	useManifestCompoler()
+	// useManifestCompoler()
 	useColorMode()
 	useVault()
 

@@ -6,12 +6,13 @@ import { useSharedStore, useStore } from '@src/store'
 import { useRoute } from 'wouter'
 import { hexToJSON } from '@src/utils/encoding'
 import { CONFIRM } from '@src/lib/actions'
-import { EncryptMessage } from '@src/services/radix/message'
 import { HardwareWalletReconnect } from '@src/components/hardware-wallet-reconnect'
+import { useMessage } from '@src/hooks/use-message'
 
 export const Encrypt = (): JSX.Element => {
 	const [, { id }] = useRoute<{ id: string }>('/encrypt/:id')
 
+	const { createMessage } = useMessage()
 	const { sendResponse } = useSharedStore(state => ({
 		sendResponse: state.sendResponseAction,
 	}))
@@ -38,11 +39,11 @@ export const Encrypt = (): JSX.Element => {
 
 	const handleConfirm = async () => {
 		if (!account) return
-		const ecnrypted = await EncryptMessage(account, toAddress, message)
+		const ecnrypted = await createMessage(message, toAddress)
 		sendResponse(CONFIRM, {
 			id,
 			host,
-			payload: { request: action.request, value: ecnrypted.toString('hex') },
+			payload: { request: action.request, value: ecnrypted },
 		})
 	}
 

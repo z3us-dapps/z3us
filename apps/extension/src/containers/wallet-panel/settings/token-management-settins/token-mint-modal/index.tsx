@@ -126,6 +126,11 @@ export const MintTokenModal: React.FC<IProps> = ({ trigger }) => {
 				draft.isModalOpen = false
 			})
 			setLocation(`/wallet/account/token/${state.rri}`)
+			addToast({
+				type: 'success',
+				title: 'Succesfully submited transaction to the network',
+				duration: 5000,
+			})
 		} catch (error) {
 			addToast({
 				type: 'error',

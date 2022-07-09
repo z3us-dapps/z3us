@@ -51,11 +51,11 @@ const generateComponents = (theme: string) => ({
 			{...props}
 		/>
 	),
-	h2: props => <Text as="h2" size="10" css={{ py: '$3' }} {...props} />,
-	h3: props => <Text as="h3" size="8" css={{ py: '$3' }} {...props} />,
-	h4: props => <Text as="h4" size="7" css={{ py: '$3' }} {...props} />,
-	h5: props => <Text as="h5" size="5" css={{ py: '$3' }} {...props} />,
-	h6: props => <Text as="h6" size="4" css={{ py: '$3' }} {...props} />,
+	h2: props => <Text bold as="h2" size="10" css={{ py: '$3' }} {...props} />,
+	h3: props => <Text bold as="h3" size="8" css={{ py: '$3' }} {...props} />,
+	h4: props => <Text bold as="h4" size="7" css={{ py: '$3' }} {...props} />,
+	h5: props => <Text bold as="h5" size="5" css={{ py: '$3' }} {...props} />,
+	h6: props => <Text bold as="h6" size="4" css={{ py: '$3' }} {...props} />,
 	p: props => (
 		<Text
 			as="p"

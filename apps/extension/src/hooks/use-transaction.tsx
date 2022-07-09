@@ -1,7 +1,8 @@
 import { useCallback } from 'react'
+import { firstValueFrom } from 'rxjs'
 import { ActionType } from '@radixdlt/application'
 import { ExtendedActionType, IntendedAction } from '@src/types'
-import { useStore } from '@src/store'
+import { useSharedStore, useStore } from '@src/store'
 import { useRadix } from '@src/hooks/use-radix'
 // import { useSignature } from '@src/hooks/use-signature'
 // import { randomBytes } from 'crypto'
@@ -10,6 +11,10 @@ import { useRadix } from '@src/hooks/use-radix'
 export const useTransaction = () => {
 	const radix = useRadix()
 	// const { sign, verify } = useSignature()
+	const { isHardwareWallet, addToast } = useSharedStore(state => ({
+		isHardwareWallet: state.isHardwareWallet,
+		addToast: state.addToastAction,
+	}))
 	const { account } = useStore(state => ({
 		account: state.account,
 	}))
@@ -163,7 +168,16 @@ export const useTransaction = () => {
 		async (symbol: string, transaction: { blob: string; hashOfBlobToSign: string }) => {
 			const rriName = symbol.toLocaleLowerCase()
 			const nonXrdHRP = rriName !== 'xrd' ? rriName : undefined
-			const signature = await account.sign(transaction, nonXrdHRP).toPromise()
+
+			if (isHardwareWallet) {
+				addToast({
+					type: 'success',
+					title: 'Please confirm with your device',
+					duration: 2000,
+				})
+			}
+
+			const signature = await firstValueFrom(account.sign(transaction, nonXrdHRP))
 
 			return radix.finalizeTransaction(account.network, {
 				transaction,

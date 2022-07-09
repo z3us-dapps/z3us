@@ -128,14 +128,6 @@ export type HardwareWalletStore = {
 
 	hardwareWallet: HardwareWalletT | null
 	setHardwareWalletAction: (hw: HardwareWalletT) => void
-	sendAPDUAction: (
-		cla: number,
-		ins: number,
-		p1: number,
-		p2: number,
-		data?: Buffer,
-		statusList?: number[],
-	) => Promise<Buffer>
 }
 
 export type WalletStore = {
@@ -170,7 +162,9 @@ export type WalletStore = {
 	) => Promise<void>
 
 	visibleTokens: VisibleTokens
+	tokenSearch: string
 	setVisibleTokensAction: (visibleTokens: VisibleTokens) => void
+	setTokenSearchAction: (search: string) => void
 
 	activeSlideIndex: number
 	setActiveSlideIndexAction: (
