@@ -2,13 +2,28 @@
 import React, { useEffect } from 'react'
 import { useImmer } from 'use-immer'
 import { AccountAddress, sha256, Signature, AccountAddressT } from '@radixdlt/application'
+import { ChevronDownIcon, ChevronUpIcon } from '@radix-ui/react-icons'
+import {
+	Select,
+	SelectTrigger,
+	SelectValue,
+	SelectContent,
+	SelectViewport,
+	SelectGroup,
+	SelectItem,
+	SelectIcon,
+	SelectLabel,
+	SelectItemText,
+	SelectItemIndicator,
+	SelectScrollUpButton,
+	SelectScrollDownButton,
+} from 'ui/src/components/select'
 import Button from 'ui/src/components/button'
 import Toast, { useToastControls } from 'ui/src/components/toasts'
-import Input from 'ui/src/components/input'
 import AlertCard from 'ui/src/components/alert-card'
 import { Box, Flex, Text } from 'ui/src/components/atoms'
 import { useZ3usWallet } from 'hooks/use-z3us-wallet'
-import Seperator from 'components/seperator'
+import usePortal from 'react-useportal'
 
 const verifySignature = (address: AccountAddressT, signatureDER: string, payload: string): boolean => {
 	const signatureResult = Signature.fromDER(signatureDER)
@@ -22,9 +37,23 @@ const verifySignature = (address: AccountAddressT, signatureDER: string, payload
 
 export const Airdrop = () => {
 	const { show } = useToastControls()
-	const { address, connect, disconnect, sign, hasWallet } = useZ3usWallet()
+	const { Portal, isOpen, openPortal, closePortal } = usePortal({
+		onOpen({ portal }) {
+			portal.current.style.cssText = `
+		  position: fixed;
+		  left: 50%;
+		  top: 50%;
+		  transform: translate(-50%,-50%);
+		  z-index: 1000;
+		`
+		},
+	})
+	const { address, connect, disconnect, sign, hasWallet, accounts } = useZ3usWallet()
 	const [state, setState] = useImmer({
+		address: '',
+		addresses: [],
 		hasWallet: true,
+		der: '',
 		errorMessage: '',
 	})
 
@@ -35,6 +64,13 @@ export const Airdrop = () => {
 				setState(draft => {
 					draft.hasWallet = has
 				})
+				if (address) {
+					const addresses = await accounts()
+					setState(draft => {
+						draft.address = address.toString()
+						draft.addresses = addresses
+					})
+				}
 			} catch (error) {
 				console.error(error)
 				setState(draft => {
@@ -47,11 +83,18 @@ export const Airdrop = () => {
 		onLoad()
 	}, [address])
 
+	const setSelectedAddress = (addr: string) => {
+		setState(draft => {
+			draft.address = addr
+		})
+	}
+
 	const handleConnect = () => {
 		try {
 			connect()
 			setState(draft => {
 				draft.errorMessage = ''
+				draft.der = ''
 			})
 		} catch (error) {
 			console.error(error)
@@ -67,6 +110,7 @@ export const Airdrop = () => {
 			disconnect()
 			setState(draft => {
 				draft.errorMessage = ''
+				draft.der = ''
 			})
 		} catch (error) {
 			console.error(error)
@@ -77,24 +121,24 @@ export const Airdrop = () => {
 		}
 	}
 
-	const handleSign = async () => {
+	const handleSign = async e => {
 		if (!address) return
 		const result = AccountAddress.fromUnsafe(address)
 		if (!result.isOk()) {
 			console.error(result.error)
 			return
 		}
-
 		try {
 			const payload = `z3us-airdrop-${Math.floor(Math.random() * Math.floor(Math.random() * Date.now()))}`
 			const der = await sign(payload)
 			if (verifySignature(result.value, der, payload)) {
 				throw new Error('Invalid signature')
 			}
-			window.open(`tg://resolve?domain=z3us_dapps_bot&text=${address}`)
 			setState(draft => {
 				draft.errorMessage = ''
+				draft.der = der
 			})
+			openPortal(e)
 		} catch (error) {
 			console.error(error)
 			setState(draft => {
@@ -123,14 +167,40 @@ export const Airdrop = () => {
 					</Button>
 				</Flex>
 
-				<Seperator title="Subscribe for public Airdrop!" />
-
-				<Box>
-					<Input value={address ? address.toString() : ''} size="2" placeholder="With address" disabled />
+				<Box css={{ mt: '$4' }}>
+					<Select defaultValue={address} value={state.address} onValueChange={setSelectedAddress}>
+						<SelectTrigger aria-label="select address" asChild>
+							<Button color="input" size="4" fullWidth>
+								<SelectValue />
+								<SelectIcon>
+									<ChevronDownIcon />
+								</SelectIcon>
+							</Button>
+						</SelectTrigger>
+						<SelectContent>
+							<SelectScrollUpButton>
+								<ChevronUpIcon />
+							</SelectScrollUpButton>
+							<SelectViewport>
+								<SelectGroup>
+									<SelectLabel>Select account address</SelectLabel>
+									{state.addresses.map(addr => (
+										<SelectItem key={addr} value={addr}>
+											<SelectItemText>{`${addr?.substring(0, 4)}...${addr?.slice(-4)}`}</SelectItemText>
+											<SelectItemIndicator />
+										</SelectItem>
+									))}
+								</SelectGroup>
+							</SelectViewport>
+							<SelectScrollDownButton>
+								<ChevronDownIcon />
+							</SelectScrollDownButton>
+						</SelectContent>
+					</Select>
 
 					<Flex css={{ pt: '$4' }}>
 						<Button size="5" color="primary" onClick={handleSign} disabled={!address}>
-							Subscribe
+							Subscribe for public Airdrop!
 						</Button>
 					</Flex>
 				</Box>
@@ -142,6 +212,28 @@ export const Airdrop = () => {
 					</Toast>
 				</li>
 			</ul>
+			<Portal>
+				{isOpen && (
+					<Box>
+						<Text>
+							<a href="tg://resolve?domain=z3us_dapps_bot">Use Z3US Bot</a> to send message {`/subscribe ${address}`}
+						</Text>
+						<Button
+							size="5"
+							color="primary"
+							onClick={e => {
+								closePortal(e)
+								setState(draft => {
+									draft.errorMessage = ''
+									draft.der = ''
+								})
+							}}
+						>
+							Close
+						</Button>
+					</Box>
+				)}
+			</Portal>
 		</Box>
 	)
 }
