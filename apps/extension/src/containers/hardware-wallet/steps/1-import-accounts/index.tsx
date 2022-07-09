@@ -227,7 +227,6 @@ export const ImportAccounts = (): JSX.Element => {
 									br: '$2',
 									border: '1px solid $borderPanel',
 									position: 'relative',
-									minHeight: '70px',
 									pb: '$3',
 								}}
 							>
@@ -236,7 +235,7 @@ export const ImportAccounts = (): JSX.Element => {
 									css={{
 										height: '100%',
 										position: 'relative',
-										maxHeight: '350px',
+										minHeight: '200px',
 									}}
 								>
 									<ScrollArea>
