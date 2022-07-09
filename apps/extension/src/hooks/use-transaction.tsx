@@ -11,9 +11,8 @@ import { useRadix } from '@src/hooks/use-radix'
 export const useTransaction = () => {
 	const radix = useRadix()
 	// const { sign, verify } = useSignature()
-	const { isHardwareWallet, addToast } = useSharedStore(state => ({
-		isHardwareWallet: state.isHardwareWallet,
-		addToast: state.addToastAction,
+	const { addConfirmWithHWToast } = useSharedStore(state => ({
+		addConfirmWithHWToast: state.addConfirmWithHWToastAction,
 	}))
 	const { account } = useStore(state => ({
 		account: state.account,
@@ -169,13 +168,7 @@ export const useTransaction = () => {
 			const rriName = symbol.toLocaleLowerCase()
 			const nonXrdHRP = rriName !== 'xrd' ? rriName : undefined
 
-			if (isHardwareWallet) {
-				addToast({
-					type: 'success',
-					title: 'Please confirm with your device',
-					duration: 2000,
-				})
-			}
+			addConfirmWithHWToast()
 
 			const signature = await firstValueFrom(account.sign(transaction, nonXrdHRP))
 

@@ -42,6 +42,7 @@ export type ToastsStore = {
 	toasts: Array<Toast>
 	addToastAction: (toast?: Toast) => void
 	removeToastAction: (id: string) => void
+	addConfirmWithHWToastAction: () => void
 }
 
 export type ThemeStore = {
