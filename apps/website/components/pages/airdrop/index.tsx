@@ -23,6 +23,7 @@ import Toast, { useToastControls } from 'ui/src/components/toasts'
 import AlertCard from 'ui/src/components/alert-card'
 import { Box, Flex, Text } from 'ui/src/components/atoms'
 import { useZ3usWallet } from 'hooks/use-z3us-wallet'
+import Input from 'ui/src/components/input'
 import usePortal from 'react-useportal'
 
 const verifySignature = (address: AccountAddressT, signatureDER: string, payload: string): boolean => {
@@ -111,6 +112,8 @@ export const Airdrop = () => {
 			setState(draft => {
 				draft.errorMessage = ''
 				draft.der = ''
+				draft.address = ''
+				draft.addresses = []
 			})
 		} catch (error) {
 			console.error(error)
@@ -161,49 +164,51 @@ export const Airdrop = () => {
 					</AlertCard>
 				)}
 
-				<Flex align="center" css={{ pt: '0' }}>
+				<Flex align="center" css={{ pt: '$4' }}>
 					<Button size="6" color="primary" onClick={!address ? handleConnect : handleDisconnect}>
 						{!address ? 'Connect' : 'Disconnect'}
 					</Button>
 				</Flex>
 
-				<Box css={{ mt: '$4' }}>
-					<Select defaultValue={address} value={state.address} onValueChange={setSelectedAddress}>
-						<SelectTrigger aria-label="select address" asChild>
-							<Button color="input" size="4" fullWidth>
-								<SelectValue />
-								<SelectIcon>
+				{state.address && (
+					<Box css={{ mt: '$4' }}>
+						<Select defaultValue={address} value={state.address} onValueChange={setSelectedAddress}>
+							<SelectTrigger aria-label="select address" asChild>
+								<Button color="input" size="4" fullWidth>
+									<SelectValue />
+									<SelectIcon>
+										<ChevronDownIcon />
+									</SelectIcon>
+								</Button>
+							</SelectTrigger>
+							<SelectContent>
+								<SelectScrollUpButton>
+									<ChevronUpIcon />
+								</SelectScrollUpButton>
+								<SelectViewport>
+									<SelectGroup>
+										<SelectLabel>Select account address</SelectLabel>
+										{state.addresses.map(addr => (
+											<SelectItem key={addr} value={addr}>
+												<SelectItemText>{`${addr?.substring(0, 4)}...${addr?.slice(-4)}`}</SelectItemText>
+												<SelectItemIndicator />
+											</SelectItem>
+										))}
+									</SelectGroup>
+								</SelectViewport>
+								<SelectScrollDownButton>
 									<ChevronDownIcon />
-								</SelectIcon>
-							</Button>
-						</SelectTrigger>
-						<SelectContent>
-							<SelectScrollUpButton>
-								<ChevronUpIcon />
-							</SelectScrollUpButton>
-							<SelectViewport>
-								<SelectGroup>
-									<SelectLabel>Select account address</SelectLabel>
-									{state.addresses.map(addr => (
-										<SelectItem key={addr} value={addr}>
-											<SelectItemText>{`${addr?.substring(0, 4)}...${addr?.slice(-4)}`}</SelectItemText>
-											<SelectItemIndicator />
-										</SelectItem>
-									))}
-								</SelectGroup>
-							</SelectViewport>
-							<SelectScrollDownButton>
-								<ChevronDownIcon />
-							</SelectScrollDownButton>
-						</SelectContent>
-					</Select>
+								</SelectScrollDownButton>
+							</SelectContent>
+						</Select>
 
-					<Flex css={{ pt: '$4' }}>
-						<Button size="5" color="primary" onClick={handleSign} disabled={!address}>
-							Subscribe for public Airdrop!
-						</Button>
-					</Flex>
-				</Box>
+						<Flex css={{ pt: '$4' }}>
+							<Button size="5" color="primary" onClick={handleSign} disabled={!address}>
+								Subscribe for public Airdrop!
+							</Button>
+						</Flex>
+					</Box>
+				)}
 			</Box>
 			<ul>
 				<li>
@@ -212,12 +217,20 @@ export const Airdrop = () => {
 					</Toast>
 				</li>
 			</ul>
-			<Portal>
-				{isOpen && (
-					<Box>
+			{isOpen && (
+				<Portal>
+					<Box css={{ mt: '$4' }}>
 						<Text>
-							<a href="tg://resolve?domain=z3us_dapps_bot">Use Z3US Bot</a> to send message {`/subscribe ${address}`}
+							<a href="tg://resolve?domain=z3us_dapps_bot">Contact Z3US Bot</a> with following message:
 						</Text>
+						<Input
+							value={`/subscribe ${state.address}`}
+							as="textarea"
+							size="2"
+							placeholder="Message"
+							css={{ minHeight: '120px', width: '100%', pt: '$2' }}
+							disabled
+						/>
 						<Button
 							size="5"
 							color="primary"
@@ -232,8 +245,8 @@ export const Airdrop = () => {
 							Close
 						</Button>
 					</Box>
-				)}
-			</Portal>
+				</Portal>
+			)}
 		</Box>
 	)
 }
