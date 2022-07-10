@@ -2,7 +2,7 @@
 import React, { useEffect } from 'react'
 import { useQueryClient } from 'react-query'
 import { useImmer } from 'use-immer'
-import { Box, StyledLink } from 'ui/src/components/atoms'
+import { Box, StyledLink, Text } from 'ui/src/components/atoms'
 import Button from 'ui/src/components/button'
 import Input from 'ui/src/components/input'
 import { PageWrapper, PageHeading, PageSubHeading } from '@src/components/layout'
@@ -10,6 +10,7 @@ import { useSharedStore, useStore } from '@src/store'
 import { useRoute } from 'wouter'
 import { hexToJSON } from '@src/utils/encoding'
 import { CONFIRM } from '@src/lib/actions'
+import InputFeedback from 'ui/src/components/input/input-feedback'
 import { HardwareWalletReconnect } from '@src/components/hardware-wallet-reconnect'
 import { useTokenInfo } from '@src/services/react-query/queries/radix'
 import { useTransaction } from '@src/hooks/use-transaction'
@@ -21,7 +22,8 @@ export const Transaction = (): JSX.Element => {
 	const queryClient = useQueryClient()
 
 	const {
-		buildTransactionFromActions,
+		buildTransaction,
+		// buildTransactionFromActions,
 		// buildTransactionFromManifest,
 		signTransaction,
 		submitTransaction,
@@ -49,17 +51,25 @@ export const Transaction = (): JSX.Element => {
 	const { host, request = {} } = action
 	const { manifest = '', actions = [], message = '', encryptMessage = false } = request
 
-	const rri = actions.find(a => !!a?.rri)?.rri || ''
-	const recipient = actions.find(a => !!a?.to_account)?.to_account || ''
+	const rri = actions.find(a => !!a?.amount?.token_identifier?.rri)?.amount?.token_identifier?.rri || ''
+	const recipient = actions.find(a => !!a?.to_account)?.to_account?.address || ''
 
 	const { data: token } = useTokenInfo(rri)
 
 	useEffect(() => {
+		if (!account) return
 		if (actions.length > 0) {
 			const build = async () => {
 				try {
 					const msg = await createMessage(message, encryptMessage ? recipient : undefined)
-					const { fee, transaction } = await buildTransactionFromActions(actions, msg)
+					const { fee, transaction } = await buildTransaction({
+						network_identifier: { network: account.address.network },
+						actions,
+						fee_payer: {
+							address: account.address.toString(),
+						},
+						message: msg,
+					})
 					setState(draft => {
 						draft.fee = fee
 						draft.transaction = transaction
@@ -109,7 +119,10 @@ export const Transaction = (): JSX.Element => {
 		} catch (error) {
 			// eslint-disable-next-line no-console
 			console.error(error)
-			const errorMessage = (error?.message || error).toString().trim() || 'Failed to submit transaction'
+			let errorMessage = (error?.message || error).toString().trim() || 'Failed to submit transaction'
+			if (errorMessage.includes('"type":"HARDWARE"')) {
+				errorMessage = JSON.parse(errorMessage)?.message
+			}
 			setState(draft => {
 				draft.errorMessage = errorMessage
 			})
@@ -123,7 +136,7 @@ export const Transaction = (): JSX.Element => {
 
 	return (
 		<>
-			<PageWrapper css={{ flex: '1' }}>
+			<PageWrapper css={{ flex: '1', overflowY: 'auto', maxHeight: '450px' }}>
 				<Box>
 					<PageHeading>Approve</PageHeading>
 					<PageSubHeading>
@@ -134,22 +147,31 @@ export const Transaction = (): JSX.Element => {
 						.
 					</PageSubHeading>
 				</Box>
-				<Box css={{ mt: '$8', flex: '1' }}>
+				<Box css={{ mt: '$2', flex: '1' }}>
 					<HardwareWalletReconnect />
 				</Box>
-				<Box>
-					<ActionsPreview actions={actions} fee={state.fee} />
-				</Box>
+				<ActionsPreview actions={actions} fee={state.fee} />
 				{manifest && (
-					<Box>
+					<Box css={{ mt: '$2', flex: '1' }}>
 						<Input
 							value={manifest.length > 100000 ? 'Manifest is too large. Preview disabled' : manifest}
 							as="textarea"
 							size="2"
-							css={{ height: '300px' }}
+							css={{ height: '200px' }}
 						/>
 					</Box>
 				)}
+				<Box css={{ mt: '$2', flex: '1' }}>
+					<InputFeedback
+						showFeedback={state.errorMessage !== ''}
+						animateHeight={60}
+						css={{ display: 'flex', alignItems: 'center', overflow: 'auto' }}
+					>
+						<Text color="red" medium>
+							{state.errorMessage}
+						</Text>
+					</InputFeedback>
+				</Box>
 			</PageWrapper>
 
 			<PageWrapper css={{ display: 'flex', gridGap: '8px', borderTop: '1px solid $borderPanel' }}>
@@ -164,7 +186,7 @@ export const Transaction = (): JSX.Element => {
 				</Button>
 				<Button
 					onClick={handleConfirm}
-					disabled={!account}
+					disabled={!account || (!state.transaction && !manifest)}
 					size="6"
 					color="primary"
 					aria-label="confirm transaction wallet"

@@ -9,6 +9,11 @@ interface IProps {
 	statTitle: string
 }
 
+const defaultProps = {
+	image: undefined,
+	addressBookBackground: undefined,
+}
+
 export const InfoStatBlock: React.FC<IProps> = ({ image, addressBookBackground, statSubTitle, statTitle }) => (
 	<Box
 		css={{
@@ -28,17 +33,26 @@ export const InfoStatBlock: React.FC<IProps> = ({ image, addressBookBackground, 
 			<CircleAvatar image={image} background={addressBookBackground} />
 		</Box>
 		<Flex justify="center" direction="column" css={{ flex: '1', pl: '$1' }}>
-			<Text css={{ fontSize: '13px', lineHeight: '16px', fontWeight: '500', mt: '3px', color: '$txtHelp' }}>
+			<Text
+				truncate
+				css={{
+					fontSize: '13px',
+					lineHeight: '16px',
+					fontWeight: '500',
+					mt: '3px',
+					color: '$txtHelp',
+					maxWidth: '236px',
+				}}
+			>
 				{statSubTitle}
 			</Text>
 			<Flex css={{ mt: '2px' }}>
-				<Text css={{ fontSize: '18px', lineHeight: '21px', fontWeight: '500' }}>{statTitle}</Text>
+				<Text truncate css={{ fontSize: '18px', lineHeight: '21px', fontWeight: '500', maxWidth: '236px' }}>
+					{statTitle}
+				</Text>
 			</Flex>
 		</Flex>
 	</Box>
 )
 
-InfoStatBlock.defaultProps = {
-	image: undefined,
-	addressBookBackground: undefined,
-}
+InfoStatBlock.defaultProps = defaultProps

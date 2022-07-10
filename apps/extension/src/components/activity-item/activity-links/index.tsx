@@ -147,7 +147,7 @@ export const ActivityLinks: React.FC<IProps> = ({ accountAddress, tx, activity }
 				<Flex align="center" css={{ mt: '7px' }}>
 					<Box>
 						<Text size="2" truncate css={{ pb: '6px' }}>
-							{`Message: ${Message.isEncrypted(tx.message) ? `(ecrypted)` : ``}`}
+							{`Message: ${Message.isEncrypted(tx.message) ? `(encrypted)` : ``}`}
 						</Text>
 						<Text color="help" css={{ maxWdith: '219px' }}>
 							<TransactionMessage tx={tx} activity={activity} />

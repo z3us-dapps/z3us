@@ -1,6 +1,6 @@
 /* eslint-disable react/jsx-props-no-spreading, react/destructuring-assignment */
 import React, { useState, useEffect, useCallback } from 'react'
-import { useStore } from '@src/store'
+import { useSharedStore, useStore } from '@src/store'
 import { useEventListener } from 'usehooks-ts'
 import { useTokenBalances } from '@src/services/react-query/queries/radix'
 import { useKnownTokens } from '@src/services/react-query/queries/radixscan'
@@ -113,6 +113,9 @@ export const TokenListSettingsModal = ({
 	toolTipMessage,
 	toolTipSide,
 }: IProps): JSX.Element => {
+	const { addToast } = useSharedStore(state => ({
+		addToast: state.addToastAction,
+	}))
 	const { currentVisibleTokens, setVisibleTokens } = useStore(state => ({
 		currentVisibleTokens: state.visibleTokens,
 		setVisibleTokens: state.setVisibleTokensAction,
@@ -148,6 +151,12 @@ export const TokenListSettingsModal = ({
 
 			if (sourceDropId === destinationDropId) {
 				if (destinationDropId === INVISIBLE) {
+					addToast({
+						type: 'error',
+						title: 'Invalid action',
+						subTitle: 'You can only change the order of visible tokens',
+						duration: 5000,
+					})
 					return
 				}
 				if (sourceIndex === destinationIndex) {

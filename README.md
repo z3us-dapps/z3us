@@ -6,6 +6,11 @@ This [Turborepo](https://turborepo.org/) monorepo is home to the Z3US browser ex
 
 >Make sure you have **Node V15.5.0 ** installed
 
+```
+nvm install 15
+nvm use 15
+```
+
 Clone repo
 
 ```

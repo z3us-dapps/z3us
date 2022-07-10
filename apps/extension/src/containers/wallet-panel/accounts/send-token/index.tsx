@@ -139,7 +139,7 @@ export const SendToken: React.FC = () => {
 
 	const handleUseMax = () => {
 		setState(draft => {
-			draft.amount = formatBigNumber(selectedTokenAmmount)
+			draft.amount = selectedTokenAmmount.toString()
 		})
 		inputAmountRef.current.focus()
 	}

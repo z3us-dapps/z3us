@@ -9,7 +9,7 @@ import React, {
 	PropsWithoutRef,
 	RefAttributes,
 } from 'react'
-import { CSS } from '../../theme'
+import { PropsWithCSS } from '../../types'
 import { NormalColors, NormalSizes } from '../../utils/prop-types'
 import withDefaults from '../../utils/with-defaults'
 import { __DEV__ } from '../../utils/assertion'
@@ -48,7 +48,7 @@ const defaultProps = {
 
 type NativeAttrs = Omit<React.ButtonHTMLAttributes<unknown>, keyof IProps>
 
-export type ButtonProps = IProps & NativeAttrs & ButtonVariantsProps & { css?: CSS }
+export type ButtonProps = PropsWithCSS<IProps & NativeAttrs & ButtonVariantsProps>
 
 const Button = React.forwardRef<HTMLButtonElement, React.PropsWithChildren<ButtonProps>>(
 	(props, ref: React.Ref<HTMLButtonElement | null>) => {

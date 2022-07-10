@@ -85,6 +85,8 @@ export const ScrollArea: React.FC<IProps> = ({ children, scrollableNodeProps }) 
 				bottom: 0,
 			}}
 		>
+			{/* @TODO: resolve typescript error, this will be resolved when upgrade to react 18 */}
+			{/* @ts-ignore */}
 			<SimpleBar
 				ref={sRef}
 				scrollableNodeProps={scrollableNodeProps}

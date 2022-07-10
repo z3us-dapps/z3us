@@ -3,7 +3,7 @@ import { CoinGeckoService } from '@src/services/coingecko'
 
 const service = new CoinGeckoService()
 
-export const useMarketChart = (currency: string, asset: string, days: number = 14) =>
+export const useMarketChart = (currency: string, asset: string, days: number | string = 14) =>
 	useQuery(
 		['useMarketChart', currency, asset, days],
 		async (): Promise<number[][]> => service.getMarketChart(currency, asset, days),

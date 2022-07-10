@@ -97,7 +97,13 @@ export const Example = () => {
 							Connect Z3US wallet before attempting to send a transaction.
 						</Text>
 					</AlertCard>
-				) : null}
+				) : (
+					<AlertCard icon color="success" css={{ mt: '$4', height: '40px' }}>
+						<Text medium size="4" css={{ mb: '3px', pl: '$3', mt: '8px' }}>
+							Connected!
+						</Text>
+					</AlertCard>
+				)}
 
 				<Seperator title="Connect Z3US wallet" />
 

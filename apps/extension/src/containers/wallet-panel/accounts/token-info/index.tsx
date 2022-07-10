@@ -17,12 +17,12 @@ import { CircleAvatar } from '@src/components/circle-avatar'
 import { TokenPrice } from './token-price'
 
 const TIMEFRAMES = {
-	week: { id: '1W', shortName: '1W', days: 7 },
-	month: { id: '1M', shortName: '1M', days: 30 },
-	threeMonth: { id: '3M', shortName: '3M', days: 90 },
-	sixMonth: { id: '6M', shortName: '6M', days: 6 * 30 },
-	oneYear: { id: '1Y', shortName: '1Y', days: 356 },
-	allTime: { id: 'All', shortName: 'All', days: 5 * 356 },
+	week: { shortName: '1W', days: 7 },
+	month: { shortName: '1M', days: 30 },
+	threeMonth: { shortName: '3M', days: 90 },
+	sixMonth: { shortName: '6M', days: 6 * 30 },
+	oneYear: { shortName: '1Y', days: 356 },
+	allTime: { shortName: 'All', days: 'max' },
 }
 
 const defaultChartOptions = {
@@ -78,9 +78,9 @@ export const TokenInfo = (): JSX.Element => {
 		currency: state.currency,
 	}))
 	const [state, setState] = useImmer({
-		days: 14,
+		selectedTimeFrame: 'threeMonth',
 	})
-	const { data: chart } = useMarketChart(currency, token?.symbol, state.days)
+	const { data: chart } = useMarketChart(currency, token?.symbol, TIMEFRAMES[state.selectedTimeFrame].days)
 
 	const chartOptions = { ...defaultChartOptions }
 	const callbacks = chartOptions.plugins.tooltip.callbacks as any
@@ -107,7 +107,7 @@ export const TokenInfo = (): JSX.Element => {
 
 	const handleClickTimeFrame = (id: string) => {
 		setState(draft => {
-			draft.days = TIMEFRAMES[id].days
+			draft.selectedTimeFrame = id
 		})
 	}
 
@@ -212,40 +212,38 @@ export const TokenInfo = (): JSX.Element => {
 							height={null}
 							width={null}
 						/>
-						{false && (
-							<Flex
-								justify="between"
-								css={{
-									position: 'absolute',
-									bottom: '10px',
-									left: '30px',
-									right: '30px',
-									height: 'auto',
-									zIndex: '2',
-								}}
-							>
-								{Object.entries(TIMEFRAMES).map(([id, { shortName }]) => (
-									<Button
-										onClick={() => handleClickTimeFrame(id)}
-										key={id}
-										css={{
-											fontSize: '12px',
-											fontWeight: '500',
-											px: '10px',
-											py: '5px',
-											br: '20px',
-											textTransform: 'uppercase',
-											backgroundColor: id === 'threeMonth' ? '$bgPanelHover' : 'transparent',
-											'&:hover': {
-												background: '$bgPanelHover',
-											},
-										}}
-									>
-										{shortName}
-									</Button>
-								))}
-							</Flex>
-						)}
+						<Flex
+							justify="between"
+							css={{
+								position: 'absolute',
+								bottom: '10px',
+								left: '30px',
+								right: '30px',
+								height: 'auto',
+								zIndex: '2',
+							}}
+						>
+							{Object.entries(TIMEFRAMES).map(([id, { shortName }]) => (
+								<Button
+									onClick={() => handleClickTimeFrame(id)}
+									key={id}
+									css={{
+										fontSize: '12px',
+										fontWeight: '500',
+										px: '10px',
+										py: '5px',
+										br: '20px',
+										textTransform: 'uppercase',
+										backgroundColor: id === state.selectedTimeFrame ? '$bgPanelHover' : 'transparent',
+										'&:hover': {
+											background: '$bgPanelHover',
+										},
+									}}
+								>
+									{shortName}
+								</Button>
+							))}
+						</Flex>
 					</Box>
 				)}
 			</Flex>

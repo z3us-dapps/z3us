@@ -1,6 +1,7 @@
 /* eslint-disable */
 import React, { PropsWithoutRef, RefAttributes, useEffect, useImperativeHandle, useMemo, useRef, useState } from 'react'
 import { CSS } from '../../theme'
+import { PropsWithCSS } from '../../types'
 import withDefaults from '../../utils/with-defaults'
 import { __DEV__ } from '../../utils/assertion'
 import { StyledInput, StyledInputWrapper, StyledInputPlaceholder, InputVariantsProps } from './input.styles'
@@ -29,9 +30,9 @@ const defaultProps = {
 }
 
 type NativeAttrs = Omit<React.InputHTMLAttributes<any>, keyof IProps>
-export type InputProps = IProps & typeof defaultProps & NativeAttrs & InputVariantsProps & { css?: CSS }
+export type InputProps = IProps & typeof defaultProps & NativeAttrs & InputVariantsProps
 
-const Input = React.forwardRef<FormElement, InputProps>(
+const Input = React.forwardRef<FormElement, PropsWithCSS<InputProps>>(
 	(
 		{ type, onChange, placeholder, disabled, error, value, size, focusOnMount, selectOnMount, as, css, ...rest },
 		ref: React.Ref<FormElement | null>,

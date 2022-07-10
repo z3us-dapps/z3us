@@ -34,7 +34,11 @@ export const useTransferTokens = () => {
 
 		let message: string
 		if (text) {
-			message = await createMessage(text, encryptMessage ? to : null)
+			if (encryptMessage) {
+				message = await createMessage(text, to)
+			} else {
+				message = await createMessage(text)
+			}
 			return buildTransactionFromActions([actionResult.value], message)
 		}
 		return buildTransactionFromActions([actionResult.value], message)

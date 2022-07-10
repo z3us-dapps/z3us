@@ -3,7 +3,9 @@
 	"compilerOptions": {
 		"baseUrl": ".",
 		"paths": {
-			"@src/*": ["src/*"]
+			"@src/*": ["src/*"],
+			"rxjs": ["node_modules/rxjs"],
+			"rxjs/*": ["node_modules/rxjs/*"]
 		}
 	},
 	"include": [

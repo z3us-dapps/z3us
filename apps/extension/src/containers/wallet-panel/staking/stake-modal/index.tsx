@@ -12,7 +12,7 @@ import {
 	useTokenBalances,
 	useStakedPositions,
 } from '@src/services/react-query/queries/radix'
-import { CloseIcon } from 'ui/src/components/icons'
+import { Cross2Icon } from '@radix-ui/react-icons'
 import Button from 'ui/src/components/button'
 import Input from 'ui/src/components/input'
 import { Tooltip, TooltipTrigger, TooltipContent, TooltipArrow } from 'ui/src/components/tool-tip'
@@ -20,7 +20,6 @@ import { Dialog, DialogTrigger, DialogContent } from 'ui/src/components/dialog'
 import { Box, Text, Flex } from 'ui/src/components/atoms'
 import { SlippageBox } from '@src/components/slippage-box'
 import BigNumber from 'bignumber.js'
-import { formatBigNumber } from '@src/utils/formatters'
 import { useTokenStake } from '@src/hooks/use-token-stake'
 import { useTokenUnstake } from '@src/hooks/use-token-unstake'
 import { useTransaction } from '@src/hooks/use-transaction'
@@ -103,7 +102,7 @@ export const StakeModal: React.FC<IProps> = ({ trigger, tooltipMessage, validato
 
 	const handleUseMax = () => {
 		setState(draft => {
-			draft.amount = formatBigNumber(amount)
+			draft.amount = amount.toString()
 		})
 		inputAmountRef.current.focus()
 	}
@@ -177,6 +176,11 @@ export const StakeModal: React.FC<IProps> = ({ trigger, tooltipMessage, validato
 				draft.isModalOpen = false
 			})
 			setLocation(`/wallet/account/token/${token.rri}`)
+			addToast({
+				type: 'success',
+				title: 'Succesfully submited transaction to the network',
+				duration: 5000,
+			})
 		} catch (error) {
 			addToast({
 				type: 'error',
@@ -199,22 +203,21 @@ export const StakeModal: React.FC<IProps> = ({ trigger, tooltipMessage, validato
 						color="ghost"
 						iconOnly
 						aria-label="close stake modal"
-						size="3"
-						css={{ position: 'absolute', top: '0px', right: '0px' }}
+						size="1"
+						css={{ position: 'absolute', top: '$4', right: '$4' }}
 						onClick={handleCloseModal}
 					>
-						<CloseIcon />
+						<Cross2Icon />
 					</Button>
-
 					<Box css={{ flex: '1' }}>
 						<Flex direction="column" align="center" css={{ bg: '$bgPanel2', width: '100%', p: '0', br: '$2' }}>
-							<Text medium size="8" bold css={{ mt: '35px' }}>
+							<Text truncate medium size="6" bold css={{ mt: '35px', maxWidth: '240px' }}>
 								{validator?.name}
 							</Text>
-							<Text color="help" medium size="6" bold css={{ mt: '10px' }}>
+							<Text medium size="5" bold css={{ mt: '10px' }}>
 								{stakeTitle}
 							</Text>
-							<Text color="help" size="4" css={{ pb: '10px', mt: '10px', mb: '5px' }}>
+							<Text truncate color="help" size="4" css={{ pb: '20px', mt: '10px', mb: '5px', maxWidth: '230px' }}>
 								{entry?.name ? `${entry.name} (${shortAddress})` : shortAddress}
 							</Text>
 						</Flex>
@@ -256,7 +259,7 @@ export const StakeModal: React.FC<IProps> = ({ trigger, tooltipMessage, validato
 								<Input
 									ref={inputAmountRef}
 									type="number"
-									size="2"
+									size="1"
 									value={state.amount}
 									placeholder="Enter amount"
 									onChange={handleSetAmount}
@@ -273,7 +276,7 @@ export const StakeModal: React.FC<IProps> = ({ trigger, tooltipMessage, validato
 					<Flex css={{ mt: '$3' }}>
 						{state.transaction ? (
 							<Button
-								size="6"
+								size="5"
 								color="primary"
 								aria-label="confirm"
 								css={{ px: '0', flex: '1' }}
@@ -285,7 +288,7 @@ export const StakeModal: React.FC<IProps> = ({ trigger, tooltipMessage, validato
 							</Button>
 						) : (
 							<Button
-								size="6"
+								size="5"
 								color="primary"
 								aria-label={stakeTitle}
 								css={{ px: '0', flex: '1' }}
