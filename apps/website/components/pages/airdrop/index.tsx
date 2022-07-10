@@ -24,31 +24,21 @@ import AlertCard from 'ui/src/components/alert-card'
 import { Box, Flex, Text } from 'ui/src/components/atoms'
 import { useZ3usWallet } from 'hooks/use-z3us-wallet'
 import Input from 'ui/src/components/input'
-import usePortal from 'react-useportal'
 
-const verifySignature = (address: AccountAddressT, signatureDER: string, payload: string): boolean => {
+const signaturePayload = 'z3us-airdrop'
+
+const verifySignature = (address: AccountAddressT, signatureDER: string): boolean => {
 	const signatureResult = Signature.fromDER(signatureDER)
 	if (!signatureResult.isOk()) throw signatureResult.error
 
 	return address.publicKey.isValidSignature({
 		signature: signatureResult.value,
-		hashedMessage: sha256(payload),
+		hashedMessage: sha256(signaturePayload),
 	})
 }
 
 export const Airdrop = () => {
 	const { show } = useToastControls()
-	const { Portal, isOpen, openPortal, closePortal } = usePortal({
-		onOpen({ portal }) {
-			portal.current.style.cssText = `
-		  position: fixed;
-		  left: 50%;
-		  top: 50%;
-		  transform: translate(-50%,-50%);
-		  z-index: 1000;
-		`
-		},
-	})
 	const { address, connect, disconnect, sign, hasWallet, accounts } = useZ3usWallet()
 	const [state, setState] = useImmer({
 		address: '',
@@ -124,24 +114,22 @@ export const Airdrop = () => {
 		}
 	}
 
-	const handleSign = async e => {
-		if (!address) return
-		const result = AccountAddress.fromUnsafe(address)
+	const handleSign = async () => {
+		if (!state.address) return
+		const result = AccountAddress.fromUnsafe(state.address)
 		if (!result.isOk()) {
 			console.error(result.error)
 			return
 		}
 		try {
-			const payload = `z3us-airdrop-${Math.floor(Math.random() * Math.floor(Math.random() * Date.now()))}`
-			const der = await sign(payload)
-			if (verifySignature(result.value, der, payload)) {
+			const der = await sign(signaturePayload)
+			if (!verifySignature(result.value, der)) {
 				throw new Error('Invalid signature')
 			}
 			setState(draft => {
 				draft.errorMessage = ''
 				draft.der = der
 			})
-			openPortal(e)
 		} catch (error) {
 			console.error(error)
 			setState(draft => {
@@ -207,6 +195,21 @@ export const Airdrop = () => {
 								Subscribe for public Airdrop!
 							</Button>
 						</Flex>
+
+						{state.der && (
+							<Box css={{ mt: '$4' }}>
+								<Text>
+									<a href="tg://resolve?domain=z3us_dapps_bot">Contact Z3US Bot</a> with following message:
+								</Text>
+								<Input
+									value={`/subscribe ${state.address} ${state.der}`}
+									as="textarea"
+									size="2"
+									placeholder="command"
+									css={{ minHeight: '350px', width: '100%', pt: '$2' }}
+								/>
+							</Box>
+						)}
 					</Box>
 				)}
 			</Box>
@@ -217,36 +220,6 @@ export const Airdrop = () => {
 					</Toast>
 				</li>
 			</ul>
-			{isOpen && (
-				<Portal>
-					<Box css={{ mt: '$4' }}>
-						<Text>
-							<a href="tg://resolve?domain=z3us_dapps_bot">Contact Z3US Bot</a> with following message:
-						</Text>
-						<Input
-							value={`/subscribe ${state.address}`}
-							as="textarea"
-							size="2"
-							placeholder="Message"
-							css={{ minHeight: '120px', width: '100%', pt: '$2' }}
-							disabled
-						/>
-						<Button
-							size="5"
-							color="primary"
-							onClick={e => {
-								closePortal(e)
-								setState(draft => {
-									draft.errorMessage = ''
-									draft.der = ''
-								})
-							}}
-						>
-							Close
-						</Button>
-					</Box>
-				</Portal>
-			)}
 		</Box>
 	)
 }
