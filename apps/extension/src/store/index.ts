@@ -34,7 +34,7 @@ export const sharedStore = create<
 		persist(
 			immer((set, get) => ({
 				...createThemeStore(set),
-				...createToastsStore(set),
+				...createToastsStore(set, get),
 				...createOnBoardingStore(set),
 				...createSettingsStore(set),
 				...createBackgroundStore(set, get),

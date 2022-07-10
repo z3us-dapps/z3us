@@ -8,8 +8,8 @@ declare global {
 				hasWallet: () => Promise<boolean>
 				isConnected: () => Promise<boolean>
 				connect: () => Promise<string>
-				addresses: () => Promise<string[]>
 				disconnect: () => Promise<any>
+				accounts: () => Promise<string[]>
 				balances: () => Promise<any>
 				stakes: () => Promise<any>
 				unstakes: () => Promise<any>

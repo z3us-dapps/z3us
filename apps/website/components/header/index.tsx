@@ -124,6 +124,13 @@ export const Header: React.FC<IProps> = ({ isLandingPage }) => {
 										Feedback
 									</Text>
 								</StyledLink>
+								<Link href="/airdrop" passHref>
+									<StyledLink underlineOnHover css={{ mr: '$2' }}>
+										<Text bold size="4" css={{ pt: '1px' }}>
+											Airdrop
+										</Text>
+									</StyledLink>
+								</Link>
 								<Link href="/docs" passHref>
 									<StyledLink underlineOnHover css={{ mr: '$2' }}>
 										<Text bold size="4" css={{ pt: '1px' }}>

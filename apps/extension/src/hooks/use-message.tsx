@@ -8,9 +8,8 @@ import { AccountAddress } from '@radixdlt/account'
 
 export const useMessage = () => {
 	const radix = useRadix()
-	const { isHardwareWallet, addToast } = useSharedStore(state => ({
-		isHardwareWallet: state.isHardwareWallet,
-		addToast: state.addToastAction,
+	const { addConfirmWithHWToast } = useSharedStore(state => ({
+		addConfirmWithHWToast: state.addConfirmWithHWToastAction,
 	}))
 	const { account } = useStore(state => ({
 		account: state.account,
@@ -27,13 +26,9 @@ export const useMessage = () => {
 				if (toResult.isErr()) {
 					throw toResult.error
 				}
-				if (isHardwareWallet) {
-					addToast({
-						type: 'success',
-						title: 'Please confirm with your device',
-						duration: 2000,
-					})
-				}
+
+				addConfirmWithHWToast()
+
 				const ecnrypted = await firstValueFrom(
 					account.encrypt({
 						plaintext,
@@ -71,13 +66,8 @@ export const useMessage = () => {
 			const fromAddress = parseAccountAddress(from)
 			const publicKeyOfOtherParty = fromAddress.publicKey
 
-			if (isHardwareWallet) {
-				addToast({
-					type: 'success',
-					title: 'Please confirm with your device',
-					duration: 2000,
-				})
-			}
+			addConfirmWithHWToast()
+
 			const message = await firstValueFrom(account.decrypt({ encryptedMessage, publicKeyOfOtherParty }))
 
 			if (!message) {

@@ -4,17 +4,17 @@ import matter from 'gray-matter'
 import { serialize } from 'next-mdx-remote/serialize'
 import React from 'react'
 import { NextSeo } from 'next-seo'
-import { SinglePageDocs } from 'components/pages/single-page-docs'
 import { MdxTheme } from 'components/mdx-theme'
+import { SinglePageDocs } from 'components/pages/single-page-docs'
 import { config } from 'config'
 import docsGlobalStyles from './docs/docs.styles'
 
-const PrivacyIndex = ({ mdxSource }) => {
+const AirdropIndex = ({ mdxSource }) => {
 	docsGlobalStyles()
 	return (
 		<>
 			<NextSeo
-				title="Privacy policy"
+				title="Airdrop"
 				openGraph={{
 					type: 'website',
 					url: config.Z3US_URL,
@@ -44,7 +44,7 @@ const PrivacyIndex = ({ mdxSource }) => {
 }
 
 export const getStaticProps = async () => {
-	const markdownWithMeta = fs.readFileSync(path.join('docs/privacy.mdx'), 'utf-8')
+	const markdownWithMeta = fs.readFileSync(path.join('docs/airdrop.mdx'), 'utf-8')
 	const { content } = matter(markdownWithMeta)
 	const mdxSource = await serialize(content)
 
@@ -55,4 +55,4 @@ export const getStaticProps = async () => {
 	}
 }
 
-export default PrivacyIndex
+export default AirdropIndex

@@ -12,7 +12,7 @@ import { useSignature } from '@src/hooks/use-signature'
 export const Sign = (): JSX.Element => {
 	const [, { id }] = useRoute<{ id: string }>('/sign/:id')
 
-	const { sign } = useSignature()
+	const { sign, verify } = useSignature()
 	const { sendResponse } = useSharedStore(state => ({
 		sendResponse: state.sendResponseAction,
 	}))
@@ -24,7 +24,7 @@ export const Sign = (): JSX.Element => {
 	}))
 
 	const { host, request = {} } = action
-	const { message = '' } = request
+	const { challenge = '' } = request
 
 	const handleCancel = async () => {
 		await sendResponse(CONFIRM, {
@@ -36,10 +36,14 @@ export const Sign = (): JSX.Element => {
 	}
 
 	const handleConfirm = async () => {
+		const signature = await sign(challenge)
+		if (!verify(signature, challenge)) {
+			throw new Error('Invalid signature')
+		}
 		sendResponse(CONFIRM, {
 			id,
 			host,
-			payload: { request, value: await sign(message) },
+			payload: { request, value: signature, challenge },
 		})
 	}
 
