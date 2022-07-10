@@ -45,12 +45,12 @@ export const LockedPanel: React.FC = () => {
 			switch (keystore.type) {
 				case KeystoreType.LOCAL: {
 					const newSeed = await unlock(password)
-					await setSeed(newSeed)
+					setSeed(newSeed)
 					await selectAccount(0, null, newSeed)
 					break
 				}
 				case KeystoreType.HARDWARE:
-					await unlockHW()
+					unlockHW()
 					await selectAccount(0, hw, null)
 					break
 				default:

@@ -8,14 +8,17 @@ declare global {
 				hasWallet: () => Promise<boolean>
 				isConnected: () => Promise<boolean>
 				connect: () => Promise<string>
-				addresses: () => Promise<string[]>
 				disconnect: () => Promise<any>
-				encrypt: (message: string, fromAddress: string, toAddress: string) => Promise<any>
-				decrypt: (message: string, fromAddress: string) => Promise<any>
+				accounts: () => Promise<string[]>
 				balances: () => Promise<any>
 				stakes: () => Promise<any>
 				unstakes: () => Promise<any>
-				sendTransaction: (payload: { symbol: string; fromAddress: string; transaction: any }) => Promise<any>
+				submitTransaction: (payload: {
+					manifest?: string
+					actions?: any[]
+					message?: string
+					encryptMessage?: boolean
+				}) => Promise<any>
 			}
 		}
 	}

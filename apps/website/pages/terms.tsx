@@ -9,7 +9,7 @@ import { SinglePageDocs } from 'components/pages/single-page-docs'
 import { config } from 'config'
 import docsGlobalStyles from './docs/docs.styles'
 
-const DocsIndex = ({ mdxSource }) => {
+const TermsIndex = ({ mdxSource }) => {
 	docsGlobalStyles()
 	return (
 		<>
@@ -55,4 +55,4 @@ export const getStaticProps = async () => {
 	}
 }
 
-export default DocsIndex
+export default TermsIndex

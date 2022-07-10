@@ -6,12 +6,6 @@ import { PageHeading, PageSubHeading, PageWrapper } from '@src/components/layout
 import { ScrollArea } from 'ui/src/components/scroll-area'
 import { useLocation } from 'wouter'
 import { getShortAddress } from '@src/utils/string-utils'
-import {
-	FinalizeTransaction,
-	SubmitSignedTransaction,
-	CreateToken,
-	DeriveToken,
-} from '@src/services/radix/transactions'
 import { useEventListener } from 'usehooks-ts'
 import { Cross2Icon } from '@radix-ui/react-icons'
 import Button from 'ui/src/components/button'
@@ -21,6 +15,9 @@ import { Dialog, DialogTrigger, DialogContent } from 'ui/src/components/dialog'
 import { Box, Text, Flex } from 'ui/src/components/atoms'
 import { AccountSelector } from '@src/components/account-selector'
 import { HardwareWalletReconnect } from '@src/components/hardware-wallet-reconnect'
+import { useTokenCreate } from '@src/hooks/use-token-create'
+import { useTokenDerive } from '@src/hooks/use-token-derive'
+import { useTransaction } from '@src/hooks/use-transaction'
 
 interface IProps {
 	trigger: React.ReactNode
@@ -36,11 +33,14 @@ export const CreateTokenModal: React.FC<IProps> = ({ trigger }) => {
 		addToast: state.addToastAction,
 	}))
 
-	const { selectAccount, account, accountAddress, network } = useStore(state => ({
+	const create = useTokenCreate()
+	const derive = useTokenDerive()
+	const { signTransaction, submitTransaction } = useTransaction()
+
+	const { selectAccount, account, accountAddress } = useStore(state => ({
 		selectAccount: state.selectAccountAction,
 		account: state.account,
 		accountAddress: state.getCurrentAddressAction(),
-		network: state.networks[state.selectedNetworkIndex],
 	}))
 
 	const [state, setState] = useImmer({
@@ -104,8 +104,8 @@ export const CreateTokenModal: React.FC<IProps> = ({ trigger }) => {
 		})
 
 		try {
-			const rri = await DeriveToken(network.url, accountAddress, state.symbol)
-			const { transaction, fee } = await CreateToken(network.url, rri, accountAddress, state.amount, {
+			const rri = await derive(accountAddress, state.symbol)
+			const { transaction, fee } = await create(rri, state.amount, {
 				name: state.name,
 				description: state.description,
 				icon_url: state.icon_url,
@@ -138,8 +138,8 @@ export const CreateTokenModal: React.FC<IProps> = ({ trigger }) => {
 			draft.isLoading = true
 		})
 		try {
-			const { blob } = await FinalizeTransaction(network.url, account, state.symbol, state.transaction)
-			await SubmitSignedTransaction(network.url, account, blob)
+			const { blob } = await signTransaction(state.symbol, state.transaction)
+			await submitTransaction(blob)
 			await queryClient.invalidateQueries({ active: true, inactive: true, stale: true })
 			setState(draft => {
 				draft.fee = null
@@ -147,6 +147,11 @@ export const CreateTokenModal: React.FC<IProps> = ({ trigger }) => {
 				draft.isModalOpen = false
 			})
 			setLocation(`/wallet/account/token/${state.rri}`)
+			addToast({
+				type: 'success',
+				title: 'Succesfully submited transaction to the network',
+				duration: 5000,
+			})
 		} catch (error) {
 			addToast({
 				type: 'error',

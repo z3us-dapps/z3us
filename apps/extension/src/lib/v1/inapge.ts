@@ -15,6 +15,35 @@ import {
 } from '../actions'
 
 export default function NewPublicV1(sendMessage: (action: string, payload?: any) => Promise<MessageResponse>) {
+	async function sign(challenge: string): Promise<string> {
+		if (!challenge) {
+			throw new Error('Empty challenge')
+		}
+		return sendMessage(SIGN, { challenge })
+	}
+
+	async function submitTransaction(payload: {
+		manifest?: string
+		actions?: any[]
+		message?: string
+		encryptMessage?: boolean
+	}): Promise<unknown> {
+		if (!payload) {
+			throw new Error('Invalid transaction payload')
+		}
+		return sendMessage(SEND_TRANSACTION, payload)
+	}
+
+	/**
+	 * @deprecated Use submitTransaction() instead
+	 */
+	async function sendTransaction({ transaction }: { transaction: any }): Promise<unknown> {
+		return submitTransaction(transaction)
+	}
+
+	/**
+	 * @deprecated Use submitTransaction() instead with encryptMessage:true
+	 */
 	async function encrypt(message: string, fromAddress: string, toAddress: string): Promise<string> {
 		if (!message) {
 			throw new Error('Empty message')
@@ -25,6 +54,9 @@ export default function NewPublicV1(sendMessage: (action: string, payload?: any)
 		return sendMessage(ENCRYPT, { message, fromAddress, toAddress })
 	}
 
+	/**
+	 * @deprecated
+	 */
 	async function decrypt(message: string, fromAddress: string): Promise<string> {
 		if (!message) {
 			throw new Error('Empty message')
@@ -33,33 +65,6 @@ export default function NewPublicV1(sendMessage: (action: string, payload?: any)
 			throw new Error('Empty source address')
 		}
 		return sendMessage(DESCRYPT, { message, fromAddress })
-	}
-
-	async function sign(challenge: string): Promise<string> {
-		if (!challenge) {
-			throw new Error('Empty challenge')
-		}
-		return sendMessage(SIGN, { challenge })
-	}
-
-	async function submitTransaction({ transaction }: { transaction: any }): Promise<unknown> {
-		if (!transaction) {
-			throw new Error('Missing transactiond data')
-		}
-		return sendMessage(SEND_TRANSACTION, { transaction })
-	}
-
-	/**
-	 * @deprecated Use submitTransaction() instead
-	 */
-	async function sendTransaction({
-		transaction,
-	}: {
-		symbol: string
-		fromAddress: string
-		transaction: any
-	}): Promise<unknown> {
-		return submitTransaction(transaction)
 	}
 
 	return {
@@ -74,6 +79,7 @@ export default function NewPublicV1(sendMessage: (action: string, payload?: any)
 		balances: (): Promise<unknown> => sendMessage(BALANCES, {}),
 		stakes: (): Promise<unknown> => sendMessage(STAKES, {}),
 		unstakes: (): Promise<unknown> => sendMessage(UNSTAKES, {}),
+
 		encrypt,
 		decrypt,
 		sendTransaction,

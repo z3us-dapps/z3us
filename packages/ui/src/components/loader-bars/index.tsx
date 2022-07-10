@@ -1,7 +1,6 @@
 /* eslint-disable react/jsx-props-no-spreading */
 import React, { PropsWithoutRef, RefAttributes, useImperativeHandle, useRef } from 'react'
-import { CSS } from '../../theme'
-import withDefaults from '../../utils/with-defaults'
+import { PropsWithCSS } from '../../types'
 import { __DEV__ } from '../../utils/assertion'
 import { StyledLoaderBars, LoaderBarsVariantsProps } from './loader-bars.styles'
 import { Box } from '../atoms/box'
@@ -12,15 +11,15 @@ export interface Props {
 }
 
 const defaultProps = {
-	as: 'span',
+	as: 'span' as keyof JSX.IntrinsicElements,
 	size: '2',
 }
 
 type NativeAttrs = Omit<React.HTMLAttributes<unknown>, keyof Props>
 
-export type PriceLabelProps = Props & NativeAttrs & LoaderBarsVariantsProps & { css?: CSS }
+export type PriceLabelProps = React.PropsWithChildren<PropsWithCSS<Props & NativeAttrs & LoaderBarsVariantsProps>>
 
-const LoaderBars = React.forwardRef<HTMLDivElement, React.PropsWithChildren<PriceLabelProps>>(
+const LoaderBars = React.forwardRef<HTMLDivElement, PriceLabelProps>(
 	({ children, as, size, css, color, ...rest }, ref: React.Ref<HTMLDivElement | null>) => {
 		const loaderBarRef = useRef<HTMLDivElement>(null)
 		useImperativeHandle(ref, () => loaderBarRef.current)
@@ -46,4 +45,6 @@ if (__DEV__) {
 
 LoaderBars.toString = () => '.z3us loader bars'
 
-export default withDefaults(LoaderBars, defaultProps) as LoaderBarsComponent<HTMLDivElement, PriceLabelProps>
+LoaderBars.defaultProps = defaultProps as Partial<PriceLabelProps>
+
+export default LoaderBars as LoaderBarsComponent<HTMLDivElement, PriceLabelProps>

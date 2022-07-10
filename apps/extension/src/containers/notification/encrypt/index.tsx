@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import { Box, Flex, Text, StyledLink, Image } from 'ui/src/components/atoms'
 import Button from 'ui/src/components/button'
 import { PageWrapper, PageHeading, PageSubHeading } from '@src/components/layout'
@@ -6,55 +6,27 @@ import { useSharedStore, useStore } from '@src/store'
 import { useRoute } from 'wouter'
 import { hexToJSON } from '@src/utils/encoding'
 import { CONFIRM } from '@src/lib/actions'
-import { EncryptMessage } from '@src/services/radix/message'
-import { getShortAddress } from '@src/utils/string-utils'
-import { useImmer } from 'use-immer'
 import { HardwareWalletReconnect } from '@src/components/hardware-wallet-reconnect'
+import { useMessage } from '@src/hooks/use-message'
 
 export const Encrypt = (): JSX.Element => {
 	const [, { id }] = useRoute<{ id: string }>('/encrypt/:id')
 
-	const { hw, seed, sendResponse } = useSharedStore(state => ({
+	const { createMessage } = useMessage()
+	const { sendResponse } = useSharedStore(state => ({
 		sendResponse: state.sendResponseAction,
-		hw: state.hardwareWallet,
-		seed: state.masterSeed,
 	}))
 
-	const { account, entry, selectAccountForAddress, action } = useStore(state => {
-		const accountAddress = state.getCurrentAddressAction()
-		return {
-			entry: Object.values(state.publicAddresses).find(_account => _account.address === accountAddress),
-			account: state.account,
-			selectAccountForAddress: state.selectAccountForAddressAction,
-			action:
-				state.pendingActions[id] && state.pendingActions[id].payloadHex
-					? hexToJSON(state.pendingActions[id].payloadHex)
-					: {},
-		}
-	})
+	const { account, action } = useStore(state => ({
+		account: state.account,
+		action:
+			state.pendingActions[id] && state.pendingActions[id].payloadHex
+				? hexToJSON(state.pendingActions[id].payloadHex)
+				: {},
+	}))
 
-	const {
-		host,
-		request: { toAddress, message, fromAddress },
-	} = action
-
-	const [state, setState] = useImmer({
-		shortAddress: getShortAddress(entry?.address),
-	})
-
-	useEffect(() => {
-		if (fromAddress) {
-			selectAccountForAddress(fromAddress, hw, seed)
-		}
-	}, [fromAddress])
-
-	useEffect(() => {
-		if (entry) {
-			setState(draft => {
-				draft.shortAddress = getShortAddress(entry?.address)
-			})
-		}
-	}, [entry])
+	const { host, request = {} } = action
+	const { toAddress, message = '' } = request
 
 	const handleCancel = async () => {
 		await sendResponse(CONFIRM, {
@@ -67,11 +39,11 @@ export const Encrypt = (): JSX.Element => {
 
 	const handleConfirm = async () => {
 		if (!account) return
-		const ecnrypted = await EncryptMessage(account, toAddress, message)
+		const ecnrypted = await createMessage(message, toAddress)
 		sendResponse(CONFIRM, {
 			id,
 			host,
-			payload: { request: action.request, value: ecnrypted.toString('hex') },
+			payload: { request: action.request, value: ecnrypted },
 		})
 	}
 
@@ -100,10 +72,6 @@ export const Encrypt = (): JSX.Element => {
 					<Box css={{ pb: '$3' }}>
 						<Image src="/images/z3us-spinner.svg" css={{ width: '90px', height: '90px' }} />
 					</Box>
-					<Flex css={{ position: 'relative', pb: '15px' }}>
-						<Text css={{ flex: '1' }}>Using account:</Text>
-						<Text>{entry?.name ? `${entry.name} (${state.shortAddress})` : state.shortAddress}</Text>
-					</Flex>
 					<StyledLink href="#" target="_blank">
 						<Text size="4" color="muted" css={{ mt: '$2' }}>
 							{host}

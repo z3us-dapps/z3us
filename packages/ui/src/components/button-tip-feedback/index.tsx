@@ -17,15 +17,25 @@ export interface IProps {
 	css?: CSS
 }
 
+const defaultProps = {
+	feedback: 'Copied',
+	sideOffset: 3,
+	showToolTipArrow: true,
+	toolTipOffset: 0,
+	delay: 700,
+	bgColor: '$bgToolTip1',
+	css: undefined,
+}
+
 const ButtonTipFeedback: React.FC<IProps> = ({
 	children,
-	feedback = 'Copied',
+	feedback,
 	tooltip,
-	sideOffset = 3,
-	showToolTipArrow = true,
-	toolTipOffset = 0,
-	delay = 700,
-	bgColor = '$bgToolTip1',
+	sideOffset,
+	showToolTipArrow,
+	toolTipOffset,
+	delay,
+	bgColor,
 	css,
 }) => {
 	const timeoutEnterRef = useRef(null)
@@ -99,5 +109,7 @@ const ButtonTipFeedback: React.FC<IProps> = ({
 		</Tooltip>
 	)
 }
+
+ButtonTipFeedback.defaultProps = defaultProps
 
 export default ButtonTipFeedback

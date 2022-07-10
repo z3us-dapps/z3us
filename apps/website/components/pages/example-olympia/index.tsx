@@ -2,7 +2,8 @@
 import React from 'react'
 import BigNumber from 'bignumber.js'
 import { useImmer } from 'use-immer'
-import { Amount, AccountAddress, AccountAddressT, Message } from '@radixdlt/application'
+import { Amount, AccountAddress } from '@radixdlt/application'
+import { Checkbox, CheckIcon } from 'ui/src/components/checkbox'
 import Button from 'ui/src/components/button'
 import Toast, { useToastControls } from 'ui/src/components/toasts'
 import Input from 'ui/src/components/input'
@@ -28,49 +29,18 @@ export const safelyUnwrapAmount = (amount: number): string | null => {
 	return amountResult ? amountInput.toFixed() : null
 }
 
-// https://redocly.github.io/redoc/?url=https://raw.githubusercontent.com/radixdlt/radixdlt-network-gateway/1.1.1/gateway-api-spec.yaml#tag/Transaction/paths/~1transaction~1build/post
-function newTxFromState(to: string, from: AccountAddressT, amount: string, message: string): object {
-	return {
-		network_identifier: {
-			network: from.network,
-		},
-		actions: [
-			{
-				type: 'TransferTokens',
-				from_account: {
-					address: from.toString(),
-				},
-				to_account: {
-					address: to,
-				},
-				amount: {
-					token_identifier: {
-						rri: XRD.rri,
-					},
-					value: amount,
-				},
-			},
-		],
-		fee_payer: {
-			address: from.toString(),
-		},
-		message,
-		disable_token_mint_and_burn: true,
-	}
-}
-
 export const Example = () => {
 	const { show } = useToastControls()
-	const { address, connect, disconnect, encrypt, submitTransaction } = useZ3usWallet()
+	const { address, connect, disconnect, submitTransaction } = useZ3usWallet()
 	const [state, setState] = useImmer({
 		to: '',
 		amount: '',
 		message: 'This is a test message',
-		encrypted: '',
+		encrypt: false,
 		isAddressValid: false,
 	})
 
-	const handleConnectWallet = () => {
+	const handleConnect = () => {
 		try {
 			connect()
 		} catch (error: unknown) {
@@ -86,30 +56,34 @@ export const Example = () => {
 		}
 	}
 
-	const handleEcrypt = async () => {
-		try {
-			const response = await encrypt(state.message, address.toString(), state.to)
-			setState(draft => {
-				draft.encrypted = response || ''
-			})
-		} catch (error: unknown) {
-			console.error(error)
-		}
-	}
-
 	const handleTx = async () => {
 		if (!state.amount) {
 			return
 		}
 		try {
-			// eslint-disable-next-line no-nested-ternary
-			const msg = state.encrypted
-				? state.encrypted
-				: state.message
-				? Message.createPlaintext(state.message).bytes.toString('hex')
-				: ''
-			const tx = newTxFromState(state.to, address, state.amount, msg)
-			const response = await submitTransaction({ transaction: tx })
+			// https://redocly.github.io/redoc/?url=https://raw.githubusercontent.com/radixdlt/radixdlt-network-gateway/1.1.1/gateway-api-spec.yaml#tag/Transaction/paths/~1transaction~1build/post
+			const tx = {
+				actions: [
+					{
+						type: 'TransferTokens',
+						from_account: {
+							address: address.toString(),
+						},
+						to_account: {
+							address: state.to,
+						},
+						amount: {
+							token_identifier: {
+								rri: XRD.rri,
+							},
+							value: state.amount,
+						},
+					},
+				],
+				message: state.message,
+				encryptMessage: state.encrypt,
+			}
+			const response = await submitTransaction(tx)
 			console.log(response)
 			show('toast-first')
 		} catch (error: unknown) {
@@ -134,7 +108,12 @@ export const Example = () => {
 	const handleMessageChange = e => {
 		setState(draft => {
 			draft.message = e.target.value
-			draft.encrypted = ''
+		})
+	}
+
+	const handleSetEncrypt = checked => {
+		setState(draft => {
+			draft.encrypt = checked === true
 		})
 	}
 
@@ -147,12 +126,18 @@ export const Example = () => {
 							Connect Z3US wallet before attempting to send a transaction.
 						</Text>
 					</AlertCard>
-				) : null}
+				) : (
+					<AlertCard icon color="success" css={{ mt: '$4', height: '40px' }}>
+						<Text medium size="4" css={{ mb: '3px', pl: '$3', mt: '8px' }}>
+							Connected!
+						</Text>
+					</AlertCard>
+				)}
 
 				<Seperator title="Connect Z3US wallet" />
 
 				<Flex align="center" css={{ pt: '0' }}>
-					<Button size="6" color="primary" onClick={!address ? handleConnectWallet : handleDisconnect}>
+					<Button size="6" color="primary" onClick={!address ? handleConnect : handleDisconnect}>
 						{!address ? 'Connect' : 'Disconnect'}
 					</Button>
 				</Flex>
@@ -187,18 +172,16 @@ export const Example = () => {
 							onChange={handleMessageChange}
 							disabled={!address}
 						/>
-						{state.to && (
-							<Button
-								size="5"
-								css={{ ml: '$5' }}
-								color="primary"
-								onClick={handleEcrypt}
-								disabled={!address || !!state.encrypted}
-							>
-								{state.encrypted ? 'Encrypted' : 'Encrypt'}
-							</Button>
-						)}
 					</Flex>
+					<Flex align="center" css={{ pt: '$3' }}>
+						<Checkbox id="encrypt" size="1" onCheckedChange={handleSetEncrypt} checked={state.encrypt}>
+							<CheckIcon />
+						</Checkbox>
+						<Text medium size="3" as="label" css={{ paddingLeft: '$2' }} htmlFor="encrypt">
+							Encrypt
+						</Text>
+					</Flex>
+
 					<Flex css={{ pt: '$4' }}>
 						<Button size="5" color="primary" onClick={handleTx} disabled={!address || !state.isAddressValid}>
 							Send

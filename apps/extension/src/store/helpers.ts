@@ -1,3 +1,4 @@
+import { firstValueFrom } from 'rxjs'
 import { SigningKey } from '@radixdlt/application'
 import { HDMasterSeedT, HDPathRadix, PrivateKey } from '@radixdlt/crypto'
 import { HardwareWalletT } from '@radixdlt/hardware-wallet'
@@ -7,7 +8,7 @@ export const getHWSigningKeyForIndex = async (hardwareWallet: HardwareWalletT | 
 	if (!hardwareWallet) return null
 
 	const hdPath = HDPathRadix.create({ address: { index, isHardened: true } })
-	const hardwareSigningKey = await hardwareWallet.makeSigningKey(hdPath, false).toPromise()
+	const hardwareSigningKey = await firstValueFrom(hardwareWallet.makeSigningKey(hdPath, false))
 
 	return SigningKey.fromHDPathWithHWSigningKey({ hdPath, hardwareSigningKey })
 }

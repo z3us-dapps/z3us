@@ -1,6 +1,6 @@
 import React, { useRef } from 'react'
+import { useLocation, useRoute } from 'wouter'
 import { useSharedStore, useStore } from '@src/store'
-import { useRoute } from 'wouter'
 import { useImmer } from 'use-immer'
 import Button from 'ui/src/components/button'
 import { Z3usIcon, TrashIcon, HardwareWalletIcon } from 'ui/src/components/icons'
@@ -30,6 +30,7 @@ import {
 import { KeystoreType } from '@src/store/types'
 
 export const Z3usMenu: React.FC = () => {
+	const [, setLocation] = useLocation()
 	const [isSendRoute] = useRoute('/wallet/account/send')
 	const [isSendRouteRri] = useRoute('/wallet/account/send/:rri')
 	const [isDepositRoute] = useRoute('/wallet/account/deposit')
@@ -66,6 +67,7 @@ export const Z3usMenu: React.FC = () => {
 	const handleValueChange = async (id: string) => {
 		if (id === keystoreId) return
 		selectKeystore(id)
+		setLocation('#/wallet/account')
 		await lock()
 	}
 
@@ -80,6 +82,7 @@ export const Z3usMenu: React.FC = () => {
 		setState(draft => {
 			draft.keystoreId = undefined
 		})
+		handleLockWallet()
 	}
 
 	const handleRemoveWallet = (wallet: string) => {
@@ -173,12 +176,12 @@ export const Z3usMenu: React.FC = () => {
 											<DropdownMenuRadioItem key={id} value={id}>
 												<DropdownMenuItemIndicator css={{ width: '16px', left: '0', right: 'unset' }} />
 												<Flex align="center" css={{ width: '100%', pl: '$1' }}>
-													<Flex justify="start" align="center" css={{ flex: '1' }}>
-														<Text size="2" bold truncate css={{ maxWidth: '100px' }}>
+													<Flex justify="start" align="center" css={{ flex: '1', pr: '$2' }}>
+														<Text size="2" bold truncate css={{ maxWidth: '124px' }}>
 															{name}
 														</Text>
 													</Flex>
-													<Box>
+													<Box css={{ mr: '-6px' }}>
 														{type === KeystoreType.HARDWARE && (
 															<ToolTip message="Hardware wallet account">
 																<HardwareWalletIcon />

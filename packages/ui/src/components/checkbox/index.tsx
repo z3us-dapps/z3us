@@ -68,6 +68,7 @@ const StyledCheckIcon = ({ css }: CSS) => (
 		as="div"
 		css={{
 			position: 'absolute',
+			display: 'flex',
 			pe: 'none',
 			opacity: '0',
 			top: '50%',

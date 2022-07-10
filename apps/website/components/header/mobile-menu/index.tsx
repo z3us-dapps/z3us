@@ -16,6 +16,8 @@ const links = [
 		subMenu: [
 			{ name: 'API Reference', to: '/docs/api-reference', id: 'api-reference' },
 			{ name: 'API V1', to: '/docs/api-v1', id: 'api-v1' },
+			{ name: 'Demo', to: '/docs/api-demo', id: 'api-demo' },
+			// { name: 'Babylon PTE', to: '/docs/api-pte', id: 'api-pte' },
 		],
 	},
 	{ name: 'Github', to: config.GITHUB_URL, id: 'github' },

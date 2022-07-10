@@ -33,6 +33,7 @@ const defaultState = {
 	selectedAccountIndex: 0,
 
 	visibleTokens: {},
+	tokenSearch: '',
 
 	publicAddresses: {},
 	approvedWebsites: {},
@@ -46,10 +47,9 @@ const updatePublicAddressEntry = async (
 	hardwareWallet: HardwareWalletT | null,
 	masterSeed: HDMasterSeedT | null,
 ) => {
-	const network = state.networks[state.selectedNetworkIndex]
 	const publicIndexes = Object.keys(state.publicAddresses)
 
-	let index: number
+	let index: number = 0
 	let { selectedAccountIndex } = state
 	if (idx < publicIndexes.length) {
 		index = +publicIndexes[idx]
@@ -70,22 +70,22 @@ const updatePublicAddressEntry = async (
 		signingKey = await getHWSigningKeyForIndex(hardwareWallet, index)
 	}
 	if (signingKey) {
-		const address = AccountAddress.fromPublicKeyAndNetwork({
-			publicKey: signingKey.publicKey,
-			network: network.id,
-		})
 		set(draft => {
+			const network = draft.networks[draft.selectedNetworkIndex]
+			const address = AccountAddress.fromPublicKeyAndNetwork({
+				publicKey: signingKey.publicKey,
+				network: network.id,
+			})
+
 			draft.publicAddresses[index] = {
 				...getDefaultAddressEntry(index),
-				...state.publicAddresses[index],
+				...draft.publicAddresses[index],
 				address: address.toString(),
 			}
-		})
-		if (selectedAccountIndex === idx) {
-			set(draft => {
+			if (selectedAccountIndex === idx) {
 				draft.account = Account.create({ address, signingKey })
-			})
-		}
+			}
+		})
 	} else {
 		set(draft => {
 			draft.account = null
@@ -183,7 +183,7 @@ export const factory = (set: SetState<AccountStore>, get: GetState<AccountStore>
 		hardwareWallet: HardwareWalletT | null,
 		masterSeed: HDMasterSeedT | null,
 	) => {
-		let selectedAccount = null
+		let selectedAccount = 0
 		const { selectAccountAction, publicAddresses } = get()
 
 		const publicIndexes = Object.keys(publicAddresses)
@@ -236,6 +236,12 @@ export const factory = (set: SetState<AccountStore>, get: GetState<AccountStore>
 	setVisibleTokensAction: (visibleTokens: VisibleTokens) => {
 		set(state => {
 			state.visibleTokens = visibleTokens
+		})
+	},
+
+	setTokenSearchAction: (search: string) => {
+		set(state => {
+			state.tokenSearch = search
 		})
 	},
 

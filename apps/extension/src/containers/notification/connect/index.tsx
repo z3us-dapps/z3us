@@ -1,10 +1,8 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect } from 'react'
 import { Box, Flex, Text, StyledLink } from 'ui/src/components/atoms'
 import Button from 'ui/src/components/button'
-import { AccountSelector } from '@src/components/account-selector'
 import { PageWrapper, PageHeading, PageSubHeading } from '@src/components/layout'
 import { CheckboxIcon } from '@radix-ui/react-icons'
-import { getShortAddress } from '@src/utils/string-utils'
 import { useSharedStore, useStore } from '@src/store'
 import { useRoute } from 'wouter'
 import { hexToJSON } from '@src/utils/encoding'
@@ -13,33 +11,21 @@ import { CONFIRM } from '@src/lib/actions'
 export const Connect = (): JSX.Element => {
 	const [, { id }] = useRoute<{ id: string }>('/connect/:id')
 
-	const { hw, seed, sendResponse } = useSharedStore(state => ({
+	const { sendResponse } = useSharedStore(state => ({
 		sendResponse: state.sendResponseAction,
-		hw: state.hardwareWallet,
-		seed: state.masterSeed,
 	}))
-	const { accountAddress, action, approveWebsite, declineWebsite, selectAccount, approvedWebsites } = useStore(
-		state => ({
-			accountAddress: state.getCurrentAddressAction(),
-			approvedWebsites: state.approvedWebsites,
-			approveWebsite: state.approveWebsiteAction,
-			declineWebsite: state.declineWebsiteAction,
-			selectAccount: state.selectAccountAction,
-			action:
-				state.pendingActions[id] && state.pendingActions[id].payloadHex
-					? hexToJSON(state.pendingActions[id].payloadHex)
-					: {},
-		}),
-	)
+	const { accountAddress, action, approveWebsite, declineWebsite, approvedWebsites } = useStore(state => ({
+		accountAddress: state.getCurrentAddressAction(),
+		approvedWebsites: state.approvedWebsites,
+		approveWebsite: state.approveWebsiteAction,
+		declineWebsite: state.declineWebsiteAction,
+		action:
+			state.pendingActions[id] && state.pendingActions[id].payloadHex
+				? hexToJSON(state.pendingActions[id].payloadHex)
+				: {},
+	}))
 
 	const { host, request } = action
-	const [shortAddress, setShortAddress] = useState(getShortAddress(accountAddress))
-
-	useEffect(() => {
-		if (accountAddress) {
-			setShortAddress(getShortAddress(accountAddress))
-		}
-	}, [accountAddress])
 
 	useEffect(() => {
 		if (host in approvedWebsites) {
@@ -61,10 +47,6 @@ export const Connect = (): JSX.Element => {
 		approveWebsite(host)
 	}
 
-	const handleAccountChange = async (accountIndex: number) => {
-		await selectAccount(accountIndex, hw, seed)
-	}
-
 	return (
 		<>
 			<PageWrapper css={{ flex: '1' }}>
@@ -77,9 +59,6 @@ export const Connect = (): JSX.Element => {
 						</StyledLink>
 						.
 					</PageSubHeading>
-				</Box>
-				<Box css={{ py: '$5' }}>
-					<AccountSelector shortAddress={shortAddress} onAccountChange={handleAccountChange} />
 				</Box>
 				<Box
 					css={{

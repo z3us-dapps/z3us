@@ -22,6 +22,12 @@ import {
 import { AddressBookEntry } from '@src/store/types'
 import { AccountModal } from './account-modal'
 
+interface AccountsImmerState {
+	editing: string
+	tempEdit: string
+	isRemoveAccountDialogOpen: number | null
+}
+
 export const Accounts: React.FC = () => {
 	const { addToast } = useSharedStore(state => ({
 		addToast: state.addToastAction,
@@ -32,10 +38,10 @@ export const Accounts: React.FC = () => {
 		setAddressBookEntry: state.setPublicAddressAction,
 		removeAddress: state.removePublicAddressesAction,
 	}))
-	const [state, setState] = useImmer({
+	const [state, setState] = useImmer<AccountsImmerState>({
 		editing: '',
 		tempEdit: '',
-		isRemoveAccountDialogOpen: false,
+		isRemoveAccountDialogOpen: null,
 	})
 
 	const handleEdit = (entry: AddressBookEntry) => {
@@ -69,7 +75,7 @@ export const Accounts: React.FC = () => {
 		removeAddress(idx)
 
 		setState(draft => {
-			draft.isRemoveAccountDialogOpen = false
+			draft.isRemoveAccountDialogOpen = null
 		})
 
 		addToast({
@@ -79,15 +85,15 @@ export const Accounts: React.FC = () => {
 		})
 	}
 
-	const handleOpenDialog = () => {
+	const handleOpenDialog = (idx: number) => {
 		setState(draft => {
-			draft.isRemoveAccountDialogOpen = true
+			draft.isRemoveAccountDialogOpen = idx
 		})
 	}
 
 	const handleCloseDialog = () => {
 		setState(draft => {
-			draft.isRemoveAccountDialogOpen = false
+			draft.isRemoveAccountDialogOpen = null
 		})
 	}
 
@@ -159,11 +165,11 @@ export const Accounts: React.FC = () => {
 											</Button>
 										</ToolTip>
 
-										<AlertDialog open={state.isRemoveAccountDialogOpen}>
+										<AlertDialog open={state.isRemoveAccountDialogOpen === idx}>
 											<AlertDialogTrigger asChild>
 												<Box>
 													<ToolTip message="Remove account" side="top">
-														<Button size="1" color="ghost" iconOnly onClick={handleOpenDialog}>
+														<Button size="1" color="ghost" iconOnly onClick={() => handleOpenDialog(idx)}>
 															<TrashIcon />
 														</Button>
 													</ToolTip>

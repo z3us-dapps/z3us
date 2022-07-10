@@ -34,6 +34,7 @@ export default {
 		'popup-theme-system.html',
 		'assets/inpage.js',
 		'assets/actions.js',
+		// 'pte_manifest_compiler_bg.wasm',
 	],
 	browser_specific_settings: {
 		gecko: {

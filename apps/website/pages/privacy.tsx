@@ -9,7 +9,7 @@ import { MdxTheme } from 'components/mdx-theme'
 import { config } from 'config'
 import docsGlobalStyles from './docs/docs.styles'
 
-const DocsIndex = ({ mdxSource }) => {
+const PrivacyIndex = ({ mdxSource }) => {
 	docsGlobalStyles()
 	return (
 		<>
@@ -55,4 +55,4 @@ export const getStaticProps = async () => {
 	}
 }
 
-export default DocsIndex
+export default PrivacyIndex

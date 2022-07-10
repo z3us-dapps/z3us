@@ -23,9 +23,6 @@ const StyledTrigger = styled(SelectPrimitive.SelectTrigger, {
 	gap: 5,
 	backgroundColor: 'white',
 	color: 'grey',
-	//boxShadow: `0 2px 10px ${blackA.blackA7}`,
-	//'&:hover': { backgroundColor: 'green' },
-	//'&:focus': { boxShadow: `0 0 0 2px black` },
 })
 
 const StyledContent = styled(SelectPrimitive.Content, {
@@ -55,15 +52,14 @@ const StyledViewport = styled(SelectPrimitive.Viewport, {
 const StyledItem = styled(SelectPrimitive.Item, { ...sharedItemStyles })
 
 const StyledLabel = styled(SelectPrimitive.Label, {
-	padding: '0 25px',
-	fontSize: 12,
-	lineHeight: '25px',
-	color: 'brown',
+	...sharedItemStyles,
+	fontWeight: 700,
+	backgroundColor: '$bgPanelHover',
 })
 
 const StyledSeparator = styled(SelectPrimitive.Separator, {
 	height: 1,
-	backgroundColor: 'blue',
+	backgroundColor: '$borderPanel',
 	margin: 5,
 })
 
@@ -74,9 +70,12 @@ const scrollButtonStyles = {
 	alignItems: 'center',
 	justifyContent: 'center',
 	height: 25,
-	backgroundColor: 'white',
-	color: 'red',
+	color: '$buttonText',
+	fill: '$buttonText',
+	bg: '$buttonBgTertiary',
+	br: '$2',
 	cursor: 'default',
+	opacity: '0.5',
 }
 
 const StyledScrollUpButton = styled(SelectPrimitive.ScrollUpButton, scrollButtonStyles)
