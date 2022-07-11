@@ -262,7 +262,7 @@ export const Airdrop = () => {
 							</Text>*/}
 							{state.der && (
 								<Box css={{ py: '$4' }}>
-									<Text css={{ pb: '$6', px: '$10', lineHeight: '20px' }}>
+									<Text css={{ pb: '$6', px: '$4', lineHeight: '20px' }}>
 										For the final step to complete the Airdrop subscription, please go to the{` `}
 										<StyledLink underline target="_blank" href="tg://resolve?domain=z3us_dapps_bot">
 											Z3US Telegram Bot
@@ -297,7 +297,7 @@ export const Airdrop = () => {
 								</Button>
 								<DialogClose asChild>
 									<Button color="primary" size="3" onClick={handleCloseModal}>
-										Close
+										Copy and go to Telegram
 									</Button>
 								</DialogClose>
 							</Flex>
