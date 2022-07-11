@@ -1,10 +1,11 @@
 import React from 'react'
 import * as DialogPrimitive from '@radix-ui/react-dialog'
 import { Box } from '../atoms/box'
+import { PropsWithCSS } from '../../types'
 import { styled, keyframes, CSS } from '../../theme'
 
-const EXT_HEIGHT = '600px'
-const EXT_WIDTH = '360px'
+const EXT_HEIGHT = '100%'
+const EXT_WIDTH = '100%'
 
 const overlayAnimateIn = keyframes({
 	from: { opacity: 0 },
@@ -35,6 +36,7 @@ const StyledOverlay = styled(DialogPrimitive.Overlay, {
 	top: '0',
 	left: '0',
 	inset: 0,
+	zIndex: 3,
 	'&[data-state="open"]': {
 		animation: `${overlayAnimateIn} 200ms ease`,
 		animationFillMode: 'forwards',
@@ -47,8 +49,6 @@ const StyledOverlay = styled(DialogPrimitive.Overlay, {
 
 const StyledContent = styled(DialogPrimitive.Content, {
 	position: 'absolute',
-	backgroundColor: '$bgTransparentDialog',
-	backdropFilter: 'blur(6px)',
 	width: EXT_WIDTH,
 	height: EXT_HEIGHT,
 	top: '0',
@@ -56,6 +56,7 @@ const StyledContent = styled(DialogPrimitive.Content, {
 	display: 'flex',
 	alignItems: 'center',
 	justifyContent: 'center',
+	zIndex: 10,
 	'&:focus': { outline: 'none' },
 	'&[data-state="open"]': {
 		animation: `${animateIn} 200ms ease`,
@@ -78,7 +79,9 @@ const defaultContentProps = {
 	css: undefined,
 }
 
-const Content = ({ children, container, css }: ContentProps) => (
+export type DialogContentProps = PropsWithCSS<ContentProps>
+
+const Content = ({ children, container, css }: DialogContentProps) => (
 	<DialogPrimitive.Portal container={container}>
 		<StyledOverlay />
 		<StyledContent>
@@ -91,7 +94,7 @@ const Content = ({ children, container, css }: ContentProps) => (
 					backgroundColor: '$bgPanelDialog',
 					br: '$2',
 					m: '$6',
-					...(css as any),
+					...css,
 				}}
 			>
 				{children}

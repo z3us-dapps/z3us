@@ -204,7 +204,7 @@ export const StakeModal: React.FC<IProps> = ({ trigger, tooltipMessage, validato
 						iconOnly
 						aria-label="close stake modal"
 						size="1"
-						css={{ position: 'absolute', top: '$4', right: '$4' }}
+						css={{ position: 'absolute', top: '0', right: '0' }}
 						onClick={handleCloseModal}
 					>
 						<Cross2Icon />
