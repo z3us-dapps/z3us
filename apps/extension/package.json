@@ -1,6 +1,6 @@
 {
 	"name": "z3us-extension",
-	"version": "1.0.11",
+	"version": "1.0.12",
 	"scripts": {
 		"dev": "yarn start",
 		"start": "vite",
