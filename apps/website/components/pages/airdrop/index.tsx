@@ -30,7 +30,7 @@ import AlertCard from 'ui/src/components/alert-card'
 import { Box, Flex, Text, StyledLink } from 'ui/src/components/atoms'
 import { useZ3usWallet } from 'hooks/use-z3us-wallet'
 import Input from 'ui/src/components/input'
-import { config } from 'config'
+//import { config } from 'config'
 
 const signaturePayload = 'z3us-airdrop'
 
@@ -252,18 +252,18 @@ export const Airdrop = () => {
 								Congratulations 🥳
 							</Text>
 							<Text size="6" css={{ mt: '20px' }}>
-								You have successfully subscribed to the airdrop.
+								You are elligable for the Z3US Airdrop.
 							</Text>
-							<Text css={{ mt: '20px' }}>
+							{/*<Text css={{ mt: '20px' }}>
 								You will be receiving Z3US tokens in your wallet {` `}
 								<StyledLink underline href={`${config.EXPLORER_URL}/accounts/${state.address}`} target="_blank">
 									{getHeadTailString(state.address)}
 								</StyledLink>
-							</Text>
+							</Text>*/}
 							{state.der && (
 								<Box css={{ py: '$4' }}>
-									<Text css={{ pb: '$6' }}>
-										Go to the{` `}
+									<Text css={{ pb: '$6', px: '$10', lineHeight: '20px' }}>
+										For the final step to complete the Airdrop subscription, please go to the{` `}
 										<StyledLink underline target="_blank" href="tg://resolve?domain=z3us_dapps_bot">
 											Z3US Telegram Bot
 										</StyledLink>{' '}
@@ -291,13 +291,16 @@ export const Airdrop = () => {
 									</Flex>
 								</Box>
 							)}
-							<Box css={{ mt: '5px' }}>
+							<Flex justify="end" css={{ mt: '5px' }}>
+								<Button color="ghost" size="3" onClick={handleCloseModal}>
+									Cancel
+								</Button>
 								<DialogClose asChild>
 									<Button color="primary" size="3" onClick={handleCloseModal}>
 										Close
 									</Button>
 								</DialogClose>
-							</Box>
+							</Flex>
 						</Box>
 					</Flex>
 				</DialogContent>
