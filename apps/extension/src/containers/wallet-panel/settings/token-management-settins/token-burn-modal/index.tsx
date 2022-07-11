@@ -7,7 +7,6 @@ import { getShortAddress } from '@src/utils/string-utils'
 import { Cross2Icon } from '@radix-ui/react-icons'
 import { PageHeading, PageSubHeading, PageWrapper } from '@src/components/layout'
 import { ScrollArea } from 'ui/src/components/scroll-area'
-import { FinalizeTransaction, SubmitSignedTransaction, MintToken, DeriveToken } from '@src/services/radix/transactions'
 import { useEventListener } from 'usehooks-ts'
 import Button from 'ui/src/components/button'
 import Input from 'ui/src/components/input'
@@ -20,6 +19,9 @@ import { useTokenBalances, useTokenInfo } from '@src/services/react-query/querie
 import { TokenSelector } from '@src/components/token-selector'
 import { formatBigNumber } from '@src/utils/formatters'
 import BigNumber from 'bignumber.js'
+import { useTransaction } from '@src/hooks/use-transaction'
+import { useTokenDerive } from '@src/hooks/use-token-derive'
+import { useTokenBurn } from '@src/hooks/use-token-burn'
 
 interface IProps {
 	trigger: React.ReactNode
@@ -31,17 +33,20 @@ export const BurnTokenModal: React.FC<IProps> = ({ trigger }) => {
 	const [, setLocation] = useLocation()
 	const queryClient = useQueryClient()
 
+	const burn = useTokenBurn()
+	const derive = useTokenDerive()
+	const { signTransaction, submitTransaction } = useTransaction()
+
 	const { hw, seed, addToast } = useSharedStore(state => ({
 		hw: state.hardwareWallet,
 		seed: state.masterSeed,
 		addToast: state.addToastAction,
 	}))
 
-	const { selectAccount, account, accountAddress, network } = useStore(state => ({
+	const { selectAccount, account, accountAddress } = useStore(state => ({
 		selectAccount: state.selectAccountAction,
 		account: state.account,
 		accountAddress: state.getCurrentAddressAction(),
-		network: state.networks[state.selectedNetworkIndex],
 	}))
 
 	const [state, setState] = useImmer({
@@ -77,7 +82,7 @@ export const BurnTokenModal: React.FC<IProps> = ({ trigger }) => {
 
 	const handleUseMax = () => {
 		setState(draft => {
-			draft.amount = formatBigNumber(selectedTokenAmmount)
+			draft.amount = selectedTokenAmmount.toString()
 		})
 		inputAmountRef.current.focus()
 	}
@@ -116,8 +121,8 @@ export const BurnTokenModal: React.FC<IProps> = ({ trigger }) => {
 		})
 
 		try {
-			const rri = await DeriveToken(network.url, accountAddress, token.symbol)
-			const { transaction, fee } = await MintToken(network.url, rri, accountAddress, state.amount)
+			const rri = await derive(accountAddress, token.symbol)
+			const { transaction, fee } = await burn(rri, state.amount)
 			setState(draft => {
 				draft.rri = rri
 				draft.fee = fee
@@ -144,8 +149,8 @@ export const BurnTokenModal: React.FC<IProps> = ({ trigger }) => {
 			draft.isLoading = true
 		})
 		try {
-			const { blob } = await FinalizeTransaction(network.url, account, token.symbol, state.transaction)
-			await SubmitSignedTransaction(network.url, account, blob)
+			const { blob } = await signTransaction(token.symbol, state.transaction)
+			await submitTransaction(blob)
 			await queryClient.invalidateQueries({ active: true, inactive: true, stale: true })
 			setState(draft => {
 				draft.fee = null
@@ -153,6 +158,11 @@ export const BurnTokenModal: React.FC<IProps> = ({ trigger }) => {
 				draft.isModalOpen = false
 			})
 			setLocation(`/wallet/account/token/${state.rri}`)
+			addToast({
+				type: 'success',
+				title: 'Succesfully submited transaction to the network',
+				duration: 5000,
+			})
 		} catch (error) {
 			addToast({
 				type: 'error',

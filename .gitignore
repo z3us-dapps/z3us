@@ -37,3 +37,6 @@ yarn-error.log*
 
 # extension stats
 apps/extension/stats.html
+
+# playwright reports
+apps/extension/playwright-report/index.html

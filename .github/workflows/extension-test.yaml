@@ -14,6 +14,7 @@ on:
       - 'apps/extension/**'
 jobs:
   test:
+    timeout-minutes: 10
     runs-on: ubuntu-latest
     steps:
       - name: Copy Files
@@ -34,3 +35,9 @@ jobs:
         run: |-
           cd apps/extension
           yarn build
+      - name: Install Playwright Browsers
+        run: npx playwright install-deps chromium
+      - name: Run Playwright tests
+        run: |-
+          cd apps/extension
+          xvfb-run --auto-servernum -- yarn test

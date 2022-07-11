@@ -2,8 +2,9 @@ import React from 'react'
 import { formatBigNumber } from '@src/utils/formatters'
 import BigNumber from 'bignumber.js'
 import { Box, Text, Flex } from 'ui/src/components/atoms'
-import { useUSDTicker } from '@src/services/react-query/queries/tickers'
+import { useTicker } from '@src/services/react-query/queries/tickers'
 import { Token } from '@src/types'
+import { useSharedStore } from '@src/store'
 
 interface IProps {
 	token?: Token
@@ -13,7 +14,10 @@ interface IProps {
 }
 
 export const SlippageBox: React.FC<IProps> = ({ token, amount, fee, css }) => {
-	const { data: ticker } = useUSDTicker(token?.symbol)
+	const { currency } = useSharedStore(state => ({
+		currency: state.currency,
+	}))
+	const { data: ticker } = useTicker(currency, token?.symbol)
 
 	if (!ticker) {
 		return null
@@ -46,7 +50,7 @@ export const SlippageBox: React.FC<IProps> = ({ token, amount, fee, css }) => {
 					<Text medium css={{ flex: '1' }}>
 						Estimated fees
 					</Text>
-					<Text>{formatBigNumber(fee.multipliedBy(ticker.last_price), 'USD', 2)}</Text>
+					<Text>{formatBigNumber(fee.multipliedBy(ticker.last_price), currency, 2)}</Text>
 				</Flex>
 			)}
 			{amount && ticker && (
@@ -54,7 +58,7 @@ export const SlippageBox: React.FC<IProps> = ({ token, amount, fee, css }) => {
 					<Text medium css={{ flex: '1' }}>
 						Total USD
 					</Text>
-					<Text>{formatBigNumber(amount.multipliedBy(ticker.last_price), 'USD', 2)}</Text>
+					<Text>{formatBigNumber(amount.multipliedBy(ticker.last_price), currency, 2)}</Text>
 				</Flex>
 			)}
 		</Box>

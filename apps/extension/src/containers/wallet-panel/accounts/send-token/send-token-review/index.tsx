@@ -3,9 +3,9 @@ import BigNumber from 'bignumber.js'
 import { useQueryClient } from 'react-query'
 import { useLocation } from 'wouter'
 import { Token } from '@src/types'
-import { FinalizeTransaction, SubmitSignedTransaction } from '@src/services/radix/transactions'
 import InputFeedBack from 'ui/src/components/input/input-feedback'
 import { BuiltTransactionReadyToSign } from '@radixdlt/application'
+import { useTransaction } from '@src/hooks/use-transaction'
 import { useImmer } from 'use-immer'
 import { useSharedStore, useStore } from '@src/store'
 import { formatBigNumber } from '@src/utils/formatters'
@@ -42,13 +42,13 @@ export const SendTokenReview: React.FC<IProps> = ({
 }) => {
 	const [, setLocation] = useLocation()
 	const queryClient = useQueryClient()
+	const { signTransaction, submitTransaction } = useTransaction()
 	const { addressBook } = useSharedStore(state => ({
 		addressBook: state.addressBook,
 	}))
-	const { account, network, publicAddresses } = useStore(state => ({
+	const { account, publicAddresses } = useStore(state => ({
 		account: state.account,
 		publicAddresses: Object.values(state.publicAddresses),
-		network: state.networks[state.selectedNetworkIndex],
 	}))
 	const [state, setState] = useImmer({
 		txID: '',
@@ -91,11 +91,11 @@ export const SendTokenReview: React.FC<IProps> = ({
 		})
 
 		try {
-			const { blob, txID } = await FinalizeTransaction(network.url, account, token.symbol, transaction)
+			const { blob, txID } = await signTransaction(token.symbol, transaction)
 			setState(draft => {
 				draft.txID = txID
 			})
-			const result = await SubmitSignedTransaction(network.url, account, blob)
+			const result = await submitTransaction(blob)
 			await queryClient.invalidateQueries({ active: true, inactive: true, stale: true })
 			setState(draft => {
 				draft.txID = result.txID

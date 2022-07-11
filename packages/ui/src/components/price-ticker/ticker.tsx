@@ -1,7 +1,6 @@
 /* eslint-disable react/jsx-props-no-spreading */
 import React, { PropsWithoutRef, RefAttributes, useImperativeHandle, useRef, useState, useEffect } from 'react'
-import { CSS } from '../../theme'
-import withDefaults from '../../utils/with-defaults'
+import { PropsWithCSS } from '../../types'
 import { __DEV__ } from '../../utils/assertion'
 import Rollup from './rollup'
 import { domExists, warnNonProduction } from './utils'
@@ -19,7 +18,7 @@ export interface Props {
 }
 
 const defaultProps = {
-	as: 'span',
+	as: 'span' as keyof JSX.IntrinsicElements,
 	speed: 500,
 	constantKeys: ['-', '$', '.', '%'],
 	direction: 'up',
@@ -28,9 +27,9 @@ const defaultProps = {
 
 type NativeAttrs = Omit<React.HTMLAttributes<unknown>, keyof Props>
 
-export type PriceTickerProps = Props & NativeAttrs & PriceTickerVariantsProps & { css?: CSS }
+export type PriceTickerProps = React.PropsWithChildren<PropsWithCSS<Props & NativeAttrs & PriceTickerVariantsProps>>
 
-const PriceTicker = React.forwardRef<HTMLDivElement, React.PropsWithChildren<PriceTickerProps>>(
+const PriceTicker = React.forwardRef<HTMLDivElement, PriceTickerProps>(
 	(props, ref: React.Ref<HTMLDivElement | null>) => {
 		const {
 			as,
@@ -163,4 +162,6 @@ if (__DEV__) {
 
 PriceTicker.toString = () => '.z3us price ticker'
 
-export default withDefaults(PriceTicker, defaultProps) as PriceTickerComponent<HTMLDivElement, PriceTickerProps>
+PriceTicker.defaultProps = defaultProps as Partial<PriceTickerProps>
+
+export default PriceTicker as PriceTickerComponent<HTMLDivElement, PriceTickerProps>

@@ -1,12 +1,15 @@
 import React, { useEffect } from 'react'
 import { useImmer } from 'use-immer'
 import { useAllAccountsValue } from '@src/services/react-query/queries/account'
-import { useStore } from '@src/store'
+import { useSharedStore, useStore } from '@src/store'
 import { Flex, Box, Text } from 'ui/src/components/atoms'
 import PriceTicker from 'ui/src/components/price-ticker'
 import { formatBigNumber } from '@src/utils/formatters'
 
 export const AccountsTotal = (): JSX.Element => {
+	const { currency } = useSharedStore(state => ({
+		currency: state.currency,
+	}))
 	const { activeSlideIndex } = useStore(state => ({
 		activeSlideIndex: state.activeSlideIndex,
 	}))
@@ -27,7 +30,7 @@ export const AccountsTotal = (): JSX.Element => {
 		})
 		setTimeout(() => {
 			setState(draft => {
-				draft.accountValue = formatBigNumber(value, 'USD', 2)
+				draft.accountValue = formatBigNumber(value, currency, 2)
 			})
 		}, 200)
 	}, [activeSlideIndex])

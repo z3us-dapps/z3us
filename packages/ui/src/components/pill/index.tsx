@@ -1,7 +1,7 @@
 /* eslint-disable react/jsx-props-no-spreading */
 import React, { PropsWithoutRef, RefAttributes, useImperativeHandle, useRef } from 'react'
 import { Cross2Icon } from '@radix-ui/react-icons'
-import { CSS } from '../../theme'
+import { PropsWithCSS } from '../../types'
 import withDefaults from '../../utils/with-defaults'
 import { __DEV__ } from '../../utils/assertion'
 import Button from '../button'
@@ -13,15 +13,15 @@ export interface Props {
 }
 
 const defaultProps = {
-	as: 'div',
+	as: 'div' as keyof JSX.IntrinsicElements,
 	onClose: undefined,
 }
 
 type NativeAttrs = Omit<React.HTMLAttributes<unknown>, keyof Props>
 
-export type PillProps = Props & NativeAttrs & PillVariantsProps & { css?: CSS }
+export type PillProps = React.PropsWithChildren<PropsWithCSS<Props & NativeAttrs & PillVariantsProps>>
 
-const Pill = React.forwardRef<HTMLDivElement, React.PropsWithChildren<PillProps>>(
+const Pill = React.forwardRef<HTMLDivElement, PillProps>(
 	({ children, as, css, onClose, color, ...rest }, ref: React.Ref<HTMLDivElement | null>) => {
 		const cardRef = useRef<HTMLDivElement>(null)
 		useImperativeHandle(ref, () => cardRef.current)

@@ -1,4 +1,5 @@
 import BigNumber from 'bignumber.js'
+import { Amount, AmountT } from '@radixdlt/application'
 
 export const stakePercentage = (delegatedStake: string, total: BigNumber) => {
 	if (total.eq(0)) {
@@ -43,4 +44,18 @@ export const apy = (amount?: BigNumber, total?: BigNumber, fee: number = 0): Big
 	const reward = amount.div(total).multipliedBy((E * (100 - fee)) / 100) // number of tokens gain in a year time
 
 	return reward.div(amount).multipliedBy(100)
+}
+
+export const buildAmount = (value: string): AmountT => {
+	const bigAmount = new BigNumber(value)
+	const amountInput = bigAmount.shiftedBy(18) // Atto
+	const amountResult = Amount.fromUnsafe(amountInput.toFixed())
+	if (!amountResult) {
+		throw new Error(`Failed to parse amount value ${value}`)
+	}
+	if (amountResult.isErr()) {
+		throw amountResult.error
+	}
+
+	return amountResult.value
 }

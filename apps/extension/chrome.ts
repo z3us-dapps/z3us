@@ -37,7 +37,13 @@ export default {
 	web_accessible_resources: [
 		{
 			matches: ['<all_urls>'],
-			resources: ['popup-theme-dark.html', 'popup-theme-system.html', 'assets/inpage.js', 'assets/actions.js'],
+			resources: [
+				'popup-theme-dark.html',
+				'popup-theme-system.html',
+				'assets/inpage.js',
+				'assets/actions.js',
+				// 'pte_manifest_compiler_bg.wasm',
+			],
 		},
 	],
 }

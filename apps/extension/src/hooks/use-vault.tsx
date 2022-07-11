@@ -11,10 +11,11 @@ const messanger = new MessageService('extension', browser.runtime.connect({ name
 const refreshInterval = 60 * 1000 // 1 minute
 
 export const useVault = () => {
-	const { keystore, setMessanger, setMasterSeed, unlockHW } = useSharedStore(state => ({
+	const { keystore, seed, setMessanger, setSeed, unlockHW } = useSharedStore(state => ({
+		seed: state.masterSeed,
 		keystore: state.keystores.find(({ id }) => id === state.selectKeystoreId),
 		setMessanger: state.setMessangerAction,
-		setMasterSeed: state.setMasterSeedAction,
+		setSeed: state.setMasterSeedAction,
 		unlockHW: state.unlockHardwareWalletAction,
 	}))
 	const { networkIndex, accountIndex, selectAccount } = useStore(state => ({
@@ -35,14 +36,13 @@ export const useVault = () => {
 
 	const init = async () => {
 		try {
-			const { seed } = await messanger.sendActionMessageFromPopup(GET, null)
-			if (seed) {
-				const masterSeed = HDMasterSeed.fromSeed(Buffer.from(seed, 'hex'))
-				await setMasterSeed(masterSeed)
-				await selectAccount(accountIndex, null, masterSeed)
-			}
 			if (keystore && keystore.type === KeystoreType.HARDWARE) {
 				unlockHW()
+			} else {
+				const { seed: newSeed } = await messanger.sendActionMessageFromPopup(GET, null)
+				if (newSeed) {
+					setSeed(HDMasterSeed.fromSeed(Buffer.from(newSeed, 'hex')))
+				}
 			}
 		} catch (error) {
 			// eslint-disable-next-line no-console
@@ -55,6 +55,12 @@ export const useVault = () => {
 	useEffect(() => {
 		init()
 	}, [keystore])
+
+	useEffect(() => {
+		if (seed) {
+			selectAccount(accountIndex, null, seed)
+		}
+	}, [seed])
 
 	useEffect(() => {
 		const load = async () => {

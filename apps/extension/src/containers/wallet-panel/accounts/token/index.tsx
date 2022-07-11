@@ -1,32 +1,38 @@
 import React, { useRef, useCallback, useEffect, useState } from 'react'
-import { useSharedStore } from '@src/store'
-import { ScrollArea } from '@src/components/scroll-area'
+import { ScrollArea } from 'ui/src/components/scroll-area'
 import { TokenLoadingRows } from '@src/components/token-loading-row'
 import { useTransactionHistory } from '@src/services/react-query/queries/radix'
 import { ActivityItem } from '@src/components/activity-item'
 import { useRoute } from 'wouter'
-import { Text, Box } from 'ui/src/components/atoms'
+import { Box, Text } from 'ui/src/components/atoms'
 import { Virtuoso } from 'react-virtuoso'
 import { getSplitParams } from '@src/utils/url-utils'
-import { SLIDE_PANEL_HEIGHT, SLIDE_PANEL_EXPAND_HEIGHT, SLIDE_PANEL_HEADER_HEIGHT } from '@src/config'
 import { SlideUpPanel } from '../slide-up-panel'
 import { TokenInfo } from '../token-info'
 
+const SlideUpHeader: React.FC = () => (
+	<Box
+		css={{
+			px: '$4',
+			height: '30px',
+			borderBottom: '1px solid $borderPanel',
+			mt: '-10px',
+		}}
+	>
+		<Text bold css={{ fontSize: '20px', lineHeight: '20px', transform: 'translateY(-6px)' }}>
+			Activity
+		</Text>
+	</Box>
+)
+
 export const Token: React.FC = () => {
-	const { expanded } = useSharedStore(state => ({
-		expanded: state.accountPanelExpanded,
-	}))
 	const [customScrollParent, setCustomScrollParent] = useState(null)
 	const [, params] = useRoute('/account/token/:rri')
 	const rri = getSplitParams(params)
 	const observer = useRef<IntersectionObserver | null>(null)
 	const { isFetching, data, error, fetchNextPage, hasNextPage } = useTransactionHistory(10)
-	// @TODO: implment properly
+	// @TODO: implement `isLoading`
 	const isLoading = false
-
-	const calculateHeight = expanded
-		? SLIDE_PANEL_EXPAND_HEIGHT - SLIDE_PANEL_HEADER_HEIGHT
-		: SLIDE_PANEL_HEIGHT - SLIDE_PANEL_HEADER_HEIGHT
 
 	const flatten =
 		data?.pages
@@ -62,8 +68,8 @@ export const Token: React.FC = () => {
 	return (
 		<>
 			<TokenInfo />
-			<SlideUpPanel name="Activity">
-				<Box css={{ position: 'relative', height: `${calculateHeight}px` }}>
+			<SlideUpPanel slidePanelHeight={97} headerComponent={<SlideUpHeader />}>
+				<Box css={{ position: 'relative', height: '100%' }}>
 					{isLoading ? (
 						<TokenLoadingRows />
 					) : (

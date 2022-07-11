@@ -4,12 +4,6 @@ import { useImmer } from 'use-immer'
 import { useSharedStore, useStore } from '@src/store'
 import { useLocation } from 'wouter'
 import { getShortAddress } from '@src/utils/string-utils'
-import {
-	FinalizeTransaction,
-	SubmitSignedTransaction,
-	UnstakeTokens,
-	StakeTokens,
-} from '@src/services/radix/transactions'
 import { HardwareWalletReconnect } from '@src/components/hardware-wallet-reconnect'
 import { useEventListener } from 'usehooks-ts'
 import {
@@ -18,7 +12,7 @@ import {
 	useTokenBalances,
 	useStakedPositions,
 } from '@src/services/react-query/queries/radix'
-import { CloseIcon } from 'ui/src/components/icons'
+import { Cross2Icon } from '@radix-ui/react-icons'
 import Button from 'ui/src/components/button'
 import Input from 'ui/src/components/input'
 import { Tooltip, TooltipTrigger, TooltipContent, TooltipArrow } from 'ui/src/components/tool-tip'
@@ -26,7 +20,9 @@ import { Dialog, DialogTrigger, DialogContent } from 'ui/src/components/dialog'
 import { Box, Text, Flex } from 'ui/src/components/atoms'
 import { SlippageBox } from '@src/components/slippage-box'
 import BigNumber from 'bignumber.js'
-import { formatBigNumber } from '@src/utils/formatters'
+import { useTokenStake } from '@src/hooks/use-token-stake'
+import { useTokenUnstake } from '@src/hooks/use-token-unstake'
+import { useTransaction } from '@src/hooks/use-transaction'
 
 interface IProps {
 	trigger: React.ReactNode
@@ -39,6 +35,9 @@ export const StakeModal: React.FC<IProps> = ({ trigger, tooltipMessage, validato
 	const inputAmountRef = useRef(null)
 	const [, setLocation] = useLocation()
 	const queryClient = useQueryClient()
+	const stake = useTokenStake()
+	const unstake = useTokenUnstake()
+	const { signTransaction, submitTransaction } = useTransaction()
 	const { data: stakedPositions } = useStakedPositions()
 	const { data: balances } = useTokenBalances()
 	const { data: token } = useNativeToken()
@@ -48,10 +47,9 @@ export const StakeModal: React.FC<IProps> = ({ trigger, tooltipMessage, validato
 		addToast: state.addToastAction,
 	}))
 
-	const { account, entry, network } = useStore(state => ({
+	const { account, entry } = useStore(state => ({
 		account: state.account,
 		entry: Object.values(state.publicAddresses).find(_account => _account.address === state.getCurrentAddressAction()),
-		network: state.networks[state.selectedNetworkIndex],
 	}))
 
 	let amount = new BigNumber(0)
@@ -104,7 +102,7 @@ export const StakeModal: React.FC<IProps> = ({ trigger, tooltipMessage, validato
 
 	const handleUseMax = () => {
 		setState(draft => {
-			draft.amount = formatBigNumber(amount)
+			draft.amount = amount.toString()
 		})
 		inputAmountRef.current.focus()
 	}
@@ -144,8 +142,8 @@ export const StakeModal: React.FC<IProps> = ({ trigger, tooltipMessage, validato
 		})
 
 		try {
-			const method = reduceStake ? UnstakeTokens : StakeTokens
-			const { transaction, fee } = await method(network.url, token.rri, entry?.address, state.validator, state.amount)
+			const method = reduceStake ? unstake : stake
+			const { transaction, fee } = await method(token.rri, state.validator, state.amount)
 			setState(draft => {
 				draft.fee = fee
 				draft.transaction = transaction
@@ -169,8 +167,8 @@ export const StakeModal: React.FC<IProps> = ({ trigger, tooltipMessage, validato
 			draft.isLoading = true
 		})
 		try {
-			const { blob } = await FinalizeTransaction(network.url, account, token.symbol, state.transaction)
-			await SubmitSignedTransaction(network.url, account, blob)
+			const { blob } = await signTransaction(token.symbol, state.transaction)
+			await submitTransaction(blob)
 			await queryClient.invalidateQueries({ active: true, inactive: true, stale: true })
 			setState(draft => {
 				draft.fee = null
@@ -178,6 +176,11 @@ export const StakeModal: React.FC<IProps> = ({ trigger, tooltipMessage, validato
 				draft.isModalOpen = false
 			})
 			setLocation(`/wallet/account/token/${token.rri}`)
+			addToast({
+				type: 'success',
+				title: 'Succesfully submited transaction to the network',
+				duration: 5000,
+			})
 		} catch (error) {
 			addToast({
 				type: 'error',
@@ -200,22 +203,21 @@ export const StakeModal: React.FC<IProps> = ({ trigger, tooltipMessage, validato
 						color="ghost"
 						iconOnly
 						aria-label="close stake modal"
-						size="3"
-						css={{ position: 'absolute', top: '0px', right: '0px' }}
+						size="1"
+						css={{ position: 'absolute', top: '$4', right: '$4' }}
 						onClick={handleCloseModal}
 					>
-						<CloseIcon />
+						<Cross2Icon />
 					</Button>
-
 					<Box css={{ flex: '1' }}>
 						<Flex direction="column" align="center" css={{ bg: '$bgPanel2', width: '100%', p: '0', br: '$2' }}>
-							<Text medium size="8" bold css={{ mt: '35px' }}>
+							<Text truncate medium size="6" bold css={{ mt: '35px', maxWidth: '240px' }}>
 								{validator?.name}
 							</Text>
-							<Text color="help" medium size="6" bold css={{ mt: '10px' }}>
+							<Text medium size="5" bold css={{ mt: '10px' }}>
 								{stakeTitle}
 							</Text>
-							<Text color="help" size="4" css={{ pb: '10px', mt: '10px', mb: '5px' }}>
+							<Text truncate color="help" size="4" css={{ pb: '20px', mt: '10px', mb: '5px', maxWidth: '230px' }}>
 								{entry?.name ? `${entry.name} (${shortAddress})` : shortAddress}
 							</Text>
 						</Flex>
@@ -257,7 +259,7 @@ export const StakeModal: React.FC<IProps> = ({ trigger, tooltipMessage, validato
 								<Input
 									ref={inputAmountRef}
 									type="number"
-									size="2"
+									size="1"
 									value={state.amount}
 									placeholder="Enter amount"
 									onChange={handleSetAmount}
@@ -274,7 +276,7 @@ export const StakeModal: React.FC<IProps> = ({ trigger, tooltipMessage, validato
 					<Flex css={{ mt: '$3' }}>
 						{state.transaction ? (
 							<Button
-								size="6"
+								size="5"
 								color="primary"
 								aria-label="confirm"
 								css={{ px: '0', flex: '1' }}
@@ -286,7 +288,7 @@ export const StakeModal: React.FC<IProps> = ({ trigger, tooltipMessage, validato
 							</Button>
 						) : (
 							<Button
-								size="6"
+								size="5"
 								color="primary"
 								aria-label={stakeTitle}
 								css={{ px: '0', flex: '1' }}

@@ -1,5 +1,4 @@
-import React, { useEffect } from 'react'
-import { sha256Twice } from '@radixdlt/crypto'
+import React from 'react'
 import { Box, Flex, Text, StyledLink, Image } from 'ui/src/components/atoms'
 import Button from 'ui/src/components/button'
 import { PageWrapper, PageHeading, PageSubHeading } from '@src/components/layout'
@@ -7,73 +6,44 @@ import { useSharedStore, useStore } from '@src/store'
 import { useRoute } from 'wouter'
 import { hexToJSON } from '@src/utils/encoding'
 import { CONFIRM } from '@src/lib/actions'
-import { getShortAddress } from '@src/utils/string-utils'
-import { useImmer } from 'use-immer'
 import { HardwareWalletReconnect } from '@src/components/hardware-wallet-reconnect'
-import { AccountSelector } from '@src/components/account-selector'
+import { useSignature } from '@src/hooks/use-signature'
 
 export const Sign = (): JSX.Element => {
 	const [, { id }] = useRoute<{ id: string }>('/sign/:id')
 
-	const { hw, seed, sendResponse } = useSharedStore(state => ({
+	const { sign, verify } = useSignature()
+	const { sendResponse } = useSharedStore(state => ({
 		sendResponse: state.sendResponseAction,
-		hw: state.hardwareWallet,
-		seed: state.masterSeed,
+	}))
+	const { action } = useStore(state => ({
+		action:
+			state.pendingActions[id] && state.pendingActions[id].payloadHex
+				? hexToJSON(state.pendingActions[id].payloadHex)
+				: {},
 	}))
 
-	const { account, entry, action, selectAccount } = useStore(state => {
-		const accountAddress = state.getCurrentAddressAction()
-		return {
-			selectAccount: state.selectAccountAction,
-			entry: Object.values(state.publicAddresses).find(_account => _account.address === accountAddress),
-			account: state.account,
-			action:
-				state.pendingActions[id] && state.pendingActions[id].payloadHex
-					? hexToJSON(state.pendingActions[id].payloadHex)
-					: {},
-		}
-	})
-
-	const {
-		host,
-		request: { message },
-	} = action
-
-	const [state, setState] = useImmer({
-		shortAddress: getShortAddress(entry?.address),
-	})
-
-	useEffect(() => {
-		if (entry) {
-			setState(draft => {
-				draft.shortAddress = getShortAddress(entry?.address)
-			})
-		}
-	}, [entry])
-
-	const handleAccountChange = async (accountIndex: number) => {
-		await selectAccount(accountIndex, hw, seed)
-	}
+	const { host, request = {} } = action
+	const { challenge = '' } = request
 
 	const handleCancel = async () => {
 		await sendResponse(CONFIRM, {
 			id,
 			host,
-			payload: { request: action.request, value: { code: 403, error: 'Declined' } },
+			payload: { request, value: { code: 403, error: 'Declined' } },
 		})
 		window.close()
 	}
 
 	const handleConfirm = async () => {
-		if (!account) return
-
-		const hashedMessage = sha256Twice(message)
-		const signature = await account.signHash(hashedMessage).toPromise()
-
+		const signature = await sign(challenge)
+		if (!verify(signature, challenge)) {
+			throw new Error('Invalid signature')
+		}
 		sendResponse(CONFIRM, {
 			id,
 			host,
-			payload: { request: action.request, value: signature.toDER() },
+			payload: { request, value: signature, challenge },
 		})
 	}
 
@@ -93,9 +63,6 @@ export const Sign = (): JSX.Element => {
 				<Box css={{ mt: '$8', flex: '1' }}>
 					<HardwareWalletReconnect />
 				</Box>
-				<Box css={{ mt: '$8', flex: '1' }}>
-					<AccountSelector shortAddress={state.shortAddress} onAccountChange={handleAccountChange} />
-				</Box>
 				<Flex
 					direction="column"
 					justify="center"
@@ -105,10 +72,6 @@ export const Sign = (): JSX.Element => {
 					<Box css={{ pb: '$3' }}>
 						<Image src="/images/z3us-spinner.svg" css={{ width: '90px', height: '90px' }} />
 					</Box>
-					<Flex css={{ position: 'relative', pb: '15px' }}>
-						<Text css={{ flex: '1' }}>Using account:</Text>
-						<Text>{entry?.name ? `${entry.name} (${state.shortAddress})` : state.shortAddress}</Text>
-					</Flex>
 					<StyledLink href="#" target="_blank">
 						<Text size="4" color="muted" css={{ mt: '$2' }}>
 							{host}
@@ -129,13 +92,12 @@ export const Sign = (): JSX.Element => {
 				</Button>
 				<Button
 					onClick={handleConfirm}
-					disabled={!account}
 					size="6"
 					color="primary"
 					aria-label="confirm"
 					css={{ px: '0', flex: '1', ml: '$1' }}
 				>
-					Confirm
+					Sign
 				</Button>
 			</PageWrapper>
 		</>

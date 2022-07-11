@@ -4,7 +4,7 @@ export const tuple = <T extends string[]>(...args: T) => args
 
 const normalSizes = tuple('1', '2', '3', '4', '5', '6')
 
-export const normalColors = tuple('default', 'primary', 'secondary', 'tertiary', 'inverse', 'ghost', 'red')
+export const normalColors = tuple('default', 'primary', 'secondary', 'tertiary', 'inverse', 'ghost', 'red', 'input')
 
 export const normalLoaders = tuple('default', 'points', 'points-opacity', 'gradient', 'spinner')
 

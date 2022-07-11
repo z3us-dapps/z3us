@@ -21,14 +21,17 @@ import { ExportSecretPhrase } from './export-secret-phrase'
 
 export const KeyManagementSettings: React.FC = () => {
 	const [, setLocation] = useLocation()
-	const { messanger, keystore, createWallet, removeWallet, removeKeystore, setSeed } = useSharedStore(state => ({
-		messanger: state.messanger,
-		keystore: state.keystores.find(({ id }) => id === state.selectKeystoreId),
-		createWallet: state.createWalletAction,
-		removeWallet: state.removeWalletAction,
-		removeKeystore: state.removeKeystoreAction,
-		setSeed: state.setMasterSeedAction,
-	}))
+	const { messanger, keystore, createWallet, removeWallet, removeKeystore, setSeed, addToast } = useSharedStore(
+		state => ({
+			messanger: state.messanger,
+			keystore: state.keystores.find(({ id }) => id === state.selectKeystoreId),
+			createWallet: state.createWalletAction,
+			removeWallet: state.removeWalletAction,
+			removeKeystore: state.removeKeystoreAction,
+			setSeed: state.setMasterSeedAction,
+			addToast: state.addToastAction,
+		}),
+	)
 	const { reset, selectAccount } = useStore(state => ({
 		reset: state.resetAction,
 		selectAccount: state.selectAccountAction,
@@ -58,18 +61,26 @@ export const KeyManagementSettings: React.FC = () => {
 		if (state.newPassword === state.confirmPassword) {
 			try {
 				setState(draft => {
-					draft.isLoading = false
+					draft.isLoading = true
 				})
-
 				const { mnemonic } = await messanger.sendActionMessageFromPopup(UNLOCK, state.password)
 				const seed = await createWallet(mnemonic.words, state.newPassword)
-				await setSeed(seed)
+				setSeed(seed)
 				await selectAccount(0, null, seed)
 
 				setState(draft => {
 					draft.isLoading = false
 					draft.showError = false
 					draft.errorMessage = ''
+					draft.password = ''
+					draft.newPassword = ''
+					draft.confirmPassword = ''
+				})
+
+				addToast({
+					type: 'success',
+					title: 'Succesfully updated password',
+					duration: 5000,
 				})
 			} catch (error) {
 				setState(draft => {

@@ -1,6 +1,7 @@
 import { Ticker } from '@src/types'
+import { useSharedStore } from '@src/store'
 import BigNumber from 'bignumber.js'
-import { useUSDTickers } from './tickers'
+import { useTickers } from './tickers'
 import { useAllAccountsTokenBalances, useTokenBalances, useTokenInfos } from './radix'
 
 const accountValueLoadingState = { isLoading: true, value: new BigNumber(0), change: new BigNumber(0) }
@@ -21,12 +22,17 @@ const useGenericaccountsValue = (
 	isLoading: boolean,
 ) => {
 	const rris = balances.map(({ rri }) => rri)
-
+	const { currency } = useSharedStore(state => ({
+		currency: state.currency,
+	}))
 	let tokens = useTokenInfos(rris)
 	const isLoadingTokens = tokens.some(result => result.isLoading)
 	tokens = tokens?.filter(({ data }) => !!data) || []
 
-	const tickers = useUSDTickers(tokens.map(({ data }) => data.symbol))
+	const tickers = useTickers(
+		currency,
+		tokens.map(({ data }) => data.symbol),
+	)
 	const isLoadingTickers = tickers.some(result => result.isLoading)
 
 	if (isLoading) {
@@ -96,5 +102,5 @@ export const useAccountValue = () => {
 export const useAllAccountsValue = () => {
 	const { isLoading, balances, staked } = useAllAccountsTokenBalances()
 
-	return useGenericaccountsValue(balances, staked, isLoading)
+	return useGenericaccountsValue(Object.values(balances), staked, isLoading)
 }

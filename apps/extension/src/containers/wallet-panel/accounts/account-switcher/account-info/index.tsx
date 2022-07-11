@@ -20,8 +20,9 @@ type IProps = {
 
 export const AccountInfo: React.FC<IProps> = ({ address }) => {
 	const { isLoading, value, change } = useAccountValue()
-	const { isHardwareWallet } = useSharedStore(state => ({
+	const { isHardwareWallet, currency } = useSharedStore(state => ({
 		isHardwareWallet: state.isHardwareWallet,
+		currency: state.currency,
 	}))
 	const { entry, activeSlideIndex } = useStore(state => ({
 		entry: Object.values(state.publicAddresses).find(_account => _account.address === address),
@@ -45,7 +46,7 @@ export const AccountInfo: React.FC<IProps> = ({ address }) => {
 		})
 		setTimeout(() => {
 			setState(draft => {
-				draft.accountValue = formatBigNumber(value, 'USD', 2)
+				draft.accountValue = formatBigNumber(value, currency, 2)
 			})
 		}, 200)
 	}, [activeSlideIndex, isLoading])
@@ -133,7 +134,7 @@ export const AccountInfo: React.FC<IProps> = ({ address }) => {
 					<PriceTicker value={accountPercentageChange} refresh={state.accountValue} />
 				</Text>
 			</Flex>
-			<Box css={{ zIndex: 2, position: 'absolute', top: '$3', right: '$3' }}>
+			<Box css={{ zIndex: 2, position: 'absolute', top: '$2', right: '$2' }}>
 				<AccountModal
 					toolTipSide="top"
 					address={address}
@@ -151,10 +152,12 @@ export const AccountInfo: React.FC<IProps> = ({ address }) => {
 			</Box>
 			{isHardwareWallet && (
 				<Box css={{ zIndex: 2, position: 'absolute', bottom: '$2', left: '$2' }}>
-					<ToolTip message="Harware wallet account">
-						<Button iconOnly size="1" color="ghost" css={{ color, fill: color }}>
-							<HardwareWalletIcon />
-						</Button>
+					<ToolTip arrowOffset={8} message="Hardware wallet account">
+						<Box>
+							<Button clickable={false} iconOnly size="1" color="ghost" css={{ color, fill: color }}>
+								<HardwareWalletIcon />
+							</Button>
+						</Box>
 					</ToolTip>
 				</Box>
 			)}

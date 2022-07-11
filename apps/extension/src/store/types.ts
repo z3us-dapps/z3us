@@ -2,7 +2,7 @@ import { Network as NetworkID, MnemomicT, AccountT } from '@radixdlt/application
 import { HDMasterSeedT } from '@radixdlt/crypto'
 import { HardwareWalletT } from '@radixdlt/hardware-wallet'
 import { MessageService } from '@src/services/messanger'
-import { ColorSettings } from '@src/types'
+import { ColorSettings, VisibleTokens } from '@src/types'
 
 export interface Toast {
 	id?: string
@@ -42,6 +42,7 @@ export type ToastsStore = {
 	toasts: Array<Toast>
 	addToastAction: (toast?: Toast) => void
 	removeToastAction: (id: string) => void
+	addConfirmWithHWToastAction: () => void
 }
 
 export type ThemeStore = {
@@ -78,6 +79,9 @@ export type SettingsStore = {
 
 	accountPanelExpanded: boolean
 	setAccountPanelExpandedAction: (expanded: boolean) => void
+
+	currency: string
+	setCurrencyAction: (currency: string) => void
 }
 
 export type BackgroundStore = {
@@ -125,14 +129,6 @@ export type HardwareWalletStore = {
 
 	hardwareWallet: HardwareWalletT | null
 	setHardwareWalletAction: (hw: HardwareWalletT) => void
-	sendAPDUAction: (
-		cla: number,
-		ins: number,
-		p1: number,
-		p2: number,
-		data?: Buffer,
-		statusList?: number[],
-	) => Promise<Buffer>
 }
 
 export type WalletStore = {
@@ -165,6 +161,11 @@ export type WalletStore = {
 		hardwareWallet: HardwareWalletT | null,
 		masterSeed: HDMasterSeedT | null,
 	) => Promise<void>
+
+	visibleTokens: VisibleTokens
+	tokenSearch: string
+	setVisibleTokensAction: (visibleTokens: VisibleTokens) => void
+	setTokenSearchAction: (search: string) => void
 
 	activeSlideIndex: number
 	setActiveSlideIndexAction: (

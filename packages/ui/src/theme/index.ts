@@ -138,6 +138,8 @@ export const globalStyles = globalCss({
 		fontFamily: '$Inter',
 		fontSize: '$1',
 		textRendering: 'optimizeLegibility',
+		'-webkit-tap-highlight-color': 'transparent',
+		'-webkit-touch-callout': 'none',
 		'-moz-osx-font-smoothing': 'grayscale',
 		// Best for non-retina
 		'-webkit-font-smoothing': 'subpixel-antialiased',
@@ -173,7 +175,7 @@ export const sharedFocus = css({
 	},
 })
 
-export const sharedItemStyles = css({
+export const sharedItemStyles = {
 	all: 'unset',
 	position: 'relative',
 	fontSize: 12,
@@ -202,9 +204,9 @@ export const sharedItemStyles = css({
 		backgroundColor: '$bgPanelHover',
 		color: '$txtActive',
 	},
-})
+}
 
-export const sharedItemIndicatorStyles = css({
+export const sharedItemIndicatorStyles = {
 	position: 'absolute',
 	right: 0,
 	top: '1px',
@@ -225,4 +227,4 @@ export const sharedItemIndicatorStyles = css({
 		boxSizing: 'border-box',
 		pe: 'none',
 	},
-})
+}

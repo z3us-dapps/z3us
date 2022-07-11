@@ -3,25 +3,23 @@ import { Ticker } from '@src/types'
 import { CoinGeckoService } from '@src/services/coingecko'
 // import { BitFinexService } from '@src/services/bitfinex'
 
-export const USD = 'USD'
-
 const service = new CoinGeckoService()
 
-export const useUSDTicker = (asset: string) =>
-	useQuery(['useUSDTicker', asset], async (): Promise<Ticker> => service.getTicker(USD, asset), {
-		enabled: !!asset,
+export const useTicker = (currency: string, asset: string) =>
+	useQuery(['useTicker', currency, asset], async (): Promise<Ticker> => service.getTicker(currency, asset), {
+		enabled: !!currency && !!asset,
 	})
 
-export const useUSDTickers = (assets: string[]) => {
+export const useTickers = (currency: string, assets: string[]) => {
 	const queries = assets.map(asset => ({
-		queryKey: ['useUSDTicker', asset],
+		queryKey: ['useTicker', currency, asset],
 		queryFn: async () => {
+			if (!currency || !asset) return null
 			try {
-				return await service.getTicker(USD, asset)
+				return await service.getTicker(currency, asset)
 			} catch (error: any) {
 				return null
 			}
-			return null
 		},
 	}))
 	return useQueries(queries)

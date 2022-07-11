@@ -1,6 +1,6 @@
 /* eslint-disable react/jsx-props-no-spreading */
 import React, { PropsWithoutRef, RefAttributes, useImperativeHandle, useRef } from 'react'
-import { CSS } from '../../theme'
+import { PropsWithCSS } from '../../types'
 import withDefaults from '../../utils/with-defaults'
 import { __DEV__ } from '../../utils/assertion'
 import { StyledPriceLabel, PriceLabelVariantsProps } from './price-label.styles'
@@ -10,14 +10,14 @@ export interface Props {
 }
 
 const defaultProps = {
-	as: 'span',
+	as: 'span' as keyof JSX.IntrinsicElements,
 }
 
 type NativeAttrs = Omit<React.HTMLAttributes<unknown>, keyof Props>
 
-export type PriceLabelProps = Props & NativeAttrs & PriceLabelVariantsProps & { css?: CSS }
+export type PriceLabelProps = React.PropsWithChildren<PropsWithCSS<Props & NativeAttrs & PriceLabelVariantsProps>>
 
-const PriceLabel = React.forwardRef<HTMLDivElement, React.PropsWithChildren<PriceLabelProps>>(
+const PriceLabel = React.forwardRef<HTMLDivElement, PriceLabelProps>(
 	({ children, as, css, color, ...rest }, ref: React.Ref<HTMLDivElement | null>) => {
 		const cardRef = useRef<HTMLDivElement>(null)
 		useImperativeHandle(ref, () => cardRef.current)

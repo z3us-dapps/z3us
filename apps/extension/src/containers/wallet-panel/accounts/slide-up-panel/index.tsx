@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react'
 import { useEventListener } from 'usehooks-ts'
 import { useSharedStore } from '@src/store'
-import { Box, Flex, MotionBox, Text } from 'ui/src/components/atoms'
+import { Box, Flex, MotionBox } from 'ui/src/components/atoms'
 import { useLocation } from 'wouter'
 import { UpArrowWideIcon } from 'ui/src/components/icons'
 import Button from 'ui/src/components/button'
@@ -9,10 +9,15 @@ import { SLIDE_PANEL_HEIGHT, SLIDE_PANEL_EXPAND_HEIGHT } from '@src/config'
 
 interface IProps {
 	children: React.ReactNode
-	name: string
+	headerComponent: React.ReactNode
+	slidePanelHeight?: number
 }
 
-export const SlideUpPanel: React.FC<IProps> = ({ children, name }) => {
+const defaultProps = {
+	slidePanelHeight: SLIDE_PANEL_HEIGHT,
+}
+
+export const SlideUpPanel: React.FC<IProps> = ({ children, headerComponent, slidePanelHeight }) => {
 	const [location] = useLocation()
 	const { expanded, setExpanded } = useSharedStore(state => ({
 		expanded: state.accountPanelExpanded,
@@ -67,7 +72,7 @@ export const SlideUpPanel: React.FC<IProps> = ({ children, name }) => {
 			<MotionBox
 				variants={{
 					contracted: {
-						height: `${SLIDE_PANEL_HEIGHT}px`,
+						height: `${slidePanelHeight}px`,
 						transition: {
 							type: 'spring',
 							stiffness: 200,
@@ -87,18 +92,10 @@ export const SlideUpPanel: React.FC<IProps> = ({ children, name }) => {
 				initial={false}
 				animate={expanded ? 'expanded' : 'contracted'}
 			>
-				<Box
-					css={{
-						px: '$4',
-						height: '30px',
-						borderBottom: '1px solid $borderPanel',
-						mt: '-10px',
-					}}
-				>
-					<Text css={{ fontSize: '20px', lineHeight: '20px', fontWeight: '700' }}>{name}</Text>
-				</Box>
+				{headerComponent}
 				<Box css={{ height: 'calc(100% - 30px)', position: 'relative' }}>{children}</Box>
 			</MotionBox>
 		</Box>
 	)
 }
+SlideUpPanel.defaultProps = defaultProps

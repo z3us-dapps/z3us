@@ -29,7 +29,7 @@ export const AccountSelector: React.FC<IProps> = ({ shortAddress, tokenAmount, t
 			shortAddress: getShortAddress(entry.address),
 		})),
 	}))
-	const [selected, setSelected] = useState(accounts.find(_account => _account.shortAddress === shortAddress).address)
+	const [selected, setSelected] = useState(accounts.find(_account => _account.shortAddress === shortAddress)?.address)
 
 	const entry = accounts.find(_account => _account.address === selected)
 	const addressBookName = entry?.name
@@ -64,7 +64,7 @@ export const AccountSelector: React.FC<IProps> = ({ shortAddress, tokenAmount, t
 					<Box css={{ p: '8px' }}>
 						<CircleAvatar background={addressBookBackground} />
 					</Box>
-					<Box css={{ flex: '1' }}>
+					<Box css={{ flex: '1', minWidth: '0' }}>
 						<Text
 							truncate
 							css={{ fontSize: '14px', lineHeight: '17px', fontWeight: '500', mt: '2px', maxWidth: '210px' }}
@@ -93,7 +93,7 @@ export const AccountSelector: React.FC<IProps> = ({ shortAddress, tokenAmount, t
 					{accounts.map(account => (
 						<DropdownMenuRadioItem key={account.index} value={account.shortAddress}>
 							<DropdownMenuItemIndicator />
-							<Text size="2" bold truncate css={{ maxWidth: '274px' }}>
+							<Text size="2" bold truncate css={{ maxWidth: '274px', pr: '$2' }}>
 								{account?.name ? `${account.name} (${account.shortAddress})` : account.shortAddress}
 							</Text>
 						</DropdownMenuRadioItem>

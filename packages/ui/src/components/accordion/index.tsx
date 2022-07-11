@@ -1,10 +1,11 @@
 /* eslint-disable react/jsx-props-no-spreading, @typescript-eslint/no-unused-vars */
-import React, { forwardRef } from 'react'
+import React, { forwardRef, PropsWithChildren } from 'react'
 import useMeasure from 'react-use-measure'
 import { styled, keyframes } from '@stitches/react'
 import { ChevronDownIcon } from '@radix-ui/react-icons'
 import * as AccordionPrimitive from '@radix-ui/react-accordion'
 import type * as Radix from '@radix-ui/react-primitive'
+import { PropsWithCSS } from '../../types'
 import { Box } from '../atoms/box'
 import { CSS } from '../../theme'
 
@@ -121,7 +122,7 @@ export const AccordionTrigger = React.forwardRef<
 
 AccordionTrigger.displayName = 'AccordionTrigger'
 
-export type AccordionContentProps = { children: any } & { css?: CSS }
+export type AccordionContentProps = PropsWithChildren<PropsWithCSS<{}>>
 export type Ref = HTMLDivElement
 export const AccordionContent = forwardRef<Ref, AccordionContentProps>(({ children, css, ...props }, ref) => {
 	const [measureRef, { height }] = useMeasure()

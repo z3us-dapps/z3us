@@ -1,4 +1,5 @@
 import React from 'react'
+import { CSS } from 'ui/src/theme'
 import { Box } from 'ui/src/components/atoms'
 import { Avatar, AvatarImage, AvatarFallback } from 'ui/src/components/avatar'
 
@@ -10,6 +11,17 @@ interface IProps {
 	borderWidth?: number
 	shadow?: boolean
 	background?: string
+	avatarFallBackCss?: CSS
+}
+const defaultProps = {
+	image: null,
+	fallbackText: '',
+	width: 48,
+	height: 48,
+	borderWidth: 2,
+	shadow: true,
+	background: '#b0c3dd',
+	avatarFallBackCss: {},
 }
 
 export const CircleAvatar: React.FC<IProps> = ({
@@ -20,6 +32,7 @@ export const CircleAvatar: React.FC<IProps> = ({
 	borderWidth,
 	shadow,
 	background,
+	avatarFallBackCss,
 }) =>
 	image ? (
 		<Box
@@ -40,7 +53,10 @@ export const CircleAvatar: React.FC<IProps> = ({
 				}}
 			>
 				<AvatarImage src={image} alt={fallbackText} />
-				<AvatarFallback delayMs={200} css={{ borderRadius: '50%', backgroundColor: '$bgPanel' }}>
+				<AvatarFallback
+					delayMs={200}
+					css={{ borderRadius: '50%', backgroundColor: '$bgPanel', overflow: 'hidden', ...(avatarFallBackCss as any) }}
+				>
 					{fallbackText}
 				</AvatarFallback>
 			</Avatar>
@@ -60,12 +76,4 @@ export const CircleAvatar: React.FC<IProps> = ({
 		/>
 	)
 
-CircleAvatar.defaultProps = {
-	image: null,
-	fallbackText: '',
-	width: 48,
-	height: 48,
-	borderWidth: 2,
-	shadow: true,
-	background: '#b0c3dd',
-}
+CircleAvatar.defaultProps = defaultProps

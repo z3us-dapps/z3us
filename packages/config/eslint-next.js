@@ -36,6 +36,7 @@ module.exports = {
 		'spaced-comment': 'off',
 		'jsx-a11y/anchor-is-valid': 'off',
 		'import/no-extraneous-dependencies': [2, { devDependencies: true }],
+		'react/jsx-props-no-spreading': 'off',
 	},
 	overrides: [
 		{
@@ -47,6 +48,7 @@ module.exports = {
 			extends: ['plugin:testing-library/react', 'plugin:jest/recommended'],
 			rules: {
 				'import/no-extraneous-dependencies': ['off', { devDependencies: ['**/?(*.)+(spec|test).[jt]s?(x)'] }],
+				'jest/no-done-callback': 'off',
 			},
 		},
 	],

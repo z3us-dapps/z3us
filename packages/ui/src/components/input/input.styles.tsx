@@ -67,7 +67,7 @@ export const StyledInput = styled('input', {
 				height: '$9',
 				fontSize: '13px',
 				lineHeight: '13px',
-				fontWeight: 'l400',
+				fontWeight: '400',
 				px: '10px',
 				'+ span': {
 					fontSize: '13px',
