@@ -2,7 +2,9 @@
 import React, { useEffect } from 'react'
 import { useImmer } from 'use-immer'
 import { AccountAddress, sha256, Signature, AccountAddressT } from '@radixdlt/application'
-import { ChevronDownIcon, ChevronUpIcon } from '@radix-ui/react-icons'
+import { ChevronDownIcon, ChevronUpIcon, CopyIcon } from '@radix-ui/react-icons'
+import ButtonTipFeedback from 'ui/src/components/button-tip-feedback'
+import { copyTextToClipboard } from 'ui/src/utils/copy-to-clipboard'
 import {
 	Select,
 	SelectTrigger,
@@ -21,7 +23,7 @@ import {
 import Button from 'ui/src/components/button'
 import Toast, { useToastControls } from 'ui/src/components/toasts'
 import AlertCard from 'ui/src/components/alert-card'
-import { Box, Flex, Text } from 'ui/src/components/atoms'
+import { Box, Flex, Text, StyledLink } from 'ui/src/components/atoms'
 import { useZ3usWallet } from 'hooks/use-z3us-wallet'
 import Input from 'ui/src/components/input'
 
@@ -160,35 +162,37 @@ export const Airdrop = () => {
 
 				{state.address && (
 					<Box css={{ mt: '$4' }}>
-						<Select defaultValue={address} value={state.address} onValueChange={setSelectedAddress}>
-							<SelectTrigger aria-label="select address" asChild>
-								<Button color="input" size="4" fullWidth>
-									<SelectValue />
-									<SelectIcon>
+						<Box css={{ maxWidth: '300px' }}>
+							<Select defaultValue={address} value={state.address} onValueChange={setSelectedAddress}>
+								<SelectTrigger aria-label="select address" asChild>
+									<Button color="input" size="4" fullWidth>
+										<SelectValue />
+										<SelectIcon>
+											<ChevronDownIcon />
+										</SelectIcon>
+									</Button>
+								</SelectTrigger>
+								<SelectContent>
+									<SelectScrollUpButton>
+										<ChevronUpIcon />
+									</SelectScrollUpButton>
+									<SelectViewport>
+										<SelectGroup>
+											<SelectLabel>Select account address</SelectLabel>
+											{state.addresses.map(addr => (
+												<SelectItem key={addr} value={addr}>
+													<SelectItemText>{`${addr?.substring(0, 4)}...${addr?.slice(-4)}`}</SelectItemText>
+													<SelectItemIndicator />
+												</SelectItem>
+											))}
+										</SelectGroup>
+									</SelectViewport>
+									<SelectScrollDownButton>
 										<ChevronDownIcon />
-									</SelectIcon>
-								</Button>
-							</SelectTrigger>
-							<SelectContent>
-								<SelectScrollUpButton>
-									<ChevronUpIcon />
-								</SelectScrollUpButton>
-								<SelectViewport>
-									<SelectGroup>
-										<SelectLabel>Select account address</SelectLabel>
-										{state.addresses.map(addr => (
-											<SelectItem key={addr} value={addr}>
-												<SelectItemText>{`${addr?.substring(0, 4)}...${addr?.slice(-4)}`}</SelectItemText>
-												<SelectItemIndicator />
-											</SelectItem>
-										))}
-									</SelectGroup>
-								</SelectViewport>
-								<SelectScrollDownButton>
-									<ChevronDownIcon />
-								</SelectScrollDownButton>
-							</SelectContent>
-						</Select>
+									</SelectScrollDownButton>
+								</SelectContent>
+							</Select>
+						</Box>
 
 						<Flex css={{ pt: '$4' }}>
 							<Button size="5" color="primary" onClick={handleSign} disabled={!address}>
@@ -197,17 +201,34 @@ export const Airdrop = () => {
 						</Flex>
 
 						{state.der && (
-							<Box css={{ mt: '$4' }}>
-								<Text>
-									<a href="tg://resolve?domain=z3us_dapps_bot">Contact Z3US Bot</a> with following message:
+							<Box css={{ py: '$8' }}>
+								<Text css={{ pb: '$6' }}>
+									Go to the{` `}
+									<StyledLink underline target="_blank" href="tg://resolve?domain=z3us_dapps_bot">
+										Z3US Telegram Bot
+									</StyledLink>{' '}
+									and paste the following following message:
 								</Text>
-								<Input
-									value={`/subscribe ${state.address} ${state.der}`}
-									as="textarea"
-									size="2"
-									placeholder="command"
-									css={{ minHeight: '350px', width: '100%', pt: '$2' }}
-								/>
+								<Flex css={{ position: 'relative' }}>
+									<Input
+										value={`/subscribe ${state.address} ${state.der}`}
+										as="textarea"
+										size="2"
+										placeholder="command"
+										css={{ minHeight: '150px', width: '100%' }}
+									/>
+									<ButtonTipFeedback tooltip="Copy command">
+										<Button
+											onClick={() => copyTextToClipboard(`/subscribe ${state.address} ${state.der}`)}
+											size="2"
+											color="primary"
+											css={{ position: 'absolute', bottom: '$2', right: '$2' }}
+										>
+											<CopyIcon />
+											Copy
+										</Button>
+									</ButtonTipFeedback>
+								</Flex>
 							</Box>
 						)}
 					</Box>
