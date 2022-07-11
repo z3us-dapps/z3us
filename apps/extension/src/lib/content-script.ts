@@ -2,7 +2,16 @@ import browser from 'webextension-polyfill'
 // import init from 'pte-manifest-compiler'
 import { PORT_NAME, TARGET_BACKGROUND, TARGET_INPAGE } from '../services/messanger'
 
-const port = browser.runtime.connect({ name: PORT_NAME })
+let port = browser.runtime.connect({ name: PORT_NAME })
+
+port.onDisconnect.addListener(() => {
+	if (port.error) {
+		// eslint-disable-next-line no-console
+		console.error(`Disconnected due to an error: ${port.error.message}`)
+	}
+	console.warn('Disconnected, reconnecting...')
+	port = browser.runtime.connect({ name: PORT_NAME })
+})
 
 const script = document.createElement('script')
 script.type = 'module'

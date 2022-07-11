@@ -4,25 +4,8 @@ import { useWindowSize } from 'usehooks-ts'
 import Confetti from 'react-confetti'
 import { useImmer } from 'use-immer'
 import { AccountAddress, sha256, Signature, AccountAddressT } from '@radixdlt/application'
-import { ChevronDownIcon, ChevronUpIcon, CopyIcon } from '@radix-ui/react-icons'
-import ButtonTipFeedback from 'ui/src/components/button-tip-feedback'
 import { copyTextToClipboard } from 'ui/src/utils/copy-to-clipboard'
 import { getHeadTailString } from 'ui/src/utils/get-head-tail-string'
-import {
-	Select,
-	SelectTrigger,
-	SelectValue,
-	SelectContent,
-	SelectViewport,
-	SelectGroup,
-	SelectItem,
-	SelectIcon,
-	SelectLabel,
-	SelectItemText,
-	SelectItemIndicator,
-	SelectScrollUpButton,
-	SelectScrollDownButton,
-} from 'ui/src/components/select'
 import { Dialog, DialogContent, DialogClose } from 'ui/src/components/dialog'
 import Button from 'ui/src/components/button'
 import Toast, { useToastControls } from 'ui/src/components/toasts'
@@ -34,9 +17,9 @@ import Input from 'ui/src/components/input'
 
 const signaturePayload = 'z3us-airdrop'
 
+const telegramURL = 'tg://resolve?domain=z3us_dapps_bot'
+
 interface ImmerAirdropState {
-	address: string
-	addresses: Array<string>
 	hasWallet: boolean
 	der: string
 	errorMessage: string
@@ -56,10 +39,8 @@ const verifySignature = (address: AccountAddressT, signatureDER: string): boolea
 export const Airdrop = () => {
 	const { show } = useToastControls()
 	const { width, height } = useWindowSize()
-	const { address, connect, disconnect, sign, hasWallet, accounts } = useZ3usWallet()
+	const { address, connect, disconnect, sign, hasWallet } = useZ3usWallet()
 	const [state, setState] = useImmer<ImmerAirdropState>({
-		address: '',
-		addresses: [],
 		hasWallet: true,
 		der: '',
 		errorMessage: '',
@@ -73,13 +54,6 @@ export const Airdrop = () => {
 				setState(draft => {
 					draft.hasWallet = has
 				})
-				if (address) {
-					const addresses = await accounts()
-					setState(draft => {
-						draft.address = address.toString()
-						draft.addresses = addresses
-					})
-				}
 			} catch (error) {
 				// eslint-disable-next-line no-console
 				console.error(error)
@@ -92,12 +66,6 @@ export const Airdrop = () => {
 
 		onLoad()
 	}, [address])
-
-	const setSelectedAddress = (addr: string) => {
-		setState(draft => {
-			draft.address = addr
-		})
-	}
 
 	const handleConnect = () => {
 		try {
@@ -122,8 +90,6 @@ export const Airdrop = () => {
 			setState(draft => {
 				draft.errorMessage = ''
 				draft.der = ''
-				draft.address = ''
-				draft.addresses = []
 			})
 		} catch (error) {
 			// eslint-disable-next-line no-console
@@ -136,8 +102,8 @@ export const Airdrop = () => {
 	}
 
 	const handleSign = async () => {
-		if (!state.address) return
-		const result = AccountAddress.fromUnsafe(state.address)
+		if (!address) return
+		const result = AccountAddress.fromUnsafe(address)
 		if (!result.isOk()) {
 			console.error(result.error)
 			return
@@ -168,68 +134,65 @@ export const Airdrop = () => {
 		})
 	}
 
+	const handleOpenTelegram = async () => {
+		setState(draft => {
+			draft.isSuccessModalOpen = false
+		})
+		await copyTextToClipboard(`/subscribe ${address} ${state.der}`)
+		window.open(telegramURL)
+	}
+
 	return (
 		<>
 			<Box>
 				<Box css={{ maxWidth: '100%' }}>
 					{!address ? (
 						<AlertCard icon color="warning" css={{ mt: '$4', height: '40px' }}>
-							<Text medium size="4" css={{ mb: '3px', pl: '$3', mt: '8px' }}>
-								{`${
-									state.hasWallet ? 'Install and connect' : 'Connect'
-								}  Z3US wallet in order to subscribe for community airdrop.`}
-							</Text>
+							<Flex justify="between" css={{ mt: '5px', flex: 'auto' }}>
+								<Text medium size="4" css={{ mb: '3px', pl: '$3', mt: '8px' }}>
+									{`${
+										state.hasWallet ? 'Install and connect' : 'Connect'
+									}  Z3US wallet in order to subscribe for community airdrop.`}
+								</Text>
+								<Flex css={{ pl: '$4' }}>
+									<Button size="3" color="primary" onClick={handleConnect}>
+										Connect
+									</Button>
+								</Flex>
+							</Flex>
 						</AlertCard>
 					) : (
 						<AlertCard icon color="success" css={{ mt: '$4', height: '40px' }}>
-							<Text medium size="4" css={{ mb: '3px', pl: '$3', mt: '8px' }}>
-								{`Wallet connected for Z3US airdrop ${getHeadTailString(state.address)}.`}
-							</Text>
+							<Flex justify="between" css={{ mt: '5px', flex: 'auto' }}>
+								<Text medium size="4" css={{ mb: '3px', pl: '$3', mt: '8px' }}>
+									{`Connected with ${getHeadTailString(address)}.`}
+								</Text>
+								<Flex css={{ pl: '$4' }}>
+									<Button color="red" size="3" onClick={handleDisconnect}>
+										Disconnect
+									</Button>
+								</Flex>
+							</Flex>
 						</AlertCard>
 					)}
 
-					<Flex align="center" css={{ pt: '$4' }}>
-						<Button size="6" color="primary" onClick={!address ? handleConnect : handleDisconnect}>
-							{!address ? 'Connect' : 'Disconnect'}
-						</Button>
-					</Flex>
-
-					{state.address && (
+					{address && (
 						<Box css={{ mt: '$4' }}>
-							<Box css={{ maxWidth: '300px' }}>
-								<Select defaultValue={address} value={state.address} onValueChange={setSelectedAddress}>
-									<SelectTrigger aria-label="select address" asChild>
-										<Button color="input" size="4" fullWidth>
-											<SelectValue />
-											<SelectIcon>
-												<ChevronDownIcon />
-											</SelectIcon>
+							<AlertCard icon color="warning" css={{ mt: '$4', height: '40px' }}>
+								<Flex justify="between" css={{ mt: '5px', flex: 'auto' }}>
+									<Text medium size="4" css={{ mb: '3px', pl: '$3', mt: '8px' }}>
+										To change connected account, switch current address on your wallet and then click reconnect.
+									</Text>
+									<Flex css={{ pl: '$4' }}>
+										<Button color="primary" size="3" onClick={handleConnect}>
+											Reconnect
 										</Button>
-									</SelectTrigger>
-									<SelectContent>
-										<SelectScrollUpButton>
-											<ChevronUpIcon />
-										</SelectScrollUpButton>
-										<SelectViewport>
-											<SelectGroup>
-												<SelectLabel>Select account address</SelectLabel>
-												{state.addresses.map(addr => (
-													<SelectItem key={addr} value={addr}>
-														<SelectItemText>{`${addr?.substring(0, 4)}...${addr?.slice(-4)}`}</SelectItemText>
-														<SelectItemIndicator />
-													</SelectItem>
-												))}
-											</SelectGroup>
-										</SelectViewport>
-										<SelectScrollDownButton>
-											<ChevronDownIcon />
-										</SelectScrollDownButton>
-									</SelectContent>
-								</Select>
-							</Box>
+									</Flex>
+								</Flex>
+							</AlertCard>
 
 							<Flex css={{ pt: '$4' }}>
-								<Button size="5" color="primary" onClick={handleSign} disabled={!address}>
+								<Button color="primary" size="5" onClick={handleSign}>
 									Subscribe for public Airdrop!
 								</Button>
 							</Flex>
@@ -256,38 +219,27 @@ export const Airdrop = () => {
 							</Text>
 							{/*<Text css={{ mt: '20px' }}>
 								You will be receiving Z3US tokens in your wallet {` `}
-								<StyledLink underline href={`${config.EXPLORER_URL}/accounts/${state.address}`} target="_blank">
-									{getHeadTailString(state.address)}
+								<StyledLink underline href={`${config.EXPLORER_URL}/accounts/${address}`} target="_blank">
+									{getHeadTailString(address)}
 								</StyledLink>
 							</Text>*/}
 							{state.der && (
 								<Box css={{ py: '$4' }}>
 									<Text css={{ pb: '$6', px: '$4', lineHeight: '20px' }}>
 										For the final step to complete the Airdrop subscription, please go to the{` `}
-										<StyledLink underline target="_blank" href="tg://resolve?domain=z3us_dapps_bot">
+										<StyledLink underline target="_blank" href={telegramURL}>
 											Z3US Telegram Bot
 										</StyledLink>{' '}
 										and paste the following message:
 									</Text>
 									<Flex css={{ position: 'relative' }}>
 										<Input
-											value={`/subscribe ${state.address} ${state.der}`}
+											value={`/subscribe ${address} ${state.der}`}
 											as="textarea"
 											size="1"
 											placeholder="command"
 											css={{ minHeight: '130px', width: '100%' }}
 										/>
-										<ButtonTipFeedback tooltip="Copy command">
-											<Button
-												onClick={() => copyTextToClipboard(`/subscribe ${state.address} ${state.der}`)}
-												size="2"
-												color="primary"
-												css={{ position: 'absolute', bottom: '$2', right: '$2' }}
-											>
-												<CopyIcon />
-												Copy
-											</Button>
-										</ButtonTipFeedback>
 									</Flex>
 								</Box>
 							)}
@@ -296,7 +248,7 @@ export const Airdrop = () => {
 									Cancel
 								</Button>
 								<DialogClose asChild>
-									<Button color="primary" size="3" onClick={handleCloseModal}>
+									<Button color="primary" size="3" onClick={handleOpenTelegram}>
 										Copy and go to Telegram
 									</Button>
 								</DialogClose>
