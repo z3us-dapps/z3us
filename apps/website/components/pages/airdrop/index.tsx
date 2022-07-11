@@ -167,7 +167,7 @@ export const Airdrop = () => {
 								<Text medium size="4" css={{ mb: '3px', pl: '$3', mt: '8px' }}>
 									{`Connected with ${getHeadTailString(address)}.`}
 								</Text>
-								<Flex css={{ pl: '$4' }}>
+								<Flex css={{ pl: '$4', pr: '$2' }}>
 									<Button color="red" size="3" onClick={handleDisconnect}>
 										Disconnect
 									</Button>
@@ -183,15 +183,14 @@ export const Airdrop = () => {
 									<Text medium size="4" css={{ mb: '3px', pl: '$3', mt: '8px' }}>
 										To change connected account, switch current address on your wallet and then click reconnect.
 									</Text>
-									<Flex css={{ pl: '$4' }}>
+									<Flex css={{ pl: '$4', pr: '$2' }}>
 										<Button color="primary" size="3" onClick={handleConnect}>
 											Reconnect
 										</Button>
 									</Flex>
 								</Flex>
 							</AlertCard>
-
-							<Flex css={{ pt: '$4' }}>
+							<Flex css={{ pt: '$6' }}>
 								<Button color="primary" size="5" onClick={handleSign}>
 									Subscribe for public Airdrop!
 								</Button>
