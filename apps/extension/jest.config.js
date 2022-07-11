@@ -1,5 +1,15 @@
 module.exports = {
-  verbose: true,
-  rootDir: 'e2e',
-  testTimeout: 60000,
-};
+	globals: {
+		'ts-jest': {
+			isolatedModules: true,
+			diagnostics: false,
+		},
+	},
+	verbose: true,
+	rootDir: 'tests',
+	transform: {
+		'^.+\\.tsx?$': 'ts-jest',
+		'^.+\\.js$': 'ts-jest',
+	},
+	testTimeout: 60000,
+}

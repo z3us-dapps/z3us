@@ -12,8 +12,10 @@
 		"chrome.ts",
 		"firefox.ts",
 		"vite.config.ts",
+		"playwright.config.ts",
 		"src/**/*.d.ts",
+		"tests/**/*.ts",
 		"src/**/*.ts",
-		"src/**/*.tsx",
-	],
+		"src/**/*.tsx"
+	]
 }
