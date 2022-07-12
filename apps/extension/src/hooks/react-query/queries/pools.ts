@@ -65,6 +65,15 @@ export const usePool = (poolName: string) => {
 	}
 }
 
+type Cost = {
+	transaction: BuiltTransactionReadyToSign | null
+	transactionFee: BigNumber
+	swapFee: BigNumber
+	z3usFee: BigNumber
+	z3usBurn: BigNumber
+	recieve: BigNumber
+}
+
 export const usePoolCost = (
 	poolName: string,
 	fromRRI: string,
@@ -72,13 +81,7 @@ export const usePoolCost = (
 	amount: BigNumber,
 	z3usBalance: BigNumber,
 	burn: boolean,
-): {
-	transaction: BuiltTransactionReadyToSign | null
-	transactionFee: BigNumber
-	exchangeFee: BigNumber
-	z3usBurn: BigNumber
-	recieve: BigNumber
-} => {
+): Cost => {
 	const { buildTransactionFromActions } = useTransaction()
 	const { createMessage } = useMessage()
 	const { account } = useStore(state => ({
@@ -87,7 +90,8 @@ export const usePoolCost = (
 	const [state, setState] = useImmer({
 		transaction: null,
 		transactionFee: new BigNumber(0),
-		exchangeFee: new BigNumber(0),
+		swapFee: new BigNumber(0),
+		z3usFee: new BigNumber(0),
 		z3usBurn: new BigNumber(0),
 		recieve: new BigNumber(0),
 	})
@@ -97,42 +101,6 @@ export const usePoolCost = (
 	const fetchCost = async () => {
 		if (!poolName || !fromRRI || !toRRI || amount.isEqualTo(0) || !pool || !toToken) {
 			return
-		}
-
-		const actions = []
-		let internalFee = amount.multipliedBy(1 / 100)
-		let z3usCost = new BigNumber(0)
-		let exchangeFee = new BigNumber(0)
-		let recieve = new BigNumber(0)
-
-		if (burn) {
-			const halfCost = internalFee.div(2)
-			z3usCost = z3usBalance
-			if (z3usBalance.gte(halfCost)) {
-				z3usCost = halfCost
-				internalFee = halfCost
-			} else {
-				internalFee = internalFee.minus(z3usCost)
-			}
-			actions.push({
-				type: ExtendedActionType.BURN_TOKENS,
-				from_account: account.address,
-				amount: buildAmount(z3usCost),
-				rri: Z3US_RRI,
-			})
-		}
-		amount = amount.minus(internalFee)
-
-		if (poolName === OCIPoolName) {
-			const cost = await oci.calculateSwap(fromRRI, toRRI, amount)
-			exchangeFee = internalFee
-				.plus(new BigNumber(cost?.fee_liquidity_provider[0]?.amount || 0))
-				.plus(new BigNumber(cost?.fee_exchange[0]?.amount || 0))
-			recieve = new BigNumber(cost?.output_amount || 0)
-		} else {
-			const feePool = amount.multipliedBy(1 / 100)
-			exchangeFee = internalFee.plus(feePool)
-			recieve = amount.minus(feePool).dividedBy(6.8) // @TODO: get the correct formula from caviar dudes
 		}
 
 		const rriResult = ResourceIdentifier.fromUnsafe(fromRRI)
@@ -148,18 +116,57 @@ export const usePoolCost = (
 			throw toResult.error
 		}
 
-		const z3usFeeActionResult = IntendedTransferTokens.create(
-			{
-				to_account: toZ3usResult.value,
-				amount: buildAmount(internalFee),
-				tokenIdentifier: rriResult.value,
-			},
-			account.address,
-		)
-		if (z3usFeeActionResult.isErr()) {
-			throw z3usFeeActionResult.error
+		let z3usFee = amount.multipliedBy(1 / 1000)
+		let z3usBurn = new BigNumber(0)
+		let swapFee = new BigNumber(0)
+		let recieve = new BigNumber(0)
+
+		if (burn) {
+			if (z3usBalance.gte(z3usFee)) {
+				z3usBurn = z3usFee
+				z3usFee = new BigNumber(0)
+			} else {
+				z3usBurn = new BigNumber(0).plus(z3usBalance)
+				z3usFee = z3usFee.minus(z3usBalance)
+			}
 		}
-		actions.push(z3usFeeActionResult.value)
+		amount = amount.minus(z3usFee)
+
+		if (poolName === OCIPoolName) {
+			const cost = await oci.calculateSwap(fromRRI, toRRI, amount)
+			swapFee = new BigNumber(cost?.fee_liquidity_provider[0]?.amount || 0).plus(
+				new BigNumber(cost?.fee_exchange[0]?.amount || 0),
+			)
+			recieve = new BigNumber(cost?.output_amount || 0)
+		} else {
+			swapFee = amount.multipliedBy(1 / 100)
+			recieve = amount.minus(swapFee).dividedBy(6.8) // @TODO: get the correct formula from caviar dudes
+		}
+
+		const actions = []
+		if (z3usBurn.gt(0)) {
+			actions.push({
+				type: ExtendedActionType.BURN_TOKENS,
+				from_account: account.address,
+				amount: buildAmount(z3usBurn),
+				rri: Z3US_RRI,
+			})
+		}
+
+		if (z3usFee.gt(0)) {
+			const z3usFeeActionResult = IntendedTransferTokens.create(
+				{
+					to_account: toZ3usResult.value,
+					amount: buildAmount(z3usBurn),
+					tokenIdentifier: rriResult.value,
+				},
+				account.address,
+			)
+			if (z3usFeeActionResult.isErr()) {
+				throw z3usFeeActionResult.error
+			}
+			actions.push(z3usFeeActionResult.value)
+		}
 
 		const actionResult = IntendedTransferTokens.create(
 			{
@@ -178,8 +185,8 @@ export const usePoolCost = (
 		const { transaction, fee } = await buildTransactionFromActions(actions, message)
 
 		setState(draft => {
-			draft.z3usBurn = z3usCost
-			draft.exchangeFee = exchangeFee
+			draft.z3usBurn = z3usBurn
+			draft.swapFee = swapFee
 			draft.recieve = recieve
 			draft.transaction = transaction
 			draft.transactionFee = new BigNumber(fee).shiftedBy(-18)

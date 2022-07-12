@@ -281,45 +281,39 @@ export const Swap: React.FC = () => {
 							</Flex>
 						</Box>
 
-						<Box
-							css={{
-								border: '1px solid $borderPanel',
-								borderRadius: '8px',
-								pt: '6px',
-								pb: '10px',
-								px: '12px',
-								mt: '17px',
-							}}
-						>
-							{cost && !cost.transactionFee.isEqualTo(0) && (
-								<Flex css={{ pt: '$1' }}>
-									<Text medium css={{ flex: '1' }}>
-										Transaction fees
-									</Text>
+						{cost && (
+							<Box
+								css={{
+									border: '1px solid $borderPanel',
+									borderRadius: '8px',
+									pt: '6px',
+									pb: '10px',
+									px: '12px',
+									mt: '17px',
+								}}
+							>
+								<Flex css={{ pt: '$1', flex: '1' }}>
+									<Text medium>Transaction fees</Text>
 									<Text>{formatBigNumber(cost.transactionFee, nativeToken.symbol)}</Text>
 									<Text>{formatBigNumber(cost.transactionFee.multipliedBy(nativeTicker.last_price), currency, 2)}</Text>
 								</Flex>
-							)}
-							{cost && !cost.exchangeFee.isEqualTo(0) && (
-								<Flex css={{ pt: '$1' }}>
-									<Text medium css={{ flex: '1' }}>
-										Exchange fees
-									</Text>
-									<Text>{formatBigNumber(cost.exchangeFee, fromToken.symbol)}</Text>
+								<Flex css={{ pt: '$1', flex: '1' }}>
+									<Text medium>Swap fee</Text>
+									<Text>{formatBigNumber(cost.swapFee, fromToken.symbol)}</Text>
 									{fromTicker && (
 										<Text>{formatBigNumber(cost.transactionFee.multipliedBy(fromTicker.last_price), currency, 2)}</Text>
 									)}
 								</Flex>
-							)}
-							{cost && !cost.z3usBurn.isEqualTo(0) && (
-								<Flex css={{ pt: '$1' }}>
-									<Text medium css={{ flex: '1' }}>
-										Burn
-									</Text>
+								<Flex css={{ pt: '$1', flex: '1' }}>
+									<Text medium>Burn</Text>
 									<Text>{formatBigNumber(cost.z3usBurn, fromToken.symbol)}</Text>
 								</Flex>
-							)}
-						</Box>
+								<Flex css={{ pt: '$1', flex: '1' }}>
+									<Text medium>Wallet fee</Text>
+									<Text>{formatBigNumber(cost.z3usFee, fromToken.symbol)}</Text>
+								</Flex>
+							</Box>
+						)}
 
 						<Box css={{ mt: '13px', position: 'relative' }}>
 							<Button
