@@ -2,7 +2,7 @@ import { accountStore, sharedStore } from '@src/store'
 import { Runtime } from 'webextension-polyfill'
 import { BrowserService } from '@src/services/browser'
 import { VaultService } from '@src/services/vault'
-import { CredentialsService } from '@src/services/credentials'
+// import { CredentialsService } from '@src/services/credentials'
 import { deletePendingAction, getPendingAction } from '@src/services/actions-pending'
 import {
 	CONFIRM,
@@ -12,18 +12,18 @@ import {
 	REMOVE,
 	LOCK,
 	UNLOCK,
-	AUTH_HAS,
-	AUTH_RESET,
-	AUTH_REGISTRATION_OPTIONS,
-	AUTH_VERIFY_REGISTRATION,
-	AUTH_AUTHENTICATION_OPTIONS,
-	AUTH_VERIFY_AUTHENTICATION,
+	// AUTH_HAS,
+	// AUTH_RESET,
+	// AUTH_REGISTRATION_OPTIONS,
+	// AUTH_VERIFY_REGISTRATION,
+	// AUTH_AUTHENTICATION_OPTIONS,
+	// AUTH_VERIFY_AUTHENTICATION,
 } from '../actions'
 
 export default function NewV1BackgroundPopupActions(
 	browser: BrowserService,
 	vault: VaultService,
-	credentials: CredentialsService,
+	// credentials: CredentialsService,
 	sendPopupMessage: (port: Runtime.Port, id: string, request: any, response: any) => void,
 	sendInpageMessage: (port: Runtime.Port, id: string, request: any, response: any) => void,
 ) {
@@ -100,101 +100,101 @@ export default function NewV1BackgroundPopupActions(
 		}
 	}
 
-	async function authHas(port: Runtime.Port, id: string, payload) {
-		try {
-			const resp = await credentials.has()
-			sendPopupMessage(port, id, payload, resp)
-		} catch (error: any) {
-			sendPopupMessage(port, id, payload, { code: 500, error: error?.message || error })
-		}
-	}
+	// async function authHas(port: Runtime.Port, id: string, payload) {
+	// 	try {
+	// 		const resp = await credentials.has()
+	// 		sendPopupMessage(port, id, payload, resp)
+	// 	} catch (error: any) {
+	// 		sendPopupMessage(port, id, payload, { code: 500, error: error?.message || error })
+	// 	}
+	// }
 
-	async function authReset(port: Runtime.Port, id: string, payload) {
-		try {
-			const resp = await credentials.reset()
-			sendPopupMessage(port, id, payload, resp)
-		} catch (error: any) {
-			sendPopupMessage(port, id, payload, { code: 500, error: error?.message || error })
-		}
-	}
+	// async function authReset(port: Runtime.Port, id: string, payload) {
+	// 	try {
+	// 		const resp = await credentials.reset()
+	// 		sendPopupMessage(port, id, payload, resp)
+	// 	} catch (error: any) {
+	// 		sendPopupMessage(port, id, payload, { code: 500, error: error?.message || error })
+	// 	}
+	// }
 
-	async function authRegistrationOptions(
-		port: Runtime.Port,
-		id: string,
-		payload: {
-			rpName: string
-			rpID: string
-			userID: string
-			userName: string
-			userDisplayName: string
-			password: string
-		},
-	) {
-		try {
-			const resp = await credentials.generateRegistrationOptions(
-				payload.rpID,
-				payload.rpName,
-				payload.userID,
-				payload.userName,
-				payload.userDisplayName,
-				payload.password,
-			)
-			sendPopupMessage(port, id, payload, resp)
-		} catch (error: any) {
-			sendPopupMessage(port, id, payload, { code: 500, error: error?.message || error })
-		}
-	}
+	// async function authRegistrationOptions(
+	// 	port: Runtime.Port,
+	// 	id: string,
+	// 	payload: {
+	// 		rpName: string
+	// 		rpID: string
+	// 		userID: string
+	// 		userName: string
+	// 		userDisplayName: string
+	// 		password: string
+	// 	},
+	// ) {
+	// 	try {
+	// 		const resp = await credentials.generateRegistrationOptions(
+	// 			payload.rpID,
+	// 			payload.rpName,
+	// 			payload.userID,
+	// 			payload.userName,
+	// 			payload.userDisplayName,
+	// 			payload.password,
+	// 		)
+	// 		sendPopupMessage(port, id, payload, resp)
+	// 	} catch (error: any) {
+	// 		sendPopupMessage(port, id, payload, { code: 500, error: error?.message || error })
+	// 	}
+	// }
 
-	async function authVerifyRegistration(
-		port: Runtime.Port,
-		id: string,
-		payload: {
-			expectedOrigin: string
-			expectedRPID: string
-			credential
-		},
-	) {
-		try {
-			const resp = await credentials.verifyRegistrationResponse(
-				payload.expectedOrigin,
-				payload.expectedRPID,
-				payload.credential,
-			)
-			sendPopupMessage(port, id, payload, resp)
-		} catch (error: any) {
-			sendPopupMessage(port, id, payload, { code: 500, error: error?.message || error })
-		}
-	}
+	// async function authVerifyRegistration(
+	// 	port: Runtime.Port,
+	// 	id: string,
+	// 	payload: {
+	// 		expectedOrigin: string
+	// 		expectedRPID: string
+	// 		credential
+	// 	},
+	// ) {
+	// 	try {
+	// 		const resp = await credentials.verifyRegistrationResponse(
+	// 			payload.expectedOrigin,
+	// 			payload.expectedRPID,
+	// 			payload.credential,
+	// 		)
+	// 		sendPopupMessage(port, id, payload, resp)
+	// 	} catch (error: any) {
+	// 		sendPopupMessage(port, id, payload, { code: 500, error: error?.message || error })
+	// 	}
+	// }
 
-	async function authAuthenticationOptions(port: Runtime.Port, id: string, payload) {
-		try {
-			const resp = await credentials.generateAuthenticationOptions()
-			sendPopupMessage(port, id, payload, resp)
-		} catch (error: any) {
-			sendPopupMessage(port, id, payload, { code: 500, error: error?.message || error })
-		}
-	}
+	// async function authAuthenticationOptions(port: Runtime.Port, id: string, payload) {
+	// 	try {
+	// 		const resp = await credentials.generateAuthenticationOptions()
+	// 		sendPopupMessage(port, id, payload, resp)
+	// 	} catch (error: any) {
+	// 		sendPopupMessage(port, id, payload, { code: 500, error: error?.message || error })
+	// 	}
+	// }
 
-	async function authVerifyAuthentication(
-		port: Runtime.Port,
-		id: string,
-		payload: {
-			expectedOrigin: string
-			expectedRPID: string
-			credential
-		},
-	) {
-		try {
-			const resp = await credentials.verifyAuthenticationResponse(
-				payload.expectedOrigin,
-				payload.expectedRPID,
-				payload.credential,
-			)
-			sendPopupMessage(port, id, payload, resp)
-		} catch (error: any) {
-			sendPopupMessage(port, id, payload, { code: 500, error: error?.message || error })
-		}
-	}
+	// async function authVerifyAuthentication(
+	// 	port: Runtime.Port,
+	// 	id: string,
+	// 	payload: {
+	// 		expectedOrigin: string
+	// 		expectedRPID: string
+	// 		credential
+	// 	},
+	// ) {
+	// 	try {
+	// 		const resp = await credentials.verifyAuthenticationResponse(
+	// 			payload.expectedOrigin,
+	// 			payload.expectedRPID,
+	// 			payload.credential,
+	// 		)
+	// 		sendPopupMessage(port, id, payload, resp)
+	// 	} catch (error: any) {
+	// 		sendPopupMessage(port, id, payload, { code: 500, error: error?.message || error })
+	// 	}
+	// }
 
 	return {
 		[CONFIRM]: confirm,
@@ -204,11 +204,11 @@ export default function NewV1BackgroundPopupActions(
 		[REMOVE]: remove,
 		[LOCK]: lock,
 		[UNLOCK]: unlock,
-		[AUTH_HAS]: authHas,
-		[AUTH_RESET]: authReset,
-		[AUTH_REGISTRATION_OPTIONS]: authRegistrationOptions,
-		[AUTH_VERIFY_REGISTRATION]: authVerifyRegistration,
-		[AUTH_AUTHENTICATION_OPTIONS]: authAuthenticationOptions,
-		[AUTH_VERIFY_AUTHENTICATION]: authVerifyAuthentication,
+		// [AUTH_HAS]: authHas,
+		// [AUTH_RESET]: authReset,
+		// [AUTH_REGISTRATION_OPTIONS]: authRegistrationOptions,
+		// [AUTH_VERIFY_REGISTRATION]: authVerifyRegistration,
+		// [AUTH_AUTHENTICATION_OPTIONS]: authAuthenticationOptions,
+		// [AUTH_VERIFY_AUTHENTICATION]: authVerifyAuthentication,
 	}
 }
