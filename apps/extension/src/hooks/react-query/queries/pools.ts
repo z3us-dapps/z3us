@@ -11,12 +11,11 @@ import {
 	IntendedTransferTokens,
 	BuiltTransactionReadyToSign,
 } from '@radixdlt/application'
-import { ExtendedActionType } from '@src/types'
+import { ExtendedActionType, Token } from '@src/types'
 import BigNumber from 'bignumber.js'
 import { buildAmount } from '@src/utils/radix'
 import { Z3US_RRI, Z3US_WALLET } from '@src/config'
 import { useMessage } from '@src/hooks/use-message'
-import { useTokenInfo } from './radix'
 
 const oci = new OCIService()
 const caviar = new CaviarService()
@@ -35,6 +34,12 @@ export const usePools = () => {
 	const { data: caviarPools } = useCaviarPools()
 
 	return [...(ociPools ? [OCIPoolName] : []), ...caviarPools.map(pool => `${CaviarPoolName} - ${pool.name}`)]
+}
+
+type Pool = {
+	name: string
+	wallet: string
+	tokens: string[]
 }
 
 export const usePool = (poolName: string) => {
@@ -75,9 +80,9 @@ type Cost = {
 }
 
 export const usePoolCost = (
-	poolName: string,
-	fromRRI: string,
-	toRRI: string,
+	pool: Pool,
+	fromToken: Token,
+	toToken: Token,
 	amount: BigNumber,
 	z3usBalance: BigNumber,
 	burn: boolean,
@@ -95,15 +100,13 @@ export const usePoolCost = (
 		z3usBurn: new BigNumber(0),
 		recieve: new BigNumber(0),
 	})
-	const pool = usePool(poolName)
-	const { data: toToken } = useTokenInfo(toRRI)
 
 	const fetchCost = async () => {
-		if (!poolName || !fromRRI || !toRRI || amount.isEqualTo(0) || !pool || !toToken) {
+		if (amount.isEqualTo(0) || !pool || !fromToken || !toToken) {
 			return
 		}
 
-		const rriResult = ResourceIdentifier.fromUnsafe(fromRRI)
+		const rriResult = ResourceIdentifier.fromUnsafe(fromToken.rri)
 		if (rriResult.isErr()) {
 			throw rriResult.error
 		}
@@ -132,8 +135,8 @@ export const usePoolCost = (
 		}
 		amount = amount.minus(z3usFee)
 
-		if (poolName === OCIPoolName) {
-			const cost = await oci.calculateSwap(fromRRI, toRRI, amount)
+		if (pool.name === OCIPoolName) {
+			const cost = await oci.calculateSwap(fromToken.rri, toToken.rri, amount)
 			swapFee = new BigNumber(cost?.fee_liquidity_provider[0]?.amount || 0).plus(
 				new BigNumber(cost?.fee_exchange[0]?.amount || 0),
 			)
@@ -195,7 +198,7 @@ export const usePoolCost = (
 
 	useEffect(() => {
 		fetchCost()
-	}, [poolName, fromRRI, toRRI, amount, z3usBalance, burn])
+	}, [pool, fromToken, toToken, amount, z3usBalance, burn])
 
 	return state
 }

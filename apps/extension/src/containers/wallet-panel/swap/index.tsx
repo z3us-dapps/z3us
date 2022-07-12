@@ -55,6 +55,7 @@ export const Swap: React.FC = () => {
 	const { data: toToken } = useTokenInfo(state.toRRI)
 	const { data: nativeTicker } = useTicker(currency, nativeToken?.symbol)
 	const { data: fromTicker } = useTicker(currency, fromToken?.symbol)
+	const { data: z3usTicker } = useTicker(currency, 'z3us')
 
 	const shortAddress = getShortAddress(accountAddress)
 	const liquidBalances = balances?.account_balances?.liquid_balances || []
@@ -66,14 +67,7 @@ export const Swap: React.FC = () => {
 	const z3usTokenAmmount = z3usToken ? new BigNumber(z3usToken.amount).shiftedBy(-18) : new BigNumber(0)
 
 	const pool = usePool(state.pool)
-	const cost = usePoolCost(
-		state.pool,
-		state.fromRRI,
-		state.toRRI,
-		new BigNumber(state.amount),
-		z3usTokenAmmount,
-		state.burn,
-	)
+	const cost = usePoolCost(pool, fromToken, toToken, new BigNumber(state.amount), z3usTokenAmmount, state.burn)
 
 	useEffect(() => {
 		if (!pool) return
@@ -267,7 +261,7 @@ export const Swap: React.FC = () => {
 							<Flex align="center" css={{ mt: '14px', position: 'relative' }}>
 								<Flex>
 									<Text medium css={{ fontSize: '14px', lineHeight: '17px', pr: '2px' }}>
-										Reduce exchange fee by burning Z3US tokens instead:
+										Reduce wallet fee:
 									</Text>
 								</Flex>
 								<Flex align="center" justify="end">
@@ -275,7 +269,7 @@ export const Swap: React.FC = () => {
 										<CheckIcon />
 									</Checkbox>
 									<Text medium size="3" as="label" css={{ paddingLeft: '$2' }} htmlFor="encrypt">
-										Burn
+										Burn Z3US tokens
 									</Text>
 								</Flex>
 							</Flex>
@@ -305,12 +299,18 @@ export const Swap: React.FC = () => {
 									)}
 								</Flex>
 								<Flex css={{ pt: '$1', flex: '1' }}>
-									<Text medium>Burn</Text>
-									<Text>{formatBigNumber(cost.z3usBurn, fromToken.symbol)}</Text>
-								</Flex>
-								<Flex css={{ pt: '$1', flex: '1' }}>
 									<Text medium>Wallet fee</Text>
 									<Text>{formatBigNumber(cost.z3usFee, fromToken.symbol)}</Text>
+									{fromTicker && (
+										<Text>{formatBigNumber(cost.z3usFee.multipliedBy(fromTicker.last_price), currency, 2)}</Text>
+									)}
+								</Flex>
+								<Flex css={{ pt: '$1', flex: '1' }}>
+									<Text medium>Burn</Text>
+									<Text>{formatBigNumber(cost.z3usBurn, fromToken.symbol)}</Text>
+									{z3usTicker && (
+										<Text>{formatBigNumber(cost.z3usBurn.multipliedBy(z3usTicker.last_price), currency, 2)}</Text>
+									)}
 								</Flex>
 							</Box>
 						)}
