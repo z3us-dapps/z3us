@@ -1,7 +1,7 @@
 /* eslint-disable react/no-array-index-key, react/no-unstable-nested-components */
 import React, { useRef, useCallback, useState } from 'react'
 import { useSharedStore, useStore } from '@src/store'
-import { useTransactionHistory } from '@src/services/react-query/queries/radix'
+import { useTransactionHistory } from '@src/hooks/react-query/queries/radix'
 import { getShortAddress } from '@src/utils/string-utils'
 import { AccountSelector } from '@src/components/account-selector'
 import { Virtuoso } from 'react-virtuoso'

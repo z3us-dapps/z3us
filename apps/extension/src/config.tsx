@@ -1,5 +1,5 @@
 import React from 'react'
-import { AccountsIcon, StakingIcon, SettingsIcon } from 'ui/src/components/icons'
+import { AccountsIcon, StakingIcon, SwapIcon, SettingsIcon } from 'ui/src/components/icons'
 import { ColorSettings } from '@src/types'
 
 export const defaultAccountStoreKey = 'z3us-store'
@@ -162,6 +162,8 @@ export const SLIDE_PANEL_EXPAND_HEIGHT = 459
 export const EXPLORER_URL = 'https://explorer.radixdlt.com/#'
 
 export const Z3US_URL = 'https://z3us.com'
+export const Z3US_RRI = 'z3us_rr1q0gxzdty8egrkegk9lnteth09sgzqgxaw5ytqzq24ceq3eqagc'
+export const Z3US_WALLET = 'rdx1qsp5rwdg4r7uhmwra92qg0qughm73vycevwwzumw6whsfgjjngmwj3sfvqjl0'
 
 export const ACCOUNTS = 'accounts'
 export const NFT = 'nft'
@@ -181,6 +183,12 @@ export const routesInfo = {
 		name: 'Staking',
 		icon: <StakingIcon />,
 		href: 'staking',
+	},
+	[SWAP]: {
+		id: SWAP,
+		name: 'Swap',
+		icon: <SwapIcon />,
+		href: 'Swap',
 	},
 	[SETTINGS]: {
 		id: SETTINGS,

@@ -17,7 +17,7 @@ import {
 	SelectScrollDownButton,
 } from 'ui/src/components/select'
 import Button from 'ui/src/components/button'
-import { useSupportedCurrencies } from '@src/services/react-query/queries/market'
+import { useSupportedCurrencies } from '@src/hooks/react-query/queries/market'
 
 export const CurrencySelector: React.FC = () => {
 	const { currency, setCurrency } = useSharedStore(state => ({

@@ -11,7 +11,7 @@ import {
 	useLookupValidator,
 	useTokenBalances,
 	useStakedPositions,
-} from '@src/services/react-query/queries/radix'
+} from '@src/hooks/react-query/queries/radix'
 import { Cross2Icon } from '@radix-ui/react-icons'
 import Button from 'ui/src/components/button'
 import Input from 'ui/src/components/input'
