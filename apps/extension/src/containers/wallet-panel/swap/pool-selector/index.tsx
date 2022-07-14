@@ -10,20 +10,28 @@ import {
 } from 'ui/src/components/drop-down-menu'
 import { Box, Text, Flex } from 'ui/src/components/atoms'
 import Button from 'ui/src/components/button'
+import { Pool } from '@src/hooks/react-query/queries/pools'
 
 interface IProps {
-	pool?: string
-	pools: string[]
-	onPoolChange: (pool: string) => void
+	pool?: Pool
+	pools: Pool[]
+	onPoolChange: (pool: Pool) => void
 }
 
 const defaultProps: Partial<IProps> = {
-	pool: '',
+	pool: null,
 }
 
 export const PoolSelector: React.FC<IProps> = ({ pool, pools, onPoolChange }) => {
-	const handleValueChange = (p: string) => {
-		onPoolChange(p)
+	const handleValueChange = (address: string) => {
+		onPoolChange(pools.find(p => p.wallet === address))
+	}
+
+	let selected = pools.find(p => p.wallet === pool?.wallet)
+	if (!selected && pools.length === 1) {
+		// eslint-disable-next-line prefer-destructuring
+		selected = pools[0]
+		onPoolChange(selected)
 	}
 
 	return (
@@ -53,7 +61,7 @@ export const PoolSelector: React.FC<IProps> = ({ pool, pools, onPoolChange }) =>
 								uppercase
 								css={{ fontSize: '14px', lineHeight: '17px', fontWeight: '500', maxWidth: '200px' }}
 							>
-								{pool || 'Select'}
+								{selected?.name || 'Select'}
 							</Text>
 						</Flex>
 					</Box>
@@ -69,12 +77,12 @@ export const PoolSelector: React.FC<IProps> = ({ pool, pools, onPoolChange }) =>
 				sideOffset={10}
 				css={{ minWidth: '314px' }}
 			>
-				<DropdownMenuRadioGroup value={pool} onValueChange={handleValueChange}>
+				<DropdownMenuRadioGroup value={selected?.wallet} onValueChange={handleValueChange}>
 					{pools.map(p => (
-						<DropdownMenuRadioItem key={p} value={p}>
+						<DropdownMenuRadioItem key={p.wallet} value={p.wallet}>
 							<DropdownMenuItemIndicator />
 							<Text size="2" bold truncate css={{ maxWidth: '274px' }}>
-								{p}
+								{p.name}
 							</Text>
 						</DropdownMenuRadioItem>
 					))}

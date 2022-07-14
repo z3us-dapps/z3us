@@ -164,6 +164,7 @@ export const EXPLORER_URL = 'https://explorer.radixdlt.com/#'
 export const Z3US_URL = 'https://z3us.com'
 export const Z3US_RRI = 'z3us_rr1q0gxzdty8egrkegk9lnteth09sgzqgxaw5ytqzq24ceq3eqagc'
 export const Z3US_WALLET = 'rdx1qsp5rwdg4r7uhmwra92qg0qughm73vycevwwzumw6whsfgjjngmwj3sfvqjl0'
+export const Z3US_FEE_RATIO = 2 / 1000
 
 export const ACCOUNTS = 'accounts'
 export const NFT = 'nft'

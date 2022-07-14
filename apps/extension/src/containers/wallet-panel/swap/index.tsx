@@ -1,11 +1,11 @@
-import React, { useEffect, useRef } from 'react'
+import React, { useRef } from 'react'
 import { Z3US_RRI } from '@src/config'
 import { useSharedStore, useStore } from '@src/store'
 import { useImmer } from 'use-immer'
 import { useQueryClient } from 'react-query'
 import { useTransaction } from '@src/hooks/use-transaction'
 import { useNativeToken, useTokenBalances, useTokenInfo } from '@src/hooks/react-query/queries/radix'
-import { usePools, usePool, usePoolCost } from '@src/hooks/react-query/queries/pools'
+import { usePools, usePoolCost, usePoolTokens, Pool } from '@src/hooks/react-query/queries/pools'
 import { useTicker } from '@src/hooks/react-query/queries/tickers'
 import BigNumber from 'bignumber.js'
 import Button from 'ui/src/components/button'
@@ -35,20 +35,23 @@ export const Swap: React.FC = () => {
 		account: state.account,
 		accountAddress: state.getCurrentAddressAction(),
 	}))
-	const pools = usePools()
-	const { data: balances } = useTokenBalances()
 
 	const [state, setState] = useImmer({
 		txID: '',
-		pool: '',
+		pool: null,
 		fromRRI: '',
 		toRRI: '',
 		amount: '',
 		poolAddress: '',
+		minimum: false,
 		burn: false,
 		isLoading: false,
 		errorMessage: '',
 	})
+
+	const possibleTokens = usePoolTokens()
+	const { data: balances } = useTokenBalances()
+	const pools = usePools(state.fromRRI, state.toRRI)
 
 	const { data: nativeToken } = useNativeToken()
 	const { data: fromToken } = useTokenInfo(state.fromRRI)
@@ -66,28 +69,20 @@ export const Swap: React.FC = () => {
 	const z3usToken = liquidBalances?.find(balance => balance.rri === Z3US_RRI)
 	const z3usBalance = z3usToken ? new BigNumber(z3usToken.amount).shiftedBy(-18) : new BigNumber(0)
 
-	const pool = usePool(state.pool)
-	const cost = usePoolCost(pool, fromToken, toToken, new BigNumber(state.amount), z3usBalance, state.burn)
-
-	useEffect(() => {
-		if (!pool) return
-		const { tokens } = pool
-		const [firstToken, secondToken] = tokens
-		setState(draft => {
-			draft.fromRRI = firstToken || ''
-			draft.toRRI = secondToken || ''
-		})
-	}, [pool])
-
-	const handleSetAmount = (event: React.ChangeEvent<HTMLInputElement>) => {
-		setState(draft => {
-			draft.amount = event.currentTarget.value
-		})
-	}
+	const cost = usePoolCost(
+		state.pool,
+		fromToken,
+		toToken,
+		new BigNumber(state.amount || 0),
+		z3usBalance,
+		state.burn,
+		state.minimum,
+	)
 
 	const handleSwap = async () => {
 		if (!account) return
 		if (!fromToken) return
+		if (!toToken) return
 
 		setState(draft => {
 			draft.isLoading = true
@@ -118,17 +113,16 @@ export const Swap: React.FC = () => {
 		})
 	}
 
-	const handlePoolChange = (poolName: string) => {
+	const handlePoolChange = (pool: Pool) => {
 		setState(draft => {
-			draft.pool = poolName
+			draft.pool = pool
 		})
 	}
 
 	const handleSelectedTokenChange = (rri: string) => {
-		const changeToken = liquidBalances?.find(balance => balance.rri === rri)
 		setState(draft => {
 			draft.amount = ''
-			draft.fromRRI = changeToken.rri
+			draft.fromRRI = rri
 		})
 	}
 
@@ -144,6 +138,18 @@ export const Swap: React.FC = () => {
 			draft.amount = selectedTokenAmmount.toString()
 		})
 		inputAmountRef.current.focus()
+	}
+
+	const handleSetAmount = (event: React.ChangeEvent<HTMLInputElement>) => {
+		setState(draft => {
+			draft.amount = event.currentTarget.value
+		})
+	}
+
+	const handleSetMinimum = checked => {
+		setState(draft => {
+			draft.minimum = checked === true
+		})
 	}
 
 	const handleSetBurn = checked => {
@@ -165,12 +171,12 @@ export const Swap: React.FC = () => {
 					direction="column"
 					css={{
 						bg: '$bgPanel',
-						height: '600px',
+						height: '497px',
 						position: 'absolute',
 						zIndex: '1',
 						left: '0',
 						right: '0',
-						bottom: '0',
+						bottom: '55px',
 						overflowY: 'auto',
 					}}
 				>
@@ -186,15 +192,6 @@ export const Swap: React.FC = () => {
 							onAccountChange={handleAccountChange}
 						/>
 						<HardwareWalletReconnect />
-
-						<Box>
-							<Flex align="center" css={{ mt: '14px', position: 'relative' }}>
-								<Text css={{ fontSize: '14px', lineHeight: '17px', fontWeight: '500', flex: '1' }}>Pool:</Text>
-							</Flex>
-							<Box css={{ mt: '13px', position: 'relative' }}>
-								<PoolSelector pool={state.pool} pools={pools} onPoolChange={handlePoolChange} />
-							</Box>
-						</Box>
 
 						<Box>
 							<Flex align="center" css={{ mt: '14px', position: 'relative' }}>
@@ -230,31 +227,65 @@ export const Swap: React.FC = () => {
 									placeholder="Enter amount"
 									onChange={handleSetAmount}
 								/>
-								{fromToken && (
-									<TokenSelector
-										triggerType="input"
-										token={fromToken}
-										tokens={pool.tokens || []}
-										onTokenChange={handleSelectedTokenChange}
-									/>
-								)}
+								<TokenSelector
+									triggerType="input"
+									token={fromToken}
+									tokens={Object.keys(possibleTokens || {}).filter(rri => rri !== state.toRRI)}
+									onTokenChange={handleSelectedTokenChange}
+								/>
 							</Box>
 						</Box>
 
 						<Box>
 							<Flex align="center" css={{ mt: '14px', position: 'relative' }}>
+								<Tooltip>
+									<TooltipTrigger asChild>
+										<Flex
+											align="center"
+											justify="end"
+											css={{
+												position: 'absolute',
+												top: '-2px',
+												right: '0',
+												width: '105px',
+												transition: '$default',
+												pe: 'auto',
+												opacity: 1,
+											}}
+										>
+											<Checkbox id="encrypt" size="1" onCheckedChange={handleSetMinimum} checked={state.minimum}>
+												<CheckIcon />
+											</Checkbox>
+											<Text medium size="3" as="label" css={{ paddingLeft: '$2' }} htmlFor="encrypt">
+												Minimum
+											</Text>
+										</Flex>
+									</TooltipTrigger>
+									<TooltipContent sideOffset={3}>
+										<TooltipArrow offset={15} />
+										Minimum will return unfilled if the rate has moved adversely against you. Wallet and transaction
+										feesstill apply.
+									</TooltipContent>
+								</Tooltip>
 								<Text css={{ fontSize: '14px', lineHeight: '17px', fontWeight: '500', flex: '1' }}>Recieve:</Text>
 							</Flex>
 							<Box css={{ mt: '13px', position: 'relative' }}>
 								<Input type="number" size="2" value={cost?.recieve?.toString()} placeholder="Recieve" disabled />
-								{toToken && (
-									<TokenSelector
-										triggerType="input"
-										token={toToken}
-										tokens={pool.tokens || []}
-										onTokenChange={handleDestinationTokenChange}
-									/>
-								)}
+								<TokenSelector
+									triggerType="input"
+									token={toToken}
+									tokens={Object.keys(possibleTokens[state.fromRRI] || {}).filter(rri => rri !== state.fromRRI)}
+									onTokenChange={handleDestinationTokenChange}
+								/>
+							</Box>
+						</Box>
+
+						<Box>
+							<Flex align="center" css={{ mt: '14px', position: 'relative' }}>
+								<Text css={{ fontSize: '14px', lineHeight: '17px', fontWeight: '500', flex: '1' }}>Pool:</Text>
+							</Flex>
+							<Box css={{ mt: '13px', position: 'relative' }}>
+								<PoolSelector pool={state.pool} pools={pools} onPoolChange={handlePoolChange} />
 							</Box>
 						</Box>
 
@@ -266,7 +297,13 @@ export const Swap: React.FC = () => {
 									</Text>
 								</Flex>
 								<Flex align="center" justify="end">
-									<Checkbox id="encrypt" size="1" onCheckedChange={handleSetBurn} checked={state.burn}>
+									<Checkbox
+										id="encrypt"
+										size="1"
+										onCheckedChange={handleSetBurn}
+										checked={state.burn}
+										disabled={z3usBalance.eq(0)}
+									>
 										<CheckIcon />
 									</Checkbox>
 									<Text medium size="3" as="label" css={{ paddingLeft: '$2' }} htmlFor="encrypt">
@@ -276,7 +313,7 @@ export const Swap: React.FC = () => {
 							</Flex>
 						</Box>
 
-						{cost && (
+						{cost?.transaction && (
 							<Box
 								css={{
 									border: '1px solid $borderPanel',
