@@ -40,6 +40,7 @@ export const FooterNavigation: React.FC = () => {
 				const currentPageIndex = Object.keys(routesInfo).findIndex(_key => _key === page)
 				return (
 					<Button
+						key={key}
 						as="button"
 						onClick={() => {
 							if (i !== currentPageIndex) {

@@ -64,10 +64,10 @@ export const Swap: React.FC = () => {
 	const tokenSymbol = fromToken?.symbol.toUpperCase()
 
 	const z3usToken = liquidBalances?.find(balance => balance.rri === Z3US_RRI)
-	const z3usTokenAmmount = z3usToken ? new BigNumber(z3usToken.amount).shiftedBy(-18) : new BigNumber(0)
+	const z3usBalance = z3usToken ? new BigNumber(z3usToken.amount).shiftedBy(-18) : new BigNumber(0)
 
 	const pool = usePool(state.pool)
-	const cost = usePoolCost(pool, fromToken, toToken, new BigNumber(state.amount), z3usTokenAmmount, state.burn)
+	const cost = usePoolCost(pool, fromToken, toToken, new BigNumber(state.amount), z3usBalance, state.burn)
 
 	useEffect(() => {
 		if (!pool) return
@@ -290,7 +290,11 @@ export const Swap: React.FC = () => {
 								<Flex css={{ pt: '$1', flex: '1' }}>
 									<Text medium>Transaction fees</Text>
 									<Text>{formatBigNumber(cost.transactionFee, nativeToken?.symbol)}</Text>
-									<Text>{formatBigNumber(cost.transactionFee.multipliedBy(nativeTicker.last_price), currency, 2)}</Text>
+									{nativeTicker && (
+										<Text>
+											{formatBigNumber(cost.transactionFee.multipliedBy(nativeTicker.last_price), currency, 2)}
+										</Text>
+									)}
 								</Flex>
 								<Flex css={{ pt: '$1', flex: '1' }}>
 									<Text medium>Swap fee</Text>

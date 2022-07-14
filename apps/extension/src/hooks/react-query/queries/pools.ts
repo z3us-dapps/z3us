@@ -33,7 +33,7 @@ export const usePools = () => {
 	const { data: ociPools } = useOCIPools()
 	const { data: caviarPools } = useCaviarPools()
 
-	return [...(ociPools ? [OCIPoolName] : []), ...caviarPools.map(pool => `${CaviarPoolName} - ${pool.name}`)]
+	return [...(ociPools ? [OCIPoolName] : []), ...(caviarPools || []).map(pool => `${CaviarPoolName} - ${pool.name}`)]
 }
 
 type Pool = {
@@ -47,6 +47,9 @@ export const usePool = (poolName: string) => {
 	const { data: caviarPools } = useCaviarPools()
 
 	if (poolName === OCIPoolName) {
+		if (!ociPools) {
+			return null
+		}
 		const uniqueTokens = {}
 		ociPools.forEach(p => {
 			uniqueTokens[p.token_a.rri] = null
@@ -59,10 +62,14 @@ export const usePool = (poolName: string) => {
 		}
 	}
 
+	if (!caviarPools) {
+		return null
+	}
 	const pool = caviarPools.find(p => `${CaviarPoolName} - ${p.name}` === poolName)
 	if (!pool) {
 		return null
 	}
+
 	return {
 		name: `${CaviarPoolName} - ${pool.name}`,
 		wallet: pool.wallet,
@@ -79,6 +86,15 @@ type Cost = {
 	recieve: BigNumber
 }
 
+const defaultState = {
+	transaction: null,
+	transactionFee: new BigNumber(0),
+	swapFee: new BigNumber(0),
+	z3usFee: new BigNumber(0),
+	z3usBurn: new BigNumber(0),
+	recieve: new BigNumber(0),
+}
+
 export const usePoolCost = (
 	pool: Pool,
 	fromToken: Token,
@@ -92,17 +108,14 @@ export const usePoolCost = (
 	const { account } = useStore(state => ({
 		account: state.account,
 	}))
-	const [state, setState] = useImmer({
-		transaction: null,
-		transactionFee: new BigNumber(0),
-		swapFee: new BigNumber(0),
-		z3usFee: new BigNumber(0),
-		z3usBurn: new BigNumber(0),
-		recieve: new BigNumber(0),
-	})
-
+	const [state, setState] = useImmer(defaultState)
 	const fetchCost = async () => {
-		if (amount.isEqualTo(0) || !pool || !fromToken || !toToken) {
+		if (!amount.isEqualTo(0) || !pool || !fromToken || !toToken) {
+			setState(draft => {
+				Object.entries(defaultState).forEach(([key, value]) => {
+					draft[key] = value
+				})
+			})
 			return
 		}
 
@@ -198,7 +211,7 @@ export const usePoolCost = (
 
 	useEffect(() => {
 		fetchCost()
-	}, [pool, fromToken, toToken, amount, z3usBalance, burn])
+	}, [pool?.name, fromToken?.symbol, toToken?.symbol, amount.toString(), z3usBalance.toString(), burn])
 
 	return state
 }
