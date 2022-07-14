@@ -44,7 +44,7 @@ export const PoolName = 'Ociswap'
 export const Address = 'rdx1qspfs0w3kav2ecm6k02g880aeeejrxsnma9hvaqu2qwtm47wxus2pkszgkxeg'
 
 export class OCIService {
-	private baseURL: string = 'https://api.ociswap.com/v1/graphql'
+	private baseURL: string = 'https://api.ociswap.com/graphiql'
 
 	private options: RequestInit = {
 		method: 'POST',

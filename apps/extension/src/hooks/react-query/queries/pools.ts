@@ -119,7 +119,7 @@ export const usePoolCost = (
 			throw toResult.error
 		}
 
-		let z3usFee = amount.multipliedBy(1 / 1000)
+		let z3usFee = amount.multipliedBy(2 / 1000)
 		let z3usBurn = new BigNumber(0)
 		let swapFee = new BigNumber(0)
 		let recieve = new BigNumber(0)

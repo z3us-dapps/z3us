@@ -87,6 +87,7 @@ export const Swap: React.FC = () => {
 
 	const handleSwap = async () => {
 		if (!account) return
+		if (!fromToken) return
 
 		setState(draft => {
 			draft.isLoading = true
@@ -288,26 +289,26 @@ export const Swap: React.FC = () => {
 							>
 								<Flex css={{ pt: '$1', flex: '1' }}>
 									<Text medium>Transaction fees</Text>
-									<Text>{formatBigNumber(cost.transactionFee, nativeToken.symbol)}</Text>
+									<Text>{formatBigNumber(cost.transactionFee, nativeToken?.symbol)}</Text>
 									<Text>{formatBigNumber(cost.transactionFee.multipliedBy(nativeTicker.last_price), currency, 2)}</Text>
 								</Flex>
 								<Flex css={{ pt: '$1', flex: '1' }}>
 									<Text medium>Swap fee</Text>
-									<Text>{formatBigNumber(cost.swapFee, fromToken.symbol)}</Text>
+									<Text>{formatBigNumber(cost.swapFee, fromToken?.symbol)}</Text>
 									{fromTicker && (
 										<Text>{formatBigNumber(cost.transactionFee.multipliedBy(fromTicker.last_price), currency, 2)}</Text>
 									)}
 								</Flex>
 								<Flex css={{ pt: '$1', flex: '1' }}>
 									<Text medium>Wallet fee</Text>
-									<Text>{formatBigNumber(cost.z3usFee, fromToken.symbol)}</Text>
+									<Text>{formatBigNumber(cost.z3usFee, fromToken?.symbol)}</Text>
 									{fromTicker && (
 										<Text>{formatBigNumber(cost.z3usFee.multipliedBy(fromTicker.last_price), currency, 2)}</Text>
 									)}
 								</Flex>
 								<Flex css={{ pt: '$1', flex: '1' }}>
 									<Text medium>Burn</Text>
-									<Text>{formatBigNumber(cost.z3usBurn, fromToken.symbol)}</Text>
+									<Text>{formatBigNumber(cost.z3usBurn, fromToken?.symbol)}</Text>
 									{z3usTicker && (
 										<Text>{formatBigNumber(cost.z3usBurn.multipliedBy(z3usTicker.last_price), currency, 2)}</Text>
 									)}
