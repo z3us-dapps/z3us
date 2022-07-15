@@ -10,6 +10,7 @@ import { useTicker } from '@src/hooks/react-query/queries/tickers'
 import BigNumber from 'bignumber.js'
 import Button from 'ui/src/components/button'
 import Input from 'ui/src/components/input'
+import AlertCard from 'ui/src/components/alert-card'
 import { Checkbox, CheckIcon } from 'ui/src/components/checkbox'
 import { Tooltip, TooltipTrigger, TooltipContent, TooltipArrow } from 'ui/src/components/tool-tip'
 import { AccountSelector } from '@src/components/account-selector'
@@ -253,10 +254,10 @@ export const Swap: React.FC = () => {
 												opacity: 1,
 											}}
 										>
-											<Checkbox id="encrypt" size="1" onCheckedChange={handleSetMinimum} checked={state.minimum}>
+											<Checkbox id="minimum" size="1" onCheckedChange={handleSetMinimum} checked={state.minimum}>
 												<CheckIcon />
 											</Checkbox>
-											<Text medium size="3" as="label" css={{ paddingLeft: '$2' }} htmlFor="encrypt">
+											<Text medium size="3" as="label" css={{ paddingLeft: '$2' }} htmlFor="minimum">
 												Minimum
 											</Text>
 										</Flex>
@@ -264,7 +265,7 @@ export const Swap: React.FC = () => {
 									<TooltipContent sideOffset={3}>
 										<TooltipArrow offset={15} />
 										Minimum will return unfilled if the rate has moved adversely against you. Wallet and transaction
-										feesstill apply.
+										fees still apply.
 									</TooltipContent>
 								</Tooltip>
 								<Text css={{ fontSize: '14px', lineHeight: '17px', fontWeight: '500', flex: '1' }}>Recieve:</Text>
@@ -297,16 +298,10 @@ export const Swap: React.FC = () => {
 									</Text>
 								</Flex>
 								<Flex align="center" justify="end">
-									<Checkbox
-										id="encrypt"
-										size="1"
-										onCheckedChange={handleSetBurn}
-										checked={state.burn}
-										disabled={z3usBalance.eq(0)}
-									>
+									<Checkbox id="burn" size="1" onCheckedChange={handleSetBurn} checked={state.burn}>
 										<CheckIcon />
 									</Checkbox>
-									<Text medium size="3" as="label" css={{ paddingLeft: '$2' }} htmlFor="encrypt">
+									<Text medium size="3" as="label" css={{ paddingLeft: '$2' }} htmlFor="burn">
 										Burn Z3US tokens
 									</Text>
 								</Flex>
@@ -314,47 +309,73 @@ export const Swap: React.FC = () => {
 						</Box>
 
 						{cost?.transaction && (
-							<Box
-								css={{
-									border: '1px solid $borderPanel',
-									borderRadius: '8px',
-									pt: '6px',
-									pb: '10px',
-									px: '12px',
-									mt: '17px',
-								}}
-							>
-								<Flex css={{ pt: '$1', flex: '1' }}>
-									<Text medium>Transaction fees</Text>
-									<Text>{formatBigNumber(cost.transactionFee, nativeToken?.symbol)}</Text>
-									{nativeTicker && (
-										<Text>
-											{formatBigNumber(cost.transactionFee.multipliedBy(nativeTicker.last_price), currency, 2)}
+							<>
+								<Box
+									css={{
+										border: '1px solid $borderPanel',
+										borderRadius: '8px',
+										pt: '6px',
+										pb: '10px',
+										px: '12px',
+										mt: '17px',
+									}}
+								>
+									<Flex direction="row" css={{ pt: '$1', flex: '1', overflowX: 'auto' }}>
+										<Text css={{ pl: '$1' }} medium>
+											Transaction fees
 										</Text>
-									)}
-								</Flex>
-								<Flex css={{ pt: '$1', flex: '1' }}>
-									<Text medium>Swap fee</Text>
-									<Text>{formatBigNumber(cost.swapFee, fromToken?.symbol)}</Text>
-									{fromTicker && (
-										<Text>{formatBigNumber(cost.transactionFee.multipliedBy(fromTicker.last_price), currency, 2)}</Text>
-									)}
-								</Flex>
-								<Flex css={{ pt: '$1', flex: '1' }}>
-									<Text medium>Wallet fee</Text>
-									<Text>{formatBigNumber(cost.z3usFee, fromToken?.symbol)}</Text>
-									{fromTicker && (
-										<Text>{formatBigNumber(cost.z3usFee.multipliedBy(fromTicker.last_price), currency, 2)}</Text>
-									)}
-								</Flex>
-								<Flex css={{ pt: '$1', flex: '1' }}>
-									<Text medium>Burn</Text>
-									<Text>{formatBigNumber(cost.z3usBurn, fromToken?.symbol)}</Text>
-									{z3usTicker && (
-										<Text>{formatBigNumber(cost.z3usBurn.multipliedBy(z3usTicker.last_price), currency, 2)}</Text>
-									)}
-								</Flex>
-							</Box>
+										<Text css={{ pl: '$1' }}>{formatBigNumber(cost.transactionFee, nativeToken?.symbol)}</Text>
+										{nativeTicker && (
+											<Text css={{ pl: '$1' }}>
+												{formatBigNumber(cost.transactionFee.multipliedBy(nativeTicker.last_price), currency, 2)}
+											</Text>
+										)}
+									</Flex>
+									<Flex direction="row" css={{ pt: '$1', flex: '1' }}>
+										<Text css={{ pl: '$1' }} medium>
+											Swap fee
+										</Text>
+										<Text css={{ pl: '$1' }}>{formatBigNumber(cost.swapFee, fromToken?.symbol)}</Text>
+										{fromTicker && (
+											<Text css={{ pl: '$1' }}>
+												{formatBigNumber(cost.transactionFee.multipliedBy(fromTicker.last_price), currency, 2)}
+											</Text>
+										)}
+									</Flex>
+									<Flex direction="row" css={{ pt: '$1', flex: '1' }}>
+										<Text css={{ pl: '$1' }} medium>
+											Wallet fee
+										</Text>
+										<Text css={{ pl: '$1' }}>{formatBigNumber(cost.z3usFee, fromToken?.symbol)}</Text>
+										{fromTicker && (
+											<Text css={{ pl: '$1' }}>
+												{formatBigNumber(cost.z3usFee.multipliedBy(fromTicker.last_price), currency, 2)}
+											</Text>
+										)}
+									</Flex>
+									<Flex direction="row" css={{ pt: '$1', flex: '1' }}>
+										<Text css={{ pl: '$1' }} medium>
+											Burn
+										</Text>
+										<Text css={{ pl: '$1' }}>{formatBigNumber(cost.z3usBurn, fromToken?.symbol)}</Text>
+										{z3usTicker && (
+											<Text css={{ pl: '$1' }}>
+												{formatBigNumber(cost.z3usBurn.multipliedBy(z3usTicker.last_price), currency, 2)}
+											</Text>
+										)}
+									</Flex>
+								</Box>
+								<Box>
+									<AlertCard icon color="warning" css={{ mt: '$4', height: '80px' }}>
+										<Flex justify="between" css={{ mt: '5px', flex: 'auto' }}>
+											<Text medium size="4" css={{ mb: '3px', pl: '$3', mt: '8px' }}>
+												Below fees and rates are indicative and are subject to change. Once submitted to the network,
+												wallet and transaction fees apply at all times. No refunds possible.
+											</Text>
+										</Flex>
+									</AlertCard>
+								</Box>
+							</>
 						)}
 
 						<Box css={{ mt: '13px', position: 'relative' }}>
