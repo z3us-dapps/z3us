@@ -77,7 +77,7 @@ export const Swap: React.FC = () => {
 	const z3usToken = liquidBalances?.find(balance => balance.rri === Z3US_RRI)
 	const z3usBalance = z3usToken ? new BigNumber(z3usToken.amount).shiftedBy(-18) : new BigNumber(0)
 
-	const z3usFee = useZ3USFees(new BigNumber(state.amount || 0), z3usBalance, state.minimum)
+	const z3usFee = useZ3USFees(new BigNumber(state.amount || 0), z3usBalance, state.burn)
 	const poolFee = usePoolFees(state.pool, new BigNumber(z3usFee.amount), fromToken?.rri, toToken?.rri)
 	const txFee = useTransactionFee(
 		state.pool,
@@ -291,14 +291,16 @@ export const Swap: React.FC = () => {
 							</Box>
 						</Box>
 
-						<Box>
-							<Flex align="center" css={{ mt: '14px', position: 'relative' }}>
-								<Text css={{ fontSize: '14px', lineHeight: '17px', fontWeight: '500', flex: '1' }}>Pool:</Text>
-							</Flex>
-							<Box css={{ mt: '13px', position: 'relative' }}>
-								<PoolSelector pool={state.pool} pools={pools} onPoolChange={handlePoolChange} />
+						{fromToken && toToken && (
+							<Box>
+								<Flex align="center" css={{ mt: '14px', position: 'relative' }}>
+									<Text css={{ fontSize: '14px', lineHeight: '17px', fontWeight: '500', flex: '1' }}>Pool:</Text>
+								</Flex>
+								<Box css={{ mt: '13px', position: 'relative' }}>
+									<PoolSelector pool={state.pool} pools={pools} onPoolChange={handlePoolChange} />
+								</Box>
 							</Box>
-						</Box>
+						)}
 
 						<Box>
 							<AlertCard icon color="warning" css={{ mt: '$4', height: '80px' }}>
