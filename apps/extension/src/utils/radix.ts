@@ -53,8 +53,8 @@ export const buildAmount = (value: string | BigNumber): AmountT => {
 	} else {
 		bigAmount = new BigNumber(value)
 	}
-	const amountInput = bigAmount.shiftedBy(18) // Atto
-	const amountResult = Amount.fromUnsafe(amountInput.toFixed(0))
+	const amountInput: BigNumber = bigAmount.shiftedBy(18) // Atto
+	const amountResult = Amount.fromUnsafe(amountInput.toFixed(0, BigNumber.ROUND_FLOOR))
 	if (!amountResult) {
 		throw new Error(`Failed to parse amount value ${value}`)
 	}

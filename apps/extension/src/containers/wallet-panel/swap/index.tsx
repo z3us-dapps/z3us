@@ -1,6 +1,7 @@
 import React, { useRef } from 'react'
 import { Z3US_RRI } from '@src/config'
 import { useSharedStore, useStore } from '@src/store'
+import { useLocation } from 'wouter'
 import { useImmer } from 'use-immer'
 import { useQueryClient } from 'react-query'
 import { useTransaction } from '@src/hooks/use-transaction'
@@ -32,11 +33,13 @@ import { PoolSelector } from './pool-selector'
 export const Swap: React.FC = () => {
 	const inputAmountRef = useRef(null)
 	const queryClient = useQueryClient()
+	const [, setLocation] = useLocation()
 	const { signTransaction, submitTransaction } = useTransaction()
-	const { hw, seed, currency } = useSharedStore(state => ({
+	const { hw, seed, currency, addToast } = useSharedStore(state => ({
 		hw: state.hardwareWallet,
 		seed: state.masterSeed,
 		currency: state.currency,
+		addToast: state.addToastAction,
 	}))
 	const { account, accountAddress, selectAccount } = useStore(state => ({
 		selectAccount: state.selectAccountAction,
@@ -54,7 +57,6 @@ export const Swap: React.FC = () => {
 		minimum: false,
 		burn: false,
 		isLoading: false,
-		errorMessage: '',
 	})
 
 	const possibleTokens = usePoolTokens()
@@ -105,11 +107,20 @@ export const Swap: React.FC = () => {
 			await queryClient.invalidateQueries({ active: true, inactive: true, stale: true })
 			setState(draft => {
 				draft.txID = result.txID
-				draft.errorMessage = ''
 			})
+			addToast({
+				type: 'success',
+				title: 'Success',
+				subTitle: 'Swap submitted to the network.',
+				duration: 8000,
+			})
+			setLocation(`/wallet/account/token/${toToken.rri}`)
 		} catch (error) {
-			setState(draft => {
-				draft.errorMessage = (error?.message || error).toString().trim()
+			addToast({
+				type: 'error',
+				title: 'Failed to build transaction',
+				subTitle: (error?.message || error).toString().trim(),
+				duration: 8000,
 			})
 		}
 		setState(draft => {

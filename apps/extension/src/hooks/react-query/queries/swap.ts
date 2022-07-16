@@ -15,7 +15,7 @@ import {
 import { Pool, PoolType, Token } from '@src/types'
 import BigNumber from 'bignumber.js'
 import { buildAmount } from '@src/utils/radix'
-import { Z3US_FEE_RATIO, Z3US_WALLET_MAIN, Z3US_WALLET_BURN } from '@src/config'
+import { Z3US_FEE_RATIO, Z3US_WALLET_MAIN, Z3US_WALLET_BURN, Z3US_RRI } from '@src/config'
 import { useMessage } from '@src/hooks/use-message'
 
 const oci = new OCIService()
@@ -276,14 +276,6 @@ export const useTransactionFee = (
 			if (rriResult.isErr()) {
 				throw rriResult.error
 			}
-			const z3usMainResult = AccountAddress.fromUnsafe(Z3US_WALLET_MAIN)
-			if (z3usMainResult.isErr()) {
-				throw z3usMainResult.error
-			}
-			const z3usBurnResult = AccountAddress.fromUnsafe(Z3US_WALLET_BURN)
-			if (z3usBurnResult.isErr()) {
-				throw z3usBurnResult.error
-			}
 			const toResult = AccountAddress.fromUnsafe(pool.wallet)
 			if (toResult.isErr()) {
 				throw toResult.error
@@ -310,9 +302,9 @@ export const useTransactionFee = (
 			if (z3usBurn.gt(0)) {
 				const actionResult = IntendedTransferTokens.create(
 					{
-						to_account: z3usBurnResult.value,
-						amount: buildAmount(z3usFee),
-						tokenIdentifier: rriResult.value,
+						to_account: Z3US_WALLET_BURN,
+						amount: buildAmount(z3usBurn),
+						tokenIdentifier: Z3US_RRI,
 					},
 					account.address,
 				)
@@ -325,7 +317,7 @@ export const useTransactionFee = (
 			if (z3usFee.gt(0)) {
 				const actionResult = IntendedTransferTokens.create(
 					{
-						to_account: z3usMainResult.value,
+						to_account: Z3US_WALLET_MAIN,
 						amount: buildAmount(z3usFee),
 						tokenIdentifier: rriResult.value,
 					},
