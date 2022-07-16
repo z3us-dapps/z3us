@@ -207,6 +207,11 @@ export class OCIService {
 			throw new Error(`Invalid request: ${response.status} recieved`)
 		}
 
-		return response.json()
+		const data = await response.json()
+		if (data?.errors?.[0]?.message) {
+			throw new Error(data.errors[0].message)
+		}
+
+		return data
 	}
 }

@@ -151,3 +151,14 @@ export type IntendedAction =
 	| IntendedCreateTokenDefinitionAction
 	| IntendedMintTokensAction
 	| IntendedBurnTokensAction
+
+export enum PoolType {
+	OCI = 'oci',
+	CAVIAR = 'caviar',
+}
+
+export type Pool = {
+	name: string
+	type: PoolType
+	wallet: string
+}

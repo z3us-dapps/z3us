@@ -5,8 +5,15 @@ import { useImmer } from 'use-immer'
 import { useQueryClient } from 'react-query'
 import { useTransaction } from '@src/hooks/use-transaction'
 import { useNativeToken, useTokenBalances, useTokenInfo } from '@src/hooks/react-query/queries/radix'
-import { usePools, usePoolCost, usePoolTokens, Pool } from '@src/hooks/react-query/queries/pools'
+import {
+	usePools,
+	usePoolTokens,
+	useZ3USFees,
+	usePoolFees,
+	useTransactionFee,
+} from '@src/hooks/react-query/queries/swap'
 import { useTicker } from '@src/hooks/react-query/queries/tickers'
+import { Pool } from '@src/types'
 import BigNumber from 'bignumber.js'
 import Button from 'ui/src/components/button'
 import Input from 'ui/src/components/input'
@@ -70,27 +77,30 @@ export const Swap: React.FC = () => {
 	const z3usToken = liquidBalances?.find(balance => balance.rri === Z3US_RRI)
 	const z3usBalance = z3usToken ? new BigNumber(z3usToken.amount).shiftedBy(-18) : new BigNumber(0)
 
-	const cost = usePoolCost(
+	const z3usFee = useZ3USFees(new BigNumber(state.amount || 0), z3usBalance, state.minimum)
+	const poolFee = usePoolFees(state.pool, new BigNumber(z3usFee.amount), fromToken?.rri, toToken?.rri)
+	const txFee = useTransactionFee(
 		state.pool,
 		fromToken,
 		toToken,
-		new BigNumber(state.amount || 0),
-		z3usBalance,
-		state.burn,
+		poolFee.amount,
+		poolFee.recieve,
+		z3usFee.fee,
+		z3usFee.burn,
 		state.minimum,
 	)
 
 	const handleSwap = async () => {
 		if (!account) return
 		if (!fromToken) return
-		if (!toToken) return
+		if (!txFee.transaction) return
 
 		setState(draft => {
 			draft.isLoading = true
 		})
 
 		try {
-			const { blob } = await signTransaction(fromToken.symbol, cost.transaction)
+			const { blob } = await signTransaction(fromToken.symbol, txFee.transaction)
 			const result = await submitTransaction(blob)
 			await queryClient.invalidateQueries({ active: true, inactive: true, stale: true })
 			setState(draft => {
@@ -162,7 +172,7 @@ export const Swap: React.FC = () => {
 	return (
 		<AnimatePresence exitBeforeEnter>
 			<MotionBox
-				key={cost?.transaction ? 'confirm' : 'swap'}
+				key={txFee?.transaction ? 'confirm' : 'swap'}
 				animate={{ opacity: 1, y: 0 }}
 				initial={{ opacity: 0, y: 0 }}
 				exit={{ opacity: 0, y: 0 }}
@@ -271,7 +281,7 @@ export const Swap: React.FC = () => {
 								<Text css={{ fontSize: '14px', lineHeight: '17px', fontWeight: '500', flex: '1' }}>Recieve:</Text>
 							</Flex>
 							<Box css={{ mt: '13px', position: 'relative' }}>
-								<Input type="number" size="2" value={cost?.recieve?.toString()} placeholder="Recieve" disabled />
+								<Input type="number" size="2" value={poolFee?.recieve?.toString()} placeholder="Recieve" disabled />
 								<TokenSelector
 									triggerType="input"
 									token={toToken}
@@ -308,75 +318,73 @@ export const Swap: React.FC = () => {
 							</Flex>
 						</Box>
 
-						{cost?.transaction && (
-							<>
-								<Box
-									css={{
-										border: '1px solid $borderPanel',
-										borderRadius: '8px',
-										pt: '6px',
-										pb: '10px',
-										px: '12px',
-										mt: '17px',
-									}}
-								>
-									<Flex direction="row" css={{ pt: '$1', flex: '1', overflowX: 'auto' }}>
-										<Text css={{ pl: '$1' }} medium>
-											Transaction fees
+						<Box
+							css={{
+								border: '1px solid $borderPanel',
+								borderRadius: '8px',
+								pt: '6px',
+								pb: '10px',
+								px: '12px',
+								mt: '17px',
+							}}
+						>
+							<Flex direction="row" css={{ pt: '$1', flex: '1', overflowX: 'auto' }}>
+								<Text css={{ pl: '$1' }} medium>
+									Transaction fees
+								</Text>
+								<Text css={{ pl: '$1' }}>{formatBigNumber(txFee.fee, nativeToken?.symbol)}</Text>
+								{nativeTicker && (
+									<Text css={{ pl: '$1' }}>
+										{formatBigNumber(txFee.fee.multipliedBy(nativeTicker.last_price), currency, 2)}
+									</Text>
+								)}
+							</Flex>
+							<Flex direction="row" css={{ pt: '$1', flex: '1' }}>
+								<Text css={{ pl: '$1' }} medium>
+									Swap fee
+								</Text>
+								<Text css={{ pl: '$1' }}>{formatBigNumber(poolFee.fee, fromToken?.symbol)}</Text>
+								{fromTicker && (
+									<Text css={{ pl: '$1' }}>
+										{formatBigNumber(poolFee.fee.multipliedBy(fromTicker.last_price), currency, 2)}
+									</Text>
+								)}
+							</Flex>
+							<Flex direction="row" css={{ pt: '$1', flex: '1' }}>
+								<Text css={{ pl: '$1' }} medium>
+									Wallet fee
+								</Text>
+								<Text css={{ pl: '$1' }}>{formatBigNumber(z3usFee.fee, fromToken?.symbol)}</Text>
+								{fromTicker && (
+									<Text css={{ pl: '$1' }}>
+										{formatBigNumber(z3usFee.fee.multipliedBy(fromTicker.last_price), currency, 2)}
+									</Text>
+								)}
+							</Flex>
+							{state.burn && (
+								<Flex direction="row" css={{ pt: '$1', flex: '1' }}>
+									<Text css={{ pl: '$1' }} medium>
+										Burn
+									</Text>
+									<Text css={{ pl: '$1' }}>{formatBigNumber(z3usFee.burn, fromToken?.symbol)}</Text>
+									{z3usTicker && (
+										<Text css={{ pl: '$1' }}>
+											{formatBigNumber(z3usFee.burn.multipliedBy(z3usTicker.last_price), currency, 2)}
 										</Text>
-										<Text css={{ pl: '$1' }}>{formatBigNumber(cost.transactionFee, nativeToken?.symbol)}</Text>
-										{nativeTicker && (
-											<Text css={{ pl: '$1' }}>
-												{formatBigNumber(cost.transactionFee.multipliedBy(nativeTicker.last_price), currency, 2)}
-											</Text>
-										)}
-									</Flex>
-									<Flex direction="row" css={{ pt: '$1', flex: '1' }}>
-										<Text css={{ pl: '$1' }} medium>
-											Swap fee
-										</Text>
-										<Text css={{ pl: '$1' }}>{formatBigNumber(cost.swapFee, fromToken?.symbol)}</Text>
-										{fromTicker && (
-											<Text css={{ pl: '$1' }}>
-												{formatBigNumber(cost.transactionFee.multipliedBy(fromTicker.last_price), currency, 2)}
-											</Text>
-										)}
-									</Flex>
-									<Flex direction="row" css={{ pt: '$1', flex: '1' }}>
-										<Text css={{ pl: '$1' }} medium>
-											Wallet fee
-										</Text>
-										<Text css={{ pl: '$1' }}>{formatBigNumber(cost.z3usFee, fromToken?.symbol)}</Text>
-										{fromTicker && (
-											<Text css={{ pl: '$1' }}>
-												{formatBigNumber(cost.z3usFee.multipliedBy(fromTicker.last_price), currency, 2)}
-											</Text>
-										)}
-									</Flex>
-									<Flex direction="row" css={{ pt: '$1', flex: '1' }}>
-										<Text css={{ pl: '$1' }} medium>
-											Burn
-										</Text>
-										<Text css={{ pl: '$1' }}>{formatBigNumber(cost.z3usBurn, fromToken?.symbol)}</Text>
-										{z3usTicker && (
-											<Text css={{ pl: '$1' }}>
-												{formatBigNumber(cost.z3usBurn.multipliedBy(z3usTicker.last_price), currency, 2)}
-											</Text>
-										)}
-									</Flex>
-								</Box>
-								<Box>
-									<AlertCard icon color="warning" css={{ mt: '$4', height: '80px' }}>
-										<Flex justify="between" css={{ mt: '5px', flex: 'auto' }}>
-											<Text medium size="4" css={{ mb: '3px', pl: '$3', mt: '8px' }}>
-												Below fees and rates are indicative and are subject to change. Once submitted to the network,
-												wallet and transaction fees apply at all times. No refunds possible.
-											</Text>
-										</Flex>
-									</AlertCard>
-								</Box>
-							</>
-						)}
+									)}
+								</Flex>
+							)}
+						</Box>
+						<Box>
+							<AlertCard icon color="warning" css={{ mt: '$4', height: '80px' }}>
+								<Flex justify="between" css={{ mt: '5px', flex: 'auto' }}>
+									<Text medium size="4" css={{ mb: '3px', pl: '$3', mt: '8px' }}>
+										Presented fees and rates are indicative and are subject to change. Once submitted to the network, wallet
+										and transaction fees apply at all times. No refunds possible.
+									</Text>
+								</Flex>
+							</AlertCard>
+						</Box>
 
 						<Box css={{ mt: '13px', position: 'relative' }}>
 							<Button
@@ -387,7 +395,7 @@ export const Swap: React.FC = () => {
 								onClick={handleSwap}
 								fullWidth
 								loading={state.isLoading}
-								disabled={!account || !cost || !cost.transaction}
+								disabled={!account || !txFee?.transaction}
 							>
 								Swap
 							</Button>

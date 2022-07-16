@@ -10,7 +10,7 @@ import {
 } from 'ui/src/components/drop-down-menu'
 import { Box, Text, Flex } from 'ui/src/components/atoms'
 import Button from 'ui/src/components/button'
-import { Pool } from '@src/hooks/react-query/queries/pools'
+import { Pool } from '@src/types'
 
 interface IProps {
 	pool?: Pool
