@@ -12,10 +12,10 @@ import {
 	IntendedTransferTokens,
 	BuiltTransactionReadyToSign,
 } from '@radixdlt/application'
-import { ExtendedActionType, Pool, PoolType, Token } from '@src/types'
+import { Pool, PoolType, Token } from '@src/types'
 import BigNumber from 'bignumber.js'
 import { buildAmount } from '@src/utils/radix'
-import { Z3US_FEE_RATIO, Z3US_RRI, Z3US_WALLET } from '@src/config'
+import { Z3US_FEE_RATIO, Z3US_WALLET_MAIN, Z3US_WALLET_BURN } from '@src/config'
 import { useMessage } from '@src/hooks/use-message'
 
 const oci = new OCIService()
@@ -117,11 +117,6 @@ export const useZ3USFees = (
 		}
 
 		try {
-			const toZ3usResult = AccountAddress.fromUnsafe(Z3US_WALLET)
-			if (toZ3usResult.isErr()) {
-				throw toZ3usResult.error
-			}
-
 			let fee = amount.multipliedBy(Z3US_FEE_RATIO)
 			let burnAmount = new BigNumber(0)
 
@@ -281,9 +276,13 @@ export const useTransactionFee = (
 			if (rriResult.isErr()) {
 				throw rriResult.error
 			}
-			const toZ3usResult = AccountAddress.fromUnsafe(Z3US_WALLET)
-			if (toZ3usResult.isErr()) {
-				throw toZ3usResult.error
+			const z3usMainResult = AccountAddress.fromUnsafe(Z3US_WALLET_MAIN)
+			if (z3usMainResult.isErr()) {
+				throw z3usMainResult.error
+			}
+			const z3usBurnResult = AccountAddress.fromUnsafe(Z3US_WALLET_BURN)
+			if (z3usBurnResult.isErr()) {
+				throw z3usBurnResult.error
 			}
 			const toResult = AccountAddress.fromUnsafe(pool.wallet)
 			if (toResult.isErr()) {
@@ -309,27 +308,33 @@ export const useTransactionFee = (
 
 			const actions = []
 			if (z3usBurn.gt(0)) {
-				actions.push({
-					type: ExtendedActionType.BURN_TOKENS,
-					from_account: account.address,
-					amount: buildAmount(z3usBurn),
-					rri: Z3US_RRI,
-				})
-			}
-
-			if (z3usFee.gt(0)) {
-				const z3usFeeActionResult = IntendedTransferTokens.create(
+				const actionResult = IntendedTransferTokens.create(
 					{
-						to_account: toZ3usResult.value,
+						to_account: z3usBurnResult.value,
 						amount: buildAmount(z3usFee),
 						tokenIdentifier: rriResult.value,
 					},
 					account.address,
 				)
-				if (z3usFeeActionResult.isErr()) {
-					throw z3usFeeActionResult.error
+				if (actionResult.isErr()) {
+					throw actionResult.error
 				}
-				actions.push(z3usFeeActionResult.value)
+				actions.push(actionResult.value)
+			}
+
+			if (z3usFee.gt(0)) {
+				const actionResult = IntendedTransferTokens.create(
+					{
+						to_account: z3usMainResult.value,
+						amount: buildAmount(z3usFee),
+						tokenIdentifier: rriResult.value,
+					},
+					account.address,
+				)
+				if (actionResult.isErr()) {
+					throw actionResult.error
+				}
+				actions.push(actionResult.value)
 			}
 
 			const actionResult = IntendedTransferTokens.create(
