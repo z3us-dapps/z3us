@@ -301,21 +301,14 @@ export const Swap: React.FC = () => {
 						</Box>
 
 						<Box>
-							<Flex align="center" css={{ mt: '14px', position: 'relative' }}>
-								<Flex>
-									<Text medium css={{ fontSize: '14px', lineHeight: '17px', pr: '2px' }}>
-										Reduce wallet fee:
+							<AlertCard icon color="warning" css={{ mt: '$4', height: '80px' }}>
+								<Flex justify="between" css={{ mt: '5px', flex: 'auto' }}>
+									<Text medium size="4" css={{ mb: '3px', pl: '$3', mt: '8px' }}>
+										Presented fees and rates are indicative and are subject to change. Once submitted to the network,
+										wallet and transaction fees apply at all times. No refunds possible.
 									</Text>
 								</Flex>
-								<Flex align="center" justify="end">
-									<Checkbox id="burn" size="1" onCheckedChange={handleSetBurn} checked={state.burn}>
-										<CheckIcon />
-									</Checkbox>
-									<Text medium size="3" as="label" css={{ paddingLeft: '$2' }} htmlFor="burn">
-										Burn Z3US tokens
-									</Text>
-								</Flex>
-							</Flex>
+							</AlertCard>
 						</Box>
 
 						<Box
@@ -375,15 +368,23 @@ export const Swap: React.FC = () => {
 								</Flex>
 							)}
 						</Box>
+
 						<Box>
-							<AlertCard icon color="warning" css={{ mt: '$4', height: '80px' }}>
-								<Flex justify="between" css={{ mt: '5px', flex: 'auto' }}>
-									<Text medium size="4" css={{ mb: '3px', pl: '$3', mt: '8px' }}>
-										Presented fees and rates are indicative and are subject to change. Once submitted to the network, wallet
-										and transaction fees apply at all times. No refunds possible.
+							<Flex align="center" css={{ mt: '14px', position: 'relative' }}>
+								<Flex>
+									<Text medium css={{ fontSize: '14px', lineHeight: '17px', pr: '2px' }}>
+										Reduce wallet fee:
 									</Text>
 								</Flex>
-							</AlertCard>
+								<Flex align="center" justify="end">
+									<Checkbox id="burn" size="1" onCheckedChange={handleSetBurn} checked={state.burn}>
+										<CheckIcon />
+									</Checkbox>
+									<Text medium size="3" as="label" css={{ paddingLeft: '$2' }} htmlFor="burn">
+										Burn Z3US tokens
+									</Text>
+								</Flex>
+							</Flex>
 						</Box>
 
 						<Box css={{ mt: '13px', position: 'relative' }}>
