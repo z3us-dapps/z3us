@@ -1,7 +1,6 @@
 import React, { useRef } from 'react'
 import { Z3US_RRI } from '@src/config'
 import { useSharedStore, useStore } from '@src/store'
-import { useLocation } from 'wouter'
 import { useImmer } from 'use-immer'
 import { useQueryClient } from 'react-query'
 import { useTransaction } from '@src/hooks/use-transaction'
@@ -33,7 +32,6 @@ import { PoolSelector } from './pool-selector'
 export const Swap: React.FC = () => {
 	const inputAmountRef = useRef(null)
 	const queryClient = useQueryClient()
-	const [, setLocation] = useLocation()
 	const { signTransaction, submitTransaction } = useTransaction()
 	const { hw, seed, currency, addToast } = useSharedStore(state => ({
 		hw: state.hardwareWallet,
@@ -114,7 +112,6 @@ export const Swap: React.FC = () => {
 				subTitle: 'Swap submitted to the network.',
 				duration: 8000,
 			})
-			setLocation(`/wallet/account/token/${toToken.rri}`)
 		} catch (error) {
 			addToast({
 				type: 'error',
