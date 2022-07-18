@@ -77,8 +77,21 @@ export const Swap: React.FC = () => {
 	const z3usToken = liquidBalances?.find(balance => balance.rri === Z3US_RRI)
 	const z3usBalance = z3usToken ? new BigNumber(z3usToken.amount).shiftedBy(-18) : new BigNumber(0)
 
+	const handlePoolChange = (pool: Pool) => {
+		setState(draft => {
+			draft.pool = pool
+		})
+	}
+
 	const z3usFee = useZ3USFees(new BigNumber(state.amount || 0), z3usBalance, state.burn)
-	const poolFee = usePoolFees(state.pool, new BigNumber(z3usFee.amount), fromToken?.rri, toToken?.rri)
+	const poolFee = usePoolFees(
+		state.pool,
+		pools,
+		handlePoolChange,
+		new BigNumber(z3usFee.amount),
+		fromToken?.rri,
+		toToken?.rri,
+	)
 	const txFee = useTransactionFee(
 		state.pool,
 		fromToken,
@@ -129,12 +142,6 @@ export const Swap: React.FC = () => {
 		await selectAccount(accountIndex, hw, seed)
 		setState(draft => {
 			draft.amount = ''
-		})
-	}
-
-	const handlePoolChange = (pool: Pool) => {
-		setState(draft => {
-			draft.pool = pool
 		})
 	}
 

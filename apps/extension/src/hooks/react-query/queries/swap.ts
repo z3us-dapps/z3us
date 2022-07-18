@@ -63,7 +63,11 @@ export const usePools = (fromRRI: string, toRRI: string): Pool[] => {
 
 	const pools = []
 	if (ociPools) {
-		const ociPool = ociPools.find(p => p.token_a.rri === fromRRI && p.token_b.rri === toRRI)
+		const ociPool = ociPools.find(
+			p =>
+				(p.token_a.rri === fromRRI && p.token_b.rri === toRRI) ||
+				(p.token_b.rri === fromRRI && p.token_a.rri === toRRI),
+		)
 		if (ociPool) {
 			pools.push({
 				name: OCIPoolName,
@@ -159,7 +163,9 @@ export const useZ3USFees = (
 }
 
 export const usePoolFees = (
-	pool: Pool,
+	selectedPool: Pool,
+	pools: Pool[],
+	onPool: (pool: Pool) => void,
 	amount: BigNumber,
 	fromRRI: string,
 	toRRI: string,
@@ -178,41 +184,62 @@ export const usePoolFees = (
 		fee: new BigNumber(0),
 	})
 
-	const fetchCost = async () => {
-		if (amount.isEqualTo(0) || !pool?.wallet || !fromRRI || !toRRI) {
-			setState(draft => {
-				draft.amount = new BigNumber(0)
-				draft.recieve = new BigNumber(0)
-				draft.fee = new BigNumber(0)
-			})
-			return
+	const fetchCost = async (pool): Promise<[BigNumber, BigNumber, BigNumber]> => {
+		if (!pool?.wallet || amount.isEqualTo(0) || !fromRRI || !toRRI) {
+			return [new BigNumber(0), new BigNumber(0), new BigNumber(0)]
 		}
 
+		let fee = new BigNumber(0)
+		let recieve = new BigNumber(0)
+
+		switch (pool.type) {
+			case PoolType.OCI:
+				const cost = await oci.calculateSwap(fromRRI, toRRI, amount)
+				fee = new BigNumber(cost?.fee_liquidity_provider[0]?.amount || 0).plus(
+					new BigNumber(cost?.fee_exchange[0]?.amount || 0),
+				)
+				recieve = new BigNumber(cost?.output_amount || 0)
+				break
+			case PoolType.CAVIAR:
+				fee = amount.multipliedBy(1 / 100)
+				recieve = amount.div(2) // @TODO: get the correct formula from caviar dudes
+				break
+			default:
+				throw new Error(`Invalid pool: ${pool.name} - ${pool.type}`)
+		}
+
+		return [amount, recieve, fee]
+	}
+
+	const loadPoolFee = async () => {
 		try {
-			let fee = new BigNumber(0)
-			let recieve = new BigNumber(0)
+			if (selectedPool) {
+				const [newAmount, recieve, fee] = await fetchCost(selectedPool)
+				setState(draft => {
+					draft.amount = newAmount
+					draft.recieve = recieve
+					draft.fee = fee
+				})
+			} else if (pools.length > 0) {
+				let toSelect: Pool
+				let cheapest: BigNumber[]
 
-			switch (pool.type) {
-				case PoolType.OCI:
-					const cost = await oci.calculateSwap(fromRRI, toRRI, amount)
-					fee = new BigNumber(cost?.fee_liquidity_provider[0]?.amount || 0).plus(
-						new BigNumber(cost?.fee_exchange[0]?.amount || 0),
-					)
-					recieve = new BigNumber(cost?.output_amount || 0)
-					break
-				case PoolType.CAVIAR:
-					fee = amount.multipliedBy(1 / 100)
-					recieve = amount.div(2) // @TODO: get the correct formula from caviar dudes
-					break
-				default:
-					throw new Error(`Invalid pool: ${pool.name} - ${pool.type}`)
+				const results = await Promise.all(pools.map(pool => fetchCost(pool)))
+				results.forEach((cost, index) => {
+					if (!cheapest || cost[1].gt(cheapest[1])) {
+						cheapest = cost
+						toSelect = pools[index]
+					}
+				})
+
+				const [newAmount, recieve, fee] = cheapest
+				setState(draft => {
+					draft.amount = newAmount
+					draft.recieve = recieve
+					draft.fee = fee
+				})
+				onPool(toSelect)
 			}
-
-			setState(draft => {
-				draft.amount = amount
-				draft.fee = fee
-				draft.recieve = recieve
-			})
 		} catch (error) {
 			setState(draft => {
 				draft.amount = new BigNumber(0)
@@ -221,7 +248,7 @@ export const usePoolFees = (
 			})
 			addToast({
 				type: 'error',
-				title: `Failed to calculate ${pool.name} fees`,
+				title: 'Failed to calculate pool fees',
 				subTitle: (error?.message || error).toString().trim(),
 				duration: 5000,
 			})
@@ -229,8 +256,8 @@ export const usePoolFees = (
 	}
 
 	useEffect(() => {
-		fetchCost()
-	}, [pool?.wallet, fromRRI, toRRI, amount.toString()])
+		loadPoolFee()
+	}, [selectedPool?.wallet, fromRRI, toRRI, amount.toString()])
 
 	return state
 }
