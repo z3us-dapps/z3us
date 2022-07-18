@@ -190,7 +190,7 @@ export const routesInfo = {
 		id: SWAP,
 		name: 'Swap',
 		icon: <SwapIcon />,
-		href: 'Swap',
+		href: 'swap',
 	},
 	[SETTINGS]: {
 		id: SETTINGS,

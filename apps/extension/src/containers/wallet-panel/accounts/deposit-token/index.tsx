@@ -14,7 +14,7 @@ import { useColorMode } from '@src/hooks/use-color-mode'
 import { QRCodeSVG } from 'qrcode.react'
 import { AccountSelector } from '@src/components/account-selector'
 import { TokenSelector } from '@src/components/token-selector'
-import { SendReceiveHeader } from '../send-receive-header'
+import { SendReceiveHeader } from '@src/components/send-receive-header'
 
 const DEFAULT_XRD_RRI = 'xrd_rr1qy5wfsfh'
 

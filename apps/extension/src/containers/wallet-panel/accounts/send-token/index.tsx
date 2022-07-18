@@ -18,7 +18,7 @@ import { TokenSelector } from '@src/components/token-selector'
 import { AddressBookSelector } from '@src/components/address-book-selector'
 import { HardwareWalletReconnect } from '@src/components/hardware-wallet-reconnect'
 import { useTransferTokens } from '@src/hooks/use-token-transfer'
-import { SendReceiveHeader } from '../send-receive-header'
+import { SendReceiveHeader } from '@src/components/send-receive-header'
 import { SendTokenReview } from './send-token-review'
 
 export const SendToken: React.FC = () => {

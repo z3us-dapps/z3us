@@ -9,7 +9,7 @@ import { ScrollArea } from 'ui/src/components/scroll-area'
 import { ActivityItem } from '@src/components/activity-item'
 import { Box, Text, Flex } from 'ui/src/components/atoms'
 import LoaderBars from 'ui/src/components/loader-bars'
-import { SendReceiveHeader } from '../send-receive-header'
+import { SendReceiveHeader } from '@src/components/send-receive-header'
 
 export const AccountActivity: React.FC = () => {
 	const [customScrollParent, setCustomScrollParent] = useState(null)
