@@ -87,14 +87,6 @@ export const SwapModal: React.FC<IProps> = ({
 		})
 	}
 
-	const handleCloseTransactionModal = () => {
-		setState(draft => {
-			draft.isSendingAlertOpen = false
-			draft.isModalOpen = false
-		})
-		setLocation(`/account/token/${toToken.rri}`)
-	}
-
 	const handleConfirmSend = async () => {
 		if (!account) return
 
@@ -113,15 +105,17 @@ export const SwapModal: React.FC<IProps> = ({
 			setState(draft => {
 				draft.txID = result.txID
 				draft.errorMessage = ''
+				draft.isSendingAlertOpen = false
+				draft.isModalOpen = false
+				draft.isSendingTransaction = false
 			})
+			setLocation(`/wallet/account/token/${toToken.rri}`)
 		} catch (error) {
 			setState(draft => {
+				draft.isSendingTransaction = false
 				draft.errorMessage = (error?.message || error).toString().trim()
 			})
 		}
-		setState(draft => {
-			draft.isSendingTransaction = false
-		})
 	}
 
 	useEventListener('keydown', e => {
@@ -349,7 +343,7 @@ export const SwapModal: React.FC<IProps> = ({
 											color="primary"
 											aria-label="Close confirm send"
 											css={{ px: '0', flex: '1' }}
-											onClick={handleCloseTransactionModal}
+											onClick={handleCloseModal}
 											disabled={state.isSendingTransaction}
 											fullWidth
 										>

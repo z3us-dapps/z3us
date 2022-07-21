@@ -43,6 +43,7 @@ export const Swap: React.FC = () => {
 		fromRRI: '',
 		toRRI: '',
 		amount: '',
+		recieve: '',
 		minimum: false,
 		burn: false,
 		isLoading: false,
@@ -120,6 +121,12 @@ export const Swap: React.FC = () => {
 	const handleSetAmount = (event: React.ChangeEvent<HTMLInputElement>) => {
 		setState(draft => {
 			draft.amount = event.currentTarget.value
+		})
+	}
+
+	const handleSetRecieve = (event: React.ChangeEvent<HTMLInputElement>) => {
+		setState(draft => {
+			draft.recieve = event.currentTarget.value
 		})
 	}
 
@@ -251,7 +258,13 @@ export const Swap: React.FC = () => {
 						<Text css={{ fontSize: '14px', lineHeight: '17px', fontWeight: '500', flex: '1' }}>You recieve:</Text>
 					</Flex>
 					<Box css={{ mt: '13px', position: 'relative' }}>
-						<Input type="number" size="2" value={poolFee?.recieve?.toString()} placeholder="Recieve" disabled />
+						<Input
+							type="number"
+							size="2"
+							value={poolFee?.recieve?.toString()}
+							placeholder="Recieve"
+							onChange={handleSetRecieve}
+						/>
 						<TokenSelector
 							triggerType="input"
 							token={toToken}
@@ -293,7 +306,7 @@ export const Swap: React.FC = () => {
 						fromToken={fromToken}
 						toToken={toToken}
 						balance={selectedTokenAmmount}
-						amount={poolFee.amount}
+						amount={new BigNumber(state.amount || 0)}
 						receive={poolFee.recieve}
 						txFee={txFee.fee}
 						poolFee={poolFee.fee}
