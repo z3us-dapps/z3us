@@ -1,5 +1,4 @@
 import React, { useRef } from 'react'
-import { Z3US_RRI } from '@src/config'
 import { useSharedStore, useStore } from '@src/store'
 import { useImmer } from 'use-immer'
 import { useTokenBalances, useTokenInfo } from '@src/hooks/react-query/queries/radix'
