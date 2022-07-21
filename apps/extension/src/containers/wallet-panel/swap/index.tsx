@@ -43,7 +43,6 @@ export const Swap: React.FC = () => {
 		fromRRI: '',
 		toRRI: '',
 		amount: '',
-		recieve: '',
 		minimum: false,
 		burn: false,
 		isLoading: false,
@@ -61,16 +60,13 @@ export const Swap: React.FC = () => {
 	const selectedTokenAmmount = selectedToken ? new BigNumber(selectedToken.amount).shiftedBy(-18) : new BigNumber(0)
 	const tokenSymbol = fromToken?.symbol.toUpperCase()
 
-	const z3usToken = liquidBalances?.find(balance => balance.rri === Z3US_RRI)
-	const z3usBalance = z3usToken ? new BigNumber(z3usToken.amount).shiftedBy(-18) : new BigNumber(0)
-
 	const handlePoolChange = (pool: Pool) => {
 		setState(draft => {
 			draft.pool = pool
 		})
 	}
 
-	const z3usFee = useZ3USFees(new BigNumber(state.amount || 0), z3usBalance, state.burn)
+	const z3usFee = useZ3USFees(new BigNumber(state.amount || 0), state.burn)
 	const poolFee = usePoolFees(
 		state.pool,
 		pools,
@@ -121,12 +117,6 @@ export const Swap: React.FC = () => {
 	const handleSetAmount = (event: React.ChangeEvent<HTMLInputElement>) => {
 		setState(draft => {
 			draft.amount = event.currentTarget.value
-		})
-	}
-
-	const handleSetRecieve = (event: React.ChangeEvent<HTMLInputElement>) => {
-		setState(draft => {
-			draft.recieve = event.currentTarget.value
 		})
 	}
 
@@ -258,13 +248,7 @@ export const Swap: React.FC = () => {
 						<Text css={{ fontSize: '14px', lineHeight: '17px', fontWeight: '500', flex: '1' }}>You recieve:</Text>
 					</Flex>
 					<Box css={{ mt: '13px', position: 'relative' }}>
-						<Input
-							type="number"
-							size="2"
-							value={poolFee?.recieve?.toString()}
-							placeholder="Recieve"
-							onChange={handleSetRecieve}
-						/>
+						<Input type="number" size="2" value={poolFee?.recieve?.toString()} placeholder="Recieve" disabled />
 						<TokenSelector
 							triggerType="input"
 							token={toToken}

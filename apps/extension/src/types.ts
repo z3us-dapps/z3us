@@ -161,4 +161,5 @@ export type Pool = {
 	name: string
 	type: PoolType
 	wallet: string
+	balances?: { [rri: string]: number }
 }

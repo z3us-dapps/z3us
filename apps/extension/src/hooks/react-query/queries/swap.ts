@@ -15,8 +15,9 @@ import {
 import { Pool, PoolType, Token } from '@src/types'
 import BigNumber from 'bignumber.js'
 import { buildAmount } from '@src/utils/radix'
-import { Z3US_FEE_RATIO, Z3US_WALLET_MAIN, Z3US_WALLET_BURN, Z3US_RRI } from '@src/config'
+import { Z3US_FEE_RATIO, Z3US_WALLET_MAIN, Z3US_WALLET_BURN, Z3US_RRI, FLOOP_RRI } from '@src/config'
 import { useMessage } from '@src/hooks/use-message'
+import { useTokenBalances } from './radix'
 
 const oci = new OCIService()
 const caviar = new CaviarService()
@@ -61,7 +62,7 @@ export const usePools = (fromRRI: string, toRRI: string): Pool[] => {
 		return []
 	}
 
-	const pools = []
+	const pools: Pool[] = []
 	if (ociPools) {
 		const ociPool = ociPools.find(
 			p =>
@@ -83,6 +84,7 @@ export const usePools = (fromRRI: string, toRRI: string): Pool[] => {
 					name: `${CaviarPoolName} - ${p.name}`,
 					wallet: p.wallet,
 					type: PoolType.CAVIAR,
+					balances: p.balances,
 				})
 			}
 		})
@@ -93,13 +95,13 @@ export const usePools = (fromRRI: string, toRRI: string): Pool[] => {
 
 export const useZ3USFees = (
 	amount: BigNumber,
-	z3usBalance: BigNumber,
 	burn: boolean,
 ): {
 	amount: BigNumber
 	fee: BigNumber
 	burn: BigNumber
 } => {
+	const { data: balances } = useTokenBalances()
 	const { addToast } = useSharedStore(state => ({
 		addToast: state.addToastAction,
 	}))
@@ -125,6 +127,9 @@ export const useZ3USFees = (
 			let burnAmount = new BigNumber(0)
 
 			if (burn) {
+				const liquidBalances = balances?.account_balances?.liquid_balances || []
+				const z3usToken = liquidBalances?.find(balance => balance.rri === Z3US_RRI)
+				const z3usBalance = z3usToken ? new BigNumber(z3usToken.amount).shiftedBy(-18) : new BigNumber(0)
 				if (z3usBalance.gte(fee)) {
 					burnAmount = fee
 					fee = new BigNumber(0)
@@ -157,7 +162,7 @@ export const useZ3USFees = (
 
 	useEffect(() => {
 		fetchCost()
-	}, [amount.toString(), z3usBalance.toString(), burn])
+	}, [amount.toString(), burn])
 
 	return state
 }
@@ -174,6 +179,7 @@ export const usePoolFees = (
 	recieve: BigNumber
 	fee: BigNumber
 } => {
+	const { data: balances } = useTokenBalances()
 	const { addToast } = useSharedStore(state => ({
 		addToast: state.addToastAction,
 	}))
@@ -184,7 +190,7 @@ export const usePoolFees = (
 		fee: new BigNumber(0),
 	})
 
-	const fetchCost = async (pool): Promise<[BigNumber, BigNumber, BigNumber]> => {
+	const fetchCost = async (pool: Pool): Promise<[BigNumber, BigNumber, BigNumber]> => {
 		if (!pool?.wallet || amount.isEqualTo(0) || !fromRRI || !toRRI) {
 			return [new BigNumber(0), new BigNumber(0), new BigNumber(0)]
 		}
@@ -201,8 +207,33 @@ export const usePoolFees = (
 				recieve = new BigNumber(cost?.output_amount || 0)
 				break
 			case PoolType.CAVIAR:
-				fee = amount.multipliedBy(1 / 100)
-				recieve = amount.div(2) // @TODO: get the correct formula from caviar dudes
+				if (amount.gt(0)) {
+					const liquidBalances = balances?.account_balances?.liquid_balances || []
+					const floopToken = liquidBalances?.find(balance => balance.rri === FLOOP_RRI)
+					const floopBalance = floopToken ? new BigNumber(floopToken.amount).shiftedBy(-18) : new BigNumber(0)
+
+					if (floopBalance.gt(0)) {
+						if (floopBalance.gte(1)) {
+							fee = amount.multipliedBy(1 / 1000)
+						} else {
+							fee = amount.multipliedBy(new BigNumber(1).minus(floopBalance).multipliedBy(0.009).plus(0.01))
+						}
+					} else {
+						fee = amount.multipliedBy(1 / 100)
+					}
+
+					const fromBalance = new BigNumber(pool.balances[fromRRI] || 0)
+					const toBalance = new BigNumber(pool.balances[toRRI] || 0)
+
+					const constant = fromBalance.multipliedBy(toBalance)
+					const newTo = constant.dividedBy(fromBalance.multipliedBy(amount))
+					const amountTo = toBalance.minus(newTo)
+					const amountToAfterFee = amountTo.multipliedBy(new BigNumber(1).minus(fee))
+
+					recieve = amountToAfterFee.dividedBy(amount)
+				} else {
+					recieve = new BigNumber(0)
+				}
 				break
 			default:
 				throw new Error(`Invalid pool: ${pool.name} - ${pool.type}`)
