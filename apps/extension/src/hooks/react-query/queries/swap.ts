@@ -167,6 +167,8 @@ export const useZ3USFees = (
 	return state
 }
 
+const caviarNetworkFee = new BigNumber(1).dividedBy(10)
+
 export const usePoolFees = (
 	selectedPool: Pool,
 	pools: Pool[],
@@ -222,15 +224,17 @@ export const usePoolFees = (
 						fee = amount.multipliedBy(1 / 100)
 					}
 
-					const fromBalance = new BigNumber(pool.balances[fromRRI] || 0)
-					const toBalance = new BigNumber(pool.balances[toRRI] || 0)
+					const balanceXRD = new BigNumber(pool.balances.xrd_rr1qy5wfsfh || 0).shiftedBy(-18)
+					const fromBalance = new BigNumber(pool.balances[fromRRI] || 0).shiftedBy(-18)
+					const toBalance = new BigNumber(pool.balances[toRRI] || 0).shiftedBy(-18)
+
+					const midPrice = toBalance.dividedBy(balanceXRD)
 
 					const constant = fromBalance.multipliedBy(toBalance)
-					const newTo = constant.dividedBy(fromBalance.multipliedBy(amount))
-					const amountTo = toBalance.minus(newTo)
-					const amountToAfterFee = amountTo.multipliedBy(new BigNumber(1).minus(fee))
+					const newToBalance = constant.dividedBy(fromBalance.plus(amount))
+					const amountTo = toBalance.minus(newToBalance)
 
-					recieve = amountToAfterFee.dividedBy(amount)
+					recieve = amountTo.multipliedBy(new BigNumber(1).minus(fee)).minus(caviarNetworkFee.multipliedBy(midPrice))
 				} else {
 					recieve = new BigNumber(0)
 				}
