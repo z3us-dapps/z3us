@@ -22,11 +22,11 @@ const slideLeftAndFade = keyframes({
 })
 
 const StyledContent = styled(HoverCardPrimitive.Content, {
-	borderRadius: '$2',
-	padding: '$3',
+	borderRadius: '$3',
+	padding: '$6',
 	width: 300,
-	backgroundColor: '$bgPanel2',
-	boxShadow: '$tooltip',
+	backgroundColor: '$bgPanel',
+	boxShadow: '$shadowPanel2',
 	'@media (prefers-reduced-motion: no-preference)': {
 		animationDuration: '400ms',
 		animationTimingFunction: 'cubic-bezier(0.16, 1, 0.3, 1)',
@@ -42,7 +42,7 @@ const StyledContent = styled(HoverCardPrimitive.Content, {
 })
 
 const StyledArrow = styled(HoverCardPrimitive.Arrow, {
-	fill: '$bgPanel2',
+	fill: '$bgPanel',
 })
 
 export const HoverCard = HoverCardPrimitive.Root
