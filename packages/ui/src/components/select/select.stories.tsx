@@ -42,7 +42,8 @@ const CombinedTemplate: React.FC = () => (
 		<Flex gap="8" justify="start" css={{ border: '0px solid red' }}>
 			<Box css={{ width: '200px' }}>
 				<SelectBox
-					defaultValue="cat"
+					//defaultValue="cat"
+					placeholder="Select animal...."
 					selectOptions={[
 						{ value: 'cat', name: 'cat' },
 						{ value: 'dog', name: 'dog' },
@@ -50,10 +51,21 @@ const CombinedTemplate: React.FC = () => (
 					selectNameFormatter={name => name.toUpperCase()}
 				/>
 			</Box>
+			<Box css={{ width: '200px' }}>
+				<SelectBox
+					//defaultValue="1"
+					placeholder="Select from 1000"
+					selectOptions={Array.from({ length: 1000 }, (_, i) => ({
+						value: `${i}`,
+						name: `${i} -- ${(Math.random() + 1).toString(36).substring(7)} `,
+					}))}
+					selectNameFormatter={name => name.toUpperCase()}
+				/>
+			</Box>
 			<Box>
-				<Select defaultValue="blueberry">
+				<Select>
 					<SelectTrigger aria-label="Food">
-						<SelectValue />
+						<SelectValue placeholder="Select a fruit…" />
 						<SelectIcon>
 							<ChevronDownIcon />
 						</SelectIcon>

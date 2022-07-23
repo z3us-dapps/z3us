@@ -104,9 +104,10 @@ export const SelectScrollDownButton = StyledScrollDownButton
 interface IProps {
 	buttonAriaLabel?: string
 	selectNameFormatter?: (name: string) => React.ReactNode | string
-	selectLabel?: string | null
-	defaultValue?: string | null
-	value?: string | null
+	selectLabel?: string | undefined
+	defaultValue?: string | undefined
+	value?: string | undefined
+	placeholder?: string | undefined
 	onValueChange?: (e: string) => void
 	selectOptions: Array<{
 		value: string
@@ -119,6 +120,7 @@ const defaultProps = {
 	selectLabel: undefined,
 	defaultValue: undefined,
 	value: undefined,
+	placeholder: undefined,
 	selectNameFormatter: (name: string) => name,
 	onValueChange: (value: string) => value,
 }
@@ -129,13 +131,23 @@ export const SelectBox: React.FC<IProps> = ({
 	buttonAriaLabel,
 	selectLabel,
 	selectOptions,
+	placeholder,
 	selectNameFormatter,
 	onValueChange,
 }) => (
 	<Select defaultValue={defaultValue} value={value} onValueChange={onValueChange}>
 		<SelectTrigger aria-label={buttonAriaLabel} asChild>
-			<Button color="input" size="4" fullWidth>
-				<SelectValue />
+			<Button
+				color="input"
+				size="4"
+				fullWidth
+				css={{
+					'&[data-placeholder]': {
+						color: '$txtMuted',
+					},
+				}}
+			>
+				<SelectValue placeholder={placeholder} />
 				<SelectIcon>
 					<ChevronDownIcon />
 				</SelectIcon>
