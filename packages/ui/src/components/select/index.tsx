@@ -1,5 +1,8 @@
+import React from 'react'
 import * as SelectPrimitive from '@radix-ui/react-select'
+import { ChevronDownIcon, ChevronUpIcon } from '@radix-ui/react-icons'
 import { styled, keyframes, sharedItemStyles, sharedItemIndicatorStyles } from '../../theme'
+import Button from '../button'
 
 const animateIn = keyframes({
 	from: { transform: 'translateY(4px)', opacity: 0 },
@@ -97,3 +100,67 @@ export const SelectLabel = StyledLabel
 export const SelectSeparator = StyledSeparator
 export const SelectScrollUpButton = StyledScrollUpButton
 export const SelectScrollDownButton = StyledScrollDownButton
+
+interface IProps {
+	buttonAriaLabel?: string
+	selectNameFormatter?: (name: string) => React.ReactNode | string
+	selectLabel?: string | null
+	defaultValue?: string | null
+	value?: string | null
+	onValueChange?: (e: string) => void
+	selectOptions: Array<{
+		value: string
+		name: string
+	}>
+}
+
+const defaultProps = {
+	buttonAriaLabel: undefined,
+	selectLabel: undefined,
+	defaultValue: undefined,
+	value: undefined,
+	selectNameFormatter: (name: string) => name,
+	onValueChange: (value: string) => value,
+}
+
+export const SelectBox: React.FC<IProps> = ({
+	defaultValue,
+	value,
+	buttonAriaLabel,
+	selectLabel,
+	selectOptions,
+	selectNameFormatter,
+	onValueChange,
+}) => (
+	<Select defaultValue={defaultValue} value={value} onValueChange={onValueChange}>
+		<SelectTrigger aria-label={buttonAriaLabel} asChild>
+			<Button color="input" size="4" fullWidth>
+				<SelectValue />
+				<SelectIcon>
+					<ChevronDownIcon />
+				</SelectIcon>
+			</Button>
+		</SelectTrigger>
+		<SelectContent>
+			<SelectScrollUpButton>
+				<ChevronUpIcon />
+			</SelectScrollUpButton>
+			<SelectViewport>
+				<SelectGroup>
+					{selectLabel ? <SelectLabel>{selectLabel}</SelectLabel> : null}
+					{selectOptions?.map(({ value: _value, name: _name }) => (
+						<SelectItem key={_value} value={_value}>
+							<SelectItemText>{selectNameFormatter(_name)}</SelectItemText>
+							<SelectItemIndicator />
+						</SelectItem>
+					))}
+				</SelectGroup>
+			</SelectViewport>
+			<SelectScrollDownButton>
+				<ChevronDownIcon />
+			</SelectScrollDownButton>
+		</SelectContent>
+	</Select>
+)
+
+SelectBox.defaultProps = defaultProps
