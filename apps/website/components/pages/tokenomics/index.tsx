@@ -13,37 +13,20 @@ import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js'
 import { Doughnut } from 'react-chartjs-2'
 
 const ALLOCATION_WIDTH = '200px'
-const ADD = 'z3us_rr1q0gxzdty8egrkegk9lnteth09sgzqgxaw5ytqzq24ceq3eqagc'
-const TOKEN_EXPLORER_URL = `${config.EXPLORER_URL}/tokens/${ADD}`
-
+const Z3US_ADDRESS = 'z3us_rr1q0gxzdty8egrkegk9lnteth09sgzqgxaw5ytqzq24ceq3eqagc'
+const TOKEN_EXPLORER_URL = `${config.EXPLORER_URL}/tokens/${Z3US_ADDRESS}`
 const TOKENOMICS_TEAM = 'tokenomics_team'
-//const TOKENOMICS_MARKETING = 'tokenomics_marketing'
-//const TOKENOMICS_DEVELOPMENT = 'tokenomics_development'
 const TOKENOMICS_AIRDROPS = 'tokenomics_airdrops'
 const TOKENOMICS_LIQUIDITY = 'tokenomics_liquidity'
 
 const tokenomicsData = {
 	[TOKENOMICS_TEAM]: {
 		label: 'Founders / Team',
-		textColor: 'rgb(59, 228, 214)',
-		borderColor: 'rgb(59, 228, 214)',
-		backgroundColor: 'rgba(59, 228, 214, 0.3)',
+		textColor: 'rgb(242, 0, 255)',
+		borderColor: 'rgb(242, 0, 255)',
+		backgroundColor: 'rgba(242, 0, 255, 0.3)',
 		allocation: 15,
 	},
-	//[TOKENOMICS_MARKETING]: {
-	//label: 'Marketing',
-	//textColor: 'rgba(141, 224, 194, 1)',
-	//borderColor: 'rgba(141, 224, 194, 1)',
-	//backgroundColor: 'rgba(141, 224, 194, 0.4)',
-	//allocation: 10,
-	//},
-	//[TOKENOMICS_DEVELOPMENT]: {
-	//label: 'Development',
-	//textColor: 'rgba(115, 151, 248, 1)',
-	//borderColor: 'rgba(115, 151, 248, 1)',
-	//backgroundColor: 'rgba(115, 151, 248, 0.4)',
-	//allocation: 10,
-	//},
 	[TOKENOMICS_LIQUIDITY]: {
 		label: 'Liquidity pool',
 		textColor: 'rgb(135, 235, 56)',
@@ -53,9 +36,9 @@ const tokenomicsData = {
 	},
 	[TOKENOMICS_AIRDROPS]: {
 		label: 'Airdrops',
-		textColor: 'rgb(242, 0, 255)',
-		borderColor: 'rgb(242, 0, 255)',
-		backgroundColor: 'rgba(242, 0, 255, 0.3)',
+		textColor: 'rgb(255, 241, 0)',
+		borderColor: 'rgb(255, 241, 0)',
+		backgroundColor: 'rgba(255, 241, 0, 0.3)',
 		allocation: 65,
 	},
 }
@@ -136,7 +119,7 @@ export const TokenomicsPage: React.FC = () => {
 							hoverColor="rgb(126 133 238)"
 							css={{
 								position: 'relative',
-								flexDirection: 'column-reverse',
+								flexDirection: 'column',
 								background: 'linear-gradient(180deg, #7345fc, #4f21e6 100%)',
 								borderRadius: '32px',
 								width: '100%',
@@ -172,21 +155,20 @@ export const TokenomicsPage: React.FC = () => {
 									width: '100%',
 									flexBasis: '100%',
 									position: 'relative',
-									pt: '10px',
-									pb: '50px',
-									px: '20px',
-									'@xs': { px: '5%' },
-									'@sm': { px: '15%', ta: 'center' },
+									pb: '0px',
+									px: '10%',
+									pt: '10%',
+									'@sm': { px: '15%', pt: '10%', pb: '5%' },
 									'@md': {
 										ta: 'left',
 										width: '50%',
 										flexBasis: '50%',
-										pt: '150px',
-										pb: '150px',
+										pt: '100px',
+										pb: '80px',
 										pl: '40px',
 										pr: '0px ',
 									},
-									'@lg': { pl: '100px' },
+									'@lg': { pl: '100px', pt: '150px', pb: '150px' },
 								}}
 							>
 								<Box>
@@ -213,8 +195,8 @@ export const TokenomicsPage: React.FC = () => {
 										<StyledLink underline href={TOKEN_EXPLORER_URL} target="_blank">
 											$Z3US
 										</StyledLink>{' '}
-										is a native token on the radix DLT network. It is designed to be a deflationary utility token,
-										whereby tokens will be burned and removed from the supply as the wallet usage increases.
+										is a native token on the radix DLT network. It is designed to be a deflationary utility token, where
+										tokens will be burned and removed from the supply as the wallet usage increases.
 										<br />
 										<br />
 										The purpose of the $Z3US utility token is to create ongoing incentives for ecosystem participants,
@@ -230,18 +212,39 @@ export const TokenomicsPage: React.FC = () => {
 									width: '100%',
 									flexBasis: '100%',
 									position: 'relative',
-									pt: '20px',
-									pr: '40px',
 									pb: '0px',
+									px: '10%',
+									pt: '5%',
 									img: {
 										maxWidth: '100%',
 									},
-									'@md': { width: '50%', flexBasis: '50%', position: 'relative', pt: '34px', pb: '44px' },
+									'@sm': { px: '15%', pt: '0' },
+									'@md': {
+										width: '50%',
+										flexBasis: '50%',
+										position: 'relative',
+										py: '10%',
+										pb: '44px',
+										pr: '40px',
+										pl: '40px',
+									},
+									'@lg': { pr: '100px' },
 								}}
 							>
-								<Flex justify="center" css={{ py: '90px', px: '40px', mt: '20px', width: '100%', height: '100%' }}>
+								<Flex
+									justify="center"
+									css={{
+										pb: '10%',
+										pl: '0px',
+										mt: '0px',
+										width: '100%',
+										height: '100%',
+										'@sm': { px: '0', mt: '0', pt: '0' },
+									}}
+								>
 									<Flex
 										align="center"
+										direction="column"
 										css={{
 											background: 'rgba(17,39,94, 0.7)',
 											width: '100%',
@@ -250,12 +253,20 @@ export const TokenomicsPage: React.FC = () => {
 											p: '30px',
 											gap: '30px',
 											boxShadow: '$accountPanelShadow',
+											'@sm': { flexDirection: 'row' },
 										}}
 									>
-										<Box css={{ width: '250px' }}>
+										<Box
+											css={{
+												width: '100%',
+												'@sm': { width: '50%' },
+												'@md': { width: '200px' },
+												'@lg': { width: '250px' },
+											}}
+										>
 											<Doughnut data={data} options={chartOptions} />
 										</Box>
-										<Flex direction="column" css={{ flex: '1 ' }}>
+										<Flex direction="column" css={{ flex: '1', width: '100%' }}>
 											{Object.entries(tokenomicsData).map(([key, { textColor, label, allocation }], idx) => (
 												<Box
 													key={key}
@@ -284,13 +295,19 @@ export const TokenomicsPage: React.FC = () => {
 						</LandingHoverCard>
 						<Flex
 							css={{
-								display: 'block',
-								'@md': { display: 'flex', gap: '24px' },
-								mt: '24px',
+								display: 'flex',
+								flexDirection: 'column',
+								pt: '48px',
+								gap: '24px',
 								ta: 'center',
+								maxWidth: '700px',
+								justifyContent: 'center',
+								alignItems: 'center',
+								mx: 'auto',
+								'@md': { flexDirection: 'row', pt: '24px', maxWidth: '100%' },
 							}}
 						>
-							<Box css={{ '@md': { width: '33.33%', flexBasis: '33.33%' } }}>
+							<Box css={{ width: '100%', flexBasis: '100%', '@md': { width: '33.33%', flexBasis: '33.33%' } }}>
 								<LandingHoverCard
 									hoverColor="rgba(255, 255, 255)"
 									css={{
@@ -316,7 +333,7 @@ export const TokenomicsPage: React.FC = () => {
 									</Flex>
 								</LandingHoverCard>
 							</Box>
-							<Box css={{ '@md': { width: '33.33%', flexBasis: '33.33%' } }}>
+							<Box css={{ width: '100%', flexBasis: '100%', '@md': { width: '33.33%', flexBasis: '33.33%' } }}>
 								<LandingHoverCard
 									hoverColor="rgba(255, 255, 255)"
 									css={{
@@ -342,7 +359,7 @@ export const TokenomicsPage: React.FC = () => {
 									</Flex>
 								</LandingHoverCard>
 							</Box>
-							<Box css={{ '@md': { width: '33.33%', flexBasis: '33.33%' } }}>
+							<Box css={{ width: '100%', flexBasis: '100%', '@md': { width: '33.33%', flexBasis: '33.33%' } }}>
 								<StyledLink href={TOKEN_EXPLORER_URL} target="_blank">
 									<LandingHoverCard
 										hoverColor="rgba(255, 255, 255)"
@@ -368,7 +385,7 @@ export const TokenomicsPage: React.FC = () => {
 												Token address
 											</Text>
 											<Text bold size="10" css={{ color: '#3d3550', mt: '$4' }}>
-												{getHeadTailString(ADD, 5)}
+												{getHeadTailString(Z3US_ADDRESS, 5)}
 											</Text>
 										</Flex>
 									</LandingHoverCard>
@@ -451,14 +468,14 @@ export const TokenomicsPage: React.FC = () => {
 									The token modal will be deflationary over time. Z3US will charge a fee when participants use the{' '}
 									<b>swap</b> feature in the wallet. <br />
 									<br />
-									If the user has $Z3US tokens in the wallet and selects the option to burn $Z3US tokens, the fee charge
-									is a flat 0.60% transaction. Of that fee, 0.4% be <b>burnt</b>. The remaining 0.2% will go to the{' '}
-									<b>development / marketing</b> wallet, to help fund development.
+									If the user has $Z3US tokens in the wallet and selects the option to burn $Z3US tokens when using the{' '}
+									<b>swap</b> feature, the fee charge is a flat 0.425% transaction. Of that fee, 0.3% be <b>burnt</b>.
+									The remaining 0.125% will go to the <b>development / marketing</b> wallet, to help fund development.
 									<br />
 									<br />
-									If the user selects <i>not</i> to burn $Z3US tokens on the swap transaction, the fee charge a flat
-									0.80% transaction. Of that fee, 0.8%. The 0.8% will go to the <b>development / marketing</b> wallet,
-									to help fund development.
+									If the user selects <i>not</i> to burn $Z3US tokens on the swap, the fee charge a flat 0.80%
+									transaction. Of that fee, 0.85%. The 0.85% will go to the <b>development / marketing</b> wallet, to
+									help fund development.
 								</Text>
 								<Text color="help" css={{ pt: '20px' }}>
 									Note: Rates that appear in the Z3US wallet are calculated with fees applied. Z3US reserves the right
