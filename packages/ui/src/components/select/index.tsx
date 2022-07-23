@@ -158,15 +158,13 @@ export const SelectBox: React.FC<IProps> = ({
 				<ChevronUpIcon />
 			</SelectScrollUpButton>
 			<SelectViewport>
-				<SelectGroup>
-					{selectLabel ? <SelectLabel>{selectLabel}</SelectLabel> : null}
-					{selectOptions?.map(({ value: _value, name: _name }) => (
-						<SelectItem key={_value} value={_value}>
-							<SelectItemText>{selectNameFormatter(_name)}</SelectItemText>
-							<SelectItemIndicator />
-						</SelectItem>
-					))}
-				</SelectGroup>
+				{selectLabel ? <SelectLabel>{selectLabel}</SelectLabel> : null}
+				{selectOptions?.map(({ value: _value, name: _name }) => (
+					<SelectItem key={_value} value={_value}>
+						<SelectItemText>{selectNameFormatter(_name)}</SelectItemText>
+						<SelectItemIndicator />
+					</SelectItem>
+				))}
 			</SelectViewport>
 			<SelectScrollDownButton>
 				<ChevronDownIcon />
