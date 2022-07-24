@@ -1,7 +1,7 @@
 import React from 'react'
 import { useSharedStore, useStore } from '@src/store'
 import { useImmer } from 'use-immer'
-import { RightArrowIcon, PlusIcon } from 'ui/src/components/icons'
+import { PlusIcon } from 'ui/src/components/icons'
 import { Box, Flex, Text } from 'ui/src/components/atoms'
 import Button from 'ui/src/components/button'
 import Input from 'ui/src/components/input'
@@ -15,19 +15,7 @@ import {
 	AlertDialogAction,
 	AlertDialogCancel,
 } from 'ui/src/components/alert-dialog'
-import {
-	Select,
-	SelectTrigger,
-	SelectValue,
-	SelectContent,
-	SelectViewport,
-	SelectGroup,
-	SelectItem,
-	SelectItemText,
-	SelectItemIndicator,
-	SelectScrollUpButton,
-	SelectScrollDownButton,
-} from 'ui/src/components/select'
+import { SelectBox } from 'ui/src/components/select'
 import { RadixService } from '@src/services/radix'
 
 export const NetworkSettings: React.FC = () => {
@@ -106,62 +94,15 @@ export const NetworkSettings: React.FC = () => {
 	return (
 		<Box css={{ px: '$3', py: '$3' }}>
 			<Box>
-				<Text medium css={{ pb: '1px' }}>
+				<Text medium css={{ pb: '4px' }}>
 					Select network:
 				</Text>
-				<Select defaultValue={String(selectedNetworkIndex)} onValueChange={handleSelectNetwork}>
-					<SelectTrigger aria-label="Select network" asChild>
-						<Button
-							css={{
-								display: 'flex',
-								align: 'center',
-								justifyContent: 'flex-start',
-								mt: '$2',
-								bg: '$bgPanel2',
-								borderRadius: '8px',
-								height: '48px',
-								position: 'relative',
-								width: '100%',
-								ta: 'left',
-								'&:hover': {
-									bg: '$bgPanelHover',
-								},
-							}}
-						>
-							<Box css={{ flex: '1' }}>
-								<Flex>
-									<Text medium css={{ pl: '$3' }}>
-										Network:
-									</Text>
-									<Text bold uppercase css={{ fontSize: '14px', lineHeight: '17px', fontWeight: '500', ml: '4px' }}>
-										<SelectValue />
-									</Text>
-								</Flex>
-							</Box>
-							<Box css={{ pr: '$1' }}>
-								<RightArrowIcon />
-							</Box>
-						</Button>
-					</SelectTrigger>
-					<SelectContent>
-						<SelectScrollUpButton>{'>'}</SelectScrollUpButton>
-						<SelectViewport>
-							<SelectGroup>
-								{networks?.map((network, idx) => (
-									<SelectItem key={network.id} value={String(idx)}>
-										<SelectItemText>
-											<Text bold capitalize>
-												{network.id}
-											</Text>
-										</SelectItemText>
-										<SelectItemIndicator />
-									</SelectItem>
-								))}
-							</SelectGroup>
-						</SelectViewport>
-						<SelectScrollDownButton>{'>'}</SelectScrollDownButton>
-					</SelectContent>
-				</Select>
+				<SelectBox
+					defaultValue={String(selectedNetworkIndex)}
+					onValueChange={handleSelectNetwork}
+					buttonAriaLabel="Select network"
+					selectOptions={networks?.map((network, idx) => ({ value: String(idx), name: network.id }))}
+				/>
 			</Box>
 			<Box css={{ mt: '$3' }}>
 				<AlertDialog open={state.isAddNetworkDialogOpen}>
