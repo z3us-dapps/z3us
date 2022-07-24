@@ -54,10 +54,17 @@ const CombinedTemplate: React.FC = () => (
 			<Box css={{ width: '200px' }}>
 				<SelectBox
 					//defaultValue="1"
-					placeholder="Select from 1000"
-					selectOptions={Array.from({ length: 1000 }, (_, i) => ({
+					placeholder="Select from 100"
+					selectOptions={Array.from({ length: 100 }, (_, i) => ({
 						value: `${i}`,
-						name: `${i} -- ${(Math.random() + 1).toString(36).substring(7)} `,
+						name: `${i} -- ${(Math.random() + 1)
+							.toString(36)
+							.substring(
+								7,
+							)} llong test long tes tong test long test llong test long tes tong test long test llong test long tes
+								tong test long test llong test long tes tong test long test llong test long tes tong test long test llong test long tes
+								tong test long test llong test long tes tong test long test llong test long tes tong test long test llong test long tes
+								tong test long test`,
 					}))}
 					selectNameFormatter={name => name.toUpperCase()}
 				/>

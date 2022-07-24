@@ -7,7 +7,6 @@ import * as AccordionPrimitive from '@radix-ui/react-accordion'
 import type * as Radix from '@radix-ui/react-primitive'
 import { PropsWithCSS } from '../../types'
 import { Box } from '../atoms/box'
-import { CSS } from '../../theme'
 
 const slideDown = keyframes({
 	from: { height: 0 },
