@@ -323,7 +323,7 @@ export const SendToken: React.FC = () => {
 										size="2"
 										placeholder="Enter transaction message"
 										onChange={handleSetMessage}
-										css={{ height: '70px' }}
+										css={{ height: '77px' }}
 									/>
 								</Box>
 							</Box>

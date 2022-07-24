@@ -1,5 +1,10 @@
+import React from 'react'
 import * as SelectPrimitive from '@radix-ui/react-select'
+import { ChevronDownIcon, ChevronUpIcon } from '@radix-ui/react-icons'
+import useMeasure from 'react-use-measure'
 import { styled, keyframes, sharedItemStyles, sharedItemIndicatorStyles } from '../../theme'
+import { Box } from '../atoms/box'
+import Button from '../button'
 
 const animateIn = keyframes({
 	from: { transform: 'translateY(4px)', opacity: 0 },
@@ -49,7 +54,9 @@ const StyledViewport = styled(SelectPrimitive.Viewport, {
 	padding: 0,
 })
 
-const StyledItem = styled(SelectPrimitive.Item, { ...sharedItemStyles })
+const StyledItem = styled(SelectPrimitive.Item, {
+	...sharedItemStyles,
+})
 
 const StyledLabel = styled(SelectPrimitive.Label, {
 	...sharedItemStyles,
@@ -97,3 +104,94 @@ export const SelectLabel = StyledLabel
 export const SelectSeparator = StyledSeparator
 export const SelectScrollUpButton = StyledScrollUpButton
 export const SelectScrollDownButton = StyledScrollDownButton
+
+interface IProps {
+	buttonAriaLabel?: string
+	selectNameFormatter?: (name: string) => React.ReactNode | string
+	selectLabel?: string | undefined
+	defaultValue?: string | undefined
+	value?: string | undefined
+	placeholder?: string | undefined
+	onValueChange?: (e: string) => void
+	selectOptions: Array<{
+		value: string
+		name: string
+	}>
+}
+
+const defaultProps = {
+	buttonAriaLabel: undefined,
+	selectLabel: undefined,
+	defaultValue: undefined,
+	value: undefined,
+	placeholder: undefined,
+	selectNameFormatter: (name: string) => name,
+	onValueChange: (value: string) => value,
+}
+
+export const SelectBox: React.FC<IProps> = ({
+	defaultValue,
+	value,
+	buttonAriaLabel,
+	selectLabel,
+	selectOptions,
+	placeholder,
+	selectNameFormatter,
+	onValueChange,
+}) => {
+	const [measureRef, { width: triggerWidth }] = useMeasure()
+	return (
+		<Select defaultValue={defaultValue} value={value} onValueChange={onValueChange}>
+			<SelectTrigger aria-label={buttonAriaLabel} asChild>
+				<Button
+					ref={measureRef}
+					color="input"
+					size="4"
+					fullWidth
+					css={{
+						'&[data-placeholder]': {
+							color: '$txtMuted',
+						},
+					}}
+				>
+					<Box css={{ flex: 1, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+						<SelectValue placeholder={placeholder} />
+					</Box>
+					<SelectIcon>
+						<ChevronDownIcon />
+					</SelectIcon>
+				</Button>
+			</SelectTrigger>
+			<SelectContent>
+				<SelectScrollUpButton>
+					<ChevronUpIcon />
+				</SelectScrollUpButton>
+				<SelectViewport>
+					{selectLabel ? <SelectLabel>{selectLabel}</SelectLabel> : null}
+					{selectOptions?.map(({ value: _value, name: _name }) => (
+						<SelectItem
+							key={_value}
+							value={_value}
+							css={{
+								'span:first-child': {
+									overflow: 'hidden',
+									textOverflow: 'ellipsis',
+									whiteSpace: 'nowrap',
+									maxWidth: `${triggerWidth}px`,
+								},
+							}}
+						>
+							<SelectItemText>{selectNameFormatter(_name)}</SelectItemText>
+							<SelectItemIndicator />
+						</SelectItem>
+					))}
+				</SelectViewport>
+				<SelectScrollDownButton>
+					<ChevronDownIcon />
+				</SelectScrollDownButton>
+			</SelectContent>
+		</Select>
+	)
+}
+
+SelectBox.defaultProps = defaultProps
