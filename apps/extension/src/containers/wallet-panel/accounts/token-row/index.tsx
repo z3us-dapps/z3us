@@ -63,7 +63,7 @@ export const TokenRow: React.FC<IProps> = ({ i, rri, amount, staked, loading, di
 			>
 				{isLoadingComplete && token ? (
 					<>
-						<Box css={{ pt: '16px', mr: '13px', pl: '$4' }}>
+						<Box css={{ pt: '16px', mr: '8px', pl: '$4' }}>
 							<CircleAvatar
 								borderWidth={0}
 								shadow={false}
@@ -74,11 +74,11 @@ export const TokenRow: React.FC<IProps> = ({ i, rri, amount, staked, loading, di
 							/>
 						</Box>
 						<Flex css={{ flex: 1, pr: '$5' }}>
-							<Box css={{ width: '60%', flexBasis: '60%', pt: '16px' }}>
+							<Box css={{ width: '60%', flexBasis: '60%', pt: '14px' }}>
 								<Text css={{ fontSize: '16px', lineHeight: '22px', fontWeight: 'bold' }}>
 									{token.name} ({token.symbol.toLocaleUpperCase()})
 								</Text>
-								<Flex>
+								<Flex css={{ mt: '2px' }}>
 									<Text color="help" size="3">
 										{formatBigNumber(tokenAmount)}
 									</Text>
