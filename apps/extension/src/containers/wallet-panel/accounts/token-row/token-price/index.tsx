@@ -26,8 +26,19 @@ export const TokenPrice = ({ symbol, amount }: Props): JSX.Element => {
 
 	return (
 		<Flex justify="end" css={{ flex: '1' }}>
-			<Box css={{ textAlign: 'right', pt: '13px' }}>
-				<Text css={{ fontSize: '14px', lineHeight: '20px', fontWeight: '700', pb: '2px' }}>
+			<Box css={{ textAlign: 'right', mt: '12px', position: 'relative' }}>
+				<Text
+					truncate
+					css={{
+						fontSize: '13px',
+						lineHeight: '20px',
+						fontWeight: '700',
+						position: 'absolute',
+						top: '0',
+						right: '0',
+						maxWidth: '130px',
+					}}
+				>
 					{formatBigNumber(
 						(amount instanceof BigNumber ? amount : new BigNumber(amount).shiftedBy(-18)).multipliedBy(
 							ticker.last_price,
@@ -38,7 +49,7 @@ export const TokenPrice = ({ symbol, amount }: Props): JSX.Element => {
 				</Text>
 				<PriceLabel
 					color={ticker.change >= 0 ? 'green' : 'red'}
-					css={{ mt: '1px', p: '2px 4px 0px 4px', height: '15px' }}
+					css={{ p: '2px 4px 0px 4px', height: '15px', mt: '23px' }}
 				>
 					<Text bold size="1">{`${ticker.change < 0 ? '' : '+'}${ticker.change.toFixed(2).toLocaleString()}%`}</Text>
 				</PriceLabel>
