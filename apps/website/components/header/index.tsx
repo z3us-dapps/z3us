@@ -119,22 +119,29 @@ export const Header: React.FC<IProps> = ({ isLandingPage }) => {
 									'@sm': { display: 'flex' },
 								}}
 							>
+								<Link href="/docs" passHref>
+									<StyledLink underlineOnHover css={{ mr: '$2' }}>
+										<Text bold size="4" css={{ pt: '1px' }}>
+											Docs
+										</Text>
+									</StyledLink>
+								</Link>
 								<StyledLink href={config.GITHUB_FEEDBACK_URL} underlineOnHover css={{ mr: '$2' }}>
 									<Text bold size="4" css={{ pt: '1px' }}>
 										Feedback
 									</Text>
 								</StyledLink>
+								<Link href="/tokenomics" passHref>
+									<StyledLink underlineOnHover css={{ mr: '$2' }}>
+										<Text bold size="4" css={{ pt: '1px' }}>
+											Tokenomics
+										</Text>
+									</StyledLink>
+								</Link>
 								<Link href="/airdrop" passHref>
 									<StyledLink underlineOnHover css={{ mr: '$2' }}>
 										<Text bold size="4" css={{ pt: '1px' }}>
 											Airdrop
-										</Text>
-									</StyledLink>
-								</Link>
-								<Link href="/docs" passHref>
-									<StyledLink underlineOnHover css={{ mr: '$2' }}>
-										<Text bold size="4" css={{ pt: '1px' }}>
-											Docs
 										</Text>
 									</StyledLink>
 								</Link>

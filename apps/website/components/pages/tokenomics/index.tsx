@@ -440,7 +440,7 @@ export const TokenomicsPage: React.FC = () => {
 										</Flex>
 									))}
 								</Flex>
-								<Text color="help" css={{ pt: '20px' }}>
+								<Text color="help" css={{ pt: '10px' }}>
 									Note: these percentages are approximate and subject to change depending on the size and growth of the
 									team initiatives.
 								</Text>
@@ -456,7 +456,7 @@ export const TokenomicsPage: React.FC = () => {
 										and opt-in to burning $Z3US tokens on the swap transaction.
 									</Text>
 								</Box>
-								<Text color="help" css={{ pt: '20px' }}>
+								<Text color="help" css={{ pt: '10px' }}>
 									Note: Z3US reserves the right to modify these fees, at any time, in its sole discretion.
 								</Text>
 							</Box>
@@ -469,15 +469,14 @@ export const TokenomicsPage: React.FC = () => {
 									<b>swap</b> feature in the wallet. <br />
 									<br />
 									If the user has $Z3US tokens in the wallet and selects the option to burn $Z3US tokens when using the{' '}
-									<b>swap</b> feature, the fee charge is a flat 0.425% transaction. Of that fee, 0.3% be <b>burnt</b>.
-									The remaining 0.125% will go to the <b>development / marketing</b> wallet, to help fund development.
+									<b>swap</b> feature, the fee charge is a flat 0.1% transaction. Of that fee, 50% be <b>burnt</b>. The
+									remaining 50% of the fee will go to the <b>development</b> wallet.
 									<br />
 									<br />
-									If the user selects <i>not</i> to burn $Z3US tokens on the swap, the fee charge a flat 0.80%
-									transaction. Of that fee, 0.85%. The 0.85% will go to the <b>development / marketing</b> wallet, to
-									help fund development.
+									If the user selects <i>not</i> to burn $Z3US tokens on the swap, the fee charge a flat 0.2%
+									transaction. All of that 0.2% fee will go to the <b>development</b> wallet, to help fund development.
 								</Text>
-								<Text color="help" css={{ pt: '20px' }}>
+								<Text color="help" css={{ pt: '10px' }}>
 									Note: Rates that appear in the Z3US wallet are calculated with fees applied. Z3US reserves the right
 									to modify these fees at any time, in its sole discretion.
 								</Text>
