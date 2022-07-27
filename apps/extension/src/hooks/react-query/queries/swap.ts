@@ -6,6 +6,7 @@ import { useImmer } from 'use-immer'
 import { useTransaction } from '@src/hooks/use-transaction'
 import { CaviarService, PoolName as CaviarPoolName } from '@src/services/caviar'
 import { OCIService, PoolName as OCIPoolName, Address as OCIAddress } from '@src/services/oci'
+import { DogeCubeXService, PoolName as DogeCubePoolName } from '@src/services/dogecubex'
 import {
 	ResourceIdentifier,
 	AccountAddress,
@@ -15,12 +16,13 @@ import {
 import { Pool, PoolType, Token } from '@src/types'
 import BigNumber from 'bignumber.js'
 import { buildAmount } from '@src/utils/radix'
-import { Z3US_FEE_RATIO, Z3US_WALLET_MAIN, Z3US_WALLET_BURN, Z3US_RRI, FLOOP_RRI } from '@src/config'
+import { Z3US_FEE_RATIO, Z3US_WALLET_MAIN, Z3US_WALLET_BURN, Z3US_RRI, FLOOP_RRI, XRD_RRI } from '@src/config'
 import { useMessage } from '@src/hooks/use-message'
 import { useTokenBalances } from './radix'
 
 const oci = new OCIService()
 const caviar = new CaviarService()
+const doge = new DogeCubeXService()
 
 const poolQueryOptions = {
 	staleTime: 60 * 1000,
@@ -31,9 +33,12 @@ export const useCaviarPools = () => useQuery(['useCaviarPools'], caviar.getPools
 
 export const useOCIPools = () => useQuery(['useOCIPools'], oci.getPools, poolQueryOptions)
 
+export const useDogeCubeXPools = () => useQuery(['useDogeCubeXPools'], doge.getPools, poolQueryOptions)
+
 export const usePoolTokens = (): { [rri: string]: { [rri: string]: any } } => {
 	const { data: ociPools } = useOCIPools()
 	const { data: caviarPools } = useCaviarPools()
+	const { data: dogePools } = useDogeCubeXPools()
 
 	const uniqueTokens = {}
 	if (ociPools) {
@@ -51,12 +56,19 @@ export const usePoolTokens = (): { [rri: string]: { [rri: string]: any } } => {
 		)
 	}
 
+	if (dogePools) {
+		dogePools.forEach(p => {
+			uniqueTokens[p.rri] = p.wallet
+		})
+	}
+
 	return uniqueTokens
 }
 
 export const usePools = (fromRRI: string, toRRI: string): Pool[] => {
 	const { data: ociPools } = useOCIPools()
 	const { data: caviarPools } = useCaviarPools()
+	const { data: dogePools } = useDogeCubeXPools()
 
 	if (!fromRRI || !toRRI) {
 		return []
@@ -88,6 +100,27 @@ export const usePools = (fromRRI: string, toRRI: string): Pool[] => {
 				})
 			}
 		})
+	}
+	if (dogePools && (fromRRI === XRD_RRI || toRRI === XRD_RRI)) {
+		if (fromRRI === XRD_RRI) {
+			const dogePool = dogePools.find(p => p.rri === toRRI)
+			if (dogePool) {
+				pools.push({
+					name: DogeCubePoolName,
+					wallet: dogePool.wallet,
+					type: PoolType.DOGECUBEX,
+				})
+			}
+		} else if (toRRI === XRD_RRI) {
+			const dogePool = dogePools.find(p => p.rri === fromRRI)
+			if (dogePool) {
+				pools.push({
+					name: DogeCubePoolName,
+					wallet: dogePool.wallet,
+					type: PoolType.DOGECUBEX,
+				})
+			}
+		}
 	}
 
 	return pools
@@ -170,7 +203,7 @@ export const useZ3USFees = (
 const caviarNetworkFee = new BigNumber(1).dividedBy(10)
 
 export const usePoolFees = (
-	selectedPool: Pool,
+	selectedPool: null | Pool,
 	pools: Pool[],
 	onPool: (pool: Pool) => void,
 	amount: BigNumber,
@@ -224,7 +257,7 @@ export const usePoolFees = (
 						fee = amount.multipliedBy(1 / 100)
 					}
 
-					const balanceXRD = new BigNumber(pool.balances.xrd_rr1qy5wfsfh || 0).shiftedBy(-18)
+					const balanceXRD = new BigNumber(pool.balances[XRD_RRI] || 0).shiftedBy(-18)
 					const fromBalance = new BigNumber(pool.balances[fromRRI] || 0).shiftedBy(-18)
 					const toBalance = new BigNumber(pool.balances[toRRI] || 0).shiftedBy(-18)
 
@@ -238,6 +271,16 @@ export const usePoolFees = (
 				} else {
 					recieve = new BigNumber(0)
 				}
+				break
+			case PoolType.DOGECUBEX:
+				const quote = await doge.getQuote({
+					from: fromRRI,
+					to: toRRI,
+					maxSlippage: '5',
+					amountFrom: amount.toString(),
+				})
+				fee = amount.multipliedBy(11 / 1000)
+				recieve = new BigNumber(quote?.receivedAmount || 0)
 				break
 			default:
 				throw new Error(`Invalid pool: ${pool.name} - ${pool.type}`)
@@ -343,17 +386,23 @@ export const useTransactionFee = (
 				throw toResult.error
 			}
 
-			let plainText = toToken.symbol.toUpperCase()
+			let plainText: string
 			switch (pool.type) {
 				case PoolType.OCI:
+					plainText = toToken.symbol.toUpperCase()
 					if (minimum) {
 						plainText = `${recieve.toString()} ${plainText}`
 					}
 					break
 				case PoolType.CAVIAR:
-					recieve = amount.div(2) // @TODO: get the correct formula from caviar dudes
+					plainText = toToken.symbol.toUpperCase()
 					if (minimum) {
 						plainText = `MIN ${recieve.toString()} ${plainText}`
+					}
+					break
+				case PoolType.DOGECUBEX:
+					if (minimum) {
+						plainText = `>${recieve.toString()}`
 					}
 					break
 				default:

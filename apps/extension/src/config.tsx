@@ -161,6 +161,7 @@ export const SLIDE_PANEL_EXPAND_HEIGHT = 459
 
 export const EXPLORER_URL = 'https://explorer.radixdlt.com/#'
 
+export const XRD_RRI = ''
 export const FLOOP_RRI = 'floop_rr1q0p0hzap6ckxqdk6khesyft62w34e0vdd06msn9snhfqknl370'
 
 export const Z3US_URL = 'https://z3us.com'

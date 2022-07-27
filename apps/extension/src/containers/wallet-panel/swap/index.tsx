@@ -92,17 +92,19 @@ export const Swap: React.FC = () => {
 		})
 	}
 
-	const handleSelectedTokenChange = (rri: string) => {
+	const handleFromTokenChange = (rri: string) => {
 		setState(draft => {
 			draft.amount = ''
 			draft.fromRRI = rri
+			draft.pool = null
 		})
 	}
 
-	const handleDestinationTokenChange = (rri: string) => {
+	const handleToTokenChange = (rri: string) => {
 		setState(draft => {
 			draft.amount = ''
 			draft.toRRI = rri
+			draft.pool = null
 		})
 	}
 
@@ -208,7 +210,7 @@ export const Swap: React.FC = () => {
 							triggerType="input"
 							token={fromToken}
 							tokens={Object.keys(possibleTokens || {}).filter(rri => rri !== state.toRRI)}
-							onTokenChange={handleSelectedTokenChange}
+							onTokenChange={handleFromTokenChange}
 						/>
 					</Box>
 				</Box>
@@ -252,7 +254,7 @@ export const Swap: React.FC = () => {
 							triggerType="input"
 							token={toToken}
 							tokens={Object.keys(possibleTokens[state.fromRRI] || {}).filter(rri => rri !== state.fromRRI)}
-							onTokenChange={handleDestinationTokenChange}
+							onTokenChange={handleToTokenChange}
 						/>
 					</Box>
 				</Box>

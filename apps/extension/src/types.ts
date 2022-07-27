@@ -155,6 +155,7 @@ export type IntendedAction =
 export enum PoolType {
 	OCI = 'oci',
 	CAVIAR = 'caviar',
+	DOGECUBEX = 'dogecubex',
 }
 
 export type Pool = {

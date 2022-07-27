@@ -15,12 +15,11 @@ import { QRCodeSVG } from 'qrcode.react'
 import { AccountSelector } from '@src/components/account-selector'
 import { TokenSelector } from '@src/components/token-selector'
 import { SendReceiveHeader } from '@src/components/send-receive-header'
-
-const DEFAULT_XRD_RRI = 'xrd_rr1qy5wfsfh'
+import { XRD_RRI } from '@src/config'
 
 export const DepositToken: React.FC = () => {
 	const [isDepositTokenRoute, params] = useRoute('/account/deposit/:rri')
-	const [rri, setRRI] = useState(getParamString(params, 'rri') || DEFAULT_XRD_RRI)
+	const [rri, setRRI] = useState(getParamString(params, 'rri') || XRD_RRI)
 
 	const { hw, seed } = useSharedStore(state => ({
 		hw: state.hardwareWallet,
