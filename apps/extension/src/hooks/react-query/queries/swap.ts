@@ -16,7 +16,15 @@ import {
 import { Pool, PoolType, Token } from '@src/types'
 import BigNumber from 'bignumber.js'
 import { buildAmount } from '@src/utils/radix'
-import { Z3US_FEE_RATIO, Z3US_WALLET_MAIN, Z3US_WALLET_BURN, Z3US_RRI, FLOOP_RRI, XRD_RRI } from '@src/config'
+import {
+	Z3US_FEE_RATIO,
+	Z3US_WALLET_MAIN,
+	Z3US_WALLET_BURN,
+	Z3US_RRI,
+	FLOOP_RRI,
+	XRD_RRI,
+	swapServices,
+} from '@src/config'
 import { useMessage } from '@src/hooks/use-message'
 import { useTokenBalances } from './radix'
 
@@ -29,11 +37,17 @@ const poolQueryOptions = {
 	refetchInterval: 60 * 1000,
 }
 
-export const useCaviarPools = () => useQuery(['useCaviarPools'], caviar.getPools, poolQueryOptions)
+export const useCaviarPools = () =>
+	useQuery(['useCaviarPools'], caviar.getPools, { ...poolQueryOptions, enabled: swapServices[PoolType.CAVIAR].enabled })
 
-export const useOCIPools = () => useQuery(['useOCIPools'], oci.getPools, poolQueryOptions)
+export const useOCIPools = () =>
+	useQuery(['useOCIPools'], oci.getPools, { ...poolQueryOptions, enabled: swapServices[PoolType.OCI].enabled })
 
-export const useDogeCubeXPools = () => useQuery(['useDogeCubeXPools'], doge.getPools, poolQueryOptions)
+export const useDogeCubeXPools = () =>
+	useQuery(['useDogeCubeXPools'], doge.getPools, {
+		...poolQueryOptions,
+		enabled: swapServices[PoolType.DOGECUBEX].enabled,
+	})
 
 export const usePoolTokens = (): { [rri: string]: { [rri: string]: null } } => {
 	const { data: ociPools } = useOCIPools()
