@@ -15,6 +15,7 @@ import * as ReactBeautifulDnd from 'react-beautiful-dnd'
 import { Box, Text, Flex } from 'ui/src/components/atoms'
 import { Side } from '@radix-ui/popper'
 import { Token as TokenBalance, VisibleTokens, VisibleToken } from '@src/types'
+import { OCI_TEST_RRI } from '@src/config'
 import { Token } from './token'
 
 const VISIBLE = 'visible'
@@ -43,15 +44,19 @@ const makeVisibleTokenTokenData = (
 	availableBalances: TokenBalance[],
 ): VisibleTokens => {
 	const vs = { ...visibleTokens }
-	availableBalances?.forEach(token => {
-		if (vs[token.rri]) return
-		const visibleToken = _tokens[token.rri]
-		if (visibleToken) {
-			vs[token.rri] = visibleToken
-		}
-	})
+	if (Object.values(vs).length === 0) {
+		availableBalances?.forEach(token => {
+			if (vs[token.rri]) return
+			const visibleToken = _tokens[token.rri]
+			if (visibleToken) {
+				vs[token.rri] = visibleToken
+			}
+		})
+	}
 	return vs
 }
+
+const ignorTokenRRIs = [OCI_TEST_RRI]
 
 const makeInvisibleTokenData = (
 	search: string,
@@ -60,6 +65,9 @@ const makeInvisibleTokenData = (
 ): VisibleTokens => {
 	const ivs = Object.values(_tokens).reduce((obj, item: VisibleToken) => {
 		if (!getIsQueryMatch(search, item)) {
+			return obj
+		}
+		if (ignorTokenRRIs.includes(item.rri)) {
 			return obj
 		}
 		obj[item.rri] = { ...item }
@@ -216,6 +224,17 @@ export const TokenListSettingsModal = ({
 		})
 	}
 
+	const handleResetTokenList = () => {
+		setState(draft => {
+			draft.search = ''
+
+			const visible = makeVisibleTokenTokenData(tokens, {}, balances?.account_balances?.liquid_balances)
+
+			draft[VISIBLE] = visible
+			draft[INVISIBLE] = makeInvisibleTokenData(draft.search.toLowerCase(), tokens, visible)
+		})
+	}
+
 	const handleSearchTokenList = (search: string) => {
 		setState(draft => {
 			draft.search = search
@@ -357,6 +376,9 @@ export const TokenListSettingsModal = ({
 					<Flex justify="end" gap="2" css={{ p: '$3', borderTop: '1px solid $borderPanel' }}>
 						<Button size="3" color="primary" aria-label="save" onClick={handleSaveTokenList}>
 							Save
+						</Button>
+						<Button size="3" color="secondary" aria-label="cancel" onClick={handleResetTokenList}>
+							Reset
 						</Button>
 						<Button size="3" color="tertiary" aria-label="cancel" onClick={handleCloseModal}>
 							Cancel

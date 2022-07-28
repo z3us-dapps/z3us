@@ -162,8 +162,8 @@ export const SLIDE_PANEL_EXPAND_HEIGHT = 459
 export const EXPLORER_URL = 'https://explorer.radixdlt.com/#'
 
 export const XRD_RRI = 'xrd_rr1qy5wfsfh'
-
 export const FLOOP_RRI = 'floop_rr1q0p0hzap6ckxqdk6khesyft62w34e0vdd06msn9snhfqknl370'
+export const OCI_TEST_RRI = 'oci_rr1qwr8cx5ezp9t08ptsxrws0w05ldy6nekvy9ef0fp854qmv2fk4'
 
 export const Z3US_URL = 'https://z3us.com'
 export const Z3US_RRI = 'z3us_rr1q0gxzdty8egrkegk9lnteth09sgzqgxaw5ytqzq24ceq3eqagc'
