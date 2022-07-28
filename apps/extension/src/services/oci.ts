@@ -18,6 +18,7 @@ export type CalculateSwapResponse = {
 
 export type OCIPool = {
 	name: string
+	wallet_address: string
 	slug: string
 	token_a: {
 		rri: string
@@ -41,7 +42,6 @@ export type OCIToken = {
 export type OCITokensResponse = OCIToken[]
 
 export const PoolName = 'Ociswap'
-export const Address = 'rdx1qspfs0w3kav2ecm6k02g880aeeejrxsnma9hvaqu2qwtm47wxus2pkszgkxeg'
 
 export class OCIService {
 	private baseURL: string = 'https://api.ociswap.com/v1/graphql'
@@ -72,7 +72,7 @@ export class OCIService {
 	}
 
 	calculateSwap = async (fromRRI: string, toRRI: string, amount: BigNumber): Promise<CalculateSwapResponse> => {
-		// @TODO: handle subscription correctly
+		// From yourside the implementation will be nearly identical. Instead of input_amount you are sending output_amount to the calculate_swap endpoint
 		const resp = await this.doRequest<{ data: { calculate_swap: CalculateSwapResponse } }>(
 			JSON.stringify({
 				query: `query calculateSwap {
@@ -150,6 +150,7 @@ export class OCIService {
 					pools {
 					  rank
 					  name
+					  wallet_address
 					  slug
 					  token_a {
 						ticker

@@ -5,7 +5,7 @@ import { useQuery } from 'react-query'
 import { useImmer } from 'use-immer'
 import { useTransaction } from '@src/hooks/use-transaction'
 import { CaviarService } from '@src/services/caviar'
-import { OCIService, PoolName as OCIPoolName, Address as OCIAddress } from '@src/services/oci'
+import { OCIService, PoolName as OCIPoolName } from '@src/services/oci'
 import { DogeCubeXService, PoolName as DogeCubePoolName } from '@src/services/dogecubex'
 import {
 	ResourceIdentifier,
@@ -98,7 +98,7 @@ export const usePools = (fromRRI: string, toRRI: string): Pool[] => {
 		if (ociPool) {
 			pools.push({
 				name: OCIPoolName,
-				wallet: OCIAddress,
+				wallet: ociPool.wallet_address,
 				type: PoolType.OCI,
 			})
 		}
