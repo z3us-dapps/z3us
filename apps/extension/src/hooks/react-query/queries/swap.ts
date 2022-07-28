@@ -35,30 +35,30 @@ export const useOCIPools = () => useQuery(['useOCIPools'], oci.getPools, poolQue
 
 export const useDogeCubeXPools = () => useQuery(['useDogeCubeXPools'], doge.getPools, poolQueryOptions)
 
-export const usePoolTokens = (): { [rri: string]: { [rri: string]: any } } => {
+export const usePoolTokens = (): { [rri: string]: { [rri: string]: null } } => {
 	const { data: ociPools } = useOCIPools()
 	const { data: caviarPools } = useCaviarPools()
 	const { data: dogePools } = useDogeCubeXPools()
 
 	const uniqueTokens = {}
+
 	if (ociPools) {
 		ociPools.forEach(p => {
-			uniqueTokens[p.token_a.rri] = { ...(uniqueTokens[p.token_a.rri] || {}), [p.token_b.rri]: null }
-			uniqueTokens[p.token_b.rri] = { ...(uniqueTokens[p.token_b.rri] || {}), [p.token_a.rri]: null }
+			uniqueTokens[p.token_a.rri] = { [p.token_b.rri]: null, ...(uniqueTokens[p.token_a.rri] || {}) }
+			uniqueTokens[p.token_b.rri] = { [p.token_a.rri]: null, ...(uniqueTokens[p.token_b.rri] || {}) }
 		})
 	}
-
 	if (caviarPools) {
 		caviarPools.forEach(p =>
 			Object.keys(p.balances).forEach(rri => {
-				uniqueTokens[rri] = p.balances
+				uniqueTokens[rri] = { ...p.balances, ...(uniqueTokens[rri] || {}) }
 			}),
 		)
 	}
-
 	if (dogePools) {
 		dogePools.forEach(p => {
-			uniqueTokens[p.rri] = p.wallet
+			uniqueTokens[p.rri] = { [XRD_RRI]: null, ...(uniqueTokens[p.rri] || {}) }
+			uniqueTokens[XRD_RRI] = { [p.rri]: null, ...(uniqueTokens[XRD_RRI] || {}) }
 		})
 	}
 
