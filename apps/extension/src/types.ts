@@ -159,7 +159,6 @@ export enum PoolType {
 }
 
 export type Pool = {
-	id: string
 	type: PoolType
 	name: string
 	wallet: string
