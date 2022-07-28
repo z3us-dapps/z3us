@@ -4,7 +4,7 @@ import { useSharedStore, useStore } from '@src/store'
 import { useQuery } from 'react-query'
 import { useImmer } from 'use-immer'
 import { useTransaction } from '@src/hooks/use-transaction'
-import { CaviarService, PoolName as CaviarPoolName } from '@src/services/caviar'
+import { CaviarService } from '@src/services/caviar'
 import { OCIService, PoolName as OCIPoolName, Address as OCIAddress } from '@src/services/oci'
 import { DogeCubeXService, PoolName as DogeCubePoolName } from '@src/services/dogecubex'
 import {
@@ -107,7 +107,7 @@ export const usePools = (fromRRI: string, toRRI: string): Pool[] => {
 		caviarPools.forEach(p => {
 			if (p.balances[fromRRI] && p.balances[toRRI]) {
 				pools.push({
-					name: `${CaviarPoolName} - ${p.name}`,
+					name: p.name,
 					wallet: p.wallet,
 					type: PoolType.CAVIAR,
 					balances: p.balances,

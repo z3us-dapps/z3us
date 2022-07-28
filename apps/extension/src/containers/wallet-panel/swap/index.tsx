@@ -161,17 +161,6 @@ export const Swap: React.FC = () => {
 
 				<HardwareWalletReconnect />
 
-				{fromToken && toToken && (
-					<Box>
-						<Flex align="center" css={{ mt: '14px', position: 'relative' }}>
-							<Text css={{ fontSize: '14px', lineHeight: '17px', fontWeight: '500', flex: '1' }}>Pool:</Text>
-						</Flex>
-						<Box css={{ mt: '13px', position: 'relative' }}>
-							<PoolSelector pool={state.pool} pools={pools} onPoolChange={handlePoolChange} />
-						</Box>
-					</Box>
-				)}
-
 				<Box>
 					<Flex align="center" css={{ mt: '14px', position: 'relative' }}>
 						<Tooltip>
@@ -258,6 +247,8 @@ export const Swap: React.FC = () => {
 						/>
 					</Box>
 				</Box>
+
+				{fromToken && toToken && <PoolSelector pool={state.pool} pools={pools} onPoolChange={handlePoolChange} />}
 
 				<FeeBox
 					fromToken={fromToken}

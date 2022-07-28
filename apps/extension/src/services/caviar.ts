@@ -10,7 +10,7 @@ export type CaviarPoolsResponse = CaviarPool[]
 export const PoolName = 'CaviarSwap'
 
 export class CaviarService {
-	private baseURL: string = 'https://2rypiwu3gh.execute-api.eu-west-2.amazonaws.com'
+	private baseURL: string = 'https://pjhht6w8p9.execute-api.eu-west-2.amazonaws.com/prod'
 
 	private options: RequestInit = {
 		method: 'GET',
@@ -21,7 +21,7 @@ export class CaviarService {
 	}
 
 	getPools = async (): Promise<CaviarPoolsResponse> => {
-		const response = await fetch(`${this.baseURL}/pools`, this.options)
+		const response = await fetch(`${this.baseURL}/pools-web`, this.options)
 		if (response.status !== 200) {
 			throw new Error(`Invalid request: ${response.status} recieved`)
 		}

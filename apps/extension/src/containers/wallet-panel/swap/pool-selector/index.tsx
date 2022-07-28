@@ -1,16 +1,24 @@
 import React from 'react'
 import { RightArrowIcon } from 'ui/src/components/icons'
+import { ChevronDownIcon, ChevronUpIcon } from '@radix-ui/react-icons'
 import {
-	DropdownMenu,
-	DropdownMenuTrigger,
-	DropdownMenuContent,
-	DropdownMenuRadioGroup,
-	DropdownMenuRadioItem,
-	DropdownMenuItemIndicator,
-} from 'ui/src/components/drop-down-menu'
+	Select,
+	SelectTrigger,
+	SelectValue,
+	SelectContent,
+	SelectViewport,
+	SelectItem,
+	SelectItemText,
+	SelectItemIndicator,
+	SelectScrollUpButton,
+	SelectScrollDownButton,
+} from 'ui/src/components/select'
+import { CircleAvatar } from '@src/components/circle-avatar'
 import { Box, Text, Flex } from 'ui/src/components/atoms'
 import Button from 'ui/src/components/button'
 import { Pool } from '@src/types'
+import useMeasure from 'react-use-measure'
+import { swapServices } from '@src/config'
 
 interface IProps {
 	pool?: Pool
@@ -23,6 +31,7 @@ const defaultProps: Partial<IProps> = {
 }
 
 export const PoolSelector: React.FC<IProps> = ({ pool, pools, onPoolChange }) => {
+	const [measureRef, { width: triggerWidth }] = useMeasure()
 	const handleValueChange = (address: string) => {
 		onPoolChange(pools.find(p => p.wallet === address))
 	}
@@ -35,9 +44,10 @@ export const PoolSelector: React.FC<IProps> = ({ pool, pools, onPoolChange }) =>
 	}
 
 	return (
-		<DropdownMenu>
-			<DropdownMenuTrigger asChild>
+		<Select value={selected?.wallet} onValueChange={handleValueChange}>
+			<SelectTrigger aria-label="Pool selector" asChild>
 				<Button
+					ref={measureRef}
 					css={{
 						display: 'flex',
 						align: 'center',
@@ -54,6 +64,12 @@ export const PoolSelector: React.FC<IProps> = ({ pool, pools, onPoolChange }) =>
 						},
 					}}
 				>
+					<Box css={{ p: '8px' }}>
+						<CircleAvatar
+							image={swapServices[selected?.type]?.image}
+							fallbackText={selected?.type.toLocaleUpperCase()}
+						/>
+					</Box>
 					<Box css={{ flex: '1' }}>
 						<Flex css={{ mt: '2px' }}>
 							<Text
@@ -61,7 +77,7 @@ export const PoolSelector: React.FC<IProps> = ({ pool, pools, onPoolChange }) =>
 								uppercase
 								css={{ fontSize: '14px', lineHeight: '17px', fontWeight: '500', maxWidth: '200px' }}
 							>
-								{selected?.name || 'Select'}
+								<SelectValue placeholder="Select ..." />
 							</Text>
 						</Flex>
 					</Box>
@@ -69,26 +85,35 @@ export const PoolSelector: React.FC<IProps> = ({ pool, pools, onPoolChange }) =>
 						<RightArrowIcon />
 					</Box>
 				</Button>
-			</DropdownMenuTrigger>
-			<DropdownMenuContent
-				avoidCollisions={false}
-				align="start"
-				side="bottom"
-				sideOffset={10}
-				css={{ minWidth: '314px' }}
-			>
-				<DropdownMenuRadioGroup value={selected?.wallet} onValueChange={handleValueChange}>
+			</SelectTrigger>
+			<SelectContent>
+				<SelectScrollUpButton>
+					<ChevronUpIcon />
+				</SelectScrollUpButton>
+				<SelectViewport>
 					{pools.map(p => (
-						<DropdownMenuRadioItem key={p.wallet} value={p.wallet}>
-							<DropdownMenuItemIndicator />
-							<Text size="2" bold truncate css={{ maxWidth: '274px' }}>
-								{p.name}
-							</Text>
-						</DropdownMenuRadioItem>
+						<SelectItem
+							key={p.wallet}
+							value={p.wallet}
+							css={{
+								'span:first-child': {
+									overflow: 'hidden',
+									textOverflow: 'ellipsis',
+									whiteSpace: 'nowrap',
+									maxWidth: `${triggerWidth}px`,
+								},
+							}}
+						>
+							<SelectItemText>{p.name}</SelectItemText>
+							<SelectItemIndicator />
+						</SelectItem>
 					))}
-				</DropdownMenuRadioGroup>
-			</DropdownMenuContent>
-		</DropdownMenu>
+				</SelectViewport>
+				<SelectScrollDownButton>
+					<ChevronDownIcon />
+				</SelectScrollDownButton>
+			</SelectContent>
+		</Select>
 	)
 }
 
