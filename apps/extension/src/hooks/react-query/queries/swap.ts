@@ -83,6 +83,7 @@ export const usePools = (fromRRI: string, toRRI: string): Pool[] => {
 		)
 		if (ociPool) {
 			pools.push({
+				id: ociPool.slug,
 				name: OCIPoolName,
 				wallet: OCIAddress,
 				type: PoolType.OCI,
@@ -93,6 +94,7 @@ export const usePools = (fromRRI: string, toRRI: string): Pool[] => {
 		caviarPools.forEach(p => {
 			if (p.balances[fromRRI] && p.balances[toRRI]) {
 				pools.push({
+					id: p.id,
 					name: `${CaviarPoolName} - ${p.name}`,
 					wallet: p.wallet,
 					type: PoolType.CAVIAR,
@@ -106,6 +108,7 @@ export const usePools = (fromRRI: string, toRRI: string): Pool[] => {
 			const dogePool = dogePools.find(p => p.rri === toRRI)
 			if (dogePool) {
 				pools.push({
+					id: dogePool.wallet,
 					name: DogeCubePoolName,
 					wallet: dogePool.wallet,
 					type: PoolType.DOGECUBEX,
@@ -115,6 +118,7 @@ export const usePools = (fromRRI: string, toRRI: string): Pool[] => {
 			const dogePool = dogePools.find(p => p.rri === fromRRI)
 			if (dogePool) {
 				pools.push({
+					id: dogePool.wallet,
 					name: DogeCubePoolName,
 					wallet: dogePool.wallet,
 					type: PoolType.DOGECUBEX,
@@ -214,6 +218,7 @@ export const usePoolFees = (
 	recieve: BigNumber
 	fee: BigNumber
 } => {
+	const { data: caviarPools } = useCaviarPools()
 	const { data: balances } = useTokenBalances()
 	const { addToast } = useSharedStore(state => ({
 		addToast: state.addToastAction,
@@ -257,9 +262,10 @@ export const usePoolFees = (
 						fee = amount.multipliedBy(1 / 100)
 					}
 
-					const balanceXRD = new BigNumber(pool.balances[XRD_RRI] || 0).shiftedBy(-18)
-					const fromBalance = new BigNumber(pool.balances[fromRRI] || 0).shiftedBy(-18)
-					const toBalance = new BigNumber(pool.balances[toRRI] || 0).shiftedBy(-18)
+					const caviarPool = caviarPools.find(cp => cp.id === pool.id)
+					const balanceXRD = new BigNumber(caviarPool?.balances[XRD_RRI] || 0).shiftedBy(-18)
+					const fromBalance = new BigNumber(caviarPool?.balances[fromRRI] || 0).shiftedBy(-18)
+					const toBalance = new BigNumber(caviarPool?.balances[toRRI] || 0).shiftedBy(-18)
 
 					const midPrice = toBalance.dividedBy(balanceXRD)
 

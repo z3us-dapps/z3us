@@ -159,8 +159,9 @@ export enum PoolType {
 }
 
 export type Pool = {
-	name: string
+	id: string
 	type: PoolType
+	name: string
 	wallet: string
 	balances?: { [rri: string]: number }
 }
