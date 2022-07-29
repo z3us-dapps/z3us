@@ -23,8 +23,8 @@ export type QuoteQuery = {
 	from: string
 	to: string
 	maxSlippage: string
-	amountFrom?: string
-	amountTo?: string
+	amountFrom: string | null
+	amountTo: string | null
 }
 
 export type Quote = {
@@ -110,7 +110,7 @@ const supportedTokens = [
 ]
 
 export class DogeCubeXService {
-	private baseURL: string = 'https://dogecubex.live/'
+	private baseURL: string = 'https://dogecubex.live'
 
 	private options: RequestInit = {
 		method: 'GET',
@@ -130,8 +130,11 @@ export class DogeCubeXService {
 	}
 
 	getQuote = async (query: QuoteQuery): Promise<Quote> => {
-		const q = new URLSearchParams(Object.entries(query))
-		const response = await fetch(`${this.baseURL}/swap/quote?q=${new Date().getTime()}&${q.toString()}`, this.options)
+		const response = await fetch(`${this.baseURL}/swap/quote?q=${new Date().getTime()}`, {
+			...this.options,
+			method: 'POST',
+			body: JSON.stringify(query),
+		})
 		if (response.status !== 200) {
 			throw new Error(`Invalid request: ${response.status} recieved`)
 		}
@@ -142,3 +145,6 @@ export class DogeCubeXService {
 	// eslint-disable-next-line class-methods-use-this
 	getPools = async (): Promise<Pool[]> => supportedTokens
 }
+
+const service = new DogeCubeXService()
+export default service

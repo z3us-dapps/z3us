@@ -29,3 +29,6 @@ export class CaviarService {
 		return response.json()
 	}
 }
+
+const service = new CaviarService()
+export default service
