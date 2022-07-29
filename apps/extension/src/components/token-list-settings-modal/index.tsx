@@ -6,7 +6,7 @@ import { useTokenBalances } from '@src/hooks/react-query/queries/radix'
 import { useKnownTokens } from '@src/hooks/react-query/queries/radixscan'
 import { useImmer } from 'use-immer'
 import { SearchBox } from '@src/components/search-box'
-import { Cross2Icon } from '@radix-ui/react-icons'
+import { Cross2Icon, ResetIcon } from '@radix-ui/react-icons'
 import Button from 'ui/src/components/button'
 import { Virtuoso } from 'react-virtuoso'
 import { Tooltip, TooltipTrigger, TooltipContent, TooltipArrow } from 'ui/src/components/tool-tip'
@@ -258,7 +258,7 @@ export const TokenListSettingsModal = ({
 	})
 
 	return (
-		<Dialog open={state.isModalOpen} modal={false}>
+		<Dialog open={state.isModalOpen}>
 			<DialogTrigger asChild>
 				<Tooltip>
 					<TooltipTrigger asChild onClick={handleOnClick}>
@@ -374,11 +374,14 @@ export const TokenListSettingsModal = ({
 						</Box>
 					</Box>
 					<Flex justify="end" gap="2" css={{ p: '$3', borderTop: '1px solid $borderPanel' }}>
+						<Box css={{ flex: '1' }}>
+							<Button size="3" color="ghost" aria-label="cancel" onClick={handleResetTokenList}>
+								<ResetIcon />
+								Reset
+							</Button>
+						</Box>
 						<Button size="3" color="primary" aria-label="save" onClick={handleSaveTokenList}>
 							Save
-						</Button>
-						<Button size="3" color="secondary" aria-label="cancel" onClick={handleResetTokenList}>
-							Reset
 						</Button>
 						<Button size="3" color="tertiary" aria-label="cancel" onClick={handleCloseModal}>
 							Cancel
