@@ -15,7 +15,7 @@ import {
 import { FLOOP_RRI, OCI_RRI, Z3US_RRI, XRD_RRI } from '@src/config'
 import { Pool } from '@src/types'
 import { ScrollArea } from 'ui/src/components/scroll-area'
-import { InfoCircledIcon } from '@radix-ui/react-icons'
+import { InfoCircledIcon, UpdateIcon } from '@radix-ui/react-icons'
 import { HoverCard, HoverCardContent, HoverCardTrigger } from 'ui/src/components/hover-card'
 import Button from 'ui/src/components/button'
 import Input from 'ui/src/components/input'
@@ -80,7 +80,7 @@ export const Swap: React.FC = () => {
 	const { data: toToken } = useTokenInfo(state.toRRI)
 
 	const tokenSymbol = fromToken?.symbol.toUpperCase()
-	const isFeeUiVisible = state.amount.length > 0 && account
+	const isFeeUiVisible = state.amount.length > 0 && state.amount !== '0' && 0 && account
 	const shortAddress = getShortAddress(accountAddress)
 	const liquidBalances = balances?.account_balances?.liquid_balances || []
 
@@ -201,9 +201,9 @@ export const Swap: React.FC = () => {
 			draft.pool = pool
 		})
 
-		if (state.amount) {
+		if (state.amount && state.amount !== '0') {
 			await calculateSwap(new BigNumber(state.amount || 0), 'from')
-		} else {
+		} else if (state.receive && state.receive !== '0') {
 			await calculateSwap(new BigNumber(state.receive || 0), 'to')
 		}
 	}
@@ -231,6 +231,15 @@ export const Swap: React.FC = () => {
 			draft.receive = ''
 			draft.toRRI = rri
 			draft.pool = null
+		})
+	}
+
+	const handleSwitchTokens = async () => {
+		setState(draft => {
+			draft.amount = ''
+			draft.receive = ''
+			draft.toRRI = state.fromRRI
+			draft.fromRRI = state.toRRI
 		})
 	}
 
@@ -263,9 +272,9 @@ export const Swap: React.FC = () => {
 			draft.minimum = checked === true
 		})
 
-		if (state.amount) {
+		if (state.amount && state.amount !== '0') {
 			await calculateSwap(new BigNumber(state.amount || 0), 'from')
-		} else {
+		} else if (state.receive && state.receive !== '0') {
 			await calculateSwap(new BigNumber(state.receive || 0), 'to')
 		}
 	}
@@ -275,9 +284,9 @@ export const Swap: React.FC = () => {
 			draft.burn = checked === true
 		})
 
-		if (state.amount) {
+		if (state.amount && state.amount !== '0') {
 			await calculateSwap(new BigNumber(state.amount || 0), 'from')
-		} else {
+		} else if (state.receive && state.receive !== '0') {
 			await calculateSwap(new BigNumber(state.receive || 0), 'to')
 		}
 	}
@@ -349,17 +358,21 @@ export const Swap: React.FC = () => {
 					</Box>
 
 					<Box>
-						<Flex align="center" css={{ mt: '12px', position: 'relative' }}>
+						<Flex align="center" css={{ mt: '12px', position: 'relative', justifyContent: 'space-between' }}>
+							<Text css={{ fontSize: '14px', lineHeight: '17px', fontWeight: '500' }}>You receive:</Text>
+							<Button size="1" color="tertiary" onClick={handleSwitchTokens}>
+								<UpdateIcon />
+							</Button>
 							<Tooltip>
 								<TooltipTrigger asChild>
 									<Flex
 										align="center"
-										justify="end"
+										// justify="end"
 										css={{
-											position: 'absolute',
-											top: '-2px',
-											right: '0',
-											width: '105px',
+											// position: 'absolute',
+											// top: '-2px',
+											// right: '0',
+											// width: '105px',
 											transition: '$default',
 											pe: 'auto',
 											opacity: 1,
@@ -379,7 +392,6 @@ export const Swap: React.FC = () => {
 									still apply.
 								</TooltipContent>
 							</Tooltip>
-							<Text css={{ fontSize: '14px', lineHeight: '17px', fontWeight: '500', flex: '1' }}>You receive:</Text>
 						</Flex>
 						<Box css={{ mt: '11px', pb: '10px', position: 'relative' }}>
 							<Input type="number" size="2" value={state.receive} placeholder="Receive" onChange={handleSetReceive} />
