@@ -50,6 +50,14 @@ const StyledContent = styled(SelectPrimitive.Content, {
 	},
 })
 
+const Content = ({ children, ...props }) => {
+	return (
+		<SelectPrimitive.Portal>
+			<StyledContent {...props}>{children}</StyledContent>
+		</SelectPrimitive.Portal>
+	)
+}
+
 const StyledViewport = styled(SelectPrimitive.Viewport, {
 	padding: 0,
 })
@@ -94,7 +102,7 @@ export const Select = SelectPrimitive.Root
 export const SelectTrigger = StyledTrigger
 export const SelectValue = SelectPrimitive.Value
 export const SelectIcon = SelectPrimitive.Icon
-export const SelectContent = StyledContent
+export const SelectContent = Content
 export const SelectViewport = StyledViewport
 export const SelectGroup = SelectPrimitive.Group
 export const SelectItem = StyledItem
