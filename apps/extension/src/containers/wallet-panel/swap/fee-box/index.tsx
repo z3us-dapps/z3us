@@ -36,17 +36,18 @@ export const FeeBox: React.FC<IProps> = ({ fromToken, poolFee, z3usFee, z3usBurn
 		<Box
 			css={{
 				border: '1px solid $borderPanel',
+				background: '$bgPanel2',
 				borderRadius: '8px',
-				pt: '6px',
+				pt: '7px',
+				px: '9px',
 				pb: '10px',
-				px: '12px',
-				mt: '17px',
+				mt: '10px',
 				...(css as any),
 			}}
 		>
-			<Flex direction="row" css={{ pt: '$1', flex: '1', overflowX: 'auto' }}>
-				<Text css={{ pl: '$1' }} medium>
-					Transaction fee
+			<Flex direction="row" css={{ pt: '$1', flex: '1' }}>
+				<Text css={{ flex: '1', pl: '$1', color: '$txtHelp' }} medium>
+					Transaction fee:
 				</Text>
 				<Text css={{ pl: '$1' }}>{`${formatBigNumber(
 					txFee,
@@ -57,8 +58,8 @@ export const FeeBox: React.FC<IProps> = ({ fromToken, poolFee, z3usFee, z3usBurn
 				)}
 			</Flex>
 			<Flex direction="row" css={{ pt: '$1', flex: '1' }}>
-				<Text css={{ pl: '$1' }} medium>
-					Swap fee
+				<Text css={{ pl: '$1', flex: '1', color: '$txtHelp' }} medium>
+					Swap fee:
 				</Text>
 				<Text css={{ pl: '$1' }}>{`${formatBigNumber(
 					poolFee,
@@ -69,8 +70,8 @@ export const FeeBox: React.FC<IProps> = ({ fromToken, poolFee, z3usFee, z3usBurn
 				)}
 			</Flex>
 			<Flex direction="row" css={{ pt: '$1', flex: '1' }}>
-				<Text css={{ pl: '$1' }} medium>
-					Wallet fee
+				<Text css={{ pl: '$1', flex: '1', color: '$txtHelp' }} medium>
+					Wallet fee:
 				</Text>
 				<Text css={{ pl: '$1' }}>{`${formatBigNumber(
 					z3usFee,
@@ -82,8 +83,8 @@ export const FeeBox: React.FC<IProps> = ({ fromToken, poolFee, z3usFee, z3usBurn
 			</Flex>
 			{z3usBurn !== null && (
 				<Flex direction="row" css={{ pt: '$1', flex: '1' }}>
-					<Text css={{ pl: '$1' }} medium>
-						Burn
+					<Text css={{ pl: '$1', flex: '1', color: '$txtHelp' }} medium>
+						Burn:
 					</Text>
 					<Text css={{ pl: '$1' }}>{`${formatBigNumber(
 						z3usBurn,

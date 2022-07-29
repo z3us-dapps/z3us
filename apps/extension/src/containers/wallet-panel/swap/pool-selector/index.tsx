@@ -52,7 +52,6 @@ export const PoolSelector: React.FC<IProps> = ({ pool, pools, onPoolChange }) =>
 						display: 'flex',
 						align: 'center',
 						justifyContent: 'flex-start',
-						mt: '12px',
 						bg: '$bgPanel2',
 						borderRadius: '8px',
 						height: '64px',
@@ -72,12 +71,8 @@ export const PoolSelector: React.FC<IProps> = ({ pool, pools, onPoolChange }) =>
 					</Box>
 					<Box css={{ flex: '1' }}>
 						<Flex css={{ mt: '2px' }}>
-							<Text
-								truncate
-								uppercase
-								css={{ fontSize: '14px', lineHeight: '17px', fontWeight: '500', maxWidth: '200px' }}
-							>
-								<SelectValue placeholder="Select ..." />
+							<Text truncate css={{ fontSize: '14px', lineHeight: '17px', fontWeight: '500', maxWidth: '200px' }}>
+								Pool: <SelectValue />
 							</Text>
 						</Flex>
 					</Box>

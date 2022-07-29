@@ -163,6 +163,7 @@ export const EXPLORER_URL = 'https://explorer.radixdlt.com/#'
 
 export const XRD_RRI = 'xrd_rr1qy5wfsfh'
 export const FLOOP_RRI = 'floop_rr1q0p0hzap6ckxqdk6khesyft62w34e0vdd06msn9snhfqknl370'
+export const OCI_RRI = 'oci_rr1qws04shqrz3cdjljdp5kczgv7wd3jxytagk95qlk7ecquzq8e7'
 export const OCI_TEST_RRI = 'oci_rr1qwr8cx5ezp9t08ptsxrws0w05ldy6nekvy9ef0fp854qmv2fk4'
 
 export const Z3US_URL = 'https://z3us.com'
@@ -175,15 +176,15 @@ export const Z3US_FEE_RATIO = 2 / 1000
 export const swapServices = {
 	[PoolType.OCI]: {
 		enabled: true,
-		image: '',
+		image: 'images/oci/pool-icon-oci.png',
 	},
 	[PoolType.CAVIAR]: {
 		enabled: true,
-		image: 'images/caviar/image_2022-07-28_17-31-25.png',
+		image: 'images/caviar/pool-icon-cavier.png',
 	},
 	[PoolType.DOGECUBEX]: {
 		enabled: true,
-		image: '',
+		image: 'images/dogecube/pool-icon-dogecube.png',
 	},
 }
 

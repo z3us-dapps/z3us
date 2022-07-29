@@ -2,30 +2,49 @@ import React, { useRef } from 'react'
 import BigNumber from 'bignumber.js'
 import { useSharedStore, useStore } from '@src/store'
 import { useImmer } from 'use-immer'
+import { useTimeout } from 'usehooks-ts'
 import { useTokenBalances, useTokenInfo } from '@src/hooks/react-query/queries/radix'
 import { useCaviarPools, usePools, usePoolTokens, useTransactionFee } from '@src/hooks/react-query/queries/swap'
 import {
 	calculateCheapestPoolFeesFromAmount,
-	calculateCheapestPoolFeesFromRecieve,
+	calculateCheapestPoolFeesFromReceive,
 	calculatePoolFeesFromAmount,
-	calculatePoolFeesFromRecieve,
+	calculatePoolFeesFromReceive,
 	getZ3USFees,
 } from '@src/services/swap'
-import { FLOOP_RRI, Z3US_RRI } from '@src/config'
+import { FLOOP_RRI, OCI_RRI, Z3US_RRI, XRD_RRI } from '@src/config'
 import { Pool } from '@src/types'
+import { ScrollArea } from 'ui/src/components/scroll-area'
+import { InfoCircledIcon } from '@radix-ui/react-icons'
+import { HoverCard, HoverCardContent, HoverCardTrigger } from 'ui/src/components/hover-card'
 import Button from 'ui/src/components/button'
 import Input from 'ui/src/components/input'
 import { Checkbox, CheckIcon } from 'ui/src/components/checkbox'
 import { Tooltip, TooltipTrigger, TooltipContent, TooltipArrow } from 'ui/src/components/tool-tip'
 import { AccountSelector } from '@src/components/account-selector'
 import { getShortAddress } from '@src/utils/string-utils'
-import { Box, Text, Flex } from 'ui/src/components/atoms'
+import { Box, Text, Flex, StyledLink } from 'ui/src/components/atoms'
 import { formatBigNumber } from '@src/utils/formatters'
 import { TokenSelector } from '@src/components/token-selector'
 import { HardwareWalletReconnect } from '@src/components/hardware-wallet-reconnect'
 import { PoolSelector } from './pool-selector'
 import { FeeBox } from './fee-box'
 import { SwapModal } from './swap-modal'
+
+interface ImmerState {
+	pool: Pool | undefined
+	fromRRI: string
+	toRRI: string
+	amount: string
+	receive: string
+	poolFee: string
+	z3usFee: string
+	z3usBurn: string
+	minimum: boolean
+	burn: boolean
+	isLoading: boolean
+	isMounted: boolean
+}
 
 export const Swap: React.FC = () => {
 	const inputAmountRef = useRef(null)
@@ -39,21 +58,20 @@ export const Swap: React.FC = () => {
 		account: state.account,
 		accountAddress: state.getCurrentAddressAction(),
 	}))
-
-	const [state, setState] = useImmer({
-		pool: null,
-		fromRRI: '',
-		toRRI: '',
+	const [state, setState] = useImmer<ImmerState>({
+		pool: undefined,
+		fromRRI: XRD_RRI,
+		toRRI: OCI_RRI,
 		amount: '',
-		recieve: '',
+		receive: '',
 		poolFee: '',
 		z3usFee: '',
 		z3usBurn: '',
 		minimum: false,
 		burn: false,
 		isLoading: false,
+		isMounted: false,
 	})
-
 	const possibleTokens = usePoolTokens()
 	const pools = usePools(state.fromRRI, state.toRRI)
 	const { data: caviarPools } = useCaviarPools()
@@ -61,6 +79,9 @@ export const Swap: React.FC = () => {
 	const { data: fromToken } = useTokenInfo(state.fromRRI)
 	const { data: toToken } = useTokenInfo(state.toRRI)
 
+	const tokenSymbol = fromToken?.symbol.toUpperCase()
+	const isFeeUiVisible = state.amount.length > 0 && account
+	const shortAddress = getShortAddress(accountAddress)
 	const liquidBalances = balances?.account_balances?.liquid_balances || []
 
 	const selectedToken = liquidBalances?.find(balance => balance.rri === state.fromRRI)
@@ -72,19 +93,26 @@ export const Swap: React.FC = () => {
 	const floopToken = liquidBalances?.find(balance => balance.rri === FLOOP_RRI)
 	const floopBalance = floopToken ? new BigNumber(floopToken.amount).shiftedBy(-18) : new BigNumber(0)
 
-	const shortAddress = getShortAddress(accountAddress)
-	const tokenSymbol = fromToken?.symbol.toUpperCase()
-
 	const txFee = useTransactionFee(
 		state.pool,
 		fromToken,
 		toToken,
 		new BigNumber(state.amount || 0),
-		new BigNumber(state.recieve || 0),
+		new BigNumber(state.receive || 0),
 		new BigNumber(state.z3usFee || 0),
 		new BigNumber(state.z3usBurn || 0),
 		state.minimum,
 	)
+
+	// @Note: the timeout is needed to focus the input, or else it will jank the route entry transition
+	useTimeout(() => {
+		if (!state.isMounted) {
+			inputAmountRef.current.focus()
+			setState(draft => {
+				draft.isMounted = true
+			})
+		}
+	}, 500)
 
 	const calculateSwap = async (value: BigNumber, valueType: 'from' | 'to') => {
 		try {
@@ -100,7 +128,7 @@ export const Swap: React.FC = () => {
 						floopBalance,
 					)
 					setState(draft => {
-						draft.recieve = poolQuote.recieve.toString()
+						draft.receive = poolQuote.receive.toString()
 						draft.poolFee = poolQuote.fee.toString()
 						draft.z3usFee = walletQuote.fee.toString()
 						draft.z3usBurn = walletQuote.burn.toString()
@@ -116,14 +144,14 @@ export const Swap: React.FC = () => {
 					)
 					setState(draft => {
 						draft.pool = cheapestPoolQuote.pool
-						draft.recieve = cheapestPoolQuote.recieve.toString()
+						draft.receive = cheapestPoolQuote.receive.toString()
 						draft.poolFee = cheapestPoolQuote.fee.toString()
 						draft.z3usFee = walletQuote.fee.toString()
 						draft.z3usBurn = walletQuote.burn.toString()
 					})
 				}
 			} else if (state.pool) {
-				const poolQuote = await calculatePoolFeesFromRecieve(
+				const poolQuote = await calculatePoolFeesFromReceive(
 					state.pool,
 					value,
 					fromToken,
@@ -139,7 +167,7 @@ export const Swap: React.FC = () => {
 					draft.z3usBurn = walletQuote.burn.toString()
 				})
 			} else {
-				const cheapestPoolQuote = await calculateCheapestPoolFeesFromRecieve(
+				const cheapestPoolQuote = await calculateCheapestPoolFeesFromReceive(
 					pools,
 					value,
 					fromToken,
@@ -176,7 +204,7 @@ export const Swap: React.FC = () => {
 		if (state.amount) {
 			await calculateSwap(new BigNumber(state.amount || 0), 'from')
 		} else {
-			await calculateSwap(new BigNumber(state.recieve || 0), 'to')
+			await calculateSwap(new BigNumber(state.receive || 0), 'to')
 		}
 	}
 
@@ -184,14 +212,14 @@ export const Swap: React.FC = () => {
 		await selectAccount(accountIndex, hw, seed)
 		setState(draft => {
 			draft.amount = ''
-			draft.recieve = ''
+			draft.receive = ''
 		})
 	}
 
 	const handleFromTokenChange = (rri: string) => {
 		setState(draft => {
 			draft.amount = ''
-			draft.recieve = ''
+			draft.receive = ''
 			draft.fromRRI = rri
 			draft.pool = null
 		})
@@ -200,7 +228,7 @@ export const Swap: React.FC = () => {
 	const handleToTokenChange = (rri: string) => {
 		setState(draft => {
 			draft.amount = ''
-			draft.recieve = ''
+			draft.receive = ''
 			draft.toRRI = rri
 			draft.pool = null
 		})
@@ -217,20 +245,20 @@ export const Swap: React.FC = () => {
 	const handleSetAmount = async (event: React.ChangeEvent<HTMLInputElement>) => {
 		setState(draft => {
 			draft.amount = event.currentTarget.value
-			draft.recieve = ''
+			draft.receive = ''
 		})
 		await calculateSwap(new BigNumber(event.currentTarget.value), 'from')
 	}
 
-	const handleSetRecieve = async (event: React.ChangeEvent<HTMLInputElement>) => {
+	const handleSetReceive = async (event: React.ChangeEvent<HTMLInputElement>) => {
 		setState(draft => {
-			draft.recieve = event.currentTarget.value
+			draft.receive = event.currentTarget.value
 			draft.amount = ''
 		})
 		await calculateSwap(new BigNumber(event.currentTarget.value), 'to')
 	}
 
-	const handleSetMinimum = async checked => {
+	const handleSetMinimum = async (checked: boolean) => {
 		setState(draft => {
 			draft.minimum = checked === true
 		})
@@ -238,11 +266,11 @@ export const Swap: React.FC = () => {
 		if (state.amount) {
 			await calculateSwap(new BigNumber(state.amount || 0), 'from')
 		} else {
-			await calculateSwap(new BigNumber(state.recieve || 0), 'to')
+			await calculateSwap(new BigNumber(state.receive || 0), 'to')
 		}
 	}
 
-	const handleSetBurn = async checked => {
+	const handleSetBurn = async (checked: boolean) => {
 		setState(draft => {
 			draft.burn = checked === true
 		})
@@ -250,181 +278,214 @@ export const Swap: React.FC = () => {
 		if (state.amount) {
 			await calculateSwap(new BigNumber(state.amount || 0), 'from')
 		} else {
-			await calculateSwap(new BigNumber(state.recieve || 0), 'to')
+			await calculateSwap(new BigNumber(state.receive || 0), 'to')
 		}
 	}
 
 	return (
-		<Flex
-			direction="column"
+		<Box
 			css={{
-				bg: '$bgPanel',
-				height: '497px',
 				position: 'absolute',
-				zIndex: '1',
+				bottom: '55px',
 				left: '0',
 				right: '0',
-				bottom: '55px',
-				overflowY: 'auto',
+				height: '497px',
 			}}
 		>
-			<Box css={{ py: '20px', px: '23px', flex: '1' }}>
-				<Box>
-					<Text css={{ fontSize: '32px', lineHeight: '38px', fontWeight: '800' }}>Swap</Text>
-					<Text css={{ fontSize: '14px', lineHeight: '17px', fontWeight: '500', mt: '20px' }}>From:</Text>
-				</Box>
-				<AccountSelector
-					shortAddress={shortAddress}
-					tokenAmount={formatBigNumber(selectedTokenAmmount)}
-					tokenSymbol={tokenSymbol}
-					onAccountChange={handleAccountChange}
-				/>
-
-				<HardwareWalletReconnect />
-
-				<Box>
-					<Flex align="center" css={{ mt: '14px', position: 'relative' }}>
-						<Tooltip>
-							<TooltipTrigger asChild>
-								<Button
-									size="1"
-									color="tertiary"
-									css={{
-										position: 'absolute',
-										top: '-4px',
-										right: '0',
-										textTransform: 'uppercase',
-									}}
-									onClick={handleUseMax}
-								>
-									MAX
-								</Button>
-							</TooltipTrigger>
-							<TooltipContent sideOffset={3}>
-								<TooltipArrow offset={15} />
-								Select maximum {tokenSymbol}
-							</TooltipContent>
-						</Tooltip>
-						<Text css={{ fontSize: '14px', lineHeight: '17px', fontWeight: '500', flex: '1' }}>You pay:</Text>
-					</Flex>
-					<Box css={{ mt: '13px', position: 'relative' }}>
-						<Input
-							ref={inputAmountRef}
-							type="number"
-							size="2"
-							value={state.amount}
-							placeholder="Enter amount"
-							onChange={handleSetAmount}
-						/>
-						<TokenSelector
-							triggerType="input"
-							token={fromToken}
-							tokens={Object.keys(possibleTokens || {}).filter(rri => rri !== state.toRRI)}
-							onTokenChange={handleFromTokenChange}
-						/>
+			<ScrollArea>
+				<Box css={{ py: '20px', px: '23px', flex: '1' }}>
+					<Box>
+						<Text css={{ fontSize: '32px', lineHeight: '38px', fontWeight: '800' }}>Swap</Text>
+						<Text css={{ fontSize: '14px', lineHeight: '17px', fontWeight: '500', mt: '20px' }}>From:</Text>
 					</Box>
-				</Box>
-
-				<Box>
-					<Flex align="center" css={{ mt: '14px', position: 'relative' }}>
-						<Tooltip>
-							<TooltipTrigger asChild>
-								<Flex
-									align="center"
-									justify="end"
-									css={{
-										position: 'absolute',
-										top: '-2px',
-										right: '0',
-										width: '105px',
-										transition: '$default',
-										pe: 'auto',
-										opacity: 1,
-									}}
-								>
-									<Checkbox id="minimum" size="1" onCheckedChange={handleSetMinimum} checked={state.minimum}>
-										<CheckIcon />
-									</Checkbox>
-									<Text medium size="3" as="label" css={{ paddingLeft: '$2' }} htmlFor="minimum">
-										Minimum
-									</Text>
-								</Flex>
-							</TooltipTrigger>
-							<TooltipContent sideOffset={3}>
-								<TooltipArrow offset={15} />
-								Minimum will return unfilled if the rate has moved adversely against you. Wallet and transaction fees
-								still apply.
-							</TooltipContent>
-						</Tooltip>
-						<Text css={{ fontSize: '14px', lineHeight: '17px', fontWeight: '500', flex: '1' }}>You recieve:</Text>
-					</Flex>
-					<Box css={{ mt: '13px', position: 'relative' }}>
-						<Input type="number" size="2" value={state.recieve} placeholder="Recieve" onChange={handleSetRecieve} />
-						<TokenSelector
-							triggerType="input"
-							token={toToken}
-							tokens={Object.keys(possibleTokens[state.fromRRI] || {}).filter(rri => rri !== state.fromRRI)}
-							onTokenChange={handleToTokenChange}
-						/>
-					</Box>
-				</Box>
-
-				{fromToken && toToken && <PoolSelector pool={state.pool} pools={pools} onPoolChange={handlePoolChange} />}
-
-				<FeeBox
-					fromToken={fromToken}
-					txFee={txFee.fee}
-					poolFee={new BigNumber(state.poolFee || 0)}
-					z3usFee={new BigNumber(state.z3usFee || 0)}
-					z3usBurn={state.burn ? new BigNumber(state.z3usBurn || 0) : null}
-				/>
-
-				<Box>
-					<Flex align="center" css={{ mt: '14px', position: 'relative' }}>
-						<Flex>
-							<Text medium css={{ fontSize: '14px', lineHeight: '17px', pr: '2px' }}>
-								Reduce wallet fee:
-							</Text>
-						</Flex>
-						<Flex align="center" justify="end">
-							<Checkbox id="burn" size="1" onCheckedChange={handleSetBurn} checked={state.burn}>
-								<CheckIcon />
-							</Checkbox>
-							<Text medium size="3" as="label" css={{ paddingLeft: '$2' }} htmlFor="burn">
-								Burn Z3US tokens
-							</Text>
-						</Flex>
-					</Flex>
-				</Box>
-
-				<Box css={{ mt: '13px', position: 'relative' }}>
-					<SwapModal
-						transaction={txFee.transaction}
-						fromToken={fromToken}
-						toToken={toToken}
-						balance={selectedTokenAmmount}
-						amount={new BigNumber(state.amount || 0)}
-						receive={new BigNumber(state.recieve || 0)}
-						txFee={txFee.fee}
-						poolFee={new BigNumber(state.poolFee || 0)}
-						z3usFee={new BigNumber(state.z3usFee || 0)}
-						z3usBurn={state.burn ? new BigNumber(state.z3usBurn || 0) : null}
-						trigger={
-							<Button
-								size="6"
-								color="primary"
-								aria-label="swap"
-								css={{ flex: '1' }}
-								fullWidth
-								loading={state.isLoading}
-								disabled={!account || !txFee?.transaction}
-							>
-								Review swap
-							</Button>
-						}
+					<AccountSelector
+						shortAddress={shortAddress}
+						tokenAmount={formatBigNumber(selectedTokenAmmount)}
+						tokenSymbol={tokenSymbol}
+						onAccountChange={handleAccountChange}
 					/>
+					<HardwareWalletReconnect />
+					<Box>
+						<Flex align="center" css={{ mt: '14px', position: 'relative' }}>
+							<Tooltip>
+								<TooltipTrigger asChild>
+									<Button
+										size="1"
+										color="tertiary"
+										css={{
+											position: 'absolute',
+											top: '-4px',
+											right: '0',
+											textTransform: 'uppercase',
+										}}
+										onClick={handleUseMax}
+									>
+										MAX
+									</Button>
+								</TooltipTrigger>
+								<TooltipContent sideOffset={3}>
+									<TooltipArrow offset={15} />
+									Select maximum {tokenSymbol}
+								</TooltipContent>
+							</Tooltip>
+							<Text css={{ fontSize: '14px', lineHeight: '17px', fontWeight: '500', flex: '1' }}>You pay:</Text>
+						</Flex>
+						<Box css={{ mt: '13px', position: 'relative' }}>
+							<Input
+								ref={inputAmountRef}
+								type="number"
+								size="2"
+								value={state.amount}
+								placeholder="Enter amount"
+								onChange={handleSetAmount}
+							/>
+							<TokenSelector
+								triggerType="input"
+								token={fromToken}
+								tokens={Object.keys(possibleTokens || {}).filter(rri => rri !== state.toRRI)}
+								onTokenChange={handleFromTokenChange}
+							/>
+						</Box>
+					</Box>
+
+					<Box>
+						<Flex align="center" css={{ mt: '12px', position: 'relative' }}>
+							<Tooltip>
+								<TooltipTrigger asChild>
+									<Flex
+										align="center"
+										justify="end"
+										css={{
+											position: 'absolute',
+											top: '-2px',
+											right: '0',
+											width: '105px',
+											transition: '$default',
+											pe: 'auto',
+											opacity: 1,
+										}}
+									>
+										<Checkbox id="minimum" size="1" onCheckedChange={handleSetMinimum} checked={state.minimum}>
+											<CheckIcon />
+										</Checkbox>
+										<Text medium size="3" as="label" css={{ paddingLeft: '$2' }} htmlFor="minimum">
+											Minimum
+										</Text>
+									</Flex>
+								</TooltipTrigger>
+								<TooltipContent side="top" sideOffset={3} css={{ maxWidth: '220px' }}>
+									<TooltipArrow offset={15} />
+									Minimum will return unfilled if the rate has moved adversely against you. Wallet and transaction fees
+									still apply.
+								</TooltipContent>
+							</Tooltip>
+							<Text css={{ fontSize: '14px', lineHeight: '17px', fontWeight: '500', flex: '1' }}>You receive:</Text>
+						</Flex>
+						<Box css={{ mt: '11px', pb: '10px', position: 'relative' }}>
+							<Input type="number" size="2" value={state.receive} placeholder="Receive" onChange={handleSetReceive} />
+							<TokenSelector
+								triggerType="input"
+								token={toToken}
+								tokens={Object.keys(possibleTokens[state.fromRRI] || {}).filter(rri => rri !== state.fromRRI)}
+								onTokenChange={handleToTokenChange}
+							/>
+						</Box>
+					</Box>
+
+					{fromToken && toToken && <PoolSelector pool={state.pool} pools={pools} onPoolChange={handlePoolChange} />}
+
+					{isFeeUiVisible && (
+						<>
+							<FeeBox
+								fromToken={fromToken}
+								txFee={txFee.fee}
+								poolFee={new BigNumber(state.poolFee)}
+								z3usFee={new BigNumber(state.z3usFee)}
+								z3usBurn={state.burn ? new BigNumber(state.z3usBurn) : null}
+							/>
+							<Box>
+								<Flex align="center" css={{ mt: '7px', position: 'relative', height: '23px' }}>
+									<Flex align="center">
+										<Checkbox id="burn" size="1" onCheckedChange={handleSetBurn} checked={state.burn}>
+											<CheckIcon />
+										</Checkbox>
+										<Flex align="center" css={{ mt: '1px' }}>
+											<Text medium size="3" as="label" css={{ paddingLeft: '$2' }} htmlFor="burn">
+												Reduce fee with
+											</Text>
+											<HoverCard>
+												<HoverCardTrigger asChild>
+													<Flex align="center">
+														<Box css={{ ml: '6px' }}>
+															<StyledLink as="div" bubble css={{ padding: '5px 0px' }}>
+																<Text bold css={{ pr: '$1' }}>
+																	$Z3US
+																</Text>
+																<InfoCircledIcon />
+															</StyledLink>
+														</Box>
+													</Flex>
+												</HoverCardTrigger>
+												<HoverCardContent side="top" sideOffset={5} css={{ maxWidth: '260px' }}>
+													<Flex css={{ flexDirection: 'column', gap: 10 }}>
+														<Text>
+															<Text bold>Reduce swap fee.</Text>
+														</Text>
+														<Text>
+															Reduce the Z3US wallet swap fee by 50% by burning $Z3US tokens.
+															<StyledLink
+																underline
+																href="https://z3us.com/tokenomics"
+																target="_blank"
+																css={{ ml: '$1' }}
+																onClick={() => {
+																	// @NOTE: need to investigate, for some reason, a regular link did not work
+																	window.open('https://z3us.com/tokenomics', '_blank').focus()
+																}}
+															>
+																Learn more
+															</StyledLink>
+															.
+														</Text>
+													</Flex>
+												</HoverCardContent>
+											</HoverCard>
+										</Flex>
+									</Flex>
+								</Flex>
+							</Box>
+						</>
+					)}
+
+					<Box css={{ mt: '10px', position: 'relative' }}>
+						<SwapModal
+							transaction={txFee.transaction}
+							fromToken={fromToken}
+							toToken={toToken}
+							balance={selectedTokenAmmount}
+							amount={new BigNumber(state.amount || 0)}
+							receive={new BigNumber(state.receive || 0)}
+							txFee={txFee.fee}
+							poolFee={new BigNumber(state.poolFee)}
+							z3usFee={new BigNumber(state.z3usFee)}
+							z3usBurn={state.burn ? new BigNumber(state.z3usBurn) : null}
+							trigger={
+								<Button
+									size="6"
+									color="primary"
+									aria-label="swap"
+									css={{ flex: '1' }}
+									fullWidth
+									loading={state.isLoading}
+									disabled={!account || !txFee?.transaction}
+								>
+									Review swap
+								</Button>
+							}
+						/>
+					</Box>
 				</Box>
-			</Box>
-		</Flex>
+			</ScrollArea>
+		</Box>
 	)
 }

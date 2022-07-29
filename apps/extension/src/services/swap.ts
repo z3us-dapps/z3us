@@ -57,17 +57,17 @@ export const calculatePoolFeesFromAmount = async (
 	floopBalance: BigNumber,
 ): Promise<{
 	amount: BigNumber
-	recieve: BigNumber
+	receive: BigNumber
 	fee: BigNumber
 }> => {
-	let recieve = zero
+	let receive = zero
 	let fee = zero
 
 	if (!pool?.wallet || !from || !to || amount.lte(0)) {
 		return {
 			amount,
 			fee,
-			recieve,
+			receive,
 		}
 	}
 
@@ -78,7 +78,7 @@ export const calculatePoolFeesFromAmount = async (
 			const ociExchangeFee = new BigNumber(ociQuote?.fee_exchange[0]?.amount || 0)
 
 			fee = ociLiquidityFee.plus(ociExchangeFee)
-			recieve = ociQuote?.output_amount ? new BigNumber(ociQuote?.output_amount || 0) : recieve
+			receive = ociQuote?.output_amount ? new BigNumber(ociQuote?.output_amount || 0) : receive
 			break
 		case PoolType.CAVIAR:
 			const caviarPool = caviarPools.find(cp => cp.wallet === pool.wallet)
@@ -103,7 +103,7 @@ export const calculatePoolFeesFromAmount = async (
 				fee = amount.multipliedBy(1 / 100)
 			}
 
-			recieve = amountTo.multipliedBy(one.minus(fee)).minus(networkFee)
+			receive = amountTo.multipliedBy(one.minus(fee)).minus(networkFee)
 			break
 		case PoolType.DOGECUBEX:
 			const query: QuoteQuery = {
@@ -115,7 +115,7 @@ export const calculatePoolFeesFromAmount = async (
 			}
 			const dogeQuote = await doge.getQuote(query)
 			fee = amount.multipliedBy(11 / 1000)
-			recieve = new BigNumber(dogeQuote?.receivedAmount || 0)
+			receive = new BigNumber(dogeQuote?.receivedAmount || 0)
 			break
 		default:
 			throw new Error(`Invalid pool: ${pool.name} - ${pool.type}`)
@@ -124,13 +124,13 @@ export const calculatePoolFeesFromAmount = async (
 	return {
 		amount,
 		fee,
-		recieve,
+		receive,
 	}
 }
 
-export const calculatePoolFeesFromRecieve = async (
+export const calculatePoolFeesFromReceive = async (
 	pool: Pool,
-	recieve: BigNumber,
+	receive: BigNumber,
 	from: Token,
 	to: Token,
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -139,15 +139,15 @@ export const calculatePoolFeesFromRecieve = async (
 	floopBalance: BigNumber,
 ): Promise<{
 	amount: BigNumber
-	recieve: BigNumber
+	receive: BigNumber
 	fee: BigNumber
 }> => {
 	let amount = zero
 	let fee = zero
 
-	if (!pool?.wallet || !from || !to || recieve.lte(0)) {
+	if (!pool?.wallet || !from || !to || receive.lte(0)) {
 		return {
-			recieve,
+			receive,
 			fee,
 			amount,
 		}
@@ -156,7 +156,7 @@ export const calculatePoolFeesFromRecieve = async (
 	switch (pool.type) {
 		case PoolType.OCI:
 			amount = zero // @TODO: fix
-			// const ociQuote = await oci.calculateSwapFromRecieve(from.rri, to.rri, recieve)
+			// const ociQuote = await oci.calculateSwapFromReceive(from.rri, to.rri, receive)
 			// const ociLiquidityFee = new BigNumber(ociQuote?.fee_liquidity_provider[0]?.amount || 0)
 			// const ociExchangeFee = new BigNumber(ociQuote?.fee_exchange[0]?.amount || 0)
 
@@ -172,7 +172,7 @@ export const calculatePoolFeesFromRecieve = async (
 				to: to.symbol.toUpperCase(),
 				maxSlippage: '0',
 				amountFrom: null,
-				amountTo: recieve.toString(),
+				amountTo: receive.toString(),
 			}
 			const dogeQuote = await doge.getQuote(query)
 			fee = amount.multipliedBy(11 / 1000)
@@ -185,7 +185,7 @@ export const calculatePoolFeesFromRecieve = async (
 	return {
 		amount,
 		fee,
-		recieve,
+		receive,
 	}
 }
 
@@ -199,7 +199,7 @@ export const calculateCheapestPoolFeesFromAmount = async (
 ): Promise<{
 	pool: Pool
 	amount: BigNumber
-	recieve: BigNumber
+	receive: BigNumber
 	fee: BigNumber
 }> => {
 	let pool: Pool
@@ -218,17 +218,17 @@ export const calculateCheapestPoolFeesFromAmount = async (
 	results
 		.filter(result => !!result)
 		.forEach((cost, index) => {
-			if (!cheapest || cost.recieve.gt(cheapest.amount)) {
+			if (!cheapest || cost.receive.gt(cheapest.amount)) {
 				cheapest = cost
 				pool = pools[index]
 			}
 		})
-	return { recieve: zero, fee: zero, amount: zero, ...cheapest, pool }
+	return { receive: zero, fee: zero, amount: zero, ...cheapest, pool }
 }
 
-export const calculateCheapestPoolFeesFromRecieve = async (
+export const calculateCheapestPoolFeesFromReceive = async (
 	pools: Pool[],
-	recieve: BigNumber,
+	receive: BigNumber,
 	from: Token,
 	to: Token,
 	caviarPools: CaviarPoolsResponse,
@@ -236,7 +236,7 @@ export const calculateCheapestPoolFeesFromRecieve = async (
 ): Promise<{
 	pool: Pool
 	amount: BigNumber
-	recieve: BigNumber
+	receive: BigNumber
 	fee: BigNumber
 }> => {
 	let pool: Pool | null = null
@@ -244,7 +244,7 @@ export const calculateCheapestPoolFeesFromRecieve = async (
 	const results = await Promise.all(
 		pools.map(async p => {
 			try {
-				return await calculatePoolFeesFromRecieve(p, recieve, from, to, caviarPools, floopBalance)
+				return await calculatePoolFeesFromReceive(p, receive, from, to, caviarPools, floopBalance)
 			} catch (error) {
 				// eslint-disable-next-line no-console
 				console.error(error)
@@ -260,5 +260,5 @@ export const calculateCheapestPoolFeesFromRecieve = async (
 				pool = pools[index]
 			}
 		})
-	return { recieve: zero, fee: zero, amount: zero, ...cheapest, pool }
+	return { receive: zero, fee: zero, amount: zero, ...cheapest, pool }
 }

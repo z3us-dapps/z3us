@@ -265,7 +265,7 @@ export const TokenListSettingsModal = ({
 						{children || <Box>Edit</Box>}
 					</TooltipTrigger>
 					<TooltipContent side={toolTipSide} sideOffset={toolTipSideOffset}>
-						<TooltipArrow offset={6} />
+						<TooltipArrow offset={10} />
 						{toolTipMessage}
 					</TooltipContent>
 				</Tooltip>
