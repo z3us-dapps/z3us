@@ -175,15 +175,15 @@ export const Z3US_FEE_RATIO = 2 / 1000
 export const swapServices = {
 	[PoolType.OCI]: {
 		enabled: true,
-		image: '',
+		image: 'images/oci/pool-icon-oci.png',
 	},
 	[PoolType.CAVIAR]: {
 		enabled: true,
-		image: 'images/caviar/image_2022-07-28_17-31-25.png',
+		image: 'images/caviar/pool-icon-cavier.png',
 	},
 	[PoolType.DOGECUBEX]: {
 		enabled: true,
-		image: '',
+		image: 'images/dogecube/pool-icon-dogecube.png',
 	},
 }
 

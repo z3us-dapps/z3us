@@ -1,6 +1,7 @@
 import React, { useRef } from 'react'
 import { useSharedStore, useStore } from '@src/store'
 import { useImmer } from 'use-immer'
+import { useTimeout } from 'usehooks-ts'
 import { useTokenBalances, useTokenInfo } from '@src/hooks/react-query/queries/radix'
 import {
 	usePools,
@@ -11,6 +12,8 @@ import {
 } from '@src/hooks/react-query/queries/swap'
 import { Pool } from '@src/types'
 import { ScrollArea } from 'ui/src/components/scroll-area'
+import { InfoCircledIcon } from '@radix-ui/react-icons'
+import { HoverCard, HoverCardContent, HoverCardTrigger } from 'ui/src/components/hover-card'
 import BigNumber from 'bignumber.js'
 import Button from 'ui/src/components/button'
 import Input from 'ui/src/components/input'
@@ -18,19 +21,31 @@ import { Checkbox, CheckIcon } from 'ui/src/components/checkbox'
 import { Tooltip, TooltipTrigger, TooltipContent, TooltipArrow } from 'ui/src/components/tool-tip'
 import { AccountSelector } from '@src/components/account-selector'
 import { getShortAddress } from '@src/utils/string-utils'
-import { Box, Text, Flex } from 'ui/src/components/atoms'
+import { Box, Text, Flex, StyledLink } from 'ui/src/components/atoms'
 import { formatBigNumber } from '@src/utils/formatters'
 import { TokenSelector } from '@src/components/token-selector'
+import { XRD_RRI } from '@src/config'
 import { HardwareWalletReconnect } from '@src/components/hardware-wallet-reconnect'
 import { PoolSelector } from './pool-selector'
 import { FeeBox } from './fee-box'
 import { SwapModal } from './swap-modal'
 
 // DEFAULT XRD RRI
-const DEFAULT_FROM = 'xrd_rr1qy5wfsfh'
+const DEFAULT_FROM = XRD_RRI
 //
 // DEFAULT OCI RRI
 const DEFAULT_TO = 'oci_rr1qws04shqrz3cdjljdp5kczgv7wd3jxytagk95qlk7ecquzq8e7'
+
+interface ImmerState {
+	pool: Pool | undefined
+	fromRRI: string
+	toRRI: string
+	amount: string
+	minimum: boolean
+	burn: boolean
+	isLoading: boolean
+	isMounted: boolean
+}
 
 export const Swap: React.FC = () => {
 	const inputAmountRef = useRef(null)
@@ -43,23 +58,21 @@ export const Swap: React.FC = () => {
 		account: state.account,
 		accountAddress: state.getCurrentAddressAction(),
 	}))
-
-	const [state, setState] = useImmer({
-		pool: null,
+	const [state, setState] = useImmer<ImmerState>({
+		pool: undefined,
 		fromRRI: DEFAULT_FROM,
 		toRRI: DEFAULT_TO,
 		amount: '',
 		minimum: false,
 		burn: false,
 		isLoading: false,
+		isMounted: false,
 	})
-
 	const possibleTokens = usePoolTokens()
 	const { data: balances } = useTokenBalances()
 	const { data: fromToken } = useTokenInfo(state.fromRRI)
 	const { data: toToken } = useTokenInfo(state.toRRI)
 	const pools = usePools(state.fromRRI, state.toRRI)
-
 	const shortAddress = getShortAddress(accountAddress)
 	const liquidBalances = balances?.account_balances?.liquid_balances || []
 	const selectedToken = liquidBalances?.find(balance => balance.rri === state.fromRRI)
@@ -91,6 +104,8 @@ export const Swap: React.FC = () => {
 		z3usFee.burn,
 		state.minimum,
 	)
+
+	const isFeeUiVisible = state.amount.length > 0 && account
 
 	const handleAccountChange = async (accountIndex: number) => {
 		await selectAccount(accountIndex, hw, seed)
@@ -128,17 +143,27 @@ export const Swap: React.FC = () => {
 		})
 	}
 
-	const handleSetMinimum = checked => {
+	const handleSetMinimum = (checked: boolean) => {
 		setState(draft => {
 			draft.minimum = checked === true
 		})
 	}
 
-	const handleSetBurn = checked => {
+	const handleSetBurn = (checked: boolean) => {
 		setState(draft => {
 			draft.burn = checked === true
 		})
 	}
+
+	// @Note: the timeout is needed to focus the input, or else it will jank the route entry transition
+	useTimeout(() => {
+		if (!state.isMounted) {
+			inputAmountRef.current.focus()
+			setState(draft => {
+				draft.isMounted = true
+			})
+		}
+	}, 500)
 
 	return (
 		<Box
@@ -207,7 +232,7 @@ export const Swap: React.FC = () => {
 					</Box>
 
 					<Box>
-						<Flex align="center" css={{ mt: '14px', position: 'relative' }}>
+						<Flex align="center" css={{ mt: '12px', position: 'relative' }}>
 							<Tooltip>
 								<TooltipTrigger asChild>
 									<Flex
@@ -231,7 +256,7 @@ export const Swap: React.FC = () => {
 										</Text>
 									</Flex>
 								</TooltipTrigger>
-								<TooltipContent sideOffset={3}>
+								<TooltipContent side="top" sideOffset={3} css={{ maxWidth: '220px' }}>
 									<TooltipArrow offset={15} />
 									Minimum will return unfilled if the rate has moved adversely against you. Wallet and transaction fees
 									still apply.
@@ -239,7 +264,7 @@ export const Swap: React.FC = () => {
 							</Tooltip>
 							<Text css={{ fontSize: '14px', lineHeight: '17px', fontWeight: '500', flex: '1' }}>You recieve:</Text>
 						</Flex>
-						<Box css={{ mt: '13px', position: 'relative' }}>
+						<Box css={{ mt: '11px', pb: '10px', position: 'relative' }}>
 							<Input type="number" size="2" value={poolFee?.recieve?.toString()} placeholder="Recieve" disabled />
 							<TokenSelector
 								triggerType="input"
@@ -252,33 +277,70 @@ export const Swap: React.FC = () => {
 
 					{fromToken && toToken && <PoolSelector pool={state.pool} pools={pools} onPoolChange={handlePoolChange} />}
 
-					<FeeBox
-						fromToken={fromToken}
-						txFee={txFee.fee}
-						poolFee={poolFee.fee}
-						z3usFee={z3usFee.fee}
-						z3usBurn={state.burn ? z3usFee.burn : null}
-					/>
+					{isFeeUiVisible && (
+						<>
+							<FeeBox
+								fromToken={fromToken}
+								txFee={txFee.fee}
+								poolFee={poolFee.fee}
+								z3usFee={z3usFee.fee}
+								z3usBurn={state.burn ? z3usFee.burn : null}
+							/>
+							<Box>
+								<Flex align="center" css={{ mt: '7px', position: 'relative', height: '23px' }}>
+									<Flex align="center">
+										<Checkbox id="burn" size="1" onCheckedChange={handleSetBurn} checked={state.burn}>
+											<CheckIcon />
+										</Checkbox>
+										<Flex align="center" css={{ mt: '1px' }}>
+											<Text medium size="3" as="label" css={{ paddingLeft: '$2' }} htmlFor="burn">
+												Reduce fee with
+											</Text>
+											<HoverCard>
+												<HoverCardTrigger asChild>
+													<Flex align="center">
+														<Box css={{ ml: '6px' }}>
+															<StyledLink as="div" bubble css={{ padding: '5px 0px' }}>
+																<Text bold css={{ pr: '$1' }}>
+																	$Z3US
+																</Text>
+																<InfoCircledIcon />
+															</StyledLink>
+														</Box>
+													</Flex>
+												</HoverCardTrigger>
+												<HoverCardContent side="top" sideOffset={5} css={{ maxWidth: '260px' }}>
+													<Flex css={{ flexDirection: 'column', gap: 10 }}>
+														<Text>
+															<Text bold>Reduce swap fee.</Text>
+														</Text>
+														<Text>
+															Reduce the Z3US wallet swap fee by 50% by burning $Z3US tokens.
+															<StyledLink
+																underline
+																href="https://z3us.com/tokenomics"
+																target="_blank"
+																css={{ ml: '$1' }}
+																onClick={() => {
+																	// @NOTE: need to investigate, for some reason, a regular link did not work
+																	window.open('https://z3us.com/tokenomics', '_blank').focus()
+																}}
+															>
+																Learn more
+															</StyledLink>
+															.
+														</Text>
+													</Flex>
+												</HoverCardContent>
+											</HoverCard>
+										</Flex>
+									</Flex>
+								</Flex>
+							</Box>
+						</>
+					)}
 
-					<Box>
-						<Flex align="center" css={{ mt: '14px', position: 'relative' }}>
-							<Flex>
-								<Text medium css={{ fontSize: '14px', lineHeight: '17px', pr: '2px' }}>
-									Reduce wallet fee:
-								</Text>
-							</Flex>
-							<Flex align="center" justify="end">
-								<Checkbox id="burn" size="1" onCheckedChange={handleSetBurn} checked={state.burn}>
-									<CheckIcon />
-								</Checkbox>
-								<Text medium size="3" as="label" css={{ paddingLeft: '$2' }} htmlFor="burn">
-									Burn Z3US tokens
-								</Text>
-							</Flex>
-						</Flex>
-					</Box>
-
-					<Box css={{ mt: '13px', position: 'relative' }}>
+					<Box css={{ mt: '10px', position: 'relative' }}>
 						<SwapModal
 							transaction={txFee.transaction}
 							fromToken={fromToken}
