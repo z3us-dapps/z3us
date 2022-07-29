@@ -20,7 +20,7 @@ import { HoverCard, HoverCardContent, HoverCardTrigger } from 'ui/src/components
 import Button from 'ui/src/components/button'
 import Input from 'ui/src/components/input'
 import { Checkbox, CheckIcon } from 'ui/src/components/checkbox'
-import { Tooltip, TooltipTrigger, TooltipContent, TooltipArrow } from 'ui/src/components/tool-tip'
+import { ToolTip, Tooltip, TooltipTrigger, TooltipContent, TooltipArrow } from 'ui/src/components/tool-tip'
 import { AccountSelector } from '@src/components/account-selector'
 import { getShortAddress } from '@src/utils/string-utils'
 import { Box, Text, Flex, StyledLink } from 'ui/src/components/atoms'
@@ -358,21 +358,33 @@ export const Swap: React.FC = () => {
 					</Box>
 
 					<Box>
-						<Flex align="center" css={{ mt: '12px', position: 'relative', justifyContent: 'space-between' }}>
+						<Flex align="center" css={{ mt: '10px', position: 'relative', justifyContent: 'space-between' }}>
 							<Text css={{ fontSize: '14px', lineHeight: '17px', fontWeight: '500' }}>You receive:</Text>
-							<Button size="1" color="tertiary" onClick={handleSwitchTokens}>
-								<UpdateIcon />
-							</Button>
+							<ToolTip message="Switch token swap">
+								<Button
+									size="1"
+									color="tertiary"
+									onClick={handleSwitchTokens}
+									css={{
+										svg: {
+											transition: '$default',
+										},
+										'&:hover': {
+											svg: {
+												transition: '$default',
+												transform: 'rotate(180deg)',
+											},
+										},
+									}}
+								>
+									<UpdateIcon />
+								</Button>
+							</ToolTip>
 							<Tooltip>
 								<TooltipTrigger asChild>
 									<Flex
 										align="center"
-										// justify="end"
 										css={{
-											// position: 'absolute',
-											// top: '-2px',
-											// right: '0',
-											// width: '105px',
 											transition: '$default',
 											pe: 'auto',
 											opacity: 1,
@@ -393,7 +405,7 @@ export const Swap: React.FC = () => {
 								</TooltipContent>
 							</Tooltip>
 						</Flex>
-						<Box css={{ mt: '11px', pb: '10px', position: 'relative' }}>
+						<Box css={{ mt: '10px', pb: '10px', position: 'relative' }}>
 							<Input type="number" size="2" value={state.receive} placeholder="Receive" onChange={handleSetReceive} />
 							<TokenSelector
 								triggerType="input"
