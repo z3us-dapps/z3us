@@ -83,9 +83,9 @@ export const usePools = (fromRRI: string, toRRI: string): Pool[] => {
 		)
 		if (ociPool) {
 			pools.push({
+				...swapServices[PoolType.OCI],
 				name: OCIPoolName,
 				wallet: ociPool.wallet_address,
-				type: PoolType.OCI,
 			})
 		}
 	}
@@ -93,9 +93,9 @@ export const usePools = (fromRRI: string, toRRI: string): Pool[] => {
 		caviarPools.forEach(p => {
 			if (p.balances[fromRRI] && p.balances[toRRI]) {
 				pools.push({
+					...swapServices[PoolType.OCI],
 					name: p.name,
 					wallet: p.wallet,
-					type: PoolType.CAVIAR,
 					balances: p.balances,
 				})
 			}
@@ -106,18 +106,18 @@ export const usePools = (fromRRI: string, toRRI: string): Pool[] => {
 			const dogePool = dogePools.find(p => p.rri === toRRI)
 			if (dogePool) {
 				pools.push({
+					...swapServices[PoolType.DOGECUBEX],
 					name: DogeCubePoolName,
 					wallet: dogePool.wallet,
-					type: PoolType.DOGECUBEX,
 				})
 			}
 		} else if (toRRI === XRD_RRI) {
 			const dogePool = dogePools.find(p => p.rri === fromRRI)
 			if (dogePool) {
 				pools.push({
+					...swapServices[PoolType.DOGECUBEX],
 					name: DogeCubePoolName,
 					wallet: dogePool.wallet,
-					type: PoolType.DOGECUBEX,
 				})
 			}
 		}
@@ -239,7 +239,11 @@ export const useTransactionFee = (
 			}
 			actions.push(actionResult.value)
 
-			const message = await createMessage(plainText)
+			let message: string
+			if (plainText) {
+				message = await createMessage(plainText)
+			}
+
 			const { transaction, fee } = await buildTransactionFromActions(actions, message)
 
 			setState(draft => {
@@ -247,6 +251,7 @@ export const useTransactionFee = (
 				draft.fee = new BigNumber(fee).shiftedBy(-18)
 			})
 		} catch (error) {
+			console.error(error)
 			setState(draft => {
 				draft.transaction = null
 				draft.fee = new BigNumber(0)

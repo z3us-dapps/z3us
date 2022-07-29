@@ -160,6 +160,8 @@ export enum PoolType {
 
 export type Pool = {
 	type: PoolType
+	url: string
+	image: string
 	name: string
 	wallet: string
 	balances?: { [rri: string]: number }

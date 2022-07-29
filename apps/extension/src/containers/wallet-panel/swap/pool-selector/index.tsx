@@ -18,7 +18,6 @@ import { Box, Text, Flex } from 'ui/src/components/atoms'
 import Button from 'ui/src/components/button'
 import { Pool } from '@src/types'
 import useMeasure from 'react-use-measure'
-import { swapServices } from '@src/config'
 
 interface IProps {
 	pool?: Pool
@@ -64,10 +63,7 @@ export const PoolSelector: React.FC<IProps> = ({ pool, pools, onPoolChange }) =>
 					}}
 				>
 					<Box css={{ p: '8px' }}>
-						<CircleAvatar
-							image={swapServices[selected?.type]?.image}
-							fallbackText={selected?.type.toLocaleUpperCase()}
-						/>
+						<CircleAvatar image={selected?.image} fallbackText={selected?.type.toLocaleUpperCase()} />
 					</Box>
 					<Box css={{ flex: '1' }}>
 						<Flex css={{ mt: '2px' }}>

@@ -459,6 +459,7 @@ export const Swap: React.FC = () => {
 
 					<Box css={{ mt: '10px', position: 'relative' }}>
 						<SwapModal
+							pool={state.pool}
 							transaction={txFee.transaction}
 							fromToken={fromToken}
 							toToken={toToken}
@@ -477,7 +478,7 @@ export const Swap: React.FC = () => {
 									css={{ flex: '1' }}
 									fullWidth
 									loading={state.isLoading}
-									disabled={!account || !txFee?.transaction}
+									disabled={!account || !state.pool || !txFee?.transaction}
 								>
 									Review swap
 								</Button>

@@ -3,7 +3,7 @@ import BigNumber from 'bignumber.js'
 import { useQueryClient } from 'react-query'
 import { useLocation } from 'wouter'
 import { useEventListener } from 'usehooks-ts'
-import { Token } from '@src/types'
+import { Pool, Token } from '@src/types'
 import AlertCard from 'ui/src/components/alert-card'
 import InputFeedBack from 'ui/src/components/input/input-feedback'
 import { ArrowLeftIcon } from '@radix-ui/react-icons'
@@ -26,6 +26,7 @@ import { FeeBox } from '../fee-box'
 
 interface IProps {
 	trigger: React.ReactNode
+	pool: Pool
 	fromToken: Token
 	toToken: Token
 	balance: BigNumber
@@ -40,6 +41,7 @@ interface IProps {
 
 export const SwapModal: React.FC<IProps> = ({
 	trigger,
+	pool,
 	fromToken,
 	toToken,
 	balance,
@@ -194,6 +196,7 @@ export const SwapModal: React.FC<IProps> = ({
 							statSubTitle={`From: ${shortAddress} (${balance}${fromToken?.symbol.toUpperCase()})`}
 							statTitle={entry?.name || ''}
 						/>
+						{pool && <InfoStatBlock image={pool.image} statSubTitle="Pool:" statTitle={pool.name} />}
 						<InfoStatBlock
 							image={fromToken?.image || fromToken?.iconURL}
 							statSubTitle="You pay:"
@@ -208,11 +211,24 @@ export const SwapModal: React.FC<IProps> = ({
 						<FeeBox fromToken={fromToken} txFee={txFee} poolFee={poolFee} z3usFee={z3usFee} z3usBurn={z3usBurn} />
 
 						<Box>
-							<AlertCard icon color="warning" css={{ mt: '$4', height: '80px' }}>
-								<Flex justify="between" css={{ mt: '5px', flex: 'auto' }}>
+							<AlertCard icon color="warning" css={{ mt: '$4' }}>
+								<Flex justify="between" css={{ flex: 'auto' }}>
 									<Text medium size="4" css={{ mb: '3px', pl: '$3', mt: '8px' }}>
 										Presented fees and rates are indicative and are subject to change. Once submitted to the network,
-										wallet and transaction fees apply at all times. No refunds possible.
+										wallet and transaction fees apply at all times and are not refundable. By confirming swap you agree
+										to our{' '}
+										<StyledLink underline href="https://z3us.com/terms" target="_blank">
+											T&amp;C
+										</StyledLink>{' '}
+										{pool && (
+											<>
+												, additional T&amp;C of {pool.name} may apply, learn more{' '}
+												<StyledLink underline href={pool.url} target="_blank">
+													{pool.url}
+												</StyledLink>
+												.
+											</>
+										)}
 									</Text>
 								</Flex>
 							</AlertCard>

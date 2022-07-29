@@ -16,7 +16,7 @@ export class BitFinexService {
 
 	private options: RequestInit = {
 		method: 'GET',
-		mode: 'no-cors',
+		// mode: 'no-cors',
 		headers: {
 			'Content-Type': 'application/json',
 		},

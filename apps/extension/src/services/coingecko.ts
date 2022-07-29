@@ -19,7 +19,7 @@ export class CoinGeckoService {
 
 	private options: RequestInit = {
 		method: 'GET',
-		mode: 'no-cors',
+		// mode: 'no-cors',
 		headers: {
 			'Content-Type': 'application/json',
 		},

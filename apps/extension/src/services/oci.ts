@@ -47,7 +47,7 @@ export class OCIService {
 
 	private options: RequestInit = {
 		method: 'POST',
-		mode: 'no-cors',
+		// mode: 'no-cors',
 		headers: {
 			'Content-Type': 'application/json',
 		},

@@ -114,8 +114,9 @@ export const calculatePoolFeesFromAmount = async (
 				amountTo: null,
 			}
 			const dogeQuote = await doge.getQuote(query)
-			fee = amount.multipliedBy(11 / 1000)
+			amount = new BigNumber(dogeQuote?.sentAmount || 0)
 			receive = new BigNumber(dogeQuote?.receivedAmount || 0)
+			fee = amount.multipliedBy(11 / 1000)
 			break
 		default:
 			throw new Error(`Invalid pool: ${pool.name} - ${pool.type}`)
@@ -175,8 +176,9 @@ export const calculatePoolFeesFromReceive = async (
 				amountTo: receive.toString(),
 			}
 			const dogeQuote = await doge.getQuote(query)
-			fee = amount.multipliedBy(11 / 1000)
 			amount = new BigNumber(dogeQuote?.sentAmount || 0)
+			receive = new BigNumber(dogeQuote?.receivedAmount || 0)
+			fee = amount.multipliedBy(11 / 1000)
 			break
 		default:
 			throw new Error(`Invalid pool: ${pool.name} - ${pool.type}`)
