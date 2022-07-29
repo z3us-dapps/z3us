@@ -93,7 +93,7 @@ export const usePools = (fromRRI: string, toRRI: string): Pool[] => {
 		caviarPools.forEach(p => {
 			if (p.balances[fromRRI] && p.balances[toRRI]) {
 				pools.push({
-					...swapServices[PoolType.OCI],
+					...swapServices[PoolType.CAVIAR],
 					name: p.name,
 					wallet: p.wallet,
 					balances: p.balances,

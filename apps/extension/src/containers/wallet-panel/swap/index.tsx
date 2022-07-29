@@ -80,7 +80,7 @@ export const Swap: React.FC = () => {
 	const { data: toToken } = useTokenInfo(state.toRRI)
 
 	const tokenSymbol = fromToken?.symbol.toUpperCase()
-	const isFeeUiVisible = state.amount.length > 0 && state.amount !== '0' && 0 && account
+	const isFeeUiVisible = state.amount.length > 0 && state.amount !== '0' && account
 	const shortAddress = getShortAddress(accountAddress)
 	const liquidBalances = balances?.account_balances?.liquid_balances || []
 
