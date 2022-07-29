@@ -50,13 +50,11 @@ const StyledContent = styled(SelectPrimitive.Content, {
 	},
 })
 
-const Content = ({ children, ...props }) => {
-	return (
-		<SelectPrimitive.Portal>
-			<StyledContent {...props}>{children}</StyledContent>
-		</SelectPrimitive.Portal>
-	)
-}
+const Content = ({ children, ...props }) => (
+	<SelectPrimitive.Portal>
+		<StyledContent {...props}>{children}</StyledContent>
+	</SelectPrimitive.Portal>
+)
 
 const StyledViewport = styled(SelectPrimitive.Viewport, {
 	padding: 0,
