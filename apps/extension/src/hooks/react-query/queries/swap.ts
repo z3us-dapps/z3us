@@ -30,7 +30,7 @@ export const useOCIPools = () =>
 	useQuery(['useOCIPools'], oci.getPools, { ...poolQueryOptions, enabled: swapServices[PoolType.OCI].enabled })
 
 export const useDogeCubeXPools = () =>
-	useQuery(['useDogeCubeXPools'], doge.getPools, {
+	useQuery(['useDogeCubeXPoolTokens'], doge.getPools, {
 		...poolQueryOptions,
 		enabled: swapServices[PoolType.DOGECUBEX].enabled,
 	})
@@ -57,8 +57,8 @@ export const usePoolTokens = (): { [rri: string]: { [rri: string]: null } } => {
 	}
 	if (dogePools) {
 		dogePools.forEach(p => {
-			uniqueTokens[p.rri] = { [XRD_RRI]: null, ...(uniqueTokens[p.rri] || {}) }
-			uniqueTokens[XRD_RRI] = { [p.rri]: null, ...(uniqueTokens[XRD_RRI] || {}) }
+			uniqueTokens[p.token.rri] = { [XRD_RRI]: null, ...(uniqueTokens[p.token.rri] || {}) }
+			uniqueTokens[XRD_RRI] = { [p.token.rri]: null, ...(uniqueTokens[XRD_RRI] || {}) }
 		})
 	}
 
@@ -103,21 +103,23 @@ export const usePools = (fromRRI: string, toRRI: string): Pool[] => {
 	}
 	if (dogePools && (fromRRI === XRD_RRI || toRRI === XRD_RRI)) {
 		if (fromRRI === XRD_RRI) {
-			const dogePool = dogePools.find(p => p.rri === toRRI)
+			const dogePool = dogePools.find(p => p.token.rri === toRRI)
 			if (dogePool) {
 				pools.push({
 					...swapServices[PoolType.DOGECUBEX],
+					image: dogePool.heroImageUrl || swapServices[PoolType.DOGECUBEX].image,
 					name: DogeCubePoolName,
-					wallet: dogePool.wallet,
+					wallet: dogePool.account,
 				})
 			}
 		} else if (toRRI === XRD_RRI) {
-			const dogePool = dogePools.find(p => p.rri === fromRRI)
+			const dogePool = dogePools.find(p => p.token.rri === fromRRI)
 			if (dogePool) {
 				pools.push({
 					...swapServices[PoolType.DOGECUBEX],
+					image: dogePool.heroImageUrl || swapServices[PoolType.DOGECUBEX].image,
 					name: DogeCubePoolName,
-					wallet: dogePool.wallet,
+					wallet: dogePool.account,
 				})
 			}
 		}
