@@ -1,4 +1,4 @@
-import React, { useRef } from 'react'
+import React, { useEffect, useRef } from 'react'
 import BigNumber from 'bignumber.js'
 import { useSharedStore, useStore } from '@src/store'
 import { useImmer } from 'use-immer'
@@ -32,9 +32,11 @@ import { SwapModal } from './swap-modal'
 import { InputDebounced } from './input-debounced'
 
 interface ImmerState {
+	time: number
 	pool: Pool | undefined
 	fromRRI: string
 	toRRI: string
+	inputSide: 'from' | 'to'
 	amount: string
 	receive: string
 	poolFee: string
@@ -44,7 +46,10 @@ interface ImmerState {
 	burn: boolean
 	isLoading: boolean
 	isMounted: boolean
+	isFeeUiVisible: boolean
 }
+
+const refreshInterval = 5 * 1000 // 5 seconds
 
 export const Swap: React.FC = () => {
 	const inputAmountRef = useRef(null)
@@ -59,9 +64,11 @@ export const Swap: React.FC = () => {
 		accountAddress: state.getCurrentAddressAction(),
 	}))
 	const [state, setState] = useImmer<ImmerState>({
+		time: Date.now(),
 		pool: undefined,
 		fromRRI: XRD_RRI,
 		toRRI: OCI_RRI,
+		inputSide: 'from',
 		amount: '',
 		receive: '',
 		poolFee: '',
@@ -71,6 +78,7 @@ export const Swap: React.FC = () => {
 		burn: false,
 		isLoading: false,
 		isMounted: false,
+		isFeeUiVisible: false,
 	})
 	const possibleTokens = usePoolTokens()
 	const pools = usePools(state.fromRRI, state.toRRI)
@@ -103,8 +111,6 @@ export const Swap: React.FC = () => {
 		state.minimum,
 	)
 
-	const isFeeUiVisible = account && state.pool && txFee?.transaction && state.amount !== '0'
-
 	// @Note: the timeout is needed to focus the input, or else it will jank the route entry transition
 	useTimeout(() => {
 		if (!state.isMounted) {
@@ -115,7 +121,31 @@ export const Swap: React.FC = () => {
 		}
 	}, 500)
 
+	useEffect(() => {
+		const interval = setInterval(
+			() =>
+				setState(draft => {
+					draft.time = Date.now()
+				}),
+			refreshInterval,
+		)
+		return () => {
+			clearInterval(interval)
+		}
+	}, [])
+
+	useEffect(() => {
+		if (state.isFeeUiVisible) return
+
+		setState(draft => {
+			draft.isFeeUiVisible = account && state.pool && txFee?.transaction && state.amount !== '0'
+		})
+	}, [account, state.pool, txFee, state.amount])
+
 	const calculateSwap = async (value: BigNumber, valueType: 'from' | 'to') => {
+		setState(draft => {
+			draft.isLoading = true
+		})
 		try {
 			if (valueType === 'from') {
 				const walletQuote = getZ3USFees(value, state.burn, z3usBalance)
@@ -129,6 +159,7 @@ export const Swap: React.FC = () => {
 						floopBalance,
 					)
 					setState(draft => {
+						draft.time = Date.now()
 						draft.receive = poolQuote.receive.toString()
 						draft.poolFee = poolQuote.fee.toString()
 						draft.z3usFee = walletQuote.fee.toString()
@@ -144,6 +175,7 @@ export const Swap: React.FC = () => {
 						floopBalance,
 					)
 					setState(draft => {
+						draft.time = Date.now()
 						draft.pool = cheapestPoolQuote.pool
 						draft.receive = cheapestPoolQuote.receive.toString()
 						draft.poolFee = cheapestPoolQuote.fee.toString()
@@ -162,6 +194,7 @@ export const Swap: React.FC = () => {
 				)
 				const walletQuote = getZ3USFees(poolQuote.amount, state.burn, z3usBalance)
 				setState(draft => {
+					draft.time = Date.now()
 					draft.amount = poolQuote.amount.plus(walletQuote.fee).toString()
 					draft.poolFee = poolQuote.fee.toString()
 					draft.z3usFee = walletQuote.fee.toString()
@@ -178,6 +211,7 @@ export const Swap: React.FC = () => {
 				)
 				const walletQuote = getZ3USFees(cheapestPoolQuote.amount, state.burn, z3usBalance)
 				setState(draft => {
+					draft.time = Date.now()
 					draft.pool = cheapestPoolQuote.pool
 					draft.amount = cheapestPoolQuote.amount.plus(walletQuote.fee).toString()
 					draft.poolFee = cheapestPoolQuote.fee.toString()
@@ -195,17 +229,31 @@ export const Swap: React.FC = () => {
 				duration: 5000,
 			})
 		}
+		setState(draft => {
+			draft.isLoading = false
+		})
 	}
+
+	useEffect(() => {
+		if (!state.isMounted) return
+		if (Date.now() - state.time < refreshInterval) return
+
+		if (state.inputSide === 'from' && state.amount) {
+			calculateSwap(new BigNumber(state.amount || 0), state.inputSide)
+		} else if (state.inputSide === 'to' && state.receive) {
+			calculateSwap(new BigNumber(state.receive || 0), state.inputSide)
+		}
+	}, [state.time])
 
 	const handlePoolChange = async (pool: Pool) => {
 		setState(draft => {
 			draft.pool = pool
 		})
 
-		if (state.amount && state.amount !== '0') {
-			await calculateSwap(new BigNumber(state.amount || 0), 'from')
-		} else if (state.receive && state.receive !== '0') {
-			await calculateSwap(new BigNumber(state.receive || 0), 'to')
+		if (state.inputSide === 'from' && state.amount) {
+			await calculateSwap(new BigNumber(state.amount || 0), state.inputSide)
+		} else if (state.inputSide === 'to' && state.receive) {
+			await calculateSwap(new BigNumber(state.receive || 0), state.inputSide)
 		}
 	}
 
@@ -247,23 +295,42 @@ export const Swap: React.FC = () => {
 	const handleUseMax = async () => {
 		setState(draft => {
 			draft.amount = selectedTokenAmmount.toString()
+			draft.inputSide = 'from'
 		})
 		inputAmountRef.current.focus()
 		await calculateSwap(selectedTokenAmmount, 'from')
 	}
 
 	const handleSetAmount = async (value: string) => {
-		setState(draft => {
-			draft.amount = value
-		})
-		await calculateSwap(new BigNumber(value || 0), 'from')
+		let val = parseInt(value, 10)
+		if (Number.isNaN(val)) {
+			setState(draft => {
+				draft.amount = ''
+			})
+		} else {
+			val = val >= 0 ? val : 0
+			setState(draft => {
+				draft.amount = value
+				draft.inputSide = 'from'
+			})
+			await calculateSwap(new BigNumber(val), 'from')
+		}
 	}
 
 	const handleSetReceive = async (value: string) => {
-		setState(draft => {
-			draft.receive = value
-		})
-		await calculateSwap(new BigNumber(value || 0), 'to')
+		let val = parseInt(value, 10)
+		if (Number.isNaN(val)) {
+			setState(draft => {
+				draft.receive = ''
+			})
+		} else {
+			val = val >= 0 ? val : 0
+			setState(draft => {
+				draft.receive = value
+				draft.inputSide = 'to'
+			})
+			await calculateSwap(new BigNumber(val), 'to')
+		}
 	}
 
 	const handleSetMinimum = async (checked: boolean) => {
@@ -271,10 +338,10 @@ export const Swap: React.FC = () => {
 			draft.minimum = checked === true
 		})
 
-		if (state.amount && state.amount !== '0') {
-			await calculateSwap(new BigNumber(state.amount || 0), 'from')
-		} else if (state.receive && state.receive !== '0') {
-			await calculateSwap(new BigNumber(state.receive || 0), 'to')
+		if (state.inputSide === 'from' && state.amount) {
+			await calculateSwap(new BigNumber(state.amount || 0), state.inputSide)
+		} else if (state.inputSide === 'to' && state.receive) {
+			await calculateSwap(new BigNumber(state.receive || 0), state.inputSide)
 		}
 	}
 
@@ -283,10 +350,10 @@ export const Swap: React.FC = () => {
 			draft.burn = checked === true
 		})
 
-		if (state.amount && state.amount !== '0') {
-			await calculateSwap(new BigNumber(state.amount || 0), 'from')
-		} else if (state.receive && state.receive !== '0') {
-			await calculateSwap(new BigNumber(state.receive || 0), 'to')
+		if (state.inputSide === 'from' && state.amount) {
+			await calculateSwap(new BigNumber(state.amount || 0), state.inputSide)
+		} else if (state.inputSide === 'to' && state.receive) {
+			await calculateSwap(new BigNumber(state.receive || 0), state.inputSide)
 		}
 	}
 
@@ -426,7 +493,7 @@ export const Swap: React.FC = () => {
 
 					{fromToken && toToken && <PoolSelector pool={state.pool} pools={pools} onPoolChange={handlePoolChange} />}
 
-					{isFeeUiVisible && (
+					{state.isFeeUiVisible && (
 						<>
 							<FeeBox
 								fromToken={fromToken}
