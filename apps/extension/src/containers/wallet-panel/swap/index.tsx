@@ -256,7 +256,7 @@ export const Swap: React.FC = () => {
 			draft.amount = event.currentTarget.value
 			draft.receive = ''
 		})
-		await calculateSwap(new BigNumber(event.currentTarget.value), 'from')
+		await calculateSwap(new BigNumber(event.currentTarget.value || 0), 'from')
 	}
 
 	const handleSetReceive = async (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -264,7 +264,7 @@ export const Swap: React.FC = () => {
 			draft.receive = event.currentTarget.value
 			draft.amount = ''
 		})
-		await calculateSwap(new BigNumber(event.currentTarget.value), 'to')
+		await calculateSwap(new BigNumber(event.currentTarget.value || 0), 'to')
 	}
 
 	const handleSetMinimum = async (checked: boolean) => {

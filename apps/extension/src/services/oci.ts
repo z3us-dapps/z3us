@@ -64,8 +64,8 @@ export class OCIService {
 			JSON.stringify({
 				query: `query calculateSwap {
 					calculate_swap(
-					  ${amount.isGreaterThan(0) ? `input_amount: "${amount.toString()}"` : ``}
-					  ${recieve.isGreaterThan(0) ? `output_amount: "${recieve.toString()}"` : ``}
+					  ${amount.gt(0) ? `input_amount: "${amount.toString()}"` : ``}
+					  ${recieve.gt(0) ? `output_amount: "${recieve.toString()}"` : ``}
 					  input_rri: "${fromRRI}"
 					  output_rri: "${toRRI}"
 					) {
@@ -77,8 +77,8 @@ export class OCIService {
 						amount
 						rri
 					  }
-					  ${amount.isGreaterThan(0) ? `output_amount` : ``}
-					  ${recieve.isGreaterThan(0) ? `input_amount` : ``}
+					  ${amount.gt(0) ? `output_amount` : ``}
+					  ${recieve.gt(0) ? `input_amount` : ``}
 					  price_impact
 					}
 				  }`,
