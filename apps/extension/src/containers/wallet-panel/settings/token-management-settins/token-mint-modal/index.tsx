@@ -145,7 +145,7 @@ export const MintTokenModal: React.FC<IProps> = ({ trigger }) => {
 	}
 
 	return (
-		<Dialog open={state.isModalOpen} modal={false}>
+		<Dialog open={state.isModalOpen}>
 			<DialogTrigger asChild onClick={handleOnClick}>
 				{trigger}
 			</DialogTrigger>
