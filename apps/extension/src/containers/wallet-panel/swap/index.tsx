@@ -121,18 +121,11 @@ export const Swap: React.FC = () => {
 		}
 	}, 500)
 
-	useEffect(() => {
-		const interval = setInterval(
-			() =>
-				setState(draft => {
-					draft.time = Date.now()
-				}),
-			refreshInterval,
-		)
-		return () => {
-			clearInterval(interval)
-		}
-	}, [])
+	useTimeout(() => {
+		setState(draft => {
+			draft.time = Date.now()
+		})
+	}, refreshInterval)
 
 	useEffect(() => {
 		if (state.isFeeUiVisible) return
