@@ -30,6 +30,7 @@ import { HardwareWalletReconnect } from '@src/components/hardware-wallet-reconne
 import { PoolSelector } from './pool-selector'
 import { FeeBox } from './fee-box'
 import { SwapModal } from './swap-modal'
+import { InputDebounced } from './input-debounced'
 
 interface ImmerState {
 	pool: Pool | undefined
@@ -80,7 +81,6 @@ export const Swap: React.FC = () => {
 	const { data: toToken } = useTokenInfo(state.toRRI)
 
 	const tokenSymbol = fromToken?.symbol.toUpperCase()
-	const isFeeUiVisible = state.amount.length > 0 && state.amount !== '0' && account
 	const shortAddress = getShortAddress(accountAddress)
 	const liquidBalances = balances?.account_balances?.liquid_balances || []
 
@@ -103,6 +103,8 @@ export const Swap: React.FC = () => {
 		new BigNumber(state.z3usBurn || 0),
 		state.minimum,
 	)
+
+	const isFeeUiVisible = account && state.pool && txFee?.transaction && state.amount !== '0'
 
 	// @Note: the timeout is needed to focus the input, or else it will jank the route entry transition
 	useTimeout(() => {
@@ -251,20 +253,34 @@ export const Swap: React.FC = () => {
 		await calculateSwap(selectedTokenAmmount, 'from')
 	}
 
-	const handleSetAmount = async (event: React.ChangeEvent<HTMLInputElement>) => {
-		setState(draft => {
-			draft.amount = event.currentTarget.value
-			draft.receive = ''
-		})
-		await calculateSwap(new BigNumber(event.currentTarget.value), 'from')
+	const handleSetAmount = async (value: string) => {
+		let val = parseInt(value, 10)
+		if (Number.isNaN(val)) {
+			setState(draft => {
+				draft.amount = ''
+			})
+		} else {
+			val = val >= 0 ? val : 0
+			setState(draft => {
+				draft.amount = val.toString()
+			})
+			await calculateSwap(new BigNumber(value), 'from')
+		}
 	}
 
 	const handleSetReceive = async (event: React.ChangeEvent<HTMLInputElement>) => {
-		setState(draft => {
-			draft.receive = event.currentTarget.value
-			draft.amount = ''
-		})
-		await calculateSwap(new BigNumber(event.currentTarget.value), 'to')
+		let val = parseInt(event.currentTarget.value, 10)
+		if (Number.isNaN(val)) {
+			setState(draft => {
+				draft.receive = ''
+			})
+		} else {
+			val = val >= 0 ? val : 0
+			setState(draft => {
+				draft.receive = val.toString()
+			})
+			await calculateSwap(new BigNumber(event.currentTarget.value), 'to')
+		}
 	}
 
 	const handleSetMinimum = async (checked: boolean) => {
@@ -340,13 +356,15 @@ export const Swap: React.FC = () => {
 							<Text css={{ fontSize: '14px', lineHeight: '17px', fontWeight: '500', flex: '1' }}>You pay:</Text>
 						</Flex>
 						<Box css={{ mt: '13px', position: 'relative' }}>
-							<Input
+							<InputDebounced
 								ref={inputAmountRef}
 								type="number"
 								size="2"
+								min="0"
 								value={state.amount}
 								placeholder="Enter amount"
-								onChange={handleSetAmount}
+								debounce={500}
+								onDebounceChange={handleSetAmount}
 							/>
 							<TokenSelector
 								triggerType="input"
@@ -356,7 +374,6 @@ export const Swap: React.FC = () => {
 							/>
 						</Box>
 					</Box>
-
 					<Box>
 						<Flex align="center" css={{ mt: '10px', position: 'relative', justifyContent: 'space-between' }}>
 							<Text css={{ fontSize: '14px', lineHeight: '17px', fontWeight: '500' }}>You receive:</Text>
@@ -406,7 +423,14 @@ export const Swap: React.FC = () => {
 							</Tooltip>
 						</Flex>
 						<Box css={{ mt: '10px', pb: '10px', position: 'relative' }}>
-							<Input type="number" size="2" value={state.receive} placeholder="Receive" onChange={handleSetReceive} />
+							<Input
+								type="number"
+								size="2"
+								min="0"
+								value={state.receive}
+								placeholder="Receive"
+								onChange={handleSetReceive}
+							/>
 							<TokenSelector
 								triggerType="input"
 								token={toToken}
