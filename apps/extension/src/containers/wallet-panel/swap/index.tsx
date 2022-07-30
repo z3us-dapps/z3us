@@ -18,7 +18,6 @@ import { ScrollArea } from 'ui/src/components/scroll-area'
 import { InfoCircledIcon, UpdateIcon } from '@radix-ui/react-icons'
 import { HoverCard, HoverCardContent, HoverCardTrigger } from 'ui/src/components/hover-card'
 import Button from 'ui/src/components/button'
-import Input from 'ui/src/components/input'
 import { Checkbox, CheckIcon } from 'ui/src/components/checkbox'
 import { ToolTip, Tooltip, TooltipTrigger, TooltipContent, TooltipArrow } from 'ui/src/components/tool-tip'
 import { AccountSelector } from '@src/components/account-selector'
@@ -268,8 +267,8 @@ export const Swap: React.FC = () => {
 		}
 	}
 
-	const handleSetReceive = async (event: React.ChangeEvent<HTMLInputElement>) => {
-		let val = parseInt(event.currentTarget.value, 10)
+	const handleSetReceive = async (value: string) => {
+		let val = parseInt(value, 10)
 		if (Number.isNaN(val)) {
 			setState(draft => {
 				draft.receive = ''
@@ -279,7 +278,7 @@ export const Swap: React.FC = () => {
 			setState(draft => {
 				draft.receive = val.toString()
 			})
-			await calculateSwap(new BigNumber(event.currentTarget.value), 'to')
+			await calculateSwap(new BigNumber(value), 'to')
 		}
 	}
 
@@ -423,13 +422,13 @@ export const Swap: React.FC = () => {
 							</Tooltip>
 						</Flex>
 						<Box css={{ mt: '10px', pb: '10px', position: 'relative' }}>
-							<Input
+							<InputDebounced
 								type="number"
 								size="2"
 								min="0"
 								value={state.receive}
 								placeholder="Receive"
-								onChange={handleSetReceive}
+								onDebounceChange={handleSetReceive}
 							/>
 							<TokenSelector
 								triggerType="input"
