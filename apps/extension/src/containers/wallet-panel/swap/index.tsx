@@ -3,6 +3,7 @@ import BigNumber from 'bignumber.js'
 import { useSharedStore, useStore } from '@src/store'
 import { useImmer } from 'use-immer'
 import { useTimeout } from 'usehooks-ts'
+import { useDebounce } from 'use-debounce'
 import { useTokenBalances, useTokenInfo } from '@src/hooks/react-query/queries/radix'
 import { useCaviarPools, usePools, usePoolTokens, useTransactionFee } from '@src/hooks/react-query/queries/swap'
 import {
@@ -26,10 +27,10 @@ import { Box, Text, Flex, StyledLink } from 'ui/src/components/atoms'
 import { formatBigNumber } from '@src/utils/formatters'
 import { TokenSelector } from '@src/components/token-selector'
 import { HardwareWalletReconnect } from '@src/components/hardware-wallet-reconnect'
+import Input from 'ui/src/components/input'
 import { PoolSelector } from './pool-selector'
 import { FeeBox } from './fee-box'
 import { SwapModal } from './swap-modal'
-import { InputDebounced } from './input-debounced'
 
 interface ImmerState {
 	time: number
@@ -80,6 +81,7 @@ export const Swap: React.FC = () => {
 		isMounted: false,
 		isFeeUiVisible: false,
 	})
+	const [debouncedAmount] = useDebounce(state.amount, 1000)
 	const possibleTokens = usePoolTokens()
 	const pools = usePools(state.fromRRI, state.toRRI)
 	const { data: caviarPools } = useCaviarPools()
@@ -294,7 +296,10 @@ export const Swap: React.FC = () => {
 		await calculateSwap(selectedTokenAmmount, 'from')
 	}
 
-	const handleSetAmount = async (value: string) => {
+	const handleSetAmount = async (event: React.ChangeEvent<HTMLInputElement>) => {
+		let { value } = event.currentTarget
+		// strip non-numerical values
+		value = value.replace(/[^0-9]/g, '')
 		let val = parseInt(value, 10)
 		if (Number.isNaN(val)) {
 			setState(draft => {
@@ -306,11 +311,15 @@ export const Swap: React.FC = () => {
 				draft.amount = value
 				draft.inputSide = 'from'
 			})
-			await calculateSwap(new BigNumber(val), 'from')
+			// NOTE: this moved to the useEffect and is debounced, might move this later....
+			//await calculateSwap(new BigNumber(val), 'from')
 		}
 	}
 
-	const handleSetReceive = async (value: string) => {
+	const handleSetReceive = async (event: React.ChangeEvent<HTMLInputElement>) => {
+		let { value } = event.currentTarget
+		// strip non-numerical values
+		value = value.replace(/[^0-9]/g, '')
 		let val = parseInt(value, 10)
 		if (Number.isNaN(val)) {
 			setState(draft => {
@@ -349,6 +358,15 @@ export const Swap: React.FC = () => {
 			await calculateSwap(new BigNumber(state.receive || 0), state.inputSide)
 		}
 	}
+
+	useEffect(() => {
+		const calculate = async () => {
+			await calculateSwap(new BigNumber(debouncedAmount), 'from')
+		}
+		if (debouncedAmount !== '') {
+			calculate()
+		}
+	}, [debouncedAmount])
 
 	return (
 		<Box
@@ -399,15 +417,14 @@ export const Swap: React.FC = () => {
 							<Text css={{ fontSize: '14px', lineHeight: '17px', fontWeight: '500', flex: '1' }}>You pay:</Text>
 						</Flex>
 						<Box css={{ mt: '13px', position: 'relative' }}>
-							<InputDebounced
+							<Input
 								ref={inputAmountRef}
 								type="number"
 								size="2"
 								min="0"
 								value={state.amount}
 								placeholder="Enter amount"
-								debounce={500}
-								onDebounceChange={handleSetAmount}
+								onChange={handleSetAmount}
 							/>
 							<TokenSelector
 								triggerType="input"
@@ -466,14 +483,13 @@ export const Swap: React.FC = () => {
 							</Tooltip>
 						</Flex>
 						<Box css={{ mt: '10px', pb: '10px', position: 'relative' }}>
-							<InputDebounced
+							<Input
 								type="number"
 								size="2"
 								min="0"
 								value={state.receive}
 								placeholder="Receive"
-								debounce={500}
-								onDebounceChange={handleSetReceive}
+								onChange={handleSetReceive}
 							/>
 							<TokenSelector
 								triggerType="input"
