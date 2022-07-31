@@ -2,7 +2,7 @@ import React, { useEffect, useRef } from 'react'
 import BigNumber from 'bignumber.js'
 import { useSharedStore, useStore } from '@src/store'
 import { useImmer } from 'use-immer'
-import { useTimeout } from 'usehooks-ts'
+import { useTimeout, useInterval } from 'usehooks-ts'
 import { useDebounce } from 'use-debounce'
 import { useTokenBalances, useTokenInfo } from '@src/hooks/react-query/queries/radix'
 import { useCaviarPools, usePools, usePoolTokens, useTransactionFee } from '@src/hooks/react-query/queries/swap'
@@ -124,7 +124,7 @@ export const Swap: React.FC = () => {
 		}
 	}, 500)
 
-	useTimeout(() => {
+	useInterval(() => {
 		setState(draft => {
 			draft.time = Date.now()
 		})
@@ -383,10 +383,6 @@ export const Swap: React.FC = () => {
 			draft.isMounted = false
 			draft.isFeeUiVisible = false
 		})
-
-		// TODO: fix this, seems to be a bug with udpating state when closing the modal
-		const body = document.body || document.getElementsByTagName('body')[0]
-		body.style.pointerEvents = 'auto'
 	}
 
 	const handleCloseSwapModal = () => {
@@ -562,7 +558,7 @@ export const Swap: React.FC = () => {
 															<Text bold>Reduce swap fee.</Text>
 														</Text>
 														<Text>
-															Reduce the Z3US wallet swap fee by 50% by burning $Z3US tokens.
+															Reduce the Z3US wallet swap fee 50%, by burning $Z3US tokens.
 															<StyledLink
 																underline
 																href="https://z3us.com/tokenomics"

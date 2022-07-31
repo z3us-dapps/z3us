@@ -4,7 +4,6 @@ import { ScrollArea } from 'ui/src/components/scroll-area'
 import { useQueryClient } from 'react-query'
 import { useLocation } from 'wouter'
 import { Pool, Token } from '@src/types'
-import AlertCard from 'ui/src/components/alert-card'
 import InputFeedBack from 'ui/src/components/input/input-feedback'
 import { ArrowLeftIcon, InfoCircledIcon } from '@radix-ui/react-icons'
 import { LeftArrowIcon } from 'ui/src/components/icons'
@@ -30,6 +29,7 @@ interface ImmerProps {
 	errorMessage: string
 	isSendingAlertOpen: boolean
 	isSendingTransaction: boolean
+	isTransactionSent: boolean
 	isModalOpen: boolean
 }
 
@@ -79,6 +79,7 @@ export const SwapModal: React.FC<IProps> = ({
 		errorMessage: '',
 		isSendingAlertOpen: false,
 		isSendingTransaction: false,
+		isTransactionSent: false,
 		isModalOpen: false,
 	})
 
@@ -98,9 +99,23 @@ export const SwapModal: React.FC<IProps> = ({
 		setState(draft => {
 			draft.isModalOpen = false
 			draft.isSendingAlertOpen = false
+			draft.isTransactionSent = false
 		})
-		onCloseSwapModal()
 		setLocation('/wallet/swap')
+		onCloseSwapModal()
+	}
+
+	const handleCloseIsSendingAlertModal = () => {
+		setState(draft => {
+			draft.isSendingAlertOpen = false
+		})
+
+		// @TODO: fix closing issue with alert and modal
+		// Setting state to close the modal `state.isModalOpen` and the alert `state.isSendingAlertOpen` at the same time
+		// causes an issue where the modals do not properly close and the body element has `pointer-events: none`
+		setTimeout(() => {
+			handleCloseModal()
+		}, 20)
 	}
 
 	const handleConfirmSend = async () => {
@@ -122,11 +137,13 @@ export const SwapModal: React.FC<IProps> = ({
 				draft.txID = result.txID
 				draft.errorMessage = ''
 				draft.isSendingTransaction = false
+				draft.isTransactionSent = true
 			})
 		} catch (error) {
 			setState(draft => {
 				draft.isSendingTransaction = false
 				draft.errorMessage = (error?.message || error).toString().trim()
+				draft.isTransactionSent = false
 			})
 		}
 	}
@@ -277,30 +294,6 @@ export const SwapModal: React.FC<IProps> = ({
 											</HoverCardContent>
 										</HoverCard>
 									</Box>
-
-									<Box css={{ display: 'none' }}>
-										<AlertCard icon color="warning" css={{ mt: '$4' }}>
-											<Flex justify="between" css={{ flex: 'auto' }}>
-												<Text medium size="4" css={{ mb: '3px', pl: '$3', mt: '8px' }}>
-													Presented fees and rates are indicative and are subject to change. Once submitted to the
-													network, wallet and transaction fees apply at all times and are not refundable. By confirming
-													swap you agree to our{' '}
-													<StyledLink underline href="https://z3us.com/terms" target="_blank">
-														T&amp;C
-													</StyledLink>{' '}
-													{pool && (
-														<>
-															, additional T&amp;C of {pool.name} may apply, learn more{' '}
-															<StyledLink underline href={pool.url} target="_blank">
-																{pool.url}
-															</StyledLink>
-															.
-														</>
-													)}
-												</Text>
-											</Flex>
-										</AlertCard>
-									</Box>
 								</Box>
 							</Box>
 							<Box>
@@ -428,7 +421,7 @@ export const SwapModal: React.FC<IProps> = ({
 														color="primary"
 														aria-label="Close confirm send"
 														css={{ px: '0', flex: '1' }}
-														onClick={handleCloseModal}
+														onClick={handleCloseIsSendingAlertModal}
 														disabled={state.isSendingTransaction}
 														fullWidth
 													>
