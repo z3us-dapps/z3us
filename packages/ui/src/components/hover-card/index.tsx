@@ -1,3 +1,4 @@
+import React from 'react'
 import { styled, keyframes } from '@stitches/react'
 import * as HoverCardPrimitive from '@radix-ui/react-hover-card'
 
@@ -22,14 +23,14 @@ const slideLeftAndFade = keyframes({
 })
 
 const StyledContent = styled(HoverCardPrimitive.Content, {
-	borderRadius: '$3',
-	padding: '$6',
+	borderRadius: '$2',
+	padding: '$3',
 	width: 300,
 	backgroundColor: '$bgPanel',
-	boxShadow: '$shadowPanel2',
+	boxShadow: '$tooltip',
 	'@media (prefers-reduced-motion: no-preference)': {
 		animationDuration: '400ms',
-		animationTimingFunction: 'cubic-bezier(0.16, 1, 0.3, 1)',
+		animationTimingFunction: 'cubic-beer(0.16, 1, 0.3, 1)',
 		animationFillMode: 'forwards',
 		willChange: 'transform, opacity',
 		'&[data-state="open"]': {
@@ -45,7 +46,16 @@ const StyledArrow = styled(HoverCardPrimitive.Arrow, {
 	fill: '$bgPanel',
 })
 
+const Content = ({ children, ...props }) => (
+	<HoverCardPrimitive.Portal>
+		<StyledContent {...props}>
+			{children}
+			<StyledArrow />
+		</StyledContent>
+	</HoverCardPrimitive.Portal>
+)
+
 export const HoverCard = HoverCardPrimitive.Root
 export const HoverCardTrigger = HoverCardPrimitive.Trigger
-export const HoverCardContent = StyledContent
+export const HoverCardContent = Content
 export const HoverCardArrow = StyledArrow
