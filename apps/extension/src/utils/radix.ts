@@ -46,10 +46,15 @@ export const apy = (amount?: BigNumber, total?: BigNumber, fee: number = 0): Big
 	return reward.div(amount).multipliedBy(100)
 }
 
-export const buildAmount = (value: string): AmountT => {
-	const bigAmount = new BigNumber(value)
-	const amountInput = bigAmount.shiftedBy(18) // Atto
-	const amountResult = Amount.fromUnsafe(amountInput.toFixed())
+export const buildAmount = (value: string | BigNumber): AmountT => {
+	let bigAmount
+	if (value instanceof BigNumber) {
+		bigAmount = value
+	} else {
+		bigAmount = new BigNumber(value)
+	}
+	const amountInput: BigNumber = bigAmount.shiftedBy(18) // Atto
+	const amountResult = Amount.fromUnsafe(amountInput.toFixed(0, BigNumber.ROUND_FLOOR))
 	if (!amountResult) {
 		throw new Error(`Failed to parse amount value ${value}`)
 	}

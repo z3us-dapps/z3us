@@ -13,11 +13,12 @@ export const Toasts: React.FC = () => {
 	}))
 
 	return (
-		<Box css={{ position: 'fixed', top: '0', width: '360px' }}>
-			<AnimatePresence>
-				{toasts.map(toast => (
-					<Portal.Root key={toast.id} style={{ width: '100%' }}>
+		<Box css={{ position: 'fixed', top: '0', width: '100%' }}>
+			<Portal.Root style={{ width: '100%' }}>
+				<AnimatePresence>
+					{toasts.map(toast => (
 						<motion.div
+							key={toast.id}
 							initial={{ opacity: 0, y: -75 }}
 							animate={{ opacity: 1, y: 0 }}
 							exit={{ opacity: 0, y: 0 }}
@@ -31,14 +32,15 @@ export const Toasts: React.FC = () => {
 								title={toast.title}
 								subTitle={toast.subTitle}
 								duration={toast.duration}
+								isAutoRemovable={toast.isAutoRemovable}
 								onClickClose={() => removeToast(toast.id)}
 							>
 								{toast.children}
 							</Toast>
 						</motion.div>
-					</Portal.Root>
-				))}
-			</AnimatePresence>
+					))}
+				</AnimatePresence>
+			</Portal.Root>
 		</Box>
 	)
 }

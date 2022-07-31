@@ -11,7 +11,7 @@ import {
 	useLookupValidator,
 	useTokenBalances,
 	useStakedPositions,
-} from '@src/services/react-query/queries/radix'
+} from '@src/hooks/react-query/queries/radix'
 import { Cross2Icon } from '@radix-ui/react-icons'
 import Button from 'ui/src/components/button'
 import Input from 'ui/src/components/input'
@@ -204,7 +204,7 @@ export const StakeModal: React.FC<IProps> = ({ trigger, tooltipMessage, validato
 						iconOnly
 						aria-label="close stake modal"
 						size="1"
-						css={{ position: 'absolute', top: '0', right: '0' }}
+						css={{ position: 'absolute', top: '$4', right: '$4' }}
 						onClick={handleCloseModal}
 					>
 						<Cross2Icon />
@@ -263,6 +263,7 @@ export const StakeModal: React.FC<IProps> = ({ trigger, tooltipMessage, validato
 									value={state.amount}
 									placeholder="Enter amount"
 									onChange={handleSetAmount}
+									min="0"
 								/>
 							</Box>
 						</Box>

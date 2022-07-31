@@ -8,6 +8,8 @@ import chrome from './chrome'
 import firefox from './firefox'
 
 // eslint-disable-next-line
+console.info(`building for env: ${process.env.NODE_ENV}`)
+// eslint-disable-next-line
 console.info(`building for target: ${process.env.APP_TARGET}`)
 
 export default defineConfig({
@@ -29,6 +31,7 @@ export default defineConfig({
 	},
 	plugins: [react(), visualizer()],
 	build: {
+		minify: process.env.NODE_ENV === 'production',
 		outDir: path.resolve(__dirname, `dist/${process.env.APP_TARGET}`),
 		sourcemap: true,
 		rollupOptions: {

@@ -1,5 +1,5 @@
 import React, { ReactElement } from 'react'
-import { useDecryptTransaction } from '@src/services/react-query/queries/radix'
+import { useDecryptTransaction } from '@src/hooks/react-query/queries/radix'
 import { Action, Transaction } from '@src/types'
 import LoaderBars from 'ui/src/components/loader-bars'
 

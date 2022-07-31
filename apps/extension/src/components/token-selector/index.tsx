@@ -1,14 +1,19 @@
 import React from 'react'
 import { RightArrowIcon } from 'ui/src/components/icons'
-import { ChevronDownIcon } from '@radix-ui/react-icons'
+import useMeasure from 'react-use-measure'
+import { ChevronDownIcon, ChevronUpIcon } from '@radix-ui/react-icons'
 import {
-	DropdownMenu,
-	DropdownMenuTrigger,
-	DropdownMenuContent,
-	DropdownMenuRadioGroup,
-	DropdownMenuRadioItem,
-	DropdownMenuItemIndicator,
-} from 'ui/src/components/drop-down-menu'
+	Select,
+	SelectTrigger,
+	SelectValue,
+	SelectContent,
+	SelectViewport,
+	SelectItem,
+	SelectItemText,
+	SelectItemIndicator,
+	SelectScrollUpButton,
+	SelectScrollDownButton,
+} from 'ui/src/components/select'
 import { CircleAvatar } from '@src/components/circle-avatar'
 import { Box, Text, Flex } from 'ui/src/components/atoms'
 import Button from 'ui/src/components/button'
@@ -28,21 +33,20 @@ const defaultProps = {
 }
 
 export const TokenSelector: React.FC<IProps> = ({ triggerType, token, tokens, onTokenChange }) => {
+	const [measureRef, { width: triggerWidth }] = useMeasure()
 	const handleValueChange = (rri: string) => {
 		onTokenChange(rri)
 	}
 
-	const menuAlign = triggerType === 'input' ? 'end' : 'start'
-	const menuWidth = triggerType === 'input' ? '120px' : '314px'
-
 	return (
-		<DropdownMenu>
-			<DropdownMenuTrigger asChild>
+		<Select value={token?.rri} onValueChange={handleValueChange}>
+			<SelectTrigger aria-label="Token selector" asChild>
 				{(() => {
 					switch (triggerType) {
 						case 'input':
 							return (
 								<Button
+									ref={measureRef}
 									css={{
 										maxWidth: '113px',
 										position: 'absolute',
@@ -67,8 +71,13 @@ export const TokenSelector: React.FC<IProps> = ({ triggerType, token, tokens, on
 												fallbackText={token?.symbol}
 											/>
 										</Box>
-										<Text truncate size="4" uppercase css={{ pr: '$1', fontWeight: '600', maxWidth: '60px' }}>
-											{token ? parseResourceIdentifier(token.rri).name : 'Select'}
+										<Text
+											truncate
+											size="4"
+											uppercase
+											css={{ flex: '1', pr: '$1', fontWeight: '600', maxWidth: '60px' }}
+										>
+											<SelectValue placeholder="Select ..." />
 										</Text>
 										<Box css={{ flexShrink: '0' }}>
 											<ChevronDownIcon />
@@ -79,6 +88,7 @@ export const TokenSelector: React.FC<IProps> = ({ triggerType, token, tokens, on
 						default:
 							return (
 								<Button
+									ref={measureRef}
 									css={{
 										display: 'flex',
 										align: 'center',
@@ -109,7 +119,8 @@ export const TokenSelector: React.FC<IProps> = ({ triggerType, token, tokens, on
 												uppercase
 												css={{ fontSize: '14px', lineHeight: '17px', fontWeight: '500', ml: '4px', maxWidth: '200px' }}
 											>
-												{token ? parseResourceIdentifier(token.rri).name : 'Select'}
+												<SelectValue placeholder="Select ..." />
+												{/*{token ? parseResourceIdentifier(token.rri).name : 'Select'}*/}
 											</Text>
 										</Flex>
 									</Box>
@@ -120,26 +131,35 @@ export const TokenSelector: React.FC<IProps> = ({ triggerType, token, tokens, on
 							)
 					}
 				})()}
-			</DropdownMenuTrigger>
-			<DropdownMenuContent
-				avoidCollisions={false}
-				align={menuAlign}
-				side="bottom"
-				sideOffset={10}
-				css={{ minWidth: menuWidth }}
-			>
-				<DropdownMenuRadioGroup value={token?.rri} onValueChange={handleValueChange}>
+			</SelectTrigger>
+			<SelectContent>
+				<SelectScrollUpButton>
+					<ChevronUpIcon />
+				</SelectScrollUpButton>
+				<SelectViewport>
 					{tokens.map(_token => (
-						<DropdownMenuRadioItem key={_token} value={_token}>
-							<DropdownMenuItemIndicator />
-							<Text size="2" bold truncate css={{ maxWidth: '274px' }}>
-								{parseResourceIdentifier(_token).name}
-							</Text>
-						</DropdownMenuRadioItem>
+						<SelectItem
+							key={_token}
+							value={_token}
+							css={{
+								'span:first-child': {
+									overflow: 'hidden',
+									textOverflow: 'ellipsis',
+									whiteSpace: 'nowrap',
+									maxWidth: `${triggerWidth}px`,
+								},
+							}}
+						>
+							<SelectItemText>{parseResourceIdentifier(_token).name}</SelectItemText>
+							<SelectItemIndicator />
+						</SelectItem>
 					))}
-				</DropdownMenuRadioGroup>
-			</DropdownMenuContent>
-		</DropdownMenu>
+				</SelectViewport>
+				<SelectScrollDownButton>
+					<ChevronDownIcon />
+				</SelectScrollDownButton>
+			</SelectContent>
+		</Select>
 	)
 }
 

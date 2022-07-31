@@ -2,7 +2,7 @@ import React from 'react'
 import * as DialogPrimitive from '@radix-ui/react-dialog'
 import { Box } from '../atoms/box'
 import { PropsWithCSS } from '../../types'
-import { styled, keyframes, CSS } from '../../theme'
+import { styled, keyframes } from '../../theme'
 
 const EXT_HEIGHT = '100%'
 const EXT_WIDTH = '100%'
@@ -36,7 +36,6 @@ const StyledOverlay = styled(DialogPrimitive.Overlay, {
 	top: '0',
 	left: '0',
 	inset: 0,
-	zIndex: 3,
 	'&[data-state="open"]': {
 		animation: `${overlayAnimateIn} 200ms ease`,
 		animationFillMode: 'forwards',
@@ -56,7 +55,6 @@ const StyledContent = styled(DialogPrimitive.Content, {
 	display: 'flex',
 	alignItems: 'center',
 	justifyContent: 'center',
-	zIndex: 10,
 	'&:focus': { outline: 'none' },
 	'&[data-state="open"]': {
 		animation: `${animateIn} 200ms ease`,
@@ -71,12 +69,10 @@ const StyledContent = styled(DialogPrimitive.Content, {
 type ContentProps = {
 	children: React.ReactNode
 	container?: React.RefObject<HTMLElement>
-	css?: CSS
 } & typeof defaultContentProps
 
 const defaultContentProps = {
 	container: undefined,
-	css: undefined,
 }
 
 export type DialogContentProps = PropsWithCSS<ContentProps>

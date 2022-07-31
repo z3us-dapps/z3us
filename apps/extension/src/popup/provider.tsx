@@ -1,7 +1,7 @@
 import React from 'react'
 import { Chart, CategoryScale, LinearScale, PointElement, LineElement, Tooltip } from 'chart.js'
 import { QueryClientProvider } from 'react-query'
-import { RNQueryClient } from '@src/services/react-query/query-client'
+import { RNQueryClient } from '@src/hooks/react-query/query-client'
 import { ReactQueryDevtools } from 'react-query/devtools'
 import { App } from '@src/popup/app_'
 import { globalStyles } from 'ui/src/theme'

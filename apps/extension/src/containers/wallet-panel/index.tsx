@@ -5,10 +5,11 @@ import { LockedPanel } from '@src/components/locked-panel'
 import { AnimatePresence, motion } from 'framer-motion'
 import { Z3usMenu } from '@src/components/z3us-menu'
 import { Box, MotionBox } from 'ui/src/components/atoms'
-import { routesInfo, PANEL_HEIGHT, APP_WIDTH, ACCOUNTS, STAKING, SETTINGS } from '@src/config'
+import { routesInfo, PANEL_HEIGHT, APP_WIDTH, ACCOUNTS, STAKING, SWAP, SETTINGS } from '@src/config'
 import { Accounts } from './accounts'
 import { Staking } from './staking'
 import { Settings } from './settings'
+import { Swap } from './swap'
 import { FooterNavigation } from './components/footer-navigation'
 import { HeaderNavigation } from './components/header-navigation'
 
@@ -126,54 +127,23 @@ export const WalletPanel = (): JSX.Element => {
 							}}
 						>
 							<AnimatePresence initial={false} custom={direction}>
-								{page === ACCOUNTS ? (
-									<motion.div
-										key={`page-${activeApp}`}
-										initial="enter"
-										animate="center"
-										exit="exit"
-										variants={pageVariants}
-										custom={direction}
-										style={{
-											...(pageStyle as any),
-										}}
-										transition={pageTransition}
-									>
-										<Accounts />
-									</motion.div>
-								) : null}
-								{page === STAKING ? (
-									<motion.div
-										key={`page-${page}`}
-										initial="enter"
-										animate="center"
-										exit="exit"
-										variants={pageVariants}
-										custom={direction}
-										style={{
-											...(pageStyle as any),
-										}}
-										transition={pageTransition}
-									>
-										<Staking />
-									</motion.div>
-								) : null}
-								{page === SETTINGS ? (
-									<motion.div
-										key={`page-${page}`}
-										initial="enter"
-										animate="center"
-										exit="exit"
-										variants={pageVariants}
-										custom={direction}
-										style={{
-											...(pageStyle as any),
-										}}
-										transition={pageTransition}
-									>
-										<Settings />
-									</motion.div>
-								) : null}
+								<motion.div
+									key={`page-${page}`}
+									initial="enter"
+									animate="center"
+									exit="exit"
+									variants={pageVariants}
+									custom={direction}
+									style={{
+										...(pageStyle as any),
+									}}
+									transition={pageTransition}
+								>
+									{page === ACCOUNTS ? <Accounts /> : null}
+									{page === STAKING ? <Staking /> : null}
+									{page === SWAP ? <Swap /> : null}
+									{page === SETTINGS ? <Settings /> : null}
+								</motion.div>
 							</AnimatePresence>
 							<FooterNavigation />
 						</MotionBox>

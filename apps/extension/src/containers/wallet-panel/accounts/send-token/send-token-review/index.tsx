@@ -19,7 +19,7 @@ import { HardwareWalletReconnect } from '@src/components/hardware-wallet-reconne
 import { EXPLORER_URL } from '@src/config'
 import { Box, Text, Flex, StyledLink } from 'ui/src/components/atoms'
 import { AlertDialog, AlertDialogTrigger, AlertDialogContent } from 'ui/src/components/alert-dialog'
-import { SendReceiveHeader } from '../../send-receive-header'
+import { SendReceiveHeader } from '@src/components/send-receive-header'
 
 interface IProps {
 	token: Token

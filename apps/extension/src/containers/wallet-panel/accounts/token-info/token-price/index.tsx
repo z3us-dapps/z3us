@@ -1,5 +1,5 @@
 import React from 'react'
-import { useTicker } from '@src/services/react-query/queries/tickers'
+import { useTicker } from '@src/hooks/react-query/queries/tickers'
 import { Text, Box, Flex } from 'ui/src/components/atoms'
 import BigNumber from 'bignumber.js'
 import PriceTicker from 'ui/src/components/price-ticker'

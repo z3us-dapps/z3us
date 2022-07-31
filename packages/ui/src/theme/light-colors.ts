@@ -24,7 +24,10 @@ export const lightColors = {
 	bgPriceRed: 'rgb(255 164 164 / 59%)',
 	bgSkeleton1: 'rgba(255, 255, 255, 0.9)',
 	bgSkeleton2: 'rgba(255, 255, 255, 0.8)',
-	bgz3usLogoLoader: '#fbe9fd',
+	bgToastSuccess:
+		'linear-gradient(90deg, rgb(186 255 196 / 60%) 0%, rgb(240 255 238 / 90%) 30%, rgb(247 255 246 / 90%) 100%)',
+	bgToastError:
+		'linear-gradient(90deg, rgb(255 214 214 / 90%) 0%, rgb(255 255 255 / 70%) 70%, rgb(255 255 255 / 80%) 100%)',
 
 	txtDefault: '#000000',
 	txtInverse: '#FFFFFF',

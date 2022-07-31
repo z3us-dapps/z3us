@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 import { useImmer } from 'use-immer'
-import { useAccountValue } from '@src/services/react-query/queries/account'
+import { useAccountValue } from '@src/hooks/react-query/queries/account'
 import { QrHoverCard } from '@src/components/qr-hover-card'
 import { Flex, Box, Text } from 'ui/src/components/atoms'
 import { ToolTip } from 'ui/src/components/tool-tip'
@@ -140,7 +140,7 @@ export const AccountInfo: React.FC<IProps> = ({ address }) => {
 					address={address}
 					toolTipSideOffset={3}
 					toolTipBgColor="$bgPanel"
-					toolTipMessage="Edit"
+					toolTipMessage="Change color"
 				>
 					<Button iconOnly size="1" color="ghost" css={{ color, fill: color }}>
 						<ActivityIcon />

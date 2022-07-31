@@ -7,12 +7,12 @@ import { PORT_NAME, TARGET_BACKGROUND, TARGET_INPAGE, TARGET_POPUP } from '@src/
 import watch from '@src/lib/v1/background-watcher'
 import NewV1BackgroundInpageActions from '@src/lib/v1/background-inpage'
 import NewV1BackgroundPopupActions from '@src/lib/v1/background-popup'
-import { CredentialsService } from '@src/services/credentials'
+// import { CredentialsService } from '@src/services/credentials'
 import { deletePendingAction } from '@src/services/actions-pending'
 
 const browserService = new BrowserService()
 const storage = new BrowserStorageService(browserService, browser.storage)
-const credentials = new CredentialsService(storage)
+// const credentials = new CredentialsService(storage)
 // eslint-disable-next-line no-restricted-globals
 const vault = new VaultService(storage, self.crypto)
 
@@ -37,7 +37,7 @@ const v1InpageActionHandlers = NewV1BackgroundInpageActions(browserService, vaul
 const v1PopupActionHandlers = NewV1BackgroundPopupActions(
 	browserService,
 	vault,
-	credentials,
+	// credentials,
 	sendPopupMessage,
 	sendInpageMessage,
 )
