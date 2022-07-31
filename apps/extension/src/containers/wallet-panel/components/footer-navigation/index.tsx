@@ -50,6 +50,10 @@ export const FooterNavigation: React.FC = () => {
 							if (i === 0 && currentPageIndex === 0) {
 								setLocation('/wallet/account')
 							}
+							// if clicking swap
+							if (i === 2) {
+								setLocation('/wallet/swap')
+							}
 						}}
 						css={{
 							flex: 1,

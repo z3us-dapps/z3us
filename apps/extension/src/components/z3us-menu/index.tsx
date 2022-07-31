@@ -36,7 +36,7 @@ export const Z3usMenu: React.FC = () => {
 	const [isDepositRoute] = useRoute('/wallet/account/deposit')
 	const [isDepositRouteRri] = useRoute('/wallet/account/deposit/:rri')
 	const [isActivityRoute] = useRoute('/wallet/account/activity')
-	const [isSwapRoute] = useRoute('/wallet/account/swap')
+	const [isSwapRoute] = useRoute('/wallet/swap/review')
 	const { keystores, keystoreId, selectKeystore, removeKeystore, changeKeystoreName, removeWallet, lock, isUnlocked } =
 		useSharedStore(state => ({
 			keystores: state.keystores,
