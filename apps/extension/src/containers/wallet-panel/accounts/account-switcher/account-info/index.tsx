@@ -140,7 +140,7 @@ export const AccountInfo: React.FC<IProps> = ({ address }) => {
 					address={address}
 					toolTipSideOffset={3}
 					toolTipBgColor="$bgPanel"
-					toolTipMessage="Edit"
+					toolTipMessage="Change color"
 				>
 					<Button iconOnly size="1" color="ghost" css={{ color, fill: color }}>
 						<ActivityIcon />

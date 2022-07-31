@@ -6,9 +6,10 @@ import { useLocation } from 'wouter'
 import { Pool, Token } from '@src/types'
 import AlertCard from 'ui/src/components/alert-card'
 import InputFeedBack from 'ui/src/components/input/input-feedback'
-import { ArrowLeftIcon } from '@radix-ui/react-icons'
+import { ArrowLeftIcon, InfoCircledIcon } from '@radix-ui/react-icons'
 import { LeftArrowIcon } from 'ui/src/components/icons'
 import { Dialog, DialogTrigger, DialogContent } from 'ui/src/components/dialog'
+import { HoverCard, HoverCardContent, HoverCardTrigger } from 'ui/src/components/hover-card'
 import { BuiltTransactionReadyToSign } from '@radixdlt/application'
 import { useTransaction } from '@src/hooks/use-transaction'
 import { useImmer } from 'use-immer'
@@ -194,9 +195,6 @@ export const SwapModal: React.FC<IProps> = ({
 								<Box css={{ p: '$2', px: '23px', flex: '1' }}>
 									<Box>
 										<Text css={{ fontSize: '32px', lineHeight: '38px', fontWeight: '800' }}>Confirm swap</Text>
-										<Text css={{ fontSize: '14px', lineHeight: '17px', fontWeight: '500', mt: '20px' }}>
-											Transaction details:
-										</Text>
 									</Box>
 									<InfoStatBlock
 										addressBookBackground={entry?.background}
@@ -216,6 +214,61 @@ export const SwapModal: React.FC<IProps> = ({
 									/>
 
 									<FeeBox fromToken={fromToken} txFee={txFee} poolFee={poolFee} z3usFee={z3usFee} z3usBurn={z3usBurn} />
+									<Box css={{ mt: '$1' }}>
+										<HoverCard>
+											<HoverCardTrigger asChild>
+												<Flex css={{ color: '$txtHelp', display: 'inline-flex', textDecoration: 'underline' }}>
+													<Text size="2" css={{ mr: '$1' }}>
+														Swap transaction {`T&C's`}
+													</Text>
+													<InfoCircledIcon />
+												</Flex>
+											</HoverCardTrigger>
+											<HoverCardContent
+												side="top"
+												sideOffset={5}
+												css={{ maxWidth: '240px', pointerEvents: 'auto', zIndex: '99' }}
+											>
+												<Flex css={{ flexDirection: 'column', gap: 10 }}>
+													<Text size="2">
+														Presented fees and rates are indicative and are subject to change. Once submitted to the
+														network, wallet and transaction fees apply at all times and are not refundable. By
+														confirming swap you agree to our{' '}
+														<StyledLink
+															underline
+															href="https://z3us.com/terms"
+															target="_blank"
+															onMouseDown={() => {
+																// @TODO: Seems to be an issue using a hover card inside a dialog
+																// https://github.com/radix-ui/primitives/issues/920
+																window.open('https://z3us.com/terms', '_blank').focus()
+															}}
+														>
+															T&amp;C
+														</StyledLink>{' '}
+														{pool && (
+															<>
+																, additional T&amp;C of {pool.name} may apply, learn more{' '}
+																<StyledLink
+																	underline
+																	href={pool.url}
+																	target="_blank"
+																	onMouseDown={() => {
+																		// @TODO: Seems to be an issue using a hover card inside a dialog
+																		// https://github.com/radix-ui/primitives/issues/920
+																		window.open(pool.url, '_blank').focus()
+																	}}
+																>
+																	{pool.url}
+																</StyledLink>
+																.
+															</>
+														)}
+													</Text>
+												</Flex>
+											</HoverCardContent>
+										</HoverCard>
+									</Box>
 
 									<Box css={{ display: 'none' }}>
 										<AlertCard icon color="warning" css={{ mt: '$4' }}>
@@ -254,7 +307,6 @@ export const SwapModal: React.FC<IProps> = ({
 									>
 										Cancel
 									</Button>
-
 									<AlertDialog open={state.isSendingAlertOpen}>
 										<AlertDialogTrigger asChild>
 											<Button

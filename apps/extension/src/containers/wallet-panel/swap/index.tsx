@@ -240,6 +240,15 @@ export const Swap: React.FC = () => {
 		}
 	}, [state.time])
 
+	useEffect(() => {
+		const calculate = async () => {
+			await calculateSwap(new BigNumber(debouncedAmount), 'from')
+		}
+		if (debouncedAmount !== '') {
+			calculate()
+		}
+	}, [debouncedAmount])
+
 	const handlePoolChange = async (pool: Pool) => {
 		setState(draft => {
 			draft.pool = pool
@@ -359,15 +368,6 @@ export const Swap: React.FC = () => {
 		}
 	}
 
-	useEffect(() => {
-		const calculate = async () => {
-			await calculateSwap(new BigNumber(debouncedAmount), 'from')
-		}
-		if (debouncedAmount !== '') {
-			calculate()
-		}
-	}, [debouncedAmount])
-
 	return (
 		<Box
 			css={{
@@ -379,7 +379,7 @@ export const Swap: React.FC = () => {
 			}}
 		>
 			<ScrollArea>
-				<Box css={{ py: '20px', px: '23px', flex: '1' }}>
+				<Box css={{ pt: '20px', px: '23px', flex: '1', ...(state.isFeeUiVisible ? { pb: '20px' } : { pb: '0' }) }}>
 					<Box>
 						<Text css={{ fontSize: '32px', lineHeight: '38px', fontWeight: '800' }}>Swap</Text>
 						<Text css={{ fontSize: '14px', lineHeight: '17px', fontWeight: '500', mt: '20px' }}>From:</Text>
@@ -457,8 +457,9 @@ export const Swap: React.FC = () => {
 									<UpdateIcon />
 								</Button>
 							</ToolTip>
-							<Tooltip>
-								<TooltipTrigger asChild>
+
+							<HoverCard>
+								<HoverCardTrigger asChild>
 									<Flex
 										align="center"
 										css={{
@@ -474,13 +475,16 @@ export const Swap: React.FC = () => {
 											Minimum
 										</Text>
 									</Flex>
-								</TooltipTrigger>
-								<TooltipContent side="top" sideOffset={3} css={{ maxWidth: '220px' }}>
-									<TooltipArrow offset={15} />
-									Minimum will return unfilled if the rate has moved adversely against you. Wallet and transaction fees
-									still apply.
-								</TooltipContent>
-							</Tooltip>
+								</HoverCardTrigger>
+								<HoverCardContent side="top" sideOffset={5} css={{ maxWidth: '260px' }}>
+									<Flex css={{ flexDirection: 'column', gap: 10 }}>
+										<Text>
+											Minimum will return unfilled if the rate has moved adversely against you. Wallet and transaction
+											fees still apply.
+										</Text>
+									</Flex>
+								</HoverCardContent>
+							</HoverCard>
 						</Flex>
 						<Box css={{ mt: '10px', pb: '10px', position: 'relative' }}>
 							<Input
@@ -514,24 +518,17 @@ export const Swap: React.FC = () => {
 							<Box>
 								<Flex align="center" css={{ mt: '7px', position: 'relative', height: '23px' }}>
 									<Flex align="center">
-										<Checkbox id="burn" size="1" onCheckedChange={handleSetBurn} checked={state.burn}>
-											<CheckIcon />
-										</Checkbox>
 										<Flex align="center" css={{ mt: '1px' }}>
-											<Text medium size="3" as="label" css={{ paddingLeft: '$2' }} htmlFor="burn">
-												Reduce fee with
-											</Text>
 											<HoverCard>
 												<HoverCardTrigger asChild>
 													<Flex align="center">
-														<Box css={{ ml: '6px' }}>
-															<StyledLink as="div" bubble css={{ padding: '5px 0px' }}>
-																<Text bold css={{ pr: '$1' }}>
-																	$Z3US
-																</Text>
-																<InfoCircledIcon />
-															</StyledLink>
-														</Box>
+														<Checkbox id="burn" size="1" onCheckedChange={handleSetBurn} checked={state.burn}>
+															<CheckIcon />
+														</Checkbox>
+														<Text medium size="3" as="label" css={{ paddingLeft: '$2', pr: '$1' }} htmlFor="burn">
+															Reduce fee with $Z3US
+														</Text>
+														<InfoCircledIcon />
 													</Flex>
 												</HoverCardTrigger>
 												<HoverCardContent side="top" sideOffset={5} css={{ maxWidth: '260px' }}>
@@ -545,11 +542,7 @@ export const Swap: React.FC = () => {
 																underline
 																href="https://z3us.com/tokenomics"
 																target="_blank"
-																css={{ ml: '$1' }}
-																onClick={() => {
-																	// @NOTE: need to investigate, for some reason, a regular link did not work
-																	window.open('https://z3us.com/tokenomics', '_blank').focus()
-																}}
+																css={{ ml: '$1', pointerEvents: 'auto' }}
 															>
 																Learn more
 															</StyledLink>
