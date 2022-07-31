@@ -25,6 +25,14 @@ import { MotionBox, Box, Text, Flex, StyledLink } from 'ui/src/components/atoms'
 import { AlertDialog, AlertDialogTrigger, AlertDialogContent } from 'ui/src/components/alert-dialog'
 import { FeeBox } from '../fee-box'
 
+interface ImmerProps {
+	txID: string
+	errorMessage: string
+	isSendingAlertOpen: boolean
+	isSendingTransaction: boolean
+	isModalOpen: boolean
+}
+
 interface IProps {
 	trigger: React.ReactNode
 	pool: Pool
@@ -38,6 +46,7 @@ interface IProps {
 	z3usBurn?: BigNumber
 	txFee: BigNumber
 	transaction: BuiltTransactionReadyToSign
+	onCloseSwapModal: () => void
 }
 
 export const SwapModal: React.FC<IProps> = ({
@@ -53,6 +62,7 @@ export const SwapModal: React.FC<IProps> = ({
 	z3usBurn,
 	txFee,
 	transaction,
+	onCloseSwapModal,
 }) => {
 	const [, setLocation] = useLocation()
 	const queryClient = useQueryClient()
@@ -64,7 +74,7 @@ export const SwapModal: React.FC<IProps> = ({
 		account: state.account,
 		publicAddresses: Object.values(state.publicAddresses),
 	}))
-	const [state, setState] = useImmer({
+	const [state, setState] = useImmer<ImmerProps>({
 		txID: '',
 		errorMessage: '',
 		isSendingAlertOpen: false,
@@ -77,19 +87,20 @@ export const SwapModal: React.FC<IProps> = ({
 	const shortAddress = getShortAddress(address)
 
 	const handleOnClick = () => {
-		setLocation('/wallet/swap/review')
 		setState(draft => {
 			draft.isModalOpen = true
 			draft.isSendingAlertOpen = false
 		})
+		setLocation('/wallet/swap/review')
 	}
 
 	const handleCloseModal = () => {
-		setLocation('/wallet/swap')
 		setState(draft => {
-			draft.isSendingAlertOpen = false
 			draft.isModalOpen = false
+			draft.isSendingAlertOpen = false
 		})
+		onCloseSwapModal()
+		setLocation('/wallet/swap')
 	}
 
 	const handleConfirmSend = async () => {
@@ -110,11 +121,8 @@ export const SwapModal: React.FC<IProps> = ({
 			setState(draft => {
 				draft.txID = result.txID
 				draft.errorMessage = ''
-				draft.isSendingAlertOpen = false
-				draft.isModalOpen = false
 				draft.isSendingTransaction = false
 			})
-			setLocation(`/wallet/account/token/${toToken.rri}`)
 		} catch (error) {
 			setState(draft => {
 				draft.isSendingTransaction = false

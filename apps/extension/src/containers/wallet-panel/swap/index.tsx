@@ -64,6 +64,7 @@ export const Swap: React.FC = () => {
 		account: state.account,
 		accountAddress: state.getCurrentAddressAction(),
 	}))
+
 	const [state, setState] = useImmer<ImmerState>({
 		time: Date.now(),
 		pool: undefined,
@@ -307,8 +308,8 @@ export const Swap: React.FC = () => {
 
 	const handleSetAmount = async (event: React.ChangeEvent<HTMLInputElement>) => {
 		let { value } = event.currentTarget
-		// strip non-numerical values
-		value = value.replace(/[^0-9]/g, '')
+		// strip minus sign `-`
+		value = value.replace('-', '#!@?')
 		let val = parseInt(value, 10)
 		if (Number.isNaN(val)) {
 			setState(draft => {
@@ -320,15 +321,13 @@ export const Swap: React.FC = () => {
 				draft.amount = value
 				draft.inputSide = 'from'
 			})
-			// NOTE: this moved to the useEffect and is debounced, might move this later....
-			//await calculateSwap(new BigNumber(val), 'from')
 		}
 	}
 
 	const handleSetReceive = async (event: React.ChangeEvent<HTMLInputElement>) => {
 		let { value } = event.currentTarget
-		// strip non-numerical values
-		value = value.replace(/[^0-9]/g, '')
+		// strip minus sign `-`
+		value = value.replace('-', '#!@?')
 		let val = parseInt(value, 10)
 		if (Number.isNaN(val)) {
 			setState(draft => {
@@ -366,6 +365,32 @@ export const Swap: React.FC = () => {
 		} else if (state.inputSide === 'to' && state.receive) {
 			await calculateSwap(new BigNumber(state.receive || 0), state.inputSide)
 		}
+	}
+
+	const resetImmerState = () => {
+		setState(draft => {
+			draft.time = Date.now()
+			draft.pool = undefined
+			draft.inputSide = 'from'
+			draft.amount = ''
+			draft.receive = ''
+			draft.poolFee = ''
+			draft.z3usFee = ''
+			draft.z3usBurn = ''
+			draft.minimum = false
+			draft.burn = false
+			draft.isLoading = false
+			draft.isMounted = false
+			draft.isFeeUiVisible = false
+		})
+
+		// TODO: fix this, seems to be a bug with udpating state when closing the modal
+		const body = document.body || document.getElementsByTagName('body')[0]
+		body.style.pointerEvents = 'auto'
+	}
+
+	const handleCloseSwapModal = () => {
+		resetImmerState()
 	}
 
 	return (
@@ -584,6 +609,7 @@ export const Swap: React.FC = () => {
 									Review swap
 								</Button>
 							}
+							onCloseSwapModal={handleCloseSwapModal}
 						/>
 					</Box>
 				</Box>
