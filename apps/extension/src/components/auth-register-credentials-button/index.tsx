@@ -26,7 +26,7 @@ export const RegisterCredentialsButton: React.FC<ButtonProps> = props => {
 				await removeCredential()
 			} catch (error) {
 				// eslint-disable-next-line no-console
-				console.warn(error)
+				console.error(error)
 			}
 		}
 		load()

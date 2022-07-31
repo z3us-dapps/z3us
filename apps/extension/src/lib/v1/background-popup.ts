@@ -3,6 +3,7 @@ import { Runtime } from 'webextension-polyfill'
 import { BrowserService } from '@src/services/browser'
 import { VaultService } from '@src/services/vault'
 import { CredentialsService } from '@src/services/credentials'
+import { deletePendingAction, getPendingAction } from '@src/services/actions-pending'
 import {
 	CONFIRM,
 	HAS,
@@ -23,7 +24,6 @@ export default function NewV1BackgroundPopupActions(
 	browser: BrowserService,
 	vault: VaultService,
 	credentials: CredentialsService,
-	actionsToConfirm: { [key: string]: Runtime.Port },
 	sendPopupMessage: (port: Runtime.Port, id: string, request: any, response: any) => void,
 	sendInpageMessage: (port: Runtime.Port, id: string, request: any, response: any) => void,
 ) {
@@ -32,13 +32,13 @@ export default function NewV1BackgroundPopupActions(
 			browser.closeCurrentPopup()
 		}
 
-		const port = actionsToConfirm[id]
+		const port = await getPendingAction(id)
 		if (!port) {
 			return
 		}
 
 		sendInpageMessage(port, id, payload.request, payload.value)
-		delete actionsToConfirm[id]
+		await deletePendingAction(id)
 
 		const { selectKeystoreId } = sharedStore.getState()
 		const useStore = accountStore(selectKeystoreId)

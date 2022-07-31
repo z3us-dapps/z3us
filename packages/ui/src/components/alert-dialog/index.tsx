@@ -3,8 +3,8 @@ import * as AlertDialogPrimitive from '@radix-ui/react-alert-dialog'
 import { Box } from '../atoms/box'
 import { styled, keyframes } from '../../theme'
 
-const EXT_HEIGHT = '600px'
-const EXT_WIDTH = '360px'
+const EXT_HEIGHT = '100%'
+const EXT_WIDTH = '100%'
 
 const overlayAnimateIn = keyframes({
 	from: { opacity: 0 },
@@ -28,7 +28,7 @@ const animateOut = keyframes({
 
 const StyledOverlayExtension = styled(AlertDialogPrimitive.Overlay, {
 	backgroundColor: '$bgTransparentDialog',
-	backdropFilter: 'blur(5px)',
+	backdropFilter: 'blur(6px)',
 	position: 'absolute',
 	width: EXT_WIDTH,
 	height: EXT_HEIGHT,

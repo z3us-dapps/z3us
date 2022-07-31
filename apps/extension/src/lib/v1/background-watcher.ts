@@ -75,9 +75,9 @@ const watchTransactions = async (useStore: typeof defaultAccountStore) => {
 	}
 }
 
-const keepServiceWorkerActive = () => dispatchEvent(new CustomEvent('backgroundwatcher'))
+const triggerWatch = () => dispatchEvent(new CustomEvent('backgroundwatcher'))
 
-const handleKeepServiceWorkerActive = () => async () => {
+const watch = async () => {
 	await sharedStore.persist.rehydrate()
 	const { selectKeystoreId } = sharedStore.getState()
 	const useStore = accountStore(selectKeystoreId)
@@ -88,6 +88,6 @@ const handleKeepServiceWorkerActive = () => async () => {
 
 export default () => {
 	// eslint-disable-next-line no-restricted-globals
-	addEventListener('backgroundwatcher', handleKeepServiceWorkerActive())
-	setInterval(keepServiceWorkerActive, 1000 * 15) // 15 seconds
+	addEventListener('backgroundwatcher', watch)
+	setInterval(triggerWatch, 1000 * 15) // 15 seconds
 }

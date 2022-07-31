@@ -125,7 +125,7 @@ const Button = React.forwardRef<HTMLButtonElement, React.PropsWithChildren<Butto
 								},
 						  }
 						: {}),
-					...(css as any),
+					...css,
 				}}
 				{...rest}
 			>

@@ -8,16 +8,13 @@ import watch from '@src/lib/v1/background-watcher'
 import NewV1BackgroundInpageActions from '@src/lib/v1/background-inpage'
 import NewV1BackgroundPopupActions from '@src/lib/v1/background-popup'
 import { CredentialsService } from '@src/services/credentials'
+import { deletePendingAction } from '@src/services/actions-pending'
 
 const browserService = new BrowserService()
 const storage = new BrowserStorageService(browserService, browser.storage)
 const credentials = new CredentialsService(storage)
 // eslint-disable-next-line no-restricted-globals
 const vault = new VaultService(storage, self.crypto)
-
-const actionsToConfirm: {
-	[key: string]: Runtime.Port
-} = {}
 
 function sendMessage(port: Runtime.Port, target: string, id: string, request: any, response: any) {
 	try {
@@ -36,12 +33,11 @@ function sendPopupMessage(port: Runtime.Port, id: string, request: any, response
 	sendMessage(port, TARGET_POPUP, id, request, response)
 }
 
-const v1InpageActionHandlers = NewV1BackgroundInpageActions(browserService, vault, actionsToConfirm, sendInpageMessage)
+const v1InpageActionHandlers = NewV1BackgroundInpageActions(browserService, vault, sendInpageMessage)
 const v1PopupActionHandlers = NewV1BackgroundPopupActions(
 	browserService,
 	vault,
 	credentials,
-	actionsToConfirm,
 	sendPopupMessage,
 	sendInpageMessage,
 )
@@ -67,6 +63,15 @@ browser.runtime.onConnect.addListener(port => {
 
 	const portMessageIDs: { [key: string]: unknown } = {}
 
+	const timer = setTimeout(
+		() => {
+			clearTimeout(timer)
+			port.disconnect()
+		},
+		250e3,
+		port,
+	)
+
 	port.onDisconnect.addListener(() => {
 		if (port.error) {
 			// eslint-disable-next-line no-console
@@ -74,7 +79,7 @@ browser.runtime.onConnect.addListener(port => {
 		}
 
 		Object.keys(portMessageIDs).forEach(async id => {
-			delete actionsToConfirm[id]
+			await deletePendingAction(id)
 
 			await sharedStore.persist.rehydrate()
 			const { selectKeystoreId } = sharedStore.getState()

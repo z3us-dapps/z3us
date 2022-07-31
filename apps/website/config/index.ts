@@ -11,6 +11,7 @@ export const config = {
 	TWITTER_HANDLE: 'z3us_dapps',
 	CHROME_STORE_URL: 'https://chrome.google.com/webstore/detail/z3us/icpikagpkkbldbfjlbefnmmmcohbjije',
 	FIREFOX_STORE_URL: 'https://addons.mozilla.org/addon/z3us/',
+	EXPLORER_URL: 'https://explorer.radixdlt.com/#',
 }
 
 export const bp = {
