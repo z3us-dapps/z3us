@@ -1,7 +1,7 @@
 import React from 'react'
 import { useSharedStore } from '@src/store'
+import { useSupportedCurrencies } from '@src/hooks/react-query/queries/market'
 import { SelectBox } from 'ui/src/components/select'
-import { useSupportedCurrencies } from '@src/services/react-query/queries/market'
 
 export const CurrencySelector: React.FC = () => {
 	const { currency, setCurrency } = useSharedStore(state => ({

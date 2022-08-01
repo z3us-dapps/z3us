@@ -1,7 +1,7 @@
 import React, { useRef, useCallback, useEffect, useState } from 'react'
 import { ScrollArea } from 'ui/src/components/scroll-area'
 import { TokenLoadingRows } from '@src/components/token-loading-row'
-import { useTransactionHistory } from '@src/services/react-query/queries/radix'
+import { useTransactionHistory } from '@src/hooks/react-query/queries/radix'
 import { ActivityItem } from '@src/components/activity-item'
 import { useRoute } from 'wouter'
 import { Box, Text } from 'ui/src/components/atoms'

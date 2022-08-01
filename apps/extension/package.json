@@ -75,6 +75,7 @@
 		"stream-browserify": "^3.0.0",
 		"stream-http": "^3.2.0",
 		"ui": "*",
+		"use-debounce": "^8.0.3",
 		"use-immer": "^0.6.0",
 		"usehooks-ts": "^2.4.2",
 		"vite": "^2.9.5",

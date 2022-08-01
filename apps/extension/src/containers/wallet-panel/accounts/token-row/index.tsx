@@ -1,7 +1,7 @@
 import React from 'react'
 import BigNumber from 'bignumber.js'
 import { formatBigNumber } from '@src/utils/formatters'
-import { useTokenInfo } from '@src/services/react-query/queries/radix'
+import { useTokenInfo } from '@src/hooks/react-query/queries/radix'
 import { useLocation } from 'wouter'
 import { Box, Flex, Text } from 'ui/src/components/atoms'
 import Button from 'ui/src/components/button'

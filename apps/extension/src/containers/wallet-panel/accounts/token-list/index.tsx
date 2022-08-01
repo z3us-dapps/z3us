@@ -1,7 +1,7 @@
 /* eslint-disable react/no-unstable-nested-components */
 import React, { useState } from 'react'
 import { useSharedStore, useStore } from '@src/store'
-import { useAllAccountsTokenBalances, useTokenBalances } from '@src/services/react-query/queries/radix'
+import { useAllAccountsTokenBalances, useTokenBalances } from '@src/hooks/react-query/queries/radix'
 import { TokenLoadingRows } from '@src/components/token-loading-row'
 import { useImmer } from 'use-immer'
 import { ToolTip } from 'ui/src/components/tool-tip'

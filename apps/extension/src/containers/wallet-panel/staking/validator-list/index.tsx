@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { useValidators } from '@src/services/react-query/queries/radix'
+import { useValidators } from '@src/hooks/react-query/queries/radix'
 import { Validator } from '@src/types'
 import { Flex, Box } from 'ui/src/components/atoms'
 import { useImmer } from 'use-immer'

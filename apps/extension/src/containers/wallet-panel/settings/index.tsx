@@ -34,7 +34,7 @@ export const Settings: React.FC = () => {
 					<Box css={{ py: '20px', px: '23px' }}>
 						<Box>
 							<Text css={{ fontSize: '32px', lineHeight: '38px', fontWeight: '800' }}>Settings</Text>
-							<Text size="3" medium css={{ mt: '20px' }}>
+							<Text size="3" medium css={{ mt: '22px' }}>
 								Update wallet settings
 							</Text>
 						</Box>

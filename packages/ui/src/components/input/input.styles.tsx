@@ -24,6 +24,14 @@ export const StyledInput = styled('input', {
 	boxSizing: 'border-box',
 	WebkitAppearance: 'none',
 	transition: '$default',
+	'&[type="number"]::-webkit-inner-spin-button': {
+		'-webkit-appearance': 'none',
+		margin: '0',
+	},
+	'&[type="number"]::-webkit-outer-spin-button': {
+		'-webkit-appearance': 'none',
+		margin: '0',
+	},
 	'&::placeholder': {
 		color: 'transparent',
 	},

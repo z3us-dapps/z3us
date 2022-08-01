@@ -15,7 +15,7 @@ import { Dialog, DialogTrigger, DialogContent } from 'ui/src/components/dialog'
 import { Box, Text, Flex } from 'ui/src/components/atoms'
 import { AccountSelector } from '@src/components/account-selector'
 import { HardwareWalletReconnect } from '@src/components/hardware-wallet-reconnect'
-import { useTokenBalances, useTokenInfo } from '@src/services/react-query/queries/radix'
+import { useTokenBalances, useTokenInfo } from '@src/hooks/react-query/queries/radix'
 import { TokenSelector } from '@src/components/token-selector'
 import { formatBigNumber } from '@src/utils/formatters'
 import BigNumber from 'bignumber.js'
@@ -177,7 +177,7 @@ export const BurnTokenModal: React.FC<IProps> = ({ trigger }) => {
 	}
 
 	return (
-		<Dialog open={state.isModalOpen} modal={false}>
+		<Dialog open={state.isModalOpen}>
 			<DialogTrigger asChild onClick={handleOnClick}>
 				{trigger}
 			</DialogTrigger>

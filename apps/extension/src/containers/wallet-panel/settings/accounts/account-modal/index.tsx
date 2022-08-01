@@ -132,7 +132,7 @@ export const AccountModal = ({
 	}
 
 	return (
-		<Dialog open={state.isModalOpen} modal={false}>
+		<Dialog open={state.isModalOpen}>
 			<DialogTrigger asChild>
 				<Tooltip>
 					<TooltipTrigger asChild onClick={handleOnClick}>

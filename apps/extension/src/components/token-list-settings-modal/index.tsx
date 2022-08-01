@@ -2,11 +2,11 @@
 import React, { useState, useEffect, useCallback } from 'react'
 import { useSharedStore, useStore } from '@src/store'
 import { useEventListener } from 'usehooks-ts'
-import { useTokenBalances } from '@src/services/react-query/queries/radix'
-import { useKnownTokens } from '@src/services/react-query/queries/radixscan'
+import { useTokenBalances } from '@src/hooks/react-query/queries/radix'
+import { useKnownTokens } from '@src/hooks/react-query/queries/radixscan'
 import { useImmer } from 'use-immer'
 import { SearchBox } from '@src/components/search-box'
-import { Cross2Icon } from '@radix-ui/react-icons'
+import { Cross2Icon, ResetIcon } from '@radix-ui/react-icons'
 import Button from 'ui/src/components/button'
 import { Virtuoso } from 'react-virtuoso'
 import { Tooltip, TooltipTrigger, TooltipContent, TooltipArrow } from 'ui/src/components/tool-tip'
@@ -15,6 +15,7 @@ import * as ReactBeautifulDnd from 'react-beautiful-dnd'
 import { Box, Text, Flex } from 'ui/src/components/atoms'
 import { Side } from '@radix-ui/popper'
 import { Token as TokenBalance, VisibleTokens, VisibleToken } from '@src/types'
+import { OCI_TEST_RRI } from '@src/config'
 import { Token } from './token'
 
 const VISIBLE = 'visible'
@@ -43,15 +44,19 @@ const makeVisibleTokenTokenData = (
 	availableBalances: TokenBalance[],
 ): VisibleTokens => {
 	const vs = { ...visibleTokens }
-	availableBalances?.forEach(token => {
-		if (vs[token.rri]) return
-		const visibleToken = _tokens[token.rri]
-		if (visibleToken) {
-			vs[token.rri] = visibleToken
-		}
-	})
+	if (Object.values(vs).length === 0) {
+		availableBalances?.forEach(token => {
+			if (vs[token.rri]) return
+			const visibleToken = _tokens[token.rri]
+			if (visibleToken) {
+				vs[token.rri] = visibleToken
+			}
+		})
+	}
 	return vs
 }
+
+const ignorTokenRRIs = [OCI_TEST_RRI]
 
 const makeInvisibleTokenData = (
 	search: string,
@@ -60,6 +65,9 @@ const makeInvisibleTokenData = (
 ): VisibleTokens => {
 	const ivs = Object.values(_tokens).reduce((obj, item: VisibleToken) => {
 		if (!getIsQueryMatch(search, item)) {
+			return obj
+		}
+		if (ignorTokenRRIs.includes(item.rri)) {
 			return obj
 		}
 		obj[item.rri] = { ...item }
@@ -216,6 +224,17 @@ export const TokenListSettingsModal = ({
 		})
 	}
 
+	const handleResetTokenList = () => {
+		setState(draft => {
+			draft.search = ''
+
+			const visible = makeVisibleTokenTokenData(tokens, {}, balances?.account_balances?.liquid_balances)
+
+			draft[VISIBLE] = visible
+			draft[INVISIBLE] = makeInvisibleTokenData(draft.search.toLowerCase(), tokens, visible)
+		})
+	}
+
 	const handleSearchTokenList = (search: string) => {
 		setState(draft => {
 			draft.search = search
@@ -239,7 +258,7 @@ export const TokenListSettingsModal = ({
 	})
 
 	return (
-		<Dialog open={state.isModalOpen} modal={false}>
+		<Dialog open={state.isModalOpen}>
 			<DialogTrigger asChild>
 				<Tooltip>
 					<TooltipTrigger asChild onClick={handleOnClick}>
@@ -355,6 +374,12 @@ export const TokenListSettingsModal = ({
 						</Box>
 					</Box>
 					<Flex justify="end" gap="2" css={{ p: '$3', borderTop: '1px solid $borderPanel' }}>
+						<Box css={{ flex: '1' }}>
+							<Button size="3" color="ghost" aria-label="cancel" onClick={handleResetTokenList}>
+								<ResetIcon />
+								Reset
+							</Button>
+						</Box>
 						<Button size="3" color="primary" aria-label="save" onClick={handleSaveTokenList}>
 							Save
 						</Button>

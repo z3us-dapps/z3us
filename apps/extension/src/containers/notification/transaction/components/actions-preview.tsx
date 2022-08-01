@@ -7,7 +7,7 @@ import { useSharedStore, useStore } from '@src/store'
 import { SlippageBox } from '@src/components/slippage-box'
 import { ActivityType } from '@src/components/activity-type'
 import { Action } from '@radixdlt/application'
-import { useTokenInfo } from '@src/services/react-query/queries/radix'
+import { useTokenInfo } from '@src/hooks/react-query/queries/radix'
 import { formatBigNumber } from '@src/utils/formatters'
 
 interface ActionPreviewProps {

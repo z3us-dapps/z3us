@@ -50,6 +50,12 @@ const StyledContent = styled(SelectPrimitive.Content, {
 	},
 })
 
+const Content = ({ children, ...props }) => (
+	<SelectPrimitive.Portal>
+		<StyledContent {...props}>{children}</StyledContent>
+	</SelectPrimitive.Portal>
+)
+
 const StyledViewport = styled(SelectPrimitive.Viewport, {
 	padding: 0,
 })
@@ -94,7 +100,7 @@ export const Select = SelectPrimitive.Root
 export const SelectTrigger = StyledTrigger
 export const SelectValue = SelectPrimitive.Value
 export const SelectIcon = SelectPrimitive.Icon
-export const SelectContent = StyledContent
+export const SelectContent = Content
 export const SelectViewport = StyledViewport
 export const SelectGroup = SelectPrimitive.Group
 export const SelectItem = StyledItem
@@ -167,24 +173,26 @@ export const SelectBox: React.FC<IProps> = ({
 					<ChevronUpIcon />
 				</SelectScrollUpButton>
 				<SelectViewport>
-					{selectLabel ? <SelectLabel>{selectLabel}</SelectLabel> : null}
-					{selectOptions?.map(({ value: _value, name: _name }) => (
-						<SelectItem
-							key={_value}
-							value={_value}
-							css={{
-								'span:first-child': {
-									overflow: 'hidden',
-									textOverflow: 'ellipsis',
-									whiteSpace: 'nowrap',
-									maxWidth: `${triggerWidth}px`,
-								},
-							}}
-						>
-							<SelectItemText>{selectNameFormatter(_name)}</SelectItemText>
-							<SelectItemIndicator />
-						</SelectItem>
-					))}
+					<SelectGroup>
+						{selectLabel ? <SelectLabel>{selectLabel}</SelectLabel> : null}
+						{selectOptions?.map(({ value: _value, name: _name }) => (
+							<SelectItem
+								key={_value}
+								value={_value}
+								css={{
+									'span:first-child': {
+										overflow: 'hidden',
+										textOverflow: 'ellipsis',
+										whiteSpace: 'nowrap',
+										maxWidth: `${triggerWidth}px`,
+									},
+								}}
+							>
+								<SelectItemText>{selectNameFormatter(_name)}</SelectItemText>
+								<SelectItemIndicator />
+							</SelectItem>
+						))}
+					</SelectGroup>
 				</SelectViewport>
 				<SelectScrollDownButton>
 					<ChevronDownIcon />
