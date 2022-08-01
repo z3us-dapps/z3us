@@ -16,18 +16,20 @@ export const TokenItem: React.FC<IProps> = ({ rri, onClick }) => {
 		<Button
 			onClick={() => onClick(rri)}
 			css={{
-				display: 'flex',
-				align: 'center',
-				justifyContent: 'flex-start',
-				mt: '12px',
-				bg: '$bgPanel',
-				borderRadius: '8px',
-				height: '64px',
-				position: 'relative',
+				height: '62px',
+				alignItems: 'center',
 				width: '100%',
+				border: '1px solid $borderPanel',
+				bg: '$bgPanel2',
+				br: '$3',
+				pr: '$2',
+				pl: '0',
+				display: 'flex',
 				ta: 'left',
+
+				mt: '8px',
 				'&:hover': {
-					bg: '$bgPanelHover',
+					background: '$bgPanelHover',
 				},
 			}}
 		>
@@ -40,10 +42,10 @@ export const TokenItem: React.FC<IProps> = ({ rri, onClick }) => {
 				/>
 			</Box>
 			<Box css={{ flex: '1', pl: '2px' }}>
-				<Text size="4" bold truncate css={{ maxWidth: '185px' }}>
+				<Text size="4" bold truncate css={{ maxWidth: '185px', mt: '3px' }}>
 					{token?.name}
 				</Text>
-				<Text uppercase size="3" truncate css={{ mt: '4px', maxWidth: '185px' }}>
+				<Text uppercase size="3" truncate css={{ mt: '3px', maxWidth: '185px' }}>
 					{token?.symbol}
 				</Text>
 			</Box>
