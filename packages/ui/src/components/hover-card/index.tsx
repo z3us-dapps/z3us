@@ -2,6 +2,11 @@ import React from 'react'
 import { styled, keyframes } from '@stitches/react'
 import * as HoverCardPrimitive from '@radix-ui/react-hover-card'
 
+const animateOut = keyframes({
+	from: { transform: 'translateY(0)', opacity: 1 },
+	to: { transform: 'translateY(4px)', opacity: 0 },
+})
+
 const slideUpAndFade = keyframes({
 	'0%': { opacity: 0, transform: 'translateY(2px)' },
 	'100%': { opacity: 1, transform: 'translateY(0)' },
@@ -29,6 +34,10 @@ const StyledContent = styled(HoverCardPrimitive.Content, {
 	backgroundColor: '$bgPanel',
 	boxShadow: '$tooltip',
 	'@media (prefers-reduced-motion: no-preference)': {
+		'&[data-state="closed"]': {
+			animation: `${animateOut} 300ms ease`,
+			animationFillMode: 'forwards',
+		},
 		animationDuration: '400ms',
 		animationTimingFunction: 'cubic-beer(0.16, 1, 0.3, 1)',
 		animationFillMode: 'forwards',
