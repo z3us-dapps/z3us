@@ -1,24 +1,24 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { RightArrowIcon } from 'ui/src/components/icons'
-import useMeasure from 'react-use-measure'
-import { ChevronDownIcon, ChevronUpIcon } from '@radix-ui/react-icons'
-import {
-	Select,
-	SelectTrigger,
-	SelectValue,
-	SelectContent,
-	SelectViewport,
-	SelectItem,
-	SelectItemText,
-	SelectItemIndicator,
-	SelectScrollUpButton,
-	SelectScrollDownButton,
-} from 'ui/src/components/select'
+import { useImmer } from 'use-immer'
+import { ScrollArea } from 'ui/src/components/scroll-area'
+import { SearchBox } from '@src/components/search-box'
+import { ChevronDownIcon, Cross2Icon } from '@radix-ui/react-icons'
+import { useEventListener } from 'usehooks-ts'
 import { CircleAvatar } from '@src/components/circle-avatar'
+import { useKnownTokens } from '@src/hooks/react-query/queries/radixscan'
 import { Box, Text, Flex } from 'ui/src/components/atoms'
 import Button from 'ui/src/components/button'
-import { Token } from '@src/types'
+import { Dialog, DialogTrigger, DialogContent } from 'ui/src/components/dialog'
 import { parseResourceIdentifier } from '@src/services/radix/serializer'
+import { VisibleToken, VisibleTokens, Token } from '@src/types'
+import { TokenItem } from './token-item'
+
+interface ImmerProps {
+	isModalOpen: boolean
+	search: string
+	filteredTokens: Array<VisibleToken>
+}
 
 interface IProps {
 	triggerType?: string
@@ -32,134 +32,214 @@ const defaultProps = {
 	token: undefined,
 }
 
+const makeFilteredTokensList = (tokens: Array<string>, knownTokens: VisibleTokens): Array<VisibleToken> =>
+	tokens.map((token: string) => ({
+		rri: token,
+		name: knownTokens?.[token]?.name || '',
+		symbol: knownTokens?.[token]?.symbol || '',
+	}))
+
 export const TokenSelector: React.FC<IProps> = ({ triggerType, token, tokens, onTokenChange }) => {
-	const [measureRef, { width: triggerWidth }] = useMeasure()
-	const handleValueChange = (rri: string) => {
-		onTokenChange(rri)
+	const { data: knownTokens } = useKnownTokens()
+	const [state, setState] = useImmer<ImmerProps>({
+		isModalOpen: false,
+		search: '',
+		filteredTokens: [],
+	})
+
+	const handleCloseModal = () => {
+		setState(draft => {
+			draft.isModalOpen = false
+		})
 	}
 
+	const handleSearchTokens = (search: string) => {
+		setState(draft => {
+			draft.search = search
+		})
+	}
+
+	const handleValueChange = (rri: string) => {
+		onTokenChange(rri)
+		handleCloseModal()
+	}
+
+	const handleClickTrigger = () => {
+		setState(draft => {
+			draft.isModalOpen = true
+		})
+	}
+
+	useEffect(() => {
+		setState(draft => {
+			if (!tokens) return
+			draft.filteredTokens = makeFilteredTokensList(tokens, knownTokens)
+		})
+	}, [state.search, tokens])
+
+	useEventListener('keydown', e => {
+		if (e.key === 'Escape') {
+			handleCloseModal()
+		}
+	})
+
 	return (
-		<Select value={token?.rri} onValueChange={handleValueChange}>
-			<SelectTrigger aria-label="Token selector" asChild>
-				{(() => {
-					switch (triggerType) {
-						case 'input':
-							return (
-								<Button
-									ref={measureRef}
-									css={{
-										maxWidth: '113px',
-										position: 'absolute',
-										display: 'flex',
-										justifyContent: 'flex-start',
-										top: '4px',
-										right: '4px',
-										height: '40px',
-										px: '0',
-										borderRadius: '20px 5px 5px 20px',
-										bg: '$bgPanel2',
-									}}
-								>
-									<Flex justify="start" align="center" css={{ width: '100%', textAlign: 'left', pr: '$1' }}>
-										<Box css={{ p: '8px' }}>
-											<CircleAvatar
-												width={24}
-												height={24}
-												borderWidth={0}
-												shadow={false}
-												image={token?.image || token?.iconURL}
-												fallbackText={token?.symbol}
-											/>
-										</Box>
-										<Text
-											truncate
-											size="4"
-											uppercase
-											css={{ flex: '1', pr: '$1', fontWeight: '600', maxWidth: '60px' }}
-										>
-											<SelectValue placeholder="Select ..." />
-										</Text>
-										<Box css={{ flexShrink: '0' }}>
-											<ChevronDownIcon />
-										</Box>
-									</Flex>
-								</Button>
-							)
-						default:
-							return (
-								<Button
-									ref={measureRef}
-									css={{
-										display: 'flex',
-										align: 'center',
-										justifyContent: 'flex-start',
-										mt: '12px',
-										bg: '$bgPanel2',
-										borderRadius: '8px',
-										height: '64px',
-										position: 'relative',
-										width: '100%',
-										ta: 'left',
-										'&:hover': {
-											bg: '$bgPanelHover',
-										},
-									}}
-								>
-									<Box css={{ p: '8px' }}>
-										<CircleAvatar
-											image={token?.image || token?.iconURL}
-											fallbackText={token?.symbol.toLocaleUpperCase()}
-										/>
-									</Box>
-									<Box css={{ flex: '1' }}>
-										<Flex css={{ mt: '2px' }}>
-											<Text css={{ fontSize: '14px', lineHeight: '17px', fontWeight: '500' }}>Token:</Text>
+		<Dialog open={state.isModalOpen}>
+			<DialogTrigger asChild onClick={handleClickTrigger}>
+				<div>
+					{(() => {
+						switch (triggerType) {
+							case 'input':
+								return (
+									<Button
+										css={{
+											maxWidth: '113px',
+											position: 'absolute',
+											display: 'flex',
+											justifyContent: 'flex-start',
+											top: '4px',
+											right: '4px',
+											height: '40px',
+											px: '0',
+											borderRadius: '20px 5px 5px 20px',
+											bg: '$bgPanel2',
+										}}
+									>
+										<Flex justify="start" align="center" css={{ width: '100%', textAlign: 'left', pr: '$1' }}>
+											<Box css={{ p: '8px' }}>
+												<CircleAvatar
+													width={24}
+													height={24}
+													borderWidth={0}
+													shadow={false}
+													image={token?.image || token?.iconURL}
+													fallbackText={token?.symbol}
+												/>
+											</Box>
 											<Text
 												truncate
+												size="4"
 												uppercase
-												css={{ fontSize: '14px', lineHeight: '17px', fontWeight: '500', ml: '4px', maxWidth: '200px' }}
+												css={{ flex: '1', pr: '$1', fontWeight: '600', maxWidth: '60px' }}
 											>
-												<SelectValue placeholder="Select ..." />
-												{/*{token ? parseResourceIdentifier(token.rri).name : 'Select'}*/}
+												{token ? parseResourceIdentifier(token.rri).name : 'Select'}
 											</Text>
+											<Box css={{ flexShrink: '0' }}>
+												<ChevronDownIcon />
+											</Box>
 										</Flex>
-									</Box>
-									<Box css={{ pr: '$1', flexShrink: '0' }}>
-										<RightArrowIcon />
-									</Box>
-								</Button>
-							)
-					}
-				})()}
-			</SelectTrigger>
-			<SelectContent>
-				<SelectScrollUpButton>
-					<ChevronUpIcon />
-				</SelectScrollUpButton>
-				<SelectViewport>
-					{tokens.map(_token => (
-						<SelectItem
-							key={_token}
-							value={_token}
-							css={{
-								'span:first-child': {
-									overflow: 'hidden',
-									textOverflow: 'ellipsis',
-									whiteSpace: 'nowrap',
-									maxWidth: `${triggerWidth}px`,
-								},
-							}}
+									</Button>
+								)
+							default:
+								return (
+									<Button
+										css={{
+											display: 'flex',
+											align: 'center',
+											justifyContent: 'flex-start',
+											mt: '12px',
+											bg: '$bgPanel2',
+											borderRadius: '8px',
+											height: '64px',
+											position: 'relative',
+											width: '100%',
+											ta: 'left',
+											'&:hover': {
+												bg: '$bgPanelHover',
+											},
+										}}
+									>
+										<Box css={{ p: '8px' }}>
+											<CircleAvatar
+												image={token?.image || token?.iconURL}
+												fallbackText={token?.symbol.toLocaleUpperCase()}
+											/>
+										</Box>
+										<Box css={{ flex: '1' }}>
+											<Flex css={{ mt: '2px' }}>
+												<Text css={{ fontSize: '14px', lineHeight: '17px', fontWeight: '500' }}>Token:</Text>
+												<Text
+													truncate
+													uppercase
+													css={{
+														fontSize: '14px',
+														lineHeight: '17px',
+														fontWeight: '500',
+														ml: '4px',
+														maxWidth: '200px',
+													}}
+												>
+													{token ? parseResourceIdentifier(token.rri).name : 'Select'}
+												</Text>
+											</Flex>
+										</Box>
+										<Box css={{ pr: '$1', flexShrink: '0' }}>
+											<RightArrowIcon />
+										</Box>
+									</Button>
+								)
+						}
+					})()}
+				</div>
+			</DialogTrigger>
+			<DialogContent css={{ p: '0' }}>
+				<Flex direction="column" css={{ position: 'relative' }}>
+					<Button
+						color="ghost"
+						iconOnly
+						aria-label="close edit token selector modal"
+						size="1"
+						css={{ position: 'absolute', top: '$2', right: '$2' }}
+						onClick={handleCloseModal}
+					>
+						<Cross2Icon />
+					</Button>
+					<Box css={{ p: '$5', pb: '$4', borderBottom: '1px solid $borderPanel' }}>
+						<Text size="6" bold css={{ mb: '$2' }}>
+							Select token
+						</Text>
+						<Text css={{ mt: '$3' }}>Search list and click to select token.</Text>
+						<Box css={{ mt: '$2' }}>
+							<SearchBox
+								focusOnMount
+								showCancelOnlyWithValueButton
+								onSearch={handleSearchTokens}
+								placeholder="Search..."
+								debounce={300}
+							/>
+						</Box>
+					</Box>
+					<Box css={{ height: '295px', position: 'relative' }}>
+						<ScrollArea>
+							<Box css={{ px: '$5', pb: '$5', pt: '$2' }}>
+								{state.filteredTokens
+									.filter((_token: VisibleToken) => {
+										const search = state.search.toLowerCase()
+										return (
+											(search !== '' && _token.name?.toLowerCase().includes(search)) ||
+											_token.symbol?.toLowerCase().includes(search)
+										)
+									})
+									.map(({ rri }: VisibleToken) => (
+										<TokenItem rri={rri} onClick={handleValueChange} />
+									))}
+							</Box>
+						</ScrollArea>
+					</Box>
+					<Flex justify="end" gap="2" css={{ py: '$4', px: '$5', borderTop: '1px solid $borderPanel' }}>
+						<Button
+							fullWidth
+							size="5"
+							color="tertiary"
+							aria-label="close token select modal"
+							onClick={handleCloseModal}
 						>
-							<SelectItemText>{parseResourceIdentifier(_token).name}</SelectItemText>
-							<SelectItemIndicator />
-						</SelectItem>
-					))}
-				</SelectViewport>
-				<SelectScrollDownButton>
-					<ChevronDownIcon />
-				</SelectScrollDownButton>
-			</SelectContent>
-		</Select>
+							Close
+						</Button>
+					</Flex>
+				</Flex>
+			</DialogContent>
+		</Dialog>
 	)
 }
 
