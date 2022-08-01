@@ -1,5 +1,6 @@
 import React from 'react'
-import { AccountsIcon, StakingIcon, SwapIcon, SettingsIcon } from 'ui/src/components/icons'
+//import { AccountsIcon, StakingIcon, SwapIcon, SettingsIcon } from 'ui/src/components/icons'
+import { AccountsIcon, StakingIcon, SettingsIcon } from 'ui/src/components/icons'
 import { ColorSettings, PoolType } from '@src/types'
 
 export const defaultAccountStoreKey = 'z3us-store'
@@ -213,12 +214,12 @@ export const routesInfo = {
 		icon: <StakingIcon />,
 		href: 'staking',
 	},
-	[SWAP]: {
-		id: SWAP,
-		name: 'Swap',
-		icon: <SwapIcon />,
-		href: 'swap',
-	},
+	//[SWAP]: {
+	//id: SWAP,
+	//name: 'Swap',
+	//icon: <SwapIcon />,
+	//href: 'swap',
+	//},
 	[SETTINGS]: {
 		id: SETTINGS,
 		name: 'Settings',
