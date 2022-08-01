@@ -8,7 +8,7 @@ import Input from 'ui/src/components/input'
 import InputFeedBack from 'ui/src/components/input/input-feedback'
 import Button from 'ui/src/components/button'
 import { Z3usText } from 'ui/src/components/z3us-text'
-import { isWebAuthSupported } from '@src/services/credentials'
+// import { isWebAuthSupported } from '@src/services/credentials'
 import { KeystoreType } from '@src/store/types'
 
 export const LockedPanel: React.FC = () => {
@@ -16,14 +16,14 @@ export const LockedPanel: React.FC = () => {
 	const { addToast } = useSharedStore(state => ({
 		addToast: state.addToastAction,
 	}))
-	const { keystore, unlock, unlockHW, hasAuth, authenticate, isUnlocked, setSeed, hw } = useSharedStore(state => ({
+	const { keystore, unlock, unlockHW, isUnlocked, setSeed, hw } = useSharedStore(state => ({
 		keystore: state.keystores.find(({ id }) => id === state.selectKeystoreId),
 		isUnlocked: Boolean(state.masterSeed || state.isHardwareWallet),
 		hw: state.hardwareWallet,
 		seed: state.masterSeed,
 		unlock: state.unlockWalletAction,
-		hasAuth: state.hasAuthAction,
-		authenticate: state.authenticateAction,
+		// hasAuth: state.hasAuthAction,
+		// authenticate: state.authenticateAction,
 		setSeed: state.setMasterSeedAction,
 		unlockHW: state.unlockHardwareWalletAction,
 	}))
@@ -79,16 +79,16 @@ export const LockedPanel: React.FC = () => {
 	}
 
 	const unlockWithWebAuth = async () => {
-		try {
-			const isSupported = await isWebAuthSupported()
-			const has = await hasAuth()
-			if (isSupported && has) {
-				handleUnlock(await authenticate())
-			}
-		} catch (error) {
-			// eslint-disable-next-line no-console
-			console.error(error)
-		}
+		// try {
+		// 	const isSupported = await isWebAuthSupported()
+		// 	const has = await hasAuth()
+		// 	if (isSupported && has) {
+		// 		handleUnlock(await authenticate())
+		// 	}
+		// } catch (error) {
+		// 	// eslint-disable-next-line no-console
+		// 	console.error(error)
+		// }
 	}
 
 	useEffect(() => {

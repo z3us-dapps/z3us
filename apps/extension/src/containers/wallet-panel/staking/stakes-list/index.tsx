@@ -1,7 +1,7 @@
 /* eslint-disable react/jsx-props-no-spreading, array-callback-return */
 import React, { useEffect } from 'react'
 import { Box, Flex, Text, StyledLink } from 'ui/src/components/atoms'
-import { useStakedPositions, useUnstakePositions } from '@src/services/react-query/queries/radix'
+import { useStakedPositions, useUnstakePositions } from '@src/hooks/react-query/queries/radix'
 import { useImmer } from 'use-immer'
 import { SearchBox } from '@src/components/search-box'
 import { ScrollArea } from 'ui/src/components/scroll-area'

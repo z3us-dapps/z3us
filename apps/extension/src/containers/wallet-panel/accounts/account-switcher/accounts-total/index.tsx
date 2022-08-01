@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 import { useImmer } from 'use-immer'
-import { useAllAccountsValue } from '@src/services/react-query/queries/account'
+import { useAllAccountsValue } from '@src/hooks/react-query/queries/account'
 import { useSharedStore, useStore } from '@src/store'
 import { Flex, Box, Text } from 'ui/src/components/atoms'
 import PriceTicker from 'ui/src/components/price-ticker'

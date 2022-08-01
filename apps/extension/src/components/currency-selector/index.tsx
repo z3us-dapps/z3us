@@ -1,23 +1,7 @@
 import React from 'react'
 import { useSharedStore } from '@src/store'
-import { ChevronDownIcon, ChevronUpIcon } from '@radix-ui/react-icons'
-import {
-	Select,
-	SelectTrigger,
-	SelectValue,
-	SelectContent,
-	SelectViewport,
-	SelectGroup,
-	SelectItem,
-	SelectIcon,
-	SelectLabel,
-	SelectItemText,
-	SelectItemIndicator,
-	SelectScrollUpButton,
-	SelectScrollDownButton,
-} from 'ui/src/components/select'
-import Button from 'ui/src/components/button'
-import { useSupportedCurrencies } from '@src/services/react-query/queries/market'
+import { useSupportedCurrencies } from '@src/hooks/react-query/queries/market'
+import { SelectBox } from 'ui/src/components/select'
 
 export const CurrencySelector: React.FC = () => {
 	const { currency, setCurrency } = useSharedStore(state => ({
@@ -27,34 +11,14 @@ export const CurrencySelector: React.FC = () => {
 	const { data: currencies } = useSupportedCurrencies()
 
 	return (
-		<Select defaultValue="usd" value={currency.toLowerCase()} onValueChange={setCurrency}>
-			<SelectTrigger aria-label="select currency" asChild>
-				<Button color="input" size="4" fullWidth>
-					<SelectValue />
-					<SelectIcon>
-						<ChevronDownIcon />
-					</SelectIcon>
-				</Button>
-			</SelectTrigger>
-			<SelectContent>
-				<SelectScrollUpButton>
-					<ChevronUpIcon />
-				</SelectScrollUpButton>
-				<SelectViewport>
-					<SelectGroup>
-						<SelectLabel>Currencies</SelectLabel>
-						{currencies?.map(cur => (
-							<SelectItem key={cur} value={cur}>
-								<SelectItemText>{cur.toUpperCase()}</SelectItemText>
-								<SelectItemIndicator />
-							</SelectItem>
-						))}
-					</SelectGroup>
-				</SelectViewport>
-				<SelectScrollDownButton>
-					<ChevronDownIcon />
-				</SelectScrollDownButton>
-			</SelectContent>
-		</Select>
+		<SelectBox
+			defaultValue="usd"
+			value={currency.toLowerCase()}
+			onValueChange={setCurrency}
+			buttonAriaLabel="select currency"
+			selectLabel="Currencies"
+			selectOptions={currencies?.map(curr => ({ value: curr, name: curr }))}
+			selectNameFormatter={name => name.toUpperCase()}
+		/>
 	)
 }

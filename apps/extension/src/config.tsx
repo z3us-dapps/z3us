@@ -1,6 +1,7 @@
 import React from 'react'
+//import { AccountsIcon, StakingIcon, SwapIcon, SettingsIcon } from 'ui/src/components/icons'
 import { AccountsIcon, StakingIcon, SettingsIcon } from 'ui/src/components/icons'
-import { ColorSettings } from '@src/types'
+import { ColorSettings, PoolType } from '@src/types'
 
 export const defaultAccountStoreKey = 'z3us-store'
 
@@ -161,7 +162,38 @@ export const SLIDE_PANEL_EXPAND_HEIGHT = 459
 
 export const EXPLORER_URL = 'https://explorer.radixdlt.com/#'
 
+export const XRD_RRI = 'xrd_rr1qy5wfsfh'
+export const FLOOP_RRI = 'floop_rr1q0p0hzap6ckxqdk6khesyft62w34e0vdd06msn9snhfqknl370'
+export const OCI_RRI = 'oci_rr1qws04shqrz3cdjljdp5kczgv7wd3jxytagk95qlk7ecquzq8e7'
+export const OCI_TEST_RRI = 'oci_rr1qwr8cx5ezp9t08ptsxrws0w05ldy6nekvy9ef0fp854qmv2fk4'
+
 export const Z3US_URL = 'https://z3us.com'
+export const Z3US_RRI = 'z3us_rr1q0gxzdty8egrkegk9lnteth09sgzqgxaw5ytqzq24ceq3eqagc'
+export const Z3US_WALLET_MAIN = 'rdx1qsp5rwdg4r7uhmwra92qg0qughm73vycevwwzumw6whsfgjjngmwj3sfvqjl0'
+export const Z3US_WALLET_BURN = 'rdx1qsp5t323zwxmryk73gsupn0uu0jns9zpjqts79d6lspwqr2jclllpygyfaly8'
+export const Z3US_WALLET_NEWS = 'rdx1qspvwvpu7xkkvp53mkl8xh8kxk9m8uf2vk62kumhzfj4zf6ytfrsckqvhdrk3'
+export const Z3US_FEE_RATIO = 2 / 1000
+
+export const swapServices = {
+	[PoolType.OCI]: {
+		enabled: true,
+		type: PoolType.OCI,
+		image: 'images/oci/pool-icon-oci.png',
+		url: 'https://ociswap.com',
+	},
+	[PoolType.CAVIAR]: {
+		enabled: true,
+		type: PoolType.CAVIAR,
+		image: 'images/caviar/pool-icon-cavier.png',
+		url: 'https://caviarswap.io',
+	},
+	[PoolType.DOGECUBEX]: {
+		enabled: true,
+		type: PoolType.DOGECUBEX,
+		image: 'images/dogecube/pool-icon-dogecube.png',
+		url: 'https://dogecubex.live',
+	},
+}
 
 export const ACCOUNTS = 'accounts'
 export const NFT = 'nft'
@@ -182,6 +214,12 @@ export const routesInfo = {
 		icon: <StakingIcon />,
 		href: 'staking',
 	},
+	//[SWAP]: {
+	//id: SWAP,
+	//name: 'Swap',
+	//icon: <SwapIcon />,
+	//href: 'swap',
+	//},
 	[SETTINGS]: {
 		id: SETTINGS,
 		name: 'Settings',

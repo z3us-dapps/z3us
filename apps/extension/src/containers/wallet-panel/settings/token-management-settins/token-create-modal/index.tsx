@@ -51,11 +51,9 @@ export const CreateTokenModal: React.FC<IProps> = ({ trigger }) => {
 		icon_url: '',
 		url: '',
 		is_supply_mutable: false,
-
 		rri: '',
 		fee: null,
 		transaction: null,
-
 		isLoading: false,
 		isModalOpen: false,
 	})
@@ -166,7 +164,7 @@ export const CreateTokenModal: React.FC<IProps> = ({ trigger }) => {
 	}
 
 	return (
-		<Dialog open={state.isModalOpen} modal={false}>
+		<Dialog open={state.isModalOpen}>
 			<DialogTrigger asChild onClick={handleOnClick}>
 				{trigger}
 			</DialogTrigger>

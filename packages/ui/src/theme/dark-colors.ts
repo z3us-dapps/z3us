@@ -24,6 +24,8 @@ export const darkColors = {
 	bgPriceRed: 'rgb(99 29 29 / 59%)',
 	bgSkeleton1: 'rgba(255, 255, 255, 0.1)',
 	bgSkeleton2: 'rgba(255, 255, 255, 0.05)',
+	bgToastSuccess: 'linear-gradient(90deg, rgb(47 159 15 / 40%) 0%, rgb(7 27 1 / 90%) 30%, rgb(5 22 1 / 90%) 100%)',
+	bgToastError: 'linear-gradient(90deg, rgb(104 45 45 / 90%) 0%, rgb(42 13 13 / 70%) 80%, rgb(33 2 2 / 40%) 100%)',
 
 	txtDefault: '#ffffff',
 	txtInverse: '#000000',

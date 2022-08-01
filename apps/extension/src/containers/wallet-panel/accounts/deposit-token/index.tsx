@@ -3,7 +3,7 @@ import { useSharedStore, useStore } from '@src/store'
 import { useRoute } from 'wouter'
 import { formatBigNumber } from '@src/utils/formatters'
 import BigNumber from 'bignumber.js'
-import { useTokenInfo, useTokenBalances } from '@src/services/react-query/queries/radix'
+import { useTokenInfo, useTokenBalances } from '@src/hooks/react-query/queries/radix'
 import Button from 'ui/src/components/button'
 import ButtonTipFeedback from 'ui/src/components/button-tip-feedback'
 import { Box, Text, Flex } from 'ui/src/components/atoms'
@@ -14,13 +14,12 @@ import { useColorMode } from '@src/hooks/use-color-mode'
 import { QRCodeSVG } from 'qrcode.react'
 import { AccountSelector } from '@src/components/account-selector'
 import { TokenSelector } from '@src/components/token-selector'
-import { SendReceiveHeader } from '../send-receive-header'
-
-const DEFAULT_XRD_RRI = 'xrd_rr1qy5wfsfh'
+import { SendReceiveHeader } from '@src/components/send-receive-header'
+import { XRD_RRI } from '@src/config'
 
 export const DepositToken: React.FC = () => {
 	const [isDepositTokenRoute, params] = useRoute('/account/deposit/:rri')
-	const [rri, setRRI] = useState(getParamString(params, 'rri') || DEFAULT_XRD_RRI)
+	const [rri, setRRI] = useState(getParamString(params, 'rri') || XRD_RRI)
 
 	const { hw, seed } = useSharedStore(state => ({
 		hw: state.hardwareWallet,

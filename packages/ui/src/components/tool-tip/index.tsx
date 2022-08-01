@@ -78,7 +78,7 @@ const toolTipDefaultProps = {
 	sideOffset: 3,
 	arrowOffset: 5,
 	isArrowVisible: true,
-	side: 'bottom',
+	side: 'top',
 	bgColor: '$bgToolTip1',
 }
 

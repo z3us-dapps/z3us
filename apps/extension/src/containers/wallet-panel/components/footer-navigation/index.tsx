@@ -40,14 +40,19 @@ export const FooterNavigation: React.FC = () => {
 				const currentPageIndex = Object.keys(routesInfo).findIndex(_key => _key === page)
 				return (
 					<Button
+						key={key}
 						as="button"
 						onClick={() => {
 							if (i !== currentPageIndex) {
 								setActiveApp([key, i - currentPageIndex])
 							}
-							// if clicking accounts while on accounts
-							if (i === 0 && currentPageIndex === 0) {
+							// if clicking accounts
+							if (i === 0) {
 								setLocation('/wallet/account')
+							}
+							// if clicking swap
+							if (i === 2) {
+								setLocation('/wallet/swap')
 							}
 						}}
 						css={{

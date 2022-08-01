@@ -119,18 +119,6 @@ export const Header: React.FC<IProps> = ({ isLandingPage }) => {
 									'@sm': { display: 'flex' },
 								}}
 							>
-								<StyledLink href={config.GITHUB_FEEDBACK_URL} underlineOnHover css={{ mr: '$2' }}>
-									<Text bold size="4" css={{ pt: '1px' }}>
-										Feedback
-									</Text>
-								</StyledLink>
-								<Link href="/airdrop" passHref>
-									<StyledLink underlineOnHover css={{ mr: '$2' }}>
-										<Text bold size="4" css={{ pt: '1px' }}>
-											Airdrop
-										</Text>
-									</StyledLink>
-								</Link>
 								<Link href="/docs" passHref>
 									<StyledLink underlineOnHover css={{ mr: '$2' }}>
 										<Text bold size="4" css={{ pt: '1px' }}>
@@ -138,6 +126,25 @@ export const Header: React.FC<IProps> = ({ isLandingPage }) => {
 										</Text>
 									</StyledLink>
 								</Link>
+								<StyledLink href={config.GITHUB_FEEDBACK_URL} underlineOnHover css={{ mr: '$2' }}>
+									<Text bold size="4" css={{ pt: '1px' }}>
+										Feedback
+									</Text>
+								</StyledLink>
+								{/*<Link href="/tokenomics" passHref>
+									<StyledLink underlineOnHover css={{ mr: '$2' }}>
+										<Text bold size="4" css={{ pt: '1px' }}>
+											Tokenomics
+										</Text>
+									</StyledLink>
+								</Link>*/}
+								{/*<Link href="/airdrop" passHref>
+									<StyledLink underlineOnHover css={{ mr: '$2' }}>
+										<Text bold size="4" css={{ pt: '1px' }}>
+											Airdrop
+										</Text>
+									</StyledLink>
+								</Link>*/}
 								<ToolTip message="GitHub" bgColor="$bgPanel2">
 									<Button target="_blank" href={config.GITHUB_URL} as="a" size="3" color="ghost" iconOnly>
 										<GithubIcon />

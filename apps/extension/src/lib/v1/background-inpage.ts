@@ -5,6 +5,7 @@ import { BrowserService } from '@src/services/browser'
 import { VaultService } from '@src/services/vault'
 import { RadixService } from '@src/services/radix'
 import { KeystoreType } from '@src/store/types'
+import { addPendingAction } from '@src/services/actions-pending'
 import {
 	HAS_WALLET,
 	IS_CONNECTED,
@@ -27,12 +28,10 @@ const responseUnauthorized = { code: 401, error: 'Unauthorized' }
 export default function NewV1BackgroundInpageActions(
 	browser: BrowserService,
 	vault: VaultService,
-	actionsToConfirm: { [key: string]: Runtime.Port },
 	sendInpageMessage: (port: Runtime.Port, id: string, request: any, response: any) => void,
 ) {
 	async function isApprovedWebsite(port: Runtime.Port, id: string, payload: any): Promise<boolean> {
-		const tab = await browser.getCurrentTab()
-		const url = new URL(tab.url)
+		const url = new URL(port.sender?.tab.url)
 
 		const { selectKeystoreId } = sharedStore.getState()
 		const useStore = accountStore(selectKeystoreId)
@@ -54,8 +53,7 @@ export default function NewV1BackgroundInpageActions(
 	}
 
 	async function isConnected(port: Runtime.Port, id: string, payload: any) {
-		const tab = await browser.getCurrentTab()
-		const url = new URL(tab.url)
+		const url = new URL(port.sender?.tab.url)
 
 		const { selectKeystoreId } = sharedStore.getState()
 		const useStore = accountStore(selectKeystoreId)
@@ -66,8 +64,7 @@ export default function NewV1BackgroundInpageActions(
 	}
 
 	async function connect(port: Runtime.Port, id: string, payload: any) {
-		const tab = await browser.getCurrentTab()
-		const url = new URL(tab.url)
+		const url = new URL(port.sender?.tab.url)
 
 		const { selectKeystoreId, theme } = sharedStore.getState()
 		const useStore = accountStore(selectKeystoreId)
@@ -82,15 +79,14 @@ export default function NewV1BackgroundInpageActions(
 			}
 		}
 
-		actionsToConfirm[id] = port
+		await addPendingAction(id, port)
 		state.addPendingActionAction(id, { host: url.host, request: payload })
 
 		await browser.showPopup(theme, `/notification/connect/${id}`)
 	}
 
 	async function disconnect(port: Runtime.Port, id: string, payload: any) {
-		const tab = await browser.getCurrentTab()
-		const url = new URL(tab.url)
+		const url = new URL(port.sender?.tab.url)
 
 		const { selectKeystoreId } = sharedStore.getState()
 		const useStore = accountStore(selectKeystoreId)
@@ -126,14 +122,13 @@ export default function NewV1BackgroundInpageActions(
 			return
 		}
 
-		const tab = await browser.getCurrentTab()
-		const url = new URL(tab.url)
+		const url = new URL(port.sender?.tab.url)
 
 		const { selectKeystoreId, theme } = sharedStore.getState()
 		const useStore = accountStore(selectKeystoreId)
 		const state = useStore.getState()
 
-		actionsToConfirm[id] = port
+		await addPendingAction(id, port)
 		state.addPendingActionAction(id, { host: url.host, request: payload })
 
 		await browser.showPopup(theme, `/notification/encrypt/${id}`)
@@ -167,14 +162,13 @@ export default function NewV1BackgroundInpageActions(
 			return
 		}
 
-		const tab = await browser.getCurrentTab()
-		const url = new URL(tab.url)
+		const url = new URL(port.sender?.tab.url)
 
 		const { selectKeystoreId, theme } = sharedStore.getState()
 		const useStore = accountStore(selectKeystoreId)
 		const state = useStore.getState()
 
-		actionsToConfirm[id] = port
+		await addPendingAction(id, port)
 		state.addPendingActionAction(id, { host: url.host, request: payload })
 
 		await browser.showPopup(theme, `/notification/decrypt/${id}`)
@@ -186,14 +180,13 @@ export default function NewV1BackgroundInpageActions(
 			return
 		}
 
-		const tab = await browser.getCurrentTab()
-		const url = new URL(tab.url)
+		const url = new URL(port.sender?.tab.url)
 
 		const { selectKeystoreId, theme } = sharedStore.getState()
 		const useStore = accountStore(selectKeystoreId)
 		const state = useStore.getState()
 
-		actionsToConfirm[id] = port
+		await addPendingAction(id, port)
 		state.addPendingActionAction(id, { host: url.host, request: payload })
 
 		await browser.showPopup(theme, `/notification/sign/${id}`)
@@ -205,14 +198,13 @@ export default function NewV1BackgroundInpageActions(
 			return
 		}
 
-		const tab = await browser.getCurrentTab()
-		const url = new URL(tab.url)
+		const url = new URL(port.sender?.tab.url)
 
 		const { selectKeystoreId, theme } = sharedStore.getState()
 		const useStore = accountStore(selectKeystoreId)
 		const state = useStore.getState()
 
-		actionsToConfirm[id] = port
+		await addPendingAction(id, port)
 		state.addPendingActionAction(id, { host: url.host, request: payload })
 
 		await browser.showPopup(theme, `/notification/transaction/${id}`)

@@ -11,6 +11,7 @@ export interface Toast {
 	title?: string
 	subTitle?: string
 	duration?: number
+	isAutoRemovable?: boolean
 }
 
 export type Network = {

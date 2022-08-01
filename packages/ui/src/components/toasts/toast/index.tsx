@@ -9,12 +9,12 @@ export const TYPE_ERROR = 'error'
 
 const typeMap = {
 	[TYPE_SUCCESS]: {
-		bg: 'linear-gradient(90deg, rgba(141,235,116,0.2) 0%, rgba(141,235,116,0) 80%, rgba(141,235,116,0) 100%)',
+		bg: '$bgToastSuccess',
 		icon: '',
 		iconBg: '#53c323',
 	},
 	[TYPE_ERROR]: {
-		bg: 'linear-gradient(90deg, rgb(235 116 116 / 20%) 0%, rgb(235 116 116 / 0%) 80%, rgb(235 116 116 / 0%) 100%)',
+		bg: '$bgToastError',
 		icon: '',
 		iconBg: '#e94c24',
 	},
@@ -69,7 +69,7 @@ export const Toast: React.FC<IProps> = ({
 				align="center"
 				css={{
 					background: typeInfo?.bg,
-					border: '1px solid $borderPanel',
+					border: '1px solid $borderPanel2',
 					color: '$txtDefault',
 					pl: '$3',
 					pr: '$1',
