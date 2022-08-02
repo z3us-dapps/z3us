@@ -253,6 +253,7 @@ export const useTransactionFee = (
 				draft.fee = new BigNumber(fee).shiftedBy(-18)
 			})
 		} catch (error) {
+			// eslint-disable-next-line no-console
 			console.error(error)
 			setState(draft => {
 				draft.transaction = null

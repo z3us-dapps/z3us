@@ -4,7 +4,7 @@ module.exports = {
 		node: true,
 	},
 	extends: ['next', 'airbnb', 'airbnb-typescript', 'plugin:import/recommended', 'plugin:import/typescript', 'prettier'],
-	plugins: ['@typescript-eslint', 'import'],
+	plugins: ['@typescript-eslint', 'import', 'require-explicit-generics'],
 	settings: {
 		next: {
 			rootDir: ['apps/*/', 'packages/*/'],
@@ -37,6 +37,7 @@ module.exports = {
 		'jsx-a11y/anchor-is-valid': 'off',
 		'import/no-extraneous-dependencies': [2, { devDependencies: true }],
 		'react/jsx-props-no-spreading': 'off',
+		'require-explicit-generics/require-explicit-generics': [1, ['React.useState', 'useState', 'useImmer']],
 	},
 	overrides: [
 		{
