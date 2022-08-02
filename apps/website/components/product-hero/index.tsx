@@ -91,7 +91,7 @@ interface IProps {
 }
 
 export const SlideUpPanel = ({ children, name }: IProps): JSX.Element => {
-	const [expanded, setExpanded] = useState(false)
+	const [expanded, setExpanded] = useState<boolean>(false)
 	return (
 		<Box
 			css={{
@@ -333,8 +333,7 @@ export const ProductShell: React.FC = ({ children }) => (
 
 export const ProductHero = (): JSX.Element => {
 	const [activeSlideIndex, setActiveSlideIndex] = useState(0)
-
-	const [xVal, setXVal] = useState(LEFT_OFFSET + activeSlideIndex * -SLIDER_WIDTH)
+	const [xVal, setXVal] = useState<number>(LEFT_OFFSET + activeSlideIndex * -SLIDER_WIDTH)
 	const containerRef = useRef(null)
 	const containerWidth = containerRef.current?.offsetWidth
 

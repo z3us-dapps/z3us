@@ -43,7 +43,7 @@ const createSVG = (width: number, height: number, radius: number) => {
 
 export const FlashCtaButton = (): JSX.Element => {
 	const buttonRef = useRef(null)
-	const [ctaLink, setCtaLink] = useState(config.CHROME_STORE_URL)
+	const [ctaLink, setCtaLink] = useState<string>(config.CHROME_STORE_URL)
 
 	useEffect(() => {
 		const browserName = fnBrowserDetect()

@@ -48,6 +48,11 @@ const sideVariants = {
 	},
 }
 
+interface ImmerProps {
+	isMounted: boolean
+	isMenuOpen: boolean
+}
+
 interface IProps {
 	isScrolled: boolean
 }
@@ -55,7 +60,7 @@ interface IProps {
 export const MobileMenu = ({ isScrolled }: IProps): JSX.Element => {
 	const { Portal } = usePortal()
 
-	const [state, setState] = useImmer({
+	const [state, setState] = useImmer<ImmerProps>({
 		isMounted: false,
 		isMenuOpen: false,
 	})

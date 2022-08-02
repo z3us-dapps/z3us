@@ -13,11 +13,19 @@ import { ManifestBuilder } from 'pte-sdk'
 const API_URL = 'https://pte01.radixdlt.com/'
 const componentAddress = '0276b537d9fc474d86edd48bfaa2843e87b48765767357ab9e403d'
 
+interface ImmerT {
+	time: number | null
+	address: string
+	manifest: string
+	// @TODO: type `resources`
+	resources: any
+}
+
 export const Example = () => {
 	const { show } = useToastControls()
 	const { connect, disconnect, submitTransaction } = useZ3usWallet()
 
-	const [state, setState] = useImmer({
+	const [state, setState] = useImmer<ImmerT>({
 		time: new Date().getTime(),
 		address: '',
 		manifest: '',

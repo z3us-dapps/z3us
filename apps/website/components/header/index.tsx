@@ -12,6 +12,10 @@ import { Z3usText } from 'ui/src/components/z3us-text'
 import { config } from 'config'
 import { MobileMenu } from './mobile-menu'
 
+interface ImmerProps {
+	isScrolled: boolean
+}
+
 interface IProps {
 	isLandingPage?: boolean
 }
@@ -21,7 +25,7 @@ const defaultProps = {
 }
 
 export const Header: React.FC<IProps> = ({ isLandingPage }) => {
-	const [state, setState] = useImmer({
+	const [state, setState] = useImmer<ImmerProps>({
 		isScrolled: false,
 	})
 

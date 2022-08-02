@@ -29,10 +29,18 @@ export const safelyUnwrapAmount = (amount: number): string | null => {
 	return amountResult ? amountInput.toFixed() : null
 }
 
+interface ImmerProps {
+	to: string
+	amount: string
+	message: string
+	encrypt: boolean
+	isAddressValid: boolean
+}
+
 export const Example = () => {
 	const { show } = useToastControls()
 	const { address, connect, disconnect, submitTransaction } = useZ3usWallet()
-	const [state, setState] = useImmer({
+	const [state, setState] = useImmer<ImmerProps>({
 		to: '',
 		amount: '',
 		message: 'This is a test message',
