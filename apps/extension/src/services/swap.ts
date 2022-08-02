@@ -156,13 +156,12 @@ export const calculatePoolFeesFromReceive = async (
 
 	switch (pool.type) {
 		case PoolType.OCI:
-			amount = zero // @TODO: fix
-			// const ociQuote = await oci.calculateSwapFromReceive(from.rri, to.rri, receive)
-			// const ociLiquidityFee = new BigNumber(ociQuote?.fee_liquidity_provider[0]?.amount || 0)
-			// const ociExchangeFee = new BigNumber(ociQuote?.fee_exchange[0]?.amount || 0)
+			const ociQuote = await oci.calculateSwapFromRecieve(from.rri, to.rri, receive)
+			const ociLiquidityFee = new BigNumber(ociQuote?.fee_liquidity_provider[0]?.amount || 0)
+			const ociExchangeFee = new BigNumber(ociQuote?.fee_exchange[0]?.amount || 0)
 
-			// fee = ociLiquidityFee.plus(ociExchangeFee)
-			// amount = ociQuote?.input_amount ? new BigNumber(ociQuote?.input_amount || 0) : amount
+			fee = ociLiquidityFee.plus(ociExchangeFee)
+			amount = ociQuote?.input_amount ? new BigNumber(ociQuote?.input_amount || 0) : amount
 			break
 		case PoolType.CAVIAR:
 			amount = zero // @TODO: fix
@@ -257,6 +256,7 @@ export const calculateCheapestPoolFeesFromReceive = async (
 	results
 		.filter(result => !!result)
 		.forEach((cost, index) => {
+			if (cost.amount.eq(0)) return
 			if (!cheapest || cost.amount.lt(cheapest.amount)) {
 				cheapest = cost
 				pool = pools[index]

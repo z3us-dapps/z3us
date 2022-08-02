@@ -83,6 +83,7 @@ export const Swap: React.FC = () => {
 		isFeeUiVisible: false,
 	})
 	const [debouncedAmount] = useDebounce(state.amount, 1000)
+	const [debouncedReceive] = useDebounce(state.receive, 1000)
 	const possibleTokens = usePoolTokens()
 	const pools = usePools(state.fromRRI, state.toRRI)
 	const { data: caviarPools } = useCaviarPools()
@@ -232,6 +233,7 @@ export const Swap: React.FC = () => {
 
 	useEffect(() => {
 		if (!state.isMounted) return
+		if (state.isLoading) return
 		if (Date.now() - state.time < refreshInterval) return
 
 		if (state.inputSide === 'from' && state.amount) {
@@ -242,13 +244,15 @@ export const Swap: React.FC = () => {
 	}, [state.time])
 
 	useEffect(() => {
-		const calculate = async () => {
-			await calculateSwap(new BigNumber(debouncedAmount), 'from')
+		if (!state.isMounted) return
+		if (state.isLoading) return
+
+		if (state.inputSide === 'from' && state.amount) {
+			calculateSwap(new BigNumber(state.amount || 0), state.inputSide)
+		} else if (state.inputSide === 'to' && state.receive) {
+			calculateSwap(new BigNumber(state.receive || 0), state.inputSide)
 		}
-		if (debouncedAmount !== '') {
-			calculate()
-		}
-	}, [debouncedAmount])
+	}, [debouncedAmount, debouncedReceive])
 
 	const handlePoolChange = async (pool: Pool) => {
 		setState(draft => {
@@ -339,7 +343,6 @@ export const Swap: React.FC = () => {
 				draft.receive = value
 				draft.inputSide = 'to'
 			})
-			await calculateSwap(new BigNumber(val), 'to')
 		}
 	}
 
@@ -446,6 +449,7 @@ export const Swap: React.FC = () => {
 								value={state.amount}
 								placeholder="Enter amount"
 								onChange={handleSetAmount}
+								disabled={state.isLoading}
 							/>
 							<TokenSelector
 								triggerType="input"
@@ -515,6 +519,7 @@ export const Swap: React.FC = () => {
 								value={state.receive}
 								placeholder="Receive"
 								onChange={handleSetReceive}
+								disabled={state.isLoading}
 							/>
 							<TokenSelector
 								triggerType="input"

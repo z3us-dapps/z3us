@@ -59,7 +59,6 @@ export class OCIService {
 		amount: BigNumber,
 		recieve: BigNumber,
 	): Promise<CalculateSwapResponse> => {
-		// From yourside the implementation will be nearly identical. Instead of input_amount you are sending output_amount to the calculate_swap endpoint
 		const resp = await this.doRequest<{ data: { calculate_swap: CalculateSwapResponse } }>(
 			JSON.stringify({
 				query: `query calculateSwap {
