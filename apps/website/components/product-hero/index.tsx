@@ -332,7 +332,7 @@ export const ProductShell: React.FC = ({ children }) => (
 )
 
 export const ProductHero = (): JSX.Element => {
-	const [activeSlideIndex, setActiveSlideIndex] = useState(0)
+	const [activeSlideIndex, setActiveSlideIndex] = useState<number>(0)
 	const [xVal, setXVal] = useState<number>(LEFT_OFFSET + activeSlideIndex * -SLIDER_WIDTH)
 	const containerRef = useRef(null)
 	const containerWidth = containerRef.current?.offsetWidth

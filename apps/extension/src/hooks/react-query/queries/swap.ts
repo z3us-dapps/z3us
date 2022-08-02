@@ -128,6 +128,11 @@ export const usePools = (fromRRI: string, toRRI: string): Pool[] => {
 	return pools
 }
 
+interface ImmerT {
+	transaction: BuiltTransactionReadyToSign
+	fee: BigNumber
+}
+
 export const useTransactionFee = (
 	pool: Pool,
 	fromToken: Token,
@@ -150,7 +155,7 @@ export const useTransactionFee = (
 		addToast: state.addToastAction,
 	}))
 
-	const [state, setState] = useImmer({
+	const [state, setState] = useImmer<ImmerT>({
 		transaction: null,
 		fee: new BigNumber(0),
 	})

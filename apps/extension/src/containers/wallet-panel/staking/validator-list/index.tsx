@@ -29,7 +29,7 @@ const generateFilteredList = (search: string, list: Array<Validator>) =>
 	)
 
 export const ValidatorList: React.FC<IProps> = ({ totalStakes }) => {
-	const [customScrollParent, setCustomScrollParent] = useState(null)
+	const [customScrollParent, setCustomScrollParent] = useState<HTMLElement | null>(null)
 	const [state, setState] = useImmer<ImmerProps>({
 		search: '',
 		filteredList: [],
