@@ -19,7 +19,7 @@ import { XRD_RRI } from '@src/config'
 
 export const DepositToken: React.FC = () => {
 	const [isDepositTokenRoute, params] = useRoute('/account/deposit/:rri')
-	const [rri, setRRI] = useState(getParamString(params, 'rri') || XRD_RRI)
+	const [rri, setRRI] = useState<string>(getParamString(params, 'rri') || XRD_RRI)
 
 	const { hw, seed } = useSharedStore(state => ({
 		hw: state.hardwareWallet,

@@ -29,8 +29,9 @@ export const AccountSelector: React.FC<IProps> = ({ shortAddress, tokenAmount, t
 			shortAddress: getShortAddress(entry.address),
 		})),
 	}))
-	const [selected, setSelected] = useState(accounts.find(_account => _account.shortAddress === shortAddress)?.address)
-
+	const [selected, setSelected] = useState<string>(
+		accounts.find(_account => _account.shortAddress === shortAddress)?.address,
+	)
 	const entry = accounts.find(_account => _account.address === selected)
 	const addressBookName = entry?.name
 	const addressBookBackground = entry?.background

@@ -73,7 +73,7 @@ const AllBalances: React.FC = () => {
 		visibleTokens: state.visibleTokens,
 		tokenSearch: state.tokenSearch,
 	}))
-	const [customScrollParent, setCustomScrollParent] = useState(null)
+	const [customScrollParent, setCustomScrollParent] = useState<HTMLElement | null>(null)
 	const { balances, staked } = useAllAccountsTokenBalances()
 	const hasLiquidBalances = Object.keys(balances).length > 0
 
@@ -136,7 +136,7 @@ const AccountBalances: React.FC = () => {
 		visibleTokens: state.visibleTokens,
 		tokenSearch: state.tokenSearch,
 	}))
-	const [customScrollParent, setCustomScrollParent] = useState(null)
+	const [customScrollParent, setCustomScrollParent] = useState<HTMLElement | null>(null)
 	const { isLoading = true, data } = useTokenBalances()
 	const liquidBalances = data?.account_balances?.liquid_balances || []
 	const staked = data?.account_balances?.staked_and_unstaking_balance.value
@@ -210,6 +210,10 @@ const Balances: React.FC = () => {
 	)
 }
 
+interface ImmerT {
+	isSearching: boolean
+}
+
 export const TokenList: React.FC = () => {
 	const { addresses, activeSlideIndex } = useStore(state => ({
 		addresses: Object.values(state.publicAddresses).map(({ address }) => address),
@@ -218,7 +222,7 @@ export const TokenList: React.FC = () => {
 	const { setTokenSearch } = useStore(state => ({
 		setTokenSearch: state.setTokenSearchAction,
 	}))
-	const [state, setState] = useImmer({
+	const [state, setState] = useImmer<ImmerT>({
 		isSearching: false,
 	})
 

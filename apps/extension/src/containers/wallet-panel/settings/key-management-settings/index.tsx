@@ -19,6 +19,15 @@ import {
 import { ExportPrivateKey } from './export-private-key'
 import { ExportSecretPhrase } from './export-secret-phrase'
 
+interface ImmerT {
+	password: string
+	newPassword: string
+	confirmPassword: string
+	showError: boolean
+	errorMessage: string
+	isLoading: boolean
+}
+
 export const KeyManagementSettings: React.FC = () => {
 	const [, setLocation] = useLocation()
 	const { messanger, keystore, createWallet, removeWallet, removeKeystore, setSeed, addToast } = useSharedStore(
@@ -37,7 +46,7 @@ export const KeyManagementSettings: React.FC = () => {
 		selectAccount: state.selectAccountAction,
 	}))
 
-	const [state, setState] = useImmer({
+	const [state, setState] = useImmer<ImmerT>({
 		password: '',
 		newPassword: '',
 		confirmPassword: '',

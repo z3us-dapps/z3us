@@ -15,6 +15,14 @@ import { StyledSlider, StyledTrack, StyledThumb, StyledRange } from 'ui/src/comp
 import { Flex, Text, Box } from 'ui/src/components/atoms'
 import Button from 'ui/src/components/button'
 
+interface ImmerT {
+	amount: number
+	addresses: Array<string>
+	selectedIndexes: object
+	showError: boolean
+	errorMessage: string
+}
+
 export const ImportAccounts = (): JSX.Element => {
 	const { mnemonic, setOnboardingStep } = useSharedStore(state => ({
 		mnemonic: state.mnemonic,
@@ -24,7 +32,7 @@ export const ImportAccounts = (): JSX.Element => {
 		network: state.networks[state.selectedNetworkIndex],
 		setPublicAddresses: state.setPublicAddressesAction,
 	}))
-	const [state, setState] = useImmer({
+	const [state, setState] = useImmer<ImmerT>({
 		amount: 0,
 		addresses: [],
 		selectedIndexes: {},

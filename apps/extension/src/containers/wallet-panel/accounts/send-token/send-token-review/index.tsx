@@ -21,6 +21,13 @@ import { Box, Text, Flex, StyledLink } from 'ui/src/components/atoms'
 import { AlertDialog, AlertDialogTrigger, AlertDialogContent } from 'ui/src/components/alert-dialog'
 import { SendReceiveHeader } from '@src/components/send-receive-header'
 
+interface ImmerT {
+	txID: string
+	errorMessage: string
+	isSendingAlertOpen: boolean
+	isSendingTransaction: boolean
+}
+
 interface IProps {
 	token: Token
 	to: string
@@ -50,7 +57,7 @@ export const SendTokenReview: React.FC<IProps> = ({
 		account: state.account,
 		publicAddresses: Object.values(state.publicAddresses),
 	}))
-	const [state, setState] = useImmer({
+	const [state, setState] = useImmer<ImmerT>({
 		txID: '',
 		errorMessage: '',
 		isSendingAlertOpen: false,

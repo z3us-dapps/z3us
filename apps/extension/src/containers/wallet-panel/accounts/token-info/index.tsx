@@ -64,6 +64,10 @@ const defaultChartOptions = {
 	},
 }
 
+interface ImmerT {
+	selectedTimeFrame: string
+}
+
 export const TokenInfo = (): JSX.Element => {
 	const [, setLocation] = useLocation()
 	const [, params] = useRoute('/account/token/:rri')
@@ -77,7 +81,7 @@ export const TokenInfo = (): JSX.Element => {
 	const { currency } = useSharedStore(state => ({
 		currency: state.currency,
 	}))
-	const [state, setState] = useImmer({
+	const [state, setState] = useImmer<ImmerT>({
 		selectedTimeFrame: 'threeMonth',
 	})
 	const { data: chart } = useMarketChart(currency, token?.symbol, TIMEFRAMES[state.selectedTimeFrame].days)

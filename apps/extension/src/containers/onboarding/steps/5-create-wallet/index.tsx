@@ -10,6 +10,12 @@ import Button from 'ui/src/components/button'
 import { Flex, Text, Box } from 'ui/src/components/atoms'
 import InputFeedBack from 'ui/src/components/input/input-feedback'
 
+interface ImmerT {
+	isButtonDisabled: boolean
+	showError: boolean
+	errorMessage: string
+}
+
 export const CreateWallet = (): JSX.Element => {
 	const [, setLocation] = useLocation()
 	const queryClient = useQueryClient()
@@ -40,7 +46,7 @@ export const CreateWallet = (): JSX.Element => {
 		selectAccount: state.selectAccountAction,
 	}))
 
-	const [state, setState] = useImmer({
+	const [state, setState] = useImmer<ImmerT>({
 		isButtonDisabled: true,
 		showError: false,
 		errorMessage: '',

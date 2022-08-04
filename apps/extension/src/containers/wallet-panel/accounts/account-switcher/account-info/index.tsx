@@ -14,6 +14,10 @@ import { AccountModal } from '@src/containers/wallet-panel/settings/accounts/acc
 import { useSharedStore, useStore } from '@src/store'
 import { ColorSettings } from '@src/types'
 
+interface ImmerT {
+	accountValue: string
+}
+
 type IProps = {
 	address: string
 }
@@ -28,7 +32,7 @@ export const AccountInfo: React.FC<IProps> = ({ address }) => {
 		entry: Object.values(state.publicAddresses).find(_account => _account.address === address),
 		activeSlideIndex: state.activeSlideIndex,
 	}))
-	const [state, setState] = useImmer({
+	const [state, setState] = useImmer<ImmerT>({
 		accountValue: '',
 	})
 	const color = entry?.colorSettings?.[ColorSettings.COLOR_TEXT] || '#330867'

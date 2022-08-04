@@ -21,6 +21,13 @@ import { Token } from './token'
 const VISIBLE = 'visible'
 const INVISIBLE = 'invisible'
 
+interface ImmerT {
+	isModalOpen: boolean
+	search: string
+	[VISIBLE]: VisibleTokens
+	[INVISIBLE]: VisibleTokens
+}
+
 interface IProps {
 	children?: React.ReactNode
 	toolTipSideOffset?: number
@@ -80,7 +87,7 @@ const makeInvisibleTokenData = (
 }
 
 const VirtuosoItem = React.memo(({ children, ...rest }) => {
-	const [size, setSize] = useState(0)
+	const [size, setSize] = useState<number>(0)
 	const knownSize = rest['data-known-size']
 	useEffect(() => {
 		setSize(prevSize => (knownSize === 0 ? prevSize : knownSize))
@@ -130,7 +137,7 @@ export const TokenListSettingsModal = ({
 	}))
 	const { data: balances } = useTokenBalances()
 	const { data: tokens } = useKnownTokens()
-	const [state, setState] = useImmer({
+	const [state, setState] = useImmer<ImmerT>({
 		isModalOpen: false,
 		search: '',
 		[VISIBLE]: currentVisibleTokens,

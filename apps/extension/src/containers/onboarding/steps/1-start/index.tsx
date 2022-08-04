@@ -15,6 +15,10 @@ import { generateId } from '@src/utils/generate-id'
 import { popupHtmlMap } from '@src/config'
 import { CheckItem } from './check-item'
 
+interface ImmerT {
+	mounted: boolean
+}
+
 const setupItems = {
 	send: { title: 'Send and receive tokens.', comingSoon: false },
 	earn: { title: 'Earn XRD by staking.', comingSoon: false },
@@ -45,7 +49,7 @@ export const Start = (): JSX.Element => {
 	const { publicAddresses } = useStore(state => ({
 		publicAddresses: state.publicAddresses,
 	}))
-	const [state, setState] = useImmer({
+	const [state, setState] = useImmer<ImmerT>({
 		mounted: false,
 	})
 

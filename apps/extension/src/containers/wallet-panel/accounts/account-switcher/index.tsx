@@ -26,8 +26,8 @@ export const AccountSwitcher = (): JSX.Element => {
 		setActiveSlide: state.setActiveSlideIndexAction,
 	}))
 
-	const [xVal, setXVal] = useState(LEFT_OFFSET + activeSlideIndex * -SLIDER_WIDTH)
-	const [isAccountBtnsVisible, setIsAccountBtnsVisible] = useState(
+	const [xVal, setXVal] = useState<number>(LEFT_OFFSET + activeSlideIndex * -SLIDER_WIDTH)
+	const [isAccountBtnsVisible, setIsAccountBtnsVisible] = useState<boolean>(
 		activeSlideIndex > -1 && activeSlideIndex < addresses.length,
 	)
 	const containerRef = useRef(null)
@@ -48,12 +48,12 @@ export const AccountSwitcher = (): JSX.Element => {
 
 	useEventListener('keydown', e => {
 		if (e.code === 'ArrowLeft' && activeSlideIndex > -1) {
-			// TOOD: bring this back when we can disable globally
+			// @TOOD: bring this back when we can disable globally
 			// we do not want the cards switching when users are are using left and right arrows when using the search token input
 			//handleSlideClick(activeSlideIndex - 1)
 		}
 		if (e.code === 'ArrowRight' && activeSlideIndex < addresses.length) {
-			// TOOD: bring this back when we can disable globally
+			// @TOOD: bring this back when we can disable globally
 			// we do not want the cards switching when users are are using left and right arrows when using the search token input
 			//handleSlideClick(activeSlideIndex + 1)
 		}
