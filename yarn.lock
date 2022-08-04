@@ -2616,13 +2616,6 @@
     schema-utils "^3.0.0"
     source-map "^0.7.3"
 
-"@radix-ui/number@0.1.0":
-  version "0.1.0"
-  resolved "https://registry.yarnpkg.com/@radix-ui/number/-/number-0.1.0.tgz#73ad13d5cc5f75fa5e147d72e5d5d5e50d688256"
-  integrity sha512-rpf6QiOWLHAkM4FEMYu9i+5Jr8cKT893+R4mPpcdsy4LD7omr9JfdOqj/h/xPA5+EcVrpMMlU6rrRYpUB5UI8g==
-  dependencies:
-    "@babel/runtime" "^7.13.10"
-
 "@radix-ui/number@1.0.0":
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/@radix-ui/number/-/number-1.0.0.tgz#4c536161d0de750b3f5d55860fc3de46264f897b"
@@ -3027,7 +3020,7 @@
     "@radix-ui/react-primitive" "0.1.4"
     "@radix-ui/react-use-layout-effect" "0.1.0"
 
-"@radix-ui/react-portal@1.0.0":
+"@radix-ui/react-portal@1.0.0", "@radix-ui/react-portal@^1.0.0":
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/@radix-ui/react-portal/-/react-portal-1.0.0.tgz#7220b66743394fabb50c55cb32381395cc4a276b"
   integrity sha512-a8qyFO/Xb99d8wQdu4o7qnigNjTPG123uADNecz0eX4usnQEj7o+cG4ZX4zkqq98NYekT7UoEQIjxBNWIFuqTA==
@@ -3112,23 +3105,23 @@
     aria-hidden "^1.1.1"
     react-remove-scroll "2.5.4"
 
-"@radix-ui/react-slider@^0.1.4":
-  version "0.1.4"
-  resolved "https://registry.yarnpkg.com/@radix-ui/react-slider/-/react-slider-0.1.4.tgz#a7b7a480ee00158195794b08cd3f1583cf102518"
-  integrity sha512-0z3bCcdrAi+FIcoLXS6r0ESVWuuyMnUJoCsFm7tC7Rtv95x34YtaI8YfSyQmzuMVS4rTsNtCCTZ/s727uRaVkQ==
+"@radix-ui/react-slider@^1.0.0":
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/@radix-ui/react-slider/-/react-slider-1.0.0.tgz#4cabadd243aa088eb45ac710cd7cdc518fafb07e"
+  integrity sha512-LMZET7vn7HYwYSjsc9Jcen8Vn4cJXZZxQT7T+lGlqp+F+FofX+H86TBF2yDq+L51d99f1KLEsflTGBz9WRLSig==
   dependencies:
     "@babel/runtime" "^7.13.10"
-    "@radix-ui/number" "0.1.0"
-    "@radix-ui/primitive" "0.1.0"
-    "@radix-ui/react-collection" "0.1.4"
-    "@radix-ui/react-compose-refs" "0.1.0"
-    "@radix-ui/react-context" "0.1.1"
-    "@radix-ui/react-primitive" "0.1.4"
-    "@radix-ui/react-use-controllable-state" "0.1.0"
-    "@radix-ui/react-use-direction" "0.1.0"
-    "@radix-ui/react-use-layout-effect" "0.1.0"
-    "@radix-ui/react-use-previous" "0.1.1"
-    "@radix-ui/react-use-size" "0.1.1"
+    "@radix-ui/number" "1.0.0"
+    "@radix-ui/primitive" "1.0.0"
+    "@radix-ui/react-collection" "1.0.0"
+    "@radix-ui/react-compose-refs" "1.0.0"
+    "@radix-ui/react-context" "1.0.0"
+    "@radix-ui/react-direction" "1.0.0"
+    "@radix-ui/react-primitive" "1.0.0"
+    "@radix-ui/react-use-controllable-state" "1.0.0"
+    "@radix-ui/react-use-layout-effect" "1.0.0"
+    "@radix-ui/react-use-previous" "1.0.0"
+    "@radix-ui/react-use-size" "1.0.0"
 
 "@radix-ui/react-slot@0.1.2":
   version "0.1.2"

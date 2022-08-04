@@ -37,7 +37,7 @@ export const SlippageBox: React.FC<IProps> = ({ token, amount, fee, css }) => {
 		>
 			{token && ticker && (
 				<Flex css={{ pt: '$1' }}>
-					<Text medium css={{ flex: '1' }}>
+					<Text medium css={{ flex: '1', color: '$txtHelp' }}>
 						Rate
 					</Text>
 					<Text>
@@ -47,7 +47,7 @@ export const SlippageBox: React.FC<IProps> = ({ token, amount, fee, css }) => {
 			)}
 			{fee && ticker && (
 				<Flex css={{ pt: '$1' }}>
-					<Text medium css={{ flex: '1' }}>
+					<Text medium css={{ flex: '1', color: '$txtHelp' }}>
 						Estimated fees
 					</Text>
 					<Text>{formatBigNumber(fee.multipliedBy(ticker.last_price), currency, 2)}</Text>
@@ -55,7 +55,7 @@ export const SlippageBox: React.FC<IProps> = ({ token, amount, fee, css }) => {
 			)}
 			{amount && ticker && (
 				<Flex css={{ pt: '$1' }}>
-					<Text medium css={{ flex: '1' }}>
+					<Text medium css={{ flex: '1', color: '$txtHelp' }}>
 						Total USD
 					</Text>
 					<Text>{formatBigNumber(amount.multipliedBy(ticker.last_price), currency, 2)}</Text>
