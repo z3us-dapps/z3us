@@ -41,6 +41,10 @@ export const ActivityLinks: React.FC<IProps> = ({ accountAddress, tx, activity }
 	const fromEntry = addressBook[fromAccount] || publicAddresses.find(_account => _account.address === fromAccount)
 	const fromShortAddress = getShortAddress(fromAccount)
 
+	//@TODO: Add date formatter based on user settings
+	const transactionDate = new Date(tx.sentAt)
+	const dateToLocalString = transactionDate.toLocaleString()
+
 	const handleCopyAddress = (str: string) => {
 		copyTextToClipboard(str)
 	}
@@ -55,7 +59,7 @@ export const ActivityLinks: React.FC<IProps> = ({ accountAddress, tx, activity }
 					Transaction:
 				</Text>
 			</Flex>
-			<Flex align="center" css={{ mt: '$2' }}>
+			<Flex align="center" css={{ mt: '7px' }}>
 				<Text size="2" truncate css={{ width: LEFT_COL_WIDTH }}>
 					Type:
 				</Text>
@@ -63,7 +67,17 @@ export const ActivityLinks: React.FC<IProps> = ({ accountAddress, tx, activity }
 					<ActivityType activity={activity} accountAddress={accountAddress} />
 				</Flex>
 			</Flex>
-			<Flex align="center" css={{ mt: '5px' }}>
+			<Flex align="center" css={{ mt: '$2' }}>
+				<Text size="2" truncate css={{ width: LEFT_COL_WIDTH }}>
+					Transaction date:
+				</Text>
+				<Flex align="center" justify="end" css={{ flex: '1' }}>
+					<Text color="help" size="2" css={{ pr: '$1' }}>
+						{dateToLocalString}
+					</Text>
+				</Flex>
+			</Flex>
+			<Flex align="center" css={{ mt: '6px' }}>
 				<Text size="2" truncate css={{ width: LEFT_COL_WIDTH }}>
 					Transaction ID:
 				</Text>
@@ -98,7 +112,7 @@ export const ActivityLinks: React.FC<IProps> = ({ accountAddress, tx, activity }
 				</Flex>
 			</Flex>
 			{fromShortAddress && (
-				<Flex align="center" css={{ mt: '3px' }}>
+				<Flex align="center" css={{ mt: '1px' }}>
 					<Text size="2" css={{ width: LEFT_COL_WIDTH }}>
 						{activity.from_validator ? 'From validator' : 'From address'}
 					</Text>
@@ -121,7 +135,7 @@ export const ActivityLinks: React.FC<IProps> = ({ accountAddress, tx, activity }
 				</Flex>
 			)}
 			{toShortAddress && (
-				<Flex align="center" css={{ mt: '3px' }}>
+				<Flex align="center" css={{ mt: '1px' }}>
 					<Text size="2" css={{ width: LEFT_COL_WIDTH }}>
 						{activity.to_validator ? 'To validator' : 'To address'}
 					</Text>
@@ -144,7 +158,7 @@ export const ActivityLinks: React.FC<IProps> = ({ accountAddress, tx, activity }
 				</Flex>
 			)}
 			{tx.message && (
-				<Flex align="center" css={{ mt: '7px' }}>
+				<Flex align="center" css={{ mt: '6px' }}>
 					<Box>
 						<Text size="2" truncate css={{ pb: '6px' }}>
 							{`Message: ${Message.isEncrypted(tx.message) ? `(encrypted)` : ``}`}
