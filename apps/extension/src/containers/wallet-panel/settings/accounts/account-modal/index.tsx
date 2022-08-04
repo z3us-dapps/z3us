@@ -2,6 +2,7 @@ import React from 'react'
 import { useImmer } from 'use-immer'
 import { useStore } from '@src/store'
 import { Cross2Icon } from '@radix-ui/react-icons'
+import { useEventListener } from 'usehooks-ts'
 import { AccountAddress } from '@src/components/account-address'
 import Button from 'ui/src/components/button'
 import Input from 'ui/src/components/input'
@@ -131,8 +132,16 @@ export const AccountModal = ({
 		})
 	}
 
+	useEventListener('keydown', e => {
+		if (e.key === 'Escape') {
+			setState(draft => {
+				draft.isModalOpen = false
+			})
+		}
+	})
+
 	return (
-		<Dialog open={state.isModalOpen}>
+		<Dialog open={state.isModalOpen} modal={false}>
 			<DialogTrigger asChild>
 				<Tooltip>
 					<TooltipTrigger asChild onClick={handleOnClick}>
