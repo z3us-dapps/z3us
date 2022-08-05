@@ -261,10 +261,3 @@ export const TokenInfo = (): JSX.Element => {
 		</Flex>
 	)
 }
-
-//transition: '$default',
-//borderColor: id === state.selectedTimeFrame ? '$borderPanel' : 'transparent',
-//backgroundColor: id === state.selectedTimeFrame ? '$bgPanelHover' : '$buttonBgTransparent',
-//'&:hover': {
-//background: '$bgPanelHover',
-//},
