@@ -78,7 +78,7 @@ export const calculatePoolFeesFromAmount = async (
 			const ociExchangeFee = new BigNumber(ociQuote?.fee_exchange[0]?.amount || 0)
 
 			fee = ociLiquidityFee.plus(ociExchangeFee)
-			receive = ociQuote?.output_amount ? new BigNumber(ociQuote?.output_amount || 0) : receive
+			receive = ociQuote?.minimum_output ? new BigNumber(ociQuote?.minimum_output?.amount || 0) : receive
 			break
 		case PoolType.CAVIAR:
 			const caviarPool = caviarPools.find(cp => cp.wallet === pool.wallet)
@@ -161,7 +161,7 @@ export const calculatePoolFeesFromReceive = async (
 			const ociExchangeFee = new BigNumber(ociQuote?.fee_exchange[0]?.amount || 0)
 
 			fee = ociLiquidityFee.plus(ociExchangeFee)
-			amount = ociQuote?.input_amount ? new BigNumber(ociQuote?.input_amount || 0) : amount
+			amount = ociQuote?.input ? new BigNumber(ociQuote?.input.amount || 0) : amount
 			break
 		case PoolType.CAVIAR:
 			amount = zero // @TODO: fix

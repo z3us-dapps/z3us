@@ -1,16 +1,20 @@
 import BigNumber from 'bignumber.js'
 
-export type Fee = {
+export type Price = {
 	amount: string
 	rri: string
+	// atos: string
+	// usd: string
 }
 
 export type CalculateSwapResponse = {
-	fee_exchange: Fee[]
-	fee_liquidity_provider: Fee[]
-	input_amount: string
-	output_amount: string
+	fee_exchange: Price
+	fee_liquidity_provider: Price
+	input: Price
+	// output: Price
+	minimum_output: Price
 	price_impact: string
+	// pool_address: string
 }
 
 export type OCIPool = {
@@ -67,17 +71,24 @@ export class OCIService {
 					  ${recieve.gt(0) ? `output_amount: "${recieve.toString()}"` : ``}
 					  input_rri: "${fromRRI}"
 					  output_rri: "${toRRI}"
+					  slippage: 0.05
 					) {
 					  fee_exchange {
-						amount
 						rri
+						amount
 					  }
 					  fee_liquidity_provider {
-						amount
 						rri
+						amount
 					  }
-					  ${amount.gt(0) ? `output_amount` : ``}
-					  ${recieve.gt(0) ? `input_amount` : ``}
+					  ${amount.gt(0) ? `minimum_output {
+						rri
+						amount
+					  }`: ``}
+					  ${recieve.gt(0) ? `input {
+						rri
+						amount
+					  }`: ``}
 					  price_impact
 					}
 				  }`,
