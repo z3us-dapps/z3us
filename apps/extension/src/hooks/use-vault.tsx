@@ -24,7 +24,7 @@ export const useVault = () => {
 		selectAccount: state.selectAccountAction,
 	}))
 
-	const [time, setTime] = useState(Date.now())
+	const [time, setTime] = useState<number>(Date.now())
 
 	useEffect(() => {
 		const interval = setInterval(() => setTime(Date.now()), refreshInterval)

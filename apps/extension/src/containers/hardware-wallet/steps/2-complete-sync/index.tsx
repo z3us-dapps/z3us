@@ -9,6 +9,11 @@ import Button from 'ui/src/components/button'
 import { Flex, Text, Box } from 'ui/src/components/atoms'
 import InputFeedBack from 'ui/src/components/input/input-feedback'
 
+interface ImmerT {
+	errorMessage: string
+	isLoading: boolean
+}
+
 export const CompleteSync = (): JSX.Element => {
 	const queryClient = useQueryClient()
 
@@ -16,7 +21,7 @@ export const CompleteSync = (): JSX.Element => {
 		addresses: Object.values(state.publicAddresses).map(({ address }) => address),
 	}))
 
-	const [state, setState] = useImmer({
+	const [state, setState] = useImmer<ImmerT>({
 		isLoading: false,
 		errorMessage: '',
 	})

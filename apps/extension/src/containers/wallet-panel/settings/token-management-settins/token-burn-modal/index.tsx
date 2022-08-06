@@ -23,13 +23,24 @@ import { useTransaction } from '@src/hooks/use-transaction'
 import { useTokenDerive } from '@src/hooks/use-token-derive'
 import { useTokenBurn } from '@src/hooks/use-token-burn'
 
+interface ImmerT {
+	amount: string
+	rri: string
+	fee: string
+	transaction: {
+		blob: string
+		hashOfBlobToSign: string
+	}
+	isLoading: boolean
+	isModalOpen: boolean
+}
+
 interface IProps {
 	trigger: React.ReactNode
 }
 
 export const BurnTokenModal: React.FC<IProps> = ({ trigger }) => {
 	const inputAmountRef = useRef(null)
-
 	const [, setLocation] = useLocation()
 	const queryClient = useQueryClient()
 
@@ -49,13 +60,11 @@ export const BurnTokenModal: React.FC<IProps> = ({ trigger }) => {
 		accountAddress: state.getCurrentAddressAction(),
 	}))
 
-	const [state, setState] = useImmer({
+	const [state, setState] = useImmer<ImmerT>({
 		amount: '',
 		rri: '',
-
 		fee: null,
 		transaction: null,
-
 		isLoading: false,
 		isModalOpen: false,
 	})

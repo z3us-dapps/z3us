@@ -10,10 +10,10 @@
 		"start": "next start",
 		"test": "jest --clearCache --detectOpenHandles --forceExit",
 		"check-types": "tsc --noemit",
-		"eslint": "TIMING=1 eslint --fix",
 		"export": "next export",
 		"deploy": "rm -rf node_modules/.cache && next build && next export && touch out/.nojekyll",
-		"lint": "npm run eslint && npm run check-types"
+		"eslint": "eslint --ignore-path .eslintignore --ext .js,.ts,.tsx .",
+		"lint": "yarn run eslint && yarn run check-types"
 	},
 	"dependencies": {
 		"@heroicons/react": "^1.0.6",
@@ -27,6 +27,7 @@
 		"assert": "^2.0.0",
 		"bignumber.js": "^9.0.2",
 		"buffer": "^6.0.3",
+		"chart.js": "^3.8.0",
 		"crypto-browserify": "^3.12.0",
 		"framer-motion": "^6.3.3",
 		"gray-matter": "^4.0.3",
@@ -44,7 +45,6 @@
 		"pte-sdk": "^0.1.22",
 		"react": "^17.0.2",
 		"react-chartjs-2": "^4.2.0",
-		"chart.js": "^3.8.0",
 		"react-confetti": "^6.1.0",
 		"react-dom": "^17.0.2",
 		"react-syntax-highlighter": "^15.5.0",
@@ -62,6 +62,7 @@
 		"autoprefixer": "^10.4.0",
 		"config": "*",
 		"eslint": "^8.5.0",
+		"eslint-plugin-require-explicit-generics": "^0.4.2",
 		"next-transpile-modules": "^9.0.0",
 		"tsconfig": "*",
 		"typescript": "^4.5.4"

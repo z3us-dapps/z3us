@@ -21,6 +21,20 @@ import { useTransferTokens } from '@src/hooks/use-token-transfer'
 import { SendReceiveHeader } from '@src/components/send-receive-header'
 import { SendTokenReview } from './send-token-review'
 
+interface ImmerT {
+	rri: string
+	amount: string
+	to: string
+	message: string
+	encrypt: boolean
+	fee: string | null
+	transaction: {
+		blob: string
+		hashOfBlobToSign: string
+	}
+	isLoading: boolean
+}
+
 export const SendToken: React.FC = () => {
 	const inputAmountRef = useRef(null)
 	const inputToAddressRef = useRef(null)
@@ -40,7 +54,7 @@ export const SendToken: React.FC = () => {
 		accountAddress: state.getCurrentAddressAction(),
 	}))
 
-	const [state, setState] = useImmer({
+	const [state, setState] = useImmer<ImmerT>({
 		rri: getSplitParams(params),
 		amount: '',
 		to: '',

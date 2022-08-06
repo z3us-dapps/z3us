@@ -14,8 +14,12 @@ import { KeyManagementSettings } from './key-management-settings'
 import { accordians } from './constants'
 import { TokenManagementSettings } from './token-management-settins'
 
+interface ImmerT {
+	activeAccordion: string
+}
+
 export const Settings: React.FC = () => {
-	const [state, setState] = useImmer({
+	const [state, setState] = useImmer<ImmerT>({
 		activeAccordion: '',
 	})
 

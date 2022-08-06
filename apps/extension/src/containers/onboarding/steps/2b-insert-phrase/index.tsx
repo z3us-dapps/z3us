@@ -10,6 +10,12 @@ import { PageWrapper, PageHeading, PageSubHeading } from '@src/components/layout
 import { Flex, Text, Box } from 'ui/src/components/atoms'
 import { Mnemonic } from '@radixdlt/crypto'
 
+interface ImmerT {
+	words: Array<string>
+	showError: boolean
+	errorMessage: string
+}
+
 const errorMessages = {
 	'Error: Invalid mnemonic': 'Enter a valid phrase.',
 }
@@ -20,7 +26,7 @@ export const InsertPhrase = (): JSX.Element => {
 		setOnboardingStep: state.setOnboardingStepAction,
 	}))
 
-	const [state, setState] = useImmer({
+	const [state, setState] = useImmer<ImmerT>({
 		words: [],
 		showError: false,
 		errorMessage: '',

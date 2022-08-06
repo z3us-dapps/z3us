@@ -10,8 +10,8 @@ export const useColorMode = () => {
 	}))
 
 	const mediaList = window.matchMedia && window.matchMedia(DARK_MODE_MEDIA_QUERY)
-	const [autoThemeIsDark, setAutoThemeIsDark] = useState(mediaList && mediaList.matches)
-	const [isDark, setIsDarkMode] = useState(mediaList && mediaList.matches)
+	const [autoThemeIsDark, setAutoThemeIsDark] = useState<boolean>(mediaList && mediaList.matches)
+	const [isDark, setIsDarkMode] = useState<boolean>(mediaList && mediaList.matches)
 
 	useEffect(
 		() => {

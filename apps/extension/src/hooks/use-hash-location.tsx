@@ -9,7 +9,7 @@ const currentLocation = (base, path = window.location.hash.replace('#', '')) =>
 	!path.toLowerCase().indexOf(base.toLowerCase()) ? path.slice(base.length) || '/' : `~${path}`
 
 export const useHashLocation = ({ base }) => {
-	const [loc, setLoc] = useState(currentLocation(base))
+	const [loc, setLoc] = useState<string>(currentLocation(base))
 	const prevHash = useRef(loc)
 
 	useEffect(() => {

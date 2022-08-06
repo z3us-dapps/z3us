@@ -1,7 +1,7 @@
-import React from 'react'
+import React, { useState } from 'react'
 
-export const useMediaQuery = width => {
-	const [targetReached, setTargetReached] = React.useState(false)
+export const useMediaQuery = (width: number) => {
+	const [targetReached, setTargetReached] = useState<boolean>(false)
 
 	const updateTarget = React.useCallback(e => {
 		if (e.matches) {

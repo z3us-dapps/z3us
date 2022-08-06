@@ -18,6 +18,13 @@ import {
 import { SelectBox } from 'ui/src/components/select'
 import { RadixService } from '@src/services/radix'
 
+interface ImmerT {
+	isAddNetworkDialogOpen: boolean
+	isLoading: boolean
+	value: string
+	errorMessage: string
+}
+
 export const NetworkSettings: React.FC = () => {
 	const { hw, seed, addToast } = useSharedStore(state => ({
 		hw: state.hardwareWallet,
@@ -32,7 +39,7 @@ export const NetworkSettings: React.FC = () => {
 		addNetwork: state.addNetworkAction,
 	}))
 
-	const [state, setState] = useImmer({
+	const [state, setState] = useImmer<ImmerT>({
 		isAddNetworkDialogOpen: false,
 		isLoading: false,
 		value: '',

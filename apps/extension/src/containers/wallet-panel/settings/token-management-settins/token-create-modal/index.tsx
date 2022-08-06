@@ -19,6 +19,24 @@ import { useTokenCreate } from '@src/hooks/use-token-create'
 import { useTokenDerive } from '@src/hooks/use-token-derive'
 import { useTransaction } from '@src/hooks/use-transaction'
 
+interface ImmerT {
+	amount: string
+	name: string
+	symbol: string
+	description: string
+	icon_url: string
+	url: string
+	is_supply_mutable: boolean
+	rri: string
+	fee: string
+	transaction: {
+		blob: string
+		hashOfBlobToSign: string
+	}
+	isLoading: boolean
+	isModalOpen: boolean
+}
+
 interface IProps {
 	trigger: React.ReactNode
 }
@@ -43,7 +61,7 @@ export const CreateTokenModal: React.FC<IProps> = ({ trigger }) => {
 		accountAddress: state.getCurrentAddressAction(),
 	}))
 
-	const [state, setState] = useImmer({
+	const [state, setState] = useImmer<ImmerT>({
 		amount: '',
 		name: '',
 		symbol: '',

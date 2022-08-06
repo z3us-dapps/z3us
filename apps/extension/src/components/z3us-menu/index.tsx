@@ -31,6 +31,13 @@ import {
 } from 'ui/src/components/drop-down-menu'
 import { KeystoreType } from '@src/store/types'
 
+interface ImmerT {
+	isOpen: boolean
+	keystoreId: string | undefined
+	editing: string | undefined
+	tempEdit: string | undefined
+}
+
 export const Z3usMenu: React.FC = () => {
 	const [, setLocation] = useLocation()
 	const [isSendRoute] = useRoute('/wallet/account/send')
@@ -69,7 +76,7 @@ export const Z3usMenu: React.FC = () => {
 		publicAddresses: state.publicAddresses,
 	}))
 	const walletInputRef = useRef(null)
-	const [state, setState] = useImmer({
+	const [state, setState] = useImmer<ImmerT>({
 		isOpen: false,
 		keystoreId: undefined,
 		editing: undefined,
