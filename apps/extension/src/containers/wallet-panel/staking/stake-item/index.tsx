@@ -38,7 +38,15 @@ export const StakeItem: React.FC<IProps> = ({
 	}
 
 	return (
-		<Box css={{ px: '$4', pb: '$4', pt: '$3', borderTop: `1px solid ${border ? '$borderPanel' : 'transparent'}` }}>
+		<Box
+			css={{
+				px: '$4',
+				pb: '$4',
+				pt: '$3',
+				bg: '$bgPanel',
+				borderTop: `1px solid ${border ? '$borderPanel' : 'transparent'}`,
+			}}
+		>
 			<Flex css={{ position: 'relative' }}>
 				<Box css={{ flex: '1', pt: '6px' }}>
 					<Text bold truncate css={{ pb: '$3', maxWidth: '250px' }}>

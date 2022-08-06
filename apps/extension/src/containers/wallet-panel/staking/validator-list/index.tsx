@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { useValidators } from '@src/hooks/react-query/queries/radix'
 import { Validator } from '@src/types'
+import { NoResultsPlaceholder } from '@src/components/no-results-placeholder'
 import { Flex, Box } from 'ui/src/components/atoms'
 import { useImmer } from 'use-immer'
 import { SearchBox } from '@src/components/search-box'
@@ -36,6 +37,7 @@ export const ValidatorList: React.FC<IProps> = ({ totalStakes }) => {
 	})
 	const { data = [] } = useValidators()
 	const hasValidations = data.length > 0
+	const hasSearchResults = state.filteredList.length > 0
 
 	const handleSearchValidatorList = (search: string) => {
 		setState(draft => {
@@ -69,17 +71,21 @@ export const ValidatorList: React.FC<IProps> = ({ totalStakes }) => {
 					borderRadius: ' 0px 0px 5px 5px',
 				}}
 			>
-				<ScrollArea scrollableNodeProps={{ ref: setCustomScrollParent }}>
-					<Virtuoso
-						customScrollParent={customScrollParent}
-						totalCount={state.filteredList.length}
-						// eslint-disable-next-line react/no-unstable-nested-components
-						itemContent={i => {
-							const validator = state.filteredList[i]
-							return <ValidatorItem i={i} validator={validator} totalStakes={totalStakes} />
-						}}
-					/>
-				</ScrollArea>
+				{hasSearchResults ? (
+					<ScrollArea scrollableNodeProps={{ ref: setCustomScrollParent }}>
+						<Virtuoso
+							customScrollParent={customScrollParent}
+							totalCount={state.filteredList.length}
+							// eslint-disable-next-line react/no-unstable-nested-components
+							itemContent={i => {
+								const validator = state.filteredList[i]
+								return <ValidatorItem i={i} validator={validator} totalStakes={totalStakes} />
+							}}
+						/>
+					</ScrollArea>
+				) : (
+					<NoResultsPlaceholder />
+				)}
 			</Box>
 		</Box>
 	) : (
