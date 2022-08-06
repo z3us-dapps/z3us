@@ -221,7 +221,6 @@ export const TokenInfo = (): JSX.Element => {
 								left: '15px',
 								right: '15px',
 								height: 'auto',
-								zIndex: '2',
 							}}
 						>
 							{Object.entries(TIMEFRAMES).map(([id, { shortName }]) => (
