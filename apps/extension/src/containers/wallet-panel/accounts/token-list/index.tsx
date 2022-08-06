@@ -11,6 +11,7 @@ import { RowsIcon, MagnifyingGlassIcon } from '@radix-ui/react-icons'
 import { Virtuoso } from 'react-virtuoso'
 import { ScrollArea } from 'ui/src/components/scroll-area'
 import { SearchBox } from '@src/components/search-box'
+import { NoResultsPlaceholder } from '@src/components/no-results-placeholder'
 import Button from 'ui/src/components/button'
 import { SLIDE_PANEL_HEIGHT, SLIDE_PANEL_EXPAND_HEIGHT, SLIDE_PANEL_HEADER_HEIGHT } from '@src/config'
 import { Box, Text, Flex } from 'ui/src/components/atoms'
@@ -103,33 +104,40 @@ const AllBalances: React.FC = () => {
 		const tokenSymbol = _token?.symbol?.toLowerCase() || ''
 		return tokenName?.includes(searchTerm) || tokenSymbol?.includes(searchTerm)
 	})
+	const hasSearchResults = searchedTokens?.length > 0
 
-	const list = hasLiquidBalances ? (
-		<ScrollArea scrollableNodeProps={{ ref: setCustomScrollParent }}>
-			<Virtuoso
-				customScrollParent={customScrollParent}
-				totalCount={searchedTokens.length}
-				data={searchedTokens}
-				itemContent={(i, { rri, amount, symbol }) => (
-					<TokenRow
-						i={i}
-						key={rri}
-						rri={rri}
-						amount={amount}
-						staked={symbol === 'xrd' && staked ? staked : null}
-						symbol={symbol}
-						disableClick
-					/>
-				)}
-			/>
-		</ScrollArea>
-	) : (
+	let list = (
 		<Box css={{ p: '$5' }}>
 			<Text size="4">All accounts are empty.</Text>
 		</Box>
 	)
 
-	return <Box>{list}</Box>
+	if (hasLiquidBalances && hasSearchResults) {
+		list = (
+			<ScrollArea scrollableNodeProps={{ ref: setCustomScrollParent }}>
+				<Virtuoso
+					customScrollParent={customScrollParent}
+					totalCount={searchedTokens.length}
+					data={searchedTokens}
+					itemContent={(i, { rri, amount, symbol }) => (
+						<TokenRow
+							i={i}
+							key={rri}
+							rri={rri}
+							amount={amount}
+							staked={symbol === 'xrd' && staked ? staked : null}
+							symbol={symbol}
+							disableClick
+						/>
+					)}
+				/>
+			</ScrollArea>
+		)
+	} else if (hasLiquidBalances) {
+		list = <NoResultsPlaceholder title="No tokens found" />
+	}
+
+	return list
 }
 
 const AccountBalances: React.FC = () => {
@@ -164,31 +172,38 @@ const AccountBalances: React.FC = () => {
 		const tokenSymbol = _token?.symbol?.toLowerCase() || ''
 		return tokenName?.includes(searchTerm) || tokenSymbol?.includes(searchTerm)
 	})
+	const hasSearchResults = searchedTokens?.length > 0
 
-	const list = hasLiquidBalances ? (
-		<ScrollArea scrollableNodeProps={{ ref: setCustomScrollParent }}>
-			<Virtuoso
-				customScrollParent={customScrollParent}
-				totalCount={searchedTokens.length}
-				data={searchedTokens}
-				itemContent={(i, { rri, amount, symbol }) => (
-					<TokenRow
-						i={i}
-						key={rri}
-						rri={rri}
-						amount={amount || 0}
-						staked={symbol === 'xrd' && staked ? staked : null}
-						symbol={symbol}
-						loading={isLoading}
-					/>
-				)}
-			/>
-		</ScrollArea>
-	) : (
+	let list = (
 		<Box css={{ p: '$5' }}>
 			<Text size="4">Account has no token balances.</Text>
 		</Box>
 	)
+
+	if (hasLiquidBalances && hasSearchResults) {
+		list = (
+			<ScrollArea scrollableNodeProps={{ ref: setCustomScrollParent }}>
+				<Virtuoso
+					customScrollParent={customScrollParent}
+					totalCount={searchedTokens.length}
+					data={searchedTokens}
+					itemContent={(i, { rri, amount, symbol }) => (
+						<TokenRow
+							i={i}
+							key={rri}
+							rri={rri}
+							amount={amount || 0}
+							staked={symbol === 'xrd' && staked ? staked : null}
+							symbol={symbol}
+							loading={isLoading}
+						/>
+					)}
+				/>
+			</ScrollArea>
+		)
+	} else if (hasLiquidBalances) {
+		list = <NoResultsPlaceholder title="No tokens found" />
+	}
 
 	return isLoading ? <TokenLoadingRows /> : list
 }
@@ -249,7 +264,13 @@ export const TokenList: React.FC = () => {
 	return (
 		<>
 			<AccountSwitcher />
-			<VisibleFadeAnimation isVisible={isSlideUpPanelVisible}>
+			<Box
+				css={{
+					pe: isSlideUpPanelVisible ? 'auto' : 'none',
+					opacity: isSlideUpPanelVisible ? '1' : '0',
+					transition: !isSlideUpPanelVisible ? '$default' : 'unset',
+				}}
+			>
 				<SlideUpPanel
 					headerComponent={
 						<SlideUpHeader
@@ -262,7 +283,7 @@ export const TokenList: React.FC = () => {
 				>
 					<Balances />
 				</SlideUpPanel>
-			</VisibleFadeAnimation>
+			</Box>
 		</>
 	)
 }

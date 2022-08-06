@@ -8,6 +8,7 @@ import { useEventListener } from 'usehooks-ts'
 import { CircleAvatar } from '@src/components/circle-avatar'
 import { useKnownTokens } from '@src/hooks/react-query/queries/radixscan'
 import { Box, Text, Flex } from 'ui/src/components/atoms'
+import { NoResultsPlaceholder } from '@src/components/no-results-placeholder'
 import Button from 'ui/src/components/button'
 import { Dialog, DialogTrigger, DialogContent } from 'ui/src/components/dialog'
 import { parseResourceIdentifier } from '@src/services/radix/serializer'
@@ -46,6 +47,15 @@ export const TokenSelector: React.FC<IProps> = ({ triggerType, token, tokens, on
 		search: '',
 		filteredTokens: [],
 	})
+
+	const searchedTokens = state.filteredTokens.filter((_token: VisibleToken) => {
+		const search = state.search.toLowerCase()
+		return (
+			(search !== '' && _token.name?.toLowerCase().includes(search)) || _token.symbol?.toLowerCase().includes(search)
+		)
+	})
+
+	const hasSearchResults = searchedTokens?.length > 0
 
 	const handleCloseModal = () => {
 		setState(draft => {
@@ -210,21 +220,17 @@ export const TokenSelector: React.FC<IProps> = ({ triggerType, token, tokens, on
 						</Box>
 					</Box>
 					<Box css={{ height: '295px', position: 'relative' }}>
-						<ScrollArea>
-							<Box css={{ px: '$5', pb: '$5', pt: '$2' }}>
-								{state.filteredTokens
-									.filter((_token: VisibleToken) => {
-										const search = state.search.toLowerCase()
-										return (
-											(search !== '' && _token.name?.toLowerCase().includes(search)) ||
-											_token.symbol?.toLowerCase().includes(search)
-										)
-									})
-									.map(({ rri }: VisibleToken) => (
+						{hasSearchResults ? (
+							<ScrollArea>
+								<Box css={{ px: '$5', pb: '$5', pt: '$2' }}>
+									{searchedTokens.map(({ rri }: VisibleToken) => (
 										<TokenItem rri={rri} onClick={handleValueChange} />
 									))}
-							</Box>
-						</ScrollArea>
+								</Box>
+							</ScrollArea>
+						) : (
+							<NoResultsPlaceholder />
+						)}
 					</Box>
 					<Flex justify="end" gap="2" css={{ py: '$4', px: '$5', borderTop: '1px solid $borderPanel' }}>
 						<Button

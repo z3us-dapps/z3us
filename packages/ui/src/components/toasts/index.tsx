@@ -62,7 +62,7 @@ const Toast = React.forwardRef<HTMLDivElement, ToastProps>(({ uniqueId, config, 
 	const toastRef = useRef<HTMLDivElement>(null)
 	useImperativeHandle(ref, () => toastRef.current)
 
-	const [isMounted, setIsMounted] = useState(false)
+	const [isMounted, setIsMounted] = useState<boolean>(false)
 	const { duration = 3500, type } = config
 
 	const { toastList, close } = useToastStore(
