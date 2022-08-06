@@ -251,12 +251,12 @@ export const AddressBook: React.FC = () => {
 						<Box css={{ p: '$1' }}>
 							<AlertDialogTitle>
 								<Flex align="center">
-									<Text medium size="5" css={{ pr: '2px' }}>
+									<Text bold size="4">
 										Add address
 									</Text>
 								</Flex>
 							</AlertDialogTitle>
-							<AlertDialogDescription css={{ mt: '4px' }}>
+							<AlertDialogDescription css={{ mt: '5px' }}>
 								<Text size="3">Enter the address you want to save to the address book.</Text>
 							</AlertDialogDescription>
 							<Box css={{ mt: '$1' }}>
@@ -300,7 +300,7 @@ export const AddressBook: React.FC = () => {
 									<Flex css={{ mt: '$4' }} justify="end" gap={2}>
 										<AlertDialogAction asChild>
 											<Button type="submit" size="2" color="primary" loading={state.isLoading}>
-												<PlusIcon /> Add address
+												Add address
 											</Button>
 										</AlertDialogAction>
 										<AlertDialogCancel asChild>

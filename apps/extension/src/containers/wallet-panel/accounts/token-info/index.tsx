@@ -2,6 +2,7 @@ import React, { useCallback } from 'react'
 import BigNumber from 'bignumber.js'
 import { Line } from 'react-chartjs-2'
 import { InteractionMode } from 'chart.js'
+import { useColorMode } from '@src/hooks/use-color-mode'
 import { useTokenBalances, useTokenInfo } from '@src/hooks/react-query/queries/radix'
 import { useMarketChart } from '@src/hooks/react-query/queries/market'
 import { getSplitParams } from '@src/utils/url-utils'
@@ -65,6 +66,7 @@ const defaultChartOptions = {
 }
 
 export const TokenInfo = (): JSX.Element => {
+	const isDarkMode = useColorMode()
 	const [, setLocation] = useLocation()
 	const [, params] = useRoute('/account/token/:rri')
 	const rri = getSplitParams(params)
@@ -146,7 +148,7 @@ export const TokenInfo = (): JSX.Element => {
 					symbol={token.symbol}
 					ammount={token.symbol === 'xrd' ? selectedTokenAmmount.plus(stakedAmount) : selectedTokenAmmount}
 				/>
-				<Grid gap="5" columns="3" css={{ pt: '0px' }}>
+				<Grid gap="5" columns="3" css={{ pt: '0px', position: 'relative', zIndex: '1' }}>
 					<Tooltip>
 						<TooltipTrigger asChild>
 							<Button size="5" color="inverse" iconOnly circle onClick={handleSendClick}>
@@ -185,11 +187,10 @@ export const TokenInfo = (): JSX.Element => {
 					<Box
 						css={{
 							position: 'relative',
-							mt: '0px',
+							marginTop: '-5px',
 							width: '100%',
-							height: '170px',
-							zIndex: '1',
-							mx: '-15px',
+							height: '150px',
+							mx: '0',
 							canvas: {
 								position: 'relative',
 								mx: '-5px',
@@ -203,7 +204,7 @@ export const TokenInfo = (): JSX.Element => {
 									{
 										data: chart.map(value => value[1]),
 										backgroundColor: ['rgba(255, 255, 255, 0.0)'],
-										borderColor: ['rgba(27, 27, 27, 1, 1.0)'],
+										borderColor: [isDarkMode ? 'rgba(255,255,255, 0.8)' : 'rbga(0,0,0,1)'],
 										borderWidth: 3,
 									},
 								],
@@ -216,11 +217,10 @@ export const TokenInfo = (): JSX.Element => {
 							justify="between"
 							css={{
 								position: 'absolute',
-								bottom: '10px',
-								left: '30px',
-								right: '30px',
+								bottom: '-15px',
+								left: '15px',
+								right: '15px',
 								height: 'auto',
-								zIndex: '2',
 							}}
 						>
 							{Object.entries(TIMEFRAMES).map(([id, { shortName }]) => (
@@ -231,10 +231,20 @@ export const TokenInfo = (): JSX.Element => {
 										fontSize: '12px',
 										fontWeight: '500',
 										px: '10px',
-										py: '5px',
+										py: '4px',
 										br: '20px',
 										textTransform: 'uppercase',
-										backgroundColor: id === state.selectedTimeFrame ? '$bgPanelHover' : 'transparent',
+										border: '1px solid',
+										backgroundColor: id === state.selectedTimeFrame ? '$bgPanelHover' : '$buttonBgTransparent',
+										...(id === state.selectedTimeFrame
+											? {
+													backgroundColor: '$bgPanelHover',
+													borderColor: '$borderPanel2',
+											  }
+											: {
+													backgroundColor: 'transparent',
+													borderColor: 'transparent',
+											  }),
 										'&:hover': {
 											background: '$bgPanelHover',
 										},

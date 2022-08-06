@@ -195,7 +195,7 @@ export const StakeModal: React.FC<IProps> = ({ trigger, tooltipMessage, validato
 	}
 
 	return (
-		<Dialog open={state.isModalOpen}>
+		<Dialog open={state.isModalOpen} modal={false}>
 			{wrappedTrigger}
 			<DialogContent>
 				<Flex direction="column" css={{ p: '$2', position: 'relative' }}>

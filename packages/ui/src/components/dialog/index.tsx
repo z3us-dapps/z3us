@@ -46,6 +46,17 @@ const StyledOverlay = styled(DialogPrimitive.Overlay, {
 	},
 })
 
+const StyledOverlaySpan = styled('span', {
+	backgroundColor: '$bgTransparentDialog',
+	backdropFilter: 'blur(6px)',
+	position: 'absolute',
+	width: EXT_WIDTH,
+	height: EXT_HEIGHT,
+	top: '0',
+	left: '0',
+	inset: 0,
+})
+
 const StyledContent = styled(DialogPrimitive.Content, {
 	position: 'absolute',
 	width: EXT_WIDTH,
@@ -69,21 +80,25 @@ const StyledContent = styled(DialogPrimitive.Content, {
 type ContentProps = {
 	children: React.ReactNode
 	container?: React.RefObject<HTMLElement>
+	modal?: boolean
 } & typeof defaultContentProps
 
 const defaultContentProps = {
 	container: undefined,
+	modal: false,
 }
 
 export type DialogContentProps = PropsWithCSS<ContentProps>
 
-const Content = ({ children, container, css }: DialogContentProps) => (
+const Content = ({ children, container, css, modal }: DialogContentProps) => (
 	<DialogPrimitive.Portal container={container}>
-		<StyledOverlay />
+		{modal ? <StyledOverlay /> : null}
 		<StyledContent>
+			{!modal ? <StyledOverlaySpan /> : null}
 			<Box
 				css={{
 					p: '$3',
+					position: 'relative',
 					width: '100%',
 					border: '1px solid $borderDialog',
 					color: '$txtDefault',

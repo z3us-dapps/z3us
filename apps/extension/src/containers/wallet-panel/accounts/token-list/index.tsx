@@ -117,6 +117,7 @@ const AllBalances: React.FC = () => {
 						rri={rri}
 						amount={amount}
 						staked={symbol === 'xrd' && staked ? staked : null}
+						symbol={symbol}
 						disableClick
 					/>
 				)}
@@ -177,6 +178,7 @@ const AccountBalances: React.FC = () => {
 						rri={rri}
 						amount={amount || 0}
 						staked={symbol === 'xrd' && staked ? staked : null}
+						symbol={symbol}
 						loading={isLoading}
 					/>
 				)}

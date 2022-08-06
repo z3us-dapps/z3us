@@ -164,6 +164,7 @@ export const TokenListSettingsModal = ({
 						title: 'Invalid action',
 						subTitle: 'You can only change the order of visible tokens',
 						duration: 5000,
+						isAutoRemovable: false,
 					})
 					return
 				}
@@ -257,8 +258,16 @@ export const TokenListSettingsModal = ({
 		}
 	})
 
+	useEventListener('keydown', e => {
+		if (e.key === 'Escape') {
+			setState(draft => {
+				draft.isModalOpen = false
+			})
+		}
+	})
+
 	return (
-		<Dialog open={state.isModalOpen}>
+		<Dialog open={state.isModalOpen} modal={false}>
 			<DialogTrigger asChild>
 				<Tooltip>
 					<TooltipTrigger asChild onClick={handleOnClick}>
