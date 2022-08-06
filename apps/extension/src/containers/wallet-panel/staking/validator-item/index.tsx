@@ -12,7 +12,7 @@ import { apy } from '@src/utils/radix'
 import { EXPLORER_URL } from '@src/config'
 import { StakeModal } from '../stake-modal'
 
-const LEFT_COL_WIDTH = '150px'
+const LEFT_COL_WIDTH = '123px'
 
 interface IProps {
 	i: number
@@ -101,18 +101,18 @@ export const ValidatorItem: React.FC<IProps> = ({ i, validator, totalStakes }) =
 								</Box>
 							</PopoverTrigger>
 							<PopoverContent css={{ width: '275px' }}>
-								<Box css={{ p: '$4' }}>
+								<Box css={{ p: '$4', pb: '$3' }}>
 									<Flex css={{ mb: '$3' }}>
 										<Text bold size="3" truncate css={{ width: LEFT_COL_WIDTH }}>
-											Validator information
+											Information
 										</Text>
 									</Flex>
-									<Flex css={{ mt: '$2' }}>
-										<Text size="2" truncate css={{ width: LEFT_COL_WIDTH }}>
+									<Flex css={{ mt: '$2', minWidth: '0' }}>
+										<Text size="2" truncate css={{ flexShrink: '0' }}>
 											Name
 										</Text>
-										<Flex justify="end" css={{ flex: '1' }}>
-											<Text size="2" color="help">
+										<Flex justify="end" css={{ flex: '1', pl: '$1' }}>
+											<Text truncate size="2" color="help" css={{ flex: '1', maxWidth: '190px', ta: 'right' }}>
 												{name}
 											</Text>
 										</Flex>
@@ -185,15 +185,6 @@ export const ValidatorItem: React.FC<IProps> = ({ i, validator, totalStakes }) =
 								</PopoverClose>
 							</PopoverContent>
 						</Popover>
-
-						{/*<Tooltip>
-							<TooltipTrigger asChild>
-							</TooltipTrigger>
-							<TooltipContent sideOffset={5} css={{ backgroundColor: '$bgPanel2' }}>
-								<TooltipArrow css={{ fill: '$bgPanel2' }} />
-								Activity
-							</TooltipContent>
-						</Tooltip>*/}
 					</Flex>
 				</Flex>
 			</Flex>
