@@ -30,7 +30,7 @@ export const useOCIPools = () =>
 	useQuery(['useOCIPools'], oci.getPools, { ...poolQueryOptions, enabled: swapServices[PoolType.OCI].enabled })
 
 export const useDogeCubeXPools = () =>
-	useQuery(['useDogeCubeXPoolTokens'], doge.getPools, {
+	useQuery(['useDogeCubeXPools'], doge.getPools, {
 		...poolQueryOptions,
 		enabled: swapServices[PoolType.DOGECUBEX].enabled,
 	})

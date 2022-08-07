@@ -3,24 +3,19 @@ import BigNumber from 'bignumber.js'
 export type Price = {
 	amount: string
 	rri: string
-	// atos: string
-	// usd: string
 }
 
 export type CalculateSwapResponse = {
 	fee_exchange: Price
 	fee_liquidity_provider: Price
 	input: Price
-	// output: Price
 	minimum_output: Price
 	price_impact: string
-	// pool_address: string
+	pool_address: string
 }
 
-export type OCIPool = {
-	name: string
+export type Pool = {
 	wallet_address: string
-	slug: string
 	token_a: {
 		rri: string
 	}
@@ -29,18 +24,14 @@ export type OCIPool = {
 	}
 }
 
-export type OCIPoolsResponse = Array<OCIPool>
+export type PoolsResponse = Array<Pool>
 
-export type OCIToken = {
+export type Token = {
 	name: string
-	market_cap_usd: string
-	rank: string
-	pools: Array<{
-		name: string
-	}>
+	rri: string
 }
 
-export type OCITokensResponse = OCIToken[]
+export type TokensResponse = Array<Token>
 
 export const PoolName = 'Ociswap'
 
@@ -51,7 +42,6 @@ export class OCIService {
 
 	private options: RequestInit = {
 		method: 'POST',
-		// mode: 'no-cors',
 		headers: {
 			'Content-Type': 'application/json',
 		},
@@ -62,6 +52,7 @@ export class OCIService {
 		toRRI: string,
 		amount: BigNumber,
 		recieve: BigNumber,
+		slippage: number = 0.05,
 	): Promise<CalculateSwapResponse> => {
 		const resp = await this.doRequest<{ data: { calculate_swap: CalculateSwapResponse } }>(
 			JSON.stringify({
@@ -71,7 +62,7 @@ export class OCIService {
 					  ${recieve.gt(0) ? `output_amount: "${recieve.toString()}"` : ``}
 					  input_rri: "${fromRRI}"
 					  output_rri: "${toRRI}"
-					  slippage: 0.05
+					  slippage: ${slippage}
 					) {
 					  fee_exchange {
 						rri
@@ -81,14 +72,22 @@ export class OCIService {
 						rri
 						amount
 					  }
-					  ${amount.gt(0) ? `minimum_output {
+					  ${
+							amount.gt(0)
+								? `minimum_output {
 						rri
 						amount
-					  }`: ``}
-					  ${recieve.gt(0) ? `input {
+					  }`
+								: ``
+						}
+					  ${
+							recieve.gt(0)
+								? `input {
 						rri
 						amount
-					  }`: ``}
+					  }`
+								: ``
+						}
 					  price_impact
 					}
 				  }`,
@@ -103,26 +102,37 @@ export class OCIService {
 	calculateSwapFromRecieve = (fromRRI: string, toRRI: string, recieve: BigNumber): Promise<CalculateSwapResponse> =>
 		this.calculateSwap(fromRRI, toRRI, zero, recieve)
 
-	getPools = async (): Promise<OCIPoolsResponse> => {
-		const resp = await this.doRequest<{ data: { pools: OCIPoolsResponse } }>(
+	getPools = async (): Promise<PoolsResponse> => {
+		const resp = await this.doRequest<{ data: { pools: PoolsResponse } }>(
 			JSON.stringify({
 				query: `query getPools {
 					pools {
-					  rank
+						wallet_address
+						token_a {
+							rri
+						}
+						token_b {
+							rri
+						}
+					}
+				}`,
+			}),
+		)
+		return resp?.data?.pools || []
+	}
+
+	getTokens = async (): Promise<TokensResponse> => {
+		const resp = await this.doRequest<{ data: { tokens: TokensResponse } }>(
+			JSON.stringify({
+				query: `query getTokens {
+					tokens(order_by: {rank: asc}) {
 					  name
-					  wallet_address
-					  slug
-					  token_a {
-						rri
-					  }
-					  token_b {
-						rri
-					  }
+					  rri
 					}
 				  }`,
 			}),
 		)
-		return resp?.data?.pools || []
+		return resp?.data?.tokens || []
 	}
 
 	private doRequest = async <T>(body: string): Promise<T> => {
