@@ -17,6 +17,8 @@ const format = {
 }
 
 const currencySettingsMap = {
+	BTC: { prefix: '₿', suffix: '' },
+	ETH: { prefix: 'Ξ', suffix: '' },
 	ARS: { prefix: '$', suffix: '' },
 	AUD: { prefix: '$', suffix: '' },
 	BRL: { prefix: 'R$', suffix: '' },
@@ -29,6 +31,7 @@ const currencySettingsMap = {
 	EUR: { prefix: '', suffix: '€' },
 	HKD: { prefix: 'HK$', suffix: '' },
 	HUF: { prefix: '', suffix: 'Ft' },
+	IDR: { prefix: 'Rp', suffix: '' },
 	INR: { prefix: '₹', suffix: '' },
 	ILS: { prefix: '₪', suffix: '' },
 	JPY: { prefix: '¥', suffix: '' },
