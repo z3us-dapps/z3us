@@ -19,15 +19,15 @@ import { useColorMode } from '@src/hooks/use-color-mode'
 export const OnboardingWorkFlow: React.FC = () => {
 	const [, setLocation] = useLocation()
 	const isDarkMode = useColorMode()
-	const { keystores, onBoardingStep, setOnboardingStep, setIsRestoreWorkflow, isRestoreWorkflow } = useSharedStore(
-		state => ({
+	const { keystores, cleanKeystores, onBoardingStep, setOnboardingStep, setIsRestoreWorkflow, isRestoreWorkflow } =
+		useSharedStore(state => ({
 			keystores: state.keystores,
+			cleanKeystores: state.cleanKeystoresAction,
 			onBoardingStep: state.onBoardingStep,
 			setOnboardingStep: state.setOnboardingStepAction,
 			setIsRestoreWorkflow: state.setIsRestoreWorkflowAction,
 			isRestoreWorkflow: state.isRestoreWorkflow,
-		}),
-	)
+		}))
 
 	const showBackBtn = keystores.length > 0 || onBoardingStep !== onBoardingSteps.START
 
@@ -35,6 +35,7 @@ export const OnboardingWorkFlow: React.FC = () => {
 		switch (onBoardingStep) {
 			case onBoardingSteps.START:
 				setLocation('#/wallet/account')
+				cleanKeystores()
 				break
 			case onBoardingSteps.GENERATE_PHRASE:
 				setIsRestoreWorkflow(false)

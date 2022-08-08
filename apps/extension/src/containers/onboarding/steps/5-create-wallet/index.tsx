@@ -21,22 +21,25 @@ export const CreateWallet = (): JSX.Element => {
 	const queryClient = useQueryClient()
 
 	const {
+		keystoreId,
 		mnemonic,
 		password,
 		setPassword,
 		setMnemomic,
+		changeKeystoreStatusForPassword,
 		isRestoreWorkflow,
 		createWallet,
 		setIsRestoreWorkflow,
 		setOnboradingStep,
 		setSeed,
 	} = useSharedStore(state => ({
+		keystoreId: state.selectKeystoreId,
 		mnemonic: state.mnemonic,
 		password: state.password,
 		createWallet: state.createWalletAction,
 		setPassword: state.setPasswordAction,
 		setMnemomic: state.setMnemomicAction,
-
+		changeKeystoreStatusForPassword: state.changeKeystoreStatusForPasswordAction,
 		isRestoreWorkflow: state.isRestoreWorkflow,
 		setIsRestoreWorkflow: state.setIsRestoreWorkflowAction,
 		setOnboradingStep: state.setOnboardingStepAction,
@@ -68,10 +71,11 @@ export const CreateWallet = (): JSX.Element => {
 		try {
 			const seed = await createWallet(mnemonic.words, password)
 			setSeed(seed)
-			await selectAccount(0, null, seed)
 
+			await selectAccount(0, null, seed)
 			await queryClient.invalidateQueries({ active: true, inactive: true, stale: true })
 
+			changeKeystoreStatusForPassword(keystoreId, true)
 			setPassword(null)
 			setMnemomic(null)
 			setOnboradingStep(onBoardingSteps.START)

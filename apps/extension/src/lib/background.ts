@@ -78,6 +78,9 @@ browser.runtime.onConnect.addListener(port => {
 			console.error(`Disconnected due to an error: ${port.error.message}`)
 		}
 
+		const { cleanKeystoresAction } = sharedStore.getState()
+		cleanKeystoresAction()
+
 		Object.keys(portMessageIDs).forEach(async id => {
 			await deletePendingAction(id)
 

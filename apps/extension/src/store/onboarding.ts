@@ -24,7 +24,6 @@ export const factory = (set: SetState<SharedStore>): OnBoardingStore => ({
 	isRestoreWorkflow: false,
 	mnemonic: null,
 	password: null,
-
 	connectHardwareWalletStep: connectHardwareWalletSteps.IMPORT_ACCOUNTS,
 
 	setMnemomicAction: (mnemonic: Mnemomic): void =>

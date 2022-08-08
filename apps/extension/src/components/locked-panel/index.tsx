@@ -170,32 +170,34 @@ export const LockedPanel: React.FC = () => {
 
 				<form onSubmit={handleSubmitForm}>
 					<Box css={{ p: '$6' }}>
-						{keystore.type === KeystoreType.LOCAL && (
-							<Box>
-								<Input
-									type="password"
-									size="2"
-									ref={inputRef}
-									placeholder="Enter password"
-									focusOnMount
-									value={state.password}
-									error={state.passwordError}
-									onChange={handlePasswordChange}
-								/>
-								<InputFeedBack showFeedback={state.passwordError} animateHeight={31}>
-									<StyledLink underlineOnHover href="#/onboarding" css={{ display: 'block', mt: '12px' }}>
-										<Text uppercase medium>
-											Forgot password?
-										</Text>
-									</StyledLink>
-								</InputFeedBack>
-							</Box>
+						{keystore?.type === KeystoreType.LOCAL && (
+							<>
+								<Box>
+									<Input
+										type="password"
+										size="2"
+										ref={inputRef}
+										placeholder="Enter password"
+										focusOnMount
+										value={state.password}
+										error={state.passwordError}
+										onChange={handlePasswordChange}
+									/>
+									<InputFeedBack showFeedback={state.passwordError} animateHeight={31}>
+										<StyledLink underlineOnHover href="#/onboarding" css={{ display: 'block', mt: '12px' }}>
+											<Text uppercase medium>
+												Forgot password?
+											</Text>
+										</StyledLink>
+									</InputFeedBack>
+								</Box>
+								<Flex css={{ mt: '$3' }}>
+									<Button type="submit" loading={state.isLoading} color="primary" size="6" css={{ flex: '1' }}>
+										Unlock
+									</Button>
+								</Flex>
+							</>
 						)}
-						<Flex css={{ mt: '$3' }}>
-							<Button type="submit" loading={state.isLoading} color="primary" size="6" css={{ flex: '1' }}>
-								Unlock
-							</Button>
-						</Flex>
 					</Box>
 				</form>
 			</Flex>
