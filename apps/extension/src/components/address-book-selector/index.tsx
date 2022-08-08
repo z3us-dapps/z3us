@@ -1,15 +1,19 @@
 import React from 'react'
 import { useSharedStore, useStore } from '@src/store'
 import {
-	DropdownMenu,
-	DropdownMenuTrigger,
-	DropdownMenuContent,
-	DropdownMenuRadioGroup,
-	DropdownMenuRadioItem,
-	DropdownMenuItemIndicator,
-	DropdownMenuEllipsis,
-} from 'ui/src/components/drop-down-menu'
-import { Tooltip, TooltipTrigger, TooltipContent, TooltipArrow } from 'ui/src/components/tool-tip'
+	Select,
+	SelectGroup,
+	SelectTrigger,
+	SelectValue,
+	SelectContent,
+	SelectViewport,
+	SelectItem,
+	SelectItemText,
+	SelectItemIndicator,
+	SelectScrollUpButton,
+	SelectScrollDownButton,
+} from 'ui/src/components/select'
+import { ChevronDownIcon, ChevronUpIcon } from '@radix-ui/react-icons'
 import Button from 'ui/src/components/button'
 import { Text } from 'ui/src/components/atoms'
 import { getShortAddress } from '@src/utils/string-utils'
@@ -48,59 +52,78 @@ export const AddressBookSelector: React.FC<IProps> = ({ selectedAddress, onSelec
 	if (publicAddresses.length === 0 && entries.length === 0) return null
 
 	return (
-		<DropdownMenu>
-			<Tooltip>
-				<TooltipTrigger asChild>
-					<DropdownMenuTrigger asChild>
-						<Button size="1" color="tertiary">
-							<Text
-								truncate
-								bold
-								size="1"
-								css={{
-									textTransform: 'uppercase',
-									maxWidth: '200px',
-								}}
-							>
-								{selectedName}
-							</Text>
-						</Button>
-					</DropdownMenuTrigger>
-				</TooltipTrigger>
-				<TooltipContent sideOffset={3}>
-					<TooltipArrow />
-					Select from address book
-				</TooltipContent>
-			</Tooltip>
-			<DropdownMenuContent
-				align="end"
-				side="bottom"
-				sideOffset={12}
-				alignOffset={-2}
-				css={{ minWidth: '120px', maxWidth: '200px' }}
-				onCloseAutoFocus={e => {
-					e.preventDefault()
-				}}
-			>
-				<DropdownMenuRadioGroup value={selectedAddress} onValueChange={handleValueChange}>
-					{publicAddresses.map(({ address, name }) => (
-						<DropdownMenuRadioItem key={address} value={address}>
-							<DropdownMenuEllipsis>
-								<DropdownMenuItemIndicator />
-								{name ? `${name} (${getShortAddress(address)})` : getShortAddress(address)}
-							</DropdownMenuEllipsis>
-						</DropdownMenuRadioItem>
-					))}
-					{entries.map(([address, { name }]) => (
-						<DropdownMenuRadioItem key={address} value={address}>
-							<DropdownMenuEllipsis>
-								<DropdownMenuItemIndicator />
-								{name ? `${name} (${getShortAddress(address)})` : getShortAddress(address)}
-							</DropdownMenuEllipsis>
-						</DropdownMenuRadioItem>
-					))}
-				</DropdownMenuRadioGroup>
-			</DropdownMenuContent>
-		</DropdownMenu>
+		<Select value={selectedAddress} onValueChange={handleValueChange}>
+			<SelectTrigger aria-label="Address selector" asChild>
+				<Button size="1" color="tertiary">
+					<SelectValue>
+						<Text
+							truncate
+							bold
+							size="1"
+							css={{
+								textTransform: 'uppercase',
+								maxWidth: '200px',
+							}}
+						>
+							{selectedName}
+						</Text>
+					</SelectValue>
+				</Button>
+			</SelectTrigger>
+			<SelectContent>
+				<SelectScrollUpButton>
+					<ChevronUpIcon />
+				</SelectScrollUpButton>
+				<SelectViewport>
+					<SelectGroup>
+						<>
+							{publicAddresses.map(({ address, name }) => (
+								<SelectItem
+									key={address}
+									value={address}
+									css={{
+										'span:first-child': {
+											overflow: 'hidden',
+											textOverflow: 'ellipsis',
+											whiteSpace: 'nowrap',
+											width: '120px',
+										},
+									}}
+								>
+									<SelectItemText>
+										{name ? `${name} (${getShortAddress(address)})` : getShortAddress(address)}
+									</SelectItemText>
+									<SelectItemIndicator />
+								</SelectItem>
+							))}
+						</>
+						<>
+							{entries.map(([address, { name }]) => (
+								<SelectItem
+									key={address}
+									value={address}
+									css={{
+										'span:first-child': {
+											overflow: 'hidden',
+											textOverflow: 'ellipsis',
+											whiteSpace: 'nowrap',
+											width: '120px',
+										},
+									}}
+								>
+									<SelectItemText>
+										{name ? `${name} (${getShortAddress(address)})` : getShortAddress(address)}
+									</SelectItemText>
+									<SelectItemIndicator />
+								</SelectItem>
+							))}
+						</>
+					</SelectGroup>
+				</SelectViewport>
+				<SelectScrollDownButton>
+					<ChevronDownIcon />
+				</SelectScrollDownButton>
+			</SelectContent>
+		</Select>
 	)
 }

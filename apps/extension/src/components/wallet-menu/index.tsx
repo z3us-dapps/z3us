@@ -22,7 +22,7 @@ export const WalletMenu: React.FC = () => {
 		lock: state.lockAction,
 		seed: state.masterSeed,
 	}))
-	const [isOpen, setIsopen] = useState(false)
+	const [isOpen, setIsopen] = useState<boolean>(false)
 
 	return (
 		<MotionBox animate={isOpen ? 'open' : 'closed'}>
@@ -37,7 +37,6 @@ export const WalletMenu: React.FC = () => {
 						/>
 					</Button>
 				</DropdownMenuTrigger>
-
 				<DropdownMenuContent
 					avoidCollisions={false}
 					align="end"

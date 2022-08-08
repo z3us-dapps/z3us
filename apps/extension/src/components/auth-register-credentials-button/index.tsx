@@ -5,6 +5,10 @@ import Button, { ButtonProps } from 'ui/src/components/button'
 import { isWebAuthSupported } from '@src/services/credentials'
 import { generateId } from '@src/utils/generate-id'
 
+interface ImmerT {
+	isWebAuthSupported: boolean
+}
+
 export const RegisterCredentialsButton: React.FC<ButtonProps> = props => {
 	const { seed, registerCredential, removeCredential } = useSharedStore(state => ({
 		seed: state.masterSeed,
@@ -12,7 +16,7 @@ export const RegisterCredentialsButton: React.FC<ButtonProps> = props => {
 		removeCredential: state.removeCredentialAction,
 	}))
 
-	const [state, setState] = useImmer({
+	const [state, setState] = useImmer<ImmerT>({
 		isWebAuthSupported: false,
 	})
 

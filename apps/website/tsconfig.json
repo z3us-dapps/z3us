@@ -7,7 +7,7 @@
 			"@/public/*": ["public/*"],
 			"@/components/*": ["components/*"],
 			"@/hooks/*": ["hooks/*"],
-			"@/docs/*": ["docs/*"],
+			"@/docs/*": ["docs/*"]
 		}
 	},
 	"include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],

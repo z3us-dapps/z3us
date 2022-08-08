@@ -1,5 +1,6 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import React from 'react'
-import { AccountsIcon, StakingIcon, SwapIcon, SettingsIcon } from 'ui/src/components/icons'
+import { HomeIcon, StakingIcon, SwapIcon, SettingsIcon } from 'ui/src/components/icons'
 import { ColorSettings, PoolType } from '@src/types'
 
 export const defaultAccountStoreKey = 'z3us-store'
@@ -204,7 +205,7 @@ export const routesInfo = {
 	[ACCOUNTS]: {
 		id: ACCOUNTS,
 		name: 'Accounts',
-		icon: <AccountsIcon />,
+		icon: <HomeIcon />,
 		href: 'account',
 	},
 	[STAKING]: {

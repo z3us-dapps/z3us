@@ -7,6 +7,8 @@ import { Z3usIcon, TrashIcon, HardwareWalletIcon } from 'ui/src/components/icons
 import { ToolTip } from 'ui/src/components/tool-tip'
 import { LockClosedIcon, ChevronRightIcon, Pencil2Icon } from '@radix-ui/react-icons'
 import { Box, MotionBox, Text, Flex } from 'ui/src/components/atoms'
+import { generateId } from '@src/utils/generate-id'
+import { onBoardingSteps } from '@src/store/onboarding'
 import Input from 'ui/src/components/input'
 import {
 	AlertDialog,
@@ -29,6 +31,13 @@ import {
 } from 'ui/src/components/drop-down-menu'
 import { KeystoreType } from '@src/store/types'
 
+interface ImmerT {
+	isOpen: boolean
+	keystoreId: string | undefined
+	editing: string | undefined
+	tempEdit: string | undefined
+}
+
 export const Z3usMenu: React.FC = () => {
 	const [, setLocation] = useLocation()
 	const [isSendRoute] = useRoute('/wallet/account/send')
@@ -37,23 +46,37 @@ export const Z3usMenu: React.FC = () => {
 	const [isDepositRouteRri] = useRoute('/wallet/account/deposit/:rri')
 	const [isActivityRoute] = useRoute('/wallet/account/activity')
 	const [isSwapRoute] = useRoute('/wallet/swap/review')
-	const { keystores, keystoreId, selectKeystore, removeKeystore, changeKeystoreName, removeWallet, lock, isUnlocked } =
-		useSharedStore(state => ({
-			keystores: state.keystores,
-			keystoreId: state.selectKeystoreId,
-			addKeystore: state.addKeystoreAction,
-			removeKeystore: state.removeKeystoreAction,
-			selectKeystore: state.selectKeystoreAction,
-			changeKeystoreName: state.changeKeystoreNameAction,
-			lock: state.lockAction,
-			removeWallet: state.removeWalletAction,
-			isUnlocked: Boolean(state.masterSeed || state.isHardwareWallet),
-		}))
-	const { reset } = useStore(state => ({
+	const {
+		keystores,
+		keystoreId,
+		addKeystore,
+		removeKeystore,
+		selectKeystore,
+		changeKeystoreName,
+		removeWallet,
+		lock,
+		isUnlocked,
+		setIsRestoreWorkflow,
+		setOnboardingStep,
+	} = useSharedStore(state => ({
+		keystores: state.keystores,
+		keystoreId: state.selectKeystoreId,
+		addKeystore: state.addKeystoreAction,
+		removeKeystore: state.removeKeystoreAction,
+		selectKeystore: state.selectKeystoreAction,
+		changeKeystoreName: state.changeKeystoreNameAction,
+		lock: state.lockAction,
+		removeWallet: state.removeWalletAction,
+		isUnlocked: Boolean(state.masterSeed || state.isHardwareWallet),
+		setIsRestoreWorkflow: state.setIsRestoreWorkflowAction,
+		setOnboardingStep: state.setOnboardingStepAction,
+	}))
+	const { reset, publicAddresses } = useStore(state => ({
 		reset: state.resetAction,
+		publicAddresses: state.publicAddresses,
 	}))
 	const walletInputRef = useRef(null)
-	const [state, setState] = useImmer({
+	const [state, setState] = useImmer<ImmerT>({
 		isOpen: false,
 		keystoreId: undefined,
 		editing: undefined,
@@ -75,6 +98,23 @@ export const Z3usMenu: React.FC = () => {
 
 	const handleAdd = () => {
 		window.location.hash = '#/onboarding'
+	}
+
+	const createKeystore = async (type: KeystoreType) => {
+		if (keystoreId && Object.keys(publicAddresses).length === 0) {
+			return
+		}
+
+		const id = generateId()
+		addKeystore(id, id, type)
+		await lock() // clear background memory
+	}
+
+	const handleRestoreFromPhrase = async () => {
+		window.location.hash = '#/onboarding'
+		await createKeystore(KeystoreType.LOCAL)
+		setIsRestoreWorkflow(true)
+		setOnboardingStep(onBoardingSteps.INSERT_PHRASE)
 	}
 
 	const confirmRemoveWallet = () => async () => {
@@ -213,6 +253,9 @@ export const Z3usMenu: React.FC = () => {
 						)}
 						<DropdownMenuItem onSelect={handleAdd}>
 							<Box css={{ flex: '1', pr: '$4' }}>Add new wallet</Box>
+						</DropdownMenuItem>
+						<DropdownMenuItem onSelect={handleRestoreFromPhrase}>
+							<Box css={{ flex: '1', pr: '$4' }}>Restore wallet</Box>
 						</DropdownMenuItem>
 						{isUnlocked && (
 							<DropdownMenuItem onSelect={handleLockWallet}>

@@ -21,6 +21,17 @@ import { Z3usSpinnerAnimation } from '@src/components/z3us-spinner-animation'
 import { ArrowLeftIcon } from '@radix-ui/react-icons'
 import ActionsPreview from './components/actions-preview'
 
+interface ImmerT {
+	fee: string | null
+	transaction: {
+		blob: string
+		hashOfBlobToSign: string
+	}
+	txID: string
+	errorMessage: string
+	isSendingTransaction: boolean
+}
+
 export const Transaction = (): JSX.Element => {
 	const [, { id }] = useRoute<{ id: string }>('/transaction/:id')
 	const queryClient = useQueryClient()
@@ -46,7 +57,7 @@ export const Transaction = (): JSX.Element => {
 				: {},
 	}))
 
-	const [state, setState] = useImmer({
+	const [state, setState] = useImmer<ImmerT>({
 		fee: null,
 		transaction: null,
 		txID: '',

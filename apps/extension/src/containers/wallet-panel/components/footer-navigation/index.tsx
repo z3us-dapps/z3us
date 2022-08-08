@@ -1,7 +1,7 @@
 import React from 'react'
 import { useSharedStore } from '@src/store'
 import { useLocation, useRoute } from 'wouter'
-import { Box, Flex, Text } from 'ui/src/components/atoms'
+import { Flex } from 'ui/src/components/atoms'
 import Button from 'ui/src/components/button'
 import { routesInfo } from '@src/config'
 
@@ -35,7 +35,7 @@ export const FooterNavigation: React.FC = () => {
 			}}
 			as="ul"
 		>
-			{Object.entries(routesInfo).map(([key, { icon, name }], i) => {
+			{Object.entries(routesInfo).map(([key, { icon }], i) => {
 				const isActive = key === page
 				const currentPageIndex = Object.keys(routesInfo).findIndex(_key => _key === page)
 				return (
@@ -67,43 +67,38 @@ export const FooterNavigation: React.FC = () => {
 							flexDirection: 'column',
 							background: '$bgPanel',
 							transition: 'all 300ms ease-out',
-							'&:hover': {
-								background: '$bgPanelHover',
-							},
 							'&:focus:not(&:focus-visible)': {
 								boxShadow: 'none',
 							},
-							'&:focus': {
-								boxShadow: '$buttonFocusShadow',
-							},
-							'&:active': {
-								boxShadow: '$buttonFocusShadow',
+							'&:hover': {
+								'> span': {
+									...(!isActive
+										? {
+												background: '$bgPanelHover',
+										  }
+										: {}),
+								},
 							},
 						}}
 					>
-						<Box
+						<Flex
 							as="span"
+							align="center"
+							justify="center"
 							css={{
-								mt: '$5',
-								color: isActive ? '$iconActive' : '$iconDefault',
-								svg: { transition: 'all 300ms ease-out' },
+								mt: '20px',
+								flexShrink: '0',
+								width: '32px',
+								height: '32px',
+								br: '50%',
+								bg: isActive ? '$iconActive' : 'transparent',
+								color: isActive ? '$txtInverse' : '$iconDefault',
+								transition: 'all 100ms ease-out',
+								svg: { transition: 'all 100ms ease-out' },
 							}}
 						>
 							{icon}
-						</Box>
-						<Text
-							as="span"
-							css={{
-								textTransform: 'uppercase',
-								fontSize: '11px',
-								pt: '2px',
-								fontWeight: '800',
-								color: isActive ? '$iconActive' : '$iconDefault',
-								svg: { transition: 'all 300ms ease-out' },
-							}}
-						>
-							{name}
-						</Text>
+						</Flex>
 					</Button>
 				)
 			})}

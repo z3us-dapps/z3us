@@ -12,7 +12,7 @@ import LoaderBars from 'ui/src/components/loader-bars'
 import { SendReceiveHeader } from '@src/components/send-receive-header'
 
 export const AccountActivity: React.FC = () => {
-	const [customScrollParent, setCustomScrollParent] = useState(null)
+	const [customScrollParent, setCustomScrollParent] = useState<HTMLElement | null>(null)
 	const observer = useRef<IntersectionObserver | null>(null)
 	const { hw, seed } = useSharedStore(state => ({
 		hw: state.hardwareWallet,

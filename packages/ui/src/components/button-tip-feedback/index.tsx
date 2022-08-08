@@ -41,8 +41,8 @@ const ButtonTipFeedback: React.FC<IProps> = ({
 	const timeoutEnterRef = useRef(null)
 	const timeoutLeaveRef = useRef(null)
 	const timeoutFeedbackRef = useRef(null)
-	const [isOpen, setIsOpen] = useState(false)
-	const [isShowFeedback, setIsShowFeedback] = useState(false)
+	const [isOpen, setIsOpen] = useState<boolean>(false)
+	const [isShowFeedback, setIsShowFeedback] = useState<boolean>(false)
 	let clonedButton = null
 
 	const handleShowFeedback = () => {

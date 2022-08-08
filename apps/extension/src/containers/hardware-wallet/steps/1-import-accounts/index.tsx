@@ -25,6 +25,15 @@ import { useAPDU } from '@src/hooks/use-apdu'
 
 const isHIDSupported = !!window?.navigator?.hid
 
+interface ImmerT {
+	addresses: Array<string>
+	addressMap: { [key: number]: string }
+	selectedIndexes: object
+	isLoading: boolean
+	isDerivingAccounts: boolean
+	errorMessage: string
+}
+
 export const ImportAccounts = (): JSX.Element => {
 	const sendAPDU = useAPDU()
 	const { keystore, setStep, lock, addKeystore } = useSharedStore(state => ({
@@ -39,7 +48,7 @@ export const ImportAccounts = (): JSX.Element => {
 		setPublicAddresses: state.setPublicAddressesAction,
 	}))
 
-	const [state, setState] = useImmer({
+	const [state, setState] = useImmer<ImmerT>({
 		addresses: [],
 		addressMap: {},
 		selectedIndexes: {},
