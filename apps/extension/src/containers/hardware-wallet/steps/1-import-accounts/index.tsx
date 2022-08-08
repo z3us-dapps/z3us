@@ -67,7 +67,7 @@ export const ImportAccounts = (): JSX.Element => {
 		}
 
 		const id = generateId()
-		addKeystore(id, id, KeystoreType.HARDWARE, false)
+		addKeystore(id, id, KeystoreType.HARDWARE)
 		await lock() // clear background memory
 	}
 

@@ -59,7 +59,7 @@ export const Start = (): JSX.Element => {
 		}
 
 		const id = generateId()
-		addKeystore(id, id, type, false)
+		addKeystore(id, id, type)
 		await lock() // clear background memory
 	}
 
