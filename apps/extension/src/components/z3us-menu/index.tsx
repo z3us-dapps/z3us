@@ -106,7 +106,7 @@ export const Z3usMenu: React.FC = () => {
 		}
 
 		const id = generateId()
-		addKeystore(id, id, type)
+		addKeystore(id, id, type, false)
 		await lock() // clear background memory
 	}
 

@@ -7,9 +7,9 @@ export const factory = (set: SetState<SharedStore>): KeystoresStore => ({
 	keystores: [],
 	selectKeystoreId: '',
 
-	addKeystoreAction: (id: string, name: string, type: KeystoreType) => {
+	addKeystoreAction: (id: string, name: string, type: KeystoreType, hasPassword: boolean) => {
 		set(draft => {
-			draft.keystores = [...draft.keystores, { id, name, type, hasPassword: false }]
+			draft.keystores = [...draft.keystores, { id, name, type, hasPassword }]
 			draft.selectKeystoreId = id
 		})
 	},

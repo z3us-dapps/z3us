@@ -114,7 +114,7 @@ export type KeystoresStore = {
 	selectKeystoreAction: (id: string) => void
 
 	keystores: Keystore[]
-	addKeystoreAction: (id: string, name: string, type: KeystoreType) => void
+	addKeystoreAction: (id: string, name: string, type: KeystoreType, hasPassword: boolean) => void
 	cleanKeystoresAction: () => void
 	removeKeystoreAction: (id: string) => void
 	changeKeystoreNameAction: (id: string, name: string) => void
