@@ -89,7 +89,10 @@ export type BackgroundStore = {
 	messanger: MessageService | null
 
 	setMessangerAction: (messanger: MessageService) => void
-	sendResponseAction: (action: string, data: any) => Promise<void>
+	sendResponseAction: (
+		action: string,
+		data: { id: string; host: string; payload: { request: any; value: any } },
+	) => Promise<void>
 	hasKeystoreAction: () => Promise<boolean>
 	createWalletAction: (words: string[], password: string) => Promise<HDMasterSeedT>
 	unlockWalletAction: (password: string) => Promise<HDMasterSeedT>
