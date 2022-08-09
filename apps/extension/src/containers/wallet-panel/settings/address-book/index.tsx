@@ -24,6 +24,16 @@ import { EXPLORER_URL } from '@src/config'
 import { AccountAddress } from '@radixdlt/account'
 import { AddressBookEntry } from '@src/store/types'
 
+interface ImmerT {
+	editing: string
+	tempEdit: string
+	isLoading: boolean
+	address: string
+	name: string
+	errorMessage: string
+	isAddAddressDialogOpen: boolean
+}
+
 export const AddressBook: React.FC = () => {
 	const { addToast } = useSharedStore(state => ({
 		addToast: state.addToastAction,
@@ -35,7 +45,7 @@ export const AddressBook: React.FC = () => {
 		handleRemoveAddress: state.removeAddressBookEntryAction,
 	}))
 
-	const [state, setState] = useImmer({
+	const [state, setState] = useImmer<ImmerT>({
 		editing: '',
 		tempEdit: '',
 		isLoading: false,

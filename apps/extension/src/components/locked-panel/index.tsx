@@ -11,12 +11,15 @@ import { Z3usText } from 'ui/src/components/z3us-text'
 // import { isWebAuthSupported } from '@src/services/credentials'
 import { KeystoreType } from '@src/store/types'
 
+interface ImmerT {
+	password: string
+	passwordError: boolean
+	isLoading: boolean
+}
+
 export const LockedPanel: React.FC = () => {
 	const inputRef = useRef(null)
-	const { addToast } = useSharedStore(state => ({
-		addToast: state.addToastAction,
-	}))
-	const { keystore, unlock, unlockHW, isUnlocked, setSeed, hw } = useSharedStore(state => ({
+	const { keystore, unlock, unlockHW, isUnlocked, setSeed, hw, addToast } = useSharedStore(state => ({
 		keystore: state.keystores.find(({ id }) => id === state.selectKeystoreId),
 		isUnlocked: Boolean(state.masterSeed || state.isHardwareWallet),
 		hw: state.hardwareWallet,
@@ -26,17 +29,18 @@ export const LockedPanel: React.FC = () => {
 		// authenticate: state.authenticateAction,
 		setSeed: state.setMasterSeedAction,
 		unlockHW: state.unlockHardwareWalletAction,
+		addToast: state.addToastAction,
 	}))
 	const { selectAccount } = useStore(state => ({
 		selectAccount: state.selectAccountAction,
 	}))
-	const [state, setState] = useImmer({
+	const [state, setState] = useImmer<ImmerT>({
 		password: '',
 		passwordError: false,
 		isLoading: false,
 	})
 
-	const handleUnlock = async password => {
+	const handleUnlock = async (password: string) => {
 		setState(draft => {
 			draft.isLoading = true
 		})

@@ -149,11 +149,11 @@ export const SwapModal: React.FC<IProps> = ({
 	}
 
 	return (
-		<Dialog open={state.isModalOpen}>
+		<Dialog open={state.isModalOpen} modal={false}>
 			<DialogTrigger asChild onClick={handleOnClick}>
 				{trigger}
 			</DialogTrigger>
-			<DialogContent>
+			<DialogContent css={{ m: '0', height: '100%', width: '100%', border: 'none' }}>
 				<Flex
 					direction="column"
 					css={{

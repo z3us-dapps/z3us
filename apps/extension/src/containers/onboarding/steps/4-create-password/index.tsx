@@ -9,6 +9,14 @@ import { Flex, Text, Box } from 'ui/src/components/atoms'
 import Input from 'ui/src/components/input'
 import InputFeedBack from 'ui/src/components/input/input-feedback'
 
+interface ImmerT {
+	password: string
+	confirmPassword: string
+	isButtonDisabled: boolean
+	showError: boolean
+	errorMessage: string
+}
+
 export const CreatePassword = (): JSX.Element => {
 	const { setPassword, setOnboradingStep, isRestoreWorkflow } = useSharedStore(state => ({
 		setPassword: state.setPasswordAction,
@@ -16,7 +24,7 @@ export const CreatePassword = (): JSX.Element => {
 		isRestoreWorkflow: state.isRestoreWorkflow,
 	}))
 
-	const [state, setState] = useImmer({
+	const [state, setState] = useImmer<ImmerT>({
 		password: '',
 		confirmPassword: '',
 		isButtonDisabled: true,

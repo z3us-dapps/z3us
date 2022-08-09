@@ -27,6 +27,10 @@ const sharedColorButtonStyle = {
 	borderColor: '$borderPanel',
 }
 
+interface ImmerT {
+	isModalOpen: boolean
+}
+
 interface IProps {
 	children?: React.ReactNode
 	toolTipSideOffset?: number
@@ -57,7 +61,7 @@ export const AccountModal = ({
 		setPublicAddress: state.setPublicAddressAction,
 	}))
 
-	const [state, setState] = useImmer({
+	const [state, setState] = useImmer<ImmerT>({
 		...entry?.colorSettings,
 		isModalOpen: false,
 	})

@@ -3,6 +3,11 @@ import SimpleBar from 'simplebar-react'
 import { useImmer } from 'use-immer'
 import { Box } from '../atoms/box'
 
+interface ImmerT {
+	isTopShadowVisible: boolean
+	isBottmShadowVisible: boolean
+}
+
 interface IProps {
 	children: React.ReactNode
 	scrollableNodeProps?: any
@@ -17,7 +22,7 @@ export const ScrollArea: React.FC<IProps> = ({ children, scrollableNodeProps }) 
 	const observer = useRef<ResizeObserver | null>(null)
 	const scrollObserver = useRef<ResizeObserver | null>(null)
 
-	const [state, setState] = useImmer({
+	const [state, setState] = useImmer<ImmerT>({
 		isTopShadowVisible: false,
 		isBottmShadowVisible: false,
 	})

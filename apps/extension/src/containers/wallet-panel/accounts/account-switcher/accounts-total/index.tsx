@@ -6,6 +6,10 @@ import { Flex, Box, Text } from 'ui/src/components/atoms'
 import PriceTicker from 'ui/src/components/price-ticker'
 import { formatBigNumber } from '@src/utils/formatters'
 
+interface ImmerT {
+	accountValue: string
+}
+
 export const AccountsTotal = (): JSX.Element => {
 	const { currency } = useSharedStore(state => ({
 		currency: state.currency,
@@ -14,7 +18,7 @@ export const AccountsTotal = (): JSX.Element => {
 		activeSlideIndex: state.activeSlideIndex,
 	}))
 	const { isLoading, value, change } = useAllAccountsValue()
-	const [state, setState] = useImmer({
+	const [state, setState] = useImmer<ImmerT>({
 		accountValue: '',
 	})
 	const accountPercentageChange = !value.isEqualTo(0)

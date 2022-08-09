@@ -7,10 +7,15 @@ import { Flex, Text, Box } from 'ui/src/components/atoms'
 import InputFeedBack from 'ui/src/components/input/input-feedback'
 import { RegisterCredentialsButton } from '@src/components/auth-register-credentials-button'
 
+interface ImmerT {
+	isLoading: boolean
+	errorMessage: string
+}
+
 export const RegsiterCredentials = (): JSX.Element => {
 	const [, setLocation] = useLocation()
 
-	const [state, setState] = useImmer({
+	const [state, setState] = useImmer<ImmerT>({
 		isLoading: false,
 		errorMessage: '',
 	})

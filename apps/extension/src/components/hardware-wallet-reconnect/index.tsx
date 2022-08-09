@@ -9,6 +9,10 @@ import { Text, Flex } from 'ui/src/components/atoms'
 import InputFeedback from 'ui/src/components/input/input-feedback'
 import { useAPDU } from '@src/hooks/use-apdu'
 
+interface ImmerT {
+	isLoading: boolean
+}
+
 export const HardwareWalletReconnect: React.FC = () => {
 	const sendAPDU = useAPDU()
 	const { isHardwareWallet, addToast, setHardwareWallet } = useSharedStore(state => ({
@@ -21,8 +25,7 @@ export const HardwareWalletReconnect: React.FC = () => {
 		accountIndex: state.selectedAccountIndex,
 		selectAccount: state.selectAccountAction,
 	}))
-
-	const [state, setState] = useImmer({
+	const [state, setState] = useImmer<ImmerT>({
 		isLoading: false,
 	})
 

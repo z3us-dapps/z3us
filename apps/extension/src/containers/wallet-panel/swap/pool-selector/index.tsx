@@ -63,8 +63,11 @@ export const PoolSelector: React.FC<IProps> = ({ pool, pools, onPoolChange }) =>
 					}}
 				>
 					<Box css={{ p: '8px' }}>
-						<CircleAvatar image={selected?.image} fallbackText={selected?.type.toLocaleUpperCase()}
-													cutImage={selected?.type !== PoolType.DOGECUBEX} />
+						<CircleAvatar
+							image={selected?.image}
+							fallbackText={selected?.type.toLocaleUpperCase()}
+							cutImage={selected?.type !== PoolType.DOGECUBEX}
+						/>
 					</Box>
 					<Box css={{ flex: '1' }}>
 						<Flex css={{ mt: '2px' }}>

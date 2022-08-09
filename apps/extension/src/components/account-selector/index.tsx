@@ -1,17 +1,24 @@
 import React, { useState } from 'react'
 import { useStore } from '@src/store'
 import { RightArrowIcon } from 'ui/src/components/icons'
+import { ChevronDownIcon, ChevronUpIcon } from '@radix-ui/react-icons'
 import {
-	DropdownMenu,
-	DropdownMenuTrigger,
-	DropdownMenuContent,
-	DropdownMenuRadioGroup,
-	DropdownMenuRadioItem,
-	DropdownMenuItemIndicator,
-} from 'ui/src/components/drop-down-menu'
+	Select,
+	SelectGroup,
+	SelectTrigger,
+	SelectValue,
+	SelectContent,
+	SelectViewport,
+	SelectItem,
+	SelectItemText,
+	SelectItemIndicator,
+	SelectScrollUpButton,
+	SelectScrollDownButton,
+} from 'ui/src/components/select'
 import { CircleAvatar } from '@src/components/circle-avatar'
-import { Box, Text } from 'ui/src/components/atoms'
+import { Box, Text, Flex } from 'ui/src/components/atoms'
 import Button from 'ui/src/components/button'
+import useMeasure from 'react-use-measure'
 import { getShortAddress } from '@src/utils/string-utils'
 
 interface IProps {
@@ -22,6 +29,7 @@ interface IProps {
 }
 
 export const AccountSelector: React.FC<IProps> = ({ shortAddress, tokenAmount, tokenSymbol, onAccountChange }) => {
+	const [measureRef, { width: triggerWidth }] = useMeasure()
 	const { accounts } = useStore(state => ({
 		accounts: Object.values(state.publicAddresses).map((entry, index) => ({
 			...entry,
@@ -29,8 +37,9 @@ export const AccountSelector: React.FC<IProps> = ({ shortAddress, tokenAmount, t
 			shortAddress: getShortAddress(entry.address),
 		})),
 	}))
-	const [selected, setSelected] = useState(accounts.find(_account => _account.shortAddress === shortAddress)?.address)
-
+	const [selected, setSelected] = useState<string>(
+		accounts.find(_account => _account.shortAddress === shortAddress)?.address,
+	)
 	const entry = accounts.find(_account => _account.address === selected)
 	const addressBookName = entry?.name
 	const addressBookBackground = entry?.background
@@ -42,14 +51,15 @@ export const AccountSelector: React.FC<IProps> = ({ shortAddress, tokenAmount, t
 	}
 
 	return (
-		<DropdownMenu>
-			<DropdownMenuTrigger asChild>
+		<Select value={shortAddress} onValueChange={handleValueChange}>
+			<SelectTrigger aria-label="Account selector" asChild>
 				<Button
+					ref={measureRef}
 					css={{
 						display: 'flex',
+						mt: '12px',
 						align: 'center',
 						justifyContent: 'flex-start',
-						mt: '12px',
 						bg: '$bgPanel2',
 						borderRadius: '8px',
 						height: '64px',
@@ -59,48 +69,72 @@ export const AccountSelector: React.FC<IProps> = ({ shortAddress, tokenAmount, t
 						'&:hover': {
 							bg: '$bgPanelHover',
 						},
+						span: {
+							display: 'none',
+						},
+						'span:first-child': {
+							display: 'flex',
+							width: '100%',
+							align: 'center',
+							justifyContent: 'flex-start',
+						},
 					}}
 				>
-					<Box css={{ p: '8px' }}>
-						<CircleAvatar background={addressBookBackground} />
-					</Box>
-					<Box css={{ flex: '1', minWidth: '0' }}>
-						<Text
-							truncate
-							css={{ fontSize: '14px', lineHeight: '17px', fontWeight: '500', mt: '2px', maxWidth: '210px' }}
-						>
-							{addressBookName ? `${addressBookName} (${shortAddress})` : shortAddress}
-						</Text>
-						{tokenSymbol && tokenAmount && (
-							<Text color="muted" css={{ fontSize: '14px', lineHeight: '17px', fontWeight: '500', mt: '3px' }}>
-								Total: {tokenAmount} {tokenSymbol}
+					<SelectValue>
+						<Box css={{ p: '8px' }}>
+							<CircleAvatar background={addressBookBackground} />
+						</Box>
+						<Flex align="center" css={{ flex: '1', minWidth: '0' }}>
+							<Text
+								truncate
+								css={{ fontSize: '14px', lineHeight: '17px', fontWeight: '500', mt: '2px', maxWidth: '210px' }}
+							>
+								{addressBookName ? `${addressBookName} (${shortAddress})` : shortAddress}
 							</Text>
-						)}
-					</Box>
-					<Box css={{ pr: '$1' }}>
-						<RightArrowIcon />
-					</Box>
+							{tokenSymbol && tokenAmount && (
+								<Text color="muted" css={{ fontSize: '14px', lineHeight: '17px', fontWeight: '500', mt: '3px' }}>
+									Total: {tokenAmount} {tokenSymbol}
+								</Text>
+							)}
+						</Flex>
+						<Flex align="center" css={{ pr: '$2', flexShrink: '0' }}>
+							<RightArrowIcon />
+						</Flex>
+					</SelectValue>
 				</Button>
-			</DropdownMenuTrigger>
-			<DropdownMenuContent
-				avoidCollisions={false}
-				align="start"
-				side="bottom"
-				sideOffset={10}
-				css={{ minWidth: '150px', maxWidth: '314px', width: '100%' }}
-			>
-				<DropdownMenuRadioGroup value={shortAddress} onValueChange={handleValueChange}>
-					{accounts.map(account => (
-						<DropdownMenuRadioItem key={account.index} value={account.shortAddress}>
-							<DropdownMenuItemIndicator />
-							<Text size="2" bold truncate css={{ maxWidth: '274px', pr: '$2' }}>
-								{account?.name ? `${account.name} (${account.shortAddress})` : account.shortAddress}
-							</Text>
-						</DropdownMenuRadioItem>
-					))}
-				</DropdownMenuRadioGroup>
-			</DropdownMenuContent>
-		</DropdownMenu>
+			</SelectTrigger>
+			<SelectContent>
+				<SelectScrollUpButton>
+					<ChevronUpIcon />
+				</SelectScrollUpButton>
+				<SelectViewport>
+					<SelectGroup>
+						{accounts.map(account => (
+							<SelectItem
+								key={account.index}
+								value={account.shortAddress}
+								css={{
+									'span:first-child': {
+										overflow: 'hidden',
+										textOverflow: 'ellipsis',
+										whiteSpace: 'nowrap',
+										maxWidth: `${triggerWidth}px`,
+									},
+								}}
+							>
+								<SelectItemText>
+									{account?.name ? `${account.name} (${account.shortAddress})` : account.shortAddress}
+								</SelectItemText>
+								<SelectItemIndicator />
+							</SelectItem>
+						))}
+					</SelectGroup>
+				</SelectViewport>
+				<SelectScrollDownButton>
+					<ChevronDownIcon />
+				</SelectScrollDownButton>
+			</SelectContent>
+		</Select>
 	)
 }
 
