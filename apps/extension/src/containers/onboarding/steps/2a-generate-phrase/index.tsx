@@ -64,7 +64,6 @@ export const GeneratePhrase = (): JSX.Element => {
 				<PageHeading>Secret phrase</PageHeading>
 				<PageSubHeading>
 					This is the only way you will be able to recover your account. <br />
-					<br />
 					Please store it somewhere safe!
 				</PageSubHeading>
 			</Box>
