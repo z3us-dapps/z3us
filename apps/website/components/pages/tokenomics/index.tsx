@@ -90,13 +90,13 @@ export const TokenomicsPage: React.FC = () => {
 					description: config.OPEN_GRAPH_DESCRIPTION,
 					images: [
 						{
-							url: `${config.Z3US_URL}/og-image-1.png`,
+							url: `${config.Z3US_URL}/images/og-image-1.png`,
 							width: 800,
 							height: 600,
 							alt: 'Og Image Alt',
 						},
 						{
-							url: `${config.Z3US_URL}/og-image-2.png`,
+							url: `${config.Z3US_URL}/images/og-image-2.png`,
 							width: 800,
 							height: 600,
 							alt: 'Og Image Alt 2',
@@ -195,7 +195,7 @@ export const TokenomicsPage: React.FC = () => {
 										<StyledLink underline href={TOKEN_EXPLORER_URL} target="_blank">
 											$Z3US
 										</StyledLink>{' '}
-										is a native token on the radix DLT network. It is designed to be a deflationary utility token, where
+										is a native token on the Radix DLT network. It is designed to be a deflationary utility token, where
 										tokens will be burned and removed from the supply as the wallet usage increases.
 										<br />
 										<br />
@@ -474,11 +474,11 @@ export const TokenomicsPage: React.FC = () => {
 									<br />
 									<br />
 									If the user selects <i>not</i> to burn $Z3US tokens on the swap, the fee charge a flat 0.2%
-									transaction. All of that 0.2% fee will go to the <b>development</b> wallet, to help fund development.
+									transaction. All of that 0.2% fee will go to the <b>development</b> wallet.
 								</Text>
 								<Text color="help" css={{ pt: '10px' }}>
 									Note: Rates that appear in the Z3US wallet are calculated with fees applied. Z3US reserves the right
-									to modify these fees at any time, in its sole discretion.
+									to modify these fees at any time, in the best interest of the ecosystem.
 								</Text>
 							</Box>
 						</Box>

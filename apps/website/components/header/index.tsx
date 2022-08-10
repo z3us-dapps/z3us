@@ -130,25 +130,25 @@ export const Header: React.FC<IProps> = ({ isLandingPage }) => {
 										</Text>
 									</StyledLink>
 								</Link>
-								<StyledLink href={config.GITHUB_FEEDBACK_URL} underlineOnHover css={{ mr: '$2' }}>
+								{/*<StyledLink href={config.GITHUB_FEEDBACK_URL} underlineOnHover css={{ mr: '$2' }}>
 									<Text bold size="4" css={{ pt: '1px' }}>
 										Feedback
 									</Text>
-								</StyledLink>
-								{/*<Link href="/tokenomics" passHref>
+								</StyledLink>*/}
+								<Link href="/tokenomics" passHref>
 									<StyledLink underlineOnHover css={{ mr: '$2' }}>
 										<Text bold size="4" css={{ pt: '1px' }}>
 											Tokenomics
 										</Text>
 									</StyledLink>
-								</Link>*/}
-								{/*<Link href="/airdrop" passHref>
+								</Link>
+								<Link href="/airdrop" passHref>
 									<StyledLink underlineOnHover css={{ mr: '$2' }}>
 										<Text bold size="4" css={{ pt: '1px' }}>
 											Airdrop
 										</Text>
 									</StyledLink>
-								</Link>*/}
+								</Link>
 								<ToolTip message="GitHub" bgColor="$bgPanel2">
 									<Button target="_blank" href={config.GITHUB_URL} as="a" size="3" color="ghost" iconOnly>
 										<GithubIcon />

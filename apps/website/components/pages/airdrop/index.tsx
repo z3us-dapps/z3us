@@ -153,7 +153,7 @@ export const Airdrop = () => {
 										state.hasWallet ? 'Install and connect' : 'Connect'
 									}  Z3US wallet in order to subscribe for community airdrop.`}
 								</Text>
-								<Flex css={{ pl: '$4' }}>
+								<Flex css={{ pl: '$4', pr: '$3' }}>
 									<Button size="3" color="primary" onClick={handleConnect}>
 										Connect
 									</Button>

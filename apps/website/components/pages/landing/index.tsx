@@ -29,13 +29,13 @@ export const LandingPage: React.FC = () => {
 					description: config.OPEN_GRAPH_DESCRIPTION,
 					images: [
 						{
-							url: `${config.Z3US_URL}/og-image-1.png`,
+							url: `${config.Z3US_URL}/images/og-image-1.png`,
 							width: 800,
 							height: 600,
 							alt: 'Og Image Alt',
 						},
 						{
-							url: `${config.Z3US_URL}/og-image-2.png`,
+							url: `${config.Z3US_URL}/images/og-image-2.png`,
 							width: 800,
 							height: 600,
 							alt: 'Og Image Alt 2',
