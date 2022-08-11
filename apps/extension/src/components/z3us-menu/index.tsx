@@ -186,24 +186,33 @@ export const Z3usMenu: React.FC = () => {
 												<DropdownMenuItemIndicator css={{ width: '16px', left: '0', right: 'unset' }} />
 												<Flex align="center" css={{ width: '100%', pl: '$1' }}>
 													<Flex justify="start" align="center" css={{ flex: '1', pr: '$2' }}>
-														<Text size="2" bold truncate css={{ maxWidth: '124px' }}>
+														<Text
+															size="2"
+															bold
+															truncate
+															css={{ maxWidth: `${type === KeystoreType.HARDWARE ? '114px' : '124px'}` }}
+														>
 															{name}
 														</Text>
 													</Flex>
 													<Box css={{ mr: '-6px' }}>
 														{type === KeystoreType.HARDWARE && (
 															<ToolTip message="Hardware wallet account">
-																<HardwareWalletIcon />
+																<Box>
+																	<Button size="1" clickable={false}>
+																		<HardwareWalletIcon />
+																	</Button>
+																</Box>
 															</ToolTip>
 														)}
 														{isUnlocked && keystoreId === id && (
 															<>
-																<ToolTip message="Delete">
+																<ToolTip message="Remove">
 																	<Button size="1" iconOnly color="ghost" onClick={() => handleRemoveWallet(id)}>
 																		<TrashIcon />
 																	</Button>
 																</ToolTip>
-																<ToolTip message="Edit">
+																<ToolTip message="Edit name">
 																	<Button size="1" iconOnly color="ghost" onClick={() => handleEditWalletName(id)}>
 																		<Pencil2Icon />
 																	</Button>

@@ -73,6 +73,7 @@ export const Z3usSpinnerAnimation: React.FC<IProps> = ({
 						animationDuration: '2000ms',
 						animationName: `${rotateOutAnimation}`,
 						animationIterationCount: 'infinite',
+						filter: 'blur(1px)',
 					},
 					'&:after': {
 						content: '',
