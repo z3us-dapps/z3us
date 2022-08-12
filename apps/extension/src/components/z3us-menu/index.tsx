@@ -179,13 +179,19 @@ export const Z3usMenu: React.FC = () => {
 										<ChevronRightIcon />
 									</DropdownMenuRightSlot>
 								</DropdownMenuTriggerItem>
-								<DropdownMenuContent avoidCollisions side="right" css={{ minWidth: '200px' }}>
+								<DropdownMenuContent avoidCollisions side="right" css={{ minWidth: '130px' }}>
 									<DropdownMenuRadioGroup value={keystoreId} onValueChange={handleValueChange}>
 										{keystores.map(({ id, name, type }) => (
 											<DropdownMenuRadioItem key={id} value={id}>
 												<DropdownMenuItemIndicator css={{ width: '16px', left: '0', right: 'unset' }} />
-												<Flex align="center" css={{ width: '100%', pl: '$1' }}>
-													<Flex justify="start" align="center" css={{ flex: '1', pr: '$2' }}>
+												<Flex align="center" css={{ width: '100%', pl: '$1', pr: '$2' }}>
+													<Flex
+														justify="start"
+														align="center"
+														css={{
+															pr: '$3',
+														}}
+													>
 														<Text
 															size="2"
 															bold
@@ -195,7 +201,7 @@ export const Z3usMenu: React.FC = () => {
 															{name}
 														</Text>
 													</Flex>
-													<Box css={{ mr: '-6px' }}>
+													<Flex justify="end" css={{ mr: '-6px' }}>
 														{type === KeystoreType.HARDWARE && (
 															<ToolTip message="Hardware wallet account">
 																<Box>
@@ -219,7 +225,7 @@ export const Z3usMenu: React.FC = () => {
 																</ToolTip>
 															</>
 														)}
-													</Box>
+													</Flex>
 												</Flex>
 											</DropdownMenuRadioItem>
 										))}
