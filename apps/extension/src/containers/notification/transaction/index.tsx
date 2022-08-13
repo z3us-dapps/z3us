@@ -80,7 +80,7 @@ export const Transaction = (): JSX.Element => {
 			const build = async () => {
 				try {
 					let disableTokenMintAndBurn = true
-					actions.foreach(action => {
+					actions.forEach(action => {
 						disableTokenMintAndBurn =
 							disableTokenMintAndBurn ||
 							action === ExtendedActionType.MINT_TOKENS ||
