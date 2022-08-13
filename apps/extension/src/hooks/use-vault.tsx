@@ -1,6 +1,9 @@
 import browser from 'webextension-polyfill'
+import { firstValueFrom } from 'rxjs'
+import { HardwareWalletLedger } from '@radixdlt/hardware-ledger'
 import { useEffect, useState } from 'react'
 import { useSharedStore, useStore } from '@src/store'
+import { useAPDU } from '@src/hooks/use-apdu'
 import { HDMasterSeed } from '@radixdlt/crypto'
 import { MessageService, PORT_NAME } from '@src/services/messanger'
 import { GET } from '@src/lib/actions'
@@ -11,12 +14,15 @@ const messanger = new MessageService('extension', browser.runtime.connect({ name
 const refreshInterval = 60 * 1000 // 1 minute
 
 export const useVault = () => {
-	const { keystore, seed, setMessanger, setSeed, unlockHW } = useSharedStore(state => ({
+	const sendAPDU = useAPDU()
+	const { hw, keystore, seed, setMessanger, setSeed, unlockHW, setHardwareWallet } = useSharedStore(state => ({
+		hw: state.hardwareWallet,
 		seed: state.masterSeed,
 		keystore: state.keystores.find(({ id }) => id === state.selectKeystoreId),
 		setMessanger: state.setMessangerAction,
 		setSeed: state.setMasterSeedAction,
 		unlockHW: state.unlockHardwareWalletAction,
+		setHardwareWallet: state.setHardwareWalletAction,
 	}))
 	const { networkIndex, accountIndex, selectAccount } = useStore(state => ({
 		networkIndex: state.selectedNetworkIndex,
@@ -37,6 +43,17 @@ export const useVault = () => {
 	const init = async () => {
 		try {
 			if (keystore && keystore.type === KeystoreType.HARDWARE) {
+				if (!hw) {
+					try {
+						const reconnectedHW = await firstValueFrom(HardwareWalletLedger.create({ send: sendAPDU }))
+						setHardwareWallet(reconnectedHW)
+						await selectAccount(0, reconnectedHW, null)
+					} catch (error) {
+						// eslint-disable-next-line no-console
+						console.warn(error)
+					}
+				}
+
 				unlockHW()
 			} else {
 				const { seed: newSeed } = await messanger.sendActionMessageFromPopup(GET, null)
