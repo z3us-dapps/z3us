@@ -141,16 +141,16 @@ export const Swap: React.FC = () => {
 		})
 	}, [account, state.pool, txFee, state.amount])
 
-	const calculateSwap = async (value: BigNumber, valueType: 'from' | 'to') => {
+	const calculateSwap = async (value: BigNumber, valueType: 'from' | 'to', pool?: Pool) => {
 		setState(draft => {
 			draft.isLoading = true
 		})
 		try {
 			if (valueType === 'from') {
 				const walletQuote = getZ3USFees(value, state.burn, z3usBalance)
-				if (state.pool) {
+				if (pool) {
 					const poolQuote = await calculatePoolFeesFromAmount(
-						state.pool,
+						pool,
 						walletQuote.amount,
 						fromToken,
 						toToken,
@@ -182,15 +182,8 @@ export const Swap: React.FC = () => {
 						draft.z3usBurn = walletQuote.burn.toString()
 					})
 				}
-			} else if (state.pool) {
-				const poolQuote = await calculatePoolFeesFromReceive(
-					state.pool,
-					value,
-					fromToken,
-					toToken,
-					caviarPools,
-					floopBalance,
-				)
+			} else if (pool) {
+				const poolQuote = await calculatePoolFeesFromReceive(pool, value, fromToken, toToken, caviarPools, floopBalance)
 				const walletQuote = getZ3USFees(poolQuote.amount, state.burn, z3usBalance)
 				setState(draft => {
 					draft.time = Date.now()
@@ -239,9 +232,9 @@ export const Swap: React.FC = () => {
 		if (Date.now() - state.time < refreshInterval) return
 
 		if (state.inputSide === 'from' && state.amount) {
-			calculateSwap(new BigNumber(state.amount || 0), state.inputSide)
+			calculateSwap(new BigNumber(state.amount || 0), state.inputSide, state.pool)
 		} else if (state.inputSide === 'to' && state.receive) {
-			calculateSwap(new BigNumber(state.receive || 0), state.inputSide)
+			calculateSwap(new BigNumber(state.receive || 0), state.inputSide, state.pool)
 		}
 	}, [state.time])
 
@@ -250,9 +243,9 @@ export const Swap: React.FC = () => {
 		if (state.isLoading) return
 
 		if (state.inputSide === 'from' && state.amount) {
-			calculateSwap(new BigNumber(state.amount || 0), state.inputSide)
+			calculateSwap(new BigNumber(state.amount || 0), state.inputSide, state.pool)
 		} else if (state.inputSide === 'to' && state.receive) {
-			calculateSwap(new BigNumber(state.receive || 0), state.inputSide)
+			calculateSwap(new BigNumber(state.receive || 0), state.inputSide, state.pool)
 		}
 	}, [debouncedAmount, debouncedReceive])
 
@@ -262,9 +255,9 @@ export const Swap: React.FC = () => {
 		})
 
 		if (state.inputSide === 'from' && state.amount) {
-			await calculateSwap(new BigNumber(state.amount || 0), state.inputSide)
+			await calculateSwap(new BigNumber(state.amount || 0), state.inputSide, pool)
 		} else if (state.inputSide === 'to' && state.receive) {
-			await calculateSwap(new BigNumber(state.receive || 0), state.inputSide)
+			await calculateSwap(new BigNumber(state.receive || 0), state.inputSide, pool)
 		}
 	}
 
@@ -309,7 +302,7 @@ export const Swap: React.FC = () => {
 			draft.inputSide = 'from'
 		})
 		inputAmountRef.current.focus()
-		await calculateSwap(selectedTokenAmmount, 'from')
+		await calculateSwap(selectedTokenAmmount, 'from', state.pool)
 	}
 
 	const handleSetAmount = async (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -354,9 +347,9 @@ export const Swap: React.FC = () => {
 		})
 
 		if (state.inputSide === 'from' && state.amount) {
-			await calculateSwap(new BigNumber(state.amount || 0), state.inputSide)
+			await calculateSwap(new BigNumber(state.amount || 0), state.inputSide, state.pool)
 		} else if (state.inputSide === 'to' && state.receive) {
-			await calculateSwap(new BigNumber(state.receive || 0), state.inputSide)
+			await calculateSwap(new BigNumber(state.receive || 0), state.inputSide, state.pool)
 		}
 	}
 
