@@ -70,7 +70,7 @@ const Button = React.forwardRef<HTMLButtonElement, React.PropsWithChildren<Butto
 			css,
 			...rest
 		} = props
-		const [buttonWidth, setButtonWidth] = useState(0)
+		const [buttonWidth, setButtonWidth] = useState<number>(0)
 		const rippleRef = useRef<HTMLElement>(null)
 		const buttonRef = useRef<HTMLButtonElement>(null)
 		useImperativeHandle(ref, () => buttonRef.current)

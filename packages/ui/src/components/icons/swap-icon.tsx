@@ -5,9 +5,9 @@ import { IconProps } from './types'
 export const SwapIcon = React.forwardRef<SVGSVGElement, IconProps>(
 	({ color = 'currentColor', ...props }, forwardedRef) => (
 		<svg
-			width="16"
-			height="16"
-			viewBox="0 0 16 16"
+			width="24"
+			height="24"
+			viewBox="0 0 24 24"
 			fill="none"
 			xmlns="http://www.w3.org/2000/svg"
 			{...props}
@@ -15,11 +15,13 @@ export const SwapIcon = React.forwardRef<SVGSVGElement, IconProps>(
 		>
 			<path
 				fill={color}
-				fillRule="evenodd"
-				clipRule="evenodd"
-				d="M11.2,4.3C9.1,4.3,7.5,5.9,7.5,8s1.7,3.7,3.7,3.7s3.7-1.7,3.7-3.7S13.3,4.3,11.2,4.3z M8.2,11.7C7.1,10.9,6.4,9.5,6.4,8
-	s0.7-2.9,1.8-3.7H4.8C2.7,4.3,1.1,5.9,1.1,8s1.7,3.7,3.7,3.7H8.2z M0,8c0-2.7,2.1-4.8,4.8-4.8h6.4C13.9,3.2,16,5.3,16,8
-	s-2.1,4.8-4.8,4.8H4.8C2.1,12.8,0,10.7,0,8z"
+				d="M19.2,11H4.8C4.3,11,4,10.7,4,10.2s0.3-0.8,0.8-0.8h12.7l-4.2-4.2c-0.3-0.3-0.3-0.8,0-1.1s0.8-0.3,1.1,0l5.5,5.5
+	c0.2,0.2,0.3,0.5,0.2,0.8C19.8,10.8,19.6,11,19.2,11z"
+			/>
+			<path
+				fill={color}
+				d="M10.2,20c-0.2,0-0.4-0.1-0.5-0.2l-5.5-5.5c-0.2-0.2-0.3-0.5-0.2-0.8S4.4,13,4.8,13h14.5c0.4,0,0.8,0.3,0.8,0.8
+	s-0.3,0.8-0.8,0.8H6.6l4.2,4.2c0.3,0.3,0.3,0.8,0,1.1C10.6,19.9,10.4,20,10.2,20z"
 			/>
 		</svg>
 	),

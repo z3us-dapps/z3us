@@ -24,6 +24,18 @@ import { useTokenStake } from '@src/hooks/use-token-stake'
 import { useTokenUnstake } from '@src/hooks/use-token-unstake'
 import { useTransaction } from '@src/hooks/use-transaction'
 
+interface ImmerT {
+	amount: string
+	validator: string
+	fee: string | null
+	transaction: {
+		blob: string
+		hashOfBlobToSign: string
+	}
+	isLoading: boolean
+	isModalOpen: boolean
+}
+
 interface IProps {
 	trigger: React.ReactNode
 	validatorAddress?: string
@@ -32,7 +44,7 @@ interface IProps {
 }
 
 export const StakeModal: React.FC<IProps> = ({ trigger, tooltipMessage, validatorAddress, reduceStake }) => {
-	const inputAmountRef = useRef(null)
+	const inputAmountRef = useRef<HTMLInputElement | null>(null)
 	const [, setLocation] = useLocation()
 	const queryClient = useQueryClient()
 	const stake = useTokenStake()
@@ -64,7 +76,7 @@ export const StakeModal: React.FC<IProps> = ({ trigger, tooltipMessage, validato
 		amount = selectedToken ? new BigNumber(selectedToken.amount).shiftedBy(-18) : new BigNumber(0)
 	}
 
-	const [state, setState] = useImmer({
+	const [state, setState] = useImmer<ImmerT>({
 		amount: '',
 		validator: validatorAddress,
 		fee: null,
@@ -195,7 +207,7 @@ export const StakeModal: React.FC<IProps> = ({ trigger, tooltipMessage, validato
 	}
 
 	return (
-		<Dialog open={state.isModalOpen}>
+		<Dialog open={state.isModalOpen} modal={false}>
 			{wrappedTrigger}
 			<DialogContent>
 				<Flex direction="column" css={{ p: '$2', position: 'relative' }}>

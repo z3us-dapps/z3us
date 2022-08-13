@@ -11,6 +11,7 @@ interface IProps {
 	borderWidth?: number
 	shadow?: boolean
 	background?: string
+	cutImage?: boolean
 	avatarFallBackCss?: CSS
 }
 const defaultProps = {
@@ -21,6 +22,7 @@ const defaultProps = {
 	borderWidth: 2,
 	shadow: true,
 	background: '#b0c3dd',
+	cutImage: true,
 	avatarFallBackCss: {},
 }
 
@@ -32,6 +34,7 @@ export const CircleAvatar: React.FC<IProps> = ({
 	borderWidth,
 	shadow,
 	background,
+	cutImage,
 	avatarFallBackCss,
 }) =>
 	image ? (
@@ -52,7 +55,7 @@ export const CircleAvatar: React.FC<IProps> = ({
 					height: `${height}px`,
 				}}
 			>
-				<AvatarImage src={image} alt={fallbackText} />
+				<AvatarImage src={image} alt={fallbackText} css={{ ...(!cutImage ? {borderRadius: 'unset'} : {}) }} />
 				<AvatarFallback
 					delayMs={200}
 					css={{ borderRadius: '50%', backgroundColor: '$bgPanel', overflow: 'hidden', ...(avatarFallBackCss as any) }}

@@ -2,6 +2,7 @@ import React from 'react'
 import { useImmer } from 'use-immer'
 import { useStore } from '@src/store'
 import { Cross2Icon } from '@radix-ui/react-icons'
+import { useEventListener } from 'usehooks-ts'
 import { AccountAddress } from '@src/components/account-address'
 import Button from 'ui/src/components/button'
 import Input from 'ui/src/components/input'
@@ -24,6 +25,10 @@ const sharedColorButtonStyle = {
 	outline: 'none',
 	border: '1px solid',
 	borderColor: '$borderPanel',
+}
+
+interface ImmerT {
+	isModalOpen: boolean
 }
 
 interface IProps {
@@ -56,7 +61,7 @@ export const AccountModal = ({
 		setPublicAddress: state.setPublicAddressAction,
 	}))
 
-	const [state, setState] = useImmer({
+	const [state, setState] = useImmer<ImmerT>({
 		...entry?.colorSettings,
 		isModalOpen: false,
 	})
@@ -131,8 +136,16 @@ export const AccountModal = ({
 		})
 	}
 
+	useEventListener('keydown', e => {
+		if (e.key === 'Escape') {
+			setState(draft => {
+				draft.isModalOpen = false
+			})
+		}
+	})
+
 	return (
-		<Dialog open={state.isModalOpen}>
+		<Dialog open={state.isModalOpen} modal={false}>
 			<DialogTrigger asChild>
 				<Tooltip>
 					<TooltipTrigger asChild onClick={handleOnClick}>

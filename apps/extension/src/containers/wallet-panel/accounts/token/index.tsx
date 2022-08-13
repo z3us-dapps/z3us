@@ -26,7 +26,7 @@ const SlideUpHeader: React.FC = () => (
 )
 
 export const Token: React.FC = () => {
-	const [customScrollParent, setCustomScrollParent] = useState(null)
+	const [customScrollParent, setCustomScrollParent] = useState<HTMLElement | null>(null)
 	const [, params] = useRoute('/account/token/:rri')
 	const rri = getSplitParams(params)
 	const observer = useRef<IntersectionObserver | null>(null)

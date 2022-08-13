@@ -52,7 +52,7 @@ export type Pool = {
 export const PoolName = 'DogeCubeX'
 
 export class DogeCubeXService {
-	private baseURL: string = 'https://dogecubex.live'
+	private baseURL: string = 'https://dogecubex.live/api'
 
 	private options: RequestInit = {
 		method: 'GET',
@@ -62,31 +62,31 @@ export class DogeCubeXService {
 	}
 
 	getConfig = async (): Promise<Config> => {
-		const response = await fetch(`${this.baseURL}/config/get-config?q=${new Date().getTime()}`, this.options)
+		const response = await fetch(`${this.baseURL}/config.json?q=${new Date().getTime()}`, this.options)
 		if (response.status !== 200) {
-			throw new Error(`Invalid request: ${response.status} recieved`)
+			throw new Error(`Invalid request: ${response.status} received`)
 		}
 
 		return response.json()
 	}
 
 	getQuote = async (query: QuoteQuery): Promise<Quote> => {
-		const response = await fetch(`${this.baseURL}/swap/quote?q=${new Date().getTime()}`, {
+		const response = await fetch(`${this.baseURL}/swap/quote.json?q=${new Date().getTime()}`, {
 			...this.options,
 			method: 'POST',
 			body: JSON.stringify(query),
 		})
 		if (response.status !== 200) {
-			throw new Error(`Invalid request: ${response.status} recieved`)
+			throw new Error(`Invalid request: ${response.status} received`)
 		}
 
 		return response.json()
 	}
 
 	getPools = async (): Promise<Pool[]> => {
-		const response = await fetch(`${this.baseURL}/api/pools-info.json`, this.options)
+		const response = await fetch(`${this.baseURL}/Z3US/pools-info.json`, this.options)
 		if (response.status !== 200) {
-			throw new Error(`Invalid request: ${response.status} recieved`)
+			throw new Error(`Invalid request: ${response.status} received`)
 		}
 
 		return response.json()

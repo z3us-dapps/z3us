@@ -19,13 +19,20 @@ import {
 } from 'ui/src/components/alert-dialog'
 import { UNLOCK } from '@src/lib/actions'
 
+interface ImmerT {
+	password: string
+	showError: boolean
+	errorMessage: string
+	showPrivateKey: boolean
+}
+
 export const ExportPrivateKey: React.FC = () => {
 	const { seed, messanger } = useSharedStore(state => ({
 		messanger: state.messanger,
 		seed: state.masterSeed,
 	}))
 
-	const [state, setState] = useImmer({
+	const [state, setState] = useImmer<ImmerT>({
 		password: '',
 		showError: false,
 		errorMessage: '',

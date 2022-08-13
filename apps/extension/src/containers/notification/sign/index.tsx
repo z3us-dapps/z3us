@@ -43,7 +43,7 @@ export const Sign = (): JSX.Element => {
 		sendResponse(CONFIRM, {
 			id,
 			host,
-			payload: { request, value: signature, challenge },
+			payload: { request, value: signature },
 		})
 	}
 

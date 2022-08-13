@@ -5,6 +5,12 @@ import { useSharedStore, useStore } from '@src/store'
 import { Flex, Box, Text } from 'ui/src/components/atoms'
 import PriceTicker from 'ui/src/components/price-ticker'
 import { formatBigNumber } from '@src/utils/formatters'
+import { currencySettingsMap } from '@src/config'
+import { getTickerChars } from '../get-ticker-chars'
+
+interface ImmerT {
+	accountValue: string
+}
 
 export const AccountsTotal = (): JSX.Element => {
 	const { currency } = useSharedStore(state => ({
@@ -14,19 +20,21 @@ export const AccountsTotal = (): JSX.Element => {
 		activeSlideIndex: state.activeSlideIndex,
 	}))
 	const { isLoading, value, change } = useAllAccountsValue()
-	const [state, setState] = useImmer({
+	const [state, setState] = useImmer<ImmerT>({
 		accountValue: '',
 	})
 	const accountPercentageChange = !value.isEqualTo(0)
 		? `${change.isGreaterThan(0) ? '+' : ''}${change.div(value).multipliedBy(100).toFixed(2).toLocaleString()}%`
 		: '0.00%'
+	const currencyPrefix = currencySettingsMap[currency.toUpperCase()]?.prefix || ''
+	const [charDictionary, tickerConstants] = getTickerChars(currencyPrefix)
 
 	useEffect(() => {
 		if (isLoading) return
 
 		// NOTE: set to this value, to force the ticker animation
 		setState(draft => {
-			draft.accountValue = '$4.44'
+			draft.accountValue = `${currencyPrefix}4.44`
 		})
 		setTimeout(() => {
 			setState(draft => {
@@ -71,11 +79,21 @@ export const AccountsTotal = (): JSX.Element => {
 						transition: '$default',
 					}}
 				>
-					<PriceTicker value={state.accountValue} refresh={activeSlideIndex} />
+					<PriceTicker
+						value={state.accountValue}
+						refresh={activeSlideIndex}
+						dictionary={charDictionary}
+						constantKeys={tickerConstants}
+					/>
 				</Text>
 				<Flex justify="center" css={{ mt: '4px' }}>
 					<Text size="7">
-						<PriceTicker value={accountPercentageChange} refresh={activeSlideIndex} />
+						<PriceTicker
+							value={accountPercentageChange}
+							refresh={activeSlideIndex}
+							dictionary={charDictionary}
+							constantKeys={tickerConstants}
+						/>
 					</Text>
 				</Flex>
 			</Box>

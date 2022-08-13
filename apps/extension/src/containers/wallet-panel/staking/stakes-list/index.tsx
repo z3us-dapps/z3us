@@ -2,6 +2,7 @@
 import React, { useEffect } from 'react'
 import { Box, Flex, Text, StyledLink } from 'ui/src/components/atoms'
 import { useStakedPositions, useUnstakePositions } from '@src/hooks/react-query/queries/radix'
+import { NoResultsPlaceholder } from '@src/components/no-results-placeholder'
 import { useImmer } from 'use-immer'
 import { SearchBox } from '@src/components/search-box'
 import { ScrollArea } from 'ui/src/components/scroll-area'
@@ -110,6 +111,9 @@ export const StakesList: React.FC<IProps> = ({ totalStakes }) => {
 					borderRadius: ' 0px 0px 5px 5px',
 				}}
 			>
+				<Box css={{ position: 'absolute', top: '70px', width: '100%', pe: 'none' }}>
+					<NoResultsPlaceholder />
+				</Box>
 				<ScrollArea>
 					{Object.keys(state.filteredList)
 						.filter(

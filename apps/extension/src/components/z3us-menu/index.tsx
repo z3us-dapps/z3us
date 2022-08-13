@@ -29,6 +29,13 @@ import {
 } from 'ui/src/components/drop-down-menu'
 import { KeystoreType } from '@src/store/types'
 
+interface ImmerT {
+	isOpen: boolean
+	keystoreId: string | undefined
+	editing: string | undefined
+	tempEdit: string | undefined
+}
+
 export const Z3usMenu: React.FC = () => {
 	const [, setLocation] = useLocation()
 	const [isSendRoute] = useRoute('/wallet/account/send')
@@ -53,7 +60,7 @@ export const Z3usMenu: React.FC = () => {
 		reset: state.resetAction,
 	}))
 	const walletInputRef = useRef(null)
-	const [state, setState] = useImmer({
+	const [state, setState] = useImmer<ImmerT>({
 		isOpen: false,
 		keystoreId: undefined,
 		editing: undefined,
@@ -172,38 +179,54 @@ export const Z3usMenu: React.FC = () => {
 										<ChevronRightIcon />
 									</DropdownMenuRightSlot>
 								</DropdownMenuTriggerItem>
-								<DropdownMenuContent avoidCollisions side="right" css={{ minWidth: '200px' }}>
+								<DropdownMenuContent avoidCollisions side="right" css={{ minWidth: '130px' }}>
 									<DropdownMenuRadioGroup value={keystoreId} onValueChange={handleValueChange}>
 										{keystores.map(({ id, name, type }) => (
 											<DropdownMenuRadioItem key={id} value={id}>
 												<DropdownMenuItemIndicator css={{ width: '16px', left: '0', right: 'unset' }} />
-												<Flex align="center" css={{ width: '100%', pl: '$1' }}>
-													<Flex justify="start" align="center" css={{ flex: '1', pr: '$2' }}>
-														<Text size="2" bold truncate css={{ maxWidth: '124px' }}>
+												<Flex align="center" css={{ width: '100%', pl: '$1', pr: '$2' }}>
+													<Flex
+														justify="start"
+														align="center"
+														css={{
+															pr: '$3',
+															flex: '1',
+														}}
+													>
+														<Text
+															size="2"
+															bold
+															truncate
+															css={{ maxWidth: `${type === KeystoreType.HARDWARE ? '100px' : '124px'}` }}
+														>
 															{name}
 														</Text>
 													</Flex>
-													<Box css={{ mr: '-6px' }}>
+													<Flex justify="end" css={{ mr: '-6px' }}>
 														{type === KeystoreType.HARDWARE && (
 															<ToolTip message="Hardware wallet account">
-																<HardwareWalletIcon />
+																<Box css={{ width: '24px', height: '24px', mr: '3px' }}>
+																	<Button size="1" clickable={false}>
+																		<HardwareWalletIcon />
+																	</Button>
+																</Box>
 															</ToolTip>
 														)}
 														{isUnlocked && keystoreId === id && (
 															<>
-																<ToolTip message="Delete">
+																<ToolTip message="Remove">
 																	<Button size="1" iconOnly color="ghost" onClick={() => handleRemoveWallet(id)}>
 																		<TrashIcon />
 																	</Button>
 																</ToolTip>
-																<ToolTip message="Edit">
+																<ToolTip message="Edit name">
 																	<Button size="1" iconOnly color="ghost" onClick={() => handleEditWalletName(id)}>
 																		<Pencil2Icon />
 																	</Button>
 																</ToolTip>
 															</>
 														)}
-													</Box>
+													</Flex>
 												</Flex>
 											</DropdownMenuRadioItem>
 										))}

@@ -1,7 +1,9 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import React from 'react'
-//import { AccountsIcon, StakingIcon, SwapIcon, SettingsIcon } from 'ui/src/components/icons'
-import { AccountsIcon, StakingIcon, SettingsIcon } from 'ui/src/components/icons'
+import { HomeIcon, StakingIcon, SwapIcon, SettingsIcon } from 'ui/src/components/icons'
 import { ColorSettings, PoolType } from '@src/types'
+
+// @TODO: add types to this file
 
 export const defaultAccountStoreKey = 'z3us-store'
 
@@ -172,7 +174,7 @@ export const Z3US_RRI = 'z3us_rr1q0gxzdty8egrkegk9lnteth09sgzqgxaw5ytqzq24ceq3eq
 export const Z3US_WALLET_MAIN = 'rdx1qsp5rwdg4r7uhmwra92qg0qughm73vycevwwzumw6whsfgjjngmwj3sfvqjl0'
 export const Z3US_WALLET_BURN = 'rdx1qsp5t323zwxmryk73gsupn0uu0jns9zpjqts79d6lspwqr2jclllpygyfaly8'
 export const Z3US_WALLET_NEWS = 'rdx1qspvwvpu7xkkvp53mkl8xh8kxk9m8uf2vk62kumhzfj4zf6ytfrsckqvhdrk3'
-export const Z3US_FEE_RATIO = 2 / 1000
+export const Z3US_FEE_RATIO = 3 / 1000
 
 export const swapServices = {
 	[PoolType.OCI]: {
@@ -205,7 +207,7 @@ export const routesInfo = {
 	[ACCOUNTS]: {
 		id: ACCOUNTS,
 		name: 'Accounts',
-		icon: <AccountsIcon />,
+		icon: <HomeIcon />,
 		href: 'account',
 	},
 	[STAKING]: {
@@ -214,12 +216,12 @@ export const routesInfo = {
 		icon: <StakingIcon />,
 		href: 'staking',
 	},
-	//[SWAP]: {
-	//id: SWAP,
-	//name: 'Swap',
-	//icon: <SwapIcon />,
-	//href: 'swap',
-	//},
+	[SWAP]: {
+		id: SWAP,
+		name: 'Swap',
+		icon: <SwapIcon />,
+		href: 'swap',
+	},
 	[SETTINGS]: {
 		id: SETTINGS,
 		name: 'Settings',
@@ -232,4 +234,51 @@ export const popupHtmlMap = {
 	light: 'popup-theme-light.html',
 	dark: 'popup-theme-dark.html',
 	system: 'popup-theme-system.html',
+}
+
+type CurrencySettingType = {
+	[key: string]: {
+		prefix: string
+		suffix: string
+	}
+}
+
+export const currencySettingsMap: CurrencySettingType = {
+	BTC: { prefix: '₿', suffix: '' },
+	ETH: { prefix: 'Ξ', suffix: '' },
+	ARS: { prefix: '$', suffix: '' },
+	AUD: { prefix: '$', suffix: '' },
+	BRL: { prefix: 'R$', suffix: '' },
+	CAD: { prefix: '$', suffix: '' },
+	CLP: { prefix: '$', suffix: '' },
+	CNY: { prefix: '¥', suffix: '' },
+	COP: { prefix: '$', suffix: '' },
+	CZK: { prefix: '', suffix: 'Kč' },
+	DKK: { prefix: 'kr.', suffix: '' },
+	EUR: { prefix: '', suffix: '€' },
+	HKD: { prefix: 'HK$', suffix: '' },
+	HUF: { prefix: '', suffix: 'Ft' },
+	IDR: { prefix: 'Rp', suffix: '' },
+	INR: { prefix: '₹', suffix: '' },
+	ILS: { prefix: '₪', suffix: '' },
+	JPY: { prefix: '¥', suffix: '' },
+	KRW: { prefix: '₩', suffix: '' },
+	MYR: { prefix: 'RM', suffix: '' },
+	MXN: { prefix: '$', suffix: '' },
+	MAD: { prefix: '', suffix: '.د.م.' },
+	NZD: { prefix: '$', suffix: '' },
+	NOK: { prefix: 'kr', suffix: '' },
+	PHP: { prefix: '₱', suffix: '' },
+	PLN: { prefix: '', suffix: 'zł' },
+	RUB: { prefix: '', suffix: 'p.' },
+	SAR: { prefix: '', suffix: '﷼' },
+	SGD: { prefix: '$', suffix: '' },
+	SEK: { prefix: '', suffix: 'kr' },
+	CHF: { prefix: 'fr.', suffix: '' },
+	TWD: { prefix: '元', suffix: '' },
+	THB: { prefix: '', suffix: '฿' },
+	TRY: { prefix: '', suffix: '₺' },
+	GBP: { prefix: '£', suffix: '' },
+	USD: { prefix: '$', suffix: '' },
+	VND: { prefix: '', suffix: '₫' },
 }

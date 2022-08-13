@@ -13,6 +13,12 @@ import LoaderBars from 'ui/src/components/loader-bars'
 import { AccountModal } from '@src/containers/wallet-panel/settings/accounts/account-modal'
 import { useSharedStore, useStore } from '@src/store'
 import { ColorSettings } from '@src/types'
+import { currencySettingsMap } from '@src/config'
+import { getTickerChars } from '../get-ticker-chars'
+
+interface ImmerT {
+	accountValue: string
+}
 
 type IProps = {
 	address: string
@@ -28,11 +34,13 @@ export const AccountInfo: React.FC<IProps> = ({ address }) => {
 		entry: Object.values(state.publicAddresses).find(_account => _account.address === address),
 		activeSlideIndex: state.activeSlideIndex,
 	}))
-	const [state, setState] = useImmer({
+	const [state, setState] = useImmer<ImmerT>({
 		accountValue: '',
 	})
 	const color = entry?.colorSettings?.[ColorSettings.COLOR_TEXT] || '#330867'
 	const borderColor = entry?.colorSettings?.[ColorSettings.COLOR_BORDER] || '#FFFFFF'
+	const currencyPrefix = currencySettingsMap[currency.toUpperCase()]?.prefix || ''
+	const [charDictionary, tickerConstants] = getTickerChars(currencyPrefix)
 
 	const accountPercentageChange = !value.isEqualTo(0)
 		? `${change.isGreaterThan(0) ? '+' : ''}${change.div(value).multipliedBy(100).toFixed(2).toLocaleString()}%`
@@ -42,7 +50,7 @@ export const AccountInfo: React.FC<IProps> = ({ address }) => {
 		if (isLoading) return
 		// NOTE: set to this value, to force the ticker animation
 		setState(draft => {
-			draft.accountValue = '$0.00'
+			draft.accountValue = `${currencyPrefix}0.00`
 		})
 		setTimeout(() => {
 			setState(draft => {
@@ -114,7 +122,12 @@ export const AccountInfo: React.FC<IProps> = ({ address }) => {
 							transition: '$default',
 						}}
 					>
-						<PriceTicker value={state.accountValue} refresh={activeSlideIndex} />
+						<PriceTicker
+							value={state.accountValue}
+							refresh={activeSlideIndex}
+							dictionary={charDictionary}
+							constantKeys={tickerConstants}
+						/>
 					</Text>
 					<Box
 						css={{
@@ -131,7 +144,12 @@ export const AccountInfo: React.FC<IProps> = ({ address }) => {
 					</Box>
 				</Flex>
 				<Text size="7" css={{ fill: color, color, mt: '4px' }}>
-					<PriceTicker value={accountPercentageChange} refresh={state.accountValue} />
+					<PriceTicker
+						value={accountPercentageChange}
+						refresh={state.accountValue}
+						dictionary={charDictionary}
+						constantKeys={tickerConstants}
+					/>
 				</Text>
 			</Flex>
 			<Box css={{ zIndex: 2, position: 'absolute', top: '$2', right: '$2' }}>

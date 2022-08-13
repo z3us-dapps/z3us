@@ -4,8 +4,8 @@ import { formatBigNumber } from '@src/utils/formatters'
 import { useTokenInfo } from '@src/hooks/react-query/queries/radix'
 import { useLocation } from 'wouter'
 import { Box, Flex, Text } from 'ui/src/components/atoms'
+import { HoverCard, HoverCardContent, HoverCardTrigger } from 'ui/src/components/hover-card'
 import Button from 'ui/src/components/button'
-import { ToolTip } from 'ui/src/components/tool-tip'
 import { CircleAvatar } from '@src/components/circle-avatar'
 import { InfoCircledIcon } from '@radix-ui/react-icons'
 import { TokenPrice } from './token-price'
@@ -13,6 +13,7 @@ import { TokenPrice } from './token-price'
 interface IProps {
 	i: number
 	rri: string
+	symbol: string
 	amount: string | BigNumber
 	staked?: string | BigNumber
 	loading?: boolean
@@ -25,7 +26,7 @@ const defaultProps = {
 	disableClick: false,
 }
 
-export const TokenRow: React.FC<IProps> = ({ i, rri, amount, staked, loading, disableClick }) => {
+export const TokenRow: React.FC<IProps> = ({ i, rri, symbol, amount, staked, loading, disableClick }) => {
 	const { isLoading: isLoadingTokenInfo, data: token } = useTokenInfo(rri)
 	const [, setLocation] = useLocation()
 	const isLoadingComplete = !loading && !isLoadingTokenInfo
@@ -80,20 +81,37 @@ export const TokenRow: React.FC<IProps> = ({ i, rri, amount, staked, loading, di
 								</Text>
 								<Flex css={{ mt: '2px' }}>
 									<Text color="help" size="3">
-										{formatBigNumber(tokenAmount)}
+										{staked && symbol === 'xrd'
+											? formatBigNumber(tokenAmount.plus(stakedAmount))
+											: formatBigNumber(tokenAmount)}
 									</Text>
 									{staked && !stakedAmount.isZero() && (
 										<Flex css={{ maxWidth: '115px', position: 'relative' }}>
-											<Text truncate color="help" size="3" css={{ pl: '$1' }}>
-												+ staked
-											</Text>
-											<ToolTip message={formatBigNumber(stakedAmount)} sideOffset={3} side="top">
-												<Box css={{ mt: '-5px' }}>
-													<Button size="1" color="ghost" iconOnly clickable={false} css={{ color: '$txtHelp' }}>
-														<InfoCircledIcon />
-													</Button>
-												</Box>
-											</ToolTip>
+											<HoverCard>
+												<HoverCardTrigger asChild>
+													<Box css={{ mt: '-5px' }}>
+														<Button size="1" color="ghost" iconOnly clickable={false} css={{ color: '$txtHelp' }}>
+															<InfoCircledIcon />
+														</Button>
+													</Box>
+												</HoverCardTrigger>
+												<HoverCardContent side="top" sideOffset={0} css={{ maxWidth: '170px' }}>
+													<Box>
+														<Text as="p">
+															<Text as="span" bold>
+																XRD Available:
+															</Text>
+															<Text as="span">{formatBigNumber(tokenAmount)}</Text>
+														</Text>
+														<Text as="p" css={{ pt: '$2' }}>
+															<Text as="span" bold>
+																XRD Staked or Unstaking:
+															</Text>
+															<Text as="span">{formatBigNumber(stakedAmount)}</Text>
+														</Text>
+													</Box>
+												</HoverCardContent>
+											</HoverCard>
 										</Flex>
 									)}
 								</Flex>

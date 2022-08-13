@@ -13,7 +13,6 @@ import AlertCard from 'ui/src/components/alert-card'
 import { Box, Flex, Text, StyledLink } from 'ui/src/components/atoms'
 import { useZ3usWallet } from 'hooks/use-z3us-wallet'
 import Input from 'ui/src/components/input'
-//import { config } from 'config'
 
 const signaturePayload = 'z3us-airdrop'
 
@@ -206,7 +205,7 @@ export const Airdrop = () => {
 					</li>
 				</ul>
 			</Box>
-			<Dialog open={state.isSuccessModalOpen}>
+			<Dialog open={state.isSuccessModalOpen} modal={false}>
 				<DialogContent css={{ maxWidth: '500px', position: 'relative' }}>
 					<Flex direction="column" css={{ px: '$4', pt: '$8', pb: '$6' }}>
 						<Box css={{ ta: 'center' }}>

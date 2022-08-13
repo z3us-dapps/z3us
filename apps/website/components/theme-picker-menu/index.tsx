@@ -15,8 +15,13 @@ import Button from 'ui/src/components/button'
 import { ToolTip } from 'ui/src/components/tool-tip'
 import { useTheme } from 'next-themes'
 
+interface ImmerProps {
+	isScrolled: boolean
+	isThemeMenuOpen: boolean
+}
+
 export const ThemePickerMenu: React.FC = () => {
-	const [state, setState] = useImmer({
+	const [state, setState] = useImmer<ImmerProps>({
 		isScrolled: false,
 		isThemeMenuOpen: false,
 	})

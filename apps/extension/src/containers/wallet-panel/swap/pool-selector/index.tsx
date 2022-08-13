@@ -16,7 +16,7 @@ import {
 import { CircleAvatar } from '@src/components/circle-avatar'
 import { Box, Text, Flex } from 'ui/src/components/atoms'
 import Button from 'ui/src/components/button'
-import { Pool } from '@src/types'
+import { Pool, PoolType } from '@src/types'
 import useMeasure from 'react-use-measure'
 
 interface IProps {
@@ -63,7 +63,11 @@ export const PoolSelector: React.FC<IProps> = ({ pool, pools, onPoolChange }) =>
 					}}
 				>
 					<Box css={{ p: '8px' }}>
-						<CircleAvatar image={selected?.image} fallbackText={selected?.type.toLocaleUpperCase()} />
+						<CircleAvatar
+							image={selected?.image}
+							fallbackText={selected?.type.toLocaleUpperCase()}
+							cutImage={selected?.type !== PoolType.DOGECUBEX}
+						/>
 					</Box>
 					<Box css={{ flex: '1' }}>
 						<Flex css={{ mt: '2px' }}>

@@ -17,6 +17,19 @@ import { useTokenMint } from '@src/hooks/use-token-mint'
 import { useTokenDerive } from '@src/hooks/use-token-derive'
 import { useTransaction } from '@src/hooks/use-transaction'
 
+interface ImmerT {
+	symbol: string
+	amount: string
+	rri: string
+	fee: string
+	transaction: {
+		blob: string
+		hashOfBlobToSign: string
+	}
+	isLoading: boolean
+	isModalOpen: boolean
+}
+
 interface IProps {
 	trigger: React.ReactNode
 }
@@ -41,14 +54,12 @@ export const MintTokenModal: React.FC<IProps> = ({ trigger }) => {
 		accountAddress: state.getCurrentAddressAction(),
 	}))
 
-	const [state, setState] = useImmer({
+	const [state, setState] = useImmer<ImmerT>({
 		symbol: '',
 		amount: '',
 		rri: '',
-
 		fee: null,
 		transaction: null,
-
 		isLoading: false,
 		isModalOpen: false,
 	})
@@ -145,7 +156,7 @@ export const MintTokenModal: React.FC<IProps> = ({ trigger }) => {
 	}
 
 	return (
-		<Dialog open={state.isModalOpen}>
+		<Dialog open={state.isModalOpen} modal={false}>
 			<DialogTrigger asChild onClick={handleOnClick}>
 				{trigger}
 			</DialogTrigger>

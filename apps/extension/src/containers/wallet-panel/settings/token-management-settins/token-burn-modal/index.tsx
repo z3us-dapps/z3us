@@ -4,10 +4,10 @@ import { useImmer } from 'use-immer'
 import { useSharedStore, useStore } from '@src/store'
 import { useLocation } from 'wouter'
 import { getShortAddress } from '@src/utils/string-utils'
+import { useEventListener } from 'usehooks-ts'
 import { Cross2Icon } from '@radix-ui/react-icons'
 import { PageHeading, PageSubHeading, PageWrapper } from '@src/components/layout'
 import { ScrollArea } from 'ui/src/components/scroll-area'
-import { useEventListener } from 'usehooks-ts'
 import Button from 'ui/src/components/button'
 import Input from 'ui/src/components/input'
 import { Tooltip, TooltipTrigger, TooltipContent, TooltipArrow } from 'ui/src/components/tool-tip'
@@ -23,13 +23,24 @@ import { useTransaction } from '@src/hooks/use-transaction'
 import { useTokenDerive } from '@src/hooks/use-token-derive'
 import { useTokenBurn } from '@src/hooks/use-token-burn'
 
+interface ImmerT {
+	amount: string
+	rri: string
+	fee: string
+	transaction: {
+		blob: string
+		hashOfBlobToSign: string
+	}
+	isLoading: boolean
+	isModalOpen: boolean
+}
+
 interface IProps {
 	trigger: React.ReactNode
 }
 
 export const BurnTokenModal: React.FC<IProps> = ({ trigger }) => {
 	const inputAmountRef = useRef(null)
-
 	const [, setLocation] = useLocation()
 	const queryClient = useQueryClient()
 
@@ -49,13 +60,11 @@ export const BurnTokenModal: React.FC<IProps> = ({ trigger }) => {
 		accountAddress: state.getCurrentAddressAction(),
 	}))
 
-	const [state, setState] = useImmer({
+	const [state, setState] = useImmer<ImmerT>({
 		amount: '',
 		rri: '',
-
 		fee: null,
 		transaction: null,
-
 		isLoading: false,
 		isModalOpen: false,
 	})
@@ -177,7 +186,7 @@ export const BurnTokenModal: React.FC<IProps> = ({ trigger }) => {
 	}
 
 	return (
-		<Dialog open={state.isModalOpen}>
+		<Dialog open={state.isModalOpen} modal={false}>
 			<DialogTrigger asChild onClick={handleOnClick}>
 				{trigger}
 			</DialogTrigger>
