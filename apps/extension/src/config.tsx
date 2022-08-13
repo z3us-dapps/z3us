@@ -3,6 +3,8 @@ import React from 'react'
 import { HomeIcon, StakingIcon, SwapIcon, SettingsIcon } from 'ui/src/components/icons'
 import { ColorSettings, PoolType } from '@src/types'
 
+// @TODO: add types to this file
+
 export const defaultAccountStoreKey = 'z3us-store'
 
 export const sharedStoreKey = 'z3us-store-shared'
@@ -232,4 +234,51 @@ export const popupHtmlMap = {
 	light: 'popup-theme-light.html',
 	dark: 'popup-theme-dark.html',
 	system: 'popup-theme-system.html',
+}
+
+type CurrencySettingType = {
+	[key: string]: {
+		prefix: string
+		suffix: string
+	}
+}
+
+export const currencySettingsMap: CurrencySettingType = {
+	BTC: { prefix: '₿', suffix: '' },
+	ETH: { prefix: 'Ξ', suffix: '' },
+	ARS: { prefix: '$', suffix: '' },
+	AUD: { prefix: '$', suffix: '' },
+	BRL: { prefix: 'R$', suffix: '' },
+	CAD: { prefix: '$', suffix: '' },
+	CLP: { prefix: '$', suffix: '' },
+	CNY: { prefix: '¥', suffix: '' },
+	COP: { prefix: '$', suffix: '' },
+	CZK: { prefix: '', suffix: 'Kč' },
+	DKK: { prefix: 'kr.', suffix: '' },
+	EUR: { prefix: '', suffix: '€' },
+	HKD: { prefix: 'HK$', suffix: '' },
+	HUF: { prefix: '', suffix: 'Ft' },
+	IDR: { prefix: 'Rp', suffix: '' },
+	INR: { prefix: '₹', suffix: '' },
+	ILS: { prefix: '₪', suffix: '' },
+	JPY: { prefix: '¥', suffix: '' },
+	KRW: { prefix: '₩', suffix: '' },
+	MYR: { prefix: 'RM', suffix: '' },
+	MXN: { prefix: '$', suffix: '' },
+	MAD: { prefix: '', suffix: '.د.م.' },
+	NZD: { prefix: '$', suffix: '' },
+	NOK: { prefix: 'kr', suffix: '' },
+	PHP: { prefix: '₱', suffix: '' },
+	PLN: { prefix: '', suffix: 'zł' },
+	RUB: { prefix: '', suffix: 'p.' },
+	SAR: { prefix: '', suffix: '﷼' },
+	SGD: { prefix: '$', suffix: '' },
+	SEK: { prefix: '', suffix: 'kr' },
+	CHF: { prefix: 'fr.', suffix: '' },
+	TWD: { prefix: '元', suffix: '' },
+	THB: { prefix: '', suffix: '฿' },
+	TRY: { prefix: '', suffix: '₺' },
+	GBP: { prefix: '£', suffix: '' },
+	USD: { prefix: '$', suffix: '' },
+	VND: { prefix: '', suffix: '₫' },
 }
