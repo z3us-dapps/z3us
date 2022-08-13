@@ -16,14 +16,14 @@ import {
 import { FLOOP_RRI, OCI_RRI, Z3US_RRI, XRD_RRI } from '@src/config'
 import { Pool } from '@src/types'
 import { ScrollArea } from 'ui/src/components/scroll-area'
-import { InfoCircledIcon, UpdateIcon } from '@radix-ui/react-icons'
+import { UpdateIcon } from '@radix-ui/react-icons'
 import { HoverCard, HoverCardContent, HoverCardTrigger } from 'ui/src/components/hover-card'
 import Button from 'ui/src/components/button'
 import { Checkbox, CheckIcon } from 'ui/src/components/checkbox'
 import { ToolTip, Tooltip, TooltipTrigger, TooltipContent, TooltipArrow } from 'ui/src/components/tool-tip'
 import { AccountSelector } from '@src/components/account-selector'
 import { getShortAddress } from '@src/utils/string-utils'
-import { Box, Text, Flex, StyledLink } from 'ui/src/components/atoms'
+import { Box, Text, Flex } from 'ui/src/components/atoms'
 import { formatBigNumber } from '@src/utils/formatters'
 import { TokenSelector } from '@src/components/token-selector'
 import { HardwareWalletReconnect } from '@src/components/hardware-wallet-reconnect'
@@ -52,6 +52,24 @@ interface ImmerState {
 
 const refreshInterval = 5 * 1000 // 5 seconds
 
+const defaultState: ImmerState = {
+	time: Date.now(),
+	pool: undefined,
+	fromRRI: XRD_RRI,
+	toRRI: OCI_RRI,
+	inputSide: 'from',
+	amount: '',
+	receive: '',
+	poolFee: '',
+	z3usFee: '',
+	z3usBurn: '',
+	minimum: false,
+	burn: false,
+	isLoading: false,
+	isMounted: false,
+	isFeeUiVisible: false,
+}
+
 export const Swap: React.FC = () => {
 	const inputAmountRef = useRef(null)
 	const { hw, seed, addToast } = useSharedStore(state => ({
@@ -65,24 +83,9 @@ export const Swap: React.FC = () => {
 		accountAddress: state.getCurrentAddressAction(),
 	}))
 
-	const [state, setState] = useImmer<ImmerState>({
-		time: Date.now(),
-		pool: undefined,
-		fromRRI: XRD_RRI,
-		toRRI: OCI_RRI,
-		inputSide: 'from',
-		amount: '',
-		receive: '',
-		poolFee: '',
-		z3usFee: '',
-		z3usBurn: '',
-		minimum: false,
-		burn: false,
-		isLoading: false,
-		isMounted: false,
-		isFeeUiVisible: false,
-	})
+	const [state, setState] = useImmer<ImmerState>(defaultState)
 	const [debouncedAmount] = useDebounce(state.amount, 1000)
+	const [debouncedReceive] = useDebounce(state.receive, 1000)
 	const possibleTokens = usePoolTokens()
 	const pools = usePools(state.fromRRI, state.toRRI)
 	const { data: caviarPools } = useCaviarPools()
@@ -138,16 +141,16 @@ export const Swap: React.FC = () => {
 		})
 	}, [account, state.pool, txFee, state.amount])
 
-	const calculateSwap = async (value: BigNumber, valueType: 'from' | 'to') => {
+	const calculateSwap = async (value: BigNumber, valueType: 'from' | 'to', pool?: Pool) => {
 		setState(draft => {
 			draft.isLoading = true
 		})
 		try {
 			if (valueType === 'from') {
 				const walletQuote = getZ3USFees(value, state.burn, z3usBalance)
-				if (state.pool) {
+				if (pool) {
 					const poolQuote = await calculatePoolFeesFromAmount(
-						state.pool,
+						pool,
 						walletQuote.amount,
 						fromToken,
 						toToken,
@@ -179,15 +182,8 @@ export const Swap: React.FC = () => {
 						draft.z3usBurn = walletQuote.burn.toString()
 					})
 				}
-			} else if (state.pool) {
-				const poolQuote = await calculatePoolFeesFromReceive(
-					state.pool,
-					value,
-					fromToken,
-					toToken,
-					caviarPools,
-					floopBalance,
-				)
+			} else if (pool) {
+				const poolQuote = await calculatePoolFeesFromReceive(pool, value, fromToken, toToken, caviarPools, floopBalance)
 				const walletQuote = getZ3USFees(poolQuote.amount, state.burn, z3usBalance)
 				setState(draft => {
 					draft.time = Date.now()
@@ -232,23 +228,26 @@ export const Swap: React.FC = () => {
 
 	useEffect(() => {
 		if (!state.isMounted) return
+		if (state.isLoading) return
 		if (Date.now() - state.time < refreshInterval) return
 
 		if (state.inputSide === 'from' && state.amount) {
-			calculateSwap(new BigNumber(state.amount || 0), state.inputSide)
+			calculateSwap(new BigNumber(state.amount || 0), state.inputSide, state.pool)
 		} else if (state.inputSide === 'to' && state.receive) {
-			calculateSwap(new BigNumber(state.receive || 0), state.inputSide)
+			calculateSwap(new BigNumber(state.receive || 0), state.inputSide, state.pool)
 		}
 	}, [state.time])
 
 	useEffect(() => {
-		const calculate = async () => {
-			await calculateSwap(new BigNumber(debouncedAmount), 'from')
+		if (!state.isMounted) return
+		if (state.isLoading) return
+
+		if (state.inputSide === 'from' && state.amount) {
+			calculateSwap(new BigNumber(state.amount || 0), state.inputSide, state.pool)
+		} else if (state.inputSide === 'to' && state.receive) {
+			calculateSwap(new BigNumber(state.receive || 0), state.inputSide, state.pool)
 		}
-		if (debouncedAmount !== '') {
-			calculate()
-		}
-	}, [debouncedAmount])
+	}, [debouncedAmount, debouncedReceive])
 
 	const handlePoolChange = async (pool: Pool) => {
 		setState(draft => {
@@ -256,9 +255,9 @@ export const Swap: React.FC = () => {
 		})
 
 		if (state.inputSide === 'from' && state.amount) {
-			await calculateSwap(new BigNumber(state.amount || 0), state.inputSide)
+			await calculateSwap(new BigNumber(state.amount || 0), state.inputSide, pool)
 		} else if (state.inputSide === 'to' && state.receive) {
-			await calculateSwap(new BigNumber(state.receive || 0), state.inputSide)
+			await calculateSwap(new BigNumber(state.receive || 0), state.inputSide, pool)
 		}
 	}
 
@@ -303,7 +302,7 @@ export const Swap: React.FC = () => {
 			draft.inputSide = 'from'
 		})
 		inputAmountRef.current.focus()
-		await calculateSwap(selectedTokenAmmount, 'from')
+		await calculateSwap(selectedTokenAmmount, 'from', state.pool)
 	}
 
 	const handleSetAmount = async (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -339,7 +338,6 @@ export const Swap: React.FC = () => {
 				draft.receive = value
 				draft.inputSide = 'to'
 			})
-			await calculateSwap(new BigNumber(val), 'to')
 		}
 	}
 
@@ -349,39 +347,30 @@ export const Swap: React.FC = () => {
 		})
 
 		if (state.inputSide === 'from' && state.amount) {
-			await calculateSwap(new BigNumber(state.amount || 0), state.inputSide)
+			await calculateSwap(new BigNumber(state.amount || 0), state.inputSide, state.pool)
 		} else if (state.inputSide === 'to' && state.receive) {
-			await calculateSwap(new BigNumber(state.receive || 0), state.inputSide)
+			await calculateSwap(new BigNumber(state.receive || 0), state.inputSide, state.pool)
 		}
 	}
 
-	const handleSetBurn = async (checked: boolean) => {
-		setState(draft => {
-			draft.burn = checked === true
-		})
+	// const handleSetBurn = async (checked: boolean) => {
+	// 	setState(draft => {
+	// 		draft.burn = checked === true
+	// 	})
 
-		if (state.inputSide === 'from' && state.amount) {
-			await calculateSwap(new BigNumber(state.amount || 0), state.inputSide)
-		} else if (state.inputSide === 'to' && state.receive) {
-			await calculateSwap(new BigNumber(state.receive || 0), state.inputSide)
-		}
-	}
+	// 	if (state.inputSide === 'from' && state.amount) {
+	// 		await calculateSwap(new BigNumber(state.amount || 0), state.inputSide)
+	// 	} else if (state.inputSide === 'to' && state.receive) {
+	// 		await calculateSwap(new BigNumber(state.receive || 0), state.inputSide)
+	// 	}
+	// }
 
 	const resetImmerState = () => {
 		setState(draft => {
-			draft.time = Date.now()
-			draft.pool = undefined
-			draft.inputSide = 'from'
-			draft.amount = ''
-			draft.receive = ''
-			draft.poolFee = ''
-			draft.z3usFee = ''
-			draft.z3usBurn = ''
-			draft.minimum = false
-			draft.burn = false
-			draft.isLoading = false
-			draft.isMounted = false
-			draft.isFeeUiVisible = false
+			Object.entries(defaultState).forEach(([key, value]) => {
+				draft[key] = value
+			})
+			draft.isMounted = true
 		})
 	}
 
@@ -446,6 +435,7 @@ export const Swap: React.FC = () => {
 								value={state.amount}
 								placeholder="Enter amount"
 								onChange={handleSetAmount}
+								disabled={state.isLoading}
 							/>
 							<TokenSelector
 								triggerType="input"
@@ -515,6 +505,7 @@ export const Swap: React.FC = () => {
 								value={state.receive}
 								placeholder="Receive"
 								onChange={handleSetReceive}
+								disabled={state.isLoading}
 							/>
 							<TokenSelector
 								triggerType="input"
@@ -536,7 +527,7 @@ export const Swap: React.FC = () => {
 								z3usFee={new BigNumber(state.z3usFee)}
 								z3usBurn={state.burn ? new BigNumber(state.z3usBurn) : null}
 							/>
-							<Box>
+							{/* <Box>
 								<Flex align="center" css={{ mt: '7px', position: 'relative', height: '23px' }}>
 									<Flex align="center">
 										<Flex align="center" css={{ mt: '1px' }}>
@@ -575,7 +566,7 @@ export const Swap: React.FC = () => {
 										</Flex>
 									</Flex>
 								</Flex>
-							</Box>
+							</Box> */}
 						</>
 					)}
 

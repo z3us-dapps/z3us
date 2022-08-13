@@ -78,7 +78,7 @@ export const calculatePoolFeesFromAmount = async (
 			const ociExchangeFee = new BigNumber(ociQuote?.fee_exchange[0]?.amount || 0)
 
 			fee = ociLiquidityFee.plus(ociExchangeFee)
-			receive = ociQuote?.output_amount ? new BigNumber(ociQuote?.output_amount || 0) : receive
+			receive = ociQuote?.minimum_output ? new BigNumber(ociQuote?.minimum_output?.amount || 0) : receive
 			break
 		case PoolType.CAVIAR:
 			const caviarPool = caviarPools.find(cp => cp.wallet === pool.wallet)
@@ -156,13 +156,12 @@ export const calculatePoolFeesFromReceive = async (
 
 	switch (pool.type) {
 		case PoolType.OCI:
-			amount = zero // @TODO: fix
-			// const ociQuote = await oci.calculateSwapFromReceive(from.rri, to.rri, receive)
-			// const ociLiquidityFee = new BigNumber(ociQuote?.fee_liquidity_provider[0]?.amount || 0)
-			// const ociExchangeFee = new BigNumber(ociQuote?.fee_exchange[0]?.amount || 0)
+			const ociQuote = await oci.calculateSwapFromRecieve(from.rri, to.rri, receive)
+			const ociLiquidityFee = new BigNumber(ociQuote?.fee_liquidity_provider[0]?.amount || 0)
+			const ociExchangeFee = new BigNumber(ociQuote?.fee_exchange[0]?.amount || 0)
 
-			// fee = ociLiquidityFee.plus(ociExchangeFee)
-			// amount = ociQuote?.input_amount ? new BigNumber(ociQuote?.input_amount || 0) : amount
+			fee = ociLiquidityFee.plus(ociExchangeFee)
+			amount = ociQuote?.input ? new BigNumber(ociQuote?.input.amount || 0) : amount
 			break
 		case PoolType.CAVIAR:
 			amount = zero // @TODO: fix
@@ -220,7 +219,7 @@ export const calculateCheapestPoolFeesFromAmount = async (
 	results
 		.filter(result => !!result)
 		.forEach((cost, index) => {
-			if (!cheapest || cost.receive.gt(cheapest.amount)) {
+			if (!cheapest || cost.receive.gt(cheapest.receive)) {
 				cheapest = cost
 				pool = pools[index]
 			}
@@ -257,6 +256,7 @@ export const calculateCheapestPoolFeesFromReceive = async (
 	results
 		.filter(result => !!result)
 		.forEach((cost, index) => {
+			if (cost.amount.eq(0)) return
 			if (!cheapest || cost.amount.lt(cheapest.amount)) {
 				cheapest = cost
 				pool = pools[index]
