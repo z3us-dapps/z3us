@@ -219,7 +219,7 @@ export const calculateCheapestPoolFeesFromAmount = async (
 	results
 		.filter(result => !!result)
 		.forEach((cost, index) => {
-			if (!cheapest || cost.receive.gt(cheapest.amount)) {
+			if (!cheapest || cost.receive.gt(cheapest.receive)) {
 				cheapest = cost
 				pool = pools[index]
 			}
