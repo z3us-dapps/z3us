@@ -1,5 +1,10 @@
+import { Buffer } from 'buffer'
+import path from 'path'
+import dotenv from 'dotenv'
 import { Page, ChromiumBrowserContext } from 'playwright'
 import { closePages, initBrowserWithExtension } from './util'
+
+dotenv.config({ path: path.resolve(__dirname, '../../../', '.env') })
 
 let page: Page
 let browserContext: ChromiumBrowserContext
@@ -38,6 +43,8 @@ describe('The Extension page should', () => {
 	})
 
 	it('should be able to restore wallet from phrase', async () => {
+		const PHRASE = Buffer.from(process.env.KEYSTORE_BASE64 || '', 'base64').toString('ascii')
+		const PHRASETRIM = PHRASE.substring(0, PHRASE.length - 1) // remove final character whitespace
 		const restoreWalletButtonSelector = '[data-test-e2e="restore-from-seed"]'
 		const restoreWalletBtn = await page.$$(restoreWalletButtonSelector)
 		expect(restoreWalletBtn).toHaveLength(1)
@@ -48,34 +55,9 @@ describe('The Extension page should', () => {
 		await page.waitForTimeout(DELAY)
 
 		// user enters seed phrase
-		const SEED_PHRASE = 'phrase'
 		const seedPhraseInputSelector = '[data-test-e2e="secret-phrase-input"]'
 		const seedPhaseInput = await page.$(seedPhraseInputSelector)
-		await seedPhaseInput.fill(SEED_PHRASE)
-
-		// user clicks `import phrase`
-		const importBtnSelector = '[data-test-e2e="secret-phrase-import"]'
-		const importBtn = await page.$(importBtnSelector)
-		await importBtn.click()
-		await page.waitForTimeout(DELAY)
-	})
-
-	// @TODO: need to properly tear down after previous test to remove localstorag to get this test to work
-	it.skip('should show error if user enters incorrect seed', async () => {
-		const restoreWalletButtonSelector = '[data-test-e2e="restore-from-seed"]'
-		const restoreWalletBtn = await page.$$(restoreWalletButtonSelector)
-		expect(restoreWalletBtn).toHaveLength(1)
-
-		// click `restore from seed button`
-		const pageRestoreWalletBtn = await page.$(restoreWalletButtonSelector)
-		await pageRestoreWalletBtn.click()
-		await page.waitForTimeout(DELAY)
-
-		// user enters invalid seed phrase
-		const INVALID_SEED_PHRASE = 'invalid phrase'
-		const seedPhraseInputSelector = '[data-test-e2e="secret-phrase-input"]'
-		const seedPhaseInput = await page.$(seedPhraseInputSelector)
-		await seedPhaseInput.fill(INVALID_SEED_PHRASE)
+		await seedPhaseInput.fill(PHRASETRIM)
 
 		// user clicks `import phrase`
 		const importBtnSelector = '[data-test-e2e="secret-phrase-import"]'
@@ -83,10 +65,9 @@ describe('The Extension page should', () => {
 		await importBtn.click()
 		await page.waitForTimeout(DELAY)
 
-		// expect error to be visible // height of element indicates it `is` visible
-		const inputErrorSelector = '[data-test-e2e="secret-phrase-import-error"]'
-		const inputError = await page.$(inputErrorSelector)
-		const inputErrorHeight = await inputError.evaluate(e => window.getComputedStyle(e).getPropertyValue('height'))
-		expect(inputErrorHeight).toEqual('31px')
+		// asset that import account button is visible
+		const importAccountBtnSelector = '[data-test-e2e="import-accounts-btn"]'
+		const importAccountBtn = await page.$$(importAccountBtnSelector)
+		expect(importAccountBtn).toHaveLength(1)
 	})
 })

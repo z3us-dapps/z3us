@@ -190,6 +190,7 @@ export const ImportAccounts = (): JSX.Element => {
 			</Box>
 			<Flex css={{ width: '100%' }}>
 				<Button
+					data-test-e2e="import-accounts-btn"
 					fullWidth
 					color="primary"
 					size="6"
