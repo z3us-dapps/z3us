@@ -61,8 +61,8 @@ describe('The Extension page should', () => {
 
 		// user clicks `import phrase`
 		const importBtnSelector = '[data-test-e2e="secret-phrase-import"]'
-		const importBtn = await page.$(importBtnSelector)
-		await importBtn.click()
+		const importPhraseBtn = await page.$(importBtnSelector)
+		await importPhraseBtn.click()
 		await page.waitForTimeout(DELAY)
 
 		// assert that import account button is visible
@@ -71,8 +71,40 @@ describe('The Extension page should', () => {
 		expect(importAccountBtn).toHaveLength(1)
 
 		// user clicks the first account
-		const importAccountListSelector = 'ul[data-test-e2e="import-account-list"]'
-		const importAccountList = await page.$(importAccountListSelector)
-		expect(importAccountList).toHaveLength(1)
+		const firstAccountSelector =
+			'ul[data-test-e2e="import-account-list"] li button[data-test-e2e="import-account-checkbox"]'
+		const firstAccount = await page.$(firstAccountSelector)
+		await firstAccount.click()
+
+		// user clicks `import phrase`
+		const importBtn = await page.$(importAccountBtnSelector)
+		await importBtn.click()
+		await page.waitForTimeout(DELAY)
+
+		// user enters password for wallet
+		const PASSWORD = 'password'
+		const passwordOneSelector = '[data-test-e2e="wallet-confirm-password-one"]'
+		const passwordTwoSelector = '[data-test-e2e="wallet-confirm-password-two"]'
+		const passwordOne = await page.$(passwordOneSelector)
+		const passwordTwo = await page.$(passwordTwoSelector)
+		await passwordOne.fill(PASSWORD)
+		await passwordTwo.fill(PASSWORD)
+
+		// user clicks `save` password
+		const savePasswordBtnSelector = '[data-test-e2e="save-wallet-password-btn"]'
+		const savePasswordBtn = await page.$(savePasswordBtnSelector)
+		await savePasswordBtn.click()
+		await page.waitForTimeout(DELAY)
+
+		// user clicks `go to wallet`
+		const goToWalletBtnSelector = '[data-test-e2e="go-to-wallet-btn"]'
+		const goToWalletBtn = await page.$(goToWalletBtnSelector)
+		await goToWalletBtn.click()
+		await page.waitForTimeout(DELAY)
+
+		const totalCardSelector = '[data-test-e2e="accounts-total-card"]'
+		const totalCard = await page.$(totalCardSelector)
+		expect(totalCard.isVisible()).toBeTruthy()
+		await page.waitForTimeout(DELAY)
 	})
 })

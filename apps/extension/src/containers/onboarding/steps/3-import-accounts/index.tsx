@@ -87,7 +87,7 @@ export const ImportAccounts = (): JSX.Element => {
 		})
 	}
 
-	const handleSelectIndex = (index: number) => checked => {
+	const handleSelectIndex = (index: number) => (checked: boolean) => {
 		setState(draft => {
 			draft.selectedIndexes = { ...draft.selectedIndexes, [index]: checked === true }
 		})
@@ -154,14 +154,20 @@ export const ImportAccounts = (): JSX.Element => {
 								return (
 									<Flex as="li" align="center" key={addressString} css={{ px: '$3', pt: '$2' }}>
 										<Checkbox
-											id="select"
+											data-test-e2e="import-account-checkbox"
+											id={`select-${addressString}`}
 											onCheckedChange={handleSelectIndex(index)}
 											checked={!!state.selectedIndexes[index]}
 											css={{ pr: '$2' }}
 										>
 											<CheckIcon />
 										</Checkbox>
-										<Text as="label" htmlFor="select" truncate css={{ maxWidth: '228px', pl: '$2', pr: '$2' }}>
+										<Text
+											as="label"
+											htmlFor={`select-${addressString}`}
+											truncate
+											css={{ maxWidth: '228px', pl: '$2', pr: '$2' }}
+										>
 											{addressString}
 										</Text>
 										<ButtonTipFeedback tooltip="Copy address" sideOffset={5} toolTipOffset={8}>
