@@ -19,6 +19,7 @@ import { AlertDialog, AlertDialogTrigger, AlertDialogContent } from 'ui/src/comp
 import { HardwareWalletReconnect } from '@src/components/hardware-wallet-reconnect'
 import { Z3usSpinnerAnimation } from '@src/components/z3us-spinner-animation'
 import { ArrowLeftIcon } from '@radix-ui/react-icons'
+import { ExtendedActionType } from '@src/types'
 import ActionsPreview from './components/actions-preview'
 
 interface ImmerT {
@@ -78,7 +79,17 @@ export const Transaction = (): JSX.Element => {
 		if (actions.length > 0) {
 			const build = async () => {
 				try {
-					const msg = await createMessage(message, encryptMessage ? recipient : undefined)
+					let disableTokenMintAndBurn = true
+					actions.forEach(_action => {
+						disableTokenMintAndBurn =
+							disableTokenMintAndBurn ||
+							_action === ExtendedActionType.MINT_TOKENS ||
+							_action === ExtendedActionType.MINT_TOKENS
+					})
+					let msg: string
+					if (message) {
+						msg = await createMessage(message, encryptMessage ? recipient : undefined)
+					}
 					const { fee, transaction } = await buildTransaction({
 						network_identifier: { network: account.address.network },
 						actions,
@@ -86,6 +97,7 @@ export const Transaction = (): JSX.Element => {
 							address: account.address.toString(),
 						},
 						message: msg,
+						disable_token_mint_and_burn: disableTokenMintAndBurn,
 					})
 					setState(draft => {
 						draft.fee = fee
@@ -149,7 +161,7 @@ export const Transaction = (): JSX.Element => {
 			}
 
 			await queryClient.invalidateQueries({ active: true, inactive: true, stale: true })
-			sendResponse(CONFIRM, { id, host, payload: result })
+			sendResponse(CONFIRM, { id, host, payload: { request: action.request, value: result } })
 		} catch (error) {
 			// eslint-disable-next-line no-console
 			console.error(error)

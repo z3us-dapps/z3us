@@ -174,7 +174,7 @@ export const Z3US_RRI = 'z3us_rr1q0gxzdty8egrkegk9lnteth09sgzqgxaw5ytqzq24ceq3eq
 export const Z3US_WALLET_MAIN = 'rdx1qsp5rwdg4r7uhmwra92qg0qughm73vycevwwzumw6whsfgjjngmwj3sfvqjl0'
 export const Z3US_WALLET_BURN = 'rdx1qsp5t323zwxmryk73gsupn0uu0jns9zpjqts79d6lspwqr2jclllpygyfaly8'
 export const Z3US_WALLET_NEWS = 'rdx1qspvwvpu7xkkvp53mkl8xh8kxk9m8uf2vk62kumhzfj4zf6ytfrsckqvhdrk3'
-export const Z3US_FEE_RATIO = 2 / 1000
+export const Z3US_FEE_RATIO = 3 / 1000
 
 export const swapServices = {
 	[PoolType.OCI]: {
@@ -216,12 +216,12 @@ export const routesInfo = {
 		icon: <StakingIcon />,
 		href: 'staking',
 	},
-	//[SWAP]: {
-	//id: SWAP,
-	//name: 'Swap',
-	//icon: <SwapIcon />,
-	//href: 'swap',
-	//},
+	[SWAP]: {
+		id: SWAP,
+		name: 'Swap',
+		icon: <SwapIcon />,
+		href: 'swap',
+	},
 	[SETTINGS]: {
 		id: SETTINGS,
 		name: 'Settings',
