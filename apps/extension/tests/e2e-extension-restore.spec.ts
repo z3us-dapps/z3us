@@ -65,9 +65,14 @@ describe('The Extension page should', () => {
 		await importBtn.click()
 		await page.waitForTimeout(DELAY)
 
-		// asset that import account button is visible
+		// assert that import account button is visible
 		const importAccountBtnSelector = '[data-test-e2e="import-accounts-btn"]'
 		const importAccountBtn = await page.$$(importAccountBtnSelector)
 		expect(importAccountBtn).toHaveLength(1)
+
+		// user clicks the first account
+		const importAccountListSelector = 'ul[data-test-e2e="import-account-list"]'
+		const importAccountList = await page.$(importAccountListSelector)
+		expect(importAccountList).toHaveLength(1)
 	})
 })

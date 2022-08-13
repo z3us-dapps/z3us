@@ -148,7 +148,7 @@ export const ImportAccounts = (): JSX.Element => {
 								<StyledThumb />
 							</StyledSlider>
 						</Box>
-						<Box as="ul" css={{ pb: '$3' }}>
+						<Box as="ul" css={{ pb: '$3' }} data-test-e2e="import-account-list">
 							{state.addresses.map((address, index) => {
 								const addressString = address.toString()
 								return (
