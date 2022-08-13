@@ -118,7 +118,7 @@ export const Start = (): JSX.Element => {
 				</Button>
 			</Flex>
 			<Flex css={{ mt: '$2' }}>
-				<Button color="tertiary" size="5" onClick={handleRestoreFromPhrase} fullWidth>
+				<Button data-test-e2e="restore-from-seed" color="tertiary" size="5" onClick={handleRestoreFromPhrase} fullWidth>
 					Restore from seed
 				</Button>
 			</Flex>
