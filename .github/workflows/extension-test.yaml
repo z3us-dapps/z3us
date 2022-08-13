@@ -17,6 +17,12 @@ jobs:
     timeout-minutes: 10
     runs-on: ubuntu-latest
     steps:
+      - name: Get secret from base64
+        env:
+          KEYSTORE_BASE64: ${{ secrets.KEYSTORE_BASE64 }}
+        run: |
+          echo import certificate from secrets and regenerate the file
+          echo $KEYSTORE_BASE64 | base64 -d > $RUNNER_TEMP/my_production.keystore
       - name: Copy Files
         uses: actions/checkout@v3
       - name: Setup Node
