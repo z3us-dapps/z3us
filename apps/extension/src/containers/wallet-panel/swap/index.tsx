@@ -16,14 +16,14 @@ import {
 import { FLOOP_RRI, OCI_RRI, Z3US_RRI, XRD_RRI } from '@src/config'
 import { Pool } from '@src/types'
 import { ScrollArea } from 'ui/src/components/scroll-area'
-import { InfoCircledIcon, UpdateIcon } from '@radix-ui/react-icons'
+import { UpdateIcon } from '@radix-ui/react-icons'
 import { HoverCard, HoverCardContent, HoverCardTrigger } from 'ui/src/components/hover-card'
 import Button from 'ui/src/components/button'
 import { Checkbox, CheckIcon } from 'ui/src/components/checkbox'
 import { ToolTip, Tooltip, TooltipTrigger, TooltipContent, TooltipArrow } from 'ui/src/components/tool-tip'
 import { AccountSelector } from '@src/components/account-selector'
 import { getShortAddress } from '@src/utils/string-utils'
-import { Box, Text, Flex, StyledLink } from 'ui/src/components/atoms'
+import { Box, Text, Flex } from 'ui/src/components/atoms'
 import { formatBigNumber } from '@src/utils/formatters'
 import { TokenSelector } from '@src/components/token-selector'
 import { HardwareWalletReconnect } from '@src/components/hardware-wallet-reconnect'
@@ -358,17 +358,17 @@ export const Swap: React.FC = () => {
 		}
 	}
 
-	const handleSetBurn = async (checked: boolean) => {
-		setState(draft => {
-			draft.burn = checked === true
-		})
+	// const handleSetBurn = async (checked: boolean) => {
+	// 	setState(draft => {
+	// 		draft.burn = checked === true
+	// 	})
 
-		if (state.inputSide === 'from' && state.amount) {
-			await calculateSwap(new BigNumber(state.amount || 0), state.inputSide)
-		} else if (state.inputSide === 'to' && state.receive) {
-			await calculateSwap(new BigNumber(state.receive || 0), state.inputSide)
-		}
-	}
+	// 	if (state.inputSide === 'from' && state.amount) {
+	// 		await calculateSwap(new BigNumber(state.amount || 0), state.inputSide)
+	// 	} else if (state.inputSide === 'to' && state.receive) {
+	// 		await calculateSwap(new BigNumber(state.receive || 0), state.inputSide)
+	// 	}
+	// }
 
 	const resetImmerState = () => {
 		setState(draft => {
@@ -541,7 +541,7 @@ export const Swap: React.FC = () => {
 								z3usFee={new BigNumber(state.z3usFee)}
 								z3usBurn={state.burn ? new BigNumber(state.z3usBurn) : null}
 							/>
-							<Box>
+							{/* <Box>
 								<Flex align="center" css={{ mt: '7px', position: 'relative', height: '23px' }}>
 									<Flex align="center">
 										<Flex align="center" css={{ mt: '1px' }}>
@@ -580,7 +580,7 @@ export const Swap: React.FC = () => {
 										</Flex>
 									</Flex>
 								</Flex>
-							</Box>
+							</Box> */}
 						</>
 					)}
 
