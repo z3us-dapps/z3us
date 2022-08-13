@@ -20,6 +20,7 @@ import { HardwareWalletReconnect } from '@src/components/hardware-wallet-reconne
 import { Z3usSpinnerAnimation } from '@src/components/z3us-spinner-animation'
 import { ArrowLeftIcon } from '@radix-ui/react-icons'
 import ActionsPreview from './components/actions-preview'
+import { ExtendedActionType } from '@src/types'
 
 interface ImmerT {
 	fee: string | null
@@ -78,7 +79,17 @@ export const Transaction = (): JSX.Element => {
 		if (actions.length > 0) {
 			const build = async () => {
 				try {
-					const msg = await createMessage(message, encryptMessage ? recipient : undefined)
+					let disableTokenMintAndBurn = true
+					actions.foreach(action => {
+						disableTokenMintAndBurn =
+							disableTokenMintAndBurn ||
+							action === ExtendedActionType.MINT_TOKENS ||
+							action === ExtendedActionType.MINT_TOKENS
+					})
+					let msg: string
+					if (message) {
+						msg = await createMessage(message, encryptMessage ? recipient : undefined)
+					}
 					const { fee, transaction } = await buildTransaction({
 						network_identifier: { network: account.address.network },
 						actions,
@@ -86,6 +97,7 @@ export const Transaction = (): JSX.Element => {
 							address: account.address.toString(),
 						},
 						message: msg,
+						disable_token_mint_and_burn: disableTokenMintAndBurn,
 					})
 					setState(draft => {
 						draft.fee = fee
