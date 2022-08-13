@@ -52,6 +52,24 @@ interface ImmerState {
 
 const refreshInterval = 5 * 1000 // 5 seconds
 
+const defaultState = {
+	time: Date.now(),
+	pool: undefined,
+	fromRRI: XRD_RRI,
+	toRRI: OCI_RRI,
+	inputSide: 'from',
+	amount: '',
+	receive: '',
+	poolFee: '',
+	z3usFee: '',
+	z3usBurn: '',
+	minimum: false,
+	burn: false,
+	isLoading: false,
+	isMounted: false,
+	isFeeUiVisible: false,
+}
+
 export const Swap: React.FC = () => {
 	const inputAmountRef = useRef(null)
 	const { hw, seed, addToast } = useSharedStore(state => ({
@@ -65,23 +83,7 @@ export const Swap: React.FC = () => {
 		accountAddress: state.getCurrentAddressAction(),
 	}))
 
-	const [state, setState] = useImmer<ImmerState>({
-		time: Date.now(),
-		pool: undefined,
-		fromRRI: XRD_RRI,
-		toRRI: OCI_RRI,
-		inputSide: 'from',
-		amount: '',
-		receive: '',
-		poolFee: '',
-		z3usFee: '',
-		z3usBurn: '',
-		minimum: false,
-		burn: false,
-		isLoading: false,
-		isMounted: false,
-		isFeeUiVisible: false,
-	})
+	const [state, setState] = useImmer<ImmerState>(defaultState)
 	const [debouncedAmount] = useDebounce(state.amount, 1000)
 	const [debouncedReceive] = useDebounce(state.receive, 1000)
 	const possibleTokens = usePoolTokens()
@@ -372,19 +374,9 @@ export const Swap: React.FC = () => {
 
 	const resetImmerState = () => {
 		setState(draft => {
-			draft.time = Date.now()
-			draft.pool = undefined
-			draft.inputSide = 'from'
-			draft.amount = ''
-			draft.receive = ''
-			draft.poolFee = ''
-			draft.z3usFee = ''
-			draft.z3usBurn = ''
-			draft.minimum = false
-			draft.burn = false
-			draft.isLoading = false
-			draft.isMounted = false
-			draft.isFeeUiVisible = false
+			Object.entries(defaultState).forEach(([key, value]) => {
+				draft[key] = value
+			})
 		})
 	}
 
