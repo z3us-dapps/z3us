@@ -52,7 +52,7 @@ interface ImmerState {
 
 const refreshInterval = 5 * 1000 // 5 seconds
 
-const defaultState = {
+const defaultState: ImmerState = {
 	time: Date.now(),
 	pool: undefined,
 	fromRRI: XRD_RRI,
@@ -370,6 +370,7 @@ export const Swap: React.FC = () => {
 			Object.entries(defaultState).forEach(([key, value]) => {
 				draft[key] = value
 			})
+			draft.isMounted = true
 		})
 	}
 

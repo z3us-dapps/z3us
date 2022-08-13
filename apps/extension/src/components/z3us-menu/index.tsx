@@ -190,6 +190,7 @@ export const Z3usMenu: React.FC = () => {
 														align="center"
 														css={{
 															pr: '$3',
+															flex: '1',
 														}}
 													>
 														<Text
@@ -204,7 +205,7 @@ export const Z3usMenu: React.FC = () => {
 													<Flex justify="end" css={{ mr: '-6px' }}>
 														{type === KeystoreType.HARDWARE && (
 															<ToolTip message="Hardware wallet account">
-																<Box>
+																<Box css={{ width: '24', height: '24px' }}>
 																	<Button size="1" clickable={false}>
 																		<HardwareWalletIcon />
 																	</Button>

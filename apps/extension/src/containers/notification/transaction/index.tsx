@@ -19,8 +19,8 @@ import { AlertDialog, AlertDialogTrigger, AlertDialogContent } from 'ui/src/comp
 import { HardwareWalletReconnect } from '@src/components/hardware-wallet-reconnect'
 import { Z3usSpinnerAnimation } from '@src/components/z3us-spinner-animation'
 import { ArrowLeftIcon } from '@radix-ui/react-icons'
-import ActionsPreview from './components/actions-preview'
 import { ExtendedActionType } from '@src/types'
+import ActionsPreview from './components/actions-preview'
 
 interface ImmerT {
 	fee: string | null
@@ -80,11 +80,11 @@ export const Transaction = (): JSX.Element => {
 			const build = async () => {
 				try {
 					let disableTokenMintAndBurn = true
-					actions.forEach(action => {
+					actions.forEach(_action => {
 						disableTokenMintAndBurn =
 							disableTokenMintAndBurn ||
-							action === ExtendedActionType.MINT_TOKENS ||
-							action === ExtendedActionType.MINT_TOKENS
+							_action === ExtendedActionType.MINT_TOKENS ||
+							_action === ExtendedActionType.MINT_TOKENS
 					})
 					let msg: string
 					if (message) {
