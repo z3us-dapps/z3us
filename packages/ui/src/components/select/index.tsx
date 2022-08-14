@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import * as SelectPrimitive from '@radix-ui/react-select'
 import { ChevronDownIcon, ChevronUpIcon } from '@radix-ui/react-icons'
 import useMeasure from 'react-use-measure'
@@ -32,8 +32,8 @@ const StyledTrigger = styled(SelectPrimitive.SelectTrigger, {
 
 const StyledContent = styled(SelectPrimitive.Content, {
 	overflow: 'hidden',
-	br: '$2',
 	padding: '5px',
+	br: '$2',
 	backgroundColor: '$bgPanel',
 	border: '1px solid $borderPopup',
 	boxShadow: '$popup',
@@ -146,9 +146,16 @@ export const SelectBox: React.FC<IProps> = ({
 	onValueChange,
 }) => {
 	const [measureRef, { width: triggerWidth }] = useMeasure()
+	const [open, setOpen] = useState<boolean>(false)
+
+	const handleValueChange = (_value: string) => {
+		onValueChange(_value)
+		setOpen(false)
+	}
+
 	return (
-		<Select defaultValue={defaultValue} value={value} onValueChange={onValueChange}>
-			<SelectTrigger aria-label={buttonAriaLabel} asChild>
+		<Select open={open} defaultValue={defaultValue} value={value} onValueChange={handleValueChange}>
+			<SelectTrigger aria-label={buttonAriaLabel} asChild onClick={() => setOpen(true)}>
 				<Button
 					ref={measureRef}
 					color="input"
@@ -168,7 +175,7 @@ export const SelectBox: React.FC<IProps> = ({
 					</SelectIcon>
 				</Button>
 			</SelectTrigger>
-			<SelectContent>
+			<SelectContent onPointerDownOutside={() => setOpen(false)}>
 				<SelectScrollUpButton>
 					<ChevronUpIcon />
 				</SelectScrollUpButton>
