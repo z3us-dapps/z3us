@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { RightArrowIcon } from 'ui/src/components/icons'
 import { ChevronDownIcon, ChevronUpIcon } from '@radix-ui/react-icons'
 import {
@@ -30,9 +30,12 @@ const defaultProps: Partial<IProps> = {
 }
 
 export const PoolSelector: React.FC<IProps> = ({ pool, pools, onPoolChange }) => {
+	const [open, setOpen] = useState<boolean>(false)
 	const [measureRef, { width: triggerWidth }] = useMeasure()
+
 	const handleValueChange = (address: string) => {
 		onPoolChange(pools.find(p => p.wallet === address))
+		setOpen(false)
 	}
 
 	let selected = pools.find(p => p.wallet === pool?.wallet)
@@ -43,8 +46,8 @@ export const PoolSelector: React.FC<IProps> = ({ pool, pools, onPoolChange }) =>
 	}
 
 	return (
-		<Select value={selected?.wallet} onValueChange={handleValueChange}>
-			<SelectTrigger aria-label="Pool selector" asChild>
+		<Select open={open} value={selected?.wallet} onValueChange={handleValueChange}>
+			<SelectTrigger aria-label="Pool selector" asChild onClick={() => setOpen(true)}>
 				<Button
 					ref={measureRef}
 					css={{
@@ -81,7 +84,7 @@ export const PoolSelector: React.FC<IProps> = ({ pool, pools, onPoolChange }) =>
 					</Box>
 				</Button>
 			</SelectTrigger>
-			<SelectContent>
+			<SelectContent onPointerDownOutside={() => setOpen(false)}>
 				<SelectScrollUpButton>
 					<ChevronUpIcon />
 				</SelectScrollUpButton>
