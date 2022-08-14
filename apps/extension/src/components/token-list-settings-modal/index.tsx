@@ -14,7 +14,7 @@ import { Dialog, DialogTrigger, DialogContent } from 'ui/src/components/dialog'
 import * as ReactBeautifulDnd from 'react-beautiful-dnd'
 import { Box, Text, Flex } from 'ui/src/components/atoms'
 import { Side } from '@radix-ui/popper'
-import { Token as TokenBalance, VisibleTokens, VisibleToken } from '@src/types'
+import { TokenAmount, VisibleTokens, VisibleToken } from '@src/types'
 import { OCI_TEST_RRI } from '@src/config'
 import { Token } from './token'
 
@@ -48,7 +48,7 @@ const getIsQueryMatch = (search: string, _token: VisibleToken): boolean =>
 const makeVisibleTokenTokenData = (
 	_tokens: VisibleTokens,
 	visibleTokens: VisibleTokens,
-	availableBalances: TokenBalance[],
+	availableBalances: TokenAmount[],
 ): VisibleTokens => {
 	const vs = { ...visibleTokens }
 	if (Object.values(vs).length === 0) {

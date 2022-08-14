@@ -93,6 +93,13 @@ export type Token = {
 	order: number
 }
 
+export type TokenAmount = {
+	rri: string
+	symbol: string
+	amount: string
+	order: number
+}
+
 export enum ColorSettings {
 	COLOR_PRIMARY = 'color_primary',
 	COLOR_PRIMARY_STOP = 'color_primary_stop',

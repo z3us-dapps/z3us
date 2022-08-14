@@ -3,7 +3,7 @@ import { RightArrowIcon } from 'ui/src/components/icons'
 import { useImmer } from 'use-immer'
 import { ScrollArea } from 'ui/src/components/scroll-area'
 import { SearchBox } from '@src/components/search-box'
-import { ChevronDownIcon, Cross2Icon } from '@radix-ui/react-icons'
+import { ChevronDownIcon, Cross2Icon, ResetIcon } from '@radix-ui/react-icons'
 import { useEventListener } from 'usehooks-ts'
 import { CircleAvatar } from '@src/components/circle-avatar'
 import { useKnownTokens } from '@src/hooks/react-query/queries/radixscan'
@@ -71,6 +71,14 @@ export const TokenSelector: React.FC<IProps> = ({ triggerType, token, tokens, on
 
 	const handleValueChange = (rri: string) => {
 		onTokenChange(rri)
+		handleCloseModal()
+	}
+
+	const handleClearSelection = () => {
+		setState(draft => {
+			draft.search = ''
+		})
+		onTokenChange('')
 		handleCloseModal()
 	}
 
@@ -233,13 +241,13 @@ export const TokenSelector: React.FC<IProps> = ({ triggerType, token, tokens, on
 						)}
 					</Box>
 					<Flex justify="end" gap="2" css={{ py: '$4', px: '$5', borderTop: '1px solid $borderPanel' }}>
-						<Button
-							fullWidth
-							size="5"
-							color="tertiary"
-							aria-label="close token select modal"
-							onClick={handleCloseModal}
-						>
+						<Box css={{ flex: '1' }}>
+							<Button size="3" color="ghost" aria-label="clear" onClick={handleClearSelection}>
+								<ResetIcon />
+								Clear
+							</Button>
+						</Box>
+						<Button size="3" color="tertiary" aria-label="close token select modal" onClick={handleCloseModal}>
 							Close
 						</Button>
 					</Flex>
