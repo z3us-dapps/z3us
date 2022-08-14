@@ -1,8 +1,7 @@
 /* eslint-disable no-case-declarations */
-import { XRD_RRI, Z3US_FEE_RATIO } from '@src/config'
-import { Pool, PoolType, Token } from '@src/types'
+import { FLOOP_RRI, XRD_RRI, Z3US_FEE_RATIO, Z3US_RRI } from '@src/config'
+import { Pool, PoolType, Token, TokenAmount } from '@src/types'
 import BigNumber from 'bignumber.js'
-import { CaviarPoolsResponse } from '@src/services/caviar'
 import oci from '@src/services/oci'
 import doge, { QuoteQuery } from '@src/services/dogecubex'
 
@@ -13,7 +12,7 @@ const caviarNetworkFee = one.dividedBy(10)
 export const getZ3USFees = (
 	amount: BigNumber,
 	burn: boolean,
-	z3usBalance: BigNumber,
+	liquidBalances: TokenAmount[],
 ): {
 	amount: BigNumber
 	fee: BigNumber
@@ -31,6 +30,8 @@ export const getZ3USFees = (
 	let burnAmount = zero
 
 	if (burn) {
+		const z3usToken = liquidBalances?.find(balance => balance.rri === Z3US_RRI)
+		const z3usBalance = z3usToken ? new BigNumber(z3usToken.amount).shiftedBy(-18) : new BigNumber(0)
 		if (z3usBalance.gte(fee)) {
 			burnAmount = fee
 			fee = zero
@@ -49,12 +50,12 @@ export const getZ3USFees = (
 }
 
 export const calculatePoolFeesFromAmount = async (
+	pools: Pool[],
 	pool: Pool,
 	amount: BigNumber,
 	from: Token,
 	to: Token,
-	caviarPools: CaviarPoolsResponse,
-	floopBalance: BigNumber,
+	liquidBalances: TokenAmount[],
 ): Promise<{
 	amount: BigNumber
 	receive: BigNumber
@@ -81,7 +82,10 @@ export const calculatePoolFeesFromAmount = async (
 			receive = ociQuote?.minimum_output ? new BigNumber(ociQuote?.minimum_output?.amount || 0) : receive
 			break
 		case PoolType.CAVIAR:
-			const caviarPool = caviarPools.find(cp => cp.wallet === pool.wallet)
+			const floopToken = liquidBalances?.find(balance => balance.rri === FLOOP_RRI)
+			const floopBalance = floopToken ? new BigNumber(floopToken.amount).shiftedBy(-18) : new BigNumber(0)
+
+			const caviarPool = pools.find(cp => cp.wallet === pool.wallet)
 			const balanceXRD = new BigNumber(caviarPool?.balances[XRD_RRI] || 0).shiftedBy(-18)
 			const fromBalance = new BigNumber(caviarPool?.balances[from.rri] || 0).shiftedBy(-18)
 			const toBalance = new BigNumber(caviarPool?.balances[to.rri] || 0).shiftedBy(-18)
@@ -130,14 +134,13 @@ export const calculatePoolFeesFromAmount = async (
 }
 
 export const calculatePoolFeesFromReceive = async (
+	pools: Pool[],
 	pool: Pool,
 	receive: BigNumber,
 	from: Token,
 	to: Token,
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
-	caviarPools: CaviarPoolsResponse,
-	// eslint-disable-next-line @typescript-eslint/no-unused-vars
-	floopBalance: BigNumber,
+	liquidBalances: TokenAmount[],
 ): Promise<{
 	amount: BigNumber
 	receive: BigNumber
@@ -195,8 +198,7 @@ export const calculateCheapestPoolFeesFromAmount = async (
 	amount: BigNumber,
 	from: Token,
 	to: Token,
-	caviarPools: CaviarPoolsResponse,
-	floopBalance: BigNumber,
+	liquidBalances: TokenAmount[],
 ): Promise<{
 	pool: Pool
 	amount: BigNumber
@@ -208,7 +210,7 @@ export const calculateCheapestPoolFeesFromAmount = async (
 	const results = await Promise.all(
 		pools.map(async p => {
 			try {
-				return await calculatePoolFeesFromAmount(p, amount, from, to, caviarPools, floopBalance)
+				return await calculatePoolFeesFromAmount(pools, p, amount, from, to, liquidBalances)
 			} catch (error) {
 				// eslint-disable-next-line no-console
 				console.error(error)
@@ -232,8 +234,7 @@ export const calculateCheapestPoolFeesFromReceive = async (
 	receive: BigNumber,
 	from: Token,
 	to: Token,
-	caviarPools: CaviarPoolsResponse,
-	floopBalance: BigNumber,
+	liquidBalances: TokenAmount[],
 ): Promise<{
 	pool: Pool
 	amount: BigNumber
@@ -245,7 +246,7 @@ export const calculateCheapestPoolFeesFromReceive = async (
 	const results = await Promise.all(
 		pools.map(async p => {
 			try {
-				return await calculatePoolFeesFromReceive(p, receive, from, to, caviarPools, floopBalance)
+				return await calculatePoolFeesFromReceive(pools, p, receive, from, to, liquidBalances)
 			} catch (error) {
 				// eslint-disable-next-line no-console
 				console.error(error)

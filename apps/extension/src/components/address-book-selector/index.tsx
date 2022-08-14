@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { useSharedStore, useStore } from '@src/store'
 import {
 	Select,
@@ -24,6 +24,7 @@ interface IProps {
 }
 
 export const AddressBookSelector: React.FC<IProps> = ({ selectedAddress, onSelectAddressBookAddress }) => {
+	const [open, setOpen] = useState<boolean>(false)
 	const { addressBook } = useSharedStore(state => ({
 		addressBook: state.addressBook,
 	}))
@@ -47,13 +48,14 @@ export const AddressBookSelector: React.FC<IProps> = ({ selectedAddress, onSelec
 
 	const handleValueChange = (address: string) => {
 		onSelectAddressBookAddress(address)
+		setOpen(false)
 	}
 
 	if (publicAddresses.length === 0 && entries.length === 0) return null
 
 	return (
-		<Select value={selectedAddress} onValueChange={handleValueChange}>
-			<SelectTrigger aria-label="Address selector" asChild>
+		<Select open={open} value={selectedAddress} onValueChange={handleValueChange}>
+			<SelectTrigger aria-label="Address selector" asChild onClick={() => setOpen(true)}>
 				<Button size="1" color="tertiary">
 					<SelectValue>
 						<Text
@@ -70,7 +72,7 @@ export const AddressBookSelector: React.FC<IProps> = ({ selectedAddress, onSelec
 					</SelectValue>
 				</Button>
 			</SelectTrigger>
-			<SelectContent>
+			<SelectContent onPointerDownOutside={() => setOpen(false)}>
 				<SelectScrollUpButton>
 					<ChevronUpIcon />
 				</SelectScrollUpButton>

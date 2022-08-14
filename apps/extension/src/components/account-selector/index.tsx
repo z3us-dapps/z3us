@@ -37,6 +37,7 @@ export const AccountSelector: React.FC<IProps> = ({ shortAddress, tokenAmount, t
 			shortAddress: getShortAddress(entry.address),
 		})),
 	}))
+	const [open, setOpen] = useState<boolean>(false)
 	const [selected, setSelected] = useState<string>(
 		accounts.find(_account => _account.shortAddress === shortAddress)?.address,
 	)
@@ -48,11 +49,13 @@ export const AccountSelector: React.FC<IProps> = ({ shortAddress, tokenAmount, t
 		const selectedAccount = accounts.find(_account => _account.shortAddress === account)
 		onAccountChange(selectedAccount.index)
 		setSelected(selectedAccount.address)
+
+		setOpen(false)
 	}
 
 	return (
-		<Select value={shortAddress} onValueChange={handleValueChange}>
-			<SelectTrigger aria-label="Account selector" asChild>
+		<Select open={open} value={shortAddress} onValueChange={handleValueChange}>
+			<SelectTrigger aria-label="Account selector" asChild onClick={() => setOpen(true)}>
 				<Button
 					ref={measureRef}
 					css={{
@@ -103,7 +106,7 @@ export const AccountSelector: React.FC<IProps> = ({ shortAddress, tokenAmount, t
 					</SelectValue>
 				</Button>
 			</SelectTrigger>
-			<SelectContent>
+			<SelectContent onPointerDownOutside={() => setOpen(false)}>
 				<SelectScrollUpButton>
 					<ChevronUpIcon />
 				</SelectScrollUpButton>

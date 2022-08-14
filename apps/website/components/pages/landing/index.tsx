@@ -13,6 +13,7 @@ import { LandingHoverCard } from 'components/landing-hover-card'
 import { config } from 'config'
 import RadixLogoImage from 'public/images/radix-logo.svg'
 import { BrowserIconLinks } from './browser-icon-links'
+import { PartnerLinks } from './partner-links'
 import ProductImage from '../../../public/images/landing-product-bg.png'
 import ProductUxImage from '../../../public/images/landing-product-ux-bg.png'
 
@@ -242,7 +243,7 @@ export const LandingPage: React.FC = () => {
 						</Box>
 					</LandingHoverCard>
 				</Flex>
-				<Flex css={{ mt: '24px', pb: '40px' }}>
+				<Flex css={{ mt: '24px', pb: '24px' }}>
 					<LandingHoverCard
 						hoverColor="rgba(255, 255, 255)"
 						css={{
@@ -296,6 +297,52 @@ export const LandingPage: React.FC = () => {
 									Available in:
 								</Text>
 								<BrowserIconLinks />
+							</Flex>
+						</Box>
+					</LandingHoverCard>
+				</Flex>
+				<Flex css={{ pb: '40px' }}>
+					<LandingHoverCard
+						hoverColor="rgba(255, 255, 255)"
+						css={{
+							width: '100%',
+							flexBasis: '100%',
+							backgroundColor: 'rgb(247 233 220)',
+							borderRadius: '32px',
+							py: '50px',
+							px: '20px',
+							ta: 'center',
+							'@md': {
+								py: '70px',
+							},
+						}}
+					>
+						<Box
+							css={{
+								mx: 'auto',
+								ta: 'left',
+								maxWidth: '100%',
+								'@sm': { ta: 'center', maxWidth: '80%' },
+								'@md': { maxWidth: '70%' },
+							}}
+						>
+							<Text bold css={{ color: 'rgb(106 79 54)', fontSize: '44px', lineHeight: '48px' }}>
+								Partners
+							</Text>
+							<Text color="help" size="4" css={{ mt: '20px', color: 'rgb(106 79 54)' }}>
+								Z3US has partnerd with these amazing teams.
+							</Text>
+							<Flex
+								justify="center"
+								align="center"
+								direction="column"
+								css={{
+									mt: '$6',
+									width: '100%',
+									'@xs': { maxWidth: '100%' },
+								}}
+							>
+								<PartnerLinks />
 							</Flex>
 						</Box>
 					</LandingHoverCard>

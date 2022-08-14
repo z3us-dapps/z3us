@@ -12,6 +12,10 @@ export const config = {
 	CHROME_STORE_URL: 'https://chrome.google.com/webstore/detail/z3us/icpikagpkkbldbfjlbefnmmmcohbjije',
 	FIREFOX_STORE_URL: 'https://addons.mozilla.org/addon/z3us/',
 	EXPLORER_URL: 'https://explorer.radixdlt.com/#',
+	OCI_SWAP_URL: 'https://ociswap.com/',
+	CAVIAR_SWAP_URL: 'https://caviarswap.io/',
+	DOGE_CUBE_URL: 'https://dogecubex.live/swap',
+	RADIT_IO_URL: 'https://www.radit.io/',
 }
 
 export const bp = {

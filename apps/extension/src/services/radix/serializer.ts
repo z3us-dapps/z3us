@@ -13,7 +13,13 @@ import {
 	AmountT,
 } from '@radixdlt/application'
 import { defaultToken, defaultTokenSettings } from '@src/config'
-import { Token, Transaction, Action, Validator as InternalValidator } from '@src/types'
+import {
+	Token,
+	Transaction,
+	Action,
+	Validator as InternalValidator,
+	TokenAmount as InternalTokenAmount,
+} from '@src/types'
 
 export const parseTransactionIdentifier = (hash: string): TransactionIdentifierT => {
 	const result = TransactionIdentifier.create(hash)
@@ -108,7 +114,7 @@ export const parseToken = (response: TokenNativeResponse | TokenResponse): Token
 	}
 }
 
-export const parseTokenAmount = ({ value, token_identifier }: TokenAmount) => {
+export const parseTokenAmount = ({ value, token_identifier }: TokenAmount): InternalTokenAmount => {
 	const rri = parseResourceIdentifier(token_identifier.rri)
 
 	return {
