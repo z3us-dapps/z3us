@@ -1,19 +1,17 @@
 import React from 'react'
+import { Box } from 'ui/src/components/atoms'
 
-const color = '#6F37E6'
-
-export const Z3usBoltsSvg = ({ currentColor = color }): JSX.Element => (
-	<svg
+export const Z3usBoltsSvg = (): JSX.Element => (
+	<Box
+		as="svg"
 		width="200"
 		height="200"
 		viewBox="0 0 200 200"
 		xmlns="http://www.w3.org/2000/svg"
-		fill={color}
-		style={{ width: '200px', height: '200px', color: currentColor }}
+		css={{ width: '200px', height: '200px', fill: '$z3usPurple' }}
 	>
 		<g>
 			<path
-				fill={color}
 				fillRule="evenodd"
 				clipRule="evenodd"
 				d="M165.4,142c4-6.2,7.1-13,9.2-20.1c2.1-7.1,3.1-14.5,3.1-21.9c0-7.4-1-14.8-3.1-21.9
@@ -27,5 +25,5 @@ export const Z3usBoltsSvg = ({ currentColor = color }): JSX.Element => (
 		l58.4-20.4L75.3,98.4c-1.1,0.7-2.6-0.1-2.6-1.4v-8.9c0-1.4-1.5-2.2-2.7-1.4l-43.3,29.8C23.9,104.1,24.3,91,27.9,78.8z"
 			/>
 		</g>
-	</svg>
+	</Box>
 )

@@ -162,8 +162,8 @@ export const LockedPanel: React.FC = () => {
 				<Flex align="center" justify="center" css={{ flex: '1' }}>
 					<Box>
 						<Z3usSpinnerAnimation showAnimation={false} />
-						<Box css={{ ta: 'center', pt: '$8' }}>
-							<Z3usText css={{ width: '130px', height: '30px' }} />
+						<Box css={{ ta: 'center', pt: '$4' }}>
+							<Z3usText css={{ width: '130px', height: '30px', fill: '$z3usPurple' }} />
 						</Box>
 					</Box>
 				</Flex>
