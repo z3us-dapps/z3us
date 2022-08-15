@@ -155,8 +155,8 @@ export const Z3usMenu: React.FC = () => {
 		<Box
 			css={{
 				position: 'fixed',
-				top: '4px',
-				left: '4px',
+				top: '6px',
+				left: '6px',
 				zIndex: '1',
 				transition: '$default',
 				pe: isHideZ3usMenu ? 'none' : 'auto',

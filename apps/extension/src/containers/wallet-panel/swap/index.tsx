@@ -1,3 +1,5 @@
+/* @TODO */
+/* eslint-disable */
 import React, { useEffect, useRef } from 'react'
 import BigNumber from 'bignumber.js'
 import { useSharedStore, useStore } from '@src/store'
@@ -17,6 +19,7 @@ import { OCI_RRI, XRD_RRI } from '@src/config'
 import { Pool } from '@src/types'
 import { ScrollArea } from 'ui/src/components/scroll-area'
 import { UpdateIcon } from '@radix-ui/react-icons'
+import { RefreshIcon } from 'ui/src/components/icons'
 import { HoverCard, HoverCardContent, HoverCardTrigger } from 'ui/src/components/hover-card'
 import Button from 'ui/src/components/button'
 import { Checkbox, CheckIcon } from 'ui/src/components/checkbox'
@@ -28,7 +31,6 @@ import { formatBigNumber } from '@src/utils/formatters'
 import { TokenSelector } from '@src/components/token-selector'
 import { HardwareWalletReconnect } from '@src/components/hardware-wallet-reconnect'
 import Input from 'ui/src/components/input'
-import { PoolSelector } from './pool-selector'
 import { FeeBox } from './fee-box'
 import { SwapModal } from './swap-modal'
 
@@ -48,6 +50,7 @@ interface ImmerState {
 	isLoading: boolean
 	isMounted: boolean
 	isFeeUiVisible: boolean
+	inputFocused: 'from' | 'to' | null
 }
 
 const refreshInterval = 5 * 1000 // 5 seconds
@@ -69,19 +72,25 @@ const defaultState: ImmerState = {
 	isLoading: false,
 	isMounted: false,
 	isFeeUiVisible: false,
+	inputFocused: null,
 }
 
 export const Swap: React.FC = () => {
-	const inputAmountRef = useRef(null)
+	const inputFromRef = useRef(null)
 	const { hw, seed, addToast } = useSharedStore(state => ({
 		hw: state.hardwareWallet,
 		seed: state.masterSeed,
 		addToast: state.addToastAction,
 	}))
-	const { account, accountAddress, selectAccount } = useStore(state => ({
+	const { account, accountAddress, selectAccount, accounts } = useStore(state => ({
 		selectAccount: state.selectAccountAction,
 		account: state.account,
 		accountAddress: state.getCurrentAddressAction(),
+		accounts: Object.values(state.publicAddresses).map((entry, index) => ({
+			...entry,
+			index,
+			shortAddress: getShortAddress(entry.address),
+		})),
 	}))
 
 	const [state, setState] = useImmer<ImmerState>(defaultState)
@@ -94,9 +103,8 @@ export const Swap: React.FC = () => {
 	const { data: toToken } = useTokenInfo(state.toRRI)
 
 	const tokenSymbol = fromToken?.symbol.toUpperCase()
-	const shortAddress = getShortAddress(accountAddress)
+	const selectedAccount = accounts.find(_account => _account.address === accountAddress)
 	const liquidBalances = balances?.account_balances?.liquid_balances || []
-
 	const selectedToken = liquidBalances?.find(balance => balance.rri === state.fromRRI)
 	const selectedTokenAmmount = selectedToken ? new BigNumber(selectedToken.amount).shiftedBy(-18) : new BigNumber(0)
 
@@ -114,7 +122,7 @@ export const Swap: React.FC = () => {
 	// @Note: the timeout is needed to focus the input, or else it will jank the route entry transition
 	useTimeout(() => {
 		if (!state.isMounted) {
-			inputAmountRef.current.focus()
+			inputFromRef.current.focus()
 			setState(draft => {
 				draft.isMounted = true
 			})
@@ -218,6 +226,7 @@ export const Swap: React.FC = () => {
 		})
 	}
 
+	// @TODO: refactor to a hook
 	useEffect(() => {
 		if (!state.isMounted) return
 		if (state.isLoading) return
@@ -230,6 +239,7 @@ export const Swap: React.FC = () => {
 		}
 	}, [state.time])
 
+	// @TODO: refactor to a hook
 	useEffect(() => {
 		if (!state.isMounted) return
 		if (state.isLoading) return
@@ -288,11 +298,12 @@ export const Swap: React.FC = () => {
 			draft.amount = selectedTokenAmmount.toString()
 			draft.inputSide = 'from'
 		})
-		inputAmountRef.current.focus()
+		inputFromRef.current.focus()
 	}
 
 	const handleSetAmount = async (event: React.ChangeEvent<HTMLInputElement>) => {
 		let { value } = event.currentTarget
+		console.log('value:', value)
 		// strip minus sign `-`
 		value = value.replace('-', '#!@?')
 		let val = parseInt(value, 10)
@@ -352,6 +363,30 @@ export const Swap: React.FC = () => {
 		resetImmerState()
 	}
 
+	const handleInputFromFocus = () => {
+		setState(draft => {
+			draft.inputFocused = 'from'
+		})
+	}
+
+	const handleInputFromBlur = () => {
+		setState(draft => {
+			draft.inputFocused = null
+		})
+	}
+
+	const handleInputToFocus = () => {
+		setState(draft => {
+			draft.inputFocused = 'to'
+		})
+	}
+
+	const handleInputToBlur = () => {
+		setState(draft => {
+			draft.inputFocused = null
+		})
+	}
+
 	return (
 		<Box
 			css={{
@@ -363,196 +398,195 @@ export const Swap: React.FC = () => {
 			}}
 		>
 			<ScrollArea>
-				<Box css={{ pt: '20px', px: '23px', flex: '1', ...(state.isFeeUiVisible ? { pb: '20px' } : { pb: '0' }) }}>
-					<Box>
-						<Text css={{ fontSize: '32px', lineHeight: '38px', fontWeight: '800' }}>Swap</Text>
-						<Text css={{ fontSize: '14px', lineHeight: '17px', fontWeight: '500', mt: '20px' }}>From:</Text>
-					</Box>
-					<AccountSelector
-						shortAddress={shortAddress}
-						tokenAmount={formatBigNumber(selectedTokenAmmount)}
-						tokenSymbol={tokenSymbol}
-						onAccountChange={handleAccountChange}
-					/>
-					<HardwareWalletReconnect />
-					<Box>
-						<Flex align="center" css={{ mt: '14px', position: 'relative' }}>
-							<Tooltip>
-								<TooltipTrigger asChild>
-									<Button
-										size="1"
-										color="tertiary"
-										css={{
-											position: 'absolute',
-											top: '-4px',
-											right: '0',
-											textTransform: 'uppercase',
-										}}
-										onClick={handleUseMax}
-										loading={state.isLoading}
-									>
-										MAX
-									</Button>
-								</TooltipTrigger>
-								<TooltipContent sideOffset={3}>
-									<TooltipArrow offset={15} />
-									Select maximum {tokenSymbol}
-								</TooltipContent>
-							</Tooltip>
-							<Text css={{ fontSize: '14px', lineHeight: '17px', fontWeight: '500', flex: '1' }}>You pay:</Text>
+				<Box css={{ pt: '$3', px: '$6', pb: '$1' }}>
+					<Text bold size="10">
+						Swap
+					</Text>
+
+					{/* @NOTE: Account selector */}
+					<Box
+						css={{
+							pt: '13px',
+							pb: '17px',
+							borderBottom: '2px solid',
+							borderColor: '$borderPanel',
+							position: 'relative',
+						}}
+					>
+						<Flex css={{ width: '100%' }}>
+							<Box css={{ width: '244px' }}>
+								<Text truncate css={{ fontSize: '22px', lineHeight: '25px', mt: '3px' }}>
+									{selectedAccount?.name
+										? `${selectedAccount.name} (${selectedAccount.shortAddress})`
+										: selectedAccount.shortAddress}
+								</Text>
+								<Text size="5" color="help" css={{ pt: '4px' }}>
+									From account
+								</Text>
+							</Box>
+							<Flex align="center" justify="end" css={{ flex: '1', pr: '3px' }}>
+								<AccountSelector
+									shortAddress={selectedAccount.shortAddress}
+									tokenAmount={formatBigNumber(selectedTokenAmmount)}
+									tokenSymbol={tokenSymbol}
+									onAccountChange={handleAccountChange}
+									triggerType="minimal"
+								/>
+							</Flex>
 						</Flex>
-						<Box css={{ mt: '13px', position: 'relative' }}>
-							<Input
-								ref={inputAmountRef}
-								type="number"
-								size="2"
-								min="0"
-								value={state.amount}
-								placeholder="Enter amount"
-								onChange={handleSetAmount}
-								disabled={state.isLoading}
-							/>
-							<TokenSelector
-								triggerType="input"
-								token={fromToken}
-								tokens={Object.keys(possibleTokens || {}).filter(rri => rri !== state.toRRI)}
-								onTokenChange={handleFromTokenChange}
-							/>
-						</Box>
 					</Box>
-					<Box>
-						<Flex align="center" css={{ mt: '10px', position: 'relative', justifyContent: 'space-between' }}>
-							<Text css={{ fontSize: '14px', lineHeight: '17px', fontWeight: '500' }}>You receive:</Text>
-							<ToolTip message="Switch token swap">
-								<Button
-									size="1"
-									color="tertiary"
-									onClick={handleSwitchTokens}
-									loading={state.isLoading}
+					{/* @NOTE: You pay */}
+					<Box
+						css={{
+							pt: '6px',
+							pb: '17px',
+							borderBottom: '2px solid',
+							borderColor: state.inputFocused === 'from' ? '$borderInputFocus' : '$borderPanel',
+							position: 'relative',
+							transition: '$default',
+						}}
+					>
+						<Flex css={{ width: '100%' }}>
+							<Box css={{ width: '204px' }}>
+								<Input
+									ref={inputFromRef}
+									theme="minimal"
+									type="number"
+									size="2"
+									min="0"
+									value={state.amount}
+									placeholder="Enter amount"
+									onFocus={handleInputFromFocus}
+									onBlur={handleInputFromBlur}
+									onChange={handleSetAmount}
+									disabled={state.isLoading}
+									css={{ height: '46px', width: '100%' }}
+								/>
+								<Text size="5" color="help" css={{ pe: 'none', mt: '-5px', position: 'relative' }}>
+									You pay
+								</Text>
+							</Box>
+							<Flex align="center" justify="end" css={{ flex: '1', pr: '4px', mt: '10px' }}>
+								<Box
+									as="button"
 									css={{
-										svg: {
-											transition: '$default',
-										},
-										'&:hover': {
-											svg: {
-												transition: '$default',
-												transform: 'rotate(180deg)',
-											},
-										},
+										background: 'none',
+										border: 'none',
+										margin: 'none',
+										padding: 'none',
+										cursor: 'pointer',
+										mt: '3px',
 									}}
 								>
-									<UpdateIcon />
-								</Button>
-							</ToolTip>
-
-							<HoverCard>
-								<HoverCardTrigger asChild>
-									<Flex
-										align="center"
-										css={{
-											transition: '$default',
-											pe: 'auto',
-											opacity: 1,
-										}}
-									>
-										<Checkbox
-											id="minimum"
-											size="1"
-											onCheckedChange={handleSetMinimum}
-											checked={state.minimum}
-											disabled={state.isLoading}
-										>
-											<CheckIcon />
-										</Checkbox>
-										<Text medium size="3" as="label" css={{ paddingLeft: '$2' }} htmlFor="minimum">
-											Minimum
-										</Text>
-									</Flex>
-								</HoverCardTrigger>
-								<HoverCardContent side="top" sideOffset={5} css={{ maxWidth: '260px' }}>
-									<Flex css={{ flexDirection: 'column', gap: 10 }}>
-										<Text>
-											Minimum will return unfilled if the rate has moved adversely against you. Wallet and transaction
-											fees still apply.
-										</Text>
-									</Flex>
-								</HoverCardContent>
-							</HoverCard>
+									<Text size="3" color="purple" underline>
+										Max
+									</Text>
+								</Box>
+								<TokenSelector
+									triggerType="minimal"
+									token={fromToken}
+									tokens={Object.keys(possibleTokens || {}).filter(rri => rri !== state.toRRI)}
+									onTokenChange={handleFromTokenChange}
+								/>
+							</Flex>
 						</Flex>
-						<Box css={{ mt: '10px', pb: '10px', position: 'relative' }}>
-							<Input
-								type="number"
-								size="2"
-								min="0"
-								value={state.receive}
-								placeholder="Receive"
-								onChange={handleSetReceive}
-								disabled={state.isLoading}
-							/>
-							<TokenSelector
-								triggerType="input"
-								token={toToken}
-								tokens={Object.keys(possibleTokens[state.fromRRI] || {}).filter(rri => rri !== state.fromRRI)}
-								onTokenChange={handleToTokenChange}
-							/>
+					</Box>
+					{/* @NOTE: You receive */}
+					<Box
+						css={{
+							pt: '6px',
+							pb: '17px',
+							borderBottom: '2px solid',
+							borderColor: state.inputFocused === 'to' ? '$borderInputFocus' : '$borderPanel',
+							position: 'relative',
+							transition: '$default',
+						}}
+					>
+						<Flex css={{ width: '100%' }}>
+							<Box css={{ width: '204px' }}>
+								<Input
+									type="number"
+									theme="minimal"
+									size="2"
+									min="0"
+									value={state.receive}
+									placeholder="Receive"
+									onFocus={handleInputToFocus}
+									onBlur={handleInputToBlur}
+									onChange={handleSetReceive}
+									disabled={state.isLoading}
+								/>
+
+								<Text size="5" color="help" css={{ pe: 'none', mt: '-5px', position: 'relative' }}>
+									You receive
+								</Text>
+							</Box>
+							<Flex align="center" justify="end" css={{ flex: '1', pr: '4px', mt: '10px' }}>
+								<Box
+									as="button"
+									css={{
+										background: 'none',
+										border: 'none',
+										margin: 'none',
+										padding: 'none',
+										cursor: 'pointer',
+										mt: '3px',
+									}}
+								>
+									<Text size="3" color="purple" underline>
+										Min
+									</Text>
+								</Box>
+								<TokenSelector
+									triggerType="minimal"
+									token={toToken}
+									tokens={Object.keys(possibleTokens[state.fromRRI] || {}).filter(rri => rri !== state.fromRRI)}
+									onTokenChange={handleToTokenChange}
+								/>
+							</Flex>
+						</Flex>
+						<Box
+							as="button"
+							onClick={handleSwitchTokens}
+							css={{
+								position: 'absolute',
+								display: 'flex',
+								alignItems: 'center',
+								justifyContent: 'center',
+								top: '-17px',
+								left: '50%',
+								ml: '-16px',
+								width: '32px',
+								height: '32px',
+								borderRadius: '50%',
+								background: '$bgToolTip1',
+								border: 'none',
+								margin: 'none',
+								padding: 'none',
+								cursor: 'pointer',
+								color: '$iconActive',
+								boxShadow: '0px 10px 44px rgba(0, 0, 0, 0.35)',
+							}}
+						>
+							<RefreshIcon />
 						</Box>
 					</Box>
 
-					{fromToken && toToken && <PoolSelector pool={state.pool} pools={pools} onPoolChange={handlePoolChange} />}
+					{/* @NOTE: Feebox */}
+					<FeeBox
+						fromToken={fromToken}
+						toToken={toToken}
+						txFee={txFee.fee}
+						poolFee={new BigNumber(state.poolFee)}
+						z3usFee={new BigNumber(state.z3usFee)}
+						z3usBurn={state.burn ? new BigNumber(state.z3usBurn) : null}
+						pool={state.pool}
+						pools={pools}
+						onPoolChange={handlePoolChange}
+					/>
 
-					{state.isFeeUiVisible && (
-						<>
-							<FeeBox
-								fromToken={fromToken}
-								txFee={txFee.fee}
-								poolFee={new BigNumber(state.poolFee)}
-								z3usFee={new BigNumber(state.z3usFee)}
-								z3usBurn={state.burn ? new BigNumber(state.z3usBurn) : null}
-							/>
-							{/* <Box>
-								<Flex align="center" css={{ mt: '7px', position: 'relative', height: '23px' }}>
-									<Flex align="center">
-										<Flex align="center" css={{ mt: '1px' }}>
-											<HoverCard>
-												<HoverCardTrigger asChild>
-													<Flex align="center">
-														<Checkbox id="burn" size="1" onCheckedChange={handleSetBurn} checked={state.burn} disabled={state.isLoading}>
-															<CheckIcon />
-														</Checkbox>
-														<Text medium size="3" as="label" css={{ paddingLeft: '$2', pr: '$1' }} htmlFor="burn">
-															Reduce fee with $Z3US
-														</Text>
-														<InfoCircledIcon />
-													</Flex>
-												</HoverCardTrigger>
-												<HoverCardContent side="top" sideOffset={5} css={{ maxWidth: '260px' }}>
-													<Flex css={{ flexDirection: 'column', gap: 10 }}>
-														<Text>
-															<Text bold>Reduce swap fee.</Text>
-														</Text>
-														<Text>
-															Reduce the Z3US wallet swap fee 50%, by burning $Z3US tokens.
-															<StyledLink
-																underline
-																href="https://z3us.com/tokenomics"
-																target="_blank"
-																css={{ ml: '$1', pointerEvents: 'auto' }}
-															>
-																Learn more
-															</StyledLink>
-															.
-														</Text>
-													</Flex>
-												</HoverCardContent>
-											</HoverCard>
-										</Flex>
-									</Flex>
-								</Flex>
-							</Box> */}
-						</>
-					)}
-
-					<Box css={{ mt: '10px', position: 'relative' }}>
+					{/* @NOTE: Continue swap button */}
+					<Box css={{ mt: '16px', position: 'relative' }}>
 						<SwapModal
 							pool={state.pool}
 							transaction={txFee.transaction}

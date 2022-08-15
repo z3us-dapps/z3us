@@ -1,6 +1,5 @@
 import React, { useState } from 'react'
-import { RightArrowIcon } from 'ui/src/components/icons'
-import { ChevronDownIcon, ChevronUpIcon } from '@radix-ui/react-icons'
+import { Pencil1Icon, ChevronDownIcon, ChevronUpIcon } from '@radix-ui/react-icons'
 import {
 	Select,
 	SelectTrigger,
@@ -14,7 +13,7 @@ import {
 	SelectScrollDownButton,
 } from 'ui/src/components/select'
 import { CircleAvatar } from '@src/components/circle-avatar'
-import { Box, Text, Flex } from 'ui/src/components/atoms'
+import { Box, Text } from 'ui/src/components/atoms'
 import Button from 'ui/src/components/button'
 import { Pool, PoolType } from '@src/types'
 import useMeasure from 'react-use-measure'
@@ -51,37 +50,43 @@ export const PoolSelector: React.FC<IProps> = ({ pool, pools, onPoolChange }) =>
 				<Button
 					ref={measureRef}
 					css={{
+						margin: '0',
+						padding: '0',
 						display: 'flex',
 						align: 'center',
-						justifyContent: 'flex-start',
-						bg: '$bgPanel2',
-						borderRadius: '8px',
-						height: '64px',
+						justifyContent: 'center',
+						bg: 'transparent',
+						borderRadius: '3px',
+						height: '24px',
+						width: 'auto',
 						position: 'relative',
-						width: '100%',
+						color: '$txt',
 						ta: 'left',
-						'&:hover': {
-							bg: '$bgPanelHover',
-						},
 					}}
 				>
-					<Box css={{ p: '8px' }}>
-						<CircleAvatar
-							image={selected?.image}
-							fallbackText={selected?.type.toLocaleUpperCase()}
-							cutImage={selected?.type !== PoolType.DOGECUBEX}
-						/>
-					</Box>
-					<Box css={{ flex: '1' }}>
-						<Flex css={{ mt: '2px' }}>
-							<Text truncate css={{ fontSize: '14px', lineHeight: '17px', fontWeight: '500', maxWidth: '200px' }}>
-								Pool: <SelectValue />
-							</Text>
-						</Flex>
-					</Box>
-					<Box css={{ pr: '$1', flexShrink: '0' }}>
-						<RightArrowIcon />
-					</Box>
+					{selected?.image && (
+						<Box css={{ mt: '1px' }}>
+							<CircleAvatar
+								width={22}
+								height={22}
+								image={selected?.image}
+								fallbackText={selected?.type.toLocaleUpperCase()}
+								cutImage={selected?.type !== PoolType.DOGECUBEX}
+								borderWidth={0}
+								shadow={false}
+							/>
+						</Box>
+					)}
+					<Text
+						medium
+						truncate
+						color="purple"
+						underline
+						css={{ ml: '1px', display: 'flex', alignItems: 'center', gap: '3px', svg: { mt: '2px' } }}
+					>
+						<SelectValue />
+						<Pencil1Icon />
+					</Text>
 				</Button>
 			</SelectTrigger>
 			<SelectContent onPointerDownOutside={() => setOpen(false)}>
@@ -99,6 +104,7 @@ export const PoolSelector: React.FC<IProps> = ({ pool, pools, onPoolChange }) =>
 									textOverflow: 'ellipsis',
 									whiteSpace: 'nowrap',
 									maxWidth: `${triggerWidth}px`,
+									minWidth: '100px',
 								},
 							}}
 						>
