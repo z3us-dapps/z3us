@@ -1,4 +1,4 @@
-import React, { useRef } from 'react'
+import React, { useRef, useEffect } from 'react'
 import { useQueryClient } from 'react-query'
 import { useImmer } from 'use-immer'
 import { useSharedStore, useStore } from '@src/store'
@@ -144,6 +144,12 @@ export const StakeModal: React.FC<IProps> = ({ trigger, tooltipMessage, validato
 			})
 		}
 	})
+
+	useEffect(() => {
+		setState(draft => {
+			draft.validator = validatorAddress
+		})
+	}, [validatorAddress])
 
 	const handlePrepareTx = async () => {
 		if (!token) {
