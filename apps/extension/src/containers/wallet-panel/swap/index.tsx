@@ -19,7 +19,6 @@ import { OCI_RRI, XRD_RRI } from '@src/config'
 import { Pool } from '@src/types'
 import { ScrollArea } from 'ui/src/components/scroll-area'
 import { UpdateIcon } from '@radix-ui/react-icons'
-import { RefreshIcon } from 'ui/src/components/icons'
 import { HoverCard, HoverCardContent, HoverCardTrigger } from 'ui/src/components/hover-card'
 import Button from 'ui/src/components/button'
 import { Checkbox, CheckIcon } from 'ui/src/components/checkbox'
@@ -31,6 +30,7 @@ import { formatBigNumber } from '@src/utils/formatters'
 import { TokenSelector } from '@src/components/token-selector'
 import { HardwareWalletReconnect } from '@src/components/hardware-wallet-reconnect'
 import Input from 'ui/src/components/input'
+import { SwitchTokensButton } from './switch-tokens-button'
 import { FeeBox } from './fee-box'
 import { SwapModal } from './swap-modal'
 
@@ -294,11 +294,16 @@ export const Swap: React.FC = () => {
 	}
 
 	const handleUseMax = async () => {
+		if (state.isLoading) return
 		setState(draft => {
 			draft.amount = selectedTokenAmmount.toString()
 			draft.inputSide = 'from'
 		})
 		inputFromRef.current.focus()
+	}
+
+	const handleUseMin = async () => {
+		if (state.isLoading) return
 	}
 
 	const handleSetAmount = async (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -469,6 +474,7 @@ export const Swap: React.FC = () => {
 							<Flex align="center" justify="end" css={{ flex: '1', pr: '4px', mt: '10px' }}>
 								<Box
 									as="button"
+									onClick={handleUseMax}
 									css={{
 										background: 'none',
 										border: 'none',
@@ -524,6 +530,7 @@ export const Swap: React.FC = () => {
 							<Flex align="center" justify="end" css={{ flex: '1', pr: '4px', mt: '10px' }}>
 								<Box
 									as="button"
+									onClick={handleUseMin}
 									css={{
 										background: 'none',
 										border: 'none',
@@ -545,31 +552,8 @@ export const Swap: React.FC = () => {
 								/>
 							</Flex>
 						</Flex>
-						<Box
-							as="button"
-							onClick={handleSwitchTokens}
-							css={{
-								position: 'absolute',
-								display: 'flex',
-								alignItems: 'center',
-								justifyContent: 'center',
-								top: '-17px',
-								left: '50%',
-								ml: '-16px',
-								width: '32px',
-								height: '32px',
-								borderRadius: '50%',
-								background: '$bgToolTip1',
-								border: 'none',
-								margin: 'none',
-								padding: 'none',
-								cursor: 'pointer',
-								color: '$iconActive',
-								boxShadow: '0px 10px 44px rgba(0, 0, 0, 0.35)',
-							}}
-						>
-							<RefreshIcon />
-						</Box>
+
+						<SwitchTokensButton onSwitchTokens={handleSwitchTokens} />
 					</Box>
 
 					{/* @NOTE: Feebox */}

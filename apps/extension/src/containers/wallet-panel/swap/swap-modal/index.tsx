@@ -217,10 +217,10 @@ export const SwapModal: React.FC<IProps> = ({
 									</Button>
 								</MotionBox>
 								<HardwareWalletReconnect />
-								<Box css={{ p: '$2', px: '23px', flex: '1' }}>
-									<Box>
-										<Text css={{ fontSize: '32px', lineHeight: '38px', fontWeight: '800' }}>Confirm swap</Text>
-									</Box>
+								<Box css={{ pt: '12px', px: '23px', flex: '1' }}>
+									<Text bold size="10">
+										Confirm swap
+									</Text>
 									<InfoStatBlock
 										addressBookBackground={entry?.background}
 										statSubTitle={`From: ${shortAddress} (${balance}${fromToken?.symbol.toUpperCase()})`}
@@ -238,13 +238,21 @@ export const SwapModal: React.FC<IProps> = ({
 										statTitle={`${formatBigNumber(receive)} ${toToken?.symbol.toUpperCase()}`}
 									/>
 
-									<FeeBox fromToken={fromToken} txFee={txFee} poolFee={poolFee} z3usFee={z3usFee} z3usBurn={z3usBurn} />
-									<Box css={{ mt: '$1' }}>
+									<FeeBox
+										showTc
+										fromToken={fromToken}
+										txFee={txFee}
+										poolFee={poolFee}
+										z3usFee={z3usFee}
+										z3usBurn={z3usBurn}
+										css={{ mt: '12px' }}
+									/>
+									<Box css={{ mt: '$1', display: 'none' }}>
 										<HoverCard>
 											<HoverCardTrigger asChild>
 												<Flex css={{ color: '$txtHelp', display: 'inline-flex', textDecoration: 'underline' }}>
 													<Text size="2" css={{ mr: '$1' }}>
-														Swap transaction {`T&C's`}
+														Swap {`T&C's`}
 													</Text>
 													<InfoCircledIcon />
 												</Flex>
@@ -254,7 +262,7 @@ export const SwapModal: React.FC<IProps> = ({
 												sideOffset={5}
 												css={{ maxWidth: '240px', pointerEvents: 'auto', zIndex: '99' }}
 											>
-												<Flex css={{ flexDirection: 'column', gap: 10 }}>
+												<Flex css={{ flexDirection: 'column', gap: 10, color: '$txtHelp' }}>
 													<Text size="2">
 														Presented fees and rates are indicative and are subject to change. Once submitted to the
 														network, wallet and transaction fees apply at all times and are not refundable. By

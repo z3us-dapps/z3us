@@ -186,6 +186,9 @@ export const SelectBox: React.FC<IProps> = ({
 							<SelectItem
 								key={_value}
 								value={_value}
+								onPointerDown={() => {
+									console.log(9999)
+								}}
 								css={{
 									'span:first-child': {
 										overflow: 'hidden',

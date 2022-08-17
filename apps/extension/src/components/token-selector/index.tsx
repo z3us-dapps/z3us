@@ -272,7 +272,7 @@ export const TokenSelector: React.FC<IProps> = ({ triggerType, token, tokens, on
 							<NoResultsPlaceholder />
 						)}
 					</Box>
-					<Flex justify="end" gap="2" css={{ py: '$4', px: '$5', borderTop: '1px solid $borderPanel' }}>
+					<Flex justify="end" gap="2" css={{ py: '$4', pl: '$3', pr: '$5', borderTop: '1px solid $borderPanel' }}>
 						<Box css={{ flex: '1' }}>
 							<Button size="3" color="ghost" aria-label="clear" onClick={handleClearSelection}>
 								<ResetIcon />
