@@ -226,7 +226,6 @@ export const Swap: React.FC = () => {
 		})
 	}
 
-	// @TODO: refactor to a hook
 	useEffect(() => {
 		if (!state.isMounted) return
 		if (state.isLoading) return
@@ -239,7 +238,6 @@ export const Swap: React.FC = () => {
 		}
 	}, [state.time])
 
-	// @TODO: refactor to a hook
 	useEffect(() => {
 		if (!state.isMounted) return
 		if (state.isLoading) return
@@ -452,7 +450,7 @@ export const Swap: React.FC = () => {
 						}}
 					>
 						<Flex css={{ width: '100%' }}>
-							<Box css={{ width: '204px' }}>
+							<Box css={{ width: '204px', position: 'relative' }}>
 								<Input
 									ref={inputFromRef}
 									theme="minimal"
@@ -465,10 +463,33 @@ export const Swap: React.FC = () => {
 									onBlur={handleInputFromBlur}
 									onChange={handleSetAmount}
 									disabled={state.isLoading}
-									css={{ height: '46px', width: '100%' }}
+									css={{ height: '46px', width: '100%', input: { fontFamily: 'Arial, Helvetica, sans-serif' } }}
 								/>
 								<Text size="5" color="help" css={{ pe: 'none', mt: '-5px', position: 'relative' }}>
 									You pay
+								</Text>
+								<Text
+									css={{
+										fontFamily: 'Arial, Helvetica, sans-serif',
+										letterSpacing: 'normal',
+										fontSize: '22px',
+										lineHeight: '22px',
+										fontWeight: '400',
+										pe: 'none',
+										left: '0px',
+										top: '13px',
+										position: 'absolute',
+										transition: '$default',
+										opacity: state.amount.length > 0 ? 1 : 0,
+										transform: `translate(${state.amount.length > 0 ? '0' : '-10'}px)`,
+									}}
+								>
+									<Box as="span" css={{ opacity: '0' }}>
+										{state.amount}
+									</Box>
+									<Box as="span" css={{ pl: '5px', letterSpacing: '0' }}>
+										{fromToken.symbol?.toUpperCase()}
+									</Box>
 								</Text>
 							</Box>
 							<Flex align="center" justify="end" css={{ flex: '1', pr: '4px', mt: '10px' }}>
@@ -509,7 +530,7 @@ export const Swap: React.FC = () => {
 						}}
 					>
 						<Flex css={{ width: '100%' }}>
-							<Box css={{ width: '204px' }}>
+							<Box css={{ width: '204px', position: 'relative' }}>
 								<Input
 									type="number"
 									theme="minimal"
@@ -521,10 +542,34 @@ export const Swap: React.FC = () => {
 									onBlur={handleInputToBlur}
 									onChange={handleSetReceive}
 									disabled={state.isLoading}
+									css={{ height: '46px', width: '100%', input: { fontFamily: 'Arial, Helvetica, sans-serif' } }}
 								/>
 
 								<Text size="5" color="help" css={{ pe: 'none', mt: '-5px', position: 'relative' }}>
 									You receive
+								</Text>
+								<Text
+									css={{
+										fontFamily: 'Arial, Helvetica, sans-serif',
+										letterSpacing: 'normal',
+										fontSize: '22px',
+										lineHeight: '22px',
+										fontWeight: '400',
+										pe: 'none',
+										left: '0px',
+										top: '13px',
+										position: 'absolute',
+										transition: '$default',
+										opacity: state.receive.length > 0 ? 1 : 0,
+										transform: `translate(${state.receive.length > 0 ? '0' : '-10'}px)`,
+									}}
+								>
+									<Box as="span" css={{ opacity: '0' }}>
+										{state.receive}
+									</Box>
+									<Box as="span" css={{ pl: '5px', letterSpacing: '0' }}>
+										{toToken.symbol?.toUpperCase()}
+									</Box>
 								</Text>
 							</Box>
 							<Flex align="center" justify="end" css={{ flex: '1', pr: '4px', mt: '10px' }}>
