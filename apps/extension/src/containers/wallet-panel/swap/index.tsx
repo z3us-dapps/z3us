@@ -50,6 +50,9 @@ interface ImmerState {
 	isFeeUiVisible: boolean
 }
 
+// Test for positive numbers only allow max 9 decimals
+const REGEX_INPUT = /^\d*(\.\d{0,9})?$/i
+
 const refreshInterval = 5 * 1000 // 5 seconds
 const debounceInterval = 500 // 0.5 sec
 
@@ -292,39 +295,24 @@ export const Swap: React.FC = () => {
 	}
 
 	const handleSetAmount = async (event: React.ChangeEvent<HTMLInputElement>) => {
-		let { value } = event.currentTarget
-		// strip minus sign `-`
-		value = value.replace('-', '#!@?')
-		let val = parseInt(value, 10)
-		if (Number.isNaN(val)) {
-			setState(draft => {
-				draft.amount = ''
-			})
-		} else {
-			val = val >= 0 ? val : 0
-			setState(draft => {
-				draft.amount = value
-				draft.inputSide = 'from'
-			})
-		}
+		const { value } = event.currentTarget
+		const isValid = REGEX_INPUT.test(value)
+		if (!isValid) return
+
+		setState(draft => {
+			draft.amount = value
+			draft.inputSide = 'from'
+		})
 	}
 
 	const handleSetReceive = async (event: React.ChangeEvent<HTMLInputElement>) => {
-		let { value } = event.currentTarget
-		// strip minus sign `-`
-		value = value.replace('-', '#!@?')
-		let val = parseInt(value, 10)
-		if (Number.isNaN(val)) {
-			setState(draft => {
-				draft.receive = ''
-			})
-		} else {
-			val = val >= 0 ? val : 0
-			setState(draft => {
-				draft.receive = value
-				draft.inputSide = 'to'
-			})
-		}
+		const { value } = event.currentTarget
+		const isValid = REGEX_INPUT.test(value)
+		if (!isValid) return
+		setState(draft => {
+			draft.receive = value
+			draft.inputSide = 'to'
+		})
 	}
 
 	const handleSetMinimum = async (checked: boolean) => {
