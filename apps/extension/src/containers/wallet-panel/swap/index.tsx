@@ -389,7 +389,7 @@ export const Swap: React.FC = () => {
 											textTransform: 'uppercase',
 										}}
 										onClick={handleUseMax}
-										loading={state.isLoading}
+										disabled={state.isLoading}
 									>
 										MAX
 									</Button>
@@ -428,7 +428,7 @@ export const Swap: React.FC = () => {
 									size="1"
 									color="tertiary"
 									onClick={handleSwitchTokens}
-									loading={state.isLoading}
+									disabled={state.isLoading}
 									css={{
 										svg: {
 											transition: '$default',
