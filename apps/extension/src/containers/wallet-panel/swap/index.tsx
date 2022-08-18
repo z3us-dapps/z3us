@@ -410,7 +410,6 @@ export const Swap: React.FC = () => {
 								value={state.amount}
 								placeholder="Enter amount"
 								onChange={handleSetAmount}
-								disabled={state.isLoading}
 							/>
 							<TokenSelector
 								triggerType="input"
@@ -487,7 +486,6 @@ export const Swap: React.FC = () => {
 								value={state.receive}
 								placeholder="Receive"
 								onChange={handleSetReceive}
-								disabled={state.isLoading}
 							/>
 							<TokenSelector
 								triggerType="input"
