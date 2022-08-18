@@ -22,6 +22,7 @@ export interface IProps {
 	onFocus?: (e: React.ChangeEvent<FormElement>) => void
 	onBlur?: (e: React.ChangeEvent<FormElement>) => void
 	css?: CSS
+	autoComplete?: 'off' | 'on'
 	as?: keyof JSX.IntrinsicElements
 }
 

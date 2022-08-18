@@ -34,6 +34,9 @@ import { SwitchTokensButton } from './switch-tokens-button'
 import { FeeBox } from './fee-box'
 import { SwapModal } from './swap-modal'
 
+// Test for positive numbers only allow max 9 decimals
+const REGEX_INPUT = /^\d*(\.\d{0,9})?$/i
+
 interface ImmerState {
 	time: number
 	pool: Pool | undefined
@@ -161,7 +164,9 @@ export const Swap: React.FC = () => {
 					)
 					setState(draft => {
 						draft.time = Date.now()
-						draft.receive = poolQuote.receive.toString()
+						// draft.receive = poolQuote.receive.toString()
+						// Format to 9 decimals
+						draft.receive = poolQuote.receive.toFormat(9)
 						draft.poolFee = poolQuote.fee.toString()
 						draft.z3usFee = walletQuote.fee.toString()
 						draft.z3usBurn = walletQuote.burn.toString()
@@ -177,7 +182,9 @@ export const Swap: React.FC = () => {
 					setState(draft => {
 						draft.time = Date.now()
 						draft.pool = cheapestPoolQuote.pool
-						draft.receive = cheapestPoolQuote.receive.toString()
+						// draft.receive = cheapestPoolQuote.receive.toString()
+						// Format to 9 decimals
+						draft.receive = cheapestPoolQuote.receive.toFormat(9)
 						draft.poolFee = cheapestPoolQuote.fee.toString()
 						draft.z3usFee = walletQuote.fee.toString()
 						draft.z3usBurn = walletQuote.burn.toString()
@@ -188,7 +195,8 @@ export const Swap: React.FC = () => {
 				const walletQuote = getZ3USFees(poolQuote.amount, burn, liquidBalances)
 				setState(draft => {
 					draft.time = Date.now()
-					draft.amount = poolQuote.amount.plus(walletQuote.fee).toString()
+					// draft.amount = poolQuote.amount.plus(walletQuote.fee).toString()
+					draft.amount = poolQuote.amount.plus(walletQuote.fee).toFormat(9)
 					draft.poolFee = poolQuote.fee.toString()
 					draft.z3usFee = walletQuote.fee.toString()
 					draft.z3usBurn = walletQuote.burn.toString()
@@ -205,7 +213,8 @@ export const Swap: React.FC = () => {
 				setState(draft => {
 					draft.time = Date.now()
 					draft.pool = cheapestPoolQuote.pool
-					draft.amount = cheapestPoolQuote.amount.plus(walletQuote.fee).toString()
+					// draft.amount = cheapestPoolQuote.amount.plus(walletQuote.fee).toString()
+					draft.amount = cheapestPoolQuote.amount.plus(walletQuote.fee).toFormat(9)
 					draft.poolFee = cheapestPoolQuote.fee.toString()
 					draft.z3usFee = walletQuote.fee.toString()
 					draft.z3usBurn = walletQuote.burn.toString()
@@ -304,41 +313,37 @@ export const Swap: React.FC = () => {
 		if (state.isLoading) return
 	}
 
+	{
+		/* 0.123123123 */
+	}
+	{
+		/* 0.122222222 */
+	}
+	{
+		/* 1111111111111111 */
+	}
+	{
+		/* 123123.123123123 */
+	}
 	const handleSetAmount = async (event: React.ChangeEvent<HTMLInputElement>) => {
 		let { value } = event.currentTarget
-		console.log('value:', value)
-		// strip minus sign `-`
-		value = value.replace('-', '#!@?')
-		let val = parseInt(value, 10)
-		if (Number.isNaN(val)) {
-			setState(draft => {
-				draft.amount = ''
-			})
-		} else {
-			val = val >= 0 ? val : 0
-			setState(draft => {
-				draft.amount = value
-				draft.inputSide = 'from'
-			})
-		}
+		const isValid = REGEX_INPUT.test(value)
+		if (!isValid) return
+
+		setState(draft => {
+			draft.amount = value
+			draft.inputSide = 'from'
+		})
 	}
 
 	const handleSetReceive = async (event: React.ChangeEvent<HTMLInputElement>) => {
 		let { value } = event.currentTarget
-		// strip minus sign `-`
-		value = value.replace('-', '#!@?')
-		let val = parseInt(value, 10)
-		if (Number.isNaN(val)) {
-			setState(draft => {
-				draft.receive = ''
-			})
-		} else {
-			val = val >= 0 ? val : 0
-			setState(draft => {
-				draft.receive = value
-				draft.inputSide = 'to'
-			})
-		}
+		const isValid = REGEX_INPUT.test(value)
+		if (!isValid) return
+		setState(draft => {
+			draft.receive = value
+			draft.inputSide = 'to'
+		})
 	}
 
 	const handleSetMinimum = async (checked: boolean) => {
@@ -454,15 +459,14 @@ export const Swap: React.FC = () => {
 								<Input
 									ref={inputFromRef}
 									theme="minimal"
-									type="number"
+									type="text"
 									size="2"
-									min="0"
 									value={state.amount}
 									placeholder="Enter amount"
 									onFocus={handleInputFromFocus}
 									onBlur={handleInputFromBlur}
 									onChange={handleSetAmount}
-									disabled={state.isLoading}
+									autoComplete="off"
 									css={{ height: '46px', width: '100%', input: { fontFamily: 'Arial, Helvetica, sans-serif' } }}
 								/>
 								<Text size="5" color="help" css={{ pe: 'none', mt: '-5px', position: 'relative' }}>
@@ -482,6 +486,8 @@ export const Swap: React.FC = () => {
 										transition: '$default',
 										opacity: state.amount.length > 0 ? 1 : 0,
 										transform: `translate(${state.amount.length > 0 ? '0' : '-10'}px)`,
+										maxWidth: '204px',
+										overflow: 'hidden',
 									}}
 								>
 									<Box as="span" css={{ opacity: '0' }}>
@@ -532,16 +538,15 @@ export const Swap: React.FC = () => {
 						<Flex css={{ width: '100%' }}>
 							<Box css={{ width: '204px', position: 'relative' }}>
 								<Input
-									type="number"
+									type="text"
 									theme="minimal"
 									size="2"
-									min="0"
 									value={state.receive}
 									placeholder="Receive"
 									onFocus={handleInputToFocus}
 									onBlur={handleInputToBlur}
 									onChange={handleSetReceive}
-									disabled={state.isLoading}
+									autoComplete="off"
 									css={{ height: '46px', width: '100%', input: { fontFamily: 'Arial, Helvetica, sans-serif' } }}
 								/>
 
@@ -562,6 +567,8 @@ export const Swap: React.FC = () => {
 										transition: '$default',
 										opacity: state.receive.length > 0 ? 1 : 0,
 										transform: `translate(${state.receive.length > 0 ? '0' : '-10'}px)`,
+										maxWidth: '204px',
+										overflow: 'hidden',
 									}}
 								>
 									<Box as="span" css={{ opacity: '0' }}>
