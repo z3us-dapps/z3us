@@ -53,6 +53,9 @@ interface ImmerState {
 const refreshInterval = 5 * 1000 // 5 seconds
 const debounceInterval = 500 // 0.5 sec
 
+const one = new BigNumber(1)
+const aproxRadixNetworkFee = one.dividedBy(10)
+
 const defaultState: ImmerState = {
 	time: Date.now(),
 	pool: undefined,
@@ -284,8 +287,11 @@ export const Swap: React.FC = () => {
 	}
 
 	const handleUseMax = async () => {
+		const networkFee = aproxRadixNetworkFee.multipliedBy(selectedTokenAmmount)
+		const amount = selectedTokenAmmount.minus(networkFee)
+
 		setState(draft => {
-			draft.amount = selectedTokenAmmount.toString()
+			draft.amount = amount.toString()
 			draft.inputSide = 'from'
 		})
 		inputAmountRef.current.focus()
