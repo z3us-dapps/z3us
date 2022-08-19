@@ -87,7 +87,7 @@ export const ImportAccounts = (): JSX.Element => {
 		})
 	}
 
-	const handleSelectIndex = (index: number) => checked => {
+	const handleSelectIndex = (index: number) => (checked: boolean) => {
 		setState(draft => {
 			draft.selectedIndexes = { ...draft.selectedIndexes, [index]: checked === true }
 		})
@@ -148,20 +148,26 @@ export const ImportAccounts = (): JSX.Element => {
 								<StyledThumb />
 							</StyledSlider>
 						</Box>
-						<Box as="ul" css={{ pb: '$3' }}>
+						<Box as="ul" css={{ pb: '$3' }} data-test-e2e="import-account-list">
 							{state.addresses.map((address, index) => {
 								const addressString = address.toString()
 								return (
 									<Flex as="li" align="center" key={addressString} css={{ px: '$3', pt: '$2' }}>
 										<Checkbox
-											id="select"
+											data-test-e2e="import-account-checkbox"
+											id={`select-${addressString}`}
 											onCheckedChange={handleSelectIndex(index)}
 											checked={!!state.selectedIndexes[index]}
 											css={{ pr: '$2' }}
 										>
 											<CheckIcon />
 										</Checkbox>
-										<Text as="label" htmlFor="select" truncate css={{ maxWidth: '228px', pl: '$2', pr: '$2' }}>
+										<Text
+											as="label"
+											htmlFor={`select-${addressString}`}
+											truncate
+											css={{ maxWidth: '228px', pl: '$2', pr: '$2' }}
+										>
 											{addressString}
 										</Text>
 										<ButtonTipFeedback tooltip="Copy address" sideOffset={5} toolTipOffset={8}>
@@ -190,6 +196,7 @@ export const ImportAccounts = (): JSX.Element => {
 			</Box>
 			<Flex css={{ width: '100%' }}>
 				<Button
+					data-test-e2e="import-accounts-btn"
 					fullWidth
 					color="primary"
 					size="6"

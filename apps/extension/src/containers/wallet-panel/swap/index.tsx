@@ -53,6 +53,9 @@ interface ImmerState {
 const refreshInterval = 5 * 1000 // 5 seconds
 const debounceInterval = 500 // 0.5 sec
 
+const one = new BigNumber(1)
+const aproxRadixNetworkFee = one.dividedBy(10)
+
 const defaultState: ImmerState = {
 	time: Date.now(),
 	pool: undefined,
@@ -284,8 +287,11 @@ export const Swap: React.FC = () => {
 	}
 
 	const handleUseMax = async () => {
+		const networkFee = aproxRadixNetworkFee.multipliedBy(selectedTokenAmmount)
+		const amount = selectedTokenAmmount.minus(networkFee)
+
 		setState(draft => {
-			draft.amount = selectedTokenAmmount.toString()
+			draft.amount = amount.toString()
 			draft.inputSide = 'from'
 		})
 		inputAmountRef.current.focus()
@@ -294,7 +300,7 @@ export const Swap: React.FC = () => {
 	const handleSetAmount = async (event: React.ChangeEvent<HTMLInputElement>) => {
 		let { value } = event.currentTarget
 		// strip minus sign `-`
-		value = value.replace('-', '#!@?')
+		value = value.replace('-', '')
 		let val = parseInt(value, 10)
 		if (Number.isNaN(val)) {
 			setState(draft => {
@@ -312,7 +318,7 @@ export const Swap: React.FC = () => {
 	const handleSetReceive = async (event: React.ChangeEvent<HTMLInputElement>) => {
 		let { value } = event.currentTarget
 		// strip minus sign `-`
-		value = value.replace('-', '#!@?')
+		value = value.replace('-', '')
 		let val = parseInt(value, 10)
 		if (Number.isNaN(val)) {
 			setState(draft => {
@@ -389,7 +395,7 @@ export const Swap: React.FC = () => {
 											textTransform: 'uppercase',
 										}}
 										onClick={handleUseMax}
-										loading={state.isLoading}
+										disabled={state.isLoading}
 									>
 										MAX
 									</Button>
@@ -428,7 +434,7 @@ export const Swap: React.FC = () => {
 									size="1"
 									color="tertiary"
 									onClick={handleSwitchTokens}
-									loading={state.isLoading}
+									disabled={state.isLoading}
 									css={{
 										svg: {
 											transition: '$default',

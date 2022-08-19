@@ -22,9 +22,8 @@ interface ImmerT {
 const setupItems = {
 	send: { title: 'Send and receive tokens.', comingSoon: false },
 	earn: { title: 'Earn XRD by staking.', comingSoon: false },
-	//sign: { title: 'Sign DApp transactions.', comingSoon: false },
+	trade: { title: 'Swap tokens using wallet DEX.', comingSoon: false },
 	view: { title: 'View and manage your NFTs.', comingSoon: true },
-	trade: { title: 'Swap tokens using wallet DEX.', comingSoon: true },
 }
 
 const ulVariants = {
@@ -118,7 +117,7 @@ export const Start = (): JSX.Element => {
 				</Button>
 			</Flex>
 			<Flex css={{ mt: '$2' }}>
-				<Button color="tertiary" size="5" onClick={handleRestoreFromPhrase} fullWidth>
+				<Button data-test-e2e="restore-from-seed" color="tertiary" size="5" onClick={handleRestoreFromPhrase} fullWidth>
 					Restore from seed
 				</Button>
 			</Flex>
