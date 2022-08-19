@@ -300,7 +300,7 @@ export const Swap: React.FC = () => {
 	const handleSetAmount = async (event: React.ChangeEvent<HTMLInputElement>) => {
 		let { value } = event.currentTarget
 		// strip minus sign `-`
-		value = value.replace('-', '#!@?')
+		value = value.replace('-', '')
 		let val = parseInt(value, 10)
 		if (Number.isNaN(val)) {
 			setState(draft => {
@@ -318,7 +318,7 @@ export const Swap: React.FC = () => {
 	const handleSetReceive = async (event: React.ChangeEvent<HTMLInputElement>) => {
 		let { value } = event.currentTarget
 		// strip minus sign `-`
-		value = value.replace('-', '#!@?')
+		value = value.replace('-', '')
 		let val = parseInt(value, 10)
 		if (Number.isNaN(val)) {
 			setState(draft => {
@@ -395,7 +395,7 @@ export const Swap: React.FC = () => {
 											textTransform: 'uppercase',
 										}}
 										onClick={handleUseMax}
-										loading={state.isLoading}
+										disabled={state.isLoading}
 									>
 										MAX
 									</Button>
@@ -434,7 +434,7 @@ export const Swap: React.FC = () => {
 									size="1"
 									color="tertiary"
 									onClick={handleSwitchTokens}
-									loading={state.isLoading}
+									disabled={state.isLoading}
 									css={{
 										svg: {
 											transition: '$default',
