@@ -77,7 +77,7 @@
 		"stream-http": "^3.2.0",
 		"ui": "*",
 		"use-debounce": "^8.0.3",
-		"use-immer": "^0.6.0",
+		"use-immer": "^0.7.0",
 		"usehooks-ts": "^2.4.2",
 		"vite": "^2.9.5",
 		"vite-compatible-readable-stream": "^3.6.0",
