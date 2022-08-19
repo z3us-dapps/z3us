@@ -93,7 +93,7 @@
 		"@babel/preset-typescript": "^7.16.7",
 		"@types/chrome": "^0.0.181",
 		"@types/hoist-non-react-statics": "^3.3.1",
-		"@types/jest": "27.5.2",
+		"@types/jest": "28.1.7",
 		"@types/lodash.merge": "^4.6.6",
 		"@types/node": "^15.12.2",
 		"@types/raf": "^3.4.0",
