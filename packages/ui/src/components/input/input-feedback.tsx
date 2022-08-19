@@ -16,7 +16,7 @@ const defaultProps = {
 	css: { display: 'flex', alignItems: 'center', overflow: 'clip' },
 }
 
-export const InputFeedback: React.FC<IProps> = ({ children, showFeedback, animateHeight, css }) => (
+export const InputFeedback: React.FC<IProps> = ({ children, showFeedback, animateHeight, css, ...rest }) => (
 	<AnimatePresence>
 		{showFeedback && (
 			<MotionBox
@@ -24,6 +24,7 @@ export const InputFeedback: React.FC<IProps> = ({ children, showFeedback, animat
 				animate={{ opacity: 1, height: `${animateHeight}px` }}
 				exit={{ opacity: 1, height: '0px' }}
 				css={{ ...(css as any) }}
+				{...rest}
 			>
 				{children}
 			</MotionBox>
