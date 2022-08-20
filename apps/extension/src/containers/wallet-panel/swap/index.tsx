@@ -7,7 +7,7 @@ import { useImmer } from 'use-immer'
 import { useTimeout, useInterval } from 'usehooks-ts'
 import { useDebounce } from 'use-debounce'
 import { useTokenBalances, useTokenInfo } from '@src/hooks/react-query/queries/radix'
-import { usePools, usePoolTokens, useTransactionFee } from '@src/hooks/react-query/queries/swap'
+import { usePools, usePoolTokens, useTransactionFee, errorInfo } from '@src/hooks/react-query/queries/swap'
 import {
 	calculateCheapestPoolFeesFromAmount,
 	calculateCheapestPoolFeesFromReceive,
@@ -106,6 +106,7 @@ export const Swap: React.FC = () => {
 	const liquidBalances = balances?.account_balances?.liquid_balances || []
 	const selectedToken = liquidBalances?.find(balance => balance.rri === state.fromRRI)
 	const selectedTokenAmmount = selectedToken ? new BigNumber(selectedToken.amount).shiftedBy(-18) : new BigNumber(0)
+	const hasInputValue = state.amount.length > 0 || state.receive.length > 0
 
 	const txFee = useTransactionFee(
 		state.pool,
@@ -117,8 +118,6 @@ export const Swap: React.FC = () => {
 		new BigNumber(state.z3usBurn || 0),
 		state.minimum,
 	)
-	const hasTxError = !!txFee?.error
-	console.log('hasTxError:', hasTxError)
 
 	// @Note: the timeout is needed to focus the input, or else it will jank the route entry transition
 	useTimeout(() => {
@@ -596,9 +595,9 @@ export const Swap: React.FC = () => {
 							z3usBurn={state.burn ? new BigNumber(state.z3usBurn) : null}
 							trigger={
 								<Box>
-									{!!txFee.error ? (
+									{errorInfo[txFee.errorType] && hasInputValue ? (
 										<Button size="6" color="red" aria-label="swap" css={{ flex: '1' }} fullWidth disabled>
-											Insufficient balance
+											{errorInfo[txFee.errorType].buttonMessage}
 										</Button>
 									) : (
 										<Button

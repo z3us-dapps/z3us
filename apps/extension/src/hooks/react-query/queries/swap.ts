@@ -1,5 +1,5 @@
 import { useEffect } from 'react'
-import { useStore } from '@src/store'
+import { useStore, useSharedStore } from '@src/store'
 import { useQuery } from 'react-query'
 import { useImmer } from 'use-immer'
 import { useTransaction } from '@src/hooks/use-transaction'
@@ -21,6 +21,20 @@ import { useMessage } from '@src/hooks/use-message'
 const poolQueryOptions = {
 	staleTime: 60 * 1000,
 	refetchInterval: 60 * 1000,
+}
+
+export const ERROR_INSUFFICIENT_BALANCE = 'error_insufficient_balance'
+export const ERROR_NETWORK = 'error_network'
+
+type ErrorInfoType = {
+	[key: string]: {
+		buttonMessage: string
+	}
+}
+
+export const errorInfo: ErrorInfoType = {
+	[ERROR_INSUFFICIENT_BALANCE]: { buttonMessage: 'Insufficient funds' },
+	[ERROR_NETWORK]: { buttonMessage: 'Error, try again later' },
 }
 
 export const useCaviarPools = () =>
@@ -128,10 +142,20 @@ export const usePools = (fromRRI: string, toRRI: string): Pool[] => {
 	return pools
 }
 
+type ErrorT = typeof ERROR_INSUFFICIENT_BALANCE | typeof ERROR_NETWORK | null
+
+const getErrorType = (errorMessage: string): ErrorT => {
+	if (errorMessage.includes('but only have')) {
+		return ERROR_INSUFFICIENT_BALANCE
+	}
+	return null
+}
+
 interface ImmerT {
 	transaction: BuiltTransactionReadyToSign
 	fee: BigNumber
-	error: Error | null
+	error: boolean
+	errorType: ErrorT
 }
 
 export const useTransactionFee = (
@@ -146,18 +170,23 @@ export const useTransactionFee = (
 ): {
 	transaction: BuiltTransactionReadyToSign | null
 	fee: BigNumber
-	error: Error | null
+	error: boolean
+	errorType: ErrorT
 } => {
 	const { buildTransactionFromActions } = useTransaction()
 	const { createMessage } = useMessage()
 	const { account } = useStore(state => ({
 		account: state.account,
 	}))
+	const { addToast } = useSharedStore(state => ({
+		addToast: state.addToastAction,
+	}))
 
 	const [state, setState] = useImmer<ImmerT>({
 		transaction: null,
 		fee: new BigNumber(0),
-		error: null,
+		error: false,
+		errorType: null,
 	})
 
 	const fetchCost = async () => {
@@ -165,6 +194,8 @@ export const useTransactionFee = (
 			setState(draft => {
 				draft.transaction = null
 				draft.fee = new BigNumber(0)
+				draft.error = false
+				draft.errorType = null
 			})
 			return
 		}
@@ -256,16 +287,28 @@ export const useTransactionFee = (
 			setState(draft => {
 				draft.transaction = transaction
 				draft.fee = new BigNumber(fee).shiftedBy(-18)
-				draft.error = null
+				draft.error = false
+				draft.errorType = null
 			})
 		} catch (error) {
 			// eslint-disable-next-line no-console
 			console.error(error)
+			const errorMessageStr = (error?.message || error).toString().trim()
+			const errorType = getErrorType(errorMessageStr)
 			setState(draft => {
 				draft.transaction = null
 				draft.fee = new BigNumber(0)
-				draft.error = error
+				draft.error = true
+				draft.errorType = errorType
 			})
+			if (!errorType) {
+				addToast({
+					type: 'error',
+					title: 'Failed to calculate transaction fees',
+					subTitle: errorMessageStr,
+					duration: 5000,
+				})
+			}
 		}
 	}
 
