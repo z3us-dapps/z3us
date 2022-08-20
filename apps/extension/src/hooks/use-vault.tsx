@@ -6,7 +6,17 @@ import { MessageService, PORT_NAME } from '@src/services/messanger'
 import { GET } from '@src/lib/actions'
 import { KeystoreType } from '@src/store/types'
 
-const messanger = new MessageService('extension', browser.runtime.connect({ name: PORT_NAME }), null)
+let port = browser.runtime.connect({ name: PORT_NAME })
+const messanger = new MessageService('extension', port, null)
+
+port.onDisconnect.addListener(() => {
+	if (port.error) {
+		// eslint-disable-next-line no-console
+		console.error(`Disconnected due to an error: ${port.error.message}`)
+	}
+	port = browser.runtime.connect({ name: PORT_NAME })
+	messanger.initPort(port)
+})
 
 const refreshInterval = 60 * 1000 // 1 minute
 
