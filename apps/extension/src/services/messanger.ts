@@ -23,13 +23,20 @@ export class MessageService {
 
 	constructor(name: string, port: Runtime.Port = null, window: Window = null) {
 		this.name = name
-		this.port = port
 		this.window = window
-		if (this.port) {
-			this.port.onMessage.addListener(this.onMessage)
-		}
 		if (this.window) {
 			this.window.addEventListener(WINDOW_EVENT_NAME, this.onWindowMessage, false)
+		}
+		this.initPort(port)
+	}
+
+	initPort = (port: Runtime.Port = null) => {
+		if (this.port) {
+			this.port.onMessage.removeListener(this.onMessage)
+		}
+		this.port = port
+		if (this.port) {
+			this.port.onMessage.addListener(this.onMessage)
 		}
 	}
 

@@ -16,6 +16,8 @@ jobs:
   test:
     timeout-minutes: 10
     runs-on: ubuntu-latest
+    env:
+      KEYSTORE_BASE64: ${{ secrets.KEYSTORE_BASE64 }}
     steps:
       - name: Copy Files
         uses: actions/checkout@v3

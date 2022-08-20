@@ -83,19 +83,28 @@ export const InsertPhrase = (): JSX.Element => {
 					<Input
 						as="textarea"
 						size="2"
+						data-test-e2e="secret-phrase-input"
 						placeholder="Enter secret phrase"
 						onChange={handleWords}
 						error={state.showError}
 						css={{ height: '140px' }}
 					/>
-					<InputFeedBack showFeedback={state.showError} animateHeight={31}>
+					<InputFeedBack showFeedback={state.showError} animateHeight={31} data-test-e2e="secret-phrase-import-error">
 						<Text medium color="red">
 							{state.errorMessage}
 						</Text>
 					</InputFeedBack>
 				</Box>
 				<Flex css={{ width: '100%' }}>
-					<Button fullWidth color="primary" size="6" disabled={isButtonDisabled} css={{ flex: '1' }} type="submit">
+					<Button
+						fullWidth
+						color="primary"
+						size="6"
+						disabled={isButtonDisabled}
+						css={{ flex: '1' }}
+						type="submit"
+						data-test-e2e="secret-phrase-import"
+					>
 						Import recovery phrase
 					</Button>
 				</Flex>
