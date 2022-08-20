@@ -1,35 +1,35 @@
-/* @TODO */
-/* eslint-disable */
 import React from 'react'
 import { formatBigNumber } from '@src/utils/formatters'
 import BigNumber from 'bignumber.js'
-import { HoverCard, HoverCardContent, HoverCardTrigger } from 'ui/src/components/hover-card'
-import { InfoCircledIcon } from '@radix-ui/react-icons'
-import { Box, Text, Flex, StyledLink } from 'ui/src/components/atoms'
+import { Box, Text, Flex } from 'ui/src/components/atoms'
 import { useTicker } from '@src/hooks/react-query/queries/tickers'
-import { Token } from '@src/types'
+import { Token, Pool } from '@src/types'
 import { useSharedStore } from '@src/store'
 import { useNativeToken, useTokenInfo } from '@src/hooks/react-query/queries/radix'
 import { Z3US_RRI } from '@src/config'
 import { PoolSelector } from '../pool-selector'
+import { FeeBreakdownHoverCard } from '../fee-breakdown-hover-card'
+import { TermsHoverCard } from '../terms-hover-card'
+import { SlippageSettings } from '../slippage-settings'
 
 interface IProps {
 	showTc?: boolean
+	showFeeBreakDown?: boolean
 	fromToken?: Token
 	toToken?: Token
 	poolFee: BigNumber
 	z3usFee: BigNumber
 	z3usBurn?: BigNumber
 	txFee: BigNumber
-	/* @TODO: type */
-	pool?: any
-	pools?: any
-	onPoolChange?: any
+	pool?: Pool
+	pools?: Array<Pool>
+	onPoolChange?: (pool: Pool) => void
 	css?: any
 }
 
 export const FeeBox: React.FC<IProps> = ({
 	showTc,
+	showFeeBreakDown,
 	fromToken,
 	toToken,
 	poolFee,
@@ -68,7 +68,7 @@ export const FeeBox: React.FC<IProps> = ({
 				...(css as any),
 			}}
 		>
-			<Flex direction="column" css={{ gap: '5px' }}>
+			<Flex direction="column" css={{ gap: '6px' }}>
 				<Flex css={{ flex: '1', width: '100%' }}>
 					<Text css={{ flex: '1', color: '$txtHelp' }} medium>
 						Rate:
@@ -89,70 +89,15 @@ export const FeeBox: React.FC<IProps> = ({
 					<Text css={{ flex: '1', color: '$txtHelp' }} medium>
 						Slippage:
 					</Text>
-					<Text medium css={{ pl: '$1' }}>
-						1%
-					</Text>
+					<Flex css={{ height: '15px', position: 'relative' }}>
+						<SlippageSettings />
+					</Flex>
 				</Flex>
 				<Flex css={{ flex: '1', width: '100%' }}>
 					<Text css={{ flex: '1', color: '$txtHelp', display: 'flex', alignItems: 'center' }} medium>
 						Estimated Fees:
-						{showTc && (
-							<Box css={{ pl: '4px', mt: '1px' }}>
-								<HoverCard>
-									<HoverCardTrigger asChild>
-										<Flex css={{ color: '$txtHelp', display: 'inline-flex', textDecoration: 'underline' }}>
-											<Text medium size="2" css={{ mr: '$1' }}>
-												{`T&C's`}
-											</Text>
-											<InfoCircledIcon />
-										</Flex>
-									</HoverCardTrigger>
-									<HoverCardContent
-										side="top"
-										sideOffset={5}
-										css={{ maxWidth: '240px', pointerEvents: 'auto', zIndex: '99' }}
-									>
-										<Flex css={{ flexDirection: 'column', gap: 10, color: '$txtHelp' }}>
-											<Text medium size="2">
-												Presented fees and rates are indicative and are subject to change. Once submitted to the
-												network, wallet and transaction fees apply at all times and are not refundable. By confirming
-												swap you agree to our{' '}
-												<StyledLink
-													underline
-													href="https://z3us.com/terms"
-													target="_blank"
-													onMouseDown={() => {
-														// @TODO: Seems to be an issue using a hover card inside a dialog
-														// https://github.com/radix-ui/primitives/issues/920
-														window.open('https://z3us.com/terms', '_blank').focus()
-													}}
-												>
-													T&amp;C
-												</StyledLink>{' '}
-												{pool && (
-													<>
-														, additional T&amp;C of {pool.name} may apply, learn more{' '}
-														<StyledLink
-															underline
-															href={pool.url}
-															target="_blank"
-															onMouseDown={() => {
-																// @TODO: Seems to be an issue using a hover card inside a dialog
-																// https://github.com/radix-ui/primitives/issues/920
-																window.open(pool.url, '_blank').focus()
-															}}
-														>
-															{pool.url}
-														</StyledLink>
-														.
-													</>
-												)}
-											</Text>
-										</Flex>
-									</HoverCardContent>
-								</HoverCard>
-							</Box>
-						)}
+						{showFeeBreakDown && <FeeBreakdownHoverCard />}
+						{showTc && <TermsHoverCard pool={pool} />}
 					</Text>
 					<Text medium css={{ pl: '$1' }}>
 						$0.0002
@@ -221,7 +166,12 @@ export const FeeBox: React.FC<IProps> = ({
 
 FeeBox.defaultProps = {
 	showTc: false,
+	showFeeBreakDown: false,
 	fromToken: null,
+	toToken: null,
 	z3usBurn: null,
+	pool: null,
+	pools: null,
+	onPoolChange: undefined,
 	css: {},
 }

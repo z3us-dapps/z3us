@@ -18,11 +18,7 @@ import {
 import { OCI_RRI, XRD_RRI } from '@src/config'
 import { Pool } from '@src/types'
 import { ScrollArea } from 'ui/src/components/scroll-area'
-import { UpdateIcon } from '@radix-ui/react-icons'
-import { HoverCard, HoverCardContent, HoverCardTrigger } from 'ui/src/components/hover-card'
 import Button from 'ui/src/components/button'
-import { Checkbox, CheckIcon } from 'ui/src/components/checkbox'
-import { ToolTip, Tooltip, TooltipTrigger, TooltipContent, TooltipArrow } from 'ui/src/components/tool-tip'
 import { AccountSelector } from '@src/components/account-selector'
 import { getShortAddress } from '@src/utils/string-utils'
 import { Box, Text, Flex } from 'ui/src/components/atoms'
@@ -52,12 +48,13 @@ interface ImmerState {
 	burn: boolean
 	isLoading: boolean
 	isMounted: boolean
-	isFeeUiVisible: boolean
 	inputFocused: 'from' | 'to' | null
 }
 
 const refreshInterval = 5 * 1000 // 5 seconds
-const debounceInterval = 500 // 0.5 sec
+const debounceInterval = 1000 // 1 sec
+const one = new BigNumber(1)
+const aproxRadixNetworkFee = one.dividedBy(10)
 
 const defaultState: ImmerState = {
 	time: Date.now(),
@@ -74,7 +71,6 @@ const defaultState: ImmerState = {
 	burn: false,
 	isLoading: false,
 	isMounted: false,
-	isFeeUiVisible: false,
 	inputFocused: null,
 }
 
@@ -121,6 +117,8 @@ export const Swap: React.FC = () => {
 		new BigNumber(state.z3usBurn || 0),
 		state.minimum,
 	)
+	const hasTxError = !!txFee?.error
+	console.log('hasTxError:', hasTxError)
 
 	// @Note: the timeout is needed to focus the input, or else it will jank the route entry transition
 	useTimeout(() => {
@@ -138,15 +136,8 @@ export const Swap: React.FC = () => {
 		})
 	}, refreshInterval)
 
-	useEffect(() => {
-		if (state.isFeeUiVisible) return
-
-		setState(draft => {
-			draft.isFeeUiVisible = account && state.pool && txFee?.transaction && state.amount !== '0'
-		})
-	}, [account, state.pool, txFee, state.amount])
-
 	const calculateSwap = async (value: BigNumber, valueType: 'from' | 'to', pool?: Pool, burn: boolean = false) => {
+		if (state.isLoading) return
 		setState(draft => {
 			draft.isLoading = true
 		})
@@ -164,8 +155,6 @@ export const Swap: React.FC = () => {
 					)
 					setState(draft => {
 						draft.time = Date.now()
-						// draft.receive = poolQuote.receive.toString()
-						// Format to 9 decimals
 						draft.receive = poolQuote.receive.toFormat(9)
 						draft.poolFee = poolQuote.fee.toString()
 						draft.z3usFee = walletQuote.fee.toString()
@@ -182,8 +171,6 @@ export const Swap: React.FC = () => {
 					setState(draft => {
 						draft.time = Date.now()
 						draft.pool = cheapestPoolQuote.pool
-						// draft.receive = cheapestPoolQuote.receive.toString()
-						// Format to 9 decimals
 						draft.receive = cheapestPoolQuote.receive.toFormat(9)
 						draft.poolFee = cheapestPoolQuote.fee.toString()
 						draft.z3usFee = walletQuote.fee.toString()
@@ -195,7 +182,6 @@ export const Swap: React.FC = () => {
 				const walletQuote = getZ3USFees(poolQuote.amount, burn, liquidBalances)
 				setState(draft => {
 					draft.time = Date.now()
-					// draft.amount = poolQuote.amount.plus(walletQuote.fee).toString()
 					draft.amount = poolQuote.amount.plus(walletQuote.fee).toFormat(9)
 					draft.poolFee = poolQuote.fee.toString()
 					draft.z3usFee = walletQuote.fee.toString()
@@ -213,7 +199,6 @@ export const Swap: React.FC = () => {
 				setState(draft => {
 					draft.time = Date.now()
 					draft.pool = cheapestPoolQuote.pool
-					// draft.amount = cheapestPoolQuote.amount.plus(walletQuote.fee).toString()
 					draft.amount = cheapestPoolQuote.amount.plus(walletQuote.fee).toFormat(9)
 					draft.poolFee = cheapestPoolQuote.fee.toString()
 					draft.z3usFee = walletQuote.fee.toString()
@@ -236,8 +221,7 @@ export const Swap: React.FC = () => {
 	}
 
 	useEffect(() => {
-		if (!state.isMounted) return
-		if (state.isLoading) return
+		if (!state.isMounted || state.isLoading) return
 		if (Date.now() - state.time < refreshInterval) return
 
 		if (state.inputSide === 'from' && state.amount) {
@@ -248,20 +232,25 @@ export const Swap: React.FC = () => {
 	}, [state.time])
 
 	useEffect(() => {
-		if (!state.isMounted) return
-		if (state.isLoading) return
-
+		if (!state.isMounted || state.isLoading) return
 		if (state.inputSide === 'from' && state.amount) {
 			calculateSwap(new BigNumber(state.amount || 0), state.inputSide, state.pool, state.burn)
-		} else if (state.inputSide === 'to' && state.receive) {
+		}
+	}, [debouncedAmount])
+
+	useEffect(() => {
+		if (!state.isMounted || state.isLoading) return
+		if (state.inputSide === 'to' && state.receive) {
 			calculateSwap(new BigNumber(state.receive || 0), state.inputSide, state.pool, state.burn)
 		}
-	}, [debouncedAmount, debouncedReceive, state.minimum, state.burn, state.pool, state.inputSide])
+	}, [debouncedReceive])
 
 	const handlePoolChange = async (pool: Pool) => {
 		setState(draft => {
 			draft.pool = pool
 		})
+
+		calculateSwap(new BigNumber(state.amount || 0), state.inputSide, pool, state.burn)
 	}
 
 	const handleAccountChange = async (accountIndex: number) => {
@@ -301,30 +290,16 @@ export const Swap: React.FC = () => {
 	}
 
 	const handleUseMax = async () => {
-		if (state.isLoading) return
+		const networkFee = aproxRadixNetworkFee.multipliedBy(selectedTokenAmmount)
+		const amount = selectedTokenAmmount.minus(networkFee)
+
 		setState(draft => {
-			draft.amount = selectedTokenAmmount.toString()
+			draft.amount = amount.toFixed(9)
 			draft.inputSide = 'from'
 		})
 		inputFromRef.current.focus()
 	}
 
-	const handleUseMin = async () => {
-		if (state.isLoading) return
-	}
-
-	{
-		/* 0.123123123 */
-	}
-	{
-		/* 0.122222222 */
-	}
-	{
-		/* 1111111111111111 */
-	}
-	{
-		/* 123123.123123123 */
-	}
 	const handleSetAmount = async (event: React.ChangeEvent<HTMLInputElement>) => {
 		let { value } = event.currentTarget
 		const isValid = REGEX_INPUT.test(value)
@@ -580,22 +555,6 @@ export const Swap: React.FC = () => {
 								</Text>
 							</Box>
 							<Flex align="center" justify="end" css={{ flex: '1', pr: '4px', mt: '10px' }}>
-								<Box
-									as="button"
-									onClick={handleUseMin}
-									css={{
-										background: 'none',
-										border: 'none',
-										margin: 'none',
-										padding: 'none',
-										cursor: 'pointer',
-										mt: '3px',
-									}}
-								>
-									<Text size="3" color="purple" underline>
-										Min
-									</Text>
-								</Box>
 								<TokenSelector
 									triggerType="minimal"
 									token={toToken}
@@ -604,7 +563,6 @@ export const Swap: React.FC = () => {
 								/>
 							</Flex>
 						</Flex>
-
 						<SwitchTokensButton onSwitchTokens={handleSwitchTokens} />
 					</Box>
 
@@ -619,10 +577,11 @@ export const Swap: React.FC = () => {
 						pool={state.pool}
 						pools={pools}
 						onPoolChange={handlePoolChange}
+						showFeeBreakDown
 					/>
 
 					{/* @NOTE: Continue swap button */}
-					<Box css={{ mt: '16px', position: 'relative' }}>
+					<Box css={{ mt: '14px', position: 'relative' }}>
 						<SwapModal
 							pool={state.pool}
 							transaction={txFee.transaction}
@@ -636,17 +595,25 @@ export const Swap: React.FC = () => {
 							z3usFee={new BigNumber(state.z3usFee)}
 							z3usBurn={state.burn ? new BigNumber(state.z3usBurn) : null}
 							trigger={
-								<Button
-									size="6"
-									color="primary"
-									aria-label="swap"
-									css={{ flex: '1' }}
-									fullWidth
-									loading={state.isLoading}
-									disabled={!account || !state.pool || !txFee?.transaction}
-								>
-									Review swap
-								</Button>
+								<Box>
+									{!!txFee.error ? (
+										<Button size="6" color="red" aria-label="swap" css={{ flex: '1' }} fullWidth disabled>
+											Insufficient balance
+										</Button>
+									) : (
+										<Button
+											size="6"
+											color="primary"
+											aria-label="swap"
+											css={{ flex: '1' }}
+											fullWidth
+											loading={state.isLoading}
+											disabled={!account || !state.pool || !txFee?.transaction}
+										>
+											Review swap
+										</Button>
+									)}
+								</Box>
 							}
 							onCloseSwapModal={handleCloseSwapModal}
 						/>

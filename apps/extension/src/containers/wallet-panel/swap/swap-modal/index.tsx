@@ -237,7 +237,6 @@ export const SwapModal: React.FC<IProps> = ({
 										statSubTitle="You receive:"
 										statTitle={`${formatBigNumber(receive)} ${toToken?.symbol.toUpperCase()}`}
 									/>
-
 									<FeeBox
 										showTc
 										fromToken={fromToken}

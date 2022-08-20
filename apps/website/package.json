@@ -52,7 +52,7 @@
 		"stream-browserify": "^3.0.0",
 		"stream-http": "^3.2.0",
 		"ui": "*",
-		"use-immer": "^0.6.0",
+		"use-immer": "^0.7.0",
 		"usehooks-ts": "^2.5.1"
 	},
 	"devDependencies": {

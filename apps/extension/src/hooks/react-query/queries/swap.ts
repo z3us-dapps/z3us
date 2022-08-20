@@ -1,5 +1,5 @@
 import { useEffect } from 'react'
-import { useSharedStore, useStore } from '@src/store'
+import { useStore } from '@src/store'
 import { useQuery } from 'react-query'
 import { useImmer } from 'use-immer'
 import { useTransaction } from '@src/hooks/use-transaction'
@@ -131,6 +131,7 @@ export const usePools = (fromRRI: string, toRRI: string): Pool[] => {
 interface ImmerT {
 	transaction: BuiltTransactionReadyToSign
 	fee: BigNumber
+	error: Error | null
 }
 
 export const useTransactionFee = (
@@ -145,19 +146,18 @@ export const useTransactionFee = (
 ): {
 	transaction: BuiltTransactionReadyToSign | null
 	fee: BigNumber
+	error: Error | null
 } => {
 	const { buildTransactionFromActions } = useTransaction()
 	const { createMessage } = useMessage()
 	const { account } = useStore(state => ({
 		account: state.account,
 	}))
-	const { addToast } = useSharedStore(state => ({
-		addToast: state.addToastAction,
-	}))
 
 	const [state, setState] = useImmer<ImmerT>({
 		transaction: null,
 		fee: new BigNumber(0),
+		error: null,
 	})
 
 	const fetchCost = async () => {
@@ -256,6 +256,7 @@ export const useTransactionFee = (
 			setState(draft => {
 				draft.transaction = transaction
 				draft.fee = new BigNumber(fee).shiftedBy(-18)
+				draft.error = null
 			})
 		} catch (error) {
 			// eslint-disable-next-line no-console
@@ -263,12 +264,7 @@ export const useTransactionFee = (
 			setState(draft => {
 				draft.transaction = null
 				draft.fee = new BigNumber(0)
-			})
-			addToast({
-				type: 'error',
-				title: 'Failed to calculate transaction fees',
-				subTitle: (error?.message || error).toString().trim(),
-				duration: 5000,
+				draft.error = error
 			})
 		}
 	}
