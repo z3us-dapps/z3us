@@ -1,5 +1,3 @@
-/* @TODO */
-/* eslint-disable */
 import React, { useEffect, useRef } from 'react'
 import BigNumber from 'bignumber.js'
 import { useSharedStore, useStore } from '@src/store'
@@ -45,6 +43,7 @@ interface ImmerState {
 	z3usFee: string
 	z3usBurn: string
 	minimum: boolean
+	slippage: number
 	burn: boolean
 	isLoading: boolean
 	isMounted: boolean
@@ -68,6 +67,7 @@ const defaultState: ImmerState = {
 	z3usFee: '',
 	z3usBurn: '',
 	minimum: false,
+	slippage: 0.01,
 	burn: false,
 	isLoading: false,
 	isMounted: false,
@@ -300,7 +300,7 @@ export const Swap: React.FC = () => {
 	}
 
 	const handleSetAmount = async (event: React.ChangeEvent<HTMLInputElement>) => {
-		let { value } = event.currentTarget
+		const { value } = event.currentTarget
 		const isValid = REGEX_INPUT.test(value)
 		if (!isValid) return
 
@@ -311,7 +311,7 @@ export const Swap: React.FC = () => {
 	}
 
 	const handleSetReceive = async (event: React.ChangeEvent<HTMLInputElement>) => {
-		let { value } = event.currentTarget
+		const { value } = event.currentTarget
 		const isValid = REGEX_INPUT.test(value)
 		if (!isValid) return
 		setState(draft => {
@@ -323,6 +323,12 @@ export const Swap: React.FC = () => {
 	const handleSetMinimum = async (checked: boolean) => {
 		setState(draft => {
 			draft.minimum = checked === true
+		})
+	}
+
+	const handleSetSlippage = async (slippage: number) => {
+		setState(draft => {
+			draft.slippage = slippage
 		})
 	}
 
@@ -384,8 +390,6 @@ export const Swap: React.FC = () => {
 					<Text bold size="10">
 						Swap
 					</Text>
-
-					{/* @NOTE: Account selector */}
 					<Box
 						css={{
 							pt: '13px',
@@ -414,6 +418,7 @@ export const Swap: React.FC = () => {
 									onAccountChange={handleAccountChange}
 									triggerType="minimal"
 								/>
+								<HardwareWalletReconnect />
 							</Flex>
 						</Flex>
 					</Box>
@@ -468,7 +473,7 @@ export const Swap: React.FC = () => {
 										{state.amount}
 									</Box>
 									<Box as="span" css={{ pl: '5px', letterSpacing: '0' }}>
-										{fromToken.symbol?.toUpperCase()}
+										{fromToken?.symbol?.toUpperCase()}
 									</Box>
 								</Text>
 							</Box>
@@ -549,7 +554,7 @@ export const Swap: React.FC = () => {
 										{state.receive}
 									</Box>
 									<Box as="span" css={{ pl: '5px', letterSpacing: '0' }}>
-										{toToken.symbol?.toUpperCase()}
+										{toToken?.symbol?.toUpperCase()}
 									</Box>
 								</Text>
 							</Box>
@@ -576,6 +581,10 @@ export const Swap: React.FC = () => {
 						pool={state.pool}
 						pools={pools}
 						onPoolChange={handlePoolChange}
+						minimum={state.minimum}
+						onMinimumChange={handleSetMinimum}
+						slippage={state.slippage}
+						onSlippageChange={handleSetSlippage}
 						showFeeBreakDown
 					/>
 
@@ -593,6 +602,8 @@ export const Swap: React.FC = () => {
 							poolFee={new BigNumber(state.poolFee)}
 							z3usFee={new BigNumber(state.z3usFee)}
 							z3usBurn={state.burn ? new BigNumber(state.z3usBurn) : null}
+							minimum={state.minimum}
+							slippage={state.slippage}
 							trigger={
 								<Box>
 									{errorInfo[txFee.errorType] && hasInputValue ? (

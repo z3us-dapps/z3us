@@ -47,6 +47,8 @@ interface IProps {
 	txFee: BigNumber
 	transaction: BuiltTransactionReadyToSign
 	onCloseSwapModal: () => void
+	slippage: number
+	minimum: boolean
 }
 
 export const SwapModal: React.FC<IProps> = ({
@@ -63,6 +65,8 @@ export const SwapModal: React.FC<IProps> = ({
 	txFee,
 	transaction,
 	onCloseSwapModal,
+	minimum,
+	slippage,
 }) => {
 	const [, setLocation] = useLocation()
 	const queryClient = useQueryClient()
@@ -238,12 +242,15 @@ export const SwapModal: React.FC<IProps> = ({
 										statTitle={`${formatBigNumber(receive)} ${toToken?.symbol.toUpperCase()}`}
 									/>
 									<FeeBox
-										showTc
+										isConfirmFeeBox
 										fromToken={fromToken}
 										txFee={txFee}
 										poolFee={poolFee}
 										z3usFee={z3usFee}
 										z3usBurn={z3usBurn}
+										pool={pool}
+										minimum={minimum}
+										slippage={slippage}
 										css={{ mt: '12px' }}
 									/>
 									<Box css={{ mt: '$1', display: 'none' }}>

@@ -11,9 +11,10 @@ import { PoolSelector } from '../pool-selector'
 import { FeeBreakdownHoverCard } from '../fee-breakdown-hover-card'
 import { TermsHoverCard } from '../terms-hover-card'
 import { SlippageSettings } from '../slippage-settings'
+import { getSlippagePercentage } from '../utils'
 
 interface IProps {
-	showTc?: boolean
+	isConfirmFeeBox?: boolean
 	showFeeBreakDown?: boolean
 	fromToken?: Token
 	toToken?: Token
@@ -24,11 +25,15 @@ interface IProps {
 	pool?: Pool
 	pools?: Array<Pool>
 	onPoolChange?: (pool: Pool) => void
+	minimum: boolean
+	onMinimumChange?: (minimum: boolean) => void
+	slippage: number
+	onSlippageChange?: (slippage: number) => void
 	css?: any
 }
 
 export const FeeBox: React.FC<IProps> = ({
-	showTc,
+	isConfirmFeeBox,
 	showFeeBreakDown,
 	fromToken,
 	toToken,
@@ -39,6 +44,10 @@ export const FeeBox: React.FC<IProps> = ({
 	pool,
 	pools,
 	onPoolChange,
+	minimum,
+	onMinimumChange,
+	slippage,
+	onSlippageChange,
 	css,
 }) => {
 	const { currency } = useSharedStore(state => ({
@@ -81,23 +90,36 @@ export const FeeBox: React.FC<IProps> = ({
 					<Text css={{ flex: '1', color: '$txtHelp' }} medium>
 						Pool:
 					</Text>
-					<Flex css={{ height: '15px', mt: '-6px', mr: '-7px' }}>
-						{fromToken && toToken && <PoolSelector pool={pool} pools={pools} onPoolChange={onPoolChange} />}
-					</Flex>
+					{isConfirmFeeBox ? (
+						<Text medium>{pool?.name}</Text>
+					) : (
+						<Flex css={{ height: '15px', mt: '-6px', mr: '-7px' }}>
+							{fromToken && toToken && <PoolSelector pool={pool} pools={pools} onPoolChange={onPoolChange} />}
+						</Flex>
+					)}
 				</Flex>
 				<Flex css={{ flex: '1', width: '100%' }}>
 					<Text css={{ flex: '1', color: '$txtHelp' }} medium>
 						Slippage:
 					</Text>
 					<Flex css={{ height: '15px', position: 'relative' }}>
-						<SlippageSettings />
+						{isConfirmFeeBox ? (
+							<Text medium>{getSlippagePercentage(slippage)}</Text>
+						) : (
+							<SlippageSettings
+								minimum={minimum}
+								onMinimumChange={onMinimumChange}
+								slippage={slippage}
+								onSlippageChange={onSlippageChange}
+							/>
+						)}
 					</Flex>
 				</Flex>
 				<Flex css={{ flex: '1', width: '100%' }}>
 					<Text css={{ flex: '1', color: '$txtHelp', display: 'flex', alignItems: 'center' }} medium>
 						Estimated Fees:
 						{showFeeBreakDown && <FeeBreakdownHoverCard />}
-						{showTc && <TermsHoverCard pool={pool} />}
+						{isConfirmFeeBox && <TermsHoverCard pool={pool} />}
 					</Text>
 					<Text medium css={{ pl: '$1' }}>
 						$0.0002
@@ -165,7 +187,7 @@ export const FeeBox: React.FC<IProps> = ({
 }
 
 FeeBox.defaultProps = {
-	showTc: false,
+	isConfirmFeeBox: false,
 	showFeeBreakDown: false,
 	fromToken: null,
 	toToken: null,
@@ -173,5 +195,7 @@ FeeBox.defaultProps = {
 	pool: null,
 	pools: null,
 	onPoolChange: undefined,
+	onMinimumChange: undefined,
+	onSlippageChange: undefined,
 	css: {},
 }
