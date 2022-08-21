@@ -45,7 +45,7 @@ const defaultProps = {
 const getIsQueryMatch = (search: string, _token: VisibleToken): boolean =>
 	(search !== '' && _token.name?.toLowerCase().includes(search)) || _token.symbol?.toLowerCase().includes(search)
 
-const makeVisibleTokenTokenData = (
+const makeVisibleTokenData = (
 	_tokens: VisibleTokens,
 	visibleTokens: VisibleTokens,
 	availableBalances: TokenAmount[],
@@ -149,7 +149,7 @@ export const TokenListSettingsModal = ({
 	useEffect(() => {
 		if (!tokens) return
 		setState(draft => {
-			const visible = makeVisibleTokenTokenData(tokens, draft[VISIBLE], balances?.account_balances?.liquid_balances)
+			const visible = makeVisibleTokenData(tokens, draft[VISIBLE], balances?.account_balances?.liquid_balances)
 
 			draft[VISIBLE] = visible
 			draft[INVISIBLE] = makeInvisibleTokenData(draft.search.toLowerCase(), tokens, visible)
@@ -207,7 +207,7 @@ export const TokenListSettingsModal = ({
 					}
 				}
 
-				visible = makeVisibleTokenTokenData(tokens, visible, balances?.account_balances?.liquid_balances)
+				visible = makeVisibleTokenData(tokens, visible, balances?.account_balances?.liquid_balances)
 
 				draft[VISIBLE] = visible
 				draft[INVISIBLE] = makeInvisibleTokenData(draft.search.toLowerCase(), tokens, visible)
@@ -246,7 +246,7 @@ export const TokenListSettingsModal = ({
 				}
 			})
 
-			const visible = makeVisibleTokenTokenData(tokens, vs, availableBalances)
+			const visible = makeVisibleTokenData(tokens, vs, availableBalances)
 
 			draft[VISIBLE] = visible
 			draft[INVISIBLE] = makeInvisibleTokenData(draft.search.toLowerCase(), tokens, visible)

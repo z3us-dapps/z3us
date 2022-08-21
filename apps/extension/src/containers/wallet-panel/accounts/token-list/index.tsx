@@ -77,17 +77,28 @@ const buildTokensForDisplay = (
 	balances: {
 		[rri: string]: VisibleToken & { amount: BigNumber }
 	},
-) => {
+): (VisibleToken & { amount: BigNumber })[] => {
 	const values = Object.values(visibleTokens)
-	return values.length === 0
-		? Object.values(balances)
-		: values
-				.filter((visibleToken: VisibleToken) => visibleToken.hidden !== true)
-				.map((visibleToken: VisibleToken) => ({
-					amount: zero,
-					...visibleToken,
-					...balances[visibleToken.rri],
-				}))
+
+	if (values.length === 0) return Object.values(balances)
+
+	const vs = values
+		.filter((visibleToken: VisibleToken) => visibleToken.hidden !== true)
+		.reduce((obj, visibleToken: VisibleToken) => {
+			obj[visibleToken.rri] = {
+				amount: zero,
+				...visibleToken,
+				...balances[visibleToken.rri],
+			}
+			return obj
+		}, {})
+
+	Object.values(balances).forEach(token => {
+		if (vs[token.rri]) return
+		vs[token.rri] = token
+	})
+
+	return Object.values(vs)
 }
 
 const AllBalances: React.FC = () => {
