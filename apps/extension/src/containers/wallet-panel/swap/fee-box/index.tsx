@@ -83,7 +83,7 @@ export const FeeBox: React.FC<IProps> = ({
 						Rate:
 					</Text>
 					<Text medium css={{ pl: '$1' }}>
-						1 XRD = 2.34 OCI
+						1 XRD ≈ 2.34 OCI
 					</Text>
 				</Flex>
 				<Flex css={{ flex: '1', width: '100%' }}>

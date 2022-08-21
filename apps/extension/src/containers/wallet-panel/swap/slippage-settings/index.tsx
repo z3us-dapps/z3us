@@ -21,7 +21,19 @@ export const SlippageSettings: React.FC<IProps> = ({ minimum, onMinimumChange, s
 	return (
 		<Popover>
 			<PopoverTrigger asChild>
-				<Box as="button" css={{ display: 'flex', m: '0', p: '0', outline: '0', border: '0', color: '$z3usPurple' }}>
+				<Box
+					as="button"
+					css={{
+						display: 'flex',
+						m: '0',
+						p: '0',
+						outline: '0',
+						border: '0',
+						color: '$z3usPurple',
+						background: 'none',
+						cursor: 'pointer',
+					}}
+				>
 					<Text medium underline css={{ pr: '2px' }}>
 						{minimum ? 'Min' : getSlippagePercentage(slippage)}
 					</Text>

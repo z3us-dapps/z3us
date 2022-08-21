@@ -4,6 +4,7 @@ import { Pool, PoolType, Token, TokenAmount } from '@src/types'
 import BigNumber from 'bignumber.js'
 import oci from '@src/services/oci'
 import doge, { QuoteQuery } from '@src/services/dogecubex'
+// import { getSwapError } from '@src/utils/get-swap-error'
 
 const zero = new BigNumber(0)
 const one = new BigNumber(1)
@@ -214,7 +215,7 @@ export const calculateCheapestPoolFeesFromAmount = async (
 			} catch (error) {
 				// eslint-disable-next-line no-console
 				console.error(error)
-				return null
+				throw error
 			}
 		}),
 	)
@@ -250,7 +251,7 @@ export const calculateCheapestPoolFeesFromReceive = async (
 			} catch (error) {
 				// eslint-disable-next-line no-console
 				console.error(error)
-				return null
+				throw error
 			}
 		}),
 	)

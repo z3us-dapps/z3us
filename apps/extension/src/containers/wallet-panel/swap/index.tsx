@@ -5,7 +5,7 @@ import { useImmer } from 'use-immer'
 import { useTimeout, useInterval } from 'usehooks-ts'
 import { useDebounce } from 'use-debounce'
 import { useTokenBalances, useTokenInfo } from '@src/hooks/react-query/queries/radix'
-import { usePools, usePoolTokens, useTransactionFee, errorInfo } from '@src/hooks/react-query/queries/swap'
+import { usePools, usePoolTokens, useTransactionFee } from '@src/hooks/react-query/queries/swap'
 import {
 	calculateCheapestPoolFeesFromAmount,
 	calculateCheapestPoolFeesFromReceive,
@@ -23,13 +23,12 @@ import { Box, Text, Flex } from 'ui/src/components/atoms'
 import { formatBigNumber } from '@src/utils/formatters'
 import { TokenSelector } from '@src/components/token-selector'
 import { HardwareWalletReconnect } from '@src/components/hardware-wallet-reconnect'
+import { getSwapError, TSwapError } from '@src/utils/get-swap-error'
 import Input from 'ui/src/components/input'
 import { SwitchTokensButton } from './switch-tokens-button'
 import { FeeBox } from './fee-box'
 import { SwapModal } from './swap-modal'
-
-// Test for positive numbers only allow max 9 decimals
-const REGEX_INPUT = /^\d*(\.\d{0,9})?$/i
+import { strStripCommas, numberWithCommas, errorInfo, REGEX_INPUT } from './utils'
 
 interface ImmerState {
 	time: number
@@ -48,6 +47,7 @@ interface ImmerState {
 	isLoading: boolean
 	isMounted: boolean
 	inputFocused: 'from' | 'to' | null
+	errorType: TSwapError
 }
 
 const refreshInterval = 5 * 1000 // 5 seconds
@@ -72,6 +72,7 @@ const defaultState: ImmerState = {
 	isLoading: false,
 	isMounted: false,
 	inputFocused: null,
+	errorType: null,
 }
 
 export const Swap: React.FC = () => {
@@ -108,15 +109,22 @@ export const Swap: React.FC = () => {
 	const selectedTokenAmmount = selectedToken ? new BigNumber(selectedToken.amount).shiftedBy(-18) : new BigNumber(0)
 	const hasInputValue = state.amount.length > 0 || state.receive.length > 0
 
+	const onTransactionError = (error: TSwapError) => {
+		setState(draft => {
+			draft.errorType = error
+		})
+	}
+
 	const txFee = useTransactionFee(
 		state.pool,
 		fromToken,
 		toToken,
-		new BigNumber(state.amount || 0),
-		new BigNumber(state.receive || 0),
+		new BigNumber(strStripCommas(state.amount) || 0),
+		new BigNumber(strStripCommas(state.receive) || 0),
 		new BigNumber(state.z3usFee || 0),
 		new BigNumber(state.z3usBurn || 0),
 		state.minimum,
+		onTransactionError,
 	)
 
 	// @Note: the timeout is needed to focus the input, or else it will jank the route entry transition
@@ -207,12 +215,18 @@ export const Swap: React.FC = () => {
 		} catch (error) {
 			// eslint-disable-next-line no-console
 			console.error(error)
-			addToast({
-				type: 'error',
-				title: 'Failed to calculate swap fees',
-				subTitle: (error?.message || error).toString().trim(),
-				duration: 5000,
-			})
+			const errorMessageStr = (error?.message || error).toString().trim()
+			const errorType = getSwapError(errorMessageStr)
+			if (errorType) {
+				onTransactionError(errorType)
+			} else {
+				addToast({
+					type: 'error',
+					title: 'Failed to calculate swap fees',
+					subTitle: (error?.message || error).toString().trim(),
+					duration: 5000,
+				})
+			}
 		}
 		setState(draft => {
 			draft.isLoading = false
@@ -224,23 +238,23 @@ export const Swap: React.FC = () => {
 		if (Date.now() - state.time < refreshInterval) return
 
 		if (state.inputSide === 'from' && state.amount) {
-			calculateSwap(new BigNumber(state.amount || 0), state.inputSide, state.pool, state.burn)
+			calculateSwap(new BigNumber(strStripCommas(state.amount) || 0), state.inputSide, state.pool, state.burn)
 		} else if (state.inputSide === 'to' && state.receive) {
-			calculateSwap(new BigNumber(state.receive || 0), state.inputSide, state.pool, state.burn)
+			calculateSwap(new BigNumber(strStripCommas(state.receive) || 0), state.inputSide, state.pool, state.burn)
 		}
 	}, [state.time])
 
 	useEffect(() => {
 		if (!state.isMounted || state.isLoading) return
 		if (state.inputSide === 'from' && state.amount) {
-			calculateSwap(new BigNumber(state.amount || 0), state.inputSide, state.pool, state.burn)
+			calculateSwap(new BigNumber(strStripCommas(state.amount) || 0), state.inputSide, state.pool, state.burn)
 		}
 	}, [debouncedAmount])
 
 	useEffect(() => {
 		if (!state.isMounted || state.isLoading) return
 		if (state.inputSide === 'to' && state.receive) {
-			calculateSwap(new BigNumber(state.receive || 0), state.inputSide, state.pool, state.burn)
+			calculateSwap(new BigNumber(strStripCommas(state.receive) || 0), state.inputSide, state.pool, state.burn)
 		}
 	}, [debouncedReceive])
 
@@ -249,7 +263,7 @@ export const Swap: React.FC = () => {
 			draft.pool = pool
 		})
 
-		calculateSwap(new BigNumber(state.amount || 0), state.inputSide, pool, state.burn)
+		calculateSwap(new BigNumber(strStripCommas(state.amount) || 0), state.inputSide, pool, state.burn)
 	}
 
 	const handleAccountChange = async (accountIndex: number) => {
@@ -280,11 +294,12 @@ export const Swap: React.FC = () => {
 
 	const handleSwitchTokens = async () => {
 		setState(draft => {
-			draft.amount = ''
-			draft.receive = ''
+			Object.entries(defaultState).forEach(([key, value]) => {
+				draft[key] = value
+			})
 			draft.toRRI = state.fromRRI
 			draft.fromRRI = state.toRRI
-			draft.pool = null
+			draft.isMounted = true
 		})
 	}
 
@@ -301,21 +316,23 @@ export const Swap: React.FC = () => {
 
 	const handleSetAmount = async (event: React.ChangeEvent<HTMLInputElement>) => {
 		const { value } = event.currentTarget
-		const isValid = REGEX_INPUT.test(value)
+		const amount = strStripCommas(value)
+		const isValid = REGEX_INPUT.test(amount)
 		if (!isValid) return
 
 		setState(draft => {
-			draft.amount = value
+			draft.amount = numberWithCommas(amount)
 			draft.inputSide = 'from'
 		})
 	}
 
 	const handleSetReceive = async (event: React.ChangeEvent<HTMLInputElement>) => {
 		const { value } = event.currentTarget
-		const isValid = REGEX_INPUT.test(value)
+		const receive = strStripCommas(value)
+		const isValid = REGEX_INPUT.test(receive)
 		if (!isValid) return
 		setState(draft => {
-			draft.receive = value
+			draft.receive = numberWithCommas(receive)
 			draft.inputSide = 'to'
 		})
 	}
@@ -503,7 +520,6 @@ export const Swap: React.FC = () => {
 							</Flex>
 						</Flex>
 					</Box>
-					{/* @NOTE: You receive */}
 					<Box
 						css={{
 							pt: '6px',
@@ -528,7 +544,6 @@ export const Swap: React.FC = () => {
 									autoComplete="off"
 									css={{ height: '46px', width: '100%', input: { fontFamily: 'Arial, Helvetica, sans-serif' } }}
 								/>
-
 								<Text size="5" color="help" css={{ pe: 'none', mt: '-5px', position: 'relative' }}>
 									You receive
 								</Text>
@@ -569,8 +584,6 @@ export const Swap: React.FC = () => {
 						</Flex>
 						<SwitchTokensButton onSwitchTokens={handleSwitchTokens} />
 					</Box>
-
-					{/* @NOTE: Feebox */}
 					<FeeBox
 						fromToken={fromToken}
 						toToken={toToken}
@@ -587,8 +600,6 @@ export const Swap: React.FC = () => {
 						onSlippageChange={handleSetSlippage}
 						showFeeBreakDown
 					/>
-
-					{/* @NOTE: Continue swap button */}
 					<Box css={{ mt: '14px', position: 'relative' }}>
 						<SwapModal
 							pool={state.pool}
@@ -606,9 +617,17 @@ export const Swap: React.FC = () => {
 							slippage={state.slippage}
 							trigger={
 								<Box>
-									{errorInfo[txFee.errorType] && hasInputValue ? (
-										<Button size="6" color="red" aria-label="swap" css={{ flex: '1' }} fullWidth disabled>
-											{errorInfo[txFee.errorType].buttonMessage}
+									{errorInfo[state.errorType] && hasInputValue ? (
+										<Button
+											size="6"
+											color="red"
+											aria-label="swap"
+											css={{ flex: '1' }}
+											fullWidth
+											disabled
+											loading={state.isLoading}
+										>
+											{errorInfo[state.errorType].buttonMessage}
 										</Button>
 									) : (
 										<Button
