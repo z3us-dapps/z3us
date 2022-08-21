@@ -51,11 +51,12 @@ const makeVisibleTokenData = (
 	availableBalances: TokenAmount[],
 ): VisibleTokens => {
 	const vs = { ...visibleTokens }
+	const hidden = Object.keys(vs).length === 0
 	availableBalances?.forEach(token => {
 		if (vs[token.rri]) return
 		const visibleToken = _tokens[token.rri]
 		if (visibleToken) {
-			vs[token.rri] = { ...visibleToken, hidden: true }
+			vs[token.rri] = { ...visibleToken, hidden }
 		}
 	})
 	return vs
