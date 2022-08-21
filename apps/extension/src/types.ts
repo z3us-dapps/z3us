@@ -73,6 +73,7 @@ export type VisibleToken = {
 	rri: string
 	name: string
 	symbol: string
+	hidden?: boolean // means token was hidden on purpase even though has positive balance
 }
 
 export type VisibleTokens = {
