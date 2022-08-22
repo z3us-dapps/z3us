@@ -51,14 +51,14 @@ const makeVisibleTokenData = (
 	availableBalances: TokenAmount[],
 ): VisibleTokens => {
 	const vs = { ...visibleTokens }
-	const hidden = Object.keys(vs).length > 0
-	availableBalances?.forEach(token => {
-		if (vs[token.rri]) return
-		const visibleToken = _tokens[token.rri]
-		if (visibleToken) {
-			vs[token.rri] = { ...visibleToken, hidden }
-		}
-	})
+	if (Object.values(vs).length === 0) {
+		availableBalances?.forEach(token => {
+			const visibleToken = _tokens[token.rri]
+			if (visibleToken) {
+				vs[token.rri] = visibleToken
+			}
+		})
+	}
 	return vs
 }
 
@@ -82,9 +82,7 @@ const makeInvisibleTokenData = (
 		return obj
 	}, {})
 	Object.values(visibleTokens).forEach(visibleToken => {
-		if (visibleToken.hidden !== true) {
-			delete ivs[visibleToken.rri]
-		}
+		delete ivs[visibleToken.rri]
 	})
 	return ivs
 }
@@ -134,9 +132,10 @@ export const TokenListSettingsModal = ({
 	const { addToast } = useSharedStore(state => ({
 		addToast: state.addToastAction,
 	}))
-	const { currentVisibleTokens, setVisibleTokens } = useStore(state => ({
+	const { currentVisibleTokens, setVisibleTokens, setHiddenTokens } = useStore(state => ({
 		currentVisibleTokens: state.visibleTokens,
 		setVisibleTokens: state.setVisibleTokensAction,
+		setHiddenTokens: state.setHiddenTokensAction,
 	}))
 	const { data: balances } = useTokenBalances()
 	const { data: tokens } = useKnownTokens()
@@ -185,7 +184,7 @@ export const TokenListSettingsModal = ({
 
 			setState(draft => {
 				const movingRRI = Object.keys(draft[sourceDropId])[sourceIndex]
-				const movingItem = { ...draft[sourceDropId][movingRRI], hidden: false } as VisibleToken
+				const movingItem = { ...draft[sourceDropId][movingRRI] } as VisibleToken
 
 				let visible = { ...draft[VISIBLE] }
 
@@ -194,7 +193,7 @@ export const TokenListSettingsModal = ({
 				}
 
 				if (destinationDropId === VISIBLE) {
-					const vs = Object.values(visible).filter((item: VisibleToken) => item.hidden !== true)
+					const vs = Object.values(visible)
 					if (vs.length <= destinationIndex) {
 						visible[movingRRI] = movingItem
 					} else {
@@ -230,7 +229,17 @@ export const TokenListSettingsModal = ({
 	}
 
 	const handleSaveTokenList = () => {
-		setVisibleTokens(state[VISIBLE])
+		const inv = {}
+		const vs = state[VISIBLE]
+		balances?.account_balances?.liquid_balances?.forEach(token => {
+			if (vs[token.rri]) return
+			const visibleToken = tokens[token.rri]
+			if (visibleToken) {
+				inv[token.rri] = { ...visibleToken }
+			}
+		})
+		setVisibleTokens(vs)
+		setHiddenTokens(inv)
 		setState(draft => {
 			draft.isModalOpen = false
 		})
@@ -367,10 +376,7 @@ export const TokenListSettingsModal = ({
 							<ReactBeautifulDnd.DragDropContext onDragEnd={onDragEnd}>
 								<Flex css={{ gap: '12px', '> div': { flex: '1' } }}>
 									{[VISIBLE, INVISIBLE].map(droppableId => {
-										let items = Object.values(state[droppableId] as VisibleTokens)
-										if (droppableId === VISIBLE) {
-											items = items.filter(item => item.hidden !== true)
-										}
+										const items = Object.values(state[droppableId] as VisibleTokens)
 										return (
 											<ReactBeautifulDnd.Droppable
 												key={droppableId}

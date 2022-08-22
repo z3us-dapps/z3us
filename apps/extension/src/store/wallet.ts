@@ -12,6 +12,7 @@ export const whiteList = [
 	'pendingActions',
 	'networks',
 	'visibleTokens',
+	'hiddenTokens',
 	'activeSlideIndex',
 	'selectedNetworkIndex',
 	'selectedAccountIndex',
@@ -33,6 +34,7 @@ const defaultState = {
 	selectedAccountIndex: 0,
 
 	visibleTokens: {},
+	hiddenTokens: {},
 	tokenSearch: '',
 
 	publicAddresses: {},
@@ -236,6 +238,12 @@ export const factory = (set: SetState<AccountStore>, get: GetState<AccountStore>
 	setVisibleTokensAction: (visibleTokens: VisibleTokens) => {
 		set(state => {
 			state.visibleTokens = visibleTokens
+		})
+	},
+
+	setHiddenTokensAction: (hiddenTokens: VisibleTokens) => {
+		set(state => {
+			state.hiddenTokens = hiddenTokens
 		})
 	},
 

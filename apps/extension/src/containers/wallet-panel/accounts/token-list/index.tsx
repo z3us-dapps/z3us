@@ -74,36 +74,35 @@ const zero = new BigNumber(0)
 
 const buildTokensForDisplay = (
 	visibleTokens: VisibleTokens,
+	hiddenTokens: VisibleTokens,
 	balances: {
 		[rri: string]: VisibleToken & { amount: BigNumber }
 	},
 ): (VisibleToken & { amount: BigNumber })[] => {
 	const values = Object.values(visibleTokens)
+	const vs = values.reduce((obj, visibleToken: VisibleToken) => {
+		obj[visibleToken.rri] = {
+			amount: zero,
+			...visibleToken,
+			...balances[visibleToken.rri],
+		}
+		return obj
+	}, {})
 
-	if (values.length === 0) return Object.values(balances)
-
-	const vs = values
-		.filter((visibleToken: VisibleToken) => visibleToken.hidden !== true)
-		.reduce((obj, visibleToken: VisibleToken) => {
-			obj[visibleToken.rri] = {
-				amount: zero,
-				...visibleToken,
-				...balances[visibleToken.rri],
-			}
-			return obj
-		}, {})
-
-	Object.values(balances).forEach(token => {
-		if (vs[token.rri]) return
-		vs[token.rri] = token
-	})
+	Object.values(balances)
+		.filter((visibleToken: VisibleToken) => !hiddenTokens[visibleToken.rri])
+		.forEach(token => {
+			if (vs[token.rri]) return
+			vs[token.rri] = token
+		})
 
 	return Object.values(vs)
 }
 
 const AllBalances: React.FC = () => {
-	const { visibleTokens, tokenSearch } = useStore(state => ({
+	const { visibleTokens, hiddenTokens, tokenSearch } = useStore(state => ({
 		visibleTokens: state.visibleTokens,
+		hiddenTokens: state.hiddenTokens,
 		tokenSearch: state.tokenSearch,
 	}))
 	const [customScrollParent, setCustomScrollParent] = useState<HTMLElement | null>(null)
@@ -120,7 +119,7 @@ const AllBalances: React.FC = () => {
 		)
 	}
 
-	const tokenData = buildTokensForDisplay(visibleTokens, balances)
+	const tokenData = buildTokensForDisplay(visibleTokens, hiddenTokens, balances)
 	const searchedTokens = tokenData.filter(_token => {
 		const searchTerm = tokenSearch?.toLowerCase() || ''
 		const tokenName = _token?.name?.toLowerCase() || ''
@@ -164,8 +163,9 @@ const AllBalances: React.FC = () => {
 }
 
 const AccountBalances: React.FC = () => {
-	const { visibleTokens, tokenSearch } = useStore(state => ({
+	const { visibleTokens, hiddenTokens, tokenSearch } = useStore(state => ({
 		visibleTokens: state.visibleTokens,
+		hiddenTokens: state.hiddenTokens,
 		tokenSearch: state.tokenSearch,
 	}))
 	const [customScrollParent, setCustomScrollParent] = useState<HTMLElement | null>(null)
@@ -179,7 +179,7 @@ const AccountBalances: React.FC = () => {
 		return obj
 	}, {})
 
-	const tokenData = buildTokensForDisplay(visibleTokens, balances)
+	const tokenData = buildTokensForDisplay(visibleTokens, hiddenTokens, balances)
 	const searchedTokens = tokenData.filter(_token => {
 		const searchTerm = tokenSearch?.toLowerCase() || ''
 		const tokenName = _token?.name?.toLowerCase() || ''
