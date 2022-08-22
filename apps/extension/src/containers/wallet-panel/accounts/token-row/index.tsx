@@ -76,7 +76,14 @@ export const TokenRow: React.FC<IProps> = ({ i, rri, symbol, amount, staked, loa
 						</Box>
 						<Flex css={{ flex: 1, pr: '$5' }}>
 							<Box css={{ width: '60%', flexBasis: '60%', pt: '14px' }}>
-								<Text css={{ fontSize: '16px', lineHeight: '22px', fontWeight: 'bold' }}>
+								<Text
+									truncate
+									css={{
+										fontSize: '16px',
+										lineHeight: '22px',
+										fontWeight: 'bold',
+									}}
+								>
 									{token.name} ({token.symbol.toLocaleUpperCase()})
 								</Text>
 								<Flex css={{ mt: '2px' }}>
