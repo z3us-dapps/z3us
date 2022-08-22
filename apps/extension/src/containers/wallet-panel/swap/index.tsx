@@ -463,7 +463,7 @@ export const Swap: React.FC = () => {
 									onBlur={handleInputFromBlur}
 									onChange={handleSetAmount}
 									autoComplete="off"
-									css={{ height: '46px', width: '100%', input: { fontFamily: 'Arial, Helvetica, sans-serif' } }}
+									css={{ height: '46px', width: '158px', input: { fontFamily: 'Arial, Helvetica, sans-serif' } }}
 								/>
 								<Text size="5" color="help" css={{ pe: 'none', mt: '-5px', position: 'relative' }}>
 									You pay
@@ -482,14 +482,14 @@ export const Swap: React.FC = () => {
 										transition: '$default',
 										opacity: state.amount.length > 0 ? 1 : 0,
 										transform: `translate(${state.amount.length > 0 ? '0' : '-10'}px)`,
-										maxWidth: '204px',
+										width: '238px',
 										overflow: 'hidden',
 									}}
 								>
-									<Box as="span" css={{ opacity: '0' }}>
+									<Box as="span" css={{ display: 'inline-flex', opacity: '0', maxWidth: '158px' }}>
 										{state.amount}
 									</Box>
-									<Box as="span" css={{ pl: '5px', letterSpacing: '0' }}>
+									<Box as="span" css={{ letterSpacing: '0', pl: '3px' }}>
 										{fromToken?.symbol?.toUpperCase()}
 									</Box>
 								</Text>
@@ -542,11 +542,12 @@ export const Swap: React.FC = () => {
 									onBlur={handleInputToBlur}
 									onChange={handleSetReceive}
 									autoComplete="off"
-									css={{ height: '46px', width: '100%', input: { fontFamily: 'Arial, Helvetica, sans-serif' } }}
+									css={{ height: '46px', width: '158px', input: { fontFamily: 'Arial, Helvetica, sans-serif' } }}
 								/>
 								<Text size="5" color="help" css={{ pe: 'none', mt: '-5px', position: 'relative' }}>
 									You receive
 								</Text>
+
 								<Text
 									css={{
 										fontFamily: 'Arial, Helvetica, sans-serif',
@@ -561,19 +562,35 @@ export const Swap: React.FC = () => {
 										transition: '$default',
 										opacity: state.receive.length > 0 ? 1 : 0,
 										transform: `translate(${state.receive.length > 0 ? '0' : '-10'}px)`,
-										maxWidth: '204px',
+										width: '238px',
 										overflow: 'hidden',
 									}}
 								>
-									<Box as="span" css={{ opacity: '0' }}>
+									<Box as="span" css={{ display: 'inline-flex', opacity: '0', maxWidth: '158px' }}>
 										{state.receive}
 									</Box>
-									<Box as="span" css={{ pl: '5px', letterSpacing: '0' }}>
+									<Box as="span" css={{ letterSpacing: '0', pl: '3px' }}>
 										{toToken?.symbol?.toUpperCase()}
 									</Box>
 								</Text>
 							</Box>
 							<Flex align="center" justify="end" css={{ flex: '1', pr: '4px', mt: '10px' }}>
+								<Box
+									as="button"
+									onClick={() => {}}
+									css={{
+										background: 'none',
+										border: 'none',
+										margin: 'none',
+										padding: 'none',
+										cursor: 'pointer',
+										mt: '3px',
+									}}
+								>
+									<Text size="3" color="purple" underline>
+										Min
+									</Text>
+								</Box>
 								<TokenSelector
 									triggerType="minimal"
 									token={toToken}

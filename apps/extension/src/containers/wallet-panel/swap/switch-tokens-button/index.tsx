@@ -20,7 +20,7 @@ export const SwitchTokensButton = ({ onSwitchTokens }: IProps): JSX.Element => {
 				display: 'flex',
 				alignItems: 'center',
 				justifyContent: 'center',
-				top: '-17px',
+				top: '-18px',
 				left: '50%',
 				ml: '-16px',
 				width: '32px',

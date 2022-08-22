@@ -1,14 +1,16 @@
+/* eslint-disable  @typescript-eslint/no-unused-vars */
 import React from 'react'
 import { formatBigNumber } from '@src/utils/formatters'
 import BigNumber from 'bignumber.js'
 import { Box, Text, Flex } from 'ui/src/components/atoms'
+import { HoverCard, HoverCardContent, HoverCardTrigger } from 'ui/src/components/hover-card'
 import { useTicker } from '@src/hooks/react-query/queries/tickers'
+import { InfoCircledIcon } from '@radix-ui/react-icons'
 import { Token, Pool } from '@src/types'
 import { useSharedStore } from '@src/store'
 import { useNativeToken, useTokenInfo } from '@src/hooks/react-query/queries/radix'
 import { Z3US_RRI } from '@src/config'
 import { PoolSelector } from '../pool-selector'
-import { FeeBreakdownHoverCard } from '../fee-breakdown-hover-card'
 import { TermsHoverCard } from '../terms-hover-card'
 import { SlippageSettings } from '../slippage-settings'
 import { getSlippagePercentage } from '../utils'
@@ -118,70 +120,101 @@ export const FeeBox: React.FC<IProps> = ({
 				<Flex css={{ flex: '1', width: '100%' }}>
 					<Text css={{ flex: '1', color: '$txtHelp', display: 'flex', alignItems: 'center' }} medium>
 						Estimated Fees:
-						{showFeeBreakDown && <FeeBreakdownHoverCard />}
 						{isConfirmFeeBox && <TermsHoverCard pool={pool} />}
+						{showFeeBreakDown && (
+							<Box css={{ pl: '3px', transform: 'translateY(1px)', ...(css as any) }}>
+								<HoverCard>
+									<HoverCardTrigger asChild>
+										<Flex css={{ color: '$txtHelp', display: 'inline-flex' }}>
+											<InfoCircledIcon />
+										</Flex>
+									</HoverCardTrigger>
+									<HoverCardContent
+										side="top"
+										sideOffset={5}
+										css={{ maxWidth: '240px', pointerEvents: 'auto', zIndex: '99' }}
+									>
+										<Flex css={{ flexDirection: 'column', gap: '4px' }}>
+											<Flex>
+												<Text bold size="2">
+													Fee breakdown
+												</Text>
+											</Flex>
+											<Flex css={{ width: '100%' }}>
+												<Text medium size="2" css={{ color: '$txtHelp' }}>
+													Network fee:
+												</Text>
+												<Text size="2" css={{ display: 'flex', flex: '1', justifyContent: 'flex-end' }}>
+													<Box css={{ pl: '$1' }}>{`${formatBigNumber(
+														txFee,
+														nativeToken?.symbol,
+													)} ${nativeToken?.symbol.toUpperCase()}`}</Box>
+													{nativeTicker && (
+														<Box css={{ pl: '$1' }}>
+															{formatBigNumber(txFee.multipliedBy(nativeTicker.last_price), currency, 2)}
+														</Box>
+													)}
+												</Text>
+											</Flex>
+											<Flex>
+												<Text medium size="2" css={{ color: '$txtHelp' }}>
+													Exchange fee:
+												</Text>
+												<Text size="2" css={{ display: 'flex', flex: '1', justifyContent: 'flex-end' }}>
+													<Box css={{ pl: '$1' }}>{`${formatBigNumber(
+														poolFee,
+														fromToken?.symbol,
+													)} ${fromToken?.symbol.toUpperCase()}`}</Box>
+													{fromTicker && (
+														<Box css={{ pl: '$1' }}>
+															{formatBigNumber(poolFee.multipliedBy(fromTicker.last_price), currency, 2)}
+														</Box>
+													)}
+												</Text>
+											</Flex>
+											<Flex>
+												<Text medium size="2" css={{ color: '$txtHelp' }}>
+													Z3US fee:
+												</Text>
+												<Text size="2" css={{ display: 'flex', flex: '1', justifyContent: 'flex-end' }}>
+													<Box css={{ pl: '$1' }}>{`${formatBigNumber(
+														z3usFee,
+														fromToken?.symbol,
+													)} ${fromToken?.symbol.toUpperCase()}`}</Box>
+													{fromTicker && (
+														<Box css={{ pl: '$1' }}>
+															{formatBigNumber(z3usFee.multipliedBy(fromTicker.last_price), currency, 2)}
+														</Box>
+													)}
+												</Text>
+											</Flex>
+											<Flex css={{ display: 'none' }}>
+												<Text medium size="2" css={{ color: '$txtHelp' }}>
+													@TODO: Z3US burn fee:
+												</Text>
+												{/* <Text size="2"> */}
+												{/* 	<Box css={{ pl: '$1' }}>{`${formatBigNumber( */}
+												{/* 		z3usBurn, */}
+												{/* 		z3usToken?.symbol, */}
+												{/* 	)} ${z3usToken?.symbol.toUpperCase()}`}</Box> */}
+												{/* 	{z3usTicker && ( */}
+												{/* 		<Box css={{ pl: '$1' }}> */}
+												{/* 			{formatBigNumber(z3usBurn.multipliedBy(z3usTicker.last_price), currency, 2)} */}
+												{/* 		</Box> */}
+												{/* 	)} */}
+												{/* </Text> */}
+											</Flex>
+										</Flex>
+									</HoverCardContent>
+								</HoverCard>
+							</Box>
+						)}
 					</Text>
 					<Text medium css={{ pl: '$1' }}>
-						$0.0002
+						@TODO: $0.0002
 					</Text>
 				</Flex>
 			</Flex>
-			{/* @NOTE: OLD */}
-
-			<Box css={{ display: 'none' }}>
-				<Flex direction="row" css={{ pt: '$1', flex: '1' }}>
-					<Text css={{ flex: '1', pl: '$1', color: '$txtHelp' }} medium>
-						Transaction fee:
-					</Text>
-					<Text css={{ pl: '$1' }}>{`${formatBigNumber(
-						txFee,
-						nativeToken?.symbol,
-					)} ${nativeToken?.symbol.toUpperCase()}`}</Text>
-					{nativeTicker && (
-						<Text css={{ pl: '$1' }}>{formatBigNumber(txFee.multipliedBy(nativeTicker.last_price), currency, 2)}</Text>
-					)}
-				</Flex>
-				<Flex direction="row" css={{ pt: '$1', flex: '1' }}>
-					<Text css={{ pl: '$1', flex: '1', color: '$txtHelp' }} medium>
-						Swap fee:
-					</Text>
-					<Text css={{ pl: '$1' }}>{`${formatBigNumber(
-						poolFee,
-						fromToken?.symbol,
-					)} ${fromToken?.symbol.toUpperCase()}`}</Text>
-					{fromTicker && (
-						<Text css={{ pl: '$1' }}>{formatBigNumber(poolFee.multipliedBy(fromTicker.last_price), currency, 2)}</Text>
-					)}
-				</Flex>
-				<Flex direction="row" css={{ pt: '$1', flex: '1' }}>
-					<Text css={{ pl: '$1', flex: '1', color: '$txtHelp' }} medium>
-						Wallet fee:
-					</Text>
-					<Text css={{ pl: '$1' }}>{`${formatBigNumber(
-						z3usFee,
-						fromToken?.symbol,
-					)} ${fromToken?.symbol.toUpperCase()}`}</Text>
-					{fromTicker && (
-						<Text css={{ pl: '$1' }}>{formatBigNumber(z3usFee.multipliedBy(fromTicker.last_price), currency, 2)}</Text>
-					)}
-				</Flex>
-				{z3usBurn !== null && (
-					<Flex direction="row" css={{ pt: '$1', flex: '1' }}>
-						<Text css={{ pl: '$1', flex: '1', color: '$txtHelp' }} medium>
-							Burn:
-						</Text>
-						<Text css={{ pl: '$1' }}>{`${formatBigNumber(
-							z3usBurn,
-							z3usToken?.symbol,
-						)} ${z3usToken?.symbol.toUpperCase()}`}</Text>
-						{z3usTicker && (
-							<Text css={{ pl: '$1' }}>
-								{formatBigNumber(z3usBurn.multipliedBy(z3usTicker.last_price), currency, 2)}
-							</Text>
-						)}
-					</Flex>
-				)}
-			</Box>
 		</Box>
 	)
 }
