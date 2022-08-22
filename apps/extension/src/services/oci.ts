@@ -29,6 +29,14 @@ export type PoolsResponse = Array<Pool>
 export type Token = {
 	name: string
 	rri: string
+	ticker: string
+	price: {
+		usd: string
+		usd_24h: string
+	}
+	volume: {
+		usd_24h: string
+	}
 }
 
 export type TokensResponse = Array<Token>
@@ -122,17 +130,25 @@ export class OCIService {
 	}
 
 	getTokens = async (): Promise<TokensResponse> => {
-		const resp = await this.doRequest<{ data: { tokens: TokensResponse } }>(
+		const resp = await this.doRequest<{ data: { tokens_ranked_mc: TokensResponse } }>(
 			JSON.stringify({
 				query: `query getTokens {
-					tokens(order_by: {rank: asc}) {
+					tokens_ranked_mc(order_by: {rank: asc}) {
 					  name
 					  rri
+					  ticker
+					  price {
+						usd
+						usd_24h
+					  }
+					  volume {
+						usd_24h
+					  }
 					}
 				  }`,
 			}),
 		)
-		return resp?.data?.tokens || []
+		return resp?.data?.tokens_ranked_mc || []
 	}
 
 	private doRequest = async <T>(body: string): Promise<T> => {
