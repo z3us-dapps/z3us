@@ -48,6 +48,7 @@ const getIsQueryMatch = (search: string, _token: VisibleToken): boolean =>
 const makeVisibleTokenData = (
 	_tokens: VisibleTokens,
 	visibleTokens: VisibleTokens,
+	hiddenTokens: VisibleTokens,
 	availableBalances: TokenAmount[],
 ): VisibleTokens => {
 	const vs = { ...visibleTokens }
@@ -58,7 +59,17 @@ const makeVisibleTokenData = (
 				vs[token.rri] = visibleToken
 			}
 		})
+		return vs
 	}
+
+	availableBalances?.forEach(token => {
+		if (hiddenTokens[token.rri]) return
+		if (vs[token.rri]) return
+		const visibleToken = _tokens[token.rri]
+		if (visibleToken) {
+			vs[token.rri] = visibleToken
+		}
+	})
 	return vs
 }
 
@@ -132,8 +143,9 @@ export const TokenListSettingsModal = ({
 	const { addToast } = useSharedStore(state => ({
 		addToast: state.addToastAction,
 	}))
-	const { currentVisibleTokens, setVisibleTokens, setHiddenTokens } = useStore(state => ({
+	const { currentVisibleTokens, currentHiddenTokens, setVisibleTokens, setHiddenTokens } = useStore(state => ({
 		currentVisibleTokens: state.visibleTokens,
+		currentHiddenTokens: state.hiddenTokens,
 		setVisibleTokens: state.setVisibleTokensAction,
 		setHiddenTokens: state.setHiddenTokensAction,
 	}))
@@ -149,7 +161,12 @@ export const TokenListSettingsModal = ({
 	useEffect(() => {
 		if (!tokens) return
 		setState(draft => {
-			const visible = makeVisibleTokenData(tokens, draft[VISIBLE], balances?.account_balances?.liquid_balances)
+			const visible = makeVisibleTokenData(
+				tokens,
+				draft[VISIBLE],
+				currentHiddenTokens,
+				balances?.account_balances?.liquid_balances,
+			)
 
 			draft[VISIBLE] = visible
 			draft[INVISIBLE] = makeInvisibleTokenData(draft.search.toLowerCase(), tokens, visible)
@@ -207,7 +224,12 @@ export const TokenListSettingsModal = ({
 					}
 				}
 
-				visible = makeVisibleTokenData(tokens, visible, balances?.account_balances?.liquid_balances)
+				visible = makeVisibleTokenData(
+					tokens,
+					visible,
+					currentHiddenTokens,
+					balances?.account_balances?.liquid_balances,
+				)
 
 				draft[VISIBLE] = visible
 				draft[INVISIBLE] = makeInvisibleTokenData(draft.search.toLowerCase(), tokens, visible)
@@ -256,7 +278,7 @@ export const TokenListSettingsModal = ({
 				}
 			})
 
-			const visible = makeVisibleTokenData(tokens, vs, availableBalances)
+			const visible = makeVisibleTokenData(tokens, vs, currentHiddenTokens, availableBalances)
 
 			draft[VISIBLE] = visible
 			draft[INVISIBLE] = makeInvisibleTokenData(draft.search.toLowerCase(), tokens, visible)
