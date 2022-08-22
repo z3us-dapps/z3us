@@ -305,10 +305,10 @@ export const Swap: React.FC = () => {
 
 	const handleUseMax = async () => {
 		const networkFee = aproxRadixNetworkFee.multipliedBy(selectedTokenAmmount)
-		const amount = selectedTokenAmmount.minus(networkFee)
+		const amount = selectedTokenAmmount.minus(networkFee).toFixed(9)
 
 		setState(draft => {
-			draft.amount = amount.toFixed(9)
+			draft.amount = numberWithCommas(amount)
 			draft.inputSide = 'from'
 		})
 		inputFromRef.current.focus()

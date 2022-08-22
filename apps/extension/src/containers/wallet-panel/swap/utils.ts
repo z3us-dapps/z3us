@@ -6,7 +6,7 @@ export const REGEX_INPUT = /^\d*(\.\d{0,9})?$/i
 export const getSlippagePercentage = (num: number): string =>
 	`${num.toString().length > 4 ? (num * 100).toFixed(1) : num * 100}%`
 
-const REGEX_COMMA = /\B(?=(\d{3})+(?!\d))/g
+const REGEX_COMMA = /\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g
 
 export const numberWithCommas = (number: string | number) => {
 	if (typeof number === 'undefined' || number === null) {
