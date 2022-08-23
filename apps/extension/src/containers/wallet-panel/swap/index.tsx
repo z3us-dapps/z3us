@@ -430,7 +430,7 @@ export const Swap: React.FC = () => {
 										: selectedAccount.shortAddress}
 								</Text>
 								<Text size="5" color="help" css={{ pt: '4px' }}>
-									From account
+									34.4 USDC available
 								</Text>
 							</Box>
 							<Flex align="center" justify="end" css={{ flex: '1', pr: '3px' }}>
@@ -445,7 +445,6 @@ export const Swap: React.FC = () => {
 							</Flex>
 						</Flex>
 					</Box>
-					{/* @NOTE: You pay */}
 					<Box
 						css={{
 							pt: '6px',
@@ -457,7 +456,7 @@ export const Swap: React.FC = () => {
 						}}
 					>
 						<Flex css={{ width: '100%' }}>
-							<Box css={{ width: '204px', position: 'relative' }}>
+							<Box css={{ width: '244px', position: 'relative' }}>
 								<Input
 									ref={inputFromRef}
 									theme="minimal"
@@ -469,11 +468,28 @@ export const Swap: React.FC = () => {
 									onBlur={handleInputFromBlur}
 									onChange={handleSetAmount}
 									autoComplete="off"
-									css={{ height: '46px', width: '158px', input: { fontFamily: 'Arial, Helvetica, sans-serif' } }}
+									css={{ height: '46px', width: '190px', input: { fontFamily: 'Arial, Helvetica, sans-serif' } }}
 								/>
-								<Text size="5" color="help" css={{ pe: 'none', mt: '-5px', position: 'relative' }}>
-									You pay
-								</Text>
+								<Flex css={{ mt: '-5px', position: 'relative' }}>
+									<Text size="5" color="help" css={{ pe: 'none' }}>
+										You pay -{' '}
+									</Text>
+									<Box
+										as="button"
+										onClick={handleUseMax}
+										css={{
+											background: 'none',
+											border: 'none',
+											margin: 'none',
+											padding: 'none',
+											cursor: 'pointer',
+										}}
+									>
+										<Text size="5" color="purple" underline>
+											Max
+										</Text>
+									</Box>
+								</Flex>
 								<Text
 									css={{
 										fontFamily: 'Arial, Helvetica, sans-serif',
@@ -488,35 +504,19 @@ export const Swap: React.FC = () => {
 										transition: '$default',
 										opacity: state.amount.length > 0 ? 1 : 0,
 										transform: `translate(${state.amount.length > 0 ? '0' : '-10'}px)`,
-										width: '238px',
+										width: '278px',
 										overflow: 'hidden',
 									}}
 								>
-									<Box as="span" css={{ display: 'inline-flex', opacity: '0', maxWidth: '158px' }}>
+									<Box as="span" css={{ display: 'inline-flex', opacity: '0', maxWidth: '190px' }}>
 										{state.amount}
 									</Box>
-									<Box as="span" css={{ letterSpacing: '0', pl: '3px' }}>
+									<Box as="span" css={{ letterSpacing: '0', pl: '2px' }}>
 										{fromToken?.symbol?.toUpperCase()}
 									</Box>
 								</Text>
 							</Box>
 							<Flex align="center" justify="end" css={{ flex: '1', pr: '4px', mt: '10px' }}>
-								<Box
-									as="button"
-									onClick={handleUseMax}
-									css={{
-										background: 'none',
-										border: 'none',
-										margin: 'none',
-										padding: 'none',
-										cursor: 'pointer',
-										mt: '3px',
-									}}
-								>
-									<Text size="3" color="purple" underline>
-										Max
-									</Text>
-								</Box>
 								<TokenSelector
 									triggerType="minimal"
 									token={fromToken}
@@ -537,7 +537,7 @@ export const Swap: React.FC = () => {
 						}}
 					>
 						<Flex css={{ width: '100%' }}>
-							<Box css={{ width: '204px', position: 'relative' }}>
+							<Box css={{ width: '274px', position: 'relative' }}>
 								<Input
 									type="text"
 									theme="minimal"
@@ -548,12 +548,29 @@ export const Swap: React.FC = () => {
 									onBlur={handleInputToBlur}
 									onChange={handleSetReceive}
 									autoComplete="off"
-									css={{ height: '46px', width: '158px', input: { fontFamily: 'Arial, Helvetica, sans-serif' } }}
+									css={{ height: '46px', width: '190px', input: { fontFamily: 'Arial, Helvetica, sans-serif' } }}
 								/>
-								<Text size="5" color="help" css={{ pe: 'none', mt: '-5px', position: 'relative' }}>
-									You receive
-								</Text>
 
+								<Flex css={{ mt: '-5px', position: 'relative' }}>
+									<Text size="5" color="help" css={{ pe: 'none' }}>
+										You receive -{' '}
+									</Text>
+									<Box
+										as="button"
+										onClick={() => {}}
+										css={{
+											background: 'none',
+											border: 'none',
+											margin: 'none',
+											padding: 'none',
+											cursor: 'pointer',
+										}}
+									>
+										<Text size="5" color="purple" underline>
+											Min
+										</Text>
+									</Box>
+								</Flex>
 								<Text
 									css={{
 										fontFamily: 'Arial, Helvetica, sans-serif',
@@ -568,35 +585,19 @@ export const Swap: React.FC = () => {
 										transition: '$default',
 										opacity: state.receive.length > 0 ? 1 : 0,
 										transform: `translate(${state.receive.length > 0 ? '0' : '-10'}px)`,
-										width: '238px',
+										width: '248px',
 										overflow: 'hidden',
 									}}
 								>
-									<Box as="span" css={{ display: 'inline-flex', opacity: '0', maxWidth: '158px' }}>
+									<Box as="span" css={{ display: 'inline-flex', opacity: '0', maxWidth: '190px' }}>
 										{state.receive}
 									</Box>
-									<Box as="span" css={{ letterSpacing: '0', pl: '3px' }}>
+									<Box as="span" css={{ letterSpacing: '0', pl: '2px' }}>
 										{toToken?.symbol?.toUpperCase()}
 									</Box>
 								</Text>
 							</Box>
 							<Flex align="center" justify="end" css={{ flex: '1', pr: '4px', mt: '10px' }}>
-								<Box
-									as="button"
-									onClick={() => {}}
-									css={{
-										background: 'none',
-										border: 'none',
-										margin: 'none',
-										padding: 'none',
-										cursor: 'pointer',
-										mt: '3px',
-									}}
-								>
-									<Text size="3" color="purple" underline>
-										Min
-									</Text>
-								</Box>
 								<TokenSelector
 									triggerType="minimal"
 									token={toToken}
