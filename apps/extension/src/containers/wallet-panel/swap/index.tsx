@@ -653,7 +653,7 @@ export const Swap: React.FC = () => {
 						onSlippageChange={handleSetSlippage}
 						showFeeBreakDown
 					/>
-					<Box css={{ mt: '14px', position: 'relative' }}>
+					<Box css={{ mt: '12px', position: 'relative' }}>
 						<SwapModal
 							pool={state.pool}
 							transaction={txFee.transaction}

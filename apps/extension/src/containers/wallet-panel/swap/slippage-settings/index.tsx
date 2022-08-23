@@ -54,7 +54,7 @@ export const SlippageSettings: React.FC<IProps> = ({ minimum, onMinimumChange, s
 							</PopoverClose>
 						</Flex>
 						<Box css={{ pt: '$1', pb: '$2' }}>
-							<Box css={{ transition: '$default', opacity: minimum ? '0.5' : '1.0' }}>
+							<Box css={{ transition: '$default', opacity: minimum ? '0.3' : '1.0' }}>
 								<StyledSlider
 									onValueChange={handleSlippageChange}
 									value={[slippage * 100]}
@@ -71,6 +71,14 @@ export const SlippageSettings: React.FC<IProps> = ({ minimum, onMinimumChange, s
 									<StyledThumb />
 								</StyledSlider>
 							</Box>
+							{/* @TODO: need to implement properly */}
+							<Flex css={{ mt: '6px', justifyContent: 'space-between', pb: '$1' }}>
+								{['1', '2', '3', '4', '5'].map(_slippage => (
+									<Text size="1" color="help" key={_slippage}>
+										{_slippage}%
+									</Text>
+								))}
+							</Flex>
 						</Box>
 						<Box>
 							<Flex
