@@ -215,7 +215,7 @@ export const calculateCheapestPoolFeesFromAmount = async (
 			} catch (error) {
 				// eslint-disable-next-line no-console
 				console.error(error)
-				throw error
+				return null
 			}
 		}),
 	)
@@ -251,7 +251,7 @@ export const calculateCheapestPoolFeesFromReceive = async (
 			} catch (error) {
 				// eslint-disable-next-line no-console
 				console.error(error)
-				throw error
+				return null
 			}
 		}),
 	)

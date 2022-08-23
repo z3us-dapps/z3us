@@ -3,6 +3,7 @@ import BigNumber from 'bignumber.js'
 import { ScrollArea } from 'ui/src/components/scroll-area'
 import { useQueryClient } from 'react-query'
 import { useLocation } from 'wouter'
+import { useImmer } from 'use-immer'
 import { Pool, Token } from '@src/types'
 import InputFeedBack from 'ui/src/components/input/input-feedback'
 import { ArrowLeftIcon, InfoCircledIcon } from '@radix-ui/react-icons'
@@ -11,7 +12,6 @@ import { Dialog, DialogTrigger, DialogContent } from 'ui/src/components/dialog'
 import { HoverCard, HoverCardContent, HoverCardTrigger } from 'ui/src/components/hover-card'
 import { BuiltTransactionReadyToSign } from '@radixdlt/application'
 import { useTransaction } from '@src/hooks/use-transaction'
-import { useImmer } from 'use-immer'
 import { useSharedStore, useStore } from '@src/store'
 import { formatBigNumber } from '@src/utils/formatters'
 import { getShortAddress } from '@src/utils/string-utils'
@@ -43,7 +43,7 @@ interface IProps {
 	receive: BigNumber
 	poolFee: BigNumber
 	z3usFee: BigNumber
-	z3usBurn?: BigNumber
+	z3usBurn: BigNumber
 	txFee: BigNumber
 	transaction: BuiltTransactionReadyToSign
 	onCloseSwapModal: () => void
@@ -244,6 +244,9 @@ export const SwapModal: React.FC<IProps> = ({
 									<FeeBox
 										isConfirmFeeBox
 										fromToken={fromToken}
+										toToken={toToken}
+										amount={amount}
+										receive={receive}
 										txFee={txFee}
 										poolFee={poolFee}
 										z3usFee={z3usFee}
@@ -453,8 +456,4 @@ export const SwapModal: React.FC<IProps> = ({
 			</DialogContent>
 		</Dialog>
 	)
-}
-
-SwapModal.defaultProps = {
-	z3usBurn: null,
 }

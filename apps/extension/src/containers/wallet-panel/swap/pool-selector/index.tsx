@@ -1,4 +1,5 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
+import { useImmer } from 'use-immer'
 import { Pencil1Icon, ChevronDownIcon, ChevronUpIcon } from '@radix-ui/react-icons'
 import {
 	Select,
@@ -28,24 +29,35 @@ const defaultProps: Partial<IProps> = {
 	pool: null,
 }
 
+interface ImmerProps {
+	selected?: Pool
+}
+
 export const PoolSelector: React.FC<IProps> = ({ pool, pools, onPoolChange }) => {
 	const [open, setOpen] = useState<boolean>(false)
 	const [measureRef, { width: triggerWidth }] = useMeasure()
+
+	const [state, setState] = useImmer<ImmerProps>({
+		selected: undefined,
+	})
 
 	const handleValueChange = (address: string) => {
 		onPoolChange(pools.find(p => p.wallet === address))
 		setOpen(false)
 	}
 
-	let selected = pools.find(p => p.wallet === pool?.wallet)
-	if (!selected && pools.length === 1) {
-		// eslint-disable-next-line prefer-destructuring
-		selected = pools[0]
-		onPoolChange(selected)
-	}
+	useEffect(() => {
+		const selected = pools.find(p => p.wallet === pool?.wallet)
+		setState(draft => {
+			draft.selected = selected
+		})
+		if (!selected && pools.length === 1) {
+			onPoolChange(pools[0])
+		}
+	}, [pool, pools])
 
 	return (
-		<Select open={open} value={selected?.wallet} onValueChange={handleValueChange}>
+		<Select open={open} value={state.selected?.wallet} onValueChange={handleValueChange}>
 			<SelectTrigger aria-label="Pool selector" asChild onClick={() => setOpen(true)}>
 				<Button
 					ref={measureRef}
@@ -64,14 +76,14 @@ export const PoolSelector: React.FC<IProps> = ({ pool, pools, onPoolChange }) =>
 						ta: 'left',
 					}}
 				>
-					{selected?.image && (
+					{state.selected?.image && (
 						<Box css={{ mt: '1px' }}>
 							<CircleAvatar
 								width={22}
 								height={22}
-								image={selected?.image}
-								fallbackText={selected?.type.toLocaleUpperCase()}
-								cutImage={selected?.type !== PoolType.DOGECUBEX}
+								image={state.selected?.image}
+								fallbackText={state.selected?.type.toLocaleUpperCase()}
+								cutImage={state.selected?.type !== PoolType.DOGECUBEX}
 								borderWidth={0}
 								shadow={false}
 							/>

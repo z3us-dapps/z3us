@@ -119,8 +119,8 @@ export const Swap: React.FC = () => {
 		state.pool,
 		fromToken,
 		toToken,
-		new BigNumber(strStripCommas(state.amount) || 0),
-		new BigNumber(strStripCommas(state.receive) || 0),
+		new BigNumber(state.amount || 0),
+		new BigNumber(state.receive || 0),
 		new BigNumber(state.z3usFee || 0),
 		new BigNumber(state.z3usBurn || 0),
 		state.minimum,
@@ -162,10 +162,10 @@ export const Swap: React.FC = () => {
 					)
 					setState(draft => {
 						draft.time = Date.now()
-						draft.receive = poolQuote.receive.toFormat(9)
-						draft.poolFee = poolQuote.fee.toString()
-						draft.z3usFee = walletQuote.fee.toString()
-						draft.z3usBurn = walletQuote.burn.toString()
+						draft.receive = poolQuote.receive.decimalPlaces(9).toString()
+						draft.poolFee = poolQuote.fee.decimalPlaces(9).toString()
+						draft.z3usFee = walletQuote.fee.decimalPlaces(9).toString()
+						draft.z3usBurn = walletQuote.burn.decimalPlaces(9).toString()
 					})
 				} else {
 					const cheapestPoolQuote = await calculateCheapestPoolFeesFromAmount(
@@ -178,10 +178,10 @@ export const Swap: React.FC = () => {
 					setState(draft => {
 						draft.time = Date.now()
 						draft.pool = cheapestPoolQuote.pool
-						draft.receive = cheapestPoolQuote.receive.toFormat(9)
-						draft.poolFee = cheapestPoolQuote.fee.toString()
-						draft.z3usFee = walletQuote.fee.toString()
-						draft.z3usBurn = walletQuote.burn.toString()
+						draft.receive = cheapestPoolQuote.receive.decimalPlaces(9).toString()
+						draft.poolFee = cheapestPoolQuote.fee.decimalPlaces(9).toString()
+						draft.z3usFee = walletQuote.fee.decimalPlaces(9).toString()
+						draft.z3usBurn = walletQuote.burn.decimalPlaces(9).toString()
 					})
 				}
 			} else if (pool) {
@@ -189,10 +189,10 @@ export const Swap: React.FC = () => {
 				const walletQuote = getZ3USFees(poolQuote.amount, burn, liquidBalances)
 				setState(draft => {
 					draft.time = Date.now()
-					draft.amount = poolQuote.amount.plus(walletQuote.fee).toFormat(9)
-					draft.poolFee = poolQuote.fee.toString()
-					draft.z3usFee = walletQuote.fee.toString()
-					draft.z3usBurn = walletQuote.burn.toString()
+					draft.amount = poolQuote.amount.plus(walletQuote.fee).decimalPlaces(9).toString()
+					draft.poolFee = poolQuote.fee.decimalPlaces(9).toString()
+					draft.z3usFee = walletQuote.fee.decimalPlaces(9).toString()
+					draft.z3usBurn = walletQuote.burn.decimalPlaces(9).toString()
 				})
 			} else {
 				const cheapestPoolQuote = await calculateCheapestPoolFeesFromReceive(
@@ -206,10 +206,10 @@ export const Swap: React.FC = () => {
 				setState(draft => {
 					draft.time = Date.now()
 					draft.pool = cheapestPoolQuote.pool
-					draft.amount = cheapestPoolQuote.amount.plus(walletQuote.fee).toFormat(9)
-					draft.poolFee = cheapestPoolQuote.fee.toString()
-					draft.z3usFee = walletQuote.fee.toString()
-					draft.z3usBurn = walletQuote.burn.toString()
+					draft.amount = cheapestPoolQuote.amount.plus(walletQuote.fee).decimalPlaces(9).toString()
+					draft.poolFee = cheapestPoolQuote.fee.decimalPlaces(9).toString()
+					draft.z3usFee = walletQuote.fee.decimalPlaces(9).toString()
+					draft.z3usBurn = walletQuote.burn.decimalPlaces(9).toString()
 				})
 			}
 		} catch (error) {
@@ -238,23 +238,23 @@ export const Swap: React.FC = () => {
 		if (Date.now() - state.time < refreshInterval) return
 
 		if (state.inputSide === 'from' && state.amount) {
-			calculateSwap(new BigNumber(strStripCommas(state.amount) || 0), state.inputSide, state.pool, state.burn)
+			calculateSwap(new BigNumber(state.amount || 0), state.inputSide, state.pool, state.burn)
 		} else if (state.inputSide === 'to' && state.receive) {
-			calculateSwap(new BigNumber(strStripCommas(state.receive) || 0), state.inputSide, state.pool, state.burn)
+			calculateSwap(new BigNumber(state.receive || 0), state.inputSide, state.pool, state.burn)
 		}
 	}, [state.time])
 
 	useEffect(() => {
 		if (!state.isMounted || state.isLoading) return
 		if (state.inputSide === 'from' && state.amount) {
-			calculateSwap(new BigNumber(strStripCommas(state.amount) || 0), state.inputSide, state.pool, state.burn)
+			calculateSwap(new BigNumber(state.amount || 0), state.inputSide, state.pool, state.burn)
 		}
 	}, [debouncedAmount])
 
 	useEffect(() => {
 		if (!state.isMounted || state.isLoading) return
 		if (state.inputSide === 'to' && state.receive) {
-			calculateSwap(new BigNumber(strStripCommas(state.receive) || 0), state.inputSide, state.pool, state.burn)
+			calculateSwap(new BigNumber(state.receive || 0), state.inputSide, state.pool, state.burn)
 		}
 	}, [debouncedReceive])
 
@@ -263,7 +263,7 @@ export const Swap: React.FC = () => {
 			draft.pool = pool
 		})
 
-		calculateSwap(new BigNumber(strStripCommas(state.amount) || 0), state.inputSide, pool, state.burn)
+		calculateSwap(new BigNumber(state.amount || 0), state.inputSide, pool, state.burn)
 	}
 
 	const handleAccountChange = async (accountIndex: number) => {
@@ -279,6 +279,9 @@ export const Swap: React.FC = () => {
 			draft.amount = ''
 			draft.receive = ''
 			draft.fromRRI = rri
+			draft.toRRI = Object.keys(possibleTokens[rri] || {})
+				.filter(_rri => _rri !== rri)
+				.find(_rri => _rri === state.toRRI)
 			draft.pool = null
 		})
 	}
@@ -288,6 +291,9 @@ export const Swap: React.FC = () => {
 			draft.amount = ''
 			draft.receive = ''
 			draft.toRRI = rri
+			draft.fromRRI = Object.keys(possibleTokens || {})
+				.filter(_rri => _rri !== rri)
+				.find(_rri => _rri === state.fromRRI)
 			draft.pool = null
 		})
 	}
@@ -308,7 +314,7 @@ export const Swap: React.FC = () => {
 		const amount = selectedTokenAmmount.minus(networkFee).toFixed(9)
 
 		setState(draft => {
-			draft.amount = numberWithCommas(amount)
+			draft.amount = amount
 			draft.inputSide = 'from'
 		})
 		inputFromRef.current.focus()
@@ -321,7 +327,7 @@ export const Swap: React.FC = () => {
 		if (!isValid) return
 
 		setState(draft => {
-			draft.amount = numberWithCommas(amount)
+			draft.amount = amount
 			draft.inputSide = 'from'
 		})
 	}
@@ -332,7 +338,7 @@ export const Swap: React.FC = () => {
 		const isValid = REGEX_INPUT.test(receive)
 		if (!isValid) return
 		setState(draft => {
-			draft.receive = numberWithCommas(receive)
+			draft.receive = receive
 			draft.inputSide = 'to'
 		})
 	}
@@ -457,7 +463,7 @@ export const Swap: React.FC = () => {
 									theme="minimal"
 									type="text"
 									size="2"
-									value={state.amount}
+									value={numberWithCommas(state.amount)}
 									placeholder="Enter amount"
 									onFocus={handleInputFromFocus}
 									onBlur={handleInputFromBlur}
@@ -536,7 +542,7 @@ export const Swap: React.FC = () => {
 									type="text"
 									theme="minimal"
 									size="2"
-									value={state.receive}
+									value={numberWithCommas(state.receive)}
 									placeholder="Receive"
 									onFocus={handleInputToFocus}
 									onBlur={handleInputToBlur}
@@ -604,10 +610,12 @@ export const Swap: React.FC = () => {
 					<FeeBox
 						fromToken={fromToken}
 						toToken={toToken}
+						amount={new BigNumber(state.amount || 0)}
+						receive={new BigNumber(state.receive || 0)}
 						txFee={txFee.fee}
 						poolFee={new BigNumber(state.poolFee)}
 						z3usFee={new BigNumber(state.z3usFee)}
-						z3usBurn={state.burn ? new BigNumber(state.z3usBurn) : null}
+						z3usBurn={new BigNumber(state.burn ? state.z3usBurn : 0)}
 						pool={state.pool}
 						pools={pools}
 						onPoolChange={handlePoolChange}
@@ -629,7 +637,7 @@ export const Swap: React.FC = () => {
 							txFee={txFee.fee}
 							poolFee={new BigNumber(state.poolFee)}
 							z3usFee={new BigNumber(state.z3usFee)}
-							z3usBurn={state.burn ? new BigNumber(state.z3usBurn) : null}
+							z3usBurn={new BigNumber(state.burn ? state.z3usBurn : 0)}
 							minimum={state.minimum}
 							slippage={state.slippage}
 							trigger={

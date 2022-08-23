@@ -20,9 +20,11 @@ interface IProps {
 	showFeeBreakDown?: boolean
 	fromToken?: Token
 	toToken?: Token
+	amount: BigNumber
+	receive: BigNumber
 	poolFee: BigNumber
 	z3usFee: BigNumber
-	z3usBurn?: BigNumber
+	z3usBurn: BigNumber
 	txFee: BigNumber
 	pool?: Pool
 	pools?: Array<Pool>
@@ -39,6 +41,8 @@ export const FeeBox: React.FC<IProps> = ({
 	showFeeBreakDown,
 	fromToken,
 	toToken,
+	amount,
+	receive,
 	poolFee,
 	z3usFee,
 	z3usBurn,
@@ -66,6 +70,8 @@ export const FeeBox: React.FC<IProps> = ({
 		return null
 	}
 
+	const totalFee = poolFee.plus(z3usFee).plus(txFee)
+
 	return (
 		<Box
 			css={{
@@ -85,7 +91,9 @@ export const FeeBox: React.FC<IProps> = ({
 						Rate:
 					</Text>
 					<Text medium css={{ pl: '$1' }}>
-						1 XRD ≈ 2.34 OCI
+						{`1 ${fromToken?.symbol.toUpperCase()} ≈ ${
+							amount.gt(0) ? formatBigNumber(receive.dividedBy(amount)) : 0
+						} ${toToken?.symbol.toUpperCase()}`}
 					</Text>
 				</Flex>
 				<Flex css={{ flex: '1', width: '100%' }}>
@@ -188,22 +196,24 @@ export const FeeBox: React.FC<IProps> = ({
 													)}
 												</Text>
 											</Flex>
-											<Flex css={{ display: 'none' }}>
-												<Text medium size="2" css={{ color: '$txtHelp' }}>
-													@TODO: Z3US burn fee:
-												</Text>
-												{/* <Text size="2"> */}
-												{/* 	<Box css={{ pl: '$1' }}>{`${formatBigNumber( */}
-												{/* 		z3usBurn, */}
-												{/* 		z3usToken?.symbol, */}
-												{/* 	)} ${z3usToken?.symbol.toUpperCase()}`}</Box> */}
-												{/* 	{z3usTicker && ( */}
-												{/* 		<Box css={{ pl: '$1' }}> */}
-												{/* 			{formatBigNumber(z3usBurn.multipliedBy(z3usTicker.last_price), currency, 2)} */}
-												{/* 		</Box> */}
-												{/* 	)} */}
-												{/* </Text> */}
-											</Flex>
+											{z3usBurn.gt(0) && (
+												<Flex>
+													<Text medium size="2" css={{ color: '$txtHelp' }}>
+														Z3US burn fee:
+													</Text>
+													<Text size="2">
+														<Box css={{ pl: '$1' }}>{`${formatBigNumber(
+															z3usBurn,
+															z3usToken?.symbol,
+														)} ${z3usToken?.symbol.toUpperCase()}`}</Box>
+														{z3usTicker && (
+															<Box css={{ pl: '$1' }}>
+																{formatBigNumber(z3usBurn.multipliedBy(z3usTicker.last_price), currency, 2)}
+															</Box>
+														)}
+													</Text>
+												</Flex>
+											)}
 										</Flex>
 									</HoverCardContent>
 								</HoverCard>
@@ -211,7 +221,9 @@ export const FeeBox: React.FC<IProps> = ({
 						)}
 					</Text>
 					<Text medium css={{ pl: '$1' }}>
-						@TODO: $0.0002
+						{fromTicker
+							? formatBigNumber(totalFee.multipliedBy(fromTicker.last_price), currency, 2)
+							: `${formatBigNumber(totalFee, fromToken?.symbol)} ${fromToken?.symbol.toUpperCase()}`}
 					</Text>
 				</Flex>
 			</Flex>
@@ -224,7 +236,6 @@ FeeBox.defaultProps = {
 	showFeeBreakDown: false,
 	fromToken: null,
 	toToken: null,
-	z3usBurn: null,
 	pool: null,
 	pools: null,
 	onPoolChange: undefined,
