@@ -1,4 +1,5 @@
 import React from 'react'
+import { Pool, PoolType } from '@src/types'
 import { Cross2Icon, Pencil1Icon } from '@radix-ui/react-icons'
 import { Box, Text, Flex } from 'ui/src/components/atoms'
 import { StyledSlider, StyledTrack, StyledThumb, StyledRange } from 'ui/src/components/slider'
@@ -7,16 +8,20 @@ import { Popover, PopoverArrow, PopoverContent, PopoverTrigger, PopoverClose } f
 import { getSlippagePercentage } from '../utils'
 
 interface IProps {
+	pool?: Pool
 	minimum: boolean
 	onMinimumChange: (checked: boolean) => void
 	slippage: number
 	onSlippageChange: (slippage: number) => void
 }
 
-export const SlippageSettings: React.FC<IProps> = ({ minimum, onMinimumChange, slippage, onSlippageChange }) => {
+export const SlippageSettings: React.FC<IProps> = ({ pool, minimum, onMinimumChange, slippage, onSlippageChange }) => {
 	const handleSlippageChange = ([_slippage]: Array<number>) => {
 		onSlippageChange(_slippage / 100)
 	}
+
+	const supported = pool?.type === PoolType.OCI || pool?.type === PoolType.DOGECUBEX
+	const disabled = !supported || !minimum
 
 	return (
 		<Popover>
@@ -34,7 +39,7 @@ export const SlippageSettings: React.FC<IProps> = ({ minimum, onMinimumChange, s
 						cursor: 'pointer',
 					}}
 				>
-					<Text medium underline css={{ pr: '2px' }} color={!minimum ? 'muted' : undefined}>
+					<Text medium underline css={{ pr: '2px' }} color={disabled ? 'muted' : undefined}>
 						{getSlippagePercentage(slippage)}
 					</Text>
 					<Box css={{ transform: 'translateY(-1px)', mr: '-2px' }}>
@@ -54,14 +59,14 @@ export const SlippageSettings: React.FC<IProps> = ({ minimum, onMinimumChange, s
 							</PopoverClose>
 						</Flex>
 						<Box css={{ pt: '$1', pb: '$2' }}>
-							<Box css={{ transition: '$default', opacity: !minimum ? '0.3' : '1.0' }}>
+							<Box css={{ transition: '$default', opacity: disabled ? '0.3' : '1.0' }}>
 								<StyledSlider
 									onValueChange={handleSlippageChange}
 									value={[slippage * 100]}
 									max={50}
 									min={1}
 									step={1}
-									disabled={!minimum}
+									disabled={disabled}
 									aria-label="swap slippage tolerance"
 									css={{ width: '100%' }}
 								>
@@ -98,7 +103,13 @@ export const SlippageSettings: React.FC<IProps> = ({ minimum, onMinimumChange, s
 									opacity: 1,
 								}}
 							>
-								<Checkbox id="minimum" size="1" onCheckedChange={onMinimumChange} checked={minimum}>
+								<Checkbox
+									id="minimum"
+									size="1"
+									onCheckedChange={onMinimumChange}
+									checked={minimum && supported}
+									disabled={!supported}
+								>
 									<CheckIcon />
 								</Checkbox>
 								<Text medium size="2" as="label" css={{ paddingLeft: '$2' }} htmlFor="minimum">
@@ -117,4 +128,8 @@ export const SlippageSettings: React.FC<IProps> = ({ minimum, onMinimumChange, s
 			</PopoverContent>
 		</Popover>
 	)
+}
+
+SlippageSettings.defaultProps = {
+	pool: null,
 }

@@ -117,6 +117,7 @@ export const FeeBox: React.FC<IProps> = ({
 							<Text medium>{getSlippagePercentage(slippage)}</Text>
 						) : (
 							<SlippageSettings
+								pool={pool}
 								minimum={minimum}
 								onMinimumChange={onMinimumChange}
 								slippage={slippage}
