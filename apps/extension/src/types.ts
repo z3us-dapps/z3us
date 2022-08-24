@@ -163,6 +163,7 @@ export enum PoolType {
 	OCI = 'oci',
 	CAVIAR = 'caviar',
 	DOGECUBEX = 'dogecubex',
+	ASTROLESCENT = 'astrolescent',
 }
 
 export type Pool = {

@@ -1,14 +1,25 @@
 /* eslint-disable no-case-declarations */
 import { FLOOP_RRI, XRD_RRI, Z3US_FEE_RATIO, Z3US_RRI } from '@src/config'
-import { Pool, PoolType, Token, TokenAmount } from '@src/types'
+import { Action, Pool, PoolType, Token, TokenAmount } from '@src/types'
 import BigNumber from 'bignumber.js'
 import oci from '@src/services/oci'
+import astrolescent from '@src/services/astrolescent'
 import doge, { QuoteQuery } from '@src/services/dogecubex'
 // import { getSwapError } from '@src/utils/get-swap-error'
 
 const zero = new BigNumber(0)
 const one = new BigNumber(1)
 const caviarNetworkFee = one.dividedBy(10)
+
+export type Quote = {
+	amount: BigNumber
+	receive: BigNumber
+	fee: BigNumber
+	transactionData?: {
+		actions: Array<Action>
+		message: string
+	}
+}
 
 export const getZ3USFees = (
 	amount: BigNumber,
@@ -57,12 +68,10 @@ export const calculatePoolFeesFromAmount = async (
 	slippage: number,
 	from: Token,
 	to: Token,
+	accountAddress: string,
 	liquidBalances: TokenAmount[],
-): Promise<{
-	amount: BigNumber
-	receive: BigNumber
-	fee: BigNumber
-}> => {
+): Promise<Quote> => {
+	let transactionData
 	let receive = zero
 	let fee = zero
 
@@ -82,6 +91,13 @@ export const calculatePoolFeesFromAmount = async (
 
 			fee = ociLiquidityFee.plus(ociExchangeFee)
 			receive = ociQuote?.minimum_output ? new BigNumber(ociQuote?.minimum_output?.amount || 0) : receive
+			break
+		case PoolType.ASTROLESCENT:
+			const astrolescentQuote = await astrolescent.getSwap(accountAddress, from.rri, to.rri, amount, 'in')
+
+			fee = new BigNumber(astrolescentQuote.swapFee || 0)
+			receive = astrolescentQuote?.outputTokens ? new BigNumber(astrolescentQuote?.outputTokens || 0) : receive
+			transactionData = astrolescentQuote.transactionData
 			break
 		case PoolType.CAVIAR:
 			const floopToken = liquidBalances?.find(balance => balance.rri === FLOOP_RRI)
@@ -136,6 +152,7 @@ export const calculatePoolFeesFromAmount = async (
 		amount,
 		fee,
 		receive,
+		transactionData,
 	}
 }
 
@@ -146,13 +163,11 @@ export const calculatePoolFeesFromReceive = async (
 	slippage: number,
 	from: Token,
 	to: Token,
+	accountAddress: string,
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	liquidBalances: TokenAmount[],
-): Promise<{
-	amount: BigNumber
-	receive: BigNumber
-	fee: BigNumber
-}> => {
+): Promise<Quote> => {
+	let transactionData
 	let amount = zero
 	let fee = zero
 
@@ -172,6 +187,13 @@ export const calculatePoolFeesFromReceive = async (
 
 			fee = ociLiquidityFee.plus(ociExchangeFee)
 			amount = ociQuote?.input ? new BigNumber(ociQuote?.input.amount || 0) : amount
+			break
+		case PoolType.ASTROLESCENT:
+			const astrolescentQuote = await astrolescent.getSwap(accountAddress, from.rri, to.rri, receive, 'out')
+
+			fee = new BigNumber(astrolescentQuote.swapFee || 0)
+			amount = astrolescentQuote?.inputTokens ? new BigNumber(astrolescentQuote?.inputTokens || 0) : amount
+			transactionData = astrolescentQuote.transactionData
 			break
 		case PoolType.CAVIAR:
 			amount = zero // @TODO: fix
@@ -197,6 +219,7 @@ export const calculatePoolFeesFromReceive = async (
 		amount,
 		fee,
 		receive,
+		transactionData,
 	}
 }
 
@@ -206,19 +229,15 @@ export const calculateCheapestPoolFeesFromAmount = async (
 	slippage: number,
 	from: Token,
 	to: Token,
+	accountAddress: string,
 	liquidBalances: TokenAmount[],
-): Promise<{
-	pool: Pool
-	amount: BigNumber
-	receive: BigNumber
-	fee: BigNumber
-}> => {
+): Promise<{ pool: Pool } & Quote> => {
 	let pool: Pool
 	let cheapest
 	const results = await Promise.all(
 		pools.map(async p => {
 			try {
-				return await calculatePoolFeesFromAmount(pools, p, amount, slippage, from, to, liquidBalances)
+				return await calculatePoolFeesFromAmount(pools, p, amount, slippage, from, to, accountAddress, liquidBalances)
 			} catch (error) {
 				// eslint-disable-next-line no-console
 				console.error(error)
@@ -243,19 +262,15 @@ export const calculateCheapestPoolFeesFromReceive = async (
 	slippage: number,
 	from: Token,
 	to: Token,
+	accountAddress: string,
 	liquidBalances: TokenAmount[],
-): Promise<{
-	pool: Pool
-	amount: BigNumber
-	receive: BigNumber
-	fee: BigNumber
-}> => {
+): Promise<{ pool: Pool } & Quote> => {
 	let pool: Pool | null = null
 	let cheapest
 	const results = await Promise.all(
 		pools.map(async p => {
 			try {
-				return await calculatePoolFeesFromReceive(pools, p, receive, slippage, from, to, liquidBalances)
+				return await calculatePoolFeesFromReceive(pools, p, receive, slippage, from, to, accountAddress, liquidBalances)
 			} catch (error) {
 				// eslint-disable-next-line no-console
 				console.error(error)

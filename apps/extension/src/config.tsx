@@ -195,6 +195,12 @@ export const swapServices = {
 		image: 'images/dogecube/pool-icon-dogecube.png',
 		url: 'https://dogecubex.live',
 	},
+	[PoolType.ASTROLESCENT]: {
+		enabled: true,
+		type: PoolType.ASTROLESCENT,
+		image: 'images/astrolescent/pool-icon-astrolescent.png',
+		url: 'https://astrolescent.com/',
+	},
 }
 
 export const ACCOUNTS = 'accounts'

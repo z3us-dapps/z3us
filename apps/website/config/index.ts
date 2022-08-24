@@ -16,6 +16,7 @@ export const config = {
 	CAVIAR_SWAP_URL: 'https://caviarswap.io/',
 	DOGE_CUBE_URL: 'https://dogecubex.live/swap',
 	RADIT_IO_URL: 'https://www.radit.io/',
+	ASTROLESCENT_URL: 'https://astrolescent.com/',
 }
 
 export const bp = {

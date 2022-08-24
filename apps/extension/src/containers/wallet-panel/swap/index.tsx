@@ -14,7 +14,7 @@ import {
 	getZ3USFees,
 } from '@src/services/swap'
 import { OCI_RRI, XRD_RRI } from '@src/config'
-import { Pool } from '@src/types'
+import { Action, Pool } from '@src/types'
 import { ScrollArea } from 'ui/src/components/scroll-area'
 import Button from 'ui/src/components/button'
 import { AccountSelector } from '@src/components/account-selector'
@@ -41,6 +41,10 @@ interface ImmerState {
 	poolFee: string
 	z3usFee: string
 	z3usBurn: string
+	transactionData?: {
+		actions: Array<Action>
+		message: string
+	}
 	minimum: boolean
 	slippage: number
 	burn: boolean
@@ -66,6 +70,7 @@ const defaultState: ImmerState = {
 	poolFee: '',
 	z3usFee: '',
 	z3usBurn: '',
+	transactionData: undefined,
 	minimum: true,
 	slippage: 0.05,
 	burn: false,
@@ -125,6 +130,7 @@ export const Swap: React.FC = () => {
 		new BigNumber(state.z3usBurn || 0),
 		state.minimum,
 		onTransactionError,
+		state.transactionData,
 	)
 
 	// @Note: the timeout is needed to focus the input, or else it will jank the route entry transition
@@ -165,6 +171,7 @@ export const Swap: React.FC = () => {
 						slippage,
 						fromToken,
 						toToken,
+						accountAddress,
 						liquidBalances,
 					)
 					setState(draft => {
@@ -181,6 +188,7 @@ export const Swap: React.FC = () => {
 						slippage,
 						fromToken,
 						toToken,
+						accountAddress,
 						liquidBalances,
 					)
 					setState(draft => {
@@ -200,6 +208,7 @@ export const Swap: React.FC = () => {
 					slippage,
 					fromToken,
 					toToken,
+					accountAddress,
 					liquidBalances,
 				)
 				const walletQuote = getZ3USFees(poolQuote.amount, burn, liquidBalances)
@@ -217,6 +226,7 @@ export const Swap: React.FC = () => {
 					slippage,
 					fromToken,
 					toToken,
+					accountAddress,
 					liquidBalances,
 				)
 				const walletQuote = getZ3USFees(cheapestPoolQuote.amount, burn, liquidBalances)
