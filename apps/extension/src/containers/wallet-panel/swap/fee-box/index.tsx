@@ -91,9 +91,9 @@ export const FeeBox: React.FC<IProps> = ({
 						Rate:
 					</Text>
 					<Text medium css={{ pl: '$1' }}>
-						{`1 ${fromToken?.symbol.toUpperCase()} ≈ ${
+						{`1 ${fromToken?.symbol.toUpperCase() || ''} ≈ ${
 							amount.gt(0) ? formatBigNumber(receive.dividedBy(amount)) : 0
-						} ${toToken?.symbol.toUpperCase()}`}
+						} ${toToken?.symbol.toUpperCase() || ''}`}
 					</Text>
 				</Flex>
 				<Flex css={{ flex: '1', width: '100%' }}>

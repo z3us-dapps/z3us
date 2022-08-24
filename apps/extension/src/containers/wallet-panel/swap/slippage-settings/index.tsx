@@ -34,8 +34,8 @@ export const SlippageSettings: React.FC<IProps> = ({ minimum, onMinimumChange, s
 						cursor: 'pointer',
 					}}
 				>
-					<Text medium underline css={{ pr: '2px' }}>
-						{minimum ? 'Min' : getSlippagePercentage(slippage)}
+					<Text medium underline css={{ pr: '2px' }} color={!minimum ? 'muted' : undefined}>
+						{getSlippagePercentage(slippage)}
 					</Text>
 					<Box css={{ transform: 'translateY(-1px)', mr: '-2px' }}>
 						<Pencil1Icon />
@@ -47,22 +47,22 @@ export const SlippageSettings: React.FC<IProps> = ({ minimum, onMinimumChange, s
 					<Flex css={{ flexDirection: 'column', gap: 5 }}>
 						<Flex align="start" css={{ flexWrap: 'wrap' }}>
 							<Text size="3" bold truncate>
-								Slippage settings
+								Slippage Tolerance
 							</Text>
 							<PopoverClose aria-label="Close">
 								<Cross2Icon />
 							</PopoverClose>
 						</Flex>
 						<Box css={{ pt: '$1', pb: '$2' }}>
-							<Box css={{ transition: '$default', opacity: minimum ? '0.3' : '1.0' }}>
+							<Box css={{ transition: '$default', opacity: !minimum ? '0.3' : '1.0' }}>
 								<StyledSlider
 									onValueChange={handleSlippageChange}
 									value={[slippage * 100]}
-									max={5}
-									min={0.5}
-									step={0.5}
-									disabled={minimum}
-									aria-label="swap slippage settings"
+									max={50}
+									min={1}
+									step={1}
+									disabled={!minimum}
+									aria-label="swap slippage tolerance"
 									css={{ width: '100%' }}
 								>
 									<StyledTrack>
@@ -71,9 +71,8 @@ export const SlippageSettings: React.FC<IProps> = ({ minimum, onMinimumChange, s
 									<StyledThumb />
 								</StyledSlider>
 							</Box>
-							{/* @TODO: need to implement properly */}
 							<Flex css={{ mt: '6px', justifyContent: 'space-between', pb: '$1' }}>
-								{['1', '2', '3', '4', '5'].map(_slippage => (
+								{new Array(50).map((_slippage: number) => (
 									<Text size="1" color="help" key={_slippage}>
 										{_slippage}%
 									</Text>
@@ -99,13 +98,14 @@ export const SlippageSettings: React.FC<IProps> = ({ minimum, onMinimumChange, s
 									<CheckIcon />
 								</Checkbox>
 								<Text medium size="2" as="label" css={{ paddingLeft: '$2' }} htmlFor="minimum">
-									Minimum
+									Enabled
 								</Text>
 							</Flex>
 						</Box>
 						<Text size="2" color="help" css={{ pt: '$1' }}>
-							Minimum will return unfilled if the rate has moved adversely against you. Wallet and transaction fees
-							still apply.
+							Slippage Tolerance is the pricing difference between the price at the confirmation time and the actual
+							price of the transaction users are willing to accept when swapping. Transaction will return unfilled if
+							the rate has moved adversely against you. Wallet and transaction fees still apply.
 						</Text>
 					</Flex>
 				</Flex>

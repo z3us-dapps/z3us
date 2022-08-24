@@ -3,8 +3,7 @@ import { swapErrors } from '@src/config'
 // Test for positive numbers only allow max 9 decimals
 export const REGEX_INPUT = /^\d*(\.\d{0,9})?$/i
 
-export const getSlippagePercentage = (num: number): string =>
-	`${num.toString().length > 4 ? (num * 100).toFixed(1) : num * 100}%`
+export const getSlippagePercentage = (num: number): string => `${(num * 100).toFixed()}%`
 
 const REGEX_COMMA = /\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g
 

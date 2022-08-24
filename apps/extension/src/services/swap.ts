@@ -54,6 +54,7 @@ export const calculatePoolFeesFromAmount = async (
 	pools: Pool[],
 	pool: Pool,
 	amount: BigNumber,
+	slippage: number,
 	from: Token,
 	to: Token,
 	liquidBalances: TokenAmount[],
@@ -75,7 +76,7 @@ export const calculatePoolFeesFromAmount = async (
 
 	switch (pool.type) {
 		case PoolType.OCI:
-			const ociQuote = await oci.calculateSwapFromAmount(from.rri, to.rri, amount)
+			const ociQuote = await oci.calculateSwapFromAmount(from.rri, to.rri, amount, slippage)
 			const ociLiquidityFee = new BigNumber(ociQuote?.fee_liquidity_provider[0]?.amount || 0)
 			const ociExchangeFee = new BigNumber(ociQuote?.fee_exchange[0]?.amount || 0)
 
@@ -114,7 +115,7 @@ export const calculatePoolFeesFromAmount = async (
 			const query: QuoteQuery = {
 				from: from.symbol.toUpperCase(),
 				to: to.symbol.toUpperCase(),
-				maxSlippage: '0',
+				maxSlippage: `${slippage * 100}`,
 				amountFrom: amount.toString(),
 				amountTo: null,
 			}
@@ -142,6 +143,7 @@ export const calculatePoolFeesFromReceive = async (
 	pools: Pool[],
 	pool: Pool,
 	receive: BigNumber,
+	slippage: number,
 	from: Token,
 	to: Token,
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -164,7 +166,7 @@ export const calculatePoolFeesFromReceive = async (
 
 	switch (pool.type) {
 		case PoolType.OCI:
-			const ociQuote = await oci.calculateSwapFromRecieve(from.rri, to.rri, receive)
+			const ociQuote = await oci.calculateSwapFromRecieve(from.rri, to.rri, receive, slippage)
 			const ociLiquidityFee = new BigNumber(ociQuote?.fee_liquidity_provider[0]?.amount || 0)
 			const ociExchangeFee = new BigNumber(ociQuote?.fee_exchange[0]?.amount || 0)
 
@@ -178,7 +180,7 @@ export const calculatePoolFeesFromReceive = async (
 			const query: QuoteQuery = {
 				from: from.symbol.toUpperCase(),
 				to: to.symbol.toUpperCase(),
-				maxSlippage: '0',
+				maxSlippage: `${slippage * 100}`,
 				amountFrom: null,
 				amountTo: receive.toString(),
 			}
@@ -201,6 +203,7 @@ export const calculatePoolFeesFromReceive = async (
 export const calculateCheapestPoolFeesFromAmount = async (
 	pools: Pool[],
 	amount: BigNumber,
+	slippage: number,
 	from: Token,
 	to: Token,
 	liquidBalances: TokenAmount[],
@@ -215,7 +218,7 @@ export const calculateCheapestPoolFeesFromAmount = async (
 	const results = await Promise.all(
 		pools.map(async p => {
 			try {
-				return await calculatePoolFeesFromAmount(pools, p, amount, from, to, liquidBalances)
+				return await calculatePoolFeesFromAmount(pools, p, amount, slippage, from, to, liquidBalances)
 			} catch (error) {
 				// eslint-disable-next-line no-console
 				console.error(error)
@@ -237,6 +240,7 @@ export const calculateCheapestPoolFeesFromAmount = async (
 export const calculateCheapestPoolFeesFromReceive = async (
 	pools: Pool[],
 	receive: BigNumber,
+	slippage: number,
 	from: Token,
 	to: Token,
 	liquidBalances: TokenAmount[],
@@ -251,7 +255,7 @@ export const calculateCheapestPoolFeesFromReceive = async (
 	const results = await Promise.all(
 		pools.map(async p => {
 			try {
-				return await calculatePoolFeesFromReceive(pools, p, receive, from, to, liquidBalances)
+				return await calculatePoolFeesFromReceive(pools, p, receive, slippage, from, to, liquidBalances)
 			} catch (error) {
 				// eslint-disable-next-line no-console
 				console.error(error)

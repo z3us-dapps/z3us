@@ -52,7 +52,7 @@ export class OCIService {
 		toRRI: string,
 		amount: BigNumber,
 		recieve: BigNumber,
-		slippage: number = 0.05,
+		slippage: number,
 	): Promise<CalculateSwapResponse> => {
 		const resp = await this.doRequest<{ data: { calculate_swap: CalculateSwapResponse } }>(
 			JSON.stringify({
@@ -96,11 +96,19 @@ export class OCIService {
 		return resp?.data?.calculate_swap
 	}
 
-	calculateSwapFromAmount = (fromRRI: string, toRRI: string, amount: BigNumber): Promise<CalculateSwapResponse> =>
-		this.calculateSwap(fromRRI, toRRI, amount, zero)
+	calculateSwapFromAmount = (
+		fromRRI: string,
+		toRRI: string,
+		amount: BigNumber,
+		slippage: number,
+	): Promise<CalculateSwapResponse> => this.calculateSwap(fromRRI, toRRI, amount, zero, slippage)
 
-	calculateSwapFromRecieve = (fromRRI: string, toRRI: string, recieve: BigNumber): Promise<CalculateSwapResponse> =>
-		this.calculateSwap(fromRRI, toRRI, zero, recieve)
+	calculateSwapFromRecieve = (
+		fromRRI: string,
+		toRRI: string,
+		recieve: BigNumber,
+		slippage: number,
+	): Promise<CalculateSwapResponse> => this.calculateSwap(fromRRI, toRRI, zero, recieve, slippage)
 
 	getPools = async (): Promise<PoolsResponse> => {
 		const resp = await this.doRequest<{ data: { pools: PoolsResponse } }>(

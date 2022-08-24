@@ -66,8 +66,8 @@ const defaultState: ImmerState = {
 	poolFee: '',
 	z3usFee: '',
 	z3usBurn: '',
-	minimum: false,
-	slippage: 0.01,
+	minimum: true,
+	slippage: 0.05,
 	burn: false,
 	isLoading: false,
 	isMounted: false,
@@ -143,7 +143,13 @@ export const Swap: React.FC = () => {
 		})
 	}, refreshInterval)
 
-	const calculateSwap = async (value: BigNumber, valueType: 'from' | 'to', pool?: Pool, burn: boolean = false) => {
+	const calculateSwap = async (
+		value: BigNumber,
+		slippage: number,
+		valueType: 'from' | 'to',
+		pool?: Pool,
+		burn: boolean = false,
+	) => {
 		if (state.isLoading) return
 		setState(draft => {
 			draft.isLoading = true
@@ -156,6 +162,7 @@ export const Swap: React.FC = () => {
 						pools,
 						pool,
 						walletQuote.amount,
+						slippage,
 						fromToken,
 						toToken,
 						liquidBalances,
@@ -171,6 +178,7 @@ export const Swap: React.FC = () => {
 					const cheapestPoolQuote = await calculateCheapestPoolFeesFromAmount(
 						pools,
 						walletQuote.amount,
+						slippage,
 						fromToken,
 						toToken,
 						liquidBalances,
@@ -185,7 +193,15 @@ export const Swap: React.FC = () => {
 					})
 				}
 			} else if (pool) {
-				const poolQuote = await calculatePoolFeesFromReceive(pools, pool, value, fromToken, toToken, liquidBalances)
+				const poolQuote = await calculatePoolFeesFromReceive(
+					pools,
+					pool,
+					value,
+					slippage,
+					fromToken,
+					toToken,
+					liquidBalances,
+				)
 				const walletQuote = getZ3USFees(poolQuote.amount, burn, liquidBalances)
 				setState(draft => {
 					draft.time = Date.now()
@@ -198,6 +214,7 @@ export const Swap: React.FC = () => {
 				const cheapestPoolQuote = await calculateCheapestPoolFeesFromReceive(
 					pools,
 					value,
+					slippage,
 					fromToken,
 					toToken,
 					liquidBalances,
@@ -238,23 +255,23 @@ export const Swap: React.FC = () => {
 		if (Date.now() - state.time < refreshInterval) return
 
 		if (state.inputSide === 'from' && state.amount) {
-			calculateSwap(new BigNumber(state.amount || 0), state.inputSide, state.pool, state.burn)
+			calculateSwap(new BigNumber(state.amount || 0), state.slippage, state.inputSide, state.pool, state.burn)
 		} else if (state.inputSide === 'to' && state.receive) {
-			calculateSwap(new BigNumber(state.receive || 0), state.inputSide, state.pool, state.burn)
+			calculateSwap(new BigNumber(state.receive || 0), state.slippage, state.inputSide, state.pool, state.burn)
 		}
 	}, [state.time])
 
 	useEffect(() => {
 		if (!state.isMounted || state.isLoading) return
 		if (state.inputSide === 'from' && state.amount) {
-			calculateSwap(new BigNumber(state.amount || 0), state.inputSide, state.pool, state.burn)
+			calculateSwap(new BigNumber(state.amount || 0), state.slippage, state.inputSide, state.pool, state.burn)
 		}
 	}, [debouncedAmount])
 
 	useEffect(() => {
 		if (!state.isMounted || state.isLoading) return
 		if (state.inputSide === 'to' && state.receive) {
-			calculateSwap(new BigNumber(state.receive || 0), state.inputSide, state.pool, state.burn)
+			calculateSwap(new BigNumber(state.receive || 0), state.slippage, state.inputSide, state.pool, state.burn)
 		}
 	}, [debouncedReceive])
 
@@ -263,7 +280,7 @@ export const Swap: React.FC = () => {
 			draft.pool = pool
 		})
 
-		calculateSwap(new BigNumber(state.amount || 0), state.inputSide, pool, state.burn)
+		calculateSwap(new BigNumber(state.amount || 0), state.slippage, state.inputSide, pool, state.burn)
 	}
 
 	const handleAccountChange = async (accountIndex: number) => {
