@@ -1,9 +1,8 @@
 import React from 'react'
 import { Pool, PoolType } from '@src/types'
-import { Cross2Icon, Pencil1Icon, InfoCircledIcon } from '@radix-ui/react-icons'
+import { Cross2Icon, Pencil1Icon, InfoCircledIcon, CircleBackslashIcon } from '@radix-ui/react-icons'
 import { Box, Text, Flex } from 'ui/src/components/atoms'
 import { StyledSlider, StyledTrack, StyledThumb, StyledRange } from 'ui/src/components/slider'
-
 import { HoverCard, HoverCardContent, HoverCardTrigger } from 'ui/src/components/hover-card'
 import { Checkbox, CheckIcon } from 'ui/src/components/checkbox'
 import { Popover, PopoverArrow, PopoverContent, PopoverTrigger, PopoverClose } from 'ui/src/components/popover'
@@ -28,19 +27,16 @@ export const SlippageSettings: React.FC<IProps> = ({ pool, minimum, onMinimumCha
 	return !supported ? (
 		<HoverCard>
 			<HoverCardTrigger asChild>
-				<Flex css={{ color: '$txtMuted', display: 'inline-flex' }}>
-					<InfoCircledIcon />
-					<Text medium lineThrough css={{ pl: '2px' }} color="muted">
-						{getSlippagePercentage(slippage)}
-					</Text>
+				<Flex css={{ color: '$txtHelp', display: 'inline-flex' }}>
+					<CircleBackslashIcon />
 				</Flex>
 			</HoverCardTrigger>
 			<HoverCardContent side="top" sideOffset={5} css={{ maxWidth: '180px', pointerEvents: 'auto', zIndex: '99' }}>
 				<Flex css={{ flexDirection: 'column', gap: '4px' }}>
 					<Text bold size="2">
-						Not supported
+						Slippage not supported
 					</Text>
-					<Text size="2">If slippage is disabled minimum will be returned</Text>
+					<Text size="2">This pool does not support slippage. The minimum will be returned.</Text>
 				</Flex>
 			</HoverCardContent>
 		</HoverCard>

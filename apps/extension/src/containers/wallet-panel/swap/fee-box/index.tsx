@@ -66,10 +66,6 @@ export const FeeBox: React.FC<IProps> = ({
 	const { data: fromTicker } = useTicker(currency, fromToken?.symbol)
 	const { data: z3usTicker } = useTicker(currency, z3usToken?.symbol)
 
-	if (!fromToken) {
-		return null
-	}
-
 	const totalFee = poolFee.plus(z3usFee).plus(txFee)
 
 	return (
@@ -90,9 +86,10 @@ export const FeeBox: React.FC<IProps> = ({
 						Rate:
 					</Text>
 					<Text medium css={{ pl: '$1' }}>
-						{`1 ${fromToken?.symbol.toUpperCase() || ''} ≈ ${
-							amount.gt(0) ? formatBigNumber(receive.dividedBy(amount)) : 0
-						} ${toToken?.symbol.toUpperCase() || ''}`}
+						{pool &&
+							`1 ${fromToken?.symbol.toUpperCase() || ''} ≈ ${
+								amount.gt(0) ? formatBigNumber(receive.dividedBy(amount)) : 0
+							} ${toToken?.symbol.toUpperCase() || ''}`}
 					</Text>
 				</Flex>
 				<Flex css={{ flex: '1', width: '100%' }}>
@@ -112,9 +109,8 @@ export const FeeBox: React.FC<IProps> = ({
 						Slippage:
 					</Text>
 					<Flex css={{ height: '15px', position: 'relative' }}>
-						{isConfirmFeeBox ? (
-							<Text medium>{getSlippagePercentage(slippage)}</Text>
-						) : (
+						{isConfirmFeeBox && <Text medium>{getSlippagePercentage(slippage)}</Text>}
+						{!isConfirmFeeBox && pool && (
 							<SlippageSettings
 								pool={pool}
 								minimum={minimum}
@@ -126,10 +122,10 @@ export const FeeBox: React.FC<IProps> = ({
 					</Flex>
 				</Flex>
 				<Flex css={{ flex: '1', width: '100%' }}>
-					<Text css={{ flex: '1', color: '$txtHelp', display: 'flex', alignItems: 'center' }} medium>
+					<Text css={{ flex: '1', color: '$txtHelp', display: 'flex', alignItems: 'center', height: '15px' }} medium>
 						Estimated Fees:
 						{isConfirmFeeBox && <TermsHoverCard pool={pool} />}
-						{showFeeBreakDown && (
+						{showFeeBreakDown && pool && (
 							<Box css={{ pl: '3px', transform: 'translateY(1px)', ...(css as any) }}>
 								<HoverCard>
 									<HoverCardTrigger asChild>
@@ -182,7 +178,7 @@ export const FeeBox: React.FC<IProps> = ({
 											</Flex>
 											<Flex>
 												<Text medium size="2" css={{ color: '$txtHelp' }}>
-													Z3US fee:
+													Wallet fee:
 												</Text>
 												<Text size="2" css={{ display: 'flex', flex: '1', justifyContent: 'flex-end' }}>
 													<Box css={{ pl: '$1' }}>{`${formatBigNumber(
@@ -221,9 +217,10 @@ export const FeeBox: React.FC<IProps> = ({
 						)}
 					</Text>
 					<Text medium css={{ pl: '$1' }}>
-						{fromTicker
-							? formatBigNumber(totalFee.multipliedBy(fromTicker.last_price), currency, 2)
-							: `${formatBigNumber(totalFee, fromToken?.symbol)} ${fromToken?.symbol.toUpperCase()}`}
+						{pool &&
+							(fromTicker
+								? formatBigNumber(totalFee.multipliedBy(fromTicker.last_price), currency, 2)
+								: `${formatBigNumber(totalFee, fromToken?.symbol)} ${fromToken?.symbol.toUpperCase()}`)}
 					</Text>
 				</Flex>
 			</Flex>
