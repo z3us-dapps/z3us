@@ -121,13 +121,14 @@ export const calculatePoolFeesFromAmount = async (
 			const dogeQuote = await doge.getQuote(query)
 			amount = new BigNumber(dogeQuote?.sentAmount || 0)
 			receive = new BigNumber(dogeQuote?.receivedAmount || 0)
-			if (receive.lte(0)) {
-				throw new Error('Input too low')
-			}
 			fee = amount.multipliedBy(11 / 1000)
 			break
 		default:
 			throw new Error(`Invalid pool: ${pool.name} - ${pool.type}`)
+	}
+
+	if (receive.lt(0)) {
+		throw new Error('Input too low')
 	}
 
 	return {
