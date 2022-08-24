@@ -288,6 +288,10 @@ export const Swap: React.FC = () => {
 	const handlePoolChange = async (pool: Pool) => {
 		setState(draft => {
 			draft.pool = pool
+			draft.poolFee = ''
+			draft.z3usFee = ''
+			draft.z3usBurn = ''
+			draft.transactionData = undefined
 		})
 
 		calculateSwap(new BigNumber(state.amount || 0), state.slippage, state.inputSide, pool, state.burn)
@@ -298,6 +302,10 @@ export const Swap: React.FC = () => {
 		setState(draft => {
 			draft.amount = ''
 			draft.receive = ''
+			draft.poolFee = ''
+			draft.z3usFee = ''
+			draft.z3usBurn = ''
+			draft.transactionData = undefined
 		})
 	}
 
@@ -305,6 +313,10 @@ export const Swap: React.FC = () => {
 		setState(draft => {
 			draft.amount = ''
 			draft.receive = ''
+			draft.poolFee = ''
+			draft.z3usFee = ''
+			draft.z3usBurn = ''
+			draft.transactionData = undefined
 			draft.fromRRI = rri
 			draft.toRRI = Object.keys(possibleTokens[rri] || {})
 				.filter(_rri => _rri !== rri)
@@ -317,6 +329,10 @@ export const Swap: React.FC = () => {
 		setState(draft => {
 			draft.amount = ''
 			draft.receive = ''
+			draft.poolFee = ''
+			draft.z3usFee = ''
+			draft.z3usBurn = ''
+			draft.transactionData = undefined
 			draft.toRRI = rri
 			draft.fromRRI = Object.keys(possibleTokens || {})
 				.filter(_rri => _rri !== rri)
@@ -332,7 +348,10 @@ export const Swap: React.FC = () => {
 			})
 			draft.toRRI = state.fromRRI
 			draft.fromRRI = state.toRRI
-			draft.isMounted = true
+			draft.poolFee = ''
+			draft.z3usFee = ''
+			draft.z3usBurn = ''
+			draft.transactionData = undefined
 		})
 	}
 
@@ -343,6 +362,10 @@ export const Swap: React.FC = () => {
 		setState(draft => {
 			draft.amount = amount
 			draft.inputSide = 'from'
+			draft.poolFee = ''
+			draft.z3usFee = ''
+			draft.z3usBurn = ''
+			draft.transactionData = undefined
 		})
 		inputFromRef.current.focus()
 	}
@@ -356,6 +379,10 @@ export const Swap: React.FC = () => {
 		setState(draft => {
 			draft.amount = amount
 			draft.inputSide = 'from'
+			draft.poolFee = ''
+			draft.z3usFee = ''
+			draft.z3usBurn = ''
+			draft.transactionData = undefined
 		})
 	}
 
@@ -367,6 +394,10 @@ export const Swap: React.FC = () => {
 		setState(draft => {
 			draft.receive = receive
 			draft.inputSide = 'to'
+			draft.poolFee = ''
+			draft.z3usFee = ''
+			draft.z3usBurn = ''
+			draft.transactionData = undefined
 		})
 	}
 
@@ -668,8 +699,8 @@ export const Swap: React.FC = () => {
 						amount={new BigNumber(state.amount || 0)}
 						receive={new BigNumber(state.receive || 0)}
 						txFee={txFee.fee}
-						poolFee={new BigNumber(state.poolFee)}
-						z3usFee={new BigNumber(state.z3usFee)}
+						poolFee={new BigNumber(state.poolFee || 0)}
+						z3usFee={new BigNumber(state.z3usFee || 0)}
 						z3usBurn={new BigNumber(state.burn ? state.z3usBurn : 0)}
 						pool={state.pool}
 						pools={pools}
@@ -690,8 +721,8 @@ export const Swap: React.FC = () => {
 							amount={new BigNumber(state.amount || 0)}
 							receive={new BigNumber(state.receive || 0)}
 							txFee={txFee.fee}
-							poolFee={new BigNumber(state.poolFee)}
-							z3usFee={new BigNumber(state.z3usFee)}
+							poolFee={new BigNumber(state.poolFee || 0)}
+							z3usFee={new BigNumber(state.z3usFee || 0)}
 							z3usBurn={new BigNumber(state.burn ? state.z3usBurn : 0)}
 							minimum={state.minimum}
 							slippage={state.slippage}
