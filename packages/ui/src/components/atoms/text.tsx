@@ -144,6 +144,11 @@ export const Text = styled('span', {
 				textDecoration: 'underline',
 			},
 		},
+		lineThrough: {
+			true: {
+				textDecoration: 'line-through',
+			},
+		},
 		truncate: {
 			true: {
 				whiteSpace: 'nowrap',

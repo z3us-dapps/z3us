@@ -1,8 +1,10 @@
 import React from 'react'
 import { Pool, PoolType } from '@src/types'
-import { Cross2Icon, Pencil1Icon } from '@radix-ui/react-icons'
+import { Cross2Icon, Pencil1Icon, InfoCircledIcon } from '@radix-ui/react-icons'
 import { Box, Text, Flex } from 'ui/src/components/atoms'
 import { StyledSlider, StyledTrack, StyledThumb, StyledRange } from 'ui/src/components/slider'
+
+import { HoverCard, HoverCardContent, HoverCardTrigger } from 'ui/src/components/hover-card'
 import { Checkbox, CheckIcon } from 'ui/src/components/checkbox'
 import { Popover, PopoverArrow, PopoverContent, PopoverTrigger, PopoverClose } from 'ui/src/components/popover'
 import { getSlippagePercentage } from '../utils'
@@ -23,7 +25,26 @@ export const SlippageSettings: React.FC<IProps> = ({ pool, minimum, onMinimumCha
 	const supported = pool?.type === PoolType.OCI || pool?.type === PoolType.DOGECUBEX
 	const disabled = !supported || !minimum
 
-	return (
+	return !supported ? (
+		<HoverCard>
+			<HoverCardTrigger asChild>
+				<Flex css={{ color: '$txtMuted', display: 'inline-flex' }}>
+					<InfoCircledIcon />
+					<Text medium lineThrough css={{ pl: '2px' }} color="muted">
+						{getSlippagePercentage(slippage)}
+					</Text>
+				</Flex>
+			</HoverCardTrigger>
+			<HoverCardContent side="top" sideOffset={5} css={{ maxWidth: '180px', pointerEvents: 'auto', zIndex: '99' }}>
+				<Flex css={{ flexDirection: 'column', gap: '4px' }}>
+					<Text bold size="2">
+						Not supported
+					</Text>
+					<Text size="2">If slippage is disabled minimum will be returned</Text>
+				</Flex>
+			</HoverCardContent>
+		</HoverCard>
+	) : (
 		<Popover>
 			<PopoverTrigger asChild>
 				<Box
@@ -34,12 +55,33 @@ export const SlippageSettings: React.FC<IProps> = ({ pool, minimum, onMinimumCha
 						p: '0',
 						outline: '0',
 						border: '0',
-						color: '$z3usPurple',
+						color: disabled ? '$txtMuted' : '$z3usPurple',
 						background: 'none',
 						cursor: 'pointer',
 					}}
 				>
-					<Text medium underline css={{ pr: '2px' }} color={disabled ? 'muted' : undefined}>
+					{disabled && (
+						<HoverCard>
+							<HoverCardTrigger asChild>
+								<Flex css={{ color: '$txtMuted', display: 'inline-flex', mr: '$1' }}>
+									<InfoCircledIcon />
+								</Flex>
+							</HoverCardTrigger>
+							<HoverCardContent
+								side="top"
+								sideOffset={5}
+								css={{ maxWidth: '180px', pointerEvents: 'auto', zIndex: '99' }}
+							>
+								<Flex css={{ flexDirection: 'column', gap: '4px' }}>
+									<Text bold size="2">
+										Slippage disabled
+									</Text>
+									<Text size="2">If slippage is disabled minimum will be returned</Text>
+								</Flex>
+							</HoverCardContent>
+						</HoverCard>
+					)}
+					<Text medium underline={!disabled} lineThrough={disabled} css={{ pr: '2px' }}>
 						{getSlippagePercentage(slippage)}
 					</Text>
 					<Box css={{ transform: 'translateY(-1px)', mr: '-2px' }}>
