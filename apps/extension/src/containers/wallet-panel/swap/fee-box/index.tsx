@@ -81,7 +81,6 @@ export const FeeBox: React.FC<IProps> = ({
 				pt: '12px',
 				pb: '11px',
 				px: '15px',
-				mt: '16px',
 				...(css as any),
 			}}
 		>

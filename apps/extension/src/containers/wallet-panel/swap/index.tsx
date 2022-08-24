@@ -693,25 +693,27 @@ export const Swap: React.FC = () => {
 						</Flex>
 						<SwitchTokensButton onSwitchTokens={handleSwitchTokens} />
 					</Box>
-					<FeeBox
-						fromToken={fromToken}
-						toToken={toToken}
-						amount={new BigNumber(state.amount || 0)}
-						receive={new BigNumber(state.receive || 0)}
-						txFee={txFee.fee}
-						poolFee={new BigNumber(state.poolFee || 0)}
-						z3usFee={new BigNumber(state.z3usFee || 0)}
-						z3usBurn={new BigNumber(state.burn ? state.z3usBurn : 0)}
-						pool={state.pool}
-						pools={pools}
-						onPoolChange={handlePoolChange}
-						minimum={state.minimum}
-						onMinimumChange={handleSetMinimum}
-						slippage={state.slippage}
-						onSlippageChange={handleSetSlippage}
-						showFeeBreakDown
-					/>
-					<Box css={{ mt: '12px', position: 'relative' }}>
+					<Box css={{ mt: '13px', minHeight: '106px' }}>
+						<FeeBox
+							fromToken={fromToken}
+							toToken={toToken}
+							amount={new BigNumber(state.amount || 0)}
+							receive={new BigNumber(state.receive || 0)}
+							txFee={txFee.fee}
+							poolFee={new BigNumber(state.poolFee)}
+							z3usFee={new BigNumber(state.z3usFee)}
+							z3usBurn={new BigNumber(state.burn ? state.z3usBurn : 0)}
+							pool={state.pool}
+							pools={pools}
+							onPoolChange={handlePoolChange}
+							minimum={state.minimum}
+							onMinimumChange={handleSetMinimum}
+							slippage={state.slippage}
+							onSlippageChange={handleSetSlippage}
+							showFeeBreakDown
+						/>
+					</Box>
+					<Box css={{ mt: '13px', position: 'relative' }}>
 						<SwapModal
 							pool={state.pool}
 							transaction={txFee.transaction}
