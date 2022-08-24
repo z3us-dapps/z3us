@@ -112,7 +112,7 @@ export const Swap: React.FC = () => {
 	const liquidBalances = balances?.account_balances?.liquid_balances || []
 	const selectedToken = liquidBalances?.find(balance => balance.rri === state.fromRRI)
 	const selectedTokenAmmount = selectedToken ? new BigNumber(selectedToken.amount).shiftedBy(-18) : new BigNumber(0)
-	const hasInputValue = state.amount.length > 0 || state.receive.length > 0
+	const hasInputValues = state.amount.length > 0 && state.receive.length > 0
 
 	const onTransactionError = (error: TSwapError) => {
 		setState(draft => {
@@ -376,6 +376,10 @@ export const Swap: React.FC = () => {
 		const isValid = REGEX_INPUT.test(amount)
 		if (!isValid) return
 
+		if (amount.length === 0) {
+			onTransactionError(null)
+		}
+
 		setState(draft => {
 			draft.amount = amount
 			draft.inputSide = 'from'
@@ -391,6 +395,11 @@ export const Swap: React.FC = () => {
 		const receive = strStripCommas(value)
 		const isValid = REGEX_INPUT.test(receive)
 		if (!isValid) return
+
+		if (receive.length === 0) {
+			onTransactionError(null)
+		}
+
 		setState(draft => {
 			draft.receive = receive
 			draft.inputSide = 'to'
@@ -730,7 +739,7 @@ export const Swap: React.FC = () => {
 							slippage={state.slippage}
 							trigger={
 								<Box>
-									{errorInfo[state.errorType] && hasInputValue ? (
+									{errorInfo[state.errorType] && hasInputValues ? (
 										<Button
 											size="6"
 											color="red"
