@@ -70,14 +70,24 @@ export const SlippageSettings: React.FC<IProps> = ({ minimum, onMinimumChange, s
 									</StyledTrack>
 									<StyledThumb />
 								</StyledSlider>
-							</Box>
-							<Flex css={{ mt: '6px', justifyContent: 'space-between', pb: '$1' }}>
-								{new Array(50).map((_slippage: number) => (
-									<Text size="1" color="help" key={_slippage}>
-										{_slippage}%
+								<Flex css={{ mt: '6px', justifyContent: 'space-between' }}>
+									<Text size="1" color="help" css={{ transform: 'translateX(-1px)' }}>
+										1%
 									</Text>
-								))}
-							</Flex>
+									<Text size="1" color="help">
+										12%
+									</Text>
+									<Text size="1" color="help" css={{ transform: 'translateX(4px)' }}>
+										25%
+									</Text>
+									<Text size="1" color="help" css={{ transform: 'translateX(3px)' }}>
+										37%
+									</Text>
+									<Text size="1" color="help" css={{ transform: 'translateX(2px)' }}>
+										50%
+									</Text>
+								</Flex>
+							</Box>
 						</Box>
 						<Box>
 							<Flex
@@ -88,13 +98,7 @@ export const SlippageSettings: React.FC<IProps> = ({ minimum, onMinimumChange, s
 									opacity: 1,
 								}}
 							>
-								<Checkbox
-									id="minimum"
-									size="1"
-									onCheckedChange={onMinimumChange}
-									checked={minimum}
-									// disabled={state.isLoading}
-								>
+								<Checkbox id="minimum" size="1" onCheckedChange={onMinimumChange} checked={minimum}>
 									<CheckIcon />
 								</Checkbox>
 								<Text medium size="2" as="label" css={{ paddingLeft: '$2' }} htmlFor="minimum">
