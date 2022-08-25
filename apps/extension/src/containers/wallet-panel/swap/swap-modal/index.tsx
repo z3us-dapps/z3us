@@ -49,6 +49,7 @@ interface IProps {
 	onCloseSwapModal: () => void
 	slippage: number
 	minimum: boolean
+	disabledButton: boolean
 }
 
 export const SwapModal: React.FC<IProps> = ({
@@ -67,6 +68,7 @@ export const SwapModal: React.FC<IProps> = ({
 	onCloseSwapModal,
 	minimum,
 	slippage,
+	disabledButton,
 }) => {
 	const [, setLocation] = useLocation()
 	const queryClient = useQueryClient()
@@ -92,6 +94,7 @@ export const SwapModal: React.FC<IProps> = ({
 	const shortAddress = getShortAddress(address)
 
 	const handleOnClick = () => {
+		if (disabledButton) return
 		setState(draft => {
 			draft.isModalOpen = true
 			draft.isSendingAlertOpen = false

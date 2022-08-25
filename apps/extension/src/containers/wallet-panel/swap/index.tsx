@@ -741,6 +741,7 @@ export const Swap: React.FC = () => {
 							z3usBurn={new BigNumber(state.burn ? state.z3usBurn : 0)}
 							minimum={state.minimum}
 							slippage={state.slippage}
+							disabledButton={!account || !state.pool || !txFee?.transaction}
 							trigger={
 								<Box>
 									{errorInfo[state.errorType] && hasInputValues ? (
@@ -762,8 +763,8 @@ export const Swap: React.FC = () => {
 											aria-label="swap"
 											css={{ flex: '1' }}
 											fullWidth
-											loading={state.isLoading}
 											disabled={!account || !state.pool || !txFee?.transaction}
+											loading={state.isLoading}
 										>
 											Review swap
 										</Button>
