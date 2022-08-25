@@ -314,6 +314,7 @@ export const Swap: React.FC = () => {
 	}
 
 	const handleFromTokenChange = (rri: string) => {
+		console.log(999, possibleTokens[rri])
 		setState(draft => {
 			draft.amount = ''
 			draft.receive = ''
@@ -322,9 +323,10 @@ export const Swap: React.FC = () => {
 			draft.z3usBurn = ''
 			draft.transactionData = undefined
 			draft.fromRRI = rri
-			draft.toRRI = Object.keys(possibleTokens[rri] || {})
-				.filter(_rri => _rri !== rri)
-				.find(_rri => _rri === state.toRRI)
+			draft.toRRI =
+				Object.keys(possibleTokens[rri] || {})
+					.filter(_rri => _rri !== rri)
+					.find(_rri => _rri === state.toRRI) || XRD_RRI
 			draft.pool = null
 		})
 	}
@@ -338,9 +340,10 @@ export const Swap: React.FC = () => {
 			draft.z3usBurn = ''
 			draft.transactionData = undefined
 			draft.toRRI = rri
-			draft.fromRRI = Object.keys(possibleTokens || {})
-				.filter(_rri => _rri !== rri)
-				.find(_rri => _rri === state.fromRRI)
+			draft.fromRRI =
+				Object.keys(possibleTokens || {})
+					.filter(_rri => _rri !== rri)
+					.find(_rri => _rri === state.fromRRI) || XRD_RRI
 			draft.pool = null
 		})
 	}
