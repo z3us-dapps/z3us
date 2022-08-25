@@ -12,13 +12,20 @@ import {
 	AccountAddress,
 	IntendedTransferTokens,
 	BuiltTransactionReadyToSign,
+	ActionType as ApplicationActionType,
 } from '@radixdlt/application'
-import { Action, Pool, PoolType, Token } from '@src/types'
+import { IntendedAction, Pool, PoolType, Token, RawAction, ActionType } from '@src/types'
 import BigNumber from 'bignumber.js'
 import { buildAmount } from '@src/utils/radix'
 import { Z3US_WALLET_MAIN, Z3US_WALLET_BURN, Z3US_RRI, XRD_RRI, swapServices } from '@src/config'
 import { getSwapError, TSwapError } from '@src/utils/get-swap-error'
 import { useMessage } from '@src/hooks/use-message'
+import {
+	parseAccountAddress,
+	parseAmount,
+	parseResourceIdentifier,
+	parseValidatorAddress,
+} from '@src/services/radix/serializer'
 
 const poolQueryOptions = {
 	staleTime: 60 * 1000,
@@ -170,6 +177,15 @@ interface ImmerT {
 	fee: BigNumber
 }
 
+const actionTypeToIndentedActionType = {
+	[ActionType.TRANSFER_TOKENS]: ApplicationActionType.TOKEN_TRANSFER,
+	[ActionType.STAKE_TOKENS]: ApplicationActionType.STAKE_TOKENS,
+	[ActionType.UNSTAKE_TOKENS]: ApplicationActionType.UNSTAKE_TOKENS,
+	// [ActionType.CREATE_TOKEN]: ExtendedActionType.CREATE_TOKEN,
+	// [ActionType.MINT_TOKENS]: ExtendedActionType.MINT_TOKENS,
+	// [ActionType.BURN_TOKENS]: ExtendedActionType.BURN_TOKENS,
+}
+
 export const useTransactionFee = (
 	pool: Pool,
 	fromToken: Token,
@@ -181,7 +197,7 @@ export const useTransactionFee = (
 	minimum: boolean,
 	onTransactionError: (error: TSwapError) => void,
 	transactionData?: {
-		actions: Array<Action>
+		actions: Array<RawAction>
 		message: string
 	},
 ): {
@@ -245,7 +261,27 @@ export const useTransactionFee = (
 						})
 						return
 					}
-					actions.push(...transactionData.actions)
+					actions.push(
+						...transactionData.actions.map(
+							(action): IntendedAction => ({
+								type: actionTypeToIndentedActionType[action.type],
+								from_account: action?.from_account?.address
+									? parseAccountAddress(action.from_account.address)
+									: undefined,
+								to_account: action?.to_account?.address ? parseAccountAddress(action.to_account.address) : undefined,
+								from_validator: action?.from_validator?.address
+									? parseValidatorAddress(action.from_validator.address)
+									: undefined,
+								to_validator: action?.to_validator?.address
+									? parseValidatorAddress(action.to_validator.address)
+									: undefined,
+								amount: action?.amount?.value ? parseAmount(action.amount.value) : undefined,
+								rri: action?.amount?.token_identifier?.rri
+									? parseResourceIdentifier(action.amount.token_identifier.rri)
+									: undefined,
+							}),
+						),
+					)
 					plainText = transactionData.message
 					break
 				default:

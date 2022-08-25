@@ -1,5 +1,5 @@
 import React from 'react'
-import { Action } from '@src/types'
+import { Action, ActionType } from '@src/types'
 import Pill from 'ui/src/components/pill'
 import { getTransactionType } from '@src/utils/string-utils'
 
@@ -12,22 +12,22 @@ export const ActivityType: React.FC<IProps> = ({ activity, accountAddress }) => 
 	const label = getTransactionType(accountAddress, activity)
 
 	switch (activity.type) {
-		case 'TransferTokens': {
+		case ActionType.TRANSFER_TOKENS: {
 			const isSend = activity.to_account !== accountAddress
 			if (isSend) {
 				return <Pill color="gradientOrange">{label}</Pill>
 			}
 			return <Pill color="gradientGreen">{label}</Pill>
 		}
-		case 'StakeTokens':
+		case ActionType.STAKE_TOKENS:
 			return <Pill color="inverse">{label}</Pill>
-		case 'UnstakeTokens':
+		case ActionType.UNSTAKE_TOKENS:
 			return <Pill color="inverse">{label}</Pill>
-		case 'CreateTokenDefinition':
+		case ActionType.CREATE_TOKEN:
 			return <Pill color="inverse">{label}</Pill>
-		case 'BurnTokens':
+		case ActionType.BURN_TOKENS:
 			return <Pill color="inverse">{label}</Pill>
-		case 'MintTokens':
+		case ActionType.MINT_TOKENS:
 			return <Pill color="inverse">{label}</Pill>
 		default:
 			return <Pill color="inverse">{label}</Pill>

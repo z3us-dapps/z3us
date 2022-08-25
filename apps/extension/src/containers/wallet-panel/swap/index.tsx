@@ -14,7 +14,7 @@ import {
 	getZ3USFees,
 } from '@src/services/swap'
 import { OCI_RRI, XRD_RRI } from '@src/config'
-import { Action, Pool } from '@src/types'
+import { RawAction, Pool } from '@src/types'
 import { ScrollArea } from 'ui/src/components/scroll-area'
 import Button from 'ui/src/components/button'
 import { AccountSelector } from '@src/components/account-selector'
@@ -42,7 +42,7 @@ interface ImmerState {
 	z3usFee: string
 	z3usBurn: string
 	transactionData?: {
-		actions: Array<Action>
+		actions: Array<RawAction>
 		message: string
 	}
 	minimum: boolean
@@ -180,6 +180,7 @@ export const Swap: React.FC = () => {
 						draft.poolFee = poolQuote.fee.decimalPlaces(9).toString()
 						draft.z3usFee = walletQuote.fee.decimalPlaces(9).toString()
 						draft.z3usBurn = walletQuote.burn.decimalPlaces(9).toString()
+						draft.transactionData = poolQuote.transactionData
 					})
 				} else {
 					const cheapestPoolQuote = await calculateCheapestPoolFeesFromAmount(
@@ -198,6 +199,7 @@ export const Swap: React.FC = () => {
 						draft.poolFee = cheapestPoolQuote.fee.decimalPlaces(9).toString()
 						draft.z3usFee = walletQuote.fee.decimalPlaces(9).toString()
 						draft.z3usBurn = walletQuote.burn.decimalPlaces(9).toString()
+						draft.transactionData = cheapestPoolQuote.transactionData
 					})
 				}
 			} else if (pool) {
@@ -218,6 +220,7 @@ export const Swap: React.FC = () => {
 					draft.poolFee = poolQuote.fee.decimalPlaces(9).toString()
 					draft.z3usFee = walletQuote.fee.decimalPlaces(9).toString()
 					draft.z3usBurn = walletQuote.burn.decimalPlaces(9).toString()
+					draft.transactionData = poolQuote.transactionData
 				})
 			} else {
 				const cheapestPoolQuote = await calculateCheapestPoolFeesFromReceive(
@@ -237,6 +240,7 @@ export const Swap: React.FC = () => {
 					draft.poolFee = cheapestPoolQuote.fee.decimalPlaces(9).toString()
 					draft.z3usFee = walletQuote.fee.decimalPlaces(9).toString()
 					draft.z3usBurn = walletQuote.burn.decimalPlaces(9).toString()
+					draft.transactionData = cheapestPoolQuote.transactionData
 				})
 			}
 		} catch (error) {

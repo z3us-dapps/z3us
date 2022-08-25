@@ -1,6 +1,6 @@
 /* eslint-disable no-case-declarations */
 import { FLOOP_RRI, XRD_RRI, Z3US_FEE_RATIO, Z3US_RRI } from '@src/config'
-import { Action, Pool, PoolType, Token, TokenAmount } from '@src/types'
+import { RawAction, Pool, PoolType, Token, TokenAmount } from '@src/types'
 import BigNumber from 'bignumber.js'
 import oci from '@src/services/oci'
 import astrolescent from '@src/services/astrolescent'
@@ -16,7 +16,7 @@ export type Quote = {
 	receive: BigNumber
 	fee: BigNumber
 	transactionData?: {
-		actions: Array<Action>
+		actions: Array<RawAction>
 		message: string
 	}
 }

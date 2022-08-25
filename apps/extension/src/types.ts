@@ -33,8 +33,39 @@ export type KnownTokens = {
 
 export type Activity = BurnTokens | CreateTokenDefinition | MintTokens | StakeTokens | TransferTokens | UnstakeTokens
 
+export enum ActionType {
+	TRANSFER_TOKENS = 'TransferTokens',
+	STAKE_TOKENS = 'StakeTokens',
+	UNSTAKE_TOKENS = 'UnstakeTokens',
+	CREATE_TOKEN = 'CreateTokenDefinition',
+	MINT_TOKENS = 'MintTokens',
+	BURN_TOKENS = 'BurnTokens',
+}
+
+export type RawAction = {
+	type: ActionType
+	amount: {
+		token_identifier: {
+			rri: string
+		}
+		value: string
+	}
+	from_account?: {
+		address: string
+	}
+	to_account?: {
+		address: string
+	}
+	from_validator?: {
+		address: string
+	}
+	to_validator?: {
+		address: string
+	}
+}
+
 export type Action = {
-	type: string
+	type: ActionType
 	amount: string
 	rri?: string
 	from_account?: string

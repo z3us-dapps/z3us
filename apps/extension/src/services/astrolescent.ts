@@ -1,4 +1,4 @@
-import { Action } from '@src/types'
+import { RawAction } from '@src/types'
 import BigNumber from 'bignumber.js'
 
 export const PoolName = 'Astrolescent'
@@ -16,7 +16,7 @@ export type SwapResponse = {
 	priceImpact: number
 	swapFee: number
 	transactionData: {
-		actions: Array<Action>
+		actions: Array<RawAction>
 		encryptMessage: boolean
 		message: string
 	}
