@@ -314,7 +314,6 @@ export const Swap: React.FC = () => {
 	}
 
 	const handleFromTokenChange = (rri: string) => {
-		console.log(999, possibleTokens[rri])
 		setState(draft => {
 			draft.amount = ''
 			draft.receive = ''

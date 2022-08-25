@@ -1,5 +1,6 @@
 /* eslint-disable  @typescript-eslint/no-unused-vars */
-import React from 'react'
+import React, { useEffect } from 'react'
+import { useImmer } from 'use-immer'
 import { formatBigNumber } from '@src/utils/formatters'
 import BigNumber from 'bignumber.js'
 import { Box, Text, Flex } from 'ui/src/components/atoms'
@@ -14,6 +15,22 @@ import { PoolSelector } from '../pool-selector'
 import { TermsHoverCard } from '../terms-hover-card'
 import { SlippageSettings } from '../slippage-settings'
 import { getSlippagePercentage } from '../utils'
+
+interface ImmerState {
+	rate: string
+	estimatedFees: string
+	amount: string
+	receive: string
+	poolFee: string
+}
+
+const defaultState: ImmerState = {
+	rate: '',
+	estimatedFees: '',
+	amount: '',
+	receive: '',
+	poolFee: '',
+}
 
 interface IProps {
 	isConfirmFeeBox?: boolean
@@ -60,13 +77,30 @@ export const FeeBox: React.FC<IProps> = ({
 		currency: state.currency,
 	}))
 
+	const [state, setState] = useImmer<ImmerState>(defaultState)
 	const { data: nativeToken } = useNativeToken()
 	const { data: z3usToken } = useTokenInfo(Z3US_RRI)
 	const { data: nativeTicker } = useTicker(currency, nativeToken?.symbol)
 	const { data: fromTicker } = useTicker(currency, fromToken?.symbol)
 	const { data: z3usTicker } = useTicker(currency, z3usToken?.symbol)
-
 	const totalFee = poolFee.plus(z3usFee).plus(txFee)
+
+	useEffect(() => {
+		if (
+			(amount.toString() !== state.amount && receive.toString() !== state.receive) ||
+			(poolFee.toString() !== 'NaN' && poolFee.toString() !== state.poolFee)
+		) {
+			setState(draft => {
+				draft.poolFee = poolFee.toString()
+				draft.amount = amount.toString()
+				draft.receive = receive.toString()
+				draft.rate = receive.dividedBy(amount).toString() !== 'NaN' ? formatBigNumber(receive.dividedBy(amount)) : ''
+				draft.estimatedFees = fromTicker
+					? formatBigNumber(totalFee.multipliedBy(fromTicker.last_price), currency, 2)
+					: `${formatBigNumber(totalFee, fromToken?.symbol)} ${fromToken?.symbol.toUpperCase()}`
+			})
+		}
+	}, [amount.toString(), receive.toString(), poolFee.toString()])
 
 	return (
 		<Box
@@ -87,9 +121,7 @@ export const FeeBox: React.FC<IProps> = ({
 					</Text>
 					<Text medium css={{ pl: '$1' }}>
 						{pool &&
-							`1 ${fromToken?.symbol.toUpperCase() || ''} ≈ ${
-								amount.gt(0) ? formatBigNumber(receive.dividedBy(amount)) : 0
-							} ${toToken?.symbol.toUpperCase() || ''}`}
+							`1 ${fromToken?.symbol.toUpperCase() || ''} ≈ ${state.rate} ${toToken?.symbol.toUpperCase() || ''}`}
 					</Text>
 				</Flex>
 				<Flex css={{ flex: '1', width: '100%' }}>
@@ -217,10 +249,7 @@ export const FeeBox: React.FC<IProps> = ({
 						)}
 					</Text>
 					<Text medium css={{ pl: '$1' }}>
-						{pool &&
-							(fromTicker
-								? formatBigNumber(totalFee.multipliedBy(fromTicker.last_price), currency, 2)
-								: `${formatBigNumber(totalFee, fromToken?.symbol)} ${fromToken?.symbol.toUpperCase()}`)}
+						{pool && state.estimatedFees}
 					</Text>
 				</Flex>
 			</Flex>
