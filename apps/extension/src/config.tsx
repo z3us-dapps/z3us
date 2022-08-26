@@ -293,6 +293,5 @@ export const swapErrors: {
 	[key: string]: string
 } = {
 	ERROR_INSUFFICIENT_BALANCE: 'error_insufficient_balance',
-	ERROR_INPUT_TOO_LOW: 'error_input_too_low',
 	ERROR_NETWORK: 'error_network',
 }

@@ -1,8 +1,4 @@
-import { useEffect } from 'react'
-import { useStore, useSharedStore } from '@src/store'
 import { useQuery } from 'react-query'
-import { useImmer } from 'use-immer'
-import { useTransaction } from '@src/hooks/use-transaction'
 import caviar from '@src/services/caviar'
 import astrolescent, { PoolName as AstrolescentPoolName } from '@src/services/astrolescent'
 import oci, { PoolName as OCIPoolName } from '@src/services/oci'
@@ -13,13 +9,13 @@ import {
 	IntendedTransferTokens,
 	BuiltTransactionReadyToSign,
 	ActionType as ApplicationActionType,
+	AccountT,
 } from '@radixdlt/application'
 import { IntendedAction, Pool, PoolType, Token, RawAction, ActionType } from '@src/types'
 import BigNumber from 'bignumber.js'
 import { buildAmount } from '@src/utils/radix'
 import { Z3US_WALLET_MAIN, Z3US_WALLET_BURN, Z3US_RRI, XRD_RRI, swapServices } from '@src/config'
 import { getSwapError, TSwapError } from '@src/utils/get-swap-error'
-import { useMessage } from '@src/hooks/use-message'
 import {
 	parseAccountAddress,
 	parseAmount,
@@ -172,11 +168,6 @@ export const usePools = (fromRRI: string, toRRI: string): Pool[] => {
 	return pools
 }
 
-interface ImmerT {
-	transaction: BuiltTransactionReadyToSign
-	fee: BigNumber
-}
-
 const actionTypeToIndentedActionType = {
 	[ActionType.TRANSFER_TOKENS]: ApplicationActionType.TOKEN_TRANSFER,
 	[ActionType.STAKE_TOKENS]: ApplicationActionType.STAKE_TOKENS,
@@ -186,7 +177,7 @@ const actionTypeToIndentedActionType = {
 	// [ActionType.BURN_TOKENS]: ExtendedActionType.BURN_TOKENS,
 }
 
-export const useTransactionFee = (
+export const calculateTransactionFee = async (
 	pool: Pool,
 	fromToken: Token,
 	toToken: Token,
@@ -195,72 +186,55 @@ export const useTransactionFee = (
 	z3usFee: BigNumber,
 	z3usBurn: BigNumber,
 	minimum: boolean,
-	onTransactionError: (error: TSwapError) => void,
+	// @TODO: type these
+	buildTransactionFromActions: any,
+	createMessage: any,
+	account: AccountT,
 	transactionData?: {
 		actions: Array<RawAction>
 		message: string
 	},
-): {
+): Promise<{
 	transaction: BuiltTransactionReadyToSign | null
 	fee: BigNumber
-} => {
-	const { buildTransactionFromActions } = useTransaction()
-	const { createMessage } = useMessage()
-	const { account } = useStore(state => ({
-		account: state.account,
-	}))
-	const { addToast } = useSharedStore(state => ({
-		addToast: state.addToastAction,
-	}))
+	transactionFeeError: TSwapError
+}> => {
+	let transaction = null
+	let fee = new BigNumber(0)
+	let transactionFeeError = null
 
-	const [state, setState] = useImmer<ImmerT>({
-		transaction: null,
-		fee: new BigNumber(0),
-	})
+	if (amount.eq(0) || !pool?.wallet || !fromToken?.rri || !toToken?.rri) {
+		return { transaction, fee, transactionFeeError }
+	}
 
-	const fetchCost = async () => {
-		if (amount.eq(0) || !pool?.wallet || !fromToken?.rri || !toToken?.rri) {
-			setState(draft => {
-				draft.transaction = null
-				draft.fee = new BigNumber(0)
-			})
-			return
+	try {
+		const rriResult = ResourceIdentifier.fromUnsafe(fromToken.rri)
+		if (rriResult.isErr()) {
+			throw rriResult.error
 		}
 
-		try {
-			const rriResult = ResourceIdentifier.fromUnsafe(fromToken.rri)
-			if (rriResult.isErr()) {
-				throw rriResult.error
-			}
-
-			const actions = []
-			let plainText: string
-			switch (pool.type) {
-				case PoolType.OCI:
-					plainText = toToken.symbol.toUpperCase()
-					if (minimum) {
-						plainText = `${recieve.toString()} ${plainText}`
-					}
-					break
-				case PoolType.CAVIAR:
-					plainText = toToken.symbol.toUpperCase()
-					if (minimum) {
-						plainText = `MIN ${recieve.toString()} ${plainText}`
-					}
-					break
-				case PoolType.DOGECUBEX:
-					if (minimum) {
-						plainText = `>${recieve.toString()}`
-					}
-					break
-				case PoolType.ASTROLESCENT:
-					if (!transactionData) {
-						setState(draft => {
-							draft.transaction = null
-							draft.fee = new BigNumber(0)
-						})
-						return
-					}
+		const actions = []
+		let plainText: string
+		switch (pool.type) {
+			case PoolType.OCI:
+				plainText = toToken.symbol.toUpperCase()
+				if (minimum) {
+					plainText = `${recieve.toString()} ${plainText}`
+				}
+				break
+			case PoolType.CAVIAR:
+				plainText = toToken.symbol.toUpperCase()
+				if (minimum) {
+					plainText = `MIN ${recieve.toString()} ${plainText}`
+				}
+				break
+			case PoolType.DOGECUBEX:
+				if (minimum) {
+					plainText = `>${recieve.toString()}`
+				}
+				break
+			case PoolType.ASTROLESCENT:
+				if (transactionData) {
 					actions.push(
 						...transactionData.actions.map(
 							(action): IntendedAction => ({
@@ -283,108 +257,80 @@ export const useTransactionFee = (
 						),
 					)
 					plainText = transactionData.message
-					break
-				default:
-					throw new Error(`Invalid pool: ${pool.name} - ${pool.type}`)
-			}
-
-			if (z3usBurn.gt(0)) {
-				const actionResult = IntendedTransferTokens.create(
-					{
-						to_account: Z3US_WALLET_BURN,
-						amount: buildAmount(z3usBurn),
-						tokenIdentifier: Z3US_RRI,
-					},
-					account.address,
-				)
-				if (actionResult.isErr()) {
-					throw actionResult.error
 				}
-				actions.push(actionResult.value)
+				break
+			default:
+				throw new Error(`Invalid pool: ${pool.name} - ${pool.type}`)
+		}
+
+		if (z3usBurn.gt(0)) {
+			const actionResult = IntendedTransferTokens.create(
+				{
+					to_account: Z3US_WALLET_BURN,
+					amount: buildAmount(z3usBurn),
+					tokenIdentifier: Z3US_RRI,
+				},
+				account.address,
+			)
+			if (actionResult.isErr()) {
+				throw actionResult.error
+			}
+			actions.push(actionResult.value)
+		}
+
+		if (z3usFee.gt(0)) {
+			const actionResult = IntendedTransferTokens.create(
+				{
+					to_account: Z3US_WALLET_MAIN,
+					amount: buildAmount(z3usFee),
+					tokenIdentifier: rriResult.value,
+				},
+				account.address,
+			)
+			if (actionResult.isErr()) {
+				throw actionResult.error
+			}
+			actions.push(actionResult.value)
+		}
+
+		if (pool.type !== PoolType.ASTROLESCENT) {
+			const toResult = AccountAddress.fromUnsafe(pool.wallet)
+			if (toResult.isErr()) {
+				throw toResult.error
 			}
 
-			if (z3usFee.gt(0)) {
-				const actionResult = IntendedTransferTokens.create(
-					{
-						to_account: Z3US_WALLET_MAIN,
-						amount: buildAmount(z3usFee),
-						tokenIdentifier: rriResult.value,
-					},
-					account.address,
-				)
-				if (actionResult.isErr()) {
-					throw actionResult.error
-				}
-				actions.push(actionResult.value)
+			const actionResult = IntendedTransferTokens.create(
+				{
+					to_account: toResult.value,
+					amount: buildAmount(amount),
+					tokenIdentifier: rriResult.value,
+				},
+				account.address,
+			)
+			if (actionResult.isErr()) {
+				throw actionResult.error
 			}
+			actions.push(actionResult.value)
+		}
 
-			if (pool.type !== PoolType.ASTROLESCENT) {
-				const toResult = AccountAddress.fromUnsafe(pool.wallet)
-				if (toResult.isErr()) {
-					throw toResult.error
-				}
+		let message: string
+		if (plainText) {
+			message = await createMessage(plainText)
+		}
 
-				const actionResult = IntendedTransferTokens.create(
-					{
-						to_account: toResult.value,
-						amount: buildAmount(amount),
-						tokenIdentifier: rriResult.value,
-					},
-					account.address,
-				)
-				if (actionResult.isErr()) {
-					throw actionResult.error
-				}
-				actions.push(actionResult.value)
-			}
+		const { transaction: builtTransaction, fee: builtFee } = await buildTransactionFromActions(actions, message)
 
-			let message: string
-			if (plainText) {
-				message = await createMessage(plainText)
-			}
-
-			const { transaction, fee } = await buildTransactionFromActions(actions, message)
-
-			setState(draft => {
-				draft.transaction = transaction
-				draft.fee = new BigNumber(fee).shiftedBy(-18)
-			})
-
-			onTransactionError(null)
-		} catch (error) {
-			// eslint-disable-next-line no-console
-			console.error(error)
-			const errorMessageStr = (error?.message || error).toString().trim()
-			const errorType = getSwapError(errorMessageStr)
-			setState(draft => {
-				draft.transaction = null
-				draft.fee = new BigNumber(0)
-			})
-			if (errorType) {
-				onTransactionError(errorType)
-			} else {
-				addToast({
-					type: 'error',
-					title: 'Failed to calculate transaction fees',
-					subTitle: errorMessageStr,
-					duration: 5000,
-				})
-			}
+		transaction = builtTransaction
+		fee = new BigNumber(builtFee).shiftedBy(-18)
+	} catch (error) {
+		// eslint-disable-next-line no-console
+		console.error(error)
+		const errorMessageStr = (error?.message || error).toString().trim()
+		const errorType = getSwapError(errorMessageStr)
+		if (errorType) {
+			transactionFeeError = errorType
 		}
 	}
 
-	useEffect(() => {
-		fetchCost()
-	}, [
-		pool?.wallet,
-		fromToken?.rri,
-		toToken?.rri,
-		amount.toString(),
-		recieve.toString(),
-		z3usFee.toString(),
-		z3usBurn.toString(),
-		minimum,
-	])
-
-	return state
+	return { transaction, fee, transactionFeeError }
 }
