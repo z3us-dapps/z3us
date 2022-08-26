@@ -7,13 +7,14 @@ import { useImmer } from 'use-immer'
 import { useTimeout, useInterval } from 'usehooks-ts'
 import { useDebounce } from 'use-debounce'
 import { useTokenBalances, useTokenInfo } from '@src/hooks/react-query/queries/radix'
-import { usePools, usePoolTokens, calculateTransactionFee } from '@src/hooks/react-query/queries/swap'
+import { usePools, usePoolTokens } from '@src/hooks/react-query/queries/swap'
 import { BuiltTransactionReadyToSign } from '@radixdlt/application'
 import {
 	calculateCheapestPoolFeesFromAmount,
 	calculateCheapestPoolFeesFromReceive,
 	calculatePoolFeesFromAmount,
 	calculatePoolFeesFromReceive,
+	calculateTransactionFee,
 	getZ3USFees,
 } from '@src/services/swap'
 import { OCI_RRI, XRD_RRI } from '@src/config'
