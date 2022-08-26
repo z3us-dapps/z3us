@@ -31,12 +31,11 @@ export const SlippageSettings: React.FC<IProps> = ({ pool, minimum, onMinimumCha
 					<CircleBackslashIcon />
 				</Flex>
 			</HoverCardTrigger>
-			<HoverCardContent side="top" sideOffset={5} css={{ maxWidth: '180px', pointerEvents: 'auto', zIndex: '99' }}>
-				<Flex css={{ flexDirection: 'column', gap: '4px' }}>
+			<HoverCardContent side="top" sideOffset={5} css={{ width: '140px', pointerEvents: 'auto', zIndex: '99' }}>
+				<Flex css={{ flexDirection: 'column' }}>
 					<Text bold size="2">
 						Slippage not supported
 					</Text>
-					<Text size="2">This pool does not support slippage. The minimum will be returned.</Text>
 				</Flex>
 			</HoverCardContent>
 		</HoverCard>
@@ -66,13 +65,13 @@ export const SlippageSettings: React.FC<IProps> = ({ pool, minimum, onMinimumCha
 							<HoverCardContent
 								side="top"
 								sideOffset={5}
-								css={{ maxWidth: '180px', pointerEvents: 'auto', zIndex: '99' }}
+								css={{ maxWidth: '110px', pointerEvents: 'auto', zIndex: '99' }}
 							>
 								<Flex css={{ flexDirection: 'column', gap: '4px' }}>
 									<Text bold size="2">
 										Slippage disabled
 									</Text>
-									<Text size="2">If slippage is disabled minimum will be returned</Text>
+									{/* <Text size="2">If slippage is disabled minimum will be returned</Text> */}
 								</Flex>
 							</HoverCardContent>
 						</HoverCard>
