@@ -1,5 +1,3 @@
-import { swapErrors } from '@src/config'
-
 // Test for positive numbers only allow max 9 decimals
 export const REGEX_INPUT = /^\d*(\.\d{0,9})?$/i
 
@@ -26,16 +24,4 @@ export const strStripCommas = (str: string): string => {
 	}
 
 	return str
-}
-
-type ErrorInfoType = {
-	[key: string]: {
-		buttonMessage: string
-	}
-}
-
-export const errorInfo: ErrorInfoType = {
-	[swapErrors.ERROR_INSUFFICIENT_BALANCE]: { buttonMessage: 'Insufficient funds' },
-	[swapErrors.ERROR_INPUT_TOO_LOW]: { buttonMessage: 'Input to low' },
-	[swapErrors.ERROR_NETWORK]: { buttonMessage: 'Error, try again later' },
 }

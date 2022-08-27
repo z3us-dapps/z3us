@@ -18,7 +18,7 @@ import {
 	getZ3USFees,
 } from '@src/services/swap'
 import { OCI_RRI, XRD_RRI } from '@src/config'
-import { RawAction, Pool } from '@src/types'
+import { RawAction, Pool, SwapErrorMessage, SwapError } from '@src/types'
 import { ScrollArea } from 'ui/src/components/scroll-area'
 import Button from 'ui/src/components/button'
 import { AccountSelector } from '@src/components/account-selector'
@@ -27,12 +27,12 @@ import { Box, Text, Flex } from 'ui/src/components/atoms'
 import { formatBigNumber } from '@src/utils/formatters'
 import { TokenSelector } from '@src/components/token-selector'
 import { HardwareWalletReconnect } from '@src/components/hardware-wallet-reconnect'
-import { getSwapError, TSwapError } from '@src/utils/get-swap-error'
+import { getSwapError } from '@src/utils/get-swap-error'
 import Input from 'ui/src/components/input'
 import { SwitchTokensButton } from './switch-tokens-button'
 import { FeeBox } from './fee-box'
 import { SwapModal } from './swap-modal'
-import { strStripCommas, numberWithCommas, errorInfo, REGEX_INPUT } from './utils'
+import { strStripCommas, numberWithCommas, REGEX_INPUT } from './utils'
 
 interface ImmerState {
 	time: number
@@ -57,7 +57,7 @@ interface ImmerState {
 	isLoading: boolean
 	isMounted: boolean
 	inputFocused: 'from' | 'to' | null
-	errorType: TSwapError
+	errorType: SwapError
 }
 
 const refreshInterval = 5 * 1000 // 5 seconds
@@ -352,6 +352,7 @@ export const Swap: React.FC = () => {
 			draft.transaction = undefined
 			draft.fee = zero
 			draft.transactionData = undefined
+			draft.errorType = null
 		})
 
 		calculateSwap(new BigNumber(state.amount || 0), state.inputSide, state.slippage, pool, state.minimum, state.burn)
@@ -368,6 +369,7 @@ export const Swap: React.FC = () => {
 			draft.transaction = undefined
 			draft.fee = zero
 			draft.transactionData = undefined
+			draft.errorType = null
 		})
 	}
 
@@ -387,6 +389,7 @@ export const Swap: React.FC = () => {
 					.filter(_rri => _rri !== rri)
 					.find(_rri => _rri === state.toRRI) || XRD_RRI
 			draft.pool = null
+			draft.errorType = null
 		})
 	}
 
@@ -406,6 +409,7 @@ export const Swap: React.FC = () => {
 					.filter(_rri => _rri !== rri)
 					.find(_rri => _rri === state.fromRRI) || XRD_RRI
 			draft.pool = null
+			draft.errorType = null
 		})
 	}
 
@@ -422,6 +426,7 @@ export const Swap: React.FC = () => {
 			draft.fee = zero
 			draft.transactionData = undefined
 			draft.pool = null
+			draft.errorType = null
 		})
 	}
 
@@ -466,7 +471,7 @@ export const Swap: React.FC = () => {
 			draft.transaction = undefined
 			draft.fee = zero
 			draft.transactionData = undefined
-			draft.errorType = amount.length === 0 ? null : state.errorType
+			draft.errorType = null
 		})
 	}
 
@@ -485,7 +490,7 @@ export const Swap: React.FC = () => {
 			draft.transaction = undefined
 			draft.fee = zero
 			draft.transactionData = undefined
-			draft.errorType = receive.length === 0 ? null : state.errorType
+			draft.errorType = null
 		})
 	}
 
@@ -820,7 +825,7 @@ export const Swap: React.FC = () => {
 							disabledButton={!account || !state.pool || !state?.transaction}
 							trigger={
 								<Box>
-									{errorInfo[state.errorType] && hasInputValues ? (
+									{SwapErrorMessage[state.errorType] && hasInputValues ? (
 										<Button
 											size="6"
 											color="red"
@@ -830,7 +835,7 @@ export const Swap: React.FC = () => {
 											disabled
 											loading={state.isLoading}
 										>
-											{errorInfo[state.errorType].buttonMessage}
+											{SwapErrorMessage[state.errorType]}
 										</Button>
 									) : (
 										<Button

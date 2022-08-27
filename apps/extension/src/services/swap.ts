@@ -9,9 +9,9 @@ import {
 	AccountT,
 } from '@radixdlt/application'
 import { FLOOP_RRI, XRD_RRI, Z3US_FEE_RATIO, Z3US_RRI, Z3US_WALLET_MAIN, Z3US_WALLET_BURN } from '@src/config'
-import { RawAction, Pool, PoolType, Token, TokenAmount, IntendedAction, ActionType } from '@src/types'
+import { RawAction, Pool, PoolType, Token, TokenAmount, IntendedAction, ActionType, SwapError } from '@src/types'
 import { buildAmount } from '@src/utils/radix'
-import { getSwapError, TSwapError } from '@src/utils/get-swap-error'
+import { getSwapError } from '@src/utils/get-swap-error'
 import {
 	parseAccountAddress,
 	parseAmount,
@@ -21,6 +21,7 @@ import {
 import oci from '@src/services/oci'
 import astrolescent from '@src/services/astrolescent'
 import doge, { QuoteQuery } from '@src/services/dogecubex'
+import { swapInputTooLow } from '@src/errors'
 
 const zero = new BigNumber(0)
 const one = new BigNumber(1)
@@ -160,7 +161,7 @@ export const calculatePoolFeesFromAmount = async (
 	}
 
 	if (receive.lt(0)) {
-		throw new Error('Input too low')
+		throw swapInputTooLow
 	}
 
 	return {
@@ -334,7 +335,7 @@ export const calculateTransactionFee = async (
 ): Promise<{
 	transaction: BuiltTransactionReadyToSign | null
 	fee: BigNumber
-	transactionFeeError: TSwapError
+	transactionFeeError: SwapError
 }> => {
 	let transaction = null
 	let fee = new BigNumber(0)

@@ -23,7 +23,7 @@ export type SwapResponse = {
 }
 
 export class AstrolescentService {
-	private baseURL: string = 'https://api.astrolescent.workers.dev'
+	private baseURL: string = 'https://api.astrolescent.com/z3us'
 
 	private options: RequestInit = {
 		method: 'GET',
@@ -64,11 +64,17 @@ export class AstrolescentService {
 		const path = url.toString()
 
 		const response = await fetch(path, this.options)
+
+		const data = await response.json()
+		if (data?.error) {
+			throw new Error(data?.error)
+		}
+
 		if (response.status !== 200) {
 			throw new Error(`Invalid request: ${response.status} received`)
 		}
 
-		return response.json()
+		return data
 	}
 }
 

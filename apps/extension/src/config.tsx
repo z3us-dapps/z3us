@@ -288,10 +288,3 @@ export const currencySettingsMap: CurrencySettingType = {
 	USD: { prefix: '$', suffix: '' },
 	VND: { prefix: '', suffix: '₫' },
 }
-
-export const swapErrors: {
-	[key: string]: string
-} = {
-	ERROR_INSUFFICIENT_BALANCE: 'error_insufficient_balance',
-	ERROR_NETWORK: 'error_network',
-}

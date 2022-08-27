@@ -205,3 +205,15 @@ export type Pool = {
 	wallet: string
 	balances?: { [rri: string]: number }
 }
+
+export enum SwapError {
+	ERROR_INPUT_TOO_LOW = 'error_input_too_low',
+	ERROR_INSUFFICIENT_BALANCE = 'error_insufficient_balance',
+	ERROR_NETWORK = 'error_network',
+}
+
+export const SwapErrorMessage = {
+	[SwapError.ERROR_INSUFFICIENT_BALANCE]: 'Insufficient funds',
+	[SwapError.ERROR_INPUT_TOO_LOW]: 'Input to low',
+	[SwapError.ERROR_NETWORK]: 'Error, try again later',
+}
