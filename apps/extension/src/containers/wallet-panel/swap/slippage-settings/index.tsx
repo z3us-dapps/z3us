@@ -71,7 +71,6 @@ export const SlippageSettings: React.FC<IProps> = ({ pool, minimum, onMinimumCha
 									<Text bold size="2">
 										Slippage disabled
 									</Text>
-									{/* <Text size="2">If slippage is disabled minimum will be returned</Text> */}
 								</Flex>
 							</HoverCardContent>
 						</HoverCard>
