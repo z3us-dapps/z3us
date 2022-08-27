@@ -108,7 +108,7 @@ export const NetworkSettings: React.FC = () => {
 					defaultValue={String(selectedNetworkIndex)}
 					onValueChange={handleSelectNetwork}
 					buttonAriaLabel="Select network"
-					selectOptions={networks?.map((network, idx) => ({ value: String(idx), name: network.id }))}
+					selectOptions={networks?.map((network, idx) => ({ value: String(idx), name: new URL(network.url).hostname }))}
 				/>
 			</Box>
 			<Box css={{ mt: '$3' }}>

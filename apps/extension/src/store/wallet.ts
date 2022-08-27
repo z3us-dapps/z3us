@@ -201,7 +201,8 @@ export const factory = (set: SetState<AccountStore>, get: GetState<AccountStore>
 
 	addNetworkAction: (id: NetworkID, url: URL) => {
 		set(state => {
-			if (!state.networks.filter(network => network.url === url)) {
+			const found = state.networks.find(network => network.url === url)
+			if (!found) {
 				state.networks = [...state.networks, { id, url }]
 			}
 		})
