@@ -717,7 +717,7 @@ export const Swap: React.FC = () => {
 
 								<Flex css={{ mt: '-5px', position: 'relative' }}>
 									<Text size="5" color="help" css={{ pe: 'none' }}>
-										You receive -{' '}
+										You receive
 									</Text>
 									{/* <Box
 										as="button"
