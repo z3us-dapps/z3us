@@ -144,9 +144,7 @@ export const FeeBox: React.FC<IProps> = ({
 					<Flex css={{ height: '15px', position: 'relative' }}>
 						{isConfirmFeeBox && (pool?.type === PoolType.OCI || pool?.type === PoolType.DOGECUBEX) && minimum ? (
 							<Text medium>{getSlippagePercentage(slippage)}</Text>
-						) : (
-							'-'
-						)}
+						) : null}
 						{!isConfirmFeeBox && pool && (
 							<SlippageSettings
 								pool={pool}
