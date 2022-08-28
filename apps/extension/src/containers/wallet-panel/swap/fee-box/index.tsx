@@ -7,7 +7,7 @@ import { Box, Text, Flex } from 'ui/src/components/atoms'
 import { HoverCard, HoverCardContent, HoverCardTrigger } from 'ui/src/components/hover-card'
 import { useTicker } from '@src/hooks/react-query/queries/tickers'
 import { InfoCircledIcon } from '@radix-ui/react-icons'
-import { Token, Pool } from '@src/types'
+import { Token, Pool, PoolType } from '@src/types'
 import { useSharedStore } from '@src/store'
 import { useNativeToken, useTokenInfo } from '@src/hooks/react-query/queries/radix'
 import { Z3US_RRI } from '@src/config'
@@ -140,8 +140,13 @@ export const FeeBox: React.FC<IProps> = ({
 					<Text css={{ flex: '1', color: '$txtHelp' }} medium>
 						Slippage:
 					</Text>
+					{console.log('minimum ', minimum)}
 					<Flex css={{ height: '15px', position: 'relative' }}>
-						{isConfirmFeeBox && <Text medium>{getSlippagePercentage(slippage)}</Text>}
+						{isConfirmFeeBox && (pool?.type === PoolType.OCI || pool?.type === PoolType.DOGECUBEX) && minimum ? (
+							<Text medium>{getSlippagePercentage(slippage)}</Text>
+						) : (
+							'-'
+						)}
 						{!isConfirmFeeBox && pool && (
 							<SlippageSettings
 								pool={pool}

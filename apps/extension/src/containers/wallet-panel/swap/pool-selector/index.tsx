@@ -41,6 +41,8 @@ export const PoolSelector: React.FC<IProps> = ({ pool, pools, onPoolChange }) =>
 		selected: undefined,
 	})
 
+	console.log('state ', state)
+
 	const handleValueChange = (address: string) => {
 		onPoolChange(pools.find(p => p.wallet === address))
 		setOpen(false)
