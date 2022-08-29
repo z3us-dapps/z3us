@@ -140,7 +140,6 @@ export const FeeBox: React.FC<IProps> = ({
 					<Text css={{ flex: '1', color: '$txtHelp' }} medium>
 						Slippage:
 					</Text>
-					{console.log('minimum ', minimum)}
 					<Flex css={{ height: '15px', position: 'relative' }}>
 						{isConfirmFeeBox && (pool?.type === PoolType.OCI || pool?.type === PoolType.DOGECUBEX) && minimum ? (
 							<Text medium>{getSlippagePercentage(slippage)}</Text>
