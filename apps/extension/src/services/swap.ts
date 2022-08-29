@@ -8,10 +8,9 @@ import {
 	ActionType as ApplicationActionType,
 	AccountT,
 } from '@radixdlt/application'
-import { FLOOP_RRI, XRD_RRI, Z3US_FEE_RATIO, Z3US_RRI, Z3US_WALLET_MAIN, Z3US_WALLET_BURN } from '@src/config'
-import { RawAction, Pool, PoolType, Token, TokenAmount, IntendedAction, ActionType, SwapError } from '@src/types'
+import { FLOOP_RRI, Z3US_FEE_RATIO, Z3US_RRI, Z3US_WALLET_MAIN, Z3US_WALLET_BURN } from '@src/config'
+import { RawAction, Pool, PoolType, Token, TokenAmount, IntendedAction, ActionType } from '@src/types'
 import { buildAmount } from '@src/utils/radix'
-import { getSwapError } from '@src/utils/get-swap-error'
 import {
 	parseAccountAddress,
 	parseAmount,
@@ -21,11 +20,9 @@ import {
 import oci from '@src/services/oci'
 import astrolescent from '@src/services/astrolescent'
 import doge, { QuoteQuery } from '@src/services/dogecubex'
-import { swapInputTooLow } from '@src/errors'
+import { calculateSwap } from './caviar'
 
 const zero = new BigNumber(0)
-const one = new BigNumber(1)
-const caviarNetworkFee = one.dividedBy(10)
 
 export type Quote = {
 	amount: BigNumber
@@ -119,29 +116,10 @@ export const calculatePoolFeesFromAmount = async (
 			const floopToken = liquidBalances?.find(balance => balance.rri === FLOOP_RRI)
 			const floopBalance = floopToken ? new BigNumber(floopToken.amount).shiftedBy(-18) : new BigNumber(0)
 
-			const caviarPool = pools.find(cp => cp.wallet === pool.wallet)
-			const balanceXRD = new BigNumber(caviarPool?.balances[XRD_RRI] || 0).shiftedBy(-18)
-			const fromBalance = new BigNumber(caviarPool?.balances[from.rri] || 0).shiftedBy(-18)
-			const toBalance = new BigNumber(caviarPool?.balances[to.rri] || 0).shiftedBy(-18)
+			const quote = calculateSwap(pools, pool, amount, from, to, floopBalance)
 
-			const midPrice = toBalance.dividedBy(balanceXRD)
-			const constant = fromBalance.multipliedBy(toBalance)
-			const networkFee = caviarNetworkFee.multipliedBy(midPrice)
-
-			const newToBalance = constant.dividedBy(fromBalance.plus(amount))
-			const amountTo = toBalance.minus(newToBalance)
-
-			if (floopBalance.gt(0)) {
-				if (floopBalance.gte(1)) {
-					fee = amount.multipliedBy(1 / 1000)
-				} else {
-					fee = amount.multipliedBy(one.minus(floopBalance).multipliedBy(0.009).plus(0.01))
-				}
-			} else {
-				fee = amount.multipliedBy(1 / 100)
-			}
-
-			receive = amountTo.multipliedBy(one.minus(fee)).minus(networkFee)
+			receive = quote.receive
+			fee = quote.fee
 			break
 		case PoolType.DOGECUBEX:
 			const query: QuoteQuery = {
@@ -161,7 +139,7 @@ export const calculatePoolFeesFromAmount = async (
 	}
 
 	if (receive.lt(0)) {
-		throw swapInputTooLow
+		throw new Error('Input too low')
 	}
 
 	return {
@@ -212,7 +190,7 @@ export const calculatePoolFeesFromReceive = async (
 			transactionData = astrolescentQuote.transactionData
 			break
 		case PoolType.CAVIAR:
-			amount = zero // @TODO: fix
+			amount = zero // @TODO: unsupported
 			break
 		case PoolType.DOGECUBEX:
 			const query: QuoteQuery = {
@@ -335,7 +313,7 @@ export const calculateTransactionFee = async (
 ): Promise<{
 	transaction: BuiltTransactionReadyToSign | null
 	fee: BigNumber
-	transactionFeeError: SwapError
+	transactionFeeError: string
 }> => {
 	let transaction = null
 	let fee = new BigNumber(0)
@@ -463,10 +441,9 @@ export const calculateTransactionFee = async (
 	} catch (error) {
 		// eslint-disable-next-line no-console
 		console.error(error)
-		const errorMessageStr = (error?.message || error).toString().trim()
-		const errorType = getSwapError(errorMessageStr)
-		if (errorType) {
-			transactionFeeError = errorType
+		transactionFeeError = (error?.message || error).toString().trim()
+		if (transactionFeeError.includes('for fees, but only')) {
+			transactionFeeError = 'Insufficient funds'
 		}
 	}
 
