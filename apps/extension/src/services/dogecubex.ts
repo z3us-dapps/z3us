@@ -76,11 +76,32 @@ export class DogeCubeXService {
 			method: 'POST',
 			body: JSON.stringify(query),
 		})
-		if (response.status !== 200) {
-			throw new Error(`Invalid request: ${response.status} received`)
+
+		const data = await response.json()
+		if (data?.error) {
+			const error = data.error.toString().trim()
+			if (error.includes('Amount is bigger than available liquidity')) {
+				throw new Error('Input too high')
+			}
+			if (error.includes('Invalid sourceAmount')) {
+				throw new Error('Input input amount')
+			}
+			if (error.includes('Invalid targetAmount')) {
+				throw new Error('Input output amount')
+			}
+			if (error.includes('Invalid maxSlippage')) {
+				throw new Error('Invalid slippage')
+			}
+			throw new Error(error)
 		}
 
-		return response.json()
+		if (response.status !== 200) {
+			// eslint-disable-next-line no-console
+			console.error(`Invalid request: ${response.status} received`, response)
+			throw new Error(`Failed to calculate swap`)
+		}
+
+		return data
 	}
 
 	getPools = async (): Promise<Pool[]> => {

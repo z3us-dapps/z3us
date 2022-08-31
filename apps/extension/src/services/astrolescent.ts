@@ -67,11 +67,13 @@ export class AstrolescentService {
 
 		const data = await response.json()
 		if (data?.error) {
-			throw new Error(data?.error)
+			throw new Error(data.error.toString().trim())
 		}
 
 		if (response.status !== 200) {
-			throw new Error(`Invalid request: ${response.status} received`)
+			// eslint-disable-next-line no-console
+			console.error(`Invalid request: ${response.status} received`, response)
+			throw new Error(`Failed to calculate swap`)
 		}
 
 		return data

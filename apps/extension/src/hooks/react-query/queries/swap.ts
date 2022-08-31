@@ -68,9 +68,9 @@ export const usePoolTokens = (): { [rri: string]: { [rri: string]: null } } => {
 
 export const usePools = (fromRRI: string, toRRI: string): Pool[] => {
 	const { data: ociPools } = useOCIPools()
-	const { data: caviarPools } = useCaviarPools()
 	const { data: dogePools } = useDogeCubeXPools()
 	const { data: astrolescentTokens } = useAstrolescentTokens()
+	const { data: caviarPools } = useCaviarPools()
 
 	if (!fromRRI || !toRRI) {
 		return []
@@ -90,18 +90,6 @@ export const usePools = (fromRRI: string, toRRI: string): Pool[] => {
 				wallet: ociPool.wallet_address,
 			})
 		}
-	}
-	if (caviarPools) {
-		caviarPools.forEach(p => {
-			if (p.balances[fromRRI] && p.balances[toRRI]) {
-				pools.push({
-					...swapServices[PoolType.CAVIAR],
-					name: p.name,
-					wallet: p.wallet,
-					balances: p.balances,
-				})
-			}
-		})
 	}
 	if (dogePools && (fromRRI === XRD_RRI || toRRI === XRD_RRI)) {
 		if (fromRRI === XRD_RRI) {
@@ -146,6 +134,18 @@ export const usePools = (fromRRI: string, toRRI: string): Pool[] => {
 				})
 			}
 		}
+	}
+	if (caviarPools) {
+		caviarPools.forEach(p => {
+			if (p.balances[fromRRI] && p.balances[toRRI]) {
+				pools.push({
+					...swapServices[PoolType.CAVIAR],
+					name: p.name,
+					wallet: p.wallet,
+					balances: p.balances,
+				})
+			}
+		})
 	}
 
 	return pools

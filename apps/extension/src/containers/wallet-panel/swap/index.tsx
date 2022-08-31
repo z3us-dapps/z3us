@@ -120,7 +120,6 @@ export const Swap: React.FC = () => {
 	const liquidBalances = balances?.account_balances?.liquid_balances || []
 	const selectedToken = liquidBalances?.find(balance => balance.rri === state.fromRRI)
 	const selectedTokenAmmount = selectedToken ? new BigNumber(selectedToken.amount).shiftedBy(-18) : zero
-	const hasInputValues = state.amount.gt(0) && state.receive.gt(0)
 
 	// @Note: the timeout is needed to focus the input, or else it will jank the route entry transition
 	useTimeout(() => {
@@ -786,7 +785,7 @@ export const Swap: React.FC = () => {
 							disabledButton={!account || !state.pool || !state?.transaction}
 							trigger={
 								<Box>
-									{state.errorMessage && hasInputValues ? (
+									{state.errorMessage ? (
 										<Button
 											size="6"
 											color="red"

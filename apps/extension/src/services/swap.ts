@@ -139,7 +139,7 @@ export const calculatePoolFeesFromAmount = async (
 	}
 
 	if (receive.lt(0)) {
-		throw new Error('Input too low')
+		throw new Error('Input too high')
 	}
 
 	return {
@@ -442,9 +442,6 @@ export const calculateTransactionFee = async (
 		// eslint-disable-next-line no-console
 		console.error(error)
 		transactionFeeError = (error?.message || error).toString().trim()
-		if (transactionFeeError.includes('for fees, but only')) {
-			transactionFeeError = 'Insufficient funds'
-		}
 	}
 
 	return { transaction, fee, transactionFeeError }
