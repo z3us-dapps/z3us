@@ -33,13 +33,22 @@ export default {
 		'128': 'favicon-128x128.png',
 	},
 	permissions: ['storage', 'unlimitedStorage', 'notifications', 'activeTab'],
-	host_permissions: ['file://*/*', 'http://*/*', 'https://*/*'],
+	host_permissions: [
+		'*://*.radixdlt.com/*',
+		'*://api.bitfinex.com/*',
+		'*://api.coingecko.com/api/*',
+		'*://www.radixscan.io/*',
+		'*://api.ociswap.com/v1/graphql/*',
+		'*://dogecubex.live/api/*',
+		'*://api.astrolescent.com/z3us/*',
+		'*://pjhht6w8p9.execute-api.eu-west-2.amazonaws.com/prod/*',
+	],
 	background: {
 		service_worker: 'src/lib/background.ts',
 	},
 	content_scripts: [
 		{
-			matches: ['file://*/*', 'http://*/*', 'https://*/*'],
+			matches: ['<all_urls>'],
 			run_at: 'document_start',
 			all_frames: true,
 			js: ['src/lib/content-script.ts'],
