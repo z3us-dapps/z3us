@@ -7,6 +7,7 @@ import {
 	BuiltTransactionReadyToSign,
 	ActionType as ApplicationActionType,
 	AccountT,
+	IntendedTransferTokensAction,
 } from '@radixdlt/application'
 import { FLOOP_RRI, Z3US_FEE_RATIO, Z3US_RRI, Z3US_WALLET_MAIN, Z3US_WALLET_BURN } from '@src/config'
 import { RawAction, Pool, PoolType, Token, TokenAmount, IntendedAction, ActionType } from '@src/types'
@@ -428,6 +429,16 @@ export const calculateTransactionFee = async (
 			}
 			actions.push(actionResult.value)
 		}
+
+		let sum = zero
+		actions.forEach((action: IntendedTransferTokensAction) => {
+			const a = new BigNumber(action.amount.toString()).shiftedBy(-18)
+			sum = sum.plus(a)
+			// eslint-disable-next-line no-console
+			console.log('action.amount', a.toString())
+		})
+		// eslint-disable-next-line no-console
+		console.log('sum', sum.toString())
 
 		let message: string
 		if (plainText) {
