@@ -109,18 +109,9 @@ export const StyledInput = styled('input', {
 		},
 		error: {
 			true: {
-				border: '1px solid $borderInputError',
 				color: '$txtError',
 				'&::placeholder': {
 					color: '$txtError',
-				},
-				'&:hover': {
-					border: '1px solid $borderInputError',
-					boxShadow: '$inputError',
-				},
-				'&:focus': {
-					border: '1px solid $borderInputError',
-					boxShadow: '$inputError',
 				},
 				'+ span': {
 					opacity: '0',
@@ -206,6 +197,29 @@ export const StyledInput = styled('input', {
 			css: {
 				'+ span': {
 					top: '14px',
+				},
+			},
+		},
+		{
+			theme: 'border',
+			error: true,
+			css: {
+				border: '1px solid $borderInputError',
+				color: '$txtError',
+				'&::placeholder': {
+					color: '$txtError',
+				},
+				'&:hover': {
+					border: '1px solid $borderInputError',
+					boxShadow: '$inputError',
+				},
+				'&:focus': {
+					border: '1px solid $borderInputError',
+					boxShadow: '$inputError',
+				},
+				'+ span': {
+					opacity: '0',
+					transform: 'translate(15px)',
 				},
 			},
 		},
