@@ -138,7 +138,8 @@ export const Swap: React.FC = () => {
 	}, refreshInterval)
 
 	const calculateSwap = async (
-		value: BigNumber,
+		amount: BigNumber,
+		receive: BigNumber,
 		valueType: 'from' | 'to',
 		slippage: number,
 		pool?: Pool,
@@ -151,8 +152,6 @@ export const Swap: React.FC = () => {
 			draft.isLoading = true
 		})
 
-		let amount = zero
-		let receive = zero
 		let poolFee = zero
 		let z3usFee = zero
 		let z3usBurn = zero
@@ -160,7 +159,7 @@ export const Swap: React.FC = () => {
 
 		try {
 			if (valueType === 'from') {
-				const walletQuote = getZ3USFees(value, burn, liquidBalances)
+				const walletQuote = getZ3USFees(amount, burn, liquidBalances)
 				if (pool) {
 					const poolQuote = await calculatePoolFeesFromAmount(
 						pools,
@@ -172,8 +171,7 @@ export const Swap: React.FC = () => {
 						accountAddress,
 						liquidBalances,
 					)
-
-					amount = value
+					amount = poolQuote.amount
 					receive = poolQuote.receive
 					poolFee = poolQuote.fee
 					z3usFee = walletQuote.fee
@@ -189,7 +187,7 @@ export const Swap: React.FC = () => {
 						accountAddress,
 						liquidBalances,
 					)
-					amount = value
+					amount = cheapestPoolQuote.amount
 					pool = cheapestPoolQuote.pool
 					receive = cheapestPoolQuote.receive
 					poolFee = cheapestPoolQuote.fee
@@ -197,42 +195,44 @@ export const Swap: React.FC = () => {
 					z3usBurn = walletQuote.burn
 					transactionData = cheapestPoolQuote.transactionData
 				}
-			} else if (pool) {
-				const poolQuote = await calculatePoolFeesFromReceive(
-					pools,
-					pool,
-					value,
-					slippage,
-					fromToken,
-					toToken,
-					accountAddress,
-					liquidBalances,
-				)
-				const walletQuote = getZ3USFees(poolQuote.amount, burn, liquidBalances)
-				receive = value
-				amount = poolQuote.amount.plus(walletQuote.fee)
-				poolFee = poolQuote.fee
-				z3usFee = walletQuote.fee
-				z3usBurn = walletQuote.burn
-				transactionData = poolQuote.transactionData
-			} else {
-				const cheapestPoolQuote = await calculateCheapestPoolFeesFromReceive(
-					pools,
-					value,
-					slippage,
-					fromToken,
-					toToken,
-					accountAddress,
-					liquidBalances,
-				)
-				const walletQuote = getZ3USFees(cheapestPoolQuote.amount, burn, liquidBalances)
-				receive = value
-				pool = cheapestPoolQuote.pool
-				amount = cheapestPoolQuote.amount.plus(walletQuote.fee)
-				poolFee = cheapestPoolQuote.fee
-				z3usFee = walletQuote.fee
-				z3usBurn = walletQuote.burn
-				transactionData = cheapestPoolQuote.transactionData
+			} else if (valueType === 'to') {
+				if (pool) {
+					const poolQuote = await calculatePoolFeesFromReceive(
+						pools,
+						pool,
+						receive,
+						slippage,
+						fromToken,
+						toToken,
+						accountAddress,
+						liquidBalances,
+					)
+					const walletQuote = getZ3USFees(poolQuote.amount, burn, liquidBalances)
+					receive = poolQuote.receive
+					amount = poolQuote.amount.plus(walletQuote.fee)
+					poolFee = poolQuote.fee
+					z3usFee = walletQuote.fee
+					z3usBurn = walletQuote.burn
+					transactionData = poolQuote.transactionData
+				} else {
+					const cheapestPoolQuote = await calculateCheapestPoolFeesFromReceive(
+						pools,
+						receive,
+						slippage,
+						fromToken,
+						toToken,
+						accountAddress,
+						liquidBalances,
+					)
+					const walletQuote = getZ3USFees(cheapestPoolQuote.amount, burn, liquidBalances)
+					pool = cheapestPoolQuote.pool
+					receive = cheapestPoolQuote.receive
+					amount = cheapestPoolQuote.amount.plus(walletQuote.fee)
+					poolFee = cheapestPoolQuote.fee
+					z3usFee = walletQuote.fee
+					z3usBurn = walletQuote.burn
+					transactionData = cheapestPoolQuote.transactionData
+				}
 			}
 
 			const { transaction, fee, transactionFeeError } = await calculateTransactionFee(
@@ -253,8 +253,13 @@ export const Swap: React.FC = () => {
 			setState(draft => {
 				draft.time = Date.now()
 				draft.pool = pool
-				draft.amount = amount
-				draft.receive = receive
+
+				if (valueType === 'from') {
+					draft.receive = receive
+				} else if (valueType === 'to') {
+					draft.amount = amount
+				}
+
 				draft.poolFee = poolFee
 				draft.z3usFee = z3usFee
 				draft.z3usBurn = z3usBurn
@@ -281,27 +286,16 @@ export const Swap: React.FC = () => {
 	useEffect(() => {
 		if (!state.isMounted || state.isLoading) return
 		if (Date.now() - state.time < refreshInterval) return
-
-		if (state.inputSide === 'from' && state.amount) {
-			calculateSwap(state.amount, state.inputSide, state.slippage, state.pool, state.minimum, state.burn)
-		} else if (state.inputSide === 'to' && state.receive) {
-			calculateSwap(state.receive, state.inputSide, state.slippage, state.pool, state.minimum, state.burn)
-		}
+		calculateSwap(state.amount, state.receive, state.inputSide, state.slippage, state.pool, state.minimum, state.burn)
 	}, [state.time])
 
 	useEffect(() => {
 		if (!state.isMounted || state.isLoading) return
-		if (state.inputSide === 'from' && state.amount) {
-			calculateSwap(state.amount, state.inputSide, state.slippage, state.pool, state.minimum, state.burn)
-		}
-	}, [debouncedAmount])
+		if (state.inputSide === 'from' && state.amount.eq(0)) return
+		if (state.inputSide === 'to' && state.receive.eq(0)) return
 
-	useEffect(() => {
-		if (!state.isMounted || state.isLoading) return
-		if (state.inputSide === 'to' && state.receive) {
-			calculateSwap(state.receive, state.inputSide, state.slippage, state.pool, state.minimum, state.burn)
-		}
-	}, [debouncedReceive])
+		calculateSwap(state.amount, state.receive, state.inputSide, state.slippage, state.pool, state.minimum, state.burn)
+	}, [debouncedAmount, debouncedReceive])
 
 	const handlePoolChange = async (pool: Pool) => {
 		setState(draft => {
@@ -315,7 +309,7 @@ export const Swap: React.FC = () => {
 			draft.errorMessage = null
 		})
 
-		calculateSwap(state.amount, state.inputSide, state.slippage, pool, state.minimum, state.burn)
+		calculateSwap(state.amount, state.receive, state.inputSide, state.slippage, pool, state.minimum, state.burn)
 	}
 
 	const handleAccountChange = async (accountIndex: number) => {

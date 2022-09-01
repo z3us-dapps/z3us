@@ -41,7 +41,8 @@ export const KeyManagementSettings: React.FC = () => {
 			addToast: state.addToastAction,
 		}),
 	)
-	const { reset, selectAccount } = useStore(state => ({
+	const { accountIndex, reset, selectAccount } = useStore(state => ({
+		accountIndex: state.selectedAccountIndex,
 		reset: state.resetAction,
 		selectAccount: state.selectAccountAction,
 	}))
@@ -75,7 +76,7 @@ export const KeyManagementSettings: React.FC = () => {
 				const { mnemonic } = await messanger.sendActionMessageFromPopup(UNLOCK, state.password)
 				const seed = await createWallet(mnemonic.words, state.newPassword)
 				setSeed(seed)
-				await selectAccount(0, null, seed)
+				await selectAccount(accountIndex, null, seed)
 
 				setState(draft => {
 					draft.isLoading = false

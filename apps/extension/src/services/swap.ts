@@ -7,7 +7,6 @@ import {
 	BuiltTransactionReadyToSign,
 	ActionType as ApplicationActionType,
 	AccountT,
-	IntendedTransferTokensAction,
 } from '@radixdlt/application'
 import { FLOOP_RRI, Z3US_FEE_RATIO, Z3US_RRI, Z3US_WALLET_MAIN, Z3US_WALLET_BURN } from '@src/config'
 import { RawAction, Pool, PoolType, Token, TokenAmount, IntendedAction, ActionType } from '@src/types'
@@ -57,7 +56,7 @@ export const getZ3USFees = (
 
 	if (burn) {
 		const z3usToken = liquidBalances?.find(balance => balance.rri === Z3US_RRI)
-		const z3usBalance = z3usToken ? new BigNumber(z3usToken.amount).shiftedBy(-18) : new BigNumber(0)
+		const z3usBalance = z3usToken ? new BigNumber(z3usToken.amount).shiftedBy(-18) : zero
 		if (z3usBalance.gte(fee)) {
 			burnAmount = fee
 			fee = zero
@@ -115,7 +114,7 @@ export const calculatePoolFeesFromAmount = async (
 			break
 		case PoolType.CAVIAR:
 			const floopToken = liquidBalances?.find(balance => balance.rri === FLOOP_RRI)
-			const floopBalance = floopToken ? new BigNumber(floopToken.amount).shiftedBy(-18) : new BigNumber(0)
+			const floopBalance = floopToken ? new BigNumber(floopToken.amount).shiftedBy(-18) : zero
 
 			const quote = calculateSwap(pools, pool, amount, from, to, floopBalance)
 
@@ -317,7 +316,7 @@ export const calculateTransactionFee = async (
 	transactionFeeError: string
 }> => {
 	let transaction = null
-	let fee = new BigNumber(0)
+	let fee = zero
 	let transactionFeeError = null
 
 	if (amount.eq(0) || !pool?.wallet || !fromToken?.rri || !toToken?.rri) {
@@ -429,16 +428,6 @@ export const calculateTransactionFee = async (
 			}
 			actions.push(actionResult.value)
 		}
-
-		let sum = zero
-		actions.forEach((action: IntendedTransferTokensAction) => {
-			const a = new BigNumber(action.amount.toString()).shiftedBy(-18)
-			sum = sum.plus(a)
-			// eslint-disable-next-line no-console
-			console.log('action.amount', a.toString())
-		})
-		// eslint-disable-next-line no-console
-		console.log('sum', sum.toString())
 
 		let message: string
 		if (plainText) {
