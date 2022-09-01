@@ -394,11 +394,7 @@ export const Swap: React.FC = () => {
 		let amount = selectedTokenAmmount
 		if (selectedToken.rri === XRD_RRI) {
 			const networkFeeMultiplier = 0.0002 // XRD per byte
-			let networkFee = defaultNetworkFee
-			if (state.transaction?.blob) {
-				networkFee = new BigNumber(new Blob([state.transaction.blob]).size * 1024)
-			}
-			networkFee = networkFee.multipliedBy(networkFeeMultiplier)
+			const networkFee = defaultNetworkFee.multipliedBy(networkFeeMultiplier)
 			amount = selectedTokenAmmount.minus(networkFee)
 		}
 
@@ -423,7 +419,7 @@ export const Swap: React.FC = () => {
 		if (!isValid) return
 
 		setState(draft => {
-			draft.amount = new BigNumber(amount)
+			draft.amount = new BigNumber(amount || 0)
 			draft.inputSide = 'from'
 			draft.poolFee = zero
 			draft.z3usFee = zero
@@ -442,7 +438,7 @@ export const Swap: React.FC = () => {
 		if (!isValid) return
 
 		setState(draft => {
-			draft.receive = new BigNumber(receive)
+			draft.receive = new BigNumber(receive || 0)
 			draft.inputSide = 'to'
 			draft.poolFee = zero
 			draft.z3usFee = zero
