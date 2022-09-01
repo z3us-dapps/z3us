@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import React from 'react'
+import { Network as NetworkID } from '@radixdlt/application'
 import { HomeIcon, StakingIcon, SwapIcon, SettingsIcon } from 'ui/src/components/icons'
 import { ColorSettings, PoolType } from '@src/types'
 
@@ -154,6 +155,11 @@ export const getDefaultBackgroundForIndex = (idx: number): string => {
 		preset[ColorSettings.GRADIENT_START],
 	)
 }
+
+export const networks = [
+	{ id: NetworkID.MAINNET, url: new URL('https://mainnet.radixdlt.com') },
+	{ id: NetworkID.STOKENET, url: new URL('https://stokenet.radixdlt.com') },
+]
 
 export const APP_HEIGHT = 600
 export const APP_WIDTH = 360

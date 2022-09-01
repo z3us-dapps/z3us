@@ -71,7 +71,7 @@ export const NetworkSettings: React.FC = () => {
 		})
 
 		try {
-			const url = new URL(state.value)
+			const url = new URL(state.value.replace(/\/$/, ''))
 			const service = new RadixService(url)
 			const { network } = await service.gateway()
 
@@ -108,7 +108,10 @@ export const NetworkSettings: React.FC = () => {
 					defaultValue={String(selectedNetworkIndex)}
 					onValueChange={handleSelectNetwork}
 					buttonAriaLabel="Select network"
-					selectOptions={networks?.map((network, idx) => ({ value: String(idx), name: new URL(network.url).hostname }))}
+					selectOptions={networks?.map((network, idx) => ({
+						value: String(idx),
+						name: `${network.id.toUpperCase()}: ${new URL(network.url).href}`,
+					}))}
 				/>
 			</Box>
 			<Box css={{ mt: '$3' }}>
