@@ -48,7 +48,7 @@ export default {
 	},
 	content_scripts: [
 		{
-			matches: ['<all_urls>'],
+			matches: ['http://*/*', 'https://*/*'],
 			run_at: 'document_start',
 			all_frames: true,
 			js: ['src/lib/content-script.ts'],
@@ -56,7 +56,7 @@ export default {
 	],
 	web_accessible_resources: [
 		{
-			matches: ['<all_urls>'],
+			matches: ['http://*/*', 'https://*/*'],
 			resources: [
 				'popup-theme-dark.html',
 				'popup-theme-system.html',
