@@ -18,7 +18,7 @@ import {
 	getZ3USFees,
 } from '@src/services/swap'
 import { OCI_RRI, XRD_RRI } from '@src/config'
-import { RawAction, Pool } from '@src/types'
+import { Pool } from '@src/types'
 import { ScrollArea } from 'ui/src/components/scroll-area'
 import Button from 'ui/src/components/button'
 import { AccountSelector } from '@src/components/account-selector'
@@ -46,10 +46,6 @@ interface ImmerState {
 	z3usBurn: BigNumber
 	transaction: BuiltTransactionReadyToSign
 	fee: BigNumber
-	transactionData?: {
-		actions: Array<RawAction>
-		message: string
-	}
 	minimum: boolean
 	slippage: number
 	burn: boolean
@@ -77,7 +73,6 @@ const defaultState: ImmerState = {
 	z3usBurn: zero,
 	transaction: null,
 	fee: zero,
-	transactionData: undefined,
 	minimum: true,
 	slippage: 0.05,
 	burn: false,
@@ -155,7 +150,7 @@ export const Swap: React.FC = () => {
 		let poolFee = zero
 		let z3usFee = zero
 		let z3usBurn = zero
-		let transactionData
+		let response
 
 		try {
 			if (valueType === 'from') {
@@ -176,7 +171,7 @@ export const Swap: React.FC = () => {
 					poolFee = poolQuote.fee
 					z3usFee = walletQuote.fee
 					z3usBurn = walletQuote.burn
-					transactionData = poolQuote.transactionData
+					response = poolQuote.response
 				} else {
 					const cheapestPoolQuote = await calculateCheapestPoolFeesFromAmount(
 						pools,
@@ -193,7 +188,7 @@ export const Swap: React.FC = () => {
 					poolFee = cheapestPoolQuote.fee
 					z3usFee = walletQuote.fee
 					z3usBurn = walletQuote.burn
-					transactionData = cheapestPoolQuote.transactionData
+					response = cheapestPoolQuote.response
 				}
 			} else if (valueType === 'to') {
 				if (pool) {
@@ -213,7 +208,7 @@ export const Swap: React.FC = () => {
 					poolFee = poolQuote.fee
 					z3usFee = walletQuote.fee
 					z3usBurn = walletQuote.burn
-					transactionData = poolQuote.transactionData
+					response = poolQuote.response
 				} else {
 					const cheapestPoolQuote = await calculateCheapestPoolFeesFromReceive(
 						pools,
@@ -231,7 +226,7 @@ export const Swap: React.FC = () => {
 					poolFee = cheapestPoolQuote.fee
 					z3usFee = walletQuote.fee
 					z3usBurn = walletQuote.burn
-					transactionData = cheapestPoolQuote.transactionData
+					response = cheapestPoolQuote.response
 				}
 			}
 
@@ -247,7 +242,7 @@ export const Swap: React.FC = () => {
 				buildTransactionFromActions,
 				createMessage,
 				account,
-				transactionData,
+				response,
 			)
 
 			setState(draft => {
@@ -263,7 +258,6 @@ export const Swap: React.FC = () => {
 				draft.poolFee = poolFee
 				draft.z3usFee = z3usFee
 				draft.z3usBurn = z3usBurn
-				draft.transactionData = transactionData
 
 				draft.fee = fee
 				draft.transaction = transaction
@@ -305,7 +299,6 @@ export const Swap: React.FC = () => {
 			draft.z3usBurn = zero
 			draft.transaction = undefined
 			draft.fee = zero
-			draft.transactionData = undefined
 			draft.errorMessage = null
 		})
 
@@ -322,7 +315,6 @@ export const Swap: React.FC = () => {
 			draft.z3usBurn = zero
 			draft.transaction = undefined
 			draft.fee = zero
-			draft.transactionData = undefined
 			draft.errorMessage = null
 		})
 	}
@@ -336,7 +328,6 @@ export const Swap: React.FC = () => {
 			draft.z3usBurn = zero
 			draft.transaction = undefined
 			draft.fee = zero
-			draft.transactionData = undefined
 			draft.fromRRI = rri
 			draft.toRRI =
 				Object.keys(possibleTokens[rri] || {})
@@ -356,7 +347,6 @@ export const Swap: React.FC = () => {
 			draft.z3usBurn = zero
 			draft.transaction = undefined
 			draft.fee = zero
-			draft.transactionData = undefined
 			draft.toRRI = rri
 			draft.fromRRI =
 				Object.keys(possibleTokens || {})
@@ -378,7 +368,6 @@ export const Swap: React.FC = () => {
 			draft.z3usBurn = zero
 			draft.transaction = undefined
 			draft.fee = zero
-			draft.transactionData = undefined
 			draft.pool = null
 			draft.errorMessage = null
 		})
@@ -400,7 +389,6 @@ export const Swap: React.FC = () => {
 			draft.z3usBurn = zero
 			draft.transaction = undefined
 			draft.fee = zero
-			draft.transactionData = undefined
 			draft.errorMessage = null
 		})
 		inputFromRef.current.focus()
@@ -420,7 +408,6 @@ export const Swap: React.FC = () => {
 			draft.z3usBurn = zero
 			draft.transaction = undefined
 			draft.fee = zero
-			draft.transactionData = undefined
 			draft.errorMessage = null
 		})
 	}
@@ -439,7 +426,6 @@ export const Swap: React.FC = () => {
 			draft.z3usBurn = zero
 			draft.transaction = undefined
 			draft.fee = zero
-			draft.transactionData = undefined
 			draft.errorMessage = null
 		})
 	}
