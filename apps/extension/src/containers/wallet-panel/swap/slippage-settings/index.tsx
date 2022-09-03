@@ -22,7 +22,7 @@ export const SlippageSettings: React.FC<IProps> = ({ pool, minimum, onMinimumCha
 		onSlippageChange(_slippage / 100)
 	}
 
-	const supported = swapServices[pool?.type].supportsSlippage === true
+	const supported = swapServices[pool?.type]?.supportsSlippage === true
 	const disabled = !supported || !minimum
 
 	return !supported ? (

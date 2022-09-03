@@ -84,7 +84,7 @@ export const FeeBox: React.FC<IProps> = ({
 	const { data: fromTicker } = useTicker(currency, fromToken?.symbol)
 	const { data: z3usTicker } = useTicker(currency, z3usToken?.symbol)
 	const totalFee = poolFee.plus(z3usFee).plus(txFee)
-	const supportsSlippage = swapServices[pool?.type].supportsSlippage === true
+	const supportsSlippage = swapServices[pool?.type]?.supportsSlippage === true
 
 	useEffect(() => {
 		if (
