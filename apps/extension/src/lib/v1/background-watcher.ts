@@ -44,7 +44,8 @@ const watchTransactions = async (useStore: typeof defaultAccountStore) => {
 					if (lastTxId === tx.id) {
 						break
 					}
-					const activity = tx.actions.length > 0 ? getTransactionType(address, tx.actions[0]) : 'Unknown'
+					const action = tx.actions.find(a => a.from_account === address || a.to_account === address)
+					const activity = action ? getTransactionType(address, action) : 'Unknown'
 
 					// eslint-disable-next-line no-await-in-loop
 					await browser.notifications.create(tx.id, {
