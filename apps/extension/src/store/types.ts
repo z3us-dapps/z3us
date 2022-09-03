@@ -83,6 +83,9 @@ export type SettingsStore = {
 
 	currency: string
 	setCurrencyAction: (currency: string) => void
+
+	transactionNotificationsEnabled: boolean
+	setTransactionNotificationsEnabledAction: (enabled: boolean) => void
 }
 
 export type BackgroundStore = {
