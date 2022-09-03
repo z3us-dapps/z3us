@@ -463,10 +463,13 @@ export const Swap: React.FC = () => {
 
 	const resetImmerState = () => {
 		setState(draft => {
+			const { minimum, slippage } = draft
 			Object.entries(defaultState).forEach(([key, value]) => {
 				draft[key] = value
 			})
 			draft.isMounted = true
+			draft.minimum = minimum
+			draft.slippage = slippage
 		})
 	}
 
