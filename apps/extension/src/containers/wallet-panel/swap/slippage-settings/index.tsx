@@ -1,5 +1,6 @@
 import React from 'react'
-import { Pool, PoolType } from '@src/types'
+import { Pool } from '@src/types'
+import { swapServices } from '@src/config'
 import { Cross2Icon, Pencil1Icon, InfoCircledIcon, CircleBackslashIcon } from '@radix-ui/react-icons'
 import { Box, Text, Flex } from 'ui/src/components/atoms'
 import { StyledSlider, StyledTrack, StyledThumb, StyledRange } from 'ui/src/components/slider'
@@ -21,7 +22,7 @@ export const SlippageSettings: React.FC<IProps> = ({ pool, minimum, onMinimumCha
 		onSlippageChange(_slippage / 100)
 	}
 
-	const supported = pool?.type === PoolType.OCI || pool?.type === PoolType.DOGECUBEX
+	const supported = swapServices[pool?.type].supportsSlippage === true
 	const disabled = !supported || !minimum
 
 	return !supported ? (

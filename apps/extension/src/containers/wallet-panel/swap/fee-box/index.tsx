@@ -10,7 +10,7 @@ import { InfoCircledIcon } from '@radix-ui/react-icons'
 import { Token, Pool, PoolType } from '@src/types'
 import { useSharedStore } from '@src/store'
 import { useNativeToken, useTokenInfo } from '@src/hooks/react-query/queries/radix'
-import { Z3US_RRI } from '@src/config'
+import { swapServices, Z3US_RRI } from '@src/config'
 import { PoolSelector } from '../pool-selector'
 import { TermsHoverCard } from '../terms-hover-card'
 import { SlippageSettings } from '../slippage-settings'
@@ -84,6 +84,7 @@ export const FeeBox: React.FC<IProps> = ({
 	const { data: fromTicker } = useTicker(currency, fromToken?.symbol)
 	const { data: z3usTicker } = useTicker(currency, z3usToken?.symbol)
 	const totalFee = poolFee.plus(z3usFee).plus(txFee)
+	const supportsSlippage = swapServices[pool?.type].supportsSlippage === true
 
 	useEffect(() => {
 		if (
@@ -136,25 +137,27 @@ export const FeeBox: React.FC<IProps> = ({
 						</Flex>
 					)}
 				</Flex>
-				<Flex css={{ flex: '1', width: '100%' }}>
-					<Text css={{ flex: '1', color: '$txtHelp' }} medium>
-						Slippage:
-					</Text>
-					<Flex css={{ height: '15px', position: 'relative' }}>
-						{isConfirmFeeBox && (pool?.type === PoolType.OCI || pool?.type === PoolType.DOGECUBEX) && minimum ? (
-							<Text medium>{getSlippagePercentage(slippage)}</Text>
-						) : null}
-						{!isConfirmFeeBox && pool && (
-							<SlippageSettings
-								pool={pool}
-								minimum={minimum}
-								onMinimumChange={onMinimumChange}
-								slippage={slippage}
-								onSlippageChange={onSlippageChange}
-							/>
-						)}
+				{supportsSlippage && (
+					<Flex css={{ flex: '1', width: '100%' }}>
+						<Text css={{ flex: '1', color: '$txtHelp' }} medium>
+							Slippage:
+						</Text>
+						<Flex css={{ height: '15px', position: 'relative' }}>
+							{isConfirmFeeBox && (pool?.type === PoolType.OCI || pool?.type === PoolType.DOGECUBEX) && minimum ? (
+								<Text medium>{getSlippagePercentage(slippage)}</Text>
+							) : null}
+							{!isConfirmFeeBox && pool && (
+								<SlippageSettings
+									pool={pool}
+									minimum={minimum}
+									onMinimumChange={onMinimumChange}
+									slippage={slippage}
+									onSlippageChange={onSlippageChange}
+								/>
+							)}
+						</Flex>
 					</Flex>
-				</Flex>
+				)}
 				<Flex css={{ flex: '1', width: '100%' }}>
 					<Text css={{ flex: '1', color: '$txtHelp', display: 'flex', alignItems: 'center', height: '15px' }} medium>
 						Estimated Fees:
