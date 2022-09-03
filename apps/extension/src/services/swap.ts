@@ -110,7 +110,7 @@ export const calculatePoolFeesFromAmount = async (
 		case PoolType.ASTROLESCENT:
 			const astrolescentQuote = await astrolescent.getSwap(accountAddress, from.rri, to.rri, amount, 'in')
 
-			fee = new BigNumber(astrolescentQuote.swapFee || 0)
+			fee = new BigNumber(astrolescentQuote.swapFee).shiftedBy(-18)
 			receive = astrolescentQuote?.outputTokens ? new BigNumber(astrolescentQuote?.outputTokens || 0) : receive
 			response = astrolescentQuote
 			break
@@ -118,9 +118,8 @@ export const calculatePoolFeesFromAmount = async (
 			const dsorQuote = await dsor.getSwap({
 				lhs_rri: from.rri,
 				rhs_rri: to.rri,
-				lhs_amount: amount.toString(),
+				lhs_amount: buildAmount(amount).toString(),
 				rhs_amount: null,
-				slippage,
 			})
 
 			fee = zero // @TODO
@@ -203,7 +202,7 @@ export const calculatePoolFeesFromReceive = async (
 		case PoolType.ASTROLESCENT:
 			const astrolescentQuote = await astrolescent.getSwap(accountAddress, from.rri, to.rri, receive, 'out')
 
-			fee = new BigNumber(astrolescentQuote.swapFee || 0)
+			fee = new BigNumber(astrolescentQuote.swapFee).shiftedBy(-18)
 			amount = astrolescentQuote?.inputTokens ? new BigNumber(astrolescentQuote?.inputTokens || 0) : amount
 			response = astrolescentQuote
 			break
@@ -212,8 +211,7 @@ export const calculatePoolFeesFromReceive = async (
 				lhs_rri: from.rri,
 				rhs_rri: to.rri,
 				lhs_amount: null,
-				rhs_amount: receive.toString(),
-				slippage,
+				rhs_amount: buildAmount(receive).toString(),
 			})
 
 			fee = zero // @TODO

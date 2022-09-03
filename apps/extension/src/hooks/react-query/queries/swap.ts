@@ -71,7 +71,7 @@ export const usePoolTokens = (): { [rri: string]: { [rri: string]: null } } => {
 		})
 	}
 	if (dsorTokens) {
-		dsorTokens.forEach(token => {
+		dsorTokens?.tokens.forEach(token => {
 			uniqueTokens[token.rri] = { [XRD_RRI]: null, ...(uniqueTokens[token.rri] || {}) }
 			uniqueTokens[XRD_RRI] = { [token.rri]: null, ...(uniqueTokens[XRD_RRI] || {}) }
 		})
@@ -151,8 +151,8 @@ export const usePools = (fromRRI: string, toRRI: string): Pool[] => {
 		}
 	}
 	if (dsorTokens) {
-		const fromToken = dsorTokens.find(token => token.rri === fromRRI)
-		const toToken = dsorTokens.find(token => token.rri === toRRI)
+		const fromToken = dsorTokens?.tokens.find(token => token.rri === fromRRI)
+		const toToken = dsorTokens?.tokens.find(token => token.rri === toRRI)
 		if (fromToken && toToken) {
 			pools.push({
 				...swapServices[PoolType.DSOR],

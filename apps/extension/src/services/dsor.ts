@@ -3,7 +3,6 @@ export type SwapQuery = {
 	rhs_rri: string
 	lhs_amount: string | null
 	rhs_amount: string | null
-	slippage: number
 }
 
 type Action = {
@@ -36,9 +35,11 @@ export type Token = {
 	}
 }
 
-export type TokensResponse = Array<Token>
+export type TokensResponse = {
+	tokens: Array<Token>
+}
 
-export const PoolName = 'DSOR'
+export const PoolName = 'dsor'
 
 export class DSORService {
 	private baseURL: string = 'https://api.dsor.io/v1.0'
@@ -51,11 +52,10 @@ export class DSORService {
 	}
 
 	getTokens = async (): Promise<TokensResponse> => {
-		const response = await fetch(`${this.baseURL}/tokens}`, this.options)
+		const response = await fetch(`${this.baseURL}/tokens`, this.options)
 		if (response.status !== 200) {
 			throw new Error(`Invalid request: ${response.status} received`)
 		}
-
 		return response.json()
 	}
 

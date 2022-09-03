@@ -32,7 +32,8 @@ const service = new CoinGeckoService()
 // 		}
 // 	})
 
-const getDSORTicker = async (tokens: DSORTokensResponse, currency: string, asset: string) => {
+const getDSORTicker = async (response: DSORTokensResponse, currency: string, asset: string) => {
+	const { tokens } = response
 	if (tokens && tokens.length > 0) {
 		const token = tokens.find(_token => _token.symbol.toUpperCase() === asset.toUpperCase())
 		if (token) {
@@ -53,7 +54,7 @@ export const useDSORTicker = () =>
 		try {
 			return await dsor.getTokens()
 		} catch (error: any) {
-			return []
+			return { tokens: [] }
 		}
 	})
 
