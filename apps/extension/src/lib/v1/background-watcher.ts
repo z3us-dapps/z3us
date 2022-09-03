@@ -2,8 +2,11 @@ import browser from 'webextension-polyfill'
 import { accountStore, defaultAccountStore, sharedStore } from '@src/store'
 import { RadixService } from '@src/services/radix'
 import { getShortAddress, getTransactionType } from '@src/utils/string-utils'
+import { Transaction } from '@src/types'
 
-export async function getLastTransactions(useStore: typeof defaultAccountStore) {
+export async function getLastTransactions(
+	useStore: typeof defaultAccountStore,
+): Promise<{ [address: string]: Array<Transaction> }> {
 	const state = useStore.getState()
 	const { networks, selectedNetworkIndex, publicAddresses } = state
 	const allAddresses = Object.values(publicAddresses).map(entry => entry.address)
@@ -12,28 +15,19 @@ export async function getLastTransactions(useStore: typeof defaultAccountStore) 
 
 	const service = new RadixService(network.url)
 
-	const results = await Promise.all(
-		allAddresses.map(async address => {
-			const { transactions } = await service.transactionHistory(address)
-			return {
-				address,
-				transactions:
-					transactions?.flatMap(tx => {
-						tx.actions = tx.actions.filter(a => a.from_account === address || a.to_account === address)
-						return tx.actions.length > 0 ? [tx] : []
-					}) || [],
-			}
-		}),
-	)
-	const transactionMap = results.reduce(
-		(container, { address, transactions }) => ({ ...container, [address]: transactions || [] }),
-		{},
-	)
+	const transactionMap = {}
+	allAddresses.forEach(async address => {
+		const { transactions } = await service.transactionHistory(address)
+		transactionMap[address] = transactions
+	})
 	return transactionMap
 }
 
 let lastTxIds = {}
+let isCheckingTransactions = false
 const watchTransactions = async (useStore: typeof defaultAccountStore) => {
+	if (isCheckingTransactions) return
+	isCheckingTransactions = true
 	try {
 		const transactionMap = await getLastTransactions(useStore)
 		const newLastTxIds = {}
@@ -50,9 +44,10 @@ const watchTransactions = async (useStore: typeof defaultAccountStore) => {
 					if (lastTxId === tx.id) {
 						break
 					}
-					const activity = tx?.actions.length > 0 ? getTransactionType(address, tx.actions[0]) : 'Unknown'
+					const activity = tx.actions.length > 0 ? getTransactionType(address, tx.actions[0]) : 'Unknown'
 
-					browser.notifications.create(tx.id, {
+					// eslint-disable-next-line no-await-in-loop
+					await browser.notifications.create(tx.id, {
 						type: 'basic',
 						iconUrl: browser.runtime.getURL('favicon-128x128.png'),
 						title: `New ${activity} Transaction`,
@@ -73,17 +68,19 @@ const watchTransactions = async (useStore: typeof defaultAccountStore) => {
 		// eslint-disable-next-line no-console
 		console.error(error)
 	}
+	isCheckingTransactions = false
 }
 
 const triggerWatch = () => dispatchEvent(new CustomEvent('backgroundwatcher'))
 
 const watch = async () => {
 	await sharedStore.persist.rehydrate()
-	const { selectKeystoreId } = sharedStore.getState()
+	const { selectKeystoreId, transactionNotificationsEnabled } = sharedStore.getState()
+
 	const useStore = accountStore(selectKeystoreId)
 	await useStore.persist.rehydrate()
 
-	watchTransactions(useStore)
+	if (transactionNotificationsEnabled) watchTransactions(useStore)
 }
 
 export default () => {
