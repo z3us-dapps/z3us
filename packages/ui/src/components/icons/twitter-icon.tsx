@@ -4,15 +4,7 @@ import { IconProps } from './types'
 
 export const TwitterIcon = React.forwardRef<SVGSVGElement, IconProps>(
 	({ color = 'currentColor', ...props }, forwardedRef) => (
-		<svg
-			width="20"
-			height="20"
-			viewBox="0 0 20 20"
-			fill="none"
-			xmlns="http://www.w3.org/2000/svg"
-			{...props}
-			ref={forwardedRef}
-		>
+		<svg width="20" height="20" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg" {...props} ref={forwardedRef}>
 			<path
 				fill={color}
 				d="M10,0C4.5,0,0,4.5,0,10s4.5,10,10,10s10-4.5,10-10S15.5,0,10,0z M14.8,7.5c0,0.1,0,0.2,0,0.3

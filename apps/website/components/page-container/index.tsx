@@ -1,34 +1,13 @@
-import React from 'react'
-import { Box } from 'ui/src/components/atoms'
-import { CSS } from 'ui/src/theme'
+import { ReactNode } from 'react'
 
-interface IProps {
-	children: React.ReactNode
-	css?: CSS
+export interface IPageContainer {
+	children: ReactNode | undefined
 }
 
-const defaultProps = {
-	css: undefined,
-}
-
-export const PageContainer: React.FC<IProps> = ({ children, css }) => (
-	<Box
-		css={{
-			position: 'relative',
-			maxWidth: '1264px',
-			width: '100%',
-			px: '15px',
-			mx: 'auto',
-			'@xs': { border: '0px solid brown' },
-			'@sm': { border: '0px solid green', px: '20px' },
-			'@md': { border: '0px solid pink' },
-			'@lg': { border: '0px solid blue' },
-			'@xl': { border: '0px solid red' },
-			...(css as any),
-		}}
-	>
-		{children}
-	</Box>
-)
-
-PageContainer.defaultProps = defaultProps
+export const PageContainer = ({ children }: IPageContainer) => (
+		<div className="px-5">
+			<div className="container mx-auto" style={{ maxWidth: '1174px' }}>
+				{children}
+			</div>
+		</div>
+	)

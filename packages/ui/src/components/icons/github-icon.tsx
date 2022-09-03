@@ -4,15 +4,7 @@ import { IconProps } from './types'
 
 export const GithubIcon = React.forwardRef<SVGSVGElement, IconProps>(
 	({ color = 'currentColor', ...props }, forwardedRef) => (
-		<svg
-			width="20"
-			height="20"
-			viewBox="0 0 20 20"
-			fill="none"
-			xmlns="http://www.w3.org/2000/svg"
-			{...props}
-			ref={forwardedRef}
-		>
+		<svg width="20" height="20" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg" {...props} ref={forwardedRef}>
 			<path
 				fill={color}
 				d="M10,0.2c-5.5,0-10,4.5-10,10c0,4.4,2.9,8.2,6.8,9.5c0.5,0.1,0.7-0.2,0.7-0.5c0-0.2,0-0.9,0-1.7c-2.8,0.6-3.4-1.3-3.4-1.3

@@ -1,6 +1,6 @@
 import React from 'react'
-import { LandingPage } from '../components/pages/landing'
+import { HomePage } from '../components/pages/home-page'
 
-const Home = () => <LandingPage />
+const Home = () => <HomePage />
 
 export default Home

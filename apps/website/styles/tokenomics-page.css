@@ -1,0 +1,144 @@
+.dark body.tokenomics-page {
+	background-color: #aeb5ad;
+}
+body.tokenomics-page {
+	background-color: #aeb5ad;
+}
+
+.tokenomics__h1 {
+	font-size: 4.4rem;
+	line-height: 4rem;
+}
+
+.token-pie-chart {
+	position: relative;
+	width: 20.875rem;
+	height: 20.875rem;
+}
+
+.token-pie-chart__inner {
+	border-radius: 50%;
+	border-radius: 50%;
+	width: 20.875rem;
+	height: 20.875rem;
+	box-shadow: 0px 10px 44px rgba(0, 0, 0, 0.35);
+}
+
+.token-pie-chart__inner p {
+	font-size: 1.313rem;
+	line-height: 1.3rem;
+}
+
+.token-pie-chart__inner p {
+	color: #000000;
+	font-weight: bold;
+	opacity: 0.4;
+}
+
+.token-pie-chart__inner span {
+	background-color: #ffffff;
+	font-weight: bold;
+	border-radius: 1rem;
+	padding: 0.45rem 0.8rem;
+	box-shadow: 0px 10px 44px rgba(0, 0, 0, 0.35);
+	white-space: no-wrap;
+}
+
+.token-pie-chart__team {
+	position: absolute;
+	top: 2.9rem;
+	right: 5.5rem;
+}
+
+.token-pie-chart__team span {
+	color: #ad8d8e;
+	position: absolute;
+	top: -2.1rem;
+	right: -4.4rem;
+}
+
+.token-pie-chart__liquidity {
+	position: absolute;
+	top: 9.9rem;
+	right: 0.9rem;
+}
+
+.token-pie-chart__liquidity span {
+	color: #9ec0e3;
+	position: absolute;
+	bottom: -3.5rem;
+	right: -7rem;
+}
+
+.token-pie-chart__airdrops {
+	position: absolute;
+	bottom: 5.6rem;
+	left: 2.5rem;
+}
+
+.token-pie-chart__airdrops span {
+	color: #b7966f;
+	position: absolute;
+	bottom: -3.7rem;
+	left: -4rem;
+}
+
+.token-pie-chart__greek-image {
+	pointer-events: none;
+	position: absolute;
+	top: 20.575rem;
+	right: -43.813rem;
+	transform: translate(-28rem, -3.3rem);
+	width: 43.813rem;
+	height: 38.875rem;
+}
+
+.tokenomics-white-cells__cell {
+	box-shadow: 0px 10px 32px rgba(0, 0, 0, 0.16);
+	border-radius: 32px;
+	position: relative;
+}
+
+/* sm */
+@media (min-width: 768px) {
+	.tokenomics__h1 {
+		/* border: 1px solid red; */
+		font-size: 6rem;
+		line-height: 6rem;
+	}
+
+	.tokenomics__h1 span {
+		display: block;
+	}
+}
+
+/* md */
+@media (min-width: 1024px) {
+	.tokenomics__h1 {
+		font-size: 9.4rem;
+		line-height: 8.8rem;
+	}
+	.tokenomics__h1 span {
+		display: block;
+	}
+	.token-pie-chart {
+		margin-top: 8.8rem;
+	}
+}
+
+/* lg */
+@media (min-width: 1280px) {
+	.tokenomics__h1 {
+		font-size: 9.4rem;
+		line-height: 8.8rem;
+		margin-top: 2rem;
+	}
+
+	.tokenomics__h1 span {
+		display: block;
+	}
+	.tokenomics-white-cells {
+		margin-left: -1.563rem;
+		margin-right: -1.563rem;
+	}
+}

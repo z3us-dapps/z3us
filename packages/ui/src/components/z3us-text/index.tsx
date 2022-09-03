@@ -16,9 +16,8 @@ export const Z3usText: React.FC<IProps> = ({ css }) => (
 		width="140"
 		height="23"
 		viewBox="0 0 140 23"
-		fill="none"
 		xmlns="http://www.w3.org/2000/svg"
-		css={{ ...(css as any) }}
+		css={{ fill: 'currentColor', ...(css as any) }}
 	>
 		<g>
 			<path

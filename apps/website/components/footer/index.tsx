@@ -1,77 +1,40 @@
-import React from 'react'
-import { Text, Box, Flex, StyledLink } from 'ui/src/components/atoms'
 import Link from 'next/link'
-import { ThemePickerMenu } from 'components/theme-picker-menu'
+import { Z3usLogo } from 'ui/src/components/z3us-logo'
 import { PageContainer } from 'components/page-container'
-import { Z3usLogoText } from 'ui/src/components/z3us-logo-text'
+import { ThemeSelector } from './theme-selector'
 
-export const Footer: React.FC = () => (
-	<Box css={{ position: 'relative', bg: '$bgPanelFooter', border: '1px solid $borderPanelFooter', pb: '20px' }}>
-		<PageContainer>
-			<Flex>
-				<Flex align="center" css={{ py: '30px', '@xs': { px: '24px' }, '@md': { px: '0' } }}>
-					<Box>
+interface IProps {
+	className?: string
+}
+
+export const Footer = ({ className }: IProps) => (
+		<div className={`header ${className}`}>
+			<PageContainer>
+				<div className="block sm:flex w-100 items-center">
+					<div className="flex-1 flex items-center fill-white">
 						<Link href="/" passHref>
-							<StyledLink
-								css={{
-									display: 'inline-flex',
-									transition: '$default',
-									'&:hover': {
-										opacity: '0.8',
-									},
-								}}
-							>
-								<Z3usLogoText css={{ color: '$txtHelp' }} />
-							</StyledLink>
+							<a className="cursor-pointer inline-flex items-center justify-center fill-white hover:fill-violet-50 transition-colors">
+								<Z3usLogo className="transition-colors" />
+							</a>
 						</Link>
-						<Box css={{ mt: '$2', display: 'block' }}>
-							<Text
-								as="p"
-								color="help"
-								css={{
-									fontSize: '13px',
-									lineHeight: '14px',
-								}}
-							>
-								&copy; {new Date().getFullYear()}
-							</Text>
-						</Box>
-					</Box>
-				</Flex>
-				<Flex
-					align="center"
-					justify="end"
-					css={{ flex: '1', color: '$txtHelp', py: '30px', '@xs': { px: '24px' }, '@md': { px: '0' } }}
-				>
-					<Link href="/privacy" passHref>
-						<StyledLink underlineOnHover>
-							<Text
-								as="p"
-								css={{
-									fontSize: '13px',
-									lineHeight: '14px',
-								}}
-							>
-								Privacy
-							</Text>
-						</StyledLink>
-					</Link>
-					<Link href="/terms" passHref>
-						<StyledLink underlineOnHover css={{ ml: '12px', mr: '4px' }}>
-							<Text
-								as="p"
-								css={{
-									fontSize: '13px',
-									lineHeight: '14px',
-								}}
-							>
-								Terms
-							</Text>
-						</StyledLink>
-					</Link>
-					<ThemePickerMenu />
-				</Flex>
-			</Flex>
-		</PageContainer>
-	</Box>
-)
+						<span className="text-xs pl-2">&copy; {new Date().getFullYear()} Z3US</span>
+					</div>
+					<ul className="text-sm flex items-center pt-2 sm:pt-0">
+						<li className="pr-3">
+							<Link href="/privacy" passHref>
+								<a className="hover:underline">Privacy</a>
+							</Link>
+						</li>
+						<li className="pr-2">
+							<Link href="/terms" passHref>
+								<a className="hover:underline">Terms</a>
+							</Link>
+						</li>
+						<li>
+							<ThemeSelector />
+						</li>
+					</ul>
+				</div>
+			</PageContainer>
+		</div>
+	)
