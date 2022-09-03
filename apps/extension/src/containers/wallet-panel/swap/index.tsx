@@ -55,7 +55,7 @@ interface ImmerState {
 	errorMessage: string
 }
 
-const refreshInterval = 5 * 1000 // 5 seconds
+const refreshInterval = 15 * 1000 // 15 seconds
 const debounceInterval = 1000 // 1 sec
 const zero = new BigNumber(0)
 const defaultNetworkFee = new BigNumber(2000) // asume avg tx 20 bytes
