@@ -434,12 +434,24 @@ export const Swap: React.FC = () => {
 		setState(draft => {
 			draft.minimum = checked === true
 		})
+
+		calculateSwap(
+			state.amount,
+			state.receive,
+			state.inputSide,
+			state.slippage,
+			state.pool,
+			checked === true,
+			state.burn,
+		)
 	}
 
 	const handleSetSlippage = async (slippage: number) => {
 		setState(draft => {
 			draft.slippage = slippage
 		})
+
+		calculateSwap(state.amount, state.receive, state.inputSide, slippage, state.pool, state.minimum, state.burn)
 	}
 
 	// @TODO: implement when we have burn feature
