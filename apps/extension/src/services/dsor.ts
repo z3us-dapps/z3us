@@ -39,7 +39,7 @@ export type TokensResponse = {
 	tokens: Array<Token>
 }
 
-export const PoolName = 'dsor'
+export const PoolName = 'DSOR'
 
 export class DSORService {
 	private baseURL: string = 'https://api.dsor.io/v1.0'
@@ -60,19 +60,19 @@ export class DSORService {
 	}
 
 	getSwap = async (query: SwapQuery): Promise<SwapResponse> => {
-		const response = await fetch(`${this.baseURL}/swap/optimize_trade`, {
+		const response = await fetch(`${this.baseURL}/optimize_trade`, {
 			...this.options,
 			method: 'POST',
 			body: JSON.stringify(query),
 		})
 
 		const data = await response.json()
-		if (data?.message) {
-			const error = data.message.toString().trim()
-			throw new Error(error)
-		}
-
 		if (response.status !== 200) {
+			if (data?.message) {
+				const error = data.message.toString().trim()
+				throw new Error(error)
+			}
+
 			// eslint-disable-next-line no-console
 			console.error(`Invalid request: ${response.status} received`, response)
 			throw new Error(`Failed to optimize swap`)
