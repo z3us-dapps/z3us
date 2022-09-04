@@ -1,8 +1,8 @@
 export type SwapQuery = {
 	lhs_rri: string
 	rhs_rri: string
-	lhs_amount: string | null
-	rhs_amount: string | null
+	lhs_amount?: string
+	rhs_amount?: string
 }
 
 type Action = {

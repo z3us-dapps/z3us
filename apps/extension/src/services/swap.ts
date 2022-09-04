@@ -119,7 +119,6 @@ export const calculatePoolFeesFromAmount = async (
 				lhs_rri: from.rri,
 				rhs_rri: to.rri,
 				lhs_amount: buildAmount(amount).toString(),
-				rhs_amount: null,
 			})
 
 			fee = zero // @TODO
@@ -210,7 +209,6 @@ export const calculatePoolFeesFromReceive = async (
 			const dsorQuote = await dsor.getSwap({
 				lhs_rri: from.rri,
 				rhs_rri: to.rri,
-				lhs_amount: null,
 				rhs_amount: buildAmount(receive).toString(),
 			})
 
