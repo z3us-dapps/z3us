@@ -202,14 +202,20 @@ export const FeeBox: React.FC<IProps> = ({
 													Exchange fee:
 												</Text>
 												<Text size="2" css={{ display: 'flex', flex: '1', justifyContent: 'flex-end' }}>
-													<Box css={{ pl: '$1' }}>{`${formatBigNumber(
-														poolFee,
-														fromToken?.symbol,
-													)} ${fromToken?.symbol.toUpperCase()}`}</Box>
-													{fromTicker && (
-														<Box css={{ pl: '$1' }}>
-															{formatBigNumber(poolFee.multipliedBy(fromTicker.last_price), currency, 2)}
-														</Box>
+													{pool?.type === PoolType.DSOR ? (
+														<Box css={{ pl: '$1' }}>Unknown</Box>
+													) : (
+														<>
+															<Box css={{ pl: '$1' }}>{`${formatBigNumber(
+																poolFee,
+																fromToken?.symbol,
+															)} ${fromToken?.symbol.toUpperCase()}`}</Box>
+															{fromTicker && (
+																<Box css={{ pl: '$1' }}>
+																	{formatBigNumber(poolFee.multipliedBy(fromTicker.last_price), currency, 2)}
+																</Box>
+															)}
+														</>
 													)}
 												</Text>
 											</Flex>

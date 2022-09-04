@@ -122,7 +122,7 @@ export const calculatePoolFeesFromAmount = async (
 			})
 
 			fee = zero // @TODO
-			receive = dsorQuote?.rhs_amount ? new BigNumber(dsorQuote?.rhs_amount || 0) : receive
+			receive = dsorQuote?.rhs_amount ? new BigNumber(dsorQuote?.rhs_amount || 0).shiftedBy(-18) : receive
 			response = dsorQuote
 			break
 		case PoolType.CAVIAR:
@@ -213,7 +213,7 @@ export const calculatePoolFeesFromReceive = async (
 			})
 
 			fee = zero // @TODO
-			receive = dsorQuote?.lhs_amount ? new BigNumber(dsorQuote?.lhs_amount || 0) : receive
+			receive = dsorQuote?.lhs_amount ? new BigNumber(dsorQuote?.lhs_amount || 0).shiftedBy(-18) : receive
 			response = dsorQuote
 			break
 		case PoolType.CAVIAR:
