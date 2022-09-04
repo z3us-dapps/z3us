@@ -284,18 +284,11 @@ export const Swap: React.FC = () => {
 	}, [state.time])
 
 	useEffect(() => {
-		if (!state.isMounted || state.isLoading || state.amount.eq(0)) return
-		if (state.inputSide === 'from' && state.amount) {
-			calculateSwap(state.amount, state.receive, state.inputSide, state.slippage, state.pool, state.minimum, state.burn)
-		}
-	}, [debouncedAmount.toString()])
-
-	useEffect(() => {
-		if (!state.isMounted || state.isLoading || state.receive.eq(0)) return
-		if (state.inputSide === 'to' && state.receive) {
-			calculateSwap(state.amount, state.receive, state.inputSide, state.slippage, state.pool, state.minimum, state.burn)
-		}
-	}, [debouncedReceive.toString()])
+		if (!state.isMounted || state.isLoading) return
+		if (state.inputSide === 'from' && state.amount.eq(0)) return
+		if (state.inputSide === 'to' && state.receive.eq(0)) return
+		calculateSwap(state.amount, state.receive, state.inputSide, state.slippage, state.pool, state.minimum, state.burn)
+	}, [debouncedAmount.toString(), debouncedReceive.toString()])
 
 	const handlePoolChange = async (pool: Pool) => {
 		setState(draft => {
