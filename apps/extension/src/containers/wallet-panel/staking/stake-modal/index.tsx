@@ -96,6 +96,11 @@ export const StakeModal: React.FC<IProps> = ({ trigger, tooltipMessage, validato
 
 	const handleCloseModal = () => {
 		setState(draft => {
+			draft.amount = ''
+			draft.validator = ''
+			draft.fee = null
+			draft.transaction = null
+			draft.isLoading = false
 			draft.isModalOpen = false
 		})
 	}
