@@ -129,6 +129,18 @@ export const usePools = (fromRRI: string, toRRI: string): Pool[] => {
 			}
 		}
 	}
+	if (caviarPools) {
+		caviarPools.forEach(p => {
+			if (p.balances[fromRRI] && p.balances[toRRI]) {
+				pools.push({
+					...swapServices[PoolType.CAVIAR],
+					name: p.name,
+					wallet: p.wallet,
+					balances: p.balances,
+				})
+			}
+		})
+	}
 	if (dsorTokens) {
 		const fromToken = dsorTokens?.tokens.find(token => token.rri === fromRRI)
 		const toToken = dsorTokens?.tokens.find(token => token.rri === toRRI)
@@ -160,18 +172,6 @@ export const usePools = (fromRRI: string, toRRI: string): Pool[] => {
 				})
 			}
 		}
-	}
-	if (caviarPools) {
-		caviarPools.forEach(p => {
-			if (p.balances[fromRRI] && p.balances[toRRI]) {
-				pools.push({
-					...swapServices[PoolType.CAVIAR],
-					name: p.name,
-					wallet: p.wallet,
-					balances: p.balances,
-				})
-			}
-		})
 	}
 
 	return pools
