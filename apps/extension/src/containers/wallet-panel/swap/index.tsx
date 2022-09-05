@@ -56,7 +56,7 @@ interface ImmerState {
 }
 
 const refreshInterval = 15 * 1000 // 15 seconds
-const debounceInterval = 1000 // 1 sec
+const debounceInterval = 500 // 1 sec
 const zero = new BigNumber(0)
 const defaultNetworkFee = new BigNumber(2000) // asume avg tx 20 bytes
 
@@ -141,8 +141,10 @@ export const Swap: React.FC = () => {
 		minimum: boolean = false,
 		burn: boolean = false,
 	) => {
+		if (!state.isMounted) return
 		if (state.isLoading) return
-		if (amount.eq(0)) return
+		if (valueType === 'from' && amount.eq(0)) return
+		if (valueType === 'to' && receive.eq(0)) return
 
 		setState(draft => {
 			draft.isLoading = true
@@ -279,21 +281,18 @@ export const Swap: React.FC = () => {
 	}
 
 	useEffect(() => {
-		if (!state.isMounted || state.isLoading) return
 		if (Date.now() - state.time < refreshInterval) return
 		calculateSwap(state.amount, state.receive, state.inputSide, state.slippage, state.pool, state.minimum, state.burn)
 	}, [state.time])
 
 	useEffect(() => {
-		if (!state.isMounted || state.isLoading) return
 		if (state.inputSide !== 'from') return
-		calculateSwap(state.amount, state.receive, 'from', state.slippage, state.pool, state.minimum, state.burn)
+		calculateSwap(state.amount, state.receive, state.inputSide, state.slippage, state.pool, state.minimum, state.burn)
 	}, [debouncedAmount.toString()])
 
 	useEffect(() => {
-		if (!state.isMounted || state.isLoading) return
 		if (state.inputSide !== 'to') return
-		calculateSwap(state.amount, state.receive, 'to', state.slippage, state.pool, state.minimum, state.burn)
+		calculateSwap(state.amount, state.receive, state.inputSide, state.slippage, state.pool, state.minimum, state.burn)
 	}, [debouncedReceive.toString()])
 
 	const handlePoolChange = async (pool: Pool) => {
@@ -577,7 +576,7 @@ export const Swap: React.FC = () => {
 									theme="minimal"
 									type="text"
 									size="2"
-									value={numberWithCommas(state.amount.decimalPlaces(9).toString())}
+									value={state.amount.gt(0) ? numberWithCommas(state.amount.decimalPlaces(9).toString()) : undefined}
 									placeholder="Enter amount"
 									onFocus={handleInputFromFocus}
 									onBlur={handleInputFromBlur}
@@ -667,7 +666,7 @@ export const Swap: React.FC = () => {
 									type="text"
 									theme="minimal"
 									size="2"
-									value={numberWithCommas(state.receive.decimalPlaces(9).toString())}
+									value={state.receive.gt(0) ? numberWithCommas(state.receive.decimalPlaces(9).toString()) : undefined}
 									placeholder="Receive"
 									onFocus={handleInputToFocus}
 									onBlur={handleInputToBlur}
