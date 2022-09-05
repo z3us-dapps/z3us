@@ -83,8 +83,8 @@ export const usePoolTokens = (): { [rri: string]: { [rri: string]: null } } => {
 export const usePools = (fromRRI: string, toRRI: string): Pool[] => {
 	const { data: ociPools } = useOCIPools()
 	const { data: dogePools } = useDogeCubeXPools()
-	const { data: astrolescentTokens } = useAstrolescentTokens()
 	const { data: dsorTokens } = useDSORTokens()
+	const { data: astrolescentTokens } = useAstrolescentTokens()
 	const { data: caviarPools } = useCaviarPools()
 
 	if (!fromRRI || !toRRI) {
@@ -129,6 +129,17 @@ export const usePools = (fromRRI: string, toRRI: string): Pool[] => {
 			}
 		}
 	}
+	if (dsorTokens) {
+		const fromToken = dsorTokens?.tokens.find(token => token.rri === fromRRI)
+		const toToken = dsorTokens?.tokens.find(token => token.rri === toRRI)
+		if (fromToken && toToken) {
+			pools.push({
+				...swapServices[PoolType.DSOR],
+				name: DSORPoolName,
+				wallet: 'dsor',
+			})
+		}
+	}
 	if (astrolescentTokens && (fromRRI === XRD_RRI || toRRI === XRD_RRI)) {
 		if (fromRRI === XRD_RRI) {
 			const astrolescentPool = astrolescentTokens.find(token => token.rri === toRRI)
@@ -148,17 +159,6 @@ export const usePools = (fromRRI: string, toRRI: string): Pool[] => {
 					wallet: 'astrolescent',
 				})
 			}
-		}
-	}
-	if (dsorTokens) {
-		const fromToken = dsorTokens?.tokens.find(token => token.rri === fromRRI)
-		const toToken = dsorTokens?.tokens.find(token => token.rri === toRRI)
-		if (fromToken && toToken) {
-			pools.push({
-				...swapServices[PoolType.DSOR],
-				name: DSORPoolName,
-				wallet: 'dsor',
-			})
 		}
 	}
 	if (caviarPools) {

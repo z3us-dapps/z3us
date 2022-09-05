@@ -199,12 +199,13 @@ export const calculatePoolFeesFromReceive = async (
 			response = dogeQuote
 			break
 		case PoolType.ASTROLESCENT:
-			const astrolescentQuote = await astrolescent.getSwap(accountAddress, from.rri, to.rri, receive, 'out')
+			// const astrolescentQuote = await astrolescent.getSwap(accountAddress, from.rri, to.rri, receive, 'out')
 
-			fee = new BigNumber(astrolescentQuote.swapFee).shiftedBy(-18)
-			amount = astrolescentQuote?.inputTokens ? new BigNumber(astrolescentQuote?.inputTokens || 0) : amount
-			response = astrolescentQuote
-			break
+			// fee = new BigNumber(astrolescentQuote.swapFee).shiftedBy(-18)
+			// amount = astrolescentQuote?.inputTokens ? new BigNumber(astrolescentQuote?.inputTokens || 0) : amount
+			// response = astrolescentQuote
+			// break
+			throw new Error('Unsupported calculation')
 		case PoolType.DSOR:
 			const dsorQuote = await dsor.getSwap({
 				lhs_rri: from.rri,
@@ -217,9 +218,7 @@ export const calculatePoolFeesFromReceive = async (
 			response = dsorQuote
 			break
 		case PoolType.CAVIAR:
-			amount = zero // @TODO: unsupported
-			response = null
-			break
+			throw new Error('Unsupported calculation')
 		default:
 			throw new Error(`Invalid pool: ${pool.name} - ${pool.type}`)
 	}
