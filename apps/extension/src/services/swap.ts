@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable no-case-declarations */
 import BigNumber from 'bignumber.js'
 import { IntendedTransferTokens, BuiltTransactionReadyToSign, AccountT } from '@radixdlt/application'
@@ -159,7 +160,6 @@ export const calculatePoolFeesFromReceive = async (
 	from: Token,
 	to: Token,
 	accountAddress: string,
-	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	liquidBalances: TokenAmount[],
 ): Promise<Quote> => {
 	let response
