@@ -6,9 +6,10 @@ import BigNumber from 'bignumber.js'
 import { Box, Text, Flex } from 'ui/src/components/atoms'
 import { HoverCard, HoverCardContent, HoverCardTrigger } from 'ui/src/components/hover-card'
 import { useTicker } from '@src/hooks/react-query/queries/tickers'
-import { InfoCircledIcon } from '@radix-ui/react-icons'
+import { InfoCircledIcon, CircleBackslashIcon } from '@radix-ui/react-icons'
 import { Token, Pool, PoolType } from '@src/types'
 import { useSharedStore } from '@src/store'
+import { ToolTip } from 'ui/src/components/tool-tip'
 import { useNativeToken, useTokenInfo } from '@src/hooks/react-query/queries/radix'
 import { swapServices, Z3US_RRI } from '@src/config'
 import { PoolSelector } from '../pool-selector'
@@ -137,27 +138,32 @@ export const FeeBox: React.FC<IProps> = ({
 						</Flex>
 					)}
 				</Flex>
-				{supportsSlippage && (
-					<Flex css={{ flex: '1', width: '100%' }}>
-						<Text css={{ flex: '1', color: '$txtHelp' }} medium>
-							Slippage:
-						</Text>
-						<Flex css={{ height: '15px', position: 'relative' }}>
-							{isConfirmFeeBox && (pool?.type === PoolType.OCI || pool?.type === PoolType.DOGECUBEX) && minimum ? (
+				<Flex css={{ flex: '1', width: '100%' }}>
+					<Text css={{ flex: '1', color: '$txtHelp' }} medium>
+						Slippage:
+					</Text>
+					<Flex css={{ height: '15px', position: 'relative' }}>
+						{isConfirmFeeBox &&
+							((pool?.type === PoolType.OCI || pool?.type === PoolType.DOGECUBEX) && minimum ? (
 								<Text medium>{getSlippagePercentage(slippage)}</Text>
-							) : null}
-							{!isConfirmFeeBox && pool && (
-								<SlippageSettings
-									pool={pool}
-									minimum={minimum}
-									onMinimumChange={onMinimumChange}
-									slippage={slippage}
-									onSlippageChange={onSlippageChange}
-								/>
-							)}
-						</Flex>
+							) : (
+								<ToolTip message="Slippage not supported">
+									<Flex css={{ color: '$txtHelp', display: 'inline-flex' }}>
+										<CircleBackslashIcon />
+									</Flex>
+								</ToolTip>
+							))}
+						{!isConfirmFeeBox && pool && (
+							<SlippageSettings
+								pool={pool}
+								minimum={minimum}
+								onMinimumChange={onMinimumChange}
+								slippage={slippage}
+								onSlippageChange={onSlippageChange}
+							/>
+						)}
 					</Flex>
-				)}
+				</Flex>
 				<Flex css={{ flex: '1', width: '100%' }}>
 					<Text css={{ flex: '1', color: '$txtHelp', display: 'flex', alignItems: 'center', height: '15px' }} medium>
 						Estimated Fees:
