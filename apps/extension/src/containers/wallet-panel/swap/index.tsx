@@ -116,6 +116,11 @@ export const Swap: React.FC = () => {
 	const selectedToken = liquidBalances?.find(balance => balance.rri === state.fromRRI)
 	const selectedTokenAmmount = selectedToken ? new BigNumber(selectedToken.amount).shiftedBy(-18) : zero
 
+	const availableTokensMap = {}
+	liquidBalances.forEach(balance => {
+		availableTokensMap[balance.rri] = true
+	})
+
 	// @Note: the timeout is needed to focus the input, or else it will jank the route entry transition
 	useTimeout(() => {
 		if (!state.isMounted) {
@@ -576,7 +581,7 @@ export const Swap: React.FC = () => {
 									theme="minimal"
 									type="text"
 									size="2"
-									value={state.amount.gt(0) ? numberWithCommas(state.amount.decimalPlaces(9).toString()) : undefined}
+									value={state.amount.gt(0) ? numberWithCommas(state.amount.decimalPlaces(9).toString()) : ''}
 									placeholder="Enter amount"
 									onFocus={handleInputFromFocus}
 									onBlur={handleInputFromBlur}
@@ -644,7 +649,9 @@ export const Swap: React.FC = () => {
 								<TokenSelector
 									triggerType="minimal"
 									token={fromToken}
-									tokens={Object.keys(possibleTokens || {}).filter(rri => rri !== state.toRRI)}
+									tokens={Object.keys(possibleTokens || {}).filter(
+										rri => rri !== state.toRRI && availableTokensMap[rri],
+									)}
 									onTokenChange={handleFromTokenChange}
 								/>
 							</Flex>
@@ -666,7 +673,7 @@ export const Swap: React.FC = () => {
 									type="text"
 									theme="minimal"
 									size="2"
-									value={state.receive.gt(0) ? numberWithCommas(state.receive.decimalPlaces(9).toString()) : undefined}
+									value={state.receive.gt(0) ? numberWithCommas(state.receive.decimalPlaces(9).toString()) : ''}
 									placeholder="Receive"
 									onFocus={handleInputToFocus}
 									onBlur={handleInputToBlur}
