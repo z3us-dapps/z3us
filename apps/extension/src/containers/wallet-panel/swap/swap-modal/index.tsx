@@ -141,13 +141,9 @@ export const SwapModal: React.FC<IProps> = ({
 			setState(draft => {
 				draft.txID = txID
 			})
-			const result = await submitTransaction(blob)
 
-			try {
-				await confirmSwap(pool, txID, swapResponse)
-			} catch (error) {
-				await confirmSwap(pool, txID, swapResponse) // retry confirm in case of error
-			}
+			await confirmSwap(pool, txID, swapResponse)
+			const result = await submitTransaction(blob)
 
 			await queryClient.invalidateQueries({ active: true, inactive: true, stale: true })
 			setState(draft => {
