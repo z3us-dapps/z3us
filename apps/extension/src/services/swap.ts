@@ -471,13 +471,13 @@ export const calculateTransactionFee = async (
 	return { transaction, fee, transactionFeeError }
 }
 
-export const confirmSwap = async (pool: Pool, txID: string, response?: any) => {
+export const confirmSwap = async (pool: Pool, txID: string, response: any) => {
 	try {
 		switch (pool.type) {
 			case PoolType.DSOR:
 				if (!response) throw new Error(`${pool.name} - ${pool.type}: missing swap response: ${response}`)
 				const dsorResponse = response as DsorSwapResponse
-				dsor.confirmSwap(dsorResponse.uid, txID)
+				await dsor.confirmSwap(dsorResponse.uid, txID)
 				break
 			default:
 				return
