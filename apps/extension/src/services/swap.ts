@@ -253,14 +253,14 @@ export const calculateCheapestPoolFeesFromAmount = async (
 			}
 		}),
 	)
-	results
-		.filter(result => !!result)
-		.forEach((cost, index) => {
-			if (!cheapest || cost.receive.gt(cheapest.receive)) {
-				cheapest = cost
-				pool = pools[index]
-			}
-		})
+	results.forEach((cost, index) => {
+		if (!cost) return
+		if (cost.receive.eq(0)) return
+		if (!cheapest || cost.receive.gt(cheapest.receive)) {
+			cheapest = cost
+			pool = pools[index]
+		}
+	})
 	return { receive: zero, fee: zero, amount: zero, ...cheapest, pool }
 }
 
@@ -286,15 +286,14 @@ export const calculateCheapestPoolFeesFromReceive = async (
 			}
 		}),
 	)
-	results
-		.filter(result => !!result)
-		.forEach((cost, index) => {
-			if (cost.amount.eq(0)) return
-			if (!cheapest || cost.amount.lt(cheapest.amount)) {
-				cheapest = cost
-				pool = pools[index]
-			}
-		})
+	results.forEach((cost, index) => {
+		if (!cost) return
+		if (cost.amount.eq(0)) return
+		if (!cheapest || cost.amount.lt(cheapest.amount)) {
+			cheapest = cost
+			pool = pools[index]
+		}
+	})
 	return { receive: zero, fee: zero, amount: zero, ...cheapest, pool }
 }
 
