@@ -22,8 +22,8 @@ interface ImmerT {
 const setupItems = {
 	send: { title: 'Send and receive tokens.', comingSoon: false },
 	earn: { title: 'Earn XRD by staking.', comingSoon: false },
-	trade: { title: 'Swap tokens using wallet DEX.', comingSoon: false },
-	view: { title: 'View and manage your NFTs.', comingSoon: true },
+	trade: { title: 'Swap and trade tokens.', comingSoon: false },
+	view: { title: 'View and manage NFTs.', comingSoon: true },
 }
 
 const ulVariants = {
