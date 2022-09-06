@@ -307,7 +307,16 @@ export const calculateTransactionFee = async (
 	z3usBurn: BigNumber,
 	minimum: boolean,
 	// @TODO: type these
-	buildTransactionFromActions: any,
+	buildTransactionFromActions: (
+		actions: IntendedAction[],
+		message?: string,
+	) => Promise<{
+		transaction: {
+			blob: string
+			hashOfBlobToSign: string
+		}
+		fee: string
+	}>,
 	createMessage: any,
 	account: AccountT,
 	response?: any,
@@ -460,4 +469,21 @@ export const calculateTransactionFee = async (
 	}
 
 	return { transaction, fee, transactionFeeError }
+}
+
+export const confirmSwap = async (pool: Pool, txID: string, response?: any) => {
+	try {
+		switch (pool.type) {
+			case PoolType.DSOR:
+				if (!response) throw new Error(`${pool.name} - ${pool.type}: missing swap response: ${response}`)
+				const dsorResponse = response as DsorSwapResponse
+				dsor.confirmSwap(dsorResponse.uid, txID)
+				break
+			default:
+				return
+		}
+	} catch (error) {
+		// eslint-disable-next-line no-console
+		console.error(error)
+	}
 }

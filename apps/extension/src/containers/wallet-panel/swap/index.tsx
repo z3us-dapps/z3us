@@ -45,6 +45,7 @@ interface ImmerState {
 	z3usFee: BigNumber
 	z3usBurn: BigNumber
 	transaction: BuiltTransactionReadyToSign
+	swapResponse: any
 	fee: BigNumber
 	minimum: boolean
 	slippage: number
@@ -72,6 +73,7 @@ const defaultState: ImmerState = {
 	z3usFee: zero,
 	z3usBurn: zero,
 	transaction: null,
+	swapResponse: null,
 	fee: zero,
 	minimum: true,
 	slippage: 0.05,
@@ -270,6 +272,7 @@ export const Swap: React.FC = () => {
 				draft.fee = fee
 				draft.transaction = transaction
 				draft.errorMessage = transactionFeeError
+				draft.swapResponse = response
 			})
 		} catch (error) {
 			// eslint-disable-next-line no-console
@@ -307,6 +310,7 @@ export const Swap: React.FC = () => {
 			draft.z3usFee = zero
 			draft.z3usBurn = zero
 			draft.transaction = undefined
+			draft.swapResponse = undefined
 			draft.fee = zero
 			draft.errorMessage = null
 		})
@@ -323,6 +327,7 @@ export const Swap: React.FC = () => {
 			draft.z3usFee = zero
 			draft.z3usBurn = zero
 			draft.transaction = undefined
+			draft.swapResponse = undefined
 			draft.fee = zero
 			draft.errorMessage = null
 		})
@@ -336,6 +341,7 @@ export const Swap: React.FC = () => {
 			draft.z3usFee = zero
 			draft.z3usBurn = zero
 			draft.transaction = undefined
+			draft.swapResponse = undefined
 			draft.fee = zero
 			draft.fromRRI = rri
 			draft.toRRI =
@@ -355,6 +361,7 @@ export const Swap: React.FC = () => {
 			draft.z3usFee = zero
 			draft.z3usBurn = zero
 			draft.transaction = undefined
+			draft.swapResponse = undefined
 			draft.fee = zero
 			draft.toRRI = rri
 			draft.fromRRI =
@@ -376,6 +383,7 @@ export const Swap: React.FC = () => {
 			draft.z3usFee = zero
 			draft.z3usBurn = zero
 			draft.transaction = undefined
+			draft.swapResponse = undefined
 			draft.fee = zero
 			draft.pool = null
 			draft.errorMessage = null
@@ -397,6 +405,7 @@ export const Swap: React.FC = () => {
 			draft.z3usFee = zero
 			draft.z3usBurn = zero
 			draft.transaction = undefined
+			draft.swapResponse = undefined
 			draft.fee = zero
 			draft.errorMessage = null
 		})
@@ -416,6 +425,7 @@ export const Swap: React.FC = () => {
 			draft.z3usFee = zero
 			draft.z3usBurn = zero
 			draft.transaction = undefined
+			draft.swapResponse = undefined
 			draft.fee = zero
 			draft.errorMessage = null
 		})
@@ -434,6 +444,7 @@ export const Swap: React.FC = () => {
 			draft.z3usFee = zero
 			draft.z3usBurn = zero
 			draft.transaction = undefined
+			draft.swapResponse = undefined
 			draft.fee = zero
 			draft.errorMessage = null
 		})
@@ -772,6 +783,7 @@ export const Swap: React.FC = () => {
 						<SwapModal
 							pool={state.pool}
 							transaction={state.transaction}
+							swapResponse={state.swapResponse}
 							fromToken={fromToken}
 							toToken={toToken}
 							balance={selectedTokenAmmount}

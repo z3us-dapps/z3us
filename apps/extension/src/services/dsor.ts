@@ -17,6 +17,7 @@ type Action = {
 }
 
 export type SwapResponse = {
+	uid: string
 	lhs_amount?: number
 	rhs_amount?: number
 
@@ -76,6 +77,32 @@ export class DSORService {
 			// eslint-disable-next-line no-console
 			console.error(`Invalid request: ${response.status} received`, response)
 			throw new Error(`Failed to optimize swap`)
+		}
+
+		return data
+	}
+
+	confirmSwap = async (swapID: string, txID: string): Promise<SwapResponse> => {
+		const response = await fetch(`${this.baseURL}/lce`, {
+			...this.options,
+			method: 'POST',
+			body: JSON.stringify({
+				type: 'tx_confirmed',
+				tx_id: txID,
+				res_id: swapID,
+			}),
+		})
+
+		const data = await response.json()
+		if (response.status !== 200) {
+			if (data?.message) {
+				const error = data.message.toString().trim()
+				throw new Error(error)
+			}
+
+			// eslint-disable-next-line no-console
+			console.error(`Invalid request: ${response.status} received`, response)
+			throw new Error(`Failed to confirm swap`)
 		}
 
 		return data

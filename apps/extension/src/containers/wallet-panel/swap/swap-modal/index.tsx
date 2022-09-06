@@ -22,6 +22,7 @@ import { HardwareWalletReconnect } from '@src/components/hardware-wallet-reconne
 import { EXPLORER_URL } from '@src/config'
 import { MotionBox, Box, Text, Flex, StyledLink } from 'ui/src/components/atoms'
 import { AlertDialog, AlertDialogTrigger, AlertDialogContent } from 'ui/src/components/alert-dialog'
+import { confirmSwap } from '@src/services/swap'
 import { FeeBox } from '../fee-box'
 
 interface ImmerProps {
@@ -50,6 +51,7 @@ interface IProps {
 	slippage: number
 	minimum: boolean
 	disabledButton: boolean
+	swapResponse: any
 }
 
 export const SwapModal: React.FC<IProps> = ({
@@ -69,6 +71,7 @@ export const SwapModal: React.FC<IProps> = ({
 	minimum,
 	slippage,
 	disabledButton,
+	swapResponse,
 }) => {
 	const [, setLocation] = useLocation()
 	const queryClient = useQueryClient()
@@ -139,6 +142,7 @@ export const SwapModal: React.FC<IProps> = ({
 				draft.txID = txID
 			})
 			const result = await submitTransaction(blob)
+			await confirmSwap(swapResponse, txID)
 			await queryClient.invalidateQueries({ active: true, inactive: true, stale: true })
 			setState(draft => {
 				draft.txID = result.txID
