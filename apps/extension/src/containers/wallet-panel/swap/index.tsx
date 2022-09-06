@@ -766,7 +766,6 @@ export const Swap: React.FC = () => {
 							onMinimumChange={handleSetMinimum}
 							slippage={state.slippage}
 							onSlippageChange={handleSetSlippage}
-							showFeeBreakDown
 						/>
 					</Box>
 					<Box css={{ mt: '13px', position: 'relative' }}>

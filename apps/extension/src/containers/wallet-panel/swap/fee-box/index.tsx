@@ -3,16 +3,16 @@ import React, { useEffect } from 'react'
 import { useImmer } from 'use-immer'
 import { formatBigNumber } from '@src/utils/formatters'
 import BigNumber from 'bignumber.js'
-import { Box, Text, Flex } from 'ui/src/components/atoms'
+import { Box, Text, Flex, StyledLink } from 'ui/src/components/atoms'
 import { HoverCard, HoverCardContent, HoverCardTrigger } from 'ui/src/components/hover-card'
 import { useTicker } from '@src/hooks/react-query/queries/tickers'
-import { InfoCircledIcon } from '@radix-ui/react-icons'
+import { InfoCircledIcon, CircleBackslashIcon } from '@radix-ui/react-icons'
 import { Token, Pool, PoolType } from '@src/types'
 import { useSharedStore } from '@src/store'
+import { ToolTip } from 'ui/src/components/tool-tip'
 import { useNativeToken, useTokenInfo } from '@src/hooks/react-query/queries/radix'
 import { swapServices, Z3US_RRI } from '@src/config'
 import { PoolSelector } from '../pool-selector'
-import { TermsHoverCard } from '../terms-hover-card'
 import { SlippageSettings } from '../slippage-settings'
 import { getSlippagePercentage } from '../utils'
 
@@ -34,7 +34,6 @@ const defaultState: ImmerState = {
 
 interface IProps {
 	isConfirmFeeBox?: boolean
-	showFeeBreakDown?: boolean
 	fromToken?: Token
 	toToken?: Token
 	amount: BigNumber
@@ -55,7 +54,6 @@ interface IProps {
 
 export const FeeBox: React.FC<IProps> = ({
 	isConfirmFeeBox,
-	showFeeBreakDown,
 	fromToken,
 	toToken,
 	amount,
@@ -137,37 +135,46 @@ export const FeeBox: React.FC<IProps> = ({
 						</Flex>
 					)}
 				</Flex>
-				{supportsSlippage && (
-					<Flex css={{ flex: '1', width: '100%' }}>
-						<Text css={{ flex: '1', color: '$txtHelp' }} medium>
-							Slippage:
-						</Text>
-						<Flex css={{ height: '15px', position: 'relative' }}>
-							{isConfirmFeeBox && (pool?.type === PoolType.OCI || pool?.type === PoolType.DOGECUBEX) && minimum ? (
+				<Flex css={{ flex: '1', width: '100%' }}>
+					<Text css={{ flex: '1', color: '$txtHelp' }} medium>
+						Slippage:
+					</Text>
+					<Flex css={{ height: '15px', position: 'relative' }}>
+						{isConfirmFeeBox &&
+							((pool?.type === PoolType.OCI || pool?.type === PoolType.DOGECUBEX) && minimum ? (
 								<Text medium>{getSlippagePercentage(slippage)}</Text>
-							) : null}
-							{!isConfirmFeeBox && pool && (
-								<SlippageSettings
-									pool={pool}
-									minimum={minimum}
-									onMinimumChange={onMinimumChange}
-									slippage={slippage}
-									onSlippageChange={onSlippageChange}
-								/>
-							)}
-						</Flex>
+							) : (
+								<ToolTip message="Slippage not supported">
+									<Flex css={{ color: '$txtHelp', display: 'inline-flex' }}>
+										<CircleBackslashIcon />
+									</Flex>
+								</ToolTip>
+							))}
+						{!isConfirmFeeBox && pool && (
+							<SlippageSettings
+								pool={pool}
+								minimum={minimum}
+								onMinimumChange={onMinimumChange}
+								slippage={slippage}
+								onSlippageChange={onSlippageChange}
+							/>
+						)}
 					</Flex>
-				)}
+				</Flex>
 				<Flex css={{ flex: '1', width: '100%' }}>
 					<Text css={{ flex: '1', color: '$txtHelp', display: 'flex', alignItems: 'center', height: '15px' }} medium>
 						Estimated Fees:
-						{isConfirmFeeBox && <TermsHoverCard pool={pool} />}
-						{showFeeBreakDown && pool && (
-							<Box css={{ pl: '3px', transform: 'translateY(1px)', ...(css as any) }}>
+						{pool && (
+							<Box css={{ pl: '3px', transform: 'translateY(1px)' }}>
 								<HoverCard>
 									<HoverCardTrigger asChild>
 										<Flex css={{ color: '$txtHelp', display: 'inline-flex' }}>
 											<InfoCircledIcon />
+											{isConfirmFeeBox && (
+												<Text size="1" underline medium css={{ ml: '4px', mt: '1px' }}>
+													{`T&C's`}
+												</Text>
+											)}
 										</Flex>
 									</HoverCardTrigger>
 									<HoverCardContent
@@ -253,6 +260,45 @@ export const FeeBox: React.FC<IProps> = ({
 													</Text>
 												</Flex>
 											)}
+											{isConfirmFeeBox && (
+												<Flex css={{ borderTop: '1px solid', borderColor: '$borderPanel', mt: '$2', pt: '$2' }}>
+													<Text size="2" color="help">
+														Presented fees and rates are indicative and are subject to change. Once submitted to the
+														network, wallet and transaction fees apply at all times and are not refundable. By
+														confirming swap you agree to our{' '}
+														<StyledLink
+															underline
+															href="https://z3us.com/terms"
+															target="_blank"
+															onMouseDown={() => {
+																// @TODO: Seems to be an issue using a hover card inside a dialog
+																// https://github.com/radix-ui/primitives/issues/920
+																window.open('https://z3us.com/terms', '_blank').focus()
+															}}
+														>
+															T&amp;C
+														</StyledLink>{' '}
+														{pool && (
+															<>
+																, additional T&amp;C of {pool.name} may apply, learn more{' '}
+																<StyledLink
+																	underline
+																	href={pool.url}
+																	target="_blank"
+																	onMouseDown={() => {
+																		// @TODO: Seems to be an issue using a hover card inside a dialog
+																		// https://github.com/radix-ui/primitives/issues/920
+																		window.open(pool.url, '_blank').focus()
+																	}}
+																>
+																	{pool.url}
+																</StyledLink>
+																.
+															</>
+														)}
+													</Text>
+												</Flex>
+											)}
 										</Flex>
 									</HoverCardContent>
 								</HoverCard>
@@ -270,7 +316,6 @@ export const FeeBox: React.FC<IProps> = ({
 
 FeeBox.defaultProps = {
 	isConfirmFeeBox: false,
-	showFeeBreakDown: false,
 	fromToken: null,
 	toToken: null,
 	pool: null,
