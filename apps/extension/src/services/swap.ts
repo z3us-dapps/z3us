@@ -472,18 +472,13 @@ export const calculateTransactionFee = async (
 }
 
 export const confirmSwap = async (pool: Pool, txID: string, response: any) => {
-	try {
-		switch (pool.type) {
-			case PoolType.DSOR:
-				if (!response) throw new Error(`${pool.name} - ${pool.type}: missing swap response: ${response}`)
-				const dsorResponse = response as DsorSwapResponse
-				await dsor.confirmSwap(dsorResponse.uid, txID)
-				break
-			default:
-				return
-		}
-	} catch (error) {
-		// eslint-disable-next-line no-console
-		console.error(error)
+	switch (pool.type) {
+		case PoolType.DSOR:
+			if (!response) throw new Error(`${pool.name} - ${pool.type}: missing swap response: ${response}`)
+			const dsorResponse = response as DsorSwapResponse
+			await dsor.confirmSwap(dsorResponse.uid, txID)
+			break
+		default:
+			break
 	}
 }
