@@ -76,7 +76,7 @@ const triggerWatch = () => dispatchEvent(new CustomEvent('backgroundwatcher'))
 
 const watch = async () => {
 	await sharedStore.persist.rehydrate()
-	const { selectKeystoreId, transactionNotificationsEnabled } = sharedStore.getState()
+	const { selectKeystoreId, transactionNotificationsEnabled = true } = sharedStore.getState()
 
 	const useStore = accountStore(selectKeystoreId)
 	await useStore.persist.rehydrate()
