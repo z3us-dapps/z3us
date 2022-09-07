@@ -142,3 +142,5 @@ export const OnboardingWorkFlow: React.FC = () => {
 		</Flex>
 	)
 }
+
+export default OnboardingWorkFlow

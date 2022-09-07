@@ -72,3 +72,5 @@ export const HardwareWallet: React.FC = () => {
 		</Flex>
 	)
 }
+
+export default HardwareWallet

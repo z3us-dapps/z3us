@@ -58,3 +58,5 @@ export const Notification: React.FC = () => {
 		</Flex>
 	)
 }
+
+export default Notification
