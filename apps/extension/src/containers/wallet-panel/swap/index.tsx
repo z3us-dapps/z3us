@@ -130,12 +130,8 @@ export const Swap: React.FC = () => {
 		availableTokensMap[balance.rri] = true
 	})
 
-	const amountDisplay = state.amount.gt(0)
-		? numberWithCommas(state.amount.decimalPlaces(9).toString())
-		: state.amountRaw
-	const receiveDisplay = state.receive.gt(0)
-		? numberWithCommas(state.receive.decimalPlaces(9).toString())
-		: state.receiveRaw
+	const amountDisplay = numberWithCommas(state.amountRaw)
+	const receiveDisplay = numberWithCommas(state.receiveRaw)
 
 	// @Note: the timeout is needed to focus the input, or else it will jank the route entry transition
 	useTimeout(() => {
@@ -275,25 +271,31 @@ export const Swap: React.FC = () => {
 
 				if (valueType === 'from') {
 					draft.receive = receive
+					draft.receiveRaw = receive.decimalPlaces(9).toString()
 				} else if (valueType === 'to') {
 					draft.amount = amount
+					draft.amountRaw = amount.decimalPlaces(9).toString()
 				}
 
+				draft.fee = fee
 				draft.poolFee = poolFee
 				draft.z3usFee = z3usFee
 				draft.z3usBurn = z3usBurn
-
-				draft.fee = fee
 				draft.transaction = transaction
-				draft.errorMessage = transactionFeeError
 				draft.swapResponse = response
+				draft.errorMessage = transactionFeeError
 			})
 		} catch (error) {
 			// eslint-disable-next-line no-console
 			console.error(error)
-			const errorMessageStr = (error?.message || error).toString().trim()
 			setState(draft => {
-				draft.errorMessage = errorMessageStr
+				draft.fee = zero
+				draft.poolFee = zero
+				draft.z3usFee = zero
+				draft.z3usBurn = zero
+				draft.transaction = undefined
+				draft.swapResponse = undefined
+				draft.errorMessage = (error?.message || error).toString().trim()
 			})
 		}
 
@@ -308,35 +310,38 @@ export const Swap: React.FC = () => {
 	}, [state.time])
 
 	useEffect(() => {
-		if (state.inputSide !== 'from') return
-		if (!debouncedAmount) return
+		if (!debouncedAmount) {
+			setState(draft => {
+				draft.amount = zero
+			})
+			return
+		}
+		if (state.inputSide !== 'from') return // do not want to race with calculateSwap
 		const amount = new BigNumber(debouncedAmount)
-		calculateSwap(amount, state.receive, state.inputSide, state.slippage, state.pool, state.minimum, state.burn)
 		setState(draft => {
 			draft.amount = amount
 		})
+		calculateSwap(amount, state.receive, state.inputSide, state.slippage, state.pool, state.minimum, state.burn)
 	}, [debouncedAmount])
 
 	useEffect(() => {
-		if (state.inputSide !== 'to') return
-		if (!debouncedReceive) return
+		if (!debouncedReceive) {
+			setState(draft => {
+				draft.receive = zero
+			})
+			return
+		}
+		if (state.inputSide !== 'to') return // do not want to race with calculateSwap
 		const receive = new BigNumber(debouncedReceive)
-		calculateSwap(state.amount, receive, state.inputSide, state.slippage, state.pool, state.minimum, state.burn)
 		setState(draft => {
 			draft.receive = receive
 		})
+		calculateSwap(state.amount, receive, state.inputSide, state.slippage, state.pool, state.minimum, state.burn)
 	}, [debouncedReceive])
 
 	const handlePoolChange = async (pool: Pool) => {
 		setState(draft => {
 			draft.pool = pool
-			draft.poolFee = zero
-			draft.z3usFee = zero
-			draft.z3usBurn = zero
-			draft.transaction = undefined
-			draft.swapResponse = undefined
-			draft.fee = zero
-			draft.errorMessage = null
 		})
 
 		calculateSwap(state.amount, state.receive, state.inputSide, state.slippage, pool, state.minimum, state.burn)
@@ -347,15 +352,6 @@ export const Swap: React.FC = () => {
 		setState(draft => {
 			draft.amountRaw = ''
 			draft.receiveRaw = ''
-			draft.amount = zero
-			draft.receive = zero
-			draft.poolFee = zero
-			draft.z3usFee = zero
-			draft.z3usBurn = zero
-			draft.transaction = undefined
-			draft.swapResponse = undefined
-			draft.fee = zero
-			draft.errorMessage = null
 		})
 	}
 
@@ -363,21 +359,9 @@ export const Swap: React.FC = () => {
 		setState(draft => {
 			draft.amountRaw = ''
 			draft.receiveRaw = ''
-			draft.amount = zero
-			draft.receive = zero
-			draft.poolFee = zero
-			draft.z3usFee = zero
-			draft.z3usBurn = zero
-			draft.transaction = undefined
-			draft.swapResponse = undefined
-			draft.fee = zero
 			draft.fromRRI = rri
-			draft.toRRI =
-				Object.keys(possibleTokens[rri] || {})
-					.filter(_rri => _rri !== rri)
-					.find(_rri => _rri === state.toRRI) || XRD_RRI
+			draft.toRRI = Object.keys(possibleTokens[rri] || {}).find(_rri => _rri !== rri && _rri === state.toRRI) || XRD_RRI
 			draft.pool = null
-			draft.errorMessage = null
 		})
 	}
 
@@ -385,21 +369,13 @@ export const Swap: React.FC = () => {
 		setState(draft => {
 			draft.amountRaw = ''
 			draft.receiveRaw = ''
-			draft.amount = zero
-			draft.receive = zero
-			draft.poolFee = zero
-			draft.z3usFee = zero
-			draft.z3usBurn = zero
-			draft.transaction = undefined
-			draft.swapResponse = undefined
-			draft.fee = zero
 			draft.toRRI = rri
 			draft.fromRRI =
-				Object.keys(possibleTokens || {})
-					.filter(_rri => _rri !== rri)
-					.find(_rri => _rri === state.fromRRI) || XRD_RRI
+				Object.keys(possibleTokens || {}).find(
+					// eslint-disable-next-line no-underscore-dangle
+					_rri => availableTokensMap[_rri] && _rri !== rri && _rri === state.fromRRI,
+				) || XRD_RRI
 			draft.pool = null
-			draft.errorMessage = null
 		})
 	}
 
@@ -409,16 +385,7 @@ export const Swap: React.FC = () => {
 			draft.fromRRI = state.toRRI
 			draft.amountRaw = ''
 			draft.receiveRaw = ''
-			draft.amount = zero
-			draft.receive = zero
-			draft.poolFee = zero
-			draft.z3usFee = zero
-			draft.z3usBurn = zero
-			draft.transaction = undefined
-			draft.swapResponse = undefined
-			draft.fee = zero
 			draft.pool = null
-			draft.errorMessage = null
 		})
 	}
 
@@ -432,15 +399,7 @@ export const Swap: React.FC = () => {
 
 		setState(draft => {
 			draft.amountRaw = amount.decimalPlaces(9).toString()
-			draft.amount = zero
 			draft.inputSide = 'from'
-			draft.poolFee = zero
-			draft.z3usFee = zero
-			draft.z3usBurn = zero
-			draft.transaction = undefined
-			draft.swapResponse = undefined
-			draft.fee = zero
-			draft.errorMessage = null
 		})
 		inputFromRef.current.focus()
 	}
@@ -453,15 +412,7 @@ export const Swap: React.FC = () => {
 
 		setState(draft => {
 			draft.amountRaw = amount
-			draft.amount = zero
 			draft.inputSide = 'from'
-			draft.poolFee = zero
-			draft.z3usFee = zero
-			draft.z3usBurn = zero
-			draft.transaction = undefined
-			draft.swapResponse = undefined
-			draft.fee = zero
-			draft.errorMessage = null
 		})
 	}
 
@@ -473,15 +424,7 @@ export const Swap: React.FC = () => {
 
 		setState(draft => {
 			draft.receiveRaw = receive
-			draft.receive = zero
 			draft.inputSide = 'to'
-			draft.poolFee = zero
-			draft.z3usFee = zero
-			draft.z3usBurn = zero
-			draft.transaction = undefined
-			draft.swapResponse = undefined
-			draft.fee = zero
-			draft.errorMessage = null
 		})
 	}
 
