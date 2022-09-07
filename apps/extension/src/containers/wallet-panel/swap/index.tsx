@@ -109,8 +109,8 @@ export const Swap: React.FC = () => {
 	}))
 
 	const [state, setState] = useImmer<ImmerState>(defaultState)
-	const [debouncedAmount] = useDebounce(state.amount, debounceInterval)
-	const [debouncedReceive] = useDebounce(state.receive, debounceInterval)
+	const [debouncedAmount] = useDebounce(state.amountRaw, debounceInterval)
+	const [debouncedReceive] = useDebounce(state.receiveRaw, debounceInterval)
 	const possibleTokens = usePoolTokens()
 	const pools = usePools(state.fromRRI, state.toRRI)
 	const { data: balances } = useTokenBalances()
@@ -309,13 +309,23 @@ export const Swap: React.FC = () => {
 
 	useEffect(() => {
 		if (state.inputSide !== 'from') return
-		calculateSwap(state.amount, state.receive, state.inputSide, state.slippage, state.pool, state.minimum, state.burn)
-	}, [debouncedAmount.toString()])
+		if (!debouncedAmount) return
+		const amount = new BigNumber(debouncedAmount)
+		calculateSwap(amount, state.receive, state.inputSide, state.slippage, state.pool, state.minimum, state.burn)
+		setState(draft => {
+			draft.amount = amount
+		})
+	}, [debouncedAmount])
 
 	useEffect(() => {
 		if (state.inputSide !== 'to') return
-		calculateSwap(state.amount, state.receive, state.inputSide, state.slippage, state.pool, state.minimum, state.burn)
-	}, [debouncedReceive.toString()])
+		if (!debouncedReceive) return
+		const receive = new BigNumber(debouncedReceive)
+		calculateSwap(state.amount, receive, state.inputSide, state.slippage, state.pool, state.minimum, state.burn)
+		setState(draft => {
+			draft.receive = receive
+		})
+	}, [debouncedReceive])
 
 	const handlePoolChange = async (pool: Pool) => {
 		setState(draft => {
@@ -423,7 +433,7 @@ export const Swap: React.FC = () => {
 		setState(draft => {
 			draft.amountRaw = amount.decimalPlaces(9).toString()
 			draft.receiveRaw = ''
-			draft.amount = amount
+			draft.amount = zero
 			draft.receive = zero
 			draft.inputSide = 'from'
 			draft.poolFee = zero
@@ -446,7 +456,7 @@ export const Swap: React.FC = () => {
 		setState(draft => {
 			draft.amountRaw = amount
 			draft.receiveRaw = ''
-			draft.amount = new BigNumber(amount)
+			draft.amount = zero
 			draft.receive = zero
 			draft.inputSide = 'from'
 			draft.poolFee = zero
@@ -469,7 +479,7 @@ export const Swap: React.FC = () => {
 			draft.amountRaw = ''
 			draft.receiveRaw = receive
 			draft.amount = zero
-			draft.receive = new BigNumber(receive)
+			draft.receive = zero
 			draft.inputSide = 'to'
 			draft.poolFee = zero
 			draft.z3usFee = zero
