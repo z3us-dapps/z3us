@@ -86,14 +86,16 @@ export const FeeBox: React.FC<IProps> = ({
 
 	useEffect(() => {
 		if (
-			(amount.toString() !== state.amount && receive.toString() !== state.receive) ||
-			(poolFee.toString() !== 'NaN' && poolFee.toString() !== state.poolFee)
+			amount.toString() !== state.amount ||
+			receive.toString() !== state.receive ||
+			poolFee.toString() !== state.poolFee
 		) {
+			const rate = receive.gt(0) && amount.gt(0) ? receive.dividedBy(amount) : null
 			setState(draft => {
 				draft.poolFee = poolFee.toString()
 				draft.amount = amount.toString()
 				draft.receive = receive.toString()
-				draft.rate = receive.dividedBy(amount).toString() !== 'NaN' ? formatBigNumber(receive.dividedBy(amount)) : ''
+				draft.rate = rate ? formatBigNumber(rate) : ''
 				draft.estimatedFees = fromTicker
 					? formatBigNumber(totalFee.multipliedBy(fromTicker.last_price), currency, 2)
 					: `${formatBigNumber(totalFee, fromToken?.symbol)} ${fromToken?.symbol.toUpperCase()}`

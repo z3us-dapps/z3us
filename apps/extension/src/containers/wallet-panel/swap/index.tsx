@@ -433,7 +433,6 @@ export const Swap: React.FC = () => {
 		setState(draft => {
 			draft.amountRaw = amount.decimalPlaces(9).toString()
 			draft.amount = zero
-			draft.receive = zero
 			draft.inputSide = 'from'
 			draft.poolFee = zero
 			draft.z3usFee = zero
@@ -455,7 +454,6 @@ export const Swap: React.FC = () => {
 		setState(draft => {
 			draft.amountRaw = amount
 			draft.amount = zero
-			draft.receive = zero
 			draft.inputSide = 'from'
 			draft.poolFee = zero
 			draft.z3usFee = zero
@@ -475,7 +473,6 @@ export const Swap: React.FC = () => {
 
 		setState(draft => {
 			draft.receiveRaw = receive
-			draft.amount = zero
 			draft.receive = zero
 			draft.inputSide = 'to'
 			draft.poolFee = zero
