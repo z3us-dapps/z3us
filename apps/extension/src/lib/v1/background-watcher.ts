@@ -16,10 +16,17 @@ export async function getLastTransactions(
 	const service = new RadixService(network.url)
 
 	const transactionMap = {}
-	allAddresses.forEach(async address => {
-		const { transactions } = await service.transactionHistory(address)
-		transactionMap[address] = transactions
-	})
+	await Promise.all(
+		allAddresses.map(async address => {
+			try {
+				const { transactions } = await service.transactionHistory(address)
+				transactionMap[address] = transactions
+			} catch (error) {
+				// eslint-disable-next-line no-console
+				console.error(error)
+			}
+		}),
+	)
 	return transactionMap
 }
 

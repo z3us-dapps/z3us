@@ -39,6 +39,9 @@ interface ImmerState {
 	fromRRI: string
 	toRRI: string
 	inputSide: 'from' | 'to'
+	// raw input values for display fallback, to make sure user can insert 0. decimal values
+	amountRaw: string
+	receiveRaw: string
 	amount: BigNumber
 	receive: BigNumber
 	poolFee: BigNumber
@@ -57,7 +60,7 @@ interface ImmerState {
 }
 
 const refreshInterval = 15 * 1000 // 15 seconds
-const debounceInterval = 500 // 1 sec
+const debounceInterval = 500 // 0.5 sec
 const zero = new BigNumber(0)
 const defaultNetworkFee = new BigNumber(2000) // asume avg tx 20 bytes
 
@@ -67,6 +70,8 @@ const defaultState: ImmerState = {
 	fromRRI: XRD_RRI,
 	toRRI: OCI_RRI,
 	inputSide: 'from',
+	amountRaw: '',
+	receiveRaw: '',
 	amount: zero,
 	receive: zero,
 	poolFee: zero,
@@ -120,8 +125,17 @@ export const Swap: React.FC = () => {
 
 	const availableTokensMap = {}
 	liquidBalances.forEach(balance => {
+		if (balance.amount === '') return
+		if (balance.amount === '0') return
 		availableTokensMap[balance.rri] = true
 	})
+
+	const amountDisplay = state.amount.gt(0)
+		? numberWithCommas(state.amount.decimalPlaces(9).toString())
+		: state.amountRaw
+	const receiveDisplay = state.receive.gt(0)
+		? numberWithCommas(state.receive.decimalPlaces(9).toString())
+		: state.receiveRaw
 
 	// @Note: the timeout is needed to focus the input, or else it will jank the route entry transition
 	useTimeout(() => {
@@ -321,6 +335,8 @@ export const Swap: React.FC = () => {
 	const handleAccountChange = async (accountIndex: number) => {
 		await selectAccount(accountIndex, hw, seed)
 		setState(draft => {
+			draft.amountRaw = ''
+			draft.receiveRaw = ''
 			draft.amount = zero
 			draft.receive = zero
 			draft.poolFee = zero
@@ -335,6 +351,8 @@ export const Swap: React.FC = () => {
 
 	const handleFromTokenChange = (rri: string) => {
 		setState(draft => {
+			draft.amountRaw = ''
+			draft.receiveRaw = ''
 			draft.amount = zero
 			draft.receive = zero
 			draft.poolFee = zero
@@ -355,6 +373,8 @@ export const Swap: React.FC = () => {
 
 	const handleToTokenChange = (rri: string) => {
 		setState(draft => {
+			draft.amountRaw = ''
+			draft.receiveRaw = ''
 			draft.amount = zero
 			draft.receive = zero
 			draft.poolFee = zero
@@ -377,6 +397,8 @@ export const Swap: React.FC = () => {
 		setState(draft => {
 			draft.toRRI = state.fromRRI
 			draft.fromRRI = state.toRRI
+			draft.amountRaw = ''
+			draft.receiveRaw = ''
 			draft.amount = zero
 			draft.receive = zero
 			draft.poolFee = zero
@@ -399,7 +421,10 @@ export const Swap: React.FC = () => {
 		}
 
 		setState(draft => {
+			draft.amountRaw = amount.decimalPlaces(9).toString()
+			draft.receiveRaw = ''
 			draft.amount = amount
+			draft.receive = zero
 			draft.inputSide = 'from'
 			draft.poolFee = zero
 			draft.z3usFee = zero
@@ -416,10 +441,12 @@ export const Swap: React.FC = () => {
 		const { value } = event.currentTarget
 		const amount = strStripCommas(value)
 		const isValid = REGEX_INPUT.test(amount)
-		if (!isValid) return
 
 		setState(draft => {
-			draft.amount = new BigNumber(amount || 0)
+			draft.amountRaw = amount
+			draft.receiveRaw = ''
+			draft.amount = isValid ? new BigNumber(amount) : zero
+			draft.receive = zero
 			draft.inputSide = 'from'
 			draft.poolFee = zero
 			draft.z3usFee = zero
@@ -435,10 +462,12 @@ export const Swap: React.FC = () => {
 		const { value } = event.currentTarget
 		const receive = strStripCommas(value)
 		const isValid = REGEX_INPUT.test(receive)
-		if (!isValid) return
 
 		setState(draft => {
-			draft.receive = new BigNumber(receive || 0)
+			draft.amountRaw = ''
+			draft.receiveRaw = receive
+			draft.amount = zero
+			draft.receive = isValid ? new BigNumber(receive) : zero
 			draft.inputSide = 'to'
 			draft.poolFee = zero
 			draft.z3usFee = zero
@@ -592,7 +621,7 @@ export const Swap: React.FC = () => {
 									theme="minimal"
 									type="text"
 									size="2"
-									value={state.amount.gt(0) ? numberWithCommas(state.amount.decimalPlaces(9).toString()) : ''}
+									value={amountDisplay}
 									placeholder="Enter amount"
 									onFocus={handleInputFromFocus}
 									onBlur={handleInputFromBlur}
@@ -633,14 +662,14 @@ export const Swap: React.FC = () => {
 										top: '13px',
 										position: 'absolute',
 										transition: '$default',
-										opacity: state.amount.gt(0) ? 1 : 0,
-										transform: `translate(${state.amount.gt(0) ? '0' : '-10'}px)`,
+										opacity: state.amountRaw ? 1 : 0,
+										transform: `translate(${state.amountRaw ? '0' : '-10'}px)`,
 										width: '253px',
 										overflow: 'hidden',
 									}}
 								>
 									<Box as="span" css={{ display: 'inline-flex', opacity: '0', maxWidth: '173px' }}>
-										{numberWithCommas(state.amount.decimalPlaces(9).toString())}
+										{amountDisplay}
 									</Box>
 									<Text
 										truncate
@@ -684,7 +713,7 @@ export const Swap: React.FC = () => {
 									type="text"
 									theme="minimal"
 									size="2"
-									value={state.receive.gt(0) ? numberWithCommas(state.receive.decimalPlaces(9).toString()) : ''}
+									value={receiveDisplay}
 									placeholder="Receive"
 									onFocus={handleInputToFocus}
 									onBlur={handleInputToBlur}
@@ -697,21 +726,6 @@ export const Swap: React.FC = () => {
 									<Text size="5" color="help" css={{ pe: 'none' }}>
 										You receive
 									</Text>
-									{/* <Box
-										as="button"
-										onClick={() => {}}
-										css={{
-											background: 'none',
-											border: 'none',
-											margin: 'none',
-											padding: 'none',
-											cursor: 'pointer',
-										}}
-									>
-										<Text size="5" color="purple" underline>
-											Min
-										</Text>
-									</Box> */}
 								</Flex>
 								<Text
 									css={{
@@ -726,14 +740,14 @@ export const Swap: React.FC = () => {
 										top: '13px',
 										position: 'absolute',
 										transition: '$default',
-										opacity: state.receive.gt(0) ? 1 : 0,
-										transform: `translate(${state.receive.gt(0) ? '0' : '-10'}px)`,
+										opacity: state.receiveRaw ? 1 : 0,
+										transform: `translate(${state.receiveRaw ? '0' : '-10'}px)`,
 										width: '253px',
 										overflow: 'hidden',
 									}}
 								>
 									<Box as="span" css={{ display: 'inline-flex', opacity: '0', maxWidth: '173px' }}>
-										{numberWithCommas(state.receive.decimalPlaces(9).toString())}
+										{receiveDisplay}
 									</Box>
 									<Text
 										truncate
