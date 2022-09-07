@@ -441,11 +441,12 @@ export const Swap: React.FC = () => {
 		const { value } = event.currentTarget
 		const amount = strStripCommas(value)
 		const isValid = REGEX_INPUT.test(amount)
+		if (!isValid) return
 
 		setState(draft => {
 			draft.amountRaw = amount
 			draft.receiveRaw = ''
-			draft.amount = isValid ? new BigNumber(amount) : zero
+			draft.amount = new BigNumber(amount)
 			draft.receive = zero
 			draft.inputSide = 'from'
 			draft.poolFee = zero
@@ -462,12 +463,13 @@ export const Swap: React.FC = () => {
 		const { value } = event.currentTarget
 		const receive = strStripCommas(value)
 		const isValid = REGEX_INPUT.test(receive)
+		if (!isValid) return
 
 		setState(draft => {
 			draft.amountRaw = ''
 			draft.receiveRaw = receive
 			draft.amount = zero
-			draft.receive = isValid ? new BigNumber(receive) : zero
+			draft.receive = new BigNumber(receive)
 			draft.inputSide = 'to'
 			draft.poolFee = zero
 			draft.z3usFee = zero
