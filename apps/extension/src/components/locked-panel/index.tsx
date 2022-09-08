@@ -1,24 +1,17 @@
 /* eslint-disable no-nested-ternary */
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useEffect, useRef } from 'react'
 import { useSharedStore, useStore } from '@src/store'
-import { motion, useAnimationControls } from 'framer-motion'
+import { useAnimationControls } from 'framer-motion'
 import { useImmer } from 'use-immer'
-// import { Z3usSpinnerAnimation } from '@src/components/z3us-spinner-animation'
 import { WalletMenu } from '@src/components/wallet-menu'
 import { Box, Flex, MotionBox, Text, StyledLink } from 'ui/src/components/atoms'
 import Input from 'ui/src/components/input'
-import { ChevronDownIcon } from 'ui/src/components/icons'
-// import InputFeedBack from 'ui/src/components/input/input-feedback'
 import Button from 'ui/src/components/button'
 import { Z3usText } from 'ui/src/components/z3us-text'
 // import { isWebAuthSupported } from '@src/services/credentials'
 import { KeystoreType } from '@src/store/types'
 import { WalletSelector } from './wallet-selector'
 import { Z3USLogoOuter, Z3USLogoInner } from './z3us-logo'
-
-const wait = (ms: number) => {
-	return new Promise(resolve => setTimeout(resolve, ms))
-}
 
 interface IImmer {
 	password: string
@@ -74,7 +67,6 @@ export const LockedPanel: React.FC = () => {
 	}
 
 	const handleUnlock = async (password: string) => {
-		console.log('handleUnlock:')
 		setState(draft => {
 			draft.isLoading = true
 		})
@@ -97,8 +89,6 @@ export const LockedPanel: React.FC = () => {
 			transition: { duration: 0.1, ease: 'anticipate' },
 		})
 		imageControls.start({ opacity: 1, transition: { delay: 0.1, duration: 0.4, ease: 'easeIn' } })
-
-		await wait(1000)
 
 		try {
 			switch (keystore.type) {
@@ -151,20 +141,33 @@ export const LockedPanel: React.FC = () => {
 		// }
 	}
 
-	const unlockAnimation = async (isUnlocked: boolean, isMounted: boolean) => {
-		console.log('isMounted:', isMounted)
-		if (isUnlocked) {
-			z3usLogoControls.start({
-				y: '96px',
-				fill: '#8457FF',
-				scale: 22,
-				transition: { duration: 0.1, ease: 'anticipate' },
-			})
-			await panelControls.start({ y: '0px', opacity: 0, transition: { delay: 0.1, duration: 0.5, ease: 'anticipate' } })
-			panelControls.start({ y: '-3620px', opacity: 0, transition: { delay: 0, duration: 0 } })
-			z3usLogoSpinnerControls.stop()
-			z3usLogoSpinnerControls.set({ rotate: [null, 0] })
-			z3usLogoControls.set({ fill: '#323232' })
+	const unlockAnimation = async (_isUnlocked: boolean, isMounted: boolean) => {
+		if (_isUnlocked) {
+			if (isMounted) {
+				z3usLogoControls.start({
+					y: '96px',
+					fill: '#8457FF',
+					scale: 22,
+					transition: { duration: 0.1, ease: 'anticipate' },
+				})
+				await panelControls.start({
+					y: '0px',
+					opacity: 0,
+					transition: { delay: 0.1, duration: 0.5, ease: 'anticipate' },
+				})
+				z3usLogoSpinnerControls.stop()
+				z3usLogoSpinnerControls.set({ rotate: [null, 0] })
+				z3usLogoControls.set({ fill: '#323232' })
+				panelControls.start({ y: '-3620px', opacity: 0, transition: { delay: 0, duration: 0 } })
+			} else {
+				await panelControls.start({ y: '-3620px', opacity: 0, transition: { delay: 0, duration: 0 } })
+				z3usLogoControls.start({
+					y: '96px',
+					fill: '#323232',
+					scale: 22,
+					transition: { duration: 0.1, ease: 'anticipate' },
+				})
+			}
 		} else {
 			z3usLogoControls.start({
 				y: '0',
@@ -180,7 +183,6 @@ export const LockedPanel: React.FC = () => {
 
 	useEffect(() => {
 		unlockAnimation(isUnlocked, state.isMounted)
-		// if (!isUnlocked) return
 
 		setState(draft => {
 			draft.password = ''
@@ -325,7 +327,6 @@ export const LockedPanel: React.FC = () => {
 										ref={inputRef}
 										focusOnMount
 										value={state.password}
-										// placeholder="Enter password"
 										error={state.passwordError}
 										onChange={handlePasswordChange}
 										onFocus={() => {
