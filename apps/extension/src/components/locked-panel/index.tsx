@@ -16,8 +16,6 @@ import { KeystoreType } from '@src/store/types'
 import { WalletSelector } from './wallet-selector'
 import { Z3USLogoOuter, Z3USLogoInner } from './z3us-logo'
 
-// east https://framerbook.com/animation/the-transition-property/
-
 const wait = (ms: number) => {
 	return new Promise(resolve => setTimeout(resolve, ms))
 }
@@ -61,6 +59,9 @@ export const LockedPanel: React.FC = () => {
 
 	const resetAnimElements = () => {
 		z3usLogoSpinnerControls.stop()
+		z3usLogoSpinnerControls.set({
+			rotate: [null, 0],
+		})
 		z3usLogoControls.start({
 			y: '0',
 			fill: '#323232',
@@ -71,6 +72,7 @@ export const LockedPanel: React.FC = () => {
 	}
 
 	const handleUnlock = async (password: string) => {
+		console.log('handleUnlock:')
 		setState(draft => {
 			draft.isLoading = true
 		})
@@ -149,29 +151,28 @@ export const LockedPanel: React.FC = () => {
 
 	const unlockAnimation = async (isUnlocked: boolean) => {
 		if (isUnlocked) {
-			z3usLogoSpinnerControls.stop()
 			z3usLogoControls.start({
 				y: '96px',
 				fill: '#8457FF',
 				scale: 22,
 				transition: { duration: 0.1, ease: 'anticipate' },
 			})
-			await panelControls.start({
-				y: '0px',
-				opacity: 0,
-				transition: { delay: 0.1, duration: 0.5, ease: 'anticipate' },
+			panelControls.start({ y: '0px', opacity: 0, transition: { delay: 0.1, duration: 0.5, ease: 'anticipate' } })
+			panelControls.start({ y: '-3620px', opacity: 0, transition: { delay: 0.2, duration: 0 } })
+			z3usLogoSpinnerControls.stop()
+			z3usLogoSpinnerControls.set({
+				rotate: [null, 0],
 			})
-			await panelControls.start({ y: '-620px', opacity: 0, transition: { delay: 0, duration: 0 } })
-			z3usLogoControls.set({
+		} else {
+			z3usLogoControls.start({
 				y: '0',
 				fill: '#323232',
 				scale: 1,
 				transition: { duration: 0, ease: 'anticipate' },
 			})
-			inputControls.set({ y: '0px', opacity: 1, transition: { duration: 0, ease: 'anticipate' } })
-			imageControls.set({ opacity: 0, transition: { delay: 0, duration: 0, ease: 'easeIn' } })
-		} else {
-			panelControls.start({ y: '0px', opacity: 1, transition: { delay: 0, duration: 0 } })
+			inputControls.start({ y: '0px', opacity: 1, transition: { duration: 0, ease: 'anticipate' } })
+			imageControls.start({ opacity: 0, transition: { delay: 0, duration: 0, ease: 'easeIn' } })
+			panelControls.start({ y: '0px', opacity: 1, transition: { delay: 0, duration: 0, ease: 'easeOut' } })
 		}
 	}
 
