@@ -82,15 +82,16 @@ export const FeeBox: React.FC<IProps> = ({
 	const { data: fromTicker } = useTicker(currency, fromToken?.symbol)
 	const { data: z3usTicker } = useTicker(currency, z3usToken?.symbol)
 	const totalFee = poolFee.plus(z3usFee).plus(txFee)
-	const supportsSlippage = swapServices[pool?.type]?.supportsSlippage === true
 
 	useEffect(() => {
 		if (
-			amount.toString() !== state.amount ||
-			receive.toString() !== state.receive ||
-			poolFee.toString() !== state.poolFee
+			receive.gt(0) &&
+			amount.gt(0) &&
+			(amount.toString() !== state.amount ||
+				receive.toString() !== state.receive ||
+				poolFee.toString() !== state.poolFee)
 		) {
-			const rate = receive.gt(0) && amount.gt(0) ? receive.dividedBy(amount) : null
+			const rate = receive.dividedBy(amount)
 			setState(draft => {
 				draft.poolFee = poolFee.toString()
 				draft.amount = amount.toString()

@@ -320,6 +320,7 @@ export const Swap: React.FC = () => {
 		const amount = new BigNumber(debouncedAmount)
 		setState(draft => {
 			draft.amount = amount
+			draft.receive = zero
 		})
 		calculateSwap(amount, state.receive, state.inputSide, state.slippage, state.pool, state.minimum, state.burn)
 	}, [debouncedAmount])
@@ -335,6 +336,7 @@ export const Swap: React.FC = () => {
 		const receive = new BigNumber(debouncedReceive)
 		setState(draft => {
 			draft.receive = receive
+			draft.amount = receive
 		})
 		calculateSwap(state.amount, receive, state.inputSide, state.slippage, state.pool, state.minimum, state.burn)
 	}, [debouncedReceive])
