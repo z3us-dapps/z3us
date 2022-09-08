@@ -1,6 +1,4 @@
-/* eslint-disable  @typescript-eslint/no-unused-vars */
-import React, { useEffect } from 'react'
-import { useImmer } from 'use-immer'
+import React from 'react'
 import { formatBigNumber } from '@src/utils/formatters'
 import BigNumber from 'bignumber.js'
 import { Box, Text, Flex, StyledLink } from 'ui/src/components/atoms'
@@ -11,33 +9,16 @@ import { Token, Pool, PoolType } from '@src/types'
 import { useSharedStore } from '@src/store'
 import { ToolTip } from 'ui/src/components/tool-tip'
 import { useNativeToken, useTokenInfo } from '@src/hooks/react-query/queries/radix'
-import { swapServices, Z3US_RRI } from '@src/config'
+import { Z3US_RRI } from '@src/config'
 import { PoolSelector } from '../pool-selector'
 import { SlippageSettings } from '../slippage-settings'
 import { getSlippagePercentage } from '../utils'
-
-interface ImmerState {
-	rate: string
-	estimatedFees: string
-	amount: string
-	receive: string
-	poolFee: string
-}
-
-const defaultState: ImmerState = {
-	rate: '',
-	estimatedFees: '',
-	amount: '',
-	receive: '',
-	poolFee: '',
-}
 
 interface IProps {
 	isConfirmFeeBox?: boolean
 	fromToken?: Token
 	toToken?: Token
-	amount: BigNumber
-	receive: BigNumber
+	rate: BigNumber
 	poolFee: BigNumber
 	z3usFee: BigNumber
 	z3usBurn: BigNumber
@@ -56,8 +37,7 @@ export const FeeBox: React.FC<IProps> = ({
 	isConfirmFeeBox,
 	fromToken,
 	toToken,
-	amount,
-	receive,
+	rate,
 	poolFee,
 	z3usFee,
 	z3usBurn,
@@ -75,34 +55,16 @@ export const FeeBox: React.FC<IProps> = ({
 		currency: state.currency,
 	}))
 
-	const [state, setState] = useImmer<ImmerState>(defaultState)
 	const { data: nativeToken } = useNativeToken()
 	const { data: z3usToken } = useTokenInfo(Z3US_RRI)
 	const { data: nativeTicker } = useTicker(currency, nativeToken?.symbol)
 	const { data: fromTicker } = useTicker(currency, fromToken?.symbol)
 	const { data: z3usTicker } = useTicker(currency, z3usToken?.symbol)
-	const totalFee = poolFee.plus(z3usFee).plus(txFee)
 
-	useEffect(() => {
-		if (
-			receive.gt(0) &&
-			amount.gt(0) &&
-			(amount.toString() !== state.amount ||
-				receive.toString() !== state.receive ||
-				poolFee.toString() !== state.poolFee)
-		) {
-			const rate = receive.dividedBy(amount)
-			setState(draft => {
-				draft.poolFee = poolFee.toString()
-				draft.amount = amount.toString()
-				draft.receive = receive.toString()
-				draft.rate = rate ? formatBigNumber(rate) : ''
-				draft.estimatedFees = fromTicker
-					? formatBigNumber(totalFee.multipliedBy(fromTicker.last_price), currency, 2)
-					: `${formatBigNumber(totalFee, fromToken?.symbol)} ${fromToken?.symbol.toUpperCase()}`
-			})
-		}
-	}, [amount.toString(), receive.toString(), poolFee.toString()])
+	const totalFee = poolFee.plus(z3usFee).plus(txFee)
+	const estimatedFees = fromTicker
+		? formatBigNumber(totalFee.multipliedBy(fromTicker.last_price), currency, 2)
+		: `${formatBigNumber(totalFee, fromToken?.symbol)} ${fromToken?.symbol.toUpperCase()}`
 
 	return (
 		<Box
@@ -123,7 +85,9 @@ export const FeeBox: React.FC<IProps> = ({
 					</Text>
 					<Text medium css={{ pl: '$1' }}>
 						{pool &&
-							`1 ${fromToken?.symbol.toUpperCase() || ''} ≈ ${state.rate} ${toToken?.symbol.toUpperCase() || ''}`}
+							`1 ${fromToken?.symbol.toUpperCase() || ''} ≈ ${formatBigNumber(rate, toToken?.symbol)} ${
+								toToken?.symbol.toUpperCase() || ''
+							}`}
 					</Text>
 				</Flex>
 				<Flex css={{ flex: '1', width: '100%' }}>
@@ -309,7 +273,7 @@ export const FeeBox: React.FC<IProps> = ({
 						)}
 					</Text>
 					<Text medium css={{ pl: '$1' }}>
-						{pool && state.estimatedFees}
+						{pool && estimatedFees}
 					</Text>
 				</Flex>
 			</Flex>

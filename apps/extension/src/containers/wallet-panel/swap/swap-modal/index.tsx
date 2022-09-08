@@ -30,7 +30,6 @@ interface ImmerProps {
 	errorMessage: string
 	isSendingAlertOpen: boolean
 	isSendingTransaction: boolean
-	isTransactionSent: boolean
 	isModalOpen: boolean
 }
 
@@ -42,12 +41,13 @@ interface IProps {
 	balance: BigNumber
 	amount: BigNumber
 	receive: BigNumber
+	rate: BigNumber
 	poolFee: BigNumber
 	z3usFee: BigNumber
 	z3usBurn: BigNumber
 	txFee: BigNumber
 	transaction: BuiltTransactionReadyToSign
-	onCloseSwapModal: () => void
+	onConfirmSend: () => void
 	slippage: number
 	minimum: boolean
 	disabledButton: boolean
@@ -62,12 +62,13 @@ export const SwapModal: React.FC<IProps> = ({
 	balance,
 	amount,
 	receive,
+	rate,
 	poolFee,
 	z3usFee,
 	z3usBurn,
 	txFee,
 	transaction,
-	onCloseSwapModal,
+	onConfirmSend,
 	minimum,
 	slippage,
 	disabledButton,
@@ -88,7 +89,6 @@ export const SwapModal: React.FC<IProps> = ({
 		errorMessage: '',
 		isSendingAlertOpen: false,
 		isSendingTransaction: false,
-		isTransactionSent: false,
 		isModalOpen: false,
 	})
 
@@ -109,23 +109,14 @@ export const SwapModal: React.FC<IProps> = ({
 		setState(draft => {
 			draft.isModalOpen = false
 			draft.isSendingAlertOpen = false
-			draft.isTransactionSent = false
 		})
 		setLocation('/wallet/swap')
-		onCloseSwapModal()
 	}
 
 	const handleCloseIsSendingAlertModal = () => {
 		setState(draft => {
 			draft.isSendingAlertOpen = false
 		})
-
-		// @TODO: fix closing issue with alert and modal
-		// Setting state to close the modal `state.isModalOpen` and the alert `state.isSendingAlertOpen` at the same time
-		// causes an issue where the modals do not properly close and the body element has `pointer-events: none`
-		setTimeout(() => {
-			handleCloseModal()
-		}, 20)
 	}
 
 	const handleConfirmSend = async () => {
@@ -150,13 +141,18 @@ export const SwapModal: React.FC<IProps> = ({
 				draft.txID = result.txID
 				draft.errorMessage = ''
 				draft.isSendingTransaction = false
-				draft.isTransactionSent = true
 			})
+
+			// @TODO: fix closing issue with alert and modal
+			// Setting state to close the modal `state.isModalOpen` and the alert `state.isSendingAlertOpen` at the same time
+			// causes an issue where the modals do not properly close and the body element has `pointer-events: none`
+			setTimeout(() => {
+				onConfirmSend()
+			}, 20)
 		} catch (error) {
 			setState(draft => {
 				draft.isSendingTransaction = false
 				draft.errorMessage = (error?.message || error).toString().trim()
-				draft.isTransactionSent = false
 			})
 		}
 	}
@@ -254,8 +250,7 @@ export const SwapModal: React.FC<IProps> = ({
 										isConfirmFeeBox
 										fromToken={fromToken}
 										toToken={toToken}
-										amount={amount}
-										receive={receive}
+										rate={rate}
 										txFee={txFee}
 										poolFee={poolFee}
 										z3usFee={z3usFee}

@@ -39,11 +39,11 @@ interface ImmerState {
 	fromRRI: string
 	toRRI: string
 	inputSide: 'from' | 'to'
-	// raw input values for display fallback, to make sure user can insert 0. decimal values
 	amountRaw: string
 	receiveRaw: string
 	amount: BigNumber
 	receive: BigNumber
+	rate: BigNumber
 	poolFee: BigNumber
 	z3usFee: BigNumber
 	z3usBurn: BigNumber
@@ -74,6 +74,7 @@ const defaultState: ImmerState = {
 	receiveRaw: '',
 	amount: zero,
 	receive: zero,
+	rate: zero,
 	poolFee: zero,
 	z3usFee: zero,
 	z3usBurn: zero,
@@ -150,8 +151,8 @@ export const Swap: React.FC = () => {
 	}, refreshInterval)
 
 	const calculateSwap = async (
-		amount: BigNumber,
-		receive: BigNumber,
+		amountRaw: string,
+		receiveRaw: string,
 		valueType: 'from' | 'to',
 		slippage: number,
 		pool?: Pool,
@@ -160,6 +161,10 @@ export const Swap: React.FC = () => {
 	) => {
 		if (!state.isMounted) return
 		if (state.isLoading) return
+
+		let amount = amountRaw ? new BigNumber(amountRaw) : zero
+		let receive = receiveRaw ? new BigNumber(receiveRaw) : zero
+
 		if (valueType === 'from' && amount.eq(0)) return
 		if (valueType === 'to' && receive.eq(0)) return
 
@@ -270,13 +275,17 @@ export const Swap: React.FC = () => {
 				draft.pool = pool
 
 				if (valueType === 'from') {
-					draft.receive = receive
-					draft.receiveRaw = receive.decimalPlaces(9).toString()
+					draft.receiveRaw = receive.toString()
 				} else if (valueType === 'to') {
-					draft.amount = amount
-					draft.amountRaw = amount.decimalPlaces(9).toString()
+					draft.amountRaw = amount.toString()
 				}
 
+				if (receive.gt(0) && amount.gt(0)) {
+					draft.rate = receive.dividedBy(amount)
+				}
+
+				draft.amount = amount
+				draft.receive = receive
 				draft.fee = fee
 				draft.poolFee = poolFee
 				draft.z3usFee = z3usFee
@@ -306,39 +315,41 @@ export const Swap: React.FC = () => {
 
 	useEffect(() => {
 		if (Date.now() - state.time < refreshInterval) return
-		calculateSwap(state.amount, state.receive, state.inputSide, state.slippage, state.pool, state.minimum, state.burn)
+		calculateSwap(
+			state.amountRaw,
+			state.receiveRaw,
+			state.inputSide,
+			state.slippage,
+			state.pool,
+			state.minimum,
+			state.burn,
+		)
 	}, [state.time])
 
 	useEffect(() => {
-		if (!debouncedAmount) {
-			setState(draft => {
-				draft.amount = zero
-			})
-			return
-		}
 		if (state.inputSide !== 'from') return // do not want to race with calculateSwap
-		const amount = new BigNumber(debouncedAmount)
-		setState(draft => {
-			draft.amount = amount
-			draft.receive = zero
-		})
-		calculateSwap(amount, state.receive, state.inputSide, state.slippage, state.pool, state.minimum, state.burn)
+		calculateSwap(
+			debouncedAmount,
+			state.receiveRaw,
+			state.inputSide,
+			state.slippage,
+			state.pool,
+			state.minimum,
+			state.burn,
+		)
 	}, [debouncedAmount])
 
 	useEffect(() => {
-		if (!debouncedReceive) {
-			setState(draft => {
-				draft.receive = zero
-			})
-			return
-		}
 		if (state.inputSide !== 'to') return // do not want to race with calculateSwap
-		const receive = new BigNumber(debouncedReceive)
-		setState(draft => {
-			draft.receive = receive
-			draft.amount = receive
-		})
-		calculateSwap(state.amount, receive, state.inputSide, state.slippage, state.pool, state.minimum, state.burn)
+		calculateSwap(
+			state.amountRaw,
+			debouncedReceive,
+			state.inputSide,
+			state.slippage,
+			state.pool,
+			state.minimum,
+			state.burn,
+		)
 	}, [debouncedReceive])
 
 	const handlePoolChange = async (pool: Pool) => {
@@ -346,7 +357,7 @@ export const Swap: React.FC = () => {
 			draft.pool = pool
 		})
 
-		calculateSwap(state.amount, state.receive, state.inputSide, state.slippage, pool, state.minimum, state.burn)
+		calculateSwap(state.amountRaw, state.receiveRaw, state.inputSide, state.slippage, pool, state.minimum, state.burn)
 	}
 
 	const handleAccountChange = async (accountIndex: number) => {
@@ -400,7 +411,7 @@ export const Swap: React.FC = () => {
 		}
 
 		setState(draft => {
-			draft.amountRaw = amount.decimalPlaces(9).toString()
+			draft.amountRaw = amount.toString()
 			draft.inputSide = 'from'
 		})
 		inputFromRef.current.focus()
@@ -436,8 +447,8 @@ export const Swap: React.FC = () => {
 		})
 
 		calculateSwap(
-			state.amount,
-			state.receive,
+			state.amountRaw,
+			state.receiveRaw,
 			state.inputSide,
 			state.slippage,
 			state.pool,
@@ -451,7 +462,7 @@ export const Swap: React.FC = () => {
 			draft.slippage = slippage
 		})
 
-		calculateSwap(state.amount, state.receive, state.inputSide, slippage, state.pool, state.minimum, state.burn)
+		calculateSwap(state.amountRaw, state.receiveRaw, state.inputSide, slippage, state.pool, state.minimum, state.burn)
 	}
 
 	// @TODO: implement when we have burn feature
@@ -473,7 +484,7 @@ export const Swap: React.FC = () => {
 		})
 	}
 
-	const handleCloseSwapModal = () => {
+	const handleConfirmSend = () => {
 		resetImmerState()
 	}
 
@@ -528,15 +539,12 @@ export const Swap: React.FC = () => {
 						<Flex css={{ width: '100%' }}>
 							<Box css={{ width: '244px' }}>
 								<Text truncate css={{ fontSize: '22px', lineHeight: '25px', mt: '3px' }}>
-									{selectedAccount?.name
-										? `${selectedAccount.name} (${selectedAccount.shortAddress})`
-										: selectedAccount.shortAddress}
+									{selectedAccount?.name ? `${selectedAccount.name} (${selectedAccount.shortAddress})` : accountAddress}
 								</Text>
 								<Text truncate size="5" color="help" css={{ pt: '4px' }}>
 									{fromToken?.symbol ? (
 										<>
-											{numberWithCommas(selectedTokenAmmount.decimalPlaces(9).toString())}{' '}
-											{fromToken?.symbol?.toUpperCase()} available
+											{numberWithCommas(selectedTokenAmmount.toString())} {fromToken?.symbol?.toUpperCase()} available
 										</>
 									) : (
 										'From account'
@@ -545,7 +553,7 @@ export const Swap: React.FC = () => {
 							</Box>
 							<Flex align="center" justify="end" css={{ flex: '1', pr: '3px' }}>
 								<AccountSelector
-									shortAddress={selectedAccount.shortAddress}
+									shortAddress={selectedAccount?.shortAddress || accountAddress}
 									tokenAmount={formatBigNumber(selectedTokenAmmount)}
 									tokenSymbol={tokenSymbol}
 									onAccountChange={handleAccountChange}
@@ -729,8 +737,7 @@ export const Swap: React.FC = () => {
 						<FeeBox
 							fromToken={fromToken}
 							toToken={toToken}
-							amount={state.amount}
-							receive={state.receive}
+							rate={state.rate}
 							txFee={state.fee}
 							poolFee={state.poolFee}
 							z3usFee={state.z3usFee}
@@ -754,6 +761,7 @@ export const Swap: React.FC = () => {
 							balance={selectedTokenAmmount}
 							amount={state.amount}
 							receive={state.receive}
+							rate={state.rate}
 							txFee={state.fee}
 							poolFee={state.poolFee}
 							z3usFee={state.z3usFee}
@@ -790,7 +798,7 @@ export const Swap: React.FC = () => {
 									)}
 								</Box>
 							}
-							onCloseSwapModal={handleCloseSwapModal}
+							onConfirmSend={handleConfirmSend}
 						/>
 					</Box>
 				</Box>
