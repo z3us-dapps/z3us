@@ -113,12 +113,6 @@ export const SwapModal: React.FC<IProps> = ({
 		setLocation('/wallet/swap')
 	}
 
-	const handleCloseIsSendingAlertModal = () => {
-		setState(draft => {
-			draft.isSendingAlertOpen = false
-		})
-	}
-
 	const handleConfirmSend = async () => {
 		if (!account) return
 
@@ -143,12 +137,7 @@ export const SwapModal: React.FC<IProps> = ({
 				draft.isSendingTransaction = false
 			})
 
-			// @TODO: fix closing issue with alert and modal
-			// Setting state to close the modal `state.isModalOpen` and the alert `state.isSendingAlertOpen` at the same time
-			// causes an issue where the modals do not properly close and the body element has `pointer-events: none`
-			setTimeout(() => {
-				onConfirmSend()
-			}, 20)
+			onConfirmSend()
 		} catch (error) {
 			setState(draft => {
 				draft.isSendingTransaction = false
@@ -442,7 +431,7 @@ export const SwapModal: React.FC<IProps> = ({
 														color="primary"
 														aria-label="Close confirm send"
 														css={{ px: '0', flex: '1' }}
-														onClick={handleCloseIsSendingAlertModal}
+														onClick={handleCloseModal}
 														disabled={state.isSendingTransaction}
 														fullWidth
 													>
