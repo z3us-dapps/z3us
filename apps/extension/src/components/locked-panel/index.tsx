@@ -25,6 +25,7 @@ interface IImmer {
 	passwordError: boolean
 	isLoading: boolean
 	isInputFocused: boolean
+	isMounted: boolean
 }
 
 export const LockedPanel: React.FC = () => {
@@ -55,6 +56,7 @@ export const LockedPanel: React.FC = () => {
 		passwordError: false,
 		isLoading: false,
 		isInputFocused: false,
+		isMounted: false,
 	})
 
 	const resetAnimElements = () => {
@@ -149,7 +151,8 @@ export const LockedPanel: React.FC = () => {
 		// }
 	}
 
-	const unlockAnimation = async (isUnlocked: boolean) => {
+	const unlockAnimation = async (isUnlocked: boolean, isMounted: boolean) => {
+		console.log('isMounted:', isMounted)
 		if (isUnlocked) {
 			z3usLogoControls.start({
 				y: '96px',
@@ -157,12 +160,11 @@ export const LockedPanel: React.FC = () => {
 				scale: 22,
 				transition: { duration: 0.1, ease: 'anticipate' },
 			})
-			panelControls.start({ y: '0px', opacity: 0, transition: { delay: 0.1, duration: 0.5, ease: 'anticipate' } })
-			panelControls.start({ y: '-3620px', opacity: 0, transition: { delay: 0.2, duration: 0 } })
+			await panelControls.start({ y: '0px', opacity: 0, transition: { delay: 0.1, duration: 0.5, ease: 'anticipate' } })
+			panelControls.start({ y: '-3620px', opacity: 0, transition: { delay: 0, duration: 0 } })
 			z3usLogoSpinnerControls.stop()
-			z3usLogoSpinnerControls.set({
-				rotate: [null, 0],
-			})
+			z3usLogoSpinnerControls.set({ rotate: [null, 0] })
+			z3usLogoControls.set({ fill: '#323232' })
 		} else {
 			z3usLogoControls.start({
 				y: '0',
@@ -177,12 +179,13 @@ export const LockedPanel: React.FC = () => {
 	}
 
 	useEffect(() => {
-		unlockAnimation(isUnlocked)
-		if (!isUnlocked) return
+		unlockAnimation(isUnlocked, state.isMounted)
+		// if (!isUnlocked) return
 
 		setState(draft => {
 			draft.password = ''
 			draft.isLoading = false
+			draft.isMounted = true
 		})
 		unlockWithWebAuth()
 	}, [isUnlocked])
@@ -202,6 +205,7 @@ export const LockedPanel: React.FC = () => {
 	return (
 		<MotionBox
 			animate={panelControls}
+			initial={false}
 			css={{
 				position: 'absolute',
 				top: '0',
@@ -210,25 +214,6 @@ export const LockedPanel: React.FC = () => {
 				height: '100%',
 				backgroundColor: '$bgPanel2',
 			}}
-			initial={false}
-			// animate={isUnlocked ? 'unlocked' : 'locked'}
-			// variants={{
-			// 	locked: {
-			// 		transform: 'translateY(0px)',
-			// 		transition: {
-			// 			ease: 'easeOut',
-			// 			duration: 0,
-			// 		},
-			// 	},
-			// 	unlocked: () => ({
-			// 		transform: `translateY(-620px)`,
-			// 		transition: {
-			// 			type: 'spring',
-			// 			stiffness: 100,
-			// 			damping: 25,
-			// 		},
-			// 	}),
-			// }}
 		>
 			<Flex direction="column" css={{ height: '100%', position: 'relative', zIndex: '1' }}>
 				<Flex
