@@ -27,7 +27,7 @@ export const SlippageSettings: React.FC<IProps> = ({ pool, minimum, onMinimumCha
 	const disabled = !supported || !minimum
 
 	return !supported ? (
-		<ToolTip message="Slippage not supported">
+		<ToolTip arrowOffset={3} message="Slippage not supported">
 			<Flex css={{ color: '$txtHelp', display: 'inline-flex' }}>
 				<CircleBackslashIcon />
 			</Flex>
