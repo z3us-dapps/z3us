@@ -1,4 +1,5 @@
 import React from 'react'
+import browser from 'webextension-polyfill'
 import { useSharedStore, useStore } from '@src/store'
 import { useImmer } from 'use-immer'
 import { PlusIcon } from 'ui/src/components/icons'
@@ -81,20 +82,26 @@ export const NetworkSettings: React.FC = () => {
 
 		try {
 			const service = new RadixService(url)
-			const { network } = await service.gateway()
-
-			addNetwork(network, url)
-
-			setState(draft => {
-				draft.value = ''
-				draft.errorMessage = ''
-				draft.isAddNetworkDialogOpen = false
+			const granted = await browser.permissions.request({
+				permissions: [],
+				origins: [`${url.origin}/*`],
 			})
-			addToast({
-				type: 'success',
-				title: 'Succesfully added network',
-				duration: 5000,
-			})
+			if (granted) {
+				const { network } = await service.gateway()
+
+				addNetwork(network, url)
+
+				setState(draft => {
+					draft.value = ''
+					draft.errorMessage = ''
+					draft.isAddNetworkDialogOpen = false
+				})
+				addToast({
+					type: 'success',
+					title: 'Succesfully added network',
+					duration: 5000,
+				})
+			}
 		} catch (error) {
 			setState(draft => {
 				draft.errorMessage = (error?.message || error).toString().trim()
