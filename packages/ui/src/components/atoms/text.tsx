@@ -22,6 +22,9 @@ export const Text = styled('span', {
 			red: {
 				color: '$txtError',
 			},
+			purple: {
+				color: '$z3usPurple',
+			},
 		},
 		size: {
 			'1': {
@@ -35,14 +38,17 @@ export const Text = styled('span', {
 			'3': {
 				fontSize: '$3',
 				lineHeight: '$3',
+				letterSpacing: '-0.03em',
 			},
 			'4': {
 				fontSize: '$4',
 				lineHeight: '$4',
+				letterSpacing: '-0.03em',
 			},
 			'5': {
 				fontSize: '$5',
 				lineHeight: '$5',
+				letterSpacing: '-0.03em',
 			},
 			'6': {
 				fontSize: '$6',
@@ -136,6 +142,11 @@ export const Text = styled('span', {
 		underline: {
 			true: {
 				textDecoration: 'underline',
+			},
+		},
+		lineThrough: {
+			true: {
+				textDecoration: 'line-through',
 			},
 		},
 		truncate: {

@@ -1,7 +1,7 @@
 import { useCallback } from 'react'
 import { firstValueFrom } from 'rxjs'
 import { ActionType } from '@radixdlt/application'
-import { ExtendedActionType, IntendedAction } from '@src/types'
+import { ExtendedActionType, IntendedAction, ActionType as InternalActionType } from '@src/types'
 import { useSharedStore, useStore } from '@src/store'
 import { useRadix } from '@src/hooks/use-radix'
 // import { useSignature } from '@src/hooks/use-signature'
@@ -50,7 +50,7 @@ export const useTransaction = () => {
 					switch (action.type) {
 						case ActionType.TOKEN_TRANSFER:
 							return {
-								type: 'TransferTokens',
+								type: InternalActionType.TRANSFER_TOKENS,
 								from_account: {
 									address: action.from_account.toString(),
 								},
@@ -66,7 +66,7 @@ export const useTransaction = () => {
 							}
 						case ActionType.STAKE_TOKENS:
 							return {
-								type: 'StakeTokens',
+								type: InternalActionType.STAKE_TOKENS,
 								from_account: {
 									address: action.from_account.toString(),
 								},
@@ -82,7 +82,7 @@ export const useTransaction = () => {
 							}
 						case ActionType.UNSTAKE_TOKENS:
 							return {
-								type: 'UnstakeTokens',
+								type: InternalActionType.UNSTAKE_TOKENS,
 								from_validator: {
 									address: action.from_validator.toString(),
 								},
@@ -98,7 +98,7 @@ export const useTransaction = () => {
 							}
 						case ExtendedActionType.CREATE_TOKEN:
 							return {
-								type: 'CreateTokenDefinition',
+								type: InternalActionType.CREATE_TOKEN,
 								token_properties: {
 									name: action.token.name,
 									description: action.token.description,
@@ -124,7 +124,7 @@ export const useTransaction = () => {
 						case ExtendedActionType.MINT_TOKENS:
 							disableTokenMintAndBurn = false
 							return {
-								type: 'MintTokens',
+								type: InternalActionType.MINT_TOKENS,
 								to_account: {
 									address: action.to_account.toString(),
 								},
@@ -138,7 +138,7 @@ export const useTransaction = () => {
 						case ExtendedActionType.BURN_TOKENS:
 							disableTokenMintAndBurn = false
 							return {
-								type: 'BurnTokens',
+								type: InternalActionType.BURN_TOKENS,
 								from_account: {
 									address: action.from_account.toString(),
 								},
@@ -150,7 +150,7 @@ export const useTransaction = () => {
 								},
 							}
 						default:
-							throw new Error(`Unknown action type`)
+							throw new Error(`Unknown action type: ${(action as any).type}`)
 					}
 				}),
 				fee_payer: {

@@ -35,5 +35,15 @@ export const PartnerLinks = (): JSX.Element => (
 				<Image src="/images/partner-icons/radit-logo.png" alt="Radit logo" width={60} height={60} />
 			</Button>
 		</ToolTip>
+		<ToolTip message="Astrolescent" bgColor="$bgPanel2">
+			<Button target="_blank" href={config.ASTROLESCENT_URL} as="a" size="6" color="ghost" iconOnly>
+				<Image
+					src="/images/partner-icons/astrolescent-swap-logo.png"
+					alt="Astrolescent swap logo"
+					width={60}
+					height={60}
+				/>
+			</Button>
+		</ToolTip>
 	</Flex>
 )

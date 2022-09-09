@@ -51,13 +51,18 @@ export const useVault = () => {
 
 	const init = async () => {
 		try {
-			if (keystore && keystore.type === KeystoreType.HARDWARE) {
-				unlockHW()
-			} else {
-				const { seed: newSeed } = await messanger.sendActionMessageFromPopup(GET, null)
-				if (newSeed) {
-					setSeed(HDMasterSeed.fromSeed(Buffer.from(newSeed, 'hex')))
-				}
+			switch (keystore?.type) {
+				case KeystoreType.HARDWARE:
+					unlockHW()
+					break
+				case KeystoreType.LOCAL:
+				default:
+					// eslint-disable-next-line no-case-declarations
+					const { seed: newSeed } = await messanger.sendActionMessageFromPopup(GET, null)
+					if (newSeed) {
+						setSeed(HDMasterSeed.fromSeed(Buffer.from(newSeed, 'hex')))
+					}
+					break
 			}
 		} catch (error) {
 			// eslint-disable-next-line no-console

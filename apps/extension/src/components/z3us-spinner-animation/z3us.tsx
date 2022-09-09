@@ -1,19 +1,15 @@
 import React from 'react'
+import { Box } from 'ui/src/components/atoms'
 
-const color = '#6F37E6'
-
-export const Z3usSvg = ({ currentColor = color }): JSX.Element => (
-	<svg
-		width="200"
-		height="200"
+export const Z3usSvg = (): JSX.Element => (
+	<Box
+		as="svg"
 		viewBox="0 0 200 200"
 		xmlns="http://www.w3.org/2000/svg"
-		fill={color}
-		style={{ width: '200px', height: '200px', color: currentColor }}
+		css={{ width: '200px', height: '200px', fill: '$z3usPurple' }}
 	>
 		<g>
 			<path
-				fill={color}
 				fillRule="evenodd"
 				clipRule="evenodd"
 				d="M45.7,26c0.7-0.5,1.6-0.3,2,0.3c0.5,0.7,0.3,1.6-0.3,2.1c-0.7,0.5-1.3,1-2,1.5c-0.7,0.6-0.8,1.6-0.3,2.4l3,3.7
@@ -54,7 +50,6 @@ export const Z3usSvg = ({ currentColor = color }): JSX.Element => (
 		c0.8-0.5,1-1.6,0.5-2.4l-2.7-4c-0.5-0.8-1.6-1-2.3-0.5c-2.8,2-5.5,4.1-8.1,6.3l1.7,2C41.7,29,43.7,27.4,45.7,26z"
 			/>
 			<path
-				fill={color}
 				fillRule="evenodd"
 				clipRule="evenodd"
 				d="M79.6,189.5c-0.8-0.2-1.3-1-1.1-1.8c0.2-0.8,1-1.3,1.8-1.1c0.8,0.2,1.6,0.4,2.4,0.5c0.9,0.2,1.8-0.4,2-1.4
@@ -109,7 +104,6 @@ export const Z3usSvg = ({ currentColor = color }): JSX.Element => (
 		c3.3,0.9,6.7,1.5,10.1,2l0.4-2.6C84.5,190.5,82,190.1,79.6,189.5z"
 			/>
 			<path
-				fill={color}
 				fillRule="evenodd"
 				clipRule="evenodd"
 				d="M196,71.8c-2.7-9.1-6.7-17.9-11.8-25.9l-0.2-0.3c-5.1-7.9-11.4-15.1-18.5-21.2C158.3,18.2,150.2,13,141.6,9
@@ -125,7 +119,6 @@ export const Z3usSvg = ({ currentColor = color }): JSX.Element => (
 		c2.6,8.9,3.9,18.2,3.9,27.4C197.4,109.3,196.1,118.5,193.5,127.4z"
 			/>
 			<path
-				fill={color}
 				fillRule="evenodd"
 				clipRule="evenodd"
 				d="M131.3,186.3c-0.8,0.3-1.6-0.1-1.9-0.9c-0.3-0.8,0.1-1.6,0.9-1.9c0.8-0.3,1.5-0.6,2.3-0.9
@@ -143,7 +136,6 @@ export const Z3usSvg = ({ currentColor = color }): JSX.Element => (
 		l1.4,4.6c0.3,0.9,1.2,1.4,2.1,1.1c3.3-1.1,6.5-2.3,9.6-3.8l-1.1-2.4C135.9,184.6,133.6,185.5,131.3,186.3z"
 			/>
 			<path
-				fill={color}
 				fillRule="evenodd"
 				clipRule="evenodd"
 				d="M194.4,98.9c0-0.9-0.8-1.7-1.7-1.6l-7.7,0.2c-0.9,0-1.7-0.7-1.8-1.6c-0.1-1.6-0.2-3.3-0.4-4.9
@@ -185,5 +177,5 @@ export const Z3usSvg = ({ currentColor = color }): JSX.Element => (
 		c0.4-3.4,0.6-6.8,0.6-10.3C194.4,99.6,194.4,99.2,194.4,98.9z"
 			/>
 		</g>
-	</svg>
+	</Box>
 )

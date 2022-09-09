@@ -31,7 +31,8 @@ export const LockedPanel: React.FC = () => {
 		unlockHW: state.unlockHardwareWalletAction,
 		addToast: state.addToastAction,
 	}))
-	const { selectAccount } = useStore(state => ({
+	const { selectAccount, accountIndex } = useStore(state => ({
+		accountIndex: state.selectedAccountIndex,
 		selectAccount: state.selectAccountAction,
 	}))
 	const [state, setState] = useImmer<ImmerT>({
@@ -50,12 +51,12 @@ export const LockedPanel: React.FC = () => {
 				case KeystoreType.LOCAL: {
 					const newSeed = await unlock(password)
 					setSeed(newSeed)
-					await selectAccount(0, null, newSeed)
+					await selectAccount(accountIndex, null, newSeed)
 					break
 				}
 				case KeystoreType.HARDWARE:
 					unlockHW()
-					await selectAccount(0, hw, null)
+					await selectAccount(accountIndex, hw, null)
 					break
 				default:
 					throw new Error(`Unknown keystore ${keystore.id} (${keystore.name}) type: ${keystore.type}`)
@@ -162,8 +163,8 @@ export const LockedPanel: React.FC = () => {
 				<Flex align="center" justify="center" css={{ flex: '1' }}>
 					<Box>
 						<Z3usSpinnerAnimation showAnimation={false} />
-						<Box css={{ ta: 'center', pt: '$8' }}>
-							<Z3usText css={{ width: '130px', height: '30px' }} />
+						<Box css={{ ta: 'center', pt: '$4' }}>
+							<Z3usText css={{ width: '130px', height: '30px', fill: '$z3usPurple' }} />
 						</Box>
 					</Box>
 				</Flex>

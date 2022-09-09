@@ -1,4 +1,4 @@
-import { Action } from '@src/types'
+import { Action, ActionType } from '@src/types'
 
 export const getInitials = (name: string) => {
 	const initials = Array.prototype.map.call(name.split(' '), x => x.substring(0, 1).toUpperCase()).join('')
@@ -12,22 +12,22 @@ export const getShortAddress = (account = '') => {
 
 export const getTransactionType = (address: string, activity: Action) => {
 	switch (activity.type) {
-		case 'TransferTokens': {
+		case ActionType.TRANSFER_TOKENS: {
 			const isSend = activity.to_account !== address
 			if (isSend) {
 				return 'Send'
 			}
 			return 'Deposit'
 		}
-		case 'StakeTokens':
+		case ActionType.STAKE_TOKENS:
 			return 'Stake'
-		case 'UnstakeTokens':
+		case ActionType.UNSTAKE_TOKENS:
 			return 'Unstake'
-		case 'CreateTokenDefinition':
+		case ActionType.CREATE_TOKEN:
 			return 'Create Token'
-		case 'BurnTokens':
+		case ActionType.BURN_TOKENS:
 			return 'Burn'
-		case 'MintTokens':
+		case ActionType.MINT_TOKENS:
 			return 'Mint'
 		default:
 			return 'Other'

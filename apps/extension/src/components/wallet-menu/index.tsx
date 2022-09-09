@@ -28,7 +28,7 @@ export const WalletMenu: React.FC = () => {
 		<MotionBox animate={isOpen ? 'open' : 'closed'}>
 			<DropdownMenu onOpenChange={setIsopen}>
 				<DropdownMenuTrigger asChild>
-					<Button iconOnly aria-label="wallet options" color="ghost" size="3">
+					<Button iconOnly aria-label="wallet options" color="ghost" size="4">
 						<DropdownMenuHamburgerIcon
 							css={{
 								stroke: isOpen ? '$iconDefault' : '$iconDefault',
@@ -42,7 +42,7 @@ export const WalletMenu: React.FC = () => {
 					align="end"
 					side="bottom"
 					sideOffset={6}
-					alignOffset={-5}
+					alignOffset={-3}
 					css={{ minWidth: '130px' }}
 				>
 					<DropdownMenu>

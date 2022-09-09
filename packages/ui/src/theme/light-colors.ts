@@ -1,6 +1,7 @@
 export const lightColors = {
 	white: '#FFFFFF',
 	black: '#000000',
+	z3usPurple: '#8052FF',
 
 	bgPanel: '#ffffff',
 	bgPanel2: '#f1f1f1',
@@ -64,7 +65,7 @@ export const lightColors = {
 	buttonTextRed: '#FFFFFF',
 	buttonBgInverse: '#000000',
 	buttonBgRed: '#d84d48',
-	buttonBgPrimary: '#673bdf',
+	buttonBgPrimary: '#8457FF',
 	buttonBgPrimaryHover: '#471eb5',
 	buttonBgSecondary: '#d79364',
 	buttonBgTertiary: '#eaeaea',

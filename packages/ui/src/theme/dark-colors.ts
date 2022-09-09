@@ -1,6 +1,7 @@
 export const darkColors = {
 	white: '#FFFFFF',
 	black: '#000000',
+	z3usPurple: '#8052FF',
 
 	bgPanel: '#161718',
 	bgPanel2: '#323232',

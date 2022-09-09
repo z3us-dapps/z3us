@@ -3,6 +3,7 @@ import BigNumber from 'bignumber.js'
 import { ScrollArea } from 'ui/src/components/scroll-area'
 import { useQueryClient } from 'react-query'
 import { useLocation } from 'wouter'
+import { useImmer } from 'use-immer'
 import { Pool, Token } from '@src/types'
 import InputFeedBack from 'ui/src/components/input/input-feedback'
 import { ArrowLeftIcon, InfoCircledIcon } from '@radix-ui/react-icons'
@@ -11,7 +12,6 @@ import { Dialog, DialogTrigger, DialogContent } from 'ui/src/components/dialog'
 import { HoverCard, HoverCardContent, HoverCardTrigger } from 'ui/src/components/hover-card'
 import { BuiltTransactionReadyToSign } from '@radixdlt/application'
 import { useTransaction } from '@src/hooks/use-transaction'
-import { useImmer } from 'use-immer'
 import { useSharedStore, useStore } from '@src/store'
 import { formatBigNumber } from '@src/utils/formatters'
 import { getShortAddress } from '@src/utils/string-utils'
@@ -22,6 +22,7 @@ import { HardwareWalletReconnect } from '@src/components/hardware-wallet-reconne
 import { EXPLORER_URL } from '@src/config'
 import { MotionBox, Box, Text, Flex, StyledLink } from 'ui/src/components/atoms'
 import { AlertDialog, AlertDialogTrigger, AlertDialogContent } from 'ui/src/components/alert-dialog'
+import { confirmSwap } from '@src/services/swap'
 import { FeeBox } from '../fee-box'
 
 interface ImmerProps {
@@ -29,7 +30,6 @@ interface ImmerProps {
 	errorMessage: string
 	isSendingAlertOpen: boolean
 	isSendingTransaction: boolean
-	isTransactionSent: boolean
 	isModalOpen: boolean
 }
 
@@ -41,12 +41,17 @@ interface IProps {
 	balance: BigNumber
 	amount: BigNumber
 	receive: BigNumber
+	rate: BigNumber
 	poolFee: BigNumber
 	z3usFee: BigNumber
-	z3usBurn?: BigNumber
+	z3usBurn: BigNumber
 	txFee: BigNumber
 	transaction: BuiltTransactionReadyToSign
-	onCloseSwapModal: () => void
+	onConfirmSend: () => void
+	slippage: number
+	minimum: boolean
+	disabledButton: boolean
+	swapResponse: any
 }
 
 export const SwapModal: React.FC<IProps> = ({
@@ -57,12 +62,17 @@ export const SwapModal: React.FC<IProps> = ({
 	balance,
 	amount,
 	receive,
+	rate,
 	poolFee,
 	z3usFee,
 	z3usBurn,
 	txFee,
 	transaction,
-	onCloseSwapModal,
+	onConfirmSend,
+	minimum,
+	slippage,
+	disabledButton,
+	swapResponse,
 }) => {
 	const [, setLocation] = useLocation()
 	const queryClient = useQueryClient()
@@ -79,7 +89,6 @@ export const SwapModal: React.FC<IProps> = ({
 		errorMessage: '',
 		isSendingAlertOpen: false,
 		isSendingTransaction: false,
-		isTransactionSent: false,
 		isModalOpen: false,
 	})
 
@@ -88,6 +97,7 @@ export const SwapModal: React.FC<IProps> = ({
 	const shortAddress = getShortAddress(address)
 
 	const handleOnClick = () => {
+		if (disabledButton) return
 		setState(draft => {
 			draft.isModalOpen = true
 			draft.isSendingAlertOpen = false
@@ -99,23 +109,8 @@ export const SwapModal: React.FC<IProps> = ({
 		setState(draft => {
 			draft.isModalOpen = false
 			draft.isSendingAlertOpen = false
-			draft.isTransactionSent = false
 		})
 		setLocation('/wallet/swap')
-		onCloseSwapModal()
-	}
-
-	const handleCloseIsSendingAlertModal = () => {
-		setState(draft => {
-			draft.isSendingAlertOpen = false
-		})
-
-		// @TODO: fix closing issue with alert and modal
-		// Setting state to close the modal `state.isModalOpen` and the alert `state.isSendingAlertOpen` at the same time
-		// causes an issue where the modals do not properly close and the body element has `pointer-events: none`
-		setTimeout(() => {
-			handleCloseModal()
-		}, 20)
 	}
 
 	const handleConfirmSend = async () => {
@@ -131,19 +126,22 @@ export const SwapModal: React.FC<IProps> = ({
 			setState(draft => {
 				draft.txID = txID
 			})
+
+			await confirmSwap(pool, txID, swapResponse)
 			const result = await submitTransaction(blob)
+
 			await queryClient.invalidateQueries({ active: true, inactive: true, stale: true })
 			setState(draft => {
 				draft.txID = result.txID
 				draft.errorMessage = ''
 				draft.isSendingTransaction = false
-				draft.isTransactionSent = true
 			})
+
+			onConfirmSend()
 		} catch (error) {
 			setState(draft => {
 				draft.isSendingTransaction = false
 				draft.errorMessage = (error?.message || error).toString().trim()
-				draft.isTransactionSent = false
 			})
 		}
 	}
@@ -217,10 +215,10 @@ export const SwapModal: React.FC<IProps> = ({
 									</Button>
 								</MotionBox>
 								<HardwareWalletReconnect />
-								<Box css={{ p: '$2', px: '23px', flex: '1' }}>
-									<Box>
-										<Text css={{ fontSize: '32px', lineHeight: '38px', fontWeight: '800' }}>Confirm swap</Text>
-									</Box>
+								<Box css={{ pt: '12px', px: '23px', flex: '1' }}>
+									<Text bold size="10">
+										Confirm swap
+									</Text>
 									<InfoStatBlock
 										addressBookBackground={entry?.background}
 										statSubTitle={`From: ${shortAddress} (${balance}${fromToken?.symbol.toUpperCase()})`}
@@ -237,14 +235,26 @@ export const SwapModal: React.FC<IProps> = ({
 										statSubTitle="You receive:"
 										statTitle={`${formatBigNumber(receive)} ${toToken?.symbol.toUpperCase()}`}
 									/>
-
-									<FeeBox fromToken={fromToken} txFee={txFee} poolFee={poolFee} z3usFee={z3usFee} z3usBurn={z3usBurn} />
-									<Box css={{ mt: '$1' }}>
+									<FeeBox
+										isConfirmFeeBox
+										fromToken={fromToken}
+										toToken={toToken}
+										rate={rate}
+										txFee={txFee}
+										poolFee={poolFee}
+										z3usFee={z3usFee}
+										z3usBurn={z3usBurn}
+										pool={pool}
+										minimum={minimum}
+										slippage={slippage}
+										css={{ mt: '12px' }}
+									/>
+									<Box css={{ mt: '$1', display: 'none' }}>
 										<HoverCard>
 											<HoverCardTrigger asChild>
 												<Flex css={{ color: '$txtHelp', display: 'inline-flex', textDecoration: 'underline' }}>
 													<Text size="2" css={{ mr: '$1' }}>
-														Swap transaction {`T&C's`}
+														Swap {`T&C's`}
 													</Text>
 													<InfoCircledIcon />
 												</Flex>
@@ -254,7 +264,7 @@ export const SwapModal: React.FC<IProps> = ({
 												sideOffset={5}
 												css={{ maxWidth: '240px', pointerEvents: 'auto', zIndex: '99' }}
 											>
-												<Flex css={{ flexDirection: 'column', gap: 10 }}>
+												<Flex css={{ flexDirection: 'column', gap: 10, color: '$txtHelp' }}>
 													<Text size="2">
 														Presented fees and rates are indicative and are subject to change. Once submitted to the
 														network, wallet and transaction fees apply at all times and are not refundable. By
@@ -421,7 +431,7 @@ export const SwapModal: React.FC<IProps> = ({
 														color="primary"
 														aria-label="Close confirm send"
 														css={{ px: '0', flex: '1' }}
-														onClick={handleCloseIsSendingAlertModal}
+														onClick={handleCloseModal}
 														disabled={state.isSendingTransaction}
 														fullWidth
 													>
@@ -439,8 +449,4 @@ export const SwapModal: React.FC<IProps> = ({
 			</DialogContent>
 		</Dialog>
 	)
-}
-
-SwapModal.defaultProps = {
-	z3usBurn: null,
 }

@@ -60,7 +60,7 @@ export class OCIService {
 		toRRI: string,
 		amount: BigNumber,
 		recieve: BigNumber,
-		slippage: number = 0.05,
+		slippage: number,
 	): Promise<CalculateSwapResponse> => {
 		const resp = await this.doRequest<{ data: { calculate_swap: CalculateSwapResponse } }>(
 			JSON.stringify({
@@ -104,11 +104,19 @@ export class OCIService {
 		return resp?.data?.calculate_swap
 	}
 
-	calculateSwapFromAmount = (fromRRI: string, toRRI: string, amount: BigNumber): Promise<CalculateSwapResponse> =>
-		this.calculateSwap(fromRRI, toRRI, amount, zero)
+	calculateSwapFromAmount = (
+		fromRRI: string,
+		toRRI: string,
+		amount: BigNumber,
+		slippage: number,
+	): Promise<CalculateSwapResponse> => this.calculateSwap(fromRRI, toRRI, amount, zero, slippage)
 
-	calculateSwapFromRecieve = (fromRRI: string, toRRI: string, recieve: BigNumber): Promise<CalculateSwapResponse> =>
-		this.calculateSwap(fromRRI, toRRI, zero, recieve)
+	calculateSwapFromRecieve = (
+		fromRRI: string,
+		toRRI: string,
+		recieve: BigNumber,
+		slippage: number,
+	): Promise<CalculateSwapResponse> => this.calculateSwap(fromRRI, toRRI, zero, recieve, slippage)
 
 	getPools = async (): Promise<PoolsResponse> => {
 		const resp = await this.doRequest<{ data: { pools: PoolsResponse } }>(
@@ -163,7 +171,11 @@ export class OCIService {
 
 		const data = await response.json()
 		if (data?.errors?.[0]?.message) {
-			throw new Error(data.errors[0].message)
+			const error = data.errors[0].message.toString().trim()
+			if (error.includes('Input too low for minimum fee')) {
+				throw new Error('Input too low for minimum fee')
+			}
+			throw new Error(error)
 		}
 
 		return data

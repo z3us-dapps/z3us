@@ -1,6 +1,6 @@
-import React, { useState } from 'react'
-import { RightArrowIcon } from 'ui/src/components/icons'
-import { ChevronDownIcon, ChevronUpIcon } from '@radix-ui/react-icons'
+import React, { useState, useEffect } from 'react'
+import { useImmer } from 'use-immer'
+import { Pencil1Icon, ChevronDownIcon, ChevronUpIcon } from '@radix-ui/react-icons'
 import {
 	Select,
 	SelectTrigger,
@@ -14,7 +14,7 @@ import {
 	SelectScrollDownButton,
 } from 'ui/src/components/select'
 import { CircleAvatar } from '@src/components/circle-avatar'
-import { Box, Text, Flex } from 'ui/src/components/atoms'
+import { Box, Text } from 'ui/src/components/atoms'
 import Button from 'ui/src/components/button'
 import { Pool, PoolType } from '@src/types'
 import useMeasure from 'react-use-measure'
@@ -29,59 +29,76 @@ const defaultProps: Partial<IProps> = {
 	pool: null,
 }
 
+interface ImmerProps {
+	selected?: Pool
+}
+
 export const PoolSelector: React.FC<IProps> = ({ pool, pools, onPoolChange }) => {
 	const [open, setOpen] = useState<boolean>(false)
 	const [measureRef, { width: triggerWidth }] = useMeasure()
+
+	const [state, setState] = useImmer<ImmerProps>({
+		selected: undefined,
+	})
 
 	const handleValueChange = (address: string) => {
 		onPoolChange(pools.find(p => p.wallet === address))
 		setOpen(false)
 	}
 
-	let selected = pools.find(p => p.wallet === pool?.wallet)
-	if (!selected && pools.length === 1) {
-		// eslint-disable-next-line prefer-destructuring
-		selected = pools[0]
-		onPoolChange(selected)
-	}
+	useEffect(() => {
+		const selected = pools.find(p => p.wallet === pool?.wallet)
+		setState(draft => {
+			draft.selected = selected
+		})
+		if (!selected && pools.length === 1) {
+			onPoolChange(pools[0])
+		}
+	}, [pool, pools])
 
 	return (
-		<Select open={open} value={selected?.wallet} onValueChange={handleValueChange}>
+		<Select open={open} value={state.selected?.wallet} onValueChange={handleValueChange}>
 			<SelectTrigger aria-label="Pool selector" asChild onClick={() => setOpen(true)}>
 				<Button
 					ref={measureRef}
 					css={{
+						margin: '0',
+						padding: '0',
 						display: 'flex',
 						align: 'center',
-						justifyContent: 'flex-start',
-						bg: '$bgPanel2',
-						borderRadius: '8px',
-						height: '64px',
+						justifyContent: 'center',
+						bg: 'transparent',
+						borderRadius: '3px',
+						height: '24px',
+						width: 'auto',
 						position: 'relative',
-						width: '100%',
+						color: '$txt',
 						ta: 'left',
-						'&:hover': {
-							bg: '$bgPanelHover',
-						},
 					}}
 				>
-					<Box css={{ p: '8px' }}>
-						<CircleAvatar
-							image={selected?.image}
-							fallbackText={selected?.type.toLocaleUpperCase()}
-							cutImage={selected?.type !== PoolType.DOGECUBEX}
-						/>
-					</Box>
-					<Box css={{ flex: '1' }}>
-						<Flex css={{ mt: '2px' }}>
-							<Text truncate css={{ fontSize: '14px', lineHeight: '17px', fontWeight: '500', maxWidth: '200px' }}>
-								Pool: <SelectValue />
-							</Text>
-						</Flex>
-					</Box>
-					<Box css={{ pr: '$1', flexShrink: '0' }}>
-						<RightArrowIcon />
-					</Box>
+					{state.selected?.image && (
+						<Box css={{ mt: '1px' }}>
+							<CircleAvatar
+								width={22}
+								height={22}
+								image={state.selected?.image}
+								fallbackText={state.selected?.type.toLocaleUpperCase()}
+								cutImage={state.selected?.type !== PoolType.DOGECUBEX}
+								borderWidth={0}
+								shadow={false}
+							/>
+						</Box>
+					)}
+					<Text
+						medium
+						truncate
+						color="purple"
+						underline
+						css={{ ml: '1px', display: 'flex', alignItems: 'center', gap: '3px', svg: { mt: '2px' } }}
+					>
+						<SelectValue />
+						<Pencil1Icon />
+					</Text>
 				</Button>
 			</SelectTrigger>
 			<SelectContent onPointerDownOutside={() => setOpen(false)}>
@@ -99,6 +116,7 @@ export const PoolSelector: React.FC<IProps> = ({ pool, pools, onPoolChange }) =>
 									textOverflow: 'ellipsis',
 									whiteSpace: 'nowrap',
 									maxWidth: `${triggerWidth}px`,
+									minWidth: '100px',
 								},
 							}}
 						>

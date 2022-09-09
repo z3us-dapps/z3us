@@ -221,8 +221,49 @@ export class RadixService {
 		const data = await response.json()
 
 		if (response.status !== 200) {
-			if (data?.message) throw new Error(data?.message)
-			throw new Error(`Failed gateway API request: ${response.statusText} (${response.text()})`)
+			switch (data?.details?.type) {
+				case 'NetworkNotSupportedError':
+					throw new Error('Network not supported')
+				case 'InvalidSignatureError':
+					throw new Error('Invalid signature')
+				case 'InvalidTransactionError':
+					throw new Error('Invalid transaction')
+				case 'InvalidTokenRRIError':
+					throw new Error('Invalid token')
+				case 'InvalidAccountAddressError':
+					throw new Error('Invalid account address')
+				case 'InvalidValidatorAddressError':
+					throw new Error('Invalid validator address')
+				case 'InvalidPublicKeyError':
+					throw new Error('Invalid public key')
+				case 'InvalidTokenSymbolError':
+					throw new Error('Invalid token symbol')
+				case 'InvalidActionError':
+					throw new Error('Invalid action')
+				case 'TokenNotFoundError':
+					throw new Error('Token not found')
+				case 'TransactionNotFoundError':
+					throw new Error('Transaction not found')
+				case 'NotEnoughNativeTokensForFeesError':
+					throw new Error('Not enough XRDs for fees')
+				case 'NotEnoughTokensForTransferError':
+					throw new Error('Not enough tokens for transfer')
+				case 'NotEnoughTokensForStakeError':
+					throw new Error('Not enough tokens for stake')
+				case 'NotEnoughTokensForUnstakeError':
+					throw new Error('Not enough tokens for unstake')
+				case 'BelowMinimumStakeError':
+					throw new Error('Below minimum stake')
+				case 'CannotStakeError':
+					throw new Error('Cannot stake')
+				case 'MessageTooLongError':
+					throw new Error('Message too long')
+				case 'CouldNotConstructFeesError':
+					throw new Error('Failed to construct fees')
+				default:
+					if (data?.message) throw new Error(data?.message)
+					throw new Error(`Failed gateway API request: ${response.statusText} (${response.text()})`)
+			}
 		}
 
 		return data as T

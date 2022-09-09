@@ -17,8 +17,12 @@ export interface IProps {
 	focusOnMount?: boolean
 	selectOnMount?: boolean
 	min?: string
+	theme?: string
 	onChange?: (e: React.ChangeEvent<FormElement>) => void
+	onFocus?: (e: React.ChangeEvent<FormElement>) => void
+	onBlur?: (e: React.ChangeEvent<FormElement>) => void
 	css?: CSS
+	autoComplete?: 'off' | 'on'
 	as?: keyof JSX.IntrinsicElements
 }
 
@@ -40,6 +44,8 @@ const Input = React.forwardRef<FormElement, PropsWithCSS<InputProps>>((props, re
 	const {
 		type,
 		onChange,
+		onFocus,
+		onBlur,
 		placeholder,
 		disabled,
 		error,
@@ -55,7 +61,7 @@ const Input = React.forwardRef<FormElement, PropsWithCSS<InputProps>>((props, re
 
 	useImperativeHandle(ref, () => inputRef.current)
 
-	// TODO: implement properties below
+	// @TODO: implement properties below
 	const readOnly = false
 	const required = false
 	const isTextarea = as === 'textarea'
@@ -87,6 +93,8 @@ const Input = React.forwardRef<FormElement, PropsWithCSS<InputProps>>((props, re
 				disabled={disabled}
 				error={error}
 				onChange={handleOnChange}
+				onBlur={onBlur}
+				onFocus={onFocus}
 				aria-label="input"
 				min={min}
 				aria-placeholder={placeholder}
@@ -107,9 +115,9 @@ const Input = React.forwardRef<FormElement, PropsWithCSS<InputProps>>((props, re
 type InputComponent<T, P = unknown> = React.ForwardRefExoticComponent<PropsWithoutRef<P> & RefAttributes<T>>
 
 if (__DEV__) {
-	Input.displayName = 'z3us ui - Button'
+	Input.displayName = 'z3us ui - Input'
 }
 
-Input.toString = () => '.z3us-ui-button'
+Input.toString = () => '.z3us-ui-input'
 
 export default withDefaults(Input, defaultProps) as InputComponent<FormElement, IProps>

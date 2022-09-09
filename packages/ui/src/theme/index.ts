@@ -178,11 +178,11 @@ export const sharedFocus = css({
 export const sharedItemStyles = {
 	all: 'unset',
 	position: 'relative',
-	fontSize: 12,
+	fontSize: '12px',
+	lineHeight: '14px',
 	fontWeight: 700,
 	color: '$txtDefault',
 	zIndex: 1,
-	lineHeight: 1,
 	borderRadius: 3,
 	display: 'flex',
 	alignItems: 'center',

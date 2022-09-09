@@ -17,7 +17,7 @@ const format = {
 	fractionGroupSize: 0,
 }
 
-export const formatBigNumber = (x: BigNumber, currency = '', decimalPlaces: number = 8) =>
+export const formatBigNumber = (x: BigNumber, currency = '', decimalPlaces: number = 9) =>
 	currency
 		? x.toFormat(decimalPlaces, {
 				...format,
