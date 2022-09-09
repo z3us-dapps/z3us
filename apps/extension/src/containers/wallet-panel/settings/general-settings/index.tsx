@@ -1,21 +1,35 @@
 import React from 'react'
 import { useSharedStore } from '@src/store'
-import { Box, Text } from 'ui/src/components/atoms'
+import { Box, Flex, Text } from 'ui/src/components/atoms'
+import { Checkbox, CheckIcon } from 'ui/src/components/checkbox'
 import { StyledSlider, StyledTrack, StyledThumb, StyledRange } from 'ui/src/components/slider'
 import { GET } from '@src/lib/actions'
 import { CurrencySelector } from '@src/components/currency-selector'
 
 export const GeneralSettings: React.FC = () => {
-	const { messanger, isHardwareWallet, unlockTimer, setWalletUnclokTimeoutInMinutes } = useSharedStore(state => ({
+	const {
+		messanger,
+		isHardwareWallet,
+		unlockTimer,
+		transactionNotificationsEnabled,
+		setWalletUnclokTimeoutInMinutes,
+		setTransactionNotificationsEnabled,
+	} = useSharedStore(state => ({
 		messanger: state.messanger,
 		isHardwareWallet: state.isHardwareWallet,
 		unlockTimer: state.walletUnlockTimeoutInMinutes,
+		transactionNotificationsEnabled: state.transactionNotificationsEnabled,
 		setWalletUnclokTimeoutInMinutes: state.setWalletUnclokTimeoutInMinutesAction,
+		setTransactionNotificationsEnabled: state.setTransactionNotificationsEnabledAction,
 	}))
 
 	const handleChangeUnlockTime = async ([minute]: Array<number>) => {
 		setWalletUnclokTimeoutInMinutes(minute)
 		await messanger.sendActionMessageFromPopup(GET, null) // reload background timer
+	}
+
+	const handleSetTransactionNotificationsEnabled = checked => {
+		setTransactionNotificationsEnabled(checked === true)
 	}
 
 	return (
@@ -51,6 +65,26 @@ export const GeneralSettings: React.FC = () => {
 				</Text>
 				<Box css={{ py: '$3' }}>
 					<CurrencySelector />
+				</Box>
+			</Box>
+			<Box css={{ mt: '$3' }}>
+				<Text size="3" bold>
+					Transaction notifications:
+				</Text>
+				<Box css={{ py: '$3' }}>
+					<Flex align="center" justify="start">
+						<Checkbox
+							id="notifications"
+							size="1"
+							onCheckedChange={handleSetTransactionNotificationsEnabled}
+							checked={transactionNotificationsEnabled}
+						>
+							<CheckIcon />
+						</Checkbox>
+						<Text size="2" as="label" css={{ pl: '$2' }} htmlFor="mutable">
+							Enabled
+						</Text>
+					</Flex>
 				</Box>
 			</Box>
 		</Box>

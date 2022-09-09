@@ -171,7 +171,11 @@ export class OCIService {
 
 		const data = await response.json()
 		if (data?.errors?.[0]?.message) {
-			throw new Error(data.errors[0].message)
+			const error = data.errors[0].message.toString().trim()
+			if (error.includes('Input too low for minimum fee')) {
+				throw new Error('Input too low for minimum fee')
+			}
+			throw new Error(error)
 		}
 
 		return data

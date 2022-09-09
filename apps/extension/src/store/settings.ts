@@ -1,15 +1,22 @@
 import { SetState } from 'zustand'
 import { AddressBookEntry, SettingsStore, SharedStore } from './types'
 
-export const whiteList = ['walletUnlockTimeoutInMinutes', 'addressBook', 'accountPanelExpanded', 'currency']
+export const whiteList = [
+	'currency',
+	'walletUnlockTimeoutInMinutes',
+	'addressBook',
+	'accountPanelExpanded',
+	'transactionNotificationsEnabled',
+]
 
 const defaultState = {
 	addressBook: {},
+	currency: 'USD',
+	walletUnlockTimeoutInMinutes: 5,
+	accountPanelExpanded: false,
+	transactionNotificationsEnabled: true,
 
 	activeApp: ['accounts', 0],
-	accountPanelExpanded: false,
-	walletUnlockTimeoutInMinutes: 5,
-	currency: 'USD',
 }
 
 export const factory = (set: SetState<SharedStore>): SettingsStore => ({
@@ -52,6 +59,12 @@ export const factory = (set: SetState<SharedStore>): SettingsStore => ({
 	setCurrencyAction: (currency: string) => {
 		set(state => {
 			state.currency = currency
+		})
+	},
+
+	setTransactionNotificationsEnabledAction: (enabled: boolean) => {
+		set(state => {
+			state.transactionNotificationsEnabled = enabled
 		})
 	},
 })

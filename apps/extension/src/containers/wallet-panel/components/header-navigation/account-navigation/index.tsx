@@ -47,8 +47,8 @@ export const AccountNaviation: React.FC = () => {
 					position: 'absolute',
 					top: '5px',
 					transition: '$default',
-					pe: expanded ? 'auto' : 'none',
-					opacity: expanded ? 1 : 0,
+					pe: page === ACCOUNTS && isAccountMatch && expanded ? 'auto' : 'none',
+					opacity: page === ACCOUNTS && isAccountMatch && expanded ? 1 : 0,
 				}}
 			>
 				<Text truncate size="4" medium css={{ mr: '$1', maxWidth: '220px' }}>

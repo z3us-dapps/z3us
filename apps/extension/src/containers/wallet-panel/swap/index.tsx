@@ -18,7 +18,7 @@ import {
 	getZ3USFees,
 } from '@src/services/swap'
 import { OCI_RRI, XRD_RRI } from '@src/config'
-import { RawAction, Pool } from '@src/types'
+import { Pool } from '@src/types'
 import { ScrollArea } from 'ui/src/components/scroll-area'
 import Button from 'ui/src/components/button'
 import { AccountSelector } from '@src/components/account-selector'
@@ -39,17 +39,17 @@ interface ImmerState {
 	fromRRI: string
 	toRRI: string
 	inputSide: 'from' | 'to'
+	amountRaw: string
+	receiveRaw: string
 	amount: BigNumber
 	receive: BigNumber
+	rate: BigNumber
 	poolFee: BigNumber
 	z3usFee: BigNumber
 	z3usBurn: BigNumber
 	transaction: BuiltTransactionReadyToSign
+	swapResponse: any
 	fee: BigNumber
-	transactionData?: {
-		actions: Array<RawAction>
-		message: string
-	}
 	minimum: boolean
 	slippage: number
 	burn: boolean
@@ -59,8 +59,8 @@ interface ImmerState {
 	errorMessage: string
 }
 
-const refreshInterval = 5 * 1000 // 5 seconds
-const debounceInterval = 1000 // 1 sec
+const refreshInterval = 15 * 1000 // 15 seconds
+const debounceInterval = 500 // 0.5 sec
 const zero = new BigNumber(0)
 const defaultNetworkFee = new BigNumber(2000) // asume avg tx 20 bytes
 
@@ -70,14 +70,17 @@ const defaultState: ImmerState = {
 	fromRRI: XRD_RRI,
 	toRRI: OCI_RRI,
 	inputSide: 'from',
+	amountRaw: '',
+	receiveRaw: '',
 	amount: zero,
 	receive: zero,
+	rate: zero,
 	poolFee: zero,
 	z3usFee: zero,
 	z3usBurn: zero,
 	transaction: null,
+	swapResponse: null,
 	fee: zero,
-	transactionData: undefined,
 	minimum: true,
 	slippage: 0.05,
 	burn: false,
@@ -107,8 +110,8 @@ export const Swap: React.FC = () => {
 	}))
 
 	const [state, setState] = useImmer<ImmerState>(defaultState)
-	const [debouncedAmount] = useDebounce(state.amount, debounceInterval)
-	const [debouncedReceive] = useDebounce(state.receive, debounceInterval)
+	const [debouncedAmount] = useDebounce(state.amountRaw, debounceInterval)
+	const [debouncedReceive] = useDebounce(state.receiveRaw, debounceInterval)
 	const possibleTokens = usePoolTokens()
 	const pools = usePools(state.fromRRI, state.toRRI)
 	const { data: balances } = useTokenBalances()
@@ -120,6 +123,16 @@ export const Swap: React.FC = () => {
 	const liquidBalances = balances?.account_balances?.liquid_balances || []
 	const selectedToken = liquidBalances?.find(balance => balance.rri === state.fromRRI)
 	const selectedTokenAmmount = selectedToken ? new BigNumber(selectedToken.amount).shiftedBy(-18) : zero
+
+	const availableTokensMap = {}
+	liquidBalances.forEach(balance => {
+		if (balance.amount === '') return
+		if (balance.amount === '0') return
+		availableTokensMap[balance.rri] = true
+	})
+
+	const amountDisplay = numberWithCommas(state.amountRaw)
+	const receiveDisplay = numberWithCommas(state.receiveRaw)
 
 	// @Note: the timeout is needed to focus the input, or else it will jank the route entry transition
 	useTimeout(() => {
@@ -138,29 +151,35 @@ export const Swap: React.FC = () => {
 	}, refreshInterval)
 
 	const calculateSwap = async (
-		value: BigNumber,
+		amountRaw: string,
+		receiveRaw: string,
 		valueType: 'from' | 'to',
 		slippage: number,
 		pool?: Pool,
 		minimum: boolean = false,
 		burn: boolean = false,
 	) => {
+		if (!state.isMounted) return
 		if (state.isLoading) return
+
+		let amount = amountRaw ? new BigNumber(amountRaw) : zero
+		let receive = receiveRaw ? new BigNumber(receiveRaw) : zero
+
+		if (valueType === 'from' && amount.eq(0)) return
+		if (valueType === 'to' && receive.eq(0)) return
 
 		setState(draft => {
 			draft.isLoading = true
 		})
 
-		let amount = zero
-		let receive = zero
 		let poolFee = zero
 		let z3usFee = zero
 		let z3usBurn = zero
-		let transactionData
+		let response
 
 		try {
 			if (valueType === 'from') {
-				const walletQuote = getZ3USFees(value, burn, liquidBalances)
+				const walletQuote = getZ3USFees(amount, burn, liquidBalances)
 				if (pool) {
 					const poolQuote = await calculatePoolFeesFromAmount(
 						pools,
@@ -172,13 +191,12 @@ export const Swap: React.FC = () => {
 						accountAddress,
 						liquidBalances,
 					)
-
-					amount = value
+					amount = poolQuote.amount
 					receive = poolQuote.receive
 					poolFee = poolQuote.fee
 					z3usFee = walletQuote.fee
 					z3usBurn = walletQuote.burn
-					transactionData = poolQuote.transactionData
+					response = poolQuote.response
 				} else {
 					const cheapestPoolQuote = await calculateCheapestPoolFeesFromAmount(
 						pools,
@@ -189,50 +207,52 @@ export const Swap: React.FC = () => {
 						accountAddress,
 						liquidBalances,
 					)
-					amount = value
+					amount = cheapestPoolQuote.amount
 					pool = cheapestPoolQuote.pool
 					receive = cheapestPoolQuote.receive
 					poolFee = cheapestPoolQuote.fee
 					z3usFee = walletQuote.fee
 					z3usBurn = walletQuote.burn
-					transactionData = cheapestPoolQuote.transactionData
+					response = cheapestPoolQuote.response
 				}
-			} else if (pool) {
-				const poolQuote = await calculatePoolFeesFromReceive(
-					pools,
-					pool,
-					value,
-					slippage,
-					fromToken,
-					toToken,
-					accountAddress,
-					liquidBalances,
-				)
-				const walletQuote = getZ3USFees(poolQuote.amount, burn, liquidBalances)
-				receive = value
-				amount = poolQuote.amount.plus(walletQuote.fee)
-				poolFee = poolQuote.fee
-				z3usFee = walletQuote.fee
-				z3usBurn = walletQuote.burn
-				transactionData = poolQuote.transactionData
-			} else {
-				const cheapestPoolQuote = await calculateCheapestPoolFeesFromReceive(
-					pools,
-					value,
-					slippage,
-					fromToken,
-					toToken,
-					accountAddress,
-					liquidBalances,
-				)
-				const walletQuote = getZ3USFees(cheapestPoolQuote.amount, burn, liquidBalances)
-				receive = value
-				pool = cheapestPoolQuote.pool
-				amount = cheapestPoolQuote.amount.plus(walletQuote.fee)
-				poolFee = cheapestPoolQuote.fee
-				z3usFee = walletQuote.fee
-				z3usBurn = walletQuote.burn
-				transactionData = cheapestPoolQuote.transactionData
+			} else if (valueType === 'to') {
+				if (pool) {
+					const poolQuote = await calculatePoolFeesFromReceive(
+						pools,
+						pool,
+						receive,
+						slippage,
+						fromToken,
+						toToken,
+						accountAddress,
+						liquidBalances,
+					)
+					const walletQuote = getZ3USFees(poolQuote.amount, burn, liquidBalances)
+					receive = poolQuote.receive
+					amount = poolQuote.amount.plus(walletQuote.fee)
+					poolFee = poolQuote.fee
+					z3usFee = walletQuote.fee
+					z3usBurn = walletQuote.burn
+					response = poolQuote.response
+				} else {
+					const cheapestPoolQuote = await calculateCheapestPoolFeesFromReceive(
+						pools,
+						receive,
+						slippage,
+						fromToken,
+						toToken,
+						accountAddress,
+						liquidBalances,
+					)
+					const walletQuote = getZ3USFees(cheapestPoolQuote.amount, burn, liquidBalances)
+					pool = cheapestPoolQuote.pool
+					receive = cheapestPoolQuote.receive
+					amount = cheapestPoolQuote.amount.plus(walletQuote.fee)
+					poolFee = cheapestPoolQuote.fee
+					z3usFee = walletQuote.fee
+					z3usBurn = walletQuote.burn
+					response = cheapestPoolQuote.response
+				}
 			}
 
 			const { transaction, fee, transactionFeeError } = await calculateTransactionFee(
@@ -247,29 +267,44 @@ export const Swap: React.FC = () => {
 				buildTransactionFromActions,
 				createMessage,
 				account,
-				transactionData,
+				response,
 			)
 
 			setState(draft => {
 				draft.time = Date.now()
 				draft.pool = pool
+
+				if (valueType === 'from') {
+					draft.receiveRaw = receive.toString()
+				} else if (valueType === 'to') {
+					draft.amountRaw = amount.toString()
+				}
+
+				if (receive.gt(0) && amount.gt(0)) {
+					draft.rate = receive.dividedBy(amount)
+				}
+
 				draft.amount = amount
 				draft.receive = receive
+				draft.fee = fee
 				draft.poolFee = poolFee
 				draft.z3usFee = z3usFee
 				draft.z3usBurn = z3usBurn
-				draft.transactionData = transactionData
-
-				draft.fee = fee
 				draft.transaction = transaction
+				draft.swapResponse = response
 				draft.errorMessage = transactionFeeError
 			})
 		} catch (error) {
 			// eslint-disable-next-line no-console
 			console.error(error)
-			const errorMessageStr = (error?.message || error).toString().trim()
 			setState(draft => {
-				draft.errorMessage = errorMessageStr
+				draft.fee = zero
+				draft.poolFee = zero
+				draft.z3usFee = zero
+				draft.z3usBurn = zero
+				draft.transaction = undefined
+				draft.swapResponse = undefined
+				draft.errorMessage = (error?.message || error).toString().trim()
 			})
 		}
 
@@ -279,97 +314,81 @@ export const Swap: React.FC = () => {
 	}
 
 	useEffect(() => {
-		if (!state.isMounted || state.isLoading) return
 		if (Date.now() - state.time < refreshInterval) return
-
-		if (state.inputSide === 'from' && state.amount) {
-			calculateSwap(state.amount, state.inputSide, state.slippage, state.pool, state.minimum, state.burn)
-		} else if (state.inputSide === 'to' && state.receive) {
-			calculateSwap(state.receive, state.inputSide, state.slippage, state.pool, state.minimum, state.burn)
-		}
+		calculateSwap(
+			state.amountRaw,
+			state.receiveRaw,
+			state.inputSide,
+			state.slippage,
+			state.pool,
+			state.minimum,
+			state.burn,
+		)
 	}, [state.time])
 
 	useEffect(() => {
-		if (!state.isMounted || state.isLoading) return
-		if (state.inputSide === 'from' && state.amount) {
-			calculateSwap(state.amount, state.inputSide, state.slippage, state.pool, state.minimum, state.burn)
-		}
+		if (state.inputSide !== 'from') return // do not want to race with calculateSwap
+		calculateSwap(
+			debouncedAmount,
+			state.receiveRaw,
+			state.inputSide,
+			state.slippage,
+			state.pool,
+			state.minimum,
+			state.burn,
+		)
 	}, [debouncedAmount])
 
 	useEffect(() => {
-		if (!state.isMounted || state.isLoading) return
-		if (state.inputSide === 'to' && state.receive) {
-			calculateSwap(state.receive, state.inputSide, state.slippage, state.pool, state.minimum, state.burn)
-		}
+		if (state.inputSide !== 'to') return // do not want to race with calculateSwap
+		calculateSwap(
+			state.amountRaw,
+			debouncedReceive,
+			state.inputSide,
+			state.slippage,
+			state.pool,
+			state.minimum,
+			state.burn,
+		)
 	}, [debouncedReceive])
 
 	const handlePoolChange = async (pool: Pool) => {
 		setState(draft => {
 			draft.pool = pool
-			draft.poolFee = zero
-			draft.z3usFee = zero
-			draft.z3usBurn = zero
-			draft.transaction = undefined
-			draft.fee = zero
-			draft.transactionData = undefined
-			draft.errorMessage = null
 		})
 
-		calculateSwap(state.amount, state.inputSide, state.slippage, pool, state.minimum, state.burn)
+		calculateSwap(state.amountRaw, state.receiveRaw, state.inputSide, state.slippage, pool, state.minimum, state.burn)
 	}
 
 	const handleAccountChange = async (accountIndex: number) => {
 		await selectAccount(accountIndex, hw, seed)
 		setState(draft => {
-			draft.amount = zero
-			draft.receive = zero
-			draft.poolFee = zero
-			draft.z3usFee = zero
-			draft.z3usBurn = zero
-			draft.transaction = undefined
-			draft.fee = zero
-			draft.transactionData = undefined
-			draft.errorMessage = null
+			draft.amountRaw = ''
+			draft.receiveRaw = ''
 		})
 	}
 
 	const handleFromTokenChange = (rri: string) => {
 		setState(draft => {
-			draft.amount = zero
-			draft.receive = zero
-			draft.poolFee = zero
-			draft.z3usFee = zero
-			draft.z3usBurn = zero
-			draft.transaction = undefined
-			draft.fee = zero
-			draft.transactionData = undefined
+			draft.amountRaw = ''
+			draft.receiveRaw = ''
 			draft.fromRRI = rri
-			draft.toRRI =
-				Object.keys(possibleTokens[rri] || {})
-					.filter(_rri => _rri !== rri)
-					.find(_rri => _rri === state.toRRI) || XRD_RRI
+			draft.toRRI = Object.keys(possibleTokens[rri] || {}).find(_rri => _rri !== rri && _rri === state.toRRI) || XRD_RRI
 			draft.pool = null
-			draft.errorMessage = null
 		})
 	}
 
 	const handleToTokenChange = (rri: string) => {
 		setState(draft => {
-			draft.amount = zero
-			draft.receive = zero
-			draft.poolFee = zero
-			draft.z3usFee = zero
-			draft.z3usBurn = zero
-			draft.transaction = undefined
-			draft.fee = zero
-			draft.transactionData = undefined
+			draft.amountRaw = ''
+			draft.receiveRaw = ''
 			draft.toRRI = rri
 			draft.fromRRI =
-				Object.keys(possibleTokens || {})
-					.filter(_rri => _rri !== rri)
-					.find(_rri => _rri === state.fromRRI) || XRD_RRI
+				Object.keys(possibleTokens || {}).find(
+					// eslint-disable-next-line no-underscore-dangle
+					_rri => availableTokensMap[_rri] && _rri !== rri && _rri === state.fromRRI,
+				) || XRD_RRI
 			draft.pool = null
-			draft.errorMessage = null
 		})
 	}
 
@@ -377,16 +396,9 @@ export const Swap: React.FC = () => {
 		setState(draft => {
 			draft.toRRI = state.fromRRI
 			draft.fromRRI = state.toRRI
-			draft.amount = zero
-			draft.receive = zero
-			draft.poolFee = zero
-			draft.z3usFee = zero
-			draft.z3usBurn = zero
-			draft.transaction = undefined
-			draft.fee = zero
-			draft.transactionData = undefined
+			draft.amountRaw = ''
+			draft.receiveRaw = ''
 			draft.pool = null
-			draft.errorMessage = null
 		})
 	}
 
@@ -394,24 +406,13 @@ export const Swap: React.FC = () => {
 		let amount = selectedTokenAmmount
 		if (selectedToken.rri === XRD_RRI) {
 			const networkFeeMultiplier = 0.0002 // XRD per byte
-			let networkFee = defaultNetworkFee
-			if (state.transaction?.blob) {
-				networkFee = new BigNumber(new Blob([state.transaction.blob]).size * 1024)
-			}
-			networkFee = networkFee.multipliedBy(networkFeeMultiplier)
+			const networkFee = defaultNetworkFee.multipliedBy(networkFeeMultiplier)
 			amount = selectedTokenAmmount.minus(networkFee)
 		}
 
 		setState(draft => {
-			draft.amount = amount
+			draft.amountRaw = amount.toString()
 			draft.inputSide = 'from'
-			draft.poolFee = zero
-			draft.z3usFee = zero
-			draft.z3usBurn = zero
-			draft.transaction = undefined
-			draft.fee = zero
-			draft.transactionData = undefined
-			draft.errorMessage = null
 		})
 		inputFromRef.current.focus()
 	}
@@ -423,15 +424,8 @@ export const Swap: React.FC = () => {
 		if (!isValid) return
 
 		setState(draft => {
-			draft.amount = new BigNumber(amount)
+			draft.amountRaw = amount
 			draft.inputSide = 'from'
-			draft.poolFee = zero
-			draft.z3usFee = zero
-			draft.z3usBurn = zero
-			draft.transaction = undefined
-			draft.fee = zero
-			draft.transactionData = undefined
-			draft.errorMessage = null
 		})
 	}
 
@@ -442,15 +436,8 @@ export const Swap: React.FC = () => {
 		if (!isValid) return
 
 		setState(draft => {
-			draft.receive = new BigNumber(receive)
+			draft.receiveRaw = receive
 			draft.inputSide = 'to'
-			draft.poolFee = zero
-			draft.z3usFee = zero
-			draft.z3usBurn = zero
-			draft.transaction = undefined
-			draft.fee = zero
-			draft.transactionData = undefined
-			draft.errorMessage = null
 		})
 	}
 
@@ -458,12 +445,24 @@ export const Swap: React.FC = () => {
 		setState(draft => {
 			draft.minimum = checked === true
 		})
+
+		calculateSwap(
+			state.amountRaw,
+			state.receiveRaw,
+			state.inputSide,
+			state.slippage,
+			state.pool,
+			checked === true,
+			state.burn,
+		)
 	}
 
 	const handleSetSlippage = async (slippage: number) => {
 		setState(draft => {
 			draft.slippage = slippage
 		})
+
+		calculateSwap(state.amountRaw, state.receiveRaw, state.inputSide, slippage, state.pool, state.minimum, state.burn)
 	}
 
 	// @TODO: implement when we have burn feature
@@ -475,14 +474,17 @@ export const Swap: React.FC = () => {
 
 	const resetImmerState = () => {
 		setState(draft => {
+			const { minimum, slippage } = draft
 			Object.entries(defaultState).forEach(([key, value]) => {
 				draft[key] = value
 			})
 			draft.isMounted = true
+			draft.minimum = minimum
+			draft.slippage = slippage
 		})
 	}
 
-	const handleCloseSwapModal = () => {
+	const handleConfirmSend = () => {
 		resetImmerState()
 	}
 
@@ -521,10 +523,13 @@ export const Swap: React.FC = () => {
 			}}
 		>
 			<ScrollArea>
-				<Box css={{ pt: '$3', px: '$6', pb: '$1' }}>
+				<Box css={{ pt: '$3', px: '$6', pb: '$1', position: 'relative' }}>
 					<Text bold size="10">
 						Swap
 					</Text>
+					<Box css={{ px: '0', mt: '-10px' }}>
+						<HardwareWalletReconnect />
+					</Box>
 					<Box
 						css={{
 							pt: '13px',
@@ -537,15 +542,12 @@ export const Swap: React.FC = () => {
 						<Flex css={{ width: '100%' }}>
 							<Box css={{ width: '244px' }}>
 								<Text truncate css={{ fontSize: '22px', lineHeight: '25px', mt: '3px' }}>
-									{selectedAccount?.name
-										? `${selectedAccount.name} (${selectedAccount.shortAddress})`
-										: selectedAccount.shortAddress}
+									{selectedAccount?.name ? `${selectedAccount.name} (${selectedAccount.shortAddress})` : accountAddress}
 								</Text>
 								<Text truncate size="5" color="help" css={{ pt: '4px' }}>
 									{fromToken?.symbol ? (
 										<>
-											{numberWithCommas(selectedTokenAmmount.decimalPlaces(9).toString())}{' '}
-											{fromToken?.symbol?.toUpperCase()} available
+											{numberWithCommas(selectedTokenAmmount.toString())} {fromToken?.symbol?.toUpperCase()} available
 										</>
 									) : (
 										'From account'
@@ -554,13 +556,12 @@ export const Swap: React.FC = () => {
 							</Box>
 							<Flex align="center" justify="end" css={{ flex: '1', pr: '3px' }}>
 								<AccountSelector
-									shortAddress={selectedAccount.shortAddress}
+									shortAddress={selectedAccount?.shortAddress || accountAddress}
 									tokenAmount={formatBigNumber(selectedTokenAmmount)}
 									tokenSymbol={tokenSymbol}
 									onAccountChange={handleAccountChange}
 									triggerType="minimal"
 								/>
-								<HardwareWalletReconnect />
 							</Flex>
 						</Flex>
 					</Box>
@@ -581,7 +582,7 @@ export const Swap: React.FC = () => {
 									theme="minimal"
 									type="text"
 									size="2"
-									value={numberWithCommas(state.amount.decimalPlaces(9).toString())}
+									value={amountDisplay}
 									placeholder="Enter amount"
 									onFocus={handleInputFromFocus}
 									onBlur={handleInputFromBlur}
@@ -622,14 +623,14 @@ export const Swap: React.FC = () => {
 										top: '13px',
 										position: 'absolute',
 										transition: '$default',
-										opacity: state.amount.gt(0) ? 1 : 0,
-										transform: `translate(${state.amount.gt(0) ? '0' : '-10'}px)`,
+										opacity: state.amountRaw ? 1 : 0,
+										transform: `translate(${state.amountRaw ? '0' : '-10'}px)`,
 										width: '253px',
 										overflow: 'hidden',
 									}}
 								>
 									<Box as="span" css={{ display: 'inline-flex', opacity: '0', maxWidth: '173px' }}>
-										{numberWithCommas(state.amount.decimalPlaces(9).toString())}
+										{amountDisplay}
 									</Box>
 									<Text
 										truncate
@@ -649,7 +650,9 @@ export const Swap: React.FC = () => {
 								<TokenSelector
 									triggerType="minimal"
 									token={fromToken}
-									tokens={Object.keys(possibleTokens || {}).filter(rri => rri !== state.toRRI)}
+									tokens={Object.keys(possibleTokens || {}).filter(
+										rri => rri !== state.toRRI && availableTokensMap[rri],
+									)}
 									onTokenChange={handleFromTokenChange}
 								/>
 							</Flex>
@@ -671,7 +674,7 @@ export const Swap: React.FC = () => {
 									type="text"
 									theme="minimal"
 									size="2"
-									value={numberWithCommas(state.receive.decimalPlaces(9).toString())}
+									value={receiveDisplay}
 									placeholder="Receive"
 									onFocus={handleInputToFocus}
 									onBlur={handleInputToBlur}
@@ -684,21 +687,6 @@ export const Swap: React.FC = () => {
 									<Text size="5" color="help" css={{ pe: 'none' }}>
 										You receive
 									</Text>
-									{/* <Box
-										as="button"
-										onClick={() => {}}
-										css={{
-											background: 'none',
-											border: 'none',
-											margin: 'none',
-											padding: 'none',
-											cursor: 'pointer',
-										}}
-									>
-										<Text size="5" color="purple" underline>
-											Min
-										</Text>
-									</Box> */}
 								</Flex>
 								<Text
 									css={{
@@ -713,14 +701,14 @@ export const Swap: React.FC = () => {
 										top: '13px',
 										position: 'absolute',
 										transition: '$default',
-										opacity: state.receive.gt(0) ? 1 : 0,
-										transform: `translate(${state.receive.gt(0) ? '0' : '-10'}px)`,
+										opacity: state.receiveRaw ? 1 : 0,
+										transform: `translate(${state.receiveRaw ? '0' : '-10'}px)`,
 										width: '253px',
 										overflow: 'hidden',
 									}}
 								>
 									<Box as="span" css={{ display: 'inline-flex', opacity: '0', maxWidth: '173px' }}>
-										{numberWithCommas(state.receive.decimalPlaces(9).toString())}
+										{receiveDisplay}
 									</Box>
 									<Text
 										truncate
@@ -751,8 +739,7 @@ export const Swap: React.FC = () => {
 						<FeeBox
 							fromToken={fromToken}
 							toToken={toToken}
-							amount={state.amount}
-							receive={state.receive}
+							rate={state.rate}
 							txFee={state.fee}
 							poolFee={state.poolFee}
 							z3usFee={state.z3usFee}
@@ -764,18 +751,19 @@ export const Swap: React.FC = () => {
 							onMinimumChange={handleSetMinimum}
 							slippage={state.slippage}
 							onSlippageChange={handleSetSlippage}
-							showFeeBreakDown
 						/>
 					</Box>
 					<Box css={{ mt: '13px', position: 'relative' }}>
 						<SwapModal
 							pool={state.pool}
 							transaction={state.transaction}
+							swapResponse={state.swapResponse}
 							fromToken={fromToken}
 							toToken={toToken}
 							balance={selectedTokenAmmount}
 							amount={state.amount}
 							receive={state.receive}
+							rate={state.rate}
 							txFee={state.fee}
 							poolFee={state.poolFee}
 							z3usFee={state.z3usFee}
@@ -812,7 +800,7 @@ export const Swap: React.FC = () => {
 									)}
 								</Box>
 							}
-							onCloseSwapModal={handleCloseSwapModal}
+							onConfirmSend={handleConfirmSend}
 						/>
 					</Box>
 				</Box>

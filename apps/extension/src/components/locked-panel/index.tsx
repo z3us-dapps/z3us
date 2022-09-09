@@ -43,9 +43,11 @@ export const LockedPanel: React.FC = () => {
 		addToast: state.addToastAction,
 	}))
 
-	const { selectAccount } = useStore(state => ({
+	const { selectAccount, accountIndex } = useStore(state => ({
+		accountIndex: state.selectedAccountIndex,
 		selectAccount: state.selectAccountAction,
 	}))
+
 	const [state, setState] = useImmer<IImmer>({
 		password: '',
 		passwordError: false,
@@ -104,12 +106,12 @@ export const LockedPanel: React.FC = () => {
 				case KeystoreType.LOCAL: {
 					const newSeed = await unlock(password)
 					setSeed(newSeed)
-					await selectAccount(0, null, newSeed)
+					await selectAccount(accountIndex, null, newSeed)
 					break
 				}
 				case KeystoreType.HARDWARE:
 					unlockHW()
-					await selectAccount(0, hw, null)
+					await selectAccount(accountIndex, hw, null)
 					break
 				default:
 					throw new Error(`Unknown keystore ${keystore.id} (${keystore.name}) type: ${keystore.type}`)

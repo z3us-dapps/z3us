@@ -1,8 +1,9 @@
 import { useQuery } from 'react-query'
 import caviar from '@src/services/caviar'
-import astrolescent, { PoolName as AstrolescentPoolName } from '@src/services/astrolescent'
 import oci, { PoolName as OCIPoolName } from '@src/services/oci'
 import doge, { PoolName as DogeCubePoolName } from '@src/services/dogecubex'
+import astrolescent, { PoolName as AstrolescentPoolName } from '@src/services/astrolescent'
+import dsor, { PoolName as DSORPoolName } from '@src/services/dsor'
 import { Pool, PoolType } from '@src/types'
 import { XRD_RRI, swapServices } from '@src/config'
 
@@ -29,26 +30,33 @@ export const useAstrolescentTokens = () =>
 		enabled: swapServices[PoolType.ASTROLESCENT].enabled,
 	})
 
+export const useDSORTokens = () =>
+	useQuery(['useDSORTokens'], dsor.getTokens, {
+		...poolQueryOptions,
+		enabled: swapServices[PoolType.DSOR].enabled,
+	})
+
 export const usePoolTokens = (): { [rri: string]: { [rri: string]: null } } => {
-	const { data: ociPools } = useOCIPools()
 	const { data: caviarPools } = useCaviarPools()
+	const { data: ociPools } = useOCIPools()
 	const { data: dogePools } = useDogeCubeXPools()
 	const { data: astrolescentTokens } = useAstrolescentTokens()
+	const { data: dsorTokens } = useDSORTokens()
 
 	const uniqueTokens = {}
 
-	if (ociPools) {
-		ociPools.forEach(p => {
-			uniqueTokens[p.token_a.rri] = { [p.token_b.rri]: null, ...(uniqueTokens[p.token_a.rri] || {}) }
-			uniqueTokens[p.token_b.rri] = { [p.token_a.rri]: null, ...(uniqueTokens[p.token_b.rri] || {}) }
-		})
-	}
 	if (caviarPools) {
 		caviarPools.forEach(p =>
 			Object.keys(p.balances).forEach(rri => {
 				uniqueTokens[rri] = { ...p.balances, ...(uniqueTokens[rri] || {}) }
 			}),
 		)
+	}
+	if (ociPools) {
+		ociPools.forEach(p => {
+			uniqueTokens[p.token_a.rri] = { [p.token_b.rri]: null, ...(uniqueTokens[p.token_a.rri] || {}) }
+			uniqueTokens[p.token_b.rri] = { [p.token_a.rri]: null, ...(uniqueTokens[p.token_b.rri] || {}) }
+		})
 	}
 	if (dogePools) {
 		dogePools.forEach(p => {
@@ -62,6 +70,12 @@ export const usePoolTokens = (): { [rri: string]: { [rri: string]: null } } => {
 			uniqueTokens[XRD_RRI] = { [token.rri]: null, ...(uniqueTokens[XRD_RRI] || {}) }
 		})
 	}
+	if (dsorTokens) {
+		dsorTokens?.tokens.forEach(token => {
+			uniqueTokens[token.rri] = { [XRD_RRI]: null, ...(uniqueTokens[token.rri] || {}) }
+			uniqueTokens[XRD_RRI] = { [token.rri]: null, ...(uniqueTokens[XRD_RRI] || {}) }
+		})
+	}
 
 	return uniqueTokens
 }
@@ -69,6 +83,7 @@ export const usePoolTokens = (): { [rri: string]: { [rri: string]: null } } => {
 export const usePools = (fromRRI: string, toRRI: string): Pool[] => {
 	const { data: ociPools } = useOCIPools()
 	const { data: dogePools } = useDogeCubeXPools()
+	const { data: dsorTokens } = useDSORTokens()
 	const { data: astrolescentTokens } = useAstrolescentTokens()
 	const { data: caviarPools } = useCaviarPools()
 
@@ -114,6 +129,29 @@ export const usePools = (fromRRI: string, toRRI: string): Pool[] => {
 			}
 		}
 	}
+	if (caviarPools) {
+		caviarPools.forEach(p => {
+			if (p.balances[fromRRI] && p.balances[toRRI]) {
+				pools.push({
+					...swapServices[PoolType.CAVIAR],
+					name: p.name,
+					wallet: p.wallet,
+					balances: p.balances,
+				})
+			}
+		})
+	}
+	if (dsorTokens) {
+		const fromToken = dsorTokens?.tokens.find(token => token.rri === fromRRI)
+		const toToken = dsorTokens?.tokens.find(token => token.rri === toRRI)
+		if (fromToken && toToken) {
+			pools.push({
+				...swapServices[PoolType.DSOR],
+				name: DSORPoolName,
+				wallet: 'dsor',
+			})
+		}
+	}
 	if (astrolescentTokens && (fromRRI === XRD_RRI || toRRI === XRD_RRI)) {
 		if (fromRRI === XRD_RRI) {
 			const astrolescentPool = astrolescentTokens.find(token => token.rri === toRRI)
@@ -134,18 +172,6 @@ export const usePools = (fromRRI: string, toRRI: string): Pool[] => {
 				})
 			}
 		}
-	}
-	if (caviarPools) {
-		caviarPools.forEach(p => {
-			if (p.balances[fromRRI] && p.balances[toRRI]) {
-				pools.push({
-					...swapServices[PoolType.CAVIAR],
-					name: p.name,
-					wallet: p.wallet,
-					balances: p.balances,
-				})
-			}
-		})
 	}
 
 	return pools

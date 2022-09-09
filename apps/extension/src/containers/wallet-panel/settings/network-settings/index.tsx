@@ -70,8 +70,16 @@ export const NetworkSettings: React.FC = () => {
 			draft.isLoading = true
 		})
 
+		let url: URL
 		try {
-			const url = new URL(state.value)
+			url = new URL(state.value.replace(/\/$/, ''))
+		} catch (error) {
+			setState(draft => {
+				draft.errorMessage = 'Please enter a valid network URL.'
+			})
+		}
+
+		try {
 			const service = new RadixService(url)
 			const { network } = await service.gateway()
 
@@ -89,7 +97,7 @@ export const NetworkSettings: React.FC = () => {
 			})
 		} catch (error) {
 			setState(draft => {
-				draft.errorMessage = 'Please enter a valid network URL.'
+				draft.errorMessage = (error?.message || error).toString().trim()
 			})
 		}
 
@@ -108,7 +116,10 @@ export const NetworkSettings: React.FC = () => {
 					defaultValue={String(selectedNetworkIndex)}
 					onValueChange={handleSelectNetwork}
 					buttonAriaLabel="Select network"
-					selectOptions={networks?.map((network, idx) => ({ value: String(idx), name: new URL(network.url).hostname }))}
+					selectOptions={networks?.map((network, idx) => ({
+						value: String(idx),
+						name: `${network.id.toUpperCase()}: ${new URL(network.url).href}`,
+					}))}
 				/>
 			</Box>
 			<Box css={{ mt: '$3' }}>
