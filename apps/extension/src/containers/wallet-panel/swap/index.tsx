@@ -523,10 +523,13 @@ export const Swap: React.FC = () => {
 			}}
 		>
 			<ScrollArea>
-				<Box css={{ pt: '$3', px: '$6', pb: '$1' }}>
+				<Box css={{ pt: '$3', px: '$6', pb: '$1', position: 'relative' }}>
 					<Text bold size="10">
 						Swap
 					</Text>
+					<Box css={{ px: '0', mt: '-10px' }}>
+						<HardwareWalletReconnect />
+					</Box>
 					<Box
 						css={{
 							pt: '13px',
@@ -559,7 +562,6 @@ export const Swap: React.FC = () => {
 									onAccountChange={handleAccountChange}
 									triggerType="minimal"
 								/>
-								<HardwareWalletReconnect />
 							</Flex>
 						</Flex>
 					</Box>
