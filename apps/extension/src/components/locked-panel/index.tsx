@@ -56,6 +56,7 @@ export const LockedPanel: React.FC = () => {
 		isMounted: false,
 	})
 
+	const fillZ3usPurple = '#8457FF'
 	const logoFill = isDarkMode ? '#323232' : '#e0e0e0'
 	const logoShadow = isDarkMode ? '0px 10px 44px rgba(0, 0, 0, 0.35)' : '0px 10px 44px rgba(0, 0, 0, 0.1)'
 
@@ -89,7 +90,7 @@ export const LockedPanel: React.FC = () => {
 		})
 		z3usLogoControls.start({
 			y: '96px',
-			fill: '#8457FF',
+			fill: fillZ3usPurple,
 			transition: { duration: 0.1, ease: 'anticipate' },
 		})
 		imageControls.start({ opacity: 1, transition: { delay: 0.1, duration: 0.4, ease: 'easeIn' } })
@@ -157,7 +158,7 @@ export const LockedPanel: React.FC = () => {
 			if (isMounted) {
 				z3usLogoControls.start({
 					y: '96px',
-					fill: '#8457FF',
+					fill: fillZ3usPurple,
 					scale: 22,
 					transition: { duration: 0.1, ease: 'anticipate' },
 				})
@@ -202,6 +203,10 @@ export const LockedPanel: React.FC = () => {
 		})
 		unlockWithWebAuth()
 	}, [isUnlocked])
+
+	useEffect(() => {
+		unlockAnimation(isUnlocked, false)
+	}, [isDarkMode])
 
 	const handleSubmitForm = (e: React.ChangeEvent<HTMLFormElement>) => {
 		e.preventDefault()
@@ -251,7 +256,7 @@ export const LockedPanel: React.FC = () => {
 							marginLeft: '-51px',
 						}}
 					>
-						<Z3usText css={{ width: '102px', height: '18px', fill: logoFill }} />
+						<Z3usText css={{ width: '102px', height: '18px', fill: '$iconDefault' }} />
 					</Box>
 				</Flex>
 				<Flex align="center" justify="center" css={{ flex: '1', position: 'relative' }}>
@@ -282,7 +287,7 @@ export const LockedPanel: React.FC = () => {
 							marginLeft: '-116px',
 							boxShadow: logoShadow,
 							transition: '$default',
-							fill: isDarkMode ? '$bgPanel2' : '#eee',
+							fill: logoFill,
 							zIndex: '99',
 						}}
 					>
