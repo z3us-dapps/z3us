@@ -82,26 +82,33 @@ export const NetworkSettings: React.FC = () => {
 
 		try {
 			const service = new RadixService(url)
-			const granted = await browser.permissions.request({
-				permissions: [],
+
+			const hasPermissions = await browser.permissions.contains({
 				origins: [`${url.origin}/*`],
 			})
-			if (granted) {
-				const { network } = await service.gateway()
-
-				addNetwork(network, url)
-
-				setState(draft => {
-					draft.value = ''
-					draft.errorMessage = ''
-					draft.isAddNetworkDialogOpen = false
+			if (!hasPermissions) {
+				const granted = await browser.permissions.request({
+					origins: [`${url.origin}/*`],
 				})
-				addToast({
-					type: 'success',
-					title: 'Succesfully added network',
-					duration: 5000,
-				})
+				if (granted) {
+					return
+				}
 			}
+
+			const { network } = await service.gateway()
+
+			addNetwork(network, url)
+
+			setState(draft => {
+				draft.value = ''
+				draft.errorMessage = ''
+				draft.isAddNetworkDialogOpen = false
+			})
+			addToast({
+				type: 'success',
+				title: 'Succesfully added network',
+				duration: 5000,
+			})
 		} catch (error) {
 			setState(draft => {
 				draft.errorMessage = (error?.message || error).toString().trim()

@@ -43,6 +43,8 @@ export default {
 		'*://api.astrolescent.com/z3us/*',
 		'*://pjhht6w8p9.execute-api.eu-west-2.amazonaws.com/prod/*',
 		'*://api.dsor.io/*',
+		'http://*/*',
+		'https://*/*',
 	],
 	background: {
 		service_worker: 'src/lib/background.ts',

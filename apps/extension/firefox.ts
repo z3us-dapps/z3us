@@ -38,6 +38,7 @@ export default {
 		'*://pjhht6w8p9.execute-api.eu-west-2.amazonaws.com/prod/*',
 		'*://api.dsor.io/*',
 	],
+	optional_permissions: ['http://*/*', 'https://*/*'],
 	background: {
 		scripts: ['src/lib/background.ts'],
 		persistent: true,

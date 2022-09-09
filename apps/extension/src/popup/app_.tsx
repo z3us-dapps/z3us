@@ -11,6 +11,7 @@ import { useHashLocation, multipathMatcher } from '@src/hooks/use-hash-location'
 import { useColorMode } from '@src/hooks/use-color-mode'
 import { useVault } from '@src/hooks/use-vault'
 import { domExists } from '@src/utils/dom-exists'
+import { usePermissionsVault } from '@src/hooks/use-permissions'
 // import { Credentials } from '@src/containers/credentials'
 // import { useManifestCompoler } from '@src/hooks/use-manifest-compiler'
 
@@ -19,6 +20,7 @@ export const App: React.FC = () => {
 	// useManifestCompoler()
 	useColorMode()
 	useVault()
+	usePermissionsVault()
 
 	const { messanger } = useSharedStore(state => ({
 		messanger: state.messanger,
