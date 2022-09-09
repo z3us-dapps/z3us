@@ -31,7 +31,7 @@ export default function NewV1BackgroundInpageActions(
 	sendInpageMessage: (port: Runtime.Port, id: string, request: any, response: any) => void,
 ) {
 	async function isApprovedWebsite(port: Runtime.Port, id: string, payload: any): Promise<boolean> {
-		const url = new URL(port.sender?.tab.url)
+		const url = new URL(port.sender.url)
 
 		const { selectKeystoreId } = sharedStore.getState()
 		const useStore = accountStore(selectKeystoreId)
@@ -53,7 +53,7 @@ export default function NewV1BackgroundInpageActions(
 	}
 
 	async function isConnected(port: Runtime.Port, id: string, payload: any) {
-		const url = new URL(port.sender?.tab.url)
+		const url = new URL(port.sender.url)
 
 		const { selectKeystoreId } = sharedStore.getState()
 		const useStore = accountStore(selectKeystoreId)
@@ -64,7 +64,7 @@ export default function NewV1BackgroundInpageActions(
 	}
 
 	async function connect(port: Runtime.Port, id: string, payload: any) {
-		const url = new URL(port.sender?.tab.url)
+		const url = new URL(port.sender.url)
 
 		const { selectKeystoreId, theme } = sharedStore.getState()
 		const useStore = accountStore(selectKeystoreId)
@@ -86,7 +86,7 @@ export default function NewV1BackgroundInpageActions(
 	}
 
 	async function disconnect(port: Runtime.Port, id: string, payload: any) {
-		const url = new URL(port.sender?.tab.url)
+		const url = new URL(port.sender.url)
 
 		const { selectKeystoreId } = sharedStore.getState()
 		const useStore = accountStore(selectKeystoreId)
@@ -122,7 +122,7 @@ export default function NewV1BackgroundInpageActions(
 			return
 		}
 
-		const url = new URL(port.sender?.tab.url)
+		const url = new URL(port.sender.url)
 
 		const { selectKeystoreId, theme } = sharedStore.getState()
 		const useStore = accountStore(selectKeystoreId)
@@ -162,7 +162,7 @@ export default function NewV1BackgroundInpageActions(
 			return
 		}
 
-		const url = new URL(port.sender?.tab.url)
+		const url = new URL(port.sender.url)
 
 		const { selectKeystoreId, theme } = sharedStore.getState()
 		const useStore = accountStore(selectKeystoreId)
@@ -180,7 +180,7 @@ export default function NewV1BackgroundInpageActions(
 			return
 		}
 
-		const url = new URL(port.sender?.tab.url)
+		const url = new URL(port.sender.url)
 
 		const { selectKeystoreId, theme } = sharedStore.getState()
 		const useStore = accountStore(selectKeystoreId)
@@ -198,7 +198,7 @@ export default function NewV1BackgroundInpageActions(
 			return
 		}
 
-		const url = new URL(port.sender?.tab.url)
+		const url = new URL(port.sender.url)
 
 		const { selectKeystoreId, theme } = sharedStore.getState()
 		const useStore = accountStore(selectKeystoreId)
