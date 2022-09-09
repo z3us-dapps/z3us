@@ -88,7 +88,11 @@ const watch = async () => {
 	const useStore = accountStore(selectKeystoreId)
 	await useStore.persist.rehydrate()
 
-	if (transactionNotificationsEnabled) watchTransactions(useStore)
+	if (transactionNotificationsEnabled) {
+		watchTransactions(useStore)
+	} else {
+		lastTxIds = {}
+	}
 }
 
 export default () => {
