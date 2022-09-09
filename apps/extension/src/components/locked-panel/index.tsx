@@ -57,7 +57,7 @@ export const LockedPanel: React.FC = () => {
 	})
 
 	const fillZ3usPurple = '#8457FF'
-	const logoFill = isDarkMode ? '#323232' : '#e0e0e0'
+	const logoFill = isDarkMode ? '#323232' : fillZ3usPurple
 	const logoShadow = isDarkMode ? '0px 10px 44px rgba(0, 0, 0, 0.35)' : '0px 10px 44px rgba(0, 0, 0, 0.1)'
 
 	const resetAnimElements = () => {
@@ -314,9 +314,9 @@ export const LockedPanel: React.FC = () => {
 
 				<form onSubmit={handleSubmitForm}>
 					<Box css={{ p: '$6' }}>
-						{keystore.type === KeystoreType.LOCAL && (
-							<MotionBox animate={inputControls}>
-								<WalletSelector />
+						<MotionBox animate={inputControls}>
+							<WalletSelector />
+							{keystore.type === KeystoreType.LOCAL && (
 								<Box
 									onClick={() => {
 										if (inputRef.current) {
@@ -370,8 +370,8 @@ export const LockedPanel: React.FC = () => {
 										)}
 									</Box>
 								</Box>
-							</MotionBox>
-						)}
+							)}
+						</MotionBox>
 						<Flex css={{ mt: '$4', transition: '$default', opacity: state.isLoading ? '0.4' : '1.0', zIndex: '1' }}>
 							<Button type="submit" loading={state.isLoading} color="primary" size="6" css={{ flex: '1' }}>
 								Unlock

@@ -1,6 +1,10 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import React, { useState } from 'react'
 import { ChevronDownIcon, ChevronUpIcon } from '@radix-ui/react-icons'
+import { HardwareWalletIcon } from 'ui/src/components/icons'
+
+import { ToolTip } from 'ui/src/components/tool-tip'
+import { KeystoreType } from '@src/store/types'
 import {
 	Select,
 	SelectTrigger,
@@ -28,11 +32,14 @@ export const WalletSelector: React.FC<IProps> = () => {
 	const [open, setOpen] = useState<boolean>(false)
 	const [measureRef, { width: triggerWidth }] = useMeasure()
 
-	const { keystores, keystoreId, selectKeystore } = useSharedStore(state => ({
+	const { keystore, keystores, keystoreId, selectKeystore } = useSharedStore(state => ({
+		keystore: state.keystores.find(({ id }) => id === state.selectKeystoreId),
 		keystores: state.keystores,
 		keystoreId: state.selectKeystoreId,
 		selectKeystore: state.selectKeystoreAction,
 	}))
+
+	const isHardwareWallet = keystore.type === KeystoreType.HARDWARE
 
 	const handleValueChange = async (id: string) => {
 		setOpen(false)
@@ -72,9 +79,21 @@ export const WalletSelector: React.FC<IProps> = () => {
 						}}
 					>
 						<Flex css={{ pb: '3px', mt: '3px', position: 'relative' }} justify="between">
-							<Text truncate size="5" color="default" css={{ fontSize: '22px', lineHeight: '27px', maxWidth: '280px' }}>
+							<Text
+								truncate
+								size="5"
+								color="default"
+								css={{ fontSize: '22px', lineHeight: '27px', maxWidth: isHardwareWallet ? '250px' : '280px' }}
+							>
 								<SelectValue />
 							</Text>
+							{isHardwareWallet && (
+								<Box
+									css={{ color: '$iconDefault', mt: '16px', mr: '8px', position: 'absolute', top: '0', right: '24px' }}
+								>
+									<HardwareWalletIcon />
+								</Box>
+							)}
 							<Box css={{ color: '$iconDefault', mt: '16px', mr: '8px', position: 'absolute', top: '0', right: '0' }}>
 								<ChevronDownIcon />
 							</Box>
@@ -101,12 +120,23 @@ export const WalletSelector: React.FC<IProps> = () => {
 									overflow: 'hidden',
 									textOverflow: 'ellipsis',
 									whiteSpace: 'nowrap',
-									maxWidth: `${triggerWidth - 25}px`,
+									maxWidth: `${triggerWidth - (type === KeystoreType.HARDWARE ? 35 : 25)}px`,
 									minWidth: '100px',
 								},
 							}}
 						>
 							<SelectItemText>{name}</SelectItemText>
+							<Flex justify="end" css={{ mr: '12px', flex: '1' }}>
+								{type === KeystoreType.HARDWARE && (
+									<ToolTip message="Hardware wallet account">
+										<Box css={{ width: '24px', height: '24px' }}>
+											<Button size="1" clickable={false}>
+												<HardwareWalletIcon />
+											</Button>
+										</Box>
+									</ToolTip>
+								)}
+							</Flex>
 							<SelectItemIndicator />
 						</SelectItem>
 					))}
