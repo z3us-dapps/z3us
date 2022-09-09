@@ -33,11 +33,11 @@ export const useZ3usWallet = () => {
 	const [address, setAccount] = useState<AccountAddressT | null>(null)
 
 	const connect = async () => {
-		const hasWallet = await window.z3us.v1.hasWallet()
+		const hasWallet = await z3us?.v1.hasWallet()
 		if (!hasWallet) {
 			return
 		}
-		const selectedAddress = await window.z3us.v1.connect()
+		const selectedAddress = await z3us?.v1.connect()
 		const addressResult = AccountAddress.fromUnsafe(selectedAddress)
 		if (addressResult.isErr()) {
 			throw addressResult.error
@@ -46,7 +46,7 @@ export const useZ3usWallet = () => {
 	}
 
 	const disconnect = async () => {
-		await window.z3us.v1.disconnect()
+		await z3us?.v1.disconnect()
 		setAccount(null)
 	}
 
@@ -56,11 +56,11 @@ export const useZ3usWallet = () => {
 	useEffect(() => {
 		const onLoad = async () => {
 			try {
-				const hasWallet = await window.z3us.v1.hasWallet()
+				const hasWallet = await z3us?.v1.hasWallet()
 				if (!hasWallet) {
 					return
 				}
-				const connected = await window.z3us.v1.isConnected()
+				const connected = await z3us?.v1.isConnected()
 				if (connected) {
 					await connect()
 				}

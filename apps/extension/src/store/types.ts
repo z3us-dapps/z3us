@@ -83,6 +83,9 @@ export type SettingsStore = {
 
 	currency: string
 	setCurrencyAction: (currency: string) => void
+
+	transactionNotificationsEnabled: boolean
+	setTransactionNotificationsEnabledAction: (enabled: boolean) => void
 }
 
 export type BackgroundStore = {
@@ -167,8 +170,10 @@ export type WalletStore = {
 	) => Promise<void>
 
 	visibleTokens: VisibleTokens
+	hiddenTokens: VisibleTokens
 	tokenSearch: string
 	setVisibleTokensAction: (visibleTokens: VisibleTokens) => void
+	setHiddenTokensAction: (hiddenTokens: VisibleTokens) => void
 	setTokenSearchAction: (search: string) => void
 
 	activeSlideIndex: number

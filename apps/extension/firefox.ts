@@ -16,14 +16,21 @@ export default {
 		default_popup: 'popup-theme-light.html',
 		default_title: 'Z3US',
 	},
-	permissions: ['storage', 'unlimitedStorage', 'webRequest', 'notifications', 'https://*/*'],
+	commands: {
+		_execute_browser_action: {
+			suggested_key: {
+				default: 'Alt+Shift+Z',
+			},
+		},
+	},
+	permissions: ['storage', 'unlimitedStorage', 'notifications', 'activeTab', 'http://*/*', 'https://*/*'],
 	background: {
 		scripts: ['src/lib/background.ts'],
 		persistent: true,
 	},
 	content_scripts: [
 		{
-			matches: ['<all_urls>'],
+			matches: ['http://*/*', 'https://*/*'],
 			run_at: 'document_start',
 			all_frames: true,
 			js: ['src/lib/content-script.ts'],

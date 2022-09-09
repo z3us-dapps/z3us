@@ -6,7 +6,22 @@ import { MessageService, PORT_NAME } from '@src/services/messanger'
 import { GET } from '@src/lib/actions'
 import { KeystoreType } from '@src/store/types'
 
-const messanger = new MessageService('extension', browser.runtime.connect({ name: PORT_NAME }), null)
+const messanger = new MessageService('extension', null, null)
+
+const connectNewPort = () => {
+	const port = browser.runtime.connect({ name: PORT_NAME })
+	port.onDisconnect.addListener(() => {
+		if (port.error) {
+			// eslint-disable-next-line no-console
+			console.error(`Disconnected due to an error: ${port.error.message}`)
+		}
+		connectNewPort()
+	})
+
+	messanger.initPort(port)
+}
+
+connectNewPort()
 
 const refreshInterval = 60 * 1000 // 1 minute
 
@@ -36,13 +51,18 @@ export const useVault = () => {
 
 	const init = async () => {
 		try {
-			if (keystore && keystore.type === KeystoreType.HARDWARE) {
-				unlockHW()
-			} else {
-				const { seed: newSeed } = await messanger.sendActionMessageFromPopup(GET, null)
-				if (newSeed) {
-					setSeed(HDMasterSeed.fromSeed(Buffer.from(newSeed, 'hex')))
-				}
+			switch (keystore?.type) {
+				case KeystoreType.HARDWARE:
+					unlockHW()
+					break
+				case KeystoreType.LOCAL:
+				default:
+					// eslint-disable-next-line no-case-declarations
+					const { seed: newSeed } = await messanger.sendActionMessageFromPopup(GET, null)
+					if (newSeed) {
+						setSeed(HDMasterSeed.fromSeed(Buffer.from(newSeed, 'hex')))
+					}
+					break
 			}
 		} catch (error) {
 			// eslint-disable-next-line no-console

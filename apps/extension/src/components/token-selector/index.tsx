@@ -22,7 +22,7 @@ interface ImmerProps {
 }
 
 interface IProps {
-	triggerType?: string
+	triggerType?: 'input' | 'minimal'
 	token?: Token
 	tokens: string[]
 	onTokenChange: (token: string) => void
@@ -107,6 +107,38 @@ export const TokenSelector: React.FC<IProps> = ({ triggerType, token, tokens, on
 				<div>
 					{(() => {
 						switch (triggerType) {
+							case 'minimal':
+								return (
+									<Button
+										css={{
+											maxWidth: '113px',
+											display: 'flex',
+											justifyContent: 'flex-start',
+											height: '48px',
+											px: '0',
+											borderRadius: '30px 5px 5px 30px',
+											transition: '$default',
+											bg: 'transparent',
+										}}
+									>
+										<Flex justify="start" align="center" css={{ width: '100%', textAlign: 'left', pr: '$1' }}>
+											<Box css={{ p: '8px', pr: '4px' }}>
+												<CircleAvatar
+													width={32}
+													height={32}
+													borderWidth={0}
+													shadow={false}
+													image={token?.image || token?.iconURL}
+													fallbackText={token?.symbol}
+												/>
+											</Box>
+											<Box css={{ flexShrink: '0', color: '$txtHelp', pt: '2px' }}>
+												<ChevronDownIcon />
+											</Box>
+										</Flex>
+									</Button>
+								)
+							// @TODO: phase this style out
 							case 'input':
 								return (
 									<Button
@@ -240,7 +272,7 @@ export const TokenSelector: React.FC<IProps> = ({ triggerType, token, tokens, on
 							<NoResultsPlaceholder />
 						)}
 					</Box>
-					<Flex justify="end" gap="2" css={{ py: '$4', px: '$5', borderTop: '1px solid $borderPanel' }}>
+					<Flex justify="end" gap="2" css={{ py: '$4', pl: '$3', pr: '$5', borderTop: '1px solid $borderPanel' }}>
 						<Box css={{ flex: '1' }}>
 							<Button size="3" color="ghost" aria-label="clear" onClick={handleClearSelection}>
 								<ResetIcon />

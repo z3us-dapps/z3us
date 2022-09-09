@@ -12,10 +12,6 @@ export const StyledInputPlaceholder = styled('div', {
 export const StyledInput = styled('input', {
 	padding: 0,
 	margin: 0,
-	bg: '$bgInput',
-	border: '1px solid $borderInput',
-	color: '$txtDefault',
-	br: '3px',
 	outline: 'none',
 	size: '100%',
 	width: '100%',
@@ -43,20 +39,10 @@ export const StyledInput = styled('input', {
 	},
 	'&:disabled': {
 		pe: 'none',
-		color: '$accents4',
 		cursor: 'not-allowed',
-	},
-	'&:hover': {
-		border: '1px solid $borderInputHover',
-		boxShadow: '$inputHover',
-	},
-	'&:focus': {
-		border: '1px solid $borderInputFocus',
-		boxShadow: '$inputFocus',
 	},
 	'+ span': {
 		transition: '$default',
-		opacity: '0.5',
 		display: 'block',
 		position: 'absolute',
 		pe: 'none',
@@ -71,34 +57,34 @@ export const StyledInput = styled('input', {
 	variants: {
 		size: {
 			'1': {
-				borderRadius: '$2',
 				height: '$9',
-				fontSize: '13px',
-				lineHeight: '13px',
-				fontWeight: '400',
-				px: '10px',
-				'+ span': {
-					fontSize: '13px',
-					lineHeight: '13px',
-					fontWeight: '400',
-					top: '12px',
-					left: '11px',
-				},
 			},
 			'2': {
-				borderRadius: '$3',
 				height: '$12',
-				fontSize: '16px',
-				lineHeight: '19px',
-				fontWeight: '400',
-				px: '16px',
-				'+ span': {
-					fontSize: '16px',
-					lineHeight: '19px',
-					fontWeight: '400',
-					top: '15px',
-					left: '17px',
+			},
+		},
+		theme: {
+			border: {
+				bg: '$bgInput',
+				border: '1px solid $borderInput',
+				color: '$txtDefault',
+				'&:hover': {
+					border: '1px solid $borderInputHover',
+					boxShadow: '$inputHover',
 				},
+				'&:focus': {
+					border: '1px solid $borderInputFocus',
+					boxShadow: '$inputFocus',
+				},
+				'+ span': {
+					opacity: '0.5',
+				},
+			},
+			minimal: {
+				bg: 'transparent',
+				border: '0px solid',
+				color: '$txtDefault',
+				p: '0',
 			},
 		},
 		isTextarea: {
@@ -142,32 +128,12 @@ export const StyledInput = styled('input', {
 				},
 			},
 		},
-		bordered: {
-			true: {
-				padding: '0 $3',
-			},
-		},
-		rounded: {
-			true: {
-				padding: '0 $3',
-			},
-		},
 		animated: {
 			false: {
 				transition: 'none',
 				'::placeholder': {
 					transition: 'none',
 				},
-			},
-		},
-		hasLeftContent: {
-			true: {
-				ml: 0,
-			},
-		},
-		hasRightContent: {
-			true: {
-				mr: 0,
 			},
 		},
 		hasValue: {
@@ -182,6 +148,59 @@ export const StyledInput = styled('input', {
 
 	compoundVariants: [
 		{
+			size: '1',
+			theme: 'border',
+			css: {
+				borderRadius: '$2',
+				px: '10px',
+				fontSize: '13px',
+				lineHeight: '13px',
+				fontWeight: '400',
+				'+ span': {
+					fontSize: '13px',
+					lineHeight: '13px',
+					fontWeight: '400',
+					top: '12px',
+					left: '11px',
+				},
+			},
+		},
+		{
+			size: '2',
+			theme: 'border',
+			css: {
+				borderRadius: '$3',
+				px: '16px',
+				fontSize: '16px',
+				lineHeight: '19px',
+				fontWeight: '400',
+				'+ span': {
+					fontSize: '16px',
+					lineHeight: '19px',
+					fontWeight: '400',
+					top: '15px',
+					left: '17px',
+				},
+			},
+		},
+		{
+			size: '2',
+			theme: 'minimal',
+			css: {
+				borderRadius: '$3',
+				fontSize: '22px',
+				lineHeight: '22px',
+				fontWeight: '400',
+				'+ span': {
+					fontSize: '22px',
+					lineHeight: '22px',
+					fontWeight: '400',
+					top: '13px',
+					left: '0px',
+				},
+			},
+		},
+		{
 			size: '2',
 			isTextarea: true,
 			css: {
@@ -194,6 +213,7 @@ export const StyledInput = styled('input', {
 
 	defaultVariants: {
 		size: '1',
+		theme: 'border',
 	},
 })
 

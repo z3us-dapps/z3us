@@ -23,14 +23,28 @@ export class MessageService {
 
 	constructor(name: string, port: Runtime.Port = null, window: Window = null) {
 		this.name = name
-		this.port = port
-		this.window = window
-		if (this.port) {
-			this.port.onMessage.addListener(this.onMessage)
+		this.initPort(port)
+		this.initWindow(window)
+	}
+
+	initWindow = (window: Window = null) => {
+		if (window) {
+			window.addEventListener(WINDOW_EVENT_NAME, this.onWindowMessage, false)
 		}
 		if (this.window) {
-			this.window.addEventListener(WINDOW_EVENT_NAME, this.onWindowMessage, false)
+			this.window.removeEventListener(WINDOW_EVENT_NAME, this.onWindowMessage, false)
 		}
+		this.window = window
+	}
+
+	initPort = (port: Runtime.Port = null) => {
+		if (port) {
+			port.onMessage.addListener(this.onMessage)
+		}
+		if (this.port) {
+			this.port.onMessage.removeListener(this.onMessage)
+		}
+		this.port = port
 	}
 
 	sendActionMessageFromPopup = async (action: string, payload: any) =>
@@ -106,7 +120,7 @@ export class MessageService {
 			throw response.error
 		}
 		if (response?.code && response.code !== 200) {
-			throw new Error(`Unknown error (code ${response.code})`)
+			throw new Error(`${this.name}: Unknown error (code ${response.code})`)
 		}
 
 		return response
@@ -139,7 +153,7 @@ export class MessageService {
 			throw response.error
 		}
 		if (response?.code && response.code !== 200) {
-			throw new Error(`Unknown error (code ${response.code})`)
+			throw new Error(`${this.name}: Unknown error (code ${response.code})`)
 		}
 
 		return response

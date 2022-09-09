@@ -4,6 +4,7 @@ import { useSharedStore, useStore } from '@src/store'
 import { useAllAccountsTokenBalances, useTokenBalances } from '@src/hooks/react-query/queries/radix'
 import { TokenLoadingRows } from '@src/components/token-loading-row'
 import { useImmer } from 'use-immer'
+import BigNumber from 'bignumber.js'
 import { ToolTip } from 'ui/src/components/tool-tip'
 import { VisibleFadeAnimation } from '@src/components/visible-fade-animation'
 import { TokenListSettingsModal } from '@src/components/token-list-settings-modal'
@@ -15,7 +16,7 @@ import { NoResultsPlaceholder } from '@src/components/no-results-placeholder'
 import Button from 'ui/src/components/button'
 import { SLIDE_PANEL_HEIGHT, SLIDE_PANEL_EXPAND_HEIGHT, SLIDE_PANEL_HEADER_HEIGHT } from '@src/config'
 import { Box, Text, Flex } from 'ui/src/components/atoms'
-import { VisibleToken } from '@src/types'
+import { VisibleToken, VisibleTokens } from '@src/types'
 import { AccountSwitcher } from '../account-switcher'
 import { SlideUpPanel } from '../slide-up-panel'
 import { TokenRow } from '../token-row'
@@ -69,9 +70,39 @@ const SlideUpHeader: React.FC<SProps> = ({ isSearching, onSearch, onCancelSearch
 	</>
 )
 
+const zero = new BigNumber(0)
+
+const buildTokensForDisplay = (
+	visibleTokens: VisibleTokens,
+	hiddenTokens: VisibleTokens,
+	balances: {
+		[rri: string]: VisibleToken & { amount: BigNumber }
+	},
+): (VisibleToken & { amount: BigNumber })[] => {
+	const values = Object.values(visibleTokens)
+	const vs = values.reduce((obj, visibleToken: VisibleToken) => {
+		obj[visibleToken.rri] = {
+			amount: zero,
+			...visibleToken,
+			...balances[visibleToken.rri],
+		}
+		return obj
+	}, {})
+
+	Object.values(balances)
+		.filter((visibleToken: VisibleToken) => !hiddenTokens[visibleToken.rri])
+		.forEach(token => {
+			if (vs[token.rri]) return
+			vs[token.rri] = token
+		})
+
+	return Object.values(vs)
+}
+
 const AllBalances: React.FC = () => {
-	const { visibleTokens, tokenSearch } = useStore(state => ({
+	const { visibleTokens, hiddenTokens, tokenSearch } = useStore(state => ({
 		visibleTokens: state.visibleTokens,
+		hiddenTokens: state.hiddenTokens,
 		tokenSearch: state.tokenSearch,
 	}))
 	const [customScrollParent, setCustomScrollParent] = useState<HTMLElement | null>(null)
@@ -88,16 +119,7 @@ const AllBalances: React.FC = () => {
 		)
 	}
 
-	const values = Object.values(visibleTokens)
-	const tokenData =
-		values.length === 0
-			? Object.values(balances)
-			: values.map((visibleToken: VisibleToken) => ({
-					amount: '0',
-					...visibleToken,
-					...balances[visibleToken.rri],
-			  }))
-
+	const tokenData = buildTokensForDisplay(visibleTokens, hiddenTokens, balances)
 	const searchedTokens = tokenData.filter(_token => {
 		const searchTerm = tokenSearch?.toLowerCase() || ''
 		const tokenName = _token?.name?.toLowerCase() || ''
@@ -141,8 +163,9 @@ const AllBalances: React.FC = () => {
 }
 
 const AccountBalances: React.FC = () => {
-	const { visibleTokens, tokenSearch } = useStore(state => ({
+	const { visibleTokens, hiddenTokens, tokenSearch } = useStore(state => ({
 		visibleTokens: state.visibleTokens,
+		hiddenTokens: state.hiddenTokens,
 		tokenSearch: state.tokenSearch,
 	}))
 	const [customScrollParent, setCustomScrollParent] = useState<HTMLElement | null>(null)
@@ -156,16 +179,7 @@ const AccountBalances: React.FC = () => {
 		return obj
 	}, {})
 
-	const values = Object.values(visibleTokens)
-	const tokenData =
-		values.length === 0
-			? Object.values(balances)
-			: values.map((visibleToken: VisibleToken) => ({
-					amount: '0',
-					...visibleToken,
-					...balances[visibleToken.rri],
-			  }))
-
+	const tokenData = buildTokensForDisplay(visibleTokens, hiddenTokens, balances)
 	const searchedTokens = tokenData.filter(_token => {
 		const searchTerm = tokenSearch?.toLowerCase() || ''
 		const tokenName = _token?.name?.toLowerCase() || ''
@@ -192,7 +206,7 @@ const AccountBalances: React.FC = () => {
 							i={i}
 							key={rri}
 							rri={rri}
-							amount={amount || 0}
+							amount={amount}
 							staked={symbol === 'xrd' && staked ? staked : null}
 							symbol={symbol}
 							loading={isLoading}

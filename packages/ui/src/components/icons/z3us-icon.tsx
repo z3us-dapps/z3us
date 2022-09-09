@@ -3,10 +3,10 @@ import * as React from 'react'
 import { IconProps } from './types'
 
 export const Z3usIcon = React.forwardRef<SVGSVGElement, IconProps>(
-	({ color = 'currentColor', ...props }, forwardedRef) => (
+	({ color = 'currentColor', width = '24', height = '24', ...props }, forwardedRef) => (
 		<svg
-			width="28"
-			height="28"
+			width={width}
+			height={height}
 			viewBox="0 0 28 28"
 			xmlns="http://www.w3.org/2000/svg"
 			fill={color}

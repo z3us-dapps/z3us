@@ -155,8 +155,8 @@ export const Z3usMenu: React.FC = () => {
 		<Box
 			css={{
 				position: 'fixed',
-				top: '4px',
-				left: '4px',
+				top: '6px',
+				left: '6px',
 				zIndex: '1',
 				transition: '$default',
 				pe: isHideZ3usMenu ? 'none' : 'auto',
@@ -167,7 +167,7 @@ export const Z3usMenu: React.FC = () => {
 				<DropdownMenu onOpenChange={handleDropDownMenuOpenChange}>
 					<DropdownMenuTrigger asChild>
 						<Button iconOnly aria-label="Z3US menu" color="ghost" size="4" css={{ mr: '2px' }}>
-							<Z3usIcon color="#7448ff" />
+							<Z3usIcon />
 						</Button>
 					</DropdownMenuTrigger>
 					<DropdownMenuContent side="bottom" sideOffset={6} alignOffset={-3} css={{ minWidth: '130px' }}>

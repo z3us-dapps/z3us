@@ -22,13 +22,20 @@ import useMeasure from 'react-use-measure'
 import { getShortAddress } from '@src/utils/string-utils'
 
 interface IProps {
+	triggerType?: 'minimal'
 	shortAddress: string
 	tokenAmount?: string
 	tokenSymbol?: string
 	onAccountChange: (account: number) => void
 }
 
-export const AccountSelector: React.FC<IProps> = ({ shortAddress, tokenAmount, tokenSymbol, onAccountChange }) => {
+export const AccountSelector: React.FC<IProps> = ({
+	shortAddress,
+	tokenAmount,
+	tokenSymbol,
+	onAccountChange,
+	triggerType,
+}) => {
 	const [measureRef, { width: triggerWidth }] = useMeasure()
 	const { accounts } = useStore(state => ({
 		accounts: Object.values(state.publicAddresses).map((entry, index) => ({
@@ -56,55 +63,105 @@ export const AccountSelector: React.FC<IProps> = ({ shortAddress, tokenAmount, t
 	return (
 		<Select open={open} value={shortAddress} onValueChange={handleValueChange}>
 			<SelectTrigger aria-label="Account selector" asChild onClick={() => setOpen(true)}>
-				<Button
-					ref={measureRef}
-					css={{
-						display: 'flex',
-						mt: '12px',
-						align: 'center',
-						justifyContent: 'flex-start',
-						bg: '$bgPanel2',
-						borderRadius: '8px',
-						height: '64px',
-						position: 'relative',
-						width: '100%',
-						ta: 'left',
-						'&:hover': {
-							bg: '$bgPanelHover',
-						},
-						span: {
-							display: 'none',
-						},
-						'span:first-child': {
-							display: 'flex',
-							width: '100%',
-							align: 'center',
-							justifyContent: 'flex-start',
-						},
-					}}
-				>
-					<SelectValue>
-						<Box css={{ p: '8px' }}>
-							<CircleAvatar background={addressBookBackground} />
-						</Box>
-						<Flex align="center" css={{ flex: '1', minWidth: '0' }}>
-							<Text
-								truncate
-								css={{ fontSize: '14px', lineHeight: '17px', fontWeight: '500', mt: '2px', maxWidth: '210px' }}
-							>
-								{addressBookName ? `${addressBookName} (${shortAddress})` : shortAddress}
-							</Text>
-							{tokenSymbol && tokenAmount && (
-								<Text color="muted" css={{ fontSize: '14px', lineHeight: '17px', fontWeight: '500', mt: '3px' }}>
-									Total: {tokenAmount} {tokenSymbol}
-								</Text>
-							)}
-						</Flex>
-						<Flex align="center" css={{ pr: '$2', flexShrink: '0' }}>
-							<RightArrowIcon />
-						</Flex>
-					</SelectValue>
-				</Button>
+				{(() => {
+					switch (triggerType) {
+						case 'minimal':
+							return (
+								<Button
+									ref={measureRef}
+									css={{
+										maxWidth: '113px',
+										display: 'flex',
+										justifyContent: 'flex-start',
+										height: '48px',
+										px: '0',
+										borderRadius: '30px 5px 5px 30px',
+										transition: '$default',
+										bg: 'transparent',
+										'span:first-child': {
+											display: 'flex',
+											width: '100%',
+											align: 'center',
+											justifyContent: 'flex-start',
+											alignItems: 'center',
+										},
+									}}
+								>
+									<Flex justify="center" align="center" css={{ width: '100%', textAlign: 'left', height: '48px' }}>
+										<SelectValue>
+											<Box css={{ p: '8px', pr: '4px' }}>
+												<CircleAvatar
+													width={32}
+													height={32}
+													borderWidth={0}
+													shadow={false}
+													background={addressBookBackground}
+												/>
+											</Box>
+											<Box css={{ flexShrink: '0', color: '$txtHelp', pt: '2px' }}>
+												<ChevronDownIcon />
+											</Box>
+										</SelectValue>
+									</Flex>
+								</Button>
+							)
+						default:
+							return (
+								<Button
+									ref={measureRef}
+									css={{
+										display: 'flex',
+										mt: '12px',
+										align: 'center',
+										justifyContent: 'flex-start',
+										bg: '$bgPanel2',
+										borderRadius: '8px',
+										height: '64px',
+										position: 'relative',
+										width: '100%',
+										ta: 'left',
+										'&:hover': {
+											bg: '$bgPanelHover',
+										},
+										span: {
+											display: 'none',
+										},
+										'span:first-child': {
+											display: 'flex',
+											width: '100%',
+											align: 'center',
+											justifyContent: 'flex-start',
+										},
+									}}
+								>
+									<SelectValue>
+										<Box css={{ p: '8px' }}>
+											<CircleAvatar background={addressBookBackground} />
+										</Box>
+										<Flex align="center" css={{ flex: '1', minWidth: '0' }}>
+											<Text
+												truncate
+												css={{ fontSize: '14px', lineHeight: '17px', fontWeight: '500', mt: '2px', maxWidth: '210px' }}
+											>
+												{addressBookName ? `${addressBookName} (${shortAddress})` : shortAddress}
+											</Text>
+											{tokenSymbol && tokenAmount && (
+												<Text
+													color="muted"
+													css={{ fontSize: '14px', lineHeight: '17px', fontWeight: '500', mt: '3px' }}
+												>
+													Total: {tokenAmount} {tokenSymbol}
+												</Text>
+											)}
+										</Flex>
+										<Flex align="center" css={{ pr: '$2', flexShrink: '0' }}>
+											<RightArrowIcon />
+										</Flex>
+									</SelectValue>
+								</Button>
+							)
+					}
+				})()}
 			</SelectTrigger>
 			<SelectContent onPointerDownOutside={() => setOpen(false)}>
 				<SelectScrollUpButton>
@@ -121,7 +178,9 @@ export const AccountSelector: React.FC<IProps> = ({ shortAddress, tokenAmount, t
 										overflow: 'hidden',
 										textOverflow: 'ellipsis',
 										whiteSpace: 'nowrap',
+										minWidth: '120px',
 										maxWidth: `${triggerWidth}px`,
+										pr: '$2',
 									},
 								}}
 							>
@@ -142,6 +201,7 @@ export const AccountSelector: React.FC<IProps> = ({ shortAddress, tokenAmount, t
 }
 
 AccountSelector.defaultProps = {
+	triggerType: undefined,
 	tokenAmount: null,
 	tokenSymbol: null,
 }

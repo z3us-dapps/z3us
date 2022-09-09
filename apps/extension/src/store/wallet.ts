@@ -3,6 +3,7 @@ import { Network as NetworkID, Account, AccountAddress, HDMasterSeedT } from '@r
 import { HardwareWalletT } from '@radixdlt/hardware-wallet'
 import { JSONToHex } from '@src/utils/encoding'
 import { VisibleTokens } from '@src/types'
+import { networks } from '@src/config'
 import { getDefaultAddressEntry, getHWSigningKeyForIndex, getLocalSigningKeyForIndex } from './helpers'
 import { AccountStore, AddressBookEntry, WalletStore } from './types'
 
@@ -12,27 +13,23 @@ export const whiteList = [
 	'pendingActions',
 	'networks',
 	'visibleTokens',
+	'hiddenTokens',
 	'activeSlideIndex',
 	'selectedNetworkIndex',
 	'selectedAccountIndex',
 ]
 
-const mainnetURL = new URL('https://mainnet.radixdlt.com')
-const stokenetURL = new URL('https://stokenet.radixdlt.com')
-
 const defaultState = {
 	account: null,
 
-	networks: [
-		{ id: NetworkID.MAINNET, url: mainnetURL },
-		{ id: NetworkID.STOKENET, url: stokenetURL },
-	],
+	networks,
 
 	activeSlideIndex: -1,
 	selectedNetworkIndex: 0,
 	selectedAccountIndex: 0,
 
 	visibleTokens: {},
+	hiddenTokens: {},
 	tokenSearch: '',
 
 	publicAddresses: {},
@@ -199,8 +196,9 @@ export const factory = (set: SetState<AccountStore>, get: GetState<AccountStore>
 
 	addNetworkAction: (id: NetworkID, url: URL) => {
 		set(state => {
-			if (!state.networks.filter(network => network.url === url)) {
-				state.networks = [...state.networks, { id, url }]
+			const found = state.networks.find(network => network.url.href === url.href)
+			if (!found) {
+				state.networks = [...networks, { id, url }]
 			}
 		})
 	},
@@ -236,6 +234,12 @@ export const factory = (set: SetState<AccountStore>, get: GetState<AccountStore>
 	setVisibleTokensAction: (visibleTokens: VisibleTokens) => {
 		set(state => {
 			state.visibleTokens = visibleTokens
+		})
+	},
+
+	setHiddenTokensAction: (hiddenTokens: VisibleTokens) => {
+		set(state => {
+			state.hiddenTokens = hiddenTokens
 		})
 	},
 
