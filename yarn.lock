@@ -4847,10 +4847,10 @@
     "@types/filesystem" "*"
     "@types/har-format" "*"
 
-"@types/chrome@^0.0.181":
-  version "0.0.181"
-  resolved "https://registry.yarnpkg.com/@types/chrome/-/chrome-0.0.181.tgz#7357ff121f8844062616707d80ccb069f16f15ed"
-  integrity sha512-34Ln9YVVC8a195ruqWeaty3pouFdCLr9L5kPcbRflQcxnbXQnHor9uETof8OhDf8JLDytSRDiuDsRXYQYQ+9FA==
+"@types/chrome@^0.0.196":
+  version "0.0.196"
+  resolved "https://registry.yarnpkg.com/@types/chrome/-/chrome-0.0.196.tgz#9e0196a6fcdf3c0e12cfbcd086cd28feb5206990"
+  integrity sha512-LAjGIQYC0wyiYu6lVT03dBrHBfYTMsM8EmNfQ+UdZipGZe8OUiir6weoa9oQoBw3T3RLzBCp9m904T+rFtpPAg==
   dependencies:
     "@types/filesystem" "*"
     "@types/har-format" "*"
