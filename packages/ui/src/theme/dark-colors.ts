@@ -41,6 +41,7 @@ export const darkColors = {
 
 	borderPanel: '#434243',
 	borderPanel2: '#2c2b2b',
+	borderPanel3: '#767676',
 	borderPanelFooter: '#2c2b2b',
 	borderDialog: '#101010',
 	borderPopup: '#434343',

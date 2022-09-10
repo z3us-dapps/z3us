@@ -57,8 +57,10 @@ export const LockedPanel: React.FC = () => {
 	})
 
 	const fillZ3usPurple = '#8457FF'
-	const logoFill = isDarkMode ? '#323232' : fillZ3usPurple
-	const logoShadow = isDarkMode ? '0px 10px 44px rgba(0, 0, 0, 0.35)' : '0px 10px 44px rgba(0, 0, 0, 0.1)'
+	const logoFill = isDarkMode ? '#323232' : '#FFFFFF'
+	const logoBackgroundStart = isDarkMode ? '#1F1F1F' : '#DBDBDB'
+	const logoBackgroundEnd = isDarkMode ? '#323232' : '#FFFFFF'
+	const logoShadow = isDarkMode ? '0px 10px 44px rgba(0, 0, 0, 0.35)' : '0px 10px 34px rgba(0, 0, 0, 0.15)'
 
 	const resetAnimElements = () => {
 		z3usLogoSpinnerControls.stop()
@@ -68,6 +70,7 @@ export const LockedPanel: React.FC = () => {
 		z3usLogoControls.start({
 			y: '0',
 			fill: logoFill,
+			backgroundColor: logoBackgroundStart,
 			transition: { duration: 0.1, ease: 'anticipate' },
 		})
 		inputControls.start({ y: '0px', opacity: 1, transition: { duration: 0.3, ease: 'anticipate' } })
@@ -77,7 +80,11 @@ export const LockedPanel: React.FC = () => {
 	const prepareUnlockAnim = () => {
 		inputControls.set({ opacity: 1 })
 		imageControls.set({ opacity: 0 })
-		z3usLogoControls.set({ fill: logoFill })
+		z3usLogoControls.start({
+			fill: logoFill,
+			backgroundColor: logoBackgroundEnd,
+			transition: { duration: 0.1, ease: 'anticipate' },
+		})
 		inputControls.start({ y: '40px', opacity: 0, transition: { duration: 0.3, ease: 'anticipate' } })
 		z3usLogoSpinnerControls.start({
 			rotate: [null, 360],
@@ -169,13 +176,14 @@ export const LockedPanel: React.FC = () => {
 				})
 				z3usLogoSpinnerControls.stop()
 				z3usLogoSpinnerControls.set({ rotate: [null, 0] })
-				z3usLogoControls.set({ fill: logoFill })
+				z3usLogoControls.set({ fill: logoFill, backgroundColor: logoBackgroundStart })
 				panelControls.start({ y: '-3620px', opacity: 0, transition: { delay: 0, duration: 0 } })
 			} else {
 				await panelControls.start({ y: '-3620px', opacity: 0, transition: { delay: 0, duration: 0 } })
 				z3usLogoControls.start({
 					y: '96px',
 					fill: logoFill,
+					backgroundColor: logoBackgroundStart,
 					scale: 22,
 					transition: { duration: 0.1, ease: 'anticipate' },
 				})
@@ -184,6 +192,7 @@ export const LockedPanel: React.FC = () => {
 			z3usLogoControls.start({
 				y: '0',
 				fill: logoFill,
+				backgroundColor: logoBackgroundStart,
 				scale: 1,
 				transition: { duration: 0, ease: 'anticipate' },
 			})
@@ -230,7 +239,7 @@ export const LockedPanel: React.FC = () => {
 				left: '0',
 				width: '100%',
 				height: '100%',
-				backgroundColor: isDarkMode ? '$bgPanel2' : '$bgPanel',
+				backgroundColor: '$bgPanel2',
 			}}
 		>
 			<Flex direction="column" css={{ height: '100%', position: 'relative', zIndex: '1' }}>
@@ -279,16 +288,16 @@ export const LockedPanel: React.FC = () => {
 						css={{
 							width: '232px',
 							height: '232px',
-							bg: '$bgPanel',
 							borderRadius: '50%',
 							position: 'absolute',
-							top: '30px',
+							top: '40px',
 							left: '50%',
 							marginLeft: '-116px',
-							boxShadow: logoShadow,
 							transition: '$default',
-							fill: logoFill,
 							zIndex: '99',
+							boxShadow: logoShadow,
+							fill: logoFill,
+							backgroundColor: logoBackgroundStart,
 						}}
 					>
 						<MotionBox
@@ -333,7 +342,7 @@ export const LockedPanel: React.FC = () => {
 											? '$borderInputError'
 											: state.isInputFocused
 											? '$borderInputFocus'
-											: '$borderPanel',
+											: '$borderPanel3',
 									}}
 								>
 									<Input

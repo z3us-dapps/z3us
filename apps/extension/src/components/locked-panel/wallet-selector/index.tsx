@@ -75,7 +75,7 @@ export const WalletSelector: React.FC<IProps> = () => {
 							position: 'relative',
 							transition: '$default',
 							borderBottom: '2px solid',
-							borderColor: '$borderPanel',
+							borderColor: '$borderPanel3',
 						}}
 					>
 						<Flex css={{ pb: '3px', mt: '3px', position: 'relative' }} justify="between">
