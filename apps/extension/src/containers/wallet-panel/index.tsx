@@ -151,7 +151,15 @@ export const WalletPanel = (): JSX.Element => {
 				</MotionBox>
 			) : null}
 			<LockedPanel />
-			<Z3usMenu />
+			<Box
+				css={{
+					pe: !isUnlocked ? 'unset' : 'none',
+					opacity: !isUnlocked ? '0' : '1',
+					transition: '$default',
+				}}
+			>
+				<Z3usMenu />
+			</Box>
 		</>
 	)
 }

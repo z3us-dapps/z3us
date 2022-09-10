@@ -4,6 +4,12 @@ import { useSharedStore } from '@src/store'
 
 const DARK_MODE_MEDIA_QUERY = '(prefers-color-scheme: dark)'
 
+const getInitialColor = (theme: string, mediaList: any): boolean => {
+	const isCurrentDark = mediaList && mediaList.matches
+	const isThemeDark = theme === 'dark'
+	return theme === 'system' ? isCurrentDark : isThemeDark
+}
+
 export const useColorMode = () => {
 	const { theme } = useSharedStore(state => ({
 		theme: state.theme,
@@ -11,7 +17,7 @@ export const useColorMode = () => {
 
 	const mediaList = window.matchMedia && window.matchMedia(DARK_MODE_MEDIA_QUERY)
 	const [autoThemeIsDark, setAutoThemeIsDark] = useState<boolean>(mediaList && mediaList.matches)
-	const [isDark, setIsDarkMode] = useState<boolean>(mediaList && mediaList.matches)
+	const [isDark, setIsDarkMode] = useState<boolean>(getInitialColor(theme, mediaList))
 
 	useEffect(
 		() => {
