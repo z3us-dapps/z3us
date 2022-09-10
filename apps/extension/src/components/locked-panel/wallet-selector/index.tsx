@@ -39,7 +39,7 @@ export const WalletSelector: React.FC<IProps> = () => {
 		selectKeystore: state.selectKeystoreAction,
 	}))
 
-	const isHardwareWallet = keystore.type === KeystoreType.HARDWARE
+	const isHardwareWallet = keystore?.type === KeystoreType.HARDWARE
 
 	const handleValueChange = async (id: string) => {
 		setOpen(false)
