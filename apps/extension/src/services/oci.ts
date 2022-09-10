@@ -9,7 +9,7 @@ export type CalculateSwapResponse = {
 	fee_exchange: Price
 	fee_liquidity_provider: Price
 	input: Price
-	minimum_output: Price
+	output: Price
 	price_impact: string
 	pool_address: string
 }
@@ -82,7 +82,7 @@ export class OCIService {
 					  }
 					  ${
 							amount.gt(0)
-								? `minimum_output {
+								? `output {
 						rri
 						amount
 					  }`

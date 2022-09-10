@@ -214,4 +214,5 @@ export type PoolQuote = {
 	amount: BigNumber
 	receive: BigNumber
 	fee: BigNumber
+	priceImpact: number
 }

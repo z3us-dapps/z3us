@@ -69,12 +69,14 @@ export const calculatePoolFeesFromAmount = async (
 	let response
 	let receive = zero
 	let fee = zero
+	let priceImpact: number
 
 	if (!pool?.wallet || !from || !to || amount.lte(0)) {
 		return {
 			amount,
 			fee,
 			receive,
+			priceImpact,
 			response,
 		}
 	}
@@ -86,7 +88,8 @@ export const calculatePoolFeesFromAmount = async (
 			const ociExchangeFee = new BigNumber(ociQuote?.fee_exchange[0]?.amount || 0)
 
 			fee = ociLiquidityFee.plus(ociExchangeFee)
-			receive = ociQuote?.minimum_output ? new BigNumber(ociQuote?.minimum_output?.amount || 0) : receive
+			receive = ociQuote?.output ? new BigNumber(ociQuote?.output?.amount || 0) : receive
+			priceImpact = ociQuote?.price_impact ? +ociQuote.price_impact : undefined
 			response = ociQuote
 			break
 		case PoolType.DOGECUBEX:
@@ -100,6 +103,7 @@ export const calculatePoolFeesFromAmount = async (
 			const dogeQuote = await doge.getQuote(query)
 			amount = new BigNumber(dogeQuote?.sentAmount || 0)
 			receive = new BigNumber(dogeQuote?.receivedAmount || 0)
+			priceImpact = dogeQuote?.priceImpact ? +dogeQuote.priceImpact : undefined
 			fee = amount.multipliedBy(11 / 1000)
 			response = dogeQuote
 			break
@@ -108,6 +112,7 @@ export const calculatePoolFeesFromAmount = async (
 
 			fee = new BigNumber(astrolescentQuote.swapFee).shiftedBy(-18)
 			receive = astrolescentQuote?.outputTokens ? new BigNumber(astrolescentQuote?.outputTokens || 0) : receive
+			priceImpact = astrolescentQuote?.priceImpact
 			response = astrolescentQuote
 			break
 		case PoolType.DSOR:
@@ -119,6 +124,7 @@ export const calculatePoolFeesFromAmount = async (
 
 			fee = zero // @TODO
 			receive = dsorQuote?.rhs_amount ? new BigNumber(dsorQuote.rhs_amount).shiftedBy(-18) : receive
+			// priceImpact = dsorQuote?.actions.reduce() @TODO: calculated from each action price impact
 			response = dsorQuote
 			break
 		case PoolType.CAVIAR:
@@ -143,6 +149,7 @@ export const calculatePoolFeesFromAmount = async (
 		amount,
 		fee,
 		receive,
+		priceImpact,
 		response,
 	}
 }
@@ -160,12 +167,14 @@ export const calculatePoolFeesFromReceive = async (
 	let response
 	let amount = zero
 	let fee = zero
+	let priceImpact: number
 
 	if (!pool?.wallet || !from || !to || receive.lte(0)) {
 		return {
 			receive,
 			fee,
 			amount,
+			priceImpact,
 			response,
 		}
 	}
@@ -178,6 +187,7 @@ export const calculatePoolFeesFromReceive = async (
 
 			fee = ociLiquidityFee.plus(ociExchangeFee)
 			amount = ociQuote?.input ? new BigNumber(ociQuote?.input.amount || 0) : amount
+			priceImpact = ociQuote?.price_impact ? +ociQuote.price_impact : undefined
 			break
 		case PoolType.DOGECUBEX:
 			const query: QuoteQuery = {
@@ -190,6 +200,7 @@ export const calculatePoolFeesFromReceive = async (
 			const dogeQuote = await doge.getQuote(query)
 			amount = new BigNumber(dogeQuote?.sentAmount || 0)
 			receive = new BigNumber(dogeQuote?.receivedAmount || 0)
+			priceImpact = dogeQuote?.priceImpact ? +dogeQuote.priceImpact : undefined
 			fee = amount.multipliedBy(11 / 1000)
 			response = dogeQuote
 			break
@@ -210,6 +221,7 @@ export const calculatePoolFeesFromReceive = async (
 
 			fee = zero // @TODO
 			amount = dsorQuote?.lhs_amount ? new BigNumber(dsorQuote.lhs_amount).shiftedBy(-18) : amount
+			// priceImpact = dsorQuote?.actions.reduce() @TODO: calculated from each action price impact
 			response = dsorQuote
 			break
 		case PoolType.CAVIAR:
@@ -222,6 +234,7 @@ export const calculatePoolFeesFromReceive = async (
 		amount,
 		fee,
 		receive,
+		priceImpact,
 		response,
 	}
 }
