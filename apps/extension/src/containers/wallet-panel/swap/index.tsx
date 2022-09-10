@@ -357,6 +357,10 @@ export const Swap: React.FC = () => {
 			draft.pool = pool
 		})
 
+		pools.forEach((p: Pool, index: number) => {
+			pools[index] = { ...p, quote: undefined, costRatio: undefined }
+		})
+
 		calculateSwap(state.amountRaw, state.receiveRaw, state.inputSide, state.slippage, pool, state.minimum, state.burn)
 	}
 

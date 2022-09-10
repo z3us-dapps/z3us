@@ -14,6 +14,7 @@ import {
 	TransferTokens,
 	UnstakeTokens,
 } from '@radixdlt/networking'
+import BigNumber from 'bignumber.js'
 
 export interface Ticker {
 	asset: string
@@ -205,4 +206,12 @@ export type Pool = {
 	name: string
 	wallet: string
 	balances?: { [rri: string]: number }
+	quote?: PoolQuote
+	costRatio?: BigNumber
+}
+
+export type PoolQuote = {
+	amount: BigNumber
+	receive: BigNumber
+	fee: BigNumber
 }

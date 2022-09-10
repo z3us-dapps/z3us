@@ -106,24 +106,32 @@ export const PoolSelector: React.FC<IProps> = ({ pool, pools, onPoolChange }) =>
 					<ChevronUpIcon />
 				</SelectScrollUpButton>
 				<SelectViewport>
-					{pools.map(p => (
-						<SelectItem
-							key={p.wallet}
-							value={p.wallet}
-							css={{
-								'span:first-child': {
-									overflow: 'hidden',
-									textOverflow: 'ellipsis',
-									whiteSpace: 'nowrap',
-									maxWidth: `${triggerWidth}px`,
-									minWidth: '100px',
-								},
-							}}
-						>
-							<SelectItemText>{p.name}</SelectItemText>
-							<SelectItemIndicator />
-						</SelectItem>
-					))}
+					{pools
+						.sort((a, b) => {
+							if (a.wallet === pool?.wallet) return -1
+							if (!a.costRatio) return 1
+							if (!b.costRatio) return -1
+							return a.costRatio.minus(b.costRatio).toNumber()
+						})
+						.map(p => (
+							<SelectItem
+								key={p.wallet}
+								value={p.wallet}
+								css={{
+									'span:first-child': {
+										overflow: 'hidden',
+										textOverflow: 'ellipsis',
+										whiteSpace: 'nowrap',
+										maxWidth: `${triggerWidth}px`,
+										minWidth: '100px',
+									},
+								}}
+							>
+								<SelectItemText>{p.name}</SelectItemText>
+								{p.costRatio && p.costRatio.gt(0) && `+${p.costRatio.multipliedBy(100).toFixed(2).toLocaleString()}%`}
+								<SelectItemIndicator />
+							</SelectItem>
+						))}
 				</SelectViewport>
 				<SelectScrollDownButton>
 					<ChevronDownIcon />

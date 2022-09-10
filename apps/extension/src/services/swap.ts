@@ -3,7 +3,7 @@
 import BigNumber from 'bignumber.js'
 import { IntendedTransferTokens, BuiltTransactionReadyToSign, AccountT } from '@radixdlt/application'
 import { FLOOP_RRI, Z3US_FEE_RATIO, Z3US_RRI, Z3US_WALLET_MAIN, Z3US_WALLET_BURN } from '@src/config'
-import { Pool, PoolType, Token, TokenAmount, IntendedAction } from '@src/types'
+import { Pool, PoolType, Token, TokenAmount, IntendedAction, PoolQuote } from '@src/types'
 import { buildAmount } from '@src/utils/radix'
 import { parseAccountAddress, parseAmount, parseResourceIdentifier } from '@src/services/radix/serializer'
 import oci from '@src/services/oci'
@@ -14,12 +14,7 @@ import { calculateSwap } from '@src/services//caviar'
 
 const zero = new BigNumber(0)
 
-export type Quote = {
-	amount: BigNumber
-	receive: BigNumber
-	fee: BigNumber
-	response: any
-}
+export type Quote = PoolQuote & { response: any }
 
 export const getZ3USFees = (
 	amount: BigNumber,
@@ -241,11 +236,22 @@ export const calculateCheapestPoolFeesFromAmount = async (
 	liquidBalances: TokenAmount[],
 ): Promise<{ pool: Pool } & Quote> => {
 	let pool: Pool
-	let cheapest
+	let bestQuote: Quote
 	const results = await Promise.all(
 		pools.map(async p => {
 			try {
-				return await calculatePoolFeesFromAmount(pools, p, amount, slippage, from, to, accountAddress, liquidBalances)
+				const quote = await calculatePoolFeesFromAmount(
+					pools,
+					p,
+					amount,
+					slippage,
+					from,
+					to,
+					accountAddress,
+					liquidBalances,
+				)
+				p.quote = quote
+				return quote
 			} catch (error) {
 				// eslint-disable-next-line no-console
 				console.error(error)
@@ -253,15 +259,24 @@ export const calculateCheapestPoolFeesFromAmount = async (
 			}
 		}),
 	)
-	results.forEach((cost, index) => {
-		if (!cost) return
-		if (cost.receive.eq(0)) return
-		if (!cheapest || cost.receive.gt(cheapest.receive)) {
-			cheapest = cost
+	results.forEach((quote: Quote | null, index: number) => {
+		if (!quote) return
+		if (quote.receive.eq(0)) return
+		if (!bestQuote || quote.receive.gt(bestQuote.receive)) {
+			bestQuote = quote
 			pool = pools[index]
 		}
 	})
-	return { receive: zero, fee: zero, amount: zero, ...cheapest, pool }
+	pools.forEach((p: Pool) => {
+		p.costRatio = undefined
+		if (!bestQuote) return
+		if (!p.quote) return
+		if (!bestQuote.receive.gt(0)) return
+		if (!p.quote.receive.gt(0)) return
+
+		p.costRatio = bestQuote.receive.minus(p.quote.receive).dividedBy(p.quote.receive)
+	})
+	return { receive: zero, fee: zero, amount: zero, ...bestQuote, pool }
 }
 
 export const calculateCheapestPoolFeesFromReceive = async (
@@ -274,11 +289,22 @@ export const calculateCheapestPoolFeesFromReceive = async (
 	liquidBalances: TokenAmount[],
 ): Promise<{ pool: Pool } & Quote> => {
 	let pool: Pool | null = null
-	let cheapest
+	let bestQuote: Quote
 	const results = await Promise.all(
 		pools.map(async p => {
 			try {
-				return await calculatePoolFeesFromReceive(pools, p, receive, slippage, from, to, accountAddress, liquidBalances)
+				const quote = await calculatePoolFeesFromReceive(
+					pools,
+					p,
+					receive,
+					slippage,
+					from,
+					to,
+					accountAddress,
+					liquidBalances,
+				)
+				p.quote = quote
+				return quote
 			} catch (error) {
 				// eslint-disable-next-line no-console
 				console.error(error)
@@ -286,15 +312,24 @@ export const calculateCheapestPoolFeesFromReceive = async (
 			}
 		}),
 	)
-	results.forEach((cost, index) => {
-		if (!cost) return
-		if (cost.amount.eq(0)) return
-		if (!cheapest || cost.amount.lt(cheapest.amount)) {
-			cheapest = cost
+	results.forEach((quote: Quote | null, index: number) => {
+		if (!quote) return
+		if (quote.amount.eq(0)) return
+		if (!bestQuote || quote.amount.lt(bestQuote.amount)) {
+			bestQuote = quote
 			pool = pools[index]
 		}
 	})
-	return { receive: zero, fee: zero, amount: zero, ...cheapest, pool }
+	pools.forEach((p: Pool) => {
+		p.costRatio = undefined
+		if (!bestQuote) return
+		if (!p.quote) return
+		if (!bestQuote.amount.gt(0)) return
+		if (!p.quote.amount.gt(0)) return
+
+		p.costRatio = bestQuote.amount.minus(p.quote.amount).dividedBy(p.quote.amount).multipliedBy(-1)
+	})
+	return { receive: zero, fee: zero, amount: zero, ...bestQuote, pool }
 }
 
 export const calculateTransactionFee = async (
