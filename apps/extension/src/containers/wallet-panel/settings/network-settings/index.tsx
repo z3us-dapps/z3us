@@ -70,8 +70,16 @@ export const NetworkSettings: React.FC = () => {
 			draft.isLoading = true
 		})
 
+		let url: URL
 		try {
-			const url = new URL(state.value.replace(/\/$/, ''))
+			url = new URL(state.value.replace(/\/$/, ''))
+		} catch (error) {
+			setState(draft => {
+				draft.errorMessage = 'Please enter a valid network URL.'
+			})
+		}
+
+		try {
 			const service = new RadixService(url)
 			const { network } = await service.gateway()
 
@@ -89,7 +97,7 @@ export const NetworkSettings: React.FC = () => {
 			})
 		} catch (error) {
 			setState(draft => {
-				draft.errorMessage = 'Please enter a valid network URL.'
+				draft.errorMessage = (error?.message || error).toString().trim()
 			})
 		}
 

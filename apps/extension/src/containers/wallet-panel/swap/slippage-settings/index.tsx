@@ -1,7 +1,9 @@
 import React from 'react'
-import { Pool, PoolType } from '@src/types'
+import { Pool } from '@src/types'
+import { swapServices } from '@src/config'
 import { Cross2Icon, Pencil1Icon, InfoCircledIcon, CircleBackslashIcon } from '@radix-ui/react-icons'
 import { Box, Text, Flex } from 'ui/src/components/atoms'
+import { ToolTip } from 'ui/src/components/tool-tip'
 import { StyledSlider, StyledTrack, StyledThumb, StyledRange } from 'ui/src/components/slider'
 import { HoverCard, HoverCardContent, HoverCardTrigger } from 'ui/src/components/hover-card'
 import { Checkbox, CheckIcon } from 'ui/src/components/checkbox'
@@ -21,24 +23,15 @@ export const SlippageSettings: React.FC<IProps> = ({ pool, minimum, onMinimumCha
 		onSlippageChange(_slippage / 100)
 	}
 
-	const supported = pool?.type === PoolType.OCI || pool?.type === PoolType.DOGECUBEX
+	const supported = swapServices[pool?.type]?.supportsSlippage === true
 	const disabled = !supported || !minimum
 
 	return !supported ? (
-		<HoverCard>
-			<HoverCardTrigger asChild>
-				<Flex css={{ color: '$txtHelp', display: 'inline-flex' }}>
-					<CircleBackslashIcon />
-				</Flex>
-			</HoverCardTrigger>
-			<HoverCardContent side="top" sideOffset={5} css={{ width: '140px', pointerEvents: 'auto', zIndex: '99' }}>
-				<Flex css={{ flexDirection: 'column' }}>
-					<Text bold size="2">
-						Slippage not supported
-					</Text>
-				</Flex>
-			</HoverCardContent>
-		</HoverCard>
+		<ToolTip arrowOffset={3} message="Slippage not supported">
+			<Flex css={{ color: '$txtHelp', display: 'inline-flex' }}>
+				<CircleBackslashIcon />
+			</Flex>
+		</ToolTip>
 	) : (
 		<Popover>
 			<PopoverTrigger asChild>

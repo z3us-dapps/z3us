@@ -1,26 +1,16 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable no-case-declarations */
 import BigNumber from 'bignumber.js'
-import {
-	ResourceIdentifier,
-	AccountAddress,
-	IntendedTransferTokens,
-	BuiltTransactionReadyToSign,
-	ActionType as ApplicationActionType,
-	AccountT,
-} from '@radixdlt/application'
+import { IntendedTransferTokens, BuiltTransactionReadyToSign, AccountT } from '@radixdlt/application'
 import { FLOOP_RRI, Z3US_FEE_RATIO, Z3US_RRI, Z3US_WALLET_MAIN, Z3US_WALLET_BURN } from '@src/config'
-import { RawAction, Pool, PoolType, Token, TokenAmount, IntendedAction, ActionType } from '@src/types'
+import { Pool, PoolType, Token, TokenAmount, IntendedAction } from '@src/types'
 import { buildAmount } from '@src/utils/radix'
-import {
-	parseAccountAddress,
-	parseAmount,
-	parseResourceIdentifier,
-	parseValidatorAddress,
-} from '@src/services/radix/serializer'
+import { parseAccountAddress, parseAmount, parseResourceIdentifier } from '@src/services/radix/serializer'
 import oci from '@src/services/oci'
-import astrolescent from '@src/services/astrolescent'
 import doge, { QuoteQuery } from '@src/services/dogecubex'
-import { calculateSwap } from './caviar'
+import astrolescent, { SwapResponse as AstrolescentSwapResponse } from '@src/services/astrolescent'
+import dsor, { SwapResponse as DsorSwapResponse } from '@src/services/dsor'
+import { calculateSwap } from '@src/services//caviar'
 
 const zero = new BigNumber(0)
 
@@ -28,10 +18,7 @@ export type Quote = {
 	amount: BigNumber
 	receive: BigNumber
 	fee: BigNumber
-	transactionData?: {
-		actions: Array<RawAction>
-		message: string
-	}
+	response: any
 }
 
 export const getZ3USFees = (
@@ -84,7 +71,7 @@ export const calculatePoolFeesFromAmount = async (
 	accountAddress: string,
 	liquidBalances: TokenAmount[],
 ): Promise<Quote> => {
-	let transactionData
+	let response
 	let receive = zero
 	let fee = zero
 
@@ -93,6 +80,7 @@ export const calculatePoolFeesFromAmount = async (
 			amount,
 			fee,
 			receive,
+			response,
 		}
 	}
 
@@ -104,22 +92,7 @@ export const calculatePoolFeesFromAmount = async (
 
 			fee = ociLiquidityFee.plus(ociExchangeFee)
 			receive = ociQuote?.minimum_output ? new BigNumber(ociQuote?.minimum_output?.amount || 0) : receive
-			break
-		case PoolType.ASTROLESCENT:
-			const astrolescentQuote = await astrolescent.getSwap(accountAddress, from.rri, to.rri, amount, 'in')
-
-			fee = new BigNumber(astrolescentQuote.swapFee || 0)
-			receive = astrolescentQuote?.outputTokens ? new BigNumber(astrolescentQuote?.outputTokens || 0) : receive
-			transactionData = astrolescentQuote.transactionData
-			break
-		case PoolType.CAVIAR:
-			const floopToken = liquidBalances?.find(balance => balance.rri === FLOOP_RRI)
-			const floopBalance = floopToken ? new BigNumber(floopToken.amount).shiftedBy(-18) : zero
-
-			const quote = calculateSwap(pools, pool, amount, from, to, floopBalance)
-
-			receive = quote.receive
-			fee = quote.fee
+			response = ociQuote
 			break
 		case PoolType.DOGECUBEX:
 			const query: QuoteQuery = {
@@ -133,6 +106,35 @@ export const calculatePoolFeesFromAmount = async (
 			amount = new BigNumber(dogeQuote?.sentAmount || 0)
 			receive = new BigNumber(dogeQuote?.receivedAmount || 0)
 			fee = amount.multipliedBy(11 / 1000)
+			response = dogeQuote
+			break
+		case PoolType.ASTROLESCENT:
+			const astrolescentQuote = await astrolescent.getSwap(accountAddress, from.rri, to.rri, amount, 'in')
+
+			fee = new BigNumber(astrolescentQuote.swapFee).shiftedBy(-18)
+			receive = astrolescentQuote?.outputTokens ? new BigNumber(astrolescentQuote?.outputTokens || 0) : receive
+			response = astrolescentQuote
+			break
+		case PoolType.DSOR:
+			const dsorQuote = await dsor.getSwap({
+				lhs_rri: from.rri,
+				rhs_rri: to.rri,
+				lhs_amount: buildAmount(amount).toString(),
+			})
+
+			fee = zero // @TODO
+			receive = dsorQuote?.rhs_amount ? new BigNumber(dsorQuote.rhs_amount).shiftedBy(-18) : receive
+			response = dsorQuote
+			break
+		case PoolType.CAVIAR:
+			const floopToken = liquidBalances?.find(balance => balance.rri === FLOOP_RRI)
+			const floopBalance = floopToken ? new BigNumber(floopToken.amount).shiftedBy(-18) : zero
+
+			const caviarQuote = calculateSwap(pools, pool, amount, from, to, floopBalance)
+
+			receive = caviarQuote.receive
+			fee = caviarQuote.fee
+			response = caviarQuote
 			break
 		default:
 			throw new Error(`Invalid pool: ${pool.name} - ${pool.type}`)
@@ -146,7 +148,7 @@ export const calculatePoolFeesFromAmount = async (
 		amount,
 		fee,
 		receive,
-		transactionData,
+		response,
 	}
 }
 
@@ -158,10 +160,9 @@ export const calculatePoolFeesFromReceive = async (
 	from: Token,
 	to: Token,
 	accountAddress: string,
-	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	liquidBalances: TokenAmount[],
 ): Promise<Quote> => {
-	let transactionData
+	let response
 	let amount = zero
 	let fee = zero
 
@@ -170,6 +171,7 @@ export const calculatePoolFeesFromReceive = async (
 			receive,
 			fee,
 			amount,
+			response,
 		}
 	}
 
@@ -181,16 +183,6 @@ export const calculatePoolFeesFromReceive = async (
 
 			fee = ociLiquidityFee.plus(ociExchangeFee)
 			amount = ociQuote?.input ? new BigNumber(ociQuote?.input.amount || 0) : amount
-			break
-		case PoolType.ASTROLESCENT:
-			const astrolescentQuote = await astrolescent.getSwap(accountAddress, from.rri, to.rri, receive, 'out')
-
-			fee = new BigNumber(astrolescentQuote.swapFee || 0)
-			amount = astrolescentQuote?.inputTokens ? new BigNumber(astrolescentQuote?.inputTokens || 0) : amount
-			transactionData = astrolescentQuote.transactionData
-			break
-		case PoolType.CAVIAR:
-			amount = zero // @TODO: unsupported
 			break
 		case PoolType.DOGECUBEX:
 			const query: QuoteQuery = {
@@ -204,7 +196,29 @@ export const calculatePoolFeesFromReceive = async (
 			amount = new BigNumber(dogeQuote?.sentAmount || 0)
 			receive = new BigNumber(dogeQuote?.receivedAmount || 0)
 			fee = amount.multipliedBy(11 / 1000)
+			response = dogeQuote
 			break
+		case PoolType.ASTROLESCENT:
+			// const astrolescentQuote = await astrolescent.getSwap(accountAddress, from.rri, to.rri, receive, 'out')
+
+			// fee = new BigNumber(astrolescentQuote.swapFee).shiftedBy(-18)
+			// amount = astrolescentQuote?.inputTokens ? new BigNumber(astrolescentQuote?.inputTokens || 0) : amount
+			// response = astrolescentQuote
+			// break
+			throw new Error('Unsupported calculation')
+		case PoolType.DSOR:
+			const dsorQuote = await dsor.getSwap({
+				lhs_rri: from.rri,
+				rhs_rri: to.rri,
+				rhs_amount: buildAmount(receive).toString(),
+			})
+
+			fee = zero // @TODO
+			amount = dsorQuote?.lhs_amount ? new BigNumber(dsorQuote.lhs_amount).shiftedBy(-18) : amount
+			response = dsorQuote
+			break
+		case PoolType.CAVIAR:
+			throw new Error('Unsupported calculation')
 		default:
 			throw new Error(`Invalid pool: ${pool.name} - ${pool.type}`)
 	}
@@ -213,7 +227,7 @@ export const calculatePoolFeesFromReceive = async (
 		amount,
 		fee,
 		receive,
-		transactionData,
+		response,
 	}
 }
 
@@ -239,14 +253,14 @@ export const calculateCheapestPoolFeesFromAmount = async (
 			}
 		}),
 	)
-	results
-		.filter(result => !!result)
-		.forEach((cost, index) => {
-			if (!cheapest || cost.receive.gt(cheapest.receive)) {
-				cheapest = cost
-				pool = pools[index]
-			}
-		})
+	results.forEach((cost, index) => {
+		if (!cost) return
+		if (cost.receive.eq(0)) return
+		if (!cheapest || cost.receive.gt(cheapest.receive)) {
+			cheapest = cost
+			pool = pools[index]
+		}
+	})
 	return { receive: zero, fee: zero, amount: zero, ...cheapest, pool }
 }
 
@@ -272,25 +286,15 @@ export const calculateCheapestPoolFeesFromReceive = async (
 			}
 		}),
 	)
-	results
-		.filter(result => !!result)
-		.forEach((cost, index) => {
-			if (cost.amount.eq(0)) return
-			if (!cheapest || cost.amount.lt(cheapest.amount)) {
-				cheapest = cost
-				pool = pools[index]
-			}
-		})
+	results.forEach((cost, index) => {
+		if (!cost) return
+		if (cost.amount.eq(0)) return
+		if (!cheapest || cost.amount.lt(cheapest.amount)) {
+			cheapest = cost
+			pool = pools[index]
+		}
+	})
 	return { receive: zero, fee: zero, amount: zero, ...cheapest, pool }
-}
-
-const actionTypeToIndentedActionType = {
-	[ActionType.TRANSFER_TOKENS]: ApplicationActionType.TOKEN_TRANSFER,
-	[ActionType.STAKE_TOKENS]: ApplicationActionType.STAKE_TOKENS,
-	[ActionType.UNSTAKE_TOKENS]: ApplicationActionType.UNSTAKE_TOKENS,
-	// [ActionType.CREATE_TOKEN]: ExtendedActionType.CREATE_TOKEN,
-	// [ActionType.MINT_TOKENS]: ExtendedActionType.MINT_TOKENS,
-	// [ActionType.BURN_TOKENS]: ExtendedActionType.BURN_TOKENS,
 }
 
 export const calculateTransactionFee = async (
@@ -303,13 +307,19 @@ export const calculateTransactionFee = async (
 	z3usBurn: BigNumber,
 	minimum: boolean,
 	// @TODO: type these
-	buildTransactionFromActions: any,
+	buildTransactionFromActions: (
+		actions: IntendedAction[],
+		message?: string,
+	) => Promise<{
+		transaction: {
+			blob: string
+			hashOfBlobToSign: string
+		}
+		fee: string
+	}>,
 	createMessage: any,
 	account: AccountT,
-	transactionData?: {
-		actions: Array<RawAction>
-		message: string
-	},
+	response?: any,
 ): Promise<{
 	transaction: BuiltTransactionReadyToSign | null
 	fee: BigNumber
@@ -324,11 +334,7 @@ export const calculateTransactionFee = async (
 	}
 
 	try {
-		const rriResult = ResourceIdentifier.fromUnsafe(fromToken.rri)
-		if (rriResult.isErr()) {
-			throw rriResult.error
-		}
-
+		const fromRRI = parseResourceIdentifier(fromToken.rri)
 		const actions = []
 		let plainText: string
 		switch (pool.type) {
@@ -350,30 +356,12 @@ export const calculateTransactionFee = async (
 				}
 				break
 			case PoolType.ASTROLESCENT:
-				if (transactionData) {
-					actions.push(
-						...transactionData.actions.map(
-							(action): IntendedAction => ({
-								type: actionTypeToIndentedActionType[action.type],
-								from_account: action?.from_account?.address
-									? parseAccountAddress(action.from_account.address)
-									: undefined,
-								to_account: action?.to_account?.address ? parseAccountAddress(action.to_account.address) : undefined,
-								from_validator: action?.from_validator?.address
-									? parseValidatorAddress(action.from_validator.address)
-									: undefined,
-								to_validator: action?.to_validator?.address
-									? parseValidatorAddress(action.to_validator.address)
-									: undefined,
-								amount: action?.amount?.value ? parseAmount(action.amount.value) : undefined,
-								rri: action?.amount?.token_identifier?.rri
-									? parseResourceIdentifier(action.amount.token_identifier.rri)
-									: undefined,
-							}),
-						),
-					)
-					plainText = transactionData.message
-				}
+				if (!response) throw new Error(`${pool.name} - ${pool.type}: missing swap response: ${response}`)
+				plainText = (response as AstrolescentSwapResponse).transactionData.message
+				break
+			case PoolType.DSOR:
+				if (!response) throw new Error(`${pool.name} - ${pool.type}: missing swap response: ${response}`)
+				plainText = (response as DsorSwapResponse).message
 				break
 			default:
 				throw new Error(`Invalid pool: ${pool.name} - ${pool.type}`)
@@ -399,7 +387,7 @@ export const calculateTransactionFee = async (
 				{
 					to_account: Z3US_WALLET_MAIN,
 					amount: buildAmount(z3usFee),
-					tokenIdentifier: rriResult.value,
+					tokenIdentifier: fromRRI,
 				},
 				account.address,
 			)
@@ -409,24 +397,60 @@ export const calculateTransactionFee = async (
 			actions.push(actionResult.value)
 		}
 
-		if (pool.type !== PoolType.ASTROLESCENT) {
-			const toResult = AccountAddress.fromUnsafe(pool.wallet)
-			if (toResult.isErr()) {
-				throw toResult.error
-			}
-
-			const actionResult = IntendedTransferTokens.create(
-				{
-					to_account: toResult.value,
-					amount: buildAmount(amount),
-					tokenIdentifier: rriResult.value,
-				},
-				account.address,
-			)
-			if (actionResult.isErr()) {
-				throw actionResult.error
-			}
-			actions.push(actionResult.value)
+		switch (pool.type) {
+			case PoolType.ASTROLESCENT:
+				if (!response) throw new Error(`${pool.name} - ${pool.type}: missing swap response: ${response}`)
+				const astrolescentResponse = response as AstrolescentSwapResponse
+				actions.push(
+					...astrolescentResponse.transactionData.actions.map((action): IntendedAction => {
+						const actionResult = IntendedTransferTokens.create(
+							{
+								to_account: parseAccountAddress(action.to_account.address),
+								amount: parseAmount(action.amount.value),
+								tokenIdentifier: parseResourceIdentifier(action.amount.token_identifier.rri),
+							},
+							parseAccountAddress(action.from_account.address),
+						)
+						if (actionResult.isErr()) {
+							throw actionResult.error
+						}
+						return actionResult.value
+					}),
+				)
+				break
+			case PoolType.DSOR:
+				if (!response) throw new Error(`${pool.name} - ${pool.type}: missing swap response: ${response}`)
+				const dsorResponse = response as DsorSwapResponse
+				actions.push(
+					...dsorResponse.actions.map((action): IntendedAction => {
+						const actionResult = IntendedTransferTokens.create(
+							{
+								to_account: parseAccountAddress(action.wallet_address),
+								amount: parseAmount(action.lhs_amount),
+								tokenIdentifier: parseResourceIdentifier(action.lhs_rri),
+							},
+							account.address,
+						)
+						if (actionResult.isErr()) {
+							throw actionResult.error
+						}
+						return actionResult.value
+					}),
+				)
+				break
+			default:
+				const actionResult = IntendedTransferTokens.create(
+					{
+						to_account: parseAccountAddress(pool.wallet),
+						amount: buildAmount(amount),
+						tokenIdentifier: fromRRI,
+					},
+					account.address,
+				)
+				if (actionResult.isErr()) {
+					throw actionResult.error
+				}
+				actions.push(actionResult.value)
 		}
 
 		let message: string
@@ -445,4 +469,16 @@ export const calculateTransactionFee = async (
 	}
 
 	return { transaction, fee, transactionFeeError }
+}
+
+export const confirmSwap = async (pool: Pool, txID: string, response: any) => {
+	switch (pool.type) {
+		case PoolType.DSOR:
+			if (!response) throw new Error(`${pool.name} - ${pool.type}: missing swap response: ${response}`)
+			const dsorResponse = response as DsorSwapResponse
+			await dsor.confirmSwap(dsorResponse.uid, txID)
+			break
+		default:
+			break
+	}
 }

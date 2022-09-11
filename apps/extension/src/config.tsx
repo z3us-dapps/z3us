@@ -185,27 +185,38 @@ export const Z3US_FEE_RATIO = 3 / 1000
 export const swapServices = {
 	[PoolType.OCI]: {
 		enabled: true,
+		supportsSlippage: true,
 		type: PoolType.OCI,
 		image: 'images/oci/pool-icon-oci.png',
 		url: 'https://ociswap.com',
 	},
-	[PoolType.CAVIAR]: {
-		enabled: true,
-		type: PoolType.CAVIAR,
-		image: 'images/caviar/pool-icon-cavier.png',
-		url: 'https://caviarswap.io',
-	},
 	[PoolType.DOGECUBEX]: {
 		enabled: true,
+		supportsSlippage: true,
 		type: PoolType.DOGECUBEX,
 		image: 'images/dogecube/pool-icon-dogecube.png',
 		url: 'https://dogecubex.live',
 	},
 	[PoolType.ASTROLESCENT]: {
 		enabled: true,
+		supportsSlippage: false,
 		type: PoolType.ASTROLESCENT,
 		image: 'images/astrolescent/pool-icon-astrolescent.png',
 		url: 'https://astrolescent.com/',
+	},
+	[PoolType.DSOR]: {
+		enabled: true,
+		supportsSlippage: false,
+		type: PoolType.DSOR,
+		image: 'images/dsor/pool-icon-dsor.png',
+		url: 'https://dsor.io',
+	},
+	[PoolType.CAVIAR]: {
+		enabled: true,
+		supportsSlippage: false,
+		type: PoolType.CAVIAR,
+		image: 'images/caviar/pool-icon-cavier.png',
+		url: 'https://caviarswap.io',
 	},
 }
 

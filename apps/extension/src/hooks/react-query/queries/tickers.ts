@@ -1,6 +1,7 @@
 import { useQuery, useQueries } from 'react-query'
 import { Ticker } from '@src/types'
 import oci, { TokensResponse as OCITokensResponse } from '@src/services/oci'
+// import dsor, { TokensResponse as DSORTokensResponse } from '@src/services/dsor'
 import { CoinGeckoService } from '@src/services/coingecko'
 // import { BitFinexService } from '@src/services/bitfinex'
 
@@ -22,7 +23,7 @@ const getOCITicker = async (tokens: OCITokensResponse, currency: string, asset: 
 	return null
 }
 
-export const useOCITokens = () =>
+export const useOCITicker = () =>
 	useQuery(['useOCITicker'], async (): Promise<OCITokensResponse> => {
 		try {
 			return await oci.getTokens()
@@ -31,8 +32,36 @@ export const useOCITokens = () =>
 		}
 	})
 
+// const getDSORTicker = async (response: DSORTokensResponse, currency: string, asset: string) => {
+// 	const { tokens } = response
+// 	if (tokens && tokens.length > 0) {
+// 		const token = tokens.find(_token => _token.symbol.toUpperCase() === asset.toUpperCase())
+// 		if (token) {
+// 			console.log(currency, asset, token.price_usd, token.volume_24.total, token.price_usd / token.volume_24.total)
+// 			return {
+// 				asset,
+// 				currency,
+// 				change: token.price_usd / token.price_24.total,
+// 				last_price: token.price_usd,
+// 				volume: token.volume_24.total,
+// 			} as Ticker
+// 		}
+// 	}
+// 	return null
+// }
+
+// export const useDSORTicker = () =>
+// 	useQuery(['useDSORTicker'], async (): Promise<DSORTokensResponse> => {
+// 		try {
+// 			return await dsor.getTokens()
+// 		} catch (error: any) {
+// 			return { tokens: [] }
+// 		}
+// 	})
+
 export const useTicker = (currency: string, asset: string) => {
-	const { data: ociTokens, isLoading } = useOCITokens()
+	// const { data: dsorTokens, isLoading } = useDSORTicker()
+	const { data: ociTickers, isLoading } = useOCITicker()
 	return useQuery(
 		['useTicker', currency, asset],
 		async (): Promise<Ticker> => {
@@ -40,7 +69,7 @@ export const useTicker = (currency: string, asset: string) => {
 				return await service.getTicker(currency, asset)
 			} catch (error: any) {
 				if (currency.toUpperCase() === 'USD') {
-					return await getOCITicker(ociTokens, currency, asset)
+					return await getOCITicker(ociTickers, currency, asset)
 				}
 				return null
 			}
@@ -52,7 +81,8 @@ export const useTicker = (currency: string, asset: string) => {
 }
 
 export const useTickers = (currency: string, assets: string[]) => {
-	const { data: ociTokens, isLoading } = useOCITokens()
+	// const { data: dsorTokens, isLoading } = useDSORTicker()
+	const { data: ociTickers, isLoading } = useOCITicker()
 	const queries = assets.map(asset => ({
 		queryKey: ['useTicker', currency, asset],
 		queryFn: async () => {
@@ -61,7 +91,7 @@ export const useTickers = (currency: string, assets: string[]) => {
 				return await service.getTicker(currency, asset)
 			} catch (error: any) {
 				if (currency.toUpperCase() === 'USD') {
-					return await getOCITicker(ociTokens, currency, asset)
+					return await getOCITicker(ociTickers, currency, asset)
 				}
 				return null
 			}

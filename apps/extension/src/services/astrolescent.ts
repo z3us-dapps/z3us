@@ -33,7 +33,7 @@ export class AstrolescentService {
 	}
 
 	getTokens = async (): Promise<TokensResponse> => {
-		const response = await fetch(`${this.baseURL}/tokens}`, this.options)
+		const response = await fetch(`${this.baseURL}/tokens`, this.options)
 		if (response.status !== 200) {
 			throw new Error(`Invalid request: ${response.status} received`)
 		}
@@ -62,14 +62,11 @@ export class AstrolescentService {
 				break
 		}
 		const path = url.toString()
-
 		const response = await fetch(path, this.options)
-
 		const data = await response.json()
 		if (data?.error) {
 			throw new Error(data.error.toString().trim())
 		}
-
 		if (response.status !== 200) {
 			// eslint-disable-next-line no-console
 			console.error(`Invalid request: ${response.status} received`, response)
