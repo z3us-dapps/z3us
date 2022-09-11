@@ -9,7 +9,10 @@ import { parseAccountAddress, parseAmount, parseResourceIdentifier } from '@src/
 import oci from '@src/services/oci'
 import doge, { QuoteQuery } from '@src/services/dogecubex'
 import astrolescent, { SwapResponse as AstrolescentSwapResponse } from '@src/services/astrolescent'
-import dsor, { SwapResponse as DsorSwapResponse } from '@src/services/dsor'
+import dsor, {
+	SwapResponse as DsorSwapResponse,
+	calculateTotalPriceImpact as dsorCalculateTotalPriceImpact,
+} from '@src/services/dsor'
 import { calculateSwap } from '@src/services//caviar'
 
 const zero = new BigNumber(0)
@@ -112,7 +115,7 @@ export const calculatePoolFeesFromAmount = async (
 
 			fee = new BigNumber(astrolescentQuote.swapFee).shiftedBy(-18)
 			receive = astrolescentQuote?.outputTokens ? new BigNumber(astrolescentQuote?.outputTokens || 0) : receive
-			priceImpact = astrolescentQuote?.priceImpact
+			priceImpact = astrolescentQuote.priceImpact / 100
 			response = astrolescentQuote
 			break
 		case PoolType.DSOR:
@@ -123,8 +126,8 @@ export const calculatePoolFeesFromAmount = async (
 			})
 
 			fee = zero // @TODO
-			receive = dsorQuote?.rhs_amount ? new BigNumber(dsorQuote.rhs_amount).shiftedBy(-18) : receive
-			// priceImpact = dsorQuote?.actions.reduce() @TODO: calculated from each action price impact
+			receive = new BigNumber(dsorQuote.rhs_amount).shiftedBy(-18)
+			priceImpact = dsorCalculateTotalPriceImpact(dsorQuote, receive)
 			response = dsorQuote
 			break
 		case PoolType.CAVIAR:
@@ -220,8 +223,8 @@ export const calculatePoolFeesFromReceive = async (
 			})
 
 			fee = zero // @TODO
-			amount = dsorQuote?.lhs_amount ? new BigNumber(dsorQuote.lhs_amount).shiftedBy(-18) : amount
-			// priceImpact = dsorQuote?.actions.reduce() @TODO: calculated from each action price impact
+			amount = new BigNumber(dsorQuote.lhs_amount).shiftedBy(-18)
+			priceImpact = dsorCalculateTotalPriceImpact(dsorQuote, receive)
 			response = dsorQuote
 			break
 		case PoolType.CAVIAR:
@@ -241,6 +244,7 @@ export const calculatePoolFeesFromReceive = async (
 
 export const calculateCheapestPoolFeesFromAmount = async (
 	pools: Pool[],
+	selectedPool: Pool | null,
 	amount: BigNumber,
 	slippage: number,
 	from: Token,
@@ -266,6 +270,9 @@ export const calculateCheapestPoolFeesFromAmount = async (
 				p.quote = quote
 				return quote
 			} catch (error) {
+				if (selectedPool?.id === p.id) {
+					throw error
+				}
 				// eslint-disable-next-line no-console
 				console.error(error)
 				return null
@@ -275,7 +282,13 @@ export const calculateCheapestPoolFeesFromAmount = async (
 	results.forEach((quote: Quote | null, index: number) => {
 		if (!quote) return
 		if (quote.receive.eq(0)) return
-		if (!bestQuote || quote.receive.gt(bestQuote.receive)) {
+		if (selectedPool) {
+			const p = pools[index]
+			if (selectedPool.id === p.id) {
+				bestQuote = quote
+				pool = p
+			}
+		} else if (!bestQuote || quote.receive.gt(bestQuote.receive)) {
 			bestQuote = quote
 			pool = pools[index]
 		}
@@ -294,6 +307,7 @@ export const calculateCheapestPoolFeesFromAmount = async (
 
 export const calculateCheapestPoolFeesFromReceive = async (
 	pools: Pool[],
+	selectedPool: Pool | null,
 	receive: BigNumber,
 	slippage: number,
 	from: Token,
@@ -319,6 +333,9 @@ export const calculateCheapestPoolFeesFromReceive = async (
 				p.quote = quote
 				return quote
 			} catch (error) {
+				if (selectedPool?.id === p.id) {
+					throw error
+				}
 				// eslint-disable-next-line no-console
 				console.error(error)
 				return null
@@ -328,7 +345,13 @@ export const calculateCheapestPoolFeesFromReceive = async (
 	results.forEach((quote: Quote | null, index: number) => {
 		if (!quote) return
 		if (quote.amount.eq(0)) return
-		if (!bestQuote || quote.amount.lt(bestQuote.amount)) {
+		if (selectedPool) {
+			const p = pools[index]
+			if (selectedPool.id === p.id) {
+				bestQuote = quote
+				pool = p
+			}
+		} else if (!bestQuote || quote.amount.lt(bestQuote.amount)) {
 			bestQuote = quote
 			pool = pools[index]
 		}
@@ -354,7 +377,6 @@ export const calculateTransactionFee = async (
 	z3usFee: BigNumber,
 	z3usBurn: BigNumber,
 	minimum: boolean,
-	// @TODO: type these
 	buildTransactionFromActions: (
 		actions: IntendedAction[],
 		message?: string,

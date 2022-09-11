@@ -55,7 +55,7 @@ export const calculateSwap = (
 	let receive = zero
 	let fee = zero
 
-	const caviarPool = pools.find(cp => cp.wallet === pool.wallet)
+	const caviarPool = pools.find(cp => cp.id === pool.id)
 	const balanceXRD = new BigNumber(caviarPool?.balances[XRD_RRI] || 0).shiftedBy(-18)
 	const fromBalance = new BigNumber(caviarPool?.balances[from.rri] || 0).shiftedBy(-18)
 	const toBalance = new BigNumber(caviarPool?.balances[to.rri] || 0).shiftedBy(-18)

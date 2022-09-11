@@ -23,6 +23,7 @@ interface IProps {
 	z3usFee: BigNumber
 	z3usBurn: BigNumber
 	txFee: BigNumber
+	priceImpact: number
 	pool?: Pool
 	pools?: Array<Pool>
 	onPoolChange?: (pool: Pool) => void
@@ -42,6 +43,7 @@ export const FeeBox: React.FC<IProps> = ({
 	z3usFee,
 	z3usBurn,
 	txFee,
+	priceImpact,
 	pool,
 	pools,
 	onPoolChange,
@@ -103,30 +105,95 @@ export const FeeBox: React.FC<IProps> = ({
 					)}
 				</Flex>
 				<Flex css={{ flex: '1', width: '100%' }}>
-					<Text css={{ flex: '1', color: '$txtHelp' }} medium>
-						Slippage:
+					<Text css={{ flex: '1', color: '$txtHelp', display: 'flex', alignItems: 'center', height: '15px' }} medium>
+						Price impact:
+						<Box css={{ pl: '3px', transform: 'translateY(1px)' }}>
+							<HoverCard>
+								<HoverCardTrigger asChild>
+									<Flex css={{ color: '$txtHelp', display: 'inline-flex' }}>
+										<InfoCircledIcon />
+									</Flex>
+								</HoverCardTrigger>
+								<HoverCardContent
+									side="top"
+									sideOffset={5}
+									css={{ maxWidth: '240px', pointerEvents: 'auto', zIndex: '99' }}
+								>
+									<Flex css={{ borderTop: '1px solid', borderColor: '$borderPanel', mt: '$2', pt: '$2' }}>
+										<Text size="2" color="help">
+											Price impact is the influence of user&apos;s individual trade over the market price of an
+											underlying asset pair. It is directly correlated with the amount of liquidity in the pool. Price
+											impact can be especially high for illiquid markets/pairs, and may cause a trader to lose a
+											significant portion of their funds.
+										</Text>
+									</Flex>
+								</HoverCardContent>
+							</HoverCard>
+						</Box>
 					</Text>
-					<Flex css={{ height: '15px', position: 'relative' }}>
-						{isConfirmFeeBox &&
-							((pool?.type === PoolType.OCI || pool?.type === PoolType.DOGECUBEX) && minimum ? (
+					<Text medium css={{ pl: '$1' }}>
+						<Flex css={{ height: '15px', position: 'relative' }}>
+							{priceImpact > 0 ? (
 								<Text medium>{getSlippagePercentage(slippage)}</Text>
 							) : (
-								<ToolTip message="Slippage not supported">
+								<ToolTip message="Price impact not provided">
 									<Flex css={{ color: '$txtHelp', display: 'inline-flex' }}>
 										<CircleBackslashIcon />
 									</Flex>
 								</ToolTip>
-							))}
-						{!isConfirmFeeBox && pool && (
-							<SlippageSettings
-								pool={pool}
-								minimum={minimum}
-								onMinimumChange={onMinimumChange}
-								slippage={slippage}
-								onSlippageChange={onSlippageChange}
-							/>
-						)}
-					</Flex>
+							)}
+						</Flex>
+					</Text>
+				</Flex>
+				<Flex css={{ flex: '1', width: '100%' }}>
+					<Text css={{ flex: '1', color: '$txtHelp', display: 'flex', alignItems: 'center', height: '15px' }} medium>
+						Slippage tolerance:
+						<Box css={{ pl: '3px', transform: 'translateY(1px)' }}>
+							<HoverCard>
+								<HoverCardTrigger asChild>
+									<Flex css={{ color: '$txtHelp', display: 'inline-flex' }}>
+										<InfoCircledIcon />
+									</Flex>
+								</HoverCardTrigger>
+								<HoverCardContent
+									side="top"
+									sideOffset={5}
+									css={{ maxWidth: '240px', pointerEvents: 'auto', zIndex: '99' }}
+								>
+									<Flex css={{ borderTop: '1px solid', borderColor: '$borderPanel', mt: '$2', pt: '$2' }}>
+										<Text size="2" color="help">
+											Slippage tolerance is a setting for the amount of price slippage you are willing to accept for a
+											trade. By setting slippage tolerance, you basically setting a minimum amount on how many tokens
+											you will accept, in the event that the price increases or decreases.
+										</Text>
+									</Flex>
+								</HoverCardContent>
+							</HoverCard>
+						</Box>
+					</Text>
+					<Text medium css={{ pl: '$1' }}>
+						<Flex css={{ height: '15px', position: 'relative' }}>
+							{isConfirmFeeBox &&
+								((pool?.type === PoolType.OCI || pool?.type === PoolType.DOGECUBEX) && minimum ? (
+									<Text medium>{getSlippagePercentage(slippage)}</Text>
+								) : (
+									<ToolTip message="Slippage not supported">
+										<Flex css={{ color: '$txtHelp', display: 'inline-flex' }}>
+											<CircleBackslashIcon />
+										</Flex>
+									</ToolTip>
+								))}
+							{!isConfirmFeeBox && pool && (
+								<SlippageSettings
+									pool={pool}
+									minimum={minimum}
+									onMinimumChange={onMinimumChange}
+									slippage={slippage}
+									onSlippageChange={onSlippageChange}
+								/>
+							)}
+						</Flex>
+					</Text>
 				</Flex>
 				<Flex css={{ flex: '1', width: '100%' }}>
 					<Text css={{ flex: '1', color: '$txtHelp', display: 'flex', alignItems: 'center', height: '15px' }} medium>

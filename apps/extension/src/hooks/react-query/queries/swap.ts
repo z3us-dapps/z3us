@@ -111,45 +111,53 @@ export const usePools = (fromRRI: string, toRRI: string): Pool[] => {
 					(p.token_b.rri === fromRRI && p.token_a.rri === toRRI),
 			)
 			if (ociPool) {
-				pools.push({
-					...swapServices[PoolType.OCI],
-					name: OCIPoolName,
-					wallet: ociPool.wallet_address,
-				})
+				pools.push(
+					new Pool({
+						...swapServices[PoolType.OCI],
+						name: OCIPoolName,
+						wallet: ociPool.wallet_address,
+					}),
+				)
 			}
 		}
 		if (dogePools && (fromRRI === XRD_RRI || toRRI === XRD_RRI)) {
 			if (fromRRI === XRD_RRI) {
 				const dogePool = dogePools.find(p => p.token.rri === toRRI)
 				if (dogePool) {
-					pools.push({
-						...swapServices[PoolType.DOGECUBEX],
-						image: dogePool.heroImageUrl || swapServices[PoolType.DOGECUBEX].image,
-						name: DogeCubePoolName,
-						wallet: dogePool.account,
-					})
+					pools.push(
+						new Pool({
+							...swapServices[PoolType.DOGECUBEX],
+							image: dogePool.heroImageUrl || swapServices[PoolType.DOGECUBEX].image,
+							name: DogeCubePoolName,
+							wallet: dogePool.account,
+						}),
+					)
 				}
 			} else if (toRRI === XRD_RRI) {
 				const dogePool = dogePools.find(p => p.token.rri === fromRRI)
 				if (dogePool) {
-					pools.push({
-						...swapServices[PoolType.DOGECUBEX],
-						image: dogePool.heroImageUrl || swapServices[PoolType.DOGECUBEX].image,
-						name: DogeCubePoolName,
-						wallet: dogePool.account,
-					})
+					pools.push(
+						new Pool({
+							...swapServices[PoolType.DOGECUBEX],
+							image: dogePool.heroImageUrl || swapServices[PoolType.DOGECUBEX].image,
+							name: DogeCubePoolName,
+							wallet: dogePool.account,
+						}),
+					)
 				}
 			}
 		}
 		if (caviarPools) {
 			caviarPools.forEach(p => {
 				if (p.balances[fromRRI] && p.balances[toRRI]) {
-					pools.push({
-						...swapServices[PoolType.CAVIAR],
-						name: p.name,
-						wallet: p.wallet,
-						balances: p.balances,
-					})
+					pools.push(
+						new Pool({
+							...swapServices[PoolType.CAVIAR],
+							name: p.name,
+							wallet: p.wallet,
+							balances: p.balances,
+						}),
+					)
 				}
 			})
 		}
@@ -157,31 +165,37 @@ export const usePools = (fromRRI: string, toRRI: string): Pool[] => {
 			const fromToken = dsorTokens?.tokens.find(token => token.rri === fromRRI)
 			const toToken = dsorTokens?.tokens.find(token => token.rri === toRRI)
 			if (fromToken && toToken) {
-				pools.push({
-					...swapServices[PoolType.DSOR],
-					name: DSORPoolName,
-					wallet: 'dsor',
-				})
+				pools.push(
+					new Pool({
+						...swapServices[PoolType.DSOR],
+						name: DSORPoolName,
+						wallet: 'dsor',
+					}),
+				)
 			}
 		}
 		if (astrolescentTokens && (fromRRI === XRD_RRI || toRRI === XRD_RRI)) {
 			if (fromRRI === XRD_RRI) {
 				const astrolescentPool = astrolescentTokens.find(token => token.rri === toRRI)
 				if (astrolescentPool) {
-					pools.push({
-						...swapServices[PoolType.ASTROLESCENT],
-						name: AstrolescentPoolName,
-						wallet: 'astrolescent',
-					})
+					pools.push(
+						new Pool({
+							...swapServices[PoolType.ASTROLESCENT],
+							name: AstrolescentPoolName,
+							wallet: 'astrolescent',
+						}),
+					)
 				}
 			} else if (toRRI === XRD_RRI) {
 				const astrolescentPool = astrolescentTokens.find(token => token.rri === fromRRI)
 				if (astrolescentPool) {
-					pools.push({
-						...swapServices[PoolType.ASTROLESCENT],
-						name: AstrolescentPoolName,
-						wallet: 'astrolescent',
-					})
+					pools.push(
+						new Pool({
+							...swapServices[PoolType.ASTROLESCENT],
+							name: AstrolescentPoolName,
+							wallet: 'astrolescent',
+						}),
+					)
 				}
 			}
 		}
