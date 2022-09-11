@@ -115,7 +115,7 @@ export const calculatePoolFeesFromAmount = async (
 
 			fee = new BigNumber(astrolescentQuote.swapFee).shiftedBy(-18)
 			receive = astrolescentQuote?.outputTokens ? new BigNumber(astrolescentQuote?.outputTokens || 0) : receive
-			priceImpact = astrolescentQuote.priceImpact / 100
+			priceImpact = 100 - astrolescentQuote.priceImpact
 			response = astrolescentQuote
 			break
 		case PoolType.DSOR:
