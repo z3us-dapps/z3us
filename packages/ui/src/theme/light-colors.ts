@@ -43,6 +43,7 @@ export const lightColors = {
 
 	borderPanel: '#ececec',
 	borderPanel2: '#dbdbdb',
+	borderPanel3: '#D2D2D2',
 	borderPanelFooter: '#e9e9e9',
 	borderDialog: '#736b82',
 	borderPopup: '#e5e5e5',
