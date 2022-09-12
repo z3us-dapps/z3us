@@ -83,12 +83,16 @@ const triggerWatch = () => dispatchEvent(new CustomEvent('backgroundwatcher'))
 
 const watch = async () => {
 	await sharedStore.persist.rehydrate()
-	const { selectKeystoreId, transactionNotificationsEnabled = true } = sharedStore.getState()
+	const { selectKeystoreId, transactionNotificationsEnabled } = sharedStore.getState()
 
 	const useStore = accountStore(selectKeystoreId)
 	await useStore.persist.rehydrate()
 
-	if (transactionNotificationsEnabled) watchTransactions(useStore)
+	if (transactionNotificationsEnabled) {
+		watchTransactions(useStore)
+	} else {
+		lastTxIds = {}
+	}
 }
 
 export default () => {
