@@ -2,6 +2,7 @@ import React, { lazy, Suspense } from 'react'
 import { useSharedStore } from '@src/store'
 import { Router, Route } from 'wouter'
 import { Box, Flex } from 'ui/src/components/atoms'
+import { Loader } from '@src/components/loader'
 import { Toasts } from '@src/containers/toasts'
 import { useHashLocation, multipathMatcher } from '@src/hooks/use-hash-location'
 import { useColorMode } from '@src/hooks/use-color-mode'
@@ -44,7 +45,7 @@ export const App: React.FC = () => {
 		>
 			{messanger ? (
 				<Router matcher={multipathMatcher as any} hook={useHashLocation as any}>
-					<Suspense fallback="Loading...">
+					<Suspense fallback={Loader}>
 						<Route path="/wallet/:rest*" component={WalletPanel} />
 						<Route path="/notification/:rest*" component={Notification} />
 						<Route path="/onboarding/:rest*">

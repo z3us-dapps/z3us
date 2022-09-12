@@ -114,3 +114,5 @@ export const Connect = (): JSX.Element => {
 		</>
 	)
 }
+
+export default Connect

@@ -362,3 +362,5 @@ export const SendToken: React.FC = () => {
 		</AnimatePresence>
 	)
 }
+
+export default SendToken

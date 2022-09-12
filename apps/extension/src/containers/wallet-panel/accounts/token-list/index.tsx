@@ -301,3 +301,5 @@ export const TokenList: React.FC = () => {
 		</>
 	)
 }
+
+export default TokenList
