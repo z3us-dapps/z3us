@@ -49,6 +49,7 @@ interface IProps {
 	transaction: BuiltTransactionReadyToSign
 	onConfirmSend: () => void
 	slippage: number
+	priceImpact: number
 	minimum: boolean
 	disabledButton: boolean
 	swapResponse: any
@@ -71,6 +72,7 @@ export const SwapModal: React.FC<IProps> = ({
 	onConfirmSend,
 	minimum,
 	slippage,
+	priceImpact,
 	disabledButton,
 	swapResponse,
 }) => {
@@ -247,6 +249,7 @@ export const SwapModal: React.FC<IProps> = ({
 										pool={pool}
 										minimum={minimum}
 										slippage={slippage}
+										priceImpact={priceImpact}
 										css={{ mt: '12px' }}
 									/>
 									<Box css={{ mt: '$1', display: 'none' }}>

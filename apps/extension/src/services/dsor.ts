@@ -1,3 +1,5 @@
+import BigNumber from 'bignumber.js'
+
 export type SwapQuery = {
 	lhs_rri: string
 	rhs_rri: string
@@ -5,7 +7,7 @@ export type SwapQuery = {
 	rhs_amount?: string
 }
 
-type Action = {
+export type Action = {
 	source: string
 	name: string
 	wallet_address: string
@@ -14,12 +16,15 @@ type Action = {
 	rhs_rri: string
 	rhs_amount: number
 	rhs_full_amount: number
+	percentage: number
+	price_impact: number
+	slippage: number
 }
 
 export type SwapResponse = {
 	uid: string
-	lhs_amount?: number
-	rhs_amount?: number
+	lhs_amount: number
+	rhs_amount: number
 
 	actions: Array<Action>
 	message: string
@@ -41,6 +46,16 @@ export type TokensResponse = {
 }
 
 export const PoolName = 'DSOR'
+
+export const calculateTotalPriceImpact = (response: SwapResponse, receive: BigNumber): number =>
+	response.actions
+		.reduce(
+			(accumulator: BigNumber, quote: Action) =>
+				accumulator.plus(new BigNumber(quote.rhs_amount).multipliedBy(quote.price_impact).dividedBy(receive)),
+			new BigNumber(0),
+		)
+		.multipliedBy(100)
+		.toNumber()
 
 export class DSORService {
 	private baseURL: string = 'https://api.dsor.io/v1.0'
