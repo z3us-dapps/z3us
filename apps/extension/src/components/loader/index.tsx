@@ -1,13 +1,10 @@
 import React from 'react'
-import { useAnimationControls } from 'framer-motion'
 import { useColorMode } from '@src/hooks/use-color-mode'
 import { Box, Flex, MotionBox } from 'ui/src/components/atoms'
 import { Z3USLogoOuter, Z3USLogoInner } from '../z3us-logo'
 
 export const Loader: React.FC = () => {
 	const isDarkMode = useColorMode()
-	const z3usLogoControls = useAnimationControls()
-	const z3usLogoSpinnerControls = useAnimationControls()
 
 	const logoFill = isDarkMode ? '#323232' : '#FFFFFF'
 	const logoBackgroundStart = isDarkMode ? '#1F1F1F' : '#DBDBDB'
@@ -16,7 +13,7 @@ export const Loader: React.FC = () => {
 	return (
 		<Flex align="center" justify="center" css={{ flex: '1', position: 'relative' }}>
 			<MotionBox
-				animate={z3usLogoControls}
+				animate
 				css={{
 					width: '232px',
 					height: '232px',
@@ -34,7 +31,7 @@ export const Loader: React.FC = () => {
 			>
 				<MotionBox
 					initial={false}
-					animate={z3usLogoSpinnerControls}
+					animate
 					css={{ width: '232px', height: '232px', position: 'absolute', top: '0', left: '0' }}
 				>
 					<Z3USLogoOuter />
