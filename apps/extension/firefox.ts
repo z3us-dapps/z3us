@@ -27,7 +27,6 @@ export default {
 		'storage',
 		'unlimitedStorage',
 		'notifications',
-		'activeTab',
 		'*://*.radixdlt.com/*',
 		'*://api.bitfinex.com/*',
 		'*://api.coingecko.com/api/*',

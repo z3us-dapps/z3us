@@ -2,6 +2,7 @@ import browser from 'webextension-polyfill'
 import { accountStore, defaultAccountStore, sharedStore } from '@src/store'
 import { RadixService } from '@src/services/radix'
 import { getShortAddress, getTransactionType } from '@src/utils/string-utils'
+import { EXPLORER_URL } from '@src/config'
 import { Transaction } from '@src/types'
 
 export async function getLastTransactions(
@@ -30,6 +31,14 @@ export async function getLastTransactions(
 	return transactionMap
 }
 
+browser.notifications.onClicked.addListener(id => {
+	const txNotificationIdPrefix = 'tx-'
+	if (id.startsWith(txNotificationIdPrefix)) {
+		window.open(`${EXPLORER_URL}/transactions/${id.slice(txNotificationIdPrefix.length)}`)
+		window.focus()
+	}
+})
+
 let lastTxIds = {}
 let isCheckingTransactions = false
 const watchTransactions = async (useStore: typeof defaultAccountStore) => {
@@ -55,12 +64,13 @@ const watchTransactions = async (useStore: typeof defaultAccountStore) => {
 					const activity = action ? getTransactionType(address, action) : 'Unknown'
 
 					// eslint-disable-next-line no-await-in-loop
-					await browser.notifications.create(tx.id, {
+					await browser.notifications.create(`tx-${tx.id}`, {
 						type: 'basic',
 						iconUrl: browser.runtime.getURL('favicon-128x128.png'),
 						title: `New ${activity} Transaction`,
 						eventTime: tx?.sentAt.getTime(),
 						message: `There is a new ${activity} transaction on your account (${getShortAddress(address)}).`,
+						isClickable: true,
 					})
 					const { lastError } = browser.runtime
 					if (lastError) {

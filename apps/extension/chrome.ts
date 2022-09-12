@@ -32,7 +32,7 @@ export default {
 		'48': 'favicon-48x48.png',
 		'128': 'favicon-128x128.png',
 	},
-	permissions: ['storage', 'unlimitedStorage', 'notifications', 'activeTab'],
+	permissions: ['storage', 'unlimitedStorage', 'notifications'],
 	host_permissions: [
 		'*://*.radixdlt.com/*',
 		'*://api.bitfinex.com/*',
