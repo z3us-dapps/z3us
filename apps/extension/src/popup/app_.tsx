@@ -19,8 +19,8 @@ export const App: React.FC = () => {
 	const isHardwareWalletRoute = domExists && window.location.href.includes('html#/hardware-wallet')
 	// useManifestCompoler()
 	useColorMode()
-	useVault()
 	usePermissionsVault()
+	useVault()
 
 	const { messanger } = useSharedStore(state => ({
 		messanger: state.messanger,

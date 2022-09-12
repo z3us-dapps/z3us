@@ -57,10 +57,7 @@ Prior to connecting, please verify that `window.z3us` is available and that user
 
 <SyntaxHighlighter language="typescript">
 	{`
-if (window.z3us) {
-	return
-}
-const hasWallet = await window.z3us.v1.hasWallet()
+const hasWallet = await window.z3us?.v1.hasWallet()
 if (!hasWallet) {
 	return
 }
