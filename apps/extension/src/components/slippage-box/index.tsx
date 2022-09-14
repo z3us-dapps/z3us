@@ -5,6 +5,7 @@ import { Box, Text, Flex } from 'ui/src/components/atoms'
 import { useTicker } from '@src/hooks/react-query/queries/tickers'
 import { Token } from '@src/types'
 import { useSharedStore } from '@src/store'
+import { useNativeToken } from '@src/hooks/react-query/queries/radix'
 
 interface IProps {
 	token?: Token
@@ -18,6 +19,8 @@ export const SlippageBox: React.FC<IProps> = ({ token, amount, fee, css }) => {
 		currency: state.currency,
 	}))
 	const { data: ticker } = useTicker(currency, token?.symbol)
+	const { data: nativeToken } = useNativeToken()
+	const { data: nativeTicker } = useTicker(currency, nativeToken?.symbol)
 
 	if (!ticker) {
 		return null
@@ -50,7 +53,7 @@ export const SlippageBox: React.FC<IProps> = ({ token, amount, fee, css }) => {
 					<Text medium css={{ flex: '1', color: '$txtHelp' }}>
 						Estimated fees
 					</Text>
-					<Text>{formatBigNumber(fee.multipliedBy(ticker.last_price), currency, 2)}</Text>
+					<Text>{formatBigNumber(fee.multipliedBy(nativeTicker.last_price), currency, 2)}</Text>
 				</Flex>
 			)}
 			{amount && ticker && (
