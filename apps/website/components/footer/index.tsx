@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unused-vars, react/require-default-props */
 import React from 'react'
 import Link from 'next/link'
-// import { Z3usLogo } from 'ui/src/components/z3us-logo'
+import { Z3usLogo } from 'ui/src/components/z3us-logo'
 import { PageContainer } from 'components/page-container'
 import { ThemeSelector } from './theme-selector'
 
@@ -16,7 +16,7 @@ export const Footer = ({ className }: IProps) => (
 				<div className="flex-1 flex items-center fill-white">
 					<Link href="/" passHref>
 						<a className="cursor-pointer inline-flex items-center justify-center fill-white hover:fill-violet-50 transition-colors">
-							{/* <Z3usLogo className="transition-colors" /> */}
+							<Z3usLogo className="transition-colors" />
 						</a>
 					</Link>
 					<span className="text-xs pl-2">&copy; {new Date().getFullYear()} Z3US</span>

@@ -39,11 +39,11 @@ export const Header = ({ className }: IProps) => (
 							<a className="cursor-pointer hover:underline">Docs</a>
 						</Link>
 					</li>
-					<li>
-						<a className="cursor-pointer hover:underline" href={config.GITHUB_FEEDBACK_URL}>
-							Feedback
-						</a>
-					</li>
+					{/* <li> */}
+					{/* 	<a className="cursor-pointer hover:underline" href={config.GITHUB_FEEDBACK_URL}> */}
+					{/* 		Feedback */}
+					{/* 	</a> */}
+					{/* </li> */}
 					<li className="h-6">
 						<a
 							className="header-icon cursor-pointer inline-flex items-center justify-center fill-white hover:fill-violet-50 transition-colors"
@@ -55,9 +55,17 @@ export const Header = ({ className }: IProps) => (
 					<li className="h-6">
 						<a
 							className="header-icon cursor-pointer inline-flex items-center justify-center fill-white hover:fill-violet-50 transition-colors"
-							href={config.DISCORD_URL}
+							href={config.TWITTER_URL}
 						>
 							<TwitterIcon />
+						</a>
+					</li>
+					<li className="h-6">
+						<a
+							className="header-icon cursor-pointer inline-flex items-center justify-center fill-white hover:fill-violet-50 transition-colors"
+							href={config.GITHUB_URL}
+						>
+							<GithubIcon />
 						</a>
 					</li>
 					<li>
