@@ -27,13 +27,5 @@ export const askForHostPermissions = async (networks: Network[]): Promise<Array<
 		}),
 	)
 
-	if (origins.length > 0) {
-		// @TODO: show modal with buttons
-		// const granted = await browser.permissions.request({ origins })
-		// if (!granted) {
-		// 	throw new Error(`Permissions declined for: ${origins.join(', ')}`)
-		// }
-	}
-
 	return origins
 }
