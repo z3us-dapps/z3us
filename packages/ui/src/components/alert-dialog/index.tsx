@@ -46,6 +46,7 @@ const StyledOverlayExtension = styled(AlertDialogPrimitive.Overlay, {
 })
 
 const StyledContentExtension = styled(AlertDialogPrimitive.Content, {
+	zIndex: '1',
 	position: 'absolute',
 	width: EXT_WIDTH,
 	height: EXT_HEIGHT,

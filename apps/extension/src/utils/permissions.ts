@@ -1,7 +1,7 @@
 import browser from 'webextension-polyfill'
 import { Network } from '@src/store/types'
 
-export const askForHostPermissions = async (networks: Network[]) => {
+export const askForHostPermissions = async (networks: Network[]): Promise<Array<any>> => {
 	const origins = []
 
 	await Promise.all(
@@ -34,4 +34,6 @@ export const askForHostPermissions = async (networks: Network[]) => {
 		// 	throw new Error(`Permissions declined for: ${origins.join(', ')}`)
 		// }
 	}
+
+	return origins
 }

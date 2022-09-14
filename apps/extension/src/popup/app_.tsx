@@ -11,7 +11,7 @@ import { useHashLocation, multipathMatcher } from '@src/hooks/use-hash-location'
 import { useColorMode } from '@src/hooks/use-color-mode'
 import { useVault } from '@src/hooks/use-vault'
 import { domExists } from '@src/utils/dom-exists'
-import { usePermissionsVault } from '@src/hooks/use-permissions'
+import { Permissions } from './permissions'
 // import { Credentials } from '@src/containers/credentials'
 // import { useManifestCompoler } from '@src/hooks/use-manifest-compiler'
 
@@ -19,7 +19,6 @@ export const App: React.FC = () => {
 	const isHardwareWalletRoute = domExists && window.location.href.includes('html#/hardware-wallet')
 	// useManifestCompoler()
 	useColorMode()
-	usePermissionsVault()
 	useVault()
 
 	const { messanger } = useSharedStore(state => ({
@@ -62,6 +61,7 @@ export const App: React.FC = () => {
 				<Flex align="center" justify="center" css={{ height: '100%' }} />
 			)}
 			<Toasts />
+			<Permissions />
 		</Box>
 	)
 }

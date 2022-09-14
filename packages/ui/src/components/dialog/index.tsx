@@ -58,6 +58,7 @@ const StyledOverlaySpan = styled('span', {
 })
 
 const StyledContent = styled(DialogPrimitive.Content, {
+	zIndex: '1',
 	position: 'absolute',
 	width: EXT_WIDTH,
 	height: EXT_HEIGHT,
