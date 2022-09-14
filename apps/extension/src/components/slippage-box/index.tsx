@@ -48,7 +48,7 @@ export const SlippageBox: React.FC<IProps> = ({ token, amount, fee, css }) => {
 					</Text>
 				</Flex>
 			)}
-			{fee && ticker && (
+			{fee && nativeTicker && (
 				<Flex css={{ pt: '$1' }}>
 					<Text medium css={{ flex: '1', color: '$txtHelp' }}>
 						Estimated fees
