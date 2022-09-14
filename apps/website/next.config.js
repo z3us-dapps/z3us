@@ -2,10 +2,6 @@ const withTM = require('next-transpile-modules')(['ui'])
 
 const nextConfig = withTM({
 	reactStrictMode: true,
-	images: {
-		loader: 'akamai',
-		path: '',
-	},
 	async headers() {
 		return [
 			{

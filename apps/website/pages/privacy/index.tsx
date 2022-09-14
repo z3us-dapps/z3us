@@ -4,14 +4,15 @@ import matter from 'gray-matter'
 import { serialize } from 'next-mdx-remote/serialize'
 import React from 'react'
 import { NextSeo } from 'next-seo'
-import { SinglePageDocs } from 'components/pages/single-page-docs'
-import { MdxTheme } from 'components/mdx-theme'
+// import { SinglePageDocs } from 'components/pages/single-page-docs'
+// import { MdxTheme } from 'components/mdx-theme'
 import { config } from 'config'
-import docsGlobalStyles from './docs/docs.styles'
+// import docsGlobalStyles from './docs/docs.styles'
 
-const PrivacyIndex = ({ mdxSource }) => {
-	docsGlobalStyles()
-	return (
+// const PrivacyIndex = ({ mdxSource }) => {
+const PrivacyIndex = () => 
+	// docsGlobalStyles()
+	 (
 		<>
 			<NextSeo
 				title="Privacy policy"
@@ -36,12 +37,13 @@ const PrivacyIndex = ({ mdxSource }) => {
 					],
 				}}
 			/>
-			<SinglePageDocs>
-				<MdxTheme mdxSource={mdxSource} />
-			</SinglePageDocs>
+			privacy
+			{/* <SinglePageDocs> */}
+			{/* 	<MdxTheme mdxSource={mdxSource} /> */}
+			{/* </SinglePageDocs> */}
 		</>
 	)
-}
+
 
 export const getStaticProps = async () => {
 	const markdownWithMeta = fs.readFileSync(path.join('docs/privacy.mdx'), 'utf-8')

@@ -9,13 +9,13 @@ import Button from 'ui/src/components/button'
 import { Box, Text, StyledLink } from 'ui/src/components/atoms'
 import { Example as ExampleOlympia } from '../pages/example-olympia'
 import { Example as ExampleBabylon } from '../pages/example-babylon'
-import { Airdrop } from '../pages/airdrop'
+// import { Airdrop } from '../pages/airdrop'
 
 const generateComponents = (theme: string) => ({
 	Button,
 	ExampleOlympia,
 	ExampleBabylon,
-	Airdrop,
+	// Airdrop,
 	SyntaxHighlighter: props => (
 		<Box
 			css={{

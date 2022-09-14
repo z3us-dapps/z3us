@@ -4,14 +4,15 @@ import matter from 'gray-matter'
 import { serialize } from 'next-mdx-remote/serialize'
 import React from 'react'
 import { NextSeo } from 'next-seo'
-import { PageDocs } from 'components/pages/page-docs'
+// import { PageDocs } from 'components/pages/page-docs'
 import { config } from 'config'
 import { DocsPageProps } from 'types'
-import docsGlobalStyles from './docs.styles'
+// import docsGlobalStyles from './docs.styles'
 
-export const DocsIndex: React.FC<DocsPageProps> = ({ docs, mdxSource }) => {
-	docsGlobalStyles()
-	return (
+// export const DocsIndex: React.FC<DocsPageProps> = ({ docs, mdxSource }) => {
+export const DocsIndex: React.FC<DocsPageProps> = () => 
+	// docsGlobalStyles()
+	 (
 		<>
 			<NextSeo
 				title="Documentation"
@@ -36,10 +37,11 @@ export const DocsIndex: React.FC<DocsPageProps> = ({ docs, mdxSource }) => {
 					],
 				}}
 			/>
-			<PageDocs docs={docs} mdxSource={mdxSource} />
+			<div>docs</div>
+			{/* <PageDocs docs={docs} mdxSource={mdxSource} /> */}
 		</>
 	)
-}
+
 
 export const getStaticProps = async () => {
 	const files = fs.readdirSync(path.join('docs'))
