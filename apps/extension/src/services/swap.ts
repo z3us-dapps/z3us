@@ -3,23 +3,21 @@
 import BigNumber from 'bignumber.js'
 import { IntendedTransferTokens, BuiltTransactionReadyToSign, AccountT } from '@radixdlt/application'
 import { FLOOP_RRI, Z3US_FEE_RATIO, Z3US_RRI, Z3US_WALLET_MAIN, Z3US_WALLET_BURN } from '@src/config'
-import { Pool, PoolType, Token, TokenAmount, IntendedAction } from '@src/types'
+import { Pool, PoolType, Token, TokenAmount, IntendedAction, PoolQuote } from '@src/types'
 import { buildAmount } from '@src/utils/radix'
 import { parseAccountAddress, parseAmount, parseResourceIdentifier } from '@src/services/radix/serializer'
 import oci from '@src/services/oci'
 import doge, { QuoteQuery } from '@src/services/dogecubex'
 import astrolescent, { SwapResponse as AstrolescentSwapResponse } from '@src/services/astrolescent'
-import dsor, { SwapResponse as DsorSwapResponse } from '@src/services/dsor'
+import dsor, {
+	SwapResponse as DsorSwapResponse,
+	calculateTotalPriceImpact as dsorCalculateTotalPriceImpact,
+} from '@src/services/dsor'
 import { calculateSwap } from '@src/services//caviar'
 
 const zero = new BigNumber(0)
 
-export type Quote = {
-	amount: BigNumber
-	receive: BigNumber
-	fee: BigNumber
-	response: any
-}
+export type Quote = PoolQuote & { response: any }
 
 export const getZ3USFees = (
 	amount: BigNumber,
@@ -74,12 +72,14 @@ export const calculatePoolFeesFromAmount = async (
 	let response
 	let receive = zero
 	let fee = zero
+	let priceImpact: number
 
 	if (!pool?.wallet || !from || !to || amount.lte(0)) {
 		return {
 			amount,
 			fee,
 			receive,
+			priceImpact,
 			response,
 		}
 	}
@@ -91,7 +91,8 @@ export const calculatePoolFeesFromAmount = async (
 			const ociExchangeFee = new BigNumber(ociQuote?.fee_exchange[0]?.amount || 0)
 
 			fee = ociLiquidityFee.plus(ociExchangeFee)
-			receive = ociQuote?.minimum_output ? new BigNumber(ociQuote?.minimum_output?.amount || 0) : receive
+			receive = ociQuote?.output ? new BigNumber(ociQuote?.output?.amount || 0) : receive
+			priceImpact = ociQuote?.price_impact ? +ociQuote.price_impact : undefined
 			response = ociQuote
 			break
 		case PoolType.DOGECUBEX:
@@ -105,6 +106,7 @@ export const calculatePoolFeesFromAmount = async (
 			const dogeQuote = await doge.getQuote(query)
 			amount = new BigNumber(dogeQuote?.sentAmount || 0)
 			receive = new BigNumber(dogeQuote?.receivedAmount || 0)
+			priceImpact = dogeQuote?.priceImpact ? +dogeQuote.priceImpact : undefined
 			fee = amount.multipliedBy(11 / 1000)
 			response = dogeQuote
 			break
@@ -113,6 +115,7 @@ export const calculatePoolFeesFromAmount = async (
 
 			fee = new BigNumber(astrolescentQuote.swapFee).shiftedBy(-18)
 			receive = astrolescentQuote?.outputTokens ? new BigNumber(astrolescentQuote?.outputTokens || 0) : receive
+			priceImpact = 100 - astrolescentQuote.priceImpact
 			response = astrolescentQuote
 			break
 		case PoolType.DSOR:
@@ -123,7 +126,8 @@ export const calculatePoolFeesFromAmount = async (
 			})
 
 			fee = zero // @TODO
-			receive = dsorQuote?.rhs_amount ? new BigNumber(dsorQuote.rhs_amount).shiftedBy(-18) : receive
+			receive = new BigNumber(dsorQuote.rhs_amount).shiftedBy(-18)
+			priceImpact = dsorCalculateTotalPriceImpact(dsorQuote, receive)
 			response = dsorQuote
 			break
 		case PoolType.CAVIAR:
@@ -148,6 +152,7 @@ export const calculatePoolFeesFromAmount = async (
 		amount,
 		fee,
 		receive,
+		priceImpact,
 		response,
 	}
 }
@@ -165,12 +170,14 @@ export const calculatePoolFeesFromReceive = async (
 	let response
 	let amount = zero
 	let fee = zero
+	let priceImpact: number
 
 	if (!pool?.wallet || !from || !to || receive.lte(0)) {
 		return {
 			receive,
 			fee,
 			amount,
+			priceImpact,
 			response,
 		}
 	}
@@ -183,6 +190,7 @@ export const calculatePoolFeesFromReceive = async (
 
 			fee = ociLiquidityFee.plus(ociExchangeFee)
 			amount = ociQuote?.input ? new BigNumber(ociQuote?.input.amount || 0) : amount
+			priceImpact = ociQuote?.price_impact ? +ociQuote.price_impact : undefined
 			break
 		case PoolType.DOGECUBEX:
 			const query: QuoteQuery = {
@@ -195,6 +203,7 @@ export const calculatePoolFeesFromReceive = async (
 			const dogeQuote = await doge.getQuote(query)
 			amount = new BigNumber(dogeQuote?.sentAmount || 0)
 			receive = new BigNumber(dogeQuote?.receivedAmount || 0)
+			priceImpact = dogeQuote?.priceImpact ? +dogeQuote.priceImpact : undefined
 			fee = amount.multipliedBy(11 / 1000)
 			response = dogeQuote
 			break
@@ -214,7 +223,8 @@ export const calculatePoolFeesFromReceive = async (
 			})
 
 			fee = zero // @TODO
-			amount = dsorQuote?.lhs_amount ? new BigNumber(dsorQuote.lhs_amount).shiftedBy(-18) : amount
+			amount = new BigNumber(dsorQuote.lhs_amount).shiftedBy(-18)
+			priceImpact = dsorCalculateTotalPriceImpact(dsorQuote, receive)
 			response = dsorQuote
 			break
 		case PoolType.CAVIAR:
@@ -227,12 +237,14 @@ export const calculatePoolFeesFromReceive = async (
 		amount,
 		fee,
 		receive,
+		priceImpact,
 		response,
 	}
 }
 
 export const calculateCheapestPoolFeesFromAmount = async (
 	pools: Pool[],
+	selectedPool: Pool | null,
 	amount: BigNumber,
 	slippage: number,
 	from: Token,
@@ -241,31 +253,61 @@ export const calculateCheapestPoolFeesFromAmount = async (
 	liquidBalances: TokenAmount[],
 ): Promise<{ pool: Pool } & Quote> => {
 	let pool: Pool
-	let cheapest
+	let bestQuote: Quote
 	const results = await Promise.all(
 		pools.map(async p => {
 			try {
-				return await calculatePoolFeesFromAmount(pools, p, amount, slippage, from, to, accountAddress, liquidBalances)
+				const quote = await calculatePoolFeesFromAmount(
+					pools,
+					p,
+					amount,
+					slippage,
+					from,
+					to,
+					accountAddress,
+					liquidBalances,
+				)
+				p.quote = quote
+				return quote
 			} catch (error) {
+				if (selectedPool?.id === p.id) {
+					throw error
+				}
 				// eslint-disable-next-line no-console
 				console.error(error)
 				return null
 			}
 		}),
 	)
-	results.forEach((cost, index) => {
-		if (!cost) return
-		if (cost.receive.eq(0)) return
-		if (!cheapest || cost.receive.gt(cheapest.receive)) {
-			cheapest = cost
+	results.forEach((quote: Quote | null, index: number) => {
+		if (!quote) return
+		if (quote.receive.eq(0)) return
+		if (selectedPool) {
+			const p = pools[index]
+			if (selectedPool.id === p.id) {
+				bestQuote = quote
+				pool = p
+			}
+		} else if (!bestQuote || quote.receive.gt(bestQuote.receive)) {
+			bestQuote = quote
 			pool = pools[index]
 		}
 	})
-	return { receive: zero, fee: zero, amount: zero, ...cheapest, pool }
+	pools.forEach((p: Pool) => {
+		p.costRatio = undefined
+		if (!bestQuote) return
+		if (!p.quote) return
+		if (!bestQuote.receive.gt(0)) return
+		if (!p.quote.receive.gt(0)) return
+
+		p.costRatio = bestQuote.receive.minus(p.quote.receive).dividedBy(p.quote.receive)
+	})
+	return { receive: zero, fee: zero, amount: zero, ...bestQuote, pool }
 }
 
 export const calculateCheapestPoolFeesFromReceive = async (
 	pools: Pool[],
+	selectedPool: Pool | null,
 	receive: BigNumber,
 	slippage: number,
 	from: Token,
@@ -274,27 +316,56 @@ export const calculateCheapestPoolFeesFromReceive = async (
 	liquidBalances: TokenAmount[],
 ): Promise<{ pool: Pool } & Quote> => {
 	let pool: Pool | null = null
-	let cheapest
+	let bestQuote: Quote
 	const results = await Promise.all(
 		pools.map(async p => {
 			try {
-				return await calculatePoolFeesFromReceive(pools, p, receive, slippage, from, to, accountAddress, liquidBalances)
+				const quote = await calculatePoolFeesFromReceive(
+					pools,
+					p,
+					receive,
+					slippage,
+					from,
+					to,
+					accountAddress,
+					liquidBalances,
+				)
+				p.quote = quote
+				return quote
 			} catch (error) {
+				if (selectedPool?.id === p.id) {
+					throw error
+				}
 				// eslint-disable-next-line no-console
 				console.error(error)
 				return null
 			}
 		}),
 	)
-	results.forEach((cost, index) => {
-		if (!cost) return
-		if (cost.amount.eq(0)) return
-		if (!cheapest || cost.amount.lt(cheapest.amount)) {
-			cheapest = cost
+	results.forEach((quote: Quote | null, index: number) => {
+		if (!quote) return
+		if (quote.amount.eq(0)) return
+		if (selectedPool) {
+			const p = pools[index]
+			if (selectedPool.id === p.id) {
+				bestQuote = quote
+				pool = p
+			}
+		} else if (!bestQuote || quote.amount.lt(bestQuote.amount)) {
+			bestQuote = quote
 			pool = pools[index]
 		}
 	})
-	return { receive: zero, fee: zero, amount: zero, ...cheapest, pool }
+	pools.forEach((p: Pool) => {
+		p.costRatio = undefined
+		if (!bestQuote) return
+		if (!p.quote) return
+		if (!bestQuote.amount.gt(0)) return
+		if (!p.quote.amount.gt(0)) return
+
+		p.costRatio = bestQuote.amount.minus(p.quote.amount).dividedBy(p.quote.amount).multipliedBy(-1)
+	})
+	return { receive: zero, fee: zero, amount: zero, ...bestQuote, pool }
 }
 
 export const calculateTransactionFee = async (
@@ -306,7 +377,6 @@ export const calculateTransactionFee = async (
 	z3usFee: BigNumber,
 	z3usBurn: BigNumber,
 	minimum: boolean,
-	// @TODO: type these
 	buildTransactionFromActions: (
 		actions: IntendedAction[],
 		message?: string,

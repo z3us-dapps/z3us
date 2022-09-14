@@ -1,3 +1,4 @@
+import { useEffect, useState } from 'react'
 import { useQuery } from 'react-query'
 import caviar from '@src/services/caviar'
 import oci, { PoolName as OCIPoolName } from '@src/services/oci'
@@ -36,48 +37,56 @@ export const useDSORTokens = () =>
 		enabled: swapServices[PoolType.DSOR].enabled,
 	})
 
-export const usePoolTokens = (): { [rri: string]: { [rri: string]: null } } => {
+type PoolTokensState = { [rri: string]: { [rri: string]: unknown } }
+
+export const usePoolTokens = (): PoolTokensState => {
 	const { data: caviarPools } = useCaviarPools()
 	const { data: ociPools } = useOCIPools()
 	const { data: dogePools } = useDogeCubeXPools()
 	const { data: astrolescentTokens } = useAstrolescentTokens()
 	const { data: dsorTokens } = useDSORTokens()
 
-	const uniqueTokens = {}
+	const [state, setState] = useState<PoolTokensState>({})
 
-	if (caviarPools) {
-		caviarPools.forEach(p =>
-			Object.keys(p.balances).forEach(rri => {
-				uniqueTokens[rri] = { ...p.balances, ...(uniqueTokens[rri] || {}) }
-			}),
-		)
-	}
-	if (ociPools) {
-		ociPools.forEach(p => {
-			uniqueTokens[p.token_a.rri] = { [p.token_b.rri]: null, ...(uniqueTokens[p.token_a.rri] || {}) }
-			uniqueTokens[p.token_b.rri] = { [p.token_a.rri]: null, ...(uniqueTokens[p.token_b.rri] || {}) }
-		})
-	}
-	if (dogePools) {
-		dogePools.forEach(p => {
-			uniqueTokens[p.token.rri] = { [XRD_RRI]: null, ...(uniqueTokens[p.token.rri] || {}) }
-			uniqueTokens[XRD_RRI] = { [p.token.rri]: null, ...(uniqueTokens[XRD_RRI] || {}) }
-		})
-	}
-	if (astrolescentTokens) {
-		astrolescentTokens.forEach(token => {
-			uniqueTokens[token.rri] = { [XRD_RRI]: null, ...(uniqueTokens[token.rri] || {}) }
-			uniqueTokens[XRD_RRI] = { [token.rri]: null, ...(uniqueTokens[XRD_RRI] || {}) }
-		})
-	}
-	if (dsorTokens) {
-		dsorTokens?.tokens.forEach(token => {
-			uniqueTokens[token.rri] = { [XRD_RRI]: null, ...(uniqueTokens[token.rri] || {}) }
-			uniqueTokens[XRD_RRI] = { [token.rri]: null, ...(uniqueTokens[XRD_RRI] || {}) }
-		})
-	}
+	useEffect(() => {
+		const uniqueTokens = {}
 
-	return uniqueTokens
+		if (caviarPools) {
+			caviarPools.forEach(p =>
+				Object.keys(p.balances).forEach(rri => {
+					uniqueTokens[rri] = { ...p.balances, ...(uniqueTokens[rri] || {}) }
+				}),
+			)
+		}
+		if (ociPools) {
+			ociPools.forEach(p => {
+				uniqueTokens[p.token_a.rri] = { [p.token_b.rri]: null, ...(uniqueTokens[p.token_a.rri] || {}) }
+				uniqueTokens[p.token_b.rri] = { [p.token_a.rri]: null, ...(uniqueTokens[p.token_b.rri] || {}) }
+			})
+		}
+		if (dogePools) {
+			dogePools.forEach(p => {
+				uniqueTokens[p.token.rri] = { [XRD_RRI]: null, ...(uniqueTokens[p.token.rri] || {}) }
+				uniqueTokens[XRD_RRI] = { [p.token.rri]: null, ...(uniqueTokens[XRD_RRI] || {}) }
+			})
+		}
+		if (astrolescentTokens) {
+			astrolescentTokens.forEach(token => {
+				uniqueTokens[token.rri] = { [XRD_RRI]: null, ...(uniqueTokens[token.rri] || {}) }
+				uniqueTokens[XRD_RRI] = { [token.rri]: null, ...(uniqueTokens[XRD_RRI] || {}) }
+			})
+		}
+		if (dsorTokens) {
+			dsorTokens?.tokens.forEach(token => {
+				uniqueTokens[token.rri] = { [XRD_RRI]: null, ...(uniqueTokens[token.rri] || {}) }
+				uniqueTokens[XRD_RRI] = { [token.rri]: null, ...(uniqueTokens[XRD_RRI] || {}) }
+			})
+		}
+
+		setState(uniqueTokens)
+	}, [])
+
+	return state
 }
 
 export const usePools = (fromRRI: string, toRRI: string): Pool[] => {
@@ -87,92 +96,112 @@ export const usePools = (fromRRI: string, toRRI: string): Pool[] => {
 	const { data: astrolescentTokens } = useAstrolescentTokens()
 	const { data: caviarPools } = useCaviarPools()
 
-	if (!fromRRI || !toRRI) {
-		return []
-	}
+	const [state, setState] = useState<Pool[]>([])
 
-	const pools: Pool[] = []
-	if (ociPools) {
-		const ociPool = ociPools.find(
-			p =>
-				(p.token_a.rri === fromRRI && p.token_b.rri === toRRI) ||
-				(p.token_b.rri === fromRRI && p.token_a.rri === toRRI),
-		)
-		if (ociPool) {
-			pools.push({
-				...swapServices[PoolType.OCI],
-				name: OCIPoolName,
-				wallet: ociPool.wallet_address,
+	useEffect(() => {
+		if (!fromRRI || !toRRI) {
+			setState([])
+		}
+
+		const pools: Pool[] = []
+		if (ociPools) {
+			const ociPool = ociPools.find(
+				p =>
+					(p.token_a.rri === fromRRI && p.token_b.rri === toRRI) ||
+					(p.token_b.rri === fromRRI && p.token_a.rri === toRRI),
+			)
+			if (ociPool) {
+				pools.push(
+					new Pool({
+						...swapServices[PoolType.OCI],
+						name: OCIPoolName,
+						wallet: ociPool.wallet_address,
+					}),
+				)
+			}
+		}
+		if (dogePools && (fromRRI === XRD_RRI || toRRI === XRD_RRI)) {
+			if (fromRRI === XRD_RRI) {
+				const dogePool = dogePools.find(p => p.token.rri === toRRI)
+				if (dogePool) {
+					pools.push(
+						new Pool({
+							...swapServices[PoolType.DOGECUBEX],
+							image: dogePool.heroImageUrl || swapServices[PoolType.DOGECUBEX].image,
+							name: DogeCubePoolName,
+							wallet: dogePool.account,
+						}),
+					)
+				}
+			} else if (toRRI === XRD_RRI) {
+				const dogePool = dogePools.find(p => p.token.rri === fromRRI)
+				if (dogePool) {
+					pools.push(
+						new Pool({
+							...swapServices[PoolType.DOGECUBEX],
+							image: dogePool.heroImageUrl || swapServices[PoolType.DOGECUBEX].image,
+							name: DogeCubePoolName,
+							wallet: dogePool.account,
+						}),
+					)
+				}
+			}
+		}
+		if (caviarPools) {
+			caviarPools.forEach(p => {
+				if (p.balances[fromRRI] && p.balances[toRRI]) {
+					pools.push(
+						new Pool({
+							...swapServices[PoolType.CAVIAR],
+							name: p.name,
+							wallet: p.wallet,
+							balances: p.balances,
+						}),
+					)
+				}
 			})
 		}
-	}
-	if (dogePools && (fromRRI === XRD_RRI || toRRI === XRD_RRI)) {
-		if (fromRRI === XRD_RRI) {
-			const dogePool = dogePools.find(p => p.token.rri === toRRI)
-			if (dogePool) {
-				pools.push({
-					...swapServices[PoolType.DOGECUBEX],
-					image: dogePool.heroImageUrl || swapServices[PoolType.DOGECUBEX].image,
-					name: DogeCubePoolName,
-					wallet: dogePool.account,
-				})
-			}
-		} else if (toRRI === XRD_RRI) {
-			const dogePool = dogePools.find(p => p.token.rri === fromRRI)
-			if (dogePool) {
-				pools.push({
-					...swapServices[PoolType.DOGECUBEX],
-					image: dogePool.heroImageUrl || swapServices[PoolType.DOGECUBEX].image,
-					name: DogeCubePoolName,
-					wallet: dogePool.account,
-				})
+		if (dsorTokens) {
+			const fromToken = dsorTokens?.tokens.find(token => token.rri === fromRRI)
+			const toToken = dsorTokens?.tokens.find(token => token.rri === toRRI)
+			if (fromToken && toToken) {
+				pools.push(
+					new Pool({
+						...swapServices[PoolType.DSOR],
+						name: DSORPoolName,
+						wallet: 'dsor',
+					}),
+				)
 			}
 		}
-	}
-	if (caviarPools) {
-		caviarPools.forEach(p => {
-			if (p.balances[fromRRI] && p.balances[toRRI]) {
-				pools.push({
-					...swapServices[PoolType.CAVIAR],
-					name: p.name,
-					wallet: p.wallet,
-					balances: p.balances,
-				})
-			}
-		})
-	}
-	if (dsorTokens) {
-		const fromToken = dsorTokens?.tokens.find(token => token.rri === fromRRI)
-		const toToken = dsorTokens?.tokens.find(token => token.rri === toRRI)
-		if (fromToken && toToken) {
-			pools.push({
-				...swapServices[PoolType.DSOR],
-				name: DSORPoolName,
-				wallet: 'dsor',
-			})
-		}
-	}
-	if (astrolescentTokens && (fromRRI === XRD_RRI || toRRI === XRD_RRI)) {
-		if (fromRRI === XRD_RRI) {
-			const astrolescentPool = astrolescentTokens.find(token => token.rri === toRRI)
-			if (astrolescentPool) {
-				pools.push({
-					...swapServices[PoolType.ASTROLESCENT],
-					name: AstrolescentPoolName,
-					wallet: 'astrolescent',
-				})
-			}
-		} else if (toRRI === XRD_RRI) {
-			const astrolescentPool = astrolescentTokens.find(token => token.rri === fromRRI)
-			if (astrolescentPool) {
-				pools.push({
-					...swapServices[PoolType.ASTROLESCENT],
-					name: AstrolescentPoolName,
-					wallet: 'astrolescent',
-				})
+		if (astrolescentTokens && (fromRRI === XRD_RRI || toRRI === XRD_RRI)) {
+			if (fromRRI === XRD_RRI) {
+				const astrolescentPool = astrolescentTokens.find(token => token.rri === toRRI)
+				if (astrolescentPool) {
+					pools.push(
+						new Pool({
+							...swapServices[PoolType.ASTROLESCENT],
+							name: AstrolescentPoolName,
+							wallet: 'astrolescent',
+						}),
+					)
+				}
+			} else if (toRRI === XRD_RRI) {
+				const astrolescentPool = astrolescentTokens.find(token => token.rri === fromRRI)
+				if (astrolescentPool) {
+					pools.push(
+						new Pool({
+							...swapServices[PoolType.ASTROLESCENT],
+							name: AstrolescentPoolName,
+							wallet: 'astrolescent',
+						}),
+					)
+				}
 			}
 		}
-	}
 
-	return pools
+		setState(pools)
+	}, [fromRRI, toRRI])
+
+	return state
 }

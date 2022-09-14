@@ -14,6 +14,8 @@ import {
 	TransferTokens,
 	UnstakeTokens,
 } from '@radixdlt/networking'
+import BigNumber from 'bignumber.js'
+import { generateId } from './utils/generate-id'
 
 export interface Ticker {
 	asset: string
@@ -196,13 +198,53 @@ export enum PoolType {
 	DOGECUBEX = 'dogecubex',
 	ASTROLESCENT = 'astrolescent',
 	DSOR = 'dsor',
+	UNKNOWN = '',
 }
 
-export type Pool = {
+interface IPool {
 	type: PoolType
 	url: string
 	image: string
 	name: string
 	wallet: string
 	balances?: { [rri: string]: number }
+	quote?: PoolQuote
+	costRatio?: BigNumber
+	supportsSlippage: boolean
+}
+
+export class Pool implements IPool {
+	public readonly id: string = ''
+
+	public type: PoolType = PoolType.UNKNOWN
+
+	public url: string = ''
+
+	public image: string = ''
+
+	public name: string = ''
+
+	public wallet: string = ''
+
+	public balances = undefined
+
+	public quote = undefined
+
+	public costRatio = undefined
+
+	public supportsSlippage = false
+
+	constructor(settings: IPool) {
+		Object.entries(settings).forEach(([key, value]) => {
+			this[key] = value
+		})
+		this.id = generateId()
+	}
+}
+
+export type PoolQuote = {
+	amount: BigNumber
+	receive: BigNumber
+	fee: BigNumber
+	priceImpact: number
 }
