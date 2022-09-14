@@ -1,12 +1,12 @@
 /* eslint-disable @next/next/no-img-element, @typescript-eslint/no-unused-vars */
 import React from 'react'
 import { LazyMotion, m, useScroll, useTransform } from 'framer-motion'
-import { Button } from 'components/button'
 import { NextSeo } from 'next-seo'
-import { config } from 'config'
 import { PageContainer } from 'components/page-container'
 import { Header } from 'components/header'
 import { Footer } from 'components/footer'
+import { FlashCtaButton } from 'components/flash-cta-button'
+import { config } from 'config'
 
 export const HomePage: React.FC = () => {
 	const { scrollYProgress } = useScroll()
@@ -38,7 +38,6 @@ export const HomePage: React.FC = () => {
 					],
 				}}
 			/>
-
 			<LazyMotion features={async () => (await import('../../framer-features')).default} strict>
 				<div className="homepage text-white dark:text-black fill-white dark:fill-black overflow-hidden">
 					<Header className="z-10 relative text-white" />
@@ -85,9 +84,11 @@ export const HomePage: React.FC = () => {
 									Manage accounts, send and receive tokens, stake tokens to receive rewards and connect to DApps from
 									the Z3US browser wallet.
 								</h4>
-								<Button size="lg" href={config.DISCORD_URL} className="mt-6">
-									Get BETA access
-								</Button>
+								<div className="mt-6">
+									<FlashCtaButton size="lg" variant="primary">
+										Get BETA access
+									</FlashCtaButton>
+								</div>
 							</div>
 							<div className="home-page__cells pb-8 mt-12 sm:mt-20 md:mt-24">
 								<div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -135,7 +136,7 @@ export const HomePage: React.FC = () => {
 													A community centric open source browser wallet for the Radix DLT network.
 												</h4>
 												<div className="lg:pb-5">
-													<a href="#" className="mt-4 sm:mt-9 inline-flex text-sm">
+													<a href="#" className="mt-4 sm:mt-9 inline-flex text-sm hover:underline">
 														Learn more &#8594;
 													</a>
 												</div>
@@ -153,10 +154,10 @@ export const HomePage: React.FC = () => {
 												Whether you’re looking to keep your crypto safe for the future or manage it on a daily basis,
 												Z3US is the right web3 wallet for you.
 											</p>
-											<div className="pt-3">
-												<Button size="lg" href={config.CHROME_STORE_URL} className="mt-3">
+											<div className="pt-6">
+												<FlashCtaButton size="lg" variant="primary">
 													Get BETA access
-												</Button>
+												</FlashCtaButton>
 											</div>
 										</div>
 									</div>

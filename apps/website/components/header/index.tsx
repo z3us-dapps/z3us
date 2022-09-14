@@ -2,6 +2,8 @@
 import React from 'react'
 import Link from 'next/link'
 import { Button } from 'components/button'
+import { Bars4Icon } from '@heroicons/react/24/solid'
+import { FlashCtaButton } from 'components/flash-cta-button'
 import { Z3usText } from 'ui/src/components/z3us-text'
 // import { Z3usLogoText } from '../z3us-logo-text'
 import { PageContainer } from 'components/page-container'
@@ -23,6 +25,10 @@ export const Header = ({ className }: IProps) => (
 						</a>
 					</Link>
 				</div>
+				<Button size="sm" variant="ghost" className="md:hidden">
+					<Bars4Icon className="h-5 w-5" />
+				</Button>
+
 				<ul className="font-medium text-sm gap-5 hidden md:flex items-center">
 					<li>
 						<Link href="/tokenomics" passHref>
@@ -69,10 +75,9 @@ export const Header = ({ className }: IProps) => (
 						</a>
 					</li>
 					<li>
-						{/* <Button variant="secondary" href={config.CHROME_STORE_URL}> */}
-						<Button variant="secondary" href="#">
+						<FlashCtaButton size="base" variant="secondary">
 							Get BETA access
-						</Button>
+						</FlashCtaButton>
 					</li>
 				</ul>
 			</div>

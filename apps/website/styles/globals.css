@@ -2,5 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
+@import 'simplebar/src/simplebar.css';
 @import 'home-page.css';
 @import 'tokenomics-page.css';

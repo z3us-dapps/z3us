@@ -5,6 +5,11 @@ body.tokenomics-page {
 	background-color: #aeb5ad;
 }
 
+.tokenomics-hero-wrapper {
+	border-bottom: 2px solid;
+	border-color: #92a390;
+}
+
 .tokenomics__h1 {
 	font-size: 4.4rem;
 	line-height: 4rem;
@@ -42,6 +47,11 @@ body.tokenomics-page {
 	padding: 0.45rem 0.8rem;
 	box-shadow: 0px 10px 44px rgba(0, 0, 0, 0.35);
 	white-space: no-wrap;
+}
+
+.token-pie-wrapper {
+	position: relative;
+	padding-top: 2rem;
 }
 
 .token-pie-chart__team {
@@ -85,12 +95,12 @@ body.tokenomics-page {
 
 .token-pie-chart__greek-image {
 	pointer-events: none;
-	position: absolute;
-	top: 20.575rem;
-	right: -43.813rem;
-	transform: translate(-28rem, -3.3rem);
-	width: 43.813rem;
-	height: 38.875rem;
+	position: relative;
+	/* transform: translate(9rem, -3.7rem); */
+	margin-left: 18rem;
+	margin-top: -3.8rem;
+	width: 52.25rem;
+	height: 55.25rem;
 }
 
 .tokenomics-white-cells__cell {
@@ -128,8 +138,10 @@ body.tokenomics-page {
 	.tokenomics__h1 span {
 		display: block;
 	}
+
 	.token-pie-chart {
-		margin-top: 8.8rem;
+		margin-top: 9rem;
+		margin-left: 1rem;
 	}
 
 	.tokenomics-chart-img-wrapper + ul {

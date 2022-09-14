@@ -1,6 +1,6 @@
 /* eslint-disable @next/next/no-img-element, @typescript-eslint/no-unused-vars */
 import React from 'react'
-import { LazyMotion, m, useScroll, useTransform } from 'framer-motion'
+import { LazyMotion, useScroll, useTransform } from 'framer-motion'
 import { NextSeo } from 'next-seo'
 import { config } from 'config'
 import { PageContainer } from 'components/page-container'
@@ -22,12 +22,7 @@ const allocationMetrics = {
 	airdrops: { bgColor: '#BF9E76', title: 'Airdrops', metric: '120,000,000', percentage: '60%' },
 }
 
-export const TokenomicsPage: React.FC = () => {
-	const { scrollYProgress } = useScroll()
-	const y1 = useTransform(scrollYProgress, [0, 1], [-300, 300])
-	const y2 = useTransform(scrollYProgress, [0, 1], [-400, 400])
-
-	return (
+export const TokenomicsPage: React.FC = () => (
 		<>
 			<NextSeo
 				title="Tokenomics"
@@ -52,53 +47,55 @@ export const TokenomicsPage: React.FC = () => {
 					],
 				}}
 			/>
-
 			<LazyMotion features={async () => (await import('../../framer-features')).default} strict>
 				<div className="tokenomics-wrapper text-white dark:text-black fill-white dark:fill-black overflow-hidden">
 					<Header className="z-10 relative text-white" />
-					<PageContainer>
-						<div className="tokenomics-hero text-white">
-							<div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-								<div className="tokenomics-hero__cell flex-col md:flex">
-									<h1 className="font-HaasGrotTextRound font-bold tokenomics__h1 pt-10 pb-7">
-										<span>Toke-</span>
-										<span>nomics</span>
-									</h1>
-									<h4 className="text-xl leading-relaxed lg:text-2xl lg:leading-relaxed tokenomics__hero-text lg:mt-3">
-										<a className="underline" href={`${config.EXPLORER_URL}/tokens/${z3usToken}`}>
-											$Z3US
-										</a>{' '}
-										is a native token on the Radix DLT network. It is designed to be a deflationary utility token, with
-										tokens being burnt and withdrawn from wallets as consumption grows. The $Z3US utility token&apos;s
-										goal is to provide continuing incentives to ecosystem participants, therefore encouraging the Z3US
-										ecosystem community to enhance and maintain the wallet and related products.
-									</h4>
-									<div className="flex justify-between mt-12 pb-12 text-center">
-										<div className="flex flex-col justify-center items-center">
-											<PieChartIcon />
-											<p className="text-xl font-medium mt-2">200,000,000</p>
-											<p className="text-base pt-3">Supply</p>
-										</div>
-										<div className="flex flex-col justify-center items-center">
-											<SymbolIcon />
-											<p className="text-xl font-medium mt-2">$Z3US</p>
-											<p className="text-base pt-3">Symol</p>
-										</div>
-										<div className="flex flex-col justify-center items-center">
-											<AddressIcon />
-											<p className="text-xl font-medium mt-2">{`${z3usToken?.substring(0, 5)}...${z3usToken?.slice(
-												-5,
-											)}`}</p>
-											<p className="text-base pt-3">Address</p>
+					<div className="tokenomics-hero-wrapper">
+						<PageContainer>
+							<div className="tokenomics-hero text-white">
+								<div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+									<div className="tokenomics-hero__cell flex-col md:flex">
+										<h1 className="font-HaasGrotTextRound font-bold tokenomics__h1 pt-10 pb-7">
+											<span>Toke-</span>
+											<span>nomics</span>
+										</h1>
+										<h4 className="text-xl leading-relaxed lg:text-2xl lg:leading-relaxed tokenomics__hero-text lg:mt-3">
+											<a className="underline" href={`${config.EXPLORER_URL}/tokens/${z3usToken}`}>
+												$Z3US
+											</a>{' '}
+											is a native token on the Radix DLT network. It is designed to be a deflationary utility token,
+											with tokens being burnt and withdrawn from wallets as consumption grows. The $Z3US utility
+											token&apos;s goal is to provide continuing incentives to ecosystem participants, therefore
+											encouraging the Z3US ecosystem community to enhance and maintain the wallet and related products.
+										</h4>
+										<div className="flex justify-between mt-12 pb-12 text-center">
+											<div className="flex flex-col justify-center items-center">
+												<PieChartIcon />
+												<p className="text-xl font-medium mt-2">200,000,000</p>
+												<p className="text-base pt-3">Supply</p>
+											</div>
+											<div className="flex flex-col justify-center items-center">
+												<SymbolIcon />
+												<p className="text-xl font-medium mt-2">$Z3US</p>
+												<p className="text-base pt-3">Symol</p>
+											</div>
+											<div className="flex flex-col justify-center items-center">
+												<AddressIcon />
+												<p className="text-xl font-medium mt-2">{`${z3usToken?.substring(0, 5)}...${z3usToken?.slice(
+													-5,
+												)}`}</p>
+												<p className="text-base pt-3">Address</p>
+											</div>
 										</div>
 									</div>
-								</div>
-								<div className="tokenomics-hero__cell flex justify-center">
-									<TokenPieChart />
+									<div className="tokenomics-hero__cell flex flex-col items-center">
+										<TokenPieChart />
+									</div>
 								</div>
 							</div>
-						</div>
-
+						</PageContainer>
+					</div>
+					<PageContainer>
 						<div className="tokenomics-white-cells grid grid-cols-1 md:grid-cols-2 gap-6 mt-10 pb-10">
 							<div className="tokenomics-white-cells__cell flex-col md:flex bg-white dark:bg-black text-gray-800 dark:text-gray-100 py-8 px-8">
 								<h5 className="text-3xl font-bold">Metrics</h5>
@@ -171,7 +168,7 @@ export const TokenomicsPage: React.FC = () => {
 									</ul>
 								</div>
 							</div>
-							<div className="tokenomics-white-cells__cell flex-col md:flex bg-white dark:bg-black text-gray-800 dark:text-gray-100 py-6 px-6">
+							<div className="tokenomics-white-cells__cell flex-col md:flex bg-white dark:bg-black text-gray-800 dark:text-gray-100 py-8 px-8">
 								<h5 className="text-3xl font-bold">Details</h5>
 
 								<h6 className="text-lg font-bold mt-5">Utility</h6>
@@ -205,4 +202,3 @@ export const TokenomicsPage: React.FC = () => {
 			</LazyMotion>
 		</>
 	)
-}
