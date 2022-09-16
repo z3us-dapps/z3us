@@ -14,7 +14,6 @@ interface IImmer {
 }
 
 export const Permissions: React.FC = () => {
-	// const origins = usePermissionsVault()
 	const { keystoreId } = useSharedStore(state => ({
 		keystoreId: state.selectKeystoreId,
 	}))

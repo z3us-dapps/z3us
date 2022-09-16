@@ -1,8 +1,8 @@
 import browser from 'webextension-polyfill'
 import { Network } from '@src/store/types'
 
-export const askForHostPermissions = async (networks: Network[]): Promise<Array<any>> => {
-	const origins = []
+export const askForHostPermissions = async (networks: Network[]): Promise<string[]> => {
+	const origins: string[] = []
 
 	await Promise.all(
 		networks.map(async network => {
