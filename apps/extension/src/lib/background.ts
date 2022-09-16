@@ -7,8 +7,9 @@ import { PORT_NAME, TARGET_BACKGROUND, TARGET_INPAGE, TARGET_POPUP } from '@src/
 import watch from '@src/lib/v1/background-watcher'
 import NewV1BackgroundInpageActions from '@src/lib/v1/background-inpage'
 import NewV1BackgroundPopupActions from '@src/lib/v1/background-popup'
-// import { CredentialsService } from '@src/services/credentials'
 import { deletePendingAction } from '@src/services/actions-pending'
+import { EXPLORER_URL } from '@src/config'
+// import { CredentialsService } from '@src/services/credentials'
 
 const browserService = new BrowserService()
 const storage = new BrowserStorageService(browserService, browser.storage)
@@ -51,7 +52,9 @@ browser.runtime.onInstalled.addListener(async details => {
 	if (details.reason === 'update' && details.previousVersion === '1.0.7') {
 		browser.storage.local.clear() // clear state that is no longer compatible
 	}
+
 	browser.runtime.setUninstallURL('https://github.com/z3us-dapps/z3us/discussions/150')
+
 	await sharedStore.persist.rehydrate()
 	const { setThemeAction, theme } = sharedStore.getState()
 	setThemeAction(theme)
@@ -135,4 +138,14 @@ browser.runtime.onConnect.addListener(port => {
 				break
 		}
 	})
+})
+
+browser.notifications.onClicked.addListener(async id => {
+	const txNotificationIdPrefix = 'tx-'
+	if (id.startsWith(txNotificationIdPrefix)) {
+		const [, txID] = id.slice(txNotificationIdPrefix.length).split('-')
+
+		window.open(`${EXPLORER_URL}/transactions/${txID}`)
+		window.focus()
+	}
 })
