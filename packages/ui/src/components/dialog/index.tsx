@@ -47,6 +47,7 @@ const StyledOverlay = styled(DialogPrimitive.Overlay, {
 })
 
 const StyledOverlaySpan = styled('span', {
+	zIndex: '1',
 	backgroundColor: '$bgTransparentDialog',
 	backdropFilter: 'blur(6px)',
 	position: 'absolute',
@@ -98,6 +99,7 @@ const Content = ({ children, container, css, modal }: DialogContentProps) => (
 			{!modal ? <StyledOverlaySpan /> : null}
 			<Box
 				css={{
+					zIndex: '1',
 					p: '$3',
 					position: 'relative',
 					width: '100%',
