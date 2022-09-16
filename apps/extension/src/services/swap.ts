@@ -71,6 +71,7 @@ export const calculatePoolFeesFromAmount = async (
 ): Promise<Quote> => {
 	let response
 	let receive = zero
+	let fullReceive = zero
 	let fee = zero
 	let priceImpact: number
 
@@ -91,7 +92,8 @@ export const calculatePoolFeesFromAmount = async (
 			const ociExchangeFee = new BigNumber(ociQuote?.fee_exchange[0]?.amount || 0)
 
 			fee = ociLiquidityFee.plus(ociExchangeFee)
-			receive = ociQuote?.output ? new BigNumber(ociQuote?.output?.amount || 0) : receive
+			receive = ociQuote?.minimum_output ? new BigNumber(ociQuote?.minimum_output?.amount || 0) : receive
+			fullReceive = ociQuote?.output ? new BigNumber(ociQuote?.output?.amount || 0) : receive
 			priceImpact = ociQuote?.price_impact ? +ociQuote.price_impact : undefined
 			response = ociQuote
 			break
@@ -104,10 +106,10 @@ export const calculatePoolFeesFromAmount = async (
 				amountTo: null,
 			}
 			const dogeQuote = await doge.getQuote(query)
-			amount = new BigNumber(dogeQuote?.sentAmount || 0)
-			receive = new BigNumber(dogeQuote?.receivedAmount || 0)
-			priceImpact = dogeQuote?.priceImpact ? +dogeQuote.priceImpact : undefined
 			fee = amount.multipliedBy(11 / 1000)
+			receive = new BigNumber(dogeQuote?.minAmount || 0)
+			fullReceive = new BigNumber(dogeQuote?.receivedAmount || 0)
+			priceImpact = dogeQuote?.priceImpact ? +dogeQuote.priceImpact : undefined
 			response = dogeQuote
 			break
 		case PoolType.ASTROLESCENT:
@@ -115,6 +117,7 @@ export const calculatePoolFeesFromAmount = async (
 
 			fee = new BigNumber(astrolescentQuote.swapFee).shiftedBy(-18)
 			receive = astrolescentQuote?.outputTokens ? new BigNumber(astrolescentQuote?.outputTokens || 0) : receive
+			fullReceive = receive
 			priceImpact = 100 - astrolescentQuote.priceImpact
 			response = astrolescentQuote
 			break
@@ -127,6 +130,7 @@ export const calculatePoolFeesFromAmount = async (
 
 			fee = zero // @TODO
 			receive = new BigNumber(dsorQuote.rhs_amount).shiftedBy(-18)
+			fullReceive = receive
 			priceImpact = dsorCalculateTotalPriceImpact(dsorQuote, receive)
 			response = dsorQuote
 			break
@@ -137,6 +141,7 @@ export const calculatePoolFeesFromAmount = async (
 			const caviarQuote = calculateSwap(pools, pool, amount, from, to, floopBalance)
 
 			receive = caviarQuote.receive
+			fullReceive = receive
 			fee = caviarQuote.fee
 			response = caviarQuote
 			break
@@ -152,6 +157,7 @@ export const calculatePoolFeesFromAmount = async (
 		amount,
 		fee,
 		receive,
+		fullReceive,
 		priceImpact,
 		response,
 	}
@@ -202,7 +208,6 @@ export const calculatePoolFeesFromReceive = async (
 			}
 			const dogeQuote = await doge.getQuote(query)
 			amount = new BigNumber(dogeQuote?.sentAmount || 0)
-			receive = new BigNumber(dogeQuote?.receivedAmount || 0)
 			priceImpact = dogeQuote?.priceImpact ? +dogeQuote.priceImpact : undefined
 			fee = amount.multipliedBy(11 / 1000)
 			response = dogeQuote
@@ -281,14 +286,14 @@ export const calculateCheapestPoolFeesFromAmount = async (
 	)
 	results.forEach((quote: Quote | null, index: number) => {
 		if (!quote) return
-		if (quote.receive.eq(0)) return
+		if (quote.fullReceive.eq(0)) return
 		if (selectedPool) {
 			const p = pools[index]
 			if (selectedPool.id === p.id) {
 				bestQuote = quote
 				pool = p
 			}
-		} else if (!bestQuote || quote.receive.gt(bestQuote.receive)) {
+		} else if (!bestQuote || quote.fullReceive.gt(bestQuote.fullReceive)) {
 			bestQuote = quote
 			pool = pools[index]
 		}
@@ -297,10 +302,10 @@ export const calculateCheapestPoolFeesFromAmount = async (
 		p.costRatio = undefined
 		if (!bestQuote) return
 		if (!p.quote) return
-		if (!bestQuote.receive.gt(0)) return
-		if (!p.quote.receive.gt(0)) return
+		if (!bestQuote.fullReceive.gt(0)) return
+		if (!p.quote.fullReceive.gt(0)) return
 
-		p.costRatio = bestQuote.receive.minus(p.quote.receive).dividedBy(p.quote.receive)
+		p.costRatio = bestQuote.fullReceive.minus(p.quote.fullReceive).dividedBy(p.quote.fullReceive)
 	})
 	return { receive: zero, fee: zero, amount: zero, ...bestQuote, pool }
 }
