@@ -2,7 +2,7 @@ import browser from 'webextension-polyfill'
 import { useLayoutEffect, useRef } from 'react'
 import create, { GetState, Mutate, SetState, StoreApi } from 'zustand'
 import shallow from 'zustand/shallow'
-import { persist, devtools } from 'zustand/middleware'
+import { persist, devtools, subscribeWithSelector } from 'zustand/middleware'
 import { BrowserService } from '@src/services/browser'
 import { BrowserStorageService } from '@src/services/browser-storage'
 import { defaultAccountStoreKey, sharedStoreKey } from '@src/config'
@@ -28,28 +28,37 @@ export const sharedStore = create<
 	SharedStore,
 	SetState<SharedStore>,
 	GetState<SharedStore>,
-	Mutate<StoreApi<SharedStore>, [['zustand/persist', Partial<SharedStore>], ['zustand/devtools', never]]>
+	Mutate<
+		StoreApi<SharedStore>,
+		[
+			['zustand/persist', Partial<SharedStore>],
+			['zustand/subscribeWithSelector', Partial<SharedStore>],
+			['zustand/devtools', never],
+		]
+	>
 >(
-	devtools(
-		persist(
-			immer((set, get) => ({
-				...createThemeStore(set),
-				...createToastsStore(set, get),
-				...createOnBoardingStore(set),
-				...createSettingsStore(set),
-				...createBackgroundStore(set, get),
-				...createKeystoresStore(set),
-				...createLocalWalletStore(set),
-				...createHardwareWalletStore(set),
-			})),
-			{
-				name: sharedStoreKey,
-				partialize: state =>
-					Object.fromEntries(Object.entries(state).filter(([key]) => sharedStoreWhitelist.includes(key))),
-				getStorage: () => new BrowserStorageService(new BrowserService(), browser.storage),
-			},
+	subscribeWithSelector(
+		devtools(
+			persist(
+				immer((set, get) => ({
+					...createThemeStore(set),
+					...createToastsStore(set, get),
+					...createOnBoardingStore(set),
+					...createSettingsStore(set),
+					...createBackgroundStore(set, get),
+					...createKeystoresStore(set),
+					...createLocalWalletStore(set),
+					...createHardwareWalletStore(set),
+				})),
+				{
+					name: sharedStoreKey,
+					partialize: state =>
+						Object.fromEntries(Object.entries(state).filter(([key]) => sharedStoreWhitelist.includes(key))),
+					getStorage: () => new BrowserStorageService(new BrowserService(), browser.storage),
+				},
+			),
+			{ name: sharedStoreKey },
 		),
-		{ name: sharedStoreKey },
 	),
 )
 
@@ -58,21 +67,30 @@ const accountStoreFactory = (name: string) =>
 		AccountStore,
 		SetState<AccountStore>,
 		GetState<AccountStore>,
-		Mutate<StoreApi<AccountStore>, [['zustand/persist', Partial<AccountStore>], ['zustand/devtools', never]]>
+		Mutate<
+			StoreApi<AccountStore>,
+			[
+				['zustand/persist', Partial<AccountStore>],
+				['zustand/subscribeWithSelector', Partial<AccountStore>],
+				['zustand/devtools', never],
+			]
+		>
 	>(
-		devtools(
-			persist(
-				immer((set, get) => ({
-					...createWalletStore(set, get),
-				})),
-				{
-					name,
-					partialize: state =>
-						Object.fromEntries(Object.entries(state).filter(([key]) => accountStoreWhitelist.includes(key))),
-					getStorage: () => new BrowserStorageService(new BrowserService(), browser.storage),
-				},
+		subscribeWithSelector(
+			devtools(
+				persist(
+					immer((set, get) => ({
+						...createWalletStore(set, get),
+					})),
+					{
+						name,
+						partialize: state =>
+							Object.fromEntries(Object.entries(state).filter(([key]) => accountStoreWhitelist.includes(key))),
+						getStorage: () => new BrowserStorageService(new BrowserService(), browser.storage),
+					},
+				),
+				{ name },
 			),
-			{ name },
 		),
 	)
 

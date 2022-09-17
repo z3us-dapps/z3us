@@ -9,6 +9,7 @@ import NewV1BackgroundInpageActions from '@src/lib/v1/background-inpage'
 import NewV1BackgroundPopupActions from '@src/lib/v1/background-popup'
 import { deletePendingAction } from '@src/services/actions-pending'
 import { EXPLORER_URL } from '@src/config'
+import { subscribeToEvents } from './v1/background-events'
 // import { CredentialsService } from '@src/services/credentials'
 
 const browserService = new BrowserService()
@@ -60,7 +61,7 @@ browser.runtime.onInstalled.addListener(async details => {
 	setThemeAction(theme)
 })
 
-browser.runtime.onConnect.addListener(port => {
+browser.runtime.onConnect.addListener(async port => {
 	// eslint-disable-next-line no-console
 	console.assert(port.name === PORT_NAME)
 
@@ -75,11 +76,15 @@ browser.runtime.onConnect.addListener(port => {
 		port,
 	)
 
+	const unsubscribeFromEvents = await subscribeToEvents(port, sendMessage)
+
 	port.onDisconnect.addListener(() => {
 		if (port.error) {
 			// eslint-disable-next-line no-console
 			console.error(`Disconnected due to an error: ${port.error.message}`)
 		}
+
+		unsubscribeFromEvents()
 
 		Object.keys(portMessageIDs).forEach(async id => {
 			await deletePendingAction(id)

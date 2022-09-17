@@ -1,4 +1,5 @@
 import { MessageService } from '@src/services/messanger'
+import { INIT } from './events'
 import NewPublicV1 from './v1/inapge'
 
 const messanger = new MessageService('inpage', null, window)
@@ -16,3 +17,5 @@ declare global {
 }
 
 window.z3us = z3us
+
+window.dispatchEvent(new CustomEvent(INIT, { detail: z3us }))
