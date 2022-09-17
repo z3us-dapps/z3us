@@ -109,7 +109,7 @@ export const PoolSelector: React.FC<IProps> = ({ pool, pools, onPoolChange }) =>
 							}}
 						>
 							<SelectItemText>{p.name}</SelectItemText>
-							{p.costRatio && !p.costRatio.eq(0) && (
+							{p.costRatio && (
 								<Text color={p.costRatio > 0 ? 'red' : 'green'} medium>
 									{`${p.costRatio > 0 ? '+' : ''}${p.costRatio.multipliedBy(100).toFixed(2).toLocaleString()}%`}
 								</Text>
