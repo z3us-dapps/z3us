@@ -27,20 +27,21 @@ declare global {
 
 You can listen to following events:
 
- - inti event - dispatched when `z3us` Provider API is added to `window` object
- - keystore change - this event will be dispatched if user has multiple wallets when switches between them
- - account change - when currently selected account changes
- - network change - when selected network (Gateway API) changes
+- inti event - dispatched when `z3us` Provider API is added to `window` object
+- keystore change - this event will be dispatched if user has multiple wallets when switches between them
+- account change - when currently selected account changes
+- network change - when selected network (Gateway API) changes
 
 <SyntaxHighlighter language="typescript">
 	{`
 window.addEventListener('z3us.keysotre.change', console.log, false)
 // CustomEvent {isTrusted: false, detail: {keystoreId: 'id-111111111111'}, type: 'z3us.keysotre.change', target: Window, currentTarget: Window, …}
 
-window.addEventListener('z3us.keysotre.change', console.log, false)
-// CustomEvent {isTrusted: false, detail: {keystoreId: 'id-111111111111'}, type: 'z3us.keysotre.change', target: Window, currentTarget: Window, …}
+window.addEventListener('z3us.account.change', console.log, false)
+// CustomEvent {isTrusted: false, detail: {address: 'rdx...'}, type: 'z3us.account.change', target: Window, currentTarget: Window, …}
 
-window.addEventListener('z3us.keysotre.change', console.log, false)
-// CustomEvent {isTrusted: false, detail: {keystoreId: 'id-111111111111'}, type: 'z3us.keysotre.change', target: Window, currentTarget: Window, …}
-  `}
+window.addEventListener('z3us.network.change', console.log, false)
+// CustomEvent {isTrusted: false, detail: {network: {id: 'mainnet', url: 'https://....'}}, type: 'z3us.network.change', target: Window, currentTarget: Window, …}
+`}
+
 </SyntaxHighlighter>
