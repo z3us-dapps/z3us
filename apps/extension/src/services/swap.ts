@@ -302,8 +302,8 @@ export const calculateCheapestPoolFeesFromAmount = async (
 		p.costRatio = undefined
 		if (!bestQuote) return
 		if (!p.quote) return
-		if (!bestQuote.fullReceive.gt(0)) return
-		if (!p.quote.fullReceive.gt(0)) return
+		if (bestQuote.fullReceive.eq(0)) return
+		if (p.quote.fullReceive.eq(0)) return
 
 		p.costRatio = bestQuote.fullReceive.minus(p.quote.fullReceive).dividedBy(p.quote.fullReceive)
 	})
@@ -365,8 +365,8 @@ export const calculateCheapestPoolFeesFromReceive = async (
 		p.costRatio = undefined
 		if (!bestQuote) return
 		if (!p.quote) return
-		if (!bestQuote.amount.gt(0)) return
-		if (!p.quote.amount.gt(0)) return
+		if (bestQuote.amount.eq(0)) return
+		if (p.quote.amount.eq(0)) return
 
 		p.costRatio = bestQuote.amount.minus(p.quote.amount).dividedBy(p.quote.amount).multipliedBy(-1)
 	})

@@ -34,6 +34,7 @@ import { strStripCommas, numberWithCommas, REGEX_INPUT } from './utils'
 interface ImmerState {
 	time: number
 	pool: Pool | undefined
+	pools: Pool[]
 	fromRRI: string
 	toRRI: string
 	inputSide: 'from' | 'to'
@@ -66,6 +67,7 @@ const defaultNetworkFee = new BigNumber(2000) // asume avg tx 20 bytes
 const defaultState: ImmerState = {
 	time: Date.now(),
 	pool: undefined,
+	pools: [],
 	fromRRI: XRD_RRI,
 	toRRI: OCI_RRI,
 	inputSide: 'from',
@@ -113,7 +115,7 @@ export const Swap: React.FC = () => {
 	const [debouncedAmount] = useDebounce(state.amountRaw, debounceInterval)
 	const [debouncedReceive] = useDebounce(state.receiveRaw, debounceInterval)
 	const possibleTokens = usePoolTokens()
-	const pools = usePools(state.fromRRI, state.toRRI)
+	const availablePools = usePools(state.fromRRI, state.toRRI)
 	const { data: balances } = useTokenBalances()
 	const { data: fromToken } = useTokenInfo(state.fromRRI)
 	const { data: toToken } = useTokenInfo(state.toRRI)
@@ -182,7 +184,7 @@ export const Swap: React.FC = () => {
 			if (valueType === 'from') {
 				const walletQuote = getZ3USFees(amount, burn, liquidBalances)
 				const poolQuote = await calculateCheapestPoolFeesFromAmount(
-					pools,
+					availablePools,
 					pool,
 					walletQuote.amount,
 					slippage,
@@ -201,7 +203,7 @@ export const Swap: React.FC = () => {
 				response = poolQuote.response
 			} else if (valueType === 'to') {
 				const poolQuote = await calculateCheapestPoolFeesFromReceive(
-					pools,
+					availablePools,
 					pool,
 					receive,
 					slippage,
@@ -239,6 +241,13 @@ export const Swap: React.FC = () => {
 			setState(draft => {
 				draft.time = Date.now()
 				draft.pool = pool
+				draft.pools = [...availablePools].sort((a, b) => {
+					if (a.id === pool?.id) return -1
+					if (b.id === pool?.id) return 1
+					if (!a.costRatio) return 1
+					if (!b.costRatio) return -1
+					return a.costRatio.minus(b.costRatio).toNumber()
+				})
 
 				if (valueType === 'from') {
 					draft.receiveRaw = receive.toString()
@@ -320,10 +329,6 @@ export const Swap: React.FC = () => {
 	}, [debouncedReceive])
 
 	const handlePoolChange = async (pool: Pool) => {
-		setState(draft => {
-			draft.pool = pool
-		})
-
 		calculateSwap(state.amountRaw, state.receiveRaw, state.inputSide, state.slippage, pool, state.minimum, state.burn)
 	}
 
@@ -713,7 +718,7 @@ export const Swap: React.FC = () => {
 							z3usFee={state.z3usFee}
 							z3usBurn={state.burn ? state.z3usBurn : zero}
 							pool={state.pool}
-							pools={pools}
+							pools={state.pools.length > 0 ? state.pools : availablePools}
 							onPoolChange={handlePoolChange}
 							minimum={state.minimum}
 							onMinimumChange={handleSetMinimum}

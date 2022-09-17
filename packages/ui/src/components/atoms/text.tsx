@@ -25,6 +25,9 @@ export const Text = styled('span', {
 			purple: {
 				color: '$z3usPurple',
 			},
+			green: {
+				color: '$txtPriceGreen',
+			},
 		},
 		size: {
 			'1': {
