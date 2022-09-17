@@ -27,12 +27,12 @@ export const TokenPieChart: React.FC = () => (
 			</div>
 		</div>
 
-		<div className="token-pie-chart__greek-image hidden md:block">
+		<div className="token-pie-chart__greek-image">
 			<img
 				src="/images/tokenomics-page/tokenomcis-greek-image-x2.webp"
 				alt="tokenomics angel"
-				width={836}
-				height={884}
+				width={835}
+				height={625}
 				loading="lazy"
 			/>
 		</div>

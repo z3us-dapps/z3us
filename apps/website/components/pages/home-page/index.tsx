@@ -1,6 +1,7 @@
 /* eslint-disable @next/next/no-img-element, @typescript-eslint/no-unused-vars */
 import React from 'react'
-import { LazyMotion, m, useScroll, useTransform } from 'framer-motion'
+import { m, useScroll, useTransform } from 'framer-motion'
+import { LazyMotion } from 'components/lazy-motion'
 import { NextSeo } from 'next-seo'
 import { PageContainer } from 'components/page-container'
 import { Header } from 'components/header'
@@ -38,7 +39,7 @@ export const HomePage: React.FC = () => {
 					],
 				}}
 			/>
-			<LazyMotion features={async () => (await import('../../framer-features')).default} strict>
+			<LazyMotion>
 				<div className="homepage text-white dark:text-black fill-white dark:fill-black overflow-hidden">
 					<Header className="z-10 relative text-white" />
 					<PageContainer>
@@ -136,7 +137,7 @@ export const HomePage: React.FC = () => {
 													A community centric open source browser wallet for the Radix DLT network.
 												</h4>
 												<div className="lg:pb-5">
-													<a href="#" className="mt-4 sm:mt-9 inline-flex text-sm hover:underline">
+													<a href={config.RADIX_URL} className="mt-4 sm:mt-9 inline-flex text-sm hover:underline">
 														Learn more &#8594;
 													</a>
 												</div>

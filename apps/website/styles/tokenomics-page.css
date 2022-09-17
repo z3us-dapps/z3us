@@ -46,7 +46,7 @@ body.tokenomics-page {
 	border-radius: 1rem;
 	padding: 0.45rem 0.8rem;
 	box-shadow: 0px 10px 44px rgba(0, 0, 0, 0.35);
-	white-space: no-wrap;
+	white-space: pre;
 }
 
 .token-pie-wrapper {
@@ -76,8 +76,8 @@ body.tokenomics-page {
 .token-pie-chart__liquidity span {
 	color: #9ec0e3;
 	position: absolute;
-	bottom: -3.5rem;
-	right: -7rem;
+	bottom: -3rem;
+	right: 0rem;
 }
 
 .token-pie-chart__airdrops {
@@ -90,17 +90,16 @@ body.tokenomics-page {
 	color: #b7966f;
 	position: absolute;
 	bottom: -3.7rem;
-	left: -4rem;
+	left: -2rem;
 }
 
 .token-pie-chart__greek-image {
 	pointer-events: none;
 	position: relative;
-	/* transform: translate(9rem, -3.7rem); */
-	margin-left: 18rem;
+	margin-left: 17rem;
 	margin-top: -3.8rem;
-	width: 52.25rem;
-	height: 55.25rem;
+	width: 52.188rem;
+	height: 39.063rem;
 }
 
 .tokenomics-white-cells__cell {
@@ -117,11 +116,15 @@ body.tokenomics-page {
 	height: auto;
 }
 
-/* sm */
+/* md */
 @media (min-width: 768px) {
 	.tokenomics__h1 {
 		font-size: 6rem;
 		line-height: 6rem;
+	}
+
+	.token-pie-chart {
+		margin-top: 6rem;
 	}
 
 	.tokenomics__h1 span {
@@ -129,7 +132,7 @@ body.tokenomics-page {
 	}
 }
 
-/* md */
+/* lg */
 @media (min-width: 1024px) {
 	.tokenomics__h1 {
 		font-size: 9.4rem;
@@ -141,15 +144,24 @@ body.tokenomics-page {
 
 	.token-pie-chart {
 		margin-top: 9rem;
-		margin-left: 1rem;
 	}
 
 	.tokenomics-chart-img-wrapper + ul {
 		min-width: 278px;
 	}
+
+	.token-pie-chart__liquidity span {
+		bottom: -3.5rem;
+		right: -7rem;
+	}
+
+	.token-pie-chart__airdrops span {
+		bottom: -3.7rem;
+		left: -4rem;
+	}
 }
 
-/* lg */
+/* xl */
 @media (min-width: 1280px) {
 	.tokenomics__h1 {
 		font-size: 9.4rem;
