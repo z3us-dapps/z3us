@@ -10,6 +10,24 @@ export const TARGET_BACKGROUND = 'z3us'
 
 export const EVENT_MESSAGE_ID = 'z3us-event'
 
+const timeoutError = new Error('Timeout')
+
+const timeout = async (promise, time) => {
+	let timer;
+	try {
+		return await Promise.race([
+			promise,
+			new Promise((_, reject) => {
+				timer = setTimeout(reject, time, timeoutError)
+			})
+		])
+	} finally {
+		clearTimeout(timer)
+	}
+}
+
+const defaultTimeout = 5 * 1000
+
 export type MessageResponse = { code: number; error?: any; [key: string]: any } | any
 
 export class MessageService {
@@ -120,7 +138,7 @@ export class MessageService {
 
 		this.window.postMessage({ id: messageId, target: to, source: from, action, payload }, '*')
 
-		const response = await promise
+		const response = await timeout(promise, defaultTimeout)
 		if (response?.error) {
 			throw response.error
 		}
@@ -153,7 +171,7 @@ export class MessageService {
 
 		this.port.postMessage({ id: messageId, target: to, source: from, action, payload })
 
-		const response = await promise
+		const response = await timeout(promise, defaultTimeout)
 		if (response?.error) {
 			throw response.error
 		}

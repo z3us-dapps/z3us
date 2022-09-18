@@ -67,38 +67,6 @@ browser.runtime.onConnect.addListener(async port => {
 
 	const portMessageIDs: { [key: string]: unknown } = {}
 
-	const timer = setTimeout(
-		() => {
-			clearTimeout(timer)
-			port.disconnect()
-		},
-		250e3,
-		port,
-	)
-
-	const unsubscribeFromEvents = await subscribeToEvents(port, sendMessage)
-
-	port.onDisconnect.addListener(() => {
-		if (port.error) {
-			// eslint-disable-next-line no-console
-			console.error(`Disconnected due to an error: ${port.error.message}`)
-		}
-
-		unsubscribeFromEvents()
-
-		Object.keys(portMessageIDs).forEach(async id => {
-			await deletePendingAction(id)
-
-			await sharedStore.persist.rehydrate()
-			const { selectKeystoreId } = sharedStore.getState()
-			const useStore = accountStore(selectKeystoreId)
-			await useStore.persist.rehydrate()
-
-			const state = useStore.getState()
-			state.removePendingActionAction(id)
-		})
-	})
-
 	port.onMessage.addListener(async message => {
 		if (message.target !== TARGET_BACKGROUND) {
 			return
@@ -143,6 +111,38 @@ browser.runtime.onConnect.addListener(async port => {
 				break
 		}
 	})
+
+	const unsubscribeFromEvents = await subscribeToEvents(port, sendMessage)
+
+	port.onDisconnect.addListener(() => {
+		if (port.error) {
+			// eslint-disable-next-line no-console
+			console.error(`Disconnected due to an error: ${port.error.message}`)
+		}
+
+		unsubscribeFromEvents()
+
+		Object.keys(portMessageIDs).forEach(async id => {
+			await deletePendingAction(id)
+
+			await sharedStore.persist.rehydrate()
+			const { selectKeystoreId } = sharedStore.getState()
+			const useStore = accountStore(selectKeystoreId)
+			await useStore.persist.rehydrate()
+
+			const state = useStore.getState()
+			state.removePendingActionAction(id)
+		})
+	})
+
+	const timer = setTimeout(
+		() => {
+			clearTimeout(timer)
+			port.disconnect()
+		},
+		250e3,
+		port,
+	)
 })
 
 browser.notifications.onClicked.addListener(async id => {
