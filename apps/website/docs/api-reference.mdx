@@ -27,21 +27,38 @@ declare global {
 
 You can listen to following events:
 
-- init event - dispatched when `z3us` Provider API is added to `window` object
-- keystore change - this event will be dispatched if user has multiple wallets when switched between them
-- account change - when currently selected account changes
-- network change - when selected network (Gateway API) changes
+- **init event** - dispatched when `z3us` Provider API is added to `window` object
 
-<SyntaxHighlighter language="typescript">
+<SyntaxHighlighter language="javascript">
+	{`
+window.addEventListener('z3us.init', console.log, false)
+CustomEvent {detail: { v1: { ... } }, type: 'z3us.init', …}
+  `}
+</SyntaxHighlighter>
+
+- **keystore change** - this event will be dispatched if user has multiple wallets when switched between them
+
+<SyntaxHighlighter language="javascript">
 	{`
 window.addEventListener('z3us.keysotre.change', console.log, false)
-// CustomEvent {isTrusted: false, detail: {keystoreId: 'id-111111111111'}, type: 'z3us.keysotre.change', target: Window, currentTarget: Window, …}
+CustomEvent {detail: {keystoreId: 'id-111111111111'}, type: 'z3us.keysotre.change', …}
+  `}
+</SyntaxHighlighter>
 
+- **account change** - when currently selected account changes
+
+<SyntaxHighlighter language="javascript">
+	{`
 window.addEventListener('z3us.account.change', console.log, false)
-// CustomEvent {isTrusted: false, detail: {address: 'rdx...'}, type: 'z3us.account.change', target: Window, currentTarget: Window, …}
+CustomEvent {detail: {address: 'rdx...'}, type: 'z3us.account.change', …}
+  `}
+</SyntaxHighlighter>
 
+- **network change** - when selected network (Gateway API) changes
+
+<SyntaxHighlighter language="javascript">
+	{`
 window.addEventListener('z3us.network.change', console.log, false)
-// CustomEvent {isTrusted: false, detail: {network: {id: 'mainnet', url: 'https://....'}}, type: 'z3us.network.change', target: Window, currentTarget: Window, …}
-`}
-
+CustomEvent {detail: {network: {id: 'mainnet', url: 'https://....'}}, type: 'z3us.network.change', …}
+  `}
 </SyntaxHighlighter>
