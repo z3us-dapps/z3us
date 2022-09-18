@@ -149,8 +149,14 @@ browser.notifications.onClicked.addListener(async id => {
 	const txNotificationIdPrefix = 'tx-'
 	if (id.startsWith(txNotificationIdPrefix)) {
 		const [, txID] = id.slice(txNotificationIdPrefix.length).split('-')
+		const url = `${EXPLORER_URL}/transactions/${txID}`
 
-		window.open(`${EXPLORER_URL}/transactions/${txID}`)
-		window.focus()
+		const currentWindow = await browser.windows.getCurrent()
+		if (currentWindow != null) {
+			currentWindow.focused = true
+			return browser.tabs.create({ url, active: true })
+		}
+		return browser.windows.create({ url, focused: true })
 	}
+	return undefined
 })
