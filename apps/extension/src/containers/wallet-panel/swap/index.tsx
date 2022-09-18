@@ -194,7 +194,6 @@ export const Swap: React.FC = () => {
 					liquidBalances,
 				)
 				pool = poolQuote.pool
-				amount = poolQuote.amount
 				receive = poolQuote.receive
 				priceImpact = poolQuote.priceImpact
 				poolFee = poolQuote.fee
@@ -215,7 +214,6 @@ export const Swap: React.FC = () => {
 				const walletQuote = getZ3USFees(poolQuote.amount, burn, liquidBalances)
 				pool = poolQuote.pool
 				amount = poolQuote.amount.plus(walletQuote.fee)
-				receive = poolQuote.receive
 				priceImpact = poolQuote.priceImpact
 				poolFee = poolQuote.fee
 				z3usFee = walletQuote.fee
