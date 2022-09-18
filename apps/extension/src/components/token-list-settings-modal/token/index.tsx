@@ -36,6 +36,7 @@ export const Token: React.FC<IProps> = ({ rri, isDragging }) => {
 						image={token?.image}
 						fallbackText={(token?.symbol || '').substring(0, 3).toLocaleUpperCase()}
 						avatarFallBackCss={{ fontSize: '8px' }}
+						background="$bgPanel"
 					/>
 				</StyledLink>
 			</ToolTip>

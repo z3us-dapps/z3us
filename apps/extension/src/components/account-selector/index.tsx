@@ -141,10 +141,11 @@ export const AccountSelector: React.FC<IProps> = ({
 										<Box css={{ p: '8px' }}>
 											<Box
 												css={{
-													width: '32px',
-													height: '32px',
+													width: '48px',
+													height: '48px',
 													borderRadius: '50%',
 													background: addressBookBackground,
+													boxShadow: '$shadowPanel2',
 													border: '2px solid',
 													borderColor: '$borderAvatar',
 													flexShrink: '0',
