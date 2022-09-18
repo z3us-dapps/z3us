@@ -34,7 +34,22 @@ export const InfoStatBlock: React.FC<IProps> = ({ image, addressBookBackground, 
 		}}
 	>
 		<Box css={{ p: '8px' }}>
-			<CircleAvatar image={image} background={addressBookBackground} />
+			{image ? (
+				<CircleAvatar image={image} background={addressBookBackground} />
+			) : (
+				<Box
+					css={{
+						width: '48px',
+						height: '48px',
+						borderRadius: '50%',
+						background: addressBookBackground,
+						boxShadow: '$shadowPanel2',
+						border: '2px solid',
+						borderColor: '$borderAvatar',
+						flexShrink: '0',
+					}}
+				/>
+			)}
 		</Box>
 		<Flex justify="center" direction="column" css={{ flex: '1', pl: '$1' }}>
 			<Text
