@@ -36,7 +36,7 @@ export const AccountAddress: React.FC<IProps> = ({ address, isCopyButtonVisible,
 
 	return (
 		<Flex align="center">
-			<ToolTip message={address} css={{ maxWidth: '220px', wordWrap: 'break-word' }}>
+			<ToolTip message={address} css={{ maxWidth: '230px', wordWrap: 'break-word' }}>
 				<Text size="5" truncate medium css={{ lineHeight: '20px', maxWidth: '240px', ...(css as any) }}>
 					{entry?.name ? `${entry.name} (${shortAddress})` : shortAddress}
 				</Text>
