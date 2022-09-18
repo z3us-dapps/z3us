@@ -12,7 +12,14 @@ export const sharedStoreKey = 'z3us-store-shared'
 
 export const defaultToken = { order: Number.MAX_SAFE_INTEGER }
 
-export const defaultTokenSettings = {
+type TdefaultTokenSettings = {
+	[key: string]: {
+		image: string
+		order: number
+	}
+}
+
+export const defaultTokenSettings: TdefaultTokenSettings = {
 	xrd: { image: 'images/token-images/xrd.png', order: 0 },
 	oci: { image: 'images/token-images/oci.png', order: 1 },
 	dgc: { image: 'images/token-images/dgc.png', order: 2 },

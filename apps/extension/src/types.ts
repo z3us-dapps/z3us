@@ -121,7 +121,6 @@ export type Token = {
 	isSupplyMutable: boolean
 	currentSupply: string
 	tokenInfoURL: string
-	iconURL?: string
 	image?: string
 	order: number
 }

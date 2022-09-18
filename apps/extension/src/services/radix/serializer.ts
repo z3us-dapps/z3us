@@ -110,7 +110,6 @@ export const parseToken = (response: TokenNativeResponse | TokenResponse): Token
 		isSupplyMutable: response.token.token_properties.is_supply_mutable,
 		currentSupply: response.token.token_supply.value,
 		tokenInfoURL: response.token.token_properties.url,
-		iconURL: response.token.token_properties.icon_url,
 	}
 }
 

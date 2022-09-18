@@ -230,13 +230,13 @@ export const SwapModal: React.FC<IProps> = ({
 										<InfoStatBlock image={pool.image} statSubTitle="Pool:" statTitle={pool.name} css={{ mt: '10px' }} />
 									)}
 									<InfoStatBlock
-										image={fromToken?.image || fromToken?.iconURL}
+										image={fromToken?.image}
 										statSubTitle="You pay:"
 										statTitle={`${formatBigNumber(amount)} ${fromToken?.symbol.toUpperCase()}`}
 										css={{ mt: '10px' }}
 									/>
 									<InfoStatBlock
-										image={toToken?.image || toToken?.iconURL}
+										image={toToken?.image}
 										statSubTitle="You receive:"
 										statTitle={`${formatBigNumber(receive)} ${toToken?.symbol.toUpperCase()}`}
 										css={{ mt: '10px' }}

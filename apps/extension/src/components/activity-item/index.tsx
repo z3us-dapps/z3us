@@ -34,7 +34,7 @@ export const ActivityItem = React.forwardRef<HTMLDivElement, IProps>(({ tx, acti
 		}
 	})
 	const { data: token } = useTokenInfo(activity?.rri)
-	const tokenImage = token?.image || token?.iconURL
+	const tokenImage = token?.image
 
 	const shortAddress = getShortAddress(entry?.address)
 

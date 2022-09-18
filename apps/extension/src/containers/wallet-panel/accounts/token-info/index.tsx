@@ -142,7 +142,7 @@ export const TokenInfo = (): JSX.Element => {
 					shadow={false}
 					width={36}
 					height={36}
-					image={token?.image || token?.iconURL}
+					image={token?.image}
 					fallbackText={token?.symbol.toLocaleUpperCase()}
 				/>
 				<Text size="5" medium css={{ mt: '15px', pb: '5px' }}>
