@@ -38,6 +38,7 @@ export const TokenItem: React.FC<IProps> = ({ rri, onClick }) => {
 					width={40}
 					height={40}
 					image={token?.image}
+					background="transparent"
 					fallbackText={token?.symbol?.substring(0, 3).toLocaleUpperCase()}
 				/>
 			</Box>
