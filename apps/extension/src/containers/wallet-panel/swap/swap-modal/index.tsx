@@ -226,16 +226,20 @@ export const SwapModal: React.FC<IProps> = ({
 										statSubTitle={`From: ${shortAddress} (${balance}${fromToken?.symbol.toUpperCase()})`}
 										statTitle={entry?.name || ''}
 									/>
-									{pool && <InfoStatBlock image={pool.image} statSubTitle="Pool:" statTitle={pool.name} />}
+									{pool && (
+										<InfoStatBlock image={pool.image} statSubTitle="Pool:" statTitle={pool.name} css={{ mt: '10px' }} />
+									)}
 									<InfoStatBlock
 										image={fromToken?.image || fromToken?.iconURL}
 										statSubTitle="You pay:"
 										statTitle={`${formatBigNumber(amount)} ${fromToken?.symbol.toUpperCase()}`}
+										css={{ mt: '10px' }}
 									/>
 									<InfoStatBlock
 										image={toToken?.image || toToken?.iconURL}
 										statSubTitle="You receive:"
 										statTitle={`${formatBigNumber(receive)} ${toToken?.symbol.toUpperCase()}`}
+										css={{ mt: '10px' }}
 									/>
 									<FeeBox
 										isConfirmFeeBox
@@ -250,7 +254,7 @@ export const SwapModal: React.FC<IProps> = ({
 										minimum={minimum}
 										slippage={slippage}
 										priceImpact={priceImpact}
-										css={{ mt: '12px' }}
+										css={{ mt: '10px' }}
 									/>
 									<Box css={{ mt: '$1', display: 'none' }}>
 										<HoverCard>

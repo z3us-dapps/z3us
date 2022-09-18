@@ -119,7 +119,7 @@ export const FeeBox: React.FC<IProps> = ({
 									sideOffset={5}
 									css={{ maxWidth: '240px', pointerEvents: 'auto', zIndex: '99' }}
 								>
-									<Flex css={{ borderTop: '1px solid', borderColor: '$borderPanel', mt: '$2', pt: '$2' }}>
+									<Flex>
 										<Text size="2" color="help">
 											Price impact is the influence of user&apos;s individual trade over the market price of an
 											underlying asset pair. It is directly correlated with the amount of liquidity in the pool. Price
@@ -136,7 +136,7 @@ export const FeeBox: React.FC<IProps> = ({
 							{priceImpact > 0 ? (
 								<Text medium>{getSlippagePercentage(slippage)}</Text>
 							) : (
-								<ToolTip message="Price impact not provided">
+								<ToolTip arrowOffset={3} message="Price impact not provided">
 									<Flex css={{ color: '$txtHelp', display: 'inline-flex' }}>
 										<CircleBackslashIcon />
 									</Flex>
@@ -160,7 +160,7 @@ export const FeeBox: React.FC<IProps> = ({
 									sideOffset={5}
 									css={{ maxWidth: '240px', pointerEvents: 'auto', zIndex: '99' }}
 								>
-									<Flex css={{ borderTop: '1px solid', borderColor: '$borderPanel', mt: '$2', pt: '$2' }}>
+									<Flex>
 										<Text size="2" color="help">
 											Slippage tolerance is a setting for the amount of price slippage you are willing to accept for a
 											trade. By setting slippage tolerance, you basically setting a minimum amount on how many tokens
@@ -177,7 +177,7 @@ export const FeeBox: React.FC<IProps> = ({
 								((pool?.type === PoolType.OCI || pool?.type === PoolType.DOGECUBEX) && minimum ? (
 									<Text medium>{getSlippagePercentage(slippage)}</Text>
 								) : (
-									<ToolTip message="Slippage not supported">
+									<ToolTip arrowOffset={3} message="Slippage not supported">
 										<Flex css={{ color: '$txtHelp', display: 'inline-flex' }}>
 											<CircleBackslashIcon />
 										</Flex>
