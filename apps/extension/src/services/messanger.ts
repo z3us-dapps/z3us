@@ -8,6 +8,8 @@ export const TARGET_INPAGE = 'z3us-inpage'
 export const TARGET_POPUP = 'z3us-popup'
 export const TARGET_BACKGROUND = 'z3us'
 
+export const EVENT_MESSAGE_ID = 'z3us-event'
+
 export type MessageResponse = { code: number; error?: any; [key: string]: any } | any
 
 export class MessageService {
@@ -83,6 +85,9 @@ export class MessageService {
 		const handler = this.messageHandlers[message.id]
 		if (handler) {
 			handler(message)
+		} else if (this.window && message.id === EVENT_MESSAGE_ID) {
+			const { eventType, eventDetails } = message.response
+			if (eventType) this.window.dispatchEvent(new CustomEvent(eventType, { detail: eventDetails }))
 		}
 	}
 

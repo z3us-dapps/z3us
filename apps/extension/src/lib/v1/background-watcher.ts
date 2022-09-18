@@ -1,4 +1,5 @@
 import browser from 'webextension-polyfill'
+import { Mutex } from 'async-mutex'
 import { accountStore, defaultAccountStore, sharedStore } from '@src/store'
 import { RadixService } from '@src/services/radix'
 import { getShortAddress, getTransactionType } from '@src/utils/string-utils'
@@ -80,24 +81,37 @@ const watchTransactions = async (selectKeystoreId: string, useStore: typeof defa
 	isCheckingTransactions = false
 }
 
-const triggerWatch = () => dispatchEvent(new CustomEvent('backgroundwatcher'))
+const mutex = new Mutex()
 
 const watch = async () => {
+	const release = await mutex.acquire()
+
 	await sharedStore.persist.rehydrate()
 	const { selectKeystoreId, transactionNotificationsEnabled } = sharedStore.getState()
 
 	const useStore = accountStore(selectKeystoreId)
 	await useStore.persist.rehydrate()
 
-	if (transactionNotificationsEnabled) {
-		watchTransactions(selectKeystoreId, useStore)
-	} else {
-		lastTxIds = {}
+	try {
+		if (transactionNotificationsEnabled) {
+			watchTransactions(selectKeystoreId, useStore)
+		} else {
+			lastTxIds = {}
+		}
+	} catch (error) {
+		// eslint-disable-next-line no-console
+		console.error(error)
 	}
+
+	release()
 }
+
+const BACKGROUND_EVENT = 'backgroundwatcher'
+
+const triggerWatch = () => dispatchEvent(new CustomEvent(BACKGROUND_EVENT))
 
 export default () => {
 	// eslint-disable-next-line no-restricted-globals
-	addEventListener('backgroundwatcher', watch)
+	addEventListener(BACKGROUND_EVENT, watch)
 	setInterval(triggerWatch, 1000 * 15) // 15 seconds
 }

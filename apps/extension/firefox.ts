@@ -53,8 +53,7 @@ export default {
 	web_accessible_resources: [
 		'popup-theme-dark.html',
 		'popup-theme-system.html',
-		'assets/inpage.js',
-		'assets/actions.js',
+		'assets/*',
 		// 'pte_manifest_compiler_bg.wasm',
 	],
 	browser_specific_settings: {
