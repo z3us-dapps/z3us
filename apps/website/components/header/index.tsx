@@ -9,47 +9,46 @@ import { Z3usText } from 'ui/src/components/z3us-text'
 import { PageContainer } from 'components/page-container'
 import { config } from 'config'
 import { TelegramIcon, TwitterIcon, GithubIcon } from './icons'
+import { MobileMenu } from './mobile-menu'
 
 interface IProps {
 	className?: string
 }
 
 export const Header = ({ className }: IProps) => (
-	<div className={`${className} header`}>
+	<div className={`${className} z-20 header`}>
 		<PageContainer>
 			<div className="flex w-100 pt-4">
-				<div className="flex-1 color-white">
+				<div className="flex-1 color-white z-30">
 					<Link href="/" passHref>
 						<a className="cursor-pointer inline-flex hover:text-violet-50 transition-colors mt-3">
 							<Z3usText css={{ maxWidth: '108px' }} />
 						</a>
 					</Link>
 				</div>
-				<Button size="sm" variant="ghost" className="md:hidden">
-					<Bars4Icon className="h-5 w-5" />
-				</Button>
-
-				<ul className="font-medium text-sm gap-5 hidden md:flex items-center">
+				<MobileMenu isScrolled={false} />
+				<ul className="font-medium text-sm gap-3 lg:gap-5 hidden md:flex items-center">
+					<li>
+						<Link href="" passHref>
+							<a className="cursor-pointer hover:underline">Feedback</a>
+						</Link>
+					</li>
+					<li>
+						<Link href="" passHref>
+							<a className="cursor-pointer hover:underline">Road map</a>
+						</Link>
+					</li>
 					<li>
 						<Link href="/tokenomics" passHref>
 							<a className="cursor-pointer hover:underline">Tokenomics</a>
 						</Link>
 					</li>
-					{/* <li> */}
-					{/* 	<Link href="/road-map" passHref> */}
-					{/* 		<a className="cursor-pointer hover:underline">Road map</a> */}
-					{/* 	</Link> */}
-					{/* </li> */}
 					<li>
 						<Link href="/docs" passHref>
 							<a className="cursor-pointer hover:underline">Docs</a>
 						</Link>
 					</li>
-					{/* <li> */}
-					{/* 	<a className="cursor-pointer hover:underline" href={config.GITHUB_FEEDBACK_URL}> */}
-					{/* 		Feedback */}
-					{/* 	</a> */}
-					{/* </li> */}
+
 					<li className="h-6">
 						<a
 							className="header-icon cursor-pointer inline-flex items-center justify-center fill-white hover:fill-violet-50 transition-colors"
@@ -76,7 +75,8 @@ export const Header = ({ className }: IProps) => (
 					</li>
 					<li>
 						<FlashCtaButton size="base" variant="secondary">
-							Get BETA access
+							<span className="hidden lg:block">Get BETA access</span>
+							<span className="lg:hidden">Get BETA</span>
 						</FlashCtaButton>
 					</li>
 				</ul>

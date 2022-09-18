@@ -15533,13 +15533,6 @@ react-use@^17.3.2:
     ts-easing "^0.2.0"
     tslib "^2.1.0"
 
-react-useportal@^1.0.16:
-  version "1.0.16"
-  resolved "https://registry.yarnpkg.com/react-useportal/-/react-useportal-1.0.16.tgz#d442b4f430d92e5e9f7adb40f59375d12c51caa2"
-  integrity sha512-sbmixDvJvWAS2YaGB4dA6e7EA08MXTjQxjcujC4WYLWSJOR2BsF3PnVAlJ9N70dDC/Z6zjgs8IKiaPzmGYHcXQ==
-  dependencies:
-    use-ssr "^1.0.22"
-
 react-virtuoso@^2.13.2:
   version "2.16.1"
   resolved "https://registry.yarnpkg.com/react-virtuoso/-/react-virtuoso-2.16.1.tgz#0242ca410c4fb6be802e054b7ebd3f799d42efc5"
@@ -18190,11 +18183,6 @@ use-sidecar@^1.1.2:
   dependencies:
     detect-node-es "^1.1.0"
     tslib "^2.0.0"
-
-use-ssr@^1.0.22:
-  version "1.0.24"
-  resolved "https://registry.yarnpkg.com/use-ssr/-/use-ssr-1.0.24.tgz#213a3df58f5ab9268e6fe1a57ad0a9de91e514d1"
-  integrity sha512-0MFps7ezL57/3o0yl4CvrHLlp9z20n1rQZV/lSRz7if+TUoM6POU1XdOvEjIgjgKeIhTEye1U0khrIYWCTWw4g==
 
 use-sync-external-store@1.2.0:
   version "1.2.0"

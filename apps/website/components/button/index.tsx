@@ -70,7 +70,7 @@ export const Button = forwardRef<HTMLButtonElement, IProps>((props, ref) => {
 		)
 	}
 	return (
-		<button ref={ref} {...rest} className={classes}>
+		<button onClick={onClick} ref={ref} {...rest} className={classes}>
 			{children}
 		</button>
 	)

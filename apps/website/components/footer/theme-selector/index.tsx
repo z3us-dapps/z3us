@@ -24,7 +24,10 @@ export const ThemeSelector = ({ className }: IProps) => {
 			>
 				<SelectPrimitive.Trigger asChild aria-label="Food">
 					<Button size="sm" variant="ghost" className="capitalize">
-						<SelectPrimitive.Value />
+						<span className="opacity-0 w-0">
+							<SelectPrimitive.Value />
+						</span>
+						Theme
 						<SelectPrimitive.Icon className="ml-1">
 							{isLightTheme ? <SunIcon className="h-3 w-3" /> : <MoonIcon className="h-3 w-3" />}
 						</SelectPrimitive.Icon>

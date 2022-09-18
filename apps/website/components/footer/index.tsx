@@ -10,7 +10,7 @@ interface IProps {
 }
 
 export const Footer = ({ className }: IProps) => (
-	<div className={`header ${className}`}>
+	<div className={`footer ${className}`}>
 		<PageContainer>
 			<div className="block sm:flex w-100 items-center">
 				<div className="flex-1 flex items-center fill-white">

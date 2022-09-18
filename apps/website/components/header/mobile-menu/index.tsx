@@ -1,13 +1,13 @@
-import React, { useEffect } from 'react'
-import usePortal from 'react-useportal'
-import { useImmer } from 'use-immer'
-import Button from 'ui/src/components/button'
-import { DropdownMenuHamburgerIcon } from 'ui/src/components/drop-down-menu'
-import { AnimatePresence } from 'framer-motion'
+/* eslint-disable */
+import React, { useEffect, useState } from 'react'
+import { Button } from 'components/button'
+import useScrollBlock from 'hooks/use-scroll-block'
+import { m as motion, useScroll, useTransform, AnimatePresence, useCycle } from 'framer-motion'
+import { Bars4Icon, XMarkIcon } from '@heroicons/react/24/solid'
 import { Text, Box, MotionBox, StyledLink } from 'ui/src/components/atoms'
 import { config } from 'config'
 
-const links = [
+const backlinks = [
 	{ name: 'Home', to: '/', id: 'home' },
 	{
 		name: 'Docs',
@@ -26,6 +26,17 @@ const links = [
 	{ name: 'Discord', to: config.DISCORD_URL, id: 'discord' },
 ]
 
+const links = [
+	{ name: 'Home', to: '#', id: 1 },
+	{ name: 'About', to: '#', id: 2 },
+	{ name: 'Blog', to: '#', id: 3 },
+	{ name: 'Contact', to: '#', id: 4 },
+]
+
+interface IProps {
+	isScrolled: boolean
+}
+
 const itemVariants = {
 	closed: {
 		opacity: 0,
@@ -36,158 +47,68 @@ const itemVariants = {
 const sideVariants = {
 	closed: {
 		transition: {
-			staggerChildren: 0.1,
+			staggerChildren: 0.2,
 			staggerDirection: -1,
 		},
 	},
 	open: {
 		transition: {
-			staggerChildren: 0.1,
+			staggerChildren: 0.2,
 			staggerDirection: 1,
 		},
 	},
 }
 
-interface ImmerProps {
-	isMounted: boolean
-	isMenuOpen: boolean
-}
-
-interface IProps {
-	isScrolled: boolean
-}
-
 export const MobileMenu = ({ isScrolled }: IProps): JSX.Element => {
-	const { Portal } = usePortal()
+	const [blockScroll, allowScroll] = useScrollBlock()
+	const [open, cycleOpen] = useCycle(false, true)
 
-	const [state, setState] = useImmer<ImmerProps>({
-		isMounted: false,
-		isMenuOpen: false,
-	})
-
-	const handleToggleMenu = () => {
-		setState(draft => {
-			draft.isMenuOpen = !state.isMenuOpen
-		})
+	const handleMenuClick = () => {
+		if (open) {
+			cycleOpen(0)
+			allowScroll()
+		} else {
+			blockScroll()
+			cycleOpen(1)
+		}
 	}
 
-	useEffect(() => {
-		setState(draft => {
-			draft.isMounted = true
-		})
-	}, [])
-
-	return state.isMounted ? (
-		<Portal>
-			<>
-				<AnimatePresence>
-					{state.isMenuOpen && (
-						<MotionBox
-							as="aside"
-							initial={{ width: 0 }}
-							animate={{
-								width: 300,
-								transform: 'translateX(0px)',
-								transition: { duration: 0.3 },
-							}}
-							exit={{
-								width: 0,
-								transform: 'translateX(40px)',
-								transition: { delay: 0.3, duration: 0.3 },
-							}}
-							css={{
-								width: '100px',
-								maxWidth: '100vw',
-								height: '100vh',
-								position: 'fixed',
-								backgroundColor: '$bgPanelHeaderTransparent',
-								backdropFilter: 'blur(15px)',
-								boxShadow: 'rgb(0 0 0 / 20%) -10px -1px 20px 6px',
-								zIndex: '1',
-								top: '0',
-								right: '0',
-							}}
-						>
-							<MotionBox
-								as="ul"
-								initial="closed"
-								animate="open"
-								exit="closed"
-								variants={sideVariants}
-								css={{ p: '$4', mt: '$12' }}
-							>
-								{links.map(({ name, to, id, subMenu }) => (
-									<MotionBox as="li" variants={itemVariants} key={id}>
-										<StyledLink
-											href={to}
-											css={{
-												display: 'block',
-												backgroundColor: '$bgPanel2',
-												mb: '$2',
-												p: '$4',
-												br: '$3',
-												'&:focus': {
-													opacity: '0.8',
-												},
-											}}
-										>
-											<Text size="5" bold>
-												{name}
-											</Text>
-										</StyledLink>
-										{subMenu ? (
-											<Box as="ul" css={{ pl: '30px' }}>
-												{subMenu.map(({ name: _name, to: _to, id: _id }) => (
-													<Box key={_id} as="li">
-														<StyledLink
-															href={_to}
-															css={{
-																display: 'block',
-																backgroundColor: '$bgPanel2',
-																mb: '$2',
-																p: '$4',
-																br: '$3',
-																'&:focus': {
-																	opacity: '0.8',
-																},
-															}}
-														>
-															<Text size="5" bold>
-																{_name}
-															</Text>
-														</StyledLink>
-													</Box>
-												))}
-											</Box>
-										) : null}
-									</MotionBox>
-								))}
-							</MotionBox>
-						</MotionBox>
-					)}
-				</AnimatePresence>
-				<Box
-					css={{
-						position: 'fixed',
-						top: isScrolled ? '5px' : '15px',
-						transition: '$default',
-						right: '$3',
-						zIndex: '3',
-						'@sm': { display: 'none' },
-					}}
-				>
-					<MotionBox animate={state.isMenuOpen ? 'open' : 'closed'}>
-						<Button iconOnly aria-label="menu" color="ghost" size="5" css={{ mr: '2px' }} onClick={handleToggleMenu}>
-							<DropdownMenuHamburgerIcon
-								css={{
-									mt: '4px',
-									stroke: '$iconDefault',
-								}}
-							/>
-						</Button>
-					</MotionBox>
-				</Box>
-			</>
-		</Portal>
-	) : null
+	return (
+		<>
+			<Button size="sm" variant="ghost" className="md:hidden w-10 h-10 relative z-30" onClick={handleMenuClick}>
+				<span className="flex items-center justify-center w-10 h-10">
+					<span className="transition-opacity absolute" style={{ opacity: open ? '0' : '1' }}>
+						<Bars4Icon className="block h-5 w-5" />
+					</span>
+					<span className="transition-opacity absolute" style={{ opacity: open ? '1' : '0' }}>
+						<XMarkIcon className="block h-5 w-5" />
+					</span>
+				</span>
+			</Button>
+			<AnimatePresence>
+				{open && (
+					<motion.aside
+						className="fixed top-0 left-0 w-screen h-screen bg-indigo-600 bg-opacity-75 dark:bg-indigo-200 dark:bg-opacity-20"
+						initial={{ width: 0 }}
+						animate={{
+							width: '100%',
+						}}
+						transition={{ ease: 'easeOut', duration: 0.2 }}
+						exit={{
+							width: 0,
+							transition: { delay: 0.7, duration: 0.2 },
+						}}
+					>
+						<motion.ul className="mt-10 p-8" initial="closed" animate="open" exit="closed" variants={sideVariants}>
+							{links.map(({ name, to, id }) => (
+								<motion.li key={id} whileHover={{ scale: 1.1 }} variants={itemVariants}>
+									<a href={to}>{name}</a>
+								</motion.li>
+							))}
+						</motion.ul>
+					</motion.aside>
+				)}
+			</AnimatePresence>
+		</>
+	)
 }

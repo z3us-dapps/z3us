@@ -41,7 +41,7 @@ export const HomePage: React.FC = () => {
 			/>
 			<LazyMotion>
 				<div className="homepage text-white dark:text-black fill-white dark:fill-black overflow-hidden">
-					<Header className="z-10 relative text-white" />
+					<Header className="relative text-white" />
 					<PageContainer>
 						<div>
 							<h1 className="font-HaasGrotTextRound font-bold homepage__h1">
