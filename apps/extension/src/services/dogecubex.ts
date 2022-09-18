@@ -45,7 +45,6 @@ export type Pool = {
 		symbol: string
 		name: string
 		rri: string
-		iconUrl: string
 	}
 }
 

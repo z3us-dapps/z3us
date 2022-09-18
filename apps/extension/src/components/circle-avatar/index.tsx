@@ -36,47 +36,34 @@ export const CircleAvatar: React.FC<IProps> = ({
 	background,
 	cutImage,
 	avatarFallBackCss,
-}) =>
-	image ? (
-		<Box
+}) => (
+	<Box
+		css={{
+			width: `${width}px`,
+			height: `${height}px`,
+			borderRadius: '50%',
+			boxShadow: shadow ? '$shadowPanel2' : '',
+			background,
+			flexShrink: '0',
+		}}
+	>
+		<Avatar
 			css={{
+				$$shadowColor: '$colors$borderAvatar',
+				...(borderWidth ? { boxShadow: `0 0 0 ${borderWidth}px $$shadowColor` } : {}),
 				width: `${width}px`,
 				height: `${height}px`,
-				borderRadius: '50%',
-				boxShadow: shadow ? '$shadowPanel2' : '',
-				flexShrink: '0',
 			}}
 		>
-			<Avatar
-				css={{
-					$$shadowColor: '$colors$borderAvatar',
-					...(borderWidth ? { boxShadow: `0 0 0 ${borderWidth}px $$shadowColor` } : {}),
-					width: `${width}px`,
-					height: `${height}px`,
-				}}
+			<AvatarImage src={image} alt={fallbackText} css={{ ...(!cutImage ? { borderRadius: 'unset' } : {}) }} />
+			<AvatarFallback
+				delayMs={200}
+				css={{ borderRadius: '50%', backgroundColor: '$bgPanel', overflow: 'hidden', ...(avatarFallBackCss as any) }}
 			>
-				<AvatarImage src={image} alt={fallbackText} css={{ ...(!cutImage ? {borderRadius: 'unset'} : {}) }} />
-				<AvatarFallback
-					delayMs={200}
-					css={{ borderRadius: '50%', backgroundColor: '$bgPanel', overflow: 'hidden', ...(avatarFallBackCss as any) }}
-				>
-					{fallbackText}
-				</AvatarFallback>
-			</Avatar>
-		</Box>
-	) : (
-		<Box
-			css={{
-				width,
-				height,
-				borderRadius: '50%',
-				background,
-				border: `${borderWidth}px solid`,
-				borderColor: '$borderAvatar',
-				boxShadow: shadow ? '$shadowPanel2' : '',
-				flexShrink: '0',
-			}}
-		/>
-	)
+				{fallbackText}
+			</AvatarFallback>
+		</Avatar>
+	</Box>
+)
 
 CircleAvatar.defaultProps = defaultProps

@@ -15,7 +15,6 @@ import {
 	SelectScrollUpButton,
 	SelectScrollDownButton,
 } from 'ui/src/components/select'
-import { CircleAvatar } from '@src/components/circle-avatar'
 import { Box, Text, Flex } from 'ui/src/components/atoms'
 import Button from 'ui/src/components/button'
 import useMeasure from 'react-use-measure'
@@ -90,12 +89,16 @@ export const AccountSelector: React.FC<IProps> = ({
 									<Flex justify="center" align="center" css={{ width: '100%', textAlign: 'left', height: '48px' }}>
 										<SelectValue>
 											<Box css={{ p: '8px', pr: '4px' }}>
-												<CircleAvatar
-													width={32}
-													height={32}
-													borderWidth={0}
-													shadow={false}
-													background={addressBookBackground}
+												<Box
+													css={{
+														width: '32px',
+														height: '32px',
+														borderRadius: '50%',
+														background: addressBookBackground,
+														border: '2px solid',
+														borderColor: '$borderAvatar',
+														flexShrink: '0',
+													}}
 												/>
 											</Box>
 											<Box css={{ flexShrink: '0', color: '$txtHelp', pt: '2px' }}>
@@ -136,7 +139,18 @@ export const AccountSelector: React.FC<IProps> = ({
 								>
 									<SelectValue>
 										<Box css={{ p: '8px' }}>
-											<CircleAvatar background={addressBookBackground} />
+											<Box
+												css={{
+													width: '48px',
+													height: '48px',
+													borderRadius: '50%',
+													background: addressBookBackground,
+													boxShadow: '$shadowPanel2',
+													border: '2px solid',
+													borderColor: '$borderAvatar',
+													flexShrink: '0',
+												}}
+											/>
 										</Box>
 										<Flex align="center" css={{ flex: '1', minWidth: '0' }}>
 											<Text

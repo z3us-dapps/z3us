@@ -128,7 +128,7 @@ export const TokenSelector: React.FC<IProps> = ({ triggerType, token, tokens, on
 													height={32}
 													borderWidth={0}
 													shadow={false}
-													image={token?.image || token?.iconURL}
+													image={token?.image}
 													fallbackText={token?.symbol}
 												/>
 											</Box>
@@ -162,7 +162,7 @@ export const TokenSelector: React.FC<IProps> = ({ triggerType, token, tokens, on
 													height={24}
 													borderWidth={0}
 													shadow={false}
-													image={token?.image || token?.iconURL}
+													image={token?.image}
 													fallbackText={token?.symbol}
 												/>
 											</Box>
@@ -200,10 +200,7 @@ export const TokenSelector: React.FC<IProps> = ({ triggerType, token, tokens, on
 										}}
 									>
 										<Box css={{ p: '8px' }}>
-											<CircleAvatar
-												image={token?.image || token?.iconURL}
-												fallbackText={token?.symbol.toLocaleUpperCase()}
-											/>
+											<CircleAvatar image={token?.image} fallbackText={token?.symbol.toLocaleUpperCase()} />
 										</Box>
 										<Box css={{ flex: '1' }}>
 											<Flex css={{ mt: '2px' }}>
