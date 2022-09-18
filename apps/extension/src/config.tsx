@@ -19,6 +19,8 @@ type TdefaultTokenSettings = {
 	}
 }
 
+export const OCI_TOKEN_IMG_URL = 'https://api.ociswap.com/icons/64x64/'
+
 export const defaultTokenSettings: TdefaultTokenSettings = {
 	xrd: { image: 'images/token-images/xrd.png', order: 0 },
 	oci: { image: 'images/token-images/oci.png', order: 1 },

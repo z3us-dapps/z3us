@@ -12,7 +12,7 @@ import {
 	ValidatorAddressT,
 	AmountT,
 } from '@radixdlt/application'
-import { defaultToken, defaultTokenSettings } from '@src/config'
+import { defaultToken, defaultTokenSettings, OCI_TOKEN_IMG_URL } from '@src/config'
 import {
 	Token,
 	Transaction,
@@ -101,7 +101,6 @@ export const parseToken = (response: TokenNativeResponse | TokenResponse): Token
 	const rri = parseResourceIdentifier(response.token.token_identifier.rri)
 	return {
 		...defaultToken,
-		...defaultTokenSettings[rri.name],
 		rri: response.token.token_identifier.rri,
 		name: response.token.token_properties.name ?? '',
 		symbol: response.token.token_properties.symbol,
@@ -110,6 +109,8 @@ export const parseToken = (response: TokenNativeResponse | TokenResponse): Token
 		isSupplyMutable: response.token.token_properties.is_supply_mutable,
 		currentSupply: response.token.token_supply.value,
 		tokenInfoURL: response.token.token_properties.url,
+		image: `${OCI_TOKEN_IMG_URL}${(response.token.token_properties.symbol || '').toLowerCase()}.png`,
+		...defaultTokenSettings[rri.name],
 	}
 }
 
