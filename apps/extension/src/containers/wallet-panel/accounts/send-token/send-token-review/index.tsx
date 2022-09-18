@@ -151,7 +151,7 @@ export const SendTokenReview: React.FC<IProps> = ({
 					statTitle={toEntry?.name || ''}
 				/>
 				<InfoStatBlock
-					image={token?.image || token?.iconURL}
+					image={token?.image}
 					statSubTitle="Amount:"
 					statTitle={`${formatBigNumber(amount)} ${tokenSymbol}`}
 				/>

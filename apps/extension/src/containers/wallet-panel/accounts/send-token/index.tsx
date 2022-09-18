@@ -105,7 +105,7 @@ export const SendToken: React.FC = () => {
 		})
 	}
 
-	const handleSetEncrypt = checked => {
+	const handleSetEncrypt = (checked: boolean) => {
 		setState(draft => {
 			draft.encrypt = checked === true
 		})

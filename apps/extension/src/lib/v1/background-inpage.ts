@@ -1,4 +1,5 @@
 import { Runtime } from 'webextension-polyfill'
+import newQueryClient from '@src/hooks/react-query/query-client'
 import { accountStore, sharedStore } from '@src/store'
 import { Message, PublicKey } from '@radixdlt/crypto'
 import { BrowserService } from '@src/services/browser'
@@ -24,6 +25,9 @@ import {
 const responseOK = { code: 200 }
 const responseBadRequest = { code: 400, error: 'Bad request' }
 const responseUnauthorized = { code: 401, error: 'Unauthorized' }
+
+// eslint-disable-next-line no-restricted-globals
+const queryClient = newQueryClient(self.localStorage)
 
 export default function NewV1BackgroundInpageActions(
 	browser: BrowserService,
@@ -228,7 +232,11 @@ export default function NewV1BackgroundInpageActions(
 		const service = new RadixService(network.url)
 
 		try {
-			const response = await service.tokenBalancesForAddress(address)
+			console.time('useTokenBalances')
+			const response = await queryClient.fetchQuery(['useTokenBalances', address], async () =>
+				service.tokenBalancesForAddress(address),
+			)
+			console.timeEnd('useTokenBalances')
 			sendInpageMessage(port, id, payload, response)
 		} catch (error: any) {
 			sendInpageMessage(port, id, payload, { code: 500, error: error?.message || error })
@@ -253,7 +261,9 @@ export default function NewV1BackgroundInpageActions(
 		const service = new RadixService(network.url)
 
 		try {
-			const response = await service.stakesForAddress(address)
+			const response = await queryClient.fetchQuery(['useStakedPositions', address], async () =>
+				service.stakesForAddress(address),
+			)
 			sendInpageMessage(port, id, payload, response)
 		} catch (error: any) {
 			sendInpageMessage(port, id, payload, { code: 500, error: error?.message || error })
@@ -278,7 +288,9 @@ export default function NewV1BackgroundInpageActions(
 		const service = new RadixService(network.url)
 
 		try {
-			const response = await service.unstakesForAddress(address)
+			const response = await queryClient.fetchQuery(['useUnstakePositions', address], async () =>
+				service.unstakesForAddress(address),
+			)
 			sendInpageMessage(port, id, payload, response)
 		} catch (error: any) {
 			sendInpageMessage(port, id, payload, { code: 500, error: error?.message || error })

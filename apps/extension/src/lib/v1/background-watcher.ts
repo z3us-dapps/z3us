@@ -1,4 +1,5 @@
 import browser from 'webextension-polyfill'
+import { Mutex } from 'async-mutex'
 import { accountStore, defaultAccountStore, sharedStore } from '@src/store'
 import { RadixService } from '@src/services/radix'
 import { getShortAddress, getTransactionType } from '@src/utils/string-utils'
@@ -32,7 +33,7 @@ export async function getLastTransactions(
 
 let lastTxIds = {}
 let isCheckingTransactions = false
-const watchTransactions = async (useStore: typeof defaultAccountStore) => {
+const watchTransactions = async (selectKeystoreId: string, useStore: typeof defaultAccountStore) => {
 	if (isCheckingTransactions) return
 	isCheckingTransactions = true
 	try {
@@ -55,12 +56,13 @@ const watchTransactions = async (useStore: typeof defaultAccountStore) => {
 					const activity = action ? getTransactionType(address, action) : 'Unknown'
 
 					// eslint-disable-next-line no-await-in-loop
-					await browser.notifications.create(tx.id, {
+					await browser.notifications.create(`tx-${selectKeystoreId}-${tx.id}`, {
 						type: 'basic',
 						iconUrl: browser.runtime.getURL('favicon-128x128.png'),
 						title: `New ${activity} Transaction`,
 						eventTime: tx?.sentAt.getTime(),
 						message: `There is a new ${activity} transaction on your account (${getShortAddress(address)}).`,
+						isClickable: true,
 					})
 					const { lastError } = browser.runtime
 					if (lastError) {
@@ -79,24 +81,37 @@ const watchTransactions = async (useStore: typeof defaultAccountStore) => {
 	isCheckingTransactions = false
 }
 
-const triggerWatch = () => dispatchEvent(new CustomEvent('backgroundwatcher'))
+const mutex = new Mutex()
 
 const watch = async () => {
+	const release = await mutex.acquire()
+
 	await sharedStore.persist.rehydrate()
 	const { selectKeystoreId, transactionNotificationsEnabled } = sharedStore.getState()
 
 	const useStore = accountStore(selectKeystoreId)
 	await useStore.persist.rehydrate()
 
-	if (transactionNotificationsEnabled) {
-		watchTransactions(useStore)
-	} else {
-		lastTxIds = {}
+	try {
+		if (transactionNotificationsEnabled) {
+			watchTransactions(selectKeystoreId, useStore)
+		} else {
+			lastTxIds = {}
+		}
+	} catch (error) {
+		// eslint-disable-next-line no-console
+		console.error(error)
 	}
+
+	release()
 }
+
+const BACKGROUND_EVENT = 'backgroundwatcher'
+
+const triggerWatch = () => dispatchEvent(new CustomEvent(BACKGROUND_EVENT))
 
 export default () => {
 	// eslint-disable-next-line no-restricted-globals
-	addEventListener('backgroundwatcher', watch)
+	addEventListener(BACKGROUND_EVENT, watch)
 	setInterval(triggerWatch, 1000 * 15) // 15 seconds
 }

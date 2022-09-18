@@ -27,6 +27,7 @@ const animateOut = keyframes({
 })
 
 const StyledOverlayExtension = styled(AlertDialogPrimitive.Overlay, {
+	zIndex: '1',
 	backgroundColor: '$bgTransparentDialog',
 	backdropFilter: 'blur(6px)',
 	position: 'absolute',
@@ -46,6 +47,7 @@ const StyledOverlayExtension = styled(AlertDialogPrimitive.Overlay, {
 })
 
 const StyledContentExtension = styled(AlertDialogPrimitive.Content, {
+	zIndex: '1',
 	position: 'absolute',
 	width: EXT_WIDTH,
 	height: EXT_HEIGHT,
@@ -80,6 +82,7 @@ const Content = ({ children, container }: ContentProps) => (
 		<StyledContentExtension>
 			<Box
 				css={{
+					zIndex: '1',
 					p: '$3',
 					width: '100%',
 					border: '1px solid $borderDialog',

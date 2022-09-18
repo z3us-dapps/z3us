@@ -49,6 +49,7 @@ interface IProps {
 	transaction: BuiltTransactionReadyToSign
 	onConfirmSend: () => void
 	slippage: number
+	priceImpact: number
 	minimum: boolean
 	disabledButton: boolean
 	swapResponse: any
@@ -71,6 +72,7 @@ export const SwapModal: React.FC<IProps> = ({
 	onConfirmSend,
 	minimum,
 	slippage,
+	priceImpact,
 	disabledButton,
 	swapResponse,
 }) => {
@@ -224,16 +226,20 @@ export const SwapModal: React.FC<IProps> = ({
 										statSubTitle={`From: ${shortAddress} (${balance}${fromToken?.symbol.toUpperCase()})`}
 										statTitle={entry?.name || ''}
 									/>
-									{pool && <InfoStatBlock image={pool.image} statSubTitle="Pool:" statTitle={pool.name} />}
+									{pool && (
+										<InfoStatBlock image={pool.image} statSubTitle="Pool:" statTitle={pool.name} css={{ mt: '10px' }} />
+									)}
 									<InfoStatBlock
-										image={fromToken?.image || fromToken?.iconURL}
+										image={fromToken?.image}
 										statSubTitle="You pay:"
 										statTitle={`${formatBigNumber(amount)} ${fromToken?.symbol.toUpperCase()}`}
+										css={{ mt: '10px' }}
 									/>
 									<InfoStatBlock
-										image={toToken?.image || toToken?.iconURL}
+										image={toToken?.image}
 										statSubTitle="You receive:"
 										statTitle={`${formatBigNumber(receive)} ${toToken?.symbol.toUpperCase()}`}
+										css={{ mt: '10px' }}
 									/>
 									<FeeBox
 										isConfirmFeeBox
@@ -247,7 +253,8 @@ export const SwapModal: React.FC<IProps> = ({
 										pool={pool}
 										minimum={minimum}
 										slippage={slippage}
-										css={{ mt: '12px' }}
+										priceImpact={priceImpact}
+										css={{ mt: '10px' }}
 									/>
 									<Box css={{ mt: '$1', display: 'none' }}>
 										<HoverCard>

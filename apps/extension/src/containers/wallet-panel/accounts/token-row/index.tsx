@@ -70,8 +70,9 @@ export const TokenRow: React.FC<IProps> = ({ i, rri, symbol, amount, staked, loa
 								shadow={false}
 								width={36}
 								height={36}
-								image={token?.image || token?.iconURL}
-								fallbackText={token?.symbol.toLocaleUpperCase()}
+								image={token?.image}
+								fallbackText={(token?.symbol || '').substring(0, 3).toLocaleUpperCase()}
+								background="$bgPanel"
 							/>
 						</Box>
 						<Flex css={{ flex: 1, pr: '$5' }}>

@@ -1,4 +1,5 @@
 import React from 'react'
+import browser from 'webextension-polyfill'
 import { useSharedStore, useStore } from '@src/store'
 import { useImmer } from 'use-immer'
 import { PlusIcon } from 'ui/src/components/icons'
@@ -81,6 +82,19 @@ export const NetworkSettings: React.FC = () => {
 
 		try {
 			const service = new RadixService(url)
+
+			const hasPermissions = await browser.permissions.contains({
+				origins: [`${url.origin}/*`],
+			})
+			if (!hasPermissions) {
+				const granted = await browser.permissions.request({
+					origins: [`${url.origin}/*`],
+				})
+				if (granted) {
+					return
+				}
+			}
+
 			const { network } = await service.gateway()
 
 			addNetwork(network, url)
