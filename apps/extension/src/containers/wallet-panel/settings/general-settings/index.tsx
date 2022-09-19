@@ -81,7 +81,7 @@ export const GeneralSettings: React.FC = () => {
 						>
 							<CheckIcon />
 						</Checkbox>
-						<Text size="2" as="label" css={{ pl: '$2' }} htmlFor="mutable">
+						<Text size="2" as="label" css={{ pl: '$2' }} htmlFor="notifications">
 							Enabled
 						</Text>
 					</Flex>
