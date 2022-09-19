@@ -126,14 +126,9 @@ export const AccountSelector: React.FC<IProps> = ({
 										'&:hover': {
 											bg: '$bgPanelHover',
 										},
-										span: {
-											display: 'none',
-										},
-										'span:first-child': {
+										'> span:first-child': {
 											display: 'flex',
 											width: '100%',
-											align: 'center',
-											justifyContent: 'flex-start',
 										},
 									}}
 								>
@@ -152,7 +147,12 @@ export const AccountSelector: React.FC<IProps> = ({
 												}}
 											/>
 										</Box>
-										<Flex align="center" css={{ flex: '1', minWidth: '0' }}>
+										<Flex
+											direction="column"
+											align="start"
+											justify="center"
+											css={{ flex: '1', minWidth: '0', alignItems: 'flex-start' }}
+										>
 											<Text
 												truncate
 												css={{ fontSize: '14px', lineHeight: '17px', fontWeight: '500', mt: '2px', maxWidth: '210px' }}
