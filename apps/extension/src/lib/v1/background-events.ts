@@ -2,6 +2,7 @@ import { Runtime } from 'webextension-polyfill'
 import shallow from 'zustand/shallow'
 import { Mutex } from 'async-mutex'
 import { sharedStore, accountStore } from '@src/store'
+import { Network } from '@src/store/types'
 import { EVENT_MESSAGE_ID, TARGET_INPAGE } from '@src/services/messanger'
 import { ACCOUNT_CHANGE, KEYSTORE_CHANGE } from '../events'
 
@@ -49,12 +50,12 @@ export const subscribeToEvents = async (
 
 	const unsubscribeNetworkChange = accStore.subscribe(
 		state => [state.selectedNetworkIndex, state.networks],
-		([selectedNetworkIndex, networks], [previousNetworkIndex]) => {
+		([selectedNetworkIndex, networks]: [number, Network[]], [previousNetworkIndex]) => {
 			if (selectKeystoreId === previousNetworkIndex) return
 			const network = networks[selectedNetworkIndex]
 			sendMessage(port, TARGET_INPAGE, EVENT_MESSAGE_ID, null, {
 				eventType: ACCOUNT_CHANGE,
-				eventDetails: { network },
+				eventDetails: { id: network.id.toString(), url: network.url.toString() },
 			})
 		},
 		subscribeOptions,
