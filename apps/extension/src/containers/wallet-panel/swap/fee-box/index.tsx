@@ -214,7 +214,7 @@ export const FeeBox: React.FC<IProps> = ({
 									<HoverCardContent
 										side="top"
 										sideOffset={5}
-										css={{ maxWidth: '240px', pointerEvents: 'auto', zIndex: '99' }}
+										css={{ maxWidth: '255px', pointerEvents: 'auto', zIndex: '99' }}
 									>
 										<Flex css={{ flexDirection: 'column', gap: '4px' }}>
 											<Flex>
@@ -223,14 +223,14 @@ export const FeeBox: React.FC<IProps> = ({
 												</Text>
 											</Flex>
 											<Flex css={{ width: '100%' }}>
-												<Text medium size="2" css={{ color: '$txtHelp' }}>
+												<Text medium size="2" css={{ color: '$txtHelp', width: '85px', flexShrink: '0' }}>
 													Network fee:
 												</Text>
 												<Text size="2" css={{ display: 'flex', flex: '1', justifyContent: 'flex-end' }}>
-													<Box css={{ pl: '$1' }}>{`${formatBigNumber(
-														txFee,
-														nativeToken?.symbol,
-													)} ${nativeToken?.symbol.toUpperCase()}`}</Box>
+													<Text css={{ pl: '$1' }}>{formatBigNumber(txFee, nativeToken?.symbol)}</Text>
+													<Text truncate css={{ pl: '$1', maxWidth: '35px' }}>
+														{nativeToken?.symbol.toUpperCase()}
+													</Text>
 													{nativeTicker && (
 														<Box css={{ pl: '$1' }}>
 															{formatBigNumber(txFee.multipliedBy(nativeTicker.last_price), currency, 2)}
@@ -239,7 +239,7 @@ export const FeeBox: React.FC<IProps> = ({
 												</Text>
 											</Flex>
 											<Flex>
-												<Text medium size="2" css={{ color: '$txtHelp' }}>
+												<Text medium size="2" css={{ color: '$txtHelp', width: '85px', flexShrink: '0' }}>
 													Exchange fee:
 												</Text>
 												<Text size="2" css={{ display: 'flex', flex: '1', justifyContent: 'flex-end' }}>
@@ -247,10 +247,10 @@ export const FeeBox: React.FC<IProps> = ({
 														<Box css={{ pl: '$1' }}>Unknown</Box>
 													) : (
 														<>
-															<Box css={{ pl: '$1' }}>{`${formatBigNumber(
-																poolFee,
-																fromToken?.symbol,
-															)} ${fromToken?.symbol.toUpperCase()}`}</Box>
+															<Text css={{ pl: '$1' }}>{formatBigNumber(poolFee, fromToken?.symbol)}</Text>
+															<Text truncate css={{ pl: '$1', maxWidth: '35px' }}>
+																{fromToken?.symbol.toUpperCase()}
+															</Text>
 															{fromTicker && (
 																<Box css={{ pl: '$1' }}>
 																	{formatBigNumber(poolFee.multipliedBy(fromTicker.last_price), currency, 2)}
@@ -261,14 +261,14 @@ export const FeeBox: React.FC<IProps> = ({
 												</Text>
 											</Flex>
 											<Flex>
-												<Text medium size="2" css={{ color: '$txtHelp' }}>
+												<Text medium size="2" css={{ color: '$txtHelp', width: '85px', flexShrink: '0' }}>
 													Wallet fee:
 												</Text>
 												<Text size="2" css={{ display: 'flex', flex: '1', justifyContent: 'flex-end' }}>
-													<Box css={{ pl: '$1' }}>{`${formatBigNumber(
-														z3usFee,
-														fromToken?.symbol,
-													)} ${fromToken?.symbol.toUpperCase()}`}</Box>
+													<Text css={{ pl: '$1' }}>{formatBigNumber(z3usFee, fromToken?.symbol)}</Text>
+													<Text truncate css={{ pl: '$1', maxWidth: '35px' }}>
+														{fromToken?.symbol.toUpperCase()}
+													</Text>
 													{fromTicker && (
 														<Box css={{ pl: '$1' }}>
 															{formatBigNumber(z3usFee.multipliedBy(fromTicker.last_price), currency, 2)}
