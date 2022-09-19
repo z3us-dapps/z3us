@@ -3,6 +3,7 @@ import BigNumber from 'bignumber.js'
 import { useQueryClient } from 'react-query'
 import { useLocation } from 'wouter'
 import { Token } from '@src/types'
+import { ToolTip } from 'ui/src/components/tool-tip'
 import InputFeedBack from 'ui/src/components/input/input-feedback'
 import { BuiltTransactionReadyToSign } from '@radixdlt/application'
 import { useTransaction } from '@src/hooks/use-transaction'
@@ -66,10 +67,10 @@ export const SendTokenReview: React.FC<IProps> = ({
 
 	const address = account?.address?.toString()
 	const entry = addressBook[address] || publicAddresses.find(_account => _account.address === address)
-	const shortAddress = getShortAddress(address)
+	const shortAddress = getShortAddress(address, 5)
 
 	const toEntry = addressBook[to] || publicAddresses.find(_account => _account.address === to)
-	const toShort = getShortAddress(to)
+	const toShort = getShortAddress(to, 5)
 	const tokenSymbol = token.symbol.toUpperCase()
 
 	const handleCancelTransaction = () => {
@@ -140,22 +141,31 @@ export const SendTokenReview: React.FC<IProps> = ({
 						Transaction details:
 					</Text>
 				</Box>
-				<InfoStatBlock
-					addressBookBackground={entry?.background}
-					statSubTitle={`From: ${shortAddress} (${totalTokenAmount}${tokenSymbol})`}
-					statTitle={entry?.name || ''}
-				/>
-				<InfoStatBlock
-					addressBookBackground={toEntry?.background}
-					statSubTitle={`To: ${toShort}`}
-					statTitle={toEntry?.name || ''}
-				/>
+				<ToolTip message={address} css={{ maxWidth: '230px', wordWrap: 'break-word' }}>
+					<Box>
+						<InfoStatBlock
+							addressBookBackground={entry?.background}
+							statSubTitle={`From: ${shortAddress} (${totalTokenAmount}${tokenSymbol})`}
+							statTitle={entry?.name || ''}
+						/>
+					</Box>
+				</ToolTip>
+
+				<ToolTip message={to} css={{ maxWidth: '230px', wordWrap: 'break-word' }}>
+					<Box>
+						<InfoStatBlock
+							addressBookBackground={toEntry?.background}
+							statSubTitle={`To: ${toShort}`}
+							statTitle={toEntry?.name || ''}
+						/>
+					</Box>
+				</ToolTip>
 				<InfoStatBlock
 					image={token?.image}
 					statSubTitle="Amount:"
 					statTitle={`${formatBigNumber(amount)} ${tokenSymbol}`}
 				/>
-				<SlippageBox token={token} amount={amount} fee={fee} />
+				<SlippageBox token={token} amount={amount} fee={fee} css={{ mt: '12px' }} />
 			</Box>
 			<Flex css={{ p: '$2' }}>
 				<Button
