@@ -165,7 +165,7 @@ export const SendTokenReview: React.FC<IProps> = ({
 					statSubTitle="Amount:"
 					statTitle={`${formatBigNumber(amount)} ${tokenSymbol}`}
 				/>
-				<SlippageBox token={token} amount={amount} fee={fee} />
+				<SlippageBox token={token} amount={amount} fee={fee} css={{ mt: '12px' }} />
 			</Box>
 			<Flex css={{ p: '$2' }}>
 				<Button
