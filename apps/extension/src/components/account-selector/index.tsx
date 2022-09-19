@@ -168,7 +168,7 @@ export const AccountSelector: React.FC<IProps> = ({
 												</Text>
 											)}
 										</Flex>
-										<Flex align="center" css={{ pr: '$2', flexShrink: '0' }}>
+										<Flex align="center" css={{ flexShrink: '0' }}>
 											<RightArrowIcon />
 										</Flex>
 									</SelectValue>
