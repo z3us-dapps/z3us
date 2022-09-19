@@ -67,10 +67,10 @@ export const SendTokenReview: React.FC<IProps> = ({
 
 	const address = account?.address?.toString()
 	const entry = addressBook[address] || publicAddresses.find(_account => _account.address === address)
-	const shortAddress = getShortAddress(address)
+	const shortAddress = getShortAddress(address, 5)
 
 	const toEntry = addressBook[to] || publicAddresses.find(_account => _account.address === to)
-	const toShort = getShortAddress(to)
+	const toShort = getShortAddress(to, 5)
 	const tokenSymbol = token.symbol.toUpperCase()
 
 	const handleCancelTransaction = () => {
