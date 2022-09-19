@@ -3,6 +3,7 @@ import BigNumber from 'bignumber.js'
 import { useQueryClient } from 'react-query'
 import { useLocation } from 'wouter'
 import { Token } from '@src/types'
+import { ToolTip } from 'ui/src/components/tool-tip'
 import InputFeedBack from 'ui/src/components/input/input-feedback'
 import { BuiltTransactionReadyToSign } from '@radixdlt/application'
 import { useTransaction } from '@src/hooks/use-transaction'
@@ -140,16 +141,25 @@ export const SendTokenReview: React.FC<IProps> = ({
 						Transaction details:
 					</Text>
 				</Box>
-				<InfoStatBlock
-					addressBookBackground={entry?.background}
-					statSubTitle={`From: ${shortAddress} (${totalTokenAmount}${tokenSymbol})`}
-					statTitle={entry?.name || ''}
-				/>
-				<InfoStatBlock
-					addressBookBackground={toEntry?.background}
-					statSubTitle={`To: ${toShort}`}
-					statTitle={toEntry?.name || ''}
-				/>
+				<ToolTip message={address} css={{ maxWidth: '230px', wordWrap: 'break-word' }}>
+					<Box>
+						<InfoStatBlock
+							addressBookBackground={entry?.background}
+							statSubTitle={`From: ${shortAddress} (${totalTokenAmount}${tokenSymbol})`}
+							statTitle={entry?.name || ''}
+						/>
+					</Box>
+				</ToolTip>
+
+				<ToolTip message={to} css={{ maxWidth: '230px', wordWrap: 'break-word' }}>
+					<Box>
+						<InfoStatBlock
+							addressBookBackground={toEntry?.background}
+							statSubTitle={`To: ${toShort}`}
+							statTitle={toEntry?.name || ''}
+						/>
+					</Box>
+				</ToolTip>
 				<InfoStatBlock
 					image={token?.image}
 					statSubTitle="Amount:"
