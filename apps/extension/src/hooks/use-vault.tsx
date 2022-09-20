@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react'
 import { useSharedStore, useStore } from '@src/store'
 import { HDMasterSeed } from '@radixdlt/crypto'
 import { MessageService, PORT_NAME } from '@src/services/messanger'
-import { GET } from '@src/lib/actions'
+import { GET } from '@src/lib/v1/actions'
 import { KeystoreType } from '@src/store/types'
 
 const mutex = new Mutex()

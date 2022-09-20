@@ -4,7 +4,7 @@ import { Mutex } from 'async-mutex'
 import { sharedStore, accountStore } from '@src/store'
 import { Network } from '@src/store/types'
 import { EVENT_MESSAGE_ID, TARGET_INPAGE } from '@src/services/messanger'
-import { ACCOUNT_CHANGE, KEYSTORE_CHANGE } from '../events'
+import { ACCOUNT_CHANGE, KEYSTORE_CHANGE, NETWORK_CHANGE } from '@src/lib/v1/events'
 
 const mutex = new Mutex()
 const subscribeOptions = { equalityFn: shallow, fireImmediately: true }
@@ -54,7 +54,7 @@ export const subscribeToEvents = async (
 			if (selectKeystoreId === previousNetworkIndex) return
 			const network = networks[selectedNetworkIndex]
 			sendMessage(port, TARGET_INPAGE, EVENT_MESSAGE_ID, null, {
-				eventType: ACCOUNT_CHANGE,
+				eventType: NETWORK_CHANGE,
 				eventDetails: { id: network.id.toString(), url: network.url.toString() },
 			})
 		},

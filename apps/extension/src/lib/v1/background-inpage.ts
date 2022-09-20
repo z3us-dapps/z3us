@@ -20,7 +20,7 @@ import {
 	DESCRYPT,
 	SIGN,
 	SEND_TRANSACTION,
-} from '../actions'
+} from '@src/lib/v1/actions'
 
 const responseOK = { code: 200 }
 const responseBadRequest = { code: 400, error: 'Bad request' }

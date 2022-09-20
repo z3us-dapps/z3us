@@ -6,7 +6,7 @@ import { CheckboxIcon } from '@radix-ui/react-icons'
 import { useSharedStore, useStore } from '@src/store'
 import { useRoute } from 'wouter'
 import { hexToJSON } from '@src/utils/encoding'
-import { CONFIRM } from '@src/lib/actions'
+import { CONFIRM } from '@src/lib/v1/actions'
 
 export const Connect = (): JSX.Element => {
 	const [, { id }] = useRoute<{ id: string }>('/connect/:id')

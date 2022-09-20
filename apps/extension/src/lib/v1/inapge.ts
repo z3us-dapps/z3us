@@ -12,7 +12,7 @@ import {
 	UNSTAKES,
 	ENCRYPT,
 	DESCRYPT,
-} from '../actions'
+} from '@src/lib/v1/actions'
 
 export default function NewPublicV1(sendMessage: (action: string, payload?: any) => Promise<MessageResponse>) {
 	async function sign(challenge: string): Promise<string> {

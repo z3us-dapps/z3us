@@ -3,7 +3,7 @@ import { useSharedStore } from '@src/store'
 import { Box, Flex, Text } from 'ui/src/components/atoms'
 import { Checkbox, CheckIcon } from 'ui/src/components/checkbox'
 import { StyledSlider, StyledTrack, StyledThumb, StyledRange } from 'ui/src/components/slider'
-import { GET } from '@src/lib/actions'
+import { GET } from '@src/lib/v1/actions'
 import { CurrencySelector } from '@src/components/currency-selector'
 
 export const GeneralSettings: React.FC = () => {

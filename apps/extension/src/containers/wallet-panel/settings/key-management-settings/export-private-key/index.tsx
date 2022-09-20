@@ -17,7 +17,7 @@ import {
 	AlertDialogAction,
 	AlertDialogCancel,
 } from 'ui/src/components/alert-dialog'
-import { UNLOCK } from '@src/lib/actions'
+import { UNLOCK } from '@src/lib/v1/actions'
 
 interface ImmerT {
 	password: string
