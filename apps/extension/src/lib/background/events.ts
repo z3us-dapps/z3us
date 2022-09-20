@@ -10,60 +10,65 @@ const mutex = new Mutex()
 const subscribeOptions = { equalityFn: shallow, fireImmediately: true }
 
 // https://github.com/pmndrs/zustand#using-subscribe-with-selector
-export const subscribeToEvents = async (
+export const subscribeToEvents = (
 	port: Runtime.Port,
 	sendMessage: (port: Runtime.Port, target: string, id: string, request: any, response: any) => void,
 ) => {
-	await sharedStore.persist.rehydrate()
-	const { selectKeystoreId } = sharedStore.getState()
+	const unsubscribeFunctions = []
 
-	let accStore = accountStore(selectKeystoreId)
+	sharedStore.persist.rehydrate().then(() => {
+		const { selectKeystoreId } = sharedStore.getState()
 
-	const unsubscribeKeystoreChange = sharedStore.subscribe(
-		state => state.selectKeystoreId,
-		async (newKeystoreId: string) => {
-			sendMessage(port, TARGET_INPAGE, EVENT_MESSAGE_ID, null, {
-				eventType: KEYSTORE_CHANGE,
-				eventDetails: { keystoreId: newKeystoreId },
-			})
+		let accStore = accountStore(selectKeystoreId)
 
-			const release = await mutex.acquire()
-			accStore = accountStore(newKeystoreId)
-			release()
-		},
-		subscribeOptions,
-	)
+		const unsubscribeKeystoreChange = sharedStore.subscribe(
+			state => state.selectKeystoreId,
+			async (newKeystoreId: string, previousKeystoreId: string) => {
+				if (newKeystoreId === previousKeystoreId) return
+				sendMessage(port, TARGET_INPAGE, EVENT_MESSAGE_ID, null, {
+					eventType: KEYSTORE_CHANGE,
+					eventDetails: { keystoreId: newKeystoreId },
+				})
 
-	const unsubscribeAccountChange = accStore.subscribe(
-		state => [state.selectedAccountIndex, state.publicAddresses],
-		([selectedAccountIndex, publicAddresses], [previousAccountIndex]) => {
-			if (selectKeystoreId === previousAccountIndex) return
-			const publicIndexes = Object.keys(publicAddresses)
-			const address = publicAddresses[publicIndexes[selectedAccountIndex]]?.address
-			sendMessage(port, TARGET_INPAGE, EVENT_MESSAGE_ID, null, {
-				eventType: ACCOUNT_CHANGE,
-				eventDetails: { address },
-			})
-		},
-		subscribeOptions,
-	)
+				const release = await mutex.acquire()
+				accStore = accountStore(newKeystoreId)
+				release()
+			},
+			subscribeOptions,
+		)
+		unsubscribeFunctions.push(unsubscribeKeystoreChange)
 
-	const unsubscribeNetworkChange = accStore.subscribe(
-		state => [state.selectedNetworkIndex, state.networks],
-		([selectedNetworkIndex, networks]: [number, Network[]], [previousNetworkIndex]) => {
-			if (selectKeystoreId === previousNetworkIndex) return
-			const network = networks[selectedNetworkIndex]
-			sendMessage(port, TARGET_INPAGE, EVENT_MESSAGE_ID, null, {
-				eventType: NETWORK_CHANGE,
-				eventDetails: { id: network.id.toString(), url: network.url.toString() },
-			})
-		},
-		subscribeOptions,
-	)
+		const unsubscribeAccountChange = accStore.subscribe(
+			state => [state.selectedAccountIndex, state.publicAddresses],
+			([selectedAccountIndex, publicAddresses], [previousAccountIndex]) => {
+				if (selectKeystoreId === previousAccountIndex) return
+				const publicIndexes = Object.keys(publicAddresses)
+				const address = publicAddresses[publicIndexes[selectedAccountIndex]]?.address
+				sendMessage(port, TARGET_INPAGE, EVENT_MESSAGE_ID, null, {
+					eventType: ACCOUNT_CHANGE,
+					eventDetails: { address },
+				})
+			},
+			subscribeOptions,
+		)
+		unsubscribeFunctions.push(unsubscribeAccountChange)
+
+		const unsubscribeNetworkChange = accStore.subscribe(
+			state => [state.selectedNetworkIndex, state.networks],
+			([selectedNetworkIndex, networks]: [number, Network[]], [previousNetworkIndex]) => {
+				if (selectKeystoreId === previousNetworkIndex) return
+				const network = networks[selectedNetworkIndex]
+				sendMessage(port, TARGET_INPAGE, EVENT_MESSAGE_ID, null, {
+					eventType: NETWORK_CHANGE,
+					eventDetails: { id: network.id.toString(), url: network.url.toString() },
+				})
+			},
+			subscribeOptions,
+		)
+		unsubscribeFunctions.push(unsubscribeNetworkChange)
+	})
 
 	return () => {
-		unsubscribeKeystoreChange()
-		unsubscribeAccountChange()
-		unsubscribeNetworkChange()
+		unsubscribeFunctions.forEach(fn => fn())
 	}
 }

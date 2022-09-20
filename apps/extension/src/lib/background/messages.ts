@@ -106,9 +106,6 @@ export const handleConnect = async port => {
 	})
 
 	let unsubscribeFromEvents = () => {}
-	if (!isPopup) {
-		unsubscribeFromEvents = await subscribeToEvents(port, sendMessage)
-	}
 
 	port.onDisconnect.addListener(() => {
 		if (port.error) {
@@ -131,9 +128,14 @@ export const handleConnect = async port => {
 		})
 	})
 
+	if (!isPopup) {
+		unsubscribeFromEvents = subscribeToEvents(port, sendMessage)
+	}
+
 	const timer = setTimeout(
 		() => {
 			clearTimeout(timer)
+			unsubscribeFromEvents()
 			port.disconnect()
 		},
 		250e3,
