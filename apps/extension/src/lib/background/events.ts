@@ -1,0 +1,74 @@
+import { Runtime } from 'webextension-polyfill'
+import shallow from 'zustand/shallow'
+import { Mutex } from 'async-mutex'
+import { sharedStore, accountStore } from '@src/store'
+import { Network } from '@src/store/types'
+import { EVENT_MESSAGE_ID, TARGET_INPAGE } from '@src/services/messanger'
+import { ACCOUNT_CHANGE, KEYSTORE_CHANGE, NETWORK_CHANGE } from '@src/lib/v1/events'
+
+const mutex = new Mutex()
+const subscribeOptions = { equalityFn: shallow, fireImmediately: true }
+
+// https://github.com/pmndrs/zustand#using-subscribe-with-selector
+export const subscribeToEvents = (
+	port: Runtime.Port,
+	sendMessage: (port: Runtime.Port, target: string, id: string, request: any, response: any) => void,
+) => {
+	const unsubscribeFunctions = []
+
+	sharedStore.persist.rehydrate().then(() => {
+		const { selectKeystoreId } = sharedStore.getState()
+
+		let accStore = accountStore(selectKeystoreId)
+
+		const unsubscribeKeystoreChange = sharedStore.subscribe(
+			state => state.selectKeystoreId,
+			async (newKeystoreId: string, previousKeystoreId: string) => {
+				if (newKeystoreId === previousKeystoreId) return
+				sendMessage(port, TARGET_INPAGE, EVENT_MESSAGE_ID, null, {
+					eventType: KEYSTORE_CHANGE,
+					eventDetails: { keystoreId: newKeystoreId },
+				})
+
+				const release = await mutex.acquire()
+				accStore = accountStore(newKeystoreId)
+				release()
+			},
+			subscribeOptions,
+		)
+		unsubscribeFunctions.push(unsubscribeKeystoreChange)
+
+		const unsubscribeAccountChange = accStore.subscribe(
+			state => [state.selectedAccountIndex, state.publicAddresses],
+			([selectedAccountIndex, publicAddresses], [previousAccountIndex]) => {
+				if (selectKeystoreId === previousAccountIndex) return
+				const publicIndexes = Object.keys(publicAddresses)
+				const address = publicAddresses[publicIndexes[selectedAccountIndex]]?.address
+				sendMessage(port, TARGET_INPAGE, EVENT_MESSAGE_ID, null, {
+					eventType: ACCOUNT_CHANGE,
+					eventDetails: { address },
+				})
+			},
+			subscribeOptions,
+		)
+		unsubscribeFunctions.push(unsubscribeAccountChange)
+
+		const unsubscribeNetworkChange = accStore.subscribe(
+			state => [state.selectedNetworkIndex, state.networks],
+			([selectedNetworkIndex, networks]: [number, Network[]], [previousNetworkIndex]) => {
+				if (selectKeystoreId === previousNetworkIndex) return
+				const network = networks[selectedNetworkIndex]
+				sendMessage(port, TARGET_INPAGE, EVENT_MESSAGE_ID, null, {
+					eventType: NETWORK_CHANGE,
+					eventDetails: { id: network.id.toString(), url: network.url.toString() },
+				})
+			},
+			subscribeOptions,
+		)
+		unsubscribeFunctions.push(unsubscribeNetworkChange)
+	})
+
+	return () => {
+		unsubscribeFunctions.forEach(fn => fn())
+	}
+}

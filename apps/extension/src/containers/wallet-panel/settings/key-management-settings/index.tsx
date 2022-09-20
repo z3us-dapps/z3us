@@ -1,6 +1,6 @@
 import React from 'react'
 import { useLocation } from 'wouter'
-import { UNLOCK } from '@src/lib/actions'
+import { UNLOCK } from '@src/lib/v1/actions'
 import { useImmer } from 'use-immer'
 import { useSharedStore, useStore } from '@src/store'
 import { Box, Flex, Text, Grid } from 'ui/src/components/atoms'

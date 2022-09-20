@@ -205,7 +205,7 @@ interface IPool {
 	url: string
 	image: string
 	name: string
-	wallet: string
+	wallet?: string
 	balances?: { [rri: string]: number }
 	quote?: PoolQuote
 	costRatio?: BigNumber

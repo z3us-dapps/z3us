@@ -5,7 +5,7 @@ import { PageWrapper, PageHeading, PageSubHeading } from '@src/components/layout
 import { useSharedStore, useStore } from '@src/store'
 import { useRoute } from 'wouter'
 import { hexToJSON } from '@src/utils/encoding'
-import { CONFIRM } from '@src/lib/actions'
+import { CONFIRM } from '@src/lib/v1/actions'
 import { HardwareWalletReconnect } from '@src/components/hardware-wallet-reconnect'
 import { useMessage } from '@src/hooks/use-message'
 

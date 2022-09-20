@@ -208,8 +208,6 @@ export const Swap: React.FC = () => {
 					slippage,
 					fromToken,
 					toToken,
-					accountAddress,
-					liquidBalances,
 				)
 				const walletQuote = getZ3USFees(poolQuote.amount, burn, liquidBalances)
 				pool = poolQuote.pool

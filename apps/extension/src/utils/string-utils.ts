@@ -1,13 +1,8 @@
 import { Action, ActionType } from '@src/types'
 
-export const getInitials = (name: string) => {
-	const initials = Array.prototype.map.call(name.split(' '), x => x.substring(0, 1).toUpperCase()).join('')
-	return initials.substring(0, 2)
-}
-
-export const getShortAddress = (account = '') => {
+export const getShortAddress = (account = '', shortLength = 4) => {
 	if (account === '') return ''
-	return `${account?.substring(0, 4)}...${account?.slice(-4)}`
+	return `${account?.substring(0, shortLength)}...${account?.slice(-shortLength)}`
 }
 
 export const getTransactionType = (address: string, activity: Action) => {

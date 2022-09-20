@@ -40,11 +40,11 @@ export const useDSORTokens = () =>
 type PoolTokensState = { [rri: string]: { [rri: string]: unknown } }
 
 export const usePoolTokens = (): PoolTokensState => {
-	const { data: caviarPools } = useCaviarPools()
-	const { data: ociPools } = useOCIPools()
-	const { data: dogePools } = useDogeCubeXPools()
-	const { data: astrolescentTokens } = useAstrolescentTokens()
-	const { data: dsorTokens } = useDSORTokens()
+	const { isSuccess: ociIsSuccess, data: caviarPools } = useCaviarPools()
+	const { isSuccess: dogeIsSuccess, data: ociPools } = useOCIPools()
+	const { isSuccess: dsorIsSuccess, data: dogePools } = useDogeCubeXPools()
+	const { isSuccess: astrolescentIsSuccess, data: astrolescentTokens } = useAstrolescentTokens()
+	const { isSuccess: caviarIsSuccess, data: dsorTokens } = useDSORTokens()
 
 	const [state, setState] = useState<PoolTokensState>({})
 
@@ -84,17 +84,17 @@ export const usePoolTokens = (): PoolTokensState => {
 		}
 
 		setState(uniqueTokens)
-	}, [])
+	}, [ociIsSuccess, dogeIsSuccess, dsorIsSuccess, astrolescentIsSuccess, caviarIsSuccess])
 
 	return state
 }
 
 export const usePools = (fromRRI: string, toRRI: string): Pool[] => {
-	const { data: ociPools } = useOCIPools()
-	const { data: dogePools } = useDogeCubeXPools()
-	const { data: dsorTokens } = useDSORTokens()
-	const { data: astrolescentTokens } = useAstrolescentTokens()
-	const { data: caviarPools } = useCaviarPools()
+	const { isSuccess: ociIsSuccess, data: ociPools } = useOCIPools()
+	const { isSuccess: dogeIsSuccess, data: dogePools } = useDogeCubeXPools()
+	const { isSuccess: dsorIsSuccess, data: dsorTokens } = useDSORTokens()
+	const { isSuccess: astrolescentIsSuccess, data: astrolescentTokens } = useAstrolescentTokens()
+	const { isSuccess: caviarIsSuccess, data: caviarPools } = useCaviarPools()
 
 	const [state, setState] = useState<Pool[]>([])
 
@@ -169,7 +169,6 @@ export const usePools = (fromRRI: string, toRRI: string): Pool[] => {
 					new Pool({
 						...swapServices[PoolType.DSOR],
 						name: DSORPoolName,
-						wallet: 'dsor',
 					}),
 				)
 			}
@@ -182,7 +181,6 @@ export const usePools = (fromRRI: string, toRRI: string): Pool[] => {
 						new Pool({
 							...swapServices[PoolType.ASTROLESCENT],
 							name: AstrolescentPoolName,
-							wallet: 'astrolescent',
 						}),
 					)
 				}
@@ -193,7 +191,6 @@ export const usePools = (fromRRI: string, toRRI: string): Pool[] => {
 						new Pool({
 							...swapServices[PoolType.ASTROLESCENT],
 							name: AstrolescentPoolName,
-							wallet: 'astrolescent',
 						}),
 					)
 				}
@@ -201,7 +198,7 @@ export const usePools = (fromRRI: string, toRRI: string): Pool[] => {
 		}
 
 		setState(pools)
-	}, [fromRRI, toRRI])
+	}, [fromRRI, toRRI, ociIsSuccess, dogeIsSuccess, dsorIsSuccess, astrolescentIsSuccess, caviarIsSuccess])
 
 	return state
 }

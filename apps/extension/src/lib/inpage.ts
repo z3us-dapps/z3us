@@ -1,6 +1,6 @@
 import { MessageService } from '@src/services/messanger'
-import { INIT } from './events'
-import NewPublicV1 from './v1/inapge'
+import NewPublicV1 from '@src/lib/v1/inapge'
+import { INIT } from '@src/lib/v1/events'
 
 const messanger = new MessageService('inpage', null, window)
 

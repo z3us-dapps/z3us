@@ -13,7 +13,7 @@ import { PageWrapper, PageHeading, PageSubHeading } from '@src/components/layout
 import { useSharedStore, useStore } from '@src/store'
 import { useRoute } from 'wouter'
 import { hexToJSON } from '@src/utils/encoding'
-import { CONFIRM } from '@src/lib/actions'
+import { CONFIRM } from '@src/lib/v1/actions'
 import InputFeedback from 'ui/src/components/input/input-feedback'
 import { AlertDialog, AlertDialogTrigger, AlertDialogContent } from 'ui/src/components/alert-dialog'
 import { HardwareWalletReconnect } from '@src/components/hardware-wallet-reconnect'

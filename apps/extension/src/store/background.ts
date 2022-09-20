@@ -12,7 +12,7 @@ import {
 	AUTH_VERIFY_REGISTRATION,
 	AUTH_AUTHENTICATION_OPTIONS,
 	AUTH_VERIFY_AUTHENTICATION,
-} from '@src/lib/actions'
+} from '@src/lib/v1/actions'
 import { HDMasterSeed } from '@radixdlt/crypto'
 import { startRegistration, startAuthentication } from '@simplewebauthn/browser'
 import { BackgroundStore, SharedStore } from './types'

@@ -18,7 +18,7 @@ import {
 	// AUTH_VERIFY_REGISTRATION,
 	// AUTH_AUTHENTICATION_OPTIONS,
 	// AUTH_VERIFY_AUTHENTICATION,
-} from '../actions'
+} from '@src/lib/v1/actions'
 
 export default function NewV1BackgroundPopupActions(
 	browser: BrowserService,

@@ -75,11 +75,12 @@ export const calculatePoolFeesFromAmount = async (
 	let fee = zero
 	let priceImpact: number
 
-	if (!pool?.wallet || !from || !to || amount.lte(0)) {
+	if (!from || !to || amount.lte(0)) {
 		return {
 			amount,
 			fee,
 			receive,
+			fullReceive,
 			priceImpact,
 			response,
 		}
@@ -170,15 +171,13 @@ export const calculatePoolFeesFromReceive = async (
 	slippage: number,
 	from: Token,
 	to: Token,
-	accountAddress: string,
-	liquidBalances: TokenAmount[],
 ): Promise<Quote> => {
 	let response
 	let amount = zero
 	let fee = zero
 	let priceImpact: number
 
-	if (!pool?.wallet || !from || !to || receive.lte(0)) {
+	if (!from || !to || receive.lte(0)) {
 		return {
 			receive,
 			fee,
@@ -317,24 +316,13 @@ export const calculateCheapestPoolFeesFromReceive = async (
 	slippage: number,
 	from: Token,
 	to: Token,
-	accountAddress: string,
-	liquidBalances: TokenAmount[],
 ): Promise<{ pool: Pool } & Quote> => {
 	let pool: Pool | null = null
 	let bestQuote: Quote
 	const results = await Promise.all(
 		pools.map(async p => {
 			try {
-				const quote = await calculatePoolFeesFromReceive(
-					pools,
-					p,
-					receive,
-					slippage,
-					from,
-					to,
-					accountAddress,
-					liquidBalances,
-				)
+				const quote = await calculatePoolFeesFromReceive(pools, p, receive, slippage, from, to)
 				p.quote = quote
 				return quote
 			} catch (error) {
@@ -404,7 +392,7 @@ export const calculateTransactionFee = async (
 	let fee = zero
 	let transactionFeeError = null
 
-	if (amount.eq(0) || !pool?.wallet || !fromToken?.rri || !toToken?.rri) {
+	if (amount.eq(0) || !fromToken?.rri || !toToken?.rri) {
 		return { transaction, fee, transactionFeeError }
 	}
 
