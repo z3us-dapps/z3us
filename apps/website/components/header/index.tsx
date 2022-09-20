@@ -22,7 +22,7 @@ export const Header = ({ className }: IProps) => (
 				<div className="flex-1 color-white z-30">
 					<Link href="/" passHref>
 						<a className="cursor-pointer inline-flex hover:text-violet-50 transition-colors mt-3">
-							<Z3usText css={{ maxWidth: '108px' }} />
+							<Z3usText css={{ maxWidth: '130px' }} />
 						</a>
 					</Link>
 				</div>
@@ -34,7 +34,7 @@ export const Header = ({ className }: IProps) => (
 						</Link>
 					</li>
 					<li>
-						<Link href="" passHref>
+						<Link href="/roadmap" passHref>
 							<a className="cursor-pointer hover:underline">Road map</a>
 						</Link>
 					</li>

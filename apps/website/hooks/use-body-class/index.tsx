@@ -4,6 +4,7 @@ import { useRouter } from 'next/router'
 const bodyClasses = {
 	home: { className: 'home-page', path: '/' },
 	tokenomics: { className: 'tokenomics-page', path: '/tokenomics' },
+	roadmap: { className: 'roadmap-page', path: '/roadmap' },
 }
 
 export const getPageClassName = (page: string) => {

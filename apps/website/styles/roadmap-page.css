@@ -1,0 +1,138 @@
+.dark body.roadmap-page {
+	background-color: #bea5a5;
+}
+body.roadmap-page {
+	background-color: #bea5a5;
+}
+
+.roadmap-page__h1 {
+	font-size: 4rem;
+	line-height: 4rem;
+	color: #ffffff;
+}
+
+.roadmap-bg {
+	position: absolute;
+	overflow: hidden;
+	width: 100%;
+	top: 40rem;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	flex-direction: column;
+	pointer-events: none;
+	transform: none;
+}
+
+.roadmap-bg picture:nth-child(2) img {
+	transform: rotateX(180deg);
+}
+
+.roadmap-cards {
+	position: relative;
+	padding-bottom: 15rem;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	gap: 1rem;
+	padding-top: 0.5rem;
+}
+
+.roadmap-card-line {
+	pointer-events: none;
+	position: absolute;
+	top: 50%;
+	margin-top: 0.125rem; /* 4px */
+	height: 0.25rem; /* 4px */
+	width: 5.938rem; /* 95px */
+}
+
+.roadmap-card-line-inner {
+	position: absolute;
+	top: 0;
+	width: 100%;
+	height: 100%;
+	background: #eee;
+	transform-origin: 0%;
+}
+
+.roadmap-card-circle {
+	display: none;
+	position: absolute;
+	top: -9px;
+	height: 1.375rem; /* 22px */
+	width: 1.375rem; /* 22px */
+	border-radius: 50%;
+	border: 0.125rem solid;
+	box-shadow: 0 0 0 0.125rem #ffffff;
+}
+
+.roadmap-cards .roadmap-card-container:nth-child(odd) .roadmap-card-circle {
+	right: -12px;
+}
+
+.roadmap-cards .roadmap-card-container:nth-child(even) .roadmap-card-circle {
+	left: -12px;
+}
+
+.roadmap-cards .roadmap-card-container:nth-child(odd) .roadmap-card-line {
+	right: -5.938rem; /* 95px */
+}
+
+.roadmap-cards .roadmap-card-container:nth-child(odd) .roadmap-card-line-inner {
+	left: 0;
+}
+
+.roadmap-cards .roadmap-card-container:nth-child(even) .roadmap-card-line-inner {
+	right: 0;
+	transform-origin: 100%;
+}
+
+.roadmap-cards .roadmap-card-container:nth-child(even) .roadmap-card-line {
+	left: -5.938rem; /* 95px */
+}
+
+.roadmap-card-container {
+	height: 8rem;
+}
+
+.roadmap-cards .roadmap-card-container:nth-child(odd) {
+	margin-right: 33rem;
+}
+
+.roadmap-cards .roadmap-card-container:nth-child(even) {
+	margin-left: 33rem;
+}
+
+.roadmap-card {
+	width: 21rem;
+	box-shadow: 0px 10px 32px rgba(0, 0, 0, 0.16);
+}
+
+.roadmap-line {
+	position: absolute;
+	top: 0;
+	width: 0.25rem; /* 4px */
+	height: 100%;
+}
+
+@media (min-width: 768px) {
+}
+
+/* md */
+@media (min-width: 768px) {
+}
+
+/* lg */
+@media (min-width: 1024px) {
+}
+
+/* xl */
+@media (min-width: 1280px) {
+	.roadmap-page__h1 {
+		font-size: 9.5rem;
+		line-height: 9rem;
+		letter-spacing: -0.15rem;
+	}
+}
