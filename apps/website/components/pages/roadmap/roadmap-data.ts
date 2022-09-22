@@ -1,21 +1,49 @@
 type TRoadMap = {
 	[key: string]: {
-		image: string
-		order?: number
+		date: string
+		title: string
+		subTitle?: string
+		image?: string
+		complete?: boolean
 	}
 }
 
 export const roadmapData: TRoadMap = {
-	xrd: { image: 'images/token-images/xrd.png', order: 0 },
-	oci: { image: 'images/token-images/oci.png', order: 1 },
-	dgc: { image: 'images/token-images/dgc.png', order: 2 },
-	inu: { image: 'images/token-images/inu.png' },
-	caviar: { image: 'images/token-images/caviar.png' },
-	sfloop: { image: 'images/token-images/sfloop.png' },
-	floop: { image: 'images/token-images/floop.png' },
-	planet: { image: 'images/token-images/planet.png' },
-	dph: { image: 'images/token-images/dph.png' },
-	arena: { image: 'images/token-images/arena.png' },
-	easy: { image: 'images/token-images/easy.png' },
-	xseed: { image: 'images/token-images/xseed.png' },
+	beta_launch: {
+		title: 'Beta launch mvp',
+		subTitle: 'Beta launch mvp',
+		date: 'June, 2021',
+		complete: true,
+		image: '/images/roadmap-page/roadmap-bg.webp',
+	},
+	share_feature: {
+		title: 'Swap dex integration',
+		subTitle: 'Allow users to swap tokens with DEX partners',
+		date: 'August, 2021',
+		complete: true,
+		image: '/images/roadmap-page/roadmap-bg.webp',
+	},
+	browser_desktop: {
+		title: 'Desktop browser Z3US app',
+		subTitle: 'Custom desktop app',
+		date: 'Janruary, 2023',
+		complete: false,
+	},
+	babylon_upgrades: {
+		title: 'Babylon upgrades',
+		subTitle: 'Wallet upgrades for the Radix babylon network upgrade.',
+		date: 'TBD, 2023',
+		complete: false,
+	},
+	nft_integration: {
+		title: 'NFT wallet integration',
+		subTitle: "Allow users to view, send and receive NFT's from Z3US wallet",
+		date: 'TBD, 2023',
+		complete: false,
+	},
+	ios_app: {
+		title: 'Z3US ios app',
+		date: 'TBD, 2023',
+		complete: false,
+	},
 }

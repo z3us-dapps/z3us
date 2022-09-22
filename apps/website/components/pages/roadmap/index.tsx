@@ -76,8 +76,15 @@ export const RoadmapPage: React.FC = () => {
 							<h4 className="absolute top-0 px-4 py-2 text-violet-700 bg-white text-base font-bold rounded-full">
 								Founded 2021
 							</h4>
-							{Object.entries(roadmapData).map(([key, item]) => (
-								<RoadMapCard key={key} />
+							{Object.entries(roadmapData).map(([key, { title, subTitle, date, image, complete }]) => (
+								<RoadMapCard
+									key={key}
+									title={title}
+									subTitle={subTitle}
+									date={date}
+									image={image}
+									complete={complete}
+								/>
 							))}
 						</div>
 					</PageContainer>
