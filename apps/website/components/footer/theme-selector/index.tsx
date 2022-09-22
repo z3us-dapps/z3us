@@ -37,14 +37,14 @@ export const ThemeSelector = ({ className }: IProps) => {
 					<SelectPrimitive.ScrollUpButton className="flex items-center justify-center text-gray-700 dark:text-gray-300">
 						<ChevronUpIcon className="h-6 w-6" />
 					</SelectPrimitive.ScrollUpButton>
-					<SelectPrimitive.Viewport className="bg-white dark:bg-gray-800 p-2 rounded-lg shadow-lg">
+					<SelectPrimitive.Viewport className="bg-white dark:bg-zinc-800 p-2 rounded-lg shadow-lg">
 						<SelectPrimitive.Group>
 							{['light', 'dark', 'system'].map((f, i) => (
 								<SelectPrimitive.Item
 									key={`${f}-${i}`}
 									value={f.toLowerCase()}
 									className={cx(
-										'relative flex items-center px-8 py-2 rounded-md text-xs text-gray-700 dark:text-gray-300 font-medium focus:bg-gray-100 dark:focus:bg-gray-900',
+										'relative flex items-center px-8 py-2 rounded-md text-xs text-gray-700 dark:text-gray-300 font-medium focus:bg-zinc-100 dark:focus:bg-zinc-900',
 										'radix-disabled:opacity-50',
 										'focus:outline-none select-none',
 									)}

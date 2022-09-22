@@ -57,7 +57,7 @@
 		"tailwindcss-radix": "^2.6.0",
 		"ui": "*",
 		"use-immer": "^0.7.0",
-		"usehooks-ts": "^2.5.1"
+		"usehooks-ts": "^2.7.0"
 	},
 	"devDependencies": {
 		"@types/node": "^17.0.0",

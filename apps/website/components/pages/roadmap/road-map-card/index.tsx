@@ -1,4 +1,3 @@
-/* eslint-disable */
 import React from 'react'
 import { m as motion, Variants } from 'framer-motion'
 import cx from 'classnames'
@@ -7,10 +6,14 @@ import { Picture } from 'components/picture'
 
 interface IRoadMapCard {
 	title: string
-	subTitle?: string
 	date: string
 	image?: string
 	complete?: boolean
+}
+
+const defaultProps = {
+	image: undefined,
+	complete: false,
 }
 
 const cardVariants: Variants = {
@@ -57,7 +60,7 @@ const circleVariants: Variants = {
 	},
 }
 
-export const RoadMapCard = ({ title, subTitle, date, image, complete }: IRoadMapCard): JSX.Element => (
+export const RoadMapCard = ({ title, date, image, complete }: IRoadMapCard): JSX.Element => (
 	<motion.div
 		className={cx('roadmap-card-container', { 'roadmap-card-container--image': !!image })}
 		initial="offscreen"
@@ -65,9 +68,31 @@ export const RoadMapCard = ({ title, subTitle, date, image, complete }: IRoadMap
 		viewport={{ once: true, amount: 0.8 }}
 	>
 		<motion.div className="relative roadmap-card bg-white text-black p-6 rounded-2xl" variants={cardVariants}>
+			{complete && (
+				<motion.span
+					className="lg:hidden roadmap-card-circle-mobile flex justify-center items-center"
+					initial={{ scale: '0' }}
+					variants={{
+						offscreen: {
+							scale: 0,
+						},
+						onscreen: {
+							scale: 1,
+							transition: {
+								type: 'spring',
+								stiffness: 200,
+								damping: 20,
+								delay: 0.8,
+							},
+						},
+					}}
+					style={{ backgroundColor: '#ffffff', borderColor: complete ? '#7447EA' : '#d7d7d7', color: '#7447EA' }}
+				>
+					<CheckIcon />
+				</motion.span>
+			)}
 			<h5 className="text-base font-bold">{title}</h5>
 			<p className="text-xs text-gray-400 pt-1">{date}</p>
-			{/* {subTitle && <p className="text-xs pt-2">{subTitle}</p>} */}
 			{image && (
 				<Picture
 					fallbackImage="/images/roadmap-page/roadmap-bg.webp"
@@ -77,7 +102,7 @@ export const RoadMapCard = ({ title, subTitle, date, image, complete }: IRoadMap
 				/>
 			)}
 			<div className="roadmap-card-line">
-				<motion.div className="roadmap-card-line-inner bg-white" variants={lineVariants}></motion.div>
+				<motion.div className="roadmap-card-line-inner bg-white" variants={lineVariants} />
 				<motion.span
 					className="roadmap-card-circle flex justify-center items-center"
 					initial={{ scale: '0' }}
@@ -90,3 +115,5 @@ export const RoadMapCard = ({ title, subTitle, date, image, complete }: IRoadMap
 		</motion.div>
 	</motion.div>
 )
+
+RoadMapCard.defaultProps = defaultProps
