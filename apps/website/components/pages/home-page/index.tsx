@@ -81,7 +81,7 @@ export const HomePage: React.FC = () => {
 								<h2 className="font-HaasGrotTextRound font-bold homepage__h2">
 									<span>DeFi</span> at your fingertips.
 								</h2>
-								<h4 className="text-xl leading-relaxed sm:text-2xl sm:leading-relaxed">
+								<h4 className="text-xl text-white leading-relaxed sm:text-2xl sm:leading-relaxed">
 									Manage accounts, send and receive tokens, stake tokens to receive rewards and connect to DApps from
 									the Z3US browser wallet.
 								</h4>

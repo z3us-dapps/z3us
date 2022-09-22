@@ -1,3 +1,4 @@
+/* eslint-disable */
 import React from 'react'
 import { serialize } from 'next-mdx-remote/serialize'
 import fs from 'fs'
@@ -6,10 +7,8 @@ import matter from 'gray-matter'
 import { NextSeo } from 'next-seo'
 import { PageDocs } from 'components/pages/page-docs'
 import { config } from 'config'
-import docsGlobalStyles from './docs.styles'
 
 const PostPage = ({ docs, mdxSource }) => {
-	docsGlobalStyles()
 	return (
 		<>
 			<NextSeo

@@ -1,56 +1,25 @@
+/* eslint-disable */
 import React from 'react'
-import { Box, Flex } from 'ui/src/components/atoms'
-import { PageContainer } from 'components/page-container'
+import { MdxTheme } from 'components/mdx-theme'
+import { LazyMotion } from 'components/lazy-motion'
 import { Header } from 'components/header'
 import { Footer } from 'components/footer'
-import { MdxTheme } from 'components/mdx-theme'
-import { SideMenu } from 'components/side-menu'
+import { PageContainer } from 'components/page-container'
+// import { SideMenu } from 'components/side-menu'
 import { DocsPageProps } from 'types'
 
 export const PageDocs: React.FC<DocsPageProps> = ({ docs, mdxSource }) => (
-	<Flex direction="column" css={{ minHeight: '100vh' }}>
-		<Header />
-		<Box
-			css={{
-				position: 'relative',
-				flex: '1',
-			}}
-		>
+	<LazyMotion>
+		<div className="docs text-white dark:text-white fill-white dark:fill-white overflow-hidden">
+			<Header className="relative text-white" />
 			<PageContainer>
-				<Box css={{ pb: '120px', '@sm': { display: 'flex' } }}>
-					<Box
-						css={{
-							width: '100%',
-							flexBasis: '100%',
-							'@sm': { width: '30%', flexBasis: '30%', paddingRight: '30px' },
-							'@md': { width: '28%', flexBasis: '28%', paddingRight: '30px', paddingLeft: '15px' },
-						}}
-					>
-						<SideMenu docs={docs} />
-					</Box>
-					<Box
-						css={{
-							flex: '1 1 auto',
-							maxWidth: '100%',
-							'@sm': { width: '30%', flexBasis: '30%' },
-							'@md': { width: '50%', flexBasis: '50%' },
-						}}
-					>
+				<div>
+					<div>
 						<MdxTheme mdxSource={mdxSource} />
-					</Box>
-					<Box
-						css={{
-							display: 'none',
-							width: '15%',
-							flexBasis: '15%',
-							'@md': { display: 'block', paddingLeft: '30px' },
-						}}
-					>
-						<Box />
-					</Box>
-				</Box>
+					</div>
+				</div>
 			</PageContainer>
-		</Box>
-		<Footer />
-	</Flex>
+			<Footer className="text-white pt-2 pb-4 sm:pb-8 sm:pt-8" />
+		</div>
+	</LazyMotion>
 )

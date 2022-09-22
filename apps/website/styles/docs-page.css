@@ -1,0 +1,15 @@
+.dark body.home-page {
+	background-color: #bf9e76;
+}
+body.home-page {
+	background-color: #bf9e76;
+}
+
+@media (min-width: 768px) {
+}
+
+@media (min-width: 1024px) {
+}
+
+@media (min-width: 1280px) {
+}

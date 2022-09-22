@@ -1,6 +1,7 @@
 /* eslint-disable */
 import React, { useEffect, useState } from 'react'
 import { Button } from 'components/button'
+import Link from 'next/link'
 import useScrollBlock from 'hooks/use-scroll-block'
 import { m as motion, useScroll, useTransform, AnimatePresence, useCycle } from 'framer-motion'
 import { Bars4Icon, XMarkIcon } from '@heroicons/react/24/solid'
@@ -27,10 +28,10 @@ const backlinks = [
 ]
 
 const links = [
-	{ name: 'Home', to: '#', id: 1 },
-	{ name: 'About', to: '#', id: 2 },
-	{ name: 'Blog', to: '#', id: 3 },
-	{ name: 'Contact', to: '#', id: 4 },
+	{ name: 'Home', to: '/', id: 1 },
+	{ name: 'Roadmap', to: '/roadmap', id: 2 },
+	{ name: 'Tokenomics', to: '/tokenomics', id: 3 },
+	{ name: 'Docs', to: '/docs', id: 4 },
 ]
 
 interface IProps {
@@ -47,13 +48,13 @@ const itemVariants = {
 const sideVariants = {
 	closed: {
 		transition: {
-			staggerChildren: 0.2,
+			staggerChildren: 0.05,
 			staggerDirection: -1,
 		},
 	},
 	open: {
 		transition: {
-			staggerChildren: 0.2,
+			staggerChildren: 0.05,
 			staggerDirection: 1,
 		},
 	},
@@ -73,6 +74,11 @@ export const MobileMenu = ({ isScrolled }: IProps): JSX.Element => {
 		}
 	}
 
+	const handleLinkClick = () => {
+		cycleOpen(0)
+		allowScroll()
+	}
+
 	return (
 		<>
 			<Button size="sm" variant="ghost" className="md:hidden w-10 h-10 relative z-30" onClick={handleMenuClick}>
@@ -88,7 +94,7 @@ export const MobileMenu = ({ isScrolled }: IProps): JSX.Element => {
 			<AnimatePresence>
 				{open && (
 					<motion.aside
-						className="fixed top-0 left-0 w-screen h-screen bg-indigo-600 bg-opacity-75 dark:bg-indigo-200 dark:bg-opacity-20"
+						className="fixed top-0 left-0 w-screen h-screen bg-violet-900 bg-opacity-90 dark:bg-stone-900 dark:bg-opacity-95 backdrop-blur-md"
 						initial={{ width: 0 }}
 						animate={{
 							width: '100%',
@@ -96,13 +102,23 @@ export const MobileMenu = ({ isScrolled }: IProps): JSX.Element => {
 						transition={{ ease: 'easeOut', duration: 0.2 }}
 						exit={{
 							width: 0,
-							transition: { delay: 0.7, duration: 0.2 },
+							transition: { delay: 0.25, duration: 0.2 },
 						}}
 					>
-						<motion.ul className="mt-10 p-8" initial="closed" animate="open" exit="closed" variants={sideVariants}>
+						<motion.ul
+							className="mt-14 p-5 flex flex-col gap-5"
+							initial="closed"
+							animate="open"
+							exit="closed"
+							variants={sideVariants}
+						>
 							{links.map(({ name, to, id }) => (
-								<motion.li key={id} whileHover={{ scale: 1.1 }} variants={itemVariants}>
-									<a href={to}>{name}</a>
+								<motion.li key={id} variants={itemVariants}>
+									<Link href={to} passHref>
+										<a className="text-3xl font-medium" onClick={handleLinkClick}>
+											{name}
+										</a>
+									</Link>
 								</motion.li>
 							))}
 						</motion.ul>

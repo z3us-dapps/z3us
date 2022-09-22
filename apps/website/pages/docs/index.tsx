@@ -4,44 +4,38 @@ import matter from 'gray-matter'
 import { serialize } from 'next-mdx-remote/serialize'
 import React from 'react'
 import { NextSeo } from 'next-seo'
-// import { PageDocs } from 'components/pages/page-docs'
+import { PageDocs } from 'components/pages/page-docs'
 import { config } from 'config'
 import { DocsPageProps } from 'types'
-// import docsGlobalStyles from './docs.styles'
 
-// export const DocsIndex: React.FC<DocsPageProps> = ({ docs, mdxSource }) => {
-export const DocsIndex: React.FC<DocsPageProps> = () => 
-	// docsGlobalStyles()
-	 (
-		<>
-			<NextSeo
-				title="Documentation"
-				openGraph={{
-					type: 'website',
-					url: config.Z3US_URL,
-					title: config.OPEN_GRAPH_TITLE,
-					description: config.OPEN_GRAPH_DESCRIPTION,
-					images: [
-						{
-							url: `${config.Z3US_URL}/og-image-1.png`,
-							width: 800,
-							height: 600,
-							alt: 'Og Image Alt',
-						},
-						{
-							url: `${config.Z3US_URL}/og-image-2.png`,
-							width: 800,
-							height: 600,
-							alt: 'Og Image Alt 2',
-						},
-					],
-				}}
-			/>
-			<div>docs</div>
-			{/* <PageDocs docs={docs} mdxSource={mdxSource} /> */}
-		</>
-	)
-
+export const DocsIndex: React.FC<DocsPageProps> = ({ docs, mdxSource }) => (
+	<>
+		<NextSeo
+			title="Documentation"
+			openGraph={{
+				type: 'website',
+				url: config.Z3US_URL,
+				title: config.OPEN_GRAPH_TITLE,
+				description: config.OPEN_GRAPH_DESCRIPTION,
+				images: [
+					{
+						url: `${config.Z3US_URL}/og-image-1.png`,
+						width: 800,
+						height: 600,
+						alt: 'Og Image Alt',
+					},
+					{
+						url: `${config.Z3US_URL}/og-image-2.png`,
+						width: 800,
+						height: 600,
+						alt: 'Og Image Alt 2',
+					},
+				],
+			}}
+		/>
+		<PageDocs docs={docs} mdxSource={mdxSource} />
+	</>
+)
 
 export const getStaticProps = async () => {
 	const files = fs.readdirSync(path.join('docs'))
