@@ -6,17 +6,18 @@ type Z3US = {
 		hasWallet: () => Promise<boolean>
 		isConnected: () => Promise<boolean>
 		connect: () => Promise<string>
-		disconnect: () => Promise<any>
+		disconnect: () => Promise<void>
 		accounts: () => Promise<string[]>
-		balances: () => Promise<any>
-		stakes: () => Promise<any>
-		unstakes: () => Promise<any>
+		balances: () => Promise<unknown>
+		stakes: () => Promise<unknown>
+		unstakes: () => Promise<unknown>
+		sign(challenge: string): Promise<string>
 		submitTransaction: (payload: {
 			manifest?: string
 			actions?: any[]
 			message?: string
 			encryptMessage?: boolean
-		}) => Promise<any>
+		}) => Promise<unknown>
 	}
 }
 
