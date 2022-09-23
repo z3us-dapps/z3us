@@ -1,5 +1,5 @@
 import React from 'react'
-import { useSharedStore, useStore } from '@src/store'
+import { useSharedStore, useAccountStore } from '@src/hooks/use-store'
 import { CSS } from 'ui/src/theme'
 import { CopyIcon } from '@radix-ui/react-icons'
 import { Flex, Text } from 'ui/src/components/atoms'
@@ -20,7 +20,7 @@ const defaultProps = {
 }
 
 export const AccountAddress: React.FC<IProps> = ({ address, isCopyButtonVisible, css }) => {
-	const { accounts } = useStore(state => ({
+	const { accounts } = useAccountStore(state => ({
 		accounts: Object.values(state.publicAddresses),
 	}))
 	const { addressBook } = useSharedStore(state => ({

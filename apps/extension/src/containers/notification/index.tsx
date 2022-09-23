@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react'
-import { useSharedStore } from '@src/store'
+import { useSharedStore } from '@src/hooks/use-store'
 import { useHashLocation } from '@src/hooks/use-hash-location'
 import { AnimatedSwitch } from '@src/components/router-animated-switch'
 import { RouterScope } from '@src/components/router-scope'

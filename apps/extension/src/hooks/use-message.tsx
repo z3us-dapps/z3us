@@ -1,7 +1,7 @@
 import { useCallback } from 'react'
 import { firstValueFrom } from 'rxjs'
 import { Message } from '@radixdlt/crypto'
-import { useSharedStore, useStore } from '@src/store'
+import { useSharedStore, useAccountStore } from '@src/hooks/use-store'
 import { useRadix } from '@src/hooks/use-radix'
 import { parseAccountAddress } from '@src/services/radix/serializer'
 import { AccountAddress } from '@radixdlt/account'
@@ -11,7 +11,7 @@ export const useMessage = () => {
 	const { addConfirmWithHWToast } = useSharedStore(state => ({
 		addConfirmWithHWToast: state.addConfirmWithHWToastAction,
 	}))
-	const { account } = useStore(state => ({
+	const { account } = useAccountStore(state => ({
 		account: state.account,
 	}))
 

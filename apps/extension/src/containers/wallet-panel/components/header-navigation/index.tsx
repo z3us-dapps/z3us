@@ -1,5 +1,5 @@
 import React from 'react'
-import { useSharedStore } from '@src/store'
+import { useSharedStore } from '@src/hooks/use-store'
 import Button from 'ui/src/components/button'
 import { CloseIcon } from 'ui/src/components/icons'
 import { useRoute } from 'wouter'

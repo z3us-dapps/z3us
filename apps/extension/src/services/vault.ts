@@ -12,10 +12,10 @@ import {
 	MnemomicT,
 	MnemonicProps,
 } from '@radixdlt/crypto'
-import { sharedStore } from '@src/store'
 import { BrowserStorageService } from '@src/services/browser-storage'
 import { sharedStoreKey } from '@src/config'
-import { SharedStore } from '@src/store/types'
+import { SharedState } from '@src/store/types'
+import { sharedStore } from '@src/store'
 
 const keystoreKey = 'z3us-keystore'
 
@@ -29,7 +29,7 @@ const getKeystorePrefix = async () => {
 	if (!data[sharedStoreKey]) {
 		return ''
 	}
-	const state = JSON.parse(data[sharedStoreKey])?.state as SharedStore
+	const state = JSON.parse(data[sharedStoreKey])?.state as SharedState
 	return state?.selectKeystoreId || ''
 }
 

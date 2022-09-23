@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 import { useLocation } from 'wouter'
-import { useSharedStore } from '@src/store'
+import { useSharedStore } from '@src/hooks/use-store'
 import { LockedPanel } from '@src/components/locked-panel'
 import { AnimatePresence, motion } from 'framer-motion'
 import { Z3usMenu } from '@src/components/z3us-menu'

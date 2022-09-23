@@ -1,6 +1,6 @@
 import React, { useEffect, useRef } from 'react'
 import { AnimatePresence } from 'framer-motion'
-import { useSharedStore, useStore } from '@src/store'
+import { useSharedStore, useAccountStore } from '@src/hooks/use-store'
 import { useImmer } from 'use-immer'
 import { useTokenBalances, useTokenInfo } from '@src/hooks/react-query/queries/radix'
 import { Tooltip, TooltipTrigger, TooltipContent, TooltipArrow } from 'ui/src/components/tool-tip'
@@ -48,7 +48,7 @@ export const SendToken: React.FC = () => {
 		addToast: state.addToastAction,
 	}))
 
-	const { account, accountAddress, selectAccount } = useStore(state => ({
+	const { account, accountAddress, selectAccount } = useAccountStore(state => ({
 		selectAccount: state.selectAccountAction,
 		account: state.account,
 		accountAddress: state.getCurrentAddressAction(),

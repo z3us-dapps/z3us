@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react'
-import { useSharedStore } from '@src/store'
+import { useSharedStore } from '@src/hooks/use-store'
 import { useImmer } from 'use-immer'
 import Button, { ButtonProps } from 'ui/src/components/button'
 import { isWebAuthSupported } from '@src/services/credentials'

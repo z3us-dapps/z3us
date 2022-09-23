@@ -1,5 +1,5 @@
 import React from 'react'
-import { useStore } from '@src/store'
+import { useAccountStore } from '@src/hooks/use-store'
 import { Box, Text, Flex } from 'ui/src/components/atoms'
 import {
 	AlertDialog,
@@ -14,7 +14,7 @@ import { TrashIcon } from '@radix-ui/react-icons'
 import Button from 'ui/src/components/button'
 
 export const TrustedApps: React.FC = () => {
-	const { approvedWebsites, declineWebsite } = useStore(state => ({
+	const { approvedWebsites, declineWebsite } = useAccountStore(state => ({
 		approvedWebsites: state.approvedWebsites,
 		declineWebsite: state.declineWebsiteAction,
 	}))

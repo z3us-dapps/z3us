@@ -1,6 +1,6 @@
 import React from 'react'
 import { useImmer } from 'use-immer'
-import { useSharedStore } from '@src/store'
+import { useSharedStore } from '@src/hooks/use-store'
 import { Box, Flex, Text } from 'ui/src/components/atoms'
 import { copyTextToClipboard } from '@src/utils/copy-to-clipboard'
 import { CopyIcon } from '@radix-ui/react-icons'

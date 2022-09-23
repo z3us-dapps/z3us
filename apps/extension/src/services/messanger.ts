@@ -13,20 +13,20 @@ export const EVENT_MESSAGE_ID = 'z3us-event'
 const timeoutError = new Error('Timeout')
 
 const timeout = async (promise, time) => {
-	let timer;
+	let timer
 	try {
 		return await Promise.race([
 			promise,
 			new Promise((_, reject) => {
 				timer = setTimeout(reject, time, timeoutError)
-			})
+			}),
 		])
 	} finally {
 		clearTimeout(timer)
 	}
 }
 
-const defaultTimeout = 5 * 1000
+const defaultTimeout = 3 * 60 * 1000
 
 export type MessageResponse = { code: number; error?: any; [key: string]: any } | any
 
@@ -104,7 +104,7 @@ export class MessageService {
 		if (handler) {
 			handler(message)
 		} else if (this.window && message.id === EVENT_MESSAGE_ID) {
-			const { eventType, eventDetails } = message.response
+			const { eventType, eventDetails } = message.request
 			if (eventType) this.window.dispatchEvent(new CustomEvent(eventType, { detail: eventDetails }))
 		}
 	}

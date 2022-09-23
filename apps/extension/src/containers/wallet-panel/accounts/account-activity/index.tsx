@@ -1,6 +1,6 @@
 /* eslint-disable react/no-array-index-key, react/no-unstable-nested-components */
 import React, { useRef, useCallback, useState } from 'react'
-import { useSharedStore, useStore } from '@src/store'
+import { useSharedStore, useAccountStore } from '@src/hooks/use-store'
 import { useTransactionHistory } from '@src/hooks/react-query/queries/radix'
 import { getShortAddress } from '@src/utils/string-utils'
 import { AccountSelector } from '@src/components/account-selector'
@@ -18,7 +18,7 @@ export const AccountActivity: React.FC = () => {
 		hw: state.hardwareWallet,
 		seed: state.masterSeed,
 	}))
-	const { accountAddress, selectAccount } = useStore(state => ({
+	const { accountAddress, selectAccount } = useAccountStore(state => ({
 		accountAddress: state.getCurrentAddressAction(),
 		selectAccount: state.selectAccountAction,
 	}))

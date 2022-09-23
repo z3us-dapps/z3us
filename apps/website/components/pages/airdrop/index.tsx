@@ -3,7 +3,7 @@ import React, { useEffect } from 'react'
 import { useWindowSize } from 'usehooks-ts'
 import Confetti from 'react-confetti'
 import { useImmer } from 'use-immer'
-import { AccountAddress, sha256, Signature, AccountAddressT } from '@radixdlt/application'
+import { sha256, Signature, AccountAddressT } from '@radixdlt/application'
 import { copyTextToClipboard } from 'ui/src/utils/copy-to-clipboard'
 import { getHeadTailString } from 'ui/src/utils/get-head-tail-string'
 import { Dialog, DialogContent, DialogClose } from 'ui/src/components/dialog'
@@ -64,7 +64,7 @@ export const Airdrop = () => {
 		}
 
 		onLoad()
-	}, [address])
+	}, [address?.toString()])
 
 	const handleConnect = () => {
 		try {
@@ -102,14 +102,9 @@ export const Airdrop = () => {
 
 	const handleSign = async () => {
 		if (!address) return
-		const result = AccountAddress.fromUnsafe(address)
-		if (!result.isOk()) {
-			console.error(result.error)
-			return
-		}
 		try {
 			const der = await sign(signaturePayload)
-			if (!verifySignature(result.value, der)) {
+			if (!verifySignature(address, der)) {
 				throw new Error('Invalid signature')
 			}
 			setState(draft => {
@@ -134,10 +129,11 @@ export const Airdrop = () => {
 	}
 
 	const handleOpenTelegram = async () => {
+		if (!address) return
 		setState(draft => {
 			draft.isSuccessModalOpen = false
 		})
-		await copyTextToClipboard(`/subscribe ${address} ${state.der}`)
+		await copyTextToClipboard(`/subscribe ${address.toString()} ${state.der}`)
 		window.open(telegramURL)
 	}
 
@@ -164,7 +160,7 @@ export const Airdrop = () => {
 						<AlertCard icon color="success" css={{ mt: '$4', height: '40px' }}>
 							<Flex justify="between" css={{ mt: '5px', flex: 'auto' }}>
 								<Text medium size="4" css={{ mb: '3px', pl: '$3', mt: '8px' }}>
-									{`Connected with ${getHeadTailString(address)}.`}
+									{`Connected with ${getHeadTailString(address.toString())}.`}
 								</Text>
 								<Flex css={{ pl: '$4', pr: '$2' }}>
 									<Button color="red" size="3" onClick={handleDisconnect}>
@@ -232,7 +228,7 @@ export const Airdrop = () => {
 									</Text>
 									<Flex css={{ position: 'relative' }}>
 										<Input
-											value={`/subscribe ${address} ${state.der}`}
+											value={`/subscribe ${address?.toString()} ${state.der}`}
 											as="textarea"
 											size="1"
 											placeholder="command"

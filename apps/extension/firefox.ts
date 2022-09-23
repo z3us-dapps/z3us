@@ -13,7 +13,7 @@ export default {
 			'48': 'favicon-48x48.png',
 			'128': 'favicon-128x128.png',
 		},
-		default_popup: 'popup-theme-light.html',
+		default_popup: 'popup-theme-system.html',
 		default_title: 'Z3US',
 	},
 	commands: {
@@ -51,6 +51,7 @@ export default {
 		},
 	],
 	web_accessible_resources: [
+		'popup-theme-light.html',
 		'popup-theme-dark.html',
 		'popup-theme-system.html',
 		'assets/*',

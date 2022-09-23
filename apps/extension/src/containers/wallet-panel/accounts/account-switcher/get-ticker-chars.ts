@@ -8,5 +8,8 @@ export const getTickerChars = (prefix: string): Array<TTickerArr> => {
 	const charDictionary = [...DEFAULT_DICTIONARY.split(''), ...currencyPrefixArr]
 	const tickerConstants = [...DEFAULT_CONSTANTS, ...currencyPrefixArr]
 
-	return [charDictionary, tickerConstants]
+	return [
+		Object.keys(Object.fromEntries(charDictionary.map(k => [k, '']))),
+		Object.keys(Object.fromEntries(tickerConstants.map(k => [k, '']))),
+	]
 }

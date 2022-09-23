@@ -1,6 +1,6 @@
 import React from 'react'
 import Button from 'ui/src/components/button'
-import { useStore } from '@src/store'
+import { useAccountStore } from '@src/hooks/use-store'
 import { QRCodeSVG } from 'qrcode.react'
 import { CSS } from 'ui/src/theme'
 import { getShortAddress } from '@src/utils/string-utils'
@@ -22,7 +22,7 @@ const defaultProps = {
 
 export const QrHoverCard = ({ css }: IProps): JSX.Element => {
 	const isDarkMode = useColorMode()
-	const { entry } = useStore(state => ({
+	const { entry } = useAccountStore(state => ({
 		entry: Object.values(state.publicAddresses).find(_account => _account.address === state.getCurrentAddressAction()),
 	}))
 

@@ -1,12 +1,11 @@
 import { popupHtmlMap } from '@src/config'
 import browser from 'webextension-polyfill'
-import { SetState } from 'zustand'
-import { SharedStore, ThemeStore } from './types'
+import { ThemeState } from './types'
 
 export const whiteList = ['theme']
 
-export const factory = (set: SetState<SharedStore>): ThemeStore => ({
-	theme: 'light',
+export const factory = (set): ThemeState => ({
+	theme: 'system',
 
 	setThemeAction: async (theme: string) => {
 		const popup = popupHtmlMap[theme]

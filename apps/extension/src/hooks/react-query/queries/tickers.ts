@@ -14,9 +14,9 @@ const getOCITicker = async (tokens: OCITokensResponse, currency: string, asset: 
 			return {
 				asset,
 				currency,
-				change: +token.price.usd / +token.price.usd_24h,
-				last_price: +token.price.usd,
-				volume: +token.volume.usd_24h,
+				change: (+token.price.usd / +token.price.usd_24h) || 0,
+				last_price: +token.price.usd || 0,
+				volume: +token.volume.usd_24h || 0,
 			} as Ticker
 		}
 	}
@@ -41,7 +41,7 @@ export const useOCITicker = () =>
 // 			return {
 // 				asset,
 // 				currency,
-// 				change: token.price_usd / token.price_24.total,
+// 				change: token.price_usd / token.price_24.total || 0,
 // 				last_price: token.price_usd,
 // 				volume: token.volume_24.total,
 // 			} as Ticker

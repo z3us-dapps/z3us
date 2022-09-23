@@ -1,6 +1,6 @@
 // import browser from 'webextension-polyfill'
 import React, { useState } from 'react'
-import { useSharedStore } from '@src/store'
+import { useSharedStore } from '@src/hooks/use-store'
 import Button from 'ui/src/components/button'
 import { ChevronRightIcon } from '@radix-ui/react-icons'
 import { Box, MotionBox } from 'ui/src/components/atoms'

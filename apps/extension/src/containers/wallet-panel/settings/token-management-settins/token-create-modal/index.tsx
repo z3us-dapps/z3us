@@ -1,7 +1,7 @@
 import React from 'react'
 import { useQueryClient } from 'react-query'
 import { useImmer } from 'use-immer'
-import { useSharedStore, useStore } from '@src/store'
+import { useSharedStore, useAccountStore } from '@src/hooks/use-store'
 import { PageHeading, PageSubHeading, PageWrapper } from '@src/components/layout'
 import { ScrollArea } from 'ui/src/components/scroll-area'
 import { useLocation } from 'wouter'
@@ -55,7 +55,7 @@ export const CreateTokenModal: React.FC<IProps> = ({ trigger }) => {
 	const derive = useTokenDerive()
 	const { signTransaction, submitTransaction } = useTransaction()
 
-	const { selectAccount, account, accountAddress } = useStore(state => ({
+	const { selectAccount, account, accountAddress } = useAccountStore(state => ({
 		selectAccount: state.selectAccountAction,
 		account: state.account,
 		accountAddress: state.getCurrentAddressAction(),
