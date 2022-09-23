@@ -1,8 +1,7 @@
 import { generateId } from '@src/utils/generate-id'
-import { GetState, SetState } from 'zustand'
-import { SharedStore, Toast, ToastsStore } from './types'
+import { Toast, ToastsStore } from './types'
 
-export const factory = (set: SetState<SharedStore>, get: GetState<SharedStore>): ToastsStore => ({
+export const factory = (set, get): ToastsStore => ({
 	toasts: [],
 
 	removeToastAction: (id: string) => {

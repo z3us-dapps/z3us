@@ -1,8 +1,7 @@
-import { SetState } from 'zustand'
 import { HardwareWalletT } from '@radixdlt/hardware-wallet'
-import { HardwareWalletStore, SharedStore } from './types'
+import { HardwareWalletStore } from './types'
 
-export const factory = (set: SetState<SharedStore>): HardwareWalletStore => ({
+export const factory = (set): HardwareWalletStore => ({
 	hardwareWallet: null,
 	isHardwareWallet: false,
 

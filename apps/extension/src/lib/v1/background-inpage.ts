@@ -232,11 +232,9 @@ export default function NewV1BackgroundInpageActions(
 		const service = new RadixService(network.url)
 
 		try {
-			console.time('useTokenBalances')
 			const response = await queryClient.fetchQuery(['useTokenBalances', address], async () =>
 				service.tokenBalancesForAddress(address),
 			)
-			console.timeEnd('useTokenBalances')
 			sendInpageMessage(port, id, payload, response)
 		} catch (error: any) {
 			sendInpageMessage(port, id, payload, { code: 500, error: error?.message || error })

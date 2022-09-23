@@ -10,6 +10,7 @@ import { Toasts } from '@src/containers/toasts'
 import { useHashLocation, multipathMatcher } from '@src/hooks/use-hash-location'
 import { useColorMode } from '@src/hooks/use-color-mode'
 import { useVault } from '@src/hooks/use-vault'
+import { useEvents } from '@src/hooks/use-events'
 import { domExists } from '@src/utils/dom-exists'
 import { Permissions } from './permissions'
 // import { Credentials } from '@src/containers/credentials'
@@ -20,6 +21,7 @@ export const App: React.FC = () => {
 	// useManifestCompoler()
 	useColorMode()
 	useVault()
+	useEvents()
 
 	const { messanger } = useSharedStore(state => ({
 		messanger: state.messanger,

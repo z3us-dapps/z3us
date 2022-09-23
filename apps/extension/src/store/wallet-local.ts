@@ -1,8 +1,7 @@
-import { SetState } from 'zustand'
 import { HDMasterSeedT } from '@radixdlt/crypto'
-import { SharedStore, LocalWalletStore } from './types'
+import { LocalWalletStore } from './types'
 
-export const factory = (set: SetState<SharedStore>): LocalWalletStore => ({
+export const factory = (set): LocalWalletStore => ({
 	masterSeed: null,
 
 	setMasterSeedAction: (seed: HDMasterSeedT) => {

@@ -74,6 +74,6 @@
 		"react-use-measure": "^2.1.1",
 		"simplebar-react": "^2.4.1",
 		"use-immer": "^0.7.0",
-		"zustand": "^3.6.9"
+		"zustand": "^4.1.1"
 	}
 }

@@ -1,4 +1,3 @@
-import { GetState, SetState } from 'zustand'
 import { Network as NetworkID, Account, AccountAddress, HDMasterSeedT } from '@radixdlt/application'
 import { HardwareWalletT } from '@radixdlt/hardware-wallet'
 import { JSONToHex } from '@src/utils/encoding'
@@ -38,7 +37,7 @@ const defaultState = {
 }
 
 const updatePublicAddressEntry = async (
-	set: SetState<AccountStore>,
+	set,
 	state: AccountStore,
 	idx: number,
 	hardwareWallet: HardwareWalletT | null,
@@ -90,7 +89,7 @@ const updatePublicAddressEntry = async (
 	}
 }
 
-export const factory = (set: SetState<AccountStore>, get: GetState<AccountStore>): WalletStore => ({
+export const factory = (set, get): WalletStore => ({
 	...defaultState,
 
 	resetAction: () => {

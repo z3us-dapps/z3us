@@ -71,7 +71,9 @@ const useGenericaccountsValue = (
 			}
 
 			const tokenValue = calculateAmountValue(ticker, amount)
-			return [totalValue.plus(tokenValue), totalChange.plus(tokenValue.multipliedBy(ticker.change).div(100))]
+			const tokenChange = tokenValue.multipliedBy(ticker.change || 0).div(100)
+
+			return [totalValue.plus(tokenValue), totalChange.plus(tokenChange)]
 		},
 		[new BigNumber(0), new BigNumber(0)],
 	)
@@ -81,11 +83,13 @@ const useGenericaccountsValue = (
 		return { isLoading: isLoadingTokens || isLoadingTickers, value, change }
 	}
 
-	const tokenValue = calculateAmountValue(ticker, staked)
+	const stakedValue = calculateAmountValue(ticker, staked)
+	const totalValue = value.plus(stakedValue)
+
 	return {
 		isLoading: isLoadingTokens || isLoadingTickers,
-		value: value.plus(tokenValue),
-		change: change.plus(tokenValue.multipliedBy(ticker.change).div(100)),
+		value: totalValue,
+		change: change.plus(totalValue.multipliedBy(ticker.change).div(100)),
 	}
 }
 

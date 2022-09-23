@@ -1,4 +1,3 @@
-import { GetState, SetState } from 'zustand'
 import { MessageService } from '@src/services/messanger'
 import {
 	HAS,
@@ -15,11 +14,11 @@ import {
 } from '@src/lib/v1/actions'
 import { HDMasterSeed } from '@radixdlt/crypto'
 import { startRegistration, startAuthentication } from '@simplewebauthn/browser'
-import { BackgroundStore, SharedStore } from './types'
+import { BackgroundStore } from './types'
 
 export const rpName = 'Z3US'
 
-export const factory = (set: SetState<SharedStore>, get: GetState<SharedStore>): BackgroundStore => ({
+export const factory = (set, get): BackgroundStore => ({
 	messanger: null,
 
 	setMessangerAction: (messanger: MessageService) => {

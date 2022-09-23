@@ -12,6 +12,7 @@ import {
 	REMOVE,
 	LOCK,
 	UNLOCK,
+	EVENT,
 	// AUTH_HAS,
 	// AUTH_RESET,
 	// AUTH_REGISTRATION_OPTIONS,
@@ -19,6 +20,8 @@ import {
 	// AUTH_AUTHENTICATION_OPTIONS,
 	// AUTH_VERIFY_AUTHENTICATION,
 } from '@src/lib/v1/actions'
+import { EVENT_MESSAGE_ID } from '@src/services/messanger'
+import { forEachClientPort } from '@src/services/client-ports'
 
 export default function NewV1BackgroundPopupActions(
 	browser: BrowserService,
@@ -98,6 +101,26 @@ export default function NewV1BackgroundPopupActions(
 		} catch (error: any) {
 			sendPopupMessage(port, id, payload, { code: 500, error: error?.message || error })
 		}
+	}
+
+	async function isApprovedClient(port: Runtime.Port): Promise<boolean> {
+		const url = new URL(port.sender.url)
+		const { selectKeystoreId } = sharedStore.getState()
+		const useStore = accountStore(selectKeystoreId)
+		const state = useStore.getState()
+		const { approvedWebsites } = state
+
+		return url.host in approvedWebsites
+	}
+
+	async function onEvent(port: Runtime.Port, id: string, payload: any) {
+		forEachClientPort(async (clientPort: Runtime.Port) => {
+			const allowed = await isApprovedClient(clientPort)
+			if (!allowed) {
+				return
+			}
+			sendInpageMessage(clientPort, EVENT_MESSAGE_ID, payload, null)
+		})
 	}
 
 	// async function authHas(port: Runtime.Port, id: string, payload) {
@@ -204,6 +227,7 @@ export default function NewV1BackgroundPopupActions(
 		[REMOVE]: remove,
 		[LOCK]: lock,
 		[UNLOCK]: unlock,
+		[EVENT]: onEvent,
 		// [AUTH_HAS]: authHas,
 		// [AUTH_RESET]: authReset,
 		// [AUTH_REGISTRATION_OPTIONS]: authRegistrationOptions,
