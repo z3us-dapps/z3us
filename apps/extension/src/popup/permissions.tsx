@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react'
 import browser from 'webextension-polyfill'
 import { Cross2Icon } from '@radix-ui/react-icons'
-import { useSharedStore, useStore } from '@src/store'
+import { useSharedStore, useAccountStore } from '@src/hooks/use-store'
 import { askForHostPermissions } from '@src/utils/permissions'
 import { useImmer } from 'use-immer'
 import { Box, Flex, Text } from 'ui/src/components/atoms'
@@ -17,7 +17,7 @@ export const Permissions: React.FC = () => {
 	const { keystoreId } = useSharedStore(state => ({
 		keystoreId: state.selectKeystoreId,
 	}))
-	const { networks } = useStore(state => ({
+	const { networks } = useAccountStore(state => ({
 		networks: state.networks,
 	}))
 

@@ -2,7 +2,7 @@ import React from 'react'
 import { useLocation } from 'wouter'
 import { UNLOCK } from '@src/lib/v1/actions'
 import { useImmer } from 'use-immer'
-import { useSharedStore, useStore } from '@src/store'
+import { useSharedStore, useAccountStore } from '@src/hooks/use-store'
 import { Box, Flex, Text, Grid } from 'ui/src/components/atoms'
 import Button from 'ui/src/components/button'
 import Input from 'ui/src/components/input'
@@ -41,7 +41,7 @@ export const KeyManagementSettings: React.FC = () => {
 			addToast: state.addToastAction,
 		}),
 	)
-	const { accountIndex, reset, selectAccount } = useStore(state => ({
+	const { accountIndex, reset, selectAccount } = useAccountStore(state => ({
 		accountIndex: state.selectedAccountIndex,
 		reset: state.resetAction,
 		selectAccount: state.selectAccountAction,

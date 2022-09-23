@@ -1,6 +1,6 @@
 import React from 'react'
 import { useImmer } from 'use-immer'
-import { useStore } from '@src/store'
+import { useAccountStore } from '@src/hooks/use-store'
 import { Cross2Icon } from '@radix-ui/react-icons'
 import { useEventListener } from 'usehooks-ts'
 import { AccountAddress } from '@src/components/account-address'
@@ -56,7 +56,7 @@ export const AccountModal = ({
 	toolTipSide,
 	address,
 }: IProps): JSX.Element => {
-	const { entry, setPublicAddress } = useStore(state => ({
+	const { entry, setPublicAddress } = useAccountStore(state => ({
 		entry: Object.values(state.publicAddresses).find(account => account.address === address),
 		setPublicAddress: state.setPublicAddressAction,
 	}))

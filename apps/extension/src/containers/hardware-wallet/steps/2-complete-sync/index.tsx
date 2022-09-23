@@ -1,5 +1,5 @@
 import React from 'react'
-import { useStore } from '@src/store'
+import { useAccountStore } from '@src/hooks/use-store'
 import AlertCard from 'ui/src/components/alert-card'
 import { useQueryClient } from 'react-query'
 import { useImmer } from 'use-immer'
@@ -17,7 +17,7 @@ interface ImmerT {
 export const CompleteSync = (): JSX.Element => {
 	const queryClient = useQueryClient()
 
-	const { addresses } = useStore(state => ({
+	const { addresses } = useAccountStore(state => ({
 		addresses: Object.values(state.publicAddresses).map(({ address }) => address),
 	}))
 

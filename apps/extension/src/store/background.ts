@@ -14,11 +14,11 @@ import {
 } from '@src/lib/v1/actions'
 import { HDMasterSeed } from '@radixdlt/crypto'
 import { startRegistration, startAuthentication } from '@simplewebauthn/browser'
-import { BackgroundStore } from './types'
+import { BackgroundState } from './types'
 
 export const rpName = 'Z3US'
 
-export const factory = (set, get): BackgroundStore => ({
+export const factory = (set, get): BackgroundState => ({
 	messanger: null,
 
 	setMessangerAction: (messanger: MessageService) => {

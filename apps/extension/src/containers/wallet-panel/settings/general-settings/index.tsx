@@ -1,5 +1,5 @@
 import React from 'react'
-import { useSharedStore } from '@src/store'
+import { useSharedStore } from '@src/hooks/use-store'
 import { Box, Flex, Text } from 'ui/src/components/atoms'
 import { Checkbox, CheckIcon } from 'ui/src/components/checkbox'
 import { StyledSlider, StyledTrack, StyledThumb, StyledRange } from 'ui/src/components/slider'

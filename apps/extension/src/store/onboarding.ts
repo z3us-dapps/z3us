@@ -1,5 +1,5 @@
 import { MnemomicT } from '@radixdlt/application'
-import { OnBoardingStore } from './types'
+import { OnBoardingState } from './types'
 
 type Mnemomic = MnemomicT | null
 type Password = string | null
@@ -18,7 +18,7 @@ export const connectHardwareWalletSteps = {
 	COMPLETE: 'complete',
 }
 
-export const factory = (set): OnBoardingStore => ({
+export const factory = (set): OnBoardingState => ({
 	onBoardingStep: onBoardingSteps.START,
 	isRestoreWorkflow: false,
 	mnemonic: null,

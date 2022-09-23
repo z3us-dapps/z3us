@@ -1,5 +1,5 @@
 import React from 'react'
-import { useSharedStore, useStore } from '@src/store'
+import { useSharedStore, useAccountStore } from '@src/hooks/use-store'
 import { Box, Text, StyledLink } from 'ui/src/components/atoms'
 import { getShortAddress } from '@src/utils/string-utils'
 import { Tabs, TabsList, TabsContent, TabsTrigger } from 'ui/src/components/tabs'
@@ -17,7 +17,7 @@ export const Staking: React.FC = () => {
 		hw: state.hardwareWallet,
 		seed: state.masterSeed,
 	}))
-	const { accountAddress, selectAccount } = useStore(state => ({
+	const { accountAddress, selectAccount } = useAccountStore(state => ({
 		accountAddress: state.getCurrentAddressAction(),
 		selectAccount: state.selectAccountAction,
 	}))

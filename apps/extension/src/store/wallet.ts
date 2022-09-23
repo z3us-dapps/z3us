@@ -4,7 +4,7 @@ import { JSONToHex } from '@src/utils/encoding'
 import { VisibleTokens } from '@src/types'
 import { networks } from '@src/config'
 import { getDefaultAddressEntry, getHWSigningKeyForIndex, getLocalSigningKeyForIndex } from './helpers'
-import { AccountStore, AddressBookEntry, WalletStore } from './types'
+import { AccountState, AddressBookEntry, WalletState } from './types'
 
 export const whiteList = [
 	'publicAddresses',
@@ -38,7 +38,7 @@ const defaultState = {
 
 const updatePublicAddressEntry = async (
 	set,
-	state: AccountStore,
+	state: AccountState,
 	idx: number,
 	hardwareWallet: HardwareWalletT | null,
 	masterSeed: HDMasterSeedT | null,
@@ -89,7 +89,7 @@ const updatePublicAddressEntry = async (
 	}
 }
 
-export const factory = (set, get): WalletStore => ({
+export const factory = (set, get): WalletState => ({
 	...defaultState,
 
 	resetAction: () => {

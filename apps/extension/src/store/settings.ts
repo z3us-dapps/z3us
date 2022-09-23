@@ -1,4 +1,4 @@
-import { AddressBookEntry, SettingsStore } from './types'
+import { AddressBookEntry, SettingsState } from './types'
 
 export const whiteList = [
 	'currency',
@@ -18,7 +18,7 @@ const defaultState = {
 	activeApp: ['accounts', 0],
 }
 
-export const factory = (set): SettingsStore => ({
+export const factory = (set): SettingsState => ({
 	...defaultState,
 
 	setAddressBookEntryAction: (address: string, settings: AddressBookEntry) => {

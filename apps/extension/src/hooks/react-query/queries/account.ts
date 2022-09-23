@@ -1,5 +1,5 @@
 import { Ticker } from '@src/types'
-import { useSharedStore } from '@src/store'
+import { useSharedStore } from '@src/hooks/use-store'
 import BigNumber from 'bignumber.js'
 import { useTickers } from './tickers'
 import { useAllAccountsTokenBalances, useTokenBalances, useTokenInfos } from './radix'

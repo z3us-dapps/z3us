@@ -1,5 +1,5 @@
 import React from 'react'
-import { useSharedStore } from '@src/store'
+import { useSharedStore } from '@src/hooks/use-store'
 import { Router, Route } from 'wouter'
 import { Box, Flex } from 'ui/src/components/atoms'
 import { WalletPanel } from '@src/containers/wallet-panel'

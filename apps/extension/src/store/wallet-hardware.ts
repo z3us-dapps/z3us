@@ -1,7 +1,7 @@
 import { HardwareWalletT } from '@radixdlt/hardware-wallet'
-import { HardwareWalletStore } from './types'
+import { HardwareWalletState } from './types'
 
-export const factory = (set): HardwareWalletStore => ({
+export const factory = (set): HardwareWalletState => ({
 	hardwareWallet: null,
 	isHardwareWallet: false,
 

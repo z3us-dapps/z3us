@@ -1,5 +1,5 @@
 import { useEffect } from 'react'
-import { useSharedStore, useStore } from '@src/store'
+import { useSharedStore, useAccountStore } from '@src/hooks/use-store'
 import { EVENT } from '@src/lib/v1/actions'
 import { ACCOUNT_CHANGE, KEYSTORE_CHANGE, NETWORK_CHANGE } from '@src/lib/v1/events'
 
@@ -8,7 +8,7 @@ export const useEvents = () => {
 		keystoreId: state.selectKeystoreId,
 		messanger: state.messanger,
 	}))
-	const { address, network, networkIndex, accountIndex } = useStore(state => ({
+	const { address, network, networkIndex, accountIndex } = useAccountStore(state => ({
 		networkIndex: state.selectedNetworkIndex,
 		accountIndex: state.selectedAccountIndex,
 		address: state.getCurrentAddressAction(),
@@ -16,7 +16,6 @@ export const useEvents = () => {
 	}))
 
 	useEffect(() => {
-		console.log('useEffect', keystoreId, accountIndex, address, networkIndex, network.url.toString())
 		if (!messanger) return
 		messanger.sendActionMessageFromPopup(EVENT, {
 			eventType: KEYSTORE_CHANGE,

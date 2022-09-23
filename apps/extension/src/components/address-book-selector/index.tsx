@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { useSharedStore, useStore } from '@src/store'
+import { useSharedStore, useAccountStore } from '@src/hooks/use-store'
 import {
 	Select,
 	SelectGroup,
@@ -29,7 +29,7 @@ export const AddressBookSelector: React.FC<IProps> = ({ selectedAddress, onSelec
 		addressBook: state.addressBook,
 	}))
 
-	const { publicAddresses } = useStore(state => {
+	const { publicAddresses } = useAccountStore(state => {
 		const accountAddress = state.getCurrentAddressAction()
 		return {
 			publicAddresses: Object.values(state.publicAddresses).filter(({ address }) => address !== accountAddress),

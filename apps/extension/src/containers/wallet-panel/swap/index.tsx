@@ -2,7 +2,7 @@ import React, { useEffect, useRef } from 'react'
 import BigNumber from 'bignumber.js'
 import { useTransaction } from '@src/hooks/use-transaction'
 import { useMessage } from '@src/hooks/use-message'
-import { useSharedStore, useStore } from '@src/store'
+import { useSharedStore, useAccountStore } from '@src/hooks/use-store'
 import { useImmer } from 'use-immer'
 import { useTimeout, useInterval } from 'usehooks-ts'
 import { useDebounce } from 'use-debounce'
@@ -100,7 +100,7 @@ export const Swap: React.FC = () => {
 		hw: state.hardwareWallet,
 		seed: state.masterSeed,
 	}))
-	const { account, accountAddress, selectAccount, accounts } = useStore(state => ({
+	const { account, accountAddress, selectAccount, accounts } = useAccountStore(state => ({
 		selectAccount: state.selectAccountAction,
 		account: state.account,
 		accountAddress: state.getCurrentAddressAction(),

@@ -1,6 +1,6 @@
 import React from 'react'
 import { useImmer } from 'use-immer'
-import { useSharedStore, useStore } from '@src/store'
+import { useSharedStore, useAccountStore } from '@src/hooks/use-store'
 import { useEventListener } from 'usehooks-ts'
 import { ToolTip } from 'ui/src/components/tool-tip'
 import { getShortAddress } from '@src/utils/string-utils'
@@ -33,7 +33,7 @@ export const Accounts: React.FC = () => {
 		addToast: state.addToastAction,
 	}))
 
-	const { publicAddresses, setAddressBookEntry, removeAddress } = useStore(state => ({
+	const { publicAddresses, setAddressBookEntry, removeAddress } = useAccountStore(state => ({
 		publicAddresses: state.publicAddresses,
 		setAddressBookEntry: state.setPublicAddressAction,
 		removeAddress: state.removePublicAddressesAction,

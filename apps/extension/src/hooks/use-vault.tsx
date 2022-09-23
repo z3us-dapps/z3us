@@ -1,7 +1,7 @@
 import browser from 'webextension-polyfill'
 import { Mutex } from 'async-mutex'
 import { useEffect, useState } from 'react'
-import { useSharedStore, useStore } from '@src/store'
+import { useSharedStore, useAccountStore } from '@src/hooks/use-store'
 import { HDMasterSeed } from '@radixdlt/crypto'
 import { MessageService, PORT_NAME } from '@src/services/messanger'
 import { GET } from '@src/lib/v1/actions'
@@ -36,7 +36,7 @@ export const useVault = () => {
 		setSeed: state.setMasterSeedAction,
 		unlockHW: state.unlockHardwareWalletAction,
 	}))
-	const { networkIndex, accountIndex, selectAccount } = useStore(state => ({
+	const { networkIndex, accountIndex, selectAccount } = useAccountStore(state => ({
 		networkIndex: state.selectedNetworkIndex,
 		accountIndex: state.selectedAccountIndex,
 		selectAccount: state.selectAccountAction,

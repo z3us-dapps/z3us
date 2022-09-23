@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react'
 import { useQueryClient } from 'react-query'
 import { useEventListener } from 'usehooks-ts'
-import { useSharedStore, useStore } from '@src/store'
+import { useSharedStore, useAccountStore } from '@src/hooks/use-store'
 import { useLocation } from 'wouter'
 import { useImmer } from 'use-immer'
 import { onBoardingSteps } from '@src/store/onboarding'
@@ -42,7 +42,7 @@ export const CreateWallet = (): JSX.Element => {
 		setOnboradingStep: state.setOnboardingStepAction,
 		setSeed: state.setMasterSeedAction,
 	}))
-	const { selectAccount } = useStore(state => ({
+	const { selectAccount } = useAccountStore(state => ({
 		selectAccount: state.selectAccountAction,
 	}))
 

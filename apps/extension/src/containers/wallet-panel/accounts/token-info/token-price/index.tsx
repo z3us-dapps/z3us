@@ -6,7 +6,7 @@ import PriceTicker from 'ui/src/components/price-ticker'
 import PriceLabel from 'ui/src/components/price-label'
 import LoaderBars from 'ui/src/components/loader-bars'
 import { formatBigNumber } from '@src/utils/formatters'
-import { useSharedStore } from '@src/store'
+import { useSharedStore } from '@src/hooks/use-store'
 
 interface Props {
 	symbol: string

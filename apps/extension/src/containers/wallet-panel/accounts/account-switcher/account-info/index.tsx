@@ -10,7 +10,7 @@ import { formatBigNumber } from '@src/utils/formatters'
 import { AccountAddress } from '@src/components/account-address'
 import PriceTicker from 'ui/src/components/price-ticker'
 import LoaderBars from 'ui/src/components/loader-bars'
-import { useSharedStore, useStore } from '@src/store'
+import { useSharedStore, useAccountStore } from '@src/hooks/use-store'
 import { ColorSettings } from '@src/types'
 import { currencySettingsMap } from '@src/config'
 import { getTickerChars } from '../get-ticker-chars'
@@ -29,7 +29,7 @@ export const AccountInfo: React.FC<IProps> = ({ address }) => {
 		isHardwareWallet: state.isHardwareWallet,
 		currency: state.currency,
 	}))
-	const { entry, activeSlideIndex } = useStore(state => ({
+	const { entry, activeSlideIndex } = useAccountStore(state => ({
 		entry: Object.values(state.publicAddresses).find(_account => _account.address === address),
 		activeSlideIndex: state.activeSlideIndex,
 	}))

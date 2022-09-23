@@ -1,4 +1,3 @@
-import { accountStore, sharedStore } from '@src/store'
 import { Runtime } from 'webextension-polyfill'
 import { BrowserService } from '@src/services/browser'
 import { VaultService } from '@src/services/vault'
@@ -22,6 +21,8 @@ import {
 } from '@src/lib/v1/actions'
 import { EVENT_MESSAGE_ID } from '@src/services/messanger'
 import { forEachClientPort } from '@src/services/client-ports'
+import { sharedStore } from '@src/store'
+import { getAccountStore } from '@src/services/state'
 
 export default function NewV1BackgroundPopupActions(
 	browser: BrowserService,
@@ -44,8 +45,8 @@ export default function NewV1BackgroundPopupActions(
 		await deletePendingAction(id)
 
 		const { selectKeystoreId } = sharedStore.getState()
-		const useStore = accountStore(selectKeystoreId)
-		const state = useStore.getState()
+		const useAccountStore = await getAccountStore(selectKeystoreId)
+		const state = useAccountStore.getState()
 		state.removePendingActionAction(id)
 	}
 
@@ -106,8 +107,8 @@ export default function NewV1BackgroundPopupActions(
 	async function isApprovedClient(port: Runtime.Port): Promise<boolean> {
 		const url = new URL(port.sender.url)
 		const { selectKeystoreId } = sharedStore.getState()
-		const useStore = accountStore(selectKeystoreId)
-		const state = useStore.getState()
+		const useAccountStore = await getAccountStore(selectKeystoreId)
+		const state = useAccountStore.getState()
 		const { approvedWebsites } = state
 
 		return url.host in approvedWebsites

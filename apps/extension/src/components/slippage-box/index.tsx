@@ -4,7 +4,7 @@ import BigNumber from 'bignumber.js'
 import { Box, Text, Flex } from 'ui/src/components/atoms'
 import { useTicker } from '@src/hooks/react-query/queries/tickers'
 import { Token } from '@src/types'
-import { useSharedStore } from '@src/store'
+import { useSharedStore } from '@src/hooks/use-store'
 import { useNativeToken } from '@src/hooks/react-query/queries/radix'
 
 interface IProps {

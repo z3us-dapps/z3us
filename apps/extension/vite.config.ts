@@ -44,7 +44,9 @@ export default defineConfig({
 				chunkFileNames: `assets/[name].js`,
 			},
 			plugins: [
-				webExtension({ manifest: (process.env.APP_TARGET === 'chrome' ? chrome : firefox) as chrome.runtime.Manifest }),
+				webExtension({
+					manifest: (process.env.APP_TARGET === 'chrome' ? chrome : firefox) as chrome.runtime.Manifest,
+				}),
 				rollupInject({
 					global: [path.resolve('src/helpers/shim.ts'), 'global'],
 					process: [path.resolve('src/helpers/shim.ts'), 'process'],

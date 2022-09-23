@@ -1,8 +1,8 @@
-import { KeystoresStore, KeystoreType } from './types'
+import { KeystoresState, KeystoreType } from './types'
 
 export const whiteList = ['keystores', 'selectKeystoreId']
 
-export const factory = (set): KeystoresStore => ({
+export const factory = (set): KeystoresState => ({
 	keystores: [],
 	selectKeystoreId: '',
 

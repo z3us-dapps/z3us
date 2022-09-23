@@ -1,4 +1,4 @@
-import { useStore } from '@src/store'
+import { useAccountStore } from '@src/hooks/use-store'
 import { useMessage } from '@src/hooks/use-message'
 import { useTransaction } from '@src/hooks/use-transaction'
 import { ResourceIdentifier, AccountAddress, IntendedTransferTokens } from '@radixdlt/application'
@@ -7,7 +7,7 @@ import { buildAmount } from '@src/utils/radix'
 export const useTransferTokens = () => {
 	const { buildTransactionFromActions } = useTransaction()
 	const { createMessage } = useMessage()
-	const { account } = useStore(state => ({
+	const { account } = useAccountStore(state => ({
 		account: state.account,
 	}))
 

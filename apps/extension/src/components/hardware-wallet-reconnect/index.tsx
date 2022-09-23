@@ -1,7 +1,7 @@
 import React from 'react'
 import { firstValueFrom } from 'rxjs'
 import { HardwareWalletLedger } from '@radixdlt/hardware-ledger'
-import { useSharedStore, useStore } from '@src/store'
+import { useSharedStore, useAccountStore } from '@src/hooks/use-store'
 import { useImmer } from 'use-immer'
 import { Tooltip, TooltipTrigger, TooltipContent, TooltipArrow } from 'ui/src/components/tool-tip'
 import Button from 'ui/src/components/button'
@@ -20,7 +20,7 @@ export const HardwareWalletReconnect: React.FC = () => {
 		addToast: state.addToastAction,
 		setHardwareWallet: state.setHardwareWalletAction,
 	}))
-	const { account, selectAccount, accountIndex } = useStore(state => ({
+	const { account, selectAccount, accountIndex } = useAccountStore(state => ({
 		account: state.account,
 		accountIndex: state.selectedAccountIndex,
 		selectAccount: state.selectAccountAction,

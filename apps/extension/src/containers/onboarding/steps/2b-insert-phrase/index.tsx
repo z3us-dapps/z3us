@@ -1,5 +1,5 @@
 import React from 'react'
-import { useSharedStore } from '@src/store'
+import { useSharedStore } from '@src/hooks/use-store'
 import { useImmer } from 'use-immer'
 import { useEventListener } from 'usehooks-ts'
 import { onBoardingSteps } from '@src/store/onboarding'

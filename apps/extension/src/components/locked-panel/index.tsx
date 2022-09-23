@@ -1,6 +1,6 @@
 /* eslint-disable no-nested-ternary */
 import React, { useEffect, useRef } from 'react'
-import { useSharedStore, useStore } from '@src/store'
+import { useSharedStore, useAccountStore } from '@src/hooks/use-store'
 import { useAnimationControls } from 'framer-motion'
 import { useColorMode } from '@src/hooks/use-color-mode'
 import { useImmer } from 'use-immer'
@@ -43,7 +43,7 @@ export const LockedPanel: React.FC = () => {
 		addToast: state.addToastAction,
 	}))
 
-	const { selectAccount, accountIndex } = useStore(state => ({
+	const { selectAccount, accountIndex } = useAccountStore(state => ({
 		accountIndex: state.selectedAccountIndex,
 		selectAccount: state.selectAccountAction,
 	}))

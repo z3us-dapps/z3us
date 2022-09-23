@@ -1,6 +1,6 @@
 import React, { useRef } from 'react'
 import { useLocation, useRoute } from 'wouter'
-import { useSharedStore, useStore } from '@src/store'
+import { useSharedStore, useAccountStore } from '@src/hooks/use-store'
 import { useImmer } from 'use-immer'
 import Button from 'ui/src/components/button'
 import { Z3usIcon, TrashIcon, HardwareWalletIcon } from 'ui/src/components/icons'
@@ -56,7 +56,7 @@ export const Z3usMenu: React.FC = () => {
 			removeWallet: state.removeWalletAction,
 			isUnlocked: Boolean(state.masterSeed || state.isHardwareWallet),
 		}))
-	const { reset } = useStore(state => ({
+	const { reset } = useAccountStore(state => ({
 		reset: state.resetAction,
 	}))
 	const walletInputRef = useRef(null)

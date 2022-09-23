@@ -1,7 +1,7 @@
 import React, { useRef } from 'react'
 import { useQueryClient } from 'react-query'
 import { useImmer } from 'use-immer'
-import { useSharedStore, useStore } from '@src/store'
+import { useSharedStore, useAccountStore } from '@src/hooks/use-store'
 import { useLocation } from 'wouter'
 import { getShortAddress } from '@src/utils/string-utils'
 import { useEventListener } from 'usehooks-ts'
@@ -54,7 +54,7 @@ export const BurnTokenModal: React.FC<IProps> = ({ trigger }) => {
 		addToast: state.addToastAction,
 	}))
 
-	const { selectAccount, account, accountAddress } = useStore(state => ({
+	const { selectAccount, account, accountAddress } = useAccountStore(state => ({
 		selectAccount: state.selectAccountAction,
 		account: state.account,
 		accountAddress: state.getCurrentAddressAction(),

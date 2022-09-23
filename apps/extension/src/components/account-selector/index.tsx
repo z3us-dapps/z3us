@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { useStore } from '@src/store'
+import { useAccountStore } from '@src/hooks/use-store'
 import { RightArrowIcon } from 'ui/src/components/icons'
 import { ChevronDownIcon, ChevronUpIcon } from '@radix-ui/react-icons'
 import {
@@ -36,7 +36,7 @@ export const AccountSelector: React.FC<IProps> = ({
 	triggerType,
 }) => {
 	const [measureRef, { width: triggerWidth }] = useMeasure()
-	const { accounts } = useStore(state => ({
+	const { accounts } = useAccountStore(state => ({
 		accounts: Object.values(state.publicAddresses).map((entry, index) => ({
 			...entry,
 			index,

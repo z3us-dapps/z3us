@@ -1,5 +1,4 @@
 import browser, { Runtime } from 'webextension-polyfill'
-import { accountStore, sharedStore } from '@src/store'
 import { BrowserService } from '@src/services/browser'
 import { BrowserStorageService } from '@src/services/browser-storage'
 import { VaultService } from '@src/services/vault'
@@ -9,6 +8,8 @@ import NewV1BackgroundPopupActions from '@src/lib/v1/background-popup'
 import { deletePendingAction } from '@src/services/actions-pending'
 import { addClientPort, deleteClientPort } from '@src/services/client-ports'
 import { generateId } from '@src/utils/generate-id'
+import { sharedStore } from '@src/store'
+import { getAccountStore } from '@src/services/state'
 // import { CredentialsService } from '@src/services/credentials'
 
 const browserService = new BrowserService()
@@ -74,8 +75,8 @@ export const handleConnect = async port => {
 					portMessageIDs[id] = {}
 					await sharedStore.persist.rehydrate()
 					const { selectKeystoreId } = sharedStore.getState()
-					const useStore = accountStore(selectKeystoreId)
-					await useStore.persist.rehydrate()
+					const useAccountStore = await getAccountStore(selectKeystoreId)
+					await useAccountStore.persist.rehydrate()
 					try {
 						inpageActionHandlers[action](port, id, payload)
 					} catch (error) {
@@ -91,8 +92,8 @@ export const handleConnect = async port => {
 					portMessageIDs[id] = {}
 					await sharedStore.persist.rehydrate()
 					const { selectKeystoreId } = sharedStore.getState()
-					const useStore = accountStore(selectKeystoreId)
-					await useStore.persist.rehydrate()
+					const useAccountStore = await getAccountStore(selectKeystoreId)
+					await useAccountStore.persist.rehydrate()
 					try {
 						popupActionHandlers[action](port, id, payload)
 					} catch (error) {
@@ -119,10 +120,10 @@ export const handleConnect = async port => {
 
 			await sharedStore.persist.rehydrate()
 			const { selectKeystoreId } = sharedStore.getState()
-			const useStore = accountStore(selectKeystoreId)
-			await useStore.persist.rehydrate()
+			const useAccountStore = await getAccountStore(selectKeystoreId)
+			await useAccountStore.persist.rehydrate()
 
-			const state = useStore.getState()
+			const state = useAccountStore.getState()
 			state.removePendingActionAction(id)
 		})
 	})

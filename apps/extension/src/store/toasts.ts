@@ -1,7 +1,7 @@
 import { generateId } from '@src/utils/generate-id'
-import { Toast, ToastsStore } from './types'
+import { Toast, ToastsState } from './types'
 
-export const factory = (set, get): ToastsStore => ({
+export const factory = (set, get): ToastsState => ({
 	toasts: [],
 
 	removeToastAction: (id: string) => {
