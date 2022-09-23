@@ -1,14 +1,15 @@
 import browser from 'webextension-polyfill'
 import { Mutex } from 'async-mutex'
-import { accountStore, defaultAccountStore, sharedStore } from '@src/store'
 import { RadixService } from '@src/services/radix'
 import { getShortAddress, getTransactionType } from '@src/utils/string-utils'
 import { Transaction } from '@src/types'
+import { AccountStore, sharedStore } from '@src/store'
+import { getAccountStore } from '@src/services/state'
 
 export async function getLastTransactions(
-	useStore: typeof defaultAccountStore,
+	accountStore: AccountStore,
 ): Promise<{ [address: string]: Array<Transaction> }> {
-	const state = useStore.getState()
+	const state = accountStore.getState()
 	const { networks, selectedNetworkIndex, publicAddresses } = state
 	const allAddresses = Object.values(publicAddresses).map(entry => entry.address)
 
@@ -33,11 +34,11 @@ export async function getLastTransactions(
 
 let lastTxIds = {}
 let isCheckingTransactions = false
-const watchTransactions = async (selectKeystoreId: string, useStore: typeof defaultAccountStore) => {
+const watchTransactions = async (selectKeystoreId: string, accountStore: AccountStore) => {
 	if (isCheckingTransactions) return
 	isCheckingTransactions = true
 	try {
-		const transactionMap = await getLastTransactions(useStore)
+		const transactionMap = await getLastTransactions(accountStore)
 		const newLastTxIds = {}
 		Object.keys(transactionMap).forEach(async address => {
 			const transactions = transactionMap[address]
@@ -58,7 +59,7 @@ const watchTransactions = async (selectKeystoreId: string, useStore: typeof defa
 					// eslint-disable-next-line no-await-in-loop
 					await browser.notifications.create(`tx-${selectKeystoreId}-${tx.id}`, {
 						type: 'basic',
-						iconUrl: browser.runtime.getURL('favicon-128x128.png'),
+						iconUrl: browser.runtime.getURL('public/favicon-128x128.png'),
 						title: `New ${activity} Transaction`,
 						eventTime: tx?.sentAt.getTime(),
 						message: `There is a new ${activity} transaction on your account (${getShortAddress(address)}).`,
@@ -89,12 +90,12 @@ const watch = async () => {
 	await sharedStore.persist.rehydrate()
 	const { selectKeystoreId, transactionNotificationsEnabled } = sharedStore.getState()
 
-	const useStore = accountStore(selectKeystoreId)
-	await useStore.persist.rehydrate()
+	const useAccountStore = await getAccountStore(selectKeystoreId)
+	await useAccountStore.persist.rehydrate()
 
 	try {
 		if (transactionNotificationsEnabled) {
-			watchTransactions(selectKeystoreId, useStore)
+			watchTransactions(selectKeystoreId, useAccountStore)
 		} else {
 			lastTxIds = {}
 		}

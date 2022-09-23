@@ -20,6 +20,7 @@ const GET = 'v1-get'
 const REMOVE = 'v1-remove'
 const LOCK = 'v1-lock'
 const UNLOCK = 'v1-unlock'
+const EVENT = 'v1-event'
 const AUTH_HAS = 'v1-auth-has'
 const AUTH_RESET = 'v1-auth-reset'
 const AUTH_REGISTRATION_OPTIONS = 'v1-auth-registration-options'
@@ -47,6 +48,7 @@ export {
 	REMOVE,
 	LOCK,
 	UNLOCK,
+	EVENT,
 	AUTH_HAS,
 	AUTH_RESET,
 	AUTH_REGISTRATION_OPTIONS,

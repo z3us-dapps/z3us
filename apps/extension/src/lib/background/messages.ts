@@ -1,5 +1,4 @@
 import browser, { Runtime } from 'webextension-polyfill'
-import { accountStore, sharedStore } from '@src/store'
 import { BrowserService } from '@src/services/browser'
 import { BrowserStorageService } from '@src/services/browser-storage'
 import { VaultService } from '@src/services/vault'
@@ -7,7 +6,10 @@ import { PORT_NAME, TARGET_BACKGROUND, TARGET_INPAGE, TARGET_POPUP } from '@src/
 import NewV1BackgroundInpageActions from '@src/lib/v1/background-inpage'
 import NewV1BackgroundPopupActions from '@src/lib/v1/background-popup'
 import { deletePendingAction } from '@src/services/actions-pending'
-import { subscribeToEvents } from '@src/lib/background/events'
+import { addClientPort, deleteClientPort } from '@src/services/client-ports'
+import { generateId } from '@src/utils/generate-id'
+import { sharedStore } from '@src/store'
+import { getAccountStore } from '@src/services/state'
 // import { CredentialsService } from '@src/services/credentials'
 
 const browserService = new BrowserService()
@@ -56,6 +58,7 @@ export const handleConnect = async port => {
 		isPopup = new URL(port.sender.url).hostname === popupURL.hostname
 	}
 
+	const portId = generateId()
 	const portMessageIDs: { [key: string]: unknown } = {}
 
 	port.onMessage.addListener(async message => {
@@ -72,8 +75,8 @@ export const handleConnect = async port => {
 					portMessageIDs[id] = {}
 					await sharedStore.persist.rehydrate()
 					const { selectKeystoreId } = sharedStore.getState()
-					const useStore = accountStore(selectKeystoreId)
-					await useStore.persist.rehydrate()
+					const useAccountStore = await getAccountStore(selectKeystoreId)
+					await useAccountStore.persist.rehydrate()
 					try {
 						inpageActionHandlers[action](port, id, payload)
 					} catch (error) {
@@ -89,12 +92,12 @@ export const handleConnect = async port => {
 					portMessageIDs[id] = {}
 					await sharedStore.persist.rehydrate()
 					const { selectKeystoreId } = sharedStore.getState()
-					const useStore = accountStore(selectKeystoreId)
-					await useStore.persist.rehydrate()
+					const useAccountStore = await getAccountStore(selectKeystoreId)
+					await useAccountStore.persist.rehydrate()
 					try {
 						popupActionHandlers[action](port, id, payload)
 					} catch (error) {
-						sendInpageMessage(port, id, payload, { code: 500, error: error?.message || error })
+						sendPopupMessage(port, id, payload, { code: 500, error: error?.message || error })
 					}
 				} else {
 					sendPopupMessage(port, id, payload, { code: 400, error: 'Bad request' })
@@ -105,37 +108,34 @@ export const handleConnect = async port => {
 		}
 	})
 
-	let unsubscribeFromEvents = () => {}
-
 	port.onDisconnect.addListener(() => {
 		if (port.error) {
 			// eslint-disable-next-line no-console
 			console.error(`Disconnected due to an error: ${port.error.message}`)
 		}
 
-		unsubscribeFromEvents()
-
 		Object.keys(portMessageIDs).forEach(async id => {
 			await deletePendingAction(id)
+			await deleteClientPort(portId)
 
 			await sharedStore.persist.rehydrate()
 			const { selectKeystoreId } = sharedStore.getState()
-			const useStore = accountStore(selectKeystoreId)
-			await useStore.persist.rehydrate()
+			const useAccountStore = await getAccountStore(selectKeystoreId)
+			await useAccountStore.persist.rehydrate()
 
-			const state = useStore.getState()
+			const state = useAccountStore.getState()
 			state.removePendingActionAction(id)
 		})
 	})
 
 	if (!isPopup) {
-		unsubscribeFromEvents = subscribeToEvents(port, sendMessage)
+		await addClientPort(portId, port)
 	}
 
 	const timer = setTimeout(
-		() => {
+		async () => {
 			clearTimeout(timer)
-			unsubscribeFromEvents()
+			await deleteClientPort(portId)
 			port.disconnect()
 		},
 		250e3,

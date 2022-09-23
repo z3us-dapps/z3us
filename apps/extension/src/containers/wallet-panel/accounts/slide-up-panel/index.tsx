@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 import { useEventListener } from 'usehooks-ts'
-import { useSharedStore } from '@src/store'
+import { useSharedStore } from '@src/hooks/use-store'
 import { Box, Flex, MotionBox } from 'ui/src/components/atoms'
 import { useLocation } from 'wouter'
 import { UpArrowWideIcon } from 'ui/src/components/icons'

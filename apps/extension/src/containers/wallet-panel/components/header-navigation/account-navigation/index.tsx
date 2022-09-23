@@ -1,7 +1,7 @@
 /* eslint-disable react/no-array-index-key */
 import React from 'react'
 import { useLocation, useRoute } from 'wouter'
-import { useSharedStore, useStore } from '@src/store'
+import { useSharedStore, useAccountStore } from '@src/hooks/use-store'
 import { getShortAddress } from '@src/utils/string-utils'
 import Button from 'ui/src/components/button'
 import { CopyIcon } from '@radix-ui/react-icons'
@@ -17,7 +17,7 @@ export const AccountNaviation: React.FC = () => {
 		activeApp: state.activeApp,
 		expanded: state.accountPanelExpanded,
 	}))
-	const { entry, addresses, activeSlideIndex, setActiveSlide } = useStore(state => ({
+	const { entry, addresses, activeSlideIndex, setActiveSlide } = useAccountStore(state => ({
 		addresses: Object.values(state.publicAddresses).map(({ address }) => address),
 		entry: Object.values(state.publicAddresses).find(_account => _account.address === state.getCurrentAddressAction()),
 		activeSlideIndex: state.activeSlideIndex,

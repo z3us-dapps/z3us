@@ -2,7 +2,7 @@ import { useCallback } from 'react'
 import { firstValueFrom } from 'rxjs'
 import { ActionType } from '@radixdlt/application'
 import { ExtendedActionType, IntendedAction, ActionType as InternalActionType } from '@src/types'
-import { useSharedStore, useStore } from '@src/store'
+import { useSharedStore, useAccountStore } from '@src/hooks/use-store'
 import { useRadix } from '@src/hooks/use-radix'
 // import { useSignature } from '@src/hooks/use-signature'
 // import { randomBytes } from 'crypto'
@@ -14,7 +14,7 @@ export const useTransaction = () => {
 	const { addConfirmWithHWToast } = useSharedStore(state => ({
 		addConfirmWithHWToast: state.addConfirmWithHWToastAction,
 	}))
-	const { account } = useStore(state => ({
+	const { account } = useAccountStore(state => ({
 		account: state.account,
 	}))
 

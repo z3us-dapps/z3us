@@ -3,7 +3,7 @@ import React from 'react'
 import BigNumber from 'bignumber.js'
 import { Box, Text, Flex } from 'ui/src/components/atoms'
 import { getShortAddress } from '@src/utils/string-utils'
-import { useSharedStore, useStore } from '@src/store'
+import { useSharedStore, useAccountStore } from '@src/hooks/use-store'
 import { SlippageBox } from '@src/components/slippage-box'
 import { ActivityType } from '@src/components/activity-type'
 import { Action } from '@radixdlt/application'
@@ -20,7 +20,7 @@ const ActionPreview: React.FC<ActionPreviewProps> = ({ activity, fee: feeFromPro
 	const { addressBook } = useSharedStore(state => ({
 		addressBook: state.addressBook,
 	}))
-	const { accountAddress, publicAddresses } = useStore(state => ({
+	const { accountAddress, publicAddresses } = useAccountStore(state => ({
 		accountAddress: state.getCurrentAddressAction(),
 		publicAddresses: Object.values(state.publicAddresses),
 	}))

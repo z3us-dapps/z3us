@@ -1,5 +1,5 @@
-import browser from 'webextension-polyfill'
 import { sharedStore } from '@src/store'
+import browser from 'webextension-polyfill'
 
 export const handleInstall = async details => {
 	if (details.reason === 'update' && details.previousVersion === '1.0.7') {

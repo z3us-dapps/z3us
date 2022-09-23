@@ -23,7 +23,7 @@ interface ImmerT {
 
 export const Example = () => {
 	const { show } = useToastControls()
-	const { connect, disconnect, submitTransaction } = useZ3usWallet()
+	const { isLoaded, address, connect, disconnect, submitTransaction } = useZ3usWallet()
 
 	const [state, setState] = useImmer<ImmerT>({
 		time: new Date().getTime(),
@@ -32,8 +32,9 @@ export const Example = () => {
 		resources: null,
 	})
 
-	const fetchAssets = async address => {
-		const response = await fetch(`${API_URL}component/${address}`)
+	const fetchAssets = async () => {
+		if (!address) return
+		const response = await fetch(`${API_URL}component/${address.toString()}`)
 		const component = await response.json()
 		setState(draft => {
 			draft.resources = component.owned_resources
@@ -45,23 +46,21 @@ export const Example = () => {
 	}, [])
 
 	useEffect(() => {
-		if (!state.address) return
+		if (!address) return
 
 		setState(draft => {
 			draft.time = new Date().getTime()
 			draft.manifest = new ManifestBuilder()
-				.withdrawFromAccountByAmount(state.address, 1, '030000000000000000000000000000000000000000000000000004')
+				.withdrawFromAccountByAmount(address.toString(), 1, '030000000000000000000000000000000000000000000000000004')
 				.callMethod(componentAddress, 'buy_gumball', ['Decimal("1.0")'])
-				.callMethodWithAllResources(state.address, 'deposit_batch')
+				.callMethodWithAllResources(address.toString(), 'deposit_batch')
 				.build()
 				.toString()
 		})
-	}, [state.address])
+	}, [address])
 
 	useEffect(() => {
-		if (!state.address) return
-
-		fetchAssets(state.address)
+		fetchAssets()
 	}, [state.time])
 
 	const handleManifestChange = e => {
@@ -72,10 +71,7 @@ export const Example = () => {
 
 	const handleConnectWallet = async () => {
 		try {
-			const address = await connect()
-			setState(draft => {
-				draft.address = address
-			})
+			await connect()
 		} catch (error: unknown) {
 			console.error(error)
 		}
@@ -99,7 +95,7 @@ export const Example = () => {
 	return (
 		<Box>
 			<Box css={{ maxWidth: '100%' }}>
-				{!state.address ? (
+				{!address ? (
 					<AlertCard icon color="warning" css={{ mt: '$4', height: '40px' }}>
 						<Text medium size="4" css={{ mb: '3px', pl: '$3', mt: '8px' }}>
 							Connect Z3US wallet before attempting to send a transaction.
@@ -141,11 +137,11 @@ export const Example = () => {
 							size="2"
 							placeholder="Message"
 							css={{ minHeight: '120px', width: '100%' }}
-							disabled={!state.address}
+							disabled={!address}
 						/>
 					</Flex>
 					<Flex css={{ pt: '$4' }}>
-						<Button size="5" color="primary" onClick={handleTx} disabled={!state.address}>
+						<Button size="5" color="primary" onClick={handleTx} disabled={!address} loading={!isLoaded}>
 							Send
 						</Button>
 					</Flex>

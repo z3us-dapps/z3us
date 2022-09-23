@@ -8,7 +8,7 @@ export default {
 	short_name: 'Z3US',
 	description: 'An open source community centered browser wallet for the Radix DLT network.',
 	action: {
-		default_popup: 'popup-theme-light.html',
+		default_popup: 'popup-theme-system.html',
 		default_title: 'Z3US',
 		default_icon: {
 			'16': 'favicon-16x16.png',
@@ -62,6 +62,7 @@ export default {
 			matches: ['http://*/*', 'https://*/*'],
 			resources: [
 				'popup-theme-dark.html',
+				'popup-theme-light.html',
 				'popup-theme-system.html',
 				'assets/*',
 				// 'pte_manifest_compiler_bg.wasm',

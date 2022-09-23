@@ -1,5 +1,5 @@
 import React from 'react'
-import { useSharedStore } from '@src/store'
+import { useSharedStore } from '@src/hooks/use-store'
 import { useLocation, useRoute } from 'wouter'
 import { Flex } from 'ui/src/components/atoms'
 import Button from 'ui/src/components/button'

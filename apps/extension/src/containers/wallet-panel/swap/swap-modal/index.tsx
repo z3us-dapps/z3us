@@ -12,7 +12,7 @@ import { Dialog, DialogTrigger, DialogContent } from 'ui/src/components/dialog'
 import { HoverCard, HoverCardContent, HoverCardTrigger } from 'ui/src/components/hover-card'
 import { BuiltTransactionReadyToSign } from '@radixdlt/application'
 import { useTransaction } from '@src/hooks/use-transaction'
-import { useSharedStore, useStore } from '@src/store'
+import { useSharedStore, useAccountStore } from '@src/hooks/use-store'
 import { formatBigNumber } from '@src/utils/formatters'
 import { getShortAddress } from '@src/utils/string-utils'
 import Button from 'ui/src/components/button'
@@ -82,7 +82,7 @@ export const SwapModal: React.FC<IProps> = ({
 	const { addressBook } = useSharedStore(state => ({
 		addressBook: state.addressBook,
 	}))
-	const { account, publicAddresses } = useStore(state => ({
+	const { account, publicAddresses } = useAccountStore(state => ({
 		account: state.account,
 		publicAddresses: Object.values(state.publicAddresses),
 	}))

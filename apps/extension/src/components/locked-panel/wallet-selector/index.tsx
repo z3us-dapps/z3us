@@ -17,7 +17,7 @@ import {
 	SelectScrollUpButton,
 	SelectScrollDownButton,
 } from 'ui/src/components/select'
-import { useSharedStore } from '@src/store'
+import { useSharedStore } from '@src/hooks/use-store'
 import { Box, Text, Flex } from 'ui/src/components/atoms'
 import Button from 'ui/src/components/button'
 import useMeasure from 'react-use-measure'

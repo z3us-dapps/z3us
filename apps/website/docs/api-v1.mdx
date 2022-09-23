@@ -5,8 +5,7 @@ order: 3
 
 # V1
 
-Provider API is promise based, and user is expected to catch and handle errors,
-promises will resolve whenever possible. It is up to the user to handle timeouts if promise hangs.
+Provider API is promise based, and user is expected to catch and handle errors, promises will resolve whenever possible or timeout after 3 minutes. Including confirmation window.
 
 <SyntaxHighlighter language="typescript">
 	{`
@@ -39,7 +38,7 @@ declare global {
 
 ## Error handling
 
-To handle errors in a simple manner, use `try/catch` block, function will throw in case of action declined or unexpected error. There is no timeout at the moment on the promise, be careful to avoid deadlocks and handle reasonable timeouts on your website according to your action.
+To handle errors in a simple manner, use `try/catch` block, function will throw in case of action declined or unexpected error. There is a 3 minute timeout on the promise.
 
 <SyntaxHighlighter language="typescript">
 	{`

@@ -4,7 +4,7 @@ import { formatBigNumber } from '@src/utils/formatters'
 import { useTicker } from '@src/hooks/react-query/queries/tickers'
 import { Box, Flex, Text } from 'ui/src/components/atoms'
 import PriceLabel from 'ui/src/components/price-label'
-import { useSharedStore } from '@src/store'
+import { useSharedStore } from '@src/hooks/use-store'
 
 interface Props {
 	symbol: string

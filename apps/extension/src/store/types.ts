@@ -39,19 +39,19 @@ export type Keystore = {
 	type: KeystoreType
 }
 
-export type ToastsStore = {
+export type ToastsState = {
 	toasts: Array<Toast>
 	addToastAction: (toast?: Toast) => void
 	removeToastAction: (id: string) => void
 	addConfirmWithHWToastAction: () => void
 }
 
-export type ThemeStore = {
+export type ThemeState = {
 	theme: string
 	setThemeAction: (theme: string) => void
 }
 
-export type OnBoardingStore = {
+export type OnBoardingState = {
 	onBoardingStep: string
 	isRestoreWorkflow: boolean
 	mnemonic: MnemomicT | null
@@ -67,7 +67,7 @@ export type OnBoardingStore = {
 	setConnectHardwareWalletStepAction: (step: string) => void
 }
 
-export type SettingsStore = {
+export type SettingsState = {
 	walletUnlockTimeoutInMinutes: number
 	setWalletUnclokTimeoutInMinutesAction: (timeoutInMinutes: number) => void
 
@@ -88,7 +88,7 @@ export type SettingsStore = {
 	setTransactionNotificationsEnabledAction: (enabled: boolean) => void
 }
 
-export type BackgroundStore = {
+export type BackgroundState = {
 	messanger: MessageService | null
 
 	setMessangerAction: (messanger: MessageService) => void
@@ -114,7 +114,7 @@ export type BackgroundStore = {
 	) => Promise<string>
 }
 
-export type KeystoresStore = {
+export type KeystoresState = {
 	selectKeystoreId: string
 	selectKeystoreAction: (id: string) => void
 
@@ -124,13 +124,13 @@ export type KeystoresStore = {
 	changeKeystoreNameAction: (id: string, name: string) => void
 }
 
-export type LocalWalletStore = {
+export type LocalWalletState = {
 	masterSeed: HDMasterSeedT | null
 
 	setMasterSeedAction: (seed: HDMasterSeedT) => void
 }
 
-export type HardwareWalletStore = {
+export type HardwareWalletState = {
 	isHardwareWallet: boolean
 	unlockHardwareWalletAction: () => void
 
@@ -138,7 +138,7 @@ export type HardwareWalletStore = {
 	setHardwareWalletAction: (hw: HardwareWalletT) => void
 }
 
-export type WalletStore = {
+export type WalletState = {
 	account: AccountT | null
 	resetAction: () => void
 	getCurrentAddressAction: () => string
@@ -196,15 +196,15 @@ export type WalletStore = {
 	removePendingActionAction: (id: string) => void
 }
 
-export type SharedStore = ThemeStore &
-	ToastsStore &
-	OnBoardingStore &
-	SettingsStore &
-	BackgroundStore &
-	KeystoresStore &
-	LocalWalletStore &
-	HardwareWalletStore
+export type SharedState = ThemeState &
+	ToastsState &
+	OnBoardingState &
+	SettingsState &
+	BackgroundState &
+	KeystoresState &
+	LocalWalletState &
+	HardwareWalletState
 
-export type AccountStore = WalletStore
+export type AccountState = WalletState
 
-export type AppStore = SharedStore & AccountStore
+export type AppState = SharedState & AccountState

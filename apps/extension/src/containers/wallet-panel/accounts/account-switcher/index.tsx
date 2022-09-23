@@ -1,5 +1,5 @@
 import React, { useRef, useState, useEffect } from 'react'
-import { useSharedStore, useStore } from '@src/store'
+import { useSharedStore, useAccountStore } from '@src/hooks/use-store'
 import { PlusIcon } from 'ui/src/components/icons'
 import { useEventListener } from 'usehooks-ts'
 import { Box, Flex, MotionBox, Text } from 'ui/src/components/atoms'
@@ -19,7 +19,7 @@ export const AccountSwitcher = (): JSX.Element => {
 		hw: state.hardwareWallet,
 		seed: state.masterSeed,
 	}))
-	const { addresses, activeSlideIndex, selectAccount, setActiveSlide } = useStore(state => ({
+	const { addresses, activeSlideIndex, selectAccount, setActiveSlide } = useAccountStore(state => ({
 		addresses: Object.values(state.publicAddresses).map(({ address }) => address),
 		activeSlideIndex: state.activeSlideIndex,
 		selectAccount: state.selectAccountAction,
