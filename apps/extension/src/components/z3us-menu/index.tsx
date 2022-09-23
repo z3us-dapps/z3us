@@ -67,7 +67,13 @@ export const Z3usMenu: React.FC = () => {
 		tempEdit: '',
 	})
 	const isHideZ3usMenu =
-		isSendRoute || isSendRouteRri || isDepositRoute || isDepositRouteRri || isActivityRoute || isSwapRoute
+		isSendRoute ||
+		isSendRouteRri ||
+		isDepositRoute ||
+		isDepositRouteRri ||
+		isActivityRoute ||
+		isSwapRoute ||
+		!isUnlocked
 
 	const handleLockWallet = async () => {
 		await lock()
@@ -154,7 +160,7 @@ export const Z3usMenu: React.FC = () => {
 	return (
 		<Box
 			css={{
-				position: 'fixed',
+				position: 'absolute',
 				top: '6px',
 				left: '6px',
 				zIndex: '1',

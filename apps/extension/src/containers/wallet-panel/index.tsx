@@ -35,16 +35,6 @@ const pageTransition = {
 	opacity: { duration: 0.2 },
 }
 
-const pageStyle = {
-	position: 'absolute',
-	width: '100%',
-	display: 'flex',
-	flexDirection: 'column',
-	justifyContent: 'flex-end',
-	bottom: '0',
-	top: '0',
-}
-
 export const WalletPanel = (): JSX.Element => {
 	const [location] = useLocation()
 	const { isUnlocked, activeApp, keystores } = useSharedStore(state => ({
@@ -135,7 +125,13 @@ export const WalletPanel = (): JSX.Element => {
 									variants={pageVariants}
 									custom={direction}
 									style={{
-										...(pageStyle as any),
+										position: 'absolute',
+										width: '100%',
+										display: 'flex',
+										flexDirection: 'column',
+										justifyContent: 'flex-end',
+										bottom: '0',
+										top: '0',
 									}}
 									transition={pageTransition}
 								>
@@ -151,15 +147,7 @@ export const WalletPanel = (): JSX.Element => {
 				</MotionBox>
 			) : null}
 			<LockedPanel />
-			<Box
-				css={{
-					pe: !isUnlocked ? 'unset' : 'none',
-					opacity: !isUnlocked ? '0' : '1',
-					transition: '$default',
-				}}
-			>
-				<Z3usMenu />
-			</Box>
+			<Z3usMenu />
 		</>
 	)
 }

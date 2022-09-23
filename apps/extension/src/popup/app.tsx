@@ -31,14 +31,17 @@ export const App: React.FC = () => {
 				position: 'relative',
 				opacity: messanger ? '1' : '0',
 				transition: '$default',
+				flex: '1 1 0',
 				...(isHardwareWalletRoute
 					? {
 							width: '100vw',
 							height: '100vh',
 					  }
 					: {
-							width: '360px',
-							height: '600px',
+							minWidth: '360px',
+							minHeight: '600px',
+							width: '100%',
+							height: '100%',
 					  }),
 			}}
 		>

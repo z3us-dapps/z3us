@@ -3,10 +3,9 @@ import { Chart, CategoryScale, LinearScale, PointElement, LineElement, Tooltip }
 import { QueryClientProvider } from 'react-query'
 import newQueryClient from '@src/hooks/react-query/query-client'
 import { ReactQueryDevtools } from 'react-query/devtools'
-import { App } from '@src/popup/app_'
+import { App } from '@src/popup/app'
 import { globalStyles } from 'ui/src/theme'
 import { enableMapSet } from 'immer'
-
 import '@src/css/app.scss'
 
 enableMapSet()
