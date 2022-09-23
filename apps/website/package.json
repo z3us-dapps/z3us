@@ -64,7 +64,6 @@
 		"eslint": "^8.5.0",
 		"eslint-plugin-require-explicit-generics": "^0.4.2",
 		"next-transpile-modules": "^9.0.0",
-		"tsconfig": "*",
-		"typescript": "^4.5.4"
+		"tsconfig": "*"
 	}
 }

@@ -64,7 +64,7 @@ export const Airdrop = () => {
 		}
 
 		onLoad()
-	}, [address.toString()])
+	}, [address?.toString()])
 
 	const handleConnect = () => {
 		try {
@@ -129,6 +129,7 @@ export const Airdrop = () => {
 	}
 
 	const handleOpenTelegram = async () => {
+		if (!address) return
 		setState(draft => {
 			draft.isSuccessModalOpen = false
 		})
@@ -227,7 +228,7 @@ export const Airdrop = () => {
 									</Text>
 									<Flex css={{ position: 'relative' }}>
 										<Input
-											value={`/subscribe ${address.toString()} ${state.der}`}
+											value={`/subscribe ${address?.toString()} ${state.der}`}
 											as="textarea"
 											size="1"
 											placeholder="command"
