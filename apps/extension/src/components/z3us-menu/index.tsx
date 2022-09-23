@@ -176,7 +176,7 @@ export const Z3usMenu: React.FC = () => {
 							<Z3usIcon />
 						</Button>
 					</DropdownMenuTrigger>
-					<DropdownMenuContent side="bottom" sideOffset={6} alignOffset={-3} css={{ minWidth: '130px' }}>
+					<DropdownMenuContent align="start" side="bottom" sideOffset={6} alignOffset={-3} css={{ minWidth: '130px' }}>
 						{keystores.length > 0 && (
 							<DropdownMenu>
 								<DropdownMenuTriggerItem>

@@ -2,7 +2,7 @@ import browser from 'webextension-polyfill'
 import React, { useState } from 'react'
 import { useSharedStore } from '@src/store'
 import Button from 'ui/src/components/button'
-import { ChevronRightIcon } from '@radix-ui/react-icons'
+import { ChevronRightIcon, OpenInNewWindowIcon } from '@radix-ui/react-icons'
 import { Box, MotionBox } from 'ui/src/components/atoms'
 import {
 	DropdownMenu,
@@ -82,6 +82,9 @@ export const WalletMenu: React.FC = () => {
 					<DropdownMenu>
 						<DropdownMenuTriggerItem onClick={handleOpenInNewTab}>
 							<Box css={{ flex: '1', pr: '$1' }}>Expand view</Box>
+							<DropdownMenuRightSlot>
+								<OpenInNewWindowIcon />
+							</DropdownMenuRightSlot>
 						</DropdownMenuTriggerItem>
 					</DropdownMenu>
 				</DropdownMenuContent>
