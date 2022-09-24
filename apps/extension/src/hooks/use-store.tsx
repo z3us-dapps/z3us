@@ -5,8 +5,10 @@ import { useContext } from 'react'
 import { useStore } from 'zustand'
 import shallow from 'zustand/shallow'
 
+const selectAll = state => state
+
 export function useAccountStore<T>(
-	selector: (state: AccountState) => T,
+	selector: (state: AccountState) => T = selectAll,
 	equalityFn: (left: T, right: T) => boolean = shallow,
 ) {
 	const store = useContext(AccountContext)
@@ -15,7 +17,7 @@ export function useAccountStore<T>(
 }
 
 export function useSharedStore<T>(
-	selector: (state: SharedState) => T,
+	selector: (state: SharedState) => T = selectAll,
 	equalityFn: (left: T, right: T) => boolean = shallow,
 ) {
 	return useStore<SharedStore, T>(sharedStore, selector, equalityFn)

@@ -33,6 +33,7 @@ export interface IProps {
 	className?: string
 	href?: string
 	target?: string
+	download?: string
 }
 
 const defaultProps = {

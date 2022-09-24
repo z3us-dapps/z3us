@@ -1,6 +1,6 @@
 import React from 'react'
-import { ScrollArea } from 'ui/src/components/scroll-area'
 import { useImmer } from 'use-immer'
+import { ScrollArea } from 'ui/src/components/scroll-area'
 import { KeyIcon, TrustedAppsIcon, NetworkIcon, AccountsIcon, AddressBookIcon } from 'ui/src/components/icons'
 import { LockClosedIcon, TokensIcon } from '@radix-ui/react-icons'
 import { Box, Flex, Text } from 'ui/src/components/atoms'
@@ -13,6 +13,7 @@ import { NetworkSettings } from './network-settings'
 import { KeyManagementSettings } from './key-management-settings'
 import { accordians } from './constants'
 import { TokenManagementSettings } from './token-management-settins'
+import { ImportSettings } from './import-settings'
 
 interface ImmerT {
 	activeAccordion: string
@@ -151,6 +152,8 @@ export const Settings: React.FC = () => {
 									</AccordionContent>
 								</AccordionItem>
 							</Accordion>
+
+							<ImportSettings />
 						</Box>
 					</Box>
 				</Box>
