@@ -29,18 +29,22 @@ declare global {
 
 export const useZ3usWallet = () => {
 	const [z3us, setZ3US] = useState<Z3US | null>(null)
-	const [isLoaded, setIsLoaded] = useState<boolean>(false)
+	const [isLoaded, setIsLoaded] = useState<boolean>(!!z3us)
 	const [address, setAddress] = useState<AccountAddressT | null>(null)
 
+	const init = (z: Z3US) => {
+		if (z3us) return
+		setZ3US(z)
+		setIsLoaded(true)
+	}
+
 	const connect = async () => {
-		if (!z3us) return
 		const hasWallet = await z3us?.v1.hasWallet()
 		if (!hasWallet) {
 			setAddress(null)
 			return
 		}
 		const selectedAddress = await z3us?.v1.connect()
-		console.info(selectedAddress)
 		const addressResult = AccountAddress.fromUnsafe(selectedAddress)
 		if (addressResult.isErr()) {
 			setAddress(null)
@@ -55,25 +59,23 @@ export const useZ3usWallet = () => {
 		await z3us?.v1.disconnect()
 	}
 
+	const handleKeystoreChange = async () => {
+		if (await z3us?.v1.isConnected()) {
+			await connect()
+		} else {
+			setAddress(null)
+		}
+	}
+
 	/*
 	 * When our component first mounts, let's check to see if we have a connected
 	 */
 	useEffect(() => {
-		window.addEventListener(
-			'z3us.init',
-			(event: CustomEvent) => {
-				setZ3US(event.detail)
-				setIsLoaded(true)
-			},
-			{ once: true },
-		)
-		window.addEventListener('z3us.keysotre.change', connect, false)
-		window.addEventListener('z3us.account.change', connect, false)
+		if (window.z3us) init(window.z3us)
 
-		if (window.z3us && !z3us) {
-			setZ3US(window.z3us)
-			setIsLoaded(true)
-		}
+		window.addEventListener('z3us.init', (event: CustomEvent) => init(event.detail), { once: true })
+		window.addEventListener('z3us.keysotre.change', handleKeystoreChange, false)
+		window.addEventListener('z3us.account.change', (event: CustomEvent) => setAddress(event.detail.address), false)
 	}, [])
 
 	/*
@@ -83,12 +85,7 @@ export const useZ3usWallet = () => {
 		if (!isLoaded) return
 		const onLoad = async () => {
 			try {
-				const hasWallet = await z3us?.v1.hasWallet()
-				if (!hasWallet) {
-					return
-				}
-				const connected = await z3us?.v1.isConnected()
-				if (connected) {
+				if (await z3us?.v1.isConnected()) {
 					await connect()
 				}
 			} catch (error: unknown) {

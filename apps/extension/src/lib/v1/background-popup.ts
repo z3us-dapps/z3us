@@ -23,6 +23,7 @@ import { EVENT_MESSAGE_ID } from '@src/services/messanger'
 import { forEachClientPort } from '@src/services/client-ports'
 import { sharedStore } from '@src/store'
 import { getAccountStore } from '@src/services/state'
+import { INIT, KEYSTORE_CHANGE } from './events'
 
 export default function NewV1BackgroundPopupActions(
 	browser: BrowserService,
@@ -116,11 +117,21 @@ export default function NewV1BackgroundPopupActions(
 
 	async function onEvent(port: Runtime.Port, id: string, payload: any) {
 		forEachClientPort(async (clientPort: Runtime.Port) => {
+			const { eventType, eventDetails } = payload
 			const allowed = await isApprovedClient(clientPort)
-			if (!allowed) {
-				return
+
+			switch (eventType) {
+				case INIT:
+					break
+				case KEYSTORE_CHANGE:
+					break
+				default:
+					if (!allowed) {
+						return
+					}
 			}
-			sendInpageMessage(clientPort, EVENT_MESSAGE_ID, payload, null)
+
+			sendInpageMessage(clientPort, EVENT_MESSAGE_ID, { eventType, eventDetails }, null)
 		})
 	}
 

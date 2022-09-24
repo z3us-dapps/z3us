@@ -13,7 +13,8 @@ export const AccountStoreProvider = ({ children }: React.PropsWithChildren<{}>) 
 
 	useEffect(() => {
 		const load = async (suffix: string) => {
-			setState(await getAccountStore(suffix))
+			const store = await getAccountStore(suffix)
+			setState(store)
 		}
 		load(keystoreId)
 	}, [keystoreId])
