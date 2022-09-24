@@ -15,6 +15,13 @@ import {
 } from 'ui/src/components/alert-dialog'
 import { accountStoreWhitelist, sharedStore, sharedStoreWhitelist } from '@src/store'
 import { AccountContext } from '@src/context/state'
+import { whiteList as keystorehiteList } from '@src/store/keystores'
+
+const sharedDisabledList = [...keystorehiteList]
+const sharedWhiteList = sharedStoreWhitelist.filter(key => !sharedDisabledList.includes(key))
+
+const accountDisabledList = ['pendingActions']
+const accountWhiteList = accountStoreWhitelist.filter(key => !accountDisabledList.includes(key))
 
 interface ImmerT {
 	data: string
@@ -33,8 +40,8 @@ export const ImportSettings: React.FC = () => {
 	const data = encodeURIComponent(
 		JSON.stringify({
 			version: settingsExportVersionV1,
-			shared: Object.fromEntries(Object.entries(sharedState).filter(([key]) => sharedStoreWhitelist.includes(key))),
-			account: Object.fromEntries(Object.entries(accountState).filter(([key]) => accountStoreWhitelist.includes(key))),
+			shared: Object.fromEntries(Object.entries(sharedState).filter(([key]) => sharedWhiteList.includes(key))),
+			account: Object.fromEntries(Object.entries(accountState).filter(([key]) => accountWhiteList.includes(key))),
 		}),
 	)
 
