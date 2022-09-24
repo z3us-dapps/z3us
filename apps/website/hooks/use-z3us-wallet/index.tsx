@@ -40,6 +40,7 @@ export const useZ3usWallet = () => {
 			return
 		}
 		const selectedAddress = await z3us?.v1.connect()
+		console.info(selectedAddress)
 		const addressResult = AccountAddress.fromUnsafe(selectedAddress)
 		if (addressResult.isErr()) {
 			setAddress(null)
