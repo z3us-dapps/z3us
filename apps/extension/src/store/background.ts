@@ -78,10 +78,6 @@ export const factory = (set, get): BackgroundState => ({
 			throw new Error('Messanger not initialized!')
 		}
 		await messanger.sendActionMessageFromPopup(LOCK, null)
-		set(state => {
-			state.signingKey = null
-			state.isUnlocked = false
-		})
 	},
 
 	hasAuthAction: async () => {

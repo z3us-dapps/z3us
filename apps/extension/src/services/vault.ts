@@ -87,19 +87,19 @@ export class VaultService {
 	}
 
 	derive = async (index: number) => {
-		await this.resetTimer()
-
 		const keystoreId = await getKeystorePrefix()
 		const hasKeystore = await this.has()
 
 		if (!this.hdMasterNode) {
 			this.signinKey = null
+			this.hdMasterNode = null
 			return {
 				hasKeystore,
 				keystoreId,
 			}
 		}
 
+		await this.resetTimer()
 		const signinKey = getSigningKey(this.hdMasterNode, index)
 
 		this.signinKey = signinKey
@@ -218,8 +218,8 @@ export class VaultService {
 	}
 
 	private getHDMasterNode = async (
-		password: string,
 		data: string,
+		password: string,
 	): Promise<{
 		mnemonic?: MnemomicT
 		hdMasterNode: HDNodeT

@@ -55,9 +55,10 @@ export const Z3usMenu: React.FC = () => {
 			lock: state.lockAction,
 			removeWallet: state.removeWalletAction,
 		}))
-	const { reset, isUnlocked } = useAccountStore(state => ({
+	const { reset, isUnlocked, setIsUnlocked } = useAccountStore(state => ({
 		reset: state.resetAction,
 		isUnlocked: state.isUnlocked,
+		setIsUnlocked: state.setIsUnlockedAction,
 	}))
 	const walletInputRef = useRef(null)
 	const [state, setState] = useImmer<ImmerT>({
@@ -70,6 +71,7 @@ export const Z3usMenu: React.FC = () => {
 		isSendRoute || isSendRouteRri || isDepositRoute || isDepositRouteRri || isActivityRoute || isSwapRoute
 
 	const handleLockWallet = async () => {
+		setIsUnlocked(false)
 		await lock()
 	}
 

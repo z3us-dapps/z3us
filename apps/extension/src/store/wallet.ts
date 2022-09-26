@@ -71,6 +71,9 @@ export const factory = (set, get): WalletState => ({
 	setIsUnlockedAction: (isUnlocked: boolean) => {
 		set(draft => {
 			draft.isUnlocked = isUnlocked
+			if (!isUnlocked) {
+				draft.signingKey = null
+			}
 		})
 	},
 

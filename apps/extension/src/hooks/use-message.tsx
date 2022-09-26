@@ -33,7 +33,7 @@ export const useMessage = () => {
 			const plain = Message.createPlaintext(plaintext)
 			return plain.bytes.toString('hex')
 		},
-		[signingKey.id],
+		[signingKey?.id],
 	)
 
 	const decryptMessage = useCallback(
@@ -67,7 +67,7 @@ export const useMessage = () => {
 
 			return message
 		},
-		[radix, signingKey.id],
+		[radix, signingKey?.id],
 	)
 
 	return { createMessage, decryptMessage }

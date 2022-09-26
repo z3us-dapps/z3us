@@ -33,13 +33,13 @@ export const useVault = () => {
 		keystore: state.keystores.find(({ id }) => id === state.selectKeystoreId),
 		setMessanger: state.setMessangerAction,
 	}))
-	const { signingKey, networkIndex, accountIndex, derivedAccountIndex, unlock, setSigningKey } = useAccountStore(
+	const { signingKey, networkIndex, accountIndex, derivedAccountIndex, setIsUnlocked, setSigningKey } = useAccountStore(
 		state => ({
 			signingKey: state.signingKey,
 			derivedAccountIndex: state.derivedAccountIndex,
 			networkIndex: state.selectedNetworkIndex,
 			accountIndex: state.selectedAccountIndex,
-			unlock: state.setIsUnlockedAction,
+			setIsUnlocked: state.setIsUnlockedAction,
 			setSigningKey: state.setSigningKeyAction,
 		}),
 	)
@@ -61,10 +61,10 @@ export const useVault = () => {
 					if (signingKey) {
 						const newSigningKey = await createHardwareSigningKey(signingKey.hw, derivedAccountIndex)
 						setSigningKey(newSigningKey)
+						setIsUnlocked(true)
 					} else {
-						setSigningKey(null)
+						setIsUnlocked(false)
 					}
-					unlock(true)
 					break
 				case KeystoreType.LOCAL:
 				default:
@@ -77,10 +77,9 @@ export const useVault = () => {
 
 						const newSigningKey = createLocalSigningKey(messanger, publicKey)
 						setSigningKey(newSigningKey)
-						unlock(true)
+						setIsUnlocked(true)
 					} else {
-						setSigningKey(null)
-						unlock(false)
+						setIsUnlocked(false)
 					}
 					break
 			}

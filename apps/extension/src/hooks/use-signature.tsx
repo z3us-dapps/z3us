@@ -19,7 +19,7 @@ export const useSignature = () => {
 			const signature = await signingKey.signHash(hashedMessage)
 			return signature.toDER()
 		},
-		[signingKey.id],
+		[signingKey?.id],
 	)
 
 	const verify = useCallback(
@@ -32,7 +32,7 @@ export const useSignature = () => {
 				hashedMessage: sha256(payload),
 			})
 		},
-		[signingKey.id],
+		[signingKey?.id],
 	)
 
 	return {

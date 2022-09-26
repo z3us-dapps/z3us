@@ -80,7 +80,7 @@ export default function NewV1BackgroundPopupActions(
 
 	async function lock(port: Runtime.Port, id: string, payload: any) {
 		try {
-			await vault.lock()
+			vault.lock()
 			sendPopupMessage(port, id, payload, {})
 		} catch (error: any) {
 			sendPopupMessage(port, id, payload, { code: 500, error: error?.message || error })

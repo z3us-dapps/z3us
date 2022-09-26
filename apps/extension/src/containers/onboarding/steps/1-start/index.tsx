@@ -45,8 +45,9 @@ export const Start = (): JSX.Element => {
 		lock: state.lockAction,
 		addKeystore: state.addKeystoreAction,
 	}))
-	const { publicAddresses } = useAccountStore(state => ({
+	const { publicAddresses, setIsUnlocked } = useAccountStore(state => ({
 		publicAddresses: state.publicAddresses,
+		setIsUnlocked: state.setIsUnlockedAction,
 	}))
 	const [state, setState] = useImmer<ImmerT>({
 		mounted: false,
@@ -59,6 +60,7 @@ export const Start = (): JSX.Element => {
 
 		const id = generateId()
 		addKeystore(id, id, type)
+		setIsUnlocked(false)
 		await lock() // clear background memory
 	}
 

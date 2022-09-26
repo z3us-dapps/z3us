@@ -42,10 +42,11 @@ export const ImportAccounts = (): JSX.Element => {
 		lock: state.lockAction,
 		addKeystore: state.addKeystoreAction,
 	}))
-	const { publicAddresses, network, setPublicAddresses } = useAccountStore(state => ({
+	const { publicAddresses, network, setPublicAddresses, setIsUnlocked } = useAccountStore(state => ({
 		publicAddresses: state.publicAddresses,
 		network: state.networks[state.selectedNetworkIndex],
 		setPublicAddresses: state.setPublicAddressesAction,
+		setIsUnlocked: state.setIsUnlockedAction,
 	}))
 
 	const [state, setState] = useImmer<ImmerT>({
@@ -68,6 +69,7 @@ export const ImportAccounts = (): JSX.Element => {
 
 		const id = generateId()
 		addKeystore(id, id, KeystoreType.HARDWARE)
+		setIsUnlocked(false)
 		await lock() // clear background memory
 	}
 

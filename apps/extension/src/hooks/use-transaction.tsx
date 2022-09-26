@@ -180,7 +180,7 @@ export const useTransaction = () => {
 				publicKeyOfSigner: signingKey.publicKey,
 			})
 		},
-		[radix, signingKey.id],
+		[radix, signingKey?.id],
 	)
 
 	const submitTransaction = useCallback(
