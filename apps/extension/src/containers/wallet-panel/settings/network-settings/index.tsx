@@ -27,9 +27,7 @@ interface ImmerT {
 }
 
 export const NetworkSettings: React.FC = () => {
-	const { hw, seed, addToast } = useSharedStore(state => ({
-		hw: state.hardwareWallet,
-		seed: state.masterSeed,
+	const { addToast } = useSharedStore(state => ({
 		addToast: state.addToastAction,
 	}))
 
@@ -48,7 +46,7 @@ export const NetworkSettings: React.FC = () => {
 	})
 
 	const handleSelectNetwork = async (value: string) => {
-		await selectNetwork(+value, hw, seed)
+		await selectNetwork(+value)
 	}
 
 	const handleOpenDialog = () => {

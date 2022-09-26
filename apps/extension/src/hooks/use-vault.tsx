@@ -2,10 +2,11 @@ import browser from 'webextension-polyfill'
 import { Mutex } from 'async-mutex'
 import { useEffect, useState } from 'react'
 import { useSharedStore, useAccountStore } from '@src/hooks/use-store'
-import { HDMasterSeed } from '@radixdlt/crypto'
 import { MessageService, PORT_NAME } from '@src/services/messanger'
-import { GET } from '@src/lib/v1/actions'
-import { KeystoreType } from '@src/store/types'
+import { DERIVE } from '@src/lib/v1/actions'
+import { PublicKey } from '@radixdlt/crypto'
+import { createHardwareSigningKey, createLocalSigningKey } from '@src/services/signing_key'
+import { KeystoreType } from '@src/types'
 
 const mutex = new Mutex()
 const messanger = new MessageService('extension', null, null)
@@ -28,19 +29,20 @@ connectNewPort()
 const refreshInterval = 60 * 1000 // 1 minute
 
 export const useVault = () => {
-	const { keystore, hw, seed, setMessanger, setSeed, unlockHW } = useSharedStore(state => ({
-		hw: state.hardwareWallet,
-		seed: state.masterSeed,
+	const { keystore, setMessanger } = useSharedStore(state => ({
 		keystore: state.keystores.find(({ id }) => id === state.selectKeystoreId),
 		setMessanger: state.setMessangerAction,
-		setSeed: state.setMasterSeedAction,
-		unlockHW: state.unlockHardwareWalletAction,
 	}))
-	const { networkIndex, accountIndex, selectAccount } = useAccountStore(state => ({
-		networkIndex: state.selectedNetworkIndex,
-		accountIndex: state.selectedAccountIndex,
-		selectAccount: state.selectAccountAction,
-	}))
+	const { signingKey, networkIndex, accountIndex, derivedAccountIndex, unlock, setSigningKey } = useAccountStore(
+		state => ({
+			signingKey: state.signingKey,
+			derivedAccountIndex: state.derivedAccountIndex,
+			networkIndex: state.selectedNetworkIndex,
+			accountIndex: state.selectedAccountIndex,
+			unlock: state.setIsUnlockedAction,
+			setSigningKey: state.setSigningKeyAction,
+		}),
+	)
 
 	const [time, setTime] = useState<number>(Date.now())
 
@@ -52,19 +54,33 @@ export const useVault = () => {
 		}
 	}, [])
 
-	const init = async () => {
-		const release = await mutex.acquire()
+	const derive = async () => {
 		try {
 			switch (keystore?.type) {
 				case KeystoreType.HARDWARE:
-					unlockHW()
+					if (signingKey) {
+						const newSigningKey = await createHardwareSigningKey(signingKey.hw, derivedAccountIndex)
+						setSigningKey(newSigningKey)
+					} else {
+						setSigningKey(null)
+					}
+					unlock(true)
 					break
 				case KeystoreType.LOCAL:
 				default:
 					// eslint-disable-next-line no-case-declarations
-					const { seed: newSeed } = await messanger.sendActionMessageFromPopup(GET, null)
-					if (newSeed) {
-						setSeed(HDMasterSeed.fromSeed(Buffer.from(newSeed, 'hex')))
+					const { publicKey } = await messanger.sendActionMessageFromPopup(DERIVE, { index: derivedAccountIndex })
+					if (publicKey) {
+						const publicKeyBuffer = Buffer.from(publicKey, 'hex')
+						const publicKeyResult = PublicKey.fromBuffer(publicKeyBuffer)
+						if (!publicKeyResult.isOk()) throw publicKeyResult.error
+
+						const newSigningKey = createLocalSigningKey(messanger, publicKey)
+						setSigningKey(newSigningKey)
+						unlock(true)
+					} else {
+						setSigningKey(null)
+						unlock(false)
 					}
 					break
 			}
@@ -72,6 +88,11 @@ export const useVault = () => {
 			// eslint-disable-next-line no-console
 			console.error(error)
 		}
+	}
+
+	const init = async () => {
+		const release = await mutex.acquire()
+		await derive()
 		setMessanger(messanger)
 		release()
 	}
@@ -81,21 +102,10 @@ export const useVault = () => {
 	}, [keystore])
 
 	useEffect(() => {
-		if (seed || hw) {
-			selectAccount(accountIndex, null, seed)
-		}
-	}, [seed, hw])
+		derive()
+	}, [accountIndex, time])
 
 	useEffect(() => {
-		const load = async () => {
-			try {
-				await messanger.sendActionMessageFromPopup(GET, null) // extend session
-			} catch (error) {
-				// eslint-disable-next-line no-console
-				console.error(error)
-			}
-		}
-
-		load()
-	}, [networkIndex, accountIndex, time])
+		setSigningKey(signingKey)
+	}, [networkIndex])
 }

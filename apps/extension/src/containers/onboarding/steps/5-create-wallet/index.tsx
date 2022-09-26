@@ -29,7 +29,6 @@ export const CreateWallet = (): JSX.Element => {
 		createWallet,
 		setIsRestoreWorkflow,
 		setOnboradingStep,
-		setSeed,
 	} = useSharedStore(state => ({
 		mnemonic: state.mnemonic,
 		password: state.password,
@@ -40,7 +39,6 @@ export const CreateWallet = (): JSX.Element => {
 		isRestoreWorkflow: state.isRestoreWorkflow,
 		setIsRestoreWorkflow: state.setIsRestoreWorkflowAction,
 		setOnboradingStep: state.setOnboardingStepAction,
-		setSeed: state.setMasterSeedAction,
 	}))
 	const { selectAccount } = useAccountStore(state => ({
 		selectAccount: state.selectAccountAction,
@@ -66,9 +64,8 @@ export const CreateWallet = (): JSX.Element => {
 			draft.isButtonDisabled = true
 		})
 		try {
-			const seed = await createWallet(mnemonic.words, password)
-			setSeed(seed)
-			await selectAccount(0, null, seed)
+			await createWallet('mnemonic', mnemonic.entropy.toString('hex'), password, 0)
+			await selectAccount(0)
 
 			await queryClient.invalidateQueries({ active: true, inactive: true, stale: true })
 

@@ -1,26 +1,29 @@
 import React from 'react'
-import { useSharedStore } from '@src/hooks/use-store'
+import { useAccountStore, useSharedStore } from '@src/hooks/use-store'
 import { Box, Flex, Text } from 'ui/src/components/atoms'
 import { Checkbox, CheckIcon } from 'ui/src/components/checkbox'
 import { StyledSlider, StyledTrack, StyledThumb, StyledRange } from 'ui/src/components/slider'
 import { GET } from '@src/lib/v1/actions'
 import { CurrencySelector } from '@src/components/currency-selector'
+import { KeystoreType } from '@src/types'
 
 export const GeneralSettings: React.FC = () => {
 	const {
 		messanger,
-		isHardwareWallet,
 		unlockTimer,
 		transactionNotificationsEnabled,
 		setWalletUnclokTimeoutInMinutes,
 		setTransactionNotificationsEnabled,
 	} = useSharedStore(state => ({
 		messanger: state.messanger,
-		isHardwareWallet: state.isHardwareWallet,
 		unlockTimer: state.walletUnlockTimeoutInMinutes,
 		transactionNotificationsEnabled: state.transactionNotificationsEnabled,
 		setWalletUnclokTimeoutInMinutes: state.setWalletUnclokTimeoutInMinutesAction,
 		setTransactionNotificationsEnabled: state.setTransactionNotificationsEnabledAction,
+	}))
+
+	const { signingKey } = useAccountStore(state => ({
+		signingKey: state.signingKey,
 	}))
 
 	const handleChangeUnlockTime = async ([minute]: Array<number>) => {
@@ -34,7 +37,7 @@ export const GeneralSettings: React.FC = () => {
 
 	return (
 		<Box css={{ px: '$3', py: '$3' }}>
-			{!isHardwareWallet && (
+			{signingKey.type === KeystoreType.LOCAL && (
 				<Box css={{ mt: '$3' }}>
 					<Text size="3">
 						Wallet will lock after:

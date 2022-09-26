@@ -10,9 +10,9 @@ import { Text, Box, Flex, StyledLink } from 'ui/src/components/atoms'
 import { useSharedStore, useAccountStore } from '@src/hooks/use-store'
 import { onBoardingSteps } from '@src/store/onboarding'
 import { Z3usText } from 'ui/src/components/z3us-text'
-import { KeystoreType } from '@src/store/types'
 import { generateId } from '@src/utils/generate-id'
 import { popupHtmlMap } from '@src/config'
+import { KeystoreType } from '@src/types'
 import { CheckItem } from './check-item'
 
 interface ImmerT {

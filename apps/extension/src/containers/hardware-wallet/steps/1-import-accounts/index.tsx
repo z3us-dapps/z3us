@@ -20,8 +20,8 @@ import { PageWrapper, PageHeading, PageSubHeading } from '@src/components/layout
 import { Flex, Text, Box, MotionBox } from 'ui/src/components/atoms'
 import Button from 'ui/src/components/button'
 import { generateId } from '@src/utils/generate-id'
-import { KeystoreType } from '@src/store/types'
 import { useAPDU } from '@src/hooks/use-apdu'
+import { KeystoreType } from '@src/types'
 
 const isHIDSupported = !!window?.navigator?.hid
 

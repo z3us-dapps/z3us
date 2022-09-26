@@ -5,7 +5,6 @@ import { Message, PublicKey } from '@radixdlt/crypto'
 import { BrowserService } from '@src/services/browser'
 import { VaultService } from '@src/services/vault'
 import { RadixService } from '@src/services/radix'
-import { KeystoreType } from '@src/store/types'
 import { addPendingAction } from '@src/services/actions-pending'
 import {
 	HAS_WALLET,
@@ -17,11 +16,12 @@ import {
 	STAKES,
 	UNSTAKES,
 	ENCRYPT,
-	DESCRYPT,
+	DECRYPT,
 	SIGN,
 	SEND_TRANSACTION,
 } from '@src/lib/v1/actions'
 import { getAccountStore } from '@src/services/state'
+import { KeystoreType } from '@src/types'
 
 const responseOK = { code: 200 }
 const responseBadRequest = { code: 400, error: 'Bad request' }
@@ -305,7 +305,7 @@ export default function NewV1BackgroundInpageActions(
 		[BALANCES]: balances,
 		[STAKES]: stakes,
 		[UNSTAKES]: unstakes,
-		[DESCRYPT]: decrypt,
+		[DECRYPT]: decrypt,
 		[ENCRYPT]: encrypt,
 		[SIGN]: sign,
 		[SEND_TRANSACTION]: transaction,

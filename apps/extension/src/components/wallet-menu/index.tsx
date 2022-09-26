@@ -20,8 +20,6 @@ export const WalletMenu: React.FC = () => {
 	const { theme, setTheme } = useSharedStore(state => ({
 		theme: state.theme,
 		setTheme: state.setThemeAction,
-		lock: state.lockAction,
-		seed: state.masterSeed,
 	}))
 	const [isOpen, setIsopen] = useState<boolean>(false)
 

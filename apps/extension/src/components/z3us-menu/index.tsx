@@ -27,7 +27,7 @@ import {
 	DropdownMenuRightSlot,
 	DropdownMenuTriggerItem,
 } from 'ui/src/components/drop-down-menu'
-import { KeystoreType } from '@src/store/types'
+import { KeystoreType } from '@src/types'
 
 interface ImmerT {
 	isOpen: boolean
@@ -44,7 +44,7 @@ export const Z3usMenu: React.FC = () => {
 	const [isDepositRouteRri] = useRoute('/wallet/account/deposit/:rri')
 	const [isActivityRoute] = useRoute('/wallet/account/activity')
 	const [isSwapRoute] = useRoute('/wallet/swap/review')
-	const { keystores, keystoreId, selectKeystore, removeKeystore, changeKeystoreName, removeWallet, lock, isUnlocked } =
+	const { keystores, keystoreId, selectKeystore, removeKeystore, changeKeystoreName, removeWallet, lock } =
 		useSharedStore(state => ({
 			keystores: state.keystores,
 			keystoreId: state.selectKeystoreId,
@@ -54,10 +54,10 @@ export const Z3usMenu: React.FC = () => {
 			changeKeystoreName: state.changeKeystoreNameAction,
 			lock: state.lockAction,
 			removeWallet: state.removeWalletAction,
-			isUnlocked: Boolean(state.masterSeed || state.isHardwareWallet),
 		}))
-	const { reset } = useAccountStore(state => ({
+	const { reset, isUnlocked } = useAccountStore(state => ({
 		reset: state.resetAction,
+		isUnlocked: state.isUnlocked,
 	}))
 	const walletInputRef = useRef(null)
 	const [state, setState] = useImmer<ImmerT>({

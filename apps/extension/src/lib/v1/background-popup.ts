@@ -12,6 +12,11 @@ import {
 	LOCK,
 	UNLOCK,
 	EVENT,
+	DERIVE,
+	ENCRYPT,
+	DECRYPT,
+	SIGN,
+	SIGN_HASH,
 	// AUTH_HAS,
 	// AUTH_RESET,
 	// AUTH_REGISTRATION_OPTIONS,
@@ -51,10 +56,23 @@ export default function NewV1BackgroundPopupActions(
 		state.removePendingActionAction(id)
 	}
 
-	async function remove(port: Runtime.Port, id: string, payload: any) {
+	async function newKeychain(
+		port: Runtime.Port,
+		id: string,
+		payload: { type: 'mnemonic' | 'key'; secret: string; password: string; index: number },
+	) {
 		try {
-			await vault.remove()
-			sendPopupMessage(port, id, payload, {})
+			const resp = await vault.new(payload.type, payload.secret, payload.password, payload.index)
+			sendPopupMessage(port, id, payload, resp)
+		} catch (error: any) {
+			sendPopupMessage(port, id, payload, { code: 500, error: error?.message || error })
+		}
+	}
+
+	async function unlock(port: Runtime.Port, id: string, payload: { password: string; index: number }) {
+		try {
+			const resp = await vault.unlock(payload.password, payload.index)
+			sendPopupMessage(port, id, payload, resp)
 		} catch (error: any) {
 			sendPopupMessage(port, id, payload, { code: 500, error: error?.message || error })
 		}
@@ -69,15 +87,6 @@ export default function NewV1BackgroundPopupActions(
 		}
 	}
 
-	async function get(port: Runtime.Port, id: string, payload: any) {
-		try {
-			const resp = await vault.get()
-			sendPopupMessage(port, id, payload, resp)
-		} catch (error: any) {
-			sendPopupMessage(port, id, payload, { code: 500, error: error?.message || error })
-		}
-	}
-
 	async function hasKeystore(port: Runtime.Port, id: string, payload: any) {
 		try {
 			const has = await vault.has()
@@ -87,18 +96,71 @@ export default function NewV1BackgroundPopupActions(
 		}
 	}
 
-	async function newKeychain(port: Runtime.Port, id: string, payload: { words: string[]; password: string }) {
+	async function get(port: Runtime.Port, id: string, payload: { password: string }) {
 		try {
-			const resp = await vault.new(payload.password, payload.words)
+			const resp = await vault.get(payload.password)
 			sendPopupMessage(port, id, payload, resp)
 		} catch (error: any) {
 			sendPopupMessage(port, id, payload, { code: 500, error: error?.message || error })
 		}
 	}
 
-	async function unlock(port: Runtime.Port, id: string, payload: string) {
+	async function remove(port: Runtime.Port, id: string, payload: any) {
 		try {
-			const resp = await vault.unlock(payload)
+			await vault.remove()
+			sendPopupMessage(port, id, payload, {})
+		} catch (error: any) {
+			sendPopupMessage(port, id, payload, { code: 500, error: error?.message || error })
+		}
+	}
+
+	async function derive(port: Runtime.Port, id: string, payload: { index: number }) {
+		try {
+			const resp = await vault.derive(payload.index)
+			sendPopupMessage(port, id, payload, resp)
+		} catch (error: any) {
+			sendPopupMessage(port, id, payload, { code: 500, error: error?.message || error })
+		}
+	}
+
+	async function encrypt(
+		port: Runtime.Port,
+		id: string,
+		payload: { plaintext: string; publicKeyOfOtherParty: string },
+	) {
+		try {
+			const resp = await vault.encrypt(payload.plaintext, payload.publicKeyOfOtherParty)
+			sendPopupMessage(port, id, payload, resp)
+		} catch (error: any) {
+			sendPopupMessage(port, id, payload, { code: 500, error: error?.message || error })
+		}
+	}
+
+	async function decrypt(port: Runtime.Port, id: string, payload: { message: string; publicKeyOfOtherParty: string }) {
+		try {
+			const resp = await vault.decrypt(payload.message, payload.publicKeyOfOtherParty)
+			sendPopupMessage(port, id, payload, resp)
+		} catch (error: any) {
+			sendPopupMessage(port, id, payload, { code: 500, error: error?.message || error })
+		}
+	}
+
+	async function sign(
+		port: Runtime.Port,
+		id: string,
+		payload: { blob: string; hashOfBlobToSign: string; nonXrdHRP?: string },
+	) {
+		try {
+			const resp = await vault.sign(payload.blob, payload.hashOfBlobToSign, payload.nonXrdHRP)
+			sendPopupMessage(port, id, payload, resp)
+		} catch (error: any) {
+			sendPopupMessage(port, id, payload, { code: 500, error: error?.message || error })
+		}
+	}
+
+	async function signHash(port: Runtime.Port, id: string, payload: { hash: string }) {
+		try {
+			const resp = await vault.signHash(payload.hash)
 			sendPopupMessage(port, id, payload, resp)
 		} catch (error: any) {
 			sendPopupMessage(port, id, payload, { code: 500, error: error?.message || error })
@@ -233,12 +295,17 @@ export default function NewV1BackgroundPopupActions(
 
 	return {
 		[CONFIRM]: confirm,
-		[HAS]: hasKeystore,
 		[NEW]: newKeychain,
+		[HAS]: hasKeystore,
+		[UNLOCK]: unlock,
+		[LOCK]: lock,
 		[GET]: get,
 		[REMOVE]: remove,
-		[LOCK]: lock,
-		[UNLOCK]: unlock,
+		[DERIVE]: derive,
+		[ENCRYPT]: encrypt,
+		[DECRYPT]: decrypt,
+		[SIGN]: sign,
+		[SIGN_HASH]: signHash,
 		[EVENT]: onEvent,
 		// [AUTH_HAS]: authHas,
 		// [AUTH_RESET]: authReset,

@@ -1,9 +1,8 @@
-import { Network as NetworkID, Account, AccountAddress, HDMasterSeedT } from '@radixdlt/application'
-import { HardwareWalletT } from '@radixdlt/hardware-wallet'
+import { AccountAddress, Network as NetworkID } from '@radixdlt/application'
 import { JSONToHex } from '@src/utils/encoding'
-import { VisibleTokens } from '@src/types'
+import { KeystoreType, SigningKey, VisibleTokens } from '@src/types'
 import { networks } from '@src/config'
-import { getDefaultAddressEntry, getHWSigningKeyForIndex, getLocalSigningKeyForIndex } from './helpers'
+import { getDefaultAddressEntry } from './helpers'
 import { AccountState, AddressBookEntry, WalletState } from './types'
 
 export const whiteList = [
@@ -19,11 +18,13 @@ export const whiteList = [
 ]
 
 const defaultState = {
-	account: null,
+	isUnlocked: false,
+	signingKey: null,
 
 	networks,
 
 	activeSlideIndex: -1,
+	derivedAccountIndex: 0,
 	selectedNetworkIndex: 0,
 	selectedAccountIndex: 0,
 
@@ -36,57 +37,24 @@ const defaultState = {
 	pendingActions: {},
 }
 
-const updatePublicAddressEntry = async (
-	set,
-	state: AccountState,
-	idx: number,
-	hardwareWallet: HardwareWalletT | null,
-	masterSeed: HDMasterSeedT | null,
-) => {
+const updatePublicAddressEntry = async (set, state: AccountState, idx: number) => {
 	const publicIndexes = Object.keys(state.publicAddresses)
 
 	let index: number = 0
-	let { selectedAccountIndex } = state
 	if (idx < publicIndexes.length) {
 		index = +publicIndexes[idx]
 	} else {
 		index = publicIndexes.length > 0 ? +publicIndexes[publicIndexes.length - 1] + 1 : 0
-		selectedAccountIndex = publicIndexes.length
 		set(draft => {
+			draft.derivedAccountIndex = publicIndexes.length
 			draft.selectedAccountIndex = publicIndexes.length
 			draft.activeSlideIndex = publicIndexes.length
 		})
 	}
 
-	let signingKey = null
-	if (masterSeed) {
-		signingKey = await getLocalSigningKeyForIndex(masterSeed, index)
-	}
-	if (hardwareWallet) {
-		signingKey = await getHWSigningKeyForIndex(hardwareWallet, index)
-	}
-	if (signingKey) {
-		set(draft => {
-			const network = draft.networks[draft.selectedNetworkIndex]
-			const address = AccountAddress.fromPublicKeyAndNetwork({
-				publicKey: signingKey.publicKey,
-				network: network.id,
-			})
-
-			draft.publicAddresses[index] = {
-				...getDefaultAddressEntry(index),
-				...draft.publicAddresses[index],
-				address: address.toString(),
-			}
-			if (selectedAccountIndex === idx) {
-				draft.account = Account.create({ address, signingKey })
-			}
-		})
-	} else {
-		set(draft => {
-			draft.account = null
-		})
-	}
+	set(draft => {
+		draft.derivedAccountIndex = index
+	})
 }
 
 export const factory = (set, get): WalletState => ({
@@ -98,6 +66,42 @@ export const factory = (set, get): WalletState => ({
 				state[key] = defaultState[key]
 			})
 		})
+	},
+
+	setIsUnlockedAction: (isUnlocked: boolean) => {
+		set(draft => {
+			draft.isUnlocked = isUnlocked
+		})
+	},
+
+	setSigningKeyAction: (signingKey: SigningKey | null) => {
+		set(draft => {
+			draft.signingKey = signingKey
+
+			if (signingKey) {
+				const network = draft.networks[draft.selectedNetworkIndex]
+				const address = AccountAddress.fromPublicKeyAndNetwork({
+					publicKey: signingKey.publicKey,
+					network: network.id,
+				})
+
+				draft.publicAddresses[draft.derivedAccountIndex] = {
+					...getDefaultAddressEntry(draft.derivedAccountIndex),
+					...draft.publicAddresses[draft.derivedAccountIndex],
+					address: address.toString(),
+				}
+			}
+		})
+	},
+
+	getAccountTypeAction: (): KeystoreType => {
+		const { signingKey } = get()
+
+		if (signingKey) {
+			return signingKey.type
+		}
+
+		return KeystoreType.LOCAL
 	},
 
 	getCurrentAddressAction: () => {
@@ -145,11 +149,7 @@ export const factory = (set, get): WalletState => ({
 		})
 	},
 
-	selectNetworkAction: async (
-		newIndex: number,
-		hardwareWallet: HardwareWalletT | null,
-		masterSeed: HDMasterSeedT | null,
-	) => {
+	selectNetworkAction: async (newIndex: number) => {
 		set(draft => {
 			draft.selectedNetworkIndex = newIndex
 		})
@@ -157,28 +157,20 @@ export const factory = (set, get): WalletState => ({
 		const state = get()
 		for (let i = 0; i < Object.keys(state.publicAddresses).length; i += 1) {
 			// eslint-disable-next-line no-await-in-loop
-			await updatePublicAddressEntry(set, state, i, hardwareWallet, masterSeed)
+			await updatePublicAddressEntry(set, state, i)
 		}
 	},
 
-	selectAccountAction: async (
-		newIndex: number,
-		hardwareWallet: HardwareWalletT | null,
-		masterSeed: HDMasterSeedT | null,
-	) => {
+	selectAccountAction: async (newIndex: number) => {
 		set(draft => {
 			draft.selectedAccountIndex = newIndex
 			draft.activeSlideIndex = newIndex
 		})
 
-		await updatePublicAddressEntry(set, get(), newIndex, hardwareWallet, masterSeed)
+		await updatePublicAddressEntry(set, get(), newIndex)
 	},
 
-	selectAccountForAddressAction: async (
-		address: string,
-		hardwareWallet: HardwareWalletT | null,
-		masterSeed: HDMasterSeedT | null,
-	) => {
+	selectAccountForAddressAction: async (address: string) => {
 		let selectedAccount = 0
 		const { selectAccountAction, publicAddresses } = get()
 
@@ -190,7 +182,7 @@ export const factory = (set, get): WalletState => ({
 			}
 		}
 
-		return selectAccountAction(selectedAccount, hardwareWallet, masterSeed)
+		return selectAccountAction(selectedAccount)
 	},
 
 	addNetworkAction: (id: NetworkID, url: URL) => {
@@ -202,11 +194,7 @@ export const factory = (set, get): WalletState => ({
 		})
 	},
 
-	setActiveSlideIndexAction: async (
-		newIndex: number,
-		hardwareWallet: HardwareWalletT | null,
-		masterSeed: HDMasterSeedT | null,
-	) => {
+	setActiveSlideIndexAction: async (newIndex: number) => {
 		const { publicAddresses } = get()
 		const publicIndexes = Object.keys(publicAddresses)
 		const maxIndex = publicIndexes.length
@@ -224,7 +212,7 @@ export const factory = (set, get): WalletState => ({
 		const { selectAccountAction } = get()
 
 		if (newIndex < maxIndex && newIndex >= 0) {
-			return selectAccountAction(newIndex, hardwareWallet, masterSeed)
+			return selectAccountAction(newIndex)
 		}
 
 		return undefined

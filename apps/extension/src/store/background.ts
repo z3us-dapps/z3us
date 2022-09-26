@@ -12,7 +12,6 @@ import {
 	AUTH_AUTHENTICATION_OPTIONS,
 	AUTH_VERIFY_AUTHENTICATION,
 } from '@src/lib/v1/actions'
-import { HDMasterSeed } from '@radixdlt/crypto'
 import { startRegistration, startAuthentication } from '@simplewebauthn/browser'
 import { BackgroundState } from './types'
 
@@ -44,27 +43,25 @@ export const factory = (set, get): BackgroundState => ({
 		return !!hasKeystore
 	},
 
-	createWalletAction: async (words: string[], password: string) => {
+	createWalletAction: (type: 'mnemonic' | 'key', secret: string, password: string, index: number) => {
 		const { messanger } = get()
 		if (!messanger) {
 			throw new Error('Messanger not initialized!')
 		}
-		const { seed } = await messanger.sendActionMessageFromPopup(NEW, {
-			words,
+		return messanger.sendActionMessageFromPopup(NEW, {
+			type,
+			secret,
 			password,
+			index,
 		})
-
-		return HDMasterSeed.fromSeed(Buffer.from(seed, 'hex'))
 	},
 
-	unlockWalletAction: async (password: string) => {
+	unlockWalletAction: (password: string, index: number) => {
 		const { messanger } = get()
 		if (!messanger) {
 			throw new Error('Messanger not initialized!')
 		}
-		const { seed } = await messanger.sendActionMessageFromPopup(UNLOCK, password)
-
-		return HDMasterSeed.fromSeed(Buffer.from(seed, 'hex'))
+		return messanger.sendActionMessageFromPopup(UNLOCK, { index, password })
 	},
 
 	removeWalletAction: async () => {
@@ -82,9 +79,8 @@ export const factory = (set, get): BackgroundState => ({
 		}
 		await messanger.sendActionMessageFromPopup(LOCK, null)
 		set(state => {
-			state.isHardwareWallet = false
-			state.hardwareWallet = null
-			state.masterSeed = null
+			state.signingKey = null
+			state.isUnlocked = false
 		})
 	},
 

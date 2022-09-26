@@ -4,7 +4,6 @@ import { ChevronDownIcon, ChevronUpIcon } from '@radix-ui/react-icons'
 import { HardwareWalletIcon } from 'ui/src/components/icons'
 
 import { ToolTip } from 'ui/src/components/tool-tip'
-import { KeystoreType } from '@src/store/types'
 import {
 	Select,
 	SelectTrigger,
@@ -21,6 +20,7 @@ import { useSharedStore } from '@src/hooks/use-store'
 import { Box, Text, Flex } from 'ui/src/components/atoms'
 import Button from 'ui/src/components/button'
 import useMeasure from 'react-use-measure'
+import { KeystoreType } from '@src/types'
 
 interface IProps {}
 

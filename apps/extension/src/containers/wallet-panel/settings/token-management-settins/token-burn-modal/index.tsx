@@ -48,15 +48,13 @@ export const BurnTokenModal: React.FC<IProps> = ({ trigger }) => {
 	const derive = useTokenDerive()
 	const { signTransaction, submitTransaction } = useTransaction()
 
-	const { hw, seed, addToast } = useSharedStore(state => ({
-		hw: state.hardwareWallet,
-		seed: state.masterSeed,
+	const { addToast } = useSharedStore(state => ({
 		addToast: state.addToastAction,
 	}))
 
-	const { selectAccount, account, accountAddress } = useAccountStore(state => ({
+	const { selectAccount, signingKey, accountAddress } = useAccountStore(state => ({
 		selectAccount: state.selectAccountAction,
-		account: state.account,
+		signingKey: state.signingKey,
 		accountAddress: state.getCurrentAddressAction(),
 	}))
 
@@ -79,7 +77,7 @@ export const BurnTokenModal: React.FC<IProps> = ({ trigger }) => {
 	const shortAddress = getShortAddress(accountAddress)
 
 	const handleAccountChange = async (accountIndex: number) => {
-		await selectAccount(accountIndex, hw, seed)
+		await selectAccount(accountIndex)
 	}
 
 	const handleSelectedTokenChange = (rri: string) => {
@@ -151,7 +149,7 @@ export const BurnTokenModal: React.FC<IProps> = ({ trigger }) => {
 	}
 
 	const handleConfirm = async () => {
-		if (!account) return
+		if (!signingKey) return
 		if (!token) return
 
 		setState(draft => {
@@ -268,7 +266,7 @@ export const BurnTokenModal: React.FC<IProps> = ({ trigger }) => {
 										aria-label="confirm"
 										css={{ px: '0', flex: '1' }}
 										onClick={handleConfirm}
-										disabled={!account}
+										disabled={!signingKey}
 										loading={state.isLoading}
 									>
 										Confirm

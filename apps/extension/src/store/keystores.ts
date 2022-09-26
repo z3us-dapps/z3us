@@ -1,4 +1,5 @@
-import { KeystoresState, KeystoreType } from './types'
+import { KeystoreType } from '@src/types'
+import { KeystoresState } from './types'
 
 export const whiteList = ['keystores', 'selectKeystoreId']
 

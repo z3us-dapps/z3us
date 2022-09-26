@@ -59,8 +59,8 @@ export const StakeModal: React.FC<IProps> = ({ trigger, tooltipMessage, validato
 		addToast: state.addToastAction,
 	}))
 
-	const { account, entry } = useAccountStore(state => ({
-		account: state.account,
+	const { signingKey, entry } = useAccountStore(state => ({
+		signingKey: state.signingKey,
 		entry: Object.values(state.publicAddresses).find(_account => _account.address === state.getCurrentAddressAction()),
 	}))
 
@@ -185,7 +185,7 @@ export const StakeModal: React.FC<IProps> = ({ trigger, tooltipMessage, validato
 	}
 
 	const handleConfirm = async () => {
-		if (!account) return
+		if (!signingKey) return
 		setState(draft => {
 			draft.isLoading = true
 		})
@@ -305,7 +305,7 @@ export const StakeModal: React.FC<IProps> = ({ trigger, tooltipMessage, validato
 								aria-label="confirm"
 								css={{ px: '0', flex: '1' }}
 								onClick={handleConfirm}
-								disabled={!account}
+								disabled={!signingKey}
 								loading={state.isLoading}
 							>
 								Confirm
