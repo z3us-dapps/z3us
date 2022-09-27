@@ -122,7 +122,6 @@ export type WalletState = {
 	isUnlocked: boolean
 	setIsUnlockedAction: (isUnlocked: boolean) => void
 
-	derivedAccountIndex: number
 	signingKey: SigningKey | null
 	setSigningKeyAction: (signingKey: SigningKey | null) => void
 	getCurrentAddressAction: () => string

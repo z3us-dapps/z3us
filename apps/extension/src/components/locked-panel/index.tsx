@@ -38,9 +38,9 @@ export const LockedPanel: React.FC = () => {
 		addToast: state.addToastAction,
 	}))
 
-	const { isUnlocked, derivedAccountIndex, setIsUnlocked } = useAccountStore(state => ({
+	const { isUnlocked, accountIndex, setIsUnlocked } = useAccountStore(state => ({
 		isUnlocked: state.isUnlocked,
-		derivedAccountIndex: state.derivedAccountIndex,
+		accountIndex: state.selectedAccountIndex,
 		setIsUnlocked: state.setIsUnlockedAction,
 	}))
 
@@ -108,7 +108,7 @@ export const LockedPanel: React.FC = () => {
 		try {
 			switch (keystore.type) {
 				case KeystoreType.LOCAL: {
-					const { publicKey } = await unlock(password, derivedAccountIndex)
+					const { publicKey } = await unlock(password, accountIndex)
 					setIsUnlocked(!!publicKey)
 					break
 				}

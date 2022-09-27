@@ -1,9 +1,9 @@
-import { AccountAddress, Network as NetworkID } from '@radixdlt/application'
+import { Network as NetworkID } from '@radixdlt/application'
 import { JSONToHex } from '@src/utils/encoding'
 import { KeystoreType, SigningKey, VisibleTokens } from '@src/types'
 import { networks } from '@src/config'
 import { getDefaultAddressEntry } from './helpers'
-import { AccountState, AddressBookEntry, WalletState } from './types'
+import { AddressBookEntry, WalletState } from './types'
 
 export const whiteList = [
 	'publicAddresses',
@@ -24,7 +24,6 @@ const defaultState = {
 	networks,
 
 	activeSlideIndex: -1,
-	derivedAccountIndex: 0,
 	selectedNetworkIndex: 0,
 	selectedAccountIndex: 0,
 
@@ -35,26 +34,6 @@ const defaultState = {
 	publicAddresses: {},
 	approvedWebsites: {},
 	pendingActions: {},
-}
-
-const updatePublicAddressEntry = async (set, state: AccountState, idx: number) => {
-	const publicIndexes = Object.keys(state.publicAddresses)
-
-	let index: number = 0
-	if (idx < publicIndexes.length) {
-		index = +publicIndexes[idx]
-	} else {
-		index = publicIndexes.length > 0 ? +publicIndexes[publicIndexes.length - 1] + 1 : 0
-		set(draft => {
-			draft.derivedAccountIndex = publicIndexes.length
-			draft.selectedAccountIndex = publicIndexes.length
-			draft.activeSlideIndex = publicIndexes.length
-		})
-	}
-
-	set(draft => {
-		draft.derivedAccountIndex = index
-	})
 }
 
 export const factory = (set, get): WalletState => ({
@@ -80,20 +59,6 @@ export const factory = (set, get): WalletState => ({
 	setSigningKeyAction: (signingKey: SigningKey | null) => {
 		set(draft => {
 			draft.signingKey = signingKey
-
-			if (signingKey) {
-				const network = draft.networks[draft.selectedNetworkIndex]
-				const address = AccountAddress.fromPublicKeyAndNetwork({
-					publicKey: signingKey.publicKey,
-					network: network.id,
-				})
-
-				draft.publicAddresses[draft.derivedAccountIndex] = {
-					...getDefaultAddressEntry(draft.derivedAccountIndex),
-					...draft.publicAddresses[draft.derivedAccountIndex],
-					address: address.toString(),
-				}
-			}
 		})
 	},
 
@@ -156,12 +121,6 @@ export const factory = (set, get): WalletState => ({
 		set(draft => {
 			draft.selectedNetworkIndex = newIndex
 		})
-
-		const state = get()
-		for (let i = 0; i < Object.keys(state.publicAddresses).length; i += 1) {
-			// eslint-disable-next-line no-await-in-loop
-			await updatePublicAddressEntry(set, state, i)
-		}
 	},
 
 	selectAccountAction: async (newIndex: number) => {
@@ -169,8 +128,6 @@ export const factory = (set, get): WalletState => ({
 			draft.selectedAccountIndex = newIndex
 			draft.activeSlideIndex = newIndex
 		})
-
-		await updatePublicAddressEntry(set, get(), newIndex)
 	},
 
 	selectAccountForAddressAction: async (address: string) => {

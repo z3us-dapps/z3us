@@ -13,6 +13,7 @@ const SIGN = 'v1-sign'
 const SEND_TRANSACTION = 'v1-sendTransaction'
 
 // popup
+const PING = 'v1-ping'
 const CONFIRM = 'v1-confirm'
 const HAS = 'v1-has'
 const NEW = 'v1-new'
@@ -48,6 +49,7 @@ export {
 	SIGN,
 	SIGN_HASH,
 	SEND_TRANSACTION,
+	PING,
 	CONFIRM,
 	HAS,
 	NEW,

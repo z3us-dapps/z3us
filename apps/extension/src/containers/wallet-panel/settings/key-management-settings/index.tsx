@@ -40,8 +40,7 @@ export const KeyManagementSettings: React.FC = () => {
 		removeKeystore: state.removeKeystoreAction,
 		addToast: state.addToastAction,
 	}))
-	const { accountIndex, derivedAccountIndex, reset, selectAccount } = useAccountStore(state => ({
-		derivedAccountIndex: state.derivedAccountIndex,
+	const { accountIndex, reset, selectAccount } = useAccountStore(state => ({
 		accountIndex: state.selectedAccountIndex,
 		reset: state.resetAction,
 		selectAccount: state.selectAccountAction,
@@ -81,10 +80,10 @@ export const KeyManagementSettings: React.FC = () => {
 						language: mnemonic?.language,
 					})
 					if (mnemomicRes.isErr()) throw mnemomicRes.error
-					await createWallet('mnemonic', mnemonic.words, state.newPassword, derivedAccountIndex)
+					await createWallet('mnemonic', mnemonic.words, state.newPassword, accountIndex)
 				} else {
 					const hdkey = HDNode.fromJSON(hdMasterNode)
-					await createWallet('key', hdkey.privateExtendedKey.toString(), state.newPassword, derivedAccountIndex)
+					await createWallet('key', hdkey.privateExtendedKey.toString(), state.newPassword, accountIndex)
 				}
 				await selectAccount(accountIndex)
 

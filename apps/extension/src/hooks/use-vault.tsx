@@ -3,10 +3,11 @@ import { Mutex } from 'async-mutex'
 import { useEffect, useState } from 'react'
 import { useSharedStore, useAccountStore } from '@src/hooks/use-store'
 import { MessageService, PORT_NAME } from '@src/services/messanger'
-import { DERIVE } from '@src/lib/v1/actions'
+import { DERIVE, PING } from '@src/lib/v1/actions'
 import { PublicKey } from '@radixdlt/crypto'
 import { createHardwareSigningKey, createLocalSigningKey } from '@src/services/signing_key'
 import { KeystoreType } from '@src/types'
+import { AddressBookEntry, Network } from '@src/store/types'
 
 const mutex = new Mutex()
 const messanger = new MessageService('extension', null, null)
@@ -33,16 +34,25 @@ export const useVault = () => {
 		keystore: state.keystores.find(({ id }) => id === state.selectKeystoreId),
 		setMessanger: state.setMessangerAction,
 	}))
-	const { signingKey, networkIndex, accountIndex, derivedAccountIndex, setIsUnlocked, setSigningKey } = useAccountStore(
-		state => ({
-			signingKey: state.signingKey,
-			derivedAccountIndex: state.derivedAccountIndex,
-			networkIndex: state.selectedNetworkIndex,
-			accountIndex: state.selectedAccountIndex,
-			setIsUnlocked: state.setIsUnlockedAction,
-			setSigningKey: state.setSigningKeyAction,
-		}),
-	)
+	const {
+		signingKey,
+		network,
+		publicAddresses,
+		networkIndex,
+		accountIndex,
+		setIsUnlocked,
+		setSigningKey,
+		setPublicAddresses,
+	} = useAccountStore(state => ({
+		signingKey: state.signingKey,
+		network: state.networks[state.selectedNetworkIndex],
+		publicAddresses: state.publicAddresses,
+		networkIndex: state.selectedNetworkIndex,
+		accountIndex: state.selectedAccountIndex,
+		setIsUnlocked: state.setIsUnlockedAction,
+		setSigningKey: state.setSigningKeyAction,
+		setPublicAddresses: state.setPublicAddressesAction,
+	}))
 
 	const [time, setTime] = useState<number>(Date.now())
 
@@ -54,12 +64,12 @@ export const useVault = () => {
 		}
 	}, [])
 
-	const derive = async () => {
+	const derive = async (n?: Network, addresses?: { [key: number]: AddressBookEntry }) => {
 		try {
 			switch (keystore?.type) {
 				case KeystoreType.HARDWARE:
 					if (signingKey) {
-						const newSigningKey = await createHardwareSigningKey(signingKey.hw, derivedAccountIndex)
+						const newSigningKey = await createHardwareSigningKey(signingKey.hw, accountIndex)
 						setSigningKey(newSigningKey)
 						setIsUnlocked(true)
 					} else {
@@ -69,7 +79,11 @@ export const useVault = () => {
 				case KeystoreType.LOCAL:
 				default:
 					// eslint-disable-next-line no-case-declarations
-					const { publicKey } = await messanger.sendActionMessageFromPopup(DERIVE, { index: derivedAccountIndex })
+					const { publicKey, newPublicAddresses } = await messanger.sendActionMessageFromPopup(DERIVE, {
+						index: accountIndex,
+						network: n,
+						publicAddresses: addresses,
+					})
 					if (publicKey) {
 						const publicKeyBuffer = Buffer.from(publicKey, 'hex')
 						const publicKeyResult = PublicKey.fromBuffer(publicKeyBuffer)
@@ -78,6 +92,10 @@ export const useVault = () => {
 						const newSigningKey = createLocalSigningKey(messanger, publicKey)
 						setSigningKey(newSigningKey)
 						setIsUnlocked(true)
+
+						if (newPublicAddresses) {
+							setPublicAddresses(newPublicAddresses)
+						}
 					} else {
 						setIsUnlocked(false)
 					}
@@ -101,10 +119,14 @@ export const useVault = () => {
 	}, [keystore])
 
 	useEffect(() => {
-		derive()
-	}, [accountIndex, time])
+		messanger.sendActionMessageFromPopup(PING, null)
+	}, [time])
 
 	useEffect(() => {
-		setSigningKey(signingKey)
+		derive()
+	}, [accountIndex])
+
+	useEffect(() => {
+		derive(network, publicAddresses)
 	}, [networkIndex])
 }

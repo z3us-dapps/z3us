@@ -1,6 +1,6 @@
 /* eslint-disable no-case-declarations */
 import browser from 'webextension-polyfill'
-import { Mnemonic, SigningKey, SigningKeyT } from '@radixdlt/application'
+import { AccountAddress, Mnemonic, SigningKey, SigningKeyT } from '@radixdlt/application'
 import {
 	HDMasterSeed,
 	HDNode,
@@ -11,12 +11,13 @@ import {
 	Keystore as RadixKeystore,
 	PublicKey,
 } from '@radixdlt/crypto'
+import { CryptoService } from '@src/services/crypto'
 import { BrowserStorageService } from '@src/services/browser-storage'
 import { sharedStoreKey } from '@src/config'
-import { SharedState } from '@src/store/types'
 import { sharedStore } from '@src/store'
+import { AddressBookEntry, Network, SharedState } from '@src/store/types'
+import { getDefaultAddressEntry } from '@src/store/helpers'
 import { firstValueFrom } from 'rxjs'
-import { CryptoService } from './crypto'
 
 type KeystoreType = 'mnemonic' | 'key' | 'legacy'
 
@@ -52,13 +53,19 @@ export class VaultService {
 
 	private hdMasterNode?: HDNodeT
 
-	private signinKey?: SigningKeyT
+	private signingKey?: SigningKeyT
 
 	private timer?: NodeJS.Timeout
 
 	constructor(storage: BrowserStorageService, crypto: Crypto) {
 		this.storage = storage
 		this.crypto = new CryptoService(crypto)
+	}
+
+	ping = async () => {
+		if (this.timer) {
+			await this.resetTimer()
+		}
 	}
 
 	new = async (type: KeystoreType, secret: string, password: string, index: number = 0) => {
@@ -82,16 +89,16 @@ export class VaultService {
 			clearTimeout(this.timer)
 		}
 		this.hdMasterNode = null
-		this.signinKey = null
+		this.signingKey = null
 		this.timer = null
 	}
 
-	derive = async (index: number) => {
+	derive = async (index: number, network?: Network, publicAddresses?: { [key: number]: AddressBookEntry }) => {
 		const keystoreId = await getKeystorePrefix()
 		const hasKeystore = await this.has()
 
 		if (!this.hdMasterNode) {
-			this.signinKey = null
+			this.signingKey = null
 			this.hdMasterNode = null
 			return {
 				hasKeystore,
@@ -99,15 +106,43 @@ export class VaultService {
 			}
 		}
 
+		if (publicAddresses) {
+			if (!network) throw new Error('Network is required when deriving all addresses')
+			const publicIndexes = Object.keys(publicAddresses)
+			if (index >= publicIndexes.length) {
+				index = publicIndexes.length > 0 ? +publicIndexes[publicIndexes.length - 1] + 1 : 0
+				publicAddresses[index] = {} // will be updated with defaults in a loop below
+			}
+
+			publicIndexes.forEach(key => {
+				const signingKey = getSigningKey(this.hdMasterNode, +key)
+				if (+key === index) {
+					this.signingKey = signingKey
+				}
+
+				const address = AccountAddress.fromPublicKeyAndNetwork({
+					publicKey: signingKey.publicKey,
+					network: network.id,
+				})
+
+				publicAddresses[key] = {
+					...getDefaultAddressEntry(+key),
+					...publicAddresses[key],
+					address: address.toString(),
+				}
+			})
+		} else {
+			const signingKey = getSigningKey(this.hdMasterNode, index)
+			this.signingKey = signingKey
+		}
+
 		await this.resetTimer()
-		const signinKey = getSigningKey(this.hdMasterNode, index)
-
-		this.signinKey = signinKey
-
 		return {
 			hasKeystore,
 			keystoreId,
-			publicKey: signinKey.publicKey.toString(),
+			publicKey: this.signingKey?.publicKey.toString(),
+			network,
+			publicAddresses,
 		}
 	}
 
@@ -146,7 +181,7 @@ export class VaultService {
 	}
 
 	encrypt = async (plaintext: string, publicKeyOfOtherParty: string) => {
-		if (!this.signinKey) throw new Error('Unauthorised!')
+		if (!this.signingKey) throw new Error('Unauthorised!')
 
 		const publicKeyBuffer = Buffer.from(publicKeyOfOtherParty, 'hex')
 		const publicKeyResult = PublicKey.fromBuffer(publicKeyBuffer)
@@ -155,7 +190,7 @@ export class VaultService {
 		}
 
 		const ecnrypted = await firstValueFrom(
-			this.signinKey.encrypt({
+			this.signingKey.encrypt({
 				plaintext,
 				publicKeyOfOtherParty: publicKeyResult.value,
 			}),
@@ -164,7 +199,7 @@ export class VaultService {
 	}
 
 	decrypt = async (message: string, publicKeyOfOtherParty: string) => {
-		if (!this.signinKey) throw new Error('Unauthorised!')
+		if (!this.signingKey) throw new Error('Unauthorised!')
 
 		const publicKeyBuffer = Buffer.from(publicKeyOfOtherParty, 'hex')
 		const publicKeyResult = PublicKey.fromBuffer(publicKeyBuffer)
@@ -173,7 +208,7 @@ export class VaultService {
 		}
 
 		return firstValueFrom(
-			this.signinKey.decrypt({
+			this.signingKey.decrypt({
 				encryptedMessage: Buffer.from(message, 'hex'),
 				publicKeyOfOtherParty: publicKeyResult.value,
 			}),
@@ -181,16 +216,16 @@ export class VaultService {
 	}
 
 	sign = async (blob: string, hashOfBlobToSign: string, nonXrdHRP: string = undefined) => {
-		if (!this.signinKey) throw new Error('Unauthorised!')
+		if (!this.signingKey) throw new Error('Unauthorised!')
 
-		const signature = await firstValueFrom(this.signinKey.sign({ blob, hashOfBlobToSign }, nonXrdHRP))
+		const signature = await firstValueFrom(this.signingKey.sign({ blob, hashOfBlobToSign }, nonXrdHRP))
 		return signature.toDER()
 	}
 
 	signHash = async (hash: string) => {
-		if (!this.signinKey) throw new Error('Unauthorised!')
+		if (!this.signingKey) throw new Error('Unauthorised!')
 
-		const signature = await firstValueFrom(this.signinKey.signHash(Buffer.from(hash, 'hex')))
+		const signature = await firstValueFrom(this.signingKey.signHash(Buffer.from(hash, 'hex')))
 		return signature.toDER()
 	}
 

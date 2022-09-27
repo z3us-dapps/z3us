@@ -17,6 +17,7 @@ import {
 	DECRYPT,
 	SIGN,
 	SIGN_HASH,
+	PING,
 	// AUTH_HAS,
 	// AUTH_RESET,
 	// AUTH_REGISTRATION_OPTIONS,
@@ -28,6 +29,7 @@ import { EVENT_MESSAGE_ID } from '@src/services/messanger'
 import { forEachClientPort } from '@src/services/client-ports'
 import { sharedStore } from '@src/store'
 import { getAccountStore } from '@src/services/state'
+import { AddressBookEntry, Network } from '@src/store/types'
 import { INIT, KEYSTORE_CHANGE } from './events'
 
 export default function NewV1BackgroundPopupActions(
@@ -54,6 +56,15 @@ export default function NewV1BackgroundPopupActions(
 		const useAccountStore = await getAccountStore(selectKeystoreId)
 		const state = useAccountStore.getState()
 		state.removePendingActionAction(id)
+	}
+
+	async function ping(port: Runtime.Port, id: string, payload: any) {
+		try {
+			const resp = await vault.ping()
+			sendPopupMessage(port, id, payload, resp)
+		} catch (error: any) {
+			sendPopupMessage(port, id, payload, { code: 500, error: error?.message || error })
+		}
 	}
 
 	async function newKeychain(
@@ -87,10 +98,10 @@ export default function NewV1BackgroundPopupActions(
 		}
 	}
 
-	async function hasKeystore(port: Runtime.Port, id: string, payload: any) {
+	async function has(port: Runtime.Port, id: string, payload: any) {
 		try {
-			const has = await vault.has()
-			sendPopupMessage(port, id, payload, has)
+			const resp = await vault.has()
+			sendPopupMessage(port, id, payload, resp)
 		} catch (error: any) {
 			sendPopupMessage(port, id, payload, { code: 500, error: error?.message || error })
 		}
@@ -114,7 +125,11 @@ export default function NewV1BackgroundPopupActions(
 		}
 	}
 
-	async function derive(port: Runtime.Port, id: string, payload: { index: number }) {
+	async function derive(
+		port: Runtime.Port,
+		id: string,
+		payload: { index: number; network: Network; publicAddresses: { [key: number]: AddressBookEntry } },
+	) {
 		try {
 			const resp = await vault.derive(payload.index)
 			sendPopupMessage(port, id, payload, resp)
@@ -294,9 +309,10 @@ export default function NewV1BackgroundPopupActions(
 	// }
 
 	return {
+		[PING]: ping,
 		[CONFIRM]: confirm,
 		[NEW]: newKeychain,
-		[HAS]: hasKeystore,
+		[HAS]: has,
 		[UNLOCK]: unlock,
 		[LOCK]: lock,
 		[GET]: get,
