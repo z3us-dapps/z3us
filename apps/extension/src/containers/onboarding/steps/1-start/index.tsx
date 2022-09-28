@@ -7,12 +7,10 @@ import { MotionBox } from 'ui/src/components/atoms/motion-box'
 import { useImmer } from 'use-immer'
 import { PageWrapper } from '@src/components/layout'
 import { Text, Box, Flex, StyledLink } from 'ui/src/components/atoms'
-import { useSharedStore, useAccountStore } from '@src/hooks/use-store'
+import { useSharedStore } from '@src/hooks/use-store'
 import { onBoardingSteps } from '@src/store/onboarding'
 import { Z3usText } from 'ui/src/components/z3us-text'
-import { generateId } from '@src/utils/generate-id'
 import { popupHtmlMap } from '@src/config'
-import { KeystoreType } from '@src/types'
 import { CheckItem } from './check-item'
 
 interface ImmerT {
@@ -37,43 +35,28 @@ const ulVariants = {
 
 export const Start = (): JSX.Element => {
 	const [, setLocation] = useLocation()
-	const { theme, keystoreId, setOnboardingStep, setIsRestoreWorkflow, lock, addKeystore } = useSharedStore(state => ({
+	const { theme, setOnboardingStep, setWorkflowEntryStep } = useSharedStore(state => ({
 		theme: state.theme,
-		keystoreId: state.selectKeystoreId,
 		setOnboardingStep: state.setOnboardingStepAction,
-		setIsRestoreWorkflow: state.setIsRestoreWorkflowAction,
-		lock: state.lockAction,
-		addKeystore: state.addKeystoreAction,
-	}))
-	const { publicAddresses, setIsUnlocked } = useAccountStore(state => ({
-		publicAddresses: state.publicAddresses,
-		setIsUnlocked: state.setIsUnlockedAction,
+		setWorkflowEntryStep: state.setWorkflowEntryStepAction,
 	}))
 	const [state, setState] = useImmer<ImmerT>({
 		mounted: false,
 	})
 
-	const createKeystore = async (type: KeystoreType) => {
-		if (keystoreId && Object.keys(publicAddresses).length === 0) {
-			return
-		}
-
-		const id = generateId()
-		addKeystore(id, id, type)
-		setIsUnlocked(false)
-		await lock() // clear background memory
-	}
-
 	const handleCreateNewWallet = async () => {
-		await createKeystore(KeystoreType.LOCAL)
-		setIsRestoreWorkflow(false)
+		setWorkflowEntryStep(onBoardingSteps.GENERATE_PHRASE)
 		setOnboardingStep(onBoardingSteps.GENERATE_PHRASE)
 	}
 
 	const handleRestoreFromPhrase = async () => {
-		await createKeystore(KeystoreType.LOCAL)
-		setIsRestoreWorkflow(true)
+		setWorkflowEntryStep(onBoardingSteps.INSERT_PHRASE)
 		setOnboardingStep(onBoardingSteps.INSERT_PHRASE)
+	}
+
+	const handleImportKey = async () => {
+		setWorkflowEntryStep(onBoardingSteps.INSERT_KEY)
+		setOnboardingStep(onBoardingSteps.INSERT_KEY)
 	}
 
 	const connectHardwareWallet = async () => {
@@ -121,6 +104,11 @@ export const Start = (): JSX.Element => {
 			<Flex css={{ mt: '$2' }}>
 				<Button data-test-e2e="restore-from-seed" color="tertiary" size="5" onClick={handleRestoreFromPhrase} fullWidth>
 					Restore from seed
+				</Button>
+			</Flex>
+			<Flex css={{ mt: '$2' }}>
+				<Button data-test-e2e="import-key" color="tertiary" size="5" onClick={handleImportKey} fullWidth>
+					Import private key
 				</Button>
 			</Flex>
 			<Flex css={{ mt: '$2' }}>

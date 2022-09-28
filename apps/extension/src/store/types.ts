@@ -1,6 +1,7 @@
 import { Network as NetworkID, MnemomicT } from '@radixdlt/application'
 import { MessageService } from '@src/services/messanger'
 import { ColorSettings, Keystore, KeystoreType, SigningKey, VisibleTokens } from '@src/types'
+import { String } from '@stitches/react/types/util'
 
 export interface Toast {
 	id?: string
@@ -39,19 +40,26 @@ export type ThemeState = {
 }
 
 export type OnBoardingState = {
-	onBoardingStep: string
-	isRestoreWorkflow: boolean
-	mnemonic: MnemomicT | null
-	password: string | null
+	onBoardingStep: String
+	setOnboardingStepAction: (step: string) => void
+
+	workflowEntryStep: string
+	setWorkflowEntryStepAction: (step: string) => void
 
 	connectHardwareWalletStep: string
-
-	setOnboardingStepAction: (step: string) => void
-	setMnemomicAction: (mnemonic: MnemomicT) => void
-	setPasswordAction: (password: string) => void
-	setIsRestoreWorkflowAction: (restore: boolean) => void
-
 	setConnectHardwareWalletStepAction: (step: string) => void
+
+	mnemonic: MnemomicT | null
+	setMnemomicAction: (mnemonic: MnemomicT) => void
+
+	privateKey: string
+	setPrivateKeyAction: (key: string) => void
+
+	password: string | null
+	setPasswordAction: (password: string) => void
+
+	importingAddresses: { [key: number]: string }
+	setImportingAddressesAction: (addresses: { [key: number]: string }) => void
 }
 
 export type SettingsState = {
