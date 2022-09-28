@@ -68,12 +68,10 @@ export const useVault = () => {
 		try {
 			switch (keystore?.type) {
 				case KeystoreType.HARDWARE:
-					if (signingKey) {
+					if (signingKey?.hw) {
 						const newSigningKey = await createHardwareSigningKey(signingKey.hw, accountIndex)
-						setSigningKey(newSigningKey)
-						setIsUnlocked(true)
-					} else {
-						setIsUnlocked(false)
+						if (newSigningKey) setSigningKey(newSigningKey)
+						setIsUnlocked(!!newSigningKey)
 					}
 					break
 				case KeystoreType.LOCAL:
