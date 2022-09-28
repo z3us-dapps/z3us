@@ -15,6 +15,7 @@ import {
 	SelectItemIndicator,
 	SelectScrollUpButton,
 	SelectScrollDownButton,
+	SelectSeparator,
 } from 'ui/src/components/select'
 import { useSharedStore } from '@src/hooks/use-store'
 import { Box, Text, Flex } from 'ui/src/components/atoms'
@@ -27,6 +28,8 @@ interface IProps {}
 const defaultProps: Partial<IProps> = {
 	pool: null,
 }
+
+const newWalletOptions = '_new'
 
 export const WalletSelector: React.FC<IProps> = () => {
 	const [open, setOpen] = useState<boolean>(false)
@@ -44,6 +47,10 @@ export const WalletSelector: React.FC<IProps> = () => {
 	const handleValueChange = async (id: string) => {
 		setOpen(false)
 		if (id === keystoreId) return
+		if (id === newWalletOptions) {
+			window.location.hash = '#/onboarding'
+			return
+		}
 		selectKeystore(id)
 	}
 
@@ -140,6 +147,24 @@ export const WalletSelector: React.FC<IProps> = () => {
 							<SelectItemIndicator />
 						</SelectItem>
 					))}
+
+					<SelectSeparator />
+
+					<SelectItem
+						value={newWalletOptions}
+						css={{
+							'span:first-child': {
+								overflow: 'hidden',
+								textOverflow: 'ellipsis',
+								whiteSpace: 'nowrap',
+								maxWidth: `${triggerWidth - 25}px`,
+								minWidth: '100px',
+							},
+						}}
+					>
+						<SelectItemText>Add new wallet</SelectItemText>
+						<SelectItemIndicator />
+					</SelectItem>
 				</SelectViewport>
 				<SelectScrollDownButton>
 					<ChevronDownIcon />
