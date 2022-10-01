@@ -12,7 +12,7 @@ import { Z3usText } from 'ui/src/components/z3us-text'
 import { KeystoreType } from '@src/types'
 // import { isWebAuthSupported } from '@src/services/credentials'
 import { WalletSelector } from './wallet-selector'
-import { Z3USLogoOuter, Z3USLogoInner } from './z3us-logo'
+import { Z3USLogoOuter, Z3USLogoInner } from '../z3us-logo'
 
 interface IImmer {
 	password: string

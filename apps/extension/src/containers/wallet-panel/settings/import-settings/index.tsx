@@ -176,3 +176,5 @@ export const ImportSettings: React.FC = () => {
 		</AlertDialog>
 	)
 }
+
+export default ImportSettings

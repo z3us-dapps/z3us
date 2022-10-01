@@ -12,6 +12,8 @@ export const useSignature = () => {
 
 	const sign = useCallback(
 		async (payload: string | Buffer): Promise<string> => {
+			if (!signingKey) throw new Error('Invalid signing key')
+
 			const hashedMessage = sha256(payload)
 
 			addConfirmWithHWToast()
@@ -24,6 +26,8 @@ export const useSignature = () => {
 
 	const verify = useCallback(
 		(signatureDER: string, payload: string | Buffer): boolean => {
+			if (!signingKey) throw new Error('Invalid signing key')
+
 			const signatureResult = Signature.fromDER(signatureDER)
 			if (!signatureResult.isOk()) throw signatureResult.error
 

@@ -328,3 +328,5 @@ export const AddressBook: React.FC = () => {
 		</Box>
 	)
 }
+
+export default AddressBook

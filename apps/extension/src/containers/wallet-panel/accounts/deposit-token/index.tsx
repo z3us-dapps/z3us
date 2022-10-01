@@ -106,3 +106,5 @@ export const DepositToken: React.FC = () => {
 		</Flex>
 	)
 }
+
+export default DepositToken

@@ -75,3 +75,5 @@ export const TrustedApps: React.FC = () => {
 		</Box>
 	)
 }
+
+export default TrustedApps

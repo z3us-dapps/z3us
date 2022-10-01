@@ -104,3 +104,5 @@ export const Decrypt = (): JSX.Element => {
 		</>
 	)
 }
+
+export default Decrypt

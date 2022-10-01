@@ -43,12 +43,20 @@ export const ExportSecretPhrase: React.FC = () => {
 	const handleShow = async () => {
 		try {
 			const { mnemonic } = await messanger.sendActionMessageFromPopup(GET, { password: state.password })
-			setState(draft => {
-				draft.show = true
-				draft.words = mnemonic.words
-				draft.showError = false
-				draft.errorMessage = ''
-			})
+			if (!mnemonic) {
+				setState(draft => {
+					draft.show = false
+					draft.showError = true
+					draft.errorMessage = 'Account derived from private key directly.'
+				})
+			} else {
+				setState(draft => {
+					draft.show = true
+					draft.words = mnemonic?.words
+					draft.showError = false
+					draft.errorMessage = ''
+				})
+			}
 		} catch (error) {
 			setState(draft => {
 				draft.show = false

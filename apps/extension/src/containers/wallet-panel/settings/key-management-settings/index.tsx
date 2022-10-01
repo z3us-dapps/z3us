@@ -18,6 +18,7 @@ import {
 	AlertDialogAction,
 	AlertDialogCancel,
 } from 'ui/src/components/alert-dialog'
+import { KeystoreType } from '@src/types'
 import { ExportPrivateKey } from './export-private-key'
 import { ExportSecretPhrase } from './export-secret-phrase'
 
@@ -40,7 +41,8 @@ export const KeyManagementSettings: React.FC = () => {
 		removeKeystore: state.removeKeystoreAction,
 		addToast: state.addToastAction,
 	}))
-	const { accountIndex, reset, selectAccount } = useAccountStore(state => ({
+	const { signingKey, accountIndex, reset, selectAccount } = useAccountStore(state => ({
+		signingKey: state.signingKey,
 		accountIndex: state.selectedAccountIndex,
 		reset: state.resetAction,
 		selectAccount: state.selectAccountAction,
@@ -179,12 +181,16 @@ export const KeyManagementSettings: React.FC = () => {
 					</Grid>
 				</form>
 			</Box>
-			<Box css={{ pt: '$5', mt: '$1', borderTop: '1px solid $borderPanel' }}>
-				<ExportPrivateKey />
-			</Box>
-			<Box css={{ mt: '$3' }}>
-				<ExportSecretPhrase />
-			</Box>
+			{signingKey?.type === KeystoreType.LOCAL && (
+				<Box css={{ pt: '$5', mt: '$1', borderTop: '1px solid $borderPanel' }}>
+					<ExportPrivateKey />
+				</Box>
+			)}
+			{signingKey?.type === KeystoreType.LOCAL && (
+				<Box css={{ mt: '$3' }}>
+					<ExportSecretPhrase />
+				</Box>
+			)}
 			<Box css={{ mt: '$3' }}>
 				<AlertDialog>
 					<AlertDialogTrigger asChild>
@@ -215,3 +221,5 @@ export const KeyManagementSettings: React.FC = () => {
 		</Box>
 	)
 }
+
+export default KeyManagementSettings

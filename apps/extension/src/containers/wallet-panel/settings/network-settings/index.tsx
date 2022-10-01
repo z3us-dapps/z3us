@@ -200,3 +200,5 @@ export const NetworkSettings: React.FC = () => {
 		</Box>
 	)
 }
+
+export default NetworkSettings

@@ -103,3 +103,5 @@ export const Sign = (): JSX.Element => {
 		</>
 	)
 }
+
+export default Sign

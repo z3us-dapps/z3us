@@ -165,3 +165,5 @@ export const WalletPanel = (): JSX.Element => {
 		</>
 	)
 }
+
+export default WalletPanel

@@ -339,3 +339,5 @@ export const Transaction = (): JSX.Element => {
 		</>
 	)
 }
+
+export default Transaction

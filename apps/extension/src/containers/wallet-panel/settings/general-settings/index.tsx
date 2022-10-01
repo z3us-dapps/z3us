@@ -37,7 +37,7 @@ export const GeneralSettings: React.FC = () => {
 
 	return (
 		<Box css={{ px: '$3', py: '$3' }}>
-			{signingKey.type === KeystoreType.LOCAL && (
+			{signingKey?.type === KeystoreType.LOCAL && (
 				<Box css={{ mt: '$3' }}>
 					<Text size="3">
 						Wallet will lock after:
@@ -93,3 +93,5 @@ export const GeneralSettings: React.FC = () => {
 		</Box>
 	)
 }
+
+export default GeneralSettings

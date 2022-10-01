@@ -121,3 +121,5 @@ export const AccountActivity: React.FC = () => {
 		</Flex>
 	)
 }
+
+export default AccountActivity

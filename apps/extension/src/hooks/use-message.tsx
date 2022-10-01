@@ -15,11 +15,11 @@ export const useMessage = () => {
 
 	const createMessage = useCallback(
 		async (plaintext: string, recipientAddress: string = ''): Promise<string> => {
-			if (!plaintext) {
-				throw new Error('Invalid message')
-			}
+			if (!plaintext) throw new Error('Invalid message')
 			if (recipientAddress) {
 				const toAddress = parseAccountAddress(recipientAddress)
+
+				if (!signingKey) throw new Error('Invalid signing key')
 
 				addConfirmWithHWToast()
 
@@ -56,6 +56,8 @@ export const useMessage = () => {
 
 			const fromAddress = parseAccountAddress(from)
 			const publicKeyOfOtherParty = fromAddress.publicKey
+
+			if (!signingKey) throw new Error('Invalid signing key')
 
 			addConfirmWithHWToast()
 

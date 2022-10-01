@@ -213,3 +213,5 @@ export const Accounts: React.FC = () => {
 		</Box>
 	)
 }
+
+export default Accounts

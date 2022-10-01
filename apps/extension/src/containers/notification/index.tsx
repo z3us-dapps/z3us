@@ -1,18 +1,18 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, lazy, Suspense } from 'react'
 import { useAccountStore, useSharedStore } from '@src/hooks/use-store'
 import { useHashLocation } from '@src/hooks/use-hash-location'
-import { AnimatedSwitch } from '@src/components/router-animated-switch'
 import { RouterScope } from '@src/components/router-scope'
 import { LockedPanel } from '@src/components/locked-panel'
 import { WalletMenu } from '@src/components/wallet-menu'
+import { Loader } from '@src/components/loader'
 import { Route } from 'wouter'
 import { Flex } from 'ui/src/components/atoms'
 
-import { Connect } from './connect'
-import { Encrypt } from './encrypt'
-import { Decrypt } from './decrypt'
-import { Sign } from './sign'
-import { Transaction } from './transaction'
+const Connect = lazy(() => import('./connect'))
+const Encrypt = lazy(() => import('./encrypt'))
+const Decrypt = lazy(() => import('./decrypt'))
+const Sign = lazy(() => import('./sign'))
+const Transaction = lazy(() => import('./transaction'))
 
 export const Notification: React.FC = () => {
 	const { keystores } = useSharedStore(state => ({
@@ -49,14 +49,16 @@ export const Notification: React.FC = () => {
 				<WalletMenu />
 			</Flex>
 			<RouterScope base="/notification" hook={useHashLocation as any}>
-				<AnimatedSwitch css={{ display: 'flex', flexDirection: 'column', flex: '1' }}>
+				<Suspense fallback={Loader}>
 					<Route path="/connect/:id" component={Connect} />
 					<Route path="/encrypt/:id" component={Encrypt} />
 					<Route path="/decrypt/:id" component={Decrypt} />
 					<Route path="/sign/:id" component={Sign} />
 					<Route path="/transaction/:id" component={Transaction} />
-				</AnimatedSwitch>
+				</Suspense>
 			</RouterScope>
 		</Flex>
 	)
 }
+
+export default Notification
