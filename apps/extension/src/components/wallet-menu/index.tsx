@@ -1,5 +1,6 @@
+// import browser from 'webextension-polyfill'
 import React, { useState } from 'react'
-import { useSharedStore } from '@src/store'
+import { useSharedStore } from '@src/hooks/use-store'
 import Button from 'ui/src/components/button'
 import { ChevronRightIcon } from '@radix-ui/react-icons'
 import { Box, MotionBox } from 'ui/src/components/atoms'
@@ -19,10 +20,18 @@ export const WalletMenu: React.FC = () => {
 	const { theme, setTheme } = useSharedStore(state => ({
 		theme: state.theme,
 		setTheme: state.setThemeAction,
-		lock: state.lockAction,
-		seed: state.masterSeed,
 	}))
 	const [isOpen, setIsopen] = useState<boolean>(false)
+
+	// @TODO: will be implement when styles are supported
+	// const handleOpenInNewTab = async () => {
+	// 	const currentWindow = await browser.windows.getCurrent()
+	// 	if (currentWindow != null) {
+	// 		currentWindow.focused = true
+	// 		return browser.tabs.create({ url: window.location.toString(), active: true })
+	// 	}
+	// 	return browser.windows.create({ url: window.location.toString(), focused: true })
+	// }
 
 	return (
 		<MotionBox animate={isOpen ? 'open' : 'closed'}>
@@ -69,6 +78,11 @@ export const WalletMenu: React.FC = () => {
 							</DropdownMenuRadioGroup>
 						</DropdownMenuContent>
 					</DropdownMenu>
+					{/* <DropdownMenu> */}
+					{/* 	<DropdownMenuTriggerItem onClick={handleOpenInNewTab}> */}
+					{/* 		<Box css={{ flex: '1', pr: '$1' }}>Open in new tab</Box> */}
+					{/* 	</DropdownMenuTriggerItem> */}
+					{/* </DropdownMenu> */}
 				</DropdownMenuContent>
 			</DropdownMenu>
 		</MotionBox>

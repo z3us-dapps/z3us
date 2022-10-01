@@ -1,5 +1,5 @@
 import React, { lazy, Suspense } from 'react'
-import { useSharedStore } from '@src/store'
+import { useSharedStore } from '@src/hooks/use-store'
 import { Router, Route } from 'wouter'
 import { Box, Flex } from 'ui/src/components/atoms'
 import { Loader } from '@src/components/loader'
@@ -7,7 +7,10 @@ import { Toasts } from '@src/containers/toasts'
 import { useHashLocation, multipathMatcher } from '@src/hooks/use-hash-location'
 import { useColorMode } from '@src/hooks/use-color-mode'
 import { useVault } from '@src/hooks/use-vault'
+import { useEvents } from '@src/hooks/use-events'
 import { domExists } from '@src/utils/dom-exists'
+import { Permissions } from './permissions'
+// import { Credentials } from '@src/containers/credentials'
 // import { useManifestCompoler } from '@src/hooks/use-manifest-compiler'
 
 const WalletPanel = lazy(() => import('@src/containers/wallet-panel'))
@@ -21,6 +24,7 @@ export const App: React.FC = () => {
 	// useManifestCompoler()
 	useColorMode()
 	useVault()
+	useEvents()
 
 	const { messanger } = useSharedStore(state => ({
 		messanger: state.messanger,
@@ -64,6 +68,7 @@ export const App: React.FC = () => {
 				<Flex align="center" justify="center" css={{ height: '100%' }} />
 			)}
 			<Toasts />
+			<Permissions />
 		</Box>
 	)
 }

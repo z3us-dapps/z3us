@@ -1,11 +1,9 @@
-import { GetState, SetState } from 'zustand'
-import { Network as NetworkID, Account, AccountAddress, HDMasterSeedT } from '@radixdlt/application'
-import { HardwareWalletT } from '@radixdlt/hardware-wallet'
+import { Network as NetworkID } from '@radixdlt/application'
 import { JSONToHex } from '@src/utils/encoding'
-import { VisibleTokens } from '@src/types'
+import { KeystoreType, SigningKey, VisibleTokens } from '@src/types'
 import { networks } from '@src/config'
-import { getDefaultAddressEntry, getHWSigningKeyForIndex, getLocalSigningKeyForIndex } from './helpers'
-import { AccountStore, AddressBookEntry, WalletStore } from './types'
+import { getDefaultAddressEntry } from './helpers'
+import { AddressBookEntry, WalletState } from './types'
 
 export const whiteList = [
 	'publicAddresses',
@@ -20,7 +18,8 @@ export const whiteList = [
 ]
 
 const defaultState = {
-	account: null,
+	isUnlocked: false,
+	signingKey: null,
 
 	networks,
 
@@ -37,60 +36,7 @@ const defaultState = {
 	pendingActions: {},
 }
 
-const updatePublicAddressEntry = async (
-	set: SetState<AccountStore>,
-	state: AccountStore,
-	idx: number,
-	hardwareWallet: HardwareWalletT | null,
-	masterSeed: HDMasterSeedT | null,
-) => {
-	const publicIndexes = Object.keys(state.publicAddresses)
-
-	let index: number = 0
-	let { selectedAccountIndex } = state
-	if (idx < publicIndexes.length) {
-		index = +publicIndexes[idx]
-	} else {
-		index = publicIndexes.length > 0 ? +publicIndexes[publicIndexes.length - 1] + 1 : 0
-		selectedAccountIndex = publicIndexes.length
-		set(draft => {
-			draft.selectedAccountIndex = publicIndexes.length
-			draft.activeSlideIndex = publicIndexes.length
-		})
-	}
-
-	let signingKey = null
-	if (masterSeed) {
-		signingKey = await getLocalSigningKeyForIndex(masterSeed, index)
-	}
-	if (hardwareWallet) {
-		signingKey = await getHWSigningKeyForIndex(hardwareWallet, index)
-	}
-	if (signingKey) {
-		set(draft => {
-			const network = draft.networks[draft.selectedNetworkIndex]
-			const address = AccountAddress.fromPublicKeyAndNetwork({
-				publicKey: signingKey.publicKey,
-				network: network.id,
-			})
-
-			draft.publicAddresses[index] = {
-				...getDefaultAddressEntry(index),
-				...draft.publicAddresses[index],
-				address: address.toString(),
-			}
-			if (selectedAccountIndex === idx) {
-				draft.account = Account.create({ address, signingKey })
-			}
-		})
-	} else {
-		set(draft => {
-			draft.account = null
-		})
-	}
-}
-
-export const factory = (set: SetState<AccountStore>, get: GetState<AccountStore>): WalletStore => ({
+export const factory = (set, get): WalletState => ({
 	...defaultState,
 
 	resetAction: () => {
@@ -99,6 +45,31 @@ export const factory = (set: SetState<AccountStore>, get: GetState<AccountStore>
 				state[key] = defaultState[key]
 			})
 		})
+	},
+
+	setIsUnlockedAction: (isUnlocked: boolean) => {
+		set(draft => {
+			draft.isUnlocked = isUnlocked
+			if (!isUnlocked) {
+				draft.signingKey = null
+			}
+		})
+	},
+
+	setSigningKeyAction: (signingKey: SigningKey | null) => {
+		set(draft => {
+			draft.signingKey = signingKey
+		})
+	},
+
+	getAccountTypeAction: (): KeystoreType => {
+		const { signingKey } = get()
+
+		if (signingKey) {
+			return signingKey.type
+		}
+
+		return KeystoreType.LOCAL
 	},
 
 	getCurrentAddressAction: () => {
@@ -146,40 +117,20 @@ export const factory = (set: SetState<AccountStore>, get: GetState<AccountStore>
 		})
 	},
 
-	selectNetworkAction: async (
-		newIndex: number,
-		hardwareWallet: HardwareWalletT | null,
-		masterSeed: HDMasterSeedT | null,
-	) => {
+	selectNetworkAction: async (newIndex: number) => {
 		set(draft => {
 			draft.selectedNetworkIndex = newIndex
 		})
-
-		const state = get()
-		for (let i = 0; i < Object.keys(state.publicAddresses).length; i += 1) {
-			// eslint-disable-next-line no-await-in-loop
-			await updatePublicAddressEntry(set, state, i, hardwareWallet, masterSeed)
-		}
 	},
 
-	selectAccountAction: async (
-		newIndex: number,
-		hardwareWallet: HardwareWalletT | null,
-		masterSeed: HDMasterSeedT | null,
-	) => {
+	selectAccountAction: async (newIndex: number) => {
 		set(draft => {
 			draft.selectedAccountIndex = newIndex
 			draft.activeSlideIndex = newIndex
 		})
-
-		await updatePublicAddressEntry(set, get(), newIndex, hardwareWallet, masterSeed)
 	},
 
-	selectAccountForAddressAction: async (
-		address: string,
-		hardwareWallet: HardwareWalletT | null,
-		masterSeed: HDMasterSeedT | null,
-	) => {
+	selectAccountForAddressAction: async (address: string) => {
 		let selectedAccount = 0
 		const { selectAccountAction, publicAddresses } = get()
 
@@ -191,7 +142,7 @@ export const factory = (set: SetState<AccountStore>, get: GetState<AccountStore>
 			}
 		}
 
-		return selectAccountAction(selectedAccount, hardwareWallet, masterSeed)
+		return selectAccountAction(selectedAccount)
 	},
 
 	addNetworkAction: (id: NetworkID, url: URL) => {
@@ -203,11 +154,7 @@ export const factory = (set: SetState<AccountStore>, get: GetState<AccountStore>
 		})
 	},
 
-	setActiveSlideIndexAction: async (
-		newIndex: number,
-		hardwareWallet: HardwareWalletT | null,
-		masterSeed: HDMasterSeedT | null,
-	) => {
+	setActiveSlideIndexAction: async (newIndex: number) => {
 		const { publicAddresses } = get()
 		const publicIndexes = Object.keys(publicAddresses)
 		const maxIndex = publicIndexes.length
@@ -225,7 +172,7 @@ export const factory = (set: SetState<AccountStore>, get: GetState<AccountStore>
 		const { selectAccountAction } = get()
 
 		if (newIndex < maxIndex && newIndex >= 0) {
-			return selectAccountAction(newIndex, hardwareWallet, masterSeed)
+			return selectAccountAction(newIndex)
 		}
 
 		return undefined

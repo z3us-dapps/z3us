@@ -1,11 +1,15 @@
 import browser from 'webextension-polyfill'
+import { Mutex } from 'async-mutex'
 import { useEffect, useState } from 'react'
-import { useSharedStore, useStore } from '@src/store'
-import { HDMasterSeed } from '@radixdlt/crypto'
+import { useSharedStore, useAccountStore } from '@src/hooks/use-store'
 import { MessageService, PORT_NAME } from '@src/services/messanger'
-import { GET } from '@src/lib/actions'
-import { KeystoreType } from '@src/store/types'
+import { DERIVE, PING } from '@src/lib/v1/actions'
+import { PublicKey } from '@radixdlt/crypto'
+import { createHardwareSigningKey, createLocalSigningKey } from '@src/services/signing_key'
+import { KeystoreType } from '@src/types'
+import { AddressBookEntry, Network } from '@src/store/types'
 
+const mutex = new Mutex()
 const messanger = new MessageService('extension', null, null)
 
 const connectNewPort = () => {
@@ -26,17 +30,28 @@ connectNewPort()
 const refreshInterval = 60 * 1000 // 1 minute
 
 export const useVault = () => {
-	const { keystore, seed, setMessanger, setSeed, unlockHW } = useSharedStore(state => ({
-		seed: state.masterSeed,
+	const { keystore, setMessanger } = useSharedStore(state => ({
 		keystore: state.keystores.find(({ id }) => id === state.selectKeystoreId),
 		setMessanger: state.setMessangerAction,
-		setSeed: state.setMasterSeedAction,
-		unlockHW: state.unlockHardwareWalletAction,
 	}))
-	const { networkIndex, accountIndex, selectAccount } = useStore(state => ({
+	const {
+		signingKey,
+		network,
+		publicAddresses,
+		networkIndex,
+		accountIndex,
+		setIsUnlocked,
+		setSigningKey,
+		setPublicAddresses,
+	} = useAccountStore(state => ({
+		signingKey: state.signingKey,
+		network: state.networks[state.selectedNetworkIndex],
+		publicAddresses: state.publicAddresses,
 		networkIndex: state.selectedNetworkIndex,
 		accountIndex: state.selectedAccountIndex,
-		selectAccount: state.selectAccountAction,
+		setIsUnlocked: state.setIsUnlockedAction,
+		setSigningKey: state.setSigningKeyAction,
+		setPublicAddresses: state.setPublicAddressesAction,
 	}))
 
 	const [time, setTime] = useState<number>(Date.now())
@@ -49,27 +64,52 @@ export const useVault = () => {
 		}
 	}, [])
 
-	const init = async () => {
+	const derive = async (n?: Network, addresses?: { [key: number]: AddressBookEntry }) => {
 		try {
 			switch (keystore?.type) {
 				case KeystoreType.HARDWARE:
-					unlockHW()
+					if (signingKey?.hw) {
+						const newSigningKey = await createHardwareSigningKey(signingKey.hw, accountIndex)
+						if (newSigningKey) setSigningKey(newSigningKey)
+						setIsUnlocked(!!newSigningKey)
+					}
 					break
 				case KeystoreType.LOCAL:
 				default:
 					// eslint-disable-next-line no-case-declarations
-					const { seed: newSeed } = await messanger.sendActionMessageFromPopup(GET, null)
-					if (newSeed) {
-						setSeed(HDMasterSeed.fromSeed(Buffer.from(newSeed, 'hex')))
+					const { publicKey, newPublicAddresses } = await messanger.sendActionMessageFromPopup(DERIVE, {
+						index: accountIndex,
+						network: n,
+						publicAddresses: addresses,
+					})
+					if (publicKey) {
+						const publicKeyBuffer = Buffer.from(publicKey, 'hex')
+						const publicKeyResult = PublicKey.fromBuffer(publicKeyBuffer)
+						if (!publicKeyResult.isOk()) throw publicKeyResult.error
+
+						const newSigningKey = createLocalSigningKey(messanger, publicKey)
+						setSigningKey(newSigningKey)
+						setIsUnlocked(true)
+
+						if (newPublicAddresses) {
+							setPublicAddresses(newPublicAddresses)
+						}
+					} else {
+						setIsUnlocked(false)
 					}
 					break
 			}
 		} catch (error) {
 			// eslint-disable-next-line no-console
 			console.error(error)
-			window.location.reload()
 		}
+	}
+
+	const init = async () => {
+		const release = await mutex.acquire()
+		await derive()
 		setMessanger(messanger)
+		release()
 	}
 
 	useEffect(() => {
@@ -77,22 +117,14 @@ export const useVault = () => {
 	}, [keystore])
 
 	useEffect(() => {
-		if (seed) {
-			selectAccount(accountIndex, null, seed)
-		}
-	}, [seed])
+		messanger.sendActionMessageFromPopup(PING, null)
+	}, [time])
 
 	useEffect(() => {
-		const load = async () => {
-			try {
-				await messanger.sendActionMessageFromPopup(GET, null) // extend session
-			} catch (error) {
-				// eslint-disable-next-line no-console
-				console.error(error)
-				window.location.reload()
-			}
-		}
+		derive()
+	}, [accountIndex])
 
-		load()
-	}, [networkIndex, accountIndex, time])
+	useEffect(() => {
+		derive(network, publicAddresses)
+	}, [networkIndex])
 }

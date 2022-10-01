@@ -12,7 +12,7 @@ import { Dialog, DialogTrigger, DialogContent } from 'ui/src/components/dialog'
 import { HoverCard, HoverCardContent, HoverCardTrigger } from 'ui/src/components/hover-card'
 import { BuiltTransactionReadyToSign } from '@radixdlt/application'
 import { useTransaction } from '@src/hooks/use-transaction'
-import { useSharedStore, useStore } from '@src/store'
+import { useSharedStore, useAccountStore } from '@src/hooks/use-store'
 import { formatBigNumber } from '@src/utils/formatters'
 import { getShortAddress } from '@src/utils/string-utils'
 import Button from 'ui/src/components/button'
@@ -49,6 +49,7 @@ interface IProps {
 	transaction: BuiltTransactionReadyToSign
 	onConfirmSend: () => void
 	slippage: number
+	priceImpact: number
 	minimum: boolean
 	disabledButton: boolean
 	swapResponse: any
@@ -71,6 +72,7 @@ export const SwapModal: React.FC<IProps> = ({
 	onConfirmSend,
 	minimum,
 	slippage,
+	priceImpact,
 	disabledButton,
 	swapResponse,
 }) => {
@@ -80,8 +82,9 @@ export const SwapModal: React.FC<IProps> = ({
 	const { addressBook } = useSharedStore(state => ({
 		addressBook: state.addressBook,
 	}))
-	const { account, publicAddresses } = useStore(state => ({
-		account: state.account,
+	const { signingKey, address, publicAddresses } = useAccountStore(state => ({
+		signingKey: state.signingKey,
+		address: state.getCurrentAddressAction(),
 		publicAddresses: Object.values(state.publicAddresses),
 	}))
 	const [state, setState] = useImmer<ImmerProps>({
@@ -92,7 +95,6 @@ export const SwapModal: React.FC<IProps> = ({
 		isModalOpen: false,
 	})
 
-	const address = account?.address?.toString()
 	const entry = addressBook[address] || publicAddresses.find(_account => _account.address === address)
 	const shortAddress = getShortAddress(address)
 
@@ -114,7 +116,7 @@ export const SwapModal: React.FC<IProps> = ({
 	}
 
 	const handleConfirmSend = async () => {
-		if (!account) return
+		if (!signingKey) return
 
 		setState(draft => {
 			draft.isSendingAlertOpen = true
@@ -224,16 +226,20 @@ export const SwapModal: React.FC<IProps> = ({
 										statSubTitle={`From: ${shortAddress} (${balance}${fromToken?.symbol.toUpperCase()})`}
 										statTitle={entry?.name || ''}
 									/>
-									{pool && <InfoStatBlock image={pool.image} statSubTitle="Pool:" statTitle={pool.name} />}
+									{pool && (
+										<InfoStatBlock image={pool.image} statSubTitle="Pool:" statTitle={pool.name} css={{ mt: '10px' }} />
+									)}
 									<InfoStatBlock
-										image={fromToken?.image || fromToken?.iconURL}
+										image={fromToken?.image}
 										statSubTitle="You pay:"
 										statTitle={`${formatBigNumber(amount)} ${fromToken?.symbol.toUpperCase()}`}
+										css={{ mt: '10px' }}
 									/>
 									<InfoStatBlock
-										image={toToken?.image || toToken?.iconURL}
+										image={toToken?.image}
 										statSubTitle="You receive:"
 										statTitle={`${formatBigNumber(receive)} ${toToken?.symbol.toUpperCase()}`}
+										css={{ mt: '10px' }}
 									/>
 									<FeeBox
 										isConfirmFeeBox
@@ -247,7 +253,8 @@ export const SwapModal: React.FC<IProps> = ({
 										pool={pool}
 										minimum={minimum}
 										slippage={slippage}
-										css={{ mt: '12px' }}
+										priceImpact={priceImpact}
+										css={{ mt: '10px' }}
 									/>
 									<Box css={{ mt: '$1', display: 'none' }}>
 										<HoverCard>
@@ -326,7 +333,7 @@ export const SwapModal: React.FC<IProps> = ({
 												aria-label="confirm send token"
 												css={{ px: '0', flex: '1', ml: '$1' }}
 												onClick={handleConfirmSend}
-												disabled={!account}
+												disabled={!signingKey}
 												fullWidth
 											>
 												Confirm swap

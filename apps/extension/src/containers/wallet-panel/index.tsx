@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 import { useLocation } from 'wouter'
-import { useSharedStore } from '@src/store'
+import { useAccountStore, useSharedStore } from '@src/hooks/use-store'
 import { LockedPanel } from '@src/components/locked-panel'
 import { AnimatePresence, motion } from 'framer-motion'
 import { Z3usMenu } from '@src/components/z3us-menu'
@@ -47,10 +47,12 @@ const pageStyle = {
 
 export const WalletPanel = (): JSX.Element => {
 	const [location] = useLocation()
-	const { isUnlocked, activeApp, keystores } = useSharedStore(state => ({
+	const { activeApp, keystores } = useSharedStore(state => ({
 		activeApp: state.activeApp,
 		keystores: state.keystores,
-		isUnlocked: Boolean(state.masterSeed || state.isHardwareWallet),
+	}))
+	const { isUnlocked } = useAccountStore(state => ({
+		isUnlocked: state.isUnlocked,
 	}))
 	const [page, direction] = activeApp
 	const routes = Object.values(routesInfo)

@@ -1,7 +1,7 @@
 import React from 'react'
 import { useQueryClient } from 'react-query'
 import { useImmer } from 'use-immer'
-import { useSharedStore, useStore } from '@src/store'
+import { useSharedStore, useAccountStore } from '@src/hooks/use-store'
 import { PageHeading, PageSubHeading, PageWrapper } from '@src/components/layout'
 import { ScrollArea } from 'ui/src/components/scroll-area'
 import { useLocation } from 'wouter'
@@ -45,9 +45,7 @@ export const CreateTokenModal: React.FC<IProps> = ({ trigger }) => {
 	const [, setLocation] = useLocation()
 	const queryClient = useQueryClient()
 
-	const { hw, seed, addToast } = useSharedStore(state => ({
-		hw: state.hardwareWallet,
-		seed: state.masterSeed,
+	const { addToast } = useSharedStore(state => ({
 		addToast: state.addToastAction,
 	}))
 
@@ -55,9 +53,9 @@ export const CreateTokenModal: React.FC<IProps> = ({ trigger }) => {
 	const derive = useTokenDerive()
 	const { signTransaction, submitTransaction } = useTransaction()
 
-	const { selectAccount, account, accountAddress } = useStore(state => ({
+	const { selectAccount, signingKey, accountAddress } = useAccountStore(state => ({
 		selectAccount: state.selectAccountAction,
-		account: state.account,
+		signingKey: state.signingKey,
 		accountAddress: state.getCurrentAddressAction(),
 	}))
 
@@ -79,7 +77,7 @@ export const CreateTokenModal: React.FC<IProps> = ({ trigger }) => {
 	const shortAddress = getShortAddress(accountAddress)
 
 	const handleAccountChange = async (accountIndex: number) => {
-		await selectAccount(accountIndex, hw, seed)
+		await selectAccount(accountIndex)
 	}
 
 	const handleOnClick = () => {
@@ -149,7 +147,7 @@ export const CreateTokenModal: React.FC<IProps> = ({ trigger }) => {
 	}
 
 	const handleConfirm = async () => {
-		if (!account) return
+		if (!signingKey) return
 		setState(draft => {
 			draft.isLoading = true
 		})
@@ -261,7 +259,7 @@ export const CreateTokenModal: React.FC<IProps> = ({ trigger }) => {
 												aria-label="confirm"
 												css={{ px: '0', flex: '1' }}
 												onClick={handleConfirm}
-												disabled={!account}
+												disabled={!signingKey}
 												loading={state.isLoading}
 											>
 												Confirm

@@ -1,5 +1,5 @@
 import React from 'react'
-import { useSharedStore } from '@src/store'
+import { useSharedStore } from '@src/hooks/use-store'
 import { useImmer } from 'use-immer'
 import { useEventListener } from 'usehooks-ts'
 import { onBoardingSteps } from '@src/store/onboarding'
@@ -18,10 +18,10 @@ interface ImmerT {
 }
 
 export const CreatePassword = (): JSX.Element => {
-	const { setPassword, setOnboradingStep, isRestoreWorkflow } = useSharedStore(state => ({
+	const { workflowEntryStep, setPassword, setOnboradingStep } = useSharedStore(state => ({
+		workflowEntryStep: state.workflowEntryStep,
 		setPassword: state.setPasswordAction,
 		setOnboradingStep: state.setOnboardingStepAction,
-		isRestoreWorkflow: state.isRestoreWorkflow,
 	}))
 
 	const [state, setState] = useImmer<ImmerT>({
@@ -136,7 +136,7 @@ export const CreatePassword = (): JSX.Element => {
 				</Flex>
 				<Flex justify="center" align="center" css={{ height: '48px', ta: 'center', mt: '$2', width: '100%' }}>
 					<Text medium size="3" color="muted">
-						{isRestoreWorkflow ? 'Step 3 of 4 ' : 'Step 2 of 3'}
+						{workflowEntryStep !== onBoardingSteps.GENERATE_PHRASE ? 'Step 3 of 4 ' : 'Step 2 of 3'}
 					</Text>
 				</Flex>
 			</form>

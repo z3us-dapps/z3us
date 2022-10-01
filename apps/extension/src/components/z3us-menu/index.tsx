@@ -1,6 +1,6 @@
 import React, { useRef } from 'react'
 import { useLocation, useRoute } from 'wouter'
-import { useSharedStore, useStore } from '@src/store'
+import { useSharedStore, useAccountStore } from '@src/hooks/use-store'
 import { useImmer } from 'use-immer'
 import Button from 'ui/src/components/button'
 import { Z3usIcon, TrashIcon, HardwareWalletIcon } from 'ui/src/components/icons'
@@ -27,7 +27,7 @@ import {
 	DropdownMenuRightSlot,
 	DropdownMenuTriggerItem,
 } from 'ui/src/components/drop-down-menu'
-import { KeystoreType } from '@src/store/types'
+import { KeystoreType } from '@src/types'
 
 interface ImmerT {
 	isOpen: boolean
@@ -44,7 +44,7 @@ export const Z3usMenu: React.FC = () => {
 	const [isDepositRouteRri] = useRoute('/wallet/account/deposit/:rri')
 	const [isActivityRoute] = useRoute('/wallet/account/activity')
 	const [isSwapRoute] = useRoute('/wallet/swap/review')
-	const { keystores, keystoreId, selectKeystore, removeKeystore, changeKeystoreName, removeWallet, lock, isUnlocked } =
+	const { keystores, keystoreId, selectKeystore, removeKeystore, changeKeystoreName, removeWallet, lock } =
 		useSharedStore(state => ({
 			keystores: state.keystores,
 			keystoreId: state.selectKeystoreId,
@@ -54,10 +54,11 @@ export const Z3usMenu: React.FC = () => {
 			changeKeystoreName: state.changeKeystoreNameAction,
 			lock: state.lockAction,
 			removeWallet: state.removeWalletAction,
-			isUnlocked: Boolean(state.masterSeed || state.isHardwareWallet),
 		}))
-	const { reset } = useStore(state => ({
+	const { reset, isUnlocked, setIsUnlocked } = useAccountStore(state => ({
 		reset: state.resetAction,
+		isUnlocked: state.isUnlocked,
+		setIsUnlocked: state.setIsUnlockedAction,
 	}))
 	const walletInputRef = useRef(null)
 	const [state, setState] = useImmer<ImmerT>({
@@ -70,6 +71,7 @@ export const Z3usMenu: React.FC = () => {
 		isSendRoute || isSendRouteRri || isDepositRoute || isDepositRouteRri || isActivityRoute || isSwapRoute
 
 	const handleLockWallet = async () => {
+		setIsUnlocked(false)
 		await lock()
 	}
 

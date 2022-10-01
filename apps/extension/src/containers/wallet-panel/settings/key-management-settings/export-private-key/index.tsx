@@ -1,6 +1,7 @@
 import React from 'react'
+import HDNode from 'hdkey'
 import { useImmer } from 'use-immer'
-import { useSharedStore } from '@src/store'
+import { useSharedStore } from '@src/hooks/use-store'
 import { Box, Flex, Text } from 'ui/src/components/atoms'
 import { copyTextToClipboard } from '@src/utils/copy-to-clipboard'
 import { CopyIcon } from '@radix-ui/react-icons'
@@ -17,23 +18,24 @@ import {
 	AlertDialogAction,
 	AlertDialogCancel,
 } from 'ui/src/components/alert-dialog'
-import { UNLOCK } from '@src/lib/actions'
+import { GET } from '@src/lib/v1/actions'
 
 interface ImmerT {
 	password: string
+	privateExtendedKey: string
 	showError: boolean
 	errorMessage: string
 	showPrivateKey: boolean
 }
 
 export const ExportPrivateKey: React.FC = () => {
-	const { seed, messanger } = useSharedStore(state => ({
+	const { messanger } = useSharedStore(state => ({
 		messanger: state.messanger,
-		seed: state.masterSeed,
 	}))
 
 	const [state, setState] = useImmer<ImmerT>({
 		password: '',
+		privateExtendedKey: '',
 		showError: false,
 		errorMessage: '',
 		showPrivateKey: false,
@@ -41,15 +43,18 @@ export const ExportPrivateKey: React.FC = () => {
 
 	const handleShowPrivateKey = async () => {
 		try {
-			await messanger.sendActionMessageFromPopup(UNLOCK, state.password)
+			const { hdMasterNode } = await messanger.sendActionMessageFromPopup(GET, { password: state.password })
+			const hdkey = HDNode.fromJSON(hdMasterNode)
 
 			setState(draft => {
+				draft.privateExtendedKey = hdkey.privateExtendedKey.toString()
 				draft.showPrivateKey = true
 				draft.showError = false
 				draft.errorMessage = ''
 			})
 		} catch (error) {
 			setState(draft => {
+				draft.privateExtendedKey = ''
 				draft.showPrivateKey = false
 				draft.showError = true
 				draft.errorMessage = 'Invalid password'
@@ -58,7 +63,7 @@ export const ExportPrivateKey: React.FC = () => {
 	}
 
 	const handleCopyMnemomic = () => {
-		copyTextToClipboard(seed.masterNode().privateKey.toString())
+		copyTextToClipboard(state.privateExtendedKey)
 	}
 
 	const handleCancel = () => {
@@ -106,7 +111,7 @@ export const ExportPrivateKey: React.FC = () => {
 								}}
 							>
 								<Flex css={{ overflow: 'hidden', flexWrap: 'wrap' }}>
-									<Text size="4">{seed.masterNode().privateKey.toString()}</Text>
+									<Text size="4">{state.privateExtendedKey}</Text>
 								</Flex>
 								<ButtonTipFeedback tooltip="Copy phrase">
 									<Button

@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react'
 import { useImmer } from 'use-immer'
 import { useAllAccountsValue } from '@src/hooks/react-query/queries/account'
-import { useSharedStore, useStore } from '@src/store'
+import { useSharedStore, useAccountStore } from '@src/hooks/use-store'
 import { Flex, Box, Text } from 'ui/src/components/atoms'
 import PriceTicker from 'ui/src/components/price-ticker'
 import { formatBigNumber } from '@src/utils/formatters'
@@ -16,7 +16,7 @@ export const AccountsTotal = (): JSX.Element => {
 	const { currency } = useSharedStore(state => ({
 		currency: state.currency,
 	}))
-	const { activeSlideIndex } = useStore(state => ({
+	const { activeSlideIndex } = useAccountStore(state => ({
 		activeSlideIndex: state.activeSlideIndex,
 	}))
 	const { isLoading, value, change } = useAllAccountsValue()

@@ -2,10 +2,10 @@ import React from 'react'
 import { Box, Flex, Text, StyledLink, Image } from 'ui/src/components/atoms'
 import Button from 'ui/src/components/button'
 import { PageWrapper, PageHeading, PageSubHeading } from '@src/components/layout'
-import { useSharedStore, useStore } from '@src/store'
+import { useSharedStore, useAccountStore } from '@src/hooks/use-store'
 import { useRoute } from 'wouter'
 import { hexToJSON } from '@src/utils/encoding'
-import { CONFIRM } from '@src/lib/actions'
+import { CONFIRM } from '@src/lib/v1/actions'
 import { HardwareWalletReconnect } from '@src/components/hardware-wallet-reconnect'
 import { useMessage } from '@src/hooks/use-message'
 
@@ -17,8 +17,8 @@ export const Decrypt = (): JSX.Element => {
 		sendResponse: state.sendResponseAction,
 	}))
 
-	const { account, action } = useStore(state => ({
-		account: state.account,
+	const { signingKey, action } = useAccountStore(state => ({
+		signingKey: state.signingKey,
 		action:
 			state.pendingActions[id] && state.pendingActions[id].payloadHex
 				? hexToJSON(state.pendingActions[id].payloadHex)
@@ -38,7 +38,7 @@ export const Decrypt = (): JSX.Element => {
 	}
 
 	const handleConfirm = async () => {
-		if (!account) return
+		if (!signingKey) return
 		const decrypted = await decryptMessage(fromAddress, message)
 		sendResponse(CONFIRM, {
 			id,
@@ -92,7 +92,7 @@ export const Decrypt = (): JSX.Element => {
 				</Button>
 				<Button
 					onClick={handleConfirm}
-					disabled={!account}
+					disabled={!signingKey}
 					size="6"
 					color="primary"
 					aria-label="confirm decrypt wallet"

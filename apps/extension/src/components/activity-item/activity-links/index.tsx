@@ -1,5 +1,5 @@
 import React from 'react'
-import { useSharedStore, useStore } from '@src/store'
+import { useSharedStore, useAccountStore } from '@src/hooks/use-store'
 import { Message } from '@radixdlt/crypto'
 import { CopyIcon, ExternalLinkIcon } from '@radix-ui/react-icons'
 import { Text, Box, Flex } from 'ui/src/components/atoms'
@@ -29,7 +29,7 @@ export const ActivityLinks: React.FC<IProps> = ({ accountAddress, tx, activity }
 		addressBook: state.addressBook,
 	}))
 
-	const { publicAddresses } = useStore(state => ({
+	const { publicAddresses } = useAccountStore(state => ({
 		publicAddresses: Object.values(state.publicAddresses),
 	}))
 

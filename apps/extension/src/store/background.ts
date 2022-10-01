@@ -1,4 +1,3 @@
-import { GetState, SetState } from 'zustand'
 import { MessageService } from '@src/services/messanger'
 import {
 	HAS,
@@ -12,14 +11,13 @@ import {
 	AUTH_VERIFY_REGISTRATION,
 	AUTH_AUTHENTICATION_OPTIONS,
 	AUTH_VERIFY_AUTHENTICATION,
-} from '@src/lib/actions'
-import { HDMasterSeed } from '@radixdlt/crypto'
+} from '@src/lib/v1/actions'
 import { startRegistration, startAuthentication } from '@simplewebauthn/browser'
-import { BackgroundStore, SharedStore } from './types'
+import { BackgroundState } from './types'
 
 export const rpName = 'Z3US'
 
-export const factory = (set: SetState<SharedStore>, get: GetState<SharedStore>): BackgroundStore => ({
+export const factory = (set, get): BackgroundState => ({
 	messanger: null,
 
 	setMessangerAction: (messanger: MessageService) => {
@@ -45,27 +43,25 @@ export const factory = (set: SetState<SharedStore>, get: GetState<SharedStore>):
 		return !!hasKeystore
 	},
 
-	createWalletAction: async (words: string[], password: string) => {
+	createWalletAction: (type: 'mnemonic' | 'key', secret: string, password: string, index: number) => {
 		const { messanger } = get()
 		if (!messanger) {
 			throw new Error('Messanger not initialized!')
 		}
-		const { seed } = await messanger.sendActionMessageFromPopup(NEW, {
-			words,
+		return messanger.sendActionMessageFromPopup(NEW, {
+			type,
+			secret,
 			password,
+			index,
 		})
-
-		return HDMasterSeed.fromSeed(Buffer.from(seed, 'hex'))
 	},
 
-	unlockWalletAction: async (password: string) => {
+	unlockWalletAction: (password: string, index: number) => {
 		const { messanger } = get()
 		if (!messanger) {
 			throw new Error('Messanger not initialized!')
 		}
-		const { seed } = await messanger.sendActionMessageFromPopup(UNLOCK, password)
-
-		return HDMasterSeed.fromSeed(Buffer.from(seed, 'hex'))
+		return messanger.sendActionMessageFromPopup(UNLOCK, { index, password })
 	},
 
 	removeWalletAction: async () => {
@@ -82,11 +78,6 @@ export const factory = (set: SetState<SharedStore>, get: GetState<SharedStore>):
 			throw new Error('Messanger not initialized!')
 		}
 		await messanger.sendActionMessageFromPopup(LOCK, null)
-		set(state => {
-			state.isHardwareWallet = false
-			state.hardwareWallet = null
-			state.masterSeed = null
-		})
 	},
 
 	hasAuthAction: async () => {

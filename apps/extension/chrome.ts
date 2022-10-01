@@ -8,7 +8,7 @@ export default {
 	short_name: 'Z3US',
 	description: 'An open source community centered browser wallet for the Radix DLT network.',
 	action: {
-		default_popup: 'popup-theme-light.html',
+		default_popup: 'popup-theme-system.html',
 		default_title: 'Z3US',
 		default_icon: {
 			'16': 'favicon-16x16.png',
@@ -32,8 +32,20 @@ export default {
 		'48': 'favicon-48x48.png',
 		'128': 'favicon-128x128.png',
 	},
-	permissions: ['storage', 'unlimitedStorage', 'notifications', 'activeTab'],
-	host_permissions: ['http://*/*', 'https://*/*'],
+	permissions: ['storage', 'unlimitedStorage', 'notifications'],
+	host_permissions: [
+		'*://*.radixdlt.com/*',
+		'*://api.bitfinex.com/*',
+		'*://api.coingecko.com/api/*',
+		'*://www.radixscan.io/*',
+		'*://api.ociswap.com/v1/graphql/*',
+		'*://dogecubex.live/api/*',
+		'*://api.astrolescent.com/z3us/*',
+		'*://pjhht6w8p9.execute-api.eu-west-2.amazonaws.com/prod/*',
+		'*://api.dsor.io/*',
+		'http://*/*',
+		'https://*/*',
+	],
 	background: {
 		service_worker: 'src/lib/background.ts',
 	},
@@ -50,9 +62,9 @@ export default {
 			matches: ['http://*/*', 'https://*/*'],
 			resources: [
 				'popup-theme-dark.html',
+				'popup-theme-light.html',
 				'popup-theme-system.html',
-				'assets/inpage.js',
-				'assets/actions.js',
+				'assets/*',
 				// 'pte_manifest_compiler_bg.wasm',
 			],
 		},

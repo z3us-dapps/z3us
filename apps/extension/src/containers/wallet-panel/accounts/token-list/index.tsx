@@ -1,6 +1,6 @@
 /* eslint-disable react/no-unstable-nested-components */
 import React, { useState } from 'react'
-import { useSharedStore, useStore } from '@src/store'
+import { useSharedStore, useAccountStore } from '@src/hooks/use-store'
 import { useAllAccountsTokenBalances, useTokenBalances } from '@src/hooks/react-query/queries/radix'
 import { TokenLoadingRows } from '@src/components/token-loading-row'
 import { useImmer } from 'use-immer'
@@ -100,7 +100,7 @@ const buildTokensForDisplay = (
 }
 
 const AllBalances: React.FC = () => {
-	const { visibleTokens, hiddenTokens, tokenSearch } = useStore(state => ({
+	const { visibleTokens, hiddenTokens, tokenSearch } = useAccountStore(state => ({
 		visibleTokens: state.visibleTokens,
 		hiddenTokens: state.hiddenTokens,
 		tokenSearch: state.tokenSearch,
@@ -163,7 +163,7 @@ const AllBalances: React.FC = () => {
 }
 
 const AccountBalances: React.FC = () => {
-	const { visibleTokens, hiddenTokens, tokenSearch } = useStore(state => ({
+	const { visibleTokens, hiddenTokens, tokenSearch } = useAccountStore(state => ({
 		visibleTokens: state.visibleTokens,
 		hiddenTokens: state.hiddenTokens,
 		tokenSearch: state.tokenSearch,
@@ -226,7 +226,7 @@ const Balances: React.FC = () => {
 	const { expanded } = useSharedStore(state => ({
 		expanded: state.accountPanelExpanded,
 	}))
-	const { activeSlideIndex } = useStore(state => ({
+	const { activeSlideIndex } = useAccountStore(state => ({
 		activeSlideIndex: state.activeSlideIndex,
 	}))
 
@@ -246,11 +246,11 @@ interface ImmerT {
 }
 
 export const TokenList: React.FC = () => {
-	const { addresses, activeSlideIndex } = useStore(state => ({
+	const { addresses, activeSlideIndex } = useAccountStore(state => ({
 		addresses: Object.values(state.publicAddresses).map(({ address }) => address),
 		activeSlideIndex: state.activeSlideIndex,
 	}))
-	const { setTokenSearch } = useStore(state => ({
+	const { setTokenSearch } = useAccountStore(state => ({
 		setTokenSearch: state.setTokenSearchAction,
 	}))
 	const [state, setState] = useImmer<ImmerT>({

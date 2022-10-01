@@ -1,5 +1,5 @@
 import React from 'react'
-import { useSharedStore } from '@src/store'
+import { useSharedStore } from '@src/hooks/use-store'
 import { useSupportedCurrencies } from '@src/hooks/react-query/queries/market'
 import { SelectBox } from 'ui/src/components/select'
 

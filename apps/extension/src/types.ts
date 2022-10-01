@@ -5,7 +5,13 @@ import {
 	IntendedTransferTokensAction,
 	IntendedStakeTokensAction,
 	IntendedUnstakeTokensAction,
+	PublicKeyT,
+	SigningKeyDecryptionInput,
+	SigningKeyEncryptionInput,
+	BuiltTransactionReadyToSign,
+	SignatureT,
 } from '@radixdlt/application'
+import { HardwareWalletT } from '@radixdlt/hardware-wallet'
 import {
 	BurnTokens,
 	CreateTokenDefinition,
@@ -14,6 +20,30 @@ import {
 	TransferTokens,
 	UnstakeTokens,
 } from '@radixdlt/networking'
+import BigNumber from 'bignumber.js'
+import { generateId } from './utils/generate-id'
+
+export enum KeystoreType {
+	LOCAL = 'local',
+	HARDWARE = 'hardware',
+}
+
+export type Keystore = {
+	id: string
+	name: string
+	type: KeystoreType
+}
+
+export type SigningKey = {
+	id: string
+	type: KeystoreType
+	publicKey: PublicKeyT
+	hw?: HardwareWalletT
+	decrypt: (input: SigningKeyDecryptionInput) => Promise<string>
+	encrypt: (input: SigningKeyEncryptionInput) => Promise<string>
+	sign: (tx: BuiltTransactionReadyToSign, nonXrdHRP?: string) => Promise<SignatureT>
+	signHash: (hashedMessage: Buffer) => Promise<SignatureT>
+}
 
 export interface Ticker {
 	asset: string
@@ -119,7 +149,6 @@ export type Token = {
 	isSupplyMutable: boolean
 	currentSupply: string
 	tokenInfoURL: string
-	iconURL?: string
 	image?: string
 	order: number
 }
@@ -196,13 +225,54 @@ export enum PoolType {
 	DOGECUBEX = 'dogecubex',
 	ASTROLESCENT = 'astrolescent',
 	DSOR = 'dsor',
+	UNKNOWN = '',
 }
 
-export type Pool = {
+interface IPool {
 	type: PoolType
 	url: string
 	image: string
 	name: string
-	wallet: string
+	wallet?: string
 	balances?: { [rri: string]: number }
+	quote?: PoolQuote
+	costRatio?: BigNumber
+	supportsSlippage: boolean
+}
+
+export class Pool implements IPool {
+	public readonly id: string = ''
+
+	public type: PoolType = PoolType.UNKNOWN
+
+	public url: string = ''
+
+	public image: string = ''
+
+	public name: string = ''
+
+	public wallet: string = ''
+
+	public balances = undefined
+
+	public quote = undefined
+
+	public costRatio = undefined
+
+	public supportsSlippage = false
+
+	constructor(settings: IPool) {
+		Object.entries(settings).forEach(([key, value]) => {
+			this[key] = value
+		})
+		this.id = generateId()
+	}
+}
+
+export type PoolQuote = {
+	amount: BigNumber
+	receive: BigNumber
+	fee: BigNumber
+	priceImpact: number
+	fullReceive?: BigNumber
 }

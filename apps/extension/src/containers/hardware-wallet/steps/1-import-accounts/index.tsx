@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import { firstValueFrom } from 'rxjs'
 import TransportWebHID from '@ledgerhq/hw-transport-webhid'
 import AlertCard from 'ui/src/components/alert-card'
@@ -7,7 +7,7 @@ import { useEventListener } from 'usehooks-ts'
 import { AccountAddress, SigningKey } from '@radixdlt/application'
 import { HDPathRadix } from '@radixdlt/crypto'
 import { useImmer } from 'use-immer'
-import { useSharedStore, useStore } from '@src/store'
+import { useSharedStore, useAccountStore } from '@src/hooks/use-store'
 import { CopyIcon, ReloadIcon, ExclamationTriangleIcon } from '@radix-ui/react-icons'
 import { ScrollArea } from 'ui/src/components/scroll-area'
 import { copyTextToClipboard } from '@src/utils/copy-to-clipboard'
@@ -19,8 +19,6 @@ import InputFeedBack from 'ui/src/components/input/input-feedback'
 import { PageWrapper, PageHeading, PageSubHeading } from '@src/components/layout'
 import { Flex, Text, Box, MotionBox } from 'ui/src/components/atoms'
 import Button from 'ui/src/components/button'
-import { generateId } from '@src/utils/generate-id'
-import { KeystoreType } from '@src/store/types'
 import { useAPDU } from '@src/hooks/use-apdu'
 
 const isHIDSupported = !!window?.navigator?.hid
@@ -36,16 +34,12 @@ interface ImmerT {
 
 export const ImportAccounts = (): JSX.Element => {
 	const sendAPDU = useAPDU()
-	const { keystore, setStep, lock, addKeystore } = useSharedStore(state => ({
-		keystore: state.keystores.find(({ id }) => id === state.selectKeystoreId),
+	const { setStep, setImportingAddresses } = useSharedStore(state => ({
 		setStep: state.setConnectHardwareWalletStepAction,
-		lock: state.lockAction,
-		addKeystore: state.addKeystoreAction,
+		setImportingAddresses: state.setImportingAddressesAction,
 	}))
-	const { publicAddresses, network, setPublicAddresses } = useStore(state => ({
-		publicAddresses: state.publicAddresses,
+	const { network } = useAccountStore(state => ({
 		network: state.networks[state.selectedNetworkIndex],
-		setPublicAddresses: state.setPublicAddressesAction,
 	}))
 
 	const [state, setState] = useImmer<ImmerT>({
@@ -56,24 +50,6 @@ export const ImportAccounts = (): JSX.Element => {
 		isDerivingAccounts: false,
 		errorMessage: '',
 	})
-
-	const createKeystore = async () => {
-		if (!isHIDSupported) {
-			return
-		}
-
-		if (keystore && keystore.type === KeystoreType.HARDWARE && Object.keys(publicAddresses).length === 0) {
-			return
-		}
-
-		const id = generateId()
-		addKeystore(id, id, KeystoreType.HARDWARE)
-		await lock() // clear background memory
-	}
-
-	useEffect(() => {
-		createKeystore()
-	}, [])
 
 	const selectedAmount = Object.keys(state.selectedIndexes).filter(idx => state.selectedIndexes?.[idx])?.length
 
@@ -111,7 +87,7 @@ export const ImportAccounts = (): JSX.Element => {
 				addresses.push(address.toString())
 			}
 
-			const selectedIndexes = Object.fromEntries(Object.entries(publicAddresses).map(([k]) => [k, true]))
+			const selectedIndexes = Object.fromEntries(Object.entries(state.addresses).map(([k]) => [k, true]))
 			const addressMap = {}
 			addresses.forEach((address, index) => {
 				if (selectedIndexes[index]) {
@@ -156,7 +132,7 @@ export const ImportAccounts = (): JSX.Element => {
 		if (!isHIDSupported || selectedAmount <= 0) {
 			return
 		}
-		setPublicAddresses(state.addressMap)
+		setImportingAddresses(state.addressMap)
 		setStep(connectHardwareWalletSteps.COMPLETE)
 	}
 

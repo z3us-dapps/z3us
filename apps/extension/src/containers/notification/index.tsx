@@ -1,5 +1,5 @@
 import React, { useEffect, lazy, Suspense } from 'react'
-import { useSharedStore } from '@src/store'
+import { useAccountStore, useSharedStore } from '@src/hooks/use-store'
 import { useHashLocation } from '@src/hooks/use-hash-location'
 import { AnimatedSwitch } from '@src/components/router-animated-switch'
 import { RouterScope } from '@src/components/router-scope'
@@ -16,9 +16,11 @@ const Sign = lazy(() => import('./sign'))
 const Transaction = lazy(() => import('./transaction'))
 
 export const Notification: React.FC = () => {
-	const { isUnlocked, keystores } = useSharedStore(state => ({
+	const { keystores } = useSharedStore(state => ({
 		keystores: state.keystores,
-		isUnlocked: Boolean(state.masterSeed || state.isHardwareWallet),
+	}))
+	const { isUnlocked } = useAccountStore(state => ({
+		isUnlocked: state.isUnlocked,
 	}))
 
 	useEffect(() => {

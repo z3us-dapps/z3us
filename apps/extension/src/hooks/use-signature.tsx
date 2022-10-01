@@ -1,14 +1,13 @@
 import { useCallback } from 'react'
-import { firstValueFrom } from 'rxjs'
 import { sha256, Signature } from '@radixdlt/application'
-import { useSharedStore, useStore } from '@src/store'
+import { useSharedStore, useAccountStore } from '@src/hooks/use-store'
 
 export const useSignature = () => {
 	const { addConfirmWithHWToast } = useSharedStore(state => ({
 		addConfirmWithHWToast: state.addConfirmWithHWToastAction,
 	}))
-	const { account } = useStore(state => ({
-		account: state.account,
+	const { signingKey } = useAccountStore(state => ({
+		signingKey: state.signingKey,
 	}))
 
 	const sign = useCallback(
@@ -17,10 +16,10 @@ export const useSignature = () => {
 
 			addConfirmWithHWToast()
 
-			const signature = await firstValueFrom(account.signHash(hashedMessage))
+			const signature = await signingKey.signHash(hashedMessage)
 			return signature.toDER()
 		},
-		[account],
+		[signingKey?.id],
 	)
 
 	const verify = useCallback(
@@ -28,12 +27,12 @@ export const useSignature = () => {
 			const signatureResult = Signature.fromDER(signatureDER)
 			if (!signatureResult.isOk()) throw signatureResult.error
 
-			return account.publicKey.isValidSignature({
+			return signingKey.publicKey.isValidSignature({
 				signature: signatureResult.value,
 				hashedMessage: sha256(payload),
 			})
 		},
-		[account],
+		[signingKey?.id],
 	)
 
 	return {

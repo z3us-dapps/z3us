@@ -1,8 +1,7 @@
-import { Network as NetworkID, MnemomicT, AccountT } from '@radixdlt/application'
-import { HDMasterSeedT } from '@radixdlt/crypto'
-import { HardwareWalletT } from '@radixdlt/hardware-wallet'
+import { Network as NetworkID, MnemomicT } from '@radixdlt/application'
 import { MessageService } from '@src/services/messanger'
-import { ColorSettings, VisibleTokens } from '@src/types'
+import { ColorSettings, Keystore, KeystoreType, SigningKey, VisibleTokens } from '@src/types'
+import { String } from '@stitches/react/types/util'
 
 export interface Toast {
 	id?: string
@@ -28,46 +27,42 @@ export type AddressBookEntry = {
 
 export type PendingAction = { payloadHex: string; createdAt: Date }
 
-export enum KeystoreType {
-	LOCAL = 'local',
-	HARDWARE = 'hardware',
-}
-
-export type Keystore = {
-	id: string
-	name: string
-	type: KeystoreType
-}
-
-export type ToastsStore = {
+export type ToastsState = {
 	toasts: Array<Toast>
 	addToastAction: (toast?: Toast) => void
 	removeToastAction: (id: string) => void
 	addConfirmWithHWToastAction: () => void
 }
 
-export type ThemeStore = {
+export type ThemeState = {
 	theme: string
 	setThemeAction: (theme: string) => void
 }
 
-export type OnBoardingStore = {
-	onBoardingStep: string
-	isRestoreWorkflow: boolean
-	mnemonic: MnemomicT | null
-	password: string | null
+export type OnBoardingState = {
+	onBoardingStep: String
+	setOnboardingStepAction: (step: string) => void
+
+	workflowEntryStep: string
+	setWorkflowEntryStepAction: (step: string) => void
 
 	connectHardwareWalletStep: string
-
-	setOnboardingStepAction: (step: string) => void
-	setMnemomicAction: (mnemonic: MnemomicT) => void
-	setPasswordAction: (password: string) => void
-	setIsRestoreWorkflowAction: (restore: boolean) => void
-
 	setConnectHardwareWalletStepAction: (step: string) => void
+
+	mnemonic: MnemomicT | null
+	setMnemomicAction: (mnemonic: MnemomicT) => void
+
+	privateKey: string
+	setPrivateKeyAction: (key: string) => void
+
+	password: string | null
+	setPasswordAction: (password: string) => void
+
+	importingAddresses: { [key: number]: string }
+	setImportingAddressesAction: (addresses: { [key: number]: string }) => void
 }
 
-export type SettingsStore = {
+export type SettingsState = {
 	walletUnlockTimeoutInMinutes: number
 	setWalletUnclokTimeoutInMinutesAction: (timeoutInMinutes: number) => void
 
@@ -88,7 +83,7 @@ export type SettingsStore = {
 	setTransactionNotificationsEnabledAction: (enabled: boolean) => void
 }
 
-export type BackgroundStore = {
+export type BackgroundState = {
 	messanger: MessageService | null
 
 	setMessangerAction: (messanger: MessageService) => void
@@ -97,10 +92,15 @@ export type BackgroundStore = {
 		data: { id: string; host: string; payload: { request: any; value: any } },
 	) => Promise<void>
 	hasKeystoreAction: () => Promise<boolean>
-	createWalletAction: (words: string[], password: string) => Promise<HDMasterSeedT>
-	unlockWalletAction: (password: string) => Promise<HDMasterSeedT>
-	removeWalletAction: () => Promise<void>
+	createWalletAction: (
+		type: 'mnemonic' | 'key',
+		secret: string,
+		password: string,
+		index: number,
+	) => Promise<{ publicKey?: string }>
+	unlockWalletAction: (password: string, index: number) => Promise<{ publicKey?: string }>
 	lockAction: () => Promise<void>
+	removeWalletAction: () => Promise<void>
 
 	// WebAuthn actions
 	hasAuthAction: () => Promise<boolean>
@@ -114,7 +114,7 @@ export type BackgroundStore = {
 	) => Promise<string>
 }
 
-export type KeystoresStore = {
+export type KeystoresState = {
 	selectKeystoreId: string
 	selectKeystoreAction: (id: string) => void
 
@@ -124,24 +124,16 @@ export type KeystoresStore = {
 	changeKeystoreNameAction: (id: string, name: string) => void
 }
 
-export type LocalWalletStore = {
-	masterSeed: HDMasterSeedT | null
-
-	setMasterSeedAction: (seed: HDMasterSeedT) => void
-}
-
-export type HardwareWalletStore = {
-	isHardwareWallet: boolean
-	unlockHardwareWalletAction: () => void
-
-	hardwareWallet: HardwareWalletT | null
-	setHardwareWalletAction: (hw: HardwareWalletT) => void
-}
-
-export type WalletStore = {
-	account: AccountT | null
+export type WalletState = {
 	resetAction: () => void
+
+	isUnlocked: boolean
+	setIsUnlockedAction: (isUnlocked: boolean) => void
+
+	signingKey: SigningKey | null
+	setSigningKeyAction: (signingKey: SigningKey | null) => void
 	getCurrentAddressAction: () => string
+	getAccountTypeAction: () => KeystoreType
 
 	publicAddresses: { [key: number]: AddressBookEntry }
 	setPublicAddressesAction: (addresses: { [key: number]: string }) => void
@@ -150,24 +142,12 @@ export type WalletStore = {
 
 	networks: Network[]
 	selectedNetworkIndex: number
-	selectNetworkAction: (
-		newIndex: number,
-		hardwareWallet: HardwareWalletT | null,
-		masterSeed: HDMasterSeedT | null,
-	) => Promise<void>
+	selectNetworkAction: (newIndex: number) => Promise<void>
 	addNetworkAction: (id: NetworkID, url: URL) => void
 
 	selectedAccountIndex: number
-	selectAccountAction: (
-		newIndex: number,
-		hardwareWallet: HardwareWalletT | null,
-		masterSeed: HDMasterSeedT | null,
-	) => Promise<void>
-	selectAccountForAddressAction: (
-		address: string,
-		hardwareWallet: HardwareWalletT | null,
-		masterSeed: HDMasterSeedT | null,
-	) => Promise<void>
+	selectAccountAction: (newIndex: number) => Promise<void>
+	selectAccountForAddressAction: (address: string) => Promise<void>
 
 	visibleTokens: VisibleTokens
 	hiddenTokens: VisibleTokens
@@ -177,11 +157,7 @@ export type WalletStore = {
 	setTokenSearchAction: (search: string) => void
 
 	activeSlideIndex: number
-	setActiveSlideIndexAction: (
-		newIndex: number,
-		hardwareWallet: HardwareWalletT | null,
-		masterSeed: HDMasterSeedT | null,
-	) => Promise<void>
+	setActiveSlideIndexAction: (newIndex: number) => Promise<void>
 
 	approvedWebsites: {
 		[key: string]: any
@@ -196,15 +172,8 @@ export type WalletStore = {
 	removePendingActionAction: (id: string) => void
 }
 
-export type SharedStore = ThemeStore &
-	ToastsStore &
-	OnBoardingStore &
-	SettingsStore &
-	BackgroundStore &
-	KeystoresStore &
-	LocalWalletStore &
-	HardwareWalletStore
+export type SharedState = ThemeState & ToastsState & OnBoardingState & SettingsState & BackgroundState & KeystoresState
 
-export type AccountStore = WalletStore
+export type AccountState = WalletState
 
-export type AppStore = SharedStore & AccountStore
+export type AppState = SharedState & AccountState

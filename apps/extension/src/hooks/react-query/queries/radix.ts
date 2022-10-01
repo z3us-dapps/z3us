@@ -1,4 +1,4 @@
-import { useStore } from '@src/store'
+import { useAccountStore } from '@src/hooks/use-store'
 import { useQuery, useQueries, useInfiniteQuery } from 'react-query'
 import { RadixService } from '@src/services/radix'
 import BigNumber from 'bignumber.js'
@@ -6,21 +6,21 @@ import { Action, Transaction } from '@src/types'
 import { useMessage } from '@src/hooks/use-message'
 
 export const useGatewayInfo = () => {
-	const network = useStore(state => state.networks[state.selectedNetworkIndex])
+	const network = useAccountStore(state => state.networks[state.selectedNetworkIndex])
 	const service = new RadixService(network.url)
 
 	return useQuery(['useGatewayInfo', network.id], async () => service.gateway())
 }
 
 export const useNativeToken = () => {
-	const network = useStore(state => state.networks[state.selectedNetworkIndex])
+	const network = useAccountStore(state => state.networks[state.selectedNetworkIndex])
 	const service = new RadixService(network.url)
 
 	return useQuery(['useNativeToken', network.id], async () => service.nativeToken(network.id))
 }
 
 export const useTokenInfo = (rri: string) => {
-	const network = useStore(state => state.networks[state.selectedNetworkIndex])
+	const network = useAccountStore(state => state.networks[state.selectedNetworkIndex])
 	const service = new RadixService(network.url)
 
 	return useQuery(['useTokenInfo', network.id, rri], async () => service.tokenInfo(rri), {
@@ -29,7 +29,7 @@ export const useTokenInfo = (rri: string) => {
 }
 
 export const useTokenInfos = (rris: Array<string>) => {
-	const network = useStore(state => state.networks[state.selectedNetworkIndex])
+	const network = useAccountStore(state => state.networks[state.selectedNetworkIndex])
 	const service = new RadixService(network.url)
 
 	const queries = rris.map(rri => ({
@@ -47,7 +47,7 @@ export const useTokenInfos = (rris: Array<string>) => {
 }
 
 export const useTokenBalances = () => {
-	const { address, network } = useStore(state => ({
+	const { address, network } = useAccountStore(state => ({
 		address: state.getCurrentAddressAction(),
 		network: state.networks[state.selectedNetworkIndex],
 	}))
@@ -73,7 +73,7 @@ export const useAllAccountsTokenBalances = (): {
 	}
 	staked: BigNumber
 } => {
-	const { addresses, network } = useStore(state => ({
+	const { addresses, network } = useAccountStore(state => ({
 		addresses: Object.values(state.publicAddresses).map(({ address }) => address),
 		network: state.networks[state.selectedNetworkIndex],
 	}))
@@ -123,7 +123,7 @@ export const useAllAccountsTokenBalances = (): {
 }
 
 export const useStakedPositions = () => {
-	const { address, network } = useStore(state => ({
+	const { address, network } = useAccountStore(state => ({
 		address: state.getCurrentAddressAction(),
 		network: state.networks[state.selectedNetworkIndex],
 	}))
@@ -135,7 +135,7 @@ export const useStakedPositions = () => {
 }
 
 export const useUnstakePositions = () => {
-	const { address, network } = useStore(state => ({
+	const { address, network } = useAccountStore(state => ({
 		address: state.getCurrentAddressAction(),
 		network: state.networks[state.selectedNetworkIndex],
 	}))
@@ -147,7 +147,7 @@ export const useUnstakePositions = () => {
 }
 
 export const useTotalDelegatedStake = () => {
-	const network = useStore(state => state.networks[state.selectedNetworkIndex])
+	const network = useAccountStore(state => state.networks[state.selectedNetworkIndex])
 	const service = new RadixService(network.url)
 
 	return useQuery(['useTotalDelegatedStake', network.id], async () => {
@@ -167,14 +167,14 @@ export const useTotalDelegatedStake = () => {
 }
 
 export const useValidators = () => {
-	const network = useStore(state => state.networks[state.selectedNetworkIndex])
+	const network = useAccountStore(state => state.networks[state.selectedNetworkIndex])
 	const service = new RadixService(network.url)
 
 	return useQuery(['useValidators', network.id], async () => service.validators(network.id))
 }
 
 export const useLookupValidator = (validatorAddress: string) => {
-	const network = useStore(state => state.networks[state.selectedNetworkIndex])
+	const network = useAccountStore(state => state.networks[state.selectedNetworkIndex])
 	const service = new RadixService(network.url)
 
 	return useQuery(['useLookupValidator', validatorAddress], async () => service.lookupValidator(validatorAddress), {
@@ -183,7 +183,7 @@ export const useLookupValidator = (validatorAddress: string) => {
 }
 
 export const useTransactionStatus = (txID: string) => {
-	const network = useStore(state => state.networks[state.selectedNetworkIndex])
+	const network = useAccountStore(state => state.networks[state.selectedNetworkIndex])
 	const service = new RadixService(network.url)
 
 	return useQuery(['useTransactionStatus', network.id, txID], async () => service.transactionStatus(network.id, txID), {
@@ -195,7 +195,7 @@ export const useTransactionHistory = (size = 30) => {
 	const maxLimit = 30
 	size = Math.min(size, maxLimit)
 
-	const { address, network } = useStore(state => ({
+	const { address, network } = useAccountStore(state => ({
 		address: state.getCurrentAddressAction(),
 		network: state.networks[state.selectedNetworkIndex],
 	}))
@@ -221,10 +221,10 @@ export const useTransactionHistory = (size = 30) => {
 }
 
 export const useDecryptTransaction = (tx: Transaction, activity?: Action) => {
-	const { account } = useStore(state => ({
-		account: state.account,
+	const { signingKey, address } = useAccountStore(state => ({
+		signingKey: state.signingKey,
+		address: state.getCurrentAddressAction(),
 	}))
-	const address = account?.address.toString()
 	const { decryptMessage } = useMessage()
 
 	return useQuery(
@@ -236,7 +236,7 @@ export const useDecryptTransaction = (tx: Transaction, activity?: Action) => {
 			return decryptMessage(activity.from_account, tx.message)
 		},
 		{
-			enabled: !!activity && !!account,
+			enabled: !!activity && !!signingKey,
 		},
 	)
 }

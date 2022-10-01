@@ -1,7 +1,7 @@
 /* eslint-disable react/no-array-index-key */
 import React from 'react'
 import { useLocation, useRoute } from 'wouter'
-import { useSharedStore, useStore } from '@src/store'
+import { useSharedStore, useAccountStore } from '@src/hooks/use-store'
 import { getShortAddress } from '@src/utils/string-utils'
 import Button from 'ui/src/components/button'
 import { CopyIcon } from '@radix-ui/react-icons'
@@ -11,13 +11,11 @@ import { Box, Flex, Text } from 'ui/src/components/atoms'
 import { ACCOUNTS } from '@src/config'
 
 export const AccountNaviation: React.FC = () => {
-	const { hw, seed, activeApp, expanded } = useSharedStore(state => ({
-		hw: state.hardwareWallet,
-		seed: state.masterSeed,
+	const { activeApp, expanded } = useSharedStore(state => ({
 		activeApp: state.activeApp,
 		expanded: state.accountPanelExpanded,
 	}))
-	const { entry, addresses, activeSlideIndex, setActiveSlide } = useStore(state => ({
+	const { entry, addresses, activeSlideIndex, setActiveSlide } = useAccountStore(state => ({
 		addresses: Object.values(state.publicAddresses).map(({ address }) => address),
 		entry: Object.values(state.publicAddresses).find(_account => _account.address === state.getCurrentAddressAction()),
 		activeSlideIndex: state.activeSlideIndex,
@@ -31,7 +29,7 @@ export const AccountNaviation: React.FC = () => {
 	const shortAddress = getShortAddress(entry?.address)
 
 	const handleBreadCrumbClick = async (idx: number) => {
-		await setActiveSlide(idx, hw, seed)
+		await setActiveSlide(idx)
 		setLocation('/wallet/account')
 	}
 

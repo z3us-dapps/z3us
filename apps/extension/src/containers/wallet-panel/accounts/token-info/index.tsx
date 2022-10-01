@@ -7,7 +7,7 @@ import { useTokenBalances, useTokenInfo } from '@src/hooks/react-query/queries/r
 import { useMarketChart } from '@src/hooks/react-query/queries/market'
 import { getSplitParams } from '@src/utils/url-utils'
 import { useRoute, useLocation } from 'wouter'
-import { useSharedStore } from '@src/store'
+import { useSharedStore } from '@src/hooks/use-store'
 import { useImmer } from 'use-immer'
 import { Tooltip, TooltipTrigger, TooltipContent, TooltipArrow } from 'ui/src/components/tool-tip'
 import { Grid, Flex, Text, Box } from 'ui/src/components/atoms'
@@ -142,7 +142,7 @@ export const TokenInfo = (): JSX.Element => {
 					shadow={false}
 					width={36}
 					height={36}
-					image={token?.image || token?.iconURL}
+					image={token?.image}
 					fallbackText={token?.symbol.toLocaleUpperCase()}
 				/>
 				<Text size="5" medium css={{ mt: '15px', pb: '5px' }}>

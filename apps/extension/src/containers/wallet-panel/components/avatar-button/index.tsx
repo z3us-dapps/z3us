@@ -1,5 +1,4 @@
 import React from 'react'
-import { CircleAvatar } from '@src/components/circle-avatar'
 import { Pencil2Icon } from '@radix-ui/react-icons'
 import { Box, Flex } from 'ui/src/components/atoms'
 
@@ -49,6 +48,17 @@ export const AvatarButton: React.FC<IProps> = ({ background }) => (
 		>
 			<Pencil2Icon />
 		</Flex>
-		<CircleAvatar background={background} width={24} height={24} borderWidth={1} />
+		<Box
+			css={{
+				width: '24px',
+				height: '24px',
+				borderRadius: '50%',
+				background,
+				border: '1px solid',
+				borderColor: '$borderAvatar',
+				boxShadow: '$shadowPanel2',
+				flexShrink: '0',
+			}}
+		/>
 	</Box>
 )

@@ -5,14 +5,13 @@ import { QrHoverCard } from '@src/components/qr-hover-card'
 import { Flex, Box, Text } from 'ui/src/components/atoms'
 import { ToolTip } from 'ui/src/components/tool-tip'
 import Button from 'ui/src/components/button'
-import { ActivityIcon, HardwareWalletIcon } from 'ui/src/components/icons'
+import { HardwareWalletIcon } from 'ui/src/components/icons'
 import { formatBigNumber } from '@src/utils/formatters'
 import { AccountAddress } from '@src/components/account-address'
 import PriceTicker from 'ui/src/components/price-ticker'
 import LoaderBars from 'ui/src/components/loader-bars'
-import { AccountModal } from '@src/containers/wallet-panel/settings/accounts/account-modal'
-import { useSharedStore, useStore } from '@src/store'
-import { ColorSettings } from '@src/types'
+import { useSharedStore, useAccountStore } from '@src/hooks/use-store'
+import { ColorSettings, KeystoreType } from '@src/types'
 import { currencySettingsMap } from '@src/config'
 import { getTickerChars } from '../get-ticker-chars'
 
@@ -26,11 +25,11 @@ type IProps = {
 
 export const AccountInfo: React.FC<IProps> = ({ address }) => {
 	const { isLoading, value, change } = useAccountValue()
-	const { isHardwareWallet, currency } = useSharedStore(state => ({
-		isHardwareWallet: state.isHardwareWallet,
+	const { currency } = useSharedStore(state => ({
 		currency: state.currency,
 	}))
-	const { entry, activeSlideIndex } = useStore(state => ({
+	const { signingKey, entry, activeSlideIndex } = useAccountStore(state => ({
+		signingKey: state.signingKey,
 		entry: Object.values(state.publicAddresses).find(_account => _account.address === address),
 		activeSlideIndex: state.activeSlideIndex,
 	}))
@@ -100,7 +99,7 @@ export const AccountInfo: React.FC<IProps> = ({ address }) => {
 				align="center"
 				css={{ textAlign: 'center', position: 'relative', zIndex: '1', pt: '39px' }}
 			>
-				<AccountAddress isCopyButtonVisible={false} address={address} css={{ fill: color, color }} />
+				<AccountAddress address={address} css={{ fill: color, color }} />
 				<Flex
 					justify="center"
 					css={{
@@ -152,24 +151,11 @@ export const AccountInfo: React.FC<IProps> = ({ address }) => {
 					/>
 				</Text>
 			</Flex>
-			<Box css={{ zIndex: 2, position: 'absolute', top: '$2', right: '$2' }}>
-				<AccountModal
-					toolTipSide="top"
-					address={address}
-					toolTipSideOffset={3}
-					toolTipBgColor="$bgPanel"
-					toolTipMessage="Change color"
-				>
-					<Button iconOnly size="1" color="ghost" css={{ color, fill: color }}>
-						<ActivityIcon />
-					</Button>
-				</AccountModal>
-			</Box>
 			<Box css={{ zIndex: 2, position: 'absolute', top: '$2', left: '$2' }}>
 				<QrHoverCard css={{ fill: color, color }} />
 			</Box>
-			{isHardwareWallet && (
-				<Box css={{ zIndex: 2, position: 'absolute', bottom: '$2', left: '$2' }}>
+			{signingKey?.type === KeystoreType.HARDWARE && (
+				<Box css={{ zIndex: 2, position: 'absolute', bottom: '$3', right: '$3' }}>
 					<ToolTip arrowOffset={8} message="Hardware wallet account">
 						<Box>
 							<Button clickable={false} iconOnly size="1" color="ghost" css={{ color, fill: color }}>

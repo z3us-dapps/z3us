@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { useSharedStore, useStore } from '@src/store'
+import { useAccountStore } from '@src/hooks/use-store'
 import { useRoute } from 'wouter'
 import { formatBigNumber } from '@src/utils/formatters'
 import BigNumber from 'bignumber.js'
@@ -21,13 +21,8 @@ export const DepositToken: React.FC = () => {
 	const [isDepositTokenRoute, params] = useRoute('/account/deposit/:rri')
 	const [rri, setRRI] = useState<string>(getParamString(params, 'rri') || XRD_RRI)
 
-	const { hw, seed } = useSharedStore(state => ({
-		hw: state.hardwareWallet,
-		seed: state.masterSeed,
-	}))
-
 	const isDarkMode = useColorMode()
-	const { accountAddress, selectAccount } = useStore(state => ({
+	const { accountAddress, selectAccount } = useAccountStore(state => ({
 		accountAddress: state.getCurrentAddressAction(),
 		selectAccount: state.selectAccountAction,
 	}))
@@ -49,7 +44,7 @@ export const DepositToken: React.FC = () => {
 	}
 
 	const handleAccountChange = async (accountIndex: number) => {
-		await selectAccount(accountIndex, hw, seed)
+		await selectAccount(accountIndex)
 	}
 
 	return (

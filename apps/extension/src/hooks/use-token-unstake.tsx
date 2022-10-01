@@ -1,34 +1,23 @@
-import { useStore } from '@src/store'
+import { useAccountStore } from '@src/hooks/use-store'
 import { useTransaction } from '@src/hooks/use-transaction'
-import { ResourceIdentifier, AccountAddress, ValidatorAddress, IntendedUnstakeTokens } from '@radixdlt/application'
+import { IntendedUnstakeTokens } from '@radixdlt/application'
 import { buildAmount } from '@src/utils/radix'
+import { parseAccountAddress, parseResourceIdentifier, parseValidatorAddress } from '@src/services/radix/serializer'
 
 export const useTokenUnstake = () => {
 	const { buildTransactionFromActions } = useTransaction()
-	const { account } = useStore(state => ({
-		account: state.account,
+	const { address } = useAccountStore(state => ({
+		address: state.getCurrentAddressAction(),
 	}))
 
 	const unstake = async (rri: string, validator: string, amount: string) => {
-		const rriResult = ResourceIdentifier.fromUnsafe(rri)
-		if (rriResult.isErr()) {
-			throw rriResult.error
-		}
-		const toResult = AccountAddress.fromUnsafe(account.address)
-		if (toResult.isErr()) {
-			throw toResult.error
-		}
-		const validatorResult = ValidatorAddress.fromUnsafe(validator)
-		if (validatorResult.isErr()) {
-			throw validatorResult.error
-		}
 		const actionResult = IntendedUnstakeTokens.create(
 			{
-				from_validator: validatorResult.value,
+				from_validator: parseValidatorAddress(validator),
 				amount: buildAmount(amount),
-				tokenIdentifier: rriResult.value,
+				tokenIdentifier: parseResourceIdentifier(rri),
 			},
-			toResult.value,
+			parseAccountAddress(address),
 		)
 		if (actionResult.isErr()) {
 			throw actionResult.error

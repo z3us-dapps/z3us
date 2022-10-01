@@ -1,7 +1,7 @@
 import React from 'react'
-import { ScrollArea } from 'ui/src/components/scroll-area'
 import { useImmer } from 'use-immer'
-import { KeyIcon, TrustedAppsIcon, NetworkIcon, AccountsIcon, AddressBookIcon } from 'ui/src/components/icons'
+import { ScrollArea } from 'ui/src/components/scroll-area'
+import { KeyIcon, TrustedAppsIcon, NetworkIcon, AccountsIcon, AddressBookIcon, ActivityIcon } from 'ui/src/components/icons'
 import { LockClosedIcon, TokensIcon } from '@radix-ui/react-icons'
 import { Box, Flex, Text } from 'ui/src/components/atoms'
 import { Accordion, AccordionItem, AccordionTrigger, AccordionContent } from 'ui/src/components/accordion'
@@ -13,6 +13,8 @@ import { NetworkSettings } from './network-settings'
 import { KeyManagementSettings } from './key-management-settings'
 import { accordians } from './constants'
 import { TokenManagementSettings } from './token-management-settins'
+import { ImportSettings } from './import-settings'
+import { PendingActions } from './pending-actions'
 
 interface ImmerT {
 	activeAccordion: string
@@ -71,7 +73,7 @@ export const Settings: React.FC = () => {
 								<AccordionItem value={accordians.WEBSITES_MANAGEMENT}>
 									<AccordionTrigger>
 										<Flex align="center" css={{ flex: '1' }}>
-											<TrustedAppsIcon />
+											<ActivityIcon />
 											<Text size="3" medium css={{ ml: '$2' }}>
 												Trusted apps
 											</Text>
@@ -79,6 +81,20 @@ export const Settings: React.FC = () => {
 									</AccordionTrigger>
 									<AccordionContent>
 										<TrustedApps />
+									</AccordionContent>
+								</AccordionItem>
+
+								<AccordionItem value={accordians.WEBSITES_ACTIONS}>
+									<AccordionTrigger>
+										<Flex align="center" css={{ flex: '1' }}>
+											<TrustedAppsIcon />
+											<Text size="3" medium css={{ ml: '$2' }}>
+												Unconfirmed actions
+											</Text>
+										</Flex>
+									</AccordionTrigger>
+									<AccordionContent>
+										<PendingActions />
 									</AccordionContent>
 								</AccordionItem>
 
@@ -151,6 +167,8 @@ export const Settings: React.FC = () => {
 									</AccordionContent>
 								</AccordionItem>
 							</Accordion>
+
+							<ImportSettings />
 						</Box>
 					</Box>
 				</Box>

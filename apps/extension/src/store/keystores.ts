@@ -1,9 +1,9 @@
-import { SetState } from 'zustand'
-import { KeystoresStore, KeystoreType, SharedStore } from './types'
+import { KeystoreType } from '@src/types'
+import { KeystoresState } from './types'
 
 export const whiteList = ['keystores', 'selectKeystoreId']
 
-export const factory = (set: SetState<SharedStore>): KeystoresStore => ({
+export const factory = (set): KeystoresState => ({
 	keystores: [],
 	selectKeystoreId: '',
 

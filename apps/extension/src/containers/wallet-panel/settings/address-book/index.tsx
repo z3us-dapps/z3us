@@ -1,6 +1,6 @@
 import React from 'react'
 import { useImmer } from 'use-immer'
-import { useSharedStore } from '@src/store'
+import { useSharedStore } from '@src/hooks/use-store'
 import { useEventListener } from 'usehooks-ts'
 import { ToolTip } from 'ui/src/components/tool-tip'
 import { Box, Flex, Text, StyledLink } from 'ui/src/components/atoms'

@@ -3,10 +3,10 @@ import { Box, Flex, Text, StyledLink } from 'ui/src/components/atoms'
 import Button from 'ui/src/components/button'
 import { PageWrapper, PageHeading, PageSubHeading } from '@src/components/layout'
 import { CheckboxIcon } from '@radix-ui/react-icons'
-import { useSharedStore, useStore } from '@src/store'
+import { useSharedStore, useAccountStore } from '@src/hooks/use-store'
 import { useRoute } from 'wouter'
 import { hexToJSON } from '@src/utils/encoding'
-import { CONFIRM } from '@src/lib/actions'
+import { CONFIRM } from '@src/lib/v1/actions'
 
 export const Connect = (): JSX.Element => {
 	const [, { id }] = useRoute<{ id: string }>('/connect/:id')
@@ -14,7 +14,7 @@ export const Connect = (): JSX.Element => {
 	const { sendResponse } = useSharedStore(state => ({
 		sendResponse: state.sendResponseAction,
 	}))
-	const { accountAddress, action, approveWebsite, declineWebsite, approvedWebsites } = useStore(state => ({
+	const { accountAddress, action, approveWebsite, declineWebsite, approvedWebsites } = useAccountStore(state => ({
 		accountAddress: state.getCurrentAddressAction(),
 		approvedWebsites: state.approvedWebsites,
 		approveWebsite: state.approveWebsiteAction,
@@ -66,9 +66,6 @@ export const Connect = (): JSX.Element => {
 						py: '$5',
 					}}
 				>
-					{/*<Box css={{ pb: '$3' }}>
-						<Image src="/images/z3us-spinner.svg" css={{ width: '90px', height: '90px' }} />
-					</Box>*/}
 					<Text medium size="5">
 						{host}
 					</Text>
