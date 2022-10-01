@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react'
-import { useSharedStore } from '@src/hooks/use-store'
+import { useAccountStore, useSharedStore } from '@src/hooks/use-store'
 import { useImmer } from 'use-immer'
 import Button, { ButtonProps } from 'ui/src/components/button'
 import { isWebAuthSupported } from '@src/services/credentials'
@@ -10,10 +10,12 @@ interface ImmerT {
 }
 
 export const RegisterCredentialsButton: React.FC<ButtonProps> = props => {
-	const { seed, registerCredential, removeCredential } = useSharedStore(state => ({
-		seed: state.masterSeed,
+	const { registerCredential, removeCredential } = useSharedStore(state => ({
 		registerCredential: state.registerCredentialAction,
 		removeCredential: state.removeCredentialAction,
+	}))
+	const { signingKey } = useAccountStore(state => ({
+		signingKey: state.signingKey,
 	}))
 
 	const [state, setState] = useImmer<ImmerT>({
@@ -38,7 +40,7 @@ export const RegisterCredentialsButton: React.FC<ButtonProps> = props => {
 
 	const handleRegisterCredentials = async event => {
 		const id = generateId()
-		const key = seed.masterNode().publicKey.toString()
+		const key = signingKey.publicKey.toString()
 
 		await registerCredential(id, key, 'Z3US credentials', `authn-${id}`)
 
@@ -50,6 +52,6 @@ export const RegisterCredentialsButton: React.FC<ButtonProps> = props => {
 
 	return (
 		// eslint-disable-next-line react/jsx-props-no-spreading
-		<Button {...props} onClick={handleRegisterCredentials} disabled={!seed || !state.isWebAuthSupported} />
+		<Button {...props} onClick={handleRegisterCredentials} disabled={!signingKey || !state.isWebAuthSupported} />
 	)
 }

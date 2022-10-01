@@ -9,6 +9,9 @@ import { PageWrapper, PageHeading, PageSubHeading } from '@src/components/layout
 import Button from 'ui/src/components/button'
 import { Flex, Text, Box } from 'ui/src/components/atoms'
 import InputFeedBack from 'ui/src/components/input/input-feedback'
+import { KeystoreType } from '@src/types'
+import { generateId } from '@src/utils/generate-id'
+import { getAccountStore } from '@src/services/state'
 
 interface ImmerT {
 	isButtonDisabled: boolean
@@ -21,29 +24,38 @@ export const CreateWallet = (): JSX.Element => {
 	const queryClient = useQueryClient()
 
 	const {
-		mnemonic,
+		secret,
+		secretType,
 		password,
 		setPassword,
 		setMnemomic,
-		isRestoreWorkflow,
+		setPrivateKey,
+		lock,
+		addKeystore,
 		createWallet,
-		setIsRestoreWorkflow,
+		importingAddresses,
+		workflowEntryStep,
 		setOnboradingStep,
-		setSeed,
+		setImportingAddresses,
 	} = useSharedStore(state => ({
-		mnemonic: state.mnemonic,
+		secret: state.mnemonic ? state.mnemonic.entropy.toString('hex') : state.privateKey,
+		secretType: state.mnemonic ? 'mnemonic' : 'key',
 		password: state.password,
+		keystoreId: state.selectKeystoreId,
+		lock: state.lockAction,
+		addKeystore: state.addKeystoreAction,
 		createWallet: state.createWalletAction,
 		setPassword: state.setPasswordAction,
 		setMnemomic: state.setMnemomicAction,
+		setPrivateKey: state.setPrivateKeyAction,
 
-		isRestoreWorkflow: state.isRestoreWorkflow,
-		setIsRestoreWorkflow: state.setIsRestoreWorkflowAction,
+		importingAddresses: state.importingAddresses,
+		workflowEntryStep: state.workflowEntryStep,
 		setOnboradingStep: state.setOnboardingStepAction,
-		setSeed: state.setMasterSeedAction,
+		setImportingAddresses: state.setImportingAddressesAction,
 	}))
-	const { selectAccount } = useAccountStore(state => ({
-		selectAccount: state.selectAccountAction,
+	const { setIsUnlocked } = useAccountStore(state => ({
+		setIsUnlocked: state.setIsUnlockedAction,
 	}))
 
 	const [state, setState] = useImmer<ImmerT>({
@@ -54,9 +66,9 @@ export const CreateWallet = (): JSX.Element => {
 
 	useEffect(() => {
 		setState(draft => {
-			draft.isButtonDisabled = !mnemonic || !password
+			draft.isButtonDisabled = !secret || !password
 		})
-	}, [mnemonic, password])
+	}, [secret, password])
 
 	const handleContinue = async () => {
 		if (state.isButtonDisabled) {
@@ -66,16 +78,24 @@ export const CreateWallet = (): JSX.Element => {
 			draft.isButtonDisabled = true
 		})
 		try {
-			const seed = await createWallet(mnemonic.words, password)
-			setSeed(seed)
-			await selectAccount(0, null, seed)
+			await lock() // clear background memory
+
+			const id = generateId()
+			addKeystore(id, id, KeystoreType.LOCAL)
+			setIsUnlocked(false)
+
+			const store = await getAccountStore(id)
+			store.getState().setPublicAddressesAction(importingAddresses)
+
+			await createWallet(secretType as 'mnemonic' | 'key', secret, password, 0)
 
 			await queryClient.invalidateQueries({ active: true, inactive: true, stale: true })
 
 			setPassword(null)
 			setMnemomic(null)
+			setPrivateKey(null)
+			setImportingAddresses({})
 			setOnboradingStep(onBoardingSteps.START)
-			setIsRestoreWorkflow(false)
 			setLocation('#/wallet/account')
 		} catch (error) {
 			setState(draft => {
@@ -108,7 +128,7 @@ export const CreateWallet = (): JSX.Element => {
 			<Box css={{ width: '100%' }}>
 				<PageHeading>Created wallet</PageHeading>
 				<PageSubHeading>
-					Click &apos;Go to wallet&apos; below to navigate and begin using your z3us wallet.
+					Click &apos;Go to wallet&apos; below to complate setup and begin using your Z3US wallet.
 				</PageSubHeading>
 			</Box>
 			<Box css={{ mt: '$8', flex: '1' }}>
@@ -134,7 +154,7 @@ export const CreateWallet = (): JSX.Element => {
 			</Flex>
 			<Flex justify="center" align="center" css={{ height: '48px', ta: 'center', mt: '$2', width: '100%' }}>
 				<Text medium size="3" color="muted">
-					{isRestoreWorkflow ? 'Step 4 of 4 ' : 'Step 3 of 3'}
+					{workflowEntryStep !== onBoardingSteps.GENERATE_PHRASE ? 'Step 4 of 4 ' : 'Step 3 of 3'}
 				</Text>
 			</Flex>
 		</PageWrapper>

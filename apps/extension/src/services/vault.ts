@@ -1,30 +1,38 @@
+/* eslint-disable no-case-declarations */
 import browser from 'webextension-polyfill'
-import { Mnemonic, KeystoreT } from '@radixdlt/application'
+import { AccountAddress, Mnemonic, SigningKey, SigningKeyT } from '@radixdlt/application'
 import {
-	AES_GCM,
-	Scrypt,
-	ScryptParams,
-	ScryptParamsT,
-	sha256,
 	HDMasterSeed,
-	Keystore,
-	HDMasterSeedT,
+	HDNode,
+	HDNodeT,
+	HDPathRadix,
 	MnemomicT,
-	MnemonicProps,
+	KeystoreT,
+	Keystore as RadixKeystore,
+	PublicKey,
 } from '@radixdlt/crypto'
+import { CryptoService } from '@src/services/crypto'
 import { BrowserStorageService } from '@src/services/browser-storage'
 import { sharedStoreKey } from '@src/config'
-import { SharedState } from '@src/store/types'
 import { sharedStore } from '@src/store'
+import { AddressBookEntry, Network, SharedState } from '@src/store/types'
+import { getDefaultAddressEntry } from '@src/store/helpers'
+import { firstValueFrom } from 'rxjs'
 
-const keystoreKey = 'z3us-keystore'
+type KeystoreType = 'mnemonic' | 'key' | 'legacy'
+
+interface Keystore {
+	type: KeystoreType
+	secret: string
+}
+
+export const keystoreKey = 'z3us-keystore'
 
 const getKeystorePrefix = async () => {
 	const data = await browser.storage.local.get(sharedStoreKey)
 	const { lastError } = browser.runtime
 	if (lastError) {
-		// eslint-disable-next-line @typescript-eslint/no-throw-literal
-		throw lastError
+		throw new Error(lastError.message)
 	}
 	if (!data[sharedStoreKey]) {
 		return ''
@@ -33,20 +41,109 @@ const getKeystorePrefix = async () => {
 	return state?.selectKeystoreId || ''
 }
 
+const getSigningKey = (hdMasterNode: HDNodeT, index: number): SigningKeyT => {
+	const hdPath = HDPathRadix.create({ address: { index, isHardened: true } })
+	return SigningKey.fromHDPathWithHDMasterNode({ hdPath, hdMasterNode })
+}
+
 export class VaultService {
-	private crypto: Crypto
+	private crypto: CryptoService
 
 	private storage: BrowserStorageService
 
-	private masterSeed?: HDMasterSeedT
+	private hdMasterNode?: HDNodeT
 
-	private mnemonic?: MnemomicT
+	private signingKey?: SigningKeyT
 
 	private timer?: NodeJS.Timeout
 
 	constructor(storage: BrowserStorageService, crypto: Crypto) {
 		this.storage = storage
-		this.crypto = crypto
+		this.crypto = new CryptoService(crypto)
+	}
+
+	ping = async () => {
+		if (this.timer) {
+			await this.resetTimer()
+		}
+	}
+
+	new = async (type: KeystoreType, secret: string, password: string, index: number = 0) => {
+		const keystore = await this.crypto.encrypt<Keystore>(password, { type, secret })
+		await this.saveKeystore(keystore)
+
+		const { hdMasterNode } = await this.getHDMasterNode(keystore, password)
+		this.hdMasterNode = hdMasterNode
+		return this.derive(index)
+	}
+
+	unlock = async (password: string, index: number) => {
+		const keystore = await this.getKeystore()
+		const { hdMasterNode } = await this.getHDMasterNode(keystore, password)
+		this.hdMasterNode = hdMasterNode
+		return this.derive(index)
+	}
+
+	lock = () => {
+		if (this.timer) {
+			clearTimeout(this.timer)
+		}
+		this.hdMasterNode = null
+		this.signingKey = null
+		this.timer = null
+	}
+
+	derive = async (index: number, network?: Network, publicAddresses?: { [key: number]: AddressBookEntry }) => {
+		const keystoreId = await getKeystorePrefix()
+		const hasKeystore = await this.has()
+
+		if (!this.hdMasterNode) {
+			this.signingKey = null
+			this.hdMasterNode = null
+			return {
+				hasKeystore,
+				keystoreId,
+			}
+		}
+
+		if (publicAddresses) {
+			if (!network) throw new Error('Network is required when deriving all addresses')
+			const publicIndexes = Object.keys(publicAddresses)
+			if (index >= publicIndexes.length) {
+				index = publicIndexes.length > 0 ? +publicIndexes[publicIndexes.length - 1] + 1 : 0
+				publicAddresses[index] = {} // will be updated with defaults in a loop below
+			}
+
+			publicIndexes.forEach(key => {
+				const signingKey = getSigningKey(this.hdMasterNode, +key)
+				if (+key === index) {
+					this.signingKey = signingKey
+				}
+
+				const address = AccountAddress.fromPublicKeyAndNetwork({
+					publicKey: signingKey.publicKey,
+					network: network.id,
+				})
+
+				publicAddresses[key] = {
+					...getDefaultAddressEntry(+key),
+					...publicAddresses[key],
+					address: address.toString(),
+				}
+			})
+		} else {
+			const signingKey = getSigningKey(this.hdMasterNode, index)
+			this.signingKey = signingKey
+		}
+
+		await this.resetTimer()
+		return {
+			hasKeystore,
+			keystoreId,
+			publicKey: this.signingKey?.publicKey.toString(),
+			network,
+			publicAddresses,
+		}
 	}
 
 	has = async (): Promise<boolean> => {
@@ -59,103 +156,91 @@ export class VaultService {
 		}
 	}
 
-	get = async () => {
-		if (!this.masterSeed) {
-			const keystoreId = await getKeystorePrefix()
-			const hasKeystore = await this.has()
-			return {
-				keystoreId,
-				hasKeystore,
-			}
+	get = async (password: string) => {
+		const keystore = await this.getKeystore()
+		const { hdMasterNode, mnemonic } = await this.getHDMasterNode(keystore, password)
+
+		return {
+			mnemonic: mnemonic
+				? {
+						strength: mnemonic.strength,
+						entropy: mnemonic.entropy.toString('hex'),
+						words: mnemonic.words,
+						phrase: mnemonic.phrase,
+						language: mnemonic.language,
+				  }
+				: undefined,
+			hdMasterNode: hdMasterNode.toJSON(),
 		}
-		return this.reload()
-	}
-
-	new = async (password: string, mneomnicVal: string[]) => {
-		const mnemomicRes = await Mnemonic.fromEnglishWords(mneomnicVal)
-		if (mnemomicRes.isErr()) {
-			throw mnemomicRes.error
-		}
-
-		const keystore = await this.encrypt({
-			secret: mnemomicRes.value.entropy,
-			password,
-		})
-
-		await this.saveKeystore(keystore)
-
-		await this.load(keystore, password)
-		return this.reload()
-	}
-
-	lock = () => {
-		if (this.timer) {
-			clearTimeout(this.timer)
-		}
-		this.mnemonic = null
-		this.masterSeed = null
-		this.timer = null
-	}
-
-	unlock = async (password: string) => {
-		const keystore = await this.loadKeystore()
-		await this.load(keystore, password)
-		return this.reload()
 	}
 
 	remove = async () => {
 		const suffix = await getKeystorePrefix()
-		await this.lock()
+		this.lock()
 		await this.storage.removeItem(`${keystoreKey}-${suffix}`)
 	}
 
-	private load = async (keystore: KeystoreT, password: string) => {
-		const kesytore = await Keystore.decrypt({ keystore, password })
-		if (kesytore.isErr()) {
-			throw kesytore.error
+	encrypt = async (plaintext: string, publicKeyOfOtherParty: string) => {
+		if (!this.signingKey) throw new Error('Unauthorised!')
+
+		const publicKeyBuffer = Buffer.from(publicKeyOfOtherParty, 'hex')
+		const publicKeyResult = PublicKey.fromBuffer(publicKeyBuffer)
+		if (!publicKeyResult.isOk()) {
+			throw publicKeyResult.error
 		}
 
-		const mnemonic = Mnemonic.fromEntropy({ entropy: kesytore.value })
-		if (mnemonic.isErr()) {
-			throw mnemonic.error
-		}
-
-		this.mnemonic = mnemonic.value
-		this.masterSeed = HDMasterSeed.fromMnemonic({ mnemonic: mnemonic.value })
+		const ecnrypted = await firstValueFrom(
+			this.signingKey.encrypt({
+				plaintext,
+				publicKeyOfOtherParty: publicKeyResult.value,
+			}),
+		)
+		return ecnrypted.combined().toString('hex')
 	}
 
-	private reload = async () => {
-		await this.resetTimer()
+	decrypt = async (message: string, publicKeyOfOtherParty: string) => {
+		if (!this.signingKey) throw new Error('Unauthorised!')
 
-		const keystoreId = await getKeystorePrefix()
-		const hasKeystore = await this.has()
-
-		return {
-			mnemonic: {
-				strength: this.mnemonic.strength,
-				entropy: this.mnemonic.entropy,
-				words: this.mnemonic.words,
-				phrase: this.mnemonic.phrase,
-				language: this.mnemonic.language,
-			} as MnemonicProps,
-			seed: this.masterSeed.seed.toString('hex'),
-			hasKeystore,
-			keystoreId,
+		const publicKeyBuffer = Buffer.from(publicKeyOfOtherParty, 'hex')
+		const publicKeyResult = PublicKey.fromBuffer(publicKeyBuffer)
+		if (!publicKeyResult.isOk()) {
+			throw publicKeyResult.error
 		}
+
+		return firstValueFrom(
+			this.signingKey.decrypt({
+				encryptedMessage: Buffer.from(message, 'hex'),
+				publicKeyOfOtherParty: publicKeyResult.value,
+			}),
+		)
 	}
 
-	private saveKeystore = async (keystore: KeystoreT) => {
+	sign = async (blob: string, hashOfBlobToSign: string, nonXrdHRP: string = undefined) => {
+		if (!this.signingKey) throw new Error('Unauthorised!')
+
+		const signature = await firstValueFrom(this.signingKey.sign({ blob, hashOfBlobToSign }, nonXrdHRP))
+		return signature.toDER()
+	}
+
+	signHash = async (hash: string) => {
+		if (!this.signingKey) throw new Error('Unauthorised!')
+
+		const signature = await firstValueFrom(this.signingKey.signHash(Buffer.from(hash, 'hex')))
+		return signature.toDER()
+	}
+
+	private saveKeystore = async (keystore: string) => {
 		const suffix = await getKeystorePrefix()
-		await this.storage.setItem(`${keystoreKey}-${suffix}`, JSON.stringify(keystore, null, '\t'))
+		await this.storage.setItem(`${keystoreKey}-${suffix}`, keystore)
 	}
 
-	private loadKeystore = async (): Promise<KeystoreT> => {
+	private getKeystore = async (): Promise<string> => {
 		const suffix = await getKeystorePrefix()
 		const data = await this.storage.getItem(`${keystoreKey}-${suffix}`)
 		if (!data) {
 			throw new Error('No keystore!')
 		}
-		return JSON.parse(data) as KeystoreT
+		return data
 	}
 
 	private resetTimer = async () => {
@@ -167,67 +252,50 @@ export class VaultService {
 		this.timer = setTimeout(() => this.lock(), walletUnlockTimeoutInMinutes * 60 * 1000)
 	}
 
-	private randomSecureBytes = (byteCount: number) => {
-		const bytes = this.crypto.getRandomValues(new Uint8Array(byteCount))
-		const buffer = Buffer.from(bytes)
-		const byteArray = new Uint8Array(buffer.buffer, buffer.byteOffset, buffer.byteLength / Uint8Array.BYTES_PER_ELEMENT)
-		let byteString = ''
-		for (let i = 0; i < byteCount; i += 1) {
-			byteString += `00${byteArray[i].toString(16)}`.slice(-2)
+	private getHDMasterNode = async (
+		data: string,
+		password: string,
+	): Promise<{
+		mnemonic?: MnemomicT
+		hdMasterNode: HDNodeT
+	}> => {
+		let keystore = await this.crypto.decrypt<Keystore>(password, data)
+		// migrate data if is legacy keystore
+		if (keystore === false) {
+			const kesytoreResult = await RadixKeystore.decrypt({ keystore: JSON.parse(data) as KeystoreT, password })
+			if (kesytoreResult.isErr()) {
+				throw kesytoreResult.error
+			}
+			keystore = { type: 'legacy', secret: kesytoreResult.value.toString('hex') }
+		} else {
+			keystore = keystore as Keystore
 		}
 
-		return byteString
-	}
+		switch (keystore.type) {
+			case 'legacy':
+				const newKeystore = await this.crypto.encrypt<Keystore>(password, { type: 'mnemonic', secret: keystore.secret })
+				await this.saveKeystore(newKeystore)
+			// eslint-disable-next-line no-fallthrough
+			case 'mnemonic':
+				const mnemonic = Mnemonic.fromEntropy({ entropy: Buffer.from(keystore.secret, 'hex') })
+				if (mnemonic.isErr()) {
+					throw mnemonic.error
+				}
 
-	private encrypt = async (
-		input: Readonly<{
-			secret: Buffer
-			password: string
-			memo?: string // e.g. 'Business wallet' or 'My husbands wallet' etc.
-			kdf?: string
-			kdfParams?: ScryptParamsT
-		}>,
-	): Promise<KeystoreT> => {
-		const secureRandom = {
-			randomSecureBytes: this.randomSecureBytes,
-		}
+				const masterSeed = HDMasterSeed.fromMnemonic({ mnemonic: mnemonic.value })
 
-		const kdf = input.kdf ?? 'scrypt'
-		const params = input.kdfParams ?? ScryptParams.create({ secureRandom })
-		const memo = input.memo ?? Date.now().toLocaleString()
-
-		const derivedKeyResult = await Scrypt.deriveKey({ kdf, params, password: Buffer.from(input.password) })
-		if (derivedKeyResult.isErr()) {
-			throw derivedKeyResult.error
-		}
-		const sealedBoxResult = AES_GCM.seal({
-			secureRandom,
-			plaintext: input.secret,
-			symmetricKey: derivedKeyResult.value,
-		})
-		if (sealedBoxResult.isErr()) {
-			throw sealedBoxResult.error
-		}
-
-		const cipherText = sealedBoxResult.value.ciphertext
-		const mac = sealedBoxResult.value.authTag
-
-		const id = sha256(cipherText).toString('hex').slice(-16)
-
-		return {
-			memo,
-			crypto: {
-				cipher: AES_GCM.algorithm,
-				cipherparams: {
-					nonce: sealedBoxResult.value.nonce.toString('hex'),
-				},
-				ciphertext: cipherText.toString('hex'),
-				kdf,
-				kdfparams: params,
-				mac: mac.toString('hex'),
-			},
-			id,
-			version: 1,
+				return {
+					mnemonic: mnemonic.value,
+					hdMasterNode: masterSeed.masterNode(),
+				}
+			case 'key':
+				const hdNodeResult = HDNode.fromExtendedPrivateKey(keystore.secret)
+				if (hdNodeResult.isErr()) {
+					throw hdNodeResult.error
+				}
+				return { hdMasterNode: hdNodeResult.value }
+			default:
+				throw new Error(`Invalid keystore type`)
 		}
 	}
 }

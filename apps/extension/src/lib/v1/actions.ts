@@ -8,16 +8,22 @@ const BALANCES = 'v1-balances'
 const STAKES = 'v1-stakes'
 const UNSTAKES = 'v1-unstakes'
 const ENCRYPT = 'v1-encrypt'
-const DESCRYPT = 'v1-decrypt'
+const DECRYPT = 'v1-decrypt'
 const SIGN = 'v1-sign'
 const SEND_TRANSACTION = 'v1-sendTransaction'
 
 // popup
+const PING = 'v1-ping'
 const CONFIRM = 'v1-confirm'
 const HAS = 'v1-has'
 const NEW = 'v1-new'
 const GET = 'v1-get'
 const REMOVE = 'v1-remove'
+const DERIVE = 'v1-derive'
+// const ENCRYPT = 'v1-encrypt'
+// const DECRYPT = 'v1-decrypt'
+// const SIGN = 'v1-sign'
+const SIGN_HASH = 'v1-signHash'
 const LOCK = 'v1-lock'
 const UNLOCK = 'v1-unlock'
 const EVENT = 'v1-event'
@@ -37,10 +43,13 @@ export {
 	BALANCES,
 	STAKES,
 	UNSTAKES,
+	DERIVE,
 	ENCRYPT,
-	DESCRYPT,
+	DECRYPT,
 	SIGN,
+	SIGN_HASH,
 	SEND_TRANSACTION,
+	PING,
 	CONFIRM,
 	HAS,
 	NEW,

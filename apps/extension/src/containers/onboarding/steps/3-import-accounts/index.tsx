@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react'
-import { HDMasterSeed, HDPathRadix, PrivateKey, AccountAddress } from '@radixdlt/application'
+import { HDMasterSeed, HDPathRadix, PrivateKey, AccountAddress, HDNodeT, HDNode } from '@radixdlt/application'
 import { useEventListener } from 'usehooks-ts'
 import { useImmer } from 'use-immer'
 import { useSharedStore, useAccountStore } from '@src/hooks/use-store'
@@ -16,6 +16,7 @@ import { Flex, Text, Box } from 'ui/src/components/atoms'
 import Button from 'ui/src/components/button'
 
 interface ImmerT {
+	hdNode: HDNodeT | null
 	amount: number
 	addresses: Array<string>
 	selectedIndexes: object
@@ -24,15 +25,17 @@ interface ImmerT {
 }
 
 export const ImportAccounts = (): JSX.Element => {
-	const { mnemonic, setOnboardingStep } = useSharedStore(state => ({
+	const { mnemonic, privateKey, setOnboardingStep, setImportingAddresses } = useSharedStore(state => ({
 		mnemonic: state.mnemonic,
+		privateKey: state.privateKey,
 		setOnboardingStep: state.setOnboardingStepAction,
+		setImportingAddresses: state.setImportingAddressesAction,
 	}))
-	const { network, setPublicAddresses } = useAccountStore(state => ({
+	const { network } = useAccountStore(state => ({
 		network: state.networks[state.selectedNetworkIndex],
-		setPublicAddresses: state.setPublicAddressesAction,
 	}))
 	const [state, setState] = useImmer<ImmerT>({
+		hdNode: null,
 		amount: 0,
 		addresses: [],
 		selectedIndexes: {},
@@ -43,18 +46,36 @@ export const ImportAccounts = (): JSX.Element => {
 	const selectedAmount = Object.values(state.selectedIndexes).filter(v => v).length
 
 	useEffect(() => {
-		if (!mnemonic) {
-			return
+		if (mnemonic) {
+			const seed = HDMasterSeed.fromMnemonic({ mnemonic })
+			const hdNode = seed.masterNode()
+
+			setState(draft => {
+				draft.hdNode = hdNode
+			})
+		} else if (privateKey) {
+			const hdNodeResult = HDNode.fromExtendedPrivateKey(privateKey)
+			if (hdNodeResult.isErr()) {
+				setState(draft => {
+					draft.showError = true
+					draft.errorMessage = hdNodeResult.error.toString().trim()
+				})
+			} else {
+				setState(draft => {
+					draft.hdNode = hdNodeResult.value
+				})
+			}
 		}
+	}, [mnemonic, privateKey])
+
+	useEffect(() => {
+		if (!state.hdNode) return
 
 		const load = async () => {
 			try {
 				setState(draft => {
 					if (draft.addresses.length <= draft.amount) {
-						const seed = HDMasterSeed.fromMnemonic({ mnemonic })
-						const key = seed
-							.masterNode()
-							.derive(HDPathRadix.create({ address: { index: draft.amount, isHardened: true } }))
+						const key = state.hdNode.derive(HDPathRadix.create({ address: { index: draft.amount, isHardened: true } }))
 
 						const pk = PrivateKey.fromHex(key.privateKey.toString())
 						if (pk.isErr()) {
@@ -79,7 +100,7 @@ export const ImportAccounts = (): JSX.Element => {
 		}
 
 		load()
-	}, [mnemonic, state.amount])
+	}, [state.hdNode, state.amount])
 
 	const handleSliderChange = ([track]: Array<number>) => {
 		setState(draft => {
@@ -103,7 +124,7 @@ export const ImportAccounts = (): JSX.Element => {
 		if (Object.keys(addressMap).length <= 0) {
 			return
 		}
-		setPublicAddresses(addressMap)
+		setImportingAddresses(addressMap)
 		setOnboardingStep(onBoardingSteps.CREATE_PASSWORD)
 	}
 

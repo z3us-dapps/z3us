@@ -5,7 +5,13 @@ import {
 	IntendedTransferTokensAction,
 	IntendedStakeTokensAction,
 	IntendedUnstakeTokensAction,
+	PublicKeyT,
+	SigningKeyDecryptionInput,
+	SigningKeyEncryptionInput,
+	BuiltTransactionReadyToSign,
+	SignatureT,
 } from '@radixdlt/application'
+import { HardwareWalletT } from '@radixdlt/hardware-wallet'
 import {
 	BurnTokens,
 	CreateTokenDefinition,
@@ -16,6 +22,28 @@ import {
 } from '@radixdlt/networking'
 import BigNumber from 'bignumber.js'
 import { generateId } from './utils/generate-id'
+
+export enum KeystoreType {
+	LOCAL = 'local',
+	HARDWARE = 'hardware',
+}
+
+export type Keystore = {
+	id: string
+	name: string
+	type: KeystoreType
+}
+
+export type SigningKey = {
+	id: string
+	type: KeystoreType
+	publicKey: PublicKeyT
+	hw?: HardwareWalletT
+	decrypt: (input: SigningKeyDecryptionInput) => Promise<string>
+	encrypt: (input: SigningKeyEncryptionInput) => Promise<string>
+	sign: (tx: BuiltTransactionReadyToSign, nonXrdHRP?: string) => Promise<SignatureT>
+	signHash: (hashedMessage: Buffer) => Promise<SignatureT>
+}
 
 export interface Ticker {
 	asset: string

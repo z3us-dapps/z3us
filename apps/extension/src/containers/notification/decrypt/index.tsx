@@ -17,8 +17,8 @@ export const Decrypt = (): JSX.Element => {
 		sendResponse: state.sendResponseAction,
 	}))
 
-	const { account, action } = useAccountStore(state => ({
-		account: state.account,
+	const { signingKey, action } = useAccountStore(state => ({
+		signingKey: state.signingKey,
 		action:
 			state.pendingActions[id] && state.pendingActions[id].payloadHex
 				? hexToJSON(state.pendingActions[id].payloadHex)
@@ -38,7 +38,7 @@ export const Decrypt = (): JSX.Element => {
 	}
 
 	const handleConfirm = async () => {
-		if (!account) return
+		if (!signingKey) return
 		const decrypted = await decryptMessage(fromAddress, message)
 		sendResponse(CONFIRM, {
 			id,
@@ -92,7 +92,7 @@ export const Decrypt = (): JSX.Element => {
 				</Button>
 				<Button
 					onClick={handleConfirm}
-					disabled={!account}
+					disabled={!signingKey}
 					size="6"
 					color="primary"
 					aria-label="confirm decrypt wallet"

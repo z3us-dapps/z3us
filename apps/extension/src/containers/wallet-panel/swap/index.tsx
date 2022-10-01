@@ -2,7 +2,7 @@ import React, { useEffect, useRef } from 'react'
 import BigNumber from 'bignumber.js'
 import { useTransaction } from '@src/hooks/use-transaction'
 import { useMessage } from '@src/hooks/use-message'
-import { useSharedStore, useAccountStore } from '@src/hooks/use-store'
+import { useAccountStore } from '@src/hooks/use-store'
 import { useImmer } from 'use-immer'
 import { useTimeout, useInterval } from 'usehooks-ts'
 import { useDebounce } from 'use-debounce'
@@ -25,6 +25,7 @@ import { Box, Text, Flex } from 'ui/src/components/atoms'
 import { formatBigNumber } from '@src/utils/formatters'
 import { TokenSelector } from '@src/components/token-selector'
 import { HardwareWalletReconnect } from '@src/components/hardware-wallet-reconnect'
+import { parseAccountAddress } from '@src/services/radix/serializer'
 import Input from 'ui/src/components/input'
 import { SwitchTokensButton } from './switch-tokens-button'
 import { FeeBox } from './fee-box'
@@ -96,13 +97,9 @@ export const Swap: React.FC = () => {
 	const inputFromRef = useRef(null)
 	const { buildTransactionFromActions } = useTransaction()
 	const { createMessage } = useMessage()
-	const { hw, seed } = useSharedStore(state => ({
-		hw: state.hardwareWallet,
-		seed: state.masterSeed,
-	}))
-	const { account, accountAddress, selectAccount, accounts } = useAccountStore(state => ({
+	const { signingKey, accountAddress, selectAccount, accounts } = useAccountStore(state => ({
 		selectAccount: state.selectAccountAction,
-		account: state.account,
+		signingKey: state.signingKey,
 		accountAddress: state.getCurrentAddressAction(),
 		accounts: Object.values(state.publicAddresses).map((entry, index) => ({
 			...entry,
@@ -230,7 +227,7 @@ export const Swap: React.FC = () => {
 				minimum,
 				buildTransactionFromActions,
 				createMessage,
-				account,
+				parseAccountAddress(accountAddress),
 				response,
 			)
 
@@ -329,7 +326,7 @@ export const Swap: React.FC = () => {
 	}
 
 	const handleAccountChange = async (accountIndex: number) => {
-		await selectAccount(accountIndex, hw, seed)
+		await selectAccount(accountIndex)
 		setState(draft => {
 			draft.amountRaw = ''
 			draft.receiveRaw = ''
@@ -740,7 +737,7 @@ export const Swap: React.FC = () => {
 							z3usBurn={state.burn ? state.z3usBurn : zero}
 							minimum={state.minimum}
 							slippage={state.slippage}
-							disabledButton={!account || !state.pool || !state?.transaction}
+							disabledButton={!signingKey || !state.pool || !state?.transaction}
 							trigger={
 								<Box>
 									{state.errorMessage ? (
@@ -762,7 +759,7 @@ export const Swap: React.FC = () => {
 											aria-label="swap"
 											css={{ flex: '1' }}
 											fullWidth
-											disabled={!account || !state.pool}
+											disabled={!signingKey || !state.pool}
 											loading={state.isLoading}
 										>
 											Review swap

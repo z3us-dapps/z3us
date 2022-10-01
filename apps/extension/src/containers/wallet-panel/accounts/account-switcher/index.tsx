@@ -1,5 +1,5 @@
 import React, { useRef, useState, useEffect } from 'react'
-import { useSharedStore, useAccountStore } from '@src/hooks/use-store'
+import { useAccountStore } from '@src/hooks/use-store'
 import { PlusIcon } from 'ui/src/components/icons'
 import { useEventListener } from 'usehooks-ts'
 import { Box, Flex, MotionBox, Text } from 'ui/src/components/atoms'
@@ -14,12 +14,8 @@ const SLIDER_HEIGHT = 169
 const LEFT_OFFSET = 26 - SLIDER_WIDTH
 
 export const AccountSwitcher = (): JSX.Element => {
-	const { isHardwareWallet, hw, seed } = useSharedStore(state => ({
-		isHardwareWallet: state.isHardwareWallet,
-		hw: state.hardwareWallet,
-		seed: state.masterSeed,
-	}))
-	const { addresses, activeSlideIndex, selectAccount, setActiveSlide } = useAccountStore(state => ({
+	const { signingKey, addresses, activeSlideIndex, selectAccount, setActiveSlide } = useAccountStore(state => ({
+		signingKey: state.signingKey,
 		addresses: Object.values(state.publicAddresses).map(({ address }) => address),
 		activeSlideIndex: state.activeSlideIndex,
 		selectAccount: state.selectAccountAction,
@@ -39,11 +35,11 @@ export const AccountSwitcher = (): JSX.Element => {
 	}, [activeSlideIndex, addresses])
 
 	const handleSlideClick = async (idx: number) => {
-		await setActiveSlide(idx, hw, seed)
+		await setActiveSlide(idx)
 	}
 
 	const handleAddAccount = async () => {
-		await selectAccount(addresses.length, hw, seed)
+		await selectAccount(addresses.length)
 	}
 
 	useEventListener('keydown', e => {
@@ -121,7 +117,7 @@ export const AccountSwitcher = (): JSX.Element => {
 							css={{ border: '1px dashed #a8a8a8', height: '100%', borderRadius: '14px' }}
 						>
 							<Box css={{ textAlign: 'center' }}>
-								{(seed || (isHardwareWallet && hw)) && (
+								{signingKey && (
 									<>
 										<Button size="5" color="inverse" iconOnly circle onClick={handleAddAccount} css={{ mt: '5px' }}>
 											<PlusIcon />

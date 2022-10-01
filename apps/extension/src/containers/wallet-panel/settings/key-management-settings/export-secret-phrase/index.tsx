@@ -17,7 +17,7 @@ import {
 	AlertDialogAction,
 	AlertDialogCancel,
 } from 'ui/src/components/alert-dialog'
-import { UNLOCK } from '@src/lib/v1/actions'
+import { GET } from '@src/lib/v1/actions'
 
 interface ImmerT {
 	words: Array<string>
@@ -42,7 +42,7 @@ export const ExportSecretPhrase: React.FC = () => {
 
 	const handleShow = async () => {
 		try {
-			const { mnemonic } = await messanger.sendActionMessageFromPopup(UNLOCK, state.password)
+			const { mnemonic } = await messanger.sendActionMessageFromPopup(GET, { password: state.password })
 			setState(draft => {
 				draft.show = true
 				draft.words = mnemonic.words

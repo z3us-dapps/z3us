@@ -1,4 +1,5 @@
 import React from 'react'
+import { HDNode } from '@radixdlt/crypto'
 import { useSharedStore } from '@src/hooks/use-store'
 import { useImmer } from 'use-immer'
 import { useEventListener } from 'usehooks-ts'
@@ -8,53 +9,51 @@ import InputFeedBack from 'ui/src/components/input/input-feedback'
 import Button from 'ui/src/components/button'
 import { PageWrapper, PageHeading, PageSubHeading } from '@src/components/layout'
 import { Flex, Text, Box } from 'ui/src/components/atoms'
-import { Mnemonic } from '@radixdlt/crypto'
 
 interface ImmerT {
-	words: Array<string>
+	key: string
 	showError: boolean
 	errorMessage: string
 }
 
 const errorMessages = {
-	'Error: Invalid mnemonic': 'Enter a valid phrase.',
+	'Error: Invalid private key': 'Enter a valid extended private key.',
 }
 
-export const InsertPhrase = (): JSX.Element => {
-	const { setMnemomic, setOnboardingStep } = useSharedStore(state => ({
-		setMnemomic: state.setMnemomicAction,
+export const InsertKey = (): JSX.Element => {
+	const { setPrivateKey, setOnboardingStep } = useSharedStore(state => ({
+		setPrivateKey: state.setPrivateKeyAction,
 		setOnboardingStep: state.setOnboardingStepAction,
 	}))
 
 	const [state, setState] = useImmer<ImmerT>({
-		words: [],
+		key: '',
 		showError: false,
 		errorMessage: '',
 	})
 
-	const isButtonDisabled = state.words.length === 0 || (state.words.length === 1 && state.words[0] === '')
+	const isButtonDisabled = !state.key
 
-	const handleWords = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
-		const words = event.currentTarget?.value.split(',') || []
+	const handleInputChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
 		setState(draft => {
 			draft.showError = false
 			draft.errorMessage = ''
-			draft.words = words
+			draft.key = event.currentTarget?.value || ''
 		})
 	}
 
 	const handleContinue = async () => {
 		if (isButtonDisabled) return
-		if (state.words.length > 0) {
-			const mnemomicRes = await Mnemonic.fromEnglishWords(state.words)
-			if (mnemomicRes.isErr()) {
-				const errorString = mnemomicRes.error.toString().trim()
+		if (state.key) {
+			const hdNodeResult = HDNode.fromExtendedPrivateKey(state.key)
+			if (hdNodeResult.isErr()) {
+				const errorString = hdNodeResult.error.toString().trim()
 				setState(draft => {
 					draft.showError = true
 					draft.errorMessage = errorMessages[errorString] || errorString
 				})
 			} else {
-				setMnemomic(mnemomicRes.value)
+				setPrivateKey(state.key)
 			}
 		}
 
@@ -75,21 +74,21 @@ export const InsertPhrase = (): JSX.Element => {
 	return (
 		<PageWrapper css={{ flex: '1', position: 'relative', display: 'flex', flexDirection: 'column' }}>
 			<Box>
-				<PageHeading>Secret phrase</PageHeading>
-				<PageSubHeading>Restore an existing wallet with your secret recovery phrase.</PageSubHeading>
+				<PageHeading>Private key</PageHeading>
+				<PageSubHeading>Restore an existing wallet with your extended private key.</PageSubHeading>
 			</Box>
 			<form onSubmit={handleFormSubmit} style={{ flex: '1', display: 'flex', flexDirection: 'column' }}>
 				<Box css={{ mt: '$6', flex: '1' }}>
 					<Input
 						as="textarea"
 						size="2"
-						data-test-e2e="secret-phrase-input"
-						placeholder="Enter secret phrase"
-						onChange={handleWords}
+						data-test-e2e="private-key-input"
+						placeholder="Enter extended private key"
+						onChange={handleInputChange}
 						error={state.showError}
 						css={{ height: '140px' }}
 					/>
-					<InputFeedBack showFeedback={state.showError} animateHeight={31} data-test-e2e="secret-phrase-import-error">
+					<InputFeedBack showFeedback={state.showError} animateHeight={31} data-test-e2e="private-key-import-error">
 						<Text medium color="red">
 							{state.errorMessage}
 						</Text>
@@ -103,9 +102,9 @@ export const InsertPhrase = (): JSX.Element => {
 						disabled={isButtonDisabled}
 						css={{ flex: '1' }}
 						type="submit"
-						data-test-e2e="secret-phrase-import"
+						data-test-e2e="private-key-import"
 					>
-						Import recovery phrase
+						Import private key
 					</Button>
 				</Flex>
 			</form>

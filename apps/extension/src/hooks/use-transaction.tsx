@@ -1,9 +1,9 @@
 import { useCallback } from 'react'
-import { firstValueFrom } from 'rxjs'
 import { ActionType } from '@radixdlt/application'
 import { ExtendedActionType, IntendedAction, ActionType as InternalActionType } from '@src/types'
 import { useSharedStore, useAccountStore } from '@src/hooks/use-store'
 import { useRadix } from '@src/hooks/use-radix'
+import { parseAccountAddress } from '@src/services/radix/serializer'
 // import { useSignature } from '@src/hooks/use-signature'
 // import { randomBytes } from 'crypto'
 // import { compile_with_nonce } from 'pte-manifest-compiler'
@@ -14,8 +14,9 @@ export const useTransaction = () => {
 	const { addConfirmWithHWToast } = useSharedStore(state => ({
 		addConfirmWithHWToast: state.addConfirmWithHWToastAction,
 	}))
-	const { account } = useAccountStore(state => ({
-		account: state.account,
+	const { address, signingKey } = useAccountStore(state => ({
+		address: state.getCurrentAddressAction(),
+		signingKey: state.signingKey,
 	}))
 
 	const buildTransaction = useCallback((payload: any) => radix.buildTransaction(payload), [radix])
@@ -43,9 +44,10 @@ export const useTransaction = () => {
 
 	const buildTransactionFromActions = useCallback(
 		(actions: IntendedAction[], message?: string) => {
+			const accountAddress = parseAccountAddress(address)
 			let disableTokenMintAndBurn = true
 			return radix.buildTransaction({
-				network_identifier: { network: account.address.network },
+				network_identifier: { network: accountAddress.network },
 				actions: actions.map(action => {
 					switch (action.type) {
 						case ActionType.TOKEN_TRANSFER:
@@ -154,13 +156,13 @@ export const useTransaction = () => {
 					}
 				}),
 				fee_payer: {
-					address: account.address.toString(),
+					address,
 				},
 				message,
 				disable_token_mint_and_burn: disableTokenMintAndBurn,
 			})
 		},
-		[radix, account],
+		[radix, address],
 	)
 
 	const signTransaction = useCallback(
@@ -170,20 +172,21 @@ export const useTransaction = () => {
 
 			addConfirmWithHWToast()
 
-			const signature = await firstValueFrom(account.sign(transaction, nonXrdHRP))
+			const signature = await signingKey.sign(transaction, nonXrdHRP)
 
-			return radix.finalizeTransaction(account.network, {
+			return radix.finalizeTransaction(parseAccountAddress(address).network, {
 				transaction,
 				signature,
-				publicKeyOfSigner: account.publicKey,
+				publicKeyOfSigner: signingKey.publicKey,
 			})
 		},
-		[radix, account],
+		[radix, signingKey?.id],
 	)
 
 	const submitTransaction = useCallback(
-		(signedTransaction: string) => radix.submitSignedTransaction(account.network, signedTransaction),
-		[radix, account],
+		(signedTransaction: string) =>
+			radix.submitSignedTransaction(parseAccountAddress(address).network, signedTransaction),
+		[radix, address],
 	)
 
 	return {

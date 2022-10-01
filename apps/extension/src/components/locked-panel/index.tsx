@@ -9,8 +9,8 @@ import { Box, Flex, MotionBox, Text, StyledLink } from 'ui/src/components/atoms'
 import Input from 'ui/src/components/input'
 import Button from 'ui/src/components/button'
 import { Z3usText } from 'ui/src/components/z3us-text'
+import { KeystoreType } from '@src/types'
 // import { isWebAuthSupported } from '@src/services/credentials'
-import { KeystoreType } from '@src/store/types'
 import { WalletSelector } from './wallet-selector'
 import { Z3USLogoOuter, Z3USLogoInner } from './z3us-logo'
 
@@ -30,22 +30,18 @@ export const LockedPanel: React.FC = () => {
 	const inputControls = useAnimationControls()
 	const imageControls = useAnimationControls()
 	const inputRef = useRef(null)
-	const { keystore, unlock, unlockHW, isUnlocked, setSeed, hw, addToast } = useSharedStore(state => ({
+	const { keystore, unlock, addToast } = useSharedStore(state => ({
 		keystore: state.keystores.find(({ id }) => id === state.selectKeystoreId),
-		isUnlocked: Boolean(state.masterSeed || state.isHardwareWallet),
-		hw: state.hardwareWallet,
-		seed: state.masterSeed,
 		unlock: state.unlockWalletAction,
 		// hasAuth: state.hasAuthAction,
 		// authenticate: state.authenticateAction,
-		setSeed: state.setMasterSeedAction,
-		unlockHW: state.unlockHardwareWalletAction,
 		addToast: state.addToastAction,
 	}))
 
-	const { selectAccount, accountIndex } = useAccountStore(state => ({
+	const { isUnlocked, accountIndex, setIsUnlocked } = useAccountStore(state => ({
+		isUnlocked: state.isUnlocked,
 		accountIndex: state.selectedAccountIndex,
-		selectAccount: state.selectAccountAction,
+		setIsUnlocked: state.setIsUnlockedAction,
 	}))
 
 	const [state, setState] = useImmer<IImmer>({
@@ -112,19 +108,18 @@ export const LockedPanel: React.FC = () => {
 		try {
 			switch (keystore.type) {
 				case KeystoreType.LOCAL: {
-					const newSeed = await unlock(password)
-					setSeed(newSeed)
-					await selectAccount(accountIndex, null, newSeed)
+					const { publicKey } = await unlock(password, accountIndex)
+					setIsUnlocked(!!publicKey)
 					break
 				}
 				case KeystoreType.HARDWARE:
-					unlockHW()
-					await selectAccount(accountIndex, hw, null)
+					setIsUnlocked(true)
 					break
 				default:
 					throw new Error(`Unknown keystore ${keystore.id} (${keystore.name}) type: ${keystore.type}`)
 			}
 		} catch (error) {
+			console.error(error)
 			resetAnimElements()
 			if (state.passwordError) {
 				addToast({

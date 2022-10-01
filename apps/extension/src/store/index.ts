@@ -12,8 +12,6 @@ import { factory as createOnBoardingStore } from './onboarding'
 import { factory as createSettingsStore, whiteList as settingsWhiteList } from './settings'
 import { factory as createBackgroundStore } from './background'
 import { factory as createKeystoresStore, whiteList as keystorehiteList } from './keystores'
-import { factory as createLocalWalletStore } from './wallet-local'
-import { factory as createHardwareWalletStore } from './wallet-hardware'
 import { factory as createWalletStore, whiteList as walletWhiteList } from './wallet'
 
 import { SharedState, AccountState } from './types'
@@ -48,8 +46,6 @@ export const sharedStore = createStore(
 		...createSettingsStore(set),
 		...createBackgroundStore(set, get),
 		...createKeystoresStore(set),
-		...createLocalWalletStore(set),
-		...createHardwareWalletStore(set),
 	})),
 )
 

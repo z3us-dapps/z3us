@@ -15,19 +15,17 @@ import { InsertPhrase } from '@src/containers/onboarding/steps/2b-insert-phrase'
 import { ImportAccounts } from '@src/containers/onboarding/steps/3-import-accounts'
 import { Flex } from 'ui/src/components/atoms'
 import { useColorMode } from '@src/hooks/use-color-mode'
+import { InsertKey } from './steps/2c-insert-key'
 
 export const OnboardingWorkFlow: React.FC = () => {
 	const [, setLocation] = useLocation()
 	const isDarkMode = useColorMode()
-	const { keystores, onBoardingStep, setOnboardingStep, setIsRestoreWorkflow, isRestoreWorkflow } = useSharedStore(
-		state => ({
-			keystores: state.keystores,
-			onBoardingStep: state.onBoardingStep,
-			setOnboardingStep: state.setOnboardingStepAction,
-			setIsRestoreWorkflow: state.setIsRestoreWorkflowAction,
-			isRestoreWorkflow: state.isRestoreWorkflow,
-		}),
-	)
+	const { keystores, onBoardingStep, workflowEntryStep, setOnboardingStep } = useSharedStore(state => ({
+		keystores: state.keystores,
+		onBoardingStep: state.onBoardingStep,
+		workflowEntryStep: state.workflowEntryStep,
+		setOnboardingStep: state.setOnboardingStepAction,
+	}))
 
 	const showBackBtn = keystores.length > 0 || onBoardingStep !== onBoardingSteps.START
 
@@ -37,24 +35,22 @@ export const OnboardingWorkFlow: React.FC = () => {
 				setLocation('#/wallet/account')
 				break
 			case onBoardingSteps.GENERATE_PHRASE:
-				setIsRestoreWorkflow(false)
 				setOnboardingStep(onBoardingSteps.START)
 				break
 			case onBoardingSteps.INSERT_PHRASE:
 				setOnboardingStep(onBoardingSteps.START)
 				break
+			case onBoardingSteps.INSERT_KEY:
+				setOnboardingStep(onBoardingSteps.START)
+				break
 			case onBoardingSteps.IMPORT_ACCOUNTS:
-				if (isRestoreWorkflow) {
-					setOnboardingStep(onBoardingSteps.INSERT_PHRASE)
-				} else {
-					setOnboardingStep(onBoardingSteps.GENERATE_PHRASE)
-				}
+				setOnboardingStep(workflowEntryStep)
 				break
 			case onBoardingSteps.CREATE_PASSWORD:
-				if (isRestoreWorkflow) {
-					setOnboardingStep(onBoardingSteps.IMPORT_ACCOUNTS)
-				} else {
+				if (workflowEntryStep === onBoardingSteps.GENERATE_PHRASE) {
 					setOnboardingStep(onBoardingSteps.GENERATE_PHRASE)
+				} else {
+					setOnboardingStep(onBoardingSteps.IMPORT_ACCOUNTS)
 				}
 				break
 			case onBoardingSteps.CREATE_WALLET:
@@ -126,6 +122,8 @@ export const OnboardingWorkFlow: React.FC = () => {
 									return <GeneratePhrase />
 								case onBoardingSteps.INSERT_PHRASE:
 									return <InsertPhrase />
+								case onBoardingSteps.INSERT_KEY:
+									return <InsertKey />
 								case onBoardingSteps.IMPORT_ACCOUNTS:
 									return <ImportAccounts />
 								case onBoardingSteps.CREATE_PASSWORD:

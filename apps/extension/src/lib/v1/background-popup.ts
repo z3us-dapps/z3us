@@ -12,6 +12,12 @@ import {
 	LOCK,
 	UNLOCK,
 	EVENT,
+	DERIVE,
+	ENCRYPT,
+	DECRYPT,
+	SIGN,
+	SIGN_HASH,
+	PING,
 	// AUTH_HAS,
 	// AUTH_RESET,
 	// AUTH_REGISTRATION_OPTIONS,
@@ -23,6 +29,7 @@ import { EVENT_MESSAGE_ID } from '@src/services/messanger'
 import { forEachClientPort } from '@src/services/client-ports'
 import { sharedStore } from '@src/store'
 import { getAccountStore } from '@src/services/state'
+import { AddressBookEntry, Network } from '@src/store/types'
 import { INIT, KEYSTORE_CHANGE } from './events'
 
 export default function NewV1BackgroundPopupActions(
@@ -51,6 +58,64 @@ export default function NewV1BackgroundPopupActions(
 		state.removePendingActionAction(id)
 	}
 
+	async function ping(port: Runtime.Port, id: string, payload: any) {
+		try {
+			const resp = await vault.ping()
+			sendPopupMessage(port, id, payload, resp)
+		} catch (error: any) {
+			sendPopupMessage(port, id, payload, { code: 500, error: error?.message || error })
+		}
+	}
+
+	async function newKeychain(
+		port: Runtime.Port,
+		id: string,
+		payload: { type: 'mnemonic' | 'key'; secret: string; password: string; index: number },
+	) {
+		try {
+			const resp = await vault.new(payload.type, payload.secret, payload.password, payload.index)
+			sendPopupMessage(port, id, payload, resp)
+		} catch (error: any) {
+			sendPopupMessage(port, id, payload, { code: 500, error: error?.message || error })
+		}
+	}
+
+	async function unlock(port: Runtime.Port, id: string, payload: { password: string; index: number }) {
+		try {
+			const resp = await vault.unlock(payload.password, payload.index)
+			sendPopupMessage(port, id, payload, resp)
+		} catch (error: any) {
+			sendPopupMessage(port, id, payload, { code: 500, error: error?.message || error })
+		}
+	}
+
+	async function lock(port: Runtime.Port, id: string, payload: any) {
+		try {
+			vault.lock()
+			sendPopupMessage(port, id, payload, {})
+		} catch (error: any) {
+			sendPopupMessage(port, id, payload, { code: 500, error: error?.message || error })
+		}
+	}
+
+	async function has(port: Runtime.Port, id: string, payload: any) {
+		try {
+			const resp = await vault.has()
+			sendPopupMessage(port, id, payload, resp)
+		} catch (error: any) {
+			sendPopupMessage(port, id, payload, { code: 500, error: error?.message || error })
+		}
+	}
+
+	async function get(port: Runtime.Port, id: string, payload: { password: string }) {
+		try {
+			const resp = await vault.get(payload.password)
+			sendPopupMessage(port, id, payload, resp)
+		} catch (error: any) {
+			sendPopupMessage(port, id, payload, { code: 500, error: error?.message || error })
+		}
+	}
+
 	async function remove(port: Runtime.Port, id: string, payload: any) {
 		try {
 			await vault.remove()
@@ -60,45 +125,57 @@ export default function NewV1BackgroundPopupActions(
 		}
 	}
 
-	async function lock(port: Runtime.Port, id: string, payload: any) {
+	async function derive(
+		port: Runtime.Port,
+		id: string,
+		payload: { index: number; network: Network; publicAddresses: { [key: number]: AddressBookEntry } },
+	) {
 		try {
-			await vault.lock()
-			sendPopupMessage(port, id, payload, {})
-		} catch (error: any) {
-			sendPopupMessage(port, id, payload, { code: 500, error: error?.message || error })
-		}
-	}
-
-	async function get(port: Runtime.Port, id: string, payload: any) {
-		try {
-			const resp = await vault.get()
+			const resp = await vault.derive(payload.index)
 			sendPopupMessage(port, id, payload, resp)
 		} catch (error: any) {
 			sendPopupMessage(port, id, payload, { code: 500, error: error?.message || error })
 		}
 	}
 
-	async function hasKeystore(port: Runtime.Port, id: string, payload: any) {
+	async function encrypt(
+		port: Runtime.Port,
+		id: string,
+		payload: { plaintext: string; publicKeyOfOtherParty: string },
+	) {
 		try {
-			const has = await vault.has()
-			sendPopupMessage(port, id, payload, has)
-		} catch (error: any) {
-			sendPopupMessage(port, id, payload, { code: 500, error: error?.message || error })
-		}
-	}
-
-	async function newKeychain(port: Runtime.Port, id: string, payload: { words: string[]; password: string }) {
-		try {
-			const resp = await vault.new(payload.password, payload.words)
+			const resp = await vault.encrypt(payload.plaintext, payload.publicKeyOfOtherParty)
 			sendPopupMessage(port, id, payload, resp)
 		} catch (error: any) {
 			sendPopupMessage(port, id, payload, { code: 500, error: error?.message || error })
 		}
 	}
 
-	async function unlock(port: Runtime.Port, id: string, payload: string) {
+	async function decrypt(port: Runtime.Port, id: string, payload: { message: string; publicKeyOfOtherParty: string }) {
 		try {
-			const resp = await vault.unlock(payload)
+			const resp = await vault.decrypt(payload.message, payload.publicKeyOfOtherParty)
+			sendPopupMessage(port, id, payload, resp)
+		} catch (error: any) {
+			sendPopupMessage(port, id, payload, { code: 500, error: error?.message || error })
+		}
+	}
+
+	async function sign(
+		port: Runtime.Port,
+		id: string,
+		payload: { blob: string; hashOfBlobToSign: string; nonXrdHRP?: string },
+	) {
+		try {
+			const resp = await vault.sign(payload.blob, payload.hashOfBlobToSign, payload.nonXrdHRP)
+			sendPopupMessage(port, id, payload, resp)
+		} catch (error: any) {
+			sendPopupMessage(port, id, payload, { code: 500, error: error?.message || error })
+		}
+	}
+
+	async function signHash(port: Runtime.Port, id: string, payload: { hash: string }) {
+		try {
+			const resp = await vault.signHash(payload.hash)
 			sendPopupMessage(port, id, payload, resp)
 		} catch (error: any) {
 			sendPopupMessage(port, id, payload, { code: 500, error: error?.message || error })
@@ -232,13 +309,19 @@ export default function NewV1BackgroundPopupActions(
 	// }
 
 	return {
+		[PING]: ping,
 		[CONFIRM]: confirm,
-		[HAS]: hasKeystore,
 		[NEW]: newKeychain,
+		[HAS]: has,
+		[UNLOCK]: unlock,
+		[LOCK]: lock,
 		[GET]: get,
 		[REMOVE]: remove,
-		[LOCK]: lock,
-		[UNLOCK]: unlock,
+		[DERIVE]: derive,
+		[ENCRYPT]: encrypt,
+		[DECRYPT]: decrypt,
+		[SIGN]: sign,
+		[SIGN_HASH]: signHash,
 		[EVENT]: onEvent,
 		// [AUTH_HAS]: authHas,
 		// [AUTH_RESET]: authReset,

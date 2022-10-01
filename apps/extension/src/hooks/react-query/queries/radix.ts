@@ -221,10 +221,10 @@ export const useTransactionHistory = (size = 30) => {
 }
 
 export const useDecryptTransaction = (tx: Transaction, activity?: Action) => {
-	const { account } = useAccountStore(state => ({
-		account: state.account,
+	const { signingKey, address } = useAccountStore(state => ({
+		signingKey: state.signingKey,
+		address: state.getCurrentAddressAction(),
 	}))
-	const address = account?.address.toString()
 	const { decryptMessage } = useMessage()
 
 	return useQuery(
@@ -236,7 +236,7 @@ export const useDecryptTransaction = (tx: Transaction, activity?: Action) => {
 			return decryptMessage(activity.from_account, tx.message)
 		},
 		{
-			enabled: !!activity && !!account,
+			enabled: !!activity && !!signingKey,
 		},
 	)
 }

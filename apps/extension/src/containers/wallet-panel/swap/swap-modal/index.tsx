@@ -82,8 +82,9 @@ export const SwapModal: React.FC<IProps> = ({
 	const { addressBook } = useSharedStore(state => ({
 		addressBook: state.addressBook,
 	}))
-	const { account, publicAddresses } = useAccountStore(state => ({
-		account: state.account,
+	const { signingKey, address, publicAddresses } = useAccountStore(state => ({
+		signingKey: state.signingKey,
+		address: state.getCurrentAddressAction(),
 		publicAddresses: Object.values(state.publicAddresses),
 	}))
 	const [state, setState] = useImmer<ImmerProps>({
@@ -94,7 +95,6 @@ export const SwapModal: React.FC<IProps> = ({
 		isModalOpen: false,
 	})
 
-	const address = account?.address?.toString()
 	const entry = addressBook[address] || publicAddresses.find(_account => _account.address === address)
 	const shortAddress = getShortAddress(address)
 
@@ -116,7 +116,7 @@ export const SwapModal: React.FC<IProps> = ({
 	}
 
 	const handleConfirmSend = async () => {
-		if (!account) return
+		if (!signingKey) return
 
 		setState(draft => {
 			draft.isSendingAlertOpen = true
@@ -333,7 +333,7 @@ export const SwapModal: React.FC<IProps> = ({
 												aria-label="confirm send token"
 												css={{ px: '0', flex: '1', ml: '$1' }}
 												onClick={handleConfirmSend}
-												disabled={!account}
+												disabled={!signingKey}
 												fullWidth
 											>
 												Confirm swap

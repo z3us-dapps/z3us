@@ -1,9 +1,9 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable no-case-declarations */
 import BigNumber from 'bignumber.js'
-import { IntendedTransferTokens, BuiltTransactionReadyToSign, AccountT } from '@radixdlt/application'
+import { IntendedTransferTokens, BuiltTransactionReadyToSign, AccountT, AccountAddressT } from '@radixdlt/application'
 import { FLOOP_RRI, Z3US_FEE_RATIO, Z3US_RRI, Z3US_WALLET_MAIN, Z3US_WALLET_BURN } from '@src/config'
-import { Pool, PoolType, Token, TokenAmount, IntendedAction, PoolQuote } from '@src/types'
+import { Pool, PoolType, Token, TokenAmount, IntendedAction, PoolQuote, SigningKey } from '@src/types'
 import { buildAmount } from '@src/utils/radix'
 import { parseAccountAddress, parseAmount, parseResourceIdentifier } from '@src/services/radix/serializer'
 import oci from '@src/services/oci'
@@ -381,7 +381,7 @@ export const calculateTransactionFee = async (
 		fee: string
 	}>,
 	createMessage: any,
-	account: AccountT,
+	accountAddress: AccountAddressT,
 	response?: any,
 ): Promise<{
 	transaction: BuiltTransactionReadyToSign | null
@@ -437,7 +437,7 @@ export const calculateTransactionFee = async (
 					amount: buildAmount(z3usBurn),
 					tokenIdentifier: Z3US_RRI,
 				},
-				account.address,
+				accountAddress,
 			)
 			if (actionResult.isErr()) {
 				throw actionResult.error
@@ -452,7 +452,7 @@ export const calculateTransactionFee = async (
 					amount: buildAmount(z3usFee),
 					tokenIdentifier: fromRRI,
 				},
-				account.address,
+				accountAddress,
 			)
 			if (actionResult.isErr()) {
 				throw actionResult.error
@@ -492,7 +492,7 @@ export const calculateTransactionFee = async (
 								amount: parseAmount(action.lhs_amount),
 								tokenIdentifier: parseResourceIdentifier(action.lhs_rri),
 							},
-							account.address,
+							accountAddress,
 						)
 						if (actionResult.isErr()) {
 							throw actionResult.error
@@ -508,7 +508,7 @@ export const calculateTransactionFee = async (
 						amount: buildAmount(amount),
 						tokenIdentifier: fromRRI,
 					},
-					account.address,
+					accountAddress,
 				)
 				if (actionResult.isErr()) {
 					throw actionResult.error

@@ -8,6 +8,8 @@ import Button from 'ui/src/components/button'
 import { Text, Flex } from 'ui/src/components/atoms'
 import InputFeedback from 'ui/src/components/input/input-feedback'
 import { useAPDU } from '@src/hooks/use-apdu'
+import { createHardwareSigningKey } from '@src/services/signing_key'
+import { KeystoreType } from '@src/types'
 
 interface ImmerT {
 	isLoading: boolean
@@ -15,29 +17,31 @@ interface ImmerT {
 
 export const HardwareWalletReconnect: React.FC = () => {
 	const sendAPDU = useAPDU()
-	const { isHardwareWallet, addToast, setHardwareWallet } = useSharedStore(state => ({
-		isHardwareWallet: state.isHardwareWallet,
+	const { addToast } = useSharedStore(state => ({
 		addToast: state.addToastAction,
-		setHardwareWallet: state.setHardwareWalletAction,
 	}))
-	const { account, selectAccount, accountIndex } = useAccountStore(state => ({
-		account: state.account,
+	const { signingKey, accountIndex, getAccountType, setSigningKey } = useAccountStore(state => ({
+		signingKey: state.signingKey,
 		accountIndex: state.selectedAccountIndex,
 		selectAccount: state.selectAccountAction,
+		getAccountType: state.getAccountTypeAction,
+		setSigningKey: state.setSigningKeyAction,
 	}))
 	const [state, setState] = useImmer<ImmerT>({
 		isLoading: false,
 	})
 
+	const isHW = getAccountType() === KeystoreType.HARDWARE
+
 	const handleReconnectHW = async () => {
-		if (!isHardwareWallet || account || state.isLoading) return
+		if (signingKey || state.isLoading || !isHW) return
 		setState(draft => {
 			draft.isLoading = true
 		})
 		try {
 			const hw = await firstValueFrom(HardwareWalletLedger.create({ send: sendAPDU }))
-			setHardwareWallet(hw)
-			await selectAccount(accountIndex, hw, null)
+			const newSigningKey = await createHardwareSigningKey(hw, accountIndex)
+			setSigningKey(newSigningKey)
 		} catch (error) {
 			addToast({
 				type: 'error',
@@ -51,7 +55,7 @@ export const HardwareWalletReconnect: React.FC = () => {
 		})
 	}
 
-	if (!isHardwareWallet || account) {
+	if (signingKey || !isHW) {
 		return null
 	}
 

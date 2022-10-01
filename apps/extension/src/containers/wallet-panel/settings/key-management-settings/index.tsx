@@ -1,6 +1,8 @@
 import React from 'react'
+import HDNode from 'hdkey'
+import { Mnemonic } from '@radixdlt/crypto'
 import { useLocation } from 'wouter'
-import { UNLOCK } from '@src/lib/v1/actions'
+import { GET } from '@src/lib/v1/actions'
 import { useImmer } from 'use-immer'
 import { useSharedStore, useAccountStore } from '@src/hooks/use-store'
 import { Box, Flex, Text, Grid } from 'ui/src/components/atoms'
@@ -30,17 +32,14 @@ interface ImmerT {
 
 export const KeyManagementSettings: React.FC = () => {
 	const [, setLocation] = useLocation()
-	const { messanger, keystore, createWallet, removeWallet, removeKeystore, setSeed, addToast } = useSharedStore(
-		state => ({
-			messanger: state.messanger,
-			keystore: state.keystores.find(({ id }) => id === state.selectKeystoreId),
-			createWallet: state.createWalletAction,
-			removeWallet: state.removeWalletAction,
-			removeKeystore: state.removeKeystoreAction,
-			setSeed: state.setMasterSeedAction,
-			addToast: state.addToastAction,
-		}),
-	)
+	const { messanger, keystore, createWallet, removeWallet, removeKeystore, addToast } = useSharedStore(state => ({
+		messanger: state.messanger,
+		keystore: state.keystores.find(({ id }) => id === state.selectKeystoreId),
+		createWallet: state.createWalletAction,
+		removeWallet: state.removeWalletAction,
+		removeKeystore: state.removeKeystoreAction,
+		addToast: state.addToastAction,
+	}))
 	const { accountIndex, reset, selectAccount } = useAccountStore(state => ({
 		accountIndex: state.selectedAccountIndex,
 		reset: state.resetAction,
@@ -73,10 +72,20 @@ export const KeyManagementSettings: React.FC = () => {
 				setState(draft => {
 					draft.isLoading = true
 				})
-				const { mnemonic } = await messanger.sendActionMessageFromPopup(UNLOCK, state.password)
-				const seed = await createWallet(mnemonic.words, state.newPassword)
-				setSeed(seed)
-				await selectAccount(accountIndex, null, seed)
+				const { mnemonic, hdMasterNode } = await messanger.sendActionMessageFromPopup(GET, state.password)
+
+				if (mnemonic) {
+					const mnemomicRes = await Mnemonic.fromEntropy({
+						entropy: Buffer.from(mnemonic.entropy, 'hex'),
+						language: mnemonic?.language,
+					})
+					if (mnemomicRes.isErr()) throw mnemomicRes.error
+					await createWallet('mnemonic', mnemonic.words, state.newPassword, accountIndex)
+				} else {
+					const hdkey = HDNode.fromJSON(hdMasterNode)
+					await createWallet('key', hdkey.privateExtendedKey.toString(), state.newPassword, accountIndex)
+				}
+				await selectAccount(accountIndex)
 
 				setState(draft => {
 					draft.isLoading = false

@@ -20,6 +20,7 @@ import { HardwareWalletReconnect } from '@src/components/hardware-wallet-reconne
 import { Z3usSpinnerAnimation } from '@src/components/z3us-spinner-animation'
 import { ArrowLeftIcon } from '@radix-ui/react-icons'
 import { ExtendedActionType } from '@src/types'
+import { parseAccountAddress } from '@src/services/radix/serializer'
 import ActionsPreview from './components/actions-preview'
 
 interface ImmerT {
@@ -50,8 +51,9 @@ export const Transaction = (): JSX.Element => {
 		sendResponse: state.sendResponseAction,
 	}))
 
-	const { account, action } = useAccountStore(state => ({
-		account: state.account,
+	const { signingKey, action, address } = useAccountStore(state => ({
+		signingKey: state.signingKey,
+		address: state.getCurrentAddressAction(),
 		action:
 			state.pendingActions[id] && state.pendingActions[id].payloadHex
 				? hexToJSON(state.pendingActions[id].payloadHex)
@@ -75,10 +77,11 @@ export const Transaction = (): JSX.Element => {
 	const { data: token } = useTokenInfo(rri)
 
 	useEffect(() => {
-		if (!account) return
+		if (!signingKey) return
 		if (actions.length > 0) {
 			const build = async () => {
 				try {
+					const accountAddress = parseAccountAddress(address)
 					let disableTokenMintAndBurn = true
 					actions.forEach(_action => {
 						disableTokenMintAndBurn =
@@ -91,10 +94,10 @@ export const Transaction = (): JSX.Element => {
 						msg = await createMessage(message, encryptMessage ? recipient : undefined)
 					}
 					const { fee, transaction } = await buildTransaction({
-						network_identifier: { network: account.address.network },
+						network_identifier: { network: accountAddress.network },
 						actions,
 						fee_payer: {
-							address: account.address.toString(),
+							address: accountAddress.toString(),
 						},
 						message: msg,
 						disable_token_mint_and_burn: disableTokenMintAndBurn,
@@ -112,7 +115,7 @@ export const Transaction = (): JSX.Element => {
 			}
 			build()
 		}
-	}, [account])
+	}, [signingKey?.id])
 
 	const handleClose = async () => {
 		sendResponse(CONFIRM, {
@@ -132,7 +135,7 @@ export const Transaction = (): JSX.Element => {
 	}
 
 	const handleConfirm = async () => {
-		if (!account) return
+		if (!signingKey) return
 
 		setState(draft => {
 			draft.isSendingTransaction = true
@@ -229,7 +232,7 @@ export const Transaction = (): JSX.Element => {
 					<AlertDialogTrigger asChild>
 						<Button
 							onClick={handleConfirm}
-							disabled={!account || (!state.transaction && !manifest)}
+							disabled={!signingKey || (!state.transaction && !manifest)}
 							size="6"
 							color="primary"
 							aria-label="confirm transaction wallet"
