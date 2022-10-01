@@ -63,3 +63,5 @@ export const Accounts: React.FC = () => (
 		</RouterScope>
 	</Box>
 )
+
+export default Accounts

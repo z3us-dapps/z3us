@@ -151,3 +151,5 @@ export const Settings: React.FC = () => {
 		</Box>
 	)
 }
+
+export default Settings

@@ -72,3 +72,5 @@ export const Staking: React.FC = () => {
 		</Box>
 	)
 }
+
+export default Staking

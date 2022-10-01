@@ -775,3 +775,5 @@ export const Swap: React.FC = () => {
 		</Box>
 	)
 }
+
+export default Swap
