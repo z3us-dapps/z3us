@@ -74,3 +74,5 @@ export const PendingActions: React.FC = () => {
 		</Box>
 	)
 }
+
+export default PendingActions

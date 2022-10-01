@@ -1,20 +1,54 @@
-import React from 'react'
+import React, { lazy, ReactNode, Suspense } from 'react'
 import { useImmer } from 'use-immer'
 import { ScrollArea } from 'ui/src/components/scroll-area'
-import { KeyIcon, TrustedAppsIcon, NetworkIcon, AccountsIcon, AddressBookIcon, ActivityIcon } from 'ui/src/components/icons'
+import {
+	KeyIcon,
+	TrustedAppsIcon,
+	NetworkIcon,
+	AccountsIcon,
+	AddressBookIcon,
+	ActivityIcon,
+} from 'ui/src/components/icons'
 import { LockClosedIcon, TokensIcon } from '@radix-ui/react-icons'
 import { Box, Flex, Text } from 'ui/src/components/atoms'
 import { Accordion, AccordionItem, AccordionTrigger, AccordionContent } from 'ui/src/components/accordion'
-import { AddressBook } from './address-book'
-import { Accounts } from './accounts'
-import { GeneralSettings } from './general-settings'
-import { TrustedApps } from './trusted-apps'
-import { NetworkSettings } from './network-settings'
-import { KeyManagementSettings } from './key-management-settings'
 import { accordians } from './constants'
-import { TokenManagementSettings } from './token-management-settins'
-import { ImportSettings } from './import-settings'
-import { PendingActions } from './pending-actions'
+
+const AddressBook = lazy(() => import('./address-book'))
+const Accounts = lazy(() => import('./accounts'))
+const GeneralSettings = lazy(() => import('./general-settings'))
+const TrustedApps = lazy(() => import('./trusted-apps'))
+const NetworkSettings = lazy(() => import('./network-settings'))
+const KeyManagementSettings = lazy(() => import('./key-management-settings'))
+const TokenManagementSettings = lazy(() => import('./token-management-settins'))
+const ImportSettings = lazy(() => import('./import-settings'))
+const PendingActions = lazy(() => import('./pending-actions'))
+
+const AccordionSettingsItem = ({
+	value,
+	title,
+	icon,
+	children,
+}: {
+	value: string
+	title: string
+	icon: ReactNode
+	children: ReactNode
+}) => (
+	<AccordionItem value={value}>
+		<AccordionTrigger>
+			<Flex align="center" css={{ flex: '1' }}>
+				{icon}
+				<Text size="3" medium css={{ ml: '$2' }}>
+					{title}
+				</Text>
+			</Flex>
+		</AccordionTrigger>
+		<AccordionContent>
+			<Suspense fallback="Loading...">{children}</Suspense>
+		</AccordionContent>
+	</AccordionItem>
+)
 
 interface ImmerT {
 	activeAccordion: string
@@ -56,116 +90,57 @@ export const Settings: React.FC = () => {
 								}}
 								collapsible
 							>
-								<AccordionItem value={accordians.LOCK_SETTINGS}>
-									<AccordionTrigger>
-										<Flex align="center" css={{ flex: '1' }}>
-											<LockClosedIcon />
-											<Text size="3" medium css={{ ml: '$2' }}>
-												General settings
-											</Text>
-										</Flex>
-									</AccordionTrigger>
-									<AccordionContent>
-										<GeneralSettings />
-									</AccordionContent>
-								</AccordionItem>
+								<AccordionSettingsItem
+									value={accordians.LOCK_SETTINGS}
+									icon={<LockClosedIcon />}
+									title="General settings"
+								>
+									<GeneralSettings />
+								</AccordionSettingsItem>
 
-								<AccordionItem value={accordians.WEBSITES_MANAGEMENT}>
-									<AccordionTrigger>
-										<Flex align="center" css={{ flex: '1' }}>
-											<ActivityIcon />
-											<Text size="3" medium css={{ ml: '$2' }}>
-												Trusted apps
-											</Text>
-										</Flex>
-									</AccordionTrigger>
-									<AccordionContent>
-										<TrustedApps />
-									</AccordionContent>
-								</AccordionItem>
+								<AccordionSettingsItem
+									value={accordians.WEBSITES_MANAGEMENT}
+									icon={<TrustedAppsIcon />}
+									title="Trusted apps"
+								>
+									<TrustedApps />
+								</AccordionSettingsItem>
 
-								<AccordionItem value={accordians.WEBSITES_ACTIONS}>
-									<AccordionTrigger>
-										<Flex align="center" css={{ flex: '1' }}>
-											<TrustedAppsIcon />
-											<Text size="3" medium css={{ ml: '$2' }}>
-												Unconfirmed actions
-											</Text>
-										</Flex>
-									</AccordionTrigger>
-									<AccordionContent>
-										<PendingActions />
-									</AccordionContent>
-								</AccordionItem>
+								<AccordionSettingsItem
+									value={accordians.WEBSITES_ACTIONS}
+									icon={<ActivityIcon />}
+									title="Unconfirmed actions"
+								>
+									<PendingActions />
+								</AccordionSettingsItem>
 
-								<AccordionItem value={accordians.NETWORK}>
-									<AccordionTrigger>
-										<Flex align="center" css={{ flex: '1' }}>
-											<NetworkIcon />
-											<Text size="3" medium css={{ ml: '$2' }}>
-												Network
-											</Text>
-										</Flex>
-									</AccordionTrigger>
-									<AccordionContent>
-										<NetworkSettings />
-									</AccordionContent>
-								</AccordionItem>
+								<AccordionSettingsItem value={accordians.NETWORK} icon={<NetworkIcon />} title="Network">
+									<NetworkSettings />
+								</AccordionSettingsItem>
 
-								<AccordionItem value={accordians.ACCOUNTS}>
-									<AccordionTrigger>
-										<Flex align="center" css={{ flex: '1' }}>
-											<AccountsIcon />
-											<Text size="3" medium css={{ ml: '$2' }}>
-												Accounts
-											</Text>
-										</Flex>
-									</AccordionTrigger>
-									<AccordionContent>
-										<Accounts />
-									</AccordionContent>
-								</AccordionItem>
+								<AccordionSettingsItem value={accordians.ACCOUNTS} icon={<AccountsIcon />} title="Accounts">
+									<Accounts />
+								</AccordionSettingsItem>
 
-								<AccordionItem value={accordians.ADDRESS_BOOK}>
-									<AccordionTrigger>
-										<Flex align="center" css={{ flex: '1' }}>
-											<AddressBookIcon />
-											<Text size="3" medium css={{ ml: '$2' }}>
-												Address book
-											</Text>
-										</Flex>
-									</AccordionTrigger>
-									<AccordionContent>
-										<AddressBook />
-									</AccordionContent>
-								</AccordionItem>
+								<AccordionSettingsItem value={accordians.ADDRESS_BOOK} icon={<AddressBookIcon />} title="Address book">
+									<AddressBook />
+								</AccordionSettingsItem>
 
-								<AccordionItem value={accordians.TOKEN_MANAGEMENT}>
-									<AccordionTrigger>
-										<Flex align="center" css={{ flex: '1' }}>
-											<TokensIcon />
-											<Text size="3" medium css={{ ml: '$2' }}>
-												Token management
-											</Text>
-										</Flex>
-									</AccordionTrigger>
-									<AccordionContent css={{ padding: '0' }}>
-										<TokenManagementSettings />
-									</AccordionContent>
-								</AccordionItem>
-								<AccordionItem value={accordians.KEY_MANAGEMENT}>
-									<AccordionTrigger>
-										<Flex align="center" css={{ flex: '1' }}>
-											<KeyIcon />
-											<Text size="3" medium css={{ ml: '$2' }}>
-												Key & password management
-											</Text>
-										</Flex>
-									</AccordionTrigger>
-									<AccordionContent>
-										<KeyManagementSettings />
-									</AccordionContent>
-								</AccordionItem>
+								<AccordionSettingsItem
+									value={accordians.TOKEN_MANAGEMENT}
+									icon={<TokensIcon />}
+									title="Token management"
+								>
+									<TokenManagementSettings />
+								</AccordionSettingsItem>
+
+								<AccordionSettingsItem
+									value={accordians.KEY_MANAGEMENT}
+									icon={<KeyIcon />}
+									title="Key & password management"
+								>
+									<KeyManagementSettings />
+								</AccordionSettingsItem>
 							</Accordion>
 
 							<ImportSettings />

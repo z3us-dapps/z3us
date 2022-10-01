@@ -1,7 +1,6 @@
 import React, { useEffect, lazy, Suspense } from 'react'
 import { useAccountStore, useSharedStore } from '@src/hooks/use-store'
 import { useHashLocation } from '@src/hooks/use-hash-location'
-import { AnimatedSwitch } from '@src/components/router-animated-switch'
 import { RouterScope } from '@src/components/router-scope'
 import { LockedPanel } from '@src/components/locked-panel'
 import { WalletMenu } from '@src/components/wallet-menu'
@@ -51,13 +50,11 @@ export const Notification: React.FC = () => {
 			</Flex>
 			<RouterScope base="/notification" hook={useHashLocation as any}>
 				<Suspense fallback={Loader}>
-					<AnimatedSwitch css={{ display: 'flex', flexDirection: 'column', flex: '1' }}>
-						<Route path="/connect/:id" component={Connect} />
-						<Route path="/encrypt/:id" component={Encrypt} />
-						<Route path="/decrypt/:id" component={Decrypt} />
-						<Route path="/sign/:id" component={Sign} />
-						<Route path="/transaction/:id" component={Transaction} />
-					</AnimatedSwitch>
+					<Route path="/connect/:id" component={Connect} />
+					<Route path="/encrypt/:id" component={Encrypt} />
+					<Route path="/decrypt/:id" component={Decrypt} />
+					<Route path="/sign/:id" component={Sign} />
+					<Route path="/transaction/:id" component={Transaction} />
 				</Suspense>
 			</RouterScope>
 		</Flex>

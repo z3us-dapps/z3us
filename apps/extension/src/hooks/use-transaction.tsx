@@ -167,6 +167,8 @@ export const useTransaction = () => {
 
 	const signTransaction = useCallback(
 		async (symbol: string, transaction: { blob: string; hashOfBlobToSign: string }) => {
+			if (!signingKey) throw new Error('Invalid signing key')
+
 			const rriName = symbol.toLocaleLowerCase()
 			const nonXrdHRP = rriName !== 'xrd' ? rriName : undefined
 
