@@ -102,22 +102,32 @@ export const Start = (): JSX.Element => {
 				</Button>
 			</Flex>
 			<Flex css={{ mt: '$2' }}>
-				<Button data-test-e2e="restore-from-seed" color="tertiary" size="5" onClick={handleRestoreFromPhrase} fullWidth>
-					Restore from seed
-				</Button>
-			</Flex>
-			<Flex css={{ mt: '$2' }}>
-				<Button data-test-e2e="import-key" color="tertiary" size="5" onClick={handleImportKey} fullWidth>
-					Import private key
-				</Button>
-			</Flex>
-			<Flex css={{ mt: '$2' }}>
 				<Button color="tertiary" size="5" onClick={connectHardwareWallet} fullWidth>
 					<Box as="span">Connect Ledger</Box>
 					<Box as="span" css={{ pl: '4px', mt: '1px' }}>
 						<HardwareWalletIcon />
 					</Box>
 				</Button>
+			</Flex>
+			<Flex justify="center" css={{ mt: '$4', gap: '12px' }}>
+				<StyledLink
+					underline
+					as="button"
+					data-test-e2e="restore-from-seed"
+					onClick={handleRestoreFromPhrase}
+					css={{ color: '$txtHelp' }}
+				>
+					<Text>Restore from seed</Text>
+				</StyledLink>
+				<StyledLink
+					underline
+					as="button"
+					data-test-e2e="import-key"
+					onClick={handleImportKey}
+					css={{ color: '$txtHelp' }}
+				>
+					<Text>Import private key</Text>
+				</StyledLink>
 			</Flex>
 		</PageWrapper>
 	)
