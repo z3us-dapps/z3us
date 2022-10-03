@@ -3,7 +3,7 @@ import { Box, Flex, Text, StyledLink } from 'ui/src/components/atoms'
 import Button from 'ui/src/components/button'
 import { PageWrapper, PageHeading, PageSubHeading } from '@src/components/layout'
 import { CheckboxIcon } from '@radix-ui/react-icons'
-import { useSharedStore, useAccountStore } from '@src/hooks/use-store'
+import { useSharedStore, useNoneSharedStore } from '@src/hooks/use-store'
 import { useRoute } from 'wouter'
 import { hexToJSON } from '@src/utils/encoding'
 import { CONFIRM } from '@src/lib/v1/actions'
@@ -14,7 +14,7 @@ export const Connect = (): JSX.Element => {
 	const { sendResponse } = useSharedStore(state => ({
 		sendResponse: state.sendResponseAction,
 	}))
-	const { accountAddress, action, approveWebsite, declineWebsite, approvedWebsites } = useAccountStore(state => ({
+	const { accountAddress, action, approveWebsite, declineWebsite, approvedWebsites } = useNoneSharedStore(state => ({
 		accountAddress: state.getCurrentAddressAction(),
 		approvedWebsites: state.approvedWebsites,
 		approveWebsite: state.approveWebsiteAction,

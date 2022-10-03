@@ -2,7 +2,7 @@ import React from 'react'
 import { Box, Flex, Text, StyledLink, Image } from 'ui/src/components/atoms'
 import Button from 'ui/src/components/button'
 import { PageWrapper, PageHeading, PageSubHeading } from '@src/components/layout'
-import { useSharedStore, useAccountStore } from '@src/hooks/use-store'
+import { useSharedStore, useNoneSharedStore } from '@src/hooks/use-store'
 import { useRoute } from 'wouter'
 import { hexToJSON } from '@src/utils/encoding'
 import { CONFIRM } from '@src/lib/v1/actions'
@@ -13,12 +13,11 @@ export const Encrypt = (): JSX.Element => {
 	const [, { id }] = useRoute<{ id: string }>('/encrypt/:id')
 
 	const { createMessage } = useMessage()
-	const { sendResponse } = useSharedStore(state => ({
+	const { signingKey, sendResponse } = useSharedStore(state => ({
+		signingKey: state.signingKey,
 		sendResponse: state.sendResponseAction,
 	}))
-
-	const { signingKey, action } = useAccountStore(state => ({
-		signingKey: state.signingKey,
+	const { action } = useNoneSharedStore(state => ({
 		action:
 			state.pendingActions[id] && state.pendingActions[id].payloadHex
 				? hexToJSON(state.pendingActions[id].payloadHex)

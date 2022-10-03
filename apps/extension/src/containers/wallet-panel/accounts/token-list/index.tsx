@@ -1,6 +1,6 @@
 /* eslint-disable react/no-unstable-nested-components */
 import React, { useState } from 'react'
-import { useSharedStore, useAccountStore } from '@src/hooks/use-store'
+import { useNoneSharedStore } from '@src/hooks/use-store'
 import { useAllAccountsTokenBalances, useTokenBalances } from '@src/hooks/react-query/queries/radix'
 import { TokenLoadingRows } from '@src/components/token-loading-row'
 import { useImmer } from 'use-immer'
@@ -100,7 +100,7 @@ const buildTokensForDisplay = (
 }
 
 const AllBalances: React.FC = () => {
-	const { visibleTokens, hiddenTokens, tokenSearch } = useAccountStore(state => ({
+	const { visibleTokens, hiddenTokens, tokenSearch } = useNoneSharedStore(state => ({
 		visibleTokens: state.visibleTokens,
 		hiddenTokens: state.hiddenTokens,
 		tokenSearch: state.tokenSearch,
@@ -163,7 +163,7 @@ const AllBalances: React.FC = () => {
 }
 
 const AccountBalances: React.FC = () => {
-	const { visibleTokens, hiddenTokens, tokenSearch } = useAccountStore(state => ({
+	const { visibleTokens, hiddenTokens, tokenSearch } = useNoneSharedStore(state => ({
 		visibleTokens: state.visibleTokens,
 		hiddenTokens: state.hiddenTokens,
 		tokenSearch: state.tokenSearch,
@@ -223,11 +223,9 @@ const AccountBalances: React.FC = () => {
 }
 
 const Balances: React.FC = () => {
-	const { expanded } = useSharedStore(state => ({
-		expanded: state.accountPanelExpanded,
-	}))
-	const { activeSlideIndex } = useAccountStore(state => ({
+	const { activeSlideIndex, expanded } = useNoneSharedStore(state => ({
 		activeSlideIndex: state.activeSlideIndex,
+		expanded: state.accountPanelExpanded,
 	}))
 
 	const calculateHeight = expanded
@@ -246,11 +244,11 @@ interface ImmerT {
 }
 
 export const TokenList: React.FC = () => {
-	const { addresses, activeSlideIndex } = useAccountStore(state => ({
+	const { addresses, activeSlideIndex } = useNoneSharedStore(state => ({
 		addresses: Object.values(state.publicAddresses).map(({ address }) => address),
 		activeSlideIndex: state.activeSlideIndex,
 	}))
-	const { setTokenSearch } = useAccountStore(state => ({
+	const { setTokenSearch } = useNoneSharedStore(state => ({
 		setTokenSearch: state.setTokenSearchAction,
 	}))
 	const [state, setState] = useImmer<ImmerT>({

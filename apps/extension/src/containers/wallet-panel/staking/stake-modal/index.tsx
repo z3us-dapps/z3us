@@ -1,7 +1,7 @@
 import React, { useRef, useEffect } from 'react'
 import { useQueryClient } from 'react-query'
 import { useImmer } from 'use-immer'
-import { useSharedStore, useAccountStore } from '@src/hooks/use-store'
+import { useSharedStore, useNoneSharedStore } from '@src/hooks/use-store'
 import { useLocation } from 'wouter'
 import { getShortAddress } from '@src/utils/string-utils'
 import { HardwareWalletReconnect } from '@src/components/hardware-wallet-reconnect'
@@ -55,12 +55,12 @@ export const StakeModal: React.FC<IProps> = ({ trigger, tooltipMessage, validato
 	const { data: token } = useNativeToken()
 	const { data: validator } = useLookupValidator(validatorAddress)
 
-	const { addToast } = useSharedStore(state => ({
+	const { signingKey, addToast } = useSharedStore(state => ({
+		signingKey: state.signingKey,
 		addToast: state.addToastAction,
 	}))
 
-	const { signingKey, entry } = useAccountStore(state => ({
-		signingKey: state.signingKey,
+	const { entry } = useNoneSharedStore(state => ({
 		entry: Object.values(state.publicAddresses).find(_account => _account.address === state.getCurrentAddressAction()),
 	}))
 

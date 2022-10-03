@@ -1,5 +1,5 @@
 import React from 'react'
-import { useAccountStore, useSharedStore } from '@src/hooks/use-store'
+import { useSharedStore } from '@src/hooks/use-store'
 import { useQueryClient } from 'react-query'
 import { useImmer } from 'use-immer'
 import { useEventListener } from 'usehooks-ts'
@@ -11,7 +11,7 @@ import { KeystoreType } from '@src/types'
 import { generateId } from '@src/utils/generate-id'
 import { useLocation } from 'wouter'
 import { onBoardingSteps } from '@src/store/onboarding'
-import { getAccountStore } from '@src/services/state'
+import { getNoneSharedStore } from '@src/services/state'
 
 const isHIDSupported = !!window?.navigator?.hid
 
@@ -24,16 +24,15 @@ export const CompleteSync = (): JSX.Element => {
 	const [, setLocation] = useLocation()
 	const queryClient = useQueryClient()
 
-	const { importingAddresses, lock, addKeystore, setOnboradingStep, setImportingAddresses } = useSharedStore(state => ({
-		importingAddresses: state.importingAddresses,
-		lock: state.lockAction,
-		addKeystore: state.addKeystoreAction,
-		setOnboradingStep: state.setOnboardingStepAction,
-		setImportingAddresses: state.setImportingAddressesAction,
-	}))
-	const { setIsUnlocked } = useAccountStore(state => ({
-		setIsUnlocked: state.setIsUnlockedAction,
-	}))
+	const { importingAddresses, lock, addKeystore, setOnboradingStep, setImportingAddresses, setIsUnlocked } =
+		useSharedStore(state => ({
+			importingAddresses: state.importingAddresses,
+			lock: state.lockAction,
+			addKeystore: state.addKeystoreAction,
+			setOnboradingStep: state.setOnboardingStepAction,
+			setImportingAddresses: state.setImportingAddressesAction,
+			setIsUnlocked: state.setIsUnlockedAction,
+		}))
 
 	const addresses = Object.values(importingAddresses)
 
@@ -55,7 +54,7 @@ export const CompleteSync = (): JSX.Element => {
 			addKeystore(id, id, KeystoreType.HARDWARE)
 			setIsUnlocked(false)
 
-			const store = await getAccountStore(id)
+			const store = await getNoneSharedStore(id)
 			store.getState().setPublicAddressesAction(importingAddresses)
 
 			await queryClient.invalidateQueries({ active: true, inactive: true, stale: true })

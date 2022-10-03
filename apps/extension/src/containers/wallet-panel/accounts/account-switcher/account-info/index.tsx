@@ -10,7 +10,7 @@ import { formatBigNumber } from '@src/utils/formatters'
 import { AccountAddress } from '@src/components/account-address'
 import PriceTicker from 'ui/src/components/price-ticker'
 import LoaderBars from 'ui/src/components/loader-bars'
-import { useSharedStore, useAccountStore } from '@src/hooks/use-store'
+import { useSharedStore, useNoneSharedStore } from '@src/hooks/use-store'
 import { ColorSettings, KeystoreType } from '@src/types'
 import { currencySettingsMap } from '@src/config'
 import { getTickerChars } from '../get-ticker-chars'
@@ -25,11 +25,11 @@ type IProps = {
 
 export const AccountInfo: React.FC<IProps> = ({ address }) => {
 	const { isLoading, value, change } = useAccountValue()
-	const { currency } = useSharedStore(state => ({
-		currency: state.currency,
+	const { keystore } = useSharedStore(state => ({
+		keystore: state.keystores.find(({ id }) => id === state.selectKeystoreId),
 	}))
-	const { signingKey, entry, activeSlideIndex } = useAccountStore(state => ({
-		signingKey: state.signingKey,
+	const { currency, entry, activeSlideIndex } = useNoneSharedStore(state => ({
+		currency: state.currency,
 		entry: Object.values(state.publicAddresses).find(_account => _account.address === address),
 		activeSlideIndex: state.activeSlideIndex,
 	}))
@@ -154,7 +154,7 @@ export const AccountInfo: React.FC<IProps> = ({ address }) => {
 			<Box css={{ zIndex: 2, position: 'absolute', top: '$2', left: '$2' }}>
 				<QrHoverCard css={{ fill: color, color }} />
 			</Box>
-			{signingKey?.type === KeystoreType.HARDWARE && (
+			{keystore?.type === KeystoreType.HARDWARE && (
 				<Box css={{ zIndex: 2, position: 'absolute', bottom: '$3', right: '$3' }}>
 					<ToolTip arrowOffset={8} message="Hardware wallet account">
 						<Box>

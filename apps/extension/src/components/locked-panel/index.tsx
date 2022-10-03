@@ -1,9 +1,11 @@
 /* eslint-disable no-nested-ternary */
 import React, { useEffect, useRef } from 'react'
-import { useSharedStore, useAccountStore } from '@src/hooks/use-store'
+import { useSharedStore, useNoneSharedStore } from '@src/hooks/use-store'
 import { useAnimationControls } from 'framer-motion'
 import { useColorMode } from '@src/hooks/use-color-mode'
 import { useImmer } from 'use-immer'
+import { createHardwareSigningKey, createLocalSigningKey } from '@src/services/signing_key'
+import { PublicKey } from '@radixdlt/crypto'
 import { WalletMenu } from '@src/components/wallet-menu'
 import { Box, Flex, MotionBox, Text, StyledLink } from 'ui/src/components/atoms'
 import Input from 'ui/src/components/input'
@@ -30,18 +32,21 @@ export const LockedPanel: React.FC = () => {
 	const inputControls = useAnimationControls()
 	const imageControls = useAnimationControls()
 	const inputRef = useRef(null)
-	const { keystore, unlock, addToast } = useSharedStore(state => ({
-		keystore: state.keystores.find(({ id }) => id === state.selectKeystoreId),
-		unlock: state.unlockWalletAction,
-		// hasAuth: state.hasAuthAction,
-		// authenticate: state.authenticateAction,
-		addToast: state.addToastAction,
-	}))
-
-	const { isUnlocked, accountIndex, setIsUnlocked } = useAccountStore(state => ({
-		isUnlocked: state.isUnlocked,
+	const { messanger, keystore, signingKey, isUnlocked, setIsUnlocked, setSigningKey, unlock, addToast } =
+		useSharedStore(state => ({
+			messanger: state.messanger,
+			signingKey: state.signingKey,
+			isUnlocked: state.isUnlocked,
+			keystore: state.keystores.find(({ id }) => id === state.selectKeystoreId),
+			setIsUnlocked: state.setIsUnlockedAction,
+			setSigningKey: state.setSigningKeyAction,
+			unlock: state.unlockWalletAction,
+			// hasAuth: state.hasAuthAction,
+			// authenticate: state.authenticateAction,
+			addToast: state.addToastAction,
+		}))
+	const { accountIndex } = useNoneSharedStore(state => ({
 		accountIndex: state.selectedAccountIndex,
-		setIsUnlocked: state.setIsUnlockedAction,
 	}))
 
 	const [state, setState] = useImmer<IImmer>({
@@ -106,17 +111,31 @@ export const LockedPanel: React.FC = () => {
 		prepareUnlockAnim()
 
 		try {
-			switch (keystore.type) {
+			switch (keystore?.type) {
 				case KeystoreType.LOCAL: {
-					const { publicKey } = await unlock(password, accountIndex)
+					const { publicKey, type } = await unlock(password, accountIndex)
+
+					if (publicKey) {
+						const publicKeyBuffer = Buffer.from(publicKey, 'hex')
+						const publicKeyResult = PublicKey.fromBuffer(publicKeyBuffer)
+						if (!publicKeyResult.isOk()) throw publicKeyResult.error
+
+						const newSigningKey = createLocalSigningKey(messanger, publicKeyResult.value, type)
+						setSigningKey(newSigningKey)
+					}
+
 					setIsUnlocked(!!publicKey)
 					break
 				}
 				case KeystoreType.HARDWARE:
+					if (signingKey?.hw) {
+						const newSigningKey = await createHardwareSigningKey(signingKey.hw, accountIndex)
+						if (newSigningKey) setSigningKey(newSigningKey)
+					}
 					setIsUnlocked(true)
 					break
 				default:
-					throw new Error(`Unknown keystore ${keystore.id} (${keystore.name}) type: ${keystore.type}`)
+					throw new Error(`Unknown keystore ${keystore?.id} (${keystore?.name}) type: ${keystore?.type}`)
 			}
 		} catch (error) {
 			console.error(error)
@@ -320,7 +339,7 @@ export const LockedPanel: React.FC = () => {
 					<Box css={{ p: '$6' }}>
 						<MotionBox animate={inputControls}>
 							<WalletSelector />
-							{keystore.type === KeystoreType.LOCAL && (
+							{keystore?.type === KeystoreType.LOCAL && (
 								<Box
 									onClick={() => {
 										if (inputRef.current) {

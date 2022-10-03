@@ -1,9 +1,9 @@
 import { useEffect, useState } from 'react'
-import { useAccountStore } from '@src/hooks/use-store'
+import { useNoneSharedStore } from '@src/hooks/use-store'
 import { RadixService } from '@src/services/radix'
 
 export const useRadix = () => {
-	const { network } = useAccountStore(state => ({
+	const { network } = useNoneSharedStore(state => ({
 		network: state.networks[state.selectedNetworkIndex],
 	}))
 	const [service, setService] = useState<RadixService>(new RadixService(network.url))

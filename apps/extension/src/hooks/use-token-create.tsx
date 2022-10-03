@@ -1,4 +1,4 @@
-import { useAccountStore } from '@src/hooks/use-store'
+import { useNoneSharedStore } from '@src/hooks/use-store'
 import { useTransaction } from '@src/hooks/use-transaction'
 import { buildAmount } from '@src/utils/radix'
 import { ExtendedActionType, NewTokenDefinition } from '@src/types'
@@ -6,7 +6,7 @@ import { parseAccountAddress, parseResourceIdentifier } from '@src/services/radi
 
 export const useTokenCreate = () => {
 	const { buildTransactionFromActions } = useTransaction()
-	const { address } = useAccountStore(state => ({
+	const { address } = useNoneSharedStore(state => ({
 		address: state.getCurrentAddressAction(),
 	}))
 

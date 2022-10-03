@@ -8,7 +8,7 @@ import { globalStyles } from 'ui/src/theme'
 import { enableMapSet } from 'immer'
 
 import '@src/css/app.scss'
-import { AccountStoreProvider } from '@src/context/state-provider'
+import { NoneSharedStoreProvider } from '@src/context/state-provider'
 
 enableMapSet()
 
@@ -21,10 +21,10 @@ export const Provider: React.FC = () => {
 
 	return (
 		<QueryClientProvider client={queryClient}>
-			<AccountStoreProvider>
+			<NoneSharedStoreProvider>
 				<App />
 				<ReactQueryDevtools initialIsOpen />
-			</AccountStoreProvider>
+			</NoneSharedStoreProvider>
 		</QueryClientProvider>
 	)
 }

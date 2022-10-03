@@ -8,7 +8,7 @@ import InputFeedBack from 'ui/src/components/input/input-feedback'
 import { BuiltTransactionReadyToSign } from '@radixdlt/application'
 import { useTransaction } from '@src/hooks/use-transaction'
 import { useImmer } from 'use-immer'
-import { useSharedStore, useAccountStore } from '@src/hooks/use-store'
+import { useSharedStore, useNoneSharedStore } from '@src/hooks/use-store'
 import { formatBigNumber } from '@src/utils/formatters'
 import { getShortAddress } from '@src/utils/string-utils'
 import { ArrowLeftIcon } from '@radix-ui/react-icons'
@@ -51,13 +51,13 @@ export const SendTokenReview: React.FC<IProps> = ({
 	const [, setLocation] = useLocation()
 	const queryClient = useQueryClient()
 	const { signTransaction, submitTransaction } = useTransaction()
-	const { addressBook } = useSharedStore(state => ({
-		addressBook: state.addressBook,
-	}))
-	const { signingKey, address, publicAddresses } = useAccountStore(state => ({
+	const { signingKey } = useSharedStore(state => ({
 		signingKey: state.signingKey,
+	}))
+	const { address, publicAddresses, addressBook } = useNoneSharedStore(state => ({
 		address: state.getCurrentAddressAction(),
 		publicAddresses: Object.values(state.publicAddresses),
+		addressBook: state.addressBook,
 	}))
 	const [state, setState] = useImmer<ImmerT>({
 		txID: '',

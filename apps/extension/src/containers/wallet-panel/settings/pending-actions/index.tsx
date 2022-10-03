@@ -1,5 +1,5 @@
 import React from 'react'
-import { useAccountStore } from '@src/hooks/use-store'
+import { useNoneSharedStore } from '@src/hooks/use-store'
 import { Box, Text, Flex } from 'ui/src/components/atoms'
 import {
 	AlertDialog,
@@ -14,7 +14,7 @@ import { TrashIcon } from '@radix-ui/react-icons'
 import Button from 'ui/src/components/button'
 
 export const PendingActions: React.FC = () => {
-	const { pendingActions, remove } = useAccountStore(state => ({
+	const { pendingActions, remove } = useNoneSharedStore(state => ({
 		pendingActions: state.pendingActions,
 		remove: state.removePendingActionAction,
 	}))

@@ -12,7 +12,7 @@ import { Dialog, DialogTrigger, DialogContent } from 'ui/src/components/dialog'
 import { HoverCard, HoverCardContent, HoverCardTrigger } from 'ui/src/components/hover-card'
 import { BuiltTransactionReadyToSign } from '@radixdlt/application'
 import { useTransaction } from '@src/hooks/use-transaction'
-import { useSharedStore, useAccountStore } from '@src/hooks/use-store'
+import { useSharedStore, useNoneSharedStore } from '@src/hooks/use-store'
 import { formatBigNumber } from '@src/utils/formatters'
 import { getShortAddress } from '@src/utils/string-utils'
 import Button from 'ui/src/components/button'
@@ -79,12 +79,12 @@ export const SwapModal: React.FC<IProps> = ({
 	const [, setLocation] = useLocation()
 	const queryClient = useQueryClient()
 	const { signTransaction, submitTransaction } = useTransaction()
-	const { addressBook } = useSharedStore(state => ({
-		addressBook: state.addressBook,
-	}))
-	const { signingKey, address, publicAddresses } = useAccountStore(state => ({
+	const { signingKey } = useSharedStore(state => ({
 		signingKey: state.signingKey,
+	}))
+	const { address, publicAddresses, addressBook } = useNoneSharedStore(state => ({
 		address: state.getCurrentAddressAction(),
+		addressBook: state.addressBook,
 		publicAddresses: Object.values(state.publicAddresses),
 	}))
 	const [state, setState] = useImmer<ImmerProps>({

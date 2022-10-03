@@ -1,6 +1,6 @@
 /* eslint-disable react/no-array-index-key, react/no-unstable-nested-components */
 import React, { useRef, useCallback, useState } from 'react'
-import { useAccountStore } from '@src/hooks/use-store'
+import { useNoneSharedStore } from '@src/hooks/use-store'
 import { useTransactionHistory } from '@src/hooks/react-query/queries/radix'
 import { getShortAddress } from '@src/utils/string-utils'
 import { AccountSelector } from '@src/components/account-selector'
@@ -14,7 +14,7 @@ import { SendReceiveHeader } from '@src/components/send-receive-header'
 export const AccountActivity: React.FC = () => {
 	const [customScrollParent, setCustomScrollParent] = useState<HTMLElement | null>(null)
 	const observer = useRef<IntersectionObserver | null>(null)
-	const { accountAddress, selectAccount } = useAccountStore(state => ({
+	const { accountAddress, selectAccount } = useNoneSharedStore(state => ({
 		accountAddress: state.getCurrentAddressAction(),
 		selectAccount: state.selectAccountAction,
 	}))

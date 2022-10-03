@@ -1,7 +1,7 @@
 import React from 'react'
 import { useQueryClient } from 'react-query'
 import { useImmer } from 'use-immer'
-import { useSharedStore, useAccountStore } from '@src/hooks/use-store'
+import { useSharedStore, useNoneSharedStore } from '@src/hooks/use-store'
 import { PageHeading, PageSubHeading, PageWrapper } from '@src/components/layout'
 import { useLocation } from 'wouter'
 import { getShortAddress } from '@src/utils/string-utils'
@@ -42,13 +42,13 @@ export const MintTokenModal: React.FC<IProps> = ({ trigger }) => {
 	const derive = useTokenDerive()
 	const { signTransaction, submitTransaction } = useTransaction()
 
-	const { addToast } = useSharedStore(state => ({
+	const { signingKey, addToast } = useSharedStore(state => ({
+		signingKey: state.signingKey,
 		addToast: state.addToastAction,
 	}))
 
-	const { selectAccount, signingKey, accountAddress } = useAccountStore(state => ({
+	const { selectAccount, accountAddress } = useNoneSharedStore(state => ({
 		selectAccount: state.selectAccountAction,
-		signingKey: state.signingKey,
 		accountAddress: state.getCurrentAddressAction(),
 	}))
 

@@ -18,7 +18,6 @@ import {
 	AlertDialogAction,
 	AlertDialogCancel,
 } from 'ui/src/components/alert-dialog'
-import { GET } from '@src/lib/v1/actions'
 
 interface ImmerT {
 	password: string
@@ -29,8 +28,8 @@ interface ImmerT {
 }
 
 export const ExportPrivateKey: React.FC = () => {
-	const { messanger } = useSharedStore(state => ({
-		messanger: state.messanger,
+	const { getWallet } = useSharedStore(state => ({
+		getWallet: state.getWalletAction,
 	}))
 
 	const [state, setState] = useImmer<ImmerT>({
@@ -43,7 +42,7 @@ export const ExportPrivateKey: React.FC = () => {
 
 	const handleShowPrivateKey = async () => {
 		try {
-			const { hdMasterNode } = await messanger.sendActionMessageFromPopup(GET, { password: state.password })
+			const { hdMasterNode } = await getWallet(state.password)
 			const hdkey = HDNode.fromJSON(hdMasterNode)
 
 			setState(draft => {

@@ -3,7 +3,7 @@ import React from 'react'
 import BigNumber from 'bignumber.js'
 import { Box, Text, Flex } from 'ui/src/components/atoms'
 import { getShortAddress } from '@src/utils/string-utils'
-import { useSharedStore, useAccountStore } from '@src/hooks/use-store'
+import { useNoneSharedStore } from '@src/hooks/use-store'
 import { SlippageBox } from '@src/components/slippage-box'
 import { ActivityType } from '@src/components/activity-type'
 import { Action } from '@radixdlt/application'
@@ -17,12 +17,10 @@ interface ActionPreviewProps {
 
 const ActionPreview: React.FC<ActionPreviewProps> = ({ activity, fee: feeFromProps }) => {
 	const { data: token } = useTokenInfo(activity?.amount?.token_identifier?.rri)
-	const { addressBook } = useSharedStore(state => ({
-		addressBook: state.addressBook,
-	}))
-	const { accountAddress, publicAddresses } = useAccountStore(state => ({
+	const { accountAddress, publicAddresses, addressBook } = useNoneSharedStore(state => ({
 		accountAddress: state.getCurrentAddressAction(),
 		publicAddresses: Object.values(state.publicAddresses),
+		addressBook: state.addressBook,
 	}))
 
 	const amount = activity?.amount?.value ? new BigNumber(activity.amount.value).shiftedBy(-18) : undefined

@@ -2,9 +2,8 @@ import React from 'react'
 import HDNode from 'hdkey'
 import { Mnemonic } from '@radixdlt/crypto'
 import { useLocation } from 'wouter'
-import { GET } from '@src/lib/v1/actions'
 import { useImmer } from 'use-immer'
-import { useSharedStore, useAccountStore } from '@src/hooks/use-store'
+import { useSharedStore, useNoneSharedStore } from '@src/hooks/use-store'
 import { Box, Flex, Text, Grid } from 'ui/src/components/atoms'
 import Button from 'ui/src/components/button'
 import Input from 'ui/src/components/input'
@@ -18,7 +17,7 @@ import {
 	AlertDialogAction,
 	AlertDialogCancel,
 } from 'ui/src/components/alert-dialog'
-import { KeystoreType } from '@src/types'
+import { KeystoreType, SigningKeyType } from '@src/types'
 import { ExportPrivateKey } from './export-private-key'
 import { ExportSecretPhrase } from './export-secret-phrase'
 
@@ -33,16 +32,18 @@ interface ImmerT {
 
 export const KeyManagementSettings: React.FC = () => {
 	const [, setLocation] = useLocation()
-	const { messanger, keystore, createWallet, removeWallet, removeKeystore, addToast } = useSharedStore(state => ({
-		messanger: state.messanger,
-		keystore: state.keystores.find(({ id }) => id === state.selectKeystoreId),
-		createWallet: state.createWalletAction,
-		removeWallet: state.removeWalletAction,
-		removeKeystore: state.removeKeystoreAction,
-		addToast: state.addToastAction,
-	}))
-	const { signingKey, accountIndex, reset, selectAccount } = useAccountStore(state => ({
-		signingKey: state.signingKey,
+	const { signingKey, keystore, createWallet, getWallet, removeWallet, removeKeystore, addToast } = useSharedStore(
+		state => ({
+			signingKey: state.signingKey,
+			keystore: state.keystores.find(({ id }) => id === state.selectKeystoreId),
+			createWallet: state.createWalletAction,
+			removeWallet: state.removeWalletAction,
+			getWallet: state.getWalletAction,
+			removeKeystore: state.removeKeystoreAction,
+			addToast: state.addToastAction,
+		}),
+	)
+	const { accountIndex, reset, selectAccount } = useNoneSharedStore(state => ({
 		accountIndex: state.selectedAccountIndex,
 		reset: state.resetAction,
 		selectAccount: state.selectAccountAction,
@@ -74,18 +75,23 @@ export const KeyManagementSettings: React.FC = () => {
 				setState(draft => {
 					draft.isLoading = true
 				})
-				const { mnemonic, hdMasterNode } = await messanger.sendActionMessageFromPopup(GET, state.password)
+				const { type, mnemonic, hdMasterNode } = await getWallet(state.password)
 
-				if (mnemonic) {
+				if (type === SigningKeyType.MNEMONIC) {
 					const mnemomicRes = await Mnemonic.fromEntropy({
-						entropy: Buffer.from(mnemonic.entropy, 'hex'),
+						entropy: Buffer.from(mnemonic?.entropy, 'hex'),
 						language: mnemonic?.language,
 					})
 					if (mnemomicRes.isErr()) throw mnemomicRes.error
-					await createWallet('mnemonic', mnemonic.words, state.newPassword, accountIndex)
+					await createWallet(SigningKeyType.MNEMONIC, mnemonic?.entropy, state.newPassword, accountIndex)
 				} else {
 					const hdkey = HDNode.fromJSON(hdMasterNode)
-					await createWallet('key', hdkey.privateExtendedKey.toString(), state.newPassword, accountIndex)
+					await createWallet(
+						SigningKeyType.PRIVATE_KEY,
+						hdkey.privateExtendedKey.toString(),
+						state.newPassword,
+						accountIndex,
+					)
 				}
 				await selectAccount(accountIndex)
 
@@ -181,12 +187,12 @@ export const KeyManagementSettings: React.FC = () => {
 					</Grid>
 				</form>
 			</Box>
-			{signingKey?.type === KeystoreType.LOCAL && (
+			{keystore?.type === KeystoreType.LOCAL && (
 				<Box css={{ pt: '$5', mt: '$1', borderTop: '1px solid $borderPanel' }}>
 					<ExportPrivateKey />
 				</Box>
 			)}
-			{signingKey?.type === KeystoreType.LOCAL && (
+			{signingKey?.type === SigningKeyType.MNEMONIC && (
 				<Box css={{ mt: '$3' }}>
 					<ExportSecretPhrase />
 				</Box>

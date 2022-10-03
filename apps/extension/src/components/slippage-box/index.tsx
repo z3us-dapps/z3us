@@ -4,7 +4,7 @@ import BigNumber from 'bignumber.js'
 import { Box, Text, Flex } from 'ui/src/components/atoms'
 import { useTicker } from '@src/hooks/react-query/queries/tickers'
 import { Token } from '@src/types'
-import { useSharedStore } from '@src/hooks/use-store'
+import { useNoneSharedStore } from '@src/hooks/use-store'
 import { useNativeToken } from '@src/hooks/react-query/queries/radix'
 
 interface IProps {
@@ -15,7 +15,7 @@ interface IProps {
 }
 
 export const SlippageBox: React.FC<IProps> = ({ token, amount, fee, css }) => {
-	const { currency } = useSharedStore(state => ({
+	const { currency } = useNoneSharedStore(state => ({
 		currency: state.currency,
 	}))
 	const { data: ticker } = useTicker(currency, token?.symbol)

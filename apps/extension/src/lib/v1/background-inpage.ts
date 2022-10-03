@@ -20,7 +20,7 @@ import {
 	SIGN,
 	SEND_TRANSACTION,
 } from '@src/lib/v1/actions'
-import { getAccountStore } from '@src/services/state'
+import { getNoneSharedStore } from '@src/services/state'
 import { KeystoreType } from '@src/types'
 
 const responseOK = { code: 200 }
@@ -39,8 +39,8 @@ export default function NewV1BackgroundInpageActions(
 		const url = new URL(port.sender.url)
 
 		const { selectKeystoreId } = sharedStore.getState()
-		const useAccountStore = await getAccountStore(selectKeystoreId)
-		const state = useAccountStore.getState()
+		const noneSharedStore = await getNoneSharedStore(selectKeystoreId)
+		const state = noneSharedStore.getState()
 		const { approvedWebsites } = state
 
 		if (!(url.host in approvedWebsites)) {
@@ -61,8 +61,8 @@ export default function NewV1BackgroundInpageActions(
 		const url = new URL(port.sender.url)
 
 		const { selectKeystoreId } = sharedStore.getState()
-		const useAccountStore = await getAccountStore(selectKeystoreId)
-		const state = useAccountStore.getState()
+		const noneSharedStore = await getNoneSharedStore(selectKeystoreId)
+		const state = noneSharedStore.getState()
 		const { approvedWebsites } = state
 
 		sendInpageMessage(port, id, payload, url.host in approvedWebsites)
@@ -72,8 +72,8 @@ export default function NewV1BackgroundInpageActions(
 		const url = new URL(port.sender.url)
 
 		const { selectKeystoreId, theme } = sharedStore.getState()
-		const useAccountStore = await getAccountStore(selectKeystoreId)
-		const state = useAccountStore.getState()
+		const noneSharedStore = await getNoneSharedStore(selectKeystoreId)
+		const state = noneSharedStore.getState()
 		const { approvedWebsites, selectedAccountIndex, publicAddresses } = state
 		const allAddresses = Object.values(publicAddresses).map(entry => entry.address)
 
@@ -94,8 +94,8 @@ export default function NewV1BackgroundInpageActions(
 		const url = new URL(port.sender.url)
 
 		const { selectKeystoreId } = sharedStore.getState()
-		const useAccountStore = await getAccountStore(selectKeystoreId)
-		const state = useAccountStore.getState()
+		const noneSharedStore = await getNoneSharedStore(selectKeystoreId)
+		const state = noneSharedStore.getState()
 		const { declineWebsiteAction } = state
 
 		declineWebsiteAction(url.host)
@@ -109,8 +109,8 @@ export default function NewV1BackgroundInpageActions(
 		}
 
 		const { selectKeystoreId } = sharedStore.getState()
-		const useAccountStore = await getAccountStore(selectKeystoreId)
-		const state = useAccountStore.getState()
+		const noneSharedStore = await getNoneSharedStore(selectKeystoreId)
+		const state = noneSharedStore.getState()
 		const { publicAddresses } = state
 
 		sendInpageMessage(
@@ -130,8 +130,8 @@ export default function NewV1BackgroundInpageActions(
 		const url = new URL(port.sender.url)
 
 		const { selectKeystoreId, theme } = sharedStore.getState()
-		const useAccountStore = await getAccountStore(selectKeystoreId)
-		const state = useAccountStore.getState()
+		const noneSharedStore = await getNoneSharedStore(selectKeystoreId)
+		const state = noneSharedStore.getState()
 
 		await addPendingAction(id, port)
 		state.addPendingActionAction(id, { host: url.host, request: payload })
@@ -170,8 +170,8 @@ export default function NewV1BackgroundInpageActions(
 		const url = new URL(port.sender.url)
 
 		const { selectKeystoreId, theme } = sharedStore.getState()
-		const useAccountStore = await getAccountStore(selectKeystoreId)
-		const state = useAccountStore.getState()
+		const noneSharedStore = await getNoneSharedStore(selectKeystoreId)
+		const state = noneSharedStore.getState()
 
 		await addPendingAction(id, port)
 		state.addPendingActionAction(id, { host: url.host, request: payload })
@@ -188,8 +188,8 @@ export default function NewV1BackgroundInpageActions(
 		const url = new URL(port.sender.url)
 
 		const { selectKeystoreId, theme } = sharedStore.getState()
-		const useAccountStore = await getAccountStore(selectKeystoreId)
-		const state = useAccountStore.getState()
+		const noneSharedStore = await getNoneSharedStore(selectKeystoreId)
+		const state = noneSharedStore.getState()
 
 		await addPendingAction(id, port)
 		state.addPendingActionAction(id, { host: url.host, request: payload })
@@ -206,8 +206,8 @@ export default function NewV1BackgroundInpageActions(
 		const url = new URL(port.sender.url)
 
 		const { selectKeystoreId, theme } = sharedStore.getState()
-		const useAccountStore = await getAccountStore(selectKeystoreId)
-		const state = useAccountStore.getState()
+		const noneSharedStore = await getNoneSharedStore(selectKeystoreId)
+		const state = noneSharedStore.getState()
 
 		await addPendingAction(id, port)
 		state.addPendingActionAction(id, { host: url.host, request: payload })
@@ -222,8 +222,8 @@ export default function NewV1BackgroundInpageActions(
 		}
 
 		const { selectKeystoreId } = sharedStore.getState()
-		const useAccountStore = await getAccountStore(selectKeystoreId)
-		const state = useAccountStore.getState()
+		const noneSharedStore = await getNoneSharedStore(selectKeystoreId)
+		const state = noneSharedStore.getState()
 		const { networks, selectedNetworkIndex, selectedAccountIndex, publicAddresses } = state
 		const allAddresses = Object.values(publicAddresses).map(entry => entry.address)
 
@@ -249,8 +249,8 @@ export default function NewV1BackgroundInpageActions(
 		}
 
 		const { selectKeystoreId } = sharedStore.getState()
-		const useAccountStore = await getAccountStore(selectKeystoreId)
-		const state = useAccountStore.getState()
+		const noneSharedStore = await getNoneSharedStore(selectKeystoreId)
+		const state = noneSharedStore.getState()
 		const { networks, selectedNetworkIndex, selectedAccountIndex, publicAddresses } = state
 		const allAddresses = Object.values(publicAddresses).map(entry => entry.address)
 
@@ -276,8 +276,8 @@ export default function NewV1BackgroundInpageActions(
 		}
 
 		const { selectKeystoreId } = sharedStore.getState()
-		const useAccountStore = await getAccountStore(selectKeystoreId)
-		const state = useAccountStore.getState()
+		const noneSharedStore = await getNoneSharedStore(selectKeystoreId)
+		const state = noneSharedStore.getState()
 		const { networks, selectedNetworkIndex, selectedAccountIndex, publicAddresses } = state
 		const allAddresses = Object.values(publicAddresses).map(entry => entry.address)
 

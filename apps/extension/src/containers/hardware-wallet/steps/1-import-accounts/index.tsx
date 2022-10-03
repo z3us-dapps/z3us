@@ -7,7 +7,7 @@ import { useEventListener } from 'usehooks-ts'
 import { AccountAddress, SigningKey } from '@radixdlt/application'
 import { HDPathRadix } from '@radixdlt/crypto'
 import { useImmer } from 'use-immer'
-import { useSharedStore, useAccountStore } from '@src/hooks/use-store'
+import { useSharedStore, useNoneSharedStore } from '@src/hooks/use-store'
 import { CopyIcon, ReloadIcon, ExclamationTriangleIcon } from '@radix-ui/react-icons'
 import { ScrollArea } from 'ui/src/components/scroll-area'
 import { copyTextToClipboard } from '@src/utils/copy-to-clipboard'
@@ -38,7 +38,7 @@ export const ImportAccounts = (): JSX.Element => {
 		setStep: state.setConnectHardwareWalletStepAction,
 		setImportingAddresses: state.setImportingAddressesAction,
 	}))
-	const { network } = useAccountStore(state => ({
+	const { network } = useNoneSharedStore(state => ({
 		network: state.networks[state.selectedNetworkIndex],
 	}))
 

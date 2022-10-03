@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react'
 import { useQueryClient } from 'react-query'
 import { useEventListener } from 'usehooks-ts'
-import { useSharedStore, useAccountStore } from '@src/hooks/use-store'
+import { useSharedStore } from '@src/hooks/use-store'
 import { useLocation } from 'wouter'
 import { useImmer } from 'use-immer'
 import { onBoardingSteps } from '@src/store/onboarding'
@@ -9,9 +9,9 @@ import { PageWrapper, PageHeading, PageSubHeading } from '@src/components/layout
 import Button from 'ui/src/components/button'
 import { Flex, Text, Box } from 'ui/src/components/atoms'
 import InputFeedBack from 'ui/src/components/input/input-feedback'
-import { KeystoreType } from '@src/types'
+import { KeystoreType, SigningKeyType } from '@src/types'
 import { generateId } from '@src/utils/generate-id'
-import { getAccountStore } from '@src/services/state'
+import { getNoneSharedStore } from '@src/services/state'
 
 interface ImmerT {
 	isButtonDisabled: boolean
@@ -33,13 +33,14 @@ export const CreateWallet = (): JSX.Element => {
 		lock,
 		addKeystore,
 		createWallet,
+		setIsUnlocked,
 		importingAddresses,
 		workflowEntryStep,
 		setOnboradingStep,
 		setImportingAddresses,
 	} = useSharedStore(state => ({
 		secret: state.mnemonic ? state.mnemonic.entropy.toString('hex') : state.privateKey,
-		secretType: state.mnemonic ? 'mnemonic' : 'key',
+		secretType: state.mnemonic ? SigningKeyType.MNEMONIC : SigningKeyType.PRIVATE_KEY,
 		password: state.password,
 		keystoreId: state.selectKeystoreId,
 		lock: state.lockAction,
@@ -48,14 +49,12 @@ export const CreateWallet = (): JSX.Element => {
 		setPassword: state.setPasswordAction,
 		setMnemomic: state.setMnemomicAction,
 		setPrivateKey: state.setPrivateKeyAction,
+		setIsUnlocked: state.setIsUnlockedAction,
 
 		importingAddresses: state.importingAddresses,
 		workflowEntryStep: state.workflowEntryStep,
 		setOnboradingStep: state.setOnboardingStepAction,
 		setImportingAddresses: state.setImportingAddressesAction,
-	}))
-	const { setIsUnlocked } = useAccountStore(state => ({
-		setIsUnlocked: state.setIsUnlockedAction,
 	}))
 
 	const [state, setState] = useImmer<ImmerT>({
@@ -84,10 +83,10 @@ export const CreateWallet = (): JSX.Element => {
 			addKeystore(id, id, KeystoreType.LOCAL)
 			setIsUnlocked(false)
 
-			const store = await getAccountStore(id)
+			const store = await getNoneSharedStore(id)
 			store.getState().setPublicAddressesAction(importingAddresses)
 
-			await createWallet(secretType as 'mnemonic' | 'key', secret, password, 0)
+			await createWallet(secretType as SigningKeyType, secret, password, 0)
 
 			await queryClient.invalidateQueries({ active: true, inactive: true, stale: true })
 

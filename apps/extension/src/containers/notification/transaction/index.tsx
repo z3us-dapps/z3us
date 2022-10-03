@@ -10,7 +10,7 @@ import { Flex, Box, StyledLink, Text } from 'ui/src/components/atoms'
 import Button from 'ui/src/components/button'
 import Input from 'ui/src/components/input'
 import { PageWrapper, PageHeading, PageSubHeading } from '@src/components/layout'
-import { useSharedStore, useAccountStore } from '@src/hooks/use-store'
+import { useSharedStore, useNoneSharedStore } from '@src/hooks/use-store'
 import { useRoute } from 'wouter'
 import { hexToJSON } from '@src/utils/encoding'
 import { CONFIRM } from '@src/lib/v1/actions'
@@ -46,13 +46,11 @@ export const Transaction = (): JSX.Element => {
 		submitTransaction,
 	} = useTransaction()
 	const { createMessage } = useMessage()
-	const { sendResponse } = useSharedStore(state => ({
-		addressBook: state.addressBook,
+	const { signingKey, sendResponse } = useSharedStore(state => ({
+		signingKey: state.signingKey,
 		sendResponse: state.sendResponseAction,
 	}))
-
-	const { signingKey, action, address } = useAccountStore(state => ({
-		signingKey: state.signingKey,
+	const { address, action } = useNoneSharedStore(state => ({
 		address: state.getCurrentAddressAction(),
 		action:
 			state.pendingActions[id] && state.pendingActions[id].payloadHex

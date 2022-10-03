@@ -1,4 +1,4 @@
-import { useAccountStore } from '@src/hooks/use-store'
+import { useNoneSharedStore } from '@src/hooks/use-store'
 import { useTransaction } from '@src/hooks/use-transaction'
 import { IntendedStakeTokens } from '@radixdlt/application'
 import { buildAmount } from '@src/utils/radix'
@@ -6,7 +6,7 @@ import { parseAccountAddress, parseResourceIdentifier, parseValidatorAddress } f
 
 export const useTokenStake = () => {
 	const { buildTransactionFromActions } = useTransaction()
-	const { address } = useAccountStore(state => ({
+	const { address } = useNoneSharedStore(state => ({
 		address: state.getCurrentAddressAction(),
 	}))
 

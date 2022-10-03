@@ -2,7 +2,7 @@ import React, { useEffect, useRef } from 'react'
 import BigNumber from 'bignumber.js'
 import { useTransaction } from '@src/hooks/use-transaction'
 import { useMessage } from '@src/hooks/use-message'
-import { useAccountStore } from '@src/hooks/use-store'
+import { useNoneSharedStore, useSharedStore } from '@src/hooks/use-store'
 import { useImmer } from 'use-immer'
 import { useTimeout, useInterval } from 'usehooks-ts'
 import { useDebounce } from 'use-debounce'
@@ -97,9 +97,12 @@ export const Swap: React.FC = () => {
 	const inputFromRef = useRef(null)
 	const { buildTransactionFromActions } = useTransaction()
 	const { createMessage } = useMessage()
-	const { signingKey, accountAddress, selectAccount, accounts } = useAccountStore(state => ({
-		selectAccount: state.selectAccountAction,
+
+	const { signingKey } = useSharedStore(state => ({
 		signingKey: state.signingKey,
+	}))
+	const { accountAddress, selectAccount, accounts } = useNoneSharedStore(state => ({
+		selectAccount: state.selectAccountAction,
 		accountAddress: state.getCurrentAddressAction(),
 		accounts: Object.values(state.publicAddresses).map((entry, index) => ({
 			...entry,

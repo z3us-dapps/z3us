@@ -1,6 +1,6 @@
 import React, { useRef } from 'react'
 import { useLocation, useRoute } from 'wouter'
-import { useSharedStore, useAccountStore } from '@src/hooks/use-store'
+import { useSharedStore, useNoneSharedStore } from '@src/hooks/use-store'
 import { useImmer } from 'use-immer'
 import Button from 'ui/src/components/button'
 import { Z3usIcon, TrashIcon, HardwareWalletIcon } from 'ui/src/components/icons'
@@ -44,21 +44,30 @@ export const Z3usMenu: React.FC = () => {
 	const [isDepositRouteRri] = useRoute('/wallet/account/deposit/:rri')
 	const [isActivityRoute] = useRoute('/wallet/account/activity')
 	const [isSwapRoute] = useRoute('/wallet/swap/review')
-	const { keystores, keystoreId, selectKeystore, removeKeystore, changeKeystoreName, removeWallet, lock } =
-		useSharedStore(state => ({
-			keystores: state.keystores,
-			keystoreId: state.selectKeystoreId,
-			addKeystore: state.addKeystoreAction,
-			removeKeystore: state.removeKeystoreAction,
-			selectKeystore: state.selectKeystoreAction,
-			changeKeystoreName: state.changeKeystoreNameAction,
-			lock: state.lockAction,
-			removeWallet: state.removeWalletAction,
-		}))
-	const { reset, isUnlocked, setIsUnlocked } = useAccountStore(state => ({
-		reset: state.resetAction,
+	const {
+		keystores,
+		keystoreId,
+		isUnlocked,
+		setIsUnlocked,
+		selectKeystore,
+		removeKeystore,
+		changeKeystoreName,
+		removeWallet,
+		lock,
+	} = useSharedStore(state => ({
+		keystores: state.keystores,
+		keystoreId: state.selectKeystoreId,
 		isUnlocked: state.isUnlocked,
 		setIsUnlocked: state.setIsUnlockedAction,
+		addKeystore: state.addKeystoreAction,
+		removeKeystore: state.removeKeystoreAction,
+		selectKeystore: state.selectKeystoreAction,
+		changeKeystoreName: state.changeKeystoreNameAction,
+		lock: state.lockAction,
+		removeWallet: state.removeWalletAction,
+	}))
+	const { reset } = useNoneSharedStore(state => ({
+		reset: state.resetAction,
 	}))
 	const walletInputRef = useRef(null)
 	const [state, setState] = useImmer<ImmerT>({

@@ -1,5 +1,5 @@
 import { useEffect } from 'react'
-import { useSharedStore, useAccountStore } from '@src/hooks/use-store'
+import { useSharedStore, useNoneSharedStore } from '@src/hooks/use-store'
 import { EVENT } from '@src/lib/v1/actions'
 import { ACCOUNT_CHANGE, KEYSTORE_CHANGE, NETWORK_CHANGE } from '@src/lib/v1/events'
 
@@ -8,10 +8,10 @@ export const useEvents = () => {
 		keystoreId: state.selectKeystoreId,
 		messanger: state.messanger,
 	}))
-	const { address, network, networkIndex, accountIndex } = useAccountStore(state => ({
+	const { address, network, networkIndex, accountIndex } = useNoneSharedStore(state => ({
+		address: state.getCurrentAddressAction(),
 		networkIndex: state.selectedNetworkIndex,
 		accountIndex: state.selectedAccountIndex,
-		address: state.getCurrentAddressAction(),
 		network: state.networks[state.selectedNetworkIndex],
 	}))
 

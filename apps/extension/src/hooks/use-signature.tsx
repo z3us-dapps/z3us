@@ -1,13 +1,11 @@
 import { useCallback } from 'react'
 import { sha256, Signature } from '@radixdlt/application'
-import { useSharedStore, useAccountStore } from '@src/hooks/use-store'
+import { useSharedStore } from '@src/hooks/use-store'
 
 export const useSignature = () => {
-	const { addConfirmWithHWToast } = useSharedStore(state => ({
-		addConfirmWithHWToast: state.addConfirmWithHWToastAction,
-	}))
-	const { signingKey } = useAccountStore(state => ({
+	const { signingKey, addConfirmWithHWToast } = useSharedStore(state => ({
 		signingKey: state.signingKey,
+		addConfirmWithHWToast: state.addConfirmWithHWToastAction,
 	}))
 
 	const sign = useCallback(

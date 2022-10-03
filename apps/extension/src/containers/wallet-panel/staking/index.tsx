@@ -1,5 +1,5 @@
 import React from 'react'
-import { useAccountStore } from '@src/hooks/use-store'
+import { useNoneSharedStore } from '@src/hooks/use-store'
 import { Box, Text, StyledLink } from 'ui/src/components/atoms'
 import { getShortAddress } from '@src/utils/string-utils'
 import { Tabs, TabsList, TabsContent, TabsTrigger } from 'ui/src/components/tabs'
@@ -13,7 +13,7 @@ import { StakesList } from './stakes-list'
 const TAB_HEIGHT = '246px'
 
 export const Staking: React.FC = () => {
-	const { accountAddress, selectAccount } = useAccountStore(state => ({
+	const { accountAddress, selectAccount } = useNoneSharedStore(state => ({
 		accountAddress: state.getCurrentAddressAction(),
 		selectAccount: state.selectAccountAction,
 	}))

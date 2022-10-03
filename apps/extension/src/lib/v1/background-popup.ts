@@ -28,8 +28,9 @@ import {
 import { EVENT_MESSAGE_ID } from '@src/services/messanger'
 import { forEachClientPort } from '@src/services/client-ports'
 import { sharedStore } from '@src/store'
-import { getAccountStore } from '@src/services/state'
+import { getNoneSharedStore } from '@src/services/state'
 import { AddressBookEntry, Network } from '@src/store/types'
+import { SigningKeyType } from '@src/types'
 import { INIT, KEYSTORE_CHANGE } from './events'
 
 export default function NewV1BackgroundPopupActions(
@@ -53,8 +54,8 @@ export default function NewV1BackgroundPopupActions(
 		await deletePendingAction(id)
 
 		const { selectKeystoreId } = sharedStore.getState()
-		const useAccountStore = await getAccountStore(selectKeystoreId)
-		const state = useAccountStore.getState()
+		const noneSharedStore = await getNoneSharedStore(selectKeystoreId)
+		const state = noneSharedStore.getState()
 		state.removePendingActionAction(id)
 	}
 
@@ -70,7 +71,7 @@ export default function NewV1BackgroundPopupActions(
 	async function newKeychain(
 		port: Runtime.Port,
 		id: string,
-		payload: { type: 'mnemonic' | 'key'; secret: string; password: string; index: number },
+		payload: { type: SigningKeyType; secret: string; password: string; index: number },
 	) {
 		try {
 			const resp = await vault.new(payload.type, payload.secret, payload.password, payload.index)
@@ -185,8 +186,8 @@ export default function NewV1BackgroundPopupActions(
 	async function isApprovedClient(port: Runtime.Port): Promise<boolean> {
 		const url = new URL(port.sender.url)
 		const { selectKeystoreId } = sharedStore.getState()
-		const useAccountStore = await getAccountStore(selectKeystoreId)
-		const state = useAccountStore.getState()
+		const noneSharedStore = await getNoneSharedStore(selectKeystoreId)
+		const state = noneSharedStore.getState()
 		const { approvedWebsites } = state
 
 		return url.host in approvedWebsites

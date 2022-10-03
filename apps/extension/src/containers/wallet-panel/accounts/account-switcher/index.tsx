@@ -1,5 +1,5 @@
 import React, { useRef, useState, useEffect } from 'react'
-import { useAccountStore } from '@src/hooks/use-store'
+import { useNoneSharedStore, useSharedStore } from '@src/hooks/use-store'
 import { PlusIcon } from 'ui/src/components/icons'
 import { useEventListener } from 'usehooks-ts'
 import { Box, Flex, MotionBox, Text } from 'ui/src/components/atoms'
@@ -14,8 +14,10 @@ const SLIDER_HEIGHT = 169
 const LEFT_OFFSET = 26 - SLIDER_WIDTH
 
 export const AccountSwitcher = (): JSX.Element => {
-	const { signingKey, addresses, activeSlideIndex, selectAccount, setActiveSlide } = useAccountStore(state => ({
+	const { signingKey } = useSharedStore(state => ({
 		signingKey: state.signingKey,
+	}))
+	const { addresses, activeSlideIndex, selectAccount, setActiveSlide } = useNoneSharedStore(state => ({
 		addresses: Object.values(state.publicAddresses).map(({ address }) => address),
 		activeSlideIndex: state.activeSlideIndex,
 		selectAccount: state.selectAccountAction,

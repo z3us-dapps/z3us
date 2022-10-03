@@ -1,7 +1,7 @@
 import React from 'react'
 import { useQueryClient } from 'react-query'
 import { useImmer } from 'use-immer'
-import { useSharedStore, useAccountStore } from '@src/hooks/use-store'
+import { useSharedStore, useNoneSharedStore } from '@src/hooks/use-store'
 import { PageHeading, PageSubHeading, PageWrapper } from '@src/components/layout'
 import { ScrollArea } from 'ui/src/components/scroll-area'
 import { useLocation } from 'wouter'
@@ -45,7 +45,8 @@ export const CreateTokenModal: React.FC<IProps> = ({ trigger }) => {
 	const [, setLocation] = useLocation()
 	const queryClient = useQueryClient()
 
-	const { addToast } = useSharedStore(state => ({
+	const { signingKey, addToast } = useSharedStore(state => ({
+		signingKey: state.signingKey,
 		addToast: state.addToastAction,
 	}))
 
@@ -53,9 +54,8 @@ export const CreateTokenModal: React.FC<IProps> = ({ trigger }) => {
 	const derive = useTokenDerive()
 	const { signTransaction, submitTransaction } = useTransaction()
 
-	const { selectAccount, signingKey, accountAddress } = useAccountStore(state => ({
+	const { selectAccount, accountAddress } = useNoneSharedStore(state => ({
 		selectAccount: state.selectAccountAction,
-		signingKey: state.signingKey,
 		accountAddress: state.getCurrentAddressAction(),
 	}))
 

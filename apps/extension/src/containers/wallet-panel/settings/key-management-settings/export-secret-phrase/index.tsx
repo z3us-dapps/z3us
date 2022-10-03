@@ -17,7 +17,6 @@ import {
 	AlertDialogAction,
 	AlertDialogCancel,
 } from 'ui/src/components/alert-dialog'
-import { GET } from '@src/lib/v1/actions'
 
 interface ImmerT {
 	words: Array<string>
@@ -28,8 +27,8 @@ interface ImmerT {
 }
 
 export const ExportSecretPhrase: React.FC = () => {
-	const { messanger } = useSharedStore(state => ({
-		messanger: state.messanger,
+	const { getWallet } = useSharedStore(state => ({
+		getWallet: state.getWalletAction,
 	}))
 
 	const [state, setState] = useImmer<ImmerT>({
@@ -42,7 +41,7 @@ export const ExportSecretPhrase: React.FC = () => {
 
 	const handleShow = async () => {
 		try {
-			const { mnemonic } = await messanger.sendActionMessageFromPopup(GET, { password: state.password })
+			const { mnemonic } = await getWallet(state.password)
 			if (!mnemonic) {
 				setState(draft => {
 					draft.show = false

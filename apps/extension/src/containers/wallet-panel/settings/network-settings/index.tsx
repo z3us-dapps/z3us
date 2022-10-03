@@ -1,6 +1,6 @@
 import React from 'react'
 import browser from 'webextension-polyfill'
-import { useSharedStore, useAccountStore } from '@src/hooks/use-store'
+import { useSharedStore, useNoneSharedStore } from '@src/hooks/use-store'
 import { useImmer } from 'use-immer'
 import { PlusIcon } from 'ui/src/components/icons'
 import { Box, Flex, Text } from 'ui/src/components/atoms'
@@ -31,7 +31,7 @@ export const NetworkSettings: React.FC = () => {
 		addToast: state.addToastAction,
 	}))
 
-	const { networks, selectedNetworkIndex, selectNetwork, addNetwork } = useAccountStore(state => ({
+	const { networks, selectedNetworkIndex, selectNetwork, addNetwork } = useNoneSharedStore(state => ({
 		networks: state.networks,
 		selectedNetworkIndex: state.selectedNetworkIndex,
 		selectNetwork: state.selectNetworkAction,

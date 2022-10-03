@@ -1,18 +1,15 @@
 import { useCallback } from 'react'
 import { Message } from '@radixdlt/crypto'
-import { useSharedStore, useAccountStore } from '@src/hooks/use-store'
+import { useSharedStore } from '@src/hooks/use-store'
 import { useRadix } from '@src/hooks/use-radix'
 import { parseAccountAddress } from '@src/services/radix/serializer'
 
 export const useMessage = () => {
 	const radix = useRadix()
-	const { addConfirmWithHWToast } = useSharedStore(state => ({
+	const { signingKey, addConfirmWithHWToast } = useSharedStore(state => ({
+		signingKey: state.signingKey,
 		addConfirmWithHWToast: state.addConfirmWithHWToastAction,
 	}))
-	const { signingKey } = useAccountStore(state => ({
-		signingKey: state.signingKey,
-	}))
-
 	const createMessage = useCallback(
 		async (plaintext: string, recipientAddress: string = ''): Promise<string> => {
 			if (!plaintext) throw new Error('Invalid message')

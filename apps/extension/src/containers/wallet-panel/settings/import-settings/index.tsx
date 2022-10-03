@@ -1,6 +1,6 @@
 import React, { useContext } from 'react'
 import { useImmer } from 'use-immer'
-import { useAccountStore, useSharedStore } from '@src/hooks/use-store'
+import { useNoneSharedStore, useSharedStore } from '@src/hooks/use-store'
 import { Box, Flex, Text } from 'ui/src/components/atoms'
 import Button from 'ui/src/components/button'
 import AlertCard from 'ui/src/components/alert-card'
@@ -13,15 +13,15 @@ import {
 	AlertDialogTitle,
 	AlertDialogCancel,
 } from 'ui/src/components/alert-dialog'
-import { accountStoreWhitelist, sharedStore, sharedStoreWhitelist } from '@src/store'
-import { AccountContext } from '@src/context/state'
+import { noneSharedStoreWhitelist, sharedStore, sharedStoreWhitelist } from '@src/store'
+import { NoneSharedStoreContext } from '@src/context/state'
 import { whiteList as keystorehiteList } from '@src/store/keystores'
 
 const sharedDisabledList = [...keystorehiteList]
 const sharedWhiteList = sharedStoreWhitelist.filter(key => !sharedDisabledList.includes(key))
 
 const accountDisabledList = ['pendingActions']
-const accountWhiteList = accountStoreWhitelist.filter(key => !accountDisabledList.includes(key))
+const accountWhiteList = noneSharedStoreWhitelist.filter(key => !accountDisabledList.includes(key))
 
 interface ImmerT {
 	data: string
@@ -33,15 +33,15 @@ interface ImmerT {
 const settingsExportVersionV1 = 'v1'
 
 export const ImportSettings: React.FC = () => {
-	const accountStore = useContext(AccountContext)
+	const noneSharedStoreContext = useContext(NoneSharedStoreContext)
 	const sharedState = useSharedStore()
-	const accountState = useAccountStore()
+	const noneSharedState = useNoneSharedStore()
 
 	const data = encodeURIComponent(
 		JSON.stringify({
 			version: settingsExportVersionV1,
 			shared: Object.fromEntries(Object.entries(sharedState).filter(([key]) => sharedWhiteList.includes(key))),
-			account: Object.fromEntries(Object.entries(accountState).filter(([key]) => accountWhiteList.includes(key))),
+			noneShared: Object.fromEntries(Object.entries(noneSharedState).filter(([key]) => accountWhiteList.includes(key))),
 		}),
 	)
 
@@ -83,11 +83,11 @@ export const ImportSettings: React.FC = () => {
 
 	const handleImport = () => {
 		try {
-			const { version, shared, account } = JSON.parse(state.data)
+			const { version, shared, noneShared } = JSON.parse(state.data)
 			switch (version) {
 				case settingsExportVersionV1:
 					sharedStore.setState(shared)
-					accountStore.setState(account)
+					noneSharedStoreContext.store.setState(noneShared)
 					break
 				default:
 					throw new Error(`Invalid settings`)

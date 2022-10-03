@@ -1,6 +1,6 @@
 import React, { lazy, ReactNode, Suspense, useEffect } from 'react'
 import { useLocation } from 'wouter'
-import { useSharedStore } from '@src/hooks/use-store'
+import { useNoneSharedStore } from '@src/hooks/use-store'
 import { AnimatePresence, motion } from 'framer-motion'
 import { Box, MotionBox } from 'ui/src/components/atoms'
 import UnlockedPanel from '@src/components/unlocked-panel'
@@ -49,7 +49,7 @@ const pageStyle = {
 
 export const WalletPanel = (): JSX.Element => {
 	const [location] = useLocation()
-	const { activeApp } = useSharedStore(state => ({
+	const { activeApp } = useNoneSharedStore(state => ({
 		activeApp: state.activeApp,
 	}))
 	const [page, direction] = activeApp

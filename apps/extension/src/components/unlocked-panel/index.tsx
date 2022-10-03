@@ -1,17 +1,17 @@
 import React, { ReactNode, useEffect } from 'react'
-import { useAccountStore, useSharedStore } from '@src/hooks/use-store'
+import { useNoneSharedStore, useSharedStore } from '@src/hooks/use-store'
 import { LockedPanel } from '@src/components/locked-panel'
 import { Z3usMenu } from '@src/components/z3us-menu'
 import { Box, MotionBox } from 'ui/src/components/atoms'
 import { ACCOUNTS } from '@src/config'
 
 export const UnlockedPanel = ({ children }: { children: ReactNode }) => {
-	const { activeApp, keystores } = useSharedStore(state => ({
-		activeApp: state.activeApp,
+	const { isUnlocked, keystores } = useSharedStore(state => ({
+		isUnlocked: state.isUnlocked,
 		keystores: state.keystores,
 	}))
-	const { isUnlocked } = useAccountStore(state => ({
-		isUnlocked: state.isUnlocked,
+	const { activeApp } = useNoneSharedStore(state => ({
+		activeApp: state.activeApp,
 	}))
 	const [page] = activeApp
 
@@ -19,7 +19,7 @@ export const UnlockedPanel = ({ children }: { children: ReactNode }) => {
 		if (keystores.length === 0) {
 			window.location.hash = '#/onboarding'
 		}
-	}, [keystores])
+	}, [keystores.length])
 
 	if (keystores.length === 0) {
 		return null

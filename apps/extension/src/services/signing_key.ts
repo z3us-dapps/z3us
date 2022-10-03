@@ -6,16 +6,20 @@ import {
 	BuiltTransactionReadyToSign,
 	SigningKey as RadixSigningKey,
 } from '@radixdlt/application'
-import { KeystoreType, SigningKey } from '@src/types'
+import { SigningKey, SigningKeyType } from '@src/types'
 import { MessageService } from '@src/services/messanger'
 import { DECRYPT, ENCRYPT, SIGN, SIGN_HASH } from '@src/lib/v1/actions'
 import { HardwareWalletT } from '@radixdlt/hardware-wallet'
 import { firstValueFrom } from 'rxjs'
 import { generateId } from '@src/utils/generate-id'
 
-export const createLocalSigningKey = (messanger: MessageService, publicKey: PublicKeyT): SigningKey => ({
+export const createLocalSigningKey = (
+	messanger: MessageService,
+	publicKey: PublicKeyT,
+	type: SigningKeyType,
+): SigningKey => ({
 	id: generateId(),
-	type: KeystoreType.LOCAL,
+	type,
 	publicKey,
 	decrypt: (input: SigningKeyDecryptionInput) =>
 		messanger.sendActionMessageFromPopup(DECRYPT, {
@@ -55,7 +59,7 @@ export const createHardwareSigningKey = async (hw: HardwareWalletT, index: numbe
 
 	return {
 		id: generateId(),
-		type: KeystoreType.HARDWARE,
+		type: SigningKeyType.HARDWARE,
 		hw,
 		publicKey: radixSK.publicKey,
 		decrypt: (input: SigningKeyDecryptionInput) => firstValueFrom(radixSK.decrypt(input)),

@@ -1,5 +1,4 @@
 /* eslint-disable no-case-declarations */
-import browser from 'webextension-polyfill'
 import { AccountAddress, Mnemonic, SigningKey, SigningKeyT } from '@radixdlt/application'
 import {
 	HDMasterSeed,
@@ -13,33 +12,19 @@ import {
 } from '@radixdlt/crypto'
 import { CryptoService } from '@src/services/crypto'
 import { BrowserStorageService } from '@src/services/browser-storage'
-import { sharedStoreKey } from '@src/config'
 import { sharedStore } from '@src/store'
-import { AddressBookEntry, Network, SharedState } from '@src/store/types'
+import { AddressBookEntry, Network } from '@src/store/types'
 import { getDefaultAddressEntry } from '@src/store/helpers'
 import { firstValueFrom } from 'rxjs'
-
-type KeystoreType = 'mnemonic' | 'key' | 'legacy'
+import { SigningKeyType } from '@src/types'
+import { getNoneSharedStore } from './state'
 
 interface Keystore {
-	type: KeystoreType
+	type: SigningKeyType
 	secret: string
 }
 
 export const keystoreKey = 'z3us-keystore'
-
-const getKeystorePrefix = async () => {
-	const data = await browser.storage.local.get(sharedStoreKey)
-	const { lastError } = browser.runtime
-	if (lastError) {
-		throw new Error(lastError.message)
-	}
-	if (!data[sharedStoreKey]) {
-		return ''
-	}
-	const state = JSON.parse(data[sharedStoreKey])?.state as SharedState
-	return state?.selectKeystoreId || ''
-}
 
 const getSigningKey = (hdMasterNode: HDNodeT, index: number): SigningKeyT => {
 	const hdPath = HDPathRadix.create({ address: { index, isHardened: true } })
@@ -52,6 +37,8 @@ export class VaultService {
 	private storage: BrowserStorageService
 
 	private hdMasterNode?: HDNodeT
+
+	private signingKeyType?: SigningKeyType
 
 	private signingKey?: SigningKeyT
 
@@ -68,18 +55,20 @@ export class VaultService {
 		}
 	}
 
-	new = async (type: KeystoreType, secret: string, password: string, index: number = 0) => {
+	new = async (type: SigningKeyType, secret: string, password: string, index: number = 0) => {
 		const keystore = await this.crypto.encrypt<Keystore>(password, { type, secret })
 		await this.saveKeystore(keystore)
 
-		const { hdMasterNode } = await this.getHDMasterNode(keystore, password)
+		const { hdMasterNode, type: signingKeyType } = await this.getHDMasterNode(keystore, password)
+		this.signingKeyType = signingKeyType
 		this.hdMasterNode = hdMasterNode
 		return this.derive(index)
 	}
 
 	unlock = async (password: string, index: number) => {
 		const keystore = await this.getKeystore()
-		const { hdMasterNode } = await this.getHDMasterNode(keystore, password)
+		const { hdMasterNode, type: signingKeyType } = await this.getHDMasterNode(keystore, password)
+		this.signingKeyType = signingKeyType
 		this.hdMasterNode = hdMasterNode
 		return this.derive(index)
 	}
@@ -89,20 +78,23 @@ export class VaultService {
 			clearTimeout(this.timer)
 		}
 		this.hdMasterNode = null
+		this.signingKeyType = null
 		this.signingKey = null
 		this.timer = null
 	}
 
 	derive = async (index: number, network?: Network, publicAddresses?: { [key: number]: AddressBookEntry }) => {
-		const keystoreId = await getKeystorePrefix()
+		await sharedStore.persist.rehydrate()
+		const { selectKeystoreId } = sharedStore.getState()
 		const hasKeystore = await this.has()
 
 		if (!this.hdMasterNode) {
-			this.signingKey = null
 			this.hdMasterNode = null
+			this.signingKeyType = null
+			this.signingKey = null
 			return {
 				hasKeystore,
-				keystoreId,
+				keystoreId: selectKeystoreId,
 			}
 		}
 
@@ -138,8 +130,9 @@ export class VaultService {
 
 		await this.resetTimer()
 		return {
+			type: this.signingKeyType,
 			hasKeystore,
-			keystoreId,
+			keystoreId: selectKeystoreId,
 			publicKey: this.signingKey?.publicKey.toString(),
 			network,
 			publicAddresses,
@@ -148,8 +141,9 @@ export class VaultService {
 
 	has = async (): Promise<boolean> => {
 		try {
-			const suffix = await getKeystorePrefix()
-			const keystore = await this.storage.getItem(`${keystoreKey}-${suffix}`)
+			await sharedStore.persist.rehydrate()
+			const { selectKeystoreId } = sharedStore.getState()
+			const keystore = await this.storage.getItem(`${keystoreKey}-${selectKeystoreId}`)
 			return !!keystore
 		} catch (err) {
 			return false
@@ -158,9 +152,10 @@ export class VaultService {
 
 	get = async (password: string) => {
 		const keystore = await this.getKeystore()
-		const { hdMasterNode, mnemonic } = await this.getHDMasterNode(keystore, password)
+		const { type: signingKeyType, hdMasterNode, mnemonic } = await this.getHDMasterNode(keystore, password)
 
 		return {
+			type: signingKeyType,
 			mnemonic: mnemonic
 				? {
 						strength: mnemonic.strength,
@@ -175,9 +170,10 @@ export class VaultService {
 	}
 
 	remove = async () => {
-		const suffix = await getKeystorePrefix()
+		await sharedStore.persist.rehydrate()
+		const { selectKeystoreId } = sharedStore.getState()
 		this.lock()
-		await this.storage.removeItem(`${keystoreKey}-${suffix}`)
+		await this.storage.removeItem(`${keystoreKey}-${selectKeystoreId}`)
 	}
 
 	encrypt = async (plaintext: string, publicKeyOfOtherParty: string) => {
@@ -230,13 +226,15 @@ export class VaultService {
 	}
 
 	private saveKeystore = async (keystore: string) => {
-		const suffix = await getKeystorePrefix()
-		await this.storage.setItem(`${keystoreKey}-${suffix}`, keystore)
+		await sharedStore.persist.rehydrate()
+		const { selectKeystoreId } = sharedStore.getState()
+		await this.storage.setItem(`${keystoreKey}-${selectKeystoreId}`, keystore)
 	}
 
 	private getKeystore = async (): Promise<string> => {
-		const suffix = await getKeystorePrefix()
-		const data = await this.storage.getItem(`${keystoreKey}-${suffix}`)
+		await sharedStore.persist.rehydrate()
+		const { selectKeystoreId } = sharedStore.getState()
+		const data = await this.storage.getItem(`${keystoreKey}-${selectKeystoreId}`)
 		if (!data) {
 			throw new Error('No keystore!')
 		}
@@ -244,7 +242,11 @@ export class VaultService {
 	}
 
 	private resetTimer = async () => {
-		const { walletUnlockTimeoutInMinutes = 5 } = sharedStore.getState()
+		await sharedStore.persist.rehydrate()
+		const { selectKeystoreId } = sharedStore.getState()
+		const noneSharedStore = await getNoneSharedStore(selectKeystoreId)
+		await noneSharedStore.persist.rehydrate()
+		const { walletUnlockTimeoutInMinutes = 5 } = noneSharedStore.getState()
 		if (this.timer) {
 			clearTimeout(this.timer)
 		}
@@ -256,8 +258,9 @@ export class VaultService {
 		data: string,
 		password: string,
 	): Promise<{
-		mnemonic?: MnemomicT
+		type: SigningKeyType
 		hdMasterNode: HDNodeT
+		mnemonic?: MnemomicT
 	}> => {
 		let keystore = await this.crypto.decrypt<Keystore>(password, data)
 		// migrate data if is legacy keystore
@@ -266,17 +269,20 @@ export class VaultService {
 			if (kesytoreResult.isErr()) {
 				throw kesytoreResult.error
 			}
-			keystore = { type: 'legacy', secret: kesytoreResult.value.toString('hex') }
+			keystore = { type: SigningKeyType.LEGACY, secret: kesytoreResult.value.toString('hex') }
 		} else {
 			keystore = keystore as Keystore
 		}
 
 		switch (keystore.type) {
-			case 'legacy':
-				const newKeystore = await this.crypto.encrypt<Keystore>(password, { type: 'mnemonic', secret: keystore.secret })
+			case SigningKeyType.LEGACY:
+				const newKeystore = await this.crypto.encrypt<Keystore>(password, {
+					type: SigningKeyType.MNEMONIC,
+					secret: keystore.secret,
+				})
 				await this.saveKeystore(newKeystore)
 			// eslint-disable-next-line no-fallthrough
-			case 'mnemonic':
+			case SigningKeyType.MNEMONIC:
 				const mnemonic = Mnemonic.fromEntropy({ entropy: Buffer.from(keystore.secret, 'hex') })
 				if (mnemonic.isErr()) {
 					throw mnemonic.error
@@ -285,15 +291,16 @@ export class VaultService {
 				const masterSeed = HDMasterSeed.fromMnemonic({ mnemonic: mnemonic.value })
 
 				return {
+					type: keystore.type,
 					mnemonic: mnemonic.value,
 					hdMasterNode: masterSeed.masterNode(),
 				}
-			case 'key':
+			case SigningKeyType.PRIVATE_KEY:
 				const hdNodeResult = HDNode.fromExtendedPrivateKey(keystore.secret)
 				if (hdNodeResult.isErr()) {
 					throw hdNodeResult.error
 				}
-				return { hdMasterNode: hdNodeResult.value }
+				return { type: keystore.type, hdMasterNode: hdNodeResult.value }
 			default:
 				throw new Error(`Invalid keystore type`)
 		}

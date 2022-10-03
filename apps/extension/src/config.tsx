@@ -6,7 +6,7 @@ import { ColorSettings, PoolType } from '@src/types'
 
 // @TODO: add types to this file
 
-export const defaultAccountStoreKey = 'z3us-store'
+export const defaultNoneStoreKey = 'z3us-store'
 
 export const sharedStoreKey = 'z3us-store-shared'
 

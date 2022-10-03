@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
-import { useAccountStore, useSharedStore } from '@src/hooks/use-store'
 import { useImmer } from 'use-immer'
+import { useSharedStore } from '@src/hooks/use-store'
 import Button, { ButtonProps } from 'ui/src/components/button'
 import { isWebAuthSupported } from '@src/services/credentials'
 import { generateId } from '@src/utils/generate-id'
@@ -10,12 +10,10 @@ interface ImmerT {
 }
 
 export const RegisterCredentialsButton: React.FC<ButtonProps> = props => {
-	const { registerCredential, removeCredential } = useSharedStore(state => ({
+	const { signingKey, registerCredential, removeCredential } = useSharedStore(state => ({
+		signingKey: state.signingKey,
 		registerCredential: state.registerCredentialAction,
 		removeCredential: state.removeCredentialAction,
-	}))
-	const { signingKey } = useAccountStore(state => ({
-		signingKey: state.signingKey,
 	}))
 
 	const [state, setState] = useImmer<ImmerT>({

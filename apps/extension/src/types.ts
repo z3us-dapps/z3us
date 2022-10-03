@@ -34,9 +34,16 @@ export type Keystore = {
 	type: KeystoreType
 }
 
+export enum SigningKeyType {
+	LEGACY = 'legacy',
+	MNEMONIC = 'mnemonic',
+	PRIVATE_KEY = 'private_key',
+	HARDWARE = 'hardware',
+}
+
 export type SigningKey = {
 	id: string
-	type: KeystoreType
+	type: SigningKeyType
 	publicKey: PublicKeyT
 	hw?: HardwareWalletT
 	decrypt: (input: SigningKeyDecryptionInput) => Promise<string>

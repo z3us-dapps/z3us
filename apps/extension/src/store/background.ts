@@ -11,8 +11,11 @@ import {
 	AUTH_VERIFY_REGISTRATION,
 	AUTH_AUTHENTICATION_OPTIONS,
 	AUTH_VERIFY_AUTHENTICATION,
+	GET,
+	PING,
 } from '@src/lib/v1/actions'
 import { startRegistration, startAuthentication } from '@simplewebauthn/browser'
+import { SigningKeyType } from '@src/types'
 import { BackgroundState } from './types'
 
 export const rpName = 'Z3US'
@@ -43,7 +46,7 @@ export const factory = (set, get): BackgroundState => ({
 		return !!hasKeystore
 	},
 
-	createWalletAction: (type: 'mnemonic' | 'key', secret: string, password: string, index: number) => {
+	createWalletAction: (type: SigningKeyType, secret: string, password: string, index: number) => {
 		const { messanger } = get()
 		if (!messanger) {
 			throw new Error('Messanger not initialized!')
@@ -54,6 +57,14 @@ export const factory = (set, get): BackgroundState => ({
 			password,
 			index,
 		})
+	},
+
+	getWalletAction: (password: string) => {
+		const { messanger } = get()
+		if (!messanger) {
+			throw new Error('Messanger not initialized!')
+		}
+		return messanger.sendActionMessageFromPopup(GET, { password })
 	},
 
 	unlockWalletAction: (password: string, index: number) => {
@@ -78,6 +89,14 @@ export const factory = (set, get): BackgroundState => ({
 			throw new Error('Messanger not initialized!')
 		}
 		await messanger.sendActionMessageFromPopup(LOCK, null)
+	},
+
+	pingAction: async () => {
+		const { messanger } = get()
+		if (!messanger) {
+			throw new Error('Messanger not initialized!')
+		}
+		await messanger.sendActionMessageFromPopup(PING, null)
 	},
 
 	hasAuthAction: async () => {

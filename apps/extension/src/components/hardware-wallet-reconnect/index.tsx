@@ -1,7 +1,7 @@
 import React from 'react'
 import { firstValueFrom } from 'rxjs'
 import { HardwareWalletLedger } from '@radixdlt/hardware-ledger'
-import { useSharedStore, useAccountStore } from '@src/hooks/use-store'
+import { useSharedStore, useNoneSharedStore } from '@src/hooks/use-store'
 import { useImmer } from 'use-immer'
 import { Tooltip, TooltipTrigger, TooltipContent, TooltipArrow } from 'ui/src/components/tool-tip'
 import Button from 'ui/src/components/button'
@@ -9,7 +9,7 @@ import { Text, Flex } from 'ui/src/components/atoms'
 import InputFeedback from 'ui/src/components/input/input-feedback'
 import { useAPDU } from '@src/hooks/use-apdu'
 import { createHardwareSigningKey } from '@src/services/signing_key'
-import { KeystoreType } from '@src/types'
+import { SigningKeyType } from '@src/types'
 
 interface ImmerT {
 	isLoading: boolean
@@ -17,21 +17,21 @@ interface ImmerT {
 
 export const HardwareWalletReconnect: React.FC = () => {
 	const sendAPDU = useAPDU()
-	const { addToast } = useSharedStore(state => ({
-		addToast: state.addToastAction,
-	}))
-	const { signingKey, accountIndex, getAccountType, setSigningKey } = useAccountStore(state => ({
+	const { signingKey, getAccountType, setSigningKey, addToast } = useSharedStore(state => ({
 		signingKey: state.signingKey,
-		accountIndex: state.selectedAccountIndex,
-		selectAccount: state.selectAccountAction,
 		getAccountType: state.getAccountTypeAction,
 		setSigningKey: state.setSigningKeyAction,
+		addToast: state.addToastAction,
+	}))
+	const { accountIndex } = useNoneSharedStore(state => ({
+		accountIndex: state.selectedAccountIndex,
+		selectAccount: state.selectAccountAction,
 	}))
 	const [state, setState] = useImmer<ImmerT>({
 		isLoading: false,
 	})
 
-	const isHW = getAccountType() === KeystoreType.HARDWARE
+	const isHW = getAccountType() === SigningKeyType.HARDWARE
 
 	const handleReconnectHW = async () => {
 		if (signingKey || state.isLoading || !isHW) return

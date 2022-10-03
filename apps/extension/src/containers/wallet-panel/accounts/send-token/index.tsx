@@ -1,6 +1,6 @@
 import React, { useEffect, useRef } from 'react'
 import { AnimatePresence } from 'framer-motion'
-import { useSharedStore, useAccountStore } from '@src/hooks/use-store'
+import { useSharedStore, useNoneSharedStore } from '@src/hooks/use-store'
 import { useImmer } from 'use-immer'
 import { useTokenBalances, useTokenInfo } from '@src/hooks/react-query/queries/radix'
 import { Tooltip, TooltipTrigger, TooltipContent, TooltipArrow } from 'ui/src/components/tool-tip'
@@ -42,12 +42,11 @@ export const SendToken: React.FC = () => {
 	const [isSendTokenRoute, params] = useRoute('/account/send/:rri')
 	const transferTokens = useTransferTokens()
 
-	const { addToast } = useSharedStore(state => ({
+	const { signingKey, addToast } = useSharedStore(state => ({
+		signingKey: state.signingKey,
 		addToast: state.addToastAction,
 	}))
-
-	const { signingKey, accountAddress, selectAccount } = useAccountStore(state => ({
-		signingKey: state.signingKey,
+	const { accountAddress, selectAccount } = useNoneSharedStore(state => ({
 		selectAccount: state.selectAccountAction,
 		accountAddress: state.getCurrentAddressAction(),
 	}))

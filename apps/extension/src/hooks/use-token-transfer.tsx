@@ -1,4 +1,4 @@
-import { useAccountStore } from '@src/hooks/use-store'
+import { useNoneSharedStore } from '@src/hooks/use-store'
 import { useMessage } from '@src/hooks/use-message'
 import { useTransaction } from '@src/hooks/use-transaction'
 import { IntendedTransferTokens } from '@radixdlt/application'
@@ -8,7 +8,7 @@ import { parseAccountAddress, parseResourceIdentifier } from '@src/services/radi
 export const useTransferTokens = () => {
 	const { buildTransactionFromActions } = useTransaction()
 	const { createMessage } = useMessage()
-	const { address } = useAccountStore(state => ({
+	const { address } = useNoneSharedStore(state => ({
 		address: state.getCurrentAddressAction(),
 	}))
 

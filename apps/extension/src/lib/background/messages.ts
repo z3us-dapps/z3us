@@ -9,7 +9,7 @@ import { deletePendingAction } from '@src/services/actions-pending'
 import { addClientPort, deleteClientPort } from '@src/services/client-ports'
 import { generateId } from '@src/utils/generate-id'
 import { sharedStore } from '@src/store'
-import { getAccountStore } from '@src/services/state'
+import { getNoneSharedStore } from '@src/services/state'
 // import { CredentialsService } from '@src/services/credentials'
 
 const browserService = new BrowserService()
@@ -75,8 +75,8 @@ export const handleConnect = async port => {
 					portMessageIDs[id] = {}
 					await sharedStore.persist.rehydrate()
 					const { selectKeystoreId } = sharedStore.getState()
-					const useAccountStore = await getAccountStore(selectKeystoreId)
-					await useAccountStore.persist.rehydrate()
+					const noneSharedStore = await getNoneSharedStore(selectKeystoreId)
+					await noneSharedStore.persist.rehydrate()
 					try {
 						inpageActionHandlers[action](port, id, payload)
 					} catch (error) {
@@ -92,8 +92,8 @@ export const handleConnect = async port => {
 					portMessageIDs[id] = {}
 					await sharedStore.persist.rehydrate()
 					const { selectKeystoreId } = sharedStore.getState()
-					const useAccountStore = await getAccountStore(selectKeystoreId)
-					await useAccountStore.persist.rehydrate()
+					const noneSharedStore = await getNoneSharedStore(selectKeystoreId)
+					await noneSharedStore.persist.rehydrate()
 					try {
 						popupActionHandlers[action](port, id, payload)
 					} catch (error) {
@@ -120,10 +120,10 @@ export const handleConnect = async port => {
 
 			await sharedStore.persist.rehydrate()
 			const { selectKeystoreId } = sharedStore.getState()
-			const useAccountStore = await getAccountStore(selectKeystoreId)
-			await useAccountStore.persist.rehydrate()
+			const noneSharedStore = await getNoneSharedStore(selectKeystoreId)
+			await noneSharedStore.persist.rehydrate()
 
-			const state = useAccountStore.getState()
+			const state = noneSharedStore.getState()
 			state.removePendingActionAction(id)
 		})
 	})

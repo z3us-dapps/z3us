@@ -1,7 +1,7 @@
 import { useCallback } from 'react'
 import { ActionType } from '@radixdlt/application'
 import { ExtendedActionType, IntendedAction, ActionType as InternalActionType } from '@src/types'
-import { useSharedStore, useAccountStore } from '@src/hooks/use-store'
+import { useSharedStore, useNoneSharedStore } from '@src/hooks/use-store'
 import { useRadix } from '@src/hooks/use-radix'
 import { parseAccountAddress } from '@src/services/radix/serializer'
 // import { useSignature } from '@src/hooks/use-signature'
@@ -11,12 +11,12 @@ import { parseAccountAddress } from '@src/services/radix/serializer'
 export const useTransaction = () => {
 	const radix = useRadix()
 	// const { sign, verify } = useSignature()
-	const { addConfirmWithHWToast } = useSharedStore(state => ({
+	const { signingKey, addConfirmWithHWToast } = useSharedStore(state => ({
+		signingKey: state.signingKey,
 		addConfirmWithHWToast: state.addConfirmWithHWToastAction,
 	}))
-	const { address, signingKey } = useAccountStore(state => ({
+	const { address } = useNoneSharedStore(state => ({
 		address: state.getCurrentAddressAction(),
-		signingKey: state.signingKey,
 	}))
 
 	const buildTransaction = useCallback((payload: any) => radix.buildTransaction(payload), [radix])

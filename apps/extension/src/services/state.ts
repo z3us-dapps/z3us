@@ -1,19 +1,19 @@
 import { Mutex } from 'async-mutex'
-import { defaultAccountStoreKey } from '@src/config'
-import { AccountStore, createAccountStore } from '@src/store'
+import { defaultNoneStoreKey } from '@src/config'
+import { NoneSharedStore, createNoneSharedStore } from '@src/store'
 
 const mutex = new Mutex()
 
-export const defaultAccountStore = createAccountStore(defaultAccountStoreKey)
+export const defaultNoneSharedStore = createNoneSharedStore(defaultNoneStoreKey)
 
-const accountStoreContainer: { [key: string]: AccountStore } = {
-	[defaultAccountStoreKey]: defaultAccountStore,
+const noneSharedStoreContainer: { [key: string]: NoneSharedStore } = {
+	[defaultNoneStoreKey]: defaultNoneSharedStore,
 }
 
-export const getAccountStore = async (suffix: string): Promise<AccountStore> => {
-	const name = !suffix ? defaultAccountStoreKey : `${defaultAccountStoreKey}-${suffix}`
+export const getNoneSharedStore = async (suffix: string): Promise<NoneSharedStore> => {
+	const name = !suffix ? defaultNoneStoreKey : `${defaultNoneStoreKey}-${suffix}`
 
-	let store = accountStoreContainer[name]
+	let store = noneSharedStoreContainer[name]
 	if (store) {
 		return store
 	}
@@ -21,13 +21,13 @@ export const getAccountStore = async (suffix: string): Promise<AccountStore> => 
 	const release = await mutex.acquire()
 
 	// recheck after lock
-	store = accountStoreContainer[name]
+	store = noneSharedStoreContainer[name]
 	if (store) {
 		return store
 	}
 
-	const newStore = createAccountStore(name)
-	accountStoreContainer[name] = newStore
+	const newStore = createNoneSharedStore(name)
+	noneSharedStoreContainer[name] = newStore
 	release()
 
 	return newStore

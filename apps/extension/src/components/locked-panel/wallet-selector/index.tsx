@@ -35,11 +35,12 @@ export const WalletSelector: React.FC<IProps> = () => {
 	const [open, setOpen] = useState<boolean>(false)
 	const [measureRef, { width: triggerWidth }] = useMeasure()
 
-	const { keystore, keystores, keystoreId, selectKeystore } = useSharedStore(state => ({
+	const { keystore, keystores, keystoreId, selectKeystore, lock } = useSharedStore(state => ({
 		keystore: state.keystores.find(({ id }) => id === state.selectKeystoreId),
 		keystores: state.keystores,
 		keystoreId: state.selectKeystoreId,
 		selectKeystore: state.selectKeystoreAction,
+		lock: state.lockAction,
 	}))
 
 	const isHardwareWallet = keystore?.type === KeystoreType.HARDWARE
@@ -52,6 +53,7 @@ export const WalletSelector: React.FC<IProps> = () => {
 			return
 		}
 		selectKeystore(id)
+		await lock()
 	}
 
 	return (

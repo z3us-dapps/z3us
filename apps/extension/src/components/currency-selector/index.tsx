@@ -1,10 +1,10 @@
 import React from 'react'
-import { useSharedStore } from '@src/hooks/use-store'
+import { useNoneSharedStore } from '@src/hooks/use-store'
 import { useSupportedCurrencies } from '@src/hooks/react-query/queries/market'
 import { SelectBox } from 'ui/src/components/select'
 
 export const CurrencySelector: React.FC = () => {
-	const { currency, setCurrency } = useSharedStore(state => ({
+	const { currency, setCurrency } = useNoneSharedStore(state => ({
 		currency: state.currency,
 		setCurrency: state.setCurrencyAction,
 	}))

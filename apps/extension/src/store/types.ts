@@ -1,6 +1,6 @@
-import { Network as NetworkID, MnemomicT } from '@radixdlt/application'
+import { Network as NetworkID, MnemomicT, HDNodeT, StrengthT, LanguageT } from '@radixdlt/application'
 import { MessageService } from '@src/services/messanger'
-import { ColorSettings, Keystore, KeystoreType, SigningKey, VisibleTokens } from '@src/types'
+import { ColorSettings, Keystore, KeystoreType, SigningKey, SigningKeyType, VisibleTokens } from '@src/types'
 import { String } from '@stitches/react/types/util'
 
 export interface Toast {
@@ -93,13 +93,25 @@ export type BackgroundState = {
 	) => Promise<void>
 	hasKeystoreAction: () => Promise<boolean>
 	createWalletAction: (
-		type: 'mnemonic' | 'key',
+		type: SigningKeyType,
 		secret: string,
 		password: string,
 		index: number,
-	) => Promise<{ publicKey?: string }>
-	unlockWalletAction: (password: string, index: number) => Promise<{ publicKey?: string }>
+	) => Promise<{ publicKey?: string; type?: SigningKeyType }>
+	unlockWalletAction: (password: string, index: number) => Promise<{ publicKey?: string; type?: SigningKeyType }>
 	lockAction: () => Promise<void>
+	pingAction: () => Promise<void>
+	getWalletAction: (password: string) => Promise<{
+		type: SigningKeyType
+		hdMasterNode: HDNodeT
+		mnemonic?: Readonly<{
+			strength: StrengthT
+			entropy: string
+			words: string[]
+			phrase: string
+			language: LanguageT
+		}>
+	}>
 	removeWalletAction: () => Promise<void>
 
 	// WebAuthn actions
@@ -132,10 +144,14 @@ export type WalletState = {
 
 	signingKey: SigningKey | null
 	setSigningKeyAction: (signingKey: SigningKey | null) => void
-	getCurrentAddressAction: () => string
-	getAccountTypeAction: () => KeystoreType
+	getAccountTypeAction: () => SigningKeyType
+}
+
+export type AccountState = {
+	resetAction: () => void
 
 	publicAddresses: { [key: number]: AddressBookEntry }
+	getCurrentAddressAction: () => string
 	setPublicAddressesAction: (addresses: { [key: number]: string }) => void
 	setPublicAddressAction: (address: string, entry: AddressBookEntry) => void
 	removePublicAddressesAction: (index: number) => void
@@ -172,8 +188,8 @@ export type WalletState = {
 	removePendingActionAction: (id: string) => void
 }
 
-export type SharedState = ThemeState & ToastsState & OnBoardingState & SettingsState & BackgroundState & KeystoresState
+export type SharedState = ThemeState & ToastsState & OnBoardingState & BackgroundState & KeystoresState & WalletState
 
-export type AccountState = WalletState
+export type NoneSharedState = AccountState & SettingsState
 
-export type AppState = SharedState & AccountState
+export type AppState = SharedState & NoneSharedState
