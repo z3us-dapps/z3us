@@ -73,6 +73,7 @@ export const useVault = () => {
 					}
 					break
 				case KeystoreType.LOCAL:
+				default:
 					// eslint-disable-next-line no-case-declarations
 					const {
 						keystoreId,
@@ -100,8 +101,6 @@ export const useVault = () => {
 						setIsUnlocked(false)
 					}
 					break
-				default:
-					throw new Error(`Unknown keystore ${keystore?.id} (${keystore?.name}) type: ${keystore?.type}`)
 			}
 		} catch (error) {
 			// eslint-disable-next-line no-console
