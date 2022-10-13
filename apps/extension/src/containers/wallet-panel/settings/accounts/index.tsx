@@ -33,9 +33,9 @@ export const Accounts: React.FC = () => {
 		addToast: state.addToastAction,
 	}))
 
-	const { publicAddresses, setAddressBookEntry, removeAddress } = useNoneSharedStore(state => ({
+	const { publicAddresses, updatePublicAddress, removeAddress } = useNoneSharedStore(state => ({
 		publicAddresses: state.publicAddresses,
-		setAddressBookEntry: state.setPublicAddressAction,
+		updatePublicAddress: state.updatePublicAddressAction,
 		removeAddress: state.removePublicAddressesAction,
 	}))
 	const [state, setState] = useImmer<AccountsImmerState>({
@@ -62,7 +62,7 @@ export const Accounts: React.FC = () => {
 		setState(draft => {
 			draft.editing = ''
 		})
-		setAddressBookEntry(state.editing, { name: state.tempEdit })
+		updatePublicAddress(state.editing, { name: state.tempEdit })
 	}
 
 	const editAccountName = (name: string) => {

@@ -132,7 +132,7 @@ export default function NewV1BackgroundPopupActions(
 		payload: { index: number; network: Network; publicAddresses: { [key: number]: AddressBookEntry } },
 	) {
 		try {
-			const resp = await vault.derive(payload.index)
+			const resp = await vault.derive(payload.index, payload.network, payload.publicAddresses)
 			sendPopupMessage(port, id, payload, resp)
 		} catch (error: any) {
 			sendPopupMessage(port, id, payload, { code: 500, error: error?.message || error })

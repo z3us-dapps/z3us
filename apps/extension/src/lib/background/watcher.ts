@@ -5,6 +5,7 @@ import { getShortAddress, getTransactionType } from '@src/utils/string-utils'
 import { Transaction } from '@src/types'
 import { NoneSharedStore, sharedStore } from '@src/store'
 import { getNoneSharedStore } from '@src/services/state'
+import { notificationDelimiter, txNotificationIdPrefix } from '@src/lib/background/notifications'
 
 export async function getLastTransactions(
 	noneSharedStore: NoneSharedStore,
@@ -57,14 +58,17 @@ const watchTransactions = async (selectKeystoreId: string, noneSharedStore: None
 					const activity = action ? getTransactionType(address, action) : 'Unknown'
 
 					// eslint-disable-next-line no-await-in-loop
-					await browser.notifications.create(`tx-${selectKeystoreId}-${tx.id}`, {
-						type: 'basic',
-						iconUrl: browser.runtime.getURL('public/favicon-128x128.png'),
-						title: `New ${activity} Transaction`,
-						eventTime: tx?.sentAt.getTime(),
-						message: `There is a new ${activity} transaction on your account (${getShortAddress(address)}).`,
-						isClickable: true,
-					})
+					await browser.notifications.create(
+						`${txNotificationIdPrefix}${selectKeystoreId}${notificationDelimiter}${tx.id}`,
+						{
+							type: 'basic',
+							iconUrl: browser.runtime.getURL('public/favicon-128x128.png'),
+							title: `New ${activity} Transaction`,
+							eventTime: tx?.sentAt.getTime(),
+							message: `There is a new ${activity} transaction on your account (${getShortAddress(address)}).`,
+							isClickable: true,
+						},
+					)
 					const { lastError } = browser.runtime
 					if (lastError) {
 						// eslint-disable-next-line @typescript-eslint/no-throw-literal

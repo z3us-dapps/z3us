@@ -1,10 +1,12 @@
 import browser from 'webextension-polyfill'
 import { EXPLORER_URL } from '@src/config'
 
+export const notificationDelimiter = '--'
+export const txNotificationIdPrefix = `tx${notificationDelimiter}`
+
 export const handleNotificationClick = async id => {
-	const txNotificationIdPrefix = 'tx-'
 	if (id.startsWith(txNotificationIdPrefix)) {
-		const [, txID] = id.slice(txNotificationIdPrefix.length).split('-')
+		const [, txID] = id.slice(txNotificationIdPrefix.length).split(notificationDelimiter)
 		const url = `${EXPLORER_URL}/transactions/${txID}`
 
 		const currentWindow = await browser.windows.getCurrent()

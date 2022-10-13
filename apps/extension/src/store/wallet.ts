@@ -1,4 +1,4 @@
-import { SigningKey, SigningKeyType } from '@src/types'
+import { SigningKey } from '@src/types'
 import { WalletState } from './types'
 
 const defaultState = {
@@ -6,7 +6,7 @@ const defaultState = {
 	signingKey: null,
 }
 
-export const factory = (set, get): WalletState => ({
+export const factory = (set): WalletState => ({
 	...defaultState,
 
 	resetAction: () => {
@@ -30,10 +30,5 @@ export const factory = (set, get): WalletState => ({
 		set(draft => {
 			draft.signingKey = signingKey
 		})
-	},
-
-	getAccountTypeAction: (): SigningKeyType => {
-		const { signingKey } = get()
-		return signingKey?.type || SigningKeyType.MNEMONIC
 	},
 })

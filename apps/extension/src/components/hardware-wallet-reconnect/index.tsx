@@ -9,7 +9,7 @@ import { Text, Flex } from 'ui/src/components/atoms'
 import InputFeedback from 'ui/src/components/input/input-feedback'
 import { useAPDU } from '@src/hooks/use-apdu'
 import { createHardwareSigningKey } from '@src/services/signing_key'
-import { SigningKeyType } from '@src/types'
+import { KeystoreType } from '@src/types'
 
 interface ImmerT {
 	isLoading: boolean
@@ -17,9 +17,9 @@ interface ImmerT {
 
 export const HardwareWalletReconnect: React.FC = () => {
 	const sendAPDU = useAPDU()
-	const { signingKey, getAccountType, setSigningKey, addToast } = useSharedStore(state => ({
+	const { keystore, signingKey, setSigningKey, addToast } = useSharedStore(state => ({
+		keystore: state.keystores.find(({ id }) => id === state.selectKeystoreId),
 		signingKey: state.signingKey,
-		getAccountType: state.getAccountTypeAction,
 		setSigningKey: state.setSigningKeyAction,
 		addToast: state.addToastAction,
 	}))
@@ -31,7 +31,7 @@ export const HardwareWalletReconnect: React.FC = () => {
 		isLoading: false,
 	})
 
-	const isHW = getAccountType() === SigningKeyType.HARDWARE
+	const isHW = keystore.type === KeystoreType.HARDWARE
 
 	const handleReconnectHW = async () => {
 		if (signingKey || state.isLoading || !isHW) return

@@ -98,7 +98,10 @@ export type BackgroundState = {
 		password: string,
 		index: number,
 	) => Promise<{ publicKey?: string; type?: SigningKeyType }>
-	unlockWalletAction: (password: string, index: number) => Promise<{ publicKey?: string; type?: SigningKeyType }>
+	unlockWalletAction: (
+		password: string,
+		index: number,
+	) => Promise<{ isUnlocked: boolean; publicKey?: string; type?: SigningKeyType }>
 	lockAction: () => Promise<void>
 	pingAction: () => Promise<void>
 	getWalletAction: (password: string) => Promise<{
@@ -144,7 +147,6 @@ export type WalletState = {
 
 	signingKey: SigningKey | null
 	setSigningKeyAction: (signingKey: SigningKey | null) => void
-	getAccountTypeAction: () => SigningKeyType
 }
 
 export type AccountState = {
@@ -153,7 +155,8 @@ export type AccountState = {
 	publicAddresses: { [key: number]: AddressBookEntry }
 	getCurrentAddressAction: () => string
 	setPublicAddressesAction: (addresses: { [key: number]: string }) => void
-	setPublicAddressAction: (address: string, entry: AddressBookEntry) => void
+	addPublicAddressAction: (index: number, entry: AddressBookEntry) => void
+	updatePublicAddressAction: (address: string, entry: AddressBookEntry) => void
 	removePublicAddressesAction: (index: number) => void
 
 	networks: Network[]
