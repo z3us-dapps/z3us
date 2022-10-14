@@ -30,12 +30,6 @@ export const handleContentScriptInject = async (tabId: number, tabUrl?: string) 
 	}
 
 	const notificationId = `${injectContentScriptNotificationIdPrefix}${selectKeystoreId}${notificationDelimiter}${tabId}${notificationDelimiter}${tabUrl}`
-
-	await browser.notifications.clear(notificationId)
-	if (browser.runtime.lastError) {
-		throw new Error(browser.runtime.lastError.message)
-	}
-
 	await browser.notifications.create(notificationId, {
 		type: 'basic',
 		iconUrl: browser.runtime.getURL('favicon-128x128.png'),
