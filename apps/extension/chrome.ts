@@ -32,7 +32,7 @@ export default {
 		'48': 'favicon-48x48.png',
 		'128': 'favicon-128x128.png',
 	},
-	permissions: ['storage', 'unlimitedStorage', 'notifications'],
+	permissions: ['storage', 'unlimitedStorage', 'notifications', 'scripting'],
 	host_permissions: [
 		'*://*.radixdlt.com/*',
 		'*://api.bitfinex.com/*',
@@ -51,7 +51,11 @@ export default {
 	},
 	content_scripts: [
 		{
-			matches: ['http://*/*', 'https://*/*'],
+			// has to be the same as @src/config - trustedDappMatches
+			matches: [
+				'https://ociswap.com/*',
+				'https://z3us.com/*'
+			],
 			run_at: 'document_start',
 			all_frames: true,
 			js: ['src/lib/content-script.ts'],

@@ -1,5 +1,5 @@
 import browser, { Runtime } from 'webextension-polyfill'
-import { BrowserService } from '@src/services/browser'
+import browserService from '@src/services/browser'
 import { BrowserStorageService } from '@src/services/browser-storage'
 import { VaultService } from '@src/services/vault'
 import { PORT_NAME, TARGET_BACKGROUND, TARGET_INPAGE, TARGET_POPUP } from '@src/services/messanger'
@@ -12,7 +12,6 @@ import { sharedStore } from '@src/store'
 import { getNoneSharedStore } from '@src/services/state'
 // import { CredentialsService } from '@src/services/credentials'
 
-const browserService = new BrowserService()
 const storage = new BrowserStorageService(browserService, browser.storage)
 // const credentials = new CredentialsService(storage)
 // eslint-disable-next-line no-restricted-globals

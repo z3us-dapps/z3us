@@ -62,7 +62,7 @@ const watchTransactions = async (selectKeystoreId: string, noneSharedStore: None
 						`${txNotificationIdPrefix}${selectKeystoreId}${notificationDelimiter}${tx.id}`,
 						{
 							type: 'basic',
-							iconUrl: browser.runtime.getURL('public/favicon-128x128.png'),
+							iconUrl: browser.runtime.getURL('favicon-128x128.png'),
 							title: `New ${activity} Transaction`,
 							eventTime: tx?.sentAt.getTime(),
 							message: `There is a new ${activity} transaction on your account (${getShortAddress(address)}).`,
