@@ -46,8 +46,8 @@ export default {
 		{
 			// has to be the same as @src/config - trustedDappMatches
 			matches: [
+				'https://z3us.com/*',
 				'https://ociswap.com/*',
-				'https://z3us.com/*'
 			],
 			run_at: 'document_start',
 			all_frames: true,

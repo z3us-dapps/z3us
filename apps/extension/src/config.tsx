@@ -8,7 +8,10 @@ import { ColorSettings, PoolType } from '@src/types'
 
 export const constcontentScriptId = 'z3us-content-script'
 
-export const trustedDappMatches = ['https://ociswap.com/*', 'https://z3us.com/*']
+export const trustedDappMatches = [
+	'https://z3us.com/*',
+	'https://ociswap.com/*',
+]
 
 export const defaultNoneStoreKey = 'z3us-store'
 

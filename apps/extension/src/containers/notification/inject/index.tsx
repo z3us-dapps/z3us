@@ -123,7 +123,7 @@ export const Inject = (): JSX.Element => {
 					aria-label="confirm"
 					css={{ px: '0', flex: '1', ml: '$1' }}
 				>
-					Allow and connect
+					Connect
 				</Button>
 			</PageWrapper>
 		</>
