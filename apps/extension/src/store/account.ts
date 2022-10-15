@@ -64,7 +64,13 @@ export const factory = (set, get): AccountState => ({
 		})
 	},
 
-	setPublicAddressAction: (address: string, settings: AddressBookEntry) => {
+	addPublicAddressAction: (index: number, entry: AddressBookEntry) => {
+		set(state => {
+			state.publicAddresses[index] = entry
+		})
+	},
+
+	updatePublicAddressAction: (address: string, settings: AddressBookEntry) => {
 		set(state => {
 			const publicIndexes = Object.keys(state.publicAddresses)
 			const index = Object.values(state.publicAddresses).findIndex(

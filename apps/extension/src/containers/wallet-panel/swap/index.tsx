@@ -267,8 +267,6 @@ export const Swap: React.FC = () => {
 				draft.errorMessage = transactionFeeError
 			})
 		} catch (error) {
-			// eslint-disable-next-line no-console
-			console.error(error)
 			setState(draft => {
 				draft.fee = zero
 				draft.poolFee = zero

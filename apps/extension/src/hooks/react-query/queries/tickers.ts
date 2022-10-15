@@ -14,9 +14,9 @@ const getOCITicker = async (tokens: OCITokensResponse, currency: string, asset: 
 			return {
 				asset,
 				currency,
-				change: (+token.price.usd / +token.price.usd_24h) || 0,
-				last_price: +token.price.usd || 0,
-				volume: +token.volume.usd_24h || 0,
+				change: +(token.price.usd || 0) / +(token.price.usd_24h || 0) || 0,
+				last_price: +(token.price.usd || 0) || 0,
+				volume: +(token.volume.usd_24h || 0) || 0,
 			} as Ticker
 		}
 	}

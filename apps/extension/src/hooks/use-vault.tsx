@@ -7,8 +7,10 @@ import { MessageService, PORT_NAME } from '@src/services/messanger'
 import { DERIVE, PING } from '@src/lib/v1/actions'
 import { PublicKey } from '@radixdlt/crypto'
 import { createHardwareSigningKey, createLocalSigningKey } from '@src/services/signing_key'
-import { KeystoreType } from '@src/types'
+import { KeystoreType, SigningKey } from '@src/types'
 import { AddressBookEntry, Network } from '@src/store/types'
+import { AccountAddress } from '@radixdlt/account'
+import { getDefaultAddressEntry } from '@src/store/helpers'
 
 const mutex = new Mutex()
 const messanger = new MessageService('extension', null, null)
@@ -39,6 +41,7 @@ export const useVault = () => {
 	const { signingKey, selectKeystoreId, keystore, setMessanger, setIsUnlocked, setSigningKey } = useSharedStore(
 		state => ({
 			selectKeystoreId: state.selectKeystoreId,
+			isUnlocked: state.isUnlocked,
 			signingKey: state.signingKey,
 			keystore: state.keystores.find(({ id }) => id === state.selectKeystoreId),
 			setMessanger: state.setMessangerAction,
@@ -46,45 +49,73 @@ export const useVault = () => {
 			setSigningKey: state.setSigningKeyAction,
 		}),
 	)
-	const { network, publicAddresses, networkIndex, accountIndex, setPublicAddresses } = useNoneSharedStore(state => ({
-		network: state.networks[state.selectedNetworkIndex],
-		publicAddresses: state.publicAddresses,
-		networkIndex: state.selectedNetworkIndex,
-		accountIndex: state.selectedAccountIndex,
-		setPublicAddresses: state.setPublicAddressesAction,
-	}))
+	const { network, publicAddresses, networkIndex, accountIndex, addPublicAddress, setPublicAddresses } =
+		useNoneSharedStore(state => ({
+			network: state.networks[state.selectedNetworkIndex],
+			publicAddresses: state.publicAddresses,
+			networkIndex: state.selectedNetworkIndex,
+			accountIndex: state.selectedAccountIndex,
+			addPublicAddress: state.addPublicAddressAction,
+			setPublicAddresses: state.setPublicAddressesAction,
+		}))
 
 	const [state, setState] = useImmer<ImmerT>({
 		isMounted: false,
 		time: Date.now(),
 	})
 
+	const addNewAddressEntry = (newSigningKey: SigningKey) => {
+		if (accountIndex >= Object.keys(publicAddresses).length) {
+			const address = AccountAddress.fromPublicKeyAndNetwork({
+				publicKey: newSigningKey.publicKey,
+				network: network.id,
+			})
+			addPublicAddress(accountIndex, {
+				...getDefaultAddressEntry(accountIndex),
+				...publicAddresses[accountIndex],
+				address: address.toString(),
+			})
+		}
+	}
+
 	const derive = async (n?: Network, addresses?: { [key: number]: AddressBookEntry }) => {
 		const release = await mutex.acquire()
+
+		const derivePayload = {
+			index: accountIndex,
+			network: n,
+			publicAddresses: addresses,
+		}
+
 		try {
 			switch (keystore?.type) {
 				case KeystoreType.HARDWARE:
 					if (signingKey?.hw) {
 						const newSigningKey = await createHardwareSigningKey(signingKey.hw, accountIndex)
-						if (newSigningKey) setSigningKey(newSigningKey)
+						if (newSigningKey) {
+							setSigningKey(newSigningKey)
+							addNewAddressEntry(newSigningKey)
+						}
 						setIsUnlocked(!!newSigningKey)
 					} else {
-						setIsUnlocked(false)
+						const { keystoreId, isUnlocked: isUnlockedBackground } = await messanger.sendActionMessageFromPopup(
+							DERIVE,
+							derivePayload,
+						)
+						setIsUnlocked(keystoreId === keystore?.id && isUnlockedBackground)
 					}
 					break
 				case KeystoreType.LOCAL:
 				default:
 					// eslint-disable-next-line no-case-declarations
 					const {
+						isUnlocked: isUnlockedBackground,
 						keystoreId,
 						publicKey,
 						publicAddresses: newPublicAddresses,
 						type,
-					} = await messanger.sendActionMessageFromPopup(DERIVE, {
-						index: accountIndex,
-						network: n,
-						publicAddresses: addresses,
-					})
+					} = await messanger.sendActionMessageFromPopup(DERIVE, derivePayload)
+					// for the legacy purpose we need to handle empty string for keystore id with local wallet
 					if (publicKey && keystoreId === (keystore?.id || '')) {
 						const publicKeyBuffer = Buffer.from(publicKey, 'hex')
 						const publicKeyResult = PublicKey.fromBuffer(publicKeyBuffer)
@@ -92,11 +123,12 @@ export const useVault = () => {
 
 						const newSigningKey = createLocalSigningKey(messanger, publicKeyResult.value, type)
 						setSigningKey(newSigningKey)
-						setIsUnlocked(true)
-
 						if (newPublicAddresses) {
 							setPublicAddresses(newPublicAddresses)
+						} else if (accountIndex >= Object.keys(publicAddresses).length) {
+							addNewAddressEntry(newSigningKey)
 						}
+						setIsUnlocked(isUnlockedBackground)
 					} else {
 						setIsUnlocked(false)
 					}
@@ -106,6 +138,7 @@ export const useVault = () => {
 			// eslint-disable-next-line no-console
 			console.error(error)
 		}
+
 		release()
 	}
 

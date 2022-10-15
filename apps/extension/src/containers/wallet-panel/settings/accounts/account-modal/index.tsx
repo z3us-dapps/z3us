@@ -56,9 +56,9 @@ export const AccountModal = ({
 	toolTipSide,
 	address,
 }: IProps): JSX.Element => {
-	const { entry, setPublicAddress } = useNoneSharedStore(state => ({
+	const { entry, updatePublicAddress } = useNoneSharedStore(state => ({
 		entry: Object.values(state.publicAddresses).find(account => account.address === address),
-		setPublicAddress: state.setPublicAddressAction,
+		updatePublicAddress: state.updatePublicAddressAction,
 	}))
 
 	const [state, setState] = useImmer<ImmerT>({
@@ -100,7 +100,7 @@ export const AccountModal = ({
 			state[ColorSettings.GRADIENT_START],
 		)
 
-		setPublicAddress(address, {
+		updatePublicAddress(address, {
 			background,
 			colorSettings: {
 				[ColorSettings.COLOR_TEXT]: state[ColorSettings.COLOR_TEXT],

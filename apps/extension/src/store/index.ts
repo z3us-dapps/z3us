@@ -46,7 +46,7 @@ export const sharedStore = createStore(
 		...createOnBoardingStore(set),
 		...createBackgroundStore(set, get),
 		...createKeystoresStore(set),
-		...createWalletStore(set, get),
+		...createWalletStore(set),
 	})),
 )
 

@@ -16,7 +16,7 @@ import { sharedStore } from '@src/store'
 import { AddressBookEntry, Network } from '@src/store/types'
 import { getDefaultAddressEntry } from '@src/store/helpers'
 import { firstValueFrom } from 'rxjs'
-import { SigningKeyType } from '@src/types'
+import { SigningKeyType, Keystore as AppKeystore, KeystoreType } from '@src/types'
 import { getNoneSharedStore } from './state'
 
 interface Keystore {
@@ -35,6 +35,8 @@ export class VaultService {
 	private crypto: CryptoService
 
 	private storage: BrowserStorageService
+
+	private isUnlocked: boolean = false
 
 	private hdMasterNode?: HDNodeT
 
@@ -59,17 +61,17 @@ export class VaultService {
 		const keystore = await this.crypto.encrypt<Keystore>(password, { type, secret })
 		await this.saveKeystore(keystore)
 
-		const { hdMasterNode, type: signingKeyType } = await this.getHDMasterNode(keystore, password)
-		this.signingKeyType = signingKeyType
-		this.hdMasterNode = hdMasterNode
-		return this.derive(index)
+		return this.unlock(password, index)
 	}
 
 	unlock = async (password: string, index: number) => {
-		const keystore = await this.getKeystore()
-		const { hdMasterNode, type: signingKeyType } = await this.getHDMasterNode(keystore, password)
+		const { secret, keystore } = await this.getSecret()
+		const { hdMasterNode, type: signingKeyType } = await this.getHDMasterNode(secret, password, keystore)
+
 		this.signingKeyType = signingKeyType
 		this.hdMasterNode = hdMasterNode
+		this.isUnlocked = !!hdMasterNode || signingKeyType === SigningKeyType.HARDWARE
+
 		return this.derive(index)
 	}
 
@@ -81,6 +83,7 @@ export class VaultService {
 		this.signingKeyType = null
 		this.signingKey = null
 		this.timer = null
+		this.isUnlocked = false
 	}
 
 	derive = async (index: number, network?: Network, publicAddresses?: { [key: number]: AddressBookEntry }) => {
@@ -88,13 +91,11 @@ export class VaultService {
 		const { selectKeystoreId } = sharedStore.getState()
 		const hasKeystore = await this.has()
 
-		if (!this.hdMasterNode) {
-			this.hdMasterNode = null
-			this.signingKeyType = null
-			this.signingKey = null
+		if (!this.isUnlocked || this.signingKeyType === SigningKeyType.HARDWARE) {
 			return {
 				hasKeystore,
 				keystoreId: selectKeystoreId,
+				isUnlocked: this.isUnlocked,
 			}
 		}
 
@@ -103,12 +104,13 @@ export class VaultService {
 			const publicIndexes = Object.keys(publicAddresses)
 			if (index >= publicIndexes.length) {
 				index = publicIndexes.length > 0 ? +publicIndexes[publicIndexes.length - 1] + 1 : 0
-				publicAddresses[index] = {} // will be updated with defaults in a loop below
+				publicIndexes.push(`${index}`)
 			}
 
 			publicIndexes.forEach(key => {
-				const signingKey = getSigningKey(this.hdMasterNode, +key)
-				if (+key === index) {
+				const idx = +key
+				const signingKey = getSigningKey(this.hdMasterNode, idx)
+				if (idx === index) {
 					this.signingKey = signingKey
 				}
 
@@ -117,9 +119,9 @@ export class VaultService {
 					network: network.id,
 				})
 
-				publicAddresses[key] = {
-					...getDefaultAddressEntry(+key),
-					...publicAddresses[key],
+				publicAddresses[idx] = {
+					...getDefaultAddressEntry(idx),
+					...publicAddresses[idx],
 					address: address.toString(),
 				}
 			})
@@ -130,6 +132,7 @@ export class VaultService {
 
 		await this.resetTimer()
 		return {
+			isUnlocked: this.isUnlocked,
 			type: this.signingKeyType,
 			hasKeystore,
 			keystoreId: selectKeystoreId,
@@ -151,8 +154,8 @@ export class VaultService {
 	}
 
 	get = async (password: string) => {
-		const keystore = await this.getKeystore()
-		const { type: signingKeyType, hdMasterNode, mnemonic } = await this.getHDMasterNode(keystore, password)
+		const { secret, keystore } = await this.getSecret()
+		const { type: signingKeyType, hdMasterNode, mnemonic } = await this.getHDMasterNode(secret, password, keystore)
 
 		return {
 			type: signingKeyType,
@@ -165,7 +168,7 @@ export class VaultService {
 						language: mnemonic.language,
 				  }
 				: undefined,
-			hdMasterNode: hdMasterNode.toJSON(),
+			hdMasterNode: hdMasterNode?.toJSON(),
 		}
 	}
 
@@ -231,14 +234,12 @@ export class VaultService {
 		await this.storage.setItem(`${keystoreKey}-${selectKeystoreId}`, keystore)
 	}
 
-	private getKeystore = async (): Promise<string> => {
+	private getSecret = async (): Promise<{ keystore?: AppKeystore; secret: string }> => {
 		await sharedStore.persist.rehydrate()
-		const { selectKeystoreId } = sharedStore.getState()
-		const data = await this.storage.getItem(`${keystoreKey}-${selectKeystoreId}`)
-		if (!data) {
-			throw new Error('No keystore!')
-		}
-		return data
+		const { selectKeystoreId, keystores } = sharedStore.getState()
+		const secret = await this.storage.getItem(`${keystoreKey}-${selectKeystoreId}`)
+		const keystore = keystores.find(({ id }) => id === selectKeystoreId)
+		return { keystore, secret }
 	}
 
 	private resetTimer = async () => {
@@ -255,17 +256,20 @@ export class VaultService {
 	}
 
 	private getHDMasterNode = async (
-		data: string,
+		secret: string,
 		password: string,
+		key?: AppKeystore,
 	): Promise<{
 		type: SigningKeyType
 		hdMasterNode: HDNodeT
 		mnemonic?: MnemomicT
 	}> => {
-		let keystore = await this.crypto.decrypt<Keystore>(password, data)
+		if (!secret && key?.type === KeystoreType.HARDWARE) return { type: SigningKeyType.HARDWARE, hdMasterNode: null }
+
+		let keystore = await this.crypto.decrypt<Keystore>(password, secret)
 		// migrate data if is legacy keystore
 		if (keystore === false) {
-			const kesytoreResult = await RadixKeystore.decrypt({ keystore: JSON.parse(data) as KeystoreT, password })
+			const kesytoreResult = await RadixKeystore.decrypt({ keystore: JSON.parse(secret) as KeystoreT, password })
 			if (kesytoreResult.isErr()) {
 				throw kesytoreResult.error
 			}
@@ -301,6 +305,8 @@ export class VaultService {
 					throw hdNodeResult.error
 				}
 				return { type: keystore.type, hdMasterNode: hdNodeResult.value }
+			case SigningKeyType.HARDWARE:
+				return { type: keystore.type, hdMasterNode: null }
 			default:
 				throw new Error(`Invalid keystore type`)
 		}
