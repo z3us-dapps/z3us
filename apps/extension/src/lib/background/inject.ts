@@ -28,7 +28,7 @@ export const handleContentScriptInject = async (tabId: number) => {
 }
 
 export const handleCheckContentScript = async (tabId: number) => {
-	let path = 'images/oci/pool-icon-oci.png'
+	let path = 'favicon-off-128x128.png'
 	if ((await checkContentScript(tabId)) === true) path = 'favicon-128x128.png'
 
 	chrome?.action.setIcon({ path })
