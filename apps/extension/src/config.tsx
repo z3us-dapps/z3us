@@ -6,12 +6,7 @@ import { ColorSettings, PoolType } from '@src/types'
 
 // @TODO: add types to this file
 
-export const constcontentScriptId = 'z3us-content-script'
-
-export const trustedDappMatches = [
-	'https://z3us.com/*',
-	'https://ociswap.com/*',
-]
+export const CHECK_CONTENT_SCRIPT = 'confirm'
 
 export const defaultNoneStoreKey = 'z3us-store'
 

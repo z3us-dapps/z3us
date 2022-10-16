@@ -32,7 +32,7 @@ export default {
 		'48': 'favicon-48x48.png',
 		'128': 'favicon-128x128.png',
 	},
-	permissions: ['storage', 'unlimitedStorage', 'notifications', 'scripting'],
+	permissions: ['storage', 'unlimitedStorage', 'notifications', 'activeTab', 'scripting'],
 	host_permissions: [
 		'*://*.radixdlt.com/*',
 		'*://api.bitfinex.com/*',
@@ -51,10 +51,16 @@ export default {
 	},
 	content_scripts: [
 		{
-			// has to be the same as @src/config - trustedDappMatches
 			matches: [
 				'https://z3us.com/*',
 				'https://ociswap.com/*',
+				'https://dsor.io/*',
+				'https://caviarswap.io/*',
+				'https://???.radit.io/*',
+				'https://radixplanet.com/*',
+				'https://???.vikingland.net/*',
+				'https://astrolescent.com/*',
+				'https://dogecubex.live/*',
 			],
 			run_at: 'document_start',
 			all_frames: true,

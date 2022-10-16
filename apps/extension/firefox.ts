@@ -27,6 +27,8 @@ export default {
 		'storage',
 		'unlimitedStorage',
 		'notifications',
+		'activeTab',
+		'scripting',
 		'*://*.radixdlt.com/*',
 		'*://api.bitfinex.com/*',
 		'*://api.coingecko.com/api/*',
@@ -44,10 +46,16 @@ export default {
 	},
 	content_scripts: [
 		{
-			// has to be the same as @src/config - trustedDappMatches
 			matches: [
 				'https://z3us.com/*',
 				'https://ociswap.com/*',
+				'https://dsor.io/*',
+				'https://caviarswap.io/*',
+				'https://???.radit.io/*',
+				'https://radixplanet.com/*',
+				'https://???.vikingland.net/*',
+				'https://astrolescent.com/*',
+				'https://dogecubex.live/*',
 			],
 			run_at: 'document_start',
 			all_frames: true,

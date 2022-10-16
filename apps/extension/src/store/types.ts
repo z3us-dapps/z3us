@@ -184,12 +184,6 @@ export type AccountState = {
 	approveWebsiteAction: (host: string) => void
 	declineWebsiteAction: (host: string) => void
 
-	blockedWebsites: {
-		[key: string]: any
-	}
-	blockWebsiteAction: (host: string) => void
-	unblockWebsiteAction: (host: string) => void
-
 	pendingActions: {
 		[key: string]: PendingAction
 	}

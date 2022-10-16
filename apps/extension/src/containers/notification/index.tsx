@@ -10,7 +10,6 @@ const Encrypt = lazy(() => import('./encrypt'))
 const Decrypt = lazy(() => import('./decrypt'))
 const Sign = lazy(() => import('./sign'))
 const Transaction = lazy(() => import('./transaction'))
-const Inject = lazy(() => import('./inject'))
 
 export const Notification: React.FC = () => (
 	<UnlockedPanel>
@@ -21,7 +20,6 @@ export const Notification: React.FC = () => (
 				<Route path="/decrypt/:id" component={Decrypt} />
 				<Route path="/sign/:id" component={Sign} />
 				<Route path="/transaction/:id" component={Transaction} />
-				<Route path="/inject/:id" component={Inject} />
 			</Suspense>
 		</RouterScope>
 	</UnlockedPanel>

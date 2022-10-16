@@ -1,44 +1,36 @@
-import { constcontentScriptId, trustedDappMatches } from '@src/config'
-import { getNoneSharedStore } from '@src/services/state'
-import { sharedStore } from '@src/store'
+import { CHECK_CONTENT_SCRIPT } from '@src/config'
 import browser from 'webextension-polyfill'
-import { injectContentScriptNotificationIdPrefix, notificationDelimiter } from './notifications'
 
-export const handleContentScriptInject = async (tabId: number, tabUrl?: string) => {
-	if (!tabUrl) return
-
-	const url = new URL(tabUrl)
-	const origin = `${url.origin}/*`
-	if (trustedDappMatches.includes(origin)) {
-		return
+const checkContentScript = async (tabId: number): Promise<boolean> => {
+	try {
+		const injected = await browser.tabs.sendMessage(tabId, { op: CHECK_CONTENT_SCRIPT })
+		return injected === true
+	} catch {
+		return false
 	}
+}
 
-	const currentScripts = await browser.scripting.getRegisteredContentScripts({ ids: [constcontentScriptId] })
-	if (currentScripts.length > 0 && currentScripts[0].matches.includes(origin)) {
-		return
+export const handleContentScriptInject = async (tabId: number) => {
+	if ((await checkContentScript(tabId)) === true) return
+
+	try {
+		await browser.scripting.executeScript({
+			target: { tabId, allFrames: true },
+			files: ['src/lib/content-script.js'],
+		})
+		const path = 'favicon-128x128.png'
+		chrome?.action.setIcon({ path })
+		browser.browserAction?.setIcon({ path })
+	} catch (error) {
+		// eslint-disable-next-line no-console
+		console.error(error)
 	}
+}
 
-	await sharedStore.persist.rehydrate()
-	const { selectKeystoreId } = sharedStore.getState()
+export const handleCheckContentScript = async (tabId: number) => {
+	let path = 'images/oci/pool-icon-oci.png'
+	if ((await checkContentScript(tabId)) === true) path = 'favicon-128x128.png'
 
-	const noneSharedStore = await getNoneSharedStore(selectKeystoreId)
-	await noneSharedStore.persist.rehydrate()
-	const { declineWebsiteAction } = noneSharedStore.getState()
-
-	if (url.host in declineWebsiteAction) {
-		return
-	}
-
-	const notificationId = `${injectContentScriptNotificationIdPrefix}${selectKeystoreId}${notificationDelimiter}${tabId}${notificationDelimiter}${tabUrl}`
-	await browser.notifications.create(notificationId, {
-		type: 'basic',
-		iconUrl: browser.runtime.getURL('favicon-128x128.png'),
-		title: `Connect`,
-		eventTime: new Date().getTime(),
-		message: `Connect to ${url.host} interact with RadixDLT network via Z3US wallet.`,
-		isClickable: true,
-	})
-	if (browser.runtime.lastError) {
-		throw new Error(browser.runtime.lastError.message)
-	}
+	chrome?.action.setIcon({ path })
+	browser.browserAction?.setIcon({ path })
 }

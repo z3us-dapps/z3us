@@ -9,7 +9,6 @@ export const whiteList = [
 	'publicAddresses',
 	'pendingActions',
 	'approvedWebsites',
-	'blockedWebsites',
 	'networks',
 	'visibleTokens',
 	'hiddenTokens',
@@ -32,7 +31,6 @@ const defaultState = {
 	publicAddresses: {},
 	pendingActions: {},
 	approvedWebsites: {},
-	blockedWebsites: {},
 }
 
 export const factory = (set, get): AccountState => ({
@@ -178,8 +176,6 @@ export const factory = (set, get): AccountState => ({
 
 	approveWebsiteAction: (host: string) => {
 		set(state => {
-			delete state.blockedWebsites[host]
-			state.blockedWebsites = { ...state.blockedWebsites }
 			state.approvedWebsites = { ...state.approvedWebsites, [host]: true }
 		})
 	},
@@ -188,21 +184,6 @@ export const factory = (set, get): AccountState => ({
 		set(state => {
 			delete state.approvedWebsites[host]
 			state.approvedWebsites = { ...state.approvedWebsites }
-		})
-	},
-
-	blockWebsiteAction: (host: string) => {
-		set(state => {
-			delete state.approvedWebsites[host]
-			state.approvedWebsites = { ...state.approvedWebsites }
-			state.blockedWebsites = { ...state.blockedWebsites, [host]: true }
-		})
-	},
-
-	unblockWebsiteAction: (host: string) => {
-		set(state => {
-			delete state.blockedWebsites[host]
-			state.blockedWebsites = { ...state.blockedWebsites }
 		})
 	},
 
