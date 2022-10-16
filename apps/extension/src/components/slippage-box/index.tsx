@@ -29,7 +29,8 @@ export const SlippageBox: React.FC<IProps> = ({ token, amount, fee, css }) => {
 	return (
 		<Box
 			css={{
-				border: '1px solid $borderPanel',
+				border: '1px solid',
+				borderColor: '$borderPanel',
 				borderRadius: '8px',
 				pt: '6px',
 				pb: '10px',

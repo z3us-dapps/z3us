@@ -37,13 +37,14 @@ interface ImmerT {
 }
 
 export const Z3usMenu: React.FC = () => {
-	const [, setLocation] = useLocation()
+	const [location, setLocation] = useLocation()
 	const [isSendRoute] = useRoute('/wallet/account/send')
 	const [isSendRouteRri] = useRoute('/wallet/account/send/:rri')
 	const [isDepositRoute] = useRoute('/wallet/account/deposit')
 	const [isDepositRouteRri] = useRoute('/wallet/account/deposit/:rri')
 	const [isActivityRoute] = useRoute('/wallet/account/activity')
 	const [isSwapRoute] = useRoute('/wallet/swap/review')
+	const isNotificationRoute = location.includes('notification')
 	const {
 		keystores,
 		keystoreId,
@@ -77,7 +78,13 @@ export const Z3usMenu: React.FC = () => {
 		tempEdit: '',
 	})
 	const isHideZ3usMenu =
-		isSendRoute || isSendRouteRri || isDepositRoute || isDepositRouteRri || isActivityRoute || isSwapRoute
+		isSendRoute ||
+		isSendRouteRri ||
+		isDepositRoute ||
+		isDepositRouteRri ||
+		isActivityRoute ||
+		isSwapRoute ||
+		isNotificationRoute
 
 	const handleLockWallet = async () => {
 		setIsUnlocked(false)
