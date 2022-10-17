@@ -8,10 +8,10 @@ import { PageContainer } from 'components/page-container'
 // import { SideMenu } from 'components/side-menu'
 import { DocsPageProps } from 'types'
 
-export const PageDocs: React.FC<DocsPageProps> = ({ docs, mdxSource }) => (
+export const PageDocs: React.FC<DocsPageProps> = ({ mdxSource }) => (
 	<LazyMotion>
-		<div className="docs text-white dark:text-white fill-white dark:fill-white overflow-hidden">
-			<Header className="relative text-white" />
+		<div className="docs">
+			<Header className="relative" />
 			<PageContainer>
 				<div>
 					<div>
@@ -19,7 +19,7 @@ export const PageDocs: React.FC<DocsPageProps> = ({ docs, mdxSource }) => (
 					</div>
 				</div>
 			</PageContainer>
-			<Footer className="text-white pt-2 pb-4 sm:pb-8 sm:pt-8" />
+			<Footer className="pt-2 pb-4 sm:pb-8 sm:pt-8" />
 		</div>
 	</LazyMotion>
 )

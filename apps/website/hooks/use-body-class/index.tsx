@@ -5,6 +5,7 @@ const bodyClasses = {
 	home: { className: 'home-page', path: '/' },
 	tokenomics: { className: 'tokenomics-page', path: '/tokenomics' },
 	roadmap: { className: 'roadmap-page', path: '/roadmap' },
+	docs: { className: 'docs-page', path: '/docs' },
 }
 
 export const getPageClassName = (page: string) => {
@@ -15,6 +16,12 @@ export const getPageClassName = (page: string) => {
 	}
 	if (page === bodyClasses.tokenomics.path) {
 		className = bodyClasses.tokenomics.className
+	}
+	if (page === bodyClasses.roadmap.path) {
+		className = bodyClasses.roadmap.className
+	}
+	if (page === bodyClasses.docs.path) {
+		className = bodyClasses.docs.className
 	}
 
 	return className

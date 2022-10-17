@@ -1,4 +1,3 @@
-/* eslint-disable no-underscore-dangle */
 import React from 'react'
 import NextDocument, { Html, Head, Main, NextScript } from 'next/document'
 import { getPageClassName } from 'hooks/use-body-class'
@@ -37,6 +36,7 @@ export default class Document extends NextDocument {
 						crossOrigin="anonymous"
 					/>
 					<style
+						// eslint-disable-next-line react/no-danger
 						dangerouslySetInnerHTML={{
 							__html: `
 html,
@@ -82,6 +82,7 @@ body {
 				</Head>
 				<body
 					className={`font-HaasGrotTextRound text-base bg-white dark:bg-black text-black dark:text-white ${getPageClassName(
+						// eslint-disable-next-line no-underscore-dangle
 						this.props.__NEXT_DATA__.page,
 					)}`}
 				>
