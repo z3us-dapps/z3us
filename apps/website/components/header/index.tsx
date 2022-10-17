@@ -20,7 +20,7 @@ export const Header = ({ className }: IProps) => (
       <div className="flex w-100 pt-4">
         <div className="flex-1 color-white z-30">
           <Link href="/" passHref>
-            <a className="cursor-pointer inline-flex hover:text-violet-50 transition-colors mt-3">
+            <a className="cursor-pointer inline-flex mt-3 hover:opacity-80 transition-opacity">
               <Z3usText css={{ maxWidth: '130px' }} />
             </a>
           </Link>
@@ -50,7 +50,7 @@ export const Header = ({ className }: IProps) => (
 
           <li className="h-6">
             <a
-              className="header-icon cursor-pointer inline-flex items-center justify-center fill-white hover:fill-violet-50 transition-colors"
+              className="header-icon cursor-pointer inline-flex items-center justify-center fill-inherit hover:opacity-80 transition-opacity"
               href={config.TELEGRAM_URL}
             >
               <TelegramIcon />
@@ -58,7 +58,7 @@ export const Header = ({ className }: IProps) => (
           </li>
           <li className="h-6">
             <a
-              className="header-icon cursor-pointer inline-flex items-center justify-center fill-white hover:fill-violet-50 transition-colors"
+              className="header-icon cursor-pointer inline-flex items-center justify-center fill-inherit hover:opacity-80 transition-opacity"
               href={config.TWITTER_URL}
             >
               <TwitterIcon />
@@ -66,7 +66,7 @@ export const Header = ({ className }: IProps) => (
           </li>
           <li className="h-6">
             <a
-              className="header-icon cursor-pointer inline-flex items-center justify-center fill-white hover:fill-violet-50 transition-colors"
+              className="header-icon cursor-pointer inline-flex items-center justify-center fill-inherit hover:opacity-80 transition-opacity"
               href={config.GITHUB_URL}
             >
               <GithubIcon />

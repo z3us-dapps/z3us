@@ -166,7 +166,7 @@ export const HomePage: React.FC = () => {
 							</div>
 						</div>
 					</PageContainer>
-					<Footer className="text-white pt-2 pb-4 sm:pb-8 sm:pt-8" />
+					<Footer className="text-white fill-white pt-2 pb-4 sm:pb-8 sm:pt-8" />
 				</div>
 			</LazyMotion>
 		</>

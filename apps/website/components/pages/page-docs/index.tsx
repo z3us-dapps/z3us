@@ -11,7 +11,7 @@ import { DocsPageProps } from 'types'
 export const PageDocs: React.FC<DocsPageProps> = ({ mdxSource }) => (
 	<LazyMotion>
 		<div className="docs">
-			<Header className="relative" />
+			<Header className="relative transition-colors fill-black dark:fill-white" />
 			<PageContainer>
 				<div>
 					<div>

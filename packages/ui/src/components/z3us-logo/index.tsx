@@ -13,7 +13,14 @@ const defaultProps = {
 }
 
 export const Z3usLogo: React.FC<IProps> = ({ css, className }) => (
-	<Box as="svg" width="28" height="28" viewBox="0 0 28 28" className={className} css={{ ...(css as any) }}>
+	<Box
+		as="svg"
+		width="28"
+		height="28"
+		viewBox="0 0 28 28"
+		className={className}
+		css={{ fill: 'currentColor', ...(css as any) }}
+	>
 		<g>
 			<path
 				d="M14,0C6.3,0,0,6.3,0,14s6.3,14,14,14s14-6.3,14-14S21.7,0,14,0z M14,26C7.4,26,2,20.6,2,14S7.4,2,14,2s12,5.4,12,12

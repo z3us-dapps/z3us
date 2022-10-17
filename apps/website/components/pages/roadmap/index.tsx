@@ -64,7 +64,7 @@ export const RoadmapPage = () => {
 					ref={containerRef}
 					className="relative text-white dark:text-black fill-white dark:fill-black overflow-hidden"
 				>
-					<Header className="z-10 relative text-white" />
+					<Header className="z-10 relative text-white fill-white transition-colors" />
 					<PageContainer>
 						<div className="roadmap-hero text-white md:pb-4 md:pt-10 md:w-5/6 xl:pb-10 xl:pt-16 xl:w-4/6">
 							<h1 className="font-HaasGrotTextRound font-bold roadmap-page__h1 pt-6 xl:pt-2">Roadmap</h1>
@@ -87,7 +87,7 @@ export const RoadmapPage = () => {
 							))}
 						</div>
 					</PageContainer>
-					<Footer className="text-white pt-2 pb-4 sm:pb-8 sm:pt-8" />
+					<Footer className="fill-white text-white pt-2 pb-4 sm:pb-8 sm:pt-8" />
 				</div>
 			</LazyMotion>
 		</>
