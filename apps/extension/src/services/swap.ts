@@ -177,7 +177,7 @@ export const calculatePoolFeesFromReceive = async (
 	let fee = zero
 	let priceImpact: number
 
-	if (!from || !to || receive.lte(0)) {
+	if (!pool || !from || !to || receive.lte(0)) {
 		return {
 			receive,
 			fee,
@@ -392,7 +392,7 @@ export const calculateTransactionFee = async (
 	let fee = zero
 	let transactionFeeError = null
 
-	if (amount.eq(0) || !fromToken?.rri || !toToken?.rri) {
+	if (!pool || amount.eq(0) || !fromToken?.rri || !toToken?.rri) {
 		return { transaction, fee, transactionFeeError }
 	}
 
