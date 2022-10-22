@@ -18,10 +18,56 @@ body.docs-page {
 
 .docs-menu {
 	display: none;
+
+	font-size: 0.9rem;
+	line-height: 0.9rem;
+	color: rgb(115 115 115 / var(--tw-text-opacity));
+}
+
+.docs-menu ul {
+	display: block;
+}
+
+.docs-menu ul {
+	display: block;
+	position: relative;
+	margin-top: 1.5rem;
+}
+
+.docs-menu ul::after {
+	content: '';
+	display: block;
+	position: absolute;
+	left: 0px;
+	top: 0;
+	width: 1px;
+	height: 100%;
+	background-color: #d5bdd9;
+}
+
+.docs-menu li:first-child {
+	margin-top: 0rem;
+}
+
+.docs-menu li {
+	margin-top: 1.5rem;
+	padding-left: 1rem;
+}
+
+.docs-on-page {
+	display: none;
 }
 
 .docs-wrapper {
 	display: flex;
+}
+
+.docs-content a {
+	border-radius: 0.25rem;
+	text-decoration: text-underline-position;
+	text-decoration-thickness: from-font;
+	text-decoration-line: underline;
+	text-underline-position: under;
 }
 
 @media (min-width: 768px) {
@@ -32,9 +78,20 @@ body.docs-page {
 		position: sticky;
 		top: 0;
 		display: flex;
+		flex-direction: column;
 		padding-top: 6rem;
 		width: 30%;
 		max-width: 20rem;
+	}
+
+	.docs-on-page {
+		position: sticky;
+		top: 0;
+		display: flex;
+		padding-top: 6rem;
+		width: 20%;
+		max-width: 20rem;
+		padding-left: 1rem;
 	}
 }
 

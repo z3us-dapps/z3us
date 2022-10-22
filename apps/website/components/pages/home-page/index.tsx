@@ -40,7 +40,7 @@ export const HomePage: React.FC = () => {
 				}}
 			/>
 			<LazyMotion>
-				<div className="homepage text-white dark:text-black fill-white dark:fill-black overflow-hidden">
+				<div className="homepage text-white dark:text-black fill-white overflow-hidden">
 					<Header className="relative text-white" />
 					<PageContainer>
 						<div>

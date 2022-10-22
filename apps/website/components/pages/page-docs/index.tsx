@@ -17,6 +17,11 @@ export const PageDocs: React.FC<DocsPageProps> = ({ docs, mdxSource }) => (
 					<div className="docs-content">
 						<MdxTheme mdxSource={mdxSource} />
 					</div>
+					<div className="docs-on-page">
+						<div>
+							<p>On this page</p>
+						</div>
+					</div>
 				</div>
 			</PageContainer>
 			<Footer className="pt-2 pb-4 sm:pb-8 sm:pt-8" />

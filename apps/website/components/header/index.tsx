@@ -1,11 +1,7 @@
-/* eslint-disable @next/next/no-img-element, @typescript-eslint/no-unused-vars, react/require-default-props */
 import React, { useEffect, useState } from 'react'
 import { useScroll } from 'framer-motion'
 import clsx from 'clsx'
 import Link from 'next/link'
-// import Pill from 'ui/src/components/pill'
-import { Button } from 'components/button'
-import { Bars4Icon } from '@heroicons/react/24/solid'
 import { FlashCtaButton } from 'components/flash-cta-button'
 import { Z3usText } from 'ui/src/components/z3us-text'
 import { PageContainer } from 'components/page-container'
@@ -52,11 +48,6 @@ export const Header: React.FC<IProps> = ({ className, isStickyHeader }) => {
 								<Z3usText css={{ maxWidth: '130px' }} />
 							</a>
 						</Link>
-						{/* <div className="inline-flex pl-2 pt-3"> */}
-						{/* 	<Pill data-test-e2e="pill" color="gradientGreen"> */}
-						{/* 		BETA */}
-						{/* 	</Pill> */}
-						{/* </div> */}
 					</div>
 					<MobileMenu isScrolled={false} />
 					<ul className="font-medium text-sm gap-3 lg:gap-5 hidden md:flex items-center">
