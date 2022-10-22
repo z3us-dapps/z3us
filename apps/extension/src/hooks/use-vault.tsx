@@ -38,17 +38,17 @@ interface ImmerT {
 }
 
 export const useVault = () => {
-	const { signingKey, selectKeystoreId, keystore, setMessanger, setIsUnlocked, setSigningKey } = useSharedStore(
-		state => ({
+	const { areKeystoresLoaded, signingKey, selectKeystoreId, keystore, setMessanger, setIsUnlocked, setSigningKey } =
+		useSharedStore(state => ({
+			areKeystoresLoaded: state.keystores !== null,
 			selectKeystoreId: state.selectKeystoreId,
+			keystore: state.keystores?.find(({ id }) => id === state.selectKeystoreId),
 			isUnlocked: state.isUnlocked,
 			signingKey: state.signingKey,
-			keystore: state.keystores.find(({ id }) => id === state.selectKeystoreId),
 			setMessanger: state.setMessangerAction,
 			setIsUnlocked: state.setIsUnlockedAction,
 			setSigningKey: state.setSigningKeyAction,
-		}),
-	)
+		}))
 	const { network, publicAddresses, networkIndex, accountIndex, addPublicAddress, setPublicAddresses } =
 		useNoneSharedStore(state => ({
 			network: state.networks[state.selectedNetworkIndex],
@@ -106,7 +106,6 @@ export const useVault = () => {
 					}
 					break
 				case KeystoreType.LOCAL:
-				default:
 					// eslint-disable-next-line no-case-declarations
 					const {
 						isUnlocked: isUnlockedBackground,
@@ -115,8 +114,9 @@ export const useVault = () => {
 						publicAddresses: newPublicAddresses,
 						type,
 					} = await messanger.sendActionMessageFromPopup(DERIVE, derivePayload)
+
 					// for the legacy purpose we need to handle empty string for keystore id with local wallet
-					if (publicKey && keystoreId === (keystore?.id || '')) {
+					if (publicKey && keystoreId === selectKeystoreId) {
 						const publicKeyBuffer = Buffer.from(publicKey, 'hex')
 						const publicKeyResult = PublicKey.fromBuffer(publicKeyBuffer)
 						if (!publicKeyResult.isOk()) throw publicKeyResult.error
@@ -133,6 +133,8 @@ export const useVault = () => {
 						setIsUnlocked(false)
 					}
 					break
+				default:
+					break
 			}
 		} catch (error) {
 			// eslint-disable-next-line no-console
@@ -144,6 +146,7 @@ export const useVault = () => {
 
 	const init = async () => {
 		await derive()
+		if (state.isMounted) return
 		setMessanger(messanger)
 		setState(draft => {
 			draft.isMounted = true
@@ -159,12 +162,15 @@ export const useVault = () => {
 			refreshInterval,
 		)
 
-		init()
-
 		return () => {
 			clearInterval(interval)
 		}
 	}, [])
+
+	useEffect(() => {
+		if (!areKeystoresLoaded) return
+		init()
+	}, [areKeystoresLoaded])
 
 	useEffect(() => {
 		if (!state.isMounted) return
@@ -172,6 +178,7 @@ export const useVault = () => {
 	}, [state.time])
 
 	useEffect(() => {
+		if (!state.isMounted) return
 		derive()
 	}, [selectKeystoreId, accountIndex])
 

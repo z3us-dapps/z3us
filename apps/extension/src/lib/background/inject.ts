@@ -1,6 +1,14 @@
 import { CHECK_CONTENT_SCRIPT } from '@src/config'
 import browser from 'webextension-polyfill'
 
+export const setIcon = async (path: string) => {
+	await chrome?.action.setIcon({ path })
+	await browser.browserAction?.setIcon({ path })
+}
+export const showConnected = async () => setIcon('favicon-128x128.png')
+
+export const showDisconnected = async () => setIcon('favicon-off-128x128.png')
+
 const checkContentScript = async (tabId: number): Promise<boolean> => {
 	try {
 		const injected = await browser.tabs.sendMessage(tabId, { op: CHECK_CONTENT_SCRIPT })
@@ -18,9 +26,7 @@ export const handleContentScriptInject = async (tabId: number) => {
 			target: { tabId, allFrames: true },
 			files: ['src/lib/content-script.js'],
 		})
-		const path = 'favicon-128x128.png'
-		chrome?.action.setIcon({ path })
-		browser.browserAction?.setIcon({ path })
+		await showConnected()
 	} catch (error) {
 		// eslint-disable-next-line no-console
 		console.error(error)
@@ -28,9 +34,9 @@ export const handleContentScriptInject = async (tabId: number) => {
 }
 
 export const handleCheckContentScript = async (tabId: number) => {
-	let path = 'favicon-off-128x128.png'
-	if ((await checkContentScript(tabId)) === true) path = 'favicon-128x128.png'
-
-	chrome?.action.setIcon({ path })
-	browser.browserAction?.setIcon({ path })
+	if ((await checkContentScript(tabId)) === true) {
+		await showConnected()
+	} else {
+		await showDisconnected()
+	}
 }

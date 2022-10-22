@@ -26,7 +26,7 @@ type IProps = {
 export const AccountInfo: React.FC<IProps> = ({ address }) => {
 	const { isLoading, value, change } = useAccountValue()
 	const { keystore } = useSharedStore(state => ({
-		keystore: state.keystores.find(({ id }) => id === state.selectKeystoreId),
+		keystore: state.keystores?.find(({ id }) => id === state.selectKeystoreId),
 	}))
 	const { currency, entry, activeSlideIndex } = useNoneSharedStore(state => ({
 		currency: state.currency,

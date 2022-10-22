@@ -36,8 +36,8 @@ export const WalletSelector: React.FC<IProps> = () => {
 	const [measureRef, { width: triggerWidth }] = useMeasure()
 
 	const { keystore, keystores, keystoreId, selectKeystore, lock } = useSharedStore(state => ({
-		keystore: state.keystores.find(({ id }) => id === state.selectKeystoreId),
-		keystores: state.keystores,
+		keystore: state.keystores?.find(({ id }) => id === state.selectKeystoreId),
+		keystores: state.keystores || [],
 		keystoreId: state.selectKeystoreId,
 		selectKeystore: state.selectKeystoreAction,
 		lock: state.lockAction,

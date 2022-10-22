@@ -8,7 +8,7 @@ import { KeystoreType } from '@src/types'
 
 export const GeneralSettings: React.FC = () => {
 	const { keystore, ping } = useSharedStore(state => ({
-		keystore: state.keystores.find(({ id }) => id === state.selectKeystoreId),
+		keystore: state.keystores?.find(({ id }) => id === state.selectKeystoreId),
 		ping: state.pingAction,
 	}))
 	const {

@@ -1,35 +1,23 @@
-import browser from 'webextension-polyfill'
-import React, { useEffect } from 'react'
-import { useImmer } from 'use-immer'
-import { useNoneSharedStore, useSharedStore } from '@src/hooks/use-store'
-import Button from 'ui/src/components/button'
 import { ChevronRightIcon } from '@radix-ui/react-icons'
+import { useSharedStore } from '@src/hooks/use-store'
+import React from 'react'
 import { Box, MotionBox } from 'ui/src/components/atoms'
+import Button from 'ui/src/components/button'
 import {
 	DropdownMenu,
-	DropdownMenuTrigger,
 	DropdownMenuContent,
+	DropdownMenuHamburgerIcon,
+	DropdownMenuItemIndicator,
 	DropdownMenuRadioGroup,
 	DropdownMenuRadioItem,
-	DropdownMenuItemIndicator,
-	DropdownMenuTriggerItem,
 	DropdownMenuRightSlot,
-	DropdownMenuHamburgerIcon,
+	DropdownMenuTrigger,
+	DropdownMenuTriggerItem,
 } from 'ui/src/components/drop-down-menu'
-import { handleContentScriptInject } from '@src/lib/background/inject'
-
-const popupURL = new URL(browser.runtime.getURL(''))
-
-async function getCurrentTab() {
-	const [tab] = await browser.tabs.query({ active: true, currentWindow: true })
-	return tab
-}
+import { useImmer } from 'use-immer'
 
 interface ImmerT {
 	isOpen: boolean
-	isPopup: boolean
-	currentTabId: number
-	currentTabHost: string
 }
 
 export const WalletMenu: React.FC = () => {
@@ -37,48 +25,14 @@ export const WalletMenu: React.FC = () => {
 		theme: state.theme,
 		setTheme: state.setThemeAction,
 	}))
-	const { approveWebsite } = useNoneSharedStore(state => ({
-		approveWebsite: state.approveWebsiteAction,
-	}))
-
 	const [state, setState] = useImmer<ImmerT>({
 		isOpen: false,
-		isPopup: false,
-		currentTabId: 0,
-		currentTabHost: '',
 	})
-
-	useEffect(() => {
-		if (!state.isOpen) return
-		const load = async () => {
-			const tab = await getCurrentTab()
-			const tabURL = tab?.url ? new URL(tab.url) : null
-			setState(draft => {
-				draft.currentTabId = tab?.id || 0
-				draft.currentTabHost = tabURL?.host || ''
-				draft.isPopup = tabURL?.hostname === popupURL.hostname
-			})
-		}
-		load()
-	}, [state.isOpen])
 
 	const setIsOpen = (isOpen: boolean) => {
 		setState(draft => {
 			draft.isOpen = isOpen
 		})
-	}
-
-	const handleInjectContentScript = async () => {
-		try {
-			if (state.currentTabId) await handleContentScriptInject(state.currentTabId)
-			if (state.currentTabHost) approveWebsite(state.currentTabHost)
-			setState(draft => {
-				draft.isOpen = false
-			})
-		} catch (error) {
-			// eslint-disable-next-line no-console
-			console.error(error)
-		}
 	}
 
 	// @TODO: will be implement when styles are supported
@@ -144,13 +98,6 @@ export const WalletMenu: React.FC = () => {
 					{/* 		<Box css={{ flex: '1', pr: '$1' }}>Open in new tab</Box> */}
 					{/* 	</DropdownMenuTriggerItem> */}
 					{/* </DropdownMenu> */}
-					{state.currentTabHost && !state.isPopup && (
-						<DropdownMenu>
-							<DropdownMenuTriggerItem onClick={handleInjectContentScript}>
-								<Box css={{ flex: '1', pr: '$1' }}>Connect to {state.currentTabHost}</Box>
-							</DropdownMenuTriggerItem>
-						</DropdownMenu>
-					)}
 				</DropdownMenuContent>
 			</DropdownMenu>
 		</MotionBox>

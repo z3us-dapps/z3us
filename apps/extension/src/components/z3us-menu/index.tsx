@@ -1,4 +1,5 @@
-import React, { useRef } from 'react'
+import browser from 'webextension-polyfill'
+import React, { useRef, useEffect } from 'react'
 import { useLocation, useRoute } from 'wouter'
 import { useSharedStore, useNoneSharedStore } from '@src/hooks/use-store'
 import { useImmer } from 'use-immer'
@@ -28,15 +29,27 @@ import {
 	DropdownMenuTriggerItem,
 } from 'ui/src/components/drop-down-menu'
 import { KeystoreType } from '@src/types'
+import { generateId } from '@src/utils/generate-id'
+
+const popupURL = new URL(browser.runtime.getURL(''))
+
+async function getCurrentTab() {
+	const [tab] = await browser.tabs.query({ active: true, currentWindow: true })
+	return tab
+}
 
 interface ImmerT {
 	isOpen: boolean
+	isPopup: boolean
 	keystoreId: string | undefined
 	editing: string | undefined
 	tempEdit: string | undefined
+	currentTabId: number
+	currentTabHost: string
 }
 
 export const Z3usMenu: React.FC = () => {
+	const walletInputRef = useRef(null)
 	const [, setLocation] = useLocation()
 	const [isSendRoute] = useRoute('/wallet/account/send')
 	const [isSendRouteRri] = useRoute('/wallet/account/send/:rri')
@@ -44,6 +57,7 @@ export const Z3usMenu: React.FC = () => {
 	const [isDepositRouteRri] = useRoute('/wallet/account/deposit/:rri')
 	const [isActivityRoute] = useRoute('/wallet/account/activity')
 	const [isSwapRoute] = useRoute('/wallet/swap/review')
+
 	const {
 		keystores,
 		keystoreId,
@@ -55,7 +69,7 @@ export const Z3usMenu: React.FC = () => {
 		removeWallet,
 		lock,
 	} = useSharedStore(state => ({
-		keystores: state.keystores,
+		keystores: state.keystores || [],
 		keystoreId: state.selectKeystoreId,
 		isUnlocked: state.isUnlocked,
 		setIsUnlocked: state.setIsUnlockedAction,
@@ -66,18 +80,36 @@ export const Z3usMenu: React.FC = () => {
 		lock: state.lockAction,
 		removeWallet: state.removeWalletAction,
 	}))
-	const { reset } = useNoneSharedStore(state => ({
+	const { reset, addPendingAction } = useNoneSharedStore(state => ({
 		reset: state.resetAction,
+		addPendingAction: state.addPendingActionAction,
 	}))
-	const walletInputRef = useRef(null)
+
 	const [state, setState] = useImmer<ImmerT>({
 		isOpen: false,
+		isPopup: false,
 		keystoreId: undefined,
 		editing: undefined,
 		tempEdit: '',
+		currentTabId: 0,
+		currentTabHost: '',
 	})
 	const isHideZ3usMenu =
 		isSendRoute || isSendRouteRri || isDepositRoute || isDepositRouteRri || isActivityRoute || isSwapRoute
+
+	useEffect(() => {
+		if (!state.isOpen) return
+		const load = async () => {
+			const tab = await getCurrentTab()
+			const tabURL = tab?.url ? new URL(tab.url) : null
+			setState(draft => {
+				draft.currentTabId = tab?.id || 0
+				draft.currentTabHost = tabURL?.host || ''
+				draft.isPopup = tabURL?.hostname === popupURL.hostname
+			})
+		}
+		load()
+	}, [state.isOpen])
 
 	const handleLockWallet = async () => {
 		setIsUnlocked(false)
@@ -160,6 +192,22 @@ export const Z3usMenu: React.FC = () => {
 	const handleSubmitForm = (e: React.ChangeEvent<HTMLFormElement>) => {
 		e.preventDefault()
 		handleSaveWalletName()
+	}
+
+	const handleInjectContentScript = async () => {
+		try {
+			if (state.currentTabId && state.currentTabHost) {
+				const id = generateId()
+				addPendingAction(id, { host: state.currentTabHost, request: { tabId: state.currentTabId } })
+				setState(draft => {
+					draft.isOpen = false
+				})
+				setLocation(`#/notification/connect/${id}`)
+			}
+		} catch (error) {
+			// eslint-disable-next-line no-console
+			console.error(error)
+		}
 	}
 
 	return (
@@ -255,6 +303,13 @@ export const Z3usMenu: React.FC = () => {
 									<LockClosedIcon />
 								</DropdownMenuRightSlot>
 							</DropdownMenuItem>
+						)}
+						{isUnlocked && state.currentTabHost && !state.isPopup && (
+							<DropdownMenu>
+								<DropdownMenuTriggerItem onClick={handleInjectContentScript}>
+									<Box css={{ flex: '1', pr: '$1' }}>Connect to {state.currentTabHost}</Box>
+								</DropdownMenuTriggerItem>
+							</DropdownMenu>
 						)}
 					</DropdownMenuContent>
 				</DropdownMenu>

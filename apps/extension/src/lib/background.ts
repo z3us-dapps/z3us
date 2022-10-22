@@ -13,4 +13,4 @@ browser.runtime.onConnect.addListener(handleConnect)
 browser.notifications.onClicked.addListener(handleNotificationClick)
 
 browser.tabs.onUpdated.addListener((tabId: number) => handleCheckContentScript(tabId))
-browser.tabs.onActivated.addListener(async ({ tabId }) => handleCheckContentScript(tabId))
+browser.tabs.onActivated.addListener(({ tabId }) => handleCheckContentScript(tabId))

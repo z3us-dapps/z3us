@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react'
+import { handleContentScriptInject } from '@src/lib/background/inject'
 import { Box, Flex, Text, StyledLink } from 'ui/src/components/atoms'
 import Button from 'ui/src/components/button'
 import { PageWrapper, PageHeading, PageSubHeading } from '@src/components/layout'
@@ -25,7 +26,8 @@ export const Connect = (): JSX.Element => {
 				: {},
 	}))
 
-	const { host, request } = action
+	const { host, request = {} } = action
+	const { tabId = '' } = request
 
 	useEffect(() => {
 		if (host in approvedWebsites) {
@@ -35,16 +37,24 @@ export const Connect = (): JSX.Element => {
 
 	const handleCancel = async () => {
 		declineWebsite(host)
-		await sendResponse(CONFIRM, {
-			id,
-			host,
-			payload: { request: action.request, value: { code: 403, error: 'Declined' } },
-		})
-		window.close()
+		if (tabId) {
+			window.location.hash = `#/wallet/account`
+		} else {
+			await sendResponse(CONFIRM, {
+				id,
+				host,
+				payload: { request: action.request, value: { code: 403, error: 'Declined' } },
+			})
+			window.close()
+		}
 	}
 
-	const handleConfirm = () => {
+	const handleConfirm = async () => {
 		approveWebsite(host)
+		if (tabId) {
+			await handleContentScriptInject(tabId)
+			window.location.hash = `#/wallet/account`
+		}
 	}
 
 	return (
