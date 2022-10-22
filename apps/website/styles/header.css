@@ -1,0 +1,7 @@
+.header--sticky {
+	background: rgba(255, 249, 255, 0.9);
+}
+
+.dark .header--sticky {
+	background: rgba(16, 8, 46, 0.7);
+}

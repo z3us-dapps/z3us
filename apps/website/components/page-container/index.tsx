@@ -1,14 +1,21 @@
-/* eslint-disable @next/next/no-img-element, @typescript-eslint/no-unused-vars */
 import React, { ReactNode } from 'react'
+import clsx from 'clsx'
 
 export interface IPageContainer {
 	children: ReactNode | undefined
+	className?: string | undefined
 }
 
-export const PageContainer = ({ children }: IPageContainer) => (
-	<div className="px-5">
+const defaultProps = {
+	className: undefined,
+}
+
+export const PageContainer = ({ children, className }: IPageContainer) => (
+	<div className={clsx('px-5', className && className)}>
 		<div className="container mx-auto" style={{ maxWidth: '1174px' }}>
 			{children}
 		</div>
 	</div>
 )
+
+PageContainer.defaultProps = defaultProps

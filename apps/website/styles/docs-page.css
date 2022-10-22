@@ -1,14 +1,41 @@
-.dark body.home-page {
-	background-color: #bf9e76;
+.dark body.docs-page {
+	background-color: #10082e;
 }
-body.home-page {
-	background-color: #bf9e76;
+body.docs-page {
+	background-color: #f7f5ff;
+	height: 100%;
+	min-height: 100%;
+}
+
+.docs {
+	min-height: 100vh;
+}
+
+.docs-wrapper {
+	position: relative;
+	align-items: flex-start;
+}
+
+.docs-menu {
+	display: none;
+}
+
+.docs-wrapper {
+	display: flex;
 }
 
 @media (min-width: 768px) {
 }
 
 @media (min-width: 1024px) {
+	.docs-menu {
+		position: sticky;
+		top: 0;
+		display: flex;
+		padding-top: 6rem;
+		width: 30%;
+		max-width: 20rem;
+	}
 }
 
 @media (min-width: 1280px) {
