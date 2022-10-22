@@ -1,9 +1,11 @@
 import { Network as NetworkID } from '@radixdlt/application'
-import { JSONToHex } from '@src/utils/encoding'
-import { VisibleTokens } from '@src/types'
+
 import { networks } from '@src/config'
+import { VisibleTokens } from '@src/types'
+import { JSONToHex } from '@src/utils/encoding'
+
 import { getDefaultAddressEntry } from './helpers'
-import { AddressBookEntry, AccountState } from './types'
+import { AccountState, AddressBookEntry } from './types'
 
 export const whiteList = [
 	'publicAddresses',
@@ -42,6 +44,22 @@ export const factory = (set, get): AccountState => ({
 				state[key] = defaultState[key]
 			})
 		})
+	},
+
+	deriveIndexAction: (): number => {
+		const { publicAddresses, selectedAccountIndex } = get()
+
+		let deriveIndex = 0
+		const publicIndexes = Object.keys(publicAddresses)
+		if (publicIndexes.length > 0) {
+			if (selectedAccountIndex < publicIndexes.length) {
+				deriveIndex = +publicIndexes[selectedAccountIndex]
+			} else {
+				deriveIndex = +publicIndexes[publicIndexes.length - 1] + 1
+			}
+		}
+
+		return deriveIndex
 	},
 
 	getCurrentAddressAction: (): string => {

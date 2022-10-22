@@ -1,7 +1,7 @@
-import { Network as NetworkID, MnemomicT, HDNodeT, StrengthT, LanguageT } from '@radixdlt/application'
-import { MessageService } from '@src/services/messanger'
-import { ColorSettings, Keystore, KeystoreType, SigningKey, SigningKeyType, VisibleTokens } from '@src/types'
+import { MnemomicT, Network as NetworkID } from '@radixdlt/application'
 import { String } from '@stitches/react/types/util'
+
+import { ColorSettings, Keystore, KeystoreType, SigningKey, VisibleTokens } from '@src/types'
 
 export interface Toast {
 	id?: string
@@ -83,52 +83,6 @@ export type SettingsState = {
 	setTransactionNotificationsEnabledAction: (enabled: boolean) => void
 }
 
-export type BackgroundState = {
-	messanger: MessageService | null
-
-	setMessangerAction: (messanger: MessageService) => void
-	sendResponseAction: (
-		action: string,
-		data: { id: string; host: string; payload: { request: any; value: any } },
-	) => Promise<void>
-	hasKeystoreAction: () => Promise<boolean>
-	createWalletAction: (
-		type: SigningKeyType,
-		secret: string,
-		password: string,
-		index: number,
-	) => Promise<{ publicKey?: string; type?: SigningKeyType }>
-	unlockWalletAction: (
-		password: string,
-		index: number,
-	) => Promise<{ isUnlocked: boolean; publicKey?: string; type?: SigningKeyType }>
-	lockAction: () => Promise<void>
-	pingAction: () => Promise<void>
-	getWalletAction: (password: string) => Promise<{
-		type: SigningKeyType
-		hdMasterNode: HDNodeT
-		mnemonic?: Readonly<{
-			strength: StrengthT
-			entropy: string
-			words: string[]
-			phrase: string
-			language: LanguageT
-		}>
-	}>
-	removeWalletAction: () => Promise<void>
-
-	// WebAuthn actions
-	hasAuthAction: () => Promise<boolean>
-	authenticateAction: () => Promise<string>
-	removeCredentialAction: () => Promise<void>
-	registerCredentialAction: (
-		userID: string,
-		userName: string,
-		userDisplayName: string,
-		password: string,
-	) => Promise<string>
-}
-
 export type KeystoresState = {
 	selectKeystoreId: string
 	selectKeystoreAction: (id: string) => void
@@ -142,7 +96,7 @@ export type KeystoresState = {
 export type WalletState = {
 	resetAction: () => void
 
-	isUnlocked: boolean | undefined
+	isUnlocked: boolean | null
 	setIsUnlockedAction: (isUnlocked: boolean) => void
 
 	signingKey: SigningKey | null
@@ -153,6 +107,7 @@ export type AccountState = {
 	resetAction: () => void
 
 	publicAddresses: { [key: number]: AddressBookEntry }
+	deriveIndexAction: () => number
 	getCurrentAddressAction: () => string
 	setPublicAddressesAction: (addresses: { [key: number]: string }) => void
 	addPublicAddressAction: (index: number, entry: AddressBookEntry) => void
@@ -191,7 +146,7 @@ export type AccountState = {
 	removePendingActionAction: (id: string) => void
 }
 
-export type SharedState = ThemeState & ToastsState & OnBoardingState & BackgroundState & KeystoresState & WalletState
+export type SharedState = ThemeState & ToastsState & OnBoardingState & KeystoresState & WalletState
 
 export type NoneSharedState = AccountState & SettingsState
 

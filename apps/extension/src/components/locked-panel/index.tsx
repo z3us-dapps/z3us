@@ -1,22 +1,26 @@
 /* eslint-disable no-nested-ternary */
-import React, { useEffect, useRef } from 'react'
-import { useSharedStore, useNoneSharedStore } from '@src/hooks/use-store'
-import { useAnimationControls } from 'framer-motion'
-import { useTimeout } from 'usehooks-ts'
-import { useColorMode } from '@src/hooks/use-color-mode'
-import { useImmer } from 'use-immer'
-import { createLocalSigningKey } from '@src/services/signing-key'
 import { PublicKey } from '@radixdlt/crypto'
-import { WalletMenu } from '@src/components/wallet-menu'
-import { sleep } from '@src/utils/sleep'
-import { Box, Flex, MotionBox, Text, StyledLink } from 'ui/src/components/atoms'
-import Input from 'ui/src/components/input'
+import { useAnimationControls } from 'framer-motion'
+import React, { useEffect, useRef } from 'react'
+import { useImmer } from 'use-immer'
+import { useTimeout } from 'usehooks-ts'
+
+import { Box, Flex, MotionBox, StyledLink, Text } from 'ui/src/components/atoms'
 import Button from 'ui/src/components/button'
+import Input from 'ui/src/components/input'
 import { Z3usText } from 'ui/src/components/z3us-text'
+
+import { WalletMenu } from '@src/components/wallet-menu'
+import { useColorMode } from '@src/hooks/use-color-mode'
+import { useMessanger } from '@src/hooks/use-messanger'
+import { useSharedStore } from '@src/hooks/use-store'
+import { createLocalSigningKey } from '@src/services/signing-key'
 import { KeystoreType } from '@src/types'
+import { sleep } from '@src/utils/sleep'
+
+import { Z3USLogoInner, Z3USLogoOuter } from '../z3us-logo'
 // import { isWebAuthSupported } from '@src/services/credentials'
 import { WalletSelector } from './wallet-selector'
-import { Z3USLogoOuter, Z3USLogoInner } from '../z3us-logo'
 
 interface IImmer {
 	password: string
@@ -34,19 +38,15 @@ export const LockedPanel: React.FC = () => {
 	const inputControls = useAnimationControls()
 	const imageControls = useAnimationControls()
 	const inputRef = useRef(null)
-	const { messanger, keystore, isUnlocked, setIsUnlocked, setSigningKey, unlock, addToast } = useSharedStore(state => ({
-		messanger: state.messanger,
+	const { messanger, unlockWalletAction: unlock } = useMessanger()
+	const { keystore, isUnlocked, setIsUnlocked, setSigningKey, addToast } = useSharedStore(state => ({
 		isUnlocked: state.isUnlocked,
 		keystore: state.keystores.find(({ id }) => id === state.selectKeystoreId),
 		setIsUnlocked: state.setIsUnlockedAction,
 		setSigningKey: state.setSigningKeyAction,
-		unlock: state.unlockWalletAction,
 		// hasAuth: state.hasAuthAction,
 		// authenticate: state.authenticateAction,
 		addToast: state.addToastAction,
-	}))
-	const { deriveIndex } = useNoneSharedStore(state => ({
-		deriveIndex: +Object.keys(state.publicAddresses)[state.selectedAccountIndex] || 0,
 	}))
 
 	const [state, setState] = useImmer<IImmer>({
@@ -112,8 +112,7 @@ export const LockedPanel: React.FC = () => {
 		await sleep(700)
 
 		try {
-			const { isUnlocked: isUnlockedBackground, publicKey, type } = await unlock(password, deriveIndex)
-
+			const { isUnlocked: isUnlockedBackground, publicKey, type } = await unlock(password)
 			switch (keystore?.type) {
 				case KeystoreType.LOCAL: {
 					if (publicKey) {

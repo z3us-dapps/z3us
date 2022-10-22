@@ -1,36 +1,37 @@
 import { Runtime } from 'webextension-polyfill'
-import { BrowserService } from '@src/services/browser'
-import { VaultService } from '@src/services/vault'
-// import { CredentialsService } from '@src/services/credentials'
-import { deletePendingAction, getPendingAction } from '@src/services/actions-pending'
+
 import {
 	CONFIRM,
-	HAS,
-	NEW,
-	GET,
-	REMOVE,
-	LOCK,
-	UNLOCK,
-	EVENT,
-	DERIVE,
-	ENCRYPT,
 	DECRYPT,
-	SIGN,
-	SIGN_HASH,
-	PING,
-	// AUTH_HAS,
+	DERIVE,
+	DERIVE_ALL,
+	ENCRYPT,
+	EVENT,
+	GET,
+	HAS,
+	LOCK,
+	NEW,
+	PING, // AUTH_HAS,
 	// AUTH_RESET,
 	// AUTH_REGISTRATION_OPTIONS,
 	// AUTH_VERIFY_REGISTRATION,
 	// AUTH_AUTHENTICATION_OPTIONS,
 	// AUTH_VERIFY_AUTHENTICATION,
+	REMOVE,
+	SIGN,
+	SIGN_HASH,
+	UNLOCK,
 } from '@src/lib/v1/actions'
-import { EVENT_MESSAGE_ID } from '@src/services/messanger'
+// import { CredentialsService } from '@src/services/credentials'
+import { deletePendingAction, getPendingAction } from '@src/services/actions-pending'
+import { BrowserService } from '@src/services/browser'
 import { forEachClientPort } from '@src/services/client-ports'
-import { sharedStore } from '@src/store'
+import { EVENT_MESSAGE_ID } from '@src/services/messanger'
 import { getNoneSharedStore } from '@src/services/state'
-import { AddressBookEntry, Network } from '@src/store/types'
+import { VaultService } from '@src/services/vault'
+import { sharedStore } from '@src/store'
 import { SigningKeyType } from '@src/types'
+
 import { INIT, KEYSTORE_CHANGE } from './events'
 
 export default function NewV1BackgroundPopupActions(
@@ -71,19 +72,19 @@ export default function NewV1BackgroundPopupActions(
 	async function newKeychain(
 		port: Runtime.Port,
 		id: string,
-		payload: { type: SigningKeyType; secret: string; password: string; index: number },
+		payload: { type: SigningKeyType; secret: string; password: string },
 	) {
 		try {
-			const resp = await vault.new(payload.type, payload.secret, payload.password, payload.index)
+			const resp = await vault.new(payload.type, payload.secret, payload.password)
 			sendPopupMessage(port, id, payload, resp)
 		} catch (error: any) {
 			sendPopupMessage(port, id, payload, { code: 500, error: error?.message || error })
 		}
 	}
 
-	async function unlock(port: Runtime.Port, id: string, payload: { password: string; index: number }) {
+	async function unlock(port: Runtime.Port, id: string, payload: { password: string }) {
 		try {
-			const resp = await vault.unlock(payload.password, payload.index)
+			const resp = await vault.unlock(payload.password)
 			sendPopupMessage(port, id, payload, resp)
 		} catch (error: any) {
 			sendPopupMessage(port, id, payload, { code: 500, error: error?.message || error })
@@ -126,13 +127,18 @@ export default function NewV1BackgroundPopupActions(
 		}
 	}
 
-	async function derive(
-		port: Runtime.Port,
-		id: string,
-		payload: { index: number; network: Network; publicAddresses: { [key: number]: AddressBookEntry } },
-	) {
+	async function derive(port: Runtime.Port, id: string, payload: any) {
 		try {
-			const resp = await vault.derive(payload.index, payload.network, payload.publicAddresses)
+			const resp = await vault.derive()
+			sendPopupMessage(port, id, payload, resp)
+		} catch (error: any) {
+			sendPopupMessage(port, id, payload, { code: 500, error: error?.message || error })
+		}
+	}
+
+	async function deriveAll(port: Runtime.Port, id: string, payload: any) {
+		try {
+			const resp = await vault.deriveAll()
 			sendPopupMessage(port, id, payload, resp)
 		} catch (error: any) {
 			sendPopupMessage(port, id, payload, { code: 500, error: error?.message || error })
@@ -319,6 +325,7 @@ export default function NewV1BackgroundPopupActions(
 		[GET]: get,
 		[REMOVE]: remove,
 		[DERIVE]: derive,
+		[DERIVE_ALL]: deriveAll,
 		[ENCRYPT]: encrypt,
 		[DECRYPT]: decrypt,
 		[SIGN]: sign,

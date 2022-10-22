@@ -1,54 +1,34 @@
-import browser from 'webextension-polyfill'
+/* eslint-disable no-case-declarations */
+import { AccountAddress } from '@radixdlt/account'
+import { PublicKey } from '@radixdlt/crypto'
 import { Mutex } from 'async-mutex'
 import { useEffect } from 'react'
 import { useImmer } from 'use-immer'
-import { useSharedStore, useNoneSharedStore } from '@src/hooks/use-store'
-import { MessageService, PORT_NAME } from '@src/services/messanger'
-import { DERIVE, PING } from '@src/lib/v1/actions'
-import { PublicKey } from '@radixdlt/crypto'
+
+import { useNoneSharedStore, useSharedStore } from '@src/hooks/use-store'
+import { DERIVE, DERIVE_ALL, PING } from '@src/lib/v1/actions'
+import { MessageService } from '@src/services/messanger'
 import { createHardwareSigningKey, createLocalSigningKey } from '@src/services/signing-key'
-import { KeystoreType, SigningKey } from '@src/types'
-import { AddressBookEntry, Network } from '@src/store/types'
-import { AccountAddress } from '@radixdlt/account'
 import { getDefaultAddressEntry } from '@src/store/helpers'
+import { Network } from '@src/store/types'
+import { KeystoreType, SigningKey } from '@src/types'
 
 const mutex = new Mutex()
-const messanger = new MessageService('extension', null, null)
-
-const connectNewPort = () => {
-	const port = browser.runtime.connect({ name: PORT_NAME })
-	port.onDisconnect.addListener(() => {
-		if (port.error) {
-			// eslint-disable-next-line no-console
-			console.error(`Disconnected due to an error: ${port.error.message}`)
-		}
-		connectNewPort()
-	})
-
-	messanger.initPort(port)
-}
-
-connectNewPort()
 
 const refreshInterval = 60 * 1000 // 1 minute
 
 interface ImmerT {
-	isMounted: boolean
 	time: number
 }
 
-export const useVault = () => {
-	const { signingKey, selectKeystoreId, keystore, setMessanger, setIsUnlocked, setSigningKey } = useSharedStore(
-		state => ({
-			selectKeystoreId: state.selectKeystoreId,
-			keystore: state.keystores.find(({ id }) => id === state.selectKeystoreId),
-			isUnlocked: state.isUnlocked,
-			signingKey: state.signingKey,
-			setMessanger: state.setMessangerAction,
-			setIsUnlocked: state.setIsUnlockedAction,
-			setSigningKey: state.setSigningKeyAction,
-		}),
-	)
+export const useVault = (messanger: MessageService) => {
+	const { signingKey, selectKeystoreId, setIsUnlocked, setSigningKey } = useSharedStore(state => ({
+		selectKeystoreId: state.selectKeystoreId,
+		signingKey: state.signingKey,
+		setIsUnlocked: state.setIsUnlockedAction,
+		setSigningKey: state.setSigningKeyAction,
+	}))
+
 	const { network, publicAddresses, networkIndex, accountIndex, addPublicAddress, setPublicAddresses } =
 		useNoneSharedStore(state => ({
 			network: state.networks[state.selectedNetworkIndex],
@@ -60,7 +40,6 @@ export const useVault = () => {
 		}))
 
 	const [state, setState] = useImmer<ImmerT>({
-		isMounted: false,
 		time: Date.now(),
 	})
 
@@ -76,103 +55,75 @@ export const useVault = () => {
 		})
 	}
 
-	const derive = async (n: Network, addresses?: { [key: number]: AddressBookEntry }) => {
+	const derive = async (all: boolean = false) => {
 		const release = await mutex.acquire()
 
-		let deriveIndex = 0
-		const publicIndexes = Object.keys(publicAddresses)
-		if (publicIndexes.length > 0) {
-			if (accountIndex < publicIndexes.length) {
-				deriveIndex = +publicIndexes[accountIndex]
-			} else {
-				deriveIndex = +publicIndexes[publicIndexes.length - 1] + 1
-			}
-		}
+		const action = all ? DERIVE_ALL : DERIVE
+		const {
+			isUnlocked: isUnlockedBackground,
+			keystoreId,
+			keystore,
+			publicKey,
+			publicAddresses: newPublicAddresses,
+			signingKeyType,
+			derivedNetwork,
+			derivedIndex,
+		} = await messanger.sendActionMessageFromPopup(action, null)
 
-		const derivePayload = {
-			index: deriveIndex,
-			network: n
-				? {
-						id: n.id,
-						url: n.url.toString(),
-				  }
-				: undefined,
-			publicAddresses: addresses,
-		}
-
-		try {
-			switch (keystore?.type) {
-				case KeystoreType.HARDWARE:
-					if (signingKey?.hw) {
-						const newSigningKey = await createHardwareSigningKey(signingKey.hw, deriveIndex)
-						if (newSigningKey) {
-							setSigningKey(newSigningKey)
-							addOrUpdateAddressEntry(deriveIndex, n, newSigningKey)
-						}
-						setIsUnlocked(!!newSigningKey)
-					} else {
-						const { keystoreId, isUnlocked: isUnlockedBackground } = await messanger.sendActionMessageFromPopup(
-							DERIVE,
-							derivePayload,
-						)
-						setIsUnlocked(keystoreId === keystore?.id && isUnlockedBackground)
-					}
-					break
-				case KeystoreType.LOCAL:
-					// eslint-disable-next-line no-case-declarations
-					const {
-						isUnlocked: isUnlockedBackground,
-						keystoreId,
-						publicKey,
-						publicAddresses: newPublicAddresses,
-						type,
-						network: derivedNetwork,
-					} = await messanger.sendActionMessageFromPopup(DERIVE, derivePayload)
-
-					// for the legacy purpose we need to handle empty string for keystore id with local wallet
-					if (publicKey && keystoreId === selectKeystoreId) {
-						const publicKeyBuffer = Buffer.from(publicKey, 'hex')
-						const publicKeyResult = PublicKey.fromBuffer(publicKeyBuffer)
-						if (!publicKeyResult.isOk()) throw publicKeyResult.error
-
-						const newSigningKey = createLocalSigningKey(messanger, publicKeyResult.value, type)
-						setSigningKey(newSigningKey)
-						if (newPublicAddresses) {
-							setPublicAddresses(newPublicAddresses)
+		if (keystoreId === selectKeystoreId) {
+			try {
+				switch (keystore?.type) {
+					case KeystoreType.HARDWARE:
+						if (signingKey?.hw) {
+							const newSigningKey = await createHardwareSigningKey(signingKey.hw, derivedIndex)
+							if (newSigningKey) {
+								setSigningKey(newSigningKey)
+								addOrUpdateAddressEntry(derivedIndex, network, newSigningKey)
+							}
+							setIsUnlocked(!!newSigningKey)
 						} else {
-							addOrUpdateAddressEntry(deriveIndex, derivedNetwork, newSigningKey)
+							setIsUnlocked(isUnlockedBackground)
 						}
-						setIsUnlocked(isUnlockedBackground)
-					} else {
-						setIsUnlocked(false)
-					}
-					break
-				default:
-					break
+						break
+					case KeystoreType.LOCAL:
+					// fallthrough
+					default:
+						// for the legacy purpose we need to handle empty string for keystore id with local wallet
+						if (publicKey) {
+							const publicKeyBuffer = Buffer.from(publicKey, 'hex')
+							const publicKeyResult = PublicKey.fromBuffer(publicKeyBuffer)
+							if (!publicKeyResult.isOk()) throw publicKeyResult.error
+
+							const newSigningKey = createLocalSigningKey(messanger, publicKeyResult.value, signingKeyType)
+							setSigningKey(newSigningKey)
+							if (newPublicAddresses) {
+								setPublicAddresses(newPublicAddresses)
+							} else {
+								addOrUpdateAddressEntry(derivedIndex, derivedNetwork, newSigningKey)
+							}
+							setIsUnlocked(isUnlockedBackground)
+						} else {
+							setIsUnlocked(false)
+						}
+						break
+				}
+			} catch (error) {
+				// eslint-disable-next-line no-console
+				console.error(error)
 			}
-		} catch (error) {
-			// eslint-disable-next-line no-console
-			console.error(error)
 		}
 
 		release()
 	}
 
 	useEffect(() => {
-		const init = async () => {
-			await derive(network)
-			if (state.isMounted) return
-			setState(draft => {
-				draft.isMounted = true
-			})
-			setMessanger(messanger)
-		}
-		init()
+		if (!messanger) return
+		derive()
 	}, [selectKeystoreId, accountIndex, Object.keys(publicAddresses).length])
 
 	useEffect(() => {
-		if (!state.isMounted) return
-		derive(network, publicAddresses)
+		if (!messanger) return
+		derive(true)
 	}, [networkIndex])
 
 	useEffect(() => {
@@ -190,7 +141,7 @@ export const useVault = () => {
 	}, [])
 
 	useEffect(() => {
-		if (!state.isMounted) return
+		if (!messanger) return
 		messanger.sendActionMessageFromPopup(PING, null)
 	}, [state.time])
 }

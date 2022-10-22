@@ -1,38 +1,41 @@
+import { ChevronRightIcon, LockClosedIcon, Pencil2Icon } from '@radix-ui/react-icons'
 import React, { useRef } from 'react'
-import { useRoute } from 'wouter'
-import { useSharedStore, useNoneSharedStore } from '@src/hooks/use-store'
-import { useHashLocation } from '@src/hooks/use-hash-location'
-import { useContentScriptStatus } from '@src/hooks/use-content-script-status'
 import { useImmer } from 'use-immer'
-import Button from 'ui/src/components/button'
-import { Z3usIconOn, Z3usIconOff, TrashIcon, HardwareWalletIcon, Z3usIcon } from 'ui/src/components/icons'
-import { ToolTip, Tooltip, TooltipTrigger, TooltipContent } from 'ui/src/components/tool-tip'
-import { LockClosedIcon, ChevronRightIcon, Pencil2Icon } from '@radix-ui/react-icons'
-import { Box, MotionBox, Text, Flex } from 'ui/src/components/atoms'
-import Input from 'ui/src/components/input'
+import { useRoute } from 'wouter'
+
 import {
 	AlertDialog,
-	AlertDialogContent,
-	AlertDialogTitle,
-	AlertDialogDescription,
 	AlertDialogAction,
 	AlertDialogCancel,
+	AlertDialogContent,
+	AlertDialogDescription,
+	AlertDialogTitle,
 } from 'ui/src/components/alert-dialog'
+import { Box, Flex, MotionBox, Text } from 'ui/src/components/atoms'
+import Button from 'ui/src/components/button'
 import {
 	DropdownMenu,
-	DropdownMenuTrigger,
 	DropdownMenuContent,
 	DropdownMenuItem,
+	DropdownMenuItemIndicator,
 	DropdownMenuRadioGroup,
 	DropdownMenuRadioItem,
-	DropdownMenuItemIndicator,
 	DropdownMenuRightSlot,
+	DropdownMenuTrigger,
 	DropdownMenuTriggerItem,
 } from 'ui/src/components/drop-down-menu'
+import { HardwareWalletIcon, TrashIcon, Z3usIcon, Z3usIconOff, Z3usIconOn } from 'ui/src/components/icons'
+import Input from 'ui/src/components/input'
+import { ToolTip, Tooltip, TooltipContent, TooltipTrigger } from 'ui/src/components/tool-tip'
+
+import { useColorMode } from '@src/hooks/use-color-mode'
+import { useContentScriptStatus } from '@src/hooks/use-content-script-status'
+import { useHashLocation } from '@src/hooks/use-hash-location'
+import { useMessanger } from '@src/hooks/use-messanger'
+import { useNoneSharedStore, useSharedStore } from '@src/hooks/use-store'
+import { CONNECT } from '@src/lib/v1/actions'
 import { KeystoreType } from '@src/types'
 import { generateId } from '@src/utils/generate-id'
-import { useColorMode } from '@src/hooks/use-color-mode'
-import { CONNECT } from '@src/lib/v1/actions'
 
 interface ImmerT {
 	isOpen: boolean
@@ -52,30 +55,20 @@ export const Z3usMenu: React.FC = () => {
 	const [isSwapRoute] = useRoute('/wallet/swap/review')
 	const isNotificationRoute = location.startsWith('/notification')
 
+	const { lockAction: lock, removeWalletAction: removeWallet } = useMessanger()
 	const isDarkMode = useColorMode()
 	const contentScriptStatus = useContentScriptStatus()
-	const {
-		keystores,
-		keystoreId,
-		isUnlocked,
-		setIsUnlocked,
-		selectKeystore,
-		removeKeystore,
-		changeKeystoreName,
-		removeWallet,
-		lock,
-	} = useSharedStore(state => ({
-		keystores: state.keystores,
-		keystoreId: state.selectKeystoreId,
-		isUnlocked: state.isUnlocked,
-		setIsUnlocked: state.setIsUnlockedAction,
-		addKeystore: state.addKeystoreAction,
-		removeKeystore: state.removeKeystoreAction,
-		selectKeystore: state.selectKeystoreAction,
-		changeKeystoreName: state.changeKeystoreNameAction,
-		lock: state.lockAction,
-		removeWallet: state.removeWalletAction,
-	}))
+	const { keystores, keystoreId, isUnlocked, setIsUnlocked, selectKeystore, removeKeystore, changeKeystoreName } =
+		useSharedStore(state => ({
+			keystores: state.keystores,
+			keystoreId: state.selectKeystoreId,
+			isUnlocked: state.isUnlocked,
+			setIsUnlocked: state.setIsUnlockedAction,
+			addKeystore: state.addKeystoreAction,
+			removeKeystore: state.removeKeystoreAction,
+			selectKeystore: state.selectKeystoreAction,
+			changeKeystoreName: state.changeKeystoreNameAction,
+		}))
 	const { reset, addPendingAction } = useNoneSharedStore(state => ({
 		reset: state.resetAction,
 		addPendingAction: state.addPendingActionAction,

@@ -1,23 +1,25 @@
-import React from 'react'
-import HDNode from 'hdkey'
-import { useImmer } from 'use-immer'
-import { useSharedStore } from '@src/hooks/use-store'
-import { Box, Flex, Text } from 'ui/src/components/atoms'
-import { copyTextToClipboard } from '@src/utils/copy-to-clipboard'
 import { CopyIcon } from '@radix-ui/react-icons'
-import Button from 'ui/src/components/button'
+import HDNode from 'hdkey'
+import React from 'react'
+import { useImmer } from 'use-immer'
+
 import AlertCard from 'ui/src/components/alert-card'
-import Input from 'ui/src/components/input'
-import ButtonTipFeedback from 'ui/src/components/button-tip-feedback'
-import InputFeedBack from 'ui/src/components/input/input-feedback'
 import {
 	AlertDialog,
-	AlertDialogTrigger,
-	AlertDialogContent,
-	AlertDialogTitle,
 	AlertDialogAction,
 	AlertDialogCancel,
+	AlertDialogContent,
+	AlertDialogTitle,
+	AlertDialogTrigger,
 } from 'ui/src/components/alert-dialog'
+import { Box, Flex, Text } from 'ui/src/components/atoms'
+import Button from 'ui/src/components/button'
+import ButtonTipFeedback from 'ui/src/components/button-tip-feedback'
+import Input from 'ui/src/components/input'
+import InputFeedBack from 'ui/src/components/input/input-feedback'
+
+import { useMessanger } from '@src/hooks/use-messanger'
+import { copyTextToClipboard } from '@src/utils/copy-to-clipboard'
 
 interface ImmerT {
 	password: string
@@ -28,9 +30,7 @@ interface ImmerT {
 }
 
 export const ExportPrivateKey: React.FC = () => {
-	const { getWallet } = useSharedStore(state => ({
-		getWallet: state.getWalletAction,
-	}))
+	const { getWalletAction: getWallet } = useMessanger()
 
 	const [state, setState] = useImmer<ImmerT>({
 		password: '',

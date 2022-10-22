@@ -11,26 +11,28 @@ import {
 	SigningKeyTypeT,
 } from '@radixdlt/application'
 import {
+	DiffieHellman,
+	EncryptedMessageT,
 	HDMasterSeed,
 	HDNode,
 	HDNodeT,
 	HDPathRadix,
-	MnemomicT,
-	KeystoreT,
-	Keystore as RadixKeystore,
-	PublicKey,
-	SignatureT,
-	PublicKeyT,
 	HDPathRadixT,
-	DiffieHellman,
+	KeystoreT,
 	MessageEncryption,
-	EncryptedMessageT,
+	MnemomicT,
+	PublicKey,
+	PublicKeyT,
+	Keystore as RadixKeystore,
+	SignatureT,
 } from '@radixdlt/crypto'
-import { CryptoService } from '@src/services/crypto'
+import { Mutex } from 'async-mutex'
+
 import { BrowserStorageService } from '@src/services/browser-storage'
+import { CryptoService } from '@src/services/crypto'
 import { sharedStore } from '@src/store'
-import { AddressBookEntry, Network } from '@src/store/types'
-import { SigningKeyType, Keystore as AppKeystore, KeystoreType } from '@src/types'
+import { Keystore as AppKeystore, KeystoreType, SigningKeyType } from '@src/types'
+
 import { getNoneSharedStore } from './state'
 
 interface Keystore {
@@ -162,6 +164,8 @@ const getSigningKey = (hdMasterNode: HDNodeT, index: number, secureRandom: Secur
 }
 
 export class VaultService {
+	private mutex: Mutex
+
 	private crypto: CryptoService
 
 	private storage: BrowserStorageService
@@ -179,6 +183,7 @@ export class VaultService {
 	constructor(storage: BrowserStorageService, crypto: Crypto) {
 		this.storage = storage
 		this.crypto = new CryptoService(crypto)
+		this.mutex = new Mutex()
 	}
 
 	ping = async () => {
@@ -187,25 +192,28 @@ export class VaultService {
 		}
 	}
 
-	new = async (type: SigningKeyType, secret: string, password: string, index: number = 0) => {
+	new = async (type: SigningKeyType, secret: string, password: string) => {
 		const keystore = await this.crypto.encrypt<Keystore>(password, { type, secret })
 		await this.saveKeystore(keystore)
 
-		return this.unlock(password, index)
+		return this.unlock(password)
 	}
 
-	unlock = async (password: string, index: number) => {
+	unlock = async (password: string) => {
 		const { secret, keystore } = await this.getSecret()
 		const { hdMasterNode, type: signingKeyType } = await this.getHDMasterNode(secret, password, keystore)
 
+		const release = await this.mutex.acquire()
 		this.signingKeyType = signingKeyType
 		this.hdMasterNode = hdMasterNode
 		this.isUnlocked = !!hdMasterNode || signingKeyType === SigningKeyType.HARDWARE
+		release()
 
-		return this.derive(index)
+		return this.derive()
 	}
 
-	lock = () => {
+	lock = async () => {
+		const release = await this.mutex.acquire()
 		if (this.timer) {
 			clearTimeout(this.timer)
 		}
@@ -214,65 +222,104 @@ export class VaultService {
 		this.signingKey = null
 		this.timer = null
 		this.isUnlocked = false
+		release()
 	}
 
-	derive = async (index: number, network?: Network, publicAddresses?: { [key: number]: AddressBookEntry }) => {
-		await sharedStore.persist.rehydrate()
-		const { selectKeystoreId } = sharedStore.getState()
+	derive = async () => {
+		const { selectKeystoreId, keystores } = sharedStore.getState()
+		const noneSharedStore = await getNoneSharedStore(selectKeystoreId)
+		const { networks, selectedNetworkIndex, deriveIndexAction } = noneSharedStore.getState()
+
+		const keystore = keystores.find(({ id }) => id === selectKeystoreId)
+		const network = networks[selectedNetworkIndex]
+		const derivedIndex = deriveIndexAction()
 		const hasKeystore = await this.has()
 
 		if (!this.isUnlocked || this.signingKeyType === SigningKeyType.HARDWARE) {
 			return {
 				hasKeystore,
+				keystore,
 				keystoreId: selectKeystoreId,
 				isUnlocked: this.isUnlocked,
 			}
 		}
 
-		if (publicAddresses) {
-			if (!network) throw new Error('Network is required when deriving all addresses')
-			const publicIndexes = Object.keys(publicAddresses)
-			if (index >= publicIndexes.length) {
-				index = publicIndexes.length > 0 ? +publicIndexes[publicIndexes.length - 1] + 1 : 0
-				publicIndexes.push(`${index}`)
-			}
-
-			publicIndexes.forEach(key => {
-				const idx = +key
-				const signingKey = getSigningKey(this.hdMasterNode, idx, this.crypto)
-				if (idx === index) {
-					this.signingKey = signingKey
-				}
-
-				const address = AccountAddress.fromPublicKeyAndNetwork({
-					publicKey: signingKey.publicKey,
-					network: network.id,
-				})
-
-				publicAddresses[idx] = {
-					address: address.toString(),
-				}
-			})
-		} else {
-			const signingKey = getSigningKey(this.hdMasterNode, index, this.crypto)
-			this.signingKey = signingKey
-		}
+		const signingKey = getSigningKey(this.hdMasterNode, derivedIndex, this.crypto)
+		this.signingKey = signingKey
 
 		await this.resetTimer()
+
+		console.log('derive', hasKeystore, selectKeystoreId, this.signingKey?.publicKey.toString(), this.isUnlocked)
 		return {
 			isUnlocked: this.isUnlocked,
-			type: this.signingKeyType,
+			signingKeyType: this.signingKeyType,
 			hasKeystore,
 			keystoreId: selectKeystoreId,
 			publicKey: this.signingKey?.publicKey.toString(),
-			network,
+			derivedNetwork: network,
+			derivedIndex,
+		}
+	}
+
+	deriveAll = async () => {
+		const { selectKeystoreId, keystores } = sharedStore.getState()
+		const noneSharedStore = await getNoneSharedStore(selectKeystoreId)
+		const { networks, selectedNetworkIndex, publicAddresses, deriveIndexAction } = noneSharedStore.getState()
+
+		const keystore = keystores.find(({ id }) => id === selectKeystoreId)
+		const network = networks[selectedNetworkIndex]
+		let derivedIndex = deriveIndexAction()
+		const hasKeystore = await this.has()
+
+		if (!this.isUnlocked || this.signingKeyType === SigningKeyType.HARDWARE) {
+			return {
+				hasKeystore,
+				keystore,
+				keystoreId: selectKeystoreId,
+				isUnlocked: this.isUnlocked,
+			}
+		}
+
+		const publicIndexes = Object.keys(publicAddresses)
+		if (derivedIndex >= publicIndexes.length) {
+			derivedIndex = publicIndexes.length > 0 ? +publicIndexes[publicIndexes.length - 1] + 1 : 0
+			publicIndexes.push(`${derivedIndex}`)
+		}
+
+		publicIndexes.forEach(key => {
+			const idx = +key
+			const signingKey = getSigningKey(this.hdMasterNode, idx, this.crypto)
+			if (idx === derivedIndex) {
+				this.signingKey = signingKey
+			}
+
+			const address = AccountAddress.fromPublicKeyAndNetwork({
+				publicKey: signingKey.publicKey,
+				network: network.id,
+			})
+
+			publicAddresses[idx] = {
+				address: address.toString(),
+			}
+		})
+
+		await this.resetTimer()
+		console.log('deriveAll', hasKeystore, selectKeystoreId, this.signingKey?.publicKey.toString(), this.isUnlocked)
+		return {
+			isUnlocked: this.isUnlocked,
+			signingKeyType: this.signingKeyType,
+			hasKeystore,
+			keystore,
+			keystoreId: selectKeystoreId,
+			publicKey: this.signingKey?.publicKey.toString(),
+			derivedNetwork: network,
+			derivedIndex,
 			publicAddresses,
 		}
 	}
 
 	has = async (): Promise<boolean> => {
 		try {
-			await sharedStore.persist.rehydrate()
 			const { selectKeystoreId } = sharedStore.getState()
 			const keystore = await this.storage.getItem(`${keystoreKey}-${selectKeystoreId}`)
 			return !!keystore
@@ -301,9 +348,8 @@ export class VaultService {
 	}
 
 	remove = async () => {
-		await sharedStore.persist.rehydrate()
 		const { selectKeystoreId } = sharedStore.getState()
-		this.lock()
+		await this.lock()
 		await this.storage.removeItem(`${keystoreKey}-${selectKeystoreId}`)
 	}
 
@@ -354,13 +400,11 @@ export class VaultService {
 	}
 
 	private saveKeystore = async (keystore: string) => {
-		await sharedStore.persist.rehydrate()
 		const { selectKeystoreId } = sharedStore.getState()
 		await this.storage.setItem(`${keystoreKey}-${selectKeystoreId}`, keystore)
 	}
 
 	private getSecret = async (): Promise<{ keystore?: AppKeystore; secret: string }> => {
-		await sharedStore.persist.rehydrate()
 		const { selectKeystoreId, keystores } = sharedStore.getState()
 		const secret = await this.storage.getItem(`${keystoreKey}-${selectKeystoreId}`)
 		const keystore = keystores.find(({ id }) => id === selectKeystoreId)
@@ -368,16 +412,16 @@ export class VaultService {
 	}
 
 	private resetTimer = async () => {
-		await sharedStore.persist.rehydrate()
 		const { selectKeystoreId } = sharedStore.getState()
 		const noneSharedStore = await getNoneSharedStore(selectKeystoreId)
-		await noneSharedStore.persist.rehydrate()
 		const { walletUnlockTimeoutInMinutes = 5 } = noneSharedStore.getState()
+
+		const release = await this.mutex.acquire()
 		if (this.timer) {
 			clearTimeout(this.timer)
 		}
-
-		this.timer = setTimeout(() => this.lock(), walletUnlockTimeoutInMinutes * 60 * 1000)
+		this.timer = setTimeout(this.lock, walletUnlockTimeoutInMinutes * 60 * 1000)
+		release()
 	}
 
 	private getHDMasterNode = async (
