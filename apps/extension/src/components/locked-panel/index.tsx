@@ -357,11 +357,12 @@ export const LockedPanel: React.FC = () => {
 										borderColor: state.passwordError
 											? '$borderInputError'
 											: state.isInputFocused
-											? '$borderInputFocus'
-											: '$borderPanel3',
+												? '$borderInputFocus'
+												: '$borderPanel3',
 									}}
 								>
 									<Input
+										data-test-e2e="wallet-password-input"
 										type="password"
 										theme="minimal"
 										size="2"
@@ -398,7 +399,14 @@ export const LockedPanel: React.FC = () => {
 							)}
 						</MotionBox>
 						<Flex css={{ mt: '$4', transition: '$default', opacity: state.isLoading ? '0.4' : '1.0', zIndex: '1' }}>
-							<Button type="submit" loading={state.isLoading} color="primary" size="6" css={{ flex: '1' }}>
+							<Button
+								data-test-e2e="wallet-unlock-btn"
+								type="submit"
+								loading={state.isLoading}
+								color="primary"
+								size="6"
+								css={{ flex: '1' }}
+							>
 								Unlock
 							</Button>
 						</Flex>
