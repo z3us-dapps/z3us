@@ -10,7 +10,6 @@ import { useVault } from '@src/hooks/use-vault'
 import { useEvents } from '@src/hooks/use-events'
 import { domExists } from '@src/utils/dom-exists'
 import { Permissions } from './permissions'
-// import { Credentials } from '@src/containers/credentials'
 // import { useManifestCompoler } from '@src/hooks/use-manifest-compiler'
 
 const WalletPanel = lazy(() => import('@src/containers/wallet-panel'))

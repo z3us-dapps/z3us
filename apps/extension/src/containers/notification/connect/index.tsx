@@ -58,7 +58,7 @@ export const Connect = (): JSX.Element => {
 	}
 
 	return (
-		<>
+		<Box css={{ display: 'flex', flexDirection: 'column', height: '100%' }}>
 			<PageWrapper css={{ flex: '1' }}>
 				<Box>
 					<PageHeading>Connect</PageHeading>
@@ -72,15 +72,16 @@ export const Connect = (): JSX.Element => {
 				</Box>
 				<Box
 					css={{
-						borderTop: '1px solid $borderPanel',
+						borderTop: '1px solid $borderPanel2',
+						mt: '$5',
 						py: '$5',
 					}}
 				>
-					<Text medium size="5">
+					<Text bold size="5">
 						{host}
 					</Text>
-					<Text size="3" color="muted" css={{ mt: '$2' }}>
-						This dApp would like to:
+					<Text size="3" color="help" css={{ mt: '$2' }}>
+						This Dapp would like to:
 					</Text>
 					<Box as="ul" css={{ mt: '$4' }}>
 						<Flex align="center" as="li">
@@ -98,7 +99,7 @@ export const Connect = (): JSX.Element => {
 					</Box>
 				</Box>
 			</PageWrapper>
-			<PageWrapper css={{ display: 'flex', gridGap: '12px', borderTop: '1px solid $borderPanel' }}>
+			<PageWrapper css={{ display: 'flex', gridGap: '12px', borderTop: '1px solid $borderPanel2' }}>
 				<Button
 					onClick={handleCancel}
 					size="6"
@@ -118,7 +119,7 @@ export const Connect = (): JSX.Element => {
 					Connect
 				</Button>
 			</PageWrapper>
-		</>
+		</Box>
 	)
 }
 

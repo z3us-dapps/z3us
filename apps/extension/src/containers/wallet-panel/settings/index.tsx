@@ -21,7 +21,8 @@ const TrustedApps = lazy(() => import('./trusted-apps'))
 const NetworkSettings = lazy(() => import('./network-settings'))
 const KeyManagementSettings = lazy(() => import('./key-management-settings'))
 const TokenManagementSettings = lazy(() => import('./token-management-settins'))
-const ImportSettings = lazy(() => import('./import-settings'))
+// @TODO:
+// const ImportSettings = lazy(() => import('./import-settings'))
 const PendingActions = lazy(() => import('./pending-actions'))
 
 const AccordionSettingsItem = ({
@@ -143,7 +144,7 @@ export const Settings: React.FC = () => {
 								</AccordionSettingsItem>
 							</Accordion>
 
-							<ImportSettings />
+							{/* <ImportSettings /> */}
 						</Box>
 					</Box>
 				</Box>

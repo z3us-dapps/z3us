@@ -2,11 +2,13 @@
 import React, { useEffect, useRef } from 'react'
 import { useSharedStore, useNoneSharedStore } from '@src/hooks/use-store'
 import { useAnimationControls } from 'framer-motion'
+import { useTimeout } from 'usehooks-ts'
 import { useColorMode } from '@src/hooks/use-color-mode'
 import { useImmer } from 'use-immer'
 import { createLocalSigningKey } from '@src/services/signing_key'
 import { PublicKey } from '@radixdlt/crypto'
 import { WalletMenu } from '@src/components/wallet-menu'
+import { sleep } from '@src/utils/sleep'
 import { Box, Flex, MotionBox, Text, StyledLink } from 'ui/src/components/atoms'
 import Input from 'ui/src/components/input'
 import Button from 'ui/src/components/button'
@@ -107,6 +109,7 @@ export const LockedPanel: React.FC = () => {
 			draft.isLoading = true
 		})
 		prepareUnlockAnim()
+		await sleep(500)
 
 		try {
 			const { isUnlocked: isUnlockedBackground, publicKey, type } = await unlock(password, accountIndex)
@@ -186,7 +189,7 @@ export const LockedPanel: React.FC = () => {
 				z3usLogoControls.set({ fill: logoFill, backgroundColor: logoBackgroundStart })
 				panelControls.start({ y: '-3620px', opacity: 0, transition: { delay: 0, duration: 0 } })
 			} else {
-				await panelControls.start({ y: '-3620px', opacity: 0, transition: { delay: 0, duration: 0 } })
+				panelControls.start({ y: '-3620px', opacity: 0, transition: { delay: 0, duration: 0 } })
 				z3usLogoControls.start({
 					y: '96px',
 					fill: logoFill,
@@ -215,7 +218,6 @@ export const LockedPanel: React.FC = () => {
 		setState(draft => {
 			draft.password = ''
 			draft.isLoading = false
-			draft.isMounted = true
 		})
 		unlockWithWebAuth()
 	}, [isUnlocked])
@@ -223,6 +225,13 @@ export const LockedPanel: React.FC = () => {
 	useEffect(() => {
 		unlockAnimation(isUnlocked, false)
 	}, [isDarkMode])
+
+	// @Note:
+	useTimeout(() => {
+		setState(draft => {
+			draft.isMounted = true
+		})
+	}, 1000)
 
 	const handleSubmitForm = (e: React.ChangeEvent<HTMLFormElement>) => {
 		e.preventDefault()
@@ -348,11 +357,12 @@ export const LockedPanel: React.FC = () => {
 										borderColor: state.passwordError
 											? '$borderInputError'
 											: state.isInputFocused
-											? '$borderInputFocus'
-											: '$borderPanel3',
+												? '$borderInputFocus'
+												: '$borderPanel3',
 									}}
 								>
 									<Input
+										data-test-e2e="wallet-password-input"
 										type="password"
 										theme="minimal"
 										size="2"
@@ -389,7 +399,14 @@ export const LockedPanel: React.FC = () => {
 							)}
 						</MotionBox>
 						<Flex css={{ mt: '$4', transition: '$default', opacity: state.isLoading ? '0.4' : '1.0', zIndex: '1' }}>
-							<Button type="submit" loading={state.isLoading} color="primary" size="6" css={{ flex: '1' }}>
+							<Button
+								data-test-e2e="wallet-unlock-btn"
+								type="submit"
+								loading={state.isLoading}
+								color="primary"
+								size="6"
+								css={{ flex: '1' }}
+							>
 								Unlock
 							</Button>
 						</Flex>

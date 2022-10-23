@@ -92,6 +92,19 @@ describe('The Extension page should', () => {
 		await goToWalletBtn.click()
 		await page.waitForTimeout(DELAY)
 
+		// user enters wallet password for login prompt
+		const walletPasswordInputSelector = '[data-test-e2e="wallet-password-input"]'
+		const walletPasswordInput = await page.$(walletPasswordInputSelector)
+		await walletPasswordInput.fill(PASSWORD)
+		await page.waitForTimeout(DELAY)
+
+		// user clicks unlock
+		const unlockBtnSelector = '[data-test-e2e="wallet-unlock-btn"]'
+		const unlockBtn = await page.$(unlockBtnSelector)
+		await unlockBtn.click()
+		await page.waitForTimeout(DELAY)
+
+		// asset user logged in to wallet by asserting total card is visible
 		const totalCardSelector = '[data-test-e2e="accounts-total-card"]'
 		const totalCard = await page.$(totalCardSelector)
 		expect(totalCard.isVisible()).toBeTruthy()

@@ -175,13 +175,13 @@ export const Transaction = (): JSX.Element => {
 	}
 
 	return (
-		<>
-			<PageWrapper css={{ flex: '1', overflowY: 'auto', maxHeight: '450px' }}>
+		<Flex css={{ flexDirection: 'column', height: '100%' }}>
+			<PageWrapper css={{ flex: '1 1 auto', overflowY: 'auto' }}>
 				<Box>
 					<PageHeading>Approve</PageHeading>
 					<PageSubHeading>
 						Approve transaction from{' '}
-						<StyledLink underline href={host} target="_blank">
+						<StyledLink underline href={`https://${host}`} target="_blank">
 							{host}
 						</StyledLink>
 						.
@@ -213,8 +213,7 @@ export const Transaction = (): JSX.Element => {
 					</InputFeedback>
 				</Box>
 			</PageWrapper>
-
-			<PageWrapper css={{ display: 'flex', gridGap: '8px', borderTop: '1px solid $borderPanel' }}>
+			<PageWrapper css={{ display: 'flex', gridGap: '8px', borderTop: '1px solid $borderPanel2' }}>
 				<Button
 					onClick={handleCancel}
 					size="6"
@@ -332,7 +331,7 @@ export const Transaction = (): JSX.Element => {
 					</AlertDialogContent>
 				</AlertDialog>
 			</PageWrapper>
-		</>
+		</Flex>
 	)
 }
 
