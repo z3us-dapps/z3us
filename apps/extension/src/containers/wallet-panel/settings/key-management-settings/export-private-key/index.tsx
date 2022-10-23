@@ -109,7 +109,7 @@ export const ExportPrivateKey: React.FC = () => {
 									position: 'relative',
 								}}
 							>
-								<Flex css={{ overflow: 'hidden', flexWrap: 'wrap' }}>
+								<Flex css={{ overflow: 'hidden', flexWrap: 'wrap', overflowWrap: 'anywhere' }}>
 									<Text size="4">{state.privateExtendedKey}</Text>
 								</Flex>
 								<ButtonTipFeedback tooltip="Copy phrase">

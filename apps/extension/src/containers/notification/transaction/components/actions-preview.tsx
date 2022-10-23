@@ -34,7 +34,7 @@ const ActionPreview: React.FC<ActionPreviewProps> = ({ activity, fee: feeFromPro
 	return (
 		<Box
 			css={{
-				borderTop: '1px solid $borderPanel',
+				borderTop: '1px solid $borderPanel2',
 				mt: '$5',
 				py: '$5',
 			}}
@@ -67,7 +67,7 @@ const ActionPreview: React.FC<ActionPreviewProps> = ({ activity, fee: feeFromPro
 					</Text>
 				</Flex>
 			)}
-			{fee && <SlippageBox token={token} fee={fee} amount={amount} />}
+			{fee && <SlippageBox token={token} fee={fee} amount={amount} css={{ borderColor: '$borderPanel2' }} />}
 		</Box>
 	)
 }
