@@ -125,6 +125,7 @@ export const Z3usMenu: React.FC = () => {
 
 	const handleValueChange = async (id: string) => {
 		if (id === keystoreId) return
+		setIsUnlocked(false)
 		selectKeystore(id)
 		setLocation('#/wallet/account')
 		await lock()

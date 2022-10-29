@@ -125,7 +125,7 @@ export const useVault = () => {
 						setSigningKey(newSigningKey)
 						if (newPublicAddresses) {
 							setPublicAddresses(newPublicAddresses)
-						} else if (accountIndex >= Object.keys(publicAddresses).length) {
+						} else {
 							addNewAddressEntry(newSigningKey)
 						}
 						setIsUnlocked(isUnlockedBackground)
@@ -180,7 +180,7 @@ export const useVault = () => {
 	useEffect(() => {
 		if (!state.isMounted) return
 		derive()
-	}, [selectKeystoreId, accountIndex])
+	}, [selectKeystoreId, accountIndex, Object.keys(publicAddresses).length])
 
 	useEffect(() => {
 		if (!state.isMounted) return
