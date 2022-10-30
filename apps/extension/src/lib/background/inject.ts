@@ -1,15 +1,18 @@
-import { CHECK_CONTENT_SCRIPT } from '@src/config'
+import { CHECK_CONTENT_SCRIPT, z3usDappStatusIcons } from '@src/config'
 import browser from 'webextension-polyfill'
 
 export const setIcon = async (path: string) => {
 	await chrome?.action.setIcon({ path })
 	await browser.browserAction?.setIcon({ path })
 }
-export const showConnected = async () => setIcon('favicon-128x128.png')
+export const showConnected = async () => setIcon(z3usDappStatusIcons.ON)
 
-export const showDisconnected = async () => setIcon('favicon-off-128x128.png')
+export const showDisconnected = async () => setIcon(z3usDappStatusIcons.OFF)
 
-const checkContentScript = async (tabId: number): Promise<boolean> => {
+export const checkContentScript = async (tabId: number): Promise<boolean> => {
+	if (!tabId) {
+		return false
+	}
 	try {
 		const injected = await browser.tabs.sendMessage(tabId, { op: CHECK_CONTENT_SCRIPT })
 		return injected === true

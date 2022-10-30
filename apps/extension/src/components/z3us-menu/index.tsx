@@ -4,7 +4,7 @@ import { useLocation, useRoute } from 'wouter'
 import { useSharedStore, useNoneSharedStore } from '@src/hooks/use-store'
 import { useImmer } from 'use-immer'
 import Button from 'ui/src/components/button'
-import { Z3usIcon, TrashIcon, HardwareWalletIcon } from 'ui/src/components/icons'
+import { Z3usIconOn, Z3usIconOff, TrashIcon, HardwareWalletIcon } from 'ui/src/components/icons'
 import { ToolTip } from 'ui/src/components/tool-tip'
 import { LockClosedIcon, ChevronRightIcon, Pencil2Icon } from '@radix-ui/react-icons'
 import { Box, MotionBox, Text, Flex } from 'ui/src/components/atoms'
@@ -30,6 +30,8 @@ import {
 } from 'ui/src/components/drop-down-menu'
 import { KeystoreType } from '@src/types'
 import { generateId } from '@src/utils/generate-id'
+import { checkContentScript, showConnected, showDisconnected } from '@src/lib/background/inject'
+import { useColorMode } from '@src/hooks/use-color-mode'
 
 const popupURL = new URL(browser.runtime.getURL(''))
 
@@ -41,6 +43,7 @@ async function getCurrentTab() {
 interface ImmerT {
 	isOpen: boolean
 	isPopup: boolean
+	isConnected: boolean
 	keystoreId: string | undefined
 	editing: string | undefined
 	tempEdit: string | undefined
@@ -58,7 +61,7 @@ export const Z3usMenu: React.FC = () => {
 	const [isActivityRoute] = useRoute('/wallet/account/activity')
 	const [isSwapRoute] = useRoute('/wallet/swap/review')
 	const isNotificationRoute = location.includes('notification')
-
+	const isDarkMode = useColorMode()
 	const {
 		keystores,
 		keystoreId,
@@ -89,6 +92,7 @@ export const Z3usMenu: React.FC = () => {
 	const [state, setState] = useImmer<ImmerT>({
 		isOpen: false,
 		isPopup: false,
+		isConnected: false,
 		keystoreId: undefined,
 		editing: undefined,
 		tempEdit: '',
@@ -105,18 +109,25 @@ export const Z3usMenu: React.FC = () => {
 		isNotificationRoute
 
 	useEffect(() => {
-		if (!state.isOpen) return
 		const load = async () => {
 			const tab = await getCurrentTab()
 			const tabURL = tab?.url ? new URL(tab.url) : null
+			const isConnected = await checkContentScript(tab.id)
 			setState(draft => {
+				draft.isConnected = isConnected
 				draft.currentTabId = tab?.id || 0
 				draft.currentTabHost = tabURL?.host || ''
 				draft.isPopup = tabURL?.hostname === popupURL.hostname
 			})
+
+			if (isConnected) {
+				showConnected()
+			} else {
+				showDisconnected()
+			}
 		}
-		load()
-	}, [state.isOpen])
+		if (isUnlocked) load()
+	}, [isUnlocked])
 
 	const handleLockWallet = async () => {
 		setIsUnlocked(false)
@@ -234,7 +245,11 @@ export const Z3usMenu: React.FC = () => {
 				<DropdownMenu onOpenChange={handleDropDownMenuOpenChange}>
 					<DropdownMenuTrigger asChild>
 						<Button iconOnly aria-label="Z3US menu" color="ghost" size="4" css={{ mr: '2px' }}>
-							<Z3usIcon />
+							{state.isConnected ? (
+								<Z3usIconOn bgColor={isDarkMode ? '#323232' : 'white'} />
+							) : (
+								<Z3usIconOff bgColor={isDarkMode ? '#323232' : '#white'} />
+							)}
 						</Button>
 					</DropdownMenuTrigger>
 					<DropdownMenuContent side="bottom" sideOffset={6} alignOffset={-3} css={{ minWidth: '130px' }}>

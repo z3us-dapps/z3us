@@ -176,6 +176,11 @@ export const getDefaultBackgroundForIndex = (idx: number): string => {
 	)
 }
 
+export const z3usDappStatusIcons = {
+	ON: 'images/z3us-on.png',
+	OFF: 'images/z3us-off.png',
+}
+
 export const networks = [
 	{ id: NetworkID.MAINNET, url: new URL('https://mainnet.radixdlt.com') },
 	{ id: NetworkID.STOKENET, url: new URL('https://stokenet.radixdlt.com') },
