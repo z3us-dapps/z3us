@@ -1,9 +1,9 @@
 import React, { useEffect } from 'react'
+import { ExclamationCircleIcon, LockClosedIcon, CurrencyDollarIcon, UserPlusIcon } from '@heroicons/react/24/outline'
 import { handleContentScriptInject } from '@src/lib/background/inject'
 import { Box, Flex, Text, StyledLink } from 'ui/src/components/atoms'
 import Button from 'ui/src/components/button'
-import { PageWrapper, PageHeading, PageSubHeading } from '@src/components/layout'
-import { CheckboxIcon } from '@radix-ui/react-icons'
+import { PageWrapper, PageHeading } from '@src/components/layout'
 import { useSharedStore, useNoneSharedStore } from '@src/hooks/use-store'
 import { useRoute } from 'wouter'
 import { hexToJSON } from '@src/utils/encoding'
@@ -58,45 +58,116 @@ export const Connect = (): JSX.Element => {
 	}
 
 	return (
-		<Box css={{ display: 'flex', flexDirection: 'column', height: '100%' }}>
+		<Box css={{ display: 'flex', flexDirection: 'column', height: '100%', bg: '$bgPanel3' }}>
 			<PageWrapper css={{ flex: '1' }}>
-				<Box>
+				<Box css={{ pt: '10px' }}>
 					<PageHeading>Connect</PageHeading>
-					<PageSubHeading>
-						Connect to{' '}
+					<Text css={{ fontSize: '16px', lineHeight: '20px', fontWeight: '400', mt: '4px' }}>
+						This will allow{' '}
 						<StyledLink underline href={host} target="_blank">
 							{host}
-						</StyledLink>
-						.
-					</PageSubHeading>
+						</StyledLink>{' '}
+						to:
+					</Text>
 				</Box>
 				<Box
 					css={{
-						borderTop: '1px solid $borderPanel2',
-						mt: '$5',
 						py: '$5',
 					}}
 				>
-					<Text bold size="5">
-						{host}
-					</Text>
-					<Text size="3" color="help" css={{ mt: '$2' }}>
-						This Dapp would like to:
-					</Text>
-					<Box as="ul" css={{ mt: '$4' }}>
+					<Box
+						as="ul"
+						css={{
+							mt: '10px',
+							pl: '2px',
+							svg: {
+								width: '20px',
+								height: '20px',
+								color: '$iconDefault',
+							},
+						}}
+					>
 						<Flex align="center" as="li">
-							<Box css={{ mr: '$2', mt: '2px' }}>
-								<CheckboxIcon />
-							</Box>
-							<Text>View wallet balance.</Text>
+							<CurrencyDollarIcon />
+							<Text size="5" bold css={{ ml: '7px' }}>
+								View wallet balance
+							</Text>
 						</Flex>
-						<Flex align="center" as="li" css={{ mt: '$1' }}>
-							<Box css={{ mr: '$2', mt: '2px' }}>
-								<CheckboxIcon />
-							</Box>
-							<Text>Request approval for transactions.</Text>
+						<Flex align="center" as="li" css={{ mt: '15px' }}>
+							<UserPlusIcon />
+							<Text size="5" bold css={{ ml: '7px' }}>
+								Request approval for transactions
+							</Text>
 						</Flex>
 					</Box>
+					{/* @TODO: implement block based on domain */}
+					{true ? (
+						<Flex
+							align="center"
+							css={{
+								bg: '$bgPanel4',
+								mt: '25px',
+								br: '$3',
+								pr: '12px',
+								pl: '17px',
+								py: '12px',
+								svg: {
+									width: '20px',
+									height: '20px',
+									color: '$iconDefault',
+								},
+							}}
+						>
+							<Box css={{ flexShrink: '0', width: '31px' }}>
+								<ExclamationCircleIcon />
+							</Box>
+							<Box>
+								<Text size="2">
+									Since{' '}
+									<StyledLink underline href={host} target="_blank">
+										{host}
+									</StyledLink>{' '}
+									has not been approved as a Dapp, we are unable to automatically inject script into the page to
+									maintain connection after your session has ended. Radit.io requires a unique connection for each
+									session.{' '}
+									<StyledLink underline href={host} target="_blank">
+										Learn more
+									</StyledLink>
+								</Text>
+							</Box>
+						</Flex>
+					) : (
+						<Flex
+							align="center"
+							css={{
+								bg: '$bgPanel4',
+								mt: '25px',
+								br: '$3',
+								pr: '12px',
+								pl: '17px',
+								py: '12px',
+								svg: {
+									width: '20px',
+									height: '20px',
+									color: '#19B00C',
+								},
+							}}
+						>
+							<Box css={{ flexShrink: '0', width: '31px' }}>
+								<LockClosedIcon />
+							</Box>
+							<Box>
+								<Text size="2">
+									Since{' '}
+									<StyledLink underline href={host} target="_blank">
+										{host}
+									</StyledLink>{' '}
+									is a verified Dapp, script is automatically injected into the page to maintain the connection after
+									the current session. Learn more
+								</Text>
+							</Box>
+						</Flex>
+					)}
 				</Box>
 			</PageWrapper>
 			<PageWrapper css={{ display: 'flex', gridGap: '12px', borderTop: '1px solid $borderPanel2' }}>
