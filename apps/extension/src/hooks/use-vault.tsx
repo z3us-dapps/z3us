@@ -144,14 +144,22 @@ export const useVault = () => {
 		release()
 	}
 
-	const init = async () => {
-		await derive()
-		if (state.isMounted) return
-		setMessanger(messanger)
-		setState(draft => {
-			draft.isMounted = true
-		})
-	}
+	useEffect(() => {
+		const init = async () => {
+			await derive()
+			if (state.isMounted) return
+			setState(draft => {
+				draft.isMounted = true
+			})
+			setMessanger(messanger)
+		}
+		init()
+	}, [selectKeystoreId, accountIndex, Object.keys(publicAddresses).length])
+
+	useEffect(() => {
+		if (!state.isMounted) return
+		derive(network, publicAddresses)
+	}, [networkIndex])
 
 	useEffect(() => {
 		const interval = setInterval(
@@ -168,21 +176,7 @@ export const useVault = () => {
 	}, [])
 
 	useEffect(() => {
-		init()
-	}, [])
-
-	useEffect(() => {
 		if (!state.isMounted) return
 		messanger.sendActionMessageFromPopup(PING, null)
 	}, [state.time])
-
-	useEffect(() => {
-		if (!state.isMounted) return
-		derive()
-	}, [selectKeystoreId, accountIndex, Object.keys(publicAddresses).length])
-
-	useEffect(() => {
-		if (!state.isMounted) return
-		derive(network, publicAddresses)
-	}, [networkIndex])
 }
