@@ -133,7 +133,7 @@ export type KeystoresState = {
 	selectKeystoreId: string
 	selectKeystoreAction: (id: string) => void
 
-	keystores: Keystore[] | null
+	keystores: Keystore[]
 	addKeystoreAction: (id: string, name: string, type: KeystoreType) => void
 	removeKeystoreAction: (id: string) => void
 	changeKeystoreNameAction: (id: string, name: string) => void

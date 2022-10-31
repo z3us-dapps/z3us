@@ -38,17 +38,17 @@ interface ImmerT {
 }
 
 export const useVault = () => {
-	const { areKeystoresLoaded, signingKey, selectKeystoreId, keystore, setMessanger, setIsUnlocked, setSigningKey } =
-		useSharedStore(state => ({
-			areKeystoresLoaded: state.keystores !== null,
+	const { signingKey, selectKeystoreId, keystore, setMessanger, setIsUnlocked, setSigningKey } = useSharedStore(
+		state => ({
 			selectKeystoreId: state.selectKeystoreId,
-			keystore: state.keystores?.find(({ id }) => id === state.selectKeystoreId),
+			keystore: state.keystores.find(({ id }) => id === state.selectKeystoreId),
 			isUnlocked: state.isUnlocked,
 			signingKey: state.signingKey,
 			setMessanger: state.setMessangerAction,
 			setIsUnlocked: state.setIsUnlockedAction,
 			setSigningKey: state.setSigningKeyAction,
-		}))
+		}),
+	)
 	const { network, publicAddresses, networkIndex, accountIndex, addPublicAddress, setPublicAddresses } =
 		useNoneSharedStore(state => ({
 			network: state.networks[state.selectedNetworkIndex],
@@ -168,9 +168,8 @@ export const useVault = () => {
 	}, [])
 
 	useEffect(() => {
-		if (!areKeystoresLoaded) return
 		init()
-	}, [areKeystoresLoaded])
+	}, [])
 
 	useEffect(() => {
 		if (!state.isMounted) return

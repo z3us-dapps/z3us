@@ -73,7 +73,7 @@ export const Z3usMenu: React.FC = () => {
 		removeWallet,
 		lock,
 	} = useSharedStore(state => ({
-		keystores: state.keystores || [],
+		keystores: state.keystores,
 		keystoreId: state.selectKeystoreId,
 		isUnlocked: state.isUnlocked,
 		setIsUnlocked: state.setIsUnlockedAction,

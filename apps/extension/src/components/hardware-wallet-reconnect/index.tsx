@@ -18,7 +18,7 @@ interface ImmerT {
 export const HardwareWalletReconnect: React.FC = () => {
 	const sendAPDU = useAPDU()
 	const { keystore, signingKey, setSigningKey, addToast } = useSharedStore(state => ({
-		keystore: state.keystores?.find(({ id }) => id === state.selectKeystoreId),
+		keystore: state.keystores.find(({ id }) => id === state.selectKeystoreId),
 		signingKey: state.signingKey,
 		setSigningKey: state.setSigningKeyAction,
 		addToast: state.addToastAction,

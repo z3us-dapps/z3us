@@ -6,7 +6,7 @@ export const whiteList = ['keystores', 'selectKeystoreId']
 const defaultKeystoreId = ''
 
 export const factory = (set): KeystoresState => ({
-	keystores: null,
+	keystores: [],
 	selectKeystoreId: defaultKeystoreId,
 
 	addKeystoreAction: (id: string, name: string, type: KeystoreType) => {
@@ -28,7 +28,7 @@ export const factory = (set): KeystoresState => ({
 			if (draft.selectKeystoreId === keystoreId) {
 				draft.selectKeystoreId = defaultKeystoreId
 			}
-			draft.keystores = draft.keystores?.filter(({ id }) => keystoreId !== id) || []
+			draft.keystores = draft.keystores.filter(({ id }) => keystoreId !== id) || []
 			if (draft.keystores.length > 0) {
 				draft.selectKeystoreId = draft.keystores[0].id
 			}
@@ -37,7 +37,7 @@ export const factory = (set): KeystoresState => ({
 
 	selectKeystoreAction: (keystoreId: string) => {
 		set(draft => {
-			draft.selectKeystoreId = draft.keystores?.find(({ id }) => id === keystoreId)?.id || defaultKeystoreId
+			draft.selectKeystoreId = draft.keystores.find(({ id }) => id === keystoreId)?.id || defaultKeystoreId
 		})
 	},
 })

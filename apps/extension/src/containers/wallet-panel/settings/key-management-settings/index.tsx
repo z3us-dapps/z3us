@@ -35,7 +35,7 @@ export const KeyManagementSettings: React.FC = () => {
 	const { signingKey, keystore, createWallet, getWallet, removeWallet, removeKeystore, addToast } = useSharedStore(
 		state => ({
 			signingKey: state.signingKey,
-			keystore: state.keystores?.find(({ id }) => id === state.selectKeystoreId),
+			keystore: state.keystores.find(({ id }) => id === state.selectKeystoreId),
 			createWallet: state.createWalletAction,
 			removeWallet: state.removeWalletAction,
 			getWallet: state.getWalletAction,
