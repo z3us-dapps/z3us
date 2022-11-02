@@ -109,7 +109,7 @@ export const LockedPanel: React.FC = () => {
 			draft.isLoading = true
 		})
 		prepareUnlockAnim()
-		await sleep(500)
+		await sleep(700)
 
 		try {
 			const { isUnlocked: isUnlockedBackground, publicKey, type } = await unlock(password, accountIndex)
@@ -173,19 +173,19 @@ export const LockedPanel: React.FC = () => {
 	const unlockAnimation = async (_isUnlocked: boolean, isMounted: boolean) => {
 		if (_isUnlocked) {
 			if (isMounted) {
-				z3usLogoControls.start({
+				z3usLogoSpinnerControls.stop()
+				z3usLogoSpinnerControls.set({ rotate: [null, 0] })
+				await z3usLogoControls.start({
 					y: '96px',
 					fill: fillZ3usPurple,
 					scale: 22,
-					transition: { duration: 0.1, ease: 'anticipate' },
+					transition: { delay: 0.05, duration: 0.05, ease: 'anticipate' },
 				})
 				await panelControls.start({
 					y: '0px',
 					opacity: 0,
-					transition: { delay: 0.1, duration: 0.5, ease: 'anticipate' },
+					transition: { delay: 0, duration: 0.5, ease: 'anticipate' },
 				})
-				z3usLogoSpinnerControls.stop()
-				z3usLogoSpinnerControls.set({ rotate: [null, 0] })
 				z3usLogoControls.set({ fill: logoFill, backgroundColor: logoBackgroundStart })
 				panelControls.start({ y: '-3620px', opacity: 0, transition: { delay: 0, duration: 0 } })
 			} else {
@@ -195,7 +195,7 @@ export const LockedPanel: React.FC = () => {
 					fill: logoFill,
 					backgroundColor: logoBackgroundStart,
 					scale: 22,
-					transition: { duration: 0.1, ease: 'anticipate' },
+					transition: { delay: 0.05, duration: 0.05, ease: 'anticipate' },
 				})
 			}
 		} else {
@@ -357,8 +357,8 @@ export const LockedPanel: React.FC = () => {
 										borderColor: state.passwordError
 											? '$borderInputError'
 											: state.isInputFocused
-												? '$borderInputFocus'
-												: '$borderPanel3',
+											? '$borderInputFocus'
+											: '$borderPanel3',
 									}}
 								>
 									<Input
