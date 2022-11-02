@@ -2,7 +2,7 @@ import { SigningKey } from '@src/types'
 import { WalletState } from './types'
 
 const defaultState = {
-	isUnlocked: false,
+	isUnlocked: undefined,
 	signingKey: null,
 }
 

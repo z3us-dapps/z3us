@@ -25,15 +25,17 @@ export const App: React.FC = () => {
 	useVault()
 	useEvents()
 
-	const { messanger } = useSharedStore(state => ({
-		messanger: state.messanger,
+	const { messenger, isUnlocked } = useSharedStore(state => ({
+		messenger: state.messanger,
+		isUnlocked: state.isUnlocked,
 	}))
+	const isUiVisible = isUnlocked !== undefined
 
 	return (
 		<Box
 			css={{
 				position: 'relative',
-				opacity: messanger ? '1' : '0',
+				opacity: isUiVisible ? '1' : '0',
 				transition: '$default',
 				...(isHardwareWalletRoute
 					? {
@@ -46,7 +48,7 @@ export const App: React.FC = () => {
 					  }),
 			}}
 		>
-			{messanger ? (
+			{messenger ? (
 				<Router matcher={multipathMatcher as any} hook={useHashLocation as any}>
 					<Suspense fallback={Loader}>
 						<Route path="/wallet/:rest*" component={WalletPanel} />
