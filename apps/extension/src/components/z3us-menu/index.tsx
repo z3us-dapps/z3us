@@ -279,7 +279,7 @@ export const Z3usMenu: React.FC = () => {
 															size="2"
 															bold
 															truncate
-															css={{ maxWidth: `${type === KeystoreType.HARDWARE ? '100px' : '124px'}` }}
+															css={{ maxWidth: `${type === KeystoreType.HARDWARE ? '80px' : '104px'}` }}
 														>
 															{name}
 														</Text>
@@ -330,7 +330,11 @@ export const Z3usMenu: React.FC = () => {
 						{isUnlocked && state.currentTabHost && !state.isPopup && (
 							<DropdownMenu>
 								<DropdownMenuTriggerItem onClick={handleInjectContentScript}>
-									<Box css={{ flex: '1', pr: '$1' }}>Connect to {state.currentTabHost}</Box>
+									<Box css={{ flex: '1', pr: '$1' }}>
+										<Text size="2" bold truncate css={{ maxWidth: '130px' }}>
+											Connect to {state.currentTabHost}
+										</Text>
+									</Box>
 								</DropdownMenuTriggerItem>
 							</DropdownMenu>
 						)}
