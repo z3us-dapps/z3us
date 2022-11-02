@@ -2,7 +2,7 @@
 import * as React from 'react'
 import { IconProps } from './types'
 
-export const Z3usIconOn = React.forwardRef<SVGSVGElement, IconProps & { bgColor: string }>(
+export const Z3usIconOn = React.forwardRef<SVGSVGElement, IconProps>(
 	({ color = 'currentColor', width = '24', height = '24', bgColor, ...props }, forwardedRef) => (
 		<svg
 			width={width}
