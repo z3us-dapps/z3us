@@ -31,28 +31,35 @@ body.docs-page {
 .docs-menu ul {
 	display: block;
 	position: relative;
-	margin-top: 1.5rem;
+	/* margin-top: 1.5rem; */
+	margin-left: 0.5rem;
+	padding-top: 1rem;
+	padding-bottom: 1rem;
 }
 
-.docs-menu ul::after {
-	content: '';
-	display: block;
-	position: absolute;
-	left: 0px;
-	top: 0;
-	width: 1px;
-	height: 100%;
-	background-color: #d5bdd9;
+.docs-menu section {
+	overflow: hidden;
 }
 
-.docs-menu li:first-child {
-	margin-top: 0rem;
-}
-
-.docs-menu li {
-	margin-top: 1.5rem;
-	padding-left: 1rem;
-}
+/* .docs-menu ul::after { */
+/* 	content: ''; */
+/* 	display: block; */
+/* 	position: absolute; */
+/* 	left: 0px; */
+/* 	top: 0; */
+/* 	width: 1px; */
+/* 	height: 100%; */
+/* 	background-color: #d5bdd9; */
+/* } */
+/**/
+/* .docs-menu li:first-child { */
+/* 	margin-top: 0rem; */
+/* } */
+/**/
+/* .docs-menu li { */
+/* 	margin-top: 1rem; */
+/* 	padding-left: 1rem; */
+/* } */
 
 .docs-on-page {
 	display: none;
@@ -60,6 +67,11 @@ body.docs-page {
 
 .docs-wrapper {
 	display: flex;
+}
+
+.docs-content {
+	padding-left: 1rem;
+	padding-right: 1rem;
 }
 
 .docs-content a {
@@ -80,8 +92,10 @@ body.docs-page {
 		display: flex;
 		flex-direction: column;
 		padding-top: 6rem;
-		width: 30%;
-		max-width: 20rem;
+		width: 34%;
+		max-width: 23rem;
+		font-size: 0.7rem;
+		line-height: 0.7rem;
 	}
 
 	.docs-on-page {

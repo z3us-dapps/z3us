@@ -26,7 +26,7 @@ const generateComponents = (theme: string) => ({
 	h4: props => <h4 className="text-xl font-bold mt-3" {...props} />,
 	h5: props => <h5 className="text-lg font-bold mt-2" {...props} />,
 	h6: props => <h6 className="text-base font-bold mt-2" {...props} />,
-	p: props => <p className="text-base mt-4 text-neutral-500 dark:text-neutral-300 leading-relaxed" {...props} />,
+	p: props => <p className="text-base mt-4 text-neutral-500 dark:text-neutral-300 leading-loose" {...props} />,
 	a: props => <a className="text-violet-500 dark:text-violet-300 hover:opacity-90 transition-opacity" {...props} />,
 })
 
