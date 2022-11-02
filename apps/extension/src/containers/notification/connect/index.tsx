@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useMemo } from 'react'
 import { ExclamationCircleIcon, LockClosedIcon, CurrencyDollarIcon, UserPlusIcon } from '@heroicons/react/24/outline'
 import { handleContentScriptInject } from '@src/lib/background/inject'
 import { Box, Flex, Text, StyledLink } from 'ui/src/components/atoms'
@@ -8,6 +8,7 @@ import { useSharedStore, useNoneSharedStore } from '@src/hooks/use-store'
 import { useRoute } from 'wouter'
 import { hexToJSON } from '@src/utils/encoding'
 import { CONFIRM } from '@src/lib/v1/actions'
+import matches from '../../../../content_matches.json'
 
 export const Connect = (): JSX.Element => {
 	const [, { id }] = useRoute<{ id: string }>('/connect/:id')
@@ -28,6 +29,7 @@ export const Connect = (): JSX.Element => {
 
 	const { host, request = {} } = action
 	const { tabId = '' } = request
+	const isVerified = useMemo(() => !!matches.find(pattern => new RegExp(pattern).test(host)), [host])
 
 	useEffect(() => {
 		if (host in approvedWebsites) {
@@ -100,74 +102,52 @@ export const Connect = (): JSX.Element => {
 							</Text>
 						</Flex>
 					</Box>
-					{/* @TODO: implement block based on domain */}
-					{true ? (
-						<Flex
-							align="center"
-							css={{
-								bg: '$bgPanel4',
-								mt: '25px',
-								br: '$3',
-								pr: '12px',
-								pl: '17px',
-								py: '12px',
-								svg: {
-									width: '20px',
-									height: '20px',
-									color: '$iconDefault',
-								},
-							}}
-						>
-							<Box css={{ flexShrink: '0', width: '31px' }}>
-								<ExclamationCircleIcon />
-							</Box>
-							<Box>
-								<Text size="2">
-									Since{' '}
-									<StyledLink underline href={host} target="_blank">
-										{host}
-									</StyledLink>{' '}
-									has not been approved as a Dapp, we are unable to automatically inject script into the page to
-									maintain connection after your session has ended. Radit.io requires a unique connection for each
-									session.{' '}
-									<StyledLink underline href={host} target="_blank">
-										Learn more
-									</StyledLink>
-								</Text>
-							</Box>
-						</Flex>
-					) : (
-						<Flex
-							align="center"
-							css={{
-								bg: '$bgPanel4',
-								mt: '25px',
-								br: '$3',
-								pr: '12px',
-								pl: '17px',
-								py: '12px',
-								svg: {
-									width: '20px',
-									height: '20px',
-									color: '#19B00C',
-								},
-							}}
-						>
-							<Box css={{ flexShrink: '0', width: '31px' }}>
-								<LockClosedIcon />
-							</Box>
-							<Box>
-								<Text size="2">
-									Since{' '}
-									<StyledLink underline href={host} target="_blank">
-										{host}
-									</StyledLink>{' '}
-									is a verified Dapp, script is automatically injected into the page to maintain the connection after
-									the current session. Learn more
-								</Text>
-							</Box>
-						</Flex>
-					)}
+					<Flex
+						align="center"
+						css={{
+							bg: '$bgPanel4',
+							mt: '25px',
+							br: '$3',
+							pr: '12px',
+							pl: '17px',
+							py: '12px',
+							svg: !isVerified
+								? {
+										width: '20px',
+										height: '20px',
+										color: '$iconDefault',
+								  }
+								: {
+										width: '20px',
+										height: '20px',
+										color: '#19B00C',
+								  },
+						}}
+					>
+						<Box css={{ flexShrink: '0', width: '31px' }}>
+							{!isVerified ? <ExclamationCircleIcon /> : <LockClosedIcon />}
+						</Box>
+						<Box>
+							<Text size="2">
+								Since{' '}
+								<StyledLink underline href={host} target="_blank">
+									{host}
+								</StyledLink>{' '}
+								{!isVerified ? (
+									<>
+										is not verified Dapp, we are unable to automatically inject script into the page to maintain
+										connection after your session has ended. {host} requires a unique connection for each session.{' '}
+										{/* @TODO: link docs */}
+										{/* <StyledLink underline href={host} target="_blank">
+											Learn more
+										</StyledLink> */}
+									</>
+								) : (
+									'is a verified Dapp, script is automatically injected into the page to maintain the connection after the current session. Learn more'
+								)}
+							</Text>
+						</Box>
+					</Flex>
 				</Box>
 			</PageWrapper>
 			<PageWrapper css={{ display: 'flex', gridGap: '12px', borderTop: '1px solid $borderPanel2' }}>

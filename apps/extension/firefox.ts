@@ -1,4 +1,6 @@
 import pkg from './package.json'
+import hosts from './host_permissions.json'
+import matches from './content_matches.json'
 
 export default {
 	manifest_version: 2,
@@ -23,22 +25,7 @@ export default {
 			},
 		},
 	},
-	permissions: [
-		'storage',
-		'unlimitedStorage',
-		'notifications',
-		'activeTab',
-		'scripting',
-		'*://*.radixdlt.com/*',
-		'*://api.bitfinex.com/*',
-		'*://api.coingecko.com/api/*',
-		'*://www.radixscan.io/*',
-		'*://api.ociswap.com/v1/graphql/*',
-		'*://dogecubex.live/api/*',
-		'*://api.astrolescent.com/z3us/*',
-		'*://pjhht6w8p9.execute-api.eu-west-2.amazonaws.com/prod/*',
-		'*://api.dsor.io/*',
-	],
+	permissions: ['storage', 'unlimitedStorage', 'notifications', 'activeTab', 'scripting'].concat(hosts),
 	optional_permissions: ['http://*/*', 'https://*/*'],
 	background: {
 		scripts: ['src/lib/background.ts'],
@@ -46,17 +33,7 @@ export default {
 	},
 	content_scripts: [
 		{
-			matches: [
-				'*://*.z3us.com/*',
-				'*://*.ociswap.com/*',
-				'*://*.dsor.io/*',
-				'*://*.caviarswap.io/*',
-				'*://*.radit.io/*',
-				'*://*.radixplanet.com/*',
-				'*://*.vikingland.net/*',
-				'*://*.astrolescent.com/*',
-				'*://*.dogecubex.live/*',
-			],
+			matches,
 			run_at: 'document_start',
 			all_frames: true,
 			js: ['src/lib/content-script.ts'],

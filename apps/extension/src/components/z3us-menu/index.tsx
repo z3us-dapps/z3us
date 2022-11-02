@@ -4,7 +4,7 @@ import { useLocation, useRoute } from 'wouter'
 import { useSharedStore, useNoneSharedStore } from '@src/hooks/use-store'
 import { useImmer } from 'use-immer'
 import Button from 'ui/src/components/button'
-import { Z3usIconOn, Z3usIconOff, TrashIcon, HardwareWalletIcon } from 'ui/src/components/icons'
+import { Z3usIconOn, Z3usIconOff, TrashIcon, HardwareWalletIcon, Z3usIcon } from 'ui/src/components/icons'
 import { ToolTip } from 'ui/src/components/tool-tip'
 import { LockClosedIcon, ChevronRightIcon, Pencil2Icon } from '@radix-ui/react-icons'
 import { Box, MotionBox, Text, Flex } from 'ui/src/components/atoms'
@@ -245,7 +245,8 @@ export const Z3usMenu: React.FC = () => {
 				<DropdownMenu onOpenChange={handleDropDownMenuOpenChange}>
 					<DropdownMenuTrigger asChild>
 						<Button iconOnly aria-label="Z3US menu" color="ghost" size="4" css={{ mr: '2px' }}>
-							{state.isConnected ? (
+							{!state.isPopup && <Z3usIcon />}
+							{state.isPopup && state.isConnected ? (
 								<Z3usIconOn bgColor={isDarkMode ? '#323232' : 'white'} />
 							) : (
 								<Z3usIconOff bgColor={isDarkMode ? '#323232' : '#white'} />
@@ -327,7 +328,7 @@ export const Z3usMenu: React.FC = () => {
 								</DropdownMenuRightSlot>
 							</DropdownMenuItem>
 						)}
-						{isUnlocked && state.currentTabHost && !state.isPopup && (
+						{!state.isPopup && !state.isConnected && (
 							<DropdownMenu>
 								<DropdownMenuTriggerItem onClick={handleInjectContentScript}>
 									<Box css={{ flex: '1', pr: '$1' }}>
