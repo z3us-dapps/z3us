@@ -32,6 +32,7 @@ import { KeystoreType } from '@src/types'
 import { generateId } from '@src/utils/generate-id'
 import { checkContentScript, showConnected, showDisconnected } from '@src/lib/background/inject'
 import { useColorMode } from '@src/hooks/use-color-mode'
+import { CONNECT } from '@src/lib/v1/actions'
 
 const popupURL = new URL(browser.runtime.getURL(''))
 
@@ -217,7 +218,12 @@ export const Z3usMenu: React.FC = () => {
 		try {
 			if (state.currentTabId && state.currentTabHost) {
 				const id = generateId()
-				addPendingAction(id, { host: state.currentTabHost, request: { tabId: state.currentTabId } })
+				const messageId = `${CONNECT}-${generateId()}`
+				addPendingAction(messageId, {
+					host: state.currentTabHost,
+					request: { tabId: state.currentTabId },
+					action: 'connect',
+				})
 				setState(draft => {
 					draft.isOpen = false
 				})
