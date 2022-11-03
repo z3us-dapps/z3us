@@ -43,7 +43,7 @@ async function getCurrentTab() {
 
 interface ImmerT {
 	isOpen: boolean
-	isPopup: boolean
+	canConnectToTab: boolean
 	isConnected: boolean
 	keystoreId: string | undefined
 	editing: string | undefined
@@ -92,7 +92,7 @@ export const Z3usMenu: React.FC = () => {
 
 	const [state, setState] = useImmer<ImmerT>({
 		isOpen: false,
-		isPopup: false,
+		canConnectToTab: false,
 		isConnected: false,
 		keystoreId: undefined,
 		editing: undefined,
@@ -118,7 +118,7 @@ export const Z3usMenu: React.FC = () => {
 				draft.isConnected = isConnected
 				draft.currentTabId = tab?.id || 0
 				draft.currentTabHost = tabURL?.host || ''
-				draft.isPopup = tabURL?.hostname === popupURL.hostname
+				draft.canConnectToTab = tabURL?.hostname && tabURL?.hostname !== popupURL.hostname
 			})
 
 			if (isConnected) {
@@ -257,7 +257,7 @@ export const Z3usMenu: React.FC = () => {
 				<DropdownMenu onOpenChange={handleDropDownMenuOpenChange}>
 					<DropdownMenuTrigger asChild>
 						<Button iconOnly aria-label="Z3US menu" color="ghost" size="4" css={{ mr: '2px' }}>
-							{!state.isPopup ? <Z3usIcon /> : Icon}
+							{!state.canConnectToTab ? <Z3usIcon /> : Icon}
 						</Button>
 					</DropdownMenuTrigger>
 					<DropdownMenuContent side="bottom" sideOffset={6} alignOffset={-3} css={{ minWidth: '130px' }}>
@@ -335,7 +335,7 @@ export const Z3usMenu: React.FC = () => {
 								</DropdownMenuRightSlot>
 							</DropdownMenuItem>
 						)}
-						{!state.isPopup && !state.isConnected && (
+						{state.canConnectToTab && !state.isConnected && (
 							<DropdownMenu>
 								<DropdownMenuTriggerItem onClick={handleInjectContentScript}>
 									<Box css={{ flex: '1', pr: '$1' }}>
