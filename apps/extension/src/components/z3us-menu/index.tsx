@@ -229,6 +229,12 @@ export const Z3usMenu: React.FC = () => {
 		}
 	}
 
+	const Icon = state.isConnected ? (
+		<Z3usIconOn bgColor={isDarkMode ? '#323232' : 'white'} />
+	) : (
+		<Z3usIconOff bgColor={isDarkMode ? '#323232' : '#white'} />
+	)
+
 	return (
 		<Box
 			css={{
@@ -245,12 +251,7 @@ export const Z3usMenu: React.FC = () => {
 				<DropdownMenu onOpenChange={handleDropDownMenuOpenChange}>
 					<DropdownMenuTrigger asChild>
 						<Button iconOnly aria-label="Z3US menu" color="ghost" size="4" css={{ mr: '2px' }}>
-							{!state.isPopup && <Z3usIcon />}
-							{state.isPopup && state.isConnected ? (
-								<Z3usIconOn bgColor={isDarkMode ? '#323232' : 'white'} />
-							) : (
-								<Z3usIconOff bgColor={isDarkMode ? '#323232' : '#white'} />
-							)}
+							{!state.isPopup ? <Z3usIcon /> : Icon}
 						</Button>
 					</DropdownMenuTrigger>
 					<DropdownMenuContent side="bottom" sideOffset={6} alignOffset={-3} css={{ minWidth: '130px' }}>

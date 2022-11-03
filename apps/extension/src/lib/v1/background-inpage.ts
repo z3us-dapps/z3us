@@ -85,7 +85,7 @@ export default function NewV1BackgroundInpageActions(
 		}
 
 		await addPendingAction(id, port)
-		state.addPendingActionAction(id, { host: url.host, request: payload })
+		state.addPendingActionAction(id, { host: url.host, request: payload, action: 'connect' })
 
 		await browser.showPopup(theme, `/notification/connect/${id}`)
 	}
@@ -134,7 +134,7 @@ export default function NewV1BackgroundInpageActions(
 		const state = noneSharedStore.getState()
 
 		await addPendingAction(id, port)
-		state.addPendingActionAction(id, { host: url.host, request: payload })
+		state.addPendingActionAction(id, { host: url.host, request: payload, action: 'encrypt' })
 
 		await browser.showPopup(theme, `/notification/encrypt/${id}`)
 	}
@@ -174,7 +174,7 @@ export default function NewV1BackgroundInpageActions(
 		const state = noneSharedStore.getState()
 
 		await addPendingAction(id, port)
-		state.addPendingActionAction(id, { host: url.host, request: payload })
+		state.addPendingActionAction(id, { host: url.host, request: payload, action: 'decrypt' })
 
 		await browser.showPopup(theme, `/notification/decrypt/${id}`)
 	}
@@ -192,7 +192,7 @@ export default function NewV1BackgroundInpageActions(
 		const state = noneSharedStore.getState()
 
 		await addPendingAction(id, port)
-		state.addPendingActionAction(id, { host: url.host, request: payload })
+		state.addPendingActionAction(id, { host: url.host, request: payload, action: 'sign' })
 
 		await browser.showPopup(theme, `/notification/sign/${id}`)
 	}
@@ -210,7 +210,7 @@ export default function NewV1BackgroundInpageActions(
 		const state = noneSharedStore.getState()
 
 		await addPendingAction(id, port)
-		state.addPendingActionAction(id, { host: url.host, request: payload })
+		state.addPendingActionAction(id, { host: url.host, request: payload, action: 'transaction' })
 
 		await browser.showPopup(theme, `/notification/transaction/${id}`)
 	}

@@ -10,6 +10,8 @@ import { hexToJSON } from '@src/utils/encoding'
 import { CONFIRM } from '@src/lib/v1/actions'
 import matches from '../../../../content_matches.json'
 
+const patternPrefix = '*://*.'
+
 export const Connect = (): JSX.Element => {
 	const [, { id }] = useRoute<{ id: string }>('/connect/:id')
 
@@ -29,7 +31,15 @@ export const Connect = (): JSX.Element => {
 
 	const { host, request = {} } = action
 	const { tabId = '' } = request
-	const isVerified = useMemo(() => !!matches.find(pattern => new RegExp(pattern).test(host)), [host])
+
+	const isVerified = useMemo(() => {
+		const found = matches.find(pattern => {
+			const regexpString = pattern.startsWith(patternPrefix) ? pattern.slice(patternPrefix.length) : pattern
+			const match = new RegExp(regexpString).test(host)
+			return match
+		})
+		return !!found
+	}, [host])
 
 	useEffect(() => {
 		if (host in approvedWebsites) {
