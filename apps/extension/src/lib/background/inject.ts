@@ -5,7 +5,7 @@ import { sharedStore } from '@src/store'
 import { getNoneSharedStore } from '@src/services/state'
 
 export const setIcon = async (path: string) => {
-	await chrome?.action.setIcon({ path })
+	await chrome?.action?.setIcon({ path })
 	await browser.browserAction?.setIcon({ path })
 }
 export const showConnected = async () => setIcon(z3usDappStatusIcons.ON)
@@ -40,7 +40,13 @@ export const handleContentScriptInject = async (tabId: number) => {
 }
 
 export const handleCheckContentScript = async (tabId: number) => {
-	if ((await checkContentScript(tabId)) === true) {
+	const tab = await browserService.getCurrentTab()
+	if (tab?.id !== tabId) return
+
+	const tabURL = tab?.url ? new URL(tab.url) : null
+	const tabHost = tabURL?.host || ''
+
+	if ((await checkContentScript(tab.id)) === true) {
 		await sharedStore.persist.rehydrate()
 		const { selectKeystoreId } = sharedStore.getState()
 
@@ -48,15 +54,9 @@ export const handleCheckContentScript = async (tabId: number) => {
 		await useNoneSharedStore.persist.rehydrate()
 		const { approvedWebsites } = useNoneSharedStore.getState()
 
-		const tab = await browserService.getCurrentTab()
-		if (tab.id === tabId) {
-			const tabURL = tab?.url ? new URL(tab.url) : null
-			const tabHost = tabURL?.host || ''
-
-			if (tabHost in approvedWebsites) {
-				await showConnected()
-				return
-			}
+		if (tabHost in approvedWebsites) {
+			await showConnected()
+			return
 		}
 	}
 
