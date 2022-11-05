@@ -218,7 +218,6 @@ export const Z3usMenu: React.FC = () => {
 	const handleInjectContentScript = async () => {
 		try {
 			if (state.currentTabId && state.currentTabHost) {
-				const id = generateId()
 				const messageId = `${CONNECT}-${generateId()}`
 				addPendingAction(messageId, {
 					host: state.currentTabHost,
@@ -228,7 +227,7 @@ export const Z3usMenu: React.FC = () => {
 				setState(draft => {
 					draft.isOpen = false
 				})
-				setLocation(`#/notification/connect/${id}`)
+				setLocation(`#/notification/connect/${messageId}`)
 			}
 		} catch (error) {
 			// eslint-disable-next-line no-console

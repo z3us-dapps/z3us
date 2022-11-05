@@ -63,9 +63,9 @@ export const Connect = (): JSX.Element => {
 
 	const handleConfirm = async () => {
 		approveWebsite(host)
+		await showConnected()
 		if (tabId) {
 			await handleContentScriptInject(tabId)
-			await showConnected()
 			window.location.hash = `#/wallet/account`
 		}
 	}
