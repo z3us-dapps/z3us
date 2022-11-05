@@ -1,5 +1,8 @@
 import { CHECK_CONTENT_SCRIPT, z3usDappStatusIcons } from '@src/config'
 import browser from 'webextension-polyfill'
+import browserService from '@src/services/browser'
+import { sharedStore } from '@src/store'
+import { getNoneSharedStore } from '@src/services/state'
 
 export const setIcon = async (path: string) => {
 	await chrome?.action.setIcon({ path })
@@ -38,8 +41,24 @@ export const handleContentScriptInject = async (tabId: number) => {
 
 export const handleCheckContentScript = async (tabId: number) => {
 	if ((await checkContentScript(tabId)) === true) {
-		await showConnected()
-	} else {
-		await showDisconnected()
+		await sharedStore.persist.rehydrate()
+		const { selectKeystoreId } = sharedStore.getState()
+
+		const useNoneSharedStore = await getNoneSharedStore(selectKeystoreId)
+		await useNoneSharedStore.persist.rehydrate()
+		const { approvedWebsites } = useNoneSharedStore.getState()
+
+		const tab = await browserService.getCurrentTab()
+		if (tab.id === tabId) {
+			const tabURL = tab?.url ? new URL(tab.url) : null
+			const tabHost = tabURL?.host || ''
+
+			if (tabHost in approvedWebsites) {
+				await showConnected()
+				return
+			}
+		}
 	}
+
+	await showDisconnected()
 }

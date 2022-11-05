@@ -3,6 +3,7 @@ import React, { useRef, useEffect } from 'react'
 import { useLocation, useRoute } from 'wouter'
 import { useSharedStore, useNoneSharedStore } from '@src/hooks/use-store'
 import { useImmer } from 'use-immer'
+import browserService from '@src/services/browser'
 import Button from 'ui/src/components/button'
 import { Z3usIconOn, Z3usIconOff, TrashIcon, HardwareWalletIcon, Z3usIcon } from 'ui/src/components/icons'
 import { ToolTip } from 'ui/src/components/tool-tip'
@@ -35,11 +36,6 @@ import { useColorMode } from '@src/hooks/use-color-mode'
 import { CONNECT } from '@src/lib/v1/actions'
 
 const popupURL = new URL(browser.runtime.getURL(''))
-
-async function getCurrentTab() {
-	const [tab] = await browser.tabs.query({ active: true, currentWindow: true })
-	return tab
-}
 
 interface ImmerT {
 	isOpen: boolean
@@ -85,7 +81,8 @@ export const Z3usMenu: React.FC = () => {
 		lock: state.lockAction,
 		removeWallet: state.removeWalletAction,
 	}))
-	const { reset, addPendingAction } = useNoneSharedStore(state => ({
+	const { approvedWebsites, reset, addPendingAction } = useNoneSharedStore(state => ({
+		approvedWebsites: state.approvedWebsites,
 		reset: state.resetAction,
 		addPendingAction: state.addPendingActionAction,
 	}))
@@ -111,13 +108,17 @@ export const Z3usMenu: React.FC = () => {
 
 	useEffect(() => {
 		const load = async () => {
-			const tab = await getCurrentTab()
+			const tab = await browserService.getCurrentTab()
 			const tabURL = tab?.url ? new URL(tab.url) : null
-			const isConnected = await checkContentScript(tab.id)
+			const tabHost = tabURL?.host || ''
+
+			const hasContentScript = await checkContentScript(tab.id)
+			const isConnected = hasContentScript && tabHost in approvedWebsites
+
 			setState(draft => {
 				draft.isConnected = isConnected
 				draft.currentTabId = tab?.id || 0
-				draft.currentTabHost = tabURL?.host || ''
+				draft.currentTabHost = tabHost
 				draft.canConnectToTab = tabURL?.hostname && tabURL?.hostname !== popupURL.hostname
 			})
 

@@ -22,6 +22,7 @@ import {
 } from '@src/lib/v1/actions'
 import { getNoneSharedStore } from '@src/services/state'
 import { KeystoreType } from '@src/types'
+import { showDisconnected } from '../background/inject'
 
 const responseOK = { code: 200 }
 const responseBadRequest = { code: 400, error: 'Bad request' }
@@ -43,11 +44,11 @@ export default function NewV1BackgroundInpageActions(
 		const state = noneSharedStore.getState()
 		const { approvedWebsites } = state
 
-		if (!(url.host in approvedWebsites)) {
-			sendInpageMessage(port, id, payload, responseUnauthorized)
-			return false
+		if (url.host in approvedWebsites) {
+			return true
 		}
-		return true
+		sendInpageMessage(port, id, payload, responseUnauthorized)
+		return false
 	}
 
 	async function hasWallet(port: Runtime.Port, id: string, payload: any) {
@@ -99,6 +100,7 @@ export default function NewV1BackgroundInpageActions(
 		const { declineWebsiteAction } = state
 
 		declineWebsiteAction(url.host)
+		await showDisconnected()
 		sendInpageMessage(port, id, payload, responseOK)
 	}
 
