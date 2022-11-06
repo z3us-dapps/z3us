@@ -7,7 +7,7 @@ import { useImmer } from 'use-immer'
 import browserService from '@src/services/browser'
 import Button from 'ui/src/components/button'
 import { Z3usIconOn, Z3usIconOff, TrashIcon, HardwareWalletIcon, Z3usIcon } from 'ui/src/components/icons'
-import { ToolTip } from 'ui/src/components/tool-tip'
+import { ToolTip, Tooltip, TooltipTrigger, TooltipContent } from 'ui/src/components/tool-tip'
 import { LockClosedIcon, ChevronRightIcon, Pencil2Icon } from '@radix-ui/react-icons'
 import { Box, MotionBox, Text, Flex } from 'ui/src/components/atoms'
 import Input from 'ui/src/components/input'
@@ -258,9 +258,24 @@ export const Z3usMenu: React.FC = () => {
 			<MotionBox animate={state.isOpen ? 'open' : 'closed'}>
 				<DropdownMenu onOpenChange={handleDropDownMenuOpenChange}>
 					<DropdownMenuTrigger asChild>
-						<Button iconOnly aria-label="Z3US menu" color="ghost" size="4" css={{ mr: '2px' }}>
-							{!state.canConnectToTab ? <Z3usIcon /> : Icon}
-						</Button>
+						<Box>
+							{state.canConnectToTab ? (
+								<Tooltip>
+									<TooltipTrigger asChild>
+										<Button iconOnly aria-label="Z3US menu" color="ghost" size="4" css={{ mr: '2px' }}>
+											{Icon}
+										</Button>
+									</TooltipTrigger>
+									<TooltipContent sideOffset={1} side="right" css={{ position: 'relative' }}>
+										You are {!state.isConnected ? 'not' : ''} are connected to @TODO
+									</TooltipContent>
+								</Tooltip>
+							) : (
+								<Button iconOnly aria-label="Z3US menu" color="ghost" size="4" css={{ mr: '2px' }}>
+									<Z3usIcon />
+								</Button>
+							)}
+						</Box>
 					</DropdownMenuTrigger>
 					<DropdownMenuContent side="bottom" sideOffset={6} alignOffset={-3} css={{ minWidth: '130px' }}>
 						{keystores.length > 0 && (
