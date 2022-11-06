@@ -1,7 +1,8 @@
 import browser from 'webextension-polyfill'
 import React, { useRef, useEffect } from 'react'
-import { useLocation, useRoute } from 'wouter'
+import { useRoute } from 'wouter'
 import { useSharedStore, useNoneSharedStore } from '@src/hooks/use-store'
+import { useHashLocation } from '@src/hooks/use-hash-location'
 import { useImmer } from 'use-immer'
 import browserService from '@src/services/browser'
 import Button from 'ui/src/components/button'
@@ -50,14 +51,15 @@ interface ImmerT {
 
 export const Z3usMenu: React.FC = () => {
 	const walletInputRef = useRef(null)
-	const [location, setLocation] = useLocation()
+	const [location, setLocation] = useHashLocation()
 	const [isSendRoute] = useRoute('/wallet/account/send')
 	const [isSendRouteRri] = useRoute('/wallet/account/send/:rri')
 	const [isDepositRoute] = useRoute('/wallet/account/deposit')
 	const [isDepositRouteRri] = useRoute('/wallet/account/deposit/:rri')
 	const [isActivityRoute] = useRoute('/wallet/account/activity')
 	const [isSwapRoute] = useRoute('/wallet/swap/review')
-	const isNotificationRoute = location.includes('notification')
+	const isNotificationRoute = location.startsWith('/notification')
+
 	const isDarkMode = useColorMode()
 	const {
 		keystores,

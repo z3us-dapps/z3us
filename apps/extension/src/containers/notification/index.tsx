@@ -13,7 +13,7 @@ const Transaction = lazy(() => import('./transaction'))
 
 export const Notification: React.FC = () => (
 	<UnlockedPanel>
-		<RouterScope base="/notification" hook={useHashLocation as any}>
+		<RouterScope base="/notification" hook={useHashLocation}>
 			<Suspense fallback={Loader}>
 				<Route path="/connect/:id" component={Connect} />
 				<Route path="/encrypt/:id" component={Encrypt} />
