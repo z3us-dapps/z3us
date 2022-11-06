@@ -267,7 +267,7 @@ export const Z3usMenu: React.FC = () => {
 										</Button>
 									</TooltipTrigger>
 									<TooltipContent sideOffset={1} side="right" css={{ position: 'relative' }}>
-										You are {!state.isConnected ? 'not' : ''} are connected to @TODO
+										You are {!state.isConnected ? 'not' : ''} are connected to {state.currentTabHost}
 									</TooltipContent>
 								</Tooltip>
 							) : (
