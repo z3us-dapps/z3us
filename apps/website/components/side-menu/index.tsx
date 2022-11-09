@@ -61,7 +61,7 @@ export const MenuContent = ({ menuLinks }) => {
 			{Object.entries(menuLinks).map(([key, { title, link, subLinks }]) => (
 				<Box key={key} as="li">
 					{title}
-					{!!subLinks ? (
+					{subLinks ? (
 						<>
 							{Object.entries(subLinks).map(([key, menu]) => (
 								<Accordion key={key} i={key} expanded={expanded} setExpanded={setExpanded} menu={menu} />

@@ -1,10 +1,10 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
-
 @import 'simplebar/src/simplebar.css';
 @import 'header.css';
 @import 'home-page.css';
 @import 'tokenomics-page.css';
 @import 'roadmap-page.css';
 @import 'docs-page.css';
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;

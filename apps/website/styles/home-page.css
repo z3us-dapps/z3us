@@ -5,6 +5,14 @@ body.home-page {
 	background-color: #bf9e76;
 }
 
+:is(#alpha, .home-page) h1 {
+	border: 0px solid transparent;
+}
+
+:is(.home-page > .beta) + :is(.alpha > .beta) {
+	order: 2;
+}
+
 .homepage .homepage__h1 {
 	font-size: 4rem;
 	line-height: 4rem;
