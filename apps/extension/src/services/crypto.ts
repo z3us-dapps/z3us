@@ -74,7 +74,7 @@ export class CryptoService {
 		return derivedKey
 	}
 
-	private randomSecureBytes = (byteCount: number): string => {
+	randomSecureBytes = (byteCount: number): string => {
 		const bytes = this.crypto.getRandomValues(new Uint8Array(byteCount))
 		const buffer = Buffer.from(bytes)
 		const byteArray = new Uint8Array(buffer.buffer, buffer.byteOffset, buffer.byteLength / Uint8Array.BYTES_PER_ELEMENT)

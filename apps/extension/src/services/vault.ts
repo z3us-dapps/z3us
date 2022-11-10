@@ -1,5 +1,15 @@
 /* eslint-disable no-case-declarations */
-import { AccountAddress, Mnemonic, SigningKey, SigningKeyT } from '@radixdlt/application'
+import {
+	AccountAddress,
+	BuiltTransactionReadyToSign,
+	HDSigningKeyTypeIdentifier,
+	Mnemonic,
+	SigningKeyDecryptionInput,
+	SigningKeyEncryptionInput,
+	SigningKeyTypeHDT,
+	SigningKeyTypeIdentifier,
+	SigningKeyTypeT,
+} from '@radixdlt/application'
 import {
 	HDMasterSeed,
 	HDNode,
@@ -9,13 +19,18 @@ import {
 	KeystoreT,
 	Keystore as RadixKeystore,
 	PublicKey,
+	SignatureT,
+	PublicKeyT,
+	HDPathRadixT,
+	DiffieHellman,
+	MessageEncryption,
+	EncryptedMessageT,
 } from '@radixdlt/crypto'
 import { CryptoService } from '@src/services/crypto'
 import { BrowserStorageService } from '@src/services/browser-storage'
 import { sharedStore } from '@src/store'
 import { AddressBookEntry, Network } from '@src/store/types'
 import { getDefaultAddressEntry } from '@src/store/helpers'
-import { firstValueFrom } from 'rxjs'
 import { SigningKeyType, Keystore as AppKeystore, KeystoreType } from '@src/types'
 import { getNoneSharedStore } from './state'
 
@@ -24,11 +39,127 @@ interface Keystore {
 	secret: string
 }
 
+type SecureRandom = {
+	randomSecureBytes: (byteCount: number) => string
+}
+
+type SigningKeyT = Readonly<{
+	// useful for testing.
+	__diffieHellman: DiffieHellman
+
+	// Type of signingKey: `SigningKeyTypeHDT` or `SigningKeyTypeNonHDT`, where HD has `hdSigningKeyType` which can be `LOCAL` or `HARDWARE_OR_REMOTE` (e.g. Ledger Nano)
+	type: SigningKeyTypeT
+	publicKey: PublicKeyT
+
+	// Only relevant for Hardware accounts. Like property `publicKey` but a function and omits BIP32 path on HW display
+	// For NON-Hardware accounts this will just return the cached `publicKey` property.
+	getPublicKeyDisplayOnlyAddress: () => PublicKeyT
+
+	// sugar for `type.uniqueKey`
+	uniqueIdentifier: string
+
+	// Useful for debugging.
+	toString: () => string
+
+	// Sugar for thisSigningKey.publicKey.equals(other.publicKey)
+	equals: (other: SigningKeyT) => boolean
+
+	// Sugar for `type.hdPath`, iff, type.typeIdentifier === SigningKeyTypeHDT
+	hdPath?: HDPathRadixT
+
+	// Sugar for `type.isHDSigningKey`
+	isHDSigningKey: boolean
+	// Sugar for `type.isHardwareSigningKey`
+	isHardwareSigningKey: boolean
+	// Sugar for `isHDSigningKey && !isHardwareSigningKey`
+	isLocalHDSigningKey: boolean
+
+	signHash: (hashedMessage: Buffer) => Promise<SignatureT>
+	sign: (tx: BuiltTransactionReadyToSign, nonXrdHRP?: string) => Promise<SignatureT>
+	encrypt: (input: SigningKeyEncryptionInput) => Promise<EncryptedMessageT>
+	decrypt: (input: SigningKeyDecryptionInput) => Promise<string>
+}>
+
 export const keystoreKey = 'z3us-keystore'
 
-const getSigningKey = (hdMasterNode: HDNodeT, index: number): SigningKeyT => {
+const toPromise = <T>(asyncResult): Promise<T> =>
+	new Promise((resolve, rejevct) => {
+		asyncResult.then(res => res.match(resolve, rejevct))
+	})
+
+const makeSigningKeyTypeHD = (
+	input: Readonly<{
+		hdPath: HDPathRadixT
+		hdSigningKeyType: HDSigningKeyTypeIdentifier
+	}>,
+): SigningKeyTypeHDT => {
+	const { hdPath, hdSigningKeyType } = input
+	const isHardwareSigningKey = hdSigningKeyType === HDSigningKeyTypeIdentifier.HARDWARE_OR_REMOTE
+	const uniqueKey = `${isHardwareSigningKey ? 'Hardware' : 'Local'}_HD_signingKey_at_path_${hdPath.toString()}`
+	return {
+		typeIdentifier: SigningKeyTypeIdentifier.HD_SIGNING_KEY,
+		hdSigningKeyType,
+		hdPath,
+		uniqueKey,
+		isHDSigningKey: true,
+		isHardwareSigningKey,
+	}
+}
+
+const makeDecrypt =
+	(diffieHellman: DiffieHellman) =>
+	(input: SigningKeyDecryptionInput): Promise<string> =>
+		toPromise(
+			MessageEncryption.decrypt({
+				...input,
+				diffieHellmanPoint: () => diffieHellman(input.publicKeyOfOtherParty),
+			}).map((buf: Buffer) => buf.toString('utf-8')),
+		)
+
+const makeEncrypt =
+	(diffieHellman: DiffieHellman, secureRandom: SecureRandom) =>
+	(input: SigningKeyEncryptionInput): Promise<EncryptedMessageT> =>
+		toPromise(
+			MessageEncryption.encrypt({
+				secureRandom,
+				plaintext: input.plaintext,
+				diffieHellmanPoint: () => diffieHellman(input.publicKeyOfOtherParty),
+			}),
+		)
+
+const getSigningKey = (hdMasterNode: HDNodeT, index: number, secureRandom: SecureRandom): SigningKeyT => {
 	const hdPath = HDPathRadix.create({ address: { index, isHardened: true } })
-	return SigningKey.fromHDPathWithHDMasterNode({ hdPath, hdMasterNode })
+	const hdNodeAtPath = hdMasterNode.derive(hdPath)
+	const publicKey = hdNodeAtPath.privateKey.publicKey()
+
+	const sign = (tx: BuiltTransactionReadyToSign): Promise<SignatureT> =>
+		toPromise(hdNodeAtPath.privateKey.sign(Buffer.from(tx.hashOfBlobToSign, 'hex')))
+
+	const { diffieHellman } = hdNodeAtPath.privateKey
+
+	const type: SigningKeyTypeT = makeSigningKeyTypeHD({
+		hdPath,
+		hdSigningKeyType: HDSigningKeyTypeIdentifier.LOCAL,
+	})
+
+	return {
+		...type, // forward sugar for boolean signingKey type getters
+		isLocalHDSigningKey: type.isHDSigningKey && !type.isHardwareSigningKey,
+		decrypt: makeDecrypt(diffieHellman),
+		encrypt: makeEncrypt(diffieHellman, secureRandom),
+		sign,
+		signHash: (hashedMessage: Buffer): Promise<SignatureT> => toPromise(hdNodeAtPath.privateKey.sign(hashedMessage)),
+		hdPath,
+		publicKey,
+		getPublicKeyDisplayOnlyAddress: (): PublicKeyT => publicKey,
+		type,
+		uniqueIdentifier: type.uniqueKey,
+		toString: (): string => {
+			throw new Error('Overriden below')
+		},
+		equals: (other: SigningKeyT): boolean => publicKey.equals(other.publicKey),
+		__diffieHellman: diffieHellman,
+	}
 }
 
 export class VaultService {
@@ -109,7 +240,7 @@ export class VaultService {
 
 			publicIndexes.forEach(key => {
 				const idx = +key
-				const signingKey = getSigningKey(this.hdMasterNode, idx)
+				const signingKey = getSigningKey(this.hdMasterNode, idx, this.crypto)
 				if (idx === index) {
 					this.signingKey = signingKey
 				}
@@ -126,7 +257,7 @@ export class VaultService {
 				}
 			})
 		} else {
-			const signingKey = getSigningKey(this.hdMasterNode, index)
+			const signingKey = getSigningKey(this.hdMasterNode, index, this.crypto)
 			this.signingKey = signingKey
 		}
 
@@ -188,12 +319,11 @@ export class VaultService {
 			throw publicKeyResult.error
 		}
 
-		const ecnrypted = await firstValueFrom(
-			this.signingKey.encrypt({
-				plaintext,
-				publicKeyOfOtherParty: publicKeyResult.value,
-			}),
-		)
+		const ecnrypted = await this.signingKey.encrypt({
+			plaintext,
+			publicKeyOfOtherParty: publicKeyResult.value,
+		})
+
 		return ecnrypted.combined().toString('hex')
 	}
 
@@ -206,25 +336,23 @@ export class VaultService {
 			throw publicKeyResult.error
 		}
 
-		return firstValueFrom(
-			this.signingKey.decrypt({
-				encryptedMessage: Buffer.from(message, 'hex'),
-				publicKeyOfOtherParty: publicKeyResult.value,
-			}),
-		)
+		return this.signingKey.decrypt({
+			encryptedMessage: Buffer.from(message, 'hex'),
+			publicKeyOfOtherParty: publicKeyResult.value,
+		})
 	}
 
 	sign = async (blob: string, hashOfBlobToSign: string, nonXrdHRP: string = undefined) => {
 		if (!this.signingKey) throw new Error('Unauthorised!')
 
-		const signature = await firstValueFrom(this.signingKey.sign({ blob, hashOfBlobToSign }, nonXrdHRP))
+		const signature = await this.signingKey.sign({ blob, hashOfBlobToSign }, nonXrdHRP)
 		return signature.toDER()
 	}
 
 	signHash = async (hash: string) => {
 		if (!this.signingKey) throw new Error('Unauthorised!')
 
-		const signature = await firstValueFrom(this.signingKey.signHash(Buffer.from(hash, 'hex')))
+		const signature = await this.signingKey.signHash(Buffer.from(hash, 'hex'))
 		return signature.toDER()
 	}
 
