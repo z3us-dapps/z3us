@@ -2,6 +2,7 @@ import React from 'react'
 import { MdxTheme } from 'components/mdx-theme'
 import { LazyMotion } from 'components/lazy-motion'
 import { Header } from 'components/header'
+import { ButtonCVA } from 'components/button-cva'
 import { Footer } from 'components/footer'
 import { PageContainer } from 'components/page-container'
 import { SideMenu } from 'components/side-menu'
@@ -19,6 +20,9 @@ export const PageDocs: React.FC<DocsPageProps> = ({ docs, mdxSource }) => (
 					</div>
 					<div className="docs-on-page">
 						<div>
+							<ButtonCVA intent="secondary" size="small" className="geebs">
+								Button CVA
+							</ButtonCVA>
 							<p>On this page</p>
 							<ul>
 								<li>
