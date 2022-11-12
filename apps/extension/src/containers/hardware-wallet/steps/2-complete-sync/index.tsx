@@ -9,7 +9,6 @@ import { Flex, Text, Box } from 'ui/src/components/atoms'
 import InputFeedBack from 'ui/src/components/input/input-feedback'
 import { KeystoreType } from '@src/types'
 import { generateId } from '@src/utils/generate-id'
-import { useLocation } from 'wouter'
 import { onBoardingSteps } from '@src/store/onboarding'
 import { getNoneSharedStore } from '@src/services/state'
 
@@ -21,7 +20,6 @@ interface ImmerT {
 }
 
 export const CompleteSync = (): JSX.Element => {
-	const [, setLocation] = useLocation()
 	const queryClient = useQueryClient()
 
 	const { importingAddresses, lock, addKeystore, setOnboradingStep, setImportingAddresses, setIsUnlocked } =
@@ -57,11 +55,12 @@ export const CompleteSync = (): JSX.Element => {
 			const store = await getNoneSharedStore(id)
 			store.getState().setPublicAddressesAction(importingAddresses)
 
-			await queryClient.invalidateQueries({ active: true, inactive: true, stale: true })
-
 			setImportingAddresses({})
 			setOnboradingStep(onBoardingSteps.START)
-			setLocation('#/wallet/account')
+
+			await queryClient.invalidateQueries({ active: true, inactive: true, stale: true })
+
+			window.close()
 		} catch (error) {
 			setState(draft => {
 				draft.errorMessage = error?.message || error
@@ -106,7 +105,7 @@ export const CompleteSync = (): JSX.Element => {
 					disabled={addresses.length < 1}
 					loading={state.isLoading}
 				>
-					Go to wallet
+					Close
 				</Button>
 			</Flex>
 			<Flex justify="center" align="center" css={{ height: '48px', ta: 'center', mt: '$2', width: '100%' }}>
