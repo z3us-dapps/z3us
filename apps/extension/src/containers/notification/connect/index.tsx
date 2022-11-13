@@ -1,6 +1,6 @@
 import React, { useEffect, useMemo } from 'react'
 import { ExclamationCircleIcon, LockClosedIcon, CurrencyDollarIcon, UserPlusIcon } from '@heroicons/react/24/outline'
-import { handleContentScriptInject, showConnected } from '@src/lib/background/inject'
+import { handleContentScriptInject, showConnected } from '@src/services/content-script'
 import { Box, Flex, Text, StyledLink } from 'ui/src/components/atoms'
 import Button from 'ui/src/components/button'
 import { PageWrapper, PageHeading } from '@src/components/layout'

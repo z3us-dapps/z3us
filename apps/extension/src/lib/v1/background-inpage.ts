@@ -22,7 +22,7 @@ import {
 } from '@src/lib/v1/actions'
 import { getNoneSharedStore } from '@src/services/state'
 import { KeystoreType } from '@src/types'
-import { showDisconnected } from '../background/inject'
+import { showDisconnected } from '@src/services/content-script'
 
 const responseOK = { code: 200 }
 const responseBadRequest = { code: 400, error: 'Bad request' }

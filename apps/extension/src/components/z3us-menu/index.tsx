@@ -1,10 +1,9 @@
-import browser from 'webextension-polyfill'
-import React, { useRef, useEffect } from 'react'
+import React, { useRef } from 'react'
 import { useRoute } from 'wouter'
 import { useSharedStore, useNoneSharedStore } from '@src/hooks/use-store'
 import { useHashLocation } from '@src/hooks/use-hash-location'
+import { useContentScriptStatus } from '@src/hooks/use-content-script-status'
 import { useImmer } from 'use-immer'
-import browserService from '@src/services/browser'
 import Button from 'ui/src/components/button'
 import { Z3usIconOn, Z3usIconOff, TrashIcon, HardwareWalletIcon, Z3usIcon } from 'ui/src/components/icons'
 import { ToolTip, Tooltip, TooltipTrigger, TooltipContent } from 'ui/src/components/tool-tip'
@@ -32,21 +31,14 @@ import {
 } from 'ui/src/components/drop-down-menu'
 import { KeystoreType } from '@src/types'
 import { generateId } from '@src/utils/generate-id'
-import { checkContentScript, showConnected, showDisconnected } from '@src/lib/background/inject'
 import { useColorMode } from '@src/hooks/use-color-mode'
 import { CONNECT } from '@src/lib/v1/actions'
 
-const popupURL = new URL(browser.runtime.getURL(''))
-
 interface ImmerT {
 	isOpen: boolean
-	canConnectToTab: boolean
-	isConnected: boolean
 	keystoreId: string | undefined
 	editing: string | undefined
 	tempEdit: string | undefined
-	currentTabId: number
-	currentTabHost: string
 }
 
 export const Z3usMenu: React.FC = () => {
@@ -61,6 +53,7 @@ export const Z3usMenu: React.FC = () => {
 	const isNotificationRoute = location.startsWith('/notification')
 
 	const isDarkMode = useColorMode()
+	const contentScriptStatus = useContentScriptStatus()
 	const {
 		keystores,
 		keystoreId,
@@ -83,21 +76,16 @@ export const Z3usMenu: React.FC = () => {
 		lock: state.lockAction,
 		removeWallet: state.removeWalletAction,
 	}))
-	const { approvedWebsites, reset, addPendingAction } = useNoneSharedStore(state => ({
-		approvedWebsites: state.approvedWebsites,
+	const { reset, addPendingAction } = useNoneSharedStore(state => ({
 		reset: state.resetAction,
 		addPendingAction: state.addPendingActionAction,
 	}))
 
 	const [state, setState] = useImmer<ImmerT>({
 		isOpen: false,
-		canConnectToTab: false,
-		isConnected: false,
 		keystoreId: undefined,
 		editing: undefined,
 		tempEdit: '',
-		currentTabId: 0,
-		currentTabHost: '',
 	})
 	const isHideZ3usMenu =
 		isSendRoute ||
@@ -107,31 +95,6 @@ export const Z3usMenu: React.FC = () => {
 		isActivityRoute ||
 		isSwapRoute ||
 		isNotificationRoute
-
-	useEffect(() => {
-		const load = async () => {
-			const tab = await browserService.getCurrentTab()
-			const tabURL = tab?.url ? new URL(tab.url) : null
-			const tabHost = tabURL?.host || ''
-
-			const hasContentScript = await checkContentScript(tab.id)
-			const isConnected = hasContentScript && tabHost in approvedWebsites
-
-			setState(draft => {
-				draft.isConnected = isConnected
-				draft.currentTabId = tab?.id || 0
-				draft.currentTabHost = tabHost
-				draft.canConnectToTab = tabURL?.hostname && tabURL?.hostname !== popupURL.hostname
-			})
-
-			if (isConnected) {
-				showConnected()
-			} else {
-				showDisconnected()
-			}
-		}
-		if (isUnlocked) load()
-	}, [isUnlocked])
 
 	const handleLockWallet = async () => {
 		setIsUnlocked(false)
@@ -219,11 +182,11 @@ export const Z3usMenu: React.FC = () => {
 
 	const handleInjectContentScript = async () => {
 		try {
-			if (state.currentTabId && state.currentTabHost) {
+			if (contentScriptStatus.currentTabId && contentScriptStatus.currentTabHost) {
 				const messageId = `${CONNECT}-${generateId()}`
 				addPendingAction(messageId, {
-					host: state.currentTabHost,
-					request: { tabId: state.currentTabId },
+					host: contentScriptStatus.currentTabHost,
+					request: { tabId: contentScriptStatus.currentTabId },
 					action: 'connect',
 				})
 				setState(draft => {
@@ -237,7 +200,7 @@ export const Z3usMenu: React.FC = () => {
 		}
 	}
 
-	const Icon = state.isConnected ? (
+	const Icon = contentScriptStatus.isConnected ? (
 		<Z3usIconOn bgColor={isDarkMode ? '#323232' : 'white'} />
 	) : (
 		<Z3usIconOff bgColor={isDarkMode ? '#323232' : '#white'} />
@@ -259,7 +222,7 @@ export const Z3usMenu: React.FC = () => {
 				<DropdownMenu onOpenChange={handleDropDownMenuOpenChange}>
 					<DropdownMenuTrigger asChild>
 						<Box>
-							{state.canConnectToTab ? (
+							{contentScriptStatus.canConnectToTab ? (
 								<Tooltip>
 									<TooltipTrigger asChild>
 										<Button iconOnly aria-label="Z3US menu" color="ghost" size="4" css={{ mr: '2px' }}>
@@ -267,7 +230,8 @@ export const Z3usMenu: React.FC = () => {
 										</Button>
 									</TooltipTrigger>
 									<TooltipContent sideOffset={1} side="right" css={{ position: 'relative' }}>
-										You are {!state.isConnected ? 'not' : ''} connected to {state.currentTabHost}
+										You are {!contentScriptStatus.isConnected ? 'not' : ''} connected to{' '}
+										{contentScriptStatus.currentTabHost}
 									</TooltipContent>
 								</Tooltip>
 							) : (
@@ -352,12 +316,12 @@ export const Z3usMenu: React.FC = () => {
 								</DropdownMenuRightSlot>
 							</DropdownMenuItem>
 						)}
-						{state.canConnectToTab && !state.isConnected && (
+						{contentScriptStatus.canConnectToTab && !contentScriptStatus.isConnected && (
 							<DropdownMenu>
 								<DropdownMenuTriggerItem onClick={handleInjectContentScript}>
 									<Box css={{ flex: '1', pr: '$1' }}>
 										<Text size="2" bold truncate css={{ maxWidth: '130px' }}>
-											Connect to {state.currentTabHost}
+											Connect to {contentScriptStatus.currentTabHost}
 										</Text>
 									</Box>
 								</DropdownMenuTriggerItem>
