@@ -54,6 +54,7 @@ export const Z3usMenu: React.FC = () => {
 
 	const isDarkMode = useColorMode()
 	const contentScriptStatus = useContentScriptStatus()
+	console.log(contentScriptStatus)
 	const {
 		keystores,
 		keystoreId,

@@ -14,6 +14,12 @@ interface ImmerT {
 	currentTabHost: string
 }
 
+const isLocalhost = (url?: URL) => url?.hostname === 'localhost' || url?.hostname === '127.0.0.1'
+
+const isPopupPage = (url?: URL) => url?.hostname === popupURL.hostname
+
+const isSecureHost = (url?: URL) => url?.protocol === 'https:'
+
 export const useContentScriptStatus = () => {
 	const { isUnlocked } = useSharedStore(state => ({
 		isUnlocked: state.isUnlocked,
@@ -42,7 +48,8 @@ export const useContentScriptStatus = () => {
 				draft.isConnected = isConnected
 				draft.currentTabId = tab?.id || 0
 				draft.currentTabHost = tabHost
-				draft.canConnectToTab = tabURL?.hostname && tabURL?.hostname !== popupURL.hostname
+				draft.canConnectToTab =
+					tabURL?.hostname && !isPopupPage(tabURL) && (isSecureHost(tabURL) || isLocalhost(tabURL))
 			})
 
 			if (isConnected) {
