@@ -60,14 +60,6 @@ export interface Ticker {
 	volume: number
 }
 
-export type KnownTokens = {
-	Name: string[]
-	Description: string[]
-	RRI: string[]
-	Symbol: string[]
-	TimeStamp: string[]
-}
-
 export type Activity = BurnTokens | CreateTokenDefinition | MintTokens | StakeTokens | TransferTokens | UnstakeTokens
 
 export enum ActionType {
