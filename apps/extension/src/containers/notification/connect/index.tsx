@@ -154,7 +154,7 @@ export const Connect = (): JSX.Element => {
 										</StyledLink> */}
 									</>
 								) : (
-									'is a verified Dapp, script is automatically injected into the page to maintain the connection after the current session. Learn more'
+									'is a verified Dapp, script is automatically injected into the page to maintain the connection after the current session.'
 								)}
 							</Text>
 						</Box>
