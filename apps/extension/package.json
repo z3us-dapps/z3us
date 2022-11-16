@@ -103,7 +103,7 @@
 		"@types/react-test-renderer": "^17.0.1",
 		"@types/w3c-web-hid": "^1.0.3",
 		"@types/webextension-polyfill": "^0.9.1",
-		"@vitejs/plugin-react": "^1.2.0",
+		"@vitejs/plugin-react": "^2.2.0",
 		"esbuild": "^0.14.10",
 		"eslint-plugin-require-explicit-generics": "^0.4.2",
 		"jest-playwright-preset": "1.7.2",
