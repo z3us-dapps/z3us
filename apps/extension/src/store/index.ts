@@ -2,7 +2,7 @@ import browser from 'webextension-polyfill'
 import { StateCreator, createStore } from 'zustand'
 import { devtools, persist, subscribeWithSelector } from 'zustand/middleware'
 import { immer } from 'zustand/middleware/immer'
-import { BrowserService } from '@src/services/browser'
+import browserService from '@src/services/browser'
 import { BrowserStorageService } from '@src/services/browser-storage'
 import { sharedStoreKey } from '@src/config'
 
@@ -29,7 +29,7 @@ const middlewares = <T>(name: string, whitelist: string[], f: StateCreator<T, Mu
 			persist(immer(f), {
 				name,
 				partialize: state => Object.fromEntries(Object.entries(state).filter(([key]) => whitelist.includes(key))),
-				getStorage: () => new BrowserStorageService(new BrowserService(), browser.storage),
+				getStorage: () => new BrowserStorageService(browserService, browser.storage),
 			}),
 		),
 		{ name },

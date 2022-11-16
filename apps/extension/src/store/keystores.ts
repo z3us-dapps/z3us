@@ -18,7 +18,8 @@ export const factory = (set): KeystoresState => ({
 
 	changeKeystoreNameAction: (id: string, name: string) => {
 		set(draft => {
-			draft.keystores = draft.keystores.map(keystore => (keystore.id === id ? { ...keystore, name } : keystore))
+			const keysotres = draft.keystores || []
+			draft.keystores = keysotres.map(keystore => (keystore.id === id ? { ...keystore, name } : keystore))
 		})
 	},
 
@@ -27,7 +28,7 @@ export const factory = (set): KeystoresState => ({
 			if (draft.selectKeystoreId === keystoreId) {
 				draft.selectKeystoreId = defaultKeystoreId
 			}
-			draft.keystores = draft.keystores.filter(({ id }) => keystoreId !== id)
+			draft.keystores = draft.keystores.filter(({ id }) => keystoreId !== id) || []
 			if (draft.keystores.length > 0) {
 				draft.selectKeystoreId = draft.keystores[0].id
 			}

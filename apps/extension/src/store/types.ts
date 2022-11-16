@@ -142,7 +142,7 @@ export type KeystoresState = {
 export type WalletState = {
 	resetAction: () => void
 
-	isUnlocked: boolean
+	isUnlocked: boolean | undefined
 	setIsUnlockedAction: (isUnlocked: boolean) => void
 
 	signingKey: SigningKey | null

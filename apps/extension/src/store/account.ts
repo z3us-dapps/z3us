@@ -7,8 +7,8 @@ import { AddressBookEntry, AccountState } from './types'
 
 export const whiteList = [
 	'publicAddresses',
-	'approvedWebsites',
 	'pendingActions',
+	'approvedWebsites',
 	'networks',
 	'visibleTokens',
 	'hiddenTokens',
@@ -29,8 +29,8 @@ const defaultState = {
 	tokenSearch: '',
 
 	publicAddresses: {},
-	approvedWebsites: {},
 	pendingActions: {},
+	approvedWebsites: {},
 }
 
 export const factory = (set, get): AccountState => ({

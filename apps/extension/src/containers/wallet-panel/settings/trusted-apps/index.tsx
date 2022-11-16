@@ -18,11 +18,8 @@ export const TrustedApps: React.FC = () => {
 		approvedWebsites: state.approvedWebsites,
 		declineWebsite: state.declineWebsiteAction,
 	}))
-	const hasApprovedSites = Object.keys(approvedWebsites || {})?.length > 0
 
-	const handleRemoveWebsite = (value: string) => {
-		declineWebsite(value)
-	}
+	const hasApprovedSites = Object.keys(approvedWebsites || {})?.length > 0
 
 	return (
 		<Box css={{ px: '$3', py: '$3' }}>
@@ -57,7 +54,7 @@ export const TrustedApps: React.FC = () => {
 											</Button>
 										</AlertDialogCancel>
 										<AlertDialogAction asChild>
-											<Button size="2" color="red" onClick={() => handleRemoveWebsite(host)}>
+											<Button size="2" color="red" onClick={() => declineWebsite(host)}>
 												Yes, remove app
 											</Button>
 										</AlertDialogAction>

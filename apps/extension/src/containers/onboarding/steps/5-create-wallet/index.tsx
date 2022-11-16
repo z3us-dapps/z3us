@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react'
 import { useQueryClient } from 'react-query'
 import { useEventListener } from 'usehooks-ts'
-import { useSharedStore } from '@src/hooks/use-store'
+import { useNoneSharedStore, useSharedStore } from '@src/hooks/use-store'
 import { useLocation } from 'wouter'
 import { useImmer } from 'use-immer'
 import { onBoardingSteps } from '@src/store/onboarding'
@@ -12,6 +12,9 @@ import InputFeedBack from 'ui/src/components/input/input-feedback'
 import { KeystoreType, SigningKeyType } from '@src/types'
 import { generateId } from '@src/utils/generate-id'
 import { getNoneSharedStore } from '@src/services/state'
+import { useOnboardingLocalHDNode } from '@src/hooks/use-onboarding-local-hdnode'
+import { HDPathRadix, PrivateKey } from '@radixdlt/crypto'
+import { AccountAddress } from '@radixdlt/account'
 
 interface ImmerT {
 	isButtonDisabled: boolean
@@ -23,6 +26,9 @@ export const CreateWallet = (): JSX.Element => {
 	const [, setLocation] = useLocation()
 	const queryClient = useQueryClient()
 
+	const { network } = useNoneSharedStore(state => ({
+		network: state.networks[state.selectedNetworkIndex],
+	}))
 	const {
 		secret,
 		secretType,
@@ -56,12 +62,20 @@ export const CreateWallet = (): JSX.Element => {
 		setOnboradingStep: state.setOnboardingStepAction,
 		setImportingAddresses: state.setImportingAddressesAction,
 	}))
+	const { hdNode, error: hdError } = useOnboardingLocalHDNode()
 
 	const [state, setState] = useImmer<ImmerT>({
 		isButtonDisabled: true,
 		showError: false,
 		errorMessage: '',
 	})
+
+	useEffect(() => {
+		setState(draft => {
+			draft.showError = !!hdError
+			draft.errorMessage = hdError
+		})
+	}, [hdError])
 
 	useEffect(() => {
 		setState(draft => {
@@ -77,6 +91,26 @@ export const CreateWallet = (): JSX.Element => {
 			draft.isButtonDisabled = true
 		})
 		try {
+			const addressesToImport = { ...importingAddresses }
+			if (Object.keys(addressesToImport).length === 0) {
+				if (!hdNode) {
+					throw new Error('Invalid addresses to import')
+				}
+
+				const key = hdNode.derive(HDPathRadix.create({ address: { index: 0, isHardened: true } }))
+
+				const pk = PrivateKey.fromHex(key.privateKey.toString())
+				if (pk.isErr()) {
+					throw pk.error
+				}
+
+				const address = AccountAddress.fromPublicKeyAndNetwork({
+					publicKey: key.publicKey,
+					network: network.id,
+				})
+				addressesToImport[0] = address.toString()
+			}
+
 			await lock() // clear background memory
 
 			const id = generateId()
@@ -84,7 +118,7 @@ export const CreateWallet = (): JSX.Element => {
 			setIsUnlocked(false)
 
 			const store = await getNoneSharedStore(id)
-			store.getState().setPublicAddressesAction(importingAddresses)
+			store.getState().setPublicAddressesAction(addressesToImport)
 
 			await createWallet(secretType as SigningKeyType, secret, password, 0)
 

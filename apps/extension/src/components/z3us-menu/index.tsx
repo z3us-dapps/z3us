@@ -1,10 +1,12 @@
 import React, { useRef } from 'react'
-import { useLocation, useRoute } from 'wouter'
+import { useRoute } from 'wouter'
 import { useSharedStore, useNoneSharedStore } from '@src/hooks/use-store'
+import { useHashLocation } from '@src/hooks/use-hash-location'
+import { useContentScriptStatus } from '@src/hooks/use-content-script-status'
 import { useImmer } from 'use-immer'
 import Button from 'ui/src/components/button'
-import { Z3usIcon, TrashIcon, HardwareWalletIcon } from 'ui/src/components/icons'
-import { ToolTip } from 'ui/src/components/tool-tip'
+import { Z3usIconOn, Z3usIconOff, TrashIcon, HardwareWalletIcon, Z3usIcon } from 'ui/src/components/icons'
+import { ToolTip, Tooltip, TooltipTrigger, TooltipContent } from 'ui/src/components/tool-tip'
 import { LockClosedIcon, ChevronRightIcon, Pencil2Icon } from '@radix-ui/react-icons'
 import { Box, MotionBox, Text, Flex } from 'ui/src/components/atoms'
 import Input from 'ui/src/components/input'
@@ -28,6 +30,9 @@ import {
 	DropdownMenuTriggerItem,
 } from 'ui/src/components/drop-down-menu'
 import { KeystoreType } from '@src/types'
+import { generateId } from '@src/utils/generate-id'
+import { useColorMode } from '@src/hooks/use-color-mode'
+import { CONNECT } from '@src/lib/v1/actions'
 
 interface ImmerT {
 	isOpen: boolean
@@ -37,14 +42,18 @@ interface ImmerT {
 }
 
 export const Z3usMenu: React.FC = () => {
-	const [location, setLocation] = useLocation()
+	const walletInputRef = useRef(null)
+	const [location, setLocation] = useHashLocation()
 	const [isSendRoute] = useRoute('/wallet/account/send')
 	const [isSendRouteRri] = useRoute('/wallet/account/send/:rri')
 	const [isDepositRoute] = useRoute('/wallet/account/deposit')
 	const [isDepositRouteRri] = useRoute('/wallet/account/deposit/:rri')
 	const [isActivityRoute] = useRoute('/wallet/account/activity')
 	const [isSwapRoute] = useRoute('/wallet/swap/review')
-	const isNotificationRoute = location.includes('notification')
+	const isNotificationRoute = location.startsWith('/notification')
+
+	const isDarkMode = useColorMode()
+	const contentScriptStatus = useContentScriptStatus()
 	const {
 		keystores,
 		keystoreId,
@@ -67,10 +76,11 @@ export const Z3usMenu: React.FC = () => {
 		lock: state.lockAction,
 		removeWallet: state.removeWalletAction,
 	}))
-	const { reset } = useNoneSharedStore(state => ({
+	const { reset, addPendingAction } = useNoneSharedStore(state => ({
 		reset: state.resetAction,
+		addPendingAction: state.addPendingActionAction,
 	}))
-	const walletInputRef = useRef(null)
+
 	const [state, setState] = useImmer<ImmerT>({
 		isOpen: false,
 		keystoreId: undefined,
@@ -93,6 +103,7 @@ export const Z3usMenu: React.FC = () => {
 
 	const handleValueChange = async (id: string) => {
 		if (id === keystoreId) return
+		setIsUnlocked(false)
 		selectKeystore(id)
 		setLocation('#/wallet/account')
 		await lock()
@@ -169,6 +180,32 @@ export const Z3usMenu: React.FC = () => {
 		handleSaveWalletName()
 	}
 
+	const handleInjectContentScript = async () => {
+		try {
+			if (contentScriptStatus.currentTabId && contentScriptStatus.currentTabHost) {
+				const messageId = `${CONNECT}-${generateId()}`
+				addPendingAction(messageId, {
+					host: contentScriptStatus.currentTabHost,
+					request: { tabId: contentScriptStatus.currentTabId },
+					action: 'connect',
+				})
+				setState(draft => {
+					draft.isOpen = false
+				})
+				setLocation(`#/notification/connect/${messageId}`)
+			}
+		} catch (error) {
+			// eslint-disable-next-line no-console
+			console.error(error)
+		}
+	}
+
+	const Icon = contentScriptStatus.isConnected ? (
+		<Z3usIconOn bgColor={isDarkMode ? '#323232' : 'white'} />
+	) : (
+		<Z3usIconOff bgColor={isDarkMode ? '#323232' : '#white'} />
+	)
+
 	return (
 		<Box
 			css={{
@@ -184,9 +221,25 @@ export const Z3usMenu: React.FC = () => {
 			<MotionBox animate={state.isOpen ? 'open' : 'closed'}>
 				<DropdownMenu onOpenChange={handleDropDownMenuOpenChange}>
 					<DropdownMenuTrigger asChild>
-						<Button iconOnly aria-label="Z3US menu" color="ghost" size="4" css={{ mr: '2px' }}>
-							<Z3usIcon />
-						</Button>
+						<Box>
+							{contentScriptStatus.canConnectToTab ? (
+								<Tooltip>
+									<TooltipTrigger asChild>
+										<Button iconOnly aria-label="Z3US menu" color="ghost" size="4" css={{ mr: '2px' }}>
+											{Icon}
+										</Button>
+									</TooltipTrigger>
+									<TooltipContent sideOffset={1} side="right" css={{ position: 'relative' }}>
+										You are {!contentScriptStatus.isConnected ? 'not' : ''} connected to{' '}
+										{contentScriptStatus.currentTabHost}
+									</TooltipContent>
+								</Tooltip>
+							) : (
+								<Button iconOnly aria-label="Z3US menu" color="ghost" size="4" css={{ mr: '2px' }}>
+									<Z3usIcon />
+								</Button>
+							)}
+						</Box>
 					</DropdownMenuTrigger>
 					<DropdownMenuContent side="bottom" sideOffset={6} alignOffset={-3} css={{ minWidth: '130px' }}>
 						{keystores.length > 0 && (
@@ -215,7 +268,7 @@ export const Z3usMenu: React.FC = () => {
 															size="2"
 															bold
 															truncate
-															css={{ maxWidth: `${type === KeystoreType.HARDWARE ? '100px' : '124px'}` }}
+															css={{ maxWidth: `${type === KeystoreType.HARDWARE ? '80px' : '104px'}` }}
 														>
 															{name}
 														</Text>
@@ -262,6 +315,17 @@ export const Z3usMenu: React.FC = () => {
 									<LockClosedIcon />
 								</DropdownMenuRightSlot>
 							</DropdownMenuItem>
+						)}
+						{contentScriptStatus.canConnectToTab && !contentScriptStatus.isConnected && (
+							<DropdownMenu>
+								<DropdownMenuTriggerItem onClick={handleInjectContentScript}>
+									<Box css={{ flex: '1', pr: '$1' }}>
+										<Text size="2" bold truncate css={{ maxWidth: '130px' }}>
+											Connect to {contentScriptStatus.currentTabHost}
+										</Text>
+									</Box>
+								</DropdownMenuTriggerItem>
+							</DropdownMenu>
 						)}
 					</DropdownMenuContent>
 				</DropdownMenu>

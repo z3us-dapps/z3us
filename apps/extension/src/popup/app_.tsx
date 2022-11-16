@@ -8,7 +8,6 @@ import { useHashLocation, multipathMatcher } from '@src/hooks/use-hash-location'
 import { useColorMode } from '@src/hooks/use-color-mode'
 import { useVault } from '@src/hooks/use-vault'
 import { useEvents } from '@src/hooks/use-events'
-import { domExists } from '@src/utils/dom-exists'
 import { Permissions } from './permissions'
 // import { useManifestCompoler } from '@src/hooks/use-manifest-compiler'
 
@@ -19,21 +18,27 @@ const HardwareWallet = lazy(() => import('@src/containers/hardware-wallet'))
 const Credentials = lazy(() => import('@src/containers/credentials'))
 
 export const App: React.FC = () => {
-	const isHardwareWalletRoute = domExists && window.location.href.includes('html#/hardware-wallet')
+	const [location] = useHashLocation()
 	// useManifestCompoler()
 	useColorMode()
 	useVault()
 	useEvents()
 
-	const { messanger } = useSharedStore(state => ({
-		messanger: state.messanger,
+	const isHardwareWalletRoute = location.startsWith('/hardware-wallet')
+	const isOnboardingRoute = location.startsWith('/onboarding')
+
+	const { messenger, isUnlocked } = useSharedStore(state => ({
+		messenger: state.messanger,
+		isUnlocked: state.isUnlocked,
 	}))
+
+	const isUiVisible = isUnlocked !== undefined || isHardwareWalletRoute || isOnboardingRoute
 
 	return (
 		<Box
 			css={{
 				position: 'relative',
-				opacity: messanger ? '1' : '0',
+				opacity: isUiVisible ? '1' : '0',
 				transition: '$default',
 				...(isHardwareWalletRoute
 					? {
@@ -46,7 +51,7 @@ export const App: React.FC = () => {
 					  }),
 			}}
 		>
-			{messanger ? (
+			{messenger ? (
 				<Router matcher={multipathMatcher as any} hook={useHashLocation as any}>
 					<Suspense fallback={Loader}>
 						<Route path="/wallet/:rest*" component={WalletPanel} />

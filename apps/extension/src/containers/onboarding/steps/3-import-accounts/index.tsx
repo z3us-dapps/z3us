@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react'
-import { HDMasterSeed, HDPathRadix, PrivateKey, AccountAddress, HDNodeT, HDNode } from '@radixdlt/application'
+import { HDPathRadix, PrivateKey, AccountAddress } from '@radixdlt/application'
 import { useEventListener } from 'usehooks-ts'
 import { useImmer } from 'use-immer'
 import { useSharedStore, useNoneSharedStore } from '@src/hooks/use-store'
@@ -14,9 +14,9 @@ import { PageWrapper, PageHeading, PageSubHeading } from '@src/components/layout
 import { StyledSlider, StyledTrack, StyledThumb, StyledRange } from 'ui/src/components/slider'
 import { Flex, Text, Box } from 'ui/src/components/atoms'
 import Button from 'ui/src/components/button'
+import { useOnboardingLocalHDNode } from '@src/hooks/use-onboarding-local-hdnode'
 
 interface ImmerT {
-	hdNode: HDNodeT | null
 	amount: number
 	addresses: Array<string>
 	selectedIndexes: object
@@ -25,57 +25,40 @@ interface ImmerT {
 }
 
 export const ImportAccounts = (): JSX.Element => {
-	const { mnemonic, privateKey, setOnboardingStep, setImportingAddresses } = useSharedStore(state => ({
-		mnemonic: state.mnemonic,
-		privateKey: state.privateKey,
+	const { setOnboardingStep, setImportingAddresses } = useSharedStore(state => ({
 		setOnboardingStep: state.setOnboardingStepAction,
 		setImportingAddresses: state.setImportingAddressesAction,
 	}))
 	const { network } = useNoneSharedStore(state => ({
 		network: state.networks[state.selectedNetworkIndex],
 	}))
+	const { hdNode, error: hdError } = useOnboardingLocalHDNode()
+
 	const [state, setState] = useImmer<ImmerT>({
-		hdNode: null,
 		amount: 0,
 		addresses: [],
 		selectedIndexes: {},
 		showError: false,
-		errorMessage: '',
+		errorMessage: hdError,
 	})
 
 	const selectedAmount = Object.values(state.selectedIndexes).filter(v => v).length
 
 	useEffect(() => {
-		if (mnemonic) {
-			const seed = HDMasterSeed.fromMnemonic({ mnemonic })
-			const hdNode = seed.masterNode()
-
-			setState(draft => {
-				draft.hdNode = hdNode
-			})
-		} else if (privateKey) {
-			const hdNodeResult = HDNode.fromExtendedPrivateKey(privateKey)
-			if (hdNodeResult.isErr()) {
-				setState(draft => {
-					draft.showError = true
-					draft.errorMessage = hdNodeResult.error.toString().trim()
-				})
-			} else {
-				setState(draft => {
-					draft.hdNode = hdNodeResult.value
-				})
-			}
-		}
-	}, [mnemonic, privateKey])
+		setState(draft => {
+			draft.showError = !!hdError
+			draft.errorMessage = hdError
+		})
+	}, [hdError])
 
 	useEffect(() => {
-		if (!state.hdNode) return
+		if (!hdNode) return
 
 		const load = async () => {
 			try {
 				setState(draft => {
 					if (draft.addresses.length <= draft.amount) {
-						const key = state.hdNode.derive(HDPathRadix.create({ address: { index: draft.amount, isHardened: true } }))
+						const key = hdNode.derive(HDPathRadix.create({ address: { index: draft.amount, isHardened: true } }))
 
 						const pk = PrivateKey.fromHex(key.privateKey.toString())
 						if (pk.isErr()) {
@@ -100,7 +83,7 @@ export const ImportAccounts = (): JSX.Element => {
 		}
 
 		load()
-	}, [state.hdNode, state.amount])
+	}, [hdNode, state.amount])
 
 	const handleSliderChange = ([track]: Array<number>) => {
 		setState(draft => {

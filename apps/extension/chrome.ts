@@ -1,4 +1,6 @@
 import pkg from './package.json'
+import hosts from './host_permissions.json'
+import matches from './content_matches.json'
 
 export default {
 	manifest_version: 3,
@@ -32,26 +34,14 @@ export default {
 		'48': 'favicon-48x48.png',
 		'128': 'favicon-128x128.png',
 	},
-	permissions: ['storage', 'unlimitedStorage', 'notifications'],
-	host_permissions: [
-		'*://*.radixdlt.com/*',
-		'*://api.bitfinex.com/*',
-		'*://api.coingecko.com/api/*',
-		'*://www.radixscan.io/*',
-		'*://api.ociswap.com/v1/graphql/*',
-		'*://dogecubex.live/api/*',
-		'*://api.astrolescent.com/z3us/*',
-		'*://pjhht6w8p9.execute-api.eu-west-2.amazonaws.com/prod/*',
-		'*://api.dsor.io/*',
-		'http://*/*',
-		'https://*/*',
-	],
+	permissions: ['storage', 'unlimitedStorage', 'notifications', 'activeTab', 'scripting'],
+	host_permissions: hosts.concat(['http://*/*', 'https://*/*']),
 	background: {
 		service_worker: 'src/lib/background.ts',
 	},
 	content_scripts: [
 		{
-			matches: ['http://*/*', 'https://*/*'],
+			matches,
 			run_at: 'document_start',
 			all_frames: true,
 			js: ['src/lib/content-script.ts'],

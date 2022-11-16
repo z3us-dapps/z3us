@@ -22,6 +22,11 @@ export class BrowserService {
 		return new Error(lastError.message)
 	}
 
+	getCurrentTab = async () => {
+		const [tab] = await this.browser.tabs.query({ active: true, currentWindow: true })
+		return tab
+	}
+
 	openWindow = async (createData: Windows.CreateCreateDataType): Promise<Windows.Window> => {
 		const window = this.browser.windows.create(createData)
 
@@ -116,3 +121,5 @@ export class BrowserService {
 		}
 	}
 }
+
+export default new BrowserService()

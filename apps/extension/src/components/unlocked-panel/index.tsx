@@ -16,7 +16,7 @@ export const UnlockedPanel = ({ children }: { children: ReactNode }) => {
 	const [page] = activeApp
 
 	useEffect(() => {
-		if (keystores.length === 0) {
+		if (keystores !== null && keystores.length === 0) {
 			window.location.hash = '#/onboarding'
 		}
 	}, [keystores.length])

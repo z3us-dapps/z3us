@@ -36,6 +36,9 @@ const connectNewPort = () => {
 	window.addEventListener('message', listener, false)
 }
 
+// returns true in any case to prevent reinjecting of the script
+browser.runtime.onMessage.addListener(() => Promise.resolve(true))
+
 connectNewPort()
 
 const script = document.createElement('script')

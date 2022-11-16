@@ -6,7 +6,7 @@ import { useSharedStore, useNoneSharedStore } from '@src/hooks/use-store'
 import { MessageService, PORT_NAME } from '@src/services/messanger'
 import { DERIVE, PING } from '@src/lib/v1/actions'
 import { PublicKey } from '@radixdlt/crypto'
-import { createHardwareSigningKey, createLocalSigningKey } from '@src/services/signing_key'
+import { createHardwareSigningKey, createLocalSigningKey } from '@src/services/signing-key'
 import { KeystoreType, SigningKey } from '@src/types'
 import { AddressBookEntry, Network } from '@src/store/types'
 import { AccountAddress } from '@radixdlt/account'
@@ -41,9 +41,9 @@ export const useVault = () => {
 	const { signingKey, selectKeystoreId, keystore, setMessanger, setIsUnlocked, setSigningKey } = useSharedStore(
 		state => ({
 			selectKeystoreId: state.selectKeystoreId,
+			keystore: state.keystores.find(({ id }) => id === state.selectKeystoreId),
 			isUnlocked: state.isUnlocked,
 			signingKey: state.signingKey,
-			keystore: state.keystores.find(({ id }) => id === state.selectKeystoreId),
 			setMessanger: state.setMessangerAction,
 			setIsUnlocked: state.setIsUnlockedAction,
 			setSigningKey: state.setSigningKeyAction,
@@ -106,7 +106,6 @@ export const useVault = () => {
 					}
 					break
 				case KeystoreType.LOCAL:
-				default:
 					// eslint-disable-next-line no-case-declarations
 					const {
 						isUnlocked: isUnlockedBackground,
@@ -115,8 +114,9 @@ export const useVault = () => {
 						publicAddresses: newPublicAddresses,
 						type,
 					} = await messanger.sendActionMessageFromPopup(DERIVE, derivePayload)
+
 					// for the legacy purpose we need to handle empty string for keystore id with local wallet
-					if (publicKey && keystoreId === (keystore?.id || '')) {
+					if (publicKey && keystoreId === selectKeystoreId) {
 						const publicKeyBuffer = Buffer.from(publicKey, 'hex')
 						const publicKeyResult = PublicKey.fromBuffer(publicKeyBuffer)
 						if (!publicKeyResult.isOk()) throw publicKeyResult.error
@@ -125,13 +125,15 @@ export const useVault = () => {
 						setSigningKey(newSigningKey)
 						if (newPublicAddresses) {
 							setPublicAddresses(newPublicAddresses)
-						} else if (accountIndex >= Object.keys(publicAddresses).length) {
+						} else {
 							addNewAddressEntry(newSigningKey)
 						}
 						setIsUnlocked(isUnlockedBackground)
 					} else {
 						setIsUnlocked(false)
 					}
+					break
+				default:
 					break
 			}
 		} catch (error) {
@@ -142,13 +144,22 @@ export const useVault = () => {
 		release()
 	}
 
-	const init = async () => {
-		await derive()
-		setMessanger(messanger)
-		setState(draft => {
-			draft.isMounted = true
-		})
-	}
+	useEffect(() => {
+		const init = async () => {
+			await derive()
+			if (state.isMounted) return
+			setState(draft => {
+				draft.isMounted = true
+			})
+			setMessanger(messanger)
+		}
+		init()
+	}, [selectKeystoreId, accountIndex, Object.keys(publicAddresses).length])
+
+	useEffect(() => {
+		if (!state.isMounted) return
+		derive(network, publicAddresses)
+	}, [networkIndex])
 
 	useEffect(() => {
 		const interval = setInterval(
@@ -159,8 +170,6 @@ export const useVault = () => {
 			refreshInterval,
 		)
 
-		init()
-
 		return () => {
 			clearInterval(interval)
 		}
@@ -170,13 +179,4 @@ export const useVault = () => {
 		if (!state.isMounted) return
 		messanger.sendActionMessageFromPopup(PING, null)
 	}, [state.time])
-
-	useEffect(() => {
-		derive()
-	}, [selectKeystoreId, accountIndex])
-
-	useEffect(() => {
-		if (!state.isMounted) return
-		derive(network, publicAddresses)
-	}, [networkIndex])
 }

@@ -8,7 +8,7 @@ import Button from 'ui/src/components/button'
 import { Text, Flex } from 'ui/src/components/atoms'
 import InputFeedback from 'ui/src/components/input/input-feedback'
 import { useAPDU } from '@src/hooks/use-apdu'
-import { createHardwareSigningKey } from '@src/services/signing_key'
+import { createHardwareSigningKey } from '@src/services/signing-key'
 import { KeystoreType } from '@src/types'
 
 interface ImmerT {

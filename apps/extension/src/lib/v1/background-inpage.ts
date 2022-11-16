@@ -22,6 +22,7 @@ import {
 } from '@src/lib/v1/actions'
 import { getNoneSharedStore } from '@src/services/state'
 import { KeystoreType } from '@src/types'
+import { showDisconnected } from '@src/services/content-script'
 
 const responseOK = { code: 200 }
 const responseBadRequest = { code: 400, error: 'Bad request' }
@@ -43,11 +44,11 @@ export default function NewV1BackgroundInpageActions(
 		const state = noneSharedStore.getState()
 		const { approvedWebsites } = state
 
-		if (!(url.host in approvedWebsites)) {
-			sendInpageMessage(port, id, payload, responseUnauthorized)
-			return false
+		if (url.host in approvedWebsites) {
+			return true
 		}
-		return true
+		sendInpageMessage(port, id, payload, responseUnauthorized)
+		return false
 	}
 
 	async function hasWallet(port: Runtime.Port, id: string, payload: any) {
@@ -85,7 +86,7 @@ export default function NewV1BackgroundInpageActions(
 		}
 
 		await addPendingAction(id, port)
-		state.addPendingActionAction(id, { host: url.host, request: payload })
+		state.addPendingActionAction(id, { host: url.host, request: payload, action: 'connect' })
 
 		await browser.showPopup(theme, `/notification/connect/${id}`)
 	}
@@ -99,6 +100,7 @@ export default function NewV1BackgroundInpageActions(
 		const { declineWebsiteAction } = state
 
 		declineWebsiteAction(url.host)
+		await showDisconnected()
 		sendInpageMessage(port, id, payload, responseOK)
 	}
 
@@ -134,7 +136,7 @@ export default function NewV1BackgroundInpageActions(
 		const state = noneSharedStore.getState()
 
 		await addPendingAction(id, port)
-		state.addPendingActionAction(id, { host: url.host, request: payload })
+		state.addPendingActionAction(id, { host: url.host, request: payload, action: 'encrypt' })
 
 		await browser.showPopup(theme, `/notification/encrypt/${id}`)
 	}
@@ -174,7 +176,7 @@ export default function NewV1BackgroundInpageActions(
 		const state = noneSharedStore.getState()
 
 		await addPendingAction(id, port)
-		state.addPendingActionAction(id, { host: url.host, request: payload })
+		state.addPendingActionAction(id, { host: url.host, request: payload, action: 'decrypt' })
 
 		await browser.showPopup(theme, `/notification/decrypt/${id}`)
 	}
@@ -192,7 +194,7 @@ export default function NewV1BackgroundInpageActions(
 		const state = noneSharedStore.getState()
 
 		await addPendingAction(id, port)
-		state.addPendingActionAction(id, { host: url.host, request: payload })
+		state.addPendingActionAction(id, { host: url.host, request: payload, action: 'sign' })
 
 		await browser.showPopup(theme, `/notification/sign/${id}`)
 	}
@@ -210,7 +212,7 @@ export default function NewV1BackgroundInpageActions(
 		const state = noneSharedStore.getState()
 
 		await addPendingAction(id, port)
-		state.addPendingActionAction(id, { host: url.host, request: payload })
+		state.addPendingActionAction(id, { host: url.host, request: payload, action: 'transaction' })
 
 		await browser.showPopup(theme, `/notification/transaction/${id}`)
 	}

@@ -50,7 +50,7 @@ export const Accounts: React.FC = () => (
 			justifyContent: 'flex-end',
 		}}
 	>
-		<RouterScope base="/wallet" hook={useHashLocation as any}>
+		<RouterScope base="/wallet" hook={useHashLocation}>
 			<AnimatedSwitch>
 				<Route path="/account" component={TokenListRoute} />
 				<Route path="/account/token/:rri" component={TokenRoute} />
