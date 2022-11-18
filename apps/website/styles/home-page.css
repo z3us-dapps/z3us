@@ -1,8 +1,16 @@
 .dark body.home-page {
 	background-color: #bf9e76;
 }
+
 body.home-page {
 	background-color: #bf9e76;
+
+	h1 {
+		border: 0px solid green;
+		span {
+			border: 0px solid red;
+		}
+	}
 }
 
 :is(#alpha, .home-page) h1 {
