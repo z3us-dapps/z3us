@@ -1,6 +1,6 @@
 /* eslint-disable react/jsx-props-no-spreading, react/destructuring-assignment */
 import React, { useState, useEffect, useCallback } from 'react'
-import { useSharedStore, useAccountStore } from '@src/hooks/use-store'
+import { useSharedStore, useNoneSharedStore } from '@src/hooks/use-store'
 import { useEventListener } from 'usehooks-ts'
 import { useTokenBalances } from '@src/hooks/react-query/queries/radix'
 import { useKnownTokens } from '@src/hooks/react-query/queries/radixscan'
@@ -132,7 +132,7 @@ export const TokenListSettingsModal = ({
 	const { addToast } = useSharedStore(state => ({
 		addToast: state.addToastAction,
 	}))
-	const { currentVisibleTokens, setVisibleTokens, setHiddenTokens } = useAccountStore(state => ({
+	const { currentVisibleTokens, setVisibleTokens, setHiddenTokens } = useNoneSharedStore(state => ({
 		currentVisibleTokens: state.visibleTokens,
 		setVisibleTokens: state.setVisibleTokensAction,
 		setHiddenTokens: state.setHiddenTokensAction,

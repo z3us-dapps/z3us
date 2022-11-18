@@ -8,7 +8,7 @@ import InputFeedBack from 'ui/src/components/input/input-feedback'
 import { BuiltTransactionReadyToSign } from '@radixdlt/application'
 import { useTransaction } from '@src/hooks/use-transaction'
 import { useImmer } from 'use-immer'
-import { useSharedStore, useAccountStore } from '@src/hooks/use-store'
+import { useSharedStore, useNoneSharedStore } from '@src/hooks/use-store'
 import { formatBigNumber } from '@src/utils/formatters'
 import { getShortAddress } from '@src/utils/string-utils'
 import { ArrowLeftIcon } from '@radix-ui/react-icons'
@@ -51,12 +51,13 @@ export const SendTokenReview: React.FC<IProps> = ({
 	const [, setLocation] = useLocation()
 	const queryClient = useQueryClient()
 	const { signTransaction, submitTransaction } = useTransaction()
-	const { addressBook } = useSharedStore(state => ({
-		addressBook: state.addressBook,
+	const { signingKey } = useSharedStore(state => ({
+		signingKey: state.signingKey,
 	}))
-	const { account, publicAddresses } = useAccountStore(state => ({
-		account: state.account,
+	const { address, publicAddresses, addressBook } = useNoneSharedStore(state => ({
+		address: state.getCurrentAddressAction(),
 		publicAddresses: Object.values(state.publicAddresses),
+		addressBook: state.addressBook,
 	}))
 	const [state, setState] = useImmer<ImmerT>({
 		txID: '',
@@ -65,7 +66,6 @@ export const SendTokenReview: React.FC<IProps> = ({
 		isSendingTransaction: false,
 	})
 
-	const address = account?.address?.toString()
 	const entry = addressBook[address] || publicAddresses.find(_account => _account.address === address)
 	const shortAddress = getShortAddress(address, 5)
 
@@ -91,7 +91,7 @@ export const SendTokenReview: React.FC<IProps> = ({
 	}
 
 	const handleConfirmSend = async () => {
-		if (!account) return
+		if (!signingKey) return
 
 		setState(draft => {
 			draft.isSendingAlertOpen = true
@@ -187,7 +187,7 @@ export const SendTokenReview: React.FC<IProps> = ({
 							aria-label="confirm send token"
 							css={{ px: '0', flex: '1', ml: '$1' }}
 							onClick={handleConfirmSend}
-							disabled={!account}
+							disabled={!signingKey}
 							fullWidth
 						>
 							Confirm send

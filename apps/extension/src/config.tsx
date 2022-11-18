@@ -6,7 +6,9 @@ import { ColorSettings, PoolType } from '@src/types'
 
 // @TODO: add types to this file
 
-export const defaultAccountStoreKey = 'z3us-store'
+export const CHECK_CONTENT_SCRIPT = 'confirm'
+
+export const defaultNoneStoreKey = 'z3us-store'
 
 export const sharedStoreKey = 'z3us-store-shared'
 
@@ -172,6 +174,11 @@ export const getDefaultBackgroundForIndex = (idx: number): string => {
 		preset[ColorSettings.GRADIENT_TYPE],
 		preset[ColorSettings.GRADIENT_START],
 	)
+}
+
+export const z3usDappStatusIcons = {
+	ON: 'images/z3us-on.png',
+	OFF: 'images/z3us-off.png',
 }
 
 export const networks = [

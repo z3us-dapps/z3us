@@ -11,7 +11,7 @@ import {
 	STAKES,
 	UNSTAKES,
 	ENCRYPT,
-	DESCRYPT,
+	DECRYPT,
 } from '@src/lib/v1/actions'
 
 export default function NewPublicV1(sendMessage: (action: string, payload?: any) => Promise<MessageResponse>) {
@@ -64,7 +64,7 @@ export default function NewPublicV1(sendMessage: (action: string, payload?: any)
 		if (!fromAddress) {
 			throw new Error('Empty source address')
 		}
-		return sendMessage(DESCRYPT, { message, fromAddress })
+		return sendMessage(DECRYPT, { message, fromAddress })
 	}
 
 	return {

@@ -40,3 +40,5 @@ export const TokenManagementSettings: React.FC = () => (
 		</Box>
 	</Box>
 )
+
+export default TokenManagementSettings

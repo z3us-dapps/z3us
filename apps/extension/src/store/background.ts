@@ -11,9 +11,11 @@ import {
 	AUTH_VERIFY_REGISTRATION,
 	AUTH_AUTHENTICATION_OPTIONS,
 	AUTH_VERIFY_AUTHENTICATION,
+	GET,
+	PING,
 } from '@src/lib/v1/actions'
-import { HDMasterSeed } from '@radixdlt/crypto'
 import { startRegistration, startAuthentication } from '@simplewebauthn/browser'
+import { SigningKeyType } from '@src/types'
 import { BackgroundState } from './types'
 
 export const rpName = 'Z3US'
@@ -44,27 +46,33 @@ export const factory = (set, get): BackgroundState => ({
 		return !!hasKeystore
 	},
 
-	createWalletAction: async (words: string[], password: string) => {
+	createWalletAction: (type: SigningKeyType, secret: string, password: string, index: number) => {
 		const { messanger } = get()
 		if (!messanger) {
 			throw new Error('Messanger not initialized!')
 		}
-		const { seed } = await messanger.sendActionMessageFromPopup(NEW, {
-			words,
+		return messanger.sendActionMessageFromPopup(NEW, {
+			type,
+			secret,
 			password,
+			index,
 		})
-
-		return HDMasterSeed.fromSeed(Buffer.from(seed, 'hex'))
 	},
 
-	unlockWalletAction: async (password: string) => {
+	getWalletAction: (password: string) => {
 		const { messanger } = get()
 		if (!messanger) {
 			throw new Error('Messanger not initialized!')
 		}
-		const { seed } = await messanger.sendActionMessageFromPopup(UNLOCK, password)
+		return messanger.sendActionMessageFromPopup(GET, { password })
+	},
 
-		return HDMasterSeed.fromSeed(Buffer.from(seed, 'hex'))
+	unlockWalletAction: (password: string, index: number) => {
+		const { messanger } = get()
+		if (!messanger) {
+			throw new Error('Messanger not initialized!')
+		}
+		return messanger.sendActionMessageFromPopup(UNLOCK, { index, password })
 	},
 
 	removeWalletAction: async () => {
@@ -81,11 +89,14 @@ export const factory = (set, get): BackgroundState => ({
 			throw new Error('Messanger not initialized!')
 		}
 		await messanger.sendActionMessageFromPopup(LOCK, null)
-		set(state => {
-			state.isHardwareWallet = false
-			state.hardwareWallet = null
-			state.masterSeed = null
-		})
+	},
+
+	pingAction: async () => {
+		const { messanger } = get()
+		if (!messanger) {
+			throw new Error('Messanger not initialized!')
+		}
+		await messanger.sendActionMessageFromPopup(PING, null)
 	},
 
 	hasAuthAction: async () => {

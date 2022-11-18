@@ -5,7 +5,13 @@ import {
 	IntendedTransferTokensAction,
 	IntendedStakeTokensAction,
 	IntendedUnstakeTokensAction,
+	PublicKeyT,
+	SigningKeyDecryptionInput,
+	SigningKeyEncryptionInput,
+	BuiltTransactionReadyToSign,
+	SignatureT,
 } from '@radixdlt/application'
+import { HardwareWalletT } from '@radixdlt/hardware-wallet'
 import {
 	BurnTokens,
 	CreateTokenDefinition,
@@ -17,20 +23,41 @@ import {
 import BigNumber from 'bignumber.js'
 import { generateId } from './utils/generate-id'
 
+export enum KeystoreType {
+	LOCAL = 'local',
+	HARDWARE = 'hardware',
+}
+
+export type Keystore = {
+	id: string
+	name: string
+	type: KeystoreType
+}
+
+export enum SigningKeyType {
+	LEGACY = 'legacy',
+	MNEMONIC = 'mnemonic',
+	PRIVATE_KEY = 'private_key',
+	HARDWARE = 'hardware',
+}
+
+export type SigningKey = {
+	id: string
+	type: SigningKeyType
+	publicKey: PublicKeyT
+	hw?: HardwareWalletT
+	decrypt: (input: SigningKeyDecryptionInput) => Promise<string>
+	encrypt: (input: SigningKeyEncryptionInput) => Promise<string>
+	sign: (tx: BuiltTransactionReadyToSign, nonXrdHRP?: string) => Promise<SignatureT>
+	signHash: (hashedMessage: Buffer) => Promise<SignatureT>
+}
+
 export interface Ticker {
 	asset: string
 	currency: string
 	change: number
 	last_price: number
 	volume: number
-}
-
-export type KnownTokens = {
-	Name: string[]
-	Description: string[]
-	RRI: string[]
-	Symbol: string[]
-	TimeStamp: string[]
 }
 
 export type Activity = BurnTokens | CreateTokenDefinition | MintTokens | StakeTokens | TransferTokens | UnstakeTokens

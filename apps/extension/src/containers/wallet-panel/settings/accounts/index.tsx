@@ -1,6 +1,6 @@
 import React from 'react'
 import { useImmer } from 'use-immer'
-import { useSharedStore, useAccountStore } from '@src/hooks/use-store'
+import { useSharedStore, useNoneSharedStore } from '@src/hooks/use-store'
 import { useEventListener } from 'usehooks-ts'
 import { ToolTip } from 'ui/src/components/tool-tip'
 import { getShortAddress } from '@src/utils/string-utils'
@@ -33,9 +33,9 @@ export const Accounts: React.FC = () => {
 		addToast: state.addToastAction,
 	}))
 
-	const { publicAddresses, setAddressBookEntry, removeAddress } = useAccountStore(state => ({
+	const { publicAddresses, updatePublicAddress, removeAddress } = useNoneSharedStore(state => ({
 		publicAddresses: state.publicAddresses,
-		setAddressBookEntry: state.setPublicAddressAction,
+		updatePublicAddress: state.updatePublicAddressAction,
 		removeAddress: state.removePublicAddressesAction,
 	}))
 	const [state, setState] = useImmer<AccountsImmerState>({
@@ -62,7 +62,7 @@ export const Accounts: React.FC = () => {
 		setState(draft => {
 			draft.editing = ''
 		})
-		setAddressBookEntry(state.editing, { name: state.tempEdit })
+		updatePublicAddress(state.editing, { name: state.tempEdit })
 	}
 
 	const editAccountName = (name: string) => {
@@ -213,3 +213,5 @@ export const Accounts: React.FC = () => {
 		</Box>
 	)
 }
+
+export default Accounts

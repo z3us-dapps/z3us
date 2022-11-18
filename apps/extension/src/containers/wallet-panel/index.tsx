@@ -1,17 +1,19 @@
-import React, { useEffect } from 'react'
+import React, { lazy, ReactNode, Suspense, useEffect } from 'react'
 import { useLocation } from 'wouter'
-import { useSharedStore } from '@src/hooks/use-store'
-import { LockedPanel } from '@src/components/locked-panel'
+import { useNoneSharedStore } from '@src/hooks/use-store'
 import { AnimatePresence, motion } from 'framer-motion'
-import { Z3usMenu } from '@src/components/z3us-menu'
 import { Box, MotionBox } from 'ui/src/components/atoms'
+import UnlockedPanel from '@src/components/unlocked-panel'
 import { routesInfo, PANEL_HEIGHT, APP_WIDTH, ACCOUNTS, STAKING, SWAP, SETTINGS } from '@src/config'
-import { Accounts } from './accounts'
-import { Staking } from './staking'
-import { Settings } from './settings'
-import { Swap } from './swap'
 import { FooterNavigation } from './components/footer-navigation'
 import { HeaderNavigation } from './components/header-navigation'
+
+const Accounts = lazy(() => import('./accounts'))
+const Staking = lazy(() => import('./staking'))
+const Settings = lazy(() => import('./settings'))
+const Swap = lazy(() => import('./swap'))
+
+const AccountPage = ({ children }: { children: ReactNode }) => <Suspense fallback="Loading...">{children}</Suspense>
 
 const pageVariants = {
 	enter: (_direction: number) => ({
@@ -47,19 +49,11 @@ const pageStyle = {
 
 export const WalletPanel = (): JSX.Element => {
 	const [location] = useLocation()
-	const { isUnlocked, activeApp, keystores } = useSharedStore(state => ({
+	const { activeApp } = useNoneSharedStore(state => ({
 		activeApp: state.activeApp,
-		keystores: state.keystores,
-		isUnlocked: Boolean(state.masterSeed || state.isHardwareWallet),
 	}))
 	const [page, direction] = activeApp
 	const routes = Object.values(routesInfo)
-
-	useEffect(() => {
-		if (keystores.length === 0) {
-			window.location.hash = '#/onboarding'
-		}
-	}, [keystores])
 
 	useEffect(() => {
 		if (location === '/onboarding') {
@@ -75,91 +69,80 @@ export const WalletPanel = (): JSX.Element => {
 		}
 	}, [location])
 
-	if (keystores.length === 0) {
-		return null
-	}
-
 	return (
-		<>
-			{isUnlocked ? (
+		<UnlockedPanel>
+			<HeaderNavigation />
+			<Box css={{ position: 'absolute', top: '48px', bottom: '0', left: '0', right: '0' }}>
 				<MotionBox
-					initial={false}
-					animate={isUnlocked ? 'unlocked' : 'locked'}
+					variants={{
+						locked: {
+							transform: `translateY(${PANEL_HEIGHT})`,
+							transition: {
+								type: 'spring',
+								stiffness: 200,
+								damping: 20,
+							},
+						},
+						unlocked: () => ({
+							transform: 'translateY(0px)',
+							transition: {
+								delay: 0,
+								type: 'spring',
+								stiffness: 200,
+								damping: 26,
+							},
+						}),
+					}}
 					css={{
+						display: 'flex',
+						flexDirection: 'column',
+						justifyContent: 'flex-end',
 						width: '100%',
-						height: '100%',
-						position: 'relative',
-						overflow: 'hidden',
-						background: page === ACCOUNTS ? '$bgPanel2' : '$bgPanel',
-						transition: 'background-color 300ms ease-out',
+						position: 'absolute',
+						bottom: '0',
+						height: PANEL_HEIGHT,
 					}}
 				>
-					<HeaderNavigation />
-					<Box css={{ position: 'absolute', top: '48px', bottom: '0', left: '0', right: '0' }}>
-						<MotionBox
-							variants={{
-								locked: {
-									transform: `translateY(${PANEL_HEIGHT})`,
-									transition: {
-										type: 'spring',
-										stiffness: 200,
-										damping: 20,
-									},
-								},
-								unlocked: () => ({
-									transform: 'translateY(0px)',
-									transition: {
-										delay: 0,
-										type: 'spring',
-										stiffness: 200,
-										damping: 26,
-									},
-								}),
+					<AnimatePresence initial={false} custom={direction}>
+						<motion.div
+							key={`page-${page}`}
+							initial="enter"
+							animate="center"
+							exit="exit"
+							variants={pageVariants}
+							custom={direction}
+							style={{
+								...(pageStyle as any),
 							}}
-							css={{
-								display: 'flex',
-								flexDirection: 'column',
-								justifyContent: 'flex-end',
-								width: '100%',
-								position: 'absolute',
-								bottom: '0',
-								height: PANEL_HEIGHT,
-							}}
+							transition={pageTransition}
 						>
-							<AnimatePresence initial={false} custom={direction}>
-								<motion.div
-									key={`page-${page}`}
-									initial="enter"
-									animate="center"
-									exit="exit"
-									variants={pageVariants}
-									custom={direction}
-									style={{
-										...(pageStyle as any),
-									}}
-									transition={pageTransition}
-								>
-									{page === ACCOUNTS ? <Accounts /> : null}
-									{page === STAKING ? <Staking /> : null}
-									{page === SWAP ? <Swap /> : null}
-									{page === SETTINGS ? <Settings /> : null}
-								</motion.div>
-							</AnimatePresence>
-							<FooterNavigation />
-						</MotionBox>
-					</Box>
+							{page === ACCOUNTS ? (
+								<AccountPage>
+									<Accounts />
+								</AccountPage>
+							) : null}
+							{page === STAKING ? (
+								<AccountPage>
+									<Staking />
+								</AccountPage>
+							) : null}
+							{page === SWAP ? (
+								<AccountPage>
+									<Swap />
+								</AccountPage>
+							) : null}
+							{page === SETTINGS ? (
+								<AccountPage>
+									<Settings />
+								</AccountPage>
+							) : null}
+						</motion.div>
+					</AnimatePresence>
+					<FooterNavigation />
 				</MotionBox>
-			) : null}
-			<LockedPanel />
-			<Box
-				css={{
-					pe: !isUnlocked ? 'unset' : 'none',
-					opacity: !isUnlocked ? '0' : '1',
-					transition: '$default',
-				}}
-			>
-				<Z3usMenu />
 			</Box>
-		</>
+		</UnlockedPanel>
 	)
 }
+
+export default WalletPanel

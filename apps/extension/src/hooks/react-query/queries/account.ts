@@ -1,5 +1,5 @@
 import { Ticker } from '@src/types'
-import { useSharedStore } from '@src/hooks/use-store'
+import { useNoneSharedStore } from '@src/hooks/use-store'
 import BigNumber from 'bignumber.js'
 import { useTickers } from './tickers'
 import { useAllAccountsTokenBalances, useTokenBalances, useTokenInfos } from './radix'
@@ -22,7 +22,7 @@ const useGenericaccountsValue = (
 	isLoading: boolean,
 ) => {
 	const rris = balances.map(({ rri }) => rri)
-	const { currency } = useSharedStore(state => ({
+	const { currency } = useNoneSharedStore(state => ({
 		currency: state.currency,
 	}))
 	let tokens = useTokenInfos(rris)

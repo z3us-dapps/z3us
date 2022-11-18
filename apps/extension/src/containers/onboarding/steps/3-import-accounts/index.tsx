@@ -1,8 +1,8 @@
 import React, { useEffect } from 'react'
-import { HDMasterSeed, HDPathRadix, PrivateKey, AccountAddress } from '@radixdlt/application'
+import { HDPathRadix, PrivateKey, AccountAddress } from '@radixdlt/application'
 import { useEventListener } from 'usehooks-ts'
 import { useImmer } from 'use-immer'
-import { useSharedStore, useAccountStore } from '@src/hooks/use-store'
+import { useSharedStore, useNoneSharedStore } from '@src/hooks/use-store'
 import { CopyIcon } from '@radix-ui/react-icons'
 import { ScrollArea } from 'ui/src/components/scroll-area'
 import { copyTextToClipboard } from '@src/utils/copy-to-clipboard'
@@ -14,6 +14,7 @@ import { PageWrapper, PageHeading, PageSubHeading } from '@src/components/layout
 import { StyledSlider, StyledTrack, StyledThumb, StyledRange } from 'ui/src/components/slider'
 import { Flex, Text, Box } from 'ui/src/components/atoms'
 import Button from 'ui/src/components/button'
+import { useOnboardingLocalHDNode } from '@src/hooks/use-onboarding-local-hdnode'
 
 interface ImmerT {
 	amount: number
@@ -24,37 +25,40 @@ interface ImmerT {
 }
 
 export const ImportAccounts = (): JSX.Element => {
-	const { mnemonic, setOnboardingStep } = useSharedStore(state => ({
-		mnemonic: state.mnemonic,
+	const { setOnboardingStep, setImportingAddresses } = useSharedStore(state => ({
 		setOnboardingStep: state.setOnboardingStepAction,
+		setImportingAddresses: state.setImportingAddressesAction,
 	}))
-	const { network, setPublicAddresses } = useAccountStore(state => ({
+	const { network } = useNoneSharedStore(state => ({
 		network: state.networks[state.selectedNetworkIndex],
-		setPublicAddresses: state.setPublicAddressesAction,
 	}))
+	const { hdNode, error: hdError } = useOnboardingLocalHDNode()
+
 	const [state, setState] = useImmer<ImmerT>({
 		amount: 0,
 		addresses: [],
 		selectedIndexes: {},
 		showError: false,
-		errorMessage: '',
+		errorMessage: hdError,
 	})
 
 	const selectedAmount = Object.values(state.selectedIndexes).filter(v => v).length
 
 	useEffect(() => {
-		if (!mnemonic) {
-			return
-		}
+		setState(draft => {
+			draft.showError = !!hdError
+			draft.errorMessage = hdError
+		})
+	}, [hdError])
+
+	useEffect(() => {
+		if (!hdNode) return
 
 		const load = async () => {
 			try {
 				setState(draft => {
 					if (draft.addresses.length <= draft.amount) {
-						const seed = HDMasterSeed.fromMnemonic({ mnemonic })
-						const key = seed
-							.masterNode()
-							.derive(HDPathRadix.create({ address: { index: draft.amount, isHardened: true } }))
+						const key = hdNode.derive(HDPathRadix.create({ address: { index: draft.amount, isHardened: true } }))
 
 						const pk = PrivateKey.fromHex(key.privateKey.toString())
 						if (pk.isErr()) {
@@ -79,7 +83,7 @@ export const ImportAccounts = (): JSX.Element => {
 		}
 
 		load()
-	}, [mnemonic, state.amount])
+	}, [hdNode, state.amount])
 
 	const handleSliderChange = ([track]: Array<number>) => {
 		setState(draft => {
@@ -103,7 +107,7 @@ export const ImportAccounts = (): JSX.Element => {
 		if (Object.keys(addressMap).length <= 0) {
 			return
 		}
-		setPublicAddresses(addressMap)
+		setImportingAddresses(addressMap)
 		setOnboardingStep(onBoardingSteps.CREATE_PASSWORD)
 	}
 

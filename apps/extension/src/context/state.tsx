@@ -1,5 +1,8 @@
 import { createContext } from 'react'
-import { AccountStore } from '@src/store'
-import { defaultAccountStore } from '@src/services/state'
+import { NoneSharedStore } from '@src/store'
+import { defaultNoneSharedStore } from '@src/services/state'
 
-export const AccountContext = createContext<AccountStore>(defaultAccountStore)
+export const NoneSharedStoreContext = createContext<{ keystoreId: string; store: NoneSharedStore }>({
+	keystoreId: '',
+	store: defaultNoneSharedStore,
+})

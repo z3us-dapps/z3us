@@ -1,5 +1,5 @@
 import React from 'react'
-import { useSharedStore, useAccountStore } from '@src/hooks/use-store'
+import { useNoneSharedStore } from '@src/hooks/use-store'
 import { CSS } from 'ui/src/theme'
 import { CopyIcon } from '@radix-ui/react-icons'
 import { Flex, Text } from 'ui/src/components/atoms'
@@ -20,10 +20,8 @@ const defaultProps = {
 }
 
 export const AccountAddress: React.FC<IProps> = ({ address, isCopyButtonVisible, css }) => {
-	const { accounts } = useAccountStore(state => ({
+	const { accounts, addressBook } = useNoneSharedStore(state => ({
 		accounts: Object.values(state.publicAddresses),
-	}))
-	const { addressBook } = useSharedStore(state => ({
 		addressBook: state.addressBook,
 	}))
 
@@ -36,7 +34,7 @@ export const AccountAddress: React.FC<IProps> = ({ address, isCopyButtonVisible,
 
 	return (
 		<Flex align="center">
-			<ToolTip message={address} css={{ maxWidth: '230px', wordWrap: 'break-word' }}>
+			<ToolTip bgColor="$bgPanel" message={address} css={{ maxWidth: '230px', wordWrap: 'break-word' }}>
 				<Text size="5" truncate medium css={{ lineHeight: '20px', maxWidth: '240px', ...(css as any) }}>
 					{entry?.name ? `${entry.name} (${shortAddress})` : shortAddress}
 				</Text>

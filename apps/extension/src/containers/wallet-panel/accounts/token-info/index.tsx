@@ -7,7 +7,7 @@ import { useTokenBalances, useTokenInfo } from '@src/hooks/react-query/queries/r
 import { useMarketChart } from '@src/hooks/react-query/queries/market'
 import { getSplitParams } from '@src/utils/url-utils'
 import { useRoute, useLocation } from 'wouter'
-import { useSharedStore } from '@src/hooks/use-store'
+import { useNoneSharedStore } from '@src/hooks/use-store'
 import { useImmer } from 'use-immer'
 import { Tooltip, TooltipTrigger, TooltipContent, TooltipArrow } from 'ui/src/components/tool-tip'
 import { Grid, Flex, Text, Box } from 'ui/src/components/atoms'
@@ -80,7 +80,7 @@ export const TokenInfo = (): JSX.Element => {
 	const liquidBalances = data?.account_balances?.liquid_balances || []
 	const staked = data?.account_balances?.staked_and_unstaking_balance.value
 
-	const { currency } = useSharedStore(state => ({
+	const { currency } = useNoneSharedStore(state => ({
 		currency: state.currency,
 	}))
 	const [state, setState] = useImmer<ImmerT>({

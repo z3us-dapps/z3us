@@ -1,13 +1,15 @@
 import React from 'react'
 import { firstValueFrom } from 'rxjs'
 import { HardwareWalletLedger } from '@radixdlt/hardware-ledger'
-import { useSharedStore, useAccountStore } from '@src/hooks/use-store'
+import { useSharedStore, useNoneSharedStore } from '@src/hooks/use-store'
 import { useImmer } from 'use-immer'
 import { Tooltip, TooltipTrigger, TooltipContent, TooltipArrow } from 'ui/src/components/tool-tip'
 import Button from 'ui/src/components/button'
 import { Text, Flex } from 'ui/src/components/atoms'
 import InputFeedback from 'ui/src/components/input/input-feedback'
 import { useAPDU } from '@src/hooks/use-apdu'
+import { createHardwareSigningKey } from '@src/services/signing-key'
+import { KeystoreType } from '@src/types'
 
 interface ImmerT {
 	isLoading: boolean
@@ -15,13 +17,13 @@ interface ImmerT {
 
 export const HardwareWalletReconnect: React.FC = () => {
 	const sendAPDU = useAPDU()
-	const { isHardwareWallet, addToast, setHardwareWallet } = useSharedStore(state => ({
-		isHardwareWallet: state.isHardwareWallet,
+	const { keystore, signingKey, setSigningKey, addToast } = useSharedStore(state => ({
+		keystore: state.keystores.find(({ id }) => id === state.selectKeystoreId),
+		signingKey: state.signingKey,
+		setSigningKey: state.setSigningKeyAction,
 		addToast: state.addToastAction,
-		setHardwareWallet: state.setHardwareWalletAction,
 	}))
-	const { account, selectAccount, accountIndex } = useAccountStore(state => ({
-		account: state.account,
+	const { accountIndex } = useNoneSharedStore(state => ({
 		accountIndex: state.selectedAccountIndex,
 		selectAccount: state.selectAccountAction,
 	}))
@@ -29,15 +31,17 @@ export const HardwareWalletReconnect: React.FC = () => {
 		isLoading: false,
 	})
 
+	const isHW = keystore.type === KeystoreType.HARDWARE
+
 	const handleReconnectHW = async () => {
-		if (!isHardwareWallet || account || state.isLoading) return
+		if (signingKey || state.isLoading || !isHW) return
 		setState(draft => {
 			draft.isLoading = true
 		})
 		try {
 			const hw = await firstValueFrom(HardwareWalletLedger.create({ send: sendAPDU }))
-			setHardwareWallet(hw)
-			await selectAccount(accountIndex, hw, null)
+			const newSigningKey = await createHardwareSigningKey(hw, accountIndex)
+			setSigningKey(newSigningKey)
 		} catch (error) {
 			addToast({
 				type: 'error',
@@ -51,7 +55,7 @@ export const HardwareWalletReconnect: React.FC = () => {
 		})
 	}
 
-	if (!isHardwareWallet || account) {
+	if (signingKey || !isHW) {
 		return null
 	}
 

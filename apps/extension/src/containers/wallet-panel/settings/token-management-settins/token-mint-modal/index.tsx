@@ -1,7 +1,7 @@
 import React from 'react'
 import { useQueryClient } from 'react-query'
 import { useImmer } from 'use-immer'
-import { useSharedStore, useAccountStore } from '@src/hooks/use-store'
+import { useSharedStore, useNoneSharedStore } from '@src/hooks/use-store'
 import { PageHeading, PageSubHeading, PageWrapper } from '@src/components/layout'
 import { useLocation } from 'wouter'
 import { getShortAddress } from '@src/utils/string-utils'
@@ -42,15 +42,13 @@ export const MintTokenModal: React.FC<IProps> = ({ trigger }) => {
 	const derive = useTokenDerive()
 	const { signTransaction, submitTransaction } = useTransaction()
 
-	const { hw, seed, addToast } = useSharedStore(state => ({
-		hw: state.hardwareWallet,
-		seed: state.masterSeed,
+	const { signingKey, addToast } = useSharedStore(state => ({
+		signingKey: state.signingKey,
 		addToast: state.addToastAction,
 	}))
 
-	const { selectAccount, account, accountAddress } = useAccountStore(state => ({
+	const { selectAccount, accountAddress } = useNoneSharedStore(state => ({
 		selectAccount: state.selectAccountAction,
-		account: state.account,
 		accountAddress: state.getCurrentAddressAction(),
 	}))
 
@@ -67,7 +65,7 @@ export const MintTokenModal: React.FC<IProps> = ({ trigger }) => {
 	const shortAddress = getShortAddress(accountAddress)
 
 	const handleAccountChange = async (accountIndex: number) => {
-		await selectAccount(accountIndex, hw, seed)
+		await selectAccount(accountIndex)
 	}
 
 	const handleSetValue = (key: string) => (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -123,7 +121,7 @@ export const MintTokenModal: React.FC<IProps> = ({ trigger }) => {
 	}
 
 	const handleConfirm = async () => {
-		if (!account) return
+		if (!signingKey) return
 		setState(draft => {
 			draft.isLoading = true
 		})
@@ -192,7 +190,7 @@ export const MintTokenModal: React.FC<IProps> = ({ trigger }) => {
 								aria-label="confirm"
 								css={{ px: '0', flex: '1' }}
 								onClick={handleConfirm}
-								disabled={!account}
+								disabled={!signingKey}
 								loading={state.isLoading}
 							>
 								Confirm

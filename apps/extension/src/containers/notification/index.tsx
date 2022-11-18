@@ -1,60 +1,28 @@
-import React, { useEffect } from 'react'
-import { useSharedStore } from '@src/hooks/use-store'
+import React, { lazy, Suspense } from 'react'
 import { useHashLocation } from '@src/hooks/use-hash-location'
-import { AnimatedSwitch } from '@src/components/router-animated-switch'
 import { RouterScope } from '@src/components/router-scope'
-import { LockedPanel } from '@src/components/locked-panel'
-import { WalletMenu } from '@src/components/wallet-menu'
+import { Loader } from '@src/components/loader'
 import { Route } from 'wouter'
-import { Flex } from 'ui/src/components/atoms'
+import UnlockedPanel from '@src/components/unlocked-panel'
 
-import { Connect } from './connect'
-import { Encrypt } from './encrypt'
-import { Decrypt } from './decrypt'
-import { Sign } from './sign'
-import { Transaction } from './transaction'
+const Connect = lazy(() => import('./connect'))
+const Encrypt = lazy(() => import('./encrypt'))
+const Decrypt = lazy(() => import('./decrypt'))
+const Sign = lazy(() => import('./sign'))
+const Transaction = lazy(() => import('./transaction'))
 
-export const Notification: React.FC = () => {
-	const { isUnlocked, keystores } = useSharedStore(state => ({
-		keystores: state.keystores,
-		isUnlocked: Boolean(state.masterSeed || state.isHardwareWallet),
-	}))
+export const Notification: React.FC = () => (
+	<UnlockedPanel>
+		<RouterScope base="/notification" hook={useHashLocation}>
+			<Suspense fallback={Loader}>
+				<Route path="/connect/:id" component={Connect} />
+				<Route path="/encrypt/:id" component={Encrypt} />
+				<Route path="/decrypt/:id" component={Decrypt} />
+				<Route path="/sign/:id" component={Sign} />
+				<Route path="/transaction/:id" component={Transaction} />
+			</Suspense>
+		</RouterScope>
+	</UnlockedPanel>
+)
 
-	useEffect(() => {
-		if (keystores.length === 0) {
-			window.location.hash = '#/onboarding'
-		}
-	}, [keystores])
-
-	if (!isUnlocked) {
-		return <LockedPanel />
-	}
-
-	return (
-		<Flex
-			direction="column"
-			css={{
-				position: 'relative',
-				width: '100%',
-				height: '100%',
-				overflow: 'hidden',
-				border: '1px solid $borderPanel',
-				color: '$txtDefault',
-				backgroundColor: '$bgPanel',
-			}}
-		>
-			<Flex justify="end" css={{ height: '48px', position: 'relative', pt: '6px', pl: '6px', pr: '6px' }}>
-				<WalletMenu />
-			</Flex>
-			<RouterScope base="/notification" hook={useHashLocation as any}>
-				<AnimatedSwitch css={{ display: 'flex', flexDirection: 'column', flex: '1' }}>
-					<Route path="/connect/:id" component={Connect} />
-					<Route path="/encrypt/:id" component={Encrypt} />
-					<Route path="/decrypt/:id" component={Decrypt} />
-					<Route path="/sign/:id" component={Sign} />
-					<Route path="/transaction/:id" component={Transaction} />
-				</AnimatedSwitch>
-			</RouterScope>
-		</Flex>
-	)
-}
+export default Notification

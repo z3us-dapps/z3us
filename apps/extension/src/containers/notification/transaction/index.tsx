@@ -10,7 +10,7 @@ import { Flex, Box, StyledLink, Text } from 'ui/src/components/atoms'
 import Button from 'ui/src/components/button'
 import Input from 'ui/src/components/input'
 import { PageWrapper, PageHeading, PageSubHeading } from '@src/components/layout'
-import { useSharedStore, useAccountStore } from '@src/hooks/use-store'
+import { useSharedStore, useNoneSharedStore } from '@src/hooks/use-store'
 import { useRoute } from 'wouter'
 import { hexToJSON } from '@src/utils/encoding'
 import { CONFIRM } from '@src/lib/v1/actions'
@@ -20,6 +20,7 @@ import { HardwareWalletReconnect } from '@src/components/hardware-wallet-reconne
 import { Z3usSpinnerAnimation } from '@src/components/z3us-spinner-animation'
 import { ArrowLeftIcon } from '@radix-ui/react-icons'
 import { ExtendedActionType } from '@src/types'
+import { parseAccountAddress } from '@src/services/radix/serializer'
 import ActionsPreview from './components/actions-preview'
 
 interface ImmerT {
@@ -45,13 +46,12 @@ export const Transaction = (): JSX.Element => {
 		submitTransaction,
 	} = useTransaction()
 	const { createMessage } = useMessage()
-	const { sendResponse } = useSharedStore(state => ({
-		addressBook: state.addressBook,
+	const { signingKey, sendResponse } = useSharedStore(state => ({
+		signingKey: state.signingKey,
 		sendResponse: state.sendResponseAction,
 	}))
-
-	const { account, action } = useAccountStore(state => ({
-		account: state.account,
+	const { address, action } = useNoneSharedStore(state => ({
+		address: state.getCurrentAddressAction(),
 		action:
 			state.pendingActions[id] && state.pendingActions[id].payloadHex
 				? hexToJSON(state.pendingActions[id].payloadHex)
@@ -75,10 +75,11 @@ export const Transaction = (): JSX.Element => {
 	const { data: token } = useTokenInfo(rri)
 
 	useEffect(() => {
-		if (!account) return
+		if (!signingKey) return
 		if (actions.length > 0) {
 			const build = async () => {
 				try {
+					const accountAddress = parseAccountAddress(address)
 					let disableTokenMintAndBurn = true
 					actions.forEach(_action => {
 						disableTokenMintAndBurn =
@@ -91,10 +92,10 @@ export const Transaction = (): JSX.Element => {
 						msg = await createMessage(message, encryptMessage ? recipient : undefined)
 					}
 					const { fee, transaction } = await buildTransaction({
-						network_identifier: { network: account.address.network },
+						network_identifier: { network: accountAddress.network },
 						actions,
 						fee_payer: {
-							address: account.address.toString(),
+							address: accountAddress.toString(),
 						},
 						message: msg,
 						disable_token_mint_and_burn: disableTokenMintAndBurn,
@@ -112,7 +113,7 @@ export const Transaction = (): JSX.Element => {
 			}
 			build()
 		}
-	}, [account])
+	}, [signingKey?.id])
 
 	const handleClose = async () => {
 		sendResponse(CONFIRM, {
@@ -132,7 +133,7 @@ export const Transaction = (): JSX.Element => {
 	}
 
 	const handleConfirm = async () => {
-		if (!account) return
+		if (!signingKey) return
 
 		setState(draft => {
 			draft.isSendingTransaction = true
@@ -163,8 +164,6 @@ export const Transaction = (): JSX.Element => {
 			await queryClient.invalidateQueries({ active: true, inactive: true, stale: true })
 			sendResponse(CONFIRM, { id, host, payload: { request: action.request, value: result } })
 		} catch (error) {
-			// eslint-disable-next-line no-console
-			console.error(error)
 			let errorMessage = (error?.message || error).toString().trim() || 'Failed to submit transaction'
 			if (errorMessage.includes('"type":"HARDWARE"')) {
 				errorMessage = JSON.parse(errorMessage)?.message
@@ -176,13 +175,13 @@ export const Transaction = (): JSX.Element => {
 	}
 
 	return (
-		<>
-			<PageWrapper css={{ flex: '1', overflowY: 'auto', maxHeight: '450px' }}>
+		<Flex css={{ flexDirection: 'column', height: '100%' }}>
+			<PageWrapper css={{ flex: '1 1 auto', overflowY: 'auto' }}>
 				<Box>
 					<PageHeading>Approve</PageHeading>
 					<PageSubHeading>
 						Approve transaction from{' '}
-						<StyledLink underline href={host} target="_blank">
+						<StyledLink underline href={`https://${host}`} target="_blank">
 							{host}
 						</StyledLink>
 						.
@@ -214,8 +213,7 @@ export const Transaction = (): JSX.Element => {
 					</InputFeedback>
 				</Box>
 			</PageWrapper>
-
-			<PageWrapper css={{ display: 'flex', gridGap: '8px', borderTop: '1px solid $borderPanel' }}>
+			<PageWrapper css={{ display: 'flex', gridGap: '8px', borderTop: '1px solid $borderPanel2' }}>
 				<Button
 					onClick={handleCancel}
 					size="6"
@@ -229,7 +227,7 @@ export const Transaction = (): JSX.Element => {
 					<AlertDialogTrigger asChild>
 						<Button
 							onClick={handleConfirm}
-							disabled={!account || (!state.transaction && !manifest)}
+							disabled={!signingKey || (!state.transaction && !manifest)}
 							size="6"
 							color="primary"
 							aria-label="confirm transaction wallet"
@@ -333,6 +331,8 @@ export const Transaction = (): JSX.Element => {
 					</AlertDialogContent>
 				</AlertDialog>
 			</PageWrapper>
-		</>
+		</Flex>
 	)
 }
+
+export default Transaction

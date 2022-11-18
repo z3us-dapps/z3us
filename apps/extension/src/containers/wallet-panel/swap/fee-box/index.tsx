@@ -6,7 +6,7 @@ import { HoverCard, HoverCardContent, HoverCardTrigger } from 'ui/src/components
 import { useTicker } from '@src/hooks/react-query/queries/tickers'
 import { InfoCircledIcon, CircleBackslashIcon } from '@radix-ui/react-icons'
 import { Token, Pool, PoolType } from '@src/types'
-import { useSharedStore } from '@src/hooks/use-store'
+import { useNoneSharedStore } from '@src/hooks/use-store'
 import { ToolTip } from 'ui/src/components/tool-tip'
 import { useNativeToken, useTokenInfo } from '@src/hooks/react-query/queries/radix'
 import { Z3US_RRI } from '@src/config'
@@ -53,7 +53,7 @@ export const FeeBox: React.FC<IProps> = ({
 	onSlippageChange,
 	css,
 }) => {
-	const { currency } = useSharedStore(state => ({
+	const { currency } = useNoneSharedStore(state => ({
 		currency: state.currency,
 	}))
 

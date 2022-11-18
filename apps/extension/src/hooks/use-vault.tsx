@@ -1,11 +1,16 @@
 import browser from 'webextension-polyfill'
 import { Mutex } from 'async-mutex'
-import { useEffect, useState } from 'react'
-import { useSharedStore, useAccountStore } from '@src/hooks/use-store'
-import { HDMasterSeed } from '@radixdlt/crypto'
+import { useEffect } from 'react'
+import { useImmer } from 'use-immer'
+import { useSharedStore, useNoneSharedStore } from '@src/hooks/use-store'
 import { MessageService, PORT_NAME } from '@src/services/messanger'
-import { GET } from '@src/lib/v1/actions'
-import { KeystoreType } from '@src/store/types'
+import { DERIVE, PING } from '@src/lib/v1/actions'
+import { PublicKey } from '@radixdlt/crypto'
+import { createHardwareSigningKey, createLocalSigningKey } from '@src/services/signing-key'
+import { KeystoreType, SigningKey } from '@src/types'
+import { AddressBookEntry, Network } from '@src/store/types'
+import { AccountAddress } from '@radixdlt/account'
+import { getDefaultAddressEntry } from '@src/store/helpers'
 
 const mutex = new Mutex()
 const messanger = new MessageService('extension', null, null)
@@ -27,75 +32,151 @@ connectNewPort()
 
 const refreshInterval = 60 * 1000 // 1 minute
 
+interface ImmerT {
+	isMounted: boolean
+	time: number
+}
+
 export const useVault = () => {
-	const { keystore, hw, seed, setMessanger, setSeed, unlockHW } = useSharedStore(state => ({
-		hw: state.hardwareWallet,
-		seed: state.masterSeed,
-		keystore: state.keystores.find(({ id }) => id === state.selectKeystoreId),
-		setMessanger: state.setMessangerAction,
-		setSeed: state.setMasterSeedAction,
-		unlockHW: state.unlockHardwareWalletAction,
-	}))
-	const { networkIndex, accountIndex, selectAccount } = useAccountStore(state => ({
-		networkIndex: state.selectedNetworkIndex,
-		accountIndex: state.selectedAccountIndex,
-		selectAccount: state.selectAccountAction,
-	}))
+	const { signingKey, selectKeystoreId, keystore, setMessanger, setIsUnlocked, setSigningKey } = useSharedStore(
+		state => ({
+			selectKeystoreId: state.selectKeystoreId,
+			keystore: state.keystores.find(({ id }) => id === state.selectKeystoreId),
+			isUnlocked: state.isUnlocked,
+			signingKey: state.signingKey,
+			setMessanger: state.setMessangerAction,
+			setIsUnlocked: state.setIsUnlockedAction,
+			setSigningKey: state.setSigningKeyAction,
+		}),
+	)
+	const { network, publicAddresses, networkIndex, accountIndex, addPublicAddress, setPublicAddresses } =
+		useNoneSharedStore(state => ({
+			network: state.networks[state.selectedNetworkIndex],
+			publicAddresses: state.publicAddresses,
+			networkIndex: state.selectedNetworkIndex,
+			accountIndex: state.selectedAccountIndex,
+			addPublicAddress: state.addPublicAddressAction,
+			setPublicAddresses: state.setPublicAddressesAction,
+		}))
 
-	const [time, setTime] = useState<number>(Date.now())
+	const [state, setState] = useImmer<ImmerT>({
+		isMounted: false,
+		time: Date.now(),
+	})
 
-	useEffect(() => {
-		const interval = setInterval(() => setTime(Date.now()), refreshInterval)
-
-		return () => {
-			clearInterval(interval)
+	const addNewAddressEntry = (newSigningKey: SigningKey) => {
+		if (accountIndex >= Object.keys(publicAddresses).length) {
+			const address = AccountAddress.fromPublicKeyAndNetwork({
+				publicKey: newSigningKey.publicKey,
+				network: network.id,
+			})
+			addPublicAddress(accountIndex, {
+				...getDefaultAddressEntry(accountIndex),
+				...publicAddresses[accountIndex],
+				address: address.toString(),
+			})
 		}
-	}, [])
+	}
 
-	const init = async () => {
+	const derive = async (n?: Network, addresses?: { [key: number]: AddressBookEntry }) => {
 		const release = await mutex.acquire()
+
+		const derivePayload = {
+			index: accountIndex,
+			network: n,
+			publicAddresses: addresses,
+		}
+
 		try {
 			switch (keystore?.type) {
 				case KeystoreType.HARDWARE:
-					unlockHW()
+					if (signingKey?.hw) {
+						const newSigningKey = await createHardwareSigningKey(signingKey.hw, accountIndex)
+						if (newSigningKey) {
+							setSigningKey(newSigningKey)
+							addNewAddressEntry(newSigningKey)
+						}
+						setIsUnlocked(!!newSigningKey)
+					} else {
+						const { keystoreId, isUnlocked: isUnlockedBackground } = await messanger.sendActionMessageFromPopup(
+							DERIVE,
+							derivePayload,
+						)
+						setIsUnlocked(keystoreId === keystore?.id && isUnlockedBackground)
+					}
 					break
 				case KeystoreType.LOCAL:
-				default:
 					// eslint-disable-next-line no-case-declarations
-					const { seed: newSeed } = await messanger.sendActionMessageFromPopup(GET, null)
-					if (newSeed) {
-						setSeed(HDMasterSeed.fromSeed(Buffer.from(newSeed, 'hex')))
+					const {
+						isUnlocked: isUnlockedBackground,
+						keystoreId,
+						publicKey,
+						publicAddresses: newPublicAddresses,
+						type,
+					} = await messanger.sendActionMessageFromPopup(DERIVE, derivePayload)
+
+					// for the legacy purpose we need to handle empty string for keystore id with local wallet
+					if (publicKey && keystoreId === selectKeystoreId) {
+						const publicKeyBuffer = Buffer.from(publicKey, 'hex')
+						const publicKeyResult = PublicKey.fromBuffer(publicKeyBuffer)
+						if (!publicKeyResult.isOk()) throw publicKeyResult.error
+
+						const newSigningKey = createLocalSigningKey(messanger, publicKeyResult.value, type)
+						setSigningKey(newSigningKey)
+						if (newPublicAddresses) {
+							setPublicAddresses(newPublicAddresses)
+						} else {
+							addNewAddressEntry(newSigningKey)
+						}
+						setIsUnlocked(isUnlockedBackground)
+					} else {
+						setIsUnlocked(false)
 					}
+					break
+				default:
 					break
 			}
 		} catch (error) {
 			// eslint-disable-next-line no-console
 			console.error(error)
 		}
-		setMessanger(messanger)
+
 		release()
 	}
 
 	useEffect(() => {
+		const init = async () => {
+			await derive()
+			if (state.isMounted) return
+			setState(draft => {
+				draft.isMounted = true
+			})
+			setMessanger(messanger)
+		}
 		init()
-	}, [keystore])
+	}, [selectKeystoreId, accountIndex, Object.keys(publicAddresses).length])
 
 	useEffect(() => {
-		if (seed || hw) {
-			selectAccount(accountIndex, null, seed)
-		}
-	}, [seed, hw])
+		if (!state.isMounted) return
+		derive(network, publicAddresses)
+	}, [networkIndex])
 
 	useEffect(() => {
-		const load = async () => {
-			try {
-				await messanger.sendActionMessageFromPopup(GET, null) // extend session
-			} catch (error) {
-				// eslint-disable-next-line no-console
-				console.error(error)
-			}
-		}
+		const interval = setInterval(
+			() =>
+				setState(draft => {
+					draft.time = Date.now()
+				}),
+			refreshInterval,
+		)
 
-		load()
-	}, [networkIndex, accountIndex, time])
+		return () => {
+			clearInterval(interval)
+		}
+	}, [])
+
+	useEffect(() => {
+		if (!state.isMounted) return
+		messanger.sendActionMessageFromPopup(PING, null)
+	}, [state.time])
 }

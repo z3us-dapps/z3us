@@ -8,6 +8,7 @@ export const onBoardingSteps = {
 	START: 'start',
 	GENERATE_PHRASE: 'generate_phrase',
 	INSERT_PHRASE: 'insert_phrase',
+	INSERT_KEY: 'insert_key',
 	IMPORT_ACCOUNTS: 'import_accounts',
 	CREATE_PASSWORD: 'create_password',
 	CREATE_WALLET: 'create_wallet',
@@ -20,15 +21,23 @@ export const connectHardwareWalletSteps = {
 
 export const factory = (set): OnBoardingState => ({
 	onBoardingStep: onBoardingSteps.START,
-	isRestoreWorkflow: false,
+	workflowEntryStep: onBoardingSteps.GENERATE_PHRASE,
+	connectHardwareWalletStep: connectHardwareWalletSteps.IMPORT_ACCOUNTS,
+
 	mnemonic: null,
 	password: null,
+	privateKey: null,
 
-	connectHardwareWalletStep: connectHardwareWalletSteps.IMPORT_ACCOUNTS,
+	importingAddresses: {},
 
 	setMnemomicAction: (mnemonic: Mnemomic): void =>
 		set(state => {
 			state.mnemonic = mnemonic
+		}),
+
+	setPrivateKeyAction: (key: string): void =>
+		set(state => {
+			state.privateKey = key
 		}),
 
 	setPasswordAction: (password: Password): void =>
@@ -41,13 +50,19 @@ export const factory = (set): OnBoardingState => ({
 			state.onBoardingStep = step
 		}),
 
-	setIsRestoreWorkflowAction: (isRestore: boolean): void =>
+	setWorkflowEntryStepAction: (step: string): void =>
 		set(state => {
-			state.isRestoreWorkflow = isRestore
+			state.workflowEntryStep = step
 		}),
 
 	setConnectHardwareWalletStepAction: (step: string): void =>
 		set(state => {
 			state.connectHardwareWalletStep = step
 		}),
+
+	setImportingAddressesAction: (addresses: { [key: number]: string }) => {
+		set(state => {
+			state.importingAddresses = addresses
+		})
+	},
 })

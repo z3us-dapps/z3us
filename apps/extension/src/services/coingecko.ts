@@ -1,9 +1,9 @@
 import { Ticker } from '@src/types'
 
 const parseTicker = (ticker: any, currency: string) => ({
-	last_price: ticker[currency.toLowerCase()] as number,
-	change: ticker[`${currency.toLowerCase()}_24h_change`] as number,
-	volume: ticker[`${currency.toLowerCase()}_24h_vol`] as number,
+	last_price: (ticker[currency.toLowerCase()] || 0) as number,
+	change: (ticker[`${currency.toLowerCase()}_24h_change`] || 0) as number,
+	volume: (ticker[`${currency.toLowerCase()}_24h_vol`] || 0) as number,
 })
 
 // https://docs.google.com/spreadsheets/d/1wTTuxXt8n9q7C4NDXqQpI3wpKu1_5bGVmP9Xz0XGSyU/edit#gid=0

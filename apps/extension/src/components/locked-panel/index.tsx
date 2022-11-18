@@ -1,18 +1,22 @@
 /* eslint-disable no-nested-ternary */
 import React, { useEffect, useRef } from 'react'
-import { useSharedStore, useAccountStore } from '@src/hooks/use-store'
+import { useSharedStore, useNoneSharedStore } from '@src/hooks/use-store'
 import { useAnimationControls } from 'framer-motion'
+import { useTimeout } from 'usehooks-ts'
 import { useColorMode } from '@src/hooks/use-color-mode'
 import { useImmer } from 'use-immer'
+import { createLocalSigningKey } from '@src/services/signing-key'
+import { PublicKey } from '@radixdlt/crypto'
 import { WalletMenu } from '@src/components/wallet-menu'
+import { sleep } from '@src/utils/sleep'
 import { Box, Flex, MotionBox, Text, StyledLink } from 'ui/src/components/atoms'
 import Input from 'ui/src/components/input'
 import Button from 'ui/src/components/button'
 import { Z3usText } from 'ui/src/components/z3us-text'
+import { KeystoreType } from '@src/types'
 // import { isWebAuthSupported } from '@src/services/credentials'
-import { KeystoreType } from '@src/store/types'
 import { WalletSelector } from './wallet-selector'
-import { Z3USLogoOuter, Z3USLogoInner } from './z3us-logo'
+import { Z3USLogoOuter, Z3USLogoInner } from '../z3us-logo'
 
 interface IImmer {
 	password: string
@@ -30,22 +34,19 @@ export const LockedPanel: React.FC = () => {
 	const inputControls = useAnimationControls()
 	const imageControls = useAnimationControls()
 	const inputRef = useRef(null)
-	const { keystore, unlock, unlockHW, isUnlocked, setSeed, hw, addToast } = useSharedStore(state => ({
+	const { messanger, keystore, isUnlocked, setIsUnlocked, setSigningKey, unlock, addToast } = useSharedStore(state => ({
+		messanger: state.messanger,
+		isUnlocked: state.isUnlocked,
 		keystore: state.keystores.find(({ id }) => id === state.selectKeystoreId),
-		isUnlocked: Boolean(state.masterSeed || state.isHardwareWallet),
-		hw: state.hardwareWallet,
-		seed: state.masterSeed,
+		setIsUnlocked: state.setIsUnlockedAction,
+		setSigningKey: state.setSigningKeyAction,
 		unlock: state.unlockWalletAction,
 		// hasAuth: state.hasAuthAction,
 		// authenticate: state.authenticateAction,
-		setSeed: state.setMasterSeedAction,
-		unlockHW: state.unlockHardwareWalletAction,
 		addToast: state.addToastAction,
 	}))
-
-	const { selectAccount, accountIndex } = useAccountStore(state => ({
+	const { accountIndex } = useNoneSharedStore(state => ({
 		accountIndex: state.selectedAccountIndex,
-		selectAccount: state.selectAccountAction,
 	}))
 
 	const [state, setState] = useImmer<IImmer>({
@@ -108,21 +109,30 @@ export const LockedPanel: React.FC = () => {
 			draft.isLoading = true
 		})
 		prepareUnlockAnim()
+		await sleep(700)
 
 		try {
-			switch (keystore.type) {
+			const { isUnlocked: isUnlockedBackground, publicKey, type } = await unlock(password, accountIndex)
+
+			switch (keystore?.type) {
 				case KeystoreType.LOCAL: {
-					const newSeed = await unlock(password)
-					setSeed(newSeed)
-					await selectAccount(accountIndex, null, newSeed)
+					if (publicKey) {
+						const publicKeyBuffer = Buffer.from(publicKey, 'hex')
+						const publicKeyResult = PublicKey.fromBuffer(publicKeyBuffer)
+						if (!publicKeyResult.isOk()) throw publicKeyResult.error
+
+						const newSigningKey = createLocalSigningKey(messanger, publicKeyResult.value, type)
+						setSigningKey(newSigningKey)
+					}
+
+					setIsUnlocked(isUnlockedBackground)
 					break
 				}
 				case KeystoreType.HARDWARE:
-					unlockHW()
-					await selectAccount(accountIndex, hw, null)
+					setIsUnlocked(isUnlockedBackground)
 					break
 				default:
-					throw new Error(`Unknown keystore ${keystore.id} (${keystore.name}) type: ${keystore.type}`)
+					throw new Error(`Unknown keystore ${keystore?.id} (${keystore?.name}) type: ${keystore?.type}`)
 			}
 		} catch (error) {
 			resetAnimElements()
@@ -163,29 +173,29 @@ export const LockedPanel: React.FC = () => {
 	const unlockAnimation = async (_isUnlocked: boolean, isMounted: boolean) => {
 		if (_isUnlocked) {
 			if (isMounted) {
-				z3usLogoControls.start({
+				z3usLogoSpinnerControls.stop()
+				z3usLogoSpinnerControls.set({ rotate: [null, 0] })
+				await z3usLogoControls.start({
 					y: '96px',
 					fill: fillZ3usPurple,
 					scale: 22,
-					transition: { duration: 0.1, ease: 'anticipate' },
+					transition: { delay: 0.05, duration: 0.05, ease: 'anticipate' },
 				})
 				await panelControls.start({
 					y: '0px',
 					opacity: 0,
-					transition: { delay: 0.1, duration: 0.5, ease: 'anticipate' },
+					transition: { delay: 0, duration: 0.5, ease: 'anticipate' },
 				})
-				z3usLogoSpinnerControls.stop()
-				z3usLogoSpinnerControls.set({ rotate: [null, 0] })
 				z3usLogoControls.set({ fill: logoFill, backgroundColor: logoBackgroundStart })
 				panelControls.start({ y: '-3620px', opacity: 0, transition: { delay: 0, duration: 0 } })
 			} else {
-				await panelControls.start({ y: '-3620px', opacity: 0, transition: { delay: 0, duration: 0 } })
+				panelControls.start({ y: '-3620px', opacity: 0, transition: { delay: 0, duration: 0 } })
 				z3usLogoControls.start({
 					y: '96px',
 					fill: logoFill,
 					backgroundColor: logoBackgroundStart,
 					scale: 22,
-					transition: { duration: 0.1, ease: 'anticipate' },
+					transition: { delay: 0.05, duration: 0.05, ease: 'anticipate' },
 				})
 			}
 		} else {
@@ -208,7 +218,6 @@ export const LockedPanel: React.FC = () => {
 		setState(draft => {
 			draft.password = ''
 			draft.isLoading = false
-			draft.isMounted = true
 		})
 		unlockWithWebAuth()
 	}, [isUnlocked])
@@ -216,6 +225,13 @@ export const LockedPanel: React.FC = () => {
 	useEffect(() => {
 		unlockAnimation(isUnlocked, false)
 	}, [isDarkMode])
+
+	// @Note:
+	useTimeout(() => {
+		setState(draft => {
+			draft.isMounted = true
+		})
+	}, 1000)
 
 	const handleSubmitForm = (e: React.ChangeEvent<HTMLFormElement>) => {
 		e.preventDefault()
@@ -325,7 +341,7 @@ export const LockedPanel: React.FC = () => {
 					<Box css={{ p: '$6' }}>
 						<MotionBox animate={inputControls}>
 							<WalletSelector />
-							{keystore.type === KeystoreType.LOCAL && (
+							{keystore?.type === KeystoreType.LOCAL && (
 								<Box
 									onClick={() => {
 										if (inputRef.current) {
@@ -346,6 +362,7 @@ export const LockedPanel: React.FC = () => {
 									}}
 								>
 									<Input
+										data-test-e2e="wallet-password-input"
 										type="password"
 										theme="minimal"
 										size="2"
@@ -382,7 +399,14 @@ export const LockedPanel: React.FC = () => {
 							)}
 						</MotionBox>
 						<Flex css={{ mt: '$4', transition: '$default', opacity: state.isLoading ? '0.4' : '1.0', zIndex: '1' }}>
-							<Button type="submit" loading={state.isLoading} color="primary" size="6" css={{ flex: '1' }}>
+							<Button
+								data-test-e2e="wallet-unlock-btn"
+								type="submit"
+								loading={state.isLoading}
+								color="primary"
+								size="6"
+								css={{ flex: '1' }}
+							>
 								Unlock
 							</Button>
 						</Flex>

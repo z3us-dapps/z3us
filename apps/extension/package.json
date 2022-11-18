@@ -1,6 +1,6 @@
 {
 	"name": "z3us-extension",
-	"version": "1.0.26",
+	"version": "1.0.27",
 	"scripts": {
 		"dev": "yarn start",
 		"start": "vite",
@@ -17,6 +17,7 @@
 		"test": "jest --maxWorkers=1  --detectOpenHandles --forceExit"
 	},
 	"dependencies": {
+		"@heroicons/react": "^2.0.12",
 		"@ledgerhq/hw-transport-webhid": "^6.27.1",
 		"@radix-ui/popper": "^0.1.0",
 		"@radix-ui/react-icons": "^1.1.0",
@@ -44,6 +45,7 @@
 		"elliptic": "^6.5.4",
 		"file-loader": "^6.2.0",
 		"framer-motion": "^6.3.3",
+		"hdkey": "^2.0.1",
 		"hoist-non-react-statics": "^3.3.2",
 		"https-browserify": "^1.0.0",
 		"immer": "^9.0.12",
@@ -77,7 +79,7 @@
 		"use-immer": "^0.7.0",
 		"usehooks-ts": "^2.4.2",
 		"vite": "^2.9.5",
-		"webextension-polyfill": "^0.9.0",
+		"webextension-polyfill": "^0.10.0",
 		"wouter": "^2.8.0-alpha.2",
 		"zustand": "^4.1.1",
 		"zustand-store-addons": "^0.1.12"
@@ -100,7 +102,7 @@
 		"@types/react-dom": "^17.0.11",
 		"@types/react-test-renderer": "^17.0.1",
 		"@types/w3c-web-hid": "^1.0.3",
-		"@types/webextension-polyfill": "^0.8.3",
+		"@types/webextension-polyfill": "^0.9.1",
 		"@vitejs/plugin-react": "^1.2.0",
 		"esbuild": "^0.14.10",
 		"eslint-plugin-require-explicit-generics": "^0.4.2",

@@ -2,7 +2,7 @@ import React from 'react'
 import { Box, Flex, Text, StyledLink, Image } from 'ui/src/components/atoms'
 import Button from 'ui/src/components/button'
 import { PageWrapper, PageHeading, PageSubHeading } from '@src/components/layout'
-import { useSharedStore, useAccountStore } from '@src/hooks/use-store'
+import { useSharedStore, useNoneSharedStore } from '@src/hooks/use-store'
 import { useRoute } from 'wouter'
 import { hexToJSON } from '@src/utils/encoding'
 import { CONFIRM } from '@src/lib/v1/actions'
@@ -16,7 +16,7 @@ export const Sign = (): JSX.Element => {
 	const { sendResponse } = useSharedStore(state => ({
 		sendResponse: state.sendResponseAction,
 	}))
-	const { action } = useAccountStore(state => ({
+	const { action } = useNoneSharedStore(state => ({
 		action:
 			state.pendingActions[id] && state.pendingActions[id].payloadHex
 				? hexToJSON(state.pendingActions[id].payloadHex)
@@ -103,3 +103,5 @@ export const Sign = (): JSX.Element => {
 		</>
 	)
 }
+
+export default Sign

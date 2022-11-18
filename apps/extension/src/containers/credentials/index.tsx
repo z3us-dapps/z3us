@@ -64,3 +64,5 @@ export const Credentials: React.FC = () => {
 		</Flex>
 	)
 }
+
+export default Credentials

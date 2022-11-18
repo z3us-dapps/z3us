@@ -17,7 +17,6 @@ import {
 	AlertDialogAction,
 	AlertDialogCancel,
 } from 'ui/src/components/alert-dialog'
-import { UNLOCK } from '@src/lib/v1/actions'
 
 interface ImmerT {
 	words: Array<string>
@@ -28,8 +27,8 @@ interface ImmerT {
 }
 
 export const ExportSecretPhrase: React.FC = () => {
-	const { messanger } = useSharedStore(state => ({
-		messanger: state.messanger,
+	const { getWallet } = useSharedStore(state => ({
+		getWallet: state.getWalletAction,
 	}))
 
 	const [state, setState] = useImmer<ImmerT>({
@@ -42,13 +41,21 @@ export const ExportSecretPhrase: React.FC = () => {
 
 	const handleShow = async () => {
 		try {
-			const { mnemonic } = await messanger.sendActionMessageFromPopup(UNLOCK, state.password)
-			setState(draft => {
-				draft.show = true
-				draft.words = mnemonic.words
-				draft.showError = false
-				draft.errorMessage = ''
-			})
+			const { mnemonic } = await getWallet(state.password)
+			if (!mnemonic) {
+				setState(draft => {
+					draft.show = false
+					draft.showError = true
+					draft.errorMessage = 'Account derived from private key directly.'
+				})
+			} else {
+				setState(draft => {
+					draft.show = true
+					draft.words = mnemonic?.words
+					draft.showError = false
+					draft.errorMessage = ''
+				})
+			}
 		} catch (error) {
 			setState(draft => {
 				draft.show = false
