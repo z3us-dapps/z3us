@@ -4716,10 +4716,10 @@
     "@types/filesystem" "*"
     "@types/har-format" "*"
 
-"@types/chrome@^0.0.181":
-  version "0.0.181"
-  resolved "https://registry.yarnpkg.com/@types/chrome/-/chrome-0.0.181.tgz#7357ff121f8844062616707d80ccb069f16f15ed"
-  integrity sha512-34Ln9YVVC8a195ruqWeaty3pouFdCLr9L5kPcbRflQcxnbXQnHor9uETof8OhDf8JLDytSRDiuDsRXYQYQ+9FA==
+"@types/chrome@^0.0.202":
+  version "0.0.202"
+  resolved "https://registry.yarnpkg.com/@types/chrome/-/chrome-0.0.202.tgz#ecc6747cc797b6b8427cbb5d9723c91dfc8bd3f4"
+  integrity sha512-Oc4daL9sFS+9MToVZPLMBxR7PxsEdod0b8wOY11lRr06GJp43MORvHeDyMD8QzeRGT6HI13oaYAe2PBgvALc4w==
   dependencies:
     "@types/filesystem" "*"
     "@types/har-format" "*"
