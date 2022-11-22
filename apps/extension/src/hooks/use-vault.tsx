@@ -82,7 +82,7 @@ export const useVault = () => {
 		const release = await mutex.acquire()
 
 		const derivePayload = {
-			index: accountIndex,
+			index: +Object.keys(publicAddresses)[accountIndex],
 			network: n,
 			publicAddresses: addresses,
 		}
