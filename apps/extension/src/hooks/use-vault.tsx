@@ -64,15 +64,15 @@ export const useVault = () => {
 		time: Date.now(),
 	})
 
-	const addNewAddressEntry = (newSigningKey: SigningKey) => {
+	const addNewAddressEntry = (index: number, newSigningKey: SigningKey) => {
 		if (accountIndex >= Object.keys(publicAddresses).length) {
 			const address = AccountAddress.fromPublicKeyAndNetwork({
 				publicKey: newSigningKey.publicKey,
 				network: network.id,
 			})
-			addPublicAddress(accountIndex, {
-				...getDefaultAddressEntry(accountIndex),
-				...publicAddresses[accountIndex],
+			addPublicAddress(index, {
+				...getDefaultAddressEntry(index),
+				...publicAddresses[index],
 				address: address.toString(),
 			})
 		}
@@ -81,8 +81,18 @@ export const useVault = () => {
 	const derive = async (n?: Network, addresses?: { [key: number]: AddressBookEntry }) => {
 		const release = await mutex.acquire()
 
+		let index = 0
+		const publicIndexes = Object.keys(publicAddresses)
+		if (publicIndexes.length > 0) {
+			if (accountIndex < publicIndexes.length) {
+				index = +publicIndexes[accountIndex]
+			} else {
+				index = +publicIndexes[publicIndexes.length - 1] + 1
+			}
+		}
+
 		const derivePayload = {
-			index: +Object.keys(publicAddresses)[accountIndex],
+			index,
 			network: n,
 			publicAddresses: addresses,
 		}
@@ -94,7 +104,7 @@ export const useVault = () => {
 						const newSigningKey = await createHardwareSigningKey(signingKey.hw, accountIndex)
 						if (newSigningKey) {
 							setSigningKey(newSigningKey)
-							addNewAddressEntry(newSigningKey)
+							addNewAddressEntry(index, newSigningKey)
 						}
 						setIsUnlocked(!!newSigningKey)
 					} else {
@@ -126,7 +136,7 @@ export const useVault = () => {
 						if (newPublicAddresses) {
 							setPublicAddresses(newPublicAddresses)
 						} else {
-							addNewAddressEntry(newSigningKey)
+							addNewAddressEntry(index, newSigningKey)
 						}
 						setIsUnlocked(isUnlockedBackground)
 					} else {
