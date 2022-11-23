@@ -46,7 +46,7 @@ export const HomePage: React.FC = () => {
 						<div>
 							<h1 className="font-HaasGrotTextRound font-bold homepage__h1">
 								<span>Control</span>
-								<span>your future.</span>
+								<span className="heeb">your future.</span>
 							</h1>
 							<div className="homepage__image-wrapper">
 								<div className="homepage__product">

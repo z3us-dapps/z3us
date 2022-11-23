@@ -6,7 +6,8 @@ body.home-page {
 	background-color: #bf9e76;
 
 	h1 {
-		border: 0px solid green;
+		color: var(--colors-primary);
+		border: 1px solid green;
 		span {
 			border: 0px solid red;
 		}

@@ -1,0 +1,16 @@
+{
+	"name": "design",
+	"version": "0.0.0",
+	"sideEffects": false,
+	"private": true,
+	"license": "MIT",
+	"files": [
+		"dist/**"
+	],
+	"scripts": {
+		"build": "node build.js"
+	},
+	"dependencies": {
+		"style-dictionary": "^3.1.1"
+	}
+}
