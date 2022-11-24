@@ -31,7 +31,12 @@ export const createLocalSigningKey = (
 			message: input.encryptedMessage.toString('hex'),
 			publicKeyOfOtherParty: input.publicKeyOfOtherParty.toString(),
 		}),
-	encrypt: (input: SigningKeyEncryptionInput) =>
+	encrypt: (
+		input: Readonly<{
+			plaintext: string
+			publicKeyOfOtherParty: PublicKeyT
+		}>,
+	) =>
 		messanger.sendActionMessageFromPopup(ENCRYPT, {
 			plaintext: input.plaintext,
 			publicKeyOfOtherParty: input.publicKeyOfOtherParty.toString(),
