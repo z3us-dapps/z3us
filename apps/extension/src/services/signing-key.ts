@@ -21,9 +21,14 @@ export const createLocalSigningKey = (
 	id: generateId(),
 	type,
 	publicKey,
-	decrypt: (input: SigningKeyDecryptionInput) =>
+	decrypt: (
+		input: Readonly<{
+			encryptedMessage: Buffer
+			publicKeyOfOtherParty: PublicKeyT
+		}>,
+	) =>
 		messanger.sendActionMessageFromPopup(DECRYPT, {
-			message: input.encryptedMessage,
+			message: input.encryptedMessage.toString('hex'),
 			publicKeyOfOtherParty: input.publicKeyOfOtherParty.toString(),
 		}),
 	encrypt: (input: SigningKeyEncryptionInput) =>
