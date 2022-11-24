@@ -58,8 +58,7 @@ export const useMessage = () => {
 
 			addConfirmWithHWToast()
 
-			const message = await signingKey.decrypt({ encryptedMessage, publicKeyOfOtherParty })
-
+			const message = await signingKey.decrypt({ encryptedMessage: encryptedMessage.combined(), publicKeyOfOtherParty })
 			if (!message) {
 				throw new Error('Failed to decrypt message.')
 			}
