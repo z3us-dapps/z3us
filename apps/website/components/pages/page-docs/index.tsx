@@ -10,15 +10,24 @@ import { DocsPageProps } from 'types'
 
 export const PageDocs: React.FC<DocsPageProps> = ({ docs, mdxSource }) => (
 	<LazyMotion>
-		<div className="docs flex flex-col">
-			<Header isStickyHeader className="transition-colors fill-black dark:fill-white" />
-			<PageContainer className="flex-1">
-				<div className="docs-wrapper">
-					<SideMenu docs={docs} />
-					<div className="docs-content">
-						<MdxTheme mdxSource={mdxSource} />
-					</div>
-					<div className="docs-on-page">
+		<div className="z3-l-docs-wrapper">
+			<div className="z3-l-docs-header">
+				<div className="z3-l-docs-container">containerheader</div>
+			</div>
+			<div className="z3-l-docs-container">
+				<div className="z3-l-docs-page">
+					<aside className="z3-l-docs-page__menu">
+						<SideMenu docs={docs} />
+					</aside>
+
+					<article className="z3-l-docs-page__content">
+						<main>
+							<MdxTheme mdxSource={mdxSource} />
+						</main>
+					</article>
+
+					<div className="z3-l-docs-page__toc">
+						on page links
 						<div>
 							<ButtonCVA intent="secondary" size="small" className="geebs">
 								Button CVA
@@ -91,8 +100,10 @@ export const PageDocs: React.FC<DocsPageProps> = ({ docs, mdxSource }) => (
 						</div>
 					</div>
 				</div>
-			</PageContainer>
-			<Footer className="pt-2 pb-4 sm:pb-8 sm:pt-8" />
+			</div>
+			<div className="z3-l-docs-footer">
+				<div className="z3-l-docs-container">footer content </div>
+			</div>
 		</div>
 	</LazyMotion>
 )

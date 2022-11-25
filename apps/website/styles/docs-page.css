@@ -1,15 +1,73 @@
 .dark body.docs-page {
 	background-color: #10082e;
 }
+
+@custom-media --tablet-viewport (min-width: 768px);
+@custom-media --tablet-desktop (min-width: 992px);
+
 body.docs-page {
 	background-color: #f7f5ff;
-	height: 100%;
-	min-height: 100%;
 }
 
-.docs {
-	min-height: 100vh;
+.z3-l-docs-container {
+	max-width: 90rem;
+	margin: 0 auto;
 }
+
+.z3-l-docs-wrapper {
+	min-height: 100vh;
+	border: 1px solid red;
+}
+
+.z3-l-docs-header {
+	border: 1px solid blue;
+	min-height: 80px;
+}
+
+.z3-l-docs-page {
+	border: 1px solid blue;
+	display: block;
+	/* margin-top: var(--sizes-4); */
+
+	@media (--tablet-viewport) {
+		display: flex;
+	}
+}
+
+.z3-l-docs-page__menu {
+	background: red;
+	display: none;
+	width: 16rem;
+
+	@media (--tablet-viewport) {
+		display: flex;
+		flex-direction: column;
+	}
+}
+
+.z3-l-docs-page__content {
+	background: lightblue;
+
+	@media (--tablet-viewport) {
+		flex: 1;
+	}
+}
+
+.z3-l-docs-page__toc {
+	background: green;
+	display: none;
+
+	@media (--tablet-desktop) {
+		display: flex;
+	}
+}
+
+.z3-l-docs-footer {
+	border: 1px solid green;
+}
+
+/* NOOBS BELOW ME */
+/* NOOBS BELOW ME */
 
 .docs-wrapper {
 	position: relative;
@@ -17,8 +75,6 @@ body.docs-page {
 }
 
 .docs-menu {
-	display: none;
-
 	font-size: 0.9rem;
 	line-height: 0.9rem;
 	color: rgb(115 115 115 / var(--tw-text-opacity));
