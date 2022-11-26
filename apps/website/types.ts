@@ -15,5 +15,6 @@ export interface Docs {
 
 export interface DocsPageProps {
 	docs: Array<Doc>
+	toc: any
 	mdxSource: React.ReactNode
 }

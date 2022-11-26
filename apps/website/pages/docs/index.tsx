@@ -2,14 +2,46 @@ import fs from 'fs'
 import path from 'path'
 import matter from 'gray-matter'
 import { serialize } from 'next-mdx-remote/serialize'
+import { slug } from 'github-slugger'
+import rehypeSlug from 'rehype-slug'
+import rehypeAutolinkHeadings from 'rehype-autolink-headings'
 import React from 'react'
 import { NextSeo } from 'next-seo'
 import { PageDocs } from 'components/pages/page-docs'
 import { config } from 'config'
 import { DocsPageProps } from 'types'
 
+// https://github.com/vercel/next.js/blob/canary/examples/with-mdx-remote/pages/index.js
+// https://github.com/sindresorhus/slugify
+// https://github.com/hashicorp/next-mdx-remote/issues/53
+// https://codesandbox.io/s/4859d?file=/lib/mdx.js
+// https://github.com/hashicorp/next-mdx-remote/issues/231
+
 const META = '_meta.json'
 const DOCS_FOLDER = 'docs'
+
+export const getTableOfContents = (content: any) => {
+	const regexp = new RegExp(/^(### |## )(.*)\n/, 'gm')
+	const headings = [...content.matchAll(regexp)]
+
+	let tableOfContents = []
+
+	if (headings.length) {
+		tableOfContents = headings.map(heading => {
+			const headingText = heading[2].trim()
+			const headingType = heading[1].trim() === '##' ? 'h2' : 'h3'
+			const headingLink = slug(headingText)
+			// const headingLink = slugify(headingText, { lower: true, strict: true })
+
+			return {
+				title: headingType === 'h2' ? headingText : `- ${headingText}`,
+				link: `#${headingLink}`,
+			}
+		})
+	}
+
+	return tableOfContents
+}
 
 const getAllFiles = (dirPath: string, map: object = {}, folderPath: string = '') => {
 	const files = fs.readdirSync(dirPath)
@@ -69,7 +101,7 @@ const getAllFiles = (dirPath: string, map: object = {}, folderPath: string = '')
 	return fileMap
 }
 
-export const DocsIndex: React.FC<DocsPageProps> = ({ docs, mdxSource }) => (
+export const DocsIndex: React.FC<DocsPageProps> = ({ docs, toc, mdxSource }) => (
 	<>
 		<NextSeo
 			title="Documentation"
@@ -94,7 +126,7 @@ export const DocsIndex: React.FC<DocsPageProps> = ({ docs, mdxSource }) => (
 				],
 			}}
 		/>
-		<PageDocs docs={docs} mdxSource={mdxSource} />
+		<PageDocs toc={toc} docs={docs} mdxSource={mdxSource} />
 	</>
 )
 
@@ -117,11 +149,21 @@ export const getStaticProps = async () => {
 
 	const markdownWithMeta = fs.readFileSync(path.join('docs/introduction.mdx'), 'utf-8')
 	const { content } = matter(markdownWithMeta)
-	const mdxSource = await serialize(content)
+	const toc = getTableOfContents(content)
+	const mdxSource = await serialize(content, {
+		scope: {},
+		mdxOptions: {
+			remarkPlugins: [],
+			rehypePlugins: [rehypeSlug, rehypeAutolinkHeadings],
+			format: 'mdx',
+		},
+		parseFrontmatter: false,
+	})
 
 	return {
 		props: {
 			docs,
+			toc,
 			mdxSource,
 		},
 	}

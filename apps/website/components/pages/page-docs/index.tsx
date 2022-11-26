@@ -1,6 +1,7 @@
-import React from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import { MdxTheme } from 'components/mdx-theme'
 import { LazyMotion } from 'components/lazy-motion'
+import { MDXRemote } from 'next-mdx-remote'
 import { Header } from 'components/header'
 import { ButtonCVA } from 'components/button-cva'
 import { Footer } from 'components/footer'
@@ -8,8 +9,16 @@ import { PageContainer } from 'components/page-container'
 import { SideMenu } from 'components/side-menu'
 import { DocsPageProps } from 'types'
 
-export const PageDocs: React.FC<DocsPageProps> = ({ docs, mdxSource }) => {
-	console.log('docs:', docs)
+export const PageDocs: React.FC<DocsPageProps> = ({ toc, docs, mdxSource }) => {
+	console.log('toc:', toc)
+	// const [toc, setToc] = useState(null)
+	// console.log('docs:', docs)
+	// console.log('source :', mdxSource)
+	//
+	// useEffect(() => {
+	// 	setToc(<div>Test TOC</div>)
+	// }, [])
+
 	return (
 		<LazyMotion>
 			<div className="z3-l-docs-wrapper">
@@ -21,26 +30,20 @@ export const PageDocs: React.FC<DocsPageProps> = ({ docs, mdxSource }) => {
 						<aside className="z3-l-docs-page__menu">
 							<SideMenu docs={docs} />
 						</aside>
-
 						<article className="z3-l-docs-page__content">
 							<main>
 								<MdxTheme mdxSource={mdxSource} />
 							</main>
 						</article>
-
 						<div className="z3-l-docs-page__toc">
 							<p>on page links</p>
-							<div>
-								{/* <ButtonCVA intent="secondary" size="small" className="geebs"> */}
-								{/* 	Button CVA */}
-								{/* </ButtonCVA> */}
-								{/* <p>On this page</p> */}
-								{/* <ul> */}
-								{/* 	<li> */}
-								{/* 		<a href="#quickstart">Quickstart</a> */}
-								{/* 	</li> */}
-								{/* </ul> */}
-							</div>
+							<ul>
+								{toc.map(({ link, title }) => (
+									<li key={link}>
+										<a href={link}>{title}</a>
+									</li>
+								))}
+							</ul>
 						</div>
 					</div>
 				</div>

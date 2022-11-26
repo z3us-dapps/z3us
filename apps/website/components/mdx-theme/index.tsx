@@ -5,16 +5,16 @@ import { PrismAsyncLight as SyntaxHighlighter } from 'react-syntax-highlighter'
 import syntaxStyleDark from 'react-syntax-highlighter/dist/cjs/styles/prism/duotone-dark'
 import syntaxStyleLight from 'react-syntax-highlighter/dist/cjs/styles/prism/duotone-light'
 import { MDXRemote } from 'next-mdx-remote'
-// import Button from 'ui/src/components/button'
 import { Example as ExampleOlympia } from '../pages/example-olympia'
 import { Example as ExampleBabylon } from '../pages/example-babylon'
+// import Button from 'ui/src/components/button'
 // import { Airdrop } from '../pages/airdrop'
 
 const generateComponents = (theme: string) => ({
   // Button,
+  // Airdrop,
   ExampleOlympia,
   ExampleBabylon,
-  // Airdrop,
   SyntaxHighlighter: props => (
     <div>
       <SyntaxHighlighter style={theme === 'dark' ? syntaxStyleDark : syntaxStyleLight} {...props} />
