@@ -8,6 +8,67 @@ import { PageDocs } from 'components/pages/page-docs'
 import { config } from 'config'
 import { DocsPageProps } from 'types'
 
+const META = '_meta.json'
+const DOCS_FOLDER = 'docs'
+
+const getAllFiles = (dirPath: string, map: object = {}, folderPath: string = '') => {
+	const files = fs.readdirSync(dirPath)
+	let fileMap = {
+		...map,
+	}
+	files.forEach(file => {
+		const p = `${dirPath}/${file}`
+		if (fs.statSync(p).isDirectory()) {
+			fileMap = {
+				...fileMap,
+				...getAllFiles(`${dirPath}/${file}`, fileMap, p),
+			}
+		} else if (file === META) {
+			const metaObj = JSON.parse(fs.readFileSync(path.join(p), 'utf-8'))
+			const isFileInFolder = folderPath.length > 0
+			const pathArr = (folderPath || '')
+				.replace(DOCS_FOLDER, '')
+				.split('/')
+				.filter(a => a !== '')
+			const pathLength = pathArr.length
+			const folderName = pathArr[pathArr.length - 1]
+			const folderParent = pathArr?.[pathArr.length - 2]
+			const menu = Object.entries(metaObj).reduce(
+				(acc, [slug, title]) => ({
+					...acc,
+					[slug]: { title, slug },
+				}),
+				{},
+			)
+			fileMap = {
+				...fileMap,
+				...(isFileInFolder
+					? {
+						...(pathLength === 1
+							? { [folderName]: { ...fileMap?.[folderName], ...menu } }
+							: {
+								...{
+									[folderParent]: {
+										...fileMap[folderParent],
+										[folderName]: {
+											...fileMap[folderParent][folderName],
+											...menu,
+										},
+									},
+								},
+							}),
+					}
+					: { ...menu }),
+			}
+
+			// TODO, do we need this ?
+			// arrayOfFiles.push(path.join(__dirname, dirPath, '/', file))
+		}
+	})
+
+	return fileMap
+}
+
 export const DocsIndex: React.FC<DocsPageProps> = ({ docs, mdxSource }) => (
 	<>
 		<NextSeo
@@ -38,17 +99,21 @@ export const DocsIndex: React.FC<DocsPageProps> = ({ docs, mdxSource }) => (
 )
 
 export const getStaticProps = async () => {
-	const files = fs.readdirSync(path.join('docs'))
+	const docs = getAllFiles(DOCS_FOLDER, [])
 
-	const docs = files.map(filename => {
-		const markdownWithMeta = fs.readFileSync(path.join('docs', filename), 'utf-8')
-		const { data: frontMatter } = matter(markdownWithMeta)
+	// files.forEach(file => {
+	// 	console.log('file:', file)
+	// })
 
-		return {
-			frontMatter,
-			slug: filename.split('.')[0],
-		}
-	})
+	// const docs = files.map(filename => {
+	// 	const markdownWithMeta = fs.readFileSync(path.join('docs', filename), 'utf-8')
+	// 	const { data: frontMatter } = matter(markdownWithMeta)
+	//
+	// 	return {
+	// 		frontMatter,
+	// 		slug: filename.split('.')[0],
+	// 	}
+	// })
 
 	const markdownWithMeta = fs.readFileSync(path.join('docs/introduction.mdx'), 'utf-8')
 	const { content } = matter(markdownWithMeta)
