@@ -62,6 +62,19 @@ body.docs-page {
 		white-space: break-spaces;
 	}
 
+	h1 {
+		border: 1px solid red;
+		scroll-margin-top: 5rem;
+	}
+	h2 {
+		border: 1px solid blue;
+		scroll-margin-top: 5rem;
+	}
+	h3 {
+		border: 1px solid green;
+		scroll-margin-top: 5rem;
+	}
+
 	@media (--viewport-tablet) {
 		flex: 1 auto auto;
 	}

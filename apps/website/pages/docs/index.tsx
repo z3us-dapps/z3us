@@ -2,7 +2,7 @@ import fs from 'fs'
 import path from 'path'
 import matter from 'gray-matter'
 import { serialize } from 'next-mdx-remote/serialize'
-import { slug } from 'github-slugger'
+import { slug as githubSlugger } from 'github-slugger'
 import rehypeSlug from 'rehype-slug'
 import rehypeAutolinkHeadings from 'rehype-autolink-headings'
 import React from 'react'
@@ -30,7 +30,7 @@ export const getTableOfContents = (content: any) => {
 		tableOfContents = headings.map(heading => {
 			const headingText = heading[2].trim()
 			const headingType = heading[1].trim() === '##' ? 'h2' : 'h3'
-			const headingLink = slug(headingText)
+			const headingLink = githubSlugger(`z3-${headingText}`)
 			// const headingLink = slugify(headingText, { lower: true, strict: true })
 
 			return {

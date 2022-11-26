@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react'
 import { MdxTheme } from 'components/mdx-theme'
 import { LazyMotion } from 'components/lazy-motion'
-import { MDXRemote } from 'next-mdx-remote'
 import { Header } from 'components/header'
 import { ButtonCVA } from 'components/button-cva'
 import { Footer } from 'components/footer'
@@ -10,14 +9,15 @@ import { SideMenu } from 'components/side-menu'
 import { DocsPageProps } from 'types'
 
 export const PageDocs: React.FC<DocsPageProps> = ({ toc, docs, mdxSource }) => {
-	console.log('toc:', toc)
-	// const [toc, setToc] = useState(null)
-	// console.log('docs:', docs)
-	// console.log('source :', mdxSource)
-	//
-	// useEffect(() => {
-	// 	setToc(<div>Test TOC</div>)
-	// }, [])
+	useEffect(() => {
+		document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+			anchor.addEventListener('click', e => {
+				e.preventDefault()
+				const anchorId = (anchor.getAttribute('href') || '').replace('#z3-', '')
+				document.getElementById(anchorId).scrollIntoView({ behavior: 'smooth' })
+			})
+		})
+	}, [])
 
 	return (
 		<LazyMotion>
