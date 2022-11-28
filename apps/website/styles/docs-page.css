@@ -1,34 +1,60 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+	--header-height: 4rem;
+}
+
 @custom-media --viewport-tablet (min-width: 768px);
 @custom-media --viewport-laptop (min-width: 992px);
 @custom-media --viewport-desktop (min-width: 1280px);
+
+html.light {
+	pre[data-theme='dark'],
+	code[data-theme='dark'] {
+		display: none;
+	}
+}
+
+html.dark {
+	pre[data-theme='light'],
+	code[data-theme='light'] {
+		display: none;
+	}
+}
 
 body.docs-page {
 	background-color: #f7f5ff;
 }
 
 .dark body.docs-page {
-	background-color: #10082e;
+	background-color: #0b061e;
 }
 
-.z3-l-docs-container {
-	max-width: 90rem;
-	margin: 0 auto;
+.z3-container {
+	max-width: 95%;
+	margin-left: auto;
+	margin-right: auto;
+
+	@media (--viewport-tablet) {
+		max-width: 95%;
+	}
+
+	@media (--viewport-laptop) {
+		max-width: 90%;
+	}
+
+	@media (--viewport-desktop) {
+		max-width: 1174px;
+	}
 }
 
 .z3-l-docs-wrapper {
 	min-height: 100vh;
-	border: 1px solid red;
-}
-
-.z3-l-docs-header {
-	border: 1px solid blue;
-	min-height: 80px;
-	position: sticky;
-	top: 0;
 }
 
 .z3-l-docs-page {
-	border: 1px solid blue;
 	display: block;
 
 	@media (--viewport-tablet) {
@@ -49,30 +75,60 @@ body.docs-page {
 
 	@media (--viewport-tablet) {
 		display: flex;
+		opacity: 0;
 	}
 }
 
 .z3-l-docs-page__content {
-	background: lightblue;
 	width: 100%;
 	max-width: 100%;
 
-	code {
+	h1,
+	h2,
+	h3,
+	h4,
+	h5,
+	h6,
+	p {
+		code {
+			@apply bg-slate-300/20 border border-slate-300 dark:border-slate-700 rounded;
+			padding-top: 0.1rem;
+			padding-bottom: 0.2rem;
+			padding-left: 0.2rem;
+			padding-right: 0.2rem;
+		}
+	}
+
+	pre > code {
+		display: grid;
 		overflow-wrap: break-word;
 		white-space: break-spaces;
 	}
 
-	h1 {
-		border: 1px solid red;
-		scroll-margin-top: 5rem;
+	h1,
+	h2,
+	h3,
+	h4,
+	h5,
+	h5 {
+		scroll-margin-top: calc(var(--header-height) + 1rem);
 	}
-	h2 {
-		border: 1px solid blue;
-		scroll-margin-top: 5rem;
+
+	ul,
+	ol {
+		margin-top: 1rem;
+		margin-bottom: 1rem;
+		margin-left: 1rem;
 	}
-	h3 {
-		border: 1px solid green;
-		scroll-margin-top: 5rem;
+	ol {
+		list-style-type: auto;
+	}
+	ul {
+		list-style-type: disc;
+	}
+	li {
+		margin-top: 0.5rem;
+		margin-bottom: 0.5rem;
 	}
 
 	@media (--viewport-tablet) {
@@ -81,14 +137,21 @@ body.docs-page {
 }
 
 .z3-l-docs-page__toc {
-	background: green;
 	display: none;
 	width: 16rem;
 	flex: 0 0 16rem;
 	align-self: self-start;
 	position: sticky;
-	top: 5rem;
-	height: 50vh;
+	top: 6rem;
+	padding-left: 3rem;
+
+	.toc-li--h3 {
+		margin-left: 0.4rem;
+	}
+
+	.toc-li--h4 {
+		margin-left: 0.8rem;
+	}
 
 	@media (--viewport-desktop) {
 		display: flex;
@@ -97,7 +160,8 @@ body.docs-page {
 }
 
 .z3-l-docs-footer {
-	border: 1px solid green;
+	padding-top: 2rem;
+	padding-bottom: 1rem;
 }
 
 /* NOOBS BELOW ME */

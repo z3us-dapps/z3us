@@ -11,11 +11,7 @@ const defaultProps = {
 }
 
 export const PageContainer = ({ children, className }: IPageContainer) => (
-  <div className={clsx('px-5', className && className)}>
-    <div className="container mx-auto" style={{ maxWidth: '1174px' }}>
-      {children}
-    </div>
-  </div>
+  <div className={clsx('z3-container', className && className)}>{children}</div>
 )
 
 PageContainer.defaultProps = defaultProps

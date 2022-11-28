@@ -4,11 +4,11 @@ import { LazyMotion } from 'components/lazy-motion'
 import { Header } from 'components/header'
 import { ButtonCVA } from 'components/button-cva'
 import { Footer } from 'components/footer'
-import { PageContainer } from 'components/page-container'
 import { SideMenu } from 'components/side-menu'
 import { DocsPageProps } from 'types'
 
 export const PageDocs: React.FC<DocsPageProps> = ({ toc, docs, mdxSource }) => {
+	console.log('toc:', toc)
 	useEffect(() => {
 		document.querySelectorAll('a[href^="#"]').forEach(anchor => {
 			anchor.addEventListener('click', e => {
@@ -22,10 +22,8 @@ export const PageDocs: React.FC<DocsPageProps> = ({ toc, docs, mdxSource }) => {
 	return (
 		<LazyMotion>
 			<div className="z3-l-docs-wrapper">
-				<div className="z3-l-docs-header">
-					<div className="z3-l-docs-container">container header</div>
-				</div>
-				<div className="z3-l-docs-container">
+				<Header isStickyHeader isBetaButtonVisible={false} isDocsButtonVisible={false} className="dark:fill-white" />
+				<div className="z3-l-docs-container z3-container">
 					<div className="z3-l-docs-page">
 						<aside className="z3-l-docs-page__menu">
 							<SideMenu docs={docs} />
@@ -36,11 +34,13 @@ export const PageDocs: React.FC<DocsPageProps> = ({ toc, docs, mdxSource }) => {
 							</main>
 						</article>
 						<div className="z3-l-docs-page__toc">
-							<p>on page links</p>
-							<ul>
-								{toc.map(({ link, title }) => (
-									<li key={link}>
-										<a href={link}>{title}</a>
+							<p className="text-lg font-bold pb-3">On this page</p>
+							<ul className="text-xs text-neutral-500 dark:text-neutral-300 leading-relaxed">
+								{toc.map(({ link, title, headingType }) => (
+									<li key={link} className={`toc-li--${headingType} mt-1 mb-1`}>
+										<a href={link} className="hover:underline decoration-from-font underline-offset-4">
+											{title}
+										</a>
 									</li>
 								))}
 							</ul>
@@ -48,7 +48,7 @@ export const PageDocs: React.FC<DocsPageProps> = ({ toc, docs, mdxSource }) => {
 					</div>
 				</div>
 				<div className="z3-l-docs-footer">
-					<div className="z3-l-docs-container">footer content </div>
+					<Footer />
 				</div>
 			</div>
 		</LazyMotion>

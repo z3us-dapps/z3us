@@ -12,13 +12,18 @@ import { MobileMenu } from './mobile-menu'
 interface IProps {
 	className?: string | undefined
 	isStickyHeader?: boolean
+	isBetaButtonVisible?: boolean
+	isDocsButtonVisible?: boolean
 }
 
 const defaultProps = {
 	isStickyHeader: false,
+	isBetaButtonVisible: true,
+	isDocsButtonVisible: true,
+	className: undefined,
 }
 
-export const Header: React.FC<IProps> = ({ className, isStickyHeader }) => {
+export const Header: React.FC<IProps> = ({ className, isStickyHeader, isBetaButtonVisible, isDocsButtonVisible }) => {
 	const [isSticky, setIsSticky] = useState<boolean>(false)
 	const { scrollY } = useScroll()
 
@@ -35,16 +40,16 @@ export const Header: React.FC<IProps> = ({ className, isStickyHeader }) => {
 	return (
 		<div
 			className={clsx(
-				'z-20 header transition-all',
+				'z-20 header transition-all h-16',
 				className,
 				isSticky && 'sticky top-0 header--sticky backdrop-blur-md shadow-sm dark:shadow-md dark:shadow-[#12001f]',
 			)}
 		>
 			<PageContainer>
-				<div className="flex w-100 py-4">
+				<div className="flex w-100 py-5">
 					<div className="flex-1 color-white z-30 flex items-start">
 						<Link href="/" passHref>
-							<a className="cursor-pointer inline-flex mt-3 hover:opacity-60 transition-opacity">
+							<a className="cursor-pointer inline-flex hover:opacity-60 transition-opacity mt-1">
 								<Z3usText css={{ maxWidth: '130px' }} />
 							</a>
 						</Link>
@@ -61,11 +66,13 @@ export const Header: React.FC<IProps> = ({ className, isStickyHeader }) => {
 								<a className="cursor-pointer hover:underline">Road map</a>
 							</Link>
 						</li>
-						<li>
-							<Link href="/docs" passHref>
-								<a className="cursor-pointer hover:underline">Docs</a>
-							</Link>
-						</li>
+						{isDocsButtonVisible ? (
+							<li>
+								<Link href="/docs" passHref>
+									<a className="cursor-pointer hover:underline">Docs</a>
+								</Link>
+							</li>
+						) : null}
 						<li className="h-6">
 							<a
 								className="header-icon cursor-pointer inline-flex items-center justify-center fill-inherit hover:opacity-60 transition-opacity"
@@ -90,12 +97,14 @@ export const Header: React.FC<IProps> = ({ className, isStickyHeader }) => {
 								<GithubIcon />
 							</a>
 						</li>
-						<li>
-							<FlashCtaButton size="base" variant="secondary">
-								<span className="hidden lg:block">Get BETA access</span>
-								<span className="lg:hidden">Get BETA</span>
-							</FlashCtaButton>
-						</li>
+						{isBetaButtonVisible ? (
+							<li>
+								<FlashCtaButton size="base" variant="secondary">
+									<span className="hidden lg:block">Get BETA access</span>
+									<span className="lg:hidden">Get BETA</span>
+								</FlashCtaButton>
+							</li>
+						) : null}
 					</ul>
 				</div>
 			</PageContainer>
