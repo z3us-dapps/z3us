@@ -28,7 +28,6 @@ const transformMenu = (menu: any) =>
 	}, {})
 
 export const Accordion = ({ i, expanded, setExpanded, menu }) => {
-	console.log('i:', i)
 	const isOpen = expanded.includes(i)
 	const transformedMenu = transformMenu(menu)
 	const hasSubMenu = Object.keys(transformedMenu).length > 0
@@ -45,7 +44,7 @@ export const Accordion = ({ i, expanded, setExpanded, menu }) => {
 
 	const title = (
 		<span className="flex items-center pt-3 pb-3">
-			<span className="ml-1 fill-purple-800 dark:fill-purple-500">
+			<span className="ml-2 fill-purple-800 dark:fill-purple-500">
 				{(() => {
 					switch (i) {
 						case 'introduction':

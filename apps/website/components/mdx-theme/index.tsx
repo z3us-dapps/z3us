@@ -28,7 +28,7 @@ const generateComponents = () => ({
   ),
   pre: props => (
     <pre
-      className="z3-pre text-xs mt-6 mb-4 py-3 px-3 bg-stone-50/75 dark:bg-slate-700/40 rounded-md shadow"
+      className="z3-pre text-xs mt-6 mb-4 py-3 px-3 bg-stone-50/75 dark:bg-slate-700/50 rounded-md shadow"
       {...props}
     />
   ),

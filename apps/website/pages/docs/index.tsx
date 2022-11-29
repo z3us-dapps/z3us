@@ -13,6 +13,8 @@ import { config } from 'config'
 import { DocsPageProps } from 'types'
 
 const options = {
+  // theme: 'one-dark-pro',
+  // theme: 'github-light',
   theme: {
     dark: 'github-dark',
     light: 'github-light',

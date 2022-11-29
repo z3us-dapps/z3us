@@ -25,7 +25,7 @@ html.dark {
 }
 
 body.docs-page {
-	background-color: #f7f5ff;
+	background-color: #faf9ff;
 }
 
 .dark body.docs-page {
@@ -184,7 +184,7 @@ body.docs-page {
 		padding-top: 0rem;
 		padding-bottom: 0rem;
 		overflow: hidden;
-		font-size: 0.85rem;
+		font-size: 0.82rem;
 
 		.z3-docs-menu__wrapper {
 			position: relative;
