@@ -71,7 +71,7 @@ export const RoadmapPage = () => {
 							<h4 className="text-2xl leading-10 pt-4 xl:pt-5">
 								Our vision for the Z3US project is to build the best community wallet with an emphasis on neutrality.
 								Help shape this vision by{' '}
-								<a className="hover:underline text-violet-700" href="/">
+								<a className="hover:underline decoration-from-font underline-offset-4 text-violet-700" href="/">
 									suggesting features
 								</a>{' '}
 								on our roadmap.

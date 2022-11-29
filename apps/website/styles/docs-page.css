@@ -33,7 +33,7 @@ body.docs-page {
 }
 
 .z3-container {
-	max-width: 95%;
+	max-width: 90%;
 	margin-left: auto;
 	margin-right: auto;
 
@@ -63,19 +63,16 @@ body.docs-page {
 }
 
 .z3-l-docs-page__menu {
-	background: red;
 	display: none;
 	flex-direction: column;
 	align-self: self-start;
-	width: 16rem;
-	flex: 0 0 16rem;
+	width: 13rem;
+	flex: 0 0 13rem;
 	position: sticky;
-	top: 5rem;
-	height: 50vh;
+	top: 6rem;
 
 	@media (--viewport-tablet) {
 		display: flex;
-		opacity: 0;
 	}
 }
 
@@ -132,7 +129,8 @@ body.docs-page {
 	}
 
 	@media (--viewport-tablet) {
-		flex: 1 auto auto;
+		flex: 1 auto;
+		padding-left: 2rem;
 	}
 }
 
@@ -161,38 +159,62 @@ body.docs-page {
 
 .z3-l-docs-footer {
 	padding-top: 2rem;
-	padding-bottom: 1rem;
+	padding-bottom: 2rem;
 }
 
-/* NOOBS BELOW ME */
-/* NOOBS BELOW ME */
-
-.docs-wrapper {
-	position: relative;
-	align-items: flex-start;
+.dark {
+	.z3-docs-menu {
+		ul {
+			.z3-docs-menu__wrapper {
+				&::after {
+					background: rgba(255, 255, 255, 0.2);
+				}
+			}
+		}
+	}
 }
 
-.docs-menu ul {
-	display: block;
-}
+.z3-docs-menu {
+	ul {
+		position: relative;
+		display: flex;
+		flex-direction: column;
+		position: relative;
+		margin-left: 0rem;
+		padding-top: 0rem;
+		padding-bottom: 0rem;
+		overflow: hidden;
+		font-size: 0.85rem;
 
-.docs-menu ul {
-	display: block;
-	position: relative;
-	/* margin-top: 1.5rem; */
-	margin-left: 0.5rem;
-	padding-top: 1rem;
-	padding-bottom: 1rem;
-}
+		.z3-docs-menu__wrapper {
+			position: relative;
+			padding-left: 1.2rem;
 
-.docs-menu section {
-	overflow: hidden;
-}
-
-.docs-content a {
-	border-radius: 0.25rem;
-	text-decoration: text-underline-position;
-	text-decoration-thickness: from-font;
-	text-decoration-line: underline;
-	text-underline-position: under;
+			&::after {
+				content: '';
+				position: absolute;
+				top: 0;
+				bottom: 0;
+				left: 0.7rem;
+				width: 0.04rem;
+				background: rgba(0, 0, 0, 0.1);
+			}
+		}
+	}
+	li {
+		a {
+			display: inline-flex;
+			width: 100%;
+		}
+		.z3-docs-menu__toggle-btn {
+			width: 1.2rem;
+			height: 1.2rem;
+			position: absolute;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			top: 0.7rem;
+			right: 0.3rem;
+		}
+	}
 }

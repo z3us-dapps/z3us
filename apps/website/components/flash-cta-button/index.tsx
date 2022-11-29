@@ -20,17 +20,22 @@ const createSVG = (width: number, height: number, radius: number) => {
 
 export interface IProps {
 	children: React.ReactNode
+	showEffect?: boolean
 	variant: 'primary' | 'secondary' | 'ghost'
 	size: 'sm' | 'base' | 'lg' | 'xl' | '2xl'
 }
 
-export const FlashCtaButton = ({ children, size, variant }: IProps): JSX.Element => {
+const defaultProps = {
+	showEffect: true,
+}
+
+export const FlashCtaButton = ({ children, size, variant, showEffect }: IProps): JSX.Element => {
 	const buttonRef = useRef(null)
 	const ctaLink = useGetStoreHref()
 
 	useEffect(() => {
 		const button = buttonRef.current
-		if (button) {
+		if (button && showEffect) {
 			const borderRadius = 25
 			const buttonRect = button.getBoundingClientRect()
 			const lines = document.createElement('div')
@@ -64,3 +69,5 @@ export const FlashCtaButton = ({ children, size, variant }: IProps): JSX.Element
 		</div>
 	)
 }
+
+FlashCtaButton.defaultProps = defaultProps

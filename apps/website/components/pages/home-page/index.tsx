@@ -156,7 +156,7 @@ export const HomePage: React.FC = () => {
 												Z3US is the right web3 wallet for you.
 											</p>
 											<div className="pt-6">
-												<FlashCtaButton size="lg" variant="primary">
+												<FlashCtaButton size="lg" variant="primary" showEffect={false}>
 													Get BETA access
 												</FlashCtaButton>
 											</div>

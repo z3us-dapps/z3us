@@ -58,18 +58,18 @@ export const Header: React.FC<IProps> = ({ className, isStickyHeader, isBetaButt
 					<ul className="font-medium text-sm gap-3 lg:gap-5 hidden md:flex items-center">
 						<li>
 							<Link href="" passHref>
-								<a className="cursor-pointer hover:underline">Feedback</a>
+								<a className="cursor-pointer hover:underline decoration-from-font underline-offset-4">Feedback</a>
 							</Link>
 						</li>
 						<li>
 							<Link href="/roadmap" passHref>
-								<a className="cursor-pointer hover:underline">Road map</a>
+								<a className="cursor-pointer hover:underline decoration-from-font underline-offset-4">Road map</a>
 							</Link>
 						</li>
 						{isDocsButtonVisible ? (
 							<li>
 								<Link href="/docs" passHref>
-									<a className="cursor-pointer hover:underline">Docs</a>
+									<a className="cursor-pointer hover:underline decoration-from-font underline-offset-4">Docs</a>
 								</Link>
 							</li>
 						) : null}

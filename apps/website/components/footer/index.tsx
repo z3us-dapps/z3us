@@ -27,12 +27,12 @@ export const Footer = ({ className }: IProps) => (
         <ul className="text-sm flex items-center pt-2 sm:pt-0">
           <li className="pr-3">
             <Link href="/privacy" passHref>
-              <a className="hover:underline">Privacy</a>
+              <a className="hover:underline decoration-from-font underline-offset-4">Privacy</a>
             </Link>
           </li>
           <li className="pr-2">
             <Link href="/terms" passHref>
-              <a className="hover:underline">Terms</a>
+              <a className="hover:underline decoration-from-font underline-offset-4">Terms</a>
             </Link>
           </li>
           <li>
