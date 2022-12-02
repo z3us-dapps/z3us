@@ -52,6 +52,12 @@ body.docs-page {
 
 .z3-l-docs-wrapper {
 	min-height: 100vh;
+	display: flex;
+	flex-direction: column;
+}
+
+.z3-l-docs-container {
+	flex: 1;
 }
 
 .z3-l-docs-page {
