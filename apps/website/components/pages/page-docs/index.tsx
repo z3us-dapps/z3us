@@ -8,6 +8,8 @@ import { SideMenu } from 'components/side-menu'
 import { DocsPageProps } from 'types'
 
 export const PageDocs: React.FC<DocsPageProps> = ({ toc, docs, mdxSource }) => {
+	console.log('docs:', docs)
+	console.log('toc:', toc)
 	useEffect(() => {
 		document.querySelectorAll('a[href^="#"]').forEach(anchor => {
 			anchor.addEventListener('click', e => {

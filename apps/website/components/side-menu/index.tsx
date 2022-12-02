@@ -32,8 +32,7 @@ export const Accordion = ({ i, expanded, setExpanded, menu }) => {
 	const transformedMenu = transformMenu(menu)
 	const hasSubMenu = Object.keys(transformedMenu).length > 0
 
-	// By using `AnimatePresence` to mount and unmount the contents, we can animate
-	// them in and out while also only rendering the contents of open accordions
+	// TODO
 	const handleClickMenuItem = (_i: string) => {
 		if (isOpen) {
 			setExpanded((prev: Array<string>) => prev.filter((item: string) => item !== _i))
@@ -49,11 +48,9 @@ export const Accordion = ({ i, expanded, setExpanded, menu }) => {
 					switch (i) {
 						case 'introduction':
 							return <BoltIcon className="h-4 w-4 fill-inherit" />
-						case 'getting-started':
+						case 'api':
 							return <CodeBracketSquareIcon className="h-4 w-4 fill-inherit" />
-						case 'test':
-							return <BoltIcon className="h-4 w-4 fill-inherit" />
-						case 'handbook':
+						case 'demo':
 							return <ComputerDesktopIcon className="h-4 w-4 fill-inherit" />
 						default:
 							return <DocumentIcon className="h-4 w-4 fill-inherit" />
