@@ -81,18 +81,18 @@ export const useVault = () => {
 	const derive = async (n?: Network, addresses?: { [key: number]: AddressBookEntry }) => {
 		const release = await mutex.acquire()
 
-		let index = 0
+		let deriveIndex = 0
 		const publicIndexes = Object.keys(publicAddresses)
 		if (publicIndexes.length > 0) {
 			if (accountIndex < publicIndexes.length) {
-				index = +publicIndexes[accountIndex]
+				deriveIndex = +publicIndexes[accountIndex]
 			} else {
-				index = +publicIndexes[publicIndexes.length - 1] + 1
+				deriveIndex = +publicIndexes[publicIndexes.length - 1] + 1
 			}
 		}
 
 		const derivePayload = {
-			index,
+			index: deriveIndex,
 			network: n,
 			publicAddresses: addresses,
 		}
@@ -101,10 +101,10 @@ export const useVault = () => {
 			switch (keystore?.type) {
 				case KeystoreType.HARDWARE:
 					if (signingKey?.hw) {
-						const newSigningKey = await createHardwareSigningKey(signingKey.hw, accountIndex)
+						const newSigningKey = await createHardwareSigningKey(signingKey.hw, deriveIndex)
 						if (newSigningKey) {
 							setSigningKey(newSigningKey)
-							addNewAddressEntry(index, newSigningKey)
+							addNewAddressEntry(deriveIndex, newSigningKey)
 						}
 						setIsUnlocked(!!newSigningKey)
 					} else {
@@ -136,7 +136,7 @@ export const useVault = () => {
 						if (newPublicAddresses) {
 							setPublicAddresses(newPublicAddresses)
 						} else {
-							addNewAddressEntry(index, newSigningKey)
+							addNewAddressEntry(deriveIndex, newSigningKey)
 						}
 						setIsUnlocked(isUnlockedBackground)
 					} else {
