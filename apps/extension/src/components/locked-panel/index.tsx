@@ -45,8 +45,8 @@ export const LockedPanel: React.FC = () => {
 		// authenticate: state.authenticateAction,
 		addToast: state.addToastAction,
 	}))
-	const { accountIndex } = useNoneSharedStore(state => ({
-		accountIndex: state.selectedAccountIndex,
+	const { deriveIndex } = useNoneSharedStore(state => ({
+		deriveIndex: +Object.keys(state.publicAddresses)[state.selectedAccountIndex] || 0,
 	}))
 
 	const [state, setState] = useImmer<IImmer>({
@@ -112,7 +112,7 @@ export const LockedPanel: React.FC = () => {
 		await sleep(700)
 
 		try {
-			const { isUnlocked: isUnlockedBackground, publicKey, type } = await unlock(password, accountIndex)
+			const { isUnlocked: isUnlockedBackground, publicKey, type } = await unlock(password, deriveIndex)
 
 			switch (keystore?.type) {
 				case KeystoreType.LOCAL: {

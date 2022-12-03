@@ -23,8 +23,8 @@ export const HardwareWalletReconnect: React.FC = () => {
 		setSigningKey: state.setSigningKeyAction,
 		addToast: state.addToastAction,
 	}))
-	const { accountIndex } = useNoneSharedStore(state => ({
-		accountIndex: state.selectedAccountIndex,
+	const { deriveIndex } = useNoneSharedStore(state => ({
+		deriveIndex: +Object.keys(state.publicAddresses)[state.selectedAccountIndex] || 0,
 		selectAccount: state.selectAccountAction,
 	}))
 	const [state, setState] = useImmer<ImmerT>({
@@ -40,7 +40,7 @@ export const HardwareWalletReconnect: React.FC = () => {
 		})
 		try {
 			const hw = await firstValueFrom(HardwareWalletLedger.create({ send: sendAPDU }))
-			const newSigningKey = await createHardwareSigningKey(hw, accountIndex)
+			const newSigningKey = await createHardwareSigningKey(hw, deriveIndex)
 			setSigningKey(newSigningKey)
 		} catch (error) {
 			addToast({
