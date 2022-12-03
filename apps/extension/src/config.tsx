@@ -36,6 +36,9 @@ export const defaultTokenSettings: TdefaultTokenSettings = {
 	arena: { image: 'images/token-images/arena.png' },
 	easy: { image: 'images/token-images/easy.png' },
 	xseed: { image: 'images/token-images/xseed.png' },
+	rdt: { image: 'images/token-images/rdt.png' },
+	crumbs: { image: 'images/token-images/crumbs.png' },
+	z3us: { image: 'images/token-images/z3us.png' },
 }
 
 export const PRESET_COLOR_HELIOTROPE_SUNRISE = 'preset_color_heliotrope_sunrise'
