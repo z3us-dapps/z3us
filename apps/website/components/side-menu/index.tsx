@@ -3,20 +3,26 @@
 import React, { useState } from 'react'
 import { Box, Text, StyledLink } from 'ui/src/components/atoms'
 import {
-	ChevronUpIcon,
 	ChevronDownIcon,
-	CheckIcon,
-	SunIcon,
-	MoonIcon,
 	BoltIcon,
 	DocumentIcon,
 	CodeBracketSquareIcon,
 	ComputerDesktopIcon,
 } from '@heroicons/react/24/solid'
-import { AnimatePresence, m as motion, useMotionValue } from 'framer-motion'
+import { AnimatePresence, m as motion } from 'framer-motion'
 import { useRouter } from 'next/router'
 import Link from 'next/link'
 import { Docs } from '../../types'
+
+interface IAccordion {
+	i: string
+	expanded: Array<string>
+	// TODO
+	setExpanded: any
+	// TODO
+	menu: any
+	path: string
+}
 
 const transformMenu = (menu: any) =>
 	Object.entries(menu).reduce((acc, [k, v]) => {
@@ -27,13 +33,16 @@ const transformMenu = (menu: any) =>
 		}
 	}, {})
 
-export const Accordion = ({ i, expanded, setExpanded, menu }) => {
+export const Accordion = ({ i, expanded, setExpanded, menu, path }: IAccordion) => {
 	const isOpen = expanded.includes(i)
 	const transformedMenu = transformMenu(menu)
 	const hasSubMenu = Object.keys(transformedMenu).length > 0
+	const slug = `/docs/${menu.slug}`
+	const isIntroActive = path === '/docs' && slug === '/docs/introduction'
+	const isActiveMenu = isIntroActive || path === slug
 
-	const handleClickMenuItem = (_i: string) => {
-		setExpanded((prev: Array<string>) => (isOpen ? prev.filter((item: string) => item !== _i) : [...prev, _i]))
+	const handleClickMenuItem = (_i: string, _isOpen: boolean) => {
+		setExpanded((prev: Array<string>) => (_isOpen ? prev.filter((item: string) => item !== _i) : [...prev, _i]))
 	}
 
 	const title = (
@@ -60,27 +69,36 @@ export const Accordion = ({ i, expanded, setExpanded, menu }) => {
 		<ul>
 			<motion.li initial={false}>
 				{menu.slug ? (
-					<a
-						className="rounded transition-all hover:bg-violet-200/30 dark:hover:bg-violet-200/10"
-						href={`/docs/${menu.slug}`}
-					>
-						{title}
-						{hasSubMenu ? (
-							<button
-								className="z3-docs-menu__toggle-btn rounded hover:bg-slate-500/20 focus:outline-none focus:ring focus:ring-violet-300 transition-all"
-								type="button"
-								onClick={e => {
-									e.preventDefault()
-									handleClickMenuItem(i)
-								}}
-							>
-								<ChevronDownIcon className="h-4 w-4 fill-purple-800 dark:fill-purple-500" />
-							</button>
-						) : null}
-					</a>
+					<Link href={`/docs/${menu.slug}`} passHref>
+						<a
+							tabIndex={0}
+							role="link"
+							onKeyDown={() => handleClickMenuItem(i, false)}
+							onClick={() => handleClickMenuItem(i, false)}
+							className={`rounded transition-all hover:bg-violet-200/30 dark:hover:bg-violet-200/10 ${isActiveMenu ? 'bg-violet-200/30 dark:bg-violet-200/10' : ''
+								}`}
+						>
+							{title}
+						</a>
+					</Link>
 				) : (
 					{ title }
 				)}
+
+				{hasSubMenu ? (
+					<button
+						className="z3-docs-menu__toggle-btn rounded hover:bg-slate-500/20 focus:outline-none focus:ring focus:ring-violet-300 transition-all"
+						type="button"
+						onClick={e => {
+							e.preventDefault()
+							handleClickMenuItem(i, isOpen)
+						}}
+					>
+						<ChevronDownIcon
+							className={`h-4 w-4 fill-purple-800 dark:fill-purple-500 transition-all ${isOpen ? '-rotate-90' : ''} `}
+						/>
+					</button>
+				) : null}
 			</motion.li>
 			<AnimatePresence initial={false}>
 				{isOpen && (
@@ -97,7 +115,7 @@ export const Accordion = ({ i, expanded, setExpanded, menu }) => {
 						transition={{ duration: 0.5, ease: 'easeOut' }}
 					>
 						{Object.entries(transformedMenu).map(([key, subMenu]) => (
-							<Accordion key={key} i={key} expanded={expanded} setExpanded={setExpanded} menu={subMenu} />
+							<Accordion key={key} i={key} expanded={expanded} setExpanded={setExpanded} menu={subMenu} path={path} />
 						))}
 					</motion.div>
 				)}
@@ -107,12 +125,13 @@ export const Accordion = ({ i, expanded, setExpanded, menu }) => {
 }
 
 export const SideMenu: React.FC<Docs> = ({ docs }) => {
+	const router = useRouter()
 	const [expanded, setExpanded] = useState<Array<string>>([])
 
 	return (
 		<div className="z3-docs-menu">
 			{Object.entries(docs).map(([key, menu]) => (
-				<Accordion key={key} i={key} expanded={expanded} setExpanded={setExpanded} menu={menu} />
+				<Accordion key={key} i={key} expanded={expanded} setExpanded={setExpanded} menu={menu} path={router.asPath} />
 			))}
 		</div>
 	)
