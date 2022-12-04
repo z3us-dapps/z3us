@@ -93,7 +93,7 @@ export const getAllFiles = (dirPath: string, map: object = {}, folderPath: strin
       const menu = Object.entries(metaObj).reduce(
         (acc, [slug, title]) => ({
           ...acc,
-          [slug]: { title, slug },
+          [slug]: { title, slug: `${folderName ? `${folderName}/` : ''}${slug}` },
         }),
         {},
       )
@@ -117,9 +117,6 @@ export const getAllFiles = (dirPath: string, map: object = {}, folderPath: strin
           }
           : { ...menu }),
       }
-
-      // TODO, do we need this ?
-      // arrayOfFiles.push(path.join(__dirname, dirPath, '/', file))
     }
   })
 

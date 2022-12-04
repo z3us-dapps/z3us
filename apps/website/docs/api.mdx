@@ -3,7 +3,6 @@ title: API Reference
 description: API Reference
 ---
 
-
 # Provider API
 
 [Z3US](https://z3us.com) wallet extension injects a global API into websites visited by its users at `window.z3us`. This API allows users to interact with wallet and [Radix DLT](https://www.radixdlt.com/).
@@ -57,6 +56,3 @@ CustomEvent {detail: {address: 'rdx...'}, type: 'z3us.account.change', …}
 window.addEventListener('z3us.network.change', console.log, false)
 CustomEvent {detail: {network: {id: 'mainnet', url: 'https://....'}}, type: 'z3us.network.change', …}
 ```
-
-
-

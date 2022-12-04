@@ -13,7 +13,7 @@ description: API V1
 
 Provider API is promise based, and user is expected to catch and handle errors, promises will resolve whenever possible or timeout after 3 minutes. Including confirmation window.
 
-```sh
+```js
 declare global {
 	interface Window {
 		z3us: {
@@ -45,7 +45,7 @@ declare global {
 To handle errors in a simple manner, use `try/catch` block, function will throw in case of action declined or unexpected error. There is a 3 minute timeout on the promise.
 
 
-```sh
+```js
 try {
 	const response = await window.z3us.v1.balances()
 } catch (error) {
@@ -58,7 +58,7 @@ try {
 Prior to connecting, please verify that `window.z3us` is available and that user has initialised their wallet. To connect use window.z3us.v1.connect() which will return the currently selected address.
 
 
-```sh
+```js
 const hasWallet = await window.z3us?.v1.hasWallet()
 if (!hasWallet) {
 	return
@@ -74,7 +74,7 @@ Once the user authorises your website, the extension popup will not show again (
 Your website might be disconnected by the user, or you can call _disconnect_ method, which will trigger extension popup again next time you call connect.
 
 
-```sh
+```js
 await window.z3us.v1.disconnect()
 ```
 

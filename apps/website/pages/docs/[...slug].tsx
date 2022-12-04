@@ -73,13 +73,9 @@ export const getStaticPaths = async () => {
 }
 
 export const getStaticProps = async ({ params: { slug } }) => {
-	// console.log('slug:', slug)
 	const docPath = slug.join('/')
-	// console.log('docPath:', `/docs/${docPath}.mdx`)
 	const docs = getAllFiles(DOCS_FOLDER, [])
-	// const markdownWithMeta = fs.readFileSync(`/docs/${docPath}.mdx`, 'utf-8')
 	const markdownWithMeta = fs.readFileSync(path.join('docs', `${docPath}.mdx`), 'utf-8')
-	// console.log('markdownWithMeta:', markdownWithMeta)
 	const { content } = matter(markdownWithMeta)
 	const toc = getTableOfContents(content)
 	const mdxSource = await serialize(content, {
