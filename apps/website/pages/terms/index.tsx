@@ -4,14 +4,11 @@ import matter from 'gray-matter'
 import { serialize } from 'next-mdx-remote/serialize'
 import React from 'react'
 import { NextSeo } from 'next-seo'
-// import { MdxTheme } from 'components/mdx-theme'
-// import { SinglePageDocs } from 'components/pages/single-page-docs'
+import { MdxTheme } from 'components/mdx-theme'
+import { SinglePageDocs } from 'components/pages/single-page-docs'
 import { config } from 'config'
-// import docsGlobalStyles from './docs/docs.styles'
 
-// const TermsIndex = ({ mdxSource }) => {
-const TermsIndex = () => (
-	// docsGlobalStyles()
+const TermsIndex = ({ mdxSource }) => (
 	<>
 		<NextSeo
 			title="Terms"
@@ -36,10 +33,9 @@ const TermsIndex = () => (
 				],
 			}}
 		/>
-		terms
-		{/* <SinglePageDocs> */}
-		{/* 	<MdxTheme mdxSource={mdxSource} /> */}
-		{/* </SinglePageDocs> */}
+		<SinglePageDocs>
+			<MdxTheme mdxSource={mdxSource} />
+		</SinglePageDocs>
 	</>
 )
 

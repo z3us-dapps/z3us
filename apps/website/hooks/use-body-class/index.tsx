@@ -6,6 +6,8 @@ const bodyClasses = {
 	tokenomics: { className: 'tokenomics-page', path: '/tokenomics' },
 	roadmap: { className: 'roadmap-page', path: '/roadmap' },
 	docs: { className: 'docs-page', path: '/docs' },
+	terms: { className: 'docs-page', path: '/terms' },
+	privacy: { className: 'docs-page', path: '/privacy' },
 }
 
 export const getPageClassName = (page: string) => {

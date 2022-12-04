@@ -1,18 +1,17 @@
 /* eslint-disable */
-import useSWR from 'swr';
+import useSWR from 'swr'
 
-type Props = {};
+type Props = {}
 
-const fetcher = (url: string) => fetch(url).then((res) => res.json());
+const fetcher = (url: string) => fetch(url).then(res => res.json())
 
 type Result = {
-	title: string;
-	body: string;
-};
+	title: string
+	body: string
+}
 
 export const Card: React.VFC<Props> = () => {
-	const { data, error } = useSWR<Result>('/api/hello', fetcher);
-	console.log('data, error:', data, error);
+	const { data, error } = useSWR<Result>('/api/hello', fetcher)
 
 	if (error) {
 		return (
@@ -21,7 +20,7 @@ export const Card: React.VFC<Props> = () => {
 					Error we have
 				</p>
 			</div>
-		);
+		)
 	}
 
 	// empty
@@ -36,7 +35,7 @@ export const Card: React.VFC<Props> = () => {
 					<div className="h-5 w-full bg-gray-300 mt-1" />
 				</div>
 			</div>
-		);
+		)
 	}
 
 	return (
@@ -51,5 +50,5 @@ export const Card: React.VFC<Props> = () => {
 				</p>
 			</div>
 		</div>
-	);
-};
+	)
+}
