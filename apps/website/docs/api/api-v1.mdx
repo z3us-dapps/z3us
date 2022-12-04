@@ -15,28 +15,28 @@ Provider API is promise based, and user is expected to catch and handle errors, 
 
 ```js
 declare global {
-	interface Window {
-		z3us: {
-			v1: {
-				hasWallet: () => Promise<boolean>
-				isConnected: () => Promise<boolean>
-				connect: () => Promise<string>
-				disconnect: () => Promise<void>
-				sign: (challenge: string) => Promise<string>
-				submitTransaction: (payload: { transaction: any }) => Promise<any>
-				encrypt: (message: string, fromAddress: string, toAddress: string) => Promise<string>
-				decrypt: (message: string, fromAddress: string) => Promise<string>
-				addresses: () => Promise<string[]>
-				balances: () => Promise<unknown>
-				stakes: () => Promise<unknown>
-				unstakes: () => Promise<unknown>
-				/**
-				* @deprecated Use submitTransaction() instead
-				*/
-				sendTransaction: (payload: { symbol: string; fromAddress: string; transaction: any }) => Promise<any>
-			}
-		}
-	}
+ interface Window {
+  z3us: {
+   v1: {
+    hasWallet: () => Promise<boolean>
+    isConnected: () => Promise<boolean>
+    connect: () => Promise<string>
+    disconnect: () => Promise<void>
+    sign: (challenge: string) => Promise<string>
+    submitTransaction: (payload: { transaction: any }) => Promise<any>
+    encrypt: (message: string, fromAddress: string, toAddress: string) => Promise<string>
+    decrypt: (message: string, fromAddress: string) => Promise<string>
+    addresses: () => Promise<string[]>
+    balances: () => Promise<unknown>
+    stakes: () => Promise<unknown>
+    unstakes: () => Promise<unknown>
+    /**
+    * @deprecated Use submitTransaction() instead
+    */
+    sendTransaction: (payload: { symbol: string; fromAddress: string; transaction: any }) => Promise<any>
+   }
+  }
+ }
 }
 ```
 
@@ -47,9 +47,9 @@ To handle errors in a simple manner, use `try/catch` block, function will throw 
 
 ```js
 try {
-	const response = await window.z3us.v1.balances()
+ const response = await window.z3us.v1.balances()
 } catch (error) {
-	console.error(error)
+ console.error(error)
 }
 ```
 
@@ -61,7 +61,7 @@ Prior to connecting, please verify that `window.z3us` is available and that user
 ```js
 const hasWallet = await window.z3us?.v1.hasWallet()
 if (!hasWallet) {
-	return
+ return
 }
 const selectedAddress = await window.z3us.v1.connect()
 ```

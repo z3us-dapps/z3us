@@ -1,11 +1,12 @@
 import fs from 'fs'
 import path from 'path'
+import { type Options } from 'rehype-pretty-code'
 import { slug as githubSlugger } from 'github-slugger'
 
 const META = '_meta.json'
 const DOCS_FOLDER = 'docs'
 
-export const mdxOptions = {
+export const mdxOptions: Partial<Options> = {
   theme: {
     dark: 'github-dark',
     light: 'github-light',

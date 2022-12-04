@@ -14,11 +14,11 @@ API is versioned using [Semantic Versioning](https://semver.org/). We will suppo
 
 ```js
 declare global {
-	interface Window {
-		z3us: {
-			v1: { ... }
-		}
-	}
+  interface Window {
+  z3us: {
+   v1: { ... }
+  }
+ }
 }
 ```
 
@@ -42,7 +42,6 @@ CustomEvent {detail: {keystoreId: 'id-111111111111'}, type: 'z3us.keysotre.chang
 ```
 
 - **account change** - when currently selected account changes
-
 
 ```js
 window.addEventListener('z3us.account.change', console.log, false)
