@@ -10,7 +10,6 @@ const bodyClasses = {
 
 export const getPageClassName = (page: string) => {
 	let className = ''
-
 	if (page === bodyClasses.home.path) {
 		className = bodyClasses.home.className
 	}
@@ -20,10 +19,9 @@ export const getPageClassName = (page: string) => {
 	if (page === bodyClasses.roadmap.path) {
 		className = bodyClasses.roadmap.className
 	}
-	if (page === bodyClasses.docs.path) {
+	if (page.includes(bodyClasses.docs.path)) {
 		className = bodyClasses.docs.className
 	}
-
 	return className
 }
 
@@ -31,7 +29,8 @@ export const useBodyClass = () => {
 	const router = useRouter()
 
 	useEffect(() => {
-		const current = Object.values(bodyClasses).find(({ path }) => path === router.asPath)
+		const topLevelPath = router.asPath.split('/')?.[1]
+		const current = Object.values(bodyClasses).find(({ path }) => path.includes(topLevelPath))
 
 		if (!document.body.classList.contains(current?.className)) {
 			Object.values(bodyClasses).forEach(entry => document.body.classList.remove(entry?.className))
