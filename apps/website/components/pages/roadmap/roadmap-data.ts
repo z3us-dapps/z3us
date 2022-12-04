@@ -10,40 +10,28 @@ type TRoadMap = {
 
 export const roadmapData: TRoadMap = {
 	beta_launch: {
-		title: 'Beta launch mvp',
+		title: 'BETA launch',
 		subTitle: 'Beta launch mvp',
 		date: 'June, 2021',
 		complete: true,
-		image: '/images/roadmap-page/roadmap-bg.webp',
+		image: '/images/roadmap-page/beta-launch.png',
 	},
 	share_feature: {
-		title: 'Swap dex integration',
+		title: 'DEX integrations',
 		subTitle: 'Allow users to swap tokens with DEX partners',
 		date: 'August, 2021',
 		complete: true,
-		image: '/images/roadmap-page/roadmap-bg.webp',
-	},
-	browser_desktop: {
-		title: 'Desktop browser Z3US app',
-		subTitle: 'Custom desktop app',
-		date: 'Janruary, 2023',
-		complete: false,
+		image: '/images/roadmap-page/wallet-swap.png',
 	},
 	babylon_upgrades: {
-		title: 'Babylon upgrades',
+		title: 'Wallet Babylon upgrades',
 		subTitle: 'Wallet upgrades for the Radix babylon network upgrade.',
-		date: 'TBD, 2023',
-		complete: false,
-	},
-	nft_integration: {
-		title: 'NFT wallet integration',
-		subTitle: "Allow users to view, send and receive NFT's from Z3US wallet",
-		date: 'TBD, 2023',
+		date: 'Q1/Q2, 2023',
 		complete: false,
 	},
 	ios_app: {
 		title: 'Z3US ios app',
-		date: 'TBD, 2023',
+		date: 'Q3/Q4, 2023',
 		complete: false,
 	},
 }

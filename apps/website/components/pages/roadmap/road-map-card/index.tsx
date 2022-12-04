@@ -67,7 +67,7 @@ export const RoadMapCard = ({ title, date, image, complete }: IRoadMapCard): JSX
 		whileInView="onscreen"
 		viewport={{ once: true, amount: 0.8 }}
 	>
-		<motion.div className="relative roadmap-card bg-white text-black p-6 rounded-2xl" variants={cardVariants}>
+		<motion.div className="relative roadmap-card bg-white text-black rounded-2xl" variants={cardVariants}>
 			{complete && (
 				<motion.span
 					className="lg:hidden roadmap-card-circle-mobile flex justify-center items-center"
@@ -91,16 +91,11 @@ export const RoadMapCard = ({ title, date, image, complete }: IRoadMapCard): JSX
 					<CheckIcon />
 				</motion.span>
 			)}
-			<h5 className="text-base font-bold">{title}</h5>
-			<p className="text-xs text-gray-400 pt-1">{date}</p>
-			{image && (
-				<Picture
-					fallbackImage="/images/roadmap-page/roadmap-bg.webp"
-					alt="roadmap background image"
-					width={288}
-					height={160}
-				/>
-			)}
+			<div className={`pt-6 px-6 ${!image ? 'pb-6' : ''}`}>
+				<h5 className="text-base font-bold">{title}</h5>
+				<p className="text-xs text-gray-400 pt-1">{date}</p>
+			</div>
+			{image && <Picture fallbackImage={image} alt="roadmap background image" width={350} height={350} />}
 			<div className="roadmap-card-line">
 				<motion.div className="roadmap-card-line-inner bg-white" variants={lineVariants} />
 				<motion.span
