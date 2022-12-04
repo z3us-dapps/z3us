@@ -1,15 +1,12 @@
-import React, { useState, useEffect, useRef } from 'react'
+import React, { useEffect } from 'react'
 import { MdxTheme } from 'components/mdx-theme'
 import { LazyMotion } from 'components/lazy-motion'
 import { Header } from 'components/header'
-// import { ButtonCVA } from 'components/button-cva'
 import { Footer } from 'components/footer'
 import { SideMenu } from 'components/side-menu'
 import { DocsPageProps } from 'types'
 
 export const PageDocs: React.FC<DocsPageProps> = ({ toc, docs, mdxSource }) => {
-	console.log('docs:', docs)
-	console.log('toc:', toc)
 	useEffect(() => {
 		document.querySelectorAll('a[href^="#"]').forEach(anchor => {
 			anchor.addEventListener('click', e => {

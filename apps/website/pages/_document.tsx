@@ -1,5 +1,6 @@
 import React from 'react'
 import NextDocument, { Html, Head, Main, NextScript } from 'next/document'
+import { getCssText } from 'ui/src/theme'
 import { getPageClassName } from 'hooks/use-body-class'
 
 export default class Document extends NextDocument {
@@ -7,6 +8,7 @@ export default class Document extends NextDocument {
 		return (
 			<Html lang="en">
 				<Head>
+					<style id="stitches" dangerouslySetInnerHTML={{ __html: getCssText() }} />
 					<link
 						rel="preload"
 						href="/fonts/HaasGrotDispRound-75Bold-Web.woff2"

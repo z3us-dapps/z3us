@@ -129,8 +129,8 @@ export const Example = () => {
 		<Box>
 			<Box css={{ maxWidth: '100%' }}>
 				{!address ? (
-					<AlertCard icon color="warning" css={{ mt: '$4', height: '40px' }}>
-						<Text medium size="4" css={{ mb: '3px', pl: '$3', mt: '8px' }}>
+					<AlertCard icon color="warning" css={{ mt: '$4', height: '48px' }}>
+						<Text medium size="4" css={{ mb: '6px', pl: '$3', mt: '8px' }}>
 							Connect Z3US wallet before attempting to send a transaction.
 						</Text>
 					</AlertCard>
@@ -197,13 +197,13 @@ export const Example = () => {
 					</Flex>
 				</Box>
 			</Box>
-			<ul>
+			<Box as="ul" style={{ listStyleType: 'none' }}>
 				<li>
 					<Toast config={{ type: 'success', duration: 4000 }} uniqueId="toast-first">
 						Transaction success
 					</Toast>
 				</li>
-			</ul>
+			</Box>
 		</Box>
 	)
 }

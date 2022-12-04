@@ -45,13 +45,26 @@ const PostPage = ({ docs, toc, mdxSource }) => {
 	)
 }
 
-const getStaticPaths = async () => {
-	const files = fs.readdirSync(path.join('docs'))
-	const paths = files.map(filename => ({
-		params: {
-			slug: filename.replace('.mdx', ''),
-		},
-	}))
+export default PostPage
+
+const getFileList = async (dirName: string) => {
+	let files = []
+	const items = await fs.promises.readdir(dirName, { withFileTypes: true })
+
+	for (const item of items) {
+		if (item.isDirectory()) {
+			files = [...files, ...(await getFileList(`${dirName}/${item.name}`))]
+		} else {
+			files.push(`${dirName}/${item.name}`)
+		}
+	}
+
+	return files
+}
+
+export const getStaticPaths = async () => {
+	const files = await getFileList(DOCS_FOLDER)
+	const paths = files.filter(s => s.includes('.mdx')).map(filename => `/${filename.replace('.mdx', '')}`)
 
 	return {
 		paths,
@@ -59,15 +72,16 @@ const getStaticPaths = async () => {
 	}
 }
 
-const getStaticProps = async ({ params: { slug } }) => {
-	const files = fs.readdirSync(path.join('docs'))
+export const getStaticProps = async ({ params: { slug } }) => {
+	// console.log('slug:', slug)
+	const docPath = slug.join('/')
+	// console.log('docPath:', `/docs/${docPath}.mdx`)
 	const docs = getAllFiles(DOCS_FOLDER, [])
-	const markdownWithMeta = fs.readFileSync(path.join('docs', `${slug}.mdx`), 'utf-8')
-	const { data: frontMatter, content } = matter(markdownWithMeta)
+	// const markdownWithMeta = fs.readFileSync(`/docs/${docPath}.mdx`, 'utf-8')
+	const markdownWithMeta = fs.readFileSync(path.join('docs', `${docPath}.mdx`), 'utf-8')
+	// console.log('markdownWithMeta:', markdownWithMeta)
+	const { content } = matter(markdownWithMeta)
 	const toc = getTableOfContents(content)
-	// const { content } = matter(markdownWithMeta)
-	// const mdxSource = await serialize(content)
-
 	const mdxSource = await serialize(content, {
 		scope: {},
 		mdxOptions: {
@@ -86,6 +100,3 @@ const getStaticProps = async ({ params: { slug } }) => {
 		},
 	}
 }
-
-export { getStaticProps, getStaticPaths }
-export default PostPage

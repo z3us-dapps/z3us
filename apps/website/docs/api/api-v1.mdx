@@ -1,15 +1,19 @@
 ---
-title: 'API V1'
-order: 3
+title: API V1
+description: API V1
 ---
 
-# V1
 
-Provider API is promise based, and user is expected to catch and handle errors,
-promises will resolve whenever possible. It is up to the user to handle timeouts if promise hangs.
+# API V1
 
-<SyntaxHighlighter language="typescript">
-	{`
+
+
+
+## V1
+
+Provider API is promise based, and user is expected to catch and handle errors, promises will resolve whenever possible or timeout after 3 minutes. Including confirmation window.
+
+```sh
 declare global {
 	interface Window {
 		z3us: {
@@ -34,39 +38,34 @@ declare global {
 		}
 	}
 }
-  `}
-</SyntaxHighlighter>
+```
 
 ## Error handling
 
-To handle errors in a simple manner, use `try/catch` block, function will throw in case of action declined or unexpected error. There is no timeout at the moment on the promise, be careful to avoid deadlocks and handle reasonable timeouts on your website according to your action.
+To handle errors in a simple manner, use `try/catch` block, function will throw in case of action declined or unexpected error. There is a 3 minute timeout on the promise.
 
-<SyntaxHighlighter language="typescript">
-	{`
+
+```sh
 try {
 	const response = await window.z3us.v1.balances()
 } catch (error) {
 	console.error(error)
 }
-  `}
-</SyntaxHighlighter>
+```
 
 ## Connecting
 
 Prior to connecting, please verify that `window.z3us` is available and that user has initialised their wallet. To connect use window.z3us.v1.connect() which will return the currently selected address.
 
-<SyntaxHighlighter language="typescript">
-	{`
-if (window.z3us) {
-	return
-}
-const hasWallet = await window.z3us.v1.hasWallet()
+
+```sh
+const hasWallet = await window.z3us?.v1.hasWallet()
 if (!hasWallet) {
 	return
 }
 const selectedAddress = await window.z3us.v1.connect()
-  `}
-</SyntaxHighlighter>
+```
+
 
 Once the user authorises your website, the extension popup will not show again (unless they remove the permissions) and the `connect` method will return the selected address.
 
@@ -74,10 +73,9 @@ Once the user authorises your website, the extension popup will not show again (
 
 Your website might be disconnected by the user, or you can call _disconnect_ method, which will trigger extension popup again next time you call connect.
 
-<SyntaxHighlighter language="typescript">
-	{`
+
+```sh
 await window.z3us.v1.disconnect()
-  `}
-</SyntaxHighlighter>
+```
 
 [Z3US](https://z3us.com) injects a global API into websites visited by its users at `window.z3us`. This API allows users to interact with wallet and [Radix DLT](https://www.radixdlt.com/).

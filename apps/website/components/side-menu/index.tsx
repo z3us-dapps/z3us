@@ -32,13 +32,8 @@ export const Accordion = ({ i, expanded, setExpanded, menu }) => {
 	const transformedMenu = transformMenu(menu)
 	const hasSubMenu = Object.keys(transformedMenu).length > 0
 
-	// TODO
 	const handleClickMenuItem = (_i: string) => {
-		if (isOpen) {
-			setExpanded((prev: Array<string>) => prev.filter((item: string) => item !== _i))
-		} else {
-			setExpanded((prev: Array<string>) => [...prev, _i])
-		}
+		setExpanded((prev: Array<string>) => (isOpen ? prev.filter((item: string) => item !== _i) : [...prev, _i]))
 	}
 
 	const title = (
