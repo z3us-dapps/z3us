@@ -1,42 +1,30 @@
-/* eslint-disable */
-import React, { useEffect, useState } from 'react'
+import React from 'react'
+import { useRouter } from 'next/router'
 import { Button } from 'components/button'
 import Link from 'next/link'
-import useScrollBlock from 'hooks/use-scroll-block'
-import { m as motion, useScroll, useTransform, AnimatePresence, useCycle } from 'framer-motion'
+// import useScrollBlock from 'hooks/use-scroll-block'
+import { m as motion, AnimatePresence, useCycle } from 'framer-motion'
 import { Bars4Icon, XMarkIcon } from '@heroicons/react/24/solid'
-import { Text, Box, MotionBox, StyledLink } from 'ui/src/components/atoms'
 import { config } from 'config'
 
-const backlinks = [
+const links = [
 	{ name: 'Home', to: '/', id: 'home' },
+	{ name: 'Feedback', to: config.GITHUB_FEEDBACK_URL, id: 'feedback' },
+	{ name: 'Roadmap', to: '/roadmap', id: 'roadmap' },
 	{
 		name: 'Docs',
 		to: '/docs',
 		id: 'docs',
 		subMenu: [
-			{ name: 'API Reference', to: '/docs/api-reference', id: 'api-reference' },
-			{ name: 'API V1', to: '/docs/api-v1', id: 'api-v1' },
-			{ name: 'Demo', to: '/docs/api-demo', id: 'api-demo' },
-			// { name: 'Babylon PTE', to: '/docs/api-pte', id: 'api-pte' },
+			{ name: 'API Reference', to: '/docs/api', id: 'api-reference' },
+			{ name: 'API V1', to: '/docs/api/api-v1', id: 'api-v1' },
+			{ name: 'Demo', to: '/docs/demo', id: 'api-demo' },
 		],
 	},
 	{ name: 'Github', to: config.GITHUB_URL, id: 'github' },
 	{ name: 'Twitter', to: config.TWITTER_URL, id: 'twitter' },
 	{ name: 'Telegram', to: config.TELEGRAM_URL, id: 'telegram' },
-	{ name: 'Discord', to: config.DISCORD_URL, id: 'discord' },
 ]
-
-const links = [
-	{ name: 'Home', to: '/', id: 1 },
-	{ name: 'Roadmap', to: '/roadmap', id: 2 },
-	{ name: 'Tokenomics', to: '/tokenomics', id: 3 },
-	{ name: 'Docs', to: '/docs', id: 4 },
-]
-
-interface IProps {
-	isScrolled: boolean
-}
 
 const itemVariants = {
 	closed: {
@@ -60,28 +48,31 @@ const sideVariants = {
 	},
 }
 
-export const MobileMenu = ({ isScrolled }: IProps): JSX.Element => {
-	const [blockScroll, allowScroll] = useScrollBlock()
+export const MobileMenu = (): JSX.Element => {
+	const { asPath } = useRouter()
+	// TODO: investigate scroll lock
+	// const [blockScroll, allowScroll] = useScrollBlock()
 	const [open, cycleOpen] = useCycle(false, true)
+	const isDocsRoute = asPath.includes('/docs')
 
 	const handleMenuClick = () => {
 		if (open) {
 			cycleOpen(0)
-			allowScroll()
+			// allowScroll()
 		} else {
-			blockScroll()
+			// blockScroll()
 			cycleOpen(1)
 		}
 	}
 
 	const handleLinkClick = () => {
 		cycleOpen(0)
-		allowScroll()
+		// allowScroll()
 	}
 
 	return (
 		<>
-			<Button size="sm" variant="ghost" className="md:hidden w-10 h-10 relative z-30" onClick={handleMenuClick}>
+			<Button size="sm" variant="ghost" className="md:hidden w-8 h-8 relative z-30" onClick={handleMenuClick}>
 				<span className="flex items-center justify-center w-10 h-10">
 					<span className="transition-opacity absolute" style={{ opacity: open ? '0' : '1' }}>
 						<Bars4Icon className="block h-5 w-5" />
@@ -112,13 +103,38 @@ export const MobileMenu = ({ isScrolled }: IProps): JSX.Element => {
 							exit="closed"
 							variants={sideVariants}
 						>
-							{links.map(({ name, to, id }) => (
+							{links.map(({ name, to, id, subMenu }) => (
 								<motion.li key={id} variants={itemVariants}>
 									<Link href={to} passHref>
-										<a className="text-3xl font-medium" onClick={handleLinkClick}>
+										<a
+											role="link"
+											tabIndex={0}
+											className="text-2xl font-medium"
+											onClick={handleLinkClick}
+											onKeyDown={handleLinkClick}
+										>
 											{name}
 										</a>
 									</Link>
+									{subMenu ? (
+										<ul className={`pl-3 pt-4 flex-col gap-4 ${isDocsRoute ? 'flex' : 'hidden'}`}>
+											{subMenu.map(({ id: subId, to: subTo, name: subName }) => (
+												<li key={subId}>
+													<Link href={subTo} passHref>
+														<a
+															role="link"
+															tabIndex={0}
+															className="text-xl font-medium"
+															onKeyDown={handleLinkClick}
+															onClick={handleLinkClick}
+														>
+															{subName}
+														</a>
+													</Link>
+												</li>
+											))}
+										</ul>
+									) : null}
 								</motion.li>
 							))}
 						</motion.ul>

@@ -102,10 +102,19 @@ body.docs-page {
 		}
 	}
 
-	pre > code {
-		display: grid;
-		overflow-wrap: break-word;
-		white-space: break-spaces;
+	pre {
+		overflow: scroll;
+		> code {
+			display: grid;
+
+			@media (--viewport-tablet) {
+				white-space: break-spaces;
+			}
+		}
+
+		@media (--viewport-tablet) {
+			overflow: unset;
+		}
 	}
 
 	h1,

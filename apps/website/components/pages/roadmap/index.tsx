@@ -60,36 +60,35 @@ export const RoadmapPage = () => {
 						/>
 					</div>
 				</motion.div>
-				<div
-					ref={containerRef}
-					className="relative text-white dark:text-black fill-white dark:fill-black overflow-hidden"
-				>
-					<Header className="z-10 relative text-white fill-white transition-colors" />
-					<PageContainer>
-						<div className="roadmap-hero text-white md:pb-4 md:pt-10 md:w-5/6 xl:pb-10 xl:pt-16 xl:w-4/6">
-							<h1 className="font-HaasGrotTextRound font-bold roadmap-page__h1 pt-6 xl:pt-2">Roadmap</h1>
-							<h4 className="text-2xl leading-10 pt-4 xl:pt-5">
-								Our vision for Z3US project is to create a best-in-class WEB3 wallet with an emphasis on user experience
-								and transparent code. Help shape this vision by{' '}
-								<a
-									href={config.GITHUB_FEEDBACK_URL}
-									className="hover:underline decoration-from-font underline-offset-4 text-violet-700"
-								>
-									suggesting features
-								</a>
-								.
-							</h4>
-						</div>
-						<div className="roadmap-cards">
-							<div className="roadmap-line bg-white" />
-							<h4 className="absolute top-0 px-4 py-2 text-violet-700 bg-white text-base font-bold rounded-full">
-								Founded 2021
-							</h4>
-							{Object.entries(roadmapData).map(([key, { title, date, image, complete }]) => (
-								<RoadMapCard key={key} title={title} date={date} image={image} complete={complete} />
-							))}
-						</div>
-					</PageContainer>
+				<div ref={containerRef} className="relative text-white dark:text-black fill-white dark:fill-black">
+					<Header notTabletSticky className="z-10 relative text-white fill-white transition-colors" />
+					<div className="overflow-hidden pb-32">
+						<PageContainer>
+							<div className="roadmap-hero text-white md:pb-4 md:pt-10 md:w-5/6 xl:pb-10 xl:pt-16 xl:w-4/6">
+								<h1 className="font-HaasGrotTextRound font-bold roadmap-page__h1 pt-6 xl:pt-2">Roadmap</h1>
+								<h4 className="text-2xl leading-10 pt-4 xl:pt-5">
+									Our vision for Z3US project is to create a best-in-class WEB3 wallet with an emphasis on user
+									experience and transparent code. Help shape this vision by{' '}
+									<a
+										href={config.GITHUB_FEEDBACK_URL}
+										className="hover:underline decoration-from-font underline-offset-4 text-violet-700"
+									>
+										suggesting features
+									</a>
+									.
+								</h4>
+							</div>
+							<div className="roadmap-cards">
+								<div className="roadmap-line bg-white" />
+								<h4 className="absolute top-0 px-4 py-2 text-violet-700 bg-white text-base font-bold rounded-full">
+									Founded 2021
+								</h4>
+								{Object.entries(roadmapData).map(([key, { title, date, image, complete }]) => (
+									<RoadMapCard key={key} title={title} date={date} image={image} complete={complete} />
+								))}
+							</div>
+						</PageContainer>
+					</div>
 					<Footer className="fill-white text-white pt-2 pb-4 sm:pb-8 sm:pt-8" />
 				</div>
 			</LazyMotion>

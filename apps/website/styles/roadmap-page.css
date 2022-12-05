@@ -3,6 +3,14 @@
 }
 body.roadmap-page {
 	background-color: #bea5a5;
+
+	.header {
+		background-color: rgba(190, 165, 165, 0.7);
+		backdrop-filter: blur(4px);
+		&.header--sticky {
+			box-shadow: 4px 2px 4px rgb(128 107 107 / 60%);
+		}
+	}
 }
 
 .roadmap-page__h1 {

@@ -11,28 +11,27 @@ import { MobileMenu } from './mobile-menu'
 
 interface IProps {
 	className?: string | undefined
-	isStickyHeader?: boolean
 	isBetaButtonVisible?: boolean
 	isDocsButtonVisible?: boolean
+	notTabletSticky?: boolean
 }
 
 const defaultProps = {
-	isStickyHeader: false,
 	isBetaButtonVisible: true,
 	isDocsButtonVisible: true,
 	className: undefined,
+	notTabletSticky: false,
 }
 
-export const Header: React.FC<IProps> = ({ className, isStickyHeader, isBetaButtonVisible, isDocsButtonVisible }) => {
+export const Header: React.FC<IProps> = ({ className, isBetaButtonVisible, isDocsButtonVisible, notTabletSticky }) => {
 	const [isSticky, setIsSticky] = useState<boolean>(false)
 	const { scrollY } = useScroll()
 
 	useEffect(
 		() =>
 			scrollY.onChange(latest => {
-				if (isStickyHeader) {
-					setIsSticky(latest > 0)
-				}
+				if (window.innerWidth > 768 && notTabletSticky) return
+				setIsSticky(latest > 0)
 			}),
 		[],
 	)
@@ -42,7 +41,8 @@ export const Header: React.FC<IProps> = ({ className, isStickyHeader, isBetaButt
 			className={clsx(
 				'z-20 header transition-all h-16',
 				className,
-				isSticky && 'sticky top-0 header--sticky backdrop-blur-md shadow-sm dark:shadow-md dark:shadow-[#12001f]',
+				isSticky ? 'sticky top-0 header--sticky backdrop-blur-md shadow-sm dark:shadow-md dark:shadow-[#12001f]' : '',
+				notTabletSticky ? 'md:relative' : '',
 			)}
 		>
 			<PageContainer>
@@ -54,7 +54,7 @@ export const Header: React.FC<IProps> = ({ className, isStickyHeader, isBetaButt
 							</a>
 						</Link>
 					</div>
-					<MobileMenu isScrolled={false} />
+					<MobileMenu />
 					<ul className="font-medium text-sm gap-3 lg:gap-5 hidden md:flex items-center">
 						<li>
 							<Link href="" passHref>

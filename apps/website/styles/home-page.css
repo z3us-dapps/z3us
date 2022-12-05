@@ -5,6 +5,14 @@
 body.home-page {
 	background-color: #bf9e76;
 
+	.header {
+		background-color: rgba(191, 158, 118, 0.7);
+		backdrop-filter: blur(4px);
+		&.header--sticky {
+			box-shadow: 4px 2px 4px rgb(107 75 36 / 60%);
+		}
+	}
+
 	h1 {
 		color: var(--colors-primary);
 		border: 1px solid green;
