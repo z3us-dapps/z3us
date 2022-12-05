@@ -8,6 +8,7 @@ export default class Document extends NextDocument {
 		return (
 			<Html lang="en">
 				<Head>
+					{/* eslint-disable-next-line react/no-danger */}
 					<style id="stitches" dangerouslySetInnerHTML={{ __html: getCssText() }} />
 					<link
 						rel="preload"

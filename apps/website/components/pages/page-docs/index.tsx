@@ -20,7 +20,7 @@ export const PageDocs: React.FC<DocsPageProps> = ({ toc, docs, mdxSource }) => {
 	return (
 		<LazyMotion>
 			<div className="z3-l-docs-wrapper">
-				<Header isStickyHeader isBetaButtonVisible={false} isDocsButtonVisible={false} className="dark:fill-white" />
+				<Header isBetaButtonVisible={false} isDocsButtonVisible={false} className="dark:fill-white" />
 				<div className="z3-l-docs-container z3-container">
 					<div className="z3-l-docs-page">
 						<aside className="z3-l-docs-page__menu">

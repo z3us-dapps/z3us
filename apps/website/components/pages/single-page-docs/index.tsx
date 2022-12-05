@@ -10,7 +10,7 @@ interface IProps {
 
 export const SinglePageDocs: React.FC<IProps> = ({ children }) => (
 	<Flex direction="column" css={{ minHeight: '100vh' }}>
-		<Header isStickyHeader isBetaButtonVisible={false} className="dark:fill-white" />
+		<Header isBetaButtonVisible={false} className="dark:fill-white" />
 		<Box
 			css={{
 				position: 'relative',
