@@ -56,7 +56,7 @@ export const getTableOfContents = (content: any) => {
           break
       }
 
-      const headingLink = githubSlugger(`z3-${headingText}`)
+      const headingLink = githubSlugger(`${headingText}`)
 
       return {
         title: headingText,

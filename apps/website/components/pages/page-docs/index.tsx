@@ -1,4 +1,6 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
+import Link from 'next/link'
+import { useRouter } from 'next/router'
 import { MdxTheme } from 'components/mdx-theme'
 import { LazyMotion } from 'components/lazy-motion'
 import { Header } from 'components/header'
@@ -7,15 +9,11 @@ import { SideMenu } from 'components/side-menu'
 import { DocsPageProps } from 'types'
 
 export const PageDocs: React.FC<DocsPageProps> = ({ toc, docs, mdxSource }) => {
+	const router = useRouter()
+	const [hash, setHash] = useState<string>('')
 	useEffect(() => {
-		document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-			anchor.addEventListener('click', e => {
-				e.preventDefault()
-				const anchorId = (anchor.getAttribute('href') || '').replace('#z3-', '')
-				document.getElementById(anchorId).scrollIntoView({ behavior: 'smooth' })
-			})
-		})
-	}, [])
+		setHash(`#${router.asPath.split('#')?.[1]}`)
+	}, [router.asPath])
 
 	return (
 		<LazyMotion>
@@ -36,9 +34,14 @@ export const PageDocs: React.FC<DocsPageProps> = ({ toc, docs, mdxSource }) => {
 							<ul className="text-xs text-neutral-500 dark:text-neutral-300 leading-relaxed">
 								{toc.map(({ link, title, headingType }) => (
 									<li key={link} className={`toc-li--${headingType} mt-1 mb-1`}>
-										<a href={link} className="hover:underline decoration-from-font underline-offset-4">
-											{title}
-										</a>
+										<Link href={link} passHref>
+											<a
+												className={`hover:underline decoration-from-font underline-offset-4 ${link === hash ? 'underline' : ''
+													}`}
+											>
+												{title}
+											</a>
+										</Link>
 									</li>
 								))}
 							</ul>
