@@ -1,5 +1,5 @@
 import React from 'react'
-import { useStore } from '@src/store'
+import { useNoneSharedStore } from '@src/hooks/use-store'
 import BigNumber from 'bignumber.js'
 import { Action, Transaction } from '@src/types'
 import { Cross2Icon, EnvelopeClosedIcon } from '@radix-ui/react-icons'
@@ -27,14 +27,14 @@ const defaultProps = {
 }
 
 export const ActivityItem = React.forwardRef<HTMLDivElement, IProps>(({ tx, activity, css, isIsoStyled }, ref) => {
-	const { entry } = useStore(state => {
+	const { entry } = useNoneSharedStore(state => {
 		const accountAddress = state.getCurrentAddressAction()
 		return {
 			entry: Object.values(state.publicAddresses).find(_account => _account.address === accountAddress),
 		}
 	})
 	const { data: token } = useTokenInfo(activity?.rri)
-	const tokenImage = token?.image || token?.iconURL
+	const tokenImage = token?.image
 
 	const shortAddress = getShortAddress(entry?.address)
 

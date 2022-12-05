@@ -4,7 +4,7 @@ import { formatBigNumber } from '@src/utils/formatters'
 import { useTicker } from '@src/hooks/react-query/queries/tickers'
 import { Box, Flex, Text } from 'ui/src/components/atoms'
 import PriceLabel from 'ui/src/components/price-label'
-import { useSharedStore } from '@src/store'
+import { useNoneSharedStore } from '@src/hooks/use-store'
 
 interface Props {
 	symbol: string
@@ -12,7 +12,7 @@ interface Props {
 }
 
 export const TokenPrice = ({ symbol, amount }: Props): JSX.Element => {
-	const { currency } = useSharedStore(state => ({
+	const { currency } = useNoneSharedStore(state => ({
 		currency: state.currency,
 	}))
 	const { isLoading, data: ticker } = useTicker(currency, symbol)

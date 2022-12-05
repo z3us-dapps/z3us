@@ -1,10 +1,10 @@
 import { Runtime } from 'webextension-polyfill'
-import { accountStore, sharedStore } from '@src/store'
+import newQueryClient from '@src/hooks/react-query/query-client'
+import { sharedStore } from '@src/store'
 import { Message, PublicKey } from '@radixdlt/crypto'
 import { BrowserService } from '@src/services/browser'
 import { VaultService } from '@src/services/vault'
 import { RadixService } from '@src/services/radix'
-import { KeystoreType } from '@src/store/types'
 import { addPendingAction } from '@src/services/actions-pending'
 import {
 	HAS_WALLET,
@@ -16,14 +16,20 @@ import {
 	STAKES,
 	UNSTAKES,
 	ENCRYPT,
-	DESCRYPT,
+	DECRYPT,
 	SIGN,
 	SEND_TRANSACTION,
-} from '../actions'
+} from '@src/lib/v1/actions'
+import { getNoneSharedStore } from '@src/services/state'
+import { KeystoreType } from '@src/types'
+import { showDisconnected } from '@src/services/content-script'
 
 const responseOK = { code: 200 }
 const responseBadRequest = { code: 400, error: 'Bad request' }
 const responseUnauthorized = { code: 401, error: 'Unauthorized' }
+
+// eslint-disable-next-line no-restricted-globals
+const queryClient = newQueryClient(self.localStorage)
 
 export default function NewV1BackgroundInpageActions(
 	browser: BrowserService,
@@ -34,15 +40,15 @@ export default function NewV1BackgroundInpageActions(
 		const url = new URL(port.sender.url)
 
 		const { selectKeystoreId } = sharedStore.getState()
-		const useStore = accountStore(selectKeystoreId)
-		const state = useStore.getState()
+		const noneSharedStore = await getNoneSharedStore(selectKeystoreId)
+		const state = noneSharedStore.getState()
 		const { approvedWebsites } = state
 
-		if (!(url.host in approvedWebsites)) {
-			sendInpageMessage(port, id, payload, responseUnauthorized)
-			return false
+		if (url.host in approvedWebsites) {
+			return true
 		}
-		return true
+		sendInpageMessage(port, id, payload, responseUnauthorized)
+		return false
 	}
 
 	async function hasWallet(port: Runtime.Port, id: string, payload: any) {
@@ -56,8 +62,8 @@ export default function NewV1BackgroundInpageActions(
 		const url = new URL(port.sender.url)
 
 		const { selectKeystoreId } = sharedStore.getState()
-		const useStore = accountStore(selectKeystoreId)
-		const state = useStore.getState()
+		const noneSharedStore = await getNoneSharedStore(selectKeystoreId)
+		const state = noneSharedStore.getState()
 		const { approvedWebsites } = state
 
 		sendInpageMessage(port, id, payload, url.host in approvedWebsites)
@@ -67,8 +73,8 @@ export default function NewV1BackgroundInpageActions(
 		const url = new URL(port.sender.url)
 
 		const { selectKeystoreId, theme } = sharedStore.getState()
-		const useStore = accountStore(selectKeystoreId)
-		const state = useStore.getState()
+		const noneSharedStore = await getNoneSharedStore(selectKeystoreId)
+		const state = noneSharedStore.getState()
 		const { approvedWebsites, selectedAccountIndex, publicAddresses } = state
 		const allAddresses = Object.values(publicAddresses).map(entry => entry.address)
 
@@ -80,7 +86,7 @@ export default function NewV1BackgroundInpageActions(
 		}
 
 		await addPendingAction(id, port)
-		state.addPendingActionAction(id, { host: url.host, request: payload })
+		state.addPendingActionAction(id, { host: url.host, request: payload, action: 'connect' })
 
 		await browser.showPopup(theme, `/notification/connect/${id}`)
 	}
@@ -89,11 +95,12 @@ export default function NewV1BackgroundInpageActions(
 		const url = new URL(port.sender.url)
 
 		const { selectKeystoreId } = sharedStore.getState()
-		const useStore = accountStore(selectKeystoreId)
-		const state = useStore.getState()
+		const noneSharedStore = await getNoneSharedStore(selectKeystoreId)
+		const state = noneSharedStore.getState()
 		const { declineWebsiteAction } = state
 
 		declineWebsiteAction(url.host)
+		await showDisconnected()
 		sendInpageMessage(port, id, payload, responseOK)
 	}
 
@@ -104,8 +111,8 @@ export default function NewV1BackgroundInpageActions(
 		}
 
 		const { selectKeystoreId } = sharedStore.getState()
-		const useStore = accountStore(selectKeystoreId)
-		const state = useStore.getState()
+		const noneSharedStore = await getNoneSharedStore(selectKeystoreId)
+		const state = noneSharedStore.getState()
 		const { publicAddresses } = state
 
 		sendInpageMessage(
@@ -125,11 +132,11 @@ export default function NewV1BackgroundInpageActions(
 		const url = new URL(port.sender.url)
 
 		const { selectKeystoreId, theme } = sharedStore.getState()
-		const useStore = accountStore(selectKeystoreId)
-		const state = useStore.getState()
+		const noneSharedStore = await getNoneSharedStore(selectKeystoreId)
+		const state = noneSharedStore.getState()
 
 		await addPendingAction(id, port)
-		state.addPendingActionAction(id, { host: url.host, request: payload })
+		state.addPendingActionAction(id, { host: url.host, request: payload, action: 'encrypt' })
 
 		await browser.showPopup(theme, `/notification/encrypt/${id}`)
 	}
@@ -165,11 +172,11 @@ export default function NewV1BackgroundInpageActions(
 		const url = new URL(port.sender.url)
 
 		const { selectKeystoreId, theme } = sharedStore.getState()
-		const useStore = accountStore(selectKeystoreId)
-		const state = useStore.getState()
+		const noneSharedStore = await getNoneSharedStore(selectKeystoreId)
+		const state = noneSharedStore.getState()
 
 		await addPendingAction(id, port)
-		state.addPendingActionAction(id, { host: url.host, request: payload })
+		state.addPendingActionAction(id, { host: url.host, request: payload, action: 'decrypt' })
 
 		await browser.showPopup(theme, `/notification/decrypt/${id}`)
 	}
@@ -183,11 +190,11 @@ export default function NewV1BackgroundInpageActions(
 		const url = new URL(port.sender.url)
 
 		const { selectKeystoreId, theme } = sharedStore.getState()
-		const useStore = accountStore(selectKeystoreId)
-		const state = useStore.getState()
+		const noneSharedStore = await getNoneSharedStore(selectKeystoreId)
+		const state = noneSharedStore.getState()
 
 		await addPendingAction(id, port)
-		state.addPendingActionAction(id, { host: url.host, request: payload })
+		state.addPendingActionAction(id, { host: url.host, request: payload, action: 'sign' })
 
 		await browser.showPopup(theme, `/notification/sign/${id}`)
 	}
@@ -201,11 +208,11 @@ export default function NewV1BackgroundInpageActions(
 		const url = new URL(port.sender.url)
 
 		const { selectKeystoreId, theme } = sharedStore.getState()
-		const useStore = accountStore(selectKeystoreId)
-		const state = useStore.getState()
+		const noneSharedStore = await getNoneSharedStore(selectKeystoreId)
+		const state = noneSharedStore.getState()
 
 		await addPendingAction(id, port)
-		state.addPendingActionAction(id, { host: url.host, request: payload })
+		state.addPendingActionAction(id, { host: url.host, request: payload, action: 'transaction' })
 
 		await browser.showPopup(theme, `/notification/transaction/${id}`)
 	}
@@ -217,8 +224,8 @@ export default function NewV1BackgroundInpageActions(
 		}
 
 		const { selectKeystoreId } = sharedStore.getState()
-		const useStore = accountStore(selectKeystoreId)
-		const state = useStore.getState()
+		const noneSharedStore = await getNoneSharedStore(selectKeystoreId)
+		const state = noneSharedStore.getState()
 		const { networks, selectedNetworkIndex, selectedAccountIndex, publicAddresses } = state
 		const allAddresses = Object.values(publicAddresses).map(entry => entry.address)
 
@@ -228,7 +235,9 @@ export default function NewV1BackgroundInpageActions(
 		const service = new RadixService(network.url)
 
 		try {
-			const response = await service.tokenBalancesForAddress(address)
+			const response = await queryClient.fetchQuery(['useTokenBalances', address], async () =>
+				service.tokenBalancesForAddress(address),
+			)
 			sendInpageMessage(port, id, payload, response)
 		} catch (error: any) {
 			sendInpageMessage(port, id, payload, { code: 500, error: error?.message || error })
@@ -242,8 +251,8 @@ export default function NewV1BackgroundInpageActions(
 		}
 
 		const { selectKeystoreId } = sharedStore.getState()
-		const useStore = accountStore(selectKeystoreId)
-		const state = useStore.getState()
+		const noneSharedStore = await getNoneSharedStore(selectKeystoreId)
+		const state = noneSharedStore.getState()
 		const { networks, selectedNetworkIndex, selectedAccountIndex, publicAddresses } = state
 		const allAddresses = Object.values(publicAddresses).map(entry => entry.address)
 
@@ -253,7 +262,9 @@ export default function NewV1BackgroundInpageActions(
 		const service = new RadixService(network.url)
 
 		try {
-			const response = await service.stakesForAddress(address)
+			const response = await queryClient.fetchQuery(['useStakedPositions', address], async () =>
+				service.stakesForAddress(address),
+			)
 			sendInpageMessage(port, id, payload, response)
 		} catch (error: any) {
 			sendInpageMessage(port, id, payload, { code: 500, error: error?.message || error })
@@ -267,8 +278,8 @@ export default function NewV1BackgroundInpageActions(
 		}
 
 		const { selectKeystoreId } = sharedStore.getState()
-		const useStore = accountStore(selectKeystoreId)
-		const state = useStore.getState()
+		const noneSharedStore = await getNoneSharedStore(selectKeystoreId)
+		const state = noneSharedStore.getState()
 		const { networks, selectedNetworkIndex, selectedAccountIndex, publicAddresses } = state
 		const allAddresses = Object.values(publicAddresses).map(entry => entry.address)
 
@@ -278,7 +289,9 @@ export default function NewV1BackgroundInpageActions(
 		const service = new RadixService(network.url)
 
 		try {
-			const response = await service.unstakesForAddress(address)
+			const response = await queryClient.fetchQuery(['useUnstakePositions', address], async () =>
+				service.unstakesForAddress(address),
+			)
 			sendInpageMessage(port, id, payload, response)
 		} catch (error: any) {
 			sendInpageMessage(port, id, payload, { code: 500, error: error?.message || error })
@@ -294,7 +307,7 @@ export default function NewV1BackgroundInpageActions(
 		[BALANCES]: balances,
 		[STAKES]: stakes,
 		[UNSTAKES]: unstakes,
-		[DESCRYPT]: decrypt,
+		[DECRYPT]: decrypt,
 		[ENCRYPT]: encrypt,
 		[SIGN]: sign,
 		[SEND_TRANSACTION]: transaction,

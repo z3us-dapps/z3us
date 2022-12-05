@@ -6,7 +6,7 @@ import PriceTicker from 'ui/src/components/price-ticker'
 import PriceLabel from 'ui/src/components/price-label'
 import LoaderBars from 'ui/src/components/loader-bars'
 import { formatBigNumber } from '@src/utils/formatters'
-import { useSharedStore } from '@src/store'
+import { useNoneSharedStore } from '@src/hooks/use-store'
 
 interface Props {
 	symbol: string
@@ -14,7 +14,7 @@ interface Props {
 }
 
 export const TokenPrice = ({ symbol, ammount }: Props): JSX.Element => {
-	const { currency } = useSharedStore(state => ({
+	const { currency } = useNoneSharedStore(state => ({
 		currency: state.currency,
 	}))
 	const { isLoading, data: ticker } = useTicker(currency, symbol)

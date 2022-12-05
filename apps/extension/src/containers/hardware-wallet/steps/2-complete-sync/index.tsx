@@ -1,6 +1,5 @@
 import React from 'react'
-import { useStore } from '@src/store'
-import AlertCard from 'ui/src/components/alert-card'
+import { useSharedStore } from '@src/hooks/use-store'
 import { useQueryClient } from 'react-query'
 import { useImmer } from 'use-immer'
 import { useEventListener } from 'usehooks-ts'
@@ -8,6 +7,12 @@ import { PageWrapper, PageHeading, PageSubHeading } from '@src/components/layout
 import Button from 'ui/src/components/button'
 import { Flex, Text, Box } from 'ui/src/components/atoms'
 import InputFeedBack from 'ui/src/components/input/input-feedback'
+import { KeystoreType } from '@src/types'
+import { generateId } from '@src/utils/generate-id'
+import { onBoardingSteps } from '@src/store/onboarding'
+import { getNoneSharedStore } from '@src/services/state'
+
+const isHIDSupported = !!window?.navigator?.hid
 
 interface ImmerT {
 	errorMessage: string
@@ -17,9 +22,17 @@ interface ImmerT {
 export const CompleteSync = (): JSX.Element => {
 	const queryClient = useQueryClient()
 
-	const { addresses } = useStore(state => ({
-		addresses: Object.values(state.publicAddresses).map(({ address }) => address),
-	}))
+	const { importingAddresses, lock, addKeystore, setOnboradingStep, setImportingAddresses, setIsUnlocked } =
+		useSharedStore(state => ({
+			importingAddresses: state.importingAddresses,
+			lock: state.lockAction,
+			addKeystore: state.addKeystoreAction,
+			setOnboradingStep: state.setOnboardingStepAction,
+			setImportingAddresses: state.setImportingAddressesAction,
+			setIsUnlocked: state.setIsUnlockedAction,
+		}))
+
+	const addresses = Object.values(importingAddresses)
 
 	const [state, setState] = useImmer<ImmerT>({
 		isLoading: false,
@@ -27,14 +40,26 @@ export const CompleteSync = (): JSX.Element => {
 	})
 
 	const handleContinue = async () => {
-		if (addresses.length < 1) {
-			return
-		}
+		if (!isHIDSupported) return
+		if (addresses.length < 1) return
 		setState(draft => {
 			draft.isLoading = true
 		})
 		try {
+			await lock() // clear background memory
+
+			const id = generateId()
+			addKeystore(id, id, KeystoreType.HARDWARE)
+			setIsUnlocked(false)
+
+			const store = await getNoneSharedStore(id)
+			store.getState().setPublicAddressesAction(importingAddresses)
+
+			setImportingAddresses({})
+			setOnboradingStep(onBoardingSteps.START)
+
 			await queryClient.invalidateQueries({ active: true, inactive: true, stale: true })
+
 			window.close()
 		} catch (error) {
 			setState(draft => {
@@ -59,18 +84,11 @@ export const CompleteSync = (): JSX.Element => {
 			<Box css={{ width: '100%' }}>
 				<PageHeading>Hardware wallet connected</PageHeading>
 				<PageSubHeading>
-					Click the `Close` button below, to close this window, and begin using Z3US wallet with the connected hardware
-					wallet connected.
+					Click &apos;Go to wallet&apos; below to complate setup and begin using your Z3US wallet with the connected
+					hardware wallet connected.
 				</PageSubHeading>
 			</Box>
 			<Box css={{ mt: '$8', flex: '1' }}>
-				{addresses.length > 0 ? (
-					<AlertCard icon color="success">
-						<Text medium size="3" css={{ p: '$2' }}>
-							Click the Z3US extension icon to begin
-						</Text>
-					</AlertCard>
-				) : null}
 				<InputFeedBack showFeedback={state.errorMessage !== ''} animateHeight={60}>
 					<Text color="red" medium>
 						{state.errorMessage}

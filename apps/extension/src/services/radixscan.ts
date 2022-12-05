@@ -1,7 +1,7 @@
-import { KnownTokens } from '@src/types'
+import { VisibleTokens } from '@src/types'
 
 export class RadixScanService {
-	private baseURL: string = 'https://www.radixscan.io/raw'
+	private baseURL: string = 'https://www.radixscan.io/stable/z3us/v0'
 
 	private options: RequestInit = {
 		method: 'GET',
@@ -11,8 +11,8 @@ export class RadixScanService {
 		},
 	}
 
-	getKnownTokens = async (): Promise<KnownTokens> => {
-		const response = await fetch(`${this.baseURL}/knowntokens/`, this.options)
+	getKnownTokens = async (): Promise<VisibleTokens> => {
+		const response = await fetch(`${this.baseURL}/tokenlist/`, this.options)
 		if (response.status !== 200) {
 			throw new Error(`Invalid request: ${response.status} recieved`)
 		}

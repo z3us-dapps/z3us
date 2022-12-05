@@ -1,22 +1,22 @@
 import React from 'react'
-import { useSharedStore } from '@src/store'
+import { useNoneSharedStore, useSharedStore } from '@src/hooks/use-store'
 import { Box, Flex, Text } from 'ui/src/components/atoms'
 import { Checkbox, CheckIcon } from 'ui/src/components/checkbox'
 import { StyledSlider, StyledTrack, StyledThumb, StyledRange } from 'ui/src/components/slider'
-import { GET } from '@src/lib/actions'
 import { CurrencySelector } from '@src/components/currency-selector'
+import { KeystoreType } from '@src/types'
 
 export const GeneralSettings: React.FC = () => {
+	const { keystore, ping } = useSharedStore(state => ({
+		keystore: state.keystores.find(({ id }) => id === state.selectKeystoreId),
+		ping: state.pingAction,
+	}))
 	const {
-		messanger,
-		isHardwareWallet,
 		unlockTimer,
 		transactionNotificationsEnabled,
 		setWalletUnclokTimeoutInMinutes,
 		setTransactionNotificationsEnabled,
-	} = useSharedStore(state => ({
-		messanger: state.messanger,
-		isHardwareWallet: state.isHardwareWallet,
+	} = useNoneSharedStore(state => ({
 		unlockTimer: state.walletUnlockTimeoutInMinutes,
 		transactionNotificationsEnabled: state.transactionNotificationsEnabled,
 		setWalletUnclokTimeoutInMinutes: state.setWalletUnclokTimeoutInMinutesAction,
@@ -25,7 +25,7 @@ export const GeneralSettings: React.FC = () => {
 
 	const handleChangeUnlockTime = async ([minute]: Array<number>) => {
 		setWalletUnclokTimeoutInMinutes(minute)
-		await messanger.sendActionMessageFromPopup(GET, null) // reload background timer
+		await ping // reload background timer
 	}
 
 	const handleSetTransactionNotificationsEnabled = checked => {
@@ -34,7 +34,7 @@ export const GeneralSettings: React.FC = () => {
 
 	return (
 		<Box css={{ px: '$3', py: '$3' }}>
-			{!isHardwareWallet && (
+			{keystore?.type === KeystoreType.LOCAL && (
 				<Box css={{ mt: '$3' }}>
 					<Text size="3">
 						Wallet will lock after:
@@ -81,7 +81,7 @@ export const GeneralSettings: React.FC = () => {
 						>
 							<CheckIcon />
 						</Checkbox>
-						<Text size="2" as="label" css={{ pl: '$2' }} htmlFor="mutable">
+						<Text size="2" as="label" css={{ pl: '$2' }} htmlFor="notifications">
 							Enabled
 						</Text>
 					</Flex>
@@ -90,3 +90,5 @@ export const GeneralSettings: React.FC = () => {
 		</Box>
 	)
 }
+
+export default GeneralSettings

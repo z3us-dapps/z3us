@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { useStore } from '@src/store'
+import { useNoneSharedStore } from '@src/hooks/use-store'
 import { RightArrowIcon } from 'ui/src/components/icons'
 import { ChevronDownIcon, ChevronUpIcon } from '@radix-ui/react-icons'
 import {
@@ -15,7 +15,6 @@ import {
 	SelectScrollUpButton,
 	SelectScrollDownButton,
 } from 'ui/src/components/select'
-import { CircleAvatar } from '@src/components/circle-avatar'
 import { Box, Text, Flex } from 'ui/src/components/atoms'
 import Button from 'ui/src/components/button'
 import useMeasure from 'react-use-measure'
@@ -37,7 +36,7 @@ export const AccountSelector: React.FC<IProps> = ({
 	triggerType,
 }) => {
 	const [measureRef, { width: triggerWidth }] = useMeasure()
-	const { accounts } = useStore(state => ({
+	const { accounts } = useNoneSharedStore(state => ({
 		accounts: Object.values(state.publicAddresses).map((entry, index) => ({
 			...entry,
 			index,
@@ -90,12 +89,16 @@ export const AccountSelector: React.FC<IProps> = ({
 									<Flex justify="center" align="center" css={{ width: '100%', textAlign: 'left', height: '48px' }}>
 										<SelectValue>
 											<Box css={{ p: '8px', pr: '4px' }}>
-												<CircleAvatar
-													width={32}
-													height={32}
-													borderWidth={0}
-													shadow={false}
-													background={addressBookBackground}
+												<Box
+													css={{
+														width: '32px',
+														height: '32px',
+														borderRadius: '50%',
+														background: addressBookBackground,
+														border: '2px solid',
+														borderColor: '$borderAvatar',
+														flexShrink: '0',
+													}}
 												/>
 											</Box>
 											<Box css={{ flexShrink: '0', color: '$txtHelp', pt: '2px' }}>
@@ -123,22 +126,33 @@ export const AccountSelector: React.FC<IProps> = ({
 										'&:hover': {
 											bg: '$bgPanelHover',
 										},
-										span: {
-											display: 'none',
-										},
-										'span:first-child': {
+										'> span:first-child': {
 											display: 'flex',
 											width: '100%',
-											align: 'center',
-											justifyContent: 'flex-start',
 										},
 									}}
 								>
 									<SelectValue>
 										<Box css={{ p: '8px' }}>
-											<CircleAvatar background={addressBookBackground} />
+											<Box
+												css={{
+													width: '48px',
+													height: '48px',
+													borderRadius: '50%',
+													background: addressBookBackground,
+													boxShadow: '$shadowPanel2',
+													border: '2px solid',
+													borderColor: '$borderAvatar',
+													flexShrink: '0',
+												}}
+											/>
 										</Box>
-										<Flex align="center" css={{ flex: '1', minWidth: '0' }}>
+										<Flex
+											direction="column"
+											align="start"
+											justify="center"
+											css={{ flex: '1', minWidth: '0', alignItems: 'flex-start' }}
+										>
 											<Text
 												truncate
 												css={{ fontSize: '14px', lineHeight: '17px', fontWeight: '500', mt: '2px', maxWidth: '210px' }}
@@ -154,7 +168,7 @@ export const AccountSelector: React.FC<IProps> = ({
 												</Text>
 											)}
 										</Flex>
-										<Flex align="center" css={{ pr: '$2', flexShrink: '0' }}>
+										<Flex align="center" css={{ flexShrink: '0' }}>
 											<RightArrowIcon />
 										</Flex>
 									</SelectValue>

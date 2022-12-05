@@ -3,7 +3,6 @@ import React, { useState } from 'react'
 import { ChevronDownIcon, ChevronUpIcon } from '@radix-ui/react-icons'
 import { HardwareWalletIcon } from 'ui/src/components/icons'
 import { ToolTip } from 'ui/src/components/tool-tip'
-import { KeystoreType } from '@src/store/types'
 import {
 	Select,
 	SelectTrigger,
@@ -15,11 +14,13 @@ import {
 	SelectItemIndicator,
 	SelectScrollUpButton,
 	SelectScrollDownButton,
+	SelectSeparator,
 } from 'ui/src/components/select'
-import { useSharedStore } from '@src/store'
+import { useSharedStore } from '@src/hooks/use-store'
 import { Box, Text, Flex } from 'ui/src/components/atoms'
 import Button from 'ui/src/components/button'
 import useMeasure from 'react-use-measure'
+import { KeystoreType } from '@src/types'
 
 interface IProps {}
 
@@ -27,15 +28,19 @@ const defaultProps: Partial<IProps> = {
 	pool: null,
 }
 
+const newWalletOptions = '_new'
+
 export const WalletSelector: React.FC<IProps> = () => {
 	const [open, setOpen] = useState<boolean>(false)
 	const [measureRef, { width: triggerWidth }] = useMeasure()
 
-	const { keystore, keystores, keystoreId, selectKeystore } = useSharedStore(state => ({
+	const { keystore, keystores, keystoreId, selectKeystore, lock, setIsUnlocked } = useSharedStore(state => ({
 		keystore: state.keystores.find(({ id }) => id === state.selectKeystoreId),
 		keystores: state.keystores,
 		keystoreId: state.selectKeystoreId,
 		selectKeystore: state.selectKeystoreAction,
+		lock: state.lockAction,
+		setIsUnlocked: state.setIsUnlockedAction,
 	}))
 
 	const isHardwareWallet = keystore?.type === KeystoreType.HARDWARE
@@ -43,7 +48,13 @@ export const WalletSelector: React.FC<IProps> = () => {
 	const handleValueChange = async (id: string) => {
 		setOpen(false)
 		if (id === keystoreId) return
+		if (id === newWalletOptions) {
+			window.location.hash = '#/onboarding'
+			return
+		}
+		setIsUnlocked(false)
 		selectKeystore(id)
+		await lock()
 	}
 
 	return (
@@ -139,6 +150,24 @@ export const WalletSelector: React.FC<IProps> = () => {
 							<SelectItemIndicator />
 						</SelectItem>
 					))}
+
+					<SelectSeparator />
+
+					<SelectItem
+						value={newWalletOptions}
+						css={{
+							'span:first-child': {
+								overflow: 'hidden',
+								textOverflow: 'ellipsis',
+								whiteSpace: 'nowrap',
+								maxWidth: `${triggerWidth - 25}px`,
+								minWidth: '100px',
+							},
+						}}
+					>
+						<SelectItemText>Add new wallet</SelectItemText>
+						<SelectItemIndicator />
+					</SelectItem>
 				</SelectViewport>
 				<SelectScrollDownButton>
 					<ChevronDownIcon />

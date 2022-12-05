@@ -1,5 +1,5 @@
 import React from 'react'
-import { useSharedStore, useStore } from '@src/store'
+import { useNoneSharedStore } from '@src/hooks/use-store'
 import { Box, Text, StyledLink } from 'ui/src/components/atoms'
 import { getShortAddress } from '@src/utils/string-utils'
 import { Tabs, TabsList, TabsContent, TabsTrigger } from 'ui/src/components/tabs'
@@ -13,11 +13,7 @@ import { StakesList } from './stakes-list'
 const TAB_HEIGHT = '246px'
 
 export const Staking: React.FC = () => {
-	const { hw, seed } = useSharedStore(state => ({
-		hw: state.hardwareWallet,
-		seed: state.masterSeed,
-	}))
-	const { accountAddress, selectAccount } = useStore(state => ({
+	const { accountAddress, selectAccount } = useNoneSharedStore(state => ({
 		accountAddress: state.getCurrentAddressAction(),
 		selectAccount: state.selectAccountAction,
 	}))
@@ -27,7 +23,7 @@ export const Staking: React.FC = () => {
 	const shortAddress = getShortAddress(accountAddress)
 
 	const handleAccountChange = async (accountIndex: number) => {
-		await selectAccount(accountIndex, hw, seed)
+		await selectAccount(accountIndex)
 	}
 
 	return (
@@ -76,3 +72,5 @@ export const Staking: React.FC = () => {
 		</Box>
 	)
 }
+
+export default Staking

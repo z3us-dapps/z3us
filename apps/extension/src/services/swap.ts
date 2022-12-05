@@ -1,9 +1,9 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable no-case-declarations */
 import BigNumber from 'bignumber.js'
-import { IntendedTransferTokens, BuiltTransactionReadyToSign, AccountT } from '@radixdlt/application'
+import { IntendedTransferTokens, BuiltTransactionReadyToSign, AccountT, AccountAddressT } from '@radixdlt/application'
 import { FLOOP_RRI, Z3US_FEE_RATIO, Z3US_RRI, Z3US_WALLET_MAIN, Z3US_WALLET_BURN } from '@src/config'
-import { Pool, PoolType, Token, TokenAmount, IntendedAction, PoolQuote } from '@src/types'
+import { Pool, PoolType, Token, TokenAmount, IntendedAction, PoolQuote, SigningKey } from '@src/types'
 import { buildAmount } from '@src/utils/radix'
 import { parseAccountAddress, parseAmount, parseResourceIdentifier } from '@src/services/radix/serializer'
 import oci from '@src/services/oci'
@@ -71,14 +71,16 @@ export const calculatePoolFeesFromAmount = async (
 ): Promise<Quote> => {
 	let response
 	let receive = zero
+	let fullReceive = zero
 	let fee = zero
 	let priceImpact: number
 
-	if (!pool?.wallet || !from || !to || amount.lte(0)) {
+	if (!from || !to || amount.lte(0)) {
 		return {
 			amount,
 			fee,
 			receive,
+			fullReceive,
 			priceImpact,
 			response,
 		}
@@ -91,7 +93,8 @@ export const calculatePoolFeesFromAmount = async (
 			const ociExchangeFee = new BigNumber(ociQuote?.fee_exchange[0]?.amount || 0)
 
 			fee = ociLiquidityFee.plus(ociExchangeFee)
-			receive = ociQuote?.output ? new BigNumber(ociQuote?.output?.amount || 0) : receive
+			receive = ociQuote?.minimum_output ? new BigNumber(ociQuote?.minimum_output?.amount || 0) : receive
+			fullReceive = ociQuote?.output ? new BigNumber(ociQuote?.output?.amount || 0) : receive
 			priceImpact = ociQuote?.price_impact ? +ociQuote.price_impact : undefined
 			response = ociQuote
 			break
@@ -104,10 +107,10 @@ export const calculatePoolFeesFromAmount = async (
 				amountTo: null,
 			}
 			const dogeQuote = await doge.getQuote(query)
-			amount = new BigNumber(dogeQuote?.sentAmount || 0)
-			receive = new BigNumber(dogeQuote?.receivedAmount || 0)
-			priceImpact = dogeQuote?.priceImpact ? +dogeQuote.priceImpact : undefined
 			fee = amount.multipliedBy(11 / 1000)
+			receive = new BigNumber(dogeQuote?.minAmount || 0)
+			fullReceive = new BigNumber(dogeQuote?.receivedAmount || 0)
+			priceImpact = dogeQuote?.priceImpact ? +dogeQuote.priceImpact : undefined
 			response = dogeQuote
 			break
 		case PoolType.ASTROLESCENT:
@@ -115,6 +118,7 @@ export const calculatePoolFeesFromAmount = async (
 
 			fee = new BigNumber(astrolescentQuote.swapFee).shiftedBy(-18)
 			receive = astrolescentQuote?.outputTokens ? new BigNumber(astrolescentQuote?.outputTokens || 0) : receive
+			fullReceive = receive
 			priceImpact = 100 - astrolescentQuote.priceImpact
 			response = astrolescentQuote
 			break
@@ -127,6 +131,7 @@ export const calculatePoolFeesFromAmount = async (
 
 			fee = zero // @TODO
 			receive = new BigNumber(dsorQuote.rhs_amount).shiftedBy(-18)
+			fullReceive = receive
 			priceImpact = dsorCalculateTotalPriceImpact(dsorQuote, receive)
 			response = dsorQuote
 			break
@@ -137,6 +142,7 @@ export const calculatePoolFeesFromAmount = async (
 			const caviarQuote = calculateSwap(pools, pool, amount, from, to, floopBalance)
 
 			receive = caviarQuote.receive
+			fullReceive = receive
 			fee = caviarQuote.fee
 			response = caviarQuote
 			break
@@ -152,6 +158,7 @@ export const calculatePoolFeesFromAmount = async (
 		amount,
 		fee,
 		receive,
+		fullReceive,
 		priceImpact,
 		response,
 	}
@@ -164,15 +171,13 @@ export const calculatePoolFeesFromReceive = async (
 	slippage: number,
 	from: Token,
 	to: Token,
-	accountAddress: string,
-	liquidBalances: TokenAmount[],
 ): Promise<Quote> => {
 	let response
 	let amount = zero
 	let fee = zero
 	let priceImpact: number
 
-	if (!pool?.wallet || !from || !to || receive.lte(0)) {
+	if (!from || !to || receive.lte(0)) {
 		return {
 			receive,
 			fee,
@@ -202,7 +207,6 @@ export const calculatePoolFeesFromReceive = async (
 			}
 			const dogeQuote = await doge.getQuote(query)
 			amount = new BigNumber(dogeQuote?.sentAmount || 0)
-			receive = new BigNumber(dogeQuote?.receivedAmount || 0)
 			priceImpact = dogeQuote?.priceImpact ? +dogeQuote.priceImpact : undefined
 			fee = amount.multipliedBy(11 / 1000)
 			response = dogeQuote
@@ -281,14 +285,14 @@ export const calculateCheapestPoolFeesFromAmount = async (
 	)
 	results.forEach((quote: Quote | null, index: number) => {
 		if (!quote) return
-		if (quote.receive.eq(0)) return
+		if (quote.fullReceive.eq(0)) return
 		if (selectedPool) {
 			const p = pools[index]
 			if (selectedPool.id === p.id) {
 				bestQuote = quote
 				pool = p
 			}
-		} else if (!bestQuote || quote.receive.gt(bestQuote.receive)) {
+		} else if (!bestQuote || quote.fullReceive.gt(bestQuote.fullReceive)) {
 			bestQuote = quote
 			pool = pools[index]
 		}
@@ -297,10 +301,10 @@ export const calculateCheapestPoolFeesFromAmount = async (
 		p.costRatio = undefined
 		if (!bestQuote) return
 		if (!p.quote) return
-		if (!bestQuote.receive.gt(0)) return
-		if (!p.quote.receive.gt(0)) return
+		if (bestQuote.fullReceive.eq(0)) return
+		if (p.quote.fullReceive.eq(0)) return
 
-		p.costRatio = bestQuote.receive.minus(p.quote.receive).dividedBy(p.quote.receive)
+		p.costRatio = bestQuote.fullReceive.minus(p.quote.fullReceive).dividedBy(p.quote.fullReceive)
 	})
 	return { receive: zero, fee: zero, amount: zero, ...bestQuote, pool }
 }
@@ -312,24 +316,13 @@ export const calculateCheapestPoolFeesFromReceive = async (
 	slippage: number,
 	from: Token,
 	to: Token,
-	accountAddress: string,
-	liquidBalances: TokenAmount[],
 ): Promise<{ pool: Pool } & Quote> => {
 	let pool: Pool | null = null
 	let bestQuote: Quote
 	const results = await Promise.all(
 		pools.map(async p => {
 			try {
-				const quote = await calculatePoolFeesFromReceive(
-					pools,
-					p,
-					receive,
-					slippage,
-					from,
-					to,
-					accountAddress,
-					liquidBalances,
-				)
+				const quote = await calculatePoolFeesFromReceive(pools, p, receive, slippage, from, to)
 				p.quote = quote
 				return quote
 			} catch (error) {
@@ -360,8 +353,8 @@ export const calculateCheapestPoolFeesFromReceive = async (
 		p.costRatio = undefined
 		if (!bestQuote) return
 		if (!p.quote) return
-		if (!bestQuote.amount.gt(0)) return
-		if (!p.quote.amount.gt(0)) return
+		if (bestQuote.amount.eq(0)) return
+		if (p.quote.amount.eq(0)) return
 
 		p.costRatio = bestQuote.amount.minus(p.quote.amount).dividedBy(p.quote.amount).multipliedBy(-1)
 	})
@@ -388,7 +381,7 @@ export const calculateTransactionFee = async (
 		fee: string
 	}>,
 	createMessage: any,
-	account: AccountT,
+	accountAddress: AccountAddressT,
 	response?: any,
 ): Promise<{
 	transaction: BuiltTransactionReadyToSign | null
@@ -399,7 +392,7 @@ export const calculateTransactionFee = async (
 	let fee = zero
 	let transactionFeeError = null
 
-	if (amount.eq(0) || !pool?.wallet || !fromToken?.rri || !toToken?.rri) {
+	if (amount.eq(0) || !fromToken?.rri || !toToken?.rri) {
 		return { transaction, fee, transactionFeeError }
 	}
 
@@ -444,7 +437,7 @@ export const calculateTransactionFee = async (
 					amount: buildAmount(z3usBurn),
 					tokenIdentifier: Z3US_RRI,
 				},
-				account.address,
+				accountAddress,
 			)
 			if (actionResult.isErr()) {
 				throw actionResult.error
@@ -459,7 +452,7 @@ export const calculateTransactionFee = async (
 					amount: buildAmount(z3usFee),
 					tokenIdentifier: fromRRI,
 				},
-				account.address,
+				accountAddress,
 			)
 			if (actionResult.isErr()) {
 				throw actionResult.error
@@ -499,7 +492,7 @@ export const calculateTransactionFee = async (
 								amount: parseAmount(action.lhs_amount),
 								tokenIdentifier: parseResourceIdentifier(action.lhs_rri),
 							},
-							account.address,
+							accountAddress,
 						)
 						if (actionResult.isErr()) {
 							throw actionResult.error
@@ -515,7 +508,7 @@ export const calculateTransactionFee = async (
 						amount: buildAmount(amount),
 						tokenIdentifier: fromRRI,
 					},
-					account.address,
+					accountAddress,
 				)
 				if (actionResult.isErr()) {
 					throw actionResult.error

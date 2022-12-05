@@ -1,6 +1,7 @@
-import * as React from 'react';
+import * as React from 'react'
 
 export interface IconProps extends React.SVGAttributes<SVGElement> {
-  children?: never;
-  color?: string;
+  children?: never
+  color?: string
+  bgColor?: string
 }

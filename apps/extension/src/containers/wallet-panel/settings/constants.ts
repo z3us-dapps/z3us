@@ -7,4 +7,5 @@ export const accordians = {
 	NETWORK: 'network',
 	KEY_MANAGEMENT: 'key-management',
 	WEBSITES_MANAGEMENT: 'websites-management',
+	WEBSITES_ACTIONS: 'websites-actions',
 }

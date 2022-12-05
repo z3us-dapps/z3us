@@ -1,48 +1,36 @@
 import { useCallback } from 'react'
-import { firstValueFrom } from 'rxjs'
 import { Message } from '@radixdlt/crypto'
-import { useSharedStore, useStore } from '@src/store'
+import { useSharedStore } from '@src/hooks/use-store'
 import { useRadix } from '@src/hooks/use-radix'
 import { parseAccountAddress } from '@src/services/radix/serializer'
-import { AccountAddress } from '@radixdlt/account'
 
 export const useMessage = () => {
 	const radix = useRadix()
-	const { addConfirmWithHWToast } = useSharedStore(state => ({
+	const { signingKey, addConfirmWithHWToast } = useSharedStore(state => ({
+		signingKey: state.signingKey,
 		addConfirmWithHWToast: state.addConfirmWithHWToastAction,
 	}))
-	const { account } = useStore(state => ({
-		account: state.account,
-	}))
-
 	const createMessage = useCallback(
 		async (plaintext: string, recipientAddress: string = ''): Promise<string> => {
-			if (!plaintext) {
-				throw new Error('Invalid message')
-			}
-			let buffer: Buffer
+			if (!plaintext) throw new Error('Invalid message')
 			if (recipientAddress) {
-				const toResult = AccountAddress.fromUnsafe(recipientAddress)
-				if (toResult.isErr()) {
-					throw toResult.error
-				}
+				const toAddress = parseAccountAddress(recipientAddress)
+
+				if (!signingKey) throw new Error('Invalid signing key')
 
 				addConfirmWithHWToast()
 
-				const ecnrypted = await firstValueFrom(
-					account.encrypt({
-						plaintext,
-						publicKeyOfOtherParty: toResult.value.publicKey,
-					}),
-				)
-				buffer = ecnrypted.combined()
-			} else {
-				const plain = Message.createPlaintext(plaintext)
-				buffer = plain.bytes
+				const ecnrypted = await signingKey.encrypt({
+					plaintext,
+					publicKeyOfOtherParty: toAddress.publicKey,
+				})
+				return ecnrypted
 			}
-			return buffer.toString('hex')
+
+			const plain = Message.createPlaintext(plaintext)
+			return plain.bytes.toString('hex')
 		},
-		[account],
+		[signingKey?.id],
 	)
 
 	const decryptMessage = useCallback(
@@ -66,17 +54,18 @@ export const useMessage = () => {
 			const fromAddress = parseAccountAddress(from)
 			const publicKeyOfOtherParty = fromAddress.publicKey
 
+			if (!signingKey) throw new Error('Invalid signing key')
+
 			addConfirmWithHWToast()
 
-			const message = await firstValueFrom(account.decrypt({ encryptedMessage, publicKeyOfOtherParty }))
-
+			const message = await signingKey.decrypt({ encryptedMessage: encryptedMessage.combined(), publicKeyOfOtherParty })
 			if (!message) {
 				throw new Error('Failed to decrypt message.')
 			}
 
 			return message
 		},
-		[radix, account],
+		[radix, signingKey?.id],
 	)
 
 	return { createMessage, decryptMessage }

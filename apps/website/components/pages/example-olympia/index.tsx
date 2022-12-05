@@ -39,7 +39,7 @@ interface ImmerProps {
 
 export const Example = () => {
 	const { show } = useToastControls()
-	const { address, connect, disconnect, submitTransaction } = useZ3usWallet()
+	const { isLoaded, address, connect, disconnect, submitTransaction } = useZ3usWallet()
 	const [state, setState] = useImmer<ImmerProps>({
 		to: '',
 		amount: '',
@@ -65,9 +65,8 @@ export const Example = () => {
 	}
 
 	const handleTx = async () => {
-		if (!state.amount) {
-			return
-		}
+		if (!isLoaded) return
+		if (!state.amount) return
 		try {
 			// https://redocly.github.io/redoc/?url=https://raw.githubusercontent.com/radixdlt/radixdlt-network-gateway/1.1.1/gateway-api-spec.yaml#tag/Transaction/paths/~1transaction~1build/post
 			const tx = {
@@ -145,7 +144,13 @@ export const Example = () => {
 				<Seperator title="Connect Z3US wallet" />
 
 				<Flex align="center" css={{ pt: '0' }}>
-					<Button size="6" color="primary" onClick={!address ? handleConnect : handleDisconnect}>
+					<Button
+						size="6"
+						color="primary"
+						onClick={!address ? handleConnect : handleDisconnect}
+						disabled={!isLoaded}
+						loading={!isLoaded}
+					>
 						{!address ? 'Connect' : 'Disconnect'}
 					</Button>
 				</Flex>

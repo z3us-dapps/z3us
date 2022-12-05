@@ -111,3 +111,5 @@ export const Token: React.FC = () => {
 		</>
 	)
 }
+
+export default Token

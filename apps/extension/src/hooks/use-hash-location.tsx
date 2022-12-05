@@ -1,5 +1,6 @@
 import makeMatcher from 'wouter/matcher'
 import { useEffect, useState, useRef, useCallback } from 'react'
+import { BaseLocationHook } from 'wouter'
 
 // ---------------- hash support ------------------------
 
@@ -8,7 +9,7 @@ import { useEffect, useState, useRef, useCallback } from 'react'
 const currentLocation = (base, path = window.location.hash.replace('#', '')) =>
 	!path.toLowerCase().indexOf(base.toLowerCase()) ? path.slice(base.length) || '/' : `~${path}`
 
-export const useHashLocation = ({ base }) => {
+export const useHashLocation: BaseLocationHook = ({ base = '' } = {}) => {
 	const [loc, setLoc] = useState<string>(currentLocation(base))
 	const prevHash = useRef(loc)
 

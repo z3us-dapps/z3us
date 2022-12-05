@@ -6,7 +6,7 @@ import { HoverCard, HoverCardContent, HoverCardTrigger } from 'ui/src/components
 import { useTicker } from '@src/hooks/react-query/queries/tickers'
 import { InfoCircledIcon, CircleBackslashIcon } from '@radix-ui/react-icons'
 import { Token, Pool, PoolType } from '@src/types'
-import { useSharedStore } from '@src/store'
+import { useNoneSharedStore } from '@src/hooks/use-store'
 import { ToolTip } from 'ui/src/components/tool-tip'
 import { useNativeToken, useTokenInfo } from '@src/hooks/react-query/queries/radix'
 import { Z3US_RRI } from '@src/config'
@@ -53,7 +53,7 @@ export const FeeBox: React.FC<IProps> = ({
 	onSlippageChange,
 	css,
 }) => {
-	const { currency } = useSharedStore(state => ({
+	const { currency } = useNoneSharedStore(state => ({
 		currency: state.currency,
 	}))
 
@@ -119,7 +119,7 @@ export const FeeBox: React.FC<IProps> = ({
 									sideOffset={5}
 									css={{ maxWidth: '240px', pointerEvents: 'auto', zIndex: '99' }}
 								>
-									<Flex css={{ borderTop: '1px solid', borderColor: '$borderPanel', mt: '$2', pt: '$2' }}>
+									<Flex>
 										<Text size="2" color="help">
 											Price impact is the influence of user&apos;s individual trade over the market price of an
 											underlying asset pair. It is directly correlated with the amount of liquidity in the pool. Price
@@ -136,7 +136,7 @@ export const FeeBox: React.FC<IProps> = ({
 							{priceImpact > 0 ? (
 								<Text medium>{getSlippagePercentage(slippage)}</Text>
 							) : (
-								<ToolTip message="Price impact not provided">
+								<ToolTip arrowOffset={3} message="Price impact not provided">
 									<Flex css={{ color: '$txtHelp', display: 'inline-flex' }}>
 										<CircleBackslashIcon />
 									</Flex>
@@ -160,7 +160,7 @@ export const FeeBox: React.FC<IProps> = ({
 									sideOffset={5}
 									css={{ maxWidth: '240px', pointerEvents: 'auto', zIndex: '99' }}
 								>
-									<Flex css={{ borderTop: '1px solid', borderColor: '$borderPanel', mt: '$2', pt: '$2' }}>
+									<Flex>
 										<Text size="2" color="help">
 											Slippage tolerance is a setting for the amount of price slippage you are willing to accept for a
 											trade. By setting slippage tolerance, you basically setting a minimum amount on how many tokens
@@ -177,7 +177,7 @@ export const FeeBox: React.FC<IProps> = ({
 								((pool?.type === PoolType.OCI || pool?.type === PoolType.DOGECUBEX) && minimum ? (
 									<Text medium>{getSlippagePercentage(slippage)}</Text>
 								) : (
-									<ToolTip message="Slippage not supported">
+									<ToolTip arrowOffset={3} message="Slippage not supported">
 										<Flex css={{ color: '$txtHelp', display: 'inline-flex' }}>
 											<CircleBackslashIcon />
 										</Flex>
@@ -214,7 +214,7 @@ export const FeeBox: React.FC<IProps> = ({
 									<HoverCardContent
 										side="top"
 										sideOffset={5}
-										css={{ maxWidth: '240px', pointerEvents: 'auto', zIndex: '99' }}
+										css={{ maxWidth: '255px', pointerEvents: 'auto', zIndex: '99' }}
 									>
 										<Flex css={{ flexDirection: 'column', gap: '4px' }}>
 											<Flex>
@@ -223,14 +223,14 @@ export const FeeBox: React.FC<IProps> = ({
 												</Text>
 											</Flex>
 											<Flex css={{ width: '100%' }}>
-												<Text medium size="2" css={{ color: '$txtHelp' }}>
+												<Text medium size="2" css={{ color: '$txtHelp', width: '85px', flexShrink: '0' }}>
 													Network fee:
 												</Text>
 												<Text size="2" css={{ display: 'flex', flex: '1', justifyContent: 'flex-end' }}>
-													<Box css={{ pl: '$1' }}>{`${formatBigNumber(
-														txFee,
-														nativeToken?.symbol,
-													)} ${nativeToken?.symbol.toUpperCase()}`}</Box>
+													<Text css={{ pl: '$1' }}>{formatBigNumber(txFee, nativeToken?.symbol)}</Text>
+													<Text truncate css={{ pl: '$1', maxWidth: '35px' }}>
+														{nativeToken?.symbol.toUpperCase()}
+													</Text>
 													{nativeTicker && (
 														<Box css={{ pl: '$1' }}>
 															{formatBigNumber(txFee.multipliedBy(nativeTicker.last_price), currency, 2)}
@@ -239,7 +239,7 @@ export const FeeBox: React.FC<IProps> = ({
 												</Text>
 											</Flex>
 											<Flex>
-												<Text medium size="2" css={{ color: '$txtHelp' }}>
+												<Text medium size="2" css={{ color: '$txtHelp', width: '85px', flexShrink: '0' }}>
 													Exchange fee:
 												</Text>
 												<Text size="2" css={{ display: 'flex', flex: '1', justifyContent: 'flex-end' }}>
@@ -247,10 +247,10 @@ export const FeeBox: React.FC<IProps> = ({
 														<Box css={{ pl: '$1' }}>Unknown</Box>
 													) : (
 														<>
-															<Box css={{ pl: '$1' }}>{`${formatBigNumber(
-																poolFee,
-																fromToken?.symbol,
-															)} ${fromToken?.symbol.toUpperCase()}`}</Box>
+															<Text css={{ pl: '$1' }}>{formatBigNumber(poolFee, fromToken?.symbol)}</Text>
+															<Text truncate css={{ pl: '$1', maxWidth: '35px' }}>
+																{fromToken?.symbol.toUpperCase()}
+															</Text>
 															{fromTicker && (
 																<Box css={{ pl: '$1' }}>
 																	{formatBigNumber(poolFee.multipliedBy(fromTicker.last_price), currency, 2)}
@@ -261,14 +261,14 @@ export const FeeBox: React.FC<IProps> = ({
 												</Text>
 											</Flex>
 											<Flex>
-												<Text medium size="2" css={{ color: '$txtHelp' }}>
+												<Text medium size="2" css={{ color: '$txtHelp', width: '85px', flexShrink: '0' }}>
 													Wallet fee:
 												</Text>
 												<Text size="2" css={{ display: 'flex', flex: '1', justifyContent: 'flex-end' }}>
-													<Box css={{ pl: '$1' }}>{`${formatBigNumber(
-														z3usFee,
-														fromToken?.symbol,
-													)} ${fromToken?.symbol.toUpperCase()}`}</Box>
+													<Text css={{ pl: '$1' }}>{formatBigNumber(z3usFee, fromToken?.symbol)}</Text>
+													<Text truncate css={{ pl: '$1', maxWidth: '35px' }}>
+														{fromToken?.symbol.toUpperCase()}
+													</Text>
 													{fromTicker && (
 														<Box css={{ pl: '$1' }}>
 															{formatBigNumber(z3usFee.multipliedBy(fromTicker.last_price), currency, 2)}

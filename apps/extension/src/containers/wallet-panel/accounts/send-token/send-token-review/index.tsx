@@ -3,11 +3,12 @@ import BigNumber from 'bignumber.js'
 import { useQueryClient } from 'react-query'
 import { useLocation } from 'wouter'
 import { Token } from '@src/types'
+import { ToolTip } from 'ui/src/components/tool-tip'
 import InputFeedBack from 'ui/src/components/input/input-feedback'
 import { BuiltTransactionReadyToSign } from '@radixdlt/application'
 import { useTransaction } from '@src/hooks/use-transaction'
 import { useImmer } from 'use-immer'
-import { useSharedStore, useStore } from '@src/store'
+import { useSharedStore, useNoneSharedStore } from '@src/hooks/use-store'
 import { formatBigNumber } from '@src/utils/formatters'
 import { getShortAddress } from '@src/utils/string-utils'
 import { ArrowLeftIcon } from '@radix-ui/react-icons'
@@ -50,12 +51,13 @@ export const SendTokenReview: React.FC<IProps> = ({
 	const [, setLocation] = useLocation()
 	const queryClient = useQueryClient()
 	const { signTransaction, submitTransaction } = useTransaction()
-	const { addressBook } = useSharedStore(state => ({
-		addressBook: state.addressBook,
+	const { signingKey } = useSharedStore(state => ({
+		signingKey: state.signingKey,
 	}))
-	const { account, publicAddresses } = useStore(state => ({
-		account: state.account,
+	const { address, publicAddresses, addressBook } = useNoneSharedStore(state => ({
+		address: state.getCurrentAddressAction(),
 		publicAddresses: Object.values(state.publicAddresses),
+		addressBook: state.addressBook,
 	}))
 	const [state, setState] = useImmer<ImmerT>({
 		txID: '',
@@ -64,12 +66,11 @@ export const SendTokenReview: React.FC<IProps> = ({
 		isSendingTransaction: false,
 	})
 
-	const address = account?.address?.toString()
 	const entry = addressBook[address] || publicAddresses.find(_account => _account.address === address)
-	const shortAddress = getShortAddress(address)
+	const shortAddress = getShortAddress(address, 5)
 
 	const toEntry = addressBook[to] || publicAddresses.find(_account => _account.address === to)
-	const toShort = getShortAddress(to)
+	const toShort = getShortAddress(to, 5)
 	const tokenSymbol = token.symbol.toUpperCase()
 
 	const handleCancelTransaction = () => {
@@ -90,7 +91,7 @@ export const SendTokenReview: React.FC<IProps> = ({
 	}
 
 	const handleConfirmSend = async () => {
-		if (!account) return
+		if (!signingKey) return
 
 		setState(draft => {
 			draft.isSendingAlertOpen = true
@@ -140,22 +141,31 @@ export const SendTokenReview: React.FC<IProps> = ({
 						Transaction details:
 					</Text>
 				</Box>
+				<ToolTip message={address} css={{ maxWidth: '230px', wordWrap: 'break-word' }}>
+					<Box>
+						<InfoStatBlock
+							addressBookBackground={entry?.background}
+							statSubTitle={`From: ${shortAddress} (${totalTokenAmount}${tokenSymbol})`}
+							statTitle={entry?.name || ''}
+						/>
+					</Box>
+				</ToolTip>
+
+				<ToolTip message={to} css={{ maxWidth: '230px', wordWrap: 'break-word' }}>
+					<Box>
+						<InfoStatBlock
+							addressBookBackground={toEntry?.background}
+							statSubTitle={`To: ${toShort}`}
+							statTitle={toEntry?.name || ''}
+						/>
+					</Box>
+				</ToolTip>
 				<InfoStatBlock
-					addressBookBackground={entry?.background}
-					statSubTitle={`From: ${shortAddress} (${totalTokenAmount}${tokenSymbol})`}
-					statTitle={entry?.name || ''}
-				/>
-				<InfoStatBlock
-					addressBookBackground={toEntry?.background}
-					statSubTitle={`To: ${toShort}`}
-					statTitle={toEntry?.name || ''}
-				/>
-				<InfoStatBlock
-					image={token?.image || token?.iconURL}
+					image={token?.image}
 					statSubTitle="Amount:"
 					statTitle={`${formatBigNumber(amount)} ${tokenSymbol}`}
 				/>
-				<SlippageBox token={token} amount={amount} fee={fee} />
+				<SlippageBox token={token} amount={amount} fee={fee} css={{ mt: '12px' }} />
 			</Box>
 			<Flex css={{ p: '$2' }}>
 				<Button
@@ -177,7 +187,7 @@ export const SendTokenReview: React.FC<IProps> = ({
 							aria-label="confirm send token"
 							css={{ px: '0', flex: '1', ml: '$1' }}
 							onClick={handleConfirmSend}
-							disabled={!account}
+							disabled={!signingKey}
 							fullWidth
 						>
 							Confirm send

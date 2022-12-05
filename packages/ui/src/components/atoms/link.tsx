@@ -5,6 +5,11 @@ export const StyledLink = styled('a', {
 	textDecoration: 'none',
 	color: 'inherit',
 	cursor: 'pointer',
+	p: '0',
+	m: '0',
+	outline: 'none',
+	background: 'none',
+	border: 'none',
 
 	variants: {
 		underline: {

@@ -6,16 +6,39 @@ import { ColorSettings, PoolType } from '@src/types'
 
 // @TODO: add types to this file
 
-export const defaultAccountStoreKey = 'z3us-store'
+export const CHECK_CONTENT_SCRIPT = 'confirm'
+
+export const defaultNoneStoreKey = 'z3us-store'
 
 export const sharedStoreKey = 'z3us-store-shared'
 
 export const defaultToken = { order: Number.MAX_SAFE_INTEGER }
 
-export const defaultTokenSettings = {
+export const OCI_TOKEN_IMG_URL = 'https://api.ociswap.com/icons/64x64/'
+
+type TdefaultTokenSettings = {
+	[key: string]: {
+		image: string
+		order?: number
+	}
+}
+
+export const defaultTokenSettings: TdefaultTokenSettings = {
 	xrd: { image: 'images/token-images/xrd.png', order: 0 },
 	oci: { image: 'images/token-images/oci.png', order: 1 },
 	dgc: { image: 'images/token-images/dgc.png', order: 2 },
+	inu: { image: 'images/token-images/inu.png' },
+	caviar: { image: 'images/token-images/caviar.png' },
+	sfloop: { image: 'images/token-images/sfloop.png' },
+	floop: { image: 'images/token-images/floop.png' },
+	planet: { image: 'images/token-images/planet.png' },
+	dph: { image: 'images/token-images/dph.png' },
+	arena: { image: 'images/token-images/arena.png' },
+	easy: { image: 'images/token-images/easy.png' },
+	xseed: { image: 'images/token-images/xseed.png' },
+	rdt: { image: 'images/token-images/rdt.png' },
+	crumbs: { image: 'images/token-images/crumbs.png' },
+	z3us: { image: 'images/token-images/z3us.png' },
 }
 
 export const PRESET_COLOR_HELIOTROPE_SUNRISE = 'preset_color_heliotrope_sunrise'
@@ -154,6 +177,11 @@ export const getDefaultBackgroundForIndex = (idx: number): string => {
 		preset[ColorSettings.GRADIENT_TYPE],
 		preset[ColorSettings.GRADIENT_START],
 	)
+}
+
+export const z3usDappStatusIcons = {
+	ON: 'images/z3us-on.png',
+	OFF: 'images/z3us-off.png',
 }
 
 export const networks = [

@@ -1,4 +1,6 @@
 import pkg from './package.json'
+import hosts from './host_permissions.json'
+import matches from './content_matches.json'
 
 export default {
 	manifest_version: 3,
@@ -8,7 +10,7 @@ export default {
 	short_name: 'Z3US',
 	description: 'An open source community centered browser wallet for the Radix DLT network.',
 	action: {
-		default_popup: 'popup-theme-light.html',
+		default_popup: 'popup-theme-system.html',
 		default_title: 'Z3US',
 		default_icon: {
 			'16': 'favicon-16x16.png',
@@ -32,14 +34,14 @@ export default {
 		'48': 'favicon-48x48.png',
 		'128': 'favicon-128x128.png',
 	},
-	permissions: ['storage', 'unlimitedStorage', 'notifications', 'activeTab'],
-	host_permissions: ['http://*/*', 'https://*/*'],
+	permissions: ['storage', 'unlimitedStorage', 'notifications', 'activeTab', 'scripting'],
+	host_permissions: hosts.concat(['http://*/*', 'https://*/*']),
 	background: {
 		service_worker: 'src/lib/background.ts',
 	},
 	content_scripts: [
 		{
-			matches: ['http://*/*', 'https://*/*'],
+			matches,
 			run_at: 'document_start',
 			all_frames: true,
 			js: ['src/lib/content-script.ts'],
@@ -50,9 +52,9 @@ export default {
 			matches: ['http://*/*', 'https://*/*'],
 			resources: [
 				'popup-theme-dark.html',
+				'popup-theme-light.html',
 				'popup-theme-system.html',
-				'assets/inpage.js',
-				'assets/actions.js',
+				'assets/*',
 				// 'pte_manifest_compiler_bg.wasm',
 			],
 		},

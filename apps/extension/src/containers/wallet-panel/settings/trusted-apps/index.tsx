@@ -1,5 +1,5 @@
 import React from 'react'
-import { useStore } from '@src/store'
+import { useNoneSharedStore } from '@src/hooks/use-store'
 import { Box, Text, Flex } from 'ui/src/components/atoms'
 import {
 	AlertDialog,
@@ -14,15 +14,12 @@ import { TrashIcon } from '@radix-ui/react-icons'
 import Button from 'ui/src/components/button'
 
 export const TrustedApps: React.FC = () => {
-	const { approvedWebsites, declineWebsite } = useStore(state => ({
+	const { approvedWebsites, declineWebsite } = useNoneSharedStore(state => ({
 		approvedWebsites: state.approvedWebsites,
 		declineWebsite: state.declineWebsiteAction,
 	}))
-	const hasApprovedSites = Object.keys(approvedWebsites || {})?.length > 0
 
-	const handleRemoveWebsite = (value: string) => {
-		declineWebsite(value)
-	}
+	const hasApprovedSites = Object.keys(approvedWebsites || {})?.length > 0
 
 	return (
 		<Box css={{ px: '$3', py: '$3' }}>
@@ -57,7 +54,7 @@ export const TrustedApps: React.FC = () => {
 											</Button>
 										</AlertDialogCancel>
 										<AlertDialogAction asChild>
-											<Button size="2" color="red" onClick={() => handleRemoveWebsite(host)}>
+											<Button size="2" color="red" onClick={() => declineWebsite(host)}>
 												Yes, remove app
 											</Button>
 										</AlertDialogAction>
@@ -75,3 +72,5 @@ export const TrustedApps: React.FC = () => {
 		</Box>
 	)
 }
+
+export default TrustedApps

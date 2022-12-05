@@ -1,12 +1,12 @@
 import React from 'react'
-import { useSharedStore } from '@src/store'
+import { useNoneSharedStore } from '@src/hooks/use-store'
 import { useLocation, useRoute } from 'wouter'
 import { Flex } from 'ui/src/components/atoms'
 import Button from 'ui/src/components/button'
 import { routesInfo } from '@src/config'
 
 export const FooterNavigation: React.FC = () => {
-	const { activeApp, setActiveApp } = useSharedStore(state => ({
+	const { activeApp, setActiveApp } = useNoneSharedStore(state => ({
 		activeApp: state.activeApp,
 		setActiveApp: state.setActiveAppAction,
 	}))
@@ -35,7 +35,7 @@ export const FooterNavigation: React.FC = () => {
 			}}
 			as="ul"
 		>
-			{Object.entries(routesInfo).map(([key, { icon }], i) => {
+			{Object.entries(routesInfo).map(([key, { icon, href }], i) => {
 				const isActive = key === page
 				const currentPageIndex = Object.keys(routesInfo).findIndex(_key => _key === page)
 				return (
@@ -46,14 +46,7 @@ export const FooterNavigation: React.FC = () => {
 							if (i !== currentPageIndex) {
 								setActiveApp([key, i - currentPageIndex])
 							}
-							// if clicking accounts
-							if (i === 0) {
-								setLocation('/wallet/account')
-							}
-							// if clicking swap
-							if (i === 2) {
-								setLocation('/wallet/swap')
-							}
+							setLocation(`/wallet/${href}`)
 						}}
 						css={{
 							flex: 1,

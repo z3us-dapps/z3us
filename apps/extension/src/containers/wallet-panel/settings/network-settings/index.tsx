@@ -1,5 +1,6 @@
 import React from 'react'
-import { useSharedStore, useStore } from '@src/store'
+import browser from 'webextension-polyfill'
+import { useSharedStore, useNoneSharedStore } from '@src/hooks/use-store'
 import { useImmer } from 'use-immer'
 import { PlusIcon } from 'ui/src/components/icons'
 import { Box, Flex, Text } from 'ui/src/components/atoms'
@@ -26,13 +27,11 @@ interface ImmerT {
 }
 
 export const NetworkSettings: React.FC = () => {
-	const { hw, seed, addToast } = useSharedStore(state => ({
-		hw: state.hardwareWallet,
-		seed: state.masterSeed,
+	const { addToast } = useSharedStore(state => ({
 		addToast: state.addToastAction,
 	}))
 
-	const { networks, selectedNetworkIndex, selectNetwork, addNetwork } = useStore(state => ({
+	const { networks, selectedNetworkIndex, selectNetwork, addNetwork } = useNoneSharedStore(state => ({
 		networks: state.networks,
 		selectedNetworkIndex: state.selectedNetworkIndex,
 		selectNetwork: state.selectNetworkAction,
@@ -47,7 +46,7 @@ export const NetworkSettings: React.FC = () => {
 	})
 
 	const handleSelectNetwork = async (value: string) => {
-		await selectNetwork(+value, hw, seed)
+		await selectNetwork(+value)
 	}
 
 	const handleOpenDialog = () => {
@@ -81,6 +80,19 @@ export const NetworkSettings: React.FC = () => {
 
 		try {
 			const service = new RadixService(url)
+
+			const hasPermissions = await browser.permissions.contains({
+				origins: [`${url.origin}/*`],
+			})
+			if (!hasPermissions) {
+				const granted = await browser.permissions.request({
+					origins: [`${url.origin}/*`],
+				})
+				if (granted) {
+					return
+				}
+			}
+
 			const { network } = await service.gateway()
 
 			addNetwork(network, url)
@@ -188,3 +200,5 @@ export const NetworkSettings: React.FC = () => {
 		</Box>
 	)
 }
+
+export default NetworkSettings

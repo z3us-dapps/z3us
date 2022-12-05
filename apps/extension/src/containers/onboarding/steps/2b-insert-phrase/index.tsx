@@ -1,5 +1,5 @@
 import React from 'react'
-import { useSharedStore } from '@src/store'
+import { useSharedStore } from '@src/hooks/use-store'
 import { useImmer } from 'use-immer'
 import { useEventListener } from 'usehooks-ts'
 import { onBoardingSteps } from '@src/store/onboarding'
@@ -35,7 +35,7 @@ export const InsertPhrase = (): JSX.Element => {
 	const isButtonDisabled = state.words.length === 0 || (state.words.length === 1 && state.words[0] === '')
 
 	const handleWords = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
-		const words = event.currentTarget.value.split(',')
+		const words = event.currentTarget?.value.split(',') || []
 		setState(draft => {
 			draft.showError = false
 			draft.errorMessage = ''
@@ -53,9 +53,9 @@ export const InsertPhrase = (): JSX.Element => {
 					draft.showError = true
 					draft.errorMessage = errorMessages[errorString] || errorString
 				})
-				throw mnemomicRes.error
+			} else {
+				setMnemomic(mnemomicRes.value)
 			}
-			setMnemomic(mnemomicRes.value)
 		}
 
 		setOnboardingStep(onBoardingSteps.IMPORT_ACCOUNTS)

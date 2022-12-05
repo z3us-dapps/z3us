@@ -1,4 +1,6 @@
 import pkg from './package.json'
+import hosts from './host_permissions.json'
+import matches from './content_matches.json'
 
 export default {
 	manifest_version: 2,
@@ -13,7 +15,7 @@ export default {
 			'48': 'favicon-48x48.png',
 			'128': 'favicon-128x128.png',
 		},
-		default_popup: 'popup-theme-light.html',
+		default_popup: 'popup-theme-system.html',
 		default_title: 'Z3US',
 	},
 	commands: {
@@ -23,24 +25,25 @@ export default {
 			},
 		},
 	},
-	permissions: ['storage', 'unlimitedStorage', 'notifications', 'activeTab', 'http://*/*', 'https://*/*'],
+	permissions: ['storage', 'unlimitedStorage', 'notifications', 'activeTab', 'scripting'].concat(hosts),
+	optional_permissions: ['http://*/*', 'https://*/*'],
 	background: {
 		scripts: ['src/lib/background.ts'],
 		persistent: true,
 	},
 	content_scripts: [
 		{
-			matches: ['http://*/*', 'https://*/*'],
+			matches,
 			run_at: 'document_start',
 			all_frames: true,
 			js: ['src/lib/content-script.ts'],
 		},
 	],
 	web_accessible_resources: [
+		'popup-theme-light.html',
 		'popup-theme-dark.html',
 		'popup-theme-system.html',
-		'assets/inpage.js',
-		'assets/actions.js',
+		'assets/*',
 		// 'pte_manifest_compiler_bg.wasm',
 	],
 	browser_specific_settings: {

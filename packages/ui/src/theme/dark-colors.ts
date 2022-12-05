@@ -5,6 +5,8 @@ export const darkColors = {
 
 	bgPanel: '#161718',
 	bgPanel2: '#323232',
+	bgPanel3: '#323232',
+	bgPanel4: '#161718',
 	bgToolTip1: '#323232',
 	bgToolTip2: '#161718',
 	bgPanelHeaderTransparent: 'rgba(9,9,9, 0.9)',

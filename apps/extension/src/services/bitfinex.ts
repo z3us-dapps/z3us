@@ -2,13 +2,13 @@ import { Ticker } from '@src/types'
 
 // https://docs.bitfinex.com/reference#rest-public-ticker
 const parseTicker = (ticker: Array<string | number>) => ({
-	change: (ticker[5] as number) * 100,
-	last_price: ticker[6] as number,
-	volume: ticker[7] as number,
-	// bid: ticker[0] as number,
-	// ask: ticker[2] as number,
-	// low: ticker[9] as number,
-	// high: ticker[9] as number,
+	change: ((ticker[5] || 0) as number) * 100,
+	last_price: (ticker[6] || 0) as number,
+	volume: (ticker[7] || 0) as number,
+	// bid: (ticker[0] || 0) as number,
+	// ask: (ticker[2] || 0) as number,
+	// low: (ticker[9] || 0) as number,
+	// high: (ticker[9] || 0) as number,
 })
 
 export class BitFinexService {

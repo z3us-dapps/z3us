@@ -1,11 +1,10 @@
 import browser from 'webextension-polyfill'
-import { useLayoutEffect, useRef } from 'react'
-import create, { GetState, Mutate, SetState, StoreApi } from 'zustand'
-import shallow from 'zustand/shallow'
-import { persist, devtools } from 'zustand/middleware'
-import { BrowserService } from '@src/services/browser'
+import { StateCreator, createStore } from 'zustand'
+import { devtools, persist, subscribeWithSelector } from 'zustand/middleware'
+import { immer } from 'zustand/middleware/immer'
+import browserService from '@src/services/browser'
 import { BrowserStorageService } from '@src/services/browser-storage'
-import { defaultAccountStoreKey, sharedStoreKey } from '@src/config'
+import { sharedStoreKey } from '@src/config'
 
 import { factory as createToastsStore } from './toasts'
 import { factory as createThemeStore, whiteList as themeWhiteList } from './theme'
@@ -13,101 +12,52 @@ import { factory as createOnBoardingStore } from './onboarding'
 import { factory as createSettingsStore, whiteList as settingsWhiteList } from './settings'
 import { factory as createBackgroundStore } from './background'
 import { factory as createKeystoresStore, whiteList as keystorehiteList } from './keystores'
-import { factory as createLocalWalletStore } from './wallet-local'
-import { factory as createHardwareWalletStore } from './wallet-hardware'
-import { factory as createWalletStore, whiteList as walletWhiteList } from './wallet'
+import { factory as createWalletStore } from './wallet'
+import { factory as createAccountStore, whiteList as accountWhiteList } from './account'
 
-import { SharedStore, AccountStore } from './types'
-import { immer } from './immer'
+import { SharedState, NoneSharedState } from './types'
 
-export const sharedStoreWhitelist = [...themeWhiteList, ...settingsWhiteList, ...keystorehiteList]
-
-export const accountStoreWhitelist = [...walletWhiteList]
-
-export const sharedStore = create<
-	SharedStore,
-	SetState<SharedStore>,
-	GetState<SharedStore>,
-	Mutate<StoreApi<SharedStore>, [['zustand/persist', Partial<SharedStore>], ['zustand/devtools', never]]>
->(
+type MutatorsTypes = [
+	['zustand/devtools', never],
+	['zustand/subscribeWithSelector', never],
+	['zustand/persist', Partial<SharedState>],
+	['zustand/immer', never],
+]
+const middlewares = <T>(name: string, whitelist: string[], f: StateCreator<T, MutatorsTypes>) =>
 	devtools(
-		persist(
-			immer((set, get) => ({
-				...createThemeStore(set),
-				...createToastsStore(set, get),
-				...createOnBoardingStore(set),
-				...createSettingsStore(set),
-				...createBackgroundStore(set, get),
-				...createKeystoresStore(set),
-				...createLocalWalletStore(set),
-				...createHardwareWalletStore(set),
-			})),
-			{
-				name: sharedStoreKey,
-				partialize: state =>
-					Object.fromEntries(Object.entries(state).filter(([key]) => sharedStoreWhitelist.includes(key))),
-				getStorage: () => new BrowserStorageService(new BrowserService(), browser.storage),
-			},
+		subscribeWithSelector(
+			persist(immer(f), {
+				name,
+				partialize: state => Object.fromEntries(Object.entries(state).filter(([key]) => whitelist.includes(key))),
+				getStorage: () => new BrowserStorageService(browserService, browser.storage),
+			}),
 		),
-		{ name: sharedStoreKey },
-	),
-)
-
-const accountStoreFactory = (name: string) =>
-	create<
-		AccountStore,
-		SetState<AccountStore>,
-		GetState<AccountStore>,
-		Mutate<StoreApi<AccountStore>, [['zustand/persist', Partial<AccountStore>], ['zustand/devtools', never]]>
-	>(
-		devtools(
-			persist(
-				immer((set, get) => ({
-					...createWalletStore(set, get),
-				})),
-				{
-					name,
-					partialize: state =>
-						Object.fromEntries(Object.entries(state).filter(([key]) => accountStoreWhitelist.includes(key))),
-					getStorage: () => new BrowserStorageService(new BrowserService(), browser.storage),
-				},
-			),
-			{ name },
-		),
+		{ name },
 	)
 
-export const useSharedStore = ((selector, equalityFn = shallow) =>
-	sharedStore(selector, equalityFn)) as typeof sharedStore
+export const sharedStoreWhitelist = [...themeWhiteList, ...keystorehiteList]
 
-export const defaultAccountStore = accountStoreFactory(defaultAccountStoreKey)
+export const noneSharedStoreWhitelist = [...settingsWhiteList, ...accountWhiteList]
 
-const accountStoreContainer: { [key: string]: typeof defaultAccountStore } = {
-	[defaultAccountStoreKey]: defaultAccountStore,
-}
+export const sharedStore = createStore(
+	middlewares<SharedState>(sharedStoreKey, sharedStoreWhitelist, (set, get) => ({
+		...createThemeStore(set),
+		...createToastsStore(set, get),
+		...createOnBoardingStore(set),
+		...createBackgroundStore(set, get),
+		...createKeystoresStore(set),
+		...createWalletStore(set),
+	})),
+)
 
-export const accountStore = (suffix: string): typeof defaultAccountStore => {
-	const name = !suffix ? defaultAccountStoreKey : `${defaultAccountStoreKey}-${suffix}`
-	const store = accountStoreContainer[name]
-	if (store) return store
+export const createNoneSharedStore = (name: string) =>
+	createStore(
+		middlewares<NoneSharedState>(name, noneSharedStoreWhitelist, (set, get) => ({
+			...createAccountStore(set, get),
+			...createSettingsStore(set),
+		})),
+	)
 
-	const newStore = accountStoreFactory(name)
-	accountStoreContainer[name] = newStore
-	return newStore
-}
+export type SharedStore = typeof sharedStore
 
-export const useAccountStore = (suffix: string): typeof defaultAccountStore =>
-	((selector, equalityFn = shallow) => accountStore(suffix)(selector, equalityFn)) as typeof defaultAccountStore
-
-export const useStore: typeof defaultAccountStore = ((selector, equalityFn = shallow) => {
-	const { keystoreId } = useSharedStore(state => ({
-		keystoreId: state.selectKeystoreId,
-	}))
-
-	const storeRef = useRef(accountStore(keystoreId))
-
-	useLayoutEffect(() => {
-		storeRef.current = accountStore(keystoreId)
-	}, [keystoreId])
-
-	return storeRef.current(selector, equalityFn)
-}) as typeof defaultAccountStore
+export type NoneSharedStore = ReturnType<typeof createNoneSharedStore>

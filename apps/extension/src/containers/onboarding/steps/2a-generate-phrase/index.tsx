@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { useSharedStore } from '@src/store'
+import { useSharedStore } from '@src/hooks/use-store'
 import { useEventListener } from 'usehooks-ts'
 import { CopyIcon } from '@radix-ui/react-icons'
 import { onBoardingSteps } from '@src/store/onboarding'

@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react'
 import { useQueryClient } from 'react-query'
 import { useEventListener } from 'usehooks-ts'
-import { useSharedStore, useStore } from '@src/store'
+import { useNoneSharedStore, useSharedStore } from '@src/hooks/use-store'
 import { useLocation } from 'wouter'
 import { useImmer } from 'use-immer'
 import { onBoardingSteps } from '@src/store/onboarding'
@@ -9,6 +9,12 @@ import { PageWrapper, PageHeading, PageSubHeading } from '@src/components/layout
 import Button from 'ui/src/components/button'
 import { Flex, Text, Box } from 'ui/src/components/atoms'
 import InputFeedBack from 'ui/src/components/input/input-feedback'
+import { KeystoreType, SigningKeyType } from '@src/types'
+import { generateId } from '@src/utils/generate-id'
+import { getNoneSharedStore } from '@src/services/state'
+import { useOnboardingLocalHDNode } from '@src/hooks/use-onboarding-local-hdnode'
+import { HDPathRadix, PrivateKey } from '@radixdlt/crypto'
+import { AccountAddress } from '@radixdlt/account'
 
 interface ImmerT {
 	isButtonDisabled: boolean
@@ -20,31 +26,43 @@ export const CreateWallet = (): JSX.Element => {
 	const [, setLocation] = useLocation()
 	const queryClient = useQueryClient()
 
+	const { network } = useNoneSharedStore(state => ({
+		network: state.networks[state.selectedNetworkIndex],
+	}))
 	const {
-		mnemonic,
+		secret,
+		secretType,
 		password,
 		setPassword,
 		setMnemomic,
-		isRestoreWorkflow,
+		setPrivateKey,
+		lock,
+		addKeystore,
 		createWallet,
-		setIsRestoreWorkflow,
+		setIsUnlocked,
+		importingAddresses,
+		workflowEntryStep,
 		setOnboradingStep,
-		setSeed,
+		setImportingAddresses,
 	} = useSharedStore(state => ({
-		mnemonic: state.mnemonic,
+		secret: state.mnemonic ? state.mnemonic.entropy.toString('hex') : state.privateKey,
+		secretType: state.mnemonic ? SigningKeyType.MNEMONIC : SigningKeyType.PRIVATE_KEY,
 		password: state.password,
+		keystoreId: state.selectKeystoreId,
+		lock: state.lockAction,
+		addKeystore: state.addKeystoreAction,
 		createWallet: state.createWalletAction,
 		setPassword: state.setPasswordAction,
 		setMnemomic: state.setMnemomicAction,
+		setPrivateKey: state.setPrivateKeyAction,
+		setIsUnlocked: state.setIsUnlockedAction,
 
-		isRestoreWorkflow: state.isRestoreWorkflow,
-		setIsRestoreWorkflow: state.setIsRestoreWorkflowAction,
+		importingAddresses: state.importingAddresses,
+		workflowEntryStep: state.workflowEntryStep,
 		setOnboradingStep: state.setOnboardingStepAction,
-		setSeed: state.setMasterSeedAction,
+		setImportingAddresses: state.setImportingAddressesAction,
 	}))
-	const { selectAccount } = useStore(state => ({
-		selectAccount: state.selectAccountAction,
-	}))
+	const { hdNode, error: hdError } = useOnboardingLocalHDNode()
 
 	const [state, setState] = useImmer<ImmerT>({
 		isButtonDisabled: true,
@@ -54,9 +72,16 @@ export const CreateWallet = (): JSX.Element => {
 
 	useEffect(() => {
 		setState(draft => {
-			draft.isButtonDisabled = !mnemonic || !password
+			draft.showError = !!hdError
+			draft.errorMessage = hdError
 		})
-	}, [mnemonic, password])
+	}, [hdError])
+
+	useEffect(() => {
+		setState(draft => {
+			draft.isButtonDisabled = !secret || !password
+		})
+	}, [secret, password])
 
 	const handleContinue = async () => {
 		if (state.isButtonDisabled) {
@@ -66,16 +91,44 @@ export const CreateWallet = (): JSX.Element => {
 			draft.isButtonDisabled = true
 		})
 		try {
-			const seed = await createWallet(mnemonic.words, password)
-			setSeed(seed)
-			await selectAccount(0, null, seed)
+			const addressesToImport = { ...importingAddresses }
+			if (Object.keys(addressesToImport).length === 0) {
+				if (!hdNode) {
+					throw new Error('Invalid addresses to import')
+				}
+
+				const key = hdNode.derive(HDPathRadix.create({ address: { index: 0, isHardened: true } }))
+
+				const pk = PrivateKey.fromHex(key.privateKey.toString())
+				if (pk.isErr()) {
+					throw pk.error
+				}
+
+				const address = AccountAddress.fromPublicKeyAndNetwork({
+					publicKey: key.publicKey,
+					network: network.id,
+				})
+				addressesToImport[0] = address.toString()
+			}
+
+			await lock() // clear background memory
+
+			const id = generateId()
+			addKeystore(id, id, KeystoreType.LOCAL)
+			setIsUnlocked(false)
+
+			const store = await getNoneSharedStore(id)
+			store.getState().setPublicAddressesAction(addressesToImport)
+
+			await createWallet(secretType as SigningKeyType, secret, password, 0)
 
 			await queryClient.invalidateQueries({ active: true, inactive: true, stale: true })
 
 			setPassword(null)
 			setMnemomic(null)
+			setPrivateKey(null)
+			setImportingAddresses({})
 			setOnboradingStep(onBoardingSteps.START)
-			setIsRestoreWorkflow(false)
 			setLocation('#/wallet/account')
 		} catch (error) {
 			setState(draft => {
@@ -108,7 +161,7 @@ export const CreateWallet = (): JSX.Element => {
 			<Box css={{ width: '100%' }}>
 				<PageHeading>Created wallet</PageHeading>
 				<PageSubHeading>
-					Click &apos;Go to wallet&apos; below to navigate and begin using your z3us wallet.
+					Click &apos;Go to wallet&apos; below to complate setup and begin using your Z3US wallet.
 				</PageSubHeading>
 			</Box>
 			<Box css={{ mt: '$8', flex: '1' }}>
@@ -134,7 +187,7 @@ export const CreateWallet = (): JSX.Element => {
 			</Flex>
 			<Flex justify="center" align="center" css={{ height: '48px', ta: 'center', mt: '$2', width: '100%' }}>
 				<Text medium size="3" color="muted">
-					{isRestoreWorkflow ? 'Step 4 of 4 ' : 'Step 3 of 3'}
+					{workflowEntryStep !== onBoardingSteps.GENERATE_PHRASE ? 'Step 4 of 4 ' : 'Step 3 of 3'}
 				</Text>
 			</Flex>
 		</PageWrapper>

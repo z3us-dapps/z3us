@@ -1,6 +1,6 @@
 import React from 'react'
 import { useImmer } from 'use-immer'
-import { useStore } from '@src/store'
+import { useNoneSharedStore } from '@src/hooks/use-store'
 import { Cross2Icon } from '@radix-ui/react-icons'
 import { useEventListener } from 'usehooks-ts'
 import { AccountAddress } from '@src/components/account-address'
@@ -56,9 +56,9 @@ export const AccountModal = ({
 	toolTipSide,
 	address,
 }: IProps): JSX.Element => {
-	const { entry, setPublicAddress } = useStore(state => ({
+	const { entry, updatePublicAddress } = useNoneSharedStore(state => ({
 		entry: Object.values(state.publicAddresses).find(account => account.address === address),
-		setPublicAddress: state.setPublicAddressAction,
+		updatePublicAddress: state.updatePublicAddressAction,
 	}))
 
 	const [state, setState] = useImmer<ImmerT>({
@@ -100,7 +100,7 @@ export const AccountModal = ({
 			state[ColorSettings.GRADIENT_START],
 		)
 
-		setPublicAddress(address, {
+		updatePublicAddress(address, {
 			background,
 			colorSettings: {
 				[ColorSettings.COLOR_TEXT]: state[ColorSettings.COLOR_TEXT],

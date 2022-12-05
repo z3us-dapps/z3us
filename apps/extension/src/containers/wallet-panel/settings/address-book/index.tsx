@@ -1,6 +1,6 @@
 import React from 'react'
 import { useImmer } from 'use-immer'
-import { useSharedStore } from '@src/store'
+import { useNoneSharedStore, useSharedStore } from '@src/hooks/use-store'
 import { useEventListener } from 'usehooks-ts'
 import { ToolTip } from 'ui/src/components/tool-tip'
 import { Box, Flex, Text, StyledLink } from 'ui/src/components/atoms'
@@ -38,8 +38,7 @@ export const AddressBook: React.FC = () => {
 	const { addToast } = useSharedStore(state => ({
 		addToast: state.addToastAction,
 	}))
-
-	const { addressBook, setAddressBookEntry, handleRemoveAddress } = useSharedStore(state => ({
+	const { addressBook, setAddressBookEntry, handleRemoveAddress } = useNoneSharedStore(state => ({
 		addressBook: state.addressBook,
 		setAddressBookEntry: state.setAddressBookEntryAction,
 		handleRemoveAddress: state.removeAddressBookEntryAction,
@@ -328,3 +327,5 @@ export const AddressBook: React.FC = () => {
 		</Box>
 	)
 }
+
+export default AddressBook

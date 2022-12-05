@@ -1,6 +1,6 @@
 import React, { useEffect, useRef } from 'react'
 import { AnimatePresence } from 'framer-motion'
-import { useSharedStore, useStore } from '@src/store'
+import { useSharedStore, useNoneSharedStore } from '@src/hooks/use-store'
 import { useImmer } from 'use-immer'
 import { useTokenBalances, useTokenInfo } from '@src/hooks/react-query/queries/radix'
 import { Tooltip, TooltipTrigger, TooltipContent, TooltipArrow } from 'ui/src/components/tool-tip'
@@ -42,15 +42,12 @@ export const SendToken: React.FC = () => {
 	const [isSendTokenRoute, params] = useRoute('/account/send/:rri')
 	const transferTokens = useTransferTokens()
 
-	const { hw, seed, addToast } = useSharedStore(state => ({
-		hw: state.hardwareWallet,
-		seed: state.masterSeed,
+	const { signingKey, addToast } = useSharedStore(state => ({
+		signingKey: state.signingKey,
 		addToast: state.addToastAction,
 	}))
-
-	const { account, accountAddress, selectAccount } = useStore(state => ({
+	const { accountAddress, selectAccount } = useNoneSharedStore(state => ({
 		selectAccount: state.selectAccountAction,
-		account: state.account,
 		accountAddress: state.getCurrentAddressAction(),
 	}))
 
@@ -105,14 +102,14 @@ export const SendToken: React.FC = () => {
 		})
 	}
 
-	const handleSetEncrypt = checked => {
+	const handleSetEncrypt = (checked: boolean) => {
 		setState(draft => {
 			draft.encrypt = checked === true
 		})
 	}
 
 	const handlePrepareTx = async () => {
-		if (!account) return
+		if (!signingKey) return
 		setState(draft => {
 			draft.isLoading = true
 		})
@@ -136,7 +133,7 @@ export const SendToken: React.FC = () => {
 	}
 
 	const handleAccountChange = async (accountIndex: number) => {
-		await selectAccount(accountIndex, hw, seed)
+		await selectAccount(accountIndex)
 		setState(draft => {
 			draft.rri = ''
 			draft.amount = ''
@@ -351,7 +348,7 @@ export const SendToken: React.FC = () => {
 								onClick={handlePrepareTx}
 								fullWidth
 								loading={state.isLoading}
-								disabled={!state.to || !state.amount || !account}
+								disabled={!state.to || !state.amount || !signingKey}
 							>
 								Review send
 							</Button>
@@ -362,3 +359,5 @@ export const SendToken: React.FC = () => {
 		</AnimatePresence>
 	)
 }
+
+export default SendToken
