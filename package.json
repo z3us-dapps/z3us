@@ -12,12 +12,9 @@
 		"test": "turbo run test",
 		"lint": "turbo run lint",
 		"deploy": "turbo run deploy",
-		"format": "prettier --write \"**/*.{ts,tsx,md}\"",
-		"prepare": "husky install"
+		"format": "prettier --write \"**/*.{ts,tsx,md}\""
 	},
 	"devDependencies": {
-		"@commitlint/cli": "^17.0.3",
-		"@commitlint/config-conventional": "^15.0.0",
 		"@testing-library/jest-dom": "^5.16.1",
 		"@testing-library/react": "^12.1.2",
 		"@testing-library/react-hooks": "^7.0.2",
@@ -26,7 +23,6 @@
 		"@types/jest-axe": "^3.5.0",
 		"esbuild": "^0.14.10",
 		"esbuild-jest": "^0.5.0",
-		"husky": "^7.0.4",
 		"identity-obj-proxy": "^3.0.0",
 		"jest": "^27.4.7",
 		"jest-axe": "^3.5.0",
