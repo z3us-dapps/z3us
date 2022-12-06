@@ -57,7 +57,7 @@ export const Header: React.FC<IProps> = ({ className, isBetaButtonVisible, isDoc
 					<MobileMenu />
 					<ul className="font-medium text-sm gap-3 lg:gap-5 hidden md:flex items-center">
 						<li>
-							<Link href="" passHref>
+							<Link href={config.GITHUB_FEEDBACK_URL} passHref>
 								<a className="cursor-pointer hover:underline decoration-from-font underline-offset-4">Feedback</a>
 							</Link>
 						</li>
