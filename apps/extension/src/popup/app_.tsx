@@ -42,18 +42,18 @@ export const App: React.FC = () => {
 				transition: '$default',
 				...(isHardwareWalletRoute
 					? {
-							width: '100vw',
-							height: '100vh',
-					  }
+						width: '100vw',
+						height: '100vh',
+					}
 					: {
-							width: '360px',
-							height: '600px',
-					  }),
+						width: '360px',
+						height: '600px',
+					}),
 			}}
 		>
 			{messenger ? (
 				<Router matcher={multipathMatcher as any} hook={useHashLocation as any}>
-					<Suspense fallback={Loader}>
+					<Suspense fallback={<Loader />}>
 						<Route path="/wallet/:rest*" component={WalletPanel} />
 						<Route path="/notification/:rest*" component={Notification} />
 						<Route path="/onboarding/:rest*">
