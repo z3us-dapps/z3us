@@ -1,33 +1,10 @@
-import React, { useRef, useEffect, useState } from 'react'
-import { Box } from 'ui/src/components/atoms'
-import Button from 'ui/src/components/button'
-import { config } from 'config'
-
-const fnBrowserDetect = () => {
-	const userAgent = navigator?.userAgent
-	let browserName: string
-
-	if (userAgent.match(/chrome|chromium|crios/i)) {
-		browserName = 'chrome'
-	} else if (userAgent.match(/firefox|fxios/i)) {
-		browserName = 'firefox'
-	} else if (userAgent.match(/safari/i)) {
-		browserName = 'safari'
-	} else if (userAgent.match(/opr\//i)) {
-		browserName = 'opera'
-	} else if (userAgent.match(/edg/i)) {
-		browserName = 'edge'
-	} else {
-		browserName = 'No browser detection'
-	}
-	return browserName
-}
+import React, { useRef, useEffect } from 'react'
+import { Button } from 'components/button'
+import { useGetStoreHref } from 'hooks/use-get-store-href'
 
 const createSVG = (width: number, height: number, radius: number) => {
 	const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg')
-
 	const rectangle = document.createElementNS('http://www.w3.org/2000/svg', 'rect')
-
 	svg.setAttributeNS('http://www.w3.org/2000/svg', 'viewBox', `0 0 ${width} ${height}`)
 
 	rectangle.setAttribute('x', '0')
@@ -41,18 +18,24 @@ const createSVG = (width: number, height: number, radius: number) => {
 	return svg
 }
 
-export const FlashCtaButton = (): JSX.Element => {
+export interface IProps {
+	children: React.ReactNode
+	showEffect?: boolean
+	variant: 'primary' | 'secondary' | 'ghost'
+	size: 'sm' | 'base' | 'lg' | 'xl' | '2xl'
+}
+
+const defaultProps = {
+	showEffect: true,
+}
+
+export const FlashCtaButton = ({ children, size, variant, showEffect }: IProps): JSX.Element => {
 	const buttonRef = useRef(null)
-	const [ctaLink, setCtaLink] = useState<string>(config.CHROME_STORE_URL)
+	const ctaLink = useGetStoreHref()
 
 	useEffect(() => {
-		const browserName = fnBrowserDetect()
-		if (browserName === 'firefox') {
-			setCtaLink(config.FIREFOX_STORE_URL)
-		}
-
-		const button = document.getElementsByClassName('landing-cta-btn')?.[0]
-		if (button) {
+		const button = buttonRef.current
+		if (button && showEffect) {
 			const borderRadius = 25
 			const buttonRect = button.getBoundingClientRect()
 			const lines = document.createElement('div')
@@ -79,24 +62,12 @@ export const FlashCtaButton = (): JSX.Element => {
 	}, [])
 
 	return (
-		<Box ref={buttonRef} className="landing-cta-btn">
-			<Button
-				target="_blank"
-				href={ctaLink}
-				as="a"
-				size="6"
-				color="ghost"
-				rounded
-				css={{
-					width: '180px',
-					color: '$black',
-					backgroundColor: '#eeeeee',
-					fontSize: '18px',
-					lineHeight: '24px',
-				}}
-			>
-				<Box css={{ position: 'relative', zIndex: '2' }}>Install BETA</Box>
+		<div ref={buttonRef} className="landing-cta-btn">
+			<Button size={size} variant={variant} href={ctaLink}>
+				{children}
 			</Button>
-		</Box>
+		</div>
 	)
 }
+
+FlashCtaButton.defaultProps = defaultProps

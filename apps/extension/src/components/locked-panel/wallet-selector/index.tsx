@@ -2,7 +2,6 @@
 import React, { useState } from 'react'
 import { ChevronDownIcon, ChevronUpIcon } from '@radix-ui/react-icons'
 import { HardwareWalletIcon } from 'ui/src/components/icons'
-
 import { ToolTip } from 'ui/src/components/tool-tip'
 import {
 	Select,
