@@ -70,8 +70,10 @@ export const RoadmapPage = () => {
 									Our vision for Z3US project is to create a best-in-class WEB3 wallet with an emphasis on user
 									experience and transparent code. Help shape this vision by{' '}
 									<a
-										href={config.GITHUB_FEEDBACK_URL}
+										href={config.HELLO_NEXT_FEEDBACK_URL}
 										className="hover:underline decoration-from-font underline-offset-4 text-violet-700"
+										target="_blank"
+										rel="noreferrer"
 									>
 										suggesting features
 									</a>
