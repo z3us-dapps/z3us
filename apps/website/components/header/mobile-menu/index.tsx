@@ -1,29 +1,29 @@
-import React, { useEffect } from 'react'
-import usePortal from 'react-useportal'
-import { useImmer } from 'use-immer'
-import Button from 'ui/src/components/button'
-import { DropdownMenuHamburgerIcon } from 'ui/src/components/drop-down-menu'
-import { AnimatePresence } from 'framer-motion'
-import { Text, Box, MotionBox, StyledLink } from 'ui/src/components/atoms'
+import React from 'react'
+import { useRouter } from 'next/router'
+import { Button } from 'components/button'
+import Link from 'next/link'
+// import useScrollBlock from 'hooks/use-scroll-block'
+import { m as motion, AnimatePresence, useCycle } from 'framer-motion'
+import { Bars4Icon, XMarkIcon } from '@heroicons/react/24/solid'
 import { config } from 'config'
 
 const links = [
 	{ name: 'Home', to: '/', id: 'home' },
+	{ name: 'Feedback', to: config.GITHUB_FEEDBACK_URL, id: 'feedback' },
+	{ name: 'Roadmap', to: '/roadmap', id: 'roadmap' },
 	{
 		name: 'Docs',
 		to: '/docs',
 		id: 'docs',
 		subMenu: [
-			{ name: 'API Reference', to: '/docs/api-reference', id: 'api-reference' },
-			{ name: 'API V1', to: '/docs/api-v1', id: 'api-v1' },
-			{ name: 'Demo', to: '/docs/api-demo', id: 'api-demo' },
-			// { name: 'Babylon PTE', to: '/docs/api-pte', id: 'api-pte' },
+			{ name: 'API Reference', to: '/docs/api', id: 'api-reference' },
+			{ name: 'API V1', to: '/docs/api/api-v1', id: 'api-v1' },
+			{ name: 'Demo', to: '/docs/demo', id: 'api-demo' },
 		],
 	},
 	{ name: 'Github', to: config.GITHUB_URL, id: 'github' },
 	{ name: 'Twitter', to: config.TWITTER_URL, id: 'twitter' },
 	{ name: 'Telegram', to: config.TELEGRAM_URL, id: 'telegram' },
-	{ name: 'Discord', to: config.DISCORD_URL, id: 'discord' },
 ]
 
 const itemVariants = {
@@ -36,158 +36,111 @@ const itemVariants = {
 const sideVariants = {
 	closed: {
 		transition: {
-			staggerChildren: 0.1,
+			staggerChildren: 0.05,
 			staggerDirection: -1,
 		},
 	},
 	open: {
 		transition: {
-			staggerChildren: 0.1,
+			staggerChildren: 0.05,
 			staggerDirection: 1,
 		},
 	},
 }
 
-interface ImmerProps {
-	isMounted: boolean
-	isMenuOpen: boolean
-}
+export const MobileMenu = (): JSX.Element => {
+	const { asPath } = useRouter()
+	// TODO: investigate scroll lock
+	// const [blockScroll, allowScroll] = useScrollBlock()
+	const [open, cycleOpen] = useCycle(false, true)
+	const isDocsRoute = asPath.includes('/docs')
 
-interface IProps {
-	isScrolled: boolean
-}
-
-export const MobileMenu = ({ isScrolled }: IProps): JSX.Element => {
-	const { Portal } = usePortal()
-
-	const [state, setState] = useImmer<ImmerProps>({
-		isMounted: false,
-		isMenuOpen: false,
-	})
-
-	const handleToggleMenu = () => {
-		setState(draft => {
-			draft.isMenuOpen = !state.isMenuOpen
-		})
+	const handleMenuClick = () => {
+		if (open) {
+			cycleOpen(0)
+			// allowScroll()
+		} else {
+			// blockScroll()
+			cycleOpen(1)
+		}
 	}
 
-	useEffect(() => {
-		setState(draft => {
-			draft.isMounted = true
-		})
-	}, [])
+	const handleLinkClick = () => {
+		cycleOpen(0)
+		// allowScroll()
+	}
 
-	return state.isMounted ? (
-		<Portal>
-			<>
-				<AnimatePresence>
-					{state.isMenuOpen && (
-						<MotionBox
-							as="aside"
-							initial={{ width: 0 }}
-							animate={{
-								width: 300,
-								transform: 'translateX(0px)',
-								transition: { duration: 0.3 },
-							}}
-							exit={{
-								width: 0,
-								transform: 'translateX(40px)',
-								transition: { delay: 0.3, duration: 0.3 },
-							}}
-							css={{
-								width: '100px',
-								maxWidth: '100vw',
-								height: '100vh',
-								position: 'fixed',
-								backgroundColor: '$bgPanelHeaderTransparent',
-								backdropFilter: 'blur(15px)',
-								boxShadow: 'rgb(0 0 0 / 20%) -10px -1px 20px 6px',
-								zIndex: '1',
-								top: '0',
-								right: '0',
-							}}
+	return (
+		<>
+			<Button size="sm" variant="ghost" className="md:hidden w-8 h-8 relative z-30" onClick={handleMenuClick}>
+				<span className="flex items-center justify-center w-10 h-10">
+					<span className="transition-opacity absolute" style={{ opacity: open ? '0' : '1' }}>
+						<Bars4Icon className="block h-5 w-5" />
+					</span>
+					<span className="transition-opacity absolute" style={{ opacity: open ? '1' : '0' }}>
+						<XMarkIcon className="block h-5 w-5" />
+					</span>
+				</span>
+			</Button>
+			<AnimatePresence>
+				{open && (
+					<motion.aside
+						className="fixed top-0 left-0 w-screen h-screen bg-violet-900 bg-opacity-90 dark:bg-stone-900 dark:bg-opacity-95 backdrop-blur-md"
+						initial={{ width: 0 }}
+						animate={{
+							width: '100%',
+						}}
+						transition={{ ease: 'easeOut', duration: 0.2 }}
+						exit={{
+							width: 0,
+							transition: { delay: 0.25, duration: 0.2 },
+						}}
+					>
+						<motion.ul
+							className="mt-14 p-5 flex flex-col gap-5"
+							initial="closed"
+							animate="open"
+							exit="closed"
+							variants={sideVariants}
 						>
-							<MotionBox
-								as="ul"
-								initial="closed"
-								animate="open"
-								exit="closed"
-								variants={sideVariants}
-								css={{ p: '$4', mt: '$12' }}
-							>
-								{links.map(({ name, to, id, subMenu }) => (
-									<MotionBox as="li" variants={itemVariants} key={id}>
-										<StyledLink
-											href={to}
-											css={{
-												display: 'block',
-												backgroundColor: '$bgPanel2',
-												mb: '$2',
-												p: '$4',
-												br: '$3',
-												'&:focus': {
-													opacity: '0.8',
-												},
-											}}
+							{links.map(({ name, to, id, subMenu }) => (
+								<motion.li key={id} variants={itemVariants}>
+									<Link href={to} passHref>
+										<a
+											role="link"
+											tabIndex={0}
+											className="text-2xl font-medium"
+											onClick={handleLinkClick}
+											onKeyDown={handleLinkClick}
 										>
-											<Text size="5" bold>
-												{name}
-											</Text>
-										</StyledLink>
-										{subMenu ? (
-											<Box as="ul" css={{ pl: '30px' }}>
-												{subMenu.map(({ name: _name, to: _to, id: _id }) => (
-													<Box key={_id} as="li">
-														<StyledLink
-															href={_to}
-															css={{
-																display: 'block',
-																backgroundColor: '$bgPanel2',
-																mb: '$2',
-																p: '$4',
-																br: '$3',
-																'&:focus': {
-																	opacity: '0.8',
-																},
-															}}
+											{name}
+										</a>
+									</Link>
+									{subMenu ? (
+										<ul className={`pl-3 pt-4 flex-col gap-4 ${isDocsRoute ? 'flex' : 'hidden'}`}>
+											{subMenu.map(({ id: subId, to: subTo, name: subName }) => (
+												<li key={subId}>
+													<Link href={subTo} passHref>
+														<a
+															role="link"
+															tabIndex={0}
+															className="text-xl font-medium"
+															onKeyDown={handleLinkClick}
+															onClick={handleLinkClick}
 														>
-															<Text size="5" bold>
-																{_name}
-															</Text>
-														</StyledLink>
-													</Box>
-												))}
-											</Box>
-										) : null}
-									</MotionBox>
-								))}
-							</MotionBox>
-						</MotionBox>
-					)}
-				</AnimatePresence>
-				<Box
-					css={{
-						position: 'fixed',
-						top: isScrolled ? '5px' : '15px',
-						transition: '$default',
-						right: '$3',
-						zIndex: '3',
-						'@sm': { display: 'none' },
-					}}
-				>
-					<MotionBox animate={state.isMenuOpen ? 'open' : 'closed'}>
-						<Button iconOnly aria-label="menu" color="ghost" size="5" css={{ mr: '2px' }} onClick={handleToggleMenu}>
-							<DropdownMenuHamburgerIcon
-								css={{
-									mt: '4px',
-									stroke: '$iconDefault',
-								}}
-							/>
-						</Button>
-					</MotionBox>
-				</Box>
-			</>
-		</Portal>
-	) : null
+															{subName}
+														</a>
+													</Link>
+												</li>
+											))}
+										</ul>
+									) : null}
+								</motion.li>
+							))}
+						</motion.ul>
+					</motion.aside>
+				)}
+			</AnimatePresence>
+		</>
+	)
 }

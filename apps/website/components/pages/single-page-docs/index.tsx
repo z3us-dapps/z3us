@@ -10,7 +10,7 @@ interface IProps {
 
 export const SinglePageDocs: React.FC<IProps> = ({ children }) => (
 	<Flex direction="column" css={{ minHeight: '100vh' }}>
-		<Header />
+		<Header isBetaButtonVisible={false} className="dark:fill-white" />
 		<Box
 			css={{
 				position: 'relative',
@@ -43,6 +43,8 @@ export const SinglePageDocs: React.FC<IProps> = ({ children }) => (
 				</Box>
 			</PageContainer>
 		</Box>
-		<Footer />
+		<div className="z3-l-docs-footer">
+			<Footer />
+		</div>
 	</Flex>
 )

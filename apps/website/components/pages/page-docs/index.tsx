@@ -1,56 +1,57 @@
-import React from 'react'
-import { Box, Flex } from 'ui/src/components/atoms'
-import { PageContainer } from 'components/page-container'
+import React, { useEffect, useState } from 'react'
+import Link from 'next/link'
+import { useRouter } from 'next/router'
+import { MdxTheme } from 'components/mdx-theme'
+import { LazyMotion } from 'components/lazy-motion'
 import { Header } from 'components/header'
 import { Footer } from 'components/footer'
-import { MdxTheme } from 'components/mdx-theme'
 import { SideMenu } from 'components/side-menu'
 import { DocsPageProps } from 'types'
 
-export const PageDocs: React.FC<DocsPageProps> = ({ docs, mdxSource }) => (
-	<Flex direction="column" css={{ minHeight: '100vh' }}>
-		<Header />
-		<Box
-			css={{
-				position: 'relative',
-				flex: '1',
-			}}
-		>
-			<PageContainer>
-				<Box css={{ pb: '120px', '@sm': { display: 'flex' } }}>
-					<Box
-						css={{
-							width: '100%',
-							flexBasis: '100%',
-							'@sm': { width: '30%', flexBasis: '30%', paddingRight: '30px' },
-							'@md': { width: '28%', flexBasis: '28%', paddingRight: '30px', paddingLeft: '15px' },
-						}}
-					>
-						<SideMenu docs={docs} />
-					</Box>
-					<Box
-						css={{
-							flex: '1 1 auto',
-							maxWidth: '100%',
-							'@sm': { width: '30%', flexBasis: '30%' },
-							'@md': { width: '50%', flexBasis: '50%' },
-						}}
-					>
-						<MdxTheme mdxSource={mdxSource} />
-					</Box>
-					<Box
-						css={{
-							display: 'none',
-							width: '15%',
-							flexBasis: '15%',
-							'@md': { display: 'block', paddingLeft: '30px' },
-						}}
-					>
-						<Box />
-					</Box>
-				</Box>
-			</PageContainer>
-		</Box>
-		<Footer />
-	</Flex>
-)
+export const PageDocs: React.FC<DocsPageProps> = ({ toc, docs, mdxSource }) => {
+	const router = useRouter()
+	const [hash, setHash] = useState<string>('')
+	useEffect(() => {
+		setHash(`#${router.asPath.split('#')?.[1]}`)
+	}, [router.asPath])
+
+	return (
+		<LazyMotion>
+			<div className="z3-l-docs-wrapper">
+				<Header isBetaButtonVisible={false} isDocsButtonVisible={false} className="dark:fill-white" />
+				<div className="z3-l-docs-container z3-container">
+					<div className="z3-l-docs-page">
+						<aside className="z3-l-docs-page__menu">
+							<SideMenu docs={docs} />
+						</aside>
+						<article className="z3-l-docs-page__content">
+							<main>
+								<MdxTheme mdxSource={mdxSource} />
+							</main>
+						</article>
+						<div className="z3-l-docs-page__toc">
+							<p className="text-lg font-bold pb-3">On this page</p>
+							<ul className="text-xs text-neutral-500 dark:text-neutral-300 leading-relaxed">
+								{toc.map(({ link, title, headingType }) => (
+									<li key={link} className={`toc-li--${headingType} mt-1 mb-1`}>
+										<Link href={link} passHref>
+											<a
+												className={`hover:underline decoration-from-font underline-offset-4 ${link === hash ? 'underline' : ''
+													}`}
+											>
+												{title}
+											</a>
+										</Link>
+									</li>
+								))}
+							</ul>
+						</div>
+					</div>
+				</div>
+				<div className="z3-l-docs-footer">
+					<Footer />
+				</div>
+			</div>
+		</LazyMotion>
+	)
+}

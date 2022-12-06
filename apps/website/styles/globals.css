@@ -1,0 +1,17 @@
+@import 'simplebar/src/simplebar.css';
+@import 'header.css';
+@import 'home-page.css';
+@import 'tokenomics-page.css';
+@import 'roadmap-page.css';
+@import 'docs-page.css';
+/* @TODO add theme in  */
+/* @import 'design/dist/theme-one/index.css'; */
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+::selection {
+	background: #793ef9;
+	color: #ffffff;
+}
