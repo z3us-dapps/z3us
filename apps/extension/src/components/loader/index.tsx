@@ -1,4 +1,3 @@
-/* eslint-disable */
 import React, { useEffect } from 'react'
 import { useAnimationControls } from 'framer-motion'
 import { useColorMode } from '@src/hooks/use-color-mode'
