@@ -1,3 +1,4 @@
+/* eslint-disable */
 import React, { useEffect } from 'react'
 import { useAnimationControls } from 'framer-motion'
 import { useColorMode } from '@src/hooks/use-color-mode'
@@ -6,7 +7,6 @@ import { Z3USLogoOuter, Z3USLogoInner } from '../z3us-logo'
 
 export const Loader: React.FC = () => {
 	const isDarkMode = useColorMode()
-
 	const z3usLogoControls = useAnimationControls()
 	const z3usLogoSpinnerControls = useAnimationControls()
 
@@ -58,7 +58,6 @@ export const Loader: React.FC = () => {
 				}}
 			>
 				<MotionBox
-					initial={false}
 					animate={z3usLogoSpinnerControls}
 					css={{ width: '232px', height: '232px', position: 'absolute', top: '0', left: '0' }}
 				>

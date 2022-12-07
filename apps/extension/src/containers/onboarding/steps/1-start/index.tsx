@@ -90,7 +90,7 @@ export const Start = (): JSX.Element => {
 				</Text>
 			</Box>
 			<MotionBox css={{ mt: '$1', pt: '$3', flex: '1' }} initial={false} animate={state.mounted ? 'open' : 'closed'}>
-				<MotionBox variants={ulVariants} as="ul" css={{ mt: '0', li: { mt: '$3' } }}>
+				<MotionBox variants={ulVariants} css={{ mt: '0', li: { mt: '$3' } }}>
 					{Object.entries(setupItems).map(([key, { title, comingSoon }]) => (
 						<CheckItem key={key} name={title} comingSoon={comingSoon} />
 					))}

@@ -248,7 +248,6 @@ export const LockedPanel: React.FC = () => {
 	return (
 		<MotionBox
 			animate={panelControls}
-			initial={false}
 			css={{
 				position: 'absolute',
 				top: '0',
@@ -317,7 +316,6 @@ export const LockedPanel: React.FC = () => {
 						}}
 					>
 						<MotionBox
-							initial={false}
 							animate={z3usLogoSpinnerControls}
 							css={{ width: '232px', height: '232px', position: 'absolute', top: '0', left: '0' }}
 						>
@@ -357,8 +355,8 @@ export const LockedPanel: React.FC = () => {
 										borderColor: state.passwordError
 											? '$borderInputError'
 											: state.isInputFocused
-											? '$borderInputFocus'
-											: '$borderPanel3',
+												? '$borderInputFocus'
+												: '$borderPanel3',
 									}}
 								>
 									<Input
