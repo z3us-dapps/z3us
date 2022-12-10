@@ -3,6 +3,7 @@ import { Box } from 'ui/src/components/atoms'
 
 interface IProps {
 	isVisible: boolean
+	children: React.ReactNode
 }
 
 export const VisibleFadeAnimation: React.FC<IProps> = ({ isVisible, children }) => (

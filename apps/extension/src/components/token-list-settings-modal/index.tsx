@@ -87,7 +87,8 @@ const makeInvisibleTokenData = (
 	return ivs
 }
 
-const VirtuosoItem = React.memo(({ children, ...rest }) => {
+// @TODO: fix type `any`
+const VirtuosoItem = React.memo(({ children, ...rest }: any) => {
 	const [size, setSize] = useState<number>(0)
 	const knownSize = rest['data-known-size']
 	useEffect(() => {
