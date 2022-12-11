@@ -1,0 +1,24 @@
+{
+	"colors": {
+		"black": { "value": "#010101" },
+		"white": { "value": "#FFFFFF" },
+		"gold": { "value": "#E3B121" },
+		"orange": { "value": "#E97135" },
+		"brand": {
+			"light": { "value": "#EBF5EE" },
+			"base": { "value": "#78A1BB" },
+			"dark": { "value": "#283044" }
+		},
+		"red": { "value": "#C40C0C" },
+		"green": { "value": "#00A860" },
+		"gray": {
+			"1": { "value": "#44494B" },
+			"2": { "value": "#5D6165" },
+			"3": { "value": "#C5CACE" },
+			"4": { "value": "#DFE4E7" },
+			"5": { "value": "#F5F8FA" }
+		},
+		"transparent": { "value": "transparent" },
+		"current": { "value": "currentColor" }
+	}
+}

@@ -1,63 +1,75 @@
-const StyleDictionaryPackage = require("style-dictionary");
+const StyleDictionaryPackage = require('style-dictionary')
 
 const options = {
   showFileHeader: false,
-};
+}
 
 const getStyleDictionaryConfig = ({ theme }) => {
   return {
-    source: ["tokens/foundation.json", `tokens/themes/${theme}.json`],
+    source: ['tokens/foundation/**/*.json', `tokens/themes/${theme}.json`],
     platforms: {
-      "web/css": {
-        transformGroup: "css",
+      'web/css': {
+        transformGroup: 'css',
         buildPath: `./dist/${theme}/`,
         options,
         files: [
           {
-            destination: "index.css",
-            format: "css/variables",
+            destination: 'index.css',
+            format: 'css/variables',
           },
         ],
       },
-      "web/scss": {
-        transformGroup: "scss",
+      'web/tailwind': {
+        transformGroup: 'js',
         buildPath: `./dist/${theme}/`,
         options,
         files: [
           {
-            destination: "index.scss",
-            format: "scss/variables",
+            destination: 'tailwind-tokens.json',
+            format: 'json/nested',
           },
         ],
       },
-      "web/js": {
-        transforms: ["name/cti/constant"],
+      'web/scss': {
+        transformGroup: 'scss',
         buildPath: `./dist/${theme}/`,
         options,
         files: [
           {
-            destination: "index.js",
-            format: "javascript/module",
+            destination: 'index.scss',
+            format: 'scss/variables',
+          },
+        ],
+      },
+      'web/js': {
+        transforms: ['name/cti/constant'],
+        buildPath: `./dist/${theme}/`,
+        options,
+        files: [
+          {
+            destination: 'index.js',
+            format: 'javascript/module',
           },
         ],
       },
     },
-  };
-};
-
-console.log("Build started...");
-
-const platforms = ["web/css", "web/scss", "web/js"];
-const themes = ["theme-one"];
-
-themes.forEach((theme) => {
-  if (theme) {
-    platforms.forEach((platform) => {
-      const config = getStyleDictionaryConfig({ theme, platform });
-      const StyleDictionary = StyleDictionaryPackage.extend(config);
-      StyleDictionary.buildPlatform(platform);
-    });
   }
-});
+}
 
-console.log("Build finished...");
+console.log('Build started...')
+
+// const platforms = ['web/css', 'web/scss', 'web/js']
+const platforms = ['web/css', 'web/tailwind']
+const themes = ['theme-one']
+
+themes.forEach(theme => {
+  if (theme) {
+    platforms.forEach(platform => {
+      const config = getStyleDictionaryConfig({ theme, platform })
+      const StyleDictionary = StyleDictionaryPackage.extend(config)
+      StyleDictionary.buildPlatform(platform)
+    })
+  }
+})
+
+console.log('Build finished...')
