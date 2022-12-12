@@ -44,7 +44,7 @@ export const factory = (set, get): AccountState => ({
 		})
 	},
 
-	getCurrentAddressAction: () => {
+	getCurrentAddressAction: (): string => {
 		const { publicAddresses, selectedAccountIndex } = get()
 		const publicIndexes = Object.keys(publicAddresses)
 		return publicAddresses[publicIndexes[selectedAccountIndex]]?.address
@@ -53,11 +53,11 @@ export const factory = (set, get): AccountState => ({
 	setPublicAddressesAction: (addresses: { [key: number]: string }) => {
 		set(state => {
 			const publicAddresses = {}
-			Object.keys(addresses).forEach((key, index) => {
+			Object.keys(addresses).forEach(key => {
 				publicAddresses[key] = {
-					...getDefaultAddressEntry(index),
+					...getDefaultAddressEntry(+key),
 					...state.publicAddresses[key],
-					address: addresses[key],
+					...addresses[key],
 				}
 			})
 			state.publicAddresses = publicAddresses

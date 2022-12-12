@@ -30,7 +30,6 @@ import { CryptoService } from '@src/services/crypto'
 import { BrowserStorageService } from '@src/services/browser-storage'
 import { sharedStore } from '@src/store'
 import { AddressBookEntry, Network } from '@src/store/types'
-import { getDefaultAddressEntry } from '@src/store/helpers'
 import { SigningKeyType, Keystore as AppKeystore, KeystoreType } from '@src/types'
 import { getNoneSharedStore } from './state'
 
@@ -251,8 +250,6 @@ export class VaultService {
 				})
 
 				publicAddresses[idx] = {
-					...getDefaultAddressEntry(idx),
-					...publicAddresses[idx],
 					address: address.toString(),
 				}
 			})
