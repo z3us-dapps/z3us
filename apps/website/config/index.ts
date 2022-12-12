@@ -5,6 +5,7 @@ export const config = {
 	GITHUB_URL: 'https://github.com/z3us-dapps',
 	RADIX_URL: 'https://www.radixdlt.com/',
 	GITHUB_FEEDBACK_URL: 'https://github.com/z3us-dapps/z3us/discussions/categories/feedback',
+	HELLO_NEXT_FEEDBACK_URL: 'https://z3us-dapps.hellonext.co',
 	TELEGRAM_URL: 'https://t.me/z3us_dapps',
 	DISCORD_URL: 'https://discord.com/invite/9StjkdvjAA',
 	TWITTER_URL: 'https://twitter.com/z3us_dapps',

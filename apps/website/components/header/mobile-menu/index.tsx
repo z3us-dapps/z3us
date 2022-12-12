@@ -9,7 +9,7 @@ import { config } from 'config'
 
 const links = [
 	{ name: 'Home', to: '/', id: 'home' },
-	{ name: 'Feedback', to: config.GITHUB_FEEDBACK_URL, id: 'feedback' },
+	{ name: 'Feedback', to: config.HELLO_NEXT_FEEDBACK_URL, id: 'feedback' },
 	{ name: 'Roadmap', to: '/roadmap', id: 'roadmap' },
 	{
 		name: 'Docs',

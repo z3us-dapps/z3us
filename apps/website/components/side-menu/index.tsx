@@ -1,7 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-
 import React, { useState } from 'react'
-import { Box, Text, StyledLink } from 'ui/src/components/atoms'
 import {
 	ChevronDownIcon,
 	BoltIcon,
@@ -68,37 +66,39 @@ export const Accordion = ({ i, expanded, setExpanded, menu, path }: IAccordion) 
 	return (
 		<ul>
 			<motion.li initial={false}>
-				{menu.slug ? (
-					<Link href={`/docs/${menu.slug}`} passHref>
-						<a
-							tabIndex={0}
-							role="link"
-							onKeyDown={() => handleClickMenuItem(i, false)}
-							onClick={() => handleClickMenuItem(i, false)}
-							className={`rounded transition-all outline-none active:outline-none focus-visible:outline-none focus:outline-none hover:bg-violet-200/30 dark:hover:bg-violet-200/10 ${isActiveMenu ? 'bg-violet-200/30 dark:bg-violet-200/10' : ''
-								}`}
-						>
-							{title}
-						</a>
-					</Link>
-				) : (
-					{ title }
-				)}
+				<>
+					{menu.slug ? (
+						<Link href={`/docs/${menu.slug}`} passHref>
+							<a
+								tabIndex={0}
+								role="link"
+								onKeyDown={() => handleClickMenuItem(i, false)}
+								onClick={() => handleClickMenuItem(i, false)}
+								className={`rounded transition-all outline-none active:outline-none focus-visible:outline-none focus:outline-none hover:bg-violet-200/30 dark:hover:bg-violet-200/10 ${isActiveMenu ? 'bg-violet-200/30 dark:bg-violet-200/10' : ''
+									}`}
+							>
+								{title}
+							</a>
+						</Link>
+					) : (
+						{ title }
+					)}
 
-				{hasSubMenu ? (
-					<button
-						className="z3-docs-menu__toggle-btn rounded hover:bg-slate-500/20 focus:outline-none focus:ring focus:ring-violet-300 transition-all"
-						type="button"
-						onClick={e => {
-							e.preventDefault()
-							handleClickMenuItem(i, isOpen)
-						}}
-					>
-						<ChevronDownIcon
-							className={`h-4 w-4 fill-purple-800 dark:fill-purple-500 transition-all ${isOpen ? '-rotate-90' : ''} `}
-						/>
-					</button>
-				) : null}
+					{hasSubMenu ? (
+						<button
+							className="z3-docs-menu__toggle-btn rounded hover:bg-slate-500/20 focus:outline-none focus:ring focus:ring-violet-300 transition-all"
+							type="button"
+							onClick={e => {
+								e.preventDefault()
+								handleClickMenuItem(i, isOpen)
+							}}
+						>
+							<ChevronDownIcon
+								className={`h-4 w-4 fill-purple-800 dark:fill-purple-500 transition-all ${isOpen ? '-rotate-90' : ''} `}
+							/>
+						</button>
+					) : null}
+				</>
 			</motion.li>
 			<AnimatePresence initial={false}>
 				{isOpen && (

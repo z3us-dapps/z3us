@@ -64,21 +64,19 @@ export const useVault = () => {
 		time: Date.now(),
 	})
 
-	const addNewAddressEntry = (index: number, newSigningKey: SigningKey) => {
-		if (accountIndex >= Object.keys(publicAddresses).length) {
-			const address = AccountAddress.fromPublicKeyAndNetwork({
-				publicKey: newSigningKey.publicKey,
-				network: network.id,
-			})
-			addPublicAddress(index, {
-				...getDefaultAddressEntry(index),
-				...publicAddresses[index],
-				address: address.toString(),
-			})
-		}
+	const addOrUpdateAddressEntry = (index: number, n: Network, newSigningKey: SigningKey) => {
+		const address = AccountAddress.fromPublicKeyAndNetwork({
+			publicKey: newSigningKey.publicKey,
+			network: n.id,
+		})
+		addPublicAddress(index, {
+			...getDefaultAddressEntry(index),
+			...publicAddresses[index],
+			address: address.toString(),
+		})
 	}
 
-	const derive = async (n?: Network, addresses?: { [key: number]: AddressBookEntry }) => {
+	const derive = async (n: Network, addresses?: { [key: number]: AddressBookEntry }) => {
 		const release = await mutex.acquire()
 
 		let deriveIndex = 0
@@ -104,7 +102,7 @@ export const useVault = () => {
 						const newSigningKey = await createHardwareSigningKey(signingKey.hw, deriveIndex)
 						if (newSigningKey) {
 							setSigningKey(newSigningKey)
-							addNewAddressEntry(deriveIndex, newSigningKey)
+							addOrUpdateAddressEntry(deriveIndex, n, newSigningKey)
 						}
 						setIsUnlocked(!!newSigningKey)
 					} else {
@@ -123,6 +121,7 @@ export const useVault = () => {
 						publicKey,
 						publicAddresses: newPublicAddresses,
 						type,
+						network: derivedNetwork,
 					} = await messanger.sendActionMessageFromPopup(DERIVE, derivePayload)
 
 					// for the legacy purpose we need to handle empty string for keystore id with local wallet
@@ -136,7 +135,7 @@ export const useVault = () => {
 						if (newPublicAddresses) {
 							setPublicAddresses(newPublicAddresses)
 						} else {
-							addNewAddressEntry(deriveIndex, newSigningKey)
+							addOrUpdateAddressEntry(deriveIndex, derivedNetwork, newSigningKey)
 						}
 						setIsUnlocked(isUnlockedBackground)
 					} else {
@@ -156,7 +155,7 @@ export const useVault = () => {
 
 	useEffect(() => {
 		const init = async () => {
-			await derive()
+			await derive(network)
 			if (state.isMounted) return
 			setState(draft => {
 				draft.isMounted = true
