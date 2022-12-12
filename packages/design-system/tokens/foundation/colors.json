@@ -1,5 +1,8 @@
 {
 	"colors": {
+		"transparent": { "value": "transparent" },
+		"current": { "value": "currentColor" },
+		"based": { "value": "{colors.brand.base.value}" },
 		"black": { "value": "#010101" },
 		"white": { "value": "#FFFFFF" },
 		"gold": { "value": "#E3B121" },
@@ -18,7 +21,16 @@
 			"4": { "value": "#DFE4E7" },
 			"5": { "value": "#F5F8FA" }
 		},
-		"transparent": { "value": "transparent" },
-		"current": { "value": "currentColor" }
+		"tahiti": {
+			"100": "#cffafe",
+			"200": "#a5f3fc",
+			"300": "#67e8f9",
+			"400": "#22d3ee",
+			"500": "#06b6d4",
+			"600": "#0891b2",
+			"700": "#0e7490",
+			"800": "#155e75",
+			"900": "#164e63"
+		}
 	}
 }

@@ -94,7 +94,7 @@ body.docs-page {
 	h6,
 	p {
 		code {
-			@apply bg-slate-300/20 border border-slate-300 dark:border-slate-700 rounded;
+			/* @apply bg-slate-300/20 border border-slate-300 dark:border-slate-700 rounded; */
 			padding-top: 0.1rem;
 			padding-bottom: 0.2rem;
 			padding-left: 0.2rem;
