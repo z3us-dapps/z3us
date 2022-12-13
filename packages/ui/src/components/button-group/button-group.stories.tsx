@@ -27,7 +27,7 @@ const CombinedTemplate: React.FC = () => (
 				<Box>
 					<ButtonGroup>
 						<Button size="3" color="tertiary" active>
-							Button 1
+							Button
 						</Button>
 						<Button size="3" color="tertiary">
 							Button 2
