@@ -45,7 +45,7 @@ export const HomePage: React.FC = () => {
 					<div className="overflow-hidden">
 						<PageContainer>
 							<div>
-								<p className="text-xl mt-0.5 text-based">asdfasdf</p>
+								<p className="text-xl mt-0.5">asdfasdf</p>
 								<h1 className="font-HaasGrotTextRound font-bold homepage__h1">
 									<span>Control</span>
 									<span className="heeb">your future.</span>

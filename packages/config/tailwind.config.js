@@ -1,8 +1,8 @@
-const tailWindTokens = require('design/dist/theme-one/tailwind-tokens')
-const defaultTheme = require('tailwindcss/defaultTheme')
+const tailWindTokens = require('design/dist/tailwind-tokens')
 
 module.exports = {
 	mode: 'jit',
+	darkMode: 'class',
 	content: [
 		'../../apps/website/components/**/*.{js,ts,jsx,tsx}',
 		'../../apps/website/pages/**/*.{js,ts,jsx,tsx}',
@@ -16,13 +16,29 @@ module.exports = {
 			...tailWindTokens.spacing,
 		},
 		fontSize: {
-			...tailWindTokens.fontSize,
+			...Object.entries(tailWindTokens.fontSize).reduce((acc, [k, v]) => {
+				return {
+					...acc,
+					[k]: [
+						v,
+						{
+							//@TODO:
+							lineHeight: '2rem',
+							letterSpacing: '-0.01em',
+							fontWeight: '500',
+						},
+					],
+				}
+			}, {}),
 		},
 		colors: {
-			...tailWindTokens.colors,
+			...tailWindTokens.color.core,
 		},
 		fontFamily: {
 			...tailWindTokens.fontFamily,
+		},
+		letterSpacing: {
+			...tailWindTokens.letterSpacing,
 		},
 		extend: {
 			keyframes: {},
@@ -33,9 +49,4 @@ module.exports = {
 		extend: {},
 	},
 	plugins: [],
-	darkMode: 'class',
-	future: {
-		removeDeprecatedGapUtilities: true,
-		purgeLayersByDefault: true,
-	},
 }

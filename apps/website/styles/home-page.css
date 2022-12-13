@@ -3,7 +3,7 @@
 }
 
 body.home-page {
-	background-color: var(--colors-green);
+	background-color: var(--color-core-green-400);
 	background-color: #bf9e76;
 
 	.header {

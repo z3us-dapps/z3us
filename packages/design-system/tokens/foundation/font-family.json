@@ -1,6 +1,7 @@
 {
 	"fontFamily": {
 		"HaasGrotTextRound": {
+			"description": "HaasGrotTextRound-Web",
 			"value": [
 				"HaasGrotTextRound-Web",
 				"ui-sans-serif",
@@ -20,6 +21,7 @@
 			]
 		},
 		"HaasGrotDispRound": {
+			"description": "HaasGrotDispRound",
 			"value": [
 				"HaasGrotDispRound-Web",
 				"ui-sans-serif",

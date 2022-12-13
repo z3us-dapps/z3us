@@ -4,7 +4,9 @@
 @import 'tokenomics-page.css';
 @import 'roadmap-page.css';
 @import 'docs-page.css';
-@import 'design/dist/theme-one/index.css';
+@import 'design/dist/index.css';
+@import 'design/dist/light/index.css';
+@import 'design/dist/dark/index.css';
 
 @tailwind base;
 @tailwind components;
