@@ -1,14 +1,7 @@
 import React from 'react'
-import { addDecorator } from '@storybook/react'
 import { useDarkMode } from 'storybook-dark-mode'
 import { darkTheme, globalStyles } from '../src/theme'
 import { INITIAL_VIEWPORTS } from '@storybook/addon-viewport'
-import { initializeWorker, mswDecorator } from 'msw-storybook-addon'
-import { handlers } from '../.mocks/handlers'
-
-// msw
-initializeWorker()
-addDecorator(mswDecorator)
 
 export const parameters = {
 	actions: { argTypesRegex: '^on[A-Z].*' },
@@ -20,7 +13,6 @@ export const parameters = {
 	},
 	viewport: {
 		viewports: INITIAL_VIEWPORTS,
-		// -  defaultViewport: 'iphonex',
 	},
 	backgrounds: {
 		default: 'white',
@@ -35,7 +27,6 @@ export const parameters = {
 		// -  current: 'light',
 		current: 'dark',
 	},
-	msw: handlers,
 }
 
 export const decorators = [
