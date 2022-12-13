@@ -1,0 +1,16 @@
+{
+	"fontLetterSpacing": {
+		"tiny": { "value": "400" },
+		"xs": { "value": "400" },
+		"sm": { "value": "400" },
+		"base": { "value": "400" },
+		"lg": { "value": "400" },
+		"xl": { "value": "400" },
+		"2xl": { "value": "400" },
+		"3xl": { "value": "400" },
+		"4xl": { "value": "400" },
+		"5xl": { "value": "400" },
+		"6xl": { "value": "400" },
+		"7xl": { "value": "400" }
+	}
+}

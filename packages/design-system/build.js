@@ -5,6 +5,11 @@ const options = {
   showFileHeader: false,
 }
 
+const PLATFORM_WEB_CSS = 'web/css'
+const PLATFORM_WEB_TAILWIND = 'web/tailwind'
+const THEME_LIGHT = 'light'
+const THEME_DARK = 'dark'
+
 StyleDictionaryPackage.registerFormat({
   name: 'css/variables-themed',
   formatter: function({ dictionary, file, options }) {
@@ -22,7 +27,7 @@ const getStyleDictionaryConfig = () => {
   return {
     source: ['tokens/foundation/**/*.json'],
     platforms: {
-      'web/css': {
+      [PLATFORM_WEB_CSS]: {
         transformGroup: 'css',
         buildPath: `./dist/`,
         options,
@@ -33,7 +38,7 @@ const getStyleDictionaryConfig = () => {
           },
         ],
       },
-      'web/tailwind': {
+      [PLATFORM_WEB_TAILWIND]: {
         transformGroup: 'js',
         buildPath: `./dist/`,
         options,
@@ -41,17 +46,6 @@ const getStyleDictionaryConfig = () => {
           {
             destination: 'tailwind-tokens.json',
             format: 'json/nested',
-          },
-        ],
-      },
-      'web/scss': {
-        transformGroup: 'scss',
-        buildPath: `./dist/`,
-        options,
-        files: [
-          {
-            destination: 'index.scss',
-            format: 'scss/variables',
           },
         ],
       },
@@ -74,7 +68,7 @@ const getStyleDictionaryThemeConfig = ({ theme }) => {
   return {
     source: ['tokens/foundation/**/*.json', `tokens/themes/${theme}/**/*.json`],
     platforms: {
-      'web/css': {
+      [PLATFORM_WEB_CSS]: {
         transformGroup: 'css',
         buildPath: `./dist/${theme}/`,
         options,
@@ -97,11 +91,9 @@ const getStyleDictionaryThemeConfig = ({ theme }) => {
 }
 
 console.log(`\n\n Building tokens ...`)
-const PLATFORM_WEB_CSS = 'web/css'
-const PLATFORM_WEB_TAILWIND = 'web/css'
 
 const platforms = [PLATFORM_WEB_CSS, PLATFORM_WEB_TAILWIND]
-const themes = ['light', 'dark']
+const themes = [THEME_LIGHT, THEME_DARK]
 
 platforms.forEach(platform => {
   const config = getStyleDictionaryConfig({ platform })
@@ -110,6 +102,7 @@ platforms.forEach(platform => {
 })
 
 console.log(`\n\n🌙☀️  Building token themes ...`)
+
 themes.forEach(theme => {
   const config = getStyleDictionaryThemeConfig({ theme })
   const StyleDictionary = StyleDictionaryPackage.extend(config)

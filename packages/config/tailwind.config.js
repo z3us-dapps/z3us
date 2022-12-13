@@ -22,10 +22,9 @@ module.exports = {
 					[k]: [
 						v,
 						{
-							//@TODO:
-							lineHeight: '2rem',
-							letterSpacing: '-0.01em',
-							fontWeight: '500',
+							lineHeight: tailWindTokens?.fontLineHeight?.[k],
+							letterSpacing: tailWindTokens?.fontLetterSpacing?.[k],
+							fontWeight: tailWindTokens?.fontWeight?.[k],
 						},
 					],
 				}
