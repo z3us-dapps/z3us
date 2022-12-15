@@ -13,7 +13,7 @@ const calculateAmountValue = (ticker: Ticker, amount: string | BigNumber): BigNu
 	return new BigNumber(amount).shiftedBy(-18).multipliedBy(ticker.last_price)
 }
 
-const useGenericaccountsValue = (
+const useGenericAccountsValue = (
 	balances: Array<{
 		rri: string
 		amount: string | BigNumber
@@ -100,11 +100,11 @@ export const useAccountValue = () => {
 		? new BigNumber(rawBalances.account_balances.staked_and_unstaking_balance.value).shiftedBy(-18)
 		: new BigNumber(0)
 
-	return useGenericaccountsValue(balances, staked, isLoading)
+	return useGenericAccountsValue(balances, staked, isLoading)
 }
 
 export const useAllAccountsValue = () => {
 	const { isLoading, balances, staked } = useAllAccountsTokenBalances()
 
-	return useGenericaccountsValue(Object.values(balances), staked, isLoading)
+	return useGenericAccountsValue(Object.values(balances), staked, isLoading)
 }
