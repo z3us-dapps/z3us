@@ -118,7 +118,12 @@ export const CreateWallet = (): JSX.Element => {
 			setIsUnlocked(false)
 
 			const store = await getNoneSharedStore(id)
-			store.getState().setPublicAddressesAction(addressesToImport)
+			store.getState().setPublicAddressesAction(
+				Object.keys(addressesToImport).reduce((acc, idx) => {
+					acc[idx] = { address: addressesToImport[idx] }
+					return acc
+				}, {}),
+			)
 
 			await createWallet(secretType as SigningKeyType, secret, password, 0)
 

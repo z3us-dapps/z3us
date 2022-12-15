@@ -122,4 +122,22 @@ export class CoinGeckoService {
 
 		return data || []
 	}
+
+	getXRDPriceOnDay = async (date: Date, currency: string, coin: string = 'radix'): Promise<number | null> => {
+		const url = new URL(`${this.baseURL}/${this.apiVersion}/coins/${coin}/history`)
+		url.searchParams.set('date', `${date.getDate()}-${date.getMonth() + 1}-${date.getFullYear()}`)
+		const path = url.toString()
+
+		const response = await fetch(path, this.options)
+		if (response.status !== 200) {
+			throw new Error(`Invalid request: ${response.status} recieved`)
+		}
+
+		const data = await response.json()
+
+		if (data?.id !== coin) {
+			return null
+		}
+		return data?.market_data?.current_price[currency] || null
+	}
 }

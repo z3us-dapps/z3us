@@ -53,7 +53,12 @@ export const CompleteSync = (): JSX.Element => {
 			setIsUnlocked(false)
 
 			const store = await getNoneSharedStore(id)
-			store.getState().setPublicAddressesAction(importingAddresses)
+			store.getState().setPublicAddressesAction(
+				Object.keys(importingAddresses).reduce((acc, idx) => {
+					acc[idx] = { address: importingAddresses[idx] }
+					return acc
+				}, {}),
+			)
 
 			setImportingAddresses({})
 			setOnboradingStep(onBoardingSteps.START)

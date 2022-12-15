@@ -91,7 +91,12 @@ export const useVault = () => {
 
 		const derivePayload = {
 			index: deriveIndex,
-			network: n,
+			network: n
+				? {
+						id: n.id,
+						url: n.url.toString(),
+				  }
+				: undefined,
 			publicAddresses: addresses,
 		}
 
