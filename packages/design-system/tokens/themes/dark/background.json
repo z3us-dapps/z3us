@@ -1,9 +1,9 @@
 {
 	"color": {
 		"background": {
-			"primary": { "value": "{color.core.white.value}" },
-			"secondary": { "value": "{color.core.neutral.100.value}" },
-			"tertiary": { "value": "{color.core.neutral.200.value}" },
+			"primary": { "value": "{color.core.black.value}" },
+			"secondary": { "value": "{color.core.neutral.900.value}" },
+			"tertiary": { "value": "{color.core.neutral.800.value}" },
 
 			"interactive": { "value": "{color.brand.primary.base.value}" },
 			"hover": { "value": "{color.brand.primary.dark.value}" },

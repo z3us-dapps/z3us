@@ -10,7 +10,6 @@
 				"3": { "value": "{color.core.teal.300.value}" },
 				"4": { "value": "{color.core.teal.100.value}" }
 			},
-
 			"secondary": {
 				"base": { "value": "{color.brand.secondary.1.value}" },
 				"dark": { "value": "{color.brand.secondary.0.value}" },
