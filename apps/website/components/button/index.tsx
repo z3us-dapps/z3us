@@ -28,10 +28,8 @@ export const buttonClasses = {
 		// '2xl': 'px-8 py-3 text-lg',
 	},
 	variant: {
-		ghost:
-			'bg-opacity-25 hover:bg-opacity-25 hover:bg-violet-100 active:bg-opacity-25 active:bg-violet-100 focus:bg-opacity-25 focus:outline-none focus:ring focus:ring-violet-200 rounded',
-		primary:
-			'font-medium bg-violet-700 hover:bg-violet-600 active:bg-violet-600 focus:outline-none focus:ring focus:ring-violet-200 text-white shadow-md rounded-full',
+		ghost: 'bg-opacity-25 hover:bg-opacity-25 hover:bg-violet-100 active:bg-opacity-25 active:bg-violet-100 focus:bg-opacity-25 focus:outline-none focus:ring focus:ring-violet-200 rounded',
+		primary: 'font-medium bg-violet-700 hover:bg-violet-600 active:bg-violet-600 focus:outline-none focus:ring focus:ring-violet-200 text-white shadow-md rounded-full',
 		secondary:
 			'font-medium bg-white hover:bg-violet-50 active:bg-violet-100 focus:outline-none focus:ring focus:ring-violet-200 text-purple-800 shadow-md rounded-full',
 		danger: 'bg-red-500 hover:bg-red-800 focus:ring-2 focus:ring-red-500 focus:ring-opacity-50 text-white',
