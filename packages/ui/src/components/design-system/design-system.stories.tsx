@@ -53,7 +53,7 @@ async function copyTextToClipboard(str: string) {
    }
 }
 
-export const ColorUnit = ({
+const ColorUnit = ({
    color,
    value,
    colorKey,
@@ -136,7 +136,7 @@ ColorUnit.defaultProps = {
    width: COLOR_CELL_WIDTH,
 }
 
-export const ColorComp = ({
+const ColorComp = ({
    theme,
    colorKey,
    depth,
@@ -272,9 +272,9 @@ const CombinedTemplate: React.FC = () => (
    </Box>
 )
 
-export const Playground = CombinedTemplate
+export const Tokens = CombinedTemplate
 
-export const Primary = Template.bind({})
+const Primary = Template.bind({})
 Primary.args = {
    color: 'default',
 }
