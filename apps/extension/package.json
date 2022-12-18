@@ -57,7 +57,6 @@
 		"pte-manifest-compiler": "^0.1.22",
 		"pte-sdk": "^0.1.22",
 		"qrcode.react": "^3.0.1",
-		"react": "^18.2.0",
 		"react-beautiful-dnd": "^13.1.0",
 		"react-chartjs-2": "^4.2.0",
 		"react-colorful": "^5.5.1",
