@@ -28,11 +28,11 @@ jobs:
         run: yarn -v
       - name: Design system install dependencies
         run: |-
-          cd packages/design-system
+          cd packages/design
           yarn --ignore-engines
       - name: Design system build
         run: |-
-          cd packages/design-system
+          cd packages/design
           yarn build
       - name: Install dependencies
         run: |-
