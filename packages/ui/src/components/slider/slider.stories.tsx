@@ -9,20 +9,20 @@ import { QrCodeIcon, SwapIcon } from '../icons'
 import { StyledSlider, StyledTrack, StyledRange, StyledThumb } from './index'
 
 const SliderComponent = () => (
-		<StyledSlider
-			defaultValue={[2]}
-			max={20}
-			step={1}
-			onValueChange={() => {}}
-			css={{ width: '100%' }}
-			aria-label="Volume"
-		>
-			<StyledTrack>
-				<StyledRange />
-			</StyledTrack>
-			<StyledThumb />
-		</StyledSlider>
-	)
+	<StyledSlider
+		defaultValue={[2]}
+		max={20}
+		step={1}
+		onValueChange={() => {}}
+		css={{ width: '100%' }}
+		aria-label="Volume"
+	>
+		<StyledTrack>
+			<StyledRange />
+		</StyledTrack>
+		<StyledThumb />
+	</StyledSlider>
+)
 
 export default {
 	title: 'z3us components/Slider',

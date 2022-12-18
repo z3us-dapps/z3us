@@ -69,12 +69,12 @@
 		"react-virtuoso": "^3.1.5",
 		"readable-stream": "^3.6.0",
 		"rxjs": "^7.5.5",
-		"sass": "^1.49.9",
 		"simple-zustand-devtools": "^1.0.0",
 		"simplebar-react": "^2.4.1",
 		"stream-browserify": "^3.0.0",
 		"stream-http": "^3.2.0",
 		"ui": "*",
+		"design": "*",
 		"use-debounce": "^8.0.3",
 		"use-immer": "^0.7.0",
 		"usehooks-ts": "^2.4.2",
@@ -111,6 +111,7 @@
 		"rollup-plugin-visualizer": "^5.6.0",
 		"ts-jest": "28.0.5",
 		"turbo": "*",
+		"config": "*",
 		"vite-compatible-readable-stream": "^3.6.0",
 		"vite-plugin-fonts": "^0.3.0"
 	}

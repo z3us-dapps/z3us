@@ -8,16 +8,16 @@ import '../styles/globals.css'
 import './global.css'
 
 const Z3us = ({ Component, pageProps }) => {
-  useBodyClass()
+	useBodyClass()
 
-  return (
-    <>
-      <DefaultSeo {...SEO} />
-      <ThemeProvider forcedTheme={Component.theme || undefined} attribute="class">
-        <Component {...pageProps} />
-      </ThemeProvider>
-    </>
-  )
+	return (
+		<>
+			<DefaultSeo {...SEO} />
+			<ThemeProvider forcedTheme={Component.theme || undefined} attribute="class">
+				<Component {...pageProps} />
+			</ThemeProvider>
+		</>
+	)
 }
 
 export default Z3us

@@ -36,8 +36,9 @@ export const PageDocs: React.FC<DocsPageProps> = ({ toc, docs, mdxSource }) => {
 									<li key={link} className={`toc-li--${headingType} mt-1 mb-1`}>
 										<Link href={link} passHref>
 											<a
-												className={`hover:underline decoration-from-font underline-offset-4 ${link === hash ? 'underline' : ''
-													}`}
+												className={`hover:underline decoration-from-font underline-offset-4 ${
+													link === hash ? 'underline' : ''
+												}`}
 											>
 												{title}
 											</a>

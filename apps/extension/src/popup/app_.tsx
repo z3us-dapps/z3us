@@ -42,13 +42,13 @@ export const App: React.FC = () => {
 				transition: '$default',
 				...(isHardwareWalletRoute
 					? {
-						width: '100vw',
-						height: '100vh',
-					}
+							width: '100vw',
+							height: '100vh',
+					  }
 					: {
-						width: '360px',
-						height: '600px',
-					}),
+							width: '360px',
+							height: '600px',
+					  }),
 			}}
 		>
 			{messenger ? (
