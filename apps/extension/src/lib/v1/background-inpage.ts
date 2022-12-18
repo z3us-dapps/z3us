@@ -23,6 +23,11 @@ import {
 import { getNoneSharedStore } from '@src/services/state'
 import { KeystoreType } from '@src/types'
 import { showDisconnected } from '@src/services/content-script'
+import {
+	getStakedPositionsQueryKey,
+	getTokenBalancesQueryKey,
+	getUnstakePositionsQueryKey,
+} from '@src/hooks/react-query/queries/radix'
 
 const responseOK = { code: 200 }
 const responseBadRequest = { code: 400, error: 'Bad request' }
@@ -235,7 +240,7 @@ export default function NewV1BackgroundInpageActions(
 		const service = new RadixService(network.url)
 
 		try {
-			const response = await queryClient.fetchQuery(['useTokenBalances', address], async () =>
+			const response = await queryClient.fetchQuery(getTokenBalancesQueryKey(address), async () =>
 				service.tokenBalancesForAddress(address),
 			)
 			sendInpageMessage(port, id, payload, response)
@@ -262,7 +267,7 @@ export default function NewV1BackgroundInpageActions(
 		const service = new RadixService(network.url)
 
 		try {
-			const response = await queryClient.fetchQuery(['useStakedPositions', address], async () =>
+			const response = await queryClient.fetchQuery(getStakedPositionsQueryKey(address), async () =>
 				service.stakesForAddress(address),
 			)
 			sendInpageMessage(port, id, payload, response)
@@ -289,7 +294,7 @@ export default function NewV1BackgroundInpageActions(
 		const service = new RadixService(network.url)
 
 		try {
-			const response = await queryClient.fetchQuery(['useUnstakePositions', address], async () =>
+			const response = await queryClient.fetchQuery(getUnstakePositionsQueryKey(address), async () =>
 				service.unstakesForAddress(address),
 			)
 			sendInpageMessage(port, id, payload, response)

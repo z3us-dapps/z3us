@@ -2,28 +2,35 @@ import { useNoneSharedStore, useSharedStore } from '@src/hooks/use-store'
 import { useQuery, useQueries, useInfiniteQuery } from 'react-query'
 import { RadixService } from '@src/services/radix'
 import BigNumber from 'bignumber.js'
+import { Network as NetworkID } from '@radixdlt/application'
 import { Action, Transaction } from '@src/types'
 import { useMessage } from '@src/hooks/use-message'
+
+export const getGatewayInfoQueryKey = (id: NetworkID) => ['useGatewayInfo', id]
 
 export const useGatewayInfo = () => {
 	const network = useNoneSharedStore(state => state.networks[state.selectedNetworkIndex])
 	const service = new RadixService(network.url)
 
-	return useQuery(['useGatewayInfo', network.id], async () => service.gateway())
+	return useQuery(getGatewayInfoQueryKey(network.id), async () => service.gateway())
 }
+
+export const getNativeTokenQueryKey = (id: NetworkID) => ['useNativeToken', id]
 
 export const useNativeToken = () => {
 	const network = useNoneSharedStore(state => state.networks[state.selectedNetworkIndex])
 	const service = new RadixService(network.url)
 
-	return useQuery(['useNativeToken', network.id], async () => service.nativeToken(network.id))
+	return useQuery(getNativeTokenQueryKey(network.id), async () => service.nativeToken(network.id))
 }
+
+export const getTokenInfoQueryKey = (id: NetworkID, rri: string) => ['useTokenInfo', id, rri]
 
 export const useTokenInfo = (rri: string) => {
 	const network = useNoneSharedStore(state => state.networks[state.selectedNetworkIndex])
 	const service = new RadixService(network.url)
 
-	return useQuery(['useTokenInfo', network.id, rri], async () => service.tokenInfo(rri), {
+	return useQuery(getTokenInfoQueryKey(network.id, rri), async () => service.tokenInfo(rri), {
 		enabled: !!rri,
 	})
 }
@@ -33,7 +40,7 @@ export const useTokenInfos = (rris: Array<string>) => {
 	const service = new RadixService(network.url)
 
 	const queries = rris.map(rri => ({
-		queryKey: ['useTokenInfo', network.id, rri],
+		queryKey: getTokenInfoQueryKey(network.id, rri),
 		queryFn: async () => {
 			try {
 				const token = await service.tokenInfo(rri)
@@ -46,6 +53,8 @@ export const useTokenInfos = (rris: Array<string>) => {
 	return useQueries(queries)
 }
 
+export const getTokenBalancesQueryKey = (address: string) => ['useTokenBalances', address]
+
 export const useTokenBalances = () => {
 	const { address, network } = useNoneSharedStore(state => ({
 		address: state.getCurrentAddressAction(),
@@ -54,7 +63,7 @@ export const useTokenBalances = () => {
 
 	const service = new RadixService(network.url)
 
-	return useQuery(['useTokenBalances', address], async () => service.tokenBalancesForAddress(address), {
+	return useQuery(getTokenBalancesQueryKey(address), async () => service.tokenBalancesForAddress(address), {
 		staleTime: 5 * 1000,
 		refetchInterval: 5 * 1000,
 		enabled: !!address,
@@ -80,7 +89,7 @@ export const useAllAccountsTokenBalances = (): {
 	const service = new RadixService(network.url)
 
 	const queries = addresses.map(address => ({
-		queryKey: ['useTokenBalances', address],
+		queryKey: getTokenBalancesQueryKey(address),
 		queryFn: async () => {
 			try {
 				return await service.tokenBalancesForAddress(address)
@@ -122,6 +131,8 @@ export const useAllAccountsTokenBalances = (): {
 	return { isLoading, balances: balanceMap, staked }
 }
 
+export const getStakedPositionsQueryKey = (address: string) => ['useStakedPositions', address]
+
 export const useStakedPositions = () => {
 	const { address, network } = useNoneSharedStore(state => ({
 		address: state.getCurrentAddressAction(),
@@ -129,10 +140,12 @@ export const useStakedPositions = () => {
 	}))
 	const service = new RadixService(network.url)
 
-	return useQuery(['useStakedPositions', address], async () => service.stakesForAddress(address), {
+	return useQuery(getStakedPositionsQueryKey(address), async () => service.stakesForAddress(address), {
 		enabled: !!address,
 	})
 }
+
+export const getUnstakePositionsQueryKey = (address: string) => ['useUnstakePositions', address]
 
 export const useUnstakePositions = () => {
 	const { address, network } = useNoneSharedStore(state => ({
@@ -141,16 +154,18 @@ export const useUnstakePositions = () => {
 	}))
 	const service = new RadixService(network.url)
 
-	return useQuery(['useUnstakePositions', address], async () => service.unstakesForAddress(address), {
+	return useQuery(getUnstakePositionsQueryKey(address), async () => service.unstakesForAddress(address), {
 		enabled: !!address,
 	})
 }
+
+export const getTotalDelegatedStakeQueryKey = (id: NetworkID) => ['useTotalDelegatedStake', id]
 
 export const useTotalDelegatedStake = () => {
 	const network = useNoneSharedStore(state => state.networks[state.selectedNetworkIndex])
 	const service = new RadixService(network.url)
 
-	return useQuery(['useTotalDelegatedStake', network.id], async () => {
+	return useQuery(getTotalDelegatedStakeQueryKey(network.id), async () => {
 		const validators = await service.validators(network.id)
 		if (validators.length === 0) {
 			return undefined
@@ -166,30 +181,57 @@ export const useTotalDelegatedStake = () => {
 	})
 }
 
+export const getValidatorsQueryKey = (id: NetworkID) => ['useValidators', id]
+
 export const useValidators = () => {
 	const network = useNoneSharedStore(state => state.networks[state.selectedNetworkIndex])
 	const service = new RadixService(network.url)
 
-	return useQuery(['useValidators', network.id], async () => service.validators(network.id))
+	return useQuery(getValidatorsQueryKey(network.id), async () => service.validators(network.id))
 }
+
+export const getLookupValidatorQueryKey = (address: string) => ['useLookupValidator', address]
 
 export const useLookupValidator = (validatorAddress: string) => {
 	const network = useNoneSharedStore(state => state.networks[state.selectedNetworkIndex])
 	const service = new RadixService(network.url)
 
-	return useQuery(['useLookupValidator', validatorAddress], async () => service.lookupValidator(validatorAddress), {
+	return useQuery(getLookupValidatorQueryKey(validatorAddress), async () => service.lookupValidator(validatorAddress), {
 		enabled: !!validatorAddress,
 	})
 }
+
+export const getTransactionStatusQueryKey = (id: NetworkID, txID: string) => ['useTransactionStatus', id, txID]
 
 export const useTransactionStatus = (txID: string) => {
 	const network = useNoneSharedStore(state => state.networks[state.selectedNetworkIndex])
 	const service = new RadixService(network.url)
 
-	return useQuery(['useTransactionStatus', network.id, txID], async () => service.transactionStatus(network.id, txID), {
-		enabled: !!txID,
-	})
+	return useQuery(
+		getTransactionStatusQueryKey(network.id, txID),
+		async () => service.transactionStatus(network.id, txID),
+		{
+			enabled: !!txID,
+		},
+	)
 }
+
+const fetchTransactionHistoryPage = async (service: RadixService, address: string, size: number, pageParam: string) => {
+	const { cursor, transactions } = await service.transactionHistory(address, size, pageParam)
+	return {
+		cursor,
+		transactions: transactions.flatMap(tx => {
+			tx.actions = tx.actions.filter(a => a.from_account === address || a.to_account === address)
+			return tx.actions.length > 0 ? [tx] : []
+		}),
+	}
+}
+
+export const getTransactionHistoryInfiniteQueryKey = (address: string, size: number) => [
+	'useTransactionHistory',
+	address,
+	size,
+]
 
 export const useTransactionHistory = (size = 30) => {
 	const maxLimit = 30
@@ -202,23 +244,40 @@ export const useTransactionHistory = (size = 30) => {
 	const service = new RadixService(network.url)
 
 	return useInfiniteQuery(
-		['useTransactionHistory', address, size],
-		async ({ pageParam }) => {
-			const { cursor, transactions } = await service.transactionHistory(address, size, pageParam)
-			return {
-				cursor,
-				transactions: transactions.flatMap(tx => {
-					tx.actions = tx.actions.filter(a => a.from_account === address || a.to_account === address)
-					return tx.actions.length > 0 ? [tx] : []
-				}),
-			}
-		},
+		getTransactionHistoryInfiniteQueryKey(address, size),
+		({ pageParam }) => fetchTransactionHistoryPage(service, address, size, pageParam),
 		{
 			getNextPageParam: lastPage => lastPage.cursor,
 			enabled: !!address,
 		},
 	)
 }
+
+export const getTransactionHistoryPageQueryKey = (address: string, cursor: string) => [
+	'useTransactionHistoryPage',
+	address,
+	cursor,
+]
+
+export const useTransactionHistoryPage = (pageParam: string) => {
+	const maxLimit = 30
+
+	const { address, network } = useNoneSharedStore(state => ({
+		address: state.getCurrentAddressAction(),
+		network: state.networks[state.selectedNetworkIndex],
+	}))
+	const service = new RadixService(network.url)
+
+	return useQuery(
+		getTransactionHistoryPageQueryKey(address, pageParam),
+		() => fetchTransactionHistoryPage(service, address, maxLimit, pageParam),
+		{
+			enabled: !!address,
+		},
+	)
+}
+
+export const getDecryptTransactionQueryKey = (address: string, txId: string) => ['useDecryptTransaction', address, txId]
 
 export const useDecryptTransaction = (tx: Transaction, activity?: Action) => {
 	const { signingKey } = useSharedStore(state => ({
@@ -230,7 +289,7 @@ export const useDecryptTransaction = (tx: Transaction, activity?: Action) => {
 	const { decryptMessage } = useMessage()
 
 	return useQuery(
-		['useDecryptTransaction', address, tx.id],
+		getDecryptTransactionQueryKey(address, tx.id),
 		async () => {
 			if (address === activity.from_account) {
 				return decryptMessage(activity.to_account, tx.message)
