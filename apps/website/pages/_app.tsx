@@ -5,7 +5,7 @@ import { DefaultSeo } from 'next-seo'
 import { useBodyClass } from 'hooks/use-body-class'
 import SEO from '../next-seo.config'
 import '../styles/globals.css'
-import './global.scss'
+import './global.css'
 
 const Z3us = ({ Component, pageProps }) => {
   useBodyClass()

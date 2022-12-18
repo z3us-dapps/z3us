@@ -2,6 +2,7 @@
 @tailwind components;
 @tailwind utilities;
 
+/* @TODO: cleanup */
 :root {
 	--header-height: 4rem;
 }
@@ -94,7 +95,7 @@ body.docs-page {
 	h6,
 	p {
 		code {
-			@apply bg-slate-300/20 border border-slate-300 dark:border-slate-700 rounded;
+			@apply bg-blue_magenta-0/30 border border-blue_magenta-100 dark:border-wax-700 rounded;
 			padding-top: 0.1rem;
 			padding-bottom: 0.2rem;
 			padding-left: 0.2rem;
@@ -106,7 +107,6 @@ body.docs-page {
 		overflow: scroll;
 		> code {
 			display: grid;
-
 			@media (--viewport-tablet) {
 				white-space: break-spaces;
 			}

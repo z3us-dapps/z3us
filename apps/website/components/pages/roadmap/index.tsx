@@ -82,7 +82,7 @@ export const RoadmapPage = () => {
 							</div>
 							<div className="roadmap-cards">
 								<div className="roadmap-line bg-white" />
-								<h4 className="absolute top-0 px-4 py-2 text-violet-700 bg-white text-base font-bold rounded-full">
+								<h4 className="absolute top-0 px-4 py-2 text-purple-700 bg-white text-base font-bold rounded-full">
 									Founded 2021
 								</h4>
 								{Object.entries(roadmapData).map(([key, { title, date, image, complete }]) => (

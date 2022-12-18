@@ -22,13 +22,13 @@ const generateComponents = () => ({
   ol: props => <ol className="text-base text-neutral-500 dark:text-neutral-300 leading-loose" {...props} />,
   a: props => (
     <a
-      className="text-violet-500 dark:text-violet-300 hover:opacity-90 underline decoration-from-font underline-offset-4 hover:decoration-1 transition-all"
+      className="text-purple-500 dark:text-purple-200 hover:opacity-90 underline decoration-from-font underline-offset-4 hover:decoration-1 transition-all"
       {...props}
     />
   ),
   pre: props => (
     <pre
-      className="z3-pre text-xs mt-6 mb-4 p-4 md:p-3 bg-stone-50/75 dark:bg-slate-700/50 rounded-md shadow"
+      className="z3-pre text-xs mt-6 mb-4 p-4 md:p-3 bg-bleached_silk-0/75 dark:bg-purple-900/60 rounded-md shadow"
       {...props}
     />
   ),
