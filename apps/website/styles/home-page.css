@@ -1,16 +1,24 @@
 .dark body.home-page {
-	background-color: #bf9e76;
+	background-color: var(--color-core-tan-plan-500);
+	color: var(--color-core-white);
+	fill: var(--color-core-white);
 }
 
 body.home-page {
-	background-color: var(--color-core-green-400);
-	background-color: #bf9e76;
+	background-color: var(--color-core-tan-plan-500);
+	color: var(--color-core-black);
+	fill: var(--color-core-black);
 
 	.header {
 		background-color: rgba(191, 158, 118, 0.7);
 		backdrop-filter: blur(4px);
+		fill: var(--color-core-white);
+		color: var(--color-core-white);
 		&.header--sticky {
 			box-shadow: 4px 2px 4px rgb(107 75 36 / 60%);
+		}
+		svg {
+			fill: var(--color-core-white);
 		}
 	}
 
@@ -36,7 +44,7 @@ body.home-page {
 	line-height: 4rem;
 	padding-top: 1rem;
 	padding-bottom: 2rem;
-	color: #ffffff;
+	color: var(--color-core-white);
 }
 
 .homepage .homepage__h1 span {
@@ -49,7 +57,7 @@ body.home-page {
 	line-height: 4rem;
 	padding-top: 2rem;
 	padding-bottom: 1rem;
-	color: #ffffff;
+	color: var(--color-core-white);
 }
 
 .homepage .homepage__h2 span {

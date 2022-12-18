@@ -83,9 +83,10 @@ export const MobileMenu = (): JSX.Element => {
 				</span>
 			</Button>
 			<AnimatePresence>
+				{/* TODO: backdrop-blur-md does not work, aside will need to be portalled to different area of dom  */}
 				{open && (
 					<motion.aside
-						className="fixed top-0 left-0 w-screen h-screen bg-violet-900 bg-opacity-90 dark:bg-stone-900 dark:bg-opacity-95 backdrop-blur-md"
+						className="fixed top-0 left-0 w-screen h-screen bg-purple-900/90 backdrop-blur-md"
 						initial={{ width: 0 }}
 						animate={{
 							width: '100%',

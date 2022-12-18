@@ -40,12 +40,11 @@ export const HomePage: React.FC = () => {
 				}}
 			/>
 			<LazyMotion>
-				<div className="homepage text-white dark:text-black fill-white">
-					<Header notTabletSticky className="relative text-white" />
+				<div className="homepage">
+					<Header notTabletSticky className="relative" />
 					<div className="overflow-hidden">
 						<PageContainer>
 							<div>
-								<p className="text-xl mt-0.5">asdfasdf</p>
 								<h1 className="font-HaasGrotTextRound font-bold homepage__h1">
 									<span>Control</span>
 									<span className="heeb">your future.</span>
@@ -97,7 +96,9 @@ export const HomePage: React.FC = () => {
 									<div className="grid grid-cols-1 md:grid-cols-2 gap-6">
 										<div className="home-page__cell flex-col md:flex bg-white dark:bg-black text-gray-800 dark:text-gray-100">
 											<div className="flex-1 px-6 pt-6 sm:px-10 sm:pt-11 sm:pb-2 md:px-6 md:pt-10 lg:px-11 lg:pt-11">
-												<h4 className="text-3xl sm:text-4xl font-bold relative z-10">UX driven</h4>
+												<h4 className="text-3xl sm:text-4xl relative z-10">
+													<b>UX driven</b>
+												</h4>
 											</div>
 											<div className="flex justify-center">
 												<img

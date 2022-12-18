@@ -1,16 +1,16 @@
 {
 	"fontLetterSpacing": {
-		"tiny": { "value": "1.1" },
-		"xs": { "value": "1.1" },
-		"sm": { "value": "1.1" },
-		"base": { "value": "1.1" },
-		"lg": { "value": "1.1" },
-		"xl": { "value": "1.1" },
-		"2xl": { "value": "1.1" },
-		"3xl": { "value": "1.1" },
-		"4xl": { "value": "1.1" },
-		"5xl": { "value": "1.1" },
-		"6xl": { "value": "1.1" },
-		"7xl": { "value": "1.1" }
+		"tiny": { "value": "0.01em" },
+		"xs": { "value": "0.01em" },
+		"sm": { "value": "0.01em" },
+		"base": { "value": "0.01em" },
+		"lg": { "value": "0.01em" },
+		"xl": { "value": "0.01em" },
+		"2xl": { "value": "0.01em" },
+		"3xl": { "value": "0.01em" },
+		"4xl": { "value": "0.01em" },
+		"5xl": { "value": "-0.02em" },
+		"6xl": { "value": "-0.02em" },
+		"7xl": { "value": "-0.02em" }
 	}
 }

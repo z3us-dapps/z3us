@@ -48,7 +48,7 @@ export const ThemeSelector = ({ className }: IProps) => {
           </Button>
         </SelectPrimitive.Trigger>
         <SelectPrimitive.Content>
-          <SelectPrimitive.ScrollUpButton className="flex items-center justify-center text-gray-700 dark:text-gray-300">
+          <SelectPrimitive.ScrollUpButton className="flex items-center justify-center text-wax-700 dark:text-wax-300">
             <ChevronUpIcon className="h-6 w-6" />
           </SelectPrimitive.ScrollUpButton>
           <SelectPrimitive.Viewport className="bg-white dark:bg-zinc-800 p-2 rounded-lg shadow-lg">
@@ -59,8 +59,7 @@ export const ThemeSelector = ({ className }: IProps) => {
                   key={`${f}-${i}`}
                   value={f.toLowerCase()}
                   className={cx(
-                    'relative flex items-center px-8 py-2 rounded-md text-xs text-gray-700 dark:text-gray-300 font-medium focus:bg-zinc-100 dark:focus:bg-zinc-900',
-                    'radix-disabled:opacity-50',
+                    'relative flex items-center px-8 py-2 rounded-md text-xs font-medium text-wax-700 dark:text-wax-300 focus:bg-wax-0 dark:focus:bg-wax-0',
                     'focus:outline-none select-none',
                   )}
                 >
@@ -72,7 +71,7 @@ export const ThemeSelector = ({ className }: IProps) => {
               ))}
             </SelectPrimitive.Group>
           </SelectPrimitive.Viewport>
-          <SelectPrimitive.ScrollDownButton className="flex items-center justify-center text-gray-700 dark:text-gray-300">
+          <SelectPrimitive.ScrollDownButton className="flex items-center justify-center text-wax-700 dark:text-wax-300">
             <ChevronDownIcon className="h-6 w-6" />
           </SelectPrimitive.ScrollDownButton>
         </SelectPrimitive.Content>
