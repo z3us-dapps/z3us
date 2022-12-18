@@ -259,8 +259,9 @@ export const getTransactionHistoryPageQueryKey = (address: string, cursor: strin
 	cursor,
 ]
 
-export const useTransactionHistoryPage = (pageParam: string) => {
+export const useTransactionHistoryPage = (pageParam: string = '0', size = 30) => {
 	const maxLimit = 30
+	size = Math.min(size, maxLimit)
 
 	const { address, network } = useNoneSharedStore(state => ({
 		address: state.getCurrentAddressAction(),
@@ -270,7 +271,7 @@ export const useTransactionHistoryPage = (pageParam: string) => {
 
 	return useQuery(
 		getTransactionHistoryPageQueryKey(address, pageParam),
-		() => fetchTransactionHistoryPage(service, address, maxLimit, pageParam),
+		() => fetchTransactionHistoryPage(service, address, size, pageParam),
 		{
 			enabled: !!address,
 		},
