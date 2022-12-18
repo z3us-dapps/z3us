@@ -109,6 +109,46 @@ export class CoinGeckoService {
 		return data?.prices || []
 	}
 
+	getMarketChartRange = async (
+		currency: string,
+		asset: string,
+		from: Date,
+		to: Date,
+	): Promise<{
+		prices: number[][]
+		market_caps: number[][]
+		total_volumes: number[][]
+	}> => {
+		const id = assetToCoingeckoIdMap[asset]
+		if (!id) {
+			return {
+				prices: [],
+				market_caps: [],
+				total_volumes: [],
+			}
+		}
+
+		const url = new URL(`${this.baseURL}/${this.apiVersion}/coins/${id}/market_chart/range`)
+		url.searchParams.set('vs_currency', currency)
+		url.searchParams.set('from', `${Math.floor(from.getTime() / 1000)}`)
+		url.searchParams.set('to', `${Math.floor(to.getTime() / 1000)}`)
+		const path = url.toString()
+
+		const response = await fetch(path, this.options)
+		if (response.status !== 200) {
+			throw new Error(`Invalid request: ${response.status} recieved`)
+		}
+
+		const data = await response.json()
+		return (
+			data || {
+				prices: [],
+				market_caps: [],
+				total_volumes: [],
+			}
+		)
+	}
+
 	getSupportedCurrencies = async (): Promise<string[]> => {
 		const url = new URL(`${this.baseURL}/${this.apiVersion}/simple/supported_vs_currencies`)
 		const path = url.toString()
@@ -121,5 +161,23 @@ export class CoinGeckoService {
 		const data = await response.json()
 
 		return data || []
+	}
+
+	getXRDPriceOnDay = async (date: Date, currency: string, coin: string = 'radix'): Promise<number | null> => {
+		const url = new URL(`${this.baseURL}/${this.apiVersion}/coins/${coin}/history`)
+		url.searchParams.set('date', `${date.getDate()}-${date.getMonth() + 1}-${date.getFullYear()}`)
+		const path = url.toString()
+
+		const response = await fetch(path, this.options)
+		if (response.status !== 200) {
+			throw new Error(`Invalid request: ${response.status} recieved`)
+		}
+
+		const data = await response.json()
+
+		if (data?.id !== coin) {
+			return null
+		}
+		return data?.market_data?.current_price[currency] || null
 	}
 }

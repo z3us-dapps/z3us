@@ -59,11 +59,13 @@ export const useOCITicker = () =>
 // 		}
 // 	})
 
+export const getTickerQueryKey = (currency: string, asset: string) => ['useTicker', currency, asset]
+
 export const useTicker = (currency: string, asset: string) => {
 	// const { data: dsorTokens, isLoading } = useDSORTicker()
 	const { data: ociTickers, isLoading } = useOCITicker()
 	return useQuery(
-		['useTicker', currency, asset],
+		getTickerQueryKey(currency, asset),
 		async (): Promise<Ticker> => {
 			try {
 				return await service.getTicker(currency, asset)
@@ -84,7 +86,7 @@ export const useTickers = (currency: string, assets: string[]) => {
 	// const { data: dsorTokens, isLoading } = useDSORTicker()
 	const { data: ociTickers, isLoading } = useOCITicker()
 	const queries = assets.map(asset => ({
-		queryKey: ['useTicker', currency, asset],
+		queryKey: getTickerQueryKey(currency, asset),
 		queryFn: async () => {
 			if (!currency || !asset) return null
 			try {
