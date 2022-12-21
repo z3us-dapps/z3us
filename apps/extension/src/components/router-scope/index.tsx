@@ -12,15 +12,11 @@ export const RouterScope = ({
 }): JSX.Element => {
 	const router = useRouter()
 	const [parentLocation] = useLocation()
-	console.log('parentLocation:', parentLocation)
 
 	const nestedBase = `${router.base}${base}`
-	console.log('nestedBase:', nestedBase)
 
 	// don't render anything outside of the scope
 	if (!parentLocation.startsWith(nestedBase)) return <div />
-
-	console.log('nestedBase: 222')
 
 	// we need key to make sure the router will remount if the base changes
 	return (

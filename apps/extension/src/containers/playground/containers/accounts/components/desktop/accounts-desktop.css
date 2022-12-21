@@ -1,0 +1,7 @@
+.z3-c-accounts-desktop {
+	display: none;
+
+	@media (--viewport-tablet) {
+		display: block;
+	}
+}

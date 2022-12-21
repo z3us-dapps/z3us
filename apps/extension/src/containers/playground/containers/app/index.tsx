@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react'
-// import { useHashLocation } from '@src/hooks/use-hash-location'
 import { CheckIcon } from 'ui/src/components/icons'
 import { darkTheme, globalStyles } from 'ui/src/theme'
 import { AnimatePresence, motion } from 'framer-motion'
 import { useHashLocation } from '@src/hooks/use-hash-location'
+import { slugs } from '@src/containers/playground/config'
 import { Route, Router, Switch, Link } from 'wouter'
 import { Accounts } from '../accounts'
 import './app.css'
@@ -15,7 +15,7 @@ const NotFound404 = () => (
 )
 
 export const TempNav: React.FC = () => {
-	const [isDarkTheme, setIsDarkTheme] = useState<boolean>(false)
+	const [isDarkTheme, setIsDarkTheme] = useState<boolean>(true)
 
 	useEffect(() => {
 		const element = window.document.body
@@ -32,8 +32,8 @@ export const TempNav: React.FC = () => {
 
 	return (
 		<nav className="flex gap-3 border-0 fixed bottom-0 left-0 w-screen z-10 opacity-80">
-			<Link to="/">Home</Link>
-			<Link to="/accounts">Accounts</Link>
+			<Link to={slugs.HOME}>Home</Link>
+			<Link to={slugs.ACCOUNTS}>Accounts</Link>
 			<Link to="/onboard">Onboarding</Link>
 			<Link to="/hw">HW (hardware wallet)</Link>
 			<Link to="/cred">Credentials</Link>
@@ -66,7 +66,8 @@ export const App: React.FC = () => {
 					>
 						<Switch key={location} location={location}>
 							<Route path="/accounts" component={Accounts} />
-							<Route path="/accounts/:rest*" component={Accounts} />
+							<Route path="/accounts/:id" component={Accounts} />
+							<Route path="/accounts/:id/:token" component={Accounts} />
 							<Route path="/:rest*" component={NotFound404} />
 						</Switch>
 					</motion.div>

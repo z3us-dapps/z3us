@@ -25,3 +25,10 @@ export const slugInfo = {
 		desktopAnimation: defaultDesktopRouteAnimation,
 	},
 }
+
+export const slugs = {
+	HOME: '/',
+	ACCOUNTS: '/accounts',
+	ACCOUNTS_ID: '/accounts/:id',
+	ACCOUNTS_ID_TOKEN: '/accounts/:id/:token',
+}

@@ -19,6 +19,7 @@
 	}
 }
 
+/* @TODO: clean up */
 .ellipsis-anim span {
 	opacity: 0;
 	-webkit-animation: ellipsis-dot 1s infinite;
