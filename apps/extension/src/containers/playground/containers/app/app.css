@@ -1,0 +1,82 @@
+.z3-c-app {
+	position: relative;
+	> div {
+		position: absolute;
+		top: 0;
+		left: 0;
+		height: 100vh;
+		width: 100vw;
+	}
+}
+
+.fade {
+	position: relative;
+}
+
+.fade-appear,
+.fade-enter {
+	opacity: 0;
+	filter: blur(8px);
+}
+
+.fade-appear-active,
+.fade-enter-active {
+	transition: 0.3s linear;
+	opacity: 1;
+	filter: none;
+}
+
+.fade-exit {
+	transition: 0.3s linear;
+	opacity: 1;
+	filter: none;
+}
+
+.fade-exit-active {
+	opacity: 0;
+	filter: blur(8px);
+}
+
+.forward-enter {
+	opacity: 0;
+	transform: translateX(100%);
+}
+
+.forward-enter-active {
+	opacity: 1;
+	transform: translateX(0);
+	transition: all 500ms;
+}
+
+.forward-exit {
+	opacity: 0;
+	transform: translateX(0);
+}
+
+.forward-exit-active {
+	opacity: 0;
+	transform: translateX(-100%);
+	transition: all 500ms;
+}
+
+.back-enter {
+	opacity: 0;
+	transform: translateX(-100%);
+}
+
+.back-enter-active {
+	opacity: 1;
+	transform: translateX(0);
+	transition: all 500ms;
+}
+
+.back-exit {
+	opacity: 1;
+	transform: translateX(0);
+}
+
+.back-exit-active {
+	opacity: 0;
+	transform: translate(100%);
+	transition: all 500ms;
+}

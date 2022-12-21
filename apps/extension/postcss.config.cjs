@@ -1,7 +1,1 @@
-module.exports = {
-	plugins: {
-		'postcss-import': {},
-		'postcss-custom-media': {},
-		autoprefixer: {},
-	},
-}
+module.exports = require('config/postcss.config')

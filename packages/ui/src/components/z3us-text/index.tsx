@@ -4,19 +4,22 @@ import { Box } from '../atoms/box'
 
 interface IProps {
 	css?: CSS
+	className?: string
 }
 
 const defaultProps = {
 	css: undefined,
+	className: undefined,
 }
 
-export const Z3usText: React.FC<IProps> = ({ css }) => (
+export const Z3usText: React.FC<IProps> = ({ css, className }) => (
 	<Box
 		as="svg"
 		width="140"
 		height="23"
 		viewBox="0 0 140 23"
 		xmlns="http://www.w3.org/2000/svg"
+		className={className}
 		css={{ fill: 'currentColor', ...(css as any) }}
 	>
 		<g>
