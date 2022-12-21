@@ -3,6 +3,7 @@ import { CheckIcon } from 'ui/src/components/icons'
 import { darkTheme, globalStyles } from 'ui/src/theme'
 import { AnimatePresence, motion } from 'framer-motion'
 import { useHashLocation } from '@src/hooks/use-hash-location'
+// import { useHashLocation, multipathMatcher } from '@src/hooks/use-hash-location'
 import { slugs } from '@src/containers/playground/config'
 import { Route, Router, Switch, Link } from 'wouter'
 import { Accounts } from '../accounts'
@@ -52,6 +53,8 @@ export const App: React.FC = () => {
 	globalStyles()
 	const [location] = useHashLocation()
 	const topSlug = location.split('/')?.[1]
+
+	// <Router matcher={multipathMatcher as any} hook={useHashLocation as any}>
 
 	return (
 		<div className="z3-c-app">

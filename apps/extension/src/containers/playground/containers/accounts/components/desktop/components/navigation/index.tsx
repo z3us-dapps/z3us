@@ -17,11 +17,14 @@ export const Navigation: React.FC = () => {
 				<li>
 					<Link to="/accounts">Accounts</Link>
 				</li>
-				<li>
+				<li className="opacity-50">
 					<Link to="/accounts/acc-877">Account id</Link>
 				</li>
-				<li>
+				<li className="opacity-50">
 					<Link to="/accounts/acc-877/xrd">Account id token</Link>
+				</li>
+				<li>
+					<Link to="/accounts/transfer">Transfer</Link>
 				</li>
 				<li>
 					<Link to="/accounts/staking">Staking</Link>
