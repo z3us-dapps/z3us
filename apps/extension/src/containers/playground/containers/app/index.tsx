@@ -7,6 +7,7 @@ import { useHashLocation } from '@src/hooks/use-hash-location'
 import { slugs } from '@src/containers/playground/config'
 import { Route, Router, Switch, Link } from 'wouter'
 import { Accounts } from '../accounts'
+
 import './app.css'
 
 const NotFound404 = () => (

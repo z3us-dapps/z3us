@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { Link, useLocation, useRoute, useRouter, Switch, Route } from 'wouter'
 import { useHashLocation } from '@src/hooks/use-hash-location'
@@ -110,14 +110,50 @@ export interface IProps {
 	location: string
 }
 
+export const useAccountsMotionLocation = (location: string) => {
+	// location: /heeb
+	// index.tsx:114 location: /transfer
+	// index.tsx:114 location: /staking
+	// index.tsx:114 location: /swap
+	// index.tsx:114 location: /settings
+	console.log('location:', location)
+	// const [motionLocation, setMotionLoction] = useState<string>('')
+	// const [isMotionMatch, setIsMotionMatch] = useState<boolean>(false)
+	// const [isAccountMatch] = useRoute('/accounts')
+	// const [isAccount] = useRoute('/accounts/:account')
+	// const [isAssetMatch] = useRoute('/accounts/:account/:asset')
+
+	// const combinedMatch = isAccountMatch
+	// const combinedMatch = isAccountMatch || isAccount || isAssetMatch
+	// console.log('combinedMatch:', combinedMatch)
+
+	// useEffect(() => {
+	// 	setMotionLoction(location)
+	// }, [motionLocation])
+
+	const prevLocation = useRef(location)
+	const motionArr = ['/heeb', '/transfer', '/staking', '/swap,', '/settings']
+
+	const isPrevMotion = motionArr.includes(prevLocation.current)
+	console.log('isPrevStaticMotion:', isPrevStaticMotion)
+	const isStaticMotionLocation = motionArr.includes(location)
+	console.log('isStaticMotionLocation:', isStaticMotionLocation)
+
+	if (isPrevStaticMotion && isStaticMotionLocation) {
+		return prevLocation.current
+	}
+
+	return location
+}
+
 export const AccountsDesktop = ({ base, location }: IProps): JSX.Element => {
+	// const motionLocation = useAccountsMotionLocation(location)
 	const a = 1
 	return (
 		<div className="z3-c-accounts-desktop">
 			<Navigation />
-
 			<RouterScope base={base} hook={useHashLocation}>
-				<AnimatePresence exitBeforeEnter>
+				<AnimatePresence exitBeforeEnter initial={false}>
 					<motion.div
 						key={location}
 						animate={{ opacity: 1, y: 0 }}

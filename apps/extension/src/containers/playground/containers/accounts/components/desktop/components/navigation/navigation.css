@@ -5,6 +5,7 @@
 	padding-right: var(--spacing-4);
 	display: flex;
 	align-items: center;
+	flex-shrink: 0;
 
 	.z3-c-accounts_navigation__logo {
 		width: 6rem;
