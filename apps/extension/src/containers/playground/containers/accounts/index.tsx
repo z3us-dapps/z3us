@@ -4,16 +4,9 @@ import { useHashLocation } from '@src/hooks/use-hash-location'
 import { AccountsDesktop } from './components/desktop'
 import { AccountsMobile } from './components/mobile'
 
-export const Accounts: React.FC = () => {
-	const BASE = '/accounts'
-	const [location] = useHashLocation()
-	const loc = location.replace(BASE, '')
-	// const isMobileWidth = useIsMobileWidth()
-
-	return (
-		<>
-			<AccountsDesktop base={BASE} location={loc} />
-			<AccountsMobile />
-		</>
-	)
-}
+export const Accounts: React.FC = () => (
+	<>
+		<AccountsDesktop />
+		<AccountsMobile />
+	</>
+)
