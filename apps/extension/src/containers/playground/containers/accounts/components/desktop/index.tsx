@@ -1,10 +1,52 @@
-import React, { useState, useEffect, useRef } from 'react'
+import React, { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { BrowserRouter, Routes, Route, Link, useLocation, useMatch, Navigate } from 'react-router-dom'
+import { Routes, Route, Link, useNavigate, Navigate } from 'react-router-dom'
+import { useAccountParams } from '@src/containers/playground/hooks/use-account-params'
+import { useLocationKey } from '@src/containers/playground/hooks/use-location-key'
+import move from 'lodash-move'
 import { AnimatedPage } from '@src/containers/playground/components/animated-route'
 import { Navigation } from './components/navigation'
 
 import './accounts-desktop.css'
+
+export const MOTION_VARIANTS = {
+	initial: ({
+		isCardsHovered,
+		cardsLength,
+		index,
+	}: {
+		isCardsHovered: boolean
+		cardsLength: number
+		index: number
+		direction: 'forward' | 'backward'
+	}) => ({
+		top: isCardsHovered ? (cardsLength - index) * 60 : (cardsLength - index) * 8,
+		scale: isCardsHovered ? 1 : 1 - index * 0.1,
+		zIndex: cardsLength - index,
+		transition: { type: 'spring', stiffness: 100, damping: 20 },
+		boxShadow:
+			'0px 0px 0px 1px rgba(0, 0, 0, 0.05), 0px 1px 1px rgba(0, 0, 0, 0.06), 0px 2px 8px rgba(0, 0, 0, 0.08), 0px 16px 48px -8px rgba(0, 0, 0, 0.1), 0px 32px 48px rgba(0, 0, 0, 0.05)',
+	}),
+	transitioning: ({
+		selectedCard,
+		cardsLength,
+		index,
+	}: {
+		selectedCard: number
+		cardsLength: number
+		index: number
+		direction: 'forward' | 'backward'
+	}) => ({
+		top: index < selectedCard ? (cardsLength - index) * 60 + 129 : (cardsLength - index) * 60,
+		scale: index === selectedCard ? 1.05 : 1 - index * 0.03,
+		boxShadow:
+			index === selectedCard
+				? 'rgba(0, 0, 0, 0.1) 0px 10px 15px -3px, rgba(0, 0, 0, 0.05) 0px 4px 6px -2px'
+				: '0px 0px 0px 1px rgba(0, 0, 0, 0.05), 0px 1px 1px rgba(0, 0, 0, 0.06), 0px 2px 8px rgba(0, 0, 0, 0.08), 0px 16px 48px -8px rgba(0, 0, 0, 0.1), 0px 32px 48px rgba(0, 0, 0, 0.05)',
+		zIndex: cardsLength - index,
+		transition: { type: 'spring', stiffness: 200, damping: 25 },
+	}),
+}
 
 const NotFound404 = () => (
 	<div>
@@ -12,37 +54,51 @@ const NotFound404 = () => (
 	</div>
 )
 
-const useAccountParams = () => {
-	const accountMatch = useMatch('/accounts/:account')
-	const assetTypeMatch = useMatch('/accounts/:account/:assetType')
-	const assetMatch = useMatch('/accounts/:account/:assetType/:asset')
-
-	let account: string
-	let assetType: string
-	let asset: string
-
-	if (accountMatch) {
-		account = accountMatch.params.account
-	} else if (assetTypeMatch) {
-		account = assetTypeMatch.params.account
-		assetType = assetTypeMatch.params.assetType
-	} else if (assetMatch) {
-		account = assetMatch.params.account
-		assetType = assetMatch.params.assetType
-		asset = assetMatch.params.asset
-	}
-
-	return { account, assetType, asset }
-}
+// const CARD_COLORS = ['#266678', '#cb7c7a', ' #36a18b', '#cda35f', '#747474']
+const CARD_COLORS = [
+	{ bgColor: '#266678', accountId: '3764374', accountName: 'geebs' },
+	{ bgColor: '#cb7c7a', accountId: '3d66ffhdf', accountName: 'Numb' },
+	{ bgColor: '#36a18b', accountId: '77575jgnnbh', accountName: 'hrrr' },
+	{ bgColor: '#cda35f', accountId: '123hghgj', accountName: 'durr' },
+	{ bgColor: '#747474', accountId: 'x773-djf', accountName: 'nnnneeebb' },
+]
+// const CARD_OFFSET = 10
+// const SCALE_FACTOR = 0.06
 
 const AccountIndex = () => {
+	const navigate = useNavigate()
 	const { account, assetType, asset } = useAccountParams()
+	const [animate, setAnimate] = useState<string>('initial')
+	const [cards, setCards] = useState<Array<any>>(CARD_COLORS)
+	const [selectedCard, setSelectedCard] = useState<number>(0)
+	const [isCardsHovered, setIsCardsHovered] = useState<boolean>(false)
+	const cardsLength = cards.length - 1
+
+	const handleMouseEnter = () => {
+		setIsCardsHovered(true)
+	}
+
+	const handleMouseLeave = () => {
+		setIsCardsHovered(false)
+	}
+
+	const handleCardClick = (_cardIndex: number, _accountId: string) => {
+		if (_cardIndex === 0) return
+		setAnimate('transitioning')
+		setSelectedCard(_cardIndex)
+
+		setTimeout(() => {
+			setCards(move(cards, _cardIndex, 0))
+			setAnimate('initial')
+			navigate(`/accounts/${_accountId}/${assetType}`)
+		}, 500)
+	}
 
 	return (
 		<>
 			{!assetType && <Navigate replace to={`/accounts/${account}/all`} />}
 			<div className="flex w-full h-full">
-				<div className="w-[400px] h-100 bg-vivaldi_red-400">
+				<div className="w-[400px] h-100">
 					<p className="text-4xl">Accounts</p>
 					<ul>
 						<li>
@@ -54,6 +110,27 @@ const AccountIndex = () => {
 						<li>
 							<Link to={`/accounts/heeb/${assetType}`}>heeb</Link>
 						</li>
+					</ul>
+					<ul className="card-wrapper" onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
+						{cards.map(({ bgColor, accountName, accountId }, index) => {
+							const canDrag = index === 0
+
+							return (
+								<motion.li
+									key={accountId}
+									className="card"
+									style={{
+										backgroundColor: bgColor,
+									}}
+									variants={MOTION_VARIANTS}
+									animate={animate}
+									custom={{ isCardsHovered, cardsLength, selectedCard, index }}
+									onClick={() => handleCardClick(index, accountName)}
+								>
+									{accountName}
+								</motion.li>
+							)
+						})}
 					</ul>
 				</div>
 				<div className="w-[500px] h-100 bg-vivaldi_red-200 opacity-20">
@@ -126,27 +203,6 @@ const AccountTransfer = () => (
 		</div>
 	</div>
 )
-
-export const useLocationKey = () => {
-	const location = useLocation()
-	const locationArr = location.pathname?.split('/') ?? []
-	const key = locationArr[2] ?? ''
-
-	const animatedKeys = ['transfer', 'staking', 'settings', 'swap']
-	const prevHash = useRef(null)
-	const isAnimateRoute = animatedKeys.includes(key)
-	const isPrevAnimateRoute = animatedKeys.includes(prevHash.current)
-
-	useEffect(() => {
-		if (isAnimateRoute && isPrevAnimateRoute) {
-			prevHash.current = key
-		}
-	}, [key])
-
-	const locationKey = !isAnimateRoute && !isPrevAnimateRoute ? prevHash.current : key
-
-	return { location, locationKey }
-}
 
 // export const AccountsDesktop = ({ base }: IProps): JSX.Element => {
 export const AccountsDesktop = (): JSX.Element => {
