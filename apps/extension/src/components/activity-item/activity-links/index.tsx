@@ -1,9 +1,12 @@
 import React from 'react'
+import BigNumber from 'bignumber.js'
+import { formatBigNumber } from '@src/utils/formatters'
+import { useTransactionChange } from '@src/hooks/use-transaction-change'
 import { useNoneSharedStore } from '@src/hooks/use-store'
 import { Message } from '@radixdlt/crypto'
 import { CopyIcon, ExternalLinkIcon } from '@radix-ui/react-icons'
 import { Text, Box, Flex } from 'ui/src/components/atoms'
-import { Action, Transaction } from '@src/types'
+import { Action, ActionType, Transaction } from '@src/types'
 import { getShortAddress } from '@src/utils/string-utils'
 import Button from 'ui/src/components/button'
 import ButtonTipFeedback from 'ui/src/components/button-tip-feedback'
@@ -25,10 +28,15 @@ const defaultProps = {
 }
 
 export const ActivityLinks: React.FC<IProps> = ({ accountAddress, tx, activity }) => {
-	const { publicAddresses, addressBook } = useNoneSharedStore(state => ({
+	const amount = new BigNumber(activity.amount).shiftedBy(-18)
+
+	const { currency, publicAddresses, addressBook } = useNoneSharedStore(state => ({
+		currency: state.currency,
 		publicAddresses: Object.values(state.publicAddresses),
 		addressBook: state.addressBook,
 	}))
+
+	const { percentageChange, gain } = useTransactionChange(activity?.rri, amount, new Date(tx.sentAt))
 
 	const toAccount = activity?.to_account || activity?.to_validator
 	const toEntry = addressBook[toAccount] || publicAddresses.find(_account => _account.address === toAccount)
@@ -164,6 +172,25 @@ export const ActivityLinks: React.FC<IProps> = ({ accountAddress, tx, activity }
 							<TransactionMessage tx={tx} activity={activity} />
 						</Text>
 					</Box>
+				</Flex>
+			)}
+			{activity.type === ActionType.TRANSFER_TOKENS && percentageChange && (
+				<Flex align="center" css={{ mt: '$2' }}>
+					<Box>
+						<Text size="2" truncate css={{ width: LEFT_COL_WIDTH }}>
+							Value
+						</Text>
+						<Text color="help" css={{ maxWdith: '219px' }}>
+							{activity.to_account !== accountAddress ? `If you'd kept` : `If you sell today`}
+						</Text>
+					</Box>
+					<Flex align="center" justify="end" css={{ flex: '1' }}>
+						<Text color="help" size="2" css={{ pr: '$1' }}>
+							{`${formatBigNumber(gain, currency, 2)} (${percentageChange.isGreaterThan(0) ? '+' : ''}${percentageChange
+								.toFixed(2)
+								.toLocaleString()}%)`}
+						</Text>
+					</Flex>
 				</Flex>
 			)}
 		</Box>

@@ -34,8 +34,9 @@ export const ActivityItem = React.forwardRef<HTMLDivElement, IProps>(({ tx, acti
 		}
 	})
 	const { data: token } = useTokenInfo(activity?.rri)
-	const tokenImage = token?.image
 
+	const amount = new BigNumber(activity.amount).shiftedBy(-18)
+	const tokenImage = token?.image
 	const shortAddress = getShortAddress(entry?.address)
 
 	return (
@@ -79,7 +80,7 @@ export const ActivityItem = React.forwardRef<HTMLDivElement, IProps>(({ tx, acti
 												mt: '1px',
 											}}
 										>
-											<Box css={{ pr: '$1' }}>{formatBigNumber(new BigNumber(activity.amount).shiftedBy(-18))}</Box>
+											<Box css={{ pr: '$1' }}>{formatBigNumber(amount)}</Box>
 											<Box>{token?.symbol?.toLocaleUpperCase()}</Box>
 										</Text>
 										<Flex css={{ mr: '$2', mt: isIsoStyled ? '2px' : '0px' }}>

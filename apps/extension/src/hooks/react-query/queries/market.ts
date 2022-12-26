@@ -35,7 +35,6 @@ export const useXRDPriceOnDay = (currency: string, date: Date) =>
 		getXRDPriceOnDayQueryKey(currency, date),
 		async (): Promise<number | null> => service.getXRDPriceOnDay(date, currency),
 		{
-			staleTime: Infinity,
 			refetchInterval: false,
 			enabled: !!currency && !!date,
 		},
@@ -53,7 +52,6 @@ export const useXRDPrices = (currency: string, dates: Array<Date>) => {
 			}
 		},
 		enabled: !!currency && !!dates,
-		staleTime: Infinity,
 	}))
 	return useQueries(queries)
 }
