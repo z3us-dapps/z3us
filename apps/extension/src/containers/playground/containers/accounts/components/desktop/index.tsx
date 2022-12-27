@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { Routes, Route, Link, useNavigate, Navigate } from 'react-router-dom'
 import { useAccountParams } from '@src/containers/playground/hooks/use-account-params'
@@ -11,10 +11,12 @@ import './accounts-desktop.css'
 
 export const MOTION_VARIANTS = {
 	initial: ({
+		isMounted,
 		isCardsHovered,
 		cardsLength,
 		index,
 	}: {
+		isMounted: boolean
 		isCardsHovered: boolean
 		cardsLength: number
 		index: number
@@ -23,9 +25,10 @@ export const MOTION_VARIANTS = {
 		top: isCardsHovered ? (cardsLength - index) * 60 : (cardsLength - index) * 8,
 		scale: isCardsHovered ? 1 : 1 - index * 0.1,
 		zIndex: cardsLength - index,
-		transition: { type: 'spring', stiffness: 100, damping: 20 },
+		// transition: { type: 'spring', stiffness: 100, damping: 20, duration: 2 },
 		boxShadow:
 			'0px 0px 0px 1px rgba(0, 0, 0, 0.05), 0px 1px 1px rgba(0, 0, 0, 0.06), 0px 2px 8px rgba(0, 0, 0, 0.08), 0px 16px 48px -8px rgba(0, 0, 0, 0.1), 0px 32px 48px rgba(0, 0, 0, 0.05)',
+		transition: { duration: isMounted ? 0.4 : 0 },
 	}),
 	transitioning: ({
 		selectedCard,
@@ -44,6 +47,7 @@ export const MOTION_VARIANTS = {
 				? 'rgba(0, 0, 0, 0.1) 0px 10px 15px -3px, rgba(0, 0, 0, 0.05) 0px 4px 6px -2px'
 				: '0px 0px 0px 1px rgba(0, 0, 0, 0.05), 0px 1px 1px rgba(0, 0, 0, 0.06), 0px 2px 8px rgba(0, 0, 0, 0.08), 0px 16px 48px -8px rgba(0, 0, 0, 0.1), 0px 32px 48px rgba(0, 0, 0, 0.05)',
 		zIndex: cardsLength - index,
+		// transition: { duration: 0 },
 		transition: { type: 'spring', stiffness: 200, damping: 25 },
 	}),
 }
@@ -62,12 +66,14 @@ const CARD_COLORS = [
 	{ bgColor: '#cda35f', accountId: '123hghgj', accountName: 'durr' },
 	{ bgColor: '#747474', accountId: 'x773-djf', accountName: 'nnnneeebb' },
 ]
+
 // const CARD_OFFSET = 10
 // const SCALE_FACTOR = 0.06
 
 const AccountIndex = () => {
 	const navigate = useNavigate()
 	const { account, assetType, asset } = useAccountParams()
+	const [isMounted, setIsMounted] = useState<boolean>(false)
 	const [animate, setAnimate] = useState<string>('initial')
 	const [cards, setCards] = useState<Array<any>>(CARD_COLORS)
 	const [selectedCard, setSelectedCard] = useState<number>(0)
@@ -75,6 +81,7 @@ const AccountIndex = () => {
 	const cardsLength = cards.length - 1
 
 	const handleMouseEnter = () => {
+		setIsMounted(true)
 		setIsCardsHovered(true)
 	}
 
@@ -82,17 +89,27 @@ const AccountIndex = () => {
 		setIsCardsHovered(false)
 	}
 
-	const handleCardClick = (_cardIndex: number, _accountId: string) => {
-		if (_cardIndex === 0) return
-		setAnimate('transitioning')
-		setSelectedCard(_cardIndex)
+	const handleCardClick = (_account: string) => {
+		setIsMounted(true)
 
-		setTimeout(() => {
-			setCards(move(cards, _cardIndex, 0))
-			setAnimate('initial')
-			navigate(`/accounts/${_accountId}/${assetType}`)
-		}, 500)
+		navigate(`/accounts/${_account}/${assetType}`)
 	}
+
+	useEffect(() => {
+		const cardIndex = cards.findIndex(_card => _card.accountName === account)
+		if (!isMounted) {
+			setCards(move(cards, cardIndex, 0))
+			setAnimate('initial')
+		} else {
+			setAnimate('transitioning')
+			setSelectedCard(cardIndex)
+
+			setTimeout(() => {
+				setCards(move(cards, cardIndex, 0))
+				setAnimate('initial')
+			}, 500)
+		}
+	}, [account])
 
 	return (
 		<>
@@ -124,8 +141,8 @@ const AccountIndex = () => {
 									}}
 									variants={MOTION_VARIANTS}
 									animate={animate}
-									custom={{ isCardsHovered, cardsLength, selectedCard, index }}
-									onClick={() => handleCardClick(index, accountName)}
+									custom={{ isCardsHovered, cardsLength, selectedCard, index, isMounted }}
+									onClick={() => handleCardClick(accountName)}
 								>
 									{accountName}
 								</motion.li>

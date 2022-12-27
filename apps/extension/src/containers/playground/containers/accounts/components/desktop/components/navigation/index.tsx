@@ -9,7 +9,8 @@ export const Navigation: React.FC = () => {
 	return (
 		<nav className="z3-c-accounts_navigation">
 			<Link to="/accounts/all">
-				<Z3usText className="z3-c-accounts_navigation__logo" />
+				Z3
+				{/* <Z3usText className="z3-c-accounts_navigation__logo" /> */}
 			</Link>
 			<ul>
 				<li>
