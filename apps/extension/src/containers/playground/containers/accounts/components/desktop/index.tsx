@@ -67,9 +67,6 @@ const CARD_COLORS = [
 	{ bgColor: '#747474', accountId: 'x773-djf', accountName: 'nnnneeebb' },
 ]
 
-// const CARD_OFFSET = 10
-// const SCALE_FACTOR = 0.06
-
 const AccountIndex = () => {
 	const navigate = useNavigate()
 	const { account, assetType, asset } = useAccountParams()
@@ -96,14 +93,13 @@ const AccountIndex = () => {
 	}
 
 	useEffect(() => {
-		const cardIndex = cards.findIndex(_card => _card.accountName === account)
-		if (!isMounted) {
+		const cardIndex = cards.findIndex(_card => _card?.accountName === account)
+		if (!isMounted && cardIndex >= 0) {
 			setCards(move(cards, cardIndex, 0))
 			setAnimate('initial')
-		} else {
+		} else if (cardIndex >= 0) {
 			setAnimate('transitioning')
 			setSelectedCard(cardIndex)
-
 			setTimeout(() => {
 				setCards(move(cards, cardIndex, 0))
 				setAnimate('initial')
@@ -187,8 +183,6 @@ const AccountIndex = () => {
 				</div>
 				<div className="w-64 h-100 bg-vivaldi_red-300 flex-1 opacity-20">
 					<p className="text-4xl">activity</p>
-
-					{/* <AccountActivity /> */}
 				</div>
 			</div>
 		</>
