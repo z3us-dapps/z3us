@@ -113,17 +113,6 @@ const AccountIndex = () => {
 			<div className="flex w-full h-full">
 				<div className="w-[400px] h-100">
 					<p className="text-4xl">Accounts</p>
-					<ul>
-						<li>
-							<Link to={`/accounts/acc-877/${assetType}`}>Account acc-877</Link>
-						</li>
-						<li>
-							<Link to={`/accounts/geeb/${assetType}`}>geeb</Link>
-						</li>
-						<li>
-							<Link to={`/accounts/heeb/${assetType}`}>heeb</Link>
-						</li>
-					</ul>
 					<ul className="card-wrapper" onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
 						{cards.map(({ bgColor, accountName, accountId }, index) => {
 							const canDrag = index === 0
