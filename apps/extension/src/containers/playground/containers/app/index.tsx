@@ -15,7 +15,7 @@ const NotFound404 = () => (
 )
 
 export const TempNav: React.FC = () => {
-	const [isDarkTheme, setIsDarkTheme] = useState<boolean>(true)
+	const [isDarkTheme, setIsDarkTheme] = useState<boolean>(false)
 
 	useEffect(() => {
 		const element = window.document.body

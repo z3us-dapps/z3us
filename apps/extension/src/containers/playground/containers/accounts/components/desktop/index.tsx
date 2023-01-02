@@ -135,7 +135,7 @@ const AccountIndex = () => {
 						})}
 					</ul>
 				</div>
-				<div className="w-[500px] h-100 bg-vivaldi_red-200 opacity-20">
+				<div className="w-[500px] h-100 bg-vivaldi_red-200 opacity-10">
 					<ul className="flex gap-2">
 						<li>
 							<Link to={`/accounts/${account}/all`}>all</Link>

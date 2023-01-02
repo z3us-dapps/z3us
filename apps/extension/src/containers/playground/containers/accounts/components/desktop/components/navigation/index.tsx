@@ -1,9 +1,11 @@
 import React from 'react'
 // import { BrowserRouter, Routes, Route, Link, useLocation, useMatch } from 'react-router-dom'
 import { Link, useMatch } from 'react-router-dom'
+import { DropdownProfile } from '@src/containers/playground/containers/accounts/components/dropdown-profile'
 import { useAccountParams } from '@src/containers/playground/hooks/use-account-params'
-import { motion, AnimateSharedLayout } from 'framer-motion'
-// import { Z3usText } from 'ui/src/components/z3us-text'
+import DropdownMenu from '@src/components/dropdown-menu'
+import { motion, LayoutGroup } from 'framer-motion'
+import { Z3usText } from 'ui/src/components/z3us-text'
 
 import './navigation.css'
 
@@ -34,17 +36,17 @@ const MenuItem = ({ text, href }) => {
 export const Navigation: React.FC = () => (
 	<nav className="z3-c-accounts_navigation">
 		<Link to="/accounts/all">
-			Z3
-			{/* <Z3usText className="z3-c-accounts_navigation__logo" /> */}
+			<Z3usText className="z3-c-accounts_navigation__logo" />
 		</Link>
 		<div className="underlined-menu">
 			<div className="wrapper">
-				<AnimateSharedLayout>
+				<LayoutGroup>
 					{menuItems.map(({ text, href }) => (
 						<MenuItem text={text} key={href} href={href} />
 					))}
-				</AnimateSharedLayout>
+				</LayoutGroup>
 			</div>
 		</div>
+		<DropdownProfile />
 	</nav>
 )
