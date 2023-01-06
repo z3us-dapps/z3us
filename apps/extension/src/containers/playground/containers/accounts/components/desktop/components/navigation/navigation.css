@@ -8,8 +8,21 @@
 	flex-shrink: 0;
 
 	.z3-c-accounts_navigation__logo {
-		width: 6rem;
-		height: auto;
+		width: 128px;
+		height: 19px;
+		background: var(--color-font-primary);
+		background: linear-gradient(to bottom, var(--color-font-primary), var(--color-brand-primary-base));
+		background-size: 100% 200%;
+		transition: all 500ms ease-out;
+
+		svg {
+			fill: var(--color-background-secondary);
+		}
+
+		&:hover {
+			background-size: 100% 100%;
+			transition: all 500ms ease-out;
+		}
 	}
 
 	> ul {
