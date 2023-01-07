@@ -10,7 +10,8 @@
 	"scripts": {
 		"build": "node build.js",
 		"clean": "rm -rf build",
-		"watch": "npm run build && chokidar  \"tokens/**/*.json\" -c \"npm run build\""
+		"watch": "npm run build && chokidar  \"tokens/**/*.json\" -c \"npm run build\"",
+		"postinstall": "npm run build"
 	},
 	"dependencies": {
 		"style-dictionary": "^3.1.1",
