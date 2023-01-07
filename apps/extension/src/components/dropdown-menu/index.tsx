@@ -1,64 +1,49 @@
 import React from 'react'
-import * as DropdownMenu from '@radix-ui/react-dropdown-menu'
-import { HamburgerMenuIcon, DotFilledIcon, CheckIcon, ChevronRightIcon } from '@radix-ui/react-icons'
-import { cva, type VariantProps } from 'class-variance-authority'
+import * as DropdownMenuPrimitive from '@radix-ui/react-dropdown-menu'
 
 import './dropdown-menu.css'
 
-const cvaDropDMenu = cva(['z3-c-dropdown-menu'], {
-	variants: {
-		intent: {
-			primary: ['z3-c-dropdown-menu--primary'],
-		},
-		size: {
-			medium: ['z3-c-dropdown-menu--medium'],
-		},
-	},
-	compoundVariants: [{ intent: 'primary', size: 'medium', className: 'uppercase' }],
-	defaultVariants: {
-		intent: 'primary',
-		size: 'medium',
-	},
-})
+export const DropdownMenu = DropdownMenuPrimitive.Root
+export const DropdownMenuTrigger = DropdownMenuPrimitive.Trigger
 
-interface IProps {
-	triggerType?: 'minimal'
-	onAccountChange: (account: number) => void
-}
+export const DropdownMenuContent = ({ children, ...props }) => (
+	<DropdownMenuPrimitive.Content className="z3-c-dropdown-menu__content" {...props}>
+		{children}
+	</DropdownMenuPrimitive.Content>
+)
 
-export interface DropDMenuProps
-	extends React.HTMLAttributes<HTMLDivElement>,
-		VariantProps<typeof cvaDropDMenu>,
-		IProps {}
+export const DropdownMenuItem = ({ children, ...props }) => (
+	<DropdownMenuPrimitive.Item className="z3-c-dropdown-menu__item" {...props}>
+		{children}
+	</DropdownMenuPrimitive.Item>
+)
 
-const DropDMenu: React.FC<DropDMenuProps> = props => {
-	const { className, intent, size } = props
+export const DropdownMenuPortal = DropdownMenuPrimitive.Portal
 
-	const handleValueChange = (account: string) => {}
+export const DropdownMenuSeparator = () => <DropdownMenuPrimitive.Separator className="z3-c-dropdown-menu__seperator" />
 
-	return (
-		<div className={cvaDropDMenu({ intent, size, className })}>
-			<DropdownMenu.Root>
-				<DropdownMenu.Trigger asChild>
-					<button className="IconButton" aria-label="Customise options">
-						<HamburgerMenuIcon />
-					</button>
-				</DropdownMenu.Trigger>
+export const DropdownMenuArrow = () => <DropdownMenuPrimitive.Arrow className="z3-c-dropdown-menu__arrow" />
 
-				<DropdownMenu.Portal>
-					<DropdownMenu.Content className="z3-c-dropdown-menu__content">
-						<DropdownMenu.Item className="z3-c-dropdown-menu__item">
-							New Window <div className="z3-c-dropdown-menu__item-right-slot">⌘+N</div>
-						</DropdownMenu.Item>
-					</DropdownMenu.Content>
-				</DropdownMenu.Portal>
-			</DropdownMenu.Root>
-		</div>
-	)
-}
+export const DropdownMenuLabel = ({ children, ...props }) => (
+	<DropdownMenuPrimitive.Label className="z3-c-dropdown-menu__label" {...props}>
+		{children}
+	</DropdownMenuPrimitive.Label>
+)
 
-DropDMenu.defaultProps = {
-	triggerType: undefined,
-}
+export const DropdownMenuRadioGroup = ({ children, ...props }) => (
+	<DropdownMenuPrimitive.RadioGroup className="z3-c-dropdown-menu__radio-group" {...props}>
+		{children}
+	</DropdownMenuPrimitive.RadioGroup>
+)
 
-export default DropDMenu
+export const DropdownMenuRadioItem = ({ children, value, ...props }) => (
+	<DropdownMenuPrimitive.RadioItem className="z3-c-dropdown-menu__radio-item" value={value} {...props}>
+		{children}
+	</DropdownMenuPrimitive.RadioItem>
+)
+
+export const DropdownMenuItemIndicator = ({ children, ...props }) => (
+	<DropdownMenuPrimitive.ItemIndicator className="z3-c-dropdown-menu__item-indicator" {...props}>
+		{children}
+	</DropdownMenuPrimitive.ItemIndicator>
+)

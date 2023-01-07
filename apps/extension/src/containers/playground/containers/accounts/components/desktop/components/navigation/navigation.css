@@ -1,4 +1,4 @@
-.z3-c-accounts_navigation {
+.z3-c-accounts-navigation {
 	height: var(--spacing-16);
 	background: var(--color-background-secondary);
 	padding-left: var(--spacing-4);
@@ -7,7 +7,7 @@
 	align-items: center;
 	flex-shrink: 0;
 
-	.z3-c-accounts_navigation__logo {
+	.z3-c-accounts-navigation__logo {
 		width: 128px;
 		height: 19px;
 		background: var(--color-font-primary);
@@ -32,33 +32,73 @@
 	}
 }
 
-.underlined-menu {
+.z3-c-accounts-navigation__menu {
 	height: 100%;
 	width: 100%;
-	display: grid;
-	place-items: center left;
-	.wrapper {
-		display: flex;
-		justify-content: space-evenly;
-	}
-	.menu-item {
-		margin: 0 1.5rem;
-		font-size: 1rem;
-		font-weight: 700;
-		cursor: pointer;
+	display: flex;
+	margin-left: 2rem;
+
+	a {
 		position: relative;
-		&:first-child {
-			margin-left: 3rem;
+		height: 100%;
+		display: flex;
+		align-items: center;
+
+		&:hover {
+			> div {
+				&::before {
+					transition: all 150ms ease-out;
+					opacity: 1;
+				}
+			}
 		}
-	}
-	.underline {
-		position: absolute;
-		top: 100%;
-		left: 0;
-		width: 100%;
-		height: 4px;
-		border-radius: 15px;
-		background: white;
-		opacity: 0.85;
+
+		> .z3-c-accounts-navigation__menu-item {
+			height: 100%;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			flex-direction: column;
+			position: relative;
+			font-size: 0.9rem;
+			font-weight: 700;
+			cursor: pointer;
+			position: relative;
+			padding: 0 1.8rem;
+
+			&.z3-c-accounts-navigation__menu-item--active {
+				&::before {
+					content: '';
+					/* opacity: 1; */
+				}
+			}
+
+			&::before {
+				content: '';
+				opacity: 0;
+				position: absolute;
+				top: 0;
+				bottom: 0;
+				left: 0;
+				right: 0;
+				position: absolute;
+				background-color: var(--color-background-hover);
+				pointer-events: none;
+			}
+
+			p {
+				position: relative;
+			}
+
+			.z3-c-accounts-navigation__menu-bg-line {
+				position: absolute;
+				bottom: 0;
+				left: 0;
+				width: 100%;
+				height: 4px;
+				background: var(--color-brand-secondary-base);
+				opacity: 0.85;
+			}
+		}
 	}
 }
