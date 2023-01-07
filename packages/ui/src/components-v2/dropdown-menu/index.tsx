@@ -18,8 +18,6 @@ export const DropdownMenuItem = ({ children, ...props }) => (
 	</DropdownMenuPrimitive.Item>
 )
 
-export const DropdownMenuPortal = DropdownMenuPrimitive.Portal
-
 export const DropdownMenuSeparator = () => <DropdownMenuPrimitive.Separator className="z3-c-dropdown-menu__seperator" />
 
 export const DropdownMenuArrow = () => <DropdownMenuPrimitive.Arrow className="z3-c-dropdown-menu__arrow" />

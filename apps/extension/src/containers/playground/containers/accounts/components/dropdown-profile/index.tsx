@@ -5,7 +5,6 @@ import Button from 'ui/src/components/button'
 import {
 	DropdownMenu,
 	DropdownMenuTrigger,
-	DropdownMenuPortal,
 	DropdownMenuItem,
 	DropdownMenuContent,
 	DropdownMenuSeparator,
@@ -14,12 +13,13 @@ import {
 	DropdownMenuRadioItem,
 	DropdownMenuArrow,
 	DropdownMenuItemIndicator,
-} from '@src/components/dropdown-menu'
+} from 'ui/src/components-v2/dropdown-menu'
 
 import './dropdown-profile.css'
 
 export const DropdownProfile: React.FC = () => {
 	const a = 1
+
 	return (
 		<div className="z3-c-dropdown-profile">
 			<DropdownMenu>
@@ -39,55 +39,53 @@ export const DropdownProfile: React.FC = () => {
 						<ChevronDownIcon />
 					</Button>
 				</DropdownMenuTrigger>
-				<DropdownMenuPortal>
-					<DropdownMenuContent side="bottom" sideOffset={10} align="end" alignOffset={5}>
-						<DropdownMenuItem>Connect to localhost</DropdownMenuItem>
-						<DropdownMenuSeparator />
-						<DropdownMenuLabel>Wallet</DropdownMenuLabel>
-						<DropdownMenuItem>Lock wallet</DropdownMenuItem>
-						<DropdownMenuItem>Add new wallet</DropdownMenuItem>
+				<DropdownMenuContent side="bottom" sideOffset={10} align="end" alignOffset={5}>
+					<DropdownMenuItem>Connect to localhost</DropdownMenuItem>
+					<DropdownMenuSeparator />
+					<DropdownMenuLabel>Wallet</DropdownMenuLabel>
+					<DropdownMenuItem>Lock wallet</DropdownMenuItem>
+					<DropdownMenuItem>Add new wallet</DropdownMenuItem>
 
-						<DropdownMenuRadioGroup value="light" onValueChange={() => {}}>
-							<DropdownMenuRadioItem value="light">
-								<DropdownMenuItemIndicator>
-									<DotFilledIcon />
-								</DropdownMenuItemIndicator>
-								Wallet 1 geebs
-							</DropdownMenuRadioItem>
-							<DropdownMenuRadioItem value="dark">
-								<DropdownMenuItemIndicator>
-									<DotFilledIcon />
-								</DropdownMenuItemIndicator>
-								Wallet 2 geebs
-							</DropdownMenuRadioItem>
-						</DropdownMenuRadioGroup>
+					<DropdownMenuRadioGroup value="light" onValueChange={() => {}}>
+						<DropdownMenuRadioItem value="light">
+							<DropdownMenuItemIndicator>
+								<DotFilledIcon />
+							</DropdownMenuItemIndicator>
+							Wallet 1 geebs
+						</DropdownMenuRadioItem>
+						<DropdownMenuRadioItem value="dark">
+							<DropdownMenuItemIndicator>
+								<DotFilledIcon />
+							</DropdownMenuItemIndicator>
+							Wallet 2 geebs
+						</DropdownMenuRadioItem>
+					</DropdownMenuRadioGroup>
 
-						<DropdownMenuSeparator />
-						<DropdownMenuLabel>Theme</DropdownMenuLabel>
+					<DropdownMenuSeparator />
+					<DropdownMenuLabel>Theme</DropdownMenuLabel>
 
-						<DropdownMenuRadioGroup value="light" onValueChange={() => {}}>
-							<DropdownMenuRadioItem value="light">
-								<DropdownMenuItemIndicator>
-									<DotFilledIcon />
-								</DropdownMenuItemIndicator>
-								Light
-							</DropdownMenuRadioItem>
-							<DropdownMenuRadioItem value="dark">
-								<DropdownMenuItemIndicator>
-									<DotFilledIcon />
-								</DropdownMenuItemIndicator>
-								Dark
-							</DropdownMenuRadioItem>
-							<DropdownMenuRadioItem value="system">
-								<DropdownMenuItemIndicator>
-									<DotFilledIcon />
-								</DropdownMenuItemIndicator>
-								System
-							</DropdownMenuRadioItem>
-						</DropdownMenuRadioGroup>
-						<DropdownMenuArrow />
-					</DropdownMenuContent>
-				</DropdownMenuPortal>
+					<DropdownMenuRadioGroup value="light" onValueChange={() => {}}>
+						<DropdownMenuRadioItem value="light">
+							<DropdownMenuItemIndicator>
+								<DotFilledIcon />
+							</DropdownMenuItemIndicator>
+							Light
+						</DropdownMenuRadioItem>
+						<DropdownMenuRadioItem value="dark">
+							<DropdownMenuItemIndicator>
+								<DotFilledIcon />
+							</DropdownMenuItemIndicator>
+							Dark
+						</DropdownMenuRadioItem>
+						<DropdownMenuRadioItem value="system">
+							<DropdownMenuItemIndicator>
+								<DotFilledIcon />
+							</DropdownMenuItemIndicator>
+							System
+						</DropdownMenuRadioItem>
+					</DropdownMenuRadioGroup>
+					<DropdownMenuArrow />
+				</DropdownMenuContent>
 			</DropdownMenu>
 		</div>
 	)

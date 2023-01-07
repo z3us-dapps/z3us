@@ -1,3 +1,4 @@
+/* eslint-disable no-nested-ternary */
 import React, { useRef, useEffect, useState } from 'react'
 import { CopyIcon } from '@radix-ui/react-icons'
 import Button from '../button'
@@ -17,6 +18,7 @@ export const ColorUnit = ({
 	category,
 	styleDecl,
 	width,
+	theme,
 }: {
 	color?: string
 	value: any
@@ -24,8 +26,9 @@ export const ColorUnit = ({
 	category: any
 	styleDecl: any
 	width?: any
+	theme: string
 }) => {
-	const code = typeof value === 'object' ? value.value : value
+	const code = typeof value === 'object' ? (theme === 'dark' ? value.darkValue : value.value) : value
 	const cssStr = color ? `--color-${colorKey}-${category}-${color}` : `--color-${colorKey}-${category}`
 	const cssVar = `var(${cssStr})`
 	const cssHex = styleDecl?.getPropertyValue(cssStr) || ''
@@ -126,16 +129,19 @@ export const ColorComp = ({
 								category={category}
 								styleDecl={styleDecl}
 								width="300px"
+								theme={theme}
 							/>
 						) : null}
 						{depth === 2
 							? Object.entries(subColors).map(([_color, value]) => (
 									<ColorUnit
+										key={_color}
 										color={_color}
 										value={value}
 										colorKey={colorKey}
 										category={category}
 										styleDecl={styleDecl}
+										theme={theme}
 									/>
 							  ))
 							: null}

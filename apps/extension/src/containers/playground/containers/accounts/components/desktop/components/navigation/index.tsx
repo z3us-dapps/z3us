@@ -2,7 +2,7 @@ import React from 'react'
 import clsx from 'clsx'
 // import { BrowserRouter, Routes, Route, Link, useLocation, useMatch } from 'react-router-dom'
 import { Link, useMatch } from 'react-router-dom'
-// import { DropdownProfile } from '@src/containers/playground/containers/accounts/components/dropdown-profile'
+import { DropdownProfile } from '@src/containers/playground/containers/accounts/components/dropdown-profile'
 import { useAccountParams } from '@src/containers/playground/hooks/use-account-params'
 import { motion, LayoutGroup } from 'framer-motion'
 
@@ -70,6 +70,6 @@ export const Navigation: React.FC = () => (
 				))}
 			</LayoutGroup>
 		</div>
-		{/* <DropdownProfile /> */}
+		<DropdownProfile />
 	</nav>
 )

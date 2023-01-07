@@ -83,7 +83,7 @@ const getStyleDictionaryThemeConfig = ({ theme }) => {
 							return !token.filePath.includes('tokens/foundation') && token.attributes.category === `color`
 						},
 						options: {
-							outputReferences: false,
+							outputReferences: true,
 							theme,
 						},
 					},

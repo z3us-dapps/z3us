@@ -4,14 +4,20 @@ import { CopyIcon } from '@radix-ui/react-icons'
 import { ComponentMeta, ComponentStory } from '@storybook/react'
 
 import tokens from 'design/tokens/foundation/colors.json'
-import tokensBrandLight from 'design/tokens/themes/light/brand.json'
-import tokensBrandDark from 'design/tokens/themes/dark/brand.json'
-import tokensBackgroundLight from 'design/tokens/themes/light/background.json'
-import tokensBackgroundDark from 'design/tokens/themes/dark/background.json'
-import tokensBorderLight from 'design/tokens/themes/light/border.json'
-import tokensBorderDark from 'design/tokens/themes/dark/border.json'
-import tokensFontLight from 'design/tokens/themes/light/font.json'
-import tokensFontDark from 'design/tokens/themes/dark/font.json'
+// import tokensBrandLight from 'design/tokens/themes/light/brand.json'
+// import tokensBrandDark from 'design/tokens/themes/dark/brand.json'
+// import tokensBackgroundLight from 'design/tokens/themes/light/background.json'
+// import tokensBackgroundDark from 'design/tokens/themes/dark/background.json'
+// import tokensBorderLight from 'design/tokens/themes/light/border.json'
+// import tokensBorderDark from 'design/tokens/themes/dark/border.json'
+// import tokensFontLight from 'design/tokens/themes/light/font.json'
+// import tokensFontDark from 'design/tokens/themes/dark/font.json'
+
+import tokensBrand from 'design/tokens/theme/brand.json'
+import tokensBackground from 'design/tokens/theme/background.json'
+import tokensBorder from 'design/tokens/theme/border.json'
+import tokensFont from 'design/tokens/theme/font.json'
+
 import 'design/dist/index.css'
 import 'design/dist/light/index.css'
 import 'design/dist/dark/index.css'
@@ -48,8 +54,8 @@ const CombinedTemplate: React.FC = () => (
 			Brand tokens
 		</Text>
 		<Grid columns="2" gap="4" css={{ mt: '$4' }}>
-			<ColorComp theme="light" colorKey="brand" depth={2} colorTokens={tokensBrandLight.color.brand} />
-			<ColorComp theme="dark" colorKey="brand" depth={2} colorTokens={tokensBrandDark.color.brand} />
+			<ColorComp theme="light" colorKey="brand" depth={2} colorTokens={tokensBrand.color.brand} />
+			<ColorComp theme="dark" colorKey="brand" depth={2} colorTokens={tokensBrand.color.brand} />
 		</Grid>
 
 		{/* BACKGROUND TOKENS */}
@@ -57,8 +63,8 @@ const CombinedTemplate: React.FC = () => (
 			Background tokens
 		</Text>
 		<Grid columns="2" gap="4" css={{ mt: '$4' }}>
-			<ColorComp theme="light" colorKey="background" depth={1} colorTokens={tokensBackgroundLight.color.background} />
-			<ColorComp theme="dark" colorKey="background" depth={1} colorTokens={tokensBackgroundDark.color.background} />
+			<ColorComp theme="light" colorKey="background" depth={1} colorTokens={tokensBackground.color.background} />
+			<ColorComp theme="dark" colorKey="background" depth={1} colorTokens={tokensBackground.color.background} />
 		</Grid>
 
 		{/* BORDER TOKENS */}
@@ -66,8 +72,8 @@ const CombinedTemplate: React.FC = () => (
 			Border tokens
 		</Text>
 		<Grid columns="2" gap="4" css={{ mt: '$4' }}>
-			<ColorComp theme="light" colorKey="border" depth={1} colorTokens={tokensBorderLight.color.border} />
-			<ColorComp theme="dark" colorKey="border" depth={1} colorTokens={tokensBorderDark.color.border} />
+			<ColorComp theme="light" colorKey="border" depth={1} colorTokens={tokensBorder.color.border} />
+			<ColorComp theme="dark" colorKey="border" depth={1} colorTokens={tokensBorder.color.border} />
 		</Grid>
 
 		{/* FONT TOKENS */}
@@ -75,10 +81,14 @@ const CombinedTemplate: React.FC = () => (
 			Font tokens
 		</Text>
 		<Grid columns="2" gap="4" css={{ mt: '$4' }}>
-			<ColorComp theme="light" colorKey="font" depth={1} colorTokens={tokensFontLight.color.font} />
-			<ColorComp theme="dark" colorKey="font" depth={1} colorTokens={tokensFontDark.color.font} />
+			<ColorComp theme="light" colorKey="font" depth={1} colorTokens={tokensFont.color.font} />
+			<ColorComp theme="dark" colorKey="font" depth={1} colorTokens={tokensFont.color.font} />
 		</Grid>
+	</Box>
+)
 
+const CombinedColors: React.FC = () => (
+	<Box>
 		{/* ALL COLORS */}
 		<Text bold size="8" css={{ pb: '10px', textTransform: 'uppercase', mt: '$10' }}>
 			Colors
@@ -131,6 +141,8 @@ const CombinedTemplate: React.FC = () => (
 )
 
 export const Tokens = CombinedTemplate
+
+export const Colors = CombinedColors
 
 const Primary = Template.bind({})
 
