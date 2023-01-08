@@ -1,0 +1,28 @@
+.z3-c-button {
+	position: relative;
+}
+
+.z3-c-button--small {
+	padding: 0.5rem 0.5rem;
+	border-radius: 0.3rem;
+}
+
+.z3-c-button--medium {
+	padding: 0.8rem 0.8rem;
+	border-radius: 0.3rem;
+}
+
+.z3-c-button--large {
+	padding: 2rem 2rem;
+	border-radius: 0.3rem;
+}
+
+.z3-c-button--primary {
+	background: var(--color-background-btn-primary);
+	color: var(--color-core-white);
+}
+
+.z3-c-button--secondary {
+	background: var(--color-background-btn-secondary);
+	color: var(--color-core-bleached-silk-1000);
+}
