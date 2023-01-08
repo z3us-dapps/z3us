@@ -40,24 +40,32 @@ export const DropdownProfile: React.FC = () => {
 					</Button>
 				</DropdownMenuTrigger>
 				<DropdownMenuContent side="bottom" sideOffset={10} align="end" alignOffset={5}>
-					<DropdownMenuItem>Connect to localhost</DropdownMenuItem>
+					<DropdownMenuItem>Connected to ociswap.com</DropdownMenuItem>
+					<DropdownMenuLabel>Connected with persona degen</DropdownMenuLabel>
 					<DropdownMenuSeparator />
-					<DropdownMenuLabel>Wallet</DropdownMenuLabel>
 					<DropdownMenuItem>Lock wallet</DropdownMenuItem>
 					<DropdownMenuItem>Add new wallet</DropdownMenuItem>
+					<DropdownMenuSeparator />
+					<DropdownMenuLabel>Wallet</DropdownMenuLabel>
 
 					<DropdownMenuRadioGroup value="light" onValueChange={() => {}}>
 						<DropdownMenuRadioItem value="light">
 							<DropdownMenuItemIndicator>
 								<DotFilledIcon />
 							</DropdownMenuItemIndicator>
-							Wallet 1 geebs
+							Main driver
 						</DropdownMenuRadioItem>
 						<DropdownMenuRadioItem value="dark">
 							<DropdownMenuItemIndicator>
 								<DotFilledIcon />
 							</DropdownMenuItemIndicator>
-							Wallet 2 geebs
+							Burner test wallet
+						</DropdownMenuRadioItem>
+						<DropdownMenuRadioItem value="dark">
+							<DropdownMenuItemIndicator>
+								<DotFilledIcon />
+							</DropdownMenuItemIndicator>
+							Funny man&apos;s wallet
 						</DropdownMenuRadioItem>
 					</DropdownMenuRadioGroup>
 
