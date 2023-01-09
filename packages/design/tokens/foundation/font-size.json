@@ -6,11 +6,11 @@
 		"base": { "value": "1rem" },
 		"lg": { "value": "1.125rem" },
 		"xl": { "value": "1.25rem" },
-		"2xl": { "value": "1.625rem" },
-		"3xl": { "value": "2rem" },
-		"4xl": { "value": "2.25rem" },
-		"5xl": { "value": "3rem" },
-		"6xl": { "value": "3.75rem" },
-		"7xl": { "value": "4.75rem" }
+		"xl2": { "value": "1.625rem" },
+		"xl3": { "value": "2rem" },
+		"xl4": { "value": "2.25rem" },
+		"xl5": { "value": "3rem" },
+		"xl6": { "value": "3.75rem" },
+		"xl7": { "value": "4.75rem" }
 	}
 }

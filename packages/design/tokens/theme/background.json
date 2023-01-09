@@ -9,7 +9,7 @@
 				"value": "{color.core.lead.0.value}",
 				"darkValue": "{color.core.bleached_silk.500.value}"
 			},
-			"interactive": { "value": "{color.brand.primary.base.value}", "darkValue": "{color.core.wax.600.value}" },
+			"interactive": { "value": "{color.core.bleached_silk.300.value}", "darkValue": "{color.core.wax.600.value}" },
 			"hover": { "value": "{color.brand.primary.0.value}", "darkValue": "{color.core.wax.500.value}" },
 			"active": { "value": "{color.brand.primary.base.value}", "darkValue": "{color.core.wax.600.value}" },
 			"disabled": { "value": "{color.background.tertiary.value}", "darkValue": "{color.core.wax.400.value}" },
