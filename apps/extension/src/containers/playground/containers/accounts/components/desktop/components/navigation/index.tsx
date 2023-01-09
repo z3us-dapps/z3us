@@ -45,7 +45,7 @@ const MenuItem = ({ text, href }) => {
 	return (
 		<Link to={href}>
 			<motion.div
-				animate={{ opacity: selected ? 1 : 0.98 }}
+				animate={{ opacity: selected ? 1 : 1 }}
 				className={clsx(
 					'z3-c-accounts-navigation__menu-item',
 					selected ? 'z3-c-accounts-navigation__menu-item--active' : '',
@@ -60,16 +60,18 @@ const MenuItem = ({ text, href }) => {
 
 export const Navigation: React.FC = () => (
 	<nav className="z3-c-accounts-navigation">
-		<Link to="/accounts/all">
-			<Z3usLogoBrand />
-		</Link>
-		<div className="z3-c-accounts-navigation__menu">
-			<LayoutGroup>
-				{menuItems.map(({ text, href }) => (
-					<MenuItem text={text} key={href} href={href} />
-				))}
-			</LayoutGroup>
+		<div className="z3-c-accounts-navigation__container">
+			<Link to="/accounts/all">
+				<Z3usLogoBrand />
+			</Link>
+			<div className="z3-c-accounts-navigation__menu">
+				<LayoutGroup>
+					{menuItems.map(({ text, href }) => (
+						<MenuItem text={text} key={href} href={href} />
+					))}
+				</LayoutGroup>
+			</div>
+			<DropdownProfile />
 		</div>
-		<DropdownProfile />
 	</nav>
 )

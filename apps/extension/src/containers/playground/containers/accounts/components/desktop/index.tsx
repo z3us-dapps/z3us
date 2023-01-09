@@ -6,6 +6,7 @@ import { useLocationKey } from '@src/containers/playground/hooks/use-location-ke
 import move from 'lodash-move'
 import { AnimatedPage } from '@src/containers/playground/components/animated-route'
 import { Navigation } from './components/navigation'
+import { AccountsHome } from './components/accounts-home'
 
 import './accounts-desktop.css'
 
@@ -220,7 +221,7 @@ export const AccountsDesktop = (): JSX.Element => {
 								path={path}
 								element={
 									<AnimatedPage>
-										<AccountIndex />
+										<AccountsHome />
 									</AnimatedPage>
 								}
 							/>

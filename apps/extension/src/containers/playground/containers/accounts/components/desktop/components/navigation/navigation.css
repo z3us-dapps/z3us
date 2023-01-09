@@ -1,53 +1,72 @@
 .z3-c-accounts-navigation {
-	height: var(--spacing-16);
 	background: var(--color-background-secondary);
-	padding-left: var(--spacing-4);
-	padding-right: var(--spacing-4);
-	display: flex;
-	align-items: center;
-	flex-shrink: 0;
 
 	.z3-c-accounts-navigation__logo {
 		width: 128px;
 		height: 19px;
+		overflow: hidden;
+		position: relative;
 		background: var(--color-font-primary);
-		background: linear-gradient(to bottom, var(--color-font-primary), var(--color-brand-primary-base));
-		background-size: 100% 200%;
 		transition: all 500ms ease-out;
 
 		svg {
 			fill: var(--color-background-secondary);
+			position: relative;
+		}
+
+		&:before {
+			content: '';
+			position: absolute;
+			top: 0;
+			left: 0;
+			width: 100%;
+			height: 100%;
+			background: var(--color-brand-primary-base);
+			transition: all 150ms ease-out;
+			transform: translateY(100%);
+			pointer-events: none;
 		}
 
 		&:hover {
-			background-size: 100% 100%;
-			transition: all 500ms ease-out;
+			&:before {
+				transform: translateY(0%);
+			}
 		}
 	}
 
 	> ul {
 		display: flex;
-		margin-left: var(--spacing-5);
 		gap: var(--spacing-3);
 	}
 }
 
+.z3-c-accounts-navigation__container {
+	width: 100%;
+	height: var(--spacing-16);
+	padding-left: var(--spacing-4);
+	padding-right: var(--spacing-4);
+	max-width: var(--screens-xl);
+	margin: 0 auto;
+	display: flex;
+	align-items: center;
+	flex-shrink: 0;
+}
+
 .z3-c-accounts-navigation__menu {
-	height: 100%;
 	width: 100%;
 	display: flex;
-	margin-left: 2rem;
+	justify-content: center;
+	gap: 1rem;
 
 	a {
 		position: relative;
-		height: 100%;
 		display: flex;
 		align-items: center;
+		cursor: pointer;
 
 		&:hover {
 			> div {
 				&::before {
-					transition: all 150ms ease-out;
 					opacity: 1;
 				}
 			}
@@ -60,21 +79,25 @@
 			justify-content: center;
 			flex-direction: column;
 			position: relative;
-			font-size: 0.9rem;
+			font-size: 0.84rem;
 			font-weight: 700;
 			cursor: pointer;
 			position: relative;
-			padding: 0 1.8rem;
+			padding: 0.4rem 0.8rem;
+			border-radius: var(--border-radius-md);
+			color: var(--color-font-primary);
+			transition: var(--transitions-md-all);
 
 			&.z3-c-accounts-navigation__menu-item--active {
+				color: var(--color-font-inverse);
 				&::before {
 					content: '';
-					/* opacity: 1; */
 				}
 			}
 
 			&::before {
 				content: '';
+				transition: var(--transitions-sm-all);
 				opacity: 0;
 				position: absolute;
 				top: 0;
@@ -84,6 +107,7 @@
 				position: absolute;
 				background-color: var(--color-background-hover);
 				pointer-events: none;
+				border-radius: var(--border-radius-md);
 			}
 
 			p {
@@ -95,9 +119,11 @@
 				bottom: 0;
 				left: 0;
 				width: 100%;
-				height: 4px;
+				height: 100%;
 				background: var(--color-brand-secondary-base);
-				opacity: 0.85;
+				opacity: 1;
+				pointer-events: none;
+				border-radius: var(--border-radius-md);
 			}
 		}
 	}

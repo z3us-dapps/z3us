@@ -1,0 +1,9 @@
+{
+	"borderRadius": {
+		"sm": { "value": "0.125rem", "description": "2px" },
+		"md": { "value": "0.188rem", "description": "3px" },
+		"lg": { "value": "0.25rem", "description": "4px" },
+		"xl": { "value": "1240px", "description": "2px" },
+		"xl2": { "value": "1536px", "description": "2px" }
+	}
+}
