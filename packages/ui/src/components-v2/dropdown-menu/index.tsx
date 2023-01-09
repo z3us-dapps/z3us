@@ -45,3 +45,9 @@ export const DropdownMenuItemIndicator = ({ children, ...props }) => (
 		{children}
 	</DropdownMenuPrimitive.ItemIndicator>
 )
+
+export const DropdownMenuRightSlot = ({ children, ...props }) => (
+	<DropdownMenuPrimitive.Label className="z3-c-dropdown-menu__right-slot" {...props}>
+		{children}
+	</DropdownMenuPrimitive.Label>
+)

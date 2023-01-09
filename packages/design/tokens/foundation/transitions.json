@@ -1,8 +1,8 @@
 {
 	"transitions": {
 		"sm-all": { "value": "all 150ms ease-out", "description": "sm all" },
-		"md-all": { "value": "all 300ms ease-out", "description": "md all" }
-		"lg-all": { "value": "all 300ms ease-out", "description": "lg all" }
+		"md-all": { "value": "all 300ms ease-out", "description": "md all" },
+		"lg-all": { "value": "all 300ms ease-out", "description": "lg all" },
 		"xl-all": { "value": "all 300ms ease-out", "description": "md all" }
 	}
 }

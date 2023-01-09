@@ -1,14 +1,18 @@
 .z3-c-dropdown-menu__content {
 	min-width: 7rem;
-	background: var(--color-background-interactive);
+	background-color: var(--color-background-dropdown);
 	border-radius: 0.3rem;
-	padding: 0.6rem;
+	padding: 0.3rem;
 	font-size: 0.75rem;
 	line-height: 1.8;
-	box-shadow: var(--color-shadow-primary);
+	box-shadow: var(--color-shadow-dropdown);
 	animation-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
 	will-change: transform, opacity;
 	transform-origin: var(--radix-dropdown-menu-content-transform-origin);
+
+	.z3-c-dropdown-menu__label:first-child {
+		margin-top: 0.3rem;
+	}
 
 	&[data-state='open'] {
 		animation: fadeIn 150ms ease-out;
@@ -31,44 +35,59 @@
 .z3-c-dropdown-menu__item,
 .z3-c-dropdown-menu__radio-item {
 	color: var(--color-font-primary);
-	background-color: var(--color-background-interactive);
+	background-color: var(--color-background-dropdown);
+	transition: var(--transitions-sm-all);
 	position: relative;
 	line-height: 1;
 	border-radius: 0.25rem;
 	display: flex;
 	align-items: center;
 	height: 1.6rem;
-	padding: 0 0.6rem;
+	padding: 0 0.7rem;
 
 	&:hover {
-		background-color: var(--color-background-hover);
+		background-color: var(--color-background-dropdown-hover);
 	}
+
 	&:focus-visible {
 		outline: none;
 		border: none;
-		background-color: var(--color-background-hover);
+		background-color: var(--color-background-dropdown-hover);
+	}
+}
+
+.z3-c-dropdown-menu__label {
+	padding: 0 0.7rem;
+	font-weight: 500;
+	color: var(--color-font-secondary);
+
+	a {
+		color: var(--color-font-secondary);
+		text-decoration-line: underline;
+		text-decoration-thickness: 1px;
+		text-underline-offset: 4px;
 	}
 }
 
 .z3-c-dropdown-menu__seperator {
 	height: 1px;
-	background-color: var(--color-background-hover);
-	margin: 0.5rem 0.6rem;
+	background-color: var(--color-background-dropdown-hover);
+	margin: 0.5rem 0.7rem;
 }
 
 .z3-c-dropdown-menu__arrow {
-	fill: var(--color-background-interactive);
-}
-
-.z3-c-dropdown-menu__label {
-	padding: 0 0.6rem;
-	color: var(--color-font-secondary);
+	fill: var(--color-background-dropdown);
 }
 
 .z3-c-dropdown-menu__item-indicator {
 	position: absolute;
 	top: 0.3rem;
-	left: -0.3rem;
+	left: -0.1rem;
+}
+
+.z3-c-dropdown-menu__right-slot {
+	margin-left: auto;
+	padding-left: 20px;
 }
 
 @keyframes fadeIn {

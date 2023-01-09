@@ -1,6 +1,6 @@
 import React from 'react'
 import * as Avatar from '@radix-ui/react-avatar'
-import { ChevronDownIcon, ChevronUpIcon, DotFilledIcon } from '@radix-ui/react-icons'
+import { ChevronDownIcon, CardStackPlusIcon, DotFilledIcon, PersonIcon, LockClosedIcon } from '@radix-ui/react-icons'
 import Button from 'ui/src/components/button'
 import {
 	DropdownMenu,
@@ -13,6 +13,7 @@ import {
 	DropdownMenuRadioItem,
 	DropdownMenuArrow,
 	DropdownMenuItemIndicator,
+	DropdownMenuRightSlot,
 } from 'ui/src/components-v2/dropdown-menu'
 
 import './dropdown-profile.css'
@@ -39,12 +40,28 @@ export const DropdownProfile: React.FC = () => {
 						<ChevronDownIcon />
 					</Button>
 				</DropdownMenuTrigger>
-				<DropdownMenuContent side="bottom" sideOffset={10} align="end" alignOffset={5}>
-					<DropdownMenuItem>Connected to ociswap.com</DropdownMenuItem>
-					<DropdownMenuLabel>Connected with persona degen</DropdownMenuLabel>
+				<DropdownMenuContent side="bottom" sideOffset={5} align="end" alignOffset={0}>
+					{/* <DropdownMenuItem>Connected to ociswap.com</DropdownMenuItem> */}
+					<DropdownMenuLabel>
+						Connected to <a href="#">ociswap.com</a>
+					</DropdownMenuLabel>
 					<DropdownMenuSeparator />
-					<DropdownMenuItem>Lock wallet</DropdownMenuItem>
-					<DropdownMenuItem>Add new wallet</DropdownMenuItem>
+					<DropdownMenuLabel>Persona</DropdownMenuLabel>
+					<DropdownMenuRadioGroup value="light" onValueChange={() => {}}>
+						<DropdownMenuRadioItem value="light">
+							<DropdownMenuItemIndicator>
+								<DotFilledIcon />
+							</DropdownMenuItemIndicator>
+							Main persona
+						</DropdownMenuRadioItem>
+						<DropdownMenuRadioItem value="dark">
+							<DropdownMenuItemIndicator>
+								<DotFilledIcon />
+							</DropdownMenuItemIndicator>
+							Degen persona
+						</DropdownMenuRadioItem>
+					</DropdownMenuRadioGroup>
+
 					<DropdownMenuSeparator />
 					<DropdownMenuLabel>Wallet</DropdownMenuLabel>
 
@@ -70,28 +87,48 @@ export const DropdownProfile: React.FC = () => {
 					</DropdownMenuRadioGroup>
 
 					<DropdownMenuSeparator />
-					<DropdownMenuLabel>Theme</DropdownMenuLabel>
+					<DropdownMenuItem>
+						Lock wallet
+						<DropdownMenuRightSlot>
+							<LockClosedIcon />
+						</DropdownMenuRightSlot>
+					</DropdownMenuItem>
+					<DropdownMenuItem>
+						Add new wallet
+						<DropdownMenuRightSlot>
+							<CardStackPlusIcon />
+						</DropdownMenuRightSlot>
+					</DropdownMenuItem>
+					<DropdownMenuItem>
+						Add new persona
+						<DropdownMenuRightSlot>
+							<PersonIcon />
+						</DropdownMenuRightSlot>
+					</DropdownMenuItem>
 
-					<DropdownMenuRadioGroup value="light" onValueChange={() => {}}>
-						<DropdownMenuRadioItem value="light">
-							<DropdownMenuItemIndicator>
-								<DotFilledIcon />
-							</DropdownMenuItemIndicator>
-							Light
-						</DropdownMenuRadioItem>
-						<DropdownMenuRadioItem value="dark">
-							<DropdownMenuItemIndicator>
-								<DotFilledIcon />
-							</DropdownMenuItemIndicator>
-							Dark
-						</DropdownMenuRadioItem>
-						<DropdownMenuRadioItem value="system">
-							<DropdownMenuItemIndicator>
-								<DotFilledIcon />
-							</DropdownMenuItemIndicator>
-							System
-						</DropdownMenuRadioItem>
-					</DropdownMenuRadioGroup>
+					{/* <DropdownMenuSeparator /> */}
+					{/* <DropdownMenuLabel>Theme</DropdownMenuLabel> */}
+					{/**/}
+					{/* <DropdownMenuRadioGroup value="light" onValueChange={() => {}}> */}
+					{/* 	<DropdownMenuRadioItem value="light"> */}
+					{/* 		<DropdownMenuItemIndicator> */}
+					{/* 			<DotFilledIcon /> */}
+					{/* 		</DropdownMenuItemIndicator> */}
+					{/* 		Light */}
+					{/* 	</DropdownMenuRadioItem> */}
+					{/* 	<DropdownMenuRadioItem value="dark"> */}
+					{/* 		<DropdownMenuItemIndicator> */}
+					{/* 			<DotFilledIcon /> */}
+					{/* 		</DropdownMenuItemIndicator> */}
+					{/* 		Dark */}
+					{/* 	</DropdownMenuRadioItem> */}
+					{/* 	<DropdownMenuRadioItem value="system"> */}
+					{/* 		<DropdownMenuItemIndicator> */}
+					{/* 			<DotFilledIcon /> */}
+					{/* 		</DropdownMenuItemIndicator> */}
+					{/* 		System */}
+					{/* 	</DropdownMenuRadioItem> */}
+					{/* </DropdownMenuRadioGroup> */}
 					<DropdownMenuArrow />
 				</DropdownMenuContent>
 			</DropdownMenu>
