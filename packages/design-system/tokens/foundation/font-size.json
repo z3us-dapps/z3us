@@ -1,0 +1,16 @@
+{
+	"fontSize": {
+		"tiny": { "value": ".75rem" },
+		"xs": { "value": ".875rem" },
+		"sm": { "value": ".938rem" },
+		"base": { "value": "1rem" },
+		"lg": { "value": "1.125rem" },
+		"xl": { "value": "1.25rem" },
+		"2xl": { "value": "1.625rem" },
+		"3xl": { "value": "2rem" },
+		"4xl": { "value": "2.25rem" },
+		"5xl": { "value": "3rem" },
+		"6xl": { "value": "3.75rem" },
+		"7xl": { "value": "4.75rem" }
+	}
+}

@@ -84,7 +84,7 @@ body {
 					/>
 				</Head>
 				<body
-					className={`font-HaasGrotTextRound text-base bg-white dark:bg-black text-black dark:text-white ${getPageClassName(
+					className={`font-HaasGrotTextRound text-base ${getPageClassName(
 						// eslint-disable-next-line no-underscore-dangle
 						this.props.__NEXT_DATA__.page,
 					)}`}

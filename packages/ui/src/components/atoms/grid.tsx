@@ -1,4 +1,4 @@
-import { styled  } from '../../theme'
+import { styled } from '../../theme'
 
 export const Grid = styled('div', {
 	boxSizing: 'border-box',

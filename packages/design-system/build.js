@@ -1,63 +1,112 @@
-const StyleDictionaryPackage = require("style-dictionary");
+const StyleDictionaryPackage = require('style-dictionary')
+const { fileHeader, formattedVariables } = StyleDictionaryPackage.formatHelpers
 
 const options = {
   showFileHeader: false,
-};
+}
 
-const getStyleDictionaryConfig = ({ theme }) => {
+const PLATFORM_WEB_CSS = 'web/css'
+const PLATFORM_WEB_TAILWIND = 'web/tailwind'
+const THEME_LIGHT = 'light'
+const THEME_DARK = 'dark'
+
+StyleDictionaryPackage.registerFormat({
+  name: 'css/variables-themed',
+  formatter: function({ dictionary, file, options }) {
+    const { outputReferences, theme } = options
+    return (
+      fileHeader({ file }) +
+      `.${theme} {\n` +
+      formattedVariables({ format: 'css', dictionary, outputReferences }) +
+      '\n}\n'
+    )
+  },
+})
+
+const getStyleDictionaryConfig = () => {
   return {
-    source: ["tokens/foundation.json", `tokens/themes/${theme}.json`],
+    source: ['tokens/foundation/**/*.json'],
     platforms: {
-      "web/css": {
-        transformGroup: "css",
-        buildPath: `./dist/${theme}/`,
+      [PLATFORM_WEB_CSS]: {
+        transformGroup: 'css',
+        buildPath: `./dist/`,
         options,
         files: [
           {
-            destination: "index.css",
-            format: "css/variables",
+            destination: 'index.css',
+            format: 'css/variables',
           },
         ],
       },
-      "web/scss": {
-        transformGroup: "scss",
-        buildPath: `./dist/${theme}/`,
+      [PLATFORM_WEB_TAILWIND]: {
+        transformGroup: 'js',
+        buildPath: `./dist/`,
         options,
         files: [
           {
-            destination: "index.scss",
-            format: "scss/variables",
+            destination: 'tailwind-tokens.json',
+            format: 'json/nested',
           },
         ],
       },
-      "web/js": {
-        transforms: ["name/cti/constant"],
-        buildPath: `./dist/${theme}/`,
+      'web/js': {
+        transforms: ['name/cti/constant'],
+        buildPath: `./dist/`,
         options,
         files: [
           {
-            destination: "index.js",
-            format: "javascript/module",
+            destination: 'index.js',
+            format: 'javascript/module',
           },
         ],
       },
     },
-  };
-};
-
-console.log("Build started...");
-
-const platforms = ["web/css", "web/scss", "web/js"];
-const themes = ["theme-one"];
-
-themes.forEach((theme) => {
-  if (theme) {
-    platforms.forEach((platform) => {
-      const config = getStyleDictionaryConfig({ theme, platform });
-      const StyleDictionary = StyleDictionaryPackage.extend(config);
-      StyleDictionary.buildPlatform(platform);
-    });
   }
-});
+}
 
-console.log("Build finished...");
+const getStyleDictionaryThemeConfig = ({ theme }) => {
+  return {
+    source: ['tokens/foundation/**/*.json', `tokens/themes/${theme}/**/*.json`],
+    platforms: {
+      [PLATFORM_WEB_CSS]: {
+        transformGroup: 'css',
+        buildPath: `./dist/${theme}/`,
+        options,
+        files: [
+          {
+            destination: 'index.css',
+            format: 'css/variables-themed',
+            filter: token => {
+              return token.filePath.includes(theme)
+            },
+            options: {
+              outputReferences: true,
+              theme,
+            },
+          },
+        ],
+      },
+    },
+  }
+}
+
+console.log(`\n\n Building tokens ...`)
+
+const platforms = [PLATFORM_WEB_CSS, PLATFORM_WEB_TAILWIND]
+const themes = [THEME_LIGHT, THEME_DARK]
+
+platforms.forEach(platform => {
+  const config = getStyleDictionaryConfig({ platform })
+  const StyleDictionary = StyleDictionaryPackage.extend(config)
+  StyleDictionary.buildPlatform(platform)
+})
+
+console.log(`\n\n🌙☀️  Building token themes ...`)
+
+themes.forEach(theme => {
+  const config = getStyleDictionaryThemeConfig({ theme })
+  const StyleDictionary = StyleDictionaryPackage.extend(config)
+  StyleDictionary.buildPlatform(PLATFORM_WEB_CSS)
+})
+
+console.log('Build finished...')

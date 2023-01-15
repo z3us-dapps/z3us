@@ -38,6 +38,14 @@ jobs:
         run: node -v
       - name: Print yarn version
         run: yarn -v
+      - name: Design system install dependencies
+        run: |-
+          cd packages/design-system
+          yarn --ignore-engines
+      - name: Design system build
+        run: |-
+          cd packages/design-system
+          yarn build
       - name: Install dependencies
         run: |-
           cd apps/website

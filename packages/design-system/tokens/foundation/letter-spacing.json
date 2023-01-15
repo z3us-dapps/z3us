@@ -1,0 +1,8 @@
+{
+	"letterSpacing": {
+		"1": { "value": "0em" },
+		"2": { "value": "0.025em" },
+		"3": { "value": "0.05em" },
+		"4": { "value": "0.1em" }
+	}
+}

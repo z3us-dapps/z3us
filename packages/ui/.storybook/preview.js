@@ -1,14 +1,5 @@
-import React from 'react'
-import { addDecorator } from '@storybook/react'
-import { useDarkMode } from 'storybook-dark-mode'
-import { darkTheme, globalStyles } from '../src/theme'
 import { INITIAL_VIEWPORTS } from '@storybook/addon-viewport'
-import { initializeWorker, mswDecorator } from 'msw-storybook-addon'
-import { handlers } from '../.mocks/handlers'
-
-// msw
-initializeWorker()
-addDecorator(mswDecorator)
+import { zDecorator } from './decorators'
 
 export const parameters = {
 	actions: { argTypesRegex: '^on[A-Z].*' },
@@ -20,7 +11,6 @@ export const parameters = {
 	},
 	viewport: {
 		viewports: INITIAL_VIEWPORTS,
-		// -  defaultViewport: 'iphonex',
 	},
 	backgrounds: {
 		default: 'white',
@@ -35,24 +25,6 @@ export const parameters = {
 		// -  current: 'light',
 		current: 'dark',
 	},
-	msw: handlers,
 }
 
-export const decorators = [
-	Story => {
-		globalStyles()
-		const element = window.document.body
-		const isDarkMode = useDarkMode()
-		if (isDarkMode) {
-			element.classList.add(darkTheme)
-		} else {
-			element.classList.remove(darkTheme)
-		}
-
-		return (
-			<div style={{ padding: '10px' }}>
-				<Story />
-			</div>
-		)
-	},
-]
+export const decorators = [zDecorator]
