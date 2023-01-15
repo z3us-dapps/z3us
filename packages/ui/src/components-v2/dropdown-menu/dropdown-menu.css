@@ -2,7 +2,7 @@
 	min-width: 7rem;
 	background-color: var(--color-background-dropdown);
 	border-radius: 0.3rem;
-	padding: 0.3rem;
+	padding: 0.2rem;
 	font-size: 0.75rem;
 	line-height: 1.8;
 	box-shadow: var(--color-shadow-dropdown);
@@ -43,7 +43,7 @@
 	display: flex;
 	align-items: center;
 	height: 1.6rem;
-	padding: 0 0.7rem;
+	padding: 0 0.8rem;
 
 	&:hover {
 		background-color: var(--color-background-dropdown-hover);
@@ -57,7 +57,7 @@
 }
 
 .z3-c-dropdown-menu__label {
-	padding: 0 0.7rem;
+	padding: 0 0.8rem;
 	font-weight: 500;
 	color: var(--color-font-secondary);
 
@@ -72,7 +72,7 @@
 .z3-c-dropdown-menu__seperator {
 	height: 1px;
 	background-color: var(--color-background-dropdown-hover);
-	margin: 0.5rem 0.7rem;
+	margin: 0.5rem 0.8rem;
 }
 
 .z3-c-dropdown-menu__arrow {
@@ -82,7 +82,8 @@
 .z3-c-dropdown-menu__item-indicator {
 	position: absolute;
 	top: 0.3rem;
-	left: -0.1rem;
+	left: -0.06rem;
+	opacity: 0.7;
 }
 
 .z3-c-dropdown-menu__right-slot {

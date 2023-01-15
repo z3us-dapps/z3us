@@ -1,15 +1,20 @@
 .z3-c-accounts-navigation {
-	background: var(--color-background-secondary);
+	background: var(--color-background-primary);
+	padding-left: var(--spacing-8);
+	padding-right: var(--spacing-8);
+	box-shadow: var(--color-shadow-panel);
+	z-index: 1;
 
 	.z3-c-accounts-navigation__logo {
-		width: 128px;
-		height: 19px;
+		display: block;
+		width: 100px;
+		height: auto;
 		overflow: hidden;
 		position: relative;
 		background: var(--color-font-primary);
 
 		svg {
-			fill: var(--color-background-secondary);
+			fill: var(--color-background-primary);
 			position: relative;
 		}
 
@@ -40,10 +45,8 @@
 }
 
 .z3-c-accounts-navigation__container {
-	width: 100%;
 	height: var(--spacing-16);
-	padding-left: var(--spacing-4);
-	padding-right: var(--spacing-4);
+	width: 100%;
 	max-width: var(--screens-xl);
 	margin: 0 auto;
 	display: flex;
@@ -78,7 +81,7 @@
 			justify-content: center;
 			flex-direction: column;
 			position: relative;
-			font-size: 0.84rem;
+			font-size: 0.813rem;
 			font-weight: 700;
 			cursor: pointer;
 			position: relative;

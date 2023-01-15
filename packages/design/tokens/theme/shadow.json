@@ -5,19 +5,7 @@
 				"value": "{shadow.panel.sm.value}",
 				"darkValue": "{shadow.panel.sm.value}"
 			},
-			"md": {
-				"value": "{shadow.panel.sm.value}",
-				"darkValue": "{shadow.panel.sm.value}"
-			},
-			"lg": {
-				"value": "{shadow.panel.sm.value}",
-				"darkValue": "{shadow.panel.sm.value}"
-			},
-			"xl": {
-				"value": "{shadow.panel.sm.value}",
-				"darkValue": "{shadow.panel.sm.value}"
-			},
-			"xl2": {
+			"panel": {
 				"value": "{shadow.panel.sm.value}",
 				"darkValue": "{shadow.panel.sm.value}"
 			}

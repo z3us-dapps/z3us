@@ -1,1 +1,40 @@
+.z3-c-accounts-home {
+	height: 100%;
+	position: relative;
+	padding-left: var(--spacing-8);
+	padding-right: var(--spacing-8);
+	background-color: var(--color-background-secondary);
+}
 
+.z3-c-accounts-home__container {
+	padding-top: var(--spacing-8);
+	gap: var(--spacing-8);
+	max-width: var(--screens-xl);
+	width: 100%;
+	height: calc(100% - var(--spacing-8));
+	display: flex;
+	align-items: flex-start;
+}
+
+.z3-c-accounts-home__assets {
+	width: 60%;
+	background-color: var(--color-background-primary);
+	border-radius: var(--border-radius-xl2);
+	box-shadow: var(--color-shadow-panel);
+	display: flex;
+	flex-shrink: 0;
+	flex-direction: column;
+	max-height: 100%;
+}
+
+.z3-c-accounts-home__cards {
+	background-color: var(--color-background-primary);
+	border-radius: var(--border-radius-xl2);
+	box-shadow: var(--color-shadow-panel);
+	display: flex;
+	flex-shrink: auto;
+	flex-basis: auto;
+	flex-grow: 1;
+	flex-direction: column;
+	max-height: 100%;
+}

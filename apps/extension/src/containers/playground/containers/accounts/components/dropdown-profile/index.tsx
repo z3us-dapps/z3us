@@ -41,9 +41,11 @@ export const DropdownProfile: React.FC = () => {
 					</Button>
 				</DropdownMenuTrigger>
 				<DropdownMenuContent side="bottom" sideOffset={5} align="end" alignOffset={0}>
-					{/* <DropdownMenuItem>Connected to ociswap.com</DropdownMenuItem> */}
 					<DropdownMenuLabel>
-						Connected to <a href="#">ociswap.com</a>
+						Connected to{' '}
+						<a href="https://ociswap.com/" target="_blank" rel="noreferrer">
+							ociswap.com
+						</a>
 					</DropdownMenuLabel>
 					<DropdownMenuSeparator />
 					<DropdownMenuLabel>Persona</DropdownMenuLabel>

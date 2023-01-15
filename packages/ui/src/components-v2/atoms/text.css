@@ -1,4 +1,17 @@
 .z3-c-text {
+	display: inline-flex;
+}
+
+.z3-c-text--block {
+	display: block;
+}
+
+.z3-c-text--medium {
+	font-weight: 500;
+}
+
+.z3-c-text--bold {
+	font-weight: 700;
 }
 
 .z3-c-text--tiny {
