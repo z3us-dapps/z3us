@@ -1,4 +1,4 @@
 import { Box } from './box'
-import { Paragraph, Text } from './text'
+import { Text } from './text'
 
-export { Box, Paragraph, Text }
+export { Box, Text }

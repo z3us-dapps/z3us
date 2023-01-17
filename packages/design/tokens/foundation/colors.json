@@ -55,6 +55,19 @@
 				"900": { "value": "#343633" },
 				"1000": { "value": "#181918" }
 			},
+			"pheasants_egg": {
+				"0": { "value": "#f0eeeb" },
+				"100": { "value": "#eceae7" },
+				"200": { "value": "#e9e7e3" },
+				"300": { "value": "#e6e3df" },
+				"400": { "value": "#e3e0db" },
+				"500": { "value": "#e0dcd7" },
+				"600": { "value": "#cac6c2" },
+				"700": { "value": "#b3b0ac" },
+				"800": { "value": "#9d9a97" },
+				"900": { "value": "#868481" },
+				"1000": { "value": "#706e6c" }
+			},
 			"blue": {
 				"0": { "value": "#eff5fc" },
 				"100": { "value": "#ddeaf8" },

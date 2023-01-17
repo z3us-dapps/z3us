@@ -1,5 +1,6 @@
 .z3-c-app {
 	position: relative;
+	font-family: var(--font-family-inter);
 	background: var(--color-background-primary);
 	color: var(--color-font-primary);
 	height: 100vh;

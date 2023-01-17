@@ -1,28 +1,87 @@
 .z3-c-button {
 	position: relative;
-}
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	font-family: var(--font-family-inter);
+	transition: var(--transitions-sm-all);
 
-.z3-c-button--small {
-	padding: 0.5rem 0.5rem;
-	border-radius: 0.3rem;
-}
+	&.z3-c-button--primary {
+		background: var(--color-background-btn-primary);
+		color: var(--color-core-white);
+		box-shadow: 0 0 0 0 var(--color-background-btn-primary-ring);
 
-.z3-c-button--medium {
-	padding: 0.8rem 0.8rem;
-	border-radius: 0.3rem;
-}
+		&:hover {
+			background: var(--color-background-btn-primary-hover);
+		}
 
-.z3-c-button--large {
-	padding: 2rem 2rem;
-	border-radius: 0.3rem;
-}
+		&:hover,
+		&:focus,
+		&:focus-visible {
+			box-shadow: 0 0 0 3px var(--color-background-btn-primary-ring);
+			outline: none;
+		}
+	}
 
-.z3-c-button--primary {
-	background: var(--color-background-btn-primary);
-	color: var(--color-core-white);
-}
+	&.z3-c-button--secondary {
+		background: var(--color-background-btn-secondary);
+		color: var(--color-core-bleached-silk-1000);
+		box-shadow: 0 0 0 0 var(--color-background-btn-secondary-ring);
 
-.z3-c-button--secondary {
-	background: var(--color-background-btn-secondary);
-	color: var(--color-core-bleached-silk-1000);
+		&:hover,
+		&:focus,
+		&:focus-visible {
+			background: var(--color-background-btn-secondary-hover);
+			box-shadow: 0 0 0 3px var(--color-background-btn-secondary-ring);
+			outline: none;
+		}
+	}
+
+	&.z3-c-button--tertiary {
+		color: var(--color-font-primary);
+		box-shadow: 0 0 0 1px #eee;
+	}
+
+	&.z3-c-button--ghost {
+		color: var(--color-font-primary);
+		box-shadow: 0 0 0 0 var(--color-background-btn-ghost-ring);
+
+		&:hover,
+		&:focus,
+		&:focus-visible {
+			background: var(--color-background-btn-ghost-hover);
+			box-shadow: 0 0 0 3px var(--color-background-btn-ghost-ring);
+			outline: none;
+		}
+	}
+
+	&.z3-c-button--small {
+		font-size: 12px;
+		line-height: 12px;
+		padding: 10px 14px;
+		border-radius: var(--border-radius-lg);
+		font-weight: 600;
+		gap: 0.5rem;
+		height: var(--spacing-8);
+
+		&.z3-c-button--icon-only {
+			padding: 9px 9px;
+			width: var(--spacing-8);
+		}
+	}
+
+	&.z3-c-button--large {
+		font-size: 16px;
+		line-height: 16px;
+		padding: 16px 20px;
+		border-radius: var(--border-radius-xl);
+		font-weight: 600;
+		gap: 0.6rem;
+		height: var(--spacing-12);
+
+		&.z3-c-button--icon-only {
+			padding: 16px 16px;
+			width: var(--spacing-12);
+		}
+	}
 }

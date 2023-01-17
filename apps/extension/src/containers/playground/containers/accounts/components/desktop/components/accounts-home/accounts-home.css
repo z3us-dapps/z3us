@@ -4,6 +4,8 @@
 	padding-left: var(--spacing-8);
 	padding-right: var(--spacing-8);
 	background-color: var(--color-background-secondary);
+	display: flex;
+	justify-content: center;
 }
 
 .z3-c-accounts-home__container {
@@ -25,6 +27,27 @@
 	flex-shrink: 0;
 	flex-direction: column;
 	max-height: 100%;
+}
+
+.z3-c-accounts-home__assets-header {
+	padding: var(--spacing-5);
+
+	> div {
+		&:first-child {
+			padding-bottom: var(--spacing-1);
+		}
+	}
+
+	section {
+		display: flex;
+		align-items: center;
+		gap: var(--spacing-2);
+		margin-top: var(--spacing-4);
+
+		div:first-child {
+			flex: 1;
+		}
+	}
 }
 
 .z3-c-accounts-home__cards {

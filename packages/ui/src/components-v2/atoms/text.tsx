@@ -18,6 +18,11 @@ const cvaVariants = {
 		xl6: ['z3-c-text--xl6'],
 		xl7: ['z3-c-text--xl7'],
 	},
+	textColor: {
+		default: ['z3-c-text--color-default'],
+		help: ['z3-c-text--color-help'],
+		mute: ['z3-c-text--color-mute'],
+	},
 	block: {
 		true: ['z3-c-text--block'],
 		false: [''],
@@ -42,6 +47,7 @@ const cvaVariants = {
 
 const cvaDefaults = {
 	size: 'base',
+	textColor: 'default',
 	block: false,
 	medium: false,
 	bold: false,
@@ -60,25 +66,10 @@ export const cvaText = cva('z3-c-text', {
 
 export interface TextProps extends React.HTMLAttributes<HTMLParagraphElement>, VariantProps<typeof cvaText> {}
 
-export const Paragraph: React.FC<TextProps> = ({
-	className,
-	size,
-	block,
-	bold,
-	medium,
-	defaultLineHeight,
-	defaultLetterSpacing,
-	...props
-}) => (
-	<p
-		className={cvaText({ className, size, block, bold, medium, defaultLineHeight, defaultLetterSpacing })}
-		{...props}
-	/>
-)
-
 export const Text: React.FC<TextProps> = ({
 	className,
 	size,
+	textColor,
 	block,
 	bold,
 	medium,
@@ -87,7 +78,7 @@ export const Text: React.FC<TextProps> = ({
 	...props
 }) => (
 	<span
-		className={cvaText({ className, size, block, bold, medium, defaultLineHeight, defaultLetterSpacing })}
+		className={cvaText({ className, size, textColor, block, bold, medium, defaultLineHeight, defaultLetterSpacing })}
 		{...props}
 	/>
 )

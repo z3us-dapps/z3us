@@ -16,6 +16,7 @@ const NotFound404 = () => (
 
 export const TempNav: React.FC = () => {
 	const [isDarkTheme, setIsDarkTheme] = useState<boolean>(false)
+	const [isMounted, setIsMounted] = useState<boolean>(false)
 
 	useEffect(() => {
 		const element = window.document.body
@@ -32,11 +33,14 @@ export const TempNav: React.FC = () => {
 			element.classList.add('light')
 		}
 
-		if (isDarkMode) {
-			element.classList.add(darkTheme)
-			element.classList.add('dark')
-			element.classList.remove('light')
-			setIsDarkTheme(true)
+		if (!isMounted) {
+			if (isDarkMode) {
+				element.classList.add(darkTheme)
+				element.classList.add('dark')
+				element.classList.remove('light')
+				setIsDarkTheme(true)
+			}
+			setIsMounted(true)
 		}
 	}, [isDarkTheme])
 
