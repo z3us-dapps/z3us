@@ -31,6 +31,7 @@ const cvaButton = cva('z3-c-button', {
 interface IProps {
 	children?: ReactNode
 	href?: string | undefined
+	onClick?: any
 // type?: 'submit' | 'reset' | 'button';
 }
 
@@ -39,25 +40,33 @@ export interface ButtonProps extends IProps, React.HTMLAttributes<HTMLButtonElem
 const defaultProps = {
 children: undefined,
 href: undefined,
+onClick: undefined,
 // type: 'button',
 }
 
 
 export const Button = forwardRef<HTMLButtonElement, ButtonProps>((props, ref: React.Ref<HTMLButtonElement | null>) => {
 
-const { children,  className, intent, size, icon, href,   onClick, ...rest } = props
+const { children,  className, intent, size, icon, href, onClick, ...rest } = props
 
 const cvaClasses = cvaButton({ intent, size, icon, className })
 
+const handleOnClick = () => {
+// TODO: pass event
+if (onClick) {
+onClick()
+}
+}
+
 	if (href) {
 		return (
-			<a href={href} className={cvaClasses}>
+			<a href={href} className={cvaClasses} onClick={handleOnClick}>
 				{children}
 			</a>
 		)
 	}
 	return (
-		<button type="button" ref={ref} className={cvaClasses} {...rest}>
+		<button type="button" ref={ref} className={cvaClasses} onClick={handleOnClick} {...rest}>
 			{children}
 		</button>
 	)

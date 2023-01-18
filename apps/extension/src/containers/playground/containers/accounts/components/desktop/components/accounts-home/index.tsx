@@ -1,12 +1,13 @@
 /* eslint-disable */
 import React, { useState } from 'react'
-import { MagnifyingGlassIcon, MixerHorizontalIcon } from '@radix-ui/react-icons'
+import { MagnifyingGlassIcon, MixerHorizontalIcon, ImageIcon, ListBulletIcon } from '@radix-ui/react-icons'
 import clsx from 'clsx'
 // import { BrowserRouter, Routes, Route, Link, useLocation, useMatch } from 'react-router-dom'
 import { Link, useMatch } from 'react-router-dom'
 import { Virtuoso } from 'react-virtuoso'
 import { ScrollArea } from 'ui/src/components/scroll-area'
 import { DropdownProfile } from '@src/containers/playground/containers/accounts/components/dropdown-profile'
+import { AccountsList } from '@src/containers/playground/containers/accounts/components/accounts-list'
 import { useAccountParams } from '@src/containers/playground/hooks/use-account-params'
 import { motion, LayoutGroup } from 'framer-motion'
 
@@ -21,6 +22,8 @@ import './accounts-home.css'
 
 export const AccountsHome = () => {
 	const [customScrollParent, setCustomScrollParent] = useState<HTMLElement | null>(null)
+	const [isTileView, setIsTileView] = useState<boolean>(false)
+	console.log('isTileView:', isTileView)
 
 	return (
 		<div className="z3-c-accounts-home">
@@ -41,14 +44,30 @@ export const AccountsHome = () => {
 									All assets
 								</Text>
 							</div>
-							<Button intent="ghost" icon>
-								<MagnifyingGlassIcon />
+							<Button
+								intent="secondary"
+								onClick={() => {
+									setIsTileView(false)
+								}}
+							>
+								<ListBulletIcon />
+								List
+							</Button>
+							<Button
+								intent="secondary"
+								onClick={() => {
+									setIsTileView(true)
+								}}
+							>
+								<ImageIcon />
+								NFT
 							</Button>
 							<Button intent="secondary">
-								Filter
 								<MixerHorizontalIcon />
+								Filter
 							</Button>
 						</section>
+						<AccountsList view={isTileView ? 'tileThree' : 'list'} />
 					</div>
 
 					{/* <div */}

@@ -1,7 +1,7 @@
 import React from 'react'
 import * as Avatar from '@radix-ui/react-avatar'
 import { ChevronDownIcon, CardStackPlusIcon, DotFilledIcon, PersonIcon, LockClosedIcon } from '@radix-ui/react-icons'
-import Button from 'ui/src/components/button'
+import { Button } from 'ui/src/components-v2/button'
 import {
 	DropdownMenu,
 	DropdownMenuTrigger,
@@ -25,7 +25,12 @@ export const DropdownProfile: React.FC = () => {
 		<div className="z3-c-dropdown-profile">
 			<DropdownMenu>
 				<DropdownMenuTrigger asChild>
-					<Button color="ghost" aria-label="settings dropdown" className="z3-c-dropdown-profile__trigger-btn">
+					<Button
+						size="small"
+						intent="ghost"
+						aria-label="settings dropdown"
+						className="z3-c-dropdown-profile__trigger-btn"
+					>
 						<Avatar.Root className="z3-c-dropdown-profile__avatar">
 							<Avatar.Image
 								className="z3-c-dropdown-profile__avatar-image"

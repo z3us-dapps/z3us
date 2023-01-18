@@ -25,7 +25,7 @@
 
 	&.z3-c-button--secondary {
 		background: var(--color-background-btn-secondary);
-		color: var(--color-core-bleached-silk-1000);
+		color: var(--color-font-primary);
 		box-shadow: 0 0 0 0 var(--color-background-btn-secondary-ring);
 
 		&:hover,
@@ -44,13 +44,11 @@
 
 	&.z3-c-button--ghost {
 		color: var(--color-font-primary);
-		box-shadow: 0 0 0 0 var(--color-background-btn-ghost-ring);
 
 		&:hover,
 		&:focus,
 		&:focus-visible {
 			background: var(--color-background-btn-ghost-hover);
-			box-shadow: 0 0 0 3px var(--color-background-btn-ghost-ring);
 			outline: none;
 		}
 	}
@@ -58,7 +56,7 @@
 	&.z3-c-button--small {
 		font-size: 12px;
 		line-height: 12px;
-		padding: 10px 14px;
+		padding: 10px 12px;
 		border-radius: var(--border-radius-lg);
 		font-weight: 600;
 		gap: 0.5rem;

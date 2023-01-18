@@ -5,9 +5,13 @@
 				"value": "{shadow.panel.sm.value}",
 				"darkValue": "{shadow.panel.sm.value}"
 			},
-			"panel": {
+			"header": {
 				"value": "{shadow.panel.sm.value}",
-				"darkValue": "{shadow.panel.sm.value}"
+				"darkValue": "{shadow.panel.md.value}"
+			},
+			"panel": {
+				"value": "{shadow.panel.panel_light.value}",
+				"darkValue": "{shadow.panel.panel_dark.value}"
 			}
 		}
 	}

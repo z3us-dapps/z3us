@@ -4,6 +4,8 @@ import clsx from 'clsx'
 import { Link, useMatch } from 'react-router-dom'
 import { DropdownProfile } from '@src/containers/playground/containers/accounts/components/dropdown-profile'
 import { useAccountParams } from '@src/containers/playground/hooks/use-account-params'
+import { MagnifyingGlassIcon } from '@radix-ui/react-icons'
+import { Button } from 'ui/src/components-v2/button'
 import { motion, LayoutGroup } from 'framer-motion'
 
 import './navigation.css'
@@ -70,7 +72,12 @@ export const Navigation: React.FC = () => (
 					))}
 				</LayoutGroup>
 			</div>
-			<DropdownProfile />
+			<div className="z3-c-accounts-navigation__menu-right">
+				<Button size="small" intent="ghost" icon>
+					<MagnifyingGlassIcon />
+				</Button>
+				<DropdownProfile />
+			</div>
 		</div>
 	</nav>
 )

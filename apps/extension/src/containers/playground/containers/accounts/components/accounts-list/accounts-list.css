@@ -1,0 +1,20 @@
+.z3-c-account-list {
+	position: relative;
+	border: 1px solid red;
+}
+
+.z3-c-account-list__element {
+	background: #eee;
+	color: black;
+}
+
+.z3-c-account-list--list {
+	display: grid;
+	gap: 1rem;
+}
+
+.z3-c-account-list--tile-three {
+	display: grid;
+	gap: 1rem;
+	grid-template-columns: 1fr 1fr 1fr;
+}
