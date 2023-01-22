@@ -1,5 +1,5 @@
 import React, { forwardRef, ReactNode } from 'react'
-import { cva, type VariantProps } from 'class-variance-authority'
+import { cva, VariantProps } from 'class-variance-authority'
 
 import './button.css'
 
@@ -27,36 +27,33 @@ const cvaButton = cva('z3-c-button', {
 	},
 })
 
-
 interface IProps {
 	children?: ReactNode
 	href?: string | undefined
 	onClick?: any
-// type?: 'submit' | 'reset' | 'button';
+	// type?: 'submit' | 'reset' | 'button';
 }
 
 export interface ButtonProps extends IProps, React.HTMLAttributes<HTMLButtonElement>, VariantProps<typeof cvaButton> {}
 
 const defaultProps = {
-children: undefined,
-href: undefined,
-onClick: undefined,
-// type: 'button',
+	children: undefined,
+	href: undefined,
+	onClick: undefined,
+	// type: 'button',
 }
-
 
 export const Button = forwardRef<HTMLButtonElement, ButtonProps>((props, ref: React.Ref<HTMLButtonElement | null>) => {
+	const { children, className, intent, size, icon, href, onClick, ...rest } = props
 
-const { children,  className, intent, size, icon, href, onClick, ...rest } = props
+	const cvaClasses = cvaButton({ intent, size, icon, className })
 
-const cvaClasses = cvaButton({ intent, size, icon, className })
-
-const handleOnClick = () => {
-// TODO: pass event
-if (onClick) {
-onClick()
-}
-}
+	const handleOnClick = () => {
+		// TODO: pass event
+		if (onClick) {
+			onClick()
+		}
+	}
 
 	if (href) {
 		return (

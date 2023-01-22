@@ -1,29 +1,20 @@
 /* eslint-disable */
 import React, { useState } from 'react'
 import { MagnifyingGlassIcon, MixerHorizontalIcon, ImageIcon, ListBulletIcon } from '@radix-ui/react-icons'
-import clsx from 'clsx'
+// import clsx from 'clsx'
 // import { BrowserRouter, Routes, Route, Link, useLocation, useMatch } from 'react-router-dom'
 import { Link, useMatch } from 'react-router-dom'
-import { Virtuoso } from 'react-virtuoso'
-import { ScrollArea } from 'ui/src/components/scroll-area'
 import { DropdownProfile } from '@src/containers/playground/containers/accounts/components/dropdown-profile'
 import { AccountsList } from '@src/containers/playground/containers/accounts/components/accounts-list'
 import { useAccountParams } from '@src/containers/playground/hooks/use-account-params'
-import { motion, LayoutGroup } from 'framer-motion'
-
+import { motion } from 'framer-motion'
 import { Text } from 'ui/src/components-v2/atoms'
 import { Button } from 'ui/src/components-v2/button'
-
-export function generateUsers(length, startIndex = 0) {
-	return Array.from({ length }).map((_, i) => ({ name: 'geebs', bgColor: 'transparent', description: 'heebs' }))
-}
 
 import './accounts-home.css'
 
 export const AccountsHome = () => {
-	const [customScrollParent, setCustomScrollParent] = useState<HTMLElement | null>(null)
-	const [isTileView, setIsTileView] = useState<boolean>(false)
-	console.log('isTileView:', isTileView)
+	const [view, setView] = useState<string>('list')
 
 	return (
 		<div className="z3-c-accounts-home">
@@ -47,7 +38,7 @@ export const AccountsHome = () => {
 							<Button
 								intent="secondary"
 								onClick={() => {
-									setIsTileView(false)
+									setView('list')
 								}}
 							>
 								<ListBulletIcon />
@@ -56,52 +47,34 @@ export const AccountsHome = () => {
 							<Button
 								intent="secondary"
 								onClick={() => {
-									setIsTileView(true)
+									setView('tileTwo')
 								}}
 							>
 								<ImageIcon />
-								NFT
+								NFT 2
+							</Button>
+							<Button
+								intent="secondary"
+								onClick={() => {
+									setView('tileThree')
+								}}
+							>
+								<ImageIcon />
+								NFT 3
 							</Button>
 							<Button intent="secondary">
 								<MixerHorizontalIcon />
 								Filter
 							</Button>
 						</section>
-						<AccountsList view={isTileView ? 'tileThree' : 'list'} />
 					</div>
-
-					{/* <div */}
-					{/* 	className="p-5" */}
-					{/* 	style={{ */}
-					{/* 		position: 'relative', */}
-					{/* 		overflow: 'hidden', */}
-					{/* 		maxHeight: '100px', */}
-					{/* 		height: '5000px', */}
-					{/* 	}} */}
-					{/* > */}
-					{/* 	<ScrollArea scrollableNodeProps={{ ref: setCustomScrollParent }}> */}
-					{/* 		<Virtuoso */}
-					{/* 			customScrollParent={customScrollParent} */}
-					{/* 			data={generateUsers(4)} */}
-					{/* 			itemContent={(index, user) => ( */}
-					{/* 				<div */}
-					{/* 					style={{ */}
-					{/* 						backgroundColor: user.bgColor, */}
-					{/* 						padding: '1rem 0.5rem', */}
-					{/* 					}} */}
-					{/* 				> */}
-					{/* 					<h4>{user.name}</h4> */}
-					{/* 					<div style={{ marginTop: '1rem' }}>{user.description}</div> */}
-					{/* 				</div> */}
-					{/* 			)} */}
-					{/* 		/> */}
-					{/* 	</ScrollArea> */}
-					{/* </div> */}
+					<AccountsList view={view as any} />
 				</div>
 				<div className="z3-c-accounts-home__cards">
 					<div className="p-5">
-						<Text block>Accounts</Text>
-						<Text block bold size="xl4"></Text>
+						<Text block className="pb-4">
+							Accounts
+						</Text>
 					</div>
 					<div className="p-5" style={{ overflow: 'auto', display: 'none' }}>
 						<div>

@@ -1,3 +1,12 @@
+/* https://dev.to/builderio/simpler-css-selectors-with-is-58m2 */
+/* button:is(:focus, :hover, :active) { */
+/*   color: steelblue; */
+/* } */
+/**/
+/* button:is(.active, .pressed) { */
+/*   color: lightsteelblue; */
+/* } */
+
 .z3-c-button {
 	position: relative;
 	display: inline-flex;

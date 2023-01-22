@@ -11,13 +11,15 @@ interface ImmerT {
 interface IProps {
 	children: React.ReactNode
 	scrollableNodeProps?: any
+	onScrollAreaSizeChange?: () => void
 }
 
 const defaultProps = {
 	scrollableNodeProps: undefined,
+	onScrollAreaSizeChange: undefined,
 }
 
-export const ScrollArea: React.FC<IProps> = ({ children, scrollableNodeProps }) => {
+export const ScrollArea: React.FC<IProps> = ({ children, scrollableNodeProps, onScrollAreaSizeChange }) => {
 	const sRef: any = useRef()
 	const observer = useRef<ResizeObserver | null>(null)
 	const scrollObserver = useRef<ResizeObserver | null>(null)
@@ -48,6 +50,9 @@ export const ScrollArea: React.FC<IProps> = ({ children, scrollableNodeProps }) 
 
 		observer.current = new ResizeObserver(entries => {
 			entries.forEach(entry => {
+				if (onScrollAreaSizeChange) {
+					onScrollAreaSizeChange()
+				}
 				const contentBoxSize = Array.isArray(entry.contentBoxSize) ? entry.contentBoxSize[0] : entry.contentBoxSize
 				setState(draft => {
 					draft.isBottmShadowVisible = contentBoxSize.blockSize > scrollRef.clientHeight

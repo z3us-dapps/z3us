@@ -43,6 +43,7 @@
 		align-items: center;
 		gap: var(--spacing-2);
 		margin-top: var(--spacing-4);
+		padding-bottom: var(--spacing-4);
 
 		div:first-child {
 			flex: 1;

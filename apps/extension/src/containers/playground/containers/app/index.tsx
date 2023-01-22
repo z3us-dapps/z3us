@@ -70,7 +70,6 @@ export const App: React.FC = () => {
 	return (
 		<div className="z3-c-app">
 			<TempNav />
-			{/* <AnimatePresence initial={false} exitBeforeEnter> */}
 			<AnimatePresence initial={false}>
 				<Routes location={location} key={locationArr[1]}>
 					{['/', '/accounts'].map(path => (

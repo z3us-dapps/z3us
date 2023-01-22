@@ -1,20 +1,36 @@
 .z3-c-account-list {
 	position: relative;
-	border: 1px solid red;
-}
-
-.z3-c-account-list__element {
-	background: #eee;
-	color: black;
+	border-radius: 0 0 var(--border-radius-xl2) var(--border-radius-xl2);
+	overflow: hidden;
 }
 
 .z3-c-account-list--list {
-	display: grid;
-	gap: 1rem;
+	.z3-c-account-list__container {
+		display: grid;
+		gap: 1rem;
+		grid-template-columns: 1fr;
+	}
+}
+
+.z3-c-account-list--tile-two {
+	.z3-c-account-list__container {
+		display: grid;
+		gap: 1rem;
+		grid-template-columns: 1fr 1fr;
+	}
 }
 
 .z3-c-account-list--tile-three {
-	display: grid;
-	gap: 1rem;
-	grid-template-columns: 1fr 1fr 1fr;
+	.z3-c-account-list__container {
+		display: grid;
+		gap: 1rem;
+		grid-template-columns: 1fr 1fr 1fr;
+	}
+}
+
+.z3-c-account-list__item-wrapper {
+	color: var(--color-font-primary);
+	background-color: var(--color-background-secondary);
+	padding: var(--spacing-3);
+	height: 80px;
 }
