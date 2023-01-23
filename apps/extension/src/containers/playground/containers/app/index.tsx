@@ -1,17 +1,23 @@
 import React, { useState, useEffect } from 'react'
 import { CheckIcon } from 'ui/src/components/icons'
+import { Box } from 'ui/src/components-v2/box'
+import { Text } from 'ui/src/components-v2/typography'
 import { darkTheme, globalStyles } from 'ui/src/theme'
 import { AnimatePresence } from 'framer-motion'
 import { AnimatedPage } from '@src/containers/playground/components/animated-route'
 import { Routes, Route, Link, useLocation, Navigate } from 'react-router-dom'
 import { Accounts } from '../accounts'
 
-import './app.css'
+import * as styles from './app.css'
 
 const NotFound404 = () => (
-	<div>
-		<div className="w-48 h-48 bg-vivaldi_red-400 text-6xl">404</div>
-	</div>
+	<Box>
+		<Box className={styles.teststyle}>404</Box>
+		<Box marginTop="small" className={styles.teststyle}>
+			geebs
+			<Text size="standard">Text we geebin</Text>
+		</Box>
+	</Box>
 )
 
 export const TempNav: React.FC = () => {
@@ -45,7 +51,7 @@ export const TempNav: React.FC = () => {
 	}, [isDarkTheme])
 
 	return (
-		<nav className="flex gap-3 border-0 fixed bottom-0 left-0 w-screen z-10 opacity-10">
+		<Box display="flex" position="fixed" className={styles.tempNav}>
 			<Link to="/">Home</Link>
 			<Link to="/accounts">Accounts</Link>
 			<Link to="/onboard">Onboarding</Link>
@@ -58,7 +64,7 @@ export const TempNav: React.FC = () => {
 			>
 				<CheckIcon />
 			</button>
-		</nav>
+		</Box>
 	)
 }
 
@@ -68,7 +74,7 @@ export const App: React.FC = () => {
 	const locationArr = location.pathname?.split('/') ?? []
 
 	return (
-		<div className="z3-c-app">
+		<div className={styles.container}>
 			<TempNav />
 			<AnimatePresence initial={false}>
 				<Routes location={location} key={locationArr[1]}>

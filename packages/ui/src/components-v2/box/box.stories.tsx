@@ -2,7 +2,7 @@
 import React from 'react'
 import { ComponentMeta, ComponentStory } from '@storybook/react'
 import tokensFont from 'design/tokens/foundation/font-size.json'
-import { Box, Text } from './index'
+import { Box } from './index'
 
 export default {
 	title: 'components-v2/Atoms',
@@ -27,11 +27,12 @@ const CombinedTemplate: React.FC = () => (
 		<div className="flex- w-full">
 			<div className="pt-4">
 				<div className="flex flex-col gap-5">
-					{Object.entries(tokensFont.fontSize).map(([key, { value }]) => (
-						<Text key={key} size={key as any}>
-							size:{key} {value}={convertRemToPixels(value)}px
-						</Text>
-					))}
+					asdfasdf
+					{/* {Object.entries(tokensFont.fontSize).map(([key, { value }]) => ( */}
+					{/* 	<Text key={key} size={key as any}> */}
+					{/* 		size:{key} {value}={convertRemToPixels(value)}px */}
+					{/* 	</Text> */}
+					{/* ))} */}
 				</div>
 			</div>
 		</div>

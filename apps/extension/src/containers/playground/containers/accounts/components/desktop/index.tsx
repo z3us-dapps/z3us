@@ -199,9 +199,7 @@ const AccountSwap = () => (
 
 const AccountTransfer = () => (
 	<div>
-		<div className="w-48 h-48 bg-vivaldi_red-200">
-			<p className="text-4xl">transfer</p>
-		</div>
+		<div className="w-48 h-48 bg-vivaldi_red-200">transfer</div>
 	</div>
 )
 

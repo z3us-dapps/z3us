@@ -8,7 +8,7 @@ import { DropdownProfile } from '@src/containers/playground/containers/accounts/
 import { AccountsList } from '@src/containers/playground/containers/accounts/components/accounts-list'
 import { useAccountParams } from '@src/containers/playground/hooks/use-account-params'
 import { motion } from 'framer-motion'
-import { Text } from 'ui/src/components-v2/atoms'
+// import { Text } from 'ui/src/components-v2/atoms'
 import { Button } from 'ui/src/components-v2/button'
 
 import './accounts-home.css'
@@ -22,18 +22,14 @@ export const AccountsHome = () => {
 				<div className="z3-c-accounts-home__assets">
 					<div className="z3-c-accounts-home__assets-header">
 						<div>
-							<Text block textColor="help" medium>
+							<p>
 								<span>Savings</span> balance:
-							</Text>
+							</p>
 						</div>
-						<Text block bold size="xl4">
-							$40,000
-						</Text>
+						<p>$40,000</p>
 						<section>
 							<div>
-								<Text block medium size="base">
-									All assets
-								</Text>
+								<p>All assets</p>
 							</div>
 							<Button
 								intent="secondary"
@@ -72,20 +68,18 @@ export const AccountsHome = () => {
 				</div>
 				<div className="z3-c-accounts-home__cards">
 					<div className="p-5">
-						<Text block className="pb-4">
-							Accounts
-						</Text>
+						<p>Accounts</p>
 					</div>
 					<div className="p-5" style={{ overflow: 'auto', display: 'none' }}>
 						<div>
-							<Text size="xl" className="border-">
+							<p>
 								Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the
 								industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and
 								scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap
 								into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the
 								release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing
 								software like Aldus PageMaker including versions of Lorem Ipsum.
-							</Text>
+							</p>
 						</div>
 					</div>
 				</div>
