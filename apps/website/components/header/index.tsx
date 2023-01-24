@@ -50,7 +50,7 @@ export const Header: React.FC<IProps> = ({ className, isBetaButtonVisible, isDoc
 					<div className="flex-1 color-white z-30 flex items-start">
 						<Link href="/" passHref>
 							<a className="cursor-pointer inline-flex hover:opacity-60 transition-opacity mt-1">
-								<Z3usText css={{ maxWidth: '130px' }} />
+								<Z3usText css={{ maxWidth: '112px' }} />
 							</a>
 						</Link>
 					</div>
