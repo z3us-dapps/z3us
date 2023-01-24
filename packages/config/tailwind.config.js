@@ -1,5 +1,7 @@
 const tailWindTokens = require('design/dist/tailwind-tokens')
 
+console.log('tailWindTokens:', tailWindTokens)
+
 module.exports = {
 	mode: 'jit',
 	darkMode: 'class',

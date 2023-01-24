@@ -63,7 +63,7 @@ export const FlashCtaButton = ({ children, size, variant, showEffect }: IProps):
 
 	return (
 		<div ref={buttonRef} className="landing-cta-btn">
-			<Button size={size} variant={variant} href={ctaLink}>
+			<Button size={size} variant={variant} href={ctaLink} className="font-bold">
 				{children}
 			</Button>
 		</div>

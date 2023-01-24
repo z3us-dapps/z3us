@@ -45,7 +45,7 @@ export const HomePage: React.FC = () => {
 					<div className="overflow-hidden">
 						<PageContainer>
 							<div>
-								<h1 className="font-HaasGrotTextRound font-bold homepage__h1">
+								<h1 className="font-Inter font-bold homepage__h1">
 									<span>Control</span>
 									<span className="heeb">your future.</span>
 								</h1>
@@ -79,7 +79,7 @@ export const HomePage: React.FC = () => {
 									</div>
 								</div>
 								<div className="homepage__product-description">
-									<h2 className="font-HaasGrotTextRound font-bold homepage__h2">
+									<h2 className="font-Inter font-bold homepage__h2">
 										<span>DeFi</span> at your fingertips.
 									</h2>
 									<h4 className="text-xl text-white leading-relaxed sm:text-2xl sm:leading-relaxed">
