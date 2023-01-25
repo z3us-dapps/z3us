@@ -79,12 +79,31 @@ body {
   font-display: swap;
 	font-style: normal;
 }
+
+@font-face {
+	font-family: 'Inter';
+	font-weight: 400;
+	font-display: swap;
+	src: url('/fonts/Inter-Regular.woff2') format('woff2'), url('/fonts/Inter-Regular.woff') format('woff');
+}
+@font-face {
+	font-family: 'Inter';
+	font-weight: 500;
+	font-display: swap;
+	src: url('/fonts/Inter-Medium.woff2') format('woff2'), url('/fonts/Inter-Medium.woff') format('woff');
+}
+@font-face {
+	font-family: 'Inter';
+	font-weight: 700;
+	font-display: swap;
+	src: url('/fonts/Inter-Bold.woff2') format('woff2'), url('/fonts/Inter-Bold.woff') format('woff');
+}
 `,
 						}}
 					/>
 				</Head>
 				<body
-					className={`font-HaasGrotTextRound text-base ${getPageClassName(
+					className={`font-Inter text-base ${getPageClassName(
 						// eslint-disable-next-line no-underscore-dangle
 						this.props.__NEXT_DATA__.page,
 					)}`}

@@ -114,7 +114,7 @@ body.home-page {
 		padding-bottom: 0rem;
 		font-size: 7.5rem;
 		line-height: 7rem;
-		letter-spacing: -0.15rem;
+		letter-spacing: -0.25rem;
 		position: relative;
 		z-index: 1;
 	}
@@ -127,7 +127,7 @@ body.home-page {
 	.homepage .homepage__h2 {
 		font-size: 7.5rem;
 		line-height: 7rem;
-		letter-spacing: -0.2rem;
+		letter-spacing: -0.25rem;
 		padding-top: 0rem;
 		padding-bottom: 0rem;
 	}
@@ -192,13 +192,11 @@ body.home-page {
 	.homepage .homepage__h1 {
 		font-size: 9.5rem;
 		line-height: 9rem;
-		letter-spacing: -0.15rem;
 	}
 
 	.homepage .homepage__h2 {
 		font-size: 9.5rem;
 		line-height: 9rem;
-		letter-spacing: -0.2rem;
 	}
 }
 
@@ -210,13 +208,11 @@ body.home-page {
 	.homepage .homepage__h1 {
 		font-size: 9.5rem;
 		line-height: 9rem;
-		letter-spacing: -0.15rem;
 	}
 
 	.homepage .homepage__h2 {
 		font-size: 9.5rem;
 		line-height: 9rem;
-		letter-spacing: -0.2rem;
 	}
 
 	.homepage .homepage__product-description {
