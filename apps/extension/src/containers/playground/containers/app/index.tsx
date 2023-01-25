@@ -2,13 +2,17 @@ import React, { useState, useEffect } from 'react'
 import { CheckIcon } from 'ui/src/components/icons'
 import { Box } from 'ui/src/components-v2/box'
 import { Text } from 'ui/src/components-v2/typography'
-import { darkTheme, globalStyles } from 'ui/src/theme'
+// import { darkTheme, globalStyles } from 'ui/src/theme'
 import { AnimatePresence } from 'framer-motion'
 import { AnimatedPage } from '@src/containers/playground/components/animated-route'
 import { Routes, Route, Link, useLocation, Navigate } from 'react-router-dom'
+// import geebs from 'design/dist/tailwind-tokens'
 import { Accounts } from '../accounts'
 
 import * as styles from './app.css'
+
+// console.log('geebs:', geebs.color)
+// console.log('geebs:', geebs.color.core.bleached_silk[0])
 
 const NotFound404 = () => (
 	<Box>
@@ -30,18 +34,18 @@ export const TempNav: React.FC = () => {
 		const isDarkMode = match.matches
 
 		if (isDarkTheme) {
-			element.classList.add(darkTheme)
+			// element.classList.add(darkTheme)
 			element.classList.add('dark')
 			element.classList.remove('light')
 		} else {
-			element.classList.remove(darkTheme)
+			// element.classList.remove(darkTheme)
 			element.classList.remove('dark')
 			element.classList.add('light')
 		}
 
 		if (!isMounted) {
 			if (isDarkMode) {
-				element.classList.add(darkTheme)
+				// element.classList.add(darkTheme)
 				element.classList.add('dark')
 				element.classList.remove('light')
 				setIsDarkTheme(true)
@@ -69,7 +73,7 @@ export const TempNav: React.FC = () => {
 }
 
 export const App: React.FC = () => {
-	globalStyles()
+	// globalStyles()
 	const location = useLocation()
 	const locationArr = location.pathname?.split('/') ?? []
 

@@ -2,6 +2,13 @@ import { sprinkles } from 'ui/src/components-v2/system/sprinkles.css'
 import { responsiveStyle } from 'ui/src/components-v2/system/theme-utils'
 import { style } from '@vanilla-extract/css'
 
+export const background = sprinkles({
+	background: {
+		lightMode: 'bleached_silk500',
+		darkMode: 'lead500',
+	},
+})
+
 export const container = sprinkles({
 	position: 'relative',
 	height: 'vh100',
@@ -14,10 +21,10 @@ export const container = sprinkles({
 	// 	desktop: 'row',
 	// },
 
-	background: {
-		lightMode: 'teal50',
-		darkMode: 'stone50',
-	},
+	// background: {
+	// 	lightMode: 'teal50',
+	// 	darkMode: 'stone50',
+	// },
 })
 
 export const teststyle = style([
