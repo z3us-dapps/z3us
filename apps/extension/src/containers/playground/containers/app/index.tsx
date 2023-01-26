@@ -1,26 +1,21 @@
 import React, { useState, useEffect } from 'react'
 import { CheckIcon } from 'ui/src/components/icons'
 import { Box } from 'ui/src/components-v2/box'
+import { lightThemeClass, darkThemeClass } from 'ui/src/components-v2/system/theme.css'
 import { Text } from 'ui/src/components-v2/typography'
 // import { darkTheme, globalStyles } from 'ui/src/theme'
 import { AnimatePresence } from 'framer-motion'
 import { AnimatedPage } from '@src/containers/playground/components/animated-route'
 import { Routes, Route, Link, useLocation, Navigate } from 'react-router-dom'
-// import geebs from 'design/dist/tailwind-tokens'
+// import twTokens from 'design/dist/tailwind-tokens'
 import { Accounts } from '../accounts'
 
 import * as styles from './app.css'
 
-// console.log('geebs:', geebs.color)
-// console.log('geebs:', geebs.color.core.bleached_silk[0])
-
 const NotFound404 = () => (
-	<Box>
+	<Box padding="large">
 		<Box className={styles.teststyle}>404</Box>
-		<Box marginTop="small" className={styles.teststyle}>
-			geebs
-			<Text size="standard">Text we geebin</Text>
-		</Box>
+		<Text size="code">HEyyyy</Text>
 	</Box>
 )
 
@@ -35,19 +30,26 @@ export const TempNav: React.FC = () => {
 
 		if (isDarkTheme) {
 			// element.classList.add(darkTheme)
+			element.classList.add(darkThemeClass)
 			element.classList.add('dark')
 			element.classList.remove('light')
+			element.classList.remove(lightThemeClass)
 		} else {
 			// element.classList.remove(darkTheme)
+			element.classList.remove(darkThemeClass)
 			element.classList.remove('dark')
 			element.classList.add('light')
+			element.classList.add(lightThemeClass)
 		}
 
 		if (!isMounted) {
 			if (isDarkMode) {
 				// element.classList.add(darkTheme)
+
+				element.classList.add(darkThemeClass)
 				element.classList.add('dark')
 				element.classList.remove('light')
+				element.classList.remove(lightThemeClass)
 				setIsDarkTheme(true)
 			}
 			setIsMounted(true)
@@ -55,7 +57,7 @@ export const TempNav: React.FC = () => {
 	}, [isDarkTheme])
 
 	return (
-		<Box display="flex" position="fixed" className={styles.tempNav}>
+		<Box display="flex" position="fixed" className={styles.tempNav} padding="large">
 			<Link to="/">Home</Link>
 			<Link to="/accounts">Accounts</Link>
 			<Link to="/onboard">Onboarding</Link>

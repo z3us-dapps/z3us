@@ -2,20 +2,16 @@ import { sprinkles } from 'ui/src/components-v2/system/sprinkles.css'
 import { responsiveStyle } from 'ui/src/components-v2/system/theme-utils'
 import { style } from '@vanilla-extract/css'
 
-export const background = sprinkles({
-	background: {
-		lightMode: 'bleached_silk500',
-		darkMode: 'lead500',
-	},
-})
-
 export const container = sprinkles({
+	color: 'defaultColor',
+	background: 'background',
 	position: 'relative',
 	height: 'vh100',
 	width: 'vw100',
 	overflow: 'clip',
 
 	// Conditional sprinkles:
+	//
 	// flexDirection: {
 	// 	mobile: 'column',
 	// 	desktop: 'row',
@@ -44,6 +40,7 @@ export const teststyle = style([
 ])
 
 export const tempNav = sprinkles({
+	background: 'background',
 	position: 'fixed',
 	bottom: 0,
 	right: 0,

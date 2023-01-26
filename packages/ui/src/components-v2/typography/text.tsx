@@ -1,18 +1,17 @@
 import React, { ElementType, ReactNode } from 'react'
 import clsx from 'clsx'
 import { sprinkles, Sprinkles } from '../system/sprinkles.css'
-// import { sprinkles, Sprinkles } from '@/components/system/sprinkles.css'
 
 import { Box } from '../box'
 import * as styles from './typography.css'
 
 const colorMap = {
-	neutral: { lightMode: 'gray700', darkMode: 'stone500' },
-	strong: { lightMode: 'gray900', darkMode: 'gray100' },
-	code: { lightMode: 'stone200' },
-	link: { lightMode: 'stone800', darkMode: 'stone100' },
-	secondary: { lightMode: 'gray500', darkMode: 'gray400' },
-	highlight: { lightMode: 'pink500' },
+	neutral: { lightMode: 'bleached_silk900', darkMode: 'bleached_silk100' },
+	strong: { lightMode: 'bleached_silk900', darkMode: 'bleached_silk100' },
+	code: { lightMode: 'bleached_silk900', darkMode: 'bleached_silk100' },
+	link: { lightMode: 'bleached_silk900', darkMode: 'bleached_silk100' },
+	secondary: { lightMode: 'bleached_silk900', darkMode: 'bleached_silk100' },
+	highlight: { lightMode: 'bleached_silk900', darkMode: 'bleached_silk100' },
 } as const
 
 interface TextStyleProps {
