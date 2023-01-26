@@ -65,7 +65,7 @@ export const RoadmapPage = () => {
 					<div className="overflow-hidden pb-32">
 						<PageContainer>
 							<div className="roadmap-hero text-white md:pb-4 md:pt-10 md:w-5/6 xl:pb-10 xl:pt-16 xl:w-4/6">
-								<h1 className="font-HaasGrotTextRound font-bold roadmap-page__h1 pt-6 xl:pt-2">Roadmap</h1>
+								<h1 className="font-Inter font-bold roadmap-page__h1 pt-6 xl:pt-2">Roadmap</h1>
 								<h4 className="text-2xl leading-10 pt-4 xl:pt-5">
 									Our vision for Z3US project is to create a best-in-class WEB3 wallet with an emphasis on user
 									experience and transparent code. Help shape this vision by{' '}

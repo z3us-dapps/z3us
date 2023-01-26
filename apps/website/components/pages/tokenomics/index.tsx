@@ -56,7 +56,7 @@ export const TokenomicsPage: React.FC = () => (
 						<div className="tokenomics-hero text-white">
 							<div className="grid grid-cols-1 md:grid-cols-2 gap-6">
 								<div className="tokenomics-hero__cell flex-col md:flex">
-									<h1 className="font-HaasGrotTextRound font-bold tokenomics__h1 pt-10 pb-7">
+									<h1 className="font-Inter font-bold tokenomics__h1 pt-10 pb-7">
 										<span>Toke-</span>
 										<span>nomics</span>
 									</h1>
