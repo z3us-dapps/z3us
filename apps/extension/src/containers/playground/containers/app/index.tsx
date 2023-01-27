@@ -3,11 +3,9 @@ import { CheckIcon } from 'ui/src/components/icons'
 import { Box } from 'ui/src/components-v2/box'
 import { lightThemeClass, darkThemeClass } from 'ui/src/components-v2/system/theme.css'
 import { Text } from 'ui/src/components-v2/typography'
-// import { darkTheme, globalStyles } from 'ui/src/theme'
 import { AnimatePresence } from 'framer-motion'
 import { AnimatedPage } from '@src/containers/playground/components/animated-route'
 import { Routes, Route, Link, useLocation, Navigate } from 'react-router-dom'
-// import twTokens from 'design/dist/tailwind-tokens'
 import { Accounts } from '../accounts'
 
 import * as styles from './app.css'
@@ -29,13 +27,11 @@ export const TempNav: React.FC = () => {
 		const isDarkMode = match.matches
 
 		if (isDarkTheme) {
-			// element.classList.add(darkTheme)
 			element.classList.add(darkThemeClass)
 			element.classList.add('dark')
 			element.classList.remove('light')
 			element.classList.remove(lightThemeClass)
 		} else {
-			// element.classList.remove(darkTheme)
 			element.classList.remove(darkThemeClass)
 			element.classList.remove('dark')
 			element.classList.add('light')
@@ -44,8 +40,6 @@ export const TempNav: React.FC = () => {
 
 		if (!isMounted) {
 			if (isDarkMode) {
-				// element.classList.add(darkTheme)
-
 				element.classList.add(darkThemeClass)
 				element.classList.add('dark')
 				element.classList.remove('light')
@@ -75,7 +69,6 @@ export const TempNav: React.FC = () => {
 }
 
 export const App: React.FC = () => {
-	// globalStyles()
 	const location = useLocation()
 	const locationArr = location.pathname?.split('/') ?? []
 

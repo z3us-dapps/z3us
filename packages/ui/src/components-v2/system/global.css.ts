@@ -1,5 +1,6 @@
 import { globalStyle } from '@vanilla-extract/css'
 import { darkMode } from './sprinkles.css'
+import { vars } from './theme.css'
 
 globalStyle('*, *::before, *::after', {
 	boxSizing: 'border-box',
@@ -13,6 +14,7 @@ globalStyle('html, body', {
 
 globalStyle('body', {
 	textRendering: 'optimizeLegibility',
+	fontFamily: vars.fonts.body,
 })
 
 globalStyle(`body.${darkMode}`, {

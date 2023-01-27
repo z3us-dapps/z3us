@@ -90,11 +90,10 @@ export const sharedThemeValues = {
 	fonts: {
 		brand: 'source-han-sans-japanese, "Helvetica Neue", HelveticaNeue, Helvetica, sans-serif',
 		heading: 'source-han-sans-japanese, BlinkMacSystemFont, "Helvetica Neue", HelveticaNeue, Helvetica, sans-serif',
-		body: 'source-han-sans-japanese, BlinkMacSystemFont, "Helvetica Neue", HelveticaNeue, Helvetica, Arial, sans-serif',
+		body: '"Inter", BlinkMacSystemFont, "Helvetica Neue", HelveticaNeue, Helvetica, Arial, sans-serif',
 		code: 'ml, "Roboto Mono", Menlo, monospace',
 		HaasGrotTextRound: "'HaasGrotTextRound-Web', Arial",
 		HaasGrotDisplayRound: "'HaasGrotDispRound-Web', Arial",
-		Inter: "'Inter', sans-serif",
 	},
 	grid: px(grid),
 	spacing: {

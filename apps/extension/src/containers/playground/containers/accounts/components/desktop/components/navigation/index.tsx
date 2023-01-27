@@ -8,7 +8,7 @@ import { MagnifyingGlassIcon } from '@radix-ui/react-icons'
 import { Button } from 'ui/src/components-v2/button'
 import { motion, LayoutGroup } from 'framer-motion'
 
-import './navigation.css'
+import * as styles from './navigation.css'
 
 const menuItems = [
 	{ text: 'Accounts', href: '/accounts/all' },
@@ -19,7 +19,7 @@ const menuItems = [
 ]
 
 const Z3usLogoBrand = () => (
-	<div className="z3-c-accounts-navigation__logo">
+	<div className={styles.navigationLogo}>
 		<svg x="0px" y="0px" viewBox="0 0 100 15">
 			<g>
 				<polygon points="6.4,2.9 3.8,2.9 0,0 0,14.3 14.7,2.9 		" />
@@ -60,24 +60,24 @@ const MenuItem = ({ text, href }) => {
 }
 
 export const Navigation: React.FC = () => (
-	<nav className="z3-c-accounts-navigation">
-		<div className="z3-c-accounts-navigation__container">
+	<nav className={styles.navigationWrapper}>
+		<div className={styles.navigationContainer}>
 			<Link to="/accounts/all">
 				<Z3usLogoBrand />
 			</Link>
-			<div className="z3-c-accounts-navigation__menu">
+			<div className={styles.navigationMenu}>
 				<LayoutGroup>
 					{menuItems.map(({ text, href }) => (
 						<MenuItem text={text} key={href} href={href} />
 					))}
 				</LayoutGroup>
 			</div>
-			<div className="z3-c-accounts-navigation__menu-right">
-				<Button size="small" intent="ghost" icon>
-					<MagnifyingGlassIcon />
-				</Button>
-				<DropdownProfile />
-			</div>
+			{/* <div className="z3-c-accounts-navigation__menu-right"> */}
+			{/* 	<Button size="small" intent="ghost" icon> */}
+			{/* 		<MagnifyingGlassIcon /> */}
+			{/* 	</Button> */}
+			{/* 	<DropdownProfile /> */}
+			{/* </div> */}
 		</div>
 	</nav>
 )

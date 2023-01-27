@@ -8,7 +8,7 @@ import { AnimatedPage } from '@src/containers/playground/components/animated-rou
 import { Navigation } from './components/navigation'
 import { AccountsHome } from './components/accounts-home'
 
-import './accounts-desktop.css'
+import * as styles from './accounts-desktop.css'
 
 export const MOTION_VARIANTS = {
 	initial: ({
@@ -208,9 +208,9 @@ export const AccountsDesktop = (): JSX.Element => {
 	const { location, locationKey } = useLocationKey()
 
 	return (
-		<div className="z3-c-accounts-desktop">
+		<div className={styles.desktopWrapper}>
 			<Navigation />
-			<div className="z3-c-accounts-desktop__body">
+			<div className={styles.desktopBody}>
 				<AnimatePresence initial={false}>
 					<Routes location={location} key={locationKey}>
 						{['/:account', '/:account/:assetType', '/:account/:assetType/:asset'].map(path => (
