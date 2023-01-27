@@ -12,6 +12,7 @@ const bodyClasses = {
 
 export const getPageClassName = (page: string) => {
 	let className = ''
+
 	if (page === bodyClasses.home.path) {
 		className = bodyClasses.home.className
 	}
@@ -31,7 +32,8 @@ export const useBodyClass = () => {
 	const router = useRouter()
 
 	useEffect(() => {
-		const topLevelPath = router.asPath.split('/')?.[1]
+		const split = router.asPath.split('/')?.[1]
+		const topLevelPath = split.split('?')?.[0]
 		const current = Object.values(bodyClasses).find(({ path }) => path.includes(topLevelPath))
 
 		if (!document.body.classList.contains(current?.className)) {
