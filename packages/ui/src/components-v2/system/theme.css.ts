@@ -1,8 +1,13 @@
 import { precomputeValues } from '@capsizecss/vanilla-extract'
 import { createTheme } from '@vanilla-extract/css'
 import tokens from 'design/dist/tailwind-tokens.json'
+import lightTokens from 'design/dist/light/index.json'
+import darkTokens from 'design/dist/dark/index.json'
 
 import { Breakpoint } from './theme-utils'
+
+// console.log('dark background:', darkTokens.color.background.primary.value)
+// console.log('light background:', lightTokens.color.background.primary.value)
 
 const grid = 4
 const px = (value: string | number) => `${value}px`
@@ -294,6 +299,30 @@ export const primitiveColors = {
 	bleached_silk900: tokens.color.core.bleached_silk['900'],
 	bleached_silk1000: tokens.color.core.bleached_silk['1000'],
 
+	pheasants_egg0: tokens.color.core.pheasants_egg['0'],
+	pheasants_egg100: tokens.color.core.pheasants_egg['100'],
+	pheasants_egg200: tokens.color.core.pheasants_egg['200'],
+	pheasants_egg300: tokens.color.core.pheasants_egg['300'],
+	pheasants_egg400: tokens.color.core.pheasants_egg['400'],
+	pheasants_egg500: tokens.color.core.pheasants_egg['500'],
+	pheasants_egg600: tokens.color.core.pheasants_egg['600'],
+	pheasants_egg700: tokens.color.core.pheasants_egg['700'],
+	pheasants_egg800: tokens.color.core.pheasants_egg['800'],
+	pheasants_egg900: tokens.color.core.pheasants_egg['900'],
+	pheasants_egg1000: tokens.color.core.pheasants_egg['1000'],
+
+	wax0: tokens.color.core.wax['0'],
+	wax100: tokens.color.core.wax['100'],
+	wax200: tokens.color.core.wax['200'],
+	wax300: tokens.color.core.wax['300'],
+	wax400: tokens.color.core.wax['400'],
+	wax500: tokens.color.core.wax['500'],
+	wax600: tokens.color.core.wax['600'],
+	wax700: tokens.color.core.wax['700'],
+	wax800: tokens.color.core.wax['800'],
+	wax900: tokens.color.core.wax['900'],
+	wax1000: tokens.color.core.wax['1000'],
+
 	lead0: tokens.color.core.lead['0'],
 	lead100: tokens.color.core.lead['100'],
 	lead200: tokens.color.core.lead['200'],
@@ -311,18 +340,16 @@ export const primitiveColors = {
  * Light Theme Variable Semantic (Core) colors
  */
 export const lightThemeColors = {
-	defaultColor: '#003',
-	background: '#e5e7ebff',
-	onBackground: '#111827ff',
+	defaultColor: lightTokens.color.font.primary.value,
+	backgroundPrimary: lightTokens.color.background.primary.value,
 }
 
 /**
  * Dark Theme Variable Semantic (Core) colors
  */
 export const darkThemeColors = {
-	defaultColor: '#fff',
-	background: '#111827ff',
-	onBackground: '#f9fafbff',
+	defaultColor: darkTokens.color.font.primary.value,
+	backgroundPrimary: darkTokens.color.background.primary.value,
 }
 
 /**

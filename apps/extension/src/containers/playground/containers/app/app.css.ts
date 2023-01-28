@@ -4,7 +4,7 @@ import { style } from '@vanilla-extract/css'
 
 export const container = sprinkles({
 	color: 'defaultColor',
-	background: 'background',
+	background: 'backgroundPrimary',
 	position: 'relative',
 	height: 'vh100',
 	width: 'vw100',
@@ -33,7 +33,6 @@ export const teststyle = style([
 ])
 
 export const tempNav = sprinkles({
-	background: 'background',
 	position: 'fixed',
 	bottom: 0,
 	right: 0,

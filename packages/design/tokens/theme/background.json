@@ -1,9 +1,10 @@
 {
 	"color": {
 		"background": {
-			"primary": { "value": "{color.core.white.value}", "darkValue": "{color.core.lead.500.value}" },
+			"primary": { "value": "{color.core.bleached_silk.500.value}", "darkValue": "{color.core.lead.500.value}" },
 			"secondary": { "value": "{color.core.bleached_silk.500.value}", "darkValue": "{color.core.wax.500.value}" },
 			"tertiary": { "value": "{color.core.bleached_silk.800.value}", "darkValue": "{color.core.lead.800.value}" },
+
 			"btn-primary": { "value": "{color.core.purple.500.value}", "darkValue": "{color.core.purple.500.value}" },
 			"btn-primary-hover": { "value": "{color.core.purple.600.value}", "darkValue": "{color.core.purple.400.value}" },
 			"btn-primary-ring": { "value": "{color.core.purple.100.value}", "darkValue": "{color.core.purple.700.value}" },
@@ -25,7 +26,7 @@
 			},
 			"btn-ghost-ring": {
 				"value": "{color.core.purple.100.value}",
-				"darkValue": "{color.core.casting_shadow.700.value}"
+				"darkValue": "{color.core.purple.700.value}"
 			},
 			"dropdown": { "value": "{color.core.white.value}", "darkValue": "{color.core.wax.600.value}" },
 			"dropdown-hover": { "value": "{color.core.bleached_silk.300.value}", "darkValue": "{color.core.wax.500.value}" },
@@ -40,8 +41,7 @@
 				"value": "{color.core.emerald_green.100.value}",
 				"darkValue": "{color.core.emerald_green.100.value}"
 			},
-			"info": { "value": "{color.core.blue.100.value}", "darkValue": "{color.core.blue.100.value}" },
-			"disabled": { "value": "{color.background.tertiary.value}", "darkValue": "{color.background.tertiary.value}" }
+			"info": { "value": "{color.core.blue.100.value}", "darkValue": "{color.core.blue.100.value}" }
 		}
 	}
 }
