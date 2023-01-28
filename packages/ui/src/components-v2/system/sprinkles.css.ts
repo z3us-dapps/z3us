@@ -22,6 +22,14 @@ const responsiveProperties = defineProperties({
 		justifyContent: ['stretch', 'flex-start', 'center', 'flex-end', 'space-around', 'space-between'],
 		alignItems: ['stretch', 'flex-start', 'center', 'flex-end'],
 		flexWrap: ['wrap', 'nowrap'],
+		borderTop: [0, 1],
+		borderBottom: [0, 1],
+		borderLeft: [0, 1],
+		borderRight: [0, 1],
+		borderTopStyle: ['solid'],
+		borderBottomStyle: ['solid'],
+		borderLeftStyle: ['solid'],
+		borderRightStyle: ['solid'],
 		paddingTop: space,
 		paddingBottom: space,
 		paddingLeft: space,
@@ -83,6 +91,8 @@ const colorProperties = defineProperties({
 	properties: {
 		background: vars.color,
 		color: vars.color,
+		fill: vars.color,
+		borderColor: vars.color,
 	},
 })
 

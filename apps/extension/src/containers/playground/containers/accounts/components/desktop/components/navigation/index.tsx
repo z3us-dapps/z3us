@@ -6,6 +6,7 @@ import { DropdownProfile } from '@src/containers/playground/containers/accounts/
 import { useAccountParams } from '@src/containers/playground/hooks/use-account-params'
 import { MagnifyingGlassIcon } from '@radix-ui/react-icons'
 import { Button } from 'ui/src/components-v2/button'
+import { Box } from 'ui/src/components-v2/box'
 import { motion, LayoutGroup } from 'framer-motion'
 
 import * as styles from './navigation.css'
@@ -19,8 +20,9 @@ const menuItems = [
 ]
 
 const Z3usLogoBrand = () => (
-	<div className={styles.navigationLogo}>
-		<svg x="0px" y="0px" viewBox="0 0 100 15">
+	<Link to="/accounts/all" className={styles.navigationLogoLink}>
+		<Box className={styles.navigationLogoLinkScreen} />
+		<svg x="0px" y="0px" viewBox="0 0 100 15" className={styles.logoSvg}>
 			<g>
 				<polygon points="6.4,2.9 3.8,2.9 0,0 0,14.3 14.7,2.9 		" />
 				<path d="M56.6,11.4h13.1c1.2,0,2.3-1,2.3-2.3V0H54.3v9.1C54.3,10.4,55.3,11.4,56.6,11.4z" />
@@ -33,7 +35,7 @@ const Z3usLogoBrand = () => (
 				/>
 			</g>
 		</svg>
-	</div>
+	</Link>
 )
 
 const MenuItem = ({ text, href }) => {
@@ -62,9 +64,7 @@ const MenuItem = ({ text, href }) => {
 export const Navigation: React.FC = () => (
 	<nav className={styles.navigationWrapper}>
 		<div className={styles.navigationContainer}>
-			<Link to="/accounts/all">
-				<Z3usLogoBrand />
-			</Link>
+			<Z3usLogoBrand />
 			<div className={styles.navigationMenu}>
 				<LayoutGroup>
 					{menuItems.map(({ text, href }) => (

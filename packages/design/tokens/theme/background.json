@@ -2,6 +2,7 @@
 	"color": {
 		"background": {
 			"primary": { "value": "{color.core.bleached_silk.500.value}", "darkValue": "{color.core.lead.500.value}" },
+
 			"secondary": { "value": "{color.core.bleached_silk.500.value}", "darkValue": "{color.core.wax.500.value}" },
 			"tertiary": { "value": "{color.core.bleached_silk.800.value}", "darkValue": "{color.core.lead.800.value}" },
 

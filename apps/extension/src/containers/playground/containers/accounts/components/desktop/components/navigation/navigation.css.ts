@@ -1,13 +1,19 @@
 import { sprinkles, darkMode } from 'ui/src/components-v2/system/sprinkles.css'
-import { style } from '@vanilla-extract/css'
+import { vars } from 'ui/src/components-v2/system/theme.css'
+import { style, globalStyle } from '@vanilla-extract/css'
 
 export const navigationWrapper = sprinkles({
 	zIndex: 1,
 	display: 'flex',
 	justifyContent: 'center',
-
 	paddingLeft: 'large',
 	paddingRight: 'large',
+	borderBottom: 1,
+	borderBottomStyle: 'solid',
+	borderColor: {
+		lightMode: 'bleached_silk600',
+		darkMode: 'lead800',
+	},
 })
 
 export const navigationContainer = style([
@@ -23,27 +29,59 @@ export const navigationContainer = style([
 	},
 ])
 
-export const navigationLogo = style([
+export const navigationLogoLink = style([
 	sprinkles({
 		position: 'relative',
+		display: 'flex',
+		overflow: 'hidden',
+		cursor: 'pointer',
+		background: {
+			lightMode: 'black',
+			darkMode: 'white',
+		},
 	}),
 	{
 		width: '100px',
-		height: 'auto',
-
-		'::before': {
-			content: '" "',
-		},
-
+		height: '15px',
 		selectors: {
-			[`.${darkMode} &`]: {},
+			// [`.${darkMode} &`]: {},
+			// [`${parent} & svg`]: {
+			// 	fill: 'backgroundPrimary',
+			// },
 		},
 	},
 ])
 
+export const navigationLogoLinkScreen = style([
+	{
+		position: 'absolute',
+		top: 0,
+		left: 0,
+		width: '100%',
+		height: '100%',
+		background: vars.color.purple500,
+		transform: 'translateY(100%)',
+		pointerEvents: 'none',
+		transition: 'ease-in .2s',
+	},
+])
+
+globalStyle(`${navigationLogoLink}:hover ${navigationLogoLinkScreen}`, {
+	transform: 'translateY(0%)',
+})
+
+export const logoSvg = style([
+	sprinkles({
+		position: 'relative',
+		fill: 'backgroundPrimary',
+	}),
+])
+
 export const navigationMenu = style([
 	sprinkles({
-		display: 'none',
+		display: 'flex',
+		flexGrow: 1,
+		justifyContent: 'center',
 	}),
 	{
 		height: 'auto',
