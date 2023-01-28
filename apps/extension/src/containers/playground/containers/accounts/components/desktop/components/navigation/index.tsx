@@ -1,26 +1,20 @@
 import React from 'react'
 import clsx from 'clsx'
 // import { BrowserRouter, Routes, Route, Link, useLocation, useMatch } from 'react-router-dom'
-import { Link, useMatch } from 'react-router-dom'
-import { DropdownProfile } from '@src/containers/playground/containers/accounts/components/dropdown-profile'
+import { Link as LinkRouter, useMatch } from 'react-router-dom'
+// import { DropdownProfile } from '@src/containers/playground/containers/accounts/components/dropdown-profile'
+import { Link } from '@src/components/link'
 import { useAccountParams } from '@src/containers/playground/hooks/use-account-params'
-import { MagnifyingGlassIcon } from '@radix-ui/react-icons'
-import { Button } from 'ui/src/components-v2/button'
+// import { MagnifyingGlassIcon } from '@radix-ui/react-icons'
+// import { Button } from 'ui/src/components-v2/button'
 import { Box } from 'ui/src/components-v2/box'
+import { Text } from 'ui/src/components-v2/typography'
 import { motion, LayoutGroup } from 'framer-motion'
 
 import * as styles from './navigation.css'
 
-const menuItems = [
-	{ text: 'Accounts', href: '/accounts/all' },
-	{ text: 'Transfer', href: '/accounts/transfer' },
-	{ text: 'Staking', href: '/accounts/staking' },
-	{ text: 'Swap', href: '/accounts/swap' },
-	{ text: 'Settings', href: '/accounts/settings' },
-]
-
 const Z3usLogoBrand = () => (
-	<Link to="/accounts/all" className={styles.navigationLogoLink}>
+	<LinkRouter to="/accounts/all" className={styles.navigationLogoLink}>
 		<Box className={styles.navigationLogoLinkScreen} />
 		<svg x="0px" y="0px" viewBox="0 0 100 15" className={styles.logoSvg}>
 			<g>
@@ -35,7 +29,7 @@ const Z3usLogoBrand = () => (
 				/>
 			</g>
 		</svg>
-	</Link>
+	</LinkRouter>
 )
 
 const MenuItem = ({ text, href }) => {
@@ -46,38 +40,40 @@ const MenuItem = ({ text, href }) => {
 	const selected = !!match || isAccountsMatch
 
 	return (
-		<Link to={href}>
-			<motion.div
-				animate={{ opacity: selected ? 1 : 1 }}
-				className={clsx(
-					'z3-c-accounts-navigation__menu-item',
-					selected && 'z3-c-accounts-navigation__menu-item--active',
-				)}
-			>
-				{selected ? <motion.span layoutId="underline" className="z3-c-accounts-navigation__menu-bg-line" /> : null}
-				<p>{text}</p>
-			</motion.div>
+		<Link
+			to={href}
+			className={clsx(styles.navigationMenuLink)}
+			// className={clsx('z3-c-accounts-navigation__menu-item', selected && 'z3-c-accounts-navigation__menu-item--active')}
+		>
+			{selected ? <motion.span layoutId="underline" className={styles.navigationMenuActiveLine} /> : null}
+			<Text className={styles.navigationMenuLinkText}>{text}</Text>
 		</Link>
 	)
 }
 
 export const Navigation: React.FC = () => (
-	<nav className={styles.navigationWrapper}>
-		<div className={styles.navigationContainer}>
+	<Box component="nav" className={styles.navigationWrapper}>
+		<Box className={styles.navigationContainer}>
 			<Z3usLogoBrand />
-			<div className={styles.navigationMenu}>
+			<Box className={styles.navigationMenu}>
 				<LayoutGroup>
-					{menuItems.map(({ text, href }) => (
+					{[
+						{ text: 'Accounts', href: '/accounts/all' },
+						{ text: 'Transfer', href: '/accounts/transfer' },
+						{ text: 'Staking', href: '/accounts/staking' },
+						{ text: 'Swap', href: '/accounts/swap' },
+						{ text: 'Settings', href: '/accounts/settings' },
+					].map(({ text, href }) => (
 						<MenuItem text={text} key={href} href={href} />
 					))}
 				</LayoutGroup>
-			</div>
+			</Box>
 			{/* <div className="z3-c-accounts-navigation__menu-right"> */}
 			{/* 	<Button size="small" intent="ghost" icon> */}
 			{/* 		<MagnifyingGlassIcon /> */}
 			{/* 	</Button> */}
 			{/* 	<DropdownProfile /> */}
 			{/* </div> */}
-		</div>
-	</nav>
+		</Box>
+	</Box>
 )

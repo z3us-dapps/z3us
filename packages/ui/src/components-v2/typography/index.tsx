@@ -1,3 +1,4 @@
 import Text from './text'
+import Link from './link'
 
-export { Text }
+export { Text, Link }

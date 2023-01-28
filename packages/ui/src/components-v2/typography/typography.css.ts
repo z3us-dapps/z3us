@@ -8,7 +8,7 @@ const makeTypographyRules = (textDefinition: typeof vars.text.standard) => {
 
 	const { fontSize: tabletFontSize, lineHeight: tabletLineHeight } = textDefinition.tablet
 
-	const { fontSize: desktopFontSize, lineHeight: desktopLineHeight } = textDefinition.tablet
+	const { fontSize: desktopFontSize, lineHeight: desktopLineHeight } = textDefinition.desktop
 
 	return {
 		untrimmed: style(
@@ -40,9 +40,10 @@ export const font = styleVariants(vars.fonts, mapToProperty('fontFamily'))
 export const weight = styleVariants(vars.weight, mapToProperty('fontWeight'))
 
 export const text = {
-	standard: makeTypographyRules(vars.text.standard),
-	small: makeTypographyRules(vars.text.small),
 	xsmall: makeTypographyRules(vars.text.xsmall),
+	small: makeTypographyRules(vars.text.small),
+	medium: makeTypographyRules(vars.text.medium),
+	large: makeTypographyRules(vars.text.large),
 	code: makeTypographyRules(vars.text.code),
 }
 

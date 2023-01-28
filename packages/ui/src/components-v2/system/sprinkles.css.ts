@@ -1,13 +1,6 @@
 import { defineProperties, createSprinkles } from '@vanilla-extract/sprinkles'
 import { vars } from './theme.css'
 
-const space = {
-	none: 0,
-	small: '4px',
-	medium: '8px',
-	large: '16px',
-}
-
 const responsiveProperties = defineProperties({
 	conditions: {
 		mobile: {},
@@ -22,6 +15,7 @@ const responsiveProperties = defineProperties({
 		justifyContent: ['stretch', 'flex-start', 'center', 'flex-end', 'space-around', 'space-between'],
 		alignItems: ['stretch', 'flex-start', 'center', 'flex-end'],
 		flexWrap: ['wrap', 'nowrap'],
+		gap: vars.spacing,
 		borderTop: [0, 1],
 		borderBottom: [0, 1],
 		borderLeft: [0, 1],
@@ -30,14 +24,14 @@ const responsiveProperties = defineProperties({
 		borderBottomStyle: ['solid'],
 		borderLeftStyle: ['solid'],
 		borderRightStyle: ['solid'],
-		paddingTop: space,
-		paddingBottom: space,
-		paddingLeft: space,
-		paddingRight: space,
-		marginTop: space,
-		marginBottom: space,
-		marginLeft: space,
-		marginRight: space,
+		paddingTop: vars.spacing,
+		paddingBottom: vars.spacing,
+		paddingLeft: vars.spacing,
+		paddingRight: vars.spacing,
+		marginTop: vars.spacing,
+		marginBottom: vars.spacing,
+		marginLeft: vars.spacing,
+		marginRight: vars.spacing,
 		pointerEvents: ['none', 'auto'],
 		overflow: ['hidden', 'clip'],
 		opacity: [0, 1],
@@ -50,6 +44,7 @@ const responsiveProperties = defineProperties({
 		},
 	},
 	shorthands: {
+		border: ['borderTop', 'borderBottom', 'borderLeft', 'borderRight'],
 		padding: ['paddingTop', 'paddingBottom', 'paddingLeft', 'paddingRight'],
 		paddingX: ['paddingLeft', 'paddingRight'],
 		paddingY: ['paddingTop', 'paddingBottom'],
@@ -71,8 +66,10 @@ const unresponsiveProperties = defineProperties({
 		zIndex: [-1, 0, 1],
 		width: { full: '100%', vw100: '100vw' },
 		height: { full: '100%', vh100: '100vh' },
+		borderWidth: vars.border.width,
 		borderRadius: vars.border.radius,
 		cursor: ['pointer'],
+		textDecoration: ['none'],
 	},
 	shorthands: {
 		inset: ['top', 'bottom', 'left', 'right'],

@@ -6,9 +6,6 @@ import darkTokens from 'design/dist/dark/index.json'
 
 import { Breakpoint } from './theme-utils'
 
-// console.log('dark background:', darkTokens.color.background.primary.value)
-// console.log('light background:', lightTokens.color.background.primary.value)
-
 const grid = 4
 const px = (value: string | number) => `${value}px`
 
@@ -93,12 +90,10 @@ const calculateTypographyStyles = (
  */
 export const sharedThemeValues = {
 	fonts: {
-		brand: 'source-han-sans-japanese, "Helvetica Neue", HelveticaNeue, Helvetica, sans-serif',
-		heading: 'source-han-sans-japanese, BlinkMacSystemFont, "Helvetica Neue", HelveticaNeue, Helvetica, sans-serif',
+		brand: '"Inter", "Helvetica Neue", HelveticaNeue, Helvetica, sans-serif',
+		heading: '"Inter", BlinkMacSystemFont, "Helvetica Neue", HelveticaNeue, Helvetica, sans-serif',
 		body: '"Inter", BlinkMacSystemFont, "Helvetica Neue", HelveticaNeue, Helvetica, Arial, sans-serif',
 		code: 'ml, "Roboto Mono", Menlo, monospace',
-		HaasGrotTextRound: "'HaasGrotTextRound-Web', Arial",
-		HaasGrotDisplayRound: "'HaasGrotDispRound-Web', Arial",
 	},
 	grid: px(grid),
 	spacing: {
@@ -114,7 +109,7 @@ export const sharedThemeValues = {
 	contentWidth: {
 		xsmall: px(480),
 		small: px(600),
-		standard: px(740),
+		medium: px(740),
 		large: px(960),
 		xlarge: px(1120),
 		xxlarge: px(1350),
@@ -190,23 +185,6 @@ export const sharedThemeValues = {
 		),
 	},
 	text: {
-		standard: calculateTypographyStyles(
-			{
-				mobile: {
-					fontSize: 16,
-					rows: 9,
-				},
-				tablet: {
-					fontSize: 16,
-					rows: 10,
-				},
-				desktop: {
-					fontSize: 18,
-					rows: 10,
-				},
-			},
-			'body',
-		),
 		code: calculateTypographyStyles(
 			{
 				mobile: {
@@ -224,19 +202,53 @@ export const sharedThemeValues = {
 			},
 			'body',
 		),
-		small: calculateTypographyStyles(
+		large: calculateTypographyStyles(
 			{
 				mobile: {
 					fontSize: 16,
-					rows: 8,
+					rows: 9,
 				},
 				tablet: {
 					fontSize: 16,
+					rows: 10,
+				},
+				desktop: {
+					fontSize: 18,
+					rows: 10,
+				},
+			},
+			'body',
+		),
+		medium: calculateTypographyStyles(
+			{
+				mobile: {
+					fontSize: 15,
+					rows: 8,
+				},
+				tablet: {
+					fontSize: 15,
 					rows: 8,
 				},
 				desktop: {
-					fontSize: 16,
+					fontSize: 15,
 					rows: 8,
+				},
+			},
+			'body',
+		),
+		small: calculateTypographyStyles(
+			{
+				mobile: {
+					fontSize: 13,
+					rows: 6,
+				},
+				tablet: {
+					fontSize: 13,
+					rows: 6,
+				},
+				desktop: {
+					fontSize: 13,
+					rows: 6,
 				},
 			},
 			'body',
@@ -244,16 +256,16 @@ export const sharedThemeValues = {
 		xsmall: calculateTypographyStyles(
 			{
 				mobile: {
-					fontSize: 15,
-					rows: 7,
+					fontSize: 12,
+					rows: 5,
 				},
 				tablet: {
-					fontSize: 15,
-					rows: 7,
+					fontSize: 12,
+					rows: 5,
 				},
 				desktop: {
-					fontSize: 15,
-					rows: 7,
+					fontSize: 12,
+					rows: 5,
 				},
 			},
 			'body',
@@ -271,9 +283,10 @@ export const sharedThemeValues = {
 			large: px(2 * grid),
 		},
 		radius: {
-			small: px(2 * grid),
-			medium: px(4 * grid),
-			large: px(7 * grid),
+			xsmall: px(1 * grid),
+			small: px(1.5 * grid),
+			medium: px(2 * grid),
+			large: px(3 * grid),
 			full: '9999px',
 		},
 	},

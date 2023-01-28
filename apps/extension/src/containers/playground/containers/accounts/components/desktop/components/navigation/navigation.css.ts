@@ -1,5 +1,6 @@
 import { sprinkles, darkMode } from 'ui/src/components-v2/system/sprinkles.css'
 import { vars } from 'ui/src/components-v2/system/theme.css'
+import { calc } from '@vanilla-extract/css-utils'
 import { style, globalStyle } from '@vanilla-extract/css'
 
 export const navigationWrapper = sprinkles({
@@ -81,6 +82,7 @@ export const navigationMenu = style([
 	sprinkles({
 		display: 'flex',
 		flexGrow: 1,
+		gap: 'large',
 		justifyContent: 'center',
 	}),
 	{
@@ -88,141 +90,44 @@ export const navigationMenu = style([
 	},
 ])
 
-// .z3-c-accounts-navigation {
-// 	background: var(--color-background-primary);
-// 	padding-left: var(--spacing-8);
-// 	padding-right: var(--spacing-8);
-// 	box-shadow: var(--color-shadow-header);
-// 	z-index: 1;
-//
-// 	.z3-c-accounts-navigation__logo {
-// 		display: block;
-// 		width: 100px;
-// 		height: auto;
-// 		overflow: hidden;
-// 		position: relative;
-// 		background: var(--color-font-primary);
-//
-// 		svg {
-// 			fill: var(--color-background-primary);
-// 			position: relative;
-// 		}
-//
-// 		&:before {
-// 			content: '';
-// 			position: absolute;
-// 			top: 0;
-// 			left: 0;
-// 			width: 100%;
-// 			height: 100%;
-// 			background: var(--color-brand-primary-base);
-// 			transition: var(--transitions-sm-all);
-// 			transform: translateY(100%);
-// 			pointer-events: none;
-// 		}
-//
-// 		&:hover {
-// 			&:before {
-// 				transform: translateY(0%);
-// 			}
-// 		}
-// 	}
-//
-// 	> ul {
-// 		display: flex;
-// 		gap: var(--spacing-3);
-// 	}
-// }
-//
-// .z3-c-accounts-navigation__container {
-// 	height: var(--spacing-16);
-// 	width: 100%;
-// 	max-width: var(--screens-xl);
-// 	margin: 0 auto;
-// 	display: flex;
-// 	align-items: center;
-// 	flex-shrink: 0;
-// }
-//
-// .z3-c-accounts-navigation__menu-right {
-// 	display: flex;
-// 	gap: var(--spacing-1);
-// }
-//
-// .z3-c-accounts-navigation__menu {
-// 	width: 100%;
-// 	display: flex;
-// 	justify-content: center;
-// 	gap: 1rem;
-//
-// 	a {
-// 		position: relative;
-// 		display: flex;
-// 		align-items: center;
-// 		cursor: pointer;
-//
-// 		&:hover {
-// 			> div {
-// 				&::before {
-// 					opacity: 1;
-// 				}
-// 			}
-// 		}
-//
-// 		> .z3-c-accounts-navigation__menu-item {
-// 			height: 100%;
-// 			display: flex;
-// 			align-items: center;
-// 			justify-content: center;
-// 			flex-direction: column;
-// 			position: relative;
-// 			font-size: 0.813rem;
-// 			font-weight: 700;
-// 			cursor: pointer;
-// 			position: relative;
-// 			padding: 0.4rem 0.8rem;
-// 			border-radius: var(--border-radius-md);
-// 			color: var(--color-font-primary);
-// 			transition: var(--transitions-md-all);
-//
-// 			&.z3-c-accounts-navigation__menu-item--active {
-// 				color: var(--color-font-inverse);
-// 				&::before {
-// 					content: '';
-// 				}
-// 			}
-//
-// 			&::before {
-// 				content: '';
-// 				transition: var(--transitions-sm-all);
-// 				height: var(--spacing-8);
-// 				opacity: 0;
-// 				position: absolute;
-// 				top: 0;
-// 				bottom: 0;
-// 				left: 0;
-// 				right: 0;
-// 				position: absolute;
-// 				background-color: var(--color-background-btn-ghost-hover);
-// 				pointer-events: none;
-// 				border-radius: var(--border-radius-md);
-// 			}
-//
-// 			p {
-// 				position: relative;
-// 			}
-//
-// 			.z3-c-accounts-navigation__menu-bg-line {
-// 				position: absolute;
-// 				bottom: 0;
-// 				left: 0;
-// 				width: 100%;
-// 				height: 100%;
-// 				background: var(--color-brand-secondary-base);
-// 				opacity: 1;
-// 				pointer-events: none;
-// 				border-radius: var(--border-radius-md);
-// 			}
-// 		}
-// 	}
-// }
+export const navigationMenuLink = style([
+	sprinkles({
+		display: 'flex',
+		position: 'relative',
+		textDecoration: 'none',
+		paddingX: 'small',
+		borderRadius: 'small',
+		transition: 'fast',
+	}),
+	{
+		height: `${calc(vars.grid).multiply(8)}`,
+		':hover': {
+			background: vars.color.bleached_silk600,
+		},
+		selectors: {
+			[`.${darkMode} &:hover`]: {
+				background: vars.color.lead400,
+			},
+		},
+	},
+])
+
+export const navigationMenuLinkText = style([
+	sprinkles({
+		position: 'relative',
+	}),
+])
+
+export const navigationMenuActiveLine = style([
+	sprinkles({
+		position: 'absolute',
+		inset: 0,
+		pointerEvents: 'none',
+		borderRadius: 'small',
+		background: 'purple500',
+	}),
+	{
+		height: '100%',
+		width: '100%',
+	},
+])

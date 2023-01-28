@@ -1,8 +1,7 @@
 import React, { ElementType, ReactNode } from 'react'
 import clsx from 'clsx'
 import { sprinkles, Sprinkles } from '../system/sprinkles.css'
-
-import { Box } from '../box'
+import { Box, BoxProps } from '../box'
 import * as styles from './typography.css'
 
 const colorMap = {
@@ -22,6 +21,7 @@ interface TextStyleProps {
 	baseline?: boolean
 	display?: Sprinkles['display']
 	type?: Exclude<keyof typeof styles.font, 'brand' | 'heading'>
+	className?: string
 }
 
 export interface TextProps extends TextStyleProps {
@@ -31,28 +31,31 @@ export interface TextProps extends TextStyleProps {
 
 const defaultProps = {
 	component: 'span',
-	size: 'standard',
+	size: 'medium',
 	color: 'neutral',
 	weight: 'regular',
 	align: 'left',
 	baseline: false,
 	display: 'block',
 	type: 'body',
+	className: undefined,
 }
 
 export const TextStyles = ({
-	size = 'standard',
+	size = 'medium',
 	color = 'neutral',
 	weight = 'regular',
 	type = 'body',
 	align,
 	baseline = true,
+	className,
 }: TextStyleProps) =>
 	clsx(
 		styles.font[type],
 		baseline ? styles.text[size].trimmed : styles.text[size].untrimmed,
 		styles.weight[weight],
 		sprinkles({ color: colorMap[color], textAlign: align }),
+		className,
 	)
 
 const Text = ({
@@ -65,8 +68,14 @@ const Text = ({
 	type,
 	display,
 	children,
+	...rest
 }: TextProps) => (
-	<Box component={component} display={display} className={TextStyles({ size, color, weight, type, align, baseline })}>
+	<Box
+		component={component}
+		display={display}
+		className={TextStyles({ size, color, weight, type, align, baseline })}
+		{...rest}
+	>
 		{children}
 	</Box>
 )
