@@ -1,7 +1,6 @@
 import { sprinkles } from 'ui/src/components-v2/system/sprinkles.css'
 
 export const desktopWrapper = sprinkles({
-	color: 'defaultColor',
 	height: 'vh100',
 	width: 'vw100',
 	flexDirection: 'column',

@@ -3,7 +3,7 @@ import { style, styleVariants } from '@vanilla-extract/css'
 import { mapToProperty, queries, responsiveStyle } from '../system/theme-utils'
 import { vars } from '../system/theme.css'
 
-const makeTypographyRules = (textDefinition: typeof vars.text.standard) => {
+const makeTypographyRules = (textDefinition: typeof vars.text.medium) => {
 	const { fontSize: mobileFontSize, lineHeight: mobileLineHeight } = textDefinition.mobile
 
 	const { fontSize: tabletFontSize, lineHeight: tabletLineHeight } = textDefinition.tablet

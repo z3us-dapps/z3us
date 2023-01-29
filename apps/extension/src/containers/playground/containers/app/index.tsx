@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { CheckIcon } from 'ui/src/components/icons'
-import { Box } from 'ui/src/components-v2/box'
 import { lightThemeClass, darkThemeClass } from 'ui/src/components-v2/system/theme.css'
+import { Box } from 'ui/src/components-v2/box'
 import { Text } from 'ui/src/components-v2/typography'
 import { AnimatePresence } from 'framer-motion'
 import { AnimatedPage } from '@src/containers/playground/components/animated-route'
@@ -12,8 +12,20 @@ import * as styles from './app.css'
 
 const NotFound404 = () => (
 	<Box padding="large">
-		<Box className={styles.teststyle}>404</Box>
-		<Text size="code">HEyyyy</Text>
+		<Box className={styles.teststyle} paddingTop="large" display="flex" flexDirection="column">
+			<Text size="code">code</Text>
+			<Text size="xsmall" color="highlight">
+				xsmall highlight
+			</Text>
+			<Text size="small">small</Text>
+			<Text size="medium">medium</Text>
+			<Text size="large" color="neutral">
+				large neutral
+			</Text>
+			<Text size="large" color="strong">
+				large strong
+			</Text>
+		</Box>
 	</Box>
 )
 

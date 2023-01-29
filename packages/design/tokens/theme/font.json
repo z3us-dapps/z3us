@@ -1,9 +1,13 @@
 {
 	"color": {
 		"font": {
+			"neutral": {
+				"value": "{color.core.bleached_silk.1000.value}",
+				"darkValue": "{color.core.bleached_silk.800.value}"
+			},
 			"primary": {
 				"value": "{color.core.bleached_silk.1000.value}",
-				"darkValue": "{color.core.bleached_silk.0.value}"
+				"darkValue": "{color.core.bleached_silk.800.value}"
 			},
 			"secondary": {
 				"value": "{color.core.bleached_silk.800.value}",

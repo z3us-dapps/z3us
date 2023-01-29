@@ -3,8 +3,8 @@ import { responsiveStyle } from 'ui/src/components-v2/system/theme-utils'
 import { style } from '@vanilla-extract/css'
 
 export const container = sprinkles({
-	color: 'defaultColor',
 	background: 'backgroundPrimary',
+	color: 'colorNeutral',
 	position: 'relative',
 	height: 'vh100',
 	width: 'vw100',

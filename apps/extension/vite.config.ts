@@ -30,7 +30,13 @@ export default defineConfig({
 			stream: 'vite-compatible-readable-stream',
 		},
 	},
-	plugins: [react(), visualizer(), vanillaExtractPlugin()],
+	plugins: [
+		react({
+			include: '**/*.tsx',
+		}),
+		visualizer(),
+		vanillaExtractPlugin(),
+	],
 	build: {
 		minify: process.env.NODE_ENV === 'production',
 		outDir: path.resolve(__dirname, `dist/${process.env.APP_TARGET}`),

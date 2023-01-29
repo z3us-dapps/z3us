@@ -279,8 +279,8 @@ export const sharedThemeValues = {
 	},
 	border: {
 		width: {
-			standard: px(1 * grid),
-			large: px(2 * grid),
+			small: px(1 * grid),
+			medium: px(2 * grid),
 		},
 		radius: {
 			xsmall: px(1 * grid),
@@ -365,7 +365,7 @@ export const primitiveColors = {
  * Light Theme Variable Semantic (Core) colors
  */
 export const lightThemeColors = {
-	defaultColor: lightTokens.color.font.primary.value,
+	colorNeutral: lightTokens.color.font.neutral.value,
 	backgroundPrimary: lightTokens.color.background.primary.value,
 }
 
@@ -373,7 +373,7 @@ export const lightThemeColors = {
  * Dark Theme Variable Semantic (Core) colors
  */
 export const darkThemeColors = {
-	defaultColor: darkTokens.color.font.primary.value,
+	colorNeutral: darkTokens.color.font.neutral.value,
 	backgroundPrimary: darkTokens.color.background.primary.value,
 }
 

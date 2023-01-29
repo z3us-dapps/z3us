@@ -39,8 +39,8 @@ const responsiveProperties = defineProperties({
 		minWidth: [0],
 		maxWidth: vars.contentWidth,
 		transition: {
-			slow: 'transform .3s ease, opacity .3s ease',
-			fast: 'transform .15s ease, opacity .15s ease',
+			slow: 'transform .3s ease, opacity .3s ease, background .3s ease',
+			fast: 'transform .15s ease, opacity .15s ease, background .15s ease',
 		},
 	},
 	shorthands: {
