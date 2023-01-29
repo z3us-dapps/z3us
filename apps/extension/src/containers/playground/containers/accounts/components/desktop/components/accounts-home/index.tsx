@@ -8,19 +8,43 @@ import { DropdownProfile } from '@src/containers/playground/containers/accounts/
 import { AccountsList } from '@src/containers/playground/containers/accounts/components/accounts-list'
 import { useAccountParams } from '@src/containers/playground/hooks/use-account-params'
 import { motion } from 'framer-motion'
-// import { Text } from 'ui/src/components-v2/atoms'
 import { Button } from 'ui/src/components-v2/button'
 import { Box } from 'ui/src/components-v2/box'
 import { Text } from 'ui/src/components-v2/typography'
 
-import './accounts-home.css'
+import * as styles from './accounts-home.css'
 
 export const AccountsHome = () => {
 	const [view, setView] = useState<string>('list')
 
 	return (
-		<Box>
-			<Text size="large">HOHOHOH</Text>
+		<Box
+			display="flex"
+			justifyContent="center"
+			paddingRight="large"
+			paddingLeft="large"
+			paddingBottom="xxlarge"
+			paddingTop="xxlarge"
+		>
+			<Box width="full" maxWidth="xlarge">
+				<Box display="flex" gap="xlarge">
+					<Box background="backgroundSecondary" boxShadow="shadowMedium" borderRadius="xlarge" flexGrow={1}>
+						<Box padding="xlarge">
+							<Text size="large">HOHOHOH</Text>
+						</Box>
+					</Box>
+					<Box
+						background="backgroundSecondary"
+						boxShadow="shadowMedium"
+						borderRadius="xlarge"
+						className={styles.rightPanel}
+					>
+						<Box padding="xlarge">
+							<Text size="large">HOHOHOH</Text>
+						</Box>
+					</Box>
+				</Box>
+			</Box>
 		</Box>
 	)
 }

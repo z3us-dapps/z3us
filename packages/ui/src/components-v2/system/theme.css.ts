@@ -287,6 +287,9 @@ export const sharedThemeValues = {
 			small: px(1.5 * grid),
 			medium: px(2 * grid),
 			large: px(3 * grid),
+			xlarge: px(4 * grid),
+			xxlarge: px(5 * grid),
+			xxxlarge: px(6 * grid),
 			full: '9999px',
 		},
 	},
@@ -311,18 +314,6 @@ export const primitiveColors = {
 	bleached_silk800: tokens.color.core.bleached_silk['800'],
 	bleached_silk900: tokens.color.core.bleached_silk['900'],
 	bleached_silk1000: tokens.color.core.bleached_silk['1000'],
-
-	pheasants_egg0: tokens.color.core.pheasants_egg['0'],
-	pheasants_egg100: tokens.color.core.pheasants_egg['100'],
-	pheasants_egg200: tokens.color.core.pheasants_egg['200'],
-	pheasants_egg300: tokens.color.core.pheasants_egg['300'],
-	pheasants_egg400: tokens.color.core.pheasants_egg['400'],
-	pheasants_egg500: tokens.color.core.pheasants_egg['500'],
-	pheasants_egg600: tokens.color.core.pheasants_egg['600'],
-	pheasants_egg700: tokens.color.core.pheasants_egg['700'],
-	pheasants_egg800: tokens.color.core.pheasants_egg['800'],
-	pheasants_egg900: tokens.color.core.pheasants_egg['900'],
-	pheasants_egg1000: tokens.color.core.pheasants_egg['1000'],
 
 	wax0: tokens.color.core.wax['0'],
 	wax100: tokens.color.core.wax['100'],
@@ -359,6 +350,18 @@ export const primitiveColors = {
 	purple800: tokens.color.core.purple['800'],
 	purple900: tokens.color.core.purple['900'],
 	purple1000: tokens.color.core.purple['1000'],
+
+	red0: tokens.color.core.red['0'],
+	red100: tokens.color.core.red['100'],
+	red200: tokens.color.core.red['200'],
+	red300: tokens.color.core.red['300'],
+	red400: tokens.color.core.red['400'],
+	red500: tokens.color.core.red['500'],
+	red600: tokens.color.core.red['600'],
+	red700: tokens.color.core.red['700'],
+	red800: tokens.color.core.red['800'],
+	red900: tokens.color.core.red['900'],
+	red1000: tokens.color.core.red['1000'],
 }
 
 /**
@@ -366,7 +369,10 @@ export const primitiveColors = {
  */
 export const lightThemeColors = {
 	colorNeutral: lightTokens.color.font.neutral.value,
+	colorStrong: lightTokens.color.font.strong.value,
 	backgroundPrimary: lightTokens.color.background.primary.value,
+	backgroundSecondary: lightTokens.color.background.secondary.value,
+	shadowMedium: lightTokens.color.shadow.medium.value,
 }
 
 /**
@@ -374,7 +380,10 @@ export const lightThemeColors = {
  */
 export const darkThemeColors = {
 	colorNeutral: darkTokens.color.font.neutral.value,
+	colorStrong: darkTokens.color.font.strong.value,
 	backgroundPrimary: darkTokens.color.background.primary.value,
+	backgroundSecondary: darkTokens.color.background.secondary.value,
+	shadowMedium: darkTokens.color.shadow.medium.value,
 }
 
 /**

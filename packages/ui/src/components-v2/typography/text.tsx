@@ -6,11 +6,11 @@ import * as styles from './typography.css'
 
 const colorMap = {
 	neutral: 'colorNeutral',
-	strong: { lightMode: 'bleached_silk900', darkMode: 'purple100' },
+	strong: 'colorStrong',
 	// code: { lightMode: 'bleached_silk900', darkMode: 'bleached_silk100' },
 	// link: { lightMode: 'bleached_silk900', darkMode: 'bleached_silk100' },
 	// secondary: { lightMode: 'bleached_silk900', darkMode: 'bleached_silk100' },
-	highlight: { lightMode: 'bleached_silk900', darkMode: 'purple500' },
+	// highlight: { lightMode: 'bleached_silk900', darkMode: 'purple500' },
 } as const
 
 interface TextStyleProps {

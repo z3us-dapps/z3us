@@ -90,6 +90,7 @@ const colorProperties = defineProperties({
 		color: vars.color,
 		fill: vars.color,
 		borderColor: vars.color,
+		boxShadow: vars.color,
 	},
 })
 

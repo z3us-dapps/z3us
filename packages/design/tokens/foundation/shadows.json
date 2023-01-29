@@ -1,33 +1,29 @@
 {
 	"shadow": {
 		"panel": {
-			"sm": {
+			"xsmall": {
 				"value": "0px 10px 38px -10px rgba(22, 23, 24, 0.35), 0px 10px 20px -15px rgba(22, 23, 24, 0.2)",
-				"description": "shadow sm"
+				"description": "shadow extra small"
 			},
-			"md": {
+			"small": {
 				"value": "0px 10px 38px -10px rgba(22, 23, 24, 0.35), 0px 10px 20px -15px rgba(22, 23, 24, 0.2)",
-				"description": "shadow md"
+				"description": "shadow small"
 			},
-			"lg": {
-				"value": "",
-				"description": ""
-			},
-			"xl": {
-				"value": "",
-				"description": ""
-			},
-			"xl2": {
-				"value": "",
-				"description": ""
-			},
-			"panel_light": {
-				"value": "0px 10px 38px -10px rgba(22, 23, 24, 0.35), 0px 10px 20px -15px rgba(22, 23, 24, 0.2)",
-				"description": "Panel light shadow"
-			},
-			"panel_dark": {
+			"medium": {
 				"value": "0px 0px 0px 1px rgba(255, 255, 255, 0.15), 0px 10px 10px rgba(0, 0, 0, 0.01), 0px 10px 10px rgba(0, 0, 0, 0.15), 0px 24px 24px rgba(0, 0, 0, 0.2)",
-				"description": "Panel dark shadow"
+				"description": "shadow medium"
+			},
+			"large": {
+				"value": "",
+				"description": ""
+			},
+			"xlarge": {
+				"value": "",
+				"description": ""
+			},
+			"xxlarge": {
+				"value": "",
+				"description": ""
 			}
 		}
 	}

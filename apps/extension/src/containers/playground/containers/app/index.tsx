@@ -14,9 +14,7 @@ const NotFound404 = () => (
 	<Box padding="large">
 		<Box className={styles.teststyle} paddingTop="large" display="flex" flexDirection="column">
 			<Text size="code">code</Text>
-			<Text size="xsmall" color="highlight">
-				xsmall highlight
-			</Text>
+			<Text size="xsmall">xsmall</Text>
 			<Text size="small">small</Text>
 			<Text size="medium">medium</Text>
 			<Text size="large" color="neutral">
