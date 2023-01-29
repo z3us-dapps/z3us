@@ -2,6 +2,7 @@ import React, { useRef, useEffect } from 'react'
 import SimpleBar from 'simplebar-react'
 import { useImmer } from 'use-immer'
 import { Box } from '../atoms/box'
+import 'simplebar-react/dist/simplebar.min.css'
 
 interface ImmerT {
 	isTopShadowVisible: boolean

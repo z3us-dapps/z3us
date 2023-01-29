@@ -51,29 +51,29 @@ const CombinedTemplate: React.FC = () => (
 
 		{/* BACKGROUND TOKENS */}
 		<Text bold size="8" css={{ pb: '10px', textTransform: 'uppercase', mt: '$12' }}>
-			Background tokens
+			Background color tokens
 		</Text>
 		<Grid columns="2" gap="4" css={{ mt: '$4' }}>
 			<ColorComp theme="light" colorKey="background" depth={1} colorTokens={tokensBackground.color.background} />
 			<ColorComp theme="dark" colorKey="background" depth={1} colorTokens={tokensBackground.color.background} />
 		</Grid>
 
-		{/* BORDER TOKENS */}
-		<Text bold size="8" css={{ pb: '10px', textTransform: 'uppercase', mt: '$12' }}>
-			Border tokens
-		</Text>
-		<Grid columns="2" gap="4" css={{ mt: '$4' }}>
-			<ColorComp theme="light" colorKey="border" depth={1} colorTokens={tokensBorder.color.border} />
-			<ColorComp theme="dark" colorKey="border" depth={1} colorTokens={tokensBorder.color.border} />
-		</Grid>
-
 		{/* FONT TOKENS */}
 		<Text bold size="8" css={{ pb: '10px', textTransform: 'uppercase', mt: '$12' }}>
-			Font tokens
+			Color Font tokens
 		</Text>
 		<Grid columns="2" gap="4" css={{ mt: '$4' }}>
 			<ColorComp theme="light" colorKey="font" depth={1} colorTokens={tokensFont.color.font} />
 			<ColorComp theme="dark" colorKey="font" depth={1} colorTokens={tokensFont.color.font} />
+		</Grid>
+
+		{/* BORDER TOKENS */}
+		<Text bold size="8" css={{ pb: '10px', textTransform: 'uppercase', mt: '$12' }}>
+			Border color tokens
+		</Text>
+		<Grid columns="2" gap="4" css={{ mt: '$4' }}>
+			<ColorComp theme="light" colorKey="border" depth={1} colorTokens={tokensBorder.color.border} />
+			<ColorComp theme="dark" colorKey="border" depth={1} colorTokens={tokensBorder.color.border} />
 		</Grid>
 	</Box>
 )

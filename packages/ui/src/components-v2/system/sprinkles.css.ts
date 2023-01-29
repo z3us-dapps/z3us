@@ -83,6 +83,8 @@ const colorProperties = defineProperties({
 	conditions: {
 		lightMode: {},
 		darkMode: { selector: `.${darkMode} &` },
+		hover: { selector: '&:hover' },
+		focus: { selector: '&:focus' },
 	},
 	defaultCondition: 'lightMode',
 	properties: {

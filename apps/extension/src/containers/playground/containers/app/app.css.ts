@@ -17,6 +17,15 @@ export const container = sprinkles({
 })
 
 export const teststyle = style([
+	sprinkles({
+		position: 'relative',
+		// background: 'red900',
+
+		background: {
+			hover: 'red800',
+			focus: 'red900',
+		},
+	}),
 	{
 		border: '1px solid red',
 		'@media': {

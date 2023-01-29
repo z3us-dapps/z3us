@@ -17,11 +17,11 @@ const NotFound404 = () => (
 			<Text size="xsmall">xsmall</Text>
 			<Text size="small">small</Text>
 			<Text size="medium">medium</Text>
-			<Text size="large" color="neutral">
-				large neutral
-			</Text>
-			<Text size="large" color="strong">
-				large strong
+			<Text size="large">large</Text>
+			<Text size="xlarge">xlarge</Text>
+			<Text size="xxlarge">xxlarge</Text>
+			<Text size="xxxlarge" color="strong">
+				xxxlarge strong
 			</Text>
 		</Box>
 	</Box>

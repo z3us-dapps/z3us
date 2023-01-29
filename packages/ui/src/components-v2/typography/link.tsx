@@ -3,7 +3,7 @@ import clsx from 'clsx'
 import { sprinkles } from '../system/sprinkles.css'
 
 import * as styles from './link.css'
-import { TextProps, TextStyles } from './text'
+import { TextProps, textStyles } from './text'
 
 export interface LProps {
 	href?: string
@@ -27,7 +27,7 @@ const LinkComponent = (props: LProps) => {
 		LinkFrameWorkComp,
 		baseline = false,
 		size = 'medium',
-		color = 'link',
+		color = 'neutral',
 		weight = 'regular',
 		underline = 'hover',
 		type = 'body',
@@ -43,7 +43,7 @@ const LinkComponent = (props: LProps) => {
 		underline === 'hover' ? styles.underlineOnHover : undefined,
 		underline === 'never' ? styles.underlineNever : undefined,
 		highlightOnFocus ? styles.highlightOnHover : undefined,
-		TextStyles({ size, type, color, weight, baseline }),
+		textStyles({ size, type, color, weight, baseline }),
 		className,
 	)
 

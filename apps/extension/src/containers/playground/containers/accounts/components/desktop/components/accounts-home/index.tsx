@@ -15,7 +15,8 @@ import { Text } from 'ui/src/components-v2/typography'
 import * as styles from './accounts-home.css'
 
 export const AccountsHome = () => {
-	const [view, setView] = useState<string>('list')
+	// const [view, setView] = useState<string>('list')
+	const [view, setView] = useState<string>('tileTwo')
 
 	return (
 		<Box
@@ -41,10 +42,48 @@ export const AccountsHome = () => {
 								$40,452
 							</Text>
 						</Box>
-						<Box paddingX="xlarge" paddingTop="large">
-							<Text size="large" color="strong" weight="medium">
-								Assets
-							</Text>
+						<Box paddingX="xlarge" paddingTop="large" display="flex">
+							<Box flexGrow={1}>
+								<Text size="large" color="strong" weight="medium">
+									Assets
+								</Text>
+							</Box>
+							<Box>
+								<Button
+									styleVariant="secondary"
+									onClick={() => {
+										setView('list')
+									}}
+								>
+									<ListBulletIcon />
+									List
+								</Button>
+								<Button
+									styleVariant="secondary"
+									onClick={() => {
+										setView('tileTwo')
+									}}
+								>
+									<ImageIcon />
+									NFT 2
+								</Button>
+								<Button
+									styleVariant="secondary"
+									onClick={() => {
+										setView('tileThree')
+									}}
+								>
+									<ImageIcon />
+									NFT 3
+								</Button>
+								<Button styleVariant="secondary">
+									<MixerHorizontalIcon />
+									Apply filter
+								</Button>
+							</Box>
+						</Box>
+						<Box>
+							<AccountsList view={view as any} />
 						</Box>
 					</Box>
 					<Box
@@ -62,74 +101,3 @@ export const AccountsHome = () => {
 		</Box>
 	)
 }
-
-// return (
-// 	<div className="z3-c-accounts-home">
-// 		<div className="z3-c-accounts-home__container">
-// 			<div className="z3-c-accounts-home__assets">
-// 				<div className="z3-c-accounts-home__assets-header">
-// 					<div>
-// 						<p>
-// 							<span>Savings</span> balance:
-// 						</p>
-// 					</div>
-// 					<p>$40,000</p>
-// 					<section>
-// 						<div>
-// 							<p>All assets</p>
-// 						</div>
-// 						<Button
-// 							intent="secondary"
-// 							onClick={() => {
-// 								setView('list')
-// 							}}
-// 						>
-// 							<ListBulletIcon />
-// 							List
-// 						</Button>
-// 						<Button
-// 							intent="secondary"
-// 							onClick={() => {
-// 								setView('tileTwo')
-// 							}}
-// 						>
-// 							<ImageIcon />
-// 							NFT 2
-// 						</Button>
-// 						<Button
-// 							intent="secondary"
-// 							onClick={() => {
-// 								setView('tileThree')
-// 							}}
-// 						>
-// 							<ImageIcon />
-// 							NFT 3
-// 						</Button>
-// 						<Button intent="secondary">
-// 							<MixerHorizontalIcon />
-// 							Filter
-// 						</Button>
-// 					</section>
-// 				</div>
-// 				<AccountsList view={view as any} />
-// 			</div>
-// 			<div className="z3-c-accounts-home__cards">
-// 				<div className="p-5">
-// 					<p>Accounts</p>
-// 				</div>
-// 				<div className="p-5" style={{ overflow: 'auto', display: 'none' }}>
-// 					<div>
-// 						<p>
-// 							Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the
-// 							industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and
-// 							scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap
-// 							into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the
-// 							release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing
-// 							software like Aldus PageMaker including versions of Lorem Ipsum.
-// 						</p>
-// 					</div>
-// 				</div>
-// 			</div>
-// 		</div>
-// 	</div>
-// )

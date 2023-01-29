@@ -41,7 +41,7 @@ const defaultProps = {
 	className: undefined,
 }
 
-export const TextStyles = ({ size, color, weight, type, align, baseline, className }: TextStyleProps) =>
+export const textStyles = ({ size, color, weight, type, align, baseline, className }: TextStyleProps) =>
 	clsx(
 		styles.font[type],
 		baseline ? styles.text[size].trimmed : styles.text[size].untrimmed,
@@ -54,7 +54,7 @@ const Text = ({ component, size, color, weight, align, baseline, type, display, 
 	<Box
 		component={component}
 		display={display}
-		className={TextStyles({ size, color, weight, type, align, baseline, className })}
+		className={textStyles({ size, color, weight, type, align, baseline, className })}
 	>
 		{children}
 	</Box>
