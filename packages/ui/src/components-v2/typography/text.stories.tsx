@@ -17,16 +17,9 @@ const Template: ComponentStory<typeof Text> = args => {
 	return <Text>Test</Text>
 }
 
-const convertRemToPixels = (rem: string) => {
-	const remStr = rem.replace('rem', '')
-	return Number.parseFloat(remStr) * parseFloat(getComputedStyle(document.documentElement).fontSize)
-}
-
-const themes = ['light', 'dark']
-
 const CombinedTemplate: React.FC = () => (
 	<Box display="flex" gap="large">
-		<Box display="flex" flexDirection="column" flexGrow={1} gap="large" style={{ gap: '1rem' }}>
+		<Box display="flex" flexDirection="column" flexGrow={1} gap="large" style={{ gap: '1rem' }} background="red500">
 			<Text size="xsmall">xsmall</Text>
 			<Text size="small">small</Text>
 			<Text size="large">medium</Text>

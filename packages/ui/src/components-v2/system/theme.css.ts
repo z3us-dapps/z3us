@@ -114,159 +114,68 @@ export const sharedThemeValues = {
 		xlarge: px(1120),
 		xxlarge: px(1350),
 	},
-	heading: {
-		h1: calculateTypographyStyles(
-			{
-				mobile: {
-					fontSize: 24,
-					rows: 12,
-				},
-				tablet: {
-					fontSize: 32,
-					rows: 15,
-				},
-				desktop: {
-					fontSize: 32,
-					rows: 15,
-				},
-			},
-			'heading',
-		),
-		h2: calculateTypographyStyles(
-			{
-				mobile: {
-					fontSize: 22,
-					rows: 10,
-				},
-				tablet: {
-					fontSize: 24,
-					rows: 12,
-				},
-				desktop: {
-					fontSize: 24,
-					rows: 12,
-				},
-			},
-			'heading',
-		),
-		h3: calculateTypographyStyles(
-			{
-				mobile: {
-					fontSize: 20,
-					rows: 8,
-				},
-				tablet: {
-					fontSize: 20,
-					rows: 10,
-				},
-				desktop: {
-					fontSize: 20,
-					rows: 10,
-				},
-			},
-			'heading',
-		),
-		h4: calculateTypographyStyles(
-			{
-				mobile: {
-					fontSize: 20,
-					rows: 8,
-				},
-				tablet: {
-					fontSize: 20,
-					rows: 9,
-				},
-				desktop: {
-					fontSize: 20,
-					rows: 9,
-				},
-			},
-			'heading',
-		),
-	},
 	text: {
 		code: calculateTypographyStyles(
 			{
-				mobile: {
-					fontSize: 11,
-					rows: 6,
-				},
-				tablet: {
-					fontSize: 12,
-					rows: 7,
-				},
-				desktop: {
-					fontSize: 12,
-					rows: 7,
-				},
-			},
-			'body',
-		),
-		large: calculateTypographyStyles(
-			{
-				mobile: {
-					fontSize: 16,
-					rows: 9,
-				},
-				tablet: {
-					fontSize: 16,
-					rows: 10,
-				},
-				desktop: {
-					fontSize: 18,
-					rows: 10,
-				},
-			},
-			'body',
-		),
-		medium: calculateTypographyStyles(
-			{
-				mobile: {
-					fontSize: 15,
-					rows: 8,
-				},
-				tablet: {
-					fontSize: 15,
-					rows: 8,
-				},
-				desktop: {
-					fontSize: 15,
-					rows: 8,
-				},
-			},
-			'body',
-		),
-		small: calculateTypographyStyles(
-			{
-				mobile: {
-					fontSize: 13,
-					rows: 6,
-				},
-				tablet: {
-					fontSize: 13,
-					rows: 6,
-				},
-				desktop: {
-					fontSize: 13,
-					rows: 6,
-				},
+				mobile: { fontSize: 11, rows: 6 },
+				tablet: { fontSize: 12, rows: 7 },
+				desktop: { fontSize: 12, rows: 7 },
 			},
 			'body',
 		),
 		xsmall: calculateTypographyStyles(
 			{
-				mobile: {
-					fontSize: 12,
-					rows: 5,
-				},
-				tablet: {
-					fontSize: 12,
-					rows: 5,
-				},
-				desktop: {
-					fontSize: 12,
-					rows: 5,
-				},
+				mobile: { fontSize: 12, rows: 5 },
+				tablet: { fontSize: 12, rows: 5 },
+				desktop: { fontSize: 12, rows: 5 },
+			},
+			'body',
+		),
+		medium: calculateTypographyStyles(
+			{
+				mobile: { fontSize: 15, rows: 8 },
+				tablet: { fontSize: 15, rows: 8 },
+				desktop: { fontSize: 15, rows: 8 },
+			},
+			'body',
+		),
+		small: calculateTypographyStyles(
+			{
+				mobile: { fontSize: 13, rows: 6 },
+				tablet: { fontSize: 13, rows: 6 },
+				desktop: { fontSize: 13, rows: 6 },
+			},
+			'body',
+		),
+		large: calculateTypographyStyles(
+			{
+				mobile: { fontSize: 16, rows: 9 },
+				tablet: { fontSize: 16, rows: 10 },
+				desktop: { fontSize: 18, rows: 10 },
+			},
+			'body',
+		),
+		xlarge: calculateTypographyStyles(
+			{
+				mobile: { fontSize: 20, rows: 9 },
+				tablet: { fontSize: 24, rows: 10 },
+				desktop: { fontSize: 24, rows: 10 },
+			},
+			'body',
+		),
+		xxlarge: calculateTypographyStyles(
+			{
+				mobile: { fontSize: 24, rows: 12 },
+				tablet: { fontSize: 30, rows: 10 },
+				desktop: { fontSize: 30, rows: 10 },
+			},
+			'body',
+		),
+		xxxlarge: calculateTypographyStyles(
+			{
+				mobile: { fontSize: 30, rows: 12 },
+				tablet: { fontSize: 36, rows: 10 },
+				desktop: { fontSize: 36, rows: 10 },
 			},
 			'body',
 		),
@@ -274,6 +183,7 @@ export const sharedThemeValues = {
 	weight: {
 		lighter: '100',
 		regular: '400',
+		medium: '500',
 		strong: '700',
 		stronger: '900',
 	},

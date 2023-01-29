@@ -28,9 +28,23 @@ export const AccountsHome = () => {
 		>
 			<Box width="full" maxWidth="xlarge">
 				<Box display="flex" gap="xlarge">
-					<Box background="backgroundSecondary" boxShadow="shadowMedium" borderRadius="xlarge" flexGrow={1}>
-						<Box padding="xlarge">
-							<Text size="large">HOHOHOH</Text>
+					<Box
+						background="backgroundSecondary"
+						boxShadow="shadowMedium"
+						paddingY="xlarge"
+						borderRadius="xlarge"
+						flexGrow={1}
+					>
+						<Box paddingX="xlarge">
+							<Text size="medium">Account balance</Text>
+							<Text weight="medium" size="xxxlarge" color="strong">
+								$40,452
+							</Text>
+						</Box>
+						<Box paddingX="xlarge" paddingTop="large">
+							<Text size="large" color="strong" weight="medium">
+								Assets
+							</Text>
 						</Box>
 					</Box>
 					<Box

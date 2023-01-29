@@ -83,8 +83,6 @@
 		"config": "*",
 		"design": "*",
 		"framer-motion": "^6.5.1",
-		"polished": "^4.2.2",
-		"postcss-custom-media": "8.0.2",
 		"react-use-measure": "^2.1.1",
 		"simplebar-react": "^2.4.1",
 		"use-immer": "^0.7.0",

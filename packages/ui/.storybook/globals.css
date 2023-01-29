@@ -1,7 +1,0 @@
-@import 'design/dist/index.css';
-@import 'design/dist/light/index.css';
-@import 'design/dist/dark/index.css';
-
-@tailwind base;
-@tailwind components;
-@tailwind utilities;

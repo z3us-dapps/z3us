@@ -40,16 +40,12 @@ export const font = styleVariants(vars.fonts, mapToProperty('fontFamily'))
 export const weight = styleVariants(vars.weight, mapToProperty('fontWeight'))
 
 export const text = {
+	code: makeTypographyRules(vars.text.code),
 	xsmall: makeTypographyRules(vars.text.xsmall),
 	small: makeTypographyRules(vars.text.small),
 	medium: makeTypographyRules(vars.text.medium),
 	large: makeTypographyRules(vars.text.large),
-	code: makeTypographyRules(vars.text.code),
-}
-
-export const heading = {
-	'1': makeTypographyRules(vars.heading.h1),
-	'2': makeTypographyRules(vars.heading.h2),
-	'3': makeTypographyRules(vars.heading.h3),
-	'4': makeTypographyRules(vars.heading.h4),
+	xlarge: makeTypographyRules(vars.text.xlarge),
+	xxlarge: makeTypographyRules(vars.text.xxlarge),
+	xxxlarge: makeTypographyRules(vars.text.xxxlarge),
 }
