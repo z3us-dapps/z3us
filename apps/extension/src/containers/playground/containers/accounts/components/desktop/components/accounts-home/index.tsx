@@ -28,7 +28,7 @@ export const AccountsHome = () => {
 			paddingTop="xxlarge"
 		>
 			<Box width="full" maxWidth="xlarge">
-				<Box display="flex" gap="xlarge">
+				<Box display="flex" gap="xlarge" className={styles.leftPanel}>
 					<Box
 						background="backgroundSecondary"
 						boxShadow="shadowMedium"
@@ -43,8 +43,8 @@ export const AccountsHome = () => {
 								$40,452
 							</Text>
 						</Box>
-						<Box paddingX="xlarge" paddingTop="large" display="flex">
-							<Box flexGrow={1}>
+						<Box paddingX="xlarge" paddingTop="large" display="flex" alignItems="center">
+							<Box flexGrow={1} display="flex" alignItems="center">
 								<Text size="large" color="strong" weight="medium">
 									Assets
 								</Text>
@@ -57,7 +57,15 @@ export const AccountsHome = () => {
 										console.log(99, 'search')
 									}}
 								>
-									<MagnifyingGlassIcon />
+									<svg width="24" height="24" fill="none" viewBox="0 0 24 24">
+										<path
+											stroke="currentColor"
+											stroke-linecap="round"
+											stroke-linejoin="round"
+											stroke-width="1.5"
+											d="M19.25 19.25L15.5 15.5M4.75 11C4.75 7.54822 7.54822 4.75 11 4.75C14.4518 4.75 17.25 7.54822 17.25 11C17.25 14.4518 14.4518 17.25 11 17.25C7.54822 17.25 4.75 14.4518 4.75 11Z"
+										></path>
+									</svg>
 								</Button>
 								{/* <Button */}
 								{/* 	styleVariant="secondary" */}

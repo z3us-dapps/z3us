@@ -13,7 +13,7 @@ export const navigationWrapper = sprinkles({
 	borderBottomStyle: 'solid',
 	borderColor: {
 		lightMode: 'bleached_silk600',
-		darkMode: 'lead800',
+		darkMode: 'lead500',
 	},
 })
 
@@ -26,7 +26,7 @@ export const navigationContainer = style([
 		alignItems: 'center',
 	}),
 	{
-		height: '80px',
+		height: '72px',
 	},
 ])
 
