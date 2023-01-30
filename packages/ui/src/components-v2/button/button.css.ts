@@ -3,11 +3,16 @@ import { sprinkles } from '../system/sprinkles.css'
 
 export { button as buttonReset } from '../system/reset.css'
 
-export const baseStyles = sprinkles({
+export const baseSprinkles = sprinkles({
 	transition: 'fast',
 })
 
 export const button = recipe({
+	base: {
+		display: 'inline-flex',
+		alignItems: 'center',
+		justifyContent: 'center',
+	},
 	variants: {
 		styleVariant: {
 			primary: sprinkles({
@@ -15,12 +20,18 @@ export const button = recipe({
 				color: 'purple100',
 			}),
 			secondary: sprinkles({
-				background: { lightMode: 'backgroundPrimary', hover: 'purple600', focus: 'purple600' },
-				color: 'purple100',
+				background: { lightMode: 'btnSecondaryBackground', hover: 'btnSecondaryBackgroundHover' },
+				borderColor: { lightMode: 'btnSecondaryBorderColor', hover: 'btnSecondaryBorderColorHover' },
+				color: 'colorNeutral',
+				border: 1,
+				borderStyle: 'solid',
 			}),
 			ghost: sprinkles({
-				background: { hover: 'purple600', focus: 'purple600' },
-				color: 'purple100',
+				background: { hover: 'backgroundPrimary', focus: 'purple600' },
+				borderColor: { lightMode: 'btnGhostBorderColor', hover: 'btnGhostBorderColorHover' },
+				color: 'colorNeutral',
+				border: 1,
+				borderStyle: 'solid',
 			}),
 		},
 		sizeVariant: {
@@ -35,11 +46,15 @@ export const button = recipe({
 			],
 			medium: [
 				sprinkles({
-					borderRadius: 'small',
-					padding: 'small',
+					borderRadius: 'medium',
 				}),
 				{
 					height: '40px',
+					fontSize: '14px',
+					lineHeight: '14px',
+					paddingLeft: '14px',
+					paddingRight: '14px',
+					gap: '10px',
 				},
 			],
 			large: [
@@ -52,6 +67,25 @@ export const button = recipe({
 				},
 			],
 		},
+		iconOnly: {
+			true: {},
+		},
+	},
+	compoundVariants: [
+		{
+			variants: {
+				sizeVariant: 'medium',
+				iconOnly: true,
+			},
+			style: {
+				width: '40px',
+				padding: '0px',
+			},
+		},
+	],
+	defaultVariants: {
+		styleVariant: 'primary',
+		sizeVariant: 'medium',
 	},
 })
 

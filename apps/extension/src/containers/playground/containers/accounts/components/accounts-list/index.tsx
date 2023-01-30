@@ -1,5 +1,6 @@
 /* eslint-disable */
 import React, { useState, useRef, useEffect, useCallback, useContext } from 'react'
+import { useTimeout } from 'usehooks-ts'
 import { Virtuoso, VirtuosoGrid, VirtuosoGridHandle } from 'react-virtuoso'
 import { motion, AnimatePresence, usePresence } from 'framer-motion'
 import { ScrollArea } from 'ui/src/components/scroll-area'
@@ -9,6 +10,11 @@ import { Button } from 'ui/src/components-v2/button'
 
 import * as styles from './accounts-list.css'
 
+const Context = React.createContext({
+	isScrolling: true,
+	isLoading: true,
+})
+
 const ListContainer = React.forwardRef<HTMLDivElement>((props, ref) => {
 	return <div ref={ref} {...props} className={styles.listContainer} />
 })
@@ -17,20 +23,64 @@ const ItemContainer = props => <div {...props} className={styles.itemContainer} 
 
 // This uses the context to set animate back to true when scrolling ends, because
 // framer-motion will only animate changes if animate was already set before the change
+const variants = {
+	loaded: (i: number) => ({
+		opacity: 1,
+		scale: 1,
+		transition: {
+			delay: i * 0.05,
+			type: 'spring',
+			stiffness: 260,
+			damping: 20,
+		},
+	}),
+	loading: {
+		opacity: 0.5,
+		scale: 1,
+		transition: {
+			type: 'spring',
+			stiffness: 260,
+			damping: 20,
+		},
+	},
+}
 const ItemWrapper = props => {
-	// return <div {...props} className={styles.itemWrapper} />
+	const { idx, user } = props
+	const { isLoading, isScrolling } = useContext(Context)
+	const [isItemLoading, setIsItemLoading] = useState(true)
+
+	const getAnimateState = () => {
+		if (isItemLoading && !isScrolling) {
+			return 'loading'
+		}
+
+		if (isLoading && !isScrolling) {
+			return 'loading'
+		}
+
+		return 'loaded'
+	}
+
+	useTimeout(() => {
+		setIsItemLoading(false)
+	}, 1000)
+
 	return (
 		<motion.div
-			initial={{ scale: 0.5, opacity: 0 }}
-			animate={{ scale: 1, opacity: 1 }}
-			transition={{
-				type: 'spring',
-				stiffness: 260,
-				damping: 20,
-			}}
+			animate={getAnimateState()}
+			custom={props.idx}
+			variants={variants}
+			className={clsx({ [styles.itemWrapper]: true }, { [styles.itemWrapperLoading]: isLoading })}
 			{...props}
-			className={styles.itemWrapper}
-		/>
+		>
+			{isItemLoading && !isScrolling ? (
+				<h4>loading....</h4>
+			) : (
+				<h4>
+					{user} -{idx}
+				</h4>
+			)}
+		</motion.div>
 	)
 }
 
@@ -51,10 +101,6 @@ export function generateUsers(length, startIndex = 0) {
 	return Array.from({ length }).map((_, i) => ({ name: hash(), bgColor: 'transparent', description: 'heebs' }))
 }
 
-const Context = React.createContext({
-	animationEnabled: true,
-})
-
 // imperative ref
 // export const AccountsList = React.forwardRef<React.ElementRef<'div'>, AccountListProps>((props, forwardedRef) => {
 export const AccountsList = props => {
@@ -65,7 +111,7 @@ export const AccountsList = props => {
 	const [listMaxHeight, setListMaxHeight] = useState<number>(300)
 	const [customScrollParent, setCustomScrollParent] = useState<HTMLElement | null>(null)
 	const [items, setItems] = useState(Array.from({ length: 100 }, (_, i) => hash()))
-	const [isLoading, setIsLoading] = useState(true)
+	const [isLoading, setIsLoading] = useState(false)
 	const [isScrolling, setIsScrolling] = useState(false)
 
 	const setListSize = () => {
@@ -84,6 +130,10 @@ export const AccountsList = props => {
 	useEffect(() => {
 		// setListSize()
 	}, [ref?.current])
+
+	// useTimeout(() => {
+	// 	setIsLoading(false)
+	// }, 2000)
 
 	const addAtStart = () => setItems([hash(), ...items])
 
@@ -129,19 +179,6 @@ export const AccountsList = props => {
 
 	return (
 		<>
-			{/* <AnimatePresence initial> */}
-			{/* 	<motion.div */}
-			{/* 		style={{ width: '150px', height: '150px', borderRadius: '20px', background: 'blue' }} */}
-			{/* 		initial={{ scale: 0.5, opacity: 0 }} */}
-			{/* 		animate={{ scale: 1, opacity: 1 }} */}
-			{/* 		transition={{ */}
-			{/* 			type: 'spring', */}
-			{/* 			stiffness: 260, */}
-			{/* 			damping: 20, */}
-			{/* 		}} */}
-			{/* 	/> */}
-			{/* </AnimatePresence> */}
-
 			<Box style={{ position: 'fixed', bottom: '100px', right: '0', width: '100px', zIndex: '1' }}>
 				<Box display="flex" flexDirection="column" gap="medium">
 					<button onClick={addAtStart}>Add item to start</button>
@@ -161,9 +198,13 @@ export const AccountsList = props => {
 				}}
 				className={clsx(styles.wrapper)}
 			>
-				<Context.Provider value={{ animationEnabled: !isScrolling }}>
-					<AnimatePresence initial>
-						<ScrollArea scrollableNodeProps={{ ref: setCustomScrollParent }} onScrollAreaSizeChange={setListSize}>
+				<AnimatePresence initial={false}>
+					<Context.Provider value={{ isScrolling, isLoading }}>
+						<ScrollArea
+							scrollableNodeProps={{ ref: setCustomScrollParent }}
+							onScrollAreaSizeChange={setListSize}
+							enabled={!isLoading}
+						>
 							<VirtuosoGrid
 								className={clsx(
 									{ [styles.virtuosoGridList]: view === 'list' },
@@ -172,36 +213,43 @@ export const AccountsList = props => {
 								)}
 								customScrollParent={customScrollParent}
 								data={items}
+								// itemContent={(index, user) => (
+								// 	<ItemWrapper idx={index}>
+								// 		{isLoading ? (
+								// 			<h4>loading....</h4>
+								// 		) : (
+								// 			<h4>
+								// 				{user} -{index}
+								// 			</h4>
+								// 		)}
+								// 	</ItemWrapper>
+								// )}
 								itemContent={(index, user) => (
-									<ItemWrapper idx={index}>
-										<h4>
-											{user} -{index}
-										</h4>
-									</ItemWrapper>
+									<ItemWrapper idx={index} user={user} isLoading={isLoading} isScrolling={isScrolling} />
 								)}
 								components={{
 									List: ListContainer,
 									Item: ItemContainer,
-									ScrollSeekPlaceholder: ({ height, width, index }) => (
-										<ItemContainer>
-											<ItemWrapper>
-												{'--'} - {index}
-											</ItemWrapper>
-										</ItemContainer>
-									),
+									// ScrollSeekPlaceholder: ({ height, width, index }) => (
+									// 	<ItemContainer>
+									// 		<ItemWrapper>
+									// 			{'--'} - {index}
+									// 		</ItemWrapper>
+									// 	</ItemContainer>
+									// ),
 								}}
 								computeItemKey={computeItemKey}
 								isScrolling={onScrollingStateChange}
-								overscan={200}
-								scrollSeekConfiguration={{
-									enter: velocity => Math.abs(velocity) > 200,
-									exit: velocity => Math.abs(velocity) < 30,
-									change: (_, range) => console.log({ range }),
-								}}
+								// overscan={200}
+								// scrollSeekConfiguration={{
+								// 	enter: velocity => Math.abs(velocity) > 200,
+								// 	exit: velocity => Math.abs(velocity) < 30,
+								// 	// change: (_, range) => console.log({ range }),
+								// }}
 							/>
 						</ScrollArea>
-					</AnimatePresence>
-				</Context.Provider>
+					</Context.Provider>
+				</AnimatePresence>
 			</div>
 		</>
 	)

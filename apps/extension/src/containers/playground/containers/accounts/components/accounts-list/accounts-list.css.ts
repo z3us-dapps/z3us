@@ -1,11 +1,10 @@
 import { sprinkles } from 'ui/src/components-v2/system/sprinkles.css'
-import { vars } from 'ui/src/components-v2/system/theme.css'
+// import { vars } from 'ui/src/components-v2/system/theme.css'
 import { responsiveStyle } from 'ui/src/components-v2/system/theme-utils'
 import { style, globalStyle } from '@vanilla-extract/css'
 
 export const wrapper = sprinkles({
 	position: 'relative',
-	background: 'wax100',
 	overflow: 'hidden',
 })
 
@@ -38,15 +37,19 @@ export const virtuosoGridThree = style([
 	}),
 ])
 
+globalStyle(`${virtuosoGridList} ${listContainer}`, {
+	display: 'grid',
+	gap: '1rem',
+	gridTemplateColumns: '1fr',
+})
+
 globalStyle(`${virtuosoGridTwo} ${listContainer}`, {
-	color: 'grey',
 	display: 'grid',
 	gap: '1rem',
 	gridTemplateColumns: '1fr 1fr',
 })
 
 globalStyle(`${virtuosoGridThree} ${listContainer}`, {
-	color: 'grey',
 	display: 'grid',
 	gap: '1rem',
 	gridTemplateColumns: '1fr 1fr 1fr',
@@ -71,14 +74,15 @@ export const itemWrapper = style([
 	},
 ])
 
+export const itemWrapperLoading = style([
+	sprinkles({
+		background: 'red900',
+	}),
+])
+
 export const teststyle = style([
 	sprinkles({
 		position: 'relative',
-		// background: {
-		// 	lightMode: 'teal50',
-		// 	darkMode: 'stone50',
-		// },
-
 		background: {
 			hover: 'red800',
 			focus: 'red900',

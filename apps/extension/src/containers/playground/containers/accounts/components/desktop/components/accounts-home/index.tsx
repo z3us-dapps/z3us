@@ -15,8 +15,8 @@ import { Text } from 'ui/src/components-v2/typography'
 import * as styles from './accounts-home.css'
 
 export const AccountsHome = () => {
-	// const [view, setView] = useState<string>('list')
-	const [view, setView] = useState<string>('tileTwo')
+	const [view, setView] = useState<string>('list')
+	// const [view, setView] = useState<string>('tileTwo')
 
 	return (
 		<Box
@@ -32,9 +32,10 @@ export const AccountsHome = () => {
 					<Box
 						background="backgroundSecondary"
 						boxShadow="shadowMedium"
-						paddingY="xlarge"
+						paddingTop="xlarge"
 						borderRadius="xlarge"
 						flexGrow={1}
+						overflow="hidden"
 					>
 						<Box paddingX="xlarge">
 							<Text size="medium">Account balance</Text>
@@ -48,43 +49,53 @@ export const AccountsHome = () => {
 									Assets
 								</Text>
 							</Box>
-							<Box>
+							<Box display="flex" gap="small">
 								<Button
-									styleVariant="secondary"
+									styleVariant="ghost"
+									iconOnly
 									onClick={() => {
-										setView('list')
+										console.log(99, 'search')
 									}}
 								>
-									<ListBulletIcon />
-									List
+									<MagnifyingGlassIcon />
 								</Button>
-								<Button
-									styleVariant="secondary"
-									onClick={() => {
-										setView('tileTwo')
-									}}
-								>
-									<ImageIcon />
-									NFT 2
-								</Button>
-								<Button
-									styleVariant="secondary"
-									onClick={() => {
-										setView('tileThree')
-									}}
-								>
-									<ImageIcon />
-									NFT 3
-								</Button>
+								{/* <Button */}
+								{/* 	styleVariant="secondary" */}
+								{/* 	onClick={() => { */}
+								{/* 		setView('list') */}
+								{/* 	}} */}
+								{/* > */}
+								{/* 	<ListBulletIcon /> */}
+								{/* 	List */}
+								{/* </Button> */}
+								{/* <Button */}
+								{/* 	styleVariant="secondary" */}
+								{/* 	onClick={() => { */}
+								{/* 		setView('tileTwo') */}
+								{/* 	}} */}
+								{/* > */}
+								{/* 	<ImageIcon /> */}
+								{/* 	NFT 2 */}
+								{/* </Button> */}
+								{/* <Button */}
+								{/* 	styleVariant="secondary" */}
+								{/* 	onClick={() => { */}
+								{/* 		setView('tileThree') */}
+								{/* 	}} */}
+								{/* > */}
+								{/* 	<ImageIcon /> */}
+								{/* 	NFT 3 */}
+								{/* </Button> */}
 								<Button styleVariant="secondary">
 									<MixerHorizontalIcon />
 									Apply filter
 								</Button>
 							</Box>
 						</Box>
-						<Box>
-							<AccountsList view={view as any} />
+						<Box paddingBottom="xlarge" style={{ height: '200px' }}>
+							{/* <Text size="xsmall">Asset</Text> */}
 						</Box>
+						<Box>{/* <AccountsList view={view as any} /> */}</Box>
 					</Box>
 					<Box
 						background="backgroundSecondary"

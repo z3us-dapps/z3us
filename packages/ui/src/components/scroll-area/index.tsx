@@ -11,16 +11,18 @@ interface ImmerT {
 
 interface IProps {
 	children: React.ReactNode
+	enabled?: boolean
 	scrollableNodeProps?: any
 	onScrollAreaSizeChange?: () => void
 }
 
 const defaultProps = {
+	enabled: true,
 	scrollableNodeProps: undefined,
 	onScrollAreaSizeChange: undefined,
 }
 
-export const ScrollArea: React.FC<IProps> = ({ children, scrollableNodeProps, onScrollAreaSizeChange }) => {
+export const ScrollArea: React.FC<IProps> = ({ children, enabled, scrollableNodeProps, onScrollAreaSizeChange }) => {
 	const sRef: any = useRef()
 	const observer = useRef<ResizeObserver | null>(null)
 	const scrollObserver = useRef<ResizeObserver | null>(null)
@@ -89,6 +91,7 @@ export const ScrollArea: React.FC<IProps> = ({ children, scrollableNodeProps, on
 		<Box
 			css={{
 				position: 'absolute',
+				pointerEvents: enabled ? 'auto' : 'none',
 				overflow: 'hidden',
 				top: 0,
 				left: 0,

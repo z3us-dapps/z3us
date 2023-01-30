@@ -283,6 +283,13 @@ export const lightThemeColors = {
 	backgroundPrimary: lightTokens.color.background.primary.value,
 	backgroundSecondary: lightTokens.color.background.secondary.value,
 	shadowMedium: lightTokens.color.shadow.medium.value,
+
+	btnSecondaryBackground: lightTokens.color.background.btn_secondary_background.value,
+	btnSecondaryBackgroundHover: lightTokens.color.background.btn_secondary_background_hover.value,
+	btnSecondaryBorderColor: lightTokens.color.border.btn_secondary_border.value,
+	btnSecondaryBorderColorHover: lightTokens.color.border.btn_secondary_border_hover.value,
+	btnGhostBorderColor: lightTokens.color.border.btn_ghost_border.value,
+	btnGhostBorderColorHover: lightTokens.color.border.btn_ghost_border_hover.value,
 }
 
 /**
@@ -294,6 +301,12 @@ export const darkThemeColors = {
 	backgroundPrimary: darkTokens.color.background.primary.value,
 	backgroundSecondary: darkTokens.color.background.secondary.value,
 	shadowMedium: darkTokens.color.shadow.medium.value,
+	btnSecondaryBackground: darkTokens.color.background.btn_secondary_background.value,
+	btnSecondaryBackgroundHover: darkTokens.color.background.btn_secondary_background_hover.value,
+	btnSecondaryBorderColor: darkTokens.color.border.btn_secondary_border.value,
+	btnSecondaryBorderColorHover: darkTokens.color.border.btn_secondary_border_hover.value,
+	btnGhostBorderColor: darkTokens.color.border.btn_ghost_border.value,
+	btnGhostBorderColorHover: darkTokens.color.border.btn_ghost_border_hover.value,
 }
 
 /**

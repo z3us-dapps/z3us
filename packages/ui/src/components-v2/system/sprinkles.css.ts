@@ -40,11 +40,12 @@ const responsiveProperties = defineProperties({
 		maxWidth: vars.contentWidth,
 		transition: {
 			slow: 'transform .3s ease, opacity .3s ease, background .3s ease',
-			fast: 'transform .15s ease, opacity .15s ease, background .15s ease',
+			fast: 'transform .15s ease, opacity .15s ease, background .15s ease, border .15s ease',
 		},
 	},
 	shorthands: {
 		border: ['borderTop', 'borderBottom', 'borderLeft', 'borderRight'],
+		borderStyle: ['borderTopStyle', 'borderBottomStyle', 'borderLeftStyle', 'borderRightStyle'],
 		padding: ['paddingTop', 'paddingBottom', 'paddingLeft', 'paddingRight'],
 		paddingX: ['paddingLeft', 'paddingRight'],
 		paddingY: ['paddingTop', 'paddingBottom'],
