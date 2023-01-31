@@ -210,6 +210,7 @@ export const sharedThemeValues = {
  * These are the palette that all themes pull from
  */
 export const primitiveColors = {
+	transparent: 'transparent',
 	white: '#fff',
 	black: '#0e0e10',
 
@@ -288,6 +289,7 @@ export const lightThemeColors = {
 	btnSecondaryBackgroundHover: lightTokens.color.background.btn_secondary_background_hover.value,
 	btnSecondaryBorderColor: lightTokens.color.border.btn_secondary_border.value,
 	btnSecondaryBorderColorHover: lightTokens.color.border.btn_secondary_border_hover.value,
+
 	btnGhostBorderColor: lightTokens.color.border.btn_ghost_border.value,
 	btnGhostBorderColorHover: lightTokens.color.border.btn_ghost_border_hover.value,
 }

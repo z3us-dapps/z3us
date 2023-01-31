@@ -10,16 +10,15 @@
 			},
 			"btn_secondary_border_hover": {
 				"value": "{color.core.bleached_silk.500.value}",
-				"darkValue": "{color.core.wax.400.value}"
+				"darkValue": "{color.core.wax.300.value}"
 			},
-
 			"btn_ghost_border": {
-				"value": "transparent",
-				"darkValue": "transparent"
+				"value": "{color.core.bleached_silk.500.value}",
+				"darkValue": "{color.core.bleached_silk.500.value}"
 			},
 			"btn_ghost_border_hover": {
 				"value": "{color.core.bleached_silk.500.value}",
-				"darkValue": "{color.core.wax.400.value}"
+				"darkValue": "{color.core.wax.300.value}"
 			},
 
 			"tertiary": { "value": "{color.core.bleached_silk.100.value}", "darkValue": "{color.core.wax.100.value}" },

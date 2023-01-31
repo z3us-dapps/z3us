@@ -1,7 +1,12 @@
 import { createTextStyle } from '@capsizecss/vanilla-extract'
 import { style, styleVariants } from '@vanilla-extract/css'
 import { mapToProperty, queries, responsiveStyle } from '../system/theme-utils'
+import { sprinkles } from '../system/sprinkles.css'
 import { vars } from '../system/theme.css'
+
+export const baseTextSprinkles = sprinkles({
+	transition: 'fast',
+})
 
 const makeTypographyRules = (textDefinition: typeof vars.text.medium) => {
 	const { fontSize: mobileFontSize, lineHeight: mobileLineHeight } = textDefinition.mobile

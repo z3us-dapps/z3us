@@ -9,11 +9,6 @@ export const container = sprinkles({
 	height: 'vh100',
 	width: 'vw100',
 	overflow: 'clip',
-
-	// background: {
-	// 	lightMode: 'teal50',
-	// 	darkMode: 'stone50',
-	// },
 })
 
 export const teststyle = style([

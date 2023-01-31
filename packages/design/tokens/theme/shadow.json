@@ -2,7 +2,7 @@
 	"color": {
 		"shadow": {
 			"medium": {
-				"value": "{shadow.panel.medium.value}",
+				"value": "{shadow.panel.small.value}",
 				"darkValue": "{shadow.panel.medium.value}"
 			},
 			"dropdown": {

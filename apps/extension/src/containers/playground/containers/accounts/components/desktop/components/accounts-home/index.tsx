@@ -39,7 +39,7 @@ export const AccountsHome = () => {
 					>
 						<Box paddingX="xlarge">
 							<Text size="medium">Account balance</Text>
-							<Text weight="medium" size="xxxlarge" color="strong">
+							<Text weight="strong" size="xxxlarge" color="strong">
 								$40,452
 							</Text>
 						</Box>
@@ -112,7 +112,7 @@ export const AccountsHome = () => {
 						className={styles.rightPanel}
 					>
 						<Box padding="xlarge">
-							<Text size="large">HOHOHOH</Text>
+							<Text size="large">accounts</Text>
 						</Box>
 					</Box>
 				</Box>

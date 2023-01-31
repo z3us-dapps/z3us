@@ -27,8 +27,8 @@ export const button = recipe({
 				borderStyle: 'solid',
 			}),
 			ghost: sprinkles({
-				background: { hover: 'backgroundPrimary', focus: 'purple600' },
-				borderColor: { lightMode: 'btnGhostBorderColor', hover: 'btnGhostBorderColorHover' },
+				background: { hover: 'btnSecondaryBackgroundHover', focus: 'purple600' },
+				borderColor: { lightMode: 'transparent', hover: 'btnGhostBorderColorHover' },
 				color: 'colorNeutral',
 				border: 1,
 				borderStyle: 'solid',

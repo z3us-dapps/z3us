@@ -46,7 +46,7 @@ const MenuItem = ({ text, href }) => {
 			// className={clsx('z3-c-accounts-navigation__menu-item', selected && 'z3-c-accounts-navigation__menu-item--active')}
 		>
 			{selected ? <motion.span layoutId="underline" className={styles.navigationMenuActiveLine} /> : null}
-			<Text color={selected ? 'strong' : 'neutral'} className={styles.navigationMenuLinkText}>
+			<Text color={selected ? 'white' : 'neutral'} className={styles.navigationMenuLinkText}>
 				{text}
 			</Text>
 		</Link>
@@ -70,6 +70,7 @@ export const Navigation: React.FC = () => (
 					))}
 				</LayoutGroup>
 			</Box>
+
 			{/* <div className="z3-c-accounts-navigation__menu-right"> */}
 			{/* 	<Button size="small" intent="ghost" icon> */}
 			{/* 		<MagnifyingGlassIcon /> */}

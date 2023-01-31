@@ -5,6 +5,8 @@ import { Box } from '../box'
 import * as styles from './typography.css'
 
 const colorMap = {
+	white: 'white',
+	black: 'white',
 	neutral: 'colorNeutral',
 	strong: 'colorStrong',
 	// code: { lightMode: 'bleached_silk900', darkMode: 'bleached_silk100' },
@@ -43,6 +45,7 @@ const defaultProps = {
 
 export const textStyles = ({ size, color, weight, type, align, baseline, className }: TextStyleProps) =>
 	clsx(
+		styles.baseTextSprinkles,
 		styles.font[type],
 		baseline ? styles.text[size].trimmed : styles.text[size].untrimmed,
 		styles.weight[weight],
