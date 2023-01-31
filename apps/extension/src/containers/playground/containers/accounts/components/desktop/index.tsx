@@ -55,7 +55,7 @@ export const MOTION_VARIANTS = {
 
 const NotFound404 = () => (
 	<div>
-		<div className="w-48 h-48 bg-vivaldi_red-100 text-6xl">Accounts 404</div>
+		<div className="w-48 h-48 bg-vivaldi_red-100 text-6xl">Accounts 404 here</div>
 	</div>
 )
 
@@ -213,7 +213,7 @@ export const AccountsDesktop = (): JSX.Element => {
 			<div className={styles.desktopBody}>
 				<AnimatePresence initial={false}>
 					<Routes location={location} key={locationKey}>
-						{['/:account', '/:account/:assetType', '/:account/:assetType/:asset'].map(path => (
+						{['/', '/:account', '/:account/:assetType', '/:account/:assetType/:asset'].map(path => (
 							<Route
 								key="Accounts" // optional: avoid full re-renders on route changes
 								path={path}
