@@ -1,14 +1,5 @@
 @import 'simplebar/src/simplebar.css';
 
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
-
-::selection {
-	background: #793ef9;
-	color: #ffffff;
-}
-
 /* // @TODO: Test if this is needed */
 @media (-webkit-min-device-pixel-ratio: 2), (min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
 	body {
