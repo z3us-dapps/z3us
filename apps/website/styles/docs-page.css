@@ -2,7 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-/* @TODO: cleanup */
 :root {
 	--header-height: 4rem;
 }
