@@ -21,6 +21,22 @@ export interface LProps {
 	children?: ReactNode
 }
 
+const defaultProps = {
+	href: undefined,
+	className: undefined,
+	LinkFrameWorkComp: undefined,
+	size: 'medium',
+	underline: 'always',
+	variant: 'link',
+	color: 'neutral',
+	weight: 'regular',
+	inline: false,
+	highlightOnFocus: false,
+	baseline: false,
+	children: 'block',
+	type: 'body',
+}
+
 const LinkComponent = (props: LProps) => {
 	const {
 		href,
@@ -55,3 +71,5 @@ const LinkComponent = (props: LProps) => {
 }
 
 export default LinkComponent
+
+LinkComponent.defaultProps = defaultProps

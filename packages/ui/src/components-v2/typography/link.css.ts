@@ -4,7 +4,7 @@ import { vars } from '../system/theme.css'
 
 export const underlineOnHover = style({
 	selectors: {
-		['&:not(:hover)']: {
+		'&:not(:hover)': {
 			textDecoration: 'none',
 		},
 	},

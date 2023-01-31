@@ -1,7 +1,7 @@
 /* eslint-disable react/jsx-props-no-spreading, @typescript-eslint/no-unused-vars, react/no-array-index-key */
 import React from 'react'
 import { ComponentMeta, ComponentStory } from '@storybook/react'
-import { MagnifyingGlassIcon, MixerHorizontalIcon } from '@radix-ui/react-icons'
+// import { MagnifyingGlassIcon, MixerHorizontalIcon } from '@radix-ui/react-icons'
 // import { CopyIcon } from '@radix-ui/react-icons'
 // import { copyTextToClipboard } from '../../utils/copy-to-clipboard'
 import { Button } from './index'
@@ -36,14 +36,14 @@ const CombinedTemplate: React.FC = () => (
 						<div key={`${intent}-${index}`} className="flex gap-2">
 							{buttonSize.map(size => (
 								<div key={size}>
-									<Button intent={intent as any} size={size as any} icon={index === 5}>
-										{index === 4 || index === 5 ? <MixerHorizontalIcon /> : null}
-										{index !== 5 ? (
-											<>
-												{intent} - {size} - {index}
-											</>
-										) : null}
-									</Button>
+									{/* <Button intent={intent as any} size={size as any} icon={index === 5}> */}
+									{/* 	{index === 4 || index === 5 ? <MixerHorizontalIcon /> : null} */}
+									{/* 	{index !== 5 ? ( */}
+									{/* 		<> */}
+									{/* 			{intent} - {size} - {index} */}
+									{/* 		</> */}
+									{/* 	) : null} */}
+									{/* </Button> */}
 								</div>
 							))}
 						</div>

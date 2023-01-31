@@ -1,3 +1,4 @@
+/*eslint-disable */
 import React from 'react'
 import { Link, useRouter } from 'wouter'
 import { Z3usText } from 'ui/src/components/z3us-text'

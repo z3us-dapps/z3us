@@ -25,8 +25,9 @@ type TdefaultTokenSettings = {
 
 export const defaultTokenSettings: TdefaultTokenSettings = {
 	xrd: { image: 'images/token-images/xrd.png', order: 0 },
-	oci: { image: 'images/token-images/oci.png', order: 1 },
-	dgc: { image: 'images/token-images/dgc.png', order: 2 },
+	z3us: { image: 'images/token-images/z3us.png', order: 1 },
+	oci: { image: 'images/token-images/oci.png', order: 2 },
+	dgc: { image: 'images/token-images/dgc.png' },
 	inu: { image: 'images/token-images/inu.png' },
 	caviar: { image: 'images/token-images/caviar.png' },
 	sfloop: { image: 'images/token-images/sfloop.png' },
@@ -38,7 +39,7 @@ export const defaultTokenSettings: TdefaultTokenSettings = {
 	xseed: { image: 'images/token-images/xseed.png' },
 	rdt: { image: 'images/token-images/rdt.png' },
 	crumbs: { image: 'images/token-images/crumbs.png' },
-	z3us: { image: 'images/token-images/z3us.png' },
+	uid: { image: 'images/token-images/uid.png' },
 }
 
 export const PRESET_COLOR_HELIOTROPE_SUNRISE = 'preset_color_heliotrope_sunrise'

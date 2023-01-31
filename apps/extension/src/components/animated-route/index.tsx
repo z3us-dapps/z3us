@@ -1,5 +1,5 @@
 import React, { useRef } from 'react'
-import { useRoute, Route } from 'wouter'
+import { useRoute } from 'wouter'
 import { Transition } from 'react-transition-group'
 
 interface IProps {
