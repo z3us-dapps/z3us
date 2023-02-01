@@ -117,7 +117,7 @@ export const Box = forwardRef(
 			className,
 		)
 
-		return createElement(component, { className: atomClasses, ...restProps })
+		return createElement(component, { className: atomClasses, ref, ...restProps })
 	},
 )
 
