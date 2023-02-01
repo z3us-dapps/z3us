@@ -1,12 +1,13 @@
 /* eslint-disable */
 import React, { useState } from 'react'
 import { MixerHorizontalIcon, ImageIcon, ListBulletIcon } from '@radix-ui/react-icons'
-import { MagnifyingGlassIcon } from 'ui/src/components/icons'
+import { PlusIcon, MagnifyingGlassIcon } from 'ui/src/components/icons'
 // import clsx from 'clsx'
 // import { BrowserRouter, Routes, Route, Link, useLocation, useMatch } from 'react-router-dom'
 import { Link, useMatch } from 'react-router-dom'
 import { DropdownProfile } from '@src/containers/playground/containers/accounts/components/dropdown-profile'
 import { AccountsList } from '@src/containers/playground/containers/accounts/components/accounts-list'
+import { AccountSwitcher } from '@src/containers/playground/containers/accounts/components/account-switcher'
 import { useAccountParams } from '@src/containers/playground/hooks/use-account-params'
 import { motion } from 'framer-motion'
 import { Button } from 'ui/src/components-v2/button'
@@ -104,8 +105,29 @@ export const AccountsHome = () => {
 						borderRadius="xlarge"
 						className={styles.rightPanel}
 					>
+						<Box paddingTop="xlarge" paddingX="xlarge" display="flex" alignItems="center">
+							<Box flexGrow={1}>
+								<Text size="large" weight="medium" color="strong">
+									Accounts
+								</Text>
+							</Box>
+							<Button
+								styleVariant="ghost"
+								onClick={() => {
+									console.log(99, 'search')
+								}}
+							>
+								<PlusIcon />
+								Select account
+							</Button>
+						</Box>
 						<Box padding="xlarge">
-							<Text size="large">accounts</Text>
+							<AccountSwitcher />
+						</Box>
+						<Box padding="xlarge">
+							<Text size="large" weight="medium">
+								transactions
+							</Text>
 						</Box>
 					</Box>
 				</Box>
