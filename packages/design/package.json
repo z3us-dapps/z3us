@@ -1,0 +1,20 @@
+{
+	"name": "design",
+	"version": "0.0.0",
+	"sideEffects": false,
+	"private": true,
+	"license": "MIT",
+	"files": [
+		"dist/**"
+	],
+	"scripts": {
+		"build": "node build.js",
+		"clean": "rm -rf build",
+		"watch": "npm run build && chokidar  \"tokens/**/*.json\" -c \"npm run build\"",
+		"postinstall": "npm run build"
+	},
+	"dependencies": {
+		"style-dictionary": "^3.1.1",
+		"chokidar-cli": "^1.2.0"
+	}
+}

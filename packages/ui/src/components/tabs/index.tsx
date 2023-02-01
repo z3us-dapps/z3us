@@ -36,7 +36,7 @@ const StyledTrigger = styled(TabsPrimitive.Trigger, {
 	transition: '$default',
 	'&:first-child': { borderTopLeftRadius: '$3' },
 	'&:last-child': { borderTopRightRadius: '$3' },
-	'&:hover': {  backgroundColor: '$bgPanelHover' },
+	'&:hover': { backgroundColor: '$bgPanelHover' },
 	'&[data-state="active"]': {
 		color: '$txtDefault',
 		boxShadow: 'inset 0 -1px 0 0 #673bdf, 0 1px 0 0 #673bdf',

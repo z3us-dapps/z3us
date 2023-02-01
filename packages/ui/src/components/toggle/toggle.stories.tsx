@@ -39,13 +39,13 @@ const CombinedTemplate: React.FC = () => (
 
 		<Flex gap="4" css={{ mt: '$6' }}>
 			<Box css={{ flex: '1' }}>
-					<Toggle size="2" />
+				<Toggle size="2" />
 			</Box>
 			<Box css={{ flex: '1' }}>
-					<Toggle size="2" />
+				<Toggle size="2" />
 			</Box>
 			<Box css={{ flex: '1' }}>
-					<Toggle size="2" />
+				<Toggle size="2" />
 			</Box>
 		</Flex>
 

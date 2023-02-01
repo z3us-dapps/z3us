@@ -7,6 +7,7 @@ module.exports = {
 		'../../apps/website/components/**/*.{js,ts,jsx,tsx}',
 		'../../apps/website/pages/**/*.{js,ts,jsx,tsx}',
 		'../../apps/website/styles/**/*.{js,ts,jsx,tsx}',
+		'../../apps/extension/src/containers/**/*.{js,ts,jsx,tsx}',
 	],
 	theme: {
 		screens: {

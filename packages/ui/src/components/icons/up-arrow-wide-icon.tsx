@@ -13,12 +13,7 @@ export const UpArrowWideIcon = React.forwardRef<SVGSVGElement, IconProps>(
 			{...props}
 			ref={forwardedRef}
 		>
-			<path
-				fill={color}
-				fillRule="evenodd"
-				clipRule="evenodd"
-				d="M18 0L0 10L1.5 12L18 3L34.5 12L36 10L18 0Z"
-			/>
+			<path fill={color} fillRule="evenodd" clipRule="evenodd" d="M18 0L0 10L1.5 12L18 3L34.5 12L36 10L18 0Z" />
 		</svg>
 	),
 )
