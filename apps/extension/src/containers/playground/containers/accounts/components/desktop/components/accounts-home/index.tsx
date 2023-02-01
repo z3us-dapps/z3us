@@ -8,6 +8,7 @@ import { Link, useMatch } from 'react-router-dom'
 import { DropdownProfile } from '@src/containers/playground/containers/accounts/components/dropdown-profile'
 import { AccountsList } from '@src/containers/playground/containers/accounts/components/accounts-list'
 import { AccountSwitcher } from '@src/containers/playground/containers/accounts/components/account-switcher'
+import { AccountActivity } from '@src/containers/playground/containers/accounts/components/account-activity'
 import { useAccountParams } from '@src/containers/playground/hooks/use-account-params'
 import { motion } from 'framer-motion'
 import { Button } from 'ui/src/components-v2/button'
@@ -28,9 +29,10 @@ export const AccountsHome = () => {
 			paddingLeft="large"
 			paddingBottom="xxlarge"
 			paddingTop="xxlarge"
+			height="full"
 		>
 			<Box width="full" maxWidth="xlarge">
-				<Box display="flex" gap="xlarge" className={styles.leftPanel}>
+				<Box display="flex" gap="xlarge" height="full">
 					<Box
 						background="backgroundSecondary"
 						boxShadow="shadowMedium"
@@ -38,6 +40,7 @@ export const AccountsHome = () => {
 						borderRadius="xlarge"
 						flexGrow={1}
 						overflow="hidden"
+						className={styles.leftPanel}
 					>
 						<Box paddingX="xlarge">
 							<Text size="medium">Account balance</Text>
@@ -113,6 +116,7 @@ export const AccountsHome = () => {
 							</Box>
 							<Button
 								styleVariant="ghost"
+								sizeVariant="small"
 								onClick={() => {
 									console.log(99, 'search')
 								}}
@@ -121,14 +125,36 @@ export const AccountsHome = () => {
 								Select account
 							</Button>
 						</Box>
-						<Box padding="xlarge">
+						<Box
+							padding="xlarge"
+							borderBottom={1}
+							borderColor="borderDivider"
+							borderStyle="solid"
+							flexShrink={0}
+							style={{ height: '280px' }}
+						>
 							<AccountSwitcher />
 						</Box>
-						<Box padding="xlarge">
-							<Text size="large" weight="medium">
-								transactions
-							</Text>
+						<Box paddingX="xlarge" paddingTop="xlarge" paddingBottom="medium">
+							<Box display="flex" alignItems="center">
+								<Box flexGrow={1}>
+									<Text size="large" weight="medium" color="strong">
+										Recent activity
+									</Text>
+								</Box>
+								<Button
+									styleVariant="ghost"
+									sizeVariant="small"
+									onClick={() => {
+										console.log(99, 'search')
+									}}
+									iconOnly
+								>
+									<PlusIcon />
+								</Button>
+							</Box>
 						</Box>
+						<AccountActivity />
 					</Box>
 				</Box>
 			</Box>

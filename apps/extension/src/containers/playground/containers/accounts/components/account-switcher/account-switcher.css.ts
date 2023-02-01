@@ -1,14 +1,6 @@
-import { sprinkles } from 'ui/src/components-v2/system/sprinkles.css'
+import { sprinkles, darkMode } from 'ui/src/components-v2/system/sprinkles.css'
 import { responsiveStyle } from 'ui/src/components-v2/system/theme-utils'
 import { style } from '@vanilla-extract/css'
-
-// .card-wrapper {
-// 	position: relative;
-// 	margin: 0 auto;
-// 	width: 312px;
-// 	height: 180px;
-// }
-//
 
 export const cardWrapper = style([
 	sprinkles({
@@ -28,13 +20,31 @@ export const cardWrapper = style([
 export const card = style([
 	sprinkles({
 		position: 'absolute',
+		borderRadius: 'xlarge',
 	}),
 	{
 		width: '312px',
 		height: '180px',
-		borderRadius: '8px',
 		transformOrigin: 'top center',
 		listStyle: 'none',
+		boxShadow:
+			'0px 136px 192px rgba(0, 0, 0, 0.3), 0px 50px 50px rgba(0, 0, 0, 0.25), 0px 24px 24px rgba(0, 0, 0, 0.2), 0px 12px 12px rgba(0, 0, 0, 0.15)',
+
+		selectors: {
+			[`.${darkMode} &`]: {
+				boxShadow:
+					'0px 136px 192px rgba(0, 0, 0, 0.3), 0px 50px 50px rgba(0, 0, 0, 0.25), 0px 24px 24px rgba(0, 0, 0, 0.2), 0px 12px 12px rgba(0, 0, 0, 0.15)',
+			},
+		},
+	},
+])
+
+export const cardAccount = style([
+	sprinkles({
+		position: 'relative',
+	}),
+	{
+		letterSpacing: '0.15em',
 	},
 ])
 

@@ -82,6 +82,16 @@ export const button = recipe({
 				padding: '0px',
 			},
 		},
+		{
+			variants: {
+				sizeVariant: 'small',
+				iconOnly: true,
+			},
+			style: {
+				width: '32px',
+				padding: '0px',
+			},
+		},
 	],
 	defaultVariants: {
 		styleVariant: 'primary',

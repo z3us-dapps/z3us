@@ -1,9 +1,10 @@
 {
 	"color": {
 		"border": {
-			"primary": { "value": "{color.core.bleached_silk.400.value}", "darkValue": "{color.core.wax.400.value}" },
-			"secondary": { "value": "{color.core.bleached_silk.200.value}", "darkValue": "{color.core.wax.200.value}" },
-
+			"divider_primary": {
+				"value": "{color.core.bleached_silk.200.value}",
+				"darkValue": "{color.core.lead.300.value}"
+			},
 			"btn_secondary_border": {
 				"value": "{color.core.bleached_silk.500.value}",
 				"darkValue": "{color.core.lead.400.value}"
@@ -29,8 +30,8 @@
 			"danger": { "value": "{color.core.red.600.value}", "darkValue": "{color.core.red.600.value}" },
 			"warning": { "value": "{color.core.yellow.600.value}", "darkValue": "{color.core.yellow.600.value}" },
 			"success": {
-				"value": "{color.core.emerald_green.600.value}",
-				"darkValue": "{color.core.emerald_green.600.value}"
+				"value": "{color.core.green.600.value}",
+				"darkValue": "{color.core.green.600.value}"
 			},
 			"info": { "value": "{color.core.blue.600.value}", "darkValue": "{color.core.blue.600.value}" }
 		}

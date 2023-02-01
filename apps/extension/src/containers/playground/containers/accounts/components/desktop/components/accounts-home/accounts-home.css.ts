@@ -13,9 +13,13 @@ export const leftPanel = style([
 export const rightPanel = style([
 	sprinkles({
 		position: 'relative',
+		display: 'flex',
+		flexDirection: 'column',
+		overflow: 'clip',
 	}),
 	{
 		alignSelf: 'flex-start',
 		width: '392px',
+		maxHeight: '100%',
 	},
 ])

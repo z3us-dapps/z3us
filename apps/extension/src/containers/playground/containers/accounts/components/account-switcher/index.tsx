@@ -1,5 +1,6 @@
 import React, { forwardRef, useEffect, useState } from 'react'
 import { Box } from 'ui/src/components-v2/box'
+import { Text } from 'ui/src/components-v2/typography'
 import { motion, AnimatePresence } from 'framer-motion'
 import clsx from 'clsx'
 import { Routes, Route, Link, useNavigate, Navigate } from 'react-router-dom'
@@ -22,12 +23,12 @@ export const MOTION_VARIANTS = {
 		index: number
 		direction: 'forward' | 'backward'
 	}) => ({
-		top: isCardsHovered ? (cardsLength - index) * 60 : (cardsLength - index) * 8,
-		scale: isCardsHovered ? 1 : 1 - index * 0.1,
+		top: isCardsHovered ? (cardsLength - index) * 60 : (cardsLength - index) * 10,
+		scale: isCardsHovered ? 1 : 1 - index * 0.14,
 		zIndex: cardsLength - index,
 		// transition: { type: 'spring', stiffness: 100, damping: 20, duration: 2 },
-		boxShadow:
-			'0px 0px 0px 1px rgba(0, 0, 0, 0.05), 0px 1px 1px rgba(0, 0, 0, 0.06), 0px 2px 8px rgba(0, 0, 0, 0.08), 0px 16px 48px -8px rgba(0, 0, 0, 0.1), 0px 32px 48px rgba(0, 0, 0, 0.05)',
+		// boxShadow:
+		// 	'0px 136px 192px rgba(0, 0, 0, 0.3), 0px 50px 50px rgba(0, 0, 0, 0.25), 0px 24px 24px rgba(0, 0, 0, 0.2), 0px 12px 12px rgba(0, 0, 0, 0.15)',
 		transition: { duration: isMounted ? 0.4 : 0 },
 	}),
 	transitioning: ({
@@ -42,23 +43,20 @@ export const MOTION_VARIANTS = {
 	}) => ({
 		top: index < selectedCard ? (cardsLength - index) * 60 + 129 : (cardsLength - index) * 60,
 		scale: index === selectedCard ? 1.05 : 1 - index * 0.03,
-		boxShadow:
-			index === selectedCard
-				? 'rgba(0, 0, 0, 0.1) 0px 10px 15px -3px, rgba(0, 0, 0, 0.05) 0px 4px 6px -2px'
-				: '0px 0px 0px 1px rgba(0, 0, 0, 0.05), 0px 1px 1px rgba(0, 0, 0, 0.06), 0px 2px 8px rgba(0, 0, 0, 0.08), 0px 16px 48px -8px rgba(0, 0, 0, 0.1), 0px 32px 48px rgba(0, 0, 0, 0.05)',
+		// boxShadow:
+		// 	index === selectedCard
+		// 		? 'rgba(0, 0, 0, 0.1) 0px 10px 15px -3px, rgba(0, 0, 0, 0.05) 0px 4px 6px -2px'
+		// 		: '0px 136px 192px rgba(0, 0, 0, 0.3), 0px 50px 50px rgba(0, 0, 0, 0.25), 0px 24px 24px rgba(0, 0, 0, 0.2), 0px 12px 12px rgba(0, 0, 0, 0.15)',
 		zIndex: cardsLength - index,
 		// transition: { duration: 0 },
 		transition: { type: 'spring', stiffness: 200, damping: 25 },
 	}),
 }
 
-// const CARD_COLORS = ['#266678', '#cb7c7a', ' #36a18b', '#cda35f', '#747474']
 const CARD_COLORS = [
-	{ bgColor: '#266678', accountId: '3764374', accountName: 'geebs' },
-	{ bgColor: '#cb7c7a', accountId: '3d66ffhdf', accountName: 'Numb' },
-	{ bgColor: '#36a18b', accountId: '77575jgnnbh', accountName: 'hrrr' },
-	{ bgColor: '#cda35f', accountId: '123hghgj', accountName: 'durr' },
-	{ bgColor: '#747474', accountId: 'x773-djf', accountName: 'nnnneeebb' },
+	{ bgColor: '#a18bea', accountId: 'rdx1...ma41', accountName: 'Savings', accountBalance: '$5043.43' },
+	{ bgColor: '#c0cddc', accountId: 'rdx1...ldg0', accountName: 'Defi', accountBalance: '$80,043.43' },
+	{ bgColor: '#b7a184', accountId: 'rdx1...6go0', accountName: 'Spend', accountBalance: '$1043.43' },
 ]
 
 interface IAccountSwitcherRequiredProps {}
@@ -129,7 +127,7 @@ export const AccountSwitcher = forwardRef<HTMLButtonElement, IAccountSwitcherPro
 		return (
 			<Box ref={ref}>
 				<ul className={styles.cardWrapper} onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
-					{cards.map(({ bgColor, accountName, accountId }, index) => {
+					{cards.map(({ bgColor, accountName, accountId, accountBalance }, index) => {
 						const canDrag = index === 0
 
 						return (
@@ -144,7 +142,21 @@ export const AccountSwitcher = forwardRef<HTMLButtonElement, IAccountSwitcherPro
 								custom={{ isCardsHovered, cardsLength, selectedCard, index, isMounted }}
 								onClick={() => handleCardClick(accountName)}
 							>
-								{accountName}
+								<Box padding="large" display="flex" flexDirection="column" height="full">
+									<Box flexGrow={1}>
+										<Text size="medium" weight="strong" color="strong" className={styles.cardAccount}>
+											{accountId}
+										</Text>
+									</Box>
+									<Box>
+										<Text size="xlarge" weight="stronger" color="strong">
+											{accountBalance}
+										</Text>
+										<Text size="large" weight="strong" color="strong">
+											{accountName}
+										</Text>
+									</Box>
+								</Box>
 							</motion.li>
 						)
 					})}

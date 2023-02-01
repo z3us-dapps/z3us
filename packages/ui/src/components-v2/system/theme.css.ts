@@ -131,19 +131,19 @@ export const sharedThemeValues = {
 			},
 			'body',
 		),
-		medium: calculateTypographyStyles(
-			{
-				mobile: { fontSize: 15, rows: 8 },
-				tablet: { fontSize: 15, rows: 8 },
-				desktop: { fontSize: 15, rows: 8 },
-			},
-			'body',
-		),
 		small: calculateTypographyStyles(
 			{
 				mobile: { fontSize: 13, rows: 6 },
 				tablet: { fontSize: 13, rows: 6 },
 				desktop: { fontSize: 13, rows: 6 },
+			},
+			'body',
+		),
+		medium: calculateTypographyStyles(
+			{
+				mobile: { fontSize: 15, rows: 8 },
+				tablet: { fontSize: 16, rows: 8 },
+				desktop: { fontSize: 16, rows: 8 },
 			},
 			'body',
 		),
@@ -159,7 +159,7 @@ export const sharedThemeValues = {
 			{
 				mobile: { fontSize: 20, rows: 9 },
 				tablet: { fontSize: 24, rows: 10 },
-				desktop: { fontSize: 24, rows: 10 },
+				desktop: { fontSize: 20, rows: 10 },
 			},
 			'body',
 		),
@@ -184,8 +184,9 @@ export const sharedThemeValues = {
 		lighter: '100',
 		regular: '400',
 		medium: '500',
-		strong: '700',
-		stronger: '900',
+		strong: '600',
+		stronger: '800',
+		strongest: '900',
 	},
 	border: {
 		width: {
@@ -273,6 +274,18 @@ export const primitiveColors = {
 	red800: tokens.color.core.red['800'],
 	red900: tokens.color.core.red['900'],
 	red1000: tokens.color.core.red['1000'],
+
+	green0: tokens.color.core.green['0'],
+	green100: tokens.color.core.green['100'],
+	green200: tokens.color.core.green['200'],
+	green300: tokens.color.core.green['300'],
+	green400: tokens.color.core.green['400'],
+	green500: tokens.color.core.green['500'],
+	green600: tokens.color.core.green['600'],
+	green700: tokens.color.core.green['700'],
+	green800: tokens.color.core.green['800'],
+	green900: tokens.color.core.green['900'],
+	green1000: tokens.color.core.green['1000'],
 }
 
 /**
@@ -283,13 +296,12 @@ export const lightThemeColors = {
 	colorStrong: lightTokens.color.font.strong.value,
 	backgroundPrimary: lightTokens.color.background.primary.value,
 	backgroundSecondary: lightTokens.color.background.secondary.value,
+	borderDivider: lightTokens.color.border.divider_primary.value,
 	shadowMedium: lightTokens.color.shadow.medium.value,
-
 	btnSecondaryBackground: lightTokens.color.background.btn_secondary_background.value,
 	btnSecondaryBackgroundHover: lightTokens.color.background.btn_secondary_background_hover.value,
 	btnSecondaryBorderColor: lightTokens.color.border.btn_secondary_border.value,
 	btnSecondaryBorderColorHover: lightTokens.color.border.btn_secondary_border_hover.value,
-
 	btnGhostBorderColor: lightTokens.color.border.btn_ghost_border.value,
 	btnGhostBorderColorHover: lightTokens.color.border.btn_ghost_border_hover.value,
 }
@@ -302,6 +314,7 @@ export const darkThemeColors = {
 	colorStrong: darkTokens.color.font.strong.value,
 	backgroundPrimary: darkTokens.color.background.primary.value,
 	backgroundSecondary: darkTokens.color.background.secondary.value,
+	borderDivider: darkTokens.color.border.divider_primary.value,
 	shadowMedium: darkTokens.color.shadow.medium.value,
 	btnSecondaryBackground: darkTokens.color.background.btn_secondary_background.value,
 	btnSecondaryBackgroundHover: darkTokens.color.background.btn_secondary_background_hover.value,
