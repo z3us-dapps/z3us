@@ -126,9 +126,8 @@ export const AccountSwitcher = forwardRef<HTMLButtonElement, IAccountSwitcherPro
 			}
 		}, [account])
 
-		// <Box ref={ref}>
 		return (
-			<Box>
+			<Box ref={ref}>
 				<ul className={styles.cardWrapper} onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
 					{cards.map(({ bgColor, accountName, accountId }, index) => {
 						const canDrag = index === 0
