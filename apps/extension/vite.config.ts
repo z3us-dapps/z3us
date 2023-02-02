@@ -4,6 +4,7 @@ import rollupInject from '@rollup/plugin-inject'
 import { visualizer } from 'rollup-plugin-visualizer'
 import webExtension from '@samrum/vite-plugin-web-extension'
 import react from '@vitejs/plugin-react'
+import { vanillaExtractPlugin } from '@vanilla-extract/vite-plugin'
 import chrome from './chrome'
 import firefox from './firefox'
 
@@ -29,7 +30,13 @@ export default defineConfig({
 			stream: 'vite-compatible-readable-stream',
 		},
 	},
-	plugins: [react(), visualizer()],
+	plugins: [
+		react({
+			include: '**/*.tsx',
+		}),
+		visualizer(),
+		vanillaExtractPlugin(),
+	],
 	build: {
 		minify: process.env.NODE_ENV === 'production',
 		outDir: path.resolve(__dirname, `dist/${process.env.APP_TARGET}`),

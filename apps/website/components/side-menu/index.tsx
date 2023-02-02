@@ -74,8 +74,9 @@ export const Accordion = ({ i, expanded, setExpanded, menu, path }: IAccordion) 
 								role="link"
 								onKeyDown={() => handleClickMenuItem(i, false)}
 								onClick={() => handleClickMenuItem(i, false)}
-								className={`rounded transition-all outline-none active:outline-none focus-visible:outline-none focus:outline-none hover:bg-violet-200/30 dark:hover:bg-violet-200/10 ${isActiveMenu ? 'bg-violet-200/30 dark:bg-violet-200/10' : ''
-									}`}
+								className={`rounded transition-all outline-none active:outline-none focus-visible:outline-none focus:outline-none hover:bg-violet-200/30 dark:hover:bg-violet-200/10 ${
+									isActiveMenu ? 'bg-violet-200/30 dark:bg-violet-200/10' : ''
+								}`}
 							>
 								{title}
 							</a>

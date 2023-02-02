@@ -1,0 +1,7 @@
+.z3-c-accounts-mobile {
+	border: 1px solid blue;
+
+	@media (--viewport-tablet) {
+		display: none;
+	}
+}

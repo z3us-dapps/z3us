@@ -99,5 +99,4 @@ export const Flex = styled('div', {
 	},
 })
 
-export type FlexVariantsProps = VariantProps<typeof Flex>;
-
+export type FlexVariantsProps = VariantProps<typeof Flex>

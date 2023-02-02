@@ -81,7 +81,7 @@ export const Permissions: React.FC = () => {
 							Additional host permissions required!
 						</Text>
 						<Text css={{ mt: '$3' }}>
-							Based don your current settings, wallet needs additional host permissions in order to work correctly.
+							Based on your current settings, wallet needs additional host permissions in order to work correctly.
 						</Text>
 					</Box>
 					<Box css={{ height: '295px', position: 'relative' }}>

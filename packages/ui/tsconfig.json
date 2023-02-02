@@ -4,7 +4,7 @@
 		"rootDir": "./src",
 		"baseUrl": ".",
 		"paths": {
-			"@src/*": ["src/*"],
+			"@src/*": ["src/*"]
 		},
 		"target": "ES6",
 		"lib": ["dom", "dom.iterable", "esnext"],

@@ -23,28 +23,28 @@ const Template: ComponentStory<typeof PriceTicker> = args => {
 }
 
 const CombinedTemplate: React.FC = () => (
-		<Box>
-			<Flex justify="start" align="center">
-				<Grid flow="column" gap="6">
-					<Box>
-						<PriceTicker value="98" color="green" />
-					</Box>
-					<Box>
-						<PriceLabel>
-							<PriceTicker value="99" color="green" />
-						</PriceLabel>
-					</Box>
-					<Box>
-						{/*<PriceTicker>
+	<Box>
+		<Flex justify="start" align="center">
+			<Grid flow="column" gap="6">
+				<Box>
+					<PriceTicker value="98" color="green" />
+				</Box>
+				<Box>
+					<PriceLabel>
+						<PriceTicker value="99" color="green" />
+					</PriceLabel>
+				</Box>
+				<Box>
+					{/*<PriceTicker>
 						<Text bold size="3">
 							$9.12
 						</Text>
 					</PriceTicker>*/}
-					</Box>
-				</Grid>
-			</Flex>
-		</Box>
-	)
+				</Box>
+			</Grid>
+		</Flex>
+	</Box>
+)
 
 export const Playground = CombinedTemplate
 
