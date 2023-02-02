@@ -61,7 +61,7 @@ export const TempNav: React.FC = () => {
 	}, [isDarkTheme])
 
 	return (
-		<Box display="flex" position="fixed" className={styles.tempNav} padding="large" gap="medium">
+		<Box display="flex" position="fixed" className={styles.tempNav} padding="small" gap="medium">
 			<Link to="/">Home</Link>
 			<Link to="/accounts">Accounts</Link>
 			<Link to="/onboard">Onboarding</Link>

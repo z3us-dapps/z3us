@@ -3,7 +3,7 @@
 		"border": {
 			"divider_primary": {
 				"value": "{color.core.bleached_silk.200.value}",
-				"darkValue": "{color.core.lead.300.value}"
+				"darkValue": "{color.core.lead.400.value}"
 			},
 			"btn_secondary_border": {
 				"value": "{color.core.bleached_silk.500.value}",

@@ -71,16 +71,41 @@ const ItemWrapper = props => {
 			animate={getAnimateState()}
 			custom={props.idx}
 			variants={variants}
-			className={clsx({ [styles.itemWrapper]: true }, { [styles.itemWrapperLoading]: isLoading })}
+			className={clsx(styles.itemWrapper, { [styles.itemWrapperLoading]: isLoading })}
 			{...props}
 		>
-			{isItemLoading && !isScrolling ? (
-				<h4>loading....</h4>
-			) : (
-				<h4>
-					{user} -{idx}
-				</h4>
-			)}
+			<Box className={styles.ItemWrapperInner}>
+				<Box width="full" className={styles.tokenListGridWrapper}>
+					<Box display="flex" alignItems="center" justifyContent="flex-start" gap="medium">
+						<Box className={styles.tokenListGridCircle} style={{ backgroundColor: '#ea983d' }} />
+						<Text size="medium" weight="medium" color="strong">
+							Bitcoin (BTC)
+						</Text>
+					</Box>
+					<Box display="flex" alignItems="center" justifyContent="center">
+						<Text size="small" color="strong">
+							Amount
+						</Text>
+					</Box>
+					<Box display="flex" alignItems="center" justifyContent="center">
+						<Text size="small" color="strong">
+							Category
+						</Text>
+					</Box>
+					<Box display="flex" alignItems="center" justifyContent="flex-start">
+						<Text size="small" color="strong">
+							Account
+						</Text>
+					</Box>
+				</Box>
+			</Box>
+			{/* {isItemLoading && !isScrolling ? ( */}
+			{/* 	<h4>loading....</h4> */}
+			{/* ) : ( */}
+			{/* 	<h4> */}
+			{/* 		{user} -{idx} */}
+			{/* 	</h4> */}
+			{/* )} */}
 		</motion.div>
 	)
 }
@@ -123,7 +148,7 @@ export const AccountsList = props => {
 			const listBounding = listRef.getBoundingClientRect()
 
 			// TODO need to listen to screen size change and also useImperativeRef to get parent ref
-			const maxHeight = window.innerHeight - listBounding.top - 52
+			const maxHeight = window.innerHeight - listBounding.top - 48
 			setListMaxHeight(maxHeight)
 		}
 	}
@@ -191,21 +216,35 @@ export const AccountsList = props => {
 				</Box>
 			</Box>
 
-			<Box display="flex" paddingLeft="xlarge" paddingRight="xlarge" paddingBottom="medium">
-				<Box>
-					<Text size="xsmall" weight="medium">
-						Assets
-					</Text>
+			<Box paddingX="xlarge">
+				<Box
+					borderBottom={1}
+					borderStyle="solid"
+					borderColor="borderDivider"
+					paddingBottom="medium"
+					className={styles.tokenListGridWrapper}
+				>
+					<Box display="flex" alignItems="center" justifyContent="flex-start">
+						<Text size="xsmall" weight="medium">
+							Assets
+						</Text>
+					</Box>
+					<Box display="flex" alignItems="center" justifyContent="center">
+						<Text size="xsmall" weight="medium">
+							Amount
+						</Text>
+					</Box>
+					<Box display="flex" alignItems="center" justifyContent="center">
+						<Text size="xsmall" weight="medium">
+							Category
+						</Text>
+					</Box>
+					<Box display="flex" alignItems="center" justifyContent="flex-start">
+						<Text size="xsmall" weight="medium">
+							Account
+						</Text>
+					</Box>
 				</Box>
-				<Text size="xsmall" weight="medium">
-					Amount
-				</Text>
-				<Text size="xsmall" weight="medium">
-					Category
-				</Text>
-				<Text size="xsmall" weight="medium">
-					Account
-				</Text>
 			</Box>
 			<div
 				ref={ref}

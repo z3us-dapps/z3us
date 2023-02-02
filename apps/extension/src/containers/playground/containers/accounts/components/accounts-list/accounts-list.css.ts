@@ -1,7 +1,8 @@
-import { sprinkles } from 'ui/src/components-v2/system/sprinkles.css'
+import { sprinkles, darkMode } from 'ui/src/components-v2/system/sprinkles.css'
 // import { vars } from 'ui/src/components-v2/system/theme.css'
 import { responsiveStyle } from 'ui/src/components-v2/system/theme-utils'
 import { style, globalStyle } from '@vanilla-extract/css'
+import { vars } from 'ui/src/components-v2/system/theme.css'
 
 export const wrapper = sprinkles({
 	position: 'relative',
@@ -39,7 +40,6 @@ export const virtuosoGridThree = style([
 
 globalStyle(`${virtuosoGridList} ${listContainer}`, {
 	display: 'grid',
-	gap: '1rem',
 	gridTemplateColumns: '1fr',
 })
 
@@ -67,11 +67,33 @@ export const itemContainer = style([
 export const itemWrapper = style([
 	sprinkles({
 		position: 'relative',
-		background: 'red100',
 		display: 'flex',
+		paddingX: 'xlarge',
 	}),
 	{
-		height: '80px',
+		height: '72px',
+	},
+])
+
+// globalStyle(`${itemWrapper}:first-child > div`, {
+// 	borderTop: 'none',
+// })
+
+export const ItemWrapperInner = style([
+	sprinkles({
+		position: 'relative',
+		display: 'flex',
+		width: 'full',
+		alignItems: 'center',
+		borderBottom: 1,
+		borderStyle: 'solid',
+		borderColor: 'borderDivider',
+		paddingTop: 'medium',
+		paddingBottom: 'medium',
+		gap: 'small',
+	}),
+	{
+		width: '100%',
 	},
 ])
 
@@ -104,34 +126,21 @@ export const teststyle = style([
 	}),
 ])
 
-//
-// .z3-c-account-list--list {
-// 	.z3-c-account-list__container {
-// 		display: grid;
-// 		gap: 1rem;
-// 		grid-template-columns: 1fr;
-// 	}
-// }
-//
-// .z3-c-account-list--tile-two {
-// 	.z3-c-account-list__container {
-// 		display: grid;
-// 		gap: 1rem;
-// 		grid-template-columns: 1fr 1fr;
-// 	}
-// }
-//
-// .z3-c-account-list--tile-three {
-// 	.z3-c-account-list__container {
-// 		display: grid;
-// 		gap: 1rem;
-// 		grid-template-columns: 1fr 1fr 1fr;
-// 	}
-// }
-//
-// .z3-c-account-list__item-wrapper {
-// 	color: var(--color-font-primary);
-// 	background-color: var(--color-background-secondary);
-// 	padding: var(--spacing-3);
-// 	height: 80px;
-// }
+export const tokenListGridWrapper = style([
+	{
+		display: 'grid',
+		gap: '1rem',
+		gridTemplateColumns: '1fr 124px 124px 154px',
+	},
+])
+
+export const tokenListGridCircle = style([
+	sprinkles({
+		position: 'relative',
+		borderRadius: 'full',
+	}),
+	{
+		width: '40px',
+		height: '40px',
+	},
+])

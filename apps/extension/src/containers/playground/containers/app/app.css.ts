@@ -34,9 +34,14 @@ export const teststyle = style([
 	}),
 ])
 
-export const tempNav = sprinkles({
-	position: 'fixed',
-	bottom: 0,
-	right: 0,
-	zIndex: 1,
-})
+export const tempNav = style([
+	sprinkles({
+		position: 'fixed',
+		bottom: 0,
+		right: 0,
+		zIndex: 1,
+	}),
+	{
+		fontSize: '11px',
+	},
+])

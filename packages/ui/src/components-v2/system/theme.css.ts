@@ -123,7 +123,7 @@ export const sharedThemeValues = {
 			},
 			'body',
 		),
-		xsmall: calculateTypographyStyles(
+		xxsmall: calculateTypographyStyles(
 			{
 				mobile: { fontSize: 12, rows: 5 },
 				tablet: { fontSize: 12, rows: 5 },
@@ -131,7 +131,7 @@ export const sharedThemeValues = {
 			},
 			'body',
 		),
-		small: calculateTypographyStyles(
+		xsmall: calculateTypographyStyles(
 			{
 				mobile: { fontSize: 13, rows: 6 },
 				tablet: { fontSize: 13, rows: 6 },
@@ -139,11 +139,19 @@ export const sharedThemeValues = {
 			},
 			'body',
 		),
+		small: calculateTypographyStyles(
+			{
+				mobile: { fontSize: 14, rows: 8 },
+				tablet: { fontSize: 14, rows: 8 },
+				desktop: { fontSize: 14, rows: 8 },
+			},
+			'body',
+		),
 		medium: calculateTypographyStyles(
 			{
-				mobile: { fontSize: 15, rows: 8 },
-				tablet: { fontSize: 16, rows: 8 },
-				desktop: { fontSize: 16, rows: 8 },
+				mobile: { fontSize: 15, rows: 9 },
+				tablet: { fontSize: 15, rows: 10 },
+				desktop: { fontSize: 15, rows: 10 },
 			},
 			'body',
 		),
@@ -151,29 +159,29 @@ export const sharedThemeValues = {
 			{
 				mobile: { fontSize: 16, rows: 9 },
 				tablet: { fontSize: 16, rows: 10 },
-				desktop: { fontSize: 18, rows: 10 },
+				desktop: { fontSize: 16, rows: 10 },
 			},
 			'body',
 		),
 		xlarge: calculateTypographyStyles(
 			{
-				mobile: { fontSize: 20, rows: 9 },
-				tablet: { fontSize: 24, rows: 10 },
-				desktop: { fontSize: 20, rows: 10 },
+				mobile: { fontSize: 18, rows: 9 },
+				tablet: { fontSize: 18, rows: 10 },
+				desktop: { fontSize: 18, rows: 10 },
 			},
 			'body',
 		),
 		xxlarge: calculateTypographyStyles(
 			{
 				mobile: { fontSize: 24, rows: 12 },
-				tablet: { fontSize: 30, rows: 10 },
-				desktop: { fontSize: 30, rows: 10 },
+				tablet: { fontSize: 24, rows: 10 },
+				desktop: { fontSize: 24, rows: 10 },
 			},
 			'body',
 		),
 		xxxlarge: calculateTypographyStyles(
 			{
-				mobile: { fontSize: 30, rows: 12 },
+				mobile: { fontSize: 36, rows: 12 },
 				tablet: { fontSize: 36, rows: 10 },
 				desktop: { fontSize: 36, rows: 10 },
 			},

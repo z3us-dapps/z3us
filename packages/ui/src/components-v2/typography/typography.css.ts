@@ -46,6 +46,7 @@ export const weight = styleVariants(vars.weight, mapToProperty('fontWeight'))
 
 export const text = {
 	code: makeTypographyRules(vars.text.code),
+	xxsmall: makeTypographyRules(vars.text.xxsmall),
 	xsmall: makeTypographyRules(vars.text.xsmall),
 	small: makeTypographyRules(vars.text.small),
 	medium: makeTypographyRules(vars.text.medium),
