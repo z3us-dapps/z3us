@@ -68,6 +68,7 @@ export const itemWrapper = style([
 	sprinkles({
 		position: 'relative',
 		background: 'red100',
+		display: 'flex',
 	}),
 	{
 		height: '80px',

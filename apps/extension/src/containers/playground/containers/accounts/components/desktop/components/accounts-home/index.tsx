@@ -54,7 +54,7 @@ export const AccountsHome = () => {
 									Assets
 								</Text>
 							</Box>
-							<Box display="flex" gap="small">
+							<Box display="flex" gap="small" paddingBottom="large">
 								<Button
 									styleVariant="ghost"
 									iconOnly
@@ -97,10 +97,7 @@ export const AccountsHome = () => {
 								</Button>
 							</Box>
 						</Box>
-						<Box paddingBottom="xlarge" style={{ height: '200px' }}>
-							{/* <Text size="xsmall">Asset</Text> */}
-						</Box>
-						<Box>{/* <AccountsList view={view as any} /> */}</Box>
+						<AccountsList view={view as any} />
 					</Box>
 					<Box
 						background="backgroundSecondary"

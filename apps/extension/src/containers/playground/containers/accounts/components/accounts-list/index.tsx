@@ -5,6 +5,7 @@ import { Virtuoso, VirtuosoGrid, VirtuosoGridHandle } from 'react-virtuoso'
 import { motion, AnimatePresence, usePresence } from 'framer-motion'
 import { ScrollArea } from 'ui/src/components/scroll-area'
 import { Box } from 'ui/src/components-v2/box'
+import { Text } from 'ui/src/components-v2/typography'
 import clsx from 'clsx'
 import { Button } from 'ui/src/components-v2/button'
 
@@ -47,7 +48,7 @@ const variants = {
 const ItemWrapper = props => {
 	const { idx, user } = props
 	const { isLoading, isScrolling } = useContext(Context)
-	const [isItemLoading, setIsItemLoading] = useState(true)
+	const [isItemLoading, setIsItemLoading] = useState(false)
 
 	const getAnimateState = () => {
 		if (isItemLoading && !isScrolling) {
@@ -188,6 +189,23 @@ export const AccountsList = props => {
 					<button onClick={reset}>Reset</button>
 					<button onClick={() => setIsLoading(!isLoading)}>is loading</button>
 				</Box>
+			</Box>
+
+			<Box display="flex" paddingLeft="xlarge" paddingRight="xlarge" paddingBottom="medium">
+				<Box>
+					<Text size="xsmall" weight="medium">
+						Assets
+					</Text>
+				</Box>
+				<Text size="xsmall" weight="medium">
+					Amount
+				</Text>
+				<Text size="xsmall" weight="medium">
+					Category
+				</Text>
+				<Text size="xsmall" weight="medium">
+					Account
+				</Text>
 			</Box>
 			<div
 				ref={ref}
