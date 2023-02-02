@@ -12,7 +12,7 @@ const Sign = lazy(() => import('./sign'))
 const Transaction = lazy(() => import('./transaction'))
 
 export const Notification: React.FC = () => (
-	<UnlockedPanel>
+	<UnlockedPanel css={{ display: 'flex', flexDirection: 'column' }}>
 		<RouterScope base="/notification" hook={useHashLocation}>
 			<Suspense fallback={<Loader />}>
 				<Route path="/connect/:id" component={Connect} />
