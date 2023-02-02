@@ -1,7 +1,6 @@
 import React from 'react'
 import { Box, Flex, Text, StyledLink, Image } from 'ui/src/components/atoms'
 import Button from 'ui/src/components/button'
-import Input from 'ui/src/components/input'
 import { PageWrapper, PageHeading, PageSubHeading } from '@src/components/layout'
 import { useSharedStore, useNoneSharedStore } from '@src/hooks/use-store'
 import { useRoute } from 'wouter'
@@ -64,8 +63,16 @@ export const Sign = (): JSX.Element => {
 				<Box css={{ mt: '$8', flex: '1' }}>
 					<HardwareWalletReconnect />
 				</Box>
-				<Box css={{ mt: '$2', flex: '1' }}>
-					<Input value={challenge} as="textarea" size="2" css={{ height: '200px' }} />
+				<Box css={{ pt: '$2', pb: '$8', flex: '1' }}>
+					<Box
+						css={{
+							br: '$3',
+							p: '16px',
+							border: '1px solid $borderPanel',
+						}}
+					>
+						<Text size="2">{challenge}</Text>
+					</Box>
 				</Box>
 				<Flex
 					direction="column"
