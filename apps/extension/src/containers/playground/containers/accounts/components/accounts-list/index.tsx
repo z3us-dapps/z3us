@@ -11,9 +11,12 @@ import { Button } from 'ui/src/components-v2/button'
 
 import * as styles from './accounts-list.css'
 
-const Context = React.createContext({
+const hash = () => Math.random().toString(36).substring(7)
+
+const Context = React.createContext<{ isScrolling: boolean; isLoading: boolean; setItems: any }>({
 	isScrolling: true,
 	isLoading: true,
+	setItems: () => {},
 })
 
 const ListContainer = React.forwardRef<HTMLDivElement>((props, ref) => {
@@ -29,14 +32,13 @@ const variants = {
 		opacity: 1,
 		scale: 1,
 		transition: {
-			delay: i * 0.05,
 			type: 'spring',
 			stiffness: 260,
 			damping: 20,
 		},
 	}),
 	loading: {
-		opacity: 0.5,
+		opacity: 1,
 		scale: 1,
 		transition: {
 			type: 'spring',
@@ -47,65 +49,90 @@ const variants = {
 }
 const ItemWrapper = props => {
 	const { idx, user } = props
-	const { isLoading, isScrolling } = useContext(Context)
-	const [isItemLoading, setIsItemLoading] = useState(false)
+	const { isLoading, isScrolling, setItems } = useContext(Context)
 
 	const getAnimateState = () => {
-		if (isItemLoading && !isScrolling) {
+		if (!user.loaded) {
 			return 'loading'
 		}
 
-		if (isLoading && !isScrolling) {
-			return 'loading'
-		}
+		// if (isLoading && !isScrolling) {
+		// 	return 'loading'
+		// }
 
 		return 'loaded'
 	}
 
-	useTimeout(() => {
-		setIsItemLoading(false)
-	}, 1000)
+	// useTimeout(() => {
+	// 	setItems(items => {
+	// 		return items.map(item => {
+	// 			if (item.id === user.id) {
+	// 				item.loaded = true
+	// 			}
+	// 			return item
+	// 		})
+	// 	})
+	// }, 1000)
 
 	return (
 		<motion.div
 			animate={getAnimateState()}
 			custom={props.idx}
 			variants={variants}
-			className={clsx(styles.itemWrapper, { [styles.itemWrapperLoading]: isLoading })}
+			className={clsx(styles.itemWrapper, { [styles.itemWrapperLoading]: !user.loaded })}
 			{...props}
 		>
-			<Box className={styles.ItemWrapperInner}>
-				<Box width="full" className={styles.tokenListGridWrapper}>
-					<Box display="flex" alignItems="center" justifyContent="flex-start" gap="medium">
-						<Box className={styles.tokenListGridCircle} style={{ backgroundColor: '#ea983d' }} />
-						<Text size="medium" weight="medium" color="strong">
-							Bitcoin (BTC)
-						</Text>
-					</Box>
-					<Box display="flex" alignItems="center" justifyContent="center">
-						<Text size="small" color="strong">
-							Amount
-						</Text>
-					</Box>
-					<Box display="flex" alignItems="center" justifyContent="center">
-						<Text size="small" color="strong">
-							Category
-						</Text>
-					</Box>
-					<Box display="flex" alignItems="center" justifyContent="flex-start">
-						<Text size="small" color="strong">
-							Account
-						</Text>
+			{!user.loaded ? (
+				<Box className={styles.ItemWrapperInner}>
+					<Box width="full" className={styles.tokenListGridWrapper}>
+						<Box display="flex" alignItems="center" gap="medium">
+							<Box className={clsx(styles.tokenListSkeleton, styles.tokenListGridCircle)} />
+							<Box
+								className={styles.tokenListSkeleton}
+								style={{ width: idx % 2 == 0 ? '45%' : '65%', height: '50%' }}
+							/>
+						</Box>
+						<Box display="flex" alignItems="center">
+							<Box className={styles.tokenListSkeleton} style={{ width: '50%', height: '50%' }} />
+						</Box>
+						<Box display="flex" alignItems="center">
+							<Box className={styles.tokenListSkeleton} style={{ width: '40%', height: '50%' }} />
+						</Box>
+						<Box display="flex" alignItems="center">
+							<Box className={styles.tokenListSkeleton} style={{ width: '70%', height: '50%' }} />
+						</Box>
 					</Box>
 				</Box>
-			</Box>
-			{/* {isItemLoading && !isScrolling ? ( */}
-			{/* 	<h4>loading....</h4> */}
-			{/* ) : ( */}
-			{/* 	<h4> */}
-			{/* 		{user} -{idx} */}
-			{/* 	</h4> */}
-			{/* )} */}
+			) : (
+				<Box className={styles.ItemWrapperInner}>
+					<Box width="full" className={styles.tokenListGridWrapper}>
+						<Box display="flex" alignItems="center" justifyContent="flex-start" gap="medium">
+							<Box className={styles.tokenListGridCircle} style={{ backgroundColor: '#ea983d' }} />
+							{/* <Text size="medium" weight="medium" color="strong"> */}
+							{/* 	Bitcoin (BTC)  */}
+							{/* </Text> */}
+							<Text size="medium" weight="medium" color="strong">
+								{user.id}
+							</Text>
+						</Box>
+						<Box display="flex" alignItems="center">
+							<Text size="small" color="strong">
+								Amount
+							</Text>
+						</Box>
+						<Box display="flex" alignItems="center">
+							<Text size="small" color="strong">
+								Category
+							</Text>
+						</Box>
+						<Box display="flex" alignItems="center">
+							<Text size="small" color="strong">
+								Account
+							</Text>
+						</Box>
+					</Box>
+				</Box>
+			)}
 		</motion.div>
 	)
 }
@@ -121,12 +148,6 @@ const ItemWrapper = props => {
 // 	type: 'button',
 // }
 
-const hash = () => Math.random().toString(36).substring(7)
-
-export function generateUsers(length, startIndex = 0) {
-	return Array.from({ length }).map((_, i) => ({ name: hash(), bgColor: 'transparent', description: 'heebs' }))
-}
-
 // imperative ref
 // export const AccountsList = React.forwardRef<React.ElementRef<'div'>, AccountListProps>((props, forwardedRef) => {
 export const AccountsList = props => {
@@ -136,7 +157,7 @@ export const AccountsList = props => {
 	const [listHeight, setListHeight] = useState<number>(200)
 	const [listMaxHeight, setListMaxHeight] = useState<number>(300)
 	const [customScrollParent, setCustomScrollParent] = useState<HTMLElement | null>(null)
-	const [items, setItems] = useState(Array.from({ length: 100 }, (_, i) => hash()))
+	const [items, setItems] = useState(Array.from({ length: 5 }, _ => ({ id: hash(), name: hash(), loaded: false })))
 	const [isLoading, setIsLoading] = useState(false)
 	const [isScrolling, setIsScrolling] = useState(false)
 
@@ -161,10 +182,10 @@ export const AccountsList = props => {
 	// 	setIsLoading(false)
 	// }, 2000)
 
-	const addAtStart = () => setItems([hash(), ...items])
+	const addAtStart = () => setItems([{ id: hash(), name: hash(), loaded: false }, ...items])
 
 	const addAtRandom = () => {
-		items.splice(Math.floor(Math.random() * items.length), 0, hash())
+		items.splice(Math.floor(Math.random() * items.length), 0, { id: hash(), name: hash(), loaded: false })
 		setItems([...items])
 	}
 
@@ -183,12 +204,7 @@ export const AccountsList = props => {
 		setItems([...items])
 	}
 
-	const reset = () => setItems(['One', 'Two', 'Three', 'Four'])
-
-	const removeSelf = i => {
-		items.splice(i, 1)
-		setItems([...items])
-	}
+	const reset = () => setItems(Array.from({ length: 10 }, _ => ({ id: hash(), name: hash(), loaded: false })))
 
 	// Disable animation on scroll or Virtuoso will break while scrolling
 	const onScrollingStateChange = useCallback(value => {
@@ -198,48 +214,50 @@ export const AccountsList = props => {
 	// computeItemKey is necessary for animation to ensure Virtuoso reuses the same elements
 	const computeItemKey = useCallback(
 		index => {
-			return items[index]
+			return items[index].id
 		},
 		[items],
 	)
 
 	return (
 		<>
-			<Box style={{ position: 'fixed', bottom: '100px', right: '0', width: '100px', zIndex: '1' }}>
-				<Box display="flex" flexDirection="column" gap="medium">
-					<button onClick={addAtStart}>Add item to start</button>
-					<button onClick={addAtRandom}>Add item at random</button>
-					<button onClick={removeAtStart}>Remove from start</button>
-					<button onClick={removeAtRandom}>Remove random</button>
-					<button onClick={reset}>Reset</button>
-					<button onClick={() => setIsLoading(!isLoading)}>is loading</button>
-				</Box>
-			</Box>
-
+			{/* <Box style={{ position: 'fixed', bottom: '100px', right: '0', width: '100px', zIndex: '1' }}> */}
+			{/* 	<Box display="flex" flexDirection="column" gap="medium"> */}
+			{/* 		<button onClick={addAtStart}>Add item to start</button> */}
+			{/* 		<button onClick={addAtRandom}>Add item at random</button> */}
+			{/* 		<button onClick={removeAtStart}>Remove from start</button> */}
+			{/* 		<button onClick={removeAtRandom}>Remove random</button> */}
+			{/* 		<button onClick={reset}>Reset</button> */}
+			{/* 		<button onClick={() => setIsLoading(!isLoading)}>is loading</button> */}
+			{/* 	</Box> */}
+			{/* </Box> */}
 			<Box paddingX="xlarge">
 				<Box
+					position="relative"
 					borderBottom={1}
 					borderStyle="solid"
 					borderColor="borderDivider"
 					paddingBottom="medium"
+					zIndex={1}
 					className={styles.tokenListGridWrapper}
+					style={{ marginBottom: '-1px' }}
 				>
-					<Box display="flex" alignItems="center" justifyContent="flex-start">
+					<Box display="flex" alignItems="center">
 						<Text size="xsmall" weight="medium">
 							Assets
 						</Text>
 					</Box>
-					<Box display="flex" alignItems="center" justifyContent="center">
+					<Box display="flex" alignItems="center">
 						<Text size="xsmall" weight="medium">
 							Amount
 						</Text>
 					</Box>
-					<Box display="flex" alignItems="center" justifyContent="center">
+					<Box display="flex" alignItems="center">
 						<Text size="xsmall" weight="medium">
 							Category
 						</Text>
 					</Box>
-					<Box display="flex" alignItems="center" justifyContent="flex-start">
+					<Box display="flex" alignItems="center">
 						<Text size="xsmall" weight="medium">
 							Account
 						</Text>
@@ -256,7 +274,7 @@ export const AccountsList = props => {
 				className={clsx(styles.wrapper)}
 			>
 				<AnimatePresence initial={false}>
-					<Context.Provider value={{ isScrolling, isLoading }}>
+					<Context.Provider value={{ isScrolling, isLoading, setItems }}>
 						<ScrollArea
 							scrollableNodeProps={{ ref: setCustomScrollParent }}
 							onScrollAreaSizeChange={setListSize}
@@ -270,17 +288,6 @@ export const AccountsList = props => {
 								)}
 								customScrollParent={customScrollParent}
 								data={items}
-								// itemContent={(index, user) => (
-								// 	<ItemWrapper idx={index}>
-								// 		{isLoading ? (
-								// 			<h4>loading....</h4>
-								// 		) : (
-								// 			<h4>
-								// 				{user} -{index}
-								// 			</h4>
-								// 		)}
-								// 	</ItemWrapper>
-								// )}
 								itemContent={(index, user) => (
 									<ItemWrapper idx={index} user={user} isLoading={isLoading} isScrolling={isScrolling} />
 								)}

@@ -1,7 +1,7 @@
 import { sprinkles, darkMode } from 'ui/src/components-v2/system/sprinkles.css'
 // import { vars } from 'ui/src/components-v2/system/theme.css'
 import { responsiveStyle } from 'ui/src/components-v2/system/theme-utils'
-import { style, globalStyle } from '@vanilla-extract/css'
+import { style, globalStyle, globalKeyframes } from '@vanilla-extract/css'
 import { vars } from 'ui/src/components-v2/system/theme.css'
 
 export const wrapper = sprinkles({
@@ -85,7 +85,7 @@ export const ItemWrapperInner = style([
 		display: 'flex',
 		width: 'full',
 		alignItems: 'center',
-		borderBottom: 1,
+		borderTop: 1,
 		borderStyle: 'solid',
 		borderColor: 'borderDivider',
 		paddingTop: 'medium',
@@ -97,11 +97,7 @@ export const ItemWrapperInner = style([
 	},
 ])
 
-export const itemWrapperLoading = style([
-	sprinkles({
-		background: 'red900',
-	}),
-])
+export const itemWrapperLoading = style([sprinkles({})])
 
 export const teststyle = style([
 	sprinkles({
@@ -130,7 +126,7 @@ export const tokenListGridWrapper = style([
 	{
 		display: 'grid',
 		gap: '1rem',
-		gridTemplateColumns: '1fr 124px 124px 154px',
+		gridTemplateColumns: '1fr 114px 114px 134px',
 	},
 ])
 
@@ -144,3 +140,44 @@ export const tokenListGridCircle = style([
 		height: '40px',
 	},
 ])
+
+export const tokenListSkeleton = style([
+	sprinkles({
+		position: 'relative',
+		borderRadius: 'medium',
+		overflow: 'hidden',
+		background: {
+			lightMode: 'bleached_silk600',
+			darkMode: 'lead400',
+		},
+	}),
+	{
+		border: '0px solid red',
+
+		'::after': {
+			content: '""',
+			position: 'absolute',
+			top: 0,
+			bottom: 0,
+			left: 0,
+			right: 0,
+			transform: 'translateX(-100%)',
+			animation: 'globalRotate 2s infinite',
+			backgroundImage:
+				'linear-gradient(90deg, rgba(255, 255, 255, 0) 0, rgba(255, 255, 255, 0.2) 20%, rgba(255, 255, 255, 0.5) 60%, rgba(255, 255, 255, 0))',
+		},
+		selectors: {
+			[`.${darkMode} &::after`]: {
+				backgroundImage:
+					'linear-gradient(90deg, rgba(255, 255, 255, 0) 0, rgba(255, 255, 255, 0.2) 20%, rgba(255, 255, 255, 0.5) 60%, rgba(255, 255, 255, 0))',
+			},
+		},
+	},
+])
+
+const rotate = 'globalRotate'
+
+globalKeyframes(rotate, {
+	'0%': { transform: 'translateX(0%)' },
+	'100%': { transform: 'translateX(200%)' },
+})
