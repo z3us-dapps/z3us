@@ -1,7 +1,7 @@
 ### Prerequisites
 
-* [ ] Can you reproduce the problem in safe mode?
-* [ ] Are you running the latest version?
+- [ ] Can you reproduce the problem in safe mode?
+- [ ] Are you running the latest version?
 
 For more information, see the `CONTRIBUTING` guide.
 

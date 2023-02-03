@@ -355,8 +355,8 @@ export const LockedPanel: React.FC = () => {
 										borderColor: state.passwordError
 											? '$borderInputError'
 											: state.isInputFocused
-												? '$borderInputFocus'
-												: '$borderPanel3',
+											? '$borderInputFocus'
+											: '$borderPanel3',
 									}}
 								>
 									<Input

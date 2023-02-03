@@ -63,11 +63,22 @@ export const Sign = (): JSX.Element => {
 				<Box css={{ mt: '$8', flex: '1' }}>
 					<HardwareWalletReconnect />
 				</Box>
+				<Box css={{ pt: '$2', pb: '$8', flex: '1' }}>
+					<Box
+						css={{
+							br: '$3',
+							p: '16px',
+							border: '1px solid $borderPanel',
+						}}
+					>
+						<Text size="2">{challenge}</Text>
+					</Box>
+				</Box>
 				<Flex
 					direction="column"
 					justify="center"
 					align="center"
-					css={{ borderTop: '1px solid $borderPanel', borderBottom: '1px solid $borderPanel', py: '$5' }}
+					css={{ mt: '$2', borderTop: '1px solid $borderPanel', borderBottom: '1px solid $borderPanel', py: '$5' }}
 				>
 					<Box css={{ pb: '$3' }}>
 						<Image src="/images/z3us-spinner.svg" css={{ width: '90px', height: '90px' }} />

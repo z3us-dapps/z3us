@@ -2,10 +2,15 @@ import React, { ReactNode, useEffect } from 'react'
 import { useNoneSharedStore, useSharedStore } from '@src/hooks/use-store'
 import { LockedPanel } from '@src/components/locked-panel'
 import { Z3usMenu } from '@src/components/z3us-menu'
+import { CSS } from 'ui/src/theme'
 import { Box, MotionBox } from 'ui/src/components/atoms'
 import { ACCOUNTS } from '@src/config'
 
-export const UnlockedPanel = ({ children }: { children: ReactNode }) => {
+const defaultProps = {
+	css: undefined,
+}
+
+export const UnlockedPanel = ({ children, css }: { children: ReactNode; css?: CSS }) => {
 	const { isUnlocked, keystores } = useSharedStore(state => ({
 		isUnlocked: state.isUnlocked,
 		keystores: state.keystores,
@@ -38,6 +43,7 @@ export const UnlockedPanel = ({ children }: { children: ReactNode }) => {
 						overflow: 'hidden',
 						background: page === ACCOUNTS ? '$bgPanel2' : '$bgPanel',
 						transition: 'background-color 300ms ease-out',
+						...css,
 					}}
 				>
 					{children}
@@ -56,5 +62,7 @@ export const UnlockedPanel = ({ children }: { children: ReactNode }) => {
 		</>
 	)
 }
+
+UnlockedPanel.defaultProps = defaultProps
 
 export default UnlockedPanel

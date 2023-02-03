@@ -7,7 +7,7 @@ import { App } from '@src/popup/app_'
 import { globalStyles } from 'ui/src/theme'
 import { enableMapSet } from 'immer'
 
-import '@src/css/app.scss'
+import '@src/css/app.css'
 import { NoneSharedStoreProvider } from '@src/context/state-provider'
 
 enableMapSet()
