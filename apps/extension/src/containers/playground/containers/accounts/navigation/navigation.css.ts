@@ -44,6 +44,7 @@ export const navigationLogoLink = style([
 	{
 		width: '100px',
 		height: '15px',
+
 		selectors: {
 			// [`.${darkMode} &`]: {},
 			// [`${parent} & svg`]: {

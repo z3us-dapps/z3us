@@ -23,3 +23,52 @@ export const rightPanel = style([
 		maxHeight: '100%',
 	},
 ])
+
+export const indexAssetsWrapper = style([
+	sprinkles({
+		position: 'relative',
+	}),
+	{},
+])
+
+export const indexAssetWrapper = style([
+	sprinkles({
+		position: 'relative',
+		display: 'flex',
+		width: 'full',
+		alignItems: 'center',
+		borderTop: 1,
+		borderStyle: 'solid',
+		borderColor: 'borderDivider',
+		paddingTop: 'medium',
+		paddingBottom: 'medium',
+		gap: 'small',
+	}),
+	{
+		':first-child': {
+			borderTop: 'none',
+		},
+		selectors: {
+			// [`.${darkMode} &`]: {},
+			// [`${parent} & svg`]: {
+			// 	fill: 'backgroundPrimary',
+			// },
+		},
+	},
+])
+
+// globalStyle(`${indexAssetWrapper}:first-child > div`, {
+// 	borderTop: 'none',
+// })
+
+export const indexAssetCircle = style([
+	sprinkles({
+		position: 'relative',
+		borderRadius: 'full',
+	}),
+	{
+		backgroundColor: 'orange',
+		width: '40px',
+		height: '40px',
+	},
+])

@@ -71,16 +71,8 @@ const ItemWrapper = props => {
 		})
 	}, 1000)
 
-	// <motion.div
-	// 	animate={getAnimateState()}
-	// 	custom={props.idx}
-	// 	variants={variants}
-	// 	className={clsx(styles.itemWrapper, { [styles.itemWrapperLoading]: !user.loaded })}
-	// 	{...props}
-	// >
-
 	return (
-		<Box className={clsx(styles.itemWrapper, { [styles.itemWrapperLoading]: !user.loaded })} {...props}>
+		<Box className={clsx(styles.itemWrapper, { [styles.itemWrapperLoading]: !user.loaded })}>
 			<AnimatePresence initial={false}>
 				{!user.loaded && (
 					<motion.div

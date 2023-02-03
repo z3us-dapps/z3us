@@ -1,10 +1,15 @@
 /* eslint-disable */
 import React, { useState } from 'react'
+
 import { MixerHorizontalIcon, ImageIcon, ListBulletIcon } from '@radix-ui/react-icons'
 import { PlusIcon, MagnifyingGlassIcon } from 'ui/src/components/icons'
+import { AnimatedPage } from '@src/containers/playground/components/animated-route'
 // import clsx from 'clsx'
 // import { BrowserRouter, Routes, Route, Link, useLocation, useMatch } from 'react-router-dom'
-import { Link, useMatch } from 'react-router-dom'
+
+import { AnimatePresence } from 'framer-motion'
+import { Routes, Route, useLocation, Link as LinkRouter } from 'react-router-dom'
+import { useLocationKey } from '@src/containers/playground/hooks/use-location-key'
 import { DropdownProfile } from '@src/containers/playground/containers/accounts/dropdown-profile'
 import { AccountsList } from '@src/containers/playground/containers/accounts/accounts-list'
 import { AccountSwitcher } from '@src/containers/playground/containers/accounts/account-switcher'
@@ -14,12 +19,17 @@ import { motion } from 'framer-motion'
 import { Button } from 'ui/src/components-v2/button'
 import { Box } from 'ui/src/components-v2/box'
 import { Text } from 'ui/src/components-v2/typography'
+import { Link } from '@src/components/link'
 
 import * as styles from './accounts-home.css'
 
 export const AccountsHome = () => {
+	const { location, locationKey } = useLocationKey()
+	// console.log('locationKey:', locationKey)
+	// console.log('location:', location)
+	const locationArr = location.pathname?.split('/') ?? []
+	console.log('locationArr:', location.pathname)
 	const [view, setView] = useState<string>('list')
-	// const [view, setView] = useState<string>('tileTwo')
 
 	return (
 		<Box
@@ -36,68 +46,72 @@ export const AccountsHome = () => {
 					<Box
 						background="backgroundSecondary"
 						boxShadow="shadowMedium"
-						paddingTop="xlarge"
 						borderRadius="xlarge"
 						flexGrow={1}
 						overflow="hidden"
 						className={styles.leftPanel}
 					>
-						<Box paddingX="xlarge">
-							<Text size="medium">Account balance</Text>
-							<Text weight="strong" size="xxxlarge" color="strong">
-								$40,206.25
-							</Text>
-						</Box>
-						<Box paddingX="xlarge" paddingBottom="xlarge" paddingTop="large" display="flex" alignItems="center">
-							<Box flexGrow={1} display="flex" alignItems="center">
-								<Text size="large" color="strong" weight="medium">
-									Assets
-								</Text>
-							</Box>
-							<Box display="flex" gap="small" paddingBottom="large">
-								<Button
-									styleVariant="ghost"
-									iconOnly
-									onClick={() => {
-										console.log(99, 'search')
-									}}
-								>
-									<MagnifyingGlassIcon />
-								</Button>
-								{/* <Button */}
-								{/* 	styleVariant="secondary" */}
-								{/* 	onClick={() => { */}
-								{/* 		setView('list') */}
-								{/* 	}} */}
-								{/* > */}
-								{/* 	<ListBulletIcon /> */}
-								{/* 	List */}
-								{/* </Button> */}
-								{/* <Button */}
-								{/* 	styleVariant="secondary" */}
-								{/* 	onClick={() => { */}
-								{/* 		setView('tileTwo') */}
-								{/* 	}} */}
-								{/* > */}
-								{/* 	<ImageIcon /> */}
-								{/* 	NFT 2 */}
-								{/* </Button> */}
-								{/* <Button */}
-								{/* 	styleVariant="secondary" */}
-								{/* 	onClick={() => { */}
-								{/* 		setView('tileThree') */}
-								{/* 	}} */}
-								{/* > */}
-								{/* 	<ImageIcon /> */}
-								{/* 	NFT 3 */}
-								{/* </Button> */}
-								<Button styleVariant="secondary">
-									<MixerHorizontalIcon />
-									Apply filter
-								</Button>
-							</Box>
-						</Box>
-						<AccountsList view={view as any} />
+						<Routes location={location} key={location.pathname}>
+							<Route
+								path="/:account"
+								element={
+									<AnimatedPage>
+										<AccountsRouteWrapper>
+											<AccountsIndexAssets />
+										</AccountsRouteWrapper>
+									</AnimatedPage>
+								}
+							/>
+							<Route
+								path="/:account/:assetType"
+								element={
+									<AnimatedPage>
+										<AccountsRouteWrapper>
+											<AccountsList view={view as any} />
+											{/* <Box padding="large"> */}
+											{/* 	<Box>account (1 or all) - asset type</Box> */}
+											{/**/}
+											{/* 	<Box display="flex" flexDirection="column" gap="large"> */}
+											{/* 		<LinkRouter to="/accounts/all">account all</LinkRouter> */}
+											{/* 		<LinkRouter to="/accounts/845748574587">account 8456..</LinkRouter> */}
+											{/* 		<LinkRouter to="/accounts/845748574587/tokens">account 8456.. tokens</LinkRouter> */}
+											{/* 	</Box> */}
+											{/* </Box> */}
+										</AccountsRouteWrapper>
+									</AnimatedPage>
+								}
+							/>
+
+							{/* <Route */}
+							{/* 	path="/:account/:assetType" */}
+							{/* 	element={ */}
+							{/* 		<AnimatedPage> */}
+							{/* 			<AccountsRouteWrapper> */}
+							{/* 				<Box>asset type</Box> */}
+							{/* 			</AccountsRouteWrapper> */}
+							{/* 		</AnimatedPage> */}
+							{/* 	} */}
+							{/* /> */}
+							{/**/}
+							{/* <Route */}
+							{/* 	path="/:account/:assetType/:asset" */}
+							{/* 	element={ */}
+							{/* 		<AnimatedPage> */}
+							{/* 			<AccountsRouteWrapper> */}
+							{/* 				<Box>asset btc in ( account or all )</Box> */}
+							{/* 			</AccountsRouteWrapper> */}
+							{/* 		</AnimatedPage> */}
+							{/* 	} */}
+							{/* /> */}
+							{/* <Route */}
+							{/* 	path="*" */}
+							{/* 	element={ */}
+							{/* 		<AnimatedPage> */}
+							{/* 			<NotFound404 /> */}
+							{/* 		</AnimatedPage> */}
+							{/* 	} */}
+							{/* /> */}
+						</Routes>
 					</Box>
 					<Box
 						background="backgroundSecondary"
@@ -156,5 +170,105 @@ export const AccountsHome = () => {
 				</Box>
 			</Box>
 		</Box>
+	)
+}
+
+export const AccountsRouteWrapper = ({ children }) => {
+	return (
+		<>
+			<Box paddingX="xlarge" paddingTop="xlarge">
+				<Text size="medium">Account balance</Text>
+				<Text weight="strong" size="xxxlarge" color="strong">
+					$40,206.25
+				</Text>
+			</Box>
+			<Box paddingX="xlarge" paddingBottom="xlarge" paddingTop="large" display="flex" alignItems="center">
+				<Box flexGrow={1} display="flex" alignItems="center">
+					<Text size="large" color="strong" weight="medium">
+						Assets
+					</Text>
+				</Box>
+				<Box display="flex" gap="small" paddingBottom="large">
+					<Button
+						styleVariant="ghost"
+						iconOnly
+						onClick={() => {
+							console.log(99, 'search')
+						}}
+					>
+						<MagnifyingGlassIcon />
+					</Button>
+					<Button styleVariant="secondary">
+						<MixerHorizontalIcon />
+						Apply filter
+					</Button>
+				</Box>
+			</Box>
+			{children}
+		</>
+	)
+}
+
+export const AccountsIndexAssets = () => {
+	return (
+		<>
+			<Box paddingX="xlarge" paddingBottom="xlarge">
+				<Box className={styles.indexAssetsWrapper}>
+					{[{ name: 'Tokens' }, { name: 'NFTs' }, { name: 'LP Tokens' }, { name: 'Badges' }].map(({ name }) => (
+						<Box key={name} className={styles.indexAssetWrapper}>
+							<Box flexGrow={1}>
+								<Box display="flex" alignItems="center">
+									<Text size="large" color="strong" weight="medium">
+										{name}
+									</Text>
+									<Box paddingLeft="xsmall">
+										<Text size="large" weight="medium">
+											(12)
+										</Text>
+									</Box>
+								</Box>
+								<Box display="flex" alignItems="center">
+									<Text size="medium" color="strong" weight="medium">
+										$12,401
+									</Text>
+									<Box paddingLeft="xsmall">
+										<Text size="small" color="green">
+											+1.23%
+										</Text>
+									</Box>
+								</Box>
+							</Box>
+							<Box>
+								<Box display="flex" alignItems="center">
+									<Text size="medium" color="strong" weight="medium">
+										+7
+									</Text>
+									<Box display="flex" marginLeft="small">
+										<Link to="/">
+											<Box className={styles.indexAssetCircle} />
+										</Link>
+										<Link to="/">
+											<Box className={styles.indexAssetCircle} />
+										</Link>
+									</Box>
+									<Box paddingLeft="xsmall">
+										<Button
+											styleVariant="ghost"
+											sizeVariant="small"
+											iconOnly
+											onClick={() => {
+												console.log(99, 'search')
+											}}
+										>
+											<PlusIcon />
+										</Button>
+									</Box>
+								</Box>
+							</Box>
+						</Box>
+					))}
+				</Box>
+			</Box>
+		</>
 	)
 }

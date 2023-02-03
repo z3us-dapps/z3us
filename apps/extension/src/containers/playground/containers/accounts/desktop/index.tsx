@@ -48,17 +48,26 @@ export const AccountsDesktop = (): JSX.Element => {
 			<div className={styles.desktopBody}>
 				<AnimatePresence initial={false}>
 					<Routes location={location} key={locationKey}>
-						{['/', '/:account', '/:account/:assetType', '/:account/:assetType/:asset'].map(path => (
-							<Route
-								key="Accounts" // optional: avoid full re-renders on route changes
-								path={path}
-								element={
-									<AnimatedPage>
-										<AccountsHome />
-									</AnimatedPage>
-								}
-							/>
-						))}
+						{/* @TODO: match routes better */}
+						{/* {['/', '/:account', '/:account/:assetType', '/:account/:assetType/:asset'].map(path => ( */}
+						{/* 	<Route */}
+						{/* 		key="Accounts" // optional: avoid full re-renders on route changes */}
+						{/* 		path={path} */}
+						{/* 		element={ */}
+						{/* 			<AnimatedPage> */}
+						{/* 				<AccountsHome /> */}
+						{/* 			</AnimatedPage> */}
+						{/* 		} */}
+						{/* 	/> */}
+						{/* ))} */}
+						<Route
+							path="/*"
+							element={
+								<AnimatedPage>
+									<AccountsHome />
+								</AnimatedPage>
+							}
+						/>
 						<Route
 							path="/transfer"
 							element={
@@ -91,14 +100,14 @@ export const AccountsDesktop = (): JSX.Element => {
 								</AnimatedPage>
 							}
 						/>
-						<Route
-							path="*"
-							element={
-								<AnimatedPage>
-									<NotFound404 />
-								</AnimatedPage>
-							}
-						/>
+						{/* <Route */}
+						{/* 	path="*" */}
+						{/* 	element={ */}
+						{/* 		<AnimatedPage> */}
+						{/* 			<NotFound404 /> */}
+						{/* 		</AnimatedPage> */}
+						{/* 	} */}
+						{/* /> */}
 					</Routes>
 				</AnimatePresence>
 			</div>

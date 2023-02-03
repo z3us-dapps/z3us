@@ -75,10 +75,6 @@ export const itemWrapper = style([
 	},
 ])
 
-// globalStyle(`${itemWrapper}:first-child > div`, {
-// 	borderTop: 'none',
-// })
-
 export const itemWrapperInner = style([
 	sprinkles({
 		position: 'relative',
