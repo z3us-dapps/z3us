@@ -2,8 +2,8 @@
 import React, { useState, useRef, useEffect, useCallback, useContext } from 'react'
 import { useTimeout } from 'usehooks-ts'
 import { Virtuoso, VirtuosoGrid, VirtuosoGridHandle } from 'react-virtuoso'
-import { motion, AnimatePresence, usePresence } from 'framer-motion'
 import { ScrollArea } from 'ui/src/components/scroll-area'
+import { motion, AnimatePresence, usePresence } from 'framer-motion'
 import { Box } from 'ui/src/components-v2/box'
 import { Text } from 'ui/src/components-v2/typography'
 import clsx from 'clsx'
@@ -47,6 +47,7 @@ const variants = {
 		},
 	},
 }
+
 const ItemWrapper = props => {
 	const { idx, user } = props
 	const { isLoading, isScrolling, setItems } = useContext(Context)
@@ -63,16 +64,16 @@ const ItemWrapper = props => {
 		return 'loaded'
 	}
 
-	// useTimeout(() => {
-	// 	setItems(items => {
-	// 		return items.map(item => {
-	// 			if (item.id === user.id) {
-	// 				item.loaded = true
-	// 			}
-	// 			return item
-	// 		})
-	// 	})
-	// }, 1000)
+	useTimeout(() => {
+		setItems(items => {
+			return items.map(item => {
+				if (item.id === user.id) {
+					item.loaded = true
+				}
+				return item
+			})
+		})
+	}, 1000)
 
 	return (
 		<motion.div
@@ -221,16 +222,16 @@ export const AccountsList = props => {
 
 	return (
 		<>
-			{/* <Box style={{ position: 'fixed', bottom: '100px', right: '0', width: '100px', zIndex: '1' }}> */}
-			{/* 	<Box display="flex" flexDirection="column" gap="medium"> */}
-			{/* 		<button onClick={addAtStart}>Add item to start</button> */}
-			{/* 		<button onClick={addAtRandom}>Add item at random</button> */}
-			{/* 		<button onClick={removeAtStart}>Remove from start</button> */}
-			{/* 		<button onClick={removeAtRandom}>Remove random</button> */}
-			{/* 		<button onClick={reset}>Reset</button> */}
-			{/* 		<button onClick={() => setIsLoading(!isLoading)}>is loading</button> */}
-			{/* 	</Box> */}
-			{/* </Box> */}
+			<Box style={{ position: 'fixed', bottom: '100px', right: '0', width: '100px', zIndex: '1', display: 'none' }}>
+				<Box display="flex" flexDirection="column" gap="medium">
+					<button onClick={addAtStart}>Add item to start</button>
+					<button onClick={addAtRandom}>Add item at random</button>
+					<button onClick={removeAtStart}>Remove from start</button>
+					<button onClick={removeAtRandom}>Remove random</button>
+					<button onClick={reset}>Reset</button>
+					<button onClick={() => setIsLoading(!isLoading)}>is loading</button>
+				</Box>
+			</Box>
 			<Box paddingX="xlarge">
 				<Box
 					position="relative"
@@ -244,7 +245,7 @@ export const AccountsList = props => {
 				>
 					<Box display="flex" alignItems="center">
 						<Text size="xsmall" weight="medium">
-							Assets
+							Asset
 						</Text>
 					</Box>
 					<Box display="flex" alignItems="center">
