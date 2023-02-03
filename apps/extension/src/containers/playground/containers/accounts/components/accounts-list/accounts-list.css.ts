@@ -126,7 +126,7 @@ export const tokenListGridWrapper = style([
 	{
 		display: 'grid',
 		gap: '1rem',
-		gridTemplateColumns: '1fr 114px 114px 134px',
+		gridTemplateColumns: '1fr 104px 104px 134px',
 	},
 ])
 

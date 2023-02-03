@@ -46,16 +46,16 @@ const ItemWrapper = props => {
 				<PlusIcon />
 			</Box>
 			<Box display="flex" flexDirection="column" flexGrow={1}>
-				<Text weight="strong" size="medium" color="strong">
+				<Text weight="stronger" size="small" color="strong">
 					$40,452
 				</Text>
-				<Text size="small">$40,452</Text>
+				<Text size="xsmall">$40,452</Text>
 			</Box>
 			<Box display="flex" flexDirection="column">
-				<Text weight="strong" size="small" color="red">
+				<Text weight="strong" size="xsmall" color="red">
 					$40,452
 				</Text>
-				<Text weight="strong" size="small" color="green">
+				<Text weight="strong" size="xsmall" color="green">
 					$40,452
 				</Text>
 			</Box>
@@ -70,7 +70,7 @@ export const AccountActivity = forwardRef<HTMLButtonElement, IAccountSwitcherPro
 		const [customScrollParent, setCustomScrollParent] = useState<HTMLElement | null>(null)
 
 		return (
-			<Box ref={ref} className={styles.activityWrapper} style={{ height: `${20 * 100}px` }}>
+			<Box ref={ref} className={styles.activityWrapper} style={{ height: `${6 * 64}px` }}>
 				<ScrollArea
 					scrollableNodeProps={{ ref: setCustomScrollParent }}
 					// onScrollAreaSizeChange={setListSize}

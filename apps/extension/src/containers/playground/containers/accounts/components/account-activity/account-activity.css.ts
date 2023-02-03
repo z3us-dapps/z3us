@@ -26,7 +26,7 @@ export const activityWrapper = style([
 export const activtyItem = style([
 	sprinkles({
 		position: 'relative',
-		paddingX: 'xlarge',
+		paddingX: 'large',
 		transition: 'fast',
 		background: {
 			hover: 'backgroundPrimary',
@@ -44,10 +44,11 @@ export const activtyItemInner = style([
 		borderColor: 'borderDivider',
 		paddingTop: 'medium',
 		paddingBottom: 'medium',
-		gap: 'small',
+		gap: 'medium',
 	}),
 	{
 		width: '100%',
+		height: '64px',
 	},
 ])
 

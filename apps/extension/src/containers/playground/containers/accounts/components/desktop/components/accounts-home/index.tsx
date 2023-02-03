@@ -31,7 +31,7 @@ export const AccountsHome = () => {
 			paddingTop="xxlarge"
 			height="full"
 		>
-			<Box width="full" maxWidth="xlarge">
+			<Box width="full" maxWidth="xxlarge">
 				<Box display="flex" gap="xlarge" height="full">
 					<Box
 						background="backgroundSecondary"
@@ -45,10 +45,10 @@ export const AccountsHome = () => {
 						<Box paddingX="xlarge">
 							<Text size="medium">Account balance</Text>
 							<Text weight="strong" size="xxxlarge" color="strong">
-								$40,452
+								$40,206.25
 							</Text>
 						</Box>
-						<Box paddingX="xlarge" paddingTop="large" display="flex" alignItems="center">
+						<Box paddingX="xlarge" paddingBottom="xlarge" paddingTop="large" display="flex" alignItems="center">
 							<Box flexGrow={1} display="flex" alignItems="center">
 								<Text size="large" color="strong" weight="medium">
 									Assets
@@ -105,9 +105,9 @@ export const AccountsHome = () => {
 						borderRadius="xlarge"
 						className={styles.rightPanel}
 					>
-						<Box paddingTop="xlarge" paddingX="xlarge" display="flex" alignItems="center">
+						<Box paddingTop="large" paddingX="large" display="flex" alignItems="center">
 							<Box flexGrow={1}>
-								<Text size="large" weight="medium" color="strong">
+								<Text size="xlarge" weight="medium" color="strong">
 									Accounts
 								</Text>
 							</Box>
@@ -132,7 +132,7 @@ export const AccountsHome = () => {
 						>
 							<AccountSwitcher />
 						</Box>
-						<Box paddingX="xlarge" paddingTop="xlarge" paddingBottom="medium">
+						<Box paddingX="large" paddingTop="xlarge">
 							<Box display="flex" alignItems="center">
 								<Box flexGrow={1}>
 									<Text size="large" weight="medium" color="strong">
