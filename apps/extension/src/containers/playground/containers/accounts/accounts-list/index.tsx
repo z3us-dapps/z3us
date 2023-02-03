@@ -25,24 +25,20 @@ const ListContainer = React.forwardRef<HTMLDivElement>((props, ref) => {
 
 const ItemContainer = props => <div {...props} className={styles.itemContainer} />
 
-// This uses the context to set animate back to true when scrolling ends, because
-// framer-motion will only animate changes if animate was already set before the change
 const variants = {
-	loaded: (i: number) => ({
+	visible: {
 		opacity: 1,
-		scale: 1,
 		transition: {
 			type: 'spring',
-			stiffness: 260,
+			stiffness: 200,
 			damping: 20,
 		},
-	}),
-	loading: {
-		opacity: 1,
-		scale: 1,
+	},
+	hidden: {
+		opacity: 0,
 		transition: {
 			type: 'spring',
-			stiffness: 260,
+			stiffness: 200,
 			damping: 20,
 		},
 	},
@@ -75,66 +71,80 @@ const ItemWrapper = props => {
 		})
 	}, 1000)
 
+	// <motion.div
+	// 	animate={getAnimateState()}
+	// 	custom={props.idx}
+	// 	variants={variants}
+	// 	className={clsx(styles.itemWrapper, { [styles.itemWrapperLoading]: !user.loaded })}
+	// 	{...props}
+	// >
+
 	return (
-		<motion.div
-			animate={getAnimateState()}
-			custom={props.idx}
-			variants={variants}
-			className={clsx(styles.itemWrapper, { [styles.itemWrapperLoading]: !user.loaded })}
-			{...props}
-		>
-			{!user.loaded ? (
-				<Box className={styles.ItemWrapperInner}>
-					<Box width="full" className={styles.tokenListGridWrapper}>
-						<Box display="flex" alignItems="center" gap="medium">
-							<Box className={clsx(styles.tokenListSkeleton, styles.tokenListGridCircle)} />
-							<Box
-								className={styles.tokenListSkeleton}
-								style={{ width: idx % 2 == 0 ? '45%' : '65%', height: '50%' }}
-							/>
+		<Box className={clsx(styles.itemWrapper, { [styles.itemWrapperLoading]: !user.loaded })} {...props}>
+			<AnimatePresence initial={false}>
+				{!user.loaded && (
+					<motion.div
+						initial="hidden"
+						animate="visible"
+						variants={variants}
+						className={styles.itemWrapperMotion}
+						style={{ position: 'absolute', top: '0', left: '0' }}
+					>
+						<Box className={styles.itemWrapperInner}>
+							<Box width="full" className={styles.tokenListGridWrapper}>
+								<Box display="flex" alignItems="center" gap="medium">
+									<Box className={clsx(styles.tokenListSkeleton, styles.tokenListGridCircle)} />
+									<Box
+										className={styles.tokenListSkeleton}
+										style={{ width: idx % 2 == 0 ? '45%' : '65%', height: '50%' }}
+									/>
+								</Box>
+								<Box display="flex" alignItems="center">
+									<Box className={styles.tokenListSkeleton} style={{ width: '50%', height: '50%' }} />
+								</Box>
+								<Box display="flex" alignItems="center">
+									<Box className={styles.tokenListSkeleton} style={{ width: '40%', height: '50%' }} />
+								</Box>
+								<Box display="flex" alignItems="center">
+									<Box className={styles.tokenListSkeleton} style={{ width: '70%', height: '50%' }} />
+								</Box>
+							</Box>
 						</Box>
-						<Box display="flex" alignItems="center">
-							<Box className={styles.tokenListSkeleton} style={{ width: '50%', height: '50%' }} />
+					</motion.div>
+				)}
+			</AnimatePresence>
+			<AnimatePresence initial={false}>
+				{user.loaded && (
+					<motion.div initial="hidden" animate="visible" variants={variants} className={styles.itemWrapperMotion}>
+						<Box className={styles.itemWrapperInner}>
+							<Box width="full" className={styles.tokenListGridWrapper}>
+								<Box display="flex" alignItems="center" justifyContent="flex-start" gap="medium">
+									<Box className={styles.tokenListGridCircle} style={{ backgroundColor: '#ea983d' }} />
+									<Text size="medium" weight="medium" color="strong">
+										{user.id}
+									</Text>
+								</Box>
+								<Box display="flex" alignItems="center">
+									<Text size="small" color="strong">
+										Amount
+									</Text>
+								</Box>
+								<Box display="flex" alignItems="center">
+									<Text size="small" color="strong">
+										Category
+									</Text>
+								</Box>
+								<Box display="flex" alignItems="center">
+									<Text size="small" color="strong">
+										Account
+									</Text>
+								</Box>
+							</Box>
 						</Box>
-						<Box display="flex" alignItems="center">
-							<Box className={styles.tokenListSkeleton} style={{ width: '40%', height: '50%' }} />
-						</Box>
-						<Box display="flex" alignItems="center">
-							<Box className={styles.tokenListSkeleton} style={{ width: '70%', height: '50%' }} />
-						</Box>
-					</Box>
-				</Box>
-			) : (
-				<Box className={styles.ItemWrapperInner}>
-					<Box width="full" className={styles.tokenListGridWrapper}>
-						<Box display="flex" alignItems="center" justifyContent="flex-start" gap="medium">
-							<Box className={styles.tokenListGridCircle} style={{ backgroundColor: '#ea983d' }} />
-							{/* <Text size="medium" weight="medium" color="strong"> */}
-							{/* 	Bitcoin (BTC)  */}
-							{/* </Text> */}
-							<Text size="medium" weight="medium" color="strong">
-								{user.id}
-							</Text>
-						</Box>
-						<Box display="flex" alignItems="center">
-							<Text size="small" color="strong">
-								Amount
-							</Text>
-						</Box>
-						<Box display="flex" alignItems="center">
-							<Text size="small" color="strong">
-								Category
-							</Text>
-						</Box>
-						<Box display="flex" alignItems="center">
-							<Text size="small" color="strong">
-								Account
-							</Text>
-						</Box>
-					</Box>
-				</Box>
-			)}
-		</motion.div>
+					</motion.div>
+				)}
+			</AnimatePresence>
+		</Box>
 	)
 }
 
@@ -274,47 +284,45 @@ export const AccountsList = props => {
 				}}
 				className={clsx(styles.wrapper)}
 			>
-				<AnimatePresence initial={false}>
-					<Context.Provider value={{ isScrolling, isLoading, setItems }}>
-						<ScrollArea
-							scrollableNodeProps={{ ref: setCustomScrollParent }}
-							onScrollAreaSizeChange={setListSize}
-							enabled={!isLoading}
-						>
-							<VirtuosoGrid
-								className={clsx(
-									{ [styles.virtuosoGridList]: view === 'list' },
-									{ [styles.virtuosoGridTwo]: view === 'tileTwo' },
-									{ [styles.virtuosoGridThree]: view === 'tileThree' },
-								)}
-								customScrollParent={customScrollParent}
-								data={items}
-								itemContent={(index, user) => (
-									<ItemWrapper idx={index} user={user} isLoading={isLoading} isScrolling={isScrolling} />
-								)}
-								components={{
-									List: ListContainer,
-									Item: ItemContainer,
-									// ScrollSeekPlaceholder: ({ height, width, index }) => (
-									// 	<ItemContainer>
-									// 		<ItemWrapper>
-									// 			{'--'} - {index}
-									// 		</ItemWrapper>
-									// 	</ItemContainer>
-									// ),
-								}}
-								computeItemKey={computeItemKey}
-								isScrolling={onScrollingStateChange}
-								// overscan={200}
-								// scrollSeekConfiguration={{
-								// 	enter: velocity => Math.abs(velocity) > 200,
-								// 	exit: velocity => Math.abs(velocity) < 30,
-								// 	// change: (_, range) => console.log({ range }),
-								// }}
-							/>
-						</ScrollArea>
-					</Context.Provider>
-				</AnimatePresence>
+				<Context.Provider value={{ isScrolling, isLoading, setItems }}>
+					<ScrollArea
+						scrollableNodeProps={{ ref: setCustomScrollParent }}
+						onScrollAreaSizeChange={setListSize}
+						enabled={!isLoading}
+					>
+						<VirtuosoGrid
+							className={clsx(
+								{ [styles.virtuosoGridList]: view === 'list' },
+								{ [styles.virtuosoGridTwo]: view === 'tileTwo' },
+								{ [styles.virtuosoGridThree]: view === 'tileThree' },
+							)}
+							customScrollParent={customScrollParent}
+							data={items}
+							itemContent={(index, user) => (
+								<ItemWrapper idx={index} user={user} isLoading={isLoading} isScrolling={isScrolling} />
+							)}
+							components={{
+								List: ListContainer,
+								Item: ItemContainer,
+								// ScrollSeekPlaceholder: ({ height, width, index }) => (
+								// 	<ItemContainer>
+								// 		<ItemWrapper>
+								// 			{'--'} - {index}
+								// 		</ItemWrapper>
+								// 	</ItemContainer>
+								// ),
+							}}
+							computeItemKey={computeItemKey}
+							isScrolling={onScrollingStateChange}
+							// overscan={200}
+							// scrollSeekConfiguration={{
+							// 	enter: velocity => Math.abs(velocity) > 200,
+							// 	exit: velocity => Math.abs(velocity) < 30,
+							// 	// change: (_, range) => console.log({ range }),
+							// }}
+						/>
+					</ScrollArea>
+				</Context.Provider>
 			</div>
 		</>
 	)

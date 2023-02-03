@@ -68,7 +68,7 @@ export const itemWrapper = style([
 	sprinkles({
 		position: 'relative',
 		display: 'flex',
-		paddingX: 'xlarge',
+		marginX: 'xlarge',
 	}),
 	{
 		height: '72px',
@@ -79,7 +79,7 @@ export const itemWrapper = style([
 // 	borderTop: 'none',
 // })
 
-export const ItemWrapperInner = style([
+export const itemWrapperInner = style([
 	sprinkles({
 		position: 'relative',
 		display: 'flex',
@@ -98,6 +98,13 @@ export const ItemWrapperInner = style([
 ])
 
 export const itemWrapperLoading = style([sprinkles({})])
+
+export const itemWrapperMotion = style([
+	sprinkles({
+		width: 'full',
+		position: 'relative',
+	}),
+])
 
 export const teststyle = style([
 	sprinkles({
