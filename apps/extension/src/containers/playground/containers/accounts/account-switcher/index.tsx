@@ -5,7 +5,7 @@ import { motion, AnimatePresence } from 'framer-motion'
 import clsx from 'clsx'
 import { Routes, Route, Link, useNavigate, Navigate } from 'react-router-dom'
 import { useAccountParams } from '@src/containers/playground/hooks/use-account-params'
-import { useLocationKey } from '@src/containers/playground/hooks/use-location-key'
+// import { useLocationKey } from '@src/containers/playground/hooks/use-location-key'
 import move from 'lodash-move'
 
 import * as styles from './account-switcher.css'

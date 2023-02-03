@@ -3,8 +3,8 @@ import { AnimatePresence } from 'framer-motion'
 import { Routes, Route } from 'react-router-dom'
 import { useLocationKey } from '@src/containers/playground/hooks/use-location-key'
 import { AnimatedPage } from '@src/containers/playground/components/animated-route'
-import { Navigation } from './components/navigation'
-import { AccountsHome } from './components/accounts-home'
+import { Navigation } from '@src/containers/playground/containers/accounts/navigation'
+import { AccountsHome } from '@src/containers/playground/containers/accounts/accounts-home'
 
 import * as styles from './accounts-desktop.css'
 
