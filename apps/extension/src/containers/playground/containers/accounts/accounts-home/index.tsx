@@ -31,8 +31,7 @@ export const AccountsHome = () => {
 		<Box
 			display="flex"
 			justifyContent="center"
-			paddingRight="large"
-			paddingLeft="large"
+			paddingX="large"
 			paddingBottom="xxlarge"
 			paddingTop="xxlarge"
 			height="full"
@@ -47,58 +46,60 @@ export const AccountsHome = () => {
 						overflow="hidden"
 						className={styles.leftPanel}
 					>
-						<Routes location={location} key={location.pathname}>
-							<Route
-								path="/:account"
-								element={
-									<AnimatedPage>
-										<AccountsRouteWrapper>
-											<AccountsIndexAssets />
-										</AccountsRouteWrapper>
-									</AnimatedPage>
-								}
-							/>
-							<Route
-								path="/:account/:assetType"
-								element={
-									<AnimatedPage>
-										<AccountsRouteWrapper>
-											<AccountsList view={view as any} />
-										</AccountsRouteWrapper>
-									</AnimatedPage>
-								}
-							/>
+						<AnimatePresence initial={false}>
+							<Routes location={location} key={location.pathname}>
+								<Route
+									path="/:account"
+									element={
+										<AnimatedPage>
+											<AccountsRouteWrapper>
+												<AccountsIndexAssets />
+											</AccountsRouteWrapper>
+										</AnimatedPage>
+									}
+								/>
+								<Route
+									path="/:account/:assetType"
+									element={
+										<AnimatedPage>
+											<AccountsRouteWrapper>
+												<AccountsList view={view as any} />
+											</AccountsRouteWrapper>
+										</AnimatedPage>
+									}
+								/>
 
-							{/* <Route */}
-							{/* 	path="/:account/:assetType" */}
-							{/* 	element={ */}
-							{/* 		<AnimatedPage> */}
-							{/* 			<AccountsRouteWrapper> */}
-							{/* 				<Box>asset type</Box> */}
-							{/* 			</AccountsRouteWrapper> */}
-							{/* 		</AnimatedPage> */}
-							{/* 	} */}
-							{/* /> */}
-							{/**/}
-							{/* <Route */}
-							{/* 	path="/:account/:assetType/:asset" */}
-							{/* 	element={ */}
-							{/* 		<AnimatedPage> */}
-							{/* 			<AccountsRouteWrapper> */}
-							{/* 				<Box>asset btc in ( account or all )</Box> */}
-							{/* 			</AccountsRouteWrapper> */}
-							{/* 		</AnimatedPage> */}
-							{/* 	} */}
-							{/* /> */}
-							{/* <Route */}
-							{/* 	path="*" */}
-							{/* 	element={ */}
-							{/* 		<AnimatedPage> */}
-							{/* 			<NotFound404 /> */}
-							{/* 		</AnimatedPage> */}
-							{/* 	} */}
-							{/* /> */}
-						</Routes>
+								{/* <Route */}
+								{/* 	path="/:account/:assetType" */}
+								{/* 	element={ */}
+								{/* 		<AnimatedPage> */}
+								{/* 			<AccountsRouteWrapper> */}
+								{/* 				<Box>asset type</Box> */}
+								{/* 			</AccountsRouteWrapper> */}
+								{/* 		</AnimatedPage> */}
+								{/* 	} */}
+								{/* /> */}
+								{/**/}
+								{/* <Route */}
+								{/* 	path="/:account/:assetType/:asset" */}
+								{/* 	element={ */}
+								{/* 		<AnimatedPage> */}
+								{/* 			<AccountsRouteWrapper> */}
+								{/* 				<Box>asset btc in ( account or all )</Box> */}
+								{/* 			</AccountsRouteWrapper> */}
+								{/* 		</AnimatedPage> */}
+								{/* 	} */}
+								{/* /> */}
+								{/* <Route */}
+								{/* 	path="*" */}
+								{/* 	element={ */}
+								{/* 		<AnimatedPage> */}
+								{/* 			<NotFound404 /> */}
+								{/* 		</AnimatedPage> */}
+								{/* 	} */}
+								{/* /> */}
+							</Routes>
+						</AnimatePresence>
 					</Box>
 					<Box
 						background="backgroundSecondary"

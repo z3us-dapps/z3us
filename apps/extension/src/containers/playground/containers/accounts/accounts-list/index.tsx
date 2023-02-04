@@ -160,7 +160,7 @@ export const AccountsList = props => {
 	const [listHeight, setListHeight] = useState<number>(200)
 	const [listMaxHeight, setListMaxHeight] = useState<number>(300)
 	const [customScrollParent, setCustomScrollParent] = useState<HTMLElement | null>(null)
-	const [items, setItems] = useState(Array.from({ length: 5 }, _ => ({ id: hash(), name: hash(), loaded: false })))
+	const [items, setItems] = useState(Array.from({ length: 20 }, _ => ({ id: hash(), name: hash(), loaded: false })))
 	const [isLoading, setIsLoading] = useState(false)
 	const [isScrolling, setIsScrolling] = useState(false)
 
