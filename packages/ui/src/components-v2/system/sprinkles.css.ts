@@ -40,7 +40,7 @@ const responsiveProperties = defineProperties({
 		maxWidth: vars.contentWidth,
 		transition: {
 			slow: 'transform .3s ease, opacity .3s ease, background .3s ease',
-			fast: 'transform .15s ease, opacity .15s ease, background .15s ease, color .15s ease, border .15s ease',
+			fast: 'transform .15s ease, opacity .15s ease, background .15s ease, color .15s ease, border .15s ease, box-shadow .15s ease',
 		},
 	},
 	shorthands: {
@@ -90,6 +90,7 @@ const colorProperties = defineProperties({
 		darkMode: { selector: `.${darkMode} &` },
 		hover: { selector: '&:hover' },
 		focus: { selector: '&:focus' },
+		focusVisible: { selector: '&:focus-visible' },
 	},
 	defaultCondition: 'lightMode',
 	properties: {

@@ -311,6 +311,15 @@ export const lightThemeColors = {
 	btnSecondaryBorderColorHover: lightTokens.color.border.btn_secondary_border_hover.value,
 	btnGhostBorderColor: lightTokens.color.border.btn_ghost_border.value,
 	btnGhostBorderColorHover: lightTokens.color.border.btn_ghost_border_hover.value,
+
+	inputPrimaryBackground: lightTokens.color.background.input_primary_background.value,
+	inputPrimaryBackgroundHover: lightTokens.color.background.input_primary_background_hover.value,
+	inputPrimaryBackgroundFocus: lightTokens.color.background.input_primary_background_hover.value,
+
+	inputPrimaryBorderColor: lightTokens.color.border.input_primary_border.value,
+	inputPrimaryBorderHover: lightTokens.color.border.input_primary_border_hover.value,
+	inputPrimaryBorderFocus: lightTokens.color.border.input_primary_border_focus.value,
+	inputPrimaryShadowFocus: lightTokens.color.shadow.input_primary_focus.value,
 }
 
 /**
@@ -329,6 +338,15 @@ export const darkThemeColors = {
 	btnSecondaryBorderColorHover: darkTokens.color.border.btn_secondary_border_hover.value,
 	btnGhostBorderColor: darkTokens.color.border.btn_ghost_border.value,
 	btnGhostBorderColorHover: darkTokens.color.border.btn_ghost_border_hover.value,
+
+	inputPrimaryBackground: darkTokens.color.background.input_primary_background.value,
+	inputPrimaryBackgroundHover: darkTokens.color.background.input_primary_background_hover.value,
+	inputPrimaryBackgroundFocus: darkTokens.color.background.input_primary_background_hover.value,
+
+	inputPrimaryBorderColor: darkTokens.color.border.input_primary_border.value,
+	inputPrimaryBorderHover: darkTokens.color.border.input_primary_border_hover.value,
+	inputPrimaryBorderFocus: darkTokens.color.border.input_primary_border_focus.value,
+	inputPrimaryShadowFocus: darkTokens.color.shadow.input_primary_focus.value,
 }
 
 /**

@@ -177,7 +177,7 @@ export const AccountsRouteWrapper = ({ children }) => {
 					)}
 				</Box>
 				<Box display="flex" gap="small" paddingBottom="large">
-					<Input />
+					<Input placeholder="Search the tokens" />
 					<Button
 						styleVariant="ghost"
 						iconOnly

@@ -8,9 +8,7 @@ import * as styles from './input.css'
 
 export type FormElement = HTMLInputElement | HTMLTextAreaElement
 
-interface IInputRequiredProps {
-	children: React.ReactNode
-}
+interface IInputRequiredProps {}
 
 interface IInputOptionalProps {
 	className?: number
@@ -43,19 +41,8 @@ const defaultProps: IInputOptionalProps = {
 }
 
 export const Input = forwardRef<FormElement, IInputProps>((props, ref: React.Ref<FormElement | null>) => {
-	const {
-		children,
-		disabled,
-		iconOnly,
-		onClick,
-		className,
-		sizeVariant,
-		styleVariant,
-		elementType,
-		type,
-		placeholder,
-		...rest
-	} = props
+	const { disabled, iconOnly, onClick, className, sizeVariant, styleVariant, elementType, type, placeholder, ...rest } =
+		props
 
 	return (
 		<Box

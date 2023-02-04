@@ -10,13 +10,28 @@ export const button = recipe({
 		display: 'inline-flex',
 		alignItems: 'center',
 		justifyContent: 'center',
+		outline: 'none',
 	},
 	variants: {
 		styleVariant: {
 			primary: sprinkles({
-				background: { lightMode: 'btnSecondaryBackground', hover: 'btnSecondaryBackgroundHover' },
-				borderColor: { lightMode: 'btnSecondaryBorderColor', hover: 'btnSecondaryBorderColorHover' },
-				color: 'colorNeutral',
+				background: {
+					lightMode: 'inputPrimaryBackground',
+					hover: 'inputPrimaryBackgroundHover',
+					focus: 'inputPrimaryBackgroundFocus',
+					focusVisible: 'inputPrimaryBackgroundFocus',
+				},
+				borderColor: {
+					lightMode: 'inputPrimaryBorderColor',
+					hover: 'inputPrimaryBorderHover',
+					focus: 'inputPrimaryBorderFocus',
+					focusVisible: 'inputPrimaryBorderFocus',
+				},
+				boxShadow: {
+					focus: 'inputPrimaryShadowFocus',
+					focusVisible: 'inputPrimaryShadowFocus',
+				},
+				color: 'colorStrong',
 				border: 1,
 				borderStyle: 'solid',
 			}),
@@ -46,8 +61,8 @@ export const button = recipe({
 					height: '40px',
 					fontSize: '14px',
 					lineHeight: '14px',
-					paddingLeft: '18px',
-					paddingRight: '18px',
+					paddingLeft: '12px',
+					paddingRight: '12px',
 					gap: '10px',
 				},
 			],
