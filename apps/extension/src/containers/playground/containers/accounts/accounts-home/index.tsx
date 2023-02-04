@@ -1,21 +1,16 @@
 /* eslint-disable */
 import React, { useState } from 'react'
-
-import { MixerHorizontalIcon, ImageIcon, ListBulletIcon } from '@radix-ui/react-icons'
+import { MixerHorizontalIcon, ArrowLeftIcon } from '@radix-ui/react-icons'
 import { PlusIcon, MagnifyingGlassIcon } from 'ui/src/components/icons'
 import { AnimatedPage } from '@src/containers/playground/components/animated-route'
-// import clsx from 'clsx'
-// import { BrowserRouter, Routes, Route, Link, useLocation, useMatch } from 'react-router-dom'
-
 import { AnimatePresence } from 'framer-motion'
-import { Routes, Route, useLocation, Link as LinkRouter } from 'react-router-dom'
-import { DropdownProfile } from '@src/containers/playground/containers/accounts/dropdown-profile'
+import { Routes, Route, useLocation, Link as LinkRouter, useNavigate } from 'react-router-dom'
 import { AccountsList } from '@src/containers/playground/containers/accounts/accounts-list'
 import { AccountSwitcher } from '@src/containers/playground/containers/accounts/account-switcher'
 import { AccountActivity } from '@src/containers/playground/containers/accounts/account-activity'
 import { useAccountParams } from '@src/containers/playground/hooks/use-account-params'
-import { motion } from 'framer-motion'
 import { Button } from 'ui/src/components-v2/button'
+import { Input } from 'ui/src/components-v2/input'
 import { Button as ButtonLink } from '@src/components/button'
 import { Box } from 'ui/src/components-v2/box'
 import { Text } from 'ui/src/components-v2/typography'
@@ -69,35 +64,16 @@ export const AccountsHome = () => {
 									}
 								/>
 
-								{/* <Route */}
-								{/* 	path="/:account/:assetType" */}
-								{/* 	element={ */}
-								{/* 		<AnimatedPage> */}
-								{/* 			<AccountsRouteWrapper> */}
-								{/* 				<Box>asset type</Box> */}
-								{/* 			</AccountsRouteWrapper> */}
-								{/* 		</AnimatedPage> */}
-								{/* 	} */}
-								{/* /> */}
-								{/**/}
-								{/* <Route */}
-								{/* 	path="/:account/:assetType/:asset" */}
-								{/* 	element={ */}
-								{/* 		<AnimatedPage> */}
-								{/* 			<AccountsRouteWrapper> */}
-								{/* 				<Box>asset btc in ( account or all )</Box> */}
-								{/* 			</AccountsRouteWrapper> */}
-								{/* 		</AnimatedPage> */}
-								{/* 	} */}
-								{/* /> */}
-								{/* <Route */}
-								{/* 	path="*" */}
-								{/* 	element={ */}
-								{/* 		<AnimatedPage> */}
-								{/* 			<NotFound404 /> */}
-								{/* 		</AnimatedPage> */}
-								{/* 	} */}
-								{/* /> */}
+								<Route
+									path="/:account/:assetType/:asset"
+									element={
+										<AnimatedPage>
+											<AccountsRouteWrapper>
+												<AccountsList view={view as any} />
+											</AccountsRouteWrapper>
+										</AnimatedPage>
+									}
+								/>
 							</Routes>
 						</AnimatePresence>
 					</Box>
@@ -162,21 +138,46 @@ export const AccountsHome = () => {
 }
 
 export const AccountsRouteWrapper = ({ children }) => {
+	const { account, assetType, asset } = useAccountParams()
+	console.log('asset:', asset)
+	const navigate = useNavigate()
 	return (
 		<>
 			<Box paddingX="xlarge" paddingTop="xlarge">
-				<Text size="medium">Account balance</Text>
+				<Box display="flex" alignItems="center">
+					<Button
+						styleVariant="ghost"
+						sizeVariant="small"
+						onClick={() => {
+							navigate(-1)
+						}}
+					>
+						<ArrowLeftIcon />
+						Go Back
+					</Button>
+					<Box paddingX="small">
+						<Text size="medium">&middot;</Text>
+					</Box>
+					<Text size="medium">Account balance ({account})</Text>
+				</Box>
 				<Text weight="strong" size="xxxlarge" color="strong">
 					$40,206.25
 				</Text>
 			</Box>
 			<Box paddingX="xlarge" paddingBottom="xlarge" paddingTop="large" display="flex" alignItems="center">
 				<Box flexGrow={1} display="flex" alignItems="center">
-					<Text size="large" color="strong" weight="medium">
-						Assets
-					</Text>
+					{asset ? (
+						<Text size="large" color="strong" weight="medium">
+							{asset}
+						</Text>
+					) : (
+						<Text size="large" color="strong" weight="medium">
+							{assetType}
+						</Text>
+					)}
 				</Box>
 				<Box display="flex" gap="small" paddingBottom="large">
+					<Input />
 					<Button
 						styleVariant="ghost"
 						iconOnly

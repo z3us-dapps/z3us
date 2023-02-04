@@ -1,5 +1,4 @@
 import { sprinkles, darkMode } from 'ui/src/components-v2/system/sprinkles.css'
-// import { vars } from 'ui/src/components-v2/system/theme.css'
 import { responsiveStyle } from 'ui/src/components-v2/system/theme-utils'
 import { style, globalStyle, globalKeyframes } from '@vanilla-extract/css'
 import { vars } from 'ui/src/components-v2/system/theme.css'
@@ -68,12 +67,29 @@ export const itemWrapper = style([
 	sprinkles({
 		position: 'relative',
 		display: 'flex',
-		marginX: 'xlarge',
+		// paddingX: 'xlarge',
 	}),
 	{
 		height: '72px',
 	},
 ])
+
+globalStyle(`${itemWrapper} > a`, {
+	width: '100%',
+	// TODO: vars xlarge
+	paddingLeft: vars.spacing.xlarge,
+	paddingRight: vars.spacing.xlarge,
+	textDecoration: 'none',
+	cursor: 'pointer',
+})
+
+globalStyle(`${itemWrapper} > a:hover`, {
+	background: vars.color.wax500,
+})
+
+globalStyle(`.${darkMode} ${itemWrapper} > a:hover`, {
+	background: vars.color.wax500,
+})
 
 export const itemWrapperInner = style([
 	sprinkles({
@@ -81,12 +97,13 @@ export const itemWrapperInner = style([
 		display: 'flex',
 		width: 'full',
 		alignItems: 'center',
-		borderTop: 1,
 		borderStyle: 'solid',
+		borderTop: 1,
 		borderColor: 'borderDivider',
 		paddingTop: 'medium',
 		paddingBottom: 'medium',
 		gap: 'small',
+		height: 'full',
 	}),
 	{
 		width: '100%',

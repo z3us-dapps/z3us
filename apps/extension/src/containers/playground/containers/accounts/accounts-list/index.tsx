@@ -8,6 +8,7 @@ import { Box } from 'ui/src/components-v2/box'
 import { Text } from 'ui/src/components-v2/typography'
 import clsx from 'clsx'
 import { Button } from 'ui/src/components-v2/button'
+import { Link } from '@src/components/link'
 
 import * as styles from './accounts-list.css'
 
@@ -82,23 +83,25 @@ const ItemWrapper = props => {
 						className={styles.itemWrapperMotion}
 						style={{ position: 'absolute', top: '0', left: '0' }}
 					>
-						<Box className={styles.itemWrapperInner}>
-							<Box width="full" className={styles.tokenListGridWrapper}>
-								<Box display="flex" alignItems="center" gap="medium">
-									<Box className={clsx(styles.tokenListSkeleton, styles.tokenListGridCircle)} />
-									<Box
-										className={styles.tokenListSkeleton}
-										style={{ width: idx % 2 == 0 ? '45%' : '65%', height: '50%' }}
-									/>
-								</Box>
-								<Box display="flex" alignItems="center">
-									<Box className={styles.tokenListSkeleton} style={{ width: '50%', height: '50%' }} />
-								</Box>
-								<Box display="flex" alignItems="center">
-									<Box className={styles.tokenListSkeleton} style={{ width: '40%', height: '50%' }} />
-								</Box>
-								<Box display="flex" alignItems="center">
-									<Box className={styles.tokenListSkeleton} style={{ width: '70%', height: '50%' }} />
+						<Box paddingX="xlarge">
+							<Box className={styles.itemWrapperInner}>
+								<Box width="full" className={styles.tokenListGridWrapper}>
+									<Box display="flex" alignItems="center" gap="medium">
+										<Box className={clsx(styles.tokenListSkeleton, styles.tokenListGridCircle)} />
+										<Box
+											className={styles.tokenListSkeleton}
+											style={{ width: idx % 2 == 0 ? '45%' : '65%', height: '50%' }}
+										/>
+									</Box>
+									<Box display="flex" alignItems="center">
+										<Box className={styles.tokenListSkeleton} style={{ width: '50%', height: '50%' }} />
+									</Box>
+									<Box display="flex" alignItems="center">
+										<Box className={styles.tokenListSkeleton} style={{ width: '40%', height: '50%' }} />
+									</Box>
+									<Box display="flex" alignItems="center">
+										<Box className={styles.tokenListSkeleton} style={{ width: '70%', height: '50%' }} />
+									</Box>
 								</Box>
 							</Box>
 						</Box>
@@ -107,33 +110,35 @@ const ItemWrapper = props => {
 			</AnimatePresence>
 			<AnimatePresence initial={false}>
 				{user.loaded && (
-					<motion.div initial="hidden" animate="visible" variants={variants} className={styles.itemWrapperMotion}>
-						<Box className={styles.itemWrapperInner}>
-							<Box width="full" className={styles.tokenListGridWrapper}>
-								<Box display="flex" alignItems="center" justifyContent="flex-start" gap="medium">
-									<Box className={styles.tokenListGridCircle} style={{ backgroundColor: '#ea983d' }} />
-									<Text size="medium" weight="medium" color="strong">
-										{user.id}
-									</Text>
-								</Box>
-								<Box display="flex" alignItems="center">
-									<Text size="small" color="strong">
-										Amount
-									</Text>
-								</Box>
-								<Box display="flex" alignItems="center">
-									<Text size="small" color="strong">
-										Category
-									</Text>
-								</Box>
-								<Box display="flex" alignItems="center">
-									<Text size="small" color="strong">
-										Account
-									</Text>
+					<Link to="/accounts/all/tokens/btc">
+						<motion.div initial="hidden" animate="visible" variants={variants} className={styles.itemWrapperMotion}>
+							<Box className={styles.itemWrapperInner}>
+								<Box width="full" className={styles.tokenListGridWrapper}>
+									<Box display="flex" alignItems="center" justifyContent="flex-start" gap="medium">
+										<Box className={styles.tokenListGridCircle} style={{ backgroundColor: '#ea983d' }} />
+										<Text size="medium" weight="medium" color="strong">
+											{user.id}
+										</Text>
+									</Box>
+									<Box display="flex" alignItems="center">
+										<Text size="small" color="strong">
+											Amount
+										</Text>
+									</Box>
+									<Box display="flex" alignItems="center">
+										<Text size="small" color="strong">
+											Category
+										</Text>
+									</Box>
+									<Box display="flex" alignItems="center">
+										<Text size="small" color="strong">
+											Account
+										</Text>
+									</Box>
 								</Box>
 							</Box>
-						</Box>
-					</motion.div>
+						</motion.div>
+					</Link>
 				)}
 			</AnimatePresence>
 		</Box>
