@@ -1,5 +1,6 @@
 import React, { forwardRef } from 'react'
 import clsx from 'clsx'
+import { Box } from '../box'
 
 import * as styles from './button.css'
 
@@ -9,31 +10,49 @@ interface IButtonRequiredProps {
 
 interface IButtonOptionalProps {
 	className?: number
+	linkFrameWorkComp?: any
 	onClick?: () => void
 	disabled?: boolean
 	iconOnly?: boolean
 	sizeVariant?: 'small' | 'medium' | 'large'
 	styleVariant?: 'primary' | 'secondary' | 'ghost'
+	href?: string
 }
 
-interface IButtonProps extends IButtonRequiredProps, IButtonOptionalProps {}
+export interface IButtonProps extends IButtonRequiredProps, IButtonOptionalProps {}
 
 const defaultProps: IButtonOptionalProps = {
 	className: undefined,
+	linkFrameWorkComp: undefined,
 	onClick: undefined,
 	iconOnly: false,
 	disabled: false,
 	sizeVariant: 'medium',
 	styleVariant: 'primary',
+	href: undefined,
 }
 
 export const Button = forwardRef<HTMLButtonElement, IButtonProps>((props, ref: React.Ref<HTMLButtonElement | null>) => {
-	const { children, disabled, iconOnly, onClick, className, sizeVariant, styleVariant, ...rest } = props
+	const {
+		children,
+		disabled,
+		iconOnly,
+		onClick,
+		className,
+		sizeVariant,
+		styleVariant,
+		linkFrameWorkComp,
+		href,
+		...rest
+	} = props
+
+	const ButtonComponent = linkFrameWorkComp || Box
 
 	return (
-		<button
-			ref={ref}
+		<ButtonComponent
+			component={href ? 'a' : 'button'}
 			type="button"
+			ref={ref}
 			className={clsx(
 				className,
 				styles.buttonReset,
@@ -49,7 +68,7 @@ export const Button = forwardRef<HTMLButtonElement, IButtonProps>((props, ref: R
 			{...rest}
 		>
 			{children}
-		</button>
+		</ButtonComponent>
 	)
 })
 

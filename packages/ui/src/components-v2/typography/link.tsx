@@ -7,7 +7,7 @@ import { TextProps, textStyles } from './text'
 
 export interface LProps {
 	href?: string
-	LinkFrameWorkComp?: any
+	linkFrameWorkComp?: any
 	baseline?: boolean
 	size?: 'medium' | 'small' | 'xsmall'
 	underline?: 'always' | 'hover' | 'never'
@@ -24,7 +24,7 @@ export interface LProps {
 const defaultProps = {
 	href: undefined,
 	className: undefined,
-	LinkFrameWorkComp: undefined,
+	linkFrameWorkComp: undefined,
 	size: 'medium',
 	underline: 'always',
 	variant: 'link',
@@ -40,7 +40,7 @@ const defaultProps = {
 const LinkComponent = (props: LProps) => {
 	const {
 		href,
-		LinkFrameWorkComp,
+		linkFrameWorkComp,
 		baseline = false,
 		size = 'medium',
 		color = 'neutral',
@@ -63,10 +63,12 @@ const LinkComponent = (props: LProps) => {
 		className,
 	)
 
+	const Component = linkFrameWorkComp
+
 	return (
-		<LinkFrameWorkComp href={href} {...restProps} className={classNames}>
+		<Component href={href} {...restProps} className={classNames}>
 			{children}
-		</LinkFrameWorkComp>
+		</Component>
 	)
 }
 

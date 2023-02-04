@@ -9,7 +9,6 @@ import { AnimatedPage } from '@src/containers/playground/components/animated-rou
 
 import { AnimatePresence } from 'framer-motion'
 import { Routes, Route, useLocation, Link as LinkRouter } from 'react-router-dom'
-import { useLocationKey } from '@src/containers/playground/hooks/use-location-key'
 import { DropdownProfile } from '@src/containers/playground/containers/accounts/dropdown-profile'
 import { AccountsList } from '@src/containers/playground/containers/accounts/accounts-list'
 import { AccountSwitcher } from '@src/containers/playground/containers/accounts/account-switcher'
@@ -17,6 +16,7 @@ import { AccountActivity } from '@src/containers/playground/containers/accounts/
 import { useAccountParams } from '@src/containers/playground/hooks/use-account-params'
 import { motion } from 'framer-motion'
 import { Button } from 'ui/src/components-v2/button'
+import { Button as ButtonLink } from '@src/components/button'
 import { Box } from 'ui/src/components-v2/box'
 import { Text } from 'ui/src/components-v2/typography'
 import { Link } from '@src/components/link'
@@ -24,11 +24,7 @@ import { Link } from '@src/components/link'
 import * as styles from './accounts-home.css'
 
 export const AccountsHome = () => {
-	const { location, locationKey } = useLocationKey()
-	// console.log('locationKey:', locationKey)
-	// console.log('location:', location)
-	const locationArr = location.pathname?.split('/') ?? []
-	console.log('locationArr:', location.pathname)
+	const location = useLocation()
 	const [view, setView] = useState<string>('list')
 
 	return (
@@ -68,15 +64,6 @@ export const AccountsHome = () => {
 									<AnimatedPage>
 										<AccountsRouteWrapper>
 											<AccountsList view={view as any} />
-											{/* <Box padding="large"> */}
-											{/* 	<Box>account (1 or all) - asset type</Box> */}
-											{/**/}
-											{/* 	<Box display="flex" flexDirection="column" gap="large"> */}
-											{/* 		<LinkRouter to="/accounts/all">account all</LinkRouter> */}
-											{/* 		<LinkRouter to="/accounts/845748574587">account 8456..</LinkRouter> */}
-											{/* 		<LinkRouter to="/accounts/845748574587/tokens">account 8456.. tokens</LinkRouter> */}
-											{/* 	</Box> */}
-											{/* </Box> */}
 										</AccountsRouteWrapper>
 									</AnimatedPage>
 								}
@@ -252,16 +239,9 @@ export const AccountsIndexAssets = () => {
 										</Link>
 									</Box>
 									<Box paddingLeft="xsmall">
-										<Button
-											styleVariant="ghost"
-											sizeVariant="small"
-											iconOnly
-											onClick={() => {
-												console.log(99, 'search')
-											}}
-										>
+										<ButtonLink styleVariant="ghost" sizeVariant="small" iconOnly to="/accounts/all/tokens">
 											<PlusIcon />
-										</Button>
+										</ButtonLink>
 									</Box>
 								</Box>
 							</Box>
