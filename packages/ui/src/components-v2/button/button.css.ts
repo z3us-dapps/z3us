@@ -42,6 +42,11 @@ export const button = recipe({
 				}),
 				{
 					height: '32px',
+					fontSize: '13px',
+					lineHeight: '13px',
+					paddingLeft: '8px',
+					paddingRight: '8px',
+					gap: '6px',
 				},
 			],
 			medium: [

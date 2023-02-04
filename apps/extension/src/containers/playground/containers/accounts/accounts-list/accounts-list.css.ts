@@ -76,7 +76,6 @@ export const itemWrapper = style([
 
 globalStyle(`${itemWrapper} > a`, {
 	width: '100%',
-	// TODO: vars xlarge
 	paddingLeft: vars.spacing.xlarge,
 	paddingRight: vars.spacing.xlarge,
 	textDecoration: 'none',

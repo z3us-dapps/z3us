@@ -54,9 +54,24 @@ export const MOTION_VARIANTS = {
 }
 
 const CARD_COLORS = [
-	{ bgColor: '#a18bea', accountId: 'rdx1...ma41', accountName: 'Savings', accountBalance: '$5043.43' },
-	{ bgColor: '#c0cddc', accountId: 'rdx1...ldg0', accountName: 'Defi', accountBalance: '$80,043.43' },
-	{ bgColor: '#b7a184', accountId: 'rdx1...6go0', accountName: 'Spend', accountBalance: '$1043.43' },
+	{
+		accountId: 'rdx1...6go0',
+		accountName: 'Spend',
+		accountBalance: '$1043.43',
+		background: 'radial-gradient(77.21% 96.45% at 50% 100%, #FE845E 0%, #E08BAB 17.71%, #AB8CFF 50.52%, #946DFF 100%)',
+	},
+	{
+		accountId: 'rdx1...ma41',
+		accountName: 'Savings',
+		accountBalance: '$5043.43',
+		background: '#BF9E76',
+	},
+	{
+		accountId: 'rdx1...ldg0',
+		accountName: 'Defi',
+		accountBalance: '$80,043.43',
+		background: '#c0cddc',
+	},
 ]
 
 interface IAccountSwitcherRequiredProps {}
@@ -125,9 +140,9 @@ export const AccountSwitcher = forwardRef<HTMLButtonElement, IAccountSwitcherPro
 		}, [account])
 
 		return (
-			<Box ref={ref}>
+			<Box ref={ref} display="flex" flexDirection="column" alignItems="center">
 				<ul className={styles.cardWrapper} onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
-					{cards.map(({ bgColor, accountName, accountId, accountBalance }, index) => {
+					{cards.map(({ background, accountName, accountId, accountBalance }, index) => {
 						const canDrag = index === 0
 
 						return (
@@ -135,20 +150,20 @@ export const AccountSwitcher = forwardRef<HTMLButtonElement, IAccountSwitcherPro
 								key={accountId}
 								className={styles.card}
 								style={{
-									backgroundColor: bgColor,
+									background,
 								}}
 								variants={MOTION_VARIANTS}
 								animate={animate}
 								custom={{ isCardsHovered, cardsLength, selectedCard, index, isMounted }}
 								onClick={() => handleCardClick(accountName)}
 							>
-								<Box padding="large" display="flex" flexDirection="column" height="full">
-									<Box flexGrow={1}>
-										<Text size="medium" weight="strong" color="strong" className={styles.cardAccount}>
+								<Box paddingX="large" paddingY="medium" display="flex" flexDirection="column" height="full">
+									<Box flexGrow={1} paddingTop="xsmall">
+										<Text size="large" weight="medium" color="strong" className={styles.cardAccount}>
 											{accountId}
 										</Text>
 									</Box>
-									<Box>
+									<Box paddingBottom="xsmall">
 										<Text size="xlarge" weight="stronger" color="strong">
 											{accountBalance}
 										</Text>

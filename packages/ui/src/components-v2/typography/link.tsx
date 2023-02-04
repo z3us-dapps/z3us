@@ -15,7 +15,7 @@ export interface LProps {
 	weight?: TextProps['weight']
 	color?: TextProps['color']
 	type?: TextProps['type']
-	inline?: boolean
+	display?: 'block' | 'flex' | 'inline-flex'
 	highlightOnFocus?: boolean
 	className?: string
 	children?: ReactNode
@@ -30,7 +30,7 @@ const defaultProps = {
 	variant: 'link',
 	color: 'neutral',
 	weight: 'regular',
-	inline: false,
+	display: 'inline-flex',
 	highlightOnFocus: false,
 	baseline: false,
 	children: 'block',
@@ -45,17 +45,17 @@ const LinkComponent = (props: LProps) => {
 		size = 'medium',
 		color = 'neutral',
 		weight = 'regular',
-		underline = 'hover',
-		type = 'body',
+		underline,
+		type,
 		highlightOnFocus = true,
-		inline = false,
+		display,
 		className,
 		children,
 		...restProps
 	} = props
 
 	const classNames = clsx(
-		inline ? undefined : sprinkles({ display: 'block' }),
+		sprinkles({ display }),
 		underline === 'hover' ? styles.underlineOnHover : undefined,
 		underline === 'never' ? styles.underlineNever : undefined,
 		highlightOnFocus ? styles.highlightOnHover : undefined,

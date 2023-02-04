@@ -1,5 +1,6 @@
-import { sprinkles } from 'ui/src/components-v2/system/sprinkles.css'
-import { style } from '@vanilla-extract/css'
+import { darkMode, sprinkles } from 'ui/src/components-v2/system/sprinkles.css'
+import { vars } from 'ui/src/components-v2/system/theme.css'
+import { style, globalStyle } from '@vanilla-extract/css'
 
 export const leftPanel = style([
 	sprinkles({
@@ -34,41 +35,62 @@ export const indexAssetsWrapper = style([
 export const indexAssetWrapper = style([
 	sprinkles({
 		position: 'relative',
-		display: 'flex',
+	}),
+	{},
+])
+
+export const indexAssetLinkRow = style([
+	sprinkles({
 		width: 'full',
-		alignItems: 'center',
-		borderTop: 1,
-		borderStyle: 'solid',
-		borderColor: 'borderDivider',
-		paddingTop: 'medium',
-		paddingBottom: 'medium',
-		gap: 'small',
+		background: { hover: 'btnSecondaryBackgroundHover' },
+		paddingX: 'xlarge',
 	}),
 	{
-		':first-child': {
-			borderTop: 'none',
-		},
 		selectors: {
-			// [`.${darkMode} &`]: {},
-			// [`${parent} & svg`]: {
-			// 	fill: 'backgroundPrimary',
-			// },
+			'&:hover': {
+				background: vars.color.wax500,
+			},
 		},
 	},
 ])
 
-// globalStyle(`${indexAssetWrapper}:first-child > div`, {
-// 	borderTop: 'none',
-// })
+globalStyle(`.${darkMode} ${indexAssetLinkRow} > a:hover`, {
+	background: vars.color.wax500,
+})
+
+globalStyle(`${indexAssetWrapper}:first-child > a > div`, {
+	borderTop: 'none',
+})
+
+export const indexAssetRowOverlay = style([
+	sprinkles({
+		position: 'absolute',
+		top: 0,
+		right: 0,
+		height: 'full',
+		display: 'flex',
+		alignItems: 'center',
+		paddingRight: 'xlarge',
+		pointerEvents: 'none',
+	}),
+	{},
+])
 
 export const indexAssetCircle = style([
 	sprinkles({
 		position: 'relative',
 		borderRadius: 'full',
+		pointerEvents: 'auto',
 	}),
 	{
 		backgroundColor: 'orange',
 		width: '40px',
 		height: '40px',
+		marginLeft: '-9px',
+		selectors: {
+			'&:hover': {
+				background: vars.color.wax500,
+			},
+		},
 	},
 ])

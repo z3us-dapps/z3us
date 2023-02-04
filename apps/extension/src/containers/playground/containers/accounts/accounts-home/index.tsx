@@ -1,7 +1,7 @@
 /* eslint-disable */
 import React, { useState } from 'react'
-import { MixerHorizontalIcon, ArrowLeftIcon } from '@radix-ui/react-icons'
-import { PlusIcon, MagnifyingGlassIcon } from 'ui/src/components/icons'
+import { MixerHorizontalIcon } from '@radix-ui/react-icons'
+import { PlusIcon, MagnifyingGlassIcon, ArrowLeftIcon } from 'ui/src/components/icons'
 import { AnimatedPage } from '@src/containers/playground/components/animated-route'
 import { AnimatePresence } from 'framer-motion'
 import { Routes, Route, useLocation, Link as LinkRouter, useNavigate } from 'react-router-dom'
@@ -11,7 +11,7 @@ import { AccountActivity } from '@src/containers/playground/containers/accounts/
 import { useAccountParams } from '@src/containers/playground/hooks/use-account-params'
 import { Button } from 'ui/src/components-v2/button'
 import { Input } from 'ui/src/components-v2/input'
-import { Button as ButtonLink } from '@src/components/button'
+// import { Button as ButtonLink } from '@src/components/button'
 import { Box } from 'ui/src/components-v2/box'
 import { Text } from 'ui/src/components-v2/typography'
 import { Link } from '@src/components/link'
@@ -41,41 +41,37 @@ export const AccountsHome = () => {
 						overflow="hidden"
 						className={styles.leftPanel}
 					>
-						<AnimatePresence initial={false}>
-							<Routes location={location} key={location.pathname}>
-								<Route
-									path="/:account"
-									element={
-										<AnimatedPage>
-											<AccountsRouteWrapper>
+						<AccountsRouteWrapper />
+						<Box position="relative">
+							<AnimatePresence initial={false}>
+								<Routes location={location} key={location.pathname}>
+									<Route
+										path="/:account"
+										element={
+											<AnimatedPage>
 												<AccountsIndexAssets />
-											</AccountsRouteWrapper>
-										</AnimatedPage>
-									}
-								/>
-								<Route
-									path="/:account/:assetType"
-									element={
-										<AnimatedPage>
-											<AccountsRouteWrapper>
+											</AnimatedPage>
+										}
+									/>
+									<Route
+										path="/:account/:assetType"
+										element={
+											<AnimatedPage>
 												<AccountsList view={view as any} />
-											</AccountsRouteWrapper>
-										</AnimatedPage>
-									}
-								/>
-
-								<Route
-									path="/:account/:assetType/:asset"
-									element={
-										<AnimatedPage>
-											<AccountsRouteWrapper>
+											</AnimatedPage>
+										}
+									/>
+									<Route
+										path="/:account/:assetType/:asset"
+										element={
+											<AnimatedPage>
 												<AccountsList view={view as any} />
-											</AccountsRouteWrapper>
-										</AnimatedPage>
-									}
-								/>
-							</Routes>
-						</AnimatePresence>
+											</AnimatedPage>
+										}
+									/>
+								</Routes>
+							</AnimatePresence>
+						</Box>
 					</Box>
 					<Box
 						background="backgroundSecondary"
@@ -97,7 +93,7 @@ export const AccountsHome = () => {
 								}}
 							>
 								<PlusIcon />
-								Select account
+								New account
 							</Button>
 						</Box>
 						<Box
@@ -125,7 +121,7 @@ export const AccountsHome = () => {
 									}}
 									iconOnly
 								>
-									<PlusIcon />
+									<MagnifyingGlassIcon />
 								</Button>
 							</Box>
 						</Box>
@@ -137,12 +133,11 @@ export const AccountsHome = () => {
 	)
 }
 
-export const AccountsRouteWrapper = ({ children }) => {
+export const AccountsRouteWrapper = () => {
 	const { account, assetType, asset } = useAccountParams()
-	console.log('asset:', asset)
 	const navigate = useNavigate()
 	return (
-		<>
+		<Box position="relative">
 			<Box paddingX="xlarge" paddingTop="xlarge">
 				<Box display="flex" alignItems="center">
 					<Button
@@ -193,59 +188,64 @@ export const AccountsRouteWrapper = ({ children }) => {
 					</Button>
 				</Box>
 			</Box>
-			{children}
-		</>
+		</Box>
 	)
 }
 
 export const AccountsIndexAssets = () => {
 	return (
 		<>
-			<Box paddingX="xlarge" paddingBottom="xlarge">
+			<Box paddingBottom="xlarge">
 				<Box className={styles.indexAssetsWrapper}>
 					{[{ name: 'Tokens' }, { name: 'NFTs' }, { name: 'LP Tokens' }, { name: 'Badges' }].map(({ name }) => (
 						<Box key={name} className={styles.indexAssetWrapper}>
-							<Box flexGrow={1}>
-								<Box display="flex" alignItems="center">
-									<Text size="large" color="strong" weight="medium">
-										{name}
-									</Text>
-									<Box paddingLeft="xsmall">
-										<Text size="large" weight="medium">
-											(12)
+							<Link to="/accounts/all/tokens" underline="never" className={styles.indexAssetLinkRow}>
+								<Box flexGrow={1} borderTop={1} borderStyle="solid" borderColor="borderDivider" paddingY="medium">
+									<Box display="flex" alignItems="center">
+										<Text size="large" color="strong" weight="medium">
+											{name}
 										</Text>
+										<Box paddingLeft="xsmall">
+											<Text size="large" weight="medium">
+												(12)
+											</Text>
+										</Box>
+									</Box>
+									<Box display="flex" alignItems="center">
+										<Text size="medium" color="strong" weight="medium">
+											$12,401
+										</Text>
+										<Box paddingLeft="xsmall">
+											<Text size="small" color="green">
+												+1.23%
+											</Text>
+										</Box>
 									</Box>
 								</Box>
-								<Box display="flex" alignItems="center">
-									<Text size="medium" color="strong" weight="medium">
-										$12,401
-									</Text>
-									<Box paddingLeft="xsmall">
-										<Text size="small" color="green">
-											+1.23%
-										</Text>
-									</Box>
-								</Box>
-							</Box>
-							<Box>
-								<Box display="flex" alignItems="center">
+							</Link>
+							<Box className={styles.indexAssetRowOverlay}>
+								<Box display="flex" alignItems="center" marginRight="large">
 									<Text size="medium" color="strong" weight="medium">
 										+7
 									</Text>
-									<Box display="flex" marginLeft="small">
-										<Link to="/">
-											<Box className={styles.indexAssetCircle} />
-										</Link>
-										<Link to="/">
-											<Box className={styles.indexAssetCircle} />
-										</Link>
-									</Box>
-									<Box paddingLeft="xsmall">
-										<ButtonLink styleVariant="ghost" sizeVariant="small" iconOnly to="/accounts/all/tokens">
-											<PlusIcon />
-										</ButtonLink>
-									</Box>
+									{/* <Box paddingLeft="xsmall"> */}
+									{/* 	<ButtonLink styleVariant="ghost" sizeVariant="small" iconOnly to="/accounts/all/tokens"> */}
+									{/* 		<PlusIcon /> */}
+									{/* 	</ButtonLink> */}
+									{/* </Box> */}
 								</Box>
+								<Link to="/accounts/all/tokens" className={styles.indexAssetCircle}>
+									<Box />
+								</Link>
+								<Link to="/accounts/all/tokens" className={styles.indexAssetCircle}>
+									<Box />
+								</Link>
+								<Link to="/accounts/all/tokens" className={styles.indexAssetCircle}>
+									<Box />
+								</Link>
+								<Link to="/accounts/all/tokens" className={styles.indexAssetCircle}>
+									<Box />
+								</Link>
 							</Box>
 						</Box>
 					))}

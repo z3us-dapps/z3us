@@ -1,4 +1,5 @@
 import { sprinkles, darkMode } from 'ui/src/components-v2/system/sprinkles.css'
+import { vars } from 'ui/src/components-v2/system/theme.css'
 import { responsiveStyle } from 'ui/src/components-v2/system/theme-utils'
 import { style } from '@vanilla-extract/css'
 
@@ -30,6 +31,20 @@ export const card = style([
 		boxShadow:
 			'0px 136px 192px rgba(0, 0, 0, 0.3), 0px 50px 50px rgba(0, 0, 0, 0.25), 0px 24px 24px rgba(0, 0, 0, 0.2), 0px 12px 12px rgba(0, 0, 0, 0.15)',
 
+		':after': {
+			content: '""',
+			position: 'absolute',
+			top: 0,
+			bottom: 0,
+			left: 0,
+			right: 0,
+			border: '1px solid',
+			borderColor: vars.color.white,
+			pointerEvents: 'none',
+			borderRadius: vars.border.radius.xlarge,
+			opacity: '0.5',
+		},
+
 		selectors: {
 			[`.${darkMode} &`]: {
 				boxShadow:
@@ -44,7 +59,7 @@ export const cardAccount = style([
 		position: 'relative',
 	}),
 	{
-		letterSpacing: '0.15em',
+		letterSpacing: '0.11em',
 	},
 ])
 

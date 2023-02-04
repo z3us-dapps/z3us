@@ -157,23 +157,23 @@ export const sharedThemeValues = {
 		),
 		large: calculateTypographyStyles(
 			{
-				mobile: { fontSize: 16, rows: 9 },
-				tablet: { fontSize: 16, rows: 9 },
-				desktop: { fontSize: 16, rows: 9 },
+				mobile: { fontSize: 16, rows: 6 },
+				tablet: { fontSize: 16, rows: 6 },
+				desktop: { fontSize: 16, rows: 6 },
 			},
 			'body',
 		),
 		xlarge: calculateTypographyStyles(
 			{
-				mobile: { fontSize: 18, rows: 9 },
-				tablet: { fontSize: 18, rows: 10 },
-				desktop: { fontSize: 18, rows: 10 },
+				mobile: { fontSize: 18, rows: 7 },
+				tablet: { fontSize: 18, rows: 7 },
+				desktop: { fontSize: 18, rows: 7 },
 			},
 			'body',
 		),
 		xxlarge: calculateTypographyStyles(
 			{
-				mobile: { fontSize: 24, rows: 12 },
+				mobile: { fontSize: 24, rows: 10 },
 				tablet: { fontSize: 24, rows: 10 },
 				desktop: { fontSize: 24, rows: 10 },
 			},
