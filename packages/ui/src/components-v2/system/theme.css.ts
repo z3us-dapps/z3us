@@ -1,5 +1,6 @@
 import { precomputeValues } from '@capsizecss/vanilla-extract'
 import { createTheme } from '@vanilla-extract/css'
+import interFontMetrics from '@capsizecss/metrics/inter'
 import tokens from 'design/dist/tailwind-tokens.json'
 import lightTokens from 'design/dist/light/index.json'
 import darkTokens from 'design/dist/dark/index.json'
@@ -11,34 +12,49 @@ const px = (value: string | number) => `${value}px`
 
 const fontMetrics = {
 	brand: {
-		capHeight: 669,
-		ascent: 1026,
-		descent: -432,
-		lineGap: 0,
-		unitsPerEm: 1000,
+		...interFontMetrics,
 	},
 	heading: {
-		capHeight: 700,
-		ascent: 992,
-		descent: -310,
-		lineGap: 0,
-		unitsPerEm: 1000,
+		...interFontMetrics,
 	},
 	body: {
-		capHeight: 1443,
-		ascent: 1950,
-		descent: -494,
-		lineGap: 0,
-		unitsPerEm: 2048,
+		...interFontMetrics,
 	},
 	code: {
-		capHeight: 700,
-		ascent: 1060,
-		descent: -320,
-		lineGap: 0,
-		unitsPerEm: 1000,
+		...interFontMetrics,
 	},
 }
+
+// const fontMetrics = {
+// 	brand: {
+// 		capHeight: 669,
+// 		ascent: 1026,
+// 		descent: -432,
+// 		lineGap: 0,
+// 		unitsPerEm: 1000,
+// 	},
+// 	heading: {
+// 		capHeight: 700,
+// 		ascent: 992,
+// 		descent: -310,
+// 		lineGap: 0,
+// 		unitsPerEm: 1000,
+// 	},
+// 	body: {
+// 		capHeight: 1443,
+// 		ascent: 1950,
+// 		descent: -494,
+// 		lineGap: 0,
+// 		unitsPerEm: 2048,
+// 	},
+// 	code: {
+// 		capHeight: 700,
+// 		ascent: 1060,
+// 		descent: -320,
+// 		lineGap: 0,
+// 		unitsPerEm: 1000,
+// 	},
+// }
 
 const calculateTypographyStyles = (
 	definition: Record<Breakpoint, { fontSize: number; rows: number }>,
@@ -93,6 +109,7 @@ export const sharedThemeValues = {
 		brand: '"Inter", "Helvetica Neue", HelveticaNeue, Helvetica, sans-serif',
 		heading: '"Inter", BlinkMacSystemFont, "Helvetica Neue", HelveticaNeue, Helvetica, sans-serif',
 		body: '"Inter", BlinkMacSystemFont, "Helvetica Neue", HelveticaNeue, Helvetica, Arial, sans-serif',
+		// TODO: fix font
 		code: 'ml, "Roboto Mono", Menlo, monospace',
 	},
 	grid: px(grid),
@@ -115,78 +132,149 @@ export const sharedThemeValues = {
 		xxlarge: px(1220),
 	},
 	text: {
-		code: calculateTypographyStyles(
-			{
-				mobile: { fontSize: 11, rows: 3 },
-				tablet: { fontSize: 12, rows: 3 },
-				desktop: { fontSize: 12, rows: 3 },
+		code: {
+			calculate: calculateTypographyStyles(
+				{
+					mobile: { fontSize: 11, rows: 3 },
+					tablet: { fontSize: 11, rows: 3 },
+					desktop: { fontSize: 11, rows: 3 },
+				},
+				'body',
+			),
+			spacing: {
+				mobile: '0em',
+				tablet: '0em',
+				desktop: '0em',
 			},
-			'body',
-		),
-		xxsmall: calculateTypographyStyles(
-			{
-				mobile: { fontSize: 12, rows: 4 },
-				tablet: { fontSize: 12, rows: 4 },
-				desktop: { fontSize: 12, rows: 4 },
+		},
+
+		xxsmall: {
+			calculate: calculateTypographyStyles(
+				{
+					mobile: { fontSize: 12, rows: 4 },
+					tablet: { fontSize: 12, rows: 4 },
+					desktop: { fontSize: 12, rows: 4 },
+				},
+				'body',
+			),
+			spacing: {
+				mobile: '0em',
+				tablet: '0em',
+				desktop: '0em',
 			},
-			'body',
-		),
-		xsmall: calculateTypographyStyles(
-			{
-				mobile: { fontSize: 13, rows: 4 },
-				tablet: { fontSize: 13, rows: 4 },
-				desktop: { fontSize: 13, rows: 4 },
+		},
+
+		xsmall: {
+			calculate: calculateTypographyStyles(
+				{
+					mobile: { fontSize: 13, rows: 4 },
+					tablet: { fontSize: 13, rows: 4 },
+					desktop: { fontSize: 13, rows: 4 },
+				},
+				'body',
+			),
+			spacing: {
+				mobile: '0em',
+				tablet: '0em',
+				desktop: '0em',
 			},
-			'body',
-		),
-		small: calculateTypographyStyles(
-			{
-				mobile: { fontSize: 14, rows: 5 },
-				tablet: { fontSize: 14, rows: 5 },
-				desktop: { fontSize: 14, rows: 5 },
+		},
+
+		small: {
+			calculate: calculateTypographyStyles(
+				{
+					mobile: { fontSize: 14, rows: 5 },
+					tablet: { fontSize: 14, rows: 5 },
+					desktop: { fontSize: 14, rows: 5 },
+				},
+				'body',
+			),
+			spacing: {
+				mobile: '0em',
+				tablet: '0em',
+				desktop: '0em',
 			},
-			'body',
-		),
-		medium: calculateTypographyStyles(
-			{
-				mobile: { fontSize: 15, rows: 6 },
-				tablet: { fontSize: 15, rows: 6 },
-				desktop: { fontSize: 15, rows: 6 },
+		},
+
+		medium: {
+			calculate: calculateTypographyStyles(
+				{
+					mobile: { fontSize: 15, rows: 6 },
+					tablet: { fontSize: 15, rows: 6 },
+					desktop: { fontSize: 15, rows: 6 },
+				},
+				'body',
+			),
+			spacing: {
+				mobile: '0.2em',
+				tablet: '0.2em',
+				desktop: '0.2em',
 			},
-			'body',
-		),
-		large: calculateTypographyStyles(
-			{
-				mobile: { fontSize: 16, rows: 6 },
-				tablet: { fontSize: 16, rows: 6 },
-				desktop: { fontSize: 16, rows: 6 },
+		},
+
+		large: {
+			calculate: calculateTypographyStyles(
+				{
+					mobile: { fontSize: 16, rows: 6 },
+					tablet: { fontSize: 16, rows: 6 },
+					desktop: { fontSize: 16, rows: 6 },
+				},
+				'body',
+			),
+			spacing: {
+				mobile: '0em',
+				tablet: '0em',
+				desktop: '0em',
 			},
-			'body',
-		),
-		xlarge: calculateTypographyStyles(
-			{
-				mobile: { fontSize: 18, rows: 7 },
-				tablet: { fontSize: 18, rows: 7 },
-				desktop: { fontSize: 18, rows: 7 },
+		},
+
+		xlarge: {
+			calculate: calculateTypographyStyles(
+				{
+					mobile: { fontSize: 18, rows: 7 },
+					tablet: { fontSize: 18, rows: 7 },
+					desktop: { fontSize: 18, rows: 7 },
+				},
+				'heading',
+			),
+			spacing: {
+				mobile: '0em',
+				tablet: '0em',
+				desktop: '0em',
 			},
-			'body',
-		),
-		xxlarge: calculateTypographyStyles(
-			{
-				mobile: { fontSize: 24, rows: 10 },
-				tablet: { fontSize: 24, rows: 10 },
-				desktop: { fontSize: 24, rows: 10 },
+		},
+
+		xxlarge: {
+			calculate: calculateTypographyStyles(
+				{
+					mobile: { fontSize: 24, rows: 10 },
+					tablet: { fontSize: 24, rows: 10 },
+					desktop: { fontSize: 24, rows: 10 },
+				},
+				'heading',
+			),
+			spacing: {
+				mobile: '0em',
+				tablet: '0em',
+				desktop: '0em',
 			},
-			'heading',
-		),
-		xxxlarge: calculateTypographyStyles(
-			{
-				mobile: { fontSize: 36, rows: 13 },
-				tablet: { fontSize: 36, rows: 13 },
-				desktop: { fontSize: 36, rows: 13 },
+		},
+
+		xxxlarge: {
+			calculate: calculateTypographyStyles(
+				{
+					mobile: { fontSize: 36, rows: 13 },
+					tablet: { fontSize: 36, rows: 13 },
+					desktop: { fontSize: 36, rows: 13 },
+				},
+				'heading',
+			),
+			spacing: {
+				mobile: '0em',
+				tablet: '0em',
+				desktop: '0em',
 			},
-			'heading',
-		),
+		},
 	},
 	weight: {
 		regular: '400',

@@ -1497,6 +1497,11 @@
   resolved "https://registry.yarnpkg.com/@capsizecss/metrics/-/metrics-0.3.0.tgz#8c40262c176ee131cee64e2e3d1c6def6f9a1b87"
   integrity sha512-QehVN9u96URt4ji/bSQs2F5t6SX2XuW6KLJJvoUqg7RFqZeSFogVoJtcxwxjSJ0SH34il3xid5iyMG7Rle2yYA==
 
+"@capsizecss/metrics@^1.0.1":
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/@capsizecss/metrics/-/metrics-1.0.1.tgz#f136f52072b70dc367c657d6eec1d733a2fd9de8"
+  integrity sha512-Ox2n3gSm8X8UciUkKjXUEDfAhEC+xVz+6wQS5GCCxOw2Zc7RGLOMbeuCgtuTarp5eVfjPp3iaqhCfJiP0UWfjA==
+
 "@capsizecss/vanilla-extract@^1.0.0":
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/@capsizecss/vanilla-extract/-/vanilla-extract-1.0.0.tgz#da05e7643b77e1ba37ea185026bb87becf546187"
