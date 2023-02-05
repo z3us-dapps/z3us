@@ -58,19 +58,22 @@ const CARD_COLORS = [
 		accountId: 'rdx1...6go0',
 		accountName: 'Spend',
 		accountBalance: '$1043.43',
-		background: 'radial-gradient(77.21% 96.45% at 50% 100%, #FE845E 0%, #E08BAB 17.71%, #AB8CFF 50.52%, #946DFF 100%)',
+		backgroundImage:
+			'url("/images/account-images/z3us-apple-hermes.png"), radial-gradient(77.21% 96.45% at 50% 100%, #FE845E 0%, #E08BAB 17.71%, #AB8CFF 50.52%, #946DFF 100%)',
 	},
 	{
 		accountId: 'rdx1...ma41',
 		accountName: 'Savings',
 		accountBalance: '$5043.43',
-		background: '#BF9E76',
+		backgroundImage:
+			'url("/images/account-images/z3us-apple-hermes.png"), radial-gradient(77.21% 96.45% at 50% 100%, #C0D7EF 0%, #C0D7EF 17.71%, #C0D7EF 50.52%, #C0D7EF 100%)',
 	},
 	{
 		accountId: 'rdx1...ldg0',
 		accountName: 'Defi',
 		accountBalance: '$80,043.43',
-		background: '#c0cddc',
+		backgroundImage:
+			'url("/images/account-images/z3us-apple-hermes.png"), radial-gradient(77.21% 96.45% at 50% 100%, #BF9E76 0%, #BF9E76 17.71%, #BF9E76 50.52%, #BF9E76 100%)',
 	},
 ]
 
@@ -140,9 +143,9 @@ export const AccountSwitcher = forwardRef<HTMLButtonElement, IAccountSwitcherPro
 		}, [account])
 
 		return (
-			<Box ref={ref} display="flex" flexDirection="column" alignItems="center">
+			<Box ref={ref} display="flex" flexDirection="column" alignItems="center" style={{ minHeight: '230px' }}>
 				<ul className={styles.cardWrapper} onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
-					{cards.map(({ background, accountName, accountId, accountBalance }, index) => {
+					{cards.map(({ backgroundImage, accountName, accountId, accountBalance }, index) => {
 						const canDrag = index === 0
 
 						return (
@@ -150,7 +153,7 @@ export const AccountSwitcher = forwardRef<HTMLButtonElement, IAccountSwitcherPro
 								key={accountId}
 								className={styles.card}
 								style={{
-									background,
+									backgroundImage,
 								}}
 								variants={MOTION_VARIANTS}
 								animate={animate}

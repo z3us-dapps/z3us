@@ -26,6 +26,7 @@ export const card = style([
 	{
 		width: '312px',
 		height: '180px',
+		backgroundSize: '100% auto',
 		transformOrigin: 'top center',
 		listStyle: 'none',
 		boxShadow:

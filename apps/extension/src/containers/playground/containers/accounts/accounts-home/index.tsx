@@ -97,16 +97,16 @@ export const AccountsHome = () => {
 							</Button>
 						</Box>
 						<Box
-							padding="xlarge"
+							paddingTop="large"
+							paddingX="xlarge"
 							borderBottom={1}
 							borderColor="borderDivider"
 							borderStyle="solid"
 							flexShrink={0}
-							style={{ height: '280px' }}
 						>
 							<AccountSwitcher />
 						</Box>
-						<Box paddingX="large" paddingTop="xlarge">
+						<Box paddingX="large" paddingTop="xlarge" paddingBottom="small">
 							<Box display="flex" alignItems="center">
 								<Box flexGrow={1}>
 									<Text size="large" weight="medium" color="strong">
