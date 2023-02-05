@@ -11,7 +11,7 @@ import { AccountActivity } from '@src/containers/playground/containers/accounts/
 import { useAccountParams } from '@src/containers/playground/hooks/use-account-params'
 import { Button } from 'ui/src/components-v2/button'
 import { Input } from 'ui/src/components-v2/input'
-// import { Button as ButtonLink } from '@src/components/button'
+// inone { Button as ButtonLink } from '@src/components/button'
 import { Box } from 'ui/src/components-v2/box'
 import { Text } from 'ui/src/components-v2/typography'
 import { Link } from '@src/components/link'
@@ -79,35 +79,9 @@ export const AccountsHome = () => {
 						borderRadius="xlarge"
 						className={styles.rightPanel}
 					>
-						<Box paddingTop="large" paddingX="large" display="flex" alignItems="center">
-							<Box flexGrow={1}>
-								<Text size="xlarge" weight="medium" color="strong">
-									Accounts
-								</Text>
-							</Box>
-							<Button
-								styleVariant="ghost"
-								sizeVariant="small"
-								onClick={() => {
-									console.log(99, 'search')
-								}}
-							>
-								<PlusIcon />
-								New account
-							</Button>
-						</Box>
-						<Box
-							paddingTop="large"
-							paddingX="xlarge"
-							borderBottom={1}
-							borderColor="borderDivider"
-							borderStyle="solid"
-							flexShrink={0}
-						>
-							<AccountSwitcher />
-						</Box>
-						<Box paddingX="large" paddingTop="xlarge" paddingBottom="small">
-							<Box display="flex" alignItems="center">
+						<AccountSwitcher />
+						<Box paddingX="large" paddingTop="xlarge" paddingBottom="small" className={styles.recentActivityWrapper}>
+							<Box display="flex" alignItems="center" position="relative">
 								<Box flexGrow={1}>
 									<Text size="large" weight="medium" color="strong">
 										Recent activity

@@ -3,9 +3,24 @@ import { vars } from 'ui/src/components-v2/system/theme.css'
 import { responsiveStyle } from 'ui/src/components-v2/system/theme-utils'
 import { style } from '@vanilla-extract/css'
 
-export const cardWrapper = style([
+export const cardWrapperAll = style([
 	sprinkles({
 		position: 'relative',
+	}),
+	{
+		width: '312px',
+		height: '180px',
+	},
+	// responsiveStyle({
+	// 	mobile: { width: '100%' },
+	// 	tablet: { width: '33%' },
+	// 	desktop: { width: '25%' },
+	// }),
+])
+
+export const cardWrapperAccount = style([
+	sprinkles({
+		position: 'absolute',
 	}),
 	{
 		width: '312px',

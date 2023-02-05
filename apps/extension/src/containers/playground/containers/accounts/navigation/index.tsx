@@ -41,7 +41,6 @@ const MenuItem = ({ text, href }) => {
 
 	return (
 		<Link
-			inline
 			to={href}
 			className={clsx(styles.navigationMenuLink)}
 			// className={clsx('z3-c-accounts-navigation__menu-item', selected && 'z3-c-accounts-navigation__menu-item--active')}

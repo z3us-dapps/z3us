@@ -12,6 +12,7 @@ export const button = recipe({
 		display: 'inline-flex',
 		alignItems: 'center',
 		justifyContent: 'center',
+		textDecoration: 'none',
 	},
 	variants: {
 		styleVariant: {
