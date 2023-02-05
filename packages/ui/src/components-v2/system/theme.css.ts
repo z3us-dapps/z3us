@@ -192,7 +192,8 @@ export const sharedThemeValues = {
 		regular: '400',
 		medium: '500',
 		strong: '600',
-		stronger: '800',
+		stronger: '700',
+		extrastrong: '800',
 		strongest: '900',
 	},
 	border: {
