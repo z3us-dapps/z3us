@@ -8,6 +8,7 @@ This [Turborepo](https://turborepo.org/) monorepo is home to the Z3US browser ex
 
 ```
 nvm install 15
+nvm install 15
 nvm use 15
 ```
 
