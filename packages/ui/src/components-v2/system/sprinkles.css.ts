@@ -90,6 +90,8 @@ const colorProperties = defineProperties({
 		darkMode: { selector: `.${darkMode} &` },
 		hover: { selector: '&:hover' },
 		focus: { selector: '&:focus' },
+		active: { selector: '&:active' },
+		focusNotVisible: { selector: '&:focus:not(:visible)' },
 		focusVisible: { selector: '&:focus-visible' },
 	},
 	defaultCondition: 'lightMode',

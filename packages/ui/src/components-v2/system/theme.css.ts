@@ -142,9 +142,9 @@ export const sharedThemeValues = {
 				'body',
 			),
 			spacing: {
-				mobile: '0em',
-				tablet: '0em',
-				desktop: '0em',
+				mobile: '0.02em',
+				tablet: '0.02em',
+				desktop: '0.02em',
 			},
 		},
 
@@ -158,9 +158,9 @@ export const sharedThemeValues = {
 				'body',
 			),
 			spacing: {
-				mobile: '0em',
-				tablet: '0em',
-				desktop: '0em',
+				mobile: '0.02em',
+				tablet: '0.02em',
+				desktop: '0.02em',
 			},
 		},
 
@@ -174,9 +174,9 @@ export const sharedThemeValues = {
 				'body',
 			),
 			spacing: {
-				mobile: '0em',
-				tablet: '0em',
-				desktop: '0em',
+				mobile: '0.02em',
+				tablet: '0.02em',
+				desktop: '0.02em',
 			},
 		},
 
@@ -190,9 +190,9 @@ export const sharedThemeValues = {
 				'body',
 			),
 			spacing: {
-				mobile: '0em',
-				tablet: '0em',
-				desktop: '0em',
+				mobile: '0.02em',
+				tablet: '0.02em',
+				desktop: '0.02em',
 			},
 		},
 
@@ -206,9 +206,9 @@ export const sharedThemeValues = {
 				'body',
 			),
 			spacing: {
-				mobile: '0.2em',
-				tablet: '0.2em',
-				desktop: '0.2em',
+				mobile: '0.04em',
+				tablet: '0.04em',
+				desktop: '0.04em',
 			},
 		},
 
@@ -222,9 +222,9 @@ export const sharedThemeValues = {
 				'body',
 			),
 			spacing: {
-				mobile: '0em',
-				tablet: '0em',
-				desktop: '0em',
+				mobile: '0.04em',
+				tablet: '0.04em',
+				desktop: '0.04em',
 			},
 		},
 
@@ -238,9 +238,9 @@ export const sharedThemeValues = {
 				'heading',
 			),
 			spacing: {
-				mobile: '0em',
-				tablet: '0em',
-				desktop: '0em',
+				mobile: '0.04em',
+				tablet: '0.04em',
+				desktop: '0.04em',
 			},
 		},
 
@@ -384,58 +384,41 @@ export const primitiveColors = {
 	green1000: tokens.color.core.green['1000'],
 }
 
+const generateColorTokens = (colorTokens: any) => ({
+	colorNeutral: colorTokens.color.font.neutral.value,
+	colorStrong: colorTokens.color.font.strong.value,
+	backgroundPrimary: colorTokens.color.background.primary.value,
+	backgroundSecondary: colorTokens.color.background.secondary.value,
+	borderDivider: colorTokens.color.border.divider_primary.value,
+	shadowMedium: colorTokens.color.shadow.medium.value,
+	btnSecondaryBackground: colorTokens.color.background.btn_secondary_background.value,
+	btnSecondaryBackgroundHover: colorTokens.color.background.btn_secondary_background_hover.value,
+	btnSecondaryShadowFocus: colorTokens.color.shadow.button_secondary_focus.value,
+	btnSecondaryBorderColor: colorTokens.color.border.btn_secondary_border.value,
+	btnSecondaryBorderColorHover: colorTokens.color.border.btn_secondary_border_hover.value,
+	btnGhostBorderColor: colorTokens.color.border.btn_ghost_border.value,
+	btnGhostBorderColorHover: colorTokens.color.border.btn_ghost_border_hover.value,
+	inputPrimaryBackground: colorTokens.color.background.input_primary_background.value,
+	inputPrimaryBackgroundHover: colorTokens.color.background.input_primary_background_hover.value,
+	inputPrimaryBackgroundFocus: colorTokens.color.background.input_primary_background_hover.value,
+	inputPrimaryBorderColor: colorTokens.color.border.input_primary_border.value,
+	inputPrimaryBorderHover: colorTokens.color.border.input_primary_border_hover.value,
+	inputPrimaryBorderFocus: colorTokens.color.border.input_primary_border_focus.value,
+	inputPrimaryShadowFocus: colorTokens.color.shadow.input_primary_focus.value,
+})
+
 /**
  * Light Theme Variable Semantic (Core) colors
  */
 export const lightThemeColors = {
-	colorNeutral: lightTokens.color.font.neutral.value,
-	colorStrong: lightTokens.color.font.strong.value,
-	backgroundPrimary: lightTokens.color.background.primary.value,
-	backgroundSecondary: lightTokens.color.background.secondary.value,
-	borderDivider: lightTokens.color.border.divider_primary.value,
-	shadowMedium: lightTokens.color.shadow.medium.value,
-	btnSecondaryBackground: lightTokens.color.background.btn_secondary_background.value,
-	btnSecondaryBackgroundHover: lightTokens.color.background.btn_secondary_background_hover.value,
-	btnSecondaryBorderColor: lightTokens.color.border.btn_secondary_border.value,
-	btnSecondaryBorderColorHover: lightTokens.color.border.btn_secondary_border_hover.value,
-	btnGhostBorderColor: lightTokens.color.border.btn_ghost_border.value,
-	btnGhostBorderColorHover: lightTokens.color.border.btn_ghost_border_hover.value,
-
-	inputPrimaryBackground: lightTokens.color.background.input_primary_background.value,
-	inputPrimaryBackgroundHover: lightTokens.color.background.input_primary_background_hover.value,
-	inputPrimaryBackgroundFocus: lightTokens.color.background.input_primary_background_hover.value,
-
-	inputPrimaryBorderColor: lightTokens.color.border.input_primary_border.value,
-	inputPrimaryBorderHover: lightTokens.color.border.input_primary_border_hover.value,
-	inputPrimaryBorderFocus: lightTokens.color.border.input_primary_border_focus.value,
-	inputPrimaryShadowFocus: lightTokens.color.shadow.input_primary_focus.value,
+	...generateColorTokens(lightTokens),
 }
 
 /**
  * Dark Theme Variable Semantic (Core) colors
  */
 export const darkThemeColors = {
-	colorNeutral: darkTokens.color.font.neutral.value,
-	colorStrong: darkTokens.color.font.strong.value,
-	backgroundPrimary: darkTokens.color.background.primary.value,
-	backgroundSecondary: darkTokens.color.background.secondary.value,
-	borderDivider: darkTokens.color.border.divider_primary.value,
-	shadowMedium: darkTokens.color.shadow.medium.value,
-	btnSecondaryBackground: darkTokens.color.background.btn_secondary_background.value,
-	btnSecondaryBackgroundHover: darkTokens.color.background.btn_secondary_background_hover.value,
-	btnSecondaryBorderColor: darkTokens.color.border.btn_secondary_border.value,
-	btnSecondaryBorderColorHover: darkTokens.color.border.btn_secondary_border_hover.value,
-	btnGhostBorderColor: darkTokens.color.border.btn_ghost_border.value,
-	btnGhostBorderColorHover: darkTokens.color.border.btn_ghost_border_hover.value,
-
-	inputPrimaryBackground: darkTokens.color.background.input_primary_background.value,
-	inputPrimaryBackgroundHover: darkTokens.color.background.input_primary_background_hover.value,
-	inputPrimaryBackgroundFocus: darkTokens.color.background.input_primary_background_hover.value,
-
-	inputPrimaryBorderColor: darkTokens.color.border.input_primary_border.value,
-	inputPrimaryBorderHover: darkTokens.color.border.input_primary_border_hover.value,
-	inputPrimaryBorderFocus: darkTokens.color.border.input_primary_border_focus.value,
-	inputPrimaryShadowFocus: darkTokens.color.shadow.input_primary_focus.value,
+	...generateColorTokens(darkTokens),
 }
 
 /**

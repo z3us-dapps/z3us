@@ -25,10 +25,12 @@ export const button = recipe({
 					lightMode: 'inputPrimaryBorderColor',
 					hover: 'inputPrimaryBorderHover',
 					focus: 'inputPrimaryBorderFocus',
+					// TODO: focusvisible update
 					focusVisible: 'inputPrimaryBorderFocus',
 				},
 				boxShadow: {
 					focus: 'inputPrimaryShadowFocus',
+					// TODO: focusvisible update
 					focusVisible: 'inputPrimaryShadowFocus',
 				},
 				color: 'colorStrong',

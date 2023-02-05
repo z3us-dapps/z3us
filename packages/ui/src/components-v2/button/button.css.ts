@@ -13,6 +13,7 @@ export const button = recipe({
 		alignItems: 'center',
 		justifyContent: 'center',
 		textDecoration: 'none',
+		outline: 'none',
 	},
 	variants: {
 		styleVariant: {
@@ -21,15 +22,29 @@ export const button = recipe({
 				color: 'purple100',
 			}),
 			secondary: sprinkles({
-				background: { lightMode: 'btnSecondaryBackground', hover: 'btnSecondaryBackgroundHover' },
+				background: {
+					lightMode: 'btnSecondaryBackground',
+					hover: 'btnSecondaryBackgroundHover',
+					active: 'btnSecondaryBackground',
+					focusVisible: 'btnSecondaryBackgroundHover',
+				},
 				borderColor: { lightMode: 'btnSecondaryBorderColor', hover: 'btnSecondaryBorderColorHover' },
+				boxShadow: {
+					focusVisible: 'btnSecondaryShadowFocus',
+				},
 				color: 'colorNeutral',
 				border: 1,
 				borderStyle: 'solid',
 			}),
 			ghost: sprinkles({
-				background: { hover: 'btnSecondaryBackgroundHover', focus: 'purple600' },
+				background: {
+					hover: 'btnSecondaryBackgroundHover',
+					focusVisible: 'btnSecondaryBackgroundHover',
+				},
 				borderColor: { lightMode: 'transparent', hover: 'btnGhostBorderColorHover' },
+				boxShadow: {
+					focusVisible: 'btnSecondaryShadowFocus',
+				},
 				color: 'colorNeutral',
 				border: 1,
 				borderStyle: 'solid',

@@ -157,26 +157,28 @@ export const AccountSwitcher = forwardRef<HTMLButtonElement, IAccountSwitcherPro
 									All accounts
 								</Button>
 							</Box>
-							<Button
-								iconOnly
-								styleVariant="ghost"
-								sizeVariant="small"
-								onClick={() => {
-									console.log(99, 'next account')
-								}}
-							>
-								<ArrowLeftIcon />
-							</Button>
-							<Button
-								iconOnly
-								styleVariant="ghost"
-								sizeVariant="small"
-								onClick={() => {
-									console.log(99, 'previous account')
-								}}
-							>
-								<ArrowRightIcon />
-							</Button>
+							<Box display="flex" gap="small">
+								<Button
+									iconOnly
+									styleVariant="ghost"
+									sizeVariant="small"
+									onClick={() => {
+										console.log(99, 'next account')
+									}}
+								>
+									<ArrowLeftIcon />
+								</Button>
+								<Button
+									iconOnly
+									styleVariant="ghost"
+									sizeVariant="small"
+									onClick={() => {
+										console.log(99, 'previous account')
+									}}
+								>
+									<ArrowRightIcon />
+								</Button>
+							</Box>
 						</>
 					)}
 				</Box>
