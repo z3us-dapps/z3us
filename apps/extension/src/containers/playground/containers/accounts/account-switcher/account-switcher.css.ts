@@ -33,10 +33,26 @@ export const cardWrapperAccount = style([
 	// }),
 ])
 
+export const cardWrapperAccountList = style([
+	sprinkles({
+		position: 'relative',
+		display: 'flex',
+		alignItems: 'center',
+	}),
+	{
+		width: '10000px',
+		height: '180px',
+		// background: 'cyan',
+		// perspective: '600px',
+		whiteSpace: 'nowrap',
+	},
+])
+
 export const card = style([
 	sprinkles({
 		position: 'absolute',
 		borderRadius: 'xlarge',
+		flexShrink: 0,
 	}),
 	{
 		width: '312px',
@@ -46,7 +62,6 @@ export const card = style([
 		listStyle: 'none',
 		boxShadow:
 			'0px 136px 192px rgba(0, 0, 0, 0.3), 0px 50px 50px rgba(0, 0, 0, 0.25), 0px 24px 24px rgba(0, 0, 0, 0.2), 0px 12px 12px rgba(0, 0, 0, 0.15)',
-
 		':after': {
 			content: '""',
 			position: 'absolute',

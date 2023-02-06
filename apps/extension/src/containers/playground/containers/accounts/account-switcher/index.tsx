@@ -1,5 +1,5 @@
 /* eslint-disable */
-import React, { forwardRef, useEffect, useState } from 'react'
+import React, { forwardRef, useEffect, useState, useRef } from 'react'
 import { Box } from 'ui/src/components-v2/box'
 import { Text } from 'ui/src/components-v2/typography'
 import { motion, AnimatePresence } from 'framer-motion'
@@ -13,6 +13,27 @@ import { useAccountParams } from '@src/containers/playground/hooks/use-account-p
 import move from 'lodash-move'
 
 import * as styles from './account-switcher.css'
+
+const singleCards = [1, 2, 3, 4, 5]
+
+const cardVariants = {
+	selected: {
+		rotateY: 360,
+		scale: 1,
+		transition: { duration: 0.35 },
+		zIndex: 10,
+		boxShadow: 'rgba(0, 0, 0, 0.1) 0px 10px 15px -3px, rgba(0, 0, 0, 0.05) 0px 4px 6px -2px',
+	},
+	notSelected: i => ({
+		rotateY: i * 15,
+		scale: 1 - Math.abs(i * 0.15),
+		x: i ? i * 50 : 0,
+		opacity: 1 - Math.abs(i * 0.15),
+		zIndex: 10 - Math.abs(i),
+		boxShadow: 'rgba(0, 0, 0, 0.1) 0px 4px 6px -1px, rgba(0, 0, 0, 0.06) 0px 2px 4px -1px',
+		transition: { duration: 0.35 },
+	}),
+}
 
 export const MOTION_VARIANTS = {
 	initial: ({
@@ -85,15 +106,25 @@ export const AccountSwitcher = forwardRef<HTMLButtonElement, IAccountSwitcherPro
 		const { disabled, iconOnly, onClick, className, sizeVariant, styleVariant } = props
 
 		const navigate = useNavigate()
+
 		const { account, assetType, asset } = useAccountParams()
 
 		const [isMounted, setIsMounted] = useState<boolean>(false)
 		const [animate, setAnimate] = useState<string>('initial')
 		const [cards, setCards] = useState<Array<any>>(CARD_COLORS)
-		const [selectedCard, setSelectedCard] = useState<number>(0)
+		const [selectedIndexCard, setSelectedIndexCard] = useState<number>(0)
 		const [isCardsHovered, setIsCardsHovered] = useState<boolean>(false)
 		const cardsLength = cards.length - 1
 		const isAllAccounts = account === 'all'
+
+		// content for account cards
+		const [selectedCard, setSelectedCard] = useState(null)
+		// const containerRef = useRef()
+
+		const selectCard = card => {
+			setSelectedCard(selectedCard ? null : card)
+		}
+		//  end content for account cards
 
 		const handleMouseEnter = () => {
 			setIsMounted(true)
@@ -216,7 +247,7 @@ export const AccountSwitcher = forwardRef<HTMLButtonElement, IAccountSwitcherPro
 												}}
 												variants={MOTION_VARIANTS}
 												animate={animate}
-												custom={{ isCardsHovered, cardsLength, selectedCard, index, isMounted }}
+												custom={{ isCardsHovered, cardsLength, selectedIndexCard, index, isMounted }}
 												onClick={() => handleCardClick(accountName)}
 											>
 												<Box paddingX="large" paddingY="medium" display="flex" flexDirection="column" height="full">
@@ -239,32 +270,37 @@ export const AccountSwitcher = forwardRef<HTMLButtonElement, IAccountSwitcherPro
 									})}
 								</motion.ul>
 							) : (
-								<motion.ul
-									key="accounts"
-									initial={{ opacity: 0, y: 0 }}
-									animate={{ opacity: 1, y: 0 }}
-									exit={{ opacity: 0, y: 50 }}
-									transition={{ duration: 0.15 }}
-									className={styles.cardWrapperAccount}
-								>
-									<li className={styles.card}>
-										<Box paddingX="large" paddingY="medium" display="flex" flexDirection="column" height="full">
-											<Box flexGrow={1} paddingTop="xsmall">
-												<Text size="large" weight="medium" color="strong" className={styles.cardAccount}>
-													geeg
-												</Text>
-											</Box>
-											<Box paddingBottom="xsmall">
-												<Text size="xlarge" weight="stronger" color="strong">
-													bal
-												</Text>
-												<Text size="large" weight="strong" color="strong">
-													nam
-												</Text>
-											</Box>
-										</Box>
-									</li>
-								</motion.ul>
+								<Box className={styles.cardWrapperAccount}>
+									<Box component="ul" className={styles.cardWrapperAccountList}>
+										{singleCards.map((card, i) => (
+											<motion.li
+												className={styles.card}
+												key={card}
+												onMouseUp={() => selectCard(card)}
+												variants={cardVariants}
+												animate={selectedCard === card ? 'selected' : 'notSelected'}
+												custom={selectedCard ? selectedCard - card : 0}
+												style={{ position: 'relative' }}
+											>
+												<Box paddingX="large" paddingY="medium" display="flex" flexDirection="column" height="full">
+													<Box flexGrow={1} paddingTop="xsmall">
+														<Text size="large" weight="medium" color="strong" className={styles.cardAccount}>
+															geeg
+														</Text>
+													</Box>
+													<Box paddingBottom="xsmall">
+														<Text size="xlarge" weight="stronger" color="strong">
+															bal
+														</Text>
+														<Text size="large" weight="strong" color="strong">
+															nam
+														</Text>
+													</Box>
+												</Box>
+											</motion.li>
+										))}
+									</Box>
+								</Box>
 							)}
 						</AnimatePresence>
 					</Box>
