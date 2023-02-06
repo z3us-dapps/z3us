@@ -2,7 +2,7 @@
 import React, { forwardRef, useEffect, useState, useRef } from 'react'
 import { Box } from 'ui/src/components-v2/box'
 import { Text } from 'ui/src/components-v2/typography'
-import { motion, AnimatePresence } from 'framer-motion'
+import { motion, AnimatePresence, useMotionValue } from 'framer-motion'
 import { PlusIcon, MagnifyingGlassIcon, ArrowLeftIcon, ArrowRightIcon } from 'ui/src/components/icons'
 // import { Button } from 'ui/src/components-v2/button'
 import { Button } from '@src/components/button'
@@ -14,11 +14,11 @@ import move from 'lodash-move'
 
 import * as styles from './account-switcher.css'
 
-const singleCards = [1, 2, 3, 4, 5]
+// const singleCards = [1, 2, 3, 4, 5]
 
 const cardVariants = {
 	selected: {
-		rotateY: 360,
+		rotateY: 0,
 		scale: 1,
 		transition: { duration: 0.35 },
 		zIndex: 10,
@@ -101,29 +101,25 @@ const defaultProps: IAccountSwitcherOptionalProps = {
 	styleVariant: 'primary',
 }
 
+const SLIDER_WIDTH = 324
+
 export const AccountSwitcher = forwardRef<HTMLButtonElement, IAccountSwitcherProps>(
 	(props, ref: React.Ref<HTMLElement | null>) => {
 		const { disabled, iconOnly, onClick, className, sizeVariant, styleVariant } = props
 
 		const navigate = useNavigate()
-
 		const { account, assetType, asset } = useAccountParams()
-
 		const [isMounted, setIsMounted] = useState<boolean>(false)
 		const [animate, setAnimate] = useState<string>('initial')
 		const [cards, setCards] = useState<Array<any>>(CARD_COLORS)
-		const [selectedIndexCard, setSelectedIndexCard] = useState<number>(0)
+
 		const [isCardsHovered, setIsCardsHovered] = useState<boolean>(false)
 		const cardsLength = cards.length - 1
 		const isAllAccounts = account === 'all'
 
 		// content for account cards
-		const [selectedCard, setSelectedCard] = useState(null)
-		// const containerRef = useRef()
-
-		const selectCard = card => {
-			setSelectedCard(selectedCard ? null : card)
-		}
+		const [xVal, setXVal] = useState<number>(0)
+		const [selectedIndexCard, setSelectedIndexCard] = useState<number>(0)
 		//  end content for account cards
 
 		const handleMouseEnter = () => {
@@ -137,11 +133,28 @@ export const AccountSwitcher = forwardRef<HTMLButtonElement, IAccountSwitcherPro
 
 		const handleCardClick = (_account: string) => {
 			setIsMounted(true)
-
+			const cardIndex = CARD_COLORS.findIndex(({ accountName }) => accountName === _account)
+			setXVal(cardIndex * -SLIDER_WIDTH)
+			setSelectedIndexCard(cardIndex)
 			navigate(`/accounts/${_account}/${assetType}`)
-
 			// setAnimate('transitioning')
 		}
+
+		const handleGotoNextAccount = () => {
+			if (selectedIndexCard === CARD_COLORS.length - 1) return
+			const newIndex = selectedIndexCard + 1
+			setSelectedIndexCard(newIndex)
+			setXVal(newIndex * -SLIDER_WIDTH)
+		}
+
+		const handleGotoPrevAccount = () => {
+			if (selectedIndexCard === 0) return
+			const newIndex = selectedIndexCard - 1
+			setSelectedIndexCard(newIndex)
+			setXVal(newIndex * -SLIDER_WIDTH)
+		}
+
+		console.log('selectedIndexCard ', selectedIndexCard)
 
 		useEffect(() => {
 			setIsCardsHovered(false)
@@ -159,6 +172,10 @@ export const AccountSwitcher = forwardRef<HTMLButtonElement, IAccountSwitcherPro
 			// 	}, 500)
 			// }
 		}, [account])
+
+		// useEffect(() => {
+		// 	setXVal(selectedIndexCard * -SLIDER_WIDTH)
+		// }, [selectedIndexCard])
 
 		return (
 			<>
@@ -190,24 +207,10 @@ export const AccountSwitcher = forwardRef<HTMLButtonElement, IAccountSwitcherPro
 								</Button>
 							</Box>
 							<Box display="flex" gap="small">
-								<Button
-									iconOnly
-									styleVariant="ghost"
-									sizeVariant="small"
-									onClick={() => {
-										console.log(99, 'next account')
-									}}
-								>
+								<Button iconOnly styleVariant="ghost" sizeVariant="small" onClick={handleGotoPrevAccount}>
 									<ArrowLeftIcon />
 								</Button>
-								<Button
-									iconOnly
-									styleVariant="ghost"
-									sizeVariant="small"
-									onClick={() => {
-										console.log(99, 'previous account')
-									}}
-								>
+								<Button iconOnly styleVariant="ghost" sizeVariant="small" onClick={handleGotoNextAccount}>
 									<ArrowRightIcon />
 								</Button>
 							</Box>
@@ -271,35 +274,41 @@ export const AccountSwitcher = forwardRef<HTMLButtonElement, IAccountSwitcherPro
 								</motion.ul>
 							) : (
 								<Box className={styles.cardWrapperAccount}>
-									<Box component="ul" className={styles.cardWrapperAccountList}>
-										{singleCards.map((card, i) => (
+									<motion.ul
+										initial={false}
+										animate={{ x: xVal }}
+										transition={{ ease: 'easeOut', duration: 0.3 }}
+										className={styles.cardWrapperAccountList}
+										style={{ width: `${SLIDER_WIDTH * CARD_COLORS.length}px` }}
+									>
+										{CARD_COLORS.map(({ backgroundImage, accountName, accountId, accountBalance }, i) => (
 											<motion.li
+												key={accountId}
 												className={styles.card}
-												key={card}
-												onMouseUp={() => selectCard(card)}
+												style={{ position: 'relative', backgroundImage }}
+												onClick={() => handleCardClick(accountName)}
 												variants={cardVariants}
-												animate={selectedCard === card ? 'selected' : 'notSelected'}
-												custom={selectedCard ? selectedCard - card : 0}
-												style={{ position: 'relative' }}
+												animate={selectedIndexCard === i ? 'selected' : 'notSelected'}
+												custom={selectedIndexCard ? selectedIndexCard - i : 0}
 											>
 												<Box paddingX="large" paddingY="medium" display="flex" flexDirection="column" height="full">
 													<Box flexGrow={1} paddingTop="xsmall">
 														<Text size="large" weight="medium" color="strong" className={styles.cardAccount}>
-															geeg
+															{accountId}
 														</Text>
 													</Box>
 													<Box paddingBottom="xsmall">
 														<Text size="xlarge" weight="stronger" color="strong">
-															bal
+															{accountBalance}
 														</Text>
 														<Text size="large" weight="strong" color="strong">
-															nam
+															{accountName}
 														</Text>
 													</Box>
 												</Box>
 											</motion.li>
 										))}
-									</Box>
+									</motion.ul>
 								</Box>
 							)}
 						</AnimatePresence>
