@@ -154,8 +154,6 @@ export const AccountSwitcher = forwardRef<HTMLButtonElement, IAccountSwitcherPro
 			setXVal(newIndex * -SLIDER_WIDTH)
 		}
 
-		console.log('selectedIndexCard ', selectedIndexCard)
-
 		useEffect(() => {
 			setIsCardsHovered(false)
 			// const cardIndex = cards.findIndex(_card => _card?.accountName === account)
@@ -232,8 +230,8 @@ export const AccountSwitcher = forwardRef<HTMLButtonElement, IAccountSwitcherPro
 									key="all"
 									initial={{ opacity: 0, y: 0 }}
 									animate={{ opacity: 1, y: 0 }}
-									exit={{ opacity: 0, y: 50 }}
-									transition={{ duration: 0.3 }}
+									exit={{ opacity: 0, y: 0 }}
+									transition={{ duration: 0.5 }}
 									className={styles.cardWrapperAll}
 									onMouseEnter={handleMouseEnter}
 									onMouseLeave={handleMouseLeave}
