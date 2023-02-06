@@ -8,11 +8,11 @@ import { AccountsHome } from '@src/containers/playground/containers/accounts/acc
 
 import * as styles from './accounts-desktop.css'
 
-const NotFound404 = () => (
-	<div>
-		<div className="w-48 h-48 bg-vivaldi_red-100 text-6xl">Accounts 404 here</div>
-	</div>
-)
+// const NotFound404 = () => (
+// 	<div>
+// 		<div className="w-48 h-48 bg-vivaldi_red-100 text-6xl">Accounts 404 here</div>
+// 	</div>
+// )
 
 const AccountStaking = () => (
 	<div>

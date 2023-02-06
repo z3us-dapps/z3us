@@ -9,7 +9,8 @@ export const baseTextSprinkles = sprinkles({
 })
 
 // @TODO: spacing properly
-const makeTypographyRules = (textDefinition: typeof vars.text.medium, textSpacingDefinition: any) => {
+// const makeTypographyRules = (textDefinition: typeof vars.text.medium, textSpacingDefinition: any) => {
+const makeTypographyRules = (textDefinition: any, textSpacingDefinition: any) => {
 	const { fontSize: mobileFontSize, lineHeight: mobileLineHeight } = textDefinition.mobile
 	const { fontSize: tabletFontSize, lineHeight: tabletLineHeight } = textDefinition.tablet
 	const { fontSize: desktopFontSize, lineHeight: desktopLineHeight } = textDefinition.desktop

@@ -1,3 +1,4 @@
+/* eslint-disable */
 import React, { forwardRef, useEffect, useState } from 'react'
 import { Box } from 'ui/src/components-v2/box'
 import { Virtuoso, VirtuosoGrid, VirtuosoGridHandle } from 'react-virtuoso'
@@ -65,7 +66,7 @@ const ItemWrapper = props => {
 
 export const AccountActivity = forwardRef<HTMLButtonElement, IAccountSwitcherProps>(
 	(props, ref: React.Ref<HTMLElement | null>) => {
-		const { disabled, iconOnly, onClick, className, sizeVariant, styleVariant } = props
+		const { iconOnly, onClick, className } = props
 
 		const [customScrollParent, setCustomScrollParent] = useState<HTMLElement | null>(null)
 

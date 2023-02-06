@@ -20,41 +20,11 @@ const fontMetrics = {
 	body: {
 		...interFontMetrics,
 	},
+	// TODO: better font suisse mono ?
 	code: {
 		...interFontMetrics,
 	},
 }
-
-// const fontMetrics = {
-// 	brand: {
-// 		capHeight: 669,
-// 		ascent: 1026,
-// 		descent: -432,
-// 		lineGap: 0,
-// 		unitsPerEm: 1000,
-// 	},
-// 	heading: {
-// 		capHeight: 700,
-// 		ascent: 992,
-// 		descent: -310,
-// 		lineGap: 0,
-// 		unitsPerEm: 1000,
-// 	},
-// 	body: {
-// 		capHeight: 1443,
-// 		ascent: 1950,
-// 		descent: -494,
-// 		lineGap: 0,
-// 		unitsPerEm: 2048,
-// 	},
-// 	code: {
-// 		capHeight: 700,
-// 		ascent: 1060,
-// 		descent: -320,
-// 		lineGap: 0,
-// 		unitsPerEm: 1000,
-// 	},
-// }
 
 const calculateTypographyStyles = (
 	definition: Record<Breakpoint, { fontSize: number; rows: number }>,
