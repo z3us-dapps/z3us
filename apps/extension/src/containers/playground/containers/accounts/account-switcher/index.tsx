@@ -17,7 +17,7 @@ const cardVariants = {
 		scale: 1,
 		transition: { duration: 0.35 },
 		zIndex: 10,
-		boxShadow: 'rgb(0 0 0, 0.20) 0px 19px 19px 0px, rgb(0 0 0, 0.20) 0px -5px 11px 8px',
+		boxShadow: 'rgb(0 0 0, 0.15) 0px 19px 19px 0px, rgb(0 0 0, 0.15) 0px -5px 11px 8px',
 	},
 	notSelected: i => ({
 		rotateY: i * 15,
@@ -63,14 +63,14 @@ const CARD_COLORS = [
 		accountName: 'Savings',
 		accountBalance: '$5043.43',
 		backgroundImage:
-			'url("/images/account-images/z3us-apple-hermes.png"), radial-gradient(77.21% 96.45% at 50% 100%, #C0D7EF 0%, #C0D7EF 17.71%, #C0D7EF 50.52%, #C0D7EF 100%)',
+			'url("/images/account-images/z3us-athens.png"), radial-gradient(77.21% 96.45% at 50% 100%, #C0D7EF 0%, #C0D7EF 17.71%, #C0D7EF 50.52%, #C0D7EF 100%)',
 	},
 	{
 		accountId: 'rdx1...ldg0',
 		accountName: 'Defi',
 		accountBalance: '$80,043.43',
 		backgroundImage:
-			'url("/images/account-images/z3us-apple-hermes.png"), radial-gradient(77.21% 96.45% at 50% 100%, #BF9E76 0%, #BF9E76 17.71%, #BF9E76 50.52%, #BF9E76 100%)',
+			'url("/images/account-images/z3us-apple-hermes-v2.png"), radial-gradient(77.21% 96.45% at 50% 100%, #BF9E76 0%, #BF9E76 17.71%, #BF9E76 50.52%, #BF9E76 100%)',
 	},
 ]
 

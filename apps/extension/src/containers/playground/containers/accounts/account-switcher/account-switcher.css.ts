@@ -113,7 +113,7 @@ globalStyle(`${card}:hover ${cardAccountShine}`, {
 	top: '-100%',
 	left: '100%',
 	opacity: '1',
-	transition: 'all 1s ease',
+	transition: 'all 0.8s ease',
 })
 
 export const cardAccountText = style([
