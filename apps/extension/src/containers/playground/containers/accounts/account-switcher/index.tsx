@@ -177,10 +177,22 @@ export const AccountSwitcher = forwardRef<HTMLButtonElement, IAccountSwitcherPro
 								</Button>
 							</Box>
 							<Box display="flex" gap="small">
-								<Button iconOnly styleVariant="ghost" sizeVariant="small" onClick={handleGotoPrevAccount}>
+								<Button
+									iconOnly
+									styleVariant="ghost"
+									sizeVariant="small"
+									onClick={handleGotoPrevAccount}
+									disabled={selectedIndexCard === 0}
+								>
 									<ArrowLeftIcon />
 								</Button>
-								<Button iconOnly styleVariant="ghost" sizeVariant="small" onClick={handleGotoNextAccount}>
+								<Button
+									iconOnly
+									styleVariant="ghost"
+									sizeVariant="small"
+									onClick={handleGotoNextAccount}
+									disabled={selectedIndexCard === CARD_COLORS.length - 1}
+								>
 									<ArrowRightIcon />
 								</Button>
 							</Box>

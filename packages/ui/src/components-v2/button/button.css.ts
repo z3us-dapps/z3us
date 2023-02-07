@@ -91,6 +91,9 @@ export const button = recipe({
 		iconOnly: {
 			true: {},
 		},
+		disabled: {
+			true: {},
+		},
 	},
 	compoundVariants: [
 		{
@@ -113,10 +116,22 @@ export const button = recipe({
 				padding: '0px',
 			},
 		},
+		{
+			variants: {
+				styleVariant: 'ghost',
+				disabled: true,
+			},
+			style: {
+				pointerEvents: 'none',
+				opacity: 0.6,
+			},
+		},
 	],
 	defaultVariants: {
 		styleVariant: 'primary',
 		sizeVariant: 'medium',
+		iconOnly: false,
+		disabled: false,
 	},
 })
 
