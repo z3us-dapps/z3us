@@ -20,7 +20,7 @@ export const navigationWrapper = sprinkles({
 export const navigationContainer = style([
 	sprinkles({
 		position: 'relative',
-		maxWidth: 'xlarge',
+		maxWidth: 'xxlarge',
 		width: 'full',
 		display: 'flex',
 		alignItems: 'center',
@@ -44,6 +44,7 @@ export const navigationLogoLink = style([
 	{
 		width: '100px',
 		height: '15px',
+
 		selectors: {
 			// [`.${darkMode} &`]: {},
 			// [`${parent} & svg`]: {
@@ -93,9 +94,11 @@ export const navigationMenu = style([
 export const navigationMenuLink = style([
 	sprinkles({
 		display: 'flex',
+		alignItems: 'center',
+		paddingX: 'small',
+		justifyContent: 'center',
 		position: 'relative',
 		textDecoration: 'none',
-		paddingX: 'small',
 		borderRadius: 'small',
 		transition: 'fast',
 	}),

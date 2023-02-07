@@ -3,12 +3,19 @@
 		"background": {
 			"primary": { "value": "{color.core.bleached_silk.500.value}", "darkValue": "{color.core.wax.500.value}" },
 			"secondary": { "value": "{color.core.white}", "darkValue": "{color.core.lead.500.value}" },
-
 			"btn_secondary_background": {
 				"value": "{color.core.bleached_silk.500.value}",
 				"darkValue": "{color.core.wax.500.value}"
 			},
 			"btn_secondary_background_hover": {
+				"value": "{color.core.bleached_silk.100.value}",
+				"darkValue": "{color.core.wax.400.value}"
+			},
+			"input_primary_background": {
+				"value": "{color.core.bleached_silk.500.value}",
+				"darkValue": "{color.core.wax.500.value}"
+			},
+			"input_primary_background_hover": {
 				"value": "{color.core.bleached_silk.100.value}",
 				"darkValue": "{color.core.wax.400.value}"
 			}

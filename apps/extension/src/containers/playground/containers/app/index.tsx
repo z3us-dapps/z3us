@@ -61,17 +61,20 @@ export const TempNav: React.FC = () => {
 	}, [isDarkTheme])
 
 	return (
-		<Box display="flex" position="fixed" className={styles.tempNav} padding="large">
+		<Box
+			display="flex"
+			position="fixed"
+			className={styles.tempNav}
+			padding="small"
+			gap="medium"
+			style={{ opacity: '0.2' }}
+		>
 			<Link to="/">Home</Link>
 			<Link to="/accounts">Accounts</Link>
 			<Link to="/onboard">Onboarding</Link>
 			<Link to="/hw">HW (hardware wallet)</Link>
 			<Link to="/cred">Credentials</Link>
-			<button
-				onClick={() => setIsDarkTheme(!isDarkTheme)}
-				className="border border-emerald_green-200 fixed top-0 right-0 z-20 opacity-0 cursor-pointer"
-				type="button"
-			>
+			<button onClick={() => setIsDarkTheme(!isDarkTheme)} type="button">
 				<CheckIcon />
 			</button>
 		</Box>
@@ -110,7 +113,6 @@ export const App: React.FC = () => {
 							</AnimatedPage>
 						}
 					/>
-
 					<Route
 						path="*"
 						element={

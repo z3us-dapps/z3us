@@ -12,7 +12,7 @@ const defaultProps = {
 
 export const Link: React.FC<IProps> = props => {
 	const { to } = props
-	return <LinkComponent href={to} LinkFrameWorkComp={LinkRouter} {...props} />
+	return <LinkComponent href={to} linkFrameWorkComp={LinkRouter} {...props} />
 }
 
 Link.defaultProps = defaultProps

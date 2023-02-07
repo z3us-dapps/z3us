@@ -17,6 +17,7 @@
 		"test": "jest --maxWorkers=1  --detectOpenHandles --forceExit"
 	},
 	"dependencies": {
+		"@capsizecss/metrics": "^1.0.1",
 		"@heroicons/react": "^2.0.12",
 		"@ledgerhq/hw-transport-webhid": "^6.27.1",
 		"@radix-ui/popper": "^0.1.0",
