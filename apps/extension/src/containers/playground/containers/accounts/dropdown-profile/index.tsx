@@ -2,6 +2,7 @@ import React from 'react'
 import * as Avatar from '@radix-ui/react-avatar'
 import { ChevronDownIcon, CardStackPlusIcon, DotFilledIcon, PersonIcon, LockClosedIcon } from '@radix-ui/react-icons'
 import { Button } from 'ui/src/components-v2/button'
+import { Box } from 'ui/src/components-v2/box'
 import {
 	DropdownMenu,
 	DropdownMenuTrigger,
@@ -16,23 +17,23 @@ import {
 	DropdownMenuRightSlot,
 } from 'ui/src/components-v2/dropdown-menu'
 
-import './dropdown-profile.css'
+import * as styles from './dropdown-profile.css'
 
 export const DropdownProfile: React.FC = () => (
-	<div className="z3-c-dropdown-profile">
+	<Box className={styles.dropdownProfilWrapper}>
 		<DropdownMenu>
 			<DropdownMenuTrigger asChild>
-				<Button>
-					<Avatar.Root className="z3-c-dropdown-profile__avatar">
+				<Button styleVariant="ghost" sizeVariant="medium">
+					<Avatar.Root className={styles.dropdownProfilAvatar}>
 						<Avatar.Image
-							className="z3-c-dropdown-profile__avatar-image"
+							className={styles.dropdownProfilAvatarImg}
 							src="https://images.unsplash.com/photo-1511485977113-f34c92461ad9?ixlib=rb-1.2.1&w=128&h=128&dpr=2&q=80"
 							alt="Colm Tuite"
 						/>
-						<Avatar.Fallback className="z3-c-dropdown-profile__avatar-fallback" delayMs={600}>
+						<Avatar.Fallback className={styles.dropdownProfilAvatarFallback} delayMs={600}>
 							CT
 						</Avatar.Fallback>
-						<span className="z3-c-dropdown-profile__connected" />
+						<span className={styles.dropdownProfilAvatarConnectedStatus} />
 					</Avatar.Root>
 					<ChevronDownIcon />
 				</Button>
@@ -131,5 +132,5 @@ export const DropdownProfile: React.FC = () => (
 				<DropdownMenuArrow />
 			</DropdownMenuContent>
 		</DropdownMenu>
-	</div>
+	</Box>
 )
