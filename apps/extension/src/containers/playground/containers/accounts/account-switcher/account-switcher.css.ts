@@ -1,7 +1,7 @@
 import { sprinkles, darkMode } from 'ui/src/components-v2/system/sprinkles.css'
 import { vars } from 'ui/src/components-v2/system/theme.css'
 import { responsiveStyle } from 'ui/src/components-v2/system/theme-utils'
-import { style } from '@vanilla-extract/css'
+import { style, globalStyle } from '@vanilla-extract/css'
 
 export const cardWrapperAll = style([
 	sprinkles({
@@ -62,6 +62,7 @@ export const card = style([
 		backgroundSize: '100% auto',
 		transformOrigin: 'top center',
 		listStyle: 'none',
+		overflow: 'hidden',
 		boxShadow:
 			'0px 136px 192px rgba(0, 0, 0, 0.3), 0px 50px 50px rgba(0, 0, 0, 0.25), 0px 24px 24px rgba(0, 0, 0, 0.2), 0px 12px 12px rgba(0, 0, 0, 0.15)',
 		':after': {
@@ -77,7 +78,6 @@ export const card = style([
 			borderRadius: vars.border.radius.xlarge,
 			opacity: '0.5',
 		},
-
 		selectors: {
 			[`.${darkMode} &`]: {
 				boxShadow:
@@ -87,7 +87,36 @@ export const card = style([
 	},
 ])
 
-export const cardAccount = style([
+export const cardAccountShine = style([
+	sprinkles({
+		position: 'absolute',
+
+		pointerEvents: 'none',
+		top: 0,
+		left: 0,
+	}),
+	{
+		width: '300%',
+		height: '300%',
+		// top: '0%',
+		left: '-200%',
+		// top: '0%',
+		// left: '0%',
+		background: 'linear-gradient(45deg,rgba(255,255,255,.01) 25%, rgba(255,255,255,.3) 50%, rgba(255,255,255,.01) 75%)',
+		backgroundPosition: '0 0',
+
+		// opacity: '0',
+	},
+])
+
+globalStyle(`${card}:hover ${cardAccountShine}`, {
+	top: '-100%',
+	left: '100%',
+	opacity: '1',
+	transition: 'all 1s ease',
+})
+
+export const cardAccountText = style([
 	sprinkles({
 		position: 'relative',
 	}),
@@ -99,7 +128,6 @@ export const cardAccount = style([
 export const teststyle = style([
 	sprinkles({
 		position: 'relative',
-
 		background: {
 			hover: 'red800',
 			focus: 'red900',

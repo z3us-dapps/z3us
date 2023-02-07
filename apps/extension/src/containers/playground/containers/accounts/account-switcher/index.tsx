@@ -4,17 +4,12 @@ import { Box } from 'ui/src/components-v2/box'
 import { Text } from 'ui/src/components-v2/typography'
 import { motion, AnimatePresence, useMotionValue } from 'framer-motion'
 import { PlusIcon, MagnifyingGlassIcon, ArrowLeftIcon, ArrowRightIcon } from 'ui/src/components/icons'
-// import { Button } from 'ui/src/components-v2/button'
 import { Button } from '@src/components/button'
-import clsx from 'clsx'
+// import clsx from 'clsx'
 import { Routes, Route, Link, useNavigate, Navigate } from 'react-router-dom'
 import { useAccountParams } from '@src/containers/playground/hooks/use-account-params'
-// import { useLocationKey } from '@src/containers/playground/hooks/use-location-key'
-import move from 'lodash-move'
 
 import * as styles from './account-switcher.css'
-
-// const singleCards = [1, 2, 3, 4, 5]
 
 const cardVariants = {
 	selected: {
@@ -22,7 +17,7 @@ const cardVariants = {
 		scale: 1,
 		transition: { duration: 0.35 },
 		zIndex: 10,
-		boxShadow: 'rgba(0, 0, 0, 0.1) 0px 10px 15px -3px, rgba(0, 0, 0, 0.05) 0px 4px 6px -2px',
+		boxShadow: 'rgb(0 0 0, 0.20) 0px 19px 19px 0px, rgb(0 0 0, 0.20) 0px -5px 11px 8px',
 	},
 	notSelected: i => ({
 		rotateY: i * 15,
@@ -156,24 +151,7 @@ export const AccountSwitcher = forwardRef<HTMLButtonElement, IAccountSwitcherPro
 
 		useEffect(() => {
 			setIsCardsHovered(false)
-			// const cardIndex = cards.findIndex(_card => _card?.accountName === account)
-			// setAnimate('transitioning')
-			// if (!isMounted && cardIndex >= 0) {
-			// 	setCards(move(cards, cardIndex, 0))
-			// 	setAnimate('initial')
-			// } else if (cardIndex >= 0) {
-			// 	setAnimate('transitioning')
-			// 	setSelectedCard(cardIndex)
-			// 	setTimeout(() => {
-			// 		setCards(move(cards, cardIndex, 0))
-			// 		setAnimate('initial')
-			// 	}, 500)
-			// }
 		}, [account])
-
-		// useEffect(() => {
-		// 	setXVal(selectedIndexCard * -SLIDER_WIDTH)
-		// }, [selectedIndexCard])
 
 		return (
 			<>
@@ -185,13 +163,7 @@ export const AccountSwitcher = forwardRef<HTMLButtonElement, IAccountSwitcherPro
 									Accounts
 								</Text>
 							</Box>
-							<Button
-								styleVariant="ghost"
-								sizeVariant="small"
-								onClick={() => {
-									console.log(99, 'new account')
-								}}
-							>
+							<Button styleVariant="ghost" sizeVariant="small" onClick={() => {}}>
 								<PlusIcon />
 								New account
 							</Button>
@@ -231,7 +203,7 @@ export const AccountSwitcher = forwardRef<HTMLButtonElement, IAccountSwitcherPro
 									initial={{ opacity: 0, y: 0 }}
 									animate={{ opacity: 1, y: 0 }}
 									exit={{ opacity: 0, y: 0 }}
-									transition={{ duration: 0.5 }}
+									transition={{ duration: 0.3 }}
 									className={styles.cardWrapperAll}
 									onMouseEnter={handleMouseEnter}
 									onMouseLeave={handleMouseLeave}
@@ -253,7 +225,7 @@ export const AccountSwitcher = forwardRef<HTMLButtonElement, IAccountSwitcherPro
 											>
 												<Box paddingX="large" paddingY="medium" display="flex" flexDirection="column" height="full">
 													<Box flexGrow={1} paddingTop="xsmall">
-														<Text size="large" weight="medium" color="strong" className={styles.cardAccount}>
+														<Text size="large" weight="medium" color="strong" className={styles.cardAccountText}>
 															{accountId}
 														</Text>
 													</Box>
@@ -266,6 +238,7 @@ export const AccountSwitcher = forwardRef<HTMLButtonElement, IAccountSwitcherPro
 														</Text>
 													</Box>
 												</Box>
+												<Box className={styles.cardAccountShine} />
 											</motion.li>
 										)
 									})}
@@ -291,7 +264,7 @@ export const AccountSwitcher = forwardRef<HTMLButtonElement, IAccountSwitcherPro
 											>
 												<Box paddingX="large" paddingY="medium" display="flex" flexDirection="column" height="full">
 													<Box flexGrow={1} paddingTop="xsmall">
-														<Text size="large" weight="medium" color="strong" className={styles.cardAccount}>
+														<Text size="large" weight="medium" color="strong" className={styles.cardAccountText}>
 															{accountId}
 														</Text>
 													</Box>
@@ -304,6 +277,7 @@ export const AccountSwitcher = forwardRef<HTMLButtonElement, IAccountSwitcherPro
 														</Text>
 													</Box>
 												</Box>
+												<Box className={styles.cardAccountShine} />
 											</motion.li>
 										))}
 									</motion.ul>
