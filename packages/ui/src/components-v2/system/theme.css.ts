@@ -1,5 +1,6 @@
 import { precomputeValues } from '@capsizecss/vanilla-extract'
 import { createTheme } from '@vanilla-extract/css'
+import interFontMetrics from '@capsizecss/metrics/inter'
 import tokens from 'design/dist/tailwind-tokens.json'
 import lightTokens from 'design/dist/light/index.json'
 import darkTokens from 'design/dist/dark/index.json'
@@ -11,32 +12,17 @@ const px = (value: string | number) => `${value}px`
 
 const fontMetrics = {
 	brand: {
-		capHeight: 669,
-		ascent: 1026,
-		descent: -432,
-		lineGap: 0,
-		unitsPerEm: 1000,
+		...interFontMetrics,
 	},
 	heading: {
-		capHeight: 700,
-		ascent: 992,
-		descent: -310,
-		lineGap: 0,
-		unitsPerEm: 1000,
+		...interFontMetrics,
 	},
 	body: {
-		capHeight: 1443,
-		ascent: 1950,
-		descent: -494,
-		lineGap: 0,
-		unitsPerEm: 2048,
+		...interFontMetrics,
 	},
+	// TODO: better font suisse mono ?
 	code: {
-		capHeight: 700,
-		ascent: 1060,
-		descent: -320,
-		lineGap: 0,
-		unitsPerEm: 1000,
+		...interFontMetrics,
 	},
 }
 
@@ -93,6 +79,7 @@ export const sharedThemeValues = {
 		brand: '"Inter", "Helvetica Neue", HelveticaNeue, Helvetica, sans-serif',
 		heading: '"Inter", BlinkMacSystemFont, "Helvetica Neue", HelveticaNeue, Helvetica, sans-serif',
 		body: '"Inter", BlinkMacSystemFont, "Helvetica Neue", HelveticaNeue, Helvetica, Arial, sans-serif',
+		// TODO: fix font
 		code: 'ml, "Roboto Mono", Menlo, monospace',
 	},
 	grid: px(grid),
@@ -111,81 +98,161 @@ export const sharedThemeValues = {
 		small: px(600),
 		medium: px(740),
 		large: px(960),
-		xlarge: px(1120),
-		xxlarge: px(1350),
+		xlarge: px(1118),
+		xxlarge: px(1220),
 	},
 	text: {
-		code: calculateTypographyStyles(
-			{
-				mobile: { fontSize: 11, rows: 6 },
-				tablet: { fontSize: 12, rows: 7 },
-				desktop: { fontSize: 12, rows: 7 },
+		code: {
+			calculate: calculateTypographyStyles(
+				{
+					mobile: { fontSize: 11, rows: 3 },
+					tablet: { fontSize: 11, rows: 3 },
+					desktop: { fontSize: 11, rows: 3 },
+				},
+				'body',
+			),
+			spacing: {
+				mobile: '0.02em',
+				tablet: '0.02em',
+				desktop: '0.02em',
 			},
-			'body',
-		),
-		xsmall: calculateTypographyStyles(
-			{
-				mobile: { fontSize: 12, rows: 5 },
-				tablet: { fontSize: 12, rows: 5 },
-				desktop: { fontSize: 12, rows: 5 },
+		},
+
+		xxsmall: {
+			calculate: calculateTypographyStyles(
+				{
+					mobile: { fontSize: 12, rows: 4 },
+					tablet: { fontSize: 12, rows: 4 },
+					desktop: { fontSize: 12, rows: 4 },
+				},
+				'body',
+			),
+			spacing: {
+				mobile: '0.02em',
+				tablet: '0.02em',
+				desktop: '0.02em',
 			},
-			'body',
-		),
-		medium: calculateTypographyStyles(
-			{
-				mobile: { fontSize: 15, rows: 8 },
-				tablet: { fontSize: 15, rows: 8 },
-				desktop: { fontSize: 15, rows: 8 },
+		},
+
+		xsmall: {
+			calculate: calculateTypographyStyles(
+				{
+					mobile: { fontSize: 13, rows: 4 },
+					tablet: { fontSize: 13, rows: 4 },
+					desktop: { fontSize: 13, rows: 4 },
+				},
+				'body',
+			),
+			spacing: {
+				mobile: '0.02em',
+				tablet: '0.02em',
+				desktop: '0.02em',
 			},
-			'body',
-		),
-		small: calculateTypographyStyles(
-			{
-				mobile: { fontSize: 13, rows: 6 },
-				tablet: { fontSize: 13, rows: 6 },
-				desktop: { fontSize: 13, rows: 6 },
+		},
+
+		small: {
+			calculate: calculateTypographyStyles(
+				{
+					mobile: { fontSize: 14, rows: 5 },
+					tablet: { fontSize: 14, rows: 5 },
+					desktop: { fontSize: 14, rows: 5 },
+				},
+				'body',
+			),
+			spacing: {
+				mobile: '0.02em',
+				tablet: '0.02em',
+				desktop: '0.02em',
 			},
-			'body',
-		),
-		large: calculateTypographyStyles(
-			{
-				mobile: { fontSize: 16, rows: 9 },
-				tablet: { fontSize: 16, rows: 10 },
-				desktop: { fontSize: 18, rows: 10 },
+		},
+
+		medium: {
+			calculate: calculateTypographyStyles(
+				{
+					mobile: { fontSize: 15, rows: 6 },
+					tablet: { fontSize: 15, rows: 6 },
+					desktop: { fontSize: 15, rows: 6 },
+				},
+				'body',
+			),
+			spacing: {
+				mobile: '0.04em',
+				tablet: '0.04em',
+				desktop: '0.04em',
 			},
-			'body',
-		),
-		xlarge: calculateTypographyStyles(
-			{
-				mobile: { fontSize: 20, rows: 9 },
-				tablet: { fontSize: 24, rows: 10 },
-				desktop: { fontSize: 24, rows: 10 },
+		},
+
+		large: {
+			calculate: calculateTypographyStyles(
+				{
+					mobile: { fontSize: 16, rows: 6 },
+					tablet: { fontSize: 16, rows: 6 },
+					desktop: { fontSize: 16, rows: 6 },
+				},
+				'body',
+			),
+			spacing: {
+				mobile: '0.04em',
+				tablet: '0.04em',
+				desktop: '0.04em',
 			},
-			'body',
-		),
-		xxlarge: calculateTypographyStyles(
-			{
-				mobile: { fontSize: 24, rows: 12 },
-				tablet: { fontSize: 30, rows: 10 },
-				desktop: { fontSize: 30, rows: 10 },
+		},
+
+		xlarge: {
+			calculate: calculateTypographyStyles(
+				{
+					mobile: { fontSize: 18, rows: 7 },
+					tablet: { fontSize: 18, rows: 7 },
+					desktop: { fontSize: 18, rows: 7 },
+				},
+				'heading',
+			),
+			spacing: {
+				mobile: '0.04em',
+				tablet: '0.04em',
+				desktop: '0.04em',
 			},
-			'body',
-		),
-		xxxlarge: calculateTypographyStyles(
-			{
-				mobile: { fontSize: 30, rows: 12 },
-				tablet: { fontSize: 36, rows: 10 },
-				desktop: { fontSize: 36, rows: 10 },
+		},
+
+		xxlarge: {
+			calculate: calculateTypographyStyles(
+				{
+					mobile: { fontSize: 24, rows: 10 },
+					tablet: { fontSize: 24, rows: 10 },
+					desktop: { fontSize: 24, rows: 10 },
+				},
+				'heading',
+			),
+			spacing: {
+				mobile: '0em',
+				tablet: '0em',
+				desktop: '0em',
 			},
-			'body',
-		),
+		},
+
+		xxxlarge: {
+			calculate: calculateTypographyStyles(
+				{
+					mobile: { fontSize: 36, rows: 13 },
+					tablet: { fontSize: 36, rows: 13 },
+					desktop: { fontSize: 36, rows: 13 },
+				},
+				'heading',
+			),
+			spacing: {
+				mobile: '0em',
+				tablet: '0em',
+				desktop: '0em',
+			},
+		},
 	},
 	weight: {
-		lighter: '100',
 		regular: '400',
 		medium: '500',
-		strong: '700',
-		stronger: '900',
+		strong: '600',
+		stronger: '700',
+		extrastrong: '800',
+		strongest: '900',
 	},
 	border: {
 		width: {
@@ -273,42 +340,55 @@ export const primitiveColors = {
 	red800: tokens.color.core.red['800'],
 	red900: tokens.color.core.red['900'],
 	red1000: tokens.color.core.red['1000'],
+
+	green0: tokens.color.core.green['0'],
+	green100: tokens.color.core.green['100'],
+	green200: tokens.color.core.green['200'],
+	green300: tokens.color.core.green['300'],
+	green400: tokens.color.core.green['400'],
+	green500: tokens.color.core.green['500'],
+	green600: tokens.color.core.green['600'],
+	green700: tokens.color.core.green['700'],
+	green800: tokens.color.core.green['800'],
+	green900: tokens.color.core.green['900'],
+	green1000: tokens.color.core.green['1000'],
 }
+
+const generateColorTokens = (colorTokens: any) => ({
+	colorNeutral: colorTokens.color.font.neutral.value,
+	colorStrong: colorTokens.color.font.strong.value,
+	backgroundPrimary: colorTokens.color.background.primary.value,
+	backgroundSecondary: colorTokens.color.background.secondary.value,
+	borderDivider: colorTokens.color.border.divider_primary.value,
+	shadowMedium: colorTokens.color.shadow.medium.value,
+	btnSecondaryBackground: colorTokens.color.background.btn_secondary_background.value,
+	btnSecondaryBackgroundHover: colorTokens.color.background.btn_secondary_background_hover.value,
+	btnSecondaryShadowFocus: colorTokens.color.shadow.button_secondary_focus.value,
+	btnSecondaryBorderColor: colorTokens.color.border.btn_secondary_border.value,
+	btnSecondaryBorderColorHover: colorTokens.color.border.btn_secondary_border_hover.value,
+	btnGhostBorderColor: colorTokens.color.border.btn_ghost_border.value,
+	btnGhostBorderColorHover: colorTokens.color.border.btn_ghost_border_hover.value,
+	inputPrimaryBackground: colorTokens.color.background.input_primary_background.value,
+	inputPrimaryBackgroundHover: colorTokens.color.background.input_primary_background_hover.value,
+	inputPrimaryBackgroundFocus: colorTokens.color.background.input_primary_background_hover.value,
+	inputPrimaryBorderColor: colorTokens.color.border.input_primary_border.value,
+	inputPrimaryBorderHover: colorTokens.color.border.input_primary_border_hover.value,
+	inputPrimaryBorderFocus: colorTokens.color.border.input_primary_border_focus.value,
+	inputPrimaryShadowFocus: colorTokens.color.shadow.input_primary_focus.value,
+})
 
 /**
  * Light Theme Variable Semantic (Core) colors
  */
 export const lightThemeColors = {
-	colorNeutral: lightTokens.color.font.neutral.value,
-	colorStrong: lightTokens.color.font.strong.value,
-	backgroundPrimary: lightTokens.color.background.primary.value,
-	backgroundSecondary: lightTokens.color.background.secondary.value,
-	shadowMedium: lightTokens.color.shadow.medium.value,
-
-	btnSecondaryBackground: lightTokens.color.background.btn_secondary_background.value,
-	btnSecondaryBackgroundHover: lightTokens.color.background.btn_secondary_background_hover.value,
-	btnSecondaryBorderColor: lightTokens.color.border.btn_secondary_border.value,
-	btnSecondaryBorderColorHover: lightTokens.color.border.btn_secondary_border_hover.value,
-
-	btnGhostBorderColor: lightTokens.color.border.btn_ghost_border.value,
-	btnGhostBorderColorHover: lightTokens.color.border.btn_ghost_border_hover.value,
+	...generateColorTokens(lightTokens),
 }
 
 /**
  * Dark Theme Variable Semantic (Core) colors
  */
 export const darkThemeColors = {
-	colorNeutral: darkTokens.color.font.neutral.value,
-	colorStrong: darkTokens.color.font.strong.value,
-	backgroundPrimary: darkTokens.color.background.primary.value,
-	backgroundSecondary: darkTokens.color.background.secondary.value,
-	shadowMedium: darkTokens.color.shadow.medium.value,
-	btnSecondaryBackground: darkTokens.color.background.btn_secondary_background.value,
-	btnSecondaryBackgroundHover: darkTokens.color.background.btn_secondary_background_hover.value,
-	btnSecondaryBorderColor: darkTokens.color.border.btn_secondary_border.value,
-	btnSecondaryBorderColorHover: darkTokens.color.border.btn_secondary_border_hover.value,
-	btnGhostBorderColor: darkTokens.color.border.btn_ghost_border.value,
-	btnGhostBorderColorHover: darkTokens.color.border.btn_ghost_border_hover.value,
+	...generateColorTokens(darkTokens),
 }
 
 /**

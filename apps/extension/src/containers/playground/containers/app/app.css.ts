@@ -14,8 +14,6 @@ export const container = sprinkles({
 export const teststyle = style([
 	sprinkles({
 		position: 'relative',
-		// background: 'red900',
-
 		background: {
 			hover: 'red800',
 			focus: 'red900',
@@ -36,9 +34,14 @@ export const teststyle = style([
 	}),
 ])
 
-export const tempNav = sprinkles({
-	position: 'fixed',
-	bottom: 0,
-	right: 0,
-	zIndex: 1,
-})
+export const tempNav = style([
+	sprinkles({
+		position: 'fixed',
+		bottom: 0,
+		right: 0,
+		zIndex: 1,
+	}),
+	{
+		fontSize: '11px',
+	},
+])
