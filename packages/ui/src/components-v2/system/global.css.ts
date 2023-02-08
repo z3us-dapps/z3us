@@ -8,6 +8,11 @@ globalStyle('*, *::before, *::after', {
 	padding: 0,
 })
 
+globalStyle('::selection', {
+	background: vars.color.purple500,
+	color: vars.color.white,
+})
+
 globalStyle('html, body', {
 	margin: 0,
 })
