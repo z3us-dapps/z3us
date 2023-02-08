@@ -15,18 +15,19 @@ const cardVariants = {
 	selected: {
 		rotateY: 0,
 		scale: 1,
-		transition: { duration: 0.35 },
 		zIndex: 10,
+		opacity: 1,
 		boxShadow: 'rgb(0 0 0, 0.15) 0px 19px 19px 0px, rgb(0 0 0, 0.15) 0px -5px 11px 8px',
+		transition: { ease: 'easeOut', duration: 0.45 },
 	},
 	notSelected: i => ({
 		rotateY: i * 15,
 		scale: 1 - Math.abs(i * 0.15),
 		x: i ? i * 50 : 0,
-		opacity: 1 - Math.abs(i * 0.15),
 		zIndex: 10 - Math.abs(i),
+		opacity: 1 - Math.abs(i * 0.3),
 		boxShadow: 'rgba(0, 0, 0, 0.1) 0px 4px 6px -1px, rgba(0, 0, 0, 0.06) 0px 2px 4px -1px',
-		transition: { duration: 0.35 },
+		transition: { ease: 'easeOut', duration: 0.45 },
 	}),
 }
 
@@ -132,7 +133,6 @@ export const AccountSwitcher = forwardRef<HTMLButtonElement, IAccountSwitcherPro
 			setXVal(cardIndex * -SLIDER_WIDTH)
 			setSelectedIndexCard(cardIndex)
 			navigate(`/accounts/${_account}/${assetType}`)
-			// setAnimate('transitioning')
 		}
 
 		const handleGotoNextAccount = () => {
@@ -222,7 +222,6 @@ export const AccountSwitcher = forwardRef<HTMLButtonElement, IAccountSwitcherPro
 								>
 									{cards.map(({ backgroundImage, accountName, accountId, accountBalance }, index) => {
 										const canDrag = index === 0
-
 										return (
 											<motion.li
 												key={accountId}
@@ -260,9 +259,9 @@ export const AccountSwitcher = forwardRef<HTMLButtonElement, IAccountSwitcherPro
 									<motion.ul
 										initial={false}
 										animate={{ x: xVal }}
-										transition={{ ease: 'easeOut', duration: 0.3 }}
 										className={styles.cardWrapperAccountList}
 										style={{ width: `${SLIDER_WIDTH * CARD_COLORS.length}px` }}
+										transition={{ ease: 'easeOut', duration: 0.4 }}
 									>
 										{CARD_COLORS.map(({ backgroundImage, accountName, accountId, accountBalance }, i) => (
 											<motion.li
