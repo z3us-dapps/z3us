@@ -1,53 +1,54 @@
 import React from 'react'
 import * as DropdownMenuPrimitive from '@radix-ui/react-dropdown-menu'
+// import clsx from 'clsx'
 
-import './dropdown-menu.css'
+import * as styles from './dropdown-menu.css'
 
 export const DropdownMenu = DropdownMenuPrimitive.Root
 export const DropdownMenuTrigger = DropdownMenuPrimitive.Trigger
 
 export const DropdownMenuContent = ({ children, ...props }) => (
-	<DropdownMenuPrimitive.Content className="z3-c-dropdown-menu__content" {...props}>
+	<DropdownMenuPrimitive.Content className={styles.dropdownMenuContent} {...props}>
 		{children}
 	</DropdownMenuPrimitive.Content>
 )
 
 export const DropdownMenuItem = ({ children, ...props }) => (
-	<DropdownMenuPrimitive.Item className="z3-c-dropdown-menu__item" {...props}>
+	<DropdownMenuPrimitive.Item className={styles.dropdownMenuItem} {...props}>
 		{children}
 	</DropdownMenuPrimitive.Item>
 )
 
-export const DropdownMenuSeparator = () => <DropdownMenuPrimitive.Separator className="z3-c-dropdown-menu__seperator" />
+export const DropdownMenuSeparator = () => <DropdownMenuPrimitive.Separator className={styles.dropdownMenuSeperator} />
 
-export const DropdownMenuArrow = () => <DropdownMenuPrimitive.Arrow className="z3-c-dropdown-menu__arrow" />
+export const DropdownMenuArrow = () => <DropdownMenuPrimitive.Arrow className={styles.dropdownMenuArrow} />
 
 export const DropdownMenuLabel = ({ children, ...props }) => (
-	<DropdownMenuPrimitive.Label className="z3-c-dropdown-menu__label" {...props}>
+	<DropdownMenuPrimitive.Label className={styles.dropdownMenuLabel} {...props}>
 		{children}
 	</DropdownMenuPrimitive.Label>
 )
 
 export const DropdownMenuRadioGroup = ({ children, ...props }) => (
-	<DropdownMenuPrimitive.RadioGroup className="z3-c-dropdown-menu__radio-group" {...props}>
+	<DropdownMenuPrimitive.RadioGroup className={styles.dropdownMenuRadioGroup} {...props}>
 		{children}
 	</DropdownMenuPrimitive.RadioGroup>
 )
 
 export const DropdownMenuRadioItem = ({ children, value, ...props }) => (
-	<DropdownMenuPrimitive.RadioItem className="z3-c-dropdown-menu__radio-item" value={value} {...props}>
+	<DropdownMenuPrimitive.RadioItem className={styles.dropdownMenuRadioItem} value={value} {...props}>
 		{children}
 	</DropdownMenuPrimitive.RadioItem>
 )
 
 export const DropdownMenuItemIndicator = ({ children, ...props }) => (
-	<DropdownMenuPrimitive.ItemIndicator className="z3-c-dropdown-menu__item-indicator" {...props}>
+	<DropdownMenuPrimitive.ItemIndicator className={styles.dropdownMenuItemIndicator} {...props}>
 		{children}
 	</DropdownMenuPrimitive.ItemIndicator>
 )
 
 export const DropdownMenuRightSlot = ({ children, ...props }) => (
-	<DropdownMenuPrimitive.Label className="z3-c-dropdown-menu__right-slot" {...props}>
+	<DropdownMenuPrimitive.Label className={styles.dropdownMenuItemRightSlot} {...props}>
 		{children}
 	</DropdownMenuPrimitive.Label>
 )

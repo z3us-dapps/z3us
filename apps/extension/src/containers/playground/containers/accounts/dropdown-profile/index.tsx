@@ -1,8 +1,11 @@
 import React from 'react'
 import * as Avatar from '@radix-ui/react-avatar'
-import { ChevronDownIcon, CardStackPlusIcon, DotFilledIcon, PersonIcon, LockClosedIcon } from '@radix-ui/react-icons'
+import { CardStackPlusIcon, DotFilledIcon, PersonIcon, LockClosedIcon } from '@radix-ui/react-icons'
+// import { PlusIcon, ChevronDownIcon, ArrowLeftIcon } from 'ui/src/components/icons'
 import { Button } from 'ui/src/components-v2/button'
 import { Box } from 'ui/src/components-v2/box'
+import { Text } from 'ui/src/components-v2/typography'
+
 import {
 	DropdownMenu,
 	DropdownMenuTrigger,
@@ -23,7 +26,7 @@ export const DropdownProfile: React.FC = () => (
 	<Box className={styles.dropdownProfilWrapper}>
 		<DropdownMenu>
 			<DropdownMenuTrigger asChild>
-				<Button styleVariant="ghost" sizeVariant="medium">
+				<Button styleVariant="ghost" sizeVariant="medium" iconOnly>
 					<Avatar.Root className={styles.dropdownProfilAvatar}>
 						<Avatar.Image
 							className={styles.dropdownProfilAvatarImg}
@@ -35,72 +38,84 @@ export const DropdownProfile: React.FC = () => (
 						</Avatar.Fallback>
 						<span className={styles.dropdownProfilAvatarConnectedStatus} />
 					</Avatar.Root>
-					<ChevronDownIcon />
+					{/* <ChevronDownIcon /> */}
 				</Button>
 			</DropdownMenuTrigger>
 			<DropdownMenuContent side="bottom" sideOffset={5} align="end" alignOffset={0}>
 				<DropdownMenuLabel>
-					Connected to{' '}
-					<a href="https://ociswap.com/" target="_blank" rel="noreferrer">
-						ociswap.com
-					</a>
+					<Text size="xsmall">
+						Connected to ociswap.com
+						{/* <a href="https://ociswap.com/" target="_blank" rel="noreferrer"> */}
+						{/* </a> */}
+					</Text>
 				</DropdownMenuLabel>
 				<DropdownMenuSeparator />
-				<DropdownMenuLabel>Persona</DropdownMenuLabel>
+				<DropdownMenuLabel>
+					<Text size="xsmall">Persona</Text>
+				</DropdownMenuLabel>
 				<DropdownMenuRadioGroup value="light" onValueChange={() => {}}>
 					<DropdownMenuRadioItem value="light">
 						<DropdownMenuItemIndicator>
 							<DotFilledIcon />
 						</DropdownMenuItemIndicator>
-						Main persona
+						<Text size="xsmall">Main persona</Text>
 					</DropdownMenuRadioItem>
 					<DropdownMenuRadioItem value="dark">
 						<DropdownMenuItemIndicator>
 							<DotFilledIcon />
 						</DropdownMenuItemIndicator>
-						Degen persona
+						<Text size="xsmall">Degen persona</Text>
 					</DropdownMenuRadioItem>
 				</DropdownMenuRadioGroup>
 
 				<DropdownMenuSeparator />
-				<DropdownMenuLabel>Wallet</DropdownMenuLabel>
+				<DropdownMenuLabel>
+					<Text size="xsmall">Degen persona</Text>
+				</DropdownMenuLabel>
 
 				<DropdownMenuRadioGroup value="light" onValueChange={() => {}}>
 					<DropdownMenuRadioItem value="light">
 						<DropdownMenuItemIndicator>
 							<DotFilledIcon />
 						</DropdownMenuItemIndicator>
-						Main driver
+						<Text size="xsmall">Main driver</Text>
 					</DropdownMenuRadioItem>
 					<DropdownMenuRadioItem value="dark">
 						<DropdownMenuItemIndicator>
 							<DotFilledIcon />
 						</DropdownMenuItemIndicator>
-						Burner test wallet
+
+						<Text size="xsmall">Burner test wallet</Text>
 					</DropdownMenuRadioItem>
 					<DropdownMenuRadioItem value="dark">
 						<DropdownMenuItemIndicator>
 							<DotFilledIcon />
 						</DropdownMenuItemIndicator>
-						Funny man&apos;s wallet
+						<Text size="xsmall">Funny man&apos;s wallet</Text>
 					</DropdownMenuRadioItem>
 				</DropdownMenuRadioGroup>
 
 				<DropdownMenuSeparator />
 				<DropdownMenuItem>
-					Lock wallet
+					<Box display="flex" flexGrow={1}>
+						<Text size="xsmall">Lock wallet</Text>
+					</Box>
 					<DropdownMenuRightSlot>
 						<LockClosedIcon />
 					</DropdownMenuRightSlot>
 				</DropdownMenuItem>
 				<DropdownMenuItem>
-					Add new wallet
+					<Box display="flex" flexGrow={1}>
+						<Text size="xsmall">Lock wallet</Text>
+					</Box>
 					<DropdownMenuRightSlot>
 						<CardStackPlusIcon />
 					</DropdownMenuRightSlot>
 				</DropdownMenuItem>
 				<DropdownMenuItem>
-					Add new persona
+					<Box display="flex" flexGrow={1}>
+						<Text size="xsmall">Add new persona</Text>
+					</Box>
 					<DropdownMenuRightSlot>
 						<PersonIcon />
 					</DropdownMenuRightSlot>

@@ -6,19 +6,26 @@ export const dropdownProfilWrapper = sprinkles({
 	position: 'relative',
 })
 
-export const dropdownProfilAvatar = sprinkles({
-	display: 'flex',
-	position: 'relative',
-	alignItems: 'center',
-	borderRadius: 'full',
-	width: 'xxlarge',
-	height: 'xxlarge',
-})
+export const dropdownProfilAvatar = style([
+	sprinkles({
+		display: 'flex',
+		position: 'relative',
+		alignItems: 'center',
+		borderRadius: 'full',
+	}),
+	{
+		width: '25px',
+		height: '25px',
+	},
+])
 
 export const dropdownProfilAvatarImg = style([
 	sprinkles({
 		width: 'full',
 		height: 'full',
+		border: 1,
+		borderStyle: 'solid',
+		borderColor: 'backgroundSecondary',
 	}),
 	{
 		objectFit: 'cover',
@@ -40,14 +47,15 @@ export const dropdownProfilAvatarConnectedStatus = style([
 	sprinkles({
 		borderRadius: 'full',
 		position: 'absolute',
+		borderColor: 'backgroundPrimary',
+		borderStyle: 'solid',
+		background: { lightMode: 'green500', darkMode: 'green500' },
 	}),
 	{
-		bottom: '-0.2rem',
-		left: '-0.3rem',
+		borderWidth: '2px',
+		bottom: '-0.1rem',
+		left: '-0.1rem',
 		width: '0.7rem',
 		height: '0.7rem',
-		border: '2px solid',
-		borderColor: 'white',
-		backgroundColor: '#15920a',
 	},
 ])

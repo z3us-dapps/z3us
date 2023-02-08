@@ -72,7 +72,6 @@ export const Navigation: React.FC = () => (
 					))}
 				</LayoutGroup>
 			</Box>
-
 			<Box>
 				<DropdownProfile />
 			</Box>
