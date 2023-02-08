@@ -45,6 +45,7 @@ const MenuItem = ({ text, href }) => {
 		<Link
 			to={href}
 			className={clsx(styles.navigationMenuLink)}
+			underline="never"
 			// className={clsx('z3-c-accounts-navigation__menu-item', selected && 'z3-c-accounts-navigation__menu-item--active')}
 		>
 			{selected ? <motion.span layoutId="underline" className={styles.navigationMenuActiveLine} /> : null}

@@ -52,3 +52,9 @@ export const DropdownMenuRightSlot = ({ children, ...props }) => (
 		{children}
 	</DropdownMenuPrimitive.Label>
 )
+
+export const DropdownMenuLeftSlot = ({ children, ...props }) => (
+	<DropdownMenuPrimitive.Label className={styles.dropdownMenuItemLeftSlot} {...props}>
+		{children}
+	</DropdownMenuPrimitive.Label>
+)

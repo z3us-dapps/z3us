@@ -101,8 +101,12 @@ export const navigationMenuLink = style([
 		textDecoration: 'none',
 		borderRadius: 'small',
 		transition: 'fast',
+		boxShadow: {
+			focusVisible: 'btnSecondaryShadowFocus',
+		},
 	}),
 	{
+		outline: 'none',
 		height: `${calc(vars.grid).multiply(8)}`,
 		':hover': {
 			background: vars.color.bleached_silk600,

@@ -2,20 +2,20 @@ import { style, keyframes } from '@vanilla-extract/css'
 import { sprinkles, Sprinkles } from '../system/sprinkles.css'
 
 const fadeIn = keyframes({
-	'0%': { transform: 'scale(0.95)', opacity: '0' },
-	'100%': { transform: 'scale(1.00)', opacity: '1' },
+	'0%': { transform: 'scale(0.90) translateY(-20px)', opacity: '0' },
+	'100%': { transform: 'scale(1.00) translateY(0px)', opacity: '1' },
 })
 
 const fadeOut = keyframes({
-	'0%': { transform: 'scale(1.00)', opacity: '1' },
-	'100%': { transform: 'scale(0.95)', opacity: '0' },
+	'0%': { transform: 'scale(1.00) translateY(0px)', opacity: '1' },
+	'100%': { transform: 'scale(0.90) translateY(0px)', opacity: '0' },
 })
 
 export const dropdownMenuContent = style([
 	sprinkles({
 		background: 'backgroundSecondary',
 		boxShadow: 'shadowMedium',
-		paddingX: 'medium',
+		paddingX: 'small',
 		paddingY: 'medium',
 		color: 'colorNeutral',
 		borderRadius: 'medium',
@@ -25,7 +25,6 @@ export const dropdownMenuContent = style([
 		animationTimingFunction: 'cubic-bezier(0.16, 1, 0.3, 1)',
 		willChange: 'transform, opacity',
 		transformOrigin: 'var(--radix-dropdown-menu-content-transform-origin)',
-
 		animationDuration: '150ms',
 		selectors: {
 			'&[data-state="open"]': {
@@ -46,7 +45,18 @@ const sharedItemStyles = {
 	display: 'flex',
 	alignItems: 'center',
 	width: 'full',
-	paddingY: 'xsmall',
+	paddingY: 'small',
+	paddingX: 'small',
+	borderRadius: 'small',
+	transition: 'fast',
+	background: {
+		hover: 'btnSecondaryBackgroundHover',
+		active: 'btnSecondaryBackground',
+		focusVisible: 'btnSecondaryBackgroundHover',
+	},
+	boxShadow: {
+		focusVisible: 'btnSecondaryShadowFocus',
+	},
 }
 
 export const dropdownMenuItem = style([
@@ -54,14 +64,24 @@ export const dropdownMenuItem = style([
 		...(sharedItemStyles as Sprinkles),
 	}),
 	{
-		borderRadius: 'small',
+		outline: 'none',
+	},
+])
+
+export const dropdownMenuRadioItem = style([
+	sprinkles({
+		...(sharedItemStyles as Sprinkles),
+	}),
+	{
+		outline: 'none',
 	},
 ])
 
 export const dropdownMenuSeperator = style([
 	sprinkles({
 		position: 'relative',
-		marginY: 'medium',
+		marginY: 'small',
+		marginX: 'small',
 		background: 'backgroundPrimary',
 	}),
 	{
@@ -72,6 +92,7 @@ export const dropdownMenuSeperator = style([
 export const dropdownMenuArrow = style([
 	sprinkles({
 		position: 'relative',
+		fill: 'backgroundSecondary',
 	}),
 	{},
 ])
@@ -79,7 +100,7 @@ export const dropdownMenuArrow = style([
 export const dropdownMenuLabel = style([
 	sprinkles({
 		position: 'relative',
-		marginBottom: 'small',
+		padding: 'small',
 	}),
 	{},
 ])
@@ -91,21 +112,28 @@ export const dropdownMenuRadioGroup = style([
 	{},
 ])
 
-export const dropdownMenuRadioItem = style([
-	sprinkles({
-		...(sharedItemStyles as Sprinkles),
-	}),
-	{},
-])
-
 export const dropdownMenuItemIndicator = style([
 	sprinkles({
 		position: 'relative',
+		flexShrink: 0,
+		flexGrow: 0,
+		display: 'flex',
+		alignItems: 'center',
 	}),
 	{},
 ])
 
 export const dropdownMenuItemRightSlot = style([
+	sprinkles({
+		position: 'relative',
+		display: 'flex',
+		alignItems: 'center',
+		justifyContent: 'center',
+	}),
+	{},
+])
+
+export const dropdownMenuItemLeftSlot = style([
 	sprinkles({
 		position: 'relative',
 		display: 'flex',

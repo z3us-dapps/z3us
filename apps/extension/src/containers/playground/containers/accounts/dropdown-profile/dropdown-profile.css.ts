@@ -29,6 +29,7 @@ export const dropdownProfilAvatarImg = style([
 	}),
 	{
 		objectFit: 'cover',
+		userSelect: 'none',
 		borderRadius: 'inherit',
 	},
 ])
