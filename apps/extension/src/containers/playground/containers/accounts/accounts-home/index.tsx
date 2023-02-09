@@ -8,6 +8,7 @@ import { Routes, Route, useLocation, Link as LinkRouter, useNavigate } from 'rea
 import { AccountsList } from '@src/containers/playground/containers/accounts/accounts-list'
 import { AccountSwitcher } from '@src/containers/playground/containers/accounts/account-switcher'
 import { AccountActivity } from '@src/containers/playground/containers/accounts/account-activity'
+import { AccountTransaction } from '@src/containers/playground/containers/accounts/account-transaction'
 import { useAccountParams } from '@src/containers/playground/hooks/use-account-params'
 import { Button } from 'ui/src/components-v2/button'
 import { Input } from 'ui/src/components-v2/input'
@@ -66,6 +67,14 @@ export const AccountsHome = () => {
 										element={
 											<AnimatedPage>
 												<AccountsList view={view as any} />
+											</AnimatedPage>
+										}
+									/>
+									<Route
+										path="/:account/:assetType/:asset/:transaction"
+										element={
+											<AnimatedPage>
+												<AccountTransaction />
 											</AnimatedPage>
 										}
 									/>
@@ -146,20 +155,21 @@ export const AccountsRouteWrapper = () => {
 					)}
 				</Box>
 				<Box display="flex" gap="small" paddingBottom="large">
-					<Input placeholder="Search the tokens" />
+					{/* <Input placeholder="Search the tokens" /> */}
 					<Button
-						styleVariant="ghost"
-						iconOnly
+						styleVariant="secondary"
 						onClick={() => {
 							console.log(99, 'search')
 						}}
 					>
 						<MagnifyingGlassIcon />
+						Search
 					</Button>
-					<Button styleVariant="secondary">
-						<MixerHorizontalIcon />
-						Apply filter
-					</Button>
+					{/* TODO: coming soon filter */}
+					{/* <Button styleVariant="secondary"> */}
+					{/* 	<MixerHorizontalIcon /> */}
+					{/* 	Apply filter */}
+					{/* </Button> */}
 				</Box>
 			</Box>
 		</Box>

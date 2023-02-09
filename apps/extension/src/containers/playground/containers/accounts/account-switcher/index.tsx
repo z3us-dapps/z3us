@@ -132,7 +132,7 @@ export const AccountSwitcher = forwardRef<HTMLButtonElement, IAccountSwitcherPro
 			const cardIndex = CARD_COLORS.findIndex(({ accountName }) => accountName === _account)
 			setXVal(cardIndex * -SLIDER_WIDTH)
 			setSelectedIndexCard(cardIndex)
-			navigate(`/accounts/${_account}/${assetType}`)
+			navigate(`/accounts/${_account.toLowerCase()}${assetType ? `/${assetType}` : ''}`)
 		}
 
 		const handleGotoNextAccount = () => {
@@ -140,6 +140,9 @@ export const AccountSwitcher = forwardRef<HTMLButtonElement, IAccountSwitcherPro
 			const newIndex = selectedIndexCard + 1
 			setSelectedIndexCard(newIndex)
 			setXVal(newIndex * -SLIDER_WIDTH)
+			// eslint-disable-next-line
+			const cardAccount = CARD_COLORS.find((item, index) => index === newIndex)
+			navigate(`/accounts/${cardAccount.accountName.toLowerCase()}${assetType ? `/${assetType}` : ''}`)
 		}
 
 		const handleGotoPrevAccount = () => {
@@ -147,6 +150,9 @@ export const AccountSwitcher = forwardRef<HTMLButtonElement, IAccountSwitcherPro
 			const newIndex = selectedIndexCard - 1
 			setSelectedIndexCard(newIndex)
 			setXVal(newIndex * -SLIDER_WIDTH)
+			// eslint-disable-next-line
+			const cardAccount = CARD_COLORS.find((item, index) => index === newIndex)
+			navigate(`/accounts/${cardAccount.accountName.toLowerCase()}${assetType ? `/${assetType}` : ''}`)
 		}
 
 		useEffect(() => {
