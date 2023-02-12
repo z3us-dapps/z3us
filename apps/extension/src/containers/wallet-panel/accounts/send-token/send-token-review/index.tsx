@@ -182,6 +182,7 @@ export const SendTokenReview: React.FC<IProps> = ({
 				<AlertDialog open={state.isSendingAlertOpen}>
 					<AlertDialogTrigger asChild>
 						<Button
+							data-test-e2e="accounts-send-confirm-btn"
 							size="6"
 							color="primary"
 							aria-label="confirm send token"
@@ -286,6 +287,7 @@ export const SendTokenReview: React.FC<IProps> = ({
 							</Box>
 							<Box css={{ mt: '$2' }}>
 								<Button
+									data-test-e2e="accounts-send-transaction-close"
 									size="6"
 									color="primary"
 									aria-label="Close confirm send"

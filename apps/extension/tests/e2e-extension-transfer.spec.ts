@@ -41,8 +41,7 @@ describe('The Extension page should', () => {
 		await closePages(browserContext)
 	})
 
-	// eslint-disable-next-line
-	it.skip('should be able to send tokens (if phrase present in environment)', async () => {
+	it('should be able to send tokens (if phrase present in environment)', async () => {
 		const PHRASE = process.env.TEST_TRANSFER_PHRASE
 		const hasTestPhrase = !!PHRASE
 
@@ -139,17 +138,49 @@ describe('The Extension page should', () => {
 		await page.waitForTimeout(DELAY)
 		await newAccountBtn.click()
 
-		// user clicks last account button (3)
-		await lastBreadcrumbBtn.click()
-		await page.waitForTimeout(DELAY)
-		await newAccountBtn.click()
-		await page.waitForTimeout(DELAY)
-
 		// user clicks the first account breadcrumb
 		const accountBreadcrumbBtnsSelector = '[data-test-e2e="account-breadcrumb"] button >> nth=1'
 		const accountBreadcrumbBtnFirst = await page.$(accountBreadcrumbBtnsSelector)
 		expect(accountBreadcrumbBtnFirst.isVisible()).toBeTruthy()
 		await accountBreadcrumbBtnFirst.click()
+		await page.waitForTimeout(DELAY)
+
+		// user clicks the send account button
+		const accountSendBtnSelector = '[data-test-e2e="account-send-btn"]'
+		const accountSendBtn = await page.$(accountSendBtnSelector)
+		await accountSendBtn.click()
+		await page.waitForTimeout(DELAY)
+
+		// user enters amount to send
+		const inputAmountSelector = '[data-test-e2e="accounts-send-input-amount"]'
+		const inputAmount = await page.$(inputAmountSelector)
+		await inputAmount.fill('0.00000001')
+		await page.waitForTimeout(DELAY)
+
+		// user clicks select account
+		const selectAccountSelector = '[data-test-e2e="accounts-send-select-dropdown"]'
+		const selectAccount = await page.$(selectAccountSelector)
+		await selectAccount.click()
+		await page.waitForTimeout(DELAY)
+		await page.keyboard.press('Enter')
+		await page.waitForTimeout(DELAY)
+
+		// user enters amount to send
+		const inputTransactionMessageSelector = '[data-test-e2e="accounts-send-transaction-message"]'
+		const inputTransactionMessage = await page.$(inputTransactionMessageSelector)
+		await inputTransactionMessage.fill((Math.random() + 1).toString(36).substring(7))
+		await page.waitForTimeout(DELAY)
+
+		// user clicks review send
+		const reviewTransactionBtnSelector = '[data-test-e2e="accounts-send-review-btn"]'
+		const reviewTransactionBtn = await page.$(reviewTransactionBtnSelector)
+		await reviewTransactionBtn.click()
+		await page.waitForTimeout(DELAY)
+
+		// user clicks confirm send
+		const confirmSendTransactionBtnSelector = '[data-test-e2e="accounts-send-confirm-btn"]'
+		const confirmSendTransactionBtn = await page.$(confirmSendTransactionBtnSelector)
+		await confirmSendTransactionBtn.click()
 		await page.waitForTimeout(DELAY)
 	})
 })

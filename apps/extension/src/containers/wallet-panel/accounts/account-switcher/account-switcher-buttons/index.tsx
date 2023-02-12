@@ -25,7 +25,7 @@ export const AccountSwitcherButtons: React.FC = () => {
 			<Grid gap="5" columns="3" css={{ pt: '24px' }}>
 				<Tooltip>
 					<TooltipTrigger asChild>
-						<Button size="5" color="inverse" iconOnly circle onClick={handleSendClick}>
+						<Button size="5" color="inverse" iconOnly circle onClick={handleSendClick} data-test-e2e="account-send-btn">
 							<UpRightIcon />
 						</Button>
 					</TooltipTrigger>

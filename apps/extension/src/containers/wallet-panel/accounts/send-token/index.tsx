@@ -250,6 +250,7 @@ export const SendToken: React.FC = () => {
 								</Flex>
 								<Box css={{ mt: '13px', position: 'relative' }}>
 									<Input
+										data-test-e2e="accounts-send-input-amount"
 										ref={inputAmountRef}
 										type="number"
 										size="2"
@@ -293,7 +294,6 @@ export const SendToken: React.FC = () => {
 									/>
 								</Box>
 							</Box>
-
 							<Box>
 								<Flex align="center" css={{ mt: '14px', position: 'relative' }}>
 									<Flex>
@@ -330,6 +330,7 @@ export const SendToken: React.FC = () => {
 								</Flex>
 								<Box css={{ mt: '13px' }}>
 									<Input
+										data-test-e2e="accounts-send-transaction-message"
 										as="textarea"
 										size="2"
 										placeholder="Enter transaction message"
@@ -341,6 +342,7 @@ export const SendToken: React.FC = () => {
 						</Box>
 						<Flex css={{ px: '$2', pb: '$2' }}>
 							<Button
+								data-test-e2e="accounts-send-review-btn"
 								size="6"
 								color="primary"
 								aria-label="send address"
