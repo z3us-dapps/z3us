@@ -21,7 +21,7 @@ const NotFound404 = () => (
 			<Text size="xlarge">xlarge</Text>
 			<Text size="xxlarge">xxlarge</Text>
 			<Text size="xxxlarge" color="strong">
-				Testing new text
+				Testing new text more bumps on the test
 			</Text>
 		</Box>
 	</Box>
