@@ -1,6 +1,6 @@
 /* eslint-disable */
 import React, { useState } from 'react'
-import { MixerHorizontalIcon } from '@radix-ui/react-icons'
+import { MixerHorizontalIcon, DashboardIcon } from '@radix-ui/react-icons'
 import { PlusIcon, MagnifyingGlassIcon, ArrowLeftIcon } from 'ui/src/components/icons'
 import { AnimatedPage } from '@src/containers/playground/components/animated-route'
 import { AnimatePresence } from 'framer-motion'
@@ -9,6 +9,7 @@ import { AccountsList } from '@src/containers/playground/containers/accounts/acc
 import { AccountSwitcher } from '@src/containers/playground/containers/accounts/account-switcher'
 import { AccountActivity } from '@src/containers/playground/containers/accounts/account-activity'
 import { AccountTransaction } from '@src/containers/playground/containers/accounts/account-transaction'
+import { AccountViewDropdown } from '@src/containers/playground/containers/accounts/account-view-dropdown'
 import { useAccountParams } from '@src/containers/playground/hooks/use-account-params'
 import { Button } from 'ui/src/components-v2/button'
 import { Input } from 'ui/src/components-v2/input'
@@ -21,7 +22,7 @@ import * as styles from './accounts-home.css'
 
 export const AccountsHome = () => {
 	const location = useLocation()
-	const [view, setView] = useState<string>('list')
+	const [view, setView] = useState<'list' | 'two-col' | 'three-col'>('list')
 
 	return (
 		<Box
@@ -42,7 +43,7 @@ export const AccountsHome = () => {
 						overflow="hidden"
 						className={styles.leftPanel}
 					>
-						<AccountsRouteWrapper />
+						<AccountsRouteWrapper view={view} setView={setView} />
 						<Box position="relative">
 							<AnimatePresence initial={false}>
 								<Routes location={location} key={location.pathname}>
@@ -116,46 +117,59 @@ export const AccountsHome = () => {
 	)
 }
 
-export const AccountsRouteWrapper = () => {
+export const AccountsRouteWrapper = ({ setView, view }: any) => {
 	const { account, assetType, asset } = useAccountParams()
 	const navigate = useNavigate()
+
 	return (
 		<Box position="relative">
 			<Box paddingX="xlarge" paddingTop="xlarge">
-				<Box display="flex" alignItems="center">
-					<Button
-						styleVariant="ghost"
-						sizeVariant="small"
-						onClick={() => {
-							navigate(-1)
-						}}
-					>
-						<ArrowLeftIcon />
-						Go Back
-					</Button>
-					<Box paddingX="small">
-						<Text size="medium">&middot;</Text>
-					</Box>
-					<Text size="medium">Account balance ({account})</Text>
+				<Box display="flex" alignItems="center" paddingBottom="xsmall">
+					{/* account */}
+					{assetType ? (
+						<Box>
+							<Link to={`/accounts/${account}`}>
+								<Text size="medium">Accounts ({account})</Text>
+							</Link>
+						</Box>
+					) : (
+						<Box>
+							<Text size="medium">Accounts ({account})</Text>
+						</Box>
+					)}
+					{/* asset type */}
+					{assetType ? (
+						<Box display="flex" alignItems="center">
+							<Box paddingX="small">
+								<Text size="medium">&middot;</Text>
+							</Box>
+							{asset ? (
+								<Link to={`/accounts/${account}/${assetType}`}>
+									<Text size="medium">{assetType}</Text>
+								</Link>
+							) : (
+								<Text size="medium">{assetType}</Text>
+							)}
+						</Box>
+					) : null}
+					{/* asset  */}
+					{asset ? (
+						<Box display="flex" alignItems="center">
+							<Box paddingX="small">
+								<Text size="medium">&middot;</Text>
+							</Box>
+							<Text size="medium">{asset}</Text>
+						</Box>
+					) : null}
 				</Box>
 				<Text weight="strong" size="xxxlarge" color="strong">
-					$40,206.25
+					$4,440,206.25
 				</Text>
 			</Box>
 			<Box paddingX="xlarge" paddingBottom="xlarge" paddingTop="large" display="flex" alignItems="center">
-				<Box flexGrow={1} display="flex" alignItems="center">
-					{asset ? (
-						<Text size="large" color="strong" weight="medium">
-							{asset}
-						</Text>
-					) : (
-						<Text size="large" color="strong" weight="medium">
-							{assetType}
-						</Text>
-					)}
-				</Box>
-				<Box display="flex" gap="small" paddingBottom="large">
+				<Box display="flex" gap="small">
 					{/* <Input placeholder="Search the tokens" /> */}
+					{/* <AccountViewDropdown view={view} onChange={setView} /> */}
 					<Button
 						styleVariant="secondary"
 						onClick={() => {
@@ -184,7 +198,7 @@ export const AccountsIndexAssets = () => {
 					{[{ name: 'Tokens' }, { name: 'NFTs' }, { name: 'LP Tokens' }, { name: 'Badges' }].map(({ name }) => (
 						<Box key={name} className={styles.indexAssetWrapper}>
 							<Link to="/accounts/all/tokens" underline="never" className={styles.indexAssetLinkRow}>
-								<Box flexGrow={1} borderTop={1} borderStyle="solid" borderColor="borderDivider" paddingY="medium">
+								<Box flexGrow={1} borderTop={1} borderStyle="solid" borderColor="borderDivider" paddingY="large">
 									<Box display="flex" alignItems="center">
 										<Text size="large" color="strong" weight="medium">
 											{name}

@@ -11,6 +11,12 @@ const fadeOut = keyframes({
 	'100%': { transform: 'scale(0.90) translateY(0px)', opacity: '0' },
 })
 
+export const selectTrigger = style([sprinkles({}), {}])
+
+export const selectContent = style([sprinkles({}), {}])
+
+// old
+
 export const dropdownMenuContent = style([
 	sprinkles({
 		background: 'backgroundSecondary',

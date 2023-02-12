@@ -1,6 +1,5 @@
 import React from 'react'
 import * as DropdownMenuPrimitive from '@radix-ui/react-dropdown-menu'
-// import clsx from 'clsx'
 
 import * as styles from './dropdown-menu.css'
 

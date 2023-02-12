@@ -18,7 +18,7 @@ import {
 	DropdownMenuRadioItem,
 	DropdownMenuArrow,
 	DropdownMenuItemIndicator,
-	DropdownMenuRightSlot,
+	// DropdownMenuRightSlot,
 	DropdownMenuLeftSlot,
 } from 'ui/src/components-v2/dropdown-menu'
 
@@ -45,16 +45,18 @@ export const DropdownProfile: React.FC = () => (
 			</DropdownMenuTrigger>
 			<DropdownMenuContent side="bottom" sideOffset={0} align="end" alignOffset={0}>
 				<DropdownMenuLabel>
-					<Text size="xsmall" weight="medium">
+					<Text size="xsmall" weight="strong" color="strong">
 						Connected to{' '}
 						<Link href="https://ociswap.com/">
-							<Text size="xsmall">ociswap.com</Text>
+							<Text size="xsmall" weight="strong" color="strong">
+								ociswap.com
+							</Text>
 						</Link>
 					</Text>
 				</DropdownMenuLabel>
 				<DropdownMenuSeparator />
 				<DropdownMenuLabel>
-					<Text size="xsmall" weight="medium">
+					<Text size="xsmall" weight="strong" color="strong">
 						Persona
 					</Text>
 				</DropdownMenuLabel>
@@ -79,7 +81,7 @@ export const DropdownProfile: React.FC = () => (
 
 				<DropdownMenuSeparator />
 				<DropdownMenuLabel>
-					<Text size="xsmall" weight="medium">
+					<Text size="xsmall" weight="strong" color="strong">
 						Wallet
 					</Text>
 				</DropdownMenuLabel>
