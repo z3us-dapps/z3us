@@ -5010,10 +5010,10 @@
     "@types/filesystem" "*"
     "@types/har-format" "*"
 
-"@types/chrome@^0.0.181":
-  version "0.0.181"
-  resolved "https://registry.yarnpkg.com/@types/chrome/-/chrome-0.0.181.tgz#7357ff121f8844062616707d80ccb069f16f15ed"
-  integrity sha512-34Ln9YVVC8a195ruqWeaty3pouFdCLr9L5kPcbRflQcxnbXQnHor9uETof8OhDf8JLDytSRDiuDsRXYQYQ+9FA==
+"@types/chrome@^0.0.212":
+  version "0.0.212"
+  resolved "https://registry.yarnpkg.com/@types/chrome/-/chrome-0.0.212.tgz#d4d189c14db8c10f57fc335864bd7c673794f4a1"
+  integrity sha512-O9blKfj6mQyBvkexEa71xcpRfkjAu8izQD3qGYfdwffk+mJhF7eogz628bZr5dETT6Eu7vU0stUGYG/+EQWj9g==
   dependencies:
     "@types/filesystem" "*"
     "@types/har-format" "*"
