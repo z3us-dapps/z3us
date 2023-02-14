@@ -2,6 +2,18 @@ import { darkMode, sprinkles } from 'ui/src/components-v2/system/sprinkles.css'
 import { vars } from 'ui/src/components-v2/system/theme.css'
 import { style, globalStyle } from '@vanilla-extract/css'
 
+export const panelWrapper = style([
+	sprinkles({
+		position: 'relative',
+		display: 'grid',
+	}),
+	{
+		gridTemplateColumns: '1fr 392px ',
+		gridGap: vars.spacing.xlarge,
+		gridAutoRows: '1fr',
+	},
+])
+
 export const leftPanel = style([
 	sprinkles({
 		position: 'relative',
@@ -19,9 +31,17 @@ export const rightPanel = style([
 		overflow: 'clip',
 	}),
 	{
-		alignSelf: 'flex-start',
-		width: '392px',
+		// TODO: conditional align self for tokens pages
+		// alignSelf: 'flex-start',
 		maxHeight: '100%',
+	},
+])
+
+export const rightPanelAssetType = style([
+	{
+		// TODO: conditional align self for tokens pages
+		alignSelf: 'flex-start',
+		// maxHeight: '100%',
 	},
 ])
 

@@ -4,6 +4,7 @@ import { MixerHorizontalIcon, DashboardIcon } from '@radix-ui/react-icons'
 import { PlusIcon, MagnifyingGlassIcon, ArrowLeftIcon } from 'ui/src/components/icons'
 import { AnimatedPage } from '@src/containers/playground/components/animated-route'
 import { AnimatePresence } from 'framer-motion'
+import clsx from 'clsx'
 import { Routes, Route, useLocation, Link as LinkRouter, useNavigate } from 'react-router-dom'
 import { AccountsList } from '@src/containers/playground/containers/accounts/accounts-list'
 import { AccountSwitcher } from '@src/containers/playground/containers/accounts/account-switcher'
@@ -23,6 +24,7 @@ import * as styles from './accounts-home.css'
 
 export const AccountsHome = () => {
 	const location = useLocation()
+	const { account, assetType, asset } = useAccountParams()
 	const [view, setView] = useState<'list' | 'two-col' | 'three-col'>('list')
 
 	return (
@@ -35,7 +37,7 @@ export const AccountsHome = () => {
 			height="full"
 		>
 			<Box width="full" maxWidth="xxlarge">
-				<Box display="flex" gap="xlarge" height="full">
+				<Box className={styles.panelWrapper}>
 					<Box
 						background="backgroundSecondary"
 						boxShadow="shadowMedium"
@@ -88,29 +90,38 @@ export const AccountsHome = () => {
 						background="backgroundSecondary"
 						boxShadow="shadowMedium"
 						borderRadius="xlarge"
-						className={styles.rightPanel}
+						className={clsx(styles.rightPanel, assetType && styles.rightPanelAssetType)}
 					>
 						<AccountSwitcher />
-						<Box paddingX="large" paddingTop="xlarge" paddingBottom="small" className={styles.recentActivityWrapper}>
-							<Box display="flex" alignItems="center" position="relative">
-								<Box flexGrow={1}>
-									<Text size="large" weight="medium" color="strong">
-										Recent activity
-									</Text>
-								</Box>
-								<Button
-									styleVariant="ghost"
-									sizeVariant="small"
-									onClick={() => {
-										console.log(99, 'search')
-									}}
-									iconOnly
+						{!asset ? (
+							<>
+								<Box
+									paddingX="large"
+									paddingTop="xlarge"
+									paddingBottom="small"
+									className={styles.recentActivityWrapper}
 								>
-									<MagnifyingGlassIcon />
-								</Button>
-							</Box>
-						</Box>
-						<AccountActivity />
+									<Box display="flex" alignItems="center" position="relative">
+										<Box flexGrow={1}>
+											<Text size="large" weight="medium" color="strong">
+												Recent activity
+											</Text>
+										</Box>
+										<Button
+											styleVariant="ghost"
+											sizeVariant="small"
+											onClick={() => {
+												console.log(99, 'search')
+											}}
+											iconOnly
+										>
+											<MagnifyingGlassIcon />
+										</Button>
+									</Box>
+								</Box>
+								<AccountActivity flexGrowWrapper={!assetType} />{' '}
+							</>
+						) : null}
 					</Box>
 				</Box>
 			</Box>
