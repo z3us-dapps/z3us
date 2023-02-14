@@ -13,6 +13,7 @@ import { AccountViewDropdown } from '@src/containers/playground/containers/accou
 import { useAccountParams } from '@src/containers/playground/hooks/use-account-params'
 import { Button } from 'ui/src/components-v2/button'
 import { Input } from 'ui/src/components-v2/input'
+import { ToolTip } from 'ui/src/components-v2/tool-tip'
 // inone { Button as ButtonLink } from '@src/components/button'
 import { Box } from 'ui/src/components-v2/box'
 import { Text } from 'ui/src/components-v2/typography'
@@ -170,6 +171,7 @@ export const AccountsRouteWrapper = ({ setView, view }: any) => {
 				<Box display="flex" gap="small">
 					{/* <Input placeholder="Search the tokens" /> */}
 					{/* <AccountViewDropdown view={view} onChange={setView} /> */}
+
 					<Button
 						styleVariant="secondary"
 						onClick={() => {
@@ -180,10 +182,13 @@ export const AccountsRouteWrapper = ({ setView, view }: any) => {
 						Search
 					</Button>
 					{/* TODO: coming soon filter */}
-					{/* <Button styleVariant="secondary"> */}
-					{/* 	<MixerHorizontalIcon /> */}
-					{/* 	Apply filter */}
-					{/* </Button> */}
+
+					<ToolTip message="Yoooooo">
+						<Button styleVariant="secondary">
+							<MixerHorizontalIcon />
+							Apply filter
+						</Button>
+					</ToolTip>
 				</Box>
 			</Box>
 		</Box>
