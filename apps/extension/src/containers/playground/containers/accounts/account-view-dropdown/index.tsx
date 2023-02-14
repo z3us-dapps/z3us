@@ -53,20 +53,20 @@ export const AccountViewDropdown = forwardRef<HTMLElement, IAccountViewDropdownP
 
 		return (
 			<Box ref={ref} className={clsx(styles.transactionWrapper, className)}>
-				<Select>
-					<SelectTrigger asChild>
+				<Select onValueChange={handleChangeView}>
+					<SelectTrigger asChild iconOnly>
 						<Button styleVariant="secondary" sizeVariant="medium" iconOnly>
+							<SelectValue className="test" />
 							<DashboardIcon />
-							<SelectValue />
-							<SelectIcon />
 						</Button>
 					</SelectTrigger>
 					<SelectPortal>
 						<SelectContent>
 							<SelectScrollUpButton />
 							<SelectViewport>
-								<SelectItem value="1">Geebs</SelectItem>
-								<SelectItem value="2">Heebs</SelectItem>
+								<SelectItem value="1">Single column</SelectItem>
+								<SelectItem value="2">Two column</SelectItem>
+								<SelectItem value="3">Three column</SelectItem>
 							</SelectViewport>
 							<SelectScrollDownButton />
 						</SelectContent>

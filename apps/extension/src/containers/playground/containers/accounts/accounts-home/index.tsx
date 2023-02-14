@@ -170,7 +170,7 @@ export const AccountsRouteWrapper = ({ setView, view }: any) => {
 			<Box paddingX="xlarge" paddingBottom="xlarge" paddingTop="large" display="flex" alignItems="center">
 				<Box display="flex" gap="small">
 					{/* <Input placeholder="Search the tokens" /> */}
-					{/* <AccountViewDropdown view={view} onChange={setView} /> */}
+					<AccountViewDropdown view={view} onChange={setView} />
 
 					<Button
 						styleVariant="secondary"

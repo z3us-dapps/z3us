@@ -1,45 +1,7 @@
 import { style, keyframes } from '@vanilla-extract/css'
 import { sprinkles, Sprinkles } from '../system/sprinkles.css'
 
-const fadeIn = keyframes({
-	'0%': { transform: 'scale(0.90) translateY(-20px)', opacity: '0' },
-	'100%': { transform: 'scale(1.00) translateY(0px)', opacity: '1' },
-})
-
-const fadeOut = keyframes({
-	'0%': { transform: 'scale(1.00) translateY(0px)', opacity: '1' },
-	'100%': { transform: 'scale(0.90) translateY(0px)', opacity: '0' },
-})
-
-export const dropdownMenuContent = style([
-	sprinkles({
-		background: 'backgroundSecondary',
-		boxShadow: 'shadowMedium',
-		paddingX: 'small',
-		paddingY: 'medium',
-		color: 'colorNeutral',
-		borderRadius: 'medium',
-	}),
-	{
-		minWidth: '7rem',
-		animationTimingFunction: 'cubic-bezier(0.16, 1, 0.3, 1)',
-		willChange: 'transform, opacity',
-		transformOrigin: 'var(--radix-dropdown-menu-content-transform-origin)',
-		animationDuration: '150ms',
-		selectors: {
-			'&[data-state="open"]': {
-				animationName: fadeIn,
-				animationFillMode: 'forwards',
-			},
-			'&[data-state="closed"]': {
-				animationName: fadeOut,
-				animationFillMode: 'forwards',
-			},
-		},
-	},
-])
-
-const sharedItemStyles = {
+export const sharedItemStyles = {
 	position: 'relative',
 	color: 'colorNeutral',
 	display: 'flex',
@@ -59,6 +21,44 @@ const sharedItemStyles = {
 	// 	focusVisible: 'btnSecondaryShadowFocus',
 	// },
 }
+
+export const fadeIn = keyframes({
+	'0%': { transform: 'scale(0.90) translateY(-20px)', opacity: '0' },
+	'100%': { transform: 'scale(1.00) translateY(0px)', opacity: '1' },
+})
+
+export const fadeOut = keyframes({
+	'0%': { transform: 'scale(1.00) translateY(0px)', opacity: '1' },
+	'100%': { transform: 'scale(0.90) translateY(0px)', opacity: '0' },
+})
+
+export const dropdownMenuContent = style([
+	sprinkles({
+		background: 'backgroundSecondary',
+		boxShadow: 'shadowMedium',
+		paddingX: 'small',
+		paddingY: 'medium',
+		color: 'colorNeutral',
+		borderRadius: 'medium',
+	}),
+	{
+		minWidth: '7rem',
+		transformOrigin: 'var(--radix-dropdown-menu-content-transform-origin)',
+		animationTimingFunction: 'cubic-bezier(0.16, 1, 0.3, 1)',
+		willChange: 'transform, opacity',
+		animationDuration: '150ms',
+		selectors: {
+			'&[data-state="open"]': {
+				animationName: fadeIn,
+				animationFillMode: 'forwards',
+			},
+			'&[data-state="closed"]': {
+				animationName: fadeOut,
+				animationFillMode: 'forwards',
+			},
+		},
+	},
+])
 
 export const dropdownMenuItem = style([
 	sprinkles({
