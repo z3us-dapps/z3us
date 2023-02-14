@@ -1,6 +1,6 @@
 import React from 'react'
 import * as Avatar from '@radix-ui/react-avatar'
-import { CardStackPlusIcon, DotFilledIcon, PersonIcon, LockClosedIcon } from '@radix-ui/react-icons'
+import { LockClosedIcon } from '@radix-ui/react-icons'
 import { CheckIcon } from 'ui/src/components/icons'
 import { Button } from 'ui/src/components-v2/button'
 import { Box } from 'ui/src/components-v2/box'
@@ -18,7 +18,6 @@ import {
 	DropdownMenuRadioItem,
 	DropdownMenuArrow,
 	DropdownMenuItemIndicator,
-	// DropdownMenuRightSlot,
 	DropdownMenuLeftSlot,
 } from 'ui/src/components-v2/dropdown-menu'
 
