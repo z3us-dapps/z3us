@@ -58,6 +58,7 @@ export const AccountNaviation: React.FC = () => {
 			</Flex>
 			<Flex
 				justify="center"
+				data-test-e2e="account-breadcrumb"
 				css={{
 					flex: '1',
 					pt: '6px',
@@ -113,6 +114,7 @@ export const AccountNaviation: React.FC = () => {
 				))}
 				<Button iconOnly size="1" onClick={() => handleBreadCrumbClick(addresses.length)}>
 					<Box
+						data-test-e2e="account-breadcrumb-last-btn"
 						css={{
 							border: '1px solid $iconDefault',
 							borderRadius: '50%',
