@@ -54,7 +54,7 @@ export const AddressBookSelector: React.FC<IProps> = ({ selectedAddress, onSelec
 	return (
 		<Select open={open} value={selectedAddress} onValueChange={handleValueChange}>
 			<SelectTrigger aria-label="Address selector" asChild onClick={() => setOpen(true)}>
-				<Button size="1" color="tertiary">
+				<Button size="1" color="tertiary" data-test-e2e="accounts-send-select-dropdown">
 					<SelectValue>
 						<Text
 							truncate
