@@ -26,7 +26,7 @@ export const navigationContainer = style([
 		alignItems: 'center',
 	}),
 	{
-		height: '72px',
+		height: '70px',
 	},
 ])
 
@@ -42,8 +42,8 @@ export const navigationLogoLink = style([
 		},
 	}),
 	{
-		width: '100px',
-		height: '15px',
+		width: '24px',
+		height: '24px',
 
 		selectors: {
 			// [`.${darkMode} &`]: {},
@@ -83,23 +83,21 @@ export const navigationMenu = style([
 	sprinkles({
 		display: 'flex',
 		flexGrow: 1,
-		gap: 'large',
-		justifyContent: 'center',
+		gap: 'medium',
+		paddingLeft: 'xlarge',
 	}),
-	{
-		height: 'auto',
-	},
+	{},
 ])
 
 export const navigationMenuLink = style([
 	sprinkles({
 		display: 'flex',
 		alignItems: 'center',
-		paddingX: 'small',
+		paddingX: 'medium',
 		justifyContent: 'center',
 		position: 'relative',
 		textDecoration: 'none',
-		borderRadius: 'small',
+		borderRadius: 'xlarge',
 		transition: 'fast',
 		boxShadow: {
 			focusVisible: 'btnSecondaryShadowFocus',
@@ -130,8 +128,8 @@ export const navigationMenuActiveLine = style([
 		position: 'absolute',
 		inset: 0,
 		pointerEvents: 'none',
-		borderRadius: 'small',
-		background: 'purple500',
+		borderRadius: 'xlarge',
+		background: 'backgroundSecondary',
 	}),
 	{
 		height: '100%',

@@ -10,7 +10,6 @@ import { AccountsList } from '@src/containers/playground/containers/accounts/acc
 import { AccountSwitcher } from '@src/containers/playground/containers/accounts/account-switcher'
 import { AccountActivity } from '@src/containers/playground/containers/accounts/account-activity'
 import { AccountTransaction } from '@src/containers/playground/containers/accounts/account-transaction'
-import { AccountViewDropdown } from '@src/containers/playground/containers/accounts/account-view-dropdown'
 import { useAccountParams } from '@src/containers/playground/hooks/use-account-params'
 import { Button } from 'ui/src/components-v2/button'
 import { Input } from 'ui/src/components-v2/input'
@@ -181,7 +180,6 @@ export const AccountsRouteWrapper = ({ setView, view }: any) => {
 			<Box paddingX="xlarge" paddingBottom="xlarge" paddingTop="large" display="flex" alignItems="center">
 				<Box display="flex" gap="small">
 					{/* <Input placeholder="Search the tokens" /> */}
-					<AccountViewDropdown view={view} onChange={setView} />
 
 					<Button
 						styleVariant="secondary"

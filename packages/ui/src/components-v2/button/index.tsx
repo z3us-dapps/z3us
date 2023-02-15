@@ -15,8 +15,9 @@ interface IButtonOptionalProps {
 	disabled?: boolean
 	iconOnly?: boolean
 	sizeVariant?: 'small' | 'medium' | 'large'
-	styleVariant?: 'primary' | 'secondary' | 'ghost'
+	styleVariant?: 'primary' | 'secondary' | 'tertiary' | 'ghost'
 	href?: string
+	rounded?: boolean
 }
 
 export interface IButtonProps extends IButtonRequiredProps, IButtonOptionalProps {}
@@ -26,6 +27,7 @@ const defaultProps: IButtonOptionalProps = {
 	linkFrameWorkComp: undefined,
 	onClick: undefined,
 	iconOnly: false,
+	rounded: false,
 	disabled: false,
 	sizeVariant: 'medium',
 	styleVariant: 'primary',
@@ -37,6 +39,7 @@ export const Button = forwardRef<HTMLButtonElement, IButtonProps>((props, ref: R
 		children,
 		disabled,
 		iconOnly,
+		rounded,
 		onClick,
 		className,
 		sizeVariant,
@@ -62,6 +65,7 @@ export const Button = forwardRef<HTMLButtonElement, IButtonProps>((props, ref: R
 					styleVariant,
 					iconOnly,
 					disabled,
+					rounded,
 				}),
 			)}
 			disabled={disabled}

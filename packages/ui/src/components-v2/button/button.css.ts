@@ -14,6 +14,7 @@ export const button = recipe({
 		justifyContent: 'center',
 		textDecoration: 'none',
 		outline: 'none',
+		cursor: 'pointer',
 	},
 	variants: {
 		styleVariant: {
@@ -35,6 +36,13 @@ export const button = recipe({
 				color: 'colorNeutral',
 				border: 1,
 				borderStyle: 'solid',
+			}),
+			tertiary: sprinkles({
+				background: { lightMode: 'btnTertiaryBackground', hover: 'btnTertiaryBackgroundHover' },
+				boxShadow: {
+					focusVisible: 'btnSecondaryShadowFocus',
+				},
+				color: 'colorStrong',
 			}),
 			ghost: sprinkles({
 				background: {
@@ -59,8 +67,8 @@ export const button = recipe({
 				}),
 				{
 					height: '32px',
-					fontSize: '13px',
-					lineHeight: '13px',
+					fontSize: '15px',
+					lineHeight: '20px',
 					paddingLeft: '8px',
 					paddingRight: '8px',
 					gap: '6px',
@@ -88,6 +96,9 @@ export const button = recipe({
 					height: '48px',
 				},
 			],
+		},
+		rounded: {
+			true: {},
 		},
 		iconOnly: {
 			true: {},
@@ -128,12 +139,24 @@ export const button = recipe({
 				opacity: 0.6,
 			},
 		},
+		{
+			variants: {
+				sizeVariant: 'small',
+				rounded: true,
+			},
+			style: {
+				borderRadius: '20px',
+				paddingLeft: '16px',
+				paddingRight: '16px',
+			},
+		},
 	],
 	defaultVariants: {
 		styleVariant: 'primary',
 		sizeVariant: 'medium',
 		iconOnly: false,
 		disabled: false,
+		rounded: false,
 	},
 })
 

@@ -29,8 +29,7 @@ import * as styles from './account-view-dropdown.css'
 import { SelectIcon, SelectValue } from 'ui/src/components/select'
 
 interface IAccountViewDropdownRequiredProps {
-	onChange: (view: string) => void
-	view: 'list' | 'two-col' | 'three-col'
+	// onChange: (view: string) => void
 }
 
 interface IAccountViewDropdownOptionalProps {
@@ -45,17 +44,15 @@ const defaultProps: IAccountViewDropdownOptionalProps = {
 
 export const AccountViewDropdown = forwardRef<HTMLElement, IAccountViewDropdownProps>(
 	(props, ref: React.Ref<HTMLElement | null>) => {
-		const { onChange, className, view } = props
+		const { className } = props
 
-		const handleChangeView = (_view: string) => {
-			onChange(_view)
-		}
+		const handleChangeView = (_view: string) => {}
 
 		return (
 			<Box ref={ref} className={clsx(styles.transactionWrapper, className)}>
-				<Select onValueChange={handleChangeView}>
-					<SelectTrigger asChild iconOnly>
-						<Button styleVariant="secondary" sizeVariant="medium" iconOnly>
+				<Select onValueChange={handleChangeView} value="1">
+					<SelectTrigger asChild>
+						<Button styleVariant="tertiary" sizeVariant="small" rounded>
 							<SelectValue className="test" />
 							<DashboardIcon />
 						</Button>
@@ -64,9 +61,9 @@ export const AccountViewDropdown = forwardRef<HTMLElement, IAccountViewDropdownP
 						<SelectContent>
 							<SelectScrollUpButton />
 							<SelectViewport>
-								<SelectItem value="1">Single column</SelectItem>
-								<SelectItem value="2">Two column</SelectItem>
-								<SelectItem value="3">Three column</SelectItem>
+								<SelectItem value="1">Savings</SelectItem>
+								<SelectItem value="2">Degen</SelectItem>
+								<SelectItem value="3">Nft's</SelectItem>
 							</SelectViewport>
 							<SelectScrollDownButton />
 						</SelectContent>

@@ -2,12 +2,7 @@ import { style, globalStyle } from '@vanilla-extract/css'
 import { sprinkles, Sprinkles } from '../system/sprinkles.css'
 import { fadeIn, fadeOut, sharedItemStyles } from '../dropdown-menu/dropdown-menu.css'
 
-export const selectTrigger = style([
-	sprinkles({}),
-	{
-		border: '0px solid red',
-	},
-])
+export const selectTrigger = style([sprinkles({}), {}])
 
 export const selectTriggerIconOnly = style({})
 
@@ -21,6 +16,8 @@ globalStyle(`${selectTriggerIconOnly} > span:nth-child(1)`, {
 
 export const selectContent = style([
 	sprinkles({
+		position: 'relative',
+		zIndex: 2,
 		background: 'backgroundSecondary',
 		boxShadow: 'shadowMedium',
 		paddingX: 'small',
@@ -32,16 +29,13 @@ export const selectContent = style([
 		minWidth: '7rem',
 		animationTimingFunction: 'cubic-bezier(0.16, 1, 0.3, 1)',
 		willChange: 'transform, opacity',
-		// transformOrigin: 'var(--radix-dropdown-menu-content-transform-origin)',
 		animationDuration: '150ms',
 		selectors: {
 			'&[data-state="open"]': {
 				animationName: fadeIn,
-				// animationFillMode: 'forwards',
 			},
 			'&[data-state="closed"]': {
 				animationName: fadeOut,
-				// animationFillMode: 'forwards',
 			},
 		},
 	},

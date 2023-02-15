@@ -176,9 +176,9 @@ export const sharedThemeValues = {
 				'body',
 			),
 			spacing: {
-				mobile: '0.04em',
-				tablet: '0.04em',
-				desktop: '0.04em',
+				mobile: '0.02em',
+				tablet: '0.02em',
+				desktop: '0.02em',
 			},
 		},
 
@@ -366,6 +366,8 @@ const generateColorTokens = (colorTokens: any) => ({
 	btnSecondaryShadowFocus: colorTokens.color.shadow.button_secondary_focus.value,
 	btnSecondaryBorderColor: colorTokens.color.border.btn_secondary_border.value,
 	btnSecondaryBorderColorHover: colorTokens.color.border.btn_secondary_border_hover.value,
+	btnTertiaryBackground: colorTokens.color.background.btn_tertiary_background.value,
+	btnTertiaryBackgroundHover: colorTokens.color.background.btn_tertiary_background_hover.value,
 	btnGhostBorderColor: colorTokens.color.border.btn_ghost_border.value,
 	btnGhostBorderColorHover: colorTokens.color.border.btn_ghost_border_hover.value,
 	inputPrimaryBackground: colorTokens.color.background.input_primary_background.value,
