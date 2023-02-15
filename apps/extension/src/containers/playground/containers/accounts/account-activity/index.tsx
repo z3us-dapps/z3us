@@ -15,6 +15,7 @@ interface IAccountActivityOptionalProps {
 	className?: number
 	onClick?: () => void
 	iconOnly?: boolean
+	flexGrowWrapper?: boolean
 }
 
 interface IAccountSwitcherProps extends IAccountActivityRequiredProps, IAccountActivityOptionalProps {}
@@ -23,6 +24,7 @@ const defaultProps: IAccountActivityOptionalProps = {
 	className: undefined,
 	onClick: undefined,
 	iconOnly: false,
+	flexGrowWrapper: false,
 }
 
 const items = [
@@ -66,12 +68,16 @@ const ItemWrapper = props => {
 
 export const AccountActivity = forwardRef<HTMLButtonElement, IAccountSwitcherProps>(
 	(props, ref: React.Ref<HTMLElement | null>) => {
-		const { iconOnly, onClick, className } = props
+		const { iconOnly, onClick, className, flexGrowWrapper } = props
 
 		const [customScrollParent, setCustomScrollParent] = useState<HTMLElement | null>(null)
 
 		return (
-			<Box ref={ref} className={styles.activityWrapper} style={{ height: `${6 * 64}px` }}>
+			<Box
+				ref={ref}
+				className={clsx(styles.activityWrapper, flexGrowWrapper && styles.activityWrapperFlexGrow)}
+				style={{ height: `${6 * 64}px` }}
+			>
 				<ScrollArea
 					scrollableNodeProps={{ ref: setCustomScrollParent }}
 					// onScrollAreaSizeChange={setListSize}

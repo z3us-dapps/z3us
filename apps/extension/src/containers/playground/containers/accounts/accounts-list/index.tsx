@@ -1,6 +1,8 @@
 /* eslint-disable */
 import React, { useState, useRef, useEffect, useCallback, useContext } from 'react'
 import { useTimeout } from 'usehooks-ts'
+import { Routes, Route, useNavigate, Navigate } from 'react-router-dom'
+import { useAccountParams } from '@src/containers/playground/hooks/use-account-params'
 import { Virtuoso, VirtuosoGrid, VirtuosoGridHandle } from 'react-virtuoso'
 import { ScrollArea } from 'ui/src/components/scroll-area'
 import { motion, AnimatePresence, usePresence } from 'framer-motion'
@@ -48,6 +50,7 @@ const variants = {
 const ItemWrapper = props => {
 	const { idx, user } = props
 	const { isLoading, isScrolling, setItems } = useContext(Context)
+	const { account, assetType, asset } = useAccountParams()
 
 	const getAnimateState = () => {
 		if (!user.loaded) {
@@ -59,6 +62,14 @@ const ItemWrapper = props => {
 		// }
 
 		return 'loaded'
+	}
+
+	const generateTempLink = () => {
+		if (asset) {
+			return `/accounts/${account}/tokens/xrd/b707388613169bf701d533e143d8f698c9090f605e677a967eaf70a4c69250ce`
+		} else {
+			return `/accounts/${account}/tokens/xrd`
+		}
 	}
 
 	useTimeout(() => {
@@ -110,7 +121,7 @@ const ItemWrapper = props => {
 			</AnimatePresence>
 			<AnimatePresence initial={false}>
 				{user.loaded && (
-					<Link to="/accounts/all/tokens/btc">
+					<Link to={generateTempLink()}>
 						<motion.div initial="hidden" animate="visible" variants={variants} className={styles.itemWrapperMotion}>
 							<Box className={styles.itemWrapperInner}>
 								<Box width="full" className={styles.tokenListGridWrapper}>

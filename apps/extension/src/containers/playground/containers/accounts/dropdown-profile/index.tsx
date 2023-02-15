@@ -1,7 +1,12 @@
 import React from 'react'
 import * as Avatar from '@radix-ui/react-avatar'
-import { ChevronDownIcon, CardStackPlusIcon, DotFilledIcon, PersonIcon, LockClosedIcon } from '@radix-ui/react-icons'
+import { LockClosedIcon } from '@radix-ui/react-icons'
+import { CheckIcon } from 'ui/src/components/icons'
 import { Button } from 'ui/src/components-v2/button'
+import { Box } from 'ui/src/components-v2/box'
+import { Text } from 'ui/src/components-v2/typography'
+import { Link } from '@src/components/link'
+
 import {
 	DropdownMenu,
 	DropdownMenuTrigger,
@@ -13,97 +18,117 @@ import {
 	DropdownMenuRadioItem,
 	DropdownMenuArrow,
 	DropdownMenuItemIndicator,
-	DropdownMenuRightSlot,
+	DropdownMenuLeftSlot,
 } from 'ui/src/components-v2/dropdown-menu'
 
-import './dropdown-profile.css'
+import * as styles from './dropdown-profile.css'
 
 export const DropdownProfile: React.FC = () => (
-	<div className="z3-c-dropdown-profile">
+	<Box className={styles.dropdownProfilWrapper}>
 		<DropdownMenu>
 			<DropdownMenuTrigger asChild>
-				<Button>
-					<Avatar.Root className="z3-c-dropdown-profile__avatar">
+				<Button styleVariant="ghost" sizeVariant="medium" iconOnly>
+					<Avatar.Root className={styles.dropdownProfilAvatar}>
 						<Avatar.Image
-							className="z3-c-dropdown-profile__avatar-image"
+							className={styles.dropdownProfilAvatarImg}
 							src="https://images.unsplash.com/photo-1511485977113-f34c92461ad9?ixlib=rb-1.2.1&w=128&h=128&dpr=2&q=80"
 							alt="Colm Tuite"
 						/>
-						<Avatar.Fallback className="z3-c-dropdown-profile__avatar-fallback" delayMs={600}>
+						<Avatar.Fallback className={styles.dropdownProfilAvatarFallback} delayMs={600}>
 							CT
 						</Avatar.Fallback>
-						<span className="z3-c-dropdown-profile__connected" />
+						<span className={styles.dropdownProfilAvatarConnectedStatus} />
 					</Avatar.Root>
-					<ChevronDownIcon />
+					{/* <ChevronDownIcon /> */}
 				</Button>
 			</DropdownMenuTrigger>
-			<DropdownMenuContent side="bottom" sideOffset={5} align="end" alignOffset={0}>
+			<DropdownMenuContent side="bottom" sideOffset={0} align="end" alignOffset={0}>
 				<DropdownMenuLabel>
-					Connected to{' '}
-					<a href="https://ociswap.com/" target="_blank" rel="noreferrer">
-						ociswap.com
-					</a>
+					<Text size="xsmall" weight="strong" color="strong">
+						Connected to{' '}
+						<Link href="https://ociswap.com/">
+							<Text size="xsmall" weight="strong" color="strong">
+								ociswap.com
+							</Text>
+						</Link>
+					</Text>
 				</DropdownMenuLabel>
 				<DropdownMenuSeparator />
-				<DropdownMenuLabel>Persona</DropdownMenuLabel>
+				<DropdownMenuLabel>
+					<Text size="xsmall" weight="strong" color="strong">
+						Persona
+					</Text>
+				</DropdownMenuLabel>
 				<DropdownMenuRadioGroup value="light" onValueChange={() => {}}>
 					<DropdownMenuRadioItem value="light">
+						<Box flexGrow={1}>
+							<Text size="xsmall">Main persona</Text>
+						</Box>
 						<DropdownMenuItemIndicator>
-							<DotFilledIcon />
+							<CheckIcon />
 						</DropdownMenuItemIndicator>
-						Main persona
 					</DropdownMenuRadioItem>
 					<DropdownMenuRadioItem value="dark">
+						<Box flexGrow={1}>
+							<Text size="xsmall">Degen persona</Text>
+						</Box>
 						<DropdownMenuItemIndicator>
-							<DotFilledIcon />
+							<CheckIcon />
 						</DropdownMenuItemIndicator>
-						Degen persona
 					</DropdownMenuRadioItem>
 				</DropdownMenuRadioGroup>
 
 				<DropdownMenuSeparator />
-				<DropdownMenuLabel>Wallet</DropdownMenuLabel>
+				<DropdownMenuLabel>
+					<Text size="xsmall" weight="strong" color="strong">
+						Wallet
+					</Text>
+				</DropdownMenuLabel>
 
 				<DropdownMenuRadioGroup value="light" onValueChange={() => {}}>
 					<DropdownMenuRadioItem value="light">
+						<Box flexGrow={1}>
+							<Text size="xsmall">Main driver</Text>
+						</Box>
 						<DropdownMenuItemIndicator>
-							<DotFilledIcon />
+							<CheckIcon />
 						</DropdownMenuItemIndicator>
-						Main driver
 					</DropdownMenuRadioItem>
 					<DropdownMenuRadioItem value="dark">
+						<Box flexGrow={1}>
+							<Text size="xsmall">Burner test wallet</Text>
+						</Box>
 						<DropdownMenuItemIndicator>
-							<DotFilledIcon />
+							<CheckIcon />
 						</DropdownMenuItemIndicator>
-						Burner test wallet
 					</DropdownMenuRadioItem>
 					<DropdownMenuRadioItem value="dark">
+						<Box flexGrow={1}>
+							<Text size="xsmall">Funny man&apos;s wallet</Text>
+						</Box>
 						<DropdownMenuItemIndicator>
-							<DotFilledIcon />
+							<CheckIcon />
 						</DropdownMenuItemIndicator>
-						Funny man&apos;s wallet
 					</DropdownMenuRadioItem>
 				</DropdownMenuRadioGroup>
 
 				<DropdownMenuSeparator />
 				<DropdownMenuItem>
-					Lock wallet
-					<DropdownMenuRightSlot>
+					<DropdownMenuLeftSlot>
 						<LockClosedIcon />
-					</DropdownMenuRightSlot>
+					</DropdownMenuLeftSlot>
+					<Box display="flex" marginLeft="small">
+						<Text size="xsmall">Lock wallet</Text>
+					</Box>
 				</DropdownMenuItem>
-				<DropdownMenuItem>
-					Add new wallet
-					<DropdownMenuRightSlot>
-						<CardStackPlusIcon />
-					</DropdownMenuRightSlot>
-				</DropdownMenuItem>
-				<DropdownMenuItem>
-					Add new persona
-					<DropdownMenuRightSlot>
-						<PersonIcon />
-					</DropdownMenuRightSlot>
-				</DropdownMenuItem>
+				{/* <DropdownMenuItem> */}
+				{/* 	<DropdownMenuLeftSlot> */}
+				{/* 		<PersonIcon /> */}
+				{/* 	</DropdownMenuLeftSlot> */}
+				{/* 	<Box display="flex"> */}
+				{/* 		<Text size="xsmall">Add new persona</Text> */}
+				{/* 	</Box> */}
+				{/* </DropdownMenuItem> */}
 
 				{/* <DropdownMenuSeparator /> */}
 				{/* <DropdownMenuLabel>Theme</DropdownMenuLabel> */}
@@ -131,5 +156,5 @@ export const DropdownProfile: React.FC = () => (
 				<DropdownMenuArrow />
 			</DropdownMenuContent>
 		</DropdownMenu>
-	</div>
+	</Box>
 )

@@ -8,19 +8,25 @@ export const activityWrapper = style([
 		position: 'relative',
 		display: 'flex',
 		flexDirection: 'column',
-		overflow: 'auto',
-		flexGrow: 1,
 		borderBottomRightRadius: 'large',
 		borderBottomLeftRadius: 'large',
 	}),
 	{
 		width: '100%',
+		// maxHeight: '100%',
+		// flex: '1 1 0',
 	},
 	// responsiveStyle({
 	// 	mobile: { width: '100%' },
 	// 	tablet: { width: '33%' },
 	// 	desktop: { width: '25%' },
 	// }),
+])
+
+export const activityWrapperFlexGrow = style([
+	{
+		flex: '1 1 0',
+	},
 ])
 
 export const activtyItem = style([

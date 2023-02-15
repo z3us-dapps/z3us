@@ -61,6 +61,7 @@ export const Button = forwardRef<HTMLButtonElement, IButtonProps>((props, ref: R
 					sizeVariant,
 					styleVariant,
 					iconOnly,
+					disabled,
 				}),
 			)}
 			disabled={disabled}

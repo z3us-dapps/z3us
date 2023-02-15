@@ -39,6 +39,7 @@ export const button = recipe({
 			ghost: sprinkles({
 				background: {
 					hover: 'btnSecondaryBackgroundHover',
+					active: 'btnSecondaryBackground',
 					focusVisible: 'btnSecondaryBackgroundHover',
 				},
 				borderColor: { lightMode: 'transparent', hover: 'btnGhostBorderColorHover' },
@@ -91,6 +92,11 @@ export const button = recipe({
 		iconOnly: {
 			true: {},
 		},
+		disabled: {
+			true: {
+				cursor: 'not-allowed',
+			},
+		},
 	},
 	compoundVariants: [
 		{
@@ -113,10 +119,21 @@ export const button = recipe({
 				padding: '0px',
 			},
 		},
+		{
+			variants: {
+				styleVariant: 'ghost',
+				disabled: true,
+			},
+			style: {
+				opacity: 0.6,
+			},
+		},
 	],
 	defaultVariants: {
 		styleVariant: 'primary',
 		sizeVariant: 'medium',
+		iconOnly: false,
+		disabled: false,
 	},
 })
 

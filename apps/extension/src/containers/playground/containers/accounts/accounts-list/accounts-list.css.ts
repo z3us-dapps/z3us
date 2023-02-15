@@ -12,11 +12,7 @@ export const listContainer = style([
 	sprinkles({
 		position: 'relative',
 	}),
-	{
-		// display: 'grid',
-		// gap: '1rem',
-		// gridTemplateColumns: '1fr',
-	},
+	{},
 ])
 
 export const virtuosoGridList = style([

@@ -2,8 +2,10 @@ import React from 'react'
 import clsx from 'clsx'
 // import { BrowserRouter, Routes, Route, Link, useLocation, useMatch } from 'react-router-dom'
 import { Link as LinkRouter, useMatch } from 'react-router-dom'
-// import { DropdownProfile } from '@src/containers/playground/containers/accounts/components/dropdown-profile'
+import { DropdownProfile } from '@src/containers/playground/containers/accounts/dropdown-profile'
+// import { RowsIcon, MagnifyingGlassIcon } from '@radix-ui/react-icons'
 import { Link } from '@src/components/link'
+// import { Button } from '@src/components/button'
 import { useAccountParams } from '@src/containers/playground/hooks/use-account-params'
 // import { MagnifyingGlassIcon } from '@radix-ui/react-icons'
 // import { Button } from 'ui/src/components-v2/button'
@@ -43,6 +45,7 @@ const MenuItem = ({ text, href }) => {
 		<Link
 			to={href}
 			className={clsx(styles.navigationMenuLink)}
+			underline="never"
 			// className={clsx('z3-c-accounts-navigation__menu-item', selected && 'z3-c-accounts-navigation__menu-item--active')}
 		>
 			{selected ? <motion.span layoutId="underline" className={styles.navigationMenuActiveLine} /> : null}
@@ -70,13 +73,9 @@ export const Navigation: React.FC = () => (
 					))}
 				</LayoutGroup>
 			</Box>
-
-			{/* <div className="z3-c-accounts-navigation__menu-right"> */}
-			{/* 	<Button size="small" intent="ghost" icon> */}
-			{/* 		<MagnifyingGlassIcon /> */}
-			{/* 	</Button> */}
-			{/* 	<DropdownProfile /> */}
-			{/* </div> */}
+			<Box>
+				<DropdownProfile />
+			</Box>
 		</Box>
 	</Box>
 )

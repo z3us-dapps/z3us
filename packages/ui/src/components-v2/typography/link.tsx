@@ -56,6 +56,7 @@ const LinkComponent = (props: LProps) => {
 
 	const classNames = clsx(
 		sprinkles({ display }),
+		styles.defaultLink,
 		underline === 'hover' ? styles.underlineOnHover : undefined,
 		underline === 'never' ? styles.underlineNever : undefined,
 		highlightOnFocus ? styles.highlightOnHover : undefined,

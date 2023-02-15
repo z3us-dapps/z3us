@@ -10,7 +10,7 @@ const responsiveProperties = defineProperties({
 	defaultCondition: 'mobile',
 	properties: {
 		position: ['absolute', 'relative', 'fixed'],
-		display: ['none', 'flex', 'block', 'inline-flex'],
+		display: ['none', 'flex', 'block', 'inline-flex', 'grid'],
 		flexDirection: ['row', 'column'],
 		justifyContent: ['stretch', 'flex-start', 'center', 'flex-end', 'space-around', 'space-between'],
 		alignItems: ['stretch', 'flex-start', 'center', 'flex-end'],
@@ -38,6 +38,8 @@ const responsiveProperties = defineProperties({
 		textAlign: ['left', 'center', 'right'],
 		minWidth: [0],
 		maxWidth: vars.contentWidth,
+		width: { ...vars.spacing, ...{ full: '100%', vw100: '100vw' } },
+		height: { ...vars.spacing, ...{ full: '100%', vh100: '100vh' } },
 		transition: {
 			slow: 'transform .3s ease, opacity .3s ease, background .3s ease',
 			fast: 'transform .15s ease, opacity .15s ease, background .15s ease, color .15s ease, border .15s ease, box-shadow .15s ease',
@@ -65,8 +67,7 @@ const unresponsiveProperties = defineProperties({
 		flexShrink: [0],
 		flexGrow: [0, 1],
 		zIndex: [-1, 0, 1],
-		width: { full: '100%', vw100: '100vw' },
-		height: { full: '100%', vh100: '100vh' },
+
 		borderWidth: vars.border.width,
 		borderRadius: vars.border.radius,
 		borderTopLeftRadius: vars.border.radius,
@@ -90,7 +91,7 @@ const colorProperties = defineProperties({
 		darkMode: { selector: `.${darkMode} &` },
 		hover: { selector: '&:hover' },
 		focus: { selector: '&:focus' },
-		active: { selector: '&:active' },
+		active: { selector: '&:active:not(:disabled)' },
 		focusNotVisible: { selector: '&:focus:not(:visible)' },
 		focusVisible: { selector: '&:focus-visible' },
 	},
