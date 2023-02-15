@@ -48,6 +48,7 @@ export const rightPanelAssetType = style([
 export const indexAssetsWrapper = style([
 	sprinkles({
 		position: 'relative',
+		marginX: 'xlarge',
 	}),
 	{},
 ])
@@ -62,13 +63,13 @@ export const indexAssetWrapper = style([
 export const indexAssetLinkRow = style([
 	sprinkles({
 		width: 'full',
-		background: { hover: 'btnSecondaryBackgroundHover' },
-		paddingX: 'xlarge',
+		// background: { hover: 'btnSecondaryBackgroundHover' },
+		// paddingX: 'xlarge',
 	}),
 	{
 		selectors: {
 			'&:hover': {
-				background: vars.color.wax500,
+				// background: vars.color.wax500,
 			},
 		},
 	},
@@ -90,7 +91,6 @@ export const indexAssetRowOverlay = style([
 		height: 'full',
 		display: 'flex',
 		alignItems: 'center',
-		paddingRight: 'xlarge',
 		pointerEvents: 'none',
 	}),
 	{},
@@ -101,15 +101,18 @@ export const indexAssetCircle = style([
 		position: 'relative',
 		borderRadius: 'full',
 		pointerEvents: 'auto',
+		borderColor: 'backgroundSecondary',
+		borderStyle: 'solid',
+		borderWidth: 'xsmall',
+		transition: 'fast',
 	}),
 	{
-		backgroundColor: 'orange',
 		width: '40px',
 		height: '40px',
 		marginLeft: '-9px',
 		selectors: {
 			'&:hover': {
-				background: vars.color.wax500,
+				borderColor: vars.color.purple500,
 			},
 		},
 	},

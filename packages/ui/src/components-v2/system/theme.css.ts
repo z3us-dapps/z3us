@@ -169,9 +169,9 @@ export const sharedThemeValues = {
 		medium: {
 			calculate: calculateTypographyStyles(
 				{
-					mobile: { fontSize: 15, rows: 6 },
-					tablet: { fontSize: 15, rows: 6 },
-					desktop: { fontSize: 15, rows: 6 },
+					mobile: { fontSize: 15, rows: 5 },
+					tablet: { fontSize: 15, rows: 5 },
+					desktop: { fontSize: 15, rows: 5 },
 				},
 				'body',
 			),
@@ -256,6 +256,8 @@ export const sharedThemeValues = {
 	},
 	border: {
 		width: {
+			xxsmall: px(1),
+			xsmall: px(2),
 			small: px(1 * grid),
 			medium: px(2 * grid),
 		},

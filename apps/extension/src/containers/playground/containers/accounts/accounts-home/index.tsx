@@ -11,7 +11,8 @@ import { AccountSwitcher } from '@src/containers/playground/containers/accounts/
 import { AccountActivity } from '@src/containers/playground/containers/accounts/account-activity'
 import { AccountTransaction } from '@src/containers/playground/containers/accounts/account-transaction'
 import { useAccountParams } from '@src/containers/playground/hooks/use-account-params'
-import { Button } from 'ui/src/components-v2/button'
+import { Button } from '@src/components/button'
+import { Avatar, AvatarImage, AvatarFallback } from 'ui/src/components-v2/avatar'
 import { Input } from 'ui/src/components-v2/input'
 import { ToolTip } from 'ui/src/components-v2/tool-tip'
 // inone { Button as ButtonLink } from '@src/components/button'
@@ -134,53 +135,73 @@ export const AccountsRouteWrapper = ({ setView, view }: any) => {
 
 	return (
 		<Box position="relative">
-			<Box paddingX="xlarge" paddingTop="xlarge">
-				<Box display="flex" alignItems="center" paddingBottom="xsmall">
-					{/* account */}
-					{assetType ? (
-						<Box>
-							<Link to={`/accounts/${account}`}>
-								<Text size="medium">Accounts ({account})</Text>
-							</Link>
-						</Box>
-					) : (
-						<Box>
-							<Text size="medium">Accounts ({account})</Text>
-						</Box>
-					)}
-					{/* asset type */}
-					{assetType ? (
-						<Box display="flex" alignItems="center">
-							<Box paddingX="small">
-								<Text size="medium">&middot;</Text>
-							</Box>
-							{asset ? (
-								<Link to={`/accounts/${account}/${assetType}`}>
-									<Text size="medium">{assetType}</Text>
+			<Box
+				paddingX="xlarge"
+				paddingY="xlarge"
+				display="flex"
+				borderBottom={1}
+				borderColor="borderDivider"
+				borderStyle="solid"
+			>
+				<Box flexGrow={1}>
+					<Box display="flex" alignItems="center" paddingBottom="xsmall">
+						{/* account */}
+						{assetType ? (
+							<Box>
+								<Link to={`/accounts/${account}`}>
+									<Text size="large">Accounts ({account})</Text>
 								</Link>
-							) : (
-								<Text size="medium">{assetType}</Text>
-							)}
-						</Box>
-					) : null}
-					{/* asset  */}
-					{asset ? (
-						<Box display="flex" alignItems="center">
-							<Box paddingX="small">
-								<Text size="medium">&middot;</Text>
 							</Box>
-							<Text size="medium">{asset}</Text>
-						</Box>
-					) : null}
+						) : (
+							<Box>
+								<Text size="large">Account balance</Text>
+								{/* <Text size="large">Accounts ({account})</Text> */}
+							</Box>
+						)}
+						{/* asset type */}
+						{assetType ? (
+							<Box display="flex" alignItems="center">
+								<Box paddingX="small">
+									<Text size="large">&middot;</Text>
+								</Box>
+								{asset ? (
+									<Link to={`/accounts/${account}/${assetType}`}>
+										<Text size="large">{assetType}</Text>
+									</Link>
+								) : (
+									<Text size="large">{assetType}</Text>
+								)}
+							</Box>
+						) : null}
+						{/* asset  */}
+						{asset ? (
+							<Box display="flex" alignItems="center">
+								<Box paddingX="small">
+									<Text size="large">&middot;</Text>
+								</Box>
+								<Text size="large">{asset}</Text>
+							</Box>
+						) : null}
+					</Box>
+					<Text weight="strong" size="xxxlarge" color="strong">
+						$4,440,206.25
+					</Text>
 				</Box>
-				<Text weight="strong" size="xxxlarge" color="strong">
-					$4,440,206.25
-				</Text>
+				<Box display="none">
+					<Button
+						styleVariant="ghost"
+						iconOnly
+						onClick={() => {
+							console.log(99, 'header search')
+						}}
+					>
+						<MagnifyingGlassIcon />
+					</Button>
+				</Box>
 			</Box>
-			<Box paddingX="xlarge" paddingBottom="xlarge" paddingTop="large" display="flex" alignItems="center">
+			<Box paddingX="xlarge" paddingBottom="xlarge" paddingTop="large" display="none" alignItems="center">
 				<Box display="flex" gap="small">
-					{/* <Input placeholder="Search the tokens" /> */}
-
+					<Input placeholder="Search the tokens" />
 					<Button
 						styleVariant="secondary"
 						onClick={() => {
@@ -190,8 +211,6 @@ export const AccountsRouteWrapper = ({ setView, view }: any) => {
 						<MagnifyingGlassIcon />
 						Search
 					</Button>
-					{/* TODO: coming soon filter */}
-
 					<ToolTip message="Yoooooo">
 						<Button styleVariant="secondary">
 							<MixerHorizontalIcon />
@@ -208,23 +227,41 @@ export const AccountsIndexAssets = () => {
 	return (
 		<>
 			<Box paddingBottom="xlarge">
+				<Box display="flex" paddingBottom="small" paddingTop="xlarge" paddingX="xlarge" alignItems="center">
+					<Box flexGrow={1}>
+						<Text size="xlarge" color="strong" weight="medium">
+							Assets and badges
+						</Text>
+					</Box>
+					<Box>
+						<Button
+							styleVariant="ghost"
+							iconOnly
+							onClick={() => {
+								console.log(99, 'header search')
+							}}
+						>
+							<MagnifyingGlassIcon />
+						</Button>
+					</Box>
+				</Box>
 				<Box className={styles.indexAssetsWrapper}>
 					{[{ name: 'Tokens' }, { name: 'NFTs' }, { name: 'LP Tokens' }, { name: 'Badges' }].map(({ name }) => (
 						<Box key={name} className={styles.indexAssetWrapper}>
 							<Link to="/accounts/all/tokens" underline="never" className={styles.indexAssetLinkRow}>
 								<Box flexGrow={1} borderTop={1} borderStyle="solid" borderColor="borderDivider" paddingY="large">
 									<Box display="flex" alignItems="center">
-										<Text size="large" color="strong" weight="medium">
+										<Text size="medium" color="strong" weight="medium">
 											{name}
 										</Text>
 										<Box paddingLeft="xsmall">
-											<Text size="large" weight="medium">
+											<Text size="medium" weight="medium">
 												(12)
 											</Text>
 										</Box>
 									</Box>
 									<Box display="flex" alignItems="center">
-										<Text size="medium" color="strong" weight="medium">
+										<Text size="small" color="strong" weight="medium">
 											$12,401
 										</Text>
 										<Box paddingLeft="xsmall">
@@ -237,27 +274,61 @@ export const AccountsIndexAssets = () => {
 							</Link>
 							<Box className={styles.indexAssetRowOverlay}>
 								<Box display="flex" alignItems="center" marginRight="large">
-									<Text size="medium" color="strong" weight="medium">
+									<Text size="xsmall" weight="medium">
 										+7
 									</Text>
-									{/* <Box paddingLeft="xsmall"> */}
-									{/* 	<ButtonLink styleVariant="ghost" sizeVariant="small" iconOnly to="/accounts/all/tokens"> */}
-									{/* 		<PlusIcon /> */}
-									{/* 	</ButtonLink> */}
-									{/* </Box> */}
 								</Box>
 								<Link to="/accounts/all/tokens" className={styles.indexAssetCircle}>
-									<Box />
+									<Avatar>
+										<AvatarImage
+											className="AvatarImage"
+											src="https://images.unsplash.com/photo-1492633423870-43d1cd2775eb?&w=128&h=128&dpr=2&q=80"
+											alt="Colm Tuite"
+										/>
+										<AvatarFallback className="AvatarFallback" delayMs={600}>
+											CT
+										</AvatarFallback>
+									</Avatar>
 								</Link>
 								<Link to="/accounts/all/tokens" className={styles.indexAssetCircle}>
-									<Box />
+									<Avatar>
+										<AvatarImage
+											className="AvatarImage"
+											src="https://images.unsplash.com/photo-1492633423870-43d1cd2775eb?&w=128&h=128&dpr=2&q=80"
+											alt="Colm Tuite"
+										/>
+										<AvatarFallback className="AvatarFallback" delayMs={600}>
+											CT
+										</AvatarFallback>
+									</Avatar>
 								</Link>
 								<Link to="/accounts/all/tokens" className={styles.indexAssetCircle}>
-									<Box />
+									<Avatar>
+										<AvatarImage
+											className="AvatarImage"
+											src="https://images.unsplash.com/photo-1492633423870-43d1cd2775eb?&w=128&h=128&dpr=2&q=80"
+											alt="Colm Tuite"
+										/>
+										<AvatarFallback className="AvatarFallback" delayMs={600}>
+											CT
+										</AvatarFallback>
+									</Avatar>
 								</Link>
 								<Link to="/accounts/all/tokens" className={styles.indexAssetCircle}>
-									<Box />
+									<Avatar>
+										<AvatarImage
+											className="AvatarImage"
+											src="https://images.unsplash.com/photo-1492633423870-43d1cd2775eb?&w=128&h=128&dpr=2&q=80"
+											alt="Colm Tuite"
+										/>
+										<AvatarFallback className="AvatarFallback" delayMs={600}>
+											CT
+										</AvatarFallback>
+									</Avatar>
 								</Link>
+								<Box paddingLeft="xsmall">
+									<PlusIcon />
+								</Box>
 							</Box>
 						</Box>
 					))}
