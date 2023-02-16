@@ -13,6 +13,20 @@ export const tempyy = style([
 	},
 ])
 
+export const tempBg = style([
+	sprinkles({
+		background: 'backgroundPrimary',
+	}),
+	{
+		height: '300px',
+	},
+	// responsiveStyle({
+	// 	mobile: { width: '100%' },
+	// 	tablet: { width: '33%' },
+	// 	desktop: { width: '25%' },
+	// }),
+])
+
 export const cardWrapperAll = style([
 	sprinkles({
 		position: 'relative',

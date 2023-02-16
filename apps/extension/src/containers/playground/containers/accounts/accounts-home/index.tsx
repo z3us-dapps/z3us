@@ -37,8 +37,8 @@ export const AccountsHome = () => {
 			paddingTop="xxlarge"
 			height="full"
 		>
-			<Box width="full" maxWidth="xxlarge">
-				<Box className={styles.panelWrapper}>
+			<Box height="full" width="full" maxWidth="xxlarge">
+				<Box className={clsx(styles.panelWrapper)}>
 					<Box
 						background="backgroundSecondary"
 						boxShadow="shadowMedium"
@@ -85,9 +85,16 @@ export const AccountsHome = () => {
 						<Box paddingX="large" paddingTop="xlarge" paddingBottom="small" className={styles.recentActivityWrapper}>
 							<Box display="flex" alignItems="center" position="relative">
 								<Box flexGrow={1}>
-									<Text size="large" weight="medium" color="strong">
-										Recent activity
-									</Text>
+									{asset ? (
+										<Text size="large" weight="medium" color="strong">
+											{asset} activity
+										</Text>
+									) : null}
+									{!asset ? (
+										<Text size="large" weight="medium" color="strong">
+											Account {assetType ? assetType : ''} activity
+										</Text>
+									) : null}
 								</Box>
 								<Button
 									styleVariant="ghost"

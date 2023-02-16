@@ -6,11 +6,15 @@ export const panelWrapper = style([
 	sprinkles({
 		position: 'relative',
 		display: 'grid',
+		width: 'full',
 	}),
 	{
 		gridTemplateColumns: '1fr 392px ',
 		gridGap: vars.spacing.xlarge,
 		gridAutoRows: '1fr',
+		// TODO: get calculation going here for maxheight
+		maxHeight: '80vh',
+		// border: '1px solid red',
 	},
 ])
 
@@ -19,7 +23,8 @@ export const leftPanel = style([
 		position: 'relative',
 	}),
 	{
-		alignSelf: 'flex-start',
+		// alignSelf: 'flex-start',
+		// overflow: 'auto',
 	},
 ])
 
@@ -28,7 +33,7 @@ export const rightPanel = style([
 		position: 'relative',
 		display: 'flex',
 		flexDirection: 'column',
-		overflow: 'clip',
+		overflow: 'auto',
 	}),
 	{
 		// TODO: conditional align self for tokens pages

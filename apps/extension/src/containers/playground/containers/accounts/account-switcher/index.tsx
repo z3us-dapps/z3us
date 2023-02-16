@@ -67,13 +67,7 @@ export const AccountSwitcher = forwardRef<HTMLButtonElement, IAccountSwitcherPro
 		const { account, assetType, asset } = useAccountParams()
 		const [isMounted, setIsMounted] = useState<boolean>(false)
 		const [cards, setCards] = useState<Array<any>>(CARD_COLORS)
-
-		// const isAllAccounts = account === 'all'
-
-		// content for account cards
 		const [selectedIndexCard, setSelectedIndexCard] = useState<number>(0)
-		//  end content for account cards
-		console.log('selectedIndexCard ', selectedIndexCard)
 
 		const handleCardClick = (_account: string) => {
 			setIsMounted(true)
@@ -131,79 +125,108 @@ export const AccountSwitcher = forwardRef<HTMLButtonElement, IAccountSwitcherPro
 						<ArrowRightIcon />
 					</Button>
 				</Box>
-				<Box
-					paddingTop="large"
-					padding="large"
-					borderBottom={1}
-					borderColor="borderDivider"
-					borderStyle="solid"
-					flexShrink={0}
-				>
-					<Box ref={ref} display="flex" flexDirection="column" alignItems="center">
-						<AnimatePresence initial={false}>
-							<motion.ul
-								key="all"
-								initial={{ opacity: 0, y: 0 }}
-								animate={{ opacity: 1, y: 0 }}
-								exit={{ opacity: 0, y: 0 }}
-								transition={{ duration: 0.3 }}
-								className={styles.cardWrapperAll}
-							>
-								{cards.map(({ backgroundImage, accountName, accountId, accountBalance }, idx) => {
-									return (
-										<motion.li
-											key={accountId}
-											className={styles.card}
-											style={{
-												backgroundImage,
-											}}
-											variants={{
-												selected: {
-													opacity: 1,
-													transition: { ease: 'easeOut', duration: 0.3 },
-												},
-												notSelected: {
-													opacity: 0,
-													transition: { ease: 'easeOut', duration: 0.3 },
-												},
-											}}
-											animate={selectedIndexCard === idx ? 'selected' : 'notSelected'}
-											onClick={() => handleCardClick(accountName)}
-										>
-											<Box paddingX="large" paddingY="medium" display="flex" flexDirection="column" height="full">
-												<Box flexGrow={1} paddingTop="xsmall">
-													<Text size="large" weight="medium" color="strong" className={styles.cardAccountText}>
-														{accountId}
-													</Text>
-												</Box>
-												<Box paddingBottom="xsmall">
-													<Text size="xlarge" weight="stronger" color="strong">
-														{accountBalance}
-													</Text>
-													<Text size="large" weight="strong" color="strong">
-														{accountName}
-													</Text>
-												</Box>
-											</Box>
-											<Box className={styles.cardAccountShine} />
-										</motion.li>
-									)
-								})}
-							</motion.ul>
-						</AnimatePresence>
-						<Box display="flex" paddingTop="large" gap="large" position="relative">
-							<Button iconOnly rounded styleVariant="inverse" sizeVariant="large" onClick={() => {}}>
-								<ArrowLeftIcon />
-							</Button>
-							<Button iconOnly rounded styleVariant="inverse" sizeVariant="large" onClick={() => {}}>
-								<ArrowLeftIcon />
-							</Button>
-							<Button iconOnly rounded styleVariant="inverse" sizeVariant="large" onClick={() => {}}>
-								<QrCodeIcon />
-							</Button>
+
+				{asset ? (
+					<Box
+						paddingTop="large"
+						padding="large"
+						borderBottom={1}
+						borderColor="borderDivider"
+						borderStyle="solid"
+						flexShrink={0}
+					>
+						<Box display="flex" flexDirection="column" alignItems="center">
+							<Box>
+								<Box className={styles.tempBg}>asdfasdf</Box>
+							</Box>
+							<Box display="flex" paddingTop="large" gap="large" position="relative">
+								<Button iconOnly rounded styleVariant="inverse" sizeVariant="large" onClick={() => {}}>
+									<ArrowLeftIcon />
+								</Button>
+								<Button iconOnly rounded styleVariant="inverse" sizeVariant="large" onClick={() => {}}>
+									<ArrowLeftIcon />
+								</Button>
+								<Button iconOnly rounded styleVariant="inverse" sizeVariant="large" onClick={() => {}}>
+									<QrCodeIcon />
+								</Button>
+							</Box>
 						</Box>
 					</Box>
-				</Box>
+				) : (
+					<Box
+						paddingTop="large"
+						padding="large"
+						borderBottom={1}
+						borderColor="borderDivider"
+						borderStyle="solid"
+						flexShrink={0}
+					>
+						<Box ref={ref} display="flex" flexDirection="column" alignItems="center">
+							<AnimatePresence initial={false}>
+								<motion.ul
+									key="all"
+									initial={{ opacity: 0, y: 0 }}
+									animate={{ opacity: 1, y: 0 }}
+									exit={{ opacity: 0, y: 0 }}
+									transition={{ duration: 0.3 }}
+									className={styles.cardWrapperAll}
+								>
+									{cards.map(({ backgroundImage, accountName, accountId, accountBalance }, idx) => {
+										return (
+											<motion.li
+												key={accountId}
+												className={styles.card}
+												style={{
+													backgroundImage,
+												}}
+												variants={{
+													selected: {
+														opacity: 1,
+														transition: { ease: 'easeOut', duration: 0.3 },
+													},
+													notSelected: {
+														opacity: 0,
+														transition: { ease: 'easeOut', duration: 0.3 },
+													},
+												}}
+												animate={selectedIndexCard === idx ? 'selected' : 'notSelected'}
+												onClick={() => handleCardClick(accountName)}
+											>
+												<Box paddingX="large" paddingY="medium" display="flex" flexDirection="column" height="full">
+													<Box flexGrow={1} paddingTop="xsmall">
+														<Text size="large" weight="medium" color="strong" className={styles.cardAccountText}>
+															{accountId}
+														</Text>
+													</Box>
+													<Box paddingBottom="xsmall">
+														<Text size="xlarge" weight="stronger" color="strong">
+															{accountBalance}
+														</Text>
+														<Text size="large" weight="strong" color="strong">
+															{accountName}
+														</Text>
+													</Box>
+												</Box>
+												<Box className={styles.cardAccountShine} />
+											</motion.li>
+										)
+									})}
+								</motion.ul>
+							</AnimatePresence>
+							<Box display="flex" paddingTop="large" gap="large" position="relative">
+								<Button iconOnly rounded styleVariant="inverse" sizeVariant="large" onClick={() => {}}>
+									<ArrowLeftIcon />
+								</Button>
+								<Button iconOnly rounded styleVariant="inverse" sizeVariant="large" onClick={() => {}}>
+									<ArrowLeftIcon />
+								</Button>
+								<Button iconOnly rounded styleVariant="inverse" sizeVariant="large" onClick={() => {}}>
+									<QrCodeIcon />
+								</Button>
+							</Box>
+						</Box>
+					</Box>
+				)}
 			</>
 		)
 	},
