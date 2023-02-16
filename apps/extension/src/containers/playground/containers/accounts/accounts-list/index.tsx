@@ -66,7 +66,8 @@ const ItemWrapper = props => {
 
 	const generateTempLink = () => {
 		if (asset) {
-			return `/accounts/${account}/tokens/xrd/b707388613169bf701d533e143d8f698c9090f605e677a967eaf70a4c69250ce`
+			return `/accounts/${account}/tokens/xrd`
+			// return `/accounts/${account}/tokens/xrd/b707388613169bf701d533e143d8f698c9090f605e677a967eaf70a4c69250ce`
 		} else {
 			return `/accounts/${account}/tokens/xrd`
 		}
@@ -121,9 +122,9 @@ const ItemWrapper = props => {
 			</AnimatePresence>
 			<AnimatePresence initial={false}>
 				{user.loaded && (
-					<Link to={generateTempLink()}>
+					<Link to={`/accounts/${account}/tokens/${user.id}`}>
 						<motion.div initial="hidden" animate="visible" variants={variants} className={styles.itemWrapperMotion}>
-							<Box className={styles.itemWrapperInner}>
+							<Box className={clsx(styles.itemWrapperInner, asset && idx === 0 && styles.itemWrapperInnerSelected)}>
 								<Box width="full" className={styles.tokenListGridWrapper}>
 									<Box display="flex" alignItems="center" justifyContent="flex-start" gap="medium">
 										<Box className={styles.tokenListGridCircle} style={{ backgroundColor: '#ea983d' }} />
@@ -138,12 +139,12 @@ const ItemWrapper = props => {
 									</Box>
 									<Box display="flex" alignItems="center">
 										<Text size="small" color="strong">
-											Category
+											Value
 										</Text>
 									</Box>
 									<Box display="flex" alignItems="center">
 										<Text size="small" color="strong">
-											Account
+											Category
 										</Text>
 									</Box>
 								</Box>
@@ -259,7 +260,6 @@ export const AccountsList = props => {
 					paddingBottom="medium"
 					zIndex={1}
 					className={styles.tokenListGridWrapper}
-					style={{ marginBottom: '-1px' }}
 				>
 					<Box display="flex" alignItems="center">
 						<Text size="xsmall" weight="medium">
@@ -273,12 +273,12 @@ export const AccountsList = props => {
 					</Box>
 					<Box display="flex" alignItems="center">
 						<Text size="xsmall" weight="medium">
-							Category
+							Value
 						</Text>
 					</Box>
 					<Box display="flex" alignItems="center">
 						<Text size="xsmall" weight="medium">
-							Account
+							Category
 						</Text>
 					</Box>
 				</Box>

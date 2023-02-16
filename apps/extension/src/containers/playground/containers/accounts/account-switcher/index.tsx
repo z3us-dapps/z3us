@@ -3,53 +3,13 @@ import React, { forwardRef, useEffect, useState, useRef } from 'react'
 import { Box } from 'ui/src/components-v2/box'
 import { Text } from 'ui/src/components-v2/typography'
 import { motion, AnimatePresence, useMotionValue } from 'framer-motion'
-import { PlusIcon, MagnifyingGlassIcon, ArrowLeftIcon, ArrowRightIcon } from 'ui/src/components/icons'
+import { PlusIcon, MagnifyingGlassIcon, ArrowLeftIcon, ArrowRightIcon, QrCodeIcon } from 'ui/src/components/icons'
 import { Button } from '@src/components/button'
 // import clsx from 'clsx'
 import { Routes, Route, Link, useNavigate, Navigate } from 'react-router-dom'
 import { useAccountParams } from '@src/containers/playground/hooks/use-account-params'
 
 import * as styles from './account-switcher.css'
-
-const cardVariants = {
-	selected: {
-		rotateY: 0,
-		scale: 1,
-		zIndex: 10,
-		opacity: 1,
-		boxShadow: 'rgb(0 0 0, 0.15) 0px 19px 19px 0px, rgb(0 0 0, 0.15) 0px -5px 11px 8px',
-		transition: { ease: 'easeOut', duration: 0.45 },
-	},
-	notSelected: i => ({
-		rotateY: i * 15,
-		scale: 1 - Math.abs(i * 0.15),
-		x: i ? i * 50 : 0,
-		zIndex: 10 - Math.abs(i),
-		opacity: 1 - Math.abs(i * 0.3),
-		boxShadow: 'rgba(0, 0, 0, 0.1) 0px 4px 6px -1px, rgba(0, 0, 0, 0.06) 0px 2px 4px -1px',
-		transition: { ease: 'easeOut', duration: 0.45 },
-	}),
-}
-
-export const MOTION_VARIANTS = {
-	initial: ({
-		isMounted,
-		isCardsHovered,
-		cardsLength,
-		index,
-	}: {
-		isMounted: boolean
-		isCardsHovered: boolean
-		cardsLength: number
-		index: number
-		direction: 'forward' | 'backward'
-	}) => ({
-		top: isCardsHovered ? (cardsLength - index) * 60 : (cardsLength - index) * 10,
-		scale: isCardsHovered ? 1 : 1 - index * 0.14,
-		zIndex: cardsLength - index,
-		transition: { duration: isMounted ? 0.4 : 0, type: 'spring', stiffness: 200, damping: 20 },
-	}),
-}
 
 const CARD_COLORS = [
 	{
@@ -106,31 +66,18 @@ export const AccountSwitcher = forwardRef<HTMLButtonElement, IAccountSwitcherPro
 		const navigate = useNavigate()
 		const { account, assetType, asset } = useAccountParams()
 		const [isMounted, setIsMounted] = useState<boolean>(false)
-		const [animate, setAnimate] = useState<string>('initial')
 		const [cards, setCards] = useState<Array<any>>(CARD_COLORS)
 
-		const [isCardsHovered, setIsCardsHovered] = useState<boolean>(false)
-		const cardsLength = cards.length - 1
-		const isAllAccounts = account === 'all'
+		// const isAllAccounts = account === 'all'
 
 		// content for account cards
-		const [xVal, setXVal] = useState<number>(0)
 		const [selectedIndexCard, setSelectedIndexCard] = useState<number>(0)
 		//  end content for account cards
-
-		const handleMouseEnter = () => {
-			setIsMounted(true)
-			setIsCardsHovered(true)
-		}
-
-		const handleMouseLeave = () => {
-			setIsCardsHovered(false)
-		}
+		console.log('selectedIndexCard ', selectedIndexCard)
 
 		const handleCardClick = (_account: string) => {
 			setIsMounted(true)
 			const cardIndex = CARD_COLORS.findIndex(({ accountName }) => accountName === _account)
-			setXVal(cardIndex * -SLIDER_WIDTH)
 			setSelectedIndexCard(cardIndex)
 			navigate(`/accounts/${_account.toLowerCase()}${assetType ? `/${assetType}` : ''}`)
 		}
@@ -139,7 +86,6 @@ export const AccountSwitcher = forwardRef<HTMLButtonElement, IAccountSwitcherPro
 			if (selectedIndexCard === CARD_COLORS.length - 1) return
 			const newIndex = selectedIndexCard + 1
 			setSelectedIndexCard(newIndex)
-			setXVal(newIndex * -SLIDER_WIDTH)
 			// eslint-disable-next-line
 			const cardAccount = CARD_COLORS.find((item, index) => index === newIndex)
 			navigate(`/accounts/${cardAccount.accountName.toLowerCase()}${assetType ? `/${assetType}` : ''}`)
@@ -149,158 +95,113 @@ export const AccountSwitcher = forwardRef<HTMLButtonElement, IAccountSwitcherPro
 			if (selectedIndexCard === 0) return
 			const newIndex = selectedIndexCard - 1
 			setSelectedIndexCard(newIndex)
-			setXVal(newIndex * -SLIDER_WIDTH)
 			// eslint-disable-next-line
 			const cardAccount = CARD_COLORS.find((item, index) => index === newIndex)
 			navigate(`/accounts/${cardAccount.accountName.toLowerCase()}${assetType ? `/${assetType}` : ''}`)
 		}
 
 		useEffect(() => {
-			setIsCardsHovered(false)
+			if (!isMounted) {
+				const cardIndex = CARD_COLORS.findIndex(({ accountName }) => accountName.toLowerCase() === account)
+				setSelectedIndexCard(cardIndex)
+			}
+
+			setIsMounted(true)
 		}, [account])
 
 		return (
 			<>
-				<Box paddingTop="large" paddingX="large" display="flex" alignItems="center">
-					{isAllAccounts ? (
-						<>
-							<Box flexGrow={1}>
-								<Text size="xlarge" weight="medium" color="strong">
-									Accounts
-								</Text>
-							</Box>
-							<Button styleVariant="ghost" sizeVariant="small" onClick={() => {}}>
-								<PlusIcon />
-								New account
-							</Button>
-						</>
-					) : (
-						<>
-							<Box flexGrow={1}>
-								<Button styleVariant="ghost" sizeVariant="small" to="/accounts/all/">
-									<ArrowLeftIcon />
-									All accounts
-								</Button>
-							</Box>
-							<Box display="flex" gap="small">
-								<Button
-									iconOnly
-									styleVariant="ghost"
-									sizeVariant="small"
-									onClick={handleGotoPrevAccount}
-									disabled={selectedIndexCard === 0}
-								>
-									<ArrowLeftIcon />
-								</Button>
-								<Button
-									iconOnly
-									styleVariant="ghost"
-									sizeVariant="small"
-									onClick={handleGotoNextAccount}
-									disabled={selectedIndexCard === CARD_COLORS.length - 1}
-								>
-									<ArrowRightIcon />
-								</Button>
-							</Box>
-						</>
-					)}
+				<Box display="flex" gap="small" className={styles.tempyy}>
+					<Button
+						iconOnly
+						styleVariant="ghost"
+						sizeVariant="small"
+						onClick={handleGotoPrevAccount}
+						disabled={selectedIndexCard === 0}
+					>
+						<ArrowLeftIcon />
+					</Button>
+					<Button
+						iconOnly
+						styleVariant="ghost"
+						sizeVariant="small"
+						onClick={handleGotoNextAccount}
+						disabled={selectedIndexCard === CARD_COLORS.length - 1}
+					>
+						<ArrowRightIcon />
+					</Button>
 				</Box>
 				<Box
 					paddingTop="large"
-					paddingX="xlarge"
+					padding="large"
 					borderBottom={1}
 					borderColor="borderDivider"
 					borderStyle="solid"
 					flexShrink={0}
 				>
-					<Box ref={ref} display="flex" flexDirection="column" alignItems="center" style={{ minHeight: '230px' }}>
+					<Box ref={ref} display="flex" flexDirection="column" alignItems="center">
 						<AnimatePresence initial={false}>
-							{isAllAccounts ? (
-								<motion.ul
-									key="all"
-									initial={{ opacity: 0, y: 0 }}
-									animate={{ opacity: 1, y: 0 }}
-									exit={{ opacity: 0, y: 0 }}
-									transition={{ duration: 0.3 }}
-									className={styles.cardWrapperAll}
-									onMouseEnter={handleMouseEnter}
-									onMouseLeave={handleMouseLeave}
-								>
-									{cards.map(({ backgroundImage, accountName, accountId, accountBalance }, index) => {
-										const canDrag = index === 0
-										return (
-											<motion.li
-												key={accountId}
-												className={styles.card}
-												style={{
-													backgroundImage,
-												}}
-												variants={MOTION_VARIANTS}
-												animate={animate}
-												custom={{ isCardsHovered, cardsLength, selectedIndexCard, index, isMounted }}
-												onClick={() => handleCardClick(accountName)}
-											>
-												<Box paddingX="large" paddingY="medium" display="flex" flexDirection="column" height="full">
-													<Box flexGrow={1} paddingTop="xsmall">
-														<Text size="large" weight="medium" color="strong" className={styles.cardAccountText}>
-															{accountId}
-														</Text>
-													</Box>
-													<Box paddingBottom="xsmall">
-														<Text size="xlarge" weight="stronger" color="strong">
-															{accountBalance}
-														</Text>
-														<Text size="large" weight="strong" color="strong">
-															{accountName}
-														</Text>
-													</Box>
+							<motion.ul
+								key="all"
+								initial={{ opacity: 0, y: 0 }}
+								animate={{ opacity: 1, y: 0 }}
+								exit={{ opacity: 0, y: 0 }}
+								transition={{ duration: 0.3 }}
+								className={styles.cardWrapperAll}
+							>
+								{cards.map(({ backgroundImage, accountName, accountId, accountBalance }, idx) => {
+									return (
+										<motion.li
+											key={accountId}
+											className={styles.card}
+											style={{
+												backgroundImage,
+											}}
+											variants={{
+												selected: {
+													opacity: 1,
+													transition: { ease: 'easeOut', duration: 0.3 },
+												},
+												notSelected: {
+													opacity: 0,
+													transition: { ease: 'easeOut', duration: 0.3 },
+												},
+											}}
+											animate={selectedIndexCard === idx ? 'selected' : 'notSelected'}
+											onClick={() => handleCardClick(accountName)}
+										>
+											<Box paddingX="large" paddingY="medium" display="flex" flexDirection="column" height="full">
+												<Box flexGrow={1} paddingTop="xsmall">
+													<Text size="large" weight="medium" color="strong" className={styles.cardAccountText}>
+														{accountId}
+													</Text>
 												</Box>
-												<Box className={styles.cardAccountShine} />
-											</motion.li>
-										)
-									})}
-								</motion.ul>
-							) : (
-								<Box className={styles.cardWrapperAccount}>
-									<motion.ul
-										initial={false}
-										animate={{ x: xVal }}
-										className={styles.cardWrapperAccountList}
-										style={{ width: `${SLIDER_WIDTH * CARD_COLORS.length}px` }}
-										transition={{ ease: 'easeOut', duration: 0.4 }}
-									>
-										{CARD_COLORS.map(({ backgroundImage, accountName, accountId, accountBalance }, i) => (
-											<motion.li
-												key={accountId}
-												className={styles.card}
-												style={{ position: 'relative', backgroundImage }}
-												onClick={() => handleCardClick(accountName)}
-												variants={cardVariants}
-												animate={selectedIndexCard === i ? 'selected' : 'notSelected'}
-												custom={selectedIndexCard ? selectedIndexCard - i : 0}
-											>
-												<Box paddingX="large" paddingY="medium" display="flex" flexDirection="column" height="full">
-													<Box flexGrow={1} paddingTop="xsmall">
-														<Text size="large" weight="medium" color="strong" className={styles.cardAccountText}>
-															{accountId}
-														</Text>
-													</Box>
-													<Box paddingBottom="xsmall">
-														<Text size="xlarge" weight="stronger" color="strong">
-															{accountBalance}
-														</Text>
-														<Text size="large" weight="strong" color="strong">
-															{accountName}
-														</Text>
-													</Box>
+												<Box paddingBottom="xsmall">
+													<Text size="xlarge" weight="stronger" color="strong">
+														{accountBalance}
+													</Text>
+													<Text size="large" weight="strong" color="strong">
+														{accountName}
+													</Text>
 												</Box>
-												<Box className={styles.cardAccountShine} />
-											</motion.li>
-										))}
-									</motion.ul>
-								</Box>
-							)}
+											</Box>
+											<Box className={styles.cardAccountShine} />
+										</motion.li>
+									)
+								})}
+							</motion.ul>
 						</AnimatePresence>
+						<Box display="flex" paddingTop="large" gap="large" position="relative">
+							<Button iconOnly rounded styleVariant="inverse" sizeVariant="large" onClick={() => {}}>
+								<ArrowLeftIcon />
+							</Button>
+							<Button iconOnly rounded styleVariant="inverse" sizeVariant="large" onClick={() => {}}>
+								<ArrowLeftIcon />
+							</Button>
+							<Button iconOnly rounded styleVariant="inverse" sizeVariant="large" onClick={() => {}}>
+								<QrCodeIcon />
+							</Button>
+						</Box>
 					</Box>
 				</Box>
 			</>

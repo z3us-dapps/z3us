@@ -1,5 +1,5 @@
 import { sprinkles, darkMode } from 'ui/src/components-v2/system/sprinkles.css'
-import { responsiveStyle } from 'ui/src/components-v2/system/theme-utils'
+// import { responsiveStyle } from 'ui/src/components-v2/system/theme-utils'
 import { style, globalStyle, globalKeyframes } from '@vanilla-extract/css'
 import { vars } from 'ui/src/components-v2/system/theme.css'
 
@@ -63,7 +63,7 @@ export const itemWrapper = style([
 	sprinkles({
 		position: 'relative',
 		display: 'flex',
-		// paddingX: 'xlarge',
+		paddingX: 'xlarge',
 	}),
 	{
 		height: '72px',
@@ -72,36 +72,62 @@ export const itemWrapper = style([
 
 globalStyle(`${itemWrapper} > a`, {
 	width: '100%',
-	paddingLeft: vars.spacing.xlarge,
-	paddingRight: vars.spacing.xlarge,
 	textDecoration: 'none',
 	cursor: 'pointer',
+	color: 'borderDivider',
 })
 
-globalStyle(`${itemWrapper} > a:hover`, {
-	background: vars.color.wax500,
-})
-
-globalStyle(`.${darkMode} ${itemWrapper} > a:hover`, {
-	background: vars.color.wax500,
-})
+// globalStyle(`${itemWrapper} > a:hover`, {
+// 	background: vars.color.wax500,
+// })
+//
+// globalStyle(`.${darkMode} ${itemWrapper} > a:hover`, {
+// 	background: vars.color.wax500,
+// })
 
 export const itemWrapperInner = style([
 	sprinkles({
 		position: 'relative',
 		display: 'flex',
-		width: 'full',
 		alignItems: 'center',
-		borderStyle: 'solid',
-		borderTop: 1,
-		borderColor: 'borderDivider',
 		paddingTop: 'medium',
 		paddingBottom: 'medium',
 		gap: 'small',
 		height: 'full',
+		width: 'full',
+		color: 'borderDivider',
 	}),
 	{
-		width: '100%',
+		boxShadow: '0 -1px 0 0',
+
+		'::before': {
+			content: '""',
+			position: 'absolute',
+			color: 'borderDivider',
+			transition: vars.transition.fast,
+			top: 0,
+			opacity: 0,
+			bottom: 0,
+			left: `calc(${vars.spacing.medium} * -1)`,
+			right: `calc(${vars.spacing.medium} * -1)`,
+			pointerEvents: 'none',
+			background: vars.color.lead400,
+			borderRadius: vars.border.radius.medium,
+			boxShadow:
+				'0px 0px 0px 1px rgba(255, 255, 255, 0.15), 0px 136px 192px rgba(0, 0, 0, 0.3), 0px 50px 50px rgba(0, 0, 0, 0.25), 0px 24px 24px rgba(0, 0, 0, 0.2), 0px 12px 12px rgba(0, 0, 0, 0.15)',
+		},
+	},
+])
+
+export const itemWrapperInnerSelected = style([
+	sprinkles({
+		position: 'relative',
+	}),
+	{
+		boxShadow: 'none',
+		'::before': {
+			opacity: 1,
+		},
 	},
 ])
 
@@ -114,31 +140,32 @@ export const itemWrapperMotion = style([
 	}),
 ])
 
-export const teststyle = style([
-	sprinkles({
-		position: 'relative',
-		background: {
-			hover: 'red800',
-			focus: 'red900',
-		},
-	}),
-	{
-		border: '1px solid red',
-		'@media': {
-			[`screen and (min-width: 480px)`]: {
-				flexBasis: '50%',
-			},
-		},
-	},
-	responsiveStyle({
-		mobile: { width: '100%' },
-		tablet: { width: '33%' },
-		desktop: { width: '25%' },
-	}),
-])
+// export const teststyle = style([
+// 	sprinkles({
+// 		position: 'relative',
+// 		background: {
+// 			hover: 'red800',
+// 			focus: 'red900',
+// 		},
+// 	}),
+// 	{
+// 		border: '1px solid red',
+// 		'@media': {
+// 			[`screen and (min-width: 480px)`]: {
+// 				flexBasis: '50%',
+// 			},
+// 		},
+// 	},
+// 	responsiveStyle({
+// 		mobile: { width: '100%' },
+// 		tablet: { width: '33%' },
+// 		desktop: { width: '25%' },
+// 	}),
+// ])
 
 export const tokenListGridWrapper = style([
 	{
+		position: 'relative',
 		display: 'grid',
 		gap: '1rem',
 		gridTemplateColumns: '1fr 104px 104px 134px',

@@ -1,6 +1,6 @@
 /* eslint-disable */
 import React, { useState } from 'react'
-import { MixerHorizontalIcon, DashboardIcon } from '@radix-ui/react-icons'
+import { MixerHorizontalIcon, ChevronRightIcon } from '@radix-ui/react-icons'
 import { PlusIcon, MagnifyingGlassIcon, ArrowLeftIcon } from 'ui/src/components/icons'
 import { AnimatedPage } from '@src/containers/playground/components/animated-route'
 import { AnimatePresence } from 'framer-motion'
@@ -9,7 +9,8 @@ import { Routes, Route, useLocation, Link as LinkRouter, useNavigate } from 'rea
 import { AccountsList } from '@src/containers/playground/containers/accounts/accounts-list'
 import { AccountSwitcher } from '@src/containers/playground/containers/accounts/account-switcher'
 import { AccountActivity } from '@src/containers/playground/containers/accounts/account-activity'
-import { AccountTransaction } from '@src/containers/playground/containers/accounts/account-transaction'
+// TODO: remove??
+// import { AccountTransaction } from '@src/containers/playground/containers/accounts/account-transaction'
 import { useAccountParams } from '@src/containers/playground/hooks/use-account-params'
 import { Button } from '@src/components/button'
 import { Avatar, AvatarImage, AvatarFallback } from 'ui/src/components-v2/avatar'
@@ -58,30 +59,18 @@ export const AccountsHome = () => {
 											</AnimatedPage>
 										}
 									/>
-									<Route
-										path="/:account/:assetType"
-										element={
-											<AnimatedPage>
-												<AccountsList view={view as any} />
-											</AnimatedPage>
-										}
-									/>
-									<Route
-										path="/:account/:assetType/:asset"
-										element={
-											<AnimatedPage>
-												<AccountsList view={view as any} />
-											</AnimatedPage>
-										}
-									/>
-									<Route
-										path="/:account/:assetType/:asset/:transaction"
-										element={
-											<AnimatedPage>
-												<AccountTransaction />
-											</AnimatedPage>
-										}
-									/>
+
+									{['/:account/:assetType', '/:account/:assetType/:asset'].map(path => (
+										<Route
+											key="Assets" // optional: avoid full re-renders on route changes
+											path={path}
+											element={
+												<AnimatedPage>
+													<AccountsList view={view as any} />
+												</AnimatedPage>
+											}
+										/>
+									))}
 								</Routes>
 							</AnimatePresence>
 						</Box>
@@ -93,35 +82,26 @@ export const AccountsHome = () => {
 						className={clsx(styles.rightPanel, assetType && styles.rightPanelAssetType)}
 					>
 						<AccountSwitcher />
-						{!asset ? (
-							<>
-								<Box
-									paddingX="large"
-									paddingTop="xlarge"
-									paddingBottom="small"
-									className={styles.recentActivityWrapper}
-								>
-									<Box display="flex" alignItems="center" position="relative">
-										<Box flexGrow={1}>
-											<Text size="large" weight="medium" color="strong">
-												Recent activity
-											</Text>
-										</Box>
-										<Button
-											styleVariant="ghost"
-											sizeVariant="small"
-											onClick={() => {
-												console.log(99, 'search')
-											}}
-											iconOnly
-										>
-											<MagnifyingGlassIcon />
-										</Button>
-									</Box>
+						<Box paddingX="large" paddingTop="xlarge" paddingBottom="small" className={styles.recentActivityWrapper}>
+							<Box display="flex" alignItems="center" position="relative">
+								<Box flexGrow={1}>
+									<Text size="large" weight="medium" color="strong">
+										Recent activity
+									</Text>
 								</Box>
-								<AccountActivity flexGrowWrapper={!assetType} />{' '}
-							</>
-						) : null}
+								<Button
+									styleVariant="ghost"
+									sizeVariant="small"
+									onClick={() => {
+										console.log(99, 'search')
+									}}
+									iconOnly
+								>
+									<MagnifyingGlassIcon />
+								</Button>
+							</Box>
+						</Box>
+						<AccountActivity flexGrowWrapper={!assetType} />{' '}
 					</Box>
 				</Box>
 			</Box>
@@ -135,41 +115,36 @@ export const AccountsRouteWrapper = ({ setView, view }: any) => {
 
 	return (
 		<Box position="relative">
-			<Box
-				paddingX="xlarge"
-				paddingY="xlarge"
-				display="flex"
-				borderBottom={1}
-				borderColor="borderDivider"
-				borderStyle="solid"
-			>
+			<Box paddingX="xlarge" paddingY="xlarge" display="flex">
 				<Box flexGrow={1}>
 					<Box display="flex" alignItems="center" paddingBottom="xsmall">
 						{/* account */}
 						{assetType ? (
 							<Box>
 								<Link to={`/accounts/${account}`}>
-									<Text size="large">Accounts ({account})</Text>
+									<Text size="large">Overview{account ? `: ${account}` : ''}</Text>
 								</Link>
 							</Box>
 						) : (
 							<Box>
 								<Text size="large">Account balance</Text>
-								{/* <Text size="large">Accounts ({account})</Text> */}
+								{/* <Text size="large">Accounts{account ? `: ${account}` : ''}</Text> */}
 							</Box>
 						)}
 						{/* asset type */}
 						{assetType ? (
 							<Box display="flex" alignItems="center">
 								<Box paddingX="small">
-									<Text size="large">&middot;</Text>
+									<ChevronRightIcon />
 								</Box>
 								{asset ? (
 									<Link to={`/accounts/${account}/${assetType}`}>
 										<Text size="large">{assetType}</Text>
 									</Link>
 								) : (
-									<Text size="large">{assetType}</Text>
+									<Text size="large" color="strong">
+										{assetType}
+									</Text>
 								)}
 							</Box>
 						) : null}
@@ -177,9 +152,11 @@ export const AccountsRouteWrapper = ({ setView, view }: any) => {
 						{asset ? (
 							<Box display="flex" alignItems="center">
 								<Box paddingX="small">
-									<Text size="large">&middot;</Text>
+									<ChevronRightIcon />
 								</Box>
-								<Text size="large">{asset}</Text>
+								<Text size="large" color="strong">
+									{asset}
+								</Text>
 							</Box>
 						) : null}
 					</Box>
@@ -187,17 +164,21 @@ export const AccountsRouteWrapper = ({ setView, view }: any) => {
 						$4,440,206.25
 					</Text>
 				</Box>
-				<Box display="none">
-					<Button
-						styleVariant="ghost"
-						iconOnly
-						onClick={() => {
-							console.log(99, 'header search')
-						}}
-					>
-						<MagnifyingGlassIcon />
-					</Button>
-				</Box>
+
+				{/* TODO: create class to hide with css */}
+				{assetType || asset ? (
+					<Box>
+						<Button
+							styleVariant="ghost"
+							iconOnly
+							onClick={() => {
+								console.log(99, 'header search')
+							}}
+						>
+							<MagnifyingGlassIcon />
+						</Button>
+					</Box>
+				) : null}
 			</Box>
 			<Box paddingX="xlarge" paddingBottom="xlarge" paddingTop="large" display="none" alignItems="center">
 				<Box display="flex" gap="small">
@@ -211,12 +192,12 @@ export const AccountsRouteWrapper = ({ setView, view }: any) => {
 						<MagnifyingGlassIcon />
 						Search
 					</Button>
-					<ToolTip message="Yoooooo">
-						<Button styleVariant="secondary">
-							<MixerHorizontalIcon />
-							Apply filter
-						</Button>
-					</ToolTip>
+					{/* <ToolTip message="Yoooooo"> */}
+					{/* 	<Button styleVariant="secondary"> */}
+					{/* 		<MixerHorizontalIcon /> */}
+					{/* 		Apply filter */}
+					{/* 	</Button> */}
+					{/* </ToolTip> */}
 				</Box>
 			</Box>
 		</Box>
@@ -226,7 +207,7 @@ export const AccountsRouteWrapper = ({ setView, view }: any) => {
 export const AccountsIndexAssets = () => {
 	return (
 		<>
-			<Box paddingBottom="xlarge">
+			<Box paddingBottom="xlarge" borderTop={1} borderColor="borderDivider" borderStyle="solid">
 				<Box display="flex" paddingBottom="small" paddingTop="xlarge" paddingX="xlarge" alignItems="center">
 					<Box flexGrow={1}>
 						<Text size="xlarge" color="strong" weight="medium">
@@ -249,7 +230,7 @@ export const AccountsIndexAssets = () => {
 					{[{ name: 'Tokens' }, { name: 'NFTs' }, { name: 'LP Tokens' }, { name: 'Badges' }].map(({ name }) => (
 						<Box key={name} className={styles.indexAssetWrapper}>
 							<Link to="/accounts/all/tokens" underline="never" className={styles.indexAssetLinkRow}>
-								<Box flexGrow={1} borderTop={1} borderStyle="solid" borderColor="borderDivider" paddingY="large">
+								<Box flexGrow={1} paddingY="large" position="relative">
 									<Box display="flex" alignItems="center">
 										<Text size="medium" color="strong" weight="medium">
 											{name}
@@ -278,54 +259,22 @@ export const AccountsIndexAssets = () => {
 										+7
 									</Text>
 								</Box>
-								<Link to="/accounts/all/tokens" className={styles.indexAssetCircle}>
-									<Avatar>
-										<AvatarImage
-											className="AvatarImage"
-											src="https://images.unsplash.com/photo-1492633423870-43d1cd2775eb?&w=128&h=128&dpr=2&q=80"
-											alt="Colm Tuite"
-										/>
-										<AvatarFallback className="AvatarFallback" delayMs={600}>
-											CT
-										</AvatarFallback>
-									</Avatar>
-								</Link>
-								<Link to="/accounts/all/tokens" className={styles.indexAssetCircle}>
-									<Avatar>
-										<AvatarImage
-											className="AvatarImage"
-											src="https://images.unsplash.com/photo-1492633423870-43d1cd2775eb?&w=128&h=128&dpr=2&q=80"
-											alt="Colm Tuite"
-										/>
-										<AvatarFallback className="AvatarFallback" delayMs={600}>
-											CT
-										</AvatarFallback>
-									</Avatar>
-								</Link>
-								<Link to="/accounts/all/tokens" className={styles.indexAssetCircle}>
-									<Avatar>
-										<AvatarImage
-											className="AvatarImage"
-											src="https://images.unsplash.com/photo-1492633423870-43d1cd2775eb?&w=128&h=128&dpr=2&q=80"
-											alt="Colm Tuite"
-										/>
-										<AvatarFallback className="AvatarFallback" delayMs={600}>
-											CT
-										</AvatarFallback>
-									</Avatar>
-								</Link>
-								<Link to="/accounts/all/tokens" className={styles.indexAssetCircle}>
-									<Avatar>
-										<AvatarImage
-											className="AvatarImage"
-											src="https://images.unsplash.com/photo-1492633423870-43d1cd2775eb?&w=128&h=128&dpr=2&q=80"
-											alt="Colm Tuite"
-										/>
-										<AvatarFallback className="AvatarFallback" delayMs={600}>
-											CT
-										</AvatarFallback>
-									</Avatar>
-								</Link>
+
+								{[...Array(4)].map((x, i) => (
+									<Link key={i} to="/accounts/all/tokens" className={styles.indexAssetCircle}>
+										<Avatar>
+											<AvatarImage
+												className="AvatarImage"
+												src="https://images.unsplash.com/photo-1492633423870-43d1cd2775eb?&w=128&h=128&dpr=2&q=80"
+												alt="Colm Tuite"
+											/>
+											<AvatarFallback className="AvatarFallback" delayMs={600}>
+												CT
+											</AvatarFallback>
+										</Avatar>
+									</Link>
+								))}
+
 								<Box paddingLeft="xsmall">
 									<PlusIcon />
 								</Box>

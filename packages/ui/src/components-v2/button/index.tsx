@@ -15,7 +15,7 @@ interface IButtonOptionalProps {
 	disabled?: boolean
 	iconOnly?: boolean
 	sizeVariant?: 'small' | 'medium' | 'large'
-	styleVariant?: 'primary' | 'secondary' | 'tertiary' | 'ghost'
+	styleVariant?: 'primary' | 'secondary' | 'tertiary' | 'ghost' | 'inverse'
 	href?: string
 	rounded?: boolean
 }

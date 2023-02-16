@@ -63,13 +63,32 @@ export const indexAssetWrapper = style([
 export const indexAssetLinkRow = style([
 	sprinkles({
 		width: 'full',
-		// background: { hover: 'btnSecondaryBackgroundHover' },
-		// paddingX: 'xlarge',
+		color: 'borderDivider',
 	}),
 	{
+		boxShadow: '0 -1px 0 0',
+		'::before': {
+			content: '""',
+			position: 'absolute',
+			color: 'borderDivider',
+			opacity: 0,
+			transition: vars.transition.fast,
+			top: 0,
+			bottom: 0,
+			left: `calc(${vars.spacing.medium} * -1)`,
+			right: `calc(${vars.spacing.medium} * -1)`,
+			pointerEvents: 'none',
+			background: vars.color.lead400,
+			borderRadius: vars.border.radius.medium,
+			boxShadow:
+				'0px 0px 0px 1px rgba(255, 255, 255, 0.15), 0px 136px 192px rgba(0, 0, 0, 0.3), 0px 50px 50px rgba(0, 0, 0, 0.25), 0px 24px 24px rgba(0, 0, 0, 0.2), 0px 12px 12px rgba(0, 0, 0, 0.15)',
+		},
 		selectors: {
 			'&:hover': {
-				// background: vars.color.wax500,
+				boxShadow: 'none',
+			},
+			'&:hover::before': {
+				opacity: 1,
 			},
 		},
 	},
@@ -79,8 +98,8 @@ globalStyle(`.${darkMode} ${indexAssetLinkRow} > a:hover`, {
 	background: vars.color.wax500,
 })
 
-globalStyle(`${indexAssetWrapper}:first-child > a > div`, {
-	borderTop: 'none',
+globalStyle(`${indexAssetWrapper}:first-child > a`, {
+	boxShadow: 'none',
 })
 
 export const indexAssetRowOverlay = style([

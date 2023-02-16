@@ -33,11 +33,11 @@ export const avatarFallback = style([
 		display: 'flex',
 		alignItems: 'center',
 		justifyContent: 'center',
-
 		width: 'full',
 		height: 'full',
 	}),
 	{
+		borderRadius: 'inherit',
 		backgroundColor: 'white',
 		color: 'grey',
 		fontSize: 12,

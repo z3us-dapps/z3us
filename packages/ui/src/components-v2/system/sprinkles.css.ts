@@ -41,8 +41,8 @@ const responsiveProperties = defineProperties({
 		width: { ...vars.spacing, ...{ full: '100%', vw100: '100vw' } },
 		height: { ...vars.spacing, ...{ full: '100%', vh100: '100vh' } },
 		transition: {
-			slow: 'transform .3s ease, opacity .3s ease, background .3s ease',
-			fast: 'transform .15s ease, opacity .15s ease, background .15s ease, color .15s ease, border .15s ease, box-shadow .15s ease',
+			slow: vars.transition.slow,
+			fast: vars.transition.fast,
 		},
 	},
 	shorthands: {

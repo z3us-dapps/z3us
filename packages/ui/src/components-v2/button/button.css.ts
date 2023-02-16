@@ -44,6 +44,13 @@ export const button = recipe({
 				},
 				color: 'colorStrong',
 			}),
+			inverse: sprinkles({
+				background: { lightMode: 'btnInverseBackground', hover: 'btnInverseBackgroundHover' },
+				boxShadow: {
+					focusVisible: 'btnSecondaryShadowFocus',
+				},
+				color: 'colorInverse',
+			}),
 			ghost: sprinkles({
 				background: {
 					hover: 'btnSecondaryBackgroundHover',
@@ -112,6 +119,16 @@ export const button = recipe({
 	compoundVariants: [
 		{
 			variants: {
+				sizeVariant: 'small',
+				iconOnly: true,
+			},
+			style: {
+				width: '32px',
+				padding: '0px',
+			},
+		},
+		{
+			variants: {
 				sizeVariant: 'medium',
 				iconOnly: true,
 			},
@@ -122,11 +139,11 @@ export const button = recipe({
 		},
 		{
 			variants: {
-				sizeVariant: 'small',
+				sizeVariant: 'large',
 				iconOnly: true,
 			},
 			style: {
-				width: '32px',
+				width: '48px',
 				padding: '0px',
 			},
 		},
@@ -148,6 +165,16 @@ export const button = recipe({
 				borderRadius: '20px',
 				paddingLeft: '16px',
 				paddingRight: '16px',
+			},
+		},
+		{
+			variants: {
+				sizeVariant: 'large',
+				rounded: true,
+				iconOnly: true,
+			},
+			style: {
+				borderRadius: '50%',
 			},
 		},
 	],

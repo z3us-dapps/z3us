@@ -272,6 +272,10 @@ export const sharedThemeValues = {
 			full: '9999px',
 		},
 	},
+	transition: {
+		slow: 'transform .3s ease, opacity .3s ease, background .3s ease, color .3s ease, border .3s ease, box-shadow .3s ease',
+		fast: 'transform .15s ease, opacity .15s ease, background .15s ease, color .15s ease, border .15s ease, box-shadow .15s ease',
+	},
 }
 
 /**
@@ -359,6 +363,7 @@ export const primitiveColors = {
 const generateColorTokens = (colorTokens: any) => ({
 	colorNeutral: colorTokens.color.font.neutral.value,
 	colorStrong: colorTokens.color.font.strong.value,
+	colorInverse: colorTokens.color.font.inverse.value,
 	backgroundPrimary: colorTokens.color.background.primary.value,
 	backgroundSecondary: colorTokens.color.background.secondary.value,
 	borderDivider: colorTokens.color.border.divider_primary.value,
@@ -370,6 +375,8 @@ const generateColorTokens = (colorTokens: any) => ({
 	btnSecondaryBorderColorHover: colorTokens.color.border.btn_secondary_border_hover.value,
 	btnTertiaryBackground: colorTokens.color.background.btn_tertiary_background.value,
 	btnTertiaryBackgroundHover: colorTokens.color.background.btn_tertiary_background_hover.value,
+	btnInverseBackground: colorTokens.color.background.btn_inverse_background.value,
+	btnInverseBackgroundHover: colorTokens.color.background.btn_inverse_background_hover.value,
 	btnGhostBorderColor: colorTokens.color.border.btn_ghost_border.value,
 	btnGhostBorderColorHover: colorTokens.color.border.btn_ghost_border_hover.value,
 	inputPrimaryBackground: colorTokens.color.background.input_primary_background.value,
