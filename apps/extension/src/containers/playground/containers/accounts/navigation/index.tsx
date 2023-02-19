@@ -6,7 +6,8 @@ import { AccountViewDropdown } from '@src/containers/playground/containers/accou
 import { Link as LinkRouter, useMatch } from 'react-router-dom'
 import { DropdownProfile } from '@src/containers/playground/containers/accounts/dropdown-profile'
 // import { RowsIcon, MagnifyingGlassIcon } from '@radix-ui/react-icons'
-import { DashboardIcon } from '@radix-ui/react-icons'
+// import { DashboardIcon } from '@radix-ui/react-icons'
+import { CopyIcon } from 'ui/src/components/icons'
 import { Link } from '@src/components/link'
 // import { Button } from '@src/components/button'
 import { useAccountParams } from '@src/containers/playground/hooks/use-account-params'
@@ -75,7 +76,7 @@ export const Navigation: React.FC = () => (
 			<Box display="flex" alignItems="center" gap="medium">
 				<Button sizeVariant="small" styleVariant="tertiary" rounded>
 					rdx1...lag0
-					<DashboardIcon />
+					<CopyIcon />
 				</Button>
 				<AccountViewDropdown />
 				<DropdownProfile />

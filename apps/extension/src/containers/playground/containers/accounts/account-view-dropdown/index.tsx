@@ -2,7 +2,7 @@
 import React, { forwardRef, useEffect, useState } from 'react'
 import { Box } from 'ui/src/components-v2/box'
 import { MixerHorizontalIcon, DashboardIcon } from '@radix-ui/react-icons'
-import { CheckIcon, PlusIcon, MagnifyingGlassIcon } from 'ui/src/components/icons'
+import { CheckIcon, PlusIcon, MagnifyingGlassIcon, ChevronDown2Icon } from 'ui/src/components/icons'
 import { Button } from 'ui/src/components-v2/button'
 import {
 	Select,
@@ -17,8 +17,6 @@ import {
 	SelectScrollUpButton,
 	SelectScrollDownButton,
 } from 'ui/src/components-v2/select'
-
-import * as SelectPrim from '@radix-ui/react-select'
 
 import { Text } from 'ui/src/components-v2/typography'
 import { Link } from '@src/components/link'
@@ -53,8 +51,9 @@ export const AccountViewDropdown = forwardRef<HTMLElement, IAccountViewDropdownP
 				<Select onValueChange={handleChangeView} value="1">
 					<SelectTrigger asChild>
 						<Button styleVariant="tertiary" sizeVariant="small" rounded>
-							<SelectValue className="test" />
-							<DashboardIcon />
+							<Box borderRadius="full" width="large" height="large" style={{ background: 'purple' }}></Box>
+							<SelectValue />
+							<ChevronDown2Icon />
 						</Button>
 					</SelectTrigger>
 					<SelectPortal>
