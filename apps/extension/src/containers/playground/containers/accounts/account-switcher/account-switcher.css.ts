@@ -9,7 +9,7 @@ export const tempyy = style([
 		position: 'absolute',
 		top: '0',
 		right: '0',
-		opacity: '0.1',
+		opacity: '0.2',
 	},
 ])
 
@@ -28,7 +28,8 @@ export const tempBg = style([
 		background: 'backgroundPrimary',
 	}),
 	{
-		height: '300px',
+		height: '160px',
+		width: '100%',
 	},
 	// responsiveStyle({
 	// 	mobile: { width: '100%' },
@@ -45,11 +46,6 @@ export const cardWrapperAll = style([
 		width: '344px',
 		height: '200px',
 	},
-	// responsiveStyle({
-	// 	mobile: { width: '100%' },
-	// 	tablet: { width: '33%' },
-	// 	desktop: { width: '25%' },
-	// }),
 ])
 
 export const card = style([
@@ -59,8 +55,8 @@ export const card = style([
 		flexShrink: 0,
 	}),
 	{
-		width: '344px',
-		height: '200px',
+		width: '100%',
+		height: '100%',
 		backgroundSize: '100% auto',
 		transformOrigin: 'top center',
 		listStyle: 'none',

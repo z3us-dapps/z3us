@@ -201,15 +201,15 @@ export const recentActivityWrapper = style([
 		position: 'relative',
 	}),
 	{
-		'::before': {
-			content: '""',
-			position: 'absolute',
-			top: 0,
-			left: 0,
-			right: 0,
-			height: '150px',
-			pointerEvents: 'none',
-			background: 'linear-gradient(180deg, rgba(255,255,255,0.05) 0%, rgba(0,0,0,0) 65%, rgba(0,0,0,0) 100%)',
-		},
+		// '::before': {
+		// 	content: '""',
+		// 	position: 'absolute',
+		// 	top: 0,
+		// 	left: 0,
+		// 	right: 0,
+		// 	height: '150px',
+		// 	pointerEvents: 'none',
+		// 	background: 'linear-gradient(180deg, rgba(255,255,255,0.05) 0%, rgba(0,0,0,0) 65%, rgba(0,0,0,0) 100%)',
+		// },
 	},
 ])

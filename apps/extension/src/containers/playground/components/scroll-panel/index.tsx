@@ -1,7 +1,7 @@
 /* eslint-disable */
 import React, { forwardRef, useEffect, useState, useRef } from 'react'
 import { Box } from 'ui/src/components-v2/box'
-import { ScrollArea } from 'ui/src/components/scroll-area'
+import { ScrollArea } from 'ui/src/components-v2/scroll-area'
 // import { Virtuoso, VirtuosoGrid, VirtuosoGridHandle } from 'react-virtuoso'
 // import { PlusIcon, MagnifyingGlassIcon } from 'ui/src/components/icons'
 // import { Text } from 'ui/src/components-v2/typography'
@@ -15,18 +15,18 @@ interface IScrollPanelRequiredProps {
 
 interface IScrollPanelOptionalProps {
 	className?: string
-	isScrollEnabled?: boolean
+	scrollDisabled?: boolean
 }
 
 interface IScrollPanelProps extends IScrollPanelRequiredProps, IScrollPanelOptionalProps {}
 
 const defaultProps: IScrollPanelOptionalProps = {
 	className: undefined,
-	isScrollEnabled: undefined,
+	scrollDisabled: undefined,
 }
 
 export const ScrollPanel: React.FC<IScrollPanelProps> = props => {
-	const { renderPanel, className, isScrollEnabled } = props
+	const { renderPanel, className, scrollDisabled } = props
 
 	const ref = useRef(null)
 	const [panelRef, setPanelRef] = useState<HTMLElement | null>(null)
@@ -66,8 +66,9 @@ export const ScrollPanel: React.FC<IScrollPanelProps> = props => {
 			<ScrollArea
 				scrollableNodeProps={{ ref: setPanelRef }}
 				onScrollAreaSizeChange={setListSize}
-				enabled={isScrollEnabled}
+				scrollDisabled={scrollDisabled}
 				onScroll={handleScroll}
+				isTopShadowVisible={false}
 			>
 				{renderPanel(panelRef, isScrolled)}
 			</ScrollArea>

@@ -162,9 +162,9 @@ export const button = recipe({
 				rounded: true,
 			},
 			style: {
-				borderRadius: '20px',
-				paddingLeft: '16px',
-				paddingRight: '16px',
+				borderRadius: '18px',
+				paddingLeft: '10px',
+				paddingRight: '10px',
 			},
 		},
 		{

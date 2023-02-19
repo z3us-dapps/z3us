@@ -82,7 +82,13 @@ export const AccountsHome = () => {
 						renderPanel={(panelRef: React.Ref<HTMLElement | null>, isScrolled: boolean) => {
 							return (
 								<Box>
-									{isAllAccount ? <Box padding="xlarge">all</Box> : <AccountSwitcher />}
+									{isAllAccount && !assetType ? (
+										<Box padding="xlarge">
+											<Box background="backgroundPrimary" style={{ width: '100%', height: '200px' }}></Box>
+										</Box>
+									) : (
+										<AccountSwitcher isScrolled={isScrolled} />
+									)}
 									<Box
 										paddingX="large"
 										paddingTop="xlarge"
@@ -228,7 +234,6 @@ export const AccountsRouteWrapper = ({ isScrolled }: any) => {
 
 export const AccountsIndexAssets = () => {
 	const [hoveredLink, setHoveredLink] = useState<string | null>(null)
-	console.log('hoveredLink:', hoveredLink)
 
 	return (
 		<>

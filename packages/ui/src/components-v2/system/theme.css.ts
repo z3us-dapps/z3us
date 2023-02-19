@@ -213,7 +213,6 @@ export const sharedThemeValues = {
 				desktop: '0.04em',
 			},
 		},
-
 		xxlarge: {
 			calculate: calculateTypographyStyles(
 				{
@@ -229,7 +228,6 @@ export const sharedThemeValues = {
 				desktop: '0em',
 			},
 		},
-
 		xxxlarge: {
 			calculate: calculateTypographyStyles(
 				{
