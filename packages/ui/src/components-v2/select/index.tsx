@@ -92,7 +92,7 @@ export const SelectItem = forwardRef<HTMLDivElement, ISelectItemProps>(
 				ref={forwardedRef}
 			>
 				<SelectPrimitive.ItemText>
-					<Box marginRight="small">
+					<Box>
 						<Text size="small" color="strong">
 							{children}
 						</Text>

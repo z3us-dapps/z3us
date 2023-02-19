@@ -188,3 +188,42 @@ export const button = recipe({
 })
 
 export type ButtonVariants = RecipeVariants<typeof button>
+
+export const buttonIcon = recipe({
+	base: {
+		display: 'inline-flex',
+		alignItems: 'center',
+		justifyContent: 'center',
+		textDecoration: 'none',
+		outline: 'none',
+		cursor: 'pointer',
+	},
+	variants: {
+		styleVariant: {
+			primary: sprinkles({
+				color: 'purple100',
+			}),
+			secondary: sprinkles({
+				color: 'colorNeutral',
+			}),
+			tertiary: sprinkles({
+				color: 'colorNeutral',
+			}),
+			inverse: sprinkles({
+				color: 'colorNeutral',
+			}),
+			ghost: sprinkles({
+				color: 'colorNeutral',
+			}),
+		},
+		sizeVariant: {
+			small: [],
+			medium: [],
+			large: [],
+		},
+	},
+	defaultVariants: {
+		styleVariant: 'primary',
+		sizeVariant: 'medium',
+	},
+})

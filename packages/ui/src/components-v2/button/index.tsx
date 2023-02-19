@@ -4,18 +4,24 @@ import { Box } from '../box'
 
 import * as styles from './button.css'
 
+type TSizeVariant = 'small' | 'medium' | 'large'
+type TStyleVariant = 'primary' | 'secondary' | 'tertiary' | 'ghost' | 'inverse'
+
+// Button
 interface IButtonRequiredProps {
 	children: React.ReactNode
 }
 
 interface IButtonOptionalProps {
-	className?: number
+	className?: string
 	linkFrameWorkComp?: any
 	onClick?: () => void
 	disabled?: boolean
 	iconOnly?: boolean
-	sizeVariant?: 'small' | 'medium' | 'large'
-	styleVariant?: 'primary' | 'secondary' | 'tertiary' | 'ghost' | 'inverse'
+	rightIcon?: React.ReactNode
+	leftIcon?: React.ReactNode
+	sizeVariant?: TSizeVariant
+	styleVariant?: TStyleVariant
 	href?: string
 	rounded?: boolean
 }
@@ -27,6 +33,8 @@ const defaultProps: IButtonOptionalProps = {
 	linkFrameWorkComp: undefined,
 	onClick: undefined,
 	iconOnly: false,
+	rightIcon: undefined,
+	leftIcon: undefined,
 	rounded: false,
 	disabled: false,
 	sizeVariant: 'medium',
@@ -39,6 +47,8 @@ export const Button = forwardRef<HTMLButtonElement, IButtonProps>((props, ref: R
 		children,
 		disabled,
 		iconOnly,
+		rightIcon,
+		leftIcon,
 		rounded,
 		onClick,
 		className,
@@ -72,7 +82,33 @@ export const Button = forwardRef<HTMLButtonElement, IButtonProps>((props, ref: R
 			onClick={onClick}
 			{...rest}
 		>
+			{leftIcon ? (
+				<Box
+					className={clsx(
+						className,
+						styles.buttonIcon({
+							sizeVariant,
+							styleVariant,
+						}),
+					)}
+				>
+					{leftIcon}
+				</Box>
+			) : null}
 			{children}
+			{rightIcon ? (
+				<Box
+					className={clsx(
+						className,
+						styles.buttonIcon({
+							sizeVariant,
+							styleVariant,
+						}),
+					)}
+				>
+					{rightIcon}
+				</Box>
+			) : null}
 		</ButtonComponent>
 	)
 })

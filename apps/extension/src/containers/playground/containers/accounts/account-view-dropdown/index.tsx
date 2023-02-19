@@ -50,10 +50,14 @@ export const AccountViewDropdown = forwardRef<HTMLElement, IAccountViewDropdownP
 			<Box ref={ref} className={clsx(styles.transactionWrapper, className)}>
 				<Select onValueChange={handleChangeView} value="1">
 					<SelectTrigger asChild>
-						<Button styleVariant="tertiary" sizeVariant="small" rounded>
-							<Box borderRadius="full" width="large" height="large" style={{ background: 'purple' }}></Box>
+						<Button
+							styleVariant="tertiary"
+							sizeVariant="small"
+							rounded
+							leftIcon={<Box borderRadius="full" width="large" height="large" style={{ background: 'purple' }}></Box>}
+							rightIcon={<ChevronDown2Icon />}
+						>
 							<SelectValue />
-							<ChevronDown2Icon />
 						</Button>
 					</SelectTrigger>
 					<SelectPortal>

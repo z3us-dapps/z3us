@@ -12,7 +12,7 @@ import { Link } from '@src/components/link'
 // import { Button } from '@src/components/button'
 import { useAccountParams } from '@src/containers/playground/hooks/use-account-params'
 // import { MagnifyingGlassIcon } from '@radix-ui/react-icons'
-import { Button } from 'ui/src/components-v2/button'
+import { Button, ButtonIcon } from 'ui/src/components-v2/button'
 import { Box } from 'ui/src/components-v2/box'
 import { Text } from 'ui/src/components-v2/typography'
 import { motion, LayoutGroup } from 'framer-motion'
@@ -74,9 +74,8 @@ export const Navigation: React.FC = () => (
 				</LayoutGroup>
 			</Box>
 			<Box display="flex" alignItems="center" gap="medium">
-				<Button sizeVariant="small" styleVariant="tertiary" rounded>
+				<Button sizeVariant="small" styleVariant="tertiary" rounded rightIcon={<CopyIcon />}>
 					rdx1...lag0
-					<CopyIcon />
 				</Button>
 				<AccountViewDropdown />
 				<DropdownProfile />

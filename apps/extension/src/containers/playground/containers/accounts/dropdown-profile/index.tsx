@@ -27,7 +27,7 @@ export const DropdownProfile: React.FC = () => (
 	<Box className={styles.dropdownProfilWrapper}>
 		<DropdownMenu>
 			<DropdownMenuTrigger asChild>
-				<Button styleVariant="ghost" sizeVariant="medium" iconOnly>
+				<button type="button" className={styles.dropdownProfileButton}>
 					<Avatar.Root className={styles.dropdownProfilAvatar}>
 						<Avatar.Image
 							className={styles.dropdownProfilAvatarImg}
@@ -40,7 +40,7 @@ export const DropdownProfile: React.FC = () => (
 						<span className={styles.dropdownProfilAvatarConnectedStatus} />
 					</Avatar.Root>
 					{/* <ChevronDownIcon /> */}
-				</Button>
+				</button>
 			</DropdownMenuTrigger>
 			<DropdownMenuContent side="bottom" sideOffset={0} align="end" alignOffset={0}>
 				<DropdownMenuLabel>
