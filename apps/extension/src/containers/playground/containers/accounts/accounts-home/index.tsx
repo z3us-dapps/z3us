@@ -131,7 +131,7 @@ export const AccountsHome = () => {
 	)
 }
 
-export const AccountsRouteWrapper = ({ isScrolled }: any) => {
+export const AccountsRouteWrapper = ({ isScrolled }: { isScrolled: boolean }) => {
 	const { account, assetType, asset } = useAccountParams()
 	const navigate = useNavigate()
 

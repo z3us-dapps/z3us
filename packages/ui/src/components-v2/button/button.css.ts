@@ -163,8 +163,8 @@ export const button = recipe({
 			},
 			style: {
 				borderRadius: '18px',
-				paddingLeft: '10px',
-				paddingRight: '10px',
+				paddingLeft: '12px',
+				paddingRight: '12px',
 			},
 		},
 		{
@@ -189,7 +189,7 @@ export const button = recipe({
 
 export type ButtonVariants = RecipeVariants<typeof button>
 
-export const buttonIcon = recipe({
+export const buttonIconLeft = recipe({
 	base: {
 		display: 'inline-flex',
 		alignItems: 'center',
@@ -217,7 +217,46 @@ export const buttonIcon = recipe({
 			}),
 		},
 		sizeVariant: {
-			small: [],
+			small: [{ marginLeft: '-6px' }],
+			medium: [],
+			large: [],
+		},
+	},
+	defaultVariants: {
+		styleVariant: 'primary',
+		sizeVariant: 'medium',
+	},
+})
+
+export const buttonIconRight = recipe({
+	base: {
+		display: 'inline-flex',
+		alignItems: 'center',
+		justifyContent: 'center',
+		textDecoration: 'none',
+		outline: 'none',
+		cursor: 'pointer',
+	},
+	variants: {
+		styleVariant: {
+			primary: sprinkles({
+				color: 'purple100',
+			}),
+			secondary: sprinkles({
+				color: 'colorNeutral',
+			}),
+			tertiary: sprinkles({
+				color: 'colorNeutral',
+			}),
+			inverse: sprinkles({
+				color: 'colorNeutral',
+			}),
+			ghost: sprinkles({
+				color: 'colorNeutral',
+			}),
+		},
+		sizeVariant: {
+			small: [{ marginRight: '-6px' }],
 			medium: [],
 			large: [],
 		},
