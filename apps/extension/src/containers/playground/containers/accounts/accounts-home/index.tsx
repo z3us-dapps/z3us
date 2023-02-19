@@ -12,6 +12,7 @@ import { AccountActivity } from '@src/containers/playground/containers/accounts/
 // TODO: remove??
 // import { AccountTransaction } from '@src/containers/playground/containers/accounts/account-transaction'
 import { useAccountParams } from '@src/containers/playground/hooks/use-account-params'
+import { ScrollPanel } from '@src/containers/playground/components/scroll-panel'
 import { Button } from '@src/components/button'
 import { Avatar, AvatarImage, AvatarFallback } from 'ui/src/components-v2/avatar'
 import { Input } from 'ui/src/components-v2/input'
@@ -26,6 +27,7 @@ import * as styles from './accounts-home.css'
 export const AccountsHome = () => {
 	const location = useLocation()
 	const { account, assetType, asset } = useAccountParams()
+	const isAllAccount = account === 'all'
 	const [view, setView] = useState<'list' | 'two-col' | 'three-col'>('list')
 
 	return (
@@ -39,90 +41,97 @@ export const AccountsHome = () => {
 		>
 			<Box height="full" width="full" maxWidth="xxlarge">
 				<Box className={clsx(styles.panelWrapper)}>
-					<Box
-						background="backgroundSecondary"
-						boxShadow="shadowMedium"
-						borderRadius="xlarge"
-						flexGrow={1}
-						overflow="hidden"
+					<ScrollPanel
 						className={styles.leftPanel}
-					>
-						<AccountsRouteWrapper view={view} setView={setView} />
-						<Box position="relative">
-							<AnimatePresence initial={false}>
-								<Routes location={location} key={location.pathname}>
-									<Route
-										path="/:account"
-										element={
-											<AnimatedPage>
-												<AccountsIndexAssets />
-											</AnimatedPage>
-										}
-									/>
+						renderPanel={(panelRef: React.Ref<HTMLElement | null>, isScrolled: boolean) => {
+							return (
+								<>
+									<AccountsRouteWrapper isScrolled={isScrolled} setView={setView} />
+									<Box position="relative">
+										<AnimatePresence initial={false}>
+											<Routes location={location} key={location.pathname}>
+												<Route
+													path="/:account"
+													element={
+														<AnimatedPage>
+															<AccountsIndexAssets />
+														</AnimatedPage>
+													}
+												/>
 
-									{['/:account/:assetType', '/:account/:assetType/:asset'].map(path => (
-										<Route
-											key="Assets" // optional: avoid full re-renders on route changes
-											path={path}
-											element={
-												<AnimatedPage>
-													<AccountsList view={view as any} />
-												</AnimatedPage>
-											}
-										/>
-									))}
-								</Routes>
-							</AnimatePresence>
-						</Box>
-					</Box>
-					<Box
-						background="backgroundSecondary"
-						boxShadow="shadowMedium"
-						borderRadius="xlarge"
-						className={clsx(styles.rightPanel, assetType && styles.rightPanelAssetType)}
-					>
-						<AccountSwitcher />
-						<Box paddingX="large" paddingTop="xlarge" paddingBottom="small" className={styles.recentActivityWrapper}>
-							<Box display="flex" alignItems="center" position="relative">
-								<Box flexGrow={1}>
-									{asset ? (
-										<Text size="large" weight="medium" color="strong">
-											{asset} activity
-										</Text>
-									) : null}
-									{!asset ? (
-										<Text size="large" weight="medium" color="strong">
-											Account {assetType ? assetType : ''} activity
-										</Text>
-									) : null}
+												{['/:account/:assetType', '/:account/:assetType/:asset'].map(path => (
+													<Route
+														key="Assets" // optional: avoid full re-renders on route changes
+														path={path}
+														element={
+															<AnimatedPage>
+																<AccountsList ref={panelRef} />
+															</AnimatedPage>
+														}
+													/>
+												))}
+											</Routes>
+										</AnimatePresence>
+									</Box>
+								</>
+							)
+						}}
+					/>
+					<ScrollPanel
+						className={styles.rightPanel}
+						renderPanel={(panelRef: React.Ref<HTMLElement | null>, isScrolled: boolean) => {
+							return (
+								<Box>
+									{isAllAccount ? <Box padding="xlarge">all</Box> : <AccountSwitcher />}
+									<Box
+										paddingX="large"
+										paddingTop="xlarge"
+										paddingBottom="small"
+										className={styles.recentActivityWrapper}
+									>
+										<Box display="flex" alignItems="center" position="relative">
+											<Box flexGrow={1}>
+												{asset ? (
+													<Text size="large" weight="medium" color="strong">
+														{asset} activity
+													</Text>
+												) : null}
+												{!asset ? (
+													<Text size="large" weight="medium" color="strong">
+														Account {assetType ? assetType : ''} activity
+													</Text>
+												) : null}
+											</Box>
+											<Button
+												styleVariant="ghost"
+												sizeVariant="small"
+												onClick={() => {
+													console.log(99, 'search')
+												}}
+												iconOnly
+											>
+												<MagnifyingGlassIcon />
+											</Button>
+										</Box>
+									</Box>
+									<AccountActivity ref={panelRef} />
 								</Box>
-								<Button
-									styleVariant="ghost"
-									sizeVariant="small"
-									onClick={() => {
-										console.log(99, 'search')
-									}}
-									iconOnly
-								>
-									<MagnifyingGlassIcon />
-								</Button>
-							</Box>
-						</Box>
-						<AccountActivity flexGrowWrapper={!assetType} />{' '}
-					</Box>
+							)
+						}}
+					/>
 				</Box>
 			</Box>
 		</Box>
 	)
 }
 
-export const AccountsRouteWrapper = ({ setView, view }: any) => {
+export const AccountsRouteWrapper = ({ isScrolled }: any) => {
 	const { account, assetType, asset } = useAccountParams()
 	const navigate = useNavigate()
 
 	return (
-		<Box position="relative">
-			<Box paddingX="xlarge" paddingY="xlarge" display="flex">
+		<Box className={clsx(styles.accountIndexWrapper, isScrolled && styles.accountIndexWrapperShadow)}>
+			<Box display="flex" width="full">
 				<Box flexGrow={1}>
 					<Box display="flex" alignItems="center" paddingBottom="xsmall">
 						{/* account */}
@@ -167,7 +176,13 @@ export const AccountsRouteWrapper = ({ setView, view }: any) => {
 							</Box>
 						) : null}
 					</Box>
-					<Text weight="strong" size="xxxlarge" color="strong">
+					<Text
+						weight="strong"
+						// size={isScrolled ? 'xxlarge' : 'xxxlarge'}
+						size="xxxlarge"
+						color="strong"
+						className={styles.pricingText}
+					>
 						$4,440,206.25
 					</Text>
 				</Box>
@@ -212,10 +227,13 @@ export const AccountsRouteWrapper = ({ setView, view }: any) => {
 }
 
 export const AccountsIndexAssets = () => {
+	const [hoveredLink, setHoveredLink] = useState<string | null>(null)
+	console.log('hoveredLink:', hoveredLink)
+
 	return (
 		<>
-			<Box paddingBottom="xlarge" borderTop={1} borderColor="borderDivider" borderStyle="solid">
-				<Box display="flex" paddingBottom="small" paddingTop="xlarge" paddingX="xlarge" alignItems="center">
+			<Box paddingBottom="xlarge">
+				<Box display="flex" paddingBottom="small" paddingTop="large" paddingX="xlarge" alignItems="center">
 					<Box flexGrow={1}>
 						<Text size="xlarge" color="strong" weight="medium">
 							Assets and badges
@@ -236,8 +254,18 @@ export const AccountsIndexAssets = () => {
 				<Box className={styles.indexAssetsWrapper}>
 					{[{ name: 'Tokens' }, { name: 'NFTs' }, { name: 'LP Tokens' }, { name: 'Badges' }].map(({ name }) => (
 						<Box key={name} className={styles.indexAssetWrapper}>
-							<Link to="/accounts/all/tokens" underline="never" className={styles.indexAssetLinkRow}>
-								<Box flexGrow={1} paddingY="large" position="relative">
+							<Link
+								to="/accounts/all/tokens"
+								underline="never"
+								className={clsx(styles.indexAssetLinkRow, name === hoveredLink && styles.indexAssetLinkRowHover)}
+							>
+								<Box
+									flexGrow={1}
+									paddingY="large"
+									position="relative"
+									onMouseOver={() => setHoveredLink(name)}
+									onMouseLeave={() => setHoveredLink(null)}
+								>
 									<Box display="flex" alignItems="center">
 										<Text size="medium" color="strong" weight="medium">
 											{name}
@@ -266,19 +294,20 @@ export const AccountsIndexAssets = () => {
 										+7
 									</Text>
 								</Box>
-
 								{[...Array(4)].map((x, i) => (
 									<Link key={i} to="/accounts/all/tokens" className={styles.indexAssetCircle}>
-										<Avatar>
-											<AvatarImage
-												className="AvatarImage"
-												src="https://images.unsplash.com/photo-1492633423870-43d1cd2775eb?&w=128&h=128&dpr=2&q=80"
-												alt="Colm Tuite"
-											/>
-											<AvatarFallback className="AvatarFallback" delayMs={600}>
-												CT
-											</AvatarFallback>
-										</Avatar>
+										<Box onMouseOver={() => setHoveredLink(name)}>
+											<Avatar>
+												<AvatarImage
+													className="AvatarImage"
+													src="https://images.unsplash.com/photo-1492633423870-43d1cd2775eb?&w=128&h=128&dpr=2&q=80"
+													alt="Colm Tuite"
+												/>
+												<AvatarFallback className="AvatarFallback" delayMs={600}>
+													CT
+												</AvatarFallback>
+											</Avatar>
+										</Box>
 									</Link>
 								))}
 

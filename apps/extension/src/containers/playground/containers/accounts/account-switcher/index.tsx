@@ -160,6 +160,7 @@ export const AccountSwitcher = forwardRef<HTMLButtonElement, IAccountSwitcherPro
 						borderColor="borderDivider"
 						borderStyle="solid"
 						flexShrink={0}
+						className={styles.accountCardWrapper}
 					>
 						<Box ref={ref} display="flex" flexDirection="column" alignItems="center">
 							<AnimatePresence initial={false}>

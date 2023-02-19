@@ -13,6 +13,16 @@ export const tempyy = style([
 	},
 ])
 
+export const accountCardWrapper = style([
+	sprinkles({
+		position: 'sticky',
+		top: 0,
+		background: 'backgroundSecondary',
+		zIndex: 1,
+	}),
+	{},
+])
+
 export const tempBg = style([
 	sprinkles({
 		background: 'backgroundPrimary',

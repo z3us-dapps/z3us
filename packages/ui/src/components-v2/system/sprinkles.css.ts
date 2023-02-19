@@ -9,7 +9,7 @@ const responsiveProperties = defineProperties({
 	},
 	defaultCondition: 'mobile',
 	properties: {
-		position: ['absolute', 'relative', 'fixed'],
+		position: ['absolute', 'relative', 'fixed', 'sticky'],
 		display: ['none', 'flex', 'block', 'inline-flex', 'grid'],
 		flexDirection: ['row', 'column'],
 		justifyContent: ['stretch', 'flex-start', 'center', 'flex-end', 'space-around', 'space-between'],
@@ -42,7 +42,9 @@ const responsiveProperties = defineProperties({
 		height: { ...vars.spacing, ...{ full: '100%', vh100: '100vh' } },
 		transition: {
 			slow: vars.transition.slow,
+			slowall: vars.transition.slowall,
 			fast: vars.transition.fast,
+			fastall: vars.transition.fastall,
 		},
 	},
 	shorthands: {

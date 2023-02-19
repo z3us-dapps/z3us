@@ -34,6 +34,12 @@ const items = [
 	{ id: 'as773hf', title: 'Another geebs' },
 	{ id: '88833', title: 'Aasdfahghgngn geebs' },
 	{ id: '884848', title: 'djfjfj884' },
+	{ id: '7d7fhdf', title: 'djfjfj884' },
+	{ id: 'djfhdjhf', title: 'djfjfj884' },
+	{ id: 'dfdfj', title: 'djfjfj884' },
+	{ id: '88', title: 'djfjfj884' },
+	{ id: '8djfahksdhf', title: 'djfjfj884' },
+	{ id: '8iiudf7f7fhfh', title: 'djfjfj884' },
 ]
 
 const ListContainer = React.forwardRef<HTMLDivElement>((props, ref) => <div ref={ref} {...props} />)
@@ -66,39 +72,27 @@ const ItemWrapper = props => {
 	)
 }
 
-export const AccountActivity = forwardRef<HTMLButtonElement, IAccountSwitcherProps>(
+export const AccountActivity = forwardRef<HTMLElement, IAccountSwitcherProps>(
 	(props, ref: React.Ref<HTMLElement | null>) => {
 		const { iconOnly, onClick, className, flexGrowWrapper } = props
 
-		const [customScrollParent, setCustomScrollParent] = useState<HTMLElement | null>(null)
-
 		return (
-			<Box
-				ref={ref}
-				className={clsx(styles.activityWrapper, flexGrowWrapper && styles.activityWrapperFlexGrow)}
-				style={{ height: `${6 * 64}px` }}
-			>
-				<ScrollArea
-					scrollableNodeProps={{ ref: setCustomScrollParent }}
-					// onScrollAreaSizeChange={setListSize}
-					// enabled={!isLoading}
-				>
-					<Virtuoso
-						// className={clsx(
-						// 	{ [styles.virtuosoGridList]: view === 'list' },
-						// 	{ [styles.virtuosoGridTwo]: view === 'tileTwo' },
-						// )}
-						customScrollParent={customScrollParent}
-						data={items}
-						itemContent={(index, user) => <ItemWrapper idx={index} user={user} />}
-						components={{
-							List: ListContainer,
-							Item: ItemContainer,
-						}}
-						// computeItemKey={computeItemKey}
-						// isScrolling={onScrollingStateChange}
-					/>
-				</ScrollArea>
+			<Box className={clsx(styles.activityWrapper)} style={{ minHeight: `40px` }}>
+				<Virtuoso
+					// className={clsx(
+					// 	{ [styles.virtuosoGridList]: view === 'list' },
+					// 	{ [styles.virtuosoGridTwo]: view === 'tileTwo' },
+					// )}
+					customScrollParent={ref as any}
+					data={items}
+					itemContent={(index, user) => <ItemWrapper idx={index} user={user} />}
+					components={{
+						List: ListContainer,
+						Item: ItemContainer,
+					}}
+					// computeItemKey={computeItemKey}
+					// isScrolling={onScrollingStateChange}
+				/>
 			</Box>
 		)
 	},

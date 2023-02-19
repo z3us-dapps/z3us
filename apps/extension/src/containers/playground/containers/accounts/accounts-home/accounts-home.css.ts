@@ -2,25 +2,66 @@ import { darkMode, sprinkles } from 'ui/src/components-v2/system/sprinkles.css'
 import { vars } from 'ui/src/components-v2/system/theme.css'
 import { style, globalStyle } from '@vanilla-extract/css'
 
+export const accountIndexWrapper = style([
+	sprinkles({
+		background: 'backgroundSecondary',
+		position: 'sticky',
+		top: 0,
+		zIndex: 1,
+		display: 'flex',
+		paddingX: 'xlarge',
+		paddingTop: 'xlarge',
+		paddingBottom: 'large',
+		transition: 'slowall',
+	}),
+	{
+		// border: '1px solid red',
+		// transition: 'all 0.3s ease-out',
+	},
+])
+
+export const accountIndexWrapperShadow = style([
+	sprinkles({
+		paddingTop: 'medium',
+		paddingBottom: 'medium',
+	}),
+	{
+		boxShadow: '0px 10px 15px -3px rgba(0,0,0,0.1)',
+		paddingBottom: vars.spacing.small,
+	},
+])
+
+export const pricingText = style([
+	sprinkles({
+		// transition: 'slowall',
+	}),
+	{
+		// transition: 'font-size .3s ease',
+	},
+])
+
 export const panelWrapper = style([
 	sprinkles({
 		position: 'relative',
-		display: 'grid',
+		display: 'flex',
+		gap: 'xlarge',
+		// display: 'grid',
 		width: 'full',
 	}),
 	{
-		gridTemplateColumns: '1fr 392px ',
-		gridGap: vars.spacing.xlarge,
-		gridAutoRows: '1fr',
+		// gridTemplateColumns: '1fr 392px ',
+		// gridGap: vars.spacing.xlarge,
+		// gridAutoRows: '1fr',
 		// TODO: get calculation going here for maxheight
-		maxHeight: '80vh',
+		// maxHeight: '80vh',
 		// border: '1px solid red',
 	},
 ])
 
 export const leftPanel = style([
 	sprinkles({
-		position: 'relative',
+		flexGrow: 1,
+		flexShrink: 0,
 	}),
 	{
 		// alignSelf: 'flex-start',
@@ -30,15 +71,18 @@ export const leftPanel = style([
 
 export const rightPanel = style([
 	sprinkles({
-		position: 'relative',
 		display: 'flex',
 		flexDirection: 'column',
-		overflow: 'auto',
+		// flexGrow: 1,
+		flexShrink: 0,
+		// overflow: 'auto',
 	}),
 	{
 		// TODO: conditional align self for tokens pages
 		// alignSelf: 'flex-start',
-		maxHeight: '100%',
+		width: '392px',
+		flexBasis: '392px',
+		// maxHeight: '100%',
 	},
 ])
 
@@ -90,11 +134,21 @@ export const indexAssetLinkRow = style([
 		},
 		selectors: {
 			'&:hover': {
-				boxShadow: 'none',
+				// boxShadow: 'none',
 			},
 			'&:hover::before': {
-				opacity: 1,
+				// opacity: 1,
 			},
+		},
+	},
+])
+
+export const indexAssetLinkRowHover = style([
+	sprinkles({}),
+	{
+		boxShadow: 'none',
+		'::before': {
+			opacity: 1,
 		},
 	},
 ])

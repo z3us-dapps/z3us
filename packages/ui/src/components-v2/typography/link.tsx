@@ -67,7 +67,7 @@ const LinkComponent = (props: LProps) => {
 	const Component = linkFrameWorkComp
 
 	return (
-		<Component href={href} {...restProps} className={classNames}>
+		<Component href={href} className={classNames} {...restProps}>
 			{children}
 		</Component>
 	)

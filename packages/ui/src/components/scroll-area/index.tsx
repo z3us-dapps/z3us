@@ -14,15 +14,23 @@ interface IProps {
 	enabled?: boolean
 	scrollableNodeProps?: any
 	onScrollAreaSizeChange?: () => void
+	onScroll?: (e: Event) => void
 }
 
 const defaultProps = {
 	enabled: true,
 	scrollableNodeProps: undefined,
 	onScrollAreaSizeChange: undefined,
+	onScroll: undefined,
 }
 
-export const ScrollArea: React.FC<IProps> = ({ children, enabled, scrollableNodeProps, onScrollAreaSizeChange }) => {
+export const ScrollArea: React.FC<IProps> = ({
+	children,
+	enabled,
+	scrollableNodeProps,
+	onScrollAreaSizeChange,
+	onScroll,
+}) => {
 	const sRef: any = useRef()
 	const observer = useRef<ResizeObserver | null>(null)
 	const scrollObserver = useRef<ResizeObserver | null>(null)
@@ -44,6 +52,10 @@ export const ScrollArea: React.FC<IProps> = ({ children, enabled, scrollableNode
 			draft.isTopShadowVisible = showTopShadow
 			draft.isBottmShadowVisible = showBottomShadow
 		})
+
+		if (onScroll) {
+			onScroll(event)
+		}
 	}
 
 	useEffect(() => {

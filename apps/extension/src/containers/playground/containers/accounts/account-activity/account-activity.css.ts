@@ -23,12 +23,12 @@ export const activityWrapper = style([
 	// }),
 ])
 
-export const activityWrapperFlexGrow = style([
-	{
-		flex: '1 1 0',
-	},
-])
-
+// export const activityWrapperFlexGrow = style([
+// 	{
+// 		flex: '1 1 0',
+// 	},
+// ])
+//
 export const activtyItem = style([
 	sprinkles({
 		position: 'relative',
