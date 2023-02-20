@@ -3,9 +3,11 @@ import React, { useState, useRef, useEffect, useCallback, useContext } from 'rea
 import { useTimeout } from 'usehooks-ts'
 import { Routes, Route, useNavigate, Navigate } from 'react-router-dom'
 import { useAccountParams } from '@src/containers/playground/hooks/use-account-params'
+
+import { AccountSearch } from '@src/containers/playground/containers/accounts/account-search'
 import { Virtuoso, VirtuosoGrid, VirtuosoGridHandle } from 'react-virtuoso'
-import { ScrollArea } from 'ui/src/components/scroll-area'
 import { motion, AnimatePresence, usePresence } from 'framer-motion'
+import { ChevronDown2Icon, ChevronRightIcon } from 'ui/src/components/icons'
 import { Box } from 'ui/src/components-v2/box'
 import { Text } from 'ui/src/components-v2/typography'
 import clsx from 'clsx'
@@ -124,7 +126,13 @@ const ItemWrapper = props => {
 				{user.loaded && (
 					<Link to={`/accounts/${account}/tokens/${user.id}`}>
 						<motion.div initial="hidden" animate="visible" variants={variants} className={styles.itemWrapperMotion}>
-							<Box className={clsx(styles.itemWrapperInner, asset && idx === 0 && styles.itemWrapperInnerSelected)}>
+							<Box
+								className={clsx(
+									styles.itemWrapperInner,
+									styles.itemWrapperInnerHover,
+									asset && idx === 0 && styles.itemWrapperInnerSelected,
+								)}
+							>
 								<Box width="full" className={styles.tokenListGridWrapper}>
 									<Box display="flex" alignItems="center" justifyContent="flex-start" gap="medium">
 										<Box className={styles.tokenListGridCircle} style={{ backgroundColor: '#ea983d' }} />
@@ -157,7 +165,9 @@ const ItemWrapper = props => {
 	)
 }
 
-interface IAccountListRequiredProps {}
+interface IAccountListRequiredProps {
+	isScrolled?: boolean
+}
 
 interface IAccountListOptionalProps {
 	className?: number
@@ -175,39 +185,12 @@ const defaultProps: IAccountListOptionalProps = {
 
 export const AccountsList = React.forwardRef<HTMLElement, IAccountListProps>(
 	(props, ref: React.Ref<HTMLElement | null>) => {
-		const { className, ...rest } = props
+		const { className, isScrolled, ...rest } = props
 
-		// const ref = useRef(null)
-		// const [listHeight, setListHeight] = useState<number>(200)
-		// const [listMaxHeight, setListMaxHeight] = useState<number>(300)
-		// const [customScrollParent, setCustomScrollParent] = useState<HTMLElement | null>(null)
+		const { account, assetType, asset } = useAccountParams()
 		const [items, setItems] = useState(Array.from({ length: 20 }, _ => ({ id: hash(), name: hash(), loaded: false })))
 		const [isLoading, setIsLoading] = useState(false)
 		const [isScrolling, setIsScrolling] = useState(false)
-
-		const addAtStart = () => setItems([{ id: hash(), name: hash(), loaded: false }, ...items])
-
-		const addAtRandom = () => {
-			items.splice(Math.floor(Math.random() * items.length), 0, { id: hash(), name: hash(), loaded: false })
-			setItems([...items])
-		}
-
-		const removeAtStart = () => {
-			setItems(prev => {
-				return [
-					...prev.filter((item, index) => {
-						return index !== 0
-					}),
-				]
-			})
-		}
-
-		const removeAtRandom = () => {
-			items.splice(Math.floor(Math.random() * items.length), 1)
-			setItems([...items])
-		}
-
-		const reset = () => setItems(Array.from({ length: 10 }, _ => ({ id: hash(), name: hash(), loaded: false })))
 
 		// Disable animation on scroll or Virtuoso will break while scrolling
 		const onScrollingStateChange = useCallback(value => {
@@ -223,15 +206,99 @@ export const AccountsList = React.forwardRef<HTMLElement, IAccountListProps>(
 		)
 
 		return (
-			<Box style={{ minHeight: '40px' }}>
+			<Box style={{ minHeight: '200px' }}>
+				<Box className={clsx(styles.accountListHeaderWrapper, isScrolled && styles.accountListHeaderWrapperShadow)}>
+					<Box width="full" display="flex" alignItems="flex-start" paddingBottom="medium">
+						<Box flexGrow={1}>
+							<Box display="flex" paddingBottom="xsmall">
+								{assetType ? (
+									<Box>
+										<Link to={`/accounts/${account}`}>
+											<Text size="large">Overview{account ? `: ${account}` : ''}</Text>
+										</Link>
+									</Box>
+								) : (
+									<Box>
+										<Text size="large">Account balance</Text>
+										{/* <Text size="large">Accounts{account ? `: ${account}` : ''}</Text> */}
+									</Box>
+								)}
+								{assetType ? (
+									<Box display="flex" alignItems="center">
+										<Box paddingX="xsmall" display="flex" alignItems="center">
+											<ChevronRightIcon />
+										</Box>
+										{asset ? (
+											<Link to={`/accounts/${account}/${assetType}`}>
+												<Text size="large">{assetType}</Text>
+											</Link>
+										) : (
+											<Text size="large" color="strong">
+												{assetType}
+											</Text>
+										)}
+									</Box>
+								) : null}
+								{/* asset  */}
+								{asset ? (
+									<Box display="flex" alignItems="center">
+										<Box paddingX="xsmall" display="flex" alignItems="center">
+											<ChevronRightIcon />
+										</Box>
+										<Text size="large" color="strong">
+											{asset}
+										</Text>
+									</Box>
+								) : null}
+							</Box>
+							<Text
+								weight="medium"
+								// size={isScrolled ? 'xxlarge' : 'xxxlarge'}
+								size="xxxlarge"
+								color="strong"
+								// className={styles.pricingText}
+							>
+								$4,440,206.25
+							</Text>
+						</Box>
+						<Box display="flex" flexGrow={1}>
+							<AccountSearch
+								placeholder="Search"
+								onChange={_value => {
+									console.log(_value)
+								}}
+							/>
+						</Box>
+					</Box>
+					<Box width="full">
+						<Box position="relative" paddingBottom="medium" className={styles.tokenListGridWrapper}>
+							<Box component="button" className={styles.tokenListHeaderButton}>
+								<Text size="xsmall" weight="medium">
+									Asset
+								</Text>
+							</Box>
+							<Box component="button" className={styles.tokenListHeaderButton}>
+								<Text size="xsmall" weight="medium">
+									Amount
+								</Text>
+							</Box>
+							<Box component="button" className={styles.tokenListHeaderButton}>
+								<Text size="xsmall" weight="medium">
+									Category
+								</Text>
+								<ChevronDown2Icon />
+							</Box>
+							<Box component="button" className={styles.tokenListHeaderButton}>
+								<Text size="xsmall" weight="medium">
+									Account
+								</Text>
+							</Box>
+						</Box>
+					</Box>
+				</Box>
+
 				<Context.Provider value={{ isScrolling, isLoading, setItems }}>
 					<VirtuosoGrid
-						className={
-							clsx()
-							// { [styles.virtuosoGridList]: view === 'list' },
-							// { [styles.virtuosoGridTwo]: view === 'tileTwo' },
-							// { [styles.virtuosoGridThree]: view === 'tileThree' },
-						}
 						customScrollParent={ref as any}
 						data={items}
 						itemContent={(index, user) => (

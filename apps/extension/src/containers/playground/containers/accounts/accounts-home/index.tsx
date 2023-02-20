@@ -29,7 +29,6 @@ export const AccountsHome = () => {
 	const location = useLocation()
 	const { account, assetType, asset } = useAccountParams()
 	const isAllAccount = account === 'all'
-	const [view, setView] = useState<'list' | 'two-col' | 'three-col'>('list')
 
 	return (
 		<Box
@@ -47,7 +46,7 @@ export const AccountsHome = () => {
 						renderPanel={(panelRef: React.Ref<HTMLElement | null>, isScrolled: boolean) => {
 							return (
 								<>
-									<AccountsRouteWrapper isScrolled={isScrolled} setView={setView} />
+									{/* <AccountsRouteWrapper isScrolled={isScrolled} /> */}
 									<Box position="relative">
 										<AnimatePresence initial={false}>
 											<Routes location={location} key={location.pathname}>
@@ -55,18 +54,18 @@ export const AccountsHome = () => {
 													path="/:account"
 													element={
 														<AnimatedPage>
+															<AccountsRouteWrapper isScrolled={isScrolled} />
 															<AccountsIndexAssets />
 														</AnimatedPage>
 													}
 												/>
-
 												{['/:account/:assetType', '/:account/:assetType/:asset'].map(path => (
 													<Route
 														key="Assets" // optional: avoid full re-renders on route changes
 														path={path}
 														element={
 															<AnimatedPage>
-																<AccountsList ref={panelRef} />
+																<AccountsList ref={panelRef} isScrolled={isScrolled} />
 															</AnimatedPage>
 														}
 													/>
@@ -105,7 +104,7 @@ export const AccountsHome = () => {
 												) : null}
 												{!asset ? (
 													<Text size="large" weight="medium" color="strong">
-														{assetType ? assetType : ''} activity
+														{assetType ? assetType : 'All'} activity
 													</Text>
 												) : null}
 											</Box>
@@ -131,48 +130,10 @@ export const AccountsRouteWrapper = ({ isScrolled }: { isScrolled: boolean }) =>
 		<Box className={clsx(styles.accountIndexWrapper, isScrolled && styles.accountIndexWrapperShadow)}>
 			<Box display="flex" width="full">
 				<Box flexGrow={1}>
-					<Box display="flex" alignItems="center" paddingBottom="xsmall">
-						{/* account */}
-						{assetType ? (
-							<Box>
-								<Link to={`/accounts/${account}`}>
-									<Text size="large">Overview{account ? `: ${account}` : ''}</Text>
-								</Link>
-							</Box>
-						) : (
-							<Box>
-								<Text size="large">Account balance</Text>
-								{/* <Text size="large">Accounts{account ? `: ${account}` : ''}</Text> */}
-							</Box>
-						)}
-						{/* asset type */}
-						{assetType ? (
-							<Box display="flex" alignItems="center">
-								<Box paddingX="small">
-									<ChevronRightIcon />
-								</Box>
-								{asset ? (
-									<Link to={`/accounts/${account}/${assetType}`}>
-										<Text size="large">{assetType}</Text>
-									</Link>
-								) : (
-									<Text size="large" color="strong">
-										{assetType}
-									</Text>
-								)}
-							</Box>
-						) : null}
-						{/* asset  */}
-						{asset ? (
-							<Box display="flex" alignItems="center">
-								<Box paddingX="small">
-									<ChevronRightIcon />
-								</Box>
-								<Text size="large" color="strong">
-									{asset}
-								</Text>
-							</Box>
-						) : null}
+					<Box display="flex" alignItems="center" paddingBottom="xsmall" flexGrow={0}>
+						<Box>
+							<Text size="large">Account balance</Text>
+						</Box>
 					</Box>
 					<Text
 						weight="medium"
@@ -184,41 +145,16 @@ export const AccountsRouteWrapper = ({ isScrolled }: { isScrolled: boolean }) =>
 						$4,440,206.25
 					</Text>
 				</Box>
-
-				{/* TODO: create class to hide with css */}
 				{assetType || asset ? (
-					<Box>
-						<Button
-							styleVariant="ghost"
-							iconOnly
-							onClick={() => {
-								console.log(99, 'header search')
+					<Box flexGrow={1}>
+						<AccountSearch
+							placeholder="Search"
+							onChange={_value => {
+								console.log(_value)
 							}}
-						>
-							<MagnifyingGlassIcon />
-						</Button>
+						/>
 					</Box>
 				) : null}
-			</Box>
-			<Box paddingX="xlarge" paddingBottom="xlarge" paddingTop="large" display="none" alignItems="center">
-				<Box display="flex" gap="small">
-					<Input placeholder="Search the tokens" />
-					<Button
-						styleVariant="secondary"
-						onClick={() => {
-							console.log(99, 'search')
-						}}
-					>
-						<MagnifyingGlassIcon />
-						Search
-					</Button>
-					{/* <ToolTip message="Yoooooo"> */}
-					{/* 	<Button styleVariant="secondary"> */}
-					{/* 		<MixerHorizontalIcon /> */}
-					{/* 		Apply filter */}
-					{/* 	</Button> */}
-					{/* </ToolTip> */}
-				</Box>
 			</Box>
 		</Box>
 	)

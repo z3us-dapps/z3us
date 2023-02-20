@@ -3,6 +3,34 @@ import { sprinkles, darkMode } from 'ui/src/components-v2/system/sprinkles.css'
 import { style, globalStyle, globalKeyframes } from '@vanilla-extract/css'
 import { vars } from 'ui/src/components-v2/system/theme.css'
 
+export const accountListHeaderWrapper = style([
+	sprinkles({
+		background: 'backgroundSecondary',
+		position: 'sticky',
+		top: 0,
+		zIndex: 1,
+		width: 'full',
+		paddingX: 'xlarge',
+		paddingTop: 'xlarge',
+		transition: 'slowall',
+	}),
+	{
+		// border: '1px solid red',
+		// transition: 'all 0.3s ease-out',
+	},
+])
+
+export const accountListHeaderWrapperShadow = style([
+	sprinkles({
+		// paddingTop: 'medium',
+		// paddingBottom: 'medium',
+	}),
+	{
+		boxShadow: '0px 10px 15px -3px rgba(0,0,0,0.1)',
+		// paddingBottom: vars.spacing.small,
+	},
+])
+
 export const wrapper = sprinkles({
 	position: 'relative',
 	overflow: 'hidden',
@@ -96,10 +124,16 @@ export const itemWrapperInner = style([
 		height: 'full',
 		width: 'full',
 		color: 'borderDivider',
+		transition: 'fast',
 	}),
 	{
 		boxShadow: '0 -1px 0 0',
+	},
+])
 
+export const itemWrapperInnerHover = style([
+	sprinkles({}),
+	{
 		'::before': {
 			content: '""',
 			position: 'absolute',
@@ -116,7 +150,6 @@ export const itemWrapperInner = style([
 			boxShadow:
 				'0px 0px 0px 1px rgba(255, 255, 255, 0.15), 0px 136px 192px rgba(0, 0, 0, 0.3), 0px 50px 50px rgba(0, 0, 0, 0.25), 0px 24px 24px rgba(0, 0, 0, 0.2), 0px 12px 12px rgba(0, 0, 0, 0.15)',
 		},
-
 		selectors: {
 			'&:hover': {
 				boxShadow: 'none',
@@ -178,6 +211,14 @@ export const tokenListGridWrapper = style([
 		display: 'grid',
 		gap: '1rem',
 		gridTemplateColumns: '1fr 104px 104px 134px',
+	},
+])
+
+export const tokenListHeaderButton = style([
+	{
+		cursor: 'pointer',
+		display: 'flex',
+		alignItems: 'center',
 	},
 ])
 

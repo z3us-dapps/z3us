@@ -1,5 +1,6 @@
 /* eslint-disable */
 import React, { forwardRef, useEffect, useState, useRef } from 'react'
+import { useEventListener } from 'usehooks-ts'
 import { Button } from '@src/components/button'
 import { Box } from 'ui/src/components-v2/box'
 import { Input, FormElement } from 'ui/src/components-v2/input'
@@ -44,6 +45,13 @@ export const AccountSearch = forwardRef<HTMLElement, IAccountSearchProps>(
 			setIsInputVisible(false)
 			setInputValue('')
 		}
+
+		useEventListener('keydown', e => {
+			if (e.key === 'Escape') {
+				inputRef.current.blur()
+				handleCloseSearch()
+			}
+		})
 
 		return (
 			<Box ref={ref} className={styles.accountSearchWrapper}>

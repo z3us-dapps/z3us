@@ -114,6 +114,7 @@ export const indexAssetLinkRow = style([
 	sprinkles({
 		width: 'full',
 		color: 'borderDivider',
+		transition: 'fast',
 	}),
 	{
 		boxShadow: '0 -1px 0 0',
@@ -140,6 +141,16 @@ export const indexAssetLinkRow = style([
 			'&:hover::before': {
 				// opacity: 1,
 			},
+		},
+	},
+])
+
+export const indexAssetLinkRowHover = style([
+	sprinkles({}),
+	{
+		boxShadow: 'none',
+		'::before': {
+			opacity: 1,
 		},
 	},
 ])
@@ -181,16 +192,6 @@ export const teststyle = style([
 		tablet: { width: '33%' },
 		desktop: { width: '25%' },
 	}),
-])
-
-export const indexAssetLinkRowHover = style([
-	sprinkles({}),
-	{
-		boxShadow: 'none',
-		'::before': {
-			opacity: 1,
-		},
-	},
 ])
 
 globalStyle(`.${darkMode} ${indexAssetLinkRow} > a:hover`, {

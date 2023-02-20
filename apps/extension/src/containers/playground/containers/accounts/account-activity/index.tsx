@@ -56,9 +56,9 @@ const ItemWrapper = props => {
 			</Box>
 			<Box display="flex" flexDirection="column" flexGrow={1}>
 				<Text weight="stronger" size="small" color="strong">
-					$40,452
+					1.249 XRD
 				</Text>
-				<Text size="xsmall">$40,452</Text>
+				<Text size="xsmall">rdx1...746x</Text>
 			</Box>
 			<Box display="flex" flexDirection="column">
 				<Text weight="strong" size="xsmall" color="red">
