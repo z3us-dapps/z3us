@@ -10,7 +10,7 @@ const colorMap = {
 	neutral: 'colorNeutral',
 	strong: 'colorStrong',
 	red: { lightMode: 'red500', darkMode: 'red400' },
-	green: { lightMode: 'green400', darkMode: 'green200' },
+	green: { lightMode: 'green700', darkMode: 'green500' },
 	// link: { lightMode: 'bleached_silk900', darkMode: 'bleached_silk100' },
 	// secondary: { lightMode: 'bleached_silk900', darkMode: 'bleached_silk100' },
 	// highlight: { lightMode: 'bleached_silk900', darkMode: 'purple500' },

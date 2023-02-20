@@ -165,13 +165,12 @@ export const sharedThemeValues = {
 				desktop: '0.02em',
 			},
 		},
-
 		medium: {
 			calculate: calculateTypographyStyles(
 				{
-					mobile: { fontSize: 15, rows: 5 },
-					tablet: { fontSize: 15, rows: 5 },
-					desktop: { fontSize: 15, rows: 5 },
+					mobile: { fontSize: 15, rows: 4.5 },
+					tablet: { fontSize: 15, rows: 4.5 },
+					desktop: { fontSize: 15, rows: 4.5 },
 				},
 				'body',
 			),
@@ -181,7 +180,6 @@ export const sharedThemeValues = {
 				desktop: '0.02em',
 			},
 		},
-
 		large: {
 			calculate: calculateTypographyStyles(
 				{
@@ -231,9 +229,9 @@ export const sharedThemeValues = {
 		xxxlarge: {
 			calculate: calculateTypographyStyles(
 				{
-					mobile: { fontSize: 36, rows: 13 },
-					tablet: { fontSize: 36, rows: 13 },
-					desktop: { fontSize: 36, rows: 13 },
+					mobile: { fontSize: 36, rows: 11 },
+					tablet: { fontSize: 36, rows: 11 },
+					desktop: { fontSize: 36, rows: 11 },
 				},
 				'heading',
 			),

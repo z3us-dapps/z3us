@@ -8,10 +8,12 @@ import * as styles from './input.css'
 
 export type FormElement = HTMLInputElement | HTMLTextAreaElement
 
-interface IInputRequiredProps {}
+interface IInputRequiredProps {
+	value: string
+}
 
 interface IInputOptionalProps {
-	className?: number
+	className?: string
 	onClick?: () => void
 	disabled?: boolean
 	iconOnly?: boolean
@@ -21,7 +23,7 @@ interface IInputOptionalProps {
 	elementType?: 'input' | 'textarea'
 	placeholder?: string
 
-	// onChange?: (e: React.ChangeEvent<FormElement>) => void
+	onChange?: (e: React.ChangeEvent<FormElement>) => void
 	// onFocus?: (e: React.ChangeEvent<FormElement>) => void
 	// onBlur?: (e: React.ChangeEvent<FormElement>) => void
 }
@@ -38,11 +40,29 @@ const defaultProps: IInputOptionalProps = {
 	elementType: 'input',
 	type: 'text',
 	placeholder: undefined,
+	onChange: undefined,
 }
 
 export const Input = forwardRef<FormElement, IInputProps>((props, ref: React.Ref<FormElement | null>) => {
-	const { disabled, iconOnly, onClick, className, sizeVariant, styleVariant, elementType, type, placeholder, ...rest } =
-		props
+	const {
+		disabled,
+		iconOnly,
+		onClick,
+		className,
+		sizeVariant,
+		styleVariant,
+		elementType,
+		type,
+		value,
+		placeholder,
+		onChange,
+		...rest
+	} = props
+
+	const handleOnChange = (event: React.ChangeEvent<FormElement>) => {
+		if (disabled) return
+		onChange(event)
+	}
 
 	return (
 		<Box
@@ -59,9 +79,11 @@ export const Input = forwardRef<FormElement, IInputProps>((props, ref: React.Ref
 					iconOnly,
 				}),
 			)}
+			value={value}
 			disabled={disabled}
 			onClick={onClick}
 			placeholder={placeholder}
+			onChange={handleOnChange}
 			{...rest}
 		/>
 	)

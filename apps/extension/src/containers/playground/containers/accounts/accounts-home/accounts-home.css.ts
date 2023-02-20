@@ -1,4 +1,5 @@
 import { darkMode, sprinkles } from 'ui/src/components-v2/system/sprinkles.css'
+import { responsiveStyle } from 'ui/src/components-v2/system/theme-utils'
 import { vars } from 'ui/src/components-v2/system/theme.css'
 import { style, globalStyle } from '@vanilla-extract/css'
 
@@ -141,6 +142,45 @@ export const indexAssetLinkRow = style([
 			},
 		},
 	},
+])
+
+export const indexAssetLinkRowInner = style([
+	sprinkles({
+		position: 'relative',
+		flexGrow: 1,
+	}),
+	{
+		paddingTop: '24px',
+		paddingBottom: '24px',
+	},
+	responsiveStyle({
+		// mobile: { width: '100%' },
+		// tablet: { width: '33%' },
+		// desktop: { width: '25%' },
+	}),
+])
+
+export const teststyle = style([
+	sprinkles({
+		position: 'relative',
+		background: {
+			hover: 'red800',
+			focus: 'red900',
+		},
+	}),
+	{
+		border: '1px solid red',
+		'@media': {
+			[`screen and (min-width: 480px)`]: {
+				flexBasis: '50%',
+			},
+		},
+	},
+	responsiveStyle({
+		mobile: { width: '100%' },
+		tablet: { width: '33%' },
+		desktop: { width: '25%' },
+	}),
 ])
 
 export const indexAssetLinkRowHover = style([

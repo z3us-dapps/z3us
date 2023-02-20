@@ -1,13 +1,14 @@
 /* eslint-disable */
 import React, { useState } from 'react'
-import { MixerHorizontalIcon, ChevronRightIcon } from '@radix-ui/react-icons'
-import { PlusIcon, MagnifyingGlassIcon, ArrowLeftIcon } from 'ui/src/components/icons'
+import { MixerHorizontalIcon } from '@radix-ui/react-icons'
+import { PlusIcon, MagnifyingGlassIcon, ArrowLeftIcon, ChevronRightIcon } from 'ui/src/components/icons'
 import { AnimatedPage } from '@src/containers/playground/components/animated-route'
 import { AnimatePresence } from 'framer-motion'
 import clsx from 'clsx'
 import { Routes, Route, useLocation, Link as LinkRouter, useNavigate } from 'react-router-dom'
 import { AccountsList } from '@src/containers/playground/containers/accounts/accounts-list'
 import { AccountSwitcher } from '@src/containers/playground/containers/accounts/account-switcher'
+import { AccountSearch } from '@src/containers/playground/containers/accounts/account-search'
 import { AccountActivity } from '@src/containers/playground/containers/accounts/account-activity'
 // TODO: remove??
 // import { AccountTransaction } from '@src/containers/playground/containers/accounts/account-transaction'
@@ -83,7 +84,7 @@ export const AccountsHome = () => {
 							return (
 								<Box>
 									{isAllAccount && !assetType ? (
-										<Box padding="xlarge">
+										<Box paddingTop="xlarge" paddingX="xlarge">
 											<Box background="backgroundPrimary" style={{ width: '100%', height: '200px' }}></Box>
 										</Box>
 									) : (
@@ -95,8 +96,8 @@ export const AccountsHome = () => {
 										paddingBottom="small"
 										className={styles.recentActivityWrapper}
 									>
-										<Box display="flex" alignItems="center" position="relative">
-											<Box flexGrow={1}>
+										<Box display="flex" alignItems="center" position="relative" gap="large">
+											<Box flexShrink={0}>
 												{asset ? (
 													<Text size="large" weight="medium" color="strong">
 														{asset} activity
@@ -104,20 +105,11 @@ export const AccountsHome = () => {
 												) : null}
 												{!asset ? (
 													<Text size="large" weight="medium" color="strong">
-														Account {assetType ? assetType : ''} activity
+														{assetType ? assetType : ''} activity
 													</Text>
 												) : null}
 											</Box>
-											<Button
-												styleVariant="ghost"
-												sizeVariant="small"
-												onClick={() => {
-													console.log(99, 'search')
-												}}
-												iconOnly
-											>
-												<MagnifyingGlassIcon />
-											</Button>
+											<AccountSearch placeholder="search" />
 										</Box>
 									</Box>
 									<AccountActivity ref={panelRef} />
@@ -183,7 +175,7 @@ export const AccountsRouteWrapper = ({ isScrolled }: { isScrolled: boolean }) =>
 						) : null}
 					</Box>
 					<Text
-						weight="strong"
+						weight="medium"
 						// size={isScrolled ? 'xxlarge' : 'xxxlarge'}
 						size="xxxlarge"
 						color="strong"
@@ -238,22 +230,19 @@ export const AccountsIndexAssets = () => {
 	return (
 		<>
 			<Box paddingBottom="xlarge">
-				<Box display="flex" paddingBottom="small" paddingTop="large" paddingX="xlarge" alignItems="center">
-					<Box flexGrow={1}>
+				<Box display="flex" paddingBottom="small" paddingTop="large" paddingX="xlarge" alignItems="center" gap="large">
+					<Box>
 						<Text size="xlarge" color="strong" weight="medium">
 							Assets and badges
 						</Text>
 					</Box>
-					<Box>
-						<Button
-							styleVariant="ghost"
-							iconOnly
-							onClick={() => {
-								console.log(99, 'header search')
+					<Box flexGrow={1}>
+						<AccountSearch
+							placeholder="Search"
+							onChange={_value => {
+								console.log(_value)
 							}}
-						>
-							<MagnifyingGlassIcon />
-						</Button>
+						/>
 					</Box>
 				</Box>
 				<Box className={styles.indexAssetsWrapper}>
@@ -265,31 +254,25 @@ export const AccountsIndexAssets = () => {
 								className={clsx(styles.indexAssetLinkRow, name === hoveredLink && styles.indexAssetLinkRowHover)}
 							>
 								<Box
-									flexGrow={1}
-									paddingY="large"
-									position="relative"
+									className={styles.indexAssetLinkRowInner}
 									onMouseOver={() => setHoveredLink(name)}
 									onMouseLeave={() => setHoveredLink(null)}
 								>
 									<Box display="flex" alignItems="center">
-										<Text size="medium" color="strong" weight="medium">
+										<Text size="medium" color="strong">
 											{name}
 										</Text>
 										<Box paddingLeft="xsmall">
-											<Text size="medium" weight="medium">
-												(12)
-											</Text>
+											<Text size="medium">(12)</Text>
 										</Box>
 									</Box>
-									<Box display="flex" alignItems="center">
-										<Text size="small" color="strong" weight="medium">
+									<Box display="flex" alignItems="center" gap="xsmall">
+										<Text size="small" color="strong" weight="strong">
 											$12,401
 										</Text>
-										<Box paddingLeft="xsmall">
-											<Text size="small" color="green">
-												+1.23%
-											</Text>
-										</Box>
+										<Text size="xsmall" color="green">
+											+1.23%
+										</Text>
 									</Box>
 								</Box>
 							</Link>
@@ -315,9 +298,8 @@ export const AccountsIndexAssets = () => {
 										</Box>
 									</Link>
 								))}
-
 								<Box paddingLeft="xsmall">
-									<PlusIcon />
+									<ChevronRightIcon />
 								</Box>
 							</Box>
 						</Box>
