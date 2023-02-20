@@ -36,7 +36,7 @@ const responsiveProperties = defineProperties({
 		overflow: ['hidden', 'clip', 'auto'],
 		opacity: [0, 1],
 		textAlign: ['left', 'center', 'right'],
-		minWidth: [0],
+		minWidth: { ...vars.spacing, ...{ 0: '0' } },
 		maxWidth: vars.contentWidth,
 		width: { ...vars.spacing, ...{ full: '100%', vw100: '100vw' } },
 		height: { ...vars.spacing, ...{ full: '100%', vh100: '100vh' } },

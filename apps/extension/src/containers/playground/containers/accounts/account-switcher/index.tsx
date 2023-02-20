@@ -3,7 +3,15 @@ import React, { forwardRef, useEffect, useState, useRef } from 'react'
 import { Box } from 'ui/src/components-v2/box'
 import { Text } from 'ui/src/components-v2/typography'
 import { motion, AnimatePresence, useMotionValue } from 'framer-motion'
-import { PlusIcon, MagnifyingGlassIcon, ArrowLeftIcon, ArrowRightIcon, QrCodeIcon } from 'ui/src/components/icons'
+import {
+	PlusIcon,
+	MagnifyingGlassIcon,
+	ArrowLeftIcon,
+	ArrowRightIcon,
+	QrCodeIcon,
+	UpRightIcon,
+	DownLeftIcon,
+} from 'ui/src/components/icons'
 import { Avatar, AvatarImage, AvatarFallback } from 'ui/src/components-v2/avatar'
 import { Button } from '@src/components/button'
 // import clsx from 'clsx'
@@ -251,10 +259,10 @@ export const AccountSwitcher = forwardRef<HTMLButtonElement, IAccountSwitcherPro
 							</AnimatePresence>
 							<Box display="flex" paddingTop="large" gap="large" position="relative" zIndex={1}>
 								<Button iconOnly rounded styleVariant="inverse" sizeVariant="large" onClick={() => {}}>
-									<ArrowLeftIcon />
+									<UpRightIcon />
 								</Button>
 								<Button iconOnly rounded styleVariant="inverse" sizeVariant="large" onClick={() => {}}>
-									<ArrowLeftIcon />
+									<DownLeftIcon />
 								</Button>
 								<Button iconOnly rounded styleVariant="inverse" sizeVariant="large" onClick={() => {}}>
 									<QrCodeIcon />

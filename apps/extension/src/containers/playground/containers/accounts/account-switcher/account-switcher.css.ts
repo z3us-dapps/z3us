@@ -96,7 +96,7 @@ export const cardAccountShine = style([
 		width: '300%',
 		height: '300%',
 		left: '-200%',
-		background: 'linear-gradient(45deg,rgba(255,255,255,.01) 25%, rgba(255,255,255,.3) 50%, rgba(255,255,255,.01) 75%)',
+		background: 'linear-gradient(45deg,rgba(255,255,255,.01) 25%, rgba(255,255,255,.3) 40%, rgba(255,255,255,.01) 75%)',
 		backgroundPosition: '0 0',
 	},
 ])

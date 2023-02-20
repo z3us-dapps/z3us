@@ -1,9 +1,8 @@
 import React, { forwardRef } from 'react'
-import { CheckIcon } from '@radix-ui/react-icons'
+import { Check2Icon } from '../../components/icons'
 import * as SelectPrimitive from '@radix-ui/react-select'
 import clsx from 'clsx'
 import { Text } from '../typography'
-import { Box } from '../box'
 import * as styles from './select.css'
 
 export const Select = SelectPrimitive.Root
@@ -92,14 +91,12 @@ export const SelectItem = forwardRef<HTMLDivElement, ISelectItemProps>(
 				ref={forwardedRef}
 			>
 				<SelectPrimitive.ItemText>
-					<Box>
-						<Text size="small" color="strong">
-							{children}
-						</Text>
-					</Box>
+					<Text size="small" color="strong">
+						{children}
+					</Text>
 				</SelectPrimitive.ItemText>
 				<SelectPrimitive.ItemIndicator>
-					<CheckIcon />
+					<Check2Icon />
 				</SelectPrimitive.ItemIndicator>
 			</SelectPrimitive.Item>
 		)

@@ -26,7 +26,7 @@ export const selectContent = style([
 		borderRadius: 'medium',
 	}),
 	{
-		minWidth: '7rem',
+		minWidth: '8rem',
 		animationTimingFunction: 'cubic-bezier(0.16, 1, 0.3, 1)',
 		willChange: 'transform, opacity',
 		animationDuration: '150ms',
