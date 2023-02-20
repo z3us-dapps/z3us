@@ -102,10 +102,11 @@ export const cardAccountShine = style([
 ])
 
 globalStyle(`${card}:hover ${cardAccountShine}`, {
-	top: '-100%',
-	left: '100%',
+	top: '-200%',
+	left: '0%',
 	opacity: '1',
 	transition: 'all 0.8s ease',
+	background: 'linear-gradient(45deg,rgba(255,255,255,.01) 35%, rgba(255,255,255,.3) 50%, rgba(255,255,255,.01) 75%)',
 })
 
 export const cardAccountText = style([

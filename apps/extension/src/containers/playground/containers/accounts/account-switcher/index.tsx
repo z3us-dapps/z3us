@@ -60,7 +60,6 @@ const SLIDER_WIDTH = 324
 export const AccountSwitcher = forwardRef<HTMLButtonElement, IAccountSwitcherProps>(
 	(props, ref: React.Ref<HTMLElement | null>) => {
 		const { isScrolled } = props
-		console.log('isScrolled:', isScrolled)
 
 		const navigate = useNavigate()
 		const { account, assetType, asset } = useAccountParams()
