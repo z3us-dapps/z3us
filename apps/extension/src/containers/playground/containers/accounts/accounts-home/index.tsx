@@ -191,10 +191,7 @@ export const AccountsIndexAssets = React.forwardRef<HTMLElement, IAccountsIndexA
 					>
 						<Box>
 							<Text size="xlarge" color="strong" weight="medium">
-								Assets and badges
-							</Text>
-							<Text size="xlarge" color="strong" weight="medium">
-								<Translation text="Hello" />
+								<Translation text="accountsIndex" />
 							</Text>
 						</Box>
 						<Box flexGrow={1}>

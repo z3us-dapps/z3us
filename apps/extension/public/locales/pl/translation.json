@@ -1,3 +1,44 @@
 {
-	"Hello": "P O L A K !! Wittam 🥖 👋"
+	"global": {
+		"ok": "Okay",
+		"cancel": "Cancel",
+		"next": "Next",
+		"previous": "Previous"
+	},
+	"order": {
+		"checkout": "Proceed to checkout",
+		"continue_shopping": "Return to the store and continue shopping",
+		"discard": "Remove all items from the card and discard the order",
+		"save": "Save the order as draft"
+	},
+	"profile": {
+		"save": "Save profile changes",
+		"undo": "Undo all recent profile changes",
+		"edit_password": "Edit your password"
+	},
+	"accountsIndex": "P O L A K 👋",
+	"Hello": "English Hello 👋",
+	"key": "value",
+	"keyDeep": {
+		"inner": "value"
+	},
+	"keyNesting": "reuse $t(keyDeep.inner)",
+	"keyInterpolate": "replace this {{value}}",
+	"keyInterpolateUnescaped": "replace this {{- value}}",
+	"keyInterpolateWithFormatting": "replace this {{value, format}}",
+	"keyContext_male": "the male variant",
+	"keyContext_female": "the female variant",
+	"keyPluralSimple_one": "the singular",
+	"keyPluralSimple_other": "the plural",
+	"keyPluralMultipleEgArabic_zero": "the plural form 0",
+	"keyPluralMultipleEgArabic_one": "the plural form 1",
+	"keyPluralMultipleEgArabic_two": "the plural form 2",
+	"keyPluralMultipleEgArabic_few": "the plural form 3",
+	"keyPluralMultipleEgArabic_many": "the plural form 4",
+	"keyPluralMultipleEgArabic_other": "the plural form 5",
+	"keyWithArrayValue": ["multipe", "things"],
+	"keyWithObjectValue": {
+		"valueA": "return this with valueB",
+		"valueB": "more text"
+	}
 }
