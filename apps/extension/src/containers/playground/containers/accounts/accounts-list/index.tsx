@@ -1,4 +1,4 @@
-/* eslint-disable */
+/* eslint-disable no-unused-vars */
 import React, { useState, useRef, useEffect, useCallback, useContext } from 'react'
 import { useTimeout } from 'usehooks-ts'
 import { Routes, Route, useNavigate, Navigate } from 'react-router-dom'
@@ -104,7 +104,7 @@ const ItemWrapper = props => {
 										<Box className={clsx(styles.tokenListSkeleton, styles.tokenListGridCircle)} />
 										<Box
 											className={styles.tokenListSkeleton}
-											style={{ width: idx % 2 == 0 ? '45%' : '65%', height: '50%' }}
+											style={{ width: idx % 2 === 0 ? '45%' : '65%', height: '50%' }}
 										/>
 									</Box>
 									<Box display="flex" alignItems="center">

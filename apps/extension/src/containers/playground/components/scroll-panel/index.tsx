@@ -1,10 +1,7 @@
-/* eslint-disable */
-import React, { forwardRef, useEffect, useState, useRef } from 'react'
+import React, { useEffect, useState, useRef } from 'react'
 import { Box } from 'ui/src/components-v2/box'
+import { useLocation } from 'react-router-dom'
 import { ScrollArea } from 'ui/src/components-v2/scroll-area'
-// import { Virtuoso, VirtuosoGrid, VirtuosoGridHandle } from 'react-virtuoso'
-// import { PlusIcon, MagnifyingGlassIcon } from 'ui/src/components/icons'
-// import { Text } from 'ui/src/components-v2/typography'
 import clsx from 'clsx'
 
 import * as styles from './scroll-panel.css'
@@ -16,6 +13,7 @@ interface IScrollPanelRequiredProps {
 interface IScrollPanelOptionalProps {
 	className?: string
 	scrollDisabled?: boolean
+	scrollTopOnRoute?: boolean
 }
 
 interface IScrollPanelProps extends IScrollPanelRequiredProps, IScrollPanelOptionalProps {}
@@ -23,26 +21,27 @@ interface IScrollPanelProps extends IScrollPanelRequiredProps, IScrollPanelOptio
 const defaultProps: IScrollPanelOptionalProps = {
 	className: undefined,
 	scrollDisabled: undefined,
+	scrollTopOnRoute: undefined,
 }
 
 export const ScrollPanel: React.FC<IScrollPanelProps> = props => {
-	const { renderPanel, className, scrollDisabled } = props
+	const { renderPanel, className, scrollDisabled, scrollTopOnRoute } = props
 
 	const ref = useRef(null)
+	const location = useLocation()
+	const [currentPath, setCurrentPath] = useState<string>(location.pathname)
 	const [panelRef, setPanelRef] = useState<HTMLElement | null>(null)
 	const [listMaxHeight, setListMaxHeight] = useState<number>(300)
 	const [listHeight, setListHeight] = useState<number>(200)
-	const [isScrolled, setIsScrolled] = useState<boolean>(false)
 	const [scrollTop, setScrollTop] = useState<number>(0)
 
 	const handleScroll = (e: Event) => {
 		const target = e.target as Element
 		const { scrollTop: scrollTopTarget } = target
-		setIsScrolled(scrollTopTarget > 0)
 		setScrollTop(scrollTopTarget)
 	}
 
-	// TODO move this callback to the component
+	// TODO move this callback to the component ???
 	const setListSize = () => {
 		const listRef = ref.current
 		if (listRef) {
@@ -55,6 +54,14 @@ export const ScrollPanel: React.FC<IScrollPanelProps> = props => {
 			setListMaxHeight(maxHeight)
 		}
 	}
+
+	useEffect(() => {
+		const { pathname } = location
+		if (pathname !== currentPath && scrollTopOnRoute) {
+			setCurrentPath(pathname)
+			panelRef.scrollTop = 0
+		}
+	}, [location.pathname, scrollTopOnRoute])
 
 	return (
 		<Box

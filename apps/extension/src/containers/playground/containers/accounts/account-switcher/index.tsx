@@ -1,6 +1,6 @@
 /* eslint-disable */
 import React, { forwardRef, useEffect, useState, useRef } from 'react'
-import { useTimeout } from 'usehooks-ts'
+import { ToolTip } from 'ui/src/components-v2/tool-tip'
 import { Box } from 'ui/src/components-v2/box'
 import { Text } from 'ui/src/components-v2/typography'
 import { motion, AnimatePresence, useMotionValue } from 'framer-motion'
@@ -8,11 +8,12 @@ import clsx from 'clsx'
 import {
 	PlusIcon,
 	MagnifyingGlassIcon,
+	QrCodeIcon,
 	ArrowLeftIcon,
 	ArrowRightIcon,
-	QrCodeIcon,
 	UpRightIcon,
 	DownLeftIcon,
+	Close2Icon,
 } from 'ui/src/components/icons'
 import { Avatar, AvatarImage, AvatarFallback } from 'ui/src/components-v2/avatar'
 import { Button } from '@src/components/button'
@@ -117,15 +118,35 @@ export const AccountSwitcher = forwardRef<HTMLButtonElement, IAccountSwitcherPro
 			}
 		}, [scrollTop])
 
+		const arrowBtns = (
+			<>
+				<ToolTip message="send">
+					<Button iconOnly rounded styleVariant="inverse" sizeVariant="large" onClick={() => {}}>
+						<UpRightIcon />
+					</Button>
+				</ToolTip>
+				<ToolTip message="receive">
+					<Button iconOnly rounded styleVariant="inverse" sizeVariant="large" onClick={() => {}}>
+						<DownLeftIcon />
+					</Button>
+				</ToolTip>
+				<ToolTip message="address">
+					<Button iconOnly rounded styleVariant="inverse" sizeVariant="large" onClick={() => {}}>
+						<QrCodeIcon />
+					</Button>
+				</ToolTip>
+			</>
+		)
+
 		return (
 			<>
 				<Box display="flex" gap="small" className={styles.tempyy}></Box>
 				{asset ? (
 					<Box borderBottom={1} borderColor="borderDivider" borderStyle="solid" flexShrink={0}>
 						<Box display="flex" flexDirection="column" alignItems="center">
-							<Box display="flex" width="full" justifyContent="flex-end" paddingTop="large" paddingX="large">
-								<Button iconOnly styleVariant="ghost" sizeVariant="small">
-									<ArrowLeftIcon />
+							<Box display="flex" width="full" justifyContent="flex-end" paddingTop="medium" paddingX="medium">
+								<Button iconOnly styleVariant="ghost" sizeVariant="small" to={`/accounts/${account}/${assetType}`}>
+									<Close2Icon />
 								</Button>
 							</Box>
 							<Box display="flex" flexDirection="column" justifyContent="center" alignItems="center">
@@ -150,30 +171,28 @@ export const AccountSwitcher = forwardRef<HTMLButtonElement, IAccountSwitcherPro
 								<Text size="xlarge">+4,345 (13.3%)</Text>
 							</Box>
 							<Box display="flex" paddingTop="large" gap="large" position="relative" paddingBottom="large">
-								<Button iconOnly rounded styleVariant="inverse" sizeVariant="large" onClick={() => {}}>
-									<ArrowLeftIcon />
-								</Button>
-								<Button iconOnly rounded styleVariant="inverse" sizeVariant="large" onClick={() => {}}>
-									<ArrowLeftIcon />
-								</Button>
-								<Button iconOnly rounded styleVariant="inverse" sizeVariant="large" onClick={() => {}}>
-									<QrCodeIcon />
-								</Button>
+								{arrowBtns}
 							</Box>
-							<Box className={styles.tempBg}>asdfasdf</Box>
+							<Box className={styles.tempBg}>TODO: Chart goes here</Box>
 							<Box display="flex" paddingTop="small" paddingBottom="xlarge" gap="small">
-								<Button rounded styleVariant="tertiary" sizeVariant="small" onClick={() => {}}>
-									3M
-								</Button>
-								<Button rounded styleVariant="tertiary" sizeVariant="small" onClick={() => {}}>
-									3M
-								</Button>
-								<Button rounded styleVariant="tertiary" sizeVariant="small" onClick={() => {}}>
-									3M
-								</Button>
-								<Button rounded styleVariant="secondary" sizeVariant="small" onClick={() => {}}>
-									All
-								</Button>
+								{[
+									{ id: '1W', title: '1W' },
+									{ id: '1M', title: '1M' },
+									{ id: '3M', title: '3M' },
+									{ id: '6M', title: '6M' },
+									{ id: '1Y', title: '1Y' },
+									{ id: 'all', title: 'All' },
+								].map(({ id, title }) => (
+									<Button
+										key={id}
+										rounded
+										styleVariant={id === 'all' ? 'secondary' : 'tertiary'}
+										sizeVariant="small"
+										onClick={() => {}}
+									>
+										{title}
+									</Button>
+								))}
 							</Box>
 						</Box>
 					</Box>
@@ -270,15 +289,7 @@ export const AccountSwitcher = forwardRef<HTMLButtonElement, IAccountSwitcherPro
 									transition={{ duration: 0.3 }}
 									className={styles.accountCardButtonWrapper}
 								>
-									<Button iconOnly rounded styleVariant="inverse" sizeVariant="large" onClick={() => {}}>
-										<UpRightIcon />
-									</Button>
-									<Button iconOnly rounded styleVariant="inverse" sizeVariant="large" onClick={() => {}}>
-										<DownLeftIcon />
-									</Button>
-									<Button iconOnly rounded styleVariant="inverse" sizeVariant="large" onClick={() => {}}>
-										<QrCodeIcon />
-									</Button>
+									{arrowBtns}
 								</motion.div>
 							</AnimatePresence>
 						</Box>

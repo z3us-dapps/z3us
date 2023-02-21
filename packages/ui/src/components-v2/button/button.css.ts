@@ -100,6 +100,15 @@ export const button = recipe({
 					padding: 'medium',
 				}),
 				{
+					height: '44px',
+				},
+			],
+			xlarge: [
+				sprinkles({
+					borderRadius: 'large',
+					padding: 'medium',
+				}),
+				{
 					height: '48px',
 				},
 			],
@@ -140,6 +149,16 @@ export const button = recipe({
 		{
 			variants: {
 				sizeVariant: 'large',
+				iconOnly: true,
+			},
+			style: {
+				width: '44px',
+				padding: '0px',
+			},
+		},
+		{
+			variants: {
+				sizeVariant: 'xlarge',
 				iconOnly: true,
 			},
 			style: {

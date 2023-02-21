@@ -39,6 +39,7 @@ export const accountCardWrapperShadow = style([
 export const tempBg = style([
 	sprinkles({
 		background: 'backgroundPrimary',
+		padding: 'large',
 	}),
 	{
 		height: '160px',

@@ -4,10 +4,9 @@ import { Box } from '../box'
 
 import * as styles from './button.css'
 
-type TSizeVariant = 'small' | 'medium' | 'large'
+type TSizeVariant = 'small' | 'medium' | 'large' | 'xlarge'
 type TStyleVariant = 'primary' | 'secondary' | 'tertiary' | 'ghost' | 'inverse'
 
-// Button
 interface IButtonRequiredProps {
 	children: React.ReactNode
 }

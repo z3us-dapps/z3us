@@ -2,7 +2,7 @@ import { style, keyframes } from '@vanilla-extract/css'
 import { sprinkles } from '../system/sprinkles.css'
 
 const fadeIn = keyframes({
-	'0%': { transform: 'scale(0.90) translateY(-20px)', opacity: '0' },
+	'0%': { transform: 'scale(0.90) translateY(-5px)', opacity: '0' },
 	'100%': { transform: 'scale(1.00) translateY(0px)', opacity: '1' },
 })
 
@@ -17,7 +17,7 @@ export const toolTipContent = style([
 		color: 'colorNeutral',
 		paddingX: 'small',
 		paddingY: 'small',
-		borderRadius: 'medium',
+		borderRadius: 'small',
 		pointerEvents: 'none',
 	}),
 	{

@@ -1,8 +1,8 @@
 import React, { useRef, useEffect } from 'react'
 import SimpleBar from 'simplebar-react'
 import { useImmer } from 'use-immer'
-import { Box } from '../box'
 import clsx from 'clsx'
+import { Box } from '../box'
 import 'simplebar-react/dist/simplebar.min.css'
 
 import * as styles from './scroll-area.css'

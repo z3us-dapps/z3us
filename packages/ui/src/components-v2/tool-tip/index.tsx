@@ -32,7 +32,7 @@ const defaultProps: IToolTipOptionalProps = {
 	sideOffset: 3,
 	arrowOffset: 5,
 	isArrowVisible: true,
-	side: 'top',
+	side: 'bottom',
 }
 
 export const ToolTip: React.FC<IToolTipProps> = ({
