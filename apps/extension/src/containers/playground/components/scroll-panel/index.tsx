@@ -33,11 +33,13 @@ export const ScrollPanel: React.FC<IScrollPanelProps> = props => {
 	const [listMaxHeight, setListMaxHeight] = useState<number>(300)
 	const [listHeight, setListHeight] = useState<number>(200)
 	const [isScrolled, setIsScrolled] = useState<boolean>(false)
+	const [scrollTop, setScrollTop] = useState<number>(0)
 
 	const handleScroll = (e: Event) => {
 		const target = e.target as Element
-		const { scrollTop } = target
-		setIsScrolled(scrollTop > 0)
+		const { scrollTop: scrollTopTarget } = target
+		setIsScrolled(scrollTopTarget > 0)
+		setScrollTop(scrollTopTarget)
 	}
 
 	// TODO move this callback to the component
@@ -70,7 +72,7 @@ export const ScrollPanel: React.FC<IScrollPanelProps> = props => {
 				onScroll={handleScroll}
 				isTopShadowVisible={false}
 			>
-				{renderPanel(panelRef, isScrolled)}
+				{renderPanel(panelRef, scrollTop)}
 			</ScrollArea>
 		</Box>
 	)

@@ -39,7 +39,7 @@ export const AccountsHome = () => {
 				<Box className={clsx(styles.panelWrapper)}>
 					<ScrollPanel
 						className={styles.leftPanel}
-						renderPanel={(panelRef: React.Ref<HTMLElement | null>, isScrolled: boolean) => {
+						renderPanel={(panelRef: React.Ref<HTMLElement | null>, scrollTop: number) => {
 							return (
 								<>
 									{/* <AccountsRouteWrapper isScrolled={isScrolled} /> */}
@@ -50,7 +50,7 @@ export const AccountsHome = () => {
 													path="/:account"
 													element={
 														<AnimatedPage>
-															<AccountsRouteWrapper isScrolled={isScrolled} />
+															<AccountsRouteWrapper scrollTop={scrollTop} />
 															<AccountsIndexAssets />
 														</AnimatedPage>
 													}
@@ -61,7 +61,7 @@ export const AccountsHome = () => {
 														path={path}
 														element={
 															<AnimatedPage>
-																<AccountsList ref={panelRef} isScrolled={isScrolled} />
+																<AccountsList ref={panelRef} scrollTop={scrollTop} />
 															</AnimatedPage>
 														}
 													/>
@@ -75,7 +75,7 @@ export const AccountsHome = () => {
 					/>
 					<ScrollPanel
 						className={styles.rightPanel}
-						renderPanel={(panelRef: React.Ref<HTMLElement | null>, isScrolled: boolean) => {
+						renderPanel={(panelRef: React.Ref<HTMLElement | null>, scrollTop: number) => {
 							return (
 								<Box>
 									{isAllAccount && !assetType ? (
@@ -83,7 +83,7 @@ export const AccountsHome = () => {
 											<Box background="backgroundPrimary" style={{ width: '100%', height: '200px' }}></Box>
 										</Box>
 									) : (
-										<AccountSwitcher isScrolled={isScrolled} />
+										<AccountSwitcher scrollTop={scrollTop} />
 									)}
 									<Box
 										paddingX="large"
@@ -118,9 +118,10 @@ export const AccountsHome = () => {
 	)
 }
 
-export const AccountsRouteWrapper = ({ isScrolled }: { isScrolled: boolean }) => {
+export const AccountsRouteWrapper = ({ scrollTop }: { scrollTop: number }) => {
 	const { account, assetType, asset } = useAccountParams()
 	const navigate = useNavigate()
+	const isScrolled = scrollTop > 0
 
 	return (
 		<Box className={clsx(styles.accountIndexWrapper, isScrolled && styles.accountIndexWrapperShadow)}>

@@ -1,5 +1,6 @@
 /* eslint-disable */
 import React, { forwardRef, useEffect, useState, useRef } from 'react'
+import { useTimeout } from 'usehooks-ts'
 import { Box } from 'ui/src/components-v2/box'
 import { Text } from 'ui/src/components-v2/typography'
 import { motion, AnimatePresence, useMotionValue } from 'framer-motion'
@@ -52,36 +53,27 @@ const CARD_COLORS = [
 	},
 ]
 
-interface IAccountSwitcherRequiredProps {}
-
-interface IAccountSwitcherOptionalProps {
-	isScrolled?: boolean
+interface IAccountSwitcherRequiredProps {
+	scrollTop?: number
 }
+
+interface IAccountSwitcherOptionalProps {}
 
 interface IAccountSwitcherProps extends IAccountSwitcherRequiredProps, IAccountSwitcherOptionalProps {}
 
-const defaultProps: IAccountSwitcherOptionalProps = {
-	isScrolled: false,
-}
-
-const SLIDER_WIDTH = 324
+const defaultProps: IAccountSwitcherOptionalProps = {}
 
 export const AccountSwitcher = forwardRef<HTMLButtonElement, IAccountSwitcherProps>(
 	(props, ref: React.Ref<HTMLElement | null>) => {
-		const { isScrolled } = props
+		const { scrollTop } = props
 
+		const intScroll = useRef(null)
 		const navigate = useNavigate()
 		const { account, assetType, asset } = useAccountParams()
 		const [isMounted, setIsMounted] = useState<boolean>(false)
-		const [cards, setCards] = useState<Array<any>>(CARD_COLORS)
+		const [cards] = useState<Array<any>>(CARD_COLORS)
+		const [animateOnScroll, setAnimateOnScroll] = useState<boolean>(false)
 		const [selectedIndexCard, setSelectedIndexCard] = useState<number>(0)
-
-		const handleCardClick = (_account: string) => {
-			setIsMounted(true)
-			const cardIndex = CARD_COLORS.findIndex(({ accountName }) => accountName === _account)
-			setSelectedIndexCard(cardIndex)
-			navigate(`/accounts/${_account.toLowerCase()}${assetType ? `/${assetType}` : ''}`)
-		}
 
 		const handleGotoNextAccount = () => {
 			if (selectedIndexCard === CARD_COLORS.length - 1) return
@@ -109,6 +101,21 @@ export const AccountSwitcher = forwardRef<HTMLButtonElement, IAccountSwitcherPro
 
 			setIsMounted(true)
 		}, [account])
+
+		useEffect(() => {
+			if (scrollTop > 0) {
+				setAnimateOnScroll(true)
+			}
+
+			if (scrollTop > 20) {
+				intScroll.current = true
+			}
+
+			if (scrollTop === 0 && intScroll.current) {
+				setAnimateOnScroll(false)
+				intScroll.current = false
+			}
+		}, [scrollTop])
 
 		return (
 			<>
@@ -171,7 +178,7 @@ export const AccountSwitcher = forwardRef<HTMLButtonElement, IAccountSwitcherPro
 						</Box>
 					</Box>
 				) : (
-					<Box className={clsx(styles.accountCardWrapper, isScrolled && styles.accountCardWrapperShadow)}>
+					<Box className={clsx(styles.accountCardWrapper, animateOnScroll && styles.accountCardWrapperShadow)}>
 						<Box display="flex" gap="small" className={styles.tempyy}>
 							<Button
 								iconOnly
@@ -195,13 +202,14 @@ export const AccountSwitcher = forwardRef<HTMLButtonElement, IAccountSwitcherPro
 						<Box ref={ref} display="flex" flexDirection="column" alignItems="center">
 							<AnimatePresence initial={false}>
 								<motion.ul
+									key="cards"
 									initial={{ opacity: 0, y: 0 }}
 									animate={{
 										opacity: 1,
 										y: 0,
-										x: isScrolled ? -100 : 0,
-										width: isScrolled ? 112 : 344,
-										height: isScrolled ? 66 : 200,
+										x: animateOnScroll ? -100 : 0,
+										width: animateOnScroll ? 112 : 344,
+										height: animateOnScroll ? 66 : 200,
 									}}
 									exit={{ opacity: 0, y: 0 }}
 									transition={{ duration: 0.3 }}
@@ -250,12 +258,13 @@ export const AccountSwitcher = forwardRef<HTMLButtonElement, IAccountSwitcherPro
 									})}
 								</motion.ul>
 								<motion.div
+									key="buttons"
 									initial={{ opacity: 0, x: 0, y: 0, height: 48 }}
 									animate={{
 										opacity: 1,
-										x: isScrolled ? 75 : 0,
-										y: isScrolled ? -75 : 0,
-										height: isScrolled ? 0 : 48,
+										x: animateOnScroll ? 75 : 0,
+										y: animateOnScroll ? -75 : 0,
+										height: animateOnScroll ? 0 : 48,
 									}}
 									exit={{ opacity: 0, x: 0, y: 0, height: 48 }}
 									transition={{ duration: 0.3 }}

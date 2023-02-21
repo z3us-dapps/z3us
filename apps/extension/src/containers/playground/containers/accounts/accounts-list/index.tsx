@@ -166,7 +166,7 @@ const ItemWrapper = props => {
 }
 
 interface IAccountListRequiredProps {
-	isScrolled?: boolean
+	scrollTop: number
 }
 
 interface IAccountListOptionalProps {
@@ -185,12 +185,13 @@ const defaultProps: IAccountListOptionalProps = {
 
 export const AccountsList = React.forwardRef<HTMLElement, IAccountListProps>(
 	(props, ref: React.Ref<HTMLElement | null>) => {
-		const { className, isScrolled, ...rest } = props
+		const { className, scrollTop, ...rest } = props
 
 		const { account, assetType, asset } = useAccountParams()
 		const [items, setItems] = useState(Array.from({ length: 20 }, _ => ({ id: hash(), name: hash(), loaded: false })))
 		const [isLoading, setIsLoading] = useState(false)
 		const [isScrolling, setIsScrolling] = useState(false)
+		const isScrolled = scrollTop > 0
 
 		// Disable animation on scroll or Virtuoso will break while scrolling
 		const onScrollingStateChange = useCallback(value => {
