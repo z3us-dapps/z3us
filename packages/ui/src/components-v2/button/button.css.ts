@@ -239,6 +239,7 @@ export const buttonIconLeft = recipe({
 			small: [{ marginLeft: '-6px' }],
 			medium: [],
 			large: [],
+			xlarge: [],
 		},
 	},
 	defaultVariants: {

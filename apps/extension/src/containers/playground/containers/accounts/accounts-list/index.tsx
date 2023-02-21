@@ -11,7 +11,6 @@ import { ChevronDown2Icon, ChevronRightIcon } from 'ui/src/components/icons'
 import { Box } from 'ui/src/components-v2/box'
 import { Text } from 'ui/src/components-v2/typography'
 import clsx from 'clsx'
-import { Button } from 'ui/src/components-v2/button'
 import { Link } from '@src/components/link'
 
 import * as styles from './accounts-list.css'

@@ -63,6 +63,7 @@ export const Button = forwardRef<HTMLButtonElement, IButtonProps>((props, ref: R
 	return (
 		<ButtonComponent
 			component={href ? 'a' : 'button'}
+			href={href}
 			type="button"
 			ref={ref}
 			className={clsx(

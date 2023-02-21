@@ -14,7 +14,7 @@ import { useAccountParams } from '@src/containers/playground/hooks/use-account-p
 import { ScrollPanel } from '@src/containers/playground/components/scroll-panel'
 // import { Button } from '@src/components/button'
 import { Avatar, AvatarImage, AvatarFallback } from 'ui/src/components-v2/avatar'
-// inone { Button as ButtonLink } from '@src/components/button'
+// import { Button as ButtonLink } from '@src/components/button'
 import { Box } from 'ui/src/components-v2/box'
 import { Text } from 'ui/src/components-v2/typography'
 import { Link } from '@src/components/link'
@@ -82,7 +82,7 @@ export const AccountsHome = () => {
 									{isAllAccount && !assetType ? (
 										<Box paddingTop="xlarge" paddingX="xlarge">
 											<Box padding="large" background="backgroundPrimary" style={{ width: '100%', height: '200px' }}>
-												TODO: all accouns chart summary
+												TODO: all accounts chart summary
 											</Box>
 										</Box>
 									) : (
@@ -110,7 +110,9 @@ export const AccountsHome = () => {
 											<AccountSearch placeholder="search" />
 										</Box>
 									</Box>
-									<AccountActivity ref={panelRef} />
+									<Box paddingBottom="medium">
+										<AccountActivity ref={panelRef} />
+									</Box>
 								</Box>
 							)
 						}}
@@ -167,7 +169,9 @@ export const AccountsIndexAssets = React.forwardRef<HTMLElement, IAccountsIndexA
 		const [hoveredLink, setHoveredLink] = useState<string | null>(null)
 
 		useEffect(() => {
-			ref.scrollTop = 0
+			if (ref) {
+				ref.scrollTop = 0
+			}
 		}, [])
 
 		return (

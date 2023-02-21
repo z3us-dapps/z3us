@@ -23,44 +23,129 @@ export const activityWrapper = style([
 	// }),
 ])
 
-// export const activityWrapperFlexGrow = style([
-// 	{
-// 		flex: '1 1 0',
-// 	},
-// ])
-//
 export const activtyItem = style([
 	sprinkles({
 		position: 'relative',
 		paddingX: 'large',
 		transition: 'fast',
-		background: {
-			hover: 'backgroundPrimary',
-		},
+		// background: {
+		// 	hover: 'backgroundPrimary',
+		// },
 	}),
+])
+
+export const activtyItemOuter = style([
+	sprinkles({
+		position: 'relative',
+	}),
+])
+
+export const activtyItemExternalLinkWrapper = style([
+	sprinkles({
+		position: 'absolute',
+		right: 0,
+		top: 0,
+		display: 'flex',
+		alignItems: 'center',
+	}),
+	{
+		height: '64px',
+	},
 ])
 
 export const activtyItemInner = style([
 	sprinkles({
 		position: 'relative',
 		display: 'flex',
+		flexDirection: 'column',
 		alignItems: 'center',
-		borderTop: 1,
-		borderStyle: 'solid',
-		borderColor: 'borderDivider',
+		cursor: 'pointer',
+		color: 'borderDivider',
 		paddingTop: 'medium',
 		paddingBottom: 'medium',
-		gap: 'medium',
+		transition: 'fast',
+		border: 0,
+		// boxShadow: {
+		// 	focusVisible: 'btnSecondaryShadowFocus',
+		// },
+		// outline: 'none',
 	}),
 	{
 		width: '100%',
-		height: '64px',
+		height: 'auto',
+		boxShadow: '0 -1px 0 0',
+		'::before': {
+			content: '""',
+			position: 'absolute',
+			opacity: 0,
+			transition: vars.transition.fast,
+			top: 0,
+			bottom: 0,
+			left: `calc(${vars.spacing.medium} * -1)`,
+			right: `calc(${vars.spacing.medium} * -1)`,
+			pointerEvents: 'none',
+			background: vars.color.lead400,
+			borderRadius: vars.border.radius.medium,
+			boxShadow:
+				'0px 0px 0px 1px rgba(255, 255, 255, 0.15), 0px 136px 192px rgba(0, 0, 0, 0.3), 0px 50px 50px rgba(0, 0, 0, 0.25), 0px 24px 24px rgba(0, 0, 0, 0.2), 0px 12px 12px rgba(0, 0, 0, 0.15)',
+		},
+
+		selectors: {
+			'&:focus-visible': {
+				outline: 'none',
+			},
+			'&:focus-visible::before': {
+				outline: 'none',
+				border: 'none',
+				boxShadow: vars.color.btnSecondaryShadowFocus,
+			},
+			'&:hover::before': {
+				opacity: 1,
+			},
+		},
+	},
+])
+
+export const activtyItemInnerSelected = style([
+	sprinkles({}),
+	{
+		boxShadow: 'none',
+		'::before': {
+			opacity: 1,
+		},
+	},
+])
+
+export const activtyItemInnerSelectedContent = style([
+	sprinkles({
+		width: 'full',
+		// borderColor: 'borderDivider',
+	}),
+	{
+		// boxShadow: '0 -1px 0 0',
+		// border: '1px solid red',
+	},
+])
+
+export const transactionDottedLine = style([
+	sprinkles({
+		flexGrow: 1,
+	}),
+	{
+		// boxShadow: '0 -1px 0 0',
+		borderTop: '1px dashed',
+		borderColor: vars.color.wax300,
+		height: '0px',
+		marginTop: '10px',
+		color: 'white',
+		// background: 'red',
 	},
 ])
 
 export const indicatorCircle = style([
 	sprinkles({
 		position: 'relative',
+		color: 'colorStrong',
 		background: 'backgroundPrimary',
 		borderRadius: 'full',
 		display: 'flex',
@@ -74,13 +159,13 @@ export const indicatorCircle = style([
 ])
 
 globalStyle(`${activtyItem}:first-child > div`, {
-	borderTop: 'none',
+	boxShadow: 'none',
 })
 
-globalStyle(`${activtyItem}:hover ${indicatorCircle}`, {
-	background: vars.color.white,
-})
-
-globalStyle(`.${darkMode} ${activtyItem}:hover ${indicatorCircle}`, {
-	background: vars.color.lead500,
-})
+// globalStyle(`${activtyItem}:hover ${indicatorCircle}`, {
+// 	background: vars.color.white,
+// })
+//
+// globalStyle(`.${darkMode} ${activtyItem}:hover ${indicatorCircle}`, {
+// 	background: vars.color.lead500,
+// })

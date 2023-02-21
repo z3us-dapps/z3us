@@ -10,13 +10,21 @@ const defaultProps = {
 	to: undefined,
 }
 
+// TODO: move to helpers
+export const isExternalHref = (href: string) => /(http(s?)):\/\//i.test(href)
+
 export const Button = forwardRef<HTMLElement, IProps>((props, ref: React.Ref<HTMLButtonElement | null>) => {
 	const { to } = props
-	return to ? (
-		<ButtonComponent ref={ref} href={to} linkFrameWorkComp={Link} {...props} />
-	) : (
-		<ButtonComponent ref={ref} {...props} />
-	)
+
+	if (isExternalHref(to)) {
+		return <ButtonComponent href={to} ref={ref} {...props} />
+	}
+
+	if (to) {
+		return <ButtonComponent ref={ref} href={to} linkFrameWorkComp={Link} {...props} />
+	}
+
+	return <ButtonComponent ref={ref} {...props} />
 })
 
 Button.defaultProps = defaultProps
