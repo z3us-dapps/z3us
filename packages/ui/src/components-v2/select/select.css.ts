@@ -26,7 +26,6 @@ export const selectContent = style([
 		borderRadius: 'medium',
 	}),
 	{
-		minWidth: '8rem',
 		animationTimingFunction: 'cubic-bezier(0.16, 1, 0.3, 1)',
 		willChange: 'transform, opacity',
 		animationDuration: '150ms',
@@ -48,4 +47,13 @@ export const selectMenuItem = style([
 	{
 		outline: 'none',
 	},
+])
+
+export const selectItemIndicator = style([
+	sprinkles({
+		display: 'flex',
+		alignItems: 'center',
+		marginLeft: 'small',
+	}),
+	{},
 ])

@@ -1,6 +1,7 @@
 import React from 'react'
 import clsx from 'clsx'
 
+import { ToolTip } from 'ui/src/components-v2/tool-tip'
 import { AccountViewDropdown } from '@src/containers/playground/containers/accounts/account-view-dropdown'
 // import { BrowserRouter, Routes, Route, Link, useLocation, useMatch } from 'react-router-dom'
 import { Link as LinkRouter, useMatch } from 'react-router-dom'
@@ -74,9 +75,11 @@ export const Navigation: React.FC = () => (
 				</LayoutGroup>
 			</Box>
 			<Box display="flex" alignItems="center" gap="medium">
-				<Button sizeVariant="small" styleVariant="tertiary" rounded rightIcon={<CopyIcon />}>
-					rdx1...lag0
-				</Button>
+				<ToolTip message="copy address">
+					<Button sizeVariant="small" styleVariant="tertiary" rounded rightIcon={<CopyIcon />}>
+						rdx1...lag0
+					</Button>
+				</ToolTip>
 				<AccountViewDropdown />
 				<DropdownProfile />
 			</Box>
