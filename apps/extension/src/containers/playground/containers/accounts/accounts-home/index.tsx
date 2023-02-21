@@ -2,6 +2,7 @@
 import React, { useState, useEffect } from 'react'
 import { MixerHorizontalIcon } from '@radix-ui/react-icons'
 import { PlusIcon, MagnifyingGlassIcon, ArrowLeftIcon, ChevronRightIcon } from 'ui/src/components/icons'
+import { useTranslation } from 'react-i18next'
 import { AnimatedPage } from '@src/containers/playground/components/animated-route'
 import { AnimatePresence } from 'framer-motion'
 import clsx from 'clsx'
@@ -18,6 +19,7 @@ import { Avatar, AvatarImage, AvatarFallback } from 'ui/src/components-v2/avatar
 import { Box } from 'ui/src/components-v2/box'
 import { Text } from 'ui/src/components-v2/typography'
 import { Link } from '@src/components/link'
+import Translation from '@src/components/translation'
 
 import * as styles from './accounts-home.css'
 
@@ -168,6 +170,8 @@ export const AccountsIndexAssets = React.forwardRef<HTMLElement, IAccountsIndexA
 	(props, ref: React.Ref<HTMLElement | null>) => {
 		const [hoveredLink, setHoveredLink] = useState<string | null>(null)
 
+		const { t } = useTranslation()
+
 		useEffect(() => {
 			if (ref) {
 				ref.scrollTop = 0
@@ -188,6 +192,9 @@ export const AccountsIndexAssets = React.forwardRef<HTMLElement, IAccountsIndexA
 						<Box>
 							<Text size="xlarge" color="strong" weight="medium">
 								Assets and badges
+							</Text>
+							<Text size="xlarge" color="strong" weight="medium">
+								<Translation text="Hello" />
 							</Text>
 						</Box>
 						<Box flexGrow={1}>
