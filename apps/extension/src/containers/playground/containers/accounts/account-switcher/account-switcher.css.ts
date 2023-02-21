@@ -10,6 +10,7 @@ export const tempyy = style([
 		top: '0',
 		right: '0',
 		opacity: '0.2',
+		display: 'none',
 	},
 ])
 
@@ -19,8 +20,20 @@ export const accountCardWrapper = style([
 		top: 0,
 		background: 'backgroundSecondary',
 		zIndex: 1,
+		paddingTop: 'large',
+		paddingX: 'large',
+		borderBottom: 1,
+		borderStyle: 'solid',
+		borderColor: 'borderDivider',
 	}),
 	{},
+])
+
+export const accountCardWrapperShadow = style([
+	sprinkles({}),
+	{
+		boxShadow: '0px 10px 15px -3px rgba(0,0,0,0.1)',
+	},
 ])
 
 export const tempBg = style([
@@ -89,14 +102,13 @@ export const cardAccountShine = style([
 	sprinkles({
 		position: 'absolute',
 		pointerEvents: 'none',
-		top: 0,
-		left: 0,
 	}),
 	{
 		width: '300%',
 		height: '300%',
-		left: '-200%',
-		background: 'linear-gradient(45deg,rgba(255,255,255,.01) 25%, rgba(255,255,255,.3) 40%, rgba(255,255,255,.01) 75%)',
+		left: '-300%',
+		top: '0%',
+		background: 'linear-gradient(45deg,rgba(255,255,255,.0) 25%, rgba(255,255,255,.3) 40%, rgba(255,255,255,.01) 75%)',
 		backgroundPosition: '0 0',
 	},
 ])
@@ -106,7 +118,7 @@ globalStyle(`${card}:hover ${cardAccountShine}`, {
 	left: '0%',
 	opacity: '1',
 	transition: 'all 0.8s ease',
-	background: 'linear-gradient(45deg,rgba(255,255,255,.01) 35%, rgba(255,255,255,.3) 50%, rgba(255,255,255,.01) 75%)',
+	background: 'linear-gradient(45deg,rgba(255,255,255,.0) 35%, rgba(255,255,255,.3) 50%, rgba(255,255,255,.01) 75%)',
 })
 
 export const cardAccountText = style([
@@ -147,3 +159,13 @@ export const tempNav = sprinkles({
 	right: 0,
 	zIndex: 1,
 })
+
+export const accountCardButtonWrapper = style([
+	sprinkles({
+		position: 'relative',
+		display: 'flex',
+		gap: 'large',
+		marginY: 'large',
+		zIndex: 1,
+	}),
+])

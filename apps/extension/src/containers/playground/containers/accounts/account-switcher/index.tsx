@@ -3,6 +3,7 @@ import React, { forwardRef, useEffect, useState, useRef } from 'react'
 import { Box } from 'ui/src/components-v2/box'
 import { Text } from 'ui/src/components-v2/typography'
 import { motion, AnimatePresence, useMotionValue } from 'framer-motion'
+import clsx from 'clsx'
 import {
 	PlusIcon,
 	MagnifyingGlassIcon,
@@ -170,15 +171,7 @@ export const AccountSwitcher = forwardRef<HTMLButtonElement, IAccountSwitcherPro
 						</Box>
 					</Box>
 				) : (
-					<Box
-						paddingTop="large"
-						padding="large"
-						borderBottom={1}
-						borderColor="borderDivider"
-						borderStyle="solid"
-						flexShrink={0}
-						className={styles.accountCardWrapper}
-					>
+					<Box className={clsx(styles.accountCardWrapper, isScrolled && styles.accountCardWrapperShadow)}>
 						<Box display="flex" gap="small" className={styles.tempyy}>
 							<Button
 								iconOnly
@@ -202,13 +195,13 @@ export const AccountSwitcher = forwardRef<HTMLButtonElement, IAccountSwitcherPro
 						<Box ref={ref} display="flex" flexDirection="column" alignItems="center">
 							<AnimatePresence initial={false}>
 								<motion.ul
-									key="all"
 									initial={{ opacity: 0, y: 0 }}
 									animate={{
 										opacity: 1,
 										y: 0,
-										width: isScrolled ? 183 : 344,
-										height: isScrolled ? 106 : 200,
+										x: isScrolled ? -100 : 0,
+										width: isScrolled ? 112 : 344,
+										height: isScrolled ? 66 : 200,
 									}}
 									exit={{ opacity: 0, y: 0 }}
 									transition={{ duration: 0.3 }}
@@ -256,18 +249,29 @@ export const AccountSwitcher = forwardRef<HTMLButtonElement, IAccountSwitcherPro
 										)
 									})}
 								</motion.ul>
+								<motion.div
+									initial={{ opacity: 0, x: 0, y: 0, height: 48 }}
+									animate={{
+										opacity: 1,
+										x: isScrolled ? 75 : 0,
+										y: isScrolled ? -75 : 0,
+										height: isScrolled ? 0 : 48,
+									}}
+									exit={{ opacity: 0, x: 0, y: 0, height: 48 }}
+									transition={{ duration: 0.3 }}
+									className={styles.accountCardButtonWrapper}
+								>
+									<Button iconOnly rounded styleVariant="inverse" sizeVariant="large" onClick={() => {}}>
+										<UpRightIcon />
+									</Button>
+									<Button iconOnly rounded styleVariant="inverse" sizeVariant="large" onClick={() => {}}>
+										<DownLeftIcon />
+									</Button>
+									<Button iconOnly rounded styleVariant="inverse" sizeVariant="large" onClick={() => {}}>
+										<QrCodeIcon />
+									</Button>
+								</motion.div>
 							</AnimatePresence>
-							<Box display="flex" paddingTop="large" gap="large" position="relative" zIndex={1}>
-								<Button iconOnly rounded styleVariant="inverse" sizeVariant="large" onClick={() => {}}>
-									<UpRightIcon />
-								</Button>
-								<Button iconOnly rounded styleVariant="inverse" sizeVariant="large" onClick={() => {}}>
-									<DownLeftIcon />
-								</Button>
-								<Button iconOnly rounded styleVariant="inverse" sizeVariant="large" onClick={() => {}}>
-									<QrCodeIcon />
-								</Button>
-							</Box>
 						</Box>
 					</Box>
 				)}

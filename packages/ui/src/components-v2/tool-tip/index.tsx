@@ -18,7 +18,6 @@ interface IToolTipRequiredProps {
 }
 
 interface IToolTipOptionalProps {
-	// className?: number
 	disabled?: boolean
 	sideOffset?: number
 	arrowOffset?: number
