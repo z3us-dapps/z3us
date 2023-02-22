@@ -4,7 +4,7 @@ import { vars } from './theme.css'
 const responsiveProperties = defineProperties({
 	conditions: {
 		mobile: {},
-		tablet: { '@media': 'screen and (min-width: 768px)' },
+		tablet: { '@media': 'screen and (min-width: 868px)' },
 		desktop: { '@media': 'screen and (min-width: 1024px)' },
 	},
 	defaultCondition: 'mobile',
