@@ -41,7 +41,7 @@ export const AccountIndexAssets = forwardRef<HTMLElement, IAccountIndexAssetsPro
 				<Box display="flex" paddingBottom="small" paddingTop="large" paddingX="xlarge" alignItems="center" gap="large">
 					<Box>
 						<Text size="xlarge" color="strong" weight="medium">
-							<Translation text="accountsIndex" />
+							<Translation text="accounts.home.assetsBadgesTitle" />
 						</Text>
 					</Box>
 					<Box flexGrow={1}>

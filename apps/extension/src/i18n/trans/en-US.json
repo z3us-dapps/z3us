@@ -3,7 +3,17 @@
 		"ok": "Okay",
 		"cancel": "Cancel",
 		"next": "Next",
-		"previous": "Previous"
+		"previous": "Previous",
+		"tokens": "Tokens",
+		"nfts": "Nfts",
+		"lpTokens": "LP Tokesn",
+		"badges": "Badges"
+	},
+	"accounts": {
+		"home": {
+			"accountBalanceTitle": "Account balance",
+			"assetsBadgesTitle": "Assets and badges"
+		}
 	},
 	"order": {
 		"checkout": "Proceed to checkout",
@@ -16,7 +26,7 @@
 		"undo": "Undo all recent profile changes",
 		"edit_password": "Edit your password"
 	},
-	"accountsIndex": "Assets and badges 👋",
+	"accountsIndex": "Assets and badges",
 	"Hello": "English Hello 👋",
 	"key": "value",
 	"keyDeep": {

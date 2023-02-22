@@ -27,7 +27,7 @@ import * as styles from './dropdown-profile.css'
 export const DropdownProfile: React.FC = () => {
 	const { i18n } = useTranslation()
 
-	const handleLangSelect = (lang: 'en' | 'pl') => {
+	const handleLangSelect = (lang: 'enUS' | 'pl') => {
 		i18n.changeLanguage(lang)
 	}
 
@@ -130,7 +130,7 @@ export const DropdownProfile: React.FC = () => {
 						</Box>
 					</DropdownMenuItem>
 					<DropdownMenuSeparator />
-					<DropdownMenuItem onSelect={() => handleLangSelect('en')}>
+					<DropdownMenuItem onSelect={() => handleLangSelect('enUS')}>
 						<DropdownMenuLeftSlot>🇦🇺</DropdownMenuLeftSlot>
 						<Box display="flex" marginLeft="small">
 							<Text size="xsmall">English</Text>

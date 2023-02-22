@@ -1,7 +1,6 @@
 import React, { forwardRef } from 'react'
-import { useAccountParams } from '@src/containers/playground/hooks/use-account-params'
+import Translation from '@src/components/translation'
 import { Box } from 'ui/src/components-v2/box'
-import { AccountSearch } from '@src/containers/playground/containers/accounts/account-search'
 import { Text } from 'ui/src/components-v2/typography'
 import clsx from 'clsx'
 
@@ -25,7 +24,6 @@ export const AccountIndexHeader = forwardRef<HTMLElement, IAccountIndexHeaderPro
 	(props, ref: React.Ref<HTMLElement | null>) => {
 		const { className, scrollTop } = props
 
-		const { assetType, asset } = useAccountParams()
 		const isScrolled = scrollTop > 0
 
 		return (
@@ -37,23 +35,15 @@ export const AccountIndexHeader = forwardRef<HTMLElement, IAccountIndexHeaderPro
 					<Box flexGrow={1}>
 						<Box display="flex" alignItems="center" paddingBottom="xsmall" flexGrow={0}>
 							<Box>
-								<Text size="large">Account balance</Text>
+								<Text size="large">
+									<Translation text="accounts.home.accountBalanceTitle" />
+								</Text>
 							</Box>
 						</Box>
 						<Text weight="medium" size="xxxlarge" color="strong">
 							$4,440,206.25
 						</Text>
 					</Box>
-					{assetType || asset ? (
-						<Box flexGrow={1}>
-							<AccountSearch
-								placeholder="Search"
-								onChange={_value => {
-									console.log(_value)
-								}}
-							/>
-						</Box>
-					) : null}
 				</Box>
 			</Box>
 		)
