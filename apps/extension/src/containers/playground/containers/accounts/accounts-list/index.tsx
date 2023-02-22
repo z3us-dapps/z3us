@@ -1,17 +1,14 @@
 /* eslint-disable no-unused-vars */
-import React, { useState, useRef, useEffect, useCallback, useContext } from 'react'
+import React, { useState, useCallback, useContext } from 'react'
 import { useTimeout } from 'usehooks-ts'
-import { Routes, Route, useNavigate, Navigate } from 'react-router-dom'
 import { useAccountParams } from '@src/containers/playground/hooks/use-account-params'
-
-import { AccountSearch } from '@src/containers/playground/containers/accounts/account-search'
-import { Virtuoso, VirtuosoGrid, VirtuosoGridHandle } from 'react-virtuoso'
-import { motion, AnimatePresence, usePresence } from 'framer-motion'
-import { ChevronDown2Icon, ChevronRightIcon } from 'ui/src/components/icons'
+import { VirtuosoGrid } from 'react-virtuoso'
+import { motion, AnimatePresence } from 'framer-motion'
+import clsx from 'clsx'
 import { Box } from 'ui/src/components-v2/box'
 import { Text } from 'ui/src/components-v2/typography'
-import clsx from 'clsx'
 import { Link } from '@src/components/link'
+import { AccountListHeader } from './account-list-header'
 
 import * as styles from './accounts-list.css'
 
@@ -23,9 +20,9 @@ const Context = React.createContext<{ isScrolling: boolean; isLoading: boolean; 
 	setItems: () => {},
 })
 
-const ListContainer = React.forwardRef<HTMLDivElement>((props, ref) => {
-	return <div ref={ref} {...props} className={styles.listContainer} />
-})
+const ListContainer = React.forwardRef<HTMLDivElement>((props, ref) => (
+	<Box ref={ref} {...props} className={styles.listContainer} />
+))
 
 const ItemContainer = props => <div {...props} className={styles.itemContainer} />
 
@@ -51,28 +48,7 @@ const variants = {
 const ItemWrapper = props => {
 	const { idx, user } = props
 	const { isLoading, isScrolling, setItems } = useContext(Context)
-	const { account, assetType, asset } = useAccountParams()
-
-	const getAnimateState = () => {
-		if (!user.loaded) {
-			return 'loading'
-		}
-
-		// if (isLoading && !isScrolling) {
-		// 	return 'loading'
-		// }
-
-		return 'loaded'
-	}
-
-	const generateTempLink = () => {
-		if (asset) {
-			return `/accounts/${account}/tokens/xrd`
-			// return `/accounts/${account}/tokens/xrd/b707388613169bf701d533e143d8f698c9090f605e677a967eaf70a4c69250ce`
-		} else {
-			return `/accounts/${account}/tokens/xrd`
-		}
-	}
+	const { account, asset } = useAccountParams()
 
 	useTimeout(() => {
 		setItems(items => {
@@ -170,25 +146,25 @@ interface IAccountListRequiredProps {
 
 interface IAccountListOptionalProps {
 	className?: number
-	onClick?: () => void
-	iconOnly?: boolean
 }
 
 interface IAccountListProps extends IAccountListRequiredProps, IAccountListOptionalProps {}
 
 const defaultProps: IAccountListOptionalProps = {
 	className: undefined,
-	onClick: undefined,
-	iconOnly: false,
 }
 
 export const AccountsList = React.forwardRef<HTMLElement, IAccountListProps>(
 	(props, ref: React.Ref<HTMLElement | null>) => {
-		const { className, scrollTop, ...rest } = props
+		const { className, scrollTop } = props
 
-		const { account, assetType, asset } = useAccountParams()
+		// eslint-disable-next-line
 		const [items, setItems] = useState(Array.from({ length: 20 }, _ => ({ id: hash(), name: hash(), loaded: false })))
+
+		// eslint-disable-next-line
 		const [isLoading, setIsLoading] = useState(false)
+
+		// eslint-disable-next-line
 		const [isScrolling, setIsScrolling] = useState(false)
 		const isScrolled = scrollTop > 0
 
@@ -206,97 +182,8 @@ export const AccountsList = React.forwardRef<HTMLElement, IAccountListProps>(
 		)
 
 		return (
-			<Box style={{ minHeight: '200px' }}>
-				<Box className={clsx(styles.accountListHeaderWrapper, isScrolled && styles.accountListHeaderWrapperShadow)}>
-					<Box width="full" display="flex" alignItems="flex-start" paddingBottom="medium">
-						<Box flexGrow={1}>
-							<Box display="flex" paddingBottom="xsmall">
-								{assetType ? (
-									<Box>
-										<Link to={`/accounts/${account}`}>
-											<Text size="large">Overview{account ? `: ${account}` : ''}</Text>
-										</Link>
-									</Box>
-								) : (
-									<Box>
-										<Text size="large">Account balance</Text>
-										{/* <Text size="large">Accounts{account ? `: ${account}` : ''}</Text> */}
-									</Box>
-								)}
-								{assetType ? (
-									<Box display="flex" alignItems="center">
-										<Box paddingX="xsmall" display="flex" alignItems="center">
-											<ChevronRightIcon />
-										</Box>
-										{asset ? (
-											<Link to={`/accounts/${account}/${assetType}`}>
-												<Text size="large">{assetType}</Text>
-											</Link>
-										) : (
-											<Text size="large" color="strong">
-												{assetType}
-											</Text>
-										)}
-									</Box>
-								) : null}
-								{/* asset  */}
-								{asset ? (
-									<Box display="flex" alignItems="center">
-										<Box paddingX="xsmall" display="flex" alignItems="center">
-											<ChevronRightIcon />
-										</Box>
-										<Text size="large" color="strong">
-											{asset}
-										</Text>
-									</Box>
-								) : null}
-							</Box>
-							<Text
-								weight="medium"
-								// size={isScrolled ? 'xxlarge' : 'xxxlarge'}
-								size="xxxlarge"
-								color="strong"
-								// className={styles.pricingText}
-							>
-								$4,440,206.25
-							</Text>
-						</Box>
-						<Box display="flex" flexGrow={1}>
-							<AccountSearch
-								placeholder="Search"
-								onChange={_value => {
-									console.log(_value)
-								}}
-							/>
-						</Box>
-					</Box>
-					<Box width="full">
-						<Box position="relative" paddingBottom="medium" className={styles.tokenListGridWrapper}>
-							<Box component="button" className={styles.tokenListHeaderButton}>
-								<Text size="xsmall" weight="medium">
-									Asset
-								</Text>
-							</Box>
-							<Box component="button" className={styles.tokenListHeaderButton}>
-								<Text size="xsmall" weight="medium">
-									Amount
-								</Text>
-							</Box>
-							<Box component="button" className={styles.tokenListHeaderButton}>
-								<Text size="xsmall" weight="medium">
-									Category
-								</Text>
-								<ChevronDown2Icon />
-							</Box>
-							<Box component="button" className={styles.tokenListHeaderButton}>
-								<Text size="xsmall" weight="medium">
-									Account
-								</Text>
-							</Box>
-						</Box>
-					</Box>
-				</Box>
-
+			<Box className={className} style={{ minHeight: '200px' }}>
+				<AccountListHeader isScrolled={isScrolled} />
 				<Context.Provider value={{ isScrolling, isLoading, setItems }}>
 					<VirtuosoGrid
 						customScrollParent={ref as any}
@@ -307,22 +194,9 @@ export const AccountsList = React.forwardRef<HTMLElement, IAccountListProps>(
 						components={{
 							List: ListContainer,
 							Item: ItemContainer,
-							// ScrollSeekPlaceholder: ({ height, width, index }) => (
-							// 	<ItemContainer>
-							// 		<ItemWrapper>
-							// 			{'--'} - {index}
-							// 		</ItemWrapper>
-							// 	</ItemContainer>
-							// ),
 						}}
 						computeItemKey={computeItemKey}
 						isScrolling={onScrollingStateChange}
-						// overscan={200}
-						// scrollSeekConfiguration={{
-						// 	enter: velocity => Math.abs(velocity) > 200,
-						// 	exit: velocity => Math.abs(velocity) < 30,
-						// 	// change: (_, range) => console.log({ range }),
-						// }}
 					/>
 				</Context.Provider>
 			</Box>
