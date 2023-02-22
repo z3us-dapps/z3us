@@ -24,7 +24,7 @@ import {
 
 import * as styles from './dropdown-profile.css'
 
-export const DropdownProfile: React.FC = () => {
+export const WalletDropdown: React.FC = () => {
 	const { i18n } = useTranslation()
 
 	const handleLangSelect = (lang: 'enUS' | 'pl') => {

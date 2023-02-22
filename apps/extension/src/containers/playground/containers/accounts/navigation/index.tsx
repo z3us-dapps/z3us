@@ -5,7 +5,7 @@ import { ToolTip } from 'ui/src/components-v2/tool-tip'
 import { AccountViewDropdown } from '@src/containers/playground/containers/accounts/account-view-dropdown'
 // import { BrowserRouter, Routes, Route, Link, useLocation, useMatch } from 'react-router-dom'
 import { Link as LinkRouter, useMatch } from 'react-router-dom'
-import { DropdownProfile } from '@src/containers/playground/containers/accounts/dropdown-profile'
+import { WalletDropdown } from '@src/containers/playground/containers/accounts/wallet-dropdown'
 // import { RowsIcon, MagnifyingGlassIcon } from '@radix-ui/react-icons'
 // import { DashboardIcon } from '@radix-ui/react-icons'
 import { CopyIcon } from 'ui/src/components/icons'
@@ -81,7 +81,7 @@ export const Navigation: React.FC = () => (
 					</Button>
 				</ToolTip>
 				<AccountViewDropdown />
-				<DropdownProfile />
+				<WalletDropdown />
 			</Box>
 		</Box>
 	</Box>
