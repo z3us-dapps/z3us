@@ -10,7 +10,7 @@ export const tempyy = style([
 		top: '0',
 		right: '0',
 		opacity: '0.2',
-		display: 'none',
+		// display: 'none',
 	},
 ])
 
@@ -121,6 +121,24 @@ globalStyle(`${card}:hover ${cardAccountShine}`, {
 	transition: 'all 0.8s ease',
 	background: 'linear-gradient(45deg,rgba(255,255,255,.0) 35%, rgba(255,255,255,.3) 50%, rgba(255,255,255,.01) 75%)',
 })
+
+export const cardAccountWrapper = style([
+	sprinkles({
+		position: 'relative',
+		paddingX: 'large',
+		paddingY: 'medium',
+		display: 'flex',
+		flexDirection: 'column',
+		height: 'full',
+		transition: 'fast',
+	}),
+])
+
+export const cardAccountWrapperAnimated = style([
+	sprinkles({
+		opacity: 0,
+	}),
+])
 
 export const cardAccountText = style([
 	sprinkles({

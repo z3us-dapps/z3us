@@ -68,12 +68,13 @@ export const AccountSwitcher = forwardRef<HTMLButtonElement, IAccountSwitcherPro
 	(props, ref: React.Ref<HTMLElement | null>) => {
 		const { scrollTop } = props
 
-		const intScroll = useRef(null)
+		// const intScroll = useRef(null)
 		const navigate = useNavigate()
 		const { account, assetType, asset } = useAccountParams()
 		const [isMounted, setIsMounted] = useState<boolean>(false)
 		const [cards] = useState<Array<any>>(CARD_COLORS)
 		const [animateOnScroll, setAnimateOnScroll] = useState<boolean>(false)
+		const [isAnimating, setIsAnimating] = useState<boolean>(false)
 		const [selectedIndexCard, setSelectedIndexCard] = useState<number>(0)
 
 		const handleGotoNextAccount = () => {
@@ -108,15 +109,10 @@ export const AccountSwitcher = forwardRef<HTMLButtonElement, IAccountSwitcherPro
 				setAnimateOnScroll(true)
 			}
 
-			if (scrollTop > 20) {
-				intScroll.current = true
-			}
-
-			if (scrollTop === 0 && intScroll.current) {
+			if (scrollTop === 0 && !isAnimating) {
 				setAnimateOnScroll(false)
-				intScroll.current = false
 			}
-		}, [scrollTop])
+		}, [scrollTop, isAnimating])
 
 		const arrowBtns = (
 			<>
@@ -225,7 +221,7 @@ export const AccountSwitcher = forwardRef<HTMLButtonElement, IAccountSwitcherPro
 									initial={{ opacity: 0, y: 0 }}
 									animate={{
 										opacity: 1,
-										y: 0,
+										y: animateOnScroll ? 8 : 0,
 										x: animateOnScroll ? -100 : 0,
 										width: animateOnScroll ? 112 : 344,
 										height: animateOnScroll ? 66 : 200,
@@ -233,6 +229,8 @@ export const AccountSwitcher = forwardRef<HTMLButtonElement, IAccountSwitcherPro
 									exit={{ opacity: 0, y: 0 }}
 									transition={{ duration: 0.3 }}
 									className={styles.cardWrapperAll}
+									onAnimationStart={() => setIsAnimating(true)}
+									onAnimationComplete={() => setIsAnimating(false)}
 								>
 									{cards.map(({ backgroundImage, accountName, accountId, accountBalance }, idx) => {
 										return (
@@ -256,7 +254,12 @@ export const AccountSwitcher = forwardRef<HTMLButtonElement, IAccountSwitcherPro
 												}}
 												animate={selectedIndexCard === idx ? 'selected' : 'notSelected'}
 											>
-												<Box paddingX="large" paddingY="medium" display="flex" flexDirection="column" height="full">
+												<Box
+													className={clsx(
+														styles.cardAccountWrapper,
+														animateOnScroll && styles.cardAccountWrapperAnimated,
+													)}
+												>
 													<Box flexGrow={1} paddingTop="xsmall">
 														<Text size="large" weight="medium" color="strong" className={styles.cardAccountText}>
 															{accountId}
@@ -281,8 +284,8 @@ export const AccountSwitcher = forwardRef<HTMLButtonElement, IAccountSwitcherPro
 									initial={{ opacity: 0, x: 0, y: 0, height: 48 }}
 									animate={{
 										opacity: 1,
-										x: animateOnScroll ? 75 : 0,
-										y: animateOnScroll ? -75 : 0,
+										x: animateOnScroll ? 70 : 0,
+										y: animateOnScroll ? -65 : 0,
 										height: animateOnScroll ? 0 : 48,
 									}}
 									exit={{ opacity: 0, x: 0, y: 0, height: 48 }}

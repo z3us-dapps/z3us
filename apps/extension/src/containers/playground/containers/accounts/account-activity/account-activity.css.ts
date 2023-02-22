@@ -47,11 +47,16 @@ export const activtyItemExternalLinkWrapper = style([
 		top: 0,
 		display: 'flex',
 		alignItems: 'center',
+		pointerEvents: 'none',
 	}),
 	{
 		height: '64px',
 	},
 ])
+
+globalStyle(`${activtyItemExternalLinkWrapper} > a`, {
+	pointerEvents: 'auto',
+})
 
 export const activtyItemInner = style([
 	sprinkles({
@@ -59,10 +64,8 @@ export const activtyItemInner = style([
 		display: 'flex',
 		flexDirection: 'column',
 		alignItems: 'center',
-		cursor: 'pointer',
 		color: 'borderDivider',
-		paddingTop: 'medium',
-		paddingBottom: 'medium',
+
 		transition: 'fast',
 		border: 0,
 		// boxShadow: {
@@ -89,7 +92,6 @@ export const activtyItemInner = style([
 			boxShadow:
 				'0px 0px 0px 1px rgba(255, 255, 255, 0.15), 0px 136px 192px rgba(0, 0, 0, 0.3), 0px 50px 50px rgba(0, 0, 0, 0.25), 0px 24px 24px rgba(0, 0, 0, 0.2), 0px 12px 12px rgba(0, 0, 0, 0.15)',
 		},
-
 		selectors: {
 			'&:focus-visible': {
 				outline: 'none',
@@ -98,6 +100,38 @@ export const activtyItemInner = style([
 				outline: 'none',
 				border: 'none',
 				boxShadow: vars.color.btnSecondaryShadowFocus,
+			},
+			'&:hover::before': {
+				opacity: 1,
+			},
+		},
+	},
+])
+
+// TODO: put a class on ListContainer to fix this
+globalStyle(`${activityWrapper} > div > div > div > div:first-child ${activtyItemInner}`, {
+	boxShadow: 'none',
+})
+
+export const activtyItemInnerBtn = style([
+	sprinkles({
+		display: 'flex',
+		alignItems: 'center',
+		position: 'relative',
+		paddingTop: 'medium',
+		paddingBottom: 'medium',
+		width: 'full',
+		gap: 'medium',
+		cursor: 'pointer',
+	}),
+	{
+		selectors: {
+			'&:focus-visible': {
+				outline: 'none',
+			},
+			'&:focus-visible::before': {
+				outline: 'none',
+				border: 'none',
 			},
 			'&:hover::before': {
 				opacity: 1,
@@ -132,13 +166,11 @@ export const transactionDottedLine = style([
 		flexGrow: 1,
 	}),
 	{
-		// boxShadow: '0 -1px 0 0',
 		borderTop: '1px dashed',
 		borderColor: vars.color.wax300,
 		height: '0px',
 		marginTop: '10px',
 		color: 'white',
-		// background: 'red',
 	},
 ])
 
@@ -157,10 +189,6 @@ export const indicatorCircle = style([
 		height: '36px',
 	},
 ])
-
-globalStyle(`${activtyItem}:first-child > div`, {
-	boxShadow: 'none',
-})
 
 // globalStyle(`${activtyItem}:hover ${indicatorCircle}`, {
 // 	background: vars.color.white,

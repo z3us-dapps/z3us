@@ -62,14 +62,13 @@ const ItemWrapper = props => {
 
 	return (
 		<Box className={styles.activtyItemOuter}>
-			<Box
-				component="button"
-				className={clsx(styles.activtyItemInner, (isSelected || isHovered) && styles.activtyItemInnerSelected)}
-				onClick={handleClickItem}
-				onMouseOver={() => setHovered(user.id)}
-				onMouseLeave={() => setHovered(null)}
-			>
-				<Box display="flex" position="relative" width="full" gap="medium">
+			<Box className={clsx(styles.activtyItemInner, (isSelected || isHovered) && styles.activtyItemInnerSelected)}>
+				<Box
+					onClick={handleClickItem}
+					className={styles.activtyItemInnerBtn}
+					onMouseOver={() => setHovered(user.id)}
+					onMouseLeave={() => setHovered(null)}
+				>
 					<Box className={styles.indicatorCircle}>
 						<Avatar>
 							<AvatarImage
@@ -146,6 +145,7 @@ const ItemWrapper = props => {
 									gap="medium"
 									marginTop="medium"
 									paddingTop="medium"
+									paddingBottom="large"
 									borderTop={1}
 									borderStyle="solid"
 									borderColor="wax600"
@@ -182,6 +182,7 @@ const ItemWrapper = props => {
 					to="https://explorer.radixdlt.com/"
 					target="_blank"
 					onMouseOver={() => setHovered(user.id)}
+					onMouseLeave={() => setHovered(null)}
 				>
 					<ShareIcon />
 				</Button>
