@@ -48,13 +48,21 @@ export const activtyItemExternalLinkWrapper = style([
 		display: 'flex',
 		alignItems: 'center',
 		pointerEvents: 'none',
+		opacity: 0,
 	}),
 	{
 		height: '64px',
 	},
 ])
 
-globalStyle(`${activtyItemExternalLinkWrapper} > a`, {
+export const activtyItemExternalLinkWrapperActive = style([
+	sprinkles({
+		opacity: 1,
+	}),
+	{},
+])
+
+globalStyle(`${activtyItemExternalLinkWrapperActive} > a`, {
 	pointerEvents: 'auto',
 })
 

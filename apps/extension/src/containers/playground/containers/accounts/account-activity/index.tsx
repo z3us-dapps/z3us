@@ -1,14 +1,11 @@
-/* eslint-disable no-unused-vars */
-import React, { forwardRef, useEffect, useState } from 'react'
+import React, { forwardRef, useState } from 'react'
 import { Box } from 'ui/src/components-v2/box'
-import { Virtuoso, VirtuosoGrid, VirtuosoGridHandle } from 'react-virtuoso'
-import { Avatar, AvatarImage, AvatarFallback } from 'ui/src/components-v2/avatar'
-import { ScrollArea } from 'ui/src/components/scroll-area'
+import { Virtuoso } from 'react-virtuoso'
 import { ChevronDown2Icon, ShareIcon } from 'ui/src/components/icons'
-import { motion, AnimatePresence, usePresence } from 'framer-motion'
-import { PlusIcon } from 'ui/src/components/icons'
+import { motion, AnimatePresence } from 'framer-motion'
 import { Text } from 'ui/src/components-v2/typography'
 import { Button } from '@src/components/button'
+import { TransactionIcon } from '@src/containers/playground/components/transaction-icon'
 import clsx from 'clsx'
 
 import * as styles from './account-activity.css'
@@ -44,6 +41,7 @@ const items = [
 	{ id: '88', title: 'djfjfj884' },
 	{ id: '8djfahksdhf', title: 'djfjfj884' },
 	{ id: '8iiudf7f7fhfh', title: 'djfjfj884' },
+	{ id: 'ifjf2111', title: 'what' },
 ]
 
 const ListContainer = React.forwardRef<HTMLDivElement>((props, ref) => <div ref={ref} {...props} />)
@@ -70,16 +68,7 @@ const ItemWrapper = props => {
 					onMouseLeave={() => setHovered(null)}
 				>
 					<Box className={styles.indicatorCircle}>
-						<Avatar>
-							<AvatarImage
-								className="AvatarImage"
-								src="https://images.unsplash.com/photo-1492633423870-43d1cd2775eb?&w=128&h=128&dpr=2&q=80"
-								alt="Colm Tuite"
-							/>
-							<AvatarFallback className="AvatarFallback" delayMs={600}>
-								CT
-							</AvatarFallback>
-						</Avatar>
+						<TransactionIcon transactionType="deposit" />
 					</Box>
 					<Box display="flex" flexDirection="column" flexGrow={1}>
 						<Text weight="stronger" size="small" color="strong">
@@ -174,7 +163,12 @@ const ItemWrapper = props => {
 					)}
 				</AnimatePresence>
 			</Box>
-			<Box className={styles.activtyItemExternalLinkWrapper}>
+			<Box
+				className={clsx(
+					styles.activtyItemExternalLinkWrapper,
+					(isSelected || isHovered) && styles.activtyItemExternalLinkWrapperActive,
+				)}
+			>
 				<Button
 					sizeVariant="small"
 					styleVariant="ghost"
