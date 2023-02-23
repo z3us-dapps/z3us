@@ -4,10 +4,16 @@ import { Link } from 'react-router-dom'
 
 interface IProps extends IButtonProps {
 	to?: string
+	target?: string
+	onMouseOver?: () => void
+	onMouseLeave?: () => void
 }
 
 const defaultProps = {
 	to: undefined,
+	target: undefined,
+	onMouseOver: undefined,
+	onMouseLeave: undefined,
 }
 
 // TODO: move to helpers

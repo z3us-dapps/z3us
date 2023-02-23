@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars */
 import React, { useState, useCallback, useContext } from 'react'
 import { useTimeout } from 'usehooks-ts'
 import { useAccountParams } from '@src/containers/playground/hooks/use-account-params'
@@ -47,18 +46,18 @@ const variants = {
 
 const ItemWrapper = props => {
 	const { idx, user } = props
-	const { isLoading, isScrolling, setItems } = useContext(Context)
+	const { setItems } = useContext(Context)
 	const { account, asset } = useAccountParams()
 
 	useTimeout(() => {
-		setItems(items => {
-			return items.map(item => {
+		setItems(items =>
+			items.map(item => {
 				if (item.id === user.id) {
 					item.loaded = true
 				}
 				return item
-			})
-		})
+			}),
+		)
 	}, 1000)
 
 	return (
@@ -142,6 +141,7 @@ const ItemWrapper = props => {
 
 interface IAccountListRequiredProps {
 	scrollTop: number
+	scrollableNode: HTMLElement
 }
 
 interface IAccountListOptionalProps {
@@ -156,7 +156,7 @@ const defaultProps: IAccountListOptionalProps = {
 
 export const AccountsList = React.forwardRef<HTMLElement, IAccountListProps>(
 	(props, ref: React.Ref<HTMLElement | null>) => {
-		const { className, scrollTop } = props
+		const { className, scrollTop, scrollableNode } = props
 
 		// eslint-disable-next-line
 		const [items, setItems] = useState(Array.from({ length: 20 }, _ => ({ id: hash(), name: hash(), loaded: false })))
@@ -174,20 +174,19 @@ export const AccountsList = React.forwardRef<HTMLElement, IAccountListProps>(
 		}, [])
 
 		// computeItemKey is necessary for animation to ensure Virtuoso reuses the same elements
-		const computeItemKey = useCallback(
-			index => {
-				return items[index].id
-			},
-			[items],
-		)
+		const computeItemKey = useCallback(index => items[index].id, [items])
 
 		return (
-			<Box className={className} style={{ minHeight: '200px' }}>
+			<Box ref={ref} className={className} style={{ minHeight: '200px' }}>
 				<AccountListHeader isScrolled={isScrolled} />
+				{/* TODO: this context is temporary until we hook up proper state, just here for demo purposes */}
+				{/* eslint-disable-next-line */}
 				<Context.Provider value={{ isScrolling, isLoading, setItems }}>
 					<VirtuosoGrid
-						customScrollParent={ref as any}
+						customScrollParent={scrollableNode}
 						data={items}
+						// todo fix lint issue
+						// eslint-disable-next-line
 						itemContent={(index, user) => (
 							<ItemWrapper idx={index} user={user} isLoading={isLoading} isScrolling={isScrolling} />
 						)}

@@ -37,7 +37,7 @@ export const AccountListHeader: React.FC<IAccountListHeaderProps> = props => {
 					<Box display="flex" paddingBottom="xsmall">
 						{assetType ? (
 							<Box>
-								<Link to={`/accounts/${account}`}>
+								<Link underline="hover" to={`/accounts/${account}`}>
 									<Text size="large">Overview{account ? `: ${account}` : ''}</Text>
 								</Link>
 							</Box>
@@ -48,11 +48,11 @@ export const AccountListHeader: React.FC<IAccountListHeaderProps> = props => {
 						)}
 						{assetType ? (
 							<Box display="flex" alignItems="center">
-								<Box paddingX="xsmall" display="flex" alignItems="center">
+								<Box display="flex" alignItems="center">
 									<ChevronRightIcon />
 								</Box>
 								{asset ? (
-									<Link to={`/accounts/${account}/${assetType}`}>
+									<Link underline="hover" to={`/accounts/${account}/${assetType}`}>
 										<Text size="large">{assetType}</Text>
 									</Link>
 								) : (
@@ -64,7 +64,7 @@ export const AccountListHeader: React.FC<IAccountListHeaderProps> = props => {
 						) : null}
 						{asset ? (
 							<Box display="flex" alignItems="center">
-								<Box paddingX="xsmall" display="flex" alignItems="center">
+								<Box display="flex" alignItems="center">
 									<ChevronRightIcon />
 								</Box>
 								<Text size="large" color="strong">
@@ -81,6 +81,7 @@ export const AccountListHeader: React.FC<IAccountListHeaderProps> = props => {
 					<AccountSearch
 						placeholder="Search"
 						onChange={_value => {
+							// eslint-disable-next-line
 							console.log(_value)
 						}}
 					/>

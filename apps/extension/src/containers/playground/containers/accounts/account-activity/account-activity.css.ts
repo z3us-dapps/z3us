@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { sprinkles, darkMode } from 'ui/src/components-v2/system/sprinkles.css'
 // import { responsiveStyle } from 'ui/src/components-v2/system/theme-utils'
 import { style, globalStyle } from '@vanilla-extract/css'
@@ -104,11 +105,11 @@ export const activtyItemInner = style([
 			'&:focus-visible': {
 				outline: 'none',
 			},
-			'&:focus-visible::before': {
-				outline: 'none',
-				border: 'none',
-				boxShadow: vars.color.btnSecondaryShadowFocus,
-			},
+			// '&:focus-visible::before': {
+			// 	outline: 'none',
+			// 	border: 'none',
+			// 	boxShadow: vars.color.btnSecondaryShadowFocus,
+			// },
 			'&:hover::before': {
 				opacity: 1,
 			},

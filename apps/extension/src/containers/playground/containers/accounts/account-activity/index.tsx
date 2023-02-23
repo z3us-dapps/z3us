@@ -12,12 +12,7 @@ import * as styles from './account-activity.css'
 
 interface IAccountActivityRequiredProps {}
 
-interface IAccountActivityOptionalProps {
-	className?: number
-	onClick?: () => void
-	iconOnly?: boolean
-	flexGrowWrapper?: boolean
-}
+interface IAccountActivityOptionalProps {}
 
 interface IAccountSwitcherProps extends IAccountActivityRequiredProps, IAccountActivityOptionalProps {}
 
@@ -49,7 +44,7 @@ const ListContainer = React.forwardRef<HTMLDivElement>((props, ref) => <div ref=
 const ItemContainer = props => <Box {...props} className={styles.activtyItem} />
 
 const ItemWrapper = props => {
-	const { idx, user, selected, setSelected, hovered, setHovered } = props
+	const { user, selected, setSelected, hovered, setHovered } = props
 
 	const isSelected = selected === user.id
 	const isHovered = hovered === user.id
@@ -187,16 +182,16 @@ const ItemWrapper = props => {
 
 export const AccountActivity = forwardRef<HTMLElement, IAccountSwitcherProps>(
 	(props, ref: React.Ref<HTMLElement | null>) => {
-		const { iconOnly, onClick, className, flexGrowWrapper } = props
-
 		const [selected, setSelected] = useState<string | null>(null)
 		const [hovered, setHovered] = useState<string | null>(null)
 
 		return (
-			<Box className={clsx(styles.activityWrapper)} style={{ minHeight: `40px` }}>
+			<Box className={clsx(styles.activityWrapper)} style={{ minHeight: '100px' }}>
 				<Virtuoso
 					customScrollParent={ref as any}
 					data={items}
+					// todo fix lint issue
+					// eslint-disable-next-line
 					itemContent={(index, user) => (
 						<ItemWrapper
 							idx={index}

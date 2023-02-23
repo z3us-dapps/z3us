@@ -279,6 +279,7 @@ export const buttonIconRight = recipe({
 			small: [{ marginRight: '-6px' }],
 			medium: [],
 			large: [],
+			xlarge: [],
 		},
 	},
 	defaultVariants: {

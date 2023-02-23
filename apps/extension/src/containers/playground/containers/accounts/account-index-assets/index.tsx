@@ -48,6 +48,7 @@ export const AccountIndexAssets = forwardRef<HTMLElement, IAccountIndexAssetsPro
 						<AccountSearch
 							placeholder="Search"
 							onChange={_value => {
+								// eslint-disable-next-line
 								console.log(_value)
 							}}
 						/>
@@ -91,6 +92,7 @@ export const AccountIndexAssets = forwardRef<HTMLElement, IAccountIndexAssetsPro
 									</Text>
 								</Box>
 								{[...Array(4)].map((x, i) => (
+									// eslint-disable-next-line
 									<Link key={i} to="/accounts/all/tokens" className={styles.indexAssetCircle}>
 										<Box onMouseOver={() => setHoveredLink(name)}>
 											<Avatar>

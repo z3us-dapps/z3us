@@ -1,13 +1,10 @@
-/* eslint-disable */
-import React, { forwardRef, useEffect, useState, useRef } from 'react'
+import React, { forwardRef, useEffect, useState } from 'react'
 import { ToolTip } from 'ui/src/components-v2/tool-tip'
 import { Box } from 'ui/src/components-v2/box'
 import { Text } from 'ui/src/components-v2/typography'
-import { motion, AnimatePresence, useMotionValue } from 'framer-motion'
+import { motion, AnimatePresence } from 'framer-motion'
 import clsx from 'clsx'
 import {
-	PlusIcon,
-	MagnifyingGlassIcon,
 	QrCodeIcon,
 	ArrowLeftIcon,
 	ArrowRightIcon,
@@ -17,8 +14,7 @@ import {
 } from 'ui/src/components/icons'
 import { Avatar, AvatarImage, AvatarFallback } from 'ui/src/components-v2/avatar'
 import { Button } from '@src/components/button'
-// import clsx from 'clsx'
-import { Routes, Route, Link, useNavigate, Navigate } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import { useAccountParams } from '@src/containers/playground/hooks/use-account-params'
 
 import * as styles from './account-switcher.css'
@@ -55,7 +51,7 @@ const CARD_COLORS = [
 ]
 
 interface IAccountSwitcherRequiredProps {
-	scrollTop?: number
+	scrollTop: number
 }
 
 interface IAccountSwitcherOptionalProps {}
@@ -68,7 +64,6 @@ export const AccountSwitcher = forwardRef<HTMLButtonElement, IAccountSwitcherPro
 	(props, ref: React.Ref<HTMLElement | null>) => {
 		const { scrollTop } = props
 
-		// const intScroll = useRef(null)
 		const navigate = useNavigate()
 		const { account, assetType, asset } = useAccountParams()
 		const [isMounted, setIsMounted] = useState<boolean>(false)
@@ -134,171 +129,161 @@ export const AccountSwitcher = forwardRef<HTMLButtonElement, IAccountSwitcherPro
 			</>
 		)
 
-		return (
-			<>
-				<Box display="flex" gap="small" className={styles.tempyy}></Box>
-				{asset ? (
-					<Box borderBottom={1} borderColor="borderDivider" borderStyle="solid" flexShrink={0}>
-						<Box display="flex" flexDirection="column" alignItems="center">
-							<Box display="flex" width="full" justifyContent="flex-end" paddingTop="medium" paddingX="medium">
-								<Button iconOnly styleVariant="ghost" sizeVariant="small" to={`/accounts/${account}/${assetType}`}>
-									<Close2Icon />
-								</Button>
-							</Box>
-							<Box display="flex" flexDirection="column" justifyContent="center" alignItems="center">
-								<Box paddingBottom="small">
-									<Avatar>
-										<AvatarImage
-											className="AvatarImage"
-											src="https://images.unsplash.com/photo-1492633423870-43d1cd2775eb?&w=128&h=128&dpr=2&q=80"
-											alt="Colm Tuite"
-										/>
-										<AvatarFallback className="AvatarFallback" delayMs={600}>
-											CT
-										</AvatarFallback>
-									</Avatar>
-								</Box>
-								<Text size="large" color="strong">
-									Bitcoin
-								</Text>
-								<Text size="xxxlarge" weight="medium" color="strong">
-									$12,424
-								</Text>
-								<Text size="xlarge">+4,345 (13.3%)</Text>
-							</Box>
-							<Box display="flex" paddingTop="large" gap="large" position="relative" paddingBottom="large">
-								{arrowBtns}
-							</Box>
-							<Box className={styles.tempBg}>TODO: Chart goes here</Box>
-							<Box display="flex" paddingTop="small" paddingBottom="xlarge" gap="small">
-								{[
-									{ id: '1W', title: '1W' },
-									{ id: '1M', title: '1M' },
-									{ id: '3M', title: '3M' },
-									{ id: '6M', title: '6M' },
-									{ id: '1Y', title: '1Y' },
-									{ id: 'all', title: 'All' },
-								].map(({ id, title }) => (
-									<Button
-										key={id}
-										rounded
-										styleVariant={id === 'all' ? 'secondary' : 'tertiary'}
-										sizeVariant="small"
-										onClick={() => {}}
+		return asset ? (
+			<Box borderBottom={1} borderColor="borderDivider" borderStyle="solid" flexShrink={0}>
+				<Box display="flex" flexDirection="column" alignItems="center">
+					<Box display="flex" width="full" justifyContent="flex-end" paddingTop="medium" paddingX="medium">
+						<Button iconOnly styleVariant="ghost" sizeVariant="small" to={`/accounts/${account}/${assetType}`}>
+							<Close2Icon />
+						</Button>
+					</Box>
+					<Box display="flex" flexDirection="column" justifyContent="center" alignItems="center">
+						<Box paddingBottom="small">
+							<Avatar>
+								<AvatarImage
+									className="AvatarImage"
+									src="https://images.unsplash.com/photo-1492633423870-43d1cd2775eb?&w=128&h=128&dpr=2&q=80"
+									alt="Colm Tuite"
+								/>
+								<AvatarFallback className="AvatarFallback" delayMs={600}>
+									CT
+								</AvatarFallback>
+							</Avatar>
+						</Box>
+						<Text size="large" color="strong">
+							Bitcoin
+						</Text>
+						<Text size="xxxlarge" weight="medium" color="strong">
+							$12,424
+						</Text>
+						<Text size="xlarge">+4,345 (13.3%)</Text>
+					</Box>
+					<Box display="flex" paddingTop="large" gap="large" position="relative" paddingBottom="large">
+						{arrowBtns}
+					</Box>
+					<Box className={styles.tempBg}>TODO: Chart goes here</Box>
+					<Box display="flex" paddingTop="small" paddingBottom="xlarge" gap="small">
+						{[
+							{ id: '1W', title: '1W' },
+							{ id: '1M', title: '1M' },
+							{ id: '3M', title: '3M' },
+							{ id: '6M', title: '6M' },
+							{ id: '1Y', title: '1Y' },
+							{ id: 'all', title: 'All' },
+						].map(({ id, title }) => (
+							<Button
+								key={id}
+								rounded
+								styleVariant={id === 'all' ? 'secondary' : 'tertiary'}
+								sizeVariant="small"
+								onClick={() => {}}
+							>
+								{title}
+							</Button>
+						))}
+					</Box>
+				</Box>
+			</Box>
+		) : (
+			<Box className={clsx(styles.accountCardWrapper, animateOnScroll && styles.accountCardWrapperShadow)}>
+				<Box display="flex" gap="small" className={styles.tempyy}>
+					<Button
+						iconOnly
+						styleVariant="ghost"
+						sizeVariant="small"
+						onClick={handleGotoPrevAccount}
+						disabled={selectedIndexCard === 0}
+					>
+						<ArrowLeftIcon />
+					</Button>
+					<Button
+						iconOnly
+						styleVariant="ghost"
+						sizeVariant="small"
+						onClick={handleGotoNextAccount}
+						disabled={selectedIndexCard === CARD_COLORS.length - 1}
+					>
+						<ArrowRightIcon />
+					</Button>
+				</Box>
+				<Box ref={ref} display="flex" flexDirection="column" alignItems="center">
+					<AnimatePresence initial={false}>
+						<motion.ul
+							key="cards"
+							initial={{ opacity: 0, y: 0 }}
+							animate={{
+								opacity: 1,
+								y: animateOnScroll ? 8 : 0,
+								x: animateOnScroll ? -100 : 0,
+								width: animateOnScroll ? 112 : 344,
+								height: animateOnScroll ? 66 : 200,
+							}}
+							exit={{ opacity: 0, y: 0 }}
+							transition={{ duration: 0.3 }}
+							className={styles.cardWrapperAll}
+							onAnimationStart={() => setIsAnimating(true)}
+							onAnimationComplete={() => setIsAnimating(false)}
+						>
+							{cards.map(({ backgroundImage, accountName, accountId, accountBalance }, idx) => (
+								<motion.li
+									key={accountName}
+									className={styles.card}
+									style={{
+										backgroundImage,
+									}}
+									variants={{
+										selected: {
+											opacity: 1,
+											zIndex: 1,
+											transition: { ease: 'easeOut', duration: 0.3 },
+										},
+										notSelected: {
+											opacity: 0,
+											zIndex: 0,
+											transition: { ease: 'easeOut', duration: 0.3 },
+										},
+									}}
+									animate={selectedIndexCard === idx ? 'selected' : 'notSelected'}
+								>
+									<Box
+										className={clsx(styles.cardAccountWrapper, animateOnScroll && styles.cardAccountWrapperAnimated)}
 									>
-										{title}
-									</Button>
-								))}
-							</Box>
-						</Box>
-					</Box>
-				) : (
-					<Box className={clsx(styles.accountCardWrapper, animateOnScroll && styles.accountCardWrapperShadow)}>
-						<Box display="flex" gap="small" className={styles.tempyy}>
-							<Button
-								iconOnly
-								styleVariant="ghost"
-								sizeVariant="small"
-								onClick={handleGotoPrevAccount}
-								disabled={selectedIndexCard === 0}
-							>
-								<ArrowLeftIcon />
-							</Button>
-							<Button
-								iconOnly
-								styleVariant="ghost"
-								sizeVariant="small"
-								onClick={handleGotoNextAccount}
-								disabled={selectedIndexCard === CARD_COLORS.length - 1}
-							>
-								<ArrowRightIcon />
-							</Button>
-						</Box>
-						<Box ref={ref} display="flex" flexDirection="column" alignItems="center">
-							<AnimatePresence initial={false}>
-								<motion.ul
-									key="cards"
-									initial={{ opacity: 0, y: 0 }}
-									animate={{
-										opacity: 1,
-										y: animateOnScroll ? 8 : 0,
-										x: animateOnScroll ? -100 : 0,
-										width: animateOnScroll ? 112 : 344,
-										height: animateOnScroll ? 66 : 200,
-									}}
-									exit={{ opacity: 0, y: 0 }}
-									transition={{ duration: 0.3 }}
-									className={styles.cardWrapperAll}
-									onAnimationStart={() => setIsAnimating(true)}
-									onAnimationComplete={() => setIsAnimating(false)}
-								>
-									{cards.map(({ backgroundImage, accountName, accountId, accountBalance }, idx) => {
-										return (
-											<motion.li
-												key={accountName}
-												className={styles.card}
-												style={{
-													backgroundImage,
-												}}
-												variants={{
-													selected: {
-														opacity: 1,
-														zIndex: 1,
-														transition: { ease: 'easeOut', duration: 0.3 },
-													},
-													notSelected: {
-														opacity: 0,
-														zIndex: 0,
-														transition: { ease: 'easeOut', duration: 0.3 },
-													},
-												}}
-												animate={selectedIndexCard === idx ? 'selected' : 'notSelected'}
-											>
-												<Box
-													className={clsx(
-														styles.cardAccountWrapper,
-														animateOnScroll && styles.cardAccountWrapperAnimated,
-													)}
-												>
-													<Box flexGrow={1} paddingTop="xsmall">
-														<Text size="large" weight="medium" color="strong" className={styles.cardAccountText}>
-															{accountId}
-														</Text>
-													</Box>
-													<Box paddingBottom="xsmall">
-														<Text size="xlarge" weight="stronger" color="strong">
-															{accountBalance}
-														</Text>
-														<Text size="large" weight="strong" color="strong">
-															{accountName}
-														</Text>
-													</Box>
-												</Box>
-												<Box className={styles.cardAccountShine} />
-											</motion.li>
-										)
-									})}
-								</motion.ul>
-								<motion.div
-									key="buttons"
-									initial={{ opacity: 0, x: 0, y: 0, height: 48 }}
-									animate={{
-										opacity: 1,
-										x: animateOnScroll ? 70 : 0,
-										y: animateOnScroll ? -65 : 0,
-										height: animateOnScroll ? 0 : 48,
-									}}
-									exit={{ opacity: 0, x: 0, y: 0, height: 48 }}
-									transition={{ duration: 0.3 }}
-									className={styles.accountCardButtonWrapper}
-								>
-									{arrowBtns}
-								</motion.div>
-							</AnimatePresence>
-						</Box>
-					</Box>
-				)}
-			</>
+										<Box flexGrow={1} paddingTop="xsmall">
+											<Text size="large" weight="medium" color="strong" className={styles.cardAccountText}>
+												{accountId}
+											</Text>
+										</Box>
+										<Box paddingBottom="xsmall">
+											<Text size="xlarge" weight="stronger" color="strong">
+												{accountBalance}
+											</Text>
+											<Text size="large" weight="strong" color="strong">
+												{accountName}
+											</Text>
+										</Box>
+									</Box>
+									<Box className={styles.cardAccountShine} />
+								</motion.li>
+							))}
+						</motion.ul>
+						<motion.div
+							key="buttons"
+							initial={{ opacity: 0, x: 0, y: 0, height: 48 }}
+							animate={{
+								opacity: 1,
+								x: animateOnScroll ? 70 : 0,
+								y: animateOnScroll ? -65 : 0,
+								height: animateOnScroll ? 0 : 48,
+							}}
+							exit={{ opacity: 0, x: 0, y: 0, height: 48 }}
+							transition={{ duration: 0.3 }}
+							className={styles.accountCardButtonWrapper}
+						>
+							{arrowBtns}
+						</motion.div>
+					</AnimatePresence>
+				</Box>
+			</Box>
 		)
 	},
 )

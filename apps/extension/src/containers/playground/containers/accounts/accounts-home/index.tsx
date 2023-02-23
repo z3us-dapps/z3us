@@ -53,7 +53,7 @@ export const AccountsHome = () => {
 												path={path}
 												element={
 													<AnimatedPage>
-														<AccountsList ref={scrollableNode} scrollTop={scrollTop} />
+														<AccountsList scrollableNode={scrollableNode} scrollTop={scrollTop} />
 													</AnimatedPage>
 												}
 											/>
