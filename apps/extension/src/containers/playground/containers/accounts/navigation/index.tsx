@@ -50,7 +50,7 @@ const MenuItem = ({ text, href }) => {
 	return (
 		<Link to={href} className={clsx(styles.navigationMenuLink)} underline="never">
 			{selected ? <motion.span layoutId="underline" className={styles.navigationMenuActiveLine} /> : null}
-			<Text size="medium" color={selected ? 'white' : 'neutral'} className={styles.navigationMenuLinkText}>
+			<Text size="medium" color={null} className={clsx(selected && styles.navigationMenuLinkTextSelected)}>
 				{text}
 			</Text>
 		</Link>

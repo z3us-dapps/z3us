@@ -50,7 +50,14 @@ export const textStyles = ({ size, color, weight, type, align, baseline, classNa
 		styles.font[type],
 		baseline ? styles.text[size].trimmed : styles.text[size].untrimmed,
 		styles.weight[weight],
-		sprinkles({ color: colorMap[color], textAlign: align }),
+		sprinkles({
+			...(colorMap[color]
+				? {
+						color: colorMap[color],
+				  }
+				: {}),
+			textAlign: align,
+		}),
 		className,
 	)
 

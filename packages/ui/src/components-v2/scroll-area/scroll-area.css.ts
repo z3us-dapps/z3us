@@ -1,6 +1,5 @@
 import { style, globalStyle } from '@vanilla-extract/css'
-import { sprinkles } from '../system/sprinkles.css'
-// import { fadeIn, fadeOut, sharedItemStyles } from '../dropdown-menu/dropdown-menu.css'
+import { sprinkles, darkMode } from '../system/sprinkles.css'
 
 export const scrollAreaWrapper = style([
 	sprinkles({
@@ -33,7 +32,12 @@ export const scrollAreaTopShadow = style([
 		pointerEvents: 'none',
 	}),
 	{
-		background: 'linear-gradient(180deg, rgba(0,0,0,0.15) 0%, rgba(0,0,0,0) 69%, rgba(0,0,0,0) 100%)',
+		background: 'linear-gradient(180deg, rgba(0,0,0,0.08) 0%, rgba(0,0,0,0) 69%, rgba(0,0,0,0) 100%)',
+		selectors: {
+			[`.${darkMode} &::before`]: {
+				background: 'linear-gradient(180deg, rgba(0,0,0,0.15) 0%, rgba(0,0,0,0) 69%, rgba(0,0,0,0) 100%)',
+			},
+		},
 	},
 ])
 
@@ -55,7 +59,12 @@ export const scrollAreaBottomShadow = style([
 		pointerEvents: 'none',
 	}),
 	{
-		background: 'linear-gradient(0deg, rgba(0,0,0,0.15) 0%, rgba(0,0,0,0) 69%, rgba(0,0,0,0) 100%)',
+		background: 'linear-gradient(0deg, rgba(0,0,0,0.08) 0%, rgba(0,0,0,0) 69%, rgba(0,0,0,0) 100%)',
+		selectors: {
+			[`.${darkMode} &::before`]: {
+				background: 'linear-gradient(0deg, rgba(0,0,0,0.15) 0%, rgba(0,0,0,0) 69%, rgba(0,0,0,0) 100%)',
+			},
+		},
 	},
 ])
 

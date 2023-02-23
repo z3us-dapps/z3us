@@ -12,11 +12,11 @@
 				"darkValue": "{color.core.wax.400.value}"
 			},
 			"btn_tertiary_background": {
-				"value": "{color.core.bleached_silk.500.value}",
+				"value": "{color.core.bleached_silk.600.value}",
 				"darkValue": "{color.core.lead.500.value}"
 			},
 			"btn_tertiary_background_hover": {
-				"value": "{color.core.bleached_silk.100.value}",
+				"value": "{color.core.bleached_silk.700.value}",
 				"darkValue": "{color.core.wax.700.value}"
 			},
 			"btn_inverse_background": {

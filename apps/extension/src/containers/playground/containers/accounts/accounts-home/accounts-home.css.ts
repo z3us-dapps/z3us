@@ -39,6 +39,7 @@ export const rightPanel = style([
 		flexDirection: 'column',
 		// flexGrow: 1,
 		flexShrink: 0,
+		overflow: 'clip',
 		// overflow: 'auto',
 	}),
 	{

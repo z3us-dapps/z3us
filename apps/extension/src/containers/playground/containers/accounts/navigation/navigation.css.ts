@@ -120,6 +120,20 @@ export const navigationMenuLink = style([
 export const navigationMenuLinkText = style([
 	sprinkles({
 		position: 'relative',
+		color: {
+			lightMode: 'colorNeutral',
+			darkMode: 'colorNeutral',
+		},
+	}),
+])
+
+export const navigationMenuLinkTextSelected = style([
+	sprinkles({
+		position: 'relative',
+		color: {
+			lightMode: 'white',
+			darkMode: 'colorStrong',
+		},
 	}),
 ])
 
@@ -129,7 +143,10 @@ export const navigationMenuActiveLine = style([
 		inset: 0,
 		pointerEvents: 'none',
 		borderRadius: 'xlarge',
-		background: 'backgroundSecondary',
+		background: {
+			lightMode: 'wax900',
+			darkMode: 'backgroundSecondary',
+		},
 	}),
 	{
 		height: '100%',

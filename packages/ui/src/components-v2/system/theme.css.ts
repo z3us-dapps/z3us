@@ -366,6 +366,7 @@ const generateColorTokens = (colorTokens: any) => ({
 	backgroundSecondary: colorTokens.color.background.secondary.value,
 	borderDivider: colorTokens.color.border.divider_primary.value,
 	shadowMedium: colorTokens.color.shadow.medium.value,
+	shadowActivePanel: colorTokens.color.shadow.shadow_active_panel.value,
 	btnSecondaryBackground: colorTokens.color.background.btn_secondary_background.value,
 	btnSecondaryBackgroundHover: colorTokens.color.background.btn_secondary_background_hover.value,
 	btnSecondaryShadowFocus: colorTokens.color.shadow.button_secondary_focus.value,
