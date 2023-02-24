@@ -40,10 +40,7 @@ export const dropdownProfilAvatar = style([
 		width: 'full',
 		height: 'full',
 	}),
-	{
-		// width: '25px',
-		// height: '25px',
-	},
+	{},
 ])
 
 export const dropdownProfilAvatarImg = style([
@@ -53,6 +50,7 @@ export const dropdownProfilAvatarImg = style([
 		border: 1,
 		borderStyle: 'solid',
 		borderColor: 'backgroundSecondary',
+		borderRadius: 'full',
 	}),
 	{
 		objectFit: 'cover',
@@ -67,7 +65,12 @@ export const dropdownProfilAvatarFallback = style([
 		height: 'full',
 		display: 'flex',
 		alignItems: 'center',
-		background: 'white',
+		justifyContent: 'center',
+		background: {
+			lightMode: 'wax200',
+			darkMode: 'wax900',
+		},
+		borderRadius: 'full',
 	}),
 ])
 

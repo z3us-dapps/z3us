@@ -22,7 +22,7 @@ export const avatarImage = style([
 	sprinkles({}),
 	{
 		objectFit: 'cover',
-		borderRadius: 'inherit',
+		borderRadius: '100%',
 		width: '100%',
 		height: '100%',
 	},
@@ -35,9 +35,10 @@ export const avatarFallback = style([
 		justifyContent: 'center',
 		width: 'full',
 		height: 'full',
+		borderRadius: 'full',
 	}),
 	{
-		borderRadius: 'inherit',
+		borderRadius: '100%',
 		backgroundColor: 'white',
 		color: 'grey',
 		fontSize: 12,

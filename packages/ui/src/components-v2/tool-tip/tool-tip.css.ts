@@ -21,6 +21,8 @@ export const toolTipContent = style([
 		pointerEvents: 'none',
 	}),
 	{
+		maxWidth: '20rem',
+		overflowWrap: 'break-word',
 		animationTimingFunction: 'cubic-bezier(0.16, 1, 0.3, 1)',
 		willChange: 'transform, opacity',
 		animationDuration: '300ms',

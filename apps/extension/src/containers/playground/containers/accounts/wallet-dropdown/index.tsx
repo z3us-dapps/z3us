@@ -3,7 +3,6 @@ import { useTranslation } from 'react-i18next'
 import * as Avatar from '@radix-ui/react-avatar'
 import { LockClosedIcon } from '@radix-ui/react-icons'
 import { CheckIcon } from 'ui/src/components/icons'
-// import { Button } from 'ui/src/components-v2/button'
 import { Box } from 'ui/src/components-v2/box'
 import { Text } from 'ui/src/components-v2/typography'
 import { Link } from '@src/components/link'
@@ -47,7 +46,6 @@ export const WalletDropdown: React.FC = () => {
 							</Avatar.Fallback>
 							<span className={styles.dropdownProfilAvatarConnectedStatus} />
 						</Avatar.Root>
-						{/* <ChevronDownIcon /> */}
 					</button>
 				</DropdownMenuTrigger>
 				<DropdownMenuContent side="bottom" sideOffset={0} align="end" alignOffset={0}>

@@ -101,17 +101,14 @@ export const AccountIndexAssets = forwardRef<HTMLElement, IAccountIndexAssetsPro
 								</Box>
 								{[...Array(4)].map((x, i) => (
 									// eslint-disable-next-line
-									<Link key={i} to="/accounts/all/tokens" className={styles.indexAssetCircle}>
+									<Link key={i} to="/accounts/all/tokens" className={styles.indexAssetCircle} underline="never">
 										<Box onMouseOver={() => setHoveredLink(name)}>
 											<Avatar>
 												<AvatarImage
-													className="AvatarImage"
 													src="https://images.unsplash.com/photo-1492633423870-43d1cd2775eb?&w=128&h=128&dpr=2&q=80"
 													alt="Colm Tuite"
 												/>
-												<AvatarFallback className="AvatarFallback" delayMs={600}>
-													CT
-												</AvatarFallback>
+												<AvatarFallback delayMs={600}>CT</AvatarFallback>
 											</Avatar>
 										</Box>
 									</Link>

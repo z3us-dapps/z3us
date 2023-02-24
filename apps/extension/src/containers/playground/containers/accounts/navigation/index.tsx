@@ -1,6 +1,9 @@
-import React from 'react'
+import React, { useState } from 'react'
 import clsx from 'clsx'
+import { AnimatePresence, motion, LayoutGroup } from 'framer-motion'
 import { useTranslation } from 'react-i18next'
+import { copyTextToClipboard } from '@src/utils/copy-to-clipboard'
+import { getShortAddress } from '@src/utils/string-utils'
 import { ToolTip } from 'ui/src/components-v2/tool-tip'
 import { AccountViewDropdown } from '@src/containers/playground/containers/accounts/account-view-dropdown'
 // import { BrowserRouter, Routes, Route, Link, useLocation, useMatch } from 'react-router-dom'
@@ -16,7 +19,6 @@ import { useAccountParams } from '@src/containers/playground/hooks/use-account-p
 import { Button } from 'ui/src/components-v2/button'
 import { Box } from 'ui/src/components-v2/box'
 import { Text } from 'ui/src/components-v2/typography'
-import { motion, LayoutGroup } from 'framer-motion'
 
 import * as styles from './navigation.css'
 
@@ -58,8 +60,61 @@ const MenuItem = ({ text, href }) => {
 	)
 }
 
+const CopyIconAnimation = ({ animate }: { animate: boolean }) => (
+	<Box className={styles.copiedAnimationWrapper}>
+		<Box width="full" height="full" transition="fast" position="absolute" top={0} left={0}>
+			<AnimatePresence initial={false}>
+				{animate && (
+					<Box color="green400" zIndex={1}>
+						<svg fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="CheckIcon">
+							<motion.path
+								initial={{ pathLength: 0 }}
+								animate={{ pathLength: 1 }}
+								exit={{ pathLength: 0 }}
+								transition={{
+									type: 'tween',
+									duration: 0.3,
+									ease: animate ? 'easeOut' : 'easeIn',
+								}}
+								strokeLinecap="round"
+								strokeLinejoin="round"
+								d="M7.75 12.75L10 15.25L16.25 8.75"
+							/>
+						</svg>
+					</Box>
+				)}
+			</AnimatePresence>
+			<AnimatePresence initial={false}>
+				{!animate && (
+					<motion.div
+						initial={{ opacity: 0 }}
+						animate={{ opacity: 1, transition: { delay: 0.3 } }}
+						exit={{ opacity: 1 }}
+						transition={{ type: 'spring', stiffness: 200 }}
+					>
+						<Box width="full" height="full" transition="fast" position="absolute" top={0} left={0}>
+							<CopyIcon />
+						</Box>
+					</motion.div>
+				)}
+			</AnimatePresence>
+		</Box>
+	</Box>
+)
+
 export const Navigation: React.FC = () => {
+	const [copiedAnimate, setCopiedAnimate] = useState<boolean>(false)
 	const { t } = useTranslation()
+	const tempAddress = 'rdx1b707388613169bf701d533e143d8f698c9090f605e677a967eaf70a4c69250ce'
+
+	const handleAddressClick = () => {
+		copyTextToClipboard(tempAddress)
+		setCopiedAnimate(true)
+
+		setTimeout(() => {
+			setCopiedAnimate(false)
+		}, 2000)
+	}
 
 	return (
 		<Box component="nav" className={styles.navigationWrapper}>
@@ -79,9 +134,16 @@ export const Navigation: React.FC = () => {
 					</LayoutGroup>
 				</Box>
 				<Box display="flex" alignItems="center" gap="medium">
-					<ToolTip message="copy address">
-						<Button sizeVariant="small" styleVariant="tertiary" rounded rightIcon={<CopyIcon />}>
-							rdx1...lag0
+					<ToolTip message={tempAddress}>
+						<Button
+							sizeVariant="small"
+							styleVariant="tertiary"
+							rounded
+							// rightIcon={<CopyIcon />}
+							rightIcon={<CopyIconAnimation animate={copiedAnimate} />}
+							onClick={handleAddressClick}
+						>
+							{getShortAddress(tempAddress)}
 						</Button>
 					</ToolTip>
 					<AccountViewDropdown />

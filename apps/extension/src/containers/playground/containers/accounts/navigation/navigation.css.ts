@@ -153,3 +153,16 @@ export const navigationMenuActiveLine = style([
 		width: '100%',
 	},
 ])
+
+export const copiedAnimationWrapper = style([
+	sprinkles({
+		display: 'flex',
+		position: 'relative',
+		justifyContent: 'center',
+		alignItems: 'center',
+	}),
+	{
+		height: '24px',
+		width: '24px',
+	},
+])
