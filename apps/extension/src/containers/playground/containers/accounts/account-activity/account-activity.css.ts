@@ -96,12 +96,17 @@ export const activtyItemInner = style([
 			left: `calc(${vars.spacing.medium} * -1)`,
 			right: `calc(${vars.spacing.medium} * -1)`,
 			pointerEvents: 'none',
-			background: vars.color.lead400,
+
+			// TODO: fix needing to make these a string
+			boxShadow: `${vars.color.shadowActivePanel}`,
+			color: `${vars.color.borderDivider}`,
 			borderRadius: vars.border.radius.medium,
-			boxShadow:
-				'0px 0px 0px 1px rgba(255, 255, 255, 0.15), 0px 136px 192px rgba(0, 0, 0, 0.3), 0px 50px 50px rgba(0, 0, 0, 0.25), 0px 24px 24px rgba(0, 0, 0, 0.2), 0px 12px 12px rgba(0, 0, 0, 0.15)',
+			background: vars.color.bleached_silk300,
 		},
 		selectors: {
+			[`.${darkMode} &::before`]: {
+				background: vars.color.lead400,
+			},
 			'&:focus-visible': {
 				outline: 'none',
 			},

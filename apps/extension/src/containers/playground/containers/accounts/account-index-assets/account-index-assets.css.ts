@@ -36,11 +36,12 @@ export const indexAssetLinkRow = style([
 			left: `calc(${vars.spacing.medium} * -1)`,
 			right: `calc(${vars.spacing.medium} * -1)`,
 			pointerEvents: 'none',
-			borderRadius: vars.border.radius.medium,
-			background: vars.color.bleached_silk300,
+
 			// TODO: fix needing to make these a string
 			boxShadow: `${vars.color.shadowActivePanel}`,
 			color: `${vars.color.borderDivider}`,
+			borderRadius: vars.border.radius.medium,
+			background: vars.color.bleached_silk300,
 		},
 		selectors: {
 			[`.${darkMode} &::before`]: {
