@@ -10,6 +10,13 @@
 		"badges": "Badges"
 	},
 	"accounts": {
+		"navigation": {
+			"accounts": "konta",
+			"transfer": "przenosić",
+			"staking": "obstawianie",
+			"swap": "zamieniać",
+			"settings": "ustawienia"
+		},
 		"home": {
 			"accountBalanceTitle": "Bilans konta",
 			"assetsBadgesTitle": "Zasoby i odznaki"

@@ -41,7 +41,6 @@ export const AccountTransaction = forwardRef<HTMLElement, IAccountTransactionPro
 		const { iconOnly, onClick, className } = props
 		const [searchParams, setSearchParams] = useSearchParams()
 		const navigate = useNavigate()
-
 		const { pathname } = useLocation()
 
 		const asset = searchParams.get('asset')

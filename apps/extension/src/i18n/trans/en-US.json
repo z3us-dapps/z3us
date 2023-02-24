@@ -10,6 +10,13 @@
 		"badges": "Badges"
 	},
 	"accounts": {
+		"navigation": {
+			"accounts": "Accounts",
+			"transfer": "Transfer",
+			"staking": "Staking",
+			"swap": "Swap",
+			"settings": "Settings"
+		},
 		"home": {
 			"accountBalanceTitle": "Account balance",
 			"assetsBadgesTitle": "Assets and badges"

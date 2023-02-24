@@ -39,10 +39,7 @@ export const AccountsHome = () => {
 							<Box position="relative">
 								<AnimatePresence initial={false}>
 									<Routes location={location} key={location.pathname}>
-										{[
-											'/:account',
-											// '/:account/transaction/:assetId/:transactionId'
-										].map(path => (
+										{['/:account'].map(path => (
 											<Route
 												key="AssetsHome" // to avoid full re-renders when these routes change
 												path={path}
@@ -54,12 +51,7 @@ export const AccountsHome = () => {
 												}
 											/>
 										))}
-										{[
-											'/:account/:assetType',
-											// '/:account/:assetType/transaction/:assetId/:transactionId',
-											'/:account/:assetType/:asset',
-											// '/:account/:assetType/:asset/transaction/:assetId/:transactionId',
-										].map(path => (
+										{['/:account/:assetType', '/:account/:assetType/:asset'].map(path => (
 											<Route
 												key="AssetsList" // to avoid full re-renders when these routes change
 												path={path}

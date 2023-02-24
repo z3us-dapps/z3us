@@ -1,6 +1,6 @@
 import React from 'react'
 import clsx from 'clsx'
-
+import { useTranslation } from 'react-i18next'
 import { ToolTip } from 'ui/src/components-v2/tool-tip'
 import { AccountViewDropdown } from '@src/containers/playground/containers/accounts/account-view-dropdown'
 // import { BrowserRouter, Routes, Route, Link, useLocation, useMatch } from 'react-router-dom'
@@ -43,6 +43,7 @@ const Z3usLogoBrand = () => (
 const MenuItem = ({ text, href }) => {
 	const match = useMatch(href)
 	const { account } = useAccountParams()
+
 	const accountMatchBlackList = ['transfer', 'staking', 'swap', 'settings']
 	const isAccountsMatch = href === '/accounts/all' && account && !accountMatchBlackList.includes(account)
 	const selected = !!match || isAccountsMatch
@@ -57,32 +58,36 @@ const MenuItem = ({ text, href }) => {
 	)
 }
 
-export const Navigation: React.FC = () => (
-	<Box component="nav" className={styles.navigationWrapper}>
-		<Box className={styles.navigationContainer}>
-			<Z3usLogoBrand />
-			<Box className={styles.navigationMenu}>
-				<LayoutGroup>
-					{[
-						{ text: 'Accounts', href: '/accounts/all' },
-						{ text: 'Transfer', href: '/accounts/transfer' },
-						{ text: 'Staking', href: '/accounts/staking' },
-						{ text: 'Swap', href: '/accounts/swap' },
-						{ text: 'Settings', href: '/accounts/settings' },
-					].map(({ text, href }) => (
-						<MenuItem text={text} key={href} href={href} />
-					))}
-				</LayoutGroup>
-			</Box>
-			<Box display="flex" alignItems="center" gap="medium">
-				<ToolTip message="copy address">
-					<Button sizeVariant="small" styleVariant="tertiary" rounded rightIcon={<CopyIcon />}>
-						rdx1...lag0
-					</Button>
-				</ToolTip>
-				<AccountViewDropdown />
-				<WalletDropdown />
+export const Navigation: React.FC = () => {
+	const { t } = useTranslation()
+
+	return (
+		<Box component="nav" className={styles.navigationWrapper}>
+			<Box className={styles.navigationContainer}>
+				<Z3usLogoBrand />
+				<Box className={styles.navigationMenu}>
+					<LayoutGroup>
+						{[
+							{ text: t('accounts.navigation.accounts'), href: '/accounts/all' },
+							{ text: t('accounts.navigation.transfer'), href: '/accounts/transfer' },
+							{ text: t('accounts.navigation.staking'), href: '/accounts/staking' },
+							{ text: t('accounts.navigation.swap'), href: '/accounts/swap' },
+							{ text: t('accounts.navigation.settings'), href: '/accounts/settings' },
+						].map(({ text, href }) => (
+							<MenuItem text={text} key={href} href={href} />
+						))}
+					</LayoutGroup>
+				</Box>
+				<Box display="flex" alignItems="center" gap="medium">
+					<ToolTip message="copy address">
+						<Button sizeVariant="small" styleVariant="tertiary" rounded rightIcon={<CopyIcon />}>
+							rdx1...lag0
+						</Button>
+					</ToolTip>
+					<AccountViewDropdown />
+					<WalletDropdown />
+				</Box>
 			</Box>
 		</Box>
-	</Box>
-)
+	)
+}
