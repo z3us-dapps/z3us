@@ -1,10 +1,12 @@
 import React, { forwardRef, useState } from 'react'
 import { Box } from 'ui/src/components-v2/box'
+import { useAccountParams } from '@src/containers/playground/hooks/use-account-params'
 import { Virtuoso } from 'react-virtuoso'
-import { ChevronDown2Icon, ShareIcon } from 'ui/src/components/icons'
-import { motion, AnimatePresence } from 'framer-motion'
+import { ShareIcon } from 'ui/src/components/icons'
+
 import { Text } from 'ui/src/components-v2/typography'
 import { Button } from '@src/components/button'
+import { Link } from '@src/components/link'
 import { TransactionIcon } from '@src/containers/playground/components/transaction-icon'
 import clsx from 'clsx'
 
@@ -46,6 +48,8 @@ const ItemContainer = props => <Box {...props} className={styles.activtyItem} />
 const ItemWrapper = props => {
 	const { user, selected, setSelected, hovered, setHovered } = props
 
+	const { account, assetType, asset } = useAccountParams()
+
 	const isSelected = selected === user.id
 	const isHovered = hovered === user.id
 
@@ -53,110 +57,42 @@ const ItemWrapper = props => {
 		setSelected(isSelected ? null : user.id)
 	}
 
+	const getTransactionLink = () => {
+		// if (asset) {
+		// 	return `/accounts/all/tokens/xrd/transaction/btc/1eaf53c4256c384d76ca72c0f18ef37a2e4441d4e6bae450e2b8507f42faa5b6`
+		// }
+		// if (assetType) {
+		// 	return `/accounts/all/tokens/transaction/btc/1eaf53c4256c384d76ca72c0f18ef37a2e4441d4e6bae450e2b8507f42faa5b6`
+		// }
+
+		// return `/accounts/all/transaction/btc/1eaf53c4256c384d76ca72c0f18ef37a2e4441d4e6bae450e2b8507f42faa5b6`
+		return `/accounts/all?asset=xrd&id=1eaf53c4256c384d76ca72c0f18ef37a2e4441d4e6bae450e2b8507f42faa5b6`
+	}
+
 	return (
 		<Box className={styles.activtyItemOuter}>
 			<Box className={clsx(styles.activtyItemInner, (isSelected || isHovered) && styles.activtyItemInnerSelected)}>
-				<Box
-					onClick={handleClickItem}
+				<Link
+					underline="never"
+					to={getTransactionLink()}
+					// to={`/accounts/transactions/btc/1eaf53c4256c384d76ca72c0f18ef37a2e4441d4e6bae450e2b8507f42faa5b6`}
 					className={styles.activtyItemInnerBtn}
+					// onClick={handleClickItem}
 					onMouseOver={() => setHovered(user.id)}
 					onMouseLeave={() => setHovered(null)}
 				>
-					<Box className={styles.indicatorCircle}>
-						<TransactionIcon transactionType="deposit" />
-					</Box>
-					<Box display="flex" flexDirection="column" flexGrow={1}>
-						<Text weight="stronger" size="small" color="strong">
-							+1.249 XRD
-						</Text>
-						<Text size="xsmall">29 Aug, 10est, 2023</Text>
-					</Box>
-					<Box
-						opacity={isSelected ? 1 : 0}
-						display="flex"
-						alignItems="center"
-						flexShrink={0}
-						gap="xsmall"
-						marginRight="xlarge"
-						color="colorNeutral"
-						pointerEvents="none"
-						transition="fast"
-					>
-						<ChevronDown2Icon />
-					</Box>
-				</Box>
-				<AnimatePresence initial={false}>
-					{isSelected && (
-						<motion.section
-							key="content"
-							initial="collapsed"
-							animate="open"
-							exit="collapsed"
-							variants={{
-								collapsed: {
-									opacity: 0,
-									height: 0,
-									transition: { delay: 0.2, duration: 0.2 },
-								},
-								open: {
-									opacity: 1,
-									height: 'auto',
-									transition: { delay: 0, duration: 0.2 },
-								},
-							}}
-							className={styles.activtyItemInnerSelectedContent}
-						>
-							<motion.div
-								initial="collapsed"
-								animate="open"
-								exit="collapsed"
-								variants={{
-									collapsed: {
-										opacity: 0,
-										transition: { delay: 0, duration: 0.2 },
-									},
-									open: {
-										opacity: 1,
-										transition: { delay: 0.2, duration: 0.2 },
-									},
-								}}
-							>
-								<Box
-									display="flex"
-									flexDirection="column"
-									position="relative"
-									width="full"
-									gap="medium"
-									marginTop="medium"
-									paddingTop="medium"
-									paddingBottom="large"
-									borderTop={1}
-									borderStyle="solid"
-									borderColor="wax600"
-								>
-									<Box display="flex" gap="medium">
-										<Box>
-											<Text weight="stronger" size="xxsmall" color="strong">
-												Type
-											</Text>
-										</Box>
-										<Box className={styles.transactionDottedLine} />
-										<Text size="xxsmall">Deposit</Text>
-									</Box>
-									<Box display="flex" gap="medium">
-										<Box>
-											<Text weight="stronger" size="xxsmall" color="strong">
-												Transaction ID
-											</Text>
-										</Box>
-										<Box className={styles.transactionDottedLine} />
-										<Text size="xxsmall">Deposit</Text>
-									</Box>
-								</Box>
-							</motion.div>
-						</motion.section>
-					)}
-				</AnimatePresence>
+					<>
+						<Box className={styles.indicatorCircle}>
+							<TransactionIcon transactionType="deposit" />
+						</Box>
+						<Box display="flex" flexDirection="column" flexGrow={1}>
+							<Text weight="stronger" size="small" color="strong">
+								+1.249 XRD
+							</Text>
+							<Text size="xsmall">29 Aug, 10est, 2023</Text>
+						</Box>
+					</>
+				</Link>
 			</Box>
 			<Box
 				className={clsx(

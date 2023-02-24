@@ -8,6 +8,7 @@ import { AccountIndexHeader } from '@src/containers/playground/containers/accoun
 import { AccountIndexAssets } from '@src/containers/playground/containers/accounts/account-index-assets'
 import { AccountSwitcher } from '@src/containers/playground/containers/accounts/account-switcher'
 import { AccountSearch } from '@src/containers/playground/containers/accounts/account-search'
+import { AccountTransaction } from '@src/containers/playground/containers/accounts/account-transaction'
 import { AccountActivity } from '@src/containers/playground/containers/accounts/account-activity'
 import { useAccountParams } from '@src/containers/playground/hooks/use-account-params'
 import { ScrollPanel } from '@src/containers/playground/components/scroll-panel'
@@ -38,16 +39,27 @@ export const AccountsHome = () => {
 							<Box position="relative">
 								<AnimatePresence initial={false}>
 									<Routes location={location} key={location.pathname}>
-										<Route
-											path="/:account"
-											element={
-												<AnimatedPage>
-													<AccountIndexHeader scrollTop={scrollTop} />
-													<AccountIndexAssets scrollableNode={scrollableNode} />
-												</AnimatedPage>
-											}
-										/>
-										{['/:account/:assetType', '/:account/:assetType/:asset'].map(path => (
+										{[
+											'/:account',
+											// '/:account/transaction/:assetId/:transactionId'
+										].map(path => (
+											<Route
+												key="AssetsHome" // to avoid full re-renders when these routes change
+												path={path}
+												element={
+													<AnimatedPage>
+														<AccountIndexHeader scrollTop={scrollTop} />
+														<AccountIndexAssets scrollableNode={scrollableNode} />
+													</AnimatedPage>
+												}
+											/>
+										))}
+										{[
+											'/:account/:assetType',
+											// '/:account/:assetType/transaction/:assetId/:transactionId',
+											'/:account/:assetType/:asset',
+											// '/:account/:assetType/:asset/transaction/:assetId/:transactionId',
+										].map(path => (
 											<Route
 												key="AssetsList" // to avoid full re-renders when these routes change
 												path={path}
@@ -107,6 +119,7 @@ export const AccountsHome = () => {
 					/>
 				</Box>
 			</Box>
+			<AccountTransaction />
 		</Box>
 	)
 }

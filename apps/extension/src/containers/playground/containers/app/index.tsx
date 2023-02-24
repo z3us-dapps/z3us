@@ -34,8 +34,7 @@ export const TempNav: React.FC = () => {
 	useEffect(() => {
 		const element = window.document.body
 		const match = window.matchMedia('(prefers-color-scheme: dark)')
-		// const isDarkMode = match.matches
-		const isDarkMode = false
+		const isDarkMode = match.matches
 
 		if (isDarkTheme) {
 			element.classList.add(darkThemeClass)

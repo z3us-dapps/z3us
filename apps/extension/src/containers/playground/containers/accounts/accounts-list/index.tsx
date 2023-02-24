@@ -179,6 +179,7 @@ export const AccountsList = React.forwardRef<HTMLElement, IAccountListProps>(
 		return (
 			<Box ref={ref} className={className} style={{ minHeight: '200px' }}>
 				<AccountListHeader isScrolled={isScrolled} />
+
 				{/* TODO: this context is temporary until we hook up proper state, just here for demo purposes */}
 				{/* eslint-disable-next-line */}
 				<Context.Provider value={{ isScrolling, isLoading, setItems }}>
