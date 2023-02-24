@@ -4,6 +4,7 @@ import { useAccountParams } from '@src/containers/playground/hooks/use-account-p
 import { Link } from '@src/components/link'
 import { ChevronDown2Icon, ChevronRightIcon } from 'ui/src/components/icons'
 import { AccountSearch } from '@src/containers/playground/containers/accounts/account-search'
+import Translation from '@src/components/translation'
 import { Text } from 'ui/src/components-v2/typography'
 import clsx from 'clsx'
 
@@ -38,7 +39,10 @@ export const AccountListHeader: React.FC<IAccountListHeaderProps> = props => {
 						{assetType ? (
 							<Box>
 								<Link underline="hover" to={`/accounts/${account}`}>
-									<Text size="large">Overview{account ? `: ${account}` : ''}</Text>
+									<Text size="large">
+										<Translation text="accounts.assetsList.overview" />
+										{account ? `: ${account}` : ''}
+									</Text>
 								</Link>
 							</Box>
 						) : (
@@ -91,23 +95,23 @@ export const AccountListHeader: React.FC<IAccountListHeaderProps> = props => {
 				<Box position="relative" paddingBottom="medium" className={styles.tokenListGridWrapper}>
 					<Box component="button" className={styles.tokenListHeaderButton}>
 						<Text size="xsmall" weight="medium">
-							Asset
+							<Translation text="accounts.assetsList.listHeaderAsset" />
 						</Text>
 					</Box>
 					<Box component="button" className={styles.tokenListHeaderButton}>
 						<Text size="xsmall" weight="medium">
-							Amount
+							<Translation text="accounts.assetsList.listHeaderAmount" />
 						</Text>
 					</Box>
 					<Box component="button" className={styles.tokenListHeaderButton}>
 						<Text size="xsmall" weight="medium">
-							Category
+							<Translation text="accounts.assetsList.listHeaderCategory" />
 						</Text>
 						<ChevronDown2Icon />
 					</Box>
 					<Box component="button" className={styles.tokenListHeaderButton}>
 						<Text size="xsmall" weight="medium">
-							Account
+							<Translation text="accounts.assetsList.listHeaderAccount" />
 						</Text>
 					</Box>
 				</Box>

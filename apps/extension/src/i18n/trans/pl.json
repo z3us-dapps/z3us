@@ -5,6 +5,7 @@
 		"next": "Next",
 		"previous": "Previous",
 		"tokens": "Tokens",
+		"activity": "działalność",
 		"nfts": "Nfts",
 		"lpTokens": "LP Tokesn",
 		"badges": "Badges"
@@ -19,7 +20,18 @@
 		},
 		"home": {
 			"accountBalanceTitle": "Bilans konta",
-			"assetsBadgesTitle": "Zasoby i odznaki"
+			"assetsBadgesTitle": "Zasoby i odznaki",
+			"assetsTokens": "żetony",
+			"assetsNfts": "NFTs",
+			"assetsLpTokens": "żetony PL",
+			"assetsBadges": "Odznaki"
+		},
+		"assetsList": {
+			"overview": "Przegląd",
+			"listHeaderAsset": "Zaleta",
+			"listHeaderAmount": "kwota",
+			"listHeaderCategory": "Kategoria",
+			"listHeaderAccount": "Konto"
 		}
 	},
 	"order": {

@@ -2,6 +2,7 @@ import React from 'react'
 import { AnimatedPage } from '@src/containers/playground/components/animated-route'
 import { AnimatePresence } from 'framer-motion'
 import clsx from 'clsx'
+import Translation from '@src/components/translation'
 import { Routes, Route, useLocation } from 'react-router-dom'
 import { AccountsList } from '@src/containers/playground/containers/accounts/accounts-list'
 import { AccountIndexHeader } from '@src/containers/playground/containers/accounts/account-index-header'
@@ -91,12 +92,12 @@ export const AccountsHome = () => {
 										<Box flexShrink={0}>
 											{asset ? (
 												<Text size="large" weight="medium" color="strong">
-													{asset} activity
+													{asset} <Translation text="global.activity" />
 												</Text>
 											) : null}
 											{!asset ? (
 												<Text size="large" weight="medium" color="strong">
-													{assetType || 'All'} activity
+													{assetType || 'All'} <Translation text="global.activity" />
 												</Text>
 											) : null}
 										</Box>

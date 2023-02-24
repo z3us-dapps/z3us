@@ -4,9 +4,10 @@
 		"cancel": "Cancel",
 		"next": "Next",
 		"previous": "Previous",
+		"activity": "Activity",
 		"tokens": "Tokens",
 		"nfts": "Nfts",
-		"lpTokens": "LP Tokesn",
+		"lpTokens": "LP Tokens",
 		"badges": "Badges"
 	},
 	"accounts": {
@@ -19,7 +20,18 @@
 		},
 		"home": {
 			"accountBalanceTitle": "Account balance",
-			"assetsBadgesTitle": "Assets and badges"
+			"assetsBadgesTitle": "Assets and badges",
+			"assetsTokens": "Tokens",
+			"assetsNfts": "NFTs",
+			"assetsLpTokens": "LP Tokens",
+			"assetsBadges": "Badges"
+		},
+		"assetsList": {
+			"overview": "Overview",
+			"listHeaderAsset": "Asset",
+			"listHeaderAmount": "Amount",
+			"listHeaderCategory": "Category",
+			"listHeaderAccount": "Account"
 		}
 	},
 	"order": {

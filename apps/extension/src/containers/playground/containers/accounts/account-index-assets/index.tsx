@@ -1,4 +1,5 @@
 import React, { forwardRef, useEffect, useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import { ChevronRightIcon } from 'ui/src/components/icons'
 import Translation from '@src/components/translation'
 import { Link } from '@src/components/link'
@@ -28,6 +29,8 @@ export const AccountIndexAssets = forwardRef<HTMLElement, IAccountIndexAssetsPro
 	(props, ref: React.Ref<HTMLElement | null>) => {
 		const { className, scrollableNode } = props
 
+		const { t } = useTranslation()
+
 		const [hoveredLink, setHoveredLink] = useState<string | null>(null)
 
 		useEffect(() => {
@@ -55,7 +58,12 @@ export const AccountIndexAssets = forwardRef<HTMLElement, IAccountIndexAssetsPro
 					</Box>
 				</Box>
 				<Box className={styles.indexAssetsWrapper}>
-					{[{ name: 'Tokens' }, { name: 'NFTs' }, { name: 'LP Tokens' }, { name: 'Badges' }].map(({ name }) => (
+					{[
+						{ name: t('accounts.home.assetsTokens') },
+						{ name: t('accounts.home.assetsNfts') },
+						{ name: t('accounts.home.assetsLpTokens') },
+						{ name: t('accounts.home.assetsBadges') },
+					].map(({ name }) => (
 						<Box key={name} className={styles.indexAssetWrapper}>
 							<Link
 								to="/accounts/all/tokens"
