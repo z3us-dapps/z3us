@@ -1,10 +1,21 @@
-/* eslint-disable */
 import React, { forwardRef, useEffect, useState } from 'react'
+import { useEventListener } from 'usehooks-ts'
 import { Box } from 'ui/src/components-v2/box'
-import { Virtuoso, VirtuosoGrid, VirtuosoGridHandle } from 'react-virtuoso'
-import { ScrollArea } from 'ui/src/components/scroll-area'
-import { PlusIcon, MagnifyingGlassIcon } from 'ui/src/components/icons'
+import { PlusIcon, SearchIcon, Close2Icon } from 'ui/src/components/icons'
+import { useLocation, useNavigate } from 'react-router-dom'
+import { Button } from '@src/components/button'
+import { useSearchParams } from 'react-router-dom'
+import { ScrollArea } from 'ui/src/components-v2/scroll-area'
 import { Text } from 'ui/src/components-v2/typography'
+import {
+	Dialog,
+	DialogPortal,
+	DialogOverlay,
+	DialogContent,
+	DialogTitle,
+	DialogDescription,
+	DialogClose,
+} from 'ui/src/components-v2/dialog'
 import clsx from 'clsx'
 
 import * as styles from './account-transaction.css'
@@ -28,12 +39,98 @@ const defaultProps: IAccountTransactionOptionalProps = {
 export const AccountTransaction = forwardRef<HTMLElement, IAccountTransactionProps>(
 	(props, ref: React.Ref<HTMLElement | null>) => {
 		const { iconOnly, onClick, className } = props
+		const [searchParams, setSearchParams] = useSearchParams()
+		const navigate = useNavigate()
 
-		return (
-			<Box ref={ref} className={styles.transactionWrapper}>
-				<Box padding="xxlarge">Transaction page</Box>
-			</Box>
-		)
+		const { pathname } = useLocation()
+
+		const asset = searchParams.get('asset')
+		const transactionId = searchParams.get('transactionId')
+
+		const navigateBack = () => {
+			navigate(pathname)
+		}
+
+		// TODO: not working
+		useEventListener('keypress', e => {
+			if (e.code === 'Escape') {
+				navigateBack()
+			}
+		})
+
+		return asset && transactionId ? (
+			<Dialog open>
+				<DialogPortal>
+					<DialogOverlay className={styles.transactionOverlay} />
+					<DialogContent className={styles.transactionContent}>
+						<ScrollArea>
+							<Box position="relative" padding="large">
+								<h1>Lorum</h1>
+								<h1>Lorum</h1>
+								<h1>Lorum</h1>
+								<h1>Lorum</h1>
+								<h1>Lorum</h1>
+								<h1>Lorum</h1>
+								<h1>Lorum</h1>
+								<h1>Lorum</h1>
+								<h1>Lorum</h1>
+								<h1>Lorum</h1>
+								<h1>Lorum</h1>
+								<h1>Lorum</h1>
+								<h1>Lorum</h1>
+								<h1>Lorum</h1>
+								<h1>Lorum</h1>
+								<h1>Lorum</h1>
+								<h1>Lorum</h1>
+								<h1>Lorum</h1>
+								<h1>Lorum</h1>
+								<h1>Lorum</h1>
+								<h1>Lorum</h1>
+								<h1>Lorum</h1>
+								<h1>Lorum</h1>
+								<h1>Lorum</h1>
+								<h1>Lorum</h1>
+								<h1>Lorum</h1>
+								<h1>Lorum</h1>
+								<h1>Lorum</h1>
+								<h1>Lorum</h1>
+								<h1>Lorum</h1>
+								<h1>Lorum</h1>
+								<h1>Lorum</h1>
+								<h1>Lorum</h1>
+								<h1>Lorum</h1>
+								<h1>Lorum</h1>
+								<h1>Lorum</h1>
+								<h1>Lorum</h1>
+								<h1>Lorum</h1>
+								<h1>Lorum</h1>
+								<h1>Lorum</h1>
+								<h1>Lorum</h1>
+								<h1>Lorum</h1>
+								<h1>Lorum</h1>
+								<h1>Lorum</h1>
+								<h1>Lorum</h1>
+								<h1>Lorum</h1>
+								<h1>Lorum</h1>
+								<h1>Lorum</h1>
+								<h1>Lorum</h1>
+								<h1>Lorum</h1>
+							</Box>
+						</ScrollArea>
+
+						<Button
+							className={styles.closeButton}
+							styleVariant="ghost"
+							sizeVariant="small"
+							iconOnly
+							onClick={navigateBack}
+						>
+							<Close2Icon />
+						</Button>
+					</DialogContent>
+				</DialogPortal>
+			</Dialog>
+		) : null
 	},
 )
 

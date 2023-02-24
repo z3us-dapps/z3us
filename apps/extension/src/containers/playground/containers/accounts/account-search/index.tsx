@@ -4,7 +4,7 @@ import { useEventListener } from 'usehooks-ts'
 import { Button } from '@src/components/button'
 import { Box } from 'ui/src/components-v2/box'
 import { Input, FormElement } from 'ui/src/components-v2/input'
-import { PlusIcon, SearchIcon, Close2Icon } from 'ui/src/components/icons'
+import { SearchIcon, Close2Icon } from 'ui/src/components/icons'
 import { Text } from 'ui/src/components-v2/typography'
 import clsx from 'clsx'
 

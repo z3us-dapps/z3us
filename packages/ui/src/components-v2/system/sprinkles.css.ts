@@ -70,7 +70,6 @@ const unresponsiveProperties = defineProperties({
 		flexShrink: [0],
 		flexGrow: [0, 1],
 		zIndex: [-1, 0, 1, 2],
-
 		borderWidth: vars.border.width,
 		borderRadius: vars.border.radius,
 		borderTopLeftRadius: vars.border.radius,

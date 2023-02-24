@@ -1,9 +1,9 @@
 import React, { forwardRef, useState } from 'react'
 import { Box } from 'ui/src/components-v2/box'
-import { useAccountParams } from '@src/containers/playground/hooks/use-account-params'
+// import { useAccountParams } from '@src/containers/playground/hooks/use-account-params'
+import { useLocation } from 'react-router-dom'
 import { Virtuoso } from 'react-virtuoso'
 import { ShareIcon } from 'ui/src/components/icons'
-
 import { Text } from 'ui/src/components-v2/typography'
 import { Button } from '@src/components/button'
 import { Link } from '@src/components/link'
@@ -46,35 +46,24 @@ const ListContainer = React.forwardRef<HTMLDivElement>((props, ref) => <div ref=
 const ItemContainer = props => <Box {...props} className={styles.activtyItem} />
 
 const ItemWrapper = props => {
-	const { user, selected, setSelected, hovered, setHovered } = props
+	const { user, selected, hovered, setHovered } = props
 
-	const { account, assetType, asset } = useAccountParams()
+	// const { account, assetType, asset } = useAccountParams()
+	const { pathname } = useLocation()
 
 	const isSelected = selected === user.id
 	const isHovered = hovered === user.id
 
-	const handleClickItem = () => {
-		setSelected(isSelected ? null : user.id)
-	}
-
-	const getTransactionLink = () => {
-		// if (asset) {
-		// 	return `/accounts/all/tokens/xrd/transaction/btc/1eaf53c4256c384d76ca72c0f18ef37a2e4441d4e6bae450e2b8507f42faa5b6`
-		// }
-		// if (assetType) {
-		// 	return `/accounts/all/tokens/transaction/btc/1eaf53c4256c384d76ca72c0f18ef37a2e4441d4e6bae450e2b8507f42faa5b6`
-		// }
-
-		// return `/accounts/all/transaction/btc/1eaf53c4256c384d76ca72c0f18ef37a2e4441d4e6bae450e2b8507f42faa5b6`
-		return `/accounts/all?asset=xrd&id=1eaf53c4256c384d76ca72c0f18ef37a2e4441d4e6bae450e2b8507f42faa5b6`
-	}
+	// const handleClickItem = () => {
+	// 	setSelected(isSelected ? null : user.id)
+	// }
 
 	return (
 		<Box className={styles.activtyItemOuter}>
 			<Box className={clsx(styles.activtyItemInner, (isSelected || isHovered) && styles.activtyItemInnerSelected)}>
 				<Link
 					underline="never"
-					to={getTransactionLink()}
+					to={`${pathname}?asset=xrd&transactionId=1eaf53c4256c384d76ca72c0f18ef37a2e4441d4e6bae450e2b8507f42faa5b6`}
 					// to={`/accounts/transactions/btc/1eaf53c4256c384d76ca72c0f18ef37a2e4441d4e6bae450e2b8507f42faa5b6`}
 					className={styles.activtyItemInnerBtn}
 					// onClick={handleClickItem}
