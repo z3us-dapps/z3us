@@ -13,6 +13,7 @@ import { AccountTransaction } from '@src/containers/playground/containers/accoun
 import { AccountActivity } from '@src/containers/playground/containers/accounts/account-activity'
 import { useAccountParams } from '@src/containers/playground/hooks/use-account-params'
 import { ScrollPanel } from '@src/containers/playground/components/scroll-panel'
+import { Z3usLoading } from '@src/containers/playground/components/z3us-loading'
 import { Box } from 'ui/src/components-v2/box'
 import { Text } from 'ui/src/components-v2/typography'
 
@@ -76,7 +77,12 @@ export const AccountsHome = () => {
 								{isAllAccount && !assetType ? (
 									<Box paddingTop="xlarge" paddingX="xlarge">
 										<Box padding="large" background="backgroundPrimary" style={{ width: '100%', height: '200px' }}>
-											TODO: all accounts chart summary
+											<Z3usLoading message="Loading" />
+											{/* <Z3usLoading message="Loading"> */}
+											{/* 	<Box> */}
+											{/* 		<Text size="xsmall">Loading</Text> */}
+											{/* 	</Box> */}
+											{/* </Z3usLoading> */}
 										</Box>
 									</Box>
 								) : (
