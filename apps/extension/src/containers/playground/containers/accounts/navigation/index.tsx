@@ -88,9 +88,8 @@ const CopyIconAnimation = ({ animate }: { animate: boolean }) => (
 				{!animate && (
 					<motion.div
 						initial={{ opacity: 0 }}
-						animate={{ opacity: 1, transition: { delay: 0.3 } }}
-						exit={{ opacity: 1 }}
-						transition={{ type: 'spring', stiffness: 200 }}
+						animate={{ opacity: 1, transition: { delay: 0.3, duration: 0.3 } }}
+						exit={{ opacity: 0, transition: { delay: 0, duration: 0.1 } }}
 					>
 						<Box width="full" height="full" transition="fast" position="absolute" top={0} left={0}>
 							<CopyIcon />
@@ -113,7 +112,7 @@ export const Navigation: React.FC = () => {
 
 		setTimeout(() => {
 			setCopiedAnimate(false)
-		}, 2000)
+		}, 3000)
 	}
 
 	return (
@@ -139,11 +138,26 @@ export const Navigation: React.FC = () => {
 							sizeVariant="small"
 							styleVariant="tertiary"
 							rounded
-							// rightIcon={<CopyIcon />}
 							rightIcon={<CopyIconAnimation animate={copiedAnimate} />}
 							onClick={handleAddressClick}
 						>
-							{getShortAddress(tempAddress)}
+							<Box position="relative">
+								<Box transition="slow" opacity={copiedAnimate ? 0 : 1}>
+									{getShortAddress(tempAddress)}
+								</Box>
+								<Box
+									transition="slow"
+									opacity={copiedAnimate ? 1 : 0}
+									position="absolute"
+									top={0}
+									width="full"
+									textAlign="center"
+									pointerEvents="none"
+								>
+									Copied
+								</Box>
+							</Box>
+							{/* {copiedAnimate ? 'Copied' : getShortAddress(tempAddress)} */}
 						</Button>
 					</ToolTip>
 					<AccountViewDropdown />
