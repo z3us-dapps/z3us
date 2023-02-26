@@ -12,7 +12,7 @@
 		"build:firefox-dev": "yarn build:firefox --mode development",
 		"preview": "vite preview",
 		"check-types": "tsc --noemit",
-		"eslint": "eslint --ignore-path .eslintignore --ext .js,.ts,.tsx .",
+		"eslint": "eslint --fix --ignore-path .eslintignore --ext .js,.ts,.tsx .",
 		"lint": "yarn run eslint && yarn run check-types",
 		"test": "jest --maxWorkers=1  --detectOpenHandles --forceExit"
 	},
