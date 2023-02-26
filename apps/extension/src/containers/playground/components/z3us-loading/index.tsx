@@ -1,3 +1,4 @@
+/* eslint-disable */
 import React, { useEffect, useState, useRef } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { Box } from 'ui/src/components-v2/box'
@@ -50,22 +51,22 @@ interface IZ3usLoadingRequiredProps {}
 
 interface IZ3usLoadingOptionalProps {
 	className?: string
-	children?: React.ReactNode
-	message?: string
+	message?: string | React.ReactNode
 }
 
 interface IZ3usLoadingProps extends IZ3usLoadingRequiredProps, IZ3usLoadingOptionalProps {}
 
 const defaultProps: IZ3usLoadingOptionalProps = {
 	className: undefined,
-	children: undefined,
 	message: 'Loading',
 }
 
 export const Z3usLoading: React.FC<IZ3usLoadingProps> = props => {
-	const { className, children, message } = props
+	const { className, message } = props
 
 	const [currentPath, setCurrentPath] = useState<string>('')
+
+	const isMessageString = typeof message === 'string'
 
 	const handleScroll = (e: Event) => {}
 
@@ -90,8 +91,7 @@ export const Z3usLoading: React.FC<IZ3usLoadingProps> = props => {
 				</Box>
 			</Box>
 			<Box className={styles.loaderText}>
-				{/* {children || null} */}
-				{children || (
+				{isMessageString ? (
 					<Box display="flex" gap="xsmall" alignItems="flex-end">
 						<Text size="xsmall">{message}</Text>
 						<Box paddingBottom="xsmall">
@@ -100,6 +100,8 @@ export const Z3usLoading: React.FC<IZ3usLoadingProps> = props => {
 							</Text>
 						</Box>
 					</Box>
+				) : (
+					message
 				)}
 			</Box>
 		</Box>

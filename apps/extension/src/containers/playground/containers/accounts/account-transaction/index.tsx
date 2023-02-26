@@ -1,3 +1,4 @@
+/* eslint-disable */
 import React, { forwardRef, useEffect, useState } from 'react'
 import { useEventListener } from 'usehooks-ts'
 import { Box } from 'ui/src/components-v2/box'
