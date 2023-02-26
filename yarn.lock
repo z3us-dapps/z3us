@@ -9578,6 +9578,11 @@ eslint-plugin-require-explicit-generics@^0.4.2:
   resolved "https://registry.yarnpkg.com/eslint-plugin-require-explicit-generics/-/eslint-plugin-require-explicit-generics-0.4.2.tgz#3faef6d4bb13aaf0d9cd9275bba80fde3f491d9f"
   integrity sha512-UoRxF6RG3tIhrTqYlH9CjOxzZoH3EwC8MxbkVVDvVVR33aNFy93eNHTwi6GMhbN3riu5Z3RHzflewYtcvDZtAw==
 
+eslint-plugin-simple-import-sort@^10.0.0:
+  version "10.0.0"
+  resolved "https://registry.yarnpkg.com/eslint-plugin-simple-import-sort/-/eslint-plugin-simple-import-sort-10.0.0.tgz#cc4ceaa81ba73252427062705b64321946f61351"
+  integrity sha512-AeTvO9UCMSNzIHRkg8S6c3RPy5YEwKWSQPx3DYghLedo2ZQxowPFLGDN1AZ2evfg6r6mjBSZSLxLFsWSu3acsw==
+
 eslint-plugin-testing-library@^5.0.5:
   version "5.6.4"
   resolved "https://registry.yarnpkg.com/eslint-plugin-testing-library/-/eslint-plugin-testing-library-5.6.4.tgz#9dffd9feafbb08a36240f88156357685b56f0b8a"
