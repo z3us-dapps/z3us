@@ -38,6 +38,8 @@ module.exports = {
 		'import/no-extraneous-dependencies': [2, { devDependencies: true }],
 		'react/jsx-props-no-spreading': 'off',
 		'require-explicit-generics/require-explicit-generics': [2, ['React.useState', 'useState', 'useImmer']],
+		'simple-import-sort/imports': 'error',
+		'simple-import-sort/exports': 'error',
 	},
 	overrides: [
 		{
