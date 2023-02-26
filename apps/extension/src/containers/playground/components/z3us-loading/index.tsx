@@ -6,7 +6,7 @@ import clsx from 'clsx'
 
 import * as styles from './z3us-loading.css'
 
-const ELLIPSIS_DURATION = 2
+const ELLIPSIS_DURATION = 1.2
 
 export const EllipsisAnimation = () => (
 	<AnimatePresence initial>
@@ -15,9 +15,9 @@ export const EllipsisAnimation = () => (
 				animate={{ opacity: [0, 1, 0] }}
 				transition={{
 					duration: ELLIPSIS_DURATION,
+					delay: 0,
 					repeat: Infinity,
 					ease: 'linear',
-					delay: 0,
 				}}
 				className={styles.ellipsisElement}
 			/>
@@ -25,7 +25,7 @@ export const EllipsisAnimation = () => (
 				animate={{ opacity: [0, 1, 0] }}
 				transition={{
 					duration: ELLIPSIS_DURATION,
-					delay: 0.5,
+					delay: 0.2,
 					repeat: Infinity,
 					ease: 'linear',
 				}}
@@ -36,9 +36,9 @@ export const EllipsisAnimation = () => (
 				animate={{ opacity: [0, 1, 0] }}
 				transition={{
 					duration: ELLIPSIS_DURATION,
+					delay: 0.2,
 					repeat: Infinity,
 					ease: 'linear',
-					delay: 1,
 				}}
 				className={styles.ellipsisElement}
 			/>
