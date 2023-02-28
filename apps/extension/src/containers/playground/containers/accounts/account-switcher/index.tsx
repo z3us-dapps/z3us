@@ -111,17 +111,17 @@ export const AccountSwitcher = forwardRef<HTMLButtonElement, IAccountSwitcherPro
 
 		const arrowBtns = (
 			<>
-				<ToolTip message="send">
+				<ToolTip message="send" theme="backgroundPrimary">
 					<Button iconOnly rounded styleVariant="inverse" sizeVariant="large" onClick={() => {}}>
 						<UpRightIcon />
 					</Button>
 				</ToolTip>
-				<ToolTip message="receive">
+				<ToolTip message="receive" theme="backgroundPrimary">
 					<Button iconOnly rounded styleVariant="inverse" sizeVariant="large" onClick={() => {}}>
 						<DownLeftIcon />
 					</Button>
 				</ToolTip>
-				<ToolTip message="address">
+				<ToolTip message="address" theme="backgroundPrimary">
 					<Button iconOnly rounded styleVariant="inverse" sizeVariant="large" onClick={() => {}}>
 						<QrCodeIcon />
 					</Button>

@@ -2,15 +2,14 @@ import React from 'react'
 import * as TooltipPrimitive from '@radix-ui/react-tooltip'
 import { Side } from '@radix-ui/popper'
 import clsx from 'clsx'
-import { radixWithClassName } from '../system/radix-with-class-name'
 import { Text } from '../typography'
 
 import * as styles from './tool-tip.css'
 
 export const ToolTipRoot = TooltipPrimitive.Root
 export const ToolTipTrigger = TooltipPrimitive.Trigger
-export const ToolTipContent = radixWithClassName(TooltipPrimitive.Content, clsx(styles.toolTipContent))
-export const ToolTipArrow = radixWithClassName(TooltipPrimitive.Arrow, styles.toolTipArrow)
+export const ToolTipContent = TooltipPrimitive.Content
+export const ToolTipArrow = TooltipPrimitive.Arrow
 
 interface IToolTipRequiredProps {
 	children: React.ReactNode
@@ -23,6 +22,7 @@ interface IToolTipOptionalProps {
 	arrowOffset?: number
 	side?: Side
 	isArrowVisible?: boolean
+	theme?: 'backgroundSecondary' | 'backgroundPrimary'
 }
 
 interface IToolTipProps extends IToolTipRequiredProps, IToolTipOptionalProps {}
@@ -33,6 +33,7 @@ const defaultProps: IToolTipOptionalProps = {
 	arrowOffset: 5,
 	isArrowVisible: true,
 	side: 'bottom',
+	theme: 'backgroundSecondary',
 }
 
 export const ToolTip: React.FC<IToolTipProps> = ({
@@ -43,11 +44,27 @@ export const ToolTip: React.FC<IToolTipProps> = ({
 	sideOffset,
 	isArrowVisible,
 	arrowOffset,
+	theme,
 }) => (
 	<ToolTipRoot>
 		<ToolTipTrigger asChild>{children}</ToolTipTrigger>
-		<ToolTipContent sideOffset={sideOffset} side={side}>
-			{isArrowVisible ? <ToolTipArrow offset={arrowOffset} /> : null}
+		<ToolTipContent
+			sideOffset={sideOffset}
+			side={side}
+			className={clsx(
+				styles.toolTipContent,
+				theme === 'backgroundSecondary' ? styles.toolTipContentBgSecondary : styles.toolTipContentBgPrimary,
+			)}
+		>
+			{isArrowVisible ? (
+				<ToolTipArrow
+					offset={arrowOffset}
+					className={clsx(
+						styles.toolTipArrow,
+						theme === 'backgroundSecondary' ? styles.toolTipArrowFillSecondary : styles.toolTipArrowFillPrimary,
+					)}
+				/>
+			) : null}
 			{!disabled ? (
 				<Text size="xsmall" color="strong">
 					{message}

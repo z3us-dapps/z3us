@@ -13,7 +13,6 @@ const fadeOut = keyframes({
 
 export const toolTipContent = style([
 	sprinkles({
-		background: 'backgroundSecondary',
 		color: 'colorNeutral',
 		paddingX: 'small',
 		paddingY: 'small',
@@ -40,10 +39,36 @@ export const toolTipContent = style([
 	},
 ])
 
+export const toolTipContentBgSecondary = style([
+	sprinkles({
+		background: 'backgroundSecondary',
+	}),
+	{},
+])
+
+export const toolTipContentBgPrimary = style([
+	sprinkles({
+		background: 'backgroundPrimary',
+	}),
+	{},
+])
+
 export const toolTipArrow = style([
 	sprinkles({
 		position: 'relative',
+	}),
+	{},
+])
+
+export const toolTipArrowFillSecondary = style([
+	sprinkles({
 		fill: 'backgroundSecondary',
+	}),
+	{},
+])
+export const toolTipArrowFillPrimary = style([
+	sprinkles({
+		fill: 'backgroundPrimary',
 	}),
 	{},
 ])

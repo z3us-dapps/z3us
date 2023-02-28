@@ -51,18 +51,11 @@ export const AccountTransaction = forwardRef<HTMLElement, IAccountTransactionPro
 			navigate(pathname)
 		}
 
-		// TODO: not working
-		useEventListener('keypress', e => {
-			if (e.code === 'Escape') {
-				navigateBack()
-			}
-		})
-
 		return asset && transactionId ? (
 			<Dialog open>
 				<DialogPortal>
 					<DialogOverlay className={styles.transactionOverlay} />
-					<DialogContent className={styles.transactionContent}>
+					<DialogContent className={styles.transactionContent} onEscapeKeyDown={navigateBack}>
 						<ScrollArea>
 							<Box position="relative" padding="large">
 								<h1>Lorum</h1>
