@@ -1,5 +1,6 @@
 import React from 'react'
 import * as DropdownMenuPrimitive from '@radix-ui/react-dropdown-menu'
+import { Box } from '../box'
 
 import * as styles from './dropdown-menu.css'
 
@@ -47,13 +48,13 @@ export const DropdownMenuItemIndicator = ({ children, ...props }) => (
 )
 
 export const DropdownMenuRightSlot = ({ children, ...props }) => (
-	<DropdownMenuPrimitive.Label className={styles.dropdownMenuItemRightSlot} {...props}>
+	<Box className={styles.dropdownMenuItemRightSlot} {...props}>
 		{children}
-	</DropdownMenuPrimitive.Label>
+	</Box>
 )
 
 export const DropdownMenuLeftSlot = ({ children, ...props }) => (
-	<DropdownMenuPrimitive.Label className={styles.dropdownMenuItemLeftSlot} {...props}>
+	<Box className={styles.dropdownMenuItemLeftSlot} {...props}>
 		{children}
-	</DropdownMenuPrimitive.Label>
+	</Box>
 )

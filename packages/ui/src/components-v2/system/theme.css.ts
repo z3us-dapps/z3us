@@ -165,23 +165,21 @@ export const sharedThemeValues = {
 				desktop: '0.02em',
 			},
 		},
-
 		medium: {
 			calculate: calculateTypographyStyles(
 				{
-					mobile: { fontSize: 15, rows: 6 },
-					tablet: { fontSize: 15, rows: 6 },
-					desktop: { fontSize: 15, rows: 6 },
+					mobile: { fontSize: 15, rows: 4.5 },
+					tablet: { fontSize: 15, rows: 4.5 },
+					desktop: { fontSize: 15, rows: 4.5 },
 				},
 				'body',
 			),
 			spacing: {
-				mobile: '0.04em',
-				tablet: '0.04em',
-				desktop: '0.04em',
+				mobile: '0.02em',
+				tablet: '0.02em',
+				desktop: '0.02em',
 			},
 		},
-
 		large: {
 			calculate: calculateTypographyStyles(
 				{
@@ -213,7 +211,6 @@ export const sharedThemeValues = {
 				desktop: '0.04em',
 			},
 		},
-
 		xxlarge: {
 			calculate: calculateTypographyStyles(
 				{
@@ -229,13 +226,12 @@ export const sharedThemeValues = {
 				desktop: '0em',
 			},
 		},
-
 		xxxlarge: {
 			calculate: calculateTypographyStyles(
 				{
-					mobile: { fontSize: 36, rows: 13 },
-					tablet: { fontSize: 36, rows: 13 },
-					desktop: { fontSize: 36, rows: 13 },
+					mobile: { fontSize: 36, rows: 11 },
+					tablet: { fontSize: 36, rows: 11 },
+					desktop: { fontSize: 36, rows: 11 },
 				},
 				'heading',
 			),
@@ -256,6 +252,8 @@ export const sharedThemeValues = {
 	},
 	border: {
 		width: {
+			xxsmall: px(1),
+			xsmall: px(2),
 			small: px(1 * grid),
 			medium: px(2 * grid),
 		},
@@ -269,6 +267,12 @@ export const sharedThemeValues = {
 			xxxlarge: px(6 * grid),
 			full: '9999px',
 		},
+	},
+	transition: {
+		slow: 'transform .3s ease, opacity .3s ease, background .3s ease, color .3s ease, border .3s ease, box-shadow .3s ease',
+		slowall: 'transition: all 300ms ease',
+		fast: 'transform .15s ease, opacity .15s ease, background .15s ease, color .15s ease, border .15s ease, box-shadow .15s ease',
+		fastall: 'transition: all 150ms ease',
 	},
 }
 
@@ -357,15 +361,21 @@ export const primitiveColors = {
 const generateColorTokens = (colorTokens: any) => ({
 	colorNeutral: colorTokens.color.font.neutral.value,
 	colorStrong: colorTokens.color.font.strong.value,
+	colorInverse: colorTokens.color.font.inverse.value,
 	backgroundPrimary: colorTokens.color.background.primary.value,
 	backgroundSecondary: colorTokens.color.background.secondary.value,
 	borderDivider: colorTokens.color.border.divider_primary.value,
 	shadowMedium: colorTokens.color.shadow.medium.value,
+	shadowActivePanel: colorTokens.color.shadow.shadow_active_panel.value,
 	btnSecondaryBackground: colorTokens.color.background.btn_secondary_background.value,
 	btnSecondaryBackgroundHover: colorTokens.color.background.btn_secondary_background_hover.value,
 	btnSecondaryShadowFocus: colorTokens.color.shadow.button_secondary_focus.value,
 	btnSecondaryBorderColor: colorTokens.color.border.btn_secondary_border.value,
 	btnSecondaryBorderColorHover: colorTokens.color.border.btn_secondary_border_hover.value,
+	btnTertiaryBackground: colorTokens.color.background.btn_tertiary_background.value,
+	btnTertiaryBackgroundHover: colorTokens.color.background.btn_tertiary_background_hover.value,
+	btnInverseBackground: colorTokens.color.background.btn_inverse_background.value,
+	btnInverseBackgroundHover: colorTokens.color.background.btn_inverse_background_hover.value,
 	btnGhostBorderColor: colorTokens.color.border.btn_ghost_border.value,
 	btnGhostBorderColorHover: colorTokens.color.border.btn_ghost_border_hover.value,
 	inputPrimaryBackground: colorTokens.color.background.input_primary_background.value,

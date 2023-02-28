@@ -14,6 +14,7 @@ export const button = recipe({
 		justifyContent: 'center',
 		textDecoration: 'none',
 		outline: 'none',
+		cursor: 'pointer',
 	},
 	variants: {
 		styleVariant: {
@@ -35,6 +36,20 @@ export const button = recipe({
 				color: 'colorNeutral',
 				border: 1,
 				borderStyle: 'solid',
+			}),
+			tertiary: sprinkles({
+				background: { lightMode: 'btnTertiaryBackground', hover: 'btnTertiaryBackgroundHover' },
+				boxShadow: {
+					focusVisible: 'btnSecondaryShadowFocus',
+				},
+				color: 'colorStrong',
+			}),
+			inverse: sprinkles({
+				background: { lightMode: 'btnInverseBackground', hover: 'btnInverseBackgroundHover' },
+				boxShadow: {
+					focusVisible: 'btnSecondaryShadowFocus',
+				},
+				color: 'colorInverse',
 			}),
 			ghost: sprinkles({
 				background: {
@@ -59,8 +74,8 @@ export const button = recipe({
 				}),
 				{
 					height: '32px',
-					fontSize: '13px',
-					lineHeight: '13px',
+					fontSize: '15px',
+					lineHeight: '20px',
 					paddingLeft: '8px',
 					paddingRight: '8px',
 					gap: '6px',
@@ -85,9 +100,21 @@ export const button = recipe({
 					padding: 'medium',
 				}),
 				{
+					height: '44px',
+				},
+			],
+			xlarge: [
+				sprinkles({
+					borderRadius: 'large',
+					padding: 'medium',
+				}),
+				{
 					height: '48px',
 				},
 			],
+		},
+		rounded: {
+			true: {},
 		},
 		iconOnly: {
 			true: {},
@@ -101,6 +128,16 @@ export const button = recipe({
 	compoundVariants: [
 		{
 			variants: {
+				sizeVariant: 'small',
+				iconOnly: true,
+			},
+			style: {
+				width: '32px',
+				padding: '0px',
+			},
+		},
+		{
+			variants: {
 				sizeVariant: 'medium',
 				iconOnly: true,
 			},
@@ -111,11 +148,21 @@ export const button = recipe({
 		},
 		{
 			variants: {
-				sizeVariant: 'small',
+				sizeVariant: 'large',
 				iconOnly: true,
 			},
 			style: {
-				width: '32px',
+				width: '44px',
+				padding: '0px',
+			},
+		},
+		{
+			variants: {
+				sizeVariant: 'xlarge',
+				iconOnly: true,
+			},
+			style: {
+				width: '48px',
 				padding: '0px',
 			},
 		},
@@ -128,13 +175,115 @@ export const button = recipe({
 				opacity: 0.6,
 			},
 		},
+		{
+			variants: {
+				sizeVariant: 'small',
+				rounded: true,
+			},
+			style: {
+				borderRadius: '18px',
+				paddingLeft: '12px',
+				paddingRight: '12px',
+			},
+		},
+		{
+			variants: {
+				sizeVariant: 'large',
+				rounded: true,
+				iconOnly: true,
+			},
+			style: {
+				borderRadius: '50%',
+			},
+		},
 	],
 	defaultVariants: {
 		styleVariant: 'primary',
 		sizeVariant: 'medium',
 		iconOnly: false,
 		disabled: false,
+		rounded: false,
 	},
 })
 
 export type ButtonVariants = RecipeVariants<typeof button>
+
+export const buttonIconLeft = recipe({
+	base: {
+		display: 'inline-flex',
+		alignItems: 'center',
+		justifyContent: 'center',
+		textDecoration: 'none',
+		outline: 'none',
+		cursor: 'pointer',
+	},
+	variants: {
+		styleVariant: {
+			primary: sprinkles({
+				color: 'purple100',
+			}),
+			secondary: sprinkles({
+				color: 'colorNeutral',
+			}),
+			tertiary: sprinkles({
+				color: 'colorNeutral',
+			}),
+			inverse: sprinkles({
+				color: 'colorNeutral',
+			}),
+			ghost: sprinkles({
+				color: 'colorNeutral',
+			}),
+		},
+		sizeVariant: {
+			small: [{ marginLeft: '-6px' }],
+			medium: [],
+			large: [],
+			xlarge: [],
+		},
+	},
+	defaultVariants: {
+		styleVariant: 'primary',
+		sizeVariant: 'medium',
+	},
+})
+
+export const buttonIconRight = recipe({
+	base: {
+		display: 'inline-flex',
+		alignItems: 'center',
+		justifyContent: 'center',
+		textDecoration: 'none',
+		outline: 'none',
+		cursor: 'pointer',
+	},
+	variants: {
+		styleVariant: {
+			primary: sprinkles({
+				color: 'purple100',
+			}),
+			secondary: sprinkles({
+				color: 'colorNeutral',
+			}),
+			tertiary: sprinkles({
+				color: 'colorNeutral',
+			}),
+			inverse: sprinkles({
+				color: 'colorNeutral',
+			}),
+			ghost: sprinkles({
+				color: 'colorNeutral',
+			}),
+		},
+		sizeVariant: {
+			small: [{ marginRight: '-6px' }],
+			medium: [],
+			large: [],
+			xlarge: [],
+		},
+	},
+	defaultVariants: {
+		styleVariant: 'primary',
+		sizeVariant: 'medium',
+	},
+})

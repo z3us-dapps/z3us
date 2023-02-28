@@ -4,19 +4,25 @@ import { Box } from '../box'
 
 import * as styles from './button.css'
 
+type TSizeVariant = 'small' | 'medium' | 'large' | 'xlarge'
+type TStyleVariant = 'primary' | 'secondary' | 'tertiary' | 'ghost' | 'inverse'
+
 interface IButtonRequiredProps {
 	children: React.ReactNode
 }
 
 interface IButtonOptionalProps {
-	className?: number
+	className?: string
 	linkFrameWorkComp?: any
 	onClick?: () => void
 	disabled?: boolean
 	iconOnly?: boolean
-	sizeVariant?: 'small' | 'medium' | 'large'
-	styleVariant?: 'primary' | 'secondary' | 'ghost'
+	rightIcon?: React.ReactNode
+	leftIcon?: React.ReactNode
+	sizeVariant?: TSizeVariant
+	styleVariant?: TStyleVariant
 	href?: string
+	rounded?: boolean
 }
 
 export interface IButtonProps extends IButtonRequiredProps, IButtonOptionalProps {}
@@ -26,6 +32,9 @@ const defaultProps: IButtonOptionalProps = {
 	linkFrameWorkComp: undefined,
 	onClick: undefined,
 	iconOnly: false,
+	rightIcon: undefined,
+	leftIcon: undefined,
+	rounded: false,
 	disabled: false,
 	sizeVariant: 'medium',
 	styleVariant: 'primary',
@@ -37,6 +46,9 @@ export const Button = forwardRef<HTMLButtonElement, IButtonProps>((props, ref: R
 		children,
 		disabled,
 		iconOnly,
+		rightIcon,
+		leftIcon,
+		rounded,
 		onClick,
 		className,
 		sizeVariant,
@@ -51,6 +63,7 @@ export const Button = forwardRef<HTMLButtonElement, IButtonProps>((props, ref: R
 	return (
 		<ButtonComponent
 			component={href ? 'a' : 'button'}
+			href={href}
 			type="button"
 			ref={ref}
 			className={clsx(
@@ -62,13 +75,40 @@ export const Button = forwardRef<HTMLButtonElement, IButtonProps>((props, ref: R
 					styleVariant,
 					iconOnly,
 					disabled,
+					rounded,
 				}),
 			)}
 			disabled={disabled}
 			onClick={onClick}
 			{...rest}
 		>
+			{leftIcon ? (
+				<Box
+					className={clsx(
+						className,
+						styles.buttonIconLeft({
+							sizeVariant,
+							styleVariant,
+						}),
+					)}
+				>
+					{leftIcon}
+				</Box>
+			) : null}
 			{children}
+			{rightIcon ? (
+				<Box
+					className={clsx(
+						className,
+						styles.buttonIconRight({
+							sizeVariant,
+							styleVariant,
+						}),
+					)}
+				>
+					{rightIcon}
+				</Box>
+			) : null}
 		</ButtonComponent>
 	)
 })
