@@ -5,20 +5,9 @@ export const useAccountParams = () => {
 	const assetTypeMatch = useMatch('/accounts/:account/:assetType')
 	const assetMatch = useMatch('/accounts/:account/:assetType/:asset')
 
-	let account: string
-	let assetType: string
-	let asset: string
-
-	if (accountMatch) {
-		account = accountMatch.params.account
-	} else if (assetTypeMatch) {
-		account = assetTypeMatch.params.account
-		assetType = assetTypeMatch.params.assetType
-	} else if (assetMatch) {
-		account = assetMatch.params.account
-		assetType = assetMatch.params.assetType
-		asset = assetMatch.params.asset
+	return {
+		...accountMatch?.params,
+		...assetTypeMatch?.params,
+		...assetMatch?.params,
 	}
-
-	return { account, assetType, asset }
 }

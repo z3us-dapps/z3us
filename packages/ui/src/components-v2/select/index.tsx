@@ -1,9 +1,10 @@
 import React, { forwardRef } from 'react'
-import { CheckIcon } from '@radix-ui/react-icons'
 import * as SelectPrimitive from '@radix-ui/react-select'
 import clsx from 'clsx'
+import { Check2Icon } from '../../components/icons'
 import { Text } from '../typography'
-import { Box } from '../box'
+import { radixWithClassName } from '../system/radix-with-class-name'
+
 import * as styles from './select.css'
 
 export const Select = SelectPrimitive.Root
@@ -13,7 +14,7 @@ export const SelectPortal = SelectPrimitive.Portal
 export const SelectViewport = SelectPrimitive.Viewport
 export const SelectGroup = SelectPrimitive.Group
 export const SelectItemText = SelectPrimitive.ItemText
-export const SelectItemIndicator = SelectPrimitive.ItemIndicator
+export const SelectItemIndicator = radixWithClassName(SelectPrimitive.ItemIndicator, styles.selectItemIndicator)
 export const SelectLabel = SelectPrimitive.Label
 export const SelectSeparator = SelectPrimitive.Separator
 export const SelectScrollUpButton = SelectPrimitive.ScrollUpButton
@@ -92,13 +93,13 @@ export const SelectItem = forwardRef<HTMLDivElement, ISelectItemProps>(
 				ref={forwardedRef}
 			>
 				<SelectPrimitive.ItemText>
-					<Box marginRight="small">
-						<Text size="small">{children}</Text>
-					</Box>
+					<Text size="small" color="strong">
+						{children}
+					</Text>
 				</SelectPrimitive.ItemText>
-				<SelectPrimitive.ItemIndicator>
-					<CheckIcon />
-				</SelectPrimitive.ItemIndicator>
+				<SelectItemIndicator>
+					<Check2Icon />
+				</SelectItemIndicator>
 			</SelectPrimitive.Item>
 		)
 	},

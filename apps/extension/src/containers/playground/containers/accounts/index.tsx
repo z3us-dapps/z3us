@@ -4,7 +4,7 @@ import { AccountsMobile } from './mobile'
 
 export const Accounts: React.FC = () => (
 	<>
-		<AccountsDesktop />
 		<AccountsMobile />
+		<AccountsDesktop />
 	</>
 )

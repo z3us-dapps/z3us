@@ -4,10 +4,16 @@ import { Link as LinkRouter } from 'react-router-dom'
 
 interface IProps extends LProps {
 	to?: string
+	onClick?: () => void
+	onMouseOver?: () => void
+	onMouseLeave?: () => void
 }
 
 const defaultProps = {
 	to: undefined,
+	onClick: undefined,
+	onMouseOver: undefined,
+	onMouseLeave: undefined,
 }
 
 export const Link: React.FC<IProps> = props => {

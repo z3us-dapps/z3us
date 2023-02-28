@@ -120,6 +120,7 @@ export const dropdownMenuItemIndicator = style([
 		flexGrow: 0,
 		display: 'flex',
 		alignItems: 'center',
+		marginLeft: 'medium',
 	}),
 	{},
 ])

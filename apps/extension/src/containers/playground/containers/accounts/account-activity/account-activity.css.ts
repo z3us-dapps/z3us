@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { sprinkles, darkMode } from 'ui/src/components-v2/system/sprinkles.css'
 // import { responsiveStyle } from 'ui/src/components-v2/system/theme-utils'
 import { style, globalStyle } from '@vanilla-extract/css'
@@ -23,44 +24,174 @@ export const activityWrapper = style([
 	// }),
 ])
 
-export const activityWrapperFlexGrow = style([
-	{
-		flex: '1 1 0',
-	},
-])
-
 export const activtyItem = style([
 	sprinkles({
 		position: 'relative',
 		paddingX: 'large',
 		transition: 'fast',
-		background: {
-			hover: 'backgroundPrimary',
-		},
+		// background: {
+		// 	hover: 'backgroundPrimary',
+		// },
 	}),
 ])
+
+export const activtyItemOuter = style([
+	sprinkles({
+		position: 'relative',
+	}),
+])
+
+export const activtyItemExternalLinkWrapper = style([
+	sprinkles({
+		position: 'absolute',
+		right: 0,
+		top: 0,
+		display: 'flex',
+		alignItems: 'center',
+		pointerEvents: 'none',
+		opacity: 0,
+	}),
+	{
+		height: '64px',
+	},
+])
+
+export const activtyItemExternalLinkWrapperActive = style([
+	sprinkles({
+		opacity: 1,
+	}),
+	{},
+])
+
+globalStyle(`${activtyItemExternalLinkWrapperActive} > a`, {
+	pointerEvents: 'auto',
+})
 
 export const activtyItemInner = style([
 	sprinkles({
 		position: 'relative',
 		display: 'flex',
+		flexDirection: 'column',
 		alignItems: 'center',
-		borderTop: 1,
-		borderStyle: 'solid',
-		borderColor: 'borderDivider',
-		paddingTop: 'medium',
-		paddingBottom: 'medium',
-		gap: 'medium',
+		color: 'borderDivider',
+
+		transition: 'fast',
+		border: 0,
+		// boxShadow: {
+		// 	focusVisible: 'btnSecondaryShadowFocus',
+		// },
+		// outline: 'none',
 	}),
 	{
 		width: '100%',
-		height: '64px',
+		height: 'auto',
+		boxShadow: '0 -1px 0 0',
+		'::before': {
+			content: '""',
+			position: 'absolute',
+			opacity: 0,
+			transition: vars.transition.fast,
+			top: 0,
+			bottom: 0,
+			left: `calc(${vars.spacing.medium} * -1)`,
+			right: `calc(${vars.spacing.medium} * -1)`,
+			pointerEvents: 'none',
+
+			// TODO: fix needing to make these a string
+			boxShadow: `${vars.color.shadowActivePanel}`,
+			color: `${vars.color.borderDivider}`,
+			borderRadius: vars.border.radius.medium,
+			background: vars.color.bleached_silk300,
+		},
+		selectors: {
+			[`.${darkMode} &::before`]: {
+				background: vars.color.lead400,
+			},
+			'&:focus-visible': {
+				outline: 'none',
+			},
+			// '&:focus-visible::before': {
+			// 	outline: 'none',
+			// 	border: 'none',
+			// 	boxShadow: vars.color.btnSecondaryShadowFocus,
+			// },
+			'&:hover::before': {
+				opacity: 1,
+			},
+		},
+	},
+])
+
+// TODO: put a class on ListContainer to fix this
+globalStyle(`${activityWrapper} > div > div > div > div:first-child ${activtyItemInner}`, {
+	boxShadow: 'none',
+})
+
+export const activtyItemInnerBtn = style([
+	sprinkles({
+		display: 'flex',
+		alignItems: 'center',
+		position: 'relative',
+		paddingTop: 'medium',
+		paddingBottom: 'medium',
+		width: 'full',
+		gap: 'medium',
+		cursor: 'pointer',
+	}),
+	{
+		selectors: {
+			'&:focus-visible': {
+				outline: 'none',
+			},
+			'&:focus-visible::before': {
+				outline: 'none',
+				border: 'none',
+			},
+			'&:hover::before': {
+				opacity: 1,
+			},
+		},
+	},
+])
+
+export const activtyItemInnerSelected = style([
+	sprinkles({}),
+	{
+		boxShadow: 'none',
+		'::before': {
+			opacity: 1,
+		},
+	},
+])
+
+export const activtyItemInnerSelectedContent = style([
+	sprinkles({
+		width: 'full',
+		// borderColor: 'borderDivider',
+	}),
+	{
+		// boxShadow: '0 -1px 0 0',
+		// border: '1px solid red',
+	},
+])
+
+export const transactionDottedLine = style([
+	sprinkles({
+		flexGrow: 1,
+	}),
+	{
+		borderTop: '1px dashed',
+		borderColor: vars.color.wax300,
+		height: '0px',
+		marginTop: '10px',
+		color: 'white',
 	},
 ])
 
 export const indicatorCircle = style([
 	sprinkles({
 		position: 'relative',
+		color: 'colorStrong',
 		background: 'backgroundPrimary',
 		borderRadius: 'full',
 		display: 'flex',
@@ -73,14 +204,10 @@ export const indicatorCircle = style([
 	},
 ])
 
-globalStyle(`${activtyItem}:first-child > div`, {
-	borderTop: 'none',
-})
-
-globalStyle(`${activtyItem}:hover ${indicatorCircle}`, {
-	background: vars.color.white,
-})
-
-globalStyle(`.${darkMode} ${activtyItem}:hover ${indicatorCircle}`, {
-	background: vars.color.lead500,
-})
+// globalStyle(`${activtyItem}:hover ${indicatorCircle}`, {
+// 	background: vars.color.white,
+// })
+//
+// globalStyle(`.${darkMode} ${activtyItem}:hover ${indicatorCircle}`, {
+// 	background: vars.color.lead500,
+// })
