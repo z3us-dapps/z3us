@@ -2,6 +2,11 @@
 
 This [Turborepo](https://turborepo.org/) monorepo is home to the Z3US browser extension wallet for the [Radix](https://www.radixdlt.com/) DLT network.
 
+### Note
+
+- Z3US wallet is in beta and in active development.
+- Z3US wallet extension code is unaudited, no audit is planned at this stage.
+
 ## Extension quick start
 
 > Make sure you have **Node V15.5.0 ** installed
