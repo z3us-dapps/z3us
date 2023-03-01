@@ -6,11 +6,12 @@ export const loaderWrapper = style([
 		position: 'relative',
 		display: 'flex',
 		flexDirection: 'column',
-		gap: 'medium',
+		gap: 'small',
 		alignItems: 'center',
 		justifyContent: 'center',
 		height: 'full',
 		width: 'full',
+		background: 'transparent',
 	}),
 	{},
 ])
@@ -32,11 +33,11 @@ export const logoWrapper = style([
 		justifyContent: 'center',
 		alignItems: 'center',
 		borderRadius: 'full',
+		background: 'transparent',
 		// background: 'white',
 		borderWidth: 'xsmall',
 		borderStyle: 'solid',
 		borderColor: 'wax300',
-		// overflow: 'clip',
 	}),
 	{
 		width: '48px',
@@ -47,9 +48,10 @@ export const logoWrapper = style([
 export const logoWrapperInner = style([
 	sprinkles({
 		position: 'relative',
+		// background: 'red600',
 		borderRadius: 'full',
+		// overflow: 'clip',
 		background: 'wax300',
-		overflow: 'clip',
 	}),
 	{
 		width: '41px',
@@ -57,12 +59,34 @@ export const logoWrapperInner = style([
 	},
 ])
 
-export const logoSvg = style([
+export const logoSvgLeft = style([
 	sprinkles({
-		display: 'none',
-		position: 'relative',
-		fill: 'white',
+		display: 'block',
+		position: 'absolute',
+		fill: 'wax500',
+		pointerEvents: 'none',
 	}),
+	{
+		width: '35px',
+		height: 'auto',
+		top: '8px',
+		left: '-1px',
+	},
+])
+
+export const logoSvgRight = style([
+	sprinkles({
+		display: 'block',
+		position: 'absolute',
+		fill: 'wax500',
+		pointerEvents: 'none',
+	}),
+	{
+		width: '35px',
+		height: 'auto',
+		top: '16px',
+		right: '-3px',
+	},
 ])
 
 export const ellipsisWrapper = style([
