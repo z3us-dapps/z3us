@@ -1,6 +1,7 @@
-import { sprinkles, darkMode } from 'ui/src/components-v2/system/sprinkles.css'
 // import { responsiveStyle } from 'ui/src/components-v2/system/theme-utils'
-import { style, globalStyle, globalKeyframes } from '@vanilla-extract/css'
+import { globalKeyframes, globalStyle, style } from '@vanilla-extract/css'
+
+import { darkMode, sprinkles } from 'ui/src/components-v2/system/sprinkles.css'
 import { vars } from 'ui/src/components-v2/system/theme.css'
 
 export const accountListHeaderWrapper = style([
@@ -185,29 +186,6 @@ export const itemWrapperMotion = style([
 	}),
 ])
 
-// export const teststyle = style([
-// 	sprinkles({
-// 		position: 'relative',
-// 		background: {
-// 			hover: 'red800',
-// 			focus: 'red900',
-// 		},
-// 	}),
-// 	{
-// 		border: '1px solid red',
-// 		'@media': {
-// 			[`screen and (min-width: 480px)`]: {
-// 				flexBasis: '50%',
-// 			},
-// 		},
-// 	},
-// 	responsiveStyle({
-// 		mobile: { width: '100%' },
-// 		tablet: { width: '33%' },
-// 		desktop: { width: '25%' },
-// 	}),
-// ])
-
 export const tokenListGridWrapper = style([
 	{
 		position: 'relative',
@@ -217,12 +195,19 @@ export const tokenListGridWrapper = style([
 	},
 ])
 
+export const tokenListWrapper = style([
+	sprinkles({
+		position: 'relative',
+		paddingBottom: 'large',
+	}),
+])
+
 export const tokenListHeaderButton = style([
-	{
+	sprinkles({
 		cursor: 'pointer',
 		display: 'flex',
 		alignItems: 'center',
-	},
+	}),
 ])
 
 export const tokenListGridCircle = style([
@@ -242,7 +227,7 @@ export const tokenListSkeleton = style([
 		borderRadius: 'medium',
 		overflow: 'hidden',
 		background: {
-			lightMode: 'bleached_silk600',
+			lightMode: 'bleached_silk500',
 			darkMode: 'lead400',
 		},
 	}),

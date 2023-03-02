@@ -8,7 +8,10 @@
 		"tokens": "Tokens",
 		"nfts": "Nfts",
 		"lpTokens": "LP Tokens",
-		"badges": "Badges"
+		"badges": "Badges",
+		"send": "Send",
+		"receive": "Receive",
+		"address": "Address"
 	},
 	"accounts": {
 		"navigation": {

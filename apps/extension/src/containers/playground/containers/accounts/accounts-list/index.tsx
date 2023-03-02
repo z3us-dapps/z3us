@@ -1,14 +1,16 @@
-import React, { useState, useCallback, useContext } from 'react'
-import { useTimeout } from 'usehooks-ts'
-import { useAccountParams } from '@src/containers/playground/hooks/use-account-params'
-import { VirtuosoGrid } from 'react-virtuoso'
-import { motion, AnimatePresence } from 'framer-motion'
 import clsx from 'clsx'
+import { AnimatePresence, motion } from 'framer-motion'
+import React, { useCallback, useContext, useState } from 'react'
+import { VirtuosoGrid } from 'react-virtuoso'
+import { useTimeout } from 'usehooks-ts'
+
 import { Box } from 'ui/src/components-v2/box'
 import { Text } from 'ui/src/components-v2/typography'
-import { Link } from '@src/components/link'
-import { AccountListHeader } from './account-list-header'
 
+import { Link } from '@src/components/link'
+import { useAccountParams } from '@src/containers/playground/hooks/use-account-params'
+
+import { AccountListHeader } from './account-list-header'
 import * as styles from './accounts-list.css'
 
 const hash = () => Math.random().toString(36).substring(7)
@@ -58,7 +60,7 @@ const ItemWrapper = props => {
 				return item
 			}),
 		)
-	}, 1000)
+	}, 4000)
 
 	return (
 		<Box className={clsx(styles.itemWrapper, { [styles.itemWrapperLoading]: !user.loaded })}>
@@ -177,7 +179,7 @@ export const AccountsList = React.forwardRef<HTMLElement, IAccountListProps>(
 		const computeItemKey = useCallback(index => items[index].id, [items])
 
 		return (
-			<Box ref={ref} className={className} style={{ minHeight: '200px' }}>
+			<Box ref={ref} className={clsx(styles.tokenListWrapper, className)} style={{ minHeight: '200px' }}>
 				<AccountListHeader isScrolled={isScrolled} />
 
 				{/* TODO: this context is temporary until we hook up proper state, just here for demo purposes */}

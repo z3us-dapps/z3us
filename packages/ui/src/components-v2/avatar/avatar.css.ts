@@ -1,7 +1,7 @@
 import { style } from '@vanilla-extract/css'
+
 import { sprinkles } from '../system/sprinkles.css'
 
-// TODO: fix up sprinkles
 export const avatarRoot = style([
 	sprinkles({
 		display: 'inline-flex',
@@ -19,12 +19,13 @@ export const avatarRoot = style([
 ])
 
 export const avatarImage = style([
-	sprinkles({}),
+	sprinkles({
+		borderRadius: 'full',
+		width: 'full',
+		height: 'full',
+	}),
 	{
 		objectFit: 'cover',
-		borderRadius: '100%',
-		width: '100%',
-		height: '100%',
 	},
 ])
 
@@ -36,11 +37,12 @@ export const avatarFallback = style([
 		width: 'full',
 		height: 'full',
 		borderRadius: 'full',
+		background: {
+			lightMode: 'bleached_silk500',
+			darkMode: 'wax900',
+		},
 	}),
 	{
-		borderRadius: '100%',
-		backgroundColor: 'white',
-		color: 'grey',
 		fontSize: 12,
 		lineHeight: 1,
 		fontWeight: 500,

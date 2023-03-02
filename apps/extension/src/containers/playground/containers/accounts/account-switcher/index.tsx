@@ -1,6 +1,7 @@
 import clsx from 'clsx'
 import { AnimatePresence, motion } from 'framer-motion'
 import React, { forwardRef, useEffect, useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router-dom'
 
 import { Avatar, AvatarFallback, AvatarImage } from 'ui/src/components-v2/avatar'
@@ -69,6 +70,7 @@ export const AccountSwitcher = forwardRef<HTMLButtonElement, IAccountSwitcherPro
 	(props, ref: React.Ref<HTMLElement | null>) => {
 		const { scrollTop } = props
 
+		const { t } = useTranslation()
 		const navigate = useNavigate()
 		const { account, assetType, asset } = useAccountParams()
 		const [isMounted, setIsMounted] = useState<boolean>(false)
@@ -116,7 +118,7 @@ export const AccountSwitcher = forwardRef<HTMLButtonElement, IAccountSwitcherPro
 
 		const arrowBtns = (
 			<>
-				<ToolTip message="send" theme="backgroundPrimary">
+				<ToolTip message={t('accounts.home.assetsTokens')} theme="backgroundPrimary">
 					<Button iconOnly rounded styleVariant="inverse" sizeVariant="large" onClick={() => {}}>
 						<UpRight2Icon />
 					</Button>

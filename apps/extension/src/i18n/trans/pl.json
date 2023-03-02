@@ -8,7 +8,10 @@
 		"activity": "działalność",
 		"nfts": "Nfts",
 		"lpTokens": "LP Tokesn",
-		"badges": "Badges"
+		"badges": "Badges",
+		"send": "Wysłać",
+		"receive": "Odbierać",
+		"address": "Adres"
 	},
 	"accounts": {
 		"navigation": {
