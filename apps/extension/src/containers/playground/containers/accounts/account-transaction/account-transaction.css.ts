@@ -1,5 +1,6 @@
+import { keyframes, style } from '@vanilla-extract/css'
+
 import { sprinkles } from 'ui/src/components-v2/system/sprinkles.css'
-import { style, keyframes } from '@vanilla-extract/css'
 
 export const fadeIn = keyframes({
 	'0%': { opacity: '0' },
@@ -69,7 +70,7 @@ export const transactionContent = style([
 		borderRight: 1,
 		borderTop: 0,
 		borderBottom: 0,
-		boxShadow: 'shadowMedium',
+		boxShadow: 'shadowDropdown',
 		borderStyle: 'solid',
 		borderColor: 'borderDivider',
 	}),

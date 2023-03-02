@@ -1,7 +1,8 @@
-import { sprinkles, darkMode } from 'ui/src/components-v2/system/sprinkles.css'
-import { vars } from 'ui/src/components-v2/system/theme.css'
+import { globalStyle, style } from '@vanilla-extract/css'
+
+import { darkMode, sprinkles } from 'ui/src/components-v2/system/sprinkles.css'
 import { responsiveStyle } from 'ui/src/components-v2/system/theme-utils'
-import { style, globalStyle } from '@vanilla-extract/css'
+import { vars } from 'ui/src/components-v2/system/theme.css'
 
 // TODO: remove
 export const tempyy = style([
@@ -76,7 +77,7 @@ export const card = style([
 		listStyle: 'none',
 		overflow: 'hidden',
 		boxShadow:
-			'0px 136px 192px rgba(0, 0, 0, 0.3), 0px 50px 50px rgba(0, 0, 0, 0.25), 0px 24px 24px rgba(0, 0, 0, 0.2), 0px 12px 12px rgba(0, 0, 0, 0.15)',
+			'0px 0px 0px 1px rgba(0, 0, 0, 0.05), 0px 1px 1px rgba(0, 0, 0, 0.06), 0px 2px 8px rgba(0, 0, 0, 0.08), 0px 16px 48px -8px rgba(0, 0, 0, 0.1), 0px 32px 48px rgba(0, 0, 0, 0.05)',
 		':after': {
 			content: '""',
 			position: 'absolute',

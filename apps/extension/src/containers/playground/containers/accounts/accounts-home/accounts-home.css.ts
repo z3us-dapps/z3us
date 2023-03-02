@@ -1,8 +1,9 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { darkMode, sprinkles } from 'ui/src/components-v2/system/sprinkles.css'
 // import { responsiveStyle } from 'ui/src/components-v2/system/theme-utils'
 // import { vars } from 'ui/src/components-v2/system/theme.css'
-import { style, globalStyle } from '@vanilla-extract/css'
+import { globalStyle, style } from '@vanilla-extract/css'
+
+import { darkMode, sprinkles } from 'ui/src/components-v2/system/sprinkles.css'
 
 export const panelWrapper = style([
 	sprinkles({

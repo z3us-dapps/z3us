@@ -1,7 +1,8 @@
-import { sprinkles, darkMode } from 'ui/src/components-v2/system/sprinkles.css'
-import { vars } from 'ui/src/components-v2/system/theme.css'
+import { globalStyle, style } from '@vanilla-extract/css'
 import { calc } from '@vanilla-extract/css-utils'
-import { style, globalStyle } from '@vanilla-extract/css'
+
+import { darkMode, sprinkles } from 'ui/src/components-v2/system/sprinkles.css'
+import { vars } from 'ui/src/components-v2/system/theme.css'
 
 export const navigationWrapper = sprinkles({
 	zIndex: 1,
@@ -107,7 +108,7 @@ export const navigationMenuLink = style([
 		outline: 'none',
 		height: `${calc(vars.grid).multiply(8)}`,
 		':hover': {
-			background: vars.color.bleached_silk600,
+			background: vars.color.white,
 		},
 		selectors: {
 			[`.${darkMode} &:hover`]: {
@@ -120,18 +121,14 @@ export const navigationMenuLink = style([
 export const navigationMenuLinkText = style([
 	sprinkles({
 		position: 'relative',
-		color: {
-			lightMode: 'colorNeutral',
-			darkMode: 'colorNeutral',
-		},
+		transition: 'fast',
 	}),
 ])
 
 export const navigationMenuLinkTextSelected = style([
 	sprinkles({
-		position: 'relative',
 		color: {
-			lightMode: 'white',
+			lightMode: 'colorStrong',
 			darkMode: 'colorStrong',
 		},
 	}),
@@ -144,7 +141,7 @@ export const navigationMenuActiveLine = style([
 		pointerEvents: 'none',
 		borderRadius: 'xlarge',
 		background: {
-			lightMode: 'wax900',
+			lightMode: 'white',
 			darkMode: 'backgroundSecondary',
 		},
 	}),

@@ -1,5 +1,6 @@
-import { sprinkles } from 'ui/src/components-v2/system/sprinkles.css'
 import { style } from '@vanilla-extract/css'
+
+import { sprinkles } from 'ui/src/components-v2/system/sprinkles.css'
 
 export const dropdownProfilWrapper = sprinkles({
 	display: 'flex',
@@ -67,7 +68,7 @@ export const dropdownProfilAvatarFallback = style([
 		alignItems: 'center',
 		justifyContent: 'center',
 		background: {
-			lightMode: 'wax200',
+			lightMode: 'bleached_silk600',
 			darkMode: 'wax900',
 		},
 		borderRadius: 'full',

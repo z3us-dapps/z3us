@@ -1,6 +1,7 @@
-import { style, globalStyle } from '@vanilla-extract/css'
-import { sprinkles, Sprinkles } from '../system/sprinkles.css'
+import { globalStyle, style } from '@vanilla-extract/css'
+
 import { fadeIn, fadeOut, sharedItemStyles } from '../dropdown-menu/dropdown-menu.css'
+import { Sprinkles, sprinkles } from '../system/sprinkles.css'
 
 export const selectTrigger = style([sprinkles({}), {}])
 
@@ -19,7 +20,7 @@ export const selectContent = style([
 		position: 'relative',
 		zIndex: 2,
 		background: 'backgroundSecondary',
-		boxShadow: 'shadowMedium',
+		boxShadow: 'shadowDropdown',
 		paddingX: 'small',
 		paddingY: 'medium',
 		color: 'colorNeutral',

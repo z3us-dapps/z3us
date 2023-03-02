@@ -1,25 +1,26 @@
-import React from 'react'
-import { useTranslation } from 'react-i18next'
 import * as Avatar from '@radix-ui/react-avatar'
 import { LockClosedIcon } from '@radix-ui/react-icons'
-import { CheckIcon } from 'ui/src/components/icons'
-import { Box } from 'ui/src/components-v2/box'
-import { Text } from 'ui/src/components-v2/typography'
-import { Link } from '@src/components/link'
+import React from 'react'
+import { useTranslation } from 'react-i18next'
 
+import { Box } from 'ui/src/components-v2/box'
 import {
 	DropdownMenu,
-	DropdownMenuTrigger,
-	DropdownMenuItem,
+	DropdownMenuArrow,
 	DropdownMenuContent,
-	DropdownMenuSeparator,
+	DropdownMenuItem,
+	DropdownMenuItemIndicator,
 	DropdownMenuLabel,
+	DropdownMenuLeftSlot,
 	DropdownMenuRadioGroup,
 	DropdownMenuRadioItem,
-	DropdownMenuArrow,
-	DropdownMenuItemIndicator,
-	DropdownMenuLeftSlot,
+	DropdownMenuSeparator,
+	DropdownMenuTrigger,
 } from 'ui/src/components-v2/dropdown-menu'
+import { Text } from 'ui/src/components-v2/typography'
+import { CheckIcon } from 'ui/src/components/icons'
+
+import { Link } from '@src/components/link'
 
 import * as styles from './dropdown-profile.css'
 

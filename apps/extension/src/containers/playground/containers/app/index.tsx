@@ -1,13 +1,15 @@
-import React, { useState, useEffect } from 'react'
-import { CheckIcon } from 'ui/src/components/icons'
-import { lightThemeClass, darkThemeClass } from 'ui/src/components-v2/system/theme.css'
-import { Box } from 'ui/src/components-v2/box'
-import { Text } from 'ui/src/components-v2/typography'
 import { AnimatePresence } from 'framer-motion'
-import { AnimatedPage } from '@src/containers/playground/components/animated-route'
-import { Routes, Route, Link, useLocation, Navigate } from 'react-router-dom'
-import { Accounts } from '../accounts'
+import React, { useEffect, useState } from 'react'
+import { Link, Navigate, Route, Routes, useLocation } from 'react-router-dom'
 
+import { Box } from 'ui/src/components-v2/box'
+import { darkThemeClass, lightThemeClass } from 'ui/src/components-v2/system/theme.css'
+import { Text } from 'ui/src/components-v2/typography'
+import { CheckIcon } from 'ui/src/components/icons'
+
+import { AnimatedPage } from '@src/containers/playground/components/animated-route'
+
+import { Accounts } from '../accounts'
 import * as styles from './app.css'
 
 const NotFound404 = () => (
@@ -34,7 +36,8 @@ export const TempNav: React.FC = () => {
 	useEffect(() => {
 		const element = window.document.body
 		const match = window.matchMedia('(prefers-color-scheme: dark)')
-		const isDarkMode = match.matches
+		// const isDarkMode = match.matches
+		const isDarkMode = false
 
 		if (isDarkTheme) {
 			element.classList.add(darkThemeClass)

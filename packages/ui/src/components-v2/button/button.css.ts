@@ -1,4 +1,5 @@
-import { recipe, RecipeVariants } from '@vanilla-extract/recipes'
+import { RecipeVariants, recipe } from '@vanilla-extract/recipes'
+
 import { sprinkles } from '../system/sprinkles.css'
 
 export { button as buttonReset } from '../system/reset.css'
@@ -29,11 +30,11 @@ export const button = recipe({
 					active: 'btnSecondaryBackground',
 					focusVisible: 'btnSecondaryBackgroundHover',
 				},
-				borderColor: { lightMode: 'btnSecondaryBorderColor', hover: 'btnSecondaryBorderColorHover' },
 				boxShadow: {
 					focusVisible: 'btnSecondaryShadowFocus',
 				},
 				color: 'colorNeutral',
+				borderColor: { lightMode: 'btnSecondaryBorderColor', hover: 'btnSecondaryBorderColorHover' },
 				border: 1,
 				borderStyle: 'solid',
 			}),
@@ -43,6 +44,9 @@ export const button = recipe({
 					focusVisible: 'btnSecondaryShadowFocus',
 				},
 				color: 'colorStrong',
+				borderColor: { lightMode: 'btnTertiaryBorderColor', hover: 'btnTertiaryBorderColorHover' },
+				border: 1,
+				borderStyle: 'solid',
 			}),
 			inverse: sprinkles({
 				background: { lightMode: 'btnInverseBackground', hover: 'btnInverseBackgroundHover' },

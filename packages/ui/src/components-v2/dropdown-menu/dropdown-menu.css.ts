@@ -1,5 +1,6 @@
-import { style, keyframes } from '@vanilla-extract/css'
-import { sprinkles, Sprinkles } from '../system/sprinkles.css'
+import { keyframes, style } from '@vanilla-extract/css'
+
+import { Sprinkles, sprinkles } from '../system/sprinkles.css'
 
 export const sharedItemStyles = {
 	position: 'relative',
@@ -35,7 +36,7 @@ export const fadeOut = keyframes({
 export const dropdownMenuContent = style([
 	sprinkles({
 		background: 'backgroundSecondary',
-		boxShadow: 'shadowMedium',
+		boxShadow: 'shadowDropdown',
 		paddingX: 'small',
 		paddingY: 'medium',
 		color: 'colorNeutral',

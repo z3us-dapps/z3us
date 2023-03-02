@@ -1,21 +1,20 @@
+import clsx from 'clsx'
 import React, { forwardRef } from 'react'
+
 import { Box } from 'ui/src/components-v2/box'
-import { CheckIcon, ChevronDown2Icon } from 'ui/src/components/icons'
 import { Button } from 'ui/src/components-v2/button'
 import {
 	DropdownMenu,
-	DropdownMenuTrigger,
-	DropdownMenuContent,
-	DropdownMenuRadioGroup,
-	DropdownMenuRadioItem,
 	DropdownMenuArrow,
+	DropdownMenuContent,
 	DropdownMenuItemIndicator,
 	DropdownMenuLeftSlot,
+	DropdownMenuRadioGroup,
+	DropdownMenuRadioItem,
+	DropdownMenuTrigger,
 } from 'ui/src/components-v2/dropdown-menu'
-
 import { Text } from 'ui/src/components-v2/typography'
-
-import clsx from 'clsx'
+import { CheckIcon, ChevronDownIcon } from 'ui/src/components/icons'
 
 import * as styles from './account-view-dropdown.css'
 
@@ -46,7 +45,7 @@ export const AccountViewDropdown = forwardRef<HTMLElement, IAccountViewDropdownP
 							sizeVariant="small"
 							rounded
 							leftIcon={<Box borderRadius="full" width="large" height="large" style={{ background: 'purple' }} />}
-							rightIcon={<ChevronDown2Icon />}
+							rightIcon={<ChevronDownIcon />}
 						>
 							Savings
 						</Button>

@@ -1,20 +1,25 @@
-import React, { forwardRef, useEffect, useState } from 'react'
-import { ToolTip } from 'ui/src/components-v2/tool-tip'
-import { Box } from 'ui/src/components-v2/box'
-import { Text } from 'ui/src/components-v2/typography'
-import { motion, AnimatePresence } from 'framer-motion'
 import clsx from 'clsx'
+import { AnimatePresence, motion } from 'framer-motion'
+import React, { forwardRef, useEffect, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
+
+import { Avatar, AvatarFallback, AvatarImage } from 'ui/src/components-v2/avatar'
+import { Box } from 'ui/src/components-v2/box'
+import { ToolTip } from 'ui/src/components-v2/tool-tip'
+import { Text } from 'ui/src/components-v2/typography'
 import {
-	QrCodeIcon,
 	ArrowLeftIcon,
 	ArrowRightIcon,
-	UpRightIcon,
-	DownLeftIcon,
 	Close2Icon,
+	DownLeft2Icon,
+	DownLeftIcon,
+	QrCode2Icon,
+	QrCodeIcon,
+	UpRight2Icon,
+	UpRightIcon,
 } from 'ui/src/components/icons'
-import { Avatar, AvatarImage, AvatarFallback } from 'ui/src/components-v2/avatar'
+
 import { Button } from '@src/components/button'
-import { useNavigate } from 'react-router-dom'
 import { useAccountParams } from '@src/containers/playground/hooks/use-account-params'
 
 import * as styles from './account-switcher.css'
@@ -113,17 +118,17 @@ export const AccountSwitcher = forwardRef<HTMLButtonElement, IAccountSwitcherPro
 			<>
 				<ToolTip message="send" theme="backgroundPrimary">
 					<Button iconOnly rounded styleVariant="inverse" sizeVariant="large" onClick={() => {}}>
-						<UpRightIcon />
+						<UpRight2Icon />
 					</Button>
 				</ToolTip>
 				<ToolTip message="receive" theme="backgroundPrimary">
 					<Button iconOnly rounded styleVariant="inverse" sizeVariant="large" onClick={() => {}}>
-						<DownLeftIcon />
+						<DownLeft2Icon />
 					</Button>
 				</ToolTip>
 				<ToolTip message="address" theme="backgroundPrimary">
 					<Button iconOnly rounded styleVariant="inverse" sizeVariant="large" onClick={() => {}}>
-						<QrCodeIcon />
+						<QrCode2Icon />
 					</Button>
 				</ToolTip>
 			</>
@@ -249,15 +254,15 @@ export const AccountSwitcher = forwardRef<HTMLButtonElement, IAccountSwitcherPro
 										className={clsx(styles.cardAccountWrapper, animateOnScroll && styles.cardAccountWrapperAnimated)}
 									>
 										<Box flexGrow={1} paddingTop="xsmall">
-											<Text size="large" weight="medium" color="strong" className={styles.cardAccountText}>
+											<Text size="large" weight="medium" color="white" className={styles.cardAccountText}>
 												{accountId}
 											</Text>
 										</Box>
 										<Box paddingBottom="xsmall">
-											<Text size="xlarge" weight="stronger" color="strong">
+											<Text size="xlarge" weight="stronger" color="white">
 												{accountBalance}
 											</Text>
-											<Text size="large" weight="strong" color="strong">
+											<Text size="large" weight="strong" color="white">
 												{accountName}
 											</Text>
 										</Box>

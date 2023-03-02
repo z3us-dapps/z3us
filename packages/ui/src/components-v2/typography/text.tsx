@@ -1,7 +1,8 @@
-import React, { ElementType, ReactNode } from 'react'
 import clsx from 'clsx'
-import { sprinkles, Sprinkles } from '../system/sprinkles.css'
+import React, { ElementType, ReactNode } from 'react'
+
 import { Box } from '../box'
+import { Sprinkles, sprinkles } from '../system/sprinkles.css'
 import * as styles from './typography.css'
 
 const colorMap = {
@@ -10,7 +11,7 @@ const colorMap = {
 	neutral: 'colorNeutral',
 	strong: 'colorStrong',
 	red: { lightMode: 'red500', darkMode: 'red500' },
-	green: { lightMode: 'green700', darkMode: 'green500' },
+	green: { lightMode: 'green400', darkMode: 'green500' },
 	// link: { lightMode: 'bleached_silk900', darkMode: 'bleached_silk100' },
 	// secondary: { lightMode: 'bleached_silk900', darkMode: 'bleached_silk100' },
 	// highlight: { lightMode: 'bleached_silk900', darkMode: 'purple500' },

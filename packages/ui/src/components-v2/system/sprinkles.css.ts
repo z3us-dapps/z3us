@@ -1,4 +1,5 @@
-import { defineProperties, createSprinkles } from '@vanilla-extract/sprinkles'
+import { createSprinkles, defineProperties } from '@vanilla-extract/sprinkles'
+
 import { vars } from './theme.css'
 
 const responsiveProperties = defineProperties({

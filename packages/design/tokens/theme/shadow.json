@@ -1,13 +1,13 @@
 {
 	"color": {
 		"shadow": {
-			"medium": {
-				"value": "{shadow.panel.small.value}",
-				"darkValue": "{shadow.panel.medium.value}"
-			},
 			"dropdown": {
-				"value": "{shadow.panel.medium.value}",
-				"darkValue": "{shadow.panel.medium.value}"
+				"value": "{shadow.panel.shadow_dropdown_light.value}",
+				"darkValue": "{shadow.panel.shadow_dropdown_dark.value}"
+			},
+			"shadow_panel": {
+				"value": "{shadow.panel.shadow_panel_light.value}",
+				"darkValue": "{shadow.panel.shadow_panel_dark.value}"
 			},
 			"shadow_active_panel": {
 				"value": "{shadow.panel.shadow_active_panel_light.value}",

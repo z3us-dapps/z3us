@@ -13,6 +13,14 @@
 				"value": "{color.core.bleached_silk.500.value}",
 				"darkValue": "{color.core.wax.300.value}"
 			},
+			"btn_tertiary_border": {
+				"value": "{color.core.bleached_silk.600.value}",
+				"darkValue": "{color.core.lead.500.value}"
+			},
+			"btn_tertiary_border_hover": {
+				"value": "{color.core.bleached_silk.700.value}",
+				"darkValue": "{color.core.wax.400.value}"
+			},
 			"btn_ghost_border": {
 				"value": "{color.core.bleached_silk.500.value}",
 				"darkValue": "{color.core.bleached_silk.500.value}"

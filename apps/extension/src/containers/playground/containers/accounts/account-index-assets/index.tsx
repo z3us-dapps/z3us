@@ -1,13 +1,15 @@
+import clsx from 'clsx'
 import React, { forwardRef, useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { ChevronRightIcon } from 'ui/src/components/icons'
-import Translation from '@src/components/translation'
-import { Link } from '@src/components/link'
-import { Avatar, AvatarImage, AvatarFallback } from 'ui/src/components-v2/avatar'
+
+import { Avatar, AvatarFallback, AvatarImage } from 'ui/src/components-v2/avatar'
 import { Box } from 'ui/src/components-v2/box'
-import { AccountSearch } from '@src/containers/playground/containers/accounts/account-search'
 import { Text } from 'ui/src/components-v2/typography'
-import clsx from 'clsx'
+import { ChevronRightIcon } from 'ui/src/components/icons'
+
+import { Link } from '@src/components/link'
+import Translation from '@src/components/translation'
+import { AccountSearch } from '@src/containers/playground/containers/accounts/account-search'
 
 import * as styles from './account-index-assets.css'
 

@@ -1,9 +1,9 @@
+import interFontMetrics from '@capsizecss/metrics/inter'
 import { precomputeValues } from '@capsizecss/vanilla-extract'
 import { createTheme } from '@vanilla-extract/css'
-import interFontMetrics from '@capsizecss/metrics/inter'
-import tokens from 'design/dist/tailwind-tokens.json'
-import lightTokens from 'design/dist/light/index.json'
 import darkTokens from 'design/dist/dark/index.json'
+import lightTokens from 'design/dist/light/index.json'
+import tokens from 'design/dist/tailwind-tokens.json'
 
 import { Breakpoint } from './theme-utils'
 
@@ -112,9 +112,9 @@ export const sharedThemeValues = {
 				'body',
 			),
 			spacing: {
-				mobile: '0.02em',
-				tablet: '0.02em',
-				desktop: '0.02em',
+				mobile: '0.0em',
+				tablet: '0.0em',
+				desktop: '0.0em',
 			},
 		},
 
@@ -128,9 +128,9 @@ export const sharedThemeValues = {
 				'body',
 			),
 			spacing: {
-				mobile: '0.02em',
-				tablet: '0.02em',
-				desktop: '0.02em',
+				mobile: '0.0em',
+				tablet: '0.0em',
+				desktop: '0.0em',
 			},
 		},
 
@@ -144,9 +144,9 @@ export const sharedThemeValues = {
 				'body',
 			),
 			spacing: {
-				mobile: '0.02em',
-				tablet: '0.02em',
-				desktop: '0.02em',
+				mobile: '0.0em',
+				tablet: '0.0em',
+				desktop: '0.0em',
 			},
 		},
 
@@ -160,9 +160,9 @@ export const sharedThemeValues = {
 				'body',
 			),
 			spacing: {
-				mobile: '0.02em',
-				tablet: '0.02em',
-				desktop: '0.02em',
+				mobile: '0.0em',
+				tablet: '0.0em',
+				desktop: '0.0em',
 			},
 		},
 		medium: {
@@ -175,9 +175,9 @@ export const sharedThemeValues = {
 				'body',
 			),
 			spacing: {
-				mobile: '0.02em',
-				tablet: '0.02em',
-				desktop: '0.02em',
+				mobile: '0.0em',
+				tablet: '0.0em',
+				desktop: '0.0em',
 			},
 		},
 		large: {
@@ -190,9 +190,9 @@ export const sharedThemeValues = {
 				'body',
 			),
 			spacing: {
-				mobile: '0.04em',
-				tablet: '0.04em',
-				desktop: '0.04em',
+				mobile: '0.0em',
+				tablet: '0.0em',
+				desktop: '0.0em',
 			},
 		},
 
@@ -206,9 +206,9 @@ export const sharedThemeValues = {
 				'heading',
 			),
 			spacing: {
-				mobile: '0.04em',
-				tablet: '0.04em',
-				desktop: '0.04em',
+				mobile: '0.0em',
+				tablet: '0.0em',
+				desktop: '0.0em',
 			},
 		},
 		xxlarge: {
@@ -365,7 +365,8 @@ const generateColorTokens = (colorTokens: any) => ({
 	backgroundPrimary: colorTokens.color.background.primary.value,
 	backgroundSecondary: colorTokens.color.background.secondary.value,
 	borderDivider: colorTokens.color.border.divider_primary.value,
-	shadowMedium: colorTokens.color.shadow.medium.value,
+	shadowDropdown: colorTokens.color.shadow.dropdown.value,
+	shadowPanel: colorTokens.color.shadow.shadow_panel.value,
 	shadowActivePanel: colorTokens.color.shadow.shadow_active_panel.value,
 	btnSecondaryBackground: colorTokens.color.background.btn_secondary_background.value,
 	btnSecondaryBackgroundHover: colorTokens.color.background.btn_secondary_background_hover.value,
@@ -374,6 +375,8 @@ const generateColorTokens = (colorTokens: any) => ({
 	btnSecondaryBorderColorHover: colorTokens.color.border.btn_secondary_border_hover.value,
 	btnTertiaryBackground: colorTokens.color.background.btn_tertiary_background.value,
 	btnTertiaryBackgroundHover: colorTokens.color.background.btn_tertiary_background_hover.value,
+	btnTertiaryBorderColor: colorTokens.color.border.btn_tertiary_border.value,
+	btnTertiaryBorderColorHover: colorTokens.color.border.btn_tertiary_border_hover.value,
 	btnInverseBackground: colorTokens.color.background.btn_inverse_background.value,
 	btnInverseBackgroundHover: colorTokens.color.background.btn_inverse_background_hover.value,
 	btnGhostBorderColor: colorTokens.color.border.btn_ghost_border.value,

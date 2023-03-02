@@ -1,24 +1,26 @@
-import React, { useState } from 'react'
 import clsx from 'clsx'
-import { AnimatePresence, motion, LayoutGroup } from 'framer-motion'
+import { AnimatePresence, LayoutGroup, motion } from 'framer-motion'
+import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { copyTextToClipboard } from '@src/utils/copy-to-clipboard'
-import { getShortAddress } from '@src/utils/string-utils'
-import { ToolTip } from 'ui/src/components-v2/tool-tip'
-import { AccountViewDropdown } from '@src/containers/playground/containers/accounts/account-view-dropdown'
 // import { BrowserRouter, Routes, Route, Link, useLocation, useMatch } from 'react-router-dom'
 import { Link as LinkRouter, useMatch } from 'react-router-dom'
-import { WalletDropdown } from '@src/containers/playground/containers/accounts/wallet-dropdown'
+
+import { Box } from 'ui/src/components-v2/box'
+// import { MagnifyingGlassIcon } from '@radix-ui/react-icons'
+import { Button } from 'ui/src/components-v2/button'
+import { ToolTip } from 'ui/src/components-v2/tool-tip'
+import { Text } from 'ui/src/components-v2/typography'
 // import { RowsIcon, MagnifyingGlassIcon } from '@radix-ui/react-icons'
 // import { DashboardIcon } from '@radix-ui/react-icons'
 import { CopyIcon } from 'ui/src/components/icons'
+
 import { Link } from '@src/components/link'
+import { AccountViewDropdown } from '@src/containers/playground/containers/accounts/account-view-dropdown'
+import { WalletDropdown } from '@src/containers/playground/containers/accounts/wallet-dropdown'
 // import { Button } from '@src/components/button'
 import { useAccountParams } from '@src/containers/playground/hooks/use-account-params'
-// import { MagnifyingGlassIcon } from '@radix-ui/react-icons'
-import { Button } from 'ui/src/components-v2/button'
-import { Box } from 'ui/src/components-v2/box'
-import { Text } from 'ui/src/components-v2/typography'
+import { copyTextToClipboard } from '@src/utils/copy-to-clipboard'
+import { getShortAddress } from '@src/utils/string-utils'
 
 import * as styles from './navigation.css'
 
@@ -53,7 +55,11 @@ const MenuItem = ({ text, href }) => {
 	return (
 		<Link to={href} className={clsx(styles.navigationMenuLink)} underline="never">
 			{selected ? <motion.span layoutId="underline" className={styles.navigationMenuActiveLine} /> : null}
-			<Text size="medium" color={null} className={clsx(selected && styles.navigationMenuLinkTextSelected)}>
+			<Text
+				size="medium"
+				color={null}
+				className={clsx(styles.navigationMenuLinkText, selected && styles.navigationMenuLinkTextSelected)}
+			>
 				{text}
 			</Text>
 		</Link>
@@ -157,7 +163,6 @@ export const Navigation: React.FC = () => {
 									Copied
 								</Box>
 							</Box>
-							{/* {copiedAnimate ? 'Copied' : getShortAddress(tempAddress)} */}
 						</Button>
 					</ToolTip>
 					<AccountViewDropdown />

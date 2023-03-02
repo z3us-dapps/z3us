@@ -1,17 +1,21 @@
 {
 	"shadow": {
 		"panel": {
-			"xsmall": {
-				"value": "",
-				"description": "shadow extra small"
-			},
-			"small": {
+			"shadow_dropdown_light": {
 				"value": "0px 0px 0px 1px rgb(216 216 216 / 55%), 0px 0px 20px rgba(0, 0, 0, 0.08)",
-				"description": "shadow small"
+				"description": "shadow dropdown light"
 			},
-			"medium": {
+			"shadow_dropdown_dark": {
 				"value": "0px 0px 0px 1px rgba(255, 255, 255, 0.15), 0px 10px 10px rgba(0, 0, 0, 0.01), 0px 10px 10px rgba(0, 0, 0, 0.15), 0px 24px 24px rgba(0, 0, 0, 0.2)",
-				"description": "shadow medium"
+				"description": "shadow dropdown dark"
+			},
+			"shadow_panel_light": {
+				"value": "0px 0px 0px 1px rgba(0, 0, 0, 0.05), 0px 1px 1px rgba(0, 0, 0, 0.06), 0px 2px 8px rgba(0, 0, 0, 0.08), 0px 16px 48px -8px rgba(0, 0, 0, 0.1), 0px 32px 48px rgba(0, 0, 0, 0.05)",
+				"description": "shadow panel light"
+			},
+			"shadow_panel_dark": {
+				"value": "0px 0px 0px 1px rgba(255, 255, 255, 0.15), 0px 10px 10px rgba(0, 0, 0, 0.01), 0px 10px 10px rgba(0, 0, 0, 0.15), 0px 24px 24px rgba(0, 0, 0, 0.2)",
+				"description": "shadow panel dark"
 			},
 			"shadow_active_panel_light": {
 				"value": "0px 0px 0px 1px rgba(255, 255, 255, 0.15), 0px 10px 10px rgba(0, 0, 0, 0.01), 0px 10px 10px rgba(0, 0, 0, 0.15), 0px 24px 24px rgba(0, 0, 0, 0.2)",
@@ -20,18 +24,6 @@
 			"shadow_active_panel_dark": {
 				"value": "0px 0px 0px 1px rgba(255, 255, 255, 0.15), 0px 10px 10px rgba(0, 0, 0, 0.01), 0px 10px 10px rgba(0, 0, 0, 0.15), 0px 24px 24px rgba(0, 0, 0, 0.2)",
 				"description": "shadow panel dark"
-			},
-			"large": {
-				"value": "",
-				"description": ""
-			},
-			"xlarge": {
-				"value": "",
-				"description": ""
-			},
-			"xxlarge": {
-				"value": "",
-				"description": ""
 			}
 		}
 	}

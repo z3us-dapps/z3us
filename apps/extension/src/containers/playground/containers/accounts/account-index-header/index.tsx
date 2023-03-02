@@ -1,8 +1,10 @@
+import clsx from 'clsx'
 import React, { forwardRef } from 'react'
-import Translation from '@src/components/translation'
+
 import { Box } from 'ui/src/components-v2/box'
 import { Text } from 'ui/src/components-v2/typography'
-import clsx from 'clsx'
+
+import Translation from '@src/components/translation'
 
 import * as styles from './account-index-header.css'
 
