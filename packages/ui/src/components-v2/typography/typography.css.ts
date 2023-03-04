@@ -4,11 +4,9 @@ import { mapToProperty, queries, responsiveStyle } from '../system/theme-utils'
 import { sprinkles } from '../system/sprinkles.css'
 import { vars } from '../system/theme.css'
 
-export const baseTextSprinkles = sprinkles({
-	transition: 'fast',
-})
+export const baseTextSprinkles = sprinkles({})
 
-// @TODO: spacing properly
+// @TODO: TYPE spacing properly
 // const makeTypographyRules = (textDefinition: typeof vars.text.medium, textSpacingDefinition: any) => {
 const makeTypographyRules = (textDefinition: any, textSpacingDefinition: any) => {
 	const { fontSize: mobileFontSize, lineHeight: mobileLineHeight } = textDefinition.mobile

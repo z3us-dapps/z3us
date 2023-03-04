@@ -1,26 +1,30 @@
-/* eslint-disable */
-import React, { useState } from 'react'
-import { MixerHorizontalIcon } from '@radix-ui/react-icons'
-import { PlusIcon, MagnifyingGlassIcon, ArrowLeftIcon } from 'ui/src/components/icons'
-import { AnimatedPage } from '@src/containers/playground/components/animated-route'
+import clsx from 'clsx'
 import { AnimatePresence } from 'framer-motion'
-import { Routes, Route, useLocation, Link as LinkRouter, useNavigate } from 'react-router-dom'
-import { AccountsList } from '@src/containers/playground/containers/accounts/accounts-list'
-import { AccountSwitcher } from '@src/containers/playground/containers/accounts/account-switcher'
-import { AccountActivity } from '@src/containers/playground/containers/accounts/account-activity'
-import { useAccountParams } from '@src/containers/playground/hooks/use-account-params'
-import { Button } from 'ui/src/components-v2/button'
-import { Input } from 'ui/src/components-v2/input'
-// inone { Button as ButtonLink } from '@src/components/button'
+import React from 'react'
+import { Route, Routes, useLocation } from 'react-router-dom'
+
 import { Box } from 'ui/src/components-v2/box'
 import { Text } from 'ui/src/components-v2/typography'
-import { Link } from '@src/components/link'
+
+import Translation from '@src/components/translation'
+import { AnimatedPage } from '@src/containers/playground/components/animated-route'
+import { ScrollPanel } from '@src/containers/playground/components/scroll-panel'
+import { Z3usLoading } from '@src/containers/playground/components/z3us-loading'
+import { AccountActivity } from '@src/containers/playground/containers/accounts/account-activity'
+import { AccountIndexAssets } from '@src/containers/playground/containers/accounts/account-index-assets'
+import { AccountIndexHeader } from '@src/containers/playground/containers/accounts/account-index-header'
+import { AccountSearch } from '@src/containers/playground/containers/accounts/account-search'
+import { AccountSwitcher } from '@src/containers/playground/containers/accounts/account-switcher'
+import { AccountTransaction } from '@src/containers/playground/containers/accounts/account-transaction'
+import { AccountsList } from '@src/containers/playground/containers/accounts/accounts-list'
+import { useAccountParams } from '@src/containers/playground/hooks/use-account-params'
 
 import * as styles from './accounts-home.css'
 
 export const AccountsHome = () => {
 	const location = useLocation()
-	const [view, setView] = useState<string>('list')
+	const { account, assetType, asset } = useAccountParams()
+	const isAllAccount = account === 'all'
 
 	return (
 		<Box
@@ -31,200 +35,92 @@ export const AccountsHome = () => {
 			paddingTop="xxlarge"
 			height="full"
 		>
-			<Box width="full" maxWidth="xxlarge">
-				<Box display="flex" gap="xlarge" height="full">
-					<Box
-						background="backgroundSecondary"
-						boxShadow="shadowMedium"
-						borderRadius="xlarge"
-						flexGrow={1}
-						overflow="hidden"
+			<Box height="full" width="full" maxWidth="xxlarge">
+				<Box className={clsx(styles.panelWrapper)}>
+					<ScrollPanel
 						className={styles.leftPanel}
-					>
-						<AccountsRouteWrapper />
-						<Box position="relative">
-							<AnimatePresence initial={false}>
-								<Routes location={location} key={location.pathname}>
-									<Route
-										path="/:account"
-										element={
-											<AnimatedPage>
-												<AccountsIndexAssets />
-											</AnimatedPage>
-										}
-									/>
-									<Route
-										path="/:account/:assetType"
-										element={
-											<AnimatedPage>
-												<AccountsList view={view as any} />
-											</AnimatedPage>
-										}
-									/>
-									<Route
-										path="/:account/:assetType/:asset"
-										element={
-											<AnimatedPage>
-												<AccountsList view={view as any} />
-											</AnimatedPage>
-										}
-									/>
-								</Routes>
-							</AnimatePresence>
-						</Box>
-					</Box>
-					<Box
-						background="backgroundSecondary"
-						boxShadow="shadowMedium"
-						borderRadius="xlarge"
+						renderPanel={(scrollableNode: HTMLElement | null, scrollTop: number) => (
+							<Box position="relative">
+								<AnimatePresence initial={false}>
+									<Routes location={location} key={location.pathname}>
+										{['/:account'].map(path => (
+											<Route
+												key="AssetsHome" // to avoid full re-renders when these routes change
+												path={path}
+												element={
+													<AnimatedPage>
+														<AccountIndexHeader scrollTop={scrollTop} />
+														<AccountIndexAssets scrollableNode={scrollableNode} />
+													</AnimatedPage>
+												}
+											/>
+										))}
+										{['/:account/:assetType', '/:account/:assetType/:asset'].map(path => (
+											<Route
+												key="AssetsList" // to avoid full re-renders when these routes change
+												path={path}
+												element={
+													<AnimatedPage>
+														<AccountsList scrollableNode={scrollableNode} scrollTop={scrollTop} />
+													</AnimatedPage>
+												}
+											/>
+										))}
+									</Routes>
+								</AnimatePresence>
+							</Box>
+						)}
+					/>
+					<ScrollPanel
 						className={styles.rightPanel}
-					>
-						<AccountSwitcher />
-						<Box paddingX="large" paddingTop="xlarge" paddingBottom="small" className={styles.recentActivityWrapper}>
-							<Box display="flex" alignItems="center" position="relative">
-								<Box flexGrow={1}>
-									<Text size="large" weight="medium" color="strong">
-										Recent activity
-									</Text>
-								</Box>
-								<Button
-									styleVariant="ghost"
-									sizeVariant="small"
-									onClick={() => {
-										console.log(99, 'search')
-									}}
-									iconOnly
+						scrollTopOnRoute
+						renderPanel={(panelRef: React.Ref<HTMLElement | null>, scrollTop: number) => (
+							<Box>
+								{isAllAccount && !assetType ? (
+									<Box paddingTop="xlarge" paddingX="xlarge">
+										<Box padding="large" background="backgroundPrimary" style={{ width: '100%', height: '200px' }}>
+											<Z3usLoading message="Loading" />
+											{/* <Z3usLoading message="Loading"> */}
+											{/* 	<Box> */}
+											{/* 		<Text size="xsmall">Loading</Text> */}
+											{/* 	</Box> */}
+											{/* </Z3usLoading> */}
+										</Box>
+									</Box>
+								) : (
+									<AccountSwitcher scrollTop={scrollTop} />
+								)}
+								<Box
+									paddingX="large"
+									paddingTop="xlarge"
+									paddingBottom="small"
+									className={styles.recentActivityWrapper}
 								>
-									<MagnifyingGlassIcon />
-								</Button>
-							</Box>
-						</Box>
-						<AccountActivity />
-					</Box>
-				</Box>
-			</Box>
-		</Box>
-	)
-}
-
-export const AccountsRouteWrapper = () => {
-	const { account, assetType, asset } = useAccountParams()
-	const navigate = useNavigate()
-	return (
-		<Box position="relative">
-			<Box paddingX="xlarge" paddingTop="xlarge">
-				<Box display="flex" alignItems="center">
-					<Button
-						styleVariant="ghost"
-						sizeVariant="small"
-						onClick={() => {
-							navigate(-1)
-						}}
-					>
-						<ArrowLeftIcon />
-						Go Back
-					</Button>
-					<Box paddingX="small">
-						<Text size="medium">&middot;</Text>
-					</Box>
-					<Text size="medium">Account balance ({account})</Text>
-				</Box>
-				<Text weight="strong" size="xxxlarge" color="strong">
-					$40,206.25
-				</Text>
-			</Box>
-			<Box paddingX="xlarge" paddingBottom="xlarge" paddingTop="large" display="flex" alignItems="center">
-				<Box flexGrow={1} display="flex" alignItems="center">
-					{asset ? (
-						<Text size="large" color="strong" weight="medium">
-							{asset}
-						</Text>
-					) : (
-						<Text size="large" color="strong" weight="medium">
-							{assetType}
-						</Text>
-					)}
-				</Box>
-				<Box display="flex" gap="small" paddingBottom="large">
-					<Input placeholder="Search the tokens" />
-					<Button
-						styleVariant="ghost"
-						iconOnly
-						onClick={() => {
-							console.log(99, 'search')
-						}}
-					>
-						<MagnifyingGlassIcon />
-					</Button>
-					<Button styleVariant="secondary">
-						<MixerHorizontalIcon />
-						Apply filter
-					</Button>
-				</Box>
-			</Box>
-		</Box>
-	)
-}
-
-export const AccountsIndexAssets = () => {
-	return (
-		<>
-			<Box paddingBottom="xlarge">
-				<Box className={styles.indexAssetsWrapper}>
-					{[{ name: 'Tokens' }, { name: 'NFTs' }, { name: 'LP Tokens' }, { name: 'Badges' }].map(({ name }) => (
-						<Box key={name} className={styles.indexAssetWrapper}>
-							<Link to="/accounts/all/tokens" underline="never" className={styles.indexAssetLinkRow}>
-								<Box flexGrow={1} borderTop={1} borderStyle="solid" borderColor="borderDivider" paddingY="medium">
-									<Box display="flex" alignItems="center">
-										<Text size="large" color="strong" weight="medium">
-											{name}
-										</Text>
-										<Box paddingLeft="xsmall">
-											<Text size="large" weight="medium">
-												(12)
-											</Text>
+									<Box display="flex" alignItems="center" position="relative" gap="large">
+										<Box flexShrink={0}>
+											{asset ? (
+												<Text size="large" weight="medium" color="strong">
+													{asset} <Translation text="global.activity" />
+												</Text>
+											) : null}
+											{!asset ? (
+												<Text size="large" weight="medium" color="strong">
+													{assetType || 'All'} <Translation text="global.activity" />
+												</Text>
+											) : null}
 										</Box>
-									</Box>
-									<Box display="flex" alignItems="center">
-										<Text size="medium" color="strong" weight="medium">
-											$12,401
-										</Text>
-										<Box paddingLeft="xsmall">
-											<Text size="small" color="green">
-												+1.23%
-											</Text>
-										</Box>
+										<AccountSearch placeholder="search" />
 									</Box>
 								</Box>
-							</Link>
-							<Box className={styles.indexAssetRowOverlay}>
-								<Box display="flex" alignItems="center" marginRight="large">
-									<Text size="medium" color="strong" weight="medium">
-										+7
-									</Text>
-									{/* <Box paddingLeft="xsmall"> */}
-									{/* 	<ButtonLink styleVariant="ghost" sizeVariant="small" iconOnly to="/accounts/all/tokens"> */}
-									{/* 		<PlusIcon /> */}
-									{/* 	</ButtonLink> */}
-									{/* </Box> */}
+								<Box paddingBottom="medium">
+									<AccountActivity ref={panelRef} />
 								</Box>
-								<Link to="/accounts/all/tokens" className={styles.indexAssetCircle}>
-									<Box />
-								</Link>
-								<Link to="/accounts/all/tokens" className={styles.indexAssetCircle}>
-									<Box />
-								</Link>
-								<Link to="/accounts/all/tokens" className={styles.indexAssetCircle}>
-									<Box />
-								</Link>
-								<Link to="/accounts/all/tokens" className={styles.indexAssetCircle}>
-									<Box />
-								</Link>
 							</Box>
-						</Box>
-					))}
+						)}
+					/>
 				</Box>
 			</Box>
-		</>
+			<AccountTransaction />
+		</Box>
 	)
 }

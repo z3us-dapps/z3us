@@ -1,14 +1,13 @@
-/* eslint-disable */
-import React, { useState, useRef, useEffect, useCallback, useContext } from 'react'
+import React, { useState, useCallback, useContext } from 'react'
 import { useTimeout } from 'usehooks-ts'
-import { Virtuoso, VirtuosoGrid, VirtuosoGridHandle } from 'react-virtuoso'
-import { ScrollArea } from 'ui/src/components/scroll-area'
-import { motion, AnimatePresence, usePresence } from 'framer-motion'
+import { useAccountParams } from '@src/containers/playground/hooks/use-account-params'
+import { VirtuosoGrid } from 'react-virtuoso'
+import { motion, AnimatePresence } from 'framer-motion'
+import clsx from 'clsx'
 import { Box } from 'ui/src/components-v2/box'
 import { Text } from 'ui/src/components-v2/typography'
-import clsx from 'clsx'
-import { Button } from 'ui/src/components-v2/button'
 import { Link } from '@src/components/link'
+import { AccountListHeader } from './account-list-header'
 
 import * as styles from './accounts-list.css'
 
@@ -20,9 +19,9 @@ const Context = React.createContext<{ isScrolling: boolean; isLoading: boolean; 
 	setItems: () => {},
 })
 
-const ListContainer = React.forwardRef<HTMLDivElement>((props, ref) => {
-	return <div ref={ref} {...props} className={styles.listContainer} />
-})
+const ListContainer = React.forwardRef<HTMLDivElement>((props, ref) => (
+	<Box ref={ref} {...props} className={styles.listContainer} />
+))
 
 const ItemContainer = props => <div {...props} className={styles.itemContainer} />
 
@@ -47,29 +46,18 @@ const variants = {
 
 const ItemWrapper = props => {
 	const { idx, user } = props
-	const { isLoading, isScrolling, setItems } = useContext(Context)
-
-	const getAnimateState = () => {
-		if (!user.loaded) {
-			return 'loading'
-		}
-
-		// if (isLoading && !isScrolling) {
-		// 	return 'loading'
-		// }
-
-		return 'loaded'
-	}
+	const { setItems } = useContext(Context)
+	const { account, asset } = useAccountParams()
 
 	useTimeout(() => {
-		setItems(items => {
-			return items.map(item => {
+		setItems(items =>
+			items.map(item => {
 				if (item.id === user.id) {
 					item.loaded = true
 				}
 				return item
-			})
-		})
+			}),
+		)
 	}, 1000)
 
 	return (
@@ -90,7 +78,7 @@ const ItemWrapper = props => {
 										<Box className={clsx(styles.tokenListSkeleton, styles.tokenListGridCircle)} />
 										<Box
 											className={styles.tokenListSkeleton}
-											style={{ width: idx % 2 == 0 ? '45%' : '65%', height: '50%' }}
+											style={{ width: idx % 2 === 0 ? '45%' : '65%', height: '50%' }}
 										/>
 									</Box>
 									<Box display="flex" alignItems="center">
@@ -110,9 +98,15 @@ const ItemWrapper = props => {
 			</AnimatePresence>
 			<AnimatePresence initial={false}>
 				{user.loaded && (
-					<Link to="/accounts/all/tokens/btc">
+					<Link to={`/accounts/${account}/tokens/${user.id}`}>
 						<motion.div initial="hidden" animate="visible" variants={variants} className={styles.itemWrapperMotion}>
-							<Box className={styles.itemWrapperInner}>
+							<Box
+								className={clsx(
+									styles.itemWrapperInner,
+									styles.itemWrapperInnerHover,
+									asset && idx === 0 && styles.itemWrapperInnerSelected,
+								)}
+							>
 								<Box width="full" className={styles.tokenListGridWrapper}>
 									<Box display="flex" alignItems="center" justifyContent="flex-start" gap="medium">
 										<Box className={styles.tokenListGridCircle} style={{ backgroundColor: '#ea983d' }} />
@@ -127,12 +121,12 @@ const ItemWrapper = props => {
 									</Box>
 									<Box display="flex" alignItems="center">
 										<Text size="small" color="strong">
-											Category
+											Value
 										</Text>
 									</Box>
 									<Box display="flex" alignItems="center">
 										<Text size="small" color="strong">
-											Account
+											Category
 										</Text>
 									</Box>
 								</Box>
@@ -145,184 +139,69 @@ const ItemWrapper = props => {
 	)
 }
 
-// interface IProps {
-// 	href?: string | undefined
-// }
-// export interface AccountsListProps extends React.HTMLAttributes<HTMLDivElement>, VariantProps<typeof cvaAccountsList> {}
-
-// const defaultProps = {
-// 	children: undefined,
-// 	href: undefined,
-// 	type: 'button',
-// }
-
-// imperative ref
-// export const AccountsList = React.forwardRef<React.ElementRef<'div'>, AccountListProps>((props, forwardedRef) => {
-export const AccountsList = props => {
-	const { className, view, ...rest } = props
-
-	const ref = useRef(null)
-	const [listHeight, setListHeight] = useState<number>(200)
-	const [listMaxHeight, setListMaxHeight] = useState<number>(300)
-	const [customScrollParent, setCustomScrollParent] = useState<HTMLElement | null>(null)
-	const [items, setItems] = useState(Array.from({ length: 20 }, _ => ({ id: hash(), name: hash(), loaded: false })))
-	const [isLoading, setIsLoading] = useState(false)
-	const [isScrolling, setIsScrolling] = useState(false)
-
-	const setListSize = () => {
-		const listRef = ref.current
-		if (listRef) {
-			const simpleBarContent = listRef.getElementsByClassName('simplebar-content')[0]
-			setListHeight(simpleBarContent?.offsetHeight || 100)
-			const listBounding = listRef.getBoundingClientRect()
-
-			// TODO need to listen to screen size change and also useImperativeRef to get parent ref
-			const maxHeight = window.innerHeight - listBounding.top - 48
-			setListMaxHeight(maxHeight)
-		}
-	}
-
-	useEffect(() => {
-		// setListSize()
-	}, [ref?.current])
-
-	// useTimeout(() => {
-	// 	setIsLoading(false)
-	// }, 2000)
-
-	const addAtStart = () => setItems([{ id: hash(), name: hash(), loaded: false }, ...items])
-
-	const addAtRandom = () => {
-		items.splice(Math.floor(Math.random() * items.length), 0, { id: hash(), name: hash(), loaded: false })
-		setItems([...items])
-	}
-
-	const removeAtStart = () => {
-		setItems(prev => {
-			return [
-				...prev.filter((item, index) => {
-					return index !== 0
-				}),
-			]
-		})
-	}
-
-	const removeAtRandom = () => {
-		items.splice(Math.floor(Math.random() * items.length), 1)
-		setItems([...items])
-	}
-
-	const reset = () => setItems(Array.from({ length: 10 }, _ => ({ id: hash(), name: hash(), loaded: false })))
-
-	// Disable animation on scroll or Virtuoso will break while scrolling
-	const onScrollingStateChange = useCallback(value => {
-		setIsScrolling(value)
-	}, [])
-
-	// computeItemKey is necessary for animation to ensure Virtuoso reuses the same elements
-	const computeItemKey = useCallback(
-		index => {
-			return items[index].id
-		},
-		[items],
-	)
-
-	return (
-		<>
-			<Box style={{ position: 'fixed', bottom: '100px', right: '0', width: '100px', zIndex: '1', display: 'none' }}>
-				<Box display="flex" flexDirection="column" gap="medium">
-					<button onClick={addAtStart}>Add item to start</button>
-					<button onClick={addAtRandom}>Add item at random</button>
-					<button onClick={removeAtStart}>Remove from start</button>
-					<button onClick={removeAtRandom}>Remove random</button>
-					<button onClick={reset}>Reset</button>
-					<button onClick={() => setIsLoading(!isLoading)}>is loading</button>
-				</Box>
-			</Box>
-			<Box paddingX="xlarge">
-				<Box
-					position="relative"
-					borderBottom={1}
-					borderStyle="solid"
-					borderColor="borderDivider"
-					paddingBottom="medium"
-					zIndex={1}
-					className={styles.tokenListGridWrapper}
-					style={{ marginBottom: '-1px' }}
-				>
-					<Box display="flex" alignItems="center">
-						<Text size="xsmall" weight="medium">
-							Asset
-						</Text>
-					</Box>
-					<Box display="flex" alignItems="center">
-						<Text size="xsmall" weight="medium">
-							Amount
-						</Text>
-					</Box>
-					<Box display="flex" alignItems="center">
-						<Text size="xsmall" weight="medium">
-							Category
-						</Text>
-					</Box>
-					<Box display="flex" alignItems="center">
-						<Text size="xsmall" weight="medium">
-							Account
-						</Text>
-					</Box>
-				</Box>
-			</Box>
-			<div
-				ref={ref}
-				{...rest}
-				style={{
-					height: `${listHeight}px`,
-					maxHeight: `${listMaxHeight}px`,
-				}}
-				className={clsx(styles.wrapper)}
-			>
-				<Context.Provider value={{ isScrolling, isLoading, setItems }}>
-					<ScrollArea
-						scrollableNodeProps={{ ref: setCustomScrollParent }}
-						onScrollAreaSizeChange={setListSize}
-						enabled={!isLoading}
-					>
-						<VirtuosoGrid
-							className={clsx(
-								{ [styles.virtuosoGridList]: view === 'list' },
-								{ [styles.virtuosoGridTwo]: view === 'tileTwo' },
-								{ [styles.virtuosoGridThree]: view === 'tileThree' },
-							)}
-							customScrollParent={customScrollParent}
-							data={items}
-							itemContent={(index, user) => (
-								<ItemWrapper idx={index} user={user} isLoading={isLoading} isScrolling={isScrolling} />
-							)}
-							components={{
-								List: ListContainer,
-								Item: ItemContainer,
-								// ScrollSeekPlaceholder: ({ height, width, index }) => (
-								// 	<ItemContainer>
-								// 		<ItemWrapper>
-								// 			{'--'} - {index}
-								// 		</ItemWrapper>
-								// 	</ItemContainer>
-								// ),
-							}}
-							computeItemKey={computeItemKey}
-							isScrolling={onScrollingStateChange}
-							// overscan={200}
-							// scrollSeekConfiguration={{
-							// 	enter: velocity => Math.abs(velocity) > 200,
-							// 	exit: velocity => Math.abs(velocity) < 30,
-							// 	// change: (_, range) => console.log({ range }),
-							// }}
-						/>
-					</ScrollArea>
-				</Context.Provider>
-			</div>
-		</>
-	)
+interface IAccountListRequiredProps {
+	scrollTop: number
+	scrollableNode: HTMLElement
 }
 
-AccountsList.displayName = 'AccountsList'
+interface IAccountListOptionalProps {
+	className?: number
+}
+
+interface IAccountListProps extends IAccountListRequiredProps, IAccountListOptionalProps {}
+
+const defaultProps: IAccountListOptionalProps = {
+	className: undefined,
+}
+
+export const AccountsList = React.forwardRef<HTMLElement, IAccountListProps>(
+	(props, ref: React.Ref<HTMLElement | null>) => {
+		const { className, scrollTop, scrollableNode } = props
+
+		// eslint-disable-next-line
+		const [items, setItems] = useState(Array.from({ length: 20 }, _ => ({ id: hash(), name: hash(), loaded: false })))
+
+		// eslint-disable-next-line
+		const [isLoading, setIsLoading] = useState(false)
+
+		// eslint-disable-next-line
+		const [isScrolling, setIsScrolling] = useState(false)
+		const isScrolled = scrollTop > 0
+
+		// Disable animation on scroll or Virtuoso will break while scrolling
+		const onScrollingStateChange = useCallback(value => {
+			setIsScrolling(value)
+		}, [])
+
+		// computeItemKey is necessary for animation to ensure Virtuoso reuses the same elements
+		const computeItemKey = useCallback(index => items[index].id, [items])
+
+		return (
+			<Box ref={ref} className={className} style={{ minHeight: '200px' }}>
+				<AccountListHeader isScrolled={isScrolled} />
+
+				{/* TODO: this context is temporary until we hook up proper state, just here for demo purposes */}
+				{/* eslint-disable-next-line */}
+				<Context.Provider value={{ isScrolling, isLoading, setItems }}>
+					<VirtuosoGrid
+						customScrollParent={scrollableNode}
+						data={items}
+						// todo fix lint issue
+						// eslint-disable-next-line
+						itemContent={(index, user) => (
+							<ItemWrapper idx={index} user={user} isLoading={isLoading} isScrolling={isScrolling} />
+						)}
+						components={{
+							List: ListContainer,
+							Item: ItemContainer,
+						}}
+						computeItemKey={computeItemKey}
+						isScrolling={onScrollingStateChange}
+					/>
+				</Context.Provider>
+			</Box>
+		)
+	},
+)
+
+AccountsList.defaultProps = defaultProps

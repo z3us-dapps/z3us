@@ -9,8 +9,8 @@ const colorMap = {
 	black: 'white',
 	neutral: 'colorNeutral',
 	strong: 'colorStrong',
-	red: { lightMode: 'red500', darkMode: 'red400' },
-	green: { lightMode: 'green400', darkMode: 'green200' },
+	red: { lightMode: 'red500', darkMode: 'red500' },
+	green: { lightMode: 'green700', darkMode: 'green500' },
 	// link: { lightMode: 'bleached_silk900', darkMode: 'bleached_silk100' },
 	// secondary: { lightMode: 'bleached_silk900', darkMode: 'bleached_silk100' },
 	// highlight: { lightMode: 'bleached_silk900', darkMode: 'purple500' },
@@ -50,7 +50,14 @@ export const textStyles = ({ size, color, weight, type, align, baseline, classNa
 		styles.font[type],
 		baseline ? styles.text[size].trimmed : styles.text[size].untrimmed,
 		styles.weight[weight],
-		sprinkles({ color: colorMap[color], textAlign: align }),
+		sprinkles({
+			...(colorMap[color]
+				? {
+						color: colorMap[color],
+				  }
+				: {}),
+			textAlign: align,
+		}),
 		className,
 	)
 

@@ -1,21 +1,20 @@
-/* eslint-disable */
-import React, { forwardRef, useEffect, useState } from 'react'
+import React, { forwardRef, useState } from 'react'
 import { Box } from 'ui/src/components-v2/box'
-import { Virtuoso, VirtuosoGrid, VirtuosoGridHandle } from 'react-virtuoso'
-import { ScrollArea } from 'ui/src/components/scroll-area'
-import { PlusIcon, MagnifyingGlassIcon } from 'ui/src/components/icons'
+// import { useAccountParams } from '@src/containers/playground/hooks/use-account-params'
+import { useLocation } from 'react-router-dom'
+import { Virtuoso } from 'react-virtuoso'
+import { ShareIcon } from 'ui/src/components/icons'
 import { Text } from 'ui/src/components-v2/typography'
+import { Button } from '@src/components/button'
+import { Link } from '@src/components/link'
+import { TransactionIcon } from '@src/containers/playground/components/transaction-icon'
 import clsx from 'clsx'
 
 import * as styles from './account-activity.css'
 
 interface IAccountActivityRequiredProps {}
 
-interface IAccountActivityOptionalProps {
-	className?: number
-	onClick?: () => void
-	iconOnly?: boolean
-}
+interface IAccountActivityOptionalProps {}
 
 interface IAccountSwitcherProps extends IAccountActivityRequiredProps, IAccountActivityOptionalProps {}
 
@@ -23,6 +22,7 @@ const defaultProps: IAccountActivityOptionalProps = {
 	className: undefined,
 	onClick: undefined,
 	iconOnly: false,
+	flexGrowWrapper: false,
 }
 
 const items = [
@@ -32,6 +32,13 @@ const items = [
 	{ id: 'as773hf', title: 'Another geebs' },
 	{ id: '88833', title: 'Aasdfahghgngn geebs' },
 	{ id: '884848', title: 'djfjfj884' },
+	{ id: '7d7fhdf', title: 'djfjfj884' },
+	{ id: 'djfhdjhf', title: 'djfjfj884' },
+	{ id: 'dfdfj', title: 'djfjfj884' },
+	{ id: '88', title: 'djfjfj884' },
+	{ id: '8djfahksdhf', title: 'djfjfj884' },
+	{ id: '8iiudf7f7fhfh', title: 'djfjfj884' },
+	{ id: 'ifjf2111', title: 'what' },
 ]
 
 const ListContainer = React.forwardRef<HTMLDivElement>((props, ref) => <div ref={ref} {...props} />)
@@ -39,60 +46,92 @@ const ListContainer = React.forwardRef<HTMLDivElement>((props, ref) => <div ref=
 const ItemContainer = props => <Box {...props} className={styles.activtyItem} />
 
 const ItemWrapper = props => {
-	const { idx, user } = props
+	const { user, selected, hovered, setHovered } = props
+
+	// const { account, assetType, asset } = useAccountParams()
+	const { pathname } = useLocation()
+
+	const isSelected = selected === user.id
+	const isHovered = hovered === user.id
+
+	// const handleClickItem = () => {
+	// 	setSelected(isSelected ? null : user.id)
+	// }
 
 	return (
-		<Box className={styles.activtyItemInner}>
-			<Box className={styles.indicatorCircle}>
-				<PlusIcon />
+		<Box className={styles.activtyItemOuter}>
+			<Box className={clsx(styles.activtyItemInner, (isSelected || isHovered) && styles.activtyItemInnerSelected)}>
+				<Link
+					underline="never"
+					to={`${pathname}?asset=xrd&transactionId=1eaf53c4256c384d76ca72c0f18ef37a2e4441d4e6bae450e2b8507f42faa5b6`}
+					// to={`/accounts/transactions/btc/1eaf53c4256c384d76ca72c0f18ef37a2e4441d4e6bae450e2b8507f42faa5b6`}
+					className={styles.activtyItemInnerBtn}
+					// onClick={handleClickItem}
+					onMouseOver={() => setHovered(user.id)}
+					onMouseLeave={() => setHovered(null)}
+				>
+					<>
+						<Box className={styles.indicatorCircle}>
+							<TransactionIcon transactionType="deposit" />
+						</Box>
+						<Box display="flex" flexDirection="column" flexGrow={1}>
+							<Text weight="stronger" size="small" color="strong">
+								+1.249 XRD
+							</Text>
+							<Text size="xsmall">29 Aug, 10est, 2023</Text>
+						</Box>
+					</>
+				</Link>
 			</Box>
-			<Box display="flex" flexDirection="column" flexGrow={1}>
-				<Text weight="stronger" size="small" color="strong">
-					$40,452
-				</Text>
-				<Text size="xsmall">$40,452</Text>
-			</Box>
-			<Box display="flex" flexDirection="column">
-				<Text weight="strong" size="xsmall" color="red">
-					$40,452
-				</Text>
-				<Text weight="strong" size="xsmall" color="green">
-					$40,452
-				</Text>
+			<Box
+				className={clsx(
+					styles.activtyItemExternalLinkWrapper,
+					(isSelected || isHovered) && styles.activtyItemExternalLinkWrapperActive,
+				)}
+			>
+				<Button
+					sizeVariant="small"
+					styleVariant="ghost"
+					iconOnly
+					to="https://explorer.radixdlt.com/"
+					target="_blank"
+					onMouseOver={() => setHovered(user.id)}
+					onMouseLeave={() => setHovered(null)}
+				>
+					<ShareIcon />
+				</Button>
 			</Box>
 		</Box>
 	)
 }
 
-export const AccountActivity = forwardRef<HTMLButtonElement, IAccountSwitcherProps>(
+export const AccountActivity = forwardRef<HTMLElement, IAccountSwitcherProps>(
 	(props, ref: React.Ref<HTMLElement | null>) => {
-		const { iconOnly, onClick, className } = props
-
-		const [customScrollParent, setCustomScrollParent] = useState<HTMLElement | null>(null)
+		const [selected, setSelected] = useState<string | null>(null)
+		const [hovered, setHovered] = useState<string | null>(null)
 
 		return (
-			<Box ref={ref} className={styles.activityWrapper} style={{ height: `${6 * 64}px` }}>
-				<ScrollArea
-					scrollableNodeProps={{ ref: setCustomScrollParent }}
-					// onScrollAreaSizeChange={setListSize}
-					// enabled={!isLoading}
-				>
-					<Virtuoso
-						// className={clsx(
-						// 	{ [styles.virtuosoGridList]: view === 'list' },
-						// 	{ [styles.virtuosoGridTwo]: view === 'tileTwo' },
-						// )}
-						customScrollParent={customScrollParent}
-						data={items}
-						itemContent={(index, user) => <ItemWrapper idx={index} user={user} />}
-						components={{
-							List: ListContainer,
-							Item: ItemContainer,
-						}}
-						// computeItemKey={computeItemKey}
-						// isScrolling={onScrollingStateChange}
-					/>
-				</ScrollArea>
+			<Box className={clsx(styles.activityWrapper)} style={{ minHeight: '100px' }}>
+				<Virtuoso
+					customScrollParent={ref as any}
+					data={items}
+					// todo fix lint issue
+					// eslint-disable-next-line
+					itemContent={(index, user) => (
+						<ItemWrapper
+							idx={index}
+							user={user}
+							selected={selected}
+							setSelected={setSelected}
+							hovered={hovered}
+							setHovered={setHovered}
+						/>
+					)}
+					components={{
+						List: ListContainer,
+						Item: ItemContainer,
+					}}
+				/>
 			</Box>
 		)
 	},
