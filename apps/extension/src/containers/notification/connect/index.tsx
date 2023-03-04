@@ -1,4 +1,5 @@
 import React, { useEffect, useMemo } from 'react'
+import { useEventListener } from 'usehooks-ts'
 import { ExclamationCircleIcon, LockClosedIcon, CurrencyDollarIcon, UserPlusIcon } from '@heroicons/react/24/outline'
 import { handleContentScriptInject, showConnected } from '@src/services/content-script'
 import { Box, Flex, Text, StyledLink } from 'ui/src/components/atoms'
@@ -69,6 +70,27 @@ export const Connect = (): JSX.Element => {
 			window.location.hash = `#/wallet/account`
 		}
 	}
+
+	// keypress does not handle ESC on Mac
+	useEventListener('keydown', async e => {
+		switch (e.code) {
+			case 'Escape':
+				await handleCancel()
+				break
+			default:
+				break
+		}
+	})
+
+	useEventListener('keypress', async e => {
+		switch (e.code) {
+			case 'Enter':
+				await handleConfirm()
+				break
+			default:
+				break
+		}
+	})
 
 	return (
 		<Box css={{ display: 'flex', flexDirection: 'column', height: '100%', bg: '$bgPanel3' }}>
