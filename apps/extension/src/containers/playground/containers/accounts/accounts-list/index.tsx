@@ -60,7 +60,7 @@ const ItemWrapper = props => {
 				return item
 			}),
 		)
-	}, 4000)
+	}, 1000)
 
 	return (
 		<Box className={clsx(styles.itemWrapper, { [styles.itemWrapperLoading]: !user.loaded })}>

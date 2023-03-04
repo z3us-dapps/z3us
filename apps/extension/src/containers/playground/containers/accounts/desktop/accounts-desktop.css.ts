@@ -1,15 +1,22 @@
+import { style } from '@vanilla-extract/css'
+
 import { sprinkles } from 'ui/src/components-v2/system/sprinkles.css'
 
-export const desktopWrapper = sprinkles({
-	height: 'vh100',
-	width: 'vw100',
-	flexDirection: 'column',
-
-	display: {
-		mobile: 'none',
-		desktop: 'flex',
+export const desktopWrapper = style([
+	sprinkles({
+		height: 'vh100',
+		width: 'vw100',
+		flexDirection: 'column',
+		display: 'none',
+	}),
+	{
+		'@media': {
+			[`screen and (min-width: 924px)`]: {
+				display: 'flex',
+			},
+		},
 	},
-})
+])
 
 export const desktopBody = sprinkles({
 	position: 'relative',

@@ -163,3 +163,76 @@ export const copiedAnimationWrapper = style([
 		width: '24px',
 	},
 ])
+
+export const navigationMobileWrapper = style([
+	sprinkles({
+		display: 'flex',
+		borderTop: 1,
+		zIndex: 1,
+		borderTopStyle: 'solid',
+		width: 'full',
+		borderColor: {
+			lightMode: 'bleached_silk600',
+			darkMode: 'lead400',
+		},
+	}),
+	{
+		height: '56px',
+	},
+])
+
+export const navigationMenuLinkMobile = style([
+	sprinkles({
+		display: 'flex',
+		alignItems: 'center',
+		paddingX: 'medium',
+		justifyContent: 'center',
+		position: 'relative',
+		textDecoration: 'none',
+		// borderRadius: 'xlarge',
+		transition: 'fast',
+		boxShadow: {
+			focusVisible: 'btnSecondaryShadowFocus',
+		},
+
+		background: {
+			lightMode: 'backgroundSecondary',
+			darkMode: 'backgroundSecondary',
+		},
+	}),
+	{
+		width: '25%',
+		flexBasis: '25%',
+		// outline: 'none',
+		// height: `${calc(vars.grid).multiply(8)}`,
+		':hover': {
+			background: vars.color.white,
+		},
+		selectors: {
+			[`.${darkMode} &:hover`]: {
+				background: vars.color.lead400,
+			},
+		},
+	},
+])
+
+export const navigationMenuLinkMobileCircle = style([
+	sprinkles({
+		display: 'flex',
+		alignItems: 'center',
+		justifyContent: 'center',
+		borderRadius: 'full',
+		transition: 'fast',
+	}),
+	{
+		width: '32px',
+		height: '32px',
+	},
+])
+
+export const navigationMenuLinkMobileCircleSelect = style([
+	sprinkles({
+		background: 'purple400',
+	}),
+	{},
+])

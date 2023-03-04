@@ -1,65 +1,30 @@
-import React from 'react'
 import { AnimatePresence } from 'framer-motion'
-import { Routes, Route } from 'react-router-dom'
-import { useLocationKey } from '@src/containers/playground/hooks/use-location-key'
+import React from 'react'
+import { Route, Routes } from 'react-router-dom'
+
+import { Box } from 'ui/src/components-v2/box'
+
 import { AnimatedPage } from '@src/containers/playground/components/animated-route'
-import { Navigation } from '@src/containers/playground/containers/accounts/navigation'
+import { routes } from '@src/containers/playground/config'
+import { AccountSettings } from '@src/containers/playground/containers/accounts/account-settings'
+import { AccountStaking } from '@src/containers/playground/containers/accounts/account-staking'
+import { AccountSwap } from '@src/containers/playground/containers/accounts/account-swap'
+import { AccountTransfer } from '@src/containers/playground/containers/accounts/account-transfer'
 import { AccountsHome } from '@src/containers/playground/containers/accounts/accounts-home'
+import { DesktopNavigation as Navigation } from '@src/containers/playground/containers/accounts/navigation'
+import { useLocationKey } from '@src/containers/playground/hooks/use-location-key'
 
 import * as styles from './accounts-desktop.css'
 
-// const NotFound404 = () => (
-// 	<div>
-// 		<div className="w-48 h-48 bg-vivaldi_red-100 text-6xl">Accounts 404 here</div>
-// 	</div>
-// )
-
-const AccountStaking = () => (
-	<div>
-		<div className="w-48 h-48 bg-vivaldi_red-100">staking</div>
-	</div>
-)
-
-const AccountSettings = () => (
-	<div>
-		<div className="w-48 h-48 bg-vivaldi_red-300">staking</div>
-	</div>
-)
-
-const AccountSwap = () => (
-	<div>
-		<div className="w-48 h-48 bg-vivaldi_red-200">Swap</div>
-	</div>
-)
-
-const AccountTransfer = () => (
-	<div>
-		<div className="w-48 h-48 bg-vivaldi_red-200">transfer</div>
-	</div>
-)
-
-// export const AccountsDesktop = ({ base }: IProps): JSX.Element => {
 export const AccountsDesktop = (): JSX.Element => {
 	const { location, locationKey } = useLocationKey()
 
 	return (
-		<div className={styles.desktopWrapper}>
+		<Box className={styles.desktopWrapper}>
 			<Navigation />
-			<div className={styles.desktopBody}>
+			<Box className={styles.desktopBody}>
 				<AnimatePresence initial={false}>
 					<Routes location={location} key={locationKey}>
-						{/* @TODO: match routes better */}
-						{/* {['/', '/:account', '/:account/:assetType', '/:account/:assetType/:asset'].map(path => ( */}
-						{/* 	<Route */}
-						{/* 		key="Accounts" // optional: avoid full re-renders on route changes */}
-						{/* 		path={path} */}
-						{/* 		element={ */}
-						{/* 			<AnimatedPage> */}
-						{/* 				<AccountsHome /> */}
-						{/* 			</AnimatedPage> */}
-						{/* 		} */}
-						{/* 	/> */}
-						{/* ))} */}
 						<Route
 							path="/*"
 							element={
@@ -69,7 +34,7 @@ export const AccountsDesktop = (): JSX.Element => {
 							}
 						/>
 						<Route
-							path="/transfer"
+							path={routes.TRANSFER}
 							element={
 								<AnimatedPage>
 									<AccountTransfer />
@@ -77,7 +42,7 @@ export const AccountsDesktop = (): JSX.Element => {
 							}
 						/>
 						<Route
-							path="/staking"
+							path={routes.STAKING}
 							element={
 								<AnimatedPage>
 									<AccountStaking />
@@ -85,7 +50,7 @@ export const AccountsDesktop = (): JSX.Element => {
 							}
 						/>
 						<Route
-							path="/swap"
+							path={routes.SWAP}
 							element={
 								<AnimatedPage>
 									<AccountSwap />
@@ -93,28 +58,16 @@ export const AccountsDesktop = (): JSX.Element => {
 							}
 						/>
 						<Route
-							path="/settings"
+							path={routes.SETTINGS}
 							element={
 								<AnimatedPage>
 									<AccountSettings />
 								</AnimatedPage>
 							}
 						/>
-						{/* <Route */}
-						{/* 	path="*" */}
-						{/* 	element={ */}
-						{/* 		<AnimatedPage> */}
-						{/* 			<NotFound404 /> */}
-						{/* 		</AnimatedPage> */}
-						{/* 	} */}
-						{/* /> */}
 					</Routes>
 				</AnimatePresence>
-			</div>
-		</div>
+			</Box>
+		</Box>
 	)
-}
-
-AccountsDesktop.defaultProps = {
-	base: '',
 }

@@ -12,9 +12,10 @@ import { ToolTip } from 'ui/src/components-v2/tool-tip'
 import { Text } from 'ui/src/components-v2/typography'
 // import { RowsIcon, MagnifyingGlassIcon } from '@radix-ui/react-icons'
 // import { DashboardIcon } from '@radix-ui/react-icons'
-import { CopyIcon } from 'ui/src/components/icons'
+import { CoinsIcon, CopyIcon, Home2Icon, Settings2Icon, Swap2Icon, SwitchHorizontal } from 'ui/src/components/icons'
 
 import { Link } from '@src/components/link'
+import { routes } from '@src/containers/playground/config'
 import { AccountViewDropdown } from '@src/containers/playground/containers/accounts/account-view-dropdown'
 import { WalletDropdown } from '@src/containers/playground/containers/accounts/wallet-dropdown'
 // import { Button } from '@src/components/button'
@@ -24,8 +25,16 @@ import { getShortAddress } from '@src/utils/string-utils'
 
 import * as styles from './navigation.css'
 
+const menuSlugs = {
+	ACCOUNTS: `${routes.ACCOUNTS}/all`,
+	TRANSFER: `${routes.ACCOUNTS}${routes.TRANSFER}`,
+	STAKING: `${routes.ACCOUNTS}${routes.STAKING}`,
+	SWAP: `${routes.ACCOUNTS}${routes.SWAP}`,
+	SETTINGS: `${routes.ACCOUNTS}${routes.SETTINGS}`,
+}
+
 const Z3usLogoBrand = () => (
-	<LinkRouter to="/accounts/all" className={styles.navigationLogoLink}>
+	<LinkRouter to={menuSlugs.ACCOUNTS} className={styles.navigationLogoLink}>
 		<Box className={styles.navigationLogoLinkScreen} />
 		<svg x="0px" y="0px" viewBox="0 0 24 24" className={styles.logoSvg}>
 			<g>
@@ -44,13 +53,19 @@ const Z3usLogoBrand = () => (
 	</LinkRouter>
 )
 
-const MenuItem = ({ text, href }) => {
+const useSelectedItem = (href: string) => {
 	const match = useMatch(href)
 	const { account } = useAccountParams()
 
-	const accountMatchBlackList = ['transfer', 'staking', 'swap', 'settings']
-	const isAccountsMatch = href === '/accounts/all' && account && !accountMatchBlackList.includes(account)
+	const accountMatchBlackList = [routes.TRANSFER, routes.STAKING, routes.SWAP, routes.SETTINGS]
+	const isAccountsMatch = href === menuSlugs.ACCOUNTS && account && !accountMatchBlackList.includes(`/${account}`)
 	const selected = !!match || isAccountsMatch
+
+	return selected
+}
+
+const MenuItemDesktop = ({ text, href }) => {
+	const selected = useSelectedItem(href)
 
 	return (
 		<Link to={href} className={clsx(styles.navigationMenuLink)} underline="never">
@@ -107,7 +122,7 @@ const CopyIconAnimation = ({ animate }: { animate: boolean }) => (
 	</Box>
 )
 
-export const Navigation: React.FC = () => {
+export const DesktopNavigation: React.FC = () => {
 	const [copiedAnimate, setCopiedAnimate] = useState<boolean>(false)
 	const { t } = useTranslation()
 	const tempAddress = 'rdx1b707388613169bf701d533e143d8f698c9090f605e677a967eaf70a4c69250ce'
@@ -128,13 +143,13 @@ export const Navigation: React.FC = () => {
 				<Box className={styles.navigationMenu}>
 					<LayoutGroup>
 						{[
-							{ text: t('accounts.navigation.accounts'), href: '/accounts/all' },
-							{ text: t('accounts.navigation.transfer'), href: '/accounts/transfer' },
-							{ text: t('accounts.navigation.staking'), href: '/accounts/staking' },
-							{ text: t('accounts.navigation.swap'), href: '/accounts/swap' },
-							{ text: t('accounts.navigation.settings'), href: '/accounts/settings' },
+							{ text: t('accounts.navigation.accounts'), href: menuSlugs.ACCOUNTS },
+							{ text: t('accounts.navigation.transfer'), href: menuSlugs.TRANSFER },
+							{ text: t('accounts.navigation.staking'), href: menuSlugs.STAKING },
+							{ text: t('accounts.navigation.swap'), href: menuSlugs.SWAP },
+							{ text: t('accounts.navigation.settings'), href: menuSlugs.SETTINGS },
 						].map(({ text, href }) => (
-							<MenuItem text={text} key={href} href={href} />
+							<MenuItemDesktop text={text} key={href} href={href} />
 						))}
 					</LayoutGroup>
 				</Box>
@@ -172,3 +187,47 @@ export const Navigation: React.FC = () => {
 		</Box>
 	)
 }
+
+const MenuItemMobile = ({ href }: { href: string }) => {
+	const selected = useSelectedItem(href)
+	console.log(href, 'selected:', selected)
+
+	return (
+		<Link to={href} className={styles.navigationMenuLinkMobile} underline="never">
+			<Box
+				className={clsx(styles.navigationMenuLinkMobileCircle, selected && styles.navigationMenuLinkMobileCircleSelect)}
+			>
+				{(() => {
+					switch (href) {
+						case menuSlugs.ACCOUNTS:
+							return <Home2Icon />
+						case menuSlugs.TRANSFER:
+							return <SwitchHorizontal />
+						case menuSlugs.STAKING:
+							return <CoinsIcon />
+						case menuSlugs.SWAP:
+							return <Swap2Icon />
+						case menuSlugs.SETTINGS:
+							return <Settings2Icon />
+						default:
+							return null
+					}
+				})()}
+			</Box>
+		</Link>
+	)
+}
+
+export const MobileNavigation: React.FC = () => (
+	<Box component="nav" className={styles.navigationMobileWrapper}>
+		{[
+			{ href: menuSlugs.ACCOUNTS },
+			{ href: menuSlugs.TRANSFER },
+			{ href: menuSlugs.STAKING },
+			{ href: menuSlugs.SWAP },
+			{ href: menuSlugs.SETTINGS },
+		].map(({ href }) => (
+			<MenuItemMobile key={href} href={href} />
+		))}
+	</Box>
+)

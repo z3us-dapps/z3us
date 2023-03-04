@@ -1,23 +1,25 @@
 /* eslint-disable */
+import clsx from 'clsx'
 import React, { forwardRef, useEffect, useState } from 'react'
-import { useEventListener } from 'usehooks-ts'
-import { Box } from 'ui/src/components-v2/box'
-import { PlusIcon, SearchIcon, Close2Icon } from 'ui/src/components/icons'
 import { useLocation, useNavigate } from 'react-router-dom'
-import { Button } from '@src/components/button'
 import { useSearchParams } from 'react-router-dom'
-import { ScrollArea } from 'ui/src/components-v2/scroll-area'
-import { Text } from 'ui/src/components-v2/typography'
+import { useEventListener } from 'usehooks-ts'
+
+import { Box } from 'ui/src/components-v2/box'
 import {
 	Dialog,
-	DialogPortal,
-	DialogOverlay,
-	DialogContent,
-	DialogTitle,
-	DialogDescription,
 	DialogClose,
+	DialogContent,
+	DialogDescription,
+	DialogOverlay,
+	DialogPortal,
+	DialogTitle,
 } from 'ui/src/components-v2/dialog'
-import clsx from 'clsx'
+import { ScrollArea } from 'ui/src/components-v2/scroll-area'
+import { Text } from 'ui/src/components-v2/typography'
+import { Close2Icon, PlusIcon, SearchIcon } from 'ui/src/components/icons'
+
+import { Button } from '@src/components/button'
 
 import * as styles from './account-transaction.css'
 

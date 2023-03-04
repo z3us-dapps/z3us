@@ -10,6 +10,7 @@ import Translation from '@src/components/translation'
 import { AnimatedPage } from '@src/containers/playground/components/animated-route'
 import { ScrollPanel } from '@src/containers/playground/components/scroll-panel'
 import { Z3usLoading } from '@src/containers/playground/components/z3us-loading'
+import { routes } from '@src/containers/playground/config'
 import { AccountActivity } from '@src/containers/playground/containers/accounts/account-activity'
 import { AccountIndexAssets } from '@src/containers/playground/containers/accounts/account-index-assets'
 import { AccountIndexHeader } from '@src/containers/playground/containers/accounts/account-index-header'
@@ -43,9 +44,9 @@ export const AccountsHome = () => {
 							<Box position="relative">
 								<AnimatePresence initial={false}>
 									<Routes location={location} key={location.pathname}>
-										{['/:account'].map(path => (
+										{[routes.ACCOUNT].map(path => (
 											<Route
-												key="AssetsHome" // to avoid full re-renders when these routes change
+												key="assetshome" // to avoid full re-renders when these routes change
 												path={path}
 												element={
 													<AnimatedPage>
@@ -55,9 +56,9 @@ export const AccountsHome = () => {
 												}
 											/>
 										))}
-										{['/:account/:assetType', '/:account/:assetType/:asset'].map(path => (
+										{[routes.ACCOUNT_ASSET_TYPE, routes.ACCOUNT_ASSET].map(path => (
 											<Route
-												key="AssetsList" // to avoid full re-renders when these routes change
+												key="assetsList" // to avoid full re-renders when these routes change
 												path={path}
 												element={
 													<AnimatedPage>

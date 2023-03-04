@@ -8,6 +8,7 @@ import { Text } from 'ui/src/components-v2/typography'
 import { CheckIcon } from 'ui/src/components/icons'
 
 import { AnimatedPage } from '@src/containers/playground/components/animated-route'
+import { routes } from '@src/containers/playground/config'
 
 import { Accounts } from '../accounts'
 import * as styles from './app.css'
@@ -72,8 +73,8 @@ export const TempNav: React.FC = () => {
 			style={{ opacity: '0.2' }}
 		>
 			<Link to="/">Home</Link>
-			<Link to="/accounts">Accounts</Link>
-			<Link to="/onboard">Onboarding</Link>
+			<Link to="/onboarding">Onboarding</Link>
+			<Link to={routes.ACCOUNTS}>Accounts</Link>
 			<Link to="/hw">HW (hardware wallet)</Link>
 			<Link to="/cred">Credentials</Link>
 			<button onClick={() => setIsDarkTheme(!isDarkTheme)} type="button">
@@ -92,7 +93,7 @@ export const App: React.FC = () => {
 			<TempNav />
 			<AnimatePresence initial={false}>
 				<Routes location={location} key={locationArr[1]}>
-					{['/', '/accounts'].map(path => (
+					{['/', routes.ACCOUNTS].map(path => (
 						<Route
 							key="Accounts" // optional: avoid full re-renders on route changes
 							path={path}
@@ -100,10 +101,20 @@ export const App: React.FC = () => {
 						/>
 					))}
 					<Route
-						path="/accounts/*"
+						path={`${routes.ACCOUNTS}/*`}
 						element={
 							<AnimatedPage>
 								<Accounts />
+							</AnimatedPage>
+						}
+					/>
+					<Route
+						path="/onboarding/*"
+						element={
+							<AnimatedPage>
+								<Box>
+									<Box>Onboarding</Box>
+								</Box>
 							</AnimatedPage>
 						}
 					/>

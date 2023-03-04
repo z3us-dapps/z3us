@@ -6,8 +6,7 @@ const responsiveProperties = defineProperties({
 	conditions: {
 		mobile: {},
 		tablet: { '@media': 'screen and (min-width: 768px)' },
-		// desktop: { '@media': 'screen and (min-width: 1024px)' },
-		desktop: { '@media': 'screen and (min-width: 924px)' },
+		desktop: { '@media': 'screen and (min-width: 1024px)' },
 	},
 	defaultCondition: 'mobile',
 	properties: {

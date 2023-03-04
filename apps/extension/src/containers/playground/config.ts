@@ -1,34 +1,25 @@
-const defaultMobileRouteAnimation = {
-	transition: { duration: 0.5 },
-	initial: { opacity: 0, y: 20 },
-	animate: { opacity: 1, y: 0 },
-	exit: { opacity: 0, y: -20 },
-}
+export const TRANSFER = '/transfer'
+export const STAKING = '/staking'
+export const SWAP = '/swap'
+export const SETTINGS = '/settings'
+export const ACCOUNTS = '/accounts'
+export const ACCOUNT = '/:account'
+export const ASSET_TYPE = '/:assetType'
+export const ASSET = '/:asset'
 
-const defaultDesktopRouteAnimation = {
-	transition: { duration: 0.5 },
-	initial: { opacity: 0, x: 20 },
-	animate: { opacity: 1, x: 0 },
-	exit: { opacity: 0, x: -20 },
-}
+// '/:account/:assetType'
+export const ACCOUNT_ASSET_TYPE = `${ACCOUNT}${ASSET_TYPE}`
 
-export const slugInfo = {
-	HOME: { slug: '/', mobileAnimation: defaultMobileRouteAnimation, desktopAnimation: defaultDesktopRouteAnimation },
-	ACCOUNTS: {
-		slug: '/accounts',
-		mobileAnimation: defaultMobileRouteAnimation,
-		desktopAnimation: defaultDesktopRouteAnimation,
-	},
-	STAKING: {
-		slug: '/accounts/staking',
-		mobileAnimation: defaultMobileRouteAnimation,
-		desktopAnimation: defaultDesktopRouteAnimation,
-	},
-}
+// '/:account/:assetType/:asset'
+export const ACCOUNT_ASSET = `${ACCOUNT}${ASSET_TYPE}${ASSET}`
 
-export const slugs = {
-	HOME: '/',
-	ACCOUNTS: '/accounts',
-	ACCOUNTS_ID: '/accounts/:id',
-	ACCOUNTS_ID_TOKEN: '/accounts/:id/:token',
+export const routes = {
+	TRANSFER,
+	STAKING,
+	SWAP,
+	SETTINGS,
+	ACCOUNTS,
+	ACCOUNT,
+	ACCOUNT_ASSET_TYPE,
+	ACCOUNT_ASSET,
 }
