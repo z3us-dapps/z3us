@@ -189,7 +189,6 @@ export const navigationMenuLinkMobile = style([
 		justifyContent: 'center',
 		position: 'relative',
 		textDecoration: 'none',
-		// borderRadius: 'xlarge',
 		transition: 'fast',
 		boxShadow: {
 			focusVisible: 'btnSecondaryShadowFocus',
@@ -201,18 +200,19 @@ export const navigationMenuLinkMobile = style([
 		},
 	}),
 	{
+		outline: 0,
 		width: '25%',
 		flexBasis: '25%',
 		// outline: 'none',
 		// height: `${calc(vars.grid).multiply(8)}`,
-		':hover': {
-			background: vars.color.white,
-		},
-		selectors: {
-			[`.${darkMode} &:hover`]: {
-				background: vars.color.lead400,
-			},
-		},
+		// ':hover': {
+		// 	background: vars.color.white,
+		// },
+		// selectors: {
+		// 	[`.${darkMode} &:hover`]: {
+		// 		background: vars.color.lead400,
+		// 	},
+		// },
 	},
 ])
 
@@ -232,7 +232,18 @@ export const navigationMenuLinkMobileCircle = style([
 
 export const navigationMenuLinkMobileCircleSelect = style([
 	sprinkles({
+		color: 'white',
 		background: 'purple400',
 	}),
 	{},
 ])
+
+globalStyle(`${navigationMenuLinkMobile}:hover ${navigationMenuLinkMobileCircle}`, {
+	background: vars.color.lead300,
+	color: vars.color.white,
+})
+
+globalStyle(`.${darkMode} ${navigationMenuLinkMobile}:hover ${navigationMenuLinkMobileCircle}`, {
+	background: vars.color.lead300,
+	color: vars.color.white,
+})

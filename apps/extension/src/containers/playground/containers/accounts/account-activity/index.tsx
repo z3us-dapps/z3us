@@ -1,29 +1,18 @@
+import clsx from 'clsx'
 import React, { forwardRef, useState } from 'react'
-import { Box } from 'ui/src/components-v2/box'
 // import { useAccountParams } from '@src/containers/playground/hooks/use-account-params'
 import { useLocation } from 'react-router-dom'
 import { Virtuoso } from 'react-virtuoso'
-import { ShareIcon } from 'ui/src/components/icons'
+
+import { Box } from 'ui/src/components-v2/box'
 import { Text } from 'ui/src/components-v2/typography'
+import { ShareIcon } from 'ui/src/components/icons'
+
 import { Button } from '@src/components/button'
 import { Link } from '@src/components/link'
 import { TransactionIcon } from '@src/containers/playground/components/transaction-icon'
-import clsx from 'clsx'
 
 import * as styles from './account-activity.css'
-
-interface IAccountActivityRequiredProps {}
-
-interface IAccountActivityOptionalProps {}
-
-interface IAccountSwitcherProps extends IAccountActivityRequiredProps, IAccountActivityOptionalProps {}
-
-const defaultProps: IAccountActivityOptionalProps = {
-	className: undefined,
-	onClick: undefined,
-	iconOnly: false,
-	flexGrowWrapper: false,
-}
 
 const items = [
 	{ id: 'df', title: 'geebs' },
@@ -39,6 +28,11 @@ const items = [
 	{ id: '8djfahksdhf', title: 'djfjfj884' },
 	{ id: '8iiudf7f7fhfh', title: 'djfjfj884' },
 	{ id: 'ifjf2111', title: 'what' },
+	{ id: '12455', title: 'what' },
+	{ id: 'ifjf49', title: 'what' },
+	{ id: 'ifj7575hg', title: 'what' },
+	{ id: 'ifff7hghgjgjgg90g0g', title: 'what' },
+	{ id: 'ifjfuhdfuhfuh', title: 'what' },
 ]
 
 const ListContainer = React.forwardRef<HTMLDivElement>((props, ref) => <div ref={ref} {...props} />)
@@ -105,15 +99,26 @@ const ItemWrapper = props => {
 	)
 }
 
-export const AccountActivity = forwardRef<HTMLElement, IAccountSwitcherProps>(
+interface IAccountActivityRequiredProps {
+	scrollableNode: HTMLElement
+}
+
+interface IAccountActivityOptionalProps {}
+
+interface IAccountActivityProps extends IAccountActivityRequiredProps, IAccountActivityOptionalProps {}
+
+const defaultProps: IAccountActivityOptionalProps = {}
+
+export const AccountActivity = forwardRef<HTMLElement, IAccountActivityProps>(
 	(props, ref: React.Ref<HTMLElement | null>) => {
+		const { scrollableNode } = props
 		const [selected, setSelected] = useState<string | null>(null)
 		const [hovered, setHovered] = useState<string | null>(null)
 
 		return (
-			<Box className={clsx(styles.activityWrapper)} style={{ minHeight: '100px' }}>
+			<Box ref={ref} className={clsx(styles.activityWrapper)} style={{ minHeight: '100px' }}>
 				<Virtuoso
-					customScrollParent={ref as any}
+					customScrollParent={scrollableNode}
 					data={items}
 					// todo fix lint issue
 					// eslint-disable-next-line

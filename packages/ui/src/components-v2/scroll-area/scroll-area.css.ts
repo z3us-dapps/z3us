@@ -11,7 +11,6 @@ export const scrollAreaWrapper = style([
 		right: 0,
 		overflow: 'hidden',
 	}),
-	{},
 ])
 
 export const scrollAreaWrapperDisabled = style([

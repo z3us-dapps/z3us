@@ -20,9 +20,9 @@ import { AccountTransaction } from '@src/containers/playground/containers/accoun
 import { AccountsList } from '@src/containers/playground/containers/accounts/accounts-list'
 import { useAccountParams } from '@src/containers/playground/hooks/use-account-params'
 
-import * as styles from './accounts-home.css'
+import * as styles from './accounts-home-desktop.css'
 
-export const AccountsHome = () => {
+export const AccountsHomeDesktop = () => {
 	const location = useLocation()
 	const { account, assetType, asset } = useAccountParams()
 	const isAllAccount = account === 'all'
@@ -75,7 +75,7 @@ export const AccountsHome = () => {
 					<ScrollPanel
 						className={styles.rightPanel}
 						scrollTopOnRoute
-						renderPanel={(panelRef: React.Ref<HTMLElement | null>, scrollTop: number) => (
+						renderPanel={(scrollableNode: HTMLElement | null, scrollTop: number) => (
 							<Box>
 								{isAllAccount && !assetType ? (
 									<Box paddingTop="xlarge" paddingX="xlarge">
@@ -114,7 +114,7 @@ export const AccountsHome = () => {
 									</Box>
 								</Box>
 								<Box paddingBottom="medium">
-									<AccountActivity ref={panelRef} />
+									<AccountActivity scrollableNode={scrollableNode} />
 								</Box>
 							</Box>
 						)}

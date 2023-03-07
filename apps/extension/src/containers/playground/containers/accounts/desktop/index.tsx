@@ -10,7 +10,7 @@ import { AccountSettings } from '@src/containers/playground/containers/accounts/
 import { AccountStaking } from '@src/containers/playground/containers/accounts/account-staking'
 import { AccountSwap } from '@src/containers/playground/containers/accounts/account-swap'
 import { AccountTransfer } from '@src/containers/playground/containers/accounts/account-transfer'
-import { AccountsHome } from '@src/containers/playground/containers/accounts/accounts-home'
+import { AccountsHomeDesktop } from '@src/containers/playground/containers/accounts/accounts-home-desktop'
 import { DesktopNavigation as Navigation } from '@src/containers/playground/containers/accounts/navigation'
 import { useLocationKey } from '@src/containers/playground/hooks/use-location-key'
 
@@ -29,7 +29,7 @@ export const AccountsDesktop = (): JSX.Element => {
 							path="/*"
 							element={
 								<AnimatedPage>
-									<AccountsHome />
+									<AccountsHomeDesktop />
 								</AnimatedPage>
 							}
 						/>

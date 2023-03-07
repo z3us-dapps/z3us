@@ -190,7 +190,6 @@ export const DesktopNavigation: React.FC = () => {
 
 const MenuItemMobile = ({ href }: { href: string }) => {
 	const selected = useSelectedItem(href)
-	console.log(href, 'selected:', selected)
 
 	return (
 		<Link to={href} className={styles.navigationMenuLinkMobile} underline="never">
