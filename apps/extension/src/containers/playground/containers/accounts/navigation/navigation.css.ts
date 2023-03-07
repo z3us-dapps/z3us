@@ -243,7 +243,17 @@ globalStyle(`${navigationMenuLinkMobile}:hover ${navigationMenuLinkMobileCircle}
 	color: vars.color.white,
 })
 
-globalStyle(`.${darkMode} ${navigationMenuLinkMobile}:hover ${navigationMenuLinkMobileCircle}`, {
-	background: vars.color.lead300,
+globalStyle(`${navigationMenuLinkMobile}:hover ${navigationMenuLinkMobileCircleSelect}`, {
 	color: vars.color.white,
+	background: vars.color.purple400,
+})
+
+globalStyle(`.${darkMode} ${navigationMenuLinkMobile}:hover ${navigationMenuLinkMobileCircle}`, {
+	color: vars.color.white,
+	background: vars.color.lead300,
+})
+
+globalStyle(`.${darkMode} ${navigationMenuLinkMobile}:hover ${navigationMenuLinkMobileCircleSelect}`, {
+	color: vars.color.white,
+	background: vars.color.purple400,
 })
