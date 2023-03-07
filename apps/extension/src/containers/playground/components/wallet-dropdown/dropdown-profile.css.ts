@@ -14,7 +14,7 @@ export const dropdownProfileButton = style([
 		alignItems: 'center',
 		borderRadius: 'full',
 		borderStyle: 'solid',
-		borderWidth: 'xsmall',
+		borderWidth: 'xxsmall',
 		transition: 'fast',
 		cursor: 'pointer',
 		borderColor: {
@@ -29,6 +29,14 @@ export const dropdownProfileButton = style([
 		outline: 'none',
 		width: '42px',
 		height: '42px',
+	},
+])
+
+export const dropdownProfileButtonSmall = style([
+	sprinkles({}),
+	{
+		width: '28px',
+		height: '28px',
 	},
 ])
 
@@ -82,10 +90,20 @@ export const dropdownProfilAvatarConnectedStatus = style([
 		borderColor: 'backgroundPrimary',
 		borderStyle: 'solid',
 		background: { lightMode: 'green500', darkMode: 'green500' },
-		width: 'medium',
-		height: 'medium',
 	}),
 	{
+		width: '12px',
+		height: '12px',
+		borderWidth: '2px',
+		bottom: '-0.0rem',
+		left: '-0.0rem',
+	},
+])
+
+export const dropdownProfilAvatarConnectedStatusSmall = style([
+	{
+		width: '10px',
+		height: '10px',
 		borderWidth: '2px',
 		bottom: '-0.0rem',
 		left: '-0.0rem',

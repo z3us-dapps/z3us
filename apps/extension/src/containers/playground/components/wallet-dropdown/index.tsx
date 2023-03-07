@@ -1,5 +1,6 @@
 import * as Avatar from '@radix-ui/react-avatar'
 import { LockClosedIcon } from '@radix-ui/react-icons'
+import clsx from 'clsx'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 
@@ -24,18 +25,38 @@ import { Link } from '@src/components/link'
 
 import * as styles from './dropdown-profile.css'
 
-export const WalletDropdown: React.FC = () => {
+interface IWalletDropdownRequiredProps {}
+
+interface IWalletDropdownOptionalProps {
+	className?: string
+	buttonSize?: 'small' | 'medium'
+}
+
+interface IWalletDropdownProps extends IWalletDropdownRequiredProps, IWalletDropdownOptionalProps {}
+
+const defaultProps: IWalletDropdownOptionalProps = {
+	className: undefined,
+	buttonSize: 'medium',
+}
+
+export const WalletDropdown: React.FC<IWalletDropdownProps> = props => {
+	const { className, buttonSize } = props
 	const { i18n } = useTranslation()
 
 	const handleLangSelect = (lang: 'enUS' | 'pl') => {
 		i18n.changeLanguage(lang)
 	}
 
+	const isButtonSmall = buttonSize === 'small'
+
 	return (
-		<Box className={styles.dropdownProfilWrapper}>
+		<Box className={clsx(styles.dropdownProfilWrapper, className)}>
 			<DropdownMenu>
 				<DropdownMenuTrigger asChild>
-					<button type="button" className={styles.dropdownProfileButton}>
+					<button
+						type="button"
+						className={clsx(styles.dropdownProfileButton, isButtonSmall && styles.dropdownProfileButtonSmall)}
+					>
 						<Avatar.Root className={styles.dropdownProfilAvatar}>
 							<Avatar.Image
 								className={styles.dropdownProfilAvatarImg}
@@ -45,7 +66,12 @@ export const WalletDropdown: React.FC = () => {
 							<Avatar.Fallback className={styles.dropdownProfilAvatarFallback} delayMs={600}>
 								CT
 							</Avatar.Fallback>
-							<span className={styles.dropdownProfilAvatarConnectedStatus} />
+							<span
+								className={clsx(
+									styles.dropdownProfilAvatarConnectedStatus,
+									isButtonSmall && styles.dropdownProfilAvatarConnectedStatusSmall,
+								)}
+							/>
 						</Avatar.Root>
 					</button>
 				</DropdownMenuTrigger>
@@ -118,7 +144,6 @@ export const WalletDropdown: React.FC = () => {
 							</DropdownMenuItemIndicator>
 						</DropdownMenuRadioItem>
 					</DropdownMenuRadioGroup>
-
 					<DropdownMenuSeparator />
 					<DropdownMenuItem>
 						<DropdownMenuLeftSlot>
@@ -179,3 +204,5 @@ export const WalletDropdown: React.FC = () => {
 		</Box>
 	)
 }
+
+WalletDropdown.defaultProps = defaultProps

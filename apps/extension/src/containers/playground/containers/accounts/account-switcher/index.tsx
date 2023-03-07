@@ -6,21 +6,12 @@ import { useNavigate } from 'react-router-dom'
 
 import { Avatar, AvatarFallback, AvatarImage } from 'ui/src/components-v2/avatar'
 import { Box } from 'ui/src/components-v2/box'
-import { ToolTip } from 'ui/src/components-v2/tool-tip'
 import { Text } from 'ui/src/components-v2/typography'
-import {
-	ArrowLeftIcon,
-	ArrowRightIcon,
-	Close2Icon,
-	DownLeft2Icon,
-	DownLeftIcon,
-	QrCode2Icon,
-	QrCodeIcon,
-	UpRight2Icon,
-	UpRightIcon,
-} from 'ui/src/components/icons'
+import { ArrowLeftIcon, ArrowRightIcon, Close2Icon } from 'ui/src/components/icons'
 
 import { Button } from '@src/components/button'
+import { AnimatedCard } from '@src/containers/playground/components/animated-card'
+import { CardButtons } from '@src/containers/playground/components/card-buttons'
 import { useAccountParams } from '@src/containers/playground/hooks/use-account-params'
 
 import * as styles from './account-switcher.css'
@@ -116,26 +107,6 @@ export const AccountSwitcher = forwardRef<HTMLButtonElement, IAccountSwitcherPro
 			}
 		}, [scrollTop, isAnimating])
 
-		const arrowBtns = (
-			<>
-				<ToolTip message={t('accounts.home.assetsTokens')} theme="backgroundPrimary">
-					<Button iconOnly rounded styleVariant="inverse" sizeVariant="large" onClick={() => {}}>
-						<UpRight2Icon />
-					</Button>
-				</ToolTip>
-				<ToolTip message="receive" theme="backgroundPrimary">
-					<Button iconOnly rounded styleVariant="inverse" sizeVariant="large" onClick={() => {}}>
-						<DownLeft2Icon />
-					</Button>
-				</ToolTip>
-				<ToolTip message="address" theme="backgroundPrimary">
-					<Button iconOnly rounded styleVariant="inverse" sizeVariant="large" onClick={() => {}}>
-						<QrCode2Icon />
-					</Button>
-				</ToolTip>
-			</>
-		)
-
 		return asset ? (
 			<Box borderBottom={1} borderColor="borderDivider" borderStyle="solid" flexShrink={0}>
 				<Box display="flex" flexDirection="column" alignItems="center">
@@ -166,7 +137,7 @@ export const AccountSwitcher = forwardRef<HTMLButtonElement, IAccountSwitcherPro
 						<Text size="xlarge">+4,345 (13.3%)</Text>
 					</Box>
 					<Box display="flex" paddingTop="large" gap="large" position="relative" paddingBottom="large">
-						{arrowBtns}
+						<CardButtons />
 					</Box>
 					<Box className={styles.tempBg}>TODO: Chart goes here</Box>
 					<Box display="flex" paddingTop="small" paddingBottom="xlarge" gap="small">
@@ -232,45 +203,16 @@ export const AccountSwitcher = forwardRef<HTMLButtonElement, IAccountSwitcherPro
 							onAnimationComplete={() => setIsAnimating(false)}
 						>
 							{cards.map(({ backgroundImage, accountName, accountId, accountBalance }, idx) => (
-								<motion.li
+								<AnimatedCard
 									key={accountName}
-									className={styles.card}
-									style={{
-										backgroundImage,
-									}}
-									variants={{
-										selected: {
-											opacity: 1,
-											zIndex: 1,
-											transition: { ease: 'easeOut', duration: 0.3 },
-										},
-										notSelected: {
-											opacity: 0,
-											zIndex: 0,
-											transition: { ease: 'easeOut', duration: 0.3 },
-										},
-									}}
-									animate={selectedIndexCard === idx ? 'selected' : 'notSelected'}
-								>
-									<Box
-										className={clsx(styles.cardAccountWrapper, animateOnScroll && styles.cardAccountWrapperAnimated)}
-									>
-										<Box flexGrow={1} paddingTop="xsmall">
-											<Text size="large" weight="medium" color="white" className={styles.cardAccountText}>
-												{accountId}
-											</Text>
-										</Box>
-										<Box paddingBottom="xsmall">
-											<Text size="xlarge" weight="stronger" color="white">
-												{accountBalance}
-											</Text>
-											<Text size="large" weight="strong" color="white">
-												{accountName}
-											</Text>
-										</Box>
-									</Box>
-									<Box className={styles.cardAccountShine} />
-								</motion.li>
+									backgroundImage={backgroundImage}
+									selectedCardIndex={selectedIndexCard}
+									cardIndex={idx}
+									animateOnScroll={animateOnScroll}
+									accountId={accountId}
+									accountBalance={accountBalance}
+									accountName={accountName}
+								/>
 							))}
 						</motion.ul>
 						<motion.div
@@ -286,7 +228,7 @@ export const AccountSwitcher = forwardRef<HTMLButtonElement, IAccountSwitcherPro
 							transition={{ duration: 0.3 }}
 							className={styles.accountCardButtonWrapper}
 						>
-							{arrowBtns}
+							<CardButtons />
 						</motion.div>
 					</AnimatePresence>
 				</Box>
