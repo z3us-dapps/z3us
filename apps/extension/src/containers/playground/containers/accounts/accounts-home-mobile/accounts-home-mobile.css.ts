@@ -50,13 +50,13 @@ export const accountsHomeHeaderAccount = style([
 		flexDirection: 'column',
 		alignItems: 'center',
 		justifyContent: 'center',
-		// background: 'purple200',
 		width: 'full',
 		position: 'sticky',
 		top: 0,
 	}),
 	{
-		height: '400px',
+		paddingTop: '48px',
+		paddingBottom: '48px',
 		marginBottom: '-58px',
 		backgroundImage:
 			'url("/images/account-images/z3us-apple-hermes.png"), radial-gradient(77.21% 96.45% at 50% 100%, #FE845E 0%, #E08BAB 17.71%, #AB8CFF 50.52%, #946DFF 100%)',
@@ -93,6 +93,18 @@ export const accountsHomeHeaderStickyScrolled = style([
 		backgroundRepeat: 'no-repeat',
 		backgroundPosition: 'center top',
 		backgroundSize: '924px auto',
+	},
+])
+
+export const accountsHomeHeaderStickyScrolledInner = style([
+	sprinkles({
+		display: 'flex',
+		width: 'full',
+		alignItems: 'center',
+		justifyContent: 'center',
+	}),
+	{
+		height: '48px',
 	},
 ])
 
@@ -136,11 +148,7 @@ export const accountsAssetsPanel = style([
 		borderTopRightRadius: 'xlarge',
 	}),
 	{
-		// top: '50px',
-		border: '0px solid red',
-		// maxHeight: '900px',
 		height: '400px',
-		// overflow: 'clip',
 	},
 ])
 
@@ -149,7 +157,7 @@ export const cardWrapperAll = style([
 		position: 'relative',
 	}),
 	{
-		width: '344px',
-		height: '200px',
+		width: '312px',
+		height: '180px',
 	},
 ])

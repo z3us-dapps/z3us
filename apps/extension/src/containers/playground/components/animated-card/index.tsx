@@ -5,26 +5,32 @@ import React from 'react'
 import { Box } from 'ui/src/components-v2/box'
 import { Text } from 'ui/src/components-v2/typography'
 
+import { CopyAddressButton } from '@src/containers/playground/components/copy-address-button'
+import { getShortAddress } from '@src/utils/string-utils'
+
 import * as styles from './animated-card.css'
 
 interface IAnimatedCardRequiredProps {
-	backgroundImage: string
 	selectedCardIndex: number
 	cardIndex: number
 	animateOnScroll: boolean
-	accountId: string
+	accountAddress: string
 	accountBalance: string
 	accountName: string
 }
 
 interface IAnimatedCardOptionalProps {
 	className?: string
+	backgroundImage?: string
+	showCopyAddressButton?: boolean
 }
 
 interface IAnimatedCardProps extends IAnimatedCardRequiredProps, IAnimatedCardOptionalProps {}
 
 const defaultProps: IAnimatedCardOptionalProps = {
 	className: undefined,
+	backgroundImage: undefined,
+	showCopyAddressButton: false,
 }
 
 export const AnimatedCard: React.FC<IAnimatedCardProps> = props => {
@@ -34,9 +40,10 @@ export const AnimatedCard: React.FC<IAnimatedCardProps> = props => {
 		selectedCardIndex,
 		cardIndex,
 		animateOnScroll,
-		accountId,
+		accountAddress,
 		accountBalance,
 		accountName,
+		showCopyAddressButton,
 	} = props
 
 	return (
@@ -60,10 +67,15 @@ export const AnimatedCard: React.FC<IAnimatedCardProps> = props => {
 			animate={selectedCardIndex === cardIndex ? 'selected' : 'notSelected'}
 		>
 			<Box className={clsx(styles.cardAccountWrapper, animateOnScroll && styles.cardAccountWrapperAnimated)}>
-				<Box flexGrow={1} paddingTop="xsmall">
+				<Box flexGrow={1} paddingTop="xsmall" display="flex">
 					<Text size="large" weight="medium" color="white" className={styles.cardAccountText}>
-						{accountId}
+						{getShortAddress(accountAddress)}
 					</Text>
+					{showCopyAddressButton ? (
+						<Box className={styles.copyAddressButtonWrapper}>
+							<CopyAddressButton styleVariant="white-transparent" address={accountAddress} iconOnly rounded={false} />
+						</Box>
+					) : null}
 				</Box>
 				<Box paddingBottom="xsmall">
 					<Text size="xlarge" weight="stronger" color="white">

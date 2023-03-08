@@ -89,3 +89,9 @@ export const cardAccountText = style([
 		letterSpacing: '0.11em',
 	},
 ])
+
+export const copyAddressButtonWrapper = style([
+	{
+		marginTop: '-4px',
+	},
+])

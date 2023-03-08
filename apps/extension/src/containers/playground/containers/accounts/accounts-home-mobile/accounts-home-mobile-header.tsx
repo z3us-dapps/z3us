@@ -13,6 +13,7 @@ import Translation from '@src/components/translation'
 import { AnimatedCard } from '@src/containers/playground/components/animated-card'
 import { AnimatedPage } from '@src/containers/playground/components/animated-route'
 import { CardButtons } from '@src/containers/playground/components/card-buttons'
+import { CopyAddressButton } from '@src/containers/playground/components/copy-address-button'
 import { ScrollPanel } from '@src/containers/playground/components/scroll-panel'
 import { Z3usLoading } from '@src/containers/playground/components/z3us-loading'
 import { routes } from '@src/containers/playground/config'
@@ -29,21 +30,21 @@ const CARD_COLORS = [
 		// 	'url("/images/account-images/z3us-apple-hermes-v2.png"), radial-gradient(77.21% 96.45% at 50% 100%, #BF9E76 0%, #BF9E76 17.71%, #BF9E76 50.52%, #BF9E76 100%)',
 	},
 	{
-		accountId: 'rdx1...6go0',
+		accountId: 'rdx1b707388613169bf701d533e143d8f698c9090f605e677a967eaf70a4c69250ce',
 		accountName: 'Spend',
 		accountBalance: '$1043.43',
 		backgroundImage:
 			'url("/images/account-images/z3us-apple-hermes.png"), radial-gradient(77.21% 96.45% at 50% 100%, #FE845E 0%, #E08BAB 17.71%, #AB8CFF 50.52%, #946DFF 100%)',
 	},
 	{
-		accountId: 'rdx1...ma41',
+		accountId: 'rdx1b707388613169bf701d533e143d8f698c9090f605e677a967eaf70a4c69250ce',
 		accountName: 'Savings',
 		accountBalance: '$5043.43',
 		backgroundImage:
 			'url("/images/account-images/z3us-athens.png"), radial-gradient(77.21% 96.45% at 50% 100%, #C0D7EF 0%, #C0D7EF 17.71%, #C0D7EF 50.52%, #C0D7EF 100%)',
 	},
 	{
-		accountId: 'rdx1...ldg0',
+		accountId: 'rdx1b707388613169bf701d533e143d8f698c9090f605e677a967eaf70a4c69250ce',
 		accountName: 'Defi',
 		accountBalance: '$80,043.43',
 		backgroundImage:
@@ -65,16 +66,16 @@ export const AccountsHomeMobileHeader = () => {
 			<Box className={styles.accountsHomeHeaderAccount}>
 				<AnimatePresence initial={false}>
 					<Box component="ul" className={styles.cardWrapperAll}>
-						{cards.map(({ backgroundImage, accountName, accountId, accountBalance }, idx) => (
+						{cards.map(({ accountName, accountId, accountBalance }, idx) => (
 							<AnimatedCard
 								key={accountName}
-								backgroundImage={backgroundImage}
 								selectedCardIndex={1}
 								cardIndex={idx}
 								animateOnScroll={false}
-								accountId={accountId}
+								accountAddress={accountId}
 								accountBalance={accountBalance}
 								accountName={accountName}
+								showCopyAddressButton
 							/>
 						))}
 					</Box>
@@ -90,7 +91,12 @@ export const AccountsHomeMobileHeader = () => {
 						isSticky && styles.accountsHomeHeaderStickyScrolledIs,
 					)}
 				>
-					scrolled
+					<Box className={styles.accountsHomeHeaderStickyScrolledInner}>
+						<CopyAddressButton
+							styleVariant="white-transparent"
+							address="rdx1b707388613169bf701d533e143d8f698c9090f605e677a967eaf70a4c69250ce"
+						/>
+					</Box>
 				</Box>
 				<Box className={clsx(styles.accountsHomeHeaderStickyVis, isSticky && styles.accountsHomeHeaderStickyVisIs)}>
 					header sticky

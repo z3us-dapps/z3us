@@ -1,27 +1,19 @@
 import clsx from 'clsx'
 import { AnimatePresence, LayoutGroup, motion } from 'framer-motion'
-import React, { useState } from 'react'
+import React from 'react'
 import { useTranslation } from 'react-i18next'
-// import { BrowserRouter, Routes, Route, Link, useLocation, useMatch } from 'react-router-dom'
 import { Link as LinkRouter, useMatch } from 'react-router-dom'
 
 import { Box } from 'ui/src/components-v2/box'
-// import { MagnifyingGlassIcon } from '@radix-ui/react-icons'
-import { Button } from 'ui/src/components-v2/button'
-import { ToolTip } from 'ui/src/components-v2/tool-tip'
 import { Text } from 'ui/src/components-v2/typography'
-// import { RowsIcon, MagnifyingGlassIcon } from '@radix-ui/react-icons'
-// import { DashboardIcon } from '@radix-ui/react-icons'
 import { CoinsIcon, CopyIcon, Home2Icon, Settings2Icon, Swap2Icon, SwitchHorizontal } from 'ui/src/components/icons'
 
 import { Link } from '@src/components/link'
+import { CopyAddressButton } from '@src/containers/playground/components/copy-address-button'
 import { WalletDropdown } from '@src/containers/playground/components/wallet-dropdown'
 import { routes } from '@src/containers/playground/config'
 import { AccountViewDropdown } from '@src/containers/playground/containers/accounts/account-view-dropdown'
-// import { Button } from '@src/components/button'
 import { useAccountParams } from '@src/containers/playground/hooks/use-account-params'
-import { copyTextToClipboard } from '@src/utils/copy-to-clipboard'
-import { getShortAddress } from '@src/utils/string-utils'
 
 import * as styles from './navigation.css'
 
@@ -81,60 +73,8 @@ const MenuItemDesktop = ({ text, href }) => {
 	)
 }
 
-const CopyIconAnimation = ({ animate }: { animate: boolean }) => (
-	<Box className={styles.copiedAnimationWrapper}>
-		<Box width="full" height="full" transition="fast" position="absolute" top={0} left={0}>
-			<AnimatePresence initial={false}>
-				{animate && (
-					<Box color="green400" zIndex={1}>
-						<svg fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="CheckIcon">
-							<motion.path
-								initial={{ pathLength: 0 }}
-								animate={{ pathLength: 1 }}
-								exit={{ pathLength: 0 }}
-								transition={{
-									type: 'tween',
-									duration: 0.3,
-									ease: animate ? 'easeOut' : 'easeIn',
-								}}
-								strokeLinecap="round"
-								strokeLinejoin="round"
-								d="M7.75 12.75L10 15.25L16.25 8.75"
-							/>
-						</svg>
-					</Box>
-				)}
-			</AnimatePresence>
-			<AnimatePresence initial={false}>
-				{!animate && (
-					<motion.div
-						initial={{ opacity: 0 }}
-						animate={{ opacity: 1, transition: { delay: 0.3, duration: 0.3 } }}
-						exit={{ opacity: 0, transition: { delay: 0, duration: 0.1 } }}
-					>
-						<Box width="full" height="full" transition="fast" position="absolute" top={0} left={0}>
-							<CopyIcon />
-						</Box>
-					</motion.div>
-				)}
-			</AnimatePresence>
-		</Box>
-	</Box>
-)
-
 export const DesktopNavigation: React.FC = () => {
-	const [copiedAnimate, setCopiedAnimate] = useState<boolean>(false)
 	const { t } = useTranslation()
-	const tempAddress = 'rdx1b707388613169bf701d533e143d8f698c9090f605e677a967eaf70a4c69250ce'
-
-	const handleAddressClick = () => {
-		copyTextToClipboard(tempAddress)
-		setCopiedAnimate(true)
-
-		setTimeout(() => {
-			setCopiedAnimate(false)
-		}, 3000)
-	}
 
 	return (
 		<Box component="nav" className={styles.navigationWrapper}>
@@ -154,32 +94,7 @@ export const DesktopNavigation: React.FC = () => {
 					</LayoutGroup>
 				</Box>
 				<Box display="flex" alignItems="center" gap="medium">
-					<ToolTip message={tempAddress}>
-						<Button
-							sizeVariant="small"
-							styleVariant="tertiary"
-							rounded
-							rightIcon={<CopyIconAnimation animate={copiedAnimate} />}
-							onClick={handleAddressClick}
-						>
-							<Box position="relative">
-								<Box transition="slow" opacity={copiedAnimate ? 0 : 1}>
-									{getShortAddress(tempAddress)}
-								</Box>
-								<Box
-									transition="slow"
-									opacity={copiedAnimate ? 1 : 0}
-									position="absolute"
-									top={0}
-									width="full"
-									textAlign="center"
-									pointerEvents="none"
-								>
-									Copied
-								</Box>
-							</Box>
-						</Button>
-					</ToolTip>
+					<CopyAddressButton address="rdx1b707388613169bf701d533e143d8f698c9090f605e677a967eaf70a4c69250ce" />
 					<AccountViewDropdown />
 					<WalletDropdown />
 				</Box>

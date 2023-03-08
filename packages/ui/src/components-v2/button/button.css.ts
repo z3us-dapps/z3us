@@ -69,6 +69,21 @@ export const button = recipe({
 				border: 1,
 				borderStyle: 'solid',
 			}),
+			'white-transparent': sprinkles({
+				background: {
+					lightMode: 'transparent',
+					hover: 'btnSecondaryBackgroundHover',
+					active: 'btnSecondaryBackground',
+					focusVisible: 'btnSecondaryBackgroundHover',
+				},
+				borderColor: { lightMode: 'transparent', hover: 'transparent' },
+				boxShadow: {
+					focusVisible: 'btnSecondaryShadowFocus',
+				},
+				color: 'white',
+				border: 1,
+				borderStyle: 'solid',
+			}),
 		},
 		sizeVariant: {
 			small: [
@@ -245,6 +260,9 @@ export const buttonIconLeft = recipe({
 			large: [],
 			xlarge: [],
 		},
+		iconOnly: {
+			true: {},
+		},
 	},
 	defaultVariants: {
 		styleVariant: 'primary',
@@ -285,7 +303,22 @@ export const buttonIconRight = recipe({
 			large: [],
 			xlarge: [],
 		},
+		iconOnly: {
+			true: {},
+		},
 	},
+
+	compoundVariants: [
+		{
+			variants: {
+				sizeVariant: 'small',
+				iconOnly: true,
+			},
+			style: {
+				marginRight: '0',
+			},
+		},
+	],
 	defaultVariants: {
 		styleVariant: 'primary',
 		sizeVariant: 'medium',

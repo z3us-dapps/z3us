@@ -1,11 +1,11 @@
-import React, { forwardRef } from 'react'
 import clsx from 'clsx'
-import { Box } from '../box'
+import React, { forwardRef } from 'react'
 
+import { Box } from '../box'
 import * as styles from './button.css'
 
-type TSizeVariant = 'small' | 'medium' | 'large' | 'xlarge'
-type TStyleVariant = 'primary' | 'secondary' | 'tertiary' | 'ghost' | 'inverse'
+export type TSizeVariant = 'small' | 'medium' | 'large' | 'xlarge'
+export type TStyleVariant = 'primary' | 'secondary' | 'tertiary' | 'ghost' | 'inverse' | 'white-transparent'
 
 interface IButtonRequiredProps {
 	children: React.ReactNode
@@ -89,6 +89,7 @@ export const Button = forwardRef<HTMLButtonElement, IButtonProps>((props, ref: R
 						styles.buttonIconLeft({
 							sizeVariant,
 							styleVariant,
+							iconOnly,
 						}),
 					)}
 				>
@@ -103,6 +104,7 @@ export const Button = forwardRef<HTMLButtonElement, IButtonProps>((props, ref: R
 						styles.buttonIconRight({
 							sizeVariant,
 							styleVariant,
+							iconOnly,
 						}),
 					)}
 				>

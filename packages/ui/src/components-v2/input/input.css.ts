@@ -1,10 +1,12 @@
-import { recipe, RecipeVariants } from '@vanilla-extract/recipes'
+import { RecipeVariants, recipe } from '@vanilla-extract/recipes'
+
 import { sprinkles } from '../system/sprinkles.css'
 
 export const baseSprinkles = sprinkles({
 	transition: 'fast',
 })
 
+// TODO: rename to input
 export const button = recipe({
 	base: {
 		display: 'inline-flex',
