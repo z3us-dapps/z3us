@@ -16,7 +16,7 @@
     "*://*.xidar.io/*",
     "*://*.dexian.io/*",
     "*://*.radishsquare.com/*",
-    "*://*.hermesprotocol.io",
-    "*://*.m-o.group",
-    "*://*.momentum-one.io"
+    "*://*.hermesprotocol.io/*",
+    "*://*.m-o.group/*",
+    "*://*.momentum-one.io/*"
 ]
