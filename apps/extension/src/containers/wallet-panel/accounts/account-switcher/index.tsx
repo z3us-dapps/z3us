@@ -121,7 +121,15 @@ export const AccountSwitcher = (): JSX.Element => {
 							<Box css={{ textAlign: 'center' }}>
 								{signingKey && (
 									<>
-										<Button size="5" color="inverse" iconOnly circle onClick={handleAddAccount} css={{ mt: '5px' }}>
+										<Button
+											size="5"
+											color="inverse"
+											iconOnly
+											circle
+											onClick={handleAddAccount}
+											css={{ mt: '5px' }}
+											data-test-e2e="account-add-new-account"
+										>
 											<PlusIcon />
 										</Button>
 										<Text size="4" css={{ mt: '12px' }} medium>

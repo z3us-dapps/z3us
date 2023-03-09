@@ -2,6 +2,13 @@ import { style } from '@vanilla-extract/css'
 import { darkMode, sprinkles } from '../system/sprinkles.css'
 import { vars } from '../system/theme.css'
 
+export const defaultLink = style({
+	textDecoration: 'none',
+	textUnderlinePosition: 'under',
+	textDecorationThickness: 'from-font',
+	textDecorationLine: 'underline',
+})
+
 export const underlineOnHover = style({
 	selectors: {
 		'&:not(:hover)': {

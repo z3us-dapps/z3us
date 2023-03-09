@@ -13,5 +13,10 @@
     "*://*.dogescrow.app/*",
     "*://*.radicaldinosaurs.com/*",
     "*://*.radish.world/*",
-    "*://*.xidar.io/*"
+    "*://*.xidar.io/*",
+    "*://*.dexian.io/*",
+    "*://*.radishsquare.com/*",
+    "*://*.hermesprotocol.io",
+    "*://*.m-o.group",
+    "*://*.momentum-one.io"
 ]

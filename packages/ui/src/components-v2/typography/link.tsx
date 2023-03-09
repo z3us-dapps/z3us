@@ -7,7 +7,7 @@ import { TextProps, textStyles } from './text'
 
 export interface LProps {
 	href?: string
-	LinkFrameWorkComp?: any
+	linkFrameWorkComp?: any
 	baseline?: boolean
 	size?: 'medium' | 'small' | 'xsmall'
 	underline?: 'always' | 'hover' | 'never'
@@ -15,7 +15,7 @@ export interface LProps {
 	weight?: TextProps['weight']
 	color?: TextProps['color']
 	type?: TextProps['type']
-	inline?: boolean
+	display?: 'block' | 'flex' | 'inline-flex'
 	highlightOnFocus?: boolean
 	className?: string
 	children?: ReactNode
@@ -24,13 +24,13 @@ export interface LProps {
 const defaultProps = {
 	href: undefined,
 	className: undefined,
-	LinkFrameWorkComp: undefined,
+	linkFrameWorkComp: undefined,
 	size: 'medium',
 	underline: 'always',
 	variant: 'link',
 	color: 'neutral',
 	weight: 'regular',
-	inline: false,
+	display: 'inline-flex',
 	highlightOnFocus: false,
 	baseline: false,
 	children: 'block',
@@ -40,22 +40,23 @@ const defaultProps = {
 const LinkComponent = (props: LProps) => {
 	const {
 		href,
-		LinkFrameWorkComp,
+		linkFrameWorkComp,
 		baseline = false,
 		size = 'medium',
 		color = 'neutral',
 		weight = 'regular',
-		underline = 'hover',
-		type = 'body',
+		underline,
+		type,
 		highlightOnFocus = true,
-		inline = false,
+		display,
 		className,
 		children,
 		...restProps
 	} = props
 
 	const classNames = clsx(
-		inline ? undefined : sprinkles({ display: 'block' }),
+		sprinkles({ display }),
+		styles.defaultLink,
 		underline === 'hover' ? styles.underlineOnHover : undefined,
 		underline === 'never' ? styles.underlineNever : undefined,
 		highlightOnFocus ? styles.highlightOnHover : undefined,
@@ -63,10 +64,12 @@ const LinkComponent = (props: LProps) => {
 		className,
 	)
 
+	const Component = linkFrameWorkComp
+
 	return (
-		<LinkFrameWorkComp href={href} {...restProps} className={classNames}>
+		<Component href={href} className={classNames} {...restProps}>
 			{children}
-		</LinkFrameWorkComp>
+		</Component>
 	)
 }
 

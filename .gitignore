@@ -41,3 +41,5 @@ apps/extension/stats.html
 
 # playwright reports
 apps/extension/playwright-report/index.html
+apps/extension/m-jest.sh
+apps/extension/jestOutput.txt

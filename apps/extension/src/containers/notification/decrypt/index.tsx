@@ -1,4 +1,5 @@
 import React from 'react'
+import { useEventListener } from 'usehooks-ts'
 import { Box, Flex, Text, StyledLink, Image } from 'ui/src/components/atoms'
 import Button from 'ui/src/components/button'
 import { PageWrapper, PageHeading, PageSubHeading } from '@src/components/layout'
@@ -45,6 +46,27 @@ export const Decrypt = (): JSX.Element => {
 			payload: { request: action.request, value: decrypted },
 		})
 	}
+
+	// keypress does not handle ESC on Mac
+	useEventListener('keydown', async e => {
+		switch (e.code) {
+			case 'Escape':
+				await handleCancel()
+				break
+			default:
+				break
+		}
+	})
+
+	useEventListener('keypress', async e => {
+		switch (e.code) {
+			case 'Enter':
+				await handleConfirm()
+				break
+			default:
+				break
+		}
+	})
 
 	return (
 		<>

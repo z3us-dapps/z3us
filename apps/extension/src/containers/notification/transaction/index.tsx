@@ -2,6 +2,7 @@
 import React, { useEffect } from 'react'
 import { useQueryClient } from 'react-query'
 import { useImmer } from 'use-immer'
+import { useEventListener } from 'usehooks-ts'
 import { useTokenInfo } from '@src/hooks/react-query/queries/radix'
 import { useTransaction } from '@src/hooks/use-transaction'
 import { useMessage } from '@src/hooks/use-message'
@@ -173,6 +174,27 @@ export const Transaction = (): JSX.Element => {
 			})
 		}
 	}
+
+	// keypress does not handle ESC on Mac
+	useEventListener('keydown', async e => {
+		switch (e.code) {
+			case 'Escape':
+				await handleCancel()
+				break
+			default:
+				break
+		}
+	})
+
+	useEventListener('keypress', async e => {
+		switch (e.code) {
+			case 'Enter':
+				await handleConfirm()
+				break
+			default:
+				break
+		}
+	})
 
 	return (
 		<Flex css={{ flexDirection: 'column', height: '100%' }}>

@@ -99,7 +99,9 @@ export const ToolTip = ({
 	css,
 }: ToolTipProps): JSX.Element => (
 	<Tooltip>
-		<TooltipTrigger asChild>{children}</TooltipTrigger>
+		<TooltipTrigger asChild>
+			<span>{children} </span>
+		</TooltipTrigger>
 		<TooltipContent
 			sideOffset={sideOffset}
 			side={side}
