@@ -44,7 +44,7 @@ Now click on the `LOAD UNPACKED` and browse to `apps/extension/dist/chrome`, thi
 
 ## Adding extension to Firefox
 
-In the Firefox browser navitate to `about:debugging#/runtime/this-firefox`. Click the button `Load temporary Add-on...`, then select a compressed zip of the all the files `inside` the directory `apps/extension/dist/firefox`.
+In the Firefox browser navigate to `about:debugging#/runtime/this-firefox`. Click the button `Load temporary Add-on...`, then select a compressed zip of  all the files `inside` the directory `apps/extension/dist/firefox`.
 
 ## Website quick start
 
@@ -63,7 +63,7 @@ Now visit the website running locally at [localhost:4000](http://localhost:4000)
 
 ## Packages
 
-- `ui`: a shared React component library using stiches [stitches](https://stitches.dev) and [radix ui](https://www.radix-ui.com/)
+- `ui`: a shared React component library using [stitches](https://stitches.dev) and [radix ui](https://www.radix-ui.com/)
   - `yarn storybook`: [storybook](https://storybook.js.org) - [localhost:6006](http://localhost:6006)
 - `config`: `eslint` configurations (includes `eslint-config-next` and `eslint-config-prettier`)
 - `tsconfig`: `tsconfig.json` used throughout the monorepo
