@@ -212,6 +212,7 @@ export const LockedPanel: React.FC = () => {
 	}
 
 	useEffect(() => {
+		if (isUnlocked === null) return
 		unlockAnimation(isUnlocked, state.isMounted)
 
 		setState(draft => {

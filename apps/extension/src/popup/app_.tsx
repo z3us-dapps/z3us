@@ -37,7 +37,7 @@ export const App: React.FC = () => {
 		isUnlocked: state.isUnlocked,
 	}))
 
-	const isUiVisible = isUnlocked !== undefined || isHardwareWalletRoute || isOnboardingRoute
+	const isUiVisible = isUnlocked !== null || isHardwareWalletRoute || isOnboardingRoute
 
 	return (
 		<Box
