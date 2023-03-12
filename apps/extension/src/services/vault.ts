@@ -248,8 +248,6 @@ export class VaultService {
 		this.signingKey = signingKey
 
 		await this.resetTimer()
-
-		console.log('derive', hasKeystore, selectKeystoreId, this.signingKey?.publicKey.toString(), this.isUnlocked)
 		return {
 			isUnlocked: this.isUnlocked,
 			signingKeyType: this.signingKeyType,
@@ -304,7 +302,6 @@ export class VaultService {
 		})
 
 		await this.resetTimer()
-		console.log('deriveAll', hasKeystore, selectKeystoreId, this.signingKey?.publicKey.toString(), this.isUnlocked)
 		return {
 			isUnlocked: this.isUnlocked,
 			signingKeyType: this.signingKeyType,
