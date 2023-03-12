@@ -73,7 +73,13 @@ export const AnimatedCard: React.FC<IAnimatedCardProps> = props => {
 					</Text>
 					{showCopyAddressButton ? (
 						<Box className={styles.copyAddressButtonWrapper}>
-							<CopyAddressButton styleVariant="white-transparent" address={accountAddress} iconOnly rounded={false} />
+							<CopyAddressButton
+								styleVariant="white-transparent"
+								address={accountAddress}
+								iconOnly
+								rounded={false}
+								tickColor="white"
+							/>
 						</Box>
 					) : null}
 				</Box>

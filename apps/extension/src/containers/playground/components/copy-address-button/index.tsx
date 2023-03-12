@@ -7,17 +7,18 @@ import { Button, TStyleVariant } from 'ui/src/components-v2/button'
 import { ToolTip } from 'ui/src/components-v2/tool-tip'
 import { CopyIcon } from 'ui/src/components/icons'
 
+import Translation from '@src/components/translation'
 import { copyTextToClipboard } from '@src/utils/copy-to-clipboard'
 import { getShortAddress } from '@src/utils/string-utils'
 
 import * as styles from './copy-address-button.css'
 
-const CopyIconAnimation = ({ animate }: { animate: boolean }) => (
+const CopyIconAnimation = ({ animate, tickColor = 'green400' }: { animate: boolean; tickColor: string }) => (
 	<Box className={styles.copiedAnimationWrapper}>
 		<Box width="full" height="full" transition="fast" position="absolute" top={0} left={0}>
 			<AnimatePresence initial={false}>
 				{animate && (
-					<Box color="green400" zIndex={1}>
+					<Box color={tickColor as any} zIndex={1}>
 						<svg fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="CheckIcon">
 							<motion.path
 								initial={{ pathLength: 0 }}
@@ -60,6 +61,7 @@ interface ICopyAddressButtonRequiredProps {
 interface ICopyAddressButtonOptionalProps {
 	className?: string
 	styleVariant?: TStyleVariant
+	tickColor?: string
 	iconOnly?: boolean
 	rounded?: boolean
 }
@@ -69,12 +71,13 @@ interface ICopyAddressButtonProps extends ICopyAddressButtonRequiredProps, ICopy
 const defaultProps: ICopyAddressButtonOptionalProps = {
 	className: undefined,
 	styleVariant: 'tertiary',
+	tickColor: 'green400',
 	iconOnly: false,
 	rounded: true,
 }
 
 export const CopyAddressButton: React.FC<ICopyAddressButtonProps> = props => {
-	const { className, address, styleVariant, iconOnly, rounded } = props
+	const { className, address, styleVariant, iconOnly, rounded, tickColor } = props
 
 	const [copiedAnimate, setCopiedAnimate] = useState<boolean>(false)
 
@@ -93,7 +96,7 @@ export const CopyAddressButton: React.FC<ICopyAddressButtonProps> = props => {
 				className={clsx(className)}
 				sizeVariant="small"
 				styleVariant={styleVariant}
-				rightIcon={<CopyIconAnimation animate={copiedAnimate} />}
+				rightIcon={<CopyIconAnimation animate={copiedAnimate} tickColor={tickColor} />}
 				onClick={handleAddressClick}
 				iconOnly={iconOnly}
 				rounded={rounded}
@@ -112,7 +115,7 @@ export const CopyAddressButton: React.FC<ICopyAddressButtonProps> = props => {
 							textAlign="center"
 							pointerEvents="none"
 						>
-							Copied
+							<Translation text="global.copied" />
 						</Box>
 					</Box>
 				) : null}

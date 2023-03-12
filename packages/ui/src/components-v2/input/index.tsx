@@ -1,9 +1,8 @@
-import React, { forwardRef } from 'react'
 import clsx from 'clsx'
+import React, { forwardRef } from 'react'
+
 import { Box } from '../box'
-
 import { element } from '../system/reset.css'
-
 import * as styles from './input.css'
 
 export type FormElement = HTMLInputElement | HTMLTextAreaElement

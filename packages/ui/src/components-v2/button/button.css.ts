@@ -72,9 +72,7 @@ export const button = recipe({
 			'white-transparent': sprinkles({
 				background: {
 					lightMode: 'transparent',
-					hover: 'btnSecondaryBackgroundHover',
-					active: 'btnSecondaryBackground',
-					focusVisible: 'btnSecondaryBackgroundHover',
+					hover: 'btnWhiteTransparentBackgroundHover',
 				},
 				borderColor: { lightMode: 'transparent', hover: 'transparent' },
 				boxShadow: {

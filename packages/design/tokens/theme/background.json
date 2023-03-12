@@ -27,6 +27,10 @@
 				"value": "{color.core.wax.400.value}",
 				"darkValue": "{color.core.bleached_silk.700.value}"
 			},
+			"btn_white_transparent_background_hover": {
+				"value": "rgba(255,255,255,0.1)",
+				"darkValue": "rgba(255,255,255,0.1)"
+			},
 			"input_primary_background": {
 				"value": "{color.core.bleached_silk.500.value}",
 				"darkValue": "{color.core.wax.500.value}"

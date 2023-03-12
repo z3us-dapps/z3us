@@ -7,8 +7,11 @@ import { Virtuoso } from 'react-virtuoso'
 import { useIntersectionObserver } from 'usehooks-ts'
 
 import { Box } from 'ui/src/components-v2/box'
+import { FormElement, Input } from 'ui/src/components-v2/input'
+import { Tabs, TabsContent, TabsList, TabsTrigger } from 'ui/src/components-v2/tabs'
 import { Text } from 'ui/src/components-v2/typography'
 
+import { Button } from '@src/components/button'
 import Translation from '@src/components/translation'
 import { AnimatedCard } from '@src/containers/playground/components/animated-card'
 import { AnimatedPage } from '@src/containers/playground/components/animated-route'
@@ -94,12 +97,39 @@ export const AccountsHomeMobileHeader = () => {
 					<Box className={styles.accountsHomeHeaderStickyScrolledInner}>
 						<CopyAddressButton
 							styleVariant="white-transparent"
+							tickColor="white"
 							address="rdx1b707388613169bf701d533e143d8f698c9090f605e677a967eaf70a4c69250ce"
 						/>
 					</Box>
 				</Box>
 				<Box className={clsx(styles.accountsHomeHeaderStickyVis, isSticky && styles.accountsHomeHeaderStickyVisIs)}>
-					header sticky
+					<Box className={styles.tabsWrapper}>
+						<Box
+							component="button"
+							className={clsx(styles.tabsWrapperButton, styles.tabsWrapperButtonLeft)}
+							onClick={() => {}}
+						>
+							Assets
+						</Box>
+						<Box
+							component="button"
+							className={clsx(styles.tabsWrapperButton, styles.tabsWrapperButtonRight)}
+							onClick={() => {}}
+						>
+							Activity
+						</Box>
+					</Box>
+					<Box className={styles.inputSearchWrapper}>
+						<Input
+							sizeVariant="small"
+							className={styles.inputSearch}
+							value="1"
+							// ref={inputRef}
+							// className={styles.inputElement}
+							// placeholder={placeholder}
+							// onChange={handleOnChange}
+						/>
+					</Box>
 				</Box>
 			</Box>
 		</>

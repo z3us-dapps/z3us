@@ -4,15 +4,7 @@ import { useTranslation } from 'react-i18next'
 
 import { Box } from 'ui/src/components-v2/box'
 import { ToolTip } from 'ui/src/components-v2/tool-tip'
-import { Text } from 'ui/src/components-v2/typography'
-import {
-	ArrowLeftIcon,
-	ArrowRightIcon,
-	Close2Icon,
-	DownLeft2Icon,
-	QrCode2Icon,
-	UpRight2Icon,
-} from 'ui/src/components/icons'
+import { DownLeft2Icon, QrCode2Icon, UpRight2Icon } from 'ui/src/components/icons'
 
 import { Button } from '@src/components/button'
 
@@ -37,17 +29,17 @@ export const CardButtons: React.FC<ICardButtonsProps> = props => {
 
 	return (
 		<Box className={clsx(styles.cardButtonsWrapper, className)}>
-			<ToolTip message={t('accounts.home.assetsTokens')} theme="backgroundPrimary">
+			<ToolTip message={t('global.send')} theme="backgroundPrimary">
 				<Button iconOnly rounded styleVariant="inverse" sizeVariant="large" onClick={() => {}}>
 					<UpRight2Icon />
 				</Button>
 			</ToolTip>
-			<ToolTip message="receive" theme="backgroundPrimary">
+			<ToolTip message={t('global.receive')} theme="backgroundPrimary">
 				<Button iconOnly rounded styleVariant="inverse" sizeVariant="large" onClick={() => {}}>
 					<DownLeft2Icon />
 				</Button>
 			</ToolTip>
-			<ToolTip message="address" theme="backgroundPrimary">
+			<ToolTip message={t('global.address')} theme="backgroundPrimary">
 				<Button iconOnly rounded styleVariant="inverse" sizeVariant="large" onClick={() => {}}>
 					<QrCode2Icon />
 				</Button>

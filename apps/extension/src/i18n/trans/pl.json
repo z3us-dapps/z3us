@@ -11,7 +11,8 @@
 		"badges": "Badges",
 		"send": "Wysłać",
 		"receive": "Odbierać",
-		"address": "Adres"
+		"address": "Adres",
+		"copied": "skopiowane"
 	},
 	"accounts": {
 		"navigation": {

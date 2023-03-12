@@ -76,7 +76,6 @@ export const accountsHomeHeaderSticky = style([
 	{
 		top: '-1px',
 		paddingTop: '1px',
-		height: '80px',
 	},
 ])
 
@@ -125,8 +124,6 @@ export const accountsHomeHeaderStickyVis = style([
 		background: 'backgroundSecondary',
 	}),
 	{
-		// top: '48px',
-		height: '80px',
 		marginTop: '-10px',
 	},
 ])
@@ -160,4 +157,57 @@ export const cardWrapperAll = style([
 		width: '312px',
 		height: '180px',
 	},
+])
+
+export const tabsWrapper = style([
+	sprinkles({
+		width: 'full',
+		display: 'flex',
+		borderBottom: 1,
+		borderStyle: 'solid',
+		borderColor: 'borderDivider',
+	}),
+	{},
+])
+
+export const tabsWrapperButton = style([
+	sprinkles({
+		width: 'full',
+		background: 'backgroundSecondary',
+	}),
+	{
+		flex: 1,
+		height: '48px',
+	},
+])
+
+export const tabsWrapperButtonLeft = style([
+	sprinkles({
+		borderTopLeftRadius: 'large',
+	}),
+	{},
+])
+
+export const tabsWrapperButtonRight = style([
+	sprinkles({
+		borderTopRightRadius: 'large',
+	}),
+	{},
+])
+
+export const inputSearchWrapper = style([
+	sprinkles({
+		width: 'full',
+		paddingX: 'medium',
+		paddingY: 'large',
+	}),
+	{},
+])
+
+export const inputSearch = style([
+	sprinkles({
+		width: 'full',
+		padding: 'small',
+	}),
+	{},
 ])

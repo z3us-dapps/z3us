@@ -33,7 +33,6 @@ export const AccountsHomeMobile = () => {
 				<AccountsHomeMobileHeader />
 				<AccountsHomeMobileList customScrollParent={customScrollParent} />
 			</ScrollArea>
-
 			<Box className={styles.accountsHomeMobileHeader}>
 				<Box className={styles.accountsHomeMobileHeaderWalletWrapper}>
 					<WalletDropdown buttonSize="small" />

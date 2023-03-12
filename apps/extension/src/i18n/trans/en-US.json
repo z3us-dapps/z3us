@@ -11,7 +11,8 @@
 		"badges": "Badges",
 		"send": "Send",
 		"receive": "Receive",
-		"address": "Address"
+		"address": "Address",
+		"copied": "Copied"
 	},
 	"accounts": {
 		"navigation": {
