@@ -1,15 +1,18 @@
 import React from 'react'
-import { useNoneSharedStore, useSharedStore } from '@src/hooks/use-store'
+
 import { Box, Flex, Text } from 'ui/src/components/atoms'
-import { Checkbox, CheckIcon } from 'ui/src/components/checkbox'
-import { StyledSlider, StyledTrack, StyledThumb, StyledRange } from 'ui/src/components/slider'
+import { CheckIcon, Checkbox } from 'ui/src/components/checkbox'
+import { StyledRange, StyledSlider, StyledThumb, StyledTrack } from 'ui/src/components/slider'
+
 import { CurrencySelector } from '@src/components/currency-selector'
+import { useMessanger } from '@src/hooks/use-messanger'
+import { useNoneSharedStore, useSharedStore } from '@src/hooks/use-store'
 import { KeystoreType } from '@src/types'
 
 export const GeneralSettings: React.FC = () => {
-	const { keystore, ping } = useSharedStore(state => ({
+	const { pingAction: ping } = useMessanger()
+	const { keystore } = useSharedStore(state => ({
 		keystore: state.keystores.find(({ id }) => id === state.selectKeystoreId),
-		ping: state.pingAction,
 	}))
 	const {
 		unlockTimer,

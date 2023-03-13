@@ -1,36 +1,47 @@
-import { MessageService } from '@src/services/messanger'
+import { startAuthentication, startRegistration } from '@simplewebauthn/browser'
+import browser from 'webextension-polyfill'
+
 import {
+	AUTH_AUTHENTICATION_OPTIONS,
+	AUTH_HAS,
+	AUTH_REGISTRATION_OPTIONS,
+	AUTH_RESET,
+	AUTH_VERIFY_AUTHENTICATION,
+	AUTH_VERIFY_REGISTRATION,
+	GET,
 	HAS,
 	LOCK,
 	NEW,
+	PING,
 	REMOVE,
 	UNLOCK,
-	AUTH_HAS,
-	AUTH_RESET,
-	AUTH_REGISTRATION_OPTIONS,
-	AUTH_VERIFY_REGISTRATION,
-	AUTH_AUTHENTICATION_OPTIONS,
-	AUTH_VERIFY_AUTHENTICATION,
-	GET,
-	PING,
 } from '@src/lib/v1/actions'
-import { startRegistration, startAuthentication } from '@simplewebauthn/browser'
+import { MessageService, PORT_NAME } from '@src/services/messanger'
 import { SigningKeyType } from '@src/types'
-import { BackgroundState } from './types'
 
 export const rpName = 'Z3US'
 
-export const factory = (set, get): BackgroundState => ({
-	messanger: null,
+const messanger = new MessageService('extension', null, null)
 
-	setMessangerAction: (messanger: MessageService) => {
-		set(state => {
-			state.messanger = messanger
-		})
-	},
+const connectNewPort = () => {
+	const port = browser.runtime.connect({ name: PORT_NAME })
+	port.onDisconnect.addListener(() => {
+		if (port.error) {
+			// eslint-disable-next-line no-console
+			console.error(`Disconnected due to an error: ${port.error.message}`)
+		}
+		connectNewPort()
+	})
+
+	messanger.initPort(port)
+}
+
+connectNewPort()
+
+export const useMessanger = () => ({
+	messanger,
 
 	sendResponseAction: async (action: string, data: any = {}) => {
-		const { messanger } = get()
 		if (!messanger) {
 			throw new Error('Messanger not initialized!')
 		}
@@ -38,7 +49,6 @@ export const factory = (set, get): BackgroundState => ({
 	},
 
 	hasKeystoreAction: async () => {
-		const { messanger } = get()
 		if (!messanger) {
 			throw new Error('Messanger not initialized!')
 		}
@@ -47,7 +57,6 @@ export const factory = (set, get): BackgroundState => ({
 	},
 
 	createWalletAction: (type: SigningKeyType, secret: string, password: string, index: number) => {
-		const { messanger } = get()
 		if (!messanger) {
 			throw new Error('Messanger not initialized!')
 		}
@@ -60,23 +69,20 @@ export const factory = (set, get): BackgroundState => ({
 	},
 
 	getWalletAction: (password: string) => {
-		const { messanger } = get()
 		if (!messanger) {
 			throw new Error('Messanger not initialized!')
 		}
 		return messanger.sendActionMessageFromPopup(GET, { password })
 	},
 
-	unlockWalletAction: (password: string, index: number) => {
-		const { messanger } = get()
+	unlockWalletAction: (password: string) => {
 		if (!messanger) {
 			throw new Error('Messanger not initialized!')
 		}
-		return messanger.sendActionMessageFromPopup(UNLOCK, { index, password })
+		return messanger.sendActionMessageFromPopup(UNLOCK, { password })
 	},
 
 	removeWalletAction: async () => {
-		const { messanger } = get()
 		if (!messanger) {
 			throw new Error('Messanger not initialized!')
 		}
@@ -84,7 +90,6 @@ export const factory = (set, get): BackgroundState => ({
 	},
 
 	lockAction: async () => {
-		const { messanger } = get()
 		if (!messanger) {
 			throw new Error('Messanger not initialized!')
 		}
@@ -92,7 +97,6 @@ export const factory = (set, get): BackgroundState => ({
 	},
 
 	pingAction: async () => {
-		const { messanger } = get()
 		if (!messanger) {
 			throw new Error('Messanger not initialized!')
 		}
@@ -100,7 +104,6 @@ export const factory = (set, get): BackgroundState => ({
 	},
 
 	hasAuthAction: async () => {
-		const { messanger } = get()
 		if (!messanger) {
 			throw new Error('Messanger not initialized!')
 		}
@@ -108,7 +111,6 @@ export const factory = (set, get): BackgroundState => ({
 	},
 
 	removeCredentialAction: async () => {
-		const { messanger } = get()
 		if (!messanger) {
 			throw new Error('Messanger not initialized!')
 		}
@@ -117,7 +119,6 @@ export const factory = (set, get): BackgroundState => ({
 	},
 
 	registerCredentialAction: async (userID: string, userName: string, userDisplayName: string, password: string) => {
-		const { messanger } = get()
 		if (!messanger) {
 			throw new Error('Messanger not initialized!')
 		}
@@ -141,7 +142,6 @@ export const factory = (set, get): BackgroundState => ({
 	},
 
 	authenticateAction: async () => {
-		const { messanger } = get()
 		if (!messanger) {
 			throw new Error('Messanger not initialized!')
 		}

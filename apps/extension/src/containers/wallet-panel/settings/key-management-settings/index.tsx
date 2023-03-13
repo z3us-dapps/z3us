@@ -1,23 +1,27 @@
-import React from 'react'
-import HDNode from 'hdkey'
 import { Mnemonic } from '@radixdlt/crypto'
-import { useLocation } from 'wouter'
+import HDNode from 'hdkey'
+import React from 'react'
 import { useImmer } from 'use-immer'
-import { useSharedStore, useNoneSharedStore } from '@src/hooks/use-store'
-import { Box, Flex, Text, Grid } from 'ui/src/components/atoms'
+import { useLocation } from 'wouter'
+
+import {
+	AlertDialog,
+	AlertDialogAction,
+	AlertDialogCancel,
+	AlertDialogContent,
+	AlertDialogDescription,
+	AlertDialogTitle,
+	AlertDialogTrigger,
+} from 'ui/src/components/alert-dialog'
+import { Box, Flex, Grid, Text } from 'ui/src/components/atoms'
 import Button from 'ui/src/components/button'
 import Input from 'ui/src/components/input'
 import InputFeedBack from 'ui/src/components/input/input-feedback'
-import {
-	AlertDialog,
-	AlertDialogTrigger,
-	AlertDialogContent,
-	AlertDialogTitle,
-	AlertDialogDescription,
-	AlertDialogAction,
-	AlertDialogCancel,
-} from 'ui/src/components/alert-dialog'
+
+import { useMessanger } from '@src/hooks/use-messanger'
+import { useNoneSharedStore, useSharedStore } from '@src/hooks/use-store'
 import { KeystoreType, SigningKeyType } from '@src/types'
+
 import { ExportPrivateKey } from './export-private-key'
 import { ExportSecretPhrase } from './export-secret-phrase'
 
@@ -32,17 +36,17 @@ interface ImmerT {
 
 export const KeyManagementSettings: React.FC = () => {
 	const [, setLocation] = useLocation()
-	const { signingKey, keystore, createWallet, getWallet, removeWallet, removeKeystore, addToast } = useSharedStore(
-		state => ({
-			signingKey: state.signingKey,
-			keystore: state.keystores.find(({ id }) => id === state.selectKeystoreId),
-			createWallet: state.createWalletAction,
-			removeWallet: state.removeWalletAction,
-			getWallet: state.getWalletAction,
-			removeKeystore: state.removeKeystoreAction,
-			addToast: state.addToastAction,
-		}),
-	)
+	const {
+		createWalletAction: createWallet,
+		removeWalletAction: removeWallet,
+		getWalletAction: getWallet,
+	} = useMessanger()
+	const { signingKey, keystore, removeKeystore, addToast } = useSharedStore(state => ({
+		signingKey: state.signingKey,
+		keystore: state.keystores.find(({ id }) => id === state.selectKeystoreId),
+		removeKeystore: state.removeKeystoreAction,
+		addToast: state.addToastAction,
+	}))
 	const { accountIndex, reset, selectAccount } = useNoneSharedStore(state => ({
 		accountIndex: state.selectedAccountIndex,
 		reset: state.resetAction,

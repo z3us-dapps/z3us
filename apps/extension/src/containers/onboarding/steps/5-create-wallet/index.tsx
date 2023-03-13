@@ -1,20 +1,23 @@
+import { AccountAddress } from '@radixdlt/account'
+import { HDPathRadix, PrivateKey } from '@radixdlt/crypto'
 import React, { useEffect } from 'react'
 import { useQueryClient } from 'react-query'
-import { useEventListener } from 'usehooks-ts'
-import { useNoneSharedStore, useSharedStore } from '@src/hooks/use-store'
-import { useLocation } from 'wouter'
 import { useImmer } from 'use-immer'
-import { onBoardingSteps } from '@src/store/onboarding'
-import { PageWrapper, PageHeading, PageSubHeading } from '@src/components/layout'
+import { useEventListener } from 'usehooks-ts'
+import { useLocation } from 'wouter'
+
+import { Box, Flex, Text } from 'ui/src/components/atoms'
 import Button from 'ui/src/components/button'
-import { Flex, Text, Box } from 'ui/src/components/atoms'
 import InputFeedBack from 'ui/src/components/input/input-feedback'
+
+import { PageHeading, PageSubHeading, PageWrapper } from '@src/components/layout'
+import { useMessanger } from '@src/hooks/use-messanger'
+import { useOnboardingLocalHDNode } from '@src/hooks/use-onboarding-local-hdnode'
+import { useNoneSharedStore, useSharedStore } from '@src/hooks/use-store'
+import { getNoneSharedStore } from '@src/services/state'
+import { onBoardingSteps } from '@src/store/onboarding'
 import { KeystoreType, SigningKeyType } from '@src/types'
 import { generateId } from '@src/utils/generate-id'
-import { getNoneSharedStore } from '@src/services/state'
-import { useOnboardingLocalHDNode } from '@src/hooks/use-onboarding-local-hdnode'
-import { HDPathRadix, PrivateKey } from '@radixdlt/crypto'
-import { AccountAddress } from '@radixdlt/account'
 
 interface ImmerT {
 	isButtonDisabled: boolean
@@ -26,6 +29,7 @@ export const CreateWallet = (): JSX.Element => {
 	const [, setLocation] = useLocation()
 	const queryClient = useQueryClient()
 
+	const { lockAction: lock, createWalletAction: createWallet } = useMessanger()
 	const { network } = useNoneSharedStore(state => ({
 		network: state.networks[state.selectedNetworkIndex],
 	}))
@@ -36,9 +40,7 @@ export const CreateWallet = (): JSX.Element => {
 		setPassword,
 		setMnemomic,
 		setPrivateKey,
-		lock,
 		addKeystore,
-		createWallet,
 		setIsUnlocked,
 		importingAddresses,
 		workflowEntryStep,
@@ -49,9 +51,7 @@ export const CreateWallet = (): JSX.Element => {
 		secretType: state.mnemonic ? SigningKeyType.MNEMONIC : SigningKeyType.PRIVATE_KEY,
 		password: state.password,
 		keystoreId: state.selectKeystoreId,
-		lock: state.lockAction,
 		addKeystore: state.addKeystoreAction,
-		createWallet: state.createWalletAction,
 		setPassword: state.setPasswordAction,
 		setMnemomic: state.setMnemomicAction,
 		setPrivateKey: state.setPrivateKeyAction,
