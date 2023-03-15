@@ -23,12 +23,13 @@ export const getNoneSharedStore = async (suffix: string): Promise<NoneSharedStor
 	// recheck after lock
 	store = noneSharedStoreContainer[name]
 	if (store) {
+		release()
 		return store
 	}
 
 	const newStore = createNoneSharedStore(name)
 	noneSharedStoreContainer[name] = newStore
-	release()
 
+	release()
 	return newStore
 }

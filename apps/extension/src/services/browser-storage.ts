@@ -1,4 +1,5 @@
 import { Storage } from 'webextension-polyfill'
+
 import { BrowserService } from './browser'
 
 export class BrowserStorageService {
@@ -12,27 +13,43 @@ export class BrowserStorageService {
 	}
 
 	setItem = async (key: string, value: string): Promise<void> => {
-		await this.storage.local.set({ [key]: value })
-		const error = this.browser.checkForError()
-		if (error) {
-			throw error
+		try {
+			await this.storage.local.set({ [key]: value })
+			const error = this.browser.checkForError()
+			if (error) {
+				throw error
+			}
+		} catch (err) {
+			console.error(err)
+			throw err
 		}
 	}
 
 	getItem = async (key: string): Promise<string> => {
-		const data = await this.storage.local.get(key)
-		const error = this.browser.checkForError()
-		if (error) {
-			throw error
+		try {
+			const data = await this.storage.local.get(key)
+			const error = this.browser.checkForError()
+			if (error) {
+				throw error
+			}
+
+			return data[key]
+		} catch (err) {
+			console.error(err)
+			throw err
 		}
-		return data[key]
 	}
 
 	removeItem = async (key: string): Promise<void> => {
-		await this.storage.local.remove(key)
-		const error = this.browser.checkForError()
-		if (error) {
-			throw error
+		try {
+			await this.storage.local.remove(key)
+			const error = this.browser.checkForError()
+			if (error) {
+				throw error
+			}
+		} catch (err) {
+			console.error(err)
+			throw err
 		}
 	}
 }

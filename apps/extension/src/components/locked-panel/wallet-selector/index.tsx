@@ -1,25 +1,28 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import React, { useState } from 'react'
 import { ChevronDownIcon, ChevronUpIcon } from '@radix-ui/react-icons'
+import React, { useState } from 'react'
+import useMeasure from 'react-use-measure'
+
+import { Box, Flex, Text } from 'ui/src/components/atoms'
+import Button from 'ui/src/components/button'
 import { HardwareWalletIcon } from 'ui/src/components/icons'
-import { ToolTip } from 'ui/src/components/tool-tip'
 import {
 	Select,
+	SelectContent,
+	SelectItem,
+	SelectItemIndicator,
+	SelectItemText,
+	SelectScrollDownButton,
+	SelectScrollUpButton,
+	SelectSeparator,
 	SelectTrigger,
 	SelectValue,
-	SelectContent,
 	SelectViewport,
-	SelectItem,
-	SelectItemText,
-	SelectItemIndicator,
-	SelectScrollUpButton,
-	SelectScrollDownButton,
-	SelectSeparator,
 } from 'ui/src/components/select'
+import { ToolTip } from 'ui/src/components/tool-tip'
+
+import { useMessanger } from '@src/hooks/use-messanger'
 import { useSharedStore } from '@src/hooks/use-store'
-import { Box, Text, Flex } from 'ui/src/components/atoms'
-import Button from 'ui/src/components/button'
-import useMeasure from 'react-use-measure'
 import { KeystoreType } from '@src/types'
 
 interface IProps {}
@@ -34,12 +37,12 @@ export const WalletSelector: React.FC<IProps> = () => {
 	const [open, setOpen] = useState<boolean>(false)
 	const [measureRef, { width: triggerWidth }] = useMeasure()
 
-	const { keystore, keystores, keystoreId, selectKeystore, lock, setIsUnlocked } = useSharedStore(state => ({
+	const { lockAction: lock } = useMessanger()
+	const { keystore, keystores, keystoreId, selectKeystore, setIsUnlocked } = useSharedStore(state => ({
 		keystore: state.keystores.find(({ id }) => id === state.selectKeystoreId),
 		keystores: state.keystores,
 		keystoreId: state.selectKeystoreId,
 		selectKeystore: state.selectKeystoreAction,
-		lock: state.lockAction,
 		setIsUnlocked: state.setIsUnlockedAction,
 	}))
 

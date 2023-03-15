@@ -1,12 +1,13 @@
 import { useEffect } from 'react'
-import { useSharedStore, useNoneSharedStore } from '@src/hooks/use-store'
+
+import { useNoneSharedStore, useSharedStore } from '@src/hooks/use-store'
 import { EVENT } from '@src/lib/v1/actions'
 import { ACCOUNT_CHANGE, KEYSTORE_CHANGE, NETWORK_CHANGE } from '@src/lib/v1/events'
+import { MessageService } from '@src/services/messanger'
 
-export const useEvents = () => {
-	const { keystoreId, messanger } = useSharedStore(state => ({
+export const useEvents = (messanger: MessageService) => {
+	const { keystoreId } = useSharedStore(state => ({
 		keystoreId: state.selectKeystoreId,
-		messanger: state.messanger,
 	}))
 	const { address, network, networkIndex, accountIndex } = useNoneSharedStore(state => ({
 		address: state.getCurrentAddressAction(),
