@@ -2,7 +2,7 @@ import clsx from 'clsx'
 import React, { forwardRef } from 'react'
 
 import { Box } from 'ui/src/components-v2/box'
-import { Button } from 'ui/src/components-v2/button'
+import { Button, TStyleVariant } from 'ui/src/components-v2/button'
 import {
 	DropdownMenu,
 	DropdownMenuArrow,
@@ -24,24 +24,26 @@ interface IAccountViewDropdownRequiredProps {
 
 interface IAccountViewDropdownOptionalProps {
 	className?: number
+	styleVariant?: TStyleVariant
 }
 
 interface IAccountViewDropdownProps extends IAccountViewDropdownRequiredProps, IAccountViewDropdownOptionalProps {}
 
 const defaultProps: IAccountViewDropdownOptionalProps = {
 	className: undefined,
+	styleVariant: 'tertiary',
 }
 
 export const AccountViewDropdown = forwardRef<HTMLElement, IAccountViewDropdownProps>(
 	(props, ref: React.Ref<HTMLElement | null>) => {
-		const { className } = props
+		const { className, styleVariant } = props
 
 		return (
 			<Box ref={ref} className={clsx(styles.transactionWrapper, className)}>
 				<DropdownMenu>
 					<DropdownMenuTrigger asChild>
 						<Button
-							styleVariant="tertiary"
+							styleVariant={styleVariant}
 							sizeVariant="small"
 							rounded
 							leftIcon={<Box borderRadius="full" width="large" height="large" style={{ background: 'purple' }} />}

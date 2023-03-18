@@ -145,15 +145,7 @@ export const AccountsHomeMobileHeader = forwardRef<HTMLElement, IAccountsHomeMob
 								? 'url("/images/account-images/z3us-apple-hermes.png"), radial-gradient(77.21% 96.45% at 50% 100%, #FE845E 0%, #E08BAB 17.71%, #AB8CFF 50.52%, #946DFF 100%)'
 								: '',
 						}}
-					>
-						<Box className={styles.accountsHomeHeaderStickyScrolledInner}>
-							<CopyAddressButton
-								styleVariant="white-transparent"
-								tickColor="white"
-								address="rdx1b707388613169bf701d533e143d8f698c9090f605e677a967eaf70a4c69250ce"
-							/>
-						</Box>
-					</Box>
+					/>
 					<Box className={clsx(styles.accountsHomeHeaderStickyVis, isSticky && styles.accountsHomeHeaderStickyVisIs)}>
 						<Box className={styles.tabsWrapper}>
 							<Box

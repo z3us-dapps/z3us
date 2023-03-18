@@ -23,3 +23,11 @@ export const routes = {
 	ACCOUNT_ASSET_TYPE,
 	ACCOUNT_ASSET,
 }
+
+export const accountMenuSlugs = {
+	ACCOUNTS: `${routes.ACCOUNTS}/all`,
+	TRANSFER: `${routes.ACCOUNTS}${routes.TRANSFER}`,
+	STAKING: `${routes.ACCOUNTS}${routes.STAKING}`,
+	SWAP: `${routes.ACCOUNTS}${routes.SWAP}`,
+	SETTINGS: `${routes.ACCOUNTS}${routes.SETTINGS}`,
+}

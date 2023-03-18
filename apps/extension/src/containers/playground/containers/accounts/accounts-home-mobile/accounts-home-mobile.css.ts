@@ -36,11 +36,11 @@ export const accountsHomeMobileHeaderWalletWrapper = style([
 		pointerEvents: 'auto',
 		display: 'flex',
 		alignItems: 'center',
-		justifyContent: 'center',
+		paddingX: 'small',
 	}),
 	{
 		height: '48px',
-		width: '48px',
+		width: '100%',
 	},
 ])
 
@@ -118,18 +118,6 @@ export const accountsHomeHeaderStickyScrolled = style([
 		backgroundRepeat: 'no-repeat',
 		backgroundPosition: 'center top',
 		backgroundSize: '924px 540px',
-	},
-])
-
-export const accountsHomeHeaderStickyScrolledInner = style([
-	sprinkles({
-		display: 'flex',
-		width: 'full',
-		alignItems: 'center',
-		justifyContent: 'center',
-	}),
-	{
-		height: '48px',
 	},
 ])
 
