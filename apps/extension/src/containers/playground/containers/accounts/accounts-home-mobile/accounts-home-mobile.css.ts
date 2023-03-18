@@ -1,9 +1,9 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 // import { responsiveStyle } from 'ui/src/components-v2/system/theme-utils'
-// import { vars } from 'ui/src/components-v2/system/theme.css'
 import { globalStyle, style } from '@vanilla-extract/css'
 
 import { darkMode, sprinkles } from 'ui/src/components-v2/system/sprinkles.css'
+import { vars } from 'ui/src/components-v2/system/theme.css'
 
 export const accountsHomeMobileWrapper = style([
 	sprinkles({
@@ -58,11 +58,36 @@ export const accountsHomeHeaderAccount = style([
 		paddingTop: '48px',
 		paddingBottom: '48px',
 		marginBottom: '-58px',
-		backgroundImage:
-			'url("/images/account-images/z3us-apple-hermes.png"), radial-gradient(77.21% 96.45% at 50% 100%, #FE845E 0%, #E08BAB 17.71%, #AB8CFF 50.52%, #946DFF 100%)',
+		// backgroundImage:
+		// 	'url("/images/account-images/z3us-apple-hermes.png"), radial-gradient(77.21% 96.45% at 50% 100%, #FE845E 0%, #E08BAB 17.71%, #AB8CFF 50.52%, #946DFF 100%)',
 		backgroundRepeat: 'no-repeat',
 		backgroundPosition: 'center top',
-		backgroundSize: '924px auto',
+		backgroundSize: '924px 540px',
+	},
+])
+
+export const accountsHomeHeadAll = style([
+	sprinkles({
+		display: 'flex',
+		flexDirection: 'column',
+		alignItems: 'center',
+		justifyContent: 'center',
+		width: 'full',
+		position: 'sticky',
+		top: 0,
+	}),
+	{
+		height: '180px',
+	},
+])
+
+export const accountsHomeAllChart = style([
+	sprinkles({
+		background: 'wax200',
+	}),
+	{
+		height: '80px',
+		width: '80px',
 	},
 ])
 
@@ -82,16 +107,17 @@ export const accountsHomeHeaderSticky = style([
 export const accountsHomeHeaderStickyScrolled = style([
 	sprinkles({
 		width: 'full',
-		transition: 'fast',
+		// transition: 'fast',
 		opacity: 0,
+		background: 'backgroundPrimary',
 	}),
 	{
 		height: '58px',
-		backgroundImage:
-			'url("/images/account-images/z3us-apple-hermes.png"), radial-gradient(77.21% 96.45% at 50% 100%, #FE845E 0%, #E08BAB 17.71%, #AB8CFF 50.52%, #946DFF 100%)',
+		// backgroundImage:
+		// 	'url("/images/account-images/z3us-apple-hermes.png"), radial-gradient(77.21% 96.45% at 50% 100%, #FE845E 0%, #E08BAB 17.71%, #AB8CFF 50.52%, #946DFF 100%)',
 		backgroundRepeat: 'no-repeat',
 		backgroundPosition: 'center top',
-		backgroundSize: '924px auto',
+		backgroundSize: '924px 540px',
 	},
 ])
 
@@ -162,6 +188,7 @@ export const cardWrapperAll = style([
 export const tabsWrapper = style([
 	sprinkles({
 		width: 'full',
+		position: 'relative',
 		display: 'flex',
 		borderBottom: 1,
 		borderStyle: 'solid',
@@ -170,14 +197,71 @@ export const tabsWrapper = style([
 	{},
 ])
 
+export const tabsWrapperScrollBtn = style([
+	sprinkles({
+		position: 'absolute',
+		top: 0,
+		zIndex: 1,
+	}),
+	{
+		left: '50%',
+		marginLeft: '-16px',
+	},
+])
+
+globalStyle(`${tabsWrapperScrollBtn} > svg`, {
+	transition: vars.transition.fast,
+})
+
+export const tabsWrapperScrollBtnScrolled = style([
+	sprinkles({
+		position: 'absolute',
+	}),
+])
+
+globalStyle(`${tabsWrapperScrollBtnScrolled} > svg`, {
+	transition: vars.transition.fast,
+	transform: 'rotate(180deg)',
+})
+
 export const tabsWrapperButton = style([
 	sprinkles({
 		width: 'full',
-		background: 'backgroundSecondary',
+		cursor: 'pointer',
+		position: 'relative',
+		transition: 'fast',
+		background: { lightMode: 'btnTertiaryBackground', hover: 'btnTertiaryBackgroundHover' },
+		boxShadow: {
+			focusVisible: 'btnSecondaryShadowFocus',
+		},
 	}),
 	{
 		flex: 1,
-		height: '48px',
+		outline: 0,
+		height: '58px',
+
+		selectors: {
+			'&:focus-visible': {
+				zIndex: '1',
+			},
+		},
+	},
+])
+
+export const tabsWrapperButtonActive = style([
+	{
+		selectors: {
+			'&:after': {
+				content: '""',
+				position: 'absolute',
+				height: '2px',
+				width: '100%',
+				background: vars.color.purple600,
+				left: '0',
+				bottom: '0',
+				pointerEvents: 'none',
+			},
+		},
 	},
 ])
 
@@ -200,6 +284,9 @@ export const inputSearchWrapper = style([
 		width: 'full',
 		paddingX: 'medium',
 		paddingY: 'large',
+		borderBottom: 1,
+		borderStyle: 'solid',
+		borderColor: 'borderDivider',
 	}),
 	{},
 ])

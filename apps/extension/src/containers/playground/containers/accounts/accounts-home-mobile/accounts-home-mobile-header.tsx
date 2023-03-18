@@ -1,7 +1,7 @@
 /* eslint-disable */
 import clsx from 'clsx'
 import { AnimatePresence } from 'framer-motion'
-import React, { useEffect, useRef, useState } from 'react'
+import React, { forwardRef, useEffect, useRef, useState } from 'react'
 import { Route, Routes, useLocation } from 'react-router-dom'
 import { Virtuoso } from 'react-virtuoso'
 import { useIntersectionObserver } from 'usehooks-ts'
@@ -10,6 +10,7 @@ import { Box } from 'ui/src/components-v2/box'
 import { FormElement, Input } from 'ui/src/components-v2/input'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from 'ui/src/components-v2/tabs'
 import { Text } from 'ui/src/components-v2/typography'
+import { ChevronDown2Icon, DownLeft2Icon } from 'ui/src/components/icons'
 
 import { Button } from '@src/components/button'
 import Translation from '@src/components/translation'
@@ -55,83 +56,153 @@ const CARD_COLORS = [
 	},
 ]
 
-export const AccountsHomeMobileHeader = () => {
-	const location = useLocation()
-	const [cards] = useState<Array<any>>(CARD_COLORS)
-	const elementRef = useRef<HTMLDivElement | null>(null)
-	const entry = useIntersectionObserver(elementRef, {
-		threshold: [1],
-	})
-	const isSticky = !entry?.isIntersecting
-
-	return (
-		<>
-			<Box className={styles.accountsHomeHeaderAccount}>
-				<AnimatePresence initial={false}>
-					<Box component="ul" className={styles.cardWrapperAll}>
-						{cards.map(({ accountName, accountId, accountBalance }, idx) => (
-							<AnimatedCard
-								key={accountName}
-								selectedCardIndex={1}
-								cardIndex={idx}
-								animateOnScroll={false}
-								accountAddress={accountId}
-								accountBalance={accountBalance}
-								accountName={accountName}
-								showCopyAddressButton
-							/>
-						))}
-					</Box>
-				</AnimatePresence>
-				<Box position="relative" zIndex={1} marginTop="large">
-					<CardButtons />
-				</Box>
-			</Box>
-			<Box ref={elementRef} className={styles.accountsHomeHeaderSticky}>
-				<Box
-					className={clsx(
-						styles.accountsHomeHeaderStickyScrolled,
-						isSticky && styles.accountsHomeHeaderStickyScrolledIs,
-					)}
-				>
-					<Box className={styles.accountsHomeHeaderStickyScrolledInner}>
-						<CopyAddressButton
-							styleVariant="white-transparent"
-							tickColor="white"
-							address="rdx1b707388613169bf701d533e143d8f698c9090f605e677a967eaf70a4c69250ce"
-						/>
-					</Box>
-				</Box>
-				<Box className={clsx(styles.accountsHomeHeaderStickyVis, isSticky && styles.accountsHomeHeaderStickyVisIs)}>
-					<Box className={styles.tabsWrapper}>
-						<Box
-							component="button"
-							className={clsx(styles.tabsWrapperButton, styles.tabsWrapperButtonLeft)}
-							onClick={() => {}}
-						>
-							Assets
-						</Box>
-						<Box
-							component="button"
-							className={clsx(styles.tabsWrapperButton, styles.tabsWrapperButtonRight)}
-							onClick={() => {}}
-						>
-							Activity
-						</Box>
-					</Box>
-					<Box className={styles.inputSearchWrapper}>
-						<Input
-							sizeVariant="small"
-							className={styles.inputSearch}
-							value="1"
-							// ref={inputRef}
-							// className={styles.inputElement}
-							// placeholder={placeholder}
-							// onChange={handleOnChange}
-						/>
-					</Box>
-				</Box>
-			</Box>
-		</>
-	)
+interface IAccountsHomeMobileHeaderRequiredProps {
+	isScrolledPastHeader: boolean
+	onClickChevron?: () => void
 }
+
+interface IAccountsHomeMobileHeaderOptionalProps {
+	className?: number
+}
+
+interface IAccountsHomeMobileHeaderProps
+	extends IAccountsHomeMobileHeaderRequiredProps,
+		IAccountsHomeMobileHeaderOptionalProps {}
+
+const defaultProps: IAccountsHomeMobileHeaderOptionalProps = {
+	className: undefined,
+}
+
+export const AccountsHomeMobileHeader = forwardRef<HTMLElement, IAccountsHomeMobileHeaderProps>(
+	(props, ref: React.Ref<HTMLElement | null>) => {
+		const { className, isScrolledPastHeader, onClickChevron } = props
+		const location = useLocation()
+		const { account, assetType, asset } = useAccountParams()
+		const isAllAccount = account === 'all'
+		const [cards] = useState<Array<any>>(CARD_COLORS)
+		const elementRef = useRef<HTMLDivElement | null>(null)
+		const entry = useIntersectionObserver(elementRef, {
+			threshold: [1],
+		})
+		const isSticky = !entry?.isIntersecting
+
+		return (
+			<>
+				<Box
+					ref={ref}
+					className={clsx(styles.accountsHomeHeaderAccount, className)}
+					style={{
+						backgroundImage: !isAllAccount
+							? 'url("/images/account-images/z3us-apple-hermes.png"), radial-gradient(77.21% 96.45% at 50% 100%, #FE845E 0%, #E08BAB 17.71%, #AB8CFF 50.52%, #946DFF 100%)'
+							: '',
+					}}
+				>
+					{isAllAccount ? (
+						<Box className={styles.accountsHomeHeadAll}>
+							<Box className={styles.accountsHomeAllChart}></Box>
+							<Box marginTop="medium">
+								<Text color="strong" align="center" size="xxlarge">
+									Total balance
+								</Text>
+								<Text color="strong" align="center" size="xlarge">
+									$13,300
+								</Text>
+								<Text align="center" size="xlarge">
+									+2.43%
+								</Text>
+							</Box>
+						</Box>
+					) : (
+						<AnimatePresence initial={false}>
+							<Box component="ul" className={styles.cardWrapperAll}>
+								{cards.map(({ accountName, accountId, accountBalance }, idx) => (
+									<AnimatedCard
+										key={accountName}
+										selectedCardIndex={1}
+										cardIndex={idx}
+										animateOnScroll={false}
+										accountAddress={accountId}
+										accountBalance={accountBalance}
+										accountName={accountName}
+										showCopyAddressButton
+									/>
+								))}
+							</Box>
+						</AnimatePresence>
+					)}
+					<Box position="relative" zIndex={1} marginTop="large">
+						<CardButtons theme="backgroundSecondary" />
+					</Box>
+				</Box>
+				<Box ref={elementRef} className={styles.accountsHomeHeaderSticky}>
+					<Box
+						className={clsx(
+							styles.accountsHomeHeaderStickyScrolled,
+							isSticky && styles.accountsHomeHeaderStickyScrolledIs,
+						)}
+						style={{
+							backgroundImage: !isAllAccount
+								? 'url("/images/account-images/z3us-apple-hermes.png"), radial-gradient(77.21% 96.45% at 50% 100%, #FE845E 0%, #E08BAB 17.71%, #AB8CFF 50.52%, #946DFF 100%)'
+								: '',
+						}}
+					>
+						<Box className={styles.accountsHomeHeaderStickyScrolledInner}>
+							<CopyAddressButton
+								styleVariant="white-transparent"
+								tickColor="white"
+								address="rdx1b707388613169bf701d533e143d8f698c9090f605e677a967eaf70a4c69250ce"
+							/>
+						</Box>
+					</Box>
+					<Box className={clsx(styles.accountsHomeHeaderStickyVis, isSticky && styles.accountsHomeHeaderStickyVisIs)}>
+						<Box className={styles.tabsWrapper}>
+							<Box
+								component="button"
+								className={clsx(styles.tabsWrapperButton, styles.tabsWrapperButtonLeft, styles.tabsWrapperButtonActive)}
+								onClick={() => {}}
+							>
+								<Text size="medium" weight="strong" align="center" color="strong">
+									Assets
+								</Text>
+							</Box>
+							<Box
+								component="button"
+								className={clsx(styles.tabsWrapperButton, styles.tabsWrapperButtonRight)}
+								onClick={() => {}}
+							>
+								<Text size="medium" weight="strong" align="center">
+									Activity
+								</Text>
+							</Box>
+							<Button
+								styleVariant="ghost"
+								sizeVariant="small"
+								iconOnly
+								className={clsx(
+									styles.tabsWrapperScrollBtn,
+									isScrolledPastHeader && styles.tabsWrapperScrollBtnScrolled,
+								)}
+								onClick={onClickChevron}
+							>
+								<ChevronDown2Icon />
+							</Button>
+						</Box>
+						<Box className={styles.inputSearchWrapper}>
+							<Input
+								sizeVariant="small"
+								className={styles.inputSearch}
+								value="1"
+								// ref={inputRef}
+								// className={styles.inputElement}
+								// placeholder={placeholder}
+								// onChange={handleOnChange}
+							/>
+						</Box>
+					</Box>
+				</Box>
+			</>
+		)
+	},
+)
+
+AccountsHomeMobileHeader.defaultProps = defaultProps

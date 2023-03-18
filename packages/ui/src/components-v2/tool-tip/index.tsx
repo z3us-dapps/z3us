@@ -1,15 +1,17 @@
-import React from 'react'
-import * as TooltipPrimitive from '@radix-ui/react-tooltip'
 import { Side } from '@radix-ui/popper'
+import * as TooltipPrimitive from '@radix-ui/react-tooltip'
 import clsx from 'clsx'
-import { Text } from '../typography'
+import React from 'react'
 
+import { Text } from '../typography'
 import * as styles from './tool-tip.css'
 
 export const ToolTipRoot = TooltipPrimitive.Root
 export const ToolTipTrigger = TooltipPrimitive.Trigger
 export const ToolTipContent = TooltipPrimitive.Content
 export const ToolTipArrow = TooltipPrimitive.Arrow
+
+export type TTheme = 'backgroundSecondary' | 'backgroundPrimary'
 
 interface IToolTipRequiredProps {
 	children: React.ReactNode
@@ -22,7 +24,7 @@ interface IToolTipOptionalProps {
 	arrowOffset?: number
 	side?: Side
 	isArrowVisible?: boolean
-	theme?: 'backgroundSecondary' | 'backgroundPrimary'
+	theme?: TTheme
 }
 
 interface IToolTipProps extends IToolTipRequiredProps, IToolTipOptionalProps {}

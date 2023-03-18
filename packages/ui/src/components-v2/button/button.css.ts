@@ -251,6 +251,9 @@ export const buttonIconLeft = recipe({
 			ghost: sprinkles({
 				color: 'colorNeutral',
 			}),
+			'white-transparent': sprinkles({
+				color: 'colorStrong',
+			}),
 		},
 		sizeVariant: {
 			small: [{ marginLeft: '-6px' }],
@@ -294,6 +297,14 @@ export const buttonIconRight = recipe({
 			ghost: sprinkles({
 				color: 'colorNeutral',
 			}),
+			'white-transparent': [
+				sprinkles({
+					color: 'colorStrong',
+				}),
+				{
+					opacity: '0.8',
+				},
+			],
 		},
 		sizeVariant: {
 			small: [{ marginRight: '-6px' }],

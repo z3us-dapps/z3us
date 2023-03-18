@@ -24,13 +24,44 @@ import * as styles from './accounts-home-mobile.css'
 export const AccountsHomeMobile = () => {
 	const location = useLocation()
 	const [customScrollParent, setCustomScrollParent] = useState<HTMLElement | null>(null)
+	const [scrollTop, setScrollTop] = useState<HTMLElement | null>(null)
+	const [isScrolledPastHeader, setIsScrolledPastHeader] = useState<boolean>(null)
+	const headerRef = useRef(null)
 	const { account, assetType, asset } = useAccountParams()
 	const isAllAccount = account === 'all'
 
+	const handleScrollArea = (e: Event) => {
+		const scrollTop = (e.target as HTMLElement).scrollTop
+		const headerHeight = headerRef.current.clientHeight - 48
+
+		if (!isScrolledPastHeader && scrollTop >= headerHeight) {
+			setIsScrolledPastHeader(true)
+		} else {
+			setIsScrolledPastHeader(false)
+		}
+	}
+
+	const handleChevronClick = () => {
+		const headerHeight = headerRef.current.clientHeight
+		if (isScrolledPastHeader) {
+			customScrollParent.scrollTo({ top: 0, behavior: 'smooth' })
+		} else {
+			customScrollParent.scrollTo({ top: headerHeight, behavior: 'smooth' })
+		}
+	}
+
 	return (
 		<Box className={styles.accountsHomeMobileWrapper}>
-			<ScrollArea scrollableNodeProps={{ ref: setCustomScrollParent }} isTopShadowVisible={false}>
-				<AccountsHomeMobileHeader />
+			<ScrollArea
+				scrollableNodeProps={{ ref: setCustomScrollParent }}
+				onScroll={handleScrollArea}
+				isTopShadowVisible={false}
+			>
+				<AccountsHomeMobileHeader
+					ref={headerRef}
+					isScrolledPastHeader={isScrolledPastHeader}
+					onClickChevron={handleChevronClick}
+				/>
 				<AccountsHomeMobileList customScrollParent={customScrollParent} />
 			</ScrollArea>
 			<Box className={styles.accountsHomeMobileHeader}>
