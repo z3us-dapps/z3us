@@ -73,7 +73,13 @@ export const AccountsHomeMobile = () => {
 						<AccountViewDropdown styleVariant="white-transparent" />
 					</Box>
 					<Box display="flex" alignItems="center" gap="medium">
-						<Box transition="fast" opacity={isScrolledPastHeader && !isAllAccount ? 1 : 0}>
+						<Box
+							transition="fast"
+							style={{
+								opacity: isScrolledPastHeader && !isAllAccount ? 1 : 0,
+								pointerEvents: isScrolledPastHeader && !isAllAccount ? 'all' : 'none',
+							}}
+						>
 							<CopyAddressButton
 								styleVariant="white-transparent"
 								address="rdx1b707388613169bf701d533e143d8f698c9090f605e677a967eaf70a4c69250ce"
