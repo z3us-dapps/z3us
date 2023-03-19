@@ -1,6 +1,7 @@
+import { style } from '@vanilla-extract/css'
+
 import { sprinkles } from 'ui/src/components-v2/system/sprinkles.css'
 import { vars } from 'ui/src/components-v2/system/theme.css'
-import { style } from '@vanilla-extract/css'
 
 export const accountSearchWrapper = style([
 	sprinkles({
@@ -10,9 +11,7 @@ export const accountSearchWrapper = style([
 		alignItems: 'center',
 		width: 'full',
 	}),
-	{
-		// border: '1px solid red',
-	},
+	{},
 ])
 
 export const accountSearchButton = style([
@@ -49,11 +48,14 @@ export const inputWrapper = style([
 		position: 'relative',
 		display: 'flex',
 		alignItems: 'center',
+		justifyContent: 'flex-end',
 		transition: 'fast',
 		width: 'full',
 		opacity: 0,
 	}),
-	{},
+	{
+		maxWidth: '300px',
+	},
 ])
 
 export const inputWrapperVisible = style([sprinkles({}), { opacity: 1 }])

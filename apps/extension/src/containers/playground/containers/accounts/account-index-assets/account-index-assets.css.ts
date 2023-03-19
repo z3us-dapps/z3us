@@ -16,7 +16,33 @@ export const indexAssetWrapper = style([
 	sprinkles({
 		position: 'relative',
 	}),
-	{},
+	{
+		height: '86px',
+	},
+])
+
+export const indexAssetLinkRowLoadingGrid = style([
+	sprinkles({
+		position: 'relative',
+		width: 'full',
+		display: 'grid',
+	}),
+	{
+		gap: '1rem',
+		gridTemplateColumns: '1fr 304px',
+	},
+])
+
+export const indexAssetLinkRowLoading = style([
+	sprinkles({
+		transition: 'fast',
+		display: 'flex',
+		alignItems: 'center',
+		width: 'full',
+	}),
+	{
+		height: '86px',
+	},
 ])
 
 export const indexAssetLinkRow = style([
@@ -105,7 +131,7 @@ globalStyle(`.${darkMode} ${indexAssetLinkRow} > a:hover`, {
 	background: vars.color.wax500,
 })
 
-globalStyle(`${indexAssetWrapper}:first-child > a`, {
+globalStyle(`${indexAssetWrapper}:first-child > div > div > a`, {
 	boxShadow: 'none',
 })
 

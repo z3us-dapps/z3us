@@ -8,6 +8,7 @@ import { Box } from 'ui/src/components-v2/box'
 import { Text } from 'ui/src/components-v2/typography'
 
 import { Link } from '@src/components/link'
+import * as skeletonStyles from '@src/containers/playground/components/styles/skeleton-loading.css'
 import { useAccountParams } from '@src/containers/playground/hooks/use-account-params'
 
 import { AccountListHeader } from './account-list-header'
@@ -15,9 +16,7 @@ import * as styles from './accounts-list.css'
 
 const hash = () => Math.random().toString(36).substring(7)
 
-const Context = React.createContext<{ isScrolling: boolean; isLoading: boolean; setItems: any }>({
-	isScrolling: true,
-	isLoading: true,
+const Context = React.createContext<{ setItems: any }>({
 	setItems: () => {},
 })
 
@@ -63,7 +62,7 @@ const ItemWrapper = props => {
 	}, 1000)
 
 	return (
-		<Box className={clsx(styles.itemWrapper, { [styles.itemWrapperLoading]: !user.loaded })}>
+		<Box className={clsx(styles.itemWrapper)}>
 			<AnimatePresence initial={false}>
 				{!user.loaded && (
 					<motion.div
@@ -77,20 +76,20 @@ const ItemWrapper = props => {
 							<Box className={styles.itemWrapperInner}>
 								<Box width="full" className={styles.tokenListGridWrapper}>
 									<Box display="flex" alignItems="center" gap="medium">
-										<Box className={clsx(styles.tokenListSkeleton, styles.tokenListGridCircle)} />
+										<Box className={clsx(skeletonStyles.tokenListSkeleton, skeletonStyles.tokenListGridCircle)} />
 										<Box
-											className={styles.tokenListSkeleton}
+											className={skeletonStyles.tokenListSkeleton}
 											style={{ width: idx % 2 === 0 ? '45%' : '65%', height: '50%' }}
 										/>
 									</Box>
 									<Box display="flex" alignItems="center">
-										<Box className={styles.tokenListSkeleton} style={{ width: '50%', height: '50%' }} />
+										<Box className={skeletonStyles.tokenListSkeleton} style={{ width: '50%', height: '50%' }} />
 									</Box>
 									<Box display="flex" alignItems="center">
-										<Box className={styles.tokenListSkeleton} style={{ width: '40%', height: '50%' }} />
+										<Box className={skeletonStyles.tokenListSkeleton} style={{ width: '40%', height: '50%' }} />
 									</Box>
 									<Box display="flex" alignItems="center">
-										<Box className={styles.tokenListSkeleton} style={{ width: '70%', height: '50%' }} />
+										<Box className={skeletonStyles.tokenListSkeleton} style={{ width: '70%', height: '50%' }} />
 									</Box>
 								</Box>
 							</Box>
@@ -163,17 +162,7 @@ export const AccountsList = React.forwardRef<HTMLElement, IAccountListProps>(
 		// eslint-disable-next-line
 		const [items, setItems] = useState(Array.from({ length: 20 }, _ => ({ id: hash(), name: hash(), loaded: false })))
 
-		// eslint-disable-next-line
-		const [isLoading, setIsLoading] = useState(false)
-
-		// eslint-disable-next-line
-		const [isScrolling, setIsScrolling] = useState(false)
 		const isScrolled = scrollTop > 0
-
-		// Disable animation on scroll or Virtuoso will break while scrolling
-		const onScrollingStateChange = useCallback(value => {
-			setIsScrolling(value)
-		}, [])
 
 		// computeItemKey is necessary for animation to ensure Virtuoso reuses the same elements
 		const computeItemKey = useCallback(index => items[index].id, [items])
@@ -181,24 +170,20 @@ export const AccountsList = React.forwardRef<HTMLElement, IAccountListProps>(
 		return (
 			<Box ref={ref} className={clsx(styles.tokenListWrapper, className)} style={{ minHeight: '200px' }}>
 				<AccountListHeader isScrolled={isScrolled} />
-
 				{/* TODO: this context is temporary until we hook up proper state, just here for demo purposes */}
 				{/* eslint-disable-next-line */}
-				<Context.Provider value={{ isScrolling, isLoading, setItems }}>
+				<Context.Provider value={{ setItems }}>
 					<VirtuosoGrid
 						customScrollParent={scrollableNode}
 						data={items}
 						// todo fix lint issue
 						// eslint-disable-next-line
-						itemContent={(index, user) => (
-							<ItemWrapper idx={index} user={user} isLoading={isLoading} isScrolling={isScrolling} />
-						)}
+						itemContent={(index, user) => <ItemWrapper idx={index} user={user} />}
 						components={{
 							List: ListContainer,
 							Item: ItemContainer,
 						}}
 						computeItemKey={computeItemKey}
-						isScrolling={onScrollingStateChange}
 					/>
 				</Context.Provider>
 			</Box>

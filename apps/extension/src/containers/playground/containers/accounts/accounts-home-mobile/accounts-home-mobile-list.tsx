@@ -17,6 +17,7 @@ import { routes } from '@src/containers/playground/config'
 import { useAccountParams } from '@src/containers/playground/hooks/use-account-params'
 
 import * as styles from './accounts-home-mobile.css'
+import { TActiveTab } from './types'
 
 const items = [
 	{ id: 'df', title: 'geebs' },
@@ -65,6 +66,7 @@ const ItemWrapper = props => {
 
 interface IAccountTransactionRequiredProps {
 	customScrollParent: HTMLElement
+	activeTab: TActiveTab
 }
 
 interface IAccountTransactionOptionalProps {

@@ -1,12 +1,14 @@
 /* eslint-disable */
-import React, { forwardRef, useEffect, useState, useRef } from 'react'
-import { useEventListener } from 'usehooks-ts'
-import { Button } from '@src/components/button'
-import { Box } from 'ui/src/components-v2/box'
-import { Input, FormElement } from 'ui/src/components-v2/input'
-import { SearchIcon, Close2Icon } from 'ui/src/components/icons'
-import { Text } from 'ui/src/components-v2/typography'
 import clsx from 'clsx'
+import React, { forwardRef, useEffect, useRef, useState } from 'react'
+import { useEventListener } from 'usehooks-ts'
+
+import { Box } from 'ui/src/components-v2/box'
+import { FormElement, Input } from 'ui/src/components-v2/input'
+import { Text } from 'ui/src/components-v2/typography'
+import { Close2Icon, SearchIcon } from 'ui/src/components/icons'
+
+import { Button } from '@src/components/button'
 
 import * as styles from './account-search.css'
 

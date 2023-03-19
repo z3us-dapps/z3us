@@ -69,7 +69,7 @@ export const Input = forwardRef<FormElement, IInputProps>((props, ref: React.Ref
 	}
 
 	return (
-		<Box position="relative">
+		<Box position="relative" width="full">
 			<Box
 				ref={ref}
 				component={elementType}

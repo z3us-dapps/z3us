@@ -75,7 +75,7 @@ export const AccountsHomeMobile = () => {
 									activeTab={activeTab}
 									onSelectTab={setActiveTab}
 								/>
-								<AccountsHomeMobileList customScrollParent={customScrollParent} />
+								<AccountsHomeMobileList customScrollParent={customScrollParent} activeTab={activeTab} />
 							</ScrollArea>
 							<Box className={styles.accountsHomeMobileHeader}>
 								<Box className={styles.accountsHomeMobileHeaderWalletWrapper}>
