@@ -15,13 +15,14 @@ interface IInputOptionalProps {
 	className?: string
 	onClick?: () => void
 	disabled?: boolean
-	iconOnly?: boolean
+	rounded?: boolean
 	sizeVariant?: 'small' | 'medium' | 'large'
 	styleVariant?: 'primary' | 'secondary'
 	type?: 'text' | 'email'
 	elementType?: 'input' | 'textarea'
 	placeholder?: string
-
+	leftIcon?: React.ReactNode
+	rightIcon?: React.ReactNode
 	onChange?: (e: React.ChangeEvent<FormElement>) => void
 	// onFocus?: (e: React.ChangeEvent<FormElement>) => void
 	// onBlur?: (e: React.ChangeEvent<FormElement>) => void
@@ -32,12 +33,14 @@ export interface IInputProps extends IInputRequiredProps, IInputOptionalProps {}
 const defaultProps: IInputOptionalProps = {
 	className: undefined,
 	onClick: undefined,
-	iconOnly: false,
+	rounded: false,
 	disabled: false,
 	sizeVariant: 'medium',
 	styleVariant: 'primary',
 	elementType: 'input',
 	type: 'text',
+	leftIcon: undefined,
+	rightIcon: undefined,
 	placeholder: undefined,
 	onChange: undefined,
 }
@@ -45,7 +48,7 @@ const defaultProps: IInputOptionalProps = {
 export const Input = forwardRef<FormElement, IInputProps>((props, ref: React.Ref<FormElement | null>) => {
 	const {
 		disabled,
-		iconOnly,
+		rounded,
 		onClick,
 		className,
 		sizeVariant,
@@ -54,6 +57,8 @@ export const Input = forwardRef<FormElement, IInputProps>((props, ref: React.Ref
 		type,
 		value,
 		placeholder,
+		leftIcon,
+		rightIcon,
 		onChange,
 		...rest
 	} = props
@@ -64,27 +69,41 @@ export const Input = forwardRef<FormElement, IInputProps>((props, ref: React.Ref
 	}
 
 	return (
-		<Box
-			ref={ref}
-			component={elementType}
-			type={type}
-			className={clsx(
-				className,
-				element.textarea,
-				styles.baseSprinkles,
-				styles.button({
-					sizeVariant,
-					styleVariant,
-					iconOnly,
-				}),
-			)}
-			value={value}
-			disabled={disabled}
-			onClick={onClick}
-			placeholder={placeholder}
-			onChange={handleOnChange}
-			{...rest}
-		/>
+		<Box position="relative">
+			<Box
+				ref={ref}
+				component={elementType}
+				type={type}
+				className={clsx(
+					className,
+					element.textarea,
+					styles.baseSprinkles,
+					styles.button({
+						sizeVariant,
+						styleVariant,
+						rounded,
+						leftIcon: !!leftIcon,
+					}),
+				)}
+				value={value}
+				disabled={disabled}
+				onClick={onClick}
+				placeholder={placeholder}
+				onChange={handleOnChange}
+				{...rest}
+			/>
+			{leftIcon ? (
+				<Box
+					className={clsx(
+						styles.iconLeft({
+							sizeVariant,
+						}),
+					)}
+				>
+					{leftIcon}
+				</Box>
+			) : null}
+		</Box>
 	)
 })
 

@@ -85,7 +85,6 @@ export const Button = forwardRef<HTMLButtonElement, IButtonProps>((props, ref: R
 			{leftIcon ? (
 				<Box
 					className={clsx(
-						className,
 						styles.buttonIconLeft({
 							sizeVariant,
 							styleVariant,
@@ -100,7 +99,6 @@ export const Button = forwardRef<HTMLButtonElement, IButtonProps>((props, ref: R
 			{rightIcon ? (
 				<Box
 					className={clsx(
-						className,
 						styles.buttonIconRight({
 							sizeVariant,
 							styleVariant,

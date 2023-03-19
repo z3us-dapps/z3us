@@ -55,6 +55,8 @@ export const button = recipe({
 				}),
 				{
 					height: '32px',
+					fontSize: '13px',
+					lineHeight: '13px',
 				},
 			],
 			medium: [
@@ -80,34 +82,65 @@ export const button = recipe({
 				},
 			],
 		},
-		iconOnly: {
+		rounded: {
+			true: {
+				borderRadius: '20px',
+			},
+		},
+		leftIcon: {
 			true: {},
 		},
 	},
 	compoundVariants: [
 		{
 			variants: {
-				sizeVariant: 'medium',
-				iconOnly: true,
-			},
-			style: {
-				width: '40px',
-				padding: '0px',
-			},
-		},
-		{
-			variants: {
 				sizeVariant: 'small',
-				iconOnly: true,
+				leftIcon: true,
 			},
 			style: {
-				width: '32px',
-				padding: '0px',
+				paddingLeft: '36px',
 			},
 		},
 	],
 	defaultVariants: {
 		styleVariant: 'primary',
+		sizeVariant: 'medium',
+	},
+})
+
+export const iconLeft = recipe({
+	base: {
+		position: 'absolute',
+		top: '0',
+		left: '0',
+		display: 'flex',
+		alignItems: 'center',
+		justifyContent: 'center',
+	},
+	variants: {
+		sizeVariant: {
+			small: [
+				{
+					height: '32px',
+					width: '32px',
+					paddingLeft: '8px',
+				},
+			],
+			medium: [
+				{
+					height: '40px',
+					width: '40px',
+				},
+			],
+			large: [
+				{
+					height: '48px',
+					width: '48px',
+				},
+			],
+		},
+	},
+	defaultVariants: {
 		sizeVariant: 'medium',
 	},
 })

@@ -271,7 +271,7 @@ export const inputSearchWrapper = style([
 	sprinkles({
 		width: 'full',
 		paddingX: 'medium',
-		paddingY: 'large',
+		paddingY: 'medium',
 		borderBottom: 1,
 		borderStyle: 'solid',
 		borderColor: 'borderDivider',

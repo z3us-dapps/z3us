@@ -22,19 +22,22 @@ import { useAccountParams } from '@src/containers/playground/hooks/use-account-p
 import { AccountsHomeMobileHeader } from './accounts-home-mobile-header'
 import { AccountsHomeMobileList } from './accounts-home-mobile-list'
 import * as styles from './accounts-home-mobile.css'
+import { TActiveTab } from './types'
+
+const HEADER_HEIGHT = 56
 
 export const AccountsHomeMobile = () => {
 	const location = useLocation()
+	const headerRef = useRef<HTMLElement | null>(null)
+	const [activeTab, setActiveTab] = useState<TActiveTab>('assets')
 	const [customScrollParent, setCustomScrollParent] = useState<HTMLElement | null>(null)
-	const [scrollTop, setScrollTop] = useState<HTMLElement | null>(null)
 	const [isScrolledPastHeader, setIsScrolledPastHeader] = useState<boolean>(null)
-	const headerRef = useRef(null)
 	const { account, assetType, asset } = useAccountParams()
 	const isAllAccount = account === 'all'
 
 	const handleScrollArea = (e: Event) => {
 		const scrollTop = (e.target as HTMLElement).scrollTop
-		const headerHeight = headerRef.current.clientHeight - 48
+		const headerHeight = headerRef.current.clientHeight - HEADER_HEIGHT
 
 		if (!isScrolledPastHeader && scrollTop >= headerHeight) {
 			setIsScrolledPastHeader(true)
@@ -44,7 +47,7 @@ export const AccountsHomeMobile = () => {
 	}
 
 	const handleChevronClick = () => {
-		const headerHeight = headerRef.current.clientHeight
+		const headerHeight = headerRef.current.clientHeight - HEADER_HEIGHT
 		if (isScrolledPastHeader) {
 			customScrollParent.scrollTo({ top: 0, behavior: 'smooth' })
 		} else {
@@ -53,42 +56,54 @@ export const AccountsHomeMobile = () => {
 	}
 
 	return (
-		<Box className={styles.accountsHomeMobileWrapper}>
-			<ScrollArea
-				scrollableNodeProps={{ ref: setCustomScrollParent }}
-				onScroll={handleScrollArea}
-				isTopShadowVisible={false}
-			>
-				<AccountsHomeMobileHeader
-					ref={headerRef}
-					isScrolledPastHeader={isScrolledPastHeader}
-					onClickChevron={handleChevronClick}
-				/>
-				<AccountsHomeMobileList customScrollParent={customScrollParent} />
-			</ScrollArea>
-			<Box className={styles.accountsHomeMobileHeader}>
-				<Box className={styles.accountsHomeMobileHeaderWalletWrapper}>
-					<Box display="flex" alignItems="center" gap="small" flexGrow={1}>
-						<Z3usLogo />
-						<AccountViewDropdown styleVariant="white-transparent" />
-					</Box>
-					<Box display="flex" alignItems="center" gap="medium">
-						<Box
-							transition="fast"
-							style={{
-								opacity: isScrolledPastHeader && !isAllAccount ? 1 : 0,
-								pointerEvents: isScrolledPastHeader && !isAllAccount ? 'all' : 'none',
-							}}
-						>
-							<CopyAddressButton
-								styleVariant="white-transparent"
-								address="rdx1b707388613169bf701d533e143d8f698c9090f605e677a967eaf70a4c69250ce"
-							/>
+		<Routes location={location} key={location.pathname}>
+			{[routes.ACCOUNT, routes.ACCOUNT_ASSET_TYPE, routes.ACCOUNT_ASSET].map(path => (
+				<Route
+					key="assetsList" // to avoid full re-renders when these routes change
+					path={path}
+					element={
+						<Box className={styles.accountsHomeMobileWrapper}>
+							<ScrollArea
+								scrollableNodeProps={{ ref: setCustomScrollParent }}
+								onScroll={handleScrollArea}
+								isTopShadowVisible={false}
+							>
+								<AccountsHomeMobileHeader
+									ref={headerRef}
+									isScrolledPastHeader={isScrolledPastHeader}
+									onClickChevron={handleChevronClick}
+									activeTab={activeTab}
+									onSelectTab={setActiveTab}
+								/>
+								<AccountsHomeMobileList customScrollParent={customScrollParent} />
+							</ScrollArea>
+							<Box className={styles.accountsHomeMobileHeader}>
+								<Box className={styles.accountsHomeMobileHeaderWalletWrapper}>
+									<Box display="flex" alignItems="center" gap="small" flexGrow={1}>
+										<Z3usLogo />
+										<AccountViewDropdown styleVariant="white-transparent" />
+									</Box>
+									<Box display="flex" alignItems="center" gap="medium">
+										<Box
+											transition="fast"
+											style={{
+												opacity: isScrolledPastHeader && !isAllAccount ? 1 : 0,
+												pointerEvents: isScrolledPastHeader && !isAllAccount ? 'all' : 'none',
+											}}
+										>
+											<CopyAddressButton
+												styleVariant="white-transparent"
+												address="rdx1b707388613169bf701d533e143d8f698c9090f605e677a967eaf70a4c69250ce"
+											/>
+										</Box>
+										<WalletDropdown buttonSize="small" />
+									</Box>
+								</Box>
+							</Box>
 						</Box>
-						<WalletDropdown buttonSize="small" />
-					</Box>
-				</Box>
-			</Box>
-		</Box>
+					}
+				/>
+			))}
+		</Routes>
 	)
 }

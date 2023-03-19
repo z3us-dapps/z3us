@@ -10,7 +10,7 @@ import { Box } from 'ui/src/components-v2/box'
 import { FormElement, Input } from 'ui/src/components-v2/input'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from 'ui/src/components-v2/tabs'
 import { Text } from 'ui/src/components-v2/typography'
-import { ChevronDown2Icon, DownLeft2Icon } from 'ui/src/components/icons'
+import { ChevronDown2Icon, DownLeft2Icon, SearchIcon } from 'ui/src/components/icons'
 
 import { Button } from '@src/components/button'
 import Translation from '@src/components/translation'
@@ -24,6 +24,8 @@ import { routes } from '@src/containers/playground/config'
 import { useAccountParams } from '@src/containers/playground/hooks/use-account-params'
 
 import * as styles from './accounts-home-mobile.css'
+import { ACTIVE_TAB_ACTIVITY, ACTIVE_TAB_ASSETS } from './constants'
+import { TActiveTab } from './types'
 
 const CARD_COLORS = [
 	{
@@ -58,7 +60,9 @@ const CARD_COLORS = [
 
 interface IAccountsHomeMobileHeaderRequiredProps {
 	isScrolledPastHeader: boolean
+	activeTab: TActiveTab
 	onClickChevron?: () => void
+	onSelectTab?: (tab: TActiveTab) => void
 }
 
 interface IAccountsHomeMobileHeaderOptionalProps {
@@ -75,15 +79,13 @@ const defaultProps: IAccountsHomeMobileHeaderOptionalProps = {
 
 export const AccountsHomeMobileHeader = forwardRef<HTMLElement, IAccountsHomeMobileHeaderProps>(
 	(props, ref: React.Ref<HTMLElement | null>) => {
-		const { className, isScrolledPastHeader, onClickChevron } = props
+		const { className, isScrolledPastHeader, onClickChevron, activeTab, onSelectTab } = props
 		const location = useLocation()
 		const { account, assetType, asset } = useAccountParams()
 		const isAllAccount = account === 'all'
 		const [cards] = useState<Array<any>>(CARD_COLORS)
 		const elementRef = useRef<HTMLDivElement | null>(null)
-		const entry = useIntersectionObserver(elementRef, {
-			threshold: [1],
-		})
+		const entry = useIntersectionObserver(elementRef, { threshold: [1] })
 		const isSticky = !entry?.isIntersecting
 
 		return (
@@ -150,8 +152,12 @@ export const AccountsHomeMobileHeader = forwardRef<HTMLElement, IAccountsHomeMob
 						<Box className={styles.tabsWrapper}>
 							<Box
 								component="button"
-								className={clsx(styles.tabsWrapperButton, styles.tabsWrapperButtonLeft, styles.tabsWrapperButtonActive)}
-								onClick={() => {}}
+								className={clsx(
+									styles.tabsWrapperButton,
+									styles.tabsWrapperButtonLeft,
+									activeTab === ACTIVE_TAB_ASSETS && styles.tabsWrapperButtonActive,
+								)}
+								onClick={() => onSelectTab(ACTIVE_TAB_ASSETS)}
 							>
 								<Text size="medium" weight="strong" align="center" color="strong">
 									Assets
@@ -159,8 +165,12 @@ export const AccountsHomeMobileHeader = forwardRef<HTMLElement, IAccountsHomeMob
 							</Box>
 							<Box
 								component="button"
-								className={clsx(styles.tabsWrapperButton, styles.tabsWrapperButtonRight)}
-								onClick={() => {}}
+								className={clsx(
+									styles.tabsWrapperButton,
+									styles.tabsWrapperButtonRight,
+									activeTab === ACTIVE_TAB_ACTIVITY && styles.tabsWrapperButtonActive,
+								)}
+								onClick={() => onSelectTab(ACTIVE_TAB_ACTIVITY)}
 							>
 								<Text size="medium" weight="strong" align="center">
 									Activity
@@ -183,8 +193,10 @@ export const AccountsHomeMobileHeader = forwardRef<HTMLElement, IAccountsHomeMob
 							<Input
 								sizeVariant="small"
 								className={styles.inputSearch}
-								value="1"
-								// ref={inputRef}
+								value=""
+								placeholder="Search"
+								rounded
+								leftIcon={<SearchIcon />}
 								// className={styles.inputElement}
 								// placeholder={placeholder}
 								// onChange={handleOnChange}
