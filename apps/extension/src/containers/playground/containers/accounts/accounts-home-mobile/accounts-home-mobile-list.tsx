@@ -1,68 +1,34 @@
 /* eslint-disable */
 import clsx from 'clsx'
-import { AnimatePresence } from 'framer-motion'
-import React, { forwardRef, useEffect, useRef, useState } from 'react'
+import { AnimatePresence, motion } from 'framer-motion'
+import React, { forwardRef, useCallback, useContext, useEffect, useRef, useState } from 'react'
 import { Route, Routes, useLocation } from 'react-router-dom'
 import { Virtuoso } from 'react-virtuoso'
+import { useTimeout } from 'usehooks-ts'
 import { useIntersectionObserver } from 'usehooks-ts'
 
 import { Box } from 'ui/src/components-v2/box'
 import { Text } from 'ui/src/components-v2/typography'
 
+import { Link } from '@src/components/link'
 import Translation from '@src/components/translation'
 import { AnimatedPage } from '@src/containers/playground/components/animated-route'
 import { ScrollPanel } from '@src/containers/playground/components/scroll-panel'
-import { Z3usLoading } from '@src/containers/playground/components/z3us-loading'
-import { routes } from '@src/containers/playground/config'
+import { ACCOUNTS_ALL } from '@src/containers/playground/config'
 import { useAccountParams } from '@src/containers/playground/hooks/use-account-params'
 
 import * as styles from './accounts-home-mobile.css'
+import { AccountsMobileIndexListItem } from './accounts-mobile-index-list-item'
+import { Context } from './context'
 import { TActiveTab } from './types'
 
-const items = [
-	{ id: 'df', title: 'geebs' },
-	{ id: 'asdfasdf', title: 'geebs' },
-	{ id: 'adfdhfuh', title: 'geebs' },
-	{ id: 'as773hf', title: 'Another geebs' },
-	{ id: '88833', title: 'Aasdfahghgngn geebs' },
-	{ id: '884848', title: 'djfjfj884' },
-	{ id: '7d7fhdf', title: 'djfjfj884' },
-	{ id: 'djfhdjhf', title: 'djfjfj884' },
-	{ id: 'dfdfj', title: 'djfjfj884' },
-	{ id: '88', title: 'djfjfj884' },
-	{ id: '8djfahksdhf', title: 'djfjfj884' },
-	{ id: '8iiudf7f7fhfh', title: 'djfjfj884' },
-	{ id: 'ifjf2111', title: 'what' },
-	{ id: '12455', title: 'what' },
-	{ id: 'ifjf49', title: 'what' },
-	{ id: 'ifj7575hg', title: 'what' },
-	{ id: 'ifff7hghgjgjgg90g0g', title: 'what' },
-	{ id: 'ifjfuhdfuhfuh', title: 'what' },
-]
+const hash = () => Math.random().toString(36).substring(7)
 
-const ListContainer = React.forwardRef<HTMLDivElement>((props, ref) => <Box ref={ref} {...props} />)
+const ListContainer = React.forwardRef<HTMLDivElement>((props, ref) => (
+	<Box className={styles.mobileAccountsListContainer} ref={ref} {...props} />
+))
 
 const ItemContainer = props => <Box {...props} />
-
-const ItemWrapper = props => {
-	const { user, selected, hovered, setHovered } = props
-
-	// const { account, assetType, asset } = useAccountParams()
-	const { pathname } = useLocation()
-
-	const isSelected = selected === user.id
-	const isHovered = hovered === user.id
-
-	// const handleClickItem = () => {
-	// 	setSelected(isSelected ? null : user.id)
-	// }
-
-	return (
-		<Box height="xxxlarge" background="backgroundSecondary">
-			<Box>Items - {user.id}</Box>
-		</Box>
-	)
-}
 
 interface IAccountTransactionRequiredProps {
 	customScrollParent: HTMLElement
@@ -79,31 +45,54 @@ const defaultProps: IAccountTransactionOptionalProps = {
 	className: undefined,
 }
 
+const indexItems = [
+	{ id: hash(), loaded: false, name: 'Tokens' },
+	{ id: hash(), loaded: false, name: 'LP Tokens' },
+	{ id: hash(), loaded: false, name: 'NFTs', isImageSquare: true },
+	{ id: hash(), loaded: false, name: 'Badges' },
+]
+
 export const AccountsHomeMobileList = forwardRef<HTMLElement, IAccountTransactionProps>(
 	(props, ref: React.Ref<HTMLElement | null>) => {
 		const { customScrollParent } = props
 
+		// const [items, setItems] = useState(Array.from({ length: 20 }, _ => ({ id: hash(), name: hash(), loaded: false })))
+		const [items, setItems] = useState(indexItems)
+
+		const computeItemKey = useCallback(index => items[index].id, [items])
+
+		const { account, assetType, asset } = useAccountParams()
+		const isIndexList = !!account && !assetType
+		// const isAllAccounts = account === ACCOUNTS_ALL
+
 		return (
-			<Box ref={ref}>
-				<Virtuoso
-					customScrollParent={customScrollParent}
-					data={items}
-					// eslint-disable-next-line
-					itemContent={(index, user) => (
-						<ItemWrapper
-							idx={index}
-							user={user}
-							// selected={selected}
-							// setSelected={setSelected}
-							// hovered={hovered}
-							// setHovered={setHovered}
-						/>
-					)}
-					components={{
-						List: ListContainer,
-						Item: ItemContainer,
-					}}
-				/>
+			<Box ref={ref} className={styles.mobileAccountsListWrapper}>
+				<Context.Provider value={{ setItems }}>
+					<Virtuoso
+						customScrollParent={customScrollParent}
+						data={items}
+						// eslint-disable-next-line
+						itemContent={(index, { id, loaded, name, isImageSquare }) =>
+							isIndexList ? (
+								<AccountsMobileIndexListItem id={id} loaded={loaded} name={name} isImageSquare={isImageSquare} />
+							) : (
+								<AccountsMobileIndexListItem
+									idx={index}
+									user={user}
+									// selected={selected}
+									// setSelected={setSelected}
+									// hovered={hovered}
+									// setHovered={setHovered}
+								/>
+							)
+						}
+						components={{
+							List: ListContainer,
+							Item: ItemContainer,
+						}}
+						computeItemKey={computeItemKey}
+					/>
+				</Context.Provider>
 			</Box>
 		)
 	},

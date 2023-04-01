@@ -59,7 +59,7 @@ const ItemWrapper = props => {
 				return item
 			}),
 		)
-	}, 1000)
+	}, 3000)
 
 	return (
 		<Box className={clsx(styles.itemWrapper)}>

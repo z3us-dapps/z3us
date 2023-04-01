@@ -1,9 +1,10 @@
-import { sprinkles } from 'ui/src/components-v2/system/sprinkles.css'
-import { responsiveStyle } from 'ui/src/components-v2/system/theme-utils'
 import { style } from '@vanilla-extract/css'
 
+import { sprinkles } from 'ui/src/components-v2/system/sprinkles.css'
+import { responsiveStyle } from 'ui/src/components-v2/system/theme-utils'
+
 export const container = sprinkles({
-	background: 'backgroundPrimary',
+	background: 'backgroundSecondary',
 	color: 'colorNeutral',
 	position: 'relative',
 	height: 'vh100',

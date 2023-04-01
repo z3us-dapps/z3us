@@ -8,6 +8,7 @@ export const desktopWrapper = style([
 		width: 'vw100',
 		flexDirection: 'column',
 		display: 'none',
+		background: 'backgroundPrimary',
 	}),
 	{
 		'@media': {

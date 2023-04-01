@@ -29,6 +29,5 @@ export const mobileRouteWrapper = style([
 	{
 		flexBasis: '0',
 		minHeight: '100px',
-		border: '0px solid green',
 	},
 ])

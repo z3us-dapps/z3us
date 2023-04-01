@@ -97,7 +97,7 @@ export const App: React.FC = () => {
 						<Route
 							key="Accounts" // optional: avoid full re-renders on route changes
 							path={path}
-							element={<Navigate to="/accounts/all" />}
+							element={<Navigate to={`${routes.ACCOUNTS}/all`} />}
 						/>
 					))}
 					<Route

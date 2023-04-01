@@ -46,6 +46,7 @@ export const accountsHomeMobileHeaderWalletWrapper = style([
 
 export const accountsHomeHeaderAccount = style([
 	sprinkles({
+		background: 'backgroundPrimary',
 		display: 'flex',
 		flexDirection: 'column',
 		alignItems: 'center',
@@ -97,6 +98,7 @@ export const accountsHomeHeaderSticky = style([
 		width: 'full',
 		height: 'full',
 		zIndex: 1,
+		pointerEvents: 'none',
 	}),
 	{
 		top: '-1px',
@@ -118,6 +120,7 @@ export const accountsHomeHeaderStickyScrolled = style([
 		backgroundRepeat: 'no-repeat',
 		backgroundPosition: 'center top',
 		backgroundSize: '924px 540px',
+		pointerEvents: 'none',
 	},
 ])
 
@@ -125,7 +128,9 @@ export const accountsHomeHeaderStickyScrolledIs = style([
 	sprinkles({
 		opacity: 1,
 	}),
-	{},
+	{
+		pointerEvents: 'all',
+	},
 ])
 
 export const accountsHomeHeaderStickyVis = style([
@@ -136,6 +141,7 @@ export const accountsHomeHeaderStickyVis = style([
 		position: 'relative',
 		zIndex: 1,
 		background: 'backgroundSecondary',
+		pointerEvents: 'auto',
 	}),
 	{
 		marginTop: '-10px',
@@ -286,3 +292,22 @@ export const inputSearch = style([
 	}),
 	{},
 ])
+
+export const mobileAccountsListWrapper = style([
+	sprinkles({
+		width: 'full',
+	}),
+	{
+		border: '0px solid red',
+	},
+])
+
+export const mobileAccountsListContainer = style([
+	sprinkles({
+		width: 'full',
+	}),
+])
+
+globalStyle(`${mobileAccountsListContainer} > div:first-child > div`, {
+	borderTop: 'none',
+})
