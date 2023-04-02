@@ -75,7 +75,7 @@ export const AccountsHomeMobileList = forwardRef<HTMLElement, IAccountTransactio
 		const computeItemKey = useCallback(index => items[index].id, [items])
 
 		return (
-			<Box ref={ref} className={clsx(styles.mobileAccountsListWrapper, className)}>
+			<Box ref={ref} className={clsx(styles.mobileAccountsListWrapperInner, className)}>
 				{/* eslint-disable-next-line */}
 				<Context.Provider value={{ setItems }}>
 					<Virtuoso

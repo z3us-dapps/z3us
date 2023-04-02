@@ -112,7 +112,7 @@ export const AccountsHomeMobile = () => {
 					className={styles.accountsColorBackground}
 					backgroundStyle={bgStyle}
 				/>
-				<Box position="relative">
+				<Box className={styles.mobileAccountsListWrapper}>
 					<AnimatePresence initial={false}>
 						<Routes location={location} key={location.pathname}>
 							{[routes.ACCOUNT, routes.ACCOUNT_ASSET_TYPE, routes.ACCOUNT_ASSET].map(path => (

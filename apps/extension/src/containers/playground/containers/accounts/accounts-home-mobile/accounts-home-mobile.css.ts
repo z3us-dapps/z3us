@@ -174,6 +174,24 @@ export const cardWrapperAll = style([
 	},
 ])
 
+export const mobileAccountsListWrapper = style([
+	sprinkles({
+		width: 'full',
+		position: 'relative',
+		background: 'backgroundSecondary',
+	}),
+	{
+		minHeight: '384px',
+	},
+])
+
+export const mobileAccountsListWrapperInner = style([
+	sprinkles({
+		width: 'full',
+	}),
+	{},
+])
+
 export const tabsWrapper = style([
 	sprinkles({
 		width: 'full',
@@ -300,15 +318,6 @@ export const inputSearch = style([
 		padding: 'small',
 	}),
 	{},
-])
-
-export const mobileAccountsListWrapper = style([
-	sprinkles({
-		width: 'full',
-	}),
-	{
-		border: '0px solid red',
-	},
 ])
 
 export const mobileAccountsListContainer = style([
