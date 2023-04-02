@@ -115,6 +115,42 @@ export const copiedAnimationWrapper = style([
 	},
 ])
 
+export const accountsHomeMobileHeader = style([
+	sprinkles({
+		position: 'absolute',
+		top: 0,
+		left: 0,
+		width: 'full',
+		pointerEvents: 'none',
+		display: 'flex',
+		justifyContent: 'flex-end',
+		transition: 'fast',
+	}),
+	{
+		height: '48px',
+	},
+])
+
+export const accountsHomeMobileHeaderShadow = style([
+	sprinkles({
+		boxShadow: 'shadowPanel',
+	}),
+	{},
+])
+
+export const accountsHomeMobileHeaderWalletWrapper = style([
+	sprinkles({
+		pointerEvents: 'auto',
+		display: 'flex',
+		alignItems: 'center',
+		paddingX: 'small',
+	}),
+	{
+		height: '48px',
+		width: '100%',
+	},
+])
+
 export const navigationMobileWrapper = style([
 	sprinkles({
 		display: 'flex',

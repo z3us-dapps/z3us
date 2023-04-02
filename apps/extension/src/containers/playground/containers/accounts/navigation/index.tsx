@@ -1,6 +1,6 @@
 import clsx from 'clsx'
 import { LayoutGroup, motion } from 'framer-motion'
-import React from 'react'
+import React, { forwardRef } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useMatch } from 'react-router-dom'
 
@@ -105,7 +105,67 @@ const MenuItemMobile = ({ href }: { href: string }) => {
 	)
 }
 
-export const MobileNavigation: React.FC = () => (
+interface IMobileHeaderNavigationRequiredProps {
+	copyAddressBtnVisible: boolean
+}
+
+interface IMobileHeaderNavigationOptionalProps {
+	className?: string
+	isShadowVisible?: boolean
+}
+
+interface IMobileHeaderNavigationProps
+	extends IMobileHeaderNavigationRequiredProps,
+		IMobileHeaderNavigationOptionalProps {}
+
+const mobileHeaderNavigationDefaultProps: IMobileHeaderNavigationOptionalProps = {
+	className: undefined,
+	isShadowVisible: false,
+}
+
+export const MobileHeaderNavigation = forwardRef<HTMLElement, IMobileHeaderNavigationProps>(
+	(props, ref: React.Ref<HTMLElement | null>) => {
+		const { className, copyAddressBtnVisible, isShadowVisible } = props
+
+		return (
+			<Box
+				component="nav"
+				ref={ref}
+				className={clsx(
+					className,
+					styles.accountsHomeMobileHeader,
+					isShadowVisible && styles.accountsHomeMobileHeaderShadow,
+				)}
+			>
+				<Box className={styles.accountsHomeMobileHeaderWalletWrapper}>
+					<Box display="flex" alignItems="center" gap="small" flexGrow={1}>
+						<Z3usLogo />
+						<AccountViewDropdown styleVariant="white-transparent" />
+					</Box>
+					<Box display="flex" alignItems="center" gap="medium">
+						<Box
+							transition="fast"
+							style={{
+								opacity: copyAddressBtnVisible ? 1 : 0,
+								pointerEvents: copyAddressBtnVisible ? 'all' : 'none',
+							}}
+						>
+							<CopyAddressButton
+								styleVariant="white-transparent"
+								address="rdx1b707388613169bf701d533e143d8f698c9090f605e677a967eaf70a4c69250ce"
+							/>
+						</Box>
+						<WalletDropdown buttonSize="small" />
+					</Box>
+				</Box>
+			</Box>
+		)
+	},
+)
+
+MobileHeaderNavigation.defaultProps = mobileHeaderNavigationDefaultProps
+
+export const MobileFooterNavigation: React.FC = () => (
 	<Box component="nav" className={styles.navigationMobileWrapper}>
 		{[
 			{ href: accountMenuSlugs.ACCOUNTS },

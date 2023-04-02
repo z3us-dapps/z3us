@@ -1,6 +1,6 @@
-import pkg from './package.json'
-import hosts from './host_permissions.json'
 import matches from './content_matches.json'
+import hosts from './host_permissions.json'
+import pkg from './package.json'
 
 export default {
 	manifest_version: 3,

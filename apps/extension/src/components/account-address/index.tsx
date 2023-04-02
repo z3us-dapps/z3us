@@ -1,13 +1,15 @@
-import React from 'react'
-import { useNoneSharedStore } from '@src/hooks/use-store'
-import { CSS } from 'ui/src/theme'
 import { CopyIcon } from '@radix-ui/react-icons'
+import React from 'react'
+
 import { Flex, Text } from 'ui/src/components/atoms'
-import { ToolTip } from 'ui/src/components/tool-tip'
 import Button from 'ui/src/components/button'
 import ButtonTipFeedback from 'ui/src/components/button-tip-feedback'
-import { getShortAddress } from '@src/utils/string-utils'
+import { ToolTip } from 'ui/src/components/tool-tip'
+import { CSS } from 'ui/src/theme'
+
+import { useNoneSharedStore } from '@src/hooks/use-store'
 import { copyTextToClipboard } from '@src/utils/copy-to-clipboard'
+import { getShortAddress } from '@src/utils/string-utils'
 
 interface IProps {
 	address: string

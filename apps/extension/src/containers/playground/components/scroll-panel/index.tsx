@@ -1,13 +1,14 @@
-import React, { useEffect, useState, useRef } from 'react'
-import { Box } from 'ui/src/components-v2/box'
-import { useLocation } from 'react-router-dom'
-import { ScrollArea } from 'ui/src/components-v2/scroll-area'
 import clsx from 'clsx'
+import React, { useEffect, useRef, useState } from 'react'
+import { useLocation } from 'react-router-dom'
+
+import { Box } from 'ui/src/components-v2/box'
+import { ScrollArea } from 'ui/src/components-v2/scroll-area'
 
 import * as styles from './scroll-panel.css'
 
 interface IScrollPanelRequiredProps {
-	renderPanel: any
+	renderPanel: (customScrollParent: HTMLElement | null, scrollTop: number) => React.ReactNode
 }
 
 interface IScrollPanelOptionalProps {

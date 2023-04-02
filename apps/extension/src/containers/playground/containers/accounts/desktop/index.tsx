@@ -12,6 +12,7 @@ import { AccountSwap } from '@src/containers/playground/containers/accounts/acco
 import { AccountTransfer } from '@src/containers/playground/containers/accounts/account-transfer'
 import { AccountsHomeDesktop } from '@src/containers/playground/containers/accounts/accounts-home-desktop'
 import { DesktopNavigation as Navigation } from '@src/containers/playground/containers/accounts/navigation'
+import { NavigationScrollContainer } from '@src/containers/playground/containers/accounts/navigation-scroll-container'
 import { useLocationKey } from '@src/containers/playground/hooks/use-location-key'
 
 import * as styles from './accounts-desktop.css'
@@ -37,7 +38,12 @@ export const AccountsDesktop = (): JSX.Element => {
 							path={routes.TRANSFER}
 							element={
 								<AnimatedPage>
-									<AccountTransfer />
+									<NavigationScrollContainer
+										isMobileNavVisible={false}
+										renderPanel={(scrollableNode: HTMLElement | null, scrollTop: number) => (
+											<AccountTransfer scrollableNode={scrollableNode} scrollTop={scrollTop} />
+										)}
+									/>
 								</AnimatedPage>
 							}
 						/>

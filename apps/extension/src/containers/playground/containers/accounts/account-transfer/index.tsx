@@ -13,12 +13,16 @@ interface IAccountTransferRequiredProps {}
 
 interface IAccountTransferOptionalProps {
 	className?: string
+	scrollableNode: HTMLElement | null
+	scrollTop: number | undefined
 }
 
 interface IAccountTransferProps extends IAccountTransferRequiredProps, IAccountTransferOptionalProps {}
 
 const defaultProps: IAccountTransferOptionalProps = {
 	className: undefined,
+	scrollableNode: undefined,
+	scrollTop: undefined,
 }
 
 export const AccountTransfer = forwardRef<HTMLElement, IAccountTransferProps>(
@@ -27,7 +31,14 @@ export const AccountTransfer = forwardRef<HTMLElement, IAccountTransferProps>(
 
 		return (
 			<Box ref={ref} className={clsx(className)}>
-				<Box>Transfer</Box>
+				<Box>
+					{[...Array(30)].map((_, i) => (
+						<Box key={i}>
+							<Text size="xxxlarge">Heebs</Text>
+							<Text size="xxxlarge">Heebs</Text>
+						</Box>
+					))}
+				</Box>
 			</Box>
 		)
 	},

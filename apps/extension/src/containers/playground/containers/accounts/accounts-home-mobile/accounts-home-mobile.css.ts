@@ -16,34 +16,6 @@ export const accountsHomeMobileWrapper = style([
 	{},
 ])
 
-export const accountsHomeMobileHeader = style([
-	sprinkles({
-		position: 'absolute',
-		top: 0,
-		left: 0,
-		width: 'full',
-		pointerEvents: 'none',
-		display: 'flex',
-		justifyContent: 'flex-end',
-	}),
-	{
-		height: '48px',
-	},
-])
-
-export const accountsHomeMobileHeaderWalletWrapper = style([
-	sprinkles({
-		pointerEvents: 'auto',
-		display: 'flex',
-		alignItems: 'center',
-		paddingX: 'small',
-	}),
-	{
-		height: '48px',
-		width: '100%',
-	},
-])
-
 export const accountsHomeHeaderAccount = style([
 	sprinkles({
 		background: 'backgroundPrimary',

@@ -11,7 +11,8 @@ import { AccountStaking } from '@src/containers/playground/containers/accounts/a
 import { AccountSwap } from '@src/containers/playground/containers/accounts/account-swap'
 import { AccountTransfer } from '@src/containers/playground/containers/accounts/account-transfer'
 import { AccountsHomeMobile } from '@src/containers/playground/containers/accounts/accounts-home-mobile'
-import { MobileNavigation as Navigation } from '@src/containers/playground/containers/accounts/navigation'
+import { MobileFooterNavigation } from '@src/containers/playground/containers/accounts/navigation'
+import { NavigationScrollContainer } from '@src/containers/playground/containers/accounts/navigation-scroll-container'
 import { useLocationKey } from '@src/containers/playground/hooks/use-location-key'
 
 import * as styles from './accounts-mobile.css'
@@ -35,7 +36,11 @@ export const AccountsMobile: React.FC = () => {
 							path={routes.TRANSFER}
 							element={
 								<AnimatedPage>
-									<AccountTransfer />
+									<NavigationScrollContainer
+										renderPanel={(scrollableNode: HTMLElement | null, scrollTop: number) => (
+											<AccountTransfer scrollableNode={scrollableNode} scrollTop={scrollTop} />
+										)}
+									/>
 								</AnimatedPage>
 							}
 						/>
@@ -66,7 +71,7 @@ export const AccountsMobile: React.FC = () => {
 					</Routes>
 				</AnimatePresence>
 			</Box>
-			<Navigation />
+			<MobileFooterNavigation />
 		</Box>
 	)
 }

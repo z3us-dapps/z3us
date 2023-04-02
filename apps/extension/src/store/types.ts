@@ -1,7 +1,8 @@
-import { Network as NetworkID, MnemomicT, HDNodeT, StrengthT, LanguageT } from '@radixdlt/application'
+import { HDNodeT, LanguageT, MnemomicT, Network as NetworkID, StrengthT } from '@radixdlt/application'
+import { String } from '@stitches/react/types/util'
+
 import { MessageService } from '@src/services/messanger'
 import { ColorSettings, Keystore, KeystoreType, SigningKey, SigningKeyType, VisibleTokens } from '@src/types'
-import { String } from '@stitches/react/types/util'
 
 export interface Toast {
 	id?: string

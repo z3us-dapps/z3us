@@ -1,16 +1,19 @@
-import React from 'react'
-import { useNoneSharedStore } from '@src/hooks/use-store'
-import { Message } from '@radixdlt/crypto'
 import { CopyIcon, ExternalLinkIcon } from '@radix-ui/react-icons'
-import { Text, Box, Flex } from 'ui/src/components/atoms'
-import { Action, Transaction } from '@src/types'
-import { getShortAddress } from '@src/utils/string-utils'
+import { Message } from '@radixdlt/crypto'
+import React from 'react'
+
+import { Box, Flex, Text } from 'ui/src/components/atoms'
 import Button from 'ui/src/components/button'
 import ButtonTipFeedback from 'ui/src/components/button-tip-feedback'
 import { ToolTip } from 'ui/src/components/tool-tip'
-import { copyTextToClipboard } from '@src/utils/copy-to-clipboard'
+
 import { ActivityType } from '@src/components/activity-type'
 import { EXPLORER_URL } from '@src/config'
+import { useNoneSharedStore } from '@src/hooks/use-store'
+import { Action, Transaction } from '@src/types'
+import { copyTextToClipboard } from '@src/utils/copy-to-clipboard'
+import { getShortAddress } from '@src/utils/string-utils'
+
 import { TransactionMessage } from '../transaction-message'
 
 interface IProps {

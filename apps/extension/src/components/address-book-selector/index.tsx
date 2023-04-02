@@ -1,21 +1,23 @@
+import { ChevronDownIcon, ChevronUpIcon } from '@radix-ui/react-icons'
 import React, { useState } from 'react'
-import { useNoneSharedStore } from '@src/hooks/use-store'
+
+import { Text } from 'ui/src/components/atoms'
+import Button from 'ui/src/components/button'
 import {
 	Select,
+	SelectContent,
 	SelectGroup,
+	SelectItem,
+	SelectItemIndicator,
+	SelectItemText,
+	SelectScrollDownButton,
+	SelectScrollUpButton,
 	SelectTrigger,
 	SelectValue,
-	SelectContent,
 	SelectViewport,
-	SelectItem,
-	SelectItemText,
-	SelectItemIndicator,
-	SelectScrollUpButton,
-	SelectScrollDownButton,
 } from 'ui/src/components/select'
-import { ChevronDownIcon, ChevronUpIcon } from '@radix-ui/react-icons'
-import Button from 'ui/src/components/button'
-import { Text } from 'ui/src/components/atoms'
+
+import { useNoneSharedStore } from '@src/hooks/use-store'
 import { getShortAddress } from '@src/utils/string-utils'
 
 interface IProps {

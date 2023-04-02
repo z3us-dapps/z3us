@@ -1,23 +1,25 @@
-import React, { useState } from 'react'
-import { useNoneSharedStore } from '@src/hooks/use-store'
-import { RightArrowIcon } from 'ui/src/components/icons'
 import { ChevronDownIcon, ChevronUpIcon } from '@radix-ui/react-icons'
+import React, { useState } from 'react'
+import useMeasure from 'react-use-measure'
+
+import { Box, Flex, Text } from 'ui/src/components/atoms'
+import Button from 'ui/src/components/button'
+import { RightArrowIcon } from 'ui/src/components/icons'
 import {
 	Select,
+	SelectContent,
 	SelectGroup,
+	SelectItem,
+	SelectItemIndicator,
+	SelectItemText,
+	SelectScrollDownButton,
+	SelectScrollUpButton,
 	SelectTrigger,
 	SelectValue,
-	SelectContent,
 	SelectViewport,
-	SelectItem,
-	SelectItemText,
-	SelectItemIndicator,
-	SelectScrollUpButton,
-	SelectScrollDownButton,
 } from 'ui/src/components/select'
-import { Box, Text, Flex } from 'ui/src/components/atoms'
-import Button from 'ui/src/components/button'
-import useMeasure from 'react-use-measure'
+
+import { useNoneSharedStore } from '@src/hooks/use-store'
 import { getShortAddress } from '@src/utils/string-utils'
 
 interface IProps {
