@@ -68,7 +68,7 @@ export const AccountsHomeMobileList = forwardRef<HTMLElement, IAccountTransactio
 			if (listItemType === LIST_ITEM_INDEX) {
 				setItems(indexItems)
 			} else {
-				setItems(Array.from({ length: 40 }, _ => ({ id: hash(), name: hash(), loaded: false })))
+				setItems(Array.from({ length: 40 }, _ => ({ id: hash(), name: hash(), loaded: false, symbol: 'xrd' })))
 			}
 		}, [listItemType])
 
@@ -82,7 +82,7 @@ export const AccountsHomeMobileList = forwardRef<HTMLElement, IAccountTransactio
 						customScrollParent={customScrollParent}
 						data={items}
 						// eslint-disable-next-line
-						itemContent={(index, { id, loaded, name, isImageSquare, count, assetType }) => {
+						itemContent={(index, { id, loaded, name, isImageSquare, count, assetType, symbol }) => {
 							switch (listItemType) {
 								case LIST_ITEM_INDEX:
 									return (
@@ -97,7 +97,9 @@ export const AccountsHomeMobileList = forwardRef<HTMLElement, IAccountTransactio
 										/>
 									)
 								case LIST_ITEM_ASSET_TYPE:
-									return <AccountsMobileAssetListItem id={id} index={index} loaded={loaded} name={name} />
+									return (
+										<AccountsMobileAssetListItem id={id} index={index} loaded={loaded} name={name} symbol={symbol} />
+									)
 								case LIST_ITEM_ACTIVITY:
 									return <AccountsMobileActivityListItem id={id} index={index} loaded={loaded} name={name} />
 								case LIST_ITEM_ASSET:

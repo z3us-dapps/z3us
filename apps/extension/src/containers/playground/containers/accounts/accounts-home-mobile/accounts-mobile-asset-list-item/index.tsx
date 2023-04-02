@@ -13,6 +13,8 @@ import * as skeletonStyles from '@src/containers/playground/components/styles/sk
 import { animtePageVariants } from '@src/containers/playground/config'
 import { useAccountParams } from '@src/containers/playground/hooks/use-account-params'
 
+import { SEARCH_ACTIVITY_PARAM } from '../constants'
+
 import { Context } from '../context'
 import * as styles from './accounts-mobile-asset-list-item.css'
 
@@ -21,6 +23,7 @@ interface IAccountsMobileAssetListItemRequiredProps {
 	index: number
 	loaded: boolean
 	name: string
+	symbol: string
 }
 
 interface IAccountsMobileAssetListItemOptionalProps {
@@ -38,11 +41,10 @@ const defaultProps: IAccountsMobileAssetListItemOptionalProps = {
 export const AccountsMobileAssetListItem = forwardRef<HTMLElement, IAccountsMobileAssetListItemProps>(
 	(props, ref: React.Ref<HTMLElement | null>) => {
 		const { setItems } = useContext(Context)
-		const { id, index, className, loaded, name } = props
+		const { id, index, className, loaded, name, symbol } = props
 
 		// const { account, assetType, asset } = useAccountParams()
 		const { account } = useAccountParams()
-
 		const { pathname } = useLocation()
 
 		useTimeout(() => {
@@ -124,7 +126,7 @@ export const AccountsMobileAssetListItem = forwardRef<HTMLElement, IAccountsMobi
 						<Box className={styles.mobileAccountsAssetWrapper}>
 							<Link
 								underline="never"
-								to={`${pathname}?asset=xrd&transactionId=1eaf53c4256c384d76ca72c0f18ef37a2e4441d4e6bae450e2b8507f42faa5b6`}
+								to={`${pathname}/${symbol}?${SEARCH_ACTIVITY_PARAM}=true`}
 								className={styles.mobileAccountsAssetLink}
 							>
 								<motion.div

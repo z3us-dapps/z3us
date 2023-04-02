@@ -74,7 +74,6 @@ const defaultProps: IAccountsHomeMobileHeaderOptionalProps = {
 
 export const AccountsHomeMobileHeader = forwardRef<HTMLElement, IAccountsHomeMobileHeaderProps>(
 	(props, ref: React.Ref<HTMLElement | null>) => {
-		// TODO: rename style prop
 		const { className, isScrolledPastHeader, onClickChevron, isAreaScrollable, isActivityRoute, backgroundStyle } =
 			props
 		const { account, assetType, asset } = useAccountParams()
@@ -84,9 +83,9 @@ export const AccountsHomeMobileHeader = forwardRef<HTMLElement, IAccountsHomeMob
 		const entry = useIntersectionObserver(elementRef, { threshold: [1] })
 		const isSticky = !entry?.isIntersecting
 
-		const generateAccountLink = (isActivity: boolean) =>
+		const generateAccountLink = (isActivity = false, generateAssetLink = false) =>
 			`/${routes.ACCOUNTS}${account ? `/${account}` : ''}${assetType ? `/${assetType}` : ''}${
-				asset ? `/${asset}` : ''
+				generateAssetLink && asset ? `/${asset}` : ''
 			}${isActivity ? `?${SEARCH_ACTIVITY_PARAM}=true` : ''}`
 
 		return (
@@ -142,7 +141,7 @@ export const AccountsHomeMobileHeader = forwardRef<HTMLElement, IAccountsHomeMob
 						<Box className={styles.tabsWrapper}>
 							<Link
 								underline="never"
-								to={generateAccountLink(false)}
+								to={generateAccountLink()}
 								className={clsx(
 									styles.tabsWrapperButton,
 									styles.tabsWrapperButtonLeft,
@@ -155,7 +154,7 @@ export const AccountsHomeMobileHeader = forwardRef<HTMLElement, IAccountsHomeMob
 							</Link>
 							<Link
 								underline="never"
-								to={generateAccountLink(true)}
+								to={generateAccountLink(true, true)}
 								className={clsx(
 									styles.tabsWrapperButton,
 									styles.tabsWrapperButtonRight,
