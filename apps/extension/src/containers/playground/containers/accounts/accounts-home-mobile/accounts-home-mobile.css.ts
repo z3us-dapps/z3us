@@ -262,11 +262,13 @@ export const tabsWrapperButtonRight = style([
 export const inputSearchWrapper = style([
 	sprinkles({
 		width: 'full',
+		display: 'flex',
 		paddingX: 'medium',
 		paddingY: 'medium',
 		borderBottom: 1,
 		borderStyle: 'solid',
 		borderColor: 'borderDivider',
+		gap: 'small',
 	}),
 	{},
 ])

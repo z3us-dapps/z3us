@@ -8,7 +8,7 @@ import { useIntersectionObserver } from 'usehooks-ts'
 import { Box } from 'ui/src/components-v2/box'
 import { Input } from 'ui/src/components-v2/input'
 import { Text } from 'ui/src/components-v2/typography'
-import { ChevronDown3Icon, SearchIcon } from 'ui/src/components/icons'
+import { ChevronDown3Icon, SearchIcon, ChevronLeftIcon } from 'ui/src/components/icons'
 
 import { Button } from '@src/components/button'
 import Translation from '@src/components/translation'
@@ -87,6 +87,8 @@ export const AccountsHomeMobileHeader = forwardRef<HTMLElement, IAccountsHomeMob
 			`/${routes.ACCOUNTS}${account ? `/${account}` : ''}${assetType ? `/${assetType}` : ''}${
 				generateAssetLink && asset ? `/${asset}` : ''
 			}${isActivity ? `?${SEARCH_ACTIVITY_PARAM}=true` : ''}`
+
+		const clickBackLink = `/${routes.ACCOUNTS}${account ? `/${account}` : ''}${asset ? `/${assetType}` : ''}`
 
 		return (
 			<>
@@ -180,6 +182,11 @@ export const AccountsHomeMobileHeader = forwardRef<HTMLElement, IAccountsHomeMob
 							</Button>
 						</Box>
 						<Box className={styles.inputSearchWrapper}>
+							{assetType ? (
+								<Button iconOnly styleVariant="secondary" sizeVariant="small" to={clickBackLink}>
+									<ChevronLeftIcon />
+								</Button>
+							) : null}
 							<Input
 								sizeVariant="small"
 								className={styles.inputSearch}
