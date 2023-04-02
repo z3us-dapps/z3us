@@ -1,6 +1,6 @@
 /* eslint-disable */
 import { AnimatePresence } from 'framer-motion'
-import React, { useRef, useState } from 'react'
+import React, { useRef, useState, useCallback } from 'react'
 import { Route, Routes, useLocation, useSearchParams } from 'react-router-dom'
 
 import { Box } from 'ui/src/components-v2/box'
@@ -36,16 +36,19 @@ export const AccountsHomeMobile = () => {
 	const isActivityRoute = !!searchParams.get(SEARCH_ACTIVITY_PARAM)
 	const isAllAccounts = account === ACCOUNTS_ALL
 
-	const handleScrollArea = (e: Event) => {
-		const scrollTop = (e.target as HTMLElement).scrollTop
-		const headerHeight = headerRef.current.clientHeight - HEADER_HEIGHT
+	const handleScrollArea = useCallback(
+		(event: Event) => {
+			const scrollTop = (event.target as HTMLElement).scrollTop
+			const headerHeight = headerRef.current.clientHeight - HEADER_HEIGHT
 
-		if (!isScrolledPastHeader && scrollTop >= headerHeight) {
-			setIsScrolledPastHeader(true)
-		} else {
-			setIsScrolledPastHeader(false)
-		}
-	}
+			if (!isScrolledPastHeader && scrollTop >= headerHeight) {
+				setIsScrolledPastHeader(true)
+			} else {
+				setIsScrolledPastHeader(false)
+			}
+		},
+		[customScrollParent],
+	)
 
 	const handleChevronClick = () => {
 		const headerHeight = headerRef.current.clientHeight - HEADER_HEIGHT
@@ -82,6 +85,12 @@ export const AccountsHomeMobile = () => {
 		}
 	}
 
+	const bgStyle = {
+		backgroundImage: !isAllAccounts
+			? 'url("/images/account-images/z3us-apple-hermes.png"), radial-gradient(77.21% 96.45% at 50% 100%, #FE845E 0%, #E08BAB 17.71%, #AB8CFF 50.52%, #946DFF 100%)'
+			: '',
+	}
+
 	return (
 		<>
 			<Box className={styles.accountsHomeMobileWrapper}>
@@ -97,6 +106,8 @@ export const AccountsHomeMobile = () => {
 						onClickChevron={handleChevronClick}
 						isAreaScrollable={isAreaScrollable}
 						isActivityRoute={isActivityRoute}
+						className={styles.accountsColorBackground}
+						backgroundStyle={bgStyle}
 					/>
 					<Box position="relative">
 						<AnimatePresence initial={false}>
@@ -119,7 +130,11 @@ export const AccountsHomeMobile = () => {
 						</AnimatePresence>
 					</Box>
 				</ScrollArea>
-				<MobileHeaderNavigation copyAddressBtnVisible={isScrolledPastHeader && !isAllAccounts} />
+				<MobileHeaderNavigation
+					copyAddressBtnVisible={isScrolledPastHeader && !isAllAccounts}
+					className={styles.accountsColorBackground}
+					style={bgStyle}
+				/>
 			</Box>
 		</>
 	)

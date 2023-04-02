@@ -59,7 +59,8 @@ interface IAccountsHomeMobileHeaderRequiredProps {
 }
 
 interface IAccountsHomeMobileHeaderOptionalProps {
-	className?: number
+	className?: string
+	backgroundStyle?: React.CSSProperties
 }
 
 interface IAccountsHomeMobileHeaderProps
@@ -68,11 +69,14 @@ interface IAccountsHomeMobileHeaderProps
 
 const defaultProps: IAccountsHomeMobileHeaderOptionalProps = {
 	className: undefined,
+	backgroundStyle: undefined,
 }
 
 export const AccountsHomeMobileHeader = forwardRef<HTMLElement, IAccountsHomeMobileHeaderProps>(
 	(props, ref: React.Ref<HTMLElement | null>) => {
-		const { className, isScrolledPastHeader, onClickChevron, isAreaScrollable, isActivityRoute } = props
+		// TODO: rename style prop
+		const { className, isScrolledPastHeader, onClickChevron, isAreaScrollable, isActivityRoute, backgroundStyle } =
+			props
 		const { account, assetType, asset } = useAccountParams()
 		const isAllAccount = account === ACCOUNTS_ALL
 		const [cards] = useState<Array<any>>(CARD_COLORS)
@@ -87,15 +91,7 @@ export const AccountsHomeMobileHeader = forwardRef<HTMLElement, IAccountsHomeMob
 
 		return (
 			<>
-				<Box
-					ref={ref}
-					className={clsx(styles.accountsHomeHeaderAccount, className)}
-					style={{
-						backgroundImage: !isAllAccount
-							? 'url("/images/account-images/z3us-apple-hermes.png"), radial-gradient(77.21% 96.45% at 50% 100%, #FE845E 0%, #E08BAB 17.71%, #AB8CFF 50.52%, #946DFF 100%)'
-							: '',
-					}}
-				>
+				<Box ref={ref} className={clsx(styles.accountsHomeHeaderAccount, className)} style={backgroundStyle}>
 					{isAllAccount ? (
 						<Box className={styles.accountsHomeHeadAll}>
 							<Box className={styles.accountsHomeAllChart}></Box>
@@ -136,14 +132,11 @@ export const AccountsHomeMobileHeader = forwardRef<HTMLElement, IAccountsHomeMob
 				<Box ref={elementRef} className={styles.accountsHomeHeaderSticky}>
 					<Box
 						className={clsx(
+							styles.accountsColorBackground,
 							styles.accountsHomeHeaderStickyScrolled,
-							isSticky && styles.accountsHomeHeaderStickyScrolledIs,
+							isSticky && styles.accountsHomeHeaderStickyScrolledVisible,
 						)}
-						style={{
-							backgroundImage: !isAllAccount
-								? 'url("/images/account-images/z3us-apple-hermes.png"), radial-gradient(77.21% 96.45% at 50% 100%, #FE845E 0%, #E08BAB 17.71%, #AB8CFF 50.52%, #946DFF 100%)'
-								: '',
-						}}
+						style={backgroundStyle}
 					/>
 					<Box className={clsx(styles.accountsHomeHeaderStickyVis, isSticky && styles.accountsHomeHeaderStickyVisIs)}>
 						<Box className={styles.tabsWrapper}>

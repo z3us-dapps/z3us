@@ -16,9 +16,19 @@ export const accountsHomeMobileWrapper = style([
 	{},
 ])
 
-export const accountsHomeHeaderAccount = style([
+export const accountsColorBackground = style([
 	sprinkles({
 		background: 'backgroundPrimary',
+	}),
+	{
+		backgroundRepeat: 'no-repeat',
+		backgroundPosition: 'center top',
+		backgroundSize: '924px 540px',
+	},
+])
+
+export const accountsHomeHeaderAccount = style([
+	sprinkles({
 		display: 'flex',
 		flexDirection: 'column',
 		alignItems: 'center',
@@ -28,14 +38,9 @@ export const accountsHomeHeaderAccount = style([
 		top: 0,
 	}),
 	{
-		paddingTop: '48px',
+		paddingTop: '52px',
 		paddingBottom: '48px',
 		marginBottom: '-58px',
-		// backgroundImage:
-		// 	'url("/images/account-images/z3us-apple-hermes.png"), radial-gradient(77.21% 96.45% at 50% 100%, #FE845E 0%, #E08BAB 17.71%, #AB8CFF 50.52%, #946DFF 100%)',
-		backgroundRepeat: 'no-repeat',
-		backgroundPosition: 'center top',
-		backgroundSize: '924px 540px',
 	},
 ])
 
@@ -85,22 +90,15 @@ export const accountsHomeHeaderSticky = style([
 export const accountsHomeHeaderStickyScrolled = style([
 	sprinkles({
 		width: 'full',
-		transition: 'fast',
 		opacity: 0,
-		background: 'backgroundPrimary',
+		transition: 'fast',
 	}),
 	{
 		height: '58px',
-		// backgroundImage:
-		// 	'url("/images/account-images/z3us-apple-hermes.png"), radial-gradient(77.21% 96.45% at 50% 100%, #FE845E 0%, #E08BAB 17.71%, #AB8CFF 50.52%, #946DFF 100%)',
-		backgroundRepeat: 'no-repeat',
-		backgroundPosition: 'center top',
-		backgroundSize: '924px 540px',
-		pointerEvents: 'none',
 	},
 ])
 
-export const accountsHomeHeaderStickyScrolledIs = style([
+export const accountsHomeHeaderStickyScrolledVisible = style([
 	sprinkles({
 		opacity: 1,
 	}),

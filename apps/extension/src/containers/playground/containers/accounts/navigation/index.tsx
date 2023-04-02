@@ -111,6 +111,7 @@ interface IMobileHeaderNavigationRequiredProps {
 
 interface IMobileHeaderNavigationOptionalProps {
 	className?: string
+	style?: React.CSSProperties
 	isShadowVisible?: boolean
 }
 
@@ -120,12 +121,13 @@ interface IMobileHeaderNavigationProps
 
 const mobileHeaderNavigationDefaultProps: IMobileHeaderNavigationOptionalProps = {
 	className: undefined,
+	style: undefined,
 	isShadowVisible: false,
 }
 
 export const MobileHeaderNavigation = forwardRef<HTMLElement, IMobileHeaderNavigationProps>(
 	(props, ref: React.Ref<HTMLElement | null>) => {
-		const { className, copyAddressBtnVisible, isShadowVisible } = props
+		const { className, style, copyAddressBtnVisible, isShadowVisible } = props
 
 		return (
 			<Box
@@ -136,6 +138,7 @@ export const MobileHeaderNavigation = forwardRef<HTMLElement, IMobileHeaderNavig
 					styles.accountsHomeMobileHeader,
 					isShadowVisible && styles.accountsHomeMobileHeaderShadow,
 				)}
+				style={style}
 			>
 				<Box className={styles.accountsHomeMobileHeaderWalletWrapper}>
 					<Box display="flex" alignItems="center" gap="small" flexGrow={1}>
