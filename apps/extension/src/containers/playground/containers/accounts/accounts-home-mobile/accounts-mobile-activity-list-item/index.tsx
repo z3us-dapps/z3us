@@ -1,10 +1,7 @@
-import * as AvatarPrimitive from '@radix-ui/react-avatar'
 import clsx from 'clsx'
 import { AnimatePresence, motion } from 'framer-motion'
 import React, { forwardRef, useContext } from 'react'
 import { useTimeout } from 'usehooks-ts'
-
-import { AvatarFallback, AvatarImage } from 'ui/src/components-v2/avatar'
 import { Box } from 'ui/src/components-v2/box'
 import { Text } from 'ui/src/components-v2/typography'
 import { ChevronRightIcon } from 'ui/src/components/icons'
@@ -15,37 +12,31 @@ import { animtePageVariants, routes } from '@src/containers/playground/config'
 import { useAccountParams } from '@src/containers/playground/hooks/use-account-params'
 
 import { Context } from '../context'
-import { TListItem } from '../types'
-import * as styles from './accounts-mobile-index-list-item.css'
+import * as styles from './accounts-mobile-activity-list-item.css'
 
-interface IAccountsMobileIndexListItemRequiredProps {
+interface IAccountsMobileActivityListItemRequiredProps {
 	id: string
 	index: number
 	loaded: boolean
 	name: string
-	assetType: TListItem
 }
 
-interface IAccountsMobileIndexListItemOptionalProps {
+interface IAccountsMobileActivityListItemOptionalProps {
 	className?: number
-	isImageSquare?: boolean
-	count?: number
 }
 
-interface IAccountsMobileIndexListItemProps
-	extends IAccountsMobileIndexListItemRequiredProps,
-		IAccountsMobileIndexListItemOptionalProps {}
+interface IAccountsMobileActivityListItemProps
+	extends IAccountsMobileActivityListItemRequiredProps,
+		IAccountsMobileActivityListItemOptionalProps {}
 
-const defaultProps: IAccountsMobileIndexListItemOptionalProps = {
+const defaultProps: IAccountsMobileActivityListItemOptionalProps = {
 	className: undefined,
-	isImageSquare: false,
-	count: 0,
 }
 
-export const AccountsMobileIndexListItem = forwardRef<HTMLElement, IAccountsMobileIndexListItemProps>(
+export const AccountsMobileActivityListItem = forwardRef<HTMLElement, IAccountsMobileActivityListItemProps>(
 	(props, ref: React.Ref<HTMLElement | null>) => {
 		const { setItems } = useContext(Context)
-		const { id, index, className, loaded, name, isImageSquare, count, assetType } = props
+		const { id, index, className, loaded, name } = props
 
 		// const { account, assetType, asset } = useAccountParams()
 		const { account } = useAccountParams()
@@ -62,7 +53,7 @@ export const AccountsMobileIndexListItem = forwardRef<HTMLElement, IAccountsMobi
 		}, 1000)
 
 		return (
-			<Box ref={ref} className={clsx(styles.mobileAccountsIndex, className)}>
+			<Box ref={ref} className={clsx(styles.mobileAccountsActivityItem, className)}>
 				<AnimatePresence initial={false}>
 					{!loaded && (
 						<motion.div
@@ -117,26 +108,26 @@ export const AccountsMobileIndexListItem = forwardRef<HTMLElement, IAccountsMobi
 				</AnimatePresence>
 				<AnimatePresence initial={false}>
 					{loaded && (
-						<Box className={styles.mobileAccountsIndexWrapper}>
+						<Box className={styles.mobileAccountsActivityWrapper}>
 							<Link
 								underline="never"
-								to={`/${routes.ACCOUNTS}/${account}/${assetType}`}
-								className={styles.mobileAccountsIndexLink}
+								to={`/${routes.ACCOUNTS}/${account}/`}
+								className={styles.mobileAccountsActivityLink}
 							>
 								<motion.div
 									initial="hidden"
 									animate="visible"
 									variants={animtePageVariants}
-									className={styles.mobileAccountsIndexMotionWrapper}
+									className={styles.mobileAccountsActivityMotionWrapper}
 								>
-									<Box className={clsx(styles.mobileAccountsIndexInner)}>
+									<Box className={clsx(styles.mobileAccountsActivityInner)}>
 										<Box display="flex">
 											<Box display="flex" alignItems="center" flexGrow={1} gap="xsmall">
 												<Text size="small" weight="strong" color="strong">
 													{name}
 												</Text>
 												<Text size="small" weight="medium">
-													({count})
+													asdf
 												</Text>
 											</Box>
 											<Box display="flex" alignItems="center">
@@ -144,14 +135,14 @@ export const AccountsMobileIndexListItem = forwardRef<HTMLElement, IAccountsMobi
 											</Box>
 										</Box>
 										<Box display="flex" alignItems="center" marginTop="small">
-											<Box display="flex" alignItems="center" className={styles.mobileAccountsIndexSplit} />
+											<Box display="flex" alignItems="center" className={styles.mobileAccountsActivitySplit} />
 											<Box
 												display="flex"
 												flexDirection="column"
 												alignItems="flex-end"
 												justifyContent="center"
 												gap="xxsmall"
-												className={styles.mobileAccountsIndexSplit}
+												className={styles.mobileAccountsActivitySplit}
 											>
 												<Text size="xsmall" weight="strong" color="strong">
 													$10,430.45
@@ -164,40 +155,6 @@ export const AccountsMobileIndexListItem = forwardRef<HTMLElement, IAccountsMobi
 									</Box>
 								</motion.div>
 							</Link>
-							<Box className={styles.mobileAccountsIndexAbsoluteAssetsWrapper}>
-								{[...Array(4)].map((x, i) => (
-									<Link
-										// eslint-disable-next-line
-										key={i}
-										to={`/${routes.ACCOUNTS}/${account}/${assetType}/xrd`}
-										className={
-											isImageSquare ? styles.mobileAccountsIndexAssetSquare : styles.mobileAccountsIndexAssetCircle
-										}
-										underline="never"
-									>
-										<Box>
-											<AvatarPrimitive.Root
-												className={
-													isImageSquare
-														? styles.mobileAccountsIndexAssetSquareAvatar
-														: styles.mobileAccountsIndexAssetCirclAvatar
-												}
-											>
-												<AvatarImage
-													src="https://images.unsplash.com/photo-1492633423870-43d1cd2775eb?&w=128&h=128&dpr=2&q=80"
-													alt="Colm Tuite"
-												/>
-												<AvatarFallback delayMs={600}>CT</AvatarFallback>
-											</AvatarPrimitive.Root>
-										</Box>
-									</Link>
-								))}
-								<Box marginLeft="small">
-									<Text size="xsmall" weight="regular">
-										+7
-									</Text>
-								</Box>
-							</Box>
 						</Box>
 					)}
 				</AnimatePresence>
@@ -206,4 +163,4 @@ export const AccountsMobileIndexListItem = forwardRef<HTMLElement, IAccountsMobi
 	},
 )
 
-AccountsMobileIndexListItem.defaultProps = defaultProps
+AccountsMobileActivityListItem.defaultProps = defaultProps
