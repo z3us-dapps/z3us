@@ -1,4 +1,4 @@
-import { style } from '@vanilla-extract/css'
+import { globalStyle, style } from '@vanilla-extract/css'
 
 import { sprinkles } from 'ui/src/components-v2/system/sprinkles.css'
 import { vars } from 'ui/src/components-v2/system/theme.css'
@@ -30,9 +30,9 @@ export const mobileAccountsActivityInner = style([
 		width: 'full',
 		height: 'full',
 		display: 'flex',
-		flexDirection: 'column',
 		paddingX: 'medium',
 		paddingY: 'medium',
+		gap: 'medium',
 	}),
 	{},
 ])
@@ -43,6 +43,26 @@ export const mobileAccountsActivityWrapper = style([
 		height: 'full',
 	}),
 	{},
+])
+
+export const activtyItemExternalLinkButton = style([
+	sprinkles({
+		position: 'absolute',
+		right: 0,
+		top: 0,
+		marginRight: 'medium',
+		opacity: 0,
+	}),
+	{
+		top: '50%',
+		marginTop: '-16px',
+
+		selectors: {
+			'&:hover': {
+				opacity: 1,
+			},
+		},
+	},
 ])
 
 export const mobileAccountsActivityLink = style([
@@ -59,12 +79,9 @@ export const mobileAccountsActivityLink = style([
 	},
 ])
 
-export const mobileAccountsActivitySplit = style([
-	sprinkles({}),
-	{
-		width: '50%',
-	},
-])
+globalStyle(`${mobileAccountsActivityLink}:hover + ${activtyItemExternalLinkButton}`, {
+	opacity: 1,
+})
 
 export const mobileAccountsIndexAssetCircle = style([
 	sprinkles({
@@ -141,5 +158,21 @@ export const mobileAccountsIndexAssetCirclAvatar = style([
 		height: 48,
 		maxHeight: '100%',
 		maxWidth: '100%',
+	},
+])
+
+export const indicatorCircle = style([
+	sprinkles({
+		position: 'relative',
+		color: 'colorStrong',
+		background: 'backgroundPrimary',
+		borderRadius: 'full',
+		display: 'flex',
+		alignItems: 'center',
+		justifyContent: 'center',
+	}),
+	{
+		width: '36px',
+		height: '36px',
 	},
 ])

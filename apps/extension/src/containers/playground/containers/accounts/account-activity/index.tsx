@@ -64,17 +64,15 @@ const ItemWrapper = props => {
 					onMouseOver={() => setHovered(user.id)}
 					onMouseLeave={() => setHovered(null)}
 				>
-					<>
-						<Box className={styles.indicatorCircle}>
-							<TransactionIcon transactionType="deposit" />
-						</Box>
-						<Box display="flex" flexDirection="column" flexGrow={1}>
-							<Text weight="stronger" size="small" color="strong">
-								+1.249 XRD
-							</Text>
-							<Text size="xsmall">29 Aug, 10est, 2023</Text>
-						</Box>
-					</>
+					<Box className={styles.indicatorCircle}>
+						<TransactionIcon transactionType="deposit" />
+					</Box>
+					<Box display="flex" flexDirection="column" flexGrow={1}>
+						<Text weight="stronger" size="small" color="strong">
+							+1.249 XRD
+						</Text>
+						<Text size="xsmall">29 Aug, 10est, 2023</Text>
+					</Box>
 				</Link>
 			</Box>
 			<Box

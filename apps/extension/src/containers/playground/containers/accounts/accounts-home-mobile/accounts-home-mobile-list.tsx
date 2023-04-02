@@ -1,6 +1,6 @@
-/* eslint-disable */
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import clsx from 'clsx'
-import React, { forwardRef, useCallback, useEffect, useRef, useState } from 'react'
+import React, { forwardRef, useCallback, useEffect, useState } from 'react'
 import { Virtuoso } from 'react-virtuoso'
 
 import { Box } from 'ui/src/components-v2/box'
@@ -75,6 +75,7 @@ export const AccountsHomeMobileList = forwardRef<HTMLElement, IAccountTransactio
 
 		return (
 			<Box ref={ref} className={clsx(styles.mobileAccountsListWrapper, className)}>
+				{/* eslint-disable-next-line */}
 				<Context.Provider value={{ setItems }}>
 					<Virtuoso
 						customScrollParent={customScrollParent}
@@ -100,18 +101,13 @@ export const AccountsHomeMobileList = forwardRef<HTMLElement, IAccountTransactio
 											<Box>asset type tokens</Box>
 										</Box>
 									)
-								case LIST_ITEM_ASSET:
-									return (
-										<Box>
-											<Box>asset</Box>
-										</Box>
-									)
 								case LIST_ITEM_ACTIVITY:
 									return <AccountsMobileActivityListItem id={id} index={index} loaded={loaded} name={name} />
+								case LIST_ITEM_ASSET:
 								default:
 									return (
 										<Box>
-											<Box>default</Box>
+											<Box>asset</Box>
 										</Box>
 									)
 							}

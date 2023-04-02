@@ -60,56 +60,9 @@ export const AccountTransaction = forwardRef<HTMLElement, IAccountTransactionPro
 					<DialogContent className={styles.transactionContent} onEscapeKeyDown={navigateBack}>
 						<ScrollArea>
 							<Box position="relative" padding="large">
-								<h1>Lorum</h1>
-								<h1>Lorum</h1>
-								<h1>Lorum</h1>
-								<h1>Lorum</h1>
-								<h1>Lorum</h1>
-								<h1>Lorum</h1>
-								<h1>Lorum</h1>
-								<h1>Lorum</h1>
-								<h1>Lorum</h1>
-								<h1>Lorum</h1>
-								<h1>Lorum</h1>
-								<h1>Lorum</h1>
-								<h1>Lorum</h1>
-								<h1>Lorum</h1>
-								<h1>Lorum</h1>
-								<h1>Lorum</h1>
-								<h1>Lorum</h1>
-								<h1>Lorum</h1>
-								<h1>Lorum</h1>
-								<h1>Lorum</h1>
-								<h1>Lorum</h1>
-								<h1>Lorum</h1>
-								<h1>Lorum</h1>
-								<h1>Lorum</h1>
-								<h1>Lorum</h1>
-								<h1>Lorum</h1>
-								<h1>Lorum</h1>
-								<h1>Lorum</h1>
-								<h1>Lorum</h1>
-								<h1>Lorum</h1>
-								<h1>Lorum</h1>
-								<h1>Lorum</h1>
-								<h1>Lorum</h1>
-								<h1>Lorum</h1>
-								<h1>Lorum</h1>
-								<h1>Lorum</h1>
-								<h1>Lorum</h1>
-								<h1>Lorum</h1>
-								<h1>Lorum</h1>
-								<h1>Lorum</h1>
-								<h1>Lorum</h1>
-								<h1>Lorum</h1>
-								<h1>Lorum</h1>
-								<h1>Lorum</h1>
-								<h1>Lorum</h1>
-								<h1>Lorum</h1>
-								<h1>Lorum</h1>
-								<h1>Lorum</h1>
-								<h1>Lorum</h1>
-								<h1>Lorum</h1>
+								{[...Array(50)].map((x, i) => (
+									<h1 key={i}>Lorum transaction</h1>
+								))}
 							</Box>
 						</ScrollArea>
 

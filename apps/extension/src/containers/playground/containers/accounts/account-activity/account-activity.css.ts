@@ -203,11 +203,3 @@ export const indicatorCircle = style([
 		height: '36px',
 	},
 ])
-
-// globalStyle(`${activtyItem}:hover ${indicatorCircle}`, {
-// 	background: vars.color.white,
-// })
-//
-// globalStyle(`.${darkMode} ${activtyItem}:hover ${indicatorCircle}`, {
-// 	background: vars.color.lead500,
-// })

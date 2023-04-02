@@ -17,6 +17,8 @@ export const tokenListGridCircleSmall = style([
 	sprinkles({
 		position: 'relative',
 		borderRadius: 'full',
+		flexShrink: 0,
+		flexGrow: 0,
 	}),
 	{
 		width: '32px',

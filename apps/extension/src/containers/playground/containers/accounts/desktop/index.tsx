@@ -13,6 +13,7 @@ import { AccountTransfer } from '@src/containers/playground/containers/accounts/
 import { AccountsHomeDesktop } from '@src/containers/playground/containers/accounts/accounts-home-desktop'
 import { DesktopNavigation as Navigation } from '@src/containers/playground/containers/accounts/navigation'
 import { NavigationScrollContainer } from '@src/containers/playground/containers/accounts/navigation-scroll-container'
+import { AccountTransaction } from '@src/containers/playground/containers/accounts/account-transaction'
 import { useLocationKey } from '@src/containers/playground/hooks/use-location-key'
 
 import * as styles from './accounts-desktop.css'
@@ -74,6 +75,7 @@ export const AccountsDesktop = (): JSX.Element => {
 					</Routes>
 				</AnimatePresence>
 			</Box>
+			<AccountTransaction />
 		</Box>
 	)
 }
