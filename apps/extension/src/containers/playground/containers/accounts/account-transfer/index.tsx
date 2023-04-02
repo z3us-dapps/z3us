@@ -34,8 +34,9 @@ export const AccountTransfer = forwardRef<HTMLElement, IAccountTransferProps>(
 				<Box>
 					{[...Array(30)].map((_, i) => (
 						<Box key={i}>
-							<Text size="xxxlarge">Heebs</Text>
-							<Text size="xxxlarge">Heebs</Text>
+							<Text size="xxxlarge">lorum</Text>
+							<Text size="xxxlarge">lorum</Text>
+							<Text size="xxxlarge">lorum</Text>
 						</Box>
 					))}
 				</Box>

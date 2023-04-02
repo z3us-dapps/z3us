@@ -85,7 +85,7 @@ export const accountsHomeHeaderSticky = style([
 export const accountsHomeHeaderStickyScrolled = style([
 	sprinkles({
 		width: 'full',
-		// transition: 'fast',
+		transition: 'fast',
 		opacity: 0,
 		background: 'backgroundPrimary',
 	}),
