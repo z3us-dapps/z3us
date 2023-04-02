@@ -32,6 +32,7 @@ export const AccountsHomeMobile = () => {
 	const [isScrolledPastHeader, setIsScrolledPastHeader] = useState<boolean>(null)
 	const { account, assetType, asset } = useAccountParams()
 	const isAllAccounts = account === ACCOUNTS_ALL
+	const isIndexList = !!account && !assetType
 
 	const handleScrollArea = (e: Event) => {
 		const scrollTop = (e.target as HTMLElement).scrollTop

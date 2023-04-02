@@ -10,7 +10,7 @@ import { Box } from 'ui/src/components-v2/box'
 import { FormElement, Input } from 'ui/src/components-v2/input'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from 'ui/src/components-v2/tabs'
 import { Text } from 'ui/src/components-v2/typography'
-import { ChevronDown2Icon, DownLeft2Icon, SearchIcon } from 'ui/src/components/icons'
+import { ChevronDown3Icon, DownLeft2Icon, SearchIcon } from 'ui/src/components/icons'
 
 import { Button } from '@src/components/button'
 import Translation from '@src/components/translation'
@@ -61,8 +61,8 @@ const CARD_COLORS = [
 interface IAccountsHomeMobileHeaderRequiredProps {
 	isScrolledPastHeader: boolean
 	activeTab: TActiveTab
-	onClickChevron?: () => void
-	onSelectTab?: (tab: TActiveTab) => void
+	onClickChevron: () => void
+	onSelectTab: (tab: TActiveTab) => void
 }
 
 interface IAccountsHomeMobileHeaderOptionalProps {
@@ -183,10 +183,11 @@ export const AccountsHomeMobileHeader = forwardRef<HTMLElement, IAccountsHomeMob
 								className={clsx(
 									styles.tabsWrapperScrollBtn,
 									isScrolledPastHeader && styles.tabsWrapperScrollBtnScrolled,
+									false && styles.tabsWrapperScrollBtnHidden,
 								)}
 								onClick={onClickChevron}
 							>
-								<ChevronDown2Icon />
+								<ChevronDown3Icon />
 							</Button>
 						</Box>
 						<Box className={styles.inputSearchWrapper}>

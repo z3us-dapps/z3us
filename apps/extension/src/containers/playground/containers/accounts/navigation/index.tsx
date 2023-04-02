@@ -23,8 +23,7 @@ const useSelectedItem = (href: string) => {
 	const { account } = useAccountParams()
 
 	const accountMatchBlackList = [routes.TRANSFER, routes.STAKING, routes.SWAP, routes.SETTINGS]
-	const isAccountsMatch =
-		href === accountMenuSlugs.ACCOUNTS && account && !accountMatchBlackList.includes(`/${account}`)
+	const isAccountsMatch = href === accountMenuSlugs.ACCOUNTS && account && !accountMatchBlackList.includes(account)
 	const selected = !!match || isAccountsMatch
 
 	return selected

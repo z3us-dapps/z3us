@@ -14,7 +14,13 @@ import { Link } from '@src/components/link'
 import Translation from '@src/components/translation'
 import { AnimatedPage } from '@src/containers/playground/components/animated-route'
 import { ScrollPanel } from '@src/containers/playground/components/scroll-panel'
-import { ACCOUNTS_ALL } from '@src/containers/playground/config'
+import {
+	ACCOUNTS_ALL,
+	ASSET_TYPE_BADGES,
+	ASSET_TYPE_LP_TOKENS,
+	ASSET_TYPE_NFTS,
+	ASSET_TYPE_TOKENS,
+} from '@src/containers/playground/config'
 import { useAccountParams } from '@src/containers/playground/hooks/use-account-params'
 
 import * as styles from './accounts-home-mobile.css'
@@ -46,10 +52,17 @@ const defaultProps: IAccountTransactionOptionalProps = {
 }
 
 const indexItems = [
-	{ id: hash(), loaded: false, name: 'Tokens' },
-	{ id: hash(), loaded: false, name: 'LP Tokens' },
-	{ id: hash(), loaded: false, name: 'NFTs', isImageSquare: true },
-	{ id: hash(), loaded: false, name: 'Badges' },
+	{ id: `id-${ASSET_TYPE_TOKENS}`, loaded: false, name: 'Tokens', count: 12, assetType: ASSET_TYPE_TOKENS },
+	{ id: `id-${ASSET_TYPE_LP_TOKENS}`, loaded: false, name: 'LP Tokens', count: 2, assetType: ASSET_TYPE_LP_TOKENS },
+	{
+		id: `id-${ASSET_TYPE_NFTS}`,
+		loaded: false,
+		name: 'NFTs',
+		isImageSquare: true,
+		count: 6,
+		assetType: ASSET_TYPE_NFTS,
+	},
+	{ id: `id-${ASSET_TYPE_BADGES}`, loaded: false, name: 'Badges', count: 2, assetType: ASSET_TYPE_BADGES },
 ]
 
 export const AccountsHomeMobileList = forwardRef<HTMLElement, IAccountTransactionProps>(
@@ -72,18 +85,21 @@ export const AccountsHomeMobileList = forwardRef<HTMLElement, IAccountTransactio
 						customScrollParent={customScrollParent}
 						data={items}
 						// eslint-disable-next-line
-						itemContent={(index, { id, loaded, name, isImageSquare }) =>
+						itemContent={(index, { id, loaded, name, isImageSquare, count, assetType }) =>
 							isIndexList ? (
-								<AccountsMobileIndexListItem id={id} loaded={loaded} name={name} isImageSquare={isImageSquare} />
-							) : (
 								<AccountsMobileIndexListItem
-									idx={index}
-									user={user}
-									// selected={selected}
-									// setSelected={setSelected}
-									// hovered={hovered}
-									// setHovered={setHovered}
+									id={id}
+									index={index}
+									loaded={loaded}
+									name={name}
+									isImageSquare={isImageSquare}
+									count={count}
+									assetType={assetType}
 								/>
+							) : (
+								<Box>
+									<Box>HHEHHEEH</Box>
+								</Box>
 							)
 						}
 						components={{

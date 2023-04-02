@@ -11,6 +11,7 @@ export const avatarRoot = style([
 	}),
 	{
 		userSelect: 'none',
+		overflow: 'clip',
 		width: 48,
 		height: 48,
 		maxHeight: '100%',
@@ -20,7 +21,6 @@ export const avatarRoot = style([
 
 export const avatarImage = style([
 	sprinkles({
-		borderRadius: 'full',
 		width: 'full',
 		height: 'full',
 	}),
@@ -36,7 +36,6 @@ export const avatarFallback = style([
 		justifyContent: 'center',
 		width: 'full',
 		height: 'full',
-		borderRadius: 'full',
 		background: {
 			lightMode: 'bleached_silk500',
 			darkMode: 'wax900',

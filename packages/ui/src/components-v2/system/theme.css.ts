@@ -85,6 +85,7 @@ export const sharedThemeValues = {
 	grid: px(grid),
 	spacing: {
 		none: '0',
+		xxsmall: px(0.5 * grid),
 		xsmall: px(1 * grid),
 		small: px(2 * grid),
 		medium: px(3 * grid),
@@ -214,9 +215,9 @@ export const sharedThemeValues = {
 		xxlarge: {
 			calculate: calculateTypographyStyles(
 				{
-					mobile: { fontSize: 24, rows: 10 },
-					tablet: { fontSize: 24, rows: 10 },
-					desktop: { fontSize: 24, rows: 10 },
+					mobile: { fontSize: 24, rows: 9 },
+					tablet: { fontSize: 24, rows: 9 },
+					desktop: { fontSize: 24, rows: 9 },
 				},
 				'heading',
 			),

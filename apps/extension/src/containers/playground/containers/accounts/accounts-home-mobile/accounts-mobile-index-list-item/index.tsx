@@ -1,18 +1,20 @@
 /* eslint-disable */
+import * as AvatarPrimitive from '@radix-ui/react-avatar'
 import clsx from 'clsx'
 import { AnimatePresence, motion } from 'framer-motion'
 import React, { forwardRef, useContext, useEffect, useState } from 'react'
 import { Route, Routes, useLocation } from 'react-router-dom'
 import { useTimeout } from 'usehooks-ts'
 
+import { Avatar, AvatarFallback, AvatarImage } from 'ui/src/components-v2/avatar'
 import { Box } from 'ui/src/components-v2/box'
 import { Text } from 'ui/src/components-v2/typography'
-import { Close2Icon, PlusIcon, SearchIcon } from 'ui/src/components/icons'
+import { ChevronRightIcon } from 'ui/src/components/icons'
 
 import { Button } from '@src/components/button'
 import { Link } from '@src/components/link'
 import * as skeletonStyles from '@src/containers/playground/components/styles/skeleton-loading.css'
-import { animtePageVariants } from '@src/containers/playground/config'
+import { animtePageVariants, routes } from '@src/containers/playground/config'
 import { useAccountParams } from '@src/containers/playground/hooks/use-account-params'
 
 import { Context } from '../context'
@@ -20,13 +22,16 @@ import * as styles from './accounts-mobile-index-list-item.css'
 
 interface IAccountsMobileIndexListItemRequiredProps {
 	id: string
+	index: number
 	loaded: boolean
 	name: string
+	assetType: string
 }
 
 interface IAccountsMobileIndexListItemOptionalProps {
 	className?: number
 	isImageSquare?: boolean
+	count?: number
 }
 
 interface IAccountsMobileIndexListItemProps
@@ -41,7 +46,7 @@ const defaultProps: IAccountsMobileIndexListItemOptionalProps = {
 export const AccountsMobileIndexListItem = forwardRef<HTMLElement, IAccountsMobileIndexListItemProps>(
 	(props, ref: React.Ref<HTMLElement | null>) => {
 		const { setItems } = useContext(Context)
-		const { id, loaded, name, isImageSquare } = props
+		const { id, index, loaded, name, isImageSquare, count, assetType } = props
 
 		// const { account, assetType, asset } = useAccountParams()
 		const { pathname } = useLocation()
@@ -59,7 +64,7 @@ export const AccountsMobileIndexListItem = forwardRef<HTMLElement, IAccountsMobi
 		}, 1000)
 
 		return (
-			<Box className={styles.mobileAccountsListItem}>
+			<Box className={styles.mobileAccountsIndex}>
 				<AnimatePresence initial={false}>
 					{!loaded && (
 						<motion.div
@@ -68,38 +73,134 @@ export const AccountsMobileIndexListItem = forwardRef<HTMLElement, IAccountsMobi
 							variants={animtePageVariants}
 							style={{ position: 'absolute', top: '0', left: '0', right: '0', bottom: '0' }}
 						>
-							<Box paddingX="medium" width="full" height="full" display="flex" alignItems="center" gap="medium">
-								<Box className={clsx(skeletonStyles.tokenListSkeleton, skeletonStyles.tokenListGridCircle)} />
-								<Box className={skeletonStyles.tokenListSkeleton} flexGrow={1} style={{ height: '40px' }} />
-								<Box className={skeletonStyles.tokenListSkeleton} style={{ height: '40px', width: '80px' }} />
+							<Box
+								paddingX="medium"
+								width="full"
+								height="full"
+								display="flex"
+								gap="small"
+								flexDirection="column"
+								justifyContent="center"
+							>
+								<Box display="flex">
+									<Box
+										className={skeletonStyles.tokenListSkeleton}
+										style={{ height: '20px', width: index % 2 === 0 ? '25%' : '35%' }}
+									/>
+									<Box display="flex" flexGrow={1} justifyContent="flex-end">
+										<Box className={skeletonStyles.tokenListSkeleton} style={{ height: '20px', width: '20px' }} />
+									</Box>
+								</Box>
+								<Box display="flex">
+									<Box
+										display="flex"
+										flexGrow={1}
+										justifyContent="flex-start"
+										className={skeletonStyles.tokenListGridCircleSmallWrapper}
+									>
+										{[...Array(index % 2 === 0 ? 3 : 5)].map((x, i) => (
+											// eslint-disable-next-line
+											<Box
+												key={i}
+												className={clsx(skeletonStyles.tokenListSkeleton, skeletonStyles.tokenListGridCircleSmall)}
+											/>
+										))}
+									</Box>
+									<Box display="flex" flexGrow={1} justifyContent="flex-end">
+										<Box
+											className={skeletonStyles.tokenListSkeleton}
+											style={{ height: '20px', width: index % 2 === 0 ? '35%' : '45%' }}
+										/>
+									</Box>
+								</Box>
 							</Box>
 						</motion.div>
 					)}
 				</AnimatePresence>
 				<AnimatePresence initial={false}>
 					{loaded && (
-						<Link to={`/accounts/${account}/tokens/${id}`}>
-							<motion.div
-								initial="hidden"
-								animate="visible"
-								variants={animtePageVariants}
-								className={styles.itemWrapperMotion}
+						<Box className={styles.mobileAccountsIndexWrapper}>
+							<Link
+								underline="never"
+								to={`/${routes.ACCOUNTS}/${account}/${assetType}`}
+								className={styles.mobileAccountsIndexLink}
 							>
-								<Box className={clsx(styles.mobileAccountsListItemInner)}>
-									<Box display="flex" alignItems="center" justifyContent="flex-start" gap="medium">
-										{/* <Box className={styles.tokenListGridCircle} style={{ backgroundColor: '#ea983d' }} /> */}
-										<Text size="medium" weight="medium" color="strong">
-											{name}
-										</Text>
+								<motion.div
+									initial="hidden"
+									animate="visible"
+									variants={animtePageVariants}
+									className={styles.mobileAccountsIndexMotionWrapper}
+								>
+									<Box className={clsx(styles.mobileAccountsIndexInner)}>
+										<Box display="flex">
+											<Box display="flex" alignItems="center" flexGrow={1} gap="xsmall">
+												<Text size="small" weight="strong" color="strong">
+													{name}
+												</Text>
+												<Text size="small" weight="medium">
+													({count})
+												</Text>
+											</Box>
+											<Box display="flex" alignItems="center">
+												<ChevronRightIcon />
+											</Box>
+										</Box>
+										<Box display="flex" alignItems="center" marginTop="small">
+											<Box display="flex" alignItems="center" className={styles.mobileAccountsIndexSplit} />
+											<Box
+												display="flex"
+												flexDirection="column"
+												alignItems="flex-end"
+												justifyContent="center"
+												gap="xxsmall"
+												className={styles.mobileAccountsIndexSplit}
+											>
+												<Text size="xsmall" weight="strong" color="strong">
+													$10,430.45
+												</Text>
+												<Text size="xsmall" weight="regular" color="green">
+													+0.26%
+												</Text>
+											</Box>
+										</Box>
 									</Box>
-									<Box display="flex" alignItems="center">
-										<Text size="small" color="strong">
-											Amount
-										</Text>
-									</Box>
+								</motion.div>
+							</Link>
+							<Box className={styles.mobileAccountsIndexAbsoluteAssetsWrapper}>
+								{[...Array(4)].map((x, i) => (
+									// eslint-disable-next-line
+									<Link
+										key={i}
+										to={`/${routes.ACCOUNTS}/${account}/${assetType}/xrd`}
+										className={
+											isImageSquare ? styles.mobileAccountsIndexAssetSquare : styles.mobileAccountsIndexAssetCircle
+										}
+										underline="never"
+									>
+										<Box>
+											<AvatarPrimitive.Root
+												className={
+													isImageSquare
+														? styles.mobileAccountsIndexAssetSquareAvatar
+														: styles.mobileAccountsIndexAssetCirclAvatar
+												}
+											>
+												<AvatarImage
+													src="https://images.unsplash.com/photo-1492633423870-43d1cd2775eb?&w=128&h=128&dpr=2&q=80"
+													alt="Colm Tuite"
+												/>
+												<AvatarFallback delayMs={600}>CT</AvatarFallback>
+											</AvatarPrimitive.Root>
+										</Box>
+									</Link>
+								))}
+								<Box marginLeft="small">
+									<Text size="xsmall" weight="regular">
+										+7
+									</Text>
 								</Box>
-							</motion.div>
-						</Link>
+							</Box>
+						</Box>
 					)}
 				</AnimatePresence>
 			</Box>

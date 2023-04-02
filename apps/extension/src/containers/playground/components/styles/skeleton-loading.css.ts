@@ -1,4 +1,4 @@
-import { globalKeyframes, style } from '@vanilla-extract/css'
+import { globalKeyframes, globalStyle, style } from '@vanilla-extract/css'
 
 import { darkMode, sprinkles } from 'ui/src/components-v2/system/sprinkles.css'
 
@@ -12,6 +12,28 @@ export const tokenListGridCircle = style([
 		height: '40px',
 	},
 ])
+
+export const tokenListGridCircleSmall = style([
+	sprinkles({
+		position: 'relative',
+		borderRadius: 'full',
+	}),
+	{
+		width: '32px',
+		height: '32px',
+		marginLeft: '-5px',
+	},
+])
+
+export const tokenListGridCircleSmallWrapper = style([
+	sprinkles({
+		position: 'relative',
+	}),
+])
+
+globalStyle(`${tokenListGridCircleSmallWrapper} > ${tokenListGridCircleSmall}:first-child`, {
+	marginLeft: '0',
+})
 
 export const tokenListSkeleton = style([
 	sprinkles({

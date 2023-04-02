@@ -1,7 +1,7 @@
-import React, { ReactNode } from 'react'
 import clsx from 'clsx'
-import { sprinkles } from '../system/sprinkles.css'
+import React, { ReactNode } from 'react'
 
+import { sprinkles } from '../system/sprinkles.css'
 import * as styles from './link.css'
 import { TextProps, textStyles } from './text'
 
