@@ -1,6 +1,6 @@
 import clsx from 'clsx'
 import { AnimatePresence, motion } from 'framer-motion'
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 
 import { Box } from 'ui/src/components-v2/box'
 import { Button, TStyleVariant } from 'ui/src/components-v2/button'
@@ -64,6 +64,7 @@ interface ICopyAddressButtonOptionalProps {
 	tickColor?: string
 	iconOnly?: boolean
 	rounded?: boolean
+	animationTimeout?: number
 }
 
 interface ICopyAddressButtonProps extends ICopyAddressButtonRequiredProps, ICopyAddressButtonOptionalProps {}
@@ -74,21 +75,28 @@ const defaultProps: ICopyAddressButtonOptionalProps = {
 	tickColor: 'green400',
 	iconOnly: false,
 	rounded: true,
+	animationTimeout: 1500,
 }
 
 export const CopyAddressButton: React.FC<ICopyAddressButtonProps> = props => {
-	const { className, address, styleVariant, iconOnly, rounded, tickColor } = props
+	const { className, address, styleVariant, iconOnly, rounded, tickColor, animationTimeout } = props
 
 	const [copiedAnimate, setCopiedAnimate] = useState<boolean>(false)
 
 	const handleAddressClick = () => {
 		copyTextToClipboard(address)
 		setCopiedAnimate(true)
-
-		setTimeout(() => {
-			setCopiedAnimate(false)
-		}, 3000)
 	}
+
+	useEffect(() => {
+		const timeoutId = setTimeout(() => {
+			if (copiedAnimate) {
+				setCopiedAnimate(false)
+			}
+		}, animationTimeout)
+
+		return () => clearTimeout(timeoutId)
+	}, [copiedAnimate])
 
 	return (
 		<ToolTip message={address}>
