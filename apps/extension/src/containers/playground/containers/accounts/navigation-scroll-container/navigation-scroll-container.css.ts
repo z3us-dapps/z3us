@@ -7,6 +7,7 @@ export const scrollWrapper = style([
 		position: 'relative',
 		height: 'full',
 		width: 'full',
+		background: 'backgroundPrimary',
 	}),
 	{},
 ])
@@ -23,7 +24,6 @@ export const scrollPaddingWrapper = style([
 export const headerWrapper = style([
 	sprinkles({
 		zIndex: 1,
-		background: 'backgroundSecondary',
 	}),
 	{},
 ])

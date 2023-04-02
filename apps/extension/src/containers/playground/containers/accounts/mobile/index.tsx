@@ -6,10 +6,10 @@ import { Box } from 'ui/src/components-v2/box'
 
 import { AnimatedPage } from '@src/containers/playground/components/animated-route'
 import { routes } from '@src/containers/playground/config'
-import { AccountSettings } from '@src/containers/playground/containers/accounts/account-settings'
 import { AccountStaking } from '@src/containers/playground/containers/accounts/account-staking'
 import { AccountSwap } from '@src/containers/playground/containers/accounts/account-swap'
 import { AccountTransfer } from '@src/containers/playground/containers/accounts/account-transfer'
+import { AccountSettings } from '@src/containers/playground/containers/accounts/account-settings'
 import { AccountsHomeMobile } from '@src/containers/playground/containers/accounts/accounts-home-mobile'
 import { MobileFooterNavigation } from '@src/containers/playground/containers/accounts/navigation'
 import { NavigationScrollContainer } from '@src/containers/playground/containers/accounts/navigation-scroll-container'
@@ -64,7 +64,11 @@ export const AccountsMobile: React.FC = () => {
 							path={routes.SETTINGS}
 							element={
 								<AnimatedPage>
-									<AccountSettings />
+									<NavigationScrollContainer
+										renderPanel={(scrollableNode: HTMLElement | null, scrollTop: number) => (
+											<AccountSettings scrollableNode={scrollableNode} scrollTop={scrollTop} />
+										)}
+									/>
 								</AnimatedPage>
 							}
 						/>

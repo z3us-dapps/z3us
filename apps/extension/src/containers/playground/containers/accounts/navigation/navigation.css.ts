@@ -134,6 +134,7 @@ export const accountsHomeMobileHeader = style([
 export const accountsHomeMobileHeaderShadow = style([
 	sprinkles({
 		boxShadow: 'shadowPanel',
+		background: 'backgroundSecondary',
 	}),
 	{},
 ])
