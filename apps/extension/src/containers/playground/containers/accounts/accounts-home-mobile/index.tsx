@@ -36,6 +36,14 @@ export const AccountsHomeMobile = () => {
 	const isActivityRoute = !!searchParams.get(SEARCH_ACTIVITY_PARAM)
 	const isAllAccounts = account === ACCOUNTS_ALL
 
+	// create hook here
+	const bgStyle = {
+		backgroundImage:
+			!isAllAccounts && !asset
+				? 'url("/images/account-images/z3us-apple-hermes.png"), radial-gradient(77.21% 96.45% at 50% 100%, #FE845E 0%, #E08BAB 17.71%, #AB8CFF 50.52%, #946DFF 100%)'
+				: '',
+	}
+
 	const handleScrollArea = useCallback(
 		(event: Event) => {
 			const { scrollTop } = event.target as HTMLElement
@@ -85,12 +93,6 @@ export const AccountsHomeMobile = () => {
 		}
 
 		return LIST_ITEM_ASSET
-	}
-
-	const bgStyle = {
-		backgroundImage: !isAllAccounts
-			? 'url("/images/account-images/z3us-apple-hermes.png"), radial-gradient(77.21% 96.45% at 50% 100%, #FE845E 0%, #E08BAB 17.71%, #AB8CFF 50.52%, #946DFF 100%)'
-			: '',
 	}
 
 	return (

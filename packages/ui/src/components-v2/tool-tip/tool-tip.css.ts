@@ -1,5 +1,6 @@
 import { style, keyframes } from '@vanilla-extract/css'
 import { sprinkles } from '../system/sprinkles.css'
+import { responsiveStyle } from '../system/theme-utils'
 
 const fadeIn = keyframes({
 	'0%': { transform: 'scale(0.90) translateY(-5px)', opacity: '0' },
@@ -20,7 +21,7 @@ export const toolTipContent = style([
 		pointerEvents: 'none',
 	}),
 	{
-		maxWidth: '20rem',
+		maxWidth: '220px',
 		overflowWrap: 'break-word',
 		animationTimingFunction: 'cubic-bezier(0.16, 1, 0.3, 1)',
 		willChange: 'transform, opacity',
@@ -37,6 +38,12 @@ export const toolTipContent = style([
 			},
 		},
 	},
+
+	responsiveStyle({
+		mobile: { maxWidth: '230px' },
+		tablet: { maxWidth: '320px' },
+		desktop: { maxWidth: '320px' },
+	}),
 ])
 
 export const toolTipContentBgSecondary = style([

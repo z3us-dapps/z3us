@@ -2,6 +2,8 @@
 import clsx from 'clsx'
 import { AnimatePresence } from 'framer-motion'
 
+import { Avatar, AvatarFallback, AvatarImage } from 'ui/src/components-v2/avatar'
+
 import { Link } from '@src/components/link'
 import React, { forwardRef, useRef, useState } from 'react'
 import { useIntersectionObserver } from 'usehooks-ts'
@@ -77,7 +79,7 @@ export const AccountsHomeMobileHeader = forwardRef<HTMLElement, IAccountsHomeMob
 		const { className, isScrolledPastHeader, onClickChevron, isAreaScrollable, isActivityRoute, backgroundStyle } =
 			props
 		const { account, assetType, asset } = useAccountParams()
-		const isAllAccount = account === ACCOUNTS_ALL
+		const isAllAccount = account === ACCOUNTS_ALL && !asset
 		const [cards] = useState<Array<any>>(CARD_COLORS)
 		const elementRef = useRef<HTMLDivElement | null>(null)
 		const entry = useIntersectionObserver(elementRef, { threshold: [1] })
@@ -90,42 +92,82 @@ export const AccountsHomeMobileHeader = forwardRef<HTMLElement, IAccountsHomeMob
 
 		const clickBackLink = `/${routes.ACCOUNTS}${account ? `/${account}` : ''}${asset ? `/${assetType}` : ''}`
 
-		return (
-			<>
-				<Box ref={ref} className={clsx(styles.accountsHomeHeaderAccount, className)} style={backgroundStyle}>
-					{isAllAccount ? (
-						<Box className={styles.accountsHomeHeadAll}>
-							<Box className={styles.accountsHomeAllChart}></Box>
-							<Box marginTop="medium">
-								<Text color="strong" align="center" size="xxlarge">
-									Total balance
+		const generateHeaderSection = () => {
+			if (isAllAccount) {
+				return (
+					<Box className={styles.accountsHomeHeadAll}>
+						<Box className={styles.accountsHomeAllChart}></Box>
+						<Box marginTop="medium">
+							<Text color="strong" align="center" size="xxlarge">
+								Total balance
+							</Text>
+							<Text color="strong" align="center" size="xlarge">
+								$13,300
+							</Text>
+							<Text align="center" size="xlarge">
+								+2.43%
+							</Text>
+						</Box>
+					</Box>
+				)
+			}
+
+			if (asset) {
+				return (
+					<Box className={styles.accountsHomeHeadAll}>
+						<Box className={styles.accountsAssetIcon}>
+							<Avatar>
+								<AvatarImage
+									src="https://images.unsplash.com/photo-1492633423870-43d1cd2775eb?&w=128&h=128&dpr=2&q=80"
+									alt="Colm Tuite"
+								/>
+								<AvatarFallback delayMs={600}>CT</AvatarFallback>
+							</Avatar>
+						</Box>
+						<Box marginTop="medium">
+							<Text color="strong" align="center" size="xxlarge">
+								Radix (XRD)
+							</Text>
+							<Text color="strong" align="center" size="xlarge">
+								$3.95876
+							</Text>
+							<Box display="flex" gap="small">
+								<Text align="center" size="large">
+									+2.43%
 								</Text>
-								<Text color="strong" align="center" size="xlarge">
-									$13,300
-								</Text>
-								<Text align="center" size="xlarge">
+								<Text align="center" size="large">
 									+2.43%
 								</Text>
 							</Box>
 						</Box>
-					) : (
-						<AnimatePresence initial={false}>
-							<Box component="ul" className={styles.cardWrapperAll}>
-								{cards.map(({ accountName, accountId, accountBalance }, idx) => (
-									<AnimatedCard
-										key={accountName}
-										selectedCardIndex={1}
-										cardIndex={idx}
-										animateOnScroll={false}
-										accountAddress={accountId}
-										accountBalance={accountBalance}
-										accountName={accountName}
-										showCopyAddressButton
-									/>
-								))}
-							</Box>
-						</AnimatePresence>
-					)}
+					</Box>
+				)
+			}
+
+			return (
+				<AnimatePresence initial={false}>
+					<Box component="ul" className={styles.cardWrapperAll}>
+						{cards.map(({ accountName, accountId, accountBalance }, idx) => (
+							<AnimatedCard
+								key={accountName}
+								selectedCardIndex={1}
+								cardIndex={idx}
+								animateOnScroll={false}
+								accountAddress={accountId}
+								accountBalance={accountBalance}
+								accountName={accountName}
+								showCopyAddressButton
+							/>
+						))}
+					</Box>
+				</AnimatePresence>
+			)
+		}
+
+		return (
+			<>
+				<Box ref={ref} className={clsx(styles.accountsHomeHeaderAccount, className)} style={backgroundStyle}>
+					{generateHeaderSection()}
 					<Box position="relative" zIndex={1} marginTop="large">
 						<CardButtons theme="backgroundSecondary" />
 					</Box>

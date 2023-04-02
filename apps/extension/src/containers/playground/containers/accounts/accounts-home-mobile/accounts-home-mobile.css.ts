@@ -1,7 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-// import { responsiveStyle } from 'ui/src/components-v2/system/theme-utils'
 import { globalStyle, style } from '@vanilla-extract/css'
-
 import { darkMode, sprinkles } from 'ui/src/components-v2/system/sprinkles.css'
 import { vars } from 'ui/src/components-v2/system/theme.css'
 
@@ -19,6 +17,7 @@ export const accountsHomeMobileWrapper = style([
 export const accountsColorBackground = style([
 	sprinkles({
 		background: 'backgroundPrimary',
+		transition: 'fastall',
 	}),
 	{
 		backgroundRepeat: 'no-repeat',
@@ -36,6 +35,7 @@ export const accountsHomeHeaderAccount = style([
 		width: 'full',
 		position: 'sticky',
 		top: 0,
+		transition: 'fastall',
 	}),
 	{
 		paddingTop: '52px',
@@ -70,6 +70,27 @@ export const accountsHomeAllChart = style([
 	{
 		height: '80px',
 		width: '80px',
+	},
+])
+
+export const accountsAssetIcon = style([
+	sprinkles({
+		position: 'relative',
+		borderRadius: 'full',
+		pointerEvents: 'auto',
+		borderColor: 'backgroundSecondary',
+		borderStyle: 'solid',
+		borderWidth: 'xsmall',
+		transition: 'fast',
+	}),
+	{
+		width: '50px',
+		height: '50px',
+		// selectors: {
+		// 	'&:hover': {
+		// 		borderColor: vars.color.purple500,
+		// 	},
+		// },
 	},
 ])
 
