@@ -15,6 +15,7 @@ import {
 import * as styles from './accounts-home-mobile.css'
 import { AccountsMobileIndexListItem } from './accounts-mobile-index-list-item'
 import { AccountsMobileActivityListItem } from './accounts-mobile-activity-list-item'
+import { AccountsMobileAssetListItem } from './accounts-mobile-asset-list-item'
 import { Context } from './context'
 import { TListItem } from './types'
 import { LIST_ITEM_INDEX, LIST_ITEM_ASSET, LIST_ITEM_ACTIVITY, LIST_ITEM_ASSET_TYPE } from './constants'
@@ -96,18 +97,14 @@ export const AccountsHomeMobileList = forwardRef<HTMLElement, IAccountTransactio
 										/>
 									)
 								case LIST_ITEM_ASSET_TYPE:
-									return (
-										<Box>
-											<Box>asset type tokens</Box>
-										</Box>
-									)
+									return <AccountsMobileAssetListItem id={id} index={index} loaded={loaded} name={name} />
 								case LIST_ITEM_ACTIVITY:
 									return <AccountsMobileActivityListItem id={id} index={index} loaded={loaded} name={name} />
 								case LIST_ITEM_ASSET:
 								default:
 									return (
 										<Box>
-											<Box>asset</Box>
+											<Box>asset TODO</Box>
 										</Box>
 									)
 							}
