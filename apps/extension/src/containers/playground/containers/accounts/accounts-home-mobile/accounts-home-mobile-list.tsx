@@ -26,7 +26,8 @@ import { useAccountParams } from '@src/containers/playground/hooks/use-account-p
 import * as styles from './accounts-home-mobile.css'
 import { AccountsMobileIndexListItem } from './accounts-mobile-index-list-item'
 import { Context } from './context'
-import { TActiveTab } from './types'
+import { TListItem } from './types'
+import { LIST_ITEM_INDEX, LIST_ITEM_ASSET, LIST_ITEM_ACTIVITY, LIST_ITEM_ASSET_TYPE } from './constants'
 
 const hash = () => Math.random().toString(36).substring(7)
 
@@ -38,7 +39,7 @@ const ItemContainer = props => <Box {...props} />
 
 interface IAccountTransactionRequiredProps {
 	customScrollParent: HTMLElement
-	activeTab: TActiveTab
+	listItemType: TListItem
 }
 
 interface IAccountTransactionOptionalProps {
@@ -67,16 +68,12 @@ const indexItems = [
 
 export const AccountsHomeMobileList = forwardRef<HTMLElement, IAccountTransactionProps>(
 	(props, ref: React.Ref<HTMLElement | null>) => {
-		const { customScrollParent } = props
+		const { customScrollParent, listItemType } = props
 
 		// const [items, setItems] = useState(Array.from({ length: 20 }, _ => ({ id: hash(), name: hash(), loaded: false })))
 		const [items, setItems] = useState(indexItems)
 
 		const computeItemKey = useCallback(index => items[index].id, [items])
-
-		const { account, assetType, asset } = useAccountParams()
-		const isIndexList = !!account && !assetType
-		// const isAllAccounts = account === ACCOUNTS_ALL
 
 		return (
 			<Box ref={ref} className={styles.mobileAccountsListWrapper}>
@@ -85,23 +82,46 @@ export const AccountsHomeMobileList = forwardRef<HTMLElement, IAccountTransactio
 						customScrollParent={customScrollParent}
 						data={items}
 						// eslint-disable-next-line
-						itemContent={(index, { id, loaded, name, isImageSquare, count, assetType }) =>
-							isIndexList ? (
-								<AccountsMobileIndexListItem
-									id={id}
-									index={index}
-									loaded={loaded}
-									name={name}
-									isImageSquare={isImageSquare}
-									count={count}
-									assetType={assetType}
-								/>
-							) : (
-								<Box>
-									<Box>HHEHHEEH</Box>
-								</Box>
-							)
-						}
+						itemContent={(index, { id, loaded, name, isImageSquare, count, assetType }) => {
+							switch (listItemType) {
+								case LIST_ITEM_INDEX:
+									return (
+										<AccountsMobileIndexListItem
+											id={id}
+											index={index}
+											loaded={loaded}
+											name={name}
+											isImageSquare={isImageSquare}
+											count={count}
+											assetType={assetType}
+										/>
+									)
+								case LIST_ITEM_ASSET_TYPE:
+									return (
+										<Box>
+											<Box>asset type tokens</Box>
+										</Box>
+									)
+								case LIST_ITEM_ASSET:
+									return (
+										<Box>
+											<Box>asset</Box>
+										</Box>
+									)
+								case LIST_ITEM_ACTIVITY:
+									return (
+										<Box>
+											<Box>activity</Box>
+										</Box>
+									)
+								default:
+									return (
+										<Box>
+											<Box>default</Box>
+										</Box>
+									)
+							}
+						}}
 						components={{
 							List: ListContainer,
 							Item: ItemContainer,

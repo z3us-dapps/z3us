@@ -1,31 +1,24 @@
 /* eslint-disable */
 import clsx from 'clsx'
 import { AnimatePresence } from 'framer-motion'
-import React, { forwardRef, useEffect, useRef, useState } from 'react'
-import { Route, Routes, useLocation } from 'react-router-dom'
-import { Virtuoso } from 'react-virtuoso'
-import { useIntersectionObserver } from 'usehooks-ts'
 
+import { Link } from '@src/components/link'
+import React, { forwardRef, useRef, useState } from 'react'
+import { useIntersectionObserver } from 'usehooks-ts'
 import { Box } from 'ui/src/components-v2/box'
-import { FormElement, Input } from 'ui/src/components-v2/input'
-import { Tabs, TabsContent, TabsList, TabsTrigger } from 'ui/src/components-v2/tabs'
+import { Input } from 'ui/src/components-v2/input'
 import { Text } from 'ui/src/components-v2/typography'
-import { ChevronDown3Icon, DownLeft2Icon, SearchIcon } from 'ui/src/components/icons'
+import { ChevronDown3Icon, SearchIcon } from 'ui/src/components/icons'
 
 import { Button } from '@src/components/button'
 import Translation from '@src/components/translation'
 import { AnimatedCard } from '@src/containers/playground/components/animated-card'
-import { AnimatedPage } from '@src/containers/playground/components/animated-route'
 import { CardButtons } from '@src/containers/playground/components/card-buttons'
-import { CopyAddressButton } from '@src/containers/playground/components/copy-address-button'
-import { ScrollPanel } from '@src/containers/playground/components/scroll-panel'
-import { Z3usLoading } from '@src/containers/playground/components/z3us-loading'
-import { routes } from '@src/containers/playground/config'
+import { routes, ACCOUNTS_ALL } from '@src/containers/playground/config'
 import { useAccountParams } from '@src/containers/playground/hooks/use-account-params'
 
 import * as styles from './accounts-home-mobile.css'
-import { ACTIVE_TAB_ACTIVITY, ACTIVE_TAB_ASSETS } from './constants'
-import { TActiveTab } from './types'
+import { SEARCH_ACTIVITY_PARAM } from './constants'
 
 const CARD_COLORS = [
 	{
@@ -60,9 +53,9 @@ const CARD_COLORS = [
 
 interface IAccountsHomeMobileHeaderRequiredProps {
 	isScrolledPastHeader: boolean
-	activeTab: TActiveTab
 	onClickChevron: () => void
-	onSelectTab: (tab: TActiveTab) => void
+	isAreaScrollable: boolean
+	isActivityRoute: boolean
 }
 
 interface IAccountsHomeMobileHeaderOptionalProps {
@@ -79,14 +72,18 @@ const defaultProps: IAccountsHomeMobileHeaderOptionalProps = {
 
 export const AccountsHomeMobileHeader = forwardRef<HTMLElement, IAccountsHomeMobileHeaderProps>(
 	(props, ref: React.Ref<HTMLElement | null>) => {
-		const { className, isScrolledPastHeader, onClickChevron, activeTab, onSelectTab } = props
-		const location = useLocation()
+		const { className, isScrolledPastHeader, onClickChevron, isAreaScrollable, isActivityRoute } = props
 		const { account, assetType, asset } = useAccountParams()
-		const isAllAccount = account === 'all'
+		const isAllAccount = account === ACCOUNTS_ALL
 		const [cards] = useState<Array<any>>(CARD_COLORS)
 		const elementRef = useRef<HTMLDivElement | null>(null)
 		const entry = useIntersectionObserver(elementRef, { threshold: [1] })
 		const isSticky = !entry?.isIntersecting
+
+		const generateAccountLink = (isActivity: boolean) =>
+			`/${routes.ACCOUNTS}${account ? `/${account}` : ''}${assetType ? `/${assetType}` : ''}${
+				asset ? `/${asset}` : ''
+			}${isActivity ? `?${SEARCH_ACTIVITY_PARAM}=true` : ''}`
 
 		return (
 			<>
@@ -150,32 +147,32 @@ export const AccountsHomeMobileHeader = forwardRef<HTMLElement, IAccountsHomeMob
 					/>
 					<Box className={clsx(styles.accountsHomeHeaderStickyVis, isSticky && styles.accountsHomeHeaderStickyVisIs)}>
 						<Box className={styles.tabsWrapper}>
-							<Box
-								component="button"
+							<Link
+								underline="never"
+								to={generateAccountLink(false)}
 								className={clsx(
 									styles.tabsWrapperButton,
 									styles.tabsWrapperButtonLeft,
-									activeTab === ACTIVE_TAB_ASSETS && styles.tabsWrapperButtonActive,
+									!isActivityRoute && styles.tabsWrapperButtonActive,
 								)}
-								onClick={() => onSelectTab(ACTIVE_TAB_ASSETS)}
 							>
-								<Text size="medium" weight="strong" align="center" color="strong">
+								<Text size="medium" weight="strong" align="center" color={!isActivityRoute ? 'strong' : 'neutral'}>
 									Assets
 								</Text>
-							</Box>
-							<Box
-								component="button"
+							</Link>
+							<Link
+								underline="never"
+								to={generateAccountLink(true)}
 								className={clsx(
 									styles.tabsWrapperButton,
 									styles.tabsWrapperButtonRight,
-									activeTab === ACTIVE_TAB_ACTIVITY && styles.tabsWrapperButtonActive,
+									isActivityRoute && styles.tabsWrapperButtonActive,
 								)}
-								onClick={() => onSelectTab(ACTIVE_TAB_ACTIVITY)}
 							>
-								<Text size="medium" weight="strong" align="center">
+								<Text size="medium" weight="strong" align="center" color={isActivityRoute ? 'strong' : 'neutral'}>
 									Activity
 								</Text>
-							</Box>
+							</Link>
 							<Button
 								styleVariant="ghost"
 								sizeVariant="small"
@@ -183,7 +180,7 @@ export const AccountsHomeMobileHeader = forwardRef<HTMLElement, IAccountsHomeMob
 								className={clsx(
 									styles.tabsWrapperScrollBtn,
 									isScrolledPastHeader && styles.tabsWrapperScrollBtnScrolled,
-									false && styles.tabsWrapperScrollBtnHidden,
+									!isAreaScrollable && styles.tabsWrapperScrollBtnHidden,
 								)}
 								onClick={onClickChevron}
 							>

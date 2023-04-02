@@ -37,8 +37,8 @@
 		"csstype": "^3.1.1",
 		"design": "*",
 		"lodash": "^4.17.21",
-		"postcss-import": "^15.0.0",
 		"postcss-custom-media": "^9.0.1",
+		"postcss-import": "^15.0.0",
 		"postcss-nesting": "^10.2.0",
 		"sass": "^1.49.9",
 		"sass-loader": "10.1.1",
@@ -87,6 +87,7 @@
 		"react-use-measure": "^2.1.1",
 		"simplebar-react": "^2.4.1",
 		"use-immer": "^0.7.0",
+		"usehooks-ts": "^2.9.1",
 		"zustand": "^4.1.1"
 	}
 }

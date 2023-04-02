@@ -1,6 +1,8 @@
-import { ACTIVE_TAB_ACTIVITY, ACTIVE_TAB_ASSETS } from './constants'
+import { LIST_ITEM_INDEX, LIST_ITEM_ASSET, LIST_ITEM_ACTIVITY, LIST_ITEM_ASSET_TYPE } from './constants'
 
-export type TActiveTabAssets = typeof ACTIVE_TAB_ASSETS
-export type TActiveTabActivity = typeof ACTIVE_TAB_ACTIVITY
+export type TListItemIndex = typeof LIST_ITEM_INDEX
+export type TListItemAssetType = typeof LIST_ITEM_ASSET_TYPE
+export type TListItemAsset = typeof LIST_ITEM_ASSET
+export type TListItemActivity = typeof LIST_ITEM_ACTIVITY
 
-export type TActiveTab = TActiveTabAssets | TActiveTabActivity
+export type TListItem = TListItemIndex | TListItemAssetType | TListItemAsset | TListItemActivity

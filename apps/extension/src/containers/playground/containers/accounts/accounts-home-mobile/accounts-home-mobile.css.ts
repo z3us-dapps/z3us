@@ -58,7 +58,9 @@ export const accountsHomeAllChart = style([
 	sprinkles({
 		background: 'wax200',
 		borderRadius: 'full',
-		boxShadow: 'shadowPanel',
+		boxShadow: 'shadowDropdown',
+		flexShrink: 0,
+		flexGrow: 0,
 	}),
 	{
 		height: '80px',
@@ -199,12 +201,14 @@ globalStyle(`${tabsWrapperScrollBtnScrolled} > svg`, {
 	transition: 'all 150ms ease-out',
 	transform: 'rotateX(180deg) scale3d(1,1,1)',
 	backfaceVisibility: 'hidden',
-	// transform: 'rotate(180deg)',
 })
 
 export const tabsWrapperButton = style([
 	sprinkles({
 		width: 'full',
+		display: 'flex',
+		alignItems: 'center',
+		justifyContent: 'center',
 		cursor: 'pointer',
 		position: 'relative',
 		transition: 'fast',
