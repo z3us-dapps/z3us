@@ -1,4 +1,4 @@
-/* eslint-disable */
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { AnimatePresence } from 'framer-motion'
 import React, { useRef, useState, useCallback } from 'react'
 import { Route, Routes, useLocation, useSearchParams } from 'react-router-dom'
@@ -38,7 +38,7 @@ export const AccountsHomeMobile = () => {
 
 	const handleScrollArea = useCallback(
 		(event: Event) => {
-			const scrollTop = (event.target as HTMLElement).scrollTop
+			const { scrollTop } = event.target as HTMLElement
 			const headerHeight = headerRef.current.clientHeight - HEADER_HEIGHT
 
 			if (!isScrolledPastHeader && scrollTop >= headerHeight) {
@@ -83,6 +83,8 @@ export const AccountsHomeMobile = () => {
 		if (isAsset) {
 			return LIST_ITEM_ASSET
 		}
+
+		return LIST_ITEM_ASSET
 	}
 
 	const bgStyle = {
@@ -92,50 +94,48 @@ export const AccountsHomeMobile = () => {
 	}
 
 	return (
-		<>
-			<Box className={styles.accountsHomeMobileWrapper}>
-				<ScrollArea
-					scrollableNodeProps={{ ref: setCustomScrollParent }}
-					onScroll={handleScrollArea}
-					isTopShadowVisible={false}
-					onScrollAreaSizeChange={handleScrollAreaSizeChange}
-				>
-					<AccountsHomeMobileHeader
-						ref={headerRef}
-						isScrolledPastHeader={isScrolledPastHeader}
-						onClickChevron={handleChevronClick}
-						isAreaScrollable={isAreaScrollable}
-						isActivityRoute={isActivityRoute}
-						className={styles.accountsColorBackground}
-						backgroundStyle={bgStyle}
-					/>
-					<Box position="relative">
-						<AnimatePresence initial={false}>
-							<Routes location={location} key={location.pathname}>
-								{[routes.ACCOUNT, routes.ACCOUNT_ASSET_TYPE, routes.ACCOUNT_ASSET].map(path => (
-									<Route
-										key="assetsList"
-										path={path}
-										element={
-											<AnimatedPage>
-												<AccountsHomeMobileList
-													customScrollParent={customScrollParent}
-													listItemType={getListItemType()}
-												/>
-											</AnimatedPage>
-										}
-									/>
-								))}
-							</Routes>
-						</AnimatePresence>
-					</Box>
-				</ScrollArea>
-				<MobileHeaderNavigation
-					copyAddressBtnVisible={isScrolledPastHeader && !isAllAccounts}
+		<Box className={styles.accountsHomeMobileWrapper}>
+			<ScrollArea
+				scrollableNodeProps={{ ref: setCustomScrollParent }}
+				onScroll={handleScrollArea}
+				isTopShadowVisible={false}
+				onScrollAreaSizeChange={handleScrollAreaSizeChange}
+			>
+				<AccountsHomeMobileHeader
+					ref={headerRef}
+					isScrolledPastHeader={isScrolledPastHeader}
+					onClickChevron={handleChevronClick}
+					isAreaScrollable={isAreaScrollable}
+					isActivityRoute={isActivityRoute}
 					className={styles.accountsColorBackground}
-					style={bgStyle}
+					backgroundStyle={bgStyle}
 				/>
-			</Box>
-		</>
+				<Box position="relative">
+					<AnimatePresence initial={false}>
+						<Routes location={location} key={location.pathname}>
+							{[routes.ACCOUNT, routes.ACCOUNT_ASSET_TYPE, routes.ACCOUNT_ASSET].map(path => (
+								<Route
+									key="assetsList"
+									path={path}
+									element={
+										<AnimatedPage>
+											<AccountsHomeMobileList
+												customScrollParent={customScrollParent}
+												listItemType={getListItemType()}
+											/>
+										</AnimatedPage>
+									}
+								/>
+							))}
+						</Routes>
+					</AnimatePresence>
+				</Box>
+			</ScrollArea>
+			<MobileHeaderNavigation
+				copyAddressBtnVisible={isScrolledPastHeader && !isAllAccounts}
+				className={styles.accountsColorBackground}
+				style={bgStyle}
+			/>
+		</Box>
 	)
 }
