@@ -94,15 +94,16 @@ export const AccountsHomeMobile = () => {
 		return LIST_ITEM_ASSET
 	}
 
-	// TODO: hook to scroll if at bottom of list
+	// TODO: FIX - hook to scroll if at bottom of list
 	useEffect(() => {
-		// console.log('asset:', asset)
-		// console.log('assetType:', assetType)
-		// console.log('account:', account)
-		// console.log('isActivityRoute ', isActivityRoute)
-		// const headerHeight = headerRef.current.clientHeight - HEADER_HEIGHT
-		// customScrollParent?.scrollTo({ top: headerHeight, behavior: 'smooth' })
-	}, [account, assetType, asset, isActivityRoute, customScrollParent])
+		const headerHeight = headerRef.current.clientHeight - HEADER_HEIGHT
+		if (isScrolledPastHeader) {
+			// this sucks, but needs to hit a scroll to render when going back to the index
+			setTimeout(() => {
+				customScrollParent?.scrollTo({ top: headerHeight, behavior: 'smooth' })
+			}, 100)
+		}
+	}, [account, assetType, asset, isActivityRoute, isScrolledPastHeader])
 
 	return (
 		<Box className={styles.accountsHomeMobileWrapper}>

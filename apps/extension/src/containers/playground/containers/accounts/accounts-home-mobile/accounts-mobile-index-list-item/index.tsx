@@ -63,20 +63,20 @@ export const AccountsMobileIndexListItem = forwardRef<HTMLElement, IAccountsMobi
 		}, 1000)
 
 		// demo for language change
-		useEffect(() => {
-			setTimeout(() => {
-				if (!loaded) {
-					setItems(items =>
-						items.map(item => {
-							if (item.id === id) {
-								item.loaded = true
-							}
-							return item
-						}),
-					)
-				}
-			}, 2000)
-		}, [loaded])
+		// useEffect(() => {
+		// 	setTimeout(() => {
+		// 		if (!loaded) {
+		// 			setItems(items =>
+		// 				items.map(item => {
+		// 					if (item.id === id) {
+		// 						item.loaded = true
+		// 					}
+		// 					return item
+		// 				}),
+		// 			)
+		// 		}
+		// 	}, 2000)
+		// }, [loaded])
 
 		return (
 			<Box ref={ref} className={clsx(styles.mobileAccountsIndex, className)}>
