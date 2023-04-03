@@ -75,52 +75,48 @@ export const ScrollArea: React.FC<IProps> = ({
 			if (onScroll) {
 				onScroll(event)
 			}
-
 			// eslint-disable-next-line react-hooks/exhaustive-deps
 		},
 		[scrollElemement?.offsetHeight, scrollElemement?.offsetWidth, scrollElemement],
 	)
 
 	useEffect(() => {
-		if (scrollElemement) {
-			const simpleBarContent = scrollElemement?.getElementsByClassName('simplebar-content')[0]
-			scrollElemement.addEventListener('scroll', handleScroll, { passive: true })
+		const scrollRef = sRef?.current?.getScrollElement()
+		const simpleBarContent = scrollRef.getElementsByClassName('simplebar-content')[0]
+		scrollRef.addEventListener('scroll', handleScroll, { passive: true })
 
-			observer.current = new ResizeObserver(entries => {
-				entries.forEach(entry => {
-					handleScrollAreaSizeChange()
-					const contentBoxSize = Array.isArray(entry.contentBoxSize) ? entry.contentBoxSize[0] : entry.contentBoxSize
-					setState(draft => {
-						draft.isBottmShadowVisible = contentBoxSize.blockSize > scrollElemement.clientHeight
-					})
+		observer.current = new ResizeObserver(entries => {
+			entries.forEach(entry => {
+				if (onScrollAreaSizeChange) {
+					onScrollAreaSizeChange()
+				}
+				const contentBoxSize = Array.isArray(entry.contentBoxSize) ? entry.contentBoxSize[0] : entry.contentBoxSize
+				setState(draft => {
+					draft.isBottmShadowVisible = contentBoxSize.blockSize > scrollRef.clientHeight
 				})
 			})
-			scrollObserver.current = new ResizeObserver(entries => {
-				entries.forEach(entry => {
-					handleScrollAreaSizeChange()
-					const contentBoxSize = Array.isArray(entry.contentBoxSize) ? entry.contentBoxSize[0] : entry.contentBoxSize
-					setState(draft => {
-						draft.isBottmShadowVisible = simpleBarContent.clientHeight > contentBoxSize.blockSize
-					})
+		})
+		scrollObserver.current = new ResizeObserver(entries => {
+			entries.forEach(entry => {
+				const contentBoxSize = Array.isArray(entry.contentBoxSize) ? entry.contentBoxSize[0] : entry.contentBoxSize
+				setState(draft => {
+					draft.isBottmShadowVisible = simpleBarContent.clientHeight > contentBoxSize.blockSize
 				})
 			})
-			if (simpleBarContent) {
-				observer.current.observe(simpleBarContent)
-			}
-			if (scrollElemement) {
-				scrollObserver.current.observe(scrollElemement)
-			}
+		})
+		if (simpleBarContent) {
+			observer.current.observe(simpleBarContent)
 		}
-
+		if (scrollRef) {
+			scrollObserver.current.observe(scrollRef)
+		}
 		return () => {
-			if (scrollElemement) {
-				scrollElemement.removeEventListener('scroll', handleScroll)
-				if (observer.current) {
-					observer.current.disconnect()
-				}
-				if (scrollObserver.current) {
-					scrollObserver.current.disconnect()
-				}
+			scrollRef.removeEventListener('scroll', handleScroll)
+			if (observer.current) {
+				observer.current.disconnect()
+			}
+			if (scrollObserver.current) {
+				scrollObserver.current.disconnect()
 			}
 		}
 	}, [scrollElemement])

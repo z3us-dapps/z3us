@@ -21,9 +21,9 @@ export const transactionHeaderWrapper = style([
 		alignItems: 'center',
 		paddingX: 'medium',
 		background: 'backgroundPrimary',
-		boxShadow: 'shadowDropdown',
 		borderTopLeftRadius: 'large',
 		borderTopRightRadius: 'large',
+		transition: 'fast',
 	}),
 	{},
 	responsiveStyle({
@@ -32,16 +32,21 @@ export const transactionHeaderWrapper = style([
 	}),
 ])
 
+export const transactionHeaderWrapperShadow = style([
+	sprinkles({
+		boxShadow: 'shadowScroll',
+	}),
+	{},
+])
+
 export const transactionBodyScrollWrapper = style([
 	sprinkles({
 		position: 'relative',
-		paddingX: 'large',
 		paddingBottom: 'large',
 	}),
 	{
 		paddingTop: '64px',
 	},
-
 	responsiveStyle({
 		mobile: { paddingTop: '48px' },
 		tablet: { paddingTop: '64px' },
@@ -81,13 +86,7 @@ export const transactionContent = style([
 		background: 'backgroundPrimary',
 		color: 'colorNeutral',
 		bottom: 0,
-		borderLeft: 1,
-		borderRight: 1,
-		borderTop: 0,
-		borderBottom: 0,
 		boxShadow: 'shadowActivePanel',
-		borderStyle: 'solid',
-		borderColor: 'borderDivider',
 		borderTopLeftRadius: 'large',
 		borderTopRightRadius: 'large',
 		overflow: 'clip',
@@ -116,7 +115,20 @@ export const transactionContent = style([
 	},
 	responsiveStyle({
 		mobile: { maxWidth: '90%', top: '48px' },
-		tablet: { maxWidth: '500px', top: '48px' },
-		desktop: { maxWidth: '500px', top: '72px' },
+		tablet: { maxWidth: '480px', top: '48px' },
+		desktop: { maxWidth: '480px', top: '72px' },
 	}),
+])
+
+export const transactionRowDotted = style([
+	sprinkles({
+		position: 'relative',
+		borderStyle: 'dashed',
+		flexGrow: 1,
+		borderBottom: 1,
+		borderColor: 'borderDividerSecondary',
+		marginBottom: 'xsmall',
+		marginX: 'medium',
+	}),
+	{},
 ])

@@ -13,6 +13,10 @@
 				"value": "{shadow.panel.shadow_active_panel_light.value}",
 				"darkValue": "{shadow.panel.shadow_active_panel_dark.value}"
 			},
+			"shadow_scroll": {
+				"value": "{shadow.panel.shadow_scroll_light.value}",
+				"darkValue": "{shadow.panel.shadow_scroll_dark.value}"
+			},
 			"button_secondary_focus": {
 				"value": "0 0 0 5px rgb(255 81 0 / 16%), 0 0 0 1.5px #8457ff, inset 0 -1px 2px -0.5px hsl(0deg 0% 100% / 11%), inset 0 0 0 0.5px hsl(0deg 0% 100% / 3%)",
 				"darkValue": "0 0 0 5px rgb(255 81 0 / 16%), 0 0 0 1.5px #8457ff, inset 0 -1px 2px -0.5px hsl(0deg 0% 100% / 11%), inset 0 0 0 0.5px hsl(0deg 0% 100% / 3%)"
