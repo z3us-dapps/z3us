@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { AnimatePresence } from 'framer-motion'
-import React, { useRef, useState, useCallback } from 'react'
+import React, { useRef, useState, useCallback, useEffect } from 'react'
 import { Route, Routes, useLocation, useSearchParams } from 'react-router-dom'
 
 import { Box } from 'ui/src/components-v2/box'
@@ -93,6 +93,16 @@ export const AccountsHomeMobile = () => {
 
 		return LIST_ITEM_ASSET
 	}
+
+	// TODO: hook to scroll if at bottom of list
+	useEffect(() => {
+		// console.log('asset:', asset)
+		// console.log('assetType:', assetType)
+		// console.log('account:', account)
+		// console.log('isActivityRoute ', isActivityRoute)
+		// const headerHeight = headerRef.current.clientHeight - HEADER_HEIGHT
+		// customScrollParent?.scrollTo({ top: headerHeight, behavior: 'smooth' })
+	}, [account, assetType, asset, isActivityRoute, customScrollParent])
 
 	return (
 		<Box className={styles.accountsHomeMobileWrapper}>

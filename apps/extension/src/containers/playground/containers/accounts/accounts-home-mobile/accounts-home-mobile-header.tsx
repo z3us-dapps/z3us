@@ -106,7 +106,7 @@ export const AccountsHomeMobileHeader = forwardRef<HTMLElement, IAccountsHomeMob
 		const getTabTitle = () => {
 			switch (assetType) {
 				case ASSET_TYPE_TOKENS: {
-					return t('accounts.home.assetsTokens')
+					return `${t('accounts.home.assetsTokens')} ${asset ? `(${asset.toUpperCase()})` : ''}`
 				}
 				case ASSET_TYPE_LP_TOKENS: {
 					return t('accounts.home.assetsLpTokens')
