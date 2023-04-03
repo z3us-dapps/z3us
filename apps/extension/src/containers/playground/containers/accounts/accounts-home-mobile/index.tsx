@@ -6,7 +6,6 @@ import { Route, Routes, useLocation, useSearchParams } from 'react-router-dom'
 import { Box } from 'ui/src/components-v2/box'
 import { ScrollArea } from 'ui/src/components-v2/scroll-area'
 
-import Translation from '@src/components/translation'
 import { AnimatedPage } from '@src/containers/playground/components/animated-route'
 import { ACCOUNTS_ALL, routes } from '@src/containers/playground/config'
 import { MobileHeaderNavigation } from '@src/containers/playground/containers/accounts/navigation'

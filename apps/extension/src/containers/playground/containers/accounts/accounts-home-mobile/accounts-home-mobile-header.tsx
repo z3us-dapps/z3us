@@ -101,7 +101,7 @@ export const AccountsHomeMobileHeader = forwardRef<HTMLElement, IAccountsHomeMob
 				generateAssetLink && asset ? `/${asset}` : ''
 			}${isActivity ? `?${SEARCH_ACTIVITY_PARAM}=true` : ''}`
 
-		const clickBackLink = `/${routes.ACCOUNTS}${account ? `/${account}` : ''}${asset ? `/${assetType}` : ''}`
+		const clickBackLink = `/${routes.ACCOUNTS}${account ? `/${account}` : ''}`
 
 		const getTabTitle = () => {
 			switch (assetType) {
@@ -118,7 +118,7 @@ export const AccountsHomeMobileHeader = forwardRef<HTMLElement, IAccountsHomeMob
 					return t('accounts.home.assetsBadges')
 				}
 				default:
-					return t('accounts.home.assetsTokens')
+					return t('global.assets')
 			}
 		}
 
