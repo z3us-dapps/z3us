@@ -36,7 +36,7 @@ export const AccountsHomeMobile = () => {
 	const isActivityRoute = !!searchParams.get(SEARCH_ACTIVITY_PARAM)
 	const isAllAccounts = account === ACCOUNTS_ALL
 
-	// create hook here
+	// @TODO: create hook here
 	const bgStyle = {
 		backgroundImage:
 			!isAllAccounts && !asset

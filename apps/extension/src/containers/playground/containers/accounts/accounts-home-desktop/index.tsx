@@ -16,7 +16,6 @@ import { AccountIndexAssets } from '@src/containers/playground/containers/accoun
 import { AccountIndexHeader } from '@src/containers/playground/containers/accounts/account-index-header'
 import { AccountSearch } from '@src/containers/playground/containers/accounts/account-search'
 import { AccountSwitcher } from '@src/containers/playground/containers/accounts/account-switcher'
-import { AccountTransaction } from '@src/containers/playground/containers/accounts/account-transaction'
 import { AccountsList } from '@src/containers/playground/containers/accounts/accounts-list'
 import { useAccountParams } from '@src/containers/playground/hooks/use-account-params'
 
@@ -121,7 +120,6 @@ export const AccountsHomeDesktop = () => {
 					/>
 				</Box>
 			</Box>
-			<AccountTransaction />
 		</Box>
 	)
 }

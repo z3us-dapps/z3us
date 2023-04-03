@@ -10,7 +10,7 @@ import { ShareIcon } from 'ui/src/components/icons'
 
 import { Button } from '@src/components/button'
 import { Link } from '@src/components/link'
-import { TransactionIcon } from '@src/containers/playground/components/transaction-icon'
+import { TransactionIcon } from '@src/components/transaction-icon'
 
 import * as styles from './account-activity.css'
 

@@ -2,8 +2,6 @@
 import clsx from 'clsx'
 import { AnimatePresence } from 'framer-motion'
 
-import { Avatar, AvatarFallback, AvatarImage } from 'ui/src/components-v2/avatar'
-
 import { Link } from '@src/components/link'
 import React, { forwardRef, useRef, useState } from 'react'
 import { useIntersectionObserver } from 'usehooks-ts'
@@ -11,6 +9,7 @@ import { Box } from 'ui/src/components-v2/box'
 import { Input } from 'ui/src/components-v2/input'
 import { Text } from 'ui/src/components-v2/typography'
 import { ChevronDown3Icon, SearchIcon, ChevronLeftIcon } from 'ui/src/components/icons'
+import { TransactionIcon } from '@src/components/transaction-icon'
 
 import { Button } from '@src/components/button'
 import Translation from '@src/components/translation'
@@ -115,15 +114,7 @@ export const AccountsHomeMobileHeader = forwardRef<HTMLElement, IAccountsHomeMob
 			if (asset) {
 				return (
 					<Box className={styles.accountsHomeHeadAll}>
-						<Box className={styles.accountsAssetIcon}>
-							<Avatar>
-								<AvatarImage
-									src="https://images.unsplash.com/photo-1492633423870-43d1cd2775eb?&w=128&h=128&dpr=2&q=80"
-									alt="Colm Tuite"
-								/>
-								<AvatarFallback delayMs={600}>CT</AvatarFallback>
-							</Avatar>
-						</Box>
+						<TransactionIcon transactionType="deposit" />
 						<Box marginTop="medium">
 							<Text color="strong" align="center" size="xxlarge">
 								Radix (XRD)

@@ -63,34 +63,13 @@ export const accountsHomeAllChart = style([
 	sprinkles({
 		background: 'wax200',
 		borderRadius: 'full',
-		boxShadow: 'shadowDropdown',
+		// boxShadow: 'shadowPanel',
 		flexShrink: 0,
 		flexGrow: 0,
 	}),
 	{
 		height: '80px',
 		width: '80px',
-	},
-])
-
-export const accountsAssetIcon = style([
-	sprinkles({
-		position: 'relative',
-		borderRadius: 'full',
-		pointerEvents: 'auto',
-		borderColor: 'backgroundSecondary',
-		borderStyle: 'solid',
-		borderWidth: 'xsmall',
-		transition: 'fast',
-	}),
-	{
-		width: '50px',
-		height: '50px',
-		// selectors: {
-		// 	'&:hover': {
-		// 		borderColor: vars.color.purple500,
-		// 	},
-		// },
 	},
 ])
 

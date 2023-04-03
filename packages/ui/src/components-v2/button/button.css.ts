@@ -16,6 +16,7 @@ export const button = recipe({
 		textDecoration: 'none',
 		outline: 'none',
 		cursor: 'pointer',
+		flexShrink: 0,
 	},
 	variants: {
 		styleVariant: {

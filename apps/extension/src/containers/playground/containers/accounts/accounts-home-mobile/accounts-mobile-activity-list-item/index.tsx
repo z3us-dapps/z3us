@@ -7,7 +7,7 @@ import { AnimatePresence, motion } from 'framer-motion'
 import React, { forwardRef, useContext } from 'react'
 import { useTimeout } from 'usehooks-ts'
 import { Box } from 'ui/src/components-v2/box'
-import { TransactionIcon } from '@src/containers/playground/components/transaction-icon'
+import { TransactionIcon } from '@src/components/transaction-icon'
 import { Text } from 'ui/src/components-v2/typography'
 import { ShareIcon } from 'ui/src/components/icons'
 import { Link } from '@src/components/link'
@@ -16,6 +16,7 @@ import { animtePageVariants } from '@src/containers/playground/config'
 import { useAccountParams } from '@src/containers/playground/hooks/use-account-params'
 
 import { Context } from '../context'
+import { SEARCH_ACTIVITY_PARAM } from '../constants'
 import * as styles from './accounts-mobile-activity-list-item.css'
 
 interface IAccountsMobileActivityListItemRequiredProps {
@@ -109,7 +110,7 @@ export const AccountsMobileActivityListItem = forwardRef<HTMLElement, IAccountsM
 						<Box className={styles.mobileAccountsActivityWrapper}>
 							<Link
 								underline="never"
-								to={`${pathname}?asset=xrd&transactionId=1eaf53c4256c384d76ca72c0f18ef37a2e4441d4e6bae450e2b8507f42faa5b6`}
+								to={`${pathname}?${SEARCH_ACTIVITY_PARAM}=true&asset=xrd&transactionId=1eaf53c4256c384d76ca72c0f18ef37a2e4441d4e6bae450e2b8507f42faa5b6`}
 								className={styles.mobileAccountsActivityLink}
 							>
 								<motion.div

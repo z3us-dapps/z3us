@@ -1,5 +1,6 @@
 import { keyframes, style } from '@vanilla-extract/css'
 
+import { responsiveStyle } from 'ui/src/components-v2/system/theme-utils'
 import { sprinkles } from 'ui/src/components-v2/system/sprinkles.css'
 
 export const fadeIn = keyframes({
@@ -12,25 +13,39 @@ export const fadeOut = keyframes({
 	'100%': { opacity: '0' },
 })
 
-export const closeButton = style([
-	sprinkles({
-		position: 'absolute',
-		top: 0,
-		right: 0,
-		marginTop: 'medium',
-		marginRight: 'medium',
-	}),
-	{},
-])
-
-export const transactionWrapper = style([
+export const transactionHeaderWrapper = style([
 	sprinkles({
 		position: 'relative',
+		width: 'full',
+		display: 'flex',
+		alignItems: 'center',
+		paddingX: 'medium',
+		background: 'backgroundPrimary',
+		boxShadow: 'shadowDropdown',
+		borderTopLeftRadius: 'large',
+		borderTopRightRadius: 'large',
+	}),
+	{},
+	responsiveStyle({
+		mobile: { height: '48px' },
+		tablet: { height: '64px' },
+	}),
+])
+
+export const transactionBodyScrollWrapper = style([
+	sprinkles({
+		position: 'relative',
+		paddingX: 'large',
+		paddingBottom: 'large',
 	}),
 	{
-		width: '100px',
-		height: '64px',
+		paddingTop: '64px',
 	},
+
+	responsiveStyle({
+		mobile: { paddingTop: '48px' },
+		tablet: { paddingTop: '64px' },
+	}),
 ])
 
 export const transactionOverlay = style([
@@ -40,7 +55,8 @@ export const transactionOverlay = style([
 		zIndex: 1,
 	}),
 	{
-		background: 'rgba(0, 0, 0, 0.5)',
+		// TODO: need theme background color
+		background: 'rgba(0, 0, 0, 0.6)',
 		animationTimingFunction: 'cubic-bezier(0.16, 1, 0.3, 1)',
 		transformOrigin: 'var(--radix-dropdown-menu-content-transform-origin)',
 		willChange: 'transform, opacity',
@@ -64,19 +80,21 @@ export const transactionContent = style([
 		zIndex: 1,
 		background: 'backgroundPrimary',
 		color: 'colorNeutral',
-		top: 0,
 		bottom: 0,
 		borderLeft: 1,
 		borderRight: 1,
 		borderTop: 0,
 		borderBottom: 0,
-		boxShadow: 'shadowDropdown',
+		boxShadow: 'shadowActivePanel',
 		borderStyle: 'solid',
 		borderColor: 'borderDivider',
+		borderTopLeftRadius: 'large',
+		borderTopRightRadius: 'large',
+		overflow: 'clip',
 	}),
 	{
 		transform: 'translateX(-50%)',
-		width: '500px',
+		width: '100%',
 		left: '50%',
 		animationTimingFunction: 'cubic-bezier(0.16, 1, 0.3, 1)',
 		transformOrigin: 'var(--radix-dropdown-menu-content-transform-origin)',
@@ -96,4 +114,9 @@ export const transactionContent = style([
 			},
 		},
 	},
+	responsiveStyle({
+		mobile: { maxWidth: '90%', top: '48px' },
+		tablet: { maxWidth: '500px', top: '48px' },
+		desktop: { maxWidth: '500px', top: '72px' },
+	}),
 ])

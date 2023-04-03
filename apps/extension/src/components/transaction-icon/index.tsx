@@ -6,7 +6,7 @@ import clsx from 'clsx'
 
 import * as styles from './transaction-icon.css'
 
-type TTransactionTypes = 'deposit' | 'send'
+export type TTransactionTypes = 'deposit' | 'send'
 
 const getIconByType = (type: TTransactionTypes) => {
 	const iconMap = {
@@ -37,7 +37,7 @@ export const TransactionIcon = forwardRef<HTMLElement, ITransactionIconProps>(
 		const icon = getIconByType(transactionType)
 
 		return (
-			<Box ref={ref} className={clsx(className, styles.transactionIconWrapper)}>
+			<Box ref={ref} className={clsx(styles.transactionIconWrapper, className)}>
 				<Avatar>
 					<AvatarImage
 						className={styles.transactionAvatar}
