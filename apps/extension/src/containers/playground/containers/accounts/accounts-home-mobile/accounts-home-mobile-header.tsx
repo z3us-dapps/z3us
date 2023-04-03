@@ -1,4 +1,7 @@
 /* eslint-disable */
+
+import { useTranslation } from 'react-i18next'
+
 import clsx from 'clsx'
 import { AnimatePresence } from 'framer-motion'
 
@@ -15,7 +18,14 @@ import { Button } from '@src/components/button'
 import Translation from '@src/components/translation'
 import { AnimatedCard } from '@src/containers/playground/components/animated-card'
 import { CardButtons } from '@src/containers/playground/components/card-buttons'
-import { routes, ACCOUNTS_ALL } from '@src/containers/playground/config'
+import {
+	routes,
+	ACCOUNTS_ALL,
+	ASSET_TYPE_TOKENS,
+	ASSET_TYPE_LP_TOKENS,
+	ASSET_TYPE_NFTS,
+	ASSET_TYPE_BADGES,
+} from '@src/containers/playground/config'
 import { useAccountParams } from '@src/containers/playground/hooks/use-account-params'
 
 import * as styles from './accounts-home-mobile.css'
@@ -82,6 +92,8 @@ export const AccountsHomeMobileHeader = forwardRef<HTMLElement, IAccountsHomeMob
 		const [cards] = useState<Array<any>>(CARD_COLORS)
 		const elementRef = useRef<HTMLDivElement | null>(null)
 		const entry = useIntersectionObserver(elementRef, { threshold: [1] })
+		const { t } = useTranslation()
+
 		const isSticky = !entry?.isIntersecting
 
 		const generateAccountLink = (isActivity = false, generateAssetLink = false) =>
@@ -91,6 +103,25 @@ export const AccountsHomeMobileHeader = forwardRef<HTMLElement, IAccountsHomeMob
 
 		const clickBackLink = `/${routes.ACCOUNTS}${account ? `/${account}` : ''}${asset ? `/${assetType}` : ''}`
 
+		const getTabTitle = () => {
+			switch (assetType) {
+				case ASSET_TYPE_TOKENS: {
+					return t('accounts.home.assetsTokens')
+				}
+				case ASSET_TYPE_LP_TOKENS: {
+					return t('accounts.home.assetsLpTokens')
+				}
+				case ASSET_TYPE_NFTS: {
+					return t('accounts.home.assetsNfts')
+				}
+				case ASSET_TYPE_BADGES: {
+					return t('accounts.home.assetsBadges')
+				}
+				default:
+					return t('accounts.home.assetsTokens')
+			}
+		}
+
 		const generateHeaderSection = () => {
 			if (isAllAccount) {
 				return (
@@ -98,7 +129,7 @@ export const AccountsHomeMobileHeader = forwardRef<HTMLElement, IAccountsHomeMob
 						<Box className={styles.accountsHomeAllChart}></Box>
 						<Box marginTop="medium">
 							<Text color="strong" align="center" size="xxlarge">
-								Total balance
+								<Translation text="accounts.home.accountBalanceTitle" />
 							</Text>
 							<Text color="strong" align="center" size="xlarge">
 								$13,300
@@ -184,8 +215,7 @@ export const AccountsHomeMobileHeader = forwardRef<HTMLElement, IAccountsHomeMob
 								)}
 							>
 								<Text size="medium" weight="strong" align="center" color={!isActivityRoute ? 'strong' : 'neutral'}>
-									{/* @TODO: get correct name based on contstants */}
-									{assetType ? `${assetType}` : 'Assets'}
+									{getTabTitle()}
 								</Text>
 							</Link>
 							<Link
@@ -198,7 +228,7 @@ export const AccountsHomeMobileHeader = forwardRef<HTMLElement, IAccountsHomeMob
 								)}
 							>
 								<Text size="medium" weight="strong" align="center" color={isActivityRoute ? 'strong' : 'neutral'}>
-									Activity
+									<Translation text="global.activity" />
 								</Text>
 							</Link>
 							<Button
@@ -225,7 +255,7 @@ export const AccountsHomeMobileHeader = forwardRef<HTMLElement, IAccountsHomeMob
 								sizeVariant="small"
 								className={styles.inputSearch}
 								value=""
-								placeholder="Search"
+								placeholder={t('global.search')}
 								rounded
 								leftIcon={<SearchIcon />}
 								// className={styles.inputElement}

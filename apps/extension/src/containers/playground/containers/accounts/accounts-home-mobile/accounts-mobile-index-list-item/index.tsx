@@ -1,7 +1,7 @@
 import * as AvatarPrimitive from '@radix-ui/react-avatar'
 import clsx from 'clsx'
 import { AnimatePresence, motion } from 'framer-motion'
-import React, { forwardRef, useContext } from 'react'
+import React, { forwardRef, useContext, useEffect } from 'react'
 import { useTimeout } from 'usehooks-ts'
 
 import { AvatarFallback, AvatarImage } from 'ui/src/components-v2/avatar'
@@ -50,6 +50,7 @@ export const AccountsMobileIndexListItem = forwardRef<HTMLElement, IAccountsMobi
 		// const { account, assetType, asset } = useAccountParams()
 		const { account } = useAccountParams()
 
+		// demo for timing
 		useTimeout(() => {
 			setItems(items =>
 				items.map(item => {
@@ -60,6 +61,22 @@ export const AccountsMobileIndexListItem = forwardRef<HTMLElement, IAccountsMobi
 				}),
 			)
 		}, 1000)
+
+		// demo for language change
+		useEffect(() => {
+			setTimeout(() => {
+				if (!loaded) {
+					setItems(items =>
+						items.map(item => {
+							if (item.id === id) {
+								item.loaded = true
+							}
+							return item
+						}),
+					)
+				}
+			}, 2000)
+		}, [loaded])
 
 		return (
 			<Box ref={ref} className={clsx(styles.mobileAccountsIndex, className)}>

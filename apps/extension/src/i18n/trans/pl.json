@@ -1,18 +1,20 @@
 {
 	"global": {
-		"ok": "Okay",
-		"cancel": "Cancel",
-		"next": "Next",
-		"previous": "Previous",
-		"tokens": "Tokens",
+		"ok": "Dobra",
+		"cancel": "anulować",
+		"next": "Następny",
+		"previous": "poprzedni",
+		"tokens": "Żetony",
 		"activity": "działalność",
+		"assets": "aktywa",
 		"nfts": "Nfts",
-		"lpTokens": "LP Tokesn",
+		"lpTokens": "LP Tokens",
 		"badges": "Badges",
 		"send": "Wysłać",
 		"receive": "Odbierać",
 		"address": "Adres",
-		"copied": "skopiowane"
+		"copied": "skopiowane",
+		"search": "Szukaj"
 	},
 	"accounts": {
 		"navigation": {

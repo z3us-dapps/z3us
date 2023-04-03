@@ -26,6 +26,7 @@ interface TextStyleProps {
 	display?: Sprinkles['display']
 	type?: Exclude<keyof typeof styles.font, 'brand' | 'heading'>
 	className?: string
+	firstLetterUppercase?: boolean
 }
 
 export interface TextProps extends TextStyleProps {
@@ -43,14 +44,25 @@ const defaultProps = {
 	display: 'block',
 	type: 'body',
 	className: undefined,
+	firstLetterUppercase: undefined,
 }
 
-export const textStyles = ({ size, color, weight, type, align, baseline, className }: TextStyleProps) =>
+export const textStyles = ({
+	size,
+	color,
+	weight,
+	type,
+	align,
+	baseline,
+	className,
+	firstLetterUppercase,
+}: TextStyleProps) =>
 	clsx(
 		styles.baseTextSprinkles,
 		styles.font[type],
 		baseline ? styles.text[size].trimmed : styles.text[size].untrimmed,
 		styles.weight[weight],
+		firstLetterUppercase && styles.firstLetterUppercase,
 		sprinkles({
 			...(colorMap[color]
 				? {
@@ -62,11 +74,23 @@ export const textStyles = ({ size, color, weight, type, align, baseline, classNa
 		className,
 	)
 
-const Text = ({ component, size, color, weight, align, baseline, type, display, children, className }: TextProps) => (
+const Text = ({
+	component,
+	size,
+	color,
+	weight,
+	align,
+	baseline,
+	type,
+	display,
+	children,
+	className,
+	firstLetterUppercase,
+}: TextProps) => (
 	<Box
 		component={component}
 		display={display}
-		className={textStyles({ size, color, weight, type, align, baseline, className })}
+		className={textStyles({ size, color, weight, type, align, baseline, className, firstLetterUppercase })}
 	>
 		{children}
 	</Box>

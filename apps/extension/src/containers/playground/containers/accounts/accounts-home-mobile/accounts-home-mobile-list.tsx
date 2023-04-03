@@ -1,5 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import clsx from 'clsx'
+import { useTranslation } from 'react-i18next'
+
 import React, { forwardRef, useCallback, useEffect, useState } from 'react'
 import { Virtuoso } from 'react-virtuoso'
 
@@ -19,20 +21,6 @@ import { AccountsMobileAssetListItem } from './accounts-mobile-asset-list-item'
 import { Context } from './context'
 import { TListItem } from './types'
 import { LIST_ITEM_INDEX, LIST_ITEM_ASSET, LIST_ITEM_ACTIVITY, LIST_ITEM_ASSET_TYPE } from './constants'
-
-const indexItems = [
-	{ id: `id-${ASSET_TYPE_TOKENS}`, loaded: false, name: 'Tokens', count: 12, assetType: ASSET_TYPE_TOKENS },
-	{ id: `id-${ASSET_TYPE_LP_TOKENS}`, loaded: false, name: 'LP Tokens', count: 2, assetType: ASSET_TYPE_LP_TOKENS },
-	{
-		id: `id-${ASSET_TYPE_NFTS}`,
-		loaded: false,
-		name: 'NFTs',
-		isImageSquare: true,
-		count: 6,
-		assetType: ASSET_TYPE_NFTS,
-	},
-	{ id: `id-${ASSET_TYPE_BADGES}`, loaded: false, name: 'Badges', count: 2, assetType: ASSET_TYPE_BADGES },
-]
 
 export const hash = () => Math.random().toString(36).substring(7)
 
@@ -61,6 +49,40 @@ export const AccountsHomeMobileList = forwardRef<HTMLElement, IAccountTransactio
 	(props, ref: React.Ref<HTMLElement | null>) => {
 		const { customScrollParent, listItemType, className } = props
 
+		const { t, i18n } = useTranslation()
+
+		const indexItems = [
+			{
+				id: `id-${ASSET_TYPE_TOKENS}`,
+				loaded: false,
+				name: t('accounts.home.assetsTokens'),
+				count: 12,
+				assetType: ASSET_TYPE_TOKENS,
+			},
+			{
+				id: `id-${ASSET_TYPE_LP_TOKENS}`,
+				loaded: false,
+				name: t('accounts.home.assetsLpTokens'),
+				count: 2,
+				assetType: ASSET_TYPE_LP_TOKENS,
+			},
+			{
+				id: `id-${ASSET_TYPE_NFTS}`,
+				loaded: false,
+				name: t('accounts.home.assetsNfts'),
+				isImageSquare: true,
+				count: 6,
+				assetType: ASSET_TYPE_NFTS,
+			},
+			{
+				id: `id-${ASSET_TYPE_BADGES}`,
+				loaded: false,
+				name: t('accounts.home.assetsBadges'),
+				count: 2,
+				assetType: ASSET_TYPE_BADGES,
+			},
+		]
+
 		const [items, setItems] = useState<any>(indexItems)
 
 		// TODO: demo data fetching
@@ -70,7 +92,7 @@ export const AccountsHomeMobileList = forwardRef<HTMLElement, IAccountTransactio
 			} else {
 				setItems(Array.from({ length: 40 }, _ => ({ id: hash(), name: hash(), loaded: false, symbol: 'xrd' })))
 			}
-		}, [listItemType])
+		}, [listItemType, i18n.language])
 
 		const computeItemKey = useCallback(index => items[index].id, [items])
 

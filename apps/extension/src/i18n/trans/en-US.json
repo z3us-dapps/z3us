@@ -5,6 +5,7 @@
 		"next": "Next",
 		"previous": "Previous",
 		"activity": "Activity",
+		"assets": "Assets",
 		"tokens": "Tokens",
 		"nfts": "Nfts",
 		"lpTokens": "LP Tokens",
@@ -12,7 +13,8 @@
 		"send": "Send",
 		"receive": "Receive",
 		"address": "Address",
-		"copied": "Copied"
+		"copied": "Copied",
+		"search": "Search"
 	},
 	"accounts": {
 		"navigation": {

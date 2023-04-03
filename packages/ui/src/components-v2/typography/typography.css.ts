@@ -6,6 +6,10 @@ import { vars } from '../system/theme.css'
 
 export const baseTextSprinkles = sprinkles({})
 
+export const firstLetterUppercase = style([{ '::first-letter': { textTransform: 'uppercase' } }])
+
+export const firstLetterLowercase = style([{ '::first-letter': { textTransform: 'lowercase' } }])
+
 // @TODO: TYPE spacing properly
 // const makeTypographyRules = (textDefinition: typeof vars.text.medium, textSpacingDefinition: any) => {
 const makeTypographyRules = (textDefinition: any, textSpacingDefinition: any) => {
