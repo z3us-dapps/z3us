@@ -1,26 +1,31 @@
 /* eslint-disable react/no-array-index-key */
+import { ArrowLeftIcon } from '@radix-ui/react-icons'
 import React, { useEffect } from 'react'
 import { useQueryClient } from 'react-query'
 import { useImmer } from 'use-immer'
-import { useTokenInfo } from '@src/hooks/react-query/queries/radix'
-import { useTransaction } from '@src/hooks/use-transaction'
-import { useMessage } from '@src/hooks/use-message'
-import { EXPLORER_URL } from '@src/config'
-import { Flex, Box, StyledLink, Text } from 'ui/src/components/atoms'
+import { useEventListener } from 'usehooks-ts'
+import { useRoute } from 'wouter'
+
+import { AlertDialog, AlertDialogContent, AlertDialogTrigger } from 'ui/src/components/alert-dialog'
+import { Box, Flex, StyledLink, Text } from 'ui/src/components/atoms'
 import Button from 'ui/src/components/button'
 import Input from 'ui/src/components/input'
-import { PageWrapper, PageHeading, PageSubHeading } from '@src/components/layout'
-import { useSharedStore, useNoneSharedStore } from '@src/hooks/use-store'
-import { useRoute } from 'wouter'
-import { hexToJSON } from '@src/utils/encoding'
-import { CONFIRM } from '@src/lib/v1/actions'
 import InputFeedback from 'ui/src/components/input/input-feedback'
-import { AlertDialog, AlertDialogTrigger, AlertDialogContent } from 'ui/src/components/alert-dialog'
+
 import { HardwareWalletReconnect } from '@src/components/hardware-wallet-reconnect'
+import { PageHeading, PageSubHeading, PageWrapper } from '@src/components/layout'
 import { Z3usSpinnerAnimation } from '@src/components/z3us-spinner-animation'
-import { ArrowLeftIcon } from '@radix-ui/react-icons'
-import { ExtendedActionType } from '@src/types'
+import { EXPLORER_URL } from '@src/config'
+import { useTokenInfo } from '@src/hooks/react-query/queries/radix'
+import { useMessage } from '@src/hooks/use-message'
+import { useMessanger } from '@src/hooks/use-messanger'
+import { useNoneSharedStore, useSharedStore } from '@src/hooks/use-store'
+import { useTransaction } from '@src/hooks/use-transaction'
+import { CONFIRM } from '@src/lib/v1/actions'
 import { parseAccountAddress } from '@src/services/radix/serializer'
+import { ExtendedActionType } from '@src/types'
+import { hexToJSON } from '@src/utils/encoding'
+
 import ActionsPreview from './components/actions-preview'
 
 interface ImmerT {
@@ -38,6 +43,7 @@ export const Transaction = (): JSX.Element => {
 	const [, { id }] = useRoute<{ id: string }>('/transaction/:id')
 	const queryClient = useQueryClient()
 
+	const { sendResponseAction: sendResponse } = useMessanger()
 	const {
 		buildTransaction,
 		// buildTransactionFromActions,
@@ -46,9 +52,8 @@ export const Transaction = (): JSX.Element => {
 		submitTransaction,
 	} = useTransaction()
 	const { createMessage } = useMessage()
-	const { signingKey, sendResponse } = useSharedStore(state => ({
+	const { signingKey } = useSharedStore(state => ({
 		signingKey: state.signingKey,
-		sendResponse: state.sendResponseAction,
 	}))
 	const { address, action } = useNoneSharedStore(state => ({
 		address: state.getCurrentAddressAction(),
@@ -173,6 +178,27 @@ export const Transaction = (): JSX.Element => {
 			})
 		}
 	}
+
+	// keypress does not handle ESC on Mac
+	useEventListener('keydown', async e => {
+		switch (e.code) {
+			case 'Escape':
+				await handleCancel()
+				break
+			default:
+				break
+		}
+	})
+
+	useEventListener('keypress', async e => {
+		switch (e.code) {
+			case 'Enter':
+				await handleConfirm()
+				break
+			default:
+				break
+		}
+	})
 
 	return (
 		<Flex css={{ flexDirection: 'column', height: '100%' }}>

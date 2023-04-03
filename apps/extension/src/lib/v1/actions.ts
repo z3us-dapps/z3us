@@ -20,6 +20,7 @@ const NEW = 'v1-new'
 const GET = 'v1-get'
 const REMOVE = 'v1-remove'
 const DERIVE = 'v1-derive'
+const DERIVE_ALL = 'v1-derive-all'
 // const ENCRYPT = 'v1-encrypt'
 // const DECRYPT = 'v1-decrypt'
 // const SIGN = 'v1-sign'
@@ -44,6 +45,7 @@ export {
 	STAKES,
 	UNSTAKES,
 	DERIVE,
+	DERIVE_ALL,
 	ENCRYPT,
 	DECRYPT,
 	SIGN,

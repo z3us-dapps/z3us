@@ -1,16 +1,19 @@
 import React from 'react'
-import { useSharedStore } from '@src/hooks/use-store'
 import { useQueryClient } from 'react-query'
 import { useImmer } from 'use-immer'
 import { useEventListener } from 'usehooks-ts'
-import { PageWrapper, PageHeading, PageSubHeading } from '@src/components/layout'
+
+import { Box, Flex, Text } from 'ui/src/components/atoms'
 import Button from 'ui/src/components/button'
-import { Flex, Text, Box } from 'ui/src/components/atoms'
 import InputFeedBack from 'ui/src/components/input/input-feedback'
+
+import { PageHeading, PageSubHeading, PageWrapper } from '@src/components/layout'
+import { useMessanger } from '@src/hooks/use-messanger'
+import { useSharedStore } from '@src/hooks/use-store'
+import { getNoneSharedStore } from '@src/services/state'
+import { onBoardingSteps } from '@src/store/onboarding'
 import { KeystoreType } from '@src/types'
 import { generateId } from '@src/utils/generate-id'
-import { onBoardingSteps } from '@src/store/onboarding'
-import { getNoneSharedStore } from '@src/services/state'
 
 const isHIDSupported = !!window?.navigator?.hid
 
@@ -20,17 +23,18 @@ interface ImmerT {
 }
 
 export const CompleteSync = (): JSX.Element => {
+	const { lockAction: lock } = useMessanger()
 	const queryClient = useQueryClient()
 
-	const { importingAddresses, lock, addKeystore, setOnboradingStep, setImportingAddresses, setIsUnlocked } =
-		useSharedStore(state => ({
+	const { importingAddresses, addKeystore, setOnboradingStep, setImportingAddresses, setIsUnlocked } = useSharedStore(
+		state => ({
 			importingAddresses: state.importingAddresses,
-			lock: state.lockAction,
 			addKeystore: state.addKeystoreAction,
 			setOnboradingStep: state.setOnboardingStepAction,
 			setImportingAddresses: state.setImportingAddressesAction,
 			setIsUnlocked: state.setIsUnlockedAction,
-		}))
+		}),
+	)
 
 	const addresses = Object.values(importingAddresses)
 

@@ -1,6 +1,6 @@
 {
 	"name": "z3us-extension",
-	"version": "1.0.36",
+	"version": "1.0.40",
 	"scripts": {
 		"dev": "yarn start",
 		"start": "vite",
@@ -103,7 +103,7 @@
 		"@rollup/plugin-inject": "^4.0.4",
 		"@samrum/vite-plugin-web-extension": "^1.0.0",
 		"@testing-library/jest-dom": "^5.16.1",
-		"@types/chrome": "^0.0.181",
+		"@types/chrome": "^0.0.219",
 		"@types/hoist-non-react-statics": "^3.3.1",
 		"@types/jest": "27.5.2",
 		"@types/lodash.merge": "^4.6.6",

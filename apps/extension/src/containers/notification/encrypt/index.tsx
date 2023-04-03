@@ -1,21 +1,25 @@
 import React from 'react'
-import { Box, Flex, Text, StyledLink, Image } from 'ui/src/components/atoms'
-import Button from 'ui/src/components/button'
-import { PageWrapper, PageHeading, PageSubHeading } from '@src/components/layout'
-import { useSharedStore, useNoneSharedStore } from '@src/hooks/use-store'
+import { useEventListener } from 'usehooks-ts'
 import { useRoute } from 'wouter'
-import { hexToJSON } from '@src/utils/encoding'
-import { CONFIRM } from '@src/lib/v1/actions'
+
+import { Box, Flex, Image, StyledLink, Text } from 'ui/src/components/atoms'
+import Button from 'ui/src/components/button'
+
 import { HardwareWalletReconnect } from '@src/components/hardware-wallet-reconnect'
+import { PageHeading, PageSubHeading, PageWrapper } from '@src/components/layout'
 import { useMessage } from '@src/hooks/use-message'
+import { useMessanger } from '@src/hooks/use-messanger'
+import { useNoneSharedStore, useSharedStore } from '@src/hooks/use-store'
+import { CONFIRM } from '@src/lib/v1/actions'
+import { hexToJSON } from '@src/utils/encoding'
 
 export const Encrypt = (): JSX.Element => {
 	const [, { id }] = useRoute<{ id: string }>('/encrypt/:id')
 
+	const { sendResponseAction: sendResponse } = useMessanger()
 	const { createMessage } = useMessage()
-	const { signingKey, sendResponse } = useSharedStore(state => ({
+	const { signingKey } = useSharedStore(state => ({
 		signingKey: state.signingKey,
-		sendResponse: state.sendResponseAction,
 	}))
 	const { action } = useNoneSharedStore(state => ({
 		action:
@@ -45,6 +49,27 @@ export const Encrypt = (): JSX.Element => {
 			payload: { request: action.request, value: ecnrypted },
 		})
 	}
+
+	// keypress does not handle ESC on Mac
+	useEventListener('keydown', async e => {
+		switch (e.code) {
+			case 'Escape':
+				await handleCancel()
+				break
+			default:
+				break
+		}
+	})
+
+	useEventListener('keypress', async e => {
+		switch (e.code) {
+			case 'Enter':
+				await handleConfirm()
+				break
+			default:
+				break
+		}
+	})
 
 	return (
 		<>

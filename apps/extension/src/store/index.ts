@@ -2,20 +2,19 @@ import browser from 'webextension-polyfill'
 import { StateCreator, createStore } from 'zustand'
 import { devtools, persist, subscribeWithSelector } from 'zustand/middleware'
 import { immer } from 'zustand/middleware/immer'
+
+import { sharedStoreKey } from '@src/config'
 import browserService from '@src/services/browser'
 import { BrowserStorageService } from '@src/services/browser-storage'
-import { sharedStoreKey } from '@src/config'
 
-import { factory as createToastsStore } from './toasts'
-import { factory as createThemeStore, whiteList as themeWhiteList } from './theme'
+import { whiteList as accountWhiteList, factory as createAccountStore } from './account'
+import { factory as createKeystoresStore, whiteList as keystorehiteList } from './keystores'
 import { factory as createOnBoardingStore } from './onboarding'
 import { factory as createSettingsStore, whiteList as settingsWhiteList } from './settings'
-import { factory as createBackgroundStore } from './background'
-import { factory as createKeystoresStore, whiteList as keystorehiteList } from './keystores'
+import { factory as createThemeStore, whiteList as themeWhiteList } from './theme'
+import { factory as createToastsStore } from './toasts'
+import { NoneSharedState, SharedState } from './types'
 import { factory as createWalletStore } from './wallet'
-import { factory as createAccountStore, whiteList as accountWhiteList } from './account'
-
-import { SharedState, NoneSharedState } from './types'
 
 type MutatorsTypes = [
 	['zustand/devtools', never],
@@ -44,7 +43,6 @@ export const sharedStore = createStore(
 		...createThemeStore(set),
 		...createToastsStore(set, get),
 		...createOnBoardingStore(set),
-		...createBackgroundStore(set, get),
 		...createKeystoresStore(set),
 		...createWalletStore(set),
 	})),

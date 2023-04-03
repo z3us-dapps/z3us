@@ -1,13 +1,18 @@
+import { CurrencyDollarIcon, ExclamationCircleIcon, LockClosedIcon, UserPlusIcon } from '@heroicons/react/24/outline'
 import React, { useEffect, useMemo } from 'react'
-import { ExclamationCircleIcon, LockClosedIcon, CurrencyDollarIcon, UserPlusIcon } from '@heroicons/react/24/outline'
-import { handleContentScriptInject, showConnected } from '@src/services/content-script'
-import { Box, Flex, Text, StyledLink } from 'ui/src/components/atoms'
-import Button from 'ui/src/components/button'
-import { PageWrapper, PageHeading } from '@src/components/layout'
-import { useSharedStore, useNoneSharedStore } from '@src/hooks/use-store'
+import { useEventListener } from 'usehooks-ts'
 import { useRoute } from 'wouter'
-import { hexToJSON } from '@src/utils/encoding'
+
+import { Box, Flex, StyledLink, Text } from 'ui/src/components/atoms'
+import Button from 'ui/src/components/button'
+
+import { PageHeading, PageWrapper } from '@src/components/layout'
+import { useMessanger } from '@src/hooks/use-messanger'
+import { useNoneSharedStore } from '@src/hooks/use-store'
 import { CONFIRM } from '@src/lib/v1/actions'
+import { handleContentScriptInject, showConnected } from '@src/services/content-script'
+import { hexToJSON } from '@src/utils/encoding'
+
 import matches from '../../../../content_matches.json'
 
 const patternPrefix = '*://*.'
@@ -15,9 +20,7 @@ const patternPrefix = '*://*.'
 export const Connect = (): JSX.Element => {
 	const [, { id }] = useRoute<{ id: string }>('/connect/:id')
 
-	const { sendResponse } = useSharedStore(state => ({
-		sendResponse: state.sendResponseAction,
-	}))
+	const { sendResponseAction: sendResponse } = useMessanger()
 	const { accountAddress, action, approveWebsite, declineWebsite, approvedWebsites } = useNoneSharedStore(state => ({
 		accountAddress: state.getCurrentAddressAction(),
 		approvedWebsites: state.approvedWebsites,
@@ -69,6 +72,27 @@ export const Connect = (): JSX.Element => {
 			window.location.hash = `#/wallet/account`
 		}
 	}
+
+	// keypress does not handle ESC on Mac
+	useEventListener('keydown', async e => {
+		switch (e.code) {
+			case 'Escape':
+				await handleCancel()
+				break
+			default:
+				break
+		}
+	})
+
+	useEventListener('keypress', async e => {
+		switch (e.code) {
+			case 'Enter':
+				await handleConfirm()
+				break
+			default:
+				break
+		}
+	})
 
 	return (
 		<Box css={{ display: 'flex', flexDirection: 'column', height: '100%', bg: '$bgPanel3' }}>
