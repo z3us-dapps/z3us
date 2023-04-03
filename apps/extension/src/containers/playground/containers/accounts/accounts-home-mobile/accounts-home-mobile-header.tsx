@@ -184,7 +184,8 @@ export const AccountsHomeMobileHeader = forwardRef<HTMLElement, IAccountsHomeMob
 								)}
 							>
 								<Text size="medium" weight="strong" align="center" color={!isActivityRoute ? 'strong' : 'neutral'}>
-									Assets
+									{/* @TODO: get correct name based on contstants */}
+									{assetType ? `${assetType}` : 'Assets'}
 								</Text>
 							</Link>
 							<Link
