@@ -1,14 +1,16 @@
-import React, { useEffect, useState } from 'react'
-import { useSharedStore } from '@src/hooks/use-store'
-import { useEventListener } from 'usehooks-ts'
 import { CopyIcon } from '@radix-ui/react-icons'
+import { Mnemonic, StrengthT } from '@radixdlt/crypto'
+import React, { useEffect, useState } from 'react'
+import { useEventListener } from 'usehooks-ts'
+
+import { Box, Flex, Text } from 'ui/src/components/atoms'
+import Button from 'ui/src/components/button'
+import ButtonTipFeedback from 'ui/src/components/button-tip-feedback'
+
+import { PageHeading, PageSubHeading, PageWrapper } from '@src/components/layout'
+import { useSharedStore } from '@src/hooks/use-store'
 import { onBoardingSteps } from '@src/store/onboarding'
 import { copyTextToClipboard } from '@src/utils/copy-to-clipboard'
-import { PageWrapper, PageHeading, PageSubHeading } from '@src/components/layout'
-import ButtonTipFeedback from 'ui/src/components/button-tip-feedback'
-import Button from 'ui/src/components/button'
-import { Flex, Text, Box } from 'ui/src/components/atoms'
-import { Mnemonic, StrengthT } from '@radixdlt/crypto'
 
 export const GeneratePhrase = (): JSX.Element => {
 	const { mnemonic, setMnemomic, setOnboardingStep } = useSharedStore(state => ({

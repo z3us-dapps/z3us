@@ -1,13 +1,15 @@
-import React from 'react'
-import { connectHardwareWalletSteps } from '@src/store/onboarding'
-import { MotionBox } from 'ui/src/components/atoms/motion-box'
 import { AnimatePresence } from 'framer-motion'
-import { useSharedStore } from '@src/hooks/use-store'
+import React from 'react'
+
+import { Flex } from 'ui/src/components/atoms'
+import { MotionBox } from 'ui/src/components/atoms/motion-box'
 import { Z3usText } from 'ui/src/components/z3us-text'
+
 import { ImportAccounts } from '@src/containers/hardware-wallet/steps/1-import-accounts'
 import { CompleteSync } from '@src/containers/hardware-wallet/steps/2-complete-sync'
-import { Flex } from 'ui/src/components/atoms'
 import { useColorMode } from '@src/hooks/use-color-mode'
+import { useSharedStore } from '@src/hooks/use-store'
+import { connectHardwareWalletSteps } from '@src/store/onboarding'
 
 export const HardwareWallet: React.FC = () => {
 	const isDarkMode = useColorMode()
@@ -47,7 +49,7 @@ export const HardwareWallet: React.FC = () => {
 				</Flex>
 			</Flex>
 			<Flex css={{ flex: '1', width: '100%', maxWidth: '580px', mx: 'auto' }}>
-				<AnimatePresence exitBeforeEnter>
+				<AnimatePresence mode="wait">
 					<MotionBox
 						key={step}
 						animate={{ opacity: 1, y: 0 }}

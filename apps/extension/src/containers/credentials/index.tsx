@@ -1,12 +1,14 @@
+import { AnimatePresence } from 'framer-motion'
 import React from 'react'
 import { useLocation } from 'wouter'
-import { LeftArrowIcon } from 'ui/src/components/icons'
-import Button from 'ui/src/components/button'
+
+import { Flex } from 'ui/src/components/atoms'
 import { MotionBox } from 'ui/src/components/atoms/motion-box'
-import { AnimatePresence } from 'framer-motion'
+import Button from 'ui/src/components/button'
+import { LeftArrowIcon } from 'ui/src/components/icons'
+
 import { WalletMenu } from '@src/components/wallet-menu'
 import { RegsiterCredentials } from '@src/containers/credentials/components/register-credentials'
-import { Flex } from 'ui/src/components/atoms'
 import { useColorMode } from '@src/hooks/use-color-mode'
 
 export const Credentials: React.FC = () => {
@@ -49,7 +51,7 @@ export const Credentials: React.FC = () => {
 				<WalletMenu />
 			</Flex>
 			<Flex css={{ flex: '1' }}>
-				<AnimatePresence exitBeforeEnter>
+				<AnimatePresence mode="wait">
 					<MotionBox
 						animate={{ opacity: 1, y: 0 }}
 						initial={{ opacity: 0, y: 20 }}
