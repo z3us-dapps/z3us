@@ -1,19 +1,32 @@
-/* eslint-disable react/no-array-index-key, react/no-unstable-nested-components */
-import React, { useRef, useCallback, useState } from 'react'
-import { useNoneSharedStore } from '@src/hooks/use-store'
-import { useTransactionHistory } from '@src/hooks/react-query/queries/radix'
-import { getShortAddress } from '@src/utils/string-utils'
-import { AccountSelector } from '@src/components/account-selector'
+/* eslint-disable react/no-array-index-key, react/no-unstable-nested-components, @typescript-eslint/no-unused-vars */
+import React, { useCallback, useState } from 'react'
 import { Virtuoso } from 'react-virtuoso'
-import { ScrollArea } from 'ui/src/components/scroll-area'
-import { ActivityItem } from '@src/components/activity-item'
-import { Box, Text, Flex } from 'ui/src/components/atoms'
+
+import { Box, Flex, Text } from 'ui/src/components/atoms'
 import LoaderBars from 'ui/src/components/loader-bars'
+import { ScrollArea } from 'ui/src/components/scroll-area'
+
+import { AccountSelector } from '@src/components/account-selector'
+import { ActivityItem } from '@src/components/activity-item'
 import { SendReceiveHeader } from '@src/components/send-receive-header'
+import { useTransactionHistory } from '@src/hooks/react-query/queries/radix'
+import { useNoneSharedStore } from '@src/hooks/use-store'
+import { getShortAddress } from '@src/utils/string-utils'
+
+export const VirtuosoFooter = (): JSX.Element => (
+	<div
+		style={{
+			padding: '2rem',
+			display: 'flex',
+			justifyContent: 'center',
+		}}
+	>
+		Loading...
+	</div>
+)
 
 export const AccountActivity: React.FC = () => {
 	const [customScrollParent, setCustomScrollParent] = useState<HTMLElement | null>(null)
-	const observer = useRef<IntersectionObserver | null>(null)
 	const { accountAddress, selectAccount } = useNoneSharedStore(state => ({
 		accountAddress: state.getCurrentAddressAction(),
 		selectAccount: state.selectAccountAction,
@@ -36,19 +49,9 @@ export const AccountActivity: React.FC = () => {
 		await selectAccount(accountIndex)
 	}
 
-	const lastElementRef = useCallback(
-		node => {
-			if (isFetching) return
-			if (observer.current) observer.current.disconnect()
-			observer.current = new IntersectionObserver(entries => {
-				if (entries[0].isIntersecting && hasNextPage) {
-					fetchNextPage()
-				}
-			})
-			if (node) observer.current.observe(node)
-		},
-		[observer, isFetching, hasNextPage],
-	)
+	const loadMore = useCallback(() => {
+		fetchNextPage()
+	}, [fetchNextPage, hasNextPage])
 
 	return (
 		<Flex
@@ -85,10 +88,12 @@ export const AccountActivity: React.FC = () => {
 								customScrollParent={customScrollParent}
 								totalCount={flatten.length}
 								data={flatten}
+								endReached={loadMore}
+								components={{ Footer: VirtuosoFooter }}
 								// eslint-disable-next-line react/no-unstable-nested-components
 								itemContent={(i, { a, t }) => (
 									<ActivityItem
-										ref={data.pages.length === i + 1 ? lastElementRef : null}
+										// ref={data.pages.length === i + 1 ? lastElementRef : null}
 										tx={t}
 										activity={a}
 										isIsoStyled

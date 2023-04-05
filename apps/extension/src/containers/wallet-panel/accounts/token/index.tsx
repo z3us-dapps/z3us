@@ -1,14 +1,29 @@
-import React, { useRef, useCallback, useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
+import { Virtuoso } from 'react-virtuoso'
+import { useRoute } from 'wouter'
+
+import { Box, Text } from 'ui/src/components/atoms'
 import { ScrollArea } from 'ui/src/components/scroll-area'
+
+import { ActivityItem } from '@src/components/activity-item'
 import { TokenLoadingRows } from '@src/components/token-loading-row'
 import { useTransactionHistory } from '@src/hooks/react-query/queries/radix'
-import { ActivityItem } from '@src/components/activity-item'
-import { useRoute } from 'wouter'
-import { Box, Text } from 'ui/src/components/atoms'
-import { Virtuoso } from 'react-virtuoso'
 import { getSplitParams } from '@src/utils/url-utils'
+
 import { SlideUpPanel } from '../slide-up-panel'
 import { TokenInfo } from '../token-info'
+
+export const VirtuosoFooter = (): JSX.Element => (
+	<div
+		style={{
+			padding: '2rem',
+			display: 'flex',
+			justifyContent: 'center',
+		}}
+	>
+		Loading...
+	</div>
+)
 
 const SlideUpHeader: React.FC = () => (
 	<Box
@@ -29,8 +44,8 @@ export const Token: React.FC = () => {
 	const [customScrollParent, setCustomScrollParent] = useState<HTMLElement | null>(null)
 	const [, params] = useRoute('/account/token/:rri')
 	const rri = getSplitParams(params)
-	const observer = useRef<IntersectionObserver | null>(null)
 	const { isFetching, data, error, fetchNextPage, hasNextPage } = useTransactionHistory(10)
+
 	// @TODO: implement `isLoading`
 	const isLoading = false
 
@@ -51,19 +66,9 @@ export const Token: React.FC = () => {
 		fetchNextPage()
 	}, [flatten])
 
-	const lastElementRef = useCallback(
-		node => {
-			if (isFetching) return
-			if (observer.current) observer.current.disconnect()
-			observer.current = new IntersectionObserver(entries => {
-				if (entries[0].isIntersecting && hasNextPage) {
-					fetchNextPage()
-				}
-			})
-			if (node) observer.current.observe(node)
-		},
-		[observer, isFetching, hasNextPage],
-	)
+	const loadMore = useCallback(() => {
+		fetchNextPage()
+	}, [fetchNextPage, hasNextPage])
 
 	return (
 		<>
@@ -78,10 +83,12 @@ export const Token: React.FC = () => {
 								customScrollParent={customScrollParent}
 								totalCount={flatten.length}
 								data={flatten}
+								endReached={loadMore}
+								components={{ Footer: VirtuosoFooter }}
 								// eslint-disable-next-line react/no-unstable-nested-components
 								itemContent={(i, { a, t }) => (
 									<ActivityItem
-										ref={data.pages.length === i + 1 ? lastElementRef : null}
+										// ref={data.pages.length === i + 1 ? lastElementRef : null}
 										tx={t}
 										activity={a}
 										css={{
