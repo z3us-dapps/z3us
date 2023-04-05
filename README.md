@@ -44,7 +44,7 @@ Now click on the `LOAD UNPACKED` and browse to `apps/extension/dist/chrome`, thi
 
 ## Adding extension to Firefox
 
-In the Firefox browser navigate to `about:debugging#/runtime/this-firefox`. Click the button `Load temporary Add-on...`, then select a compressed zip of  all the files `inside` the directory `apps/extension/dist/firefox`.
+In the Firefox browser navigate to `about:debugging#/runtime/this-firefox`. Click the button `Load temporary Add-on...`, then select a compressed zip of all the files `inside` the directory `apps/extension/dist/firefox`.
 
 ## Website quick start
 
