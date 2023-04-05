@@ -89,11 +89,10 @@ export const AccountActivity: React.FC = () => {
 								totalCount={flatten.length}
 								data={flatten}
 								endReached={loadMore}
-								components={{ Footer: VirtuosoFooter }}
+								components={{ Footer: hasNextPage ? VirtuosoFooter : null }}
 								// eslint-disable-next-line react/no-unstable-nested-components
 								itemContent={(i, { a, t }) => (
 									<ActivityItem
-										// ref={data.pages.length === i + 1 ? lastElementRef : null}
 										tx={t}
 										activity={a}
 										isIsoStyled
