@@ -101,7 +101,7 @@ export const SendToken: React.FC = () => {
 
 	const handleSetMessage = (event: React.ChangeEvent<HTMLInputElement>) => {
 		setState(draft => {
-			draft.message = event.currentTarget.value
+			draft.message = event?.currentTarget?.value || ''
 		})
 	}
 
