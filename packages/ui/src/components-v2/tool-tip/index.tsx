@@ -1,10 +1,10 @@
-import React from 'react'
-import * as TooltipPrimitive from '@radix-ui/react-tooltip'
 import { Side } from '@radix-ui/popper'
+import * as TooltipPrimitive from '@radix-ui/react-tooltip'
 import clsx from 'clsx'
+import React from 'react'
+
 import { radixWithClassName } from '../system/radix-with-class-name'
 import { Text } from '../typography'
-
 import * as styles from './tool-tip.css'
 
 export const ToolTipRoot = TooltipPrimitive.Root

@@ -1,14 +1,16 @@
-import React, { useState, useCallback, useContext } from 'react'
-import { useTimeout } from 'usehooks-ts'
-import { useAccountParams } from '@src/containers/playground/hooks/use-account-params'
-import { VirtuosoGrid } from 'react-virtuoso'
-import { motion, AnimatePresence } from 'framer-motion'
 import clsx from 'clsx'
+import { AnimatePresence, motion } from 'framer-motion'
+import React, { useCallback, useContext, useState } from 'react'
+import { VirtuosoGrid } from 'react-virtuoso'
+import { useTimeout } from 'usehooks-ts'
+
 import { Box } from 'ui/src/components-v2/box'
 import { Text } from 'ui/src/components-v2/typography'
-import { Link } from '@src/components/link'
-import { AccountListHeader } from './account-list-header'
 
+import { Link } from '@src/components/link'
+import { useAccountParams } from '@src/containers/playground/hooks/use-account-params'
+
+import { AccountListHeader } from './account-list-header'
 import * as styles from './accounts-list.css'
 
 const hash = () => Math.random().toString(36).substring(7)
@@ -20,7 +22,7 @@ const Context = React.createContext<{ isScrolling: boolean; isLoading: boolean; 
 })
 
 const ListContainer = React.forwardRef<HTMLDivElement>((props, ref) => (
-	<Box ref={ref} {...props} className={styles.listContainer} />
+	<div ref={ref} {...props} className={styles.listContainer} />
 ))
 
 const ItemContainer = props => <div {...props} className={styles.itemContainer} />

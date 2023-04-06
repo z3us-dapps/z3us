@@ -1,8 +1,9 @@
+import { CheckIcon, ExclamationTriangleIcon } from '@radix-ui/react-icons'
 import React, { useEffect } from 'react'
-import { ExclamationTriangleIcon, CheckIcon } from '@radix-ui/react-icons'
+
+import { Box, Flex, Text } from '../../atoms'
 import Button from '../../button'
 import { CloseIcon } from '../../icons'
-import { Box, Flex, Text } from '../../atoms'
 
 export const TYPE_SUCCESS = 'success'
 export const TYPE_ERROR = 'error'
@@ -23,7 +24,8 @@ const typeMap = {
 }
 
 interface IProps {
-	children?: React.ReactNode
+	// TODO: fix type
+	children?: React.ReactNode | any
 	type?: string
 	title?: string
 	subTitle?: string

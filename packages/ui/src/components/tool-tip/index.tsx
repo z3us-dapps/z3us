@@ -1,7 +1,8 @@
-import React from 'react'
-import { styled, keyframes } from '@stitches/react'
-import * as TooltipPrimitive from '@radix-ui/react-tooltip'
 import { Side } from '@radix-ui/popper'
+import * as TooltipPrimitive from '@radix-ui/react-tooltip'
+import { keyframes, styled } from '@stitches/react'
+import React from 'react'
+
 import { CSS } from '../../theme'
 import { PropsWithCSS } from '../../types'
 
@@ -60,7 +61,6 @@ const StyledContent = styled(TooltipPrimitive.Content, {
 	},
 })
 
-export const { Provider } = TooltipPrimitive
 export const Tooltip = TooltipPrimitive.Root
 export const TooltipTrigger = TooltipPrimitive.Trigger
 export const TooltipContent = StyledContent
