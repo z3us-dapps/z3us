@@ -1,10 +1,11 @@
 /* eslint-disable react/jsx-props-no-spreading, @typescript-eslint/no-unused-vars */
-import React, { forwardRef, PropsWithChildren } from 'react'
-import useMeasure from 'react-use-measure'
-import { styled, keyframes } from '@stitches/react'
-import { ChevronDownIcon } from '@radix-ui/react-icons'
 import * as AccordionPrimitive from '@radix-ui/react-accordion'
+import { ChevronDownIcon } from '@radix-ui/react-icons'
 import type * as Radix from '@radix-ui/react-primitive'
+import { keyframes, styled } from '@stitches/react'
+import React, { PropsWithChildren, forwardRef } from 'react'
+import useMeasure from 'react-use-measure'
+
 import { PropsWithCSS } from '../../types'
 import { Box } from '../atoms/box'
 
@@ -107,12 +108,14 @@ const StyledChevron = styled(ChevronDownIcon, {
 export const Accordion = StyledAccordion
 export const AccordionItem = StyledItem
 
-export const AccordionTrigger = React.forwardRef<
-	React.ElementRef<typeof AccordionPrimitive.Trigger>,
-	Radix.ComponentPropsWithoutRef<typeof AccordionPrimitive.Trigger>
->(({ children }, forwardedRef) => (
+export type TAccordionTriggerProps = PropsWithChildren<PropsWithCSS<{}>>
+
+// TODO: fix type
+export type TAccordionRef = any
+
+export const AccordionTrigger = forwardRef<TAccordionRef, TAccordionTriggerProps>(({ children }, ref) => (
 	<StyledHeader>
-		<StyledTrigger ref={forwardedRef}>
+		<StyledTrigger ref={ref}>
 			{children}
 			<StyledChevron aria-hidden />
 		</StyledTrigger>
@@ -123,6 +126,7 @@ AccordionTrigger.displayName = 'AccordionTrigger'
 
 export type AccordionContentProps = PropsWithChildren<PropsWithCSS<{}>>
 export type Ref = HTMLDivElement
+
 export const AccordionContent = forwardRef<Ref, AccordionContentProps>(({ children, css, ...props }, ref) => {
 	const [measureRef, { height }] = useMeasure()
 	return (

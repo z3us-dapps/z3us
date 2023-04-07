@@ -9,7 +9,9 @@ import { MobileHeaderNavigation } from '@src/containers/playground/containers/ac
 import * as styles from './navigation-scroll-container.css'
 
 interface INavigationScrollContainerRequiredProps {
-	renderPanel: (customScrollParent: HTMLElement | null, scrollTop: number) => React.ReactNode
+	// TODO: fix type
+	// renderPanel: (customScrollParent: HTMLElement | null, scrollTop: number) => React.ReactNode
+	renderPanel: (customScrollParent: HTMLElement | null, scrollTop: number) => any
 }
 
 interface INavigationScrollContainerOptionalProps {

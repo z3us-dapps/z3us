@@ -1,6 +1,7 @@
 import { ChevronRightIcon } from '@radix-ui/react-icons'
-import { useSharedStore } from '@src/hooks/use-store'
 import React from 'react'
+import { useImmer } from 'use-immer'
+
 import { Box, MotionBox } from 'ui/src/components/atoms'
 import Button from 'ui/src/components/button'
 import {
@@ -8,13 +9,17 @@ import {
 	DropdownMenuContent,
 	DropdownMenuHamburgerIcon,
 	DropdownMenuItemIndicator,
+	DropdownMenuPortal,
 	DropdownMenuRadioGroup,
 	DropdownMenuRadioItem,
 	DropdownMenuRightSlot,
+	DropdownMenuSub,
+	DropdownMenuSubContent,
+	DropdownMenuSubTriggerItem,
 	DropdownMenuTrigger,
-	DropdownMenuTriggerItem,
 } from 'ui/src/components/drop-down-menu'
-import { useImmer } from 'use-immer'
+
+import { useSharedStore } from '@src/hooks/use-store'
 
 interface ImmerT {
 	isOpen: boolean
@@ -61,44 +66,43 @@ export const WalletMenu: React.FC = () => {
 						/>
 					</Button>
 				</DropdownMenuTrigger>
-				<DropdownMenuContent
-					avoidCollisions={false}
-					align="end"
-					side="bottom"
-					sideOffset={6}
-					alignOffset={-3}
-					css={{ minWidth: '130px' }}
-				>
-					<DropdownMenu>
-						<DropdownMenuTriggerItem>
-							<Box css={{ flex: '1', pr: '$1' }}>Theme</Box>
-							<DropdownMenuRightSlot>
-								<ChevronRightIcon />
-							</DropdownMenuRightSlot>
-						</DropdownMenuTriggerItem>
-						<DropdownMenuContent avoidCollisions side="right" css={{ minWidth: '90px' }}>
-							<DropdownMenuRadioGroup value={theme} onValueChange={setTheme}>
-								<DropdownMenuRadioItem value="light">
-									<DropdownMenuItemIndicator />
-									Light
-								</DropdownMenuRadioItem>
-								<DropdownMenuRadioItem value="dark">
-									<DropdownMenuItemIndicator />
-									Dark
-								</DropdownMenuRadioItem>
-								<DropdownMenuRadioItem value="system">
-									<DropdownMenuItemIndicator />
-									System
-								</DropdownMenuRadioItem>
-							</DropdownMenuRadioGroup>
-						</DropdownMenuContent>
-					</DropdownMenu>
-					{/* <DropdownMenu> */}
-					{/* 	<DropdownMenuTriggerItem onClick={handleOpenInNewTab}> */}
-					{/* 		<Box css={{ flex: '1', pr: '$1' }}>Open in new tab</Box> */}
-					{/* 	</DropdownMenuTriggerItem> */}
-					{/* </DropdownMenu> */}
-				</DropdownMenuContent>
+				<DropdownMenuPortal>
+					<DropdownMenuContent
+						avoidCollisions={false}
+						align="end"
+						side="bottom"
+						sideOffset={6}
+						alignOffset={-3}
+						css={{ minWidth: '130px' }}
+					>
+						<DropdownMenuSub>
+							<DropdownMenuSubTriggerItem>
+								<Box css={{ flex: '1', pr: '$1' }}>Theme</Box>
+								<DropdownMenuRightSlot>
+									<ChevronRightIcon />
+								</DropdownMenuRightSlot>
+							</DropdownMenuSubTriggerItem>
+							<DropdownMenuPortal>
+								<DropdownMenuSubContent>
+									<DropdownMenuRadioGroup value={theme} onValueChange={setTheme}>
+										<DropdownMenuRadioItem value="light">
+											<DropdownMenuItemIndicator />
+											Light
+										</DropdownMenuRadioItem>
+										<DropdownMenuRadioItem value="dark">
+											<DropdownMenuItemIndicator />
+											Dark
+										</DropdownMenuRadioItem>
+										<DropdownMenuRadioItem value="system">
+											<DropdownMenuItemIndicator />
+											System
+										</DropdownMenuRadioItem>
+									</DropdownMenuRadioGroup>
+								</DropdownMenuSubContent>
+							</DropdownMenuPortal>
+						</DropdownMenuSub>
+					</DropdownMenuContent>
+				</DropdownMenuPortal>
 			</DropdownMenu>
 		</MotionBox>
 	)

@@ -1,8 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import clsx from 'clsx'
-import { useTranslation } from 'react-i18next'
-
 import React, { forwardRef, useCallback, useEffect, useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import { Virtuoso } from 'react-virtuoso'
 
 import { Box } from 'ui/src/components-v2/box'
@@ -15,17 +14,17 @@ import {
 } from '@src/containers/playground/config'
 
 import * as styles from './accounts-home-mobile.css'
-import { AccountsMobileIndexListItem } from './accounts-mobile-index-list-item'
 import { AccountsMobileActivityListItem } from './accounts-mobile-activity-list-item'
 import { AccountsMobileAssetListItem } from './accounts-mobile-asset-list-item'
+import { AccountsMobileIndexListItem } from './accounts-mobile-index-list-item'
+import { LIST_ITEM_ACTIVITY, LIST_ITEM_ASSET, LIST_ITEM_ASSET_TYPE, LIST_ITEM_INDEX } from './constants'
 import { Context } from './context'
 import { TListItem } from './types'
-import { LIST_ITEM_INDEX, LIST_ITEM_ASSET, LIST_ITEM_ACTIVITY, LIST_ITEM_ASSET_TYPE } from './constants'
 
 export const hash = () => Math.random().toString(36).substring(7)
 
 const ListContainer = React.forwardRef<HTMLDivElement>((props, ref) => (
-	<Box className={styles.mobileAccountsListContainer} ref={ref} {...props} />
+	<div className={styles.mobileAccountsListContainer} ref={ref} {...props} />
 ))
 
 const ItemContainer = props => <Box {...props} />

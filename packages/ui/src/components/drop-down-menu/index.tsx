@@ -1,7 +1,8 @@
-import React from 'react'
-import { motion } from 'framer-motion'
 import * as DropdownMenuPrimitive from '@radix-ui/react-dropdown-menu'
-import { CSS, styled, keyframes, sharedItemStyles, sharedItemIndicatorStyles } from '../../theme'
+import { motion } from 'framer-motion'
+import React from 'react'
+
+import { CSS, keyframes, sharedItemIndicatorStyles, sharedItemStyles, styled } from '../../theme'
 import { Box } from '../atoms'
 
 const animateIn = keyframes({
@@ -96,6 +97,28 @@ const StyledContent = styled(DropdownMenuPrimitive.Content, {
 	},
 })
 
+const StyledSubMenuContent = styled(DropdownMenuPrimitive.SubContent, {
+	minWidth: 100,
+	br: '$2',
+	padding: '5px',
+	backgroundColor: '$bgPanel',
+	border: '1px solid $borderPopup',
+	boxShadow: '$popup',
+	position: 'relative',
+	boxSizing: 'border-box',
+	zIndex: '$4',
+
+	// TODO: handle the no-motion preference
+	'&[data-state="open"]': {
+		animation: `${animateIn} 200ms ease`,
+		animationFillMode: 'forwards',
+	},
+	'&[data-state="closed"]': {
+		animation: `${animateOut} 200ms ease`,
+		animationFillMode: 'forwards',
+	},
+})
+
 const StyledItem = styled(DropdownMenuPrimitive.Item, { ...sharedItemStyles })
 const StyledCheckboxItem = styled(DropdownMenuPrimitive.CheckboxItem, {
 	...sharedItemStyles,
@@ -103,7 +126,7 @@ const StyledCheckboxItem = styled(DropdownMenuPrimitive.CheckboxItem, {
 const StyledRadioItem = styled(DropdownMenuPrimitive.RadioItem, {
 	...sharedItemStyles,
 })
-const StyledTriggerItem = styled(DropdownMenuPrimitive.TriggerItem, {
+const StyledSubTriggerItem = styled(DropdownMenuPrimitive.SubTrigger, {
 	'&[data-state="open"]': {
 		backgroundColor: '$bgPanelHover',
 		color: '$txtActive',
@@ -191,14 +214,21 @@ const HamburgerSvg = ({ css }: CSS) => (
 )
 
 export const DropdownMenu = DropdownMenuPrimitive.Root
+export const DropdownMenuPortal = DropdownMenuPrimitive.Portal
 export const DropdownMenuTrigger = DropdownMenuPrimitive.Trigger
+
 export const DropdownMenuContent = StyledContent
 export const DropdownMenuItem = StyledItem
+
 export const DropdownMenuCheckboxItem = StyledCheckboxItem
 export const DropdownMenuRadioGroup = DropdownMenuPrimitive.RadioGroup
 export const DropdownMenuRadioItem = StyledRadioItem
 export const DropdownMenuItemIndicator = StyledItemIndicator
-export const DropdownMenuTriggerItem = StyledTriggerItem
+
+export const DropdownMenuSub = DropdownMenuPrimitive.Sub
+export const DropdownMenuSubContent = StyledSubMenuContent
+export const DropdownMenuSubTriggerItem = StyledSubTriggerItem
+
 export const DropdownMenuLabel = StyledLabel
 export const DropdownMenuSeparator = StyledSeparator
 export const DropdownMenuArrow = StyledArrow

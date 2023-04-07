@@ -21,7 +21,7 @@ const Context = React.createContext<{ setItems: any }>({
 })
 
 const ListContainer = React.forwardRef<HTMLDivElement>((props, ref) => (
-	<Box ref={ref} {...props} className={styles.listContainer} />
+	<div ref={ref} {...props} className={styles.listContainer} />
 ))
 
 const ItemContainer = props => <div {...props} className={styles.itemContainer} />

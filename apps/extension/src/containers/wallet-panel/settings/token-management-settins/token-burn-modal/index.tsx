@@ -1,27 +1,29 @@
+import { Cross2Icon } from '@radix-ui/react-icons'
+import BigNumber from 'bignumber.js'
 import React, { useRef } from 'react'
 import { useQueryClient } from 'react-query'
 import { useImmer } from 'use-immer'
-import { useSharedStore, useNoneSharedStore } from '@src/hooks/use-store'
-import { useLocation } from 'wouter'
-import { getShortAddress } from '@src/utils/string-utils'
 import { useEventListener } from 'usehooks-ts'
-import { Cross2Icon } from '@radix-ui/react-icons'
-import { PageHeading, PageSubHeading, PageWrapper } from '@src/components/layout'
-import { ScrollArea } from 'ui/src/components/scroll-area'
+import { useLocation } from 'wouter'
+
+import { Box, Flex, Text } from 'ui/src/components/atoms'
 import Button from 'ui/src/components/button'
+import { Dialog, DialogContent, DialogTrigger } from 'ui/src/components/dialog'
 import Input from 'ui/src/components/input'
-import { Tooltip, TooltipTrigger, TooltipContent, TooltipArrow } from 'ui/src/components/tool-tip'
-import { Dialog, DialogTrigger, DialogContent } from 'ui/src/components/dialog'
-import { Box, Text, Flex } from 'ui/src/components/atoms'
+import { ScrollArea } from 'ui/src/components/scroll-area'
+import { Tooltip, TooltipArrow, TooltipContent, TooltipProvider, TooltipTrigger } from 'ui/src/components/tool-tip'
+
 import { AccountSelector } from '@src/components/account-selector'
 import { HardwareWalletReconnect } from '@src/components/hardware-wallet-reconnect'
-import { useTokenBalances, useTokenInfo } from '@src/hooks/react-query/queries/radix'
+import { PageHeading, PageSubHeading, PageWrapper } from '@src/components/layout'
 import { TokenSelector } from '@src/components/token-selector'
-import { formatBigNumber } from '@src/utils/formatters'
-import BigNumber from 'bignumber.js'
-import { useTransaction } from '@src/hooks/use-transaction'
-import { useTokenDerive } from '@src/hooks/use-token-derive'
+import { useTokenBalances, useTokenInfo } from '@src/hooks/react-query/queries/radix'
+import { useNoneSharedStore, useSharedStore } from '@src/hooks/use-store'
 import { useTokenBurn } from '@src/hooks/use-token-burn'
+import { useTokenDerive } from '@src/hooks/use-token-derive'
+import { useTransaction } from '@src/hooks/use-transaction'
+import { formatBigNumber } from '@src/utils/formatters'
+import { getShortAddress } from '@src/utils/string-utils'
 
 interface ImmerT {
 	amount: string
@@ -216,27 +218,29 @@ export const BurnTokenModal: React.FC<IProps> = ({ trigger }) => {
 								<HardwareWalletReconnect />
 								<Box>
 									<Flex align="center" css={{ mt: '14px', position: 'relative' }}>
-										<Tooltip>
-											<TooltipTrigger asChild>
-												<Button
-													size="1"
-													color="tertiary"
-													css={{
-														position: 'absolute',
-														top: '-4px',
-														right: '0',
-														textTransform: 'uppercase',
-													}}
-													onClick={handleUseMax}
-												>
-													MAX
-												</Button>
-											</TooltipTrigger>
-											<TooltipContent sideOffset={3}>
-												<TooltipArrow offset={15} />
-												Select maximum {tokenSymbol}
-											</TooltipContent>
-										</Tooltip>
+										<TooltipProvider>
+											<Tooltip>
+												<TooltipTrigger asChild>
+													<Button
+														size="1"
+														color="tertiary"
+														css={{
+															position: 'absolute',
+															top: '-4px',
+															right: '0',
+															textTransform: 'uppercase',
+														}}
+														onClick={handleUseMax}
+													>
+														MAX
+													</Button>
+												</TooltipTrigger>
+												<TooltipContent sideOffset={3}>
+													<TooltipArrow offset={15} />
+													Select maximum {tokenSymbol}
+												</TooltipContent>
+											</Tooltip>
+										</TooltipProvider>
 										<Text css={{ fontSize: '14px', lineHeight: '17px', fontWeight: '500', flex: '1' }}>Amount:</Text>
 									</Flex>
 									<Box css={{ mt: '13px', position: 'relative' }}>

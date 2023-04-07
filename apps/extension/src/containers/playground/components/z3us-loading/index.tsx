@@ -1,9 +1,10 @@
 /* eslint-disable */
-import React, { useEffect, useState, useRef } from 'react'
-import { motion, AnimatePresence } from 'framer-motion'
+import clsx from 'clsx'
+import { AnimatePresence, motion } from 'framer-motion'
+import React, { useEffect, useRef, useState } from 'react'
+
 import { Box } from 'ui/src/components-v2/box'
 import { Text } from 'ui/src/components-v2/typography'
-import clsx from 'clsx'
 
 import * as styles from './z3us-loading.css'
 
@@ -88,18 +89,18 @@ export const Z3usLoading: React.FC<IZ3usLoadingProps> = props => {
 				</Box>
 			</Box>
 			<Box className={styles.loaderText}>
-				{isMessageString ? (
-					<Box display="flex" gap="xsmall" alignItems="flex-end">
-						<Text size="xsmall">{message}</Text>
-						<Box paddingBottom="xsmall">
-							<Text component="span" size="xxsmall">
-								<EllipsisAnimation />
-							</Text>
-						</Box>
-					</Box>
-				) : (
-					message
-				)}
+				{/* {isMessageString ? ( */}
+				{/* 	<Box display="flex" gap="xsmall" alignItems="flex-end"> */}
+				{/* 		<Text size="xsmall">{message}</Text> */}
+				{/* 		<Box paddingBottom="xsmall"> */}
+				{/* 			<Text component="span" size="xxsmall"> */}
+				{/* 				<EllipsisAnimation /> */}
+				{/* 			</Text> */}
+				{/* 		</Box> */}
+				{/* 	</Box> */}
+				{/* ) : ( */}
+				{/* 	message */}
+				{/* )} */}
 			</Box>
 		</Box>
 	)

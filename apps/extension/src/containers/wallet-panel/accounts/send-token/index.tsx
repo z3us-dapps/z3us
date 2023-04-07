@@ -1,24 +1,27 @@
-import React, { useEffect, useRef } from 'react'
-import { AnimatePresence } from 'framer-motion'
-import { useSharedStore, useNoneSharedStore } from '@src/hooks/use-store'
-import { useImmer } from 'use-immer'
-import { useTokenBalances, useTokenInfo } from '@src/hooks/react-query/queries/radix'
-import { Tooltip, TooltipTrigger, TooltipContent, TooltipArrow } from 'ui/src/components/tool-tip'
-import Button from 'ui/src/components/button'
-import { Checkbox, CheckIcon } from 'ui/src/components/checkbox'
-import { AccountSelector } from '@src/components/account-selector'
-import Input from 'ui/src/components/input'
 import BigNumber from 'bignumber.js'
-import { getSplitParams } from '@src/utils/url-utils'
-import { getShortAddress } from '@src/utils/string-utils'
+import { AnimatePresence } from 'framer-motion'
+import React, { useEffect, useRef } from 'react'
+import { useImmer } from 'use-immer'
 import { useRoute } from 'wouter'
-import { Box, Text, Flex, MotionBox } from 'ui/src/components/atoms'
-import { formatBigNumber } from '@src/utils/formatters'
-import { TokenSelector } from '@src/components/token-selector'
+
+import { Box, Flex, MotionBox, Text } from 'ui/src/components/atoms'
+import Button from 'ui/src/components/button'
+import { CheckIcon, Checkbox } from 'ui/src/components/checkbox'
+import Input from 'ui/src/components/input'
+import { Tooltip, TooltipArrow, TooltipContent, TooltipProvider, TooltipTrigger } from 'ui/src/components/tool-tip'
+
+import { AccountSelector } from '@src/components/account-selector'
 import { AddressBookSelector } from '@src/components/address-book-selector'
 import { HardwareWalletReconnect } from '@src/components/hardware-wallet-reconnect'
-import { useTransferTokens } from '@src/hooks/use-token-transfer'
 import { SendReceiveHeader } from '@src/components/send-receive-header'
+import { TokenSelector } from '@src/components/token-selector'
+import { useTokenBalances, useTokenInfo } from '@src/hooks/react-query/queries/radix'
+import { useNoneSharedStore, useSharedStore } from '@src/hooks/use-store'
+import { useTransferTokens } from '@src/hooks/use-token-transfer'
+import { formatBigNumber } from '@src/utils/formatters'
+import { getShortAddress } from '@src/utils/string-utils'
+import { getSplitParams } from '@src/utils/url-utils'
+
 import { SendTokenReview } from './send-token-review'
 
 interface ImmerT {
@@ -98,7 +101,7 @@ export const SendToken: React.FC = () => {
 
 	const handleSetMessage = (event: React.ChangeEvent<HTMLInputElement>) => {
 		setState(draft => {
-			draft.message = event.currentTarget.value
+			draft.message = event?.currentTarget?.value || ''
 		})
 	}
 
@@ -179,7 +182,7 @@ export const SendToken: React.FC = () => {
 	}
 
 	return (
-		<AnimatePresence exitBeforeEnter>
+		<AnimatePresence mode="wait">
 			<MotionBox
 				key={state.transaction ? 'confirm' : 'send'}
 				animate={{ opacity: 1, y: 0 }}
@@ -225,27 +228,29 @@ export const SendToken: React.FC = () => {
 							<HardwareWalletReconnect />
 							<Box>
 								<Flex align="center" css={{ mt: '14px', position: 'relative' }}>
-									<Tooltip>
-										<TooltipTrigger asChild>
-											<Button
-												size="1"
-												color="tertiary"
-												css={{
-													position: 'absolute',
-													top: '-4px',
-													right: '0',
-													textTransform: 'uppercase',
-												}}
-												onClick={handleUseMax}
-											>
-												MAX
-											</Button>
-										</TooltipTrigger>
-										<TooltipContent sideOffset={3} side="top">
-											<TooltipArrow offset={15} />
-											Select maximum {tokenSymbol}
-										</TooltipContent>
-									</Tooltip>
+									<TooltipProvider>
+										<Tooltip>
+											<TooltipTrigger asChild>
+												<Button
+													size="1"
+													color="tertiary"
+													css={{
+														position: 'absolute',
+														top: '-4px',
+														right: '0',
+														textTransform: 'uppercase',
+													}}
+													onClick={handleUseMax}
+												>
+													MAX
+												</Button>
+											</TooltipTrigger>
+											<TooltipContent sideOffset={3} side="top">
+												<TooltipArrow offset={15} />
+												Select maximum {tokenSymbol}
+											</TooltipContent>
+										</Tooltip>
+									</TooltipProvider>
 									<Text css={{ fontSize: '14px', lineHeight: '17px', fontWeight: '500', flex: '1' }}>Amount:</Text>
 								</Flex>
 								<Box css={{ mt: '13px', position: 'relative' }}>

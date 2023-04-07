@@ -1,13 +1,12 @@
 import React from 'react'
-import { render } from 'react-dom'
+import { createRoot } from 'react-dom/client'
+
 import { Provider } from '@src/popup/provider'
 
-const rootElement = document.getElementById('root')
-render(
+const container = document.getElementById('root')
+const root = createRoot(container) // createRoot(container!) if you use TypeScript
+root.render(
 	<React.StrictMode>
 		<Provider />
 	</React.StrictMode>,
-	rootElement,
 )
-
-rootElement.style.display = 'block'

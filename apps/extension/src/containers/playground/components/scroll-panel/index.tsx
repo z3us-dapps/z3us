@@ -8,7 +8,8 @@ import { ScrollArea } from 'ui/src/components-v2/scroll-area'
 import * as styles from './scroll-panel.css'
 
 interface IScrollPanelRequiredProps {
-	renderPanel: (customScrollParent: HTMLElement | null, scrollTop: number) => React.ReactNode
+	// TODO: fix type
+	renderPanel: (customScrollParent: HTMLElement | null, scrollTop: number) => any
 }
 
 interface IScrollPanelOptionalProps {

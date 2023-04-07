@@ -1,9 +1,10 @@
-import React, { useRef, useState } from 'react'
 import { CheckIcon } from '@radix-ui/react-icons'
+import React, { useRef, useState } from 'react'
+
 import { CSS } from '../../theme'
-import { Tooltip, TooltipTrigger, TooltipContent, TooltipArrow } from '../tool-tip'
 import { Box } from '../atoms/box'
 import { Flex } from '../atoms/flex'
+import { Tooltip, TooltipArrow, TooltipContent, TooltipProvider, TooltipTrigger } from '../tool-tip'
 
 export interface IProps {
 	children: React.ReactElement
@@ -78,35 +79,39 @@ const ButtonTipFeedback: React.FC<IProps> = ({
 	})
 
 	return (
-		<Tooltip open={isOpen}>
-			<TooltipTrigger asChild>{clonedButton}</TooltipTrigger>
-			<TooltipContent
-				side="top"
-				sideOffset={sideOffset}
-				css={{ position: 'relative', ...(css as any), backgroundColor: bgColor }}
-			>
-				{showToolTipArrow ? <TooltipArrow offset={toolTipOffset} css={{ fill: bgColor }} /> : null}
-				<Box css={{ fill: '$txtDefault', opacity: isShowFeedback ? '0' : '1', transition: '$default' }}>{tooltip}</Box>
-				<Flex
-					justify="center"
-					align="center"
-					gap="1"
-					css={{
-						position: 'absolute',
-						top: '5px',
-						left: '0',
-						right: '0',
-						textAlign: 'center',
-						fill: '$txtDefault',
-						opacity: isShowFeedback ? '1' : '0',
-						transition: '$default',
-					}}
+		<TooltipProvider>
+			<Tooltip open={isOpen}>
+				<TooltipTrigger asChild>{clonedButton}</TooltipTrigger>
+				<TooltipContent
+					side="top"
+					sideOffset={sideOffset}
+					css={{ position: 'relative', ...(css as any), backgroundColor: bgColor }}
 				>
-					<CheckIcon />
-					{feedback}
-				</Flex>
-			</TooltipContent>
-		</Tooltip>
+					{showToolTipArrow ? <TooltipArrow offset={toolTipOffset} css={{ fill: bgColor }} /> : null}
+					<Box css={{ fill: '$txtDefault', opacity: isShowFeedback ? '0' : '1', transition: '$default' }}>
+						{tooltip}
+					</Box>
+					<Flex
+						justify="center"
+						align="center"
+						gap="1"
+						css={{
+							position: 'absolute',
+							top: '5px',
+							left: '0',
+							right: '0',
+							textAlign: 'center',
+							fill: '$txtDefault',
+							opacity: isShowFeedback ? '1' : '0',
+							transition: '$default',
+						}}
+					>
+						<CheckIcon />
+						{feedback}
+					</Flex>
+				</TooltipContent>
+			</Tooltip>
+		</TooltipProvider>
 	)
 }
 

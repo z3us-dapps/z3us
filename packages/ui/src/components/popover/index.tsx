@@ -1,6 +1,7 @@
 /* eslint-disable react/jsx-props-no-spreading, @typescript-eslint/no-unused-vars */
 import * as PopoverPrimitive from '@radix-ui/react-popover'
-import { styled, keyframes } from '../../theme'
+
+import { keyframes, styled } from '../../theme'
 
 const slideUpAndFade = keyframes({
 	'0%': { opacity: 0, transform: 'translateY(2px)' },
@@ -94,6 +95,7 @@ const StyledClose = styled(PopoverPrimitive.Close, {
 
 export const Popover = PopoverPrimitive.Root
 export const PopoverTrigger = PopoverPrimitive.Trigger
+export const PopoverPortal = PopoverPrimitive.Portal
 export const PopoverContent = StyledContent
 export const PopoverArrow = StyledArrow
 export const PopoverClose = StyledClose

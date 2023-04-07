@@ -1,20 +1,23 @@
-import React, { useCallback } from 'react'
 import BigNumber from 'bignumber.js'
-import { Line } from 'react-chartjs-2'
 import { InteractionMode } from 'chart.js'
-import { useColorMode } from '@src/hooks/use-color-mode'
-import { useTokenBalances, useTokenInfo } from '@src/hooks/react-query/queries/radix'
-import { useMarketChart } from '@src/hooks/react-query/queries/market'
-import { getSplitParams } from '@src/utils/url-utils'
-import { useRoute, useLocation } from 'wouter'
-import { useNoneSharedStore } from '@src/hooks/use-store'
+import React, { useCallback } from 'react'
+import { Line } from 'react-chartjs-2'
 import { useImmer } from 'use-immer'
-import { Tooltip, TooltipTrigger, TooltipContent, TooltipArrow } from 'ui/src/components/tool-tip'
-import { Grid, Flex, Text, Box } from 'ui/src/components/atoms'
-import { EXPLORER_URL } from '@src/config'
-import { UpRightIcon, DownLeftIcon, ExternalLinkIcon } from 'ui/src/components/icons'
+import { useLocation, useRoute } from 'wouter'
+
+import { Box, Flex, Grid, Text } from 'ui/src/components/atoms'
 import Button from 'ui/src/components/button'
+import { DownLeftIcon, ExternalLinkIcon, UpRightIcon } from 'ui/src/components/icons'
+import { Tooltip, TooltipArrow, TooltipContent, TooltipProvider, TooltipTrigger } from 'ui/src/components/tool-tip'
+
 import { CircleAvatar } from '@src/components/circle-avatar'
+import { EXPLORER_URL } from '@src/config'
+import { useMarketChart } from '@src/hooks/react-query/queries/market'
+import { useTokenBalances, useTokenInfo } from '@src/hooks/react-query/queries/radix'
+import { useColorMode } from '@src/hooks/use-color-mode'
+import { useNoneSharedStore } from '@src/hooks/use-store'
+import { getSplitParams } from '@src/utils/url-utils'
+
 import { TokenPrice } from './token-price'
 
 const TIMEFRAMES = {
@@ -153,39 +156,45 @@ export const TokenInfo = (): JSX.Element => {
 					ammount={token.symbol === 'xrd' ? selectedTokenAmmount.plus(stakedAmount) : selectedTokenAmmount}
 				/>
 				<Grid gap="5" columns="3" css={{ pt: '0px', position: 'relative', zIndex: '1' }}>
-					<Tooltip>
-						<TooltipTrigger asChild>
-							<Button size="5" color="inverse" iconOnly circle onClick={handleSendClick}>
-								<UpRightIcon />
-							</Button>
-						</TooltipTrigger>
-						<TooltipContent sideOffset={3} css={{ backgroundColor: '$bgPanel' }}>
-							<TooltipArrow css={{ fill: '$bgPanel' }} />
-							Send
-						</TooltipContent>
-					</Tooltip>
-					<Tooltip>
-						<TooltipTrigger asChild>
-							<Button size="5" color="inverse" iconOnly circle onClick={handleDepositClick}>
-								<DownLeftIcon />
-							</Button>
-						</TooltipTrigger>
-						<TooltipContent sideOffset={3} css={{ backgroundColor: '$bgPanel' }}>
-							<TooltipArrow css={{ fill: '$bgPanel' }} />
-							Deposit
-						</TooltipContent>
-					</Tooltip>
-					<Tooltip>
-						<TooltipTrigger asChild>
-							<Button size="5" color="inverse" iconOnly circle onClick={handleGotoTokenExplorer}>
-								<ExternalLinkIcon />
-							</Button>
-						</TooltipTrigger>
-						<TooltipContent sideOffset={3} css={{ backgroundColor: '$bgPanel' }}>
-							<TooltipArrow css={{ fill: '$bgPanel' }} />
-							Explorer
-						</TooltipContent>
-					</Tooltip>
+					<TooltipProvider>
+						<Tooltip>
+							<TooltipTrigger asChild>
+								<Button size="5" color="inverse" iconOnly circle onClick={handleSendClick}>
+									<UpRightIcon />
+								</Button>
+							</TooltipTrigger>
+							<TooltipContent sideOffset={3} css={{ backgroundColor: '$bgPanel' }}>
+								<TooltipArrow css={{ fill: '$bgPanel' }} />
+								Send
+							</TooltipContent>
+						</Tooltip>
+					</TooltipProvider>
+					<TooltipProvider>
+						<Tooltip>
+							<TooltipTrigger asChild>
+								<Button size="5" color="inverse" iconOnly circle onClick={handleDepositClick}>
+									<DownLeftIcon />
+								</Button>
+							</TooltipTrigger>
+							<TooltipContent sideOffset={3} css={{ backgroundColor: '$bgPanel' }}>
+								<TooltipArrow css={{ fill: '$bgPanel' }} />
+								Deposit
+							</TooltipContent>
+						</Tooltip>
+					</TooltipProvider>
+					<TooltipProvider>
+						<Tooltip>
+							<TooltipTrigger asChild>
+								<Button size="5" color="inverse" iconOnly circle onClick={handleGotoTokenExplorer}>
+									<ExternalLinkIcon />
+								</Button>
+							</TooltipTrigger>
+							<TooltipContent sideOffset={3} css={{ backgroundColor: '$bgPanel' }}>
+								<TooltipArrow css={{ fill: '$bgPanel' }} />
+								Explorer
+							</TooltipContent>
+						</Tooltip>
+					</TooltipProvider>
 				</Grid>
 				{chart?.length > 0 && (
 					<Box

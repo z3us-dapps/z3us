@@ -1,15 +1,18 @@
-import React from 'react'
-import { Validator } from '@src/types'
-import { DownloadIcon, UploadIcon, InfoCircledIcon, Cross2Icon, ExternalLinkIcon } from '@radix-ui/react-icons'
-import { getShortAddress } from '@src/utils/string-utils'
-import { Box, Flex, Text } from 'ui/src/components/atoms'
-import { Popover, PopoverTrigger, PopoverContent, PopoverClose } from 'ui/src/components/popover'
-import { ToolTip } from 'ui/src/components/tool-tip'
-import Button from 'ui/src/components/button'
-import { formatBigNumber } from '@src/utils/formatters'
+import { Cross2Icon, DownloadIcon, ExternalLinkIcon, InfoCircledIcon, UploadIcon } from '@radix-ui/react-icons'
 import BigNumber from 'bignumber.js'
-import { apy } from '@src/utils/radix'
+import React from 'react'
+
+import { Box, Flex, Text } from 'ui/src/components/atoms'
+import Button from 'ui/src/components/button'
+import { Popover, PopoverClose, PopoverContent, PopoverPortal, PopoverTrigger } from 'ui/src/components/popover'
+import { ToolTip } from 'ui/src/components/tool-tip'
+
 import { EXPLORER_URL } from '@src/config'
+import { Validator } from '@src/types'
+import { formatBigNumber } from '@src/utils/formatters'
+import { apy } from '@src/utils/radix'
+import { getShortAddress } from '@src/utils/string-utils'
+
 import { StakeModal } from '../stake-modal'
 
 const LEFT_COL_WIDTH = '123px'
@@ -100,90 +103,92 @@ export const ValidatorItem: React.FC<IProps> = ({ i, validator, totalStakes }) =
 									</ToolTip>
 								</Box>
 							</PopoverTrigger>
-							<PopoverContent css={{ width: '275px' }}>
-								<Box css={{ p: '$4', pb: '$3' }}>
-									<Flex css={{ mb: '$3' }}>
-										<Text bold size="3" truncate css={{ width: LEFT_COL_WIDTH }}>
-											Information
-										</Text>
-									</Flex>
-									<Flex css={{ mt: '$2', minWidth: '0' }}>
-										<Text size="2" truncate css={{ flexShrink: '0' }}>
-											Name
-										</Text>
-										<Flex justify="end" css={{ flex: '1', pl: '$1' }}>
-											<Text truncate size="2" color="help" css={{ flex: '1', maxWidth: '190px', ta: 'right' }}>
-												{name}
+							<PopoverPortal>
+								<PopoverContent css={{ width: '275px' }}>
+									<Box css={{ p: '$4', pb: '$3' }}>
+										<Flex css={{ mb: '$3' }}>
+											<Text bold size="3" truncate css={{ width: LEFT_COL_WIDTH }}>
+												Information
 											</Text>
 										</Flex>
-									</Flex>
-									<Flex css={{ mt: '$2' }}>
-										<Text size="2" truncate css={{ width: LEFT_COL_WIDTH }}>
-											Address
-										</Text>
-										<Flex justify="end" css={{ flex: '1' }}>
-											<Text size="2" color="help">
-												{getShortAddress(address.toString())}
+										<Flex css={{ mt: '$2', minWidth: '0' }}>
+											<Text size="2" truncate css={{ flexShrink: '0' }}>
+												Name
 											</Text>
+											<Flex justify="end" css={{ flex: '1', pl: '$1' }}>
+												<Text truncate size="2" color="help" css={{ flex: '1', maxWidth: '190px', ta: 'right' }}>
+													{name}
+												</Text>
+											</Flex>
 										</Flex>
-									</Flex>
-									<Flex css={{ mt: '$2' }}>
-										<Text size="2" truncate css={{ width: LEFT_COL_WIDTH }}>
-											Total / owner
-										</Text>
-										<Flex justify="end" css={{ flex: '1' }}>
-											<Text size="2" color="help" css={{ textAlign: 'right' }}>
-												{formatBigNumber(total)} / {formatBigNumber(new BigNumber(ownerDelegation).shiftedBy(-18))}
+										<Flex css={{ mt: '$2' }}>
+											<Text size="2" truncate css={{ width: LEFT_COL_WIDTH }}>
+												Address
 											</Text>
+											<Flex justify="end" css={{ flex: '1' }}>
+												<Text size="2" color="help">
+													{getShortAddress(address.toString())}
+												</Text>
+											</Flex>
 										</Flex>
-									</Flex>
-									<Flex css={{ mt: '$2' }}>
-										<Text size="2" truncate css={{ width: LEFT_COL_WIDTH }}>
-											Share
-										</Text>
-										<Flex justify="end" css={{ flex: '1' }}>
-											<Text size="2" color="help">
-												<span style={{ color: isExternalStakeAccepted ? backgroundColor : 'inherit' }}>
-													{validatorFee}%
-												</span>
+										<Flex css={{ mt: '$2' }}>
+											<Text size="2" truncate css={{ width: LEFT_COL_WIDTH }}>
+												Total / owner
 											</Text>
+											<Flex justify="end" css={{ flex: '1' }}>
+												<Text size="2" color="help" css={{ textAlign: 'right' }}>
+													{formatBigNumber(total)} / {formatBigNumber(new BigNumber(ownerDelegation).shiftedBy(-18))}
+												</Text>
+											</Flex>
 										</Flex>
-									</Flex>
-									<Flex css={{ mt: '$2' }}>
-										<Text size="2" truncate css={{ width: LEFT_COL_WIDTH }}>
-											Uptime
-										</Text>
-										<Flex justify="end" css={{ flex: '1' }}>
-											<Text size="2" color="help">
-												{uptimePercentage}%
+										<Flex css={{ mt: '$2' }}>
+											<Text size="2" truncate css={{ width: LEFT_COL_WIDTH }}>
+												Share
 											</Text>
+											<Flex justify="end" css={{ flex: '1' }}>
+												<Text size="2" color="help">
+													<span style={{ color: isExternalStakeAccepted ? backgroundColor : 'inherit' }}>
+														{validatorFee}%
+													</span>
+												</Text>
+											</Flex>
 										</Flex>
-									</Flex>
-									<Flex css={{ mt: '$2' }}>
-										<Text size="2" truncate css={{ width: LEFT_COL_WIDTH }}>
-											APY
-										</Text>
-										<Flex justify="end" css={{ flex: '1' }}>
-											<Text size="2" color="help">
-												{apy(total, totalStakes, validatorFee).toFormat(2)}%
+										<Flex css={{ mt: '$2' }}>
+											<Text size="2" truncate css={{ width: LEFT_COL_WIDTH }}>
+												Uptime
 											</Text>
+											<Flex justify="end" css={{ flex: '1' }}>
+												<Text size="2" color="help">
+													{uptimePercentage}%
+												</Text>
+											</Flex>
 										</Flex>
-									</Flex>
-									<Flex css={{ mt: '$2' }}>
-										<Text size="2" truncate css={{ width: LEFT_COL_WIDTH }}>
-											ADS
-										</Text>
-										<Flex justify="end" css={{ flex: '1' }}>
-											<Text size="2" color="help">
-												{isExternalStakeAccepted ? 'YES' : 'NO'}
+										<Flex css={{ mt: '$2' }}>
+											<Text size="2" truncate css={{ width: LEFT_COL_WIDTH }}>
+												APY
 											</Text>
+											<Flex justify="end" css={{ flex: '1' }}>
+												<Text size="2" color="help">
+													{apy(total, totalStakes, validatorFee).toFormat(2)}%
+												</Text>
+											</Flex>
 										</Flex>
-									</Flex>
-								</Box>
-								<PopoverClose aria-label="Close popover">
-									<Cross2Icon />
-								</PopoverClose>
-							</PopoverContent>
+										<Flex css={{ mt: '$2' }}>
+											<Text size="2" truncate css={{ width: LEFT_COL_WIDTH }}>
+												ADS
+											</Text>
+											<Flex justify="end" css={{ flex: '1' }}>
+												<Text size="2" color="help">
+													{isExternalStakeAccepted ? 'YES' : 'NO'}
+												</Text>
+											</Flex>
+										</Flex>
+									</Box>
+									<PopoverClose aria-label="Close popover">
+										<Cross2Icon />
+									</PopoverClose>
+								</PopoverContent>
+							</PopoverPortal>
 						</Popover>
 					</Flex>
 				</Flex>

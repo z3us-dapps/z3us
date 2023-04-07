@@ -1,21 +1,24 @@
 /* eslint-disable react/jsx-props-no-spreading, react/destructuring-assignment */
-import React, { useState, useEffect, useCallback } from 'react'
-import { useSharedStore, useNoneSharedStore } from '@src/hooks/use-store'
+import { Side } from '@radix-ui/popper'
+import { Cross2Icon, ResetIcon } from '@radix-ui/react-icons'
+import React, { useCallback, useEffect, useState } from 'react'
+import * as ReactBeautifulDnd from 'react-beautiful-dnd'
+import { Virtuoso } from 'react-virtuoso'
+import { useImmer } from 'use-immer'
 import { useEventListener } from 'usehooks-ts'
+
+import { Box, Flex, Text } from 'ui/src/components/atoms'
+import Button from 'ui/src/components/button'
+import { Dialog, DialogContent, DialogTrigger } from 'ui/src/components/dialog'
+import { Tooltip, TooltipArrow, TooltipContent, TooltipProvider, TooltipTrigger } from 'ui/src/components/tool-tip'
+
+import { SearchBox } from '@src/components/search-box'
+import { OCI_TEST_RRI } from '@src/config'
 import { useTokenBalances } from '@src/hooks/react-query/queries/radix'
 import { useKnownTokens } from '@src/hooks/react-query/queries/radixscan'
-import { useImmer } from 'use-immer'
-import { SearchBox } from '@src/components/search-box'
-import { Cross2Icon, ResetIcon } from '@radix-ui/react-icons'
-import Button from 'ui/src/components/button'
-import { Virtuoso } from 'react-virtuoso'
-import { Tooltip, TooltipTrigger, TooltipContent, TooltipArrow } from 'ui/src/components/tool-tip'
-import { Dialog, DialogTrigger, DialogContent } from 'ui/src/components/dialog'
-import * as ReactBeautifulDnd from 'react-beautiful-dnd'
-import { Box, Text, Flex } from 'ui/src/components/atoms'
-import { Side } from '@radix-ui/popper'
-import { TokenAmount, VisibleTokens, VisibleToken } from '@src/types'
-import { OCI_TEST_RRI } from '@src/config'
+import { useNoneSharedStore, useSharedStore } from '@src/hooks/use-store'
+import { TokenAmount, VisibleToken, VisibleTokens } from '@src/types'
+
 import { Token } from './token'
 
 const VISIBLE = 'visible'
@@ -297,15 +300,17 @@ export const TokenListSettingsModal = ({
 	return (
 		<Dialog open={state.isModalOpen} modal={false}>
 			<DialogTrigger asChild>
-				<Tooltip>
-					<TooltipTrigger asChild onClick={handleOnClick}>
-						{children || <Box>Edit</Box>}
-					</TooltipTrigger>
-					<TooltipContent side={toolTipSide} sideOffset={toolTipSideOffset}>
-						<TooltipArrow offset={10} />
-						{toolTipMessage}
-					</TooltipContent>
-				</Tooltip>
+				<TooltipProvider>
+					<Tooltip>
+						<TooltipTrigger asChild onClick={handleOnClick}>
+							{children || <Box>Edit</Box>}
+						</TooltipTrigger>
+						<TooltipContent side={toolTipSide} sideOffset={toolTipSideOffset}>
+							<TooltipArrow offset={10} />
+							{toolTipMessage}
+						</TooltipContent>
+					</Tooltip>
+				</TooltipProvider>
 			</DialogTrigger>
 			<DialogContent css={{ p: '0' }}>
 				<Box css={{ position: 'relative' }}>

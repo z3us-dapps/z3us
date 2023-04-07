@@ -4,7 +4,7 @@ import React from 'react'
 
 import { Box, Flex, Text } from 'ui/src/components/atoms'
 import Button from 'ui/src/components/button'
-import { Popover, PopoverClose, PopoverContent, PopoverTrigger } from 'ui/src/components/popover'
+import { Popover, PopoverClose, PopoverContent, PopoverPortal, PopoverTrigger } from 'ui/src/components/popover'
 import { CSS } from 'ui/src/theme'
 
 import { useTokenInfo } from '@src/hooks/react-query/queries/radix'
@@ -105,12 +105,14 @@ export const ActivityItem = React.forwardRef<HTMLDivElement, IProps>(({ tx, acti
 						</Flex>
 					</Button>
 				</PopoverTrigger>
-				<PopoverContent css={{ width: '300px' }}>
-					<ActivityLinks activity={activity} tx={tx} accountAddress={entry?.address} />
-					<PopoverClose aria-label="Close">
-						<Cross2Icon />
-					</PopoverClose>
-				</PopoverContent>
+				<PopoverPortal>
+					<PopoverContent css={{ width: '300px' }}>
+						<ActivityLinks activity={activity} tx={tx} accountAddress={entry?.address} />
+						<PopoverClose aria-label="Close">
+							<Cross2Icon />
+						</PopoverClose>
+					</PopoverContent>
+				</PopoverPortal>
 			</Popover>
 		</div>
 	)

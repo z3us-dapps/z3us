@@ -1,13 +1,14 @@
+import { AnimatePresence } from 'framer-motion'
 import React from 'react'
+import { Switch, useLocation } from 'wouter'
+
 import { MotionBox } from 'ui/src/components/atoms/motion-box'
 import { CSS } from 'ui/src/theme'
-import { AnimatePresence } from 'framer-motion'
-import { useLocation, Switch } from 'wouter'
 
 export const AnimatedSwitch = ({ children, css }: { children: any; css?: CSS }) => {
 	const [location = ''] = useLocation()
 	return (
-		<AnimatePresence exitBeforeEnter>
+		<AnimatePresence mode="wait">
 			<MotionBox
 				key={location}
 				animate={{ opacity: 1, y: 0 }}

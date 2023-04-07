@@ -1,20 +1,23 @@
+import { AnimatePresence } from 'framer-motion'
 import React from 'react'
 import { useLocation } from 'wouter'
-import { onBoardingSteps } from '@src/store/onboarding'
-import { LeftArrowIcon } from 'ui/src/components/icons'
-import Button from 'ui/src/components/button'
+
+import { Flex } from 'ui/src/components/atoms'
 import { MotionBox } from 'ui/src/components/atoms/motion-box'
-import { AnimatePresence } from 'framer-motion'
-import { useSharedStore } from '@src/hooks/use-store'
-import { Start } from '@src/containers/onboarding/steps/1-start'
+import Button from 'ui/src/components/button'
+import { LeftArrowIcon } from 'ui/src/components/icons'
+
 import { WalletMenu } from '@src/components/wallet-menu'
+import { Start } from '@src/containers/onboarding/steps/1-start'
 import { GeneratePhrase } from '@src/containers/onboarding/steps/2a-generate-phrase'
-import { CreatePassword } from '@src/containers/onboarding/steps/4-create-password'
-import { CreateWallet } from '@src/containers/onboarding/steps/5-create-wallet'
 import { InsertPhrase } from '@src/containers/onboarding/steps/2b-insert-phrase'
 import { ImportAccounts } from '@src/containers/onboarding/steps/3-import-accounts'
-import { Flex } from 'ui/src/components/atoms'
+import { CreatePassword } from '@src/containers/onboarding/steps/4-create-password'
+import { CreateWallet } from '@src/containers/onboarding/steps/5-create-wallet'
 import { useColorMode } from '@src/hooks/use-color-mode'
+import { useSharedStore } from '@src/hooks/use-store'
+import { onBoardingSteps } from '@src/store/onboarding'
+
 import { InsertKey } from './steps/2c-insert-key'
 
 export const OnboardingWorkFlow: React.FC = () => {
@@ -105,7 +108,7 @@ export const OnboardingWorkFlow: React.FC = () => {
 				<WalletMenu />
 			</Flex>
 			<Flex css={{ flex: '1' }}>
-				<AnimatePresence exitBeforeEnter>
+				<AnimatePresence mode="wait">
 					<MotionBox
 						key={onBoardingStep}
 						animate={{ opacity: 1, y: 0 }}
