@@ -1,6 +1,7 @@
-import React from 'react'
-import { Text, Flex, Box } from 'ui/src/components/atoms'
 import { MagnifyingGlassIcon } from '@radix-ui/react-icons'
+import React from 'react'
+
+import { Box, Flex, Text } from 'ui/src/components/atoms'
 
 interface IProps {
 	title?: string

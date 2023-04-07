@@ -1,12 +1,13 @@
-import React, { useEffect, useState, useImperativeHandle, useRef } from 'react'
+import { AnimatePresence } from 'framer-motion'
+import React, { useEffect, useImperativeHandle, useRef, useState } from 'react'
 import { createPortal } from 'react-dom'
 import create from 'zustand'
 import shallow from 'zustand/shallow'
-import { AnimatePresence } from 'framer-motion'
+
 import { PropsWithCSS } from '../../types'
 import { __DEV__ } from '../../utils/assertion'
-import { Toast as ToastC } from './toast'
 import { Box } from '../atoms'
+import { Toast as ToastC } from './toast'
 
 export interface ToastsState {
 	toastList: Set<string>

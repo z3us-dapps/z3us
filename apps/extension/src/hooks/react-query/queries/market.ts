@@ -1,4 +1,5 @@
 import { useQueries, useQuery } from 'react-query'
+
 import { CoinGeckoService } from '@src/services/coingecko'
 
 const service = new CoinGeckoService()

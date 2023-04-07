@@ -1,11 +1,11 @@
 /* eslint-disable react/jsx-props-no-spreading, @typescript-eslint/no-unused-vars */
-import React from 'react'
 import { ComponentMeta, ComponentStory } from '@storybook/react'
-import { Box } from '../atoms/box'
-import { Grid } from '../atoms/grid'
-import { Flex } from '../atoms/flex'
-import { Text } from '../atoms/text'
+import React from 'react'
 
+import { Box } from '../atoms/box'
+import { Flex } from '../atoms/flex'
+import { Grid } from '../atoms/grid'
+import { Text } from '../atoms/text'
 import LoaderBars from './index'
 
 export default {

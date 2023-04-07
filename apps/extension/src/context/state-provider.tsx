@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from 'react'
+
 import { useSharedStore } from '@src/hooks/use-store'
+import { defaultNoneSharedStore, getNoneSharedStore } from '@src/services/state'
 import { NoneSharedStore } from '@src/store'
-import { getNoneSharedStore, defaultNoneSharedStore } from '@src/services/state'
+
 import { NoneSharedStoreContext } from './state'
 
 export const NoneSharedStoreProvider = ({ children }: React.PropsWithChildren<{}>) => {

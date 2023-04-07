@@ -1,12 +1,14 @@
-import React, { useEffect, useState } from 'react'
-import { useScroll } from 'framer-motion'
 import clsx from 'clsx'
-import Link from 'next/link'
 import { FlashCtaButton } from 'components/flash-cta-button'
-import { Z3usText } from 'ui/src/components/z3us-text'
 import { PageContainer } from 'components/page-container'
 import { config } from 'config'
-import { TelegramIcon, TwitterIcon, GithubIcon } from './icons'
+import { useScroll } from 'framer-motion'
+import Link from 'next/link'
+import React, { useEffect, useState } from 'react'
+
+import { Z3usText } from 'ui/src/components/z3us-text'
+
+import { GithubIcon, TelegramIcon, TwitterIcon } from './icons'
 import { MobileMenu } from './mobile-menu'
 
 interface IProps {

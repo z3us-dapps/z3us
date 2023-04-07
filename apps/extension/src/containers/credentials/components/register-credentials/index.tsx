@@ -1,11 +1,13 @@
 import React from 'react'
-import { useLocation } from 'wouter'
 import { useImmer } from 'use-immer'
 import { useEventListener } from 'usehooks-ts'
-import { PageWrapper, PageHeading, PageSubHeading } from '@src/components/layout'
-import { Flex, Text, Box } from 'ui/src/components/atoms'
+import { useLocation } from 'wouter'
+
+import { Box, Flex, Text } from 'ui/src/components/atoms'
 import InputFeedBack from 'ui/src/components/input/input-feedback'
+
 import { RegisterCredentialsButton } from '@src/components/auth-register-credentials-button'
+import { PageHeading, PageSubHeading, PageWrapper } from '@src/components/layout'
 
 interface ImmerT {
 	isLoading: boolean

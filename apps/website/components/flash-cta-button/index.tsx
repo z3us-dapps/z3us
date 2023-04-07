@@ -1,6 +1,6 @@
-import React, { useRef, useEffect } from 'react'
 import { Button } from 'components/button'
 import { useGetStoreHref } from 'hooks/use-get-store-href'
+import React, { useEffect, useRef } from 'react'
 
 const createSVG = (width: number, height: number, radius: number) => {
 	const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg')

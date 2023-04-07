@@ -1,9 +1,10 @@
-import React from 'react'
-import Image from 'next/image'
-import { Flex } from 'ui/src/components/atoms'
-import { ToolTip } from 'ui/src/components/tool-tip'
-import Button from 'ui/src/components/button'
 import { config } from 'config'
+import Image from 'next/image'
+import React from 'react'
+
+import { Flex } from 'ui/src/components/atoms'
+import Button from 'ui/src/components/button'
+import { ToolTip } from 'ui/src/components/tool-tip'
 
 export const PartnerLinks = (): JSX.Element => (
 	<Flex

@@ -1,9 +1,10 @@
 import React, { PropsWithoutRef, RefAttributes, useEffect, useImperativeHandle, useRef } from 'react'
+
 import { CSS } from '../../theme'
 import { PropsWithCSS } from '../../types'
-import withDefaults from '../../utils/with-defaults'
 import { __DEV__ } from '../../utils/assertion'
-import { StyledInput, StyledInputWrapper, StyledInputPlaceholder, InputVariantsProps } from './input.styles'
+import withDefaults from '../../utils/with-defaults'
+import { InputVariantsProps, StyledInput, StyledInputPlaceholder, StyledInputWrapper } from './input.styles'
 
 export type FormElement = HTMLInputElement | HTMLTextAreaElement
 

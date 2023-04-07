@@ -1,13 +1,16 @@
-import React from 'react'
 import { ExternalLinkIcon, HomeIcon } from '@radix-ui/react-icons'
-import { ToolTip } from 'ui/src/components/tool-tip'
-import { Box, Flex, Text, StyledLink } from 'ui/src/components/atoms'
-import Button from 'ui/src/components/button'
 import BigNumber from 'bignumber.js'
-import { apy } from '@src/utils/radix'
+import React from 'react'
+
+import { Box, Flex, StyledLink, Text } from 'ui/src/components/atoms'
+import Button from 'ui/src/components/button'
+import { ToolTip } from 'ui/src/components/tool-tip'
+
+import { EXPLORER_URL } from '@src/config'
 import { useLookupValidator } from '@src/hooks/react-query/queries/radix'
 import { formatBigNumber } from '@src/utils/formatters'
-import { EXPLORER_URL } from '@src/config'
+import { apy } from '@src/utils/radix'
+
 import { StakeModal } from '../stake-modal'
 
 interface IProps {

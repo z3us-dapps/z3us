@@ -1,4 +1,5 @@
 import browser from 'webextension-polyfill'
+
 import { EXPLORER_URL } from '@src/config'
 
 export const notificationDelimiter = '--'

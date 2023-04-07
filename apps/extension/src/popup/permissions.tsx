@@ -1,12 +1,14 @@
-import React, { useEffect } from 'react'
-import browser from 'webextension-polyfill'
 import { Cross2Icon } from '@radix-ui/react-icons'
-import { useSharedStore, useNoneSharedStore } from '@src/hooks/use-store'
-import { askForHostPermissions } from '@src/utils/permissions'
+import React, { useEffect } from 'react'
 import { useImmer } from 'use-immer'
+import browser from 'webextension-polyfill'
+
 import { Box, Flex, Text } from 'ui/src/components/atoms'
 import Button from 'ui/src/components/button'
 import { Dialog, DialogContent } from 'ui/src/components/dialog'
+
+import { useNoneSharedStore, useSharedStore } from '@src/hooks/use-store'
+import { askForHostPermissions } from '@src/utils/permissions'
 
 interface IImmer {
 	isDialogOpen: boolean

@@ -1,6 +1,6 @@
-import browser from 'webextension-polyfill'
-import { useEffect } from 'react'
 import init from 'pte-manifest-compiler'
+import { useEffect } from 'react'
+import browser from 'webextension-polyfill'
 
 export const useManifestCompoler = () => {
 	useEffect(() => {

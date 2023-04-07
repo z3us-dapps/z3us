@@ -1,9 +1,10 @@
 /* eslint-disable react/jsx-props-no-spreading */
 import React, { PropsWithoutRef, RefAttributes, useImperativeHandle, useRef } from 'react'
+
 import { PropsWithCSS } from '../../types'
 import { __DEV__ } from '../../utils/assertion'
-import { StyledLoaderBars, LoaderBarsVariantsProps } from './loader-bars.styles'
 import { Box } from '../atoms/box'
+import { LoaderBarsVariantsProps, StyledLoaderBars } from './loader-bars.styles'
 
 export interface Props {
 	as?: keyof JSX.IntrinsicElements

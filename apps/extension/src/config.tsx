@@ -1,7 +1,9 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import React from 'react'
 import { Network as NetworkID } from '@radixdlt/application'
-import { HomeIcon, StakingIcon, SwapIcon, SettingsIcon } from 'ui/src/components/icons'
+import React from 'react'
+
+import { HomeIcon, SettingsIcon, StakingIcon, SwapIcon } from 'ui/src/components/icons'
+
 import { ColorSettings, PoolType } from '@src/types'
 
 // @TODO: add types to this file

@@ -1,5 +1,5 @@
-import { useEffect, useState } from 'react'
 import { config } from 'config'
+import { useEffect, useState } from 'react'
 
 const fnBrowserDetect = () => {
 	const userAgent = navigator?.userAgent

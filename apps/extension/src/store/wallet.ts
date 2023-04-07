@@ -1,4 +1,5 @@
 import { SigningKey } from '@src/types'
+
 import { WalletState } from './types'
 
 const defaultState = {

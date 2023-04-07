@@ -1,8 +1,11 @@
-import React, { useEffect } from 'react'
 import { useAnimationControls } from 'framer-motion'
-import { useColorMode } from '@src/hooks/use-color-mode'
+import React, { useEffect } from 'react'
+
 import { Box, Flex, MotionBox } from 'ui/src/components/atoms'
-import { Z3USLogoOuter, Z3USLogoInner } from '../z3us-logo'
+
+import { useColorMode } from '@src/hooks/use-color-mode'
+
+import { Z3USLogoInner, Z3USLogoOuter } from '../z3us-logo'
 
 export const Loader: React.FC = () => {
 	const isDarkMode = useColorMode()

@@ -1,11 +1,14 @@
 import React, { useEffect } from 'react'
 import { useImmer } from 'use-immer'
+
+import { Box, Flex, Text } from 'ui/src/components/atoms'
+import PriceTicker from 'ui/src/components/price-ticker'
+
+import { currencySettingsMap } from '@src/config'
 import { useAllAccountsValue } from '@src/hooks/react-query/queries/account'
 import { useNoneSharedStore } from '@src/hooks/use-store'
-import { Flex, Box, Text } from 'ui/src/components/atoms'
-import PriceTicker from 'ui/src/components/price-ticker'
 import { formatBigNumber } from '@src/utils/formatters'
-import { currencySettingsMap } from '@src/config'
+
 import { getTickerChars } from '../get-ticker-chars'
 
 interface ImmerT {

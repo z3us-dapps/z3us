@@ -1,8 +1,10 @@
-import React from 'react'
 import * as Portal from '@radix-ui/react-portal'
-import { motion, AnimatePresence } from 'framer-motion'
-import { Toast } from 'ui/src/components/toasts/toast'
+import { AnimatePresence, motion } from 'framer-motion'
+import React from 'react'
+
 import { Box } from 'ui/src/components/atoms'
+import { Toast } from 'ui/src/components/toasts/toast'
+
 import { useSharedStore } from '@src/hooks/use-store'
 
 export const Toasts: React.FC = () => {

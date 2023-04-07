@@ -1,9 +1,8 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import clsx from 'clsx'
-
-import { TransactionIcon } from '@src/components/transaction-icon'
 import React, { forwardRef, useState } from 'react'
-import { useSearchParams, useLocation, useNavigate } from 'react-router-dom'
+import { useLocation, useNavigate, useSearchParams } from 'react-router-dom'
+
 import { Box } from 'ui/src/components-v2/box'
 import { Dialog, DialogContent, DialogOverlay, DialogPortal } from 'ui/src/components-v2/dialog'
 import { ScrollArea } from 'ui/src/components-v2/scroll-area'
@@ -11,6 +10,7 @@ import { Text } from 'ui/src/components-v2/typography'
 import { Close2Icon, ShareIcon } from 'ui/src/components/icons'
 
 import { Button } from '@src/components/button'
+import { TransactionIcon } from '@src/components/transaction-icon'
 
 import * as styles from './account-transaction.css'
 

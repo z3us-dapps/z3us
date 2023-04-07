@@ -1,12 +1,12 @@
-import fs from 'fs'
-import path from 'path'
-import matter from 'gray-matter'
-import { serialize } from 'next-mdx-remote/serialize'
-import React from 'react'
-import { NextSeo } from 'next-seo'
 import { MdxTheme } from 'components/mdx-theme'
 import { SinglePageDocs } from 'components/pages/single-page-docs'
 import { config } from 'config'
+import fs from 'fs'
+import matter from 'gray-matter'
+import { serialize } from 'next-mdx-remote/serialize'
+import { NextSeo } from 'next-seo'
+import path from 'path'
+import React from 'react'
 
 const TermsIndex = ({ mdxSource }) => (
 	<>

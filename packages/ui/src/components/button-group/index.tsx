@@ -1,9 +1,10 @@
 /* eslint-disable react/jsx-props-no-spreading */
 import React, { PropsWithoutRef, RefAttributes, useImperativeHandle, useRef } from 'react'
-import withDefaults from '../../utils/with-defaults'
-import { __DEV__ } from '../../utils/assertion'
+
 import { PropsWithCSS } from '../../types'
-import { StyledButtonGroup, ButtonGroupVariantsProps } from './button-group.styles'
+import { __DEV__ } from '../../utils/assertion'
+import withDefaults from '../../utils/with-defaults'
+import { ButtonGroupVariantsProps, StyledButtonGroup } from './button-group.styles'
 
 export interface Props {
 	as?: keyof JSX.IntrinsicElements

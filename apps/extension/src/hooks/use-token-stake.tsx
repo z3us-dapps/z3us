@@ -1,8 +1,9 @@
+import { IntendedStakeTokens } from '@radixdlt/application'
+
 import { useNoneSharedStore } from '@src/hooks/use-store'
 import { useTransaction } from '@src/hooks/use-transaction'
-import { IntendedStakeTokens } from '@radixdlt/application'
-import { buildAmount } from '@src/utils/radix'
 import { parseAccountAddress, parseResourceIdentifier, parseValidatorAddress } from '@src/services/radix/serializer'
+import { buildAmount } from '@src/utils/radix'
 
 export const useTokenStake = () => {
 	const { buildTransactionFromActions } = useTransaction()

@@ -1,12 +1,13 @@
 /* eslint-disable prefer-regex-literals */
-import base64url from 'base64url'
-import {
-	generateRegistrationOptions,
-	verifyRegistrationResponse,
-	generateAuthenticationOptions,
-	verifyAuthenticationResponse,
-} from '@simplewebauthn/server'
 import { browserSupportsWebauthn, platformAuthenticatorIsAvailable } from '@simplewebauthn/browser'
+import {
+	generateAuthenticationOptions,
+	generateRegistrationOptions,
+	verifyAuthenticationResponse,
+	verifyRegistrationResponse,
+} from '@simplewebauthn/server'
+import base64url from 'base64url'
+
 import { BrowserStorageService } from '@src/services/browser-storage'
 
 export const isWebAuthSupported = async () => browserSupportsWebauthn() && (await platformAuthenticatorIsAvailable())

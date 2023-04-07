@@ -1,4 +1,4 @@
-import { styled, VariantProps } from '../../theme'
+import { VariantProps, styled } from '../../theme'
 
 export const StyledPriceLabel = styled('div', {
 	m: 0,

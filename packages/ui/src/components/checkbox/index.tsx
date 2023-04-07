@@ -1,9 +1,10 @@
-import React from 'react'
-import { CSS, styled } from '@stitches/react'
+import * as CheckboxPrimitive from '@radix-ui/react-checkbox'
 //import { violet, blackA } from '@radix-ui/colors';
 //import { CheckIcon } from '@radix-ui/react-icons';
 import { CheckIcon as CheckIconRadixUi } from '@radix-ui/react-icons'
-import * as CheckboxPrimitive from '@radix-ui/react-checkbox'
+import { CSS, styled } from '@stitches/react'
+import React from 'react'
+
 import { Box } from '../atoms/box'
 
 const StyledCheckbox = styled(CheckboxPrimitive.Root, {

@@ -1,12 +1,14 @@
-import React from 'react'
-import { Box } from 'ui/src/components-v2/box'
-import { useAccountParams } from '@src/containers/playground/hooks/use-account-params'
-import { Link } from '@src/components/link'
-import { ChevronDown2Icon, ChevronRightIcon } from 'ui/src/components/icons'
-import { AccountSearch } from '@src/containers/playground/containers/accounts/account-search'
-import Translation from '@src/components/translation'
-import { Text } from 'ui/src/components-v2/typography'
 import clsx from 'clsx'
+import React from 'react'
+
+import { Box } from 'ui/src/components-v2/box'
+import { Text } from 'ui/src/components-v2/typography'
+import { ChevronDown2Icon, ChevronRightIcon } from 'ui/src/components/icons'
+
+import { Link } from '@src/components/link'
+import Translation from '@src/components/translation'
+import { AccountSearch } from '@src/containers/playground/containers/accounts/account-search'
+import { useAccountParams } from '@src/containers/playground/hooks/use-account-params'
 
 import * as styles from './accounts-list.css'
 

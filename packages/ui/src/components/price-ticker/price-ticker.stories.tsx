@@ -1,13 +1,13 @@
 /* eslint-disable react/jsx-props-no-spreading, @typescript-eslint/no-unused-vars */
-import React from 'react'
 import { ComponentMeta, ComponentStory } from '@storybook/react'
-import { Box } from '../atoms/box'
-import { Grid } from '../atoms/grid'
-import { Flex } from '../atoms/flex'
-//import { Text } from '../atoms/text'
+import React from 'react'
 
-import PriceTicker from './index'
+import { Box } from '../atoms/box'
+import { Flex } from '../atoms/flex'
+import { Grid } from '../atoms/grid'
 import PriceLabel from '../price-label'
+//import { Text } from '../atoms/text'
+import PriceTicker from './index'
 
 export default {
 	title: 'z3us components/Price Ticker',

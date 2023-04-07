@@ -1,4 +1,4 @@
-import { styled, VariantProps } from '../../theme'
+import { VariantProps, styled } from '../../theme'
 
 export const StyledPill = styled('div', {
 	m: 0,

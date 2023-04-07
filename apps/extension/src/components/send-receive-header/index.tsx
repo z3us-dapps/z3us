@@ -1,8 +1,10 @@
 import React from 'react'
 import { useLocation } from 'wouter'
+
+import { Box, MotionBox } from 'ui/src/components/atoms'
 import Button from 'ui/src/components/button'
-import { MotionBox, Box } from 'ui/src/components/atoms'
 import { LeftArrowIcon } from 'ui/src/components/icons'
+
 import { WalletMenu } from '@src/components/wallet-menu'
 
 interface IProps {

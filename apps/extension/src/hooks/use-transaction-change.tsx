@@ -1,7 +1,9 @@
-import { XRD_RRI } from '@src/config'
-import { useNoneSharedStore } from '@src/hooks/use-store'
-import { useXRDPriceOnDay } from '@src/hooks/react-query/queries/market'
 import BigNumber from 'bignumber.js'
+
+import { XRD_RRI } from '@src/config'
+import { useXRDPriceOnDay } from '@src/hooks/react-query/queries/market'
+import { useNoneSharedStore } from '@src/hooks/use-store'
+
 import { useTokenInfo } from './react-query/queries/radix'
 
 const relativePercentageDifference = (a: BigNumber, b: BigNumber) =>

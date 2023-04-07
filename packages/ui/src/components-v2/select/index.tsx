@@ -1,10 +1,10 @@
-import React, { forwardRef } from 'react'
 import * as SelectPrimitive from '@radix-ui/react-select'
 import clsx from 'clsx'
-import { Check2Icon } from '../../components/icons'
-import { Text } from '../typography'
-import { radixWithClassName } from '../system/radix-with-class-name'
+import React, { forwardRef } from 'react'
 
+import { Check2Icon } from '../../components/icons'
+import { radixWithClassName } from '../system/radix-with-class-name'
+import { Text } from '../typography'
 import * as styles from './select.css'
 
 export const Select = SelectPrimitive.Root

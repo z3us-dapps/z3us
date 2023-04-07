@@ -1,6 +1,7 @@
 /* eslint-disable react/jsx-props-no-spreading, @typescript-eslint/no-unused-vars */
-import React from 'react'
 import { ComponentMeta, ComponentStory } from '@storybook/react'
+import React from 'react'
+
 import { Box } from '../box'
 import Text from './text'
 

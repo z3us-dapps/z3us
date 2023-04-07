@@ -1,5 +1,6 @@
+import { globalStyle, style } from '@vanilla-extract/css'
+
 import { sprinkles } from 'ui/src/components-v2/system/sprinkles.css'
-import { style, globalStyle } from '@vanilla-extract/css'
 
 export const transactionIconWrapper = style([
 	sprinkles({

@@ -1,5 +1,7 @@
-import { darkTheme } from 'ui/src/theme'
 import { useEffect, useState } from 'react'
+
+import { darkTheme } from 'ui/src/theme'
+
 import { useSharedStore } from '@src/hooks/use-store'
 
 const DARK_MODE_MEDIA_QUERY = '(prefers-color-scheme: dark)'

@@ -1,10 +1,12 @@
-import React from 'react'
 import BigNumber from 'bignumber.js'
-import { formatBigNumber } from '@src/utils/formatters'
-import { useTicker } from '@src/hooks/react-query/queries/tickers'
+import React from 'react'
+
 import { Box, Flex, Text } from 'ui/src/components/atoms'
 import PriceLabel from 'ui/src/components/price-label'
+
+import { useTicker } from '@src/hooks/react-query/queries/tickers'
 import { useNoneSharedStore } from '@src/hooks/use-store'
+import { formatBigNumber } from '@src/utils/formatters'
 
 interface Props {
 	symbol: string

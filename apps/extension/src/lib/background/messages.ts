@@ -1,15 +1,17 @@
 import browser, { Runtime } from 'webextension-polyfill'
-import browserService from '@src/services/browser'
-import { BrowserStorageService } from '@src/services/browser-storage'
-import { VaultService } from '@src/services/vault'
-import { PORT_NAME, TARGET_BACKGROUND, TARGET_INPAGE, TARGET_POPUP } from '@src/services/messanger'
+
 import NewV1BackgroundInpageActions from '@src/lib/v1/background-inpage'
 import NewV1BackgroundPopupActions from '@src/lib/v1/background-popup'
 import { deletePendingAction } from '@src/services/actions-pending'
+import browserService from '@src/services/browser'
+import { BrowserStorageService } from '@src/services/browser-storage'
 import { addClientPort, deleteClientPort } from '@src/services/client-ports'
-import { generateId } from '@src/utils/generate-id'
-import { sharedStore } from '@src/store'
+import { PORT_NAME, TARGET_BACKGROUND, TARGET_INPAGE, TARGET_POPUP } from '@src/services/messanger'
 import { getNoneSharedStore } from '@src/services/state'
+import { VaultService } from '@src/services/vault'
+import { sharedStore } from '@src/store'
+import { generateId } from '@src/utils/generate-id'
+
 // import { CredentialsService } from '@src/services/credentials'
 
 const storage = new BrowserStorageService(browserService, browser.storage)

@@ -1,9 +1,10 @@
 /* eslint-disable react/jsx-props-no-spreading, @typescript-eslint/no-unused-vars */
-import React from 'react'
 import { ComponentMeta, ComponentStory } from '@storybook/react'
+import React from 'react'
+
 import { Box } from './box'
-import { Grid } from './grid'
 import { Flex } from './flex'
+import { Grid } from './grid'
 import { Text } from './text'
 
 export default {

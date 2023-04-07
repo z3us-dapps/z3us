@@ -1,27 +1,27 @@
 /* eslint-disable react/jsx-props-no-spreading, @typescript-eslint/no-unused-vars */
-import React from 'react'
-import { ComponentMeta, ComponentStory } from '@storybook/react'
 import { CheckIcon, ChevronDownIcon, ChevronUpIcon } from '@radix-ui/react-icons'
-import { Box } from '../atoms/box'
-import Button from '../button'
-import { Flex } from '../atoms/flex'
+import { ComponentMeta, ComponentStory } from '@storybook/react'
+import React from 'react'
 
+import { Box } from '../atoms/box'
+import { Flex } from '../atoms/flex'
+import Button from '../button'
 import {
 	Select,
+	SelectBox,
+	SelectContent,
+	SelectGroup,
+	SelectIcon,
+	SelectItem,
+	SelectItemIndicator,
+	SelectItemText,
+	SelectLabel,
+	SelectScrollDownButton,
+	SelectScrollUpButton,
+	SelectSeparator,
 	SelectTrigger,
 	SelectValue,
-	SelectContent,
 	SelectViewport,
-	SelectGroup,
-	SelectItem,
-	SelectIcon,
-	SelectLabel,
-	SelectSeparator,
-	SelectItemText,
-	SelectItemIndicator,
-	SelectScrollUpButton,
-	SelectScrollDownButton,
-	SelectBox,
 } from './index'
 
 export default {

@@ -1,6 +1,6 @@
-import makeMatcher from 'wouter/matcher'
-import { useEffect, useState, useRef, useCallback } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 import { BaseLocationHook } from 'wouter'
+import makeMatcher from 'wouter/matcher'
 
 // ---------------- hash support ------------------------
 

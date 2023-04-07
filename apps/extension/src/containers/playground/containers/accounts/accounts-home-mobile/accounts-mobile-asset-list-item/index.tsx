@@ -1,20 +1,20 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import clsx from 'clsx'
-
-import { useLocation } from 'react-router-dom'
 import { AnimatePresence, motion } from 'framer-motion'
 import React, { forwardRef, useContext } from 'react'
+import { useLocation } from 'react-router-dom'
 import { useTimeout } from 'usehooks-ts'
+
 import { Box } from 'ui/src/components-v2/box'
-import { TransactionIcon } from '@src/components/transaction-icon'
 import { Text } from 'ui/src/components-v2/typography'
+
 import { Link } from '@src/components/link'
+import { TransactionIcon } from '@src/components/transaction-icon'
 import * as skeletonStyles from '@src/containers/playground/components/styles/skeleton-loading.css'
 import { animtePageVariants } from '@src/containers/playground/config'
 import { useAccountParams } from '@src/containers/playground/hooks/use-account-params'
 
 import { SEARCH_ACTIVITY_PARAM } from '../constants'
-
 import { Context } from '../context'
 import * as styles from './accounts-mobile-asset-list-item.css'
 

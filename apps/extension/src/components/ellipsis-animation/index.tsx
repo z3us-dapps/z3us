@@ -1,6 +1,7 @@
 import React from 'react'
-import { keyframes } from 'ui/src/theme'
+
 import { Flex, Text } from 'ui/src/components/atoms'
+import { keyframes } from 'ui/src/theme'
 
 const dotAnimation = keyframes({
 	from: { width: 0 },

@@ -1,7 +1,9 @@
-import React from 'react'
-import Link from 'next/link'
-import { Z3usLogo } from 'ui/src/components/z3us-logo'
 import { PageContainer } from 'components/page-container'
+import Link from 'next/link'
+import React from 'react'
+
+import { Z3usLogo } from 'ui/src/components/z3us-logo'
+
 import { ThemeSelector } from './theme-selector'
 
 interface IProps {

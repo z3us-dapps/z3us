@@ -1,14 +1,15 @@
 /* eslint-disable @next/next/no-img-element, @typescript-eslint/no-unused-vars */
-import React from 'react'
-import { useScroll, useTransform } from 'framer-motion'
-import { LazyMotion } from 'components/lazy-motion'
-import { NextSeo } from 'next-seo'
-import { config } from 'config'
-import { PageContainer } from 'components/page-container'
-import { Header } from 'components/header'
 import { Footer } from 'components/footer'
+import { Header } from 'components/header'
+import { LazyMotion } from 'components/lazy-motion'
+import { PageContainer } from 'components/page-container'
+import { config } from 'config'
+import { useScroll, useTransform } from 'framer-motion'
+import { NextSeo } from 'next-seo'
+import React from 'react'
+
+import { AddressIcon, PieChartIcon, SymbolIcon } from './icons'
 import { TokenPieChart } from './token-pie-chart'
-import { PieChartIcon, AddressIcon, SymbolIcon } from './icons'
 
 const z3usToken = 'z3us_rr1q0gxzdty8egrkegk9lnteth09sgzqgxaw5ytqzq24ceq3eqagc'
 

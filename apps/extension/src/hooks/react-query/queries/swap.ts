@@ -1,12 +1,13 @@
 import { useEffect, useState } from 'react'
 import { useQuery } from 'react-query'
-import caviar from '@src/services/caviar'
-import oci, { PoolName as OCIPoolName } from '@src/services/oci'
-import doge, { PoolName as DogeCubePoolName } from '@src/services/dogecubex'
-import astrolescent, { PoolName as AstrolescentPoolName } from '@src/services/astrolescent'
-import dsor, { PoolName as DSORPoolName } from '@src/services/dsor'
-import { Pool, PoolType } from '@src/types'
+
 import { XRD_RRI, swapServices } from '@src/config'
+import astrolescent, { PoolName as AstrolescentPoolName } from '@src/services/astrolescent'
+import caviar from '@src/services/caviar'
+import doge, { PoolName as DogeCubePoolName } from '@src/services/dogecubex'
+import dsor, { PoolName as DSORPoolName } from '@src/services/dsor'
+import oci, { PoolName as OCIPoolName } from '@src/services/oci'
+import { Pool, PoolType } from '@src/types'
 
 const poolQueryOptions = {
 	staleTime: 60 * 1000,

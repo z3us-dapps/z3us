@@ -1,30 +1,28 @@
 /* eslint-disable */
-
-import { useTranslation } from 'react-i18next'
-
 import clsx from 'clsx'
 import { AnimatePresence } from 'framer-motion'
-
-import { Link } from '@src/components/link'
 import React, { forwardRef, useRef, useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import { useIntersectionObserver } from 'usehooks-ts'
+
 import { Box } from 'ui/src/components-v2/box'
 import { Input } from 'ui/src/components-v2/input'
 import { Text } from 'ui/src/components-v2/typography'
-import { ChevronDown3Icon, SearchIcon, ChevronLeftIcon } from 'ui/src/components/icons'
-import { TransactionIcon } from '@src/components/transaction-icon'
+import { ChevronDown3Icon, ChevronLeftIcon, SearchIcon } from 'ui/src/components/icons'
 
 import { Button } from '@src/components/button'
+import { Link } from '@src/components/link'
+import { TransactionIcon } from '@src/components/transaction-icon'
 import Translation from '@src/components/translation'
 import { AnimatedCard } from '@src/containers/playground/components/animated-card'
 import { CardButtons } from '@src/containers/playground/components/card-buttons'
 import {
-	routes,
 	ACCOUNTS_ALL,
-	ASSET_TYPE_TOKENS,
+	ASSET_TYPE_BADGES,
 	ASSET_TYPE_LP_TOKENS,
 	ASSET_TYPE_NFTS,
-	ASSET_TYPE_BADGES,
+	ASSET_TYPE_TOKENS,
+	routes,
 } from '@src/containers/playground/config'
 import { useAccountParams } from '@src/containers/playground/hooks/use-account-params'
 

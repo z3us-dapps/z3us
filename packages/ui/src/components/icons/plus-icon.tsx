@@ -1,5 +1,6 @@
 /* eslint-disable react/jsx-props-no-spreading */
 import * as React from 'react'
+
 import { IconProps } from './types'
 
 export const PlusIcon = React.forwardRef<SVGSVGElement, IconProps>(

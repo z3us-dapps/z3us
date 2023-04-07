@@ -1,8 +1,10 @@
 import React from 'react'
-import { useTokenInfo } from '@src/hooks/react-query/queries/radix'
-import { CircleAvatar } from '@src/components/circle-avatar'
+
 import { Box, Text } from 'ui/src/components/atoms'
 import Button from 'ui/src/components/button'
+
+import { CircleAvatar } from '@src/components/circle-avatar'
+import { useTokenInfo } from '@src/hooks/react-query/queries/radix'
 
 interface IProps {
 	rri: string

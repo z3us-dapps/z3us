@@ -1,10 +1,12 @@
 import React, { ReactNode, useEffect } from 'react'
-import { useNoneSharedStore, useSharedStore } from '@src/hooks/use-store'
+
+import { Box, MotionBox } from 'ui/src/components/atoms'
+import { CSS } from 'ui/src/theme'
+
 import { LockedPanel } from '@src/components/locked-panel'
 import { Z3usMenu } from '@src/components/z3us-menu'
-import { CSS } from 'ui/src/theme'
-import { Box, MotionBox } from 'ui/src/components/atoms'
 import { ACCOUNTS } from '@src/config'
+import { useNoneSharedStore, useSharedStore } from '@src/hooks/use-store'
 
 const defaultProps = {
 	css: undefined,

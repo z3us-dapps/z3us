@@ -1,8 +1,9 @@
-import React from 'react'
-import { PageContainer } from 'components/page-container'
-import { Box, Flex } from 'ui/src/components/atoms'
-import { Header } from 'components/header'
 import { Footer } from 'components/footer'
+import { Header } from 'components/header'
+import { PageContainer } from 'components/page-container'
+import React from 'react'
+
+import { Box, Flex } from 'ui/src/components/atoms'
 
 interface IProps {
 	children: React.ReactNode

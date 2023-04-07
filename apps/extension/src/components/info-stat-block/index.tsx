@@ -1,7 +1,9 @@
 import React from 'react'
-import { CircleAvatar } from '@src/components/circle-avatar'
-import { Box, Text, Flex } from 'ui/src/components/atoms'
+
+import { Box, Flex, Text } from 'ui/src/components/atoms'
 import { CSS } from 'ui/src/theme'
+
+import { CircleAvatar } from '@src/components/circle-avatar'
 
 interface IProps {
 	image?: string

@@ -1,6 +1,7 @@
 import React from 'react'
-import { keyframes } from 'ui/src/theme'
+
 import { Box, Flex } from 'ui/src/components/atoms'
+import { keyframes } from 'ui/src/theme'
 
 const ANIMATION_DURATION = '1500ms'
 

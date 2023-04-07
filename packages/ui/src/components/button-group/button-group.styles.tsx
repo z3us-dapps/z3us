@@ -1,5 +1,5 @@
 /* eslint-disable */
-import { styled, VariantProps } from '../../theme'
+import { VariantProps, styled } from '../../theme'
 import StyledButton from '../button/button.styles'
 
 export const StyledButtonGroup = styled('div', {

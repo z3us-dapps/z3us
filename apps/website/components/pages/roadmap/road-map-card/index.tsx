@@ -1,8 +1,9 @@
-import React from 'react'
-import { m as motion, Variants } from 'framer-motion'
 import cx from 'classnames'
-import { CheckIcon } from 'ui/src/components/icons'
 import { Picture } from 'components/picture'
+import { Variants, m as motion } from 'framer-motion'
+import React from 'react'
+
+import { CheckIcon } from 'ui/src/components/icons'
 
 interface IRoadMapCard {
 	title: string

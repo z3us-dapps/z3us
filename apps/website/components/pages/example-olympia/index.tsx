@@ -1,16 +1,17 @@
 /* eslint-disable no-console */
-import React from 'react'
+import { AccountAddress, Amount } from '@radixdlt/application'
 import BigNumber from 'bignumber.js'
+import Seperator from 'components/seperator'
+import { useZ3usWallet } from 'hooks/use-z3us-wallet'
+import React from 'react'
 import { useImmer } from 'use-immer'
-import { Amount, AccountAddress } from '@radixdlt/application'
-import { Checkbox, CheckIcon } from 'ui/src/components/checkbox'
-import Button from 'ui/src/components/button'
-import Toast, { useToastControls } from 'ui/src/components/toasts'
-import Input from 'ui/src/components/input'
+
 import AlertCard from 'ui/src/components/alert-card'
 import { Box, Flex, Text } from 'ui/src/components/atoms'
-import { useZ3usWallet } from 'hooks/use-z3us-wallet'
-import Seperator from 'components/seperator'
+import Button from 'ui/src/components/button'
+import { CheckIcon, Checkbox } from 'ui/src/components/checkbox'
+import Input from 'ui/src/components/input'
+import Toast, { useToastControls } from 'ui/src/components/toasts'
 
 const XRD = {
 	symbol: 'xrd',

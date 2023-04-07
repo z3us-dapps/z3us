@@ -1,7 +1,9 @@
 import React from 'react'
-import { useColorMode } from '@src/hooks/use-color-mode'
-import { RefreshIcon } from 'ui/src/components/icons'
+
 import { Box } from 'ui/src/components/atoms'
+import { RefreshIcon } from 'ui/src/components/icons'
+
+import { useColorMode } from '@src/hooks/use-color-mode'
 
 interface IProps {
 	onSwitchTokens: () => void

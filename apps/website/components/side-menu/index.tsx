@@ -1,15 +1,16 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import React, { useState } from 'react'
 import {
-	ChevronDownIcon,
 	BoltIcon,
-	DocumentIcon,
+	ChevronDownIcon,
 	CodeBracketSquareIcon,
 	ComputerDesktopIcon,
+	DocumentIcon,
 } from '@heroicons/react/24/solid'
 import { AnimatePresence, m as motion } from 'framer-motion'
-import { useRouter } from 'next/router'
 import Link from 'next/link'
+import { useRouter } from 'next/router'
+import React, { useState } from 'react'
+
 import { Docs } from '../../types'
 
 interface IAccordion {

@@ -1,8 +1,9 @@
-import browser from 'webextension-polyfill'
-import browserService from '@src/services/browser'
 import { useEffect } from 'react'
 import { useImmer } from 'use-immer'
-import { useSharedStore, useNoneSharedStore } from '@src/hooks/use-store'
+import browser from 'webextension-polyfill'
+
+import { useNoneSharedStore, useSharedStore } from '@src/hooks/use-store'
+import browserService from '@src/services/browser'
 import { checkContentScript, showConnected, showDisconnected } from '@src/services/content-script'
 
 const popupURL = new URL(browser.runtime.getURL(''))

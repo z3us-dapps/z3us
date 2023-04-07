@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { AnimatePresence } from 'framer-motion'
-import React, { useRef, useState, useCallback, useEffect } from 'react'
+import React, { useCallback, useEffect, useRef, useState } from 'react'
 import { Route, Routes, useLocation, useSearchParams } from 'react-router-dom'
 
 import { Box } from 'ui/src/components-v2/box'
@@ -13,14 +13,14 @@ import { useAccountParams } from '@src/containers/playground/hooks/use-account-p
 
 import { AccountsHomeMobileHeader } from './accounts-home-mobile-header'
 import { AccountsHomeMobileList } from './accounts-home-mobile-list'
+import * as styles from './accounts-home-mobile.css'
 import {
-	LIST_ITEM_INDEX,
-	LIST_ITEM_ASSET,
 	LIST_ITEM_ACTIVITY,
+	LIST_ITEM_ASSET,
 	LIST_ITEM_ASSET_TYPE,
+	LIST_ITEM_INDEX,
 	SEARCH_ACTIVITY_PARAM,
 } from './constants'
-import * as styles from './accounts-home-mobile.css'
 
 const HEADER_HEIGHT = 56
 

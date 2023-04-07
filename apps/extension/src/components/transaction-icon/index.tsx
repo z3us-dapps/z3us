@@ -1,8 +1,9 @@
-import React, { forwardRef } from 'react'
-import { Box } from 'ui/src/components-v2/box'
-import { UpRightIcon, DownLeftIcon } from 'ui/src/components/icons'
-import { Avatar, AvatarImage, AvatarFallback } from 'ui/src/components-v2/avatar'
 import clsx from 'clsx'
+import React, { forwardRef } from 'react'
+
+import { Avatar, AvatarFallback, AvatarImage } from 'ui/src/components-v2/avatar'
+import { Box } from 'ui/src/components-v2/box'
+import { DownLeftIcon, UpRightIcon } from 'ui/src/components/icons'
 
 import * as styles from './transaction-icon.css'
 

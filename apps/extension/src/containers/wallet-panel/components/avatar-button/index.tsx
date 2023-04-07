@@ -1,5 +1,6 @@
-import React from 'react'
 import { Pencil2Icon } from '@radix-ui/react-icons'
+import React from 'react'
+
 import { Box, Flex } from 'ui/src/components/atoms'
 
 export interface IProps {

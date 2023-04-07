@@ -1,17 +1,19 @@
+import { TrashIcon } from '@radix-ui/react-icons'
 import React from 'react'
-import { useNoneSharedStore } from '@src/hooks/use-store'
-import { Box, Text, Flex } from 'ui/src/components/atoms'
+
 import {
 	AlertDialog,
-	AlertDialogTrigger,
-	AlertDialogContent,
-	AlertDialogTitle,
-	AlertDialogDescription,
 	AlertDialogAction,
 	AlertDialogCancel,
+	AlertDialogContent,
+	AlertDialogDescription,
+	AlertDialogTitle,
+	AlertDialogTrigger,
 } from 'ui/src/components/alert-dialog'
-import { TrashIcon } from '@radix-ui/react-icons'
+import { Box, Flex, Text } from 'ui/src/components/atoms'
 import Button from 'ui/src/components/button'
+
+import { useNoneSharedStore } from '@src/hooks/use-store'
 
 export const TrustedApps: React.FC = () => {
 	const { approvedWebsites, declineWebsite } = useNoneSharedStore(state => ({

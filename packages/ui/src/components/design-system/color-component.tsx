@@ -1,13 +1,14 @@
 /* eslint-disable no-nested-ternary */
-import React, { useRef, useEffect, useState } from 'react'
 import { CopyIcon } from '@radix-ui/react-icons'
-import Button from '../button'
-import { ToolTip } from '../tool-tip'
-import ButtonTipFeedback from '../button-tip-feedback'
+import React, { useEffect, useRef, useState } from 'react'
+
+import { copyTextToClipboard } from '../../utils/copy-to-clipboard'
 import { Box } from '../atoms/box'
 import { Flex } from '../atoms/flex'
 import { Text } from '../atoms/text'
-import { copyTextToClipboard } from '../../utils/copy-to-clipboard'
+import Button from '../button'
+import ButtonTipFeedback from '../button-tip-feedback'
+import { ToolTip } from '../tool-tip'
 
 const COLOR_CELL_WIDTH = '80px'
 

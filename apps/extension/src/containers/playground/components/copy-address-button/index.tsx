@@ -1,6 +1,6 @@
 import clsx from 'clsx'
 import { AnimatePresence, motion } from 'framer-motion'
-import React, { useState, useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 
 import { Box } from 'ui/src/components-v2/box'
 import { Button, TStyleVariant } from 'ui/src/components-v2/button'

@@ -1,12 +1,12 @@
 /* eslint-disable react/jsx-props-no-spreading, react/no-array-index-key  */
-import React from 'react'
 import { ComponentMeta, ComponentStory } from '@storybook/react'
+import React from 'react'
+
 import { NormalColors, NormalSizes } from '../../utils/prop-types'
 import { Box } from '../atoms/box'
-import { Grid } from '../atoms/grid'
 import { Flex } from '../atoms/flex'
+import { Grid } from '../atoms/grid'
 import { QrCodeIcon, SwapIcon } from '../icons'
-
 import Button from './index'
 
 export default {

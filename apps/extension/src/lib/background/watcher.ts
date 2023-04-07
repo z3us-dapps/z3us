@@ -1,11 +1,12 @@
-import browser from 'webextension-polyfill'
 import { Mutex } from 'async-mutex'
-import { RadixService } from '@src/services/radix'
-import { getShortAddress, getTransactionType } from '@src/utils/string-utils'
-import { Transaction } from '@src/types'
-import { NoneSharedStore, sharedStore } from '@src/store'
-import { getNoneSharedStore } from '@src/services/state'
+import browser from 'webextension-polyfill'
+
 import { notificationDelimiter, txNotificationIdPrefix } from '@src/lib/background/notifications'
+import { RadixService } from '@src/services/radix'
+import { getNoneSharedStore } from '@src/services/state'
+import { NoneSharedStore, sharedStore } from '@src/store'
+import { Transaction } from '@src/types'
+import { getShortAddress, getTransactionType } from '@src/utils/string-utils'
 
 export async function getLastTransactions(
 	noneSharedStore: NoneSharedStore,

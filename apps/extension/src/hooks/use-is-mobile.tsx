@@ -1,7 +1,7 @@
+import { screens } from 'design/tokens/foundation/screens.json'
 import { useState } from 'react'
 import { useDebouncedCallback } from 'use-debounce'
 import { useEventListener } from 'usehooks-ts'
-import { screens } from 'design/tokens/foundation/screens.json'
 
 export const useIsMobileWidth = () => {
 	const [isMobileWidth, setIsMobileWidth] = useState<boolean>(false)

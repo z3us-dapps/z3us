@@ -1,4 +1,5 @@
 import BigNumber from 'bignumber.js'
+
 import { currencySettingsMap } from '@src/config'
 
 BigNumber.set({

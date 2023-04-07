@@ -1,4 +1,4 @@
-import { styled, VariantProps } from '../../theme'
+import { VariantProps, styled } from '../../theme'
 
 export const Flex = styled('div', {
 	boxSizing: 'border-box',

@@ -1,7 +1,8 @@
 import React from 'react'
-import { CSS } from 'ui/src/theme'
+
 import { Box } from 'ui/src/components/atoms'
-import { Avatar, AvatarImage, AvatarFallback } from 'ui/src/components/avatar'
+import { Avatar, AvatarFallback, AvatarImage } from 'ui/src/components/avatar'
+import { CSS } from 'ui/src/theme'
 
 interface IProps {
 	image?: string

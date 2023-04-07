@@ -1,4 +1,5 @@
 import { useQuery } from 'react-query'
+
 import { RadixScanService } from '@src/services/radixscan'
 
 const service = new RadixScanService()

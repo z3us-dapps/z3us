@@ -1,7 +1,8 @@
-import React from 'react'
 import * as AlertDialogPrimitive from '@radix-ui/react-alert-dialog'
+import React from 'react'
+
+import { keyframes, styled } from '../../theme'
 import { Box } from '../atoms/box'
-import { styled, keyframes } from '../../theme'
 
 const EXT_HEIGHT = '100%'
 const EXT_WIDTH = '100%'

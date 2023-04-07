@@ -1,9 +1,11 @@
-import React, { lazy, ReactNode, Suspense } from 'react'
-import { useHashLocation } from '@src/hooks/use-hash-location'
+import React, { ReactNode, Suspense, lazy } from 'react'
+import { Route } from 'wouter'
+
+import { Box } from 'ui/src/components/atoms'
+
 import { AnimatedSwitch } from '@src/components/router-animated-switch'
 import { RouterScope } from '@src/components/router-scope'
-import { Route } from 'wouter'
-import { Box } from 'ui/src/components/atoms'
+import { useHashLocation } from '@src/hooks/use-hash-location'
 
 const TokenList = lazy(() => import('./token-list'))
 const Token = lazy(() => import('./token'))

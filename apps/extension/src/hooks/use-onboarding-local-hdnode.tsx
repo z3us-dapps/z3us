@@ -1,7 +1,8 @@
+import { HDMasterSeed, HDNode, HDNodeT } from '@radixdlt/application'
 import { useEffect } from 'react'
-import { HDMasterSeed, HDNodeT, HDNode } from '@radixdlt/application'
-import { useSharedStore } from '@src/hooks/use-store'
 import { useImmer } from 'use-immer'
+
+import { useSharedStore } from '@src/hooks/use-store'
 
 interface ImmerT {
 	hdNode: HDNodeT | null

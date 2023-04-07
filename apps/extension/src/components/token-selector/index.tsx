@@ -1,18 +1,21 @@
-import React, { useEffect } from 'react'
-import { RightArrowIcon } from 'ui/src/components/icons'
-import { useImmer } from 'use-immer'
-import { ScrollArea } from 'ui/src/components/scroll-area'
-import { SearchBox } from '@src/components/search-box'
 import { ChevronDownIcon, Cross2Icon, ResetIcon } from '@radix-ui/react-icons'
+import React, { useEffect } from 'react'
+import { useImmer } from 'use-immer'
 import { useEventListener } from 'usehooks-ts'
-import { CircleAvatar } from '@src/components/circle-avatar'
-import { useKnownTokens } from '@src/hooks/react-query/queries/radixscan'
-import { Box, Text, Flex } from 'ui/src/components/atoms'
-import { NoResultsPlaceholder } from '@src/components/no-results-placeholder'
+
+import { Box, Flex, Text } from 'ui/src/components/atoms'
 import Button from 'ui/src/components/button'
-import { Dialog, DialogTrigger, DialogContent } from 'ui/src/components/dialog'
+import { Dialog, DialogContent, DialogTrigger } from 'ui/src/components/dialog'
+import { RightArrowIcon } from 'ui/src/components/icons'
+import { ScrollArea } from 'ui/src/components/scroll-area'
+
+import { CircleAvatar } from '@src/components/circle-avatar'
+import { NoResultsPlaceholder } from '@src/components/no-results-placeholder'
+import { SearchBox } from '@src/components/search-box'
+import { useKnownTokens } from '@src/hooks/react-query/queries/radixscan'
 import { parseResourceIdentifier } from '@src/services/radix/serializer'
-import { VisibleToken, VisibleTokens, Token } from '@src/types'
+import { Token, VisibleToken, VisibleTokens } from '@src/types'
+
 import { TokenItem } from './token-item'
 
 interface ImmerProps {

@@ -1,6 +1,7 @@
 import React from 'react'
-import LinkComponent, { LProps } from 'ui/src/components-v2/typography/link'
 import { Link as LinkRouter } from 'react-router-dom'
+
+import LinkComponent, { LProps } from 'ui/src/components-v2/typography/link'
 
 interface IProps extends LProps {
 	to?: string

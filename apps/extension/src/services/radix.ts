@@ -1,10 +1,9 @@
-import { SignedTransaction, Network } from '@radixdlt/application'
+import { Network, SignedTransaction } from '@radixdlt/application'
 import {
 	AccountBalancesResponse,
 	AccountStakesResponse,
 	AccountTransactionsResponse,
 	AccountUnstakesResponse,
-	apiVersion,
 	GatewayResponse,
 	TokenDeriveResponse,
 	TokenNativeResponse,
@@ -15,8 +14,11 @@ import {
 	TransactionSubmitResponse,
 	ValidatorResponse,
 	ValidatorsResponse,
+	apiVersion,
 } from '@radixdlt/networking'
+
 import { generateId } from '@src/utils/generate-id'
+
 import {
 	handleAccountBalancesResponse,
 	handleAccountTransactionsResponse,

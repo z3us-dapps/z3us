@@ -1,22 +1,23 @@
 import { Network } from '@radixdlt/application'
 import {
+	AccountBalancesResponse,
+	AccountStakeEntry,
+	AccountStakesResponse,
+	AccountTransactionsResponse,
+	AccountUnstakeEntry,
+	AccountUnstakesResponse,
 	GatewayResponse,
-	ValidatorResponse,
-	ValidatorsResponse,
 	TokenNativeResponse,
 	TokenResponse,
-	AccountBalancesResponse,
-	AccountStakesResponse,
-	AccountUnstakesResponse,
-	AccountStakeEntry,
-	AccountUnstakeEntry,
-	AccountTransactionsResponse,
+	TransactionBuildResponse,
+	TransactionFinalizeResponse,
 	TransactionStatusResponse,
 	TransactionSubmitResponse,
-	TransactionFinalizeResponse,
-	TransactionBuildResponse,
+	ValidatorResponse,
+	ValidatorsResponse,
 } from '@radixdlt/networking'
-import { parseToken, parseTokenAmount, parseValidator, parseTx } from './serializer'
+
+import { parseToken, parseTokenAmount, parseTx, parseValidator } from './serializer'
 
 export const handleGatewayResponse = (response: GatewayResponse) => ({
 	network: response.network_identifier.network as Network,

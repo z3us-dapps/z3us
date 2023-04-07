@@ -1,12 +1,12 @@
 /* eslint-disable react/jsx-props-no-spreading, @typescript-eslint/no-unused-vars */
-import React from 'react'
 import { ComponentMeta, ComponentStory } from '@storybook/react'
-import { Box } from '../atoms/box'
-import { Grid } from '../atoms/grid'
-import { Flex } from '../atoms/flex'
-import { QrCodeIcon, SwapIcon } from '../icons'
+import React from 'react'
 
-import { StyledSlider, StyledTrack, StyledRange, StyledThumb } from './index'
+import { Box } from '../atoms/box'
+import { Flex } from '../atoms/flex'
+import { Grid } from '../atoms/grid'
+import { QrCodeIcon, SwapIcon } from '../icons'
+import { StyledRange, StyledSlider, StyledThumb, StyledTrack } from './index'
 
 const SliderComponent = () => (
 	<StyledSlider

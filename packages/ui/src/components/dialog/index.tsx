@@ -1,8 +1,9 @@
-import React from 'react'
 import * as DialogPrimitive from '@radix-ui/react-dialog'
-import { Box } from '../atoms/box'
+import React from 'react'
+
+import { keyframes, styled } from '../../theme'
 import { PropsWithCSS } from '../../types'
-import { styled, keyframes } from '../../theme'
+import { Box } from '../atoms/box'
 
 const EXT_HEIGHT = '100%'
 const EXT_WIDTH = '100%'

@@ -1,12 +1,13 @@
 /* eslint-disable react/jsx-props-no-spreading */
+import { CheckCircledIcon, Cross2Icon, CrossCircledIcon, ExclamationTriangleIcon } from '@radix-ui/react-icons'
 import React, { PropsWithoutRef, RefAttributes, useImperativeHandle, useRef } from 'react'
-import { Cross2Icon, ExclamationTriangleIcon, CheckCircledIcon, CrossCircledIcon } from '@radix-ui/react-icons'
+
 import { CSS } from '../../theme'
-import withDefaults from '../../utils/with-defaults'
 import { __DEV__ } from '../../utils/assertion'
+import withDefaults from '../../utils/with-defaults'
 import { Box } from '../atoms/box'
 import Button from '../button'
-import { StyledAlertCard, AlertCardVariantsProps } from './alert-card.styles'
+import { AlertCardVariantsProps, StyledAlertCard } from './alert-card.styles'
 
 export interface Props {
 	as?: keyof JSX.IntrinsicElements

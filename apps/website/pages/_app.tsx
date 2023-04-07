@@ -1,8 +1,9 @@
 /* eslint-disable react/jsx-props-no-spreading */
-import React from 'react'
-import { ThemeProvider } from 'next-themes'
-import { DefaultSeo } from 'next-seo'
 import { useBodyClass } from 'hooks/use-body-class'
+import { DefaultSeo } from 'next-seo'
+import { ThemeProvider } from 'next-themes'
+import React from 'react'
+
 import SEO from '../next-seo.config'
 import '../styles/globals.css'
 import './global.css'

@@ -1,12 +1,15 @@
 /* eslint-disable react/jsx-props-no-spreading, array-callback-return */
-import React, { useEffect } from 'react'
-import { Box, Flex, Text, StyledLink } from 'ui/src/components/atoms'
-import { useStakedPositions, useUnstakePositions } from '@src/hooks/react-query/queries/radix'
-import { NoResultsPlaceholder } from '@src/components/no-results-placeholder'
-import { useImmer } from 'use-immer'
-import { SearchBox } from '@src/components/search-box'
-import { ScrollArea } from 'ui/src/components/scroll-area'
 import BigNumber from 'bignumber.js'
+import React, { useEffect } from 'react'
+import { useImmer } from 'use-immer'
+
+import { Box, Flex, StyledLink, Text } from 'ui/src/components/atoms'
+import { ScrollArea } from 'ui/src/components/scroll-area'
+
+import { NoResultsPlaceholder } from '@src/components/no-results-placeholder'
+import { SearchBox } from '@src/components/search-box'
+import { useStakedPositions, useUnstakePositions } from '@src/hooks/react-query/queries/radix'
+
 import { StakeItem } from '../stake-item'
 
 const SCROLL_HEIGHT = 193

@@ -1,12 +1,14 @@
-import React from 'react'
-import { Flex } from 'ui/src/components/atoms'
-import { ToolTip } from 'ui/src/components/tool-tip'
-import Button from 'ui/src/components/button'
 import { config } from 'config'
-import { ChromeIcon } from './chrome-icon'
+import React from 'react'
+
+import { Flex } from 'ui/src/components/atoms'
+import Button from 'ui/src/components/button'
+import { ToolTip } from 'ui/src/components/tool-tip'
+
 import { BraveIcon } from './brave-icon'
-import { FireFoxIcon } from './firefox-icon'
+import { ChromeIcon } from './chrome-icon'
 import { EdgeIcon } from './edge-icon'
+import { FireFoxIcon } from './firefox-icon'
 
 export const BrowserIconLinks = (): JSX.Element => (
 	<Flex

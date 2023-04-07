@@ -1,9 +1,11 @@
 import React from 'react'
-import { useNoneSharedStore } from '@src/hooks/use-store'
 import { useLocation, useRoute } from 'wouter'
+
 import { Flex } from 'ui/src/components/atoms'
 import Button from 'ui/src/components/button'
+
 import { routesInfo } from '@src/config'
+import { useNoneSharedStore } from '@src/hooks/use-store'
 
 export const FooterNavigation: React.FC = () => {
 	const { activeApp, setActiveApp } = useNoneSharedStore(state => ({

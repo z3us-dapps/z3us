@@ -1,4 +1,5 @@
 import { Runtime } from 'webextension-polyfill'
+
 import { generateId } from '@src/utils/generate-id'
 
 export const WINDOW_EVENT_NAME = 'message'

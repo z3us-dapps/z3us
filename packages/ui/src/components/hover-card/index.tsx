@@ -1,6 +1,6 @@
-import React from 'react'
-import { styled, keyframes } from '@stitches/react'
 import * as HoverCardPrimitive from '@radix-ui/react-hover-card'
+import { keyframes, styled } from '@stitches/react'
+import React from 'react'
 
 const animateOut = keyframes({
 	from: { transform: 'translateY(0)', opacity: 1 },

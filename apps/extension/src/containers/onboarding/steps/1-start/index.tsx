@@ -1,16 +1,19 @@
 import React, { useEffect } from 'react'
+import { useImmer } from 'use-immer'
 import { useLocation } from 'wouter'
+
+import { Box, Flex, StyledLink, Text } from 'ui/src/components/atoms'
+import { MotionBox } from 'ui/src/components/atoms/motion-box'
 import Button from 'ui/src/components/button'
 import { HardwareWalletIcon } from 'ui/src/components/icons'
 import Pill from 'ui/src/components/pill'
-import { MotionBox } from 'ui/src/components/atoms/motion-box'
-import { useImmer } from 'use-immer'
+import { Z3usText } from 'ui/src/components/z3us-text'
+
 import { PageWrapper } from '@src/components/layout'
-import { Text, Box, Flex, StyledLink } from 'ui/src/components/atoms'
+import { popupHtmlMap } from '@src/config'
 import { useSharedStore } from '@src/hooks/use-store'
 import { onBoardingSteps } from '@src/store/onboarding'
-import { Z3usText } from 'ui/src/components/z3us-text'
-import { popupHtmlMap } from '@src/config'
+
 import { CheckItem } from './check-item'
 
 interface ImmerT {

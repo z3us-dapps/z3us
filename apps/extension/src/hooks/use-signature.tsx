@@ -1,5 +1,6 @@
+import { Signature, sha256 } from '@radixdlt/application'
 import { useCallback } from 'react'
-import { sha256, Signature } from '@radixdlt/application'
+
 import { useSharedStore } from '@src/hooks/use-store'
 
 export const useSignature = () => {

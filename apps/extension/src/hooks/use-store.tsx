@@ -1,9 +1,10 @@
-import { NoneSharedStoreContext } from '@src/context/state'
-import { sharedStore, NoneSharedStore, SharedStore } from '@src/store'
-import { NoneSharedState, SharedState } from '@src/store/types'
 import { useContext } from 'react'
 import { useStore } from 'zustand'
 import shallow from 'zustand/shallow'
+
+import { NoneSharedStoreContext } from '@src/context/state'
+import { NoneSharedStore, SharedStore, sharedStore } from '@src/store'
+import { NoneSharedState, SharedState } from '@src/store/types'
 
 const selectAll = state => state
 

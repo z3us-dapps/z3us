@@ -1,4 +1,5 @@
-import { style, keyframes } from '@vanilla-extract/css'
+import { keyframes, style } from '@vanilla-extract/css'
+
 import { sprinkles } from '../system/sprinkles.css'
 import { responsiveStyle } from '../system/theme-utils'
 

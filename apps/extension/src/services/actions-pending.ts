@@ -1,5 +1,5 @@
-import { Runtime } from 'webextension-polyfill'
 import { Mutex } from 'async-mutex'
+import { Runtime } from 'webextension-polyfill'
 
 const mutex = new Mutex()
 

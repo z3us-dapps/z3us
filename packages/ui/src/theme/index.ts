@@ -1,7 +1,8 @@
 import type * as Stitches from '@stitches/react'
 import { createStitches } from '@stitches/react'
-import { lightColors, lightShadows } from './light-colors'
+
 import { darkColors, darkShadows } from './dark-colors'
+import { lightColors, lightShadows } from './light-colors'
 import { utils } from './utils'
 
 export const mediaSizes = {

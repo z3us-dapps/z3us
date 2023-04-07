@@ -1,11 +1,12 @@
 /* eslint-disable */
-import React, { forwardRef, useEffect, useState } from 'react'
-import { Box } from 'ui/src/components-v2/box'
-import { Virtuoso, VirtuosoGrid, VirtuosoGridHandle } from 'react-virtuoso'
-import { ScrollArea } from 'ui/src/components/scroll-area'
-import { PlusIcon, MagnifyingGlassIcon } from 'ui/src/components/icons'
-import { Text } from 'ui/src/components-v2/typography'
 import clsx from 'clsx'
+import React, { forwardRef, useEffect, useState } from 'react'
+import { Virtuoso, VirtuosoGrid, VirtuosoGridHandle } from 'react-virtuoso'
+
+import { Box } from 'ui/src/components-v2/box'
+import { Text } from 'ui/src/components-v2/typography'
+import { MagnifyingGlassIcon, PlusIcon } from 'ui/src/components/icons'
+import { ScrollArea } from 'ui/src/components/scroll-area'
 
 import * as styles from './account-transaction.css'
 

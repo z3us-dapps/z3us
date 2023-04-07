@@ -1,7 +1,7 @@
 import fs from 'fs'
+import { slug as githubSlugger } from 'github-slugger'
 import path from 'path'
 import { type Options } from 'rehype-pretty-code'
-import { slug as githubSlugger } from 'github-slugger'
 
 const META = '_meta.json'
 const DOCS_FOLDER = 'docs'

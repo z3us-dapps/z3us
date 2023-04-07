@@ -1,8 +1,10 @@
-import { Ticker } from '@src/types'
-import { useNoneSharedStore } from '@src/hooks/use-store'
 import BigNumber from 'bignumber.js'
-import { useTickers } from './tickers'
+
+import { useNoneSharedStore } from '@src/hooks/use-store'
+import { Ticker } from '@src/types'
+
 import { useAllAccountsTokenBalances, useTokenBalances, useTokenInfos } from './radix'
+import { useTickers } from './tickers'
 
 const accountValueLoadingState = { isLoading: true, value: new BigNumber(0), change: new BigNumber(0) }
 

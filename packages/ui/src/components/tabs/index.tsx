@@ -1,6 +1,6 @@
 /* eslint-disable react/jsx-props-no-spreading, @typescript-eslint/no-unused-vars */
-import { styled } from '@stitches/react'
 import * as TabsPrimitive from '@radix-ui/react-tabs'
+import { styled } from '@stitches/react'
 
 const StyledTabs = styled(TabsPrimitive.Root, {
 	display: 'flex',

@@ -1,7 +1,8 @@
-import { useCallback } from 'react'
 import { Message } from '@radixdlt/crypto'
-import { useSharedStore } from '@src/hooks/use-store'
+import { useCallback } from 'react'
+
 import { useRadix } from '@src/hooks/use-radix'
+import { useSharedStore } from '@src/hooks/use-store'
 import { parseAccountAddress } from '@src/services/radix/serializer'
 
 export const useMessage = () => {

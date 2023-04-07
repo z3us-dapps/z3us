@@ -1,8 +1,9 @@
-import { AllHTMLAttributes, createElement, ElementType, forwardRef } from 'react'
 import clsx from 'clsx'
+import { AllHTMLAttributes, ElementType, createElement, forwardRef } from 'react'
+
 // import * as resetStyles from '@src/components-v2/system/reset.css'
 import * as resetStyles from '../system/reset.css'
-import { sprinkles, Sprinkles } from '../system/sprinkles.css'
+import { Sprinkles, sprinkles } from '../system/sprinkles.css'
 
 export interface BoxProps
 	extends Omit<

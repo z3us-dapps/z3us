@@ -1,7 +1,8 @@
 import { createTextStyle } from '@capsizecss/vanilla-extract'
 import { style, styleVariants } from '@vanilla-extract/css'
-import { mapToProperty, queries, responsiveStyle } from '../system/theme-utils'
+
 import { sprinkles } from '../system/sprinkles.css'
+import { mapToProperty, queries, responsiveStyle } from '../system/theme-utils'
 import { vars } from '../system/theme.css'
 
 export const baseTextSprinkles = sprinkles({})

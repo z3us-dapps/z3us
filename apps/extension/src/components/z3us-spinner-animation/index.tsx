@@ -1,6 +1,8 @@
 import React from 'react'
-import { keyframes } from 'ui/src/theme'
+
 import { Box } from 'ui/src/components/atoms'
+import { keyframes } from 'ui/src/theme'
+
 import { Z3usSvg } from './z3us'
 import { Z3usBoltsSvg } from './z3us-bolts'
 

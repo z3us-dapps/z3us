@@ -1,8 +1,9 @@
-import { CHECK_CONTENT_SCRIPT, z3usDappStatusIcons } from '@src/config'
 import browser from 'webextension-polyfill'
+
+import { CHECK_CONTENT_SCRIPT, z3usDappStatusIcons } from '@src/config'
 import browserService from '@src/services/browser'
-import { sharedStore } from '@src/store'
 import { getNoneSharedStore } from '@src/services/state'
+import { sharedStore } from '@src/store'
 
 export const setIcon = async (path: string) => {
 	await chrome?.action?.setIcon({ path })

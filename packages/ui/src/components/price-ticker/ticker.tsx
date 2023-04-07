@@ -1,10 +1,11 @@
 /* eslint-disable react/jsx-props-no-spreading */
-import React, { PropsWithoutRef, RefAttributes, useImperativeHandle, useRef, useState, useEffect } from 'react'
+import React, { PropsWithoutRef, RefAttributes, useEffect, useImperativeHandle, useRef, useState } from 'react'
+
 import { PropsWithCSS } from '../../types'
 import { __DEV__ } from '../../utils/assertion'
+import { PriceTickerVariantsProps, StyledPriceWrapper } from './price-ticker.styles'
 import Rollup from './rollup'
 import { domExists, warnNonProduction } from './utils'
-import { StyledPriceWrapper, PriceTickerVariantsProps } from './price-ticker.styles'
 
 export interface Props {
 	as?: keyof JSX.IntrinsicElements

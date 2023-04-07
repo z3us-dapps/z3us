@@ -1,22 +1,24 @@
-import React, { useState, useEffect } from 'react'
-import { Pencil1Icon, ChevronDownIcon, ChevronUpIcon } from '@radix-ui/react-icons'
-import {
-	Select,
-	SelectTrigger,
-	SelectValue,
-	SelectContent,
-	SelectViewport,
-	SelectItem,
-	SelectItemText,
-	SelectItemIndicator,
-	SelectScrollUpButton,
-	SelectScrollDownButton,
-} from 'ui/src/components/select'
-import { CircleAvatar } from '@src/components/circle-avatar'
+import { ChevronDownIcon, ChevronUpIcon, Pencil1Icon } from '@radix-ui/react-icons'
+import React, { useEffect, useState } from 'react'
+import useMeasure from 'react-use-measure'
+
 import { Box, Text } from 'ui/src/components/atoms'
 import Button from 'ui/src/components/button'
+import {
+	Select,
+	SelectContent,
+	SelectItem,
+	SelectItemIndicator,
+	SelectItemText,
+	SelectScrollDownButton,
+	SelectScrollUpButton,
+	SelectTrigger,
+	SelectValue,
+	SelectViewport,
+} from 'ui/src/components/select'
+
+import { CircleAvatar } from '@src/components/circle-avatar'
 import { Pool, PoolType } from '@src/types'
-import useMeasure from 'react-use-measure'
 
 interface IProps {
 	pool?: Pool

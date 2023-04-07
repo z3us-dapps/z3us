@@ -1,24 +1,25 @@
-import { Message } from '@radixdlt/crypto'
-import { TokenNativeResponse, TokenResponse, TokenAmount, Validator, TransactionInfo } from '@radixdlt/networking'
 import {
 	AccountAddress,
-	ValidatorAddress,
-	Amount,
-	ResourceIdentifier,
-	TransactionIdentifier,
-	ResourceIdentifierT,
-	TransactionIdentifierT,
 	AccountAddressT,
-	ValidatorAddressT,
+	Amount,
 	AmountT,
+	ResourceIdentifier,
+	ResourceIdentifierT,
+	TransactionIdentifier,
+	TransactionIdentifierT,
+	ValidatorAddress,
+	ValidatorAddressT,
 } from '@radixdlt/application'
-import { defaultToken, defaultTokenSettings, OCI_TOKEN_IMG_URL } from '@src/config'
+import { Message } from '@radixdlt/crypto'
+import { TokenAmount, TokenNativeResponse, TokenResponse, TransactionInfo, Validator } from '@radixdlt/networking'
+
+import { OCI_TOKEN_IMG_URL, defaultToken, defaultTokenSettings } from '@src/config'
 import {
+	Action,
+	TokenAmount as InternalTokenAmount,
+	Validator as InternalValidator,
 	Token,
 	Transaction,
-	Action,
-	Validator as InternalValidator,
-	TokenAmount as InternalTokenAmount,
 } from '@src/types'
 
 export const parseTransactionIdentifier = (hash: string): TransactionIdentifierT => {

@@ -1,14 +1,16 @@
 /* eslint-disable react/no-array-index-key */
-import React from 'react'
-import BigNumber from 'bignumber.js'
-import { Box, Text, Flex } from 'ui/src/components/atoms'
-import { getShortAddress } from '@src/utils/string-utils'
-import { useNoneSharedStore } from '@src/hooks/use-store'
-import { SlippageBox } from '@src/components/slippage-box'
-import { ActivityType } from '@src/components/activity-type'
 import { Action } from '@radixdlt/application'
+import BigNumber from 'bignumber.js'
+import React from 'react'
+
+import { Box, Flex, Text } from 'ui/src/components/atoms'
+
+import { ActivityType } from '@src/components/activity-type'
+import { SlippageBox } from '@src/components/slippage-box'
 import { useTokenInfo } from '@src/hooks/react-query/queries/radix'
+import { useNoneSharedStore } from '@src/hooks/use-store'
 import { formatBigNumber } from '@src/utils/formatters'
+import { getShortAddress } from '@src/utils/string-utils'
 
 interface ActionPreviewProps {
 	activity: any

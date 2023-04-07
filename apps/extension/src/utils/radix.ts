@@ -1,5 +1,5 @@
-import BigNumber from 'bignumber.js'
 import { Amount, AmountT } from '@radixdlt/application'
+import BigNumber from 'bignumber.js'
 
 export const stakePercentage = (delegatedStake: string, total: BigNumber) => {
 	if (total.eq(0)) {

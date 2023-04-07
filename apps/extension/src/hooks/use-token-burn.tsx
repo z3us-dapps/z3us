@@ -1,8 +1,8 @@
 import { useNoneSharedStore } from '@src/hooks/use-store'
 import { useTransaction } from '@src/hooks/use-transaction'
-import { buildAmount } from '@src/utils/radix'
-import { ExtendedActionType } from '@src/types'
 import { parseAccountAddress, parseResourceIdentifier } from '@src/services/radix/serializer'
+import { ExtendedActionType } from '@src/types'
+import { buildAmount } from '@src/utils/radix'
 
 export const useTokenBurn = () => {
 	const { buildTransactionFromActions } = useTransaction()

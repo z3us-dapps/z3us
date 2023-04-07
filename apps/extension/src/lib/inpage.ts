@@ -1,6 +1,6 @@
-import { MessageService } from '@src/services/messanger'
 import { INIT } from '@src/lib/v1/events'
 import NewPublicV1 from '@src/lib/v1/inapge'
+import { MessageService } from '@src/services/messanger'
 
 declare global {
 	interface Window {

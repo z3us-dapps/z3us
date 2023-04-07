@@ -1,10 +1,12 @@
+import { MinusIcon, PlusIcon, TokensIcon } from '@radix-ui/react-icons'
 import React from 'react'
+
 import { Box } from 'ui/src/components/atoms'
-import { PlusIcon, MinusIcon, TokensIcon } from '@radix-ui/react-icons'
 import Button from 'ui/src/components/button'
+
+import { BurnTokenModal } from './token-burn-modal'
 import { CreateTokenModal } from './token-create-modal'
 import { MintTokenModal } from './token-mint-modal'
-import { BurnTokenModal } from './token-burn-modal'
 
 export const TokenManagementSettings: React.FC = () => (
 	<Box css={{ px: '$3', py: '$3' }}>

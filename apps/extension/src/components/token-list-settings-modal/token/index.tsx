@@ -1,9 +1,11 @@
 import React from 'react'
-import { useTokenInfo } from '@src/hooks/react-query/queries/radix'
-import { CircleAvatar } from '@src/components/circle-avatar'
-import { Box, Flex, Text, StyledLink } from 'ui/src/components/atoms'
+
+import { Box, Flex, StyledLink, Text } from 'ui/src/components/atoms'
 import { ToolTip } from 'ui/src/components/tool-tip'
+
+import { CircleAvatar } from '@src/components/circle-avatar'
 import { EXPLORER_URL } from '@src/config'
+import { useTokenInfo } from '@src/hooks/react-query/queries/radix'
 
 interface IProps {
 	rri: string

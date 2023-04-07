@@ -1,8 +1,8 @@
 import React from 'react'
 import { render } from 'react-dom'
 import { I18nextProvider } from 'react-i18next'
-import Playground from './containers/playground'
 
+import Playground from './containers/playground'
 import i18n from './i18n/i18n'
 
 const rootElement = document.getElementById('root')

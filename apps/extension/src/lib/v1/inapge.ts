@@ -1,18 +1,18 @@
-import { MessageResponse } from '@src/services/messanger'
 import {
-	HAS_WALLET,
-	IS_CONNECTED,
-	CONNECT,
-	DISCONNECT,
-	SEND_TRANSACTION,
-	SIGN,
 	ACCOUNTS,
 	BALANCES,
+	CONNECT,
+	DECRYPT,
+	DISCONNECT,
+	ENCRYPT,
+	HAS_WALLET,
+	IS_CONNECTED,
+	SEND_TRANSACTION,
+	SIGN,
 	STAKES,
 	UNSTAKES,
-	ENCRYPT,
-	DECRYPT,
 } from '@src/lib/v1/actions'
+import { MessageResponse } from '@src/services/messanger'
 
 export default function NewPublicV1(sendMessage: (action: string, payload?: any) => Promise<MessageResponse>) {
 	async function sign(challenge: string): Promise<string> {

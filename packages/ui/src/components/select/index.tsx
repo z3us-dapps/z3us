@@ -1,8 +1,9 @@
-import React, { useState } from 'react'
-import * as SelectPrimitive from '@radix-ui/react-select'
 import { ChevronDownIcon, ChevronUpIcon } from '@radix-ui/react-icons'
+import * as SelectPrimitive from '@radix-ui/react-select'
+import React, { useState } from 'react'
 import useMeasure from 'react-use-measure'
-import { styled, keyframes, sharedItemStyles, sharedItemIndicatorStyles } from '../../theme'
+
+import { keyframes, sharedItemIndicatorStyles, sharedItemStyles, styled } from '../../theme'
 import { Box } from '../atoms/box'
 import Button from '../button'
 

@@ -1,12 +1,14 @@
-import React from 'react'
-import { useTicker } from '@src/hooks/react-query/queries/tickers'
-import { Text, Box, Flex } from 'ui/src/components/atoms'
 import BigNumber from 'bignumber.js'
-import PriceTicker from 'ui/src/components/price-ticker'
-import PriceLabel from 'ui/src/components/price-label'
+import React from 'react'
+
+import { Box, Flex, Text } from 'ui/src/components/atoms'
 import LoaderBars from 'ui/src/components/loader-bars'
-import { formatBigNumber } from '@src/utils/formatters'
+import PriceLabel from 'ui/src/components/price-label'
+import PriceTicker from 'ui/src/components/price-ticker'
+
+import { useTicker } from '@src/hooks/react-query/queries/tickers'
 import { useNoneSharedStore } from '@src/hooks/use-store'
+import { formatBigNumber } from '@src/utils/formatters'
 
 interface Props {
 	symbol: string

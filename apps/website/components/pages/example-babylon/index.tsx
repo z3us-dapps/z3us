@@ -1,14 +1,15 @@
 /* eslint-disable no-console */
+import Seperator from 'components/seperator'
+import { useZ3usWallet } from 'hooks/use-z3us-wallet'
+import { ManifestBuilder } from 'pte-sdk'
 import React, { useEffect } from 'react'
 import { useImmer } from 'use-immer'
-import Button from 'ui/src/components/button'
-import Toast, { useToastControls } from 'ui/src/components/toasts'
-import Input from 'ui/src/components/input'
+
 import AlertCard from 'ui/src/components/alert-card'
 import { Box, Flex, Text } from 'ui/src/components/atoms'
-import { useZ3usWallet } from 'hooks/use-z3us-wallet'
-import Seperator from 'components/seperator'
-import { ManifestBuilder } from 'pte-sdk'
+import Button from 'ui/src/components/button'
+import Input from 'ui/src/components/input'
+import Toast, { useToastControls } from 'ui/src/components/toasts'
 
 const API_URL = 'https://pte01.radixdlt.com/'
 const componentAddress = '0276b537d9fc474d86edd48bfaa2843e87b48765767357ab9e403d'

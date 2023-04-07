@@ -1,9 +1,10 @@
-import React, { useRef, useEffect } from 'react'
+import { Cross2Icon } from '@radix-ui/react-icons'
+import React, { useEffect, useRef } from 'react'
 import { useImmer } from 'use-immer'
 import { useDebounce } from 'usehooks-ts'
+
 import { Box } from 'ui/src/components/atoms'
 import Button from 'ui/src/components/button'
-import { Cross2Icon } from '@radix-ui/react-icons'
 import Input from 'ui/src/components/input'
 
 interface ImmerProps {

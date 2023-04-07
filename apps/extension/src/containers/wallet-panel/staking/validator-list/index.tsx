@@ -1,14 +1,17 @@
-import React, { useState, useEffect } from 'react'
+import BigNumber from 'bignumber.js'
+import React, { useEffect, useState } from 'react'
+import { Virtuoso } from 'react-virtuoso'
+import { useImmer } from 'use-immer'
+
+import { Box, Flex } from 'ui/src/components/atoms'
+import LoaderBars from 'ui/src/components/loader-bars'
+import { ScrollArea } from 'ui/src/components/scroll-area'
+
+import { NoResultsPlaceholder } from '@src/components/no-results-placeholder'
+import { SearchBox } from '@src/components/search-box'
 import { useValidators } from '@src/hooks/react-query/queries/radix'
 import { Validator } from '@src/types'
-import { NoResultsPlaceholder } from '@src/components/no-results-placeholder'
-import { Flex, Box } from 'ui/src/components/atoms'
-import { useImmer } from 'use-immer'
-import { SearchBox } from '@src/components/search-box'
-import { Virtuoso } from 'react-virtuoso'
-import { ScrollArea } from 'ui/src/components/scroll-area'
-import BigNumber from 'bignumber.js'
-import LoaderBars from 'ui/src/components/loader-bars'
+
 import { ValidatorItem } from '../validator-item'
 
 const SCROLL_HEIGHT = 193

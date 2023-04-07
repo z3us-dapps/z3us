@@ -1,6 +1,7 @@
 import React from 'react'
-import { CSS } from 'ui/src/theme'
+
 import { Box, Flex } from 'ui/src/components/atoms'
+import { CSS } from 'ui/src/theme'
 
 interface IProps {
 	children: React.ReactNode

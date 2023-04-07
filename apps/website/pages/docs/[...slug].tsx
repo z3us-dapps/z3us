@@ -1,16 +1,17 @@
 /* eslint-disable */
-import React from 'react'
-import { serialize } from 'next-mdx-remote/serialize'
-import fs from 'fs'
-import path from 'path'
-import matter from 'gray-matter'
-import rehypeSlug from 'rehype-slug'
-import rehypeAutolinkHeadings from 'rehype-autolink-headings'
-import rehypePrettyCode from 'rehype-pretty-code'
-import { NextSeo } from 'next-seo'
 import { PageDocs } from 'components/pages/page-docs'
 import { config } from 'config'
-import { mdxOptions, getTableOfContents, getAllFiles } from '../../docs/utils'
+import fs from 'fs'
+import matter from 'gray-matter'
+import { serialize } from 'next-mdx-remote/serialize'
+import { NextSeo } from 'next-seo'
+import path from 'path'
+import React from 'react'
+import rehypeAutolinkHeadings from 'rehype-autolink-headings'
+import rehypePrettyCode from 'rehype-pretty-code'
+import rehypeSlug from 'rehype-slug'
+
+import { getAllFiles, getTableOfContents, mdxOptions } from '../../docs/utils'
 
 const DOCS_FOLDER = 'docs'
 

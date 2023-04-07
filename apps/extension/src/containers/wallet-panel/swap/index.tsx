@@ -1,36 +1,39 @@
-import React, { useEffect, useRef } from 'react'
+import { BuiltTransactionReadyToSign } from '@radixdlt/application'
 import BigNumber from 'bignumber.js'
-import { useTransaction } from '@src/hooks/use-transaction'
+import React, { useEffect, useRef } from 'react'
+import { useDebounce } from 'use-debounce'
+import { useImmer } from 'use-immer'
+import { useInterval, useTimeout } from 'usehooks-ts'
+
+import { Box, Flex, Text } from 'ui/src/components/atoms'
+import Button from 'ui/src/components/button'
+import Input from 'ui/src/components/input'
+import { ScrollArea } from 'ui/src/components/scroll-area'
+
+import { AccountSelector } from '@src/components/account-selector'
+import { HardwareWalletReconnect } from '@src/components/hardware-wallet-reconnect'
+import { TokenSelector } from '@src/components/token-selector'
+import { OCI_RRI, XRD_RRI } from '@src/config'
+import { useTokenBalances, useTokenInfo } from '@src/hooks/react-query/queries/radix'
+import { usePoolTokens, usePools } from '@src/hooks/react-query/queries/swap'
 import { useMessage } from '@src/hooks/use-message'
 import { useNoneSharedStore, useSharedStore } from '@src/hooks/use-store'
-import { useImmer } from 'use-immer'
-import { useTimeout, useInterval } from 'usehooks-ts'
-import { useDebounce } from 'use-debounce'
-import { useTokenBalances, useTokenInfo } from '@src/hooks/react-query/queries/radix'
-import { usePools, usePoolTokens } from '@src/hooks/react-query/queries/swap'
-import { BuiltTransactionReadyToSign } from '@radixdlt/application'
+import { useTransaction } from '@src/hooks/use-transaction'
+import { parseAccountAddress } from '@src/services/radix/serializer'
 import {
 	calculateCheapestPoolFeesFromAmount,
 	calculateCheapestPoolFeesFromReceive,
 	calculateTransactionFee,
 	getZ3USFees,
 } from '@src/services/swap'
-import { OCI_RRI, XRD_RRI } from '@src/config'
 import { Pool } from '@src/types'
-import { ScrollArea } from 'ui/src/components/scroll-area'
-import Button from 'ui/src/components/button'
-import { AccountSelector } from '@src/components/account-selector'
-import { getShortAddress } from '@src/utils/string-utils'
-import { Box, Text, Flex } from 'ui/src/components/atoms'
 import { formatBigNumber } from '@src/utils/formatters'
-import { TokenSelector } from '@src/components/token-selector'
-import { HardwareWalletReconnect } from '@src/components/hardware-wallet-reconnect'
-import { parseAccountAddress } from '@src/services/radix/serializer'
-import Input from 'ui/src/components/input'
-import { SwitchTokensButton } from './switch-tokens-button'
+import { getShortAddress } from '@src/utils/string-utils'
+
 import { FeeBox } from './fee-box'
 import { SwapModal } from './swap-modal'
-import { strStripCommas, numberWithCommas, REGEX_INPUT } from './utils'
+import { SwitchTokensButton } from './switch-tokens-button'
+import { REGEX_INPUT, numberWithCommas, strStripCommas } from './utils'
 
 interface ImmerState {
 	time: number

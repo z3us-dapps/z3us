@@ -1,8 +1,10 @@
 /* eslint-disable react/jsx-props-no-spreading, jsx-a11y/heading-has-content, jsx-a11y/anchor-has-content */
-import React from 'react'
 import { MDXRemote } from 'next-mdx-remote'
-import { Example as ExampleOlympia } from '../pages/example-olympia'
+import React from 'react'
+
 import { Example as ExampleBabylon } from '../pages/example-babylon'
+import { Example as ExampleOlympia } from '../pages/example-olympia'
+
 // import Button from 'ui/src/components/button'
 // import { Airdrop } from '../pages/airdrop'
 

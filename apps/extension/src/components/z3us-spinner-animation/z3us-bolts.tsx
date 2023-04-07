@@ -1,4 +1,5 @@
 import React from 'react'
+
 import { Box } from 'ui/src/components/atoms'
 
 export const Z3usBoltsSvg = (): JSX.Element => (

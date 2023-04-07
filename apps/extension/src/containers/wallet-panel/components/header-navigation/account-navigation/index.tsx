@@ -1,14 +1,16 @@
 /* eslint-disable react/no-array-index-key */
+import { CopyIcon } from '@radix-ui/react-icons'
 import React from 'react'
 import { useLocation, useRoute } from 'wouter'
-import { useNoneSharedStore } from '@src/hooks/use-store'
-import { getShortAddress } from '@src/utils/string-utils'
-import Button from 'ui/src/components/button'
-import { CopyIcon } from '@radix-ui/react-icons'
-import { copyTextToClipboard } from '@src/utils/copy-to-clipboard'
-import ButtonTipFeedback from 'ui/src/components/button-tip-feedback'
+
 import { Box, Flex, Text } from 'ui/src/components/atoms'
+import Button from 'ui/src/components/button'
+import ButtonTipFeedback from 'ui/src/components/button-tip-feedback'
+
 import { ACCOUNTS } from '@src/config'
+import { useNoneSharedStore } from '@src/hooks/use-store'
+import { copyTextToClipboard } from '@src/utils/copy-to-clipboard'
+import { getShortAddress } from '@src/utils/string-utils'
 
 export const AccountNaviation: React.FC = () => {
 	const { activeApp, expanded, entry, addresses, activeSlideIndex, setActiveSlide } = useNoneSharedStore(state => ({

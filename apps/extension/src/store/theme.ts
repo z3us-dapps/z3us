@@ -1,5 +1,7 @@
-import { popupHtmlMap } from '@src/config'
 import browser from 'webextension-polyfill'
+
+import { popupHtmlMap } from '@src/config'
+
 import { ThemeState } from './types'
 
 export const whiteList = ['theme']

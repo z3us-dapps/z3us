@@ -1,5 +1,6 @@
-import { popupHtmlMap } from '@src/config'
 import browser, { Windows } from 'webextension-polyfill'
+
+import { popupHtmlMap } from '@src/config'
 
 const NOTIFICATION_HEIGHT = 620
 const NOTIFICATION_WIDTH = 360

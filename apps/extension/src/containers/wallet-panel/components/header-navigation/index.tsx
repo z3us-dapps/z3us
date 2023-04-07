@@ -1,12 +1,15 @@
+import { AnimatePresence } from 'framer-motion'
 import React from 'react'
-import { useNoneSharedStore } from '@src/hooks/use-store'
+import { useRoute } from 'wouter'
+
+import { Box, MotionBox } from 'ui/src/components/atoms'
 import Button from 'ui/src/components/button'
 import { CloseIcon } from 'ui/src/components/icons'
-import { useRoute } from 'wouter'
-import { Box, MotionBox } from 'ui/src/components/atoms'
+
 import { WalletMenu } from '@src/components/wallet-menu'
-import { AnimatePresence } from 'framer-motion'
 import { ACCOUNTS } from '@src/config'
+import { useNoneSharedStore } from '@src/hooks/use-store'
+
 import { AccountNaviation } from './account-navigation'
 
 export const HeaderNavigation = (): JSX.Element => {

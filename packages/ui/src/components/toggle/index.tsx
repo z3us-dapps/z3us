@@ -1,5 +1,5 @@
-import { styled } from '@stitches/react'
 import * as TogglePrimitive from '@radix-ui/react-toggle'
+import { styled } from '@stitches/react'
 
 const StyledToggle = styled(TogglePrimitive.Root, {
 	position: 'relative',

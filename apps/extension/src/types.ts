@@ -1,15 +1,15 @@
 import {
 	AccountAddressT,
 	AmountT,
-	ResourceIdentifierT,
-	IntendedTransferTokensAction,
+	BuiltTransactionReadyToSign,
 	IntendedStakeTokensAction,
+	IntendedTransferTokensAction,
 	IntendedUnstakeTokensAction,
 	PublicKeyT,
+	ResourceIdentifierT,
+	SignatureT,
 	SigningKeyDecryptionInput,
 	SigningKeyEncryptionInput,
-	BuiltTransactionReadyToSign,
-	SignatureT,
 } from '@radixdlt/application'
 import { HardwareWalletT } from '@radixdlt/hardware-wallet'
 import {
@@ -21,6 +21,7 @@ import {
 	UnstakeTokens,
 } from '@radixdlt/networking'
 import BigNumber from 'bignumber.js'
+
 import { generateId } from './utils/generate-id'
 
 export enum KeystoreType {

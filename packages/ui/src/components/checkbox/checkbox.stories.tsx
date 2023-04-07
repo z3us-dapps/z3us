@@ -1,12 +1,13 @@
 /* eslint-disable react/jsx-props-no-spreading, @typescript-eslint/no-unused-vars */
-import React from 'react'
 import { ComponentMeta, ComponentStory } from '@storybook/react'
+import React from 'react'
+
 import { Box } from '../atoms/box'
-import { Text } from '../atoms/text'
-import { Grid } from '../atoms/grid'
 import { Flex } from '../atoms/flex'
+import { Grid } from '../atoms/grid'
+import { Text } from '../atoms/text'
 //import { QrCodeIon, SwapIcon } from '../icons'
-import { Checkbox, CheckboxIndicator, CheckIcon } from './index'
+import { CheckIcon, Checkbox, CheckboxIndicator } from './index'
 
 export default {
 	title: 'z3us components/Checkbox',

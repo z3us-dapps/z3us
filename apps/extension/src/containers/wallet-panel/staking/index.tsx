@@ -1,14 +1,17 @@
-import React from 'react'
-import { useNoneSharedStore } from '@src/hooks/use-store'
-import { Box, Text, StyledLink } from 'ui/src/components/atoms'
-import { getShortAddress } from '@src/utils/string-utils'
-import { Tabs, TabsList, TabsContent, TabsTrigger } from 'ui/src/components/tabs'
-import { AccountSelector } from '@src/components/account-selector'
-import { useTotalDelegatedStake } from '@src/hooks/react-query/queries/radix'
 import BigNumber from 'bignumber.js'
+import React from 'react'
+
+import { Box, StyledLink, Text } from 'ui/src/components/atoms'
+import { Tabs, TabsContent, TabsList, TabsTrigger } from 'ui/src/components/tabs'
+
+import { AccountSelector } from '@src/components/account-selector'
 import { EXPLORER_URL } from '@src/config'
-import { ValidatorList } from './validator-list'
+import { useTotalDelegatedStake } from '@src/hooks/react-query/queries/radix'
+import { useNoneSharedStore } from '@src/hooks/use-store'
+import { getShortAddress } from '@src/utils/string-utils'
+
 import { StakesList } from './stakes-list'
+import { ValidatorList } from './validator-list'
 
 const TAB_HEIGHT = '246px'
 

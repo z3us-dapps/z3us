@@ -1,13 +1,15 @@
 import React from 'react'
-import { useSharedStore } from '@src/hooks/use-store'
 import { useImmer } from 'use-immer'
 import { useEventListener } from 'usehooks-ts'
-import { onBoardingSteps } from '@src/store/onboarding'
-import { PageWrapper, PageHeading, PageSubHeading } from '@src/components/layout'
+
+import { Box, Flex, Text } from 'ui/src/components/atoms'
 import Button from 'ui/src/components/button'
-import { Flex, Text, Box } from 'ui/src/components/atoms'
 import Input from 'ui/src/components/input'
 import InputFeedBack from 'ui/src/components/input/input-feedback'
+
+import { PageHeading, PageSubHeading, PageWrapper } from '@src/components/layout'
+import { useSharedStore } from '@src/hooks/use-store'
+import { onBoardingSteps } from '@src/store/onboarding'
 
 interface ImmerT {
 	password: string

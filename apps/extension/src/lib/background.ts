@@ -1,9 +1,10 @@
 import browser from 'webextension-polyfill'
-import watch from '@src/lib/background/watcher'
+
 import { handleInstall } from '@src/lib/background/install'
-import { handleCheckContentScript } from '@src/services/content-script'
 import { handleConnect } from '@src/lib/background/messages'
 import { handleNotificationClick } from '@src/lib/background/notifications'
+import watch from '@src/lib/background/watcher'
+import { handleCheckContentScript } from '@src/services/content-script'
 
 watch()
 

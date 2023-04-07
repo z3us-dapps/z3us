@@ -1,21 +1,23 @@
+import { Cross2Icon } from '@radix-ui/react-icons'
 import React from 'react'
 import { useQueryClient } from 'react-query'
 import { useImmer } from 'use-immer'
-import { useSharedStore, useNoneSharedStore } from '@src/hooks/use-store'
-import { PageHeading, PageSubHeading, PageWrapper } from '@src/components/layout'
-import { useLocation } from 'wouter'
-import { getShortAddress } from '@src/utils/string-utils'
-import { Cross2Icon } from '@radix-ui/react-icons'
 import { useEventListener } from 'usehooks-ts'
-import Button from 'ui/src/components/button'
-import Input from 'ui/src/components/input'
-import { Dialog, DialogTrigger, DialogContent } from 'ui/src/components/dialog'
+import { useLocation } from 'wouter'
+
 import { Box, Flex } from 'ui/src/components/atoms'
+import Button from 'ui/src/components/button'
+import { Dialog, DialogContent, DialogTrigger } from 'ui/src/components/dialog'
+import Input from 'ui/src/components/input'
+
 import { AccountSelector } from '@src/components/account-selector'
 import { HardwareWalletReconnect } from '@src/components/hardware-wallet-reconnect'
-import { useTokenMint } from '@src/hooks/use-token-mint'
+import { PageHeading, PageSubHeading, PageWrapper } from '@src/components/layout'
+import { useNoneSharedStore, useSharedStore } from '@src/hooks/use-store'
 import { useTokenDerive } from '@src/hooks/use-token-derive'
+import { useTokenMint } from '@src/hooks/use-token-mint'
 import { useTransaction } from '@src/hooks/use-transaction'
+import { getShortAddress } from '@src/utils/string-utils'
 
 interface ImmerT {
 	symbol: string

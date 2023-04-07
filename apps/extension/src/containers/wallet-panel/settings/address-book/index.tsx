@@ -1,28 +1,30 @@
+import { CheckIcon, Cross2Icon, Pencil2Icon, TrashIcon } from '@radix-ui/react-icons'
+import { AccountAddress } from '@radixdlt/account'
 import React from 'react'
 import { useImmer } from 'use-immer'
-import { useNoneSharedStore, useSharedStore } from '@src/hooks/use-store'
 import { useEventListener } from 'usehooks-ts'
-import { ToolTip } from 'ui/src/components/tool-tip'
-import { Box, Flex, Text, StyledLink } from 'ui/src/components/atoms'
-import { getShortAddress } from '@src/utils/string-utils'
-import { PlusIcon } from 'ui/src/components/icons'
-import Button from 'ui/src/components/button'
-import Input from 'ui/src/components/input'
-import InputFeedBack from 'ui/src/components/input/input-feedback'
-import { CircleAvatar } from '@src/components/circle-avatar'
-import { Pencil2Icon, CheckIcon, Cross2Icon, TrashIcon } from '@radix-ui/react-icons'
+
 import {
 	AlertDialog,
-	AlertDialogTrigger,
-	AlertDialogContent,
-	AlertDialogTitle,
-	AlertDialogDescription,
 	AlertDialogAction,
 	AlertDialogCancel,
+	AlertDialogContent,
+	AlertDialogDescription,
+	AlertDialogTitle,
+	AlertDialogTrigger,
 } from 'ui/src/components/alert-dialog'
+import { Box, Flex, StyledLink, Text } from 'ui/src/components/atoms'
+import Button from 'ui/src/components/button'
+import { PlusIcon } from 'ui/src/components/icons'
+import Input from 'ui/src/components/input'
+import InputFeedBack from 'ui/src/components/input/input-feedback'
+import { ToolTip } from 'ui/src/components/tool-tip'
+
+import { CircleAvatar } from '@src/components/circle-avatar'
 import { EXPLORER_URL } from '@src/config'
-import { AccountAddress } from '@radixdlt/account'
+import { useNoneSharedStore, useSharedStore } from '@src/hooks/use-store'
 import { AddressBookEntry } from '@src/store/types'
+import { getShortAddress } from '@src/utils/string-utils'
 
 interface ImmerT {
 	editing: string

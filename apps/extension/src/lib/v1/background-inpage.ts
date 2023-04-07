@@ -1,33 +1,34 @@
-import { Runtime } from 'webextension-polyfill'
-import newQueryClient from '@src/hooks/react-query/query-client'
-import { sharedStore } from '@src/store'
 import { Message, PublicKey } from '@radixdlt/crypto'
-import { BrowserService } from '@src/services/browser'
-import { VaultService } from '@src/services/vault'
-import { RadixService } from '@src/services/radix'
-import { addPendingAction } from '@src/services/actions-pending'
-import {
-	HAS_WALLET,
-	IS_CONNECTED,
-	CONNECT,
-	DISCONNECT,
-	ACCOUNTS,
-	BALANCES,
-	STAKES,
-	UNSTAKES,
-	ENCRYPT,
-	DECRYPT,
-	SIGN,
-	SEND_TRANSACTION,
-} from '@src/lib/v1/actions'
-import { getNoneSharedStore } from '@src/services/state'
-import { KeystoreType } from '@src/types'
-import { showDisconnected } from '@src/services/content-script'
+import { Runtime } from 'webextension-polyfill'
+
 import {
 	getStakedPositionsQueryKey,
 	getTokenBalancesQueryKey,
 	getUnstakePositionsQueryKey,
 } from '@src/hooks/react-query/queries/radix'
+import newQueryClient from '@src/hooks/react-query/query-client'
+import {
+	ACCOUNTS,
+	BALANCES,
+	CONNECT,
+	DECRYPT,
+	DISCONNECT,
+	ENCRYPT,
+	HAS_WALLET,
+	IS_CONNECTED,
+	SEND_TRANSACTION,
+	SIGN,
+	STAKES,
+	UNSTAKES,
+} from '@src/lib/v1/actions'
+import { addPendingAction } from '@src/services/actions-pending'
+import { BrowserService } from '@src/services/browser'
+import { showDisconnected } from '@src/services/content-script'
+import { RadixService } from '@src/services/radix'
+import { getNoneSharedStore } from '@src/services/state'
+import { VaultService } from '@src/services/vault'
+import { sharedStore } from '@src/store'
+import { KeystoreType } from '@src/types'
 
 const responseOK = { code: 200 }
 const responseBadRequest = { code: 400, error: 'Bad request' }

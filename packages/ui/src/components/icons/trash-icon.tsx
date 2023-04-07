@@ -1,5 +1,6 @@
 /* eslint-disable react/jsx-props-no-spreading */
 import * as React from 'react'
+
 import { IconProps } from './types'
 
 export const TrashIcon = React.forwardRef<SVGSVGElement, IconProps>(

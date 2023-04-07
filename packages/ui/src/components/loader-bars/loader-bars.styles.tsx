@@ -1,4 +1,4 @@
-import { styled, VariantProps, keyframes } from '../../theme'
+import { VariantProps, keyframes, styled } from '../../theme'
 
 const barAnimation = keyframes({
 	'0%': { opacity: '1.0' },

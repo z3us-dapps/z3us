@@ -1,10 +1,11 @@
-import { defineConfig } from 'vite'
-import path from 'path'
 import rollupInject from '@rollup/plugin-inject'
-import { visualizer } from 'rollup-plugin-visualizer'
 import webExtension from '@samrum/vite-plugin-web-extension'
-import react from '@vitejs/plugin-react'
 import { vanillaExtractPlugin } from '@vanilla-extract/vite-plugin'
+import react from '@vitejs/plugin-react'
+import path from 'path'
+import { visualizer } from 'rollup-plugin-visualizer'
+import { defineConfig } from 'vite'
+
 import chrome from './chrome'
 import firefox from './firefox'
 

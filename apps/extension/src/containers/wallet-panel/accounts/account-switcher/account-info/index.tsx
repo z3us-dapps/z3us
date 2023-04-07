@@ -1,18 +1,21 @@
 import React, { useEffect } from 'react'
 import { useImmer } from 'use-immer'
-import { useAccountValue } from '@src/hooks/react-query/queries/account'
-import { QrHoverCard } from '@src/components/qr-hover-card'
-import { Flex, Box, Text } from 'ui/src/components/atoms'
-import { ToolTip } from 'ui/src/components/tool-tip'
+
+import { Box, Flex, Text } from 'ui/src/components/atoms'
 import Button from 'ui/src/components/button'
 import { HardwareWalletIcon } from 'ui/src/components/icons'
-import { formatBigNumber } from '@src/utils/formatters'
-import { AccountAddress } from '@src/components/account-address'
-import PriceTicker from 'ui/src/components/price-ticker'
 import LoaderBars from 'ui/src/components/loader-bars'
-import { useSharedStore, useNoneSharedStore } from '@src/hooks/use-store'
-import { ColorSettings, KeystoreType } from '@src/types'
+import PriceTicker from 'ui/src/components/price-ticker'
+import { ToolTip } from 'ui/src/components/tool-tip'
+
+import { AccountAddress } from '@src/components/account-address'
+import { QrHoverCard } from '@src/components/qr-hover-card'
 import { currencySettingsMap } from '@src/config'
+import { useAccountValue } from '@src/hooks/react-query/queries/account'
+import { useNoneSharedStore, useSharedStore } from '@src/hooks/use-store'
+import { ColorSettings, KeystoreType } from '@src/types'
+import { formatBigNumber } from '@src/utils/formatters'
+
 import { getTickerChars } from '../get-ticker-chars'
 
 interface ImmerT {

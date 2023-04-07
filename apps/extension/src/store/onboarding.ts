@@ -1,4 +1,5 @@
 import { MnemomicT } from '@radixdlt/application'
+
 import { OnBoardingState } from './types'
 
 type Mnemomic = MnemomicT | null

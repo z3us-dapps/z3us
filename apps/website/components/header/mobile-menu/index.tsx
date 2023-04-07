@@ -1,11 +1,11 @@
-import React from 'react'
-import { useRouter } from 'next/router'
-import { Button } from 'components/button'
-import Link from 'next/link'
-// import useScrollBlock from 'hooks/use-scroll-block'
-import { m as motion, AnimatePresence, useCycle } from 'framer-motion'
 import { Bars4Icon, XMarkIcon } from '@heroicons/react/24/solid'
+import { Button } from 'components/button'
 import { config } from 'config'
+// import useScrollBlock from 'hooks/use-scroll-block'
+import { AnimatePresence, m as motion, useCycle } from 'framer-motion'
+import Link from 'next/link'
+import { useRouter } from 'next/router'
+import React from 'react'
 
 const links = [
 	{ name: 'Home', to: '/', id: 'home' },

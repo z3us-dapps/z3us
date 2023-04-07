@@ -1,4 +1,5 @@
 import browser from 'webextension-polyfill'
+
 // import init from 'pte-manifest-compiler'
 import { PORT_NAME, TARGET_BACKGROUND, TARGET_INPAGE } from '@src/services/messanger'
 

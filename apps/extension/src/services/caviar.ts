@@ -1,6 +1,7 @@
+import BigNumber from 'bignumber.js'
+
 import { XRD_RRI } from '@src/config'
 import { Pool, Token } from '@src/types'
-import BigNumber from 'bignumber.js'
 
 export type Quote = {
 	amount: BigNumber

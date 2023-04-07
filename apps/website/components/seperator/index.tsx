@@ -1,4 +1,5 @@
 import React from 'react'
+
 import { Box, Text } from 'ui/src/components/atoms'
 
 const Seperator = ({ title }: { title: string }) => (

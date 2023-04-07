@@ -1,20 +1,22 @@
 import React, { useContext } from 'react'
 import { useImmer } from 'use-immer'
-import { useNoneSharedStore, useSharedStore } from '@src/hooks/use-store'
-import { Box, Flex, Text } from 'ui/src/components/atoms'
-import Button from 'ui/src/components/button'
+
 import AlertCard from 'ui/src/components/alert-card'
-import Input from 'ui/src/components/input'
-import InputFeedBack from 'ui/src/components/input/input-feedback'
 import {
 	AlertDialog,
-	AlertDialogTrigger,
+	AlertDialogCancel,
 	AlertDialogContent,
 	AlertDialogTitle,
-	AlertDialogCancel,
+	AlertDialogTrigger,
 } from 'ui/src/components/alert-dialog'
-import { noneSharedStoreWhitelist, sharedStore, sharedStoreWhitelist } from '@src/store'
+import { Box, Flex, Text } from 'ui/src/components/atoms'
+import Button from 'ui/src/components/button'
+import Input from 'ui/src/components/input'
+import InputFeedBack from 'ui/src/components/input/input-feedback'
+
 import { NoneSharedStoreContext } from '@src/context/state'
+import { useNoneSharedStore, useSharedStore } from '@src/hooks/use-store'
+import { noneSharedStoreWhitelist, sharedStore, sharedStoreWhitelist } from '@src/store'
 import { whiteList as keystorehiteList } from '@src/store/keystores'
 
 const sharedDisabledList = [...keystorehiteList]

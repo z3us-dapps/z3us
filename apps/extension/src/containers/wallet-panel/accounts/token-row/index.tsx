@@ -1,13 +1,16 @@
-import React from 'react'
-import BigNumber from 'bignumber.js'
-import { formatBigNumber } from '@src/utils/formatters'
-import { useTokenInfo } from '@src/hooks/react-query/queries/radix'
-import { useLocation } from 'wouter'
-import { Box, Flex, Text } from 'ui/src/components/atoms'
-import { HoverCard, HoverCardContent, HoverCardTrigger } from 'ui/src/components/hover-card'
-import Button from 'ui/src/components/button'
-import { CircleAvatar } from '@src/components/circle-avatar'
 import { InfoCircledIcon } from '@radix-ui/react-icons'
+import BigNumber from 'bignumber.js'
+import React from 'react'
+import { useLocation } from 'wouter'
+
+import { Box, Flex, Text } from 'ui/src/components/atoms'
+import Button from 'ui/src/components/button'
+import { HoverCard, HoverCardContent, HoverCardTrigger } from 'ui/src/components/hover-card'
+
+import { CircleAvatar } from '@src/components/circle-avatar'
+import { useTokenInfo } from '@src/hooks/react-query/queries/radix'
+import { formatBigNumber } from '@src/utils/formatters'
+
 import { TokenPrice } from './token-price'
 
 interface IProps {

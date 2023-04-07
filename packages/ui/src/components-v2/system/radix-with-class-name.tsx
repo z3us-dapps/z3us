@@ -1,4 +1,4 @@
-import { ComponentProps, createElement, JSXElementConstructor } from 'react'
+import { ComponentProps, JSXElementConstructor, createElement } from 'react'
 
 export const radixWithClassName = <T extends keyof JSX.IntrinsicElements | JSXElementConstructor<any>>(
 	component: T,

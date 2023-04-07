@@ -1,6 +1,6 @@
 /* eslint-disable react/jsx-props-no-spreading, @typescript-eslint/no-unused-vars */
-import { styled } from '@stitches/react'
 import * as SliderPrimitive from '@radix-ui/react-slider'
+import { styled } from '@stitches/react'
 
 export const StyledSlider = styled(SliderPrimitive.Root, {
 	position: 'relative',

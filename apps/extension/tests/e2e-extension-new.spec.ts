@@ -1,4 +1,5 @@
-import { Page, ChromiumBrowserContext } from 'playwright'
+import { ChromiumBrowserContext, Page } from 'playwright'
+
 import { closePages, initBrowserWithExtension } from './util'
 
 let page: Page

@@ -1,14 +1,15 @@
-import React from 'react'
-import { Chart, CategoryScale, LinearScale, PointElement, LineElement, Tooltip } from 'chart.js'
-import { QueryClientProvider } from 'react-query'
-import newQueryClient from '@src/hooks/react-query/query-client'
-import { ReactQueryDevtools } from 'react-query/devtools'
-import { App } from '@src/popup/app_'
-import { globalStyles } from 'ui/src/theme'
+import { CategoryScale, Chart, LineElement, LinearScale, PointElement, Tooltip } from 'chart.js'
 import { enableMapSet } from 'immer'
+import React from 'react'
+import { QueryClientProvider } from 'react-query'
+import { ReactQueryDevtools } from 'react-query/devtools'
 
-import '@src/css/app.css'
+import { globalStyles } from 'ui/src/theme'
+
 import { NoneSharedStoreProvider } from '@src/context/state-provider'
+import '@src/css/app.css'
+import newQueryClient from '@src/hooks/react-query/query-client'
+import { App } from '@src/popup/app_'
 
 enableMapSet()
 
