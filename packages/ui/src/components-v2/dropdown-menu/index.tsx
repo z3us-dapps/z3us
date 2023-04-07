@@ -1,7 +1,7 @@
-import React from 'react'
 import * as DropdownMenuPrimitive from '@radix-ui/react-dropdown-menu'
-import { Box } from '../box'
+import React from 'react'
 
+import { Box } from '../box'
 import * as styles from './dropdown-menu.css'
 
 export const DropdownMenu = DropdownMenuPrimitive.Root

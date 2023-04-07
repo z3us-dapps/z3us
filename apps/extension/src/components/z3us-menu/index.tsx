@@ -18,11 +18,14 @@ import {
 	DropdownMenuContent,
 	DropdownMenuItem,
 	DropdownMenuItemIndicator,
+	DropdownMenuPortal,
 	DropdownMenuRadioGroup,
 	DropdownMenuRadioItem,
 	DropdownMenuRightSlot,
+	DropdownMenuSub,
+	DropdownMenuSubContent,
+	DropdownMenuSubTriggerItem,
 	DropdownMenuTrigger,
-	DropdownMenuTriggerItem,
 } from 'ui/src/components/drop-down-menu'
 import { HardwareWalletIcon, TrashIcon, Z3usIcon, Z3usIconOff, Z3usIconOn } from 'ui/src/components/icons'
 import Input from 'ui/src/components/input'
@@ -236,93 +239,95 @@ export const Z3usMenu: React.FC = () => {
 							)}
 						</Box>
 					</DropdownMenuTrigger>
-					<DropdownMenuContent side="bottom" sideOffset={6} alignOffset={-3} css={{ minWidth: '130px' }}>
-						{keystores.length > 0 && (
-							<DropdownMenu>
-								<DropdownMenuTriggerItem>
-									<Box css={{ flex: '1', pr: '$1' }}>Wallet</Box>
-									<DropdownMenuRightSlot>
-										<ChevronRightIcon />
-									</DropdownMenuRightSlot>
-								</DropdownMenuTriggerItem>
-								<DropdownMenuContent avoidCollisions side="right" css={{ minWidth: '130px' }}>
-									<DropdownMenuRadioGroup value={keystoreId} onValueChange={handleValueChange}>
-										{keystores.map(({ id, name, type }) => (
-											<DropdownMenuRadioItem key={id} value={id}>
-												<DropdownMenuItemIndicator css={{ width: '16px', left: '0', right: 'unset' }} />
-												<Flex align="center" css={{ width: '100%', pl: '$1', pr: '$2' }}>
-													<Flex
-														justify="start"
-														align="center"
-														css={{
-															pr: '$3',
-															flex: '1',
-														}}
-													>
-														<Text
-															size="2"
-															bold
-															truncate
-															css={{ maxWidth: `${type === KeystoreType.HARDWARE ? '80px' : '104px'}` }}
-														>
-															{name}
-														</Text>
-													</Flex>
-													<Flex justify="end" css={{ mr: '-6px' }}>
-														{type === KeystoreType.HARDWARE && (
-															<ToolTip message="Hardware wallet account">
-																<Box css={{ width: '24px', height: '24px', mr: '3px' }}>
-																	<Button size="1" clickable={false}>
-																		<HardwareWalletIcon />
-																	</Button>
-																</Box>
-															</ToolTip>
-														)}
-														{isUnlocked && keystoreId === id && (
-															<>
-																<ToolTip message="Remove">
-																	<Button size="1" iconOnly color="ghost" onClick={() => handleRemoveWallet(id)}>
-																		<TrashIcon />
-																	</Button>
-																</ToolTip>
-																<ToolTip message="Edit name">
-																	<Button size="1" iconOnly color="ghost" onClick={() => handleEditWalletName(id)}>
-																		<Pencil2Icon />
-																	</Button>
-																</ToolTip>
-															</>
-														)}
-													</Flex>
-												</Flex>
-											</DropdownMenuRadioItem>
-										))}
-									</DropdownMenuRadioGroup>
-								</DropdownMenuContent>
-							</DropdownMenu>
-						)}
-						<DropdownMenuItem onSelect={handleAdd}>
-							<Box css={{ flex: '1', pr: '$4' }}>Add new wallet</Box>
-						</DropdownMenuItem>
-						{isUnlocked && (
-							<DropdownMenuItem onSelect={handleLockWallet}>
-								<Box css={{ flex: '1' }}>Lock wallet</Box>
-								<DropdownMenuRightSlot>
-									<LockClosedIcon />
-								</DropdownMenuRightSlot>
+					<DropdownMenuPortal>
+						<DropdownMenuContent side="bottom" sideOffset={6} css={{ minWidth: '130px', marginLeft: '4px' }}>
+							{keystores.length > 0 && (
+								<DropdownMenuSub>
+									<DropdownMenuSubTriggerItem>
+										<Box css={{ flex: '1', pr: '$1' }}>Wallet</Box>
+										<DropdownMenuRightSlot>
+											<ChevronRightIcon />
+										</DropdownMenuRightSlot>
+									</DropdownMenuSubTriggerItem>
+									<DropdownMenuPortal>
+										<DropdownMenuSubContent>
+											<DropdownMenuRadioGroup value={keystoreId} onValueChange={handleValueChange}>
+												{keystores.map(({ id, name, type }) => (
+													<DropdownMenuRadioItem key={id} value={id}>
+														<DropdownMenuItemIndicator css={{ width: '16px', left: '0', right: 'unset' }} />
+														<Flex align="center" css={{ width: '100%', pl: '$1', pr: '$2' }}>
+															<Flex
+																justify="start"
+																align="center"
+																css={{
+																	pr: '$3',
+																	flex: '1',
+																}}
+															>
+																<Text
+																	size="2"
+																	bold
+																	truncate
+																	css={{ maxWidth: `${type === KeystoreType.HARDWARE ? '80px' : '104px'}` }}
+																>
+																	{name}
+																</Text>
+															</Flex>
+															<Flex justify="end" css={{ mr: '-6px' }}>
+																{type === KeystoreType.HARDWARE && (
+																	<ToolTip message="Hardware wallet account">
+																		<Box css={{ width: '24px', height: '24px', mr: '3px' }}>
+																			<Button size="1" clickable={false}>
+																				<HardwareWalletIcon />
+																			</Button>
+																		</Box>
+																	</ToolTip>
+																)}
+																{isUnlocked && keystoreId === id && (
+																	<>
+																		<ToolTip message="Remove">
+																			<Button size="1" iconOnly color="ghost" onClick={() => handleRemoveWallet(id)}>
+																				<TrashIcon />
+																			</Button>
+																		</ToolTip>
+																		<ToolTip message="Edit name">
+																			<Button size="1" iconOnly color="ghost" onClick={() => handleEditWalletName(id)}>
+																				<Pencil2Icon />
+																			</Button>
+																		</ToolTip>
+																	</>
+																)}
+															</Flex>
+														</Flex>
+													</DropdownMenuRadioItem>
+												))}
+											</DropdownMenuRadioGroup>
+										</DropdownMenuSubContent>
+									</DropdownMenuPortal>
+								</DropdownMenuSub>
+							)}
+							<DropdownMenuItem onSelect={handleAdd}>
+								<Box css={{ flex: '1', pr: '$4' }}>Add new wallet</Box>
 							</DropdownMenuItem>
-						)}
-						{contentScriptStatus.canConnectToTab && !contentScriptStatus.isConnected && (
-							<DropdownMenu>
-								<DropdownMenuTriggerItem onClick={handleInjectContentScript}>
+							{isUnlocked && (
+								<DropdownMenuItem onSelect={handleLockWallet}>
+									<Box css={{ flex: '1' }}>Lock wallet</Box>
+									<DropdownMenuRightSlot>
+										<LockClosedIcon />
+									</DropdownMenuRightSlot>
+								</DropdownMenuItem>
+							)}
+							{contentScriptStatus.canConnectToTab && !contentScriptStatus.isConnected && (
+								<DropdownMenuItem onClick={handleInjectContentScript}>
 									<Box css={{ flex: '1', pr: '$1' }}>
 										<Text size="2" bold truncate css={{ maxWidth: '130px' }}>
 											Connect to {contentScriptStatus.currentTabHost}
 										</Text>
 									</Box>
-								</DropdownMenuTriggerItem>
-							</DropdownMenu>
-						)}
-					</DropdownMenuContent>
+								</DropdownMenuItem>
+							)}
+						</DropdownMenuContent>
+					</DropdownMenuPortal>
 				</DropdownMenu>
 			</MotionBox>
 			<AlertDialog open={!!state.editing}>

@@ -1,19 +1,21 @@
+import { LightningBoltIcon } from '@radix-ui/react-icons'
+import { useTheme } from 'next-themes'
 import React, { useEffect } from 'react'
 import { useImmer } from 'use-immer'
-import { darkTheme } from 'ui/src/theme'
+
 import { Box } from 'ui/src/components/atoms'
-import { LightningBoltIcon } from '@radix-ui/react-icons'
+import Button from 'ui/src/components/button'
 import {
 	DropdownMenu,
-	DropdownMenuTrigger,
 	DropdownMenuContent,
 	DropdownMenuItemIndicator,
+	DropdownMenuPortal,
 	DropdownMenuRadioGroup,
 	DropdownMenuRadioItem,
+	DropdownMenuTrigger,
 } from 'ui/src/components/drop-down-menu'
-import Button from 'ui/src/components/button'
 import { ToolTip } from 'ui/src/components/tool-tip'
-import { useTheme } from 'next-themes'
+import { darkTheme } from 'ui/src/theme'
 
 interface ImmerProps {
 	isScrolled: boolean
@@ -60,29 +62,31 @@ export const ThemePickerMenu: React.FC = () => {
 					</ToolTip>
 				</Box>
 			</DropdownMenuTrigger>
-			<DropdownMenuContent align="end" side="bottom" sideOffset={10} alignOffset={-5} css={{ minWidth: '100px' }}>
-				<DropdownMenu>
-					<DropdownMenuRadioGroup
-						value={theme}
-						onValueChange={_theme => {
-							setTheme(_theme)
-						}}
-					>
-						<DropdownMenuRadioItem value="light">
-							<DropdownMenuItemIndicator />
-							Light
-						</DropdownMenuRadioItem>
-						<DropdownMenuRadioItem value="dark">
-							<DropdownMenuItemIndicator />
-							Dark
-						</DropdownMenuRadioItem>
-						<DropdownMenuRadioItem value="system">
-							<DropdownMenuItemIndicator />
-							System
-						</DropdownMenuRadioItem>
-					</DropdownMenuRadioGroup>
-				</DropdownMenu>
-			</DropdownMenuContent>
+			<DropdownMenuPortal>
+				<DropdownMenuContent align="end" side="bottom" sideOffset={10} alignOffset={-5} css={{ minWidth: '100px' }}>
+					<DropdownMenu>
+						<DropdownMenuRadioGroup
+							value={theme}
+							onValueChange={_theme => {
+								setTheme(_theme)
+							}}
+						>
+							<DropdownMenuRadioItem value="light">
+								<DropdownMenuItemIndicator />
+								Light
+							</DropdownMenuRadioItem>
+							<DropdownMenuRadioItem value="dark">
+								<DropdownMenuItemIndicator />
+								Dark
+							</DropdownMenuRadioItem>
+							<DropdownMenuRadioItem value="system">
+								<DropdownMenuItemIndicator />
+								System
+							</DropdownMenuRadioItem>
+						</DropdownMenuRadioGroup>
+					</DropdownMenu>
+				</DropdownMenuContent>
+			</DropdownMenuPortal>
 		</DropdownMenu>
 	)
 }
