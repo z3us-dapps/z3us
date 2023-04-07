@@ -1,7 +1,6 @@
 import clsx from 'clsx'
 import { AnimatePresence, motion } from 'framer-motion'
 import React, { forwardRef, useEffect, useState } from 'react'
-import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router-dom'
 
 import { Avatar, AvatarFallback, AvatarImage } from 'ui/src/components-v2/avatar'
@@ -61,7 +60,6 @@ export const AccountSwitcher = forwardRef<HTMLButtonElement, IAccountSwitcherPro
 	(props, ref: React.Ref<HTMLElement | null>) => {
 		const { scrollTop } = props
 
-		const { t } = useTranslation()
 		const navigate = useNavigate()
 		const { account, assetType, asset } = useAccountParams()
 		const [isMounted, setIsMounted] = useState<boolean>(false)

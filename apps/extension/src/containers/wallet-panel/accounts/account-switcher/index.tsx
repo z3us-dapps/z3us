@@ -1,12 +1,15 @@
-import React, { useRef, useState, useEffect } from 'react'
-import { useNoneSharedStore, useSharedStore } from '@src/hooks/use-store'
-import { PlusIcon } from 'ui/src/components/icons'
+import React, { useEffect, useRef, useState } from 'react'
 import { useEventListener } from 'usehooks-ts'
+
 import { Box, Flex, MotionBox, Text } from 'ui/src/components/atoms'
 import Button from 'ui/src/components/button'
+import { PlusIcon } from 'ui/src/components/icons'
+
 import { HardwareWalletReconnect } from '@src/components/hardware-wallet-reconnect'
-import { AccountSwitcherButtons } from './account-switcher-buttons'
+import { useNoneSharedStore, useSharedStore } from '@src/hooks/use-store'
+
 import { AccountInfo } from './account-info'
+import { AccountSwitcherButtons } from './account-switcher-buttons'
 import { AccountsTotal } from './accounts-total'
 
 const SLIDER_WIDTH = 308

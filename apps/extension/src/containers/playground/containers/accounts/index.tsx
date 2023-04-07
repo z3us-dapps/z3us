@@ -1,6 +1,8 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import React from 'react'
 
 import { AccountTransaction } from '@src/containers/playground/containers/accounts/account-transaction'
+
 import { AccountsDesktop } from './desktop'
 import { AccountsMobile } from './mobile'
 

@@ -20,6 +20,7 @@ export class BrowserStorageService {
 				throw error
 			}
 		} catch (err) {
+			// eslint-disable-next-line no-console
 			console.error(err)
 			throw err
 		}
@@ -35,6 +36,7 @@ export class BrowserStorageService {
 
 			return data[key]
 		} catch (err) {
+			// eslint-disable-next-line no-console
 			console.error(err)
 			throw err
 		}
@@ -48,6 +50,7 @@ export class BrowserStorageService {
 				throw error
 			}
 		} catch (err) {
+			// eslint-disable-next-line no-console
 			console.error(err)
 			throw err
 		}

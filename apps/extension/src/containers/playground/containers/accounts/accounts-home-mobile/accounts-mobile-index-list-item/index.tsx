@@ -1,7 +1,7 @@
 import * as AvatarPrimitive from '@radix-ui/react-avatar'
 import clsx from 'clsx'
 import { AnimatePresence, motion } from 'framer-motion'
-import React, { forwardRef, useContext, useEffect } from 'react'
+import React, { forwardRef, useContext } from 'react'
 import { useTimeout } from 'usehooks-ts'
 
 import { AvatarFallback, AvatarImage } from 'ui/src/components-v2/avatar'

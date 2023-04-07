@@ -1,8 +1,9 @@
-import { globalStyle, style } from '@vanilla-extract/css'
+import { style } from '@vanilla-extract/css'
 
-import { darkMode, sprinkles } from 'ui/src/components-v2/system/sprinkles.css'
-import { responsiveStyle } from 'ui/src/components-v2/system/theme-utils'
-import { vars } from 'ui/src/components-v2/system/theme.css'
+import { sprinkles } from 'ui/src/components-v2/system/sprinkles.css'
+
+// import { responsiveStyle } from 'ui/src/components-v2/system/theme-utils'
+// import { vars } from 'ui/src/components-v2/system/theme.css'
 
 // TODO: remove
 export const tempyy = style([

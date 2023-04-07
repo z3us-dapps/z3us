@@ -15,11 +15,6 @@ import { TransactionIcon } from '@src/components/transaction-icon'
 import * as styles from './account-activity.css'
 
 const items = [
-	{ id: 'df', title: 'geebs' },
-	{ id: 'asdfasdf', title: 'geebs' },
-	{ id: 'adfdhfuh', title: 'geebs' },
-	{ id: 'as773hf', title: 'Another geebs' },
-	{ id: '88833', title: 'Aasdfahghgngn geebs' },
 	{ id: '884848', title: 'djfjfj884' },
 	{ id: '7d7fhdf', title: 'djfjfj884' },
 	{ id: 'djfhdjhf', title: 'djfjfj884' },

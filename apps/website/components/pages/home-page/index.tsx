@@ -1,13 +1,13 @@
 /* eslint-disable @next/next/no-img-element, @typescript-eslint/no-unused-vars */
-import React from 'react'
-import { m, useScroll, useTransform } from 'framer-motion'
-import { LazyMotion } from 'components/lazy-motion'
-import { NextSeo } from 'next-seo'
-import { PageContainer } from 'components/page-container'
-import { Header } from 'components/header'
-import { Footer } from 'components/footer'
 import { FlashCtaButton } from 'components/flash-cta-button'
+import { Footer } from 'components/footer'
+import { Header } from 'components/header'
+import { LazyMotion } from 'components/lazy-motion'
+import { PageContainer } from 'components/page-container'
 import { config } from 'config'
+import { m, useScroll, useTransform } from 'framer-motion'
+import { NextSeo } from 'next-seo'
+import React from 'react'
 
 export const HomePage: React.FC = () => {
 	const { scrollYProgress } = useScroll()
@@ -47,7 +47,7 @@ export const HomePage: React.FC = () => {
 							<div>
 								<h1 className="font-Inter font-bold homepage__h1">
 									<span>Control</span>
-									<span className="heeb">your future.</span>
+									<span>your future.</span>
 								</h1>
 								<div className="homepage__image-wrapper">
 									<div className="homepage__product">
