@@ -30,7 +30,6 @@
 		"bignumber.js": "^9.0.2",
 		"buffer": "^6.0.3",
 		"chart.js": "^3.8.0",
-		"class-variance-authority": "^0.4.0",
 		"classnames": "^2.3.1",
 		"clsx": "^1.2.1",
 		"crypto-browserify": "^3.12.0",

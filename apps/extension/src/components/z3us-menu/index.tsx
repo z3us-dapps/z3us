@@ -26,7 +26,7 @@ import {
 } from 'ui/src/components/drop-down-menu'
 import { HardwareWalletIcon, TrashIcon, Z3usIcon, Z3usIconOff, Z3usIconOn } from 'ui/src/components/icons'
 import Input from 'ui/src/components/input'
-import { ToolTip, Tooltip, TooltipContent, TooltipTrigger } from 'ui/src/components/tool-tip'
+import { ToolTip, Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from 'ui/src/components/tool-tip'
 
 import { useColorMode } from '@src/hooks/use-color-mode'
 import { useContentScriptStatus } from '@src/hooks/use-content-script-status'
@@ -216,17 +216,19 @@ export const Z3usMenu: React.FC = () => {
 					<DropdownMenuTrigger asChild>
 						<Box>
 							{contentScriptStatus.canConnectToTab ? (
-								<Tooltip>
-									<TooltipTrigger asChild>
-										<Button iconOnly aria-label="Z3US menu" color="ghost" size="4" css={{ mr: '2px' }}>
-											{Icon}
-										</Button>
-									</TooltipTrigger>
-									<TooltipContent sideOffset={1} side="right" css={{ position: 'relative' }}>
-										You are {!contentScriptStatus.isConnected ? 'not' : ''} connected to{' '}
-										{contentScriptStatus.currentTabHost}
-									</TooltipContent>
-								</Tooltip>
+								<TooltipProvider>
+									<Tooltip>
+										<TooltipTrigger asChild>
+											<Button iconOnly aria-label="Z3US menu" color="ghost" size="4" css={{ mr: '2px' }}>
+												{Icon}
+											</Button>
+										</TooltipTrigger>
+										<TooltipContent sideOffset={1} side="right" css={{ position: 'relative' }}>
+											You are {!contentScriptStatus.isConnected ? 'not' : ''} connected to{' '}
+											{contentScriptStatus.currentTabHost}
+										</TooltipContent>
+									</Tooltip>
+								</TooltipProvider>
 							) : (
 								<Button iconOnly aria-label="Z3US menu" color="ghost" size="4" css={{ mr: '2px' }}>
 									<Z3usIcon />

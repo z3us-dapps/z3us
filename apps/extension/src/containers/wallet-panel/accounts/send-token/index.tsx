@@ -8,7 +8,7 @@ import { Box, Flex, MotionBox, Text } from 'ui/src/components/atoms'
 import Button from 'ui/src/components/button'
 import { CheckIcon, Checkbox } from 'ui/src/components/checkbox'
 import Input from 'ui/src/components/input'
-import { Tooltip, TooltipArrow, TooltipContent, TooltipTrigger } from 'ui/src/components/tool-tip'
+import { Tooltip, TooltipArrow, TooltipContent, TooltipProvider, TooltipTrigger } from 'ui/src/components/tool-tip'
 
 import { AccountSelector } from '@src/components/account-selector'
 import { AddressBookSelector } from '@src/components/address-book-selector'
@@ -228,27 +228,29 @@ export const SendToken: React.FC = () => {
 							<HardwareWalletReconnect />
 							<Box>
 								<Flex align="center" css={{ mt: '14px', position: 'relative' }}>
-									<Tooltip>
-										<TooltipTrigger asChild>
-											<Button
-												size="1"
-												color="tertiary"
-												css={{
-													position: 'absolute',
-													top: '-4px',
-													right: '0',
-													textTransform: 'uppercase',
-												}}
-												onClick={handleUseMax}
-											>
-												MAX
-											</Button>
-										</TooltipTrigger>
-										<TooltipContent sideOffset={3} side="top">
-											<TooltipArrow offset={15} />
-											Select maximum {tokenSymbol}
-										</TooltipContent>
-									</Tooltip>
+									<TooltipProvider>
+										<Tooltip>
+											<TooltipTrigger asChild>
+												<Button
+													size="1"
+													color="tertiary"
+													css={{
+														position: 'absolute',
+														top: '-4px',
+														right: '0',
+														textTransform: 'uppercase',
+													}}
+													onClick={handleUseMax}
+												>
+													MAX
+												</Button>
+											</TooltipTrigger>
+											<TooltipContent sideOffset={3} side="top">
+												<TooltipArrow offset={15} />
+												Select maximum {tokenSymbol}
+											</TooltipContent>
+										</Tooltip>
+									</TooltipProvider>
 									<Text css={{ fontSize: '14px', lineHeight: '17px', fontWeight: '500', flex: '1' }}>Amount:</Text>
 								</Flex>
 								<Box css={{ mt: '13px', position: 'relative' }}>

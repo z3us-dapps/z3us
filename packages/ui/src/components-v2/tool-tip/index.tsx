@@ -7,6 +7,7 @@ import { radixWithClassName } from '../system/radix-with-class-name'
 import { Text } from '../typography'
 import * as styles from './tool-tip.css'
 
+export const TooltipProvider = TooltipPrimitive.Provider
 export const ToolTipRoot = TooltipPrimitive.Root
 export const ToolTipTrigger = TooltipPrimitive.Trigger
 export const ToolTipContent = radixWithClassName(TooltipPrimitive.Content, clsx(styles.toolTipContent))
@@ -44,17 +45,19 @@ export const ToolTip: React.FC<IToolTipProps> = ({
 	isArrowVisible,
 	arrowOffset,
 }) => (
-	<ToolTipRoot>
-		<ToolTipTrigger asChild>{children}</ToolTipTrigger>
-		<ToolTipContent sideOffset={sideOffset} side={side}>
-			{isArrowVisible ? <ToolTipArrow offset={arrowOffset} /> : null}
-			{!disabled ? (
-				<Text size="xsmall" color="strong">
-					{message}
-				</Text>
-			) : null}
-		</ToolTipContent>
-	</ToolTipRoot>
+	<TooltipProvider>
+		<ToolTipRoot>
+			<ToolTipTrigger asChild>{children}</ToolTipTrigger>
+			<ToolTipContent sideOffset={sideOffset} side={side}>
+				{isArrowVisible ? <ToolTipArrow offset={arrowOffset} /> : null}
+				{!disabled ? (
+					<Text size="xsmall" color="strong">
+						{message}
+					</Text>
+				) : null}
+			</ToolTipContent>
+		</ToolTipRoot>
+	</TooltipProvider>
 )
 
 ToolTip.defaultProps = defaultProps

@@ -1,19 +1,22 @@
-import React from 'react'
-import { useImmer } from 'use-immer'
-import { useNoneSharedStore } from '@src/hooks/use-store'
-import { Cross2Icon } from '@radix-ui/react-icons'
-import { useEventListener } from 'usehooks-ts'
-import { AccountAddress } from '@src/components/account-address'
-import Button from 'ui/src/components/button'
-import Input from 'ui/src/components/input'
-import { Tooltip, TooltipTrigger, TooltipContent, TooltipArrow } from 'ui/src/components/tool-tip'
-import { Dialog, DialogTrigger, DialogContent } from 'ui/src/components/dialog'
-import { HexColorPicker } from 'react-colorful'
-import { Popover, PopoverArrow, PopoverContent, PopoverTrigger, PopoverClose } from 'ui/src/components/popover'
-import { Box, Text, Flex } from 'ui/src/components/atoms'
-import { ColorSettings } from '@src/types'
 import { Side } from '@radix-ui/popper'
+import { Cross2Icon } from '@radix-ui/react-icons'
+import React from 'react'
+import { HexColorPicker } from 'react-colorful'
+import { useImmer } from 'use-immer'
+import { useEventListener } from 'usehooks-ts'
+
+import { Box, Flex, Text } from 'ui/src/components/atoms'
+import Button from 'ui/src/components/button'
+import { Dialog, DialogContent, DialogTrigger } from 'ui/src/components/dialog'
+import Input from 'ui/src/components/input'
+import { Popover, PopoverArrow, PopoverClose, PopoverContent, PopoverTrigger } from 'ui/src/components/popover'
+import { Tooltip, TooltipArrow, TooltipContent, TooltipProvider, TooltipTrigger } from 'ui/src/components/tool-tip'
+
+import { AccountAddress } from '@src/components/account-address'
 import { colorMap, generateGradient, presetMap } from '@src/config'
+import { useNoneSharedStore } from '@src/hooks/use-store'
+import { ColorSettings } from '@src/types'
+
 import { AvatarButton } from '../../../components/avatar-button'
 
 const sharedColorButtonStyle = {
@@ -147,19 +150,21 @@ export const AccountModal = ({
 	return (
 		<Dialog open={state.isModalOpen} modal={false}>
 			<DialogTrigger asChild>
-				<Tooltip>
-					<TooltipTrigger asChild onClick={handleOnClick}>
-						{children || (
-							<Box>
-								<AvatarButton background={entry?.background} />
-							</Box>
-						)}
-					</TooltipTrigger>
-					<TooltipContent side={toolTipSide} sideOffset={toolTipSideOffset} css={{ backgroundColor: toolTipBgColor }}>
-						<TooltipArrow css={{ fill: toolTipBgColor }} />
-						{toolTipMessage}
-					</TooltipContent>
-				</Tooltip>
+				<TooltipProvider>
+					<Tooltip>
+						<TooltipTrigger asChild onClick={handleOnClick}>
+							{children || (
+								<Box>
+									<AvatarButton background={entry?.background} />
+								</Box>
+							)}
+						</TooltipTrigger>
+						<TooltipContent side={toolTipSide} sideOffset={toolTipSideOffset} css={{ backgroundColor: toolTipBgColor }}>
+							<TooltipArrow css={{ fill: toolTipBgColor }} />
+							{toolTipMessage}
+						</TooltipContent>
+					</Tooltip>
+				</TooltipProvider>
 			</DialogTrigger>
 			<DialogContent css={{ p: '0' }}>
 				<Flex direction="column" css={{ position: 'relative' }}>

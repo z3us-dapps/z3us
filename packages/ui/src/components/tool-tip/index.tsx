@@ -61,6 +61,7 @@ const StyledContent = styled(TooltipPrimitive.Content, {
 	},
 })
 
+export const TooltipProvider = TooltipPrimitive.Provider
 export const Tooltip = TooltipPrimitive.Root
 export const TooltipTrigger = TooltipPrimitive.Trigger
 export const TooltipContent = StyledContent
@@ -98,19 +99,21 @@ export const ToolTip = ({
 	side,
 	css,
 }: ToolTipProps): JSX.Element => (
-	<Tooltip>
-		<TooltipTrigger asChild>
-			<span>{children} </span>
-		</TooltipTrigger>
-		<TooltipContent
-			sideOffset={sideOffset}
-			side={side}
-			css={{ position: 'relative', backgroundColor: bgColor, ...css }}
-		>
-			{isArrowVisible ? <TooltipArrow offset={arrowOffset} css={{ fill: bgColor }} /> : null}
-			{message}
-		</TooltipContent>
-	</Tooltip>
+	<TooltipProvider>
+		<Tooltip>
+			<TooltipTrigger asChild>
+				<span>{children} </span>
+			</TooltipTrigger>
+			<TooltipContent
+				sideOffset={sideOffset}
+				side={side}
+				css={{ position: 'relative', backgroundColor: bgColor, ...css }}
+			>
+				{isArrowVisible ? <TooltipArrow offset={arrowOffset} css={{ fill: bgColor }} /> : null}
+				{message}
+			</TooltipContent>
+		</Tooltip>
+	</TooltipProvider>
 )
 
 ToolTip.defaultProps = toolTipDefaultProps
