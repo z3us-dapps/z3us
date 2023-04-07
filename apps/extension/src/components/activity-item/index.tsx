@@ -1,18 +1,21 @@
-import React from 'react'
-import { useNoneSharedStore } from '@src/hooks/use-store'
-import BigNumber from 'bignumber.js'
-import { Action, Transaction } from '@src/types'
 import { Cross2Icon, EnvelopeClosedIcon } from '@radix-ui/react-icons'
-import { useTokenInfo } from '@src/hooks/react-query/queries/radix'
-import { formatBigNumber } from '@src/utils/formatters'
+import BigNumber from 'bignumber.js'
+import React from 'react'
+
 import { Box, Flex, Text } from 'ui/src/components/atoms'
-import { getShortAddress } from '@src/utils/string-utils'
 import Button from 'ui/src/components/button'
+import { Popover, PopoverClose, PopoverContent, PopoverPortal, PopoverTrigger } from 'ui/src/components/popover'
 import { CSS } from 'ui/src/theme'
-import { Popover, PopoverTrigger, PopoverContent, PopoverClose } from 'ui/src/components/popover'
-import { ActivityLinks } from './activity-links'
+
+import { useTokenInfo } from '@src/hooks/react-query/queries/radix'
+import { useNoneSharedStore } from '@src/hooks/use-store'
+import { Action, Transaction } from '@src/types'
+import { formatBigNumber } from '@src/utils/formatters'
+import { getShortAddress } from '@src/utils/string-utils'
+
 import { ActivityType } from '../activity-type'
 import { CircleAvatar } from '../circle-avatar'
+import { ActivityLinks } from './activity-links'
 
 interface IProps {
 	tx: Transaction
@@ -102,12 +105,14 @@ export const ActivityItem = React.forwardRef<HTMLDivElement, IProps>(({ tx, acti
 						</Flex>
 					</Button>
 				</PopoverTrigger>
-				<PopoverContent css={{ width: '300px' }}>
-					<ActivityLinks activity={activity} tx={tx} accountAddress={entry?.address} />
-					<PopoverClose aria-label="Close">
-						<Cross2Icon />
-					</PopoverClose>
-				</PopoverContent>
+				<PopoverPortal>
+					<PopoverContent css={{ width: '300px' }}>
+						<ActivityLinks activity={activity} tx={tx} accountAddress={entry?.address} />
+						<PopoverClose aria-label="Close">
+							<Cross2Icon />
+						</PopoverClose>
+					</PopoverContent>
+				</PopoverPortal>
 			</Popover>
 		</div>
 	)

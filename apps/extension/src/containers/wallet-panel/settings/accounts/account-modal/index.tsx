@@ -9,7 +9,14 @@ import { Box, Flex, Text } from 'ui/src/components/atoms'
 import Button from 'ui/src/components/button'
 import { Dialog, DialogContent, DialogTrigger } from 'ui/src/components/dialog'
 import Input from 'ui/src/components/input'
-import { Popover, PopoverArrow, PopoverClose, PopoverContent, PopoverTrigger } from 'ui/src/components/popover'
+import {
+	Popover,
+	PopoverArrow,
+	PopoverClose,
+	PopoverContent,
+	PopoverPortal,
+	PopoverTrigger,
+} from 'ui/src/components/popover'
 import { Tooltip, TooltipArrow, TooltipContent, TooltipProvider, TooltipTrigger } from 'ui/src/components/tool-tip'
 
 import { AccountAddress } from '@src/components/account-address'
@@ -253,25 +260,27 @@ export const AccountModal = ({
 												/>
 											</Button>
 										</PopoverTrigger>
-										<PopoverContent
-											sideOffset={0}
-											css={{ width: '200px', backgroundColor: 'transparent', border: 'none' }}
-										>
-											<Box css={{}}>
-												<HexColorPicker
-													color={state[key]}
-													onChange={_color => {
-														setState(draft => {
-															draft[key] = _color
-														})
-													}}
-												/>
-											</Box>
-											<PopoverArrow offset={14} css={{ fill: '$bgPanel' }} />
-											<PopoverClose aria-label="Close">
-												<Cross2Icon />
-											</PopoverClose>
-										</PopoverContent>
+										<PopoverPortal>
+											<PopoverContent
+												sideOffset={0}
+												css={{ width: '200px', backgroundColor: 'transparent', border: 'none' }}
+											>
+												<Box css={{}}>
+													<HexColorPicker
+														color={state[key]}
+														onChange={_color => {
+															setState(draft => {
+																draft[key] = _color
+															})
+														}}
+													/>
+												</Box>
+												<PopoverArrow offset={14} css={{ fill: '$bgPanel' }} />
+												<PopoverClose aria-label="Close">
+													<Cross2Icon />
+												</PopoverClose>
+											</PopoverContent>
+										</PopoverPortal>
 									</Popover>
 									<Input
 										value={state[key]}
