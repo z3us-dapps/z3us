@@ -1,9 +1,8 @@
 import clsx from 'clsx'
+import type { ClassValue } from 'clsx'
 import { AllHTMLAttributes, ElementType, createElement, forwardRef } from 'react'
 
-// import * as resetStyles from '@src/components-v2/system/reset.css'
-import * as resetStyles from '../system/reset.css'
-import { Sprinkles, sprinkles } from '../system/sprinkles.css'
+import { Sprinkles, resetBase, sprinkles } from '../system/sprinkles.css'
 
 export interface BoxProps
 	extends Omit<
@@ -12,7 +11,7 @@ export interface BoxProps
 		>,
 		Sprinkles {
 	component?: ElementType
-	className?: Parameters<typeof clsx>[0]
+	className?: ClassValue
 }
 
 export const Box = forwardRef(
@@ -69,14 +68,12 @@ export const Box = forwardRef(
 			minWidth,
 			transition,
 			overflow,
-
 			...restProps
 		}: BoxProps,
 		ref: any,
 	) => {
 		const atomClasses = clsx(
-			resetStyles.base,
-			resetStyles.element[component as keyof typeof resetStyles.element],
+			resetBase,
 			sprinkles({
 				padding,
 				paddingX,

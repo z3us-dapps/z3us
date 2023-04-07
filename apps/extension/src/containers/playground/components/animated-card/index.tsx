@@ -1,4 +1,5 @@
 import clsx from 'clsx'
+import type { ClassValue } from 'clsx'
 import { motion } from 'framer-motion'
 import React from 'react'
 
@@ -20,7 +21,7 @@ interface IAnimatedCardRequiredProps {
 }
 
 interface IAnimatedCardOptionalProps {
-	className?: string
+	className?: ClassValue
 	backgroundImage?: string
 	showCopyAddressButton?: boolean
 }

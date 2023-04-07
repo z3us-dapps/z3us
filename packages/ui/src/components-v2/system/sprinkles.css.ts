@@ -1,6 +1,18 @@
+import { style } from '@vanilla-extract/css'
 import { createSprinkles, defineProperties } from '@vanilla-extract/sprinkles'
 
 import { vars } from './theme.css'
+
+export const resetBase = style({
+	margin: 0,
+	padding: 0,
+	border: 0,
+	minWidth: 0,
+	boxSizing: 'border-box',
+	fontSize: '100%',
+	font: 'inherit',
+	verticalAlign: 'baseline',
+})
 
 const responsiveProperties = defineProperties({
 	conditions: {
