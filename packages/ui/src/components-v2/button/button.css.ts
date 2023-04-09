@@ -2,12 +2,6 @@ import { RecipeVariants, recipe } from '@vanilla-extract/recipes'
 
 import { sprinkles } from '../system/sprinkles.css'
 
-export { button as buttonReset } from '../system/reset.css'
-
-export const baseSprinkles = sprinkles({
-	transition: 'fast',
-})
-
 export const button = recipe({
 	base: {
 		display: 'inline-flex',
@@ -17,6 +11,9 @@ export const button = recipe({
 		outline: 'none',
 		cursor: 'pointer',
 		flexShrink: 0,
+		transition: 'fast',
+		border: 0,
+		WebkitTapHighlightColor: 'rgba(0, 0, 0, 0)',
 	},
 	variants: {
 		styleVariant: {
