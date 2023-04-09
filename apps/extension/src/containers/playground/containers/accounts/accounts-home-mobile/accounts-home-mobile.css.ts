@@ -204,6 +204,9 @@ export const tabsWrapperScrollBtnScrolled = style([
 	sprinkles({
 		position: 'absolute',
 	}),
+	{
+		border: '0px solid red',
+	},
 ])
 
 export const tabsWrapperScrollBtnHidden = style([

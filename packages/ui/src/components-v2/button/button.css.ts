@@ -55,6 +55,7 @@ export const button = recipe({
 			}),
 			ghost: sprinkles({
 				background: {
+					lightMode: 'transparent',
 					hover: 'btnSecondaryBackgroundHover',
 					active: 'btnSecondaryBackground',
 					focusVisible: 'btnSecondaryBackgroundHover',

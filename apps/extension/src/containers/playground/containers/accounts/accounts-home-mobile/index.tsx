@@ -28,7 +28,7 @@ export const AccountsHomeMobile = () => {
 	const location = useLocation()
 	const headerRef = useRef<HTMLElement | null>(null)
 	const [customScrollParent, setCustomScrollParent] = useState<HTMLElement | null>(null)
-	const [isScrolledPastHeader, setIsScrolledPastHeader] = useState<boolean>(null)
+	const [isScrolledPastHeader, setIsScrolledPastHeader] = useState<boolean>(false)
 	const [isAreaScrollable, setIsAreaScrollable] = useState<boolean>(false)
 	const { account, assetType, asset } = useAccountParams()
 	const [searchParams] = useSearchParams()
@@ -54,7 +54,7 @@ export const AccountsHomeMobile = () => {
 				setIsScrolledPastHeader(false)
 			}
 		},
-		[customScrollParent],
+		[customScrollParent, isScrolledPastHeader],
 	)
 
 	const handleChevronClick = () => {
