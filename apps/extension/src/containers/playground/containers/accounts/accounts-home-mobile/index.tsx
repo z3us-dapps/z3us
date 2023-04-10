@@ -94,17 +94,6 @@ export const AccountsHomeMobile = () => {
 		return LIST_ITEM_ASSET
 	}
 
-	// TODO: FIX - hook to scroll if at bottom of list
-	//
-	// useEffect(() => {
-	// 	const headerHeight = headerRef.current.clientHeight - HEADER_HEIGHT
-	// 	if (isScrolledPastHeader) {
-	// 		setTimeout(() => {
-	// 			customScrollParent?.scrollTo({ top: headerHeight, behavior: 'smooth' })
-	// 		}, 2000)
-	// 	}
-	// }, [account, assetType, asset, isActivityRoute, isScrolledPastHeader])
-
 	return (
 		<Box className={styles.accountsHomeMobileWrapper}>
 			<ScrollArea

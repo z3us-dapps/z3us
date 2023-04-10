@@ -86,6 +86,9 @@ export const AccountsHomeMobileList = forwardRef<HTMLElement, IAccountTransactio
 
 		// TODO: demo data fetching
 		useEffect(() => {
+			// Needs to scroll to top or the virtuoso list will bug out for some reason
+			customScrollParent?.scrollTo({ top: 0 })
+
 			if (listItemType === LIST_ITEM_INDEX) {
 				setItems(indexItems)
 			} else {
