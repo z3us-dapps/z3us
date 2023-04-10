@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import clsx from 'clsx'
+import clsx, { type ClassValue } from 'clsx'
 import React, { forwardRef, useCallback, useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Virtuoso } from 'react-virtuoso'
@@ -32,10 +32,11 @@ const ItemContainer = props => <Box {...props} />
 interface IAccountTransactionRequiredProps {
 	customScrollParent: HTMLElement
 	listItemType: TListItem
+	search: string
 }
 
 interface IAccountTransactionOptionalProps {
-	className?: number
+	className?: ClassValue
 }
 
 interface IAccountTransactionProps extends IAccountTransactionRequiredProps, IAccountTransactionOptionalProps {}
@@ -46,7 +47,7 @@ const defaultProps: IAccountTransactionOptionalProps = {
 
 export const AccountsHomeMobileList = forwardRef<HTMLElement, IAccountTransactionProps>(
 	(props, ref: React.Ref<HTMLElement | null>) => {
-		const { customScrollParent, listItemType, className } = props
+		const { customScrollParent, listItemType, className, search } = props
 
 		const { t, i18n } = useTranslation()
 
@@ -98,13 +99,21 @@ export const AccountsHomeMobileList = forwardRef<HTMLElement, IAccountTransactio
 
 		const computeItemKey = useCallback(index => items[index].id, [items])
 
+		// todo: fix type
+		const filteredList = items.filter((_token: any) => {
+			const searchLowerCase = search.toLowerCase()
+			return (
+				_token.name?.toLowerCase().includes(searchLowerCase) || _token.symbol?.toLowerCase().includes(searchLowerCase)
+			)
+		})
+
 		return (
 			<Box ref={ref} className={clsx(styles.mobileAccountsListWrapperInner, className)}>
 				{/* eslint-disable-next-line */}
 				<Context.Provider value={{ setItems }}>
 					<Virtuoso
 						customScrollParent={customScrollParent}
-						data={items}
+						data={filteredList}
 						// eslint-disable-next-line
 						itemContent={(index, { id, loaded, name, isImageSquare, count, assetType, symbol }) => {
 							switch (listItemType) {

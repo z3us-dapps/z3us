@@ -1,12 +1,12 @@
 /* eslint-disable */
-import clsx from 'clsx'
+import clsx, { type ClassValue } from 'clsx'
 import { AnimatePresence } from 'framer-motion'
 import React, { forwardRef, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useIntersectionObserver } from 'usehooks-ts'
 
 import { Box } from 'ui/src/components-v2/box'
-import { Input } from 'ui/src/components-v2/input'
+import { type FormElement, Input } from 'ui/src/components-v2/input'
 import { Text } from 'ui/src/components-v2/typography'
 import { ChevronDown3Icon, ChevronLeftIcon, SearchIcon } from 'ui/src/components/icons'
 
@@ -63,12 +63,14 @@ const CARD_COLORS = [
 interface IAccountsHomeMobileHeaderRequiredProps {
 	isScrolledPastHeader: boolean
 	onClickChevron: () => void
+	onSearch: (search: string) => void
+	search: string
 	isAreaScrollable: boolean
 	isActivityRoute: boolean
 }
 
 interface IAccountsHomeMobileHeaderOptionalProps {
-	className?: string
+	className?: ClassValue
 	backgroundStyle?: React.CSSProperties
 }
 
@@ -83,8 +85,16 @@ const defaultProps: IAccountsHomeMobileHeaderOptionalProps = {
 
 export const AccountsHomeMobileHeader = forwardRef<HTMLElement, IAccountsHomeMobileHeaderProps>(
 	(props, ref: React.Ref<HTMLElement | null>) => {
-		const { className, isScrolledPastHeader, onClickChevron, isAreaScrollable, isActivityRoute, backgroundStyle } =
-			props
+		const {
+			className,
+			isScrolledPastHeader,
+			onClickChevron,
+			isAreaScrollable,
+			isActivityRoute,
+			backgroundStyle,
+			search,
+			onSearch,
+		} = props
 		const { account, assetType, asset } = useAccountParams()
 		const isAllAccount = account === ACCOUNTS_ALL && !asset
 		const [cards] = useState<Array<any>>(CARD_COLORS)
@@ -100,6 +110,10 @@ export const AccountsHomeMobileHeader = forwardRef<HTMLElement, IAccountsHomeMob
 			}${isActivity ? `?${SEARCH_ACTIVITY_PARAM}=true` : ''}`
 
 		const clickBackLink = `/${routes.ACCOUNTS}${account ? `/${account}` : ''}`
+
+		const handleSearch = (event: React.ChangeEvent<FormElement>) => {
+			onSearch(event.currentTarget.value || '')
+		}
 
 		const getTabTitle = () => {
 			switch (assetType) {
@@ -252,13 +266,11 @@ export const AccountsHomeMobileHeader = forwardRef<HTMLElement, IAccountsHomeMob
 							<Input
 								sizeVariant="small"
 								className={styles.inputSearch}
-								value=""
+								value={search}
 								placeholder={t('global.search')}
 								rounded
 								leftIcon={<SearchIcon />}
-								// className={styles.inputElement}
-								// placeholder={placeholder}
-								// onChange={handleOnChange}
+								onChange={handleSearch}
 							/>
 						</Box>
 					</Box>

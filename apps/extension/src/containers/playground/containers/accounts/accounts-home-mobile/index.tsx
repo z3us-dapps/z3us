@@ -1,7 +1,8 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { AnimatePresence } from 'framer-motion'
-import React, { useCallback, useEffect, useRef, useState } from 'react'
+import React, { useCallback, useRef, useState } from 'react'
 import { Route, Routes, useLocation, useSearchParams } from 'react-router-dom'
+import { useDebounce } from 'usehooks-ts'
 
 import { Box } from 'ui/src/components-v2/box'
 import { ScrollArea } from 'ui/src/components-v2/scroll-area'
@@ -30,6 +31,8 @@ export const AccountsHomeMobile = () => {
 	const [customScrollParent, setCustomScrollParent] = useState<HTMLElement | null>(null)
 	const [isScrolledPastHeader, setIsScrolledPastHeader] = useState<boolean>(false)
 	const [isAreaScrollable, setIsAreaScrollable] = useState<boolean>(false)
+	const [search, setSearch] = useState<string>('')
+	const debouncedValue = useDebounce<string>(search, 500)
 	const { account, assetType, asset } = useAccountParams()
 	const [searchParams] = useSearchParams()
 	const isActivityRoute = !!searchParams.get(SEARCH_ACTIVITY_PARAM)
@@ -56,6 +59,10 @@ export const AccountsHomeMobile = () => {
 		},
 		[customScrollParent, isScrolledPastHeader],
 	)
+
+	const handleSearch = (_search: string) => {
+		setSearch(_search)
+	}
 
 	const handleChevronClick = () => {
 		const headerHeight = headerRef.current.clientHeight - HEADER_HEIGHT
@@ -110,6 +117,8 @@ export const AccountsHomeMobile = () => {
 					isActivityRoute={isActivityRoute}
 					className={styles.accountsColorBackground}
 					backgroundStyle={bgStyle}
+					onSearch={handleSearch}
+					search={search}
 				/>
 				<Box className={styles.mobileAccountsListWrapper}>
 					<AnimatePresence initial={false}>
@@ -123,6 +132,7 @@ export const AccountsHomeMobile = () => {
 											<AccountsHomeMobileList
 												customScrollParent={customScrollParent}
 												listItemType={getListItemType()}
+												search={debouncedValue}
 											/>
 										</AnimatedPage>
 									}
