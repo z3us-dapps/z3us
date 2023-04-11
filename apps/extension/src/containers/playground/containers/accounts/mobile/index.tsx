@@ -19,6 +19,7 @@ import * as styles from './accounts-mobile.css'
 
 export const AccountsMobile: React.FC = () => {
 	const { location, locationKey } = useLocationKey()
+	console.log('MOBILE LOGSSSS')
 	return (
 		<Box className={styles.mobileWrapper}>
 			<Box className={styles.mobileRouteWrapper}>

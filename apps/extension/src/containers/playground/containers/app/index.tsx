@@ -9,6 +9,7 @@ import { CheckIcon } from 'ui/src/components/icons'
 
 import { AnimatedPage } from '@src/containers/playground/components/animated-route'
 import { routes } from '@src/containers/playground/config'
+import { useIsMobileWidth } from '@src/hooks/use-is-mobile'
 
 import { Accounts } from '../accounts'
 import * as styles from './app.css'
@@ -87,9 +88,11 @@ export const TempNav: React.FC = () => {
 export const App: React.FC = () => {
 	const location = useLocation()
 	const locationArr = location.pathname?.split('/') ?? []
+	const isMobile = useIsMobileWidth()
 
 	return (
 		<div className={styles.container}>
+			{/* TODO: TempNav will go, just to demonstrate route changes   */}
 			<TempNav />
 			<AnimatePresence initial={false}>
 				<Routes location={location} key={locationArr[1]}>
@@ -104,7 +107,7 @@ export const App: React.FC = () => {
 						path={`${routes.ACCOUNTS}/*`}
 						element={
 							<AnimatedPage>
-								<Accounts />
+								<Accounts isMobile={isMobile} />
 							</AnimatedPage>
 						}
 					/>

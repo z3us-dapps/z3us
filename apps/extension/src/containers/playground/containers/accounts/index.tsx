@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import React from 'react'
 
 import { AccountTransaction } from '@src/containers/playground/containers/accounts/account-transaction'
@@ -6,15 +5,25 @@ import { AccountTransaction } from '@src/containers/playground/containers/accoun
 import { AccountsDesktop } from './desktop'
 import { AccountsMobile } from './mobile'
 
-export const Accounts: React.FC = () => {
-	// eslint-diable-next-line
-	const isMobile = true
+interface IAccountsRequiredProps {
+	isMobile: boolean
+}
+
+interface IAccountsOptionalProps {}
+
+interface IAccountsProps extends IAccountsRequiredProps, IAccountsOptionalProps {}
+
+const defaultProps: IAccountsOptionalProps = {}
+
+export const Accounts = (props: IAccountsProps): JSX.Element => {
+	const { isMobile } = props
+
 	return (
 		<>
-			{/* @TODO: fix this rendering with ts hooks and do not use css https://usehooks-ts.com/ */}
-			<AccountsMobile />
-			<AccountsDesktop />
+			{isMobile ? <AccountsMobile /> : <AccountsDesktop />}
 			<AccountTransaction />
 		</>
 	)
 }
+
+Accounts.defaultProps = defaultProps

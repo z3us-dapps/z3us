@@ -20,6 +20,8 @@ import * as styles from './accounts-desktop.css'
 export const AccountsDesktop = (): JSX.Element => {
 	const { location, locationKey } = useLocationKey()
 
+	console.log('DESKTOOP LOGGSSS')
+
 	return (
 		<Box className={styles.desktopWrapper}>
 			<Navigation />

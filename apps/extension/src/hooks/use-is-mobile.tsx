@@ -3,14 +3,17 @@ import { useState } from 'react'
 import { useDebouncedCallback } from 'use-debounce'
 import { useEventListener } from 'usehooks-ts'
 
+const getIsMobileWidth = (): boolean => {
+	const windowWidth = window.innerWidth
+	const mobileBreakPoint = screens.md.value.replace('px', '')
+	return windowWidth < parseInt(mobileBreakPoint, 10)
+}
+
 export const useIsMobileWidth = () => {
-	const [isMobileWidth, setIsMobileWidth] = useState<boolean>(false)
+	const [isMobileWidth, setIsMobileWidth] = useState<boolean>(getIsMobileWidth())
 
 	const debouncedResizeHandler = useDebouncedCallback(() => {
-		const windowWidth = window.innerWidth
-		const mobileBreakPoint = screens.md.value.replace('px', '')
-		const isMobile = windowWidth < parseInt(mobileBreakPoint, 10)
-		setIsMobileWidth(isMobile)
+		setIsMobileWidth(getIsMobileWidth())
 	}, 50)
 
 	useEventListener('resize', debouncedResizeHandler)

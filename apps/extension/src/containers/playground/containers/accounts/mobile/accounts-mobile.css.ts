@@ -1,6 +1,7 @@
 import { style } from '@vanilla-extract/css'
 
 import { sprinkles } from 'ui/src/components-v2/system/sprinkles.css'
+import { responsiveStyle } from 'ui/src/components-v2/system/theme-utils'
 
 export const mobileWrapper = style([
 	sprinkles({
@@ -11,12 +12,17 @@ export const mobileWrapper = style([
 		overflow: 'clip',
 	}),
 	{
-		'@media': {
-			[`screen and (min-width: 924px)`]: {
-				display: 'none',
-			},
-		},
+		// '@media': {
+		// 	[`screen and (min-width: 924px)`]: {
+		// 		display: 'none',
+		// 	},
+		// },
 	},
+	responsiveStyle({
+		mobile: { display: 'flex' },
+		tablet: { display: 'none' },
+		desktop: { display: 'none' },
+	}),
 ])
 
 export const mobileRouteWrapper = style([
