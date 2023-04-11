@@ -90,6 +90,9 @@ export const button = recipe({
 		leftIcon: {
 			true: {},
 		},
+		rightIcon: {
+			true: {},
+		},
 	},
 	compoundVariants: [
 		{
@@ -123,7 +126,42 @@ export const iconLeft = recipe({
 				{
 					height: '32px',
 					width: '32px',
-					paddingLeft: '8px',
+				},
+			],
+			medium: [
+				{
+					height: '40px',
+					width: '40px',
+				},
+			],
+			large: [
+				{
+					height: '48px',
+					width: '48px',
+				},
+			],
+		},
+	},
+	defaultVariants: {
+		sizeVariant: 'medium',
+	},
+})
+
+export const iconRight = recipe({
+	base: {
+		position: 'absolute',
+		top: '0',
+		right: '0',
+		display: 'flex',
+		alignItems: 'center',
+		justifyContent: 'center',
+	},
+	variants: {
+		sizeVariant: {
+			small: [
+				{
+					height: '32px',
+					width: '32px',
 				},
 			],
 			medium: [

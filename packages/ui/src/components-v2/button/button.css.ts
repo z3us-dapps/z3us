@@ -1,6 +1,18 @@
+import { style } from '@vanilla-extract/css'
 import { RecipeVariants, recipe } from '@vanilla-extract/recipes'
 
 import { sprinkles } from '../system/sprinkles.css'
+
+export const baseSprinkles = style([
+	sprinkles({
+		transition: 'fast',
+	}),
+	{
+		margin: '0',
+		padding: '0',
+		outline: 'none',
+	},
+])
 
 export const button = recipe({
 	base: {
@@ -200,6 +212,18 @@ export const button = recipe({
 				borderRadius: '18px',
 				paddingLeft: '12px',
 				paddingRight: '12px',
+			},
+		},
+		{
+			variants: {
+				sizeVariant: 'small',
+				rounded: true,
+				iconOnly: true,
+			},
+			style: {
+				borderRadius: '50%',
+				paddingLeft: '0px',
+				paddingRight: '0px',
 			},
 		},
 		{

@@ -68,7 +68,6 @@ export const Button = forwardRef<HTMLButtonElement, IButtonProps>((props, ref: R
 			ref={ref}
 			className={clsx(
 				className,
-				styles.buttonReset,
 				styles.baseSprinkles,
 				styles.button({
 					sizeVariant,

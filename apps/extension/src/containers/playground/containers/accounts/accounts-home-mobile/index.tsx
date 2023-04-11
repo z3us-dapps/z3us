@@ -121,25 +121,21 @@ export const AccountsHomeMobile = () => {
 					search={search}
 				/>
 				<Box className={styles.mobileAccountsListWrapper}>
-					<AnimatePresence initial={false}>
-						<Routes location={location} key={location.pathname}>
-							{[routes.ACCOUNT, routes.ACCOUNT_ASSET_TYPE, routes.ACCOUNT_ASSET].map(path => (
-								<Route
-									key="assetsList"
-									path={path}
-									element={
-										<AnimatedPage>
-											<AccountsHomeMobileList
-												customScrollParent={customScrollParent}
-												listItemType={getListItemType()}
-												search={debouncedValue}
-											/>
-										</AnimatedPage>
-									}
-								/>
-							))}
-						</Routes>
-					</AnimatePresence>
+					<Routes location={location} key={location.pathname}>
+						{[routes.ACCOUNT, routes.ACCOUNT_ASSET_TYPE, routes.ACCOUNT_ASSET].map(path => (
+							<Route
+								key="assetsList"
+								path={path}
+								element={
+									<AccountsHomeMobileList
+										customScrollParent={customScrollParent}
+										listItemType={getListItemType()}
+										search={debouncedValue}
+									/>
+								}
+							/>
+						))}
+					</Routes>
 				</Box>
 			</ScrollArea>
 			<MobileHeaderNavigation

@@ -5,7 +5,9 @@ import { useTranslation } from 'react-i18next'
 import { Virtuoso } from 'react-virtuoso'
 
 import { Box } from 'ui/src/components-v2/box'
+import { isEmptyArray } from 'ui/src/utils/assertion'
 
+import { NoResultsPlaceholder } from '@src/components/no-results-placeholder'
 import {
 	ASSET_TYPE_BADGES,
 	ASSET_TYPE_LP_TOKENS,
@@ -99,7 +101,7 @@ export const AccountsHomeMobileList = forwardRef<HTMLElement, IAccountTransactio
 
 		const computeItemKey = useCallback(index => items[index].id, [items])
 
-		// todo: fix type
+		// todo: fix token type
 		const filteredList = items.filter((_token: any) => {
 			const searchLowerCase = search.toLowerCase()
 			return (
@@ -109,48 +111,64 @@ export const AccountsHomeMobileList = forwardRef<HTMLElement, IAccountTransactio
 
 		return (
 			<Box ref={ref} className={clsx(styles.mobileAccountsListWrapperInner, className)}>
-				{/* eslint-disable-next-line */}
-				<Context.Provider value={{ setItems }}>
-					<Virtuoso
-						customScrollParent={customScrollParent}
-						data={filteredList}
-						// eslint-disable-next-line
-						itemContent={(index, { id, loaded, name, isImageSquare, count, assetType, symbol }) => {
-							switch (listItemType) {
-								case LIST_ITEM_INDEX:
-									return (
-										<AccountsMobileIndexListItem
-											id={id}
-											index={index}
-											loaded={loaded}
-											name={name}
-											isImageSquare={isImageSquare}
-											count={count}
-											assetType={assetType}
-										/>
-									)
-								case LIST_ITEM_ASSET_TYPE:
-									return (
-										<AccountsMobileAssetListItem id={id} index={index} loaded={loaded} name={name} symbol={symbol} />
-									)
-								case LIST_ITEM_ACTIVITY:
-									return <AccountsMobileActivityListItem id={id} index={index} loaded={loaded} name={name} />
-								case LIST_ITEM_ASSET:
-								default:
-									return (
-										<Box>
-											<Box>asset TODO</Box>
-										</Box>
-									)
-							}
-						}}
-						components={{
-							List: ListContainer,
-							Item: ItemContainer,
-						}}
-						computeItemKey={computeItemKey}
-					/>
-				</Context.Provider>
+				{isEmptyArray(filteredList) ? (
+					<Box paddingTop="large">
+						<NoResultsPlaceholder />
+					</Box>
+				) : (
+					<>
+						{/* @TODO: remove eslint when we remove context provider */}
+						{/* eslint-disable-next-line */}
+						<Context.Provider value={{ setItems }}>
+							<Virtuoso
+								customScrollParent={customScrollParent}
+								data={filteredList}
+								// @TODO: fix eslint issue
+								// eslint-disable-next-line
+								itemContent={(index, { id, loaded, name, isImageSquare, count, assetType, symbol }) => {
+									switch (listItemType) {
+										case LIST_ITEM_INDEX:
+											return (
+												<AccountsMobileIndexListItem
+													id={id}
+													index={index}
+													loaded={loaded}
+													name={name}
+													isImageSquare={isImageSquare}
+													count={count}
+													assetType={assetType}
+												/>
+											)
+										case LIST_ITEM_ASSET_TYPE:
+											return (
+												<AccountsMobileAssetListItem
+													id={id}
+													index={index}
+													loaded={loaded}
+													name={name}
+													symbol={symbol}
+												/>
+											)
+										case LIST_ITEM_ACTIVITY:
+											return <AccountsMobileActivityListItem id={id} index={index} loaded={loaded} name={name} />
+										case LIST_ITEM_ASSET:
+										default:
+											return (
+												<Box>
+													<Box>Asset item, should not show</Box>
+												</Box>
+											)
+									}
+								}}
+								components={{
+									List: ListContainer,
+									Item: ItemContainer,
+								}}
+								computeItemKey={computeItemKey}
+							/>
+						</Context.Provider>
+					</>
+				)}
 			</Box>
 		)
 	},

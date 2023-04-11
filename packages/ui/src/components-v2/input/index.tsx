@@ -83,6 +83,7 @@ export const Input = forwardRef<FormElement, IInputProps>((props, ref: React.Ref
 						styleVariant,
 						rounded,
 						leftIcon: !!leftIcon,
+						rightIcon: !!rightIcon,
 					}),
 				)}
 				value={value}
@@ -101,6 +102,17 @@ export const Input = forwardRef<FormElement, IInputProps>((props, ref: React.Ref
 					)}
 				>
 					{leftIcon}
+				</Box>
+			) : null}
+			{rightIcon ? (
+				<Box
+					className={clsx(
+						styles.iconRight({
+							sizeVariant,
+						}),
+					)}
+				>
+					{rightIcon}
 				</Box>
 			) : null}
 		</Box>

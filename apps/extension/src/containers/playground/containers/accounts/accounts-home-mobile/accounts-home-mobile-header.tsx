@@ -8,7 +8,8 @@ import { useIntersectionObserver } from 'usehooks-ts'
 import { Box } from 'ui/src/components-v2/box'
 import { type FormElement, Input } from 'ui/src/components-v2/input'
 import { Text } from 'ui/src/components-v2/typography'
-import { ChevronDown3Icon, ChevronLeftIcon, SearchIcon } from 'ui/src/components/icons'
+import { ChevronDown3Icon, ChevronLeftIcon, Close2Icon, SearchIcon } from 'ui/src/components/icons'
+import { isEmpty } from 'ui/src/utils/assertion'
 
 import { Button } from '@src/components/button'
 import { Link } from '@src/components/link'
@@ -113,6 +114,10 @@ export const AccountsHomeMobileHeader = forwardRef<HTMLElement, IAccountsHomeMob
 
 		const handleSearch = (event: React.ChangeEvent<FormElement>) => {
 			onSearch(event.currentTarget.value || '')
+		}
+
+		const handleClearSearch = () => {
+			onSearch('')
 		}
 
 		const getTabTitle = () => {
@@ -220,6 +225,7 @@ export const AccountsHomeMobileHeader = forwardRef<HTMLElement, IAccountsHomeMob
 							<Link
 								underline="never"
 								to={generateAccountLink()}
+								onClick={handleClearSearch}
 								className={clsx(
 									styles.tabsWrapperButton,
 									styles.tabsWrapperButtonLeft,
@@ -233,6 +239,7 @@ export const AccountsHomeMobileHeader = forwardRef<HTMLElement, IAccountsHomeMob
 							<Link
 								underline="never"
 								to={generateAccountLink(true, true)}
+								onClick={handleClearSearch}
 								className={clsx(
 									styles.tabsWrapperButton,
 									styles.tabsWrapperButtonRight,
@@ -259,7 +266,13 @@ export const AccountsHomeMobileHeader = forwardRef<HTMLElement, IAccountsHomeMob
 						</Box>
 						<Box className={styles.inputSearchWrapper}>
 							{assetType ? (
-								<Button iconOnly styleVariant="secondary" sizeVariant="small" to={clickBackLink}>
+								<Button
+									iconOnly
+									styleVariant="secondary"
+									sizeVariant="small"
+									to={clickBackLink}
+									onClick={handleClearSearch}
+								>
 									<ChevronLeftIcon />
 								</Button>
 							) : null}
@@ -269,7 +282,18 @@ export const AccountsHomeMobileHeader = forwardRef<HTMLElement, IAccountsHomeMob
 								value={search}
 								placeholder={t('global.search')}
 								rounded
-								leftIcon={<SearchIcon />}
+								leftIcon={
+									<Box paddingLeft="small" display="flex" alignItems="center">
+										<SearchIcon />
+									</Box>
+								}
+								rightIcon={
+									!isEmpty(search) ? (
+										<Button iconOnly sizeVariant="small" styleVariant="ghost" rounded onClick={handleClearSearch}>
+											<Close2Icon />
+										</Button>
+									) : null
+								}
 								onChange={handleSearch}
 							/>
 						</Box>
