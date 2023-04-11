@@ -12,6 +12,12 @@ export const ASSET_TYPE_LP_TOKENS = 'lp-tokens'
 export const ASSET_TYPE_NFTS = 'nfts'
 export const ASSET_TYPE_BADGES = 'badges'
 
+export const SEARCH_ACTIVITY_PARAM = 'activity'
+export const LIST_ITEM_INDEX = 'list-item-index'
+export const LIST_ITEM_ASSET_TYPE = 'list-item-asset-type'
+export const LIST_ITEM_ASSET = 'list-item-asset'
+export const LIST_ITEM_ACTIVITY = 'list-item-activity'
+
 // '/:account/:assetType'
 export const ACCOUNT_ASSET_TYPE = `/${ACCOUNT}/${ASSET_TYPE}`
 

@@ -8,7 +8,7 @@ import { Text } from 'ui/src/components-v2/typography'
 import { CheckIcon } from 'ui/src/components/icons'
 
 import { AnimatedPage } from '@src/containers/playground/components/animated-route'
-import { routes } from '@src/containers/playground/config'
+import { routes } from '@src/containers/playground/constants'
 import { useIsMobileWidth } from '@src/hooks/use-is-mobile'
 
 import { Accounts } from '../accounts'

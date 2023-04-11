@@ -8,8 +8,8 @@ export const breakpoints = {
 	mobile: 0,
 	tablet: 768,
 	desktop: 1024,
-	xl: 1240,
-	xl2: 1536,
+	// xl: 1240,
+	// xl2: 1536,
 }
 
 export type Breakpoint = keyof typeof breakpoints

@@ -1,5 +1,4 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { AnimatePresence } from 'framer-motion'
 import React, { useCallback, useRef, useState } from 'react'
 import { Route, Routes, useLocation, useSearchParams } from 'react-router-dom'
 import { useDebounce } from 'usehooks-ts'
@@ -7,21 +6,21 @@ import { useDebounce } from 'usehooks-ts'
 import { Box } from 'ui/src/components-v2/box'
 import { ScrollArea } from 'ui/src/components-v2/scroll-area'
 
-import { AnimatedPage } from '@src/containers/playground/components/animated-route'
-import { ACCOUNTS_ALL, routes } from '@src/containers/playground/config'
-import { MobileHeaderNavigation } from '@src/containers/playground/containers/accounts/navigation'
-import { useAccountParams } from '@src/containers/playground/hooks/use-account-params'
-
-import { AccountsHomeMobileHeader } from './accounts-home-mobile-header'
-import { AccountsHomeMobileList } from './accounts-home-mobile-list'
-import * as styles from './accounts-home-mobile.css'
 import {
+	ACCOUNTS_ALL,
 	LIST_ITEM_ACTIVITY,
 	LIST_ITEM_ASSET,
 	LIST_ITEM_ASSET_TYPE,
 	LIST_ITEM_INDEX,
 	SEARCH_ACTIVITY_PARAM,
-} from './constants'
+	routes,
+} from '@src/containers/playground/constants'
+import { MobileHeaderNavigation } from '@src/containers/playground/containers/accounts/navigation'
+import { useAccountParams } from '@src/hooks/use-account-params'
+
+import { AccountsHomeMobileHeader } from './accounts-home-mobile-header'
+import { AccountsHomeMobileList } from './accounts-home-mobile-list'
+import * as styles from './accounts-home-mobile.css'
 
 const HEADER_HEIGHT = 56
 

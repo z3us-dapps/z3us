@@ -4,7 +4,7 @@ import { Link as LinkRouter } from 'react-router-dom'
 
 import { Box } from 'ui/src/components-v2/box'
 
-import { accountMenuSlugs } from '@src/containers/playground/config'
+import { accountMenuSlugs } from '@src/containers/playground/constants'
 
 import * as styles from './z3us-logo.css'
 

@@ -11,11 +11,11 @@ import { ChevronRightIcon } from 'ui/src/components/icons'
 
 import { Link } from '@src/components/link'
 import * as skeletonStyles from '@src/containers/playground/components/styles/skeleton-loading.css'
-import { animtePageVariants, routes } from '@src/containers/playground/config'
-import { useAccountParams } from '@src/containers/playground/hooks/use-account-params'
+import { animtePageVariants, routes } from '@src/containers/playground/constants'
+import { TListItem } from '@src/containers/playground/types'
+import { useAccountParams } from '@src/hooks/use-account-params'
 
 import { Context } from '../context'
-import { TListItem } from '../types'
 import * as styles from './accounts-mobile-index-list-item.css'
 
 interface IAccountsMobileIndexListItemRequiredProps {

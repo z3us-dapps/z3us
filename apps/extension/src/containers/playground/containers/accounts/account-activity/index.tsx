@@ -1,6 +1,5 @@
 import clsx from 'clsx'
 import React, { forwardRef, useState } from 'react'
-// import { useAccountParams } from '@src/containers/playground/hooks/use-account-params'
 import { useLocation } from 'react-router-dom'
 import { Virtuoso } from 'react-virtuoso'
 

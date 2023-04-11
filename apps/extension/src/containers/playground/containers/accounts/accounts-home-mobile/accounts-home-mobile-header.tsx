@@ -23,12 +23,12 @@ import {
 	ASSET_TYPE_LP_TOKENS,
 	ASSET_TYPE_NFTS,
 	ASSET_TYPE_TOKENS,
+	SEARCH_ACTIVITY_PARAM,
 	routes,
-} from '@src/containers/playground/config'
-import { useAccountParams } from '@src/containers/playground/hooks/use-account-params'
+} from '@src/containers/playground/constants'
+import { useAccountParams } from '@src/hooks/use-account-params'
 
 import * as styles from './accounts-home-mobile.css'
-import { SEARCH_ACTIVITY_PARAM } from './constants'
 
 const CARD_COLORS = [
 	{

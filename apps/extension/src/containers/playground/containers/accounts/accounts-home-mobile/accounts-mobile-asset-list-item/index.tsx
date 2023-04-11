@@ -11,10 +11,9 @@ import { Text } from 'ui/src/components-v2/typography'
 import { Link } from '@src/components/link'
 import { TransactionIcon } from '@src/components/transaction-icon'
 import * as skeletonStyles from '@src/containers/playground/components/styles/skeleton-loading.css'
-import { animtePageVariants } from '@src/containers/playground/config'
-import { useAccountParams } from '@src/containers/playground/hooks/use-account-params'
+import { SEARCH_ACTIVITY_PARAM, animtePageVariants } from '@src/containers/playground/constants'
+import { useAccountParams } from '@src/hooks/use-account-params'
 
-import { SEARCH_ACTIVITY_PARAM } from '../constants'
 import { Context } from '../context'
 import * as styles from './accounts-mobile-asset-list-item.css'
 

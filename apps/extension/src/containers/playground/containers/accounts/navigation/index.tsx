@@ -12,9 +12,9 @@ import { Link } from '@src/components/link'
 import { CopyAddressButton } from '@src/containers/playground/components/copy-address-button'
 import { WalletDropdown } from '@src/containers/playground/components/wallet-dropdown'
 import { Z3usLogo } from '@src/containers/playground/components/z3us-logo'
-import { accountMenuSlugs, routes } from '@src/containers/playground/config'
+import { accountMenuSlugs, routes } from '@src/containers/playground/constants'
 import { AccountViewDropdown } from '@src/containers/playground/containers/accounts/account-view-dropdown'
-import { useAccountParams } from '@src/containers/playground/hooks/use-account-params'
+import { useAccountParams } from '@src/hooks/use-account-params'
 
 import * as styles from './navigation.css'
 

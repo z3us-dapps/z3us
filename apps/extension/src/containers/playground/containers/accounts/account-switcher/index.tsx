@@ -11,7 +11,7 @@ import { ArrowLeftIcon, ArrowRightIcon, Close2Icon } from 'ui/src/components/ico
 import { Button } from '@src/components/button'
 import { AnimatedCard } from '@src/containers/playground/components/animated-card'
 import { CardButtons } from '@src/containers/playground/components/card-buttons'
-import { useAccountParams } from '@src/containers/playground/hooks/use-account-params'
+import { useAccountParams } from '@src/hooks/use-account-params'
 
 import * as styles from './account-switcher.css'
 

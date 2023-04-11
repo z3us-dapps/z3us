@@ -8,7 +8,7 @@ import { ChevronDown2Icon, ChevronRightIcon } from 'ui/src/components/icons'
 import { Link } from '@src/components/link'
 import Translation from '@src/components/translation'
 import { AccountSearch } from '@src/containers/playground/containers/accounts/account-search'
-import { useAccountParams } from '@src/containers/playground/hooks/use-account-params'
+import { useAccountParams } from '@src/hooks/use-account-params'
 
 import * as styles from './accounts-list.css'
 

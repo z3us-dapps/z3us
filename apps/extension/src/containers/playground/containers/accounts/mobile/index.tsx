@@ -5,7 +5,7 @@ import { Route, Routes } from 'react-router-dom'
 import { Box } from 'ui/src/components-v2/box'
 
 import { AnimatedPage } from '@src/containers/playground/components/animated-route'
-import { routes } from '@src/containers/playground/config'
+import { routes } from '@src/containers/playground/constants'
 import { AccountSettings } from '@src/containers/playground/containers/accounts/account-settings'
 import { AccountStaking } from '@src/containers/playground/containers/accounts/account-staking'
 import { AccountSwap } from '@src/containers/playground/containers/accounts/account-swap'
@@ -13,13 +13,13 @@ import { AccountTransfer } from '@src/containers/playground/containers/accounts/
 import { AccountsHomeMobile } from '@src/containers/playground/containers/accounts/accounts-home-mobile'
 import { MobileFooterNavigation } from '@src/containers/playground/containers/accounts/navigation'
 import { NavigationScrollContainer } from '@src/containers/playground/containers/accounts/navigation-scroll-container'
-import { useLocationKey } from '@src/containers/playground/hooks/use-location-key'
+import { useLocationKey } from '@src/hooks/use-location-key'
 
 import * as styles from './accounts-mobile.css'
 
 export const AccountsMobile: React.FC = () => {
 	const { location, locationKey } = useLocationKey()
-	console.log('MOBILE LOGSSSS')
+
 	return (
 		<Box className={styles.mobileWrapper}>
 			<Box className={styles.mobileRouteWrapper}>

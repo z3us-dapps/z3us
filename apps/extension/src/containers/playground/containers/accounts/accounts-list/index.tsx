@@ -9,7 +9,7 @@ import { Text } from 'ui/src/components-v2/typography'
 
 import { Link } from '@src/components/link'
 import * as skeletonStyles from '@src/containers/playground/components/styles/skeleton-loading.css'
-import { useAccountParams } from '@src/containers/playground/hooks/use-account-params'
+import { useAccountParams } from '@src/hooks/use-account-params'
 
 import { AccountListHeader } from './account-list-header'
 import * as styles from './accounts-list.css'
