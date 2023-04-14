@@ -83,8 +83,8 @@ export const Token: React.FC = () => {
 								customScrollParent={customScrollParent}
 								totalCount={flatten.length}
 								data={flatten}
-								endReached={loadMore}
-								components={{ Footer: hasNextPage ? VirtuosoFooter : null }}
+								// endReached={loadMore}
+								// components={{ Footer: hasNextPage ? VirtuosoFooter : null }}
 								// eslint-disable-next-line react/no-unstable-nested-components
 								itemContent={(i, { a, t }) => (
 									<ActivityItem

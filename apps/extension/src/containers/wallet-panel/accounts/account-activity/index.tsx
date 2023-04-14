@@ -8,6 +8,7 @@ import { ScrollArea } from 'ui/src/components/scroll-area'
 
 import { AccountSelector } from '@src/components/account-selector'
 import { ActivityItem } from '@src/components/activity-item'
+import { NoResultsPlaceholder } from '@src/components/no-results-placeholder'
 import { SendReceiveHeader } from '@src/components/send-receive-header'
 import { useTransactionHistory } from '@src/hooks/react-query/queries/radix'
 import { useNoneSharedStore } from '@src/hooks/use-store'
@@ -32,6 +33,7 @@ export const AccountActivity: React.FC = () => {
 		selectAccount: state.selectAccountAction,
 	}))
 	const { isFetching, data, error, fetchNextPage, hasNextPage } = useTransactionHistory()
+	console.log('isFetching:', isFetching)
 	const shortAddress = getShortAddress(accountAddress)
 
 	const flatten =
@@ -88,8 +90,8 @@ export const AccountActivity: React.FC = () => {
 								customScrollParent={customScrollParent}
 								totalCount={flatten.length}
 								data={flatten}
-								endReached={loadMore}
-								components={{ Footer: hasNextPage ? VirtuosoFooter : null }}
+								// endReached={loadMore}
+								// components={{ Footer: hasNextPage ? VirtuosoFooter : null }}
 								// eslint-disable-next-line react/no-unstable-nested-components
 								itemContent={(i, { a, t }) => (
 									<ActivityItem
@@ -116,7 +118,12 @@ export const AccountActivity: React.FC = () => {
 							/>
 						) : (
 							<Flex justify="center" css={{ width: '100%', mt: '$4' }}>
-								<LoaderBars />
+								<NoResultsPlaceholder
+									title="No account activity"
+									subTitle="account transactions will be displayed here"
+									showIcon={false}
+								/>
+								{/* <LoaderBars /> */}
 							</Flex>
 						)}
 					</Box>
