@@ -1,4 +1,4 @@
-import clsx from 'clsx'
+import clsx, { type ClassValue } from 'clsx'
 import { LayoutGroup, motion } from 'framer-motion'
 import React, { forwardRef } from 'react'
 import { useTranslation } from 'react-i18next'
@@ -33,7 +33,7 @@ const MenuItemDesktop = ({ text, href }) => {
 	const selected = useSelectedItem(href)
 
 	return (
-		<Link to={href} className={clsx(styles.navigationMenuLink)} underline="never">
+		<Link to={href} className={styles.navigationMenuLink} underline="never">
 			{selected ? <motion.span layoutId="underline" className={styles.navigationMenuActiveLine} /> : null}
 			<Text
 				size="medium"
@@ -110,7 +110,7 @@ interface IMobileHeaderNavigationRequiredProps {
 }
 
 interface IMobileHeaderNavigationOptionalProps {
-	className?: string
+	className?: ClassValue
 	style?: React.CSSProperties
 	isShadowVisible?: boolean
 }

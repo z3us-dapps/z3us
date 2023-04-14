@@ -1,4 +1,5 @@
 import * as DropdownMenuPrimitive from '@radix-ui/react-dropdown-menu'
+import clsx from 'clsx'
 import React from 'react'
 
 import { Box } from '../box'
@@ -7,8 +8,8 @@ import * as styles from './dropdown-menu.css'
 export const DropdownMenu = DropdownMenuPrimitive.Root
 export const DropdownMenuTrigger = DropdownMenuPrimitive.Trigger
 
-export const DropdownMenuContent = ({ children, ...props }) => (
-	<DropdownMenuPrimitive.Content className={styles.dropdownMenuContent} {...props}>
+export const DropdownMenuContent = ({ children, className, ...props }: DropdownMenuPrimitive.MenuContentProps) => (
+	<DropdownMenuPrimitive.Content className={clsx(styles.dropdownMenuContent, className)} {...props}>
 		{children}
 	</DropdownMenuPrimitive.Content>
 )

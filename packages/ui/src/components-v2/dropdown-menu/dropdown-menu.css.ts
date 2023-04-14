@@ -17,10 +17,6 @@ export const sharedItemStyles = {
 		active: 'btnSecondaryBackground',
 		focusVisible: 'btnSecondaryBackgroundHover',
 	},
-	// @TOOO: bring this back when upgrading the package https://www.radix-ui.com/docs/primitives/components/dropdown-menu
-	// boxShadow: {
-	// 	focusVisible: 'btnSecondaryShadowFocus',
-	// },
 }
 
 export const fadeIn = keyframes({
@@ -43,7 +39,7 @@ export const dropdownMenuContent = style([
 		borderRadius: 'medium',
 	}),
 	{
-		minWidth: '7rem',
+		minWidth: '70px',
 		transformOrigin: 'var(--radix-dropdown-menu-content-transform-origin)',
 		animationTimingFunction: 'cubic-bezier(0.16, 1, 0.3, 1)',
 		willChange: 'transform, opacity',

@@ -55,7 +55,7 @@ export const AccountTransaction = forwardRef<HTMLElement, IAccountTransactionPro
 			<Dialog open>
 				<DialogPortal>
 					<DialogOverlay className={styles.transactionOverlay} />
-					<DialogContent className={clsx(styles.transactionContent, className)} onEscapeKeyDown={navigateBack}>
+					<DialogContent className={clsx(className, styles.transactionContent)} onEscapeKeyDown={navigateBack}>
 						<ScrollArea onScroll={handleScroll}>
 							<Box className={styles.transactionBodyScrollWrapper}>
 								<Box display="flex" flexDirection="column" alignItems="center">

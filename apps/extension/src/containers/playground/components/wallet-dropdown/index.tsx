@@ -1,6 +1,6 @@
 import * as Avatar from '@radix-ui/react-avatar'
 import { LockClosedIcon } from '@radix-ui/react-icons'
-import clsx from 'clsx'
+import clsx, { type ClassValue } from 'clsx'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 
@@ -28,7 +28,7 @@ import * as styles from './dropdown-profile.css'
 interface IWalletDropdownRequiredProps {}
 
 interface IWalletDropdownOptionalProps {
-	className?: string
+	className?: ClassValue
 	buttonSize?: 'small' | 'medium'
 }
 
@@ -75,7 +75,7 @@ export const WalletDropdown: React.FC<IWalletDropdownProps> = props => {
 						</Avatar.Root>
 					</button>
 				</DropdownMenuTrigger>
-				<DropdownMenuContent side="bottom" sideOffset={0} align="end" alignOffset={0}>
+				<DropdownMenuContent align="end" sideOffset={2}>
 					<DropdownMenuLabel>
 						<Text size="xsmall" weight="strong" color="strong">
 							Connected to{' '}
