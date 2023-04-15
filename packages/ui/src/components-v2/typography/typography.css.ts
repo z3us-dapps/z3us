@@ -7,7 +7,7 @@ import { vars } from '../system/theme.css'
 
 export const baseTextSprinkles = sprinkles({})
 
-export const firstLetterUppercase = style([{ '::first-letter': { textTransform: 'uppercase' } }])
+export const capitalizeFirstLetter = style([{ '::first-letter': { textTransform: 'uppercase' } }])
 
 export const firstLetterLowercase = style([{ '::first-letter': { textTransform: 'lowercase' } }])
 

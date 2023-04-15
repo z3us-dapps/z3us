@@ -1,4 +1,4 @@
-/* eslint-disable */
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import clsx, { type ClassValue } from 'clsx'
 import { AnimatePresence } from 'framer-motion'
 import React, { forwardRef, useRef, useState } from 'react'
@@ -123,19 +123,24 @@ export const AccountsHomeMobileHeader = forwardRef<HTMLElement, IAccountsHomeMob
 		const getTabTitle = () => {
 			switch (assetType) {
 				case ASSET_TYPE_TOKENS: {
-					return `${t('accounts.home.assetsTokens')} ${asset ? `(${asset.toUpperCase()})` : ''}`
+					return (
+						<>
+							<Translation capitalizeFirstLetter text="accounts.home.assetsTokens" />
+							{asset ? ` (${asset.toUpperCase()})` : ''}
+						</>
+					)
 				}
 				case ASSET_TYPE_LP_TOKENS: {
-					return t('accounts.home.assetsLpTokens')
+					return <Translation capitalizeFirstLetter text="accounts.home.assetsLpTokens" />
 				}
 				case ASSET_TYPE_NFTS: {
-					return t('accounts.home.assetsNfts')
+					return <Translation capitalizeFirstLetter text="accounts.home.assetsNfts" />
 				}
 				case ASSET_TYPE_BADGES: {
-					return t('accounts.home.assetsBadges')
+					return <Translation capitalizeFirstLetter text="accounts.home.assetsBadges" />
 				}
 				default:
-					return t('global.assets')
+					return <Translation capitalizeFirstLetter text="global.assets" />
 			}
 		}
 
@@ -146,7 +151,7 @@ export const AccountsHomeMobileHeader = forwardRef<HTMLElement, IAccountsHomeMob
 						<Box className={styles.accountsHomeAllChart}></Box>
 						<Box marginTop="medium">
 							<Text color="strong" align="center" size="xxlarge">
-								<Translation text="accounts.home.accountBalanceTitle" />
+								<Translation capitalizeFirstLetter text="accounts.home.accountBalanceTitle" />
 							</Text>
 							<Text color="strong" align="center" size="xlarge">
 								$13,300
@@ -162,7 +167,12 @@ export const AccountsHomeMobileHeader = forwardRef<HTMLElement, IAccountsHomeMob
 			if (asset) {
 				return (
 					<Box className={styles.accountsHomeHeadAll}>
-						<TransactionIcon transactionType="deposit" />
+						<TransactionIcon
+							transactionIconSize="medium"
+							transactionType="deposit"
+							transactionIconBorderColor="borderDividerSecondary"
+							transactionIconShadow={false}
+						/>
 						<Box marginTop="medium">
 							<Text color="strong" align="center" size="xxlarge">
 								Radix (XRD)
@@ -247,7 +257,7 @@ export const AccountsHomeMobileHeader = forwardRef<HTMLElement, IAccountsHomeMob
 								)}
 							>
 								<Text size="medium" weight="strong" align="center" color={isActivityRoute ? 'strong' : 'neutral'}>
-									<Translation text="global.activity" />
+									<Translation capitalizeFirstLetter text="global.activity" />
 								</Text>
 							</Link>
 							<Button

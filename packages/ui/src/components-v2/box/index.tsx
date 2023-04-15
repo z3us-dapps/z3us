@@ -1,7 +1,7 @@
 import clsx, { type ClassValue } from 'clsx'
 import { AllHTMLAttributes, ElementType, createElement, forwardRef } from 'react'
 
-import { Sprinkles, resetBase, sprinkles } from '../system/sprinkles.css'
+import { type Sprinkles, resetBase, sprinkles } from '../system/sprinkles.css'
 
 export interface BoxProps
 	extends Omit<

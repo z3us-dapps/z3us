@@ -4,6 +4,7 @@ import React, { forwardRef } from 'react'
 
 import { AvatarFallback, AvatarImage } from 'ui/src/components-v2/avatar'
 import { Box } from 'ui/src/components-v2/box'
+import { type Sprinkles } from 'ui/src/components-v2/system/sprinkles.css'
 import { DownLeftIcon, UpRightIcon } from 'ui/src/components/icons'
 
 import * as styles from './transaction-icon.css'
@@ -25,6 +26,10 @@ interface ITransactionIconOptionalProps {
 	className?: ClassValue
 	transactionType?: TTransactionTypes
 	transactionIconSize?: TTransactionIconSizes
+	// typeof vars.text.medium
+	// TODO: this type needs to reference our colors
+	transactionIconBorderColor?: any
+	transactionIconShadow?: boolean
 }
 
 interface ITransactionIconProps extends ITransactionIconRequiredProps, ITransactionIconOptionalProps {}
@@ -33,11 +38,13 @@ const defaultProps: ITransactionIconOptionalProps = {
 	className: undefined,
 	transactionType: undefined,
 	transactionIconSize: 'small',
+	transactionIconBorderColor: 'borderDivider',
+	transactionIconShadow: false,
 }
 
 export const TransactionIcon = forwardRef<HTMLElement, ITransactionIconProps>(
 	(props, ref: React.Ref<HTMLElement | null>) => {
-		const { className, transactionType, transactionIconSize } = props
+		const { className, transactionType, transactionIconSize, transactionIconBorderColor, transactionIconShadow } = props
 
 		const icon = getIconByType(transactionType)
 		const isMediumIcon = transactionIconSize === 'medium'
@@ -45,7 +52,13 @@ export const TransactionIcon = forwardRef<HTMLElement, ITransactionIconProps>(
 		return (
 			<Box
 				ref={ref}
-				className={clsx(styles.transactionIconWrapper, isMediumIcon && styles.transactionIconMediumWrapper, className)}
+				borderColor={transactionIconBorderColor}
+				className={clsx(
+					styles.transactionIconWrapper,
+					isMediumIcon && styles.transactionIconMediumWrapper,
+					transactionIconShadow && styles.transactionIconShadowWrapper,
+					className,
+				)}
 			>
 				<AvatarPrimitive.Root className={styles.transactionAvatarRootWrapper}>
 					<AvatarImage

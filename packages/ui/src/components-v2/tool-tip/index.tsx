@@ -73,7 +73,7 @@ export const ToolTip: React.FC<IToolTipProps> = ({
 								)}
 							/>
 						) : null}
-						<Text size="xsmall" color="strong">
+						<Text size="xxsmall" color="strong">
 							{message}
 						</Text>
 					</ToolTipContent>

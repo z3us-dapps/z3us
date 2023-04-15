@@ -92,10 +92,8 @@ export const AccountsHomeMobileList = forwardRef<HTMLElement, IAccountTransactio
 
 		// TODO: demo data fetching
 		useEffect(() => {
-			// Needs to scroll to top or the virtuoso list will bug out for some reason
+			// Needs to scroll to top or the virtuoso list will bug out and not load
 			customScrollParent?.scrollTo({ top: 0 })
-			// smooth won't be good for very large activity lists
-			// customScrollParent?.scrollTo({ top: 0, behavior: 'smooth' })
 
 			if (listItemType === LIST_ITEM_INDEX) {
 				setItems(indexItems)
@@ -128,7 +126,7 @@ export const AccountsHomeMobileList = forwardRef<HTMLElement, IAccountTransactio
 							<Virtuoso
 								customScrollParent={customScrollParent}
 								data={filteredList}
-								// @TODO: fix eslint issue
+								// @TODO: fix eslint issue, probably define component better....
 								// eslint-disable-next-line
 								itemContent={(index, { id, loaded, name, isImageSquare, count, assetType, symbol }) => {
 									switch (listItemType) {
@@ -156,13 +154,8 @@ export const AccountsHomeMobileList = forwardRef<HTMLElement, IAccountTransactio
 											)
 										case LIST_ITEM_ACTIVITY:
 											return <AccountsMobileActivityListItem id={id} index={index} loaded={loaded} name={name} />
-										case LIST_ITEM_ASSET:
 										default:
-											return (
-												<Box>
-													<Box>Asset item, should not show</Box>
-												</Box>
-											)
+											return <Box />
 									}
 								}}
 								components={{

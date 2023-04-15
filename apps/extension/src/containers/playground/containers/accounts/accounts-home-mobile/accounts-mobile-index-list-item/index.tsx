@@ -1,5 +1,5 @@
 import * as AvatarPrimitive from '@radix-ui/react-avatar'
-import clsx from 'clsx'
+import clsx, { type ClassValue } from 'clsx'
 import { AnimatePresence, motion } from 'framer-motion'
 import React, { forwardRef, useContext } from 'react'
 import { useTimeout } from 'usehooks-ts'
@@ -27,7 +27,7 @@ interface IAccountsMobileIndexListItemRequiredProps {
 }
 
 interface IAccountsMobileIndexListItemOptionalProps {
-	className?: number
+	className?: ClassValue
 	isImageSquare?: boolean
 	count?: number
 }
@@ -149,7 +149,7 @@ export const AccountsMobileIndexListItem = forwardRef<HTMLElement, IAccountsMobi
 									<Box className={clsx(styles.mobileAccountsIndexInner)}>
 										<Box display="flex">
 											<Box display="flex" alignItems="center" flexGrow={1} gap="xsmall">
-												<Text size="small" weight="strong" color="strong">
+												<Text capitalizeFirstLetter size="small" weight="strong" color="strong">
 													{name}
 												</Text>
 												<Text size="small" weight="medium">

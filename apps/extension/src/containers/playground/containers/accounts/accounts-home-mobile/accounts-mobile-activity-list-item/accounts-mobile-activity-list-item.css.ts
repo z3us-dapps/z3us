@@ -50,13 +50,12 @@ export const activtyItemExternalLinkButton = style([
 		position: 'absolute',
 		right: 0,
 		top: 0,
-		marginRight: 'medium',
 		opacity: 0,
 	}),
 	{
 		top: '50%',
 		marginTop: '-16px',
-
+		marginRight: '8px',
 		selectors: {
 			'&:hover': {
 				opacity: 1,

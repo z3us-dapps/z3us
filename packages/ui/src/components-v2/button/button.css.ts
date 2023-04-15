@@ -20,7 +20,6 @@ export const button = recipe({
 		alignItems: 'center',
 		justifyContent: 'center',
 		textDecoration: 'none',
-		outline: 'none',
 		cursor: 'pointer',
 		flexShrink: 0,
 		transition: 'fast',

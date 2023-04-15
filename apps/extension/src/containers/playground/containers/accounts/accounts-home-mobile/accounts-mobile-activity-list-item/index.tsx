@@ -43,9 +43,6 @@ export const AccountsMobileActivityListItem = forwardRef<HTMLElement, IAccountsM
 		const { setItems } = useContext(Context)
 		const { id, index, className, loaded, name } = props
 
-		// const { account, assetType, asset } = useAccountParams()
-		const { account } = useAccountParams()
-
 		const { pathname } = useLocation()
 
 		useTimeout(() => {

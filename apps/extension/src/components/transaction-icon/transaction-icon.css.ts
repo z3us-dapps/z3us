@@ -8,7 +8,6 @@ export const transactionIconWrapper = style([
 		borderRadius: 'full',
 		borderWidth: 'xsmall',
 		borderStyle: 'solid',
-		borderColor: 'borderDivider',
 		flexShrink: 0,
 	}),
 	{
@@ -25,6 +24,13 @@ export const transactionIconMediumWrapper = style([
 		width: '68px',
 		height: '68px',
 	},
+])
+
+export const transactionIconShadowWrapper = style([
+	sprinkles({
+		boxShadow: 'shadowDropdown',
+	}),
+	{},
 ])
 
 export const transactionAvatarRootWrapper = style([
