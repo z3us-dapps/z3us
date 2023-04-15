@@ -48,7 +48,6 @@ export const useVault = (messanger: MessageService) => {
 			publicKey: newSigningKey.publicKey,
 			network: n.id,
 		})
-		console.log(index)
 		addPublicAddress(index, {
 			...getDefaultAddressEntry(index),
 			...publicAddresses[index],
