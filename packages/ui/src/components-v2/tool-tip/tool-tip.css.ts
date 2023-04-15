@@ -23,6 +23,7 @@ export const toolTipContent = style([
 	}),
 	{
 		maxWidth: '220px',
+		zIndex: '10',
 		overflowWrap: 'break-word',
 		animationTimingFunction: 'cubic-bezier(0.16, 1, 0.3, 1)',
 		willChange: 'transform, opacity',

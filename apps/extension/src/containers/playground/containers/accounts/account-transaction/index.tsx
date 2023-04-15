@@ -179,10 +179,11 @@ export const AccountTransaction = forwardRef<HTMLElement, IAccountTransactionPro
 												</Text>
 												<CopyAddressButton
 													styleVariant="white-transparent"
-													address={accountAddress}
+													address="messssageeeaskjdfhlsakjdhflksjdhfg lkjhlkjh"
 													iconOnly
 													rounded={false}
 													tickColor="white"
+													toolTipDisabled
 												/>
 											</Box>
 										</Box>

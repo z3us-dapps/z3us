@@ -65,6 +65,7 @@ interface ICopyAddressButtonOptionalProps {
 	iconOnly?: boolean
 	rounded?: boolean
 	animationTimeout?: number
+	toolTipDisabled?: boolean
 }
 
 interface ICopyAddressButtonProps extends ICopyAddressButtonRequiredProps, ICopyAddressButtonOptionalProps {}
@@ -76,10 +77,11 @@ const defaultProps: ICopyAddressButtonOptionalProps = {
 	iconOnly: false,
 	rounded: true,
 	animationTimeout: 1500,
+	toolTipDisabled: false,
 }
 
 export const CopyAddressButton: React.FC<ICopyAddressButtonProps> = props => {
-	const { className, address, styleVariant, iconOnly, rounded, tickColor, animationTimeout } = props
+	const { className, address, styleVariant, iconOnly, rounded, tickColor, animationTimeout, toolTipDisabled } = props
 
 	const [copiedAnimate, setCopiedAnimate] = useState<boolean>(false)
 
@@ -99,7 +101,7 @@ export const CopyAddressButton: React.FC<ICopyAddressButtonProps> = props => {
 	}, [copiedAnimate])
 
 	return (
-		<ToolTip message={address}>
+		<ToolTip message={address} disabled={toolTipDisabled}>
 			<Button
 				className={clsx(className)}
 				sizeVariant="small"

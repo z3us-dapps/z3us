@@ -8,6 +8,7 @@ import * as styles from './tool-tip.css'
 
 export const TooltipProvider = TooltipPrimitive.Provider
 export const ToolTipRoot = TooltipPrimitive.Root
+export const ToolTipPortal = TooltipPrimitive.Portal
 export const ToolTipTrigger = TooltipPrimitive.Trigger
 export const ToolTipContent = TooltipPrimitive.Content
 export const ToolTipArrow = TooltipPrimitive.Arrow
@@ -52,29 +53,32 @@ export const ToolTip: React.FC<IToolTipProps> = ({
 	<TooltipProvider>
 		<ToolTipRoot>
 			<ToolTipTrigger asChild>{children}</ToolTipTrigger>
-			<ToolTipContent
-				sideOffset={sideOffset}
-				side={side}
-				className={clsx(
-					styles.toolTipContent,
-					theme === 'backgroundSecondary' ? styles.toolTipContentBgSecondary : styles.toolTipContentBgPrimary,
-				)}
-			>
-				{isArrowVisible ? (
-					<ToolTipArrow
-						offset={arrowOffset}
-						className={clsx(
-							styles.toolTipArrow,
-							theme === 'backgroundSecondary' ? styles.toolTipArrowFillSecondary : styles.toolTipArrowFillPrimary,
-						)}
-					/>
-				) : null}
+			<ToolTipPortal>
 				{!disabled ? (
-					<Text size="xsmall" color="strong">
-						{message}
-					</Text>
+					<ToolTipContent
+						sideOffset={sideOffset}
+						side={side}
+						collisionPadding={10}
+						className={clsx(
+							styles.toolTipContent,
+							theme === 'backgroundSecondary' ? styles.toolTipContentBgSecondary : styles.toolTipContentBgPrimary,
+						)}
+					>
+						{isArrowVisible ? (
+							<ToolTipArrow
+								offset={arrowOffset}
+								className={clsx(
+									styles.toolTipArrow,
+									theme === 'backgroundSecondary' ? styles.toolTipArrowFillSecondary : styles.toolTipArrowFillPrimary,
+								)}
+							/>
+						) : null}
+						<Text size="xsmall" color="strong">
+							{message}
+						</Text>
+					</ToolTipContent>
 				) : null}
-			</ToolTipContent>
+			</ToolTipPortal>
 		</ToolTipRoot>
 	</TooltipProvider>
 )
