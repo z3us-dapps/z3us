@@ -6,8 +6,7 @@ export const baseSprinkles = sprinkles({
 	transition: 'fast',
 })
 
-// TODO: rename to input
-export const button = recipe({
+export const input = recipe({
 	base: {
 		display: 'inline-flex',
 		alignItems: 'center',
@@ -183,4 +182,4 @@ export const iconRight = recipe({
 	},
 })
 
-export type ButtonVariants = RecipeVariants<typeof button>
+export type InputVariants = RecipeVariants<typeof input>

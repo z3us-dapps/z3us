@@ -30,17 +30,17 @@ export const CardButtons: React.FC<ICardButtonsProps> = props => {
 	return (
 		<Box className={clsx(styles.cardButtonsWrapper, className)}>
 			<ToolTip message={<Translation capitalizeFirstLetter text="global.send" />} theme={theme}>
-				<Button iconOnly rounded styleVariant="inverse" sizeVariant="large" onClick={() => {}}>
+				<Button iconOnly rounded styleVariant="inverse" sizeVariant="large" to="/accounts/transfer">
 					<UpRight2Icon />
 				</Button>
 			</ToolTip>
 			<ToolTip message={<Translation capitalizeFirstLetter text="global.receive" />} theme={theme}>
-				<Button iconOnly rounded styleVariant="inverse" sizeVariant="large" onClick={() => {}}>
+				<Button iconOnly rounded styleVariant="inverse" sizeVariant="large" to="/accounts/transfer">
 					<DownLeft2Icon />
 				</Button>
 			</ToolTip>
 			<ToolTip message={<Translation capitalizeFirstLetter text="global.address" />} theme={theme}>
-				<Button iconOnly rounded styleVariant="inverse" sizeVariant="large" onClick={() => {}}>
+				<Button iconOnly rounded styleVariant="inverse" sizeVariant="large" to="/accounts/transfer">
 					<QrCode2Icon />
 				</Button>
 			</ToolTip>

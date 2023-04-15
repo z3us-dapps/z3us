@@ -1,7 +1,7 @@
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 
-const textCapitalizeFirstLetter = (str: string): string => str.charAt(0).toUpperCase() + str.slice(1)
+import { capitalizeFirstLetter as textCapitalizeFirstLetter } from 'ui/src/utils/capitalize-first-letter'
 
 interface TTranslationProps {
 	text: string

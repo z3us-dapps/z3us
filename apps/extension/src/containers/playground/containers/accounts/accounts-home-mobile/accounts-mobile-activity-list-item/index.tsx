@@ -14,7 +14,6 @@ import { Link } from '@src/components/link'
 import { TransactionIcon } from '@src/components/transaction-icon'
 import * as skeletonStyles from '@src/containers/playground/components/styles/skeleton-loading.css'
 import { SEARCH_ACTIVITY_PARAM, animtePageVariants } from '@src/containers/playground/constants'
-import { useAccountParams } from '@src/hooks/use-account-params'
 
 import { Context } from '../context'
 import * as styles from './accounts-mobile-activity-list-item.css'

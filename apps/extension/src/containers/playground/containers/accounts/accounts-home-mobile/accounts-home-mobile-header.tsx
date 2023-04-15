@@ -10,6 +10,7 @@ import { type FormElement, Input } from 'ui/src/components-v2/input'
 import { Text } from 'ui/src/components-v2/typography'
 import { ChevronDown3Icon, ChevronLeftIcon, Close2Icon, SearchIcon } from 'ui/src/components/icons'
 import { isEmpty } from 'ui/src/utils/assertion'
+import { capitalizeFirstLetter } from 'ui/src/utils/capitalize-first-letter'
 
 import { Button } from '@src/components/button'
 import { Link } from '@src/components/link'
@@ -148,7 +149,7 @@ export const AccountsHomeMobileHeader = forwardRef<HTMLElement, IAccountsHomeMob
 			if (isAllAccount) {
 				return (
 					<Box className={styles.accountsHomeHeadAll}>
-						<Box className={styles.accountsHomeAllChart}></Box>
+						<Box className={styles.accountsHomeAllChart} />
 						<Box marginTop="medium">
 							<Text color="strong" align="center" size="xxlarge">
 								<Translation capitalizeFirstLetter text="accounts.home.accountBalanceTitle" />
@@ -290,7 +291,7 @@ export const AccountsHomeMobileHeader = forwardRef<HTMLElement, IAccountsHomeMob
 								sizeVariant="small"
 								className={styles.inputSearch}
 								value={search}
-								placeholder={t('global.search')}
+								placeholder={capitalizeFirstLetter(t('global.search'))}
 								rounded
 								leftIcon={
 									<Box paddingLeft="small" display="flex" alignItems="center">

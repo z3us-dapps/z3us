@@ -78,7 +78,7 @@ export const Input = forwardRef<FormElement, IInputProps>((props, ref: React.Ref
 					className,
 					element.textarea,
 					styles.baseSprinkles,
-					styles.button({
+					styles.input({
 						sizeVariant,
 						styleVariant,
 						rounded,

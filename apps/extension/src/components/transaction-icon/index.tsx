@@ -4,7 +4,6 @@ import React, { forwardRef } from 'react'
 
 import { AvatarFallback, AvatarImage } from 'ui/src/components-v2/avatar'
 import { Box } from 'ui/src/components-v2/box'
-import { type Sprinkles } from 'ui/src/components-v2/system/sprinkles.css'
 import { DownLeftIcon, UpRightIcon } from 'ui/src/components/icons'
 
 import * as styles from './transaction-icon.css'
