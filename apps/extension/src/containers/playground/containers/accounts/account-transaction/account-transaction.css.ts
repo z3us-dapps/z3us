@@ -120,6 +120,20 @@ export const transactionContent = style([
 	}),
 ])
 
+export const transactionInfoWrapper = style([
+	sprinkles({
+		position: 'relative',
+		display: 'flex',
+		width: 'full',
+		alignItems: 'flex-end',
+		height: {
+			mobile: 'large',
+			tablet: 'xlarge',
+		},
+	}),
+	{},
+])
+
 export const transactionRowDotted = style([
 	sprinkles({
 		position: 'relative',
@@ -129,6 +143,39 @@ export const transactionRowDotted = style([
 		borderColor: 'borderDividerSecondary',
 		marginBottom: 'xsmall',
 		marginX: 'medium',
+	}),
+	{},
+])
+
+export const transactionInfoCopyBtnWrapper = style([
+	sprinkles({
+		position: 'relative',
+	}),
+	{
+		transform: 'translateY(4px)',
+	},
+])
+
+export const transactionDetailsWrapper = style([
+	sprinkles({
+		position: 'relative',
+		borderStyle: 'solid',
+		borderTop: 1,
+		borderColor: 'borderDivider',
+		flexGrow: 1,
+		alignItems: 'flex-start',
+		paddingTop: {
+			mobile: 'large',
+			tablet: 'xlarge',
+		},
+		marginTop: {
+			mobile: 'large',
+			tablet: 'xlarge',
+		},
+		paddingX: {
+			mobile: 'large',
+			tablet: 'xlarge',
+		},
 	}),
 	{},
 ])

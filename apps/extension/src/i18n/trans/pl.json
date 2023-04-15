@@ -1,20 +1,31 @@
 {
 	"global": {
-		"ok": "Dobra",
+		"ok": "dobra",
 		"cancel": "anulować",
-		"next": "Następny",
+		"close": "anulować",
+		"next": "następny",
 		"previous": "poprzedni",
-		"tokens": "Żetony",
+		"tokens": "żetony",
 		"activity": "działalność",
 		"assets": "aktywa",
-		"nfts": "Nfts",
-		"lpTokens": "LP Tokens",
-		"badges": "Badges",
-		"send": "Wysłać",
-		"receive": "Odbierać",
-		"address": "Adres",
+		"nfts": "nfts",
+		"lpTokens": "LP Żetony",
+		"badges": "odznaki",
+		"send": "wysłać",
+		"receive": "odbierać",
+		"received": "otrzymane",
+		"address": "adres",
 		"copied": "skopiowane",
-		"search": "Szukaj"
+		"search": "szukaj",
+		"explorer": "eksploratora",
+		"transaction": "transaction",
+		"details": "details",
+		"deposit": "depozyt",
+		"type": "typ",
+		"date": "date",
+		"id": "id",
+		"from": "z",
+		"to": "do"
 	},
 	"accounts": {
 		"navigation": {
@@ -25,19 +36,19 @@
 			"settings": "ustawienia"
 		},
 		"home": {
-			"accountBalanceTitle": "Bilans konta",
-			"assetsBadgesTitle": "Zasoby i odznaki",
+			"accountBalanceTitle": "bilans konta",
+			"assetsBadgesTitle": "zasoby i odznaki",
 			"assetsTokens": "żetony",
 			"assetsNfts": "NFTs",
 			"assetsLpTokens": "żetony PL",
 			"assetsBadges": "Odznaki"
 		},
 		"assetsList": {
-			"overview": "Przegląd",
-			"listHeaderAsset": "Zaleta",
+			"overview": "przegląd",
+			"listHeaderAsset": "zaleta",
 			"listHeaderAmount": "kwota",
 			"listHeaderCategory": "Kategoria",
-			"listHeaderAccount": "Konto"
+			"listHeaderAccount": "konto"
 		}
 	}
 }

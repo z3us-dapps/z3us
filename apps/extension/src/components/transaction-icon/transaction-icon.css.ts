@@ -17,7 +17,26 @@ export const transactionIconWrapper = style([
 	},
 ])
 
-export const transactionAvatar = style([
+export const transactionIconMediumWrapper = style([
+	sprinkles({
+		position: 'relative',
+	}),
+	{
+		width: '68px',
+		height: '68px',
+	},
+])
+
+export const transactionAvatarRootWrapper = style([
+	sprinkles({
+		borderRadius: 'full',
+		width: 'full',
+		height: 'full',
+	}),
+	{},
+])
+
+export const transactionAvatarWrapper = style([
 	sprinkles({
 		borderRadius: 'full',
 		width: 'full',

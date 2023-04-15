@@ -1,43 +1,54 @@
 {
 	"global": {
-		"ok": "Okay",
-		"cancel": "Cancel",
-		"next": "Next",
-		"previous": "Previous",
-		"activity": "Activity",
-		"assets": "Assets",
-		"tokens": "Tokens",
-		"nfts": "Nfts",
+		"ok": "okay",
+		"cancel": "cancel",
+		"close": "close",
+		"next": "next",
+		"previous": "previous",
+		"activity": "activity",
+		"assets": "assets",
+		"tokens": "tokens",
+		"nfts": "nfts",
 		"lpTokens": "LP Tokens",
-		"badges": "Badges",
-		"send": "Send",
-		"receive": "Receive",
-		"address": "Address",
-		"copied": "Copied",
-		"search": "Search"
+		"badges": "badges",
+		"send": "send",
+		"receive": "receive",
+		"received": "received",
+		"address": "address",
+		"copied": "copied",
+		"search": "search",
+		"explorer": "explorer",
+		"transaction": "transaction",
+		"details": "details",
+		"deposit": "deposit",
+		"type": "type",
+		"date": "date",
+		"id": "id",
+		"from": "from",
+		"to": "to"
 	},
 	"accounts": {
 		"navigation": {
-			"accounts": "Accounts",
-			"transfer": "Transfer",
-			"staking": "Staking",
-			"swap": "Swap",
-			"settings": "Settings"
+			"accounts": "accounts",
+			"transfer": "transfer",
+			"staking": "staking",
+			"swap": "swap",
+			"settings": "settings"
 		},
 		"home": {
-			"accountBalanceTitle": "Account balance",
-			"assetsBadgesTitle": "Assets and badges",
-			"assetsTokens": "Tokens",
+			"accountBalanceTitle": "account balance",
+			"assetsBadgesTitle": "assets and badges",
+			"assetsTokens": "tokens",
 			"assetsNfts": "NFTs",
 			"assetsLpTokens": "LP Tokens",
-			"assetsBadges": "Badges"
+			"assetsBadges": "badges"
 		},
 		"assetsList": {
-			"overview": "Overview",
-			"listHeaderAsset": "Asset",
-			"listHeaderAmount": "Amount",
-			"listHeaderCategory": "Category",
-			"listHeaderAccount": "Account"
+			"overview": "overview",
+			"listHeaderAsset": "asset",
+			"listHeaderAmount": "amount",
+			"listHeaderCategory": "category",
+			"listHeaderAccount": "account"
 		}
 	}
 }

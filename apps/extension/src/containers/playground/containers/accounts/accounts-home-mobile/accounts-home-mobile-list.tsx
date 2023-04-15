@@ -94,6 +94,8 @@ export const AccountsHomeMobileList = forwardRef<HTMLElement, IAccountTransactio
 		useEffect(() => {
 			// Needs to scroll to top or the virtuoso list will bug out for some reason
 			customScrollParent?.scrollTo({ top: 0 })
+			// smooth won't be good for very large activity lists
+			// customScrollParent?.scrollTo({ top: 0, behavior: 'smooth' })
 
 			if (listItemType === LIST_ITEM_INDEX) {
 				setItems(indexItems)

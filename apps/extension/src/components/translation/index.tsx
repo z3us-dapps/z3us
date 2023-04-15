@@ -1,15 +1,30 @@
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 
-interface Props {
+const textCapitalizeFirstLetter = (str: string): string => str.charAt(0).toUpperCase() + str.slice(1)
+
+interface TTranslationProps {
 	text: string
+	capitalizeFirstLetter?: boolean
 }
 
-const Translation = ({ text }: Props) => {
+const translationDefaultProps = {
+	capitalizeFirstLetter: false,
+}
+
+const Translation = ({ text, capitalizeFirstLetter }: TTranslationProps) => {
 	const { t } = useTranslation()
 
-	// eslint-disable-next-line
-	return <>{`${t(text)}`}</>
+	const translatedString = `${t(text)}`
+
+	if (capitalizeFirstLetter) {
+		return <>{textCapitalizeFirstLetter(translatedString)}</>
+	}
+
+	// eslint-disable-next-line react/jsx-no-useless-fragment
+	return <>{translatedString}</>
 }
+
+Translation.defaultProps = translationDefaultProps
 
 export default Translation

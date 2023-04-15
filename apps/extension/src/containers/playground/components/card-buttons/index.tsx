@@ -3,7 +3,7 @@ import React from 'react'
 import { useTranslation } from 'react-i18next'
 
 import { Box } from 'ui/src/components-v2/box'
-import { TTheme, ToolTip } from 'ui/src/components-v2/tool-tip'
+import { type TTheme, ToolTip } from 'ui/src/components-v2/tool-tip'
 import { DownLeft2Icon, QrCode2Icon, UpRight2Icon } from 'ui/src/components/icons'
 
 import { Button } from '@src/components/button'

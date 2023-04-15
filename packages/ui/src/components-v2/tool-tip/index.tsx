@@ -16,7 +16,7 @@ export type TTheme = 'backgroundSecondary' | 'backgroundPrimary'
 
 interface IToolTipRequiredProps {
 	children: React.ReactNode
-	message: string
+	message: string | React.ReactNode
 }
 
 interface IToolTipOptionalProps {

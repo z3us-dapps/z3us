@@ -1,13 +1,15 @@
-import clsx from 'clsx'
+import * as AvatarPrimitive from '@radix-ui/react-avatar'
+import clsx, { type ClassValue } from 'clsx'
 import React, { forwardRef } from 'react'
 
-import { Avatar, AvatarFallback, AvatarImage } from 'ui/src/components-v2/avatar'
+import { AvatarFallback, AvatarImage } from 'ui/src/components-v2/avatar'
 import { Box } from 'ui/src/components-v2/box'
 import { DownLeftIcon, UpRightIcon } from 'ui/src/components/icons'
 
 import * as styles from './transaction-icon.css'
 
 export type TTransactionTypes = 'deposit' | 'send'
+export type TTransactionIconSizes = 'small' | 'medium'
 
 const getIconByType = (type: TTransactionTypes) => {
 	const iconMap = {
@@ -20,8 +22,9 @@ const getIconByType = (type: TTransactionTypes) => {
 interface ITransactionIconRequiredProps {}
 
 interface ITransactionIconOptionalProps {
-	className?: string
-	transactionType?: 'deposit' | 'send'
+	className?: ClassValue
+	transactionType?: TTransactionTypes
+	transactionIconSize?: TTransactionIconSizes
 }
 
 interface ITransactionIconProps extends ITransactionIconRequiredProps, ITransactionIconOptionalProps {}
@@ -29,26 +32,29 @@ interface ITransactionIconProps extends ITransactionIconRequiredProps, ITransact
 const defaultProps: ITransactionIconOptionalProps = {
 	className: undefined,
 	transactionType: undefined,
+	transactionIconSize: 'small',
 }
 
 export const TransactionIcon = forwardRef<HTMLElement, ITransactionIconProps>(
 	(props, ref: React.Ref<HTMLElement | null>) => {
-		const { className, transactionType } = props
+		const { className, transactionType, transactionIconSize } = props
 
 		const icon = getIconByType(transactionType)
+		const isMediumIcon = transactionIconSize === 'medium'
 
 		return (
-			<Box ref={ref} className={clsx(styles.transactionIconWrapper, className)}>
-				<Avatar>
+			<Box
+				ref={ref}
+				className={clsx(styles.transactionIconWrapper, isMediumIcon && styles.transactionIconMediumWrapper, className)}
+			>
+				<AvatarPrimitive.Root className={styles.transactionAvatarRootWrapper}>
 					<AvatarImage
-						className={styles.transactionAvatar}
+						className={styles.transactionAvatarWrapper}
 						src="https://images.unsplash.com/photo-1492633423870-43d1cd2775eb?&w=128&h=128&dpr=2&q=80"
 						alt="Colm Tuite"
 					/>
-					<AvatarFallback className="AvatarFallback" delayMs={600}>
-						CT
-					</AvatarFallback>
-				</Avatar>
+					<AvatarFallback delayMs={600}>CT</AvatarFallback>
+				</AvatarPrimitive.Root>
 				{icon ? (
 					<Box className={styles.transactionTypeWrapper}>
 						<UpRightIcon />
