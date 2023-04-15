@@ -3,6 +3,9 @@ import { LockClosedIcon } from '@radix-ui/react-icons'
 import clsx, { type ClassValue } from 'clsx'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
+// TODO: create anoter component for handle shadows for simplebar
+import SimpleBarReact from 'simplebar-react'
+import 'simplebar-react/dist/simplebar.min.css'
 
 import { Box } from 'ui/src/components-v2/box'
 import {
@@ -75,129 +78,134 @@ export const WalletDropdown: React.FC<IWalletDropdownProps> = props => {
 						</Avatar.Root>
 					</button>
 				</DropdownMenuTrigger>
-				<DropdownMenuContent align="end" sideOffset={2}>
-					<DropdownMenuLabel>
-						<Text size="xsmall" weight="strong" color="strong">
-							Connected to{' '}
-							<Link href="https://ociswap.com/">
+				<DropdownMenuContent align="end" sideOffset={2} className={styles.dropdownProfileContentWrapper}>
+					<SimpleBarReact className={styles.dropdownProfileSimpleBarWrapper}>
+						<Box className={styles.dropdownProfileScrollAreaWrapper}>
+							<DropdownMenuLabel>
 								<Text size="xsmall" weight="strong" color="strong">
-									ociswap.com
+									Connected to{' '}
+									<Link href="https://ociswap.com/">
+										<Text size="xsmall" weight="strong" color="strong">
+											ociswap.com
+										</Text>
+									</Link>
 								</Text>
-							</Link>
-						</Text>
-					</DropdownMenuLabel>
-					<DropdownMenuSeparator />
-					<DropdownMenuLabel>
-						<Text size="xsmall" weight="strong" color="strong">
-							Persona
-						</Text>
-					</DropdownMenuLabel>
-					<DropdownMenuRadioGroup value="light" onValueChange={() => {}}>
-						<DropdownMenuRadioItem value="light">
-							<Box flexGrow={1}>
-								<Text size="xsmall">Main persona</Text>
-							</Box>
-							<DropdownMenuItemIndicator>
-								<CheckIcon />
-							</DropdownMenuItemIndicator>
-						</DropdownMenuRadioItem>
-						<DropdownMenuRadioItem value="dark">
-							<Box flexGrow={1}>
-								<Text size="xsmall">Degen persona</Text>
-							</Box>
-							<DropdownMenuItemIndicator>
-								<CheckIcon />
-							</DropdownMenuItemIndicator>
-						</DropdownMenuRadioItem>
-					</DropdownMenuRadioGroup>
+							</DropdownMenuLabel>
+							<DropdownMenuSeparator />
+							<DropdownMenuLabel>
+								<Text size="xsmall" weight="strong" color="strong">
+									Persona
+								</Text>
+							</DropdownMenuLabel>
+							<DropdownMenuRadioGroup value="light" onValueChange={() => {}}>
+								<DropdownMenuRadioItem value="light">
+									<Box flexGrow={1}>
+										<Text size="xsmall">Main persona</Text>
+									</Box>
+									<DropdownMenuItemIndicator>
+										<CheckIcon />
+									</DropdownMenuItemIndicator>
+								</DropdownMenuRadioItem>
+								<DropdownMenuRadioItem value="dark">
+									<Box flexGrow={1}>
+										<Text size="xsmall">Degen persona</Text>
+									</Box>
+									<DropdownMenuItemIndicator>
+										<CheckIcon />
+									</DropdownMenuItemIndicator>
+								</DropdownMenuRadioItem>
+							</DropdownMenuRadioGroup>
 
-					<DropdownMenuSeparator />
-					<DropdownMenuLabel>
-						<Text size="xsmall" weight="strong" color="strong">
-							Wallet
-						</Text>
-					</DropdownMenuLabel>
+							<DropdownMenuSeparator />
+							<DropdownMenuLabel>
+								<Text size="xsmall" weight="strong" color="strong">
+									Wallet
+								</Text>
+							</DropdownMenuLabel>
 
-					<DropdownMenuRadioGroup value="light" onValueChange={() => {}}>
-						<DropdownMenuRadioItem value="light">
-							<Box flexGrow={1}>
-								<Text size="xsmall">Main driver</Text>
-							</Box>
-							<DropdownMenuItemIndicator>
-								<CheckIcon />
-							</DropdownMenuItemIndicator>
-						</DropdownMenuRadioItem>
-						<DropdownMenuRadioItem value="dark">
-							<Box flexGrow={1}>
-								<Text size="xsmall">Burner test wallet</Text>
-							</Box>
-							<DropdownMenuItemIndicator>
-								<CheckIcon />
-							</DropdownMenuItemIndicator>
-						</DropdownMenuRadioItem>
-						<DropdownMenuRadioItem value="dark">
-							<Box flexGrow={1}>
-								<Text size="xsmall">Funny man&apos;s wallet</Text>
-							</Box>
-							<DropdownMenuItemIndicator>
-								<CheckIcon />
-							</DropdownMenuItemIndicator>
-						</DropdownMenuRadioItem>
-					</DropdownMenuRadioGroup>
-					<DropdownMenuSeparator />
-					<DropdownMenuItem>
-						<DropdownMenuLeftSlot>
-							<LockClosedIcon />
-						</DropdownMenuLeftSlot>
-						<Box display="flex" marginLeft="small">
-							<Text size="xsmall">Lock wallet</Text>
-						</Box>
-					</DropdownMenuItem>
-					<DropdownMenuSeparator />
-					<DropdownMenuItem onSelect={() => handleLangSelect('enUS')}>
-						<DropdownMenuLeftSlot>🇦🇺</DropdownMenuLeftSlot>
-						<Box display="flex" marginLeft="small">
-							<Text size="xsmall">English</Text>
-						</Box>
-					</DropdownMenuItem>
-					<DropdownMenuItem onSelect={() => handleLangSelect('pl')}>
-						<DropdownMenuLeftSlot>🇵🇱</DropdownMenuLeftSlot>
-						<Box display="flex" marginLeft="small">
-							<Text size="xsmall">Polish</Text>
-						</Box>
-					</DropdownMenuItem>
-					{/* <DropdownMenuItem> */}
-					{/* 	<DropdownMenuLeftSlot> */}
-					{/* 		<PersonIcon /> */}
-					{/* 	</DropdownMenuLeftSlot> */}
-					{/* 	<Box display="flex"> */}
-					{/* 		<Text size="xsmall">Add new persona</Text> */}
-					{/* 	</Box> */}
-					{/* </DropdownMenuItem> */}
+							<DropdownMenuRadioGroup value="light" onValueChange={() => {}}>
+								<DropdownMenuRadioItem value="light">
+									<Box flexGrow={1}>
+										<Text size="xsmall">Main driver</Text>
+									</Box>
+									<DropdownMenuItemIndicator>
+										<CheckIcon />
+									</DropdownMenuItemIndicator>
+								</DropdownMenuRadioItem>
+								<DropdownMenuRadioItem value="dark">
+									<Box flexGrow={1}>
+										<Text size="xsmall">Burner test wallet</Text>
+									</Box>
+									<DropdownMenuItemIndicator>
+										<CheckIcon />
+									</DropdownMenuItemIndicator>
+								</DropdownMenuRadioItem>
+								<DropdownMenuRadioItem value="dark">
+									<Box flexGrow={1}>
+										<Text size="xsmall">Funny man&apos;s wallet</Text>
+									</Box>
+									<DropdownMenuItemIndicator>
+										<CheckIcon />
+									</DropdownMenuItemIndicator>
+								</DropdownMenuRadioItem>
+							</DropdownMenuRadioGroup>
+							<DropdownMenuSeparator />
+							<DropdownMenuItem>
+								<DropdownMenuLeftSlot>
+									<LockClosedIcon />
+								</DropdownMenuLeftSlot>
+								<Box display="flex" marginLeft="small">
+									<Text size="xsmall">Lock wallet</Text>
+								</Box>
+							</DropdownMenuItem>
+							<DropdownMenuSeparator />
+							<DropdownMenuItem onSelect={() => handleLangSelect('enUS')}>
+								<DropdownMenuLeftSlot>🇦🇺</DropdownMenuLeftSlot>
+								<Box display="flex" marginLeft="small">
+									<Text size="xsmall">English</Text>
+								</Box>
+							</DropdownMenuItem>
+							<DropdownMenuItem onSelect={() => handleLangSelect('pl')}>
+								<DropdownMenuLeftSlot>🇵🇱</DropdownMenuLeftSlot>
+								<Box display="flex" marginLeft="small">
+									<Text size="xsmall">Polish</Text>
+								</Box>
+							</DropdownMenuItem>
+							{/* <DropdownMenuItem> */}
+							{/* 	<DropdownMenuLeftSlot> */}
+							{/* 		<PersonIcon /> */}
+							{/* 	</DropdownMenuLeftSlot> */}
+							{/* 	<Box display="flex"> */}
+							{/* 		<Text size="xsmall">Add new persona</Text> */}
+							{/* 	</Box> */}
+							{/* </DropdownMenuItem> */}
 
-					{/* <DropdownMenuSeparator /> */}
-					{/* <DropdownMenuLabel>Theme</DropdownMenuLabel> */}
-					{/**/}
-					{/* <DropdownMenuRadioGroup value="light" onValueChange={() => {}}> */}
-					{/* 	<DropdownMenuRadioItem value="light"> */}
-					{/* 		<DropdownMenuItemIndicator> */}
-					{/* 			<DotFilledIcon /> */}
-					{/* 		</DropdownMenuItemIndicator> */}
-					{/* 		Light */}
-					{/* 	</DropdownMenuRadioItem> */}
-					{/* 	<DropdownMenuRadioItem value="dark"> */}
-					{/* 		<DropdownMenuItemIndicator> */}
-					{/* 			<DotFilledIcon /> */}
-					{/* 		</DropdownMenuItemIndicator> */}
-					{/* 		Dark */}
-					{/* 	</DropdownMenuRadioItem> */}
-					{/* 	<DropdownMenuRadioItem value="system"> */}
-					{/* 		<DropdownMenuItemIndicator> */}
-					{/* 			<DotFilledIcon /> */}
-					{/* 		</DropdownMenuItemIndicator> */}
-					{/* 		System */}
-					{/* 	</DropdownMenuRadioItem> */}
-					{/* </DropdownMenuRadioGroup> */}
+							{/* <DropdownMenuSeparator /> */}
+							{/* <DropdownMenuLabel>Theme</DropdownMenuLabel> */}
+							{/**/}
+							{/* <DropdownMenuRadioGroup value="light" onValueChange={() => {}}> */}
+							{/* 	<DropdownMenuRadioItem value="light"> */}
+							{/* 		<DropdownMenuItemIndicator> */}
+							{/* 			<DotFilledIcon /> */}
+							{/* 		</DropdownMenuItemIndicator> */}
+							{/* 		Light */}
+							{/* 	</DropdownMenuRadioItem> */}
+							{/* 	<DropdownMenuRadioItem value="dark"> */}
+							{/* 		<DropdownMenuItemIndicator> */}
+							{/* 			<DotFilledIcon /> */}
+							{/* 		</DropdownMenuItemIndicator> */}
+							{/* 		Dark */}
+							{/* 	</DropdownMenuRadioItem> */}
+							{/* 	<DropdownMenuRadioItem value="system"> */}
+							{/* 		<DropdownMenuItemIndicator> */}
+							{/* 			<DotFilledIcon /> */}
+							{/* 		</DropdownMenuItemIndicator> */}
+							{/* 		System */}
+							{/* 	</DropdownMenuRadioItem> */}
+							{/* </DropdownMenuRadioGroup> */}
+						</Box>
+					</SimpleBarReact>
+
 					<DropdownMenuArrow />
 				</DropdownMenuContent>
 			</DropdownMenu>

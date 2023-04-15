@@ -1,5 +1,8 @@
 import clsx, { type ClassValue } from 'clsx'
 import React, { forwardRef } from 'react'
+// TODO: create anoter component for handle shadows for simplebar
+import SimpleBarReact from 'simplebar-react'
+import 'simplebar-react/dist/simplebar.min.css'
 
 import { Box } from 'ui/src/components-v2/box'
 import { Button, TStyleVariant } from 'ui/src/components-v2/button'
@@ -13,7 +16,6 @@ import {
 	DropdownMenuRadioItem,
 	DropdownMenuTrigger,
 } from 'ui/src/components-v2/dropdown-menu'
-import { ScrollArea } from 'ui/src/components-v2/scroll-area'
 import { Text } from 'ui/src/components-v2/typography'
 import { CheckIcon, ChevronDownIcon } from 'ui/src/components/icons'
 
@@ -43,9 +45,6 @@ export const AccountViewDropdown = forwardRef<HTMLElement, IAccountViewDropdownP
 
 		const isMobile = useIsMobileWidth()
 
-		// TODO: count will come from store
-		const MENU_ITEMS = 10
-
 		return (
 			<Box ref={ref} className={clsx(styles.accountViewDropdownWrapper, className)}>
 				<DropdownMenu>
@@ -64,9 +63,8 @@ export const AccountViewDropdown = forwardRef<HTMLElement, IAccountViewDropdownP
 						align={isMobile ? 'start' : 'end'}
 						sideOffset={2}
 						className={styles.accountViewContentWrapper}
-						style={{ height: `${MENU_ITEMS * 56}px` }}
 					>
-						<ScrollArea>
+						<SimpleBarReact className={styles.accountViewSimpleBarWrapper}>
 							<Box className={styles.accountViewScrollAreaWrapper}>
 								<DropdownMenuRadioGroup value="light" onValueChange={() => {}}>
 									<DropdownMenuRadioItem value="light">
@@ -295,7 +293,7 @@ export const AccountViewDropdown = forwardRef<HTMLElement, IAccountViewDropdownP
 									</DropdownMenuRadioItem>
 								</DropdownMenuRadioGroup>
 							</Box>
-						</ScrollArea>
+						</SimpleBarReact>
 						<DropdownMenuArrow />
 					</DropdownMenuContent>
 				</DropdownMenu>

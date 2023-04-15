@@ -10,16 +10,27 @@ export const accountViewDropdownWrapper = style([
 	{},
 ])
 
+export const accountViewSimpleBarWrapper = style([
+	responsiveStyle({
+		mobile: { maxHeight: '460px' },
+		tablet: { maxHeight: '70vh' },
+	}),
+])
+
 export const accountViewContentWrapper = style([
 	sprinkles({
 		position: 'relative',
 	}),
 	{
 		minWidth: '200px',
+		paddingTop: 0,
+		paddingBottom: 0,
+		paddingLeft: 0,
+		paddingRight: 0,
 	},
 	responsiveStyle({
-		mobile: { maxHeight: '400px', minWidth: '220px' },
-		tablet: { maxHeight: '70vh', minWidth: '220px' },
+		mobile: { minWidth: '220px' },
+		tablet: { minWidth: '220px' },
 	}),
 ])
 

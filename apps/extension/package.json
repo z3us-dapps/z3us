@@ -82,7 +82,7 @@
 		"readable-stream": "^3.6.0",
 		"rxjs": "^7.5.5",
 		"simple-zustand-devtools": "^1.0.0",
-		"simplebar-react": "^2.4.1",
+		"simplebar-react": "^3.2.3",
 		"stream-browserify": "^3.0.0",
 		"stream-http": "^3.2.0",
 		"tailwindcss": "^3.1.8",
@@ -102,7 +102,6 @@
 		"@commitlint/cli": "^17.0.3",
 		"@rollup/plugin-inject": "^4.0.4",
 		"@samrum/vite-plugin-web-extension": "^1.0.0",
-		"vite": "^2.9.14",
 		"@testing-library/jest-dom": "^5.16.1",
 		"@types/chrome": "^0.0.219",
 		"@types/hoist-non-react-statics": "^3.3.1",
@@ -124,6 +123,7 @@
 		"rollup-plugin-visualizer": "^5.6.0",
 		"ts-jest": "28.0.5",
 		"turbo": "*",
+		"vite": "^2.9.14",
 		"vite-compatible-readable-stream": "^3.6.0",
 		"vite-plugin-fonts": "^0.3.0"
 	}
