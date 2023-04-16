@@ -8,13 +8,11 @@ import { Avatar, AvatarFallback, AvatarImage } from 'ui/src/components-v2/avatar
 import { Box } from 'ui/src/components-v2/box'
 import { Text } from 'ui/src/components-v2/typography'
 import { ChevronRightIcon } from 'ui/src/components/icons'
-import { capitalizeFirstLetter } from 'ui/src/utils/capitalize-first-letter'
 
 import { Link } from '@src/components/link'
 import Translation from '@src/components/translation'
 import * as skeletonStyles from '@src/containers/playground/components/styles/skeleton-loading.css'
 import { animtePageVariants } from '@src/containers/playground/constants'
-import { AccountSearch } from '@src/containers/playground/containers/accounts/account-search'
 
 import * as styles from './account-index-assets.css'
 
@@ -59,16 +57,6 @@ export const AccountIndexAssets = forwardRef<HTMLElement, IAccountIndexAssetsPro
 							<Translation capitalizeFirstLetter text="accounts.home.assetsBadgesTitle" />
 						</Text>
 					</Box>
-					{/* TODO: remove search for now */}
-					{/* <Box flexGrow={1}> */}
-					{/* 	<AccountSearch */}
-					{/* 		placeholder={capitalizeFirstLetter(t('global.search'))} */}
-					{/* 		onChange={_value => { */}
-					{/* 			// eslint-disable-next-line */}
-					{/* 			console.log(_value) */}
-					{/* 		}} */}
-					{/* 	/> */}
-					{/* </Box> */}
 				</Box>
 				<Box className={styles.indexAssetsWrapper}>
 					{[

@@ -1,9 +1,11 @@
-import clsx from 'clsx'
+import clsx, { type ClassValue } from 'clsx'
 import React from 'react'
+import { useTranslation } from 'react-i18next'
 
 import { Box } from 'ui/src/components-v2/box'
 import { Text } from 'ui/src/components-v2/typography'
-import { ChevronDown2Icon, ChevronRightIcon } from 'ui/src/components/icons'
+import { ChevronRightIcon } from 'ui/src/components/icons'
+import { capitalizeFirstLetter } from 'ui/src/utils/capitalize-first-letter'
 
 import { Link } from '@src/components/link'
 import Translation from '@src/components/translation'
@@ -17,7 +19,7 @@ interface IAccountListHeaderRequiredProps {
 }
 
 interface IAccountListHeaderOptionalProps {
-	className?: string
+	className?: ClassValue
 }
 
 interface IAccountListHeaderProps extends IAccountListHeaderRequiredProps, IAccountListHeaderOptionalProps {}
@@ -30,6 +32,7 @@ export const AccountListHeader: React.FC<IAccountListHeaderProps> = props => {
 	const { className, isScrolled } = props
 
 	const { account, assetType, asset } = useAccountParams()
+	const { t } = useTranslation()
 
 	return (
 		<Box
@@ -39,34 +42,30 @@ export const AccountListHeader: React.FC<IAccountListHeaderProps> = props => {
 				<Box flexGrow={1}>
 					<Box display="flex" paddingBottom="xsmall">
 						{assetType ? (
-							<Box>
-								<Link underline="hover" to={`/accounts/${account}`}>
-									<Text size="large">
-										<Translation text="accounts.assetsList.overview" />
-										{account ? `: ${account}` : ''}
-									</Text>
-								</Link>
-							</Box>
-						) : (
-							<Box>
-								<Text size="large">Account balance</Text>
-							</Box>
-						)}
-						{assetType ? (
-							<Box display="flex" alignItems="center">
-								<Box display="flex" alignItems="center">
-									<ChevronRightIcon />
-								</Box>
-								{asset ? (
-									<Link underline="hover" to={`/accounts/${account}/${assetType}`}>
-										<Text size="large">{assetType}</Text>
+							<>
+								<Box>
+									<Link underline="hover" to={`/accounts/${account}`}>
+										<Text size="large">
+											<Translation capitalizeFirstLetter text="accounts.assetsList.overview" />
+											{account ? `: ${account}` : ''}
+										</Text>
 									</Link>
-								) : (
-									<Text size="large" color="strong">
-										{assetType}
-									</Text>
-								)}
-							</Box>
+								</Box>
+								<Box display="flex" alignItems="center">
+									<Box display="flex" alignItems="center">
+										<ChevronRightIcon />
+									</Box>
+									{asset ? (
+										<Link underline="hover" to={`/accounts/${account}/${assetType}`}>
+											<Text size="large">{assetType}</Text>
+										</Link>
+									) : (
+										<Text size="large" color="strong">
+											{assetType}
+										</Text>
+									)}
+								</Box>
+							</>
 						) : null}
 						{asset ? (
 							<Box display="flex" alignItems="center">
@@ -85,7 +84,7 @@ export const AccountListHeader: React.FC<IAccountListHeaderProps> = props => {
 				</Box>
 				<Box display="flex" flexGrow={1}>
 					<AccountSearch
-						placeholder="Search"
+						placeholder={capitalizeFirstLetter(t('global.search'))}
 						onChange={_value => {
 							// eslint-disable-next-line
 							console.log(_value)
@@ -93,27 +92,28 @@ export const AccountListHeader: React.FC<IAccountListHeaderProps> = props => {
 					/>
 				</Box>
 			</Box>
-			<Box width="full">
+			<Box width="full" paddingTop="small">
 				<Box position="relative" paddingBottom="medium" className={styles.tokenListGridWrapper}>
-					<Box component="button" className={styles.tokenListHeaderButton}>
+					<Box className={styles.tokenListHeaderButton}>
 						<Text size="xsmall" weight="medium">
-							<Translation text="accounts.assetsList.listHeaderAsset" />
+							<Translation capitalizeFirstLetter text="accounts.assetsList.listHeaderAsset" />
 						</Text>
 					</Box>
-					<Box component="button" className={styles.tokenListHeaderButton}>
+					<Box className={styles.tokenListHeaderButton}>
 						<Text size="xsmall" weight="medium">
-							<Translation text="accounts.assetsList.listHeaderAmount" />
+							<Translation capitalizeFirstLetter text="accounts.assetsList.listHeaderAmount" />
 						</Text>
 					</Box>
-					<Box component="button" className={styles.tokenListHeaderButton}>
+					<Box className={styles.tokenListHeaderButton}>
 						<Text size="xsmall" weight="medium">
-							<Translation text="accounts.assetsList.listHeaderCategory" />
+							<Translation capitalizeFirstLetter text="accounts.assetsList.listHeaderCategory" />
 						</Text>
-						<ChevronDown2Icon />
+						{/* TODO: chevron used for sorting  */}
+						{/* <ChevronDown2Icon /> */}
 					</Box>
-					<Box component="button" className={styles.tokenListHeaderButton}>
+					<Box className={styles.tokenListHeaderButton}>
 						<Text size="xsmall" weight="medium">
-							<Translation text="accounts.assetsList.listHeaderAccount" />
+							<Translation capitalizeFirstLetter text="accounts.assetsList.listHeaderAccount" />
 						</Text>
 					</Box>
 				</Box>

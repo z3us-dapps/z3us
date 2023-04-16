@@ -1,4 +1,4 @@
-import clsx from 'clsx'
+import clsx, { type ClassValue } from 'clsx'
 import { AnimatePresence, motion } from 'framer-motion'
 import React, { useCallback, useContext, useState } from 'react'
 import { VirtuosoGrid } from 'react-virtuoso'
@@ -9,6 +9,7 @@ import { Text } from 'ui/src/components-v2/typography'
 
 import { Link } from '@src/components/link'
 import * as skeletonStyles from '@src/containers/playground/components/styles/skeleton-loading.css'
+import { animtePageVariants } from '@src/containers/playground/constants'
 import { useAccountParams } from '@src/hooks/use-account-params'
 
 import { AccountListHeader } from './account-list-header'
@@ -25,25 +26,6 @@ const ListContainer = React.forwardRef<HTMLDivElement>((props, ref) => (
 ))
 
 const ItemContainer = props => <div {...props} className={styles.itemContainer} />
-
-const variants = {
-	visible: {
-		opacity: 1,
-		transition: {
-			type: 'spring',
-			stiffness: 200,
-			damping: 20,
-		},
-	},
-	hidden: {
-		opacity: 0,
-		transition: {
-			type: 'spring',
-			stiffness: 200,
-			damping: 20,
-		},
-	},
-}
 
 const ItemWrapper = props => {
 	const { idx, user } = props
@@ -68,7 +50,7 @@ const ItemWrapper = props => {
 					<motion.div
 						initial="hidden"
 						animate="visible"
-						variants={variants}
+						variants={animtePageVariants}
 						className={styles.itemWrapperMotion}
 						style={{ position: 'absolute', top: '0', left: '0' }}
 					>
@@ -100,7 +82,12 @@ const ItemWrapper = props => {
 			<AnimatePresence initial={false}>
 				{user.loaded && (
 					<Link to={`/accounts/${account}/tokens/${user.id}`}>
-						<motion.div initial="hidden" animate="visible" variants={variants} className={styles.itemWrapperMotion}>
+						<motion.div
+							initial="hidden"
+							animate="visible"
+							variants={animtePageVariants}
+							className={styles.itemWrapperMotion}
+						>
 							<Box
 								className={clsx(
 									styles.itemWrapperInner,
@@ -146,7 +133,7 @@ interface IAccountListRequiredProps {
 }
 
 interface IAccountListOptionalProps {
-	className?: number
+	className?: ClassValue
 }
 
 interface IAccountListProps extends IAccountListRequiredProps, IAccountListOptionalProps {}

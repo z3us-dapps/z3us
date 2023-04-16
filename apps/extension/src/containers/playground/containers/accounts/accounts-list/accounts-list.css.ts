@@ -201,7 +201,6 @@ export const tokenListWrapper = style([
 
 export const tokenListHeaderButton = style([
 	sprinkles({
-		cursor: 'pointer',
 		display: 'flex',
 		alignItems: 'center',
 	}),
