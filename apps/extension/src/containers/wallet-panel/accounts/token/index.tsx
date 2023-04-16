@@ -13,18 +13,6 @@ import { getSplitParams } from '@src/utils/url-utils'
 import { SlideUpPanel } from '../slide-up-panel'
 import { TokenInfo } from '../token-info'
 
-export const VirtuosoFooter = (): JSX.Element => (
-	<div
-		style={{
-			padding: '2rem',
-			display: 'flex',
-			justifyContent: 'center',
-		}}
-	>
-		Loading...
-	</div>
-)
-
 const SlideUpHeader: React.FC = () => (
 	<Box
 		css={{
@@ -45,7 +33,6 @@ export const Token: React.FC = () => {
 	const [, params] = useRoute('/account/token/:rri')
 	const rri = getSplitParams(params)
 	const { isFetching, data, error, fetchNextPage, hasNextPage } = useTransactionHistory(10)
-
 	// @TODO: implement `isLoading`
 	const isLoading = false
 
@@ -59,16 +46,19 @@ export const Token: React.FC = () => {
 			)
 			.reduce((container, page) => [...container, ...page], []) || []
 
+	const loadMore = useCallback(() => {
+		if (isFetching) return
+		if (hasNextPage) {
+			fetchNextPage()
+		}
+	}, [isFetching, fetchNextPage, hasNextPage])
+
 	useEffect(() => {
 		if (isFetching) return
 		if (!hasNextPage) return
 		if (flatten.length > 0) return
 		fetchNextPage()
 	}, [flatten])
-
-	const loadMore = useCallback(() => {
-		fetchNextPage()
-	}, [fetchNextPage, hasNextPage])
 
 	return (
 		<>
@@ -84,7 +74,6 @@ export const Token: React.FC = () => {
 								totalCount={flatten.length}
 								data={flatten}
 								endReached={loadMore}
-								components={{ Footer: hasNextPage ? VirtuosoFooter : null }}
 								// eslint-disable-next-line react/no-unstable-nested-components
 								itemContent={(i, { a, t }) => (
 									<ActivityItem

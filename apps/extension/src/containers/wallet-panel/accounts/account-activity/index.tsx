@@ -1,4 +1,4 @@
-/* eslint-disable react/no-array-index-key, react/no-unstable-nested-components, @typescript-eslint/no-unused-vars */
+/* eslint-disable  react/no-unstable-nested-components */
 import React, { useCallback, useState } from 'react'
 import { Virtuoso } from 'react-virtuoso'
 
@@ -8,22 +8,11 @@ import { ScrollArea } from 'ui/src/components/scroll-area'
 
 import { AccountSelector } from '@src/components/account-selector'
 import { ActivityItem } from '@src/components/activity-item'
+import { NoResultsPlaceholder } from '@src/components/no-results-placeholder'
 import { SendReceiveHeader } from '@src/components/send-receive-header'
 import { useTransactionHistory } from '@src/hooks/react-query/queries/radix'
 import { useNoneSharedStore } from '@src/hooks/use-store'
 import { getShortAddress } from '@src/utils/string-utils'
-
-export const VirtuosoFooter = (): JSX.Element => (
-	<div
-		style={{
-			padding: '2rem',
-			display: 'flex',
-			justifyContent: 'center',
-		}}
-	>
-		Loading...
-	</div>
-)
 
 export const AccountActivity: React.FC = () => {
 	const [customScrollParent, setCustomScrollParent] = useState<HTMLElement | null>(null)
@@ -50,8 +39,11 @@ export const AccountActivity: React.FC = () => {
 	}
 
 	const loadMore = useCallback(() => {
-		fetchNextPage()
-	}, [fetchNextPage, hasNextPage])
+		if (isFetching) return
+		if (hasNextPage) {
+			fetchNextPage()
+		}
+	}, [isFetching, fetchNextPage, hasNextPage])
 
 	return (
 		<Flex
@@ -83,13 +75,26 @@ export const AccountActivity: React.FC = () => {
 						<Box css={{ pb: '12px' }}>
 							<AccountSelector shortAddress={shortAddress} onAccountChange={handleAccountChange} />
 						</Box>
+						{isFetching && !hasActivities ? (
+							<Flex justify="center" css={{ width: '100%', mt: '$4' }}>
+								<LoaderBars />
+							</Flex>
+						) : null}
+						{!isFetching && !hasActivities ? (
+							<Flex justify="center" css={{ width: '100%', mt: '$4' }}>
+								<NoResultsPlaceholder
+									title="No account activity"
+									subTitle="account transactions will be displayed here"
+									showIcon={false}
+								/>
+							</Flex>
+						) : null}
 						{hasActivities ? (
 							<Virtuoso
 								customScrollParent={customScrollParent}
 								totalCount={flatten.length}
 								data={flatten}
 								endReached={loadMore}
-								components={{ Footer: hasNextPage ? VirtuosoFooter : null }}
 								// eslint-disable-next-line react/no-unstable-nested-components
 								itemContent={(i, { a, t }) => (
 									<ActivityItem
@@ -114,11 +119,7 @@ export const AccountActivity: React.FC = () => {
 									/>
 								)}
 							/>
-						) : (
-							<Flex justify="center" css={{ width: '100%', mt: '$4' }}>
-								<LoaderBars />
-							</Flex>
-						)}
+						) : null}
 					</Box>
 				</ScrollArea>
 			</Box>

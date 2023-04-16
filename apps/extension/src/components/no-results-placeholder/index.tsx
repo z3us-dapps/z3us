@@ -1,41 +1,42 @@
+import { MagnifyingGlassIcon } from '@radix-ui/react-icons'
 import React from 'react'
 
-import { Box } from 'ui/src/components-v2/box'
-import { Text } from 'ui/src/components-v2/typography'
-import { MagnifyingGlassIcon } from 'ui/src/components/icons'
+import { Box, Flex, Text } from 'ui/src/components/atoms'
 
 interface IProps {
 	title?: string
-	subTitle?: string
-	icon?: React.ReactNode
+	subTitle?: string | undefined
+	showIcon?: boolean
 }
 
 const defaultProps = {
 	title: 'No results found',
 	subTitle: 'please refine search',
-	icon: <MagnifyingGlassIcon />,
+	showIcon: true,
 }
 
-export const NoResultsPlaceholder: React.FC<IProps> = ({ title, subTitle, icon, ...rest }) => (
-	<Box
-		display="flex"
-		flexDirection="column"
-		gap="small"
-		height="full"
-		alignItems="center"
-		justifyContent="center"
-		{...rest}
+export const NoResultsPlaceholder: React.FC<IProps> = ({ title, subTitle, showIcon }) => (
+	<Flex
+		direction="column"
+		align="center"
+		justify="center"
+		css={{
+			position: 'relative',
+			height: '100%',
+		}}
 	>
-		<Box display="flex" alignItems="center" gap="small">
-			<>
-				<Text size="xlarge" weight="strong">
-					{title}
-				</Text>
-				{icon || null}
-			</>
-		</Box>
-		<Text>{subTitle}</Text>
-	</Box>
+		<Flex align="center" css={{ position: 'relative' }}>
+			<Text size="5" bold css={{ pr: '6px' }}>
+				{title}
+			</Text>
+			{showIcon ? (
+				<Box css={{ transform: 'translateY(3px)' }}>
+					<MagnifyingGlassIcon />
+				</Box>
+			) : null}
+		</Flex>
+		{subTitle?.length > 0 ? <Text css={{ pt: '$2' }}>{subTitle}</Text> : null}
+	</Flex>
 )
 
 NoResultsPlaceholder.defaultProps = defaultProps
