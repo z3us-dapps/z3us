@@ -53,9 +53,7 @@ export const inputWrapper = style([
 		width: 'full',
 		opacity: 0,
 	}),
-	{
-		maxWidth: '300px',
-	},
+	{},
 ])
 
 export const inputWrapperVisible = style([sprinkles({}), { opacity: 1 }])

@@ -13,21 +13,7 @@ import { TransactionIcon } from '@src/components/transaction-icon'
 
 import * as styles from './account-activity.css'
 
-const items = [
-	{ id: '884848', title: 'djfjfj884' },
-	{ id: '7d7fhdf', title: 'djfjfj884' },
-	{ id: 'djfhdjhf', title: 'djfjfj884' },
-	{ id: 'dfdfj', title: 'djfjfj884' },
-	{ id: '88', title: 'djfjfj884' },
-	{ id: '8djfahksdhf', title: 'djfjfj884' },
-	{ id: '8iiudf7f7fhfh', title: 'djfjfj884' },
-	{ id: 'ifjf2111', title: 'what' },
-	{ id: '12455', title: 'what' },
-	{ id: 'ifjf49', title: 'what' },
-	{ id: 'ifj7575hg', title: 'what' },
-	{ id: 'ifff7hghgjgjgg90g0g', title: 'what' },
-	{ id: 'ifjfuhdfuhfuh', title: 'what' },
-]
+const hash = () => Math.random().toString(36).substring(7)
 
 const ListContainer = React.forwardRef<HTMLDivElement>((props, ref) => <div ref={ref} {...props} />)
 
@@ -106,6 +92,9 @@ export const AccountActivity = forwardRef<HTMLElement, IAccountActivityProps>(
 		const { scrollableNode } = props
 		const [selected, setSelected] = useState<string | null>(null)
 		const [hovered, setHovered] = useState<string | null>(null)
+
+		// eslint-disable-next-line
+		const [items, setItems] = useState(Array.from({ length: 20 }, _ => ({ id: hash(), name: hash(), loaded: false })))
 
 		return (
 			<Box ref={ref} className={clsx(styles.activityWrapper)} style={{ minHeight: '100px' }}>

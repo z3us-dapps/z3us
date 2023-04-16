@@ -84,7 +84,6 @@ export const AccountListHeader: React.FC<IAccountListHeaderProps> = props => {
 				</Box>
 				<Box display="flex" flexGrow={1}>
 					<AccountSearch
-						placeholder={capitalizeFirstLetter(t('global.search'))}
 						onChange={_value => {
 							// eslint-disable-next-line
 							console.log(_value)

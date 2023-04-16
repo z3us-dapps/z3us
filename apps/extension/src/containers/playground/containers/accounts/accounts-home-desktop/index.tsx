@@ -1,12 +1,11 @@
 import clsx from 'clsx'
 import { AnimatePresence } from 'framer-motion'
 import React from 'react'
+import { useTranslation } from 'react-i18next'
 import { Route, Routes, useLocation } from 'react-router-dom'
 
 import { Box } from 'ui/src/components-v2/box'
-import { Text } from 'ui/src/components-v2/typography'
 
-import Translation from '@src/components/translation'
 import { AnimatedPage } from '@src/containers/playground/components/animated-route'
 import { ScrollPanel } from '@src/containers/playground/components/scroll-panel'
 import { Z3usLoading } from '@src/containers/playground/components/z3us-loading'
@@ -23,6 +22,7 @@ import * as styles from './accounts-home-desktop.css'
 
 export const AccountsHomeDesktop = () => {
 	const location = useLocation()
+	const { t } = useTranslation()
 	const { account, assetType, asset } = useAccountParams()
 	const isAllAccount = account === 'all'
 
@@ -97,19 +97,13 @@ export const AccountsHomeDesktop = () => {
 									className={styles.recentActivityWrapper}
 								>
 									<Box display="flex" alignItems="center" position="relative" gap="large">
-										<Box flexShrink={0}>
-											{asset ? (
-												<Text size="large" weight="medium" color="strong">
-													{asset} <Translation text="global.activity" />
-												</Text>
-											) : null}
-											{!asset ? (
-												<Text size="large" weight="medium" color="strong">
-													{assetType || 'All'} <Translation text="global.activity" />
-												</Text>
-											) : null}
-										</Box>
-										<AccountSearch placeholder="search" />
+										<AccountSearch
+											searchTitle={
+												asset
+													? `${asset} ${t('global.activity')}`
+													: `${assetType || t('global.all')} ${t('global.activity')}`
+											}
+										/>
 									</Box>
 								</Box>
 								<Box paddingBottom="medium">

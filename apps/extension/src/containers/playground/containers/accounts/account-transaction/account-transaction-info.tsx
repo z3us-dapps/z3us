@@ -1,4 +1,4 @@
-/* eslint-disable react/jsx-no-useless-fragment */
+/* eslint-disable react/jsx-no-useless-fragment, @typescript-eslint/no-unused-vars */
 import React from 'react'
 
 import { Box } from 'ui/src/components-v2/box'
