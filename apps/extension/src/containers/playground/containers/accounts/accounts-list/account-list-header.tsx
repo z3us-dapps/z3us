@@ -1,11 +1,9 @@
 import clsx, { type ClassValue } from 'clsx'
 import React from 'react'
-import { useTranslation } from 'react-i18next'
 
 import { Box } from 'ui/src/components-v2/box'
 import { Text } from 'ui/src/components-v2/typography'
 import { ChevronRightIcon } from 'ui/src/components/icons'
-import { capitalizeFirstLetter } from 'ui/src/utils/capitalize-first-letter'
 
 import { Link } from '@src/components/link'
 import Translation from '@src/components/translation'
@@ -32,7 +30,6 @@ export const AccountListHeader: React.FC<IAccountListHeaderProps> = props => {
 	const { className, isScrolled } = props
 
 	const { account, assetType, asset } = useAccountParams()
-	const { t } = useTranslation()
 
 	return (
 		<Box

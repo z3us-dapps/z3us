@@ -1,17 +1,21 @@
 import clsx from 'clsx'
-import React, { forwardRef, useState } from 'react'
+import React, { forwardRef, useContext, useState } from 'react'
 import { useLocation } from 'react-router-dom'
 import { Virtuoso } from 'react-virtuoso'
+import { useTimeout } from 'usehooks-ts'
 
 import { Box } from 'ui/src/components-v2/box'
+import { ToolTip } from 'ui/src/components-v2/tool-tip'
 import { Text } from 'ui/src/components-v2/typography'
 import { ShareIcon } from 'ui/src/components/icons'
 
 import { Button } from '@src/components/button'
 import { Link } from '@src/components/link'
 import { TransactionIcon } from '@src/components/transaction-icon'
+import Translation from '@src/components/translation'
 
 import * as styles from './account-activity.css'
+import { Context } from './context'
 
 const hash = () => Math.random().toString(36).substring(7)
 
@@ -20,7 +24,9 @@ const ListContainer = React.forwardRef<HTMLDivElement>((props, ref) => <div ref=
 const ItemContainer = props => <Box {...props} className={styles.activtyItem} />
 
 const ItemWrapper = props => {
-	const { user, selected, hovered, setHovered } = props
+	const { setItems } = useContext(Context)
+	const { id, loaded, user, selected, hovered, setHovered } = props
+	console.log('loaded:', loaded)
 
 	// const { account, assetType, asset } = useAccountParams()
 	const { pathname } = useLocation()
@@ -31,6 +37,19 @@ const ItemWrapper = props => {
 	// const handleClickItem = () => {
 	// 	setSelected(isSelected ? null : user.id)
 	// }
+	//
+
+	// demo for timing
+	useTimeout(() => {
+		setItems(items =>
+			items.map(item => {
+				if (item.id === id) {
+					item.loaded = true
+				}
+				return item
+			}),
+		)
+	}, 1000)
 
 	return (
 		<Box className={styles.activtyItemOuter}>
@@ -61,17 +80,19 @@ const ItemWrapper = props => {
 					(isSelected || isHovered) && styles.activtyItemExternalLinkWrapperActive,
 				)}
 			>
-				<Button
-					sizeVariant="small"
-					styleVariant="ghost"
-					iconOnly
-					to="https://explorer.radixdlt.com/"
-					target="_blank"
-					onMouseOver={() => setHovered(user.id)}
-					onMouseLeave={() => setHovered(null)}
-				>
-					<ShareIcon />
-				</Button>
+				<ToolTip message={<Translation capitalizeFirstLetter text="global.explorer" />}>
+					<Button
+						sizeVariant="small"
+						styleVariant="ghost"
+						iconOnly
+						to="https://explorer.radixdlt.com/"
+						target="_blank"
+						onMouseOver={() => setHovered(user.id)}
+						onMouseLeave={() => setHovered(null)}
+					>
+						<ShareIcon />
+					</Button>
+				</ToolTip>
 			</Box>
 		</Box>
 	)
@@ -98,26 +119,32 @@ export const AccountActivity = forwardRef<HTMLElement, IAccountActivityProps>(
 
 		return (
 			<Box ref={ref} className={clsx(styles.activityWrapper)} style={{ minHeight: '100px' }}>
-				<Virtuoso
-					customScrollParent={scrollableNode}
-					data={items}
-					// todo fix lint issue
-					// eslint-disable-next-line
-					itemContent={(index, user) => (
-						<ItemWrapper
-							idx={index}
-							user={user}
-							selected={selected}
-							setSelected={setSelected}
-							hovered={hovered}
-							setHovered={setHovered}
-						/>
-					)}
-					components={{
-						List: ListContainer,
-						Item: ItemContainer,
-					}}
-				/>
+				{/* @TODO: remove eslint when we remove context provider */}
+				{/* eslint-disable-next-line */}
+				<Context.Provider value={{ setItems }}>
+					<Virtuoso
+						customScrollParent={scrollableNode}
+						data={items}
+						// todo fix lint issue
+						// eslint-disable-next-line
+						itemContent={(index, user) => (
+							<ItemWrapper
+								idx={index}
+								id={user.id}
+								loaded={user.loaded}
+								user={user}
+								selected={selected}
+								setSelected={setSelected}
+								hovered={hovered}
+								setHovered={setHovered}
+							/>
+						)}
+						components={{
+							List: ListContainer,
+							Item: ItemContainer,
+						}}
+					/>
+				</Context.Provider>
 			</Box>
 		)
 	},
