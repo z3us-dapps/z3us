@@ -278,6 +278,16 @@ export const sharedThemeValues = {
 }
 
 /**
+ * Color types
+ */
+type TRGB = `rgb(${number}, ${number}, ${number})`
+type TRGBA = `rgba(${number}, ${number}, ${number}, ${number})`
+type THEX = `#${string}`
+export type Color = TRGB | TRGBA | THEX
+
+// TODO: create type for  primitiveColors
+
+/**
  * Primitive Color values
  * These are the palette that all themes pull from
  */
@@ -409,6 +419,11 @@ export const darkThemeColors = {
 }
 
 /**
+ * Variable Semantic color keys
+ */
+export const themeSpecificColorsKeys = Object.keys(lightThemeColors)
+
+/**
  * Theme Shape for Vanilla Extract's createTheme
  */
 export const themeShape = {
@@ -454,4 +469,6 @@ export const [lightThemeClass, vars] = createTheme(themeShape)
  * Dark Theme tools
  * note: validated by light theme's vars so we make sure it has the same shape
  */
-export const darkThemeClass = createTheme(vars, darkTheme)
+
+// TODO: fix type `darkTheme as ny`
+export const darkThemeClass = createTheme(vars, darkTheme as any)

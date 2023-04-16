@@ -41,12 +41,12 @@ export const TempNav: React.FC = () => {
 		const isDarkMode = match.matches
 
 		if (isDarkTheme) {
-			element.classList.add(darkThemeClass)
+			element.classList.add(darkThemeClass as any)
 			element.classList.add('dark')
 			element.classList.remove('light')
 			element.classList.remove(lightThemeClass)
 		} else {
-			element.classList.remove(darkThemeClass)
+			element.classList.remove(darkThemeClass as any)
 			element.classList.remove('dark')
 			element.classList.add('light')
 			element.classList.add(lightThemeClass)
@@ -54,7 +54,7 @@ export const TempNav: React.FC = () => {
 
 		if (!isMounted) {
 			if (isDarkMode) {
-				element.classList.add(darkThemeClass)
+				element.classList.add(darkThemeClass as any)
 				element.classList.add('dark')
 				element.classList.remove('light')
 				element.classList.remove(lightThemeClass)

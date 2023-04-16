@@ -1,5 +1,3 @@
-@import 'simplebar/src/simplebar.css';
-
 /* // @TODO: Test if this is needed */
 @media (-webkit-min-device-pixel-ratio: 2), (min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
 	body {
