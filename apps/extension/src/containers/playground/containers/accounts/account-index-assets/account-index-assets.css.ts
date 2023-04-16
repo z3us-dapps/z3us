@@ -1,7 +1,6 @@
 import { globalStyle, style } from '@vanilla-extract/css'
 
 import { darkMode, sprinkles } from 'ui/src/components-v2/system/sprinkles.css'
-import { responsiveStyle } from 'ui/src/components-v2/system/theme-utils'
 import { vars } from 'ui/src/components-v2/system/theme.css'
 
 export const indexAssetsWrapper = style([
@@ -35,12 +34,14 @@ export const indexAssetLinkRowLoadingGrid = style([
 
 export const indexAssetLinkRowLoading = style([
 	sprinkles({
+		color: 'borderDivider',
 		transition: 'fast',
 		display: 'flex',
 		alignItems: 'center',
 		width: 'full',
 	}),
 	{
+		boxShadow: '0 -1px 0 0',
 		height: '86px',
 	},
 ])
@@ -97,34 +98,6 @@ export const indexAssetLinkRowInner = style([
 		paddingTop: '24px',
 		paddingBottom: '24px',
 	},
-	responsiveStyle({
-		// mobile: { width: '100%' },
-		// tablet: { width: '33%' },
-		// desktop: { width: '25%' },
-	}),
-])
-
-export const teststyle = style([
-	sprinkles({
-		position: 'relative',
-		background: {
-			hover: 'red800',
-			focus: 'red900',
-		},
-	}),
-	{
-		border: '1px solid red',
-		'@media': {
-			[`screen and (min-width: 480px)`]: {
-				flexBasis: '50%',
-			},
-		},
-	},
-	responsiveStyle({
-		mobile: { width: '100%' },
-		tablet: { width: '33%' },
-		desktop: { width: '25%' },
-	}),
 ])
 
 globalStyle(`.${darkMode} ${indexAssetLinkRow} > a:hover`, {
@@ -132,6 +105,10 @@ globalStyle(`.${darkMode} ${indexAssetLinkRow} > a:hover`, {
 })
 
 globalStyle(`${indexAssetWrapper}:first-child > div > div > a`, {
+	boxShadow: 'none',
+})
+
+globalStyle(`${indexAssetWrapper}:first-child > div`, {
 	boxShadow: 'none',
 })
 

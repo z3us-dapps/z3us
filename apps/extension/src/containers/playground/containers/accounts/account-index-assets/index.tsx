@@ -8,32 +8,15 @@ import { Avatar, AvatarFallback, AvatarImage } from 'ui/src/components-v2/avatar
 import { Box } from 'ui/src/components-v2/box'
 import { Text } from 'ui/src/components-v2/typography'
 import { ChevronRightIcon } from 'ui/src/components/icons'
+import { capitalizeFirstLetter } from 'ui/src/utils/capitalize-first-letter'
 
 import { Link } from '@src/components/link'
 import Translation from '@src/components/translation'
 import * as skeletonStyles from '@src/containers/playground/components/styles/skeleton-loading.css'
+import { animtePageVariants } from '@src/containers/playground/constants'
 import { AccountSearch } from '@src/containers/playground/containers/accounts/account-search'
 
 import * as styles from './account-index-assets.css'
-
-const variants = {
-	visible: {
-		opacity: 1,
-		transition: {
-			type: 'spring',
-			stiffness: 200,
-			damping: 20,
-		},
-	},
-	hidden: {
-		opacity: 0,
-		transition: {
-			type: 'spring',
-			stiffness: 200,
-			damping: 20,
-		},
-	},
-}
 
 interface IAccountIndexAssetsRequiredProps {
 	scrollableNode: HTMLElement | null
@@ -73,18 +56,19 @@ export const AccountIndexAssets = forwardRef<HTMLElement, IAccountIndexAssetsPro
 				<Box display="flex" paddingBottom="small" paddingTop="large" paddingX="xlarge" alignItems="center" gap="large">
 					<Box>
 						<Text size="xlarge" color="strong" weight="medium">
-							<Translation text="accounts.home.assetsBadgesTitle" />
+							<Translation capitalizeFirstLetter text="accounts.home.assetsBadgesTitle" />
 						</Text>
 					</Box>
-					<Box flexGrow={1}>
-						<AccountSearch
-							placeholder="Search"
-							onChange={_value => {
-								// eslint-disable-next-line
-								console.log(_value)
-							}}
-						/>
-					</Box>
+					{/* TODO: remove search for now */}
+					{/* <Box flexGrow={1}> */}
+					{/* 	<AccountSearch */}
+					{/* 		placeholder={capitalizeFirstLetter(t('global.search'))} */}
+					{/* 		onChange={_value => { */}
+					{/* 			// eslint-disable-next-line */}
+					{/* 			console.log(_value) */}
+					{/* 		}} */}
+					{/* 	/> */}
+					{/* </Box> */}
 				</Box>
 				<Box className={styles.indexAssetsWrapper}>
 					{[
@@ -99,17 +83,21 @@ export const AccountIndexAssets = forwardRef<HTMLElement, IAccountIndexAssetsPro
 									<motion.div
 										initial="hidden"
 										animate="visible"
-										variants={variants}
+										variants={animtePageVariants}
 										className={styles.indexAssetLinkRowLoading}
 									>
 										<Box className={styles.indexAssetLinkRowLoadingGrid}>
-											<Box display="flex" alignItems="center">
+											<Box display="flex" flexDirection="column" alignItems="flex-start" gap="xsmall">
 												<Box
 													className={skeletonStyles.tokenListSkeleton}
-													style={{ width: idx % 2 === 0 ? '45%' : '65%', height: '50%' }}
+													style={{ width: idx % 2 === 0 ? '35%' : '55%', height: '50%' }}
+												/>
+												<Box
+													className={skeletonStyles.tokenListSkeleton}
+													style={{ width: idx % 2 === 0 ? '25%' : '45%', height: '50%' }}
 												/>
 											</Box>
-											<Box display="flex" alignItems="center" justifyContent="flex-end">
+											<Box display="flex" alignItems="center" justifyContent="flex-end" marginRight="xlarge">
 												{[...Array(idx % 2 === 0 ? 4 : 5)].map((_, i) => (
 													<Box
 														// eslint-disable-next-line react/no-array-index-key
@@ -125,7 +113,7 @@ export const AccountIndexAssets = forwardRef<HTMLElement, IAccountIndexAssetsPro
 							</AnimatePresence>
 							<AnimatePresence initial={false}>
 								{loaded && (
-									<motion.div initial="hidden" animate="visible" variants={variants}>
+									<motion.div initial="hidden" animate="visible" variants={animtePageVariants}>
 										<Box>
 											<Link
 												to="/accounts/all/tokens"
@@ -141,7 +129,7 @@ export const AccountIndexAssets = forwardRef<HTMLElement, IAccountIndexAssetsPro
 													onMouseLeave={() => setHoveredLink(null)}
 												>
 													<Box display="flex" alignItems="center">
-														<Text size="medium" color="strong">
+														<Text capitalizeFirstLetter size="medium" color="strong">
 															{name}
 														</Text>
 														<Box paddingLeft="xsmall">

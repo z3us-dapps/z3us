@@ -39,6 +39,7 @@ const MenuItemDesktop = ({ text, href }) => {
 				size="medium"
 				color={null}
 				className={clsx(styles.navigationMenuLinkText, selected && styles.navigationMenuLinkTextSelected)}
+				capitalizeFirstLetter
 			>
 				{text}
 			</Text>

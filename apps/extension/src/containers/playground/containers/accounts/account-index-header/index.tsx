@@ -38,7 +38,7 @@ export const AccountIndexHeader = forwardRef<HTMLElement, IAccountIndexHeaderPro
 						<Box display="flex" alignItems="center" paddingBottom="xsmall" flexGrow={0}>
 							<Box>
 								<Text size="large">
-									<Translation text="accounts.home.accountBalanceTitle" />
+									<Translation capitalizeFirstLetter text="accounts.home.accountBalanceTitle" />
 								</Text>
 							</Box>
 						</Box>
