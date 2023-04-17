@@ -1,7 +1,11 @@
 import React, { ReactElement } from 'react'
-import { useDecryptTransaction } from '@src/hooks/react-query/queries/radix'
-import { Action, Transaction } from '@src/types'
+
 import LoaderBars from 'ui/src/components/loader-bars'
+
+import { HardwareWalletReconnect } from '@src/components/hardware-wallet-reconnect'
+import { useDecryptTransaction } from '@src/hooks/react-query/queries/radix'
+import { useSharedStore } from '@src/hooks/use-store'
+import { Action, KeystoreType, Transaction } from '@src/types'
 
 interface TProps {
 	tx?: Transaction
@@ -14,8 +18,15 @@ const defaultProps = {
 }
 
 export const TransactionMessage: React.FC<TProps> = ({ tx, activity }: TProps) => {
+	const { signingKey, keystore } = useSharedStore(state => ({
+		signingKey: state.signingKey,
+		keystore: state.keystores.find(({ id }) => id === state.selectKeystoreId),
+	}))
 	const { data: message } = useDecryptTransaction(tx, activity)
 
+	if (keystore.type === KeystoreType.HARDWARE && !signingKey) {
+		return <HardwareWalletReconnect />
+	}
 	if (!message) {
 		return <LoaderBars size="1" css={{ mt: '2px' }} />
 	}
