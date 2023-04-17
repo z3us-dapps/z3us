@@ -15,8 +15,6 @@ export const activityWrapper = style([
 	}),
 	{
 		width: '100%',
-		// maxHeight: '100%',
-		// flex: '1 1 0',
 	},
 	// responsiveStyle({
 	// 	mobile: { width: '100%' },
@@ -40,6 +38,9 @@ export const activtyItemOuter = style([
 	sprinkles({
 		position: 'relative',
 	}),
+	{
+		height: '60px',
+	},
 ])
 
 export const activtyItemExternalLinkWrapper = style([

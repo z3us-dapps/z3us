@@ -75,14 +75,20 @@ export const AccountIndexAssets = forwardRef<HTMLElement, IAccountIndexAssetsPro
 										className={styles.indexAssetLinkRowLoading}
 									>
 										<Box className={styles.indexAssetLinkRowLoadingGrid}>
-											<Box display="flex" flexDirection="column" alignItems="flex-start" gap="xsmall">
+											<Box
+												display="flex"
+												flexDirection="column"
+												alignItems="flex-start"
+												justifyContent="center"
+												gap="small"
+											>
 												<Box
 													className={skeletonStyles.tokenListSkeleton}
-													style={{ width: idx % 2 === 0 ? '35%' : '55%', height: '50%' }}
+													style={{ width: idx % 2 === 0 ? '35%' : '55%', height: '13px' }}
 												/>
 												<Box
 													className={skeletonStyles.tokenListSkeleton}
-													style={{ width: idx % 2 === 0 ? '25%' : '45%', height: '50%' }}
+													style={{ width: idx % 2 === 0 ? '25%' : '45%', height: '13px' }}
 												/>
 											</Box>
 											<Box display="flex" alignItems="center" justifyContent="flex-end" marginRight="xlarge">
