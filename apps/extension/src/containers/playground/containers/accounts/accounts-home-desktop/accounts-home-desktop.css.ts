@@ -28,10 +28,7 @@ export const leftPanel = style([
 		flexGrow: 1,
 		flexShrink: 0,
 	}),
-	{
-		// alignSelf: 'flex-start',
-		// overflow: 'auto',
-	},
+	{},
 ])
 
 export const rightPanel = style([
@@ -48,32 +45,11 @@ export const rightPanel = style([
 		// alignSelf: 'flex-start',
 		width: '392px',
 		flexBasis: '392px',
-		// maxHeight: '100%',
 	},
 ])
 
 export const rightPanelAssetType = style([
 	{
-		// TODO: conditional align self for tokens pages
 		alignSelf: 'flex-start',
-		// maxHeight: '100%',
-	},
-])
-
-export const recentActivityWrapper = style([
-	sprinkles({
-		position: 'relative',
-	}),
-	{
-		// '::before': {
-		// 	content: '""',
-		// 	position: 'absolute',
-		// 	top: 0,
-		// 	left: 0,
-		// 	right: 0,
-		// 	height: '150px',
-		// 	pointerEvents: 'none',
-		// 	background: 'linear-gradient(180deg, rgba(255,255,255,0.05) 0%, rgba(0,0,0,0) 65%, rgba(0,0,0,0) 100%)',
-		// },
 	},
 ])

@@ -7,7 +7,7 @@ import { ChevronRightIcon } from 'ui/src/components/icons'
 
 import { Link } from '@src/components/link'
 import Translation from '@src/components/translation'
-import { AccountSearch } from '@src/containers/playground/containers/accounts/account-search'
+// import { AccountSearch } from '@src/containers/playground/containers/accounts/account-search'
 import { useAccountParams } from '@src/hooks/use-account-params'
 
 import * as styles from './accounts-list.css'
@@ -80,12 +80,12 @@ export const AccountListHeader: React.FC<IAccountListHeaderProps> = props => {
 					</Text>
 				</Box>
 				<Box display="flex" flexGrow={1}>
-					<AccountSearch
-						onChange={_value => {
-							// eslint-disable-next-line
-							console.log(_value)
-						}}
-					/>
+					{/* <AccountSearch */}
+					{/* 	onChange={_value => { */}
+					{/* 		// eslint-disable-next-line */}
+					{/* 		console.log(_value) */}
+					{/* 	}} */}
+					{/* /> */}
 				</Box>
 			</Box>
 			<Box width="full" paddingTop="small">

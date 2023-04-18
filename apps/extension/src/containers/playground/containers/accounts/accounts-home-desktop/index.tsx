@@ -90,22 +90,18 @@ export const AccountsHomeDesktop = () => {
 								) : (
 									<AccountSwitcher scrollTop={scrollTop} />
 								)}
-								<Box
-									paddingX="large"
-									paddingTop="xlarge"
-									paddingBottom="small"
-									className={styles.recentActivityWrapper}
-								>
-									<Box display="flex" alignItems="center" position="relative" gap="large">
-										<AccountSearch
-											searchTitle={
-												asset
-													? `${asset} ${t('global.activity')}`
-													: `${assetType || t('global.all')} ${t('global.activity')}`
-											}
-										/>
-									</Box>
-								</Box>
+								<AccountSearch
+									scrollableNode={scrollableNode}
+									searchTitle={
+										asset
+											? `${asset} ${t('global.activity')}`
+											: `${assetType || t('global.all')} ${t('global.activity')}`
+									}
+									onChange={(search: string) => {
+										// eslint-disable-next-line
+										console.log('search:', search)
+									}}
+								/>
 								<Box paddingBottom="medium">
 									<AccountActivity scrollableNode={scrollableNode} />
 								</Box>
