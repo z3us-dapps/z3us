@@ -1,3 +1,4 @@
+/* eslint-disable */
 import clsx from 'clsx'
 import { AnimatePresence, motion } from 'framer-motion'
 import React, { forwardRef, useEffect, useState } from 'react'
@@ -95,15 +96,15 @@ export const AccountSwitcher = forwardRef<HTMLButtonElement, IAccountSwitcherPro
 			setIsMounted(true)
 		}, [account])
 
-		useEffect(() => {
-			if (scrollTop > 0) {
-				setAnimateOnScroll(true)
-			}
-
-			if (scrollTop === 0 && !isAnimating) {
-				setAnimateOnScroll(false)
-			}
-		}, [scrollTop, isAnimating])
+		// useEffect(() => {
+		// 	if (scrollTop > 0) {
+		// 		setAnimateOnScroll(true)
+		// 	}
+		//
+		// 	if (scrollTop === 0 && !isAnimating) {
+		// 		setAnimateOnScroll(false)
+		// 	}
+		// }, [scrollTop, isAnimating])
 
 		return asset ? (
 			<Box borderBottom={1} borderColor="borderDivider" borderStyle="solid" flexShrink={0}>
@@ -161,7 +162,7 @@ export const AccountSwitcher = forwardRef<HTMLButtonElement, IAccountSwitcherPro
 				</Box>
 			</Box>
 		) : (
-			<Box className={clsx(styles.accountCardWrapper, animateOnScroll && styles.accountCardWrapperShadow)}>
+			<Box className={clsx(styles.accountCardWrapper)}>
 				<Box display="flex" gap="small" className={styles.tempyy}>
 					<Button
 						iconOnly

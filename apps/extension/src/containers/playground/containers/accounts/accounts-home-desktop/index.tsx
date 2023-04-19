@@ -102,7 +102,7 @@ export const AccountsHomeDesktop = () => {
 										console.log('search:', search)
 									}}
 								/>
-								<Box paddingBottom="medium">
+								<Box position="relative" paddingBottom="medium" background="backgroundSecondary">
 									<AccountActivity scrollableNode={scrollableNode} />
 								</Box>
 							</Box>

@@ -11,7 +11,7 @@ export const tempyy = style([
 		position: 'absolute',
 		top: '0',
 		right: '0',
-		opacity: '0.2',
+		opacity: '0',
 		// display: 'none',
 	},
 ])
@@ -21,7 +21,6 @@ export const accountCardWrapper = style([
 		position: 'sticky',
 		top: 0,
 		background: 'backgroundSecondary',
-		zIndex: 1,
 		paddingTop: 'large',
 		paddingX: 'large',
 		borderBottom: 1,
@@ -29,13 +28,6 @@ export const accountCardWrapper = style([
 		borderColor: 'borderDivider',
 	}),
 	{},
-])
-
-export const accountCardWrapperShadow = style([
-	sprinkles({}),
-	{
-		boxShadow: '0px 10px 15px -3px rgba(0,0,0,0.1)',
-	},
 ])
 
 export const tempBg = style([
