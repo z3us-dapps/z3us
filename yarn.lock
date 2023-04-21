@@ -4075,7 +4075,7 @@
   dependencies:
     "@babel/runtime" "^7.13.10"
 
-"@radixdlt/account@^3.0.13", "@radixdlt/account@^3.0.9":
+"@radixdlt/account@^3.0.13":
   version "3.0.13"
   resolved "https://registry.yarnpkg.com/@radixdlt/account/-/account-3.0.13.tgz#08c8eefddda48163b7d7319ac80cae8c901fe064"
   integrity sha512-nxDi0+ruRi6RUeiTbIxNLA3lqtf8DbCTiMh9RqZkH72GrXu/BaQjziuPGiGAFwqZj9mO/0K9gvqHVaNQcwu0Cw==
@@ -4108,7 +4108,7 @@
     ramda "^0.27.1"
     rxjs "7.0.0"
 
-"@radixdlt/crypto@^2.1.12", "@radixdlt/crypto@^2.1.16":
+"@radixdlt/crypto@^2.1.16":
   version "2.1.16"
   resolved "https://registry.yarnpkg.com/@radixdlt/crypto/-/crypto-2.1.16.tgz#ab820d42b134bc507b335d3d3f34f11891507527"
   integrity sha512-jOupUJCZ6TvoZr3MqIE9ZFTuuG8Byk59jSnQQmvND5zOBfeABEGW0tWsOY6KX4SSxThQ1wntEN2nBTOutQ6EyQ==
@@ -4133,10 +4133,10 @@
     neverthrow "^4.0.1"
     ramda "^0.27.1"
 
-"@radixdlt/hardware-ledger@^2.1.33":
-  version "2.1.38"
-  resolved "https://registry.yarnpkg.com/@radixdlt/hardware-ledger/-/hardware-ledger-2.1.38.tgz#65d12b8dd2d87404d5af1b1aa4fb2ee637085d55"
-  integrity sha512-ylj9/2a8x5o9GXKzQ3soJ94qGLtQ/3nt2lRSAF77KaOdcBIDbAJlxLJ3g/leQYzDYfZzSKZ9iuyKbOGQC3RkPA==
+"@radixdlt/hardware-ledger@^2.1.39":
+  version "2.1.39"
+  resolved "https://registry.yarnpkg.com/@radixdlt/hardware-ledger/-/hardware-ledger-2.1.39.tgz#49a0fe71bd6951379e80c82c5473fbbff39e85bd"
+  integrity sha512-3ftBqiFNBQlo8JWIchOgEi/NNO0vzb2rjf2NjARMi1XbyrjaY+RQFbyOaYCO/pIY4MIOc1em6H8V36u4wtvaYA==
   dependencies:
     "@ledgerhq/hw-transport-node-hid" "^6.2.0"
     "@radixdlt/crypto" "^2.1.16"
@@ -4149,7 +4149,7 @@
     rxjs "7.0.0"
     uuid "^8.3.2"
 
-"@radixdlt/hardware-wallet@^2.1.15", "@radixdlt/hardware-wallet@^2.1.19":
+"@radixdlt/hardware-wallet@^2.1.19":
   version "2.1.19"
   resolved "https://registry.yarnpkg.com/@radixdlt/hardware-wallet/-/hardware-wallet-2.1.19.tgz#d4e2df31a9ffe78466331c3dea6a6afa4db15d17"
   integrity sha512-xzHOIdwqH0rHVbtWGSTDYKHQlsX6mwd/ZEfr20ISWtUfdmYna/OP7W/zSRs3Tw7oHhhEUs4e9T7OCMBe2vFrWg==
@@ -4162,10 +4162,10 @@
     rxjs "7.0.0"
     uuid "^8.3.2"
 
-"@radixdlt/networking@^2.1.15":
-  version "2.1.17"
-  resolved "https://registry.yarnpkg.com/@radixdlt/networking/-/networking-2.1.17.tgz#9f281461b506c48dae0da4c293ead613c1d390cc"
-  integrity sha512-SfSQ3KIgEYdz7PRyiqxZuC10TG4ngbBFvDIZZiBU5uKyUwAK5oVAUzpccRRG6W8yIxpDKXvdlK8eutQL5iCpvA==
+"@radixdlt/networking@^2.1.18":
+  version "2.1.18"
+  resolved "https://registry.yarnpkg.com/@radixdlt/networking/-/networking-2.1.18.tgz#9977c3b5d7f152c17c5e0e7116dc51da9916cfe0"
+  integrity sha512-kjzjZok5bq5CJhIfLyjPPWAgJJ+uE7kRoziAhGCauCBWfp/WdZheqnP97+zVkKs1f/LL2cG9/T75TquHkEl3LQ==
   dependencies:
     "@open-rpc/client-js" "1.6.2"
     "@open-rpc/schema-utils-js" "1.14.3"
@@ -4183,7 +4183,7 @@
   resolved "https://registry.yarnpkg.com/@radixdlt/open-rpc-spec/-/open-rpc-spec-1.0.19.tgz#7392359e28a11f652c2501c25b3d4048cb68a0f9"
   integrity sha512-pcrUTk66h6jDXpq5Ly6uHpktO/lW5lCzdC7YqwsGfXzdFOLcRC8eCC9Teh9k6zH1gvMRyqid9gLRTE7nP2/L8A==
 
-"@radixdlt/primitives@^3.0.7", "@radixdlt/primitives@^3.0.9":
+"@radixdlt/primitives@^3.0.9":
   version "3.0.9"
   resolved "https://registry.yarnpkg.com/@radixdlt/primitives/-/primitives-3.0.9.tgz#8c659f22c0d863ce2a802fbb9df1383f3cdfc00c"
   integrity sha512-QYJOVuHRnub6Em68PPf9mKqubfzvX22BG86blmnFzrgj8zXYw4qYjP3XwuALx4iHFBf8+JByKHoYefB5gOxPZw==
@@ -4225,7 +4225,7 @@
     randombytes "^2.1.0"
     sodium-native "^3.2.0"
 
-"@radixdlt/util@^2.1.5":
+"@radixdlt/util@^2.1.6":
   version "2.1.6"
   resolved "https://registry.yarnpkg.com/@radixdlt/util/-/util-2.1.6.tgz#bf3f86a547abaad341f6058b3542c60e180a23d8"
   integrity sha512-Rf8G0xcj0zjNXVngSqefeUbeD5P4oELc7BodEuewzwa0pyt0ESkSoxovVCuEPraayBsrPa4JEwBJMuXZD0w0yw==

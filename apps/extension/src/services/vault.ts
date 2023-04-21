@@ -235,13 +235,18 @@ export class VaultService {
 		const derivedIndex = deriveIndexAction()
 		const hasKeystore = await this.has()
 
+		const resp = {
+			isUnlocked: this.isUnlocked,
+			signingKeyType: this.signingKeyType,
+			hasKeystore,
+			keystore,
+			keystoreId: selectKeystoreId,
+			publicKey: this.signingKey?.publicKey.toString(),
+			derivedNetwork: network,
+			derivedIndex,
+		}
 		if (!this.isUnlocked || this.signingKeyType === SigningKeyType.HARDWARE) {
-			return {
-				hasKeystore,
-				keystore,
-				keystoreId: selectKeystoreId,
-				isUnlocked: this.isUnlocked,
-			}
+			return resp
 		}
 
 		const signingKey = getSigningKey(this.hdMasterNode, derivedIndex, this.crypto)
@@ -249,13 +254,8 @@ export class VaultService {
 
 		await this.resetTimer()
 		return {
-			isUnlocked: this.isUnlocked,
-			signingKeyType: this.signingKeyType,
-			hasKeystore,
-			keystoreId: selectKeystoreId,
+			...resp,
 			publicKey: this.signingKey?.publicKey.toString(),
-			derivedNetwork: network,
-			derivedIndex,
 		}
 	}
 
@@ -269,13 +269,18 @@ export class VaultService {
 		let derivedIndex = deriveIndexAction()
 		const hasKeystore = await this.has()
 
+		const resp = {
+			isUnlocked: this.isUnlocked,
+			signingKeyType: this.signingKeyType,
+			hasKeystore,
+			keystore,
+			keystoreId: selectKeystoreId,
+			derivedNetwork: network,
+			derivedIndex,
+			publicAddresses,
+		}
 		if (!this.isUnlocked || this.signingKeyType === SigningKeyType.HARDWARE) {
-			return {
-				hasKeystore,
-				keystore,
-				keystoreId: selectKeystoreId,
-				isUnlocked: this.isUnlocked,
-			}
+			return resp
 		}
 
 		const publicIndexes = Object.keys(publicAddresses)
@@ -303,15 +308,8 @@ export class VaultService {
 
 		await this.resetTimer()
 		return {
-			isUnlocked: this.isUnlocked,
-			signingKeyType: this.signingKeyType,
-			hasKeystore,
-			keystore,
-			keystoreId: selectKeystoreId,
+			...resp,
 			publicKey: this.signingKey?.publicKey.toString(),
-			derivedNetwork: network,
-			derivedIndex,
-			publicAddresses,
 		}
 	}
 
