@@ -9,7 +9,7 @@ import { Box } from 'ui/src/components-v2/box'
 import { AnimatedPage } from '@src/containers/playground/components/animated-route'
 import { ScrollPanel } from '@src/containers/playground/components/scroll-panel'
 import { Z3usLoading } from '@src/containers/playground/components/z3us-loading'
-import { routes } from '@src/containers/playground/constants'
+import { ACCOUNTS_ALL, routes } from '@src/containers/playground/constants'
 import { AccountActivity } from '@src/containers/playground/containers/accounts/account-activity'
 import { AccountIndexAssets } from '@src/containers/playground/containers/accounts/account-index-assets'
 import { AccountIndexHeader } from '@src/containers/playground/containers/accounts/account-index-header'
@@ -24,7 +24,7 @@ export const AccountsHomeDesktop = () => {
 	const location = useLocation()
 	const { t } = useTranslation()
 	const { account, assetType, asset } = useAccountParams()
-	const isAllAccount = account === 'all'
+	const isAllAccount = account === ACCOUNTS_ALL
 
 	return (
 		<Box
