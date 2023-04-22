@@ -14,21 +14,13 @@ export const accountListHeaderWrapper = style([
 		paddingTop: 'xlarge',
 		transition: 'slowall',
 	}),
-	{
-		// border: '1px solid red',
-		// transition: 'all 0.3s ease-out',
-	},
+	{},
 ])
 
 export const accountListHeaderWrapperShadow = style([
 	sprinkles({
-		// paddingTop: 'medium',
-		// paddingBottom: 'medium',
+		boxShadow: 'shadowScroll',
 	}),
-	{
-		boxShadow: '0px 10px 15px -3px rgba(0,0,0,0.1)',
-		// paddingBottom: vars.spacing.small,
-	},
 ])
 
 export const wrapper = sprinkles({
@@ -41,6 +33,19 @@ export const listContainer = style([
 		position: 'relative',
 	}),
 	{},
+])
+
+export const breadCrumbTextWrapper = style([
+	sprinkles({
+		position: 'relative',
+		display: 'flex',
+		alignItems: 'center',
+		flexGrow: 1,
+	}),
+	{
+		minWidth: '0px',
+		maxWidth: '100%',
+	},
 ])
 
 export const virtuosoGridList = style([
@@ -104,14 +109,6 @@ globalStyle(`${itemWrapper} > a`, {
 	cursor: 'pointer',
 	color: 'borderDivider',
 })
-
-// globalStyle(`${itemWrapper} > a:hover`, {
-// 	background: vars.color.wax500,
-// })
-//
-// globalStyle(`.${darkMode} ${itemWrapper} > a:hover`, {
-// 	background: vars.color.wax500,
-// })
 
 export const itemWrapperInner = style([
 	sprinkles({

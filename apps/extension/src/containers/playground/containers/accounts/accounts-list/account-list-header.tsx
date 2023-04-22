@@ -35,29 +35,31 @@ export const AccountListHeader: React.FC<IAccountListHeaderProps> = props => {
 		<Box
 			className={clsx(className, styles.accountListHeaderWrapper, isScrolled && styles.accountListHeaderWrapperShadow)}
 		>
-			<Box width="full" display="flex" alignItems="flex-start" paddingBottom="small">
-				<Box flexGrow={1}>
-					<Box display="flex" paddingBottom="xsmall">
+			<Box width="full" paddingBottom="small">
+				<Box width="full">
+					<Box display="flex" paddingBottom="xsmall" width="full">
 						{assetType ? (
 							<>
-								<Box>
+								<Box flexShrink={0}>
 									<Link underline="hover" to={`/accounts/${account}`}>
-										<Text size="large">
+										<Text size="large" truncate>
 											<Translation capitalizeFirstLetter text="accounts.assetsList.overview" />
 											{account ? `: ${account}` : ''}
 										</Text>
 									</Link>
 								</Box>
-								<Box display="flex" alignItems="center">
-									<Box display="flex" alignItems="center">
+								<Box display="flex" alignItems="center" flexShrink={0}>
+									<Box display="flex" alignItems="center" flexShrink={0}>
 										<ChevronRightIcon />
 									</Box>
 									{asset ? (
 										<Link underline="hover" to={`/accounts/${account}/${assetType}`}>
-											<Text size="large">{assetType}</Text>
+											<Text size="large" truncate>
+												{assetType}
+											</Text>
 										</Link>
 									) : (
-										<Text size="large" color="strong">
+										<Text size="large" color="strong" truncate>
 											{assetType}
 										</Text>
 									)}
@@ -65,13 +67,15 @@ export const AccountListHeader: React.FC<IAccountListHeaderProps> = props => {
 							</>
 						) : null}
 						{asset ? (
-							<Box display="flex" alignItems="center">
-								<Box display="flex" alignItems="center">
+							<Box display="flex" alignItems="center" flexGrow={1}>
+								<Box display="flex" alignItems="center" flexShrink={0}>
 									<ChevronRightIcon />
 								</Box>
-								<Text size="large" color="strong">
-									{asset}
-								</Text>
+								<Box className={styles.breadCrumbTextWrapper}>
+									<Text size="large" color="strong" truncate>
+										{asset} testing testing testin testing testing testin testing testing testin
+									</Text>
+								</Box>
 							</Box>
 						) : null}
 					</Box>
