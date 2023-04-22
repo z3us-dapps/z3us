@@ -1,5 +1,6 @@
 import clsx, { type ClassValue } from 'clsx'
 import React from 'react'
+import { useTranslation } from 'react-i18next'
 
 import { Box } from 'ui/src/components-v2/box'
 import { Text } from 'ui/src/components-v2/typography'
@@ -7,7 +8,7 @@ import { ChevronRightIcon } from 'ui/src/components/icons'
 
 import { Link } from '@src/components/link'
 import Translation from '@src/components/translation'
-// import { AccountSearch } from '@src/containers/playground/containers/accounts/account-search'
+import { AccountAssetSearch } from '@src/containers/playground/containers/accounts/account-asset-search'
 import { useAccountParams } from '@src/hooks/use-account-params'
 
 import * as styles from './accounts-list.css'
@@ -30,6 +31,7 @@ export const AccountListHeader: React.FC<IAccountListHeaderProps> = props => {
 	const { className, isScrolled } = props
 
 	const { account, assetType, asset } = useAccountParams()
+	const { t } = useTranslation()
 
 	return (
 		<Box
@@ -75,17 +77,20 @@ export const AccountListHeader: React.FC<IAccountListHeaderProps> = props => {
 							</Box>
 						) : null}
 					</Box>
-					<Text weight="medium" size="xxxlarge" color="strong">
-						$4,440,206.25
-					</Text>
-				</Box>
-				<Box display="flex" flexGrow={1}>
-					{/* <AccountSearch */}
-					{/* 	onChange={_value => { */}
-					{/* 		// eslint-disable-next-line */}
-					{/* 		console.log(_value) */}
-					{/* 	}} */}
-					{/* /> */}
+					<Box width="full">
+						<AccountAssetSearch
+							balance={
+								<Text weight="medium" size="xxxlarge" color="strong">
+									$4,440,206.25,206.25,206.25
+								</Text>
+							}
+							searchTitle={asset ? `${asset}` : `${assetType}`}
+							onChange={_value => {
+								// eslint-disable-next-line
+								console.log(_value)
+							}}
+						/>
+					</Box>
 				</Box>
 			</Box>
 			<Box width="full" paddingTop="small">
