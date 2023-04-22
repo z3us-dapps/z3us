@@ -5,14 +5,15 @@ import { vars } from 'ui/src/components-v2/system/theme.css'
 
 export const accountAssetWrapperWrapper = style([
 	sprinkles({
-		paddingTop: 'large',
-		paddingBottom: 'medium',
+		width: 'full',
+		paddingTop: 'medium',
+		paddingBottom: 'small',
 		background: 'backgroundSecondary',
 		zIndex: 1,
 		transition: 'fast',
 	}),
 	{
-		minHeight: '80px',
+		minHeight: '70px',
 	},
 ])
 
@@ -25,6 +26,14 @@ export const accountSearchWrapper = style([
 		width: 'full',
 	}),
 	{},
+])
+export const accountBalanceWrapper = style([
+	sprinkles({
+		flexShrink: 0,
+	}),
+	{
+		maxWidth: 'calc(100% - 32px)',
+	},
 ])
 
 export const accountSearchButton = style([

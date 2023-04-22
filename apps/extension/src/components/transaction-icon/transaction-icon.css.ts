@@ -51,6 +51,15 @@ export const transactionAvatarWrapper = style([
 	{},
 ])
 
+export const transactionAvatarFallbackWrapper = style([
+	sprinkles({
+		borderRadius: 'full',
+		width: 'full',
+		height: 'full',
+	}),
+	{},
+])
+
 export const transactionTypeWrapper = style([
 	sprinkles({
 		position: 'absolute',

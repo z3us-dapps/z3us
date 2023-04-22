@@ -1,6 +1,5 @@
 import clsx, { type ClassValue } from 'clsx'
 import React from 'react'
-import { useTranslation } from 'react-i18next'
 
 import { Box } from 'ui/src/components-v2/box'
 import { Text } from 'ui/src/components-v2/typography'
@@ -31,13 +30,12 @@ export const AccountListHeader: React.FC<IAccountListHeaderProps> = props => {
 	const { className, isScrolled } = props
 
 	const { account, assetType, asset } = useAccountParams()
-	const { t } = useTranslation()
 
 	return (
 		<Box
 			className={clsx(className, styles.accountListHeaderWrapper, isScrolled && styles.accountListHeaderWrapperShadow)}
 		>
-			<Box width="full" display="flex" alignItems="flex-start" paddingBottom="medium">
+			<Box width="full" display="flex" alignItems="flex-start" paddingBottom="small">
 				<Box flexGrow={1}>
 					<Box display="flex" paddingBottom="xsmall">
 						{assetType ? (
@@ -77,20 +75,18 @@ export const AccountListHeader: React.FC<IAccountListHeaderProps> = props => {
 							</Box>
 						) : null}
 					</Box>
-					<Box width="full">
-						<AccountAssetSearch
-							balance={
-								<Text weight="medium" size="xxxlarge" color="strong">
-									$4,440,206.25,206.25,206.25
-								</Text>
-							}
-							searchTitle={asset ? `${asset}` : `${assetType}`}
-							onChange={_value => {
-								// eslint-disable-next-line
-								console.log(_value)
-							}}
-						/>
-					</Box>
+					<AccountAssetSearch
+						balance={
+							<Text weight="medium" size="xxxlarge" color="strong" truncate>
+								$4,440,206.25,206.25,206.253332222222222
+							</Text>
+						}
+						searchTitle={asset ? `${asset}` : `${assetType}`}
+						onChange={_value => {
+							// eslint-disable-next-line
+							console.log(_value)
+						}}
+					/>
 				</Box>
 			</Box>
 			<Box width="full" paddingTop="small">

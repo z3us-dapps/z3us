@@ -9,6 +9,14 @@ export const baseTextSprinkles = sprinkles({})
 
 export const capitalizeFirstLetter = style([{ '::first-letter': { textTransform: 'uppercase' } }])
 
+export const truncateText = style([
+	{
+		whiteSpace: 'nowrap',
+		overflow: 'hidden',
+		textOverflow: 'ellipsis',
+	},
+])
+
 export const firstLetterLowercase = style([{ '::first-letter': { textTransform: 'lowercase' } }])
 
 // @TODO: TYPE spacing properly

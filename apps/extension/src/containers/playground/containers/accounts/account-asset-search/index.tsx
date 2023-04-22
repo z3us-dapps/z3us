@@ -68,9 +68,9 @@ export const AccountAssetSearch: React.FC<IAccountAssetSearchProps> = props => {
 	return (
 		<Box className={clsx(styles.accountAssetWrapperWrapper, className)}>
 			<Box display="flex" alignItems="center" position="relative" gap="large">
-				<Box className={clsx(styles.accountSearchWrapper)}>
+				<Box className={styles.accountSearchWrapper}>
 					{!isInputVisible ? (
-						<Box flexShrink={0}>
+						<Box className={styles.accountBalanceWrapper}>
 							<>{balance}</>
 						</Box>
 					) : null}
