@@ -74,7 +74,7 @@ export const AccountsHomeDesktop = () => {
 					<ScrollPanel
 						className={styles.rightPanel}
 						scrollTopOnRoute
-						renderPanel={(scrollableNode: HTMLElement | null, scrollTop: number) => (
+						renderPanel={(scrollableNode: HTMLElement | null) => (
 							<Box>
 								{isAllAccount && !assetType ? (
 									<Box paddingTop="xlarge" paddingX="xlarge">
@@ -88,7 +88,7 @@ export const AccountsHomeDesktop = () => {
 										</Box>
 									</Box>
 								) : (
-									<AccountSwitcher scrollTop={scrollTop} />
+									<AccountSwitcher />
 								)}
 								<AccountActivitySearch
 									scrollableNode={scrollableNode}

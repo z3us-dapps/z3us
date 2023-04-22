@@ -202,7 +202,6 @@ export const AccountsHomeMobileHeader = forwardRef<HTMLElement, IAccountsHomeMob
 								key={accountName}
 								selectedCardIndex={1}
 								cardIndex={idx}
-								animateOnScroll={false}
 								accountAddress={accountId}
 								accountBalance={accountBalance}
 								accountName={accountName}

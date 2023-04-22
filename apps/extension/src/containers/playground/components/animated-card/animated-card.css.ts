@@ -75,12 +75,6 @@ export const cardAccountWrapper = style([
 	}),
 ])
 
-export const cardAccountWrapperAnimated = style([
-	sprinkles({
-		opacity: 0,
-	}),
-])
-
 export const cardAccountText = style([
 	sprinkles({
 		position: 'relative',

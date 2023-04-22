@@ -14,7 +14,6 @@ import * as styles from './animated-card.css'
 interface IAnimatedCardRequiredProps {
 	selectedCardIndex: number
 	cardIndex: number
-	animateOnScroll: boolean
 	accountAddress: string
 	accountBalance: string
 	accountName: string
@@ -40,7 +39,6 @@ export const AnimatedCard: React.FC<IAnimatedCardProps> = props => {
 		backgroundImage,
 		selectedCardIndex,
 		cardIndex,
-		animateOnScroll,
 		accountAddress,
 		accountBalance,
 		accountName,
@@ -67,7 +65,7 @@ export const AnimatedCard: React.FC<IAnimatedCardProps> = props => {
 			}}
 			animate={selectedCardIndex === cardIndex ? 'selected' : 'notSelected'}
 		>
-			<Box className={clsx(styles.cardAccountWrapper, animateOnScroll && styles.cardAccountWrapperAnimated)}>
+			<Box className={clsx(styles.cardAccountWrapper)}>
 				<Box flexGrow={1} paddingTop="xsmall" display="flex">
 					<Text size="large" weight="medium" color="white" className={styles.cardAccountText}>
 						{getShortAddress(accountAddress)}
