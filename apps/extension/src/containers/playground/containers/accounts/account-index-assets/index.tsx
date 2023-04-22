@@ -60,7 +60,7 @@ export const AccountIndexAssets = forwardRef<HTMLElement, IAccountIndexAssetsPro
 				</Box>
 				<Box className={styles.indexAssetsWrapper}>
 					{[
-						{ name: t('accounts.home.assetsTokens') },
+						{ name: t('accounts.home.assetsCoinsTokens') },
 						{ name: t('accounts.home.assetsNfts') },
 						{ name: t('accounts.home.assetsLpTokens') },
 						{ name: t('accounts.home.assetsBadges') },
@@ -91,7 +91,7 @@ export const AccountIndexAssets = forwardRef<HTMLElement, IAccountIndexAssetsPro
 													style={{ width: idx % 2 === 0 ? '25%' : '45%', height: '13px' }}
 												/>
 											</Box>
-											<Box display="flex" alignItems="center" justifyContent="flex-end" marginRight="xlarge">
+											<Box className={styles.indexAssetLinkRowLoadingAssetCircles}>
 												{[...Array(idx % 2 === 0 ? 4 : 5)].map((_, i) => (
 													<Box
 														// eslint-disable-next-line react/no-array-index-key
@@ -122,17 +122,18 @@ export const AccountIndexAssets = forwardRef<HTMLElement, IAccountIndexAssetsPro
 													onMouseOver={() => setHoveredLink(name)}
 													onMouseLeave={() => setHoveredLink(null)}
 												>
-													<Box display="flex" alignItems="center">
-														<Text capitalizeFirstLetter size="medium" color="strong">
+													<Box display="flex" alignItems="center" className={styles.textMaxWidthWrapper}>
+														<Text capitalizeFirstLetter size="medium" color="strong" truncate>
 															{name}
 														</Text>
 														<Box paddingLeft="xsmall">
 															<Text size="medium">(12)</Text>
 														</Box>
 													</Box>
-													<Box display="flex" alignItems="center" gap="xsmall">
-														<Text size="small" color="strong" weight="strong">
-															$12,401
+													<Box display="flex" alignItems="center" gap="xsmall" className={styles.textMaxWidthWrapper}>
+														<Text size="small" color="strong" weight="strong" truncate>
+															$12,40112,40112,40112,40112,40112,40112,40112,40112,40112,401
+															$12,40112,40112,40112,40112,40112,40112,40112,40112,40112,401
 														</Text>
 														<Text size="xsmall" color="green">
 															+1.23%

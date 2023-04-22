@@ -98,23 +98,23 @@ const ItemWrapper = props => {
 								<Box width="full" className={styles.tokenListGridWrapper}>
 									<Box display="flex" alignItems="center" justifyContent="flex-start" gap="medium">
 										<Box className={styles.tokenListGridCircle} style={{ backgroundColor: '#ea983d' }} />
-										<Text size="medium" weight="medium" color="strong">
-											{user.id}
+										<Text size="medium" weight="medium" color="strong" truncate>
+											{user.id} - {user.id} - {user.id} - {user.id} - {user.id}
 										</Text>
 									</Box>
 									<Box display="flex" alignItems="center">
-										<Text size="small" color="strong">
-											Amount
+										<Text size="small" color="strong" truncate>
+											Amount Amount Amount
 										</Text>
 									</Box>
 									<Box display="flex" alignItems="center">
-										<Text size="small" color="strong">
-											Value
+										<Text size="small" color="strong" truncate>
+											Category Category CategoryCategory Category Category
 										</Text>
 									</Box>
 									<Box display="flex" alignItems="center">
-										<Text size="small" color="strong">
-											Category
+										<Text size="small" color="strong" truncate>
+											ACcotoun asdf counte
 										</Text>
 									</Box>
 								</Box>

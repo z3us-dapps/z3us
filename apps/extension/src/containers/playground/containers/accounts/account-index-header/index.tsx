@@ -42,8 +42,8 @@ export const AccountIndexHeader = forwardRef<HTMLElement, IAccountIndexHeaderPro
 								</Text>
 							</Box>
 						</Box>
-						<Text weight="medium" size="xxxlarge" color="strong">
-							$4,440,206.25
+						<Text weight="medium" size="xxxlarge" color="strong" truncate>
+							$4,440,206.254,440,206.254,440,206.254,440,206.254,440,206.254,440,206.254,440,206.25
 						</Text>
 					</Box>
 				</Box>

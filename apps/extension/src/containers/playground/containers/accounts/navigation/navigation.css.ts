@@ -33,10 +33,27 @@ export const navigationContainer = style([
 
 export const navigationMenu = style([
 	sprinkles({
-		display: 'flex',
 		flexGrow: 1,
 		gap: 'medium',
 		paddingLeft: 'xlarge',
+		display: {
+			mobile: 'none',
+			desktop: 'flex',
+		},
+	}),
+	{},
+])
+
+export const navigationMenuTabletWrapper = style([
+	sprinkles({
+		flexGrow: 1,
+		gap: 'medium',
+		paddingLeft: 'large',
+		display: {
+			mobile: 'none',
+			tablet: 'flex',
+			desktop: 'none',
+		},
 	}),
 	{},
 ])

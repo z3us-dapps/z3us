@@ -168,15 +168,22 @@ export const activtyItemInnerSelected = style([
 	},
 ])
 
+export const activtyItemTextWrapper = style([
+	sprinkles({
+		display: 'flex',
+		flexDirection: 'column',
+		flexGrow: 1,
+	}),
+	{
+		maxWidth: 'calc(100% - 82px)',
+	},
+])
+
 export const activtyItemInnerSelectedContent = style([
 	sprinkles({
 		width: 'full',
-		// borderColor: 'borderDivider',
 	}),
-	{
-		// boxShadow: '0 -1px 0 0',
-		// border: '1px solid red',
-	},
+	{},
 ])
 
 export const transactionDottedLine = style([
@@ -201,6 +208,7 @@ export const indicatorCircle = style([
 		display: 'flex',
 		alignItems: 'center',
 		justifyContent: 'center',
+		flexShrink: 0,
 	}),
 	{
 		width: '36px',

@@ -1,6 +1,7 @@
 import { globalStyle, style } from '@vanilla-extract/css'
 
 import { darkMode, sprinkles } from 'ui/src/components-v2/system/sprinkles.css'
+import { responsiveStyle } from 'ui/src/components-v2/system/theme-utils'
 import { vars } from 'ui/src/components-v2/system/theme.css'
 
 export const indexAssetsWrapper = style([
@@ -30,6 +31,17 @@ export const indexAssetLinkRowLoadingGrid = style([
 		gap: '1rem',
 		gridTemplateColumns: '1fr 304px',
 	},
+
+	responsiveStyle({
+		tablet: {
+			gap: '1rem',
+			gridTemplateColumns: '1fr 5px',
+		},
+		desktop: {
+			gap: '1rem',
+			gridTemplateColumns: '1fr 304px',
+		},
+	}),
 ])
 
 export const indexAssetLinkRowLoading = style([
@@ -44,6 +56,19 @@ export const indexAssetLinkRowLoading = style([
 		boxShadow: '0 -1px 0 0',
 		height: '86px',
 	},
+])
+
+export const indexAssetLinkRowLoadingAssetCircles = style([
+	sprinkles({
+		alignItems: 'center',
+		justifyContent: 'flex-end',
+		marginRight: 'xlarge',
+		display: {
+			tablet: 'none',
+			desktop: 'flex',
+		},
+	}),
+	{},
 ])
 
 export const indexAssetLinkRow = style([
@@ -93,11 +118,22 @@ export const indexAssetLinkRowInner = style([
 	sprinkles({
 		position: 'relative',
 		flexGrow: 1,
+		width: 'full',
 	}),
 	{
 		paddingTop: '24px',
 		paddingBottom: '24px',
 	},
+])
+
+export const textMaxWidthWrapper = style([
+	{
+		maxWidth: 'calc(100% - 260px)',
+	},
+	responsiveStyle({
+		tablet: { maxWidth: 'calc(100% - 40px)' },
+		desktop: { maxWidth: 'calc(100% - 260px)' },
+	}),
 ])
 
 globalStyle(`.${darkMode} ${indexAssetLinkRow} > a:hover`, {
@@ -118,9 +154,13 @@ export const indexAssetRowOverlay = style([
 		top: 0,
 		right: 0,
 		height: 'full',
-		display: 'flex',
 		alignItems: 'center',
 		pointerEvents: 'none',
+		// display: 'flex',
+		display: {
+			mobile: 'none',
+			desktop: 'flex',
+		},
 	}),
 	{},
 ])

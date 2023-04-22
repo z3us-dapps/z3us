@@ -109,11 +109,13 @@ const ItemWrapper = props => {
 								<Box className={styles.indicatorCircle}>
 									<TransactionIcon transactionType="deposit" />
 								</Box>
-								<Box display="flex" flexDirection="column" flexGrow={1}>
-									<Text weight="stronger" size="small" color="strong">
-										+1.249 XRD
+								<Box className={styles.activtyItemTextWrapper}>
+									<Text weight="stronger" size="small" color="strong" truncate>
+										+1.249 XRD +1.249 XRD +1.249 XRD +1.249 XRD +1.249 XRD
 									</Text>
-									<Text size="xsmall">29 Aug, 10est, 2023</Text>
+									<Text size="xsmall" truncate>
+										29 Aug, 10est, 2023 29 Aug, 10est, 2023 29 Aug, 10est, 2023 29 Aug, 10est, 2023
+									</Text>
 								</Box>
 							</Link>
 						</Box>

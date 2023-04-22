@@ -39,7 +39,7 @@
 		"home": {
 			"accountBalanceTitle": "account balance",
 			"assetsBadgesTitle": "assets and badges",
-			"assetsTokens": "tokens",
+			"assetsCoinsTokens": "coins & tokens",
 			"assetsNfts": "NFTs",
 			"assetsLpTokens": "LP Tokens",
 			"assetsBadges": "badges"

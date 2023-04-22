@@ -54,6 +54,7 @@ export const DesktopNavigation: React.FC = () => {
 		<Box component="nav" className={styles.navigationWrapper}>
 			<Box className={styles.navigationContainer}>
 				<Z3usLogo />
+				<Box className={styles.navigationMenuTabletWrapper}>Table menu</Box>
 				<Box className={styles.navigationMenu}>
 					<LayoutGroup>
 						{[
