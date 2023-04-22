@@ -8,10 +8,12 @@ import { vars } from 'ui/src/components-v2/system/theme.css'
 export const activityWrapper = style([
 	sprinkles({
 		position: 'relative',
+		background: 'backgroundSecondary',
 		display: 'flex',
 		flexDirection: 'column',
 		borderBottomRightRadius: 'large',
 		borderBottomLeftRadius: 'large',
+		paddingBottom: 'medium',
 	}),
 	{
 		width: '100%',

@@ -11,9 +11,9 @@ import { ScrollPanel } from '@src/containers/playground/components/scroll-panel'
 import { Z3usLoading } from '@src/containers/playground/components/z3us-loading'
 import { ACCOUNTS_ALL, routes } from '@src/containers/playground/constants'
 import { AccountActivity } from '@src/containers/playground/containers/accounts/account-activity'
+import { AccountActivitySearch } from '@src/containers/playground/containers/accounts/account-activity-search'
 import { AccountIndexAssets } from '@src/containers/playground/containers/accounts/account-index-assets'
 import { AccountIndexHeader } from '@src/containers/playground/containers/accounts/account-index-header'
-import { AccountSearch } from '@src/containers/playground/containers/accounts/account-search'
 import { AccountSwitcher } from '@src/containers/playground/containers/accounts/account-switcher'
 import { AccountsList } from '@src/containers/playground/containers/accounts/accounts-list'
 import { useAccountParams } from '@src/hooks/use-account-params'
@@ -90,7 +90,7 @@ export const AccountsHomeDesktop = () => {
 								) : (
 									<AccountSwitcher scrollTop={scrollTop} />
 								)}
-								<AccountSearch
+								<AccountActivitySearch
 									scrollableNode={scrollableNode}
 									searchTitle={
 										asset
@@ -102,9 +102,7 @@ export const AccountsHomeDesktop = () => {
 										console.log('search:', search)
 									}}
 								/>
-								<Box position="relative" paddingBottom="medium" background="backgroundSecondary">
-									<AccountActivity scrollableNode={scrollableNode} />
-								</Box>
+								<AccountActivity scrollableNode={scrollableNode} />
 							</Box>
 						)}
 					/>
