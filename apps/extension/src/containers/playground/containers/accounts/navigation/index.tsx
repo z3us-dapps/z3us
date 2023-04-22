@@ -13,6 +13,7 @@ import { CopyAddressButton } from '@src/containers/playground/components/copy-ad
 import { WalletDropdown } from '@src/containers/playground/components/wallet-dropdown'
 import { Z3usLogo } from '@src/containers/playground/components/z3us-logo'
 import { accountMenuSlugs, routes } from '@src/containers/playground/constants'
+import { AccountTabletNavigationDropdown } from '@src/containers/playground/containers/accounts/account-tablet-navigation-dropdown'
 import { AccountViewDropdown } from '@src/containers/playground/containers/accounts/account-view-dropdown'
 import { useAccountParams } from '@src/hooks/use-account-params'
 
@@ -54,7 +55,9 @@ export const DesktopNavigation: React.FC = () => {
 		<Box component="nav" className={styles.navigationWrapper}>
 			<Box className={styles.navigationContainer}>
 				<Z3usLogo />
-				<Box className={styles.navigationMenuTabletWrapper}>Table menu</Box>
+				<Box className={styles.navigationMenuTabletWrapper}>
+					<AccountTabletNavigationDropdown />
+				</Box>
 				<Box className={styles.navigationMenu}>
 					<LayoutGroup>
 						{[
