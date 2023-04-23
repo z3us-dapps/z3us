@@ -34,7 +34,7 @@
 				"description": "shadow panel dark"
 			},
 			"shadow_active_panel_light": {
-				"value": "0px 0px 0px 1px rgba(255, 255, 255, 0.05), 0px 5px 5px rgba(0, 0, 0, 0.01), 0px 5px 5px rgba(0, 0, 0, 0.05), 0px 12px 12px rgba(0, 0, 0, 0.1)",
+				"value": "0px 0px 0px 1px rgba(255, 255, 255, 0.2), 0px 5px 5px rgba(0, 0, 0, 0.1), 0px 3px 3px rgba(0, 0, 0, 0.2)",
 				"description": "shadow panel light"
 			},
 			"shadow_active_panel_dark": {
