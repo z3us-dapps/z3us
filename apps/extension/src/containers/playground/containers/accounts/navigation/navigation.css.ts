@@ -47,8 +47,7 @@ export const navigationMenu = style([
 export const navigationMenuTabletWrapper = style([
 	sprinkles({
 		flexGrow: 1,
-		gap: 'medium',
-		paddingLeft: 'large',
+		paddingLeft: 'medium',
 		display: {
 			mobile: 'none',
 			tablet: 'flex',

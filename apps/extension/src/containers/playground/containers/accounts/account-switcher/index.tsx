@@ -4,12 +4,12 @@ import { AnimatePresence, motion } from 'framer-motion'
 import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 
-import { Avatar, AvatarFallback, AvatarImage } from 'ui/src/components-v2/avatar'
 import { Box } from 'ui/src/components-v2/box'
 import { Text } from 'ui/src/components-v2/typography'
 import { ArrowLeftIcon, ArrowRightIcon, Close2Icon } from 'ui/src/components/icons'
 
 import { Button } from '@src/components/button'
+import { TransactionIcon } from '@src/components/transaction-icon'
 import { AnimatedCard } from '@src/containers/playground/components/animated-card'
 import { CardButtons } from '@src/containers/playground/components/card-buttons'
 import { useAccountParams } from '@src/hooks/use-account-params'
@@ -92,23 +92,14 @@ export const AccountSwitcher: React.FC<IAccountSwitcherProps> = props => {
 	return asset ? (
 		<Box borderBottom={1} borderColor="borderDivider" borderStyle="solid" flexShrink={0}>
 			<Box display="flex" flexDirection="column" alignItems="center">
-				<Box display="flex" width="full" justifyContent="flex-end" paddingTop="medium" paddingX="medium">
+				<Box className={styles.assetCloseBtnWrapper}>
 					<Button iconOnly styleVariant="ghost" sizeVariant="small" to={`/accounts/${account}/${assetType}`}>
 						<Close2Icon />
 					</Button>
 				</Box>
 				<Box display="flex" flexDirection="column" justifyContent="center" alignItems="center">
 					<Box paddingBottom="small">
-						<Avatar>
-							<AvatarImage
-								className="AvatarImage"
-								src="https://images.unsplash.com/photo-1492633423870-43d1cd2775eb?&w=128&h=128&dpr=2&q=80"
-								alt="Colm Tuite"
-							/>
-							<AvatarFallback className="AvatarFallback" delayMs={600}>
-								CT
-							</AvatarFallback>
-						</Avatar>
+						<TransactionIcon transactionIconSize="large" />
 					</Box>
 					<Text size="large" color="strong">
 						Bitcoin
@@ -122,7 +113,7 @@ export const AccountSwitcher: React.FC<IAccountSwitcherProps> = props => {
 					<CardButtons />
 				</Box>
 				<Box className={styles.tempBg}>TODO: Chart goes here</Box>
-				<Box display="flex" paddingTop="small" paddingBottom="xlarge" gap="small">
+				<Box className={styles.assetChartBtnsWrapper}>
 					{[
 						{ id: '1W', title: '1W' },
 						{ id: '1M', title: '1M' },
@@ -175,8 +166,6 @@ export const AccountSwitcher: React.FC<IAccountSwitcherProps> = props => {
 							opacity: 1,
 							y: 0,
 							x: 0,
-							width: 344,
-							height: 200,
 						}}
 						exit={{ opacity: 0, y: 0 }}
 						transition={{ duration: 0.3 }}

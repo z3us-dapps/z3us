@@ -1,8 +1,8 @@
 import { style } from '@vanilla-extract/css'
 
 import { sprinkles } from 'ui/src/components-v2/system/sprinkles.css'
+import { responsiveStyle } from 'ui/src/components-v2/system/theme-utils'
 
-// import { responsiveStyle } from 'ui/src/components-v2/system/theme-utils'
 // import { vars } from 'ui/src/components-v2/system/theme.css'
 
 // TODO: remove
@@ -39,21 +39,26 @@ export const tempBg = style([
 		height: '160px',
 		width: '100%',
 	},
-	// responsiveStyle({
-	// 	mobile: { width: '100%' },
-	// 	tablet: { width: '33%' },
-	// 	desktop: { width: '25%' },
-	// }),
 ])
 
 export const cardWrapperAll = style([
 	sprinkles({
 		position: 'relative',
 	}),
-	{
-		width: '344px',
-		height: '200px',
-	},
+	responsiveStyle({
+		mobile: {
+			width: '100%',
+			paddingBottom: '56.25%',
+			height: '0px',
+		},
+		desktop: {
+			// width: '344px',
+			// height: '200px',
+			width: '97%',
+			paddingBottom: '56.25%',
+			height: '0px',
+		},
+	}),
 ])
 
 export const tempNav = sprinkles({
@@ -70,5 +75,43 @@ export const accountCardButtonWrapper = style([
 		gap: 'large',
 		marginY: 'large',
 		zIndex: 1,
+	}),
+])
+
+export const assetCloseBtnWrapper = style([
+	sprinkles({
+		display: 'flex',
+		width: 'full',
+		justifyContent: 'flex-end',
+		paddingTop: {
+			mobile: 'small',
+			desktop: 'medium',
+		},
+		paddingX: {
+			mobile: 'small',
+			desktop: 'medium',
+		},
+	}),
+])
+
+export const assetChartBtnsWrapper = style([
+	sprinkles({
+		display: 'flex',
+		gap: {
+			mobile: 'xxsmall',
+			desktop: 'small',
+		},
+		paddingTop: {
+			mobile: 'small',
+			desktop: 'small',
+		},
+		paddingBottom: {
+			mobile: 'large',
+			desktop: 'xlarge',
+		},
+		paddingX: {
+			mobile: 'small',
+			desktop: 'small',
+		},
 	}),
 ])
