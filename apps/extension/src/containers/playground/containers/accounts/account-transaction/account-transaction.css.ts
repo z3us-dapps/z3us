@@ -20,7 +20,10 @@ export const transactionHeaderWrapper = style([
 		display: 'flex',
 		alignItems: 'center',
 		paddingX: 'medium',
-		background: 'backgroundPrimary',
+		background: {
+			lightMode: 'backgroundSecondary',
+			darkMode: 'backgroundPrimary',
+		},
 		borderTopLeftRadius: 'large',
 		borderTopRightRadius: 'large',
 		transition: 'fast',
@@ -83,7 +86,10 @@ export const transactionContent = style([
 	sprinkles({
 		position: 'fixed',
 		zIndex: 1,
-		background: 'backgroundPrimary',
+		background: {
+			lightMode: 'backgroundSecondary',
+			darkMode: 'backgroundPrimary',
+		},
 		color: 'colorNeutral',
 		bottom: 0,
 		boxShadow: 'shadowActivePanel',

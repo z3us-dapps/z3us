@@ -17,6 +17,10 @@
 				"value": "{shadow.panel.shadow_scroll_light.value}",
 				"darkValue": "{shadow.panel.shadow_scroll_dark.value}"
 			},
+			"shadow_tooltip": {
+				"value": "{shadow.panel.shadow_tooltip_light.value}",
+				"darkValue": "{shadow.panel.shadow_tooltip_dark.value}"
+			},
 			"button_secondary_focus": {
 				"value": "{shadow.panel.button_secondary_shadow_focus_light.value}",
 				"darkValue": "{shadow.panel.button_secondary_shadow_focus_dark.value}"

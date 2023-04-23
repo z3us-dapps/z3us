@@ -20,6 +20,7 @@ export const toolTipContent = style([
 		paddingY: 'small',
 		borderRadius: 'small',
 		pointerEvents: 'none',
+		boxShadow: 'shadowTooltip',
 	}),
 	{
 		maxWidth: '220px',
@@ -50,14 +51,20 @@ export const toolTipContent = style([
 
 export const toolTipContentBgSecondary = style([
 	sprinkles({
-		background: 'backgroundSecondary',
+		background: {
+			lightMode: 'backgroundSecondary',
+			darkMode: 'backgroundPrimary',
+		},
 	}),
 	{},
 ])
 
 export const toolTipContentBgPrimary = style([
 	sprinkles({
-		background: 'backgroundPrimary',
+		background: {
+			lightMode: 'backgroundPrimary',
+			darkMode: 'backgroundSecondary',
+		},
 	}),
 	{},
 ])
@@ -71,13 +78,19 @@ export const toolTipArrow = style([
 
 export const toolTipArrowFillSecondary = style([
 	sprinkles({
-		fill: 'backgroundSecondary',
+		fill: {
+			lightMode: 'backgroundSecondary',
+			darkMode: 'backgroundPrimary',
+		},
 	}),
 	{},
 ])
 export const toolTipArrowFillPrimary = style([
 	sprinkles({
-		fill: 'backgroundPrimary',
+		fill: {
+			lightMode: 'backgroundPrimary',
+			darkMode: 'backgroundSecondary',
+		},
 	}),
 	{},
 ])

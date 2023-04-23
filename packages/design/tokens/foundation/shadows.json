@@ -34,7 +34,7 @@
 				"description": "shadow panel dark"
 			},
 			"shadow_active_panel_light": {
-				"value": "0px 0px 0px 1px rgba(255, 255, 255, 0.2), 0px 5px 5px rgba(0, 0, 0, 0.1), 0px 3px 3px rgba(0, 0, 0, 0.2)",
+				"value": "0px 0px 0px 1px rgba(255, 255, 255, 0.2), 0px 5px 5px rgba(0, 0, 0, 0.1), 0px 3px 3px rgba(0, 0, 0, 0.1)",
 				"description": "shadow panel light"
 			},
 			"shadow_active_panel_dark": {
@@ -48,6 +48,14 @@
 			"shadow_scroll_dark": {
 				"value": "0px 3px 7px rgba(0, 0, 0, 0.3)",
 				"description": "shadow scroll dark"
+			},
+			"shadow_tooltip_light": {
+				"value": "0px 3px 3px rgba(0, 0, 0, 0.15)",
+				"description": "shadow tooltip light"
+			},
+			"shadow_tooltip_dark": {
+				"value": "0px 3px 3px rgba(0, 0, 0, 0.3)",
+				"description": "shadow tooltip dark"
 			}
 		}
 	}
