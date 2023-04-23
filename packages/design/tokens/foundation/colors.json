@@ -1,6 +1,19 @@
 {
 	"color": {
 		"core": {
+			"bai_pearl": {
+				"0": { "value": "#fefefe" },
+				"100": { "value": "#fdfdfd" },
+				"200": { "value": "#fcfcfc" },
+				"300": { "value": "#fbfbfb" },
+				"400": { "value": "#fafafa" },
+				"500": { "value": "#f8f8f8" },
+				"600": { "value": "#f7f7f7" },
+				"700": { "value": "#f6f6f6" },
+				"800": { "value": "#f5f5f5" },
+				"900": { "value": "#f4f4f4" },
+				"1000": { "value": "#f2f2f2" }
+			},
 			"bleached_silk": {
 				"0": { "value": "#f8f8f8" },
 				"100": { "value": "#f6f6f6" },

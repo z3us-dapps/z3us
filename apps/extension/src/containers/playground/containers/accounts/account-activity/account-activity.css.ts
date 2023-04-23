@@ -81,10 +81,6 @@ export const activtyItemInner = style([
 
 		transition: 'fast',
 		border: 0,
-		// boxShadow: {
-		// 	focusVisible: 'btnSecondaryShadowFocus',
-		// },
-		// outline: 'none',
 	}),
 	{
 		width: '100%',
@@ -105,7 +101,7 @@ export const activtyItemInner = style([
 			boxShadow: `${vars.color.shadowActivePanel}`,
 			color: `${vars.color.borderDivider}`,
 			borderRadius: vars.border.radius.medium,
-			background: vars.color.bleached_silk300,
+			background: vars.color.bai_pearl200,
 		},
 		selectors: {
 			[`.${darkMode} &::before`]: {

@@ -296,6 +296,18 @@ export const primitiveColors = {
 	white: '#fff',
 	black: '#0e0e10',
 
+	bai_pearl0: tokens.color.core.bai_pearl['0'],
+	bai_pearl100: tokens.color.core.bai_pearl['100'],
+	bai_pearl200: tokens.color.core.bai_pearl['200'],
+	bai_pearl300: tokens.color.core.bai_pearl['300'],
+	bai_pearl400: tokens.color.core.bai_pearl['400'],
+	bai_pearl500: tokens.color.core.bai_pearl['500'],
+	bai_pearl600: tokens.color.core.bai_pearl['600'],
+	bai_pearl700: tokens.color.core.bai_pearl['700'],
+	bai_pearl800: tokens.color.core.bai_pearl['800'],
+	bai_pearl900: tokens.color.core.bai_pearl['900'],
+	bai_pearl1000: tokens.color.core.bai_pearl['1000'],
+
 	bleached_silk0: tokens.color.core.bleached_silk['0'],
 	bleached_silk100: tokens.color.core.bleached_silk['100'],
 	bleached_silk200: tokens.color.core.bleached_silk['200'],
