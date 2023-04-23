@@ -26,7 +26,8 @@
 		"date": "date",
 		"id": "id",
 		"from": "from",
-		"to": "to"
+		"to": "to",
+		"coin": "coin"
 	},
 	"accounts": {
 		"navigation": {
@@ -39,6 +40,7 @@
 		"home": {
 			"accountBalanceTitle": "account balance",
 			"assetsBadgesTitle": "assets and badges",
+			"assetsTokens": "tokens",
 			"assetsCoinsTokens": "coins & tokens",
 			"assetsNfts": "NFTs",
 			"assetsLpTokens": "LP Tokens",

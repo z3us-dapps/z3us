@@ -31,6 +31,7 @@ export const tokenListGridCircleSmallWrapper = style([
 	sprinkles({
 		position: 'relative',
 	}),
+	{},
 ])
 
 globalStyle(`${tokenListGridCircleSmallWrapper} > ${tokenListGridCircleSmall}:first-child`, {

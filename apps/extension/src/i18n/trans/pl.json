@@ -26,7 +26,8 @@
 		"date": "date",
 		"id": "id",
 		"from": "z",
-		"to": "do"
+		"to": "do",
+		"coin": "moneta"
 	},
 	"accounts": {
 		"navigation": {
@@ -39,6 +40,7 @@
 		"home": {
 			"accountBalanceTitle": "bilans konta",
 			"assetsBadgesTitle": "zasoby i odznaki",
+			"assetsTokens": "żetony",
 			"assetsCoinsTokens": "monety i żetony",
 			"assetsNfts": "NFTs",
 			"assetsLpTokens": "żetony PL",

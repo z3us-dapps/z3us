@@ -60,7 +60,7 @@ export const AccountsHomeMobileList = forwardRef<HTMLElement, IAccountTransactio
 			{
 				id: `id-${ASSET_TYPE_TOKENS}`,
 				loaded: false,
-				name: t('accounts.home.assetsTokens'),
+				name: t('accounts.home.assetsCoinsTokens'),
 				count: 12,
 				assetType: ASSET_TYPE_TOKENS,
 			},

@@ -60,11 +60,12 @@ export const accountsHomeHeadAll = style([
 	},
 ])
 
+// TODO: should be a chart
 export const accountsHomeAllChart = style([
 	sprinkles({
 		background: 'wax200',
 		borderRadius: 'full',
-		// boxShadow: 'shadowPanel',
+		boxShadow: 'shadowScroll',
 		flexShrink: 0,
 		flexGrow: 0,
 	}),

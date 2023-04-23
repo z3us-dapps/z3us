@@ -126,6 +126,7 @@ export const AccountsHomeMobileHeader = forwardRef<HTMLElement, IAccountsHomeMob
 				case ASSET_TYPE_TOKENS: {
 					return (
 						<>
+							{/* TODO: if the asset is XRD, should say `coin` not `token`  */}
 							<Translation capitalizeFirstLetter text="accounts.home.assetsTokens" />
 							{asset ? ` (${asset.toUpperCase()})` : ''}
 						</>
@@ -169,7 +170,7 @@ export const AccountsHomeMobileHeader = forwardRef<HTMLElement, IAccountsHomeMob
 				return (
 					<Box className={styles.accountsHomeHeadAll}>
 						<TransactionIcon
-							transactionIconSize="medium"
+							transactionIconSize="large"
 							transactionType="deposit"
 							transactionIconBorderColor="borderDividerSecondary"
 							transactionIconShadow={false}
