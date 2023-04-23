@@ -4,11 +4,35 @@ import { globalStyle, style } from '@vanilla-extract/css'
 import { darkMode, sprinkles } from 'ui/src/components-v2/system/sprinkles.css'
 import { responsiveStyle } from 'ui/src/components-v2/system/theme-utils'
 
+export const accountsWrapper = style([
+	sprinkles({
+		display: 'flex',
+		justifyContent: 'center',
+		paddingX: {
+			mobile: 'large',
+			desktop: 'xxlarge',
+		},
+		paddingBottom: {
+			mobile: 'large',
+			desktop: 'xxlarge',
+		},
+		paddingTop: {
+			mobile: 'large',
+			desktop: 'xxlarge',
+		},
+		height: 'full',
+	}),
+	{},
+])
+
 export const panelWrapper = style([
 	sprinkles({
 		position: 'relative',
 		display: 'flex',
-		gap: 'xlarge',
+		gap: {
+			mobile: 'large',
+			desktop: 'xlarge',
+		},
 		width: 'full',
 	}),
 	{},

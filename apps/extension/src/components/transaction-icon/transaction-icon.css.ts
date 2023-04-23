@@ -21,6 +21,16 @@ export const transactionIconMediumWrapper = style([
 		position: 'relative',
 	}),
 	{
+		width: '42px',
+		height: '42px',
+	},
+])
+
+export const transactionIconLargeWrapper = style([
+	sprinkles({
+		position: 'relative',
+	}),
+	{
 		width: '68px',
 		height: '68px',
 	},

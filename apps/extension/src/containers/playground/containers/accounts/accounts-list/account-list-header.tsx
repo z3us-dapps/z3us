@@ -105,14 +105,14 @@ export const AccountListHeader: React.FC<IAccountListHeaderProps> = props => {
 							<Translation capitalizeFirstLetter text="accounts.assetsList.listHeaderAmount" />
 						</Text>
 					</Box>
-					<Box className={styles.tokenListHeaderButton}>
+					<Box className={clsx(styles.tokenListHeaderButton, styles.tokenListCategoryColumn)}>
 						<Text size="xsmall" weight="medium">
 							<Translation capitalizeFirstLetter text="accounts.assetsList.listHeaderCategory" />
 						</Text>
 						{/* TODO: chevron used for sorting  */}
 						{/* <ChevronDown2Icon /> */}
 					</Box>
-					<Box className={styles.tokenListHeaderButton}>
+					<Box className={clsx(styles.tokenListHeaderButton, styles.tokenListAccountColumn)}>
 						<Text size="xsmall" weight="medium">
 							<Translation capitalizeFirstLetter text="accounts.assetsList.listHeaderAccount" />
 						</Text>

@@ -27,14 +27,7 @@ export const AccountsHomeDesktop = () => {
 	const isAllAccount = account === ACCOUNTS_ALL
 
 	return (
-		<Box
-			display="flex"
-			justifyContent="center"
-			paddingX="large"
-			paddingBottom="xxlarge"
-			paddingTop="xxlarge"
-			height="full"
-		>
+		<Box className={styles.accountsWrapper}>
 			<Box height="full" width="full" maxWidth="xxlarge">
 				<Box className={clsx(styles.panelWrapper)}>
 					<ScrollPanel
@@ -49,7 +42,7 @@ export const AccountsHomeDesktop = () => {
 												path={path}
 												element={
 													<AnimatedPage>
-														<AccountIndexHeader scrollTop={scrollTop} />
+														<AccountIndexHeader />
 														<AccountIndexAssets scrollableNode={scrollableNode} />
 													</AnimatedPage>
 												}
@@ -78,6 +71,7 @@ export const AccountsHomeDesktop = () => {
 							<Box>
 								{isAllAccount && !assetType ? (
 									<Box paddingTop="xlarge" paddingX="xlarge">
+										{/* TODO: Chart for `isAllAccount` goes here */}
 										<Box padding="large" background="backgroundPrimary" style={{ width: '100%', height: '200px' }}>
 											<Z3usLoading message="Loading" />
 											{/* <Z3usLoading message="Loading"> */}

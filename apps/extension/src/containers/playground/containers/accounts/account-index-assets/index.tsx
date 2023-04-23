@@ -50,13 +50,11 @@ export const AccountIndexAssets = forwardRef<HTMLElement, IAccountIndexAssetsPro
 		}, 1000)
 
 		return (
-			<Box ref={ref} paddingBottom="xlarge" className={className}>
-				<Box display="flex" paddingBottom="small" paddingTop="large" paddingX="xlarge" alignItems="center" gap="large">
-					<Box>
-						<Text size="xlarge" color="strong" weight="medium">
-							<Translation capitalizeFirstLetter text="accounts.home.assetsBadgesTitle" />
-						</Text>
-					</Box>
+			<Box ref={ref} className={clsx(styles.indexAssetsOuterWrapper, className)}>
+				<Box className={styles.indexAssetsTitleWrapper}>
+					<Text size="xlarge" color="strong" weight="medium" truncate>
+						<Translation capitalizeFirstLetter text="accounts.home.assetsBadgesTitle" />
+					</Text>
 				</Box>
 				<Box className={styles.indexAssetsWrapper}>
 					{[

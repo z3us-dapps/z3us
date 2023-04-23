@@ -1,6 +1,7 @@
 import { globalStyle, style } from '@vanilla-extract/css'
 
 import { darkMode, sprinkles } from 'ui/src/components-v2/system/sprinkles.css'
+import { responsiveStyle } from 'ui/src/components-v2/system/theme-utils'
 import { vars } from 'ui/src/components-v2/system/theme.css'
 
 export const accountListHeaderWrapper = style([
@@ -10,8 +11,14 @@ export const accountListHeaderWrapper = style([
 		top: 0,
 		zIndex: 1,
 		width: 'full',
-		paddingX: 'xlarge',
-		paddingTop: 'xlarge',
+		paddingX: {
+			mobile: 'large',
+			desktop: 'xlarge',
+		},
+		paddingTop: {
+			mobile: 'large',
+			desktop: 'xlarge',
+		},
 		transition: 'slowall',
 	}),
 	{},
@@ -48,41 +55,6 @@ export const breadCrumbTextWrapper = style([
 	},
 ])
 
-export const virtuosoGridList = style([
-	sprinkles({
-		position: 'relative',
-	}),
-])
-
-export const virtuosoGridTwo = style([
-	sprinkles({
-		position: 'relative',
-	}),
-])
-
-export const virtuosoGridThree = style([
-	sprinkles({
-		position: 'relative',
-	}),
-])
-
-globalStyle(`${virtuosoGridList} ${listContainer}`, {
-	display: 'grid',
-	gridTemplateColumns: '1fr',
-})
-
-globalStyle(`${virtuosoGridTwo} ${listContainer}`, {
-	display: 'grid',
-	gap: '1rem',
-	gridTemplateColumns: '1fr 1fr',
-})
-
-globalStyle(`${virtuosoGridThree} ${listContainer}`, {
-	display: 'grid',
-	gap: '1rem',
-	gridTemplateColumns: '1fr 1fr 1fr',
-})
-
 export const itemContainer = style([
 	sprinkles({
 		position: 'relative',
@@ -96,7 +68,10 @@ export const itemWrapper = style([
 	sprinkles({
 		position: 'relative',
 		display: 'flex',
-		paddingX: 'xlarge',
+		paddingX: {
+			mobile: 'large',
+			desktop: 'xlarge',
+		},
 	}),
 	{
 		height: '72px',
@@ -109,6 +84,16 @@ globalStyle(`${itemWrapper} > a`, {
 	cursor: 'pointer',
 	color: 'borderDivider',
 })
+
+export const itemLoadingWrapper = style([
+	sprinkles({
+		position: 'relative',
+		paddingX: {
+			mobile: 'large',
+			desktop: 'xlarge',
+		},
+	}),
+])
 
 export const itemWrapperInner = style([
 	sprinkles({
@@ -181,24 +166,31 @@ export const itemWrapperMotion = style([
 ])
 
 export const tokenListGridWrapper = style([
-	{
+	sprinkles({
 		position: 'relative',
 		display: 'grid',
+	}),
+	{
 		gap: '1rem',
-		gridTemplateColumns: '1fr 104px 104px 134px',
 	},
+	responsiveStyle({
+		mobile: { gap: '1rem', gridTemplateColumns: '1fr 1fr' },
+		desktop: { gap: '1rem', gridTemplateColumns: '1fr 104px 104px 134px' },
+	}),
 ])
 
 export const tokenListWrapper = style([
 	sprinkles({
 		position: 'relative',
-		paddingBottom: 'large',
+		paddingBottom: {
+			mobile: 'medium',
+			desktop: 'large',
+		},
 	}),
 ])
 
 export const tokenListHeaderButton = style([
 	sprinkles({
-		display: 'flex',
 		alignItems: 'center',
 	}),
 ])
@@ -207,9 +199,48 @@ export const tokenListGridCircle = style([
 	sprinkles({
 		position: 'relative',
 		borderRadius: 'full',
+		flexShrink: 0,
 	}),
 	{
 		width: '40px',
 		height: '40px',
 	},
+])
+
+export const tokenListAccountColumn = style([
+	sprinkles({
+		display: {
+			mobile: 'none',
+			desktop: 'flex',
+		},
+	}),
+])
+
+export const tokenListCategoryColumn = style([
+	sprinkles({
+		display: {
+			mobile: 'none',
+			desktop: 'flex',
+		},
+	}),
+])
+
+export const itemCategoryWrapper = style([
+	sprinkles({
+		display: {
+			mobile: 'none',
+			desktop: 'flex',
+		},
+		alignItems: 'center',
+	}),
+])
+
+export const itemAccountWrapper = style([
+	sprinkles({
+		display: {
+			mobile: 'none',
+			desktop: 'flex',
+		},
+		alignItems: 'center',
+	}),
 ])

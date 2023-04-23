@@ -22,12 +22,8 @@ export const accountViewContentWrapper = style([
 		position: 'relative',
 	}),
 	{
-		minWidth: '160px',
+		minWidth: '140px',
 	},
-	responsiveStyle({
-		mobile: { minWidth: '220px' },
-		tablet: { minWidth: '220px' },
-	}),
 ])
 
 export const accountViewScrollAreaWrapper = style([

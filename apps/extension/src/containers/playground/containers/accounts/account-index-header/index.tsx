@@ -8,9 +8,7 @@ import Translation from '@src/components/translation'
 
 import * as styles from './account-index-header.css'
 
-interface IAccountIndexHeaderRequiredProps {
-	scrollTop: number
-}
+interface IAccountIndexHeaderRequiredProps {}
 
 interface IAccountIndexHeaderOptionalProps {
 	className?: string
@@ -24,15 +22,10 @@ const defaultProps: IAccountIndexHeaderOptionalProps = {
 
 export const AccountIndexHeader = forwardRef<HTMLElement, IAccountIndexHeaderProps>(
 	(props, ref: React.Ref<HTMLElement | null>) => {
-		const { className, scrollTop } = props
-
-		const isScrolled = scrollTop > 0
+		const { className } = props
 
 		return (
-			<Box
-				ref={ref}
-				className={clsx(className, styles.accountIndexWrapper, isScrolled && styles.accountIndexWrapperShadow)}
-			>
+			<Box ref={ref} className={clsx(className, styles.accountIndexWrapper)}>
 				<Box display="flex" width="full">
 					<Box flexGrow={1}>
 						<Box display="flex" alignItems="center" paddingBottom="xsmall" flexGrow={0}>

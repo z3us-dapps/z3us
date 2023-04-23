@@ -4,10 +4,48 @@ import { darkMode, sprinkles } from 'ui/src/components-v2/system/sprinkles.css'
 import { responsiveStyle } from 'ui/src/components-v2/system/theme-utils'
 import { vars } from 'ui/src/components-v2/system/theme.css'
 
+export const indexAssetsOuterWrapper = style([
+	sprinkles({
+		position: 'relative',
+		paddingBottom: {
+			mobile: 'large',
+			desktop: 'xlarge',
+		},
+	}),
+	{},
+])
+
 export const indexAssetsWrapper = style([
 	sprinkles({
 		position: 'relative',
-		marginX: 'xlarge',
+		marginX: {
+			mobile: 'large',
+			desktop: 'xlarge',
+		},
+	}),
+	{},
+])
+
+export const indexAssetsTitleWrapper = style([
+	sprinkles({
+		display: 'flex',
+		alignItems: 'center',
+		gap: {
+			mobile: 'large',
+			desktop: 'large',
+		},
+		paddingBottom: {
+			mobile: 'small',
+			desktop: 'small',
+		},
+		paddingTop: {
+			mobile: 'small',
+			desktop: 'large',
+		},
+		paddingX: {
+			mobile: 'large',
+			desktop: 'xlarge',
+		},
 	}),
 	{},
 ])

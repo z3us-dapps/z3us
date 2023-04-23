@@ -9,7 +9,7 @@ import { DownLeftIcon, UpRightIcon } from 'ui/src/components/icons'
 import * as styles from './transaction-icon.css'
 
 export type TTransactionTypes = 'deposit' | 'send'
-export type TTransactionIconSizes = 'small' | 'medium'
+export type TTransactionIconSizes = 'small' | 'medium' | 'large'
 
 const getIconByType = (type: TTransactionTypes) => {
 	const iconMap = {
@@ -47,6 +47,7 @@ export const TransactionIcon = forwardRef<HTMLElement, ITransactionIconProps>(
 
 		const icon = getIconByType(transactionType)
 		const isMediumIcon = transactionIconSize === 'medium'
+		const isLargeIcon = transactionIconSize === 'large'
 
 		return (
 			<Box
@@ -55,6 +56,7 @@ export const TransactionIcon = forwardRef<HTMLElement, ITransactionIconProps>(
 				className={clsx(
 					styles.transactionIconWrapper,
 					isMediumIcon && styles.transactionIconMediumWrapper,
+					isLargeIcon && styles.transactionIconLargeWrapper,
 					transactionIconShadow && styles.transactionIconShadowWrapper,
 					className,
 				)}

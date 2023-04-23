@@ -8,6 +8,7 @@ import { Box } from 'ui/src/components-v2/box'
 import { Text } from 'ui/src/components-v2/typography'
 
 import { Link } from '@src/components/link'
+import { TransactionIcon } from '@src/components/transaction-icon'
 import * as skeletonStyles from '@src/containers/playground/components/styles/skeleton-loading.css'
 import { animtePageVariants } from '@src/containers/playground/constants'
 import { useAccountParams } from '@src/hooks/use-account-params'
@@ -54,7 +55,7 @@ const ItemWrapper = props => {
 						className={styles.itemWrapperMotion}
 						style={{ position: 'absolute', top: '0', left: '0' }}
 					>
-						<Box paddingX="xlarge">
+						<Box className={styles.itemLoadingWrapper}>
 							<Box className={styles.itemWrapperInner}>
 								<Box width="full" className={styles.tokenListGridWrapper}>
 									<Box display="flex" alignItems="center" gap="medium">
@@ -97,22 +98,22 @@ const ItemWrapper = props => {
 							>
 								<Box width="full" className={styles.tokenListGridWrapper}>
 									<Box display="flex" alignItems="center" justifyContent="flex-start" gap="medium">
-										<Box className={styles.tokenListGridCircle} style={{ backgroundColor: '#ea983d' }} />
+										<TransactionIcon transactionType="deposit" transactionIconSize="medium" />
 										<Text size="medium" weight="medium" color="strong" truncate>
 											{user.id} - {user.id} - {user.id} - {user.id} - {user.id}
 										</Text>
 									</Box>
 									<Box display="flex" alignItems="center">
 										<Text size="small" color="strong" truncate>
-											Amount Amount Amount
+											Amount Amount Amount Amount Amount Amount
 										</Text>
 									</Box>
-									<Box display="flex" alignItems="center">
+									<Box className={styles.itemCategoryWrapper}>
 										<Text size="small" color="strong" truncate>
 											Category Category CategoryCategory Category Category
 										</Text>
 									</Box>
-									<Box display="flex" alignItems="center">
+									<Box className={styles.itemAccountWrapper}>
 										<Text size="small" color="strong" truncate>
 											ACcotoun asdf counte
 										</Text>

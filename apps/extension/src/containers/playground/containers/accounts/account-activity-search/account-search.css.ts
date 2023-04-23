@@ -7,9 +7,18 @@ export const accountSearchWrapperWrapperSticky = style([
 	sprinkles({
 		position: 'sticky',
 		top: 0,
-		paddingX: 'large',
-		paddingTop: 'large',
-		paddingBottom: 'medium',
+		paddingX: {
+			mobile: 'large',
+			desktop: 'large',
+		},
+		paddingTop: {
+			mobile: 'medium',
+			desktop: 'large',
+		},
+		paddingBottom: {
+			mobile: 'small',
+			desktop: 'medium',
+		},
 		background: 'backgroundSecondary',
 		zIndex: 1,
 		transition: 'fast',
