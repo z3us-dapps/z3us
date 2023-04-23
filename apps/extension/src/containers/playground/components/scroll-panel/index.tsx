@@ -1,4 +1,5 @@
 import clsx from 'clsx'
+import { screens } from 'design/tokens/foundation/screens.json'
 import React, { useEffect, useRef, useState } from 'react'
 import { useLocation } from 'react-router-dom'
 
@@ -8,7 +9,6 @@ import { ScrollArea } from 'ui/src/components-v2/scroll-area'
 import * as styles from './scroll-panel.css'
 
 interface IScrollPanelRequiredProps {
-	// TODO: fix type
 	renderPanel: (customScrollParent: HTMLElement | null, scrollTop: number) => any
 }
 
@@ -43,16 +43,16 @@ export const ScrollPanel: React.FC<IScrollPanelProps> = props => {
 		setScrollTop(scrollTopTarget)
 	}
 
-	// TODO move this callback to the component ???
 	const setListSize = () => {
 		const listRef = ref.current
 		if (listRef) {
+			const desktopBreakPoint = screens.lg.value.replace('px', '')
+			const isDesktopWidth = window.innerWidth > parseInt(desktopBreakPoint, 10)
 			const simpleBarContent = listRef.getElementsByClassName('simplebar-content')[0]
 			setListHeight(simpleBarContent?.offsetHeight || 100)
 			const listBounding = listRef.getBoundingClientRect()
-
-			// TODO need to listen to screen size change and also useImperativeRef to get parent ref
-			const maxHeight = window.innerHeight - listBounding.top - 48
+			const maxHeightBottomGutter = isDesktopWidth ? 48 : 24
+			const maxHeight = window.innerHeight - listBounding.top - maxHeightBottomGutter
 			setListMaxHeight(maxHeight)
 		}
 	}

@@ -14,6 +14,11 @@ import { Button } from '@src/components/button'
 import { TransactionIcon } from '@src/components/transaction-icon'
 import Translation from '@src/components/translation'
 import { CopyAddressButton } from '@src/containers/playground/components/copy-address-button'
+import {
+	ACCOUNT_PARAM_ACTIVITY,
+	ACCOUNT_PARAM_ASSET,
+	ACCOUNT_PARAM_TRANSACTION_ID,
+} from '@src/containers/playground/constants'
 import { getShortAddress } from '@src/utils/string-utils'
 
 import { AccountsTransactionInfo } from './account-transaction-info'
@@ -40,17 +45,16 @@ export const AccountTransaction = forwardRef<HTMLElement, IAccountTransactionPro
 		const navigate = useNavigate()
 		const { pathname } = useLocation()
 
-		// TODO: move to constants
-		const asset = searchParams.get('asset')
-		const transactionId = searchParams.get('transactionId')
-		const isActivityLink = searchParams.get('activity')
+		const asset = searchParams.get(ACCOUNT_PARAM_ASSET)
+		const transactionId = searchParams.get(ACCOUNT_PARAM_TRANSACTION_ID)
+		const isActivityLink = searchParams.get(ACCOUNT_PARAM_ACTIVITY)
 
 		// TODO: temp
 		const accountAddress =
 			'ardx1qspt0lthflcd45zhwvrxkqdrv5ne5avsgarjcpfatyw7n7n93v38dhcdtlag0sdfalksjdhf7d8f78d7f8d7f8d7f8d7f'
 
 		const navigateBack = () => {
-			navigate(`${pathname}${isActivityLink ? '?activity=true' : ''}`)
+			navigate(`${pathname}${isActivityLink ? `?${ACCOUNT_PARAM_ACTIVITY}=true` : ''}`)
 		}
 
 		const handleScroll = (event: Event) => {
@@ -64,7 +68,7 @@ export const AccountTransaction = forwardRef<HTMLElement, IAccountTransactionPro
 			<Dialog open>
 				<DialogPortal>
 					<DialogOverlay className={styles.transactionOverlay} />
-					<DialogContent className={clsx(className, styles.transactionContent)} onEscapeKeyDown={navigateBack}>
+					<DialogContent className={clsx(styles.transactionContent, className)} onEscapeKeyDown={navigateBack}>
 						<ScrollArea onScroll={handleScroll}>
 							<Box ref={ref} className={styles.transactionBodyScrollWrapper}>
 								<Box display="flex" flexDirection="column" alignItems="center">

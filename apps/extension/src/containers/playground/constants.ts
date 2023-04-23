@@ -43,6 +43,10 @@ export const accountMenuSlugs = {
 	SETTINGS: `/${routes.ACCOUNTS}/${routes.SETTINGS}`,
 }
 
+export const ACCOUNT_PARAM_ASSET = 'asset'
+export const ACCOUNT_PARAM_TRANSACTION_ID = 'transactionId'
+export const ACCOUNT_PARAM_ACTIVITY = 'activity'
+
 export const animtePageVariants = {
 	visible: {
 		opacity: 1,
