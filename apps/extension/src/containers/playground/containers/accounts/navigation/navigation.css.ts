@@ -4,19 +4,26 @@ import { calc } from '@vanilla-extract/css-utils'
 import { darkMode, sprinkles } from 'ui/src/components-v2/system/sprinkles.css'
 import { vars } from 'ui/src/components-v2/system/theme.css'
 
-export const navigationWrapper = sprinkles({
-	zIndex: 1,
-	display: 'flex',
-	justifyContent: 'center',
-	paddingLeft: 'large',
-	paddingRight: 'large',
-	borderBottom: 1,
-	borderBottomStyle: 'solid',
-	borderColor: {
-		lightMode: 'bleached_silk600',
-		darkMode: 'lead500',
-	},
-})
+export const navigationWrapper = style([
+	sprinkles({
+		zIndex: 1,
+		display: 'flex',
+		justifyContent: 'center',
+		paddingLeft: 'large',
+		paddingRight: 'large',
+		borderBottom: 1,
+		borderBottomStyle: 'solid',
+		borderColor: {
+			lightMode: 'bleached_silk600',
+			darkMode: 'lead500',
+		},
+		// background: {
+		// 	lightMode: 'white',
+		// 	darkMode: 'backgroundSecondary',
+		// },
+	}),
+	{},
+])
 
 export const navigationContainer = style([
 	sprinkles({

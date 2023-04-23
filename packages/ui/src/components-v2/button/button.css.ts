@@ -23,7 +23,6 @@ export const button = recipe({
 		cursor: 'pointer',
 		flexShrink: 0,
 		transition: 'fast',
-		border: 0,
 		WebkitTapHighlightColor: 'rgba(0, 0, 0, 0)',
 	},
 	variants: {

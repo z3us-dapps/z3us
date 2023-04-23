@@ -15,7 +15,7 @@ export const dropdownProfileButton = style([
 		alignItems: 'center',
 		borderRadius: 'full',
 		borderStyle: 'solid',
-		borderWidth: 'xxsmall',
+		borderWidth: 'xsmall',
 		transition: 'fast',
 		cursor: 'pointer',
 		borderColor: {

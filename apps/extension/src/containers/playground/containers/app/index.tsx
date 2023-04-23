@@ -71,7 +71,7 @@ export const TempNav: React.FC = () => {
 			className={styles.tempNav}
 			padding="small"
 			gap="medium"
-			style={{ opacity: '0.0' }}
+			style={{ opacity: '0.1' }}
 		>
 			<Link to="/">Home</Link>
 			<Link to="/onboarding">Onboarding</Link>

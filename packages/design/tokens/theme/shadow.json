@@ -18,12 +18,12 @@
 				"darkValue": "{shadow.panel.shadow_scroll_dark.value}"
 			},
 			"button_secondary_focus": {
-				"value": "0 0 0 5px rgb(255 81 0 / 16%), 0 0 0 1.5px #8457ff, inset 0 -1px 2px -0.5px hsl(0deg 0% 100% / 11%), inset 0 0 0 0.5px hsl(0deg 0% 100% / 3%)",
-				"darkValue": "0 0 0 5px rgb(255 81 0 / 16%), 0 0 0 1.5px #8457ff, inset 0 -1px 2px -0.5px hsl(0deg 0% 100% / 11%), inset 0 0 0 0.5px hsl(0deg 0% 100% / 3%)"
+				"value": "{shadow.panel.button_secondary_shadow_focus_light.value}",
+				"darkValue": "{shadow.panel.button_secondary_shadow_focus_dark.value}"
 			},
 			"input_primary_focus": {
-				"value": "0 0 0 5px rgb(255 81 0 / 16%), 0 0 0 1.5px #8457ff, inset 0 -1px 2px -0.5px hsl(0deg 0% 100% / 11%), inset 0 0 0 0.5px hsl(0deg 0% 100% / 3%)",
-				"darkValue": "0 0 0 5px rgb(255 81 0 / 16%), 0 0 0 1.5px #8457ff, inset 0 -1px 2px -0.5px hsl(0deg 0% 100% / 11%), inset 0 0 0 0.5px hsl(0deg 0% 100% / 3%)"
+				"value": "{shadow.panel.input_primary_focus_shadow_light.value}",
+				"darkValue": "{shadow.panel.input_primary_focus_shadow_dark.value}"
 			}
 		}
 	}

@@ -5,6 +5,7 @@ import React, { useEffect, useState } from 'react'
 import { Box } from 'ui/src/components-v2/box'
 import { Button, TStyleVariant } from 'ui/src/components-v2/button'
 import { ToolTip } from 'ui/src/components-v2/tool-tip'
+import { Text } from 'ui/src/components-v2/typography'
 import { CopyIcon } from 'ui/src/components/icons'
 
 import Translation from '@src/components/translation'
@@ -125,7 +126,9 @@ export const CopyAddressButton: React.FC<ICopyAddressButtonProps> = props => {
 							textAlign="center"
 							pointerEvents="none"
 						>
-							<Translation text="global.copied" />
+							<Text capitalizeFirstLetter color="strong" align="center">
+								<Translation text="global.copied" />
+							</Text>
 						</Box>
 					</Box>
 				) : null}

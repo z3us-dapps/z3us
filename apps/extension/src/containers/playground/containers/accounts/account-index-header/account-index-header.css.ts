@@ -19,7 +19,7 @@ export const accountIndexWrapper = style([
 		},
 		paddingBottom: {
 			mobile: 'medium',
-			desktop: 'xlarge',
+			desktop: 'large',
 		},
 		transition: 'slowall',
 	}),
