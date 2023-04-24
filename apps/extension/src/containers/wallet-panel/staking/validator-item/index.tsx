@@ -1,15 +1,18 @@
-import React from 'react'
-import { Validator } from '@src/types'
-import { DownloadIcon, UploadIcon, InfoCircledIcon, Cross2Icon, ExternalLinkIcon } from '@radix-ui/react-icons'
-import { getShortAddress } from '@src/utils/string-utils'
-import { Box, Flex, Text } from 'ui/src/components/atoms'
-import { Popover, PopoverTrigger, PopoverContent, PopoverClose } from 'ui/src/components/popover'
-import { ToolTip } from 'ui/src/components/tool-tip'
-import Button from 'ui/src/components/button'
-import { formatBigNumber } from '@src/utils/formatters'
+import { Cross2Icon, DownloadIcon, ExternalLinkIcon, InfoCircledIcon, UploadIcon } from '@radix-ui/react-icons'
 import BigNumber from 'bignumber.js'
+import React from 'react'
+
+import { Box, Flex, Text } from 'ui/src/components/atoms'
+import Button from 'ui/src/components/button'
+import { Popover, PopoverClose, PopoverContent, PopoverTrigger } from 'ui/src/components/popover'
+import { ToolTip } from 'ui/src/components/tool-tip'
+
+import { useExplorerURL } from '@src/hooks/use-explorer-url'
+import { Validator } from '@src/types'
+import { formatBigNumber } from '@src/utils/formatters'
 import { apy } from '@src/utils/radix'
-import { EXPLORER_URL } from '@src/config'
+import { getShortAddress } from '@src/utils/string-utils'
+
 import { StakeModal } from '../stake-modal'
 
 const LEFT_COL_WIDTH = '123px'
@@ -21,6 +24,7 @@ interface IProps {
 }
 
 export const ValidatorItem: React.FC<IProps> = ({ i, validator, totalStakes }) => {
+	const explorerURL = useExplorerURL()
 	const {
 		address,
 		name,
@@ -60,7 +64,7 @@ export const ValidatorItem: React.FC<IProps> = ({ i, validator, totalStakes }) =
 							iconOnly
 							color="ghost"
 							target="_blank"
-							href={`${EXPLORER_URL}/validators/${address.toString()}`}
+							href={`${explorerURL}/validators/${address.toString()}`}
 							css={{ color: '$txtHelp' }}
 						>
 							<ExternalLinkIcon />

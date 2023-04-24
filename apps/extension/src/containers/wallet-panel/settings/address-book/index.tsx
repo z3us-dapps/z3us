@@ -1,28 +1,30 @@
+import { CheckIcon, Cross2Icon, Pencil2Icon, TrashIcon } from '@radix-ui/react-icons'
+import { AccountAddress } from '@radixdlt/account'
 import React from 'react'
 import { useImmer } from 'use-immer'
-import { useNoneSharedStore, useSharedStore } from '@src/hooks/use-store'
 import { useEventListener } from 'usehooks-ts'
-import { ToolTip } from 'ui/src/components/tool-tip'
-import { Box, Flex, Text, StyledLink } from 'ui/src/components/atoms'
-import { getShortAddress } from '@src/utils/string-utils'
-import { PlusIcon } from 'ui/src/components/icons'
-import Button from 'ui/src/components/button'
-import Input from 'ui/src/components/input'
-import InputFeedBack from 'ui/src/components/input/input-feedback'
-import { CircleAvatar } from '@src/components/circle-avatar'
-import { Pencil2Icon, CheckIcon, Cross2Icon, TrashIcon } from '@radix-ui/react-icons'
+
 import {
 	AlertDialog,
-	AlertDialogTrigger,
-	AlertDialogContent,
-	AlertDialogTitle,
-	AlertDialogDescription,
 	AlertDialogAction,
 	AlertDialogCancel,
+	AlertDialogContent,
+	AlertDialogDescription,
+	AlertDialogTitle,
+	AlertDialogTrigger,
 } from 'ui/src/components/alert-dialog'
-import { EXPLORER_URL } from '@src/config'
-import { AccountAddress } from '@radixdlt/account'
+import { Box, Flex, StyledLink, Text } from 'ui/src/components/atoms'
+import Button from 'ui/src/components/button'
+import { PlusIcon } from 'ui/src/components/icons'
+import Input from 'ui/src/components/input'
+import InputFeedBack from 'ui/src/components/input/input-feedback'
+import { ToolTip } from 'ui/src/components/tool-tip'
+
+import { CircleAvatar } from '@src/components/circle-avatar'
+import { useExplorerURL } from '@src/hooks/use-explorer-url'
+import { useNoneSharedStore, useSharedStore } from '@src/hooks/use-store'
 import { AddressBookEntry } from '@src/store/types'
+import { getShortAddress } from '@src/utils/string-utils'
 
 interface ImmerT {
 	editing: string
@@ -38,6 +40,7 @@ export const AddressBook: React.FC = () => {
 	const { addToast } = useSharedStore(state => ({
 		addToast: state.addToastAction,
 	}))
+	const explorerURL = useExplorerURL()
 	const { addressBook, setAddressBookEntry, handleRemoveAddress } = useNoneSharedStore(state => ({
 		addressBook: state.addressBook,
 		setAddressBookEntry: state.setAddressBookEntryAction,
@@ -173,7 +176,7 @@ export const AddressBook: React.FC = () => {
 														css={{ color: '$txtMuted' }}
 														underline
 														target="_blank"
-														href={`${EXPLORER_URL}accounts/${address}`}
+														href={`${explorerURL}accounts/${address}`}
 													>
 														{getShortAddress(address)}
 													</StyledLink>

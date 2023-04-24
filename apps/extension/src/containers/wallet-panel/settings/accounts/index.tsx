@@ -1,25 +1,28 @@
+import { CheckIcon, Cross2Icon, Pencil2Icon } from '@radix-ui/react-icons'
 import React from 'react'
 import { useImmer } from 'use-immer'
-import { useSharedStore, useNoneSharedStore } from '@src/hooks/use-store'
 import { useEventListener } from 'usehooks-ts'
-import { ToolTip } from 'ui/src/components/tool-tip'
-import { getShortAddress } from '@src/utils/string-utils'
-import { Box, Flex, Text, StyledLink } from 'ui/src/components/atoms'
-import { Pencil2Icon, CheckIcon, Cross2Icon } from '@radix-ui/react-icons'
-import { TrashIcon } from 'ui/src/components/icons'
-import { EXPLORER_URL } from '@src/config'
-import Button from 'ui/src/components/button'
-import Input from 'ui/src/components/input'
+
 import {
 	AlertDialog,
-	AlertDialogTrigger,
-	AlertDialogContent,
-	AlertDialogTitle,
-	AlertDialogDescription,
 	AlertDialogAction,
 	AlertDialogCancel,
+	AlertDialogContent,
+	AlertDialogDescription,
+	AlertDialogTitle,
+	AlertDialogTrigger,
 } from 'ui/src/components/alert-dialog'
+import { Box, Flex, StyledLink, Text } from 'ui/src/components/atoms'
+import Button from 'ui/src/components/button'
+import { TrashIcon } from 'ui/src/components/icons'
+import Input from 'ui/src/components/input'
+import { ToolTip } from 'ui/src/components/tool-tip'
+
+import { useExplorerURL } from '@src/hooks/use-explorer-url'
+import { useNoneSharedStore, useSharedStore } from '@src/hooks/use-store'
 import { AddressBookEntry } from '@src/store/types'
+import { getShortAddress } from '@src/utils/string-utils'
+
 import { AccountModal } from './account-modal'
 
 interface AccountsImmerState {
@@ -33,6 +36,7 @@ export const Accounts: React.FC = () => {
 		addToast: state.addToastAction,
 	}))
 
+	const explorerURL = useExplorerURL()
 	const { publicAddresses, updatePublicAddress, removeAddress } = useNoneSharedStore(state => ({
 		publicAddresses: state.publicAddresses,
 		updatePublicAddress: state.updatePublicAddressAction,
@@ -137,7 +141,7 @@ export const Accounts: React.FC = () => {
 														css={{ color: '$txtMuted' }}
 														underline
 														target="_blank"
-														href={`${EXPLORER_URL}accounts/${entry.address}`}
+														href={`${explorerURL}accounts/${entry.address}`}
 													>
 														{getShortAddress(entry.address)}
 													</StyledLink>

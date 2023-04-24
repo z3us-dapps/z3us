@@ -1,28 +1,31 @@
-import React from 'react'
-import BigNumber from 'bignumber.js'
-import { ScrollArea } from 'ui/src/components/scroll-area'
-import { useQueryClient } from 'react-query'
-import { useLocation } from 'wouter'
-import { useImmer } from 'use-immer'
-import { Pool, Token } from '@src/types'
-import InputFeedBack from 'ui/src/components/input/input-feedback'
 import { ArrowLeftIcon, InfoCircledIcon } from '@radix-ui/react-icons'
-import { LeftArrowIcon } from 'ui/src/components/icons'
-import { Dialog, DialogTrigger, DialogContent } from 'ui/src/components/dialog'
-import { HoverCard, HoverCardContent, HoverCardTrigger } from 'ui/src/components/hover-card'
 import { BuiltTransactionReadyToSign } from '@radixdlt/application'
-import { useTransaction } from '@src/hooks/use-transaction'
-import { useSharedStore, useNoneSharedStore } from '@src/hooks/use-store'
-import { formatBigNumber } from '@src/utils/formatters'
-import { getShortAddress } from '@src/utils/string-utils'
+import BigNumber from 'bignumber.js'
+import React from 'react'
+import { useQueryClient } from 'react-query'
+import { useImmer } from 'use-immer'
+import { useLocation } from 'wouter'
+
+import { AlertDialog, AlertDialogContent, AlertDialogTrigger } from 'ui/src/components/alert-dialog'
+import { Box, Flex, MotionBox, StyledLink, Text } from 'ui/src/components/atoms'
 import Button from 'ui/src/components/button'
+import { Dialog, DialogContent, DialogTrigger } from 'ui/src/components/dialog'
+import { HoverCard, HoverCardContent, HoverCardTrigger } from 'ui/src/components/hover-card'
+import { LeftArrowIcon } from 'ui/src/components/icons'
+import InputFeedBack from 'ui/src/components/input/input-feedback'
+import { ScrollArea } from 'ui/src/components/scroll-area'
+
+import { HardwareWalletReconnect } from '@src/components/hardware-wallet-reconnect'
 import { InfoStatBlock } from '@src/components/info-stat-block'
 import { Z3usSpinnerAnimation } from '@src/components/z3us-spinner-animation'
-import { HardwareWalletReconnect } from '@src/components/hardware-wallet-reconnect'
-import { EXPLORER_URL } from '@src/config'
-import { MotionBox, Box, Text, Flex, StyledLink } from 'ui/src/components/atoms'
-import { AlertDialog, AlertDialogTrigger, AlertDialogContent } from 'ui/src/components/alert-dialog'
+import { useExplorerURL } from '@src/hooks/use-explorer-url'
+import { useNoneSharedStore, useSharedStore } from '@src/hooks/use-store'
+import { useTransaction } from '@src/hooks/use-transaction'
 import { confirmSwap } from '@src/services/swap'
+import { Pool, Token } from '@src/types'
+import { formatBigNumber } from '@src/utils/formatters'
+import { getShortAddress } from '@src/utils/string-utils'
+
 import { FeeBox } from '../fee-box'
 
 interface ImmerProps {
@@ -78,6 +81,7 @@ export const SwapModal: React.FC<IProps> = ({
 }) => {
 	const [, setLocation] = useLocation()
 	const queryClient = useQueryClient()
+	const explorerURL = useExplorerURL()
 	const { signTransaction, submitTransaction } = useTransaction()
 	const { signingKey } = useSharedStore(state => ({
 		signingKey: state.signingKey,
@@ -390,7 +394,7 @@ export const SwapModal: React.FC<IProps> = ({
 																<StyledLink
 																	underline
 																	target="_blank"
-																	href={state.txID ? `${EXPLORER_URL}/transactions/${state.txID}` : ``}
+																	href={state.txID ? `${explorerURL}/transactions/${state.txID}` : ``}
 																	css={{ px: '$1' }}
 																>
 																	View on explorer
@@ -412,7 +416,7 @@ export const SwapModal: React.FC<IProps> = ({
 																	<StyledLink
 																		underline
 																		target="_blank"
-																		href={state.txID ? `${EXPLORER_URL}/transactions/${state.txID}` : ``}
+																		href={state.txID ? `${explorerURL}/transactions/${state.txID}` : ``}
 																		css={{ px: '$1', color: 'red' }}
 																	>
 																		error

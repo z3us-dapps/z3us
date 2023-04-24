@@ -15,8 +15,8 @@ import InputFeedback from 'ui/src/components/input/input-feedback'
 import { HardwareWalletReconnect } from '@src/components/hardware-wallet-reconnect'
 import { PageHeading, PageSubHeading, PageWrapper } from '@src/components/layout'
 import { Z3usSpinnerAnimation } from '@src/components/z3us-spinner-animation'
-import { EXPLORER_URL } from '@src/config'
 import { useTokenInfo } from '@src/hooks/react-query/queries/radix'
+import { useExplorerURL } from '@src/hooks/use-explorer-url'
 import { useMessage } from '@src/hooks/use-message'
 import { useMessanger } from '@src/hooks/use-messanger'
 import { useNoneSharedStore, useSharedStore } from '@src/hooks/use-store'
@@ -42,6 +42,7 @@ interface ImmerT {
 export const Transaction = (): JSX.Element => {
 	const [, { id }] = useRoute<{ id: string }>('/transaction/:id')
 	const queryClient = useQueryClient()
+	const explorerURL = useExplorerURL()
 
 	const { sendResponseAction: sendResponse } = useMessanger()
 	const {
@@ -311,7 +312,7 @@ export const Transaction = (): JSX.Element => {
 											<StyledLink
 												underline
 												target="_blank"
-												href={state.txID ? `${EXPLORER_URL}/transactions/${state.txID}` : ``}
+												href={state.txID ? `${explorerURL}/transactions/${state.txID}` : ``}
 												css={{ px: '$1' }}
 											>
 												View on explorer
@@ -333,7 +334,7 @@ export const Transaction = (): JSX.Element => {
 												<StyledLink
 													underline
 													target="_blank"
-													href={state.txID ? `${EXPLORER_URL}/transactions/${state.txID}` : ``}
+													href={state.txID ? `${explorerURL}/transactions/${state.txID}` : ``}
 													css={{ px: '$1', color: 'red' }}
 												>
 													error
