@@ -50,7 +50,7 @@
 				"description": "shadow scroll dark"
 			},
 			"shadow_tooltip_light": {
-				"value": "0px 3px 3px rgba(0, 0, 0, 0.15)",
+				"value": "0px 0px 1px rgba(0, 0, 0, 0.30), 0px 2px 2px rgba(0, 0, 0, 0.10)",
 				"description": "shadow tooltip light"
 			},
 			"shadow_tooltip_dark": {

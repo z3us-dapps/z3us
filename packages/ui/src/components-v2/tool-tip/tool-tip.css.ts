@@ -62,7 +62,7 @@ export const toolTipContentBgSecondary = style([
 export const toolTipContentBgPrimary = style([
 	sprinkles({
 		background: {
-			lightMode: 'backgroundPrimary',
+			lightMode: 'bleached_silk100',
 			darkMode: 'backgroundSecondary',
 		},
 	}),

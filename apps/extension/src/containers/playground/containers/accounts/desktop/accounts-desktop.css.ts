@@ -11,13 +11,6 @@ export const desktopWrapper = style([
 		display: 'none',
 		background: 'backgroundPrimary',
 	}),
-	{
-		// '@media': {
-		// 	[`screen and (min-width: 924px)`]: {
-		// 		display: 'flex',
-		// 	},
-		// },
-	},
 	responsiveStyle({
 		mobile: { display: 'none' },
 		tablet: { display: 'flex' },

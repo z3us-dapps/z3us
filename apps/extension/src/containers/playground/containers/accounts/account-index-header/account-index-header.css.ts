@@ -19,7 +19,6 @@ export const accountIndexWrapper = style([
 		},
 		paddingBottom: {
 			mobile: 'medium',
-			desktop: 'large',
 		},
 		transition: 'slowall',
 	}),

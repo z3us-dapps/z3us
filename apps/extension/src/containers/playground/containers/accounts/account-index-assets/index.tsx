@@ -128,12 +128,18 @@ export const AccountIndexAssets = forwardRef<HTMLElement, IAccountIndexAssetsPro
 															<Text size="medium">(12)</Text>
 														</Box>
 													</Box>
-													<Box display="flex" alignItems="center" gap="xsmall" className={styles.textMaxWidthWrapper}>
+													<Box
+														marginTop="xsmall"
+														display="flex"
+														alignItems="center"
+														gap="xsmall"
+														className={styles.textMaxWidthWrapper}
+													>
 														<Text size="small" color="strong" weight="strong" truncate>
 															$12,40112,40112,40112,40112,40112,40112,40112,40112,40112,401
 															$12,40112,40112,40112,40112,40112,40112,40112,40112,40112,401
 														</Text>
-														<Text size="xsmall" color="green">
+														<Text weight="medium" size="xsmall" color={idx % 2 === 0 ? 'green' : 'red'}>
 															+1.23%
 														</Text>
 													</Box>

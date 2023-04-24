@@ -9,18 +9,16 @@ export const navigationWrapper = style([
 		zIndex: 1,
 		display: 'flex',
 		justifyContent: 'center',
-		paddingLeft: 'large',
-		paddingRight: 'large',
 		borderBottom: 1,
 		borderBottomStyle: 'solid',
 		borderColor: {
 			lightMode: 'bleached_silk600',
 			darkMode: 'lead500',
 		},
-		// background: {
-		// 	lightMode: 'white',
-		// 	darkMode: 'backgroundSecondary',
-		// },
+		paddingX: {
+			mobile: 'large',
+			desktop: 'xxlarge',
+		},
 	}),
 	{},
 ])
