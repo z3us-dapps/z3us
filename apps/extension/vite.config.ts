@@ -12,6 +12,8 @@ import manifest from './manifest'
 // eslint-disable-next-line
 console.info(`building for env: ${process.env.NODE_ENV}`)
 
+const isProd = process.env.NODE_ENV === 'production'
+
 export default defineConfig({
 	server: {
 		port: 8003,
@@ -39,7 +41,7 @@ export default defineConfig({
 		vanillaExtractPlugin(),
 	],
 	build: {
-		minify: process.env.NODE_ENV === 'production',
+		minify: isProd,
 		outDir: path.resolve(__dirname, 'dist'),
 		sourcemap: true,
 		rollupOptions: {
