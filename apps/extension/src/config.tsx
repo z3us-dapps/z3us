@@ -192,14 +192,17 @@ export const networks = [
 	{ id: NetworkID.STOKENET, url: new URL('https://stokenet.radixdlt.com') },
 ]
 
+export const explorerURLMap = {
+	[NetworkID.MAINNET]: 'https://explorer.radixdlt.com/#',
+	[NetworkID.STOKENET]: 'https://stokenet-explorer.radixdlt.com/#',
+}
+
 export const APP_HEIGHT = 600
 export const APP_WIDTH = 360
 export const PANEL_HEIGHT = '552px'
 export const SLIDE_PANEL_HEADER_HEIGHT = 30
 export const SLIDE_PANEL_HEIGHT = 158
 export const SLIDE_PANEL_EXPAND_HEIGHT = 459
-
-export const EXPLORER_URL = 'https://explorer.radixdlt.com/#'
 
 export const XRD_RRI = 'xrd_rr1qy5wfsfh'
 export const FLOOP_RRI = 'floop_rr1q0p0hzap6ckxqdk6khesyft62w34e0vdd06msn9snhfqknl370'

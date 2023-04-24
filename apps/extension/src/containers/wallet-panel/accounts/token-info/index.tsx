@@ -1,20 +1,23 @@
-import React, { useCallback } from 'react'
 import BigNumber from 'bignumber.js'
-import { Line } from 'react-chartjs-2'
 import { InteractionMode } from 'chart.js'
-import { useColorMode } from '@src/hooks/use-color-mode'
-import { useTokenBalances, useTokenInfo } from '@src/hooks/react-query/queries/radix'
-import { useMarketChart } from '@src/hooks/react-query/queries/market'
-import { getSplitParams } from '@src/utils/url-utils'
-import { useRoute, useLocation } from 'wouter'
-import { useNoneSharedStore } from '@src/hooks/use-store'
+import React, { useCallback } from 'react'
+import { Line } from 'react-chartjs-2'
 import { useImmer } from 'use-immer'
-import { Tooltip, TooltipTrigger, TooltipContent, TooltipArrow } from 'ui/src/components/tool-tip'
-import { Grid, Flex, Text, Box } from 'ui/src/components/atoms'
-import { EXPLORER_URL } from '@src/config'
-import { UpRightIcon, DownLeftIcon, ExternalLinkIcon } from 'ui/src/components/icons'
+import { useLocation, useRoute } from 'wouter'
+
+import { Box, Flex, Grid, Text } from 'ui/src/components/atoms'
 import Button from 'ui/src/components/button'
+import { DownLeftIcon, ExternalLinkIcon, UpRightIcon } from 'ui/src/components/icons'
+import { Tooltip, TooltipArrow, TooltipContent, TooltipTrigger } from 'ui/src/components/tool-tip'
+
 import { CircleAvatar } from '@src/components/circle-avatar'
+import { useMarketChart } from '@src/hooks/react-query/queries/market'
+import { useTokenBalances, useTokenInfo } from '@src/hooks/react-query/queries/radix'
+import { useColorMode } from '@src/hooks/use-color-mode'
+import { useExplorerURL } from '@src/hooks/use-explorer-url'
+import { useNoneSharedStore } from '@src/hooks/use-store'
+import { getSplitParams } from '@src/utils/url-utils'
+
 import { TokenPrice } from './token-price'
 
 const TIMEFRAMES = {
@@ -75,6 +78,7 @@ export const TokenInfo = (): JSX.Element => {
 	const [, params] = useRoute('/account/token/:rri')
 	const rri = getSplitParams(params)
 
+	const explorerURL = useExplorerURL()
 	const { isLoading, data: token } = useTokenInfo(rri)
 	const { data } = useTokenBalances()
 	const liquidBalances = data?.account_balances?.liquid_balances || []
@@ -108,7 +112,7 @@ export const TokenInfo = (): JSX.Element => {
 	}
 
 	const handleGotoTokenExplorer = () => {
-		window.open(`${EXPLORER_URL}/tokens/${rri}`)
+		window.open(`${explorerURL}/tokens/${rri}`)
 	}
 
 	const handleClickTimeFrame = (id: string) => {
