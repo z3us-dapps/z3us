@@ -139,7 +139,7 @@ export const AccountTransaction = forwardRef<HTMLElement, IAccountTransactionPro
 															address={accountAddress}
 															iconOnly
 															rounded={false}
-															tickColor="white"
+															tickColor="colorStrong"
 														/>
 													</Box>
 													<ToolTip message={accountAddress}>
@@ -164,7 +164,7 @@ export const AccountTransaction = forwardRef<HTMLElement, IAccountTransactionPro
 															address={accountAddress}
 															iconOnly
 															rounded={false}
-															tickColor="white"
+															tickColor="colorStrong"
 														/>
 													</Box>
 													<ToolTip message={accountAddress}>
@@ -186,7 +186,7 @@ export const AccountTransaction = forwardRef<HTMLElement, IAccountTransactionPro
 													address="messssageeeaskjdfhlsakjdhflksjdhfg lkjhlkjh"
 													iconOnly
 													rounded={false}
-													tickColor="white"
+													tickColor="colorStrong"
 													toolTipDisabled
 												/>
 											</Box>
