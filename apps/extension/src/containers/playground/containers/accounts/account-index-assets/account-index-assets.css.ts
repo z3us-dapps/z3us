@@ -132,7 +132,7 @@ export const indexAssetLinkRow = style([
 			boxShadow: `${vars.color.shadowActivePanel}`,
 			color: `${vars.color.borderDivider}`,
 			borderRadius: vars.border.radius.medium,
-			background: vars.color.bai_pearl300,
+			background: vars.color.bai_pearl200,
 		},
 		selectors: {
 			[`.${darkMode} &::before`]: {
