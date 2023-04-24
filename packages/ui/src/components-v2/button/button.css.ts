@@ -7,11 +7,6 @@ export const baseSprinkles = style([
 	sprinkles({
 		transition: 'fast',
 	}),
-	{
-		margin: '0',
-		padding: '0',
-		outline: 'none',
-	},
 ])
 
 export const button = recipe({
@@ -22,7 +17,9 @@ export const button = recipe({
 		textDecoration: 'none',
 		cursor: 'pointer',
 		flexShrink: 0,
-		transition: 'fast',
+		margin: '0',
+		padding: '0',
+		outline: 'none',
 		WebkitTapHighlightColor: 'rgba(0, 0, 0, 0)',
 	},
 	variants: {

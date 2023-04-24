@@ -135,7 +135,7 @@ export const AccountTransaction = forwardRef<HTMLElement, IAccountTransactionPro
 												<Box display="flex" alignItems="flex-end" gap="xsmall">
 													<Box className={styles.transactionInfoCopyBtnWrapper}>
 														<CopyAddressButton
-															styleVariant="white-transparent"
+															styleVariant="ghost"
 															address={accountAddress}
 															iconOnly
 															rounded={false}
@@ -160,7 +160,7 @@ export const AccountTransaction = forwardRef<HTMLElement, IAccountTransactionPro
 												<Box display="flex" alignItems="flex-end" gap="xsmall">
 													<Box className={styles.transactionInfoCopyBtnWrapper}>
 														<CopyAddressButton
-															styleVariant="white-transparent"
+															styleVariant="ghost"
 															address={accountAddress}
 															iconOnly
 															rounded={false}
@@ -182,7 +182,7 @@ export const AccountTransaction = forwardRef<HTMLElement, IAccountTransactionPro
 													Message (encryped)
 												</Text>
 												<CopyAddressButton
-													styleVariant="white-transparent"
+													styleVariant="ghost"
 													address="messssageeeaskjdfhlsakjdhflksjdhfg lkjhlkjh"
 													iconOnly
 													rounded={false}

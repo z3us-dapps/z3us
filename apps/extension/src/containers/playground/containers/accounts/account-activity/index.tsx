@@ -125,7 +125,7 @@ const ItemWrapper = props => {
 								(isSelected || isHovered) && styles.activtyItemExternalLinkWrapperActive,
 							)}
 						>
-							<ToolTip message={<Translation capitalizeFirstLetter text="global.explorer" />}>
+							<ToolTip theme="backgroundPrimary" message={<Translation capitalizeFirstLetter text="global.explorer" />}>
 								<Button
 									sizeVariant="small"
 									styleVariant="ghost"
