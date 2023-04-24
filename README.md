@@ -86,7 +86,9 @@ Before adding to firefox some changes to manifest file must be made:
   },
 ```
 
-In the Firefox browser navigate to `about:debugging#/runtime/this-firefox`. Click the button `Load temporary Add-on...`, then select a compressed zip of  all the files `inside` the directory `apps/extension/dist`.
+- Create archive by compresing all the files `inside` the directory `apps/extension/dist`.
+- In the Firefox browser navigate to `about:debugging#/runtime/this-firefox`.
+- Click the button `Load temporary Add-on...`, then select an archive file you prepared.
 
 ## Website quick start
 
