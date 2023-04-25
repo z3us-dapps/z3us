@@ -1,6 +1,6 @@
 import clsx, { type ClassValue } from 'clsx'
 import { AnimatePresence, motion } from 'framer-motion'
-import React, { useCallback, useContext, useState } from 'react'
+import React, { useCallback, useContext, useEffect, useState } from 'react'
 import { VirtuosoGrid } from 'react-virtuoso'
 import { useTimeout } from 'usehooks-ts'
 
@@ -31,7 +31,8 @@ const ItemContainer = props => <div {...props} className={styles.itemContainer} 
 const ItemWrapper = props => {
 	const { idx, user } = props
 	const { setItems } = useContext(Context)
-	const { account, asset } = useAccountParams()
+
+	const { account, assetType, asset } = useAccountParams()
 
 	useTimeout(() => {
 		setItems(items =>
@@ -149,11 +150,18 @@ export const AccountsList = React.forwardRef<HTMLElement, IAccountListProps>(
 
 		// eslint-disable-next-line
 		const [items, setItems] = useState(Array.from({ length: 20 }, _ => ({ id: hash(), name: hash(), loaded: false })))
+		const { account, assetType, asset } = useAccountParams()
 
 		const isScrolled = scrollTop > 0
 
 		// computeItemKey is necessary for animation to ensure Virtuoso reuses the same elements
 		const computeItemKey = useCallback(index => items[index].id, [items])
+
+		useEffect(() => {
+			if (scrollableNode) {
+				scrollableNode.scrollTo({ top: 0 })
+			}
+		}, [account, assetType, asset])
 
 		return (
 			<Box ref={ref} className={clsx(styles.tokenListWrapper, className)} style={{ minHeight: '200px' }}>
