@@ -17,9 +17,6 @@ export const accountIndexWrapper = style([
 			mobile: 'large',
 			desktop: 'xlarge',
 		},
-		paddingBottom: {
-			mobile: 'medium',
-		},
 		transition: 'slowall',
 	}),
 ])

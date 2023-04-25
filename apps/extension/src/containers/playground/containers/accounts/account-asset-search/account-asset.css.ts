@@ -6,14 +6,14 @@ import { vars } from 'ui/src/components-v2/system/theme.css'
 export const accountAssetWrapperWrapper = style([
 	sprinkles({
 		width: 'full',
-		paddingTop: 'medium',
+		paddingTop: 'small',
 		paddingBottom: 'small',
 		background: 'backgroundSecondary',
 		zIndex: 1,
 		transition: 'fast',
 	}),
 	{
-		minHeight: '70px',
+		minHeight: '64px',
 	},
 ])
 

@@ -28,7 +28,7 @@ export const AccountIndexHeader = forwardRef<HTMLElement, IAccountIndexHeaderPro
 			<Box ref={ref} className={clsx(className, styles.accountIndexWrapper)}>
 				<Box display="flex" width="full">
 					<Box flexGrow={1}>
-						<Box display="flex" alignItems="center" paddingBottom="xsmall" flexGrow={0}>
+						<Box display="flex" alignItems="center" paddingBottom="medium" flexGrow={0}>
 							<Box>
 								<Text size="large">
 									<Translation capitalizeFirstLetter text="accounts.home.accountBalanceTitle" />
