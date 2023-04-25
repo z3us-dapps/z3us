@@ -31,7 +31,6 @@ export const input = recipe({
 				},
 				boxShadow: {
 					focus: 'inputPrimaryShadowFocus',
-					// TODO: focusvisible update
 					focusVisible: 'inputPrimaryShadowFocus',
 				},
 				color: 'colorStrong',

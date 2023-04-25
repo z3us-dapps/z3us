@@ -14,16 +14,14 @@ export const navigationLogoLink = style([
 			lightMode: 'black',
 			darkMode: 'white',
 		},
+		boxShadow: {
+			focusVisible: 'btnSecondaryShadowFocus',
+		},
 	}),
 	{
+		outline: 'none',
 		width: '24px',
 		height: '24px',
-		selectors: {
-			// [`.${darkMode} &`]: {},
-			// [`${parent} & svg`]: {
-			// 	fill: 'backgroundPrimary',
-			// },
-		},
 	},
 ])
 

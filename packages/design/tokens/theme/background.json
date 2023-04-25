@@ -32,11 +32,11 @@
 				"darkValue": "{color.core.wax.400.value}"
 			},
 			"input_primary_background": {
-				"value": "{color.core.bleached_silk.500.value}",
+				"value": "{color.core.bai_pearl.0.value}",
 				"darkValue": "{color.core.wax.500.value}"
 			},
 			"input_primary_background_hover": {
-				"value": "{color.core.bleached_silk.100.value}",
+				"value": "{color.core.bai_pearl.100.value}",
 				"darkValue": "{color.core.wax.400.value}"
 			}
 		}

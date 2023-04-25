@@ -34,11 +34,11 @@
 				"darkValue": "{color.core.wax.300.value}"
 			},
 			"input_primary_border": {
-				"value": "{color.core.bleached_silk.500.value}",
+				"value": "{color.core.bleached_silk.600.value}",
 				"darkValue": "{color.core.lead.400.value}"
 			},
 			"input_primary_border_hover": {
-				"value": "{color.core.bleached_silk.500.value}",
+				"value": "{color.core.bleached_silk.700.value}",
 				"darkValue": "{color.core.wax.300.value}"
 			},
 			"input_primary_border_focus": {

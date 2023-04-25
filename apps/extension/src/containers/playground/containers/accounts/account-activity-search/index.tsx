@@ -1,6 +1,6 @@
 /* eslint-disable react/jsx-no-useless-fragment, @typescript-eslint/no-unused-vars */
 import clsx, { ClassValue } from 'clsx'
-import React, { useRef, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useEventListener, useIntersectionObserver } from 'usehooks-ts'
 
@@ -13,6 +13,7 @@ import { capitalizeFirstLetter } from 'ui/src/utils/capitalize-first-letter'
 
 import { Button } from '@src/components/button'
 import Translation from '@src/components/translation'
+import { useAccountParams } from '@src/hooks/use-account-params'
 
 import * as styles from './account-search.css'
 
@@ -39,6 +40,8 @@ export const AccountActivitySearch: React.FC<IAccountActivitySearchProps> = prop
 
 	const { t } = useTranslation()
 
+	const { account, assetType, asset } = useAccountParams()
+
 	const [isInputVisible, setIsInputVisible] = useState<boolean>(false)
 	const [inputValue, setInputValue] = useState<string>('')
 	const inputRef = useRef(null)
@@ -58,6 +61,7 @@ export const AccountActivitySearch: React.FC<IAccountActivitySearchProps> = prop
 		setIsInputVisible(false)
 		setInputValue('')
 		onChange('')
+		inputRef.current.blur()
 	}
 
 	const handleSearchClick = () => {
@@ -72,10 +76,13 @@ export const AccountActivitySearch: React.FC<IAccountActivitySearchProps> = prop
 
 	useEventListener('keydown', e => {
 		if (e.key === 'Escape') {
-			inputRef.current.blur()
 			handleCloseSearch()
 		}
 	})
+
+	useEffect(() => {
+		handleCloseSearch()
+	}, [account, assetType, asset])
 
 	return (
 		<Box
