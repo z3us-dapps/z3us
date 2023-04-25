@@ -207,6 +207,7 @@ export const AccountsHomeMobileHeader = forwardRef<HTMLElement, IAccountsHomeMob
 								accountBalance={accountBalance}
 								accountName={accountName}
 								showCopyAddressButton
+								isAllAccount={accountName === ACCOUNTS_ALL}
 							/>
 						))}
 					</Box>
