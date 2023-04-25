@@ -1,6 +1,6 @@
 import clsx from 'clsx'
 import { AnimatePresence, motion } from 'framer-motion'
-import React, { forwardRef, useContext, useState } from 'react'
+import React, { forwardRef, useContext, useEffect, useState } from 'react'
 import { useLocation } from 'react-router-dom'
 import { Virtuoso } from 'react-virtuoso'
 import { useTimeout } from 'usehooks-ts'
@@ -16,6 +16,7 @@ import { TransactionIcon } from '@src/components/transaction-icon'
 import Translation from '@src/components/translation'
 import * as skeletonStyles from '@src/containers/playground/components/styles/skeleton-loading.css'
 import { animtePageVariants } from '@src/containers/playground/constants'
+import { useAccountParams } from '@src/hooks/use-account-params'
 
 import * as styles from './account-activity.css'
 import { Context } from './context'
@@ -30,16 +31,10 @@ const ItemWrapper = props => {
 	const { setItems } = useContext(Context)
 	const { id, index, loaded, user, selected, hovered, setHovered } = props
 
-	// const { account, assetType, asset } = useAccountParams()
 	const { pathname } = useLocation()
 
 	const isSelected = selected === user.id
 	const isHovered = hovered === user.id
-
-	// const handleClickItem = () => {
-	// 	setSelected(isSelected ? null : user.id)
-	// }
-	//
 
 	// demo for timing
 	useTimeout(() => {
@@ -159,11 +154,19 @@ const defaultProps: IAccountActivityOptionalProps = {}
 export const AccountActivity = forwardRef<HTMLElement, IAccountActivityProps>(
 	(props, ref: React.Ref<HTMLElement | null>) => {
 		const { scrollableNode } = props
+		const { account, assetType, asset } = useAccountParams()
+
 		const [selected, setSelected] = useState<string | null>(null)
 		const [hovered, setHovered] = useState<string | null>(null)
 
 		// eslint-disable-next-line
 		const [items, setItems] = useState(Array.from({ length: 20 }, _ => ({ id: hash(), name: hash(), loaded: false })))
+
+		useEffect(() => {
+			if (scrollableNode) {
+				scrollableNode.scrollTo({ top: 0 })
+			}
+		}, [account, assetType, asset])
 
 		return (
 			<Box ref={ref} className={clsx(styles.activityWrapper)} style={{ minHeight: '100px' }}>

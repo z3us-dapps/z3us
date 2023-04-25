@@ -39,9 +39,7 @@ export const AccountActivitySearch: React.FC<IAccountActivitySearchProps> = prop
 	const { onChange, className, searchTitle, scrollableNode } = props
 
 	const { t } = useTranslation()
-
 	const { account, assetType, asset } = useAccountParams()
-
 	const [isInputVisible, setIsInputVisible] = useState<boolean>(false)
 	const [inputValue, setInputValue] = useState<string>('')
 	const inputRef = useRef(null)
@@ -121,15 +119,17 @@ export const AccountActivitySearch: React.FC<IAccountActivitySearchProps> = prop
 							<Close2Icon />
 						</Button>
 					</Box>
-					<Button
-						className={clsx(styles.accountUpButton, (isInputVisible || !isSticky) && styles.accountUpButtonHidden)}
-						styleVariant="ghost"
-						sizeVariant="small"
-						onClick={handleUpClick}
-						iconOnly
-					>
-						<ArrowUpIcon />
-					</Button>
+					<ToolTip theme="backgroundPrimary" message={<Translation capitalizeFirstLetter text="global.up" />}>
+						<Button
+							className={clsx(styles.accountUpButton, (isInputVisible || !isSticky) && styles.accountUpButtonHidden)}
+							styleVariant="ghost"
+							sizeVariant="small"
+							onClick={handleUpClick}
+							iconOnly
+						>
+							<ArrowUpIcon />
+						</Button>
+					</ToolTip>
 					<ToolTip theme="backgroundPrimary" message={<Translation capitalizeFirstLetter text="global.search" />}>
 						<Button
 							className={clsx(styles.accountSearchButton, isInputVisible && styles.accountSearchButtonHidden)}

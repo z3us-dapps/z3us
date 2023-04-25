@@ -5,11 +5,13 @@ import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 
 import { Box } from 'ui/src/components-v2/box'
+import { ToolTip } from 'ui/src/components-v2/tool-tip'
 import { Text } from 'ui/src/components-v2/typography'
 import { ArrowLeftIcon, ArrowRightIcon, Close2Icon } from 'ui/src/components/icons'
 
 import { Button } from '@src/components/button'
 import { TransactionIcon } from '@src/components/transaction-icon'
+import Translation from '@src/components/translation'
 import { AnimatedCard } from '@src/containers/playground/components/animated-card'
 import { CardButtons } from '@src/containers/playground/components/card-buttons'
 import { useAccountParams } from '@src/hooks/use-account-params'
@@ -93,9 +95,11 @@ export const AccountSwitcher: React.FC<IAccountSwitcherProps> = props => {
 		<Box borderBottom={1} borderColor="borderDivider" borderStyle="solid" flexShrink={0}>
 			<Box display="flex" flexDirection="column" alignItems="center">
 				<Box className={styles.assetCloseBtnWrapper}>
-					<Button iconOnly styleVariant="ghost" sizeVariant="small" to={`/accounts/${account}/${assetType}`}>
-						<Close2Icon />
-					</Button>
+					<ToolTip theme="backgroundPrimary" message={<Translation capitalizeFirstLetter text="global.back" />}>
+						<Button iconOnly styleVariant="ghost" sizeVariant="small" to={`/accounts/${account}/${assetType}`}>
+							<Close2Icon />
+						</Button>
+					</ToolTip>
 				</Box>
 				<Box display="flex" flexDirection="column" justifyContent="center" alignItems="center">
 					<Box paddingBottom="small">

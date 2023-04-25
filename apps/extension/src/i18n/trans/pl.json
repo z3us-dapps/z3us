@@ -27,7 +27,9 @@
 		"id": "id",
 		"from": "z",
 		"to": "do",
-		"coin": "moneta"
+		"coin": "moneta",
+		"back": "z powrotem",
+		"up": "w górę"
 	},
 	"accounts": {
 		"navigation": {
