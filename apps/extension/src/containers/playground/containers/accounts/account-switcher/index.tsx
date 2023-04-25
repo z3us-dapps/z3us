@@ -14,6 +14,7 @@ import { TransactionIcon } from '@src/components/transaction-icon'
 import Translation from '@src/components/translation'
 import { AnimatedCard } from '@src/containers/playground/components/animated-card'
 import { CardButtons } from '@src/containers/playground/components/card-buttons'
+import { ACCOUNTS_ALL } from '@src/containers/playground/constants'
 import { useAccountParams } from '@src/hooks/use-account-params'
 
 import * as styles from './account-switcher.css'
@@ -184,6 +185,7 @@ export const AccountSwitcher: React.FC<IAccountSwitcherProps> = props => {
 								accountAddress={accountId}
 								accountBalance={accountBalance}
 								accountName={accountName}
+								isAllAccount={accountName === ACCOUNTS_ALL}
 							/>
 						))}
 					</motion.ul>

@@ -32,7 +32,7 @@ const ItemWrapper = props => {
 	const { idx, user } = props
 	const { setItems } = useContext(Context)
 
-	const { account, assetType, asset } = useAccountParams()
+	const { account, asset } = useAccountParams()
 
 	useTimeout(() => {
 		setItems(items =>

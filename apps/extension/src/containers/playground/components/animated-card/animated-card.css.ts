@@ -40,6 +40,16 @@ export const card = style([
 	},
 ])
 
+export const cardAllWrapper = style([
+	sprinkles({
+		background: {
+			lightMode: 'backgroundPrimary',
+			darkMode: 'backgroundPrimary',
+		},
+	}),
+	{},
+])
+
 export const cardAccountShine = style([
 	sprinkles({
 		position: 'absolute',
@@ -76,6 +86,15 @@ export const cardAccountWrapper = style([
 ])
 
 export const cardAccountText = style([
+	sprinkles({
+		color: {
+			lightMode: 'colorStrong',
+			darkMode: 'white',
+		},
+	}),
+])
+
+export const cardAccountTextSpaced = style([
 	sprinkles({
 		position: 'relative',
 	}),

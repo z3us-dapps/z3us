@@ -17,6 +17,7 @@ interface IAnimatedCardRequiredProps {
 	accountAddress: string
 	accountBalance: string
 	accountName: string
+	isAllAccount: boolean
 }
 
 interface IAnimatedCardOptionalProps {
@@ -43,11 +44,12 @@ export const AnimatedCard: React.FC<IAnimatedCardProps> = props => {
 		accountBalance,
 		accountName,
 		showCopyAddressButton,
+		isAllAccount,
 	} = props
 
 	return (
 		<motion.li
-			className={clsx(styles.card, className)}
+			className={clsx(styles.card, isAllAccount && styles.cardAllWrapper, className)}
 			style={{
 				backgroundImage,
 			}}
@@ -67,8 +69,10 @@ export const AnimatedCard: React.FC<IAnimatedCardProps> = props => {
 		>
 			<Box className={clsx(styles.cardAccountWrapper)}>
 				<Box flexGrow={1} paddingTop="xsmall" display="flex">
-					<Text size="large" weight="medium" color="white" className={styles.cardAccountText}>
-						{getShortAddress(accountAddress)}
+					<Text size="large" weight="medium" className={styles.cardAccountTextSpaced}>
+						<Box component="span" className={styles.cardAccountText}>
+							{getShortAddress(accountAddress)}
+						</Box>
 					</Text>
 					{showCopyAddressButton ? (
 						<Box className={styles.copyAddressButtonWrapper}>
@@ -83,11 +87,15 @@ export const AnimatedCard: React.FC<IAnimatedCardProps> = props => {
 					) : null}
 				</Box>
 				<Box paddingBottom="xsmall">
-					<Text size="xlarge" weight="stronger" color="white">
-						{accountBalance}
+					<Text size="xlarge" weight="stronger">
+						<Box component="span" className={styles.cardAccountText}>
+							{accountBalance}
+						</Box>
 					</Text>
-					<Text size="large" weight="strong" color="white">
-						{accountName}
+					<Text size="large" weight="strong">
+						<Box component="span" className={styles.cardAccountText}>
+							{accountName}
+						</Box>
 					</Text>
 				</Box>
 			</Box>
