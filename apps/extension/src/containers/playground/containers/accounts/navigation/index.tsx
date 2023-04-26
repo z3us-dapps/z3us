@@ -148,7 +148,7 @@ export const MobileHeaderNavigation = forwardRef<HTMLElement, IMobileHeaderNavig
 				<Box className={styles.accountsHomeMobileHeaderWalletWrapper}>
 					<Box display="flex" alignItems="center" gap="small" flexGrow={1}>
 						<Z3usLogo />
-						<AccountViewDropdown styleVariant="white-transparent" />
+						<AccountViewDropdown />
 					</Box>
 					<Box display="flex" alignItems="center" gap="medium">
 						<Box

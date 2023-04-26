@@ -21,7 +21,7 @@ export const teststyle = style([
 		},
 	}),
 	{
-		border: '1px solid red',
+		border: '1px solid green',
 		'@media': {
 			[`screen and (min-width: 480px)`]: {
 				flexBasis: '50%',

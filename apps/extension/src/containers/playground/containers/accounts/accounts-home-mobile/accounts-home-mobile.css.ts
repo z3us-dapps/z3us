@@ -125,10 +125,9 @@ export const accountsHomeHeaderStickyVis = style([
 ])
 
 export const accountsHomeHeaderStickyVisIs = style([
-	sprinkles({}),
-	{
-		boxShadow: '0px 10px 15px -3px rgba(0,0,0,0.1)',
-	},
+	sprinkles({
+		boxShadow: 'shadowScroll',
+	}),
 ])
 
 export const accountsAssetsPanel = style([
@@ -197,19 +196,6 @@ export const tabsWrapperScrollBtn = style([
 	},
 ])
 
-globalStyle(`${tabsWrapperScrollBtn} > svg`, {
-	transition: vars.transition.fast,
-})
-
-export const tabsWrapperScrollBtnScrolled = style([
-	sprinkles({
-		position: 'absolute',
-	}),
-	{
-		border: '0px solid red',
-	},
-])
-
 export const tabsWrapperScrollBtnHidden = style([
 	sprinkles({
 		opacity: 0,
@@ -217,6 +203,16 @@ export const tabsWrapperScrollBtnHidden = style([
 		pointerEvents: 'none',
 	}),
 ])
+
+export const tabsWrapperScrollBtnScrolled = style([
+	{
+		position: 'absolute',
+	},
+])
+
+globalStyle(`${tabsWrapperScrollBtn} > svg`, {
+	transition: vars.transition.fast,
+})
 
 globalStyle(`${tabsWrapperScrollBtnScrolled} > svg`, {
 	transition: 'all 150ms ease-out',
@@ -309,6 +305,7 @@ export const mobileAccountsListContainer = style([
 	sprinkles({
 		width: 'full',
 	}),
+	{},
 ])
 
 globalStyle(`${mobileAccountsListContainer} > div:first-child > div`, {

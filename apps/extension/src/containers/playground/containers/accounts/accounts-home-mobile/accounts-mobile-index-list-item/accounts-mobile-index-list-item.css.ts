@@ -9,8 +9,8 @@ export const mobileAccountsIndex = style([
 		position: 'relative',
 		background: 'backgroundSecondary',
 		borderTop: 1,
+		borderTopStyle: 'solid',
 		borderColor: 'borderDivider',
-		borderStyle: 'solid',
 	}),
 	{
 		height: '94px',

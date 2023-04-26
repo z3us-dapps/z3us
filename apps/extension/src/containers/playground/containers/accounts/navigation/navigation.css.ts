@@ -180,10 +180,7 @@ export const navigationMobileWrapper = style([
 		zIndex: 1,
 		borderTopStyle: 'solid',
 		width: 'full',
-		borderColor: {
-			lightMode: 'bleached_silk600',
-			darkMode: 'lead400',
-		},
+		borderColor: 'borderDivider',
 	}),
 	{
 		height: '56px',

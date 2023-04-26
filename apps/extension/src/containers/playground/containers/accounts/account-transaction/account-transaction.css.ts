@@ -20,6 +20,7 @@ export const transactionHeaderWrapper = style([
 		display: 'flex',
 		alignItems: 'center',
 		paddingX: 'medium',
+		paddingY: 'medium',
 		background: {
 			lightMode: 'backgroundSecondary',
 			darkMode: 'backgroundPrimary',

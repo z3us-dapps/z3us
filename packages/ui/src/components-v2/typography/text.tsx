@@ -11,7 +11,7 @@ const colorMap = {
 	neutral: 'colorNeutral',
 	strong: 'colorStrong',
 	red: { lightMode: 'red700', darkMode: 'red500' },
-	green: { lightMode: 'green800', darkMode: 'green400' },
+	green: { lightMode: 'green500', darkMode: 'green400' },
 	// TODO: add variants
 	// link: { lightMode: 'bleached_silk900', darkMode: 'bleached_silk100' },
 	// secondary: { lightMode: 'bleached_silk900', darkMode: 'bleached_silk100' },

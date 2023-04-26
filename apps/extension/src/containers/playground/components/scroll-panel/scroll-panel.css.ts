@@ -9,8 +9,6 @@ export const panelWrapper = style([
 		boxShadow: 'shadowPanel',
 		borderRadius: 'xlarge',
 		overflow: 'hidden',
-		// @TODO: clip or hidden ?
-		// overflow: 'clip',
 	}),
 	{},
 ])
