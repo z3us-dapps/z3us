@@ -208,10 +208,7 @@ export const AccountTransaction = forwardRef<HTMLElement, IAccountTransactionPro
 						<Box className={clsx(styles.transactionHeaderWrapper, isScrolled && styles.transactionHeaderWrapperShadow)}>
 							<Box flexGrow={1} />
 							<Box flexGrow={1} display="flex" justifyContent="flex-end" gap="small">
-								<ToolTip
-									theme="backgroundPrimary"
-									message={<Translation capitalizeFirstLetter text="global.explorer" />}
-								>
+								<ToolTip message={<Translation capitalizeFirstLetter text="global.explorer" />}>
 									<Button
 										sizeVariant="small"
 										styleVariant="ghost"
@@ -222,7 +219,7 @@ export const AccountTransaction = forwardRef<HTMLElement, IAccountTransactionPro
 										<ShareIcon />
 									</Button>
 								</ToolTip>
-								<ToolTip theme="backgroundPrimary" message={<Translation capitalizeFirstLetter text="global.close" />}>
+								<ToolTip message={<Translation capitalizeFirstLetter text="global.close" />}>
 									<Button styleVariant="ghost" sizeVariant="small" iconOnly onClick={navigateBack}>
 										<Close2Icon />
 									</Button>
