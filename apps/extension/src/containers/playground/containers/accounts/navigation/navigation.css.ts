@@ -40,7 +40,7 @@ export const navigationMenu = style([
 	sprinkles({
 		flexGrow: 1,
 		gap: 'medium',
-		paddingLeft: 'xlarge',
+		paddingLeft: 'large',
 		display: {
 			mobile: 'none',
 			desktop: 'flex',
