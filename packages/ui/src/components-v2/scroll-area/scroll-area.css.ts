@@ -33,7 +33,7 @@ export const scrollAreaTopShadow = style([
 		right: 0,
 		transition: 'fast',
 		pointerEvents: 'none',
-		boxShadow: 'shadowPanel',
+		boxShadow: 'shadowScrollTop',
 	}),
 	{
 		height: '24px',
@@ -55,7 +55,7 @@ export const scrollAreaBottomShadow = style([
 		right: 0,
 		transition: 'fast',
 		pointerEvents: 'none',
-		boxShadow: 'shadowPanel',
+		boxShadow: 'shadowScrollBottom',
 	}),
 	{
 		height: '24px',

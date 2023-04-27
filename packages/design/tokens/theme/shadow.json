@@ -13,9 +13,13 @@
 				"value": "{shadow.panel.shadow_active_panel_light.value}",
 				"darkValue": "{shadow.panel.shadow_active_panel_dark.value}"
 			},
-			"shadow_scroll": {
-				"value": "{shadow.panel.shadow_scroll_light.value}",
-				"darkValue": "{shadow.panel.shadow_scroll_dark.value}"
+			"shadow_scroll_top": {
+				"value": "{shadow.panel.shadow_scroll_top_light.value}",
+				"darkValue": "{shadow.panel.shadow_scroll_top_dark.value}"
+			},
+			"shadow_scroll_bottom": {
+				"value": "{shadow.panel.shadow_scroll_bottom_light.value}",
+				"darkValue": "{shadow.panel.shadow_scroll_bottom_dark.value}"
 			},
 			"shadow_tooltip": {
 				"value": "{shadow.panel.shadow_tooltip_light.value}",

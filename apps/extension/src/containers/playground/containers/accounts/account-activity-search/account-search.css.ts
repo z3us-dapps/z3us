@@ -30,7 +30,7 @@ export const accountSearchWrapperWrapperSticky = style([
 
 export const accountSearchWrapperWrapperStickyShadow = style([
 	sprinkles({
-		boxShadow: 'shadowScroll',
+		boxShadow: 'shadowScrollTop',
 	}),
 ])
 

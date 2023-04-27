@@ -26,7 +26,7 @@ export const accountListHeaderWrapper = style([
 
 export const accountListHeaderWrapperShadow = style([
 	sprinkles({
-		boxShadow: 'shadowScroll',
+		boxShadow: 'shadowScrollTop',
 	}),
 ])
 

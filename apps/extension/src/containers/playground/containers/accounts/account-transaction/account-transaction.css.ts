@@ -38,7 +38,7 @@ export const transactionHeaderWrapper = style([
 
 export const transactionHeaderWrapperShadow = style([
 	sprinkles({
-		boxShadow: 'shadowScroll',
+		boxShadow: 'shadowScrollTop',
 	}),
 	{},
 ])

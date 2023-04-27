@@ -65,7 +65,7 @@ export const accountsHomeAllChart = style([
 	sprinkles({
 		background: 'wax200',
 		borderRadius: 'full',
-		boxShadow: 'shadowScroll',
+		boxShadow: 'shadowScrollTop',
 		flexShrink: 0,
 		flexGrow: 0,
 	}),
@@ -126,7 +126,7 @@ export const accountsHomeHeaderStickyVis = style([
 
 export const accountsHomeHeaderStickyVisIs = style([
 	sprinkles({
-		boxShadow: 'shadowScroll',
+		boxShadow: 'shadowScrollTop',
 	}),
 ])
 

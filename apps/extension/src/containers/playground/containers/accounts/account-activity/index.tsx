@@ -166,6 +166,16 @@ export const AccountActivity = forwardRef<HTMLElement, IAccountActivityProps>(
 			if (scrollableNode) {
 				scrollableNode.scrollTo({ top: 0 })
 			}
+
+			// DEMO CODE DEMONSTRATE LOADING
+			// eslint-disable-next-line
+			setItems(Array.from({ length: 20 }, _ => ({ id: hash(), name: hash(), loaded: false })))
+
+			// DEMO CODE DEMONSTRATE LOADING
+			setTimeout(() => {
+				// eslint-disable-next-line
+				setItems(Array.from({ length: 20 }, _ => ({ id: hash(), name: hash(), loaded: true })))
+			}, 1000)
 		}, [account, assetType, asset])
 
 		return (
