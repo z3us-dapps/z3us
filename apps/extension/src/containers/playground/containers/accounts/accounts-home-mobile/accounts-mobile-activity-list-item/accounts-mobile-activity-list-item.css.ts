@@ -73,9 +73,6 @@ export const mobileAccountsActivityLink = style([
 			hover: 'btnSecondaryBackground',
 		},
 	}),
-	{
-		border: '0px solid red',
-	},
 ])
 
 globalStyle(`${mobileAccountsActivityLink}:hover + ${activtyItemExternalLinkButton}`, {

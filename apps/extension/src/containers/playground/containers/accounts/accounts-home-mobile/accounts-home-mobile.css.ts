@@ -161,7 +161,7 @@ export const mobileAccountsListWrapper = style([
 		background: 'backgroundSecondary',
 	}),
 	{
-		minHeight: '384px',
+		minHeight: '381px',
 	},
 ])
 

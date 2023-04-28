@@ -52,13 +52,16 @@ export const transactionAvatarRootWrapper = style([
 	{},
 ])
 
-export const transactionAvatarWrapper = style([
+
+export const transactionAvatarImageWrapper = style([
 	sprinkles({
-		borderRadius: 'full',
 		width: 'full',
 		height: 'full',
+		borderRadius: 'full',
 	}),
-	{},
+	{
+		objectFit: 'cover',
+	},
 ])
 
 export const transactionAvatarFallbackWrapper = style([

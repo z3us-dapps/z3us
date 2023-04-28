@@ -194,7 +194,6 @@ export const indexAssetRowOverlay = style([
 		height: 'full',
 		alignItems: 'center',
 		pointerEvents: 'none',
-		// display: 'flex',
 		display: {
 			mobile: 'none',
 			desktop: 'flex',
@@ -212,6 +211,7 @@ export const indexAssetCircle = style([
 		borderStyle: 'solid',
 		borderWidth: 'xsmall',
 		transition: 'fast',
+		overflow: 'clip',
 	}),
 	{
 		width: '40px',
@@ -223,6 +223,44 @@ export const indexAssetCircle = style([
 			},
 		},
 	},
+])
+
+export const indexAssetCircleAvatar = style([
+	sprinkles({
+		display: 'inline-flex',
+		alignItems: 'center',
+		justifyContent: 'center',
+		borderRadius: 'full',
+	}),
+	{
+		// TODO: can be sprinkle
+		userSelect: 'none',
+	},
+])
+
+export const indexAssetCircleAvatarImage = style([
+	sprinkles({
+		width: 'full',
+		height: 'full',
+	}),
+	{
+		// TODO: can be sprinkle
+		objectFit: 'cover',
+	},
+])
+
+export const indexAssetCircleAvatarFallback = style([
+	sprinkles({
+		display: 'flex',
+		alignItems: 'center',
+		justifyContent: 'center',
+		width: 'full',
+		height: 'full',
+		background: {
+			lightMode: 'bleached_silk500',
+			darkMode: 'wax900',
+		},
+	}),
 ])
 
 export const recentActivityWrapper = style([

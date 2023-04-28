@@ -3,7 +3,7 @@ import { LockClosedIcon } from '@radix-ui/react-icons'
 import clsx, { type ClassValue } from 'clsx'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
-// TODO: create anoter component for handle shadows for simplebar
+// TODO: create anoter component for handle shadows for simplebar, and the css import
 import SimpleBarReact from 'simplebar-react'
 import 'simplebar-react/dist/simplebar.min.css'
 
@@ -22,7 +22,7 @@ import {
 	DropdownMenuTrigger,
 } from 'ui/src/components-v2/dropdown-menu'
 import { Text } from 'ui/src/components-v2/typography'
-import { CheckIcon } from 'ui/src/components/icons'
+import { ExternalLinkIcon , CheckIcon } from 'ui/src/components/icons'
 
 import { Link } from '@src/components/link'
 
@@ -156,6 +156,14 @@ export const WalletDropdown: React.FC<IWalletDropdownProps> = props => {
 								</DropdownMenuLeftSlot>
 								<Box display="flex" marginLeft="small">
 									<Text size="xsmall">Lock wallet</Text>
+								</Box>
+							</DropdownMenuItem>
+							<DropdownMenuItem>
+								<DropdownMenuLeftSlot>
+									<ExternalLinkIcon />
+								</DropdownMenuLeftSlot>
+								<Box display="flex" marginLeft="small">
+									<Text size="xsmall">Open in browser</Text>
 								</Box>
 							</DropdownMenuItem>
 							<DropdownMenuSeparator />

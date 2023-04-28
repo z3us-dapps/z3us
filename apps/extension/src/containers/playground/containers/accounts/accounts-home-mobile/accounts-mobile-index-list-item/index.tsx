@@ -3,8 +3,6 @@ import clsx, { type ClassValue } from 'clsx'
 import { AnimatePresence, motion } from 'framer-motion'
 import React, { forwardRef, useContext } from 'react'
 import { useTimeout } from 'usehooks-ts'
-
-import { AvatarFallback, AvatarImage } from 'ui/src/components-v2/avatar'
 import { Box } from 'ui/src/components-v2/box'
 import { Text } from 'ui/src/components-v2/typography'
 import { ChevronRightIcon } from 'ui/src/components/icons'
@@ -197,14 +195,19 @@ export const AccountsMobileIndexListItem = forwardRef<HTMLElement, IAccountsMobi
 												className={
 													isImageSquare
 														? styles.mobileAccountsIndexAssetSquareAvatar
-														: styles.mobileAccountsIndexAssetCirclAvatar
+														: styles.mobileAccountsIndexAssetCircleAvatar
 												}
 											>
-												<AvatarImage
+												<AvatarPrimitive.Image
+													className={styles.mobileAccountsIndexAssetAvatarImage}
 													src="https://images.unsplash.com/photo-1492633423870-43d1cd2775eb?&w=128&h=128&dpr=2&q=80"
 													alt="Colm Tuite"
 												/>
-												<AvatarFallback delayMs={600}>CT</AvatarFallback>
+												<AvatarPrimitive.Fallback delayMs={600}>
+												<Text>
+
+											CT	</Text>
+												</AvatarPrimitive.Fallback>
 											</AvatarPrimitive.Root>
 										</Box>
 									</Link>

@@ -54,9 +54,6 @@ export const mobileAccountsAssetLink = style([
 			hover: 'btnSecondaryBackground',
 		},
 	}),
-	{
-		border: '0px solid red',
-	},
 ])
 
 export const mobileAccountsIndexAssetCircle = style([

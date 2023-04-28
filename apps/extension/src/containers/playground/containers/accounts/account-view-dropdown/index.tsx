@@ -72,12 +72,13 @@ export const AccountViewDropdown = forwardRef<HTMLElement, IAccountViewDropdownP
 											<Box
 												style={{ width: '60px', height: '40px' }}
 												borderRadius="small"
+												flexShrink={0}
 												background="backgroundPrimary"
 												marginRight="small"
 											/>
 										</DropdownMenuLeftSlot>
-										<Box flexGrow={1}>
-											<Text size="xsmall">Savings</Text>
+										<Box flexGrow={1} style={{maxWidth: '98px'}}>
+											<Text size="xsmall" truncate>Savings Savings Savings Savings Savings</Text>
 										</Box>
 										<DropdownMenuItemIndicator>
 											<CheckIcon />

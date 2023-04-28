@@ -54,9 +54,6 @@ export const mobileAccountsIndexLink = style([
 			hover: 'btnSecondaryBackground',
 		},
 	}),
-	{
-		border: '0px solid red',
-	},
 ])
 
 export const mobileAccountsIndexSplit = style([
@@ -143,7 +140,7 @@ export const mobileAccountsIndexAssetSquareAvatar = style([
 	},
 ])
 
-export const mobileAccountsIndexAssetCirclAvatar = style([
+export const mobileAccountsIndexAssetCircleAvatar = style([
 	sprinkles({
 		display: 'inline-flex',
 		alignItems: 'center',
@@ -158,4 +155,28 @@ export const mobileAccountsIndexAssetCirclAvatar = style([
 		maxHeight: '100%',
 		maxWidth: '100%',
 	},
+])
+
+export const mobileAccountsIndexAssetAvatarImage = style([
+	sprinkles({
+		width: 'full',
+		height: 'full',
+	}),
+	{
+		objectFit: 'cover',
+	},
+])
+
+export const mobileAccountsIndexAssetAvatarFallback  = style([
+	sprinkles({
+		display: 'flex',
+		alignItems: 'center',
+		justifyContent: 'center',
+		width: 'full',
+		height: 'full',
+		background: {
+			lightMode: 'bleached_silk500',
+			darkMode: 'wax900',
+		},
+	}),
 ])

@@ -1,10 +1,10 @@
+import * as AvatarPrimitive from '@radix-ui/react-avatar'
 import clsx from 'clsx'
 import { AnimatePresence, motion } from 'framer-motion'
 import React, { forwardRef, useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useTimeout } from 'usehooks-ts'
 
-import { Avatar, AvatarFallback, AvatarImage } from 'ui/src/components-v2/avatar'
 import { Box } from 'ui/src/components-v2/box'
 import { Text } from 'ui/src/components-v2/typography'
 import { ChevronRightIcon } from 'ui/src/components/icons'
@@ -155,13 +155,19 @@ export const AccountIndexAssets = forwardRef<HTMLElement, IAccountIndexAssetsPro
 													// eslint-disable-next-line
 													<Link key={i} to="/accounts/all/tokens" className={styles.indexAssetCircle} underline="never">
 														<Box onMouseOver={() => setHoveredLink(name)}>
-															<Avatar>
-																<AvatarImage
+															<AvatarPrimitive.Root>
+																<AvatarPrimitive.Image
+																	className={styles.indexAssetCircleAvatarImage}
 																	src="https://images.unsplash.com/photo-1492633423870-43d1cd2775eb?&w=128&h=128&dpr=2&q=80"
 																	alt="Colm Tuite"
 																/>
-																<AvatarFallback delayMs={600}>CT</AvatarFallback>
-															</Avatar>
+																<AvatarPrimitive.Fallback
+																	delayMs={600}
+																	className={styles.indexAssetCircleAvatarFallback}
+																>
+																	<Text>CT</Text>
+																</AvatarPrimitive.Fallback>
+															</AvatarPrimitive.Root>
 														</Box>
 													</Link>
 												))}
