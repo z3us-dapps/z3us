@@ -5,9 +5,10 @@ import { I18nextProvider } from 'react-i18next'
 import Playground from './containers/playground'
 import i18n from './i18n/i18n'
 
-const container = document.getElementById('root')
+const container: HTMLElement | null = document.getElementById('root')
+const containerElement: HTMLElement = container!
 
-const root = createRoot(container) // createRoot(container!) if you use TypeScript
+const root = createRoot(containerElement)
 
 root.render(
 	<React.StrictMode>
