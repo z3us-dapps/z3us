@@ -17,7 +17,7 @@ Chart.register(CategoryScale, LinearScale, PointElement, LineElement, Tooltip)
 
 const queryClient = newQueryClient(window.localStorage)
 
-export const Provider: React.FC = () => {
+const Provider: React.FC = () => {
 	globalStyles()
 
 	return (
@@ -29,3 +29,5 @@ export const Provider: React.FC = () => {
 		</QueryClientProvider>
 	)
 }
+
+export default Provider
