@@ -37,10 +37,9 @@ export const dropdownProfileButton = style([
 ])
 
 export const dropdownProfileButtonSmall = style([
-	sprinkles({}),
 	{
-		width: '28px',
-		height: '28px',
+		width: '32px',
+		height: '32px',
 	},
 ])
 
@@ -66,6 +65,7 @@ export const dropdownProfilAvatarImg = style([
 		borderRadius: 'full',
 	}),
 	{
+		boxSizing: 'border-box',
 		objectFit: 'cover',
 		userSelect: 'none',
 	},

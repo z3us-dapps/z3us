@@ -232,7 +232,12 @@ export const AccountsHomeMobileHeader = forwardRef<HTMLElement, IAccountsHomeMob
 						)}
 						style={backgroundStyle}
 					/>
-					<Box className={clsx(styles.accountsHomeHeaderStickyVis, isSticky && styles.accountsHomeHeaderStickyVisIs)}>
+					<Box
+						className={clsx(
+							styles.accountsHomeHeaderStickyVis,
+							isSticky && assetType && styles.accountsHomeHeaderStickyVisIs,
+						)}
+					>
 						<Box className={styles.tabsWrapper}>
 							<Link
 								underline="never"

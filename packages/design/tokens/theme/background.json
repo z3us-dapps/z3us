@@ -29,7 +29,7 @@
 			},
 			"btn_white_transparent_background_hover": {
 				"value": "{color.core.bleached_silk.100.value}",
-				"darkValue": "{color.core.wax.400.value}"
+				"darkValue": "rgba(255,255,255, 0.2)"
 			},
 			"input_primary_background": {
 				"value": "{color.core.bai_pearl.0.value}",

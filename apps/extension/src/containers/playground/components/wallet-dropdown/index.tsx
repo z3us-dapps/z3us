@@ -153,14 +153,6 @@ export const WalletDropdown: React.FC<IWalletDropdownProps> = props => {
 										<CheckIcon />
 									</DropdownMenuItemIndicator>
 								</DropdownMenuRadioItem>
-								<DropdownMenuRadioItem value="dark">
-									<Box flexGrow={1}>
-										<Text size="xsmall">Funny man&apos;s wallet</Text>
-									</Box>
-									<DropdownMenuItemIndicator>
-										<CheckIcon />
-									</DropdownMenuItemIndicator>
-								</DropdownMenuRadioItem>
 							</DropdownMenuRadioGroup>
 							<DropdownMenuSeparator />
 							<DropdownMenuItem>
