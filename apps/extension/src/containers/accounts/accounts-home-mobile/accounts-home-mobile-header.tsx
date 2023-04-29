@@ -102,6 +102,7 @@ export const AccountsHomeMobileHeader = forwardRef<HTMLElement, IAccountsHomeMob
 		const [cards] = useState<Array<any>>(CARD_COLORS)
 		const elementRef = useRef<HTMLDivElement | null>(null)
 		const entry = useIntersectionObserver(elementRef, { threshold: [1] })
+
 		const { t } = useTranslation()
 
 		const isSticky = !entry?.isIntersecting
@@ -235,7 +236,7 @@ export const AccountsHomeMobileHeader = forwardRef<HTMLElement, IAccountsHomeMob
 					<Box
 						className={clsx(
 							styles.accountsHomeHeaderStickyVis,
-							isSticky && assetType && styles.accountsHomeHeaderStickyVisIs,
+							isSticky && (assetType || isActivityRoute) && styles.accountsHomeHeaderStickyVisIs,
 						)}
 					>
 						<Box className={styles.tabsWrapper}>
