@@ -1,7 +1,7 @@
 import { useEffect, useRef } from 'react'
 import { useLocation } from 'react-router-dom'
 
-import { SETTINGS, STAKING, SWAP, TRANSFER } from '@src/containers/playground/constants'
+import { SETTINGS, STAKING, SWAP, TRANSFER } from '@src/constants'
 
 export const useLocationKey = () => {
 	const location = useLocation()

@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import React from 'react'
-import * as ReactDOM from 'react-dom/client';
+import * as ReactDOM from 'react-dom/client'
 import { I18nextProvider } from 'react-i18next'
 import { HashRouter } from 'react-router-dom'
 
@@ -8,7 +8,7 @@ import 'ui/src/components-v2/system/global.css'
 
 import i18n from './i18n/i18n'
 
-const Playground = React.lazy(() => import('@src/containers/playground'))
+// Olympia app
 const Provider = React.lazy(() => import('@src/popup/provider'))
 
 const App = React.lazy(() => import('@src/pages'))
