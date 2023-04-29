@@ -25,9 +25,12 @@ export const dropdownProfileButton = style([
 		boxShadow: {
 			focusVisible: 'btnSecondaryShadowFocus',
 		},
+		margin: 'none',
+		padding: 'none',
 	}),
 	{
 		outline: 'none',
+		background: 'transparent',
 		width: '42px',
 		height: '42px',
 	},
@@ -65,7 +68,6 @@ export const dropdownProfilAvatarImg = style([
 	{
 		objectFit: 'cover',
 		userSelect: 'none',
-		borderRadius: 'inherit',
 	},
 ])
 

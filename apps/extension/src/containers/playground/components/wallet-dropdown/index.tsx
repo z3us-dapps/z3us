@@ -22,7 +22,7 @@ import {
 	DropdownMenuTrigger,
 } from 'ui/src/components-v2/dropdown-menu'
 import { Text } from 'ui/src/components-v2/typography'
-import { ExternalLinkIcon , CheckIcon } from 'ui/src/components/icons'
+import { CheckIcon, ExternalLinkIcon } from 'ui/src/components/icons'
 
 import { Link } from '@src/components/link'
 
@@ -52,6 +52,19 @@ export const WalletDropdown: React.FC<IWalletDropdownProps> = props => {
 
 	const isButtonSmall = buttonSize === 'small'
 
+	// @TODO: will be implement when styles are supported
+	// const handleOpenInNewTab = async () => {
+	// 	setState(draft => {
+	// 		draft.isOpen = false
+	// 	})
+	// 	const currentWindow = await browser.windows.getCurrent()
+	// 	if (currentWindow != null) {
+	// 		currentWindow.focused = true
+	// 		return browser.tabs.create({ url: window.location.toString(), active: true })
+	// 	}
+	// 	return browser.windows.create({ url: window.location.toString(), focused: true })
+	// }
+
 	return (
 		<Box className={clsx(styles.dropdownProfilWrapper, className)}>
 			<DropdownMenu>
@@ -67,9 +80,9 @@ export const WalletDropdown: React.FC<IWalletDropdownProps> = props => {
 								alt="Colm Tuite"
 							/>
 							<Avatar.Fallback className={styles.dropdownProfilAvatarFallback} delayMs={600}>
-								CT
+								<Text>CT</Text>
 							</Avatar.Fallback>
-							<span
+							<Box
 								className={clsx(
 									styles.dropdownProfilAvatarConnectedStatus,
 									isButtonSmall && styles.dropdownProfilAvatarConnectedStatusSmall,
