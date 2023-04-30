@@ -18,7 +18,7 @@ import { TrashIcon } from 'ui/src/components/icons'
 import Input from 'ui/src/components/input'
 import { ToolTip } from 'ui/src/components/tool-tip'
 
-import { EXPLORER_URL } from '@src/config'
+import { useExplorerURL } from '@src/hooks/use-explorer-url'
 import { useNoneSharedStore, useSharedStore } from '@src/hooks/use-store'
 import { AddressBookEntry } from '@src/store/types'
 import { getShortAddress } from '@src/utils/string-utils'
@@ -36,6 +36,7 @@ export const Accounts: React.FC = () => {
 		addToast: state.addToastAction,
 	}))
 
+	const explorerURL = useExplorerURL()
 	const { publicAddresses, updatePublicAddress, removeAddress } = useNoneSharedStore(state => ({
 		publicAddresses: state.publicAddresses,
 		updatePublicAddress: state.updatePublicAddressAction,
@@ -140,7 +141,7 @@ export const Accounts: React.FC = () => {
 														css={{ color: '$txtMuted' }}
 														underline
 														target="_blank"
-														href={`${EXPLORER_URL}accounts/${entry.address}`}
+														href={`${explorerURL}accounts/${entry.address}`}
 													>
 														{getShortAddress(entry.address)}
 													</StyledLink>

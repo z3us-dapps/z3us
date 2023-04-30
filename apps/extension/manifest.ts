@@ -1,10 +1,22 @@
+import { ManifestV3Export, defineManifest } from '@crxjs/vite-plugin'
+
 import matches from './content_matches.json'
 import hosts from './host_permissions.json'
-import pkg from './package.json'
+import { version } from './package.json'
 
-export default {
+const protocols = ['https://*/*']
+const [major, minor, patch, label = '0'] = version.replace(/[^\d.-]+/g, '').split(/[.-]/)
+
+if (process.env.NODE_ENV === 'development') {
+	protocols.push('http://*/*')
+}
+
+const hostPermissions = hosts.concat(protocols)
+
+const manifest: ManifestV3Export = {
 	manifest_version: 3,
-	version: pkg.version,
+	version: `${major}.${minor}.${patch}.${label}`,
+	version_name: version,
 	author: 'https://z3us.com',
 	name: 'Z3US',
 	short_name: 'Z3US',
@@ -35,9 +47,10 @@ export default {
 		'128': 'favicon-128x128.png',
 	},
 	permissions: ['storage', 'unlimitedStorage', 'notifications', 'activeTab', 'scripting'],
-	host_permissions: hosts.concat(['http://*/*', 'https://*/*']),
+	host_permissions: hostPermissions,
 	background: {
 		service_worker: 'src/lib/background.ts',
+		type: 'module',
 	},
 	content_scripts: [
 		{
@@ -49,7 +62,7 @@ export default {
 	],
 	web_accessible_resources: [
 		{
-			matches: ['http://*/*', 'https://*/*'],
+			matches: protocols,
 			resources: [
 				'popup-theme-dark.html',
 				'popup-theme-light.html',
@@ -60,3 +73,5 @@ export default {
 		},
 	],
 }
+
+export default defineManifest(manifest)

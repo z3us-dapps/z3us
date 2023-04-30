@@ -4,8 +4,8 @@ import { Box, Flex, StyledLink, Text } from 'ui/src/components/atoms'
 import { ToolTip } from 'ui/src/components/tool-tip'
 
 import { CircleAvatar } from '@src/components/circle-avatar'
-import { EXPLORER_URL } from '@src/config'
 import { useTokenInfo } from '@src/hooks/react-query/queries/radix'
+import { useExplorerURL } from '@src/hooks/use-explorer-url'
 
 interface IProps {
 	rri: string
@@ -13,6 +13,7 @@ interface IProps {
 }
 
 export const Token: React.FC<IProps> = ({ rri, isDragging }) => {
+	const explorerURL = useExplorerURL()
 	const { data: token } = useTokenInfo(rri)
 
 	return (
@@ -29,7 +30,7 @@ export const Token: React.FC<IProps> = ({ rri, isDragging }) => {
 			}}
 		>
 			<ToolTip message="Go to explorer" sideOffset={3} side="top">
-				<StyledLink target="_blank" href={`${EXPLORER_URL}/tokens/${rri}/`}>
+				<StyledLink target="_blank" href={`${explorerURL}/tokens/${rri}/`}>
 					<CircleAvatar
 						shadow={false}
 						borderWidth={0}

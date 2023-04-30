@@ -22,3 +22,5 @@ if (!window.z3us) {
 	window.z3us = z3us
 	window.dispatchEvent(new CustomEvent(INIT, { detail: z3us }))
 }
+
+export {}

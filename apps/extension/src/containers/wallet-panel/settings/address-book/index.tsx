@@ -21,7 +21,7 @@ import InputFeedBack from 'ui/src/components/input/input-feedback'
 import { ToolTip } from 'ui/src/components/tool-tip'
 
 import { CircleAvatar } from '@src/components/circle-avatar'
-import { EXPLORER_URL } from '@src/config'
+import { useExplorerURL } from '@src/hooks/use-explorer-url'
 import { useNoneSharedStore, useSharedStore } from '@src/hooks/use-store'
 import { AddressBookEntry } from '@src/store/types'
 import { getShortAddress } from '@src/utils/string-utils'
@@ -40,6 +40,7 @@ export const AddressBook: React.FC = () => {
 	const { addToast } = useSharedStore(state => ({
 		addToast: state.addToastAction,
 	}))
+	const explorerURL = useExplorerURL()
 	const { addressBook, setAddressBookEntry, handleRemoveAddress } = useNoneSharedStore(state => ({
 		addressBook: state.addressBook,
 		setAddressBookEntry: state.setAddressBookEntryAction,
@@ -175,7 +176,7 @@ export const AddressBook: React.FC = () => {
 														css={{ color: '$txtMuted' }}
 														underline
 														target="_blank"
-														href={`${EXPLORER_URL}accounts/${address}`}
+														href={`${explorerURL}accounts/${address}`}
 													>
 														{getShortAddress(address)}
 													</StyledLink>

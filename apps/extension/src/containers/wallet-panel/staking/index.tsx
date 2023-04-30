@@ -5,8 +5,8 @@ import { Box, StyledLink, Text } from 'ui/src/components/atoms'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from 'ui/src/components/tabs'
 
 import { AccountSelector } from '@src/components/account-selector'
-import { EXPLORER_URL } from '@src/config'
 import { useTotalDelegatedStake } from '@src/hooks/react-query/queries/radix'
+import { useExplorerURL } from '@src/hooks/use-explorer-url'
 import { useNoneSharedStore } from '@src/hooks/use-store'
 import { getShortAddress } from '@src/utils/string-utils'
 
@@ -16,6 +16,7 @@ import { ValidatorList } from './validator-list'
 const TAB_HEIGHT = '246px'
 
 export const Staking: React.FC = () => {
+	const explorerURL = useExplorerURL()
 	const { accountAddress, selectAccount } = useNoneSharedStore(state => ({
 		accountAddress: state.getCurrentAddressAction(),
 		selectAccount: state.selectAccountAction,
@@ -45,7 +46,7 @@ export const Staking: React.FC = () => {
 						<Text css={{ fontSize: '32px', lineHeight: '38px', fontWeight: '800' }}>Staking</Text>
 						<Text css={{ fontSize: '14px', lineHeight: '17px', fontWeight: '500', mt: '20px' }}>
 							Stake XRD with a{' '}
-							<StyledLink underline href={`${EXPLORER_URL}/validators`} target="_blank">
+							<StyledLink underline href={`${explorerURL}/validators`} target="_blank">
 								Radix validator
 							</StyledLink>
 							.

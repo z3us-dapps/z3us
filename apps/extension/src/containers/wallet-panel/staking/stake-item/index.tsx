@@ -6,8 +6,8 @@ import { Box, Flex, StyledLink, Text } from 'ui/src/components/atoms'
 import Button from 'ui/src/components/button'
 import { ToolTip } from 'ui/src/components/tool-tip'
 
-import { EXPLORER_URL } from '@src/config'
 import { useLookupValidator } from '@src/hooks/react-query/queries/radix'
+import { useExplorerURL } from '@src/hooks/use-explorer-url'
 import { formatBigNumber } from '@src/utils/formatters'
 import { apy } from '@src/utils/radix'
 
@@ -32,6 +32,7 @@ export const StakeItem: React.FC<IProps> = ({
 	total,
 	search,
 }) => {
+	const explorerURL = useExplorerURL()
 	const { isLoading, data: validator } = useLookupValidator(valdiatorAddress)
 	const isSearchMatch =
 		validator?.name?.toLowerCase().includes(search) || validator?.infoURL?.toLowerCase().includes(search)
@@ -67,7 +68,7 @@ export const StakeItem: React.FC<IProps> = ({
 				<ToolTip arrowOffset={7} message="Go to explorer" side="top">
 					<StyledLink
 						underlineOnHover
-						href={`${EXPLORER_URL}/validators/${validator.address.toString()}`}
+						href={`${explorerURL}/validators/${validator.address.toString()}`}
 						target="_blank"
 					>
 						<Button iconOnly color="ghost" size="1">

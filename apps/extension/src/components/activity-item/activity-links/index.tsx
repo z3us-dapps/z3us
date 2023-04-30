@@ -8,7 +8,7 @@ import ButtonTipFeedback from 'ui/src/components/button-tip-feedback'
 import { ToolTip } from 'ui/src/components/tool-tip'
 
 import { ActivityType } from '@src/components/activity-type'
-import { EXPLORER_URL } from '@src/config'
+import { useExplorerURL } from '@src/hooks/use-explorer-url'
 import { useNoneSharedStore } from '@src/hooks/use-store'
 import { Action, Transaction } from '@src/types'
 import { copyTextToClipboard } from '@src/utils/copy-to-clipboard'
@@ -28,6 +28,7 @@ const defaultProps = {
 }
 
 export const ActivityLinks: React.FC<IProps> = ({ accountAddress, tx, activity }) => {
+	const explorerURL = useExplorerURL()
 	const { publicAddresses, addressBook } = useNoneSharedStore(state => ({
 		publicAddresses: Object.values(state.publicAddresses),
 		addressBook: state.addressBook,
@@ -92,7 +93,7 @@ export const ActivityLinks: React.FC<IProps> = ({ accountAddress, tx, activity }
 							iconOnly
 							color="ghost"
 							target="_blank"
-							href={`${EXPLORER_URL}/transactions/${tx.id}`}
+							href={`${explorerURL}/transactions/${tx.id}`}
 							css={{ color: '$txtHelp' }}
 						>
 							<ExternalLinkIcon />

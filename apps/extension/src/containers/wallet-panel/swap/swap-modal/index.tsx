@@ -18,7 +18,7 @@ import { ScrollArea } from 'ui/src/components/scroll-area'
 import { HardwareWalletReconnect } from '@src/components/hardware-wallet-reconnect'
 import { InfoStatBlock } from '@src/components/info-stat-block'
 import { Z3usSpinnerAnimation } from '@src/components/z3us-spinner-animation'
-import { EXPLORER_URL } from '@src/config'
+import { useExplorerURL } from '@src/hooks/use-explorer-url'
 import { useNoneSharedStore, useSharedStore } from '@src/hooks/use-store'
 import { useTransaction } from '@src/hooks/use-transaction'
 import { confirmSwap } from '@src/services/swap'
@@ -81,6 +81,7 @@ export const SwapModal: React.FC<IProps> = ({
 }) => {
 	const [, setLocation] = useLocation()
 	const queryClient = useQueryClient()
+	const explorerURL = useExplorerURL()
 	const { signTransaction, submitTransaction } = useTransaction()
 	const { signingKey } = useSharedStore(state => ({
 		signingKey: state.signingKey,
@@ -393,7 +394,7 @@ export const SwapModal: React.FC<IProps> = ({
 																<StyledLink
 																	underline
 																	target="_blank"
-																	href={state.txID ? `${EXPLORER_URL}/transactions/${state.txID}` : ``}
+																	href={state.txID ? `${explorerURL}/transactions/${state.txID}` : ``}
 																	css={{ px: '$1' }}
 																>
 																	View on explorer
@@ -415,7 +416,7 @@ export const SwapModal: React.FC<IProps> = ({
 																	<StyledLink
 																		underline
 																		target="_blank"
-																		href={state.txID ? `${EXPLORER_URL}/transactions/${state.txID}` : ``}
+																		href={state.txID ? `${explorerURL}/transactions/${state.txID}` : ``}
 																		css={{ px: '$1', color: 'red' }}
 																	>
 																		error
