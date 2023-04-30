@@ -13,6 +13,7 @@ import { capitalizeFirstLetter } from 'ui/src/utils/capitalize-first-letter'
 
 import { Button } from '@src/components/button'
 import Translation from '@src/components/translation'
+import { ACCOUNTS_ALL } from '@src/constants'
 import { useAccountParams } from '@src/hooks/use-account-params'
 
 import * as styles from './account-search.css'
@@ -40,6 +41,7 @@ export const AccountActivitySearch: React.FC<IAccountActivitySearchProps> = prop
 
 	const { t } = useTranslation()
 	const { account, assetType, asset } = useAccountParams()
+
 	const [isInputVisible, setIsInputVisible] = useState<boolean>(false)
 	const [inputValue, setInputValue] = useState<string>('')
 	const inputRef = useRef(null)
@@ -47,6 +49,9 @@ export const AccountActivitySearch: React.FC<IAccountActivitySearchProps> = prop
 	const elementRef = useRef<HTMLDivElement | null>(null)
 	const entry = useIntersectionObserver(elementRef, { threshold: [1] })
 	const isSticky = !entry?.isIntersecting
+	const isAllAccount = account === ACCOUNTS_ALL
+
+	const isBorderVisible = assetType || asset || !isAllAccount
 
 	const handleOnChange = (event: React.ChangeEvent<FormElement>) => {
 		const { value } = event.target
@@ -88,6 +93,7 @@ export const AccountActivitySearch: React.FC<IAccountActivitySearchProps> = prop
 			className={clsx(
 				styles.accountSearchWrapperWrapperSticky,
 				isSticky && styles.accountSearchWrapperWrapperStickyShadow,
+				isBorderVisible && styles.accountSearchBorderWrapper,
 				className,
 			)}
 		>
@@ -100,7 +106,6 @@ export const AccountActivitySearch: React.FC<IAccountActivitySearchProps> = prop
 							</Text>
 						</Box>
 					) : null}
-
 					<Box className={clsx(styles.inputWrapper, isInputVisible && styles.inputWrapperVisible)}>
 						<Input
 							value={inputValue}

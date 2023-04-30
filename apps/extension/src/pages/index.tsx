@@ -84,8 +84,8 @@ export const TempNav: React.FC = () => {
 
 const App: React.FC = () => {
 	const location = useLocation()
-	const locationArr = location.pathname?.split('/') ?? []
 	const isMobile = useIsMobileWidth()
+	const locationArr = location.pathname?.split('/') ?? []
 
 	return (
 		<div className={styles.container}>

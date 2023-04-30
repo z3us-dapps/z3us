@@ -8,13 +8,14 @@ import { Box } from 'ui/src/components-v2/box'
 
 import { AnimatedPage } from '@src/components/animated-route'
 import { ScrollPanel } from '@src/components/scroll-panel'
-import { Z3usLoading } from '@src/components/z3us-loading'
-import { ACCOUNTS_ALL, routes } from '@src/constants'
+import { routes } from '@src/constants'
 import { AccountActivity } from '@src/containers/accounts/account-activity'
 import { AccountActivitySearch } from '@src/containers/accounts/account-activity-search'
+import { AccountAllChart } from '@src/containers/accounts/account-all-chart'
+import { AccountAssetInfo } from '@src/containers/accounts/account-asset-info'
+import { AccountCard } from '@src/containers/accounts/account-card'
 import { AccountIndexAssets } from '@src/containers/accounts/account-index-assets'
 import { AccountIndexHeader } from '@src/containers/accounts/account-index-header'
-import { AccountSwitcher } from '@src/containers/accounts/account-switcher'
 import { AccountsList } from '@src/containers/accounts/accounts-list'
 import { useAccountParams } from '@src/hooks/use-account-params'
 
@@ -23,12 +24,11 @@ import * as styles from './accounts-home-desktop.css'
 export const AccountsHomeDesktop = () => {
 	const location = useLocation()
 	const { t } = useTranslation()
-	const { account, assetType, asset } = useAccountParams()
-	const isAllAccount = account === ACCOUNTS_ALL
+	const { assetType, asset } = useAccountParams()
 
 	return (
 		<Box className={styles.accountsWrapper}>
-			<Box height="full" width="full" maxWidth="xxlarge">
+			<Box className={styles.accountsContainerWrapper}>
 				<Box className={clsx(styles.panelWrapper)}>
 					<ScrollPanel
 						className={styles.leftPanel}
@@ -68,22 +68,11 @@ export const AccountsHomeDesktop = () => {
 						className={styles.rightPanel}
 						scrollTopOnRoute
 						renderPanel={(scrollableNode: HTMLElement | null) => (
-							<Box>
-								{isAllAccount && !assetType ? (
-									<Box paddingTop="xlarge" paddingX="xlarge">
-										{/* TODO: Chart for `isAllAccount` goes here */}
-										<Box padding="large" background="backgroundPrimary" style={{ width: '100%', height: '200px' }}>
-											<Z3usLoading message="Loading" />
-											{/* <Z3usLoading message="Loading"> */}
-											{/* 	<Box> */}
-											{/* 		<Text size="xsmall">Loading</Text> */}
-											{/* 	</Box> */}
-											{/* </Z3usLoading> */}
-										</Box>
-									</Box>
-								) : (
-									<AccountSwitcher />
-								)}
+							<>
+								<AccountAllChart />
+								<AccountCard />
+								<AccountAssetInfo />
+								{/* TODO: refactor this to a modal search */}
 								<AccountActivitySearch
 									scrollableNode={scrollableNode}
 									searchTitle={
@@ -97,7 +86,7 @@ export const AccountsHomeDesktop = () => {
 									}}
 								/>
 								<AccountActivity scrollableNode={scrollableNode} />
-							</Box>
+							</>
 						)}
 					/>
 				</Box>

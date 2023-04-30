@@ -28,6 +28,14 @@ export const accountSearchWrapperWrapperSticky = style([
 	},
 ])
 
+export const accountSearchBorderWrapper = style([
+	sprinkles({
+		borderTop: 1,
+		borderStyle: 'solid',
+		borderColor: 'borderDivider',
+	}),
+])
+
 export const accountSearchWrapperWrapperStickyShadow = style([
 	sprinkles({
 		boxShadow: 'shadowScrollTop',
@@ -60,7 +68,7 @@ export const accountUpButton = style([
 		position: 'absolute',
 	}),
 	{
-		right: '32px',
+		right: '36px',
 	},
 ])
 

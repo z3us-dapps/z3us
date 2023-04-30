@@ -17,7 +17,7 @@ import Translation from '@src/components/translation'
 import { ACCOUNTS_ALL } from '@src/constants'
 import { useAccountParams } from '@src/hooks/use-account-params'
 
-import * as styles from './account-switcher.css'
+import * as styles from './account-card.css'
 
 const CARD_COLORS = [
 	{
@@ -50,20 +50,21 @@ const CARD_COLORS = [
 	},
 ]
 
-interface IAccountSwitcherRequiredProps {}
+interface IAccountCardRequiredProps {}
 
-interface IAccountSwitcherOptionalProps {}
+interface IAccountCardOptionalProps {}
 
-interface IAccountSwitcherProps extends IAccountSwitcherRequiredProps, IAccountSwitcherOptionalProps {}
+interface IAccountCardProps extends IAccountCardRequiredProps, IAccountCardOptionalProps {}
 
-const defaultProps: IAccountSwitcherOptionalProps = {}
+const defaultProps: IAccountCardOptionalProps = {}
 
-export const AccountSwitcher: React.FC<IAccountSwitcherProps> = props => {
+export const AccountCard: React.FC<IAccountCardProps> = props => {
 	const navigate = useNavigate()
 	const { account, assetType, asset } = useAccountParams()
 	const [isMounted, setIsMounted] = useState<boolean>(false)
 	const [cards] = useState<Array<any>>(CARD_COLORS)
 	const [selectedIndexCard, setSelectedIndexCard] = useState<number>(0)
+	const isAllAccount = account === ACCOUNTS_ALL
 
 	const handleGotoNextAccount = () => {
 		if (selectedIndexCard === CARD_COLORS.length - 1) return
@@ -92,55 +93,11 @@ export const AccountSwitcher: React.FC<IAccountSwitcherProps> = props => {
 		setIsMounted(true)
 	}, [account])
 
-	return asset ? (
-		<Box borderBottom={1} borderColor="borderDivider" borderStyle="solid" flexShrink={0}>
-			<Box display="flex" flexDirection="column" alignItems="center">
-				<Box className={styles.assetCloseBtnWrapper}>
-					<ToolTip theme="backgroundPrimary" message={<Translation capitalizeFirstLetter text="global.back" />}>
-						<Button iconOnly styleVariant="ghost" sizeVariant="small" to={`/accounts/${account}/${assetType}`}>
-							<Close2Icon />
-						</Button>
-					</ToolTip>
-				</Box>
-				<Box display="flex" flexDirection="column" justifyContent="center" alignItems="center">
-					<Box paddingBottom="small">
-						<TransactionIcon transactionIconSize="large" />
-					</Box>
-					<Text size="large" color="strong">
-						Bitcoin
-					</Text>
-					<Text size="xxxlarge" weight="medium" color="strong">
-						$12,424
-					</Text>
-					<Text size="xlarge">+4,345 (13.3%)</Text>
-				</Box>
-				<Box display="flex" paddingTop="large" gap="large" position="relative" paddingBottom="large">
-					<CardButtons />
-				</Box>
-				<Box className={styles.tempBg}>TODO: Chart goes here</Box>
-				<Box className={styles.assetChartBtnsWrapper}>
-					{[
-						{ id: '1W', title: '1W' },
-						{ id: '1M', title: '1M' },
-						{ id: '3M', title: '3M' },
-						{ id: '6M', title: '6M' },
-						{ id: '1Y', title: '1Y' },
-						{ id: 'all', title: 'All' },
-					].map(({ id, title }) => (
-						<Button
-							key={id}
-							rounded
-							styleVariant={id === 'all' ? 'secondary' : 'tertiary'}
-							sizeVariant="small"
-							onClick={() => {}}
-						>
-							{title}
-						</Button>
-					))}
-				</Box>
-			</Box>
-		</Box>
-	) : (
+	if ((isAllAccount && !assetType) || asset) {
+		return null
+	}
+
+	return (
 		<Box className={clsx(styles.accountCardWrapper)}>
 			<Box display="flex" gap="small" className={styles.tempyy}>
 				<Button
@@ -210,4 +167,4 @@ export const AccountSwitcher: React.FC<IAccountSwitcherProps> = props => {
 	)
 }
 
-AccountSwitcher.defaultProps = defaultProps
+AccountCard.defaultProps = defaultProps

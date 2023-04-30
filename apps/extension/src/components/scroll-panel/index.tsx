@@ -61,9 +61,12 @@ export const ScrollPanel: React.FC<IScrollPanelProps> = props => {
 		const { pathname } = location
 		if (pathname !== currentPath && scrollTopOnRoute) {
 			setCurrentPath(pathname)
-			panelRef.scrollTop = 0
+
+			// hack to trigger virtuoso refresh on route change
+			const scrollTo = scrollTop === 0 ? 1 : 0
+			panelRef.scrollTo({ top: scrollTo })
 		}
-	}, [location.pathname, scrollTopOnRoute])
+	}, [location.pathname, scrollTopOnRoute, scrollTop])
 
 	return (
 		<Box
