@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import clsx from 'clsx'
-import React, { forwardRef, useState } from 'react'
+import React, { forwardRef, useEffect, useState } from 'react'
 import { useLocation, useNavigate, useSearchParams } from 'react-router-dom'
 
 import { Box } from 'ui/src/components-v2/box'
@@ -59,6 +59,12 @@ export const AccountTransaction = forwardRef<HTMLElement, IAccountTransactionPro
 
 			setIsScrolled(scrollTop > 0)
 		}
+
+		useEffect(() => {
+			if (!transactionId) {
+				setIsScrolled(false)
+			}
+		}, [transactionId])
 
 		return asset && transactionId ? (
 			<Dialog open>
