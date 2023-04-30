@@ -6,11 +6,11 @@
 			"@src/*": ["src/*"],
 			"rxjs": ["node_modules/rxjs"],
 			"rxjs/*": ["node_modules/rxjs/*"]
-		}
+		},
 	},
 	"include": [
-		"chrome.ts",
-		"firefox.ts",
+		"package.json",
+		"manifest.ts",
 		"vite.config.ts",
 		"playwright.config.ts",
 		"src/**/*.d.ts",

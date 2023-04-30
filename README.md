@@ -44,7 +44,51 @@ Now click on the `LOAD UNPACKED` and browse to `apps/extension/dist/chrome`, thi
 
 ## Adding extension to Firefox
 
-In the Firefox browser navigate to `about:debugging#/runtime/this-firefox`. Click the button `Load temporary Add-on...`, then select a compressed zip of  all the files `inside` the directory `apps/extension/dist/firefox`.
+Before adding to firefox some changes to manifest file must be made:
+
+1. Remove all `use_dynamic_url` keys from all entries in `web_accessible_resources`
+```diff
+  "web_accessible_resources": [
+    {
+      "matches": [
+        "https://*/*"
+      ],
+      "resources": [
+        "popup-theme-dark.html",
+        "popup-theme-light.html",
+        "popup-theme-system.html",
+        "assets/*"
+      ],
+-      "use_dynamic_url": false
+    },
+    {
+      "matches": [
+        "*://*.z3us.com/*"
+      ],
+      "resources": [
+        "assets/browser-polyfill.js",
+        "assets/messanger.js",
+        "assets/inpage.js",
+        "assets/events.js",
+        "assets/content-script.ts.js"
+      ],
+-      "use_dynamic_url": true
+    }
+  ]
+```
+
+2. Change `service_worker` to `scripts` and wrap value in array paranthesis `[]`
+```diff
+  "background": {
+-    "service_worker": "service-worker-loader.js",
++    "scripts": ["service-worker-loader.js"],
+    "type": "module"
+  },
+```
+
+- Create archive by compresing all the files `inside` the directory `apps/extension/dist`.
+- In the Firefox browser navigate to `about:debugging#/runtime/this-firefox`.
+- Click the button `Load temporary Add-on...`, then select an archive file you prepared.
 
 ## Website quick start
 
