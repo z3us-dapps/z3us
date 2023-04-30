@@ -1,12 +1,10 @@
 import { Message } from '@radixdlt/crypto'
 import { useCallback } from 'react'
 
-import { useRadix } from '@src/hooks/use-radix'
 import { useSharedStore } from '@src/hooks/use-store'
 import { parseAccountAddress } from '@src/services/radix/serializer'
 
 export const useMessage = () => {
-	const radix = useRadix()
 	const { signingKey, addConfirmWithHWToast } = useSharedStore(state => ({
 		signingKey: state.signingKey,
 		addConfirmWithHWToast: state.addConfirmWithHWToastAction,
@@ -66,7 +64,7 @@ export const useMessage = () => {
 
 			return message
 		},
-		[radix, signingKey?.id],
+		[signingKey?.id],
 	)
 
 	return { createMessage, decryptMessage }
