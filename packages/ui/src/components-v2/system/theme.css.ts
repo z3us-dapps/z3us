@@ -278,21 +278,6 @@ export const sharedThemeValues = {
 }
 
 /**
- * Color types
- */
-type TRGB = `rgb(${number}, ${number}, ${number})`
-type TRGBA = `rgba(${number}, ${number}, ${number}, ${number})`
-type THEX = `#${string}`
-export type Color = TRGB | TRGBA | THEX
-
-/**
- * Theme Primitive Color Type
- */
-export type TPrimitiveColors = {
-	transparent: Color
-}
-
-/**
  * Primitive Color values
  * These are the palette that all themes pull from
  */
