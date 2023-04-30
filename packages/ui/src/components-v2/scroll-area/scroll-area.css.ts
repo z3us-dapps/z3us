@@ -1,6 +1,6 @@
 import { globalStyle, style } from '@vanilla-extract/css'
 
-import { darkMode, sprinkles } from '../system/sprinkles.css'
+import { sprinkles } from '../system/sprinkles.css'
 
 export const scrollAreaWrapper = style([
 	sprinkles({
@@ -31,17 +31,13 @@ export const scrollAreaTopShadow = style([
 		top: 0,
 		left: 0,
 		right: 0,
-		height: 'large',
 		transition: 'fast',
 		pointerEvents: 'none',
+		boxShadow: 'shadowScrollTop',
 	}),
 	{
-		background: 'linear-gradient(180deg, rgba(0,0,0,0.08) 0%, rgba(0,0,0,0) 69%, rgba(0,0,0,0) 100%)',
-		selectors: {
-			[`.${darkMode} &::before`]: {
-				background: 'linear-gradient(180deg, rgba(0,0,0,0.15) 0%, rgba(0,0,0,0) 69%, rgba(0,0,0,0) 100%)',
-			},
-		},
+		height: '24px',
+		top: '-24px',
 	},
 ])
 
@@ -55,20 +51,15 @@ export const scrollAreaBottomShadow = style([
 	sprinkles({
 		position: 'absolute',
 		opacity: 0,
-		bottom: 0,
 		left: 0,
 		right: 0,
-		height: 'large',
 		transition: 'fast',
 		pointerEvents: 'none',
+		boxShadow: 'shadowScrollBottom',
 	}),
 	{
-		background: 'linear-gradient(0deg, rgba(0,0,0,0.08) 0%, rgba(0,0,0,0) 69%, rgba(0,0,0,0) 100%)',
-		selectors: {
-			[`.${darkMode} &::before`]: {
-				background: 'linear-gradient(0deg, rgba(0,0,0,0.15) 0%, rgba(0,0,0,0) 69%, rgba(0,0,0,0) 100%)',
-			},
-		},
+		height: '24px',
+		bottom: '-24px',
 	},
 ])
 

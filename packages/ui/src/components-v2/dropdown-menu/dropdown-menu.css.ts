@@ -5,9 +5,10 @@ import { Sprinkles, sprinkles } from '../system/sprinkles.css'
 export const sharedItemStyles = {
 	position: 'relative',
 	color: 'colorNeutral',
+	cursor: 'pointer',
 	display: 'flex',
+	flexShrink: 0,
 	alignItems: 'center',
-	width: 'full',
 	paddingY: 'small',
 	paddingX: 'small',
 	borderRadius: 'small',

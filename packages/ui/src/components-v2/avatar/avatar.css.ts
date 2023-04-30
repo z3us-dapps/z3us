@@ -8,10 +8,10 @@ export const avatarRoot = style([
 		alignItems: 'center',
 		justifyContent: 'center',
 		borderRadius: 'full',
+		overflow: 'clip',
 	}),
 	{
 		userSelect: 'none',
-		overflow: 'clip',
 		width: 48,
 		height: 48,
 		maxHeight: '100%',

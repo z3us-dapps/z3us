@@ -1,12 +1,34 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import React from 'react'
-import { createRoot } from 'react-dom/client'
+import * as ReactDOM from 'react-dom/client'
+import { I18nextProvider } from 'react-i18next'
+import { HashRouter } from 'react-router-dom'
 
-import { Provider } from '@src/popup/provider'
+import 'ui/src/components-v2/system/global.css'
 
-const container = document.getElementById('root')
-const root = createRoot(container) // createRoot(container!) if you use TypeScript
-root.render(
+import i18n from './i18n/i18n'
+
+// Olympia app
+const Provider = React.lazy(() => import('@src/popup/provider'))
+
+const App = React.lazy(() => import('@src/pages'))
+
+const isDevlopmentMode = import.meta.env.MODE === 'development'
+const isProductionMode = import.meta.env.MODE === 'production'
+const container: HTMLElement | null = document.getElementById('root')
+
+ReactDOM.createRoot(container).render(
 	<React.StrictMode>
-		<Provider />
+		<I18nextProvider i18n={i18n}>
+			<HashRouter>
+				<React.Suspense fallback={<div />}>
+					{isDevlopmentMode && <App />}
+					{isProductionMode && <App />}
+
+					{/* {isDevlopmentMode && <App />} */}
+					{/* {isProductionMode && <Provider />} */}
+				</React.Suspense>
+			</HashRouter>
+		</I18nextProvider>
 	</React.StrictMode>,
 )

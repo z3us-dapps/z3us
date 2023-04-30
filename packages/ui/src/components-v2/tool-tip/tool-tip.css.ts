@@ -52,8 +52,8 @@ export const toolTipContent = style([
 export const toolTipContentBgSecondary = style([
 	sprinkles({
 		background: {
-			lightMode: 'backgroundSecondary',
-			darkMode: 'backgroundPrimary',
+			lightMode: 'bai_pearl200',
+			darkMode: 'backgroundSecondary',
 		},
 	}),
 	{},
@@ -62,8 +62,27 @@ export const toolTipContentBgSecondary = style([
 export const toolTipContentBgPrimary = style([
 	sprinkles({
 		background: {
-			lightMode: 'bleached_silk100',
+			lightMode: 'bai_pearl300',
+			darkMode: 'backgroundPrimary',
+		},
+	}),
+	{},
+])
+
+export const toolTipArrowFillSecondary = style([
+	sprinkles({
+		fill: {
+			lightMode: 'bai_pearl200',
 			darkMode: 'backgroundSecondary',
+		},
+	}),
+	{},
+])
+export const toolTipArrowFillPrimary = style([
+	sprinkles({
+		fill: {
+			lightMode: 'bai_pearl300',
+			darkMode: 'backgroundPrimary',
 		},
 	}),
 	{},
@@ -72,25 +91,6 @@ export const toolTipContentBgPrimary = style([
 export const toolTipArrow = style([
 	sprinkles({
 		position: 'relative',
-	}),
-	{},
-])
-
-export const toolTipArrowFillSecondary = style([
-	sprinkles({
-		fill: {
-			lightMode: 'backgroundSecondary',
-			darkMode: 'backgroundPrimary',
-		},
-	}),
-	{},
-])
-export const toolTipArrowFillPrimary = style([
-	sprinkles({
-		fill: {
-			lightMode: 'backgroundPrimary',
-			darkMode: 'backgroundSecondary',
-		},
 	}),
 	{},
 ])

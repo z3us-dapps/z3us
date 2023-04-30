@@ -41,13 +41,21 @@
 				"value": "0px 0px 0px 1px rgba(0, 0, 0, 0.1), 0px 10px 10px rgba(0, 0, 0, 0.01), 0px 10px 10px rgba(0, 0, 0, 0.15), 0px 24px 24px rgba(0, 0, 0, 0.2)",
 				"description": "shadow panel dark"
 			},
-			"shadow_scroll_light": {
+			"shadow_scroll_top_light": {
 				"value": "0px 3px 7px rgba(0, 0, 0, 0.1)",
-				"description": "shadow scroll light"
+				"description": "shadow scroll top light"
 			},
-			"shadow_scroll_dark": {
+			"shadow_scroll_top_dark": {
 				"value": "0px 3px 7px rgba(0, 0, 0, 0.3)",
-				"description": "shadow scroll dark"
+				"description": "shadow scroll top dark"
+			},
+			"shadow_scroll_bottom_light": {
+				"value": "0px -3px 7px rgba(0, 0, 0, 0.1)",
+				"description": "shadow scroll bottom light"
+			},
+			"shadow_scroll_bottom_dark": {
+				"value": "0px -3px 7px rgba(0, 0, 0, 0.3)",
+				"description": "shadow scroll bottom dark"
 			},
 			"shadow_tooltip_light": {
 				"value": "0px 0px 1px rgba(0, 0, 0, 0.30), 0px 2px 2px rgba(0, 0, 0, 0.10)",

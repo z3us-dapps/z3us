@@ -1,9 +1,9 @@
 import * as AvatarPrimitive from '@radix-ui/react-avatar'
 import clsx, { type ClassValue } from 'clsx'
 import React, { forwardRef } from 'react'
-
-import { AvatarFallback, AvatarImage } from 'ui/src/components-v2/avatar'
+// import { AvatarFallback, AvatarImage } from 'ui/src/components-v2/avatar'
 import { Box } from 'ui/src/components-v2/box'
+import { Text } from 'ui/src/components-v2/typography'
 import { DownLeftIcon, UpRightIcon } from 'ui/src/components/icons'
 
 import * as styles from './transaction-icon.css'
@@ -62,14 +62,17 @@ export const TransactionIcon = forwardRef<HTMLElement, ITransactionIconProps>(
 				)}
 			>
 				<AvatarPrimitive.Root className={styles.transactionAvatarRootWrapper}>
-					<AvatarImage
-						className={styles.transactionAvatarWrapper}
+					<AvatarPrimitive.Image
+						className={styles.transactionAvatarImageWrapper}
 						src="https://images.unsplash.com/photo-1492633423870-43d1cd2775eb?&w=128&h=128&dpr=2&q=80"
 						alt="Colm Tuite"
 					/>
-					<AvatarFallback delayMs={600} className={styles.transactionAvatarFallbackWrapper}>
-						CT
-					</AvatarFallback>
+					<AvatarPrimitive.Fallback delayMs={600} className={styles.transactionAvatarFallbackWrapper}>
+					<Text>
+
+					CT
+					</Text>
+					</AvatarPrimitive.Fallback>
 				</AvatarPrimitive.Root>
 				{icon ? (
 					<Box className={styles.transactionTypeWrapper}>
