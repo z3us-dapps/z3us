@@ -5,8 +5,6 @@ import { CoinGeckoService } from '@src/services/coingecko'
 import oci, { TokensResponse as OCITokensResponse } from '@src/services/oci'
 import { Ticker } from '@src/types'
 
-// import { BitFinexService } from '@src/services/bitfinex'
-
 const service = new CoinGeckoService()
 
 const getOCITicker = async (tokens: OCITokensResponse, currency: string, asset: string) => {

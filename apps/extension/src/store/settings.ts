@@ -1,13 +1,5 @@
 import { AddressBookEntry, SettingsState } from './types'
 
-export const whiteList = [
-	'currency',
-	'walletUnlockTimeoutInMinutes',
-	'addressBook',
-	'accountPanelExpanded',
-	'transactionNotificationsEnabled',
-]
-
 const defaultState = {
 	addressBook: {},
 	currency: 'USD',

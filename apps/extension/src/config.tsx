@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
-import { Network as NetworkID } from '@radixdlt/application'
 import React from 'react'
 
 import { HomeIcon, SettingsIcon, StakingIcon, SwapIcon } from 'ui/src/components/icons'
@@ -188,8 +186,8 @@ export const z3usDappStatusIcons = {
 }
 
 export const networks = [
-	{ id: NetworkID.MAINNET, url: new URL('https://mainnet.radixdlt.com') },
-	{ id: NetworkID.STOKENET, url: new URL('https://stokenet.radixdlt.com') },
+	{ id: 'mainnet', url: new URL('https://mainnet.radixdlt.com') },
+	{ id: 'stokenet', url: new URL('https://stokenet.radixdlt.com') },
 ]
 
 export const APP_HEIGHT = 600

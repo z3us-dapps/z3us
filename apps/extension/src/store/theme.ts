@@ -4,8 +4,6 @@ import { popupHtmlMap } from '@src/config'
 
 import { ThemeState } from './types'
 
-export const whiteList = ['theme']
-
 export const factory = (set): ThemeState => ({
 	theme: 'system',
 
