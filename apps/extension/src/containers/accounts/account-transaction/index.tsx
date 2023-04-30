@@ -74,7 +74,11 @@ export const AccountTransaction = forwardRef<HTMLElement, IAccountTransactionPro
 						<ScrollArea onScroll={handleScroll}>
 							<Box ref={ref} className={styles.transactionBodyScrollWrapper}>
 								<Box display="flex" flexDirection="column" alignItems="center">
-									<TransactionIcon transactionIconSize="large" transactionType="deposit" />
+									<TransactionIcon
+										transactionIconBorderColor="borderDividerSecondary"
+										transactionIconSize="large"
+										transactionType="deposit"
+									/>
 									<Box marginTop="small">
 										<Text size="small" color="strong">
 											<Translation capitalizeFirstLetter text="global.received" /> XRD

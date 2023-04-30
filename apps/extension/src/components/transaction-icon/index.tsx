@@ -1,8 +1,9 @@
 import * as AvatarPrimitive from '@radix-ui/react-avatar'
 import clsx, { type ClassValue } from 'clsx'
 import React, { forwardRef } from 'react'
-// import { AvatarFallback, AvatarImage } from 'ui/src/components-v2/avatar'
+
 import { Box } from 'ui/src/components-v2/box'
+import { type TThemeColorKey } from 'ui/src/components-v2/system/theme.css'
 import { Text } from 'ui/src/components-v2/typography'
 import { DownLeftIcon, UpRightIcon } from 'ui/src/components/icons'
 
@@ -25,9 +26,7 @@ interface ITransactionIconOptionalProps {
 	className?: ClassValue
 	transactionType?: TTransactionTypes
 	transactionIconSize?: TTransactionIconSizes
-	// typeof vars.text.medium
-	// TODO: this type needs to reference our colors
-	transactionIconBorderColor?: any
+	transactionIconBorderColor?: TThemeColorKey
 	transactionIconShadow?: boolean
 }
 
@@ -68,10 +67,7 @@ export const TransactionIcon = forwardRef<HTMLElement, ITransactionIconProps>(
 						alt="Colm Tuite"
 					/>
 					<AvatarPrimitive.Fallback delayMs={600} className={styles.transactionAvatarFallbackWrapper}>
-					<Text>
-
-					CT
-					</Text>
+						<Text>CT</Text>
 					</AvatarPrimitive.Fallback>
 				</AvatarPrimitive.Root>
 				{icon ? (

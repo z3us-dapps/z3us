@@ -285,14 +285,19 @@ type TRGBA = `rgba(${number}, ${number}, ${number}, ${number})`
 type THEX = `#${string}`
 export type Color = TRGB | TRGBA | THEX
 
-// TODO: create type for  primitiveColors
+/**
+ * Theme Primitive Color Type
+ */
+export type TPrimitiveColors = {
+	transparent: Color
+}
 
 /**
  * Primitive Color values
  * These are the palette that all themes pull from
  */
 export const primitiveColors = {
-	transparent: 'transparent',
+	transparent: 'rgba(255,255,255,0)',
 	white: '#fff',
 	black: '#0e0e10',
 
@@ -447,6 +452,12 @@ export const themeShape = {
 	},
 	...sharedThemeValues,
 }
+
+/**
+ * All Colors Types
+ */
+export type TThemeColors = typeof themeShape['color']
+export type TThemeColorKey = keyof TThemeColors
 
 /**
  * Static Light Theme
