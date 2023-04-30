@@ -30,6 +30,7 @@ interface IAccountViewDropdownRequiredProps {
 interface IAccountViewDropdownOptionalProps {
 	className?: ClassValue
 	styleVariant?: TStyleVariant
+	isLeftButtonIconVisible?: boolean
 }
 
 interface IAccountViewDropdownProps extends IAccountViewDropdownRequiredProps, IAccountViewDropdownOptionalProps {}
@@ -37,11 +38,12 @@ interface IAccountViewDropdownProps extends IAccountViewDropdownRequiredProps, I
 const defaultProps: IAccountViewDropdownOptionalProps = {
 	className: undefined,
 	styleVariant: 'tertiary',
+	isLeftButtonIconVisible: true,
 }
 
 export const AccountViewDropdown = forwardRef<HTMLElement, IAccountViewDropdownProps>(
 	(props, ref: React.Ref<HTMLElement | null>) => {
-		const { className, styleVariant } = props
+		const { className, styleVariant, isLeftButtonIconVisible } = props
 
 		const isMobile = useIsMobileWidth()
 
@@ -53,7 +55,11 @@ export const AccountViewDropdown = forwardRef<HTMLElement, IAccountViewDropdownP
 							styleVariant={styleVariant}
 							sizeVariant="small"
 							rounded
-							leftIcon={<Box borderRadius="full" width="large" height="large" style={{ background: 'purple' }} />}
+							leftIcon={
+								isLeftButtonIconVisible ? (
+									<Box borderRadius="full" width="large" height="large" style={{ background: 'purple' }} />
+								) : null
+							}
 							rightIcon={<ChevronDownIcon />}
 						>
 							Savings
@@ -77,8 +83,10 @@ export const AccountViewDropdown = forwardRef<HTMLElement, IAccountViewDropdownP
 												marginRight="small"
 											/>
 										</DropdownMenuLeftSlot>
-										<Box flexGrow={1} style={{maxWidth: '98px'}}>
-											<Text size="xsmall" truncate>Savings Savings Savings Savings Savings</Text>
+										<Box flexGrow={1} style={{ maxWidth: '98px' }}>
+											<Text size="xsmall" truncate>
+												Savings Savings Savings Savings Savings
+											</Text>
 										</Box>
 										<DropdownMenuItemIndicator>
 											<CheckIcon />

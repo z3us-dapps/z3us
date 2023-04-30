@@ -64,7 +64,7 @@ export const DesktopNavigation: React.FC = () => {
 							{ text: t('accounts.navigation.accounts'), href: accountMenuSlugs.ACCOUNTS },
 							{ text: t('accounts.navigation.transfer'), href: accountMenuSlugs.TRANSFER },
 							{ text: t('accounts.navigation.staking'), href: accountMenuSlugs.STAKING },
-							{ text: t('accounts.navigation.swap'), href: accountMenuSlugs.SWAP },
+							// { text: t('accounts.navigation.swap'), href: accountMenuSlugs.SWAP },
 							{ text: t('accounts.navigation.settings'), href: accountMenuSlugs.SETTINGS },
 						].map(({ text, href }) => (
 							<MenuItemDesktop text={text} key={href} href={href} />
@@ -148,7 +148,7 @@ export const MobileHeaderNavigation = forwardRef<HTMLElement, IMobileHeaderNavig
 				<Box className={styles.accountsHomeMobileHeaderWalletWrapper}>
 					<Box display="flex" alignItems="center" gap="small" flexGrow={1}>
 						<Z3usLogo />
-						<AccountViewDropdown />
+						<AccountViewDropdown styleVariant="white-transparent" isLeftButtonIconVisible={false} />
 					</Box>
 					<Box display="flex" alignItems="center" gap="medium">
 						<Box
@@ -158,10 +158,12 @@ export const MobileHeaderNavigation = forwardRef<HTMLElement, IMobileHeaderNavig
 								pointerEvents: copyAddressBtnVisible ? 'all' : 'none',
 							}}
 						>
-							<CopyAddressButton
-								styleVariant="white-transparent"
-								address="rdx1b707388613169bf701d533e143d8f698c9090f605e677a967eaf70a4c69250ce"
-							/>
+							{copyAddressBtnVisible ? (
+								<CopyAddressButton
+									styleVariant="white-transparent"
+									address="rdx1b707388613169bf701d533e143d8f698c9090f605e677a967eaf70a4c69250ce"
+								/>
+							) : null}
 						</Box>
 						<WalletDropdown buttonSize="small" />
 					</Box>
@@ -179,7 +181,7 @@ export const MobileFooterNavigation: React.FC = () => (
 			{ href: accountMenuSlugs.ACCOUNTS },
 			{ href: accountMenuSlugs.TRANSFER },
 			{ href: accountMenuSlugs.STAKING },
-			{ href: accountMenuSlugs.SWAP },
+			// { href: accountMenuSlugs.SWAP },
 			{ href: accountMenuSlugs.SETTINGS },
 		].map(({ href }) => (
 			<MenuItemMobile key={href} href={href} />

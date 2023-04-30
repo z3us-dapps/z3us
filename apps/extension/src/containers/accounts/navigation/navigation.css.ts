@@ -154,8 +154,8 @@ export const accountsHomeMobileHeader = style([
 
 export const accountsHomeMobileHeaderShadow = style([
 	sprinkles({
-		boxShadow: 'shadowPanel',
 		background: 'backgroundSecondary',
+		boxShadow: 'shadowScrollTop',
 	}),
 	{},
 ])
@@ -199,7 +199,6 @@ export const navigationMenuLinkMobile = style([
 		boxShadow: {
 			focusVisible: 'btnSecondaryShadowFocus',
 		},
-
 		background: {
 			lightMode: 'backgroundSecondary',
 			darkMode: 'backgroundSecondary',
@@ -209,16 +208,15 @@ export const navigationMenuLinkMobile = style([
 		outline: 0,
 		width: '25%',
 		flexBasis: '25%',
-		// outline: 'none',
-		// height: `${calc(vars.grid).multiply(8)}`,
-		// ':hover': {
-		// 	background: vars.color.white,
-		// },
-		// selectors: {
-		// 	[`.${darkMode} &:hover`]: {
-		// 		background: vars.color.lead400,
-		// 	},
-		// },
+		selectors: {
+			'&:focus-visible': {
+				position: 'relative',
+				zIndex: 1,
+			},
+			[`.${darkMode} &:hover`]: {
+				background: vars.color.lead400,
+			},
+		},
 	},
 ])
 

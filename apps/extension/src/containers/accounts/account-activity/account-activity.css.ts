@@ -110,11 +110,6 @@ export const activtyItemInner = style([
 			'&:focus-visible': {
 				outline: 'none',
 			},
-			// '&:focus-visible::before': {
-			// 	outline: 'none',
-			// 	border: 'none',
-			// 	boxShadow: vars.color.btnSecondaryShadowFocus,
-			// },
 			'&:hover::before': {
 				opacity: 1,
 			},
