@@ -7,6 +7,7 @@ import { sprinkles } from '../system/sprinkles.css'
 //   position: fixed;
 //   inset: 0;
 //   animation: overlayShow 150ms cubic-bezier(0.16, 1, 0.3, 1);
+
 export const dialogOverlay = style([
 	sprinkles({
 		position: 'fixed',

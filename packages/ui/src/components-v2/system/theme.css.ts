@@ -346,6 +346,18 @@ export const primitiveColors = {
 	purple900: tokens.color.core.purple['900'],
 	purple1000: tokens.color.core.purple['1000'],
 
+	blue_magenta0: tokens.color.core.blue_magenta['0'],
+	blue_magenta100: tokens.color.core.blue_magenta['100'],
+	blue_magenta200: tokens.color.core.blue_magenta['200'],
+	blue_magenta300: tokens.color.core.blue_magenta['300'],
+	blue_magenta400: tokens.color.core.blue_magenta['400'],
+	blue_magenta500: tokens.color.core.blue_magenta['500'],
+	blue_magenta600: tokens.color.core.blue_magenta['600'],
+	blue_magenta700: tokens.color.core.blue_magenta['700'],
+	blue_magenta800: tokens.color.core.blue_magenta['800'],
+	blue_magenta900: tokens.color.core.blue_magenta['900'],
+	blue_magenta1000: tokens.color.core.blue_magenta['1000'],
+
 	red0: tokens.color.core.red['0'],
 	red100: tokens.color.core.red['100'],
 	red200: tokens.color.core.red['200'],

@@ -38,15 +38,15 @@ export const AccountAllChart: React.FC<IAccountAllChartProps> = props => {
 
 	return (
 		<Box>
-			<Box paddingTop="xlarge" paddingX="xlarge">
+			<Box paddingTop="large" paddingX="large">
 				{/* TODO: Chart for `isAllAccount` goes here */}
-				<Box padding="large" background="backgroundPrimary" style={{ width: '100%', height: '200px' }}>
+				<Box
+					borderRadius="small"
+					padding="large"
+					background="backgroundPrimary"
+					style={{ width: '100%', height: '200px' }}
+				>
 					<Z3usLoading message="Loading" />
-					{/* <Z3usLoading message="Loading"> */}
-					{/* 	<Box> */}
-					{/* 		<Text size="xsmall">Loading</Text> */}
-					{/* 	</Box> */}
-					{/* </Z3usLoading> */}
 				</Box>
 			</Box>
 		</Box>
