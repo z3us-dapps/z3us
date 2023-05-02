@@ -32,7 +32,7 @@ export const AccountsHomeDesktop = () => {
 				<Box className={clsx(styles.panelWrapper)}>
 					<ScrollPanel
 						className={styles.leftPanel}
-						renderPanel={(scrollableNode: HTMLElement | null, scrollTop: number) => (
+						renderPanel={(scrollableNode: HTMLElement | null) => (
 							<Box position="relative">
 								<AnimatePresence initial={false}>
 									<Routes location={location} key={location.pathname}>
@@ -54,7 +54,7 @@ export const AccountsHomeDesktop = () => {
 												path={path}
 												element={
 													<AnimatedPage>
-														<AccountsList scrollableNode={scrollableNode} scrollTop={scrollTop} />
+														<AccountsList scrollableNode={scrollableNode} />
 													</AnimatedPage>
 												}
 											/>

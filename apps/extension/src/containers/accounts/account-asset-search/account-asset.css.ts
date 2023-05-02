@@ -32,8 +32,27 @@ export const accountBalanceWrapper = style([
 		flexShrink: 0,
 	}),
 	{
-		maxWidth: 'calc(100% - 32px)',
+		maxWidth: 'calc(100% - 72px)',
 	},
+])
+
+export const accountUpButton = style([
+	sprinkles({
+		transition: 'fast',
+		position: 'absolute',
+		opacity: 0,
+		pointerEvents: 'none',
+	}),
+	{
+		right: '38px',
+	},
+])
+
+export const accountUpButtonVisible = style([
+	sprinkles({
+		opacity: 1,
+		pointerEvents: 'auto',
+	}),
 ])
 
 export const accountSearchButton = style([

@@ -9,7 +9,7 @@ import { ScrollArea } from 'ui/src/components-v2/scroll-area'
 import * as styles from './scroll-panel.css'
 
 interface IScrollPanelRequiredProps {
-	renderPanel: (customScrollParent: HTMLElement | null, scrollTop: number) => any
+	renderPanel: (customScrollParent: HTMLElement | null) => any
 }
 
 interface IScrollPanelOptionalProps {
@@ -84,7 +84,7 @@ export const ScrollPanel: React.FC<IScrollPanelProps> = props => {
 				onScroll={handleScroll}
 				isTopShadowVisible={false}
 			>
-				{renderPanel(panelRef, scrollTop)}
+				{renderPanel(panelRef)}
 			</ScrollArea>
 		</Box>
 	)

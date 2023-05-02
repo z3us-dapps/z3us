@@ -7,7 +7,7 @@ import { useEventListener } from 'usehooks-ts'
 import { Box } from 'ui/src/components-v2/box'
 import { FormElement, Input } from 'ui/src/components-v2/input'
 import { ToolTip } from 'ui/src/components-v2/tool-tip'
-import { Close2Icon, SearchIcon } from 'ui/src/components/icons'
+import { ArrowUpIcon, Close2Icon, SearchIcon } from 'ui/src/components/icons'
 import { capitalizeFirstLetter } from 'ui/src/utils/capitalize-first-letter'
 
 import { Button } from '@src/components/button'
@@ -19,6 +19,7 @@ interface IAccountAssetSearchRequiredProps {
 	searchTitle: string
 	onChange: (value: String) => void
 	balance: React.ReactNode
+	scrollableNode: HTMLElement
 }
 
 interface IAccountAssetSearchOptionalProps {
@@ -32,13 +33,12 @@ const defaultProps: IAccountAssetSearchOptionalProps = {
 }
 
 export const AccountAssetSearch: React.FC<IAccountAssetSearchProps> = props => {
-	const { onChange, className, searchTitle, balance } = props
-
+	const { onChange, className, searchTitle, balance, scrollableNode } = props
 	const { t } = useTranslation()
-
 	const [isInputVisible, setIsInputVisible] = useState<boolean>(false)
 	const [inputValue, setInputValue] = useState<string>('')
 	const inputRef = useRef(null)
+	const isScrolled = scrollableNode?.scrollTop > 0
 
 	const handleOnChange = (event: React.ChangeEvent<FormElement>) => {
 		const { value } = event.target
@@ -56,6 +56,11 @@ export const AccountAssetSearch: React.FC<IAccountAssetSearchProps> = props => {
 	const handleSearchClick = () => {
 		setIsInputVisible(true)
 		inputRef.current.focus()
+	}
+
+	const handleUpClick = () => {
+		if (!scrollableNode) return
+		scrollableNode.scrollTo({ top: 0, behavior: 'smooth' })
 	}
 
 	useEventListener('keydown', e => {
@@ -92,6 +97,18 @@ export const AccountAssetSearch: React.FC<IAccountAssetSearchProps> = props => {
 							<Close2Icon />
 						</Button>
 					</Box>
+
+					<ToolTip theme="backgroundPrimary" message={<Translation capitalizeFirstLetter text="global.up" />}>
+						<Button
+							className={clsx(styles.accountUpButton, isScrolled && styles.accountUpButtonVisible)}
+							styleVariant="ghost"
+							sizeVariant="small"
+							onClick={handleUpClick}
+							iconOnly
+						>
+							<ArrowUpIcon />
+						</Button>
+					</ToolTip>
 					<ToolTip theme="backgroundPrimary" message={<Translation capitalizeFirstLetter text="global.search" />}>
 						<Button
 							className={clsx(styles.accountSearchButton, isInputVisible && styles.accountSearchButtonHidden)}
