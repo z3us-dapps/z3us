@@ -1,7 +1,7 @@
 import { AnimatePresence } from 'framer-motion'
 import React, { useEffect, useState } from 'react'
 import { Link, Navigate, Route, Routes, useLocation } from 'react-router-dom'
-import { Toaster, toast } from 'sonner'
+import { toast } from 'sonner'
 
 import { Box } from 'ui/src/components-v2/box'
 import { darkThemeClass, lightThemeClass } from 'ui/src/components-v2/system/theme.css'
@@ -11,6 +11,7 @@ import { CheckIcon, ExternalLinkIcon } from 'ui/src/components/icons'
 import { AnimatedPage } from '@src/components/animated-route'
 import { routes } from '@src/constants'
 import { Accounts } from '@src/containers/accounts'
+import { Toasts } from '@src/containers/toasts-container'
 import { useIsMobileWidth } from '@src/hooks/use-is-mobile'
 
 import * as styles from './app.css'
@@ -78,7 +79,9 @@ export const TempNav: React.FC = () => {
 			<Link to="/connect">connect</Link>
 			<button
 				onClick={() => {
-					toast('My first toast')
+					toast('Event has been created', {
+						// duration: Infinity,
+					})
 				}}
 				type="button"
 			>
@@ -157,19 +160,7 @@ const App: React.FC = () => {
 					/>
 				</Routes>
 			</AnimatePresence>
-			<Toaster
-				toastOptions={{
-					// style: { background: 'red' },
-					className: 'my-toast',
-					descriptionClassName: 'my-toast-description',
-				}}
-				// theme="dark"
-				position="top-center"
-				closeButton
-				// expand
-				visibleToasts={3}
-				offset="20px"
-			/>
+			<Toasts />
 		</div>
 	)
 }
