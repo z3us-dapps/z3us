@@ -1,117 +1,104 @@
+/* eslint-disable  @typescript-eslint/no-unused-vars */
 import { style } from '@vanilla-extract/css'
 
 import { sprinkles } from 'ui/src/components-v2/system/sprinkles.css'
 import { responsiveStyle } from 'ui/src/components-v2/system/theme-utils'
 
 // import { vars } from 'ui/src/components-v2/system/theme.css'
-
-// TODO: remove
-export const tempyy = style([
-	{
-		position: 'absolute',
-		top: '0',
-		right: '0',
-		opacity: '0',
-		// display: 'none',
-	},
-])
-
-export const accountCardWrapper = style([
+// paddingTop="large" paddingX="large"
+export const allChartWrapper = style([
 	sprinkles({
-		position: 'sticky',
-		top: 0,
-		background: 'backgroundSecondary',
 		paddingTop: 'large',
 		paddingX: 'large',
-		borderBottom: 1,
-		borderStyle: 'solid',
-		borderColor: 'borderDivider',
 	}),
 	{},
 ])
 
-export const tempBg = style([
+export const allChartInnerWrapper = style([
 	sprinkles({
-		background: 'backgroundPrimary',
+		borderRadius: 'small',
 		padding: 'large',
+		background: 'backgroundPrimary',
+		width: 'full',
 	}),
 	{
-		height: '160px',
-		width: '100%',
+		height: '400px',
 	},
 ])
 
-export const cardWrapperAll = style([
+export const motionWrapper = style([
 	sprinkles({
-		position: 'relative',
+		height: 'full',
 	}),
-	responsiveStyle({
-		mobile: {
-			width: '100%',
-			paddingBottom: '56.25%',
-			height: '0px',
-		},
-		desktop: {
-			// width: '344px',
-			// height: '200px',
-			width: '97%',
-			paddingBottom: '56.25%',
-			height: '0px',
-		},
-	}),
+	{},
 ])
 
-export const tempNav = sprinkles({
-	position: 'fixed',
-	bottom: 0,
-	right: 0,
-	zIndex: 1,
-})
-
-export const accountCardButtonWrapper = style([
+export const accountsListWrapper = style([
 	sprinkles({
-		position: 'relative',
 		display: 'flex',
-		gap: 'large',
-		marginY: 'large',
-		zIndex: 1,
+		flexDirection: 'column',
+		marginTop: 'small',
 	}),
+	{},
 ])
 
-export const assetCloseBtnWrapper = style([
+export const accountDotBg = style([
 	sprinkles({
+		borderRadius: 'full',
+		width: 'small',
+		height: 'small',
+		flexShrink: 0,
+		marginRight: 'small',
+	}),
+	{
+		background: 'grey',
+	},
+])
+
+export const addressInfoWrapper = style([
+	sprinkles({
+		position: 'relative',
 		display: 'flex',
 		width: 'full',
-		justifyContent: 'flex-end',
-		paddingTop: {
-			mobile: 'small',
-			desktop: 'medium',
-		},
-		paddingX: {
-			mobile: 'small',
-			desktop: 'medium',
+		alignItems: 'center',
+		height: {
+			mobile: 'large',
+			tablet: 'xlarge',
 		},
 	}),
+	{},
 ])
 
-export const assetChartBtnsWrapper = style([
+export const addressInfoWrapperLeft = style([
 	sprinkles({
 		display: 'flex',
-		gap: {
-			mobile: 'xxsmall',
-			desktop: 'small',
-		},
-		paddingTop: {
-			mobile: 'small',
-			desktop: 'small',
-		},
-		paddingBottom: {
-			mobile: 'large',
-			desktop: 'xlarge',
-		},
-		paddingX: {
-			mobile: 'small',
-			desktop: 'small',
-		},
+		flexGrow: 1,
+		alignItems: 'flex-end',
 	}),
+	{
+		maxWidth: '150px',
+	},
+])
+
+export const addressInfoWrapperRight = style([
+	sprinkles({
+		display: 'flex',
+		flexGrow: 1,
+	}),
+	{
+		maxWidth: '100px',
+	},
+])
+
+export const dottedSpacer = style([
+	sprinkles({
+		position: 'relative',
+		borderStyle: 'dashed',
+		flexGrow: 1,
+		borderBottom: 1,
+		borderColor: 'borderDividerSecondary',
+		marginTop: 'small',
+		marginX: 'small',
+	}),
+	{},
 ])
