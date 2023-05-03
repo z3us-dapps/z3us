@@ -105,7 +105,7 @@ export const AccountAllChart: React.FC<IAccountAllChartProps> = props => {
 									data={data}
 									margin={{ top: 5, right: 5, bottom: 10, left: 5 }}
 									innerRadius={0.2}
-									padAngle={2}
+									padAngle={0}
 									cornerRadius={8}
 									activeInnerRadiusOffset={5}
 									activeOuterRadiusOffset={5}
@@ -132,17 +132,18 @@ export const AccountAllChart: React.FC<IAccountAllChartProps> = props => {
 									// eslint-disable-next-line
 									tooltip={({ datum: { id, value, color } }) => (
 										<Box
-											padding="large"
-											display="flex"
-											flexDirection="column"
+											position="absolute"
+											paddingY="small"
+											paddingX="medium"
 											borderRadius="large"
 											background="backgroundSecondary"
+											boxShadow="shadowPanel"
+											pointerEvents="none"
 											style={{
-												color,
+												whiteSpace: 'pre',
 											}}
 										>
-											<Text>Look, Im custom :)</Text>
-											<Text>
+											<Text size="small">
 												<Box component="span" style={{ color }}>
 													{id}: {value}
 												</Box>
