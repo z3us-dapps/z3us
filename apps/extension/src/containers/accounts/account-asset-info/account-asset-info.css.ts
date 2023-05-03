@@ -6,13 +6,13 @@ import { responsiveStyle } from 'ui/src/components-v2/system/theme-utils'
 
 // import { vars } from 'ui/src/components-v2/system/theme.css'
 
-export const tempBg = style([
+export const chartBgWrapper = style([
 	sprinkles({
 		position: 'relative',
-		background: 'backgroundPrimary',
+		// background: 'backgroundPrimary',
 	}),
 	{
-		height: '260px',
+		height: '220px',
 		width: '100%',
 	},
 ])

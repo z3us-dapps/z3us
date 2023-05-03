@@ -78,222 +78,6 @@ const data = [
 			},
 		],
 	},
-	{
-		id: 'france',
-		color: 'hsl(190, 70%, 50%)',
-		data: [
-			{
-				x: 'plane',
-				y: 147,
-			},
-			{
-				x: 'helicopter',
-				y: 4,
-			},
-			{
-				x: 'boat',
-				y: 89,
-			},
-			{
-				x: 'train',
-				y: 96,
-			},
-			{
-				x: 'subway',
-				y: 266,
-			},
-			{
-				x: 'bus',
-				y: 30,
-			},
-			{
-				x: 'car',
-				y: 108,
-			},
-			{
-				x: 'moto',
-				y: 31,
-			},
-			{
-				x: 'bicycle',
-				y: 160,
-			},
-			{
-				x: 'horse',
-				y: 13,
-			},
-			{
-				x: 'skateboard',
-				y: 39,
-			},
-			{
-				x: 'others',
-				y: 44,
-			},
-		],
-	},
-	{
-		id: 'us',
-		color: 'hsl(301, 70%, 50%)',
-		data: [
-			{
-				x: 'plane',
-				y: 172,
-			},
-			{
-				x: 'helicopter',
-				y: 56,
-			},
-			{
-				x: 'boat',
-				y: 9,
-			},
-			{
-				x: 'train',
-				y: 112,
-			},
-			{
-				x: 'subway',
-				y: 27,
-			},
-			{
-				x: 'bus',
-				y: 176,
-			},
-			{
-				x: 'car',
-				y: 14,
-			},
-			{
-				x: 'moto',
-				y: 176,
-			},
-			{
-				x: 'bicycle',
-				y: 265,
-			},
-			{
-				x: 'horse',
-				y: 263,
-			},
-			{
-				x: 'skateboard',
-				y: 209,
-			},
-			{
-				x: 'others',
-				y: 152,
-			},
-		],
-	},
-	{
-		id: 'germany',
-		color: 'hsl(308, 70%, 50%)',
-		data: [
-			{
-				x: 'plane',
-				y: 90,
-			},
-			{
-				x: 'helicopter',
-				y: 98,
-			},
-			{
-				x: 'boat',
-				y: 86,
-			},
-			{
-				x: 'train',
-				y: 76,
-			},
-			{
-				x: 'subway',
-				y: 168,
-			},
-			{
-				x: 'bus',
-				y: 191,
-			},
-			{
-				x: 'car',
-				y: 144,
-			},
-			{
-				x: 'moto',
-				y: 133,
-			},
-			{
-				x: 'bicycle',
-				y: 17,
-			},
-			{
-				x: 'horse',
-				y: 248,
-			},
-			{
-				x: 'skateboard',
-				y: 196,
-			},
-			{
-				x: 'others',
-				y: 243,
-			},
-		],
-	},
-	{
-		id: 'norway',
-		color: 'hsl(278, 70%, 50%)',
-		data: [
-			{
-				x: 'plane',
-				y: 171,
-			},
-			{
-				x: 'helicopter',
-				y: 247,
-			},
-			{
-				x: 'boat',
-				y: 55,
-			},
-			{
-				x: 'train',
-				y: 231,
-			},
-			{
-				x: 'subway',
-				y: 206,
-			},
-			{
-				x: 'bus',
-				y: 129,
-			},
-			{
-				x: 'car',
-				y: 20,
-			},
-			{
-				x: 'moto',
-				y: 169,
-			},
-			{
-				x: 'bicycle',
-				y: 257,
-			},
-			{
-				x: 'horse',
-				y: 234,
-			},
-			{
-				x: 'skateboard',
-				y: 184,
-			},
-			{
-				x: 'others',
-				y: 246,
-			},
-		],
-	},
 ]
 
 export const AccountAssetInfo: React.FC<IAccountAssetInfoProps> = props => {
@@ -328,12 +112,12 @@ export const AccountAssetInfo: React.FC<IAccountAssetInfoProps> = props => {
 				<Box display="flex" paddingTop="large" gap="large" position="relative" paddingBottom="large">
 					<CardButtons />
 				</Box>
-				<Box className={styles.tempBg}>
+				<Box className={styles.chartBgWrapper}>
 					<ResponsiveLine
 						animate
 						// curve="monotoneX"
 						data={data}
-						margin={{ top: 50, right: 50, bottom: 50, left: 50 }}
+						margin={{ top: 10, bottom: 10, right: 0, left: 0 }}
 						xScale={{ type: 'point' }}
 						yScale={{
 							type: 'linear',
@@ -344,20 +128,23 @@ export const AccountAssetInfo: React.FC<IAccountAssetInfoProps> = props => {
 						}}
 						yFormat=" >-.2f"
 						// eslint-disable-next-line
-						tooltip={geeb => (
-							<Box
-								padding="large"
-								display="flex"
-								flexDirection="column"
-								borderRadius="large"
-								background="backgroundSecondary"
-							>
-								<Text>Look, Im custom :)</Text>
-								<Text>
-									<Box component="span">dhfhdfh</Box>
-								</Text>
-							</Box>
-						)}
+						// tooltip={({ point }) => (
+						// 	<Box
+						// 		padding="large"
+						// 		display="flex"
+						// 		flexDirection="column"
+						// 		borderRadius="large"
+						// 		background="backgroundSecondary"
+						// 	>
+						// 		<Text>Look, Im custom :)</Text>
+						// 		<Text>
+						// 			<Box component="span">
+						// 				{console.log(999, point)}
+						// 				{/* {id}: {value} */}
+						// 			</Box>
+						// 		</Text>
+						// 	</Box>
+						// )}
 						axisTop={null}
 						axisRight={null}
 						axisBottom={null}
@@ -366,11 +153,11 @@ export const AccountAssetInfo: React.FC<IAccountAssetInfoProps> = props => {
 						enableGridY={false}
 						colors={{ scheme: 'nivo' }}
 						pointColor={{ from: 'color', modifiers: [] }}
-						pointBorderWidth={2}
+						pointBorderWidth={0}
 						pointBorderColor={{ from: 'color', modifiers: [] }}
 						pointLabelYOffset={-12}
 						enableArea
-						areaOpacity={0.25}
+						areaOpacity={0}
 						enableCrosshair={false}
 						useMesh
 						legends={[]}
