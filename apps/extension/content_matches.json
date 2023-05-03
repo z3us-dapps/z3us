@@ -20,5 +20,7 @@
     "*://*.m-o.group/*",
     "*://*.momentum-one.io/*",
     "*://*.radishsquare.com/*",
-    "*://*.thegnomesociety.com/*"
+    "*://*.thegnomesociety.com/*",
+	  "*://*.radixcharts.com/*",
+	  "*://*.radixscan.io/*"
 ]
