@@ -8,11 +8,11 @@ import { responsiveStyle } from 'ui/src/components-v2/system/theme-utils'
 
 export const tempBg = style([
 	sprinkles({
+		position: 'relative',
 		background: 'backgroundPrimary',
-		padding: 'large',
 	}),
 	{
-		height: '160px',
+		height: '260px',
 		width: '100%',
 	},
 ])
