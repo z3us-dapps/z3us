@@ -1,6 +1,7 @@
 /* eslint-disable  @typescript-eslint/no-unused-vars */
 import { ResponsiveLine } from '@nivo/line'
-import React from 'react'
+import * as Portal from '@radix-ui/react-portal'
+import React, { useRef } from 'react'
 
 import { Box } from 'ui/src/components-v2/box'
 import { ToolTip } from 'ui/src/components-v2/tool-tip'
@@ -81,7 +82,9 @@ const data = [
 ]
 
 export const AccountAssetInfo: React.FC<IAccountAssetInfoProps> = props => {
+	const chartRef = useRef(null)
 	const { account, assetType, asset } = useAccountParams()
+	const chartBounding = chartRef?.current?.getBoundingClientRect()
 
 	if (!asset) {
 		return null
@@ -112,7 +115,7 @@ export const AccountAssetInfo: React.FC<IAccountAssetInfoProps> = props => {
 				<Box display="flex" paddingTop="large" gap="large" position="relative" paddingBottom="large">
 					<CardButtons />
 				</Box>
-				<Box className={styles.chartBgWrapper}>
+				<Box ref={chartRef} className={styles.chartBgWrapper}>
 					<ResponsiveLine
 						animate
 						// curve="monotoneX"
@@ -128,23 +131,32 @@ export const AccountAssetInfo: React.FC<IAccountAssetInfoProps> = props => {
 						}}
 						yFormat=" >-.2f"
 						// eslint-disable-next-line
-						// tooltip={({ point }) => (
-						// 	<Box
-						// 		padding="large"
-						// 		display="flex"
-						// 		flexDirection="column"
-						// 		borderRadius="large"
-						// 		background="backgroundSecondary"
-						// 	>
-						// 		<Text>Look, Im custom :)</Text>
-						// 		<Text>
-						// 			<Box component="span">
-						// 				{console.log(999, point)}
-						// 				{/* {id}: {value} */}
-						// 			</Box>
-						// 		</Text>
-						// 	</Box>
-						// )}
+						tooltip={({ point }) => (
+							<Portal.Root>
+								<Box
+									position="absolute"
+									padding="medium"
+									display="flex"
+									flexDirection="column"
+									borderRadius="large"
+									background="backgroundSecondary"
+									boxShadow="shadowPanel"
+									pointerEvents="none"
+									style={{
+										width: '100px',
+										top: `${(chartBounding?.top || 0) + point.y}px`,
+										left: `${(chartBounding?.left || 0) + point.x}px`,
+									}}
+								>
+									<Text size="small">
+										<Box component="span">x: {point.data.xFormatted}</Box>
+									</Text>
+									<Text size="small">
+										<Box component="span">y: {point.data.yFormatted}</Box>
+									</Text>
+								</Box>
+							</Portal.Root>
+						)}
 						axisTop={null}
 						axisRight={null}
 						axisBottom={null}
