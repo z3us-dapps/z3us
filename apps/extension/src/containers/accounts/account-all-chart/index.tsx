@@ -135,7 +135,7 @@ export const AccountAllChart: React.FC<IAccountAllChartProps> = props => {
 											position="absolute"
 											paddingY="small"
 											paddingX="medium"
-											borderRadius="large"
+											borderRadius="medium"
 											background="backgroundSecondary"
 											boxShadow="shadowPanel"
 											pointerEvents="none"
@@ -143,7 +143,7 @@ export const AccountAllChart: React.FC<IAccountAllChartProps> = props => {
 												whiteSpace: 'pre',
 											}}
 										>
-											<Text size="small">
+											<Text size="xsmall">
 												<Box component="span" style={{ color }}>
 													{id}: {value}
 												</Box>

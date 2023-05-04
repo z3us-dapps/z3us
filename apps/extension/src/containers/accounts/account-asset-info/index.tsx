@@ -1,6 +1,7 @@
 /* eslint-disable  @typescript-eslint/no-unused-vars */
 import { ResponsiveLine } from '@nivo/line'
 import * as Portal from '@radix-ui/react-portal'
+import { motion } from 'framer-motion'
 import React, { useRef } from 'react'
 
 import { Box } from 'ui/src/components-v2/box'
@@ -81,7 +82,7 @@ const data = [
 	},
 ]
 
-export const AccountAssetInfo: React.FC<IAccountAssetInfoProps> = props => {
+export const AccountAssetInfo: React.FC<IAccountAssetInfoProps> = () => {
 	const chartRef = useRef(null)
 	const { account, assetType, asset } = useAccountParams()
 	const chartBounding = chartRef?.current?.getBoundingClientRect()
@@ -131,32 +132,47 @@ export const AccountAssetInfo: React.FC<IAccountAssetInfoProps> = props => {
 						}}
 						yFormat=" >-.2f"
 						// eslint-disable-next-line
-						tooltip={({ point }) => (
-							<Portal.Root>
-								<Box
-									position="absolute"
-									padding="medium"
-									display="flex"
-									flexDirection="column"
-									borderRadius="large"
-									background="backgroundSecondary"
-									boxShadow="shadowPanel"
-									pointerEvents="none"
-									style={{
-										width: '100px',
-										top: `${(chartBounding?.top || 0) + point.y}px`,
-										left: `${(chartBounding?.left || 0) + point.x}px`,
-									}}
-								>
-									<Text size="small">
-										<Box component="span">x: {point.data.xFormatted}</Box>
-									</Text>
-									<Text size="small">
-										<Box component="span">y: {point.data.yFormatted}</Box>
-									</Text>
-								</Box>
-							</Portal.Root>
-						)}
+						tooltip={({ point }) => {
+							return (
+								<Portal.Root>
+									<motion.div
+										animate={{
+											x: (chartBounding?.left || 0) + point.x,
+											y: (chartBounding?.top || 0) + point.y,
+											opacity: 1,
+											scale: 1,
+										}}
+										transition={{
+											duration: 0.5,
+											delay: 0.1,
+										}}
+										initial={{ opacity: 0, scale: 0.5 }}
+									>
+										<Box
+											position="absolute"
+											padding="medium"
+											display="flex"
+											flexDirection="column"
+											borderRadius="medium"
+											background="backgroundSecondary"
+											boxShadow="shadowPanel"
+											pointerEvents="none"
+											style={{
+												minWidth: '100px',
+												whiteSpace: 'pre',
+											}}
+										>
+											<Text size="xsmall">
+												<Box component="span">x: {point.data.xFormatted}</Box>
+											</Text>
+											<Text size="xsmall">
+												<Box component="span">y: {point.data.yFormatted}</Box>
+											</Text>
+										</Box>
+									</motion.div>
+								</Portal.Root>
+							)
+						}}
 						axisTop={null}
 						axisRight={null}
 						axisBottom={null}
