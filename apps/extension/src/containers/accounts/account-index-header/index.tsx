@@ -1,9 +1,13 @@
-import clsx from 'clsx'
+import clsx, { type ClassValue } from 'clsx'
 import React, { forwardRef } from 'react'
+import { useLocation } from 'react-router-dom'
 
 import { Box } from 'ui/src/components-v2/box'
+import { ToolTip } from 'ui/src/components-v2/tool-tip'
 import { Text } from 'ui/src/components-v2/typography'
+import { SearchIcon } from 'ui/src/components/icons'
 
+import { Button } from '@src/components/button'
 import Translation from '@src/components/translation'
 
 import * as styles from './account-index-header.css'
@@ -11,7 +15,7 @@ import * as styles from './account-index-header.css'
 interface IAccountIndexHeaderRequiredProps {}
 
 interface IAccountIndexHeaderOptionalProps {
-	className?: string
+	className?: ClassValue
 }
 
 interface IAccountIndexHeaderProps extends IAccountIndexHeaderRequiredProps, IAccountIndexHeaderOptionalProps {}
@@ -23,6 +27,7 @@ const defaultProps: IAccountIndexHeaderOptionalProps = {
 export const AccountIndexHeader = forwardRef<HTMLElement, IAccountIndexHeaderProps>(
 	(props, ref: React.Ref<HTMLElement | null>) => {
 		const { className } = props
+		const { pathname } = useLocation()
 
 		return (
 			<Box ref={ref} className={clsx(className, styles.accountIndexWrapper)}>
@@ -35,9 +40,25 @@ export const AccountIndexHeader = forwardRef<HTMLElement, IAccountIndexHeaderPro
 								</Text>
 							</Box>
 						</Box>
-						<Text weight="medium" size="xxxlarge" color="strong" truncate>
-							$4,440,206.254,440,206.254,440,206.254,440,206.254,440,206.254,440,206.254,440,206.25
-						</Text>
+						<Box display="flex" alignItems="center" gap="small">
+							<Box flexGrow={1}>
+								<Text weight="medium" size="xxxlarge" color="strong" truncate>
+									$4,440,206.254,440,206.254,440,206.254,440,206.254,440,206.254,440,206.254,440,206.25
+								</Text>
+							</Box>
+							<ToolTip theme="backgroundPrimary" message={<Translation capitalizeFirstLetter text="global.search" />}>
+								<Button
+									// className={clsx(styles.accountSearchButton, isInputVisible && styles.accountSearchButtonHidden)}
+									to={`${pathname}?query=hello`}
+									styleVariant="ghost"
+									sizeVariant="small"
+									// onClick={handleSearchClick}
+									iconOnly
+								>
+									<SearchIcon />
+								</Button>
+							</ToolTip>
+						</Box>
 					</Box>
 				</Box>
 			</Box>

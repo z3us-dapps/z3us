@@ -97,7 +97,6 @@ export const AccountAssetSearch: React.FC<IAccountAssetSearchProps> = props => {
 							<Close2Icon />
 						</Button>
 					</Box>
-
 					<ToolTip theme="backgroundPrimary" message={<Translation capitalizeFirstLetter text="global.up" />}>
 						<Button
 							className={clsx(styles.accountUpButton, isScrolled && styles.accountUpButtonVisible)}

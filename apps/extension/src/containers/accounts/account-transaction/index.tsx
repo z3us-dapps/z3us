@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import clsx from 'clsx'
+import clsx, { type ClassValue } from 'clsx'
 import React, { forwardRef, useEffect, useState } from 'react'
 import { useLocation, useNavigate, useSearchParams } from 'react-router-dom'
 
@@ -23,7 +23,7 @@ import * as styles from './account-transaction.css'
 interface IAccountTransactionRequiredProps {}
 
 interface IAccountTransactionOptionalProps {
-	className?: number
+	className?: ClassValue
 }
 
 interface IAccountTransactionProps extends IAccountTransactionRequiredProps, IAccountTransactionOptionalProps {}
