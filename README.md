@@ -47,6 +47,7 @@ Now click on the `LOAD UNPACKED` and browse to `apps/extension/dist/chrome`, thi
 Before adding to firefox some changes to manifest file must be made:
 
 1. Remove all `use_dynamic_url` keys from all entries in `web_accessible_resources`
+
 ```diff
   "web_accessible_resources": [
     {
@@ -78,6 +79,7 @@ Before adding to firefox some changes to manifest file must be made:
 ```
 
 2. Change `service_worker` to `scripts` and wrap value in array paranthesis `[]`
+
 ```diff
   "background": {
 -    "service_worker": "service-worker-loader.js",

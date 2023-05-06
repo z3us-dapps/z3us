@@ -1,6 +1,6 @@
 import { Mutex } from 'async-mutex'
 
-import { defaultNoneStoreKey } from '@src/config'
+import { defaultNoneStoreKey } from '@src/store/constants'
 import { NoneSharedStore, createNoneSharedStore } from '@src/store'
 
 const mutex = new Mutex()

@@ -1,4 +1,3 @@
-import { Amount, AmountT } from '@radixdlt/application'
 import BigNumber from 'bignumber.js'
 
 export const stakePercentage = (delegatedStake: string, total: BigNumber) => {
@@ -46,7 +45,7 @@ export const apy = (amount?: BigNumber, total?: BigNumber, fee: number = 0): Big
 	return reward.div(amount).multipliedBy(100)
 }
 
-export const buildAmount = (value: string | BigNumber): AmountT => {
+export const buildAmount = (value: string | BigNumber): string => {
 	let bigAmount
 	if (value instanceof BigNumber) {
 		bigAmount = value
@@ -54,13 +53,5 @@ export const buildAmount = (value: string | BigNumber): AmountT => {
 		bigAmount = new BigNumber(value)
 	}
 	const amountInput: BigNumber = bigAmount.shiftedBy(18) // Atto
-	const amountResult = Amount.fromUnsafe(amountInput.toFixed(0, BigNumber.ROUND_FLOOR))
-	if (!amountResult) {
-		throw new Error(`Failed to parse amount value ${value}`)
-	}
-	if (amountResult.isErr()) {
-		throw amountResult.error
-	}
-
-	return amountResult.value
+	return amountInput.toFixed(0, BigNumber.ROUND_FLOOR)
 }

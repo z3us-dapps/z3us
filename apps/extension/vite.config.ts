@@ -1,5 +1,5 @@
 import { crx } from '@crxjs/vite-plugin'
-import rollupInject from '@rollup/plugin-inject'
+// import rollupInject from '@rollup/plugin-inject'
 import { vanillaExtractPlugin } from '@vanilla-extract/vite-plugin'
 import react from '@vitejs/plugin-react'
 import path from 'path'
@@ -8,9 +8,7 @@ import { defineConfig } from 'vite'
 import tsconfigPaths from 'vite-tsconfig-paths'
 
 import manifest from './manifest'
-
-// eslint-disable-next-line
-console.info(`building for env: ${process.env.NODE_ENV}`)
+import { version } from './package.json'
 
 const isProd = process.env.NODE_ENV === 'production'
 
@@ -20,16 +18,18 @@ export default defineConfig({
 	},
 	resolve: {
 		alias: {
-			'@src': path.resolve(__dirname, './src'),
-			os: 'os-browserify',
-			path: 'path-browserify',
-			http: 'stream-http',
-			https: 'https-browserify',
-			process: 'process/browser',
-			crypto: 'crypto-browserify',
-			'readable-stream': 'vite-compatible-readable-stream',
+			// os: 'os-browserify',
+			// path: 'path-browserify',
+			// http: 'stream-http',
+			// https: 'https-browserify',
+			// process: 'process/browser',
+			// crypto: 'crypto-browserify',
+			// 'readable-stream': 'vite-compatible-readable-stream',
 			stream: 'vite-compatible-readable-stream',
 		},
+	},
+	define: {
+		APP_VERSION: JSON.stringify(version),
 	},
 	plugins: [
 		react({
@@ -47,26 +47,20 @@ export default defineConfig({
 		rollupOptions: {
 			treeshake: true,
 			input: {
-				dark: path.resolve(__dirname, './popup-theme-dark.html'),
-				light: path.resolve(__dirname, './popup-theme-light.html'),
-				system: path.resolve(__dirname, './popup-theme-system.html'),
-			},
-			output: {
-				entryFileNames: `assets/[name].js`,
-				chunkFileNames: `assets/[name].js`,
+				popup_dark: 'popup-theme-dark.html',
+				popup_light: 'popup-theme-light.html',
+				popup_system: 'popup-theme-system.html',
 			},
 			plugins: [
-				rollupInject({
-					global: [path.resolve('src/helpers/shim.ts'), 'global'],
-					process: [path.resolve('src/helpers/shim.ts'), 'process'],
-					Buffer: [path.resolve('src/helpers/shim.ts'), 'Buffer'],
-				}),
+				// rollupInject({
+				// 	global: ['src/helpers/shim.ts', 'global'],
+				// 	process: ['src/helpers/shim.ts', 'process'],
+				// 	Buffer: ['src/helpers/shim.ts', 'Buffer'],
+				// }),
 			],
 		},
 		commonjsOptions: {
-			ignoreTryCatch: false,
 			transformMixedEsModules: true,
-			ignore: ['sodium-native'],
 		},
 	},
 })

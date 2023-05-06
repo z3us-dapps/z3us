@@ -14,6 +14,14 @@ import { useIsMobileWidth } from '@src/hooks/use-is-mobile'
 
 import * as styles from './app.css'
 
+declare global {
+	namespace JSX {
+		interface IntrinsicElements {
+			'radix-connect-button': React.DetailedHTMLProps<React.HTMLAttributes<HTMLElement>, HTMLElement>
+		}
+	}
+}
+
 const NotFound404 = () => (
 	<Box padding="large">
 		<Box className={styles.teststyle} paddingTop="large" display="flex" flexDirection="column">
@@ -82,6 +90,8 @@ export const TempNav: React.FC = () => {
 	)
 }
 
+const Connect = React.lazy(() => import('@src/pages/connect'))
+
 const App: React.FC = () => {
 	const location = useLocation()
 	const locationArr = location.pathname?.split('/') ?? []
@@ -108,28 +118,7 @@ const App: React.FC = () => {
 							</AnimatedPage>
 						}
 					/>
-					<Route
-						path="/connect/*"
-						element={
-							<AnimatedPage>
-								<Box padding="xxxlarge">
-									<Box>Connect button here</Box>
-									<Box marginTop="large">
-										<Box
-											component="button"
-											onClick={() => {
-												// eslint-disable-next-line
-												console.log('click')
-											}}
-										>
-											CONNECT
-											<CheckIcon />
-										</Box>
-									</Box>
-								</Box>
-							</AnimatedPage>
-						}
-					/>
+					<Route path="/connect/*" element={<Connect />} />
 					<Route
 						path="/page2/*"
 						element={

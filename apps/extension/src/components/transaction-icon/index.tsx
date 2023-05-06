@@ -1,6 +1,7 @@
 import * as AvatarPrimitive from '@radix-ui/react-avatar'
 import clsx, { type ClassValue } from 'clsx'
 import React, { forwardRef } from 'react'
+
 // import { AvatarFallback, AvatarImage } from 'ui/src/components-v2/avatar'
 import { Box } from 'ui/src/components-v2/box'
 import { Text } from 'ui/src/components-v2/typography'
@@ -68,10 +69,7 @@ export const TransactionIcon = forwardRef<HTMLElement, ITransactionIconProps>(
 						alt="Colm Tuite"
 					/>
 					<AvatarPrimitive.Fallback delayMs={600} className={styles.transactionAvatarFallbackWrapper}>
-					<Text>
-
-					CT
-					</Text>
+						<Text>CT</Text>
 					</AvatarPrimitive.Fallback>
 				</AvatarPrimitive.Root>
 				{icon ? (

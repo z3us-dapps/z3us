@@ -49,7 +49,7 @@ const manifest: ManifestV3Export = {
 	permissions: ['storage', 'unlimitedStorage', 'notifications', 'activeTab', 'scripting'],
 	host_permissions: hostPermissions,
 	background: {
-		service_worker: 'src/lib/background.ts',
+		service_worker: 'src/browser/background.ts',
 		type: 'module',
 	},
 	content_scripts: [
@@ -57,7 +57,7 @@ const manifest: ManifestV3Export = {
 			matches,
 			run_at: 'document_start',
 			all_frames: true,
-			js: ['src/lib/content-script.ts'],
+			js: ['src/browser/content-script.ts'],
 		},
 	],
 	web_accessible_resources: [
@@ -68,7 +68,6 @@ const manifest: ManifestV3Export = {
 				'popup-theme-light.html',
 				'popup-theme-system.html',
 				'assets/*',
-				// 'pte_manifest_compiler_bg.wasm',
 			],
 		},
 	],

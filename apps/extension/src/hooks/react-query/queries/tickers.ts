@@ -1,8 +1,8 @@
 import { useQueries, useQuery } from 'react-query'
 
-// import dsor, { TokensResponse as DSORTokensResponse } from '@src/services/dsor'
+// import dsor, { TokensResponse as DSORTokensResponse } from '@src/swap/dsor'
 import { CoinGeckoService } from '@src/services/coingecko'
-import oci, { TokensResponse as OCITokensResponse } from '@src/services/oci'
+import oci, { TokensResponse as OCITokensResponse } from '@src/swap/oci'
 import { Ticker } from '@src/types'
 
 const service = new CoinGeckoService()

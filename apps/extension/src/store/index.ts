@@ -3,10 +3,9 @@ import { StateCreator, createStore } from 'zustand'
 import { devtools, persist, subscribeWithSelector } from 'zustand/middleware'
 import { immer } from 'zustand/middleware/immer'
 
-import { sharedStoreKey } from '@src/config'
-import browserService from '@src/services/browser'
-import { BrowserStorageService } from '@src/services/browser-storage'
+import { BrowserStorageService } from '@src/storage/browser'
 
+import { sharedStoreKey } from './constants'
 import { factory as createSettingsStore } from './settings'
 import { factory as createThemeStore } from './theme'
 import { factory as createToastsStore } from './toasts'
@@ -23,7 +22,7 @@ const middlewares = <T>(name: string, f: StateCreator<T, MutatorsTypes>) =>
 		subscribeWithSelector(
 			persist(immer(f), {
 				name,
-				getStorage: () => new BrowserStorageService(browserService, browser.storage),
+				getStorage: () => new BrowserStorageService(browser.storage),
 			}),
 		),
 		{ name },

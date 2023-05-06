@@ -167,7 +167,7 @@ export const mobileAccountsIndexAssetAvatarImage = style([
 	},
 ])
 
-export const mobileAccountsIndexAssetAvatarFallback  = style([
+export const mobileAccountsIndexAssetAvatarFallback = style([
 	sprinkles({
 		display: 'flex',
 		alignItems: 'center',

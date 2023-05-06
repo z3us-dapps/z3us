@@ -1,18 +1,16 @@
 import browser from 'webextension-polyfill'
 
-import { Network } from '@src/store/types'
-
-export const askForHostPermissions = async (networks: Network[]): Promise<string[]> => {
+export const askForHostPermissions = async (networks: URL[]): Promise<string[]> => {
 	const origins: string[] = []
 
 	await Promise.all(
 		networks.map(async network => {
 			try {
 				let url: URL
-				if (network.url instanceof URL) {
-					url = network.url
+				if (network instanceof URL) {
+					url = network
 				} else {
-					url = new URL(network.url)
+					url = new URL(network)
 				}
 				const origin = `${url.origin}/*`
 				const hasPermissions = await browser.permissions.contains({

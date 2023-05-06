@@ -28,7 +28,7 @@ export default {
 	permissions: ['storage', 'unlimitedStorage', 'notifications', 'activeTab', 'scripting'].concat(hosts),
 	optional_permissions: ['http://*/*', 'https://*/*'],
 	background: {
-		scripts: ['src/lib/background.ts'],
+		scripts: ['src/browser/background.ts'],
 		persistent: true,
 	},
 	content_scripts: [
@@ -36,7 +36,7 @@ export default {
 			matches,
 			run_at: 'document_start',
 			all_frames: true,
-			js: ['src/lib/content-script.ts'],
+			js: ['src/browser/content-script.ts'],
 		},
 	],
 	web_accessible_resources: [

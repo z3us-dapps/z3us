@@ -1,5 +1,3 @@
-import { ColorSettings } from '@src/types'
-
 export interface Toast {
 	id?: string
 	children?: React.ReactNode
@@ -14,7 +12,7 @@ export type AddressBookEntry = {
 	name?: string
 	address?: string
 	background?: string
-	colorSettings?: { [key in ColorSettings]: string }
+	colorSettings?: { [key: string]: string }
 }
 
 export type PendingAction = { payloadHex: string; createdAt: Date }

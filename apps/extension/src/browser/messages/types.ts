@@ -1,0 +1,25 @@
+export enum MessageSource {
+	POPUP = 'z3us-popup',
+	BACKGROUND = 'z3us-background',
+	INPAGE = 'z3us-inpage',
+}
+
+export enum MessageAction {
+	PING = 'v1-ping',
+	RADIX = 'v1-radix',
+}
+
+export type Message = {
+	messageId: string
+	fromTabId?: number
+	action: MessageAction
+	source: MessageSource
+	target: MessageSource
+	payload: any
+}
+
+export type MessageHandler = (message: Message) => Promise<any>
+
+export type MessageHandlers = { [key: string]: MessageHandler }
+
+export type MessageResponse = { code: number; error?: any; request?: any } & Message

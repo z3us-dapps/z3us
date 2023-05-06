@@ -3,15 +3,11 @@ import { MDXRemote } from 'next-mdx-remote'
 import React from 'react'
 
 import { Example as ExampleBabylon } from '../pages/example-babylon'
-import { Example as ExampleOlympia } from '../pages/example-olympia'
 
 // import Button from 'ui/src/components/button'
-// import { Airdrop } from '../pages/airdrop'
 
 const generateComponents = () => ({
 	// Button,
-	// Airdrop,
-	ExampleOlympia,
 	ExampleBabylon,
 	h1: props => <h1 className="text-5xl font-bold mt-4 pb-1" {...props} />,
 	h2: props => <h2 className="text-3xl font-bold mt-10 pb-1" {...props} />,

@@ -5,7 +5,10 @@
 		"paths": {
 			"@src/*": ["src/*"],
 			"rxjs": ["node_modules/rxjs"],
-			"rxjs/*": ["node_modules/rxjs/*"]
+			"rxjs/*": ["node_modules/rxjs/*"],
+			"chrome/*": ["node_modules/@radixdlt/connector-extension/src/chrome/*"],
+			"ledger/*": ["node_modules/@radixdlt/connector-extension/src/ledger/*"],
+			"offscreen/*": ["node_modules/@radixdlt/connector-extension/src/offscreen/*"],
 		},
 	},
 	"include": [
@@ -13,9 +16,9 @@
 		"manifest.ts",
 		"vite.config.ts",
 		"playwright.config.ts",
+		"src/**/*.ts",
+		"src/**/*.tsx",
 		"src/**/*.d.ts",
 		"tests/**/*.ts",
-		"src/**/*.ts",
-		"src/**/*.tsx"
 	]
 }

@@ -6,12 +6,10 @@ import { HashRouter } from 'react-router-dom'
 
 import 'ui/src/components-v2/system/global.css'
 
-import i18n from './i18n/i18n'
-
-// Olympia app
-const Provider = React.lazy(() => import('@src/popup/provider'))
-
-const App = React.lazy(() => import('@src/pages'))
+import { RdtProvider } from '@src/context/rdt-provider'
+import i18n from '@src/i18n/i18n'
+import App from '@src/pages'
+import rdt from '@src/radix/rdt'
 
 const isDevlopmentMode = import.meta.env.MODE === 'development'
 const isProductionMode = import.meta.env.MODE === 'production'
@@ -21,13 +19,12 @@ ReactDOM.createRoot(container).render(
 	<React.StrictMode>
 		<I18nextProvider i18n={i18n}>
 			<HashRouter>
-				<React.Suspense fallback={<div />}>
-					{isDevlopmentMode && <App />}
-					{isProductionMode && <App />}
-
-					{/* {isDevlopmentMode && <App />} */}
-					{/* {isProductionMode && <Provider />} */}
-				</React.Suspense>
+				<RdtProvider value={rdt}>
+					<React.Suspense fallback={<div />}>
+						{isDevlopmentMode && <App />}
+						{isProductionMode && <App />}
+					</React.Suspense>
+				</RdtProvider>
 			</HashRouter>
 		</I18nextProvider>
 	</React.StrictMode>,
