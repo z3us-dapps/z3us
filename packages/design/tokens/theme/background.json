@@ -29,7 +29,7 @@
 			},
 			"btn_white_transparent_background_hover": {
 				"value": "{color.core.bleached_silk.100.value}",
-				"darkValue": "{color.core.wax.700.value}",
+				"darkValue": "{color.core.wax.900.value}",
 				"modify": [
 					{
 						"type": "alpha",
@@ -39,7 +39,7 @@
 				"modifyDarkValue": [
 					{
 						"type": "alpha",
-						"amount": "{alpha.7}"
+						"amount": "{alpha.6}"
 					}
 				]
 			},

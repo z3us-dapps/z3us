@@ -26,7 +26,7 @@ export const button = recipe({
 		styleVariant: {
 			primary: sprinkles({
 				background: { lightMode: 'purple500', hover: 'purple600', focus: 'purple600' },
-				color: 'purple100',
+				color: 'purple0',
 				boxShadow: {
 					focusVisible: 'btnSecondaryShadowFocus',
 				},
