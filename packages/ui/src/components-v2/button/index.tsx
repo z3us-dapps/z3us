@@ -24,6 +24,7 @@ interface IButtonOptionalProps {
 	href?: string
 	rounded?: boolean
 	fullWidth?: boolean
+	loading?: boolean
 }
 
 export interface IButtonProps extends IButtonRequiredProps, IButtonOptionalProps {}
@@ -41,6 +42,7 @@ const defaultProps: IButtonOptionalProps = {
 	sizeVariant: 'medium',
 	styleVariant: 'primary',
 	href: undefined,
+	loading: false,
 }
 
 export const Button = forwardRef<HTMLButtonElement, IButtonProps>((props, ref: React.Ref<HTMLButtonElement | null>) => {
@@ -58,6 +60,7 @@ export const Button = forwardRef<HTMLButtonElement, IButtonProps>((props, ref: R
 		styleVariant,
 		linkFrameWorkComp,
 		href,
+		loading,
 		...rest
 	} = props
 

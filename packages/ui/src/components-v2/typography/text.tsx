@@ -29,6 +29,7 @@ interface TextStyleProps {
 	className?: string
 	capitalizeFirstLetter?: boolean
 	truncate?: boolean
+	underline?: 'always' | 'hover' | 'never'
 }
 
 export interface TextProps extends TextStyleProps {
@@ -48,6 +49,7 @@ const defaultProps = {
 	className: undefined,
 	capitalizeFirstLetter: false,
 	truncate: false,
+	underline: 'never',
 }
 
 export const textStyles = ({
@@ -60,6 +62,7 @@ export const textStyles = ({
 	className,
 	capitalizeFirstLetter,
 	truncate,
+	underline,
 }: TextStyleProps) =>
 	clsx(
 		styles.baseTextSprinkles,
@@ -68,6 +71,8 @@ export const textStyles = ({
 		styles.weight[weight],
 		capitalizeFirstLetter && styles.capitalizeFirstLetter,
 		truncate && styles.truncateText,
+		underline === 'hover' ? styles.underlineOnHover : undefined,
+		underline === 'always' ? styles.underlineText : undefined,
 		sprinkles({
 			...(colorMap[color]
 				? {
@@ -91,12 +96,24 @@ const Text = ({
 	children,
 	className,
 	capitalizeFirstLetter,
+	underline,
 	truncate,
 }: TextProps) => (
 	<Box
 		component={component}
 		display={display}
-		className={textStyles({ size, color, weight, type, align, baseline, className, capitalizeFirstLetter, truncate })}
+		className={textStyles({
+			size,
+			color,
+			weight,
+			type,
+			align,
+			baseline,
+			className,
+			capitalizeFirstLetter,
+			truncate,
+			underline,
+		})}
 	>
 		{children}
 	</Box>

@@ -17,6 +17,25 @@ export const truncateText = style([
 	},
 ])
 
+export const underlineText = style([
+	{
+		textDecoration: 'none',
+		textUnderlinePosition: 'under',
+		textDecorationThickness: 'from-font',
+		textDecorationLine: 'underline',
+	},
+])
+
+export const underlineOnHover = style({
+	textDecoration: 'none',
+	':hover': {
+		textDecoration: 'none',
+		textUnderlinePosition: 'under',
+		textDecorationThickness: 'from-font',
+		textDecorationLine: 'underline',
+	},
+})
+
 export const firstLetterLowercase = style([{ '::first-letter': { textTransform: 'lowercase' } }])
 
 // @TODO: TYPE spacing properly

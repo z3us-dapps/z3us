@@ -21,3 +21,13 @@ export const transferFlexColWrapper = style([
 	}),
 	{},
 ])
+
+export const transferUiTextSeperator = style([
+	sprinkles({
+		height: 'medium',
+		background: 'borderDividerSecondary',
+	}),
+	{
+		width: '1px',
+	},
+])

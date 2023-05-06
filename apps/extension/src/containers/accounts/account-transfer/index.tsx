@@ -4,14 +4,15 @@ import React, { forwardRef, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
 import { Box } from 'ui/src/components-v2/box'
-import { Button, TStyleVariant } from 'ui/src/components-v2/button'
+import { Button } from 'ui/src/components-v2/button'
 import { FormElement, Input } from 'ui/src/components-v2/input'
 import { Text } from 'ui/src/components-v2/typography'
-import { CheckCircleIcon, ChevronDown2Icon, ChevronDownIcon, WriteNoteIcon } from 'ui/src/components/icons'
+import { AtSignIcon, CheckCircleIcon, ChevronDown2Icon, CoinsIcon, WriteNoteIcon } from 'ui/src/components/icons'
 import { capitalizeFirstLetter } from 'ui/src/utils/capitalize-first-letter'
 
 import { Link } from '@src/components/link'
 import Translation from '@src/components/translation'
+import { accountMenuSlugs } from '@src/constants'
 
 import * as styles from './account-transfer.css'
 
@@ -43,6 +44,11 @@ export const AccountTransfer = forwardRef<HTMLElement, IAccountTransferProps>(
 			// setInputValue(value)
 		}
 
+		const handleAddMessage = () => {
+			// eslint-disable-next-line
+			console.log('add message')
+		}
+
 		return (
 			<Box ref={ref} className={clsx(styles.transferWrapper, className)}>
 				<Box className={styles.transferFlexColWrapper}>
@@ -62,11 +68,11 @@ export const AccountTransfer = forwardRef<HTMLElement, IAccountTransferProps>(
 								<Box display="flex" alignItems="center" marginRight="xxsmall">
 									<WriteNoteIcon />
 								</Box>
-								<Link to="/accounts">
-									<Text size="medium" truncate>
+								<Box component="button" onClick={handleAddMessage} cursor="pointer">
+									<Text size="medium" underline="always" truncate>
 										Add message
 									</Text>
-								</Link>
+								</Box>
 							</Box>
 						</Box>
 						<Box width="full">
@@ -91,17 +97,23 @@ export const AccountTransfer = forwardRef<HTMLElement, IAccountTransferProps>(
 									<CheckCircleIcon />
 								</Box>
 
-								<Box display="flex" alignItems="center" gap="small">
+								<Box display="flex" alignItems="center" gap="medium">
 									<Box alignItems="center">
 										<Text size="medium" truncate>
 											Known address
 										</Text>
 									</Box>
-									<Link to="/accounts">
-										<Text size="medium" truncate>
-											Add address
-										</Text>
-									</Link>
+									<Box className={styles.transferUiTextSeperator} />
+									<Box display="flex" alignItems="center">
+										<Box display="flex" alignItems="center" marginRight="xxsmall">
+											<AtSignIcon />
+										</Box>
+										<Box component="button" cursor="pointer">
+											<Text size="medium" truncate underline="always">
+												Add address
+											</Text>
+										</Box>
+									</Box>
 								</Box>
 							</Box>
 						</Box>
@@ -143,16 +155,19 @@ export const AccountTransfer = forwardRef<HTMLElement, IAccountTransferProps>(
 							/>
 						</Box>
 						<Box display="flex" paddingTop="small">
-							<Box display="flex" alignItems="center" flexGrow={1}>
-								<Text size="medium" truncate>
-									Available:&nbsp;
-								</Text>
-								<Link to="/accounts">
+							<Box display="flex" alignItems="center" flexGrow={1} gap="medium">
+								<Box display="flex" alignItems="center">
 									<Text size="medium" truncate>
-										3.13 BTC
+										Available:&nbsp;
 									</Text>
-								</Link>
-								<Link to="/accounts" underline="hover">
+									<Link to={accountMenuSlugs.ACCOUNTS}>
+										<Text size="medium" truncate>
+											3.13 BTC
+										</Text>
+									</Link>
+								</Box>
+								<Box className={styles.transferUiTextSeperator} />
+								<Link to={accountMenuSlugs.ACCOUNTS} underline="hover">
 									<Box display="flex" gap="xxsmall" alignItems="center">
 										<Text size="medium">$70,887 USD</Text>
 										<ChevronDown2Icon />
@@ -164,18 +179,19 @@ export const AccountTransfer = forwardRef<HTMLElement, IAccountTransferProps>(
 								{/* 	Available:&nbsp; */}
 								{/* </Text> */}
 								<Box display="flex" alignItems="center" marginRight="xxsmall">
-									<WriteNoteIcon />
+									<CoinsIcon />
 								</Box>
-								<Link to="/accounts">
-									<Text size="medium" truncate>
+								<Box component="button" cursor="pointer">
+									<Text size="medium" truncate underline="always">
 										Send another token
 									</Text>
-								</Link>
+								</Box>
 							</Box>
 						</Box>
 					</Box>
 					<Box display="flex" paddingTop="medium" width="full">
-						<Button styleVariant="primary" sizeVariant="xlarge" fullWidth>
+						<Button styleVariant="primary" sizeVariant="xlarge" fullWidth disabled 							rightIcon={<ChevronDown2Icon />}
+>
 							<Translation capitalizeFirstLetter text="global.continue" />
 						</Button>
 					</Box>

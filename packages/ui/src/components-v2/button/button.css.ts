@@ -161,6 +161,8 @@ export const button = recipe({
 		disabled: {
 			true: {
 				cursor: 'not-allowed',
+				pointerEvents: 'none',
+				opacity: '0.7',
 			},
 		},
 	},

@@ -5,8 +5,7 @@ import { Route, Routes } from 'react-router-dom'
 import { Box } from 'ui/src/components-v2/box'
 
 import { AnimatedPage } from '@src/components/animated-route'
-// eslint-disable-next-line
-import { accountMenuSlugs, routes } from '@src/constants'
+import { routes } from '@src/constants'
 import { AccountSettings } from '@src/containers/accounts/account-settings'
 import { AccountStaking } from '@src/containers/accounts/account-staking'
 import { AccountSwap } from '@src/containers/accounts/account-swap'
@@ -35,18 +34,14 @@ export const AccountsDesktop = (): JSX.Element => {
 								</AnimatedPage>
 							}
 						/>
-						{/* TODO: Why does variables not work here [`/${routes.TRANSFER}`, '/${routes.TRANSFER}/:account'] ? */}
-						{[`/transfer`, '/transfer/:account'].map(path => (
-							<Route
-								key="transfer" // to avoid full re-renders when these routes change
-								path={path}
-								element={
-									<AnimatedPage>
-										<AccountsTransferDesktop />
-									</AnimatedPage>
-								}
-							/>
-						))}
+						<Route
+							path={routes.TRANSFER}
+							element={
+								<AnimatedPage>
+									<AccountsTransferDesktop />
+								</AnimatedPage>
+							}
+						/>
 						<Route
 							path={routes.STAKING}
 							element={
