@@ -88,6 +88,15 @@ export const cardAccountWrapper = style([
 export const cardAccountText = style([
 	sprinkles({
 		color: {
+			lightMode: 'white',
+			darkMode: 'white',
+		},
+	}),
+])
+
+export const cardAccountTextAll = style([
+	sprinkles({
+		color: {
 			lightMode: 'colorStrong',
 			darkMode: 'white',
 		},

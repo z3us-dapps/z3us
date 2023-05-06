@@ -40,6 +40,7 @@ export const dropdownProfileButtonSmall = style([
 	{
 		width: '32px',
 		height: '32px',
+		borderWidth: '1px',
 	},
 ])
 

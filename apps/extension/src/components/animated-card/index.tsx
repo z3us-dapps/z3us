@@ -68,9 +68,9 @@ export const AnimatedCard: React.FC<IAnimatedCardProps> = props => {
 			animate={selectedCardIndex === cardIndex ? 'selected' : 'notSelected'}
 		>
 			<Box className={clsx(styles.cardAccountWrapper)}>
-				<Box flexGrow={1} paddingTop="xsmall" display="flex">
+				<Box flexGrow={1} paddingTop="xsmall" display="flex" gap="small">
 					<Text size="large" weight="medium" className={styles.cardAccountTextSpaced}>
-						<Box component="span" className={styles.cardAccountText}>
+						<Box component="span" className={clsx(styles.cardAccountText, isAllAccount && styles.cardAccountTextAll)}>
 							{getShortAddress(accountAddress)}
 						</Box>
 					</Text>
@@ -88,12 +88,12 @@ export const AnimatedCard: React.FC<IAnimatedCardProps> = props => {
 				</Box>
 				<Box paddingBottom="xsmall">
 					<Text size="xlarge" weight="stronger">
-						<Box component="span" className={styles.cardAccountText}>
+						<Box component="span" className={clsx(styles.cardAccountText, isAllAccount && styles.cardAccountTextAll)}>
 							{accountBalance}
 						</Box>
 					</Text>
 					<Text size="large" weight="strong">
-						<Box component="span" className={styles.cardAccountText}>
+						<Box component="span" className={clsx(styles.cardAccountText, isAllAccount && styles.cardAccountTextAll)}>
 							{accountName}
 						</Box>
 					</Text>
