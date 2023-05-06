@@ -16,6 +16,7 @@ interface IScrollPanelOptionalProps {
 	className?: string
 	scrollDisabled?: boolean
 	scrollTopOnRoute?: boolean
+	isTopShadowVisible?: boolean
 }
 
 interface IScrollPanelProps extends IScrollPanelRequiredProps, IScrollPanelOptionalProps {}
@@ -24,10 +25,11 @@ const defaultProps: IScrollPanelOptionalProps = {
 	className: undefined,
 	scrollDisabled: undefined,
 	scrollTopOnRoute: undefined,
+	isTopShadowVisible: false,
 }
 
 export const ScrollPanel: React.FC<IScrollPanelProps> = props => {
-	const { renderPanel, className, scrollDisabled, scrollTopOnRoute } = props
+	const { renderPanel, className, scrollDisabled, scrollTopOnRoute, isTopShadowVisible } = props
 
 	const ref = useRef(null)
 	const location = useLocation()
@@ -82,7 +84,7 @@ export const ScrollPanel: React.FC<IScrollPanelProps> = props => {
 				onScrollAreaSizeChange={setListSize}
 				scrollDisabled={scrollDisabled}
 				onScroll={handleScroll}
-				isTopShadowVisible={false}
+				isTopShadowVisible={isTopShadowVisible}
 			>
 				{renderPanel(panelRef)}
 			</ScrollArea>

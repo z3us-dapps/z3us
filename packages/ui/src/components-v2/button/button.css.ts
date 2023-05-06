@@ -273,7 +273,7 @@ export const buttonIconLeft = recipe({
 				color: 'colorNeutral',
 			}),
 			'white-transparent': sprinkles({
-				color: 'colorStrong',
+				color: 'white',
 			}),
 		},
 		sizeVariant: {
@@ -320,7 +320,7 @@ export const buttonIconRight = recipe({
 			}),
 			'white-transparent': [
 				sprinkles({
-					color: 'colorStrong',
+					color: 'white',
 				}),
 				{
 					opacity: '0.8',

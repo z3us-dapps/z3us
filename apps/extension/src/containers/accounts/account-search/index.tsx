@@ -56,6 +56,7 @@ export const AccountSearch = forwardRef<HTMLElement, IAccountSearchProps>(
 			'ardx1qspt0lthflcd45zhwvrxkqdrv5ne5avsgarjcpfatyw7n7n93v38dhcdtlag0sdfalksjdhf7d8f78d7f8d7f8d7f8d7f'
 
 		const navigateBack = () => {
+			// eslint-disable-next-line
 			console.log('navigate')
 			// navigate(`${pathname}${isActivityLink ? `?${ACCOUNT_PARAM_ACTIVITY}=true` : ''}`)
 			navigate(pathname)

@@ -25,9 +25,6 @@ export const navigationWrapper = style([
 
 export const navigationContainer = style([
 	sprinkles({
-		position: 'relative',
-		maxWidth: 'xxlarge',
-		width: 'full',
 		display: 'flex',
 		alignItems: 'center',
 	}),
@@ -154,7 +151,7 @@ export const accountsHomeMobileHeader = style([
 
 export const accountsHomeMobileHeaderShadow = style([
 	sprinkles({
-		background: 'backgroundSecondary',
+		background: 'backgroundPrimary',
 		boxShadow: 'shadowScrollTop',
 	}),
 	{},

@@ -7,11 +7,12 @@ import { useLocation, useMatch } from 'react-router-dom'
 import { Box } from 'ui/src/components-v2/box'
 import { ToolTip } from 'ui/src/components-v2/tool-tip'
 import { Text } from 'ui/src/components-v2/typography'
-import { CoinsIcon, Home2Icon, SearchIcon, Settings2Icon, Swap2Icon, SwitchHorizontal } from 'ui/src/components/icons'
+import { BellIcon, CoinsIcon, Home2Icon, Settings2Icon, Swap2Icon, SwitchHorizontal } from 'ui/src/components/icons'
 
 import { Button } from '@src/components/button'
 import { CopyAddressButton } from '@src/components/copy-address-button'
 import { Link } from '@src/components/link'
+import * as containerStyles from '@src/components/styles/container-styles.css'
 import Translation from '@src/components/translation'
 import { WalletDropdown } from '@src/components/wallet-dropdown'
 import { Z3usLogo } from '@src/components/z3us-logo-babylon'
@@ -56,8 +57,8 @@ export const DesktopNavigation: React.FC = () => {
 	const { pathname } = useLocation()
 
 	return (
-		<Box component="nav" className={styles.navigationWrapper}>
-			<Box className={styles.navigationContainer}>
+		<Box component="nav" className={clsx(styles.navigationWrapper, containerStyles.containerWrapper)}>
+			<Box className={clsx(styles.navigationContainer, containerStyles.containerInnerWrapper)}>
 				<Z3usLogo />
 				<Box className={styles.navigationMenuTabletWrapper}>
 					<AccountTabletNavigationDropdown />
@@ -78,7 +79,7 @@ export const DesktopNavigation: React.FC = () => {
 				<Box display="flex" alignItems="center" gap="medium">
 					<ToolTip message={<Translation capitalizeFirstLetter text="global.search" />}>
 						<Button to={`${pathname}?query=hello`} styleVariant="ghost" sizeVariant="small" iconOnly>
-							<SearchIcon />
+							<BellIcon />
 						</Button>
 					</ToolTip>
 					<CopyAddressButton address="rdx1b707388613169bf701d533e143d8f698c9090f605e677a967eaf70a4c69250ce" />
@@ -127,6 +128,7 @@ interface IMobileHeaderNavigationOptionalProps {
 	className?: ClassValue
 	style?: React.CSSProperties
 	isShadowVisible?: boolean
+	isAllAccount?: boolean
 }
 
 interface IMobileHeaderNavigationProps
@@ -137,11 +139,12 @@ const mobileHeaderNavigationDefaultProps: IMobileHeaderNavigationOptionalProps =
 	className: undefined,
 	style: undefined,
 	isShadowVisible: false,
+	isAllAccount: false,
 }
 
 export const MobileHeaderNavigation = forwardRef<HTMLElement, IMobileHeaderNavigationProps>(
 	(props, ref: React.Ref<HTMLElement | null>) => {
-		const { className, style, copyAddressBtnVisible, isShadowVisible } = props
+		const { className, style, copyAddressBtnVisible, isShadowVisible, isAllAccount } = props
 
 		return (
 			<Box
@@ -157,7 +160,10 @@ export const MobileHeaderNavigation = forwardRef<HTMLElement, IMobileHeaderNavig
 				<Box className={styles.accountsHomeMobileHeaderWalletWrapper}>
 					<Box display="flex" alignItems="center" gap="small" flexGrow={1}>
 						<Z3usLogo />
-						<AccountViewDropdown styleVariant="white-transparent" isLeftButtonIconVisible={false} />
+						<AccountViewDropdown
+							styleVariant={isAllAccount ? 'tertiary' : 'white-transparent'}
+							isLeftButtonIconVisible={false}
+						/>
 					</Box>
 					<Box display="flex" alignItems="center" gap="medium">
 						<Box

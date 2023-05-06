@@ -111,6 +111,42 @@ export const AccountTransaction = forwardRef<HTMLElement, IAccountTransactionPro
 											}
 										/>
 										<AccountsTransactionInfo
+											leftTitle={<Box as="span">Tags</Box>}
+											rightData={
+												<Text size="small">
+													{/* TODO:  */}
+													???
+												</Text>
+											}
+										/>
+										<AccountsTransactionInfo
+											leftTitle={<Box as="span">Category</Box>}
+											rightData={
+												<Text size="small">
+													{/* TODO:  */}
+													???
+												</Text>
+											}
+										/>
+										<AccountsTransactionInfo
+											leftTitle={<Box as="span">Add note</Box>}
+											rightData={
+												<Text size="small">
+													{/* TODO:  */}
+													????
+												</Text>
+											}
+										/>
+										<AccountsTransactionInfo
+											leftTitle={<Translation capitalizeFirstLetter text="global.type" />}
+											rightData={
+												<Text size="small">
+													{/* TODO:  */}
+													<Translation text="global.deposit" />
+												</Text>
+											}
+										/>
+										<AccountsTransactionInfo
 											leftTitle={<Translation capitalizeFirstLetter text="global.date" />}
 											rightData={
 												<Box display="flex">

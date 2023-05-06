@@ -7,6 +7,7 @@ import { DownLeft2Icon, QrCode2Icon, UpRight2Icon } from 'ui/src/components/icon
 
 import { Button } from '@src/components/button'
 import Translation from '@src/components/translation'
+import { accountMenuSlugs } from '@src/constants'
 
 import * as styles from './card-buttons.css'
 
@@ -30,7 +31,7 @@ export const CardButtons: React.FC<ICardButtonsProps> = props => {
 	return (
 		<Box className={clsx(styles.cardButtonsWrapper, className)}>
 			<ToolTip message={<Translation capitalizeFirstLetter text="global.send" />} theme={theme}>
-				<Button iconOnly rounded styleVariant="inverse" sizeVariant="large" to="/accounts/transfer">
+				<Button iconOnly rounded styleVariant="inverse" sizeVariant="large" to={`${accountMenuSlugs.TRANSFER}/asdf`}>
 					<UpRight2Icon />
 				</Button>
 			</ToolTip>

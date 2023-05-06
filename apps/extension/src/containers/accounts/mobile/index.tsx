@@ -33,18 +33,23 @@ export const AccountsMobile: React.FC = () => {
 								</AnimatedPage>
 							}
 						/>
-						<Route
-							path={routes.TRANSFER}
-							element={
-								<AnimatedPage>
-									<NavigationScrollContainer
-										renderPanel={(scrollableNode: HTMLElement | null, scrollTop: number) => (
-											<AccountTransfer scrollableNode={scrollableNode} scrollTop={scrollTop} />
-										)}
-									/>
-								</AnimatedPage>
-							}
-						/>
+
+						{/* TODO: Why does variables not work here [`/${routes.TRANSFER}`, '/${routes.TRANSFER}/:account'] ? */}
+						{[`/transfer`, '/transfer/:account'].map(path => (
+							<Route
+								key="transfer" // to avoid full re-renders when these routes change
+								path={path}
+								element={
+									<AnimatedPage>
+										<NavigationScrollContainer
+											renderPanel={(scrollableNode: HTMLElement | null) => (
+												<AccountTransfer scrollableNode={scrollableNode} />
+											)}
+										/>
+									</AnimatedPage>
+								}
+							/>
+						))}
 						<Route
 							path={routes.STAKING}
 							element={

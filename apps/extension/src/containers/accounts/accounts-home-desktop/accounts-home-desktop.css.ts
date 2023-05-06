@@ -66,7 +66,6 @@ export const rightPanel = style([
 		width: '392px',
 		flexBasis: '392px',
 	},
-
 	responsiveStyle({
 		tablet: {
 			width: '40%',

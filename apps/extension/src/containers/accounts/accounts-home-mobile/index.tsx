@@ -139,6 +139,7 @@ export const AccountsHomeMobile = () => {
 			</ScrollArea>
 			<MobileHeaderNavigation
 				copyAddressBtnVisible={isScrolledPastHeader && !isAllAccounts}
+				isAllAccount={isAllAccounts}
 				className={styles.accountsColorBackground}
 				style={bgStyle}
 			/>
