@@ -29,7 +29,8 @@
 		"to": "do",
 		"coin": "moneta",
 		"back": "z powrotem",
-		"up": "w górę"
+		"up": "w górę",
+		"continue": "kontynuować"
 	},
 	"accounts": {
 		"navigation": {

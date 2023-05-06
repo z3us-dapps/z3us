@@ -23,6 +23,7 @@ interface IButtonOptionalProps {
 	styleVariant?: TStyleVariant
 	href?: string
 	rounded?: boolean
+	fullWidth?: boolean
 }
 
 export interface IButtonProps extends IButtonRequiredProps, IButtonOptionalProps {}
@@ -35,6 +36,7 @@ const defaultProps: IButtonOptionalProps = {
 	rightIcon: undefined,
 	leftIcon: undefined,
 	rounded: false,
+	fullWidth: false,
 	disabled: false,
 	sizeVariant: 'medium',
 	styleVariant: 'primary',
@@ -49,6 +51,7 @@ export const Button = forwardRef<HTMLButtonElement, IButtonProps>((props, ref: R
 		rightIcon,
 		leftIcon,
 		rounded,
+		fullWidth,
 		onClick,
 		className,
 		sizeVariant,
@@ -75,6 +78,7 @@ export const Button = forwardRef<HTMLButtonElement, IButtonProps>((props, ref: R
 					iconOnly,
 					disabled,
 					rounded,
+					fullWidth,
 				}),
 			)}
 			disabled={disabled}

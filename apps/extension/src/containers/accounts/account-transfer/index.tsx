@@ -1,12 +1,17 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import clsx from 'clsx'
-import React, { forwardRef } from 'react'
+import React, { forwardRef, useRef, useState } from 'react'
+import { useTranslation } from 'react-i18next'
 
 import { Box } from 'ui/src/components-v2/box'
 import { Button, TStyleVariant } from 'ui/src/components-v2/button'
+import { FormElement, Input } from 'ui/src/components-v2/input'
 import { Text } from 'ui/src/components-v2/typography'
+import { CheckCircleIcon, ChevronDown2Icon, ChevronDownIcon, WriteNoteIcon } from 'ui/src/components/icons'
+import { capitalizeFirstLetter } from 'ui/src/utils/capitalize-first-letter'
 
-import * as containerStyles from '@src/components/styles/container-styles.css'
+import { Link } from '@src/components/link'
+import Translation from '@src/components/translation'
 
 import * as styles from './account-transfer.css'
 
@@ -27,21 +32,131 @@ const defaultProps: IAccountTransferOptionalProps = {
 export const AccountTransfer = forwardRef<HTMLElement, IAccountTransferProps>(
 	(props, ref: React.Ref<HTMLElement | null>) => {
 		const { className, scrollableNode } = props
-		// containerStyles.containerWrapper
-		// containerStyles.containerInnerWrapper
+
+		const { t } = useTranslation()
+		const inputRef = useRef(null)
+		const [inputValue, setInputValue] = useState<string>('')
+
+		const handleOnChange = (event: React.ChangeEvent<FormElement>) => {
+			const { value } = event.target
+
+			// setInputValue(value)
+		}
 
 		return (
 			<Box ref={ref} className={clsx(styles.transferWrapper, className)}>
 				<Box className={styles.transferFlexColWrapper}>
-					<Text size="xxxlarge" weight="strong" color="strong">
-						Send
-					</Text>
+					<Box>
+						<Box paddingBottom="large">
+							<Text size="xxxlarge" weight="strong" color="strong">
+								Send
+							</Text>
+						</Box>
+						<Box display="flex" paddingBottom="medium">
+							<Box flexGrow={1}>
+								<Text size="medium" color="strong">
+									From
+								</Text>
+							</Box>
+						</Box>
+						<Box width="full">
+							<Input
+								sizeVariant="large"
+								value={inputValue}
+								ref={inputRef}
+								placeholder={capitalizeFirstLetter(`${t('global.search')}`)}
+								onChange={handleOnChange}
+							/>
+						</Box>
+					</Box>
+					<Box>
+						<Box display="flex" paddingBottom="medium">
+							<Box display="flex" alignItems="center" width="full">
+								<Box flexGrow={1}>
+									<Text size="medium" color="strong">
+										To
+									</Text>
+								</Box>
+								<Box display="flex" alignItems="center" color="green500" marginRight="xxsmall">
+									<CheckCircleIcon />
+								</Box>
+								<Text size="medium" truncate>
+									Known address
+								</Text>
 
-					<Text size="medium">From</Text>
-					<Text size="medium">To</Text>
-					<Button styleVariant="primary" sizeVariant="xlarge">
-						Next
-					</Button>
+								{/* <Link to="/accounts"> */}
+								{/* 	<Text size="medium" truncate> */}
+								{/* 		3.13 BTC */}
+								{/* 	</Text> */}
+								{/* </Link> */}
+							</Box>
+						</Box>
+						<Box width="full">
+							<Input
+								sizeVariant="large"
+								value={inputValue}
+								ref={inputRef}
+								placeholder={capitalizeFirstLetter(`${t('global.search')}`)}
+								onChange={handleOnChange}
+							/>
+						</Box>
+					</Box>
+					<Box>
+						<Box display="flex" paddingBottom="medium">
+							<Box flexGrow={1}>
+								<Text size="medium" color="strong">
+									Amount
+								</Text>
+							</Box>
+							<Box display="flex">
+								<Text size="medium" truncate>
+									Available:&nbsp;
+								</Text>
+								<Link to="/accounts">
+									<Text size="medium" truncate>
+										3.13 BTC
+									</Text>
+								</Link>
+							</Box>
+						</Box>
+						<Box width="full">
+							<Input
+								sizeVariant="large"
+								value={inputValue}
+								ref={inputRef}
+								placeholder={capitalizeFirstLetter(`${t('global.search')}`)}
+								onChange={handleOnChange}
+							/>
+						</Box>
+						<Box display="flex" paddingTop="small">
+							<Box flexGrow={1}>
+								<Link to="/accounts" underline="hover">
+									<Box display="flex" gap="xxsmall" alignItems="center">
+										<Text size="medium">$70,887 USD</Text>
+										<ChevronDown2Icon />
+									</Box>
+								</Link>
+							</Box>
+							<Box display="flex" alignItems="center">
+								{/* <Text size="medium" truncate> */}
+								{/* 	Available:&nbsp; */}
+								{/* </Text> */}
+								<Box display="flex" alignItems="center" marginRight="xxsmall">
+									<WriteNoteIcon />
+								</Box>
+								<Link to="/accounts">
+									<Text size="medium" truncate>
+										Add message
+									</Text>
+								</Link>
+							</Box>
+						</Box>
+					</Box>
+					<Box display="flex" paddingTop="medium" width="full">
+						<Button styleVariant="primary" sizeVariant="xlarge" fullWidth>
+							<Translation capitalizeFirstLetter text="global.continue" />
+						</Button>
+					</Box>
 
 					{/* {[...Array(30)].map((_, i) => ( */}
 					{/* 	// eslint-disable-next-line */}

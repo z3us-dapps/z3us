@@ -3,6 +3,7 @@ import { RecipeVariants, recipe } from '@vanilla-extract/recipes'
 import { sprinkles } from '../system/sprinkles.css'
 
 export const baseSprinkles = sprinkles({
+	width: 'full',
 	transition: 'fast',
 })
 

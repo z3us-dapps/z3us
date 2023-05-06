@@ -4,15 +4,10 @@ import { sprinkles } from 'ui/src/components-v2/system/sprinkles.css'
 
 export const transferWrapper = style([
 	sprinkles({
-		paddingX: {
+		padding: {
 			mobile: 'medium',
 			tablet: 'xlarge',
-			desktop: 'xlarge',
-		},
-		paddingY: {
-			mobile: 'medium',
-			tablet: 'xlarge',
-			desktop: 'xlarge',
+			desktop: 'xxlarge',
 		},
 	}),
 	{},

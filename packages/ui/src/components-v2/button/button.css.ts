@@ -100,8 +100,8 @@ export const button = recipe({
 				}),
 				{
 					height: '32px',
-					fontSize: '15px',
-					lineHeight: '20px',
+					fontSize: '14px',
+					lineHeight: '14px',
 					paddingLeft: '8px',
 					paddingRight: '8px',
 					gap: '6px',
@@ -117,7 +117,6 @@ export const button = recipe({
 					lineHeight: '14px',
 					paddingLeft: '18px',
 					paddingRight: '18px',
-					gap: '10px',
 				},
 			],
 			large: [
@@ -127,6 +126,10 @@ export const button = recipe({
 				}),
 				{
 					height: '44px',
+					fontSize: '15px',
+					lineHeight: '15px',
+					paddingLeft: '18px',
+					paddingRight: '18px',
 				},
 			],
 			xlarge: [
@@ -136,8 +139,18 @@ export const button = recipe({
 				}),
 				{
 					height: '48px',
+					fontSize: '16px',
+					lineHeight: '16px',
+					fontWeight: '500',
+					paddingLeft: '18px',
+					paddingRight: '18px',
 				},
 			],
+		},
+		fullWidth: {
+			true: {
+				width: '100%',
+			},
 		},
 		rounded: {
 			true: {},
