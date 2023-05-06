@@ -52,11 +52,21 @@ export const AccountTransfer = forwardRef<HTMLElement, IAccountTransferProps>(
 								Send
 							</Text>
 						</Box>
-						<Box display="flex" paddingBottom="medium">
-							<Box flexGrow={1}>
+						<Box display="flex" paddingBottom="medium" alignItems="center">
+							<Box flexGrow={1} alignItems="center">
 								<Text size="medium" color="strong">
 									From
 								</Text>
+							</Box>
+							<Box display="flex" alignItems="center">
+								<Box display="flex" alignItems="center" marginRight="xxsmall">
+									<WriteNoteIcon />
+								</Box>
+								<Link to="/accounts">
+									<Text size="medium" truncate>
+										Add message
+									</Text>
+								</Link>
 							</Box>
 						</Box>
 						<Box width="full">
@@ -80,15 +90,19 @@ export const AccountTransfer = forwardRef<HTMLElement, IAccountTransferProps>(
 								<Box display="flex" alignItems="center" color="green500" marginRight="xxsmall">
 									<CheckCircleIcon />
 								</Box>
-								<Text size="medium" truncate>
-									Known address
-								</Text>
 
-								{/* <Link to="/accounts"> */}
-								{/* 	<Text size="medium" truncate> */}
-								{/* 		3.13 BTC */}
-								{/* 	</Text> */}
-								{/* </Link> */}
+								<Box display="flex" alignItems="center" gap="small">
+									<Box alignItems="center">
+										<Text size="medium" truncate>
+											Known address
+										</Text>
+									</Box>
+									<Link to="/accounts">
+										<Text size="medium" truncate>
+											Add address
+										</Text>
+									</Link>
+								</Box>
 							</Box>
 						</Box>
 						<Box width="full">
@@ -108,16 +122,16 @@ export const AccountTransfer = forwardRef<HTMLElement, IAccountTransferProps>(
 									Amount
 								</Text>
 							</Box>
-							<Box display="flex">
-								<Text size="medium" truncate>
-									Available:&nbsp;
-								</Text>
-								<Link to="/accounts">
-									<Text size="medium" truncate>
-										3.13 BTC
-									</Text>
-								</Link>
-							</Box>
+							{/* <Box display="flex"> */}
+							{/* 	<Text size="medium" truncate> */}
+							{/* 		Available:&nbsp; */}
+							{/* 	</Text> */}
+							{/* 	<Link to="/accounts"> */}
+							{/* 		<Text size="medium" truncate> */}
+							{/* 			3.13 BTC */}
+							{/* 		</Text> */}
+							{/* 	</Link> */}
+							{/* </Box> */}
 						</Box>
 						<Box width="full">
 							<Input
@@ -129,7 +143,15 @@ export const AccountTransfer = forwardRef<HTMLElement, IAccountTransferProps>(
 							/>
 						</Box>
 						<Box display="flex" paddingTop="small">
-							<Box flexGrow={1}>
+							<Box display="flex" alignItems="center" flexGrow={1}>
+								<Text size="medium" truncate>
+									Available:&nbsp;
+								</Text>
+								<Link to="/accounts">
+									<Text size="medium" truncate>
+										3.13 BTC
+									</Text>
+								</Link>
 								<Link to="/accounts" underline="hover">
 									<Box display="flex" gap="xxsmall" alignItems="center">
 										<Text size="medium">$70,887 USD</Text>
@@ -146,7 +168,7 @@ export const AccountTransfer = forwardRef<HTMLElement, IAccountTransferProps>(
 								</Box>
 								<Link to="/accounts">
 									<Text size="medium" truncate>
-										Add message
+										Send another token
 									</Text>
 								</Link>
 							</Box>
