@@ -71,7 +71,7 @@ interface ICopyAddressButtonOptionalProps {
 	toolTipTheme?: TTheme
 }
 
-interface ICopyAddressButtonProps extends ICopyAddressButtonRequiredProps, ICopyAddressButtonOptionalProps {}
+interface ICopyAddressButtonProps extends ICopyAddressButtonRequiredProps, ICopyAddressButtonOptionalProps { }
 
 const defaultProps: ICopyAddressButtonOptionalProps = {
 	className: undefined,
@@ -128,7 +128,9 @@ export const CopyAddressButton: React.FC<ICopyAddressButtonProps> = props => {
 				{!iconOnly ? (
 					<Box position="relative">
 						<Box transition="slow" opacity={copiedAnimate ? 0 : 1}>
-							{getShortAddress(address)}
+							<Text align="center">
+								{getShortAddress(address)}
+							</Text>
 						</Box>
 						<Box
 							transition="slow"
