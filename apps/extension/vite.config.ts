@@ -18,6 +18,8 @@ export default defineConfig({
 	},
 	resolve: {
 		alias: {
+			// config: 'src/config.ts',
+			// 'message-router': 'src/message-router.ts',
 			// os: 'os-browserify',
 			// path: 'path-browserify',
 			// http: 'stream-http',
@@ -50,6 +52,9 @@ export default defineConfig({
 				popup_dark: 'popup-theme-dark.html',
 				popup_light: 'popup-theme-light.html',
 				popup_system: 'popup-theme-system.html',
+				offscreen: 'src/browser/offscreen/index.html',
+				// pairing: 'src/browser/pairing/index.html',
+				// ledger: 'src/browser/ledger/index.html',
 			},
 			plugins: [
 				// rollupInject({
@@ -59,8 +64,8 @@ export default defineConfig({
 				// }),
 			],
 		},
-		commonjsOptions: {
-			transformMixedEsModules: true,
-		},
+		// commonjsOptions: {
+		// 	transformMixedEsModules: true,
+		// },
 	},
 })

@@ -58,8 +58,9 @@ const Connect: React.FC = () => {
 								requestData({
 									accounts: { quantifier: 'exactly', quantity: 2, oneTime: true },
 								}).map(({ accounts: requestedAccounts }) => {
-									alert(`Got wallet response!
-            ${JSON.stringify(requestedAccounts, null, 2)}`)
+									// eslint-disable-next-line no-alert
+									alert(`Got wallet response! ${JSON.stringify(requestedAccounts, null, 2)}`)
+									return null
 								})
 							}
 						>

@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import React from 'react'
 import * as ReactDOM from 'react-dom/client'
 import { I18nextProvider } from 'react-i18next'

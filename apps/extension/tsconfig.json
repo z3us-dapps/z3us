@@ -4,11 +4,18 @@
 		"baseUrl": ".",
 		"paths": {
 			"@src/*": ["src/*"],
-			"rxjs": ["node_modules/rxjs"],
-			"rxjs/*": ["node_modules/rxjs/*"],
-			"chrome/*": ["node_modules/@radixdlt/connector-extension/src/chrome/*"],
-			"ledger/*": ["node_modules/@radixdlt/connector-extension/src/ledger/*"],
-			"offscreen/*": ["node_modules/@radixdlt/connector-extension/src/offscreen/*"],
+			"config": ["src/config.ts"],
+
+			"message-router": ["../../node_modules/@radixdlt/connector-extension/src/message-router.ts"],
+			"chrome/*": ["../../node_modules/@radixdlt/connector-extension/src/chrome/*"],
+			"ledger/*": ["../../node_modules/@radixdlt/connector-extension/src/ledger/*"],
+			"offscreen/*": ["../../node_modules/@radixdlt/connector-extension/src/offscreen/*"],
+			"connector/*": ["../../node_modules/@radixdlt/connector-extension/src/connector/*"],
+			"utils": ["../../node_modules/@radixdlt/connector-extension/src/utils"],
+			"utils/*": ["../../node_modules/@radixdlt/connector-extension/src/utils/*"],
+			"queues/*": ["../../node_modules/@radixdlt/connector-extension/src/queues/*"],
+			"crypto/*": ["../../node_modules/@radixdlt/connector-extension/src/crypto/*"],
+			"io-types/*": ["../../node_modules/@radixdlt/connector-extension/src/io-types/*"],
 		},
 	},
 	"include": [
@@ -20,5 +27,5 @@
 		"src/**/*.tsx",
 		"src/**/*.d.ts",
 		"tests/**/*.ts",
-	]
+	],
 }

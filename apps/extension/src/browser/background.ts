@@ -1,4 +1,4 @@
-// import { createOffscreen } from '@radixdlt/connector-extension/src/chrome/offscreen/create-offscreen'
+import { createOffscreen } from '@radixdlt/connector-extension/src/chrome/offscreen/create-offscreen'
 import browser from 'webextension-polyfill'
 
 import { handleInstall } from '@src/browser/background/install'
@@ -15,7 +15,7 @@ import { handleCheckContentScript } from './content-script/status'
 
 const messageHandler = MessageClient(fromPopupMessageHandlers, fromInpageMessageHandlers)
 
-// createOffscreen()
+createOffscreen()
 watch()
 
 browser.runtime.onInstalled.addListener(handleInstall)
