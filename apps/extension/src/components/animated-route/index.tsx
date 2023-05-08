@@ -3,7 +3,6 @@ import React from 'react'
 
 export const AnimatedPage = ({ children }: { children: JSX.Element | JSX.Element[] }) => (
 	<motion.div
-		layout
 		initial={{ opacity: 0, position: 'absolute' }}
 		animate={{ opacity: 1, position: 'relative' }}
 		exit={{ opacity: 0, position: 'absolute' }}
