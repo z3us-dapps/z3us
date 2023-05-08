@@ -10,7 +10,14 @@ import { Button } from 'ui/src/components-v2/button'
 import { Checkbox } from 'ui/src/components-v2/checkbox'
 import { FormElement, Input } from 'ui/src/components-v2/input'
 import { Text } from 'ui/src/components-v2/typography'
-import { AtSignIcon, CheckCircleIcon, ChevronDown2Icon, CoinsIcon, WriteNoteIcon } from 'ui/src/components/icons'
+import {
+	AtSignIcon,
+	CheckCircleIcon,
+	ChevronDown2Icon,
+	CoinsIcon,
+	LoadingBarsIcon,
+	WriteNoteIcon,
+} from 'ui/src/components/icons'
 import { capitalizeFirstLetter } from 'ui/src/utils/capitalize-first-letter'
 
 import { Link } from '@src/components/link'
@@ -144,16 +151,12 @@ export const AccountTransfer = forwardRef<HTMLElement, IAccountTransferProps>(
 										<Box display="flex" flexDirection="column" gap="medium">
 											<Box paddingTop="large">
 												<Box display="flex">
-
 													<Box display="flex" alignItems="center" gap="small" width="full">
-
-													<Box flexGrow={1}>
-
-														<Text size="medium" truncate>
-															Enter transaction message
-														</Text>
-													</Box>
-
+														<Box flexGrow={1}>
+															<Text size="medium" truncate>
+																Enter transaction message
+															</Text>
+														</Box>
 														<Text size="medium" truncate>
 															Encrypt message
 														</Text>
@@ -279,7 +282,17 @@ export const AccountTransfer = forwardRef<HTMLElement, IAccountTransferProps>(
 						</Box>
 					</Box>
 					<Box display="flex" paddingTop="medium" width="full">
-						<Button styleVariant="primary" sizeVariant="xlarge" fullWidth disabled rightIcon={<ChevronDown2Icon />}>
+						<Button
+							styleVariant="primary"
+							sizeVariant="xlarge"
+							fullWidth
+							disabled
+							rightIcon={
+								<Box marginLeft="small">
+									<LoadingBarsIcon />
+								</Box>
+							}
+						>
 							<Translation capitalizeFirstLetter text="global.continue" />
 						</Button>
 					</Box>
