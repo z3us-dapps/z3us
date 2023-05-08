@@ -55,7 +55,7 @@
 		"dotenv": "^16.0.1",
 		"elliptic": "^6.5.4",
 		"file-loader": "^6.2.0",
-		"framer-motion": "10.10.0",
+		"framer-motion": "10.12.8",
 		"hdkey": "^2.0.1",
 		"hoist-non-react-statics": "^3.3.2",
 		"https-browserify": "^1.0.0",

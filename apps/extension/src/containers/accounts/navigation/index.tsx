@@ -133,7 +133,7 @@ interface IMobileHeaderNavigationOptionalProps {
 
 interface IMobileHeaderNavigationProps
 	extends IMobileHeaderNavigationRequiredProps,
-	IMobileHeaderNavigationOptionalProps { }
+		IMobileHeaderNavigationOptionalProps {}
 
 const mobileHeaderNavigationDefaultProps: IMobileHeaderNavigationOptionalProps = {
 	className: undefined,
