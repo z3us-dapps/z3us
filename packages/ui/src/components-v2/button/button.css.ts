@@ -142,8 +142,8 @@ export const button = recipe({
 					fontSize: '16px',
 					lineHeight: '16px',
 					fontWeight: '500',
-					paddingLeft: '18px',
-					paddingRight: '18px',
+					paddingLeft: '14px',
+					paddingRight: '14px',
 				},
 			],
 		},
@@ -264,6 +264,7 @@ export type ButtonVariants = RecipeVariants<typeof button>
 export const buttonIconLeft = recipe({
 	base: {
 		display: 'inline-flex',
+		flexShrink: 0,
 		alignItems: 'center',
 		justifyContent: 'center',
 		textDecoration: 'none',
@@ -310,6 +311,7 @@ export const buttonIconLeft = recipe({
 export const buttonIconRight = recipe({
 	base: {
 		display: 'inline-flex',
+		flexShrink: 0,
 		alignItems: 'center',
 		justifyContent: 'center',
 		textDecoration: 'none',

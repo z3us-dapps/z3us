@@ -3,7 +3,6 @@ import clsx from 'clsx'
 import React, { forwardRef } from 'react'
 
 import { Check2Icon } from '../../components/icons'
-import { radixWithClassName } from '../system/radix-with-class-name'
 import { Text } from '../typography'
 import * as styles from './select.css'
 
@@ -14,13 +13,12 @@ export const SelectPortal = SelectPrimitive.Portal
 export const SelectViewport = SelectPrimitive.Viewport
 export const SelectGroup = SelectPrimitive.Group
 export const SelectItemText = SelectPrimitive.ItemText
-export const SelectItemIndicator = radixWithClassName(SelectPrimitive.ItemIndicator, styles.selectItemIndicator)
+export const SelectItemIndicator = SelectPrimitive.ItemIndicator
 export const SelectLabel = SelectPrimitive.Label
 export const SelectSeparator = SelectPrimitive.Separator
 export const SelectScrollUpButton = SelectPrimitive.ScrollUpButton
 export const SelectScrollDownButton = SelectPrimitive.ScrollDownButton
 
-// Trigger
 interface ISelectTriggerProps {
 	children: React.ReactNode
 	className?: string

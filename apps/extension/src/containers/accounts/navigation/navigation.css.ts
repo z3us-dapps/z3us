@@ -6,7 +6,6 @@ import { vars } from 'ui/src/components-v2/system/theme.css'
 
 export const navigationWrapper = style([
 	sprinkles({
-		zIndex: 1,
 		display: 'flex',
 		justifyContent: 'center',
 		borderBottom: 1,

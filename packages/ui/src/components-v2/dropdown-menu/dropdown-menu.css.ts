@@ -1,6 +1,7 @@
 import { keyframes, style } from '@vanilla-extract/css'
 
 import { Sprinkles, sprinkles } from '../system/sprinkles.css'
+import { responsiveStyle } from '../system/theme-utils'
 
 export const sharedItemStyles = {
 	position: 'relative',
@@ -64,6 +65,7 @@ export const dropdownMenuItem = style([
 	}),
 	{
 		outline: 'none',
+		minHeight: '40px',
 	},
 ])
 
@@ -73,6 +75,7 @@ export const dropdownMenuRadioItem = style([
 	}),
 	{
 		outline: 'none',
+		minHeight: '40px',
 	},
 ])
 
@@ -120,7 +123,6 @@ export const dropdownMenuItemIndicator = style([
 		alignItems: 'center',
 		marginLeft: 'medium',
 	}),
-	{},
 ])
 
 export const dropdownMenuItemRightSlot = style([
@@ -141,4 +143,47 @@ export const dropdownMenuItemLeftSlot = style([
 		justifyContent: 'center',
 	}),
 	{},
+])
+
+export const dropdownMenuVirtuosoWrapper = style([
+	sprinkles({
+		position: 'relative',
+	}),
+	{},
+])
+
+export const dropdownMenuVirtuosoContentWrapper = style([
+	sprinkles({
+		position: 'relative',
+	}),
+	{
+		paddingTop: 0,
+		paddingBottom: 0,
+		paddingLeft: 0,
+		paddingRight: 0,
+	},
+])
+
+export const dropdownMenuVirtuosoSimpleBarWrapper = style([
+	sprinkles({
+		position: 'relative',
+	}),
+	{},
+	responsiveStyle({
+		mobile: { maxHeight: '40vh' },
+		tablet: { maxHeight: '40vh' },
+	}),
+])
+
+export const dropdownMenuVirtuosoScrollAreaWrapper = style([
+	sprinkles({
+		position: 'relative',
+		width: 'full',
+		height: 'full',
+		paddingY: 'small',
+		paddingX: 'small',
+	}),
+	{
+		minHeight: '200px',
+	},
 ])
