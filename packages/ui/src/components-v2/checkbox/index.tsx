@@ -25,12 +25,21 @@ interface ICheckboxProps extends ICheckboxRequiredProps, ICheckboxOptionalProps 
 const defaultProps: ICheckboxOptionalProps = {
 	className: undefined,
 	disabled: false,
-	sizeVariant: 'medium',
-	styleVariant: 'primary',
+	sizeVariant: 'small',
+	styleVariant: 'secondary',
 }
 
 export const Checkbox: React.FC<ICheckboxProps> = ({ className, sizeVariant, styleVariant, disabled, ...rest }) => (
-	<CheckboxRoot className={clsx(styles.checkboxWrapper())} {...rest}>
+	<CheckboxRoot
+		className={clsx(
+			styles.checkboxWrapper({
+				sizeVariant,
+				styleVariant,
+				disabled,
+			}),
+		)}
+		{...rest}
+	>
 		<CheckboxIndicator className={styles.checkboxIndicator}>
 			<Check2Icon />
 		</CheckboxIndicator>
