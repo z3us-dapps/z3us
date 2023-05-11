@@ -41,7 +41,7 @@ export const input = recipe({
 			secondary: sprinkles({
 				background: { lightMode: 'btnSecondaryBackground', hover: 'btnSecondaryBackgroundHover' },
 				borderColor: { lightMode: 'btnSecondaryBorderColor', hover: 'btnSecondaryBorderColorHover' },
-				color: 'colorNeutral',
+				color: 'colorStrong',
 				border: 1,
 				borderStyle: 'solid',
 			}),
@@ -74,7 +74,8 @@ export const input = recipe({
 			large: [
 				sprinkles({
 					borderRadius: 'large',
-					padding: 'medium',
+					paddingY: 'medium',
+					paddingX: 'large',
 				}),
 				{
 					height: '48px',

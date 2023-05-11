@@ -1,6 +1,6 @@
 import * as DropdownMenuPrimitive from '@radix-ui/react-dropdown-menu'
 import clsx, { type ClassValue } from 'clsx'
-import React, { useState } from 'react'
+import React, { forwardRef, useState } from 'react'
 import useMeasure from 'react-use-measure'
 import { Virtuoso } from 'react-virtuoso'
 
@@ -14,10 +14,12 @@ export const DropdownMenu = DropdownMenuPrimitive.Root
 export const DropdownMenuPortal = DropdownMenuPrimitive.Portal
 export const DropdownMenuTrigger = DropdownMenuPrimitive.Trigger
 
-export const DropdownMenuContent = ({ children, className, ...props }: DropdownMenuPrimitive.MenuContentProps) => (
-	<DropdownMenuPrimitive.Content className={clsx(styles.dropdownMenuContent, className)} {...props}>
-		{children}
-	</DropdownMenuPrimitive.Content>
+export const DropdownMenuContent = forwardRef<HTMLDivElement, DropdownMenuPrimitive.DropdownMenuContentProps>(
+	({ children, className, ...props }, ref) => (
+		<DropdownMenuPrimitive.Content ref={ref} className={clsx(styles.dropdownMenuContent, className)} {...props}>
+			{children}
+		</DropdownMenuPrimitive.Content>
+	),
 )
 
 export const DropdownMenuItem = ({ children, ...props }) => (
@@ -66,8 +68,7 @@ export const DropdownMenuLeftSlot = ({ children, ...props }) => (
 	</Box>
 )
 
-// composed
-//
+// Virtuoso menu
 interface IDropdownMenuVirtuosoRequiredProps {
 	trigger: React.ReactNode
 	value: string

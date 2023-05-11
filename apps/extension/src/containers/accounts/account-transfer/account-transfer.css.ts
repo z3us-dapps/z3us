@@ -35,6 +35,6 @@ export const transferUiTextSeperator = style([
 export const transferUiTextAreaMessage = style([
 	sprinkles({}),
 	{
-		height: '120px',
+		height: '100px',
 	},
 ])

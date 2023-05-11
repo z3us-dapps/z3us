@@ -18,7 +18,6 @@ export const button = recipe({
 		cursor: 'pointer',
 		flexShrink: 0,
 		margin: '0',
-		padding: '0',
 		outline: 'none',
 		WebkitTapHighlightColor: 'rgba(0, 0, 0, 0)',
 	},
@@ -122,28 +121,24 @@ export const button = recipe({
 			large: [
 				sprinkles({
 					borderRadius: 'large',
-					padding: 'medium',
+					paddingX: 'large',
 				}),
 				{
 					height: '44px',
 					fontSize: '15px',
 					lineHeight: '15px',
-					paddingLeft: '18px',
-					paddingRight: '18px',
 				},
 			],
 			xlarge: [
 				sprinkles({
 					borderRadius: 'large',
-					padding: 'medium',
+					paddingX: 'large',
 				}),
 				{
 					height: '48px',
 					fontSize: '16px',
 					lineHeight: '16px',
 					fontWeight: '500',
-					paddingLeft: '14px',
-					paddingRight: '14px',
 				},
 			],
 		},

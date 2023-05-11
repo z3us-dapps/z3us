@@ -28,10 +28,6 @@ import { accountMenuSlugs } from '@src/constants'
 
 import * as styles from './account-transfer.css'
 
-interface IImmer {
-	isMessageVisible: boolean
-}
-
 interface IAccountTransferRequiredProps {}
 
 interface IAccountTransferOptionalProps {
@@ -46,12 +42,16 @@ const defaultProps: IAccountTransferOptionalProps = {
 	scrollableNode: undefined,
 }
 
+interface IImmer {
+	isMessageVisible: boolean
+}
+
 export const AccountTransfer = forwardRef<HTMLElement, IAccountTransferProps>(
 	(props, ref: React.Ref<HTMLElement | null>) => {
 		const { className, scrollableNode } = props
 
 		const [state, setState] = useImmer<IImmer>({
-			isMessageVisible: false,
+			isMessageVisible: true,
 		})
 
 		const { t } = useTranslation()
@@ -179,7 +179,7 @@ export const AccountTransfer = forwardRef<HTMLElement, IAccountTransferProps>(
 									console.log('onValueChange', value)
 								}}
 								data={Array.from({ length: 500 }).map((_, i, a) => ({
-									id: `v1.2.0-beta.${a.length - i}`,
+									id: i === 0 ? 'light' : `v1.2.0-beta.${a.length - i}`,
 									title: `v1.2.0-beta.${a.length - i}`,
 									test: 'heheh',
 								}))}
@@ -244,7 +244,7 @@ export const AccountTransfer = forwardRef<HTMLElement, IAccountTransferProps>(
 											closed: { opacity: 0, transition: { duration: 0.2 } },
 										}}
 									>
-										<Box display="flex" flexDirection="column" gap="medium">
+										<Box display="flex" flexDirection="column" gap="small">
 											<Box paddingTop="large">
 												<Box display="flex">
 													<Box display="flex" alignItems="center" gap="small" width="full">
@@ -253,8 +253,8 @@ export const AccountTransfer = forwardRef<HTMLElement, IAccountTransferProps>(
 																Enter transaction message
 															</Text>
 														</Box>
-														<Text size="xsmall" truncate>
-															Encrypt message
+														<Text size="medium" truncate>
+															Encrypt
 														</Text>
 														<Checkbox />
 													</Box>
@@ -264,7 +264,8 @@ export const AccountTransfer = forwardRef<HTMLElement, IAccountTransferProps>(
 												className={styles.transferUiTextAreaMessage}
 												elementType="textarea"
 												sizeVariant="large"
-												value=""
+												styleVariant="secondary"
+												value={undefined}
 												placeholder="Enter message"
 												onChange={handleOnChange}
 											/>
@@ -301,7 +302,7 @@ export const AccountTransfer = forwardRef<HTMLElement, IAccountTransferProps>(
 											<AtSignIcon />
 										</Box>
 										<Text inheritColor component="span" size="medium" underline="always" truncate>
-											Add address
+											Send to multiple
 										</Text>
 									</Box>
 								</Box>
@@ -321,7 +322,7 @@ export const AccountTransfer = forwardRef<HTMLElement, IAccountTransferProps>(
 								}))}
 								trigger={
 									<Button styleVariant="secondary" sizeVariant="xlarge" fullWidth rightIcon={<ChevronDown2Icon />}>
-										<Box display="flex" alignItems="center" width="full" textAlign="left" paddingLeft="medium">
+										<Box display="flex" alignItems="center" width="full" textAlign="left">
 											<Text size="large" color="strong">
 												Savings 765x...75jf
 											</Text>
@@ -347,8 +348,9 @@ export const AccountTransfer = forwardRef<HTMLElement, IAccountTransferProps>(
 						</Box>
 						<Box width="full">
 							<Input
+								styleVariant="secondary"
 								sizeVariant="large"
-								value="Savings"
+								value={undefined}
 								placeholder={capitalizeFirstLetter(`${t('global.search')}`)}
 								onChange={handleOnChange}
 							/>
