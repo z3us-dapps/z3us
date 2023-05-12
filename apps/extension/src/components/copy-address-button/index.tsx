@@ -4,6 +4,7 @@ import React, { useEffect, useState } from 'react'
 
 import { Box } from 'ui/src/components-v2/box'
 import { Button, TStyleVariant } from 'ui/src/components-v2/button'
+import { type TThemeColorKey } from 'ui/src/components-v2/system/theme.css'
 import { type TTheme, ToolTip } from 'ui/src/components-v2/tool-tip'
 import { Text } from 'ui/src/components-v2/typography'
 import { CopyIcon } from 'ui/src/components/icons'
@@ -14,12 +15,12 @@ import { getShortAddress } from '@src/utils/string-utils'
 
 import * as styles from './copy-address-button.css'
 
-const CopyIconAnimation = ({ animate, tickColor = 'green400' }: { animate: boolean; tickColor: string }) => (
+const CopyIconAnimation = ({ animate, tickColor }: { animate: boolean; tickColor: TThemeColorKey }) => (
 	<Box className={styles.copiedAnimationWrapper}>
 		<Box width="full" height="full" transition="fast" position="absolute" top={0} left={0}>
 			<AnimatePresence initial={false}>
 				{animate && (
-					<Box color={tickColor as any} zIndex={1}>
+					<Box color={tickColor} zIndex={1}>
 						<svg fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="CheckIcon">
 							<motion.path
 								initial={{ pathLength: 0 }}
@@ -63,7 +64,7 @@ interface ICopyAddressButtonOptionalProps {
 	className?: string
 	styleVariant?: TStyleVariant
 	// @TODO: type to match colors
-	tickColor?: string
+	tickColor?: TThemeColorKey
 	iconOnly?: boolean
 	rounded?: boolean
 	animationTimeout?: number

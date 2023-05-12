@@ -90,5 +90,10 @@ export const checkboxIndicator = style([
 		display: 'flex',
 		alignItems: 'center',
 		justifyContent: 'center',
+		width: 'full',
+		height: 'full',
 	}),
+	{
+		border: '1px solid red',
+	},
 ])
