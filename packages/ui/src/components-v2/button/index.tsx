@@ -4,7 +4,7 @@ import React, { forwardRef } from 'react'
 import { Box } from '../box'
 import * as styles from './button.css'
 
-export type TSizeVariant = 'small' | 'medium' | 'large' | 'xlarge'
+export type TSizeVariant = 'xsmall' | 'small' | 'medium' | 'large' | 'xlarge'
 export type TStyleVariant = 'primary' | 'secondary' | 'tertiary' | 'ghost' | 'inverse' | 'white-transparent'
 
 interface IButtonRequiredProps {

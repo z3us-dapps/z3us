@@ -7,6 +7,8 @@ import { useImmer } from 'use-immer'
 
 import { Box } from 'ui/src/components-v2/box'
 import { Button } from 'ui/src/components-v2/button'
+
+import { TokenImageIcon } from '@src/components/token-image-icon'
 import { Checkbox } from 'ui/src/components-v2/checkbox'
 import { DropdownMenuVirtuoso } from 'ui/src/components-v2/dropdown-menu'
 import { FormElement, Input } from 'ui/src/components-v2/input'
@@ -120,17 +122,11 @@ export const AccountTransfer = forwardRef<HTMLElement, IAccountTransferProps>(
 										sizeVariant="xlarge"
 										fullWidth
 										leftIcon={
-											<Box>
-												<Box
-													style={{
-														width: '24px',
-														height: '24px',
-														background: '#F99',
-														borderRadius: '50%',
-														marginLeft: '6px',
-													}}
-												/>
-											</Box>
+											<TokenImageIcon
+												imgSrc="https://images.unsplash.com/photo-1492633423870-43d1cd2775eb?&w=128&h=128&dpr=2&q=80"
+												imgAlt="btc token image"
+												fallbackText="btc"
+											/>
 										}
 										rightIcon={<ChevronDown2Icon />}
 									>
@@ -296,16 +292,11 @@ export const AccountTransfer = forwardRef<HTMLElement, IAccountTransferProps>(
 										sizeVariant="medium"
 										rightIcon={<ChevronDown2Icon />}
 										leftIcon={
-											<Box>
-												<Box
-													style={{
-														width: '24px',
-														height: '24px',
-														background: '#F99',
-														borderRadius: '50%',
-														marginLeft: '0px',
-														marginRight: '10px',
-													}}
+											<Box marginRight="small">
+												<TokenImageIcon
+													imgSrc="https://images.unsplash.com/photo-1492633423870-43d1cd2775eb?&w=128&h=128&dpr=2&q=80"
+													imgAlt="btc token image"
+													fallbackText="btc"
 												/>
 											</Box>
 										}

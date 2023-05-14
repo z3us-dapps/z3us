@@ -92,6 +92,19 @@ export const button = recipe({
 			}),
 		},
 		sizeVariant: {
+			xsmall: [
+				sprinkles({
+					borderRadius: 'small',
+					padding: 'small',
+				}),
+				{
+					height: '26px',
+					fontSize: '12px',
+					lineHeight: '12px',
+					paddingLeft: '8px',
+					paddingRight: '8px',
+				},
+			],
 			small: [
 				sprinkles({
 					borderRadius: 'small',
@@ -287,7 +300,8 @@ export const buttonIconLeft = recipe({
 			}),
 		},
 		sizeVariant: {
-			small: [{ marginRight: '2px', marginLeft: '-6px' }],
+			xsmall: [{ marginRight: '4px', marginLeft: '-2px' }],
+			small: [{ marginRight: '4px', marginLeft: '-2px' }],
 			medium: [{ marginRight: '2px', marginLeft: '-6px' }],
 			large: [{ marginRight: '6px', marginLeft: '-6px' }],
 			xlarge: [{ marginRight: '6px', marginLeft: '-6px' }],
@@ -339,6 +353,7 @@ export const buttonIconRight = recipe({
 			],
 		},
 		sizeVariant: {
+			xsmall: [{ marginLeft: '2px', marginRight: '-6px' }],
 			small: [{ marginLeft: '2px', marginRight: '-6px' }],
 			medium: [{ marginLeft: '2px', marginRight: '-6px' }],
 			large: [{ marginLeft: '6px', marginRight: '-6px' }],

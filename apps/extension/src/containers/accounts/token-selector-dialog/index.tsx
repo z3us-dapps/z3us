@@ -1,10 +1,14 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import clsx, { type ClassValue } from 'clsx'
 import { AnimatePresence, motion } from 'framer-motion'
+
+import { useTimeout } from 'usehooks-ts'
 import React, { forwardRef, useEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useLocation, useNavigate, useSearchParams } from 'react-router-dom'
 import { Virtuoso } from 'react-virtuoso'
+
+import { TokenImageIcon } from '@src/components/token-image-icon'
 
 import { Box } from 'ui/src/components-v2/box'
 import {
@@ -27,6 +31,7 @@ import { CopyAddressButton } from '@src/components/copy-address-button'
 import * as dialogStyles from '@src/components/styles/dialog-styles.css'
 import { TransactionIcon } from '@src/components/transaction-icon'
 import Translation from '@src/components/translation'
+
 import {
 	ACCOUNT_PARAM_ACTIVITY,
 	ACCOUNT_PARAM_ASSET,
@@ -59,6 +64,7 @@ export const TokenSelectorDialog = forwardRef<HTMLElement, ITokenSelectorDialogP
 		const [customScrollParent, setCustomScrollParent] = useState<HTMLElement | null>(null)
 
 		const [isScrolled, setIsScrolled] = useState<boolean>(false)
+		const [isOpen, setIsOpen] = useState<boolean>(false)
 		const [inputValue, setInputValue] = useState<string>('')
 
 		const handleScroll = (event: Event) => {
@@ -74,15 +80,21 @@ export const TokenSelectorDialog = forwardRef<HTMLElement, ITokenSelectorDialogP
 			setInputValue(value)
 		}
 
+		const handleOnOpenChange = (open: boolean) => {
+			setIsOpen(open)
+		}
+
 		useEffect(() => {
-			// TODO: handle the open event and focus input
 			if (inputRef?.current) {
 				inputRef?.current?.focus()
 			}
-		}, [inputRef])
+			if (!isOpen) {
+				setIsScrolled(false)
+			}
+		}, [isOpen])
 
 		return (
-			<Dialog>
+			<Dialog onOpenChange={handleOnOpenChange}>
 				<DialogTrigger asChild>{trigger}</DialogTrigger>
 				<DialogPortal>
 					<DialogOverlay className={dialogStyles.dialogOverlay} />
@@ -126,17 +138,50 @@ export const TokenSelectorDialog = forwardRef<HTMLElement, ITokenSelectorDialogP
 											xrd
 										</Text>
 									</Button>
-									<Button styleVariant="tertiary" sizeVariant="small">
+									<Button
+										leftIcon={
+											<TokenImageIcon
+												size="small"
+												imgSrc="https://images.unsplash.com/photo-1492633423870-43d1cd2775eb?&w=128&h=128&dpr=2&q=80"
+												imgAlt="btc token image"
+												fallbackText="btc"
+											/>
+										}
+										styleVariant="tertiary"
+										sizeVariant="small"
+									>
 										<Text size="small" capitalize>
 											oci
 										</Text>
 									</Button>
-									<Button styleVariant="tertiary" sizeVariant="small">
+									<Button
+										leftIcon={
+											<TokenImageIcon
+												size="small"
+												imgSrc="https://images.unsplash.com/photo-1492633423870-43d1cd2775eb?&w=128&h=128&dpr=2&q=80"
+												imgAlt="btc token image"
+												fallbackText="btc"
+											/>
+										}
+										styleVariant="tertiary"
+										sizeVariant="small"
+									>
 										<Text size="small" capitalize>
 											ida
 										</Text>
 									</Button>
-									<Button styleVariant="tertiary" sizeVariant="small">
+									<Button
+										leftIcon={
+											<TokenImageIcon
+												size="small"
+												imgSrc="https://images.unsplash.com/photo-1492633423870-43d1cd2775eb?&w=128&h=128&dpr=2&q=80"
+												imgAlt="btc token image"
+												fallbackText="btc"
+											/>
+										}
+										styleVariant="tertiary"
+										sizeVariant="small"
+									>
 										<Text size="small" capitalize>
 											DFP2
 										</Text>
@@ -146,11 +191,31 @@ export const TokenSelectorDialog = forwardRef<HTMLElement, ITokenSelectorDialogP
 							<Box ref={ref}>
 								<Virtuoso
 									data={data}
-									// eslint-disable-next-line
+									// eslint-disable-next-line react/no-unstable-nested-components
 									itemContent={(index, { id, title }) => (
-										<Box value={id} key={index}>
-											<Box flexGrow={1}>
-												<Text>{title}</Text>
+										<Box value={id} key={index} className={styles.tokenListItemWrapper}>
+											<Box component="button" className={styles.tokenListItemWrapperButton}>
+												<Box className={styles.tokenListItemWrapperInnerButton}>
+													<TokenImageIcon
+														imgSrc="https://images.unsplash.com/photo-1492633423870-43d1cd2775eb?&w=128&h=128&dpr=2&q=80"
+														imgAlt="btc token image"
+														fallbackText="btc"
+														size="large"
+													/>
+													<Box className={styles.tokenListItemTextWrapper}>
+														<Text size="medium" color="strong" truncate>
+															{title}
+														</Text>
+														<Text size="small" truncate>
+															{title}
+														</Text>
+													</Box>
+													<Box className={styles.tokenListTagWrapper}>
+														<Button styleVariant="tertiary" sizeVariant="xsmall">
+															xufh...fjgj
+														</Button>
+													</Box>
+												</Box>
 											</Box>
 										</Box>
 									)}

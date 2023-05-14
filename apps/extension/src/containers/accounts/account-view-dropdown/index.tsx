@@ -1,6 +1,7 @@
 import clsx, { type ClassValue } from 'clsx'
 import React, { forwardRef } from 'react'
 
+import { TokenImageIcon } from '@src/components/token-image-icon'
 import { Box } from 'ui/src/components-v2/box'
 import { Button, TStyleVariant } from 'ui/src/components-v2/button'
 import {
@@ -56,12 +57,14 @@ export const AccountViewDropdown = forwardRef<HTMLElement, IAccountViewDropdownP
 							rounded
 							leftIcon={
 								isLeftButtonIconVisible ? (
-									<Box
-										borderRadius="full"
-										width="large"
-										height="large"
-										style={{ background: 'purple', marginRight: '4px' }}
-									/>
+									<Box style={{ marginRight: '4px' }}>
+										<TokenImageIcon
+											size="small"
+											imgSrc="https://images.unsplash.com/photo-1492633423870-43d1cd2775eb?&w=128&h=128&dpr=2&q=80"
+											imgAlt="btc token image"
+											fallbackText="btc"
+										/>
+									</Box>
 								) : null
 							}
 							rightIcon={<ChevronDownIcon />}

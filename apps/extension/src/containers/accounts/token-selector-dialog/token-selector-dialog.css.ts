@@ -1,7 +1,8 @@
 import { style } from '@vanilla-extract/css'
 
-import { sprinkles } from 'ui/src/components-v2/system/sprinkles.css'
+import { darkMode, sprinkles } from 'ui/src/components-v2/system/sprinkles.css'
 import { responsiveStyle } from 'ui/src/components-v2/system/theme-utils'
+import { vars } from 'ui/src/components-v2/system/theme.css'
 
 export const tokenSelectorHeaderWrapper = style([
 	sprinkles({
@@ -13,6 +14,7 @@ export const tokenSelectorHeaderWrapper = style([
 		alignItems: 'center',
 		gap: 'large',
 		padding: 'large',
+		marginBottom: 'medium',
 		background: {
 			lightMode: 'backgroundSecondary',
 			darkMode: 'backgroundPrimary',
@@ -53,4 +55,67 @@ export const tokenSelectorContent = style([
 		tablet: { maxWidth: '480px', top: '48px', bottom: '48px' },
 		desktop: { maxWidth: '480px', top: '72px', bottom: '72px' },
 	}),
+])
+
+export const tokenListItemWrapper = style([
+	sprinkles({
+		width: 'full',
+		paddingX: 'small',
+	}),
+	{
+		height: '64px',
+	},
+])
+
+export const tokenListItemWrapperButton = style([
+	sprinkles({
+		width: 'full',
+		cursor: 'pointer',
+		height: 'full',
+		display: 'flex',
+		margin: 'none',
+		alignItems: 'center',
+		transition: 'fast',
+		paddingX: 'medium',
+		borderRadius: 'small',
+		background: {
+			lightMode: 'backgroundSecondary',
+			hover: 'backgroundPrimary',
+		},
+	}),
+	{
+		selectors: {
+			[`.${darkMode} &`]: {
+				backgroundColor: `${vars.color.backgroundPrimary}`,
+			},
+			[`.${darkMode} &:hover`]: {
+				backgroundColor: `${vars.color.backgroundSecondary}`,
+			},
+		},
+	},
+])
+
+export const tokenListItemWrapperInnerButton = style([
+	sprinkles({
+		display: 'flex',
+		alignItems: 'center',
+		gap: 'medium',
+	}),
+	{},
+])
+
+export const tokenListItemTextWrapper = style([
+	sprinkles({
+		display: 'flex',
+		flexDirection: 'column',
+		gap: 'xxsmall',
+	}),
+	{},
+])
+
+export const tokenListTagWrapper = style([
+	sprinkles({
+		display: 'flex',
+	}),
+	{},
 ])

@@ -5,7 +5,7 @@
 			"secondary": { "value": "{color.core.white}", "darkValue": "{color.core.lead.500.value}" },
 			"overlay_primary": {
 				"value": "{color.core.wax.1000.value}",
-				"darkValue": "{color.core.wax.900.value}",
+				"darkValue": "{color.core.lead.1000.value}",
 				"modify": [
 					{
 						"type": "alpha",
@@ -15,7 +15,7 @@
 				"modifyDarkValue": [
 					{
 						"type": "alpha",
-						"amount": "{alpha.7}"
+						"amount": "{alpha.1}"
 					}
 				]
 			},
@@ -32,7 +32,7 @@
 				"darkValue": "{color.core.lead.500.value}"
 			},
 			"btn_tertiary_background_hover": {
-				"value": "{color.core.white.value}",
+				"value": "{color.core.bai_pearl.300.value}",
 				"darkValue": "{color.core.wax.700.value}"
 			},
 			"btn_inverse_background": {

@@ -1,5 +1,4 @@
 import * as Avatar from '@radix-ui/react-avatar'
-import { LockClosedIcon } from '@radix-ui/react-icons'
 import clsx, { type ClassValue } from 'clsx'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
@@ -21,7 +20,7 @@ import {
 } from 'ui/src/components-v2/dropdown-menu'
 import SimpleBar from 'ui/src/components-v2/simple-bar'
 import { Text } from 'ui/src/components-v2/typography'
-import { CheckIcon, ExternalLinkIcon } from 'ui/src/components/icons'
+import {ShareIcon, CheckIcon, Settings2Icon, LockIcon } from 'ui/src/components/icons'
 
 import { Link } from '@src/components/link'
 
@@ -157,7 +156,15 @@ export const WalletDropdown: React.FC<IWalletDropdownProps> = props => {
 								<DropdownMenuSeparator />
 								<DropdownMenuItem>
 									<DropdownMenuLeftSlot>
-										<LockClosedIcon />
+										<Settings2Icon />
+									</DropdownMenuLeftSlot>
+									<Box display="flex" marginLeft="small">
+										<Text size="xsmall">Settings</Text>
+									</Box>
+								</DropdownMenuItem>
+								<DropdownMenuItem>
+									<DropdownMenuLeftSlot>
+										<LockIcon />
 									</DropdownMenuLeftSlot>
 									<Box display="flex" marginLeft="small">
 										<Text size="xsmall">Lock wallet</Text>
@@ -165,7 +172,7 @@ export const WalletDropdown: React.FC<IWalletDropdownProps> = props => {
 								</DropdownMenuItem>
 								<DropdownMenuItem>
 									<DropdownMenuLeftSlot>
-										<ExternalLinkIcon />
+										<ShareIcon />
 									</DropdownMenuLeftSlot>
 									<Box display="flex" marginLeft="small">
 										<Text size="xsmall">Open in browser</Text>
