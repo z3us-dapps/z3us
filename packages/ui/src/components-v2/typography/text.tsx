@@ -28,6 +28,7 @@ interface TextStyleProps {
 	type?: Exclude<keyof typeof styles.font, 'brand' | 'heading'>
 	className?: string
 	capitalizeFirstLetter?: boolean
+	capitalize?: boolean
 	truncate?: boolean
 	underline?: 'always' | 'hover' | 'never'
 	inheritColor?: boolean
@@ -49,9 +50,10 @@ const defaultProps = {
 	type: 'body',
 	className: undefined,
 	capitalizeFirstLetter: false,
+	capitalize: false,
 	truncate: false,
 	underline: 'never',
-	inheritColor: false
+	inheritColor: false,
 }
 
 export const textStyles = ({
@@ -63,9 +65,10 @@ export const textStyles = ({
 	baseline,
 	className,
 	capitalizeFirstLetter,
+	capitalize,
 	truncate,
 	underline,
-	inheritColor
+	inheritColor,
 }: TextStyleProps) =>
 	clsx(
 		styles.baseTextSprinkles,
@@ -73,14 +76,15 @@ export const textStyles = ({
 		baseline ? styles.text[size].trimmed : styles.text[size].untrimmed,
 		styles.weight[weight],
 		capitalizeFirstLetter && styles.capitalizeFirstLetter,
+		capitalize && styles.capitalize,
 		truncate && styles.truncateText,
 		underline === 'hover' ? styles.underlineOnHover : undefined,
 		underline === 'always' ? styles.underlineText : undefined,
 		sprinkles({
 			...(colorMap[color] && !inheritColor
 				? {
-					color: colorMap[color],
-				}
+						color: colorMap[color],
+				  }
 				: {}),
 			textAlign: align,
 		}),
@@ -99,6 +103,7 @@ const Text = ({
 	children,
 	className,
 	capitalizeFirstLetter,
+	capitalize,
 	underline,
 	truncate,
 	inheritColor,
@@ -115,9 +120,10 @@ const Text = ({
 			baseline,
 			className,
 			capitalizeFirstLetter,
+			capitalize,
 			truncate,
 			underline,
-			inheritColor
+			inheritColor,
 		})}
 	>
 		{children}

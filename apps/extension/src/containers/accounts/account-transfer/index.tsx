@@ -25,6 +25,8 @@ import { Link } from '@src/components/link'
 import * as plainButtonStyles from '@src/components/styles/plain-button-styles.css'
 import Translation from '@src/components/translation'
 import { accountMenuSlugs } from '@src/constants'
+// TODO: move this to compoennts
+import { TokenSelectorDialog } from '@src/containers/accounts/token-selector-dialog'
 
 import * as styles from './account-transfer.css'
 
@@ -286,32 +288,41 @@ export const AccountTransfer = forwardRef<HTMLElement, IAccountTransferProps>(
 								placeholder={capitalizeFirstLetter(`${t('global.search')}`)}
 								onChange={handleOnChange}
 							/>
-							<Button
-								className={styles.tokenSelectBtnWrapper}
-								styleVariant="tertiary"
-								sizeVariant="medium"
-								rightIcon={<ChevronDown2Icon />}
-								leftIcon={
-									<Box>
-										<Box
-											style={{
-												width: '24px',
-												height: '24px',
-												background: '#F99',
-												borderRadius: '50%',
-												marginLeft: '0px',
-												marginRight: '10px',
-											}}
-										/>
-									</Box>
+							<TokenSelectorDialog
+								trigger={
+									<Button
+										className={styles.tokenSelectBtnWrapper}
+										styleVariant="tertiary"
+										sizeVariant="medium"
+										rightIcon={<ChevronDown2Icon />}
+										leftIcon={
+											<Box>
+												<Box
+													style={{
+														width: '24px',
+														height: '24px',
+														background: '#F99',
+														borderRadius: '50%',
+														marginLeft: '0px',
+														marginRight: '10px',
+													}}
+												/>
+											</Box>
+										}
+									>
+										<Box display="flex" alignItems="center" width="full" textAlign="left">
+											<Text size="medium" color="strong">
+												BTC
+											</Text>
+										</Box>
+									</Button>
 								}
-							>
-								<Box display="flex" alignItems="center" width="full" textAlign="left">
-									<Text size="medium" color="strong">
-										BTC
-									</Text>
-								</Box>
-							</Button>
+								data={Array.from({ length: 500 }).map((_, i, a) => ({
+									id: i === 0 ? 'light' : `v1.2.0-beta.${a.length - i}`,
+									title: `v1.2.0-beta.${a.length - i}`,
+									test: 'heheh',
+								}))}
+							/>
 						</Box>
 						<Box display="flex" paddingTop="small">
 							<Box display="flex" alignItems="center" flexGrow={1} gap="medium">

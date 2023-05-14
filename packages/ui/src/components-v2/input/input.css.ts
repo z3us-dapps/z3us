@@ -104,6 +104,24 @@ export const input = recipe({
 				paddingLeft: '36px',
 			},
 		},
+		{
+			variants: {
+				sizeVariant: 'medium',
+				leftIcon: true,
+			},
+			style: {
+				paddingLeft: '36px',
+			},
+		},
+		{
+			variants: {
+				sizeVariant: 'large',
+				leftIcon: true,
+			},
+			style: {
+				paddingLeft: '36px',
+			},
+		},
 	],
 	defaultVariants: {
 		styleVariant: 'primary',

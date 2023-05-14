@@ -9,6 +9,8 @@ export const baseTextSprinkles = sprinkles({})
 
 export const capitalizeFirstLetter = style([{ '::first-letter': { textTransform: 'uppercase' } }])
 
+export const capitalize = style([{ textTransform: 'uppercase' }])
+
 export const truncateText = style([
 	{
 		whiteSpace: 'nowrap',
