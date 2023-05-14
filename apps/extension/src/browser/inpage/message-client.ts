@@ -1,8 +1,7 @@
 import { dAppEvent } from '@radixdlt/connector-extension/src/chrome/dapp/_types'
 
+import { Message, MessageAction, MessageResponse, MessageSource } from '@src/browser/messages/types'
 import { generateId } from '@src/utils/generate-id'
-
-import { Message, MessageAction, MessageResponse, MessageSource } from '../messages/types'
 
 export type MessageClientType = ReturnType<typeof MessageClient>
 

@@ -1,14 +1,16 @@
 import { ManifestV3Export, defineManifest } from '@crxjs/vite-plugin'
 
-import matches from './content_matches.json'
-import hosts from './host_permissions.json'
 import { version } from './package.json'
+import matches from './src/browser/content_matches.json'
+import hosts from './src/browser/host_permissions.json'
 
 const protocols = ['https://*/*']
 const [major, minor, patch, label = '0'] = version.replace(/[^\d.-]+/g, '').split(/[.-]/)
+const permissions = ['storage', 'offscreen', 'unlimitedStorage', 'notifications', 'activeTab', 'scripting']
 
 if (process.env.NODE_ENV === 'development') {
 	protocols.push('http://*/*')
+	permissions.push('contextMenus')
 }
 
 const hostPermissions = hosts.concat(protocols)
@@ -21,6 +23,7 @@ const manifest: ManifestV3Export = {
 	name: 'Z3US',
 	short_name: 'Z3US',
 	description: 'An open source community centered browser wallet for the Radix DLT network.',
+	omnibox: { keyword: 'z3us' },
 	action: {
 		default_popup: 'popup-theme-system.html',
 		default_title: 'Z3US',
@@ -46,7 +49,7 @@ const manifest: ManifestV3Export = {
 		'48': 'favicon-48x48.png',
 		'128': 'favicon-128x128.png',
 	},
-	permissions: ['storage', 'unlimitedStorage', 'notifications', 'activeTab', 'scripting'],
+	permissions,
 	host_permissions: hostPermissions,
 	background: {
 		service_worker: 'src/browser/background.ts',
@@ -60,17 +63,17 @@ const manifest: ManifestV3Export = {
 			js: ['src/browser/content-script.ts'],
 		},
 	],
-	web_accessible_resources: [
-		{
-			matches: protocols,
-			resources: [
-				'popup-theme-dark.html',
-				'popup-theme-light.html',
-				'popup-theme-system.html',
-				'assets/*',
-			],
-		},
-	],
+	// web_accessible_resources: [
+	// 	{
+	// 		matches: protocols,
+	// 		resources: [
+	// 			// 'popup-theme-dark.html',
+	// 			// 'popup-theme-light.html',
+	// 			// 'popup-theme-system.html',
+	// 			'assets/*',
+	// 		],
+	// 	},
+	// ],
 }
 
 export default defineManifest(manifest)

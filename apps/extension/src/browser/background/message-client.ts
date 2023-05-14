@@ -1,8 +1,8 @@
 import browser, { Runtime } from 'webextension-polyfill'
 
-import { PORT_NAME } from '../messages/constants'
-import { newMessage } from '../messages/message'
-import { Message, MessageAction, MessageHandlers, MessageSource } from '../messages/types'
+import { PORT_NAME } from '@src/browser/messages/constants'
+import { newMessage } from '@src/browser/messages/message'
+import { Message, MessageAction, MessageHandlers, MessageSource } from '@src/browser/messages/types'
 
 const popupURL = new URL(browser.runtime.getURL(''))
 
@@ -11,7 +11,7 @@ export type MessageClientType = ReturnType<typeof MessageClient>
 export const MessageClient = (fromPopupHandlers, fromInpageHandlers: MessageHandlers) => {
 	const onPort = (port: Runtime.Port) => {
 		if (!port) throw new Error('Invalid port')
-		if (port.name !== PORT_NAME) throw new Error(`Invalid port ${port.name}`)
+		if (port.name !== PORT_NAME) return
 		if (!port.sender?.url) throw new Error('Missing sender url')
 		if (new URL(port.sender.url).hostname === popupURL.hostname) throw new Error('Invalid popup url')
 
@@ -92,7 +92,7 @@ export const MessageClient = (fromPopupHandlers, fromInpageHandlers: MessageHand
 		}
 		const message = newMessage(MessageAction.RADIX, MessageSource.INPAGE, MessageSource.BACKGROUND, payload, fromTabId)
 		const response = await handler(message)
-		return response.payload
+		return response?.payload
 	}
 
 	return { onPort, onRadixMessage }

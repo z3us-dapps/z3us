@@ -1,6 +1,6 @@
 import { Message as RadixMessage, messageDiscriminator } from '@radixdlt/connector-extension/src/chrome/messages/_types'
 
-import { Message, MessageAction, MessageHandlers } from '../messages/types'
+import { Message, MessageAction, MessageHandlers } from '@src/browser/messages/types'
 
 async function ping() {
 	return true

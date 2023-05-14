@@ -1,6 +1,6 @@
-import { MessageAction, MessageResponse } from './messages/types'
-import { INIT } from './inpage/events'
-import { MessageClient } from './inpage/message-client'
+import { INIT } from '@src/browser/inpage/events'
+import { MessageClient } from '@src/browser/inpage/message-client'
+import { MessageAction, MessageResponse } from '@src/browser/messages/types'
 
 const messageHandler = MessageClient()
 

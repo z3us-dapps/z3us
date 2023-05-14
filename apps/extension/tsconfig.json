@@ -1,21 +1,22 @@
 {
 	"extends": "tsconfig/nextjs.json",
 	"compilerOptions": {
+		"composite": true,
 		"baseUrl": ".",
 		"paths": {
 			"@src/*": ["src/*"],
 			"config": ["src/config.ts"],
-
 			"message-router": ["../../node_modules/@radixdlt/connector-extension/src/message-router.ts"],
 			"chrome/*": ["../../node_modules/@radixdlt/connector-extension/src/chrome/*"],
-			"ledger/*": ["../../node_modules/@radixdlt/connector-extension/src/ledger/*"],
-			"offscreen/*": ["../../node_modules/@radixdlt/connector-extension/src/offscreen/*"],
+			"components": ["../../node_modules/@radixdlt/connector-extension/src/components"],
+			"components/*": ["../../node_modules/@radixdlt/connector-extension/src/components/*"],
 			"connector/*": ["../../node_modules/@radixdlt/connector-extension/src/connector/*"],
-			"utils": ["../../node_modules/@radixdlt/connector-extension/src/utils"],
-			"utils/*": ["../../node_modules/@radixdlt/connector-extension/src/utils/*"],
-			"queues/*": ["../../node_modules/@radixdlt/connector-extension/src/queues/*"],
 			"crypto/*": ["../../node_modules/@radixdlt/connector-extension/src/crypto/*"],
 			"io-types/*": ["../../node_modules/@radixdlt/connector-extension/src/io-types/*"],
+			"ledger/*": ["../../node_modules/@radixdlt/connector-extension/src/ledger/*"],
+			"queues/*": ["../../node_modules/@radixdlt/connector-extension/src/queues/*"],
+			"utils": ["../../node_modules/@radixdlt/connector-extension/src/utils"],
+			"utils/*": ["../../node_modules/@radixdlt/connector-extension/src/utils/*"],
 		},
 	},
 	"include": [
@@ -23,6 +24,7 @@
 		"manifest.ts",
 		"vite.config.ts",
 		"playwright.config.ts",
+		"src/**/*.json",
 		"src/**/*.ts",
 		"src/**/*.tsx",
 		"src/**/*.d.ts",

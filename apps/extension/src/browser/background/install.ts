@@ -1,8 +1,7 @@
 import browser from 'webextension-polyfill'
 
+import { handleContentScriptInjectAllTabs } from '@src/browser/content-script/status'
 import { sharedStore } from '@src/store'
-
-import { handleContentScriptInjectAllTabs } from '../content-script/status'
 
 export const handleInstall = async () => {
 	browser.runtime.setUninstallURL('https://github.com/z3us-dapps/z3us/discussions/150')

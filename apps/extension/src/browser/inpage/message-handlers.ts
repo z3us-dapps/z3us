@@ -1,7 +1,7 @@
 import browser from 'webextension-polyfill'
 
-import { newMessage } from '../messages/message'
-import { Message, MessageAction, MessageHandlers, MessageSource } from '../messages/types'
+import { newMessage } from '@src/browser/messages/message'
+import { Message, MessageAction, MessageHandlers, MessageSource } from '@src/browser/messages/types'
 
 async function ping() {
 	return true

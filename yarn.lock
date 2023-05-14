@@ -2110,6 +2110,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@babel/runtime@npm:^7.13.9":
+  version: 7.21.5
+  resolution: "@babel/runtime@npm:7.21.5"
+  dependencies:
+    regenerator-runtime: ^0.13.11
+  checksum: 358f2779d3187f5c67ad302e8f8d435412925d0b991d133c7d4a7b1ddd5a3fda1b6f34537cb64628dfd96a27ae46df105bed3895b8d754b88cacdded8d1129dd
+  languageName: node
+  linkType: hard
+
 "@babel/runtime@npm:^7.20.6":
   version: 7.21.0
   resolution: "@babel/runtime@npm:7.21.0"
@@ -6370,6 +6379,19 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/babel__core@npm:^7.1.12":
+  version: 7.20.0
+  resolution: "@types/babel__core@npm:7.20.0"
+  dependencies:
+    "@babel/parser": ^7.20.7
+    "@babel/types": ^7.20.7
+    "@types/babel__generator": "*"
+    "@types/babel__template": "*"
+    "@types/babel__traverse": "*"
+  checksum: 49b601a0a7637f1f387442c8156bd086cfd10ff4b82b0e1994e73a6396643b5435366fb33d6b604eade8467cca594ef97adcbc412aede90bb112ebe88d0ad6df
+  languageName: node
+  linkType: hard
+
 "@types/babel__generator@npm:*":
   version: 7.6.4
   resolution: "@types/babel__generator@npm:7.6.4"
@@ -6402,6 +6424,15 @@ __metadata:
   version: 2.1.0
   resolution: "@types/blake2b@npm:2.1.0"
   checksum: daff30373c3ed7624a15c95d320a7f68fcb42dd1b1a8609304bada0b9b322367f200a15b65c60c4048f94c23338742a1afd8d38ccf822bad538fcf010cab02da
+  languageName: node
+  linkType: hard
+
+"@types/bn.js@npm:*":
+  version: 5.1.1
+  resolution: "@types/bn.js@npm:5.1.1"
+  dependencies:
+    "@types/node": "*"
+  checksum: e50ed2dd3abe997e047caf90e0352c71e54fc388679735217978b4ceb7e336e51477791b715f49fd77195ac26dd296c7bad08a3be9750e235f9b2e1edb1b51c2
   languageName: node
   linkType: hard
 
@@ -6468,6 +6499,15 @@ __metadata:
   version: 3.1.2
   resolution: "@types/ejs@npm:3.1.2"
   checksum: e4f0745b6ed53a63c08bdfdeb019a7d0e0c400896722b44d6732b4ee6bf6061d2dc965206186b8b0ae2ecd71303c29f1af1feddbca2df0acbd7bd234a74ca518
+  languageName: node
+  linkType: hard
+
+"@types/elliptic@npm:^6.4.14":
+  version: 6.4.14
+  resolution: "@types/elliptic@npm:6.4.14"
+  dependencies:
+    "@types/bn.js": "*"
+  checksum: d5a64f540e0ed4b74a12dfa5cc88c0aa7b531eab3b7a9fab17948ffbfc6e01814230e63d7417ce1b607dbd8b5d70e1b64f5afac632deabf96e44875aaac0ae1b
   languageName: node
   linkType: hard
 
@@ -8159,6 +8199,37 @@ __metadata:
   languageName: node
   linkType: hard
 
+"babel-plugin-transform-vite-meta-env@npm:1.0.3":
+  version: 1.0.3
+  resolution: "babel-plugin-transform-vite-meta-env@npm:1.0.3"
+  dependencies:
+    "@babel/runtime": ^7.13.9
+    "@types/babel__core": ^7.1.12
+  checksum: 781b4f7d9e7497e869d87749a6d0a13a882c19995e3d97262622d6bfaab0d6da1a182f8440facab8316f1360070bbd7ca6898b1c70400645d1f52990f960b801
+  languageName: node
+  linkType: hard
+
+"babel-plugin-transform-vite-meta-glob@npm:1.0.3":
+  version: 1.0.3
+  resolution: "babel-plugin-transform-vite-meta-glob@npm:1.0.3"
+  dependencies:
+    "@babel/runtime": ^7.13.9
+    "@types/babel__core": ^7.1.12
+    glob: ^7.1.6
+  checksum: 37760bc2df8545f79e58f808b0ddc5044c541e09786d35e6ed44e79f583f21d2655ccc3ec9d9251d413bbed4459a54633c551689d69ea34e127a95edd8e2af34
+  languageName: node
+  linkType: hard
+
+"babel-plugin-transform-vite-meta-hot@npm:1.0.0":
+  version: 1.0.0
+  resolution: "babel-plugin-transform-vite-meta-hot@npm:1.0.0"
+  dependencies:
+    "@babel/runtime": ^7.13.9
+    "@types/babel__core": ^7.1.12
+  checksum: bcaeecbe89f6f279c8bf90afa2cec0f3e86576179b268cefba9acac4070799a243e66d6e31ec6283068df964a5beb746390ed025b52bb6fc651e69a1610ccaa5
+  languageName: node
+  linkType: hard
+
 "babel-preset-current-node-syntax@npm:^1.0.0":
   version: 1.0.1
   resolution: "babel-preset-current-node-syntax@npm:1.0.1"
@@ -8202,6 +8273,19 @@ __metadata:
   peerDependencies:
     "@babel/core": ^7.0.0
   checksum: 5566ca2762766c9319b4973d018d2fa08c0fcf6415c72cc54f4c8e7199e851ea8f5e6c6730f03ed7ed44fc8beefa959dd15911f2647dee47c615ff4faeddb1ad
+  languageName: node
+  linkType: hard
+
+"babel-preset-vite@npm:^1.1.0":
+  version: 1.1.0
+  resolution: "babel-preset-vite@npm:1.1.0"
+  dependencies:
+    "@babel/runtime": ^7.13.9
+    "@types/babel__core": ^7.1.12
+    babel-plugin-transform-vite-meta-env: 1.0.3
+    babel-plugin-transform-vite-meta-glob: 1.0.3
+    babel-plugin-transform-vite-meta-hot: 1.0.0
+  checksum: c0de7edf181184e2f57ad536309f64046a0e4b0d67a1f911e6148f7a52cf81fe8be34276097b78d1554cec32c9f2996882c957da8e903df869bbd37ecdce4ffd
   languageName: node
   linkType: hard
 
@@ -23143,6 +23227,7 @@ __metadata:
     "@rollup/plugin-inject": ^5.0.3
     "@testing-library/jest-dom": ^5.16.5
     "@types/chrome": ^0.0.234
+    "@types/elliptic": ^6.4.14
     "@types/jest": 29.5.1
     "@types/node": ^18.16.3
     "@types/react": ^18.2.0
@@ -23155,6 +23240,7 @@ __metadata:
     "@vanilla-extract/vite-plugin": ^3.8.0
     "@vitejs/plugin-react": ^4.0.0
     async-mutex: ^0.4.0
+    babel-preset-vite: ^1.1.0
     bignumber.js: ^9.1.1
     buffer: ^6.0.3
     clsx: ^1.2.1

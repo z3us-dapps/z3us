@@ -1,18 +1,20 @@
 import browser from 'webextension-polyfill'
 
-import { sharedStore } from '@src/store'
-
 // @ts-ignore
 // eslint-disable-next-line import/default
-import inpage from '../inpage?script&module'
-import { newMessage } from '../messages/message'
-import { MessageAction, MessageSource } from '../messages/types'
+import inpage from '@src/browser/inpage?script'
+import { newMessage } from '@src/browser/messages/message'
+import { MessageAction, MessageSource } from '@src/browser/messages/types'
+import { sharedStore } from '@src/store'
+
 import { STATUS_ICONS } from './constants'
 
 export const setIcon = async (path: string) => {
 	await chrome?.action?.setIcon({ path })
+	await browser?.action?.setIcon({ path })
 	await browser.browserAction?.setIcon({ path })
 }
+
 export const showConnected = async () => setIcon(STATUS_ICONS.ON)
 
 export const showDisconnected = async () => setIcon(STATUS_ICONS.OFF)
@@ -33,7 +35,7 @@ export const checkContentScript = async (tabId: number): Promise<boolean> => {
 }
 
 export const handleContentScriptInjectAllTabs = async () => {
-	const tabs = await chrome.tabs.query({})
+	const tabs = await browser.tabs.query({})
 	await Promise.all(
 		tabs.map(async tab => {
 			try {
@@ -46,7 +48,7 @@ export const handleContentScriptInjectAllTabs = async () => {
 				}
 			} catch (error) {
 				// eslint-disable-next-line no-console
-				console.error(error)
+				console.warn(tab.id, error)
 			}
 		}),
 	)
@@ -63,7 +65,7 @@ export const handleContentScriptInject = async (tabId: number) => {
 		await showConnected()
 	} catch (error) {
 		// eslint-disable-next-line no-console
-		console.error(error)
+		console.warn(tabId, error)
 	}
 }
 

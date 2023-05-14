@@ -3,8 +3,8 @@ import { Message as RadixMessage, messageDiscriminator } from '@radixdlt/connect
 import { createMessage as createRadixMessage } from '@radixdlt/connector-extension/src/chrome/messages/create-message'
 import browser from 'webextension-polyfill'
 
-import { PORT_NAME } from '../messages/constants'
-import { Message, MessageAction, MessageSource } from '../messages/types'
+import { PORT_NAME } from '@src/browser/messages/constants'
+import { Message, MessageAction, MessageSource } from '@src/browser/messages/types'
 
 let port = browser.runtime.connect({ name: PORT_NAME })
 port.onDisconnect.addListener(() => {

@@ -5,13 +5,12 @@ import { HashRouter } from 'react-router-dom'
 
 import 'ui/src/components-v2/system/global.css'
 
+import { config } from '@src/config'
 import { RdtProvider } from '@src/context/rdt-provider'
 import i18n from '@src/i18n/i18n'
 import App from '@src/pages'
 import rdt from '@src/radix/rdt'
 
-const isDevlopmentMode = import.meta.env.MODE === 'development'
-const isProductionMode = import.meta.env.MODE === 'production'
 const container: HTMLElement | null = document.getElementById('root')
 
 ReactDOM.createRoot(container).render(
@@ -20,8 +19,8 @@ ReactDOM.createRoot(container).render(
 			<HashRouter>
 				<RdtProvider value={rdt}>
 					<React.Suspense fallback={<div />}>
-						{isDevlopmentMode && <App />}
-						{isProductionMode && <App />}
+						{config.isDevlopmentMode && <App />}
+						{config.isProductionMode && <App />}
 					</React.Suspense>
 				</RdtProvider>
 			</HashRouter>
