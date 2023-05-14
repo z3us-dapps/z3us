@@ -78,7 +78,7 @@ export const DesktopNavigation: React.FC = () => {
 				</Box>
 				<Box display="flex" alignItems="center" gap="medium">
 					<ToolTip message={<Translation capitalizeFirstLetter text="global.search" />}>
-						<Button to={`${pathname}?query=hello`} styleVariant="ghost" sizeVariant="small" iconOnly>
+						<Button to={`${pathname}?query=hello`} styleVariant="ghost" sizeVariant="small" iconOnly rounded>
 							<BellIcon />
 						</Button>
 					</ToolTip>

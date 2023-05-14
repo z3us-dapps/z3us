@@ -38,3 +38,17 @@ export const transferUiTextAreaMessage = style([
 		height: '100px',
 	},
 ])
+
+export const tokenSelectBtnWrapper = style([
+	sprinkles({
+		position: 'absolute',
+	}),
+	{
+		top: '4px',
+		right: '5px',
+		borderTopLeftRadius: '30px',
+		borderBottomLeftRadius: '30px',
+		borderTopRightRadius: '12px',
+		borderBottomRightRadius: '12px',
+	},
+])

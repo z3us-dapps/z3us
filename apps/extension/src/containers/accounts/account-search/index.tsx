@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import clsx, { type ClassValue } from 'clsx'
+import { AnimatePresence, motion } from 'framer-motion'
 import React, { forwardRef, useEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useLocation, useNavigate, useSearchParams } from 'react-router-dom'
@@ -86,8 +87,8 @@ export const AccountSearch = forwardRef<HTMLElement, IAccountSearchProps>(
 			inputRef?.current?.focus()
 		}, [query])
 
-		return query ? (
-			<Dialog open>
+		return (
+			<Dialog open={!!query}>
 				<DialogPortal>
 					<DialogOverlay className={styles.searchOverlay} />
 					<DialogContent className={clsx(styles.searchContent)} onEscapeKeyDown={navigateBack}>
@@ -184,7 +185,7 @@ export const AccountSearch = forwardRef<HTMLElement, IAccountSearchProps>(
 					</DialogContent>
 				</DialogPortal>
 			</Dialog>
-		) : null
+		)
 	},
 )
 

@@ -22,13 +22,13 @@ export const sharedItemStyles = {
 }
 
 export const fadeIn = keyframes({
-	'0%': { transform: 'scale(0.90) translateY(-20px)', opacity: '0' },
-	'100%': { transform: 'scale(1.00) translateY(0px)', opacity: '1' },
+	'0%': { opacity: '0' },
+	'100%': { opacity: '1' },
 })
 
 export const fadeOut = keyframes({
-	'0%': { transform: 'scale(1.00) translateY(0px)', opacity: '1' },
-	'100%': { transform: 'scale(0.90) translateY(0px)', opacity: '0' },
+	'0%': { opacity: '1' },
+	'100%': { opacity: '0' },
 })
 
 export const dropdownMenuContent = style([
@@ -45,7 +45,7 @@ export const dropdownMenuContent = style([
 		transformOrigin: 'var(--radix-dropdown-menu-content-transform-origin)',
 		animationTimingFunction: 'cubic-bezier(0.16, 1, 0.3, 1)',
 		willChange: 'transform, opacity',
-		animationDuration: '150ms',
+		animationDuration: '300ms',
 		selectors: {
 			'&[data-state="open"]': {
 				animationName: fadeIn,

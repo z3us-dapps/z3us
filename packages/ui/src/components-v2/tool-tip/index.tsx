@@ -35,7 +35,7 @@ const defaultProps: IToolTipOptionalProps = {
 	disabled: false,
 	sideOffset: 3,
 	arrowOffset: 5,
-	isArrowVisible: true,
+	isArrowVisible: false,
 	side: 'bottom',
 	theme: 'backgroundSecondary',
 }

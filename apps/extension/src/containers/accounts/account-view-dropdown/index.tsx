@@ -56,7 +56,12 @@ export const AccountViewDropdown = forwardRef<HTMLElement, IAccountViewDropdownP
 							rounded
 							leftIcon={
 								isLeftButtonIconVisible ? (
-									<Box borderRadius="full" width="large" height="large" style={{ background: 'purple' }} />
+									<Box
+										borderRadius="full"
+										width="large"
+										height="large"
+										style={{ background: 'purple', marginRight: '4px' }}
+									/>
 								) : null
 							}
 							rightIcon={<ChevronDownIcon />}

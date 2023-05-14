@@ -389,6 +389,7 @@ const generateColorTokens = (colorTokens: any) => ({
 	colorInverse: colorTokens.color.font.inverse.value,
 	backgroundPrimary: colorTokens.color.background.primary.value,
 	backgroundSecondary: colorTokens.color.background.secondary.value,
+	backgroundOverlayPrimary: colorTokens.color.background.overlay_primary.value,
 	borderDivider: colorTokens.color.border.divider_primary.value,
 	borderDividerSecondary: colorTokens.color.border.divider_secondary.value,
 	shadowDropdown: colorTokens.color.shadow.dropdown.value,

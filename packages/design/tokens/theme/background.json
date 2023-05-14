@@ -3,6 +3,22 @@
 		"background": {
 			"primary": { "value": "{color.core.bleached_silk.500.value}", "darkValue": "{color.core.wax.500.value}" },
 			"secondary": { "value": "{color.core.white}", "darkValue": "{color.core.lead.500.value}" },
+			"overlay_primary": {
+				"value": "{color.core.wax.1000.value}",
+				"darkValue": "{color.core.wax.900.value}",
+				"modify": [
+					{
+						"type": "alpha",
+						"amount": "{alpha.7}"
+					}
+				],
+				"modifyDarkValue": [
+					{
+						"type": "alpha",
+						"amount": "{alpha.7}"
+					}
+				]
+			},
 			"btn_secondary_background": {
 				"value": "{color.core.bleached_silk.500.value}",
 				"darkValue": "{color.core.wax.500.value}"

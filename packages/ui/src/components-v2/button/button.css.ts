@@ -103,7 +103,6 @@ export const button = recipe({
 					lineHeight: '14px',
 					paddingLeft: '8px',
 					paddingRight: '8px',
-					gap: '6px',
 				},
 			],
 			medium: [
@@ -288,10 +287,10 @@ export const buttonIconLeft = recipe({
 			}),
 		},
 		sizeVariant: {
-			small: [{ marginLeft: '-6px' }],
-			medium: [],
-			large: [],
-			xlarge: [],
+			small: [{ marginRight: '2px', marginLeft: '-6px' }],
+			medium: [{ marginRight: '2px', marginLeft: '-6px' }],
+			large: [{ marginRight: '6px', marginLeft: '-6px' }],
+			xlarge: [{ marginRight: '6px', marginLeft: '-6px' }],
 		},
 		iconOnly: {
 			true: {},
@@ -340,16 +339,15 @@ export const buttonIconRight = recipe({
 			],
 		},
 		sizeVariant: {
-			small: [{ marginRight: '-6px' }],
-			medium: [],
-			large: [],
-			xlarge: [],
+			small: [{ marginLeft: '2px', marginRight: '-6px' }],
+			medium: [{ marginLeft: '2px', marginRight: '-6px' }],
+			large: [{ marginLeft: '6px', marginRight: '-6px' }],
+			xlarge: [{ marginLeft: '6px', marginRight: '-6px' }],
 		},
 		iconOnly: {
 			true: {},
 		},
 	},
-
 	compoundVariants: [
 		{
 			variants: {

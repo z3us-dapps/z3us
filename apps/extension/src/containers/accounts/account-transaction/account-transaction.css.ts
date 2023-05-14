@@ -62,14 +62,14 @@ export const transactionOverlay = style([
 		position: 'fixed',
 		inset: 0,
 		zIndex: 1,
+		background: 'backgroundOverlayPrimary',
 	}),
 	{
-		// TODO: need theme background color
-		background: 'rgba(0, 0, 0, 0.6)',
+		backdropFilter: 'blur(4px)',
 		animationTimingFunction: 'cubic-bezier(0.16, 1, 0.3, 1)',
 		transformOrigin: 'var(--radix-dropdown-menu-content-transform-origin)',
 		willChange: 'transform, opacity',
-		animationDuration: '1150ms',
+		animationDuration: '300ms',
 		selectors: {
 			'&[data-state="open"]': {
 				animationName: fadeIn,

@@ -66,8 +66,8 @@ export const AccountTransaction = forwardRef<HTMLElement, IAccountTransactionPro
 			}
 		}, [transactionId])
 
-		return asset && transactionId ? (
-			<Dialog open>
+		return (
+			<Dialog open={!!asset && !!transactionId}>
 				<DialogPortal>
 					<DialogOverlay className={styles.transactionOverlay} />
 					<DialogContent className={clsx(styles.transactionContent, className)} onEscapeKeyDown={navigateBack}>
@@ -270,7 +270,7 @@ export const AccountTransaction = forwardRef<HTMLElement, IAccountTransactionPro
 					</DialogContent>
 				</DialogPortal>
 			</Dialog>
-		) : null
+		)
 	},
 )
 
