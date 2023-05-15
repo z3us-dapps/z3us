@@ -1,16 +1,13 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 
-import useMeasure from 'react-use-measure'
 import clsx from 'clsx'
 import { AnimatePresence, motion } from 'framer-motion'
 import React, { forwardRef, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useImmer } from 'use-immer'
-
 import { Box } from 'ui/src/components-v2/box'
-import { Button } from 'ui/src/components-v2/button'
-
 import { TokenImageIcon } from '@src/components/token-image-icon'
+import { Button } from 'ui/src/components-v2/button'
 import { Checkbox } from 'ui/src/components-v2/checkbox'
 import {
 	DropdownMenuVirtuoso,
@@ -30,16 +27,16 @@ import {
 	ArrowLeftIcon,
 } from 'ui/src/components/icons'
 import { capitalizeFirstLetter } from 'ui/src/utils/capitalize-first-letter'
-
 import { Link } from '@src/components/link'
+import { accountMenuSlugs } from '@src/constants'
 import * as plainButtonStyles from '@src/components/styles/plain-button-styles.css'
 import Translation from '@src/components/translation'
-import { accountMenuSlugs } from '@src/constants'
 
 // TODO: move this to compoennts
 import { TokenSelectorDialog } from '@src/containers/accounts/token-selector-dialog'
-
 import * as styles from './account-transfer.css'
+
+
 
 interface IAccountTransferRequiredProps { }
 
