@@ -113,7 +113,7 @@
 		"@types/webextension-polyfill": "^0.9.1",
 		"@vitejs/plugin-react": "^1.2.0",
 		"config": "*",
-		"esbuild": "^0.14.10",
+		"esbuild": "^0.17.19",
 		"eslint-plugin-require-explicit-generics": "^0.4.2",
 		"jest-playwright-preset": "1.7.2",
 		"playwright": "1.23.1",
