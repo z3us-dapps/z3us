@@ -4,6 +4,8 @@ import { AnimatePresence, motion } from 'framer-motion'
 
 import { useTimeout } from 'usehooks-ts'
 import React, { forwardRef, useEffect, useRef, useState } from 'react'
+
+import { ToolTip } from 'ui/src/components-v2/tool-tip'
 import { useTranslation } from 'react-i18next'
 import { useLocation, useNavigate, useSearchParams } from 'react-router-dom'
 import { Virtuoso } from 'react-virtuoso'
@@ -21,7 +23,6 @@ import {
 } from 'ui/src/components-v2/dialog'
 import { FormElement, Input } from 'ui/src/components-v2/input'
 import { ScrollArea } from 'ui/src/components-v2/scroll-area'
-import { ToolTip } from 'ui/src/components-v2/tool-tip'
 import { Text } from 'ui/src/components-v2/typography'
 import { Close2Icon, SearchIcon, ShareIcon } from 'ui/src/components/icons'
 import { capitalizeFirstLetter } from 'ui/src/utils/capitalize-first-letter'
@@ -93,6 +94,10 @@ export const TokenSelectorDialog = forwardRef<HTMLElement, ITokenSelectorDialogP
 			}
 		}, [isOpen])
 
+		// TODO: temp
+		const accountAddress =
+			'ardx1qspt0lthflcd45zhwvrxkqdrv5ne5avsgarjcpfatyw7n7n93v38dhcdtlag0sdfalksjdhf7d8f78d7f8d7f8d7f8d7f'
+
 		return (
 			<Dialog onOpenChange={handleOnOpenChange}>
 				<DialogTrigger asChild>{trigger}</DialogTrigger>
@@ -154,38 +159,6 @@ export const TokenSelectorDialog = forwardRef<HTMLElement, ITokenSelectorDialogP
 											oci
 										</Text>
 									</Button>
-									<Button
-										leftIcon={
-											<TokenImageIcon
-												size="small"
-												imgSrc="https://images.unsplash.com/photo-1492633423870-43d1cd2775eb?&w=128&h=128&dpr=2&q=80"
-												imgAlt="btc token image"
-												fallbackText="btc"
-											/>
-										}
-										styleVariant="tertiary"
-										sizeVariant="small"
-									>
-										<Text size="small" capitalize>
-											ida
-										</Text>
-									</Button>
-									<Button
-										leftIcon={
-											<TokenImageIcon
-												size="small"
-												imgSrc="https://images.unsplash.com/photo-1492633423870-43d1cd2775eb?&w=128&h=128&dpr=2&q=80"
-												imgAlt="btc token image"
-												fallbackText="btc"
-											/>
-										}
-										styleVariant="tertiary"
-										sizeVariant="small"
-									>
-										<Text size="small" capitalize>
-											DFP2
-										</Text>
-									</Button>
 								</Box>
 							</Box>
 							<Box ref={ref}>
@@ -211,9 +184,17 @@ export const TokenSelectorDialog = forwardRef<HTMLElement, ITokenSelectorDialogP
 														</Text>
 													</Box>
 													<Box className={styles.tokenListTagWrapper}>
-														<Button styleVariant="tertiary" sizeVariant="xsmall">
-															xufh...fjgj
-														</Button>
+														<ToolTip message={accountAddress}>
+															<Button
+																leftIcon={<ShareIcon />}
+																styleVariant="tertiary"
+																sizeVariant="small"
+																to="https://explorer.radixdlt.com/#"
+																target="_blank"
+															>
+																{getShortAddress(accountAddress)}
+															</Button>
+														</ToolTip>
 													</Box>
 												</Box>
 											</Box>

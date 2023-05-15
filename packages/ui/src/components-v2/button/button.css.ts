@@ -301,7 +301,7 @@ export const buttonIconLeft = recipe({
 		},
 		sizeVariant: {
 			xsmall: [{ marginRight: '4px', marginLeft: '-2px' }],
-			small: [{ marginRight: '4px', marginLeft: '-2px' }],
+			small: [{ marginRight: '4px', marginLeft: '-4px' }],
 			medium: [{ marginRight: '2px', marginLeft: '-6px' }],
 			large: [{ marginRight: '6px', marginLeft: '-6px' }],
 			xlarge: [{ marginRight: '6px', marginLeft: '-6px' }],
@@ -353,9 +353,9 @@ export const buttonIconRight = recipe({
 			],
 		},
 		sizeVariant: {
-			xsmall: [{ marginLeft: '2px', marginRight: '-6px' }],
-			small: [{ marginLeft: '2px', marginRight: '-6px' }],
-			medium: [{ marginLeft: '2px', marginRight: '-6px' }],
+			xsmall: [{ marginLeft: '4px', marginRight: '-6px' }],
+			small: [{ marginLeft: '4px', marginRight: '-4px' }],
+			medium: [{ marginLeft: '4px', marginRight: '-8px' }],
 			large: [{ marginLeft: '6px', marginRight: '-6px' }],
 			xlarge: [{ marginLeft: '6px', marginRight: '-6px' }],
 		},
@@ -371,6 +371,17 @@ export const buttonIconRight = recipe({
 			},
 			style: {
 				marginRight: '0',
+				marginLeft: '0',
+			},
+		},
+		{
+			variants: {
+				sizeVariant: 'medium',
+				iconOnly: true,
+			},
+			style: {
+				marginRight: '0',
+				marginLeft: '0',
 			},
 		},
 	],

@@ -76,6 +76,7 @@ export const dropdownMenuRadioItem = style([
 	{
 		outline: 'none',
 		minHeight: '40px',
+		maxWidth: '100%',
 	},
 ])
 

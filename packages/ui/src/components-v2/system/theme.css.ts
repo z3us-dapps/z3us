@@ -454,7 +454,7 @@ export const themeShape = {
 /**
  * All Colors Types
  */
-export type TThemeColors = typeof themeShape['color']
+export type TThemeColors = (typeof themeShape)['color']
 export type TThemeColorKey = keyof TThemeColors
 
 /**

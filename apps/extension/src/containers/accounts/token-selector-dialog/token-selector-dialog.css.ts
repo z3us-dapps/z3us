@@ -100,6 +100,7 @@ export const tokenListItemWrapperInnerButton = style([
 		display: 'flex',
 		alignItems: 'center',
 		gap: 'medium',
+		width: 'full',
 	}),
 	{},
 ])
@@ -109,6 +110,8 @@ export const tokenListItemTextWrapper = style([
 		display: 'flex',
 		flexDirection: 'column',
 		gap: 'xxsmall',
+		flexGrow: 1,
+		minWidth: 0,
 	}),
 	{},
 ])
@@ -116,6 +119,7 @@ export const tokenListItemTextWrapper = style([
 export const tokenListTagWrapper = style([
 	sprinkles({
 		display: 'flex',
+		flexShrink: 0,
 	}),
 	{},
 ])
