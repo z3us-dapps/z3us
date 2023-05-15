@@ -13,7 +13,7 @@ import { version } from './package.json'
 const isProd = process.env.NODE_ENV === 'production'
 const isDev = process.env.NODE_ENV === 'development'
 
-const userConfig = {
+const config = {
 	server: {
 		port: 8003,
 	},
@@ -38,7 +38,13 @@ const userConfig = {
 			include: '**/*.tsx',
 		}),
 		crx({ manifest }),
-		tsconfigPaths(),
+		tsconfigPaths({
+			// ignoreConfigErrors: true,
+			projects: [
+				path.resolve(__dirname, 'tsconfig.json'),
+				'../../node_modules/@radixdlt/connector-extension/tsconfig.json',
+			],
+		}), 
 		visualizer(),
 		vanillaExtractPlugin(),
 	],
@@ -73,7 +79,7 @@ const userConfig = {
 
 if (isDev) {
 	// @ts-ignore
-	userConfig.build.rollupOptions.input.dev_tools = 'src/browser/dev-tools/index.html'
+	config.build.rollupOptions.input.dev_tools = 'src/browser/dev-tools/index.html'
 }
 
-export default defineConfig(userConfig)
+export default defineConfig(config)

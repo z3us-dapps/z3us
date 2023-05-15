@@ -4845,9 +4845,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@radixdlt/connector-extension@https://github.com/radixdlt/connector-extension#develop":
+"@radixdlt/connector-extension@https://github.com/radixdlt/connector-extension#RC-74-open-ledger-flow-as-popup":
   version: 0.0.0
-  resolution: "@radixdlt/connector-extension@https://github.com/radixdlt/connector-extension.git#commit=5a54d14a9e56a15ce88ec0f1425fff0094014d64"
+  resolution: "@radixdlt/connector-extension@https://github.com/radixdlt/connector-extension.git#commit=a7c59834b3ac3791cb9546cc07ccb0e01c9d77bd"
   dependencies:
     "@ledgerhq/hw-transport-webhid": ^6.27.12
     "@stitches/react": ^1.2.8
@@ -4869,7 +4869,7 @@ __metadata:
     rxjs: ^7.5.7
     tslog: ^4.7.1
     zod: ^3.19.1
-  checksum: 3eb8965d1a97bc8f0af1bb32b99f9fc67b121dcc7fbb602f58ae8053a861f1aa03af043a223d5abf425c5935a210854c1c57b1a773921cd1f105b271e8f32aec
+  checksum: 87839b42275ccc7de3157b64949cb2d5b0bdec9fd41713477d540a7992556116e6ad608fca32d29acdb2a7c1d39fe78bfe49128afc12814e1d7cb6831208ce32
   languageName: node
   linkType: hard
 
@@ -23222,7 +23222,7 @@ __metadata:
     "@crxjs/vite-plugin": ^1.0.14
     "@radix-ui/react-avatar": ^1.0.2
     "@radix-ui/react-icons": ^1.3.0
-    "@radixdlt/connector-extension": "https://github.com/radixdlt/connector-extension#develop"
+    "@radixdlt/connector-extension": "https://github.com/radixdlt/connector-extension#RC-74-open-ledger-flow-as-popup"
     "@radixdlt/radix-dapp-toolkit": ^0.2.0
     "@rollup/plugin-inject": ^5.0.3
     "@testing-library/jest-dom": ^5.16.5

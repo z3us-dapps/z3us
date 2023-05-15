@@ -1,4 +1,4 @@
-import { getExtensionTabsByUrl } from 'chrome/helpers/get-extension-tabs-by-url'
+import { getExtensionTabsByUrl } from '@radixdlt/connector-extension/src/chrome/helpers/get-extension-tabs-by-url'
 import browser from 'webextension-polyfill'
 
 import { config } from '@src/config'

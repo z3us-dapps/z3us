@@ -15,7 +15,7 @@
 	"dependencies": {
 		"@radix-ui/react-avatar": "^1.0.2",
 		"@radix-ui/react-icons": "^1.3.0",
-		"@radixdlt/connector-extension": "https://github.com/radixdlt/connector-extension#develop",
+		"@radixdlt/connector-extension": "https://github.com/radixdlt/connector-extension#RC-74-open-ledger-flow-as-popup",
 		"@radixdlt/radix-dapp-toolkit": "^0.2.0",
 		"async-mutex": "^0.4.0",
 		"bignumber.js": "^9.1.1",
