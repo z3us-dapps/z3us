@@ -3,17 +3,21 @@ import browser from 'webextension-polyfill'
 
 import { config } from '@src/config'
 
-const openRadixPairingPage = async () => {
+const menuId = 'radix-pairing'
+
+const openRadixPairingPage = async ({ menuItemId }) => {
+	if (menuItemId !== menuId) return
+
 	const pairingUrl = browser.runtime.getURL(config.popup.pages.pairing)
 
 	const result = await getExtensionTabsByUrl(config.popup.pages.pairing)
 
 	if (result.isErr()) return
 
-	const [devToolsTab] = result.value
+	const [pairing] = result.value
 
-	if (devToolsTab?.id) {
-		await browser.tabs.update(devToolsTab.id, { active: true })
+	if (pairing?.id) {
+		await browser.tabs.update(pairing.id, { active: true })
 	} else {
 		await browser.tabs.create({
 			url: pairingUrl,
@@ -24,7 +28,7 @@ const openRadixPairingPage = async () => {
 export const addPairing = () => {
 	if (config.isDevlopmentMode) {
 		browser.contextMenus.create({
-			id: 'radix-pairing',
+			id: menuId,
 			title: 'Radix Pairing',
 			contexts: ['all'],
 		})

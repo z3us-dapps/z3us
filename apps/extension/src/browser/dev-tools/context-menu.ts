@@ -3,7 +3,11 @@ import browser from 'webextension-polyfill'
 
 import { config } from '@src/config'
 
-const openRadixDevToolsPage = async () => {
+const menuId = 'radix-dev-tools'
+
+const openRadixDevToolsPage = async ({ menuItemId }) => {
+	if (menuItemId !== menuId) return
+
 	const devToolsUrl = browser.runtime.getURL(config.devTools.url)
 
 	const result = await getExtensionTabsByUrl(config.devTools.url)
@@ -24,7 +28,7 @@ const openRadixDevToolsPage = async () => {
 export const addDevTools = () => {
 	if (config.isDevlopmentMode) {
 		browser.contextMenus.create({
-			id: 'radix-dev-tools',
+			id: menuId,
 			title: 'Radix Dev Tools',
 			contexts: ['all'],
 		})
