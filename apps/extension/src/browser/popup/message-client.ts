@@ -69,6 +69,7 @@ export const MessageClient = () => {
 	}
 
 	return {
+		port,
 		sendMessage,
 	}
 }
