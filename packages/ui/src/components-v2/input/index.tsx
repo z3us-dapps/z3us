@@ -7,11 +7,11 @@ import * as styles from './input.css'
 
 export type FormElement = HTMLInputElement | HTMLTextAreaElement
 
-interface IInputRequiredProps {
-	value: string
+export interface IInputRequiredProps {
+	value: string | number | undefined
 }
 
-interface IInputOptionalProps {
+export interface IInputOptionalProps {
 	className?: string
 	onClick?: () => void
 	disabled?: boolean
@@ -30,7 +30,7 @@ interface IInputOptionalProps {
 
 export interface IInputProps extends IInputRequiredProps, IInputOptionalProps {}
 
-const defaultProps: IInputOptionalProps = {
+export const inputDefaultProps: IInputOptionalProps = {
 	className: undefined,
 	onClick: undefined,
 	rounded: false,
@@ -69,7 +69,7 @@ export const Input = forwardRef<FormElement, IInputProps>((props, ref: React.Ref
 	}
 
 	return (
-		<Box position="relative" width="full">
+		<Box className={styles.inputWrapper}>
 			<Box
 				ref={ref}
 				component={elementType}
@@ -119,4 +119,4 @@ export const Input = forwardRef<FormElement, IInputProps>((props, ref: React.Ref
 	)
 })
 
-Input.defaultProps = defaultProps
+Input.defaultProps = inputDefaultProps

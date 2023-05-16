@@ -1,11 +1,23 @@
 import { RecipeVariants, recipe } from '@vanilla-extract/recipes'
 
+import { style } from '@vanilla-extract/css'
+
 import { sprinkles } from '../system/sprinkles.css'
 
 export const baseSprinkles = sprinkles({
 	width: 'full',
 	transition: 'fast',
 })
+
+export const inputWrapper = style([
+	sprinkles({
+		position: 'relative',
+		width: 'full',
+	}),
+	{
+	},
+])
+
 
 export const input = recipe({
 	base: {

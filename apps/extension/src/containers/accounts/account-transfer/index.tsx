@@ -1,53 +1,52 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-
-import useMeasure from 'react-use-measure'
-
 import clsx from 'clsx'
 import { AnimatePresence, motion } from 'framer-motion'
 import React, { forwardRef, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
+import useMeasure from 'react-use-measure'
 import { useImmer } from 'use-immer'
+
 import { Box } from 'ui/src/components-v2/box'
-import { TokenImageIcon } from '@src/components/token-image-icon'
 import { Button } from 'ui/src/components-v2/button'
 import { Checkbox } from 'ui/src/components-v2/checkbox'
 import {
-	DropdownMenuVirtuoso,
-	DropdownMenuRadioItem,
 	DropdownMenuItemIndicator,
+	DropdownMenuRadioItem,
+	DropdownMenuVirtuoso,
 } from 'ui/src/components-v2/dropdown-menu'
 import { FormElement, Input } from 'ui/src/components-v2/input'
+import { NumberInput } from 'ui/src/components-v2/number-input'
 import { Text } from 'ui/src/components-v2/typography'
 import {
+	ArrowLeftIcon,
 	AtSignIcon,
+	Check2Icon,
 	CheckCircleIcon,
 	ChevronDown2Icon,
 	CoinsIcon,
 	LoadingBarsIcon,
 	WriteNoteIcon,
-	Check2Icon,
-	ArrowLeftIcon,
 } from 'ui/src/components/icons'
 import { capitalizeFirstLetter } from 'ui/src/utils/capitalize-first-letter'
-import { Link } from '@src/components/link'
-import { accountMenuSlugs } from '@src/constants'
-import * as plainButtonStyles from '@src/components/styles/plain-button-styles.css'
-import Translation from '@src/components/translation'
 
+import { Link } from '@src/components/link'
+import * as plainButtonStyles from '@src/components/styles/plain-button-styles.css'
+import { TokenImageIcon } from '@src/components/token-image-icon'
+import Translation from '@src/components/translation'
+import { accountMenuSlugs } from '@src/constants'
 // TODO: move this to compoennts
 import { TokenSelectorDialog } from '@src/containers/accounts/token-selector-dialog'
+
 import * as styles from './account-transfer.css'
 
-
-
-interface IAccountTransferRequiredProps { }
+interface IAccountTransferRequiredProps {}
 
 interface IAccountTransferOptionalProps {
 	className?: string
 	scrollableNode?: HTMLElement | null
 }
 
-interface IAccountTransferProps extends IAccountTransferRequiredProps, IAccountTransferOptionalProps { }
+interface IAccountTransferProps extends IAccountTransferRequiredProps, IAccountTransferOptionalProps {}
 
 const defaultProps: IAccountTransferOptionalProps = {
 	className: undefined,
@@ -76,8 +75,9 @@ export const AccountTransfer = forwardRef<HTMLElement, IAccountTransferProps>(
 		const { t } = useTranslation()
 		const inputRef = useRef(null)
 
-		const handleOnChange = (event: React.ChangeEvent<FormElement>) => {
-			const { value } = event.target
+		const handleOnChange = (value: number) => {
+			// eslint-disable-next-line
+			console.log('value:', value)
 
 			// setInputValue(value)
 		}
@@ -307,7 +307,7 @@ export const AccountTransfer = forwardRef<HTMLElement, IAccountTransferProps>(
 															styleVariant="secondary"
 															value={undefined}
 															placeholder="Enter message"
-															onChange={handleOnChange}
+															// onChange={handleOnChange}
 														/>
 													</Box>
 												</motion.div>
@@ -384,13 +384,21 @@ export const AccountTransfer = forwardRef<HTMLElement, IAccountTransferProps>(
 										</Box>
 										{/* TODO: create wrapper component for this */}
 										<Box width="full" position="relative">
-											<Input
+											<NumberInput
 												styleVariant="secondary"
 												sizeVariant="large"
 												value={undefined}
-												placeholder={capitalizeFirstLetter(`${t('global.search')}`)}
+												placeholder="geebs"
+												// placeholder={capitalizeFirstLetter(`${t('global.search')}`)}
 												onChange={handleOnChange}
 											/>
+											{/* <Input */}
+											{/* 	styleVariant="secondary" */}
+											{/* 	sizeVariant="large" */}
+											{/* 	value={undefined} */}
+											{/* 	placeholder={capitalizeFirstLetter(`${t('global.search')}`)} */}
+											{/* 	onChange={handleOnChange} */}
+											{/* /> */}
 											<TokenSelectorDialog
 												trigger={
 													<Button
@@ -504,12 +512,12 @@ export const AccountTransfer = forwardRef<HTMLElement, IAccountTransferProps>(
 											sizeVariant="xlarge"
 											fullWidth
 											onClick={handleClickContinue}
-										// disabled
-										// rightIcon={
-										// 	<Box marginLeft="small">
-										// 		<LoadingBarsIcon />
-										// 	</Box>
-										// }
+											// disabled
+											// rightIcon={
+											// 	<Box marginLeft="small">
+											// 		<LoadingBarsIcon />
+											// 	</Box>
+											// }
 										>
 											<Translation capitalizeFirstLetter text="global.continue" />
 										</Button>
