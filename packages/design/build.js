@@ -88,7 +88,6 @@ StyleDictionaryPackage.registerTransform({
 	},
 	transformer: function (token) {
 		const transformedValue = colorTransform(token.value, token.modify)
-		console.log('transformedValue:', transformedValue)
 		const transformedDarkValue = colorTransform(token.darkValue, token.modifyDarkValue)
 		const transformedToken = Object.assign(token, { value: transformedValue, darkValue: transformedDarkValue })
 		return transformedToken
