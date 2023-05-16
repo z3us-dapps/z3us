@@ -23,13 +23,11 @@ const openRadixDevToolsPage = async () => {
 
 export const addDevTools = () => {
 	if (config.isDevlopmentMode) {
-		browser.contextMenus.removeAll().then(() => {
-			browser.contextMenus.create({
-				id: 'radix-dev-tools',
-				title: 'Radix Dev Tools',
-				contexts: ['all'],
-			})
-			browser.contextMenus.onClicked.addListener(openRadixDevToolsPage)
+		browser.contextMenus.create({
+			id: 'radix-dev-tools',
+			title: 'Radix Dev Tools',
+			contexts: ['all'],
 		})
+		browser.contextMenus.onClicked.addListener(openRadixDevToolsPage)
 	}
 }

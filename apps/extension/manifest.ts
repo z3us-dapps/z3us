@@ -25,7 +25,7 @@ const manifest: ManifestV3Export = {
 	description: 'An open source community centered browser wallet for the Radix DLT network.',
 	omnibox: { keyword: 'z3us' },
 	action: {
-		default_popup: 'popup-theme-system.html',
+		default_popup: 'src/pages/dashboard/popup-theme-system.html',
 		default_title: 'Z3US',
 		default_icon: {
 			'16': 'favicon-16x16.png',

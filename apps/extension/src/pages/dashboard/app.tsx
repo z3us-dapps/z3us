@@ -90,7 +90,7 @@ export const TempNav: React.FC = () => {
 	)
 }
 
-const Connect = React.lazy(() => import('@src/pages/connect'))
+const Connect = React.lazy(() => import('./connect'))
 
 const App: React.FC = () => {
 	const location = useLocation()

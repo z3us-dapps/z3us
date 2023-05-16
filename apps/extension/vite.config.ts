@@ -44,7 +44,7 @@ const config = {
 				path.resolve(__dirname, 'tsconfig.json'),
 				'../../node_modules/@radixdlt/connector-extension/tsconfig.json',
 			],
-		}), 
+		}),
 		visualizer(),
 		vanillaExtractPlugin(),
 	],
@@ -55,13 +55,13 @@ const config = {
 		rollupOptions: {
 			treeshake: true,
 			input: {
-				index: 'index.html',
-				popup_dark: 'popup-theme-dark.html',
-				popup_light: 'popup-theme-light.html',
-				popup_system: 'popup-theme-system.html',
 				offscreen: 'src/browser/offscreen/index.html',
-				// pairing: 'src/browser/pairing/index.html',
-				// ledger: 'src/browser/ledger/index.html',
+				dashboard: 'src/pages/index.html',
+				dashboard_dark: 'src/pages/popup-theme-dark.html',
+				dashboard_light: 'src/pages/popup-theme-light.html',
+				dashboard_system: 'src/pages/popup-theme-system.html',
+				pairing: 'src/pages/pairing/index.html',
+				ledger: 'src/pages/ledger/index.html',
 			},
 			plugins: [
 				rollupInject({
@@ -79,7 +79,7 @@ const config = {
 
 if (isDev) {
 	// @ts-ignore
-	config.build.rollupOptions.input.dev_tools = 'src/browser/dev-tools/index.html'
+	config.build.rollupOptions.input.dev_tools = 'src/pages/dev-tools/index.html'
 }
 
 export default defineConfig(config)

@@ -8,7 +8,20 @@ export const config = {
 	},
 	devTools: {
 		...radixCfg.devTools,
-		url: 'src/browser/dev-tools/index.html',
+		url: 'src/pages/dev-tools/index.html',
+	},
+	pairing: {
+		...radixCfg.devTools,
+		url: 'src/pages/dev-tools/index.html',
+	},
+
+	popup: {
+		...radixCfg.popup,
+		pages: {
+			...radixCfg.popup.pages,
+			pairing: 'src/pages/pairing/index.html',
+			ledger: 'src/pages/ledger/index.html',
+		},
 	},
 	version: process.env.APP_VERSION,
 	isDevlopmentMode: import.meta.env.MODE === 'development',

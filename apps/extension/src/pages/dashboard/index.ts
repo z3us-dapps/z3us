@@ -2,6 +2,6 @@
 window.__dirname = '/'
 window.global = window
 
-import('./helpers/polyfills').then(() => import('./main'))
+import('@src/helpers/polyfills').then(() => import('./main'))
 
 export {}
