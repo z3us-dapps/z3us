@@ -8,4 +8,7 @@ export const useMessageClient = () => ({
 	ping: async () => {
 		await client.sendMessage(MessageAction.PING, null)
 	},
+	radix: async (payload) => {
+		await client.sendMessage(MessageAction.RADIX, payload)
+	},
 })
