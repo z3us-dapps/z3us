@@ -1,6 +1,5 @@
-import { RecipeVariants, recipe } from '@vanilla-extract/recipes'
-
 import { style } from '@vanilla-extract/css'
+import { RecipeVariants, recipe } from '@vanilla-extract/recipes'
 
 import { sprinkles } from '../system/sprinkles.css'
 
@@ -14,10 +13,8 @@ export const inputWrapper = style([
 		position: 'relative',
 		width: 'full',
 	}),
-	{
-	},
+	{},
 ])
-
 
 export const input = recipe({
 	base: {
@@ -39,7 +36,6 @@ export const input = recipe({
 					lightMode: 'inputPrimaryBorderColor',
 					hover: 'inputPrimaryBorderHover',
 					focus: 'inputPrimaryBorderFocus',
-					// TODO: focusvisible update
 					focusVisible: 'inputPrimaryBorderFocus',
 				},
 				boxShadow: {
@@ -51,8 +47,22 @@ export const input = recipe({
 				borderStyle: 'solid',
 			}),
 			secondary: sprinkles({
-				background: { lightMode: 'btnSecondaryBackground', hover: 'btnSecondaryBackgroundHover' },
-				borderColor: { lightMode: 'btnSecondaryBorderColor', hover: 'btnSecondaryBorderColorHover' },
+				background: {
+					lightMode: 'inputSecondaryBackground',
+					hover: 'inputSecondaryBackgroundHover',
+					focus: 'inputSecondaryBackgroundFocus',
+					focusVisible: 'inputSecondaryBackgroundFocus',
+				},
+				borderColor: {
+					lightMode: 'inputSecondaryBorderColor',
+					hover: 'inputSecondaryBorderHover',
+					focus: 'inputSecondaryBorderFocus',
+					focusVisible: 'inputSecondaryBorderFocus',
+				},
+				boxShadow: {
+					focus: 'inputSecondaryShadowFocus',
+					focusVisible: 'inputSecondaryShadowFocus',
+				},
 				color: 'colorStrong',
 				border: 1,
 				borderStyle: 'solid',

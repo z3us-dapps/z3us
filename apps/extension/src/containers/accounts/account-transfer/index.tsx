@@ -388,17 +388,10 @@ export const AccountTransfer = forwardRef<HTMLElement, IAccountTransferProps>(
 												styleVariant="secondary"
 												sizeVariant="large"
 												value={undefined}
-												placeholder="geebs"
+												placeholder="Place holder here"
 												// placeholder={capitalizeFirstLetter(`${t('global.search')}`)}
 												onChange={handleOnChange}
 											/>
-											{/* <Input */}
-											{/* 	styleVariant="secondary" */}
-											{/* 	sizeVariant="large" */}
-											{/* 	value={undefined} */}
-											{/* 	placeholder={capitalizeFirstLetter(`${t('global.search')}`)} */}
-											{/* 	onChange={handleOnChange} */}
-											{/* /> */}
 											<TokenSelectorDialog
 												trigger={
 													<Button
@@ -417,8 +410,8 @@ export const AccountTransfer = forwardRef<HTMLElement, IAccountTransferProps>(
 														}
 													>
 														<Box display="flex" alignItems="center" width="full" textAlign="left">
-															<Text size="medium" color="strong">
-																BTC
+															<Text size="medium" color="strong" truncate>
+																BTC BTC BTC BTC BTC
 															</Text>
 														</Box>
 													</Button>

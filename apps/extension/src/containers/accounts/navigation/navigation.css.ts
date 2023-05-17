@@ -179,7 +179,7 @@ export const navigationMobileWrapper = style([
 		borderColor: 'borderDivider',
 	}),
 	{
-		height: '56px',
+		height: '48px',
 	},
 ])
 

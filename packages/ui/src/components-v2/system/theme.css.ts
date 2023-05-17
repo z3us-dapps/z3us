@@ -419,6 +419,13 @@ const generateColorTokens = (colorTokens: any) => ({
 	inputPrimaryBorderHover: colorTokens.color.border.input_primary_border_hover.value,
 	inputPrimaryBorderFocus: colorTokens.color.border.input_primary_border_focus.value,
 	inputPrimaryShadowFocus: colorTokens.color.shadow.input_primary_focus.value,
+	inputSecondaryBackground: colorTokens.color.background.input_secondary_background.value,
+	inputSecondaryBackgroundHover: colorTokens.color.background.input_secondary_background_hover.value,
+	inputSecondaryBackgroundFocus: colorTokens.color.background.input_secondary_background_hover.value,
+	inputSecondaryBorderColor: colorTokens.color.border.input_secondary_border.value,
+	inputSecondaryBorderHover: colorTokens.color.border.input_secondary_border_hover.value,
+	inputSecondaryBorderFocus: colorTokens.color.border.input_secondary_border_focus.value,
+	inputSecondaryShadowFocus: colorTokens.color.shadow.input_secondary_focus.value,
 })
 
 /**

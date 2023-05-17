@@ -144,6 +144,7 @@ const mobileHeaderNavigationDefaultProps: IMobileHeaderNavigationOptionalProps =
 
 export const MobileHeaderNavigation = forwardRef<HTMLElement, IMobileHeaderNavigationProps>(
 	(props, ref: React.Ref<HTMLElement | null>) => {
+		// eslint-disable-next-line
 		const { className, style, copyAddressBtnVisible, isShadowVisible, isAllAccount } = props
 
 		return (
@@ -161,7 +162,8 @@ export const MobileHeaderNavigation = forwardRef<HTMLElement, IMobileHeaderNavig
 					<Box display="flex" alignItems="center" gap="small" flexGrow={1}>
 						<Z3usLogo />
 						<AccountViewDropdown
-							styleVariant={isAllAccount ? 'tertiary' : 'white-transparent'}
+							styleVariant="tertiary"
+							// styleVariant={isAllAccount ? 'tertiary' : 'white-transparent'}
 							isLeftButtonIconVisible={false}
 						/>
 					</Box>

@@ -1,8 +1,7 @@
 import { style } from '@vanilla-extract/css'
 
-import { darkMode, sprinkles } from 'ui/src/components-v2/system/sprinkles.css'
+import { sprinkles } from 'ui/src/components-v2/system/sprinkles.css'
 import { responsiveStyle } from 'ui/src/components-v2/system/theme-utils'
-import { vars } from 'ui/src/components-v2/system/theme.css'
 
 export const tokenSelectorHeaderWrapper = style([
 	sprinkles({
@@ -15,10 +14,7 @@ export const tokenSelectorHeaderWrapper = style([
 		gap: 'large',
 		padding: 'large',
 		marginBottom: 'medium',
-		background: {
-			lightMode: 'backgroundSecondary',
-			darkMode: 'backgroundPrimary',
-		},
+		background: 'backgroundSecondary',
 		borderTopLeftRadius: 'large',
 		borderTopRightRadius: 'large',
 		borderStyle: 'solid',
@@ -51,7 +47,7 @@ export const searchElement = style([
 export const tokenSelectorContent = style([
 	{},
 	responsiveStyle({
-		mobile: { maxWidth: '90%', top: '48px', bottom: '48px' },
+		mobile: { maxWidth: '90%', top: '32px', bottom: '32px' },
 		tablet: { maxWidth: '480px', top: '48px', bottom: '48px' },
 		desktop: { maxWidth: '480px', top: '72px', bottom: '72px' },
 	}),
@@ -83,16 +79,6 @@ export const tokenListItemWrapperButton = style([
 			hover: 'backgroundPrimary',
 		},
 	}),
-	{
-		selectors: {
-			[`.${darkMode} &`]: {
-				backgroundColor: `${vars.color.backgroundPrimary}`,
-			},
-			[`.${darkMode} &:hover`]: {
-				backgroundColor: `${vars.color.backgroundSecondary}`,
-			},
-		},
-	},
 ])
 
 export const tokenListItemWrapperInnerButton = style([

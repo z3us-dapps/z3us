@@ -1,16 +1,11 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import clsx, { type ClassValue } from 'clsx'
 import { AnimatePresence, motion } from 'framer-motion'
-
-import { useTimeout } from 'usehooks-ts'
 import React, { forwardRef, useEffect, useRef, useState } from 'react'
-
-import { ToolTip } from 'ui/src/components-v2/tool-tip'
 import { useTranslation } from 'react-i18next'
 import { useLocation, useNavigate, useSearchParams } from 'react-router-dom'
 import { Virtuoso } from 'react-virtuoso'
-
-import { TokenImageIcon } from '@src/components/token-image-icon'
+import { useTimeout } from 'usehooks-ts'
 
 import { Box } from 'ui/src/components-v2/box'
 import {
@@ -23,6 +18,7 @@ import {
 } from 'ui/src/components-v2/dialog'
 import { FormElement, Input } from 'ui/src/components-v2/input'
 import { ScrollArea } from 'ui/src/components-v2/scroll-area'
+import { ToolTip } from 'ui/src/components-v2/tool-tip'
 import { Text } from 'ui/src/components-v2/typography'
 import { Close2Icon, SearchIcon, ShareIcon } from 'ui/src/components/icons'
 import { capitalizeFirstLetter } from 'ui/src/utils/capitalize-first-letter'
@@ -30,9 +26,9 @@ import { capitalizeFirstLetter } from 'ui/src/utils/capitalize-first-letter'
 import { Button } from '@src/components/button'
 import { CopyAddressButton } from '@src/components/copy-address-button'
 import * as dialogStyles from '@src/components/styles/dialog-styles.css'
+import { TokenImageIcon } from '@src/components/token-image-icon'
 import { TransactionIcon } from '@src/components/transaction-icon'
 import Translation from '@src/components/translation'
-
 import {
 	ACCOUNT_PARAM_ACTIVITY,
 	ACCOUNT_PARAM_ASSET,
@@ -115,10 +111,11 @@ export const TokenSelectorDialog = forwardRef<HTMLElement, ITokenSelectorDialogP
 									isScrolled && styles.tokenSelectorHeaderWrapperShadow,
 								)}
 							>
-								<Box display="flex" width="full" alignItems="center" gap="medium">
+								<Box display="flex" width="full" alignItems="center" gap="small">
 									<Box flexGrow={1}>
 										<Input
 											value={inputValue}
+											styleVariant="secondary"
 											ref={inputRef}
 											className={styles.searchElement}
 											placeholder="Search token or paste address"
@@ -128,9 +125,12 @@ export const TokenSelectorDialog = forwardRef<HTMLElement, ITokenSelectorDialogP
 										/>
 									</Box>
 									<Box flexShrink={0} display="flex" justifyContent="flex-end" gap="small">
-										<ToolTip message={<Translation capitalizeFirstLetter text="global.close" />}>
+										<ToolTip
+											theme="backgroundPrimary"
+											message={<Translation capitalizeFirstLetter text="global.close" />}
+										>
 											<DialogClose asChild>
-												<Button styleVariant="ghost" sizeVariant="small" iconOnly>
+												<Button styleVariant="ghost" sizeVariant="medium" iconOnly>
 													<Close2Icon />
 												</Button>
 											</DialogClose>
@@ -177,10 +177,10 @@ export const TokenSelectorDialog = forwardRef<HTMLElement, ITokenSelectorDialogP
 													/>
 													<Box className={styles.tokenListItemTextWrapper}>
 														<Text size="medium" color="strong" truncate>
-															{title}
+															{title} Lorum ipsum
 														</Text>
 														<Text size="small" truncate>
-															{title}
+															{title} Lorum ipsum
 														</Text>
 													</Box>
 													<Box className={styles.tokenListTagWrapper}>

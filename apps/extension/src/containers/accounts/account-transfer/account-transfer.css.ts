@@ -1,4 +1,5 @@
 import { style } from '@vanilla-extract/css'
+import { responsiveStyle } from 'ui/src/components-v2/system/theme-utils'
 
 import { sprinkles } from 'ui/src/components-v2/system/sprinkles.css'
 
@@ -42,4 +43,10 @@ export const tokenSelectBtnWrapper = style([
 		borderTopRightRadius: '12px',
 		borderBottomRightRadius: '12px',
 	},
+
+	responsiveStyle({
+		mobile: { maxWidth: '140px' },
+		tablet: { maxWidth: '140px' },
+		desktop: { maxWidth: '140px' },
+	}),
 ])

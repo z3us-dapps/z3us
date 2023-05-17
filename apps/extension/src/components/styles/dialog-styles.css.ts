@@ -20,7 +20,7 @@ export const dialogOverlay = style([
 		background: 'backgroundOverlayPrimary',
 	}),
 	{
-		backdropFilter: 'blur(4px)',
+		backdropFilter: 'blur(5px)',
 		animationTimingFunction: 'cubic-bezier(0.16, 1, 0.3, 1)',
 		transformOrigin: 'var(--radix-dropdown-menu-content-transform-origin)',
 		willChange: 'transform, opacity',
@@ -42,14 +42,11 @@ export const dialogContent = style([
 	sprinkles({
 		position: 'fixed',
 		zIndex: 1,
-		background: {
-			lightMode: 'backgroundSecondary',
-			darkMode: 'backgroundPrimary',
-		},
+		background: 'backgroundSecondary',
+		boxShadow: 'shadowPanel',
+		borderRadius: 'xlarge',
+		overflow: 'hidden',
 		color: 'colorNeutral',
-		boxShadow: 'shadowActivePanel',
-		borderRadius: 'large',
-		overflow: 'clip',
 	}),
 	{
 		transform: 'translateX(-50%)',
