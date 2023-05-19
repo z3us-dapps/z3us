@@ -24,8 +24,8 @@ export interface IInputOptionalProps {
 	leftIcon?: React.ReactNode
 	rightIcon?: React.ReactNode
 	onChange?: (e: React.ChangeEvent<FormElement>) => void
-	// onFocus?: (e: React.ChangeEvent<FormElement>) => void
-	// onBlur?: (e: React.ChangeEvent<FormElement>) => void
+	onFocus?: (e: React.FocusEvent<FormElement>) => void
+	onBlur?: (e: React.FocusEvent<FormElement>) => void
 }
 
 export interface IInputProps extends IInputRequiredProps, IInputOptionalProps {}
@@ -43,6 +43,8 @@ export const inputDefaultProps: IInputOptionalProps = {
 	rightIcon: undefined,
 	placeholder: undefined,
 	onChange: undefined,
+	onFocus: undefined,
+	onBlur: undefined,
 }
 
 export const Input = forwardRef<FormElement, IInputProps>((props, ref: React.Ref<FormElement | null>) => {
@@ -60,6 +62,8 @@ export const Input = forwardRef<FormElement, IInputProps>((props, ref: React.Ref
 		leftIcon,
 		rightIcon,
 		onChange,
+		onFocus,
+		onBlur,
 		...rest
 	} = props
 
@@ -91,6 +95,8 @@ export const Input = forwardRef<FormElement, IInputProps>((props, ref: React.Ref
 				onClick={onClick}
 				placeholder={placeholder}
 				onChange={handleOnChange}
+				onFocus={onFocus}
+				onBlur={onBlur}
 				{...rest}
 			/>
 			{leftIcon ? (

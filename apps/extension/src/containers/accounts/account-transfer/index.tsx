@@ -16,6 +16,8 @@ import {
 } from 'ui/src/components-v2/dropdown-menu'
 import { FormElement, Input } from 'ui/src/components-v2/input'
 import { NumberInput } from 'ui/src/components-v2/number-input'
+import { SearchableInput } from 'ui/src/components-v2/searchable-input'
+import { ToolTip } from 'ui/src/components-v2/tool-tip'
 import { Text } from 'ui/src/components-v2/typography'
 import {
 	ArrowLeftIcon,
@@ -168,21 +170,6 @@ export const AccountTransfer = forwardRef<HTMLElement, IAccountTransferProps>(
 												From
 											</Text>
 										</Box>
-										<Box
-											component="button"
-											type="button"
-											className={plainButtonStyles.plainButtonHoverWrapper}
-											onClick={handleAddMessage}
-											display="flex"
-											alignItems="center"
-										>
-											<Box component="span" display="flex" alignItems="center" marginRight="xxsmall">
-												<WriteNoteIcon />
-											</Box>
-											<Text inheritColor component="span" size="medium" underline="always" truncate>
-												Add message
-											</Text>
-										</Box>
 									</Box>
 									<Box width="full">
 										<DropdownMenuVirtuoso
@@ -243,6 +230,75 @@ export const AccountTransfer = forwardRef<HTMLElement, IAccountTransferProps>(
 												</Button>
 											}
 										/>
+									</Box>
+
+									<Box display="flex" paddingBottom="medium" paddingTop="large">
+										<Box display="flex" alignItems="center" width="full">
+											<Box display="flex" alignItems="center" flexGrow={1}>
+												<Text size="medium" color="strong">
+													To
+												</Text>
+												{/* <Box display="flex" alignItems="center" color="green500" marginLeft="xxsmall"> */}
+												{/* 	<CheckCircleIcon /> */}
+												{/* </Box> */}
+											</Box>
+											<Box display="flex" alignItems="center" gap="medium">
+												<Box
+													component="button"
+													type="button"
+													className={plainButtonStyles.plainButtonHoverWrapper}
+													onClick={handleAddMessage}
+													display="flex"
+													alignItems="center"
+												>
+													<Box component="span" display="flex" alignItems="center" marginRight="xxsmall">
+														<WriteNoteIcon />
+													</Box>
+													<Text inheritColor component="span" size="medium" underline="always" truncate>
+														Add message
+													</Text>
+												</Box>
+											</Box>
+										</Box>
+									</Box>
+									<Box>
+										<Box width="full">
+											{/* <DropdownMenuVirtuoso */}
+											{/* 	value="light" */}
+											{/* 	onValueChange={(value: string) => { */}
+											{/* 		// eslint-disable-next-line */}
+											{/* 		console.log('onValueChange', value) */}
+											{/* 	}} */}
+											{/* 	data={Array.from({ length: 500 }).map((_, i, a) => ({ */}
+											{/* 		id: `v1.2.0-beta.${a.length - i}`, */}
+											{/* 		title: `v1.2.0-beta.${a.length - i}`, */}
+											{/* 		test: 'heheh', */}
+											{/* 	}))} */}
+											{/* 	trigger={ */}
+											{/* 		<Input */}
+											{/* 			styleVariant="secondary" */}
+											{/* 			sizeVariant="large" */}
+											{/* 			value={undefined} */}
+											{/* 			placeholder="rdx1..." */}
+											{/* 			// placeholder={capitalizeFirstLetter(`${t('global.search')}`)} */}
+											{/* 			onChange={() => {}} */}
+											{/* 		/> */}
+											{/* 	} */}
+											{/* /> */}
+
+											<SearchableInput
+												value="light"
+												onValueChange={(value: string) => {
+													// eslint-disable-next-line
+													console.log('onValueChange', value)
+												}}
+												data={Array.from({ length: 500 }).map((_, i, a) => ({
+													id: `v1.2.0-beta.${a.length - i}`,
+													title: `v1.2.0-beta.${a.length - i}`,
+													test: 'heheh',
+												}))}
+											/>
+										</Box>
 									</Box>
 
 									{/* START: this is the message box */}
@@ -315,65 +371,6 @@ export const AccountTransfer = forwardRef<HTMLElement, IAccountTransferProps>(
 										)}
 									</AnimatePresence>
 									{/* END: this is the message box */}
-									<Box display="flex" paddingBottom="medium" paddingTop="large">
-										<Box display="flex" alignItems="center" width="full">
-											<Box display="flex" alignItems="center" flexGrow={1}>
-												<Text size="medium" color="strong">
-													To: known address
-												</Text>
-												<Box display="flex" alignItems="center" color="green500" marginLeft="xxsmall">
-													<CheckCircleIcon />
-												</Box>
-											</Box>
-											<Box display="flex" alignItems="center" gap="medium">
-												<Box
-													component="button"
-													type="button"
-													className={plainButtonStyles.plainButtonHoverWrapper}
-													onClick={handleAddMessage}
-													display="flex"
-													alignItems="center"
-												>
-													<Box component="span" display="flex" alignItems="center" marginRight="xxsmall">
-														<AtSignIcon />
-													</Box>
-													<Text inheritColor component="span" size="medium" underline="always" truncate>
-														Send to multiple
-													</Text>
-												</Box>
-											</Box>
-										</Box>
-									</Box>
-									<Box>
-										<Box width="full">
-											<DropdownMenuVirtuoso
-												value="light"
-												onValueChange={(value: string) => {
-													// eslint-disable-next-line
-													console.log('onValueChange', value)
-												}}
-												data={Array.from({ length: 500 }).map((_, i, a) => ({
-													id: `v1.2.0-beta.${a.length - i}`,
-													title: `v1.2.0-beta.${a.length - i}`,
-													test: 'heheh',
-												}))}
-												trigger={
-													<Button
-														styleVariant="secondary"
-														sizeVariant="xlarge"
-														fullWidth
-														rightIcon={<ChevronDown2Icon />}
-													>
-														<Box display="flex" alignItems="center" width="full" textAlign="left">
-															<Text size="large" color="strong">
-																Savings 765x...75jf
-															</Text>
-														</Box>
-													</Button>
-												}
-											/>
-										</Box>
-									</Box>
 									<Box paddingTop="large">
 										<Box display="flex" paddingBottom="medium">
 											<Box flexGrow={1}>
@@ -443,25 +440,49 @@ export const AccountTransfer = forwardRef<HTMLElement, IAccountTransferProps>(
 													</Box>
 												</Link>
 											</Box>
-											<Box display="flex" alignItems="center">
-												<Box
-													component="button"
-													type="button"
-													className={plainButtonStyles.plainButtonHoverWrapper}
-													onClick={handleAddMessage}
-													display="flex"
-													alignItems="center"
-												>
-													<Box component="span" display="flex" alignItems="center" marginRight="xxsmall">
-														<CoinsIcon />
-													</Box>
-													<Text inheritColor component="span" size="medium" underline="always" truncate>
-														Send another token
-													</Text>
-												</Box>
-											</Box>
+											{/* <Box display="flex" alignItems="center"> */}
+											{/* 	<Box */}
+											{/* 		component="button" */}
+											{/* 		type="button" */}
+											{/* 		className={plainButtonStyles.plainButtonHoverWrapper} */}
+											{/* 		onClick={handleAddMessage} */}
+											{/* 		display="flex" */}
+											{/* 		alignItems="center" */}
+											{/* 	> */}
+											{/* 		<Box component="span" display="flex" alignItems="center" marginRight="xxsmall"> */}
+											{/* 			<CoinsIcon /> */}
+											{/* 		</Box> */}
+											{/* 		<Text inheritColor component="span" size="medium" underline="always" truncate> */}
+											{/* 			Send another token */}
+											{/* 		</Text> */}
+											{/* 	</Box> */}
+											{/* </Box> */}
 										</Box>
 										<Box display="flex" paddingTop="xlarge" width="full">
+											<ToolTip
+												side="top"
+												theme="backgroundPrimary"
+												message="Group transaction to send multiple tokens to the same address."
+											>
+												<Button
+													styleVariant="tertiary"
+													sizeVariant="xlarge"
+													fullWidth
+													// onClick={handleClickContinue}
+													disabled={state.isSubmittingReview}
+													rightIcon={
+														state.isSubmittingReview && (
+															<Box marginLeft="small">
+																<LoadingBarsIcon />
+															</Box>
+														)
+													}
+												>
+													Group transaction
+												</Button>
+											</ToolTip>
+										</Box>
+										<Box display="flex" paddingTop="large" width="full">
 											<Button
 												styleVariant="primary"
 												sizeVariant="xlarge"
