@@ -14,20 +14,7 @@ export const fadeOut = keyframes({
 	'100%': { opacity: '0' },
 })
 
-export const searchableInputWrapper = style([
-	sprinkles({
-		position: 'relative',
-	}),
-	{},
-])
-
-export const inputWrapper = style([
-	sprinkles({
-		position: 'relative',
-	}),
-	{},
-])
-
+// TODO: these styles are repeated from dropdown,
 export const popoverContentWrapper = style([
 	sprinkles({
 		position: 'relative',
@@ -39,6 +26,7 @@ export const popoverContentWrapper = style([
 		borderRadius: 'medium',
 	}),
 	{
+		overscrollBehavior: 'contain',
 		paddingTop: 0,
 		paddingBottom: 0,
 		paddingLeft: 0,
@@ -58,29 +46,5 @@ export const popoverContentWrapper = style([
 				animationFillMode: 'forwards',
 			},
 		},
-	},
-])
-
-export const searchableInputSimpleBarWrapper = style([
-	sprinkles({
-		position: 'relative',
-	}),
-	{},
-	responsiveStyle({
-		mobile: { maxHeight: '40vh' },
-		tablet: { maxHeight: '40vh' },
-	}),
-])
-
-export const searchableInputScrollAreaWrapper = style([
-	sprinkles({
-		position: 'relative',
-		width: 'full',
-		height: 'full',
-		paddingY: 'small',
-		paddingX: 'small',
-	}),
-	{
-		minHeight: '200px',
 	},
 ])

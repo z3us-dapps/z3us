@@ -120,10 +120,6 @@ export const DropdownMenuVirtuoso: React.FC<IDropdownMenuVirtuosoProps> = ({
 						sideOffset={0}
 						className={styles.dropdownMenuVirtuosoContentWrapper}
 						style={{ width: `${triggerWidth}px` }}
-						// onOpenAutoFocus={false}
-						// onOpenAutoFocus={e => {
-						// 	e.preventDefault()
-						// }}
 					>
 						<SimpleBar
 							className={styles.dropdownMenuVirtuosoSimpleBarWrapper}

@@ -16,7 +16,9 @@ import {
 } from 'ui/src/components-v2/dropdown-menu'
 import { FormElement, Input } from 'ui/src/components-v2/input'
 import { NumberInput } from 'ui/src/components-v2/number-input'
-import { SearchableInput } from 'ui/src/components-v2/searchable-input'
+
+// TODO: move this to container, out of components
+
 import { ToolTip } from 'ui/src/components-v2/tool-tip'
 import { Text } from 'ui/src/components-v2/typography'
 import {
@@ -36,8 +38,10 @@ import * as plainButtonStyles from '@src/components/styles/plain-button-styles.c
 import { TokenImageIcon } from '@src/components/token-image-icon'
 import Translation from '@src/components/translation'
 import { accountMenuSlugs } from '@src/constants'
-// TODO: move this to compoennts
+// TODO: move this to compoennts, out of containers
 import { TokenSelectorDialog } from '@src/containers/accounts/token-selector-dialog'
+
+import { SearchableInput } from './searchable-input'
 
 import * as styles from './account-transfer.css'
 
@@ -263,29 +267,6 @@ export const AccountTransfer = forwardRef<HTMLElement, IAccountTransferProps>(
 									</Box>
 									<Box>
 										<Box width="full">
-											{/* <DropdownMenuVirtuoso */}
-											{/* 	value="light" */}
-											{/* 	onValueChange={(value: string) => { */}
-											{/* 		// eslint-disable-next-line */}
-											{/* 		console.log('onValueChange', value) */}
-											{/* 	}} */}
-											{/* 	data={Array.from({ length: 500 }).map((_, i, a) => ({ */}
-											{/* 		id: `v1.2.0-beta.${a.length - i}`, */}
-											{/* 		title: `v1.2.0-beta.${a.length - i}`, */}
-											{/* 		test: 'heheh', */}
-											{/* 	}))} */}
-											{/* 	trigger={ */}
-											{/* 		<Input */}
-											{/* 			styleVariant="secondary" */}
-											{/* 			sizeVariant="large" */}
-											{/* 			value={undefined} */}
-											{/* 			placeholder="rdx1..." */}
-											{/* 			// placeholder={capitalizeFirstLetter(`${t('global.search')}`)} */}
-											{/* 			onChange={() => {}} */}
-											{/* 		/> */}
-											{/* 	} */}
-											{/* /> */}
-
 											<SearchableInput
 												value="light"
 												onValueChange={(value: string) => {
@@ -426,16 +407,21 @@ export const AccountTransfer = forwardRef<HTMLElement, IAccountTransferProps>(
 													<Text size="medium" truncate>
 														Available:&nbsp;
 													</Text>
-													<Link to={accountMenuSlugs.ACCOUNTS}>
-														<Text size="medium" truncate>
+													<Text size="medium" truncate>
+														<Link to={accountMenuSlugs.ACCOUNTS} className={plainButtonStyles.plainButtonHoverWrapper}>
 															3.13 BTC
-														</Text>
-													</Link>
+														</Link>
+													</Text>
 												</Box>
 												<Box className={styles.transferUiTextSeperator} />
-												<Link to={accountMenuSlugs.ACCOUNTS} underline="hover">
+
+												<Link
+													to={accountMenuSlugs.ACCOUNTS}
+													underline="hover"
+													className={plainButtonStyles.plainButtonHoverWrapper}
+												>
 													<Box display="flex" gap="xxsmall" alignItems="center">
-														<Text size="medium">$70,887 USD</Text>
+														$70,887 USD
 														<ChevronDown2Icon />
 													</Box>
 												</Link>
