@@ -1,6 +1,6 @@
 import { dAppEvent } from '@radixdlt/connector-extension/src/chrome/dapp/_types'
 
-import { Message, MessageAction, ResponseMessage, MessageSource } from '@src/browser/messages/types'
+import { Message, MessageAction, MessageSource, ResponseMessage } from '@src/browser/messages/types'
 import { generateId } from '@src/utils/generate-id'
 
 export type MessageClientType = ReturnType<typeof MessageClient>
@@ -35,7 +35,7 @@ export const MessageClient = () => {
 
 	const sendMessage = async (action: string, payload: any = {}) => {
 		const messageId = `${action}-${generateId()}`
-		const promise = new Promise<ResponseMessage>(resolve => {
+		const promise = new Promise<ResponseMessage['payload']>(resolve => {
 			messageHandlers[messageId] = (message: Message) => {
 				if (message.target !== MessageSource.INPAGE) {
 					return

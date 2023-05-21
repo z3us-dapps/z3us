@@ -33,7 +33,7 @@ export const MessageClient = () => {
 
 	const sendMessage = async (action: string, payload: any = {}) => {
 		const messageId = `${action}-${crypto.randomUUID()}`
-		const promise = new Promise<ResponseMessage>(resolve => {
+		const promise = new Promise<ResponseMessage['payload']>(resolve => {
 			messageHandlers[messageId] = (message: Message) => {
 				if (message.target !== MessageSource.POPUP) {
 					return
