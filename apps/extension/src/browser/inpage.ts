@@ -1,8 +1,12 @@
+import '@src/helpers/polyfills'
 import { INIT } from '@src/browser/inpage/events'
 import { MessageClient } from '@src/browser/inpage/message-client'
 import { MessageAction, MessageResponse } from '@src/browser/messages/types'
+import { config } from '@src/config'
 
 const messageHandler = MessageClient()
+
+window.addEventListener('message', messageHandler.onMessage, false)
 
 declare global {
 	interface Window {
@@ -14,7 +18,7 @@ declare global {
 
 if (!window.z3us) {
 	const z3us = {
-		version: process.env.APP_VERSION,
+		version: config.version,
 		ping: async (): Promise<MessageResponse> => messageHandler.sendMessage(MessageAction.PING),
 	}
 

@@ -2,7 +2,7 @@ import browser from 'webextension-polyfill'
 
 // @ts-ignore
 // eslint-disable-next-line import/default
-import inpage from '@src/browser/inpage?script'
+import inpage from '@src/browser/inpage?script&module'
 import { newMessage } from '@src/browser/messages/message'
 import { MessageAction, MessageSource } from '@src/browser/messages/types'
 import { sharedStore } from '@src/store'

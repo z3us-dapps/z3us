@@ -6,14 +6,23 @@ import hosts from './src/browser/host_permissions.json'
 
 const protocols = ['https://*/*']
 const [major, minor, patch, label = '0'] = version.replace(/[^\d.-]+/g, '').split(/[.-]/)
-const permissions = ['storage', 'offscreen', 'unlimitedStorage', 'notifications', 'activeTab', 'scripting']
+const permissions = [
+	'storage',
+	'offscreen',
+	'unlimitedStorage',
+	'notifications',
+	'activeTab',
+	'scripting',
+	'contextMenus',
+]
 
+let hostPermissions = hosts.concat([])
+let contentScriptsMatches = matches.concat([])
 if (process.env.NODE_ENV === 'development') {
 	protocols.push('http://*/*')
-	permissions.push('contextMenus')
+	hostPermissions = hosts.concat(protocols)
+	contentScriptsMatches = matches.concat(protocols)
 }
-
-const hostPermissions = hosts.concat(protocols)
 
 const manifest: ManifestV3Export = {
 	manifest_version: 3,
@@ -57,7 +66,7 @@ const manifest: ManifestV3Export = {
 	},
 	content_scripts: [
 		{
-			matches,
+			matches: contentScriptsMatches,
 			run_at: 'document_start',
 			all_frames: true,
 			js: ['src/browser/content-script.ts'],

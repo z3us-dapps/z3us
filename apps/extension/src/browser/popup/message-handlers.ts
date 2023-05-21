@@ -1,4 +1,5 @@
 import { Message as RadixMessage, messageDiscriminator } from '@radixdlt/connector-extension/src/chrome/messages/_types'
+import { createMessage as createRadixMessage } from '@radixdlt/connector-extension/src/chrome/messages/create-message'
 
 import { Message, MessageAction, MessageHandlers } from '@src/browser/messages/types'
 
@@ -9,7 +10,7 @@ async function ping() {
 async function onRadixMessage(message: Message) {
 	const radixMsg = message.payload as RadixMessage
 
-	console.debug(message)
+	console.error('poppup handler onRadixMessage', message)
 
 	switch (radixMsg.discriminator) {
 		case messageDiscriminator.getConnectionPassword:
@@ -45,8 +46,11 @@ async function onRadixMessage(message: Message) {
 			break
 		}
 		default:
-			throw new Error('unhandledMessageDiscriminator')
+			break
 	}
+	return createRadixMessage.confirmationError(radixMsg.source, radixMsg.messageId, {
+		reason: 'unhandledMessageDiscriminator',
+	})
 }
 
 export default {

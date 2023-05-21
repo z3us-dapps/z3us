@@ -3,14 +3,10 @@ import { createMessage as createRadixMessage } from '@radixdlt/connector-extensi
 
 import { Message, MessageAction, MessageHandlers } from '@src/browser/messages/types'
 
-async function ping() {
-	return true
-}
-
 async function onRadixMessage(message: Message) {
 	const radixMsg = message.payload as RadixMessage
 
-	console.error('inpage handler onRadixMessage', message)
+	console.error('offscreen handler onRadixMessage', message)
 
 	switch (radixMsg.discriminator) {
 		case messageDiscriminator.getConnectionPassword:
@@ -54,6 +50,5 @@ async function onRadixMessage(message: Message) {
 }
 
 export default {
-	[MessageAction.PING]: ping,
 	[MessageAction.RADIX]: onRadixMessage,
 } as MessageHandlers

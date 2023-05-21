@@ -26,7 +26,7 @@ const openRadixDevToolsPage = async ({ menuItemId }) => {
 }
 
 export const addDevTools = () => {
-	if (config.isDevlopmentMode) {
+	if (process.env.DEV_TOOLS) {
 		browser.contextMenus.create({
 			id: menuId,
 			title: 'Radix Dev Tools',

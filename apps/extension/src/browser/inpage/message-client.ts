@@ -6,34 +6,32 @@ import { generateId } from '@src/utils/generate-id'
 export type MessageClientType = ReturnType<typeof MessageClient>
 
 export const MessageClient = () => {
+	console.log(`Z3US: inpage message client initialized.`)
 	const messageHandlers: {
 		[key: string]: any
 	} = {}
 
-	const listener = (event: MessageEvent<Message>) => {
+	const onMessage = (event: MessageEvent<Message>) => {
 		if (event.source !== window) {
 			return
 		}
 		const message = event.data
-		if (message?.target !== MessageSource.BACKGROUND) {
+		if (message?.target !== MessageSource.INPAGE) {
 			return
 		}
 		if (!message.messageId) {
 			return
 		}
-		const handler = messageHandlers[message.messageId]
-		if (handler) {
-			handler(message)
-		}
-
 		if (message.action === MessageAction.RADIX) {
 			window.dispatchEvent(new CustomEvent(dAppEvent.receive, { detail: message.payload }))
 		} else {
 			window.dispatchEvent(new CustomEvent(`z3us.${message.action}`, { detail: message.payload }))
 		}
+		const handler = messageHandlers[message.messageId]
+		if (handler) {
+			handler(message)
+		}
 	}
-
-	window.addEventListener('message', listener, false)
 
 	const sendMessage = async (action: string, payload: any = {}) => {
 		const messageId = `${action}-${generateId()}`
@@ -69,6 +67,7 @@ export const MessageClient = () => {
 	}
 
 	return {
+		onMessage,
 		sendMessage,
 	}
 }

@@ -8,10 +8,12 @@ import { defineConfig } from 'vite'
 import tsconfigPaths from 'vite-tsconfig-paths'
 
 import manifest from './manifest'
-import { version } from './package.json'
 
 const isProd = process.env.NODE_ENV === 'production'
-const isDev = process.env.NODE_ENV === 'development'
+
+const isDevToolsActive = !!process.env.DEV_TOOLS
+const isLedgerActive = !!process.env.LEDGER
+const isPairingActive = !!process.env.PAIRING
 
 const config = {
 	server: {
@@ -30,16 +32,12 @@ const config = {
 			config: 'src/config.ts',
 		},
 	},
-	define: {
-		APP_VERSION: JSON.stringify(version),
-	},
 	plugins: [
 		react({
 			include: '**/*.tsx',
 		}),
 		crx({ manifest }),
 		tsconfigPaths({
-			// ignoreConfigErrors: true,
 			projects: [
 				path.resolve(__dirname, 'tsconfig.json'),
 				'../../node_modules/@radixdlt/connector-extension/tsconfig.json',
@@ -56,12 +54,10 @@ const config = {
 			treeshake: true,
 			input: {
 				offscreen: 'src/browser/offscreen/index.html',
-				dashboard: 'src/pages/index.html',
-				dashboard_dark: 'src/pages/popup-theme-dark.html',
-				dashboard_light: 'src/pages/popup-theme-light.html',
-				dashboard_system: 'src/pages/popup-theme-system.html',
-				pairing: 'src/pages/pairing/index.html',
-				ledger: 'src/pages/ledger/index.html',
+				dashboard: 'src/pages/dashboard/index.html',
+				dashboard_dark: 'src/pages/dashboard/popup-theme-dark.html',
+				dashboard_light: 'src/pages/dashboard/popup-theme-light.html',
+				dashboard_system: 'src/pages/dashboard/popup-theme-system.html',
 			},
 			plugins: [
 				rollupInject({
@@ -77,9 +73,14 @@ const config = {
 	},
 }
 
-if (isDev) {
-	// @ts-ignore
-	config.build.rollupOptions.input.dev_tools = 'src/pages/dev-tools/index.html'
+if (isLedgerActive) {
+	;(config.build.rollupOptions.input as any).ledger = 'src/pages/ledger/index.html'
+}
+if (isPairingActive) {
+	;(config.build.rollupOptions.input as any).pairing = 'src/pages/pairing/index.html'
+}
+if (isDevToolsActive) {
+	;(config.build.rollupOptions.input as any).dev_tools = 'src/pages/dev-tools/index.html'
 }
 
 export default defineConfig(config)

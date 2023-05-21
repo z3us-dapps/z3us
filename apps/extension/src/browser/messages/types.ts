@@ -2,6 +2,7 @@ export enum MessageSource {
 	POPUP = 'z3us-popup',
 	BACKGROUND = 'z3us-background',
 	INPAGE = 'z3us-inpage',
+	OFFSCREEN = 'z3us-offscreen',
 }
 
 export enum MessageAction {
