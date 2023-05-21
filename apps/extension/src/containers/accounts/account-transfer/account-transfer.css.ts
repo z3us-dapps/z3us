@@ -67,8 +67,8 @@ export const transferAccordionItemWrapper = style([
 	{
 		selectors: {
 			'&[data-state="open"]': {
-				// boxShadow: `inset 0 0 0 1px ${vars.color.btnSecondaryBorderColor}, ${vars.color.shadowAccordionOpen}`,
-				boxShadow: `inset 0 0 0 1px ${vars.color.btnSecondaryBorderColor}`,
+				boxShadow: `inset 0 0 0 1px ${vars.color.btnSecondaryBorderColor}, ${vars.color.shadowAccordionOpen}`,
+				// boxShadow: `inset 0 0 0 1px ${vars.color.btnSecondaryBorderColor}`,
 			},
 		},
 	},
