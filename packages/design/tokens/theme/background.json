@@ -5,7 +5,7 @@
 			"secondary": { "value": "{color.core.white}", "darkValue": "{color.core.lead.500.value}" },
 			"overlay_primary": {
 				"value": "{color.core.wax.1000.value}",
-				"darkValue": "{color.core.lead.700.value}",
+				"darkValue": "{color.core.lead.600.value}",
 				"modify": [
 					{
 						"type": "alpha",
@@ -15,7 +15,7 @@
 				"modifyDarkValue": [
 					{
 						"type": "alpha",
-						"amount": "{alpha.1}"
+						"amount": "{alpha.4}"
 					}
 				]
 			},

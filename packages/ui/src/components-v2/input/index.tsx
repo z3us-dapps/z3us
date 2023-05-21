@@ -5,6 +5,9 @@ import { Box } from '../box'
 import { element } from '../system/reset.css'
 import * as styles from './input.css'
 
+export type TSizeVariant = 'small' | 'medium' | 'large'
+export type TStyleVariant = 'primary' | 'secondary'
+
 export type FormElement = HTMLInputElement | HTMLTextAreaElement
 
 export interface IInputRequiredProps {
@@ -16,8 +19,8 @@ export interface IInputOptionalProps {
 	onClick?: () => void
 	disabled?: boolean
 	rounded?: boolean
-	sizeVariant?: 'small' | 'medium' | 'large'
-	styleVariant?: 'primary' | 'secondary'
+	sizeVariant?: TSizeVariant
+	styleVariant?: TStyleVariant
 	type?: 'text' | 'email'
 	elementType?: 'input' | 'textarea'
 	placeholder?: string

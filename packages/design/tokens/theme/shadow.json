@@ -13,6 +13,10 @@
 				"value": "{shadow.panel.shadow_active_panel_light.value}",
 				"darkValue": "{shadow.panel.shadow_active_panel_dark.value}"
 			},
+			"shadow_accordion_open": {
+				"value": "{shadow.panel.shadow_accordion_open_light.value}",
+				"darkValue": "{shadow.panel.shadow_accordion_open_dark.value}"
+			},
 			"shadow_scroll_top": {
 				"value": "{shadow.panel.shadow_scroll_top_light.value}",
 				"darkValue": "{shadow.panel.shadow_scroll_top_dark.value}"

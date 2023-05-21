@@ -111,7 +111,7 @@ export const TokenSelectorDialog = forwardRef<HTMLElement, ITokenSelectorDialogP
 									isScrolled && styles.tokenSelectorHeaderWrapperShadow,
 								)}
 							>
-								<Box display="flex" width="full" alignItems="center" gap="small">
+								<Box display="flex" width="full" alignItems="center" gap="medium">
 									<Box flexGrow={1}>
 										<Input
 											value={inputValue}

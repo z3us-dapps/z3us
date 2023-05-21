@@ -1,7 +1,8 @@
 import { style } from '@vanilla-extract/css'
-import { responsiveStyle } from 'ui/src/components-v2/system/theme-utils'
 
 import { sprinkles } from 'ui/src/components-v2/system/sprinkles.css'
+import { responsiveStyle } from 'ui/src/components-v2/system/theme-utils'
+import { vars } from 'ui/src/components-v2/system/theme.css'
 
 export const transferWrapper = style([
 	sprinkles({
@@ -49,4 +50,34 @@ export const tokenSelectBtnWrapper = style([
 		tablet: { maxWidth: '140px' },
 		desktop: { maxWidth: '140px' },
 	}),
+])
+
+export const transferAccordionItemWrapper = style([
+	sprinkles({
+		position: 'relative',
+		width: 'full',
+		borderRadius: 'large',
+		color: 'colorNeutral',
+		transition: 'fast',
+		background: {
+			lightMode: 'bai_pearl500',
+			darkMode: 'wax500',
+		},
+	}),
+	{
+		selectors: {
+			'&[data-state="open"]': {
+				// boxShadow: `inset 0 0 0 1px ${vars.color.btnSecondaryBorderColor}, ${vars.color.shadowAccordionOpen}`,
+				boxShadow: `inset 0 0 0 1px ${vars.color.btnSecondaryBorderColor}`,
+			},
+		},
+	},
+])
+
+export const transferAccordionContentWrapper = style([
+	sprinkles({
+		position: 'relative',
+		width: 'full',
+	}),
+	{},
 ])

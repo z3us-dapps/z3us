@@ -41,6 +41,14 @@
 				"value": "0px 0px 0px 1px rgba(0, 0, 0, 0.1), 0px 10px 10px rgba(0, 0, 0, 0.01), 0px 10px 10px rgba(0, 0, 0, 0.15), 0px 24px 24px rgba(0, 0, 0, 0.2)",
 				"description": "shadow panel dark"
 			},
+			"shadow_accordion_open_light": {
+				"value": "0px 0px 5px rgba(0, 0, 0, 0.08)",
+				"description": "shadow accordion open light"
+			},
+			"shadow_accordion_open_dark": {
+				"value": "0px 0px 0px 1px rgba(0, 0, 0, 0.1), 0px 10px 10px rgba(0, 0, 0, 0.01), 0px 10px 10px rgba(0, 0, 0, 0.15), 0px 24px 24px rgba(0, 0, 0, 0.2)",
+				"description": "shadow accordion open dark"
+			},
 			"shadow_scroll_top_light": {
 				"value": "0px 3px 7px rgba(0, 0, 0, 0.1)",
 				"description": "shadow scroll top light"

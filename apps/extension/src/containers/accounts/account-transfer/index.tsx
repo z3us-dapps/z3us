@@ -6,6 +6,13 @@ import { useTranslation } from 'react-i18next'
 import useMeasure from 'react-use-measure'
 import { useImmer } from 'use-immer'
 
+import {
+	AccordionContent,
+	AccordionHeader,
+	AccordionItem,
+	AccordionRoot,
+	AccordionTrigger,
+} from 'ui/src/components-v2/accordion'
 import { Box } from 'ui/src/components-v2/box'
 import { Button } from 'ui/src/components-v2/button'
 import { Checkbox } from 'ui/src/components-v2/checkbox'
@@ -16,9 +23,6 @@ import {
 } from 'ui/src/components-v2/dropdown-menu'
 import { FormElement, Input } from 'ui/src/components-v2/input'
 import { NumberInput } from 'ui/src/components-v2/number-input'
-
-// TODO: move this to container, out of components
-
 import { ToolTip } from 'ui/src/components-v2/tool-tip'
 import { Text } from 'ui/src/components-v2/typography'
 import {
@@ -27,8 +31,10 @@ import {
 	Check2Icon,
 	CheckCircleIcon,
 	ChevronDown2Icon,
+	CirclePlusIcon,
 	CoinsIcon,
 	LoadingBarsIcon,
+	PlusIcon,
 	WriteNoteIcon,
 } from 'ui/src/components/icons'
 import { capitalizeFirstLetter } from 'ui/src/utils/capitalize-first-letter'
@@ -38,12 +44,12 @@ import * as plainButtonStyles from '@src/components/styles/plain-button-styles.c
 import { TokenImageIcon } from '@src/components/token-image-icon'
 import Translation from '@src/components/translation'
 import { accountMenuSlugs } from '@src/constants'
+//
 // TODO: move this to compoennts, out of containers
 import { TokenSelectorDialog } from '@src/containers/accounts/token-selector-dialog'
 
-import { SearchableInput } from './searchable-input'
-
 import * as styles from './account-transfer.css'
+import { SearchableInput } from './searchable-input'
 
 interface IAccountTransferRequiredProps {}
 
@@ -168,6 +174,91 @@ export const AccountTransfer = forwardRef<HTMLElement, IAccountTransferProps>(
 											Send
 										</Text>
 									</Box>
+									<Box paddingY="xlarge">
+										{/* start accordion */}
+										<AccordionRoot type="single" defaultValue="item-1" collapsible>
+											<AccordionItem value="item-1" className={styles.transferAccordionItemWrapper}>
+												<AccordionHeader>
+													<AccordionTrigger asChild>
+														<Button
+															styleVariant="secondary"
+															sizeVariant="xlarge"
+															fullWidth
+															leftIcon={
+																<TokenImageIcon
+																	imgSrc="https://images.unsplash.com/photo-1492633423870-43d1cd2775eb?&w=128&h=128&dpr=2&q=80"
+																	imgAlt="btc token image"
+																	fallbackText="btc"
+																/>
+															}
+															rightIcon={<ChevronDown2Icon />}
+														>
+															<Box
+																display="flex"
+																alignItems="center"
+																width="full"
+																textAlign="left"
+																paddingLeft="xsmall"
+															>
+																<Text size="large" color="strong">
+																	Savings 765x...75jf
+																</Text>
+															</Box>
+														</Button>
+													</AccordionTrigger>
+												</AccordionHeader>
+												<AccordionContent className={styles.transferAccordionContentWrapper}>
+													<Box padding="large">
+														<Box display="flex" paddingBottom="medium" paddingTop="large">
+															<Box display="flex" alignItems="center" width="full">
+																<Box display="flex" alignItems="center" flexGrow={1}>
+																	<Text size="medium" color="strong">
+																		To:
+																	</Text>
+																	<Box display="flex" alignItems="center" color="green500" marginLeft="xxsmall">
+																		<Text size="medium">(known address2)</Text>
+																		<CheckCircleIcon />
+																	</Box>
+																</Box>
+																<Box display="flex" alignItems="center" gap="medium">
+																	<Box
+																		component="button"
+																		type="button"
+																		className={plainButtonStyles.plainButtonHoverWrapper}
+																		onClick={handleAddMessage}
+																		display="flex"
+																		alignItems="center"
+																	>
+																		<Box component="span" display="flex" alignItems="center" marginRight="xxsmall">
+																			<WriteNoteIcon />
+																		</Box>
+																		<Text inheritColor component="span" size="medium" underline="always" truncate>
+																			Add message
+																		</Text>
+																	</Box>
+																</Box>
+															</Box>
+														</Box>
+														<Box width="full">
+															<SearchableInput
+																value="light"
+																onValueChange={(value: string) => {
+																	// eslint-disable-next-line
+																	console.log('onValueChange', value)
+																}}
+																data={Array.from({ length: 500 }).map((_, i, a) => ({
+																	id: `v1.2.0-beta.${a.length - i}`,
+																	title: `v1.2.0-beta.${a.length - i}`,
+																	test: 'heheh',
+																}))}
+															/>
+														</Box>
+													</Box>
+												</AccordionContent>
+											</AccordionItem>
+										</AccordionRoot>
+										{/* end start accordion */}
+									</Box>
 									<Box display="flex" paddingBottom="medium" alignItems="center">
 										<Box flexGrow={1} alignItems="center">
 											<Text size="medium" color="strong">
@@ -240,11 +331,12 @@ export const AccountTransfer = forwardRef<HTMLElement, IAccountTransferProps>(
 										<Box display="flex" alignItems="center" width="full">
 											<Box display="flex" alignItems="center" flexGrow={1}>
 												<Text size="medium" color="strong">
-													To
+													To:
 												</Text>
-												{/* <Box display="flex" alignItems="center" color="green500" marginLeft="xxsmall"> */}
-												{/* 	<CheckCircleIcon /> */}
-												{/* </Box> */}
+												<Box display="flex" alignItems="center" color="green500" marginLeft="xxsmall">
+													<Text size="medium">(known address)</Text>
+													<CheckCircleIcon />
+												</Box>
 											</Box>
 											<Box display="flex" alignItems="center" gap="medium">
 												<Box
@@ -265,21 +357,20 @@ export const AccountTransfer = forwardRef<HTMLElement, IAccountTransferProps>(
 											</Box>
 										</Box>
 									</Box>
-									<Box>
-										<Box width="full">
-											<SearchableInput
-												value="light"
-												onValueChange={(value: string) => {
-													// eslint-disable-next-line
-													console.log('onValueChange', value)
-												}}
-												data={Array.from({ length: 500 }).map((_, i, a) => ({
-													id: `v1.2.0-beta.${a.length - i}`,
-													title: `v1.2.0-beta.${a.length - i}`,
-													test: 'heheh',
-												}))}
-											/>
-										</Box>
+									<Box width="full">
+										<SearchableInput
+											value="light"
+											styleVariant="secondary"
+											onValueChange={(value: string) => {
+												// eslint-disable-next-line
+												console.log('onValueChange', value)
+											}}
+											data={Array.from({ length: 500 }).map((_, i, a) => ({
+												id: `v1.2.0-beta.${a.length - i}`,
+												title: `v1.2.0-beta.${a.length - i}`,
+												test: 'heheh',
+											}))}
+										/>
 									</Box>
 
 									{/* START: this is the message box */}
@@ -446,9 +537,16 @@ export const AccountTransfer = forwardRef<HTMLElement, IAccountTransferProps>(
 										</Box>
 										<Box display="flex" paddingTop="xlarge" width="full">
 											<ToolTip
+												sideOffset={10}
 												side="top"
 												theme="backgroundPrimary"
-												message="Group transaction to send multiple tokens to the same address."
+												message={
+													<>
+														<span>Group transaction to send multiple</span>
+														<br />
+														<span>tokens to the same address.</span>
+													</>
+												}
 											>
 												<Button
 													styleVariant="tertiary"
@@ -456,8 +554,15 @@ export const AccountTransfer = forwardRef<HTMLElement, IAccountTransferProps>(
 													fullWidth
 													// onClick={handleClickContinue}
 													disabled={state.isSubmittingReview}
+													leftIcon={
+														true && (
+															<Box marginLeft="small">
+																<CirclePlusIcon />
+															</Box>
+														)
+													}
 													rightIcon={
-														state.isSubmittingReview && (
+														true && (
 															<Box marginLeft="small">
 																<LoadingBarsIcon />
 															</Box>

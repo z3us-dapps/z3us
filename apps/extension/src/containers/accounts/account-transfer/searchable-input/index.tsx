@@ -4,12 +4,15 @@ import React, { useEffect, useRef, useState } from 'react'
 import useMeasure from 'react-use-measure'
 import { Virtuoso } from 'react-virtuoso'
 
-import { Check2Icon, ChevronDown2Icon } from 'ui/src/components/icons'
 import { Box } from 'ui/src/components-v2/box'
-import { Input } from 'ui/src/components-v2/input'
+import { Input, type TSizeVariant, type TStyleVariant } from 'ui/src/components-v2/input'
+import { Pill } from 'ui/src/components-v2/pill'
+import { PopoverAnchor, PopoverContent, PopoverPortal, PopoverRoot } from 'ui/src/components-v2/popover'
 import SimpleBar from 'ui/src/components-v2/simple-bar'
+import { ToolTip } from 'ui/src/components-v2/tool-tip'
 import { Text } from 'ui/src/components-v2/typography'
-import { PopoverRoot, PopoverAnchor, PopoverPortal, PopoverContent } from 'ui/src/components-v2/popover'
+import { Check2Icon, ChevronDown2Icon } from 'ui/src/components/icons'
+
 import * as styles from './searchable-input.css'
 
 interface ISearchableInputRequiredProps {
@@ -20,16 +23,20 @@ interface ISearchableInputRequiredProps {
 
 interface ISearchableInputOptionalProps {
 	className?: ClassValue
+	styleVariant?: TStyleVariant
+	sizeVariant?: TSizeVariant
 }
 
 interface ISearchableInputProps extends ISearchableInputRequiredProps, ISearchableInputOptionalProps {}
 
 const defaultProps: ISearchableInputOptionalProps = {
 	className: undefined,
+	styleVariant: 'primary',
+	sizeVariant: 'large',
 }
 
 export const SearchableInput: React.FC<ISearchableInputProps> = props => {
-	const { className, data, value, onValueChange } = props
+	const { className, data, value, onValueChange, styleVariant, sizeVariant } = props
 	const [isPopoverOpen, setIsPopoverOpen] = useState<boolean>(false)
 	const [customScrollParent, setCustomScrollParent] = useState<HTMLElement | undefined>(undefined)
 	const [measureRef, { width: triggerWidth }] = useMeasure()
@@ -64,8 +71,8 @@ export const SearchableInput: React.FC<ISearchableInputProps> = props => {
 					<Box ref={measureRef} className={styles.inputWrapper}>
 						<Input
 							ref={inputWrapperRef}
-							styleVariant="secondary"
-							sizeVariant="large"
+							styleVariant={styleVariant}
+							sizeVariant={sizeVariant}
 							value={undefined}
 							placeholder="rdx1..."
 							// placeholder={capitalizeFirstLetter(`${t('global.search')}`)}
@@ -74,14 +81,35 @@ export const SearchableInput: React.FC<ISearchableInputProps> = props => {
 								setIsPopoverOpen(true)
 							}}
 							rightIcon={
-								<Box display="flex" alignItems="center" gap="small">
-									<Box>pill</Box>
-									<ChevronDown2Icon />
+								<Box display="flex" alignItems="center" gap="xsmall" flexShrink={0}>
+									<Box>
+										<ToolTip
+											side="top"
+											sideOffset={10}
+											theme="backgroundPrimary"
+											message={<span>Address not in your address book</span>}
+										>
+											<Box>
+												<Pill styleVariant="caution">New</Pill>
+											</Box>
+										</ToolTip>
+									</Box>
+									<Box
+										component="button"
+										display="flex"
+										alignItems="center"
+										cursor="pointer"
+										color="colorNeutral"
+										// onClick={() => {
+										// 	if (!isPopoverOpen) {
+										// 		setIsPopoverOpen(true)
+										// 	}
+										// }}
+									>
+										<ChevronDown2Icon />
+									</Box>
 								</Box>
 							}
-							// onBlur={() => {
-							// 	setIsPopoverOpen(false)
-							// }}
 						/>
 					</Box>
 				</PopoverAnchor>

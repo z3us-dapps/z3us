@@ -58,7 +58,7 @@
 		"@capsizecss/metrics": "^0.3.0",
 		"@capsizecss/vanilla-extract": "^1.0.0",
 		"@radix-ui/popper": "^0.1.0",
-		"@radix-ui/react-accordion": "^1.0.0",
+		"@radix-ui/react-accordion": "^1.1.0",
 		"@radix-ui/react-alert-dialog": "^1.0.0",
 		"@radix-ui/react-avatar": "^1.0.0",
 		"@radix-ui/react-checkbox": "^1.0.0",

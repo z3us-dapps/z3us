@@ -144,6 +144,33 @@ export const input = recipe({
 				paddingLeft: '36px',
 			},
 		},
+		{
+			variants: {
+				sizeVariant: 'small',
+				rightIcon: true,
+			},
+			style: {
+				paddingRight: '36px',
+			},
+		},
+		{
+			variants: {
+				sizeVariant: 'medium',
+				rightIcon: true,
+			},
+			style: {
+				paddingRight: '36px',
+			},
+		},
+		{
+			variants: {
+				sizeVariant: 'large',
+				rightIcon: true,
+			},
+			style: {
+				paddingRight: '36px',
+			},
+		},
 	],
 	defaultVariants: {
 		styleVariant: 'primary',
@@ -201,19 +228,22 @@ export const iconRight = recipe({
 			small: [
 				{
 					height: '32px',
-					width: '32px',
+					// width: '32px',
+					marginRight: '16px',
 				},
 			],
 			medium: [
 				{
 					height: '40px',
-					width: '40px',
+					// width: '40px',
+					marginRight: '16px',
 				},
 			],
 			large: [
 				{
 					height: '48px',
-					width: '48px',
+					// width: '48px',
+					marginRight: '16px',
 				},
 			],
 		},
