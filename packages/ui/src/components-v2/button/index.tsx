@@ -14,7 +14,7 @@ interface IButtonRequiredProps {
 interface IButtonOptionalProps {
 	className?: string
 	linkFrameWorkComp?: any
-	onClick?: () => void
+	onClick?: React.MouseEventHandler<HTMLButtonElement>
 	disabled?: boolean
 	iconOnly?: boolean
 	rightIcon?: React.ReactNode
@@ -66,6 +66,14 @@ export const Button = forwardRef<HTMLButtonElement, IButtonProps>((props, ref: R
 
 	const ButtonComponent = linkFrameWorkComp || Box
 
+	const clickHandler = (e: React.MouseEvent<HTMLButtonElement>) => {
+		if (disabled) return
+
+		if (onClick) {
+			onClick(e)
+		}
+	}
+
 	return (
 		<ButtonComponent
 			component={href ? 'a' : 'button'}
@@ -85,7 +93,7 @@ export const Button = forwardRef<HTMLButtonElement, IButtonProps>((props, ref: R
 				}),
 			)}
 			disabled={disabled}
-			onClick={onClick}
+			onClick={clickHandler}
 			{...rest}
 		>
 			{leftIcon ? (

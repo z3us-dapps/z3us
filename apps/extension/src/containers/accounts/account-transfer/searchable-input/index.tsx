@@ -25,6 +25,7 @@ interface ISearchableInputOptionalProps {
 	className?: ClassValue
 	styleVariant?: TStyleVariant
 	sizeVariant?: TSizeVariant
+	placeholder?: string
 }
 
 interface ISearchableInputProps extends ISearchableInputRequiredProps, ISearchableInputOptionalProps {}
@@ -33,10 +34,11 @@ const defaultProps: ISearchableInputOptionalProps = {
 	className: undefined,
 	styleVariant: 'primary',
 	sizeVariant: 'large',
+	placeholder: undefined,
 }
 
 export const SearchableInput: React.FC<ISearchableInputProps> = props => {
-	const { className, data, value, onValueChange, styleVariant, sizeVariant } = props
+	const { className, data, value, onValueChange, styleVariant, sizeVariant, placeholder } = props
 	const [isPopoverOpen, setIsPopoverOpen] = useState<boolean>(false)
 	const [customScrollParent, setCustomScrollParent] = useState<HTMLElement | undefined>(undefined)
 	const [measureRef, { width: triggerWidth }] = useMeasure()
@@ -74,7 +76,7 @@ export const SearchableInput: React.FC<ISearchableInputProps> = props => {
 							styleVariant={styleVariant}
 							sizeVariant={sizeVariant}
 							value={undefined}
-							placeholder="rdx1..."
+							placeholder={placeholder}
 							// placeholder={capitalizeFirstLetter(`${t('global.search')}`)}
 							onChange={() => {}}
 							onFocus={() => {

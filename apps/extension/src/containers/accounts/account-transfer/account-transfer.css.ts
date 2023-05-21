@@ -1,7 +1,6 @@
-import { style } from '@vanilla-extract/css'
+import { globalStyle, style } from '@vanilla-extract/css'
 
 import { sprinkles } from 'ui/src/components-v2/system/sprinkles.css'
-import { responsiveStyle } from 'ui/src/components-v2/system/theme-utils'
 import { vars } from 'ui/src/components-v2/system/theme.css'
 
 export const transferWrapper = style([
@@ -25,31 +24,12 @@ export const transferUiTextSeperator = style([
 	},
 ])
 
-export const transferUiTextAreaMessage = style([
-	sprinkles({}),
-	{
-		height: '100px',
-	},
-])
-
-export const tokenSelectBtnWrapper = style([
+export const transferAccordionChevron = style([
 	sprinkles({
-		position: 'absolute',
+		position: 'relative',
+		transition: 'fast',
 	}),
-	{
-		top: '4px',
-		right: '5px',
-		borderTopLeftRadius: '30px',
-		borderBottomLeftRadius: '30px',
-		borderTopRightRadius: '12px',
-		borderBottomRightRadius: '12px',
-	},
-
-	responsiveStyle({
-		mobile: { maxWidth: '140px' },
-		tablet: { maxWidth: '140px' },
-		desktop: { maxWidth: '140px' },
-	}),
+	{},
 ])
 
 export const transferAccordionItemWrapper = style([
@@ -61,7 +41,7 @@ export const transferAccordionItemWrapper = style([
 		transition: 'fast',
 		background: {
 			lightMode: 'bai_pearl500',
-			darkMode: 'wax500',
+			darkMode: 'wax600',
 		},
 	}),
 	{
@@ -71,6 +51,29 @@ export const transferAccordionItemWrapper = style([
 				// boxShadow: `inset 0 0 0 1px ${vars.color.btnSecondaryBorderColor}`,
 			},
 		},
+	},
+])
+
+globalStyle(`${transferAccordionItemWrapper}[data-state="open"] ${transferAccordionChevron}`, {
+	transform: 'rotate(180deg)',
+})
+
+export const transferAccordionTriggerWrapper = style([
+	sprinkles({
+		position: 'relative',
+	}),
+	{},
+])
+
+export const transferAccordionDeleteBtn = style([
+	sprinkles({
+		position: 'absolute',
+		top: 0,
+		right: 0,
+	}),
+	{
+		marginTop: '8px',
+		marginRight: '44px',
 	},
 ])
 
