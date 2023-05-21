@@ -10,12 +10,10 @@ import { handleOmniboxChange } from '@src/browser/background/omnibox'
 import { handleStorageChange } from '@src/browser/background/storage'
 import watch from '@src/browser/background/watcher'
 import { addDevTools } from '@src/browser/dev-tools/context-menu'
-import fromInpageMessageHandlers from '@src/browser/inpage/message-handlers'
-import fromOffscreenMessageHandlers from '@src/browser/offscreen/message-handlers'
+import messageHandlers from '@src/browser/messages/message-handlers'
 import { addPairing } from '@src/browser/pairing/context-menu'
-import fromPopupMessageHandlers from '@src/browser/popup/message-handlers'
 
-const messageHandler = MessageClient(fromPopupMessageHandlers, fromInpageMessageHandlers, fromOffscreenMessageHandlers)
+const messageHandler = MessageClient(messageHandlers)
 
 browser.runtime.onInstalled.addListener(handleInstall)
 browser.runtime.onConnect.addListener(handleConnect(messageHandler))

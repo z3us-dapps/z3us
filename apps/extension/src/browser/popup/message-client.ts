@@ -2,7 +2,7 @@ import browser from 'webextension-polyfill'
 
 import { PORT_NAME } from '@src/browser/messages/constants'
 import timeout from '@src/browser/messages/timeout'
-import { Message, MessageResponse, MessageSource } from '@src/browser/messages/types'
+import { Message, MessageSource, ResponseMessage } from '@src/browser/messages/types'
 
 export type MessageClientType = ReturnType<typeof MessageClient>
 
@@ -33,7 +33,7 @@ export const MessageClient = () => {
 
 	const sendMessage = async (action: string, payload: any = {}) => {
 		const messageId = `${action}-${crypto.randomUUID()}`
-		const promise = new Promise<MessageResponse>(resolve => {
+		const promise = new Promise<ResponseMessage>(resolve => {
 			messageHandlers[messageId] = (message: Message) => {
 				if (message.target !== MessageSource.POPUP) {
 					return
@@ -55,7 +55,6 @@ export const MessageClient = () => {
 
 		try {
 			const response = await timeout(promise)
-			delete messageHandlers[messageId]
 			if (response?.error) {
 				throw response.error
 			}

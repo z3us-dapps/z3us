@@ -19,8 +19,8 @@ export type Message = {
 	payload: any
 }
 
+export type ResponseMessage = Message & { payload: any | { code: number; error: any }; request?: any }
+
 export type MessageHandler = (message: Message) => Promise<any>
 
 export type MessageHandlers = { [key: string]: MessageHandler }
-
-export type MessageResponse = { code: number; error?: any; request?: any } & Message

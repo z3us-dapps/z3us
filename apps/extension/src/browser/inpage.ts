@@ -1,7 +1,7 @@
 import '@src/helpers/polyfills'
 import { INIT } from '@src/browser/inpage/events'
 import { MessageClient } from '@src/browser/inpage/message-client'
-import { MessageAction, MessageResponse } from '@src/browser/messages/types'
+import { MessageAction, ResponseMessage } from '@src/browser/messages/types'
 import { config } from '@src/config'
 
 const messageHandler = MessageClient()
@@ -19,7 +19,7 @@ declare global {
 if (!window.z3us) {
 	const z3us = {
 		version: config.version,
-		ping: async (): Promise<MessageResponse> => messageHandler.sendMessage(MessageAction.PING),
+		ping: async (): Promise<ResponseMessage> => messageHandler.sendMessage(MessageAction.PING),
 	}
 
 	window.z3us = z3us

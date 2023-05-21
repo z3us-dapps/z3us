@@ -1,18 +1,15 @@
+import { Message as RadixMessage } from '@radixdlt/connector-extension/src/chrome/messages/_types'
 import browser, { Runtime } from 'webextension-polyfill'
 
 import { PORT_NAME } from '@src/browser/messages/constants'
-import { newMessage } from '@src/browser/messages/message'
-import { Message, MessageAction, MessageHandlers, MessageSource } from '@src/browser/messages/types'
+import { newMessage, newReply } from '@src/browser/messages/message'
+import { Message, MessageAction, MessageHandlers, MessageSource, ResponseMessage } from '@src/browser/messages/types'
 
 const popupURL = new URL(browser.runtime.getURL(''))
 
 export type MessageClientType = ReturnType<typeof MessageClient>
 
-export const MessageClient = (
-	fromPopupHandlers: MessageHandlers,
-	fromInpageHandlers: MessageHandlers,
-	fromOffscreenHandlers: MessageHandlers,
-) => {
+export const MessageClient = (handlers: MessageHandlers) => {
 	console.log(`Z3US: background message client initialized.`)
 	const onPort = (port: Runtime.Port) => {
 		if (!port) throw new Error('Invalid port')
@@ -29,35 +26,19 @@ export const MessageClient = (
 			port,
 		)
 
-		const sendReplyToPopup = async (messageId: string, action: MessageAction, request: any, payload: any) =>
-			port.postMessage({
-				target: MessageSource.POPUP,
-				source: MessageSource.BACKGROUND,
-				messageId,
-				action,
-				request,
-				payload,
-			} as Message)
+		const sendReplyToPopup = async (msg: Message | ResponseMessage, response: any) =>
+			port.postMessage(newReply(msg, MessageSource.BACKGROUND, MessageSource.POPUP, response))
 
-		const sendReplyToInpage = async (messageId: string, action: MessageAction, request: any, payload: any) =>
-			port.postMessage({
-				target: MessageSource.INPAGE,
-				source: MessageSource.BACKGROUND,
-				messageId,
-				action,
-				request,
-				payload,
-			} as Message)
-
-		// const sendReplyToOffscreen = async (payload: any, fromTabId?: string) =>
-		// 	browser.runtime.sendMessage(payload, fromTabId)
+		const sendReplyToInpage = async (msg: Message | ResponseMessage, response: any) =>
+			port.postMessage(newReply(msg, MessageSource.BACKGROUND, MessageSource.INPAGE, response))
 
 		port.onMessage.addListener(async (message: Message) => {
 			if (message.target !== MessageSource.BACKGROUND) {
 				return
 			}
+			message.fromTabId = message.fromTabId || port.sender?.tab?.id
 
-			const { messageId, action, payload, source } = message
+			const { action, source } = message
 
 			switch (source) {
 				case MessageSource.OFFSCREEN:
@@ -65,35 +46,53 @@ export const MessageClient = (
 					break
 				case MessageSource.INPAGE:
 					if (new URL(port.sender.url).hostname === popupURL.hostname) {
-						sendReplyToInpage(messageId, action, payload, { code: 400, error: 'Invalid message source from popup' })
+						sendReplyToInpage(message, {
+							code: 400,
+							error: 'Invalid message source from popup',
+						})
 					} else {
-						const handler = fromInpageHandlers[action]
+						const handler = handlers[action]
 						if (handler) {
 							try {
-								const response = await handler({ ...message, fromTabId: port.sender?.tab?.id })
-								sendReplyToInpage(messageId, action, payload, response)
+								const response = await handler(message)
+								sendReplyToInpage(message, response)
 							} catch (error) {
-								sendReplyToInpage(messageId, action, payload, { code: 500, error: error?.message || error })
+								sendReplyToInpage(message, {
+									code: 500,
+									error: error?.message || error,
+								})
 							}
 						} else {
-							sendReplyToInpage(messageId, action, payload, { code: 400, error: 'Bad request' })
+							sendReplyToInpage(message, {
+								code: 400,
+								error: 'Bad request',
+							})
 						}
 					}
 					break
 				case MessageSource.POPUP:
 					if (new URL(port.sender.url).hostname !== popupURL.hostname) {
-						sendReplyToPopup(messageId, action, payload, { code: 403, error: 'Forbidden sender' })
+						sendReplyToPopup(message, {
+							code: 403,
+							error: 'Forbidden sender',
+						})
 					} else {
-						const handler = fromPopupHandlers[action]
+						const handler = handlers[action]
 						if (handler) {
 							try {
 								const response = await handler(message)
-								sendReplyToPopup(messageId, action, payload, response)
+								sendReplyToPopup(message, response)
 							} catch (error) {
-								sendReplyToPopup(messageId, action, payload, { code: 500, error: error?.message || error })
+								sendReplyToPopup(message, {
+									code: 500,
+									error: error?.message || error,
+								})
 							}
 						} else {
-							sendReplyToPopup(messageId, action, payload, { code: 400, error: 'Bad request' })
+							sendReplyToPopup(message, {
+								code: 400,
+								error: 'Bad request',
+							})
 						}
 					}
 					break
@@ -110,9 +109,8 @@ export const MessageClient = (
 		})
 	}
 
-	const onRadixMessage = async (payload: any, fromTabId?: number) => {
-		console.error('background onRadixMessage', fromTabId, payload)
-		const handler = fromOffscreenHandlers[MessageAction.RADIX]
+	const onRadixMessage = async (payload: RadixMessage, fromTabId?: number) => {
+		const handler = handlers[MessageAction.RADIX]
 		if (!handler) {
 			throw new Error('Missing radix message handler')
 		}
