@@ -33,7 +33,7 @@ interface IToolTipProps extends IToolTipRequiredProps, IToolTipOptionalProps {}
 
 const defaultProps: IToolTipOptionalProps = {
 	disabled: false,
-	sideOffset: 3,
+	sideOffset: 5,
 	arrowOffset: 5,
 	isArrowVisible: false,
 	side: 'bottom',

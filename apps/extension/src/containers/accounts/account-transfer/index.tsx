@@ -129,6 +129,11 @@ export const AccountTransfer = forwardRef<HTMLElement, IAccountTransferProps>(
 			paginate(-1)
 		}
 
+		const handleGroupTransaction = () => {
+			// eslint-disable-next-line
+			console.log('99999 asdf asdf ')
+		}
+
 		return (
 			<Box ref={ref} className={clsx(styles.transferWrapper, className)}>
 				<Box ref={measureRef} position="relative">
@@ -148,7 +153,6 @@ export const AccountTransfer = forwardRef<HTMLElement, IAccountTransferProps>(
 									x: 0,
 									opacity: 1,
 									position: 'relative',
-
 									height: 'auto',
 								},
 								exit: (_direction: number) => ({
@@ -174,89 +178,89 @@ export const AccountTransfer = forwardRef<HTMLElement, IAccountTransferProps>(
 											Send
 										</Text>
 									</Box>
-									<Box paddingY="xlarge">
+									<Box style={{ border: '0px solid red' }}>
 										{/* start accordion */}
-										<AccordionRoot type="single" defaultValue="item-1" collapsible>
-											<AccordionItem value="item-1" className={styles.transferAccordionItemWrapper}>
-												<AccordionHeader>
-													<AccordionTrigger asChild>
-														<Button
-															styleVariant="secondary"
-															sizeVariant="xlarge"
-															fullWidth
-															leftIcon={
-																<TokenImageIcon
-																	imgSrc="https://images.unsplash.com/photo-1492633423870-43d1cd2775eb?&w=128&h=128&dpr=2&q=80"
-																	imgAlt="btc token image"
-																	fallbackText="btc"
-																/>
-															}
-															rightIcon={<ChevronDown2Icon />}
-														>
-															<Box
-																display="flex"
-																alignItems="center"
-																width="full"
-																textAlign="left"
-																paddingLeft="xsmall"
-															>
-																<Text size="large" color="strong">
-																	Savings 765x...75jf
-																</Text>
-															</Box>
-														</Button>
-													</AccordionTrigger>
-												</AccordionHeader>
-												<AccordionContent className={styles.transferAccordionContentWrapper}>
-													<Box padding="large">
-														<Box display="flex" paddingBottom="medium" paddingTop="large">
-															<Box display="flex" alignItems="center" width="full">
-																<Box display="flex" alignItems="center" flexGrow={1}>
-																	<Text size="medium" color="strong">
-																		To:
-																	</Text>
-																	<Box display="flex" alignItems="center" color="green500" marginLeft="xxsmall">
-																		<Text size="medium">(known address2)</Text>
-																		<CheckCircleIcon />
-																	</Box>
-																</Box>
-																<Box display="flex" alignItems="center" gap="medium">
-																	<Box
-																		component="button"
-																		type="button"
-																		className={plainButtonStyles.plainButtonHoverWrapper}
-																		onClick={handleAddMessage}
-																		display="flex"
-																		alignItems="center"
-																	>
-																		<Box component="span" display="flex" alignItems="center" marginRight="xxsmall">
-																			<WriteNoteIcon />
-																		</Box>
-																		<Text inheritColor component="span" size="medium" underline="always" truncate>
-																			Add message
-																		</Text>
-																	</Box>
-																</Box>
-															</Box>
-														</Box>
-														<Box width="full">
-															<SearchableInput
-																value="light"
-																onValueChange={(value: string) => {
-																	// eslint-disable-next-line
-																	console.log('onValueChange', value)
-																}}
-																data={Array.from({ length: 500 }).map((_, i, a) => ({
-																	id: `v1.2.0-beta.${a.length - i}`,
-																	title: `v1.2.0-beta.${a.length - i}`,
-																	test: 'heheh',
-																}))}
-															/>
-														</Box>
-													</Box>
-												</AccordionContent>
-											</AccordionItem>
-										</AccordionRoot>
+										{/* <AccordionRoot type="single" defaultValue="item-1" collapsible> */}
+										{/* 	<AccordionItem value="item-1" className={styles.transferAccordionItemWrapper}> */}
+										{/* 		<AccordionHeader> */}
+										{/* 			<AccordionTrigger asChild> */}
+										{/* 				<Button */}
+										{/* 					styleVariant="secondary" */}
+										{/* 					sizeVariant="xlarge" */}
+										{/* 					fullWidth */}
+										{/* 					leftIcon={ */}
+										{/* 						<TokenImageIcon */}
+										{/* 							imgSrc="https://images.unsplash.com/photo-1492633423870-43d1cd2775eb?&w=128&h=128&dpr=2&q=80" */}
+										{/* 							imgAlt="btc token image" */}
+										{/* 							fallbackText="btc" */}
+										{/* 						/> */}
+										{/* 					} */}
+										{/* 					rightIcon={<ChevronDown2Icon />} */}
+										{/* 				> */}
+										{/* 					<Box */}
+										{/* 						display="flex" */}
+										{/* 						alignItems="center" */}
+										{/* 						width="full" */}
+										{/* 						textAlign="left" */}
+										{/* 						paddingLeft="xsmall" */}
+										{/* 					> */}
+										{/* 						<Text size="large" color="strong"> */}
+										{/* 							Savings 765x...75jf */}
+										{/* 						</Text> */}
+										{/* 					</Box> */}
+										{/* 				</Button> */}
+										{/* 			</AccordionTrigger> */}
+										{/* 		</AccordionHeader> */}
+										{/* 		<AccordionContent className={styles.transferAccordionContentWrapper}> */}
+										{/* 			<Box padding="large"> */}
+										{/* 				<Box display="flex" paddingBottom="medium" paddingTop="large"> */}
+										{/* 					<Box display="flex" alignItems="center" width="full"> */}
+										{/* 						<Box display="flex" alignItems="center" flexGrow={1}> */}
+										{/* 							<Text size="medium" color="strong"> */}
+										{/* 								To: */}
+										{/* 							</Text> */}
+										{/* 							<Box display="flex" alignItems="center" color="green500" marginLeft="xxsmall"> */}
+										{/* 								<Text size="medium">(known address2)</Text> */}
+										{/* 								<CheckCircleIcon /> */}
+										{/* 							</Box> */}
+										{/* 						</Box> */}
+										{/* 						<Box display="flex" alignItems="center" gap="medium"> */}
+										{/* 							<Box */}
+										{/* 								component="button" */}
+										{/* 								type="button" */}
+										{/* 								className={plainButtonStyles.plainButtonHoverWrapper} */}
+										{/* 								onClick={handleAddMessage} */}
+										{/* 								display="flex" */}
+										{/* 								alignItems="center" */}
+										{/* 							> */}
+										{/* 								<Box component="span" display="flex" alignItems="center" marginRight="xxsmall"> */}
+										{/* 									<WriteNoteIcon /> */}
+										{/* 								</Box> */}
+										{/* 								<Text inheritColor component="span" size="medium" underline="always" truncate> */}
+										{/* 									Add message */}
+										{/* 								</Text> */}
+										{/* 							</Box> */}
+										{/* 						</Box> */}
+										{/* 					</Box> */}
+										{/* 				</Box> */}
+										{/* 				<Box width="full"> */}
+										{/* 					<SearchableInput */}
+										{/* 						value="light" */}
+										{/* 						onValueChange={(value: string) => { */}
+										{/* 							// eslint-disable-next-line */}
+										{/* 							console.log('onValueChange', value) */}
+										{/* 						}} */}
+										{/* 						data={Array.from({ length: 500 }).map((_, i, a) => ({ */}
+										{/* 							id: `v1.2.0-beta.${a.length - i}`, */}
+										{/* 							title: `v1.2.0-beta.${a.length - i}`, */}
+										{/* 							test: 'heheh', */}
+										{/* 						}))} */}
+										{/* 					/> */}
+										{/* 				</Box> */}
+										{/* 			</Box> */}
+										{/* 		</AccordionContent> */}
+										{/* 	</AccordionItem> */}
+										{/* </AccordionRoot> */}
 										{/* end start accordion */}
 									</Box>
 									<Box display="flex" paddingBottom="medium" alignItems="center">
@@ -445,10 +449,29 @@ export const AccountTransfer = forwardRef<HTMLElement, IAccountTransferProps>(
 									{/* END: this is the message box */}
 									<Box paddingTop="large">
 										<Box display="flex" paddingBottom="medium">
-											<Box flexGrow={1}>
-												<Text size="medium" color="strong">
-													Amount
-												</Text>
+											<Box display="flex" alignItems="center" width="full">
+												<Box display="flex" alignItems="center" flexGrow={1}>
+													<Text size="medium" color="strong">
+														Amount:
+													</Text>
+												</Box>
+												<Box display="flex" alignItems="center" gap="xsmall">
+													<Text inheritColor component="span" size="medium" truncate>
+														Available:
+													</Text>
+													<Box
+														component="button"
+														type="button"
+														className={plainButtonStyles.plainButtonHoverWrapper}
+														onClick={handleAddMessage}
+														display="flex"
+														alignItems="center"
+													>
+														<Text inheritColor component="span" size="medium" underline="always" truncate>
+															2.12 BTC
+														</Text>
+													</Box>
+												</Box>
 											</Box>
 										</Box>
 										{/* TODO: create wrapper component for this */}
@@ -493,47 +516,23 @@ export const AccountTransfer = forwardRef<HTMLElement, IAccountTransferProps>(
 											/>
 										</Box>
 										<Box display="flex" paddingTop="small">
-											<Box display="flex" alignItems="center" flexGrow={1} gap="medium">
+											<Box display="flex" alignItems="center" flexGrow={1} gap="xsmall">
 												<Box display="flex" alignItems="center">
 													<Text size="medium" truncate>
-														Available:&nbsp;
-													</Text>
-													<Text size="medium" truncate>
-														<Link to={accountMenuSlugs.ACCOUNTS} className={plainButtonStyles.plainButtonHoverWrapper}>
-															3.13 BTC
-														</Link>
+														2.12 BTC =
 													</Text>
 												</Box>
-												<Box className={styles.transferUiTextSeperator} />
-
 												<Link
 													to={accountMenuSlugs.ACCOUNTS}
 													underline="hover"
 													className={plainButtonStyles.plainButtonHoverWrapper}
 												>
-													<Box display="flex" gap="xxsmall" alignItems="center">
+													<Box display="flex" alignItems="center">
 														$70,887 USD
 														<ChevronDown2Icon />
 													</Box>
 												</Link>
 											</Box>
-											{/* <Box display="flex" alignItems="center"> */}
-											{/* 	<Box */}
-											{/* 		component="button" */}
-											{/* 		type="button" */}
-											{/* 		className={plainButtonStyles.plainButtonHoverWrapper} */}
-											{/* 		onClick={handleAddMessage} */}
-											{/* 		display="flex" */}
-											{/* 		alignItems="center" */}
-											{/* 	> */}
-											{/* 		<Box component="span" display="flex" alignItems="center" marginRight="xxsmall"> */}
-											{/* 			<CoinsIcon /> */}
-											{/* 		</Box> */}
-											{/* 		<Text inheritColor component="span" size="medium" underline="always" truncate> */}
-											{/* 			Send another token */}
-											{/* 		</Text> */}
-											{/* 	</Box> */}
-											{/* </Box> */}
 										</Box>
 										<Box display="flex" paddingTop="xlarge" width="full">
 											<ToolTip
@@ -552,22 +551,20 @@ export const AccountTransfer = forwardRef<HTMLElement, IAccountTransferProps>(
 													styleVariant="tertiary"
 													sizeVariant="xlarge"
 													fullWidth
-													// onClick={handleClickContinue}
+													onClick={handleGroupTransaction}
 													disabled={state.isSubmittingReview}
 													leftIcon={
-														true && (
-															<Box marginLeft="small">
-																<CirclePlusIcon />
-															</Box>
-														)
+														<Box marginLeft="small">
+															<CirclePlusIcon />
+														</Box>
 													}
-													rightIcon={
-														true && (
-															<Box marginLeft="small">
-																<LoadingBarsIcon />
-															</Box>
-														)
-													}
+													// rightIcon={
+													// 	true && (
+													// 		<Box marginLeft="small">
+													// 			<LoadingBarsIcon />
+													// 		</Box>
+													// 	)
+													// }
 												>
 													Group transaction
 												</Button>

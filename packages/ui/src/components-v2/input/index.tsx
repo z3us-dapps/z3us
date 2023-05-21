@@ -1,4 +1,4 @@
-import clsx from 'clsx'
+import clsx, { type ClassValue } from 'clsx'
 import React, { forwardRef } from 'react'
 
 import { Box } from '../box'
@@ -15,7 +15,7 @@ export interface IInputRequiredProps {
 }
 
 export interface IInputOptionalProps {
-	className?: string
+	className?: ClassValue
 	onClick?: () => void
 	disabled?: boolean
 	rounded?: boolean
@@ -25,7 +25,9 @@ export interface IInputOptionalProps {
 	elementType?: 'input' | 'textarea'
 	placeholder?: string
 	leftIcon?: React.ReactNode
+	leftIconClassName?: ClassValue
 	rightIcon?: React.ReactNode
+	rightIconClassName?: ClassValue
 	onChange?: (e: React.ChangeEvent<FormElement>) => void
 	onFocus?: (e: React.FocusEvent<FormElement>) => void
 	onBlur?: (e: React.FocusEvent<FormElement>) => void
@@ -43,7 +45,9 @@ export const inputDefaultProps: IInputOptionalProps = {
 	elementType: 'input',
 	type: 'text',
 	leftIcon: undefined,
+	leftIconClassName: undefined,
 	rightIcon: undefined,
+	rightIconClassName: undefined,
 	placeholder: undefined,
 	onChange: undefined,
 	onFocus: undefined,
@@ -63,7 +67,9 @@ export const Input = forwardRef<FormElement, IInputProps>((props, ref: React.Ref
 		value,
 		placeholder,
 		leftIcon,
+		leftIconClassName,
 		rightIcon,
+		rightIconClassName,
 		onChange,
 		onFocus,
 		onBlur,
@@ -108,6 +114,7 @@ export const Input = forwardRef<FormElement, IInputProps>((props, ref: React.Ref
 						styles.iconLeft({
 							sizeVariant,
 						}),
+						leftIconClassName,
 					)}
 				>
 					{leftIcon}
@@ -119,6 +126,7 @@ export const Input = forwardRef<FormElement, IInputProps>((props, ref: React.Ref
 						styles.iconRight({
 							sizeVariant,
 						}),
+						rightIconClassName,
 					)}
 				>
 					{rightIcon}

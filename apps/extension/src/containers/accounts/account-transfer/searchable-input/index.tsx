@@ -80,36 +80,8 @@ export const SearchableInput: React.FC<ISearchableInputProps> = props => {
 							onFocus={() => {
 								setIsPopoverOpen(true)
 							}}
-							rightIcon={
-								<Box display="flex" alignItems="center" gap="xsmall" flexShrink={0}>
-									<Box>
-										<ToolTip
-											side="top"
-											sideOffset={10}
-											theme="backgroundPrimary"
-											message={<span>Address not in your address book</span>}
-										>
-											<Box>
-												<Pill styleVariant="caution">New</Pill>
-											</Box>
-										</ToolTip>
-									</Box>
-									<Box
-										component="button"
-										display="flex"
-										alignItems="center"
-										cursor="pointer"
-										color="colorNeutral"
-										// onClick={() => {
-										// 	if (!isPopoverOpen) {
-										// 		setIsPopoverOpen(true)
-										// 	}
-										// }}
-									>
-										<ChevronDown2Icon />
-									</Box>
-								</Box>
-							}
+							rightIconClassName={styles.searchableInputRightIconWrapper}
+							rightIcon={<ChevronDown2Icon />}
 						/>
 					</Box>
 				</PopoverAnchor>
