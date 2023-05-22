@@ -100,10 +100,17 @@ export const AccountTransfer = forwardRef<HTMLElement, IAccountTransferProps>(
 			})
 		}
 
-		const handleRemoveGroupTransaction = () => {
-			setState(draft => {
-				draft.isGroupUiVisible = false
-			})
+		const handleRemoveGroupTransaction = (sendIndex: number) => {
+			const isMultipleGroups = state.transaction.sends.length > 1
+			if (isMultipleGroups) {
+				setState(draft => {
+					draft.transaction.sends = state.transaction.sends.filter((_, index) => index !== sendIndex)
+				})
+			} else {
+				setState(draft => {
+					draft.isGroupUiVisible = false
+				})
+			}
 		}
 
 		const handleUpdateFromAccount = (account: string) => {

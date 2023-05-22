@@ -30,7 +30,7 @@ interface IGroupTransferRequiredProps {
 	onUpdateToAccount: (key: number) => (value: string) => void
 	onUpdateTokenValue: (sendIndex: number) => (tokenIndex: number) => (tokenValue: number) => void
 	onUpdateToken: (sendIndex: number) => (tokenIndex: number) => (tokenValue: string) => void
-	onRemoveGroupTransaction: () => void
+	onRemoveGroupTransaction: (sendIndex: number) => void
 }
 
 interface IGroupTransferOptionalProps {}
@@ -51,12 +51,6 @@ export const GroupTransfer: React.FC<IGroupTransferProps> = props => {
 		onUpdateToAccount,
 		onRemoveGroupTransaction,
 	} = props
-
-	const handleRemoveGroup = (e: React.MouseEvent<HTMLButtonElement>) => {
-		e.preventDefault()
-
-		onRemoveGroupTransaction()
-	}
 
 	return (
 		<Box display="flex" flexDirection="column" gap="xlarge">
@@ -91,7 +85,11 @@ export const GroupTransfer: React.FC<IGroupTransferProps> = props => {
 											iconOnly
 											styleVariant="ghost"
 											sizeVariant="small"
-											onClick={handleRemoveGroup}
+											onClick={(e: React.MouseEvent<HTMLButtonElement>) => {
+												e.preventDefault()
+
+												onRemoveGroupTransaction(sendIndex)
+											}}
 										>
 											<TrashIcon />
 										</Button>
