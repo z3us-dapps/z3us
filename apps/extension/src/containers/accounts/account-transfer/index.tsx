@@ -14,6 +14,7 @@ import { ArrowLeftIcon, LoadingBarsIcon, PlusIcon } from 'ui/src/components/icon
 import { ShowHidePanel } from '@src/components/show-hide-panel'
 import Translation from '@src/components/translation'
 
+import { IToken, ITransaction } from './account-transfer-types'
 import * as styles from './account-transfer.css'
 import { GroupTransactionButton } from './group-transaction-button'
 import { GroupTransfer } from './group-transfer'
@@ -39,6 +40,8 @@ const TOKENS = Array.from({ length: 500 }).map((_, i, a) => ({
 	test: 'heheh',
 }))
 
+const defaultToken: IToken = { token: '', amount: 0 }
+
 interface IAccountTransferRequiredProps {}
 
 interface IAccountTransferOptionalProps {
@@ -59,7 +62,7 @@ interface IAccountTransferImmer {
 	slides: [number, number]
 	isSubmittingReview: boolean
 	isGroupUiVisible: boolean
-	transaction: any
+	transaction: ITransaction
 }
 
 export const AccountTransfer = forwardRef<HTMLElement, IAccountTransferProps>(
@@ -75,7 +78,7 @@ export const AccountTransfer = forwardRef<HTMLElement, IAccountTransferProps>(
 				sends: [
 					{
 						to: '',
-						tokens: [{ token: '', amount: '' }],
+						tokens: [defaultToken],
 					},
 				],
 			},
@@ -96,13 +99,6 @@ export const AccountTransfer = forwardRef<HTMLElement, IAccountTransferProps>(
 			})
 		}
 
-		const handleAddGroup = () => {
-			console.log('handl add group')
-			// setState(draft => {
-			// 	draft.isGroupUiVisible = true
-			// })
-		}
-
 		const handleRemoveGroupTransaction = () => {
 			setState(draft => {
 				draft.isGroupUiVisible = false
@@ -117,10 +113,18 @@ export const AccountTransfer = forwardRef<HTMLElement, IAccountTransferProps>(
 
 		const handleAddToken = (sendIndex: number) => {
 			setState(draft => {
-				draft.transaction.sends[sendIndex].tokens = [
-					...state.transaction.sends[sendIndex].tokens,
-					// TODO: use default
-					{ token: '', amount: '' },
+				draft.transaction.sends[sendIndex].tokens = [...state.transaction.sends[sendIndex].tokens, defaultToken]
+			})
+		}
+
+		const handleAddGroup = () => {
+			setState(draft => {
+				draft.transaction.sends = [
+					...state.transaction.sends,
+					{
+						to: '',
+						tokens: [defaultToken],
+					},
 				]
 			})
 		}
