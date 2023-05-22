@@ -74,6 +74,7 @@ export const AccountTransfer = forwardRef<HTMLElement, IAccountTransferProps>(
 			slides: [0, 0],
 			transaction: {
 				from: '',
+				isMessageEncrypted: false,
 				message: '',
 				sends: [
 					{
@@ -153,6 +154,18 @@ export const AccountTransfer = forwardRef<HTMLElement, IAccountTransferProps>(
 			})
 		}
 
+		const handleUpdateMessage = (message: string) => {
+			setState(draft => {
+				draft.transaction.message = message
+			})
+		}
+
+		const handleUpdateIsMessageEncrypted = (isEncrypted: boolean) => {
+			setState(draft => {
+				draft.transaction.isMessageEncrypted = isEncrypted
+			})
+		}
+
 		const paginate = (newDirection: number) => {
 			setState(draft => {
 				draft.slides = [page + newDirection, newDirection]
@@ -195,11 +208,13 @@ export const AccountTransfer = forwardRef<HTMLElement, IAccountTransferProps>(
 										accounts={ACCOUNTS}
 										addressBook={ADDRESS_BOOK}
 										tokens={TOKENS}
-										onToggleMessageUi={handleToggleMessageUi}
 										onUpdateFromAccount={handleUpdateFromAccount}
 										onUpdateToAccount={handleUpdateToAccount}
 										onUpdateTokenValue={handleUpdateTokenValue}
 										onUpdateToken={handleUpdateToken}
+										onToggleMessageUi={handleToggleMessageUi}
+										onUpdateMessage={handleUpdateMessage}
+										onUpdateIsMessageEncrypted={handleUpdateIsMessageEncrypted}
 									/>
 								</ShowHidePanel>
 								<ShowHidePanel isChildrenVisible={state.isGroupUiVisible}>

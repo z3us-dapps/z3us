@@ -21,7 +21,6 @@ import * as styles from './account-transfer.css'
 import { SearchableInput } from './searchable-input'
 import { TransferTokenSelector } from './transfer-token-selector'
 
-
 interface IGroupTransferRequiredProps {
 	transaction: any
 	fromAccount: string

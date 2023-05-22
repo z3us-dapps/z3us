@@ -45,7 +45,7 @@ interface ISingleTransferRequiredProps {
 	transaction: any
 	accounts: any
 	addressBook: any
-	tokens: any,
+	tokens: any
 	isMessageUiVisible: boolean
 	onToggleMessageUi: () => void
 	fromAccount: string
@@ -53,6 +53,8 @@ interface ISingleTransferRequiredProps {
 	onUpdateToAccount: (key: number) => (value: string) => void
 	onUpdateTokenValue: (sendIndex: number) => (tokenIndex: number) => (tokenValue: number) => void
 	onUpdateToken: (sendIndex: number) => (tokenIndex: number) => (tokenValue: string) => void
+	onUpdateMessage: (message: string) => void
+	onUpdateIsMessageEncrypted: (isEncrypted: boolean) => void
 }
 
 interface ISingleTransferOptionalProps {}
@@ -69,11 +71,13 @@ export const SingleTransfer: React.FC<ISingleTransferProps> = props => {
 		tokens,
 		fromAccount,
 		isMessageUiVisible,
-		onToggleMessageUi,
 		onUpdateFromAccount,
 		onUpdateToAccount,
 		onUpdateTokenValue,
-		onUpdateToken
+		onUpdateToken,
+		onToggleMessageUi,
+		onUpdateMessage,
+		onUpdateIsMessageEncrypted,
 	} = props
 
 	const send = transaction.sends[SEND_INDEX]
@@ -192,7 +196,13 @@ export const SingleTransfer: React.FC<ISingleTransferProps> = props => {
 					data={addressBook}
 				/>
 			</Box>
-			<TransferMessage isVisible={isMessageUiVisible} />
+			<TransferMessage
+				isVisible={isMessageUiVisible}
+				message={transaction.message}
+				onUpdateMessage={onUpdateMessage}
+				isEncrypted={transaction.isMessageEncrypted}
+				onUpdateIsMessageEncrypted={onUpdateIsMessageEncrypted}
+			/>
 			<TransferTokenSelector
 				styleVariant="secondary"
 				tokens={tokens}

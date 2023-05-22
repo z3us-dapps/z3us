@@ -22,6 +22,7 @@ interface ICheckboxOptionalProps {
 	sizeVariant?: TSizeVariant
 	styleVariant?: TStyleVariant
 	tickColor?: TThemeColorKey
+	onCheckedChange?: (checked: boolean) => void
 }
 
 interface ICheckboxProps extends ICheckboxRequiredProps, ICheckboxOptionalProps {}
@@ -33,6 +34,7 @@ const defaultProps: ICheckboxOptionalProps = {
 	sizeVariant: 'small',
 	styleVariant: 'secondary',
 	tickColor: 'colorNeutral',
+	onCheckedChange: undefined,
 }
 
 export const Checkbox: React.FC<ICheckboxProps> = ({
@@ -42,12 +44,14 @@ export const Checkbox: React.FC<ICheckboxProps> = ({
 	styleVariant,
 	disabled,
 	tickColor,
+	onCheckedChange,
 	...rest
 }) => {
 	const [animate, setAnimate] = useState<boolean>(checked)
 
 	const handleCheckChanged = (_checked: boolean) => {
 		setAnimate(_checked)
+		onCheckedChange(_checked)
 	}
 
 	return (
@@ -63,9 +67,6 @@ export const Checkbox: React.FC<ICheckboxProps> = ({
 			)}
 			{...rest}
 		>
-			{/* <CheckboxIndicator className={styles.checkboxIndicator}> */}
-			{/* 	<Check2Icon /> */}
-			{/* </CheckboxIndicator> */}
 			<AnimatePresence initial={false}>
 				{animate && (
 					<Box color={tickColor} width="full" height="full">

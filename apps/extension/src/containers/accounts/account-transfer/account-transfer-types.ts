@@ -1,6 +1,7 @@
 export interface ITransaction {
   from: string;
   message: string;
+  isMessageEncrypted: boolean;
   sends: ISend[];
 }
 
