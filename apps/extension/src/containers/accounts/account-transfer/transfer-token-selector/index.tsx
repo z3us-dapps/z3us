@@ -1,17 +1,14 @@
 /* eslint-disable  @typescript-eslint/no-unused-vars */
-import React from 'react'
-
 import clsx, { type ClassValue } from 'clsx'
+import React from 'react'
 
 import { Box } from 'ui/src/components-v2/box'
 import { Button } from 'ui/src/components-v2/button'
 import { Checkbox } from 'ui/src/components-v2/checkbox'
-import { NumberInput } from 'ui/src/components-v2/number-input'
 import { Input, type TSizeVariant, type TStyleVariant } from 'ui/src/components-v2/input'
+import { NumberInput } from 'ui/src/components-v2/number-input'
 import { Text } from 'ui/src/components-v2/typography'
-import {
-	ChevronDown2Icon,
-} from 'ui/src/components/icons'
+import { ChevronDown2Icon } from 'ui/src/components/icons'
 
 import { Link } from '@src/components/link'
 import * as plainButtonStyles from '@src/components/styles/plain-button-styles.css'
@@ -22,7 +19,13 @@ import { TokenSelectorDialog } from '@src/containers/accounts/token-selector-dia
 
 import * as styles from './transfer-token-selector.css'
 
-interface ITransferTokenSelectorRequiredProps {}
+interface ITransferTokenSelectorRequiredProps {
+	tokens: any,
+	token: string
+	tokenValue: number
+	onTokenUpdate: any
+	onTokenValueUpdate: any
+}
 
 interface ITransferTokenSelectorOptionalProps {
 	className?: ClassValue
@@ -39,11 +42,29 @@ const defaultProps: ITransferTokenSelectorOptionalProps = {
 	className: undefined,
 	styleVariant: 'primary',
 	sizeVariant: 'large',
-	placeholder: 'test placeholder',
+	placeholder: 'Enter amount',
 }
 
 export const TransferTokenSelector: React.FC<ITransferTokenSelectorProps> = props => {
-	const { className, styleVariant, sizeVariant, placeholder } = props
+	const {
+		tokens,
+		token,
+		tokenValue,
+		onTokenUpdate,
+		onTokenValueUpdate,
+		className,
+		styleVariant,
+		sizeVariant,
+		placeholder,
+	} = props
+
+	const handleTokenUpdate = (val: string) => {
+		onTokenUpdate(val)
+	}
+
+	const handleTokenValueUpdate = (val: number) => {
+		onTokenValueUpdate(val)
+	}
 
 	return (
 		<Box className={clsx(className)}>
@@ -58,18 +79,15 @@ export const TransferTokenSelector: React.FC<ITransferTokenSelectorProps> = prop
 						<Text inheritColor component="span" size="medium" truncate>
 							Available:
 						</Text>
-						<Box
-							component="button"
-							type="button"
+						<Link
+							to={accountMenuSlugs.ACCOUNTS}
+							underline="hover"
 							className={plainButtonStyles.plainButtonHoverWrapper}
-							// onClick={handleAddMessage}
-							display="flex"
-							alignItems="center"
 						>
 							<Text inheritColor component="span" size="medium" underline="always" truncate>
 								2.12 BTC
 							</Text>
-						</Box>
+						</Link>
 					</Box>
 				</Box>
 			</Box>
@@ -77,12 +95,13 @@ export const TransferTokenSelector: React.FC<ITransferTokenSelectorProps> = prop
 				<NumberInput
 					styleVariant={styleVariant}
 					sizeVariant={sizeVariant}
-					value={undefined}
+					value={tokenValue}
 					placeholder={placeholder}
-					// placeholder={capitalizeFirstLetter(`${t('global.search')}`)}
-					// onChange={handleOnChange}
+					onChange={handleTokenValueUpdate}
 				/>
 				<TokenSelectorDialog
+					token={token}
+					onTokenUpdate={handleTokenUpdate}
 					trigger={
 						<Button
 							className={styles.tokenSelectBtnWrapper}
@@ -101,16 +120,12 @@ export const TransferTokenSelector: React.FC<ITransferTokenSelectorProps> = prop
 						>
 							<Box display="flex" alignItems="center" width="full" textAlign="left">
 								<Text size="medium" color="strong" truncate>
-									BTC BTC BTC BTC BTC
+									{token}
 								</Text>
 							</Box>
 						</Button>
 					}
-					data={Array.from({ length: 500 }).map((_, i, a) => ({
-						id: i === 0 ? 'light' : `v1.2.0-beta.${a.length - i}`,
-						title: `v1.2.0-beta.${a.length - i}`,
-						test: 'heheh',
-					}))}
+					tokens={tokens}
 				/>
 			</Box>
 			<Box display="flex" paddingTop="small">

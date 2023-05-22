@@ -29,30 +29,29 @@ import * as dialogStyles from '@src/components/styles/dialog-styles.css'
 import { TokenImageIcon } from '@src/components/token-image-icon'
 import { TransactionIcon } from '@src/components/transaction-icon'
 import Translation from '@src/components/translation'
-import {
-	ACCOUNT_PARAM_ACTIVITY,
-	ACCOUNT_PARAM_ASSET,
-	ACCOUNT_PARAM_QUERY,
-	ACCOUNT_PARAM_TRANSACTION_ID,
-} from '@src/constants'
 import { getShortAddress } from '@src/utils/string-utils'
 
 import * as styles from './token-selector-dialog.css'
 
 interface ITokenSelectorDialogRequiredProps {
 	trigger: React.ReactNode
-	data: Array<{ id: string; title: string }>
+	tokens: Array<{ id: string; title: string }>
+	onTokenUpdate: (tokenId: string) => void
 }
 
-interface ITokenSelectorDialogOptionalProps {}
+interface ITokenSelectorDialogOptionalProps {
+	token?: string
+}
 
 interface ITokenSelectorDialogProps extends ITokenSelectorDialogRequiredProps, ITokenSelectorDialogOptionalProps {}
 
-const defaultProps: ITokenSelectorDialogOptionalProps = {}
+const defaultProps: ITokenSelectorDialogOptionalProps = {
+	token: undefined
+}
 
 export const TokenSelectorDialog = forwardRef<HTMLElement, ITokenSelectorDialogProps>(
 	(props, ref: React.Ref<HTMLElement | null>) => {
-		const { trigger, data } = props
+		const { trigger, tokens, token, onTokenUpdate } = props
 		const { t } = useTranslation()
 		const [searchParams] = useSearchParams()
 		const navigate = useNavigate()
@@ -81,6 +80,11 @@ export const TokenSelectorDialog = forwardRef<HTMLElement, ITokenSelectorDialogP
 			setIsOpen(open)
 		}
 
+		const handleSelectToken = (selectedToken: string) => {
+			onTokenUpdate(selectedToken)
+			setIsOpen(false)
+		}
+
 		useEffect(() => {
 			if (inputRef?.current) {
 				inputRef?.current?.focus()
@@ -95,7 +99,7 @@ export const TokenSelectorDialog = forwardRef<HTMLElement, ITokenSelectorDialogP
 			'ardx1qspt0lthflcd45zhwvrxkqdrv5ne5avsgarjcpfatyw7n7n93v38dhcdtlag0sdfalksjdhf7d8f78d7f8d7f8d7f8d7f'
 
 		return (
-			<Dialog onOpenChange={handleOnOpenChange}>
+			<Dialog open={isOpen} onOpenChange={handleOnOpenChange}>
 				<DialogTrigger asChild>{trigger}</DialogTrigger>
 				<DialogPortal>
 					<DialogOverlay className={dialogStyles.dialogOverlay} />
@@ -163,11 +167,17 @@ export const TokenSelectorDialog = forwardRef<HTMLElement, ITokenSelectorDialogP
 							</Box>
 							<Box ref={ref}>
 								<Virtuoso
-									data={data}
+									data={tokens}
 									// eslint-disable-next-line react/no-unstable-nested-components
 									itemContent={(index, { id, title }) => (
 										<Box value={id} key={index} className={styles.tokenListItemWrapper}>
-											<Box component="button" className={styles.tokenListItemWrapperButton}>
+											<Box
+												component="button"
+												className={styles.tokenListItemWrapperButton}
+												onClick={() => {
+													handleSelectToken(id)
+												}}
+											>
 												<Box className={styles.tokenListItemWrapperInnerButton}>
 													<TokenImageIcon
 														imgSrc="https://images.unsplash.com/photo-1492633423870-43d1cd2775eb?&w=128&h=128&dpr=2&q=80"

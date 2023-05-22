@@ -38,9 +38,21 @@ import { SearchableInput } from './searchable-input'
 import { TransferMessage } from './transfer-message'
 import { TransferTokenSelector } from './transfer-token-selector'
 
+const SEND_INDEX = 0
+const TOKEN_INDEX = 0
+
 interface ISingleTransferRequiredProps {
+	transaction: any
+	accounts: any
+	addressBook: any
+	tokens: any,
 	isMessageUiVisible: boolean
 	onToggleMessageUi: () => void
+	fromAccount: string
+	onUpdateFromAccount: (account: string) => void
+	onUpdateToAccount: (key: number) => (value: string) => void
+	onUpdateTokenValue: (sendIndex: number) => (tokenIndex: number) => (tokenValue: number) => void
+	onUpdateToken: (sendIndex: number) => (tokenIndex: number) => (tokenValue: string) => void
 }
 
 interface ISingleTransferOptionalProps {}
@@ -50,7 +62,34 @@ interface ISingleTransferProps extends ISingleTransferRequiredProps, ISingleTran
 const defaultProps: ISingleTransferOptionalProps = {}
 
 export const SingleTransfer: React.FC<ISingleTransferProps> = props => {
-	const { isMessageUiVisible, onToggleMessageUi } = props
+	const {
+		transaction,
+		accounts,
+		addressBook,
+		tokens,
+		fromAccount,
+		isMessageUiVisible,
+		onToggleMessageUi,
+		onUpdateFromAccount,
+		onUpdateToAccount,
+		onUpdateTokenValue,
+		onUpdateToken
+	} = props
+
+	const send = transaction.sends[SEND_INDEX]
+	const sendToken = send.tokens[TOKEN_INDEX]
+
+	const handleUpdateToAccount = (value: string) => {
+		onUpdateToAccount(SEND_INDEX)(value)
+	}
+
+	const handleTokenUpdate = (value: string) => {
+		onUpdateToken(SEND_INDEX)(TOKEN_INDEX)(value)
+	}
+
+	const handleTokenValueUpdate = (value: number) => {
+		onUpdateTokenValue(SEND_INDEX)(TOKEN_INDEX)(value)
+	}
 
 	return (
 		<Box>
@@ -63,16 +102,9 @@ export const SingleTransfer: React.FC<ISingleTransferProps> = props => {
 			</Box>
 			<Box width="full">
 				<DropdownMenuVirtuoso
-					value="light"
-					onValueChange={(value: string) => {
-						// eslint-disable-next-line
-						console.log('onValueChange', value)
-					}}
-					data={Array.from({ length: 500 }).map((_, i, a) => ({
-						id: i === 0 ? 'light' : `v1.2.0-beta.${a.length - i}`,
-						title: `v1.2.0-beta.${a.length - i}`,
-						test: 'heheh',
-					}))}
+					value={fromAccount}
+					onValueChange={onUpdateFromAccount}
+					data={accounts}
 					// eslint-disable-next-line react/no-unstable-nested-components
 					itemContentRenderer={(index, { id, title }) => (
 						<DropdownMenuRadioItem value={id} key={index}>
@@ -113,7 +145,7 @@ export const SingleTransfer: React.FC<ISingleTransferProps> = props => {
 						>
 							<Box display="flex" alignItems="center" width="full" textAlign="left" paddingLeft="xsmall">
 								<Text size="large" color="strong">
-									Savings 765x...75jf
+									{fromAccount}
 								</Text>
 							</Box>
 						</Button>
@@ -152,22 +184,23 @@ export const SingleTransfer: React.FC<ISingleTransferProps> = props => {
 			</Box>
 			<Box width="full">
 				<SearchableInput
-					value="light"
-					placeholder="SearchableInput1"
+					value={send.to}
+					placeholder="Enter address"
+					// placeholder={capitalizeFirstLetter(`${t('global.search')}`)}
 					styleVariant="secondary"
-					onValueChange={(value: string) => {
-						// eslint-disable-next-line
-						console.log('onValueChange', value)
-					}}
-					data={Array.from({ length: 500 }).map((_, i, a) => ({
-						id: `v1.2.0-beta.${a.length - i}`,
-						title: `v1.2.0-beta.${a.length - i}`,
-						test: 'heheh',
-					}))}
+					onValueChange={handleUpdateToAccount}
+					data={addressBook}
 				/>
 			</Box>
 			<TransferMessage isVisible={isMessageUiVisible} />
-			<TransferTokenSelector styleVariant="secondary" />
+			<TransferTokenSelector
+				styleVariant="secondary"
+				tokens={tokens}
+				token={sendToken.token}
+				tokenValue={sendToken.amount}
+				onTokenUpdate={handleTokenUpdate}
+				onTokenValueUpdate={handleTokenValueUpdate}
+			/>
 		</Box>
 	)
 }

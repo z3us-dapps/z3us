@@ -1,15 +1,12 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import clsx, { type ClassValue } from 'clsx'
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useRef, useState } from 'react'
 import useMeasure from 'react-use-measure'
 import { Virtuoso } from 'react-virtuoso'
 
 import { Box } from 'ui/src/components-v2/box'
-import { Input, type TSizeVariant, type TStyleVariant } from 'ui/src/components-v2/input'
-import { Pill } from 'ui/src/components-v2/pill'
+import { type FormElement, Input, type TSizeVariant, type TStyleVariant } from 'ui/src/components-v2/input'
 import { PopoverAnchor, PopoverContent, PopoverPortal, PopoverRoot } from 'ui/src/components-v2/popover'
 import SimpleBar from 'ui/src/components-v2/simple-bar'
-import { ToolTip } from 'ui/src/components-v2/tool-tip'
 import { Text } from 'ui/src/components-v2/typography'
 import { Check2Icon, ChevronDown2Icon } from 'ui/src/components/icons'
 
@@ -48,10 +45,14 @@ export const SearchableInput: React.FC<ISearchableInputProps> = props => {
 		setIsPopoverOpen(false)
 	}
 
-	const handleItemSelected = (id: string) => {
-		// eslint-disable-next-line
-		console.log('id:', id)
+	const handleItemSelected = (val: string) => {
+		onValueChange(val)
 		closePopover()
+	}
+
+	const handleOnChange = (e: React.ChangeEvent<FormElement>) => {
+		const val = e.currentTarget.value
+		onValueChange(val)
 	}
 
 	const handleOnEscapeKeyDown = () => {
@@ -75,10 +76,9 @@ export const SearchableInput: React.FC<ISearchableInputProps> = props => {
 							ref={inputWrapperRef}
 							styleVariant={styleVariant}
 							sizeVariant={sizeVariant}
-							value={undefined}
+							value={value}
 							placeholder={placeholder}
-							// placeholder={capitalizeFirstLetter(`${t('global.search')}`)}
-							onChange={() => {}}
+							onChange={handleOnChange}
 							onFocus={() => {
 								setIsPopoverOpen(true)
 							}}

@@ -15,9 +15,29 @@ import { ShowHidePanel } from '@src/components/show-hide-panel'
 import Translation from '@src/components/translation'
 
 import * as styles from './account-transfer.css'
+import { GroupTransactionButton } from './group-transaction-button'
 import { GroupTransfer } from './group-transfer'
 import { SingleTransfer } from './single-transfer'
 import { TransferPageAnimation } from './transfer-page-animation'
+
+// TODO: temp accounts
+const ACCOUNTS = Array.from({ length: 500 }).map((_, i, a) => ({
+	id: `v1.2.0-beta.${a.length - i}`,
+	title: `v1.2.0-beta.${a.length - i}`,
+	test: 'heheh',
+}))
+
+const ADDRESS_BOOK = Array.from({ length: 500 }).map((_, i, a) => ({
+	id: `v1.2.0-beta.${a.length - i}`,
+	title: `v1.2.0-beta.${a.length - i}`,
+	test: 'heheh',
+}))
+
+const TOKENS = Array.from({ length: 500 }).map((_, i, a) => ({
+	id: `v1.2.0-TOKENS.${a.length - i}`,
+	title: `v1.2.0-TOKENS.${a.length - i}`,
+	test: 'heheh',
+}))
 
 interface IAccountTransferRequiredProps {}
 
@@ -33,7 +53,7 @@ const defaultProps: IAccountTransferOptionalProps = {
 	scrollableNode: undefined,
 }
 
-interface IImmer {
+interface IAccountTransferImmer {
 	isMessageUiVisible: boolean
 	isMessageEncrypted: boolean
 	slides: [number, number]
@@ -47,7 +67,7 @@ export const AccountTransfer = forwardRef<HTMLElement, IAccountTransferProps>(
 		const { className, scrollableNode } = props
 		const [measureRef, { height: slideWrapperHeight }] = useMeasure()
 
-		const [state, setState] = useImmer<IImmer>({
+		const [state, setState] = useImmer<IAccountTransferImmer>({
 			slides: [0, 0],
 			transaction: {
 				from: '',
@@ -70,22 +90,56 @@ export const AccountTransfer = forwardRef<HTMLElement, IAccountTransferProps>(
 		const { t } = useTranslation()
 		const inputRef = useRef(null)
 
-		const handleOnChange = (value: number) => {
-			// eslint-disable-next-line
-			console.log('value:', value)
-
-			// setInputValue(value)
-		}
-
 		const handleGroupTransaction = () => {
 			setState(draft => {
 				draft.isGroupUiVisible = true
 			})
 		}
 
+		const handleAddGroup = () => {
+			console.log('handl add group')
+			// setState(draft => {
+			// 	draft.isGroupUiVisible = true
+			// })
+		}
+
 		const handleRemoveGroupTransaction = () => {
 			setState(draft => {
 				draft.isGroupUiVisible = false
+			})
+		}
+
+		const handleUpdateFromAccount = (account: string) => {
+			setState(draft => {
+				draft.transaction.from = account
+			})
+		}
+
+		const handleAddToken = (sendIndex: number) => {
+			setState(draft => {
+				draft.transaction.sends[sendIndex].tokens = [
+					...state.transaction.sends[sendIndex].tokens,
+					// TODO: use default
+					{ token: '', amount: '' },
+				]
+			})
+		}
+
+		const handleUpdateToAccount = (sendIndex: number) => (value: string) => {
+			setState(draft => {
+				draft.transaction.sends[sendIndex].to = value
+			})
+		}
+
+		const handleUpdateTokenValue = (sendIndex: number) => (tokenIndex: number) => (tokenValue: number) => {
+			setState(draft => {
+				draft.transaction.sends[sendIndex].tokens[tokenIndex].amount = tokenValue
+			})
+		}
+
+		const handleUpdateToken = (sendIndex: number) => (tokenIndex: number) => (token: string) => {
+			setState(draft => {
+				draft.transaction.sends[sendIndex].tokens[tokenIndex].token = token
 			})
 		}
 
@@ -131,41 +185,38 @@ export const AccountTransfer = forwardRef<HTMLElement, IAccountTransferProps>(
 								</Box>
 								<ShowHidePanel isChildrenVisible={!state.isGroupUiVisible}>
 									<SingleTransfer
+										transaction={state.transaction}
 										isMessageUiVisible={state.isMessageUiVisible}
+										fromAccount={state.transaction.from}
+										accounts={ACCOUNTS}
+										addressBook={ADDRESS_BOOK}
+										tokens={TOKENS}
 										onToggleMessageUi={handleToggleMessageUi}
+										onUpdateFromAccount={handleUpdateFromAccount}
+										onUpdateToAccount={handleUpdateToAccount}
+										onUpdateTokenValue={handleUpdateTokenValue}
+										onUpdateToken={handleUpdateToken}
 									/>
 								</ShowHidePanel>
 								<ShowHidePanel isChildrenVisible={state.isGroupUiVisible}>
-									<GroupTransfer onRemoveGroupTransaction={handleRemoveGroupTransaction} />
+									<GroupTransfer
+										transaction={state.transaction}
+										fromAccount={state.transaction.from}
+										addressBook={ADDRESS_BOOK}
+										tokens={TOKENS}
+										onUpdateToAccount={handleUpdateToAccount}
+										onRemoveGroupTransaction={handleRemoveGroupTransaction}
+										onUpdateTokenValue={handleUpdateTokenValue}
+										onUpdateToken={handleUpdateToken}
+										onAddToken={handleAddToken}
+									/>
 								</ShowHidePanel>
 								<Box paddingTop="large" display="flex" flexDirection="column" gap="medium">
-									<ToolTip
-										disabled={state.isGroupUiVisible}
-										sideOffset={10}
-										side="top"
-										theme="backgroundPrimary"
-										message={
-											<>
-												<span>Group transaction to send multiple</span>
-												<br />
-												<span>tokens to the same address.</span>
-											</>
-										}
-									>
-										<Button
-											styleVariant="tertiary"
-											sizeVariant="xlarge"
-											fullWidth
-											onClick={handleGroupTransaction}
-											leftIcon={
-												<Box marginLeft="small">
-													<PlusIcon />
-												</Box>
-											}
-										>
-											{state.isGroupUiVisible ? 'Add another group' : 'Group transaction'}
-										</Button>
-									</ToolTip>
+									<GroupTransactionButton
+										isGroupUiVisible={state.isGroupUiVisible}
+										onGroupTransaction={handleGroupTransaction}
+										onAddGroup={handleAddGroup}
+									/>
 									<Button
 										styleVariant="primary"
 										sizeVariant="xlarge"

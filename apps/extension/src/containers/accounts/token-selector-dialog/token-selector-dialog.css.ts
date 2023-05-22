@@ -78,7 +78,18 @@ export const tokenListItemWrapperButton = style([
 			lightMode: 'backgroundSecondary',
 			hover: 'backgroundPrimary',
 		},
+		boxShadow: {
+			focusVisible: 'btnSecondaryShadowFocus',
+		},
 	}),
+	{
+		selectors: {
+			'&:focus-visible': {
+				position: 'relative',
+				zIndex: 1,
+			},
+		},
+	},
 ])
 
 export const tokenListItemWrapperInnerButton = style([
