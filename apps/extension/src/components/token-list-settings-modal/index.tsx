@@ -64,6 +64,7 @@ const makeVisibleTokenData = (
 
 const ignorTokenRRIs = {
 	[OCI_TEST_RRI]: true,
+	oci_rr1qvltjj8u5s6grane4pxfmdcjf8t2vnp9fcmuu5te969qerm90s: true,
 }
 
 const makeInvisibleTokenData = (
