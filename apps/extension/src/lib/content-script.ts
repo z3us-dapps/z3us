@@ -1,6 +1,10 @@
 import browser from 'webextension-polyfill'
+
 // import init from 'pte-manifest-compiler'
 import { PORT_NAME, TARGET_BACKGROUND, TARGET_INPAGE } from '@src/services/messanger'
+
+// @ts-ignore
+import inpage from './inpage?script&module'
 
 const connectNewPort = () => {
 	const port = browser.runtime.connect({ name: PORT_NAME })
@@ -43,7 +47,7 @@ connectNewPort()
 
 const script = document.createElement('script')
 script.type = 'module'
-script.src = browser.runtime.getURL('assets/inpage.js')
+script.src = browser.runtime.getURL(inpage)
 
 const head = document.head || document.getElementsByTagName('head')[0] || document.documentElement
 head.appendChild(script)

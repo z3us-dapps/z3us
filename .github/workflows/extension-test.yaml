@@ -17,6 +17,7 @@ jobs:
     timeout-minutes: 10
     runs-on: ubuntu-latest
     env:
+      NODE_OPTIONS: "--max_old_space_size=4096"
       KEYSTORE_BASE64: ${{ secrets.KEYSTORE_BASE64 }}
     steps:
       - name: Copy Files
