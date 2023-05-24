@@ -13,16 +13,9 @@ import { FormElement, Input } from 'ui/src/components-v2/input'
 import { NumberInput } from 'ui/src/components-v2/number-input'
 import { Text } from 'ui/src/components-v2/typography'
 import {
-	ArrowLeftIcon,
-	AtSignIcon,
 	Check2Icon,
 	CheckCircleIcon,
 	ChevronDown2Icon,
-	CirclePlusIcon,
-	CoinsIcon,
-	LoadingBarsIcon,
-	PlusIcon,
-	TrashIcon,
 	WriteNoteIcon,
 } from 'ui/src/components/icons'
 
@@ -199,8 +192,8 @@ export const SingleTransfer: React.FC<ISingleTransferProps> = props => {
 			<TransferMessage
 				isVisible={isMessageUiVisible}
 				message={transaction.message}
-				onUpdateMessage={onUpdateMessage}
 				isEncrypted={transaction.isMessageEncrypted}
+				onUpdateMessage={onUpdateMessage}
 				onUpdateIsMessageEncrypted={onUpdateIsMessageEncrypted}
 			/>
 			<TransferTokenSelector

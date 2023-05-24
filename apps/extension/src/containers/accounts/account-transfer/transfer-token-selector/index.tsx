@@ -161,10 +161,12 @@ export const TransferTokenSelector: React.FC<ITransferTokenSelectorProps> = prop
 								<SelectValue aria-label={value}>
 									<Box display="flex">
 										<Box component="span">$70,887&nbsp;</Box>
-										<Box component="span" style={{textTransform: 'uppercase'}}>{value}</Box>
+										<Box component="span" style={{ textTransform: 'uppercase' }}>
+											{value}
+										</Box>
 									</Box>
 								</SelectValue>
-								<SelectIcon style={{height: '24px'}}>
+								<SelectIcon style={{ height: '24px' }}>
 									<ChevronDown2Icon />
 								</SelectIcon>
 							</Box>
@@ -198,7 +200,10 @@ export const TransferTokenSelector: React.FC<ITransferTokenSelectorProps> = prop
 									<Text size="small">Rest</Text>
 								</SelectLabel>
 								{Array.from({ length: 100 }).map((_, i, a) => (
-									<SelectItem value={`v1.2.0-betav1.2.0-betav1.2.0-betav1.2.0-betav1.2.0-beta.${a.length - i}`}>
+									<SelectItem
+										key={`v1.2.0-betav1.2.0-betav1.2.0-betav1.2.0-betav1.2.0-beta.${a.length - i}`}
+										value={`v1.2.0-betav1.2.0-betav1.2.0-betav1.2.0-betav1.2.0-beta.${a.length - i}`}
+									>
 										<Text
 											truncate
 											size="small"

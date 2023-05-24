@@ -19,18 +19,25 @@ import { TokenImageIcon } from '@src/components/token-image-icon'
 
 import * as styles from './account-transfer.css'
 import { SearchableInput } from './searchable-input'
+import { TransferMessage } from './transfer-message'
 import { TransferTokenSelector } from './transfer-token-selector'
 
 interface IGroupTransferRequiredProps {
 	transaction: any
 	fromAccount: string
+	// TODO fix type
 	addressBook: any
+	// TODO fix type
 	tokens: any
+	isMessageUiVisible: boolean
 	onAddToken: (sendIndex: number) => void
+	onToggleMessageUi: () => void
 	onUpdateToAccount: (key: number) => (value: string) => void
 	onUpdateTokenValue: (sendIndex: number) => (tokenIndex: number) => (tokenValue: number) => void
 	onUpdateToken: (sendIndex: number) => (tokenIndex: number) => (tokenValue: string) => void
 	onRemoveGroupTransaction: (sendIndex: number) => void
+	onUpdateMessage: (message: string) => void
+	onUpdateIsMessageEncrypted: (isEncrypted: boolean) => void
 }
 
 interface IGroupTransferOptionalProps {}
@@ -45,11 +52,15 @@ export const GroupTransfer: React.FC<IGroupTransferProps> = props => {
 		fromAccount,
 		addressBook,
 		tokens,
+		isMessageUiVisible,
+		onToggleMessageUi,
 		onAddToken,
 		onUpdateToken,
 		onUpdateTokenValue,
 		onUpdateToAccount,
 		onRemoveGroupTransaction,
+		onUpdateMessage,
+		onUpdateIsMessageEncrypted,
 	} = props
 
 	return (
@@ -111,22 +122,23 @@ export const GroupTransfer: React.FC<IGroupTransferProps> = props => {
 											</Box>
 										</Box>
 										<Box display="flex" alignItems="center" gap="medium">
-											<Box
-												component="button"
-												type="button"
-												className={plainButtonStyles.plainButtonHoverWrapper}
-												// TODO:
-												// onClick={handleAddMessage}
-												display="flex"
-												alignItems="center"
-											>
-												<Box component="span" display="flex" alignItems="center" marginRight="xxsmall">
-													<WriteNoteIcon />
+											{sendIndex === 0 ? (
+												<Box
+													component="button"
+													type="button"
+													className={plainButtonStyles.plainButtonHoverWrapper}
+													onClick={onToggleMessageUi}
+													display="flex"
+													alignItems="center"
+												>
+													<Box component="span" display="flex" alignItems="center" marginRight="xxsmall">
+														<WriteNoteIcon />
+													</Box>
+													<Text inheritColor component="span" size="medium" underline="always" truncate>
+														{isMessageUiVisible ? 'Hide message' : 'Add message'}
+													</Text>
 												</Box>
-												<Text inheritColor component="span" size="medium" underline="always" truncate>
-													Add message
-												</Text>
-											</Box>
+											) : null}
 										</Box>
 									</Box>
 								</Box>
@@ -140,6 +152,15 @@ export const GroupTransfer: React.FC<IGroupTransferProps> = props => {
 										data={addressBook}
 									/>
 								</Box>
+								{sendIndex === 0 ? (
+									<TransferMessage
+										isVisible={isMessageUiVisible}
+										message={transaction.message}
+										isEncrypted={transaction.isMessageEncrypted}
+										onUpdateMessage={onUpdateMessage}
+										onUpdateIsMessageEncrypted={onUpdateIsMessageEncrypted}
+									/>
+								) : null}
 								{send.tokens.map(({ token, amount }: any, tokenIndex: number) => (
 									<TransferTokenSelector
 										key={`group-${sendIndex}-${tokenIndex}`}

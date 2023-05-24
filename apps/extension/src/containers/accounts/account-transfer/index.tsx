@@ -226,6 +226,7 @@ export const AccountTransfer = forwardRef<HTMLElement, IAccountTransferProps>(
 								<ShowHidePanel isChildrenVisible={state.isGroupUiVisible}>
 									<GroupTransfer
 										transaction={state.transaction}
+										isMessageUiVisible={state.isMessageUiVisible}
 										fromAccount={state.transaction.from}
 										addressBook={ADDRESS_BOOK}
 										tokens={TOKENS}
@@ -234,6 +235,9 @@ export const AccountTransfer = forwardRef<HTMLElement, IAccountTransferProps>(
 										onUpdateTokenValue={handleUpdateTokenValue}
 										onUpdateToken={handleUpdateToken}
 										onAddToken={handleAddToken}
+										onToggleMessageUi={handleToggleMessageUi}
+										onUpdateMessage={handleUpdateMessage}
+										onUpdateIsMessageEncrypted={handleUpdateIsMessageEncrypted}
 									/>
 								</ShowHidePanel>
 								<Box paddingTop="large" display="flex" flexDirection="column" gap="medium">
