@@ -1,50 +1,31 @@
 import * as SelectPrimitive from '@radix-ui/react-select'
-import clsx from 'clsx'
+import clsx, { type ClassValue } from 'clsx'
 import React, { forwardRef } from 'react'
 
-import { Check2Icon } from '../../components/icons'
-import { Text } from '../typography'
+import { ArrowDownIcon, ArrowUpIcon, Check2Icon } from '../../components/icons'
 import * as styles from './select.css'
 
-export const Select = SelectPrimitive.Root
+export const SelectRoot = SelectPrimitive.Root
+export const SelectTrigger = SelectPrimitive.Trigger
 export const SelectValue = SelectPrimitive.Value
-export const SelectIcon = SelectPrimitive.Icon
 export const SelectPortal = SelectPrimitive.Portal
 export const SelectViewport = SelectPrimitive.Viewport
 export const SelectGroup = SelectPrimitive.Group
 export const SelectItemText = SelectPrimitive.ItemText
 export const SelectItemIndicator = SelectPrimitive.ItemIndicator
-export const SelectLabel = SelectPrimitive.Label
-export const SelectSeparator = SelectPrimitive.Separator
-export const SelectScrollUpButton = SelectPrimitive.ScrollUpButton
-export const SelectScrollDownButton = SelectPrimitive.ScrollDownButton
 
-interface ISelectTriggerProps {
-	children: React.ReactNode
-	className?: string
-	asChild?: boolean
-	iconOnly?: boolean
-}
-
-const SelectTriggerDefaultProps = {
-	className: undefined,
-	asChild: false,
-	iconOnly: false,
-}
-
-export const SelectTrigger = ({ children, className, asChild, iconOnly, ...props }: ISelectTriggerProps) => (
-	<SelectPrimitive.SelectTrigger
-		asChild={asChild}
-		className={clsx(styles.selectTrigger, iconOnly && styles.selectTriggerIconOnly, className)}
-		{...props}
-	>
+export const SelectScrollDownButton = ({ children, ...props }) => (
+	<SelectPrimitive.ScrollDownButton className={styles.selectMenuScrollButton} {...props}>
 		{children}
-	</SelectPrimitive.SelectTrigger>
+	</SelectPrimitive.ScrollDownButton>
 )
 
-SelectTrigger.defaultProps = SelectTriggerDefaultProps
+export const SelectScrollUpButton = ({ children, ...props }) => (
+	<SelectPrimitive.ScrollUpButton className={styles.selectMenuScrollButton} {...props}>
+		{children}
+	</SelectPrimitive.ScrollUpButton>
+)
 
-// Content
 interface ISelectContentProps {
 	children: React.ReactNode
 	className?: string
@@ -59,19 +40,26 @@ export const SelectContent = forwardRef<HTMLDivElement, ISelectContentProps>(
 		const { children, className, ...rest } = props
 
 		return (
-			<SelectPrimitive.Content className={clsx(styles.selectContent, className)} {...rest} ref={forwardedRef}>
-				{children}
-			</SelectPrimitive.Content>
+			<SelectPortal>
+				<SelectPrimitive.Content className={clsx(styles.selectContent, className)} {...rest} ref={forwardedRef}>
+					<SelectScrollUpButton>
+						<ArrowUpIcon />
+					</SelectScrollUpButton>
+					<SelectViewport>{children}</SelectViewport>
+					<SelectScrollDownButton>
+						<ArrowDownIcon />
+					</SelectScrollDownButton>
+				</SelectPrimitive.Content>
+			</SelectPortal>
 		)
 	},
 )
 
 SelectContent.defaultProps = SelectContentDefaultProps
 
-// Item
 interface ISelectItemProps {
 	children: React.ReactNode
-	className?: string
+	className?: ClassValue
 	value: string
 }
 
@@ -81,26 +69,31 @@ const SelectItemDefaultProps = {
 
 export const SelectItem = forwardRef<HTMLDivElement, ISelectItemProps>(
 	(props, forwardedRef: React.Ref<HTMLDivElement | null>) => {
-		const { children, className, value, ...rest } = props
+		const { children, className, ...rest } = props
 
 		return (
-			<SelectPrimitive.Item
-				value={value}
-				className={clsx(styles.selectMenuItem, className)}
-				{...rest}
-				ref={forwardedRef}
-			>
-				<SelectPrimitive.ItemText>
-					<Text size="small" color="strong">
-						{children}
-					</Text>
-				</SelectPrimitive.ItemText>
-				<SelectItemIndicator>
-					<Check2Icon />
-				</SelectItemIndicator>
+			<SelectPrimitive.Item className={clsx(styles.selectMenuItem, className)} {...rest} ref={forwardedRef}>
+				<SelectPrimitive.ItemText>{children}</SelectPrimitive.ItemText>
+				<SelectPrimitive.ItemIndicator>
+					<Check2Icon className={styles.selectMenuItemCheckIcon} />
+				</SelectPrimitive.ItemIndicator>
 			</SelectPrimitive.Item>
 		)
 	},
 )
 
 SelectItem.defaultProps = SelectItemDefaultProps
+
+export const SelectLabel = ({ children, ...props }) => (
+	<SelectPrimitive.Label className={styles.selectLabelWrapper} {...props}>
+		{children}
+	</SelectPrimitive.Label>
+)
+
+export const SelectSeparator = () => <SelectPrimitive.Separator className={styles.selectMenuSeparator} />
+
+export const SelectIcon = ({ children, ...props }) => (
+	<SelectPrimitive.Icon className={styles.selectIconWrapper} {...props}>
+		{children}
+	</SelectPrimitive.Icon>
+)

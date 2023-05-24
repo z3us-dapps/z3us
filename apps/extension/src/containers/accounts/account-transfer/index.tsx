@@ -7,7 +7,6 @@ import { useImmer } from 'use-immer'
 
 import { Box } from 'ui/src/components-v2/box'
 import { Button } from 'ui/src/components-v2/button'
-import { ToolTip } from 'ui/src/components-v2/tool-tip'
 import { Text } from 'ui/src/components-v2/typography'
 import { ArrowLeftIcon, LoadingBarsIcon, PlusIcon } from 'ui/src/components/icons'
 
