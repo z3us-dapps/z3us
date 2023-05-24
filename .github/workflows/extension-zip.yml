@@ -43,8 +43,6 @@ jobs:
           cd packages/design
           yarn --ignore-engines
       - name: Design system build
-        env:
-          NODE_OPTIONS: "--max_old_space_size=4096"
         run: |-
           cd packages/design
           yarn build
@@ -53,6 +51,8 @@ jobs:
           cd apps/extension
           yarn --ignore-engines
       - name: Run build
+        env:
+          NODE_OPTIONS: "--max_old_space_size=4096"
         run: |-
           cd apps/extension
           yarn build
