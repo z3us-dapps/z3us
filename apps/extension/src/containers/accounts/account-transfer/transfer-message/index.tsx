@@ -2,7 +2,7 @@ import React from 'react'
 
 import { Box } from 'ui/src/components-v2/box'
 import { Checkbox } from 'ui/src/components-v2/checkbox'
-import { type FormElement, Input } from 'ui/src/components-v2/input'
+import { type FormElement, Input, type TStyleVariant } from 'ui/src/components-v2/input'
 import { Text } from 'ui/src/components-v2/typography'
 
 import { ShowHidePanel } from '@src/components/show-hide-panel'
@@ -17,14 +17,18 @@ interface ITransferMessageRequiredProps {
 	onUpdateMessage: (message: string) => void
 }
 
-interface ITransferMessageOptionalProps {}
+interface ITransferMessageOptionalProps {
+	styleVariant?: TStyleVariant
+}
 
 interface ITransferMessageProps extends ITransferMessageRequiredProps, ITransferMessageOptionalProps {}
 
-const defaultProps: ITransferMessageOptionalProps = {}
+const defaultProps: ITransferMessageOptionalProps = {
+	styleVariant: 'secondary',
+}
 
 export const TransferMessage: React.FC<ITransferMessageProps> = props => {
-	const { isVisible, message, isEncrypted, onUpdateMessage, onUpdateIsMessageEncrypted } = props
+	const { isVisible, message, isEncrypted, styleVariant, onUpdateMessage, onUpdateIsMessageEncrypted } = props
 
 	const handleUpdateMessage = (event: React.ChangeEvent<FormElement>) => {
 		onUpdateMessage(event.currentTarget.value)
@@ -48,7 +52,11 @@ export const TransferMessage: React.FC<ITransferMessageProps> = props => {
 							<Text size="medium" truncate>
 								Encrypt
 							</Text>
-							<Checkbox checked={isEncrypted} onCheckedChange={handleUpdateEncryptedMessage} />
+							<Checkbox
+								checked={isEncrypted}
+								onCheckedChange={handleUpdateEncryptedMessage}
+								styleVariant={styleVariant}
+							/>
 						</Box>
 					</Box>
 				</Box>
@@ -56,8 +64,8 @@ export const TransferMessage: React.FC<ITransferMessageProps> = props => {
 					className={styles.transferUiTextAreaMessage}
 					elementType="textarea"
 					sizeVariant="large"
-					styleVariant="secondary"
 					placeholder="Enter message"
+					styleVariant={styleVariant}
 					value={message}
 					onChange={handleUpdateMessage}
 				/>

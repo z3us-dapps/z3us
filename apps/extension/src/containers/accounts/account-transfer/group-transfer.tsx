@@ -64,7 +64,7 @@ export const GroupTransfer: React.FC<IGroupTransferProps> = props => {
 	} = props
 
 	return (
-		<Box display="flex" flexDirection="column" gap="xlarge">
+		<Box display="flex" flexDirection="column" gap="large">
 			{transaction.sends.map((send: any, sendIndex: number) => (
 				<AccordionRoot key={`accordion-${sendIndex}`} type="single" defaultValue={`send-${sendIndex}`} collapsible>
 					<AccordionItem value={`send-${sendIndex}`} className={styles.transferAccordionItemWrapper}>
@@ -157,6 +157,7 @@ export const GroupTransfer: React.FC<IGroupTransferProps> = props => {
 										isVisible={isMessageUiVisible}
 										message={transaction.message}
 										isEncrypted={transaction.isMessageEncrypted}
+										styleVariant="primary"
 										onUpdateMessage={onUpdateMessage}
 										onUpdateIsMessageEncrypted={onUpdateIsMessageEncrypted}
 									/>
