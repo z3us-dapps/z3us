@@ -4,6 +4,7 @@ import React, { forwardRef } from 'react'
 import { Box } from '../box'
 import * as styles from './button.css'
 
+export type TType = 'button' | 'submit'
 export type TSizeVariant = 'xsmall' | 'small' | 'medium' | 'large' | 'xlarge'
 export type TStyleVariant = 'primary' | 'secondary' | 'tertiary' | 'ghost' | 'inverse' | 'white-transparent'
 
@@ -21,6 +22,7 @@ interface IButtonOptionalProps {
 	leftIcon?: React.ReactNode
 	sizeVariant?: TSizeVariant
 	styleVariant?: TStyleVariant
+	type?: TType
 	href?: string
 	rounded?: boolean
 	fullWidth?: boolean
@@ -41,6 +43,7 @@ const defaultProps: IButtonOptionalProps = {
 	disabled: false,
 	sizeVariant: 'medium',
 	styleVariant: 'primary',
+	type: 'button',
 	href: undefined,
 	loading: false,
 }
@@ -58,6 +61,7 @@ export const Button = forwardRef<HTMLButtonElement, IButtonProps>((props, ref: R
 		className,
 		sizeVariant,
 		styleVariant,
+		type,
 		linkFrameWorkComp,
 		href,
 		loading,
@@ -78,7 +82,7 @@ export const Button = forwardRef<HTMLButtonElement, IButtonProps>((props, ref: R
 		<ButtonComponent
 			component={href ? 'a' : 'button'}
 			href={href}
-			type="button"
+			type={type}
 			ref={ref}
 			className={clsx(
 				className,

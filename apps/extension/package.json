@@ -19,6 +19,7 @@
 	"dependencies": {
 		"@capsizecss/metrics": "^1.0.1",
 		"@heroicons/react": "^2.0.12",
+		"@hookform/resolvers": "^3.1.0",
 		"@ledgerhq/hw-transport-webhid": "^6.27.1",
 		"@nivo/core": "^0.82.1",
 		"@nivo/line": "^0.82.1",
@@ -75,6 +76,7 @@
 		"react-chartjs-2": "^4.2.0",
 		"react-colorful": "^5.5.1",
 		"react-dom": "^18.2.0",
+		"react-hook-form": "^7.43.9",
 		"react-i18next": "^12.1.5",
 		"react-query": "^3.39.0",
 		"react-router-dom": "^6.6.0",
@@ -95,6 +97,7 @@
 		"usehooks-ts": "^2.4.2",
 		"webextension-polyfill": "^0.10.0",
 		"wouter": "^2.8.0-alpha.2",
+		"zod": "^3.21.4",
 		"zustand": "^4.1.1",
 		"zustand-store-addons": "^0.1.12"
 	},
