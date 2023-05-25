@@ -110,6 +110,7 @@ export const TransferTokenSelector: React.FC<ITransferTokenSelectorProps> = prop
 					value={tokenValue}
 					placeholder={placeholder}
 					onChange={handleTokenValueUpdate}
+					precision={9}
 				/>
 				<TokenSelectorDialog
 					token={token}

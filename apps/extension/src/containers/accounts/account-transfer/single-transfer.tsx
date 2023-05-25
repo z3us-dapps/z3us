@@ -1,16 +1,13 @@
 /* eslint-disable  @typescript-eslint/no-unused-vars */
-import React, { useState } from 'react'
+import React from 'react'
 
 import { Box } from 'ui/src/components-v2/box'
 import { Button } from 'ui/src/components-v2/button'
-import { Checkbox } from 'ui/src/components-v2/checkbox'
 import {
 	DropdownMenuItemIndicator,
 	DropdownMenuRadioItem,
 	DropdownMenuVirtuoso,
 } from 'ui/src/components-v2/dropdown-menu'
-import { FormElement, Input } from 'ui/src/components-v2/input'
-import { NumberInput } from 'ui/src/components-v2/number-input'
 import { Text } from 'ui/src/components-v2/typography'
 import {
 	Check2Icon,
@@ -19,14 +16,8 @@ import {
 	WriteNoteIcon,
 } from 'ui/src/components/icons'
 
-import { Link } from '@src/components/link'
 import * as plainButtonStyles from '@src/components/styles/plain-button-styles.css'
 import { TokenImageIcon } from '@src/components/token-image-icon'
-import Translation from '@src/components/translation'
-import { accountMenuSlugs } from '@src/constants'
-import { TokenSelectorDialog } from '@src/containers/accounts/token-selector-dialog'
-
-import * as styles from './account-transfer.css'
 import { SearchableInput } from './searchable-input'
 import { TransferMessage } from './transfer-message'
 import { TransferTokenSelector } from './transfer-token-selector'

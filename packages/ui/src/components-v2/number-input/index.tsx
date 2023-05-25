@@ -130,15 +130,12 @@ export const NumberInput = forwardRef<HTMLInputElement, INumbberInputProps>(
 
 		const formatInternalValue = (val: string | number) => formatNum(parsePrecision(val))
 
-		// TOOD: fix
-		// eslint-disable-next-line @typescript-eslint/naming-convention
-		const [internalValue, _setInternalValue] = useState<string | number>(typeof value === 'number' ? value : '')
-
+		const [internalValue, setInternalValue] = useState<string | number>(typeof value === 'number' ? value : '')
 		const [inputValue, setInputValue] = useState<string | number>(() => formatInternalValue(internalValue))
 
-		const setInternalValue = (val: number | string) => {
+		const handleSetInternalValue = (val: number | string) => {
 			if (val !== internalValue) {
-				_setInternalValue(val)
+				setInternalValue(val)
 			}
 		}
 
@@ -158,7 +155,7 @@ export const NumberInput = forwardRef<HTMLInputElement, INumbberInputProps>(
 			const internalValueChanged = internalValue !== finalValue
 
 			setInputValue(newInputValue)
-			setInternalValue(finalValue)
+			handleSetInternalValue(finalValue)
 
 			if (internalValueChanged) {
 				onChange?.(finalValue as number)
