@@ -1,4 +1,6 @@
-import { type ZodError } from 'zod'
+import { type ZodError, z } from 'zod'
+
+import { transferFormSchema } from './account-transfer-constants'
 
 export interface ITransaction {
 	from: string
@@ -17,16 +19,22 @@ export interface IToken {
 	amount: number
 }
 
+export type TITransactionKey = keyof ITransaction
+
+export type TTransferSchema = z.infer<typeof transferFormSchema>
+
+export type TZodValidationError = { success: false; error: ZodError }
+
+export type TZodValidationSuccess = { success: true; data: TTransferSchema }
+
+export type TZodValidation = TZodValidationSuccess | TZodValidationError
+
 export interface IAccountTransferImmer {
 	transaction: ITransaction
 	slides: [number, number]
 	isGroupUiVisible: boolean
 	isMessageUiVisible: boolean
 	isSubmittingReview: boolean
-
-	// TODO: data can be inferred from
-	//
-	// export type TTransferSchema = z.infer<typeof transferFormSchema>
 	initValidation: boolean
-	validation: { success: true; data: any } | { success: false; error: ZodError }
+	validation: TZodValidation
 }

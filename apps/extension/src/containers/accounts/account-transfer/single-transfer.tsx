@@ -11,11 +11,10 @@ import {
 import { Text } from 'ui/src/components-v2/typography'
 import { Check2Icon, CheckCircleIcon, ChevronDown2Icon, WriteNoteIcon } from 'ui/src/components/icons'
 
-import { ShowHidePanel } from '@src/components/show-hide-panel'
 import * as plainButtonStyles from '@src/components/styles/plain-button-styles.css'
 import { TokenImageIcon } from '@src/components/token-image-icon'
 
-import { getZodErrorMessage } from './account-transfer-utils'
+import { type ITransaction, type TZodValidation } from './account-transfer-types'
 import { SearchableInput } from './searchable-input'
 import { TransferMessage } from './transfer-message'
 import { TransferTokenSelector } from './transfer-token-selector'
@@ -25,15 +24,14 @@ const SEND_INDEX = 0
 const TOKEN_INDEX = 0
 
 interface ISingleTransferRequiredProps {
-	// TODO
-	transaction: any
-	accounts: any
-	addressBook: any
-	tokens: any
+	accounts: any // TODO
+	addressBook: any // TODO
+	tokens: any // TODO
+	transaction: ITransaction
 	isMessageUiVisible: boolean
-	onToggleMessageUi: () => void
 	fromAccount: string
-	validation: any
+	validation: TZodValidation
+	onToggleMessageUi: () => void
 	onUpdateFromAccount: (account: string) => void
 	onUpdateToAccount: (key: number) => (value: string) => void
 	onUpdateTokenValue: (sendIndex: number) => (tokenIndex: number) => (tokenValue: number) => void

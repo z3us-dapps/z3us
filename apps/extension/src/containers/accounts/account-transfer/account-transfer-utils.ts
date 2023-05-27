@@ -1,22 +1,10 @@
-import { type ZodError, z } from 'zod'
+import { type ZodError } from 'zod'
+import { transferFormSchema } from './account-transfer-constants'
+import { type ITransaction, type TITransactionKey, type TZodValidation } from './account-transfer-types'
 
-import { transactionFields } from './account-transfer-constants'
-import { type ITransaction } from './account-transfer-types'
-
-const transferFormSchema = z.object({
-	from: z
-		.string()
-		.min(2, 'Name must be at least 2 characters long Hurr')
-		.max(30, 'Name must be at least 2 characters long DURR'),
-})
-
-export type TTransferSchema = z.infer<typeof transferFormSchema>
-
-export const validateTransferForm = (
-	transaction: ITransaction,
-): { success: true; data: TTransferSchema } | { success: false; error: ZodError } => {
-	const result = transferFormSchema.safeParse({
-		from: transaction[transactionFields.TRANSACTION_FROM],
+export const validateTransferForm = (transaction: ITransaction): TZodValidation => {
+	const result: TZodValidation = transferFormSchema.safeParse({
+		from: transaction.from,
 	})
 
 	// note: this due to zod issue: https://github.com/colinhacks/zod/issues/1190#issuecomment-1171607138
@@ -24,11 +12,10 @@ export const validateTransferForm = (
 		return { success: false, error: result.error }
 	}
 
-	return result
+	return { success: true, data: result.data }
 }
 
-// TODO: fix path to be string of
-export const getZodErrorMessage = (error: ZodError, path: string): string | null => {
+export const getZodErrorMessage = (error: ZodError, path: TITransactionKey): string | null => {
 	if (!error) return null
 	const matchedError = error.issues.find(err => err.path.includes(path))
 

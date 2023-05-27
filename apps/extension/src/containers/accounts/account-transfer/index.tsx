@@ -13,7 +13,8 @@ import { ArrowLeftIcon, LoadingBarsIcon, PlusIcon } from 'ui/src/components/icon
 import { ShowHidePanel } from '@src/components/show-hide-panel'
 import Translation from '@src/components/translation'
 
-import { type IAccountTransferImmer, type IToken, type ITransaction } from './account-transfer-types'
+import { defaultToken } from './account-transfer-constants'
+import { type IAccountTransferImmer } from './account-transfer-types'
 import { validateTransferForm } from './account-transfer-utils'
 import * as styles from './account-transfer.css'
 import { GroupTransactionButton } from './group-transaction-button'
@@ -40,8 +41,6 @@ const TOKENS = Array.from({ length: 500 }).map((_, i, a) => ({
 	test: 'heheh',
 }))
 
-const defaultToken: IToken = { token: '', amount: 0 }
-
 interface IAccountTransferRequiredProps {
 	scrollableNode: HTMLElement | null
 }
@@ -67,12 +66,7 @@ export const AccountTransfer = forwardRef<HTMLElement, IAccountTransferProps>(
 				from: '',
 				isMessageEncrypted: false,
 				message: '',
-				sends: [
-					{
-						to: '',
-						tokens: [defaultToken],
-					},
-				],
+				sends: [{ to: '', tokens: [defaultToken] }],
 			},
 			slides: [0, 0],
 			isGroupUiVisible: false,
@@ -161,13 +155,7 @@ export const AccountTransfer = forwardRef<HTMLElement, IAccountTransferProps>(
 
 		const handleAddGroup = () => {
 			setState(draft => {
-				draft.transaction.sends = [
-					...state.transaction.sends,
-					{
-						to: '',
-						tokens: [defaultToken],
-					},
-				]
+				draft.transaction.sends = [...state.transaction.sends, { to: '', tokens: [defaultToken] }]
 			})
 		}
 

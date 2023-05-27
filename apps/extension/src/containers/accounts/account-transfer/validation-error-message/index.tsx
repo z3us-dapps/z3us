@@ -5,12 +5,12 @@ import { Text } from 'ui/src/components-v2/typography'
 
 import { ShowHidePanel } from '@src/components/show-hide-panel'
 
+import { type TITransactionKey, type TZodValidation, type TZodValidationError } from '../account-transfer-types'
 import { getZodErrorMessage } from '../account-transfer-utils'
 
 interface IValidationErrorMessageRequiredProps {
-	validation: any
-	// TODO: fix type to be key of
-	errorKey: string
+	validation: TZodValidation
+	errorKey: TITransactionKey
 }
 
 interface IValidationErrorMessageOptionalProps {}
@@ -23,8 +23,7 @@ const defaultProps: IValidationErrorMessageOptionalProps = {}
 
 export const ValidationErrorMessage: React.FC<IValidationErrorMessageProps> = props => {
 	const { validation, errorKey } = props
-
-	const errorMessage = getZodErrorMessage(validation?.error, errorKey)
+	const errorMessage = getZodErrorMessage((validation as TZodValidationError)?.error, errorKey)
 
 	return (
 		<ShowHidePanel isChildrenVisible={!!errorMessage}>
