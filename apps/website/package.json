@@ -38,7 +38,7 @@
 		"github-slugger": "^2.0.0",
 		"gray-matter": "^4.0.3",
 		"https-browserify": "^1.0.0",
-		"immer": "^9.0.12",
+		"immer": "^10.0.2",
 		"intersection-observer": "^0.12.0",
 		"next": "^12.2.5",
 		"next-mdx-remote": "^4.1.0",
@@ -60,7 +60,7 @@
 		"stream-http": "^3.2.0",
 		"tailwindcss": "^3.1.8",
 		"ui": "*",
-		"use-immer": "^0.7.0",
+		"use-immer": "^0.9.0",
 		"usehooks-ts": "^2.7.0"
 	},
 	"devDependencies": {

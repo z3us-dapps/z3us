@@ -9,23 +9,21 @@ import {
 	DropdownMenuVirtuoso,
 } from 'ui/src/components-v2/dropdown-menu'
 import { Text } from 'ui/src/components-v2/typography'
-import {
-	Check2Icon,
-	CheckCircleIcon,
-	ChevronDown2Icon,
-	WriteNoteIcon,
-} from 'ui/src/components/icons'
+import { Check2Icon, CheckCircleIcon, ChevronDown2Icon, WriteNoteIcon } from 'ui/src/components/icons'
 
 import * as plainButtonStyles from '@src/components/styles/plain-button-styles.css'
 import { TokenImageIcon } from '@src/components/token-image-icon'
+
 import { SearchableInput } from './searchable-input'
 import { TransferMessage } from './transfer-message'
 import { TransferTokenSelector } from './transfer-token-selector'
+import { useTransferForm } from './use-transfer-form'
 
 const SEND_INDEX = 0
 const TOKEN_INDEX = 0
 
 interface ISingleTransferRequiredProps {
+	// TODO
 	transaction: any
 	accounts: any
 	addressBook: any
@@ -33,6 +31,7 @@ interface ISingleTransferRequiredProps {
 	isMessageUiVisible: boolean
 	onToggleMessageUi: () => void
 	fromAccount: string
+	validation: any
 	onUpdateFromAccount: (account: string) => void
 	onUpdateToAccount: (key: number) => (value: string) => void
 	onUpdateTokenValue: (sendIndex: number) => (tokenIndex: number) => (tokenValue: number) => void
@@ -55,6 +54,7 @@ export const SingleTransfer: React.FC<ISingleTransferProps> = props => {
 		tokens,
 		fromAccount,
 		isMessageUiVisible,
+		validation,
 		onUpdateFromAccount,
 		onUpdateToAccount,
 		onUpdateTokenValue,
@@ -63,6 +63,8 @@ export const SingleTransfer: React.FC<ISingleTransferProps> = props => {
 		onUpdateMessage,
 		onUpdateIsMessageEncrypted,
 	} = props
+
+	// const { state, setState, validateTransferForm, onUpdateFromAccount } = useTransferForm()
 
 	const send = transaction.sends[SEND_INDEX]
 	const sendToken = send.tokens[TOKEN_INDEX]
@@ -86,6 +88,10 @@ export const SingleTransfer: React.FC<ISingleTransferProps> = props => {
 					<Text size="medium" color="strong">
 						From
 					</Text>
+					{/* <span> First Name: help</span> */}
+					{/* <input id="firstName" name="firstName" type="text" {...register('firstName')} /> */}
+					{/* <div>{errors.firstName && <span>{errors.firstName.message}</span>}</div> */}
+					<pre>{validation && !validation.success ? JSON.stringify(validation, null, 1) : null}</pre>
 				</Box>
 			</Box>
 			<Box width="full">

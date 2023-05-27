@@ -1,9 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import clsx from 'clsx'
 import React, { forwardRef, useRef, useState } from 'react'
-import { z, type ZodType } from 'zod'
-import { useForm } from 'react-hook-form'
-import { zodResolver } from '@hookform/resolvers/zod'
 import { useTranslation } from 'react-i18next'
 import useMeasure from 'react-use-measure'
 import { useImmer } from 'use-immer'
@@ -16,12 +13,13 @@ import { ArrowLeftIcon, LoadingBarsIcon, PlusIcon } from 'ui/src/components/icon
 import { ShowHidePanel } from '@src/components/show-hide-panel'
 import Translation from '@src/components/translation'
 
-import { IToken, ITransaction } from './account-transfer-types'
+import { type IAccountTransferImmer, type IToken, type ITransaction } from './account-transfer-types'
 import * as styles from './account-transfer.css'
 import { GroupTransactionButton } from './group-transaction-button'
 import { GroupTransfer } from './group-transfer'
 import { SingleTransfer } from './single-transfer'
 import { TransferPageAnimation } from './transfer-page-animation'
+import { useTransferForm } from './use-transfer-form'
 
 // TODO: temp accounts
 const ACCOUNTS = Array.from({ length: 500 }).map((_, i, a) => ({
@@ -58,28 +56,14 @@ const defaultProps: IAccountTransferOptionalProps = {
 	className: undefined,
 }
 
-interface IAccountTransferImmer {
-	isMessageUiVisible: boolean
-	isMessageEncrypted: boolean
-	slides: [number, number]
-	isSubmittingReview: boolean
-	isGroupUiVisible: boolean
-	transaction: ITransaction
-}
-
-const transferSchema = z.object({
-	firstName: z.string().min(2).max(30),
-})
-
-type TTransferSchema = z.infer<typeof transferSchema>
-
 export const AccountTransfer = forwardRef<HTMLElement, IAccountTransferProps>(
 	(props, ref: React.Ref<HTMLElement | null>) => {
-		const { className } = props
+		const { className, scrollableNode } = props
 		const { t } = useTranslation()
 		const [measureRef, { height: slideWrapperHeight }] = useMeasure()
+		const { validateTransferForm } = useTransferForm()
+
 		const [state, setState] = useImmer<IAccountTransferImmer>({
-			slides: [0, 0],
 			transaction: {
 				from: '',
 				isMessageEncrypted: false,
@@ -91,20 +75,21 @@ export const AccountTransfer = forwardRef<HTMLElement, IAccountTransferProps>(
 					},
 				],
 			},
+			slides: [0, 0],
 			isMessageEncrypted: false,
 			isGroupUiVisible: false,
 			isMessageUiVisible: false,
 			isSubmittingReview: false,
+			validation: undefined,
 		})
+
 		const [page, direction] = state.slides
 
-		const {
-			register,
-			handleSubmit,
-			formState: { errors },
-		} = useForm<TTransferSchema>({
-			resolver: zodResolver(transferSchema),
-		})
+		const handleUpdateFromAccount = (account: string) => {
+			setState(draft => {
+				draft.transaction.from = account
+			})
+		}
 
 		const paginate = (newDirection: number) => {
 			setState(draft => {
@@ -116,20 +101,37 @@ export const AccountTransfer = forwardRef<HTMLElement, IAccountTransferProps>(
 			paginate(-1)
 		}
 
-		const submitData = (data: TTransferSchema) => {
-			// eslint-disable-next-line
-			console.log('IT WORKED', data)
-
+		const handleSetValidation = (validation: any) => {
 			setState(draft => {
-				draft.isSubmittingReview = true
+				draft.validation = validation
 			})
+		}
 
-			setTimeout(() => {
-				setState(draft => {
-					draft.isSubmittingReview = false
-				})
-				paginate(1)
-			}, 2000)
+		const handleContinue = () => {
+			const { isValid } = validateTransferForm(state.transaction, handleSetValidation)
+
+			// eslint-disable-next-line
+			console.log('isValid:', isValid)
+
+			// if (!isValid) {
+			//
+			// }
+
+			// console.log('isFormValid:', state.transaction)
+			// console.log(2222, 'handle continue clik')
+			// eslint-disable-next-line
+			// console.log(9999)
+			// console.log('IT WORKED', data)
+			// setState(draft => {
+			// 	draft.isSubmittingReview = true
+			// })
+			//
+			// setTimeout(() => {
+			// 	setState(draft => {
+			// 		draft.isSubmittingReview = false
+			// 	})
+			// 	paginate(1)
+			// }, 2000)
 		}
 
 		const handleGroupTransaction = () => {
@@ -149,12 +151,6 @@ export const AccountTransfer = forwardRef<HTMLElement, IAccountTransferProps>(
 					draft.isGroupUiVisible = false
 				})
 			}
-		}
-
-		const handleUpdateFromAccount = (account: string) => {
-			setState(draft => {
-				draft.transaction.from = account
-			})
 		}
 
 		const handleAddToken = (sendIndex: number) => {
@@ -211,79 +207,79 @@ export const AccountTransfer = forwardRef<HTMLElement, IAccountTransferProps>(
 			})
 		}
 
+		// const issues = !state.validation?.success ? state.validation?.error?.issues : {}
+		// console.log('state.validation?.error?.issues ', state.validation?.error?.issues)
+
 		return (
 			<Box ref={ref} className={clsx(styles.transferWrapper, className)}>
 				<Box ref={measureRef} position="relative">
 					<TransferPageAnimation slideWrapperHeight={slideWrapperHeight} page={page} direction={direction}>
 						{page === 0 && (
 							<Box position="relative">
-								<form onSubmit={handleSubmit(submitData)}>
-									<span> First Name: </span>
-									<input id="firstName" name="firstName" type="text" {...register('firstName')} />
-									<div>{errors.firstName && <span> {errors.firstName.message}</span>}</div>
-									<Box paddingBottom="large">
-										<Text size="xxxlarge" weight="strong" color="strong">
-											Send
-										</Text>
-									</Box>
-									<ShowHidePanel isChildrenVisible={!state.isGroupUiVisible}>
-										<SingleTransfer
-											transaction={state.transaction}
-											isMessageUiVisible={state.isMessageUiVisible}
-											fromAccount={state.transaction.from}
-											accounts={ACCOUNTS}
-											addressBook={ADDRESS_BOOK}
-											tokens={TOKENS}
-											onUpdateFromAccount={handleUpdateFromAccount}
-											onUpdateToAccount={handleUpdateToAccount}
-											onUpdateTokenValue={handleUpdateTokenValue}
-											onUpdateToken={handleUpdateToken}
-											onToggleMessageUi={handleToggleMessageUi}
-											onUpdateMessage={handleUpdateMessage}
-											onUpdateIsMessageEncrypted={handleUpdateIsMessageEncrypted}
-										/>
-									</ShowHidePanel>
-									<ShowHidePanel isChildrenVisible={state.isGroupUiVisible}>
-										<GroupTransfer
-											transaction={state.transaction}
-											isMessageUiVisible={state.isMessageUiVisible}
-											fromAccount={state.transaction.from}
-											addressBook={ADDRESS_BOOK}
-											tokens={TOKENS}
-											onUpdateToAccount={handleUpdateToAccount}
-											onRemoveGroupTransaction={handleRemoveGroupTransaction}
-											onUpdateTokenValue={handleUpdateTokenValue}
-											onUpdateToken={handleUpdateToken}
-											onAddToken={handleAddToken}
-											onToggleMessageUi={handleToggleMessageUi}
-											onUpdateMessage={handleUpdateMessage}
-											onUpdateIsMessageEncrypted={handleUpdateIsMessageEncrypted}
-										/>
-									</ShowHidePanel>
-									<Box paddingTop="large" display="flex" flexDirection="column" gap="medium">
-										<GroupTransactionButton
-											isGroupUiVisible={state.isGroupUiVisible}
-											onGroupTransaction={handleGroupTransaction}
-											onAddGroup={handleAddGroup}
-										/>
-										<Button
-											styleVariant="primary"
-											sizeVariant="xlarge"
-											fullWidth
-											type="submit"
-											disabled={state.isSubmittingReview}
-											rightIcon={
-												state.isSubmittingReview && (
-													<Box marginLeft="small">
-														<LoadingBarsIcon />
-													</Box>
-												)
-											}
-										>
-											<Translation capitalizeFirstLetter text="global.continue" />
-										</Button>
-									</Box>
-								</form>
+								<Box paddingBottom="large">
+									<Text size="xxxlarge" weight="strong" color="strong">
+										Send
+									</Text>
+									{/* <pre>{JSON.stringify(issues, null, 1)}</pre> */}
+								</Box>
+								<ShowHidePanel isChildrenVisible={!state.isGroupUiVisible}>
+									<SingleTransfer
+										transaction={state.transaction}
+										isMessageUiVisible={state.isMessageUiVisible}
+										fromAccount={state.transaction.from}
+										accounts={ACCOUNTS}
+										addressBook={ADDRESS_BOOK}
+										tokens={TOKENS}
+										validation={state.validation}
+										onUpdateFromAccount={handleUpdateFromAccount}
+										onUpdateToAccount={handleUpdateToAccount}
+										onUpdateTokenValue={handleUpdateTokenValue}
+										onUpdateToken={handleUpdateToken}
+										onToggleMessageUi={handleToggleMessageUi}
+										onUpdateMessage={handleUpdateMessage}
+										onUpdateIsMessageEncrypted={handleUpdateIsMessageEncrypted}
+									/>
+								</ShowHidePanel>
+								<ShowHidePanel isChildrenVisible={state.isGroupUiVisible}>
+									<GroupTransfer
+										transaction={state.transaction}
+										isMessageUiVisible={state.isMessageUiVisible}
+										fromAccount={state.transaction.from}
+										addressBook={ADDRESS_BOOK}
+										tokens={TOKENS}
+										onUpdateToAccount={handleUpdateToAccount}
+										onRemoveGroupTransaction={handleRemoveGroupTransaction}
+										onUpdateTokenValue={handleUpdateTokenValue}
+										onUpdateToken={handleUpdateToken}
+										onAddToken={handleAddToken}
+										onToggleMessageUi={handleToggleMessageUi}
+										onUpdateMessage={handleUpdateMessage}
+										onUpdateIsMessageEncrypted={handleUpdateIsMessageEncrypted}
+									/>
+								</ShowHidePanel>
+								<Box paddingTop="large" display="flex" flexDirection="column" gap="medium">
+									<GroupTransactionButton
+										isGroupUiVisible={state.isGroupUiVisible}
+										onGroupTransaction={handleGroupTransaction}
+										onAddGroup={handleAddGroup}
+									/>
+									<Button
+										styleVariant="primary"
+										sizeVariant="xlarge"
+										fullWidth
+										onClick={handleContinue}
+										disabled={state.isSubmittingReview}
+										rightIcon={
+											state.isSubmittingReview && (
+												<Box marginLeft="small">
+													<LoadingBarsIcon />
+												</Box>
+											)
+										}
+									>
+										<Translation capitalizeFirstLetter text="global.continue" />
+									</Button>
+								</Box>
 							</Box>
 						)}
 						{page === 1 && (
