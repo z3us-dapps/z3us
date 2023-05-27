@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import clsx from 'clsx'
+import { AnimatePresence } from 'framer-motion'
 import React, { forwardRef, useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import useMeasure from 'react-use-measure'
@@ -10,7 +11,7 @@ import { Button } from 'ui/src/components-v2/button'
 import { Text } from 'ui/src/components-v2/typography'
 import { ArrowLeftIcon, LoadingBarsIcon, PlusIcon } from 'ui/src/components/icons'
 
-import { ShowHidePanel } from '@src/components/show-hide-panel'
+import { AnimatedPage } from '@src/components/animated-route'
 import Translation from '@src/components/translation'
 
 import { defaultToken } from './account-transfer-constants'
@@ -206,41 +207,51 @@ export const AccountTransfer = forwardRef<HTMLElement, IAccountTransferProps>(
 										Send
 									</Text>
 								</Box>
-								<ShowHidePanel isChildrenVisible={!state.isGroupUiVisible}>
-									<SingleTransfer
-										transaction={state.transaction}
-										isMessageUiVisible={state.isMessageUiVisible}
-										fromAccount={state.transaction.from}
-										accounts={ACCOUNTS}
-										addressBook={ADDRESS_BOOK}
-										tokens={TOKENS}
-										validation={state.validation}
-										onUpdateFromAccount={handleUpdateFromAccount}
-										onUpdateToAccount={handleUpdateToAccount}
-										onUpdateTokenValue={handleUpdateTokenValue}
-										onUpdateToken={handleUpdateToken}
-										onToggleMessageUi={handleToggleMessageUi}
-										onUpdateMessage={handleUpdateMessage}
-										onUpdateIsMessageEncrypted={handleUpdateIsMessageEncrypted}
-									/>
-								</ShowHidePanel>
-								<ShowHidePanel isChildrenVisible={state.isGroupUiVisible}>
-									<GroupTransfer
-										transaction={state.transaction}
-										isMessageUiVisible={state.isMessageUiVisible}
-										fromAccount={state.transaction.from}
-										addressBook={ADDRESS_BOOK}
-										tokens={TOKENS}
-										onUpdateToAccount={handleUpdateToAccount}
-										onRemoveGroupTransaction={handleRemoveGroupTransaction}
-										onUpdateTokenValue={handleUpdateTokenValue}
-										onUpdateToken={handleUpdateToken}
-										onAddToken={handleAddToken}
-										onToggleMessageUi={handleToggleMessageUi}
-										onUpdateMessage={handleUpdateMessage}
-										onUpdateIsMessageEncrypted={handleUpdateIsMessageEncrypted}
-									/>
-								</ShowHidePanel>
+								<Box position="relative">
+									<AnimatePresence initial={false}>
+										{!state.isGroupUiVisible && (
+											<AnimatedPage>
+												<SingleTransfer
+													transaction={state.transaction}
+													isMessageUiVisible={state.isMessageUiVisible}
+													fromAccount={state.transaction.from}
+													accounts={ACCOUNTS}
+													addressBook={ADDRESS_BOOK}
+													tokens={TOKENS}
+													validation={state.validation}
+													onUpdateFromAccount={handleUpdateFromAccount}
+													onUpdateToAccount={handleUpdateToAccount}
+													onUpdateTokenValue={handleUpdateTokenValue}
+													onUpdateToken={handleUpdateToken}
+													onToggleMessageUi={handleToggleMessageUi}
+													onUpdateMessage={handleUpdateMessage}
+													onUpdateIsMessageEncrypted={handleUpdateIsMessageEncrypted}
+												/>
+											</AnimatedPage>
+										)}
+									</AnimatePresence>
+									<AnimatePresence initial={false}>
+										{state.isGroupUiVisible && (
+											<AnimatedPage>
+												<GroupTransfer
+													transaction={state.transaction}
+													isMessageUiVisible={state.isMessageUiVisible}
+													fromAccount={state.transaction.from}
+													addressBook={ADDRESS_BOOK}
+													tokens={TOKENS}
+													onUpdateToAccount={handleUpdateToAccount}
+													onRemoveGroupTransaction={handleRemoveGroupTransaction}
+													onUpdateTokenValue={handleUpdateTokenValue}
+													onUpdateToken={handleUpdateToken}
+													onAddToken={handleAddToken}
+													onToggleMessageUi={handleToggleMessageUi}
+													onUpdateMessage={handleUpdateMessage}
+													onUpdateIsMessageEncrypted={handleUpdateIsMessageEncrypted}
+												/>
+											</AnimatedPage>
+										)}
+									</AnimatePresence>
+								</Box>
 								<Box paddingTop="large" display="flex" flexDirection="column" gap="medium">
 									<GroupTransactionButton
 										isGroupUiVisible={state.isGroupUiVisible}
