@@ -4,7 +4,7 @@ import { Route, Routes } from 'react-router-dom'
 
 import { Box } from 'ui/src/components-v2/box'
 
-import { AnimatedPage } from '@src/components/animated-route'
+import { AnimatedPage } from '@src/components/animated-page'
 import { routes } from '@src/constants'
 import { AccountSettings } from '@src/containers/accounts/account-settings'
 import { AccountStaking } from '@src/containers/accounts/account-staking'

@@ -8,7 +8,7 @@ import { darkThemeClass, lightThemeClass } from 'ui/src/components-v2/system/the
 import { Text } from 'ui/src/components-v2/typography'
 import { CheckIcon, ExternalLinkIcon } from 'ui/src/components/icons'
 
-import { AnimatedPage } from '@src/components/animated-route'
+import { AnimatedPage } from '@src/components/animated-page'
 import { routes } from '@src/constants'
 import { Accounts } from '@src/containers/accounts'
 import { Toasts } from '@src/containers/toasts-container'

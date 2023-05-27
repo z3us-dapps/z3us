@@ -9,9 +9,9 @@ import { useImmer } from 'use-immer'
 import { Box } from 'ui/src/components-v2/box'
 import { Button } from 'ui/src/components-v2/button'
 import { Text } from 'ui/src/components-v2/typography'
-import { ArrowLeftIcon, LoadingBarsIcon, PlusIcon } from 'ui/src/components/icons'
+import { ArrowLeftIcon, LoadingBarsIcon } from 'ui/src/components/icons'
 
-import { AnimatedPage } from '@src/components/animated-route'
+import { AnimatedPage } from '@src/components/animated-page'
 import Translation from '@src/components/translation'
 
 import { defaultToken } from './account-transfer-constants'

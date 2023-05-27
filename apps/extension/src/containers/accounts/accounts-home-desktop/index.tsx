@@ -6,7 +6,7 @@ import { Route, Routes, useLocation } from 'react-router-dom'
 
 import { Box } from 'ui/src/components-v2/box'
 
-import { AnimatedPage } from '@src/components/animated-route'
+import { AnimatedPage } from '@src/components/animated-page'
 import { ScrollPanel } from '@src/components/scroll-panel'
 import { routes } from '@src/constants'
 import { AccountActivity } from '@src/containers/accounts/account-activity'
