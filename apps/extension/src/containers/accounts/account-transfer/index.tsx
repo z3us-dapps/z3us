@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import clsx from 'clsx'
-import React, { forwardRef, useRef, useState } from 'react'
+import React, { forwardRef, useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import useMeasure from 'react-use-measure'
 import { useImmer } from 'use-immer'
@@ -14,12 +14,12 @@ import { ShowHidePanel } from '@src/components/show-hide-panel'
 import Translation from '@src/components/translation'
 
 import { type IAccountTransferImmer, type IToken, type ITransaction } from './account-transfer-types'
+import { validateTransferForm } from './account-transfer-utils'
 import * as styles from './account-transfer.css'
 import { GroupTransactionButton } from './group-transaction-button'
 import { GroupTransfer } from './group-transfer'
 import { SingleTransfer } from './single-transfer'
 import { TransferPageAnimation } from './transfer-page-animation'
-import { useTransferForm } from './use-transfer-form'
 
 // TODO: temp accounts
 const ACCOUNTS = Array.from({ length: 500 }).map((_, i, a) => ({
@@ -61,7 +61,6 @@ export const AccountTransfer = forwardRef<HTMLElement, IAccountTransferProps>(
 		const { className, scrollableNode } = props
 		const { t } = useTranslation()
 		const [measureRef, { height: slideWrapperHeight }] = useMeasure()
-		const { validateTransferForm } = useTransferForm()
 
 		const [state, setState] = useImmer<IAccountTransferImmer>({
 			transaction: {
@@ -76,10 +75,10 @@ export const AccountTransfer = forwardRef<HTMLElement, IAccountTransferProps>(
 				],
 			},
 			slides: [0, 0],
-			isMessageEncrypted: false,
 			isGroupUiVisible: false,
 			isMessageUiVisible: false,
 			isSubmittingReview: false,
+			initValidation: false,
 			validation: undefined,
 		})
 
@@ -101,37 +100,38 @@ export const AccountTransfer = forwardRef<HTMLElement, IAccountTransferProps>(
 			paginate(-1)
 		}
 
-		const handleSetValidation = (validation: any) => {
-			setState(draft => {
-				draft.validation = validation
-			})
-		}
+		// TODO: create a hook for the validation
+		useEffect(() => {
+			if (state.initValidation) {
+				setState(draft => {
+					draft.validation = validateTransferForm(state.transaction)
+				})
+			}
+		}, [state.initValidation, state.transaction.from])
 
 		const handleContinue = () => {
-			const { isValid } = validateTransferForm(state.transaction, handleSetValidation)
+			const validation = validateTransferForm(state.transaction)
 
-			// eslint-disable-next-line
-			console.log('isValid:', isValid)
+			setState(draft => {
+				draft.initValidation = true
+				draft.validation = validation
+			})
 
-			// if (!isValid) {
-			//
-			// }
+			if (!validation.success) {
+				return
+			}
 
-			// console.log('isFormValid:', state.transaction)
-			// console.log(2222, 'handle continue clik')
-			// eslint-disable-next-line
-			// console.log(9999)
-			// console.log('IT WORKED', data)
-			// setState(draft => {
-			// 	draft.isSubmittingReview = true
-			// })
-			//
-			// setTimeout(() => {
-			// 	setState(draft => {
-			// 		draft.isSubmittingReview = false
-			// 	})
-			// 	paginate(1)
-			// }, 2000)
+			// DEMO FOR SUBMIT AND REVIEW...
+			setState(draft => {
+				draft.isSubmittingReview = true
+			})
+
+			setTimeout(() => {
+				setState(draft => {
+					draft.isSubmittingReview = false
+				})
+				paginate(1)
+			}, 2000)
 		}
 
 		const handleGroupTransaction = () => {
@@ -207,9 +207,6 @@ export const AccountTransfer = forwardRef<HTMLElement, IAccountTransferProps>(
 			})
 		}
 
-		// const issues = !state.validation?.success ? state.validation?.error?.issues : {}
-		// console.log('state.validation?.error?.issues ', state.validation?.error?.issues)
-
 		return (
 			<Box ref={ref} className={clsx(styles.transferWrapper, className)}>
 				<Box ref={measureRef} position="relative">
@@ -220,7 +217,6 @@ export const AccountTransfer = forwardRef<HTMLElement, IAccountTransferProps>(
 									<Text size="xxxlarge" weight="strong" color="strong">
 										Send
 									</Text>
-									{/* <pre>{JSON.stringify(issues, null, 1)}</pre> */}
 								</Box>
 								<ShowHidePanel isChildrenVisible={!state.isGroupUiVisible}>
 									<SingleTransfer

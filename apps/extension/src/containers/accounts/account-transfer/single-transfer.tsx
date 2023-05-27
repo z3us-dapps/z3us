@@ -11,13 +11,15 @@ import {
 import { Text } from 'ui/src/components-v2/typography'
 import { Check2Icon, CheckCircleIcon, ChevronDown2Icon, WriteNoteIcon } from 'ui/src/components/icons'
 
+import { ShowHidePanel } from '@src/components/show-hide-panel'
 import * as plainButtonStyles from '@src/components/styles/plain-button-styles.css'
 import { TokenImageIcon } from '@src/components/token-image-icon'
 
+import { getZodErrorMessage } from './account-transfer-utils'
 import { SearchableInput } from './searchable-input'
 import { TransferMessage } from './transfer-message'
 import { TransferTokenSelector } from './transfer-token-selector'
-import { useTransferForm } from './use-transfer-form'
+import { ValidationErrorMessage } from './validation-error-message'
 
 const SEND_INDEX = 0
 const TOKEN_INDEX = 0
@@ -64,8 +66,6 @@ export const SingleTransfer: React.FC<ISingleTransferProps> = props => {
 		onUpdateIsMessageEncrypted,
 	} = props
 
-	// const { state, setState, validateTransferForm, onUpdateFromAccount } = useTransferForm()
-
 	const send = transaction.sends[SEND_INDEX]
 	const sendToken = send.tokens[TOKEN_INDEX]
 
@@ -88,10 +88,6 @@ export const SingleTransfer: React.FC<ISingleTransferProps> = props => {
 					<Text size="medium" color="strong">
 						From
 					</Text>
-					{/* <span> First Name: help</span> */}
-					{/* <input id="firstName" name="firstName" type="text" {...register('firstName')} /> */}
-					{/* <div>{errors.firstName && <span>{errors.firstName.message}</span>}</div> */}
-					<pre>{validation && !validation.success ? JSON.stringify(validation, null, 1) : null}</pre>
 				</Box>
 			</Box>
 			<Box width="full">
@@ -145,6 +141,7 @@ export const SingleTransfer: React.FC<ISingleTransferProps> = props => {
 						</Button>
 					}
 				/>
+				<ValidationErrorMessage validation={validation} errorKey="from" />
 			</Box>
 			<Box display="flex" paddingBottom="medium" paddingTop="large">
 				<Box display="flex" alignItems="center" width="full">
