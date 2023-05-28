@@ -31,7 +31,7 @@ export const searchableInputScrollAreaWrapper = style([
 		paddingX: 'small',
 	}),
 	{
-		minHeight: '200px',
+		minHeight: '44px',
 	},
 ])
 
@@ -41,6 +41,7 @@ export const searchableInputButtonWrapper = style([
 		width: 'full',
 		display: 'flex',
 		alignItems: 'center',
+		gap: 'xsmall',
 	}),
 	{
 		boxSizing: 'border-box',

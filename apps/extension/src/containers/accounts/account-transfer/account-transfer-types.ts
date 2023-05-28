@@ -19,8 +19,6 @@ export interface IToken {
 	amount: number
 }
 
-export type TITransactionKey = keyof ITransaction
-
 export type TTransferSchema = z.infer<typeof transferFormSchema>
 
 export type TZodValidationError = { success: false; error: ZodError }

@@ -12,9 +12,11 @@ import { Check2Icon, ChevronDown2Icon } from 'ui/src/components/icons'
 
 import * as styles from './searchable-input.css'
 
+type TData = Array<{ id: string; account: string; alias: string }>
+
 interface ISearchableInputRequiredProps {
 	value: string
-	data: Array<{ id: string; title: string }>
+	data: TData
 	onValueChange: (value: string) => void
 }
 
@@ -38,6 +40,7 @@ export const SearchableInput: React.FC<ISearchableInputProps> = props => {
 	const { className, data, value, onValueChange, styleVariant, sizeVariant, placeholder } = props
 	const [isPopoverOpen, setIsPopoverOpen] = useState<boolean>(false)
 	const [customScrollParent, setCustomScrollParent] = useState<HTMLElement | undefined>(undefined)
+	const [localData, setLocalData] = useState<TData>(data)
 	const [measureRef, { width: triggerWidth }] = useMeasure()
 	const inputWrapperRef = useRef<HTMLInputElement>(null)
 
@@ -50,8 +53,23 @@ export const SearchableInput: React.FC<ISearchableInputProps> = props => {
 		closePopover()
 	}
 
+	// TODO: fix the types
+	const searchArray = (input: string, array: any) => {
+		const lowerCaseInput = input.toLowerCase()
+
+		return array.filter(item =>
+			Object.values(item).some(_value => {
+				if (typeof value === 'string' && (_value as string).toLowerCase().includes(lowerCaseInput)) {
+					return true
+				}
+				return false
+			}),
+		)
+	}
+
 	const handleOnChange = (e: React.ChangeEvent<FormElement>) => {
 		const val = e.currentTarget.value
+		setLocalData(searchArray(val, data))
 		onValueChange(val)
 	}
 
@@ -104,9 +122,9 @@ export const SearchableInput: React.FC<ISearchableInputProps> = props => {
 						>
 							<Box className={styles.searchableInputScrollAreaWrapper}>
 								<Virtuoso
-									data={data}
+									data={localData}
 									// eslint-disable-next-line react/no-unstable-nested-components
-									itemContent={(index, { id, title }) => (
+									itemContent={(index, { id, account, alias }) => (
 										<Box
 											component="button"
 											className={styles.searchableInputButtonWrapper}
@@ -118,7 +136,12 @@ export const SearchableInput: React.FC<ISearchableInputProps> = props => {
 											}}
 										>
 											<Box flexGrow={1}>
-												<Text>{title}</Text>
+												<Text color="strong" truncate>
+													{alias}
+												</Text>
+											</Box>
+											<Box flexGrow={1}>
+												<Text truncate>{account}</Text>
 											</Box>
 											<Box flexShrink={0} display="flex" alignItems="center" justifyContent="center">
 												<Check2Icon />

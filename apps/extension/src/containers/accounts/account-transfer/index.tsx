@@ -25,15 +25,15 @@ import { TransferPageAnimation } from './transfer-page-animation'
 
 // TODO: temp accounts
 const ACCOUNTS = Array.from({ length: 500 }).map((_, i, a) => ({
-	id: `v1.2.0-beta.${a.length - i}`,
-	title: `v1.2.0-beta.${a.length - i}`,
-	test: 'heheh',
+	id: `v1.2.0--account-beta.${a.length - i}`,
+	account: `v1.2.0--account-beta.${a.length - i}`,
+	alias: `v1.2.0-alias-beta.${a.length - i}`,
 }))
 
 const ADDRESS_BOOK = Array.from({ length: 500 }).map((_, i, a) => ({
-	id: `v1.2.0-beta.${a.length - i}`,
-	title: `v1.2.0-beta.${a.length - i}`,
-	test: 'heheh',
+	id: `rdx187783782744.v1.2.0--address-book-account-beta.${a.length - i}`,
+	account: `rdx187783782744.v1.2.0--address-book-account-beta.${a.length - i}`,
+	alias: `v1.2.0-address-book-account-alias-beta.${a.length - i}`,
 }))
 
 const TOKENS = Array.from({ length: 500 }).map((_, i, a) => ({
@@ -103,7 +103,14 @@ export const AccountTransfer = forwardRef<HTMLElement, IAccountTransferProps>(
 					draft.validation = validateTransferForm(state.transaction)
 				})
 			}
-		}, [state.initValidation, state.transaction.from, state.transaction.message])
+		}, [
+			state.initValidation,
+			state.transaction.from,
+			state.transaction.message,
+			state.transaction.sends[0].to,
+			state.transaction.sends[0].tokens[0]?.token,
+			state.transaction.sends[0].tokens[0]?.amount,
+		])
 
 		const handleContinue = () => {
 			const validation = validateTransferForm(state.transaction)
@@ -198,7 +205,7 @@ export const AccountTransfer = forwardRef<HTMLElement, IAccountTransferProps>(
 		}
 
 		// eslint-disable-next-line
-		console.log('validation ', JSON.stringify(state?.validation, null, 3) )
+		console.log('validation ', JSON.stringify(state?.validation, null, 3))
 
 		return (
 			<Box ref={ref} className={clsx(styles.transferWrapper, className)}>

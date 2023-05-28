@@ -120,7 +120,7 @@ export const SingleTransfer: React.FC<ISingleTransferProps> = props => {
 					)}
 					trigger={
 						<Button
-							styleVariant={getZodError(validation, 'from') ? 'secondary-error' : 'secondary'}
+							styleVariant={getZodError(validation, ['from']) ? 'secondary-error' : 'secondary'}
 							sizeVariant="xlarge"
 							fullWidth
 							leftIcon={
@@ -140,7 +140,7 @@ export const SingleTransfer: React.FC<ISingleTransferProps> = props => {
 						</Button>
 					}
 				/>
-				<ValidationErrorMessage validation={validation} errorKey="from" />
+				<ValidationErrorMessage validation={validation} path={['from']} />
 			</Box>
 			<Box display="flex" paddingBottom="medium" paddingTop="large">
 				<Box display="flex" alignItems="center" width="full">
@@ -177,20 +177,22 @@ export const SingleTransfer: React.FC<ISingleTransferProps> = props => {
 					value={send.to}
 					placeholder="Enter address"
 					// placeholder={capitalizeFirstLetter(`${t('global.search')}`)}
-					styleVariant="secondary"
+					// styleVariant="secondary"
+					styleVariant={getZodError(validation, ['sends', 0, 'to']) ? 'secondary-error' : 'secondary'}
 					onValueChange={handleUpdateToAccount}
 					data={addressBook}
 				/>
+				<ValidationErrorMessage validation={validation} path={['sends', 0, 'to']} />
 			</Box>
 			<TransferMessage
 				isVisible={isMessageUiVisible}
 				message={transaction.message}
 				isEncrypted={transaction.isMessageEncrypted}
-				isError={getZodError(validation, 'message')}
+				isError={getZodError(validation, ['message'])}
 				onUpdateMessage={onUpdateMessage}
 				onUpdateIsMessageEncrypted={onUpdateIsMessageEncrypted}
 			/>
-			<ValidationErrorMessage validation={validation} errorKey="message" />
+			<ValidationErrorMessage validation={validation} path={['message']} />
 			<TransferTokenSelector
 				styleVariant="secondary"
 				tokens={tokens}
@@ -199,6 +201,8 @@ export const SingleTransfer: React.FC<ISingleTransferProps> = props => {
 				onTokenUpdate={handleTokenUpdate}
 				onTokenValueUpdate={handleTokenValueUpdate}
 			/>
+			<ValidationErrorMessage validation={validation} path={['sends', SEND_INDEX, 'tokens', TOKEN_INDEX, 'token']} />
+			<ValidationErrorMessage validation={validation} path={['sends', SEND_INDEX, 'tokens', TOKEN_INDEX, 'amount']} />
 		</Box>
 	)
 }

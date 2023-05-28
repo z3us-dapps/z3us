@@ -1,19 +1,15 @@
 import { transferFormSchema } from './account-transfer-constants'
-import { type ITransaction, type TITransactionKey, type TZodValidation, TZodValidationError } from './account-transfer-types'
+import { type ITransaction, type TZodValidation, TZodValidationError } from './account-transfer-types'
 
 export const validateTransferForm = (transaction: ITransaction): TZodValidation => {
-	// from: string
-	// message: string
-	// isMessageEncrypted: boolean
-	// sends: ISend[]
-
 	const result: TZodValidation = transferFormSchema.safeParse({
 		from: transaction.from,
 		message: transaction.message,
 		isMessageEncrypted: transaction.isMessageEncrypted,
+		sends: transaction.sends,
 	})
 
-	// note: this due to zod issue: https://github.com/colinhacks/zod/issues/1190#issuecomment-1171607138
+	// note: need to do this due to Zod issue: https://github.com/colinhacks/zod/issues/1190#issuecomment-1171607138
 	if (result.success === false) {
 		return { success: false, error: result.error }
 	}
@@ -21,11 +17,20 @@ export const validateTransferForm = (transaction: ITransaction): TZodValidation 
 	return { success: true, data: result.data }
 }
 
-export const getZodErrorMessage = (validation: TZodValidation, path: TITransactionKey): string | null => {
-	const error = (validation as TZodValidationError)?.error;
+export const getZodErrorMessage = (validation: TZodValidation, path: (string | number)[]): string | null => {
+	const error = (validation as TZodValidationError)?.error
 	if (!error) return null
 
-	const matchedError = error.issues.find(err => err.path.includes(path))
+	const matchedError = error.issues.find(
+		issue =>
+			issue.path.length === path.length &&
+			issue.path.every((segment, index) => {
+				if (typeof path[index] === 'number') {
+					return typeof segment === 'number' && segment === path[index]
+				}
+				return segment === path[index]
+			}),
+	)
 
 	if (matchedError) {
 		return matchedError.message
@@ -34,12 +39,10 @@ export const getZodErrorMessage = (validation: TZodValidation, path: TITransacti
 	return null
 }
 
-export const getZodError = (validation: TZodValidation, path: TITransactionKey): boolean => {
-	const error = (validation as TZodValidationError)?.error;
+export const getZodError = (validation: TZodValidation, path: (string | number)[]): boolean => {
+	const error = getZodErrorMessage(validation, path)
 
 	if (!error) return false
 
-	const matchedError = error.issues.find(err => err.path.includes(path))
-
-	return !!matchedError
+	return !!error
 }
