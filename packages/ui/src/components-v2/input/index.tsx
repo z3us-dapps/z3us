@@ -6,7 +6,7 @@ import { element } from '../system/reset.css'
 import * as styles from './input.css'
 
 export type TSizeVariant = 'small' | 'medium' | 'large'
-export type TStyleVariant = 'primary' | 'secondary'
+export type TStyleVariant = 'primary' | 'secondary' | 'secondary-error'
 
 export type FormElement = HTMLInputElement | HTMLTextAreaElement
 

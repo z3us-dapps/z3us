@@ -6,7 +6,14 @@ import * as styles from './button.css'
 
 export type TType = 'button' | 'submit'
 export type TSizeVariant = 'xsmall' | 'small' | 'medium' | 'large' | 'xlarge'
-export type TStyleVariant = 'primary' | 'secondary' | 'tertiary' | 'ghost' | 'inverse' | 'white-transparent'
+export type TStyleVariant =
+	| 'primary'
+	| 'secondary'
+	| 'secondary-error'
+	| 'tertiary'
+	| 'ghost'
+	| 'inverse'
+	| 'white-transparent'
 
 interface IButtonRequiredProps {
 	children: React.ReactNode

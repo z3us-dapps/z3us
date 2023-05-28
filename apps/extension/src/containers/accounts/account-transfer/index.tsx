@@ -96,13 +96,14 @@ export const AccountTransfer = forwardRef<HTMLElement, IAccountTransferProps>(
 		}
 
 		// TODO: create a hook for the validation
+		// validate with debounce https://usehooks-ts.com/react-hook/use-debounce#:~:text=useWindowSize()-,useDebounce(),moving%20the%20mouse%20or%20scrolling.
 		useEffect(() => {
 			if (state.initValidation) {
 				setState(draft => {
 					draft.validation = validateTransferForm(state.transaction)
 				})
 			}
-		}, [state.initValidation, state.transaction.from])
+		}, [state.initValidation, state.transaction.from, state.transaction.message])
 
 		const handleContinue = () => {
 			const validation = validateTransferForm(state.transaction)
@@ -195,6 +196,9 @@ export const AccountTransfer = forwardRef<HTMLElement, IAccountTransferProps>(
 				draft.transaction.isMessageEncrypted = isEncrypted
 			})
 		}
+
+		// eslint-disable-next-line
+		console.log('validation ', JSON.stringify(state?.validation, null, 3) )
 
 		return (
 			<Box ref={ref} className={clsx(styles.transferWrapper, className)}>

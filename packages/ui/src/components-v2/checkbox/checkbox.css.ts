@@ -39,6 +39,21 @@ export const checkboxWrapper = recipe({
 				border: 1,
 				borderStyle: 'solid',
 			}),
+			'secondary-error': sprinkles({
+				background: {
+					lightMode: 'btnSecondaryBackground',
+					hover: 'btnSecondaryBackgroundHover',
+					active: 'btnSecondaryBackground',
+					focusVisible: 'btnSecondaryBackgroundHover',
+				},
+				boxShadow: {
+					focusVisible: 'btnSecondaryShadowFocus',
+				},
+				color: 'colorNeutral',
+				borderColor: { lightMode: 'red500', hover: 'red500' },
+				border: 1,
+				borderStyle: 'solid',
+			}),
 			tertiary: sprinkles({
 				background: { lightMode: 'btnTertiaryBackground', hover: 'btnTertiaryBackgroundHover' },
 				boxShadow: {

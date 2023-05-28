@@ -14,7 +14,8 @@ import { Check2Icon, CheckCircleIcon, ChevronDown2Icon, WriteNoteIcon } from 'ui
 import * as plainButtonStyles from '@src/components/styles/plain-button-styles.css'
 import { TokenImageIcon } from '@src/components/token-image-icon'
 
-import { type ITransaction, type TZodValidation } from './account-transfer-types'
+import { type ITransaction, type TZodValidation, type TZodValidationError } from './account-transfer-types'
+import { getZodError, getZodErrorMessage } from './account-transfer-utils'
 import { SearchableInput } from './searchable-input'
 import { TransferMessage } from './transfer-message'
 import { TransferTokenSelector } from './transfer-token-selector'
@@ -119,7 +120,7 @@ export const SingleTransfer: React.FC<ISingleTransferProps> = props => {
 					)}
 					trigger={
 						<Button
-							styleVariant="secondary"
+							styleVariant={getZodError(validation, 'from') ? 'secondary-error' : 'secondary'}
 							sizeVariant="xlarge"
 							fullWidth
 							leftIcon={
@@ -185,9 +186,11 @@ export const SingleTransfer: React.FC<ISingleTransferProps> = props => {
 				isVisible={isMessageUiVisible}
 				message={transaction.message}
 				isEncrypted={transaction.isMessageEncrypted}
+				isError={getZodError(validation, 'message')}
 				onUpdateMessage={onUpdateMessage}
 				onUpdateIsMessageEncrypted={onUpdateIsMessageEncrypted}
 			/>
+			<ValidationErrorMessage validation={validation} errorKey="message" />
 			<TransferTokenSelector
 				styleVariant="secondary"
 				tokens={tokens}

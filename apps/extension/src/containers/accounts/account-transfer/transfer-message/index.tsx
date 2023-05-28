@@ -19,16 +19,18 @@ interface ITransferMessageRequiredProps {
 
 interface ITransferMessageOptionalProps {
 	styleVariant?: TStyleVariant
+	isError?: boolean
 }
 
 interface ITransferMessageProps extends ITransferMessageRequiredProps, ITransferMessageOptionalProps {}
 
 const defaultProps: ITransferMessageOptionalProps = {
 	styleVariant: 'secondary',
+	isError: false
 }
 
 export const TransferMessage: React.FC<ITransferMessageProps> = props => {
-	const { isVisible, message, isEncrypted, styleVariant, onUpdateMessage, onUpdateIsMessageEncrypted } = props
+	const { isVisible, message, isEncrypted, styleVariant, isError, onUpdateMessage, onUpdateIsMessageEncrypted } = props
 
 	const handleUpdateMessage = (event: React.ChangeEvent<FormElement>) => {
 		onUpdateMessage(event.currentTarget.value)
@@ -65,7 +67,7 @@ export const TransferMessage: React.FC<ITransferMessageProps> = props => {
 					elementType="textarea"
 					sizeVariant="large"
 					placeholder="Enter message"
-					styleVariant={styleVariant}
+					styleVariant={isError ? 'secondary-error' : 'secondary'}
 					value={message}
 					onChange={handleUpdateMessage}
 				/>

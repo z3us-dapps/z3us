@@ -8,7 +8,7 @@ import { type TThemeColorKey } from '../system/theme.css'
 import * as styles from './checkbox.css'
 
 export type TSizeVariant = 'small' | 'medium'
-export type TStyleVariant = 'primary' | 'secondary' | 'tertiary'
+export type TStyleVariant = 'primary' | 'secondary' | 'secondary-error' | 'tertiary'
 
 export const CheckboxRoot = CheckboxPrimitive.Root
 export const CheckboxIndicator = CheckboxPrimitive.Indicator
