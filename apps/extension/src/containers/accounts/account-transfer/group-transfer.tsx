@@ -1,4 +1,4 @@
-/* eslint-disable  @typescript-eslint/no-unused-vars, react/no-array-index-key */
+/* eslint-disable react/no-array-index-key */
 import React from 'react'
 
 import {
@@ -17,19 +17,21 @@ import { CheckCircleIcon, ChevronDown2Icon, CirclePlusIcon, TrashIcon, WriteNote
 import * as plainButtonStyles from '@src/components/styles/plain-button-styles.css'
 import { TokenImageIcon } from '@src/components/token-image-icon'
 
+import { TZodValidation , ITransaction } from './account-transfer-types'
+import { getZodError } from './account-transfer-utils'
 import * as styles from './account-transfer.css'
 import { SearchableInput } from './searchable-input'
 import { TransferMessage } from './transfer-message'
 import { TransferTokenSelector } from './transfer-token-selector'
+import { ValidationErrorMessage } from './validation-error-message'
 
 interface IGroupTransferRequiredProps {
-	transaction: any
+	addressBook: any // todo fix type
+	tokens: any // todo fix type
 	fromAccount: string
-	// TODO fix type
-	addressBook: any
-	// TODO fix type
-	tokens: any
+	transaction: ITransaction
 	isMessageUiVisible: boolean
+	validation: TZodValidation
 	onAddToken: (sendIndex: number) => void
 	onToggleMessageUi: () => void
 	onUpdateToAccount: (key: number) => (value: string) => void
@@ -53,6 +55,7 @@ export const GroupTransfer: React.FC<IGroupTransferProps> = props => {
 		addressBook,
 		tokens,
 		isMessageUiVisible,
+		validation,
 		onToggleMessageUi,
 		onAddToken,
 		onUpdateToken,
@@ -98,7 +101,6 @@ export const GroupTransfer: React.FC<IGroupTransferProps> = props => {
 											sizeVariant="small"
 											onClick={(e: React.MouseEvent<HTMLButtonElement>) => {
 												e.preventDefault()
-
 												onRemoveGroupTransaction(sendIndex)
 											}}
 										>
@@ -146,11 +148,14 @@ export const GroupTransfer: React.FC<IGroupTransferProps> = props => {
 									<SearchableInput
 										placeholder="Enter address"
 										value={send.to}
+										// TODO: need `primary-error variant`
+										styleVariant={getZodError(validation, ['sends', sendIndex, 'to']) ? 'secondary-error' : 'primary'}
 										onValueChange={(_value: string) => {
 											onUpdateToAccount(sendIndex)(_value)
 										}}
 										data={addressBook}
 									/>
+									<ValidationErrorMessage validation={validation} path={['sends', sendIndex, 'to']} />
 								</Box>
 								{sendIndex === 0 ? (
 									<TransferMessage
@@ -168,10 +173,13 @@ export const GroupTransfer: React.FC<IGroupTransferProps> = props => {
 										tokens={tokens}
 										token={token}
 										tokenValue={amount}
-										onTokenUpdate={(_value: string) => {
+										sendIndex={sendIndex}
+										tokenIndex={tokenIndex}
+										validation={validation}
+										onUpdateToken={(_value: string) => {
 											onUpdateToken(sendIndex)(tokenIndex)(_value)
 										}}
-										onTokenValueUpdate={(_value: number) => {
+										onUpdateTokenValue={(_value: number) => {
 											onUpdateTokenValue(sendIndex)(tokenIndex)(_value)
 										}}
 									/>

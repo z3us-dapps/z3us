@@ -204,9 +204,6 @@ export const AccountTransfer = forwardRef<HTMLElement, IAccountTransferProps>(
 			})
 		}
 
-		// eslint-disable-next-line
-		console.log('validation ', JSON.stringify(state?.validation, null, 3))
-
 		return (
 			<Box ref={ref} className={clsx(styles.transferWrapper, className)}>
 				<Box ref={measureRef} position="relative">
@@ -250,6 +247,7 @@ export const AccountTransfer = forwardRef<HTMLElement, IAccountTransferProps>(
 													fromAccount={state.transaction.from}
 													addressBook={ADDRESS_BOOK}
 													tokens={TOKENS}
+													validation={state.validation}
 													onUpdateToAccount={handleUpdateToAccount}
 													onRemoveGroupTransaction={handleRemoveGroupTransaction}
 													onUpdateTokenValue={handleUpdateTokenValue}

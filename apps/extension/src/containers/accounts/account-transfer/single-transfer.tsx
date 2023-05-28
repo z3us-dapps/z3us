@@ -1,4 +1,3 @@
-/* eslint-disable  @typescript-eslint/no-unused-vars */
 import React from 'react'
 
 import { Box } from 'ui/src/components-v2/box'
@@ -14,8 +13,8 @@ import { Check2Icon, CheckCircleIcon, ChevronDown2Icon, WriteNoteIcon } from 'ui
 import * as plainButtonStyles from '@src/components/styles/plain-button-styles.css'
 import { TokenImageIcon } from '@src/components/token-image-icon'
 
-import { type ITransaction, type TZodValidation, type TZodValidationError } from './account-transfer-types'
-import { getZodError, getZodErrorMessage } from './account-transfer-utils'
+import { type ITransaction, type TZodValidation } from './account-transfer-types'
+import { getZodError } from './account-transfer-utils'
 import { SearchableInput } from './searchable-input'
 import { TransferMessage } from './transfer-message'
 import { TransferTokenSelector } from './transfer-token-selector'
@@ -177,12 +176,11 @@ export const SingleTransfer: React.FC<ISingleTransferProps> = props => {
 					value={send.to}
 					placeholder="Enter address"
 					// placeholder={capitalizeFirstLetter(`${t('global.search')}`)}
-					// styleVariant="secondary"
-					styleVariant={getZodError(validation, ['sends', 0, 'to']) ? 'secondary-error' : 'secondary'}
+					styleVariant={getZodError(validation, ['sends', SEND_INDEX, 'to']) ? 'secondary-error' : 'secondary'}
 					onValueChange={handleUpdateToAccount}
 					data={addressBook}
 				/>
-				<ValidationErrorMessage validation={validation} path={['sends', 0, 'to']} />
+				<ValidationErrorMessage validation={validation} path={['sends', SEND_INDEX, 'to']} />
 			</Box>
 			<TransferMessage
 				isVisible={isMessageUiVisible}
@@ -198,11 +196,12 @@ export const SingleTransfer: React.FC<ISingleTransferProps> = props => {
 				tokens={tokens}
 				token={sendToken.token}
 				tokenValue={sendToken.amount}
-				onTokenUpdate={handleTokenUpdate}
-				onTokenValueUpdate={handleTokenValueUpdate}
+				onUpdateToken={handleTokenUpdate}
+				onUpdateTokenValue={handleTokenValueUpdate}
+				sendIndex={SEND_INDEX}
+				tokenIndex={TOKEN_INDEX}
+				validation={validation}
 			/>
-			<ValidationErrorMessage validation={validation} path={['sends', SEND_INDEX, 'tokens', TOKEN_INDEX, 'token']} />
-			<ValidationErrorMessage validation={validation} path={['sends', SEND_INDEX, 'tokens', TOKEN_INDEX, 'amount']} />
 		</Box>
 	)
 }
