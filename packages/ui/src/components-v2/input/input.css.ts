@@ -67,6 +67,27 @@ export const input = recipe({
 				border: 1,
 				borderStyle: 'solid',
 			}),
+			'primary-error': sprinkles({
+				background: {
+					lightMode: 'inputPrimaryBackground',
+					hover: 'inputPrimaryBackgroundHover',
+					focus: 'inputPrimaryBackgroundFocus',
+					focusVisible: 'inputPrimaryBackgroundFocus',
+				},
+				borderColor: {
+					lightMode: 'red500',
+					hover: 'red500',
+					focus: 'red500',
+					focusVisible: 'red500',
+				},
+				boxShadow: {
+					focus: 'inputPrimaryShadowFocus',
+					focusVisible: 'inputPrimaryShadowFocus',
+				},
+				color: 'colorStrong',
+				border: 1,
+				borderStyle: 'solid',
+			}),
 			'secondary-error': sprinkles({
 				background: {
 					lightMode: 'inputSecondaryBackground',

@@ -11,6 +11,7 @@ export type TStyleVariant =
 	| 'secondary'
 	| 'secondary-error'
 	| 'tertiary'
+	| 'tertiary-error'
 	| 'ghost'
 	| 'inverse'
 	| 'white-transparent'

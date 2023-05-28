@@ -23,4 +23,4 @@ export const transferFormSchema = z.object({
 	sends: z.array(sendsSchema),
 })
 
-export const defaultToken: IToken = { token: '', amount: 0 }
+export const defaultToken: IToken = { token: '', amount: undefined }

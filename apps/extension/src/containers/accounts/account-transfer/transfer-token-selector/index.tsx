@@ -77,6 +77,8 @@ export const TransferTokenSelector: React.FC<ITransferTokenSelectorProps> = prop
 		onUpdateTokenValue,
 	} = props
 
+	const inputErrorVariant = styleVariant === 'primary' ? 'primary-error' : 'secondary-error'
+
 	const [value, setValue] = useState<string>('usd')
 
 	const handleTokenUpdate = (val: string) => {
@@ -115,8 +117,11 @@ export const TransferTokenSelector: React.FC<ITransferTokenSelectorProps> = prop
 			<Box width="full" position="relative">
 				<NumberInput
 					styleVariant={
+						// eslint-disable-next-line no-nested-ternary
 						getZodError(validation, ['sends', sendIndex, 'tokens', tokenIndex, 'amount'])
-							? 'secondary-error'
+							? styleVariant === 'primary'
+								? 'primary-error'
+								: 'secondary-error'
 							: styleVariant
 					}
 					sizeVariant={sizeVariant}
@@ -131,11 +136,17 @@ export const TransferTokenSelector: React.FC<ITransferTokenSelectorProps> = prop
 					trigger={
 						<Button
 							className={styles.tokenSelectBtnWrapper}
+							// eslint-disable-next-line no-nested-ternary
 							styleVariant={
 								getZodError(validation, ['sends', sendIndex, 'tokens', tokenIndex, 'token'])
 									? 'secondary-error'
-									: 'tertiary'
+									: 'secondary'
 							}
+							// styleVariant={
+							// 	getZodError(validation, ['sends', sendIndex, 'tokens', tokenIndex, 'token'])
+							// 		? 'tertiary-error'
+							// 		: 'tertiary'
+							// }
 							sizeVariant="medium"
 							rightIcon={<ChevronDown2Icon />}
 							leftIcon={
@@ -159,12 +170,8 @@ export const TransferTokenSelector: React.FC<ITransferTokenSelectorProps> = prop
 				/>
 			</Box>
 			<Box display="flex" justifyContent="space-between">
-				<Box>
-					<ValidationErrorMessage validation={validation} path={['sends', sendIndex, 'tokens', tokenIndex, 'amount']} />
-				</Box>
-				<Box>
-					<ValidationErrorMessage validation={validation} path={['sends', sendIndex, 'tokens', tokenIndex, 'token']} />
-				</Box>
+				<ValidationErrorMessage validation={validation} path={['sends', sendIndex, 'tokens', tokenIndex, 'amount']} />
+				<ValidationErrorMessage validation={validation} path={['sends', sendIndex, 'tokens', tokenIndex, 'token']} />
 			</Box>
 			<Box display="flex" paddingTop="small">
 				<Box display="flex" alignItems="center" flexGrow={1} gap="xsmall">

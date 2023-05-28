@@ -17,7 +17,7 @@ import { CheckCircleIcon, ChevronDown2Icon, CirclePlusIcon, TrashIcon, WriteNote
 import * as plainButtonStyles from '@src/components/styles/plain-button-styles.css'
 import { TokenImageIcon } from '@src/components/token-image-icon'
 
-import { TZodValidation , ITransaction } from './account-transfer-types'
+import { ITransaction, TZodValidation } from './account-transfer-types'
 import { getZodError } from './account-transfer-utils'
 import * as styles from './account-transfer.css'
 import { SearchableInput } from './searchable-input'
@@ -148,8 +148,7 @@ export const GroupTransfer: React.FC<IGroupTransferProps> = props => {
 									<SearchableInput
 										placeholder="Enter address"
 										value={send.to}
-										// TODO: need `primary-error variant`
-										styleVariant={getZodError(validation, ['sends', sendIndex, 'to']) ? 'secondary-error' : 'primary'}
+										styleVariant={getZodError(validation, ['sends', sendIndex, 'to']) ? 'primary-error' : 'primary'}
 										onValueChange={(_value: string) => {
 											onUpdateToAccount(sendIndex)(_value)
 										}}

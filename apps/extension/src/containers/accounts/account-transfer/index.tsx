@@ -1,9 +1,10 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import clsx from 'clsx'
 import { AnimatePresence } from 'framer-motion'
-import React, { forwardRef, useEffect } from 'react'
+import React, { forwardRef } from 'react'
 import { useTranslation } from 'react-i18next'
 import useMeasure from 'react-use-measure'
+import useDeepCompareEffect from 'use-deep-compare-effect'
 import { useImmer } from 'use-immer'
 
 import { Box } from 'ui/src/components-v2/box'
@@ -77,6 +78,14 @@ export const AccountTransfer = forwardRef<HTMLElement, IAccountTransferProps>(
 			validation: undefined,
 		})
 
+		useDeepCompareEffect(() => {
+			if (state.initValidation) {
+				setState(draft => {
+					draft.validation = validateTransferForm(state.transaction)
+				})
+			}
+		}, [state.transaction])
+
 		const [page, direction] = state.slides
 
 		const handleUpdateFromAccount = (account: string) => {
@@ -94,23 +103,6 @@ export const AccountTransfer = forwardRef<HTMLElement, IAccountTransferProps>(
 		const handleReviewBack = () => {
 			paginate(-1)
 		}
-
-		// TODO: create a hook for the validation
-		// validate with debounce https://usehooks-ts.com/react-hook/use-debounce#:~:text=useWindowSize()-,useDebounce(),moving%20the%20mouse%20or%20scrolling.
-		useEffect(() => {
-			if (state.initValidation) {
-				setState(draft => {
-					draft.validation = validateTransferForm(state.transaction)
-				})
-			}
-		}, [
-			state.initValidation,
-			state.transaction.from,
-			state.transaction.message,
-			state.transaction.sends[0].to,
-			state.transaction.sends[0].tokens[0]?.token,
-			state.transaction.sends[0].tokens[0]?.amount,
-		])
 
 		const handleContinue = () => {
 			const validation = validateTransferForm(state.transaction)

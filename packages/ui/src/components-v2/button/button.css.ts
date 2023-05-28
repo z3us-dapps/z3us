@@ -70,6 +70,16 @@ export const button = recipe({
 				border: 1,
 				borderStyle: 'solid',
 			}),
+			'tertiary-error': sprinkles({
+				background: { lightMode: 'btnTertiaryBackground', hover: 'btnTertiaryBackgroundHover' },
+				boxShadow: {
+					focusVisible: 'btnSecondaryShadowFocus',
+				},
+				color: 'colorStrong',
+				borderColor: { lightMode: 'red400', hover: 'red500' },
+				border: 1,
+				borderStyle: 'solid',
+			}),
 			inverse: sprinkles({
 				background: { lightMode: 'btnInverseBackground', hover: 'btnInverseBackgroundHover' },
 				boxShadow: {
@@ -307,6 +317,9 @@ export const buttonIconLeft = recipe({
 			tertiary: sprinkles({
 				color: 'colorNeutral',
 			}),
+			'tertiary-error': sprinkles({
+				color: 'colorNeutral',
+			}),
 			inverse: sprinkles({
 				color: 'colorNeutral',
 			}),
@@ -356,6 +369,9 @@ export const buttonIconRight = recipe({
 				color: 'colorNeutral',
 			}),
 			tertiary: sprinkles({
+				color: 'colorNeutral',
+			}),
+			'tertiary-error': sprinkles({
 				color: 'colorNeutral',
 			}),
 			inverse: sprinkles({
