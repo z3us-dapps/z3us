@@ -1,10 +1,9 @@
-/* eslint-disable  @typescript-eslint/no-unused-vars */
 import clsx, { type ClassValue } from 'clsx'
 import React, { useState } from 'react'
 
 import { Box } from 'ui/src/components-v2/box'
-import { Button } from 'ui/src/components-v2/button'
-import { Input, type TSizeVariant, type TStyleVariant } from 'ui/src/components-v2/input'
+import { Button, type TStyleVariant as TButtonStyleVariant } from 'ui/src/components-v2/button'
+import { type TSizeVariant, type TStyleVariant } from 'ui/src/components-v2/input'
 import { NumberInput } from 'ui/src/components-v2/number-input'
 import {
 	SelectContent,
@@ -77,8 +76,6 @@ export const TransferTokenSelector: React.FC<ITransferTokenSelectorProps> = prop
 		onUpdateTokenValue,
 	} = props
 
-	const inputErrorVariant = styleVariant === 'primary' ? 'primary-error' : 'secondary-error'
-
 	const [value, setValue] = useState<string>('usd')
 
 	const handleTokenUpdate = (val: string) => {
@@ -87,6 +84,26 @@ export const TransferTokenSelector: React.FC<ITransferTokenSelectorProps> = prop
 
 	const handleTokenValueUpdate = (val: number) => {
 		onUpdateTokenValue(val)
+	}
+
+	const getAmountInputStyleVariant = () => {
+		const isAmountError = getZodError(validation, ['sends', sendIndex, 'tokens', tokenIndex, 'amount'])
+
+		if (isAmountError) {
+			return styleVariant === 'primary' ? 'primary-error' : 'secondary-error'
+		}
+
+		return styleVariant
+	}
+
+	const getTokenInputStyleVariant = () => {
+		const isAmountError = getZodError(validation, ['sends', sendIndex, 'tokens', tokenIndex, 'token'])
+
+		if (isAmountError) {
+			return styleVariant === 'primary' ? 'secondary-error' : 'tertiary-error'
+		}
+
+		return styleVariant === 'primary' ? 'secondary' : 'tertiary'
 	}
 
 	return (
@@ -116,14 +133,7 @@ export const TransferTokenSelector: React.FC<ITransferTokenSelectorProps> = prop
 			</Box>
 			<Box width="full" position="relative">
 				<NumberInput
-					styleVariant={
-						// eslint-disable-next-line no-nested-ternary
-						getZodError(validation, ['sends', sendIndex, 'tokens', tokenIndex, 'amount'])
-							? styleVariant === 'primary'
-								? 'primary-error'
-								: 'secondary-error'
-							: styleVariant
-					}
+					styleVariant={getAmountInputStyleVariant() as TStyleVariant}
 					sizeVariant={sizeVariant}
 					value={tokenValue}
 					placeholder={placeholder}
@@ -136,17 +146,7 @@ export const TransferTokenSelector: React.FC<ITransferTokenSelectorProps> = prop
 					trigger={
 						<Button
 							className={styles.tokenSelectBtnWrapper}
-							// eslint-disable-next-line no-nested-ternary
-							styleVariant={
-								getZodError(validation, ['sends', sendIndex, 'tokens', tokenIndex, 'token'])
-									? 'secondary-error'
-									: 'secondary'
-							}
-							// styleVariant={
-							// 	getZodError(validation, ['sends', sendIndex, 'tokens', tokenIndex, 'token'])
-							// 		? 'tertiary-error'
-							// 		: 'tertiary'
-							// }
+							styleVariant={getTokenInputStyleVariant() as TButtonStyleVariant}
 							sizeVariant="medium"
 							rightIcon={<ChevronDown2Icon />}
 							leftIcon={
@@ -180,6 +180,7 @@ export const TransferTokenSelector: React.FC<ITransferTokenSelectorProps> = prop
 							2.12 BTC =
 						</Text>
 					</Box>
+					{/* TODO: move to own component */}
 					<SelectRoot value={value} onValueChange={setValue}>
 						<SelectTrigger asChild aria-label="Food">
 							<Box
