@@ -49,3 +49,12 @@ globalStyle(`${tokensWrapper} > ${tokenRowWrapper}:first-child`, {
 	borderTop: '0',
 })
 
+
+export const transferSendingDialog = style([
+	sprinkles({
+	}),
+	{
+		width: '400px',
+		height: '400px',
+	},
+])

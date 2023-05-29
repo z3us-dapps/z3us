@@ -2,6 +2,7 @@ import * as Avatar from '@radix-ui/react-avatar'
 import clsx, { type ClassValue } from 'clsx'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
+import { useNavigate } from 'react-router-dom'
 
 import { Box } from 'ui/src/components-v2/box'
 import {
@@ -20,7 +21,7 @@ import {
 } from 'ui/src/components-v2/dropdown-menu'
 import SimpleBar from 'ui/src/components-v2/simple-bar'
 import { Text } from 'ui/src/components-v2/typography'
-import {ShareIcon, CheckIcon, Settings2Icon, LockIcon } from 'ui/src/components/icons'
+import { CheckIcon, LockIcon, Settings2Icon, ShareIcon } from 'ui/src/components/icons'
 
 import { Link } from '@src/components/link'
 
@@ -42,6 +43,7 @@ const defaultProps: IWalletDropdownOptionalProps = {
 
 export const WalletDropdown: React.FC<IWalletDropdownProps> = props => {
 	const { className, buttonSize } = props
+	const navigate = useNavigate()
 	const { i18n } = useTranslation()
 
 	const handleLangSelect = (lang: 'enUS' | 'pl') => {
@@ -49,6 +51,10 @@ export const WalletDropdown: React.FC<IWalletDropdownProps> = props => {
 	}
 
 	const isButtonSmall = buttonSize === 'small'
+
+	const handleGoToSettings = () => {
+		navigate('/accounts/settings')
+	}
 
 	// @TODO: will be implement when styles are supported
 	// const handleOpenInNewTab = async () => {
@@ -154,7 +160,7 @@ export const WalletDropdown: React.FC<IWalletDropdownProps> = props => {
 									</DropdownMenuRadioItem>
 								</DropdownMenuRadioGroup>
 								<DropdownMenuSeparator />
-								<DropdownMenuItem>
+								<DropdownMenuItem onSelect={() => handleGoToSettings()}>
 									<DropdownMenuLeftSlot>
 										<Settings2Icon />
 									</DropdownMenuLeftSlot>

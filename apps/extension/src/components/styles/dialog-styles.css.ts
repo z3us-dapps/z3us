@@ -71,3 +71,12 @@ export const dialogContent = style([
 		},
 	},
 ])
+
+export const dialogContentFixedHeight = style([
+	sprinkles({
+	}),
+	{
+		top: '50%',
+		transform: 'translateY(-50%) translateX(-50%)',
+	},
+])
