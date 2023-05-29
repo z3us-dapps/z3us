@@ -10,7 +10,7 @@ import { useImmer } from 'use-immer'
 import { Box } from 'ui/src/components-v2/box'
 import { Button } from 'ui/src/components-v2/button'
 import { Text } from 'ui/src/components-v2/typography'
-import { ArrowLeftIcon, LoadingBarsIcon } from 'ui/src/components/icons'
+import { LoadingBarsIcon } from 'ui/src/components/icons'
 
 import { AnimatedPage } from '@src/components/animated-page'
 import Translation from '@src/components/translation'
@@ -21,6 +21,7 @@ import { validateTransferForm } from './account-transfer-utils'
 import * as styles from './account-transfer.css'
 import { GroupTransactionButton } from './group-transaction-button'
 import { GroupTransfer } from './group-transfer'
+import { ReviewTransfer } from './review-transfer'
 import { SingleTransfer } from './single-transfer'
 import { TransferPageAnimation } from './transfer-page-animation'
 
@@ -98,10 +99,6 @@ export const AccountTransfer = forwardRef<HTMLElement, IAccountTransferProps>(
 			setState(draft => {
 				draft.slides = [page + newDirection, newDirection]
 			})
-		}
-
-		const handleReviewBack = () => {
-			paginate(-1)
 		}
 
 		const handleContinue = () => {
@@ -279,38 +276,11 @@ export const AccountTransfer = forwardRef<HTMLElement, IAccountTransferProps>(
 							</Box>
 						)}
 						{page === 1 && (
-							<Box position="relative">
-								<Box display="flex" alignItems="center" paddingBottom="large" gap="medium">
-									<Button onClick={handleReviewBack} sizeVariant="small" styleVariant="ghost" iconOnly>
-										<ArrowLeftIcon />
-									</Button>
-									<Text size="xxxlarge" weight="strong" color="strong">
-										Review send
-									</Text>
-								</Box>
-								<Box>
-									TRANSACTION REIVEWWW ........ PAGE 1 Nibh nibh quisque ligula ultrices est, non turpis vel turpis ac
-									lectus, dolor et sapien, ipsum ante consectetur,. Eu gravida leo dignissim diam massa laoreet euismod
-									magnis elementum ac dignissim tempor pharetra iaculis bibendum ipsum eleifend euismod, finibus auctor.
-									Lectus fringilla suscipit ante tempor consectetur donec vel nunc sem pharetra.
-								</Box>
-
-								<Box display="flex" paddingTop="xlarge" width="full">
-									<Button
-										styleVariant="primary"
-										sizeVariant="xlarge"
-										fullWidth
-										// disabled
-										// rightIcon={
-										// 	<Box marginLeft="small">
-										// 		<LoadingBarsIcon />
-										// 	</Box>
-										// }
-									>
-										<Translation capitalizeFirstLetter text="global.continue" />
-									</Button>
-								</Box>
-							</Box>
+							<ReviewTransfer
+								onNavigateBack={() => {
+									paginate(-1)
+								}}
+							/>
 						)}
 					</TransferPageAnimation>
 				</Box>
