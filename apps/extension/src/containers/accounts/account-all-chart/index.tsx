@@ -1,5 +1,4 @@
 /* eslint-disable  @typescript-eslint/no-unused-vars */
-import { ResponsivePie } from '@nivo/pie'
 import { AnimatePresence, motion } from 'framer-motion'
 import React, { useState } from 'react'
 import { useTimeout } from 'usehooks-ts'
@@ -26,39 +25,6 @@ interface IAccountAllChartOptionalProps {}
 interface IAccountAllChartProps extends IAccountAllChartRequiredProps, IAccountAllChartOptionalProps {}
 
 const defaultProps: IAccountAllChartOptionalProps = {}
-
-const data = [
-	{
-		id: 'python',
-		label: 'python',
-		value: 285,
-		color: 'hsl(358, 70%, 50%)',
-	},
-	{
-		id: 'java',
-		label: 'java',
-		value: 357,
-		color: 'hsl(117, 70%, 50%)',
-	},
-	{
-		id: 'lisp',
-		label: 'lisp',
-		value: 289,
-		color: 'hsl(162, 70%, 50%)',
-	},
-	{
-		id: 'css',
-		label: 'css',
-		value: 283,
-		color: 'hsl(345, 70%, 50%)',
-	},
-	{
-		id: 'ruby',
-		label: 'ruby',
-		value: 170,
-		color: 'hsl(37, 70%, 50%)',
-	},
-]
 
 export const AccountAllChart: React.FC<IAccountAllChartProps> = props => {
 	const { account, assetType } = useAccountParams()
@@ -101,133 +67,7 @@ export const AccountAllChart: React.FC<IAccountAllChartProps> = props => {
 							variants={animtePageVariants}
 						>
 							<Box style={{ height: '280px', width: '100%' }}>
-								<ResponsivePie
-									data={data}
-									margin={{ top: 5, right: 5, bottom: 10, left: 5 }}
-									innerRadius={0.2}
-									padAngle={0}
-									cornerRadius={8}
-									activeInnerRadiusOffset={5}
-									activeOuterRadiusOffset={5}
-									borderWidth={2}
-									borderColor={{
-										from: 'color',
-										modifiers: [['darker', 0.2]],
-									}}
-									enableArcLinkLabels={false}
-									enableArcLabels={false}
-									arcLinkLabelsSkipAngle={27}
-									arcLinkLabelsTextColor="#333333"
-									arcLinkLabelsOffset={-7}
-									arcLinkLabelsDiagonalLength={25}
-									arcLinkLabelsStraightLength={25}
-									arcLinkLabelsThickness={2}
-									arcLinkLabelsColor={{ from: 'color' }}
-									arcLabelsRadiusOffset={0.55}
-									arcLabelsSkipAngle={17}
-									arcLabelsTextColor={{
-										from: 'color',
-										modifiers: [['darker', 2]],
-									}}
-									// eslint-disable-next-line
-									tooltip={({ datum: { id, value, color } }) => (
-										<Box
-											position="absolute"
-											paddingY="small"
-											paddingX="medium"
-											borderRadius="medium"
-											background="backgroundSecondary"
-											boxShadow="shadowPanel"
-											pointerEvents="none"
-											style={{
-												whiteSpace: 'pre',
-											}}
-										>
-											<Text size="xsmall">
-												<Box component="span" style={{ color }}>
-													{id}: {value}
-												</Box>
-											</Text>
-										</Box>
-									)}
-									theme={{
-										tooltip: {
-											container: {
-												background: '#333',
-											},
-										},
-									}}
-									defs={[
-										{
-											id: 'dots',
-											type: 'patternDots',
-											background: 'inherit',
-											color: 'rgba(255, 255, 255, 0.3)',
-											size: 4,
-											padding: 1,
-											stagger: true,
-										},
-										{
-											id: 'lines',
-											type: 'patternLines',
-											background: 'inherit',
-											color: 'rgba(255, 255, 255, 0.3)',
-											rotation: -45,
-											lineWidth: 6,
-											spacing: 10,
-										},
-									]}
-									fill={[
-										{
-											match: {
-												id: 'ruby',
-											},
-											id: 'dots',
-										},
-										{
-											match: {
-												id: 'c',
-											},
-											id: 'dots',
-										},
-										{
-											match: {
-												id: 'go',
-											},
-											id: 'dots',
-										},
-										{
-											match: {
-												id: 'python',
-											},
-											id: 'dots',
-										},
-										{
-											match: {
-												id: 'scala',
-											},
-											id: 'lines',
-										},
-										{
-											match: {
-												id: 'lisp',
-											},
-											id: 'lines',
-										},
-										{
-											match: {
-												id: 'elixir',
-											},
-											id: 'lines',
-										},
-										{
-											match: {
-												id: 'javascript',
-											},
-											id: 'lines',
-										},
-									]}
-								/>
+								pie
 							</Box>
 							<Box className={styles.accountsListWrapper}>
 								<Box display="flex" flexDirection="column" gap="xsmall" width="full">

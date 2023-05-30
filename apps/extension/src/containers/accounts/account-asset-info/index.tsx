@@ -1,7 +1,4 @@
 /* eslint-disable  @typescript-eslint/no-unused-vars */
-import { ResponsiveLine } from '@nivo/line'
-import * as Portal from '@radix-ui/react-portal'
-import { motion } from 'framer-motion'
 import React, { useRef } from 'react'
 
 import { Box } from 'ui/src/components-v2/box'
@@ -24,63 +21,6 @@ interface IAccountAssetInfoOptionalProps {}
 interface IAccountAssetInfoProps extends IAccountAssetInfoRequiredProps, IAccountAssetInfoOptionalProps {}
 
 const defaultProps: IAccountAssetInfoOptionalProps = {}
-
-const data = [
-	{
-		id: 'japan',
-		color: 'hsl(8, 70%, 50%)',
-		data: [
-			{
-				x: 'plane',
-				y: 162,
-			},
-			{
-				x: 'helicopter',
-				y: 54,
-			},
-			{
-				x: 'boat',
-				y: 0,
-			},
-			{
-				x: 'train',
-				y: 42,
-			},
-			{
-				x: 'subway',
-				y: 238,
-			},
-			{
-				x: 'bus',
-				y: 224,
-			},
-			{
-				x: 'car',
-				y: 101,
-			},
-			{
-				x: 'moto',
-				y: 45,
-			},
-			{
-				x: 'bicycle',
-				y: 266,
-			},
-			{
-				x: 'horse',
-				y: 66,
-			},
-			{
-				x: 'skateboard',
-				y: 158,
-			},
-			{
-				x: 'others',
-				y: 255,
-			},
-		],
-	},
-]
 
 export const AccountAssetInfo: React.FC<IAccountAssetInfoProps> = () => {
 	const chartRef = useRef(null)
@@ -116,80 +56,8 @@ export const AccountAssetInfo: React.FC<IAccountAssetInfoProps> = () => {
 				<Box display="flex" paddingTop="large" gap="large" position="relative" paddingBottom="large">
 					<CardButtons />
 				</Box>
-				<Box ref={chartRef} className={styles.chartBgWrapper}>
-					<ResponsiveLine
-						animate
-						// curve="monotoneX"
-						data={data}
-						margin={{ top: 10, bottom: 10, right: 0, left: 0 }}
-						xScale={{ type: 'point' }}
-						yScale={{
-							type: 'linear',
-							min: 'auto',
-							max: 'auto',
-							stacked: true,
-							reverse: false,
-						}}
-						yFormat=" >-.2f"
-						// eslint-disable-next-line
-						tooltip={({ point }) => {
-							return (
-								<Portal.Root>
-									<motion.div
-										animate={{
-											x: (chartBounding?.left || 0) + point.x,
-											y: (chartBounding?.top || 0) + point.y,
-											opacity: 1,
-											scale: 1,
-										}}
-										transition={{
-											duration: 0.5,
-											delay: 0.1,
-										}}
-										initial={{ opacity: 0, scale: 0.5 }}
-									>
-										<Box
-											position="absolute"
-											padding="medium"
-											display="flex"
-											flexDirection="column"
-											borderRadius="medium"
-											background="backgroundSecondary"
-											boxShadow="shadowPanel"
-											pointerEvents="none"
-											style={{
-												minWidth: '100px',
-												whiteSpace: 'pre',
-											}}
-										>
-											<Text size="xsmall">
-												<Box component="span">x: {point.data.xFormatted}</Box>
-											</Text>
-											<Text size="xsmall">
-												<Box component="span">y: {point.data.yFormatted}</Box>
-											</Text>
-										</Box>
-									</motion.div>
-								</Portal.Root>
-							)
-						}}
-						axisTop={null}
-						axisRight={null}
-						axisBottom={null}
-						axisLeft={null}
-						enableGridX={false}
-						enableGridY={false}
-						colors={{ scheme: 'nivo' }}
-						pointColor={{ from: 'color', modifiers: [] }}
-						pointBorderWidth={0}
-						pointBorderColor={{ from: 'color', modifiers: [] }}
-						pointLabelYOffset={-12}
-						enableArea
-						areaOpacity={0}
-						enableCrosshair={false}
-						useMesh
-						legends={[]}
-					/>
+				<Box className={styles.chartBgWrapper}>
+					chart line
 				</Box>
 				<Box className={styles.assetChartBtnsWrapper}>
 					{[
