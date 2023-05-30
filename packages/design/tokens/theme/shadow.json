@@ -33,6 +33,10 @@
 				"value": "{shadow.panel.button_secondary_shadow_hover_light.value}",
 				"darkValue": "{shadow.panel.button_secondary_shadow_hover_dark.value}"
 			},
+			"button_secondary_active": {
+				"value": "{shadow.panel.button_secondary_shadow_active_light.value}",
+				"darkValue": "{shadow.panel.button_secondary_shadow_active_dark.value}"
+			},
 			"button_secondary_focus": {
 				"value": "{shadow.panel.button_secondary_shadow_focus_light.value}",
 				"darkValue": "{shadow.panel.button_secondary_shadow_focus_dark.value}"
