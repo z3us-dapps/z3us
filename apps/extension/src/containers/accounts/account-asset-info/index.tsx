@@ -1,5 +1,6 @@
 /* eslint-disable  @typescript-eslint/no-unused-vars */
 import React, { useRef } from 'react'
+import { Area, AreaChart, CartesianGrid, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts'
 
 import { Box } from 'ui/src/components-v2/box'
 import { ToolTip } from 'ui/src/components-v2/tool-tip'
@@ -22,12 +23,77 @@ interface IAccountAssetInfoProps extends IAccountAssetInfoRequiredProps, IAccoun
 
 const defaultProps: IAccountAssetInfoOptionalProps = {}
 
+const data = [
+	{
+		name: 'Page A',
+		uv: 4000,
+		pv: 2400,
+		amt: 2400,
+	},
+	{
+		name: 'Page B',
+		uv: 3000,
+		pv: 1398,
+		amt: 2210,
+	},
+	{
+		name: 'Page C',
+		uv: 2000,
+		pv: 9800,
+		amt: 2290,
+	},
+	{
+		name: 'Page D',
+		uv: 2780,
+		pv: 3908,
+		amt: 2000,
+	},
+	{
+		name: 'Page E',
+		uv: 1890,
+		pv: 4800,
+		amt: 2181,
+	},
+	{
+		name: 'Page F',
+		uv: 2390,
+		pv: 3800,
+		amt: 2500,
+	},
+	{
+		name: 'Page G',
+		uv: 3490,
+		pv: 4300,
+		amt: 2100,
+	},
+]
+
 export const AccountAssetInfo: React.FC<IAccountAssetInfoProps> = () => {
 	const chartRef = useRef(null)
 	const { account, assetType, asset } = useAccountParams()
 	const chartBounding = chartRef?.current?.getBoundingClientRect()
 
 	if (!asset) {
+		return null
+	}
+
+	const renderTooltipContent = tooltipProps => {
+		const { active, payload } = tooltipProps
+
+		if (active && payload && payload.length) {
+			const dataItem = payload[0].payload
+			return (
+				<div style={{ background: '#fff', border: '1px solid #ccc', padding: '10px', borderRadius: '5px' }}>
+					<p>
+						<strong>{dataItem.name}</strong>
+					</p>
+					<p>UV: {dataItem.uv}</p>
+					<p>PV: {dataItem.pv}</p>
+					<p>Amount: {dataItem.amt}</p>
+				</div>
+			)
+		}
+
 		return null
 	}
 
@@ -57,7 +123,31 @@ export const AccountAssetInfo: React.FC<IAccountAssetInfoProps> = () => {
 					<CardButtons />
 				</Box>
 				<Box className={styles.chartBgWrapper}>
-					chart line
+					<ResponsiveContainer width="100%" height="100%">
+						<AreaChart
+							width={500}
+							height={400}
+							data={data}
+							margin={{
+								top: 10,
+								right: 0,
+								left: 0,
+								bottom: 0,
+							}}
+						>
+							{/* <CartesianGrid strokeDasharray="3 3" /> */}
+							{/* <XAxis dataKey="name" /> */}
+							{/* <YAxis /> */}
+							<Tooltip content={renderTooltipContent} cursor={false} />
+							<Area
+								type="linear"
+								dataKey="uv"
+								stroke="#8884d8"
+								fill="#8884d8"
+								strokeWidth={2} // Adjust the stroke width here
+							/>
+						</AreaChart>
+					</ResponsiveContainer>
 				</Box>
 				<Box className={styles.assetChartBtnsWrapper}>
 					{[
