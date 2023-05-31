@@ -1,4 +1,3 @@
-import clsx from 'clsx'
 import React from 'react'
 
 import { Box } from 'ui/src/components-v2/box'
@@ -10,7 +9,7 @@ import { AccountTransfer } from '@src/containers/accounts/account-transfer'
 import * as styles from './account-transfer.css'
 
 export const AccountsTransferDesktop = () => (
-	<Box className={clsx(containerStyles.containerWrapper)}>
+	<Box className={containerStyles.containerWrapper}>
 		<Box className={styles.panelWrapper}>
 			<ScrollPanel
 				isTopShadowVisible

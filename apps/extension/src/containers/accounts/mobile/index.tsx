@@ -62,10 +62,12 @@ export const AccountsMobile: React.FC = () => {
 							}
 						/>
 						<Route
-							path={routes.SETTINGS}
+							path={`${routes.SETTINGS}/*`}
 							element={
 								<AnimatedPage>
 									<NavigationScrollContainer
+										isMobileNavVisible={false}
+										isTopShadowVisible={false}
 										renderPanel={(scrollableNode: HTMLElement | null, scrollTop: number) => (
 											<AccountSettingsMobile scrollableNode={scrollableNode} scrollTop={scrollTop} />
 										)}

@@ -9,8 +9,8 @@ import { routes } from '@src/constants'
 import { AccountSettingsDesktop } from '@src/containers/accounts/account-settings'
 import { AccountStaking } from '@src/containers/accounts/account-staking'
 import { AccountSwap } from '@src/containers/accounts/account-swap'
-import { AccountsHomeDesktop } from '@src/containers/accounts/accounts-home-desktop'
 import { AccountsTransferDesktop } from '@src/containers/accounts/account-transfer/account-transfer-desktop'
+import { AccountsHomeDesktop } from '@src/containers/accounts/accounts-home-desktop'
 import { DesktopNavigation as Navigation } from '@src/containers/accounts/navigation'
 import { useLocationKey } from '@src/hooks/use-location-key'
 
@@ -58,7 +58,7 @@ export const AccountsDesktop = (): JSX.Element => {
 							}
 						/>
 						<Route
-							path={routes.SETTINGS}
+							path={`${routes.SETTINGS}/*`}
 							element={
 								<AnimatedPage>
 									<AccountSettingsDesktop />
