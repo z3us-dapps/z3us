@@ -84,3 +84,16 @@ export const transferAccordionContentWrapper = style([
 	}),
 	{},
 ])
+
+export const panelWrapper = style([
+	sprinkles({
+		position: 'relative',
+		maxWidth: 'medium',
+		width: 'full',
+		paddingTop: {
+			mobile: 'large',
+			desktop: 'xxlarge',
+		},
+	}),
+	{},
+])

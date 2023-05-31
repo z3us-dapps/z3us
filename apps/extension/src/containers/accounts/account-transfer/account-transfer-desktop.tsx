@@ -7,7 +7,7 @@ import { ScrollPanel } from '@src/components/scroll-panel'
 import * as containerStyles from '@src/components/styles/container-styles.css'
 import { AccountTransfer } from '@src/containers/accounts/account-transfer'
 
-import * as styles from './accounts-transfer-desktop.css'
+import * as styles from './account-transfer.css'
 
 export const AccountsTransferDesktop = () => (
 	<Box className={clsx(containerStyles.containerWrapper)}>
