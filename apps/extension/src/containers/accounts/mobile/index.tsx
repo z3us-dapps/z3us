@@ -6,7 +6,7 @@ import { Box } from 'ui/src/components-v2/box'
 
 import { AnimatedPage } from '@src/components/animated-page'
 import { routes } from '@src/constants'
-import { AccountSettings } from '@src/containers/accounts/account-settings'
+import { AccountSettingsMobile } from '@src/containers/accounts/account-settings'
 import { AccountStaking } from '@src/containers/accounts/account-staking'
 import { AccountSwap } from '@src/containers/accounts/account-swap'
 import { AccountTransfer } from '@src/containers/accounts/account-transfer'
@@ -67,7 +67,7 @@ export const AccountsMobile: React.FC = () => {
 								<AnimatedPage>
 									<NavigationScrollContainer
 										renderPanel={(scrollableNode: HTMLElement | null, scrollTop: number) => (
-											<AccountSettings scrollableNode={scrollableNode} scrollTop={scrollTop} />
+											<AccountSettingsMobile scrollableNode={scrollableNode} scrollTop={scrollTop} />
 										)}
 									/>
 								</AnimatedPage>

@@ -6,7 +6,7 @@ import { Box } from 'ui/src/components-v2/box'
 
 import { AnimatedPage } from '@src/components/animated-page'
 import { routes } from '@src/constants'
-import { AccountSettings } from '@src/containers/accounts/account-settings'
+import { AccountSettingsDesktop } from '@src/containers/accounts/account-settings'
 import { AccountStaking } from '@src/containers/accounts/account-staking'
 import { AccountSwap } from '@src/containers/accounts/account-swap'
 import { AccountsHomeDesktop } from '@src/containers/accounts/accounts-home-desktop'
@@ -61,7 +61,7 @@ export const AccountsDesktop = (): JSX.Element => {
 							path={routes.SETTINGS}
 							element={
 								<AnimatedPage>
-									<AccountSettings />
+									<AccountSettingsDesktop />
 								</AnimatedPage>
 							}
 						/>
