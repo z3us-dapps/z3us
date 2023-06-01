@@ -1,7 +1,7 @@
 import { transferFormSchema } from './account-transfer-constants'
-import { type ITransaction, type TZodValidation, TZodValidationError } from './account-transfer-types'
+import { type TTransferSchema, type TZodValidation, TZodValidationError } from './account-transfer-types'
 
-export const validateTransferForm = (transaction: ITransaction): TZodValidation => {
+export const validateTransferForm = (transaction: TTransferSchema): TZodValidation => {
 	const result: TZodValidation = transferFormSchema.safeParse({
 		from: transaction.from,
 		message: transaction.message,

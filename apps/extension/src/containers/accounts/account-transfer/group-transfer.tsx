@@ -17,7 +17,7 @@ import { CheckCircleIcon, ChevronDown2Icon, CirclePlusIcon, TrashIcon, WriteNote
 import * as plainButtonStyles from '@src/components/styles/plain-button-styles.css'
 import { TokenImageIcon } from '@src/components/token-image-icon'
 
-import { ITransaction, TZodValidation } from './account-transfer-types'
+import { TTransferSchema, TZodValidation } from './account-transfer-types'
 import { getZodError } from './account-transfer-utils'
 import * as styles from './account-transfer.css'
 import { SearchableInput } from './searchable-input'
@@ -29,7 +29,7 @@ interface IGroupTransferRequiredProps {
 	addressBook: any // todo fix type
 	tokens: any // todo fix type
 	fromAccount: string
-	transaction: ITransaction
+	transaction: TTransferSchema
 	isMessageUiVisible: boolean
 	validation: TZodValidation
 	onAddToken: (sendIndex: number) => void

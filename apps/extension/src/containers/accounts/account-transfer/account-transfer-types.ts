@@ -2,13 +2,6 @@ import { type ZodError, z } from 'zod'
 
 import { transferFormSchema } from './account-transfer-constants'
 
-export interface ITransaction {
-	from: string
-	message: string
-	isMessageEncrypted: boolean
-	sends: ISend[]
-}
-
 export interface ISend {
 	to: string
 	tokens: IToken[]
@@ -28,7 +21,7 @@ export type TZodValidationSuccess = { success: true; data: TTransferSchema }
 export type TZodValidation = TZodValidationSuccess | TZodValidationError
 
 export interface IAccountTransferImmer {
-	transaction: ITransaction
+	transaction: TTransferSchema
 	slides: [number, number]
 	isGroupUiVisible: boolean
 	isMessageUiVisible: boolean

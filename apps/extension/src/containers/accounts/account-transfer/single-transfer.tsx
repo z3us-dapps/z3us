@@ -13,7 +13,7 @@ import { Check2Icon, CheckCircleIcon, ChevronDown2Icon, WriteNoteIcon } from 'ui
 import * as plainButtonStyles from '@src/components/styles/plain-button-styles.css'
 import { TokenImageIcon } from '@src/components/token-image-icon'
 
-import { type ITransaction, type TZodValidation } from './account-transfer-types'
+import { type TTransferSchema, type TZodValidation } from './account-transfer-types'
 import { getZodError } from './account-transfer-utils'
 import { SearchableInput } from './searchable-input'
 import { TransferMessage } from './transfer-message'
@@ -27,7 +27,7 @@ interface ISingleTransferRequiredProps {
 	accounts: any // TODO
 	addressBook: any // TODO
 	tokens: any // TODO
-	transaction: ITransaction
+	transaction: TTransferSchema
 	isMessageUiVisible: boolean
 	fromAccount: string
 	validation: TZodValidation
