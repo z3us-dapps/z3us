@@ -40,7 +40,7 @@ export const underlineOnHover = style({
 
 export const firstLetterLowercase = style([{ '::first-letter': { textTransform: 'lowercase' } }])
 
-// @TODO: TYPE spacing properly
+// @TODO: resolve types, no `any`
 // const makeTypographyRules = (textDefinition: typeof vars.text.medium, textSpacingDefinition: any) => {
 const makeTypographyRules = (textDefinition: any, textSpacingDefinition: any) => {
 	const { fontSize: mobileFontSize, lineHeight: mobileLineHeight } = textDefinition.mobile

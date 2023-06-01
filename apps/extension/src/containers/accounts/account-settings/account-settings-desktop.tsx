@@ -1,16 +1,19 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import clsx, { ClassValue } from 'clsx'
-import { AnimatePresence } from 'framer-motion'
+import { AnimatePresence, LayoutGroup, motion } from 'framer-motion'
 import React, { forwardRef } from 'react'
-import { Link, Navigate, Route, Routes, useLocation } from 'react-router-dom'
+import { useTranslation } from 'react-i18next'
+import { Navigate, Route, Routes, useLocation, useMatch } from 'react-router-dom'
 
 import { Box } from 'ui/src/components-v2/box'
 import { Text } from 'ui/src/components-v2/typography'
 
 import { AnimatedPage } from '@src/components/animated-page'
+import { Link } from '@src/components/link'
 import { ScrollPanel } from '@src/components/scroll-panel'
 
 import * as styles from './account-settings.css'
+import { SettingsGeneral } from './settings-general'
 
 interface IAccountSettingsDesktopRequiredProps {}
 
@@ -26,22 +29,46 @@ const defaultProps: IAccountSettingsDesktopOptionalProps = {
 	className: undefined,
 }
 
+const MenuItemDesktop = ({ text, href }) => {
+	const selected = useMatch(href)
+
+	return (
+		<Link to={href} className={styles.settingsDesktopNavigationLink} underline="never">
+			{selected ? <motion.span layoutId="underline" className={styles.settingsDesktopNavigationActive} /> : null}
+			<Text
+				size="medium"
+				color={null}
+				className={clsx(styles.settingsDesktopNavigationText, selected && styles.settingsDesktopNavigationTextAcitve)}
+				capitalizeFirstLetter
+			>
+				{text}
+			</Text>
+		</Link>
+	)
+}
+
 export const AccountSettingsDesktop = forwardRef<HTMLElement, IAccountSettingsDesktopProps>(
 	(props, ref: React.Ref<HTMLElement | null>) => {
 		const { className } = props
 
 		const location = useLocation()
+		// const { t } = useTranslation()
 
 		return (
 			<Box ref={ref} className={clsx(styles.settingsDesktopWrapper, className)}>
 				<Box className={styles.settingsDesktopContainerWrapper}>
 					<Box className={styles.settingsDesktopLeftMenu}>
-						<Box display="flex" flexDirection="column" gap="medium">
-							<Link to="/accounts/settings">settings</Link>
-							<Link to="/accounts/settings/general">General</Link>
-							<Link to="/accounts/settings/accounts">accounts</Link>
-							<Link to="/accounts/settings/address-book">address book</Link>
-						</Box>
+						<LayoutGroup id="account-desktop-nav">
+							{[
+								{ text: 'settings', href: '/accounts/settings' },
+								{ text: 'accounts', href: '/accounts/settings/accounts' },
+								{ text: 'address book', href: '/accounts/settings/address-book' },
+								// { text: t('accounts.navigation.swap'), href: accountMenuSlugs.SWAP },
+								// { text: t('accounts.navigation.settings'), href: accountMenuSlugs.SETTINGS },
+							].map(({ text, href }) => (
+								<MenuItemDesktop text={text} key={href} href={href} />
+							))}
+						</LayoutGroup>
 					</Box>
 					<Box className={styles.settingsDesktopRightWrapper}>
 						<ScrollPanel
@@ -59,37 +86,17 @@ export const AccountSettingsDesktop = forwardRef<HTMLElement, IAccountSettingsDe
 															path={path}
 															element={
 																<AnimatedPage>
-																	<Box>
-																		<Box>home / general</Box>
-																		<Box>
-																			{[...Array(40)].map((_, i) => (
-																				// eslint-disable-next-line
-																				<Box key={i}>
-																					<Text size="xxxlarge">settings desktop</Text>
-																				</Box>
-																			))}
-																		</Box>
-																	</Box>
+																	<SettingsGeneral />
 																</AnimatedPage>
 															}
 														/>
 													))}
 													<Route
-														path="/general"
-														element={
-															<AnimatedPage>
-																<Box>
-																	<Box>general</Box>
-																</Box>
-															</AnimatedPage>
-														}
-													/>
-													<Route
 														path="/accounts"
 														element={
 															<AnimatedPage>
 																<Box>
-																	<Box>general</Box>
+																	<Box>accounts</Box>
 																</Box>
 															</AnimatedPage>
 														}

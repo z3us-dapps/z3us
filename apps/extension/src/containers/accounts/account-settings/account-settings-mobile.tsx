@@ -6,12 +6,13 @@ import { Link, Route, Routes, useLocation } from 'react-router-dom'
 
 import { Box } from 'ui/src/components-v2/box'
 import { Text } from 'ui/src/components-v2/typography'
-import { ChevronDown3Icon, ChevronLeftIcon, ArrowLeftIcon } from 'ui/src/components/icons'
+import { ArrowLeftIcon, ChevronDown3Icon, ChevronLeftIcon } from 'ui/src/components/icons'
 
 import { AnimatedPage } from '@src/components/animated-page'
 import { Button } from '@src/components/button'
 
 import * as styles from './account-settings.css'
+import { SettingsGeneral } from './settings-general'
 import { SettingsMobileHeader } from './settings-mobile-header'
 
 interface IAccountSettingsMobileRequiredProps {
@@ -34,6 +35,8 @@ const defaultProps: IAccountSettingsMobileOptionalProps = {
 export const AccountSettingsMobile = forwardRef<HTMLElement, IAccountSettingsMobileProps>(
 	(props, ref: React.Ref<HTMLElement | null>) => {
 		const { className, scrollableNode, scrollTop } = props
+
+		const isShadowVisible = scrollTop > 0
 
 		const location = useLocation()
 
@@ -71,25 +74,15 @@ export const AccountSettingsMobile = forwardRef<HTMLElement, IAccountSettingsMob
 							path="/general"
 							element={
 								<AnimatedPage>
-									<Box>
-										<SettingsMobileHeader
-											leftSlot={
-												<Button iconOnly styleVariant="ghost" sizeVariant="small" to="/accounts/settings">
-													<ArrowLeftIcon />
-												</Button>
-											}
-											isShadowVisible={scrollTop > 0}
-										/>
-										<Box>general</Box>
-										<Box>
-											{[...Array(40)].map((_, i) => (
-												// eslint-disable-next-line
-												<Box key={i}>
-													<Text size="xxxlarge">settings desktop</Text>
-												</Box>
-											))}
-										</Box>
-									</Box>
+									<SettingsMobileHeader
+										isShadowVisible={isShadowVisible}
+										leftSlot={
+											<Button iconOnly styleVariant="ghost" sizeVariant="small" to="/accounts/settings">
+												<ArrowLeftIcon />
+											</Button>
+										}
+									/>
+									<SettingsGeneral />
 								</AnimatedPage>
 							}
 						/>

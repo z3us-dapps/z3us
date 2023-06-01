@@ -8,12 +8,11 @@ import { Z3usLogo } from '@src/components/z3us-logo-babylon'
 
 import * as styles from './settings-mobile-header.css'
 
-interface ISettingsMobileHeaderRequiredProps {
-	isShadowVisible: boolean
-}
+interface ISettingsMobileHeaderRequiredProps {}
 
 interface ISettingsMobileHeaderOptionalProps {
 	className?: string
+	isShadowVisible?: boolean
 	leftSlot?: React.ReactNode
 	middleSlot?: React.ReactNode
 	rightSlot?: React.ReactNode
@@ -22,6 +21,7 @@ interface ISettingsMobileHeaderOptionalProps {
 interface ISettingsMobileHeaderProps extends ISettingsMobileHeaderRequiredProps, ISettingsMobileHeaderOptionalProps {}
 
 const defaultProps: ISettingsMobileHeaderOptionalProps = {
+	isShadowVisible: false,
 	className: undefined,
 	leftSlot: (
 		<Box className={styles.settingsHeaderLogoWrapper}>

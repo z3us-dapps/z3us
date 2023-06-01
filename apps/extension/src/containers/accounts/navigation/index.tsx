@@ -64,13 +64,13 @@ export const DesktopNavigation: React.FC = () => {
 					<AccountTabletNavigationDropdown />
 				</Box>
 				<Box className={styles.navigationMenu}>
-					<LayoutGroup>
+					<LayoutGroup id="accounts-menu">
 						{[
 							{ text: t('accounts.navigation.accounts'), href: accountMenuSlugs.ACCOUNTS },
 							{ text: t('accounts.navigation.transfer'), href: accountMenuSlugs.TRANSFER },
 							{ text: t('accounts.navigation.staking'), href: accountMenuSlugs.STAKING },
 							// { text: t('accounts.navigation.swap'), href: accountMenuSlugs.SWAP },
-							{ text: t('accounts.navigation.settings'), href: accountMenuSlugs.SETTINGS },
+							// { text: t('accounts.navigation.settings'), href: accountMenuSlugs.SETTINGS },
 						].map(({ text, href }) => (
 							<MenuItemDesktop text={text} key={href} href={href} />
 						))}
