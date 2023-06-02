@@ -73,7 +73,7 @@ export const settingsDesktopNavigationLink = style([
 		transition: 'fast',
 		background: {
 			lightMode: 'transparent',
-			hover: 'lead400'
+			hover: 'lead400',
 		},
 	}),
 	{
@@ -133,7 +133,9 @@ export const settingsSectionGridBasic = style([
 	sprinkles({
 		display: 'grid',
 		gap: 'large',
-	}), {
+	}),
+	{
 		gridTemplateColumns: '240px 1fr',
-	}
+	},
 ])
+

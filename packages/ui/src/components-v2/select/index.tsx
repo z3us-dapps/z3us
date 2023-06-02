@@ -2,7 +2,9 @@ import * as SelectPrimitive from '@radix-ui/react-select'
 import clsx, { type ClassValue } from 'clsx'
 import React, { forwardRef } from 'react'
 
-import { ArrowDownIcon, ArrowUpIcon, Check2Icon } from '../../components/icons'
+import { ArrowDownIcon, ArrowUpIcon, Check2Icon, ChevronDown2Icon } from '../../components/icons'
+import { Button } from '../button'
+import { Text } from '../typography'
 import * as styles from './select.css'
 
 export const SelectRoot = SelectPrimitive.Root
@@ -97,3 +99,44 @@ export const SelectIcon = ({ children, ...props }) => (
 		{children}
 	</SelectPrimitive.Icon>
 )
+
+interface ISelectSimpleProps {
+	value?: string
+	placeholder?: string
+	onValueChange?: (value: string) => void
+	data: { id: string; title: string }[]
+	trigger?: React.ReactNode
+	selectAriaLabel?: string
+}
+
+export const SelectSimple: React.FC<ISelectSimpleProps> = props => {
+	const { value, onValueChange, trigger, data = [], placeholder, selectAriaLabel } = props
+
+	return (
+		<SelectRoot value={value} onValueChange={onValueChange}>
+			{trigger || (
+				<SelectTrigger asChild aria-label={selectAriaLabel}>
+					<div>
+						<Button styleVariant="secondary" rightIcon={<ChevronDown2Icon />}>
+							{/* TODO: max width for select box and trigger */}
+							<span style={{maxWidth: '200px', overflow: 'hidden'}}>
+								<SelectValue aria-label={value} placeholder={placeholder} />
+							</span>
+						</Button>
+					</div>
+				</SelectTrigger>
+			)}
+			<SelectContent>
+				<SelectGroup>
+					{data.map(({ id, title }) => (
+						<SelectItem key={id} value={id}>
+							<Text truncate size="small" color="strong">
+								{title}
+							</Text>
+						</SelectItem>
+					))}
+				</SelectGroup>
+			</SelectContent>
+		</SelectRoot>
+	)
+}
