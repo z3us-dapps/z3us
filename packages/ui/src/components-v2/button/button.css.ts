@@ -20,6 +20,7 @@ export const button = recipe({
 		margin: '0',
 		outline: 'none',
 		WebkitTapHighlightColor: 'rgba(0, 0, 0, 0)',
+		maxWidth: '100%',
 	},
 	variants: {
 		styleVariant: {

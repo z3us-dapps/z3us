@@ -3,6 +3,7 @@ import clsx, { type ClassValue } from 'clsx'
 import React, { forwardRef } from 'react'
 
 import { ArrowDownIcon, ArrowUpIcon, Check2Icon, ChevronDown2Icon } from '../../components/icons'
+import { Box } from '../box'
 import { Button } from '../button'
 import { Text } from '../typography'
 import * as styles from './select.css'
@@ -31,13 +32,10 @@ export const SelectScrollUpButton = ({ children, ...props }) => (
 interface ISelectContentProps {
 	children: React.ReactNode
 	className?: string
+	style?: React.CSSProperties
 }
 
-const SelectContentDefaultProps = {
-	className: undefined,
-}
-
-export const SelectContent = forwardRef<HTMLDivElement, ISelectContentProps>(
+export const SelectContent: React.FC<ISelectContentProps> = forwardRef<HTMLElement, ISelectContentProps>(
 	(props, forwardedRef: React.Ref<HTMLDivElement | null>) => {
 		const { children, className, ...rest } = props
 
@@ -56,8 +54,6 @@ export const SelectContent = forwardRef<HTMLDivElement, ISelectContentProps>(
 		)
 	},
 )
-
-SelectContent.defaultProps = SelectContentDefaultProps
 
 interface ISelectItemProps {
 	children: React.ReactNode
@@ -107,26 +103,26 @@ interface ISelectSimpleProps {
 	data: { id: string; title: string }[]
 	trigger?: React.ReactNode
 	selectAriaLabel?: string
+	width?: number
 }
 
 export const SelectSimple: React.FC<ISelectSimpleProps> = props => {
-	const { value, onValueChange, trigger, data = [], placeholder, selectAriaLabel } = props
+	const { value, onValueChange, trigger, data = [], placeholder, selectAriaLabel, width = 300 } = props
 
 	return (
 		<SelectRoot value={value} onValueChange={onValueChange}>
 			{trigger || (
 				<SelectTrigger asChild aria-label={selectAriaLabel}>
-					<div>
+					<Box style={{maxWidth: `${width}px`}}>
 						<Button styleVariant="secondary" rightIcon={<ChevronDown2Icon />}>
-							{/* TODO: max width for select box and trigger */}
-							<span style={{maxWidth: '200px', overflow: 'hidden'}}>
+							<span style={{overflow: 'hidden'}}>
 								<SelectValue aria-label={value} placeholder={placeholder} />
 							</span>
 						</Button>
-					</div>
+					</Box>
 				</SelectTrigger>
 			)}
-			<SelectContent>
+			<SelectContent style={{maxWidth: `${width}px`}}>
 				<SelectGroup>
 					{data.map(({ id, title }) => (
 						<SelectItem key={id} value={id}>

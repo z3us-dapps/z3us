@@ -68,26 +68,24 @@ export const SettingsGeneral: React.FC<ISettingsGeneralProps> = forwardRef<HTMLE
 							</Box>
 						</Box>
 						<Box display="flex" flexDirection="column" gap="small">
-							<Box>
-								<SelectSimple
-									value={value}
-									placeholder="Select currency"
-									onValueChange={val => {
-										setValue(val)
-									}}
-									data={Array.from({ length: 20 }, (_, i) => ({
-										id: `${i}`,
-										title: `${i} -- ${(Math.random() + 1)
-											.toString(36)
-											.substring(
-												7,
-											)} llong test long tes tong test long test llong test long tes tong test long test llong test long tes
+							<SelectSimple
+								value={value}
+								placeholder="Select currency"
+								onValueChange={val => {
+									setValue(val)
+								}}
+								data={Array.from({ length: 20 }, (_, i) => ({
+									id: `${i}`,
+									title: `${i} -- ${(Math.random() + 1)
+										.toString(36)
+										.substring(
+											7,
+										)} llong test long tes tong test long test llong test long tes tong test long test llong test long tes
 								tong test long test llong test long tes tong test long test llong test long tes tong test long test llong test long tes
 								tong test long test llong test long tes tong test long test llong test long tes tong test long test llong test long tes
 								tong test long test`,
-									}))}
-								/>
-							</Box>
+								}))}
+							/>
 						</Box>
 					</Box>
 				</Box>
