@@ -2,7 +2,7 @@ import clsx, { type ClassValue } from 'clsx'
 import { LayoutGroup, motion } from 'framer-motion'
 import React, { forwardRef } from 'react'
 import { useTranslation } from 'react-i18next'
-import { useLocation, useMatch } from 'react-router-dom'
+import { useLocation } from 'react-router-dom'
 
 import { Box } from 'ui/src/components-v2/box'
 import { ToolTip } from 'ui/src/components-v2/tool-tip'
@@ -24,14 +24,16 @@ import { useAccountParams } from '@src/hooks/use-account-params'
 import * as styles from './navigation.css'
 
 const useSelectedItem = (href: string) => {
-	const match = useMatch(href)
 	const { account } = useAccountParams()
-
+	const location = useLocation()
+	const splitPath = href.split('/')
+	const splitPathName = splitPath[2]
+	const locationSplitPath = location.pathname.split('/')
+	const locationSplitPathName = locationSplitPath[2]
 	const accountMatchBlackList = [routes.TRANSFER, routes.STAKING, routes.SWAP, routes.SETTINGS]
 	const isAccountsMatch = href === accountMenuSlugs.ACCOUNTS && account && !accountMatchBlackList.includes(account)
-	const selected = !!match || isAccountsMatch
 
-	return selected
+	return splitPathName === locationSplitPathName || isAccountsMatch
 }
 
 const MenuItemDesktop = ({ text, href }) => {
@@ -70,7 +72,7 @@ export const DesktopNavigation: React.FC = () => {
 							{ text: t('accounts.navigation.transfer'), href: accountMenuSlugs.TRANSFER },
 							{ text: t('accounts.navigation.staking'), href: accountMenuSlugs.STAKING },
 							// { text: t('accounts.navigation.swap'), href: accountMenuSlugs.SWAP },
-							// { text: t('accounts.navigation.settings'), href: accountMenuSlugs.SETTINGS },
+							{ text: t('accounts.navigation.settings'), href: accountMenuSlugs.SETTINGS },
 						].map(({ text, href }) => (
 							<MenuItemDesktop text={text} key={href} href={href} />
 						))}

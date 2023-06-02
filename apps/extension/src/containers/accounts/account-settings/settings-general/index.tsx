@@ -2,11 +2,10 @@ import clsx, { ClassValue } from 'clsx'
 import React, { forwardRef, useState } from 'react'
 
 import { Box } from 'ui/src/components-v2/box'
-import { SelectSimple } from 'ui/src/components-v2/select'
-import { Text } from 'ui/src/components-v2/typography'
 import { Button } from 'ui/src/components-v2/button'
+import { SelectSimple } from 'ui/src/components-v2/select'
 import { Switch } from 'ui/src/components-v2/switch'
-
+import { Text } from 'ui/src/components-v2/typography'
 import { LoadingBarsIcon } from 'ui/src/components/icons'
 
 import * as styles from '../account-settings.css'
@@ -170,11 +169,9 @@ export const SettingsGeneral: React.FC<ISettingsGeneralProps> = forwardRef<HTMLE
 				</Box>
 				{/* END SAVE SETTINGS SECTION */}
 				{/* SAVE SECTION */}
-				<Box>
+				<Box className={styles.settingsSectionWrapper}>
 					<Box className={styles.settingsSectionGridBasic}>
-						<Box display="flex" flexDirection="column">
-							&nbsp;
-						</Box>
+						<Box className={styles.settingsSectionGridBasicSpacer}>&nbsp;</Box>
 						<Box display="flex" flexDirection="column" gap="small">
 							<Box width="full" display="flex" justifyContent="flex-end">
 								<Button

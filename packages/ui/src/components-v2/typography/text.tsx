@@ -32,6 +32,7 @@ interface TextStyleProps {
 	truncate?: boolean
 	underline?: 'always' | 'hover' | 'never'
 	inheritColor?: boolean
+	lineClamp?: number
 }
 
 export interface TextProps extends TextStyleProps {
@@ -54,6 +55,7 @@ const defaultProps = {
 	truncate: false,
 	underline: 'never',
 	inheritColor: false,
+	lineClamp: undefined,
 }
 
 export const textStyles = ({
@@ -69,6 +71,7 @@ export const textStyles = ({
 	truncate,
 	underline,
 	inheritColor,
+	lineClamp,
 }: TextStyleProps) =>
 	clsx(
 		styles.baseTextSprinkles,
@@ -78,6 +81,7 @@ export const textStyles = ({
 		capitalizeFirstLetter && styles.capitalizeFirstLetter,
 		capitalize && styles.capitalize,
 		truncate && styles.truncateText,
+		lineClamp && styles.lineClamp,
 		underline === 'hover' ? styles.underlineOnHover : undefined,
 		underline === 'always' ? styles.underlineText : undefined,
 		sprinkles({
@@ -107,6 +111,7 @@ const Text = ({
 	underline,
 	truncate,
 	inheritColor,
+	lineClamp,
 }: TextProps) => (
 	<Box
 		component={component}
@@ -124,7 +129,9 @@ const Text = ({
 			truncate,
 			underline,
 			inheritColor,
+			lineClamp,
 		})}
+		style={{ ...(lineClamp ? { WebkitLineClamp: lineClamp } : {}) }}
 	>
 		{children}
 	</Box>

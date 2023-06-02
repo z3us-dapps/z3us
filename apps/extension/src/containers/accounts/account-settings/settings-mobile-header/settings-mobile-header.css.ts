@@ -18,7 +18,7 @@ export const settingsMobileHeaderWrapper = style([
 		top: 0,
 		display: 'flex',
 		alignItems: 'center',
-		background: 'backgroundPrimary',
+		// background: 'backgroundPrimary',
 		paddingX: 'small',
 		transition: 'fast',
 	}),

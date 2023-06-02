@@ -6,7 +6,7 @@ import { Link, Route, Routes, useLocation } from 'react-router-dom'
 
 import { Box } from 'ui/src/components-v2/box'
 import { Text } from 'ui/src/components-v2/typography'
-import { ArrowLeftIcon, ChevronDown3Icon, ChevronLeftIcon } from 'ui/src/components/icons'
+import { HomeIcon , ArrowLeftIcon, ChevronDown3Icon, ChevronLeftIcon } from 'ui/src/components/icons'
 
 import { AnimatedPage } from '@src/components/animated-page'
 import { Button } from '@src/components/button'
@@ -50,26 +50,39 @@ export const AccountSettingsMobile = forwardRef<HTMLElement, IAccountSettingsMob
 								<AnimatedPage>
 									<Box>
 										<SettingsMobileHeader isShadowVisible={scrollTop > 0} />
-										<Box>home settings</Box>
-										<Box display="flex" flexDirection="column" gap="medium">
-											<Link to="/accounts/settings">settings</Link>
-											<Link to="/accounts/settings/general">General</Link>
-											<Link to="/accounts/settings/accounts">accounts</Link>
-											<Link to="/accounts/settings/address-book">address book</Link>
+										<Box padding="large">
+											<Text size="xxlarge" weight="strong" color="strong">
+												Settings
+											</Text>
 										</Box>
-										<Box>
-											{[...Array(40)].map((_, i) => (
-												// eslint-disable-next-line
-												<Box key={i}>
-													<Text size="xxxlarge">settings desktop</Text>
-												</Box>
+										<Box display="flex" flexDirection="column">
+											{[
+												{ href: '/accounts/settings/general', title: 'General' },
+												{ href: '/accounts/settings/accounts', title: 'Accounts' },
+												{ href: '/accounts/settings/address-book', title: 'Address book' },
+											].map(({ href, title }, i) => (
+												<Link key={href} to={href} className={styles.settingsMobileIndexLinkWrapper}>
+													<Box className={styles.settingsMobileIndexLinkIconWrapper}>
+														<HomeIcon />
+													</Box>
+													<Box className={styles.settingsMobileIndexLinkTextWrapper}>
+														<Text color="strong" size="large" weight="strong">
+															{title}
+														</Text>
+														<Text lineClamp={3}>
+															Lorum ipsumIn convallis vel neque facilisis est mi in varius gravida eget convallis
+															convallis ut velit lacus, eros faucibus odio. Varius dui porttitor eu ac egestas in tempus
+															nisi suscipit fusce urna. Vitae semper velit facilisis nunc, suspendisse vivamus duis
+															vestibulum ullamcorper dui lectus sapien tempus sit eu dapibus arcu pellentesque.
+														</Text>
+													</Box>
+												</Link>
 											))}
 										</Box>
 									</Box>
 								</AnimatedPage>
 							}
 						/>
-
 						<Route
 							path="/general"
 							element={

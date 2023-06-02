@@ -19,6 +19,14 @@ export const truncateText = style([
 	},
 ])
 
+export const lineClamp = style([
+	{
+		display: '-webkit-box',
+		overflow: 'hidden',
+		WebkitBoxOrient: 'vertical',
+	},
+])
+
 export const underlineText = style([
 	{
 		textDecoration: 'none',
