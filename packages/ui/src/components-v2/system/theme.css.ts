@@ -271,9 +271,9 @@ export const sharedThemeValues = {
 	},
 	transition: {
 		slow: 'transform .3s ease, opacity .3s ease, background .3s ease, color .3s ease, border .3s ease, box-shadow .3s ease',
-		slowall: 'transition: all 300ms ease',
+		slowall: 'all 300ms ease',
 		fast: 'transform .15s ease, opacity .15s ease, background .15s ease, color .15s ease, border .15s ease, box-shadow .15s ease',
-		fastall: 'transition: all 150ms ease',
+		fastall: 'all 150ms ease',
 	},
 }
 
@@ -472,7 +472,7 @@ export const darkThemeColors = {
 /**
  * Variable Semantic color keys
  */
-export const themeSpecificColorsKeys = Object.keys(lightThemeColors)
+export const lightThemeSpecificColorsKeys = Object.keys(lightThemeColors)
 
 /**
  * Theme Shape for Vanilla Extract's createTheme
@@ -527,5 +527,6 @@ export const [lightThemeClass, vars] = createTheme(themeShape)
  * note: validated by light theme's vars so we make sure it has the same shape
  */
 
-// TODO: fix type `darkTheme as ny`
+// TODO: fix type `darkTheme as any`
+// will need to resolve -> toasts-container/toasts-container.css.ts#L24
 export const darkThemeClass = createTheme(vars, darkTheme as any)

@@ -140,12 +140,12 @@ export const SettingsGeneral: React.FC<ISettingsGeneralProps> = forwardRef<HTMLE
 							</Box>
 						</Box>
 						<Box display="flex" flexDirection="column" gap="small">
-							<Box display="flex" alignItems="center" gap="small">
+							<Box display="flex" alignItems="center" gap="medium">
 								<Box>
 									<Switch />
 								</Box>
 								<Box>
-									<Text size="small">Push</Text>
+									<Text size="xsmall">Push</Text>
 								</Box>
 							</Box>
 						</Box>

@@ -7,7 +7,7 @@ interface ISwitchProps {
 	className?: ClassValue
 	id?: string
 	sizeVariant?: 'small' | 'medium' | 'large'
-	styleVariant?: 'caution' | 'neutral'
+	styleVariant?: 'primary' | 'secondary'
 }
 
 export const Switch = forwardRef<HTMLButtonElement, ISwitchProps>((props, ref) => {
@@ -27,7 +27,15 @@ export const Switch = forwardRef<HTMLButtonElement, ISwitchProps>((props, ref) =
 			ref={ref}
 			{...rest}
 		>
-			<SwitchPrimitive.Thumb className={styles.switchThumb} />
+			<SwitchPrimitive.Thumb
+				className={clsx(
+					styles.switchThumbRecipe({
+						sizeVariant,
+						styleVariant,
+					}),
+					styles.switchThumbRoot,
+				)}
+			/>
 		</SwitchPrimitive.Root>
 	)
 })

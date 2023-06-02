@@ -1,55 +1,21 @@
 import { style } from '@vanilla-extract/css'
 
 import { recipe } from '@vanilla-extract/recipes'
+import { vars } from '../system/theme.css'
 
 import { sprinkles } from '../system/sprinkles.css'
-// width: 42px;
-//   height: 25px;
-//   background-color: var(--blackA9);
-//   border-radius: 9999px;
-//   position: relative;
-//   box-shadow: 0 2px 10px var(--blackA7);
-//   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
 
 export const switchRootWrapper = style([
 	sprinkles({
 		display: 'inline-flex',
 		alignItems: 'center',
 		borderRadius: 'full',
-		border: 0
-	}),
-	{
-		outline: 'none',
-		width: '42px',
-		height: '25px',
-		WebkitTapHighlightColor: 'rgba(0, 0, 0, 0)',
-		backgroundColor: 'black',
-
-	},
-])
-
-  // display: block;
-  // width: 21px;
-  // height: 21px;
-  // background-color: white;
-  // border-radius: 9999px;
-  // box-shadow: 0 2px 2px var(--blackA7);
-  // transition: transform 100ms;
-  // transform: translateX(2px);
-  // will-change: transform;
-
-export const switchThumb = style([
-	sprinkles({
-		display: 'block',
-		borderRadius: 'full',
+		border: 0,
 		transition: 'fastall',
 	}),
 	{
-		width: '21px',
-		height: '21px',
-		backgroundColor: 'white',
-		transform: 'translateX(2px)',
-		willChange: 'transform',
+		outline: 'none',
+		WebkitTapHighlightColor: 'rgba(0, 0, 0, 0)',
 	},
 ])
 
@@ -63,8 +29,21 @@ export const switchRecipe = recipe({
 	},
 	variants: {
 		styleVariant: {
-			neutral: { background: 'backgroundPrimary' },
-			caution: [
+			primary: [
+				sprinkles({
+					background: 'lead400',
+					borderColor: 'lead300',
+				}),
+				{
+					borderWidth: '1px',
+					borderStyle: 'solid',
+					'&[data-state="checked"]': {
+						background: `${vars.color.purple500}`,
+						borderColor: `${vars.color.purple400}`,
+					},
+				},
+			],
+			secondary: [
 				sprinkles({
 					background: 'orange600',
 					color: 'colorStrong',
@@ -75,28 +54,20 @@ export const switchRecipe = recipe({
 		sizeVariant: {
 			small: {},
 			medium: [
-				sprinkles({
-					// borderRadius: 'xlarge',
-					// paddingX: 'small',
-					// paddingY: 'small',
-				}),
+				sprinkles({}),
 				{
-					// height: '26px',
-					// fontSize: '13px',
-					// lineHeight: '13px',
-					// paddingLeft: '8px',
-					// paddingRight: '8px',
+					width: '42px',
+					height: '25px',
 				},
 			],
 			large: {},
 		},
 	},
-
-	// Applied when multiple variants are set at once
 	compoundVariants: [
 		{
+			// TODO
 			variants: {
-				styleVariant: 'neutral',
+				styleVariant: 'primary',
 				sizeVariant: 'large',
 			},
 			style: {
@@ -104,9 +75,70 @@ export const switchRecipe = recipe({
 			},
 		},
 	],
-
 	defaultVariants: {
-		styleVariant: 'neutral',
+		styleVariant: 'primary',
+		sizeVariant: 'medium',
+	},
+})
+
+export const switchThumbRoot = style([
+	sprinkles({
+		display: 'block',
+		borderRadius: 'full',
+		transition: 'fastall',
+	}),
+	{},
+])
+
+export const switchThumbRecipe = recipe({
+	base: {
+		transform: 'translateX(2px)',
+		willChange: 'transform',
+	},
+	variants: {
+		styleVariant: {
+			primary: [
+				sprinkles({
+					background: 'white',
+				}),
+				{},
+			],
+			secondary: [
+				sprinkles({
+					background: 'orange600',
+				}),
+				{},
+			],
+		},
+		sizeVariant: {
+			small: {},
+			medium: [
+				sprinkles({}),
+				{
+					width: '21px',
+					height: '21px',
+					'&[data-state="checked"]': {
+						transform: 'translateX(18px)',
+					},
+				},
+			],
+			large: {},
+		},
+	},
+	compoundVariants: [
+		{
+			// TODO
+			variants: {
+				styleVariant: 'primary',
+				sizeVariant: 'large',
+			},
+			style: {
+				background: 'ghostwhite',
+			},
+		},
+	],
+	defaultVariants: {
+		styleVariant: 'primary',
 		sizeVariant: 'medium',
 	},
 })

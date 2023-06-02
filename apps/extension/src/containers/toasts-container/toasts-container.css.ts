@@ -11,11 +11,9 @@ export const toastsWrapper = style([
 		selectors: {
 			'&[data-styled="true"]': {
 				border: '0px solid',
-				// borderColor: vars.color.wax400,
 				background: vars.color.bleached_silk400,
 				color: vars.color.lead400,
-				// todo fix as any
-				boxShadow: vars.color.shadowDropdown as any,
+				boxShadow: vars.color.shadowDropdown,
 			},
 
 			[`.${darkMode} &`]: {
