@@ -16,19 +16,28 @@ import { ChevronDown2Icon } from 'ui/src/components/icons'
 
 import * as styles from '../account-settings.css'
 
-interface ISettingsGeneralRequiredProps {}
+// TODO: remove demo
+type IMetaProps = {
+	title: string
+	description?: string
+}
 
-interface ISettingsGeneralOptionalProps {
+const Meta: React.FC<IMetaProps> = props => {
+	const { title = 'hello', description = 'def' } = props
+
+	return (
+		<div style={{ display: 'none' }}>
+			<pre>{title}</pre>
+			<pre>{description}</pre>
+		</div>
+	)
+}
+
+interface ISettingsGeneralProps {
 	className?: ClassValue
 }
 
-interface ISettingsGeneralProps extends ISettingsGeneralRequiredProps, ISettingsGeneralOptionalProps {}
-
-const defaultProps: ISettingsGeneralOptionalProps = {
-	className: undefined,
-}
-
-export const SettingsGeneral = forwardRef<HTMLElement, ISettingsGeneralProps>(
+export const SettingsGeneral: React.FC<ISettingsGeneralProps> = forwardRef<HTMLElement, ISettingsGeneralProps>(
 	(props, ref: React.Ref<HTMLElement | null>) => {
 		const { className } = props
 
@@ -36,6 +45,7 @@ export const SettingsGeneral = forwardRef<HTMLElement, ISettingsGeneralProps>(
 
 		return (
 			<Box ref={ref} className={clsx(styles.settingsSectionFlexColumnWrapper, className)}>
+				<Meta title="asdf" />
 				{/* START TITLE SECTION */}
 				<Box className={styles.settingsSectionBorderWrapper}>
 					<Box display="flex" flexDirection="column" gap="small">
@@ -54,7 +64,7 @@ export const SettingsGeneral = forwardRef<HTMLElement, ISettingsGeneralProps>(
 				{/* START LOCK SECTION */}
 				<Box className={styles.settingsSectionBorderWrapper}>
 					<Box className={styles.settingsSectionGridBasic}>
-						<Box display="flex" flexDirection="column" >
+						<Box display="flex" flexDirection="column">
 							<Text size="large" weight="strong" color="strong">
 								Session lock
 							</Text>
@@ -97,5 +107,3 @@ export const SettingsGeneral = forwardRef<HTMLElement, ISettingsGeneralProps>(
 		)
 	},
 )
-
-SettingsGeneral.defaultProps = defaultProps

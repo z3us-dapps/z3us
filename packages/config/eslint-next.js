@@ -37,6 +37,7 @@ module.exports = {
 		'jsx-a11y/anchor-is-valid': 'off',
 		'import/no-extraneous-dependencies': [2, { devDependencies: true }],
 		'react/jsx-props-no-spreading': 'off',
+		'react/require-default-props': 'off',
 		'require-explicit-generics/require-explicit-generics': [2, ['React.useState', 'useState', 'useImmer']],
 	},
 	overrides: [
