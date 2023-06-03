@@ -125,6 +125,25 @@ export const SettingsGeneral: React.FC<ISettingsGeneralProps> = forwardRef<HTMLE
 					</Box>
 				</Box>
 				{/* END CURRENCY SELECTION */}
+				{/* START TOKEN PREFERNCE */}
+				<Box className={styles.settingsSectionBorderWrapper}>
+					<Box className={styles.settingsSectionGridBasic}>
+						<Box display="flex" flexDirection="column">
+							<Text size="large" weight="strong" color="strong">
+								Token favorites
+							</Text>
+							<Box>
+								<Text size="small">Ut imperdiet</Text>
+							</Box>
+						</Box>
+						<Box display="flex" flexDirection="column" gap="small">
+							<pre>
+								asdf
+							</pre>
+						</Box>
+					</Box>
+				</Box>
+				{/* END TOKEN PREFERNCE */}
 				{/* START NOTIFICATIONS SECTION */}
 				<Box className={styles.settingsSectionBorderWrapper}>
 					<Box className={styles.settingsSectionGridBasic}>

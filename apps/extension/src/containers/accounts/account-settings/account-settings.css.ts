@@ -66,19 +66,20 @@ export const settingsDesktopRightWrapper = style([
 
 export const settingsDesktopNavigationLink = style([
 	sprinkles({
+		display: 'flex',
 		position: 'relative',
 		borderRadius: 'full',
 		paddingX: 'medium',
-		paddingY: 'small',
-		alignItems: 'flex-start',
+		alignItems: 'center',
+		justifyContent: 'center',
 		transition: 'fast',
+		height: 'xlarge',
 		background: {
 			lightMode: 'transparent',
 			hover: 'white',
 		},
 	}),
 	{
-		// minWidth: '125px',
 		selectors: {
 			[`.${darkMode} &:hover`]: {
 				background: vars.color.lead400,
