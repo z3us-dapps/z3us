@@ -67,9 +67,9 @@ export const settingsDesktopRightWrapper = style([
 export const settingsDesktopNavigationLink = style([
 	sprinkles({
 		position: 'relative',
-		borderRadius: 'medium',
+		borderRadius: 'full',
 		paddingX: 'medium',
-		paddingY: 'medium',
+		paddingY: 'small',
 		alignItems: 'flex-start',
 		transition: 'fast',
 		background: {
@@ -78,7 +78,7 @@ export const settingsDesktopNavigationLink = style([
 		},
 	}),
 	{
-		minWidth: '125px',
+		// minWidth: '125px',
 		selectors: {
 			[`.${darkMode} &:hover`]: {
 				background: vars.color.lead400,
@@ -93,7 +93,7 @@ export const settingsDesktopNavigationActive = style([
 		display: 'block',
 		width: 'full',
 		height: 'full',
-		borderRadius: 'medium',
+		borderRadius: 'full',
 		top: 0,
 		left: 0,
 		background: {
