@@ -14,6 +14,7 @@ import { ScrollPanel } from '@src/components/scroll-panel'
 
 import * as styles from './account-settings.css'
 import { SettingsGeneral } from './settings-general'
+import { SettingsAddressBook } from './settings-address-book'
 
 interface IAccountSettingsDesktopRequiredProps {}
 
@@ -105,9 +106,7 @@ export const AccountSettingsDesktop = forwardRef<HTMLElement, IAccountSettingsDe
 														path="/address-book"
 														element={
 															<AnimatedPage>
-																<Box>
-																	<Box>address-book</Box>
-																</Box>
+																<SettingsAddressBook scrollableNode={scrollableNode} />
 															</AnimatedPage>
 														}
 													/>

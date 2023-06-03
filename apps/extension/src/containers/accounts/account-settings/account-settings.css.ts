@@ -1,6 +1,7 @@
 import { style } from '@vanilla-extract/css'
 
-import { sprinkles } from 'ui/src/components-v2/system/sprinkles.css'
+import { darkMode, sprinkles } from 'ui/src/components-v2/system/sprinkles.css'
+import { vars } from 'ui/src/components-v2/system/theme.css'
 
 export const settingsMobileWrapper = style([
 	sprinkles({
@@ -73,11 +74,16 @@ export const settingsDesktopNavigationLink = style([
 		transition: 'fast',
 		background: {
 			lightMode: 'transparent',
-			hover: 'lead400',
+			hover: 'white',
 		},
 	}),
 	{
 		minWidth: '125px',
+		selectors: {
+			[`.${darkMode} &:hover`]: {
+				background: vars.color.lead400,
+			},
+		},
 	},
 ])
 
@@ -90,16 +96,24 @@ export const settingsDesktopNavigationActive = style([
 		borderRadius: 'medium',
 		top: 0,
 		left: 0,
-		background: 'wax900',
-		boxShadow: 'shadowActivePanel',
+		background: {
+			lightMode: 'white',
+			darkMode: 'backgroundSecondary',
+		},
 	}),
-	{},
+	{
+		selectors: {
+			[`.${darkMode} &`]: {
+				// boxShadow: vars.color.shadowDropdown as any,
+			},
+		},
+	},
 ])
 
 export const settingsDesktopNavigationText = style([
 	sprinkles({
 		position: 'relative',
-		transition: 'fast',
+		transition: 'fastall',
 	}),
 ])
 
@@ -122,7 +136,6 @@ export const settingsSectionFlexColumnWrapper = style([
 
 export const settingsSectionWrapper = style([
 	sprinkles({
-		paddingBottom: 'xlarge',
 		paddingX: {
 			mobile: 'xlarge',
 			tablet: 'none',

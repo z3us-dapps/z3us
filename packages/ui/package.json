@@ -88,6 +88,7 @@
 		"framer-motion": "10.12.8",
 		"react": "^18.2.0",
 		"react-dom": "^18.2.0",
+		"react-table": "^7.8.0",
 		"react-use-measure": "^2.1.1",
 		"react-virtuoso": "^4.3.6",
 		"simplebar-react": "^3.2.4",
