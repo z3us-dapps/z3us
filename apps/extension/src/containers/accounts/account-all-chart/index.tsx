@@ -1,6 +1,7 @@
 /* eslint-disable  @typescript-eslint/no-unused-vars, react/no-array-index-key */
 import { AnimatePresence, motion } from 'framer-motion'
 import React, { useState } from 'react'
+import useMeasure from 'react-use-measure'
 import { Cell, Pie, PieChart, ResponsiveContainer, Sector, Tooltip } from 'recharts'
 import { useTimeout } from 'usehooks-ts'
 
@@ -10,6 +11,7 @@ import { Text } from 'ui/src/components-v2/typography'
 import { ArrowLeftIcon, ArrowRightIcon, Close2Icon } from 'ui/src/components/icons'
 
 import { Button } from '@src/components/button'
+import { ChartToolTip } from '@src/components/chart-tool-tip'
 import { CopyAddressButton } from '@src/components/copy-address-button'
 import Translation from '@src/components/translation'
 import { Z3usLoading } from '@src/components/z3us-loading'
@@ -27,23 +29,23 @@ interface IAccountAllChartProps extends IAccountAllChartRequiredProps, IAccountA
 
 const defaultProps: IAccountAllChartOptionalProps = {}
 
-const data = [
-	{ name: 'Group A', value: 400 },
-	{ name: 'Group B', value: 300 },
-	{ name: 'Group C', value: 300 },
-	{ name: 'Group D', value: 200 },
-	{ name: 'Group E', value: 278 },
-	{ name: 'Group F', value: 189 },
+const COLORS = [
+	{ start: '#9e54ed', end: '#5c4cb6' },
+	{ start: '#34c3ff', end: '#2876bd' },
+	{ start: '#da9d35', end: '#e96935' },
 ]
 
-const COLORS = ['#8884d8', '#83a6ed', '#8dd1e1', '#82ca9d', '#a4de6c', '#d0ed57']
-
-const innerRadius = 20 // Adjust the inner radius value for the desired gap
+const data = [
+	{ name: '1', value: 150 },
+	{ name: '2', value: 200 },
+	{ name: '3', value: 250 },
+]
 
 export const AccountAllChart: React.FC<IAccountAllChartProps> = props => {
 	const { account, assetType } = useAccountParams()
 	const [loaded, setLoaded] = useState<boolean>(false)
 	const isAllAccount = account === ACCOUNTS_ALL
+	// const [measureRef, { width: chartWrapperWidth, height: chartWrapperHeight }] = useMeasure()
 
 	// TODO: temp
 	const accountAddress =
@@ -57,15 +59,12 @@ export const AccountAllChart: React.FC<IAccountAllChartProps> = props => {
 		return null
 	}
 
+	// TODO MOVE TO COMPONENTS
 	const renderCustomTooltip = ({ payload }) => {
 		if (payload && payload.length) {
 			const { name, value } = payload[0].payload
-			return (
-				<div style={{ backgroundColor: '#eee', padding: '10px', border: '1px solid gray', borderRadius: '5px' }}>
-					<p>{name}</p>
-					<p>{value}</p>
-				</div>
-			)
+
+			return <ChartToolTip name={name} value={value} />
 		}
 		return null
 	}
@@ -93,9 +92,17 @@ export const AccountAllChart: React.FC<IAccountAllChartProps> = props => {
 							animate="visible"
 							variants={animtePageVariants}
 						>
-							<Box style={{ height: '280px', width: '100%' }}>
+							<Box style={{ height: '240px', width: '100%' }}>
 								<ResponsiveContainer width="100%" height="100%">
 									<PieChart width={400} height={400}>
+										<defs>
+											{data.map((entry, index) => (
+												<linearGradient id={`myGradient${index}`}>
+													<stop offset="0%" stopColor={COLORS[index % COLORS.length].start} />
+													<stop offset="100%" stopColor={COLORS[index % COLORS.length].end} />
+												</linearGradient>
+											))}
+										</defs>
 										<Pie
 											dataKey="value"
 											startAngle={0}
@@ -103,17 +110,17 @@ export const AccountAllChart: React.FC<IAccountAllChartProps> = props => {
 											data={data}
 											cx="50%"
 											cy="50%"
-											outerRadius={80}
-											innerRadius={innerRadius}
+											outerRadius={100}
+											innerRadius={50}
 											// isAnimationActive={false} // Disable initial animation on mount
 										>
 											{data.map((entry, index) => (
 												<Cell
 													key={`cell-${index}`}
-													fill={COLORS[index % COLORS.length]}
-													stroke="#000"
-													// stroke={COLORS[index % COLORS.length]}
-													strokeWidth={2}
+													fill={`url(#myGradient${index})`}
+													// TODO: fix dynamic color
+													stroke="#323232"
+													strokeWidth={3}
 												/>
 											))}
 										</Pie>

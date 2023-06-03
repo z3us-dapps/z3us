@@ -1,11 +1,12 @@
 /* eslint-disable  @typescript-eslint/no-unused-vars */
-import { style } from '@vanilla-extract/css'
 
 import { sprinkles } from 'ui/src/components-v2/system/sprinkles.css'
-import { responsiveStyle } from 'ui/src/components-v2/system/theme-utils'
+import { globalStyle, style } from '@vanilla-extract/css'
 
-// import { vars } from 'ui/src/components-v2/system/theme.css'
-// paddingTop="large" paddingX="large"
+import { responsiveStyle } from 'ui/src/components-v2/system/theme-utils'
+import { vars } from 'ui/src/components-v2/system/theme.css'
+
+
 export const allChartWrapper = style([
 	sprinkles({
 		paddingTop: 'large',
@@ -17,14 +18,18 @@ export const allChartWrapper = style([
 export const allChartInnerWrapper = style([
 	sprinkles({
 		borderRadius: 'small',
-		padding: 'large',
 		background: 'backgroundPrimary',
 		width: 'full',
 	}),
 	{
+		// todo, will by dymanic height based on accounts
 		height: '400px',
 	},
 ])
+
+globalStyle(`${allChartInnerWrapper} .recharts-layer.recharts-pie-sector path:focus`, {
+	outline: 'none !important',
+})
 
 export const motionWrapper = style([
 	sprinkles({
@@ -38,6 +43,7 @@ export const accountsListWrapper = style([
 		display: 'flex',
 		flexDirection: 'column',
 		marginTop: 'small',
+		paddingX: 'large',
 	}),
 	{},
 ])

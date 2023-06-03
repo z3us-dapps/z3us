@@ -9,8 +9,7 @@ const fadeIn = keyframes({
 })
 
 const fadeOut = keyframes({
-	'0%': { transform: 'scale(1.00) translateY(0px)', opacity: '1' },
-	'100%': { transform: 'scale(0.90) translateY(0px)', opacity: '0' },
+	'0%': { transform: 'scale(1.00) translateY(0px)', opacity: '1' }, '100%': { transform: 'scale(0.90) translateY(0px)', opacity: '0' },
 })
 
 export const toolTipContent = style([
