@@ -1,14 +1,16 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import type { ClassValue } from 'clsx';
+import type { ClassValue } from 'clsx'
 import clsx from 'clsx'
-import React, { useState, useMemo } from 'react'
+import React, { useMemo, useState } from 'react'
+import { useImmer } from 'use-immer'
 
+import { Avatar, AvatarFallback, AvatarImage } from 'ui/src/components-v2/avatar'
 import { Box } from 'ui/src/components-v2/box'
 import { Button } from 'ui/src/components-v2/button'
+import { DialogAlert } from 'ui/src/components-v2/dialog-alert'
 import { Table } from 'ui/src/components-v2/table'
-import { Avatar, AvatarFallback, AvatarImage } from 'ui/src/components-v2/avatar'
 import { Text } from 'ui/src/components-v2/typography'
-import { LoadingBarsIcon, PlusIcon, TrashIcon, EditIcon } from 'ui/src/components/icons'
+import { EditIcon, LoadingBarsIcon, PlusIcon, TrashIcon } from 'ui/src/components/icons'
 
 import * as styles from '../account-settings.css'
 
@@ -33,8 +35,16 @@ interface ISettingsGeneralProps {
 	scrollableNode: HTMLElement
 }
 
+interface IImmerSettingsGeneralProps {
+	deleteAccount: string | undefined
+}
+
 export const SettingsAddressBook: React.FC<ISettingsGeneralProps> = props => {
 	const { className, scrollableNode } = props
+
+	const [state, setState] = useImmer<IImmerSettingsGeneralProps>({
+		deleteAccount: undefined,
+	})
 
 	const data = useMemo(
 		() =>
@@ -46,6 +56,24 @@ export const SettingsAddressBook: React.FC<ISettingsGeneralProps> = props => {
 			})),
 		[],
 	)
+
+	const handleDeleteAddress = (id: string) => {
+		setState(draft => {
+			draft.deleteAccount = id
+		})
+	}
+
+	const handleCancelDeleteAddress = () => {
+		setState(draft => {
+			draft.deleteAccount = undefined
+		})
+	}
+
+	const handleConfirmDeleteAddress  = () => {
+		setState(draft => {
+			draft.deleteAccount = undefined
+		})
+	}
 
 	const columns = useMemo(
 		() => [
@@ -99,10 +127,19 @@ export const SettingsAddressBook: React.FC<ISettingsGeneralProps> = props => {
 					// eslint-disable-next-line
 					return (
 						<Box key={row.id} id={row.id} display="flex" justifyContent="flex-end" flexShrink={0} gap="small">
-							<Button sizeVariant="small" styleVariant="secondary" leftIcon={<TrashIcon />} >
+							<Button
+								sizeVariant="small"
+								styleVariant="secondary"
+								leftIcon={<TrashIcon />}
+								onClick={() => {
+									handleDeleteAddress('test')
+								}}
+							>
 								Delete
 							</Button>
-							<Button sizeVariant="small" styleVariant="secondary" leftIcon={<EditIcon />}>Edit</Button>
+							<Button sizeVariant="small" styleVariant="secondary" leftIcon={<EditIcon />}>
+								Edit
+							</Button>
 						</Box>
 					)
 				},
@@ -112,36 +149,44 @@ export const SettingsAddressBook: React.FC<ISettingsGeneralProps> = props => {
 	)
 
 	return (
-		<Box className={clsx(styles.settingsSectionFlexColumnWrapper, className)}>
-			{/* START TITLE SECTION */}
-			<Box className={styles.settingsSectionWrapper}>
-				<Box display="flex" flexDirection="column" gap="small">
-					<Text size="xxlarge" weight="strong" color="strong">
-						Address book
-					</Text>
-					<Box>
-						<Text>
-							Ut imperdiet nam nam velit eu magna, neque eu eu porta. m duis non pretium, mus laoreet tempor velit
-							integer tristique etiam integer.
+		<>
+			<Box className={clsx(styles.settingsSectionFlexColumnWrapper, className)}>
+				<Box className={styles.settingsSectionWrapper}>
+					<Box display="flex" flexDirection="column" gap="small">
+						<Text size="xxlarge" weight="strong" color="strong">
+							Address book
 						</Text>
+						<Box>
+							<Text>
+								Ut imperdiet nam nam velit eu magna, neque eu eu porta. m duis non pretium, mus laoreet tempor velit
+								integer tristique etiam integer.
+							</Text>
+						</Box>
+						<Box paddingTop="medium">
+							<Button
+								styleVariant="primary"
+								// disabled
+								leftIcon={<PlusIcon />}
+							>
+								New address
+							</Button>
+						</Box>
+						{/* START ADDRESS BOOK TABLE */}
+						<Box paddingTop="large">
+							<Table scrollableNode={scrollableNode} data={data} columns={columns} />
+						</Box>
+						{/* END ADDRESS BOOK TABLE */}
 					</Box>
-					<Box paddingTop="medium">
-						<Button
-							styleVariant="primary"
-							// disabled
-							leftIcon={<PlusIcon />}
-						>
-							New address
-						</Button>
-					</Box>
-					{/* START ADDRESS BOOK TABLE */}
-					<Box paddingTop="large">
-						<Table scrollableNode={scrollableNode} data={data} columns={columns} />
-					</Box>
-					{/* END ADDRESS BOOK TABLE */}
 				</Box>
 			</Box>
-			{/* END TITLE SECTION */}
-		</Box>
+			<DialogAlert
+				open={!!state.deleteAccount}
+				title="Are you sure?"
+				description="Are you sure you want to delete this address?"
+				confirmButtonText="Delete"
+				onCancel={handleCancelDeleteAddress}
+				onConfirm={handleConfirmDeleteAddress}
+			/>
+		</>
 	)
 }

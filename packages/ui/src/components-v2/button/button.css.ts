@@ -1,5 +1,5 @@
 import { style } from '@vanilla-extract/css'
-import type { RecipeVariants} from '@vanilla-extract/recipes';
+import type { RecipeVariants } from '@vanilla-extract/recipes'
 import { recipe } from '@vanilla-extract/recipes'
 
 import { sprinkles } from '../system/sprinkles.css'
@@ -108,6 +108,18 @@ export const button = recipe({
 				background: {
 					lightMode: 'transparent',
 					hover: 'btnWhiteTransparentBackgroundHover',
+				},
+				borderColor: { lightMode: 'transparent', hover: 'transparent' },
+				boxShadow: {
+					focusVisible: 'btnSecondaryShadowFocus',
+				},
+				color: 'white',
+				border: 1,
+				borderStyle: 'solid',
+			}),
+			destructive: sprinkles({
+				background: {
+					lightMode: 'red500',
 				},
 				borderColor: { lightMode: 'transparent', hover: 'transparent' },
 				boxShadow: {
@@ -341,6 +353,9 @@ export const buttonIconLeft = recipe({
 			'white-transparent': sprinkles({
 				color: 'white',
 			}),
+			destructive: sprinkles({
+				color: 'white',
+			}),
 		},
 		sizeVariant: {
 			xsmall: [{ marginRight: '4px', marginLeft: '-2px' }],
@@ -393,6 +408,14 @@ export const buttonIconRight = recipe({
 				color: 'colorNeutral',
 			}),
 			'white-transparent': [
+				sprinkles({
+					color: 'white',
+				}),
+				{
+					opacity: '0.8',
+				},
+			],
+			destructive: [
 				sprinkles({
 					color: 'white',
 				}),

@@ -15,6 +15,7 @@ export type TStyleVariant =
 	| 'ghost'
 	| 'inverse'
 	| 'white-transparent'
+	| 'destructive'
 
 interface IButtonRequiredProps {
 	children: React.ReactNode

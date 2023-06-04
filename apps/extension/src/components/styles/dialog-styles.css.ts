@@ -2,6 +2,7 @@ import { keyframes, style } from '@vanilla-extract/css'
 
 import { darkMode, sprinkles } from 'ui/src/components-v2/system/sprinkles.css'
 
+// TODO can import this from components, alert dialog or dialog
 export const fadeIn = keyframes({
 	'0%': { opacity: '0' },
 	'100%': { opacity: '1' },

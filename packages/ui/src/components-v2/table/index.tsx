@@ -7,8 +7,8 @@ import { Box } from '../box'
 import * as styles from './table.css'
 
 interface ISwitchProps {
-	columns: any
-	data: any
+	columns: Array<object>
+	data: Array<object>
 	scrollableNode?: HTMLElement
 	className?: ClassValue
 	sizeVariant?: 'small' | 'medium' | 'large'

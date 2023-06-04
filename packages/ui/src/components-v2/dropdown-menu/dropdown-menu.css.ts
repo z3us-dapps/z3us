@@ -40,13 +40,29 @@ export const sharedPopoverBgSprinkles = {
 		lightMode: 'shadowDropdown',
 		focusVisible: 'shadowDropdownFocusVisible',
 	},
-	paddingX: 'small',
-	paddingY: 'medium',
 	color: 'colorNeutral',
 	borderRadius: 'medium',
 }
 
+export const sharedPopoverBgStyles = {
+	transform: 'translateX(-50%)',
+	width: '100%',
+	left: '50%',
+	animationTimingFunction: 'cubic-bezier(0.16, 1, 0.3, 1)',
+	transformOrigin: 'var(--radix-dropdown-menu-content-transform-origin)',
+	willChange: 'transform, opacity',
+	animationDuration: '150ms',
+}
+
 export const sharedPopoverBgSelectorStyles = {
+	'&[data-state="open"]': {
+		animationName: fadeIn,
+		animationFillMode: 'forwards',
+	},
+	'&[data-state="closed"]': {
+		animationName: fadeOut,
+		animationFillMode: 'forwards',
+	},
 	'&:focus-visible': {
 		outline: 'none',
 	},
@@ -57,25 +73,9 @@ export const dropdownMenuContent = style([
 		...(sharedPopoverBgSprinkles as Sprinkles),
 	}),
 	{
-		minWidth: '70px',
-		transformOrigin: 'var(--radix-dropdown-menu-content-transform-origin)',
-		animationTimingFunction: 'cubic-bezier(0.16, 1, 0.3, 1)',
-		willChange: 'transform, opacity',
-		animationDuration: '300ms',
-
+		...sharedPopoverBgStyles,
 		selectors: {
 			...sharedPopoverBgSelectorStyles,
-			'&[data-state="open"]': {
-				animationName: fadeIn,
-				animationFillMode: 'forwards',
-			},
-			'&[data-state="closed"]': {
-				animationName: fadeOut,
-				animationFillMode: 'forwards',
-			},
-			'&:focus-visible': {
-				outline: 'none',
-			},
 		},
 	},
 ])
