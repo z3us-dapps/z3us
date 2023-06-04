@@ -130,7 +130,7 @@ export const AccountAllChart: React.FC<IAccountAllChartProps> = props => {
 							</Box>
 							<Box className={styles.accountsListWrapper}>
 								<Box display="flex" flexDirection="column" gap="xsmall" width="full">
-									{[...Array(2)].map((x, i) => (
+									{[...Array(4)].map((x, i) => (
 										// eslint-disable-next-line
 										<Box key={i} className={styles.addressInfoWrapper}>
 											<Box className={styles.addressInfoWrapperLeft}>

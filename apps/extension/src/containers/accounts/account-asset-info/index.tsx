@@ -16,13 +16,7 @@ import { useAccountParams } from '@src/hooks/use-account-params'
 
 import * as styles from './account-asset-info.css'
 
-interface IAccountAssetInfoRequiredProps {}
-
-interface IAccountAssetInfoOptionalProps {}
-
-interface IAccountAssetInfoProps extends IAccountAssetInfoRequiredProps, IAccountAssetInfoOptionalProps {}
-
-const defaultProps: IAccountAssetInfoOptionalProps = {}
+interface IAccountAssetInfoProps {}
 
 const data = [
 	{
@@ -127,14 +121,21 @@ export const AccountAssetInfo: React.FC<IAccountAssetInfoProps> = () => {
 							{/* <CartesianGrid strokeDasharray="3 3" /> */}
 							{/* <XAxis dataKey="name" /> */}
 							{/* <YAxis /> */}
-							<Tooltip content={renderTooltipContent} cursor={false} />
+							<defs>
+								<linearGradient id="areaGradient" x1="0" y1="0" x2="0" y2="1">
+									<stop offset="5%" stopColor="#8884d8" stopOpacity={0.8} />
+									<stop offset="95%" stopColor="#82ca9d" stopOpacity={0} />
+								</linearGradient>
+							</defs>
 							<Area
-								type="linear"
+								// type="linear"
+								type="monotone"
 								dataKey="uv"
 								stroke="#8884d8"
-								fill="#8884d8"
+								fill="url(#areaGradient)"
 								strokeWidth={3} // Adjust the stroke width here
 							/>
+							<Tooltip content={renderTooltipContent} cursor={false} />
 						</AreaChart>
 					</ResponsiveContainer>
 				</Box>
@@ -162,5 +163,3 @@ export const AccountAssetInfo: React.FC<IAccountAssetInfoProps> = () => {
 		</Box>
 	)
 }
-
-AccountAssetInfo.defaultProps = defaultProps
