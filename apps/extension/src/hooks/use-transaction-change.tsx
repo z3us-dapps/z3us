@@ -1,4 +1,4 @@
-import BigNumber from 'bignumber.js'
+import type BigNumber from 'bignumber.js'
 
 import { XRD_RRI } from '@src/config'
 import { useXRDPriceOnDay } from '@src/hooks/react-query/queries/market'

@@ -1,7 +1,8 @@
 import { style } from '@vanilla-extract/css'
 
 import { sharedItemStyles } from 'ui/src/components-v2/dropdown-menu/dropdown-menu.css'
-import { Sprinkles, sprinkles } from 'ui/src/components-v2/system/sprinkles.css'
+import type { Sprinkles} from 'ui/src/components-v2/system/sprinkles.css';
+import { sprinkles } from 'ui/src/components-v2/system/sprinkles.css'
 import { responsiveStyle } from 'ui/src/components-v2/system/theme-utils'
 
 export const inputWrapper = style([

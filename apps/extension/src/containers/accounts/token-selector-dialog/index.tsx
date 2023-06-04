@@ -16,7 +16,8 @@ import {
 	DialogPortal,
 	DialogTrigger,
 } from 'ui/src/components-v2/dialog'
-import { FormElement, Input } from 'ui/src/components-v2/input'
+import type { FormElement} from 'ui/src/components-v2/input';
+import { Input } from 'ui/src/components-v2/input'
 import { ScrollArea } from 'ui/src/components-v2/scroll-area'
 import { ToolTip } from 'ui/src/components-v2/tool-tip'
 import { Text } from 'ui/src/components-v2/typography'

@@ -4,7 +4,8 @@ import { useCallback } from 'react'
 import { useRadix } from '@src/hooks/use-radix'
 import { useNoneSharedStore, useSharedStore } from '@src/hooks/use-store'
 import { parseAccountAddress } from '@src/services/radix/serializer'
-import { ExtendedActionType, IntendedAction, ActionType as InternalActionType } from '@src/types'
+import type { IntendedAction} from '@src/types';
+import { ExtendedActionType, ActionType as InternalActionType } from '@src/types'
 
 // import { useSignature } from '@src/hooks/use-signature'
 // import { randomBytes } from 'crypto'

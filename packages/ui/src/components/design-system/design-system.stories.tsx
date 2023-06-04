@@ -1,6 +1,6 @@
 /* eslint-disable react/jsx-props-no-spreading, @typescript-eslint/no-unused-vars */
 import { CopyIcon } from '@radix-ui/react-icons'
-import { ComponentMeta, ComponentStory } from '@storybook/react'
+import type { ComponentMeta, ComponentStory } from '@storybook/react'
 import 'design/dist/dark/index.css'
 import 'design/dist/index.css'
 import 'design/dist/light/index.css'

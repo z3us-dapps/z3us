@@ -1,4 +1,4 @@
-import * as DropdownMenuPrimitive from '@radix-ui/react-dropdown-menu'
+import type * as DropdownMenuPrimitive from '@radix-ui/react-dropdown-menu'
 import clsx from 'clsx'
 import React, { forwardRef } from 'react'
 import * as ScrollAreaPrimative from '@radix-ui/react-scroll-area'

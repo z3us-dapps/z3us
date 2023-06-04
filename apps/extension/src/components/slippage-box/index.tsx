@@ -1,4 +1,4 @@
-import BigNumber from 'bignumber.js'
+import type BigNumber from 'bignumber.js'
 import React from 'react'
 
 import { Box, Flex, Text } from 'ui/src/components/atoms'
@@ -6,7 +6,7 @@ import { Box, Flex, Text } from 'ui/src/components/atoms'
 import { useNativeToken } from '@src/hooks/react-query/queries/radix'
 import { useTicker } from '@src/hooks/react-query/queries/tickers'
 import { useNoneSharedStore } from '@src/hooks/use-store'
-import { Token } from '@src/types'
+import type { Token } from '@src/types'
 import { formatBigNumber } from '@src/utils/formatters'
 
 interface IProps {

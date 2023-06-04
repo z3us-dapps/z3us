@@ -1,20 +1,22 @@
 /* eslint-disable react/jsx-props-no-spreading, react/no-array-index-key */
-import React, {
-	Children,
+import type {
 	MouseEvent,
 	PropsWithoutRef,
-	RefAttributes,
+	RefAttributes} from 'react';
+import React, {
+	Children,
 	useEffect,
 	useImperativeHandle,
 	useRef,
 	useState,
 } from 'react'
 
-import { PropsWithCSS } from '../../types'
+import type { PropsWithCSS } from '../../types'
 import { __DEV__ } from '../../utils/assertion'
-import { NormalColors, NormalSizes } from '../../utils/prop-types'
+import type { NormalColors, NormalSizes } from '../../utils/prop-types'
 import withDefaults from '../../utils/with-defaults'
-import StyledButton, { ButtonVariantsProps, StyledLoader, StyledRipple, StyledTextWrapper } from './button.styles'
+import type { ButtonVariantsProps} from './button.styles';
+import StyledButton, { StyledLoader, StyledRipple, StyledTextWrapper } from './button.styles'
 
 export interface IProps {
 	color?: NormalColors

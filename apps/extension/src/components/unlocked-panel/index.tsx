@@ -1,7 +1,8 @@
-import React, { ReactNode, useEffect } from 'react'
+import type { ReactNode} from 'react';
+import React, { useEffect } from 'react'
 
 import { Box, MotionBox } from 'ui/src/components/atoms'
-import { CSS } from 'ui/src/theme'
+import type { CSS } from 'ui/src/theme'
 
 import { LockedPanel } from '@src/components/locked-panel'
 import { Z3usMenu } from '@src/components/z3us-menu'

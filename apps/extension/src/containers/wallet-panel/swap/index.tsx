@@ -1,4 +1,4 @@
-import { BuiltTransactionReadyToSign } from '@radixdlt/application'
+import type { BuiltTransactionReadyToSign } from '@radixdlt/application'
 import BigNumber from 'bignumber.js'
 import React, { useEffect, useRef } from 'react'
 import { useDebounce } from 'use-debounce'
@@ -26,7 +26,7 @@ import {
 	calculateTransactionFee,
 	getZ3USFees,
 } from '@src/services/swap'
-import { Pool } from '@src/types'
+import type { Pool } from '@src/types'
 import { formatBigNumber } from '@src/utils/formatters'
 import { getShortAddress } from '@src/utils/string-utils'
 

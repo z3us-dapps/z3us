@@ -1,5 +1,5 @@
 /* eslint-disable react/no-array-index-key */
-import { Action } from '@radixdlt/application'
+import type { Action } from '@radixdlt/application'
 import BigNumber from 'bignumber.js'
 import React from 'react'
 

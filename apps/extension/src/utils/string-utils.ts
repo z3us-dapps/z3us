@@ -1,4 +1,5 @@
-import { Action, ActionType } from '@src/types'
+import type { Action} from '@src/types';
+import { ActionType } from '@src/types'
 
 export const getShortAddress = (account = '', shortLength = 4) => {
 	if (account === '') return ''

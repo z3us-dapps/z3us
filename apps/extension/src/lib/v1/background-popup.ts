@@ -1,4 +1,4 @@
-import { Runtime } from 'webextension-polyfill'
+import type { Runtime } from 'webextension-polyfill'
 
 import {
 	CONFIRM,
@@ -24,13 +24,13 @@ import {
 } from '@src/lib/v1/actions'
 // import { CredentialsService } from '@src/services/credentials'
 import { deletePendingAction, getPendingAction } from '@src/services/actions-pending'
-import { BrowserService } from '@src/services/browser'
+import type { BrowserService } from '@src/services/browser'
 import { forEachClientPort } from '@src/services/client-ports'
 import { EVENT_MESSAGE_ID } from '@src/services/messanger'
 import { getNoneSharedStore } from '@src/services/state'
-import { VaultService } from '@src/services/vault'
+import type { VaultService } from '@src/services/vault'
 import { sharedStore } from '@src/store'
-import { SigningKeyType } from '@src/types'
+import type { SigningKeyType } from '@src/types'
 
 import { INIT, KEYSTORE_CHANGE } from './events'
 

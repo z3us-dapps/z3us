@@ -1,4 +1,4 @@
-import { Side } from '@radix-ui/popper'
+import type { Side } from '@radix-ui/popper'
 import * as TooltipPrimitive from '@radix-ui/react-tooltip'
 import clsx from 'clsx'
 import React from 'react'

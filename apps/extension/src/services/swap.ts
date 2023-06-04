@@ -1,20 +1,25 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 
 /* eslint-disable no-case-declarations */
-import { AccountAddressT, AccountT, BuiltTransactionReadyToSign, IntendedTransferTokens } from '@radixdlt/application'
+import type { AccountAddressT, BuiltTransactionReadyToSign} from '@radixdlt/application';
+import { AccountT, IntendedTransferTokens } from '@radixdlt/application'
 import BigNumber from 'bignumber.js'
 
 import { FLOOP_RRI, Z3US_FEE_RATIO, Z3US_RRI, Z3US_WALLET_BURN, Z3US_WALLET_MAIN } from '@src/config'
 import { calculateSwap } from '@src/services//caviar'
-import astrolescent, { SwapResponse as AstrolescentSwapResponse } from '@src/services/astrolescent'
-import doge, { QuoteQuery } from '@src/services/dogecubex'
+import type { SwapResponse as AstrolescentSwapResponse } from '@src/services/astrolescent';
+import astrolescent from '@src/services/astrolescent'
+import type { QuoteQuery } from '@src/services/dogecubex';
+import doge from '@src/services/dogecubex'
+import type {
+	SwapResponse as DsorSwapResponse} from '@src/services/dsor';
 import dsor, {
-	SwapResponse as DsorSwapResponse,
 	calculateTotalPriceImpact as dsorCalculateTotalPriceImpact,
 } from '@src/services/dsor'
 import oci from '@src/services/oci'
 import { parseAccountAddress, parseAmount, parseResourceIdentifier } from '@src/services/radix/serializer'
-import { IntendedAction, Pool, PoolQuote, PoolType, SigningKey, Token, TokenAmount } from '@src/types'
+import type { IntendedAction, Pool, PoolQuote, Token, TokenAmount } from '@src/types';
+import { PoolType, SigningKey } from '@src/types'
 import { buildAmount } from '@src/utils/radix'
 
 const zero = new BigNumber(0)

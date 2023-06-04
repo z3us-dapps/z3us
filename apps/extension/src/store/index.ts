@@ -1,5 +1,6 @@
 import browser from 'webextension-polyfill'
-import { StateCreator, createStore } from 'zustand'
+import type { StateCreator} from 'zustand';
+import { createStore } from 'zustand'
 import { devtools, persist, subscribeWithSelector } from 'zustand/middleware'
 import { immer } from 'zustand/middleware/immer'
 
@@ -13,7 +14,7 @@ import { factory as createOnBoardingStore } from './onboarding'
 import { factory as createSettingsStore, whiteList as settingsWhiteList } from './settings'
 import { factory as createThemeStore, whiteList as themeWhiteList } from './theme'
 import { factory as createToastsStore } from './toasts'
-import { NoneSharedState, SharedState } from './types'
+import type { NoneSharedState, SharedState } from './types'
 import { factory as createWalletStore } from './wallet'
 
 type MutatorsTypes = [

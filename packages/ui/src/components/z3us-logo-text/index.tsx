@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { CSS } from '../../theme'
+import type { CSS } from '../../theme'
 import { Box } from '../atoms/box'
 
 interface IProps {

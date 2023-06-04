@@ -1,4 +1,5 @@
-import { HDMasterSeed, HDNode, HDNodeT } from '@radixdlt/application'
+import type { HDNodeT } from '@radixdlt/application';
+import { HDMasterSeed, HDNode } from '@radixdlt/application'
 import { useEffect } from 'react'
 import { useImmer } from 'use-immer'
 

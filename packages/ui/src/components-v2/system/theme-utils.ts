@@ -1,5 +1,6 @@
-import { GlobalStyleRule, StyleRule, globalStyle } from '@vanilla-extract/css'
-import { Properties, SimplePseudos } from 'csstype'
+import type { GlobalStyleRule, StyleRule} from '@vanilla-extract/css';
+import { globalStyle } from '@vanilla-extract/css'
+import type { Properties, SimplePseudos } from 'csstype'
 import isEqual from 'lodash/isEqual'
 import mapValues from 'lodash/mapValues'
 import omit from 'lodash/omit'

@@ -1,6 +1,7 @@
 import React, { forwardRef, useState } from 'react'
 
-import { IInputOptionalProps, Input } from '../input'
+import type { IInputOptionalProps} from '../input';
+import { Input } from '../input'
 
 export function clamp(value: number, min: number, max: number) {
 	return Math.min(Math.max(value, min), max)

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 
 import { useSharedStore } from '@src/hooks/use-store'
 import { defaultNoneSharedStore, getNoneSharedStore } from '@src/services/state'
-import { NoneSharedStore } from '@src/store'
+import type { NoneSharedStore } from '@src/store'
 
 import { NoneSharedStoreContext } from './state'
 

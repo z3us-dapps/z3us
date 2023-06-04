@@ -1,6 +1,6 @@
-import { MnemomicT } from '@radixdlt/application'
+import type { MnemomicT } from '@radixdlt/application'
 
-import { OnBoardingState } from './types'
+import type { OnBoardingState } from './types'
 
 type Mnemomic = MnemomicT | null
 type Password = string | null

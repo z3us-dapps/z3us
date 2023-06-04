@@ -1,11 +1,11 @@
-import { Network as NetworkID } from '@radixdlt/application'
+import type { Network as NetworkID } from '@radixdlt/application'
 
 import { networks } from '@src/config'
-import { VisibleTokens } from '@src/types'
+import type { VisibleTokens } from '@src/types'
 import { JSONToHex } from '@src/utils/encoding'
 
 import { getDefaultAddressEntry } from './helpers'
-import { AccountState, AddressBookEntry } from './types'
+import type { AccountState, AddressBookEntry } from './types'
 
 export const whiteList = [
 	'publicAddresses',

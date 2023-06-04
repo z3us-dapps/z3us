@@ -1,4 +1,4 @@
-import BigNumber from 'bignumber.js'
+import type BigNumber from 'bignumber.js'
 import React, { useEffect, useState } from 'react'
 import { Virtuoso } from 'react-virtuoso'
 import { useImmer } from 'use-immer'
@@ -10,7 +10,7 @@ import { ScrollArea } from 'ui/src/components/scroll-area'
 import { NoResultsPlaceholder } from '@src/components/no-results-placeholder'
 import { SearchBox } from '@src/components/search-box'
 import { useValidators } from '@src/hooks/react-query/queries/radix'
-import { Validator } from '@src/types'
+import type { Validator } from '@src/types'
 
 import { ValidatorItem } from '../validator-item'
 

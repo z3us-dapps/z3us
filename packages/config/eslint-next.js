@@ -27,6 +27,7 @@ module.exports = {
 			},
 		],
 		'react/prop-types': 'off',
+		'react/require-default-props': 'off',
 		'no-console': 1,
 		'import/no-named-as-default': 'off',
 		'import/prefer-default-export': 'off',
@@ -37,8 +38,8 @@ module.exports = {
 		'jsx-a11y/anchor-is-valid': 'off',
 		'import/no-extraneous-dependencies': [2, { devDependencies: true }],
 		'react/jsx-props-no-spreading': 'off',
-		'react/require-default-props': 'off',
 		'require-explicit-generics/require-explicit-generics': [2, ['React.useState', 'useState', 'useImmer']],
+		'@typescript-eslint/consistent-type-imports': 1,
 	},
 	overrides: [
 		{

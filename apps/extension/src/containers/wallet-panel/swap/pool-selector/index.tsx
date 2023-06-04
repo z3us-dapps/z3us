@@ -18,7 +18,8 @@ import {
 } from 'ui/src/components/select'
 
 import { CircleAvatar } from '@src/components/circle-avatar'
-import { Pool, PoolType } from '@src/types'
+import type { Pool} from '@src/types';
+import { PoolType } from '@src/types'
 
 interface IProps {
 	pool?: Pool

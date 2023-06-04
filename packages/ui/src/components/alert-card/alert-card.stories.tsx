@@ -1,6 +1,6 @@
 /* eslint-disable react/jsx-props-no-spreading, @typescript-eslint/no-unused-vars */
 import { LightningBoltIcon } from '@radix-ui/react-icons'
-import { ComponentMeta, ComponentStory } from '@storybook/react'
+import type { ComponentMeta, ComponentStory } from '@storybook/react'
 import React from 'react'
 
 import { Box } from '../atoms/box'

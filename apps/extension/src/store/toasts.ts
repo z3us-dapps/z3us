@@ -1,6 +1,6 @@
 import { generateId } from '@src/utils/generate-id'
 
-import { Toast, ToastsState } from './types'
+import type { Toast, ToastsState } from './types'
 
 export const factory = (set, get): ToastsState => ({
 	toasts: [],

@@ -1,7 +1,7 @@
-import { MnemomicT, Network as NetworkID } from '@radixdlt/application'
-import { String } from '@stitches/react/types/util'
+import type { MnemomicT, Network as NetworkID } from '@radixdlt/application'
+import type { String } from '@stitches/react/types/util'
 
-import { ColorSettings, Keystore, KeystoreType, SigningKey, VisibleTokens } from '@src/types'
+import type { ColorSettings, Keystore, KeystoreType, SigningKey, VisibleTokens } from '@src/types'
 
 export interface Toast {
 	id?: string

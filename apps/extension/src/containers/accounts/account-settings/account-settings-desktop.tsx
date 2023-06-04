@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import clsx, { ClassValue } from 'clsx'
+import type { ClassValue } from 'clsx';
+import clsx from 'clsx'
 import { AnimatePresence, LayoutGroup, motion } from 'framer-motion'
 import React, { forwardRef } from 'react'
 import { useTranslation } from 'react-i18next'

@@ -14,7 +14,7 @@ import { NoResultsPlaceholder } from '@src/components/no-results-placeholder'
 import { SearchBox } from '@src/components/search-box'
 import { useKnownTokens } from '@src/hooks/react-query/queries/radixscan'
 import { parseResourceIdentifier } from '@src/services/radix/serializer'
-import { Token, VisibleToken, VisibleTokens } from '@src/types'
+import type { Token, VisibleToken, VisibleTokens } from '@src/types'
 
 import { TokenItem } from './token-item'
 

@@ -2,7 +2,8 @@ import * as DropdownMenuPrimitive from '@radix-ui/react-dropdown-menu'
 import { motion } from 'framer-motion'
 import React from 'react'
 
-import { CSS, keyframes, sharedItemIndicatorStyles, sharedItemStyles, styled } from '../../theme'
+import type { CSS} from '../../theme';
+import { keyframes, sharedItemIndicatorStyles, sharedItemStyles, styled } from '../../theme'
 import { Box } from '../atoms'
 
 const animateIn = keyframes({

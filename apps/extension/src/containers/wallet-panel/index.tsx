@@ -1,5 +1,6 @@
 import { AnimatePresence, motion } from 'framer-motion'
-import React, { ReactNode, Suspense, lazy, useEffect } from 'react'
+import type { ReactNode} from 'react';
+import React, { Suspense, lazy, useEffect } from 'react'
 import { useLocation } from 'wouter'
 
 import { Box, MotionBox } from 'ui/src/components/atoms'

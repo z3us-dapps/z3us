@@ -1,4 +1,5 @@
-import { Amount, AmountT } from '@radixdlt/application'
+import type { AmountT } from '@radixdlt/application';
+import { Amount } from '@radixdlt/application'
 import BigNumber from 'bignumber.js'
 
 export const stakePercentage = (delegatedStake: string, total: BigNumber) => {

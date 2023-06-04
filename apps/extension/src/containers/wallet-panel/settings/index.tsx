@@ -1,5 +1,6 @@
 import { LockClosedIcon, TokensIcon } from '@radix-ui/react-icons'
-import React, { ReactNode, Suspense, lazy } from 'react'
+import type { ReactNode} from 'react';
+import React, { Suspense, lazy } from 'react'
 import { useImmer } from 'use-immer'
 
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from 'ui/src/components/accordion'

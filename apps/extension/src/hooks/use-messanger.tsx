@@ -17,7 +17,7 @@ import {
 	UNLOCK,
 } from '@src/lib/v1/actions'
 import { MessageService, PORT_NAME } from '@src/services/messanger'
-import { SigningKeyType } from '@src/types'
+import type { SigningKeyType } from '@src/types'
 
 export const rpName = 'Z3US'
 

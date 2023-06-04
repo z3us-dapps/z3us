@@ -1,7 +1,7 @@
 import { AnimatePresence } from 'framer-motion'
 import React from 'react'
 
-import { CSS } from '../../theme'
+import type { CSS } from '../../theme'
 import { __DEV__ } from '../../utils/assertion'
 import { MotionBox } from '../atoms/motion-box'
 

@@ -5,11 +5,11 @@ import React from 'react'
 import { Box, Flex, Text } from 'ui/src/components/atoms'
 import Button from 'ui/src/components/button'
 import { Popover, PopoverClose, PopoverContent, PopoverPortal, PopoverTrigger } from 'ui/src/components/popover'
-import { CSS } from 'ui/src/theme'
+import type { CSS } from 'ui/src/theme'
 
 import { useTokenInfo } from '@src/hooks/react-query/queries/radix'
 import { useNoneSharedStore } from '@src/hooks/use-store'
-import { Action, Transaction } from '@src/types'
+import type { Action, Transaction } from '@src/types'
 import { formatBigNumber } from '@src/utils/formatters'
 import { getShortAddress } from '@src/utils/string-utils'
 

@@ -1,9 +1,11 @@
 import clsx from 'clsx'
-import React, { ReactNode } from 'react'
+import type { ReactNode } from 'react';
+import React from 'react'
 
 import { sprinkles } from '../system/sprinkles.css'
 import * as styles from './link.css'
-import { TextProps, textStyles } from './text'
+import type { TextProps} from './text';
+import { textStyles } from './text'
 
 export interface LProps {
 	href?: string

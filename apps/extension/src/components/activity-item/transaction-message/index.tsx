@@ -1,11 +1,13 @@
-import React, { ReactElement } from 'react'
+import type { ReactElement } from 'react';
+import React from 'react'
 
 import LoaderBars from 'ui/src/components/loader-bars'
 
 import { HardwareWalletReconnect } from '@src/components/hardware-wallet-reconnect'
 import { useDecryptTransaction } from '@src/hooks/react-query/queries/radix'
 import { useSharedStore } from '@src/hooks/use-store'
-import { Action, KeystoreType, Transaction } from '@src/types'
+import type { Action, Transaction } from '@src/types';
+import { KeystoreType } from '@src/types'
 
 interface TProps {
 	tx?: Transaction

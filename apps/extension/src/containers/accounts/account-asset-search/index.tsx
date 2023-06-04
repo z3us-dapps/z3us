@@ -1,11 +1,13 @@
 /* eslint-disable react/jsx-no-useless-fragment, @typescript-eslint/no-unused-vars */
-import clsx, { ClassValue } from 'clsx'
+import type { ClassValue } from 'clsx';
+import clsx from 'clsx'
 import React, { useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useEventListener } from 'usehooks-ts'
 
 import { Box } from 'ui/src/components-v2/box'
-import { FormElement, Input } from 'ui/src/components-v2/input'
+import type { FormElement} from 'ui/src/components-v2/input';
+import { Input } from 'ui/src/components-v2/input'
 import { ToolTip } from 'ui/src/components-v2/tool-tip'
 import { ArrowUpIcon, Close2Icon, SearchIcon } from 'ui/src/components/icons'
 import { capitalizeFirstLetter } from 'ui/src/utils/capitalize-first-letter'

@@ -1,6 +1,6 @@
 import browser from 'webextension-polyfill'
 
-import { Network } from '@src/store/types'
+import type { Network } from '@src/store/types'
 
 export const askForHostPermissions = async (networks: Network[]): Promise<string[]> => {
 	const origins: string[] = []

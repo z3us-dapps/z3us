@@ -1,6 +1,6 @@
-import { Storage } from 'webextension-polyfill'
+import type { Storage } from 'webextension-polyfill'
 
-import { BrowserService } from './browser'
+import type { BrowserService } from './browser'
 
 export class BrowserStorageService {
 	private browser: BrowserService

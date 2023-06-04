@@ -1,5 +1,5 @@
-import { Network, SignedTransaction } from '@radixdlt/application'
-import {
+import type { Network, SignedTransaction } from '@radixdlt/application'
+import type {
 	AccountBalancesResponse,
 	AccountStakesResponse,
 	AccountTransactionsResponse,
@@ -13,7 +13,8 @@ import {
 	TransactionStatusResponse,
 	TransactionSubmitResponse,
 	ValidatorResponse,
-	ValidatorsResponse,
+	ValidatorsResponse} from '@radixdlt/networking';
+import {
 	apiVersion,
 } from '@radixdlt/networking'
 

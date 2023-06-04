@@ -10,7 +10,7 @@ import { ToolTip } from 'ui/src/components/tool-tip'
 import { ActivityType } from '@src/components/activity-type'
 import { EXPLORER_URL } from '@src/config'
 import { useNoneSharedStore } from '@src/hooks/use-store'
-import { Action, Transaction } from '@src/types'
+import type { Action, Transaction } from '@src/types'
 import { copyTextToClipboard } from '@src/utils/copy-to-clipboard'
 import { getShortAddress } from '@src/utils/string-utils'
 

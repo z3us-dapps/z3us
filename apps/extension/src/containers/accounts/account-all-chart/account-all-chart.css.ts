@@ -31,6 +31,10 @@ globalStyle(`${allChartInnerWrapper} .recharts-layer.recharts-pie-sector path:fo
 	outline: 'none !important',
 })
 
+globalStyle(`${allChartInnerWrapper} .recharts-layer.recharts-pie-sector path`, {
+	transition: 'all 0.3s ease-out',
+})
+
 export const motionWrapper = style([
 	sprinkles({
 		height: 'full',

@@ -1,5 +1,6 @@
 import clsx, { type ClassValue } from 'clsx'
-import { AllHTMLAttributes, ElementType, createElement, forwardRef } from 'react'
+import type { AllHTMLAttributes, ElementType} from 'react';
+import { createElement, forwardRef } from 'react'
 
 import { type Sprinkles, resetBase, sprinkles } from '../system/sprinkles.css'
 

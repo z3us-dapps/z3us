@@ -8,7 +8,7 @@ import {
 } from '@simplewebauthn/server'
 import base64url from 'base64url'
 
-import { BrowserStorageService } from '@src/services/browser-storage'
+import type { BrowserStorageService } from '@src/services/browser-storage'
 
 export const isWebAuthSupported = async () => browserSupportsWebauthn() && (await platformAuthenticatorIsAvailable())
 

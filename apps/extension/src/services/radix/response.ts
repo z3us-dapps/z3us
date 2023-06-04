@@ -1,5 +1,5 @@
-import { Network } from '@radixdlt/application'
-import {
+import type { Network } from '@radixdlt/application'
+import type {
 	AccountBalancesResponse,
 	AccountStakeEntry,
 	AccountStakesResponse,

@@ -12,6 +12,10 @@ export const PopoverAnchor = ({ children, ...props }) => (
 	<PopoverPrimative.Anchor {...props}>{children}</PopoverPrimative.Anchor>
 )
 
+export const PopoverTrigger = ({ children, ...props }) => (
+	<PopoverPrimative.Trigger {...props}>{children}</PopoverPrimative.Trigger>
+)
+
 export const PopoverPortal = ({ children, ...props }) => (
 	<PopoverPrimative.Portal {...props}>{children}</PopoverPrimative.Portal>
 )

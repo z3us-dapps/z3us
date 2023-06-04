@@ -1,4 +1,5 @@
-import browser, { Windows } from 'webextension-polyfill'
+import type { Windows } from 'webextension-polyfill';
+import browser from 'webextension-polyfill'
 
 import { popupHtmlMap } from '@src/config'
 

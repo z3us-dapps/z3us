@@ -3,10 +3,11 @@ import * as AccordionPrimitive from '@radix-ui/react-accordion'
 import { ChevronDownIcon } from '@radix-ui/react-icons'
 import type * as Radix from '@radix-ui/react-primitive'
 import { keyframes, styled } from '@stitches/react'
-import React, { PropsWithChildren, forwardRef } from 'react'
+import type { PropsWithChildren} from 'react';
+import React, { forwardRef } from 'react'
 import useMeasure from 'react-use-measure'
 
-import { PropsWithCSS } from '../../types'
+import type { PropsWithCSS } from '../../types'
 import { Box } from '../atoms/box'
 
 const slideDown = keyframes({

@@ -1,4 +1,4 @@
-import { Runtime } from 'webextension-polyfill'
+import type { Runtime } from 'webextension-polyfill'
 
 import { generateId } from '@src/utils/generate-id'
 

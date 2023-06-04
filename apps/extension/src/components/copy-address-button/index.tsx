@@ -3,7 +3,7 @@ import { AnimatePresence, motion } from 'framer-motion'
 import React, { useEffect, useState } from 'react'
 
 import { Box } from 'ui/src/components-v2/box'
-import { Button, TStyleVariant } from 'ui/src/components-v2/button'
+import { Button, type TSizeVariant, type TStyleVariant } from 'ui/src/components-v2/button'
 import { type TThemeColorKey } from 'ui/src/components-v2/system/theme.css'
 import { type TTheme, ToolTip } from 'ui/src/components-v2/tool-tip'
 import { Text } from 'ui/src/components-v2/typography'
@@ -63,7 +63,7 @@ interface ICopyAddressButtonRequiredProps {
 interface ICopyAddressButtonOptionalProps {
 	className?: string
 	styleVariant?: TStyleVariant
-	// @TODO: type to match colors
+	sizeVariant?: TSizeVariant
 	tickColor?: TThemeColorKey
 	iconOnly?: boolean
 	rounded?: boolean
@@ -77,6 +77,7 @@ interface ICopyAddressButtonProps extends ICopyAddressButtonRequiredProps, ICopy
 const defaultProps: ICopyAddressButtonOptionalProps = {
 	className: undefined,
 	styleVariant: 'tertiary',
+	sizeVariant: 'small',
 	tickColor: 'green400',
 	iconOnly: false,
 	rounded: true,
@@ -90,6 +91,7 @@ export const CopyAddressButton: React.FC<ICopyAddressButtonProps> = props => {
 		className,
 		address,
 		styleVariant,
+		sizeVariant,
 		iconOnly,
 		rounded,
 		tickColor,
@@ -119,7 +121,7 @@ export const CopyAddressButton: React.FC<ICopyAddressButtonProps> = props => {
 		<ToolTip theme={toolTipTheme} message={address} disabled={toolTipDisabled}>
 			<Button
 				className={clsx(className)}
-				sizeVariant="small"
+				sizeVariant={sizeVariant}
 				styleVariant={styleVariant}
 				rightIcon={<CopyIconAnimation animate={copiedAnimate} tickColor={tickColor} />}
 				onClick={handleAddressClick}

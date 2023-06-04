@@ -1,7 +1,8 @@
 import React, { useEffect } from 'react'
 import { useImmer } from 'use-immer'
 
-import Button, { ButtonProps } from 'ui/src/components/button'
+import type { ButtonProps } from 'ui/src/components/button';
+import Button from 'ui/src/components/button'
 
 import { useMessanger } from '@src/hooks/use-messanger'
 import { useSharedStore } from '@src/hooks/use-store'

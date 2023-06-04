@@ -1,4 +1,5 @@
-import browser, { Runtime } from 'webextension-polyfill'
+import type { Runtime } from 'webextension-polyfill';
+import browser from 'webextension-polyfill'
 
 import NewV1BackgroundInpageActions from '@src/lib/v1/background-inpage'
 import NewV1BackgroundPopupActions from '@src/lib/v1/background-popup'

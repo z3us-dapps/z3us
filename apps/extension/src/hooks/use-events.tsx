@@ -3,7 +3,7 @@ import { useEffect } from 'react'
 import { useNoneSharedStore, useSharedStore } from '@src/hooks/use-store'
 import { EVENT } from '@src/lib/v1/actions'
 import { ACCOUNT_CHANGE, KEYSTORE_CHANGE, NETWORK_CHANGE } from '@src/lib/v1/events'
-import { MessageService } from '@src/services/messanger'
+import type { MessageService } from '@src/services/messanger'
 
 export const useEvents = (messanger: MessageService) => {
 	const { keystoreId } = useSharedStore(state => ({

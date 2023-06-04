@@ -12,7 +12,7 @@ import {
 	STAKES,
 	UNSTAKES,
 } from '@src/lib/v1/actions'
-import { MessageResponse } from '@src/services/messanger'
+import type { MessageResponse } from '@src/services/messanger'
 
 export default function NewPublicV1(sendMessage: (action: string, payload?: any) => Promise<MessageResponse>) {
 	async function sign(challenge: string): Promise<string> {

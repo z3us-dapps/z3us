@@ -5,7 +5,7 @@ import darkTokens from 'design/dist/dark/index.json'
 import lightTokens from 'design/dist/light/index.json'
 import tokens from 'design/dist/tailwind-tokens.json'
 
-import { Breakpoint } from './theme-utils'
+import type { Breakpoint } from './theme-utils'
 
 const grid = 4
 const px = (value: string | number) => `${value}px`

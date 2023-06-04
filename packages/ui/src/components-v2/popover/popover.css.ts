@@ -1,42 +1,28 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { keyframes, style } from '@vanilla-extract/css'
 
-import { Sprinkles, sprinkles } from '../system/sprinkles.css'
+import { fadeIn, fadeOut,  sharedPopoverBgStyles } from '../dropdown-menu/dropdown-menu.css'
+import type { Sprinkles} from '../system/sprinkles.css';
+import { sprinkles } from '../system/sprinkles.css'
 import { responsiveStyle } from '../system/theme-utils'
 
-export const fadeIn = keyframes({
-	'0%': { opacity: '0' },
-	'100%': { opacity: '1' },
-})
-
-export const fadeOut = keyframes({
-	'0%': { opacity: '1' },
-	'100%': { opacity: '0' },
-})
-
-// TODO: these styles are repeated from dropdown,
 export const popoverContentWrapper = style([
 	sprinkles({
-		position: 'relative',
-		background: 'backgroundSecondary',
-		boxShadow: 'shadowDropdown',
-		paddingX: 'small',
-		paddingY: 'medium',
-		color: 'colorNeutral',
-		borderRadius: 'medium',
+		...(sharedPopoverBgStyles as Sprinkles),
 	}),
 	{
 		overscrollBehavior: 'contain',
-		paddingTop: 0,
-		paddingBottom: 0,
-		paddingLeft: 0,
-		paddingRight: 0,
+		padding: '0',
+		margin: '0',
 		minWidth: '70px',
 		transformOrigin: 'var(--radix-dropdown-menu-content-transform-origin)',
 		animationTimingFunction: 'cubic-bezier(0.16, 1, 0.3, 1)',
 		willChange: 'transform, opacity',
 		animationDuration: '300ms',
 		selectors: {
+			'&:focus-visible': {
+				outline: 'none',
+			},
 			'&[data-state="open"]': {
 				animationName: fadeIn,
 				animationFillMode: 'forwards',

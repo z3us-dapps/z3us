@@ -1,11 +1,11 @@
-import { Network as NetworkID } from '@radixdlt/application'
+import type { Network as NetworkID } from '@radixdlt/application'
 import BigNumber from 'bignumber.js'
 import { useInfiniteQuery, useQueries, useQuery } from 'react-query'
 
 import { useMessage } from '@src/hooks/use-message'
 import { useNoneSharedStore, useSharedStore } from '@src/hooks/use-store'
 import { RadixService } from '@src/services/radix'
-import { Action, Transaction } from '@src/types'
+import type { Action, Transaction } from '@src/types'
 
 export const getGatewayInfoQueryKey = (id: NetworkID) => ['useGatewayInfo', id]
 

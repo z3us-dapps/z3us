@@ -1,4 +1,4 @@
-import { Side } from '@radix-ui/popper'
+import type { Side } from '@radix-ui/popper'
 import { Cross2Icon } from '@radix-ui/react-icons'
 import React from 'react'
 import { HexColorPicker } from 'react-colorful'

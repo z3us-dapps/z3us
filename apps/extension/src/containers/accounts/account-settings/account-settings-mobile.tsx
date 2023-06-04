@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import clsx, { ClassValue } from 'clsx'
+import type { ClassValue } from 'clsx';
+import clsx from 'clsx'
 import { AnimatePresence } from 'framer-motion'
 import React, { forwardRef } from 'react'
 import { Link, Route, Routes, useLocation } from 'react-router-dom'

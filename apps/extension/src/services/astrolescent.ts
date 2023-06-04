@@ -1,6 +1,6 @@
-import BigNumber from 'bignumber.js'
+import type BigNumber from 'bignumber.js'
 
-import { RawAction } from '@src/types'
+import type { RawAction } from '@src/types'
 
 export const PoolName = 'Astrolescent'
 

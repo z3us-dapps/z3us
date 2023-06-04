@@ -1,4 +1,4 @@
-import {
+import type {
 	AccountAddressT,
 	AmountT,
 	BuiltTransactionReadyToSign,
@@ -11,8 +11,8 @@ import {
 	SigningKeyDecryptionInput,
 	SigningKeyEncryptionInput,
 } from '@radixdlt/application'
-import { HardwareWalletT } from '@radixdlt/hardware-wallet'
-import {
+import type { HardwareWalletT } from '@radixdlt/hardware-wallet'
+import type {
 	BurnTokens,
 	CreateTokenDefinition,
 	MintTokens,
@@ -20,9 +20,9 @@ import {
 	TransferTokens,
 	UnstakeTokens,
 } from '@radixdlt/networking'
-import BigNumber from 'bignumber.js'
+import type BigNumber from 'bignumber.js'
 
-import { LIST_ITEM_ACTIVITY, LIST_ITEM_ASSET, LIST_ITEM_ASSET_TYPE, LIST_ITEM_INDEX } from '@src/constants'
+import type { LIST_ITEM_ACTIVITY, LIST_ITEM_ASSET, LIST_ITEM_ASSET_TYPE, LIST_ITEM_INDEX } from '@src/constants'
 
 import { generateId } from './utils/generate-id'
 

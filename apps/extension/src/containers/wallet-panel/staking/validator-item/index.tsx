@@ -8,7 +8,7 @@ import { Popover, PopoverClose, PopoverContent, PopoverPortal, PopoverTrigger } 
 import { ToolTip } from 'ui/src/components/tool-tip'
 
 import { EXPLORER_URL } from '@src/config'
-import { Validator } from '@src/types'
+import type { Validator } from '@src/types'
 import { formatBigNumber } from '@src/utils/formatters'
 import { apy } from '@src/utils/radix'
 import { getShortAddress } from '@src/utils/string-utils'

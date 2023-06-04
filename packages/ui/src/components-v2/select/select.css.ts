@@ -1,7 +1,8 @@
 import { globalStyle, style } from '@vanilla-extract/css'
 
 import { fadeIn, fadeOut, sharedItemStyles, sharedPopoverBgStyles } from '../dropdown-menu/dropdown-menu.css'
-import { Sprinkles, sprinkles } from '../system/sprinkles.css'
+import type { Sprinkles} from '../system/sprinkles.css';
+import { sprinkles } from '../system/sprinkles.css'
 
 export const selectTrigger = style([sprinkles({}), {}])
 

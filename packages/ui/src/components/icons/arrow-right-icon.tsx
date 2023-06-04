@@ -1,7 +1,7 @@
 /* eslint-disable react/jsx-props-no-spreading */
 import * as React from 'react'
 
-import { IconProps } from './types'
+import type { IconProps } from './types'
 
 export const ArrowRightIcon = React.forwardRef<SVGSVGElement, IconProps>((props, forwardedRef) => (
 	<svg width="24" height="24" fill="none" viewBox="0 0 24 24" {...props} ref={forwardedRef}>

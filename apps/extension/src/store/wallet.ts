@@ -1,6 +1,6 @@
-import { SigningKey } from '@src/types'
+import type { SigningKey } from '@src/types'
 
-import { WalletState } from './types'
+import type { WalletState } from './types'
 
 const defaultState = {
 	isUnlocked: null,

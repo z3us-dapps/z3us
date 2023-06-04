@@ -7,11 +7,12 @@ import { useImmer } from 'use-immer'
 
 import { useNoneSharedStore, useSharedStore } from '@src/hooks/use-store'
 import { DERIVE, DERIVE_ALL, PING } from '@src/lib/v1/actions'
-import { MessageService } from '@src/services/messanger'
+import type { MessageService } from '@src/services/messanger'
 import { createHardwareSigningKey, createLocalSigningKey } from '@src/services/signing-key'
 import { getDefaultAddressEntry } from '@src/store/helpers'
-import { Network } from '@src/store/types'
-import { KeystoreType, SigningKey } from '@src/types'
+import type { Network } from '@src/store/types'
+import type { SigningKey } from '@src/types';
+import { KeystoreType } from '@src/types'
 
 const mutex = new Mutex()
 

@@ -1,7 +1,7 @@
 import BigNumber from 'bignumber.js'
 
 import { useNoneSharedStore } from '@src/hooks/use-store'
-import { Ticker } from '@src/types'
+import type { Ticker } from '@src/types'
 
 import { useAllAccountsTokenBalances, useTokenBalances, useTokenInfos } from './radix'
 import { useTickers } from './tickers'

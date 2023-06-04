@@ -18,7 +18,7 @@ import { VisibleFadeAnimation } from '@src/components/visible-fade-animation'
 import { SLIDE_PANEL_EXPAND_HEIGHT, SLIDE_PANEL_HEADER_HEIGHT, SLIDE_PANEL_HEIGHT } from '@src/config'
 import { useAllAccountsTokenBalances, useTokenBalances } from '@src/hooks/react-query/queries/radix'
 import { useNoneSharedStore } from '@src/hooks/use-store'
-import { VisibleToken, VisibleTokens } from '@src/types'
+import type { VisibleToken, VisibleTokens } from '@src/types'
 
 import { AccountSwitcher } from '../account-switcher'
 import { SlideUpPanel } from '../slide-up-panel'

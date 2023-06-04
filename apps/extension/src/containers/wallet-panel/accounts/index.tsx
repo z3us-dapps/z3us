@@ -1,4 +1,5 @@
-import React, { ReactNode, Suspense, lazy } from 'react'
+import type { ReactNode} from 'react';
+import React, { Suspense, lazy } from 'react'
 import { Route } from 'wouter'
 
 import { Box } from 'ui/src/components/atoms'

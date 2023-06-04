@@ -2,7 +2,7 @@ import browser from 'webextension-polyfill'
 
 import { popupHtmlMap } from '@src/config'
 
-import { ThemeState } from './types'
+import type { ThemeState } from './types'
 
 export const whiteList = ['theme']
 

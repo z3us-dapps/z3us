@@ -26,7 +26,7 @@ import { accountMenuSlugs } from '@src/constants'
 // TODO: move to components outside of the containers
 import { TokenSelectorDialog } from '@src/containers/accounts/token-selector-dialog'
 
-import { TZodValidation } from '../account-transfer-types'
+import type { TZodValidation } from '../account-transfer-types'
 import { getZodError } from '../account-transfer-utils'
 import { ValidationErrorMessage } from '../validation-error-message'
 import * as styles from './transfer-token-selector.css'

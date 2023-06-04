@@ -1,17 +1,19 @@
-import {
+import type {
 	BuiltTransactionReadyToSign,
 	PublicKeyT,
-	SigningKey as RadixSigningKey,
 	SigningKeyDecryptionInput,
-	SigningKeyEncryptionInput,
+	SigningKeyEncryptionInput} from '@radixdlt/application';
+import {
+	SigningKey as RadixSigningKey
 } from '@radixdlt/application'
 import { HDPathRadix, Signature } from '@radixdlt/crypto'
-import { HardwareWalletT } from '@radixdlt/hardware-wallet'
+import type { HardwareWalletT } from '@radixdlt/hardware-wallet'
 import { firstValueFrom } from 'rxjs'
 
 import { DECRYPT, ENCRYPT, SIGN, SIGN_HASH } from '@src/lib/v1/actions'
-import { MessageService } from '@src/services/messanger'
-import { SigningKey, SigningKeyType } from '@src/types'
+import type { MessageService } from '@src/services/messanger'
+import type { SigningKey} from '@src/types';
+import { SigningKeyType } from '@src/types'
 import { generateId } from '@src/utils/generate-id'
 
 export const createLocalSigningKey = (

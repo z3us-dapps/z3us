@@ -1,5 +1,5 @@
 import { CircleBackslashIcon, InfoCircledIcon } from '@radix-ui/react-icons'
-import BigNumber from 'bignumber.js'
+import type BigNumber from 'bignumber.js'
 import React from 'react'
 
 import { Box, Flex, StyledLink, Text } from 'ui/src/components/atoms'
@@ -10,7 +10,8 @@ import { Z3US_RRI } from '@src/config'
 import { useNativeToken, useTokenInfo } from '@src/hooks/react-query/queries/radix'
 import { useTicker } from '@src/hooks/react-query/queries/tickers'
 import { useNoneSharedStore } from '@src/hooks/use-store'
-import { Pool, PoolType, Token } from '@src/types'
+import type { Pool, Token } from '@src/types';
+import { PoolType } from '@src/types'
 import { formatBigNumber } from '@src/utils/formatters'
 
 import { PoolSelector } from '../pool-selector'

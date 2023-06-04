@@ -1,4 +1,5 @@
-import clsx, { ClassValue } from 'clsx'
+import type { ClassValue } from 'clsx';
+import clsx from 'clsx'
 import React, { forwardRef, useState } from 'react'
 
 import { Box } from 'ui/src/components-v2/box'

@@ -44,6 +44,7 @@ const data = [
 export const AccountAllChart: React.FC<IAccountAllChartProps> = props => {
 	const { account, assetType } = useAccountParams()
 	const [loaded, setLoaded] = useState<boolean>(false)
+	const [hoveredCellIndex, setHoveredCellIndex] = useState<number>(-1)
 	const isAllAccount = account === ACCOUNTS_ALL
 	// const [measureRef, { width: chartWrapperWidth, height: chartWrapperHeight }] = useMeasure()
 
@@ -111,16 +112,22 @@ export const AccountAllChart: React.FC<IAccountAllChartProps> = props => {
 											cx="50%"
 											cy="50%"
 											outerRadius={100}
-											innerRadius={50}
-											// isAnimationActive={false} // Disable initial animation on mount
+											innerRadius={40}
+											isAnimationActive={false} // Disable initial animation on mount
 										>
 											{data.map((entry, index) => (
 												<Cell
 													key={`cell-${index}`}
 													fill={`url(#myGradient${index})`}
-													// TODO: fix dynamic color
-													stroke="#323232"
-													strokeWidth={3}
+													stroke={COLORS[index % COLORS.length].start}
+													strokeWidth={index === hoveredCellIndex ? 2 : 1}
+													style={{
+														filter: `drop-shadow(0px 0px ${index === hoveredCellIndex ? '4' : '0'}px ${
+															COLORS[index % COLORS.length].start
+														}`,
+													}}
+													onMouseOver={() => setHoveredCellIndex(index)}
+													onMouseOut={() => setHoveredCellIndex(-1)}
 												/>
 											))}
 										</Pie>
@@ -144,6 +151,7 @@ export const AccountAllChart: React.FC<IAccountAllChartProps> = props => {
 													</Box>
 													<CopyAddressButton
 														styleVariant="ghost"
+														sizeVariant="xsmall"
 														address={accountAddress}
 														iconOnly
 														rounded={false}

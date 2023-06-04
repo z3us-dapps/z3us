@@ -3,7 +3,8 @@ import React, { forwardRef } from 'react'
 
 import { TokenImageIcon } from '@src/components/token-image-icon'
 import { Box } from 'ui/src/components-v2/box'
-import { Button, TStyleVariant } from 'ui/src/components-v2/button'
+import type { TStyleVariant } from 'ui/src/components-v2/button';
+import { Button } from 'ui/src/components-v2/button'
 import {
 	DropdownMenu,
 	DropdownMenuArrow,

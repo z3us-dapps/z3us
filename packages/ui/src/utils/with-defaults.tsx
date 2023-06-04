@@ -1,4 +1,4 @@
-import React from 'react'
+import type React from 'react'
 
 const withDefaults = <
 	P extends React.ComponentType<React.ComponentProps<P>>,

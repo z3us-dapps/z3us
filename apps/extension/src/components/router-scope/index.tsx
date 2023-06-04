@@ -1,5 +1,6 @@
 import React from 'react'
-import { BaseLocationHook, Router, useLocation, useRouter } from 'wouter'
+import type { BaseLocationHook} from 'wouter';
+import { Router, useLocation, useRouter } from 'wouter'
 
 export const RouterScope = ({
 	children,

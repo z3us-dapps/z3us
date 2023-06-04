@@ -23,7 +23,7 @@ import { ToolTip } from 'ui/src/components/tool-tip'
 import { CircleAvatar } from '@src/components/circle-avatar'
 import { EXPLORER_URL } from '@src/config'
 import { useNoneSharedStore, useSharedStore } from '@src/hooks/use-store'
-import { AddressBookEntry } from '@src/store/types'
+import type { AddressBookEntry } from '@src/store/types'
 import { getShortAddress } from '@src/utils/string-utils'
 
 interface ImmerT {

@@ -4,8 +4,9 @@ import browser from 'webextension-polyfill'
 import { notificationDelimiter, txNotificationIdPrefix } from '@src/lib/background/notifications'
 import { RadixService } from '@src/services/radix'
 import { getNoneSharedStore } from '@src/services/state'
-import { NoneSharedStore, sharedStore } from '@src/store'
-import { Transaction } from '@src/types'
+import type { NoneSharedStore} from '@src/store';
+import { sharedStore } from '@src/store'
+import type { Transaction } from '@src/types'
 import { getShortAddress, getTransactionType } from '@src/utils/string-utils'
 
 export async function getLastTransactions(

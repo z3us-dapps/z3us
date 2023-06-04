@@ -1,7 +1,8 @@
 import { useNoneSharedStore } from '@src/hooks/use-store'
 import { useTransaction } from '@src/hooks/use-transaction'
 import { parseAccountAddress, parseResourceIdentifier } from '@src/services/radix/serializer'
-import { ExtendedActionType, NewTokenDefinition } from '@src/types'
+import type { NewTokenDefinition } from '@src/types';
+import { ExtendedActionType } from '@src/types'
 import { buildAmount } from '@src/utils/radix'
 
 export const useTokenCreate = () => {

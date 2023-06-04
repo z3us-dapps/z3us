@@ -16,7 +16,7 @@ import { StyledRange, StyledSlider, StyledThumb, StyledTrack } from 'ui/src/comp
 import { ToolTip } from 'ui/src/components/tool-tip'
 
 import { swapServices } from '@src/config'
-import { Pool } from '@src/types'
+import type { Pool } from '@src/types'
 
 import { getSlippagePercentage } from '../utils'
 

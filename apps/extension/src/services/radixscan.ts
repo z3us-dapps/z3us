@@ -1,4 +1,4 @@
-import { VisibleTokens } from '@src/types'
+import type { VisibleTokens } from '@src/types'
 
 export class RadixScanService {
 	private baseURL: string = 'https://www.radixscan.io/stable/z3us/v0'

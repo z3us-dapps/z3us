@@ -1,20 +1,21 @@
+import type {
+	AccountAddressT,
+	AmountT,
+	ResourceIdentifierT,
+	TransactionIdentifierT,
+	ValidatorAddressT} from '@radixdlt/application';
 import {
 	AccountAddress,
-	AccountAddressT,
 	Amount,
-	AmountT,
 	ResourceIdentifier,
-	ResourceIdentifierT,
 	TransactionIdentifier,
-	TransactionIdentifierT,
-	ValidatorAddress,
-	ValidatorAddressT,
+	ValidatorAddress
 } from '@radixdlt/application'
 import { Message } from '@radixdlt/crypto'
-import { TokenAmount, TokenNativeResponse, TokenResponse, TransactionInfo, Validator } from '@radixdlt/networking'
+import type { TokenAmount, TokenNativeResponse, TokenResponse, TransactionInfo, Validator } from '@radixdlt/networking'
 
 import { OCI_TOKEN_IMG_URL, defaultToken, defaultTokenSettings } from '@src/config'
-import {
+import type {
 	Action,
 	TokenAmount as InternalTokenAmount,
 	Validator as InternalValidator,

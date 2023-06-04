@@ -1,5 +1,5 @@
 /* eslint-disable react/jsx-props-no-spreading, react/destructuring-assignment */
-import { Side } from '@radix-ui/popper'
+import type { Side } from '@radix-ui/popper'
 import { Cross2Icon, ResetIcon } from '@radix-ui/react-icons'
 import React, { useCallback, useEffect, useState } from 'react'
 import * as ReactBeautifulDnd from 'react-beautiful-dnd'
@@ -17,7 +17,7 @@ import { OCI_TEST_RRI } from '@src/config'
 import { useTokenBalances } from '@src/hooks/react-query/queries/radix'
 import { useKnownTokens } from '@src/hooks/react-query/queries/radixscan'
 import { useNoneSharedStore, useSharedStore } from '@src/hooks/use-store'
-import { TokenAmount, VisibleToken, VisibleTokens } from '@src/types'
+import type { TokenAmount, VisibleToken, VisibleTokens } from '@src/types'
 
 import { Token } from './token'
 

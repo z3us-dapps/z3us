@@ -1,5 +1,5 @@
 import BigNumber from 'bignumber.js'
-import { InteractionMode } from 'chart.js'
+import type { InteractionMode } from 'chart.js'
 import React, { useCallback } from 'react'
 import { Line } from 'react-chartjs-2'
 import { useImmer } from 'use-immer'

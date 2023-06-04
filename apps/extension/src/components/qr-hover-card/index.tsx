@@ -14,7 +14,7 @@ import {
 	PopoverPortal,
 	PopoverTrigger,
 } from 'ui/src/components/popover'
-import { CSS } from 'ui/src/theme'
+import type { CSS } from 'ui/src/theme'
 
 import { useColorMode } from '@src/hooks/use-color-mode'
 import { useNoneSharedStore } from '@src/hooks/use-store'

@@ -5,7 +5,7 @@ import { Flex, Text } from 'ui/src/components/atoms'
 import Button from 'ui/src/components/button'
 import ButtonTipFeedback from 'ui/src/components/button-tip-feedback'
 import { ToolTip } from 'ui/src/components/tool-tip'
-import { CSS } from 'ui/src/theme'
+import type { CSS } from 'ui/src/theme'
 
 import { useNoneSharedStore } from '@src/hooks/use-store'
 import { copyTextToClipboard } from '@src/utils/copy-to-clipboard'

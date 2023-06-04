@@ -1,5 +1,6 @@
 import { style } from '@vanilla-extract/css'
-import { RecipeVariants, recipe } from '@vanilla-extract/recipes'
+import type { RecipeVariants} from '@vanilla-extract/recipes';
+import { recipe } from '@vanilla-extract/recipes'
 
 import { sprinkles } from '../system/sprinkles.css'
 
@@ -202,6 +203,16 @@ export const button = recipe({
 	compoundVariants: [
 		{
 			variants: {
+				sizeVariant: 'xsmall',
+				iconOnly: true,
+			},
+			style: {
+				width: '26px',
+				padding: '0px',
+			},
+		},
+		{
+			variants: {
 				sizeVariant: 'small',
 				iconOnly: true,
 			},
@@ -402,6 +413,16 @@ export const buttonIconRight = recipe({
 		},
 	},
 	compoundVariants: [
+		{
+			variants: {
+				sizeVariant: 'xsmall',
+				iconOnly: true,
+			},
+			style: {
+				marginRight: '0',
+				marginLeft: '0',
+			},
+		},
 		{
 			variants: {
 				sizeVariant: 'small',

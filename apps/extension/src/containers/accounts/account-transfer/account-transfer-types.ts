@@ -1,6 +1,7 @@
-import { type ZodError, z } from 'zod'
+import type { z } from 'zod';
+import { type ZodError } from 'zod'
 
-import { transferFormSchema } from './account-transfer-constants'
+import type { transferFormSchema } from './account-transfer-constants'
 
 export interface ISend {
 	to: string

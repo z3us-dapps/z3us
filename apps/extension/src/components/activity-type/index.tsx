@@ -2,7 +2,8 @@ import React from 'react'
 
 import Pill from 'ui/src/components/pill'
 
-import { Action, ActionType } from '@src/types'
+import type { Action} from '@src/types';
+import { ActionType } from '@src/types'
 import { getTransactionType } from '@src/utils/string-utils'
 
 interface IProps {

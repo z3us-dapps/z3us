@@ -1,5 +1,5 @@
 import { Message, PublicKey } from '@radixdlt/crypto'
-import { Runtime } from 'webextension-polyfill'
+import type { Runtime } from 'webextension-polyfill'
 
 import {
 	getStakedPositionsQueryKey,
@@ -22,11 +22,11 @@ import {
 	UNSTAKES,
 } from '@src/lib/v1/actions'
 import { addPendingAction } from '@src/services/actions-pending'
-import { BrowserService } from '@src/services/browser'
+import type { BrowserService } from '@src/services/browser'
 import { showDisconnected } from '@src/services/content-script'
 import { RadixService } from '@src/services/radix'
 import { getNoneSharedStore } from '@src/services/state'
-import { VaultService } from '@src/services/vault'
+import type { VaultService } from '@src/services/vault'
 import { sharedStore } from '@src/store'
 import { KeystoreType } from '@src/types'
 
