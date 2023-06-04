@@ -417,6 +417,7 @@ const generateColorTokens = (colorTokens: any) => ({
 	borderDivider: colorTokens.color.border.divider_primary.value,
 	borderDividerSecondary: colorTokens.color.border.divider_secondary.value,
 	shadowDropdown: colorTokens.color.shadow.dropdown.value,
+	shadowDropdownFocusVisible: colorTokens.color.shadow.dropdownFocusVisible.value,
 	shadowScrollTop: colorTokens.color.shadow.shadow_scroll_top.value,
 	shadowScrollBottom: colorTokens.color.shadow.shadow_scroll_bottom.value,
 	shadowTooltip: colorTokens.color.shadow.shadow_tooltip.value,

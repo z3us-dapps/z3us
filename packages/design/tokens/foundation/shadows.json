@@ -41,6 +41,14 @@
 				"value": "0px 0px 0px 1px rgba(255, 255, 255, 0.15), 0px 10px 10px rgba(0, 0, 0, 0.01), 0px 10px 10px rgba(0, 0, 0, 0.15), 0px 24px 24px rgba(0, 0, 0, 0.2)",
 				"description": "shadow dropdown dark"
 			},
+			"shadow_dropdown_focus_visible_light": {
+				"value": "0px 0px 0px 1px rgb(216 216 216 / 55%), 0px 0px 20px rgba(0, 0, 0, 0.08), 0 0 2px 4px rgb(255 81 0 / 20%), 0 0 0 1.5px #8457ff",
+				"description": "shadow dropdown light"
+			},
+			"shadow_dropdown_focus_visible_dark": {
+				"value": "0px 0px 0px 1px rgba(255, 255, 255, 0.15), 0px 10px 10px rgba(0, 0, 0, 0.01), 0px 10px 10px rgba(0, 0, 0, 0.15), 0px 24px 24px rgba(0, 0, 0, 0.2), 0 0 0 5px rgb(255 81 0 / 16%), 0 0 0 1.5px #8457ff, inset 0 -1px 2px -0.5px hsl(0deg 0% 100% / 11%), inset 0 0 0 0.5px hsl(0deg 0% 100% / 3%)",
+				"description": "shadow dropdown dark"
+			},
 			"shadow_panel_light": {
 				"value": "0px 0px 0px 1px rgba(0, 0, 0, 0.05), 0px 1px 1px rgba(0, 0, 0, 0.06), 0px 2px 8px rgba(0, 0, 0, 0.08), 0px 16px 48px -8px rgba(0, 0, 0, 0.1), 0px 32px 48px rgba(0, 0, 0, 0.05)",
 				"description": "shadow panel light"

@@ -5,6 +5,10 @@
 				"value": "{shadow.panel.shadow_dropdown_light.value}",
 				"darkValue": "{shadow.panel.shadow_dropdown_dark.value}"
 			},
+			"dropdownFocusVisible": {
+				"value": "{shadow.panel.shadow_dropdown_focus_visible_light.value}",
+				"darkValue": "{shadow.panel.shadow_dropdown_focus_visible_dark.value}"
+			},
 			"shadow_panel": {
 				"value": "{shadow.panel.shadow_panel_light.value}",
 				"darkValue": "{shadow.panel.shadow_panel_dark.value}"

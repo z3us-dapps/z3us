@@ -1,14 +1,14 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { keyframes, style } from '@vanilla-extract/css'
 
-import { fadeIn, fadeOut,  sharedPopoverBgStyles } from '../dropdown-menu/dropdown-menu.css'
-import type { Sprinkles} from '../system/sprinkles.css';
+import { fadeIn, fadeOut, sharedPopoverBgSprinkles, sharedPopoverBgSelectorStyles } from '../dropdown-menu/dropdown-menu.css'
+import type { Sprinkles } from '../system/sprinkles.css'
 import { sprinkles } from '../system/sprinkles.css'
 import { responsiveStyle } from '../system/theme-utils'
 
 export const popoverContentWrapper = style([
 	sprinkles({
-		...(sharedPopoverBgStyles as Sprinkles),
+		...(sharedPopoverBgSprinkles as Sprinkles),
 	}),
 	{
 		overscrollBehavior: 'contain',
@@ -20,9 +20,7 @@ export const popoverContentWrapper = style([
 		willChange: 'transform, opacity',
 		animationDuration: '300ms',
 		selectors: {
-			'&:focus-visible': {
-				outline: 'none',
-			},
+			...sharedPopoverBgSelectorStyles,
 			'&[data-state="open"]': {
 				animationName: fadeIn,
 				animationFillMode: 'forwards',

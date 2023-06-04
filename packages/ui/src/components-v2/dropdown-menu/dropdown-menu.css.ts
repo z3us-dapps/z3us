@@ -1,8 +1,9 @@
 import { keyframes, style } from '@vanilla-extract/css'
 
-import type { Sprinkles} from '../system/sprinkles.css';
+import type { Sprinkles } from '../system/sprinkles.css'
 import { sprinkles } from '../system/sprinkles.css'
 import { responsiveStyle } from '../system/theme-utils'
+
 // import { vars } from 'ui/src/components-v2/system/theme.css'
 
 export const fadeIn = keyframes({
@@ -33,18 +34,27 @@ export const sharedItemStyles = {
 	},
 }
 
-export const sharedPopoverBgStyles = {
+export const sharedPopoverBgSprinkles = {
 	background: 'backgroundSecondary',
-	boxShadow: 'shadowDropdown',
+	boxShadow: {
+		lightMode: 'shadowDropdown',
+		focusVisible: 'shadowDropdownFocusVisible',
+	},
 	paddingX: 'small',
 	paddingY: 'medium',
 	color: 'colorNeutral',
 	borderRadius: 'medium',
 }
 
+export const sharedPopoverBgSelectorStyles = {
+	'&:focus-visible': {
+		outline: 'none',
+	},
+}
+
 export const dropdownMenuContent = style([
 	sprinkles({
-		...(sharedPopoverBgStyles as Sprinkles),
+		...(sharedPopoverBgSprinkles as Sprinkles),
 	}),
 	{
 		minWidth: '70px',
@@ -54,6 +64,7 @@ export const dropdownMenuContent = style([
 		animationDuration: '300ms',
 
 		selectors: {
+			...sharedPopoverBgSelectorStyles,
 			'&[data-state="open"]': {
 				animationName: fadeIn,
 				animationFillMode: 'forwards',
