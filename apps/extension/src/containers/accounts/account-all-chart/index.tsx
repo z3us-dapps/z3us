@@ -21,13 +21,7 @@ import { getShortAddress } from '@src/utils/string-utils'
 
 import * as styles from './account-all-chart.css'
 
-interface IAccountAllChartRequiredProps {}
-
-interface IAccountAllChartOptionalProps {}
-
-interface IAccountAllChartProps extends IAccountAllChartRequiredProps, IAccountAllChartOptionalProps {}
-
-const defaultProps: IAccountAllChartOptionalProps = {}
+interface IAccountAllChartProps {}
 
 const COLORS = [
 	{ start: '#9e54ed', end: '#5c4cb6' },
@@ -60,7 +54,6 @@ export const AccountAllChart: React.FC<IAccountAllChartProps> = props => {
 		return null
 	}
 
-	// TODO MOVE TO COMPONENTS
 	const renderCustomTooltip = ({ payload }) => {
 		if (payload && payload.length) {
 			const { name, value } = payload[0].payload
@@ -176,5 +169,3 @@ export const AccountAllChart: React.FC<IAccountAllChartProps> = props => {
 		</Box>
 	)
 }
-
-AccountAllChart.defaultProps = defaultProps

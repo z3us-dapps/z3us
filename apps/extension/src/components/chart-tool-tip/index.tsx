@@ -15,12 +15,13 @@ export const ChartToolTip: React.FC<IChartToolTipProps> = props => {
 
 	return (
 		<Box className={styles.chartTooltipWrapper}>
-			<Box>
-				<Text size="small" color="strong">
+			<Box display="flex" alignItems="center" gap="small">
+				<Box className={styles.chartTooltipColorCircle} />
+				<Text size="xsmall" color="strong">
 					{name}
 				</Text>
 			</Box>
-			<Text size="small">{value}</Text>
+			<Text size="xsmall">{value}</Text>
 		</Box>
 	)
 }

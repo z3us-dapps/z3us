@@ -1,6 +1,6 @@
 /* eslint-disable  @typescript-eslint/no-unused-vars */
 import React, { useRef } from 'react'
-import { Area, AreaChart, CartesianGrid, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts'
+import { Area, AreaChart, CartesianGrid, ResponsiveContainer, Tooltip, type TooltipProps, XAxis, YAxis } from 'recharts'
 
 import { Box } from 'ui/src/components-v2/box'
 import { ToolTip } from 'ui/src/components-v2/tool-tip'
@@ -9,6 +9,7 @@ import { Close2Icon } from 'ui/src/components/icons'
 
 import { Button } from '@src/components/button'
 import { CardButtons } from '@src/components/card-buttons'
+import { ChartToolTip } from '@src/components/chart-tool-tip'
 import { TransactionIcon } from '@src/components/transaction-icon'
 import Translation from '@src/components/translation'
 import { useAccountParams } from '@src/hooks/use-account-params'
@@ -69,29 +70,17 @@ const data = [
 ]
 
 export const AccountAssetInfo: React.FC<IAccountAssetInfoProps> = () => {
-	const chartRef = useRef(null)
 	const { account, assetType, asset } = useAccountParams()
-	const chartBounding = chartRef?.current?.getBoundingClientRect()
 
 	if (!asset) {
 		return null
 	}
 
-	const renderTooltipContent = tooltipProps => {
-		const { active, payload } = tooltipProps
-
+	const renderTooltipContent = ({ active, payload }) => {
 		if (active && payload && payload.length) {
 			const dataItem = payload[0].payload
-			return (
-				<div style={{ background: '#fff', border: '1px solid #ccc', padding: '10px', borderRadius: '5px' }}>
-					<p>
-						<strong>{dataItem.name}</strong>
-					</p>
-					<p>UV: {dataItem.uv}</p>
-					<p>PV: {dataItem.pv}</p>
-					<p>Amount: {dataItem.amt}</p>
-				</div>
-			)
+
+			return <ChartToolTip name={dataItem.name} value={dataItem.amt} />
 		}
 
 		return null
@@ -144,7 +133,7 @@ export const AccountAssetInfo: React.FC<IAccountAssetInfoProps> = () => {
 								dataKey="uv"
 								stroke="#8884d8"
 								fill="#8884d8"
-								strokeWidth={2} // Adjust the stroke width here
+								strokeWidth={3} // Adjust the stroke width here
 							/>
 						</AreaChart>
 					</ResponsiveContainer>

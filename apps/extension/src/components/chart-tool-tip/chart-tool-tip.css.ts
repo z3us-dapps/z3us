@@ -17,3 +17,16 @@ export const chartTooltipWrapper = style([
 	}),
 	{},
 ])
+
+export const chartTooltipColorCircle = style([
+	sprinkles({
+		position: 'relative',
+		borderRadius: 'full',
+		boxShadow: 'shadowTooltip',
+	}),
+	{
+		background: '#a7674a',
+		width: '6px',
+		height: '6px',
+	},
+])
