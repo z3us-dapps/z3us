@@ -73,8 +73,9 @@ export const AccountSettingsDesktop = forwardRef<HTMLElement, IAccountSettingsDe
 					</Box>
 					<Box className={styles.settingsDesktopRightWrapper}>
 						<ScrollPanel
-							isTopShadowVisible
+							isTopShadowVisible={false}
 							renderPanel={(scrollableNode: HTMLElement | null) => {
+								// TODO: remove
 								const test = 1
 								return (
 									<Box position="relative" padding="xlarge">

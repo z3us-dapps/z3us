@@ -1,146 +1,136 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { style } from '@vanilla-extract/css'
-
 import { recipe } from '@vanilla-extract/recipes'
-import { vars } from '../system/theme.css'
 
 import { sprinkles } from '../system/sprinkles.css'
+import { recipeGlobalStyle } from '../system/theme-utils'
+import { vars } from '../system/theme.css'
 
-export const switchRootWrapper = style([
+
+export const tableRootWrapper = style([
 	sprinkles({
-		display: 'inline-flex',
-		alignItems: 'center',
-		borderRadius: 'full',
-		border: 0,
-		transition: 'fastall',
-		cursor: 'pointer',
+		display: 'block',
+		position: 'relative',
 	}),
 	{
-		outline: 'none',
-		WebkitTapHighlightColor: 'rgba(0, 0, 0, 0)',
+		maxWidth: '100%',
 	},
 ])
 
-export const switchRecipe = recipe({
+export const tableRecipe = recipe({
 	base: {
 		margin: 0,
 		padding: 0,
-		display: 'inline-flex',
-		alignItems: 'center',
-		justifyContent: 'flex-start',
+		borderSpacing: 0,
+		borderCollapse: 'collapse',
+		tableLayout: 'fixed',
+		width: '100%',
 	},
 	variants: {
 		styleVariant: {
 			primary: [
 				sprinkles({
-					background: 'lead400',
-					borderColor: 'lead300',
+					borderRadius: 'medium',
 				}),
 				{
-					borderWidth: '1px',
-					borderStyle: 'solid',
-					'&[data-state="checked"]': {
-						background: `${vars.color.purple500}`,
-						borderColor: `${vars.color.purple400}`,
-					},
+					boxShadow: `inset 0px 0px 0px 1px ${vars.color.borderDivider}`,
 				},
 			],
-			secondary: [
+			secondary: [sprinkles({}), {}],
+		},
+		sizeVariant: {
+			small: {},
+			medium: [sprinkles({}), {}],
+			large: {},
+		},
+	},
+})
+
+// recipeGlobalStyle(tableRecipe({ sizeVariant: 'medium', styleVariant: 'primary' }), 'thead tr th:first-child', {
+// 	borderTopLeftRadius: `${vars.border.radius.medium}`,
+// })
+//
+// recipeGlobalStyle(tableRecipe({ sizeVariant: 'medium', styleVariant: 'primary' }), 'thead tr th:last-child', {
+// 	borderTopRightRadius: `${vars.border.radius.medium}`,
+// })
+
+export const tableThRecipe = recipe({
+	base: {
+		textAlign: 'left',
+	},
+	variants: {
+		styleVariant: {
+			primary: [
 				sprinkles({
-					background: 'orange600',
+					background: 'backgroundPrimary',
 					color: 'colorStrong',
 				}),
 				{},
 			],
+			secondary: [sprinkles({}), {}],
 		},
 		sizeVariant: {
 			small: {},
 			medium: [
-				sprinkles({}),
+				sprinkles({
+					paddingX: 'medium',
+					paddingY: 'medium',
+				}),
 				{
-					width: '42px',
-					height: '25px',
+					fontSize: '14px',
+					fontWeight: '500',
 				},
 			],
 			large: {},
 		},
-	},
-	compoundVariants: [
-		{
-			// TODO
-			variants: {
-				styleVariant: 'primary',
-				sizeVariant: 'large',
-			},
-			style: {
-				background: 'ghostwhite',
-			},
-		},
-	],
-	defaultVariants: {
-		styleVariant: 'primary',
-		sizeVariant: 'medium',
 	},
 })
 
-export const switchThumbRoot = style([
-	sprinkles({
-		display: 'block',
-		borderRadius: 'full',
-		transition: 'fastall',
-		cursor: 'pointer',
-	}),
-	{},
-])
-
-export const switchThumbRecipe = recipe({
-	base: {
-		transform: 'translateX(2px)',
-		willChange: 'transform',
+export const tableTrRecipe = recipe({
+	base: {},
+	variants: {
+		styleVariant: {
+			primary: [sprinkles({
+				transition: 'fast',
+				background: {
+					// hover: 'backgroundPrimary'
+				}
+				}), {}],
+			secondary: [sprinkles({}), {}],
+		},
+		sizeVariant: {
+			small: {},
+			medium: [sprinkles({}), {}],
+			large: {},
+		},
 	},
+})
+
+export const tableTdRecipe = recipe({
+	base: {},
 	variants: {
 		styleVariant: {
 			primary: [
-				sprinkles({
-					background: 'white',
-				}),
-				{},
+				sprinkles({}),
+				{
+					boxShadow: `inset 0px 1px 0px 0px ${vars.color.borderDivider}`,
+				},
 			],
-			secondary: [
-				sprinkles({
-					background: 'orange600',
-				}),
-				{},
-			],
+			secondary: [sprinkles({}), {}],
 		},
 		sizeVariant: {
 			small: {},
 			medium: [
-				sprinkles({}),
+				sprinkles({
+					paddingX: 'medium',
+					paddingY: 'medium',
+				}),
 				{
-					width: '21px',
-					height: '21px',
-					'&[data-state="checked"]': {
-						transform: 'translateX(18px)',
-					},
+					fontSize: '14px',
+					lineHeight: '14px',
 				},
 			],
 			large: {},
 		},
-	},
-	compoundVariants: [
-		{
-			// TODO
-			variants: {
-				styleVariant: 'primary',
-				sizeVariant: 'large',
-			},
-			style: {
-				background: 'ghostwhite',
-			},
-		},
-	],
-	defaultVariants: {
-		styleVariant: 'primary',
-		sizeVariant: 'medium',
 	},
 })

@@ -1,8 +1,25 @@
-import { StyleRule } from '@vanilla-extract/css'
+import { GlobalStyleRule, StyleRule, globalStyle } from '@vanilla-extract/css'
 import { Properties, SimplePseudos } from 'csstype'
 import isEqual from 'lodash/isEqual'
 import mapValues from 'lodash/mapValues'
 import omit from 'lodash/omit'
+
+export const recipeGlobalStyle = (recipeSelector: string, selector: string, rule: GlobalStyleRule): void =>
+	globalStyle(`${recipeSelector.split(' ')[1]} ${selector}`, rule)
+
+// import { recipe } from '@vanilla-extract/recipes'
+//
+// const stack = recipe({
+//   variants: {
+//     size: {
+//       large: {},
+//     },
+//   },
+// })
+//
+// recipeGlobalStyle(stack({ size: 'large' }), '> * + *', {
+//   marginBlockStart: '3em',
+// })
 
 export const breakpoints = {
 	mobile: 0,
