@@ -9,6 +9,7 @@ import { handleOmniboxChange } from '@src/browser/background/omnibox'
 import { handleStorageChange } from '@src/browser/background/storage'
 import watch from '@src/browser/background/watcher'
 import { addDevTools } from '@src/browser/dev-tools/context-menu'
+import { addLedger } from '@src/browser/ledger/context-menu'
 import messageHandlers from '@src/browser/messages/message-handlers'
 import { createOffscreen } from '@src/browser/offscreen/offscreen'
 import { addPairing } from '@src/browser/pairing/context-menu'
@@ -27,6 +28,7 @@ browser.omnibox.onInputChanged.addListener(handleOmniboxChange)
 browser.contextMenus.removeAll().then(() => {
 	addDevTools()
 	addPairing()
+	addLedger()
 })
 
 createOffscreen()

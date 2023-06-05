@@ -26,7 +26,7 @@ const openRadixPairingPage = async ({ menuItemId }) => {
 }
 
 export const addPairing = () => {
-	if (!APP_RADIX) return
+	if (!APP_DEV_TOOLS) return
 
 	browser.contextMenus.create({
 		id: menuId,
