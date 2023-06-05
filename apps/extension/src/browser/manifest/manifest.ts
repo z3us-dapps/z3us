@@ -1,8 +1,8 @@
 import { ManifestV3Export, defineManifest } from '@crxjs/vite-plugin'
 
-import { version } from './package.json'
-import matches from './src/browser/content_matches.json'
-import hosts from './src/browser/host_permissions.json'
+import { version } from '../../../package.json'
+import matches from './content_matches.json'
+import hosts from './host_permissions.json'
 
 const protocols = ['https://*/*']
 const [major, minor, patch, label = '0'] = version.replace(/[^\d.-]+/g, '').split(/[.-]/)

@@ -19,6 +19,8 @@ async function ping() {
 }
 
 async function onRadixMessage(message: Message) {
+	if (!APP_RADIX) return
+
 	const radixMsg = message.payload as RadixMessage
 
 	console.error('onRadixMessage', message)

@@ -1,4 +1,3 @@
-import { createOffscreen } from '@radixdlt/connector-extension/src/chrome/offscreen/create-offscreen'
 import browser from 'webextension-polyfill'
 
 import { handleCheckContentScript } from '@src/browser//content-script/status'
@@ -11,6 +10,7 @@ import { handleStorageChange } from '@src/browser/background/storage'
 import watch from '@src/browser/background/watcher'
 import { addDevTools } from '@src/browser/dev-tools/context-menu'
 import messageHandlers from '@src/browser/messages/message-handlers'
+import { createOffscreen } from '@src/browser/offscreen/offscreen'
 import { addPairing } from '@src/browser/pairing/context-menu'
 
 const messageHandler = MessageClient(messageHandlers)

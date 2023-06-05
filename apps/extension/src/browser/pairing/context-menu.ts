@@ -26,12 +26,12 @@ const openRadixPairingPage = async ({ menuItemId }) => {
 }
 
 export const addPairing = () => {
-	if (process.env.PAIRING) {
-		browser.contextMenus.create({
-			id: menuId,
-			title: 'Radix Pairing',
-			contexts: ['all'],
-		})
-		browser.contextMenus.onClicked.addListener(openRadixPairingPage)
-	}
+	if (!APP_RADIX) return
+
+	browser.contextMenus.create({
+		id: menuId,
+		title: 'Radix Pairing',
+		contexts: ['all'],
+	})
+	browser.contextMenus.onClicked.addListener(openRadixPairingPage)
 }

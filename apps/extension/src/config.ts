@@ -4,14 +4,16 @@ import packageJson from '../package.json'
 
 const { version } = packageJson
 
-export const config: typeof radixCfg & {
+export type ConfigType = typeof radixCfg & {
 	isDevlopmentMode: boolean
 	isProductionMode: boolean
-} = {
+}
+
+export const config: ConfigType = {
 	...radixCfg,
 	offscreen: {
 		...radixCfg.offscreen,
-		url: 'src/browser/offscreen/index.html',
+		url: 'src/pages/offscreen/index.html',
 	},
 	devTools: {
 		...radixCfg.devTools,
