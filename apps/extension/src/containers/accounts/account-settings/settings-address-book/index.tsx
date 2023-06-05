@@ -13,6 +13,7 @@ import { Text } from 'ui/src/components-v2/typography'
 import { EditIcon, LoadingBarsIcon, PlusIcon, TrashIcon } from 'ui/src/components/icons'
 
 import * as styles from '../account-settings.css'
+import { AddressNameCell } from './address-name-cell'
 
 function generateRandomString() {
 	const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789'
@@ -37,6 +38,7 @@ interface ISettingsGeneralProps {
 
 interface IImmerSettingsGeneralProps {
 	deleteAccount: string | undefined
+	data: any
 }
 
 export const SettingsAddressBook: React.FC<ISettingsGeneralProps> = props => {
@@ -44,18 +46,14 @@ export const SettingsAddressBook: React.FC<ISettingsGeneralProps> = props => {
 
 	const [state, setState] = useImmer<IImmerSettingsGeneralProps>({
 		deleteAccount: undefined,
+		data: Array.from({ length: 2000 }, (_, i) => ({
+			id: generateRandomString(),
+			firstName: generateRandomString(),
+			lastName: Math.floor(Math.random() * 30),
+			dateAdded: Math.floor(Math.random() * 30),
+			dateUpdated: Math.floor(Math.random() * 30),
+		})),
 	})
-
-	const data = useMemo(
-		() =>
-			Array.from({ length: 2000 }, (_, i) => ({
-				firstName: generateRandomString(),
-				lastName: Math.floor(Math.random() * 30),
-				dateAdded: Math.floor(Math.random() * 30),
-				dateUpdated: Math.floor(Math.random() * 30),
-			})),
-		[],
-	)
 
 	const handleDeleteAddress = (id: string) => {
 		setState(draft => {
@@ -69,8 +67,9 @@ export const SettingsAddressBook: React.FC<ISettingsGeneralProps> = props => {
 		})
 	}
 
-	const handleConfirmDeleteAddress  = () => {
+	const handleConfirmDeleteAddress = () => {
 		setState(draft => {
+			draft.data = state.data.filter(({ id }) => id !== state.deleteAccount)
 			draft.deleteAccount = undefined
 		})
 	}
@@ -81,41 +80,7 @@ export const SettingsAddressBook: React.FC<ISettingsGeneralProps> = props => {
 				Header: 'Name',
 				accessor: 'firstName',
 				width: '70%',
-				// eslint-disable-next-line react/no-unstable-nested-components
-				// eslint-disable-next-line
-				Cell: ({ value: cellValue, row }) => {
-					// eslint-disable-next-line
-					return (
-						<Box key={row.id} id={row.id} display="flex" alignItems="center" gap="small" style={{ minWidth: 0 }}>
-							<Box
-								flexShrink={0}
-								style={{ width: '30px', height: '30px', overflow: 'hidden', background: 'orange' }}
-								borderRadius="full"
-							>
-								{/* TODO: need variants on this component */}
-								{/* TODO: just show image as this avatar flashes */}
-								{/* <Avatar className="sdf"> */}
-								{/* 	<AvatarImage */}
-								{/* 		className="sdf" */}
-								{/* 		src="https://images.unsplash.com/photo-1492633423870-43d1cd2775eb?&w=128&h=128&dpr=2&q=80" */}
-								{/* 		alt="Colm Tuite" */}
-								{/* 	/> */}
-								{/* 	<AvatarFallback delayMs={600} className="sdf"> */}
-								{/* 		<Text>CT</Text> */}
-								{/* 	</AvatarFallback> */}
-								{/* </Avatar> */}
-							</Box>
-							<Box flexGrow={1} style={{ minWidth: 0 }}>
-								<Text size="small" color="strong" truncate>
-									{cellValue}
-								</Text>
-								<Text size="xsmall" truncate>
-									{cellValue}
-								</Text>
-							</Box>
-						</Box>
-					)
-				},
+				Cell: AddressNameCell,
 			},
 			{
 				Header: '',
@@ -123,16 +88,16 @@ export const SettingsAddressBook: React.FC<ISettingsGeneralProps> = props => {
 				width: 'auto',
 				// eslint-disable-next-line react/no-unstable-nested-components
 				// eslint-disable-next-line
-				Cell: ({ value: cellValue, row }) => {
+				Cell: ({ value, row: { original } }) => {
 					// eslint-disable-next-line
 					return (
-						<Box key={row.id} id={row.id} display="flex" justifyContent="flex-end" flexShrink={0} gap="small">
+						<Box key={original.id} id={original.id} display="flex" justifyContent="flex-end" flexShrink={0} gap="small">
 							<Button
 								sizeVariant="small"
 								styleVariant="secondary"
 								leftIcon={<TrashIcon />}
 								onClick={() => {
-									handleDeleteAddress('test')
+									handleDeleteAddress(original.id)
 								}}
 							>
 								Delete
@@ -173,7 +138,7 @@ export const SettingsAddressBook: React.FC<ISettingsGeneralProps> = props => {
 						</Box>
 						{/* START ADDRESS BOOK TABLE */}
 						<Box paddingTop="large">
-							<Table scrollableNode={scrollableNode} data={data} columns={columns} />
+							<Table scrollableNode={scrollableNode} data={state.data} columns={columns} />
 						</Box>
 						{/* END ADDRESS BOOK TABLE */}
 					</Box>
@@ -182,7 +147,11 @@ export const SettingsAddressBook: React.FC<ISettingsGeneralProps> = props => {
 			<DialogAlert
 				open={!!state.deleteAccount}
 				title="Are you sure?"
-				description="Are you sure you want to delete this address?"
+				description={
+					<Box component="span">
+						<Text truncate>Are you sure you want to delete {state.deleteAccount}</Text>?
+					</Box>
+				}
 				confirmButtonText="Delete"
 				onCancel={handleCancelDeleteAddress}
 				onConfirm={handleConfirmDeleteAddress}

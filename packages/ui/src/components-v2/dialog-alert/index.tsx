@@ -20,8 +20,8 @@ interface IAlertProps {
 	open?: boolean
 	trigger?: React.ReactNode
 	footer?: React.ReactNode
-	title?: string
-	description?: string
+	title?: string | React.ReactNode
+	description?: string | React.ReactNode
 	cancelButtonText?: string
 	confirmButtonText?: string
 	confirmActionLoding?: boolean

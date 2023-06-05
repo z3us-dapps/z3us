@@ -1,5 +1,5 @@
 import clsx, { type ClassValue } from 'clsx'
-import React from 'react'
+import React, { useMemo } from 'react'
 import { useTable } from 'react-table'
 import { TableVirtuoso } from 'react-virtuoso'
 
@@ -28,47 +28,53 @@ export const Table: React.FC<ISwitchProps> = ({
 		data,
 	})
 
+	const memoizedComponents = useMemo(
+		() => ({
+			// eslint-disable-next-line react/no-unstable-nested-components
+			Table: ({ style, ...tableProps }) => (
+				<table
+					{...getTableProps()}
+					{...tableProps}
+					className={styles.tableRecipe({
+						sizeVariant,
+						styleVariant,
+					})}
+					style={{ ...style }}
+				/>
+			),
+
+			// eslint-disable-next-line react/no-unstable-nested-components
+			TableBody: React.forwardRef((tableBodyProps, ref) => (
+				<tbody {...getTableBodyProps()} {...tableBodyProps} ref={ref} />
+			)),
+			// eslint-disable-next-line react/no-unstable-nested-components
+			TableRow: tableRowProps => {
+				// eslint-disable-next-line react/destructuring-assignment
+				const index = tableRowProps['data-index']
+				const row = rows[index]
+				return (
+					<tr
+						className={styles.tableTrRecipe({
+							sizeVariant,
+							styleVariant,
+						})}
+						{...tableRowProps}
+						{...row.getRowProps()}
+					/>
+				)
+			},
+		}),
+		[],
+	)
+
 	return (
 		<Box>
 			<TableVirtuoso
 				className={clsx(styles.tableRootWrapper, className)}
 				totalCount={rows.length}
 				customScrollParent={scrollableNode}
-				components={{
-					// eslint-disable-next-line react/no-unstable-nested-components
-					Table: ({ style, ...tableProps }) => (
-						<table
-							{...getTableProps()}
-							{...tableProps}
-							className={styles.tableRecipe({
-								sizeVariant,
-								styleVariant,
-							})}
-							style={{ ...style }}
-						/>
-					),
-
-					// eslint-disable-next-line react/no-unstable-nested-components
-					TableBody: React.forwardRef(({ style, ...tableBodyProps }, ref) => (
-						<tbody {...getTableBodyProps()} {...tableBodyProps} ref={ref} />
-					)),
-					// eslint-disable-next-line react/no-unstable-nested-components
-					TableRow: tableRowProps => {
-						// eslint-disable-next-line react/destructuring-assignment
-						const index = tableRowProps['data-index']
-						const row = rows[index]
-						return (
-							<tr
-								className={styles.tableTrRecipe({
-									sizeVariant,
-									styleVariant,
-								})}
-								{...tableRowProps}
-								{...row.getRowProps()}
-							/>
-						)
-					},
-				}}
+				// fix any
+				components={memoizedComponents as any}
 				fixedHeaderContent={() =>
 					headerGroups.map(headerGroup => (
 						<tr {...headerGroup.getHeaderGroupProps()}>
