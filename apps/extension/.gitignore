@@ -5,6 +5,4 @@ dist-ssr
 *.local
 .radixdlt
 vite.config.js
-tsconfig.tsbuildinfo
-tsconfig.node.tsbuildinfo
-tsconfig.radix.tsbuildinfo
+*.tsbuildinfo

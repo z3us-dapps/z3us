@@ -3,10 +3,10 @@
 	"version": "1.0.42",
 	"scripts": {
 		"dev": "DEV_TOOLS=true yarn start:radix",
-		"start:radix": "RADIX=true LEDGER=true PAIRING=true yarn start",
+		"start:radix": "RADIX=true yarn start",
 		"start": "vite --mode development",
 		"build:dev": "DEV_TOOLS=true yarn build:radix --mode development",
-		"build:radix": "RADIX=true LEDGER=true PAIRING=true yarn build",
+		"build:radix": "RADIX=true yarn build",
 		"build": "npm_config_build_from_source=true tsc --build && vite build",
 		"preview": "vite preview",
 		"check-types": "tsc --noemit",
