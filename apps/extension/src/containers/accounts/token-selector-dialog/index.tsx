@@ -1,6 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import clsx, { type ClassValue } from 'clsx'
-import { AnimatePresence, motion } from 'framer-motion'
 import React, { forwardRef, useEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useLocation, useNavigate, useSearchParams } from 'react-router-dom'
@@ -9,20 +8,19 @@ import { useTimeout } from 'usehooks-ts'
 
 import { Box } from 'ui/src/components-v2/box'
 import {
-	Dialog,
 	DialogClose,
 	DialogContent,
 	DialogOverlay,
 	DialogPortal,
+	DialogRoot,
 	DialogTrigger,
 } from 'ui/src/components-v2/dialog'
-import type { FormElement} from 'ui/src/components-v2/input';
+import type { FormElement } from 'ui/src/components-v2/input'
 import { Input } from 'ui/src/components-v2/input'
 import { ScrollArea } from 'ui/src/components-v2/scroll-area'
 import { ToolTip } from 'ui/src/components-v2/tool-tip'
 import { Text } from 'ui/src/components-v2/typography'
 import { Close2Icon, SearchIcon, ShareIcon } from 'ui/src/components/icons'
-import { capitalizeFirstLetter } from 'ui/src/utils/capitalize-first-letter'
 
 import { Button } from '@src/components/button'
 import { CopyAddressButton } from '@src/components/copy-address-button'
@@ -47,7 +45,7 @@ interface ITokenSelectorDialogOptionalProps {
 interface ITokenSelectorDialogProps extends ITokenSelectorDialogRequiredProps, ITokenSelectorDialogOptionalProps {}
 
 const defaultProps: ITokenSelectorDialogOptionalProps = {
-	token: undefined
+	token: undefined,
 }
 
 export const TokenSelectorDialog = forwardRef<HTMLElement, ITokenSelectorDialogProps>(
@@ -100,7 +98,7 @@ export const TokenSelectorDialog = forwardRef<HTMLElement, ITokenSelectorDialogP
 			'ardx1qspt0lthflcd45zhwvrxkqdrv5ne5avsgarjcpfatyw7n7n93v38dhcdtlag0sdfalksjdhf7d8f78d7f8d7f8d7f8d7f'
 
 		return (
-			<Dialog open={isOpen} onOpenChange={handleOnOpenChange}>
+			<DialogRoot open={isOpen} onOpenChange={handleOnOpenChange}>
 				<DialogTrigger asChild>{trigger}</DialogTrigger>
 				<DialogPortal>
 					<DialogOverlay className={dialogStyles.dialogOverlay} />
@@ -217,7 +215,7 @@ export const TokenSelectorDialog = forwardRef<HTMLElement, ITokenSelectorDialogP
 						</ScrollArea>
 					</DialogContent>
 				</DialogPortal>
-			</Dialog>
+			</DialogRoot>
 		)
 	},
 )

@@ -1,5 +1,4 @@
 import { style } from '@vanilla-extract/css'
-
 import {
 	fadeIn,
 	fadeOut,

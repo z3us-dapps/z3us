@@ -6,7 +6,7 @@ import { useTranslation } from 'react-i18next'
 import { useLocation, useNavigate, useSearchParams } from 'react-router-dom'
 
 import { Box } from 'ui/src/components-v2/box'
-import { Dialog, DialogContent, DialogOverlay, DialogPortal } from 'ui/src/components-v2/dialog'
+import { DialogRoot, DialogContent, DialogOverlay, DialogPortal } from 'ui/src/components-v2/dialog'
 import type { FormElement} from 'ui/src/components-v2/input';
 import { Input } from 'ui/src/components-v2/input'
 import { ScrollArea } from 'ui/src/components-v2/scroll-area'
@@ -89,7 +89,7 @@ export const AccountSearch = forwardRef<HTMLElement, IAccountSearchProps>(
 		}, [query])
 
 		return (
-			<Dialog open={!!query}>
+			<DialogRoot open={!!query}>
 				<DialogPortal>
 					<DialogOverlay className={styles.searchOverlay} />
 					<DialogContent className={clsx(styles.searchContent)} onEscapeKeyDown={navigateBack}>
@@ -185,7 +185,7 @@ export const AccountSearch = forwardRef<HTMLElement, IAccountSearchProps>(
 						</ScrollArea>
 					</DialogContent>
 				</DialogPortal>
-			</Dialog>
+			</DialogRoot>
 		)
 	},
 )

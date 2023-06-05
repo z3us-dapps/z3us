@@ -2,11 +2,13 @@
 import type { ClassValue } from 'clsx'
 import clsx from 'clsx'
 import React, { useMemo, useState } from 'react'
+import { toast } from 'sonner'
 import { useImmer } from 'use-immer'
 
 import { Avatar, AvatarFallback, AvatarImage } from 'ui/src/components-v2/avatar'
 import { Box } from 'ui/src/components-v2/box'
 import { Button } from 'ui/src/components-v2/button'
+import { Dialog } from 'ui/src/components-v2/dialog'
 import { DialogAlert } from 'ui/src/components-v2/dialog-alert'
 import { Table } from 'ui/src/components-v2/table'
 import { Text } from 'ui/src/components-v2/typography'
@@ -37,7 +39,9 @@ interface ISettingsGeneralProps {
 }
 
 interface IImmerSettingsGeneralProps {
-	deleteAccount: string | undefined
+	deleteAccountId: string | undefined
+	editAccountId: string | undefined
+	isEditDialogVisible: boolean
 	data: any
 }
 
@@ -45,7 +49,9 @@ export const SettingsAddressBook: React.FC<ISettingsGeneralProps> = props => {
 	const { className, scrollableNode } = props
 
 	const [state, setState] = useImmer<IImmerSettingsGeneralProps>({
-		deleteAccount: undefined,
+		deleteAccountId: undefined,
+		editAccountId: undefined,
+		isEditDialogVisible: false,
 		data: Array.from({ length: 2000 }, (_, i) => ({
 			id: generateRandomString(),
 			firstName: generateRandomString(),
@@ -57,20 +63,37 @@ export const SettingsAddressBook: React.FC<ISettingsGeneralProps> = props => {
 
 	const handleDeleteAddress = (id: string) => {
 		setState(draft => {
-			draft.deleteAccount = id
+			draft.deleteAccountId = id
+		})
+	}
+
+	const handleAddEditAddress = (id: string | undefined) => {
+		setState(draft => {
+			draft.editAccountId = id
+			draft.isEditDialogVisible = true
+		})
+	}
+
+	const handleCloseEditAddressDialog = () => {
+		setState(draft => {
+			draft.isEditDialogVisible = false
 		})
 	}
 
 	const handleCancelDeleteAddress = () => {
 		setState(draft => {
-			draft.deleteAccount = undefined
+			draft.deleteAccountId = undefined
 		})
 	}
 
 	const handleConfirmDeleteAddress = () => {
 		setState(draft => {
-			draft.data = state.data.filter(({ id }) => id !== state.deleteAccount)
-			draft.deleteAccount = undefined
+			draft.data = state.data.filter(({ id }) => id !== state.deleteAccountId)
+			draft.deleteAccountId = undefined
+		})
+
+		toast('Address has been moved to archive', {
+			// duration: Infinity,
 		})
 	}
 
@@ -88,26 +111,30 @@ export const SettingsAddressBook: React.FC<ISettingsGeneralProps> = props => {
 				width: 'auto',
 				// eslint-disable-next-line react/no-unstable-nested-components
 				// eslint-disable-next-line
-				Cell: ({ value, row: { original } }) => {
-					// eslint-disable-next-line
-					return (
-						<Box key={original.id} id={original.id} display="flex" justifyContent="flex-end" flexShrink={0} gap="small">
-							<Button
-								sizeVariant="small"
-								styleVariant="secondary"
-								leftIcon={<TrashIcon />}
-								onClick={() => {
-									handleDeleteAddress(original.id)
-								}}
-							>
-								Delete
-							</Button>
-							<Button sizeVariant="small" styleVariant="secondary" leftIcon={<EditIcon />}>
-								Edit
-							</Button>
-						</Box>
-					)
-				},
+				Cell: ({ row: { original } }) => (
+					<Box display="flex" justifyContent="flex-end" flexShrink={0} gap="small">
+						<Button
+							sizeVariant="small"
+							styleVariant="secondary"
+							leftIcon={<TrashIcon />}
+							onClick={() => {
+								handleDeleteAddress(original.id)
+							}}
+						>
+							Delete
+						</Button>
+						<Button
+							sizeVariant="small"
+							styleVariant="secondary"
+							leftIcon={<EditIcon />}
+							onClick={() => {
+								handleAddEditAddress(original.id)
+							}}
+						>
+							Edit
+						</Button>
+					</Box>
+				),
 			},
 		],
 		[],
@@ -123,7 +150,7 @@ export const SettingsAddressBook: React.FC<ISettingsGeneralProps> = props => {
 						</Text>
 						<Box>
 							<Text>
-								Ut imperdiet nam nam velit eu magna, neque eu eu porta. m duis non pretium, mus laoreet tempor velit
+								add Ut imperdiet nam nam velit eu magna, neque eu eu porta. m duis non pretium, mus laoreet tempor velit
 								integer tristique etiam integer.
 							</Text>
 						</Box>
@@ -132,6 +159,7 @@ export const SettingsAddressBook: React.FC<ISettingsGeneralProps> = props => {
 								styleVariant="primary"
 								// disabled
 								leftIcon={<PlusIcon />}
+								onClick={() => handleAddEditAddress(undefined)}
 							>
 								New address
 							</Button>
@@ -145,17 +173,30 @@ export const SettingsAddressBook: React.FC<ISettingsGeneralProps> = props => {
 				</Box>
 			</Box>
 			<DialogAlert
-				open={!!state.deleteAccount}
+				open={!!state.deleteAccountId}
 				title="Are you sure?"
 				description={
 					<Box component="span">
-						<Text truncate>Are you sure you want to delete {state.deleteAccount}</Text>?
+						<Text truncate>Are you sure you want to delete {state.deleteAccountId}</Text>?
 					</Box>
 				}
 				confirmButtonText="Delete"
 				onCancel={handleCancelDeleteAddress}
 				onConfirm={handleConfirmDeleteAddress}
 			/>
+			<Dialog open={state.isEditDialogVisible} onClose={handleCloseEditAddressDialog}>
+				<Box padding="large">
+					<Text size="xxxlarge" color="strong">
+						heheheh
+					</Text>
+					{Array.from({ length: 100 }).map((_, index) => (
+						// eslint-disable-next-line
+						<Text size="xxlarge" key={index}>
+							hadsofhasdohf
+						</Text>
+					))}
+				</Box>
+			</Dialog>
 		</>
 	)
 }

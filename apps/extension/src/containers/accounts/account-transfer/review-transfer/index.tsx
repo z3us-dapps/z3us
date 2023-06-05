@@ -3,7 +3,7 @@ import React, { useState } from 'react'
 
 import { Box } from 'ui/src/components-v2/box'
 import { Button } from 'ui/src/components-v2/button'
-import { Dialog, DialogContent, DialogOverlay, DialogPortal } from 'ui/src/components-v2/dialog'
+import { DialogRoot, DialogContent, DialogOverlay, DialogPortal } from 'ui/src/components-v2/dialog'
 import { Text } from 'ui/src/components-v2/typography'
 import { ArrowLeftIcon, ChevronDown2Icon, LockIcon } from 'ui/src/components/icons'
 
@@ -199,7 +199,7 @@ export const ReviewTransfer: React.FC<IReviewTransferProps> = props => {
 					</Button>
 				</Box>
 			</Box>
-			<Dialog open={isOpen}>
+			<DialogRoot open={isOpen}>
 				<DialogPortal>
 					<DialogOverlay className={dialogStyles.dialogOverlay} />
 					<DialogContent
@@ -217,7 +217,7 @@ export const ReviewTransfer: React.FC<IReviewTransferProps> = props => {
 						</Box>
 					</DialogContent>
 				</DialogPortal>
-			</Dialog>
+			</DialogRoot>
 		</>
 	)
 }

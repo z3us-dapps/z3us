@@ -4,7 +4,7 @@ import React, { forwardRef, useEffect, useState } from 'react'
 import { useLocation, useNavigate, useSearchParams } from 'react-router-dom'
 
 import { Box } from 'ui/src/components-v2/box'
-import { Dialog, DialogContent, DialogOverlay, DialogPortal } from 'ui/src/components-v2/dialog'
+import { DialogRoot, DialogContent, DialogOverlay, DialogPortal } from 'ui/src/components-v2/dialog'
 import { ScrollArea } from 'ui/src/components-v2/scroll-area'
 import { ToolTip } from 'ui/src/components-v2/tool-tip'
 import { Text } from 'ui/src/components-v2/typography'
@@ -67,7 +67,7 @@ export const AccountTransaction = forwardRef<HTMLElement, IAccountTransactionPro
 		}, [transactionId])
 
 		return (
-			<Dialog open={!!asset && !!transactionId}>
+			<DialogRoot open={!!asset && !!transactionId}>
 				<DialogPortal>
 					<DialogOverlay className={styles.transactionOverlay} />
 					<DialogContent className={clsx(styles.transactionContent, className)} onEscapeKeyDown={navigateBack}>
@@ -269,7 +269,7 @@ export const AccountTransaction = forwardRef<HTMLElement, IAccountTransactionPro
 						</Box>
 					</DialogContent>
 				</DialogPortal>
-			</Dialog>
+			</DialogRoot>
 		)
 	},
 )

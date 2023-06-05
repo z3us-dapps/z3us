@@ -59,7 +59,7 @@ export const Table: React.FC<ISwitchProps> = ({
 							styleVariant,
 						})}
 						{...tableRowProps}
-						{...row.getRowProps()}
+						{...row?.getRowProps()}
 					/>
 				)
 			},
