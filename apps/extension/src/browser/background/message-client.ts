@@ -10,7 +10,7 @@ const popupURL = new URL(browser.runtime.getURL(''))
 export type MessageClientType = ReturnType<typeof MessageClient>
 
 export const MessageClient = (handlers: MessageHandlers) => {
-	console.log(`Z3US: background message client initialized.`)
+	console.info(`⚡️Z3US⚡️: background message client initialized.`)
 	const onPort = (port: Runtime.Port) => {
 		if (!port) throw new Error('Invalid port')
 		if (port.name !== PORT_NAME) return

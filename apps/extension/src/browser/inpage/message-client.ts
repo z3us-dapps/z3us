@@ -6,7 +6,7 @@ import { generateId } from '@src/utils/generate-id'
 export type MessageClientType = ReturnType<typeof MessageClient>
 
 export const MessageClient = () => {
-	console.log(`Z3US: inpage message client initialized.`)
+	console.info(`⚡️Z3US⚡️: inpage message client initialized.`)
 	const messageHandlers: {
 		[key: string]: any
 	} = {}

@@ -7,6 +7,5 @@ export const getConnectHandler = (messageHandler: MessageClientType) => async (p
 }
 
 export const getRadixMessageHandler =
-	(messageHandler: MessageClientType) => (message: any, sender: Runtime.MessageSender) => {
+	(messageHandler: MessageClientType) => (message: any, sender: Runtime.MessageSender) =>
 		messageHandler.onRadixMessage(message, sender.tab?.id)
-	}

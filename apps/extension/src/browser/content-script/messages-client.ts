@@ -43,7 +43,7 @@ const messageHandler = RadixMessageClient(
 export type MessageClientType = ReturnType<typeof MessageClient>
 
 export const MessageClient = () => {
-	console.log(`Z3US: content-script message client initialized.`)
+	console.info(`⚡️Z3US⚡️: content-script message client initialized.`)
 	let port = browser.runtime.connect({ name: PORT_NAME })
 	port.onDisconnect.addListener(() => {
 		// eslint-disable-next-line no-console
@@ -79,7 +79,6 @@ export const MessageClient = () => {
 	const onRadixEvent = (event: CustomEvent<any>) => {
 		if (!APP_RADIX) return
 
-		console.log('onRadixEvent', addMetadata(event.detail))
 		messageHandler.onMessage(createRadixMessage.incomingDappMessage('dApp', addMetadata(event.detail)))
 	}
 
