@@ -51,7 +51,7 @@ export const SettingsAddressBook: React.FC<ISettingsGeneralProps> = props => {
 	const [state, setState] = useImmer<IImmerSettingsGeneralProps>({
 		deleteAccountId: undefined,
 		editAccountId: undefined,
-		isEditDialogVisible: false,
+		isEditDialogVisible: true,
 		data: Array.from({ length: 2000 }, (_, i) => ({
 			id: generateRandomString(),
 			firstName: generateRandomString(),
@@ -189,7 +189,20 @@ export const SettingsAddressBook: React.FC<ISettingsGeneralProps> = props => {
 					<Text size="xxxlarge" color="strong">
 						heheheh
 					</Text>
-					{Array.from({ length: 100 }).map((_, index) => (
+
+					{Array.from({ length: 5 }).map((_, index) => (
+						// eslint-disable-next-line
+						<Text size="xxlarge" key={index}>
+							hadsofhasdohf
+						</Text>
+					))}
+
+					<Box style={{position: 'sticky', top: '0'}}>
+						<Text size="xxxlarge" color="strong">
+							Sticky
+						</Text>
+					</Box>
+					{Array.from({ length: 200 }).map((_, index) => (
 						// eslint-disable-next-line
 						<Text size="xxlarge" key={index}>
 							hadsofhasdohf

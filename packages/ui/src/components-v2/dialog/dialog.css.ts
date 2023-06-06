@@ -94,6 +94,7 @@ export const dialogContentSimpleBarWrapper = style([
 	sprinkles({
 		position: 'relative',
 		borderRadius: 'medium',
+		overflow: 'clip',
 	}),
 	{},
 	responsiveStyle({

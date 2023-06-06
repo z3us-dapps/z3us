@@ -58,7 +58,7 @@ export const DialogAlert: React.FC<IAlertProps> = props => {
 			{trigger && <AlertDialogTrigger asChild>{trigger}</AlertDialogTrigger>}
 			<AlertDialogPortal>
 				<AlertDialogOverlay className={styles.alertDialogOverlay} />
-				<AlertDialogContent className={styles.alertDialogContent}>
+				<AlertDialogContent className={styles.alertDialogContent} onEscapeKeyDown={onCancel}>
 					{title && (
 						<AlertDialogTitle>
 							<Text size="xlarge" weight="strong" color="strong">

@@ -1,11 +1,11 @@
 import * as DialogPrimitive from '@radix-ui/react-dialog'
-import clsx, {type ClassValue} from 'clsx'
+import clsx, { type ClassValue } from 'clsx'
 import React from 'react'
 
 import { Close2Icon } from '../../components/icons'
 import { Box } from '../box'
 import { Button } from '../button'
-import {SimpleBarStyled} from '../simple-bar-styled'
+import { SimpleBarStyled } from '../simple-bar-styled'
 import * as styles from './dialog.css'
 
 export const DialogRoot = DialogPrimitive.Root
@@ -29,10 +29,10 @@ export const Dialog: React.FC<IDialogProps> = props => {
 	const { open, children, className, isCloseButtonVisible = true, onClose } = props
 
 	return (
-		<DialogRoot open={open}>
+		<DialogRoot open={open} >
 			<DialogPortal>
 				<DialogOverlay className={styles.dialogOverlay} />
-				<DialogContent className={clsx(styles.dialogContentExpanded, className)}>
+				<DialogContent className={clsx(styles.dialogContentExpanded, className)} onEscapeKeyDown={onClose}>
 					<Box className={styles.dialogContentWrapper}>
 						<SimpleBarStyled className={styles.dialogContentSimpleBarWrapper}>{children}</SimpleBarStyled>
 					</Box>
