@@ -9,6 +9,8 @@ import { usePersona } from '@src/hooks/dapp/use-persona'
 import { useRequestData } from '@src/hooks/dapp/use-request-data'
 import { useSendTransaction } from '@src/hooks/dapp/use-send-transaction'
 
+import '@src/browser/content-script'
+
 declare global {
 	namespace JSX {
 		interface IntrinsicElements {

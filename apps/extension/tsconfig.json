@@ -4,20 +4,7 @@
 		"baseUrl": ".",
 		"paths": {
 			"@src/*": ["src/*"],
-			// "config": ["src/config.ts"],
-			// "message-router": ["../../node_modules/@radixdlt/connector-extension/src/message-router.ts"],
-			// "chrome/*": ["../../node_modules/@radixdlt/connector-extension/src/chrome/*"],
-			// "components": ["../../node_modules/@radixdlt/connector-extension/src/components"],
-			// "components/*": ["../../node_modules/@radixdlt/connector-extension/src/components/*"],
-			// "connector/*": ["../../node_modules/@radixdlt/connector-extension/src/connector/*"],
-			// "crypto/*": ["../../node_modules/@radixdlt/connector-extension/src/crypto/*"],
-			// "io-types/*": ["../../node_modules/@radixdlt/connector-extension/src/io-types/*"],
-			// "ledger/*": ["../../node_modules/@radixdlt/connector-extension/src/ledger/*"],
-			// "pairing/*": ["../../node_modules/@radixdlt/connector-extension/src/pairing/*"],
-			// "queues/*": ["../../node_modules/@radixdlt/connector-extension/src/queues/*"],
-			// "utils": ["../../node_modules/@radixdlt/connector-extension/src/utils"],
-			// "utils/*": ["../../node_modules/@radixdlt/connector-extension/src/utils/*"],
-		},
+		}
 	},
 	"include": [
 		"src/**/*.json",
