@@ -1,24 +1,14 @@
-import React, { forwardRef } from 'react'
 import clsx, { type ClassValue } from 'clsx'
+import React, { forwardRef } from 'react'
+
 import { Box } from '../box'
 import * as styles from './pill.css'
 
-interface IPillRequiredProps {
+interface IPillProps {
 	children: React.ReactNode
-}
-
-interface IPillOptionalProps {
 	className?: ClassValue
 	sizeVariant?: 'small' | 'medium' | 'large'
 	styleVariant?: 'caution' | 'neutral'
-}
-
-interface IPillProps extends IPillRequiredProps, IPillOptionalProps {}
-
-const defaultProps: IPillOptionalProps = {
-	className: undefined,
-	sizeVariant: 'medium',
-	styleVariant: 'neutral',
 }
 
 export const Pill = forwardRef<HTMLButtonElement, IPillProps>((props, ref) => {
@@ -41,5 +31,3 @@ export const Pill = forwardRef<HTMLButtonElement, IPillProps>((props, ref) => {
 		</Box>
 	)
 })
-
-Pill.defaultProps = defaultProps

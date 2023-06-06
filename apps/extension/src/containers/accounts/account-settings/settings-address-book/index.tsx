@@ -5,7 +5,6 @@ import React, { useMemo, useState } from 'react'
 import { toast } from 'sonner'
 import { useImmer } from 'use-immer'
 
-import { Avatar, AvatarFallback, AvatarImage } from 'ui/src/components-v2/avatar'
 import { Box } from 'ui/src/components-v2/box'
 import { Button } from 'ui/src/components-v2/button'
 import { Dialog } from 'ui/src/components-v2/dialog'
@@ -196,7 +195,7 @@ export const SettingsAddressBook: React.FC<ISettingsGeneralProps> = props => {
 						</Text>
 					))}
 
-					<Box style={{position: 'sticky', top: '0'}}>
+					<Box style={{ position: 'sticky', top: '0' }}>
 						<Text size="xxxlarge" color="strong">
 							Sticky
 						</Text>
