@@ -25,7 +25,7 @@ import { TransferMessage } from './transfer-message'
 import { TransferTokenSelector } from './transfer-token-selector'
 import { ValidationErrorMessage } from './validation-error-message'
 
-interface IGroupTransferRequiredProps {
+interface IGroupTransferProps {
 	addressBook: any // todo fix type
 	tokens: any // todo fix type
 	fromAccount: string
@@ -41,12 +41,6 @@ interface IGroupTransferRequiredProps {
 	onUpdateMessage: (message: string) => void
 	onUpdateIsMessageEncrypted: (isEncrypted: boolean) => void
 }
-
-interface IGroupTransferOptionalProps {}
-
-interface IGroupTransferProps extends IGroupTransferRequiredProps, IGroupTransferOptionalProps {}
-
-const defaultProps: IGroupTransferOptionalProps = {}
 
 export const GroupTransfer: React.FC<IGroupTransferProps> = props => {
 	const {
@@ -208,5 +202,3 @@ export const GroupTransfer: React.FC<IGroupTransferProps> = props => {
 		</Box>
 	)
 }
-
-GroupTransfer.defaultProps = defaultProps

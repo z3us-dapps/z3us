@@ -12,7 +12,6 @@ import { Table } from 'ui/src/components-v2/table'
 import { Text } from 'ui/src/components-v2/typography'
 import { EditIcon, LoadingBarsIcon, PlusIcon, TrashIcon } from 'ui/src/components/icons'
 
-
 interface IAddressNameCellProps {
 	// TODO
 	value?: any
@@ -20,10 +19,15 @@ interface IAddressNameCellProps {
 }
 
 export const AddressNameCell: React.FC<IAddressNameCellProps> = props => {
-	const { value, row } = props
+	const {
+		value,
+		row: { original },
+	} = props
+
+	const { id, address } = original
 
 	return (
-		<Box key={value} id={row.id} display="flex" alignItems="center" gap="small" style={{ minWidth: 0 }}>
+		<Box key={id} id={id} display="flex" alignItems="center" gap="small" style={{ minWidth: 0 }}>
 			<Avatar
 				src="https://images.unsplash.com/photo-1492633423870-43d1cd2775eb?&w=128&h=128&dpr=2&q=80"
 				alt="this is the image"
@@ -34,7 +38,7 @@ export const AddressNameCell: React.FC<IAddressNameCellProps> = props => {
 					{value}
 				</Text>
 				<Text size="xsmall" truncate>
-					{value}
+					{address}
 				</Text>
 			</Box>
 		</Box>

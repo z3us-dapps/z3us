@@ -9,9 +9,10 @@ import { Box } from 'ui/src/components-v2/box'
 import { Button } from 'ui/src/components-v2/button'
 import { Dialog } from 'ui/src/components-v2/dialog'
 import { DialogAlert } from 'ui/src/components-v2/dialog-alert'
+import { type FormElement, Input, type TSizeVariant, type TStyleVariant } from 'ui/src/components-v2/input'
 import { Table } from 'ui/src/components-v2/table'
 import { Text } from 'ui/src/components-v2/typography'
-import { EditIcon, LoadingBarsIcon, PlusIcon, TrashIcon } from 'ui/src/components/icons'
+import { CheckCircleIcon, EditIcon, LoadingBarsIcon, PlusIcon, TrashIcon } from 'ui/src/components/icons'
 
 import * as styles from '../account-settings.css'
 import { AddressNameCell } from './address-name-cell'
@@ -42,6 +43,7 @@ interface IImmerSettingsGeneralProps {
 	editAccountId: string | undefined
 	isEditDialogVisible: boolean
 	data: any
+	editingAddress: any
 }
 
 export const SettingsAddressBook: React.FC<ISettingsGeneralProps> = props => {
@@ -51,13 +53,17 @@ export const SettingsAddressBook: React.FC<ISettingsGeneralProps> = props => {
 		deleteAccountId: undefined,
 		editAccountId: undefined,
 		isEditDialogVisible: false,
-		data: Array.from({ length: 2000 }, (_, i) => ({
+		data: Array.from({ length: 2 }, (_, i) => ({
 			id: generateRandomString(),
-			firstName: generateRandomString(),
-			lastName: Math.floor(Math.random() * 30),
+			name: generateRandomString(),
+			address: 'rdx14587ghgjdjfhalkhglakjdfhladfgy36fu4t87g8y84ht84h8gh48h',
 			dateAdded: Math.floor(Math.random() * 30),
 			dateUpdated: Math.floor(Math.random() * 30),
 		})),
+		editingAddress: {
+			name: '',
+			address: '',
+		},
 	})
 
 	const handleDeleteAddress = (id: string) => {
@@ -66,15 +72,24 @@ export const SettingsAddressBook: React.FC<ISettingsGeneralProps> = props => {
 		})
 	}
 
-	const handleAddEditAddress = (id: string | undefined) => {
+	const handleAddEditAddress = (id?: string | undefined) => {
+		console.log('id:', id)
+		console.log('state.data:', state.data)
+		const editingAddress = state.data.find(address => address.id === id)
+		console.log('editingAddress:', editingAddress)
+
 		setState(draft => {
 			draft.editAccountId = id
 			draft.isEditDialogVisible = true
+			if (editingAddress) {
+				draft.editingAddress = { name: editingAddress.name, address: editingAddress.address }
+			}
 		})
 	}
 
 	const handleCloseEditAddressDialog = () => {
 		setState(draft => {
+			draft.editingAddress = { name: '', address: '' }
 			draft.isEditDialogVisible = false
 		})
 	}
@@ -96,11 +111,61 @@ export const SettingsAddressBook: React.FC<ISettingsGeneralProps> = props => {
 		})
 	}
 
+	const handleChangeName = (e: React.ChangeEvent<FormElement>) => {
+		const name = e.currentTarget.value
+
+		setState(draft => {
+			draft.editingAddress.name = name
+		})
+	}
+
+	const handleChangeAddress = (e: React.ChangeEvent<FormElement>) => {
+		const address = e.currentTarget.value
+
+		setState(draft => {
+			draft.editingAddress.address = address
+		})
+	}
+
+	const handleSaveAddress = () => {
+		const toastMessage = state.editAccountId ? 'updated' : 'saved'
+
+		setState(draft => {
+			if (state.editAccountId) {
+				const entryIndex = state.data.findIndex(item => item.id === state.editAccountId)
+				if (entryIndex !== -1) {
+					draft.data[entryIndex].name = state.editingAddress.name
+					draft.data[entryIndex].address = state.editingAddress.address
+					draft.editAccountId = undefined
+				}
+			} else {
+				draft.data = [
+					...state.data,
+					{
+						id: generateRandomString(),
+						name: state.editingAddress.name,
+						address: state.editingAddress.address,
+						dateAdded: Math.floor(Math.random() * 30),
+						dateUpdated: Math.floor(Math.random() * 30),
+					},
+				]
+			}
+
+			draft.isEditDialogVisible = false
+			draft.editingAddress = { name: '', address: '' }
+			draft.editAccountId = undefined
+		})
+
+		toast(toastMessage, {
+			// duration: Infinity,
+		})
+	}
+
 	const columns = useMemo(
 		() => [
 			{
 				Header: 'Name',
-				accessor: 'firstName',
+				accessor: 'name',
 				width: '70%',
 				Cell: AddressNameCell,
 			},
@@ -108,6 +173,8 @@ export const SettingsAddressBook: React.FC<ISettingsGeneralProps> = props => {
 				Header: '',
 				accessor: 'lastName',
 				width: 'auto',
+				// TODO: move to component with fn
+				//
 				// eslint-disable-next-line react/no-unstable-nested-components
 				// eslint-disable-next-line
 				Cell: ({ row: { original } }) => (
@@ -136,7 +203,7 @@ export const SettingsAddressBook: React.FC<ISettingsGeneralProps> = props => {
 				),
 			},
 		],
-		[],
+		[state.data.length],
 	)
 
 	return (
@@ -153,21 +220,12 @@ export const SettingsAddressBook: React.FC<ISettingsGeneralProps> = props => {
 								integer tristique etiam integer.
 							</Text>
 						</Box>
-						<Box paddingTop="medium">
-							<Button
-								styleVariant="primary"
-								// disabled
-								leftIcon={<PlusIcon />}
-								onClick={() => handleAddEditAddress(undefined)}
-							>
+						<Box paddingBottom="medium" paddingTop="medium">
+							<Button styleVariant="primary" leftIcon={<PlusIcon />} onClick={() => handleAddEditAddress()}>
 								New address
 							</Button>
 						</Box>
-						{/* START ADDRESS BOOK TABLE */}
-						<Box paddingTop="large">
-							<Table scrollableNode={scrollableNode} data={state.data} columns={columns} />
-						</Box>
-						{/* END ADDRESS BOOK TABLE */}
+						<Table scrollableNode={scrollableNode} data={state.data} columns={columns} />
 					</Box>
 				</Box>
 			</Box>
@@ -184,28 +242,36 @@ export const SettingsAddressBook: React.FC<ISettingsGeneralProps> = props => {
 				onConfirm={handleConfirmDeleteAddress}
 			/>
 			<Dialog open={state.isEditDialogVisible} onClose={handleCloseEditAddressDialog}>
-				<Box padding="large">
-					<Text size="xxxlarge" color="strong">
-						heheheh
+				<Box padding="large" display="flex" flexDirection="column" gap="large">
+					<Text size="xlarge" color="strong" weight="strong">
+						Add address
 					</Text>
-					{Array.from({ length: 5 }).map((_, index) => (
-						// eslint-disable-next-line
-						<Text size="xxlarge" key={index}>
-							hadsofhasdohf
-						</Text>
-					))}
-
-					<Box style={{ position: 'sticky', top: '0' }}>
-						<Text size="xxxlarge" color="strong">
-							Sticky
-						</Text>
+					<Box display="flex" flexDirection="column" gap="xsmall">
+						<Text size="xsmall">Name</Text>
+						<Input placeholder="Name" value={state.editingAddress.name} onChange={handleChangeName} />
 					</Box>
-					{Array.from({ length: 200 }).map((_, index) => (
-						// eslint-disable-next-line
-						<Text size="xxlarge" key={index}>
-							hadsofhasdohf
-						</Text>
-					))}
+					<Box display="flex" flexDirection="column" gap="xsmall">
+						<Text size="xsmall">Address</Text>
+						<Input
+							placeholder="Address"
+							value={state.editingAddress.address}
+							onChange={handleChangeAddress}
+							// TODO: to validate correct address
+							rightIcon={
+								<Box color="green500">
+									<CheckCircleIcon />
+								</Box>
+							}
+						/>
+					</Box>
+					<Box display="flex" gap="small" justifyContent="flex-end">
+						<Button sizeVariant="small" styleVariant="secondary" onClick={handleCloseEditAddressDialog}>
+							cancel
+						</Button>
+						<Button sizeVariant="small" onClick={handleSaveAddress}>
+							save
+						</Button>
+					</Box>
 				</Box>
 			</Dialog>
 		</>
