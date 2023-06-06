@@ -20,6 +20,8 @@ build
 # misc
 .DS_Store
 *.pem
+*.local
+*.tsbuildinfo
 
 # debug
 npm-debug.log*

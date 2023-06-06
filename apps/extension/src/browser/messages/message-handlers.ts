@@ -3,7 +3,7 @@ import { Message as RadixMessage } from '@radixdlt/connector-extension/src/chrom
 import { MessageClient as RadixMessageClient } from '@radixdlt/connector-extension/src/chrome/messages/message-client'
 import { AppLogger } from '@radixdlt/connector-extension/src/utils/logger'
 
-import { ledgerTabWatcher } from '@src/browser//background/tabs'
+import { ledgerTabWatcher } from '@src/browser/background/tabs'
 import { Message, MessageAction, MessageHandlers } from '@src/browser/messages/types'
 
 const backgroundLogger = {

@@ -2,7 +2,6 @@ node_modules
 .DS_Store
 dist
 dist-ssr
-*.local
 .radixdlt
 vite.config.js
-*.tsbuildinfo
+vite.config.d.ts
