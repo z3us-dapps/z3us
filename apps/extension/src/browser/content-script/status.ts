@@ -1,8 +1,7 @@
 import browser from 'webextension-polyfill'
 
 // @ts-ignore
-// eslint-disable-next-line import/default
-import inpage from '@src/browser/inpage?script'
+import contentScript from '@src/browser/content-script?script'
 import { newMessage } from '@src/browser/messages/message'
 import { MessageAction, MessageSource } from '@src/browser/messages/types'
 import { sharedStore } from '@src/store'
@@ -43,12 +42,11 @@ export const handleContentScriptInjectAllTabs = async () => {
 					if ((await checkContentScript(tab.id)) === true) return
 					await browser.scripting.executeScript({
 						target: { tabId: tab.id, allFrames: true },
-						files: [inpage],
+						files: [contentScript],
 					})
 				}
 			} catch (error) {
-				// eslint-disable-next-line no-console
-				console.warn(tab.id, error)
+				// ignore
 			}
 		}),
 	)
@@ -60,12 +58,11 @@ export const handleContentScriptInject = async (tabId: number) => {
 	try {
 		await browser.scripting.executeScript({
 			target: { tabId, allFrames: true },
-			files: [inpage],
+			files: [contentScript],
 		})
 		await showConnected()
 	} catch (error) {
-		// eslint-disable-next-line no-console
-		console.warn(tabId, error)
+		// ignore
 	}
 }
 

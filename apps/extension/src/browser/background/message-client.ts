@@ -15,7 +15,6 @@ export const MessageClient = (handlers: MessageHandlers) => {
 		if (!port) throw new Error('Invalid port')
 		if (port.name !== PORT_NAME) return
 		if (!port.sender?.url) throw new Error('Missing sender url')
-		if (new URL(port.sender.url).hostname === popupURL.hostname) throw new Error('Invalid popup url')
 
 		const timer = setTimeout(
 			async () => {
@@ -43,7 +42,6 @@ export const MessageClient = (handlers: MessageHandlers) => {
 			switch (source) {
 				case MessageSource.OFFSCREEN:
 					throw new Error(`Invalid port message source ${source}`)
-					break
 				case MessageSource.INPAGE:
 					if (new URL(port.sender.url).hostname === popupURL.hostname) {
 						sendReplyToInpage(message, {
@@ -110,6 +108,8 @@ export const MessageClient = (handlers: MessageHandlers) => {
 	}
 
 	const onRadixMessage = async (payload: RadixMessage, fromTabId?: number) => {
+		if (!APP_RADIX) return
+
 		const handler = handlers[MessageAction.RADIX]
 		if (!handler) {
 			throw new Error('Missing radix message handler')

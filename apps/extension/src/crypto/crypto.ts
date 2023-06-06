@@ -43,13 +43,9 @@ export class CryptoService {
 		const encryptedData = Buffer.from(payload.data, 'hex')
 		const vector = Buffer.from(payload.iv, 'hex')
 
-		try {
-			const result = await this.crypto.subtle.decrypt({ name: 'AES-GCM', iv: vector }, key, encryptedData)
-			const decrypted = Buffer.from(new Uint8Array(result)).toString('utf-8')
-			return JSON.parse(decrypted)
-		} catch (e) {
-			throw new Error('Incorrect password')
-		}
+		const result = await this.crypto.subtle.decrypt({ name: 'AES-GCM', iv: vector }, key, encryptedData)
+		const decrypted = Buffer.from(new Uint8Array(result)).toString('utf-8')
+		return JSON.parse(decrypted)
 	}
 
 	private getKey = async (password: string, salt: string): Promise<CryptoKey> => {

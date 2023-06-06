@@ -1,9 +1,44 @@
-import { Message as RadixMessage, messageDiscriminator } from '@radixdlt/connector-extension/src/chrome/messages/_types'
+import { ContentScriptMessageHandler } from '@radixdlt/connector-extension/src/chrome/content-script/message-handler'
+import { MessageLifeCycleEvent } from '@radixdlt/connector-extension/src/chrome/dapp/_types'
+import { ChromeDAppClient } from '@radixdlt/connector-extension/src/chrome/dapp/dapp-client'
+import { addMetadata } from '@radixdlt/connector-extension/src/chrome/helpers/add-metadata'
+import {
+	ConfirmationMessageError,
+	Message as RadixMessage,
+} from '@radixdlt/connector-extension/src/chrome/messages/_types'
 import { createMessage as createRadixMessage } from '@radixdlt/connector-extension/src/chrome/messages/create-message'
+import { MessageClient as RadixMessageClient } from '@radixdlt/connector-extension/src/chrome/messages/message-client'
+import { logger } from '@radixdlt/connector-extension/src/utils/logger'
+import { ResultAsync, errAsync, okAsync } from 'neverthrow'
 import browser from 'webextension-polyfill'
 
 import { PORT_NAME } from '@src/browser/messages/constants'
 import { Message, MessageAction, MessageSource } from '@src/browser/messages/types'
+
+const chromeDAppClient = ChromeDAppClient()
+
+const sendMessageToDapp = (message: Record<string, any>): ResultAsync<undefined, ConfirmationMessageError['error']> => {
+	const result = chromeDAppClient.sendMessage(message)
+	return result.isErr() ? errAsync({ reason: 'unableToSendMessageToDapp' }) : okAsync(undefined)
+}
+
+const sendMessageEventToDapp = (
+	interactionId: string,
+	eventType: MessageLifeCycleEvent,
+): ResultAsync<undefined, ConfirmationMessageError['error']> => {
+	const result = chromeDAppClient.sendMessageEvent(interactionId, eventType)
+	return result.isErr() ? errAsync({ reason: 'unableToSendMessageEventToDapp' }) : okAsync(undefined)
+}
+
+const messageHandler = RadixMessageClient(
+	ContentScriptMessageHandler({
+		sendMessageToDapp,
+		sendMessageEventToDapp,
+		logger: logger,
+	}),
+	'contentScript',
+	{ logger },
+)
 
 export type MessageClientType = ReturnType<typeof MessageClient>
 
@@ -23,7 +58,7 @@ export const MessageClient = () => {
 		window.postMessage(message)
 	})
 
-	const forwardInpageMessageToBackground = (event: MessageEvent<Message>) => {
+	const forwardMessageToBackground = (event: MessageEvent<Message>) => {
 		if (event.source !== window) {
 			return
 		}
@@ -34,27 +69,23 @@ export const MessageClient = () => {
 		port.postMessage(message)
 	}
 
-	const handlePing = (message: Message | RadixMessage) => {
-		if ('discriminator' in message && message.discriminator in messageDiscriminator) {
-			console.error('content-script onRadixMessage', message)
-			return undefined // ignore messaged meant for offscreen
+	const onRuntimeMessage = async (message: Message | RadixMessage) => {
+		if ('action' in message && message.action === MessageAction.PING) {
+			return true
 		}
-		return Promise.resolve(true)
+		return messageHandler.onMessage(message as RadixMessage)
 	}
 
-	const forwardRadixEventToBackground = (event: CustomEvent<any>) => {
-		port.postMessage({
-			messageId: `${MessageAction.RADIX}-${crypto.randomUUID()}`,
-			target: MessageSource.BACKGROUND,
-			source: MessageSource.INPAGE,
-			action: MessageAction.RADIX,
-			payload: createRadixMessage.incomingDappMessage('dApp', event.detail),
-		} as Message)
+	const onRadixEvent = (event: CustomEvent<any>) => {
+		if (!APP_RADIX) return
+
+		console.log('onRadixEvent', addMetadata(event.detail))
+		messageHandler.onMessage(createRadixMessage.incomingDappMessage('dApp', addMetadata(event.detail)))
 	}
 
 	return {
-		handlePing,
-		forwardInpageMessageToBackground,
-		forwardRadixEventToBackground,
+		onRuntimeMessage,
+		onRadixEvent,
+		forwardMessageToBackground,
 	}
 }

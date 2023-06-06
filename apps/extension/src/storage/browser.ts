@@ -16,46 +16,28 @@ export class BrowserStorageService {
 	}
 
 	setItem = async (key: string, value: string): Promise<void> => {
-		try {
-			await this.storage.local.set({ [key]: value })
-			const error = checkForError()
-			if (error) {
-				throw error
-			}
-		} catch (err) {
-			// eslint-disable-next-line no-console
-			console.error(err)
-			throw err
+		await this.storage.local.set({ [key]: value })
+		const error = checkForError()
+		if (error) {
+			throw error
 		}
 	}
 
 	getItem = async (key: string): Promise<string> => {
-		try {
-			const data = await this.storage.local.get(key)
-			const error = checkForError()
-			if (error) {
-				throw error
-			}
-
-			return data[key]
-		} catch (err) {
-			// eslint-disable-next-line no-console
-			console.error(err)
-			throw err
+		const data = await this.storage.local.get(key)
+		const error = checkForError()
+		if (error) {
+			throw error
 		}
+
+		return data[key]
 	}
 
 	removeItem = async (key: string): Promise<void> => {
-		try {
-			await this.storage.local.remove(key)
-			const error = checkForError()
-			if (error) {
-				throw error
-			}
-		} catch (err) {
-			// eslint-disable-next-line no-console
-			console.error(err)
-			throw err
+		await this.storage.local.remove(key)
+		const error = checkForError()
+		if (error) {
+			throw error
 		}
 	}
 }
