@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import type { ClassValue } from 'clsx';
+import type { ClassValue } from 'clsx'
 import clsx from 'clsx'
 import { AnimatePresence, LayoutGroup, motion } from 'framer-motion'
 import React, { forwardRef } from 'react'
@@ -14,24 +14,11 @@ import { Link } from '@src/components/link'
 import { ScrollPanel } from '@src/components/scroll-panel'
 
 import * as styles from './account-settings.css'
-import { SettingsGeneral } from './settings-general'
+import { SettingsAccounts } from './settings-accounts'
 import { SettingsAddressBook } from './settings-address-book'
+import { SettingsGeneral } from './settings-general'
 
-interface IAccountSettingsDesktopRequiredProps {}
-
-interface IAccountSettingsDesktopOptionalProps {
-	className?: ClassValue
-}
-
-interface IAccountSettingsDesktopProps
-	extends IAccountSettingsDesktopRequiredProps,
-		IAccountSettingsDesktopOptionalProps {}
-
-const defaultProps: IAccountSettingsDesktopOptionalProps = {
-	className: undefined,
-}
-
-const MenuItemDesktop = ({ text, href }) => {
+const MenuItemDesktop = ({ text, href }: { text: string; href: string }) => {
 	const selected = useMatch(href)
 
 	return (
@@ -47,6 +34,10 @@ const MenuItemDesktop = ({ text, href }) => {
 			</Text>
 		</Link>
 	)
+}
+
+interface IAccountSettingsDesktopProps {
+	className?: ClassValue
 }
 
 export const AccountSettingsDesktop = forwardRef<HTMLElement, IAccountSettingsDesktopProps>(
@@ -98,9 +89,7 @@ export const AccountSettingsDesktop = forwardRef<HTMLElement, IAccountSettingsDe
 														path="/accounts"
 														element={
 															<AnimatedPage>
-																<Box>
-																	<Box>accounts</Box>
-																</Box>
+																<SettingsAccounts />
 															</AnimatedPage>
 														}
 													/>
@@ -125,5 +114,3 @@ export const AccountSettingsDesktop = forwardRef<HTMLElement, IAccountSettingsDe
 		)
 	},
 )
-
-AccountSettingsDesktop.defaultProps = defaultProps
