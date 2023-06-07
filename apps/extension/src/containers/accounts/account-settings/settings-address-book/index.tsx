@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import type { ClassValue } from 'clsx'
 import clsx from 'clsx'
-import React, { useMemo, useState } from 'react'
+import React, { useMemo } from 'react'
 import { toast } from 'sonner'
 import { useImmer } from 'use-immer'
 
@@ -15,7 +15,9 @@ import { Text } from 'ui/src/components-v2/typography'
 import { CheckCircleIcon, EditIcon, LoadingBarsIcon, PlusIcon, TrashIcon } from 'ui/src/components/icons'
 
 import * as styles from '../account-settings.css'
+import { AddressEditButtonsCell } from './address-edit-buttons-cell'
 import { AddressNameCell } from './address-name-cell'
+import { type IImmerSettingsGeneralProps } from './settings-address-book-types'
 
 function generateRandomString() {
 	const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789'
@@ -38,14 +40,6 @@ interface ISettingsGeneralProps {
 	scrollableNode: HTMLElement
 }
 
-interface IImmerSettingsGeneralProps {
-	deleteAccountId: string | undefined
-	editAccountId: string | undefined
-	isEditDialogVisible: boolean
-	data: any
-	editingAddress: any
-}
-
 export const SettingsAddressBook: React.FC<ISettingsGeneralProps> = props => {
 	const { className, scrollableNode } = props
 
@@ -64,6 +58,8 @@ export const SettingsAddressBook: React.FC<ISettingsGeneralProps> = props => {
 			name: '',
 			address: '',
 		},
+		initValidation: false,
+		validation: undefined,
 	})
 
 	const handleDeleteAddress = (id: string) => {
@@ -73,10 +69,7 @@ export const SettingsAddressBook: React.FC<ISettingsGeneralProps> = props => {
 	}
 
 	const handleAddEditAddress = (id?: string | undefined) => {
-		console.log('id:', id)
-		console.log('state.data:', state.data)
 		const editingAddress = state.data.find(address => address.id === id)
-		console.log('editingAddress:', editingAddress)
 
 		setState(draft => {
 			draft.editAccountId = id
@@ -171,35 +164,15 @@ export const SettingsAddressBook: React.FC<ISettingsGeneralProps> = props => {
 			},
 			{
 				Header: '',
-				accessor: 'lastName',
+				accessor: 'id',
 				width: 'auto',
-				// TODO: move to component with fn
-				//
 				// eslint-disable-next-line react/no-unstable-nested-components
-				// eslint-disable-next-line
-				Cell: ({ row: { original } }) => (
-					<Box display="flex" justifyContent="flex-end" flexShrink={0} gap="small">
-						<Button
-							sizeVariant="small"
-							styleVariant="secondary"
-							leftIcon={<TrashIcon />}
-							onClick={() => {
-								handleDeleteAddress(original.id)
-							}}
-						>
-							Delete
-						</Button>
-						<Button
-							sizeVariant="small"
-							styleVariant="secondary"
-							leftIcon={<EditIcon />}
-							onClick={() => {
-								handleAddEditAddress(original.id)
-							}}
-						>
-							Edit
-						</Button>
-					</Box>
+				Cell: ({ row }) => (
+					<AddressEditButtonsCell
+						id={row.original.id}
+						onDelete={() => handleDeleteAddress(row.original.id)}
+						onEdit={() => handleAddEditAddress(row.original.id)}
+					/>
 				),
 			},
 		],

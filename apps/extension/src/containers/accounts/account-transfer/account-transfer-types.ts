@@ -1,5 +1,5 @@
-import type { z } from 'zod';
-import { type ZodError } from 'zod'
+import type { z } from 'zod'
+import { type TZodValidationGeneric } from '@src/utils/get-zod-error'
 
 import type { transferFormSchema } from './account-transfer-constants'
 
@@ -15,11 +15,7 @@ export interface IToken {
 
 export type TTransferSchema = z.infer<typeof transferFormSchema>
 
-export type TZodValidationError = { success: false; error: ZodError }
-
-export type TZodValidationSuccess = { success: true; data: TTransferSchema }
-
-export type TZodValidation = TZodValidationSuccess | TZodValidationError
+export type TZodValidation = TZodValidationGeneric<TTransferSchema>
 
 export interface IAccountTransferImmer {
 	transaction: TTransferSchema

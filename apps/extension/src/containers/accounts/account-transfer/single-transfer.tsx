@@ -12,13 +12,13 @@ import { Check2Icon, CheckCircleIcon, ChevronDown2Icon, WriteNoteIcon } from 'ui
 
 import * as plainButtonStyles from '@src/components/styles/plain-button-styles.css'
 import { TokenImageIcon } from '@src/components/token-image-icon'
+import { ValidationErrorMessage } from '@src/components/validation-error-message'
+import { getZodError } from '@src/utils/get-zod-error'
 
 import { type TTransferSchema, type TZodValidation } from './account-transfer-types'
-import { getZodError } from './account-transfer-utils'
 import { SearchableInput } from './searchable-input'
 import { TransferMessage } from './transfer-message'
 import { TransferTokenSelector } from './transfer-token-selector'
-import { ValidationErrorMessage } from './validation-error-message'
 
 const SEND_INDEX = 0
 const TOKEN_INDEX = 0
@@ -119,7 +119,7 @@ export const SingleTransfer: React.FC<ISingleTransferProps> = props => {
 					)}
 					trigger={
 						<Button
-							styleVariant={getZodError(validation, ['from']) ? 'secondary-error' : 'secondary'}
+							styleVariant={getZodError<TTransferSchema>(validation, ['from']).error ? 'secondary-error' : 'secondary'}
 							sizeVariant="xlarge"
 							fullWidth
 							leftIcon={
@@ -139,7 +139,7 @@ export const SingleTransfer: React.FC<ISingleTransferProps> = props => {
 						</Button>
 					}
 				/>
-				<ValidationErrorMessage validation={validation} path={['from']} />
+				<ValidationErrorMessage error={getZodError<TTransferSchema>(validation, ['from'])} />
 			</Box>
 			<Box display="flex" paddingBottom="medium" paddingTop="large">
 				<Box display="flex" alignItems="center" width="full">
@@ -176,21 +176,25 @@ export const SingleTransfer: React.FC<ISingleTransferProps> = props => {
 					value={send.to}
 					placeholder="Enter address"
 					// placeholder={capitalizeFirstLetter(`${t('global.search')}`)}
-					styleVariant={getZodError(validation, ['sends', SEND_INDEX, 'to']) ? 'secondary-error' : 'secondary'}
+					styleVariant={
+						getZodError<TTransferSchema>(validation, ['sends', SEND_INDEX, 'to']).error
+							? 'secondary-error'
+							: 'secondary'
+					}
 					onValueChange={handleUpdateToAccount}
 					data={addressBook}
 				/>
-				<ValidationErrorMessage validation={validation} path={['sends', SEND_INDEX, 'to']} />
+				<ValidationErrorMessage error={getZodError<TTransferSchema>(validation, ['sends', SEND_INDEX, 'to'])} />
 			</Box>
 			<TransferMessage
 				isVisible={isMessageUiVisible}
 				message={transaction.message}
 				isEncrypted={transaction.isMessageEncrypted}
-				isError={getZodError(validation, ['message'])}
+				isError={getZodError<TTransferSchema>(validation, ['message']).error}
 				onUpdateMessage={onUpdateMessage}
 				onUpdateIsMessageEncrypted={onUpdateIsMessageEncrypted}
 			/>
-			<ValidationErrorMessage validation={validation} path={['message']} />
+			<ValidationErrorMessage error={getZodError<TTransferSchema>(validation, ['message'])} />
 			<TransferTokenSelector
 				styleVariant="secondary"
 				tokens={tokens}

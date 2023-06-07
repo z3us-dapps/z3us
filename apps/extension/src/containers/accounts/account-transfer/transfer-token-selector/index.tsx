@@ -22,13 +22,13 @@ import { ChevronDown2Icon } from 'ui/src/components/icons'
 import { Link } from '@src/components/link'
 import * as plainButtonStyles from '@src/components/styles/plain-button-styles.css'
 import { TokenImageIcon } from '@src/components/token-image-icon'
+import { ValidationErrorMessage } from '@src/components/validation-error-message'
 import { accountMenuSlugs } from '@src/constants'
 // TODO: move to components outside of the containers
 import { TokenSelectorDialog } from '@src/containers/accounts/token-selector-dialog'
+import { getZodError } from '@src/utils/get-zod-error'
 
-import type { TZodValidation } from '../account-transfer-types'
-import { getZodError } from '../account-transfer-utils'
-import { ValidationErrorMessage } from '../validation-error-message'
+import type { TTransferSchema, TZodValidation } from '../account-transfer-types'
 import * as styles from './transfer-token-selector.css'
 
 interface ITransferTokenSelectorRequiredProps {
@@ -87,7 +87,13 @@ export const TransferTokenSelector: React.FC<ITransferTokenSelectorProps> = prop
 	}
 
 	const getAmountInputStyleVariant = () => {
-		const isAmountError = getZodError(validation, ['sends', sendIndex, 'tokens', tokenIndex, 'amount'])
+		const isAmountError = getZodError<TTransferSchema>(validation, [
+			'sends',
+			sendIndex,
+			'tokens',
+			tokenIndex,
+			'amount',
+		]).error
 
 		if (isAmountError) {
 			return styleVariant === 'primary' ? 'primary-error' : 'secondary-error'
@@ -97,7 +103,13 @@ export const TransferTokenSelector: React.FC<ITransferTokenSelectorProps> = prop
 	}
 
 	const getTokenInputStyleVariant = () => {
-		const isAmountError = getZodError(validation, ['sends', sendIndex, 'tokens', tokenIndex, 'token'])
+		const isAmountError = getZodError<TTransferSchema>(validation, [
+			'sends',
+			sendIndex,
+			'tokens',
+			tokenIndex,
+			'token',
+		]).error
 
 		if (isAmountError) {
 			return styleVariant === 'primary' ? 'secondary-error' : 'tertiary-error'
@@ -170,8 +182,12 @@ export const TransferTokenSelector: React.FC<ITransferTokenSelectorProps> = prop
 				/>
 			</Box>
 			<Box display="flex" justifyContent="space-between">
-				<ValidationErrorMessage validation={validation} path={['sends', sendIndex, 'tokens', tokenIndex, 'amount']} />
-				<ValidationErrorMessage validation={validation} path={['sends', sendIndex, 'tokens', tokenIndex, 'token']} />
+				<ValidationErrorMessage
+					error={getZodError<TTransferSchema>(validation, ['sends', sendIndex, 'tokens', tokenIndex, 'amount'])}
+				/>
+				<ValidationErrorMessage
+					error={getZodError<TTransferSchema>(validation, ['sends', sendIndex, 'tokens', tokenIndex, 'token'])}
+				/>
 			</Box>
 			<Box display="flex" paddingTop="small">
 				<Box display="flex" alignItems="center" flexGrow={1} gap="xsmall">
