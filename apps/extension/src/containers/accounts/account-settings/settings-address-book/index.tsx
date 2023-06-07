@@ -265,11 +265,13 @@ export const SettingsAddressBook: React.FC<ISettingsGeneralProps> = props => {
 								value={state.editingAddress.address}
 								styleVariant={getError(state.validation, ['address']).error ? 'primary-error' : 'primary'}
 								onChange={handleChangeAddress}
-								// TODO: to validate correct address, and show cross or tick
 								rightIcon={
-									<Box color="green500">
-										<CheckCircleIcon />
-									</Box>
+									state.initValidation &&
+									!getError(state.validation, ['address']).error && (
+										<Box color="green500" display="flex">
+											<CheckCircleIcon />
+										</Box>
+									)
 								}
 							/>
 							<ValidationErrorMessage error={getError(state.validation, ['address'])} />
