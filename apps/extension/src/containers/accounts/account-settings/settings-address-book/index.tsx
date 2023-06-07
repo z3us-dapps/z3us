@@ -3,6 +3,7 @@ import type { ClassValue } from 'clsx'
 import clsx from 'clsx'
 import React, { useMemo } from 'react'
 import { toast } from 'sonner'
+import useDeepCompareEffect from 'use-deep-compare-effect'
 import { useImmer } from 'use-immer'
 
 import { Box } from 'ui/src/components-v2/box'
@@ -14,10 +15,12 @@ import { Table } from 'ui/src/components-v2/table'
 import { Text } from 'ui/src/components-v2/typography'
 import { CheckCircleIcon, EditIcon, LoadingBarsIcon, PlusIcon, TrashIcon } from 'ui/src/components/icons'
 
+import { ValidationErrorMessage } from '@src/components/validation-error-message'
+
 import * as styles from '../account-settings.css'
 import { AddressEditButtonsCell } from './address-edit-buttons-cell'
 import { AddressNameCell } from './address-name-cell'
-import { type IImmerSettingsGeneralProps } from './settings-address-book-types'
+import { type IImmerSettingsGeneralProps, getError, validateAddressBookForm } from './settings-address-book-utils'
 
 function generateRandomString() {
 	const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789'
@@ -62,6 +65,14 @@ export const SettingsAddressBook: React.FC<ISettingsGeneralProps> = props => {
 		validation: undefined,
 	})
 
+	useDeepCompareEffect(() => {
+		if (state.initValidation) {
+			setState(draft => {
+				draft.validation = validateAddressBookForm(state.editingAddress)
+			})
+		}
+	}, [state.editingAddress])
+
 	const handleDeleteAddress = (id: string) => {
 		setState(draft => {
 			draft.deleteAccountId = id
@@ -84,6 +95,8 @@ export const SettingsAddressBook: React.FC<ISettingsGeneralProps> = props => {
 		setState(draft => {
 			draft.editingAddress = { name: '', address: '' }
 			draft.isEditDialogVisible = false
+			draft.validation = undefined
+			draft.initValidation = false
 		})
 	}
 
@@ -121,6 +134,17 @@ export const SettingsAddressBook: React.FC<ISettingsGeneralProps> = props => {
 	}
 
 	const handleSaveAddress = () => {
+		const validation = validateAddressBookForm(state.editingAddress)
+
+		setState(draft => {
+			draft.initValidation = true
+			draft.validation = validation
+		})
+
+		if (!validation.success) {
+			return
+		}
+
 		const toastMessage = state.editAccountId ? 'updated' : 'saved'
 
 		setState(draft => {
@@ -147,6 +171,8 @@ export const SettingsAddressBook: React.FC<ISettingsGeneralProps> = props => {
 			draft.isEditDialogVisible = false
 			draft.editingAddress = { name: '', address: '' }
 			draft.editAccountId = undefined
+			draft.validation = undefined
+			draft.initValidation = false
 		})
 
 		toast(toastMessage, {
@@ -221,21 +247,33 @@ export const SettingsAddressBook: React.FC<ISettingsGeneralProps> = props => {
 					</Text>
 					<Box display="flex" flexDirection="column" gap="xsmall">
 						<Text size="xsmall">Name</Text>
-						<Input placeholder="Name" value={state.editingAddress.name} onChange={handleChangeName} />
+						<Box>
+							<Input
+								placeholder="Name"
+								value={state.editingAddress.name}
+								onChange={handleChangeName}
+								styleVariant={getError(state.validation, ['name']).error ? 'primary-error' : 'primary'}
+							/>
+							<ValidationErrorMessage error={getError(state.validation, ['name'])} />
+						</Box>
 					</Box>
 					<Box display="flex" flexDirection="column" gap="xsmall">
 						<Text size="xsmall">Address</Text>
-						<Input
-							placeholder="Address"
-							value={state.editingAddress.address}
-							onChange={handleChangeAddress}
-							// TODO: to validate correct address
-							rightIcon={
-								<Box color="green500">
-									<CheckCircleIcon />
-								</Box>
-							}
-						/>
+						<Box>
+							<Input
+								placeholder="Address"
+								value={state.editingAddress.address}
+								styleVariant={getError(state.validation, ['address']).error ? 'primary-error' : 'primary'}
+								onChange={handleChangeAddress}
+								// TODO: to validate correct address, and show cross or tick
+								rightIcon={
+									<Box color="green500">
+										<CheckCircleIcon />
+									</Box>
+								}
+							/>
+							<ValidationErrorMessage error={getError(state.validation, ['address'])} />
+						</Box>
 					</Box>
 					<Box display="flex" gap="small" justifyContent="flex-end">
 						<Button sizeVariant="small" styleVariant="secondary" onClick={handleCloseEditAddressDialog}>
