@@ -7,11 +7,9 @@ export const Toasts: React.FC = () => (
 	<Toaster
 		toastOptions={{
 			className: styles.toastsWrapper,
-			descriptionClassName: 'my-toast-description',
 		}}
 		position="top-center"
 		closeButton
-		// expand
 		visibleToasts={3}
 		offset="20px"
 	/>

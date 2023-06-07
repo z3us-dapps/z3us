@@ -133,7 +133,8 @@ export const SettingsAddressBook: React.FC<ISettingsGeneralProps> = props => {
 		})
 	}
 
-	const handleSaveAddress = () => {
+	const handleSaveAddress = (event: React.FormEvent<HTMLFormElement>) => {
+		event.preventDefault()
 		const validation = validateAddressBookForm(state.editingAddress)
 
 		setState(draft => {
@@ -241,7 +242,14 @@ export const SettingsAddressBook: React.FC<ISettingsGeneralProps> = props => {
 				onConfirm={handleConfirmDeleteAddress}
 			/>
 			<Dialog open={state.isEditDialogVisible} onClose={handleCloseEditAddressDialog}>
-				<Box padding="large" display="flex" flexDirection="column" gap="large">
+				<Box
+					component="form"
+					padding="large"
+					display="flex"
+					flexDirection="column"
+					gap="large"
+					onSubmit={handleSaveAddress}
+				>
 					<Text size="xlarge" color="strong" weight="strong">
 						Add address
 					</Text>
@@ -281,7 +289,8 @@ export const SettingsAddressBook: React.FC<ISettingsGeneralProps> = props => {
 						<Button sizeVariant="small" styleVariant="secondary" onClick={handleCloseEditAddressDialog}>
 							cancel
 						</Button>
-						<Button sizeVariant="small" onClick={handleSaveAddress}>
+						{/* <Button sizeVariant="small" onClick={handleSaveAddress}> */}
+						<Button sizeVariant="small" type="submit">
 							save
 						</Button>
 					</Box>

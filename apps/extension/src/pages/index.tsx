@@ -79,9 +79,24 @@ export const TempNav: React.FC = () => {
 			<Link to="/connect">connect</Link>
 			<button
 				onClick={() => {
+					// toast.error('Event has not been created', { duration: Infinity })
+					// toast.promise(() => new Promise((resolve) => setTimeout(resolve, 2000)), {
+					//   loading: 'Loading',
+					//   success: 'Success',
+					//   error: 'Error',
+					// });
 					toast('Event has been created', {
+						description: 'Monday, January 3rd at 6:00pm',
+						icon: <ExternalLinkIcon />,
+						// className: 'toast-success',
+						descriptionClassName: 'my-toast-description',
 						// duration: Infinity,
 					})
+					// toast('Event has been created', {
+					// 	duration: Infinity,
+					// 	className: 'my-toast',
+					// 	descriptionClassName: 'my-toast-description',
+					// })
 				}}
 				type="button"
 			>

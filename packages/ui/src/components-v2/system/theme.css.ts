@@ -487,20 +487,18 @@ export const themeShape = {
 }
 
 /**
- * All Colors Types
+ * Colors Types
  */
 export type TThemeColors = typeof themeShape['color']
 export type TThemeColorKey = keyof TThemeColors
 
 /**
  * Static Light Theme
- * Do not use inline for styles
  */
 export const lightTheme = themeShape
 
 /**
  * Static Dark Theme
- * Do not use inline for styles
  */
 export const darkTheme = {
 	color: {
@@ -511,7 +509,7 @@ export const darkTheme = {
 }
 
 /**
- * List of ALL themes
+ * Themes
  */
 export const themes = {
 	lightTheme,
@@ -519,7 +517,7 @@ export const themes = {
 }
 
 /**
- * Light Theme tools
+ * Light Theme
  */
 export const [lightThemeClass, vars] = createTheme(themeShape)
 
