@@ -19,7 +19,7 @@ export const accountsCardWrapper = style([
 		display: 'flex',
 		flexDirection: 'column',
 		width: 'full',
-		gap: 'medium',
+		gap: 'large',
 	}),
 	{
 		maxWidth: '340px',

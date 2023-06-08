@@ -15,11 +15,11 @@ interface IAvatarProps {
 	delayMs?: number
 	className?: ClassValue
 	sizeVariant?: 'small' | 'medium' | 'large'
-	styleVariant?: 'neutral' | 'border'
+	styleVariant?: 'circle' | 'rounded'
 }
 
 export const Avatar = forwardRef<HTMLButtonElement, IAvatarProps>((props, ref) => {
-	const { className, sizeVariant = 'medium', styleVariant = 'neutral', src, alt, fallback, delayMs, ...rest } = props
+	const { className, sizeVariant = 'medium', styleVariant = 'circle', src, alt, fallback, delayMs, ...rest } = props
 
 	return (
 		<AvatarRoot

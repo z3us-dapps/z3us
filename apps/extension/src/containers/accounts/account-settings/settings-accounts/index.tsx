@@ -3,6 +3,7 @@ import type { ClassValue } from 'clsx'
 import clsx from 'clsx'
 import React, { forwardRef, useState } from 'react'
 
+import { Avatar } from 'ui/src/components-v2/avatar'
 import { Box } from 'ui/src/components-v2/box'
 import { Button } from 'ui/src/components-v2/button'
 import { type FormElement, Input, type TSizeVariant, type TStyleVariant } from 'ui/src/components-v2/input'
@@ -111,7 +112,7 @@ export const SettingsAccounts: React.FC<ISettingsAccountsProps> = forwardRef<HTM
 								<Box>
 									<AccountCards accountCards={cards} selectedCardIndex={1} isCardShadowVisible={false} />
 								</Box>
-								<Box display="flex" flexDirection="column" gap="xsmall">
+								<Box display="flex" flexDirection="column" gap="small">
 									<Text size="xsmall" weight="medium" color="strong">
 										Account Alias
 									</Text>
@@ -124,15 +125,38 @@ export const SettingsAccounts: React.FC<ISettingsAccountsProps> = forwardRef<HTM
 									/>
 									{/* <ValidationErrorMessage error={getError(state.validation, ['name'])} /> */}
 								</Box>
-								<Box>
+								<Box display="flex" flexDirection="column" gap="small">
 									<Text size="xsmall" weight="medium" color="strong">
 										Account color
 									</Text>
+									<Box display="flex" gap="small" flexWrap="wrap" flexGrow={0} flexShrink={0}>
+										{Array.from({ length: 10 }, (_, i) => (
+											<Avatar
+												key={i}
+												styleVariant="circle"
+												src="https://images.unsplash.com/photo-1492633423870-43d1cd2775eb?&w=128&h=128&dpr=2&q=80"
+												alt="this is the image"
+												fallback="df"
+											/>
+										))}
+									</Box>
 								</Box>
-								<Box>
+								<Box display="flex" flexDirection="column" gap="small">
 									<Text size="xsmall" weight="medium" color="strong">
 										Account image
 									</Text>
+									<Box display="flex" gap="small" flexWrap="wrap" flexGrow={0} flexShrink={0}>
+										{Array.from({ length: 10 }, (_, i) => (
+											<Button key={i}>
+												<Avatar
+													styleVariant="rounded"
+													src="https://images.unsplash.com/photo-1492633423870-43d1cd2775eb?&w=128&h=128&dpr=2&q=80"
+													alt="this is the image"
+													fallback="df"
+												/>
+											</Button>
+										))}
+									</Box>
 								</Box>
 							</Box>
 						</Box>

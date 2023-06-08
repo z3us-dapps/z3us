@@ -2,6 +2,7 @@ import { style } from '@vanilla-extract/css'
 import { recipe } from '@vanilla-extract/recipes'
 
 import { sprinkles } from '../system/sprinkles.css'
+import { vars } from '../system/theme.css'
 
 export const avatarRootWrapper = style([
 	sprinkles({
@@ -10,7 +11,6 @@ export const avatarRootWrapper = style([
 		alignItems: 'center',
 		justifyContent: 'center',
 		overflow: 'clip',
-		borderRadius: 'full',
 	}),
 	{
 		userSelect: 'none',
@@ -20,22 +20,22 @@ export const avatarRootWrapper = style([
 export const avatarRootRecipe = recipe({
 	variants: {
 		styleVariant: {
-			neutral: [
+			circle: [
 				sprinkles({
 					background: {
 						lightMode: 'bleached_silk500',
 						darkMode: 'wax900',
 					},
+					borderRadius: 'full',
 				}),
 				{},
 			],
-			border: [sprinkles({}), {}],
+			rounded: [sprinkles({}), {}],
 		},
 		sizeVariant: {
 			small: {},
 			medium: [
 				sprinkles({
-					borderRadius: 'full',
 				}),
 				{
 					height: '32px',
@@ -45,6 +45,17 @@ export const avatarRootRecipe = recipe({
 			large: {},
 		},
 	},
+	compoundVariants: [
+		{
+			variants: {
+				styleVariant: 'rounded',
+				sizeVariant: 'medium',
+			},
+			style: {
+				borderRadius: vars.border.radius.medium,
+			},
+		},
+	],
 })
 
 export const avatarImageWrapper = style([
@@ -61,8 +72,8 @@ export const avatarImageWrapper = style([
 export const avatarImageRecipe = recipe({
 	variants: {
 		styleVariant: {
-			neutral: {},
-			border: [sprinkles({}), {}],
+			circle: {},
+			rounded: [sprinkles({}), {}],
 		},
 		sizeVariant: {
 			small: {},
@@ -88,8 +99,8 @@ export const avatarFallbackWrapper = style([
 export const avatarFallbackRecipe = recipe({
 	variants: {
 		styleVariant: {
-			neutral: {},
-			border: [sprinkles({}), {}],
+			circle: {},
+			rounded: [sprinkles({}), {}],
 		},
 		sizeVariant: {
 			small: {
