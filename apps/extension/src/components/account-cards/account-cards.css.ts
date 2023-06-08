@@ -1,13 +1,35 @@
 import { globalStyle, style } from '@vanilla-extract/css'
 
 import { darkMode, sprinkles } from 'ui/src/components-v2/system/sprinkles.css'
+import { responsiveStyle } from 'ui/src/components-v2/system/theme-utils'
 import { vars } from 'ui/src/components-v2/system/theme.css'
+
+export const cardWrapperAll = style([
+	sprinkles({
+		position: 'relative',
+		borderRadius: 'xlarge',
+		overflow: 'hidden',
+	}),
+	responsiveStyle({
+		mobile: {
+			width: '100%',
+			paddingBottom: '56.25%',
+			height: '0px',
+		},
+		desktop: {
+			width: '97%',
+			paddingBottom: '56.25%',
+			height: '0px',
+		},
+	}),
+])
 
 export const card = style([
 	sprinkles({
 		position: 'absolute',
 		borderRadius: 'xlarge',
 		flexShrink: 0,
+		overflow: 'hidden',
 	}),
 	{
 		width: '100%',
@@ -15,9 +37,7 @@ export const card = style([
 		backgroundSize: '100% auto',
 		transformOrigin: 'top center',
 		listStyle: 'none',
-		overflow: 'hidden',
-		boxShadow:
-			'0px 0px 0px 1px rgba(0, 0, 0, 0.05), 0px 1px 1px rgba(0, 0, 0, 0.06), 0px 2px 8px rgba(0, 0, 0, 0.08), 0px 16px 48px -8px rgba(0, 0, 0, 0.1), 0px 32px 48px rgba(0, 0, 0, 0.05)',
+
 		':after': {
 			content: '""',
 			position: 'absolute',
@@ -31,6 +51,13 @@ export const card = style([
 			borderRadius: vars.border.radius.xlarge,
 			opacity: '0.5',
 		},
+	},
+])
+
+export const cardShadow = style([
+	{
+		boxShadow:
+			'0px 0px 0px 1px rgba(0, 0, 0, 0.05), 0px 1px 1px rgba(0, 0, 0, 0.06), 0px 2px 8px rgba(0, 0, 0, 0.08), 0px 16px 48px -8px rgba(0, 0, 0, 0.1), 0px 32px 48px rgba(0, 0, 0, 0.05)',
 		selectors: {
 			[`.${darkMode} &`]: {
 				boxShadow:

@@ -1,7 +1,7 @@
 import { style } from '@vanilla-extract/css'
 
 import { sprinkles } from 'ui/src/components-v2/system/sprinkles.css'
-import { responsiveStyle } from 'ui/src/components-v2/system/theme-utils'
+// import { responsiveStyle } from 'ui/src/components-v2/system/theme-utils'
 
 // import { vars } from 'ui/src/components-v2/system/theme.css'
 
@@ -35,24 +35,6 @@ export const tempBg = style([
 		height: '160px',
 		width: '100%',
 	},
-])
-
-export const cardWrapperAll = style([
-	sprinkles({
-		position: 'relative',
-	}),
-	responsiveStyle({
-		mobile: {
-			width: '100%',
-			paddingBottom: '56.25%',
-			height: '0px',
-		},
-		desktop: {
-			width: '97%',
-			paddingBottom: '56.25%',
-			height: '0px',
-		},
-	}),
 ])
 
 export const tempNav = sprinkles({

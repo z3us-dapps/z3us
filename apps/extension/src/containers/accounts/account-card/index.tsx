@@ -9,7 +9,7 @@ import { ToolTip } from 'ui/src/components-v2/tool-tip'
 import { Text } from 'ui/src/components-v2/typography'
 import { ArrowLeftIcon, ArrowRightIcon, Close2Icon } from 'ui/src/components/icons'
 
-import { AnimatedCard } from '@src/components/animated-card'
+import { AccountCards } from '@src/components/account-cards'
 import { Button } from '@src/components/button'
 import { CardButtons } from '@src/components/card-buttons'
 import { TransactionIcon } from '@src/components/transaction-icon'
@@ -22,13 +22,15 @@ import * as styles from './account-card.css'
 const CARD_COLORS = [
 	{
 		// accountId: 'rdx1...ldg0',
+
+		accountId: '__all-accounts__',
 		accountName: 'all',
 		accountBalance: '$80,043.43',
 		// backgroundImage:
 		// 	'url("/images/account-images/z3us-apple-hermes-v2.png"), radial-gradient(77.21% 96.45% at 50% 100%, #BF9E76 0%, #BF9E76 17.71%, #BF9E76 50.52%, #BF9E76 100%)',
 	},
 	{
-		accountId: 'rdx1b707388613169bf701d533e143d8f698c9090f605e677a967eaf70a4c69250ce',
+		accountId: 'rdx1b70738833bf701d533e143d8f698c9090f605e677a967eafdfdfdf0a4c69250ce',
 		accountName: 'Spend',
 		accountBalance: '$1043.43',
 		backgroundImage:
@@ -42,7 +44,7 @@ const CARD_COLORS = [
 			'url("/images/account-images/z3us-athens.png"), radial-gradient(77.21% 96.45% at 50% 100%, #C0D7EF 0%, #C0D7EF 17.71%, #C0D7EF 50.52%, #C0D7EF 100%)',
 	},
 	{
-		accountId: 'rdx1b707388613169bf701d533e143d8f698c9090f605e677a967eaf70a4c69250ce',
+		accountId: 'rdx1b707388613169bf701d533e143d8f6idfidufidjfidjfidjf',
 		accountName: 'Defi',
 		accountBalance: '$80,043.43',
 		backgroundImage:
@@ -62,7 +64,7 @@ export const AccountCard: React.FC<IAccountCardProps> = props => {
 	const navigate = useNavigate()
 	const { account, assetType, asset } = useAccountParams()
 	const [isMounted, setIsMounted] = useState<boolean>(false)
-	const [cards] = useState<Array<any>>(CARD_COLORS)
+	// const [cards] = useState<Array<any>>(CARD_COLORS)
 	const [selectedIndexCard, setSelectedIndexCard] = useState<number>(0)
 	const isAllAccount = account === ACCOUNTS_ALL
 
@@ -120,32 +122,8 @@ export const AccountCard: React.FC<IAccountCardProps> = props => {
 				</Button>
 			</Box>
 			<Box display="flex" flexDirection="column" alignItems="center">
+				<AccountCards accountCards={CARD_COLORS} selectedCardIndex={selectedIndexCard} />
 				<AnimatePresence initial={false}>
-					<motion.ul
-						key="cards"
-						initial={{ opacity: 0, y: 0 }}
-						animate={{
-							opacity: 1,
-							y: 0,
-							x: 0,
-						}}
-						exit={{ opacity: 0, y: 0 }}
-						transition={{ duration: 0.3 }}
-						className={styles.cardWrapperAll}
-					>
-						{cards.map(({ backgroundImage, accountName, accountId, accountBalance }, idx) => (
-							<AnimatedCard
-								key={accountName}
-								backgroundImage={backgroundImage}
-								selectedCardIndex={selectedIndexCard}
-								cardIndex={idx}
-								accountAddress={accountId}
-								accountBalance={accountBalance}
-								accountName={accountName}
-								isAllAccount={accountName === ACCOUNTS_ALL}
-							/>
-						))}
-					</motion.ul>
 					<motion.div
 						key="buttons"
 						initial={{ opacity: 0, x: 0, y: 0, height: 48 }}
