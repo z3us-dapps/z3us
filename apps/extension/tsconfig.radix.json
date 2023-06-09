@@ -24,6 +24,8 @@
     "declaration": true,
     "declarationMap": true,
     "sourceMap": true,
+
+    "tsBuildInfoFile": ".build-cache/tsconfig.radix.tsbuildinfo"
   },
   "include": [
     "../../node_modules/@radixdlt/connector-extension/src",

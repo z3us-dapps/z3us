@@ -5,6 +5,8 @@
       "resolveJsonModule": true,
       "allowSyntheticDefaultImports": true,
       "moduleResolution": "node",
+
+      "tsBuildInfoFile": ".build-cache/tsconfig.node.tsbuildinfo"
     },
     "include": [
       "package.json",
