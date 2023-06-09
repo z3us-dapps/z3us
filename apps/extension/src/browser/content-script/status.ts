@@ -4,7 +4,6 @@ import browser from 'webextension-polyfill'
 import contentScript from '@src/browser/content-script?script'
 import { newMessage } from '@src/browser/messages/message'
 import { MessageAction, MessageSource } from '@src/browser/messages/types'
-import { sharedStore } from '@src/store'
 
 import { STATUS_ICONS } from './constants'
 
@@ -41,7 +40,7 @@ export const handleContentScriptInjectAllTabs = async () => {
 				if (tab.id) {
 					if ((await checkContentScript(tab.id)) === true) return
 					await browser.scripting.executeScript({
-						target: { tabId: tab.id, allFrames: true },
+						target: { tabId: tab.id },
 						files: [contentScript],
 					})
 				}
@@ -57,7 +56,7 @@ export const handleContentScriptInject = async (tabId: number) => {
 
 	try {
 		await browser.scripting.executeScript({
-			target: { tabId, allFrames: true },
+			target: { tabId },
 			files: [contentScript],
 		})
 		await showConnected()
@@ -70,18 +69,20 @@ export const handleCheckContentScript = async (tabId: number) => {
 	const [tab] = await browser.tabs.query({ active: true, currentWindow: true })
 	if (tab?.id !== tabId) return
 
-	const tabURL = tab?.url ? new URL(tab.url) : null
-	const tabHost = tabURL?.host || ''
+	// const tabURL = tab?.url ? new URL(tab.url) : null
+	// const tabHost = tabURL?.host || ''
 
 	if ((await checkContentScript(tab.id)) === true) {
-		await sharedStore.persist.rehydrate()
-		// const { approvedWebsites } = sharedStore.getState()
-		const approvedWebsites = [] // @TODO
+		await showConnected()
 
-		if (tabHost in approvedWebsites) {
-			await showConnected()
-			return
-		}
+		// await sharedStore.persist.rehydrate()
+		// const { approvedWebsites } = sharedStore.getState()
+		// const approvedWebsites = [] // @TODO
+
+		// if (tabHost in approvedWebsites) {
+		// 	await showConnected()
+		// 	return
+		// }
 	}
 
 	await showDisconnected()

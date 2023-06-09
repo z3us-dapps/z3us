@@ -76,7 +76,7 @@ export const MessageClient = () => {
 	}
 
 	const onRuntimeMessage = async (message: any) => {
-		if (message?.source in MessageSource && message?.action === MessageAction.PING) {
+		if (message?.source === MessageSource.BACKGROUND && message?.action === MessageAction.PING) {
 			return true
 		} else if (APP_RADIX) {
 			messageHandler.onMessage(message)
