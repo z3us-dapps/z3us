@@ -1,10 +1,12 @@
-import * as Avatar from '@radix-ui/react-avatar'
+// import * as Avatar from '@radix-ui/react-avatar'
 import clsx, { type ClassValue } from 'clsx'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router-dom'
 
+import { Avatar } from 'ui/src/components-v2/avatar'
 import { Box } from 'ui/src/components-v2/box'
+import { Button } from 'ui/src/components-v2/button'
 import {
 	DropdownMenu,
 	DropdownMenuArrow,
@@ -27,30 +29,19 @@ import { Link } from '@src/components/link'
 
 import * as styles from './dropdown-profile.css'
 
-interface IWalletDropdownRequiredProps {}
-
-interface IWalletDropdownOptionalProps {
+interface IWalletDropdownProps {
 	className?: ClassValue
-	buttonSize?: 'small' | 'medium'
-}
-
-interface IWalletDropdownProps extends IWalletDropdownRequiredProps, IWalletDropdownOptionalProps {}
-
-const defaultProps: IWalletDropdownOptionalProps = {
-	className: undefined,
-	buttonSize: 'medium',
 }
 
 export const WalletDropdown: React.FC<IWalletDropdownProps> = props => {
-	const { className, buttonSize } = props
+	const { className } = props
 	const navigate = useNavigate()
 	const { i18n } = useTranslation()
 
+	// TODO: type correctly
 	const handleLangSelect = (lang: 'enUS' | 'pl') => {
 		i18n.changeLanguage(lang)
 	}
-
-	const isButtonSmall = buttonSize === 'small'
 
 	const handleGoToSettings = () => {
 		navigate('/accounts/settings')
@@ -73,27 +64,28 @@ export const WalletDropdown: React.FC<IWalletDropdownProps> = props => {
 		<Box className={clsx(styles.dropdownProfilWrapper, className)}>
 			<DropdownMenu>
 				<DropdownMenuTrigger asChild>
-					<button
-						type="button"
-						className={clsx(styles.dropdownProfileButton, isButtonSmall && styles.dropdownProfileButtonSmall)}
+					<Button
+						className={styles.dropdownProfileBtnWrapper}
+						styleVariant="avatar"
+						sizeVariant="small"
+						iconOnly
+						rounded
 					>
-						<Avatar.Root className={styles.dropdownProfilAvatar}>
-							<Avatar.Image
-								className={styles.dropdownProfilAvatarImg}
-								src="https://images.unsplash.com/photo-1511485977113-f34c92461ad9?ixlib=rb-1.2.1&w=128&h=128&dpr=2&q=80"
-								alt="Colm Tuite"
-							/>
-							<Avatar.Fallback className={styles.dropdownProfilAvatarFallback} delayMs={600}>
-								<Text>CT</Text>
-							</Avatar.Fallback>
-							<Box
-								className={clsx(
-									styles.dropdownProfilAvatarConnectedStatus,
-									isButtonSmall && styles.dropdownProfilAvatarConnectedStatusSmall,
-								)}
-							/>
-						</Avatar.Root>
-					</button>
+						<Avatar
+							styleVariant="circle"
+							sizeVariant="full"
+							src="https://images.unsplash.com/photo-1492633423870-43d1cd2775eb?&w=128&h=128&dpr=2&q=80"
+							alt="this is the image"
+							fallback="df"
+						/>
+						<Box
+							className={clsx(
+								styles.dropdownProfilAvatarConnectedStatus,
+								// TODO: do no need prop, media query
+								// isButtonSmall && styles.dropdownProfilAvatarConnectedStatusSmall,
+							)}
+						/>
+					</Button>
 				</DropdownMenuTrigger>
 				<DropdownMenuPortal>
 					<DropdownMenuContent align="end" sideOffset={2} className={styles.dropdownProfileContentWrapper}>
@@ -239,5 +231,3 @@ export const WalletDropdown: React.FC<IWalletDropdownProps> = props => {
 		</Box>
 	)
 }
-
-WalletDropdown.defaultProps = defaultProps

@@ -30,7 +30,7 @@ const defaultProps: ISettingsMobileHeaderOptionalProps = {
 	),
 
 	middleSlot: <Box />,
-	rightSlot: <WalletDropdown buttonSize="small" />,
+	rightSlot: <WalletDropdown />,
 }
 
 export const SettingsMobileHeader = forwardRef<HTMLElement, ISettingsMobileHeaderProps>(

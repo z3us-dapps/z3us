@@ -138,13 +138,15 @@ export const SettingsAccounts: React.FC<ISettingsAccountsProps> = forwardRef<HTM
 									<Box display="flex" gap="small" flexWrap="wrap" flexGrow={0} flexShrink={0}>
 										{Array.from({ length: 10 }, (_, i) => (
 											<Button key={i} active={i === 1} rounded styleVariant="avatar" sizeVariant="small" iconOnly>
-												<Avatar
-													key={i}
-													sizeVariant="small"
-													styleVariant="circle"
-													src="https://images.unsplash.com/photo-1492633423870-43d1cd2775eb?&w=128&h=128&dpr=2&q=80"
-													alt="this is the image"
-													fallback="df"
+
+												<Box
+													width="full"
+													height="full"
+													borderRadius="full"
+													style={{
+														background:
+															'linear-gradient(105deg, rgb(100, 101, 241), rgb(146, 218, 255), rgb(249, 247, 248))',
+													}}
 												/>
 											</Button>
 										))}

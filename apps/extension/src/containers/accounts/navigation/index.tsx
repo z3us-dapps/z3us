@@ -184,7 +184,7 @@ export const MobileHeaderNavigation = forwardRef<HTMLElement, IMobileHeaderNavig
 								/>
 							) : null}
 						</Box>
-						<WalletDropdown buttonSize="small" />
+						<WalletDropdown />
 					</Box>
 				</Box>
 			</Box>

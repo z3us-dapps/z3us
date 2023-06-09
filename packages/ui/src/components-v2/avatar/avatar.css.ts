@@ -54,6 +54,16 @@ export const avatarRootRecipe = recipe({
 				},
 			],
 			large: {},
+			full: [
+				sprinkles({
+					height: 'full',
+					width: 'full',
+
+				}),
+				{
+
+				},
+			],
 		},
 	},
 	compoundVariants: [
@@ -91,6 +101,7 @@ export const avatarImageRecipe = recipe({
 			small: {},
 			medium: [sprinkles({}), {}],
 			large: {},
+			full: [sprinkles({})],
 		},
 	},
 })
@@ -128,6 +139,7 @@ export const avatarFallbackRecipe = recipe({
 				},
 			],
 			large: {},
+			full: [sprinkles({})],
 		},
 	},
 })

@@ -311,6 +311,16 @@ export const button = recipe({
 		},
 		{
 			variants: {
+				sizeVariant: 'medium',
+				rounded: true,
+				iconOnly: true,
+			},
+			style: {
+				borderRadius: '50%',
+			},
+		},
+		{
+			variants: {
 				sizeVariant: 'large',
 				rounded: true,
 				iconOnly: true,

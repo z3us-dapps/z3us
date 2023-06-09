@@ -14,7 +14,7 @@ interface IAvatarProps {
 	fallback: string
 	delayMs?: number
 	className?: ClassValue
-	sizeVariant?: 'small' | 'medium' | 'large'
+	sizeVariant?: 'small' | 'medium' | 'large' | 'full'
 	styleVariant?: 'circle' | 'rounded' | 'square'
 }
 

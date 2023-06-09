@@ -46,13 +46,13 @@ export const tableRecipe = recipe({
 	},
 })
 
-// recipeGlobalStyle(tableRecipe({ sizeVariant: 'medium', styleVariant: 'primary' }), 'thead tr th:first-child', {
-// 	borderTopLeftRadius: `${vars.border.radius.medium}`,
-// })
-//
-// recipeGlobalStyle(tableRecipe({ sizeVariant: 'medium', styleVariant: 'primary' }), 'thead tr th:last-child', {
-// 	borderTopRightRadius: `${vars.border.radius.medium}`,
-// })
+recipeGlobalStyle(tableRecipe({ sizeVariant: 'medium', styleVariant: 'primary' }), 'thead tr th:first-child', {
+	borderTopLeftRadius: `${vars.border.radius.medium}`,
+})
+
+recipeGlobalStyle(tableRecipe({ sizeVariant: 'medium', styleVariant: 'primary' }), 'thead tr th:last-child', {
+	borderTopRightRadius: `${vars.border.radius.medium}`,
+})
 
 export const tableThRecipe = recipe({
 	base: {

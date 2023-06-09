@@ -8,87 +8,10 @@ export const dropdownProfilWrapper = sprinkles({
 	position: 'relative',
 })
 
-export const dropdownProfileButton = style([
-	sprinkles({
-		display: 'flex',
-		position: 'relative',
-		alignItems: 'center',
-		borderRadius: 'full',
-		borderStyle: 'solid',
-		borderWidth: 'xxsmall',
-		transition: 'fast',
-		cursor: 'pointer',
-		borderColor: {
-			lightMode: 'borderDivider',
-			hover: 'purple500',
-			active: 'purple500',
-		},
-		boxShadow: {
-			focusVisible: 'btnSecondaryShadowFocus',
-			hover: 'btnSecondaryShadowHover',
-			active: 'btnSecondaryShadowActive',
-		},
-		margin: 'none',
-		padding: 'none',
-	}),
-	{
-		outline: 'none',
-		background: 'transparent',
-		width: '42px',
-		height: '42px',
-	},
-])
-
-export const dropdownProfileButtonSmall = style([
-	{
-		width: '32px',
-		height: '32px',
-		borderWidth: '2px',
-	},
-])
-
-export const dropdownProfilAvatar = style([
-	sprinkles({
-		display: 'flex',
-		position: 'relative',
-		alignItems: 'center',
-		borderRadius: 'full',
-		width: 'full',
-		height: 'full',
-	}),
-	{},
-])
-
-export const dropdownProfilAvatarImg = style([
-	sprinkles({
-		width: 'full',
-		height: 'full',
-		border: 1,
-		borderStyle: 'solid',
-		borderColor: 'backgroundSecondary',
-		borderRadius: 'full',
-	}),
-	{
-		boxSizing: 'border-box',
-		objectFit: 'cover',
-		userSelect: 'none',
-	},
-])
-
-export const dropdownProfilAvatarFallback = style([
-	sprinkles({
-		width: 'full',
-		height: 'full',
-		display: 'flex',
-		alignItems: 'center',
-		justifyContent: 'center',
-		background: {
-			lightMode: 'bleached_silk600',
-			darkMode: 'wax900',
-		},
-		borderRadius: 'full',
-	}),
-])
+export const dropdownProfileBtnWrapper = sprinkles({
+	display: 'flex',
+	position: 'relative',
+})
 
 export const dropdownProfilAvatarConnectedStatus = style([
 	sprinkles({
