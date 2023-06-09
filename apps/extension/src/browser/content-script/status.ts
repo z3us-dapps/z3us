@@ -83,7 +83,7 @@ export const handleCheckContentScript = async (tabId: number) => {
 		// 	await showConnected()
 		// 	return
 		// }
+	} else {
+		await showDisconnected()
 	}
-
-	await showDisconnected()
 }
