@@ -1,15 +1,18 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import React from 'react'
 import * as ReactDOM from 'react-dom/client'
+import { ErrorBoundary } from 'react-error-boundary'
 import { I18nextProvider } from 'react-i18next'
 import { HashRouter } from 'react-router-dom'
 
 import 'ui/src/components-v2/system/global.css'
 
+import { FallbackRenderer } from '@src/components/fallback-renderer'
+
 import i18n from './i18n/i18n'
 
 // Olympia app
-const Provider = React.lazy(() => import('@src/popup/provider'))
+// const Provider = React.lazy(() => import('@src/popup/provider'))
 
 const App = React.lazy(() => import('@src/pages'))
 
@@ -21,13 +24,14 @@ ReactDOM.createRoot(container).render(
 	<React.StrictMode>
 		<I18nextProvider i18n={i18n}>
 			<HashRouter>
-				<React.Suspense fallback={<div />}>
-					{isDevlopmentMode && <App />}
-					{isProductionMode && <App />}
-
-					{/* {isDevlopmentMode && <App />} */}
-					{/* {isProductionMode && <Provider />} */}
-				</React.Suspense>
+				<ErrorBoundary fallbackRender={FallbackRenderer}>
+					<>
+						{isDevlopmentMode && <App />}
+						{isProductionMode && <App />}
+						{/* {isDevlopmentMode && <App />} */}
+						{/* {isProductionMode && <Provider />} */}
+					</>
+				</ErrorBoundary>
 			</HashRouter>
 		</I18nextProvider>
 	</React.StrictMode>,
