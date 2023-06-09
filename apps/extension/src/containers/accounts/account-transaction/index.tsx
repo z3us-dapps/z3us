@@ -4,7 +4,7 @@ import React, { forwardRef, useEffect, useState } from 'react'
 import { useLocation, useNavigate, useSearchParams } from 'react-router-dom'
 
 import { Box } from 'ui/src/components-v2/box'
-import { DialogRoot, DialogContent, DialogOverlay, DialogPortal } from 'ui/src/components-v2/dialog'
+import { DialogContent, DialogOverlay, DialogPortal, DialogRoot } from 'ui/src/components-v2/dialog'
 import { ScrollArea } from 'ui/src/components-v2/scroll-area'
 import { ToolTip } from 'ui/src/components-v2/tool-tip'
 import { Text } from 'ui/src/components-v2/typography'
@@ -12,6 +12,7 @@ import { Close2Icon, ShareIcon } from 'ui/src/components/icons'
 
 import { Button } from '@src/components/button'
 import { CopyAddressButton } from '@src/components/copy-address-button'
+import * as dialogStyles from '@src/components/styles/dialog-styles.css'
 import { TransactionIcon } from '@src/components/transaction-icon'
 import Translation from '@src/components/translation'
 import { ACCOUNT_PARAM_ACTIVITY, ACCOUNT_PARAM_ASSET, ACCOUNT_PARAM_TRANSACTION_ID } from '@src/constants'
@@ -20,16 +21,8 @@ import { getShortAddress } from '@src/utils/string-utils'
 import { AccountsTransactionInfo } from './account-transaction-info'
 import * as styles from './account-transaction.css'
 
-interface IAccountTransactionRequiredProps {}
-
-interface IAccountTransactionOptionalProps {
+interface IAccountTransactionProps {
 	className?: ClassValue
-}
-
-interface IAccountTransactionProps extends IAccountTransactionRequiredProps, IAccountTransactionOptionalProps {}
-
-const defaultProps: IAccountTransactionOptionalProps = {
-	className: undefined,
 }
 
 export const AccountTransaction = forwardRef<HTMLElement, IAccountTransactionProps>(
@@ -69,8 +62,11 @@ export const AccountTransaction = forwardRef<HTMLElement, IAccountTransactionPro
 		return (
 			<DialogRoot open={!!asset && !!transactionId}>
 				<DialogPortal>
-					<DialogOverlay className={styles.transactionOverlay} />
-					<DialogContent className={clsx(styles.transactionContent, className)} onEscapeKeyDown={navigateBack}>
+					<DialogOverlay className={dialogStyles.dialogOverlay} />
+					<DialogContent
+						className={clsx(dialogStyles.dialogContent, styles.transactionContent, className)}
+						onEscapeKeyDown={navigateBack}
+					>
 						<ScrollArea onScroll={handleScroll}>
 							<Box ref={ref} className={styles.transactionBodyScrollWrapper}>
 								<Box display="flex" flexDirection="column" alignItems="center">
@@ -273,5 +269,3 @@ export const AccountTransaction = forwardRef<HTMLElement, IAccountTransactionPro
 		)
 	},
 )
-
-AccountTransaction.defaultProps = defaultProps
