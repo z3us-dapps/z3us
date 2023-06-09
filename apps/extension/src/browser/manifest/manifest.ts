@@ -66,10 +66,11 @@ const manifest: ManifestV3Export = {
 	},
 	content_scripts: [
 		{
+			js: ['src/browser/content-script.ts'],
 			matches: contentScriptsMatches,
 			run_at: 'document_start',
-			all_frames: true,
-			js: ['src/browser/content-script.ts'],
+			// all_frames: true,
+			// run_at: 'document_idle',
 		},
 	],
 	// web_accessible_resources: [

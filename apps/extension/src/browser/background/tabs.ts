@@ -19,11 +19,12 @@ export const getTabRemovedHandler = (messageHandler: MessageClientType) => {
 
 export const getTabUpdatedHandler = (messageHandler: MessageClientType) => {
 	const handleTabRemoved = getTabRemovedHandler(messageHandler)
-	return (tabId: number, changeInfo: Tabs.OnUpdatedChangeInfoType) => {
-		handleCheckContentScript(tabId)
-		const isTabReload = changeInfo.status === 'loading' && !changeInfo.url
+
+	return (tabId: number, info: Tabs.OnUpdatedChangeInfoType) => {
+		const isTabReload = info.status === 'loading' && !info.url
 		if (isTabReload) {
 			handleTabRemoved(tabId)
 		}
+		return handleCheckContentScript(tabId)
 	}
 }

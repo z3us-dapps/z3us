@@ -2,12 +2,10 @@ export enum MessageSource {
 	POPUP = 'z3us-popup',
 	BACKGROUND = 'z3us-background',
 	INPAGE = 'z3us-inpage',
-	OFFSCREEN = 'z3us-offscreen',
 }
 
 export enum MessageAction {
 	PING = 'v1-ping',
-	RADIX = 'v1-radix',
 }
 
 export type Message = {

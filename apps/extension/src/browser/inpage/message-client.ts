@@ -1,6 +1,4 @@
-import { dAppEvent } from '@radixdlt/connector-extension/src/chrome/dapp/_types'
-
-import { Message, MessageAction, MessageSource, ResponseMessage } from '@src/browser/messages/types'
+import { Message, MessageSource, ResponseMessage } from '@src/browser/messages/types'
 import { generateId } from '@src/utils/generate-id'
 
 export type MessageClientType = ReturnType<typeof MessageClient>
@@ -22,11 +20,9 @@ export const MessageClient = () => {
 		if (!message.messageId) {
 			return
 		}
-		if (message.action === MessageAction.RADIX) {
-			window.dispatchEvent(new CustomEvent(dAppEvent.receive, { detail: message.payload }))
-		} else {
-			window.dispatchEvent(new CustomEvent(`z3us.${message.action}`, { detail: message.payload }))
-		}
+
+		window.dispatchEvent(new CustomEvent(`z3us.${message.action}`, { detail: message.payload }))
+
 		const handler = messageHandlers[message.messageId]
 		if (handler) {
 			handler(message)

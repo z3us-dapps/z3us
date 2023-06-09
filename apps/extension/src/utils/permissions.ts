@@ -21,7 +21,7 @@ export const askForHostPermissions = async (networks: URL[]): Promise<string[]> 
 				}
 			} catch (error) {
 				// eslint-disable-next-line no-console
-				console.error(error)
+				console.error(`askForHostPermissions: ${error}`)
 			}
 		}),
 	)

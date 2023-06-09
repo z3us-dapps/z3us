@@ -46,7 +46,7 @@ export const handleContentScriptInjectAllTabs = async () => {
 					})
 				}
 			} catch (error) {
-				// ignore
+				console.error(`handleContentScriptInjectAllTabs: ${error}`)
 			}
 		}),
 	)
@@ -62,7 +62,7 @@ export const handleContentScriptInject = async (tabId: number) => {
 		})
 		await showConnected()
 	} catch (error) {
-		// ignore
+		console.error(`handleContentScriptInject: ${error}`)
 	}
 }
 

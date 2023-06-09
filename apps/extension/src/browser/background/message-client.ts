@@ -1,16 +1,34 @@
-import { Message as RadixMessage } from '@radixdlt/connector-extension/src/chrome/messages/_types'
+import { BackgroundMessageHandler } from '@radixdlt/connector-extension/src/chrome/background/message-handler'
+import { MessageClient as RadixMessageClient } from '@radixdlt/connector-extension/src/chrome/messages/message-client'
+import { AppLogger } from '@radixdlt/connector-extension/src/utils/logger'
 import browser, { Runtime } from 'webextension-polyfill'
 
+import { ledgerTabWatcher } from '@src/browser/background/tabs'
 import { PORT_NAME } from '@src/browser/messages/constants'
-import { newMessage, newReply } from '@src/browser/messages/message'
-import { Message, MessageAction, MessageHandlers, MessageSource, ResponseMessage } from '@src/browser/messages/types'
+import { newReply } from '@src/browser/messages/message'
+import messageHandlers from '@src/browser/messages/message-handlers'
+import { Message, MessageSource, ResponseMessage } from '@src/browser/messages/types'
 
 const popupURL = new URL(browser.runtime.getURL(''))
 
+const backgroundLogger = {
+	debug: (...args: string[]) => console.log(JSON.stringify(args, null, 2)),
+} as AppLogger
+
 export type MessageClientType = ReturnType<typeof MessageClient>
 
-export const MessageClient = (handlers: MessageHandlers) => {
+export const MessageClient = () => {
 	console.info(`⚡️Z3US⚡️: background message client initialized.`)
+
+	const radixMessageHandler = RadixMessageClient(
+		BackgroundMessageHandler({
+			logger: backgroundLogger,
+			ledgerTabWatcher: ledgerTabWatcher,
+		}),
+		'background',
+		{ logger: backgroundLogger },
+	)
+
 	const onPort = (port: Runtime.Port) => {
 		if (!port) throw new Error('Invalid port')
 		if (port.name !== PORT_NAME) return
@@ -40,16 +58,14 @@ export const MessageClient = (handlers: MessageHandlers) => {
 			const { action, source } = message
 
 			switch (source) {
-				case MessageSource.OFFSCREEN:
-					throw new Error(`Invalid port message source ${source}`)
 				case MessageSource.INPAGE:
 					if (new URL(port.sender.url).hostname === popupURL.hostname) {
 						sendReplyToInpage(message, {
 							code: 400,
-							error: 'Invalid message source from popup',
+							error: 'Forbidden sender',
 						})
 					} else {
-						const handler = handlers[action]
+						const handler = messageHandlers[action]
 						if (handler) {
 							try {
 								const response = await handler(message)
@@ -75,7 +91,7 @@ export const MessageClient = (handlers: MessageHandlers) => {
 							error: 'Forbidden sender',
 						})
 					} else {
-						const handler = handlers[action]
+						const handler = messageHandlers[action]
 						if (handler) {
 							try {
 								const response = await handler(message)
@@ -107,17 +123,5 @@ export const MessageClient = (handlers: MessageHandlers) => {
 		})
 	}
 
-	const onRadixMessage = async (payload: RadixMessage, fromTabId?: number) => {
-		if (!APP_RADIX) return
-
-		const handler = handlers[MessageAction.RADIX]
-		if (!handler) {
-			throw new Error('Missing radix message handler')
-		}
-		const message = newMessage(MessageAction.RADIX, MessageSource.INPAGE, MessageSource.BACKGROUND, payload, fromTabId)
-		const response = await handler(message)
-		return response?.payload
-	}
-
-	return { onPort, onRadixMessage }
+	return { onPort, onRadixMessage: radixMessageHandler.onMessage }
 }
