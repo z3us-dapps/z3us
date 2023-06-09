@@ -31,15 +31,26 @@ export const avatarRootRecipe = recipe({
 				{},
 			],
 			rounded: [sprinkles({}), {}],
+			square: [
+				sprinkles({}),
+				{
+					borderRadius: 'inherit',
+				},
+			],
 		},
 		sizeVariant: {
-			small: {},
-			medium: [
-				sprinkles({
-				}),
+			small: [
+				sprinkles({}),
 				{
 					height: '32px',
 					width: '32px',
+				},
+			],
+			medium: [
+				sprinkles({}),
+				{
+					height: '40px',
+					width: '40px',
 				},
 			],
 			large: {},
@@ -74,6 +85,7 @@ export const avatarImageRecipe = recipe({
 		styleVariant: {
 			circle: {},
 			rounded: [sprinkles({}), {}],
+			square: [sprinkles({}), {}],
 		},
 		sizeVariant: {
 			small: {},
@@ -101,6 +113,7 @@ export const avatarFallbackRecipe = recipe({
 		styleVariant: {
 			circle: {},
 			rounded: [sprinkles({}), {}],
+			square: {},
 		},
 		sizeVariant: {
 			small: {

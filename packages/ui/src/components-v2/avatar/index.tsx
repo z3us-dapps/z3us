@@ -15,7 +15,7 @@ interface IAvatarProps {
 	delayMs?: number
 	className?: ClassValue
 	sizeVariant?: 'small' | 'medium' | 'large'
-	styleVariant?: 'circle' | 'rounded'
+	styleVariant?: 'circle' | 'rounded' | 'square'
 }
 
 export const Avatar = forwardRef<HTMLButtonElement, IAvatarProps>((props, ref) => {

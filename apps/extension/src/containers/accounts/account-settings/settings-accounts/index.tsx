@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import type { ClassValue } from 'clsx'
 import clsx from 'clsx'
-import React, { forwardRef, useState } from 'react'
+import React, { forwardRef, useMemo, useState } from 'react'
 
 import { Avatar } from 'ui/src/components-v2/avatar'
 import { Box } from 'ui/src/components-v2/box'
@@ -59,6 +59,22 @@ export const SettingsAccounts: React.FC<ISettingsAccountsProps> = forwardRef<HTM
 
 		const [value, setValue] = useState<string | undefined>('1')
 
+		const data = useMemo(
+			() =>
+				Array.from({ length: 3 }, (_, i) => ({
+					id: `${i}`,
+					title: `${i} -- ${(Math.random() + 1)
+						.toString(36)
+						.substring(
+							7,
+						)} llong test long tes tong test long test llong test long tes tong test long test llong test long tes
+        tong test long test llong test long tes tong test long test llong test long tes tong test long test llong test long tes
+        tong test long test llong test long tes tong test long test llong test long tes tong test long test llong test long tes
+        tong test long test`,
+				})),
+			[],
+		)
+
 		return (
 			<Box ref={ref} className={clsx(styles.settingsSectionFlexColumnWrapper, className)}>
 				{/* START TITLE SECTION */}
@@ -95,17 +111,7 @@ export const SettingsAccounts: React.FC<ISettingsAccountsProps> = forwardRef<HTM
 									onValueChange={val => {
 										setValue(val)
 									}}
-									data={Array.from({ length: 3 }, (_, i) => ({
-										id: `${i}`,
-										title: `${i} -- ${(Math.random() + 1)
-											.toString(36)
-											.substring(
-												7,
-											)} llong test long tes tong test long test llong test long tes tong test long test llong test long tes
-								tong test long test llong test long tes tong test long test llong test long tes tong test long test llong test long tes
-								tong test long test llong test long tes tong test long test llong test long tes tong test long test llong test long tes
-								tong test long test`,
-									}))}
+									data={data}
 								/>
 							</Box>
 							<Box className={accountsStyles.accountsCardWrapper}>
@@ -131,13 +137,16 @@ export const SettingsAccounts: React.FC<ISettingsAccountsProps> = forwardRef<HTM
 									</Text>
 									<Box display="flex" gap="small" flexWrap="wrap" flexGrow={0} flexShrink={0}>
 										{Array.from({ length: 10 }, (_, i) => (
-											<Avatar
-												key={i}
-												styleVariant="circle"
-												src="https://images.unsplash.com/photo-1492633423870-43d1cd2775eb?&w=128&h=128&dpr=2&q=80"
-												alt="this is the image"
-												fallback="df"
-											/>
+											<Button key={i} active={i === 1} rounded styleVariant="avatar" sizeVariant="small" iconOnly>
+												<Avatar
+													key={i}
+													sizeVariant="small"
+													styleVariant="circle"
+													src="https://images.unsplash.com/photo-1492633423870-43d1cd2775eb?&w=128&h=128&dpr=2&q=80"
+													alt="this is the image"
+													fallback="df"
+												/>
+											</Button>
 										))}
 									</Box>
 								</Box>
@@ -147,9 +156,10 @@ export const SettingsAccounts: React.FC<ISettingsAccountsProps> = forwardRef<HTM
 									</Text>
 									<Box display="flex" gap="small" flexWrap="wrap" flexGrow={0} flexShrink={0}>
 										{Array.from({ length: 10 }, (_, i) => (
-											<Button key={i}>
+											<Button key={i} active={i === 1} styleVariant="avatar" sizeVariant="medium" iconOnly>
 												<Avatar
-													styleVariant="rounded"
+													styleVariant="square"
+													sizeVariant="medium"
 													src="https://images.unsplash.com/photo-1492633423870-43d1cd2775eb?&w=128&h=128&dpr=2&q=80"
 													alt="this is the image"
 													fallback="df"

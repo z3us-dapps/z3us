@@ -3,6 +3,7 @@ import type { RecipeVariants } from '@vanilla-extract/recipes'
 import { recipe } from '@vanilla-extract/recipes'
 
 import { sprinkles } from '../system/sprinkles.css'
+import { vars } from '../system/theme.css'
 
 export const baseSprinkles = style([
 	sprinkles({
@@ -129,6 +130,16 @@ export const button = recipe({
 				border: 1,
 				borderStyle: 'solid',
 			}),
+			avatar: sprinkles({
+				background: {
+					lightMode: 'transparent',
+					hover: 'btnWhiteTransparentBackgroundHover',
+				},
+				boxShadow: {
+					hover: 'btnSecondaryShadowFocus',
+					focusVisible: 'btnSecondaryShadowFocus',
+				},
+			}),
 		},
 		sizeVariant: {
 			xsmall: [
@@ -210,6 +221,9 @@ export const button = recipe({
 				pointerEvents: 'none',
 				opacity: '0.7',
 			},
+		},
+		active: {
+			true: {},
 		},
 	},
 	compoundVariants: [
@@ -305,6 +319,15 @@ export const button = recipe({
 				borderRadius: '50%',
 			},
 		},
+		{
+			variants: {
+				styleVariant: 'avatar',
+				active: true,
+			},
+			style: {
+				boxShadow: `${vars.color.btnSecondaryShadowFocus}`,
+			},
+		},
 	],
 	defaultVariants: {
 		styleVariant: 'primary',
@@ -354,6 +377,9 @@ export const buttonIconLeft = recipe({
 				color: 'white',
 			}),
 			destructive: sprinkles({
+				color: 'white',
+			}),
+			avatar: sprinkles({
 				color: 'white',
 			}),
 		},
@@ -423,6 +449,9 @@ export const buttonIconRight = recipe({
 					opacity: '0.8',
 				},
 			],
+			avatar: sprinkles({
+				color: 'colorNeutral',
+			}),
 		},
 		sizeVariant: {
 			xsmall: [{ marginLeft: '4px', marginRight: '-6px' }],

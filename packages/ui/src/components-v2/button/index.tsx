@@ -16,6 +16,7 @@ export type TStyleVariant =
 	| 'inverse'
 	| 'white-transparent'
 	| 'destructive'
+	| 'avatar'
 
 interface IButtonRequiredProps {
 	children: React.ReactNode
@@ -36,6 +37,7 @@ interface IButtonOptionalProps {
 	rounded?: boolean
 	fullWidth?: boolean
 	loading?: boolean
+	active?: boolean
 }
 
 export interface IButtonProps extends IButtonRequiredProps, IButtonOptionalProps {}
@@ -55,6 +57,7 @@ const defaultProps: IButtonOptionalProps = {
 	type: 'button',
 	href: undefined,
 	loading: false,
+	active: false,
 }
 
 export const Button = forwardRef<HTMLButtonElement, IButtonProps>((props, ref: React.Ref<HTMLButtonElement | null>) => {
@@ -74,6 +77,7 @@ export const Button = forwardRef<HTMLButtonElement, IButtonProps>((props, ref: R
 		linkFrameWorkComp,
 		href,
 		loading,
+		active,
 		...rest
 	} = props
 
@@ -103,6 +107,7 @@ export const Button = forwardRef<HTMLButtonElement, IButtonProps>((props, ref: R
 					disabled,
 					rounded,
 					fullWidth,
+					active,
 				}),
 			)}
 			disabled={disabled}
