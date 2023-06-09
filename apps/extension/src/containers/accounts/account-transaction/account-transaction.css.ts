@@ -21,10 +21,7 @@ export const transactionHeaderWrapper = style([
 		alignItems: 'center',
 		paddingX: 'medium',
 		paddingY: 'medium',
-		background: {
-			lightMode: 'backgroundSecondary',
-			// darkMode: 'backgroundPrimary',
-		},
+		background: 'backgroundSecondary',
 		borderTopLeftRadius: 'large',
 		borderTopRightRadius: 'large',
 		transition: 'fast',

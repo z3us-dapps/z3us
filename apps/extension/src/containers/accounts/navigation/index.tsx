@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import clsx, { type ClassValue } from 'clsx'
 import { LayoutGroup, motion } from 'framer-motion'
 import React, { forwardRef } from 'react'
@@ -79,11 +80,11 @@ export const DesktopNavigation: React.FC = () => {
 					</LayoutGroup>
 				</Box>
 				<Box display="flex" alignItems="center" gap="medium">
-					<ToolTip message={<Translation capitalizeFirstLetter text="global.search" />}>
-						<Button to={`${pathname}?query=hello`} styleVariant="ghost" sizeVariant="small" iconOnly rounded>
-							<BellIcon />
-						</Button>
-					</ToolTip>
+					{/* <ToolTip message={<Translation capitalizeFirstLetter text="global.search" />}> */}
+					{/* 	<Button to={`${pathname}?query=hello`} styleVariant="ghost" sizeVariant="small" iconOnly rounded> */}
+					{/* 		<BellIcon /> */}
+					{/* 	</Button> */}
+					{/* </ToolTip> */}
 					<CopyAddressButton address="rdx1b707388613169bf701d533e143d8f698c9090f605e677a967eaf70a4c69250ce" />
 					<AccountViewDropdown />
 					<WalletDropdown />

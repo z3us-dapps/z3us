@@ -131,7 +131,7 @@ export const SettingsGeneral: React.FC<ISettingsGeneralProps> = forwardRef<HTMLE
 					<Box className={styles.settingsSectionGridBasic}>
 						<Box display="flex" flexDirection="column">
 							<Text size="large" weight="strong" color="strong">
-								Token favorites
+								Default language
 							</Text>
 							<Box>
 								<Text size="small">Ut imperdiet</Text>

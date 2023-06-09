@@ -48,11 +48,9 @@ export const AccountIndexHeader = forwardRef<HTMLElement, IAccountIndexHeaderPro
 							</Box>
 							<ToolTip theme="backgroundPrimary" message={<Translation capitalizeFirstLetter text="global.search" />}>
 								<Button
-									// className={clsx(styles.accountSearchButton, isInputVisible && styles.accountSearchButtonHidden)}
 									to={`${pathname}?query=hello`}
 									styleVariant="ghost"
 									sizeVariant="small"
-									// onClick={handleSearchClick}
 									iconOnly
 								>
 									<SearchIcon />

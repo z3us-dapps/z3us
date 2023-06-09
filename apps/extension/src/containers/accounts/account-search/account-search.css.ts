@@ -23,10 +23,7 @@ export const searchHeaderWrapper = style([
 		alignItems: 'center',
 		gap: 'medium',
 		padding: 'large',
-		background: {
-			lightMode: 'backgroundSecondary',
-			darkMode: 'backgroundPrimary',
-		},
+		background: 'backgroundSecondary',
 		borderTopLeftRadius: 'large',
 		borderTopRightRadius: 'large',
 		borderStyle: 'solid',
@@ -63,66 +60,40 @@ export const searchBodyScrollWrapper = style([
 	}),
 ])
 
-export const searchOverlay = style([
-	sprinkles({
-		position: 'fixed',
-		inset: 0,
-		zIndex: 1,
-		background: 'backgroundOverlayPrimary',
-	}),
-	{
-		backdropFilter: 'blur(4px)',
-		animationTimingFunction: 'cubic-bezier(0.16, 1, 0.3, 1)',
-		transformOrigin: 'var(--radix-dropdown-menu-content-transform-origin)',
-		willChange: 'transform, opacity',
-		animationDuration: '300ms',
-		selectors: {
-			'&[data-state="open"]': {
-				animationName: fadeIn,
-				animationFillMode: 'forwards',
-			},
-			'&[data-state="closed"]': {
-				animationName: fadeOut,
-				animationFillMode: 'forwards',
-			},
-		},
-	},
-])
-
 export const searchContent = style([
 	sprinkles({
-		position: 'fixed',
-		zIndex: 1,
-		background: {
-			lightMode: 'backgroundSecondary',
-			darkMode: 'backgroundPrimary',
-		},
-		color: 'colorNeutral',
-		boxShadow: 'shadowActivePanel',
-		borderRadius: 'large',
-		overflow: 'clip',
+		// position: 'fixed',
+		// zIndex: 1,
+		// background: {
+		// 	lightMode: 'backgroundSecondary',
+		// 	darkMode: 'backgroundPrimary',
+		// },
+		// color: 'colorNeutral',
+		// boxShadow: 'shadowActivePanel',
+		// borderRadius: 'large',
+		// overflow: 'clip',
 	}),
 	{
-		transform: 'translateX(-50%)',
-		width: '100%',
-		left: '50%',
-		animationTimingFunction: 'cubic-bezier(0.16, 1, 0.3, 1)',
-		transformOrigin: 'var(--radix-dropdown-menu-content-transform-origin)',
-		willChange: 'transform, opacity',
-		animationDuration: '150ms',
-		selectors: {
-			'&:focus': {
-				outline: 'none',
-			},
-			'&[data-state="open"]': {
-				animationName: fadeIn,
-				animationFillMode: 'forwards',
-			},
-			'&[data-state="closed"]': {
-				animationName: fadeOut,
-				animationFillMode: 'forwards',
-			},
-		},
+		// transform: 'translateX(-50%)',
+		// width: '100%',
+		// left: '50%',
+		// animationTimingFunction: 'cubic-bezier(0.16, 1, 0.3, 1)',
+		// transformOrigin: 'var(--radix-dropdown-menu-content-transform-origin)',
+		// willChange: 'transform, opacity',
+		// animationDuration: '150ms',
+		// selectors: {
+		// 	'&:focus': {
+		// 		outline: 'none',
+		// 	},
+		// 	'&[data-state="open"]': {
+		// 		animationName: fadeIn,
+		// 		animationFillMode: 'forwards',
+		// 	},
+		// 	'&[data-state="closed"]': {
+		// 		animationName: fadeOut,
+		// 		animationFillMode: 'forwards',
+		// 	},
+		// },
 	},
 	responsiveStyle({
 		mobile: { maxWidth: '90%', top: '48px', bottom: '48px' },

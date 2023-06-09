@@ -6,8 +6,8 @@ import { useTranslation } from 'react-i18next'
 import { useLocation, useNavigate, useSearchParams } from 'react-router-dom'
 
 import { Box } from 'ui/src/components-v2/box'
-import { DialogRoot, DialogContent, DialogOverlay, DialogPortal } from 'ui/src/components-v2/dialog'
-import type { FormElement} from 'ui/src/components-v2/input';
+import { DialogContent, DialogOverlay, DialogPortal, DialogRoot } from 'ui/src/components-v2/dialog'
+import type { FormElement } from 'ui/src/components-v2/input'
 import { Input } from 'ui/src/components-v2/input'
 import { ScrollArea } from 'ui/src/components-v2/scroll-area'
 import { ToolTip } from 'ui/src/components-v2/tool-tip'
@@ -17,6 +17,7 @@ import { capitalizeFirstLetter } from 'ui/src/utils/capitalize-first-letter'
 
 import { Button } from '@src/components/button'
 import { CopyAddressButton } from '@src/components/copy-address-button'
+import * as dialogStyles from '@src/components/styles/dialog-styles.css'
 import { TransactionIcon } from '@src/components/transaction-icon'
 import Translation from '@src/components/translation'
 import {
@@ -91,8 +92,11 @@ export const AccountSearch = forwardRef<HTMLElement, IAccountSearchProps>(
 		return (
 			<DialogRoot open={!!query}>
 				<DialogPortal>
-					<DialogOverlay className={styles.searchOverlay} />
-					<DialogContent className={clsx(styles.searchContent)} onEscapeKeyDown={navigateBack}>
+					<DialogOverlay className={dialogStyles.dialogOverlay} />
+					<DialogContent
+						className={clsx(dialogStyles.dialogContent, styles.searchContent)}
+						onEscapeKeyDown={navigateBack}
+					>
 						<ScrollArea isTopShadowVisible={false} onScroll={handleScroll}>
 							<Box className={clsx(styles.searchHeaderWrapper, isScrolled && styles.searchHeaderWrapperShadow)}>
 								<Box display="flex" width="full" alignItems="center" gap="medium">
