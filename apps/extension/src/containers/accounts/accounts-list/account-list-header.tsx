@@ -86,11 +86,6 @@ export const AccountListHeader: React.FC<IAccountListHeaderProps> = props => {
 								$4,440,206.25,206.25,206.253332222222222
 							</Text>
 						}
-						searchTitle={asset ? `${asset}` : `${assetType}`}
-						onChange={_value => {
-							// eslint-disable-next-line
-							console.log(_value)
-						}}
 					/>
 				</Box>
 			</Box>

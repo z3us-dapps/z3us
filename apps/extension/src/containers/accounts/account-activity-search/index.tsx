@@ -80,7 +80,6 @@ export const AccountActivitySearch: React.FC<IAccountActivitySearchProps> = prop
 							styleVariant="ghost"
 							sizeVariant="small"
 							to={`${pathname}?query=hello&account=all`}
-							// onClick={handleSearchClick}
 							iconOnly
 						>
 							<SearchIcon />
