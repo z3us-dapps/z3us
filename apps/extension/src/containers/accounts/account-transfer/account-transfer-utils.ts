@@ -1,3 +1,5 @@
+import { getZodError } from '@src/utils/get-zod-error'
+
 import { transferFormSchema } from './account-transfer-constants'
 import { type TTransferSchema, type TZodValidation } from './account-transfer-types'
 
@@ -16,3 +18,6 @@ export const validateTransferForm = (transaction: TTransferSchema): TZodValidati
 
 	return { success: true, data: result.data }
 }
+
+export const getError = (validation: TZodValidation, path: (string | number)[]) =>
+	getZodError<TTransferSchema>(validation, path)

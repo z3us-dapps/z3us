@@ -17,9 +17,9 @@ import { CheckCircleIcon, ChevronDown2Icon, CirclePlusIcon, TrashIcon, WriteNote
 import * as plainButtonStyles from '@src/components/styles/plain-button-styles.css'
 import { TokenImageIcon } from '@src/components/token-image-icon'
 import { ValidationErrorMessage } from '@src/components/validation-error-message'
-import { getZodError } from '@src/utils/get-zod-error'
 
 import type { TTransferSchema, TZodValidation } from './account-transfer-types'
+import { getError } from './account-transfer-utils'
 import * as styles from './account-transfer.css'
 import { SearchableInput } from './searchable-input'
 import { TransferMessage } from './transfer-message'
@@ -142,19 +142,13 @@ export const GroupTransfer: React.FC<IGroupTransferProps> = props => {
 									<SearchableInput
 										placeholder="Enter address"
 										value={send.to}
-										styleVariant={
-											getZodError<TTransferSchema>(validation, ['sends', sendIndex, 'to']).error
-												? 'primary-error'
-												: 'primary'
-										}
+										styleVariant={getError(validation, ['sends', sendIndex, 'to']).error ? 'primary-error' : 'primary'}
 										onValueChange={(_value: string) => {
 											onUpdateToAccount(sendIndex)(_value)
 										}}
 										data={addressBook}
 									/>
-									<ValidationErrorMessage
-										error={getZodError<TTransferSchema>(validation, ['sends', sendIndex, 'to'])}
-									/>
+									<ValidationErrorMessage error={getError(validation, ['sends', sendIndex, 'to'])} />
 								</Box>
 								{sendIndex === 0 ? (
 									<TransferMessage
