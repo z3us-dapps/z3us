@@ -2,6 +2,7 @@ export const DAPP_NAME = 'Z3US'
 export const DAPP_ADDRESS = 'account_tdx_b_1pzv5m8xqy39jmjkk60jluwhrctcs4qpafrxs7rr54jwq0899y3'
 export const DAPP_NETWORK_ID = 34
 
+export const PAIRING = 'pairing'
 export const TRANSFER = 'transfer'
 export const STAKING = 'staking'
 export const SWAP = 'swap'
@@ -29,6 +30,7 @@ export const ACCOUNT_ASSET_TYPE = `/${ACCOUNT}/${ASSET_TYPE}`
 export const ACCOUNT_ASSET = `/${ACCOUNT}/${ASSET_TYPE}/${ASSET}`
 
 export const routes = {
+	PAIRING,
 	TRANSFER,
 	STAKING,
 	SWAP,

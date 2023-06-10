@@ -69,7 +69,6 @@ const config = {
 
 if (withRadix) (config.build.rollupOptions.input as any).offscreen = resolve(__dirname, 'src/pages/offscreen/index.html')
 if (withRadix) (config.build.rollupOptions.input as any).ledger = resolve(__dirname, 'src/pages/ledger/index.html')
-if (withRadix) (config.build.rollupOptions.input as any).pairing = resolve(__dirname, 'src/pages/pairing/index.html')
 if (isDevToolsActive) (config.build.rollupOptions.input as any).dev_tools = resolve(__dirname, 'src/pages/dev-tools/index.html')
 
 export default defineConfig(config as UserConfig)

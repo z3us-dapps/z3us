@@ -3,7 +3,7 @@ import { style } from '@vanilla-extract/css'
 import { sprinkles } from 'ui/src/components-v2/system/sprinkles.css'
 import { responsiveStyle } from 'ui/src/components-v2/system/theme-utils'
 
-export const pairingWrapper = style([
+export const teststyle = style([
 	sprinkles({
 		position: 'relative',
 		background: {
@@ -12,7 +12,6 @@ export const pairingWrapper = style([
 		},
 	}),
 	{
-		fontSize: '40px',
 		border: '1px solid green',
 		'@media': {
 			[`screen and (min-width: 480px)`]: {
@@ -26,4 +25,3 @@ export const pairingWrapper = style([
 		desktop: { width: '25%' },
 	}),
 ])
-

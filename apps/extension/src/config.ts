@@ -29,7 +29,7 @@ export const config: ConfigType = {
 		...radixCfg.popup,
 		pages: {
 			...radixCfg.popup.pages,
-			pairing: 'src/pages/pairing/index.html',
+			pairing: 'src/pages/dashboard/index.html#/pairing',
 			ledger: 'src/pages/ledger/index.html',
 			dashboard: 'src/pages/dashboard/index.html',
 		},
