@@ -1,5 +1,5 @@
+import { MessageClient } from '@src/browser/app/message-client'
 import { MessageAction } from '@src/browser/messages/types'
-import { MessageClient } from '@src/browser/dashboard/message-client'
 
 const client = MessageClient()
 

@@ -9,7 +9,7 @@ export type ConfigType = typeof radixCfg & {
 	isProductionMode: boolean
 	popup: typeof radixCfg.popup & {
 		pages: {
-			dashboard: string
+			app: string
 		}
 	}
 }
@@ -24,17 +24,16 @@ export const config: ConfigType = {
 		...radixCfg.devTools,
 		url: 'src/pages/dev-tools/index.html',
 	},
-
 	popup: {
 		...radixCfg.popup,
 		pages: {
 			...radixCfg.popup.pages,
-			pairing: 'src/pages/dashboard/index.html#/pairing',
 			ledger: 'src/pages/ledger/index.html',
-			dashboard: 'src/pages/dashboard/index.html',
+			pairing: 'src/pages/app/index.html#/pairing',
+			app: 'src/pages/app/index.html#/accounts/all',
 		},
 	},
 	version,
 	isDevlopmentMode: import.meta.env.MODE === 'development',
-	isProductionMode: import.meta.env.MODE === 'production',
+	isProductionMode: import.meta.env.MODE == 'production' || import.meta.env.MODE == 'rcnet',
 }
