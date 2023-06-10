@@ -1,3 +1,4 @@
+import { openParingPopup } from '@radixdlt/connector-extension/src/chrome/helpers/open-pairing-popup'
 import browser from 'webextension-polyfill'
 
 import { handleInstall } from '@src/browser/background/install'
@@ -9,12 +10,12 @@ import { handleStorageChange } from '@src/browser/background/storage'
 import { getTabRemovedHandler, getTabUpdatedHandler, handleTabActivated } from '@src/browser/background/tabs'
 import watch from '@src/browser/background/watcher'
 import { addInjectContentScript } from '@src/browser/content-script/context-menu'
+import { addDasboard } from '@src/browser/dashboard/context-menu'
 import { addDevTools } from '@src/browser/dev-tools/context-menu'
 import { addLedger } from '@src/browser/ledger/context-menu'
 import { addOffscreen } from '@src/browser/offscreen/context-menu'
 import { createOffscreen } from '@src/browser/offscreen/offscreen'
 import { addPairing } from '@src/browser/pairing/context-menu'
-import { openParingPopup } from '@radixdlt/connector-extension/src/chrome/helpers/open-pairing-popup'
 
 const messageHandler = MessageClient()
 
@@ -39,6 +40,7 @@ browser.contextMenus.removeAll().then(() => {
 	addPairing()
 	addLedger()
 	addOffscreen()
+	addDasboard()
 	addInjectContentScript()
 })
 

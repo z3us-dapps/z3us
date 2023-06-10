@@ -8,20 +8,15 @@ const menuId = 'radix-offscreen'
 const openRadixOffscreenPage = async ({ menuItemId }) => {
 	if (menuItemId !== menuId) return
 
-	const offscreenUrl = browser.runtime.getURL(config.offscreen.url)
-
+	const url = browser.runtime.getURL(config.offscreen.url)
 	const result = await getExtensionTabsByUrl(config.offscreen.url)
-
 	if (result.isErr()) return
 
-	const [offscreenTab] = result.value
-
-	if (offscreenTab?.id) {
-		await browser.tabs.update(offscreenTab.id, { active: true })
+	const [page] = result.value
+	if (page?.id) {
+		await browser.tabs.update(page.id, { active: true })
 	} else {
-		await browser.tabs.create({
-			url: offscreenUrl,
-		})
+		await browser.tabs.create({url})
 	}
 }
 

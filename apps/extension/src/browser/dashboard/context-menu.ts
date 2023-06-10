@@ -3,13 +3,13 @@ import browser from 'webextension-polyfill'
 
 import { config } from '@src/config'
 
-const menuId = 'radix-dev-tools'
+const menuId = 'z3us-dashboard'
 
-const openRadixDevToolsPage = async ({ menuItemId }) => {
+const openDashboardPage = async ({ menuItemId }) => {
 	if (menuItemId !== menuId) return
 
-	const url = browser.runtime.getURL(config.devTools.url)
-	const result = await getExtensionTabsByUrl(config.devTools.url)
+	const url = browser.runtime.getURL(config.popup.pages.dashboard)
+	const result = await getExtensionTabsByUrl(config.popup.pages.dashboard)
 	if (result.isErr()) return
 
 	const [page] = result.value
@@ -20,13 +20,11 @@ const openRadixDevToolsPage = async ({ menuItemId }) => {
 	}
 }
 
-export const addDevTools = () => {
-	if (!APP_DEV_TOOLS) return
-
+export const addDasboard = () => {
 	browser.contextMenus.create({
 		id: menuId,
-		title: 'Radix DevTools',
+		title: 'Open in browser',
 		contexts: ['all'],
 	})
-	browser.contextMenus.onClicked.addListener(openRadixDevToolsPage)
+	browser.contextMenus.onClicked.addListener(openDashboardPage)
 }

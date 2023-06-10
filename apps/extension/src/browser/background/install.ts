@@ -1,6 +1,6 @@
 import browser from 'webextension-polyfill'
 
-import { handleContentScriptInjectAllTabs } from '@src/browser/content-script/status'
+// import { handleContentScriptInjectAllTabs } from '@src/browser/content-script/status'
 import { sharedStore } from '@src/store'
 
 export const handleInstall = async () => {
@@ -10,6 +10,5 @@ export const handleInstall = async () => {
 	const { setThemeAction, theme } = sharedStore.getState()
 	setThemeAction(theme)
 
-	// @tTODO: only approved websites
-	await handleContentScriptInjectAllTabs()
+	// await handleContentScriptInjectAllTabs()
 }

@@ -8,20 +8,15 @@ const menuId = 'radix-ledger'
 const openRadixLedgerPage = async ({ menuItemId }) => {
 	if (menuItemId !== menuId) return
 
-	const ledgerUrl = browser.runtime.getURL(config.popup.pages.ledger)
-
+	const url = browser.runtime.getURL(config.popup.pages.ledger)
 	const result = await getExtensionTabsByUrl(config.popup.pages.ledger)
-
 	if (result.isErr()) return
 
-	const [ledger] = result.value
-
-	if (ledger?.id) {
-		await browser.tabs.update(ledger.id, { active: true })
+	const [page] = result.value
+	if (page?.id) {
+		await browser.tabs.update(page.id, { active: true })
 	} else {
-		await browser.tabs.create({
-			url: ledgerUrl,
-		})
+		await browser.tabs.create({url})
 	}
 }
 
@@ -30,7 +25,7 @@ export const addLedger = () => {
 
 	browser.contextMenus.create({
 		id: menuId,
-		title: 'Radix ledger',
+		title: 'Radix Ledger',
 		contexts: ['all'],
 	})
 	browser.contextMenus.onClicked.addListener(openRadixLedgerPage)

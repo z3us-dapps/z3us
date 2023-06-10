@@ -7,6 +7,11 @@ const { version } = packageJson
 export type ConfigType = typeof radixCfg & {
 	isDevlopmentMode: boolean
 	isProductionMode: boolean
+	popup: typeof radixCfg.popup & {
+		pages: {
+			dashboard: string
+		}
+	}
 }
 
 export const config: ConfigType = {
@@ -26,6 +31,7 @@ export const config: ConfigType = {
 			...radixCfg.popup.pages,
 			pairing: 'src/pages/pairing/index.html',
 			ledger: 'src/pages/ledger/index.html',
+			dashboard: 'src/pages/dashboard/index.html',
 		},
 	},
 	version,
