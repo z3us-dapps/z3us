@@ -45,6 +45,14 @@
 				"value": "{shadow.panel.button_secondary_shadow_focus_light.value}",
 				"darkValue": "{shadow.panel.button_secondary_shadow_focus_dark.value}"
 			},
+			"button_avatar_hover": {
+				"value": "{shadow.panel.button_avatar_shadow_hover_light.value}",
+				"darkValue": "{shadow.panel.button_avatar_shadow_hover_dark.value}"
+			},
+			"button_avatar_focus": {
+				"value": "{shadow.panel.button_avatar_shadow_focus_light.value}",
+				"darkValue": "{shadow.panel.button_avatar_shadow_focus_dark.value}"
+			},
 			"input_primary_focus": {
 				"value": "{shadow.panel.input_primary_focus_shadow_light.value}",
 				"darkValue": "{shadow.panel.input_primary_focus_shadow_dark.value}"

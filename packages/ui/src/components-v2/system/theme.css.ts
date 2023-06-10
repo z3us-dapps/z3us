@@ -432,6 +432,8 @@ const generateColorTokens = (colorTokens: any) => ({
 	btnSecondaryShadowFocus: colorTokens.color.shadow.button_secondary_focus.value,
 	btnSecondaryBorderColor: colorTokens.color.border.btn_secondary_border.value,
 	btnSecondaryBorderColorHover: colorTokens.color.border.btn_secondary_border_hover.value,
+	btnAvatarShadowHover: colorTokens.color.shadow.button_avatar_hover.value,
+	btnAvatarShadowFocus: colorTokens.color.shadow.button_avatar_focus.value,
 	btnTertiaryBackground: colorTokens.color.background.btn_tertiary_background.value,
 	btnTertiaryBackgroundHover: colorTokens.color.background.btn_tertiary_background_hover.value,
 	btnTertiaryBorderColor: colorTokens.color.border.btn_tertiary_border.value,

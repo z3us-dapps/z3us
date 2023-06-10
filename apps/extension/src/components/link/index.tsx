@@ -1,26 +1,22 @@
-import React from 'react'
-import { Link as LinkRouter } from 'react-router-dom'
+import React, { forwardRef } from 'react'
+import { type LinkProps, Link as RouterLink } from 'react-router-dom'
 
-import type { LProps } from 'ui/src/components-v2/typography/link';
+import type { LProps } from 'ui/src/components-v2/typography/link'
 import LinkComponent from 'ui/src/components-v2/typography/link'
 
-interface IProps extends LProps {
+interface ILinkProps extends LProps {
 	to?: string
 	onClick?: () => void
 	onMouseOver?: () => void
 	onMouseLeave?: () => void
 }
 
-const defaultProps = {
-	to: undefined,
-	onClick: undefined,
-	onMouseOver: undefined,
-	onMouseLeave: undefined,
-}
-
-export const Link: React.FC<IProps> = props => {
+export const Link = forwardRef<HTMLAnchorElement, ILinkProps>((props, ref: React.Ref<HTMLAnchorElement | null>) => {
 	const { to } = props
-	return <LinkComponent href={to} linkFrameWorkComp={LinkRouter} {...props} />
-}
 
-Link.defaultProps = defaultProps
+	return <LinkComponent ref={ref} href={to} linkFrameWorkComp={RouterLink} {...props} />
+})
+
+export type TLinkProps = Omit<LinkProps, 'to'> & {
+	href: LinkProps['to']
+}

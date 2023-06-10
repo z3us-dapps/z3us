@@ -1,10 +1,10 @@
 import clsx from 'clsx'
-import type { ReactNode } from 'react';
-import React from 'react'
+import type { ReactNode } from 'react'
+import React, { forwardRef } from 'react'
 
 import { sprinkles } from '../system/sprinkles.css'
 import * as styles from './link.css'
-import type { TextProps} from './text';
+import type { TextProps } from './text'
 import { textStyles } from './text'
 
 export interface LProps {
@@ -39,7 +39,45 @@ const defaultProps = {
 	type: 'body',
 }
 
-const LinkComponent = (props: LProps) => {
+export const LinkComponent = forwardRef<HTMLAnchorElement, LProps>(
+	(props, ref: React.Ref<HTMLAnchorElement | null>) => {
+		const {
+			href,
+			linkFrameWorkComp,
+			baseline = false,
+			size = 'medium',
+			color = 'neutral',
+			weight = 'regular',
+			underline,
+			type,
+			highlightOnFocus = true,
+			display,
+			className,
+			children,
+			...restProps
+		} = props
+
+		const classNames = clsx(
+			sprinkles({ display }),
+			styles.defaultLink,
+			underline === 'hover' ? styles.underlineOnHover : undefined,
+			underline === 'never' ? styles.underlineNever : undefined,
+			highlightOnFocus ? styles.highlightOnHover : undefined,
+			textStyles({ size, type, color, weight, baseline }),
+			className,
+		)
+
+		const Component = linkFrameWorkComp
+
+		return (
+			<Component ref={ref} href={href} className={classNames} {...restProps}>
+				{children}
+			</Component>
+		)
+	},
+)
+
+const LinkComponentOld = (props: LProps) => {
 	const {
 		href,
 		linkFrameWorkComp,
@@ -77,4 +115,4 @@ const LinkComponent = (props: LProps) => {
 
 export default LinkComponent
 
-LinkComponent.defaultProps = defaultProps
+LinkComponentOld.defaultProps = defaultProps

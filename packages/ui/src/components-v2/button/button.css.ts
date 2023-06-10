@@ -133,11 +133,10 @@ export const button = recipe({
 			avatar: sprinkles({
 				background: {
 					lightMode: 'transparent',
-					hover: 'btnWhiteTransparentBackgroundHover',
 				},
 				boxShadow: {
-					hover: 'btnSecondaryShadowFocus',
-					focusVisible: 'btnSecondaryShadowFocus',
+					hover: 'btnAvatarShadowHover',
+					focusVisible: 'btnAvatarShadowFocus',
 				},
 			}),
 		},
@@ -335,7 +334,7 @@ export const button = recipe({
 				active: true,
 			},
 			style: {
-				boxShadow: `${vars.color.btnSecondaryShadowFocus}`,
+				boxShadow: `${vars.color.btnAvatarShadowHover}`,
 			},
 		},
 	],

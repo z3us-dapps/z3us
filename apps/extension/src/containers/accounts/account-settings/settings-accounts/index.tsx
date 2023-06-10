@@ -138,7 +138,6 @@ export const SettingsAccounts: React.FC<ISettingsAccountsProps> = forwardRef<HTM
 									<Box display="flex" gap="small" flexWrap="wrap" flexGrow={0} flexShrink={0}>
 										{Array.from({ length: 10 }, (_, i) => (
 											<Button key={i} active={i === 1} rounded styleVariant="avatar" sizeVariant="small" iconOnly>
-
 												<Box
 													width="full"
 													height="full"
