@@ -1,4 +1,5 @@
-import { AccountAddress, AccountAddressT } from '@radixdlt/application'
+import type { AccountAddressT } from '@radixdlt/application';
+import { AccountAddress } from '@radixdlt/application'
 import { useEffect, useState } from 'react'
 
 type Z3US = {

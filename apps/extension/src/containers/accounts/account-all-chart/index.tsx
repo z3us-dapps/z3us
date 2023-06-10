@@ -1,4 +1,5 @@
 /* eslint-disable  @typescript-eslint/no-unused-vars, react/no-array-index-key */
+import clsx, { type ClassValue } from 'clsx'
 import { AnimatePresence, motion } from 'framer-motion'
 import React, { useState } from 'react'
 import useMeasure from 'react-use-measure'
@@ -20,6 +21,7 @@ import { useAccountParams } from '@src/hooks/use-account-params'
 import { getShortAddress } from '@src/utils/string-utils'
 
 import * as styles from './account-all-chart.css'
+import { AllAccountListRow } from './all-account-list-row'
 
 interface IAccountAllChartProps {}
 
@@ -38,6 +40,7 @@ const data = [
 export const AccountAllChart: React.FC<IAccountAllChartProps> = props => {
 	const { account, assetType } = useAccountParams()
 	const [loaded, setLoaded] = useState<boolean>(false)
+	const [showFullAccountList, setShowFullAccountList] = useState<boolean>(false)
 	const [hoveredCellIndex, setHoveredCellIndex] = useState<number>(-1)
 	const isAllAccount = account === ACCOUNTS_ALL
 	// const [measureRef, { width: chartWrapperWidth, height: chartWrapperHeight }] = useMeasure()
@@ -63,13 +66,17 @@ export const AccountAllChart: React.FC<IAccountAllChartProps> = props => {
 		return null
 	}
 
+	const handleToggleFullAccountList = () => {
+		setShowFullAccountList(!showFullAccountList)
+	}
+
 	return (
 		<Box className={styles.allChartWrapper}>
 			<Box className={styles.allChartInnerWrapper}>
 				<AnimatePresence initial={false}>
 					{!loaded && (
 						<motion.div
-							className={styles.motionWrapper}
+							className={clsx(styles.motionWrapper, styles.chartLoadingWrapper)}
 							initial="hidden"
 							animate="visible"
 							variants={animtePageVariants}
@@ -86,7 +93,7 @@ export const AccountAllChart: React.FC<IAccountAllChartProps> = props => {
 							animate="visible"
 							variants={animtePageVariants}
 						>
-							<Box style={{ height: '240px', width: '100%' }}>
+							<Box className={styles.pieChartWrapper}>
 								<ResponsiveContainer width="100%" height="100%">
 									<PieChart width={400} height={400}>
 										<defs>
@@ -130,36 +137,15 @@ export const AccountAllChart: React.FC<IAccountAllChartProps> = props => {
 							</Box>
 							<Box className={styles.accountsListWrapper}>
 								<Box display="flex" flexDirection="column" gap="xsmall" width="full">
-									{[...Array(4)].map((x, i) => (
+									{[...Array(showFullAccountList ? 10 : 3)].map((x, i) => (
 										// eslint-disable-next-line
-										<Box key={i} className={styles.addressInfoWrapper}>
-											<Box className={styles.addressInfoWrapperLeft}>
-												<Box display="flex" alignItems="center">
-													<Box className={styles.accountDotBg} />
-													<Box marginRight="xsmall">
-														<Text size="xsmall" color="strong" truncate>
-															Defi savings account Defi savings account Defi savings account
-															{getShortAddress(accountAddress)}
-														</Text>
-													</Box>
-													<CopyAddressButton
-														styleVariant="ghost"
-														sizeVariant="xsmall"
-														address={accountAddress}
-														iconOnly
-														rounded={false}
-														tickColor="colorStrong"
-													/>
-												</Box>
-											</Box>
-											<Box className={styles.dottedSpacer} />
-											<Box className={styles.addressInfoWrapperRight}>
-												<Text size="xsmall" truncate>
-													$51,234,51,234,51,234
-												</Text>
-											</Box>
-										</Box>
+										<AllAccountListRow key={i} />
 									))}
+								</Box>
+								<Box display="flex" flexDirection="column" gap="xsmall" width="full" paddingTop="medium">
+									<Button styleVariant="tertiary" onClick={handleToggleFullAccountList}>
+										{showFullAccountList ? 'Show less accounts' : 'Show all accounts'}
+									</Button>
 								</Box>
 							</Box>
 						</motion.div>

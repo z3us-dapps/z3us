@@ -1,6 +1,7 @@
 import cx from 'classnames'
 import { Picture } from 'components/picture'
-import { Variants, m as motion } from 'framer-motion'
+import type { Variants} from 'framer-motion';
+import { m as motion } from 'framer-motion'
 import React from 'react'
 
 import { CheckIcon } from 'ui/src/components/icons'

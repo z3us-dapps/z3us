@@ -6,24 +6,13 @@ import { Box } from 'ui/src/components-v2/box'
 
 import * as styles from './show-hide-panel.css'
 
-interface IShowHidePanelRequiredProps {
+interface IShowHidePanelProps {
 	children: React.ReactNode
-}
-
-interface IShowHidePanelOptionalProps {
 	className?: ClassValue
 	isChildrenVisible?: boolean
 }
-
-interface IShowHidePanelProps extends IShowHidePanelRequiredProps, IShowHidePanelOptionalProps {}
-
-const defaultProps: IShowHidePanelOptionalProps = {
-	className: undefined,
-	isChildrenVisible: false,
-}
-
 export const ShowHidePanel: React.FC<IShowHidePanelProps> = props => {
-	const { children, isChildrenVisible, className } = props
+	const { children, isChildrenVisible = false, className } = props
 
 	return (
 		<Box className={clsx(styles.showHidePanelWrapper, className)}>
@@ -73,5 +62,3 @@ export const ShowHidePanel: React.FC<IShowHidePanelProps> = props => {
 		</Box>
 	)
 }
-
-ShowHidePanel.defaultProps = defaultProps

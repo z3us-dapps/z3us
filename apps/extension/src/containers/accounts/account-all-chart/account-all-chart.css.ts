@@ -1,11 +1,9 @@
 /* eslint-disable  @typescript-eslint/no-unused-vars */
-
-import { sprinkles } from 'ui/src/components-v2/system/sprinkles.css'
 import { globalStyle, style } from '@vanilla-extract/css'
 
+import { sprinkles } from 'ui/src/components-v2/system/sprinkles.css'
 import { responsiveStyle } from 'ui/src/components-v2/system/theme-utils'
 import { vars } from 'ui/src/components-v2/system/theme.css'
-
 
 export const allChartWrapper = style([
 	sprinkles({
@@ -21,10 +19,7 @@ export const allChartInnerWrapper = style([
 		background: 'backgroundPrimary',
 		width: 'full',
 	}),
-	{
-		// todo, will by dymanic height based on accounts
-		height: '400px',
-	},
+	{},
 ])
 
 globalStyle(`${allChartInnerWrapper} .recharts-layer.recharts-pie-sector path:focus`, {
@@ -39,7 +34,26 @@ export const motionWrapper = style([
 	sprinkles({
 		height: 'full',
 	}),
-	{},
+])
+
+
+export const chartLoadingWrapper = style([
+	sprinkles({
+		display: 'flex',
+		alignItems: 'center',
+	}), {
+		minHeight: '200px'
+	}
+])
+
+export const pieChartWrapper = style([
+	sprinkles({
+		display: 'flex',
+		alignItems: 'center',
+		paddingTop: 'medium',
+	}), {
+		height: '220px'
+	}
 ])
 
 export const accountsListWrapper = style([
@@ -48,8 +62,10 @@ export const accountsListWrapper = style([
 		flexDirection: 'column',
 		marginTop: 'small',
 		paddingX: 'large',
+		paddingBottom: 'medium',
 	}),
-	{},
+	{
+	},
 ])
 
 export const accountDotBg = style([
