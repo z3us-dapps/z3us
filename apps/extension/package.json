@@ -4,7 +4,7 @@
 	"scripts": {
 		"dev": "DEV_TOOLS=true yarn start:radix",
 		"start:radix": "RADIX=true yarn start",
-		"start": "vite --mode development",
+		"start": "vite --mode rcnet",
 		"build:dev": "DEV_TOOLS=true yarn build:radix",
 		"build:radix": "RADIX=true yarn build",
 		"build": "npm_config_build_from_source=true tsc --build && vite build --mode rcnet",
@@ -17,7 +17,7 @@
 	"dependencies": {
 		"@radix-ui/react-avatar": "^1.0.2",
 		"@radix-ui/react-icons": "^1.3.0",
-		"@radixdlt/connector-extension": "https://github.com/radixdlt/connector-extension#main",
+		"@radixdlt/connector-extension": "https://github.com/radixdlt/connector-extension#develop",
 		"@radixdlt/radix-dapp-toolkit": "^0.2.0",
 		"async-mutex": "^0.4.0",
 		"bignumber.js": "^9.1.1",
@@ -93,7 +93,7 @@
 		"ts-node": "^10.9.1",
 		"turbo": "^1.9.3",
 		"typescript": "^4.8.4",
-		"vite": "4.1.4",
+		"vite": "^4.1.4",
 		"vite-compatible-readable-stream": "^3.6.1",
 		"vite-plugin-fonts": "^0.7.0",
 		"vite-tsconfig-paths": "^4.2.0"

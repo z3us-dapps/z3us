@@ -35,5 +35,5 @@ export const config: ConfigType = {
 	},
 	version,
 	isDevlopmentMode: import.meta.env.MODE === 'development',
-	isProductionMode: import.meta.env.MODE == 'production' || import.meta.env.MODE == 'rcnet',
+	isProductionMode: import.meta.env.MODE === 'production' || import.meta.env.MODE === 'rcnet',
 }

@@ -7,11 +7,12 @@ import { routes } from '@src/constants'
 import { Accounts } from '@src/containers/accounts'
 import { useIsMobileWidth } from '@src/hooks/use-is-mobile'
 
-import * as styles from './app.css'
 import TempNav from './components/nav'
+import Pairing from './pages/pairing'
+
+import * as styles from './app.css'
 
 const Connect = React.lazy(() => import('./pages/connect'))
-const Pairing = React.lazy(() => import('./pages/pairing'))
 const NotFound = React.lazy(() => import('./pages/404'))
 
 const App: React.FC = () => {
