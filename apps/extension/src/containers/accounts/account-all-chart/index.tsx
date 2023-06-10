@@ -14,6 +14,7 @@ import { ArrowLeftIcon, ArrowRightIcon, Close2Icon } from 'ui/src/components/ico
 import { Button } from '@src/components/button'
 import { ChartToolTip } from '@src/components/chart-tool-tip'
 import { CopyAddressButton } from '@src/components/copy-address-button'
+import { HeightAnimatePanel } from '@src/components/height-animate-panel'
 import Translation from '@src/components/translation'
 import { Z3usLoading } from '@src/components/z3us-loading'
 import { ACCOUNTS_ALL, animtePageVariants } from '@src/constants'
@@ -137,10 +138,14 @@ export const AccountAllChart: React.FC<IAccountAllChartProps> = props => {
 							</Box>
 							<Box className={styles.accountsListWrapper}>
 								<Box display="flex" flexDirection="column" gap="xsmall" width="full">
-									{[...Array(showFullAccountList ? 10 : 3)].map((x, i) => (
-										// eslint-disable-next-line
-										<AllAccountListRow key={i} />
-									))}
+									<HeightAnimatePanel isChildrenVisible>
+										<Box>
+											{[...Array(showFullAccountList ? 10 : 3)].map((x, i) => (
+												// eslint-disable-next-line
+												<AllAccountListRow key={i} />
+											))}
+										</Box>
+									</HeightAnimatePanel>
 								</Box>
 								<Box display="flex" flexDirection="column" gap="xsmall" width="full" paddingTop="medium">
 									<Button styleVariant="tertiary" onClick={handleToggleFullAccountList}>
