@@ -123,5 +123,10 @@ export const MessageClient = () => {
 		})
 	}
 
-	return { onPort, onRadixMessage: radixMessageHandler.onMessage }
+	const onRadixMessage = (message: any, tabId?: number) => {
+		if (!APP_RADIX) return
+		return radixMessageHandler.onMessage(message, tabId)
+	}
+
+	return { onPort, onRadixMessage }
 }

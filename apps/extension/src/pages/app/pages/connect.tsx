@@ -2,14 +2,13 @@ import React from 'react'
 
 import { Box } from 'ui/src/components-v2/box'
 
+import '@src/browser/content-script'
 import { AnimatedPage } from '@src/components/animated-route'
 import { useAccounts } from '@src/hooks/dapp/use-accounts'
 import { useConnected } from '@src/hooks/dapp/use-connected'
 import { usePersona } from '@src/hooks/dapp/use-persona'
 import { useRequestData } from '@src/hooks/dapp/use-request-data'
 import { useSendTransaction } from '@src/hooks/dapp/use-send-transaction'
-
-import '@src/browser/content-script'
 
 declare global {
 	namespace JSX {
@@ -20,11 +19,12 @@ declare global {
 }
 
 const Connect: React.FC = () => {
+	const connected = useConnected()
 	const accounts = useAccounts()
 	const persona = usePersona()
+
 	const requestData = useRequestData()
 	const sendTransaction = useSendTransaction()
-	const connected = useConnected()
 
 	return (
 		<AnimatedPage>
