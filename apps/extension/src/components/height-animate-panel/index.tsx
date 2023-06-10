@@ -1,5 +1,5 @@
 import clsx, { type ClassValue } from 'clsx'
-import { AnimatePresence, motion } from 'framer-motion'
+import { motion } from 'framer-motion'
 import React, { useEffect, useRef, useState } from 'react'
 
 import { Box } from 'ui/src/components-v2/box'
