@@ -18,6 +18,8 @@
 		"address": "address",
 		"copied": "copied",
 		"search": "search",
+		"notification": "notification",
+		"notifications": "notifications",
 		"explorer": "explorer",
 		"transaction": "transaction",
 		"details": "details",

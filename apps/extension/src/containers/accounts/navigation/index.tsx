@@ -6,16 +6,14 @@ import { useTranslation } from 'react-i18next'
 import { useLocation } from 'react-router-dom'
 
 import { Box } from 'ui/src/components-v2/box'
-import { ToolTip } from 'ui/src/components-v2/tool-tip'
 import { Text } from 'ui/src/components-v2/typography'
-import { BellIcon, CoinsIcon, Home2Icon, Settings2Icon, Swap2Icon, SwitchHorizontal } from 'ui/src/components/icons'
+import { CoinsIcon, Home2Icon, Settings2Icon, Swap2Icon, SwitchHorizontal } from 'ui/src/components/icons'
 
-import { Button } from '@src/components/button'
 import ConnectButton from '@src/components/connect-button'
 import { CopyAddressButton } from '@src/components/copy-address-button'
 import { Link } from '@src/components/link'
+import { NotificationsDropdown } from '@src/components/notifications-dropdown'
 import * as containerStyles from '@src/components/styles/container-styles.css'
-import Translation from '@src/components/translation'
 import { WalletDropdown } from '@src/components/wallet-dropdown'
 import { Z3usLogo } from '@src/components/z3us-logo-babylon'
 import { accountMenuSlugs, routes } from '@src/constants'
@@ -82,11 +80,7 @@ export const DesktopNavigation: React.FC = () => {
 				</Box>
 				<Box display="flex" alignItems="center" gap="medium">
 					<ConnectButton />
-					<ToolTip message={<Translation capitalizeFirstLetter text="global.search" />}>
-						<Button to={`${pathname}?query=hello`} styleVariant="ghost" sizeVariant="small" iconOnly rounded>
-							<BellIcon />
-						</Button>
-					</ToolTip>
+					<NotificationsDropdown />
 					<CopyAddressButton address="rdx1b707388613169bf701d533e143d8f698c9090f605e677a967eaf70a4c69250ce" />
 					<AccountViewDropdown />
 					<WalletDropdown />
