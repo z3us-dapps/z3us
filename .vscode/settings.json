@@ -1,3 +1,17 @@
 {
-	"cSpell.words": ["clsx", "fira", "immer", "monospace", "Nextra", "nextui", "Söhne", "useImmer", "xlarge", "xsmall"]
+	"cSpell.words": [
+		"clsx",
+		"fira",
+		"immer",
+		"monospace",
+		"Nextra",
+		"nextui",
+		"Söhne",
+		"usehooks",
+		"useImmer",
+		"xlarge",
+		"xsmall",
+		"xxlarge",
+		"xxxlarge"
+	]
 }

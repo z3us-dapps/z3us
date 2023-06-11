@@ -1,11 +1,12 @@
-import * as AvatarPrimitive from '@radix-ui/react-avatar'
 import clsx from 'clsx'
 import { AnimatePresence, motion } from 'framer-motion'
 import React, { forwardRef, useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useTimeout } from 'usehooks-ts'
 
+import { Avatar } from 'ui/src/components-v2/avatar'
 import { Box } from 'ui/src/components-v2/box'
+import { Button } from 'ui/src/components-v2/button'
 import { Text } from 'ui/src/components-v2/typography'
 import { ChevronRightIcon } from 'ui/src/components/icons'
 
@@ -16,18 +17,9 @@ import { animtePageVariants } from '@src/constants'
 
 import * as styles from './account-index-assets.css'
 
-interface IAccountIndexAssetsRequiredProps {
-	scrollableNode: HTMLElement | null
-}
-
-interface IAccountIndexAssetsOptionalProps {
+interface IAccountIndexAssetsProps {
 	className?: string
-}
-
-interface IAccountIndexAssetsProps extends IAccountIndexAssetsRequiredProps, IAccountIndexAssetsOptionalProps {}
-
-const defaultProps: IAccountIndexAssetsOptionalProps = {
-	className: undefined,
+	scrollableNode: HTMLElement | null
 }
 
 export const AccountIndexAssets = forwardRef<HTMLElement, IAccountIndexAssetsProps>(
@@ -152,24 +144,23 @@ export const AccountIndexAssets = forwardRef<HTMLElement, IAccountIndexAssetsPro
 													</Text>
 												</Box>
 												{[...Array(4)].map((x, i) => (
-													// eslint-disable-next-line
-													<Link key={i} to="/accounts/all/tokens" className={styles.indexAssetCircle} underline="never">
-														<Box onMouseOver={() => setHoveredLink(name)}>
-															<AvatarPrimitive.Root>
-																<AvatarPrimitive.Image
-																	className={styles.indexAssetCircleAvatarImage}
-																	src="https://images.unsplash.com/photo-1492633423870-43d1cd2775eb?&w=128&h=128&dpr=2&q=80"
-																	alt="Colm Tuite"
-																/>
-																<AvatarPrimitive.Fallback
-																	delayMs={600}
-																	className={styles.indexAssetCircleAvatarFallback}
-																>
-																	<Text>CT</Text>
-																</AvatarPrimitive.Fallback>
-															</AvatarPrimitive.Root>
-														</Box>
-													</Link>
+													<Button
+														// eslint-disable-next-line
+														key={i}
+														className={styles.indexAssetCircle}
+														onMouseOver={() => setHoveredLink(name)}
+														href="/accounts/all/tokens887878"
+														styleVariant="avatar"
+														sizeVariant="medium"
+														iconOnly
+														rounded
+													>
+														<Avatar
+															fallback="asdf"
+															src="https://images.unsplash.com/photo-1492633423870-43d1cd2775eb?&w=128&h=128&dpr=2&q=80"
+															alt="Colm Tuite"
+														/>
+													</Button>
 												))}
 												<Box paddingLeft="xsmall">
 													<ChevronRightIcon />
@@ -186,5 +177,3 @@ export const AccountIndexAssets = forwardRef<HTMLElement, IAccountIndexAssetsPro
 		)
 	},
 )
-
-AccountIndexAssets.defaultProps = defaultProps

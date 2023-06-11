@@ -58,11 +58,8 @@ export const avatarRootRecipe = recipe({
 				sprinkles({
 					height: 'full',
 					width: 'full',
-
 				}),
-				{
-
-				},
+				{},
 			],
 		},
 	},

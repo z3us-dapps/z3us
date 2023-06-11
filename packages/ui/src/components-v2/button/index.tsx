@@ -26,6 +26,8 @@ interface IButtonOptionalProps {
 	className?: string
 	linkFrameWorkComp?: any
 	onClick?: React.MouseEventHandler<HTMLButtonElement>
+	onMouseOver?: React.MouseEventHandler<HTMLButtonElement>
+	onMouseOut?: React.MouseEventHandler<HTMLButtonElement>
 	disabled?: boolean
 	iconOnly?: boolean
 	rightIcon?: React.ReactNode
@@ -46,6 +48,8 @@ const defaultProps: IButtonOptionalProps = {
 	className: undefined,
 	linkFrameWorkComp: undefined,
 	onClick: undefined,
+	onMouseOver: undefined,
+	onMouseOut: undefined,
 	iconOnly: false,
 	rightIcon: undefined,
 	leftIcon: undefined,
