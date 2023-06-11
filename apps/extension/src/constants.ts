@@ -1,6 +1,6 @@
 export const DAPP_NAME = 'Z3US'
-export const DAPP_ADDRESS = 'account_tdx_b_1pzv5m8xqy39jmjkk60jluwhrctcs4qpafrxs7rr54jwq0899y3'
-export const DAPP_NETWORK_ID = 34
+export const DAPP_ADDRESS = 'account_tdx_c_1p9u58qefydgxugayaapvwpceh5z96wmrzwl3c70ptxnqvman6v'
+export const DAPP_NETWORK_ID = 12
 
 export const PAIRING = 'pairing'
 export const TRANSFER = 'transfer'

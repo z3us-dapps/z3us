@@ -5,6 +5,7 @@ import { Box } from 'ui/src/components-v2/box'
 import { darkThemeClass, lightThemeClass } from 'ui/src/components-v2/system/theme.css'
 import { CheckIcon } from 'ui/src/components/icons'
 
+import ConnectButton from '../connect-button'
 import * as styles from './styles.css'
 
 const TempNav: React.FC = () => {
@@ -41,20 +42,23 @@ const TempNav: React.FC = () => {
 	}, [isDarkTheme])
 
 	return (
-		<Box
-			display="flex"
-			position="fixed"
-			className={styles.tempNav}
-			padding="small"
-			gap="medium"
-			style={{ opacity: '0.2' }}
-		>
-			<Link to="/">Home</Link>
-			<Link to="/pairing">Pairing</Link>
-			<Link to="/connect">Connect</Link>
-			<button onClick={() => setIsDarkTheme(!isDarkTheme)} type="button">
-				<CheckIcon />
-			</button>
+		<Box>
+			<ConnectButton />
+			<Box
+				display="flex"
+				position="fixed"
+				className={styles.tempNav}
+				padding="small"
+				gap="medium"
+				style={{ opacity: '0.2' }}
+			>
+				<Link to="/">Home</Link>
+				<Link to="/pairing">Pairing</Link>
+				<Link to="/connect">Connect</Link>
+				<button onClick={() => setIsDarkTheme(!isDarkTheme)} type="button">
+					<CheckIcon />
+				</button>
+			</Box>
 		</Box>
 	)
 }

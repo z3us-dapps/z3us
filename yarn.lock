@@ -3088,7 +3088,7 @@
     tslog "^4.7.1"
     zod "^3.19.1"
 
-"@radixdlt/radix-dapp-toolkit@^0.2.0":
+"@radixdlt/radix-dapp-toolkit@*":
   version "0.2.0"
   resolved "https://registry.yarnpkg.com/@radixdlt/radix-dapp-toolkit/-/radix-dapp-toolkit-0.2.0.tgz#cf356d37b139566c89f5eaa230dba3a2f62f24fe"
   integrity sha512-osmuU3HtXwFBxXSHPKKW12Ha5JF3JEm0s3H9ZHUb9s36vFdKsLqY42fkj1EScmJ4hBB9Qgpr7kk10NOKZjqRIw==

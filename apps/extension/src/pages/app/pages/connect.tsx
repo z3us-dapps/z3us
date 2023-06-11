@@ -2,21 +2,12 @@ import React from 'react'
 
 import { Box } from 'ui/src/components-v2/box'
 
-import '@src/browser/content-script'
 import { AnimatedPage } from '@src/components/animated-route'
 import { useAccounts } from '@src/hooks/dapp/use-accounts'
 import { useConnected } from '@src/hooks/dapp/use-connected'
 import { usePersona } from '@src/hooks/dapp/use-persona'
 import { useRequestData } from '@src/hooks/dapp/use-request-data'
 import { useSendTransaction } from '@src/hooks/dapp/use-send-transaction'
-
-declare global {
-	namespace JSX {
-		interface IntrinsicElements {
-			'radix-connect-button': React.DetailedHTMLProps<React.HTMLAttributes<HTMLElement>, HTMLElement>
-		}
-	}
-}
 
 const Connect: React.FC = () => {
 	const connected = useConnected()
@@ -29,9 +20,6 @@ const Connect: React.FC = () => {
 	return (
 		<AnimatedPage>
 			<Box padding="xxxlarge">
-				<Box>
-					<radix-connect-button />
-				</Box>
 				<Box marginTop="large">
 					{connected && (
 						<Box style={{ marginBottom: 25 }}>
