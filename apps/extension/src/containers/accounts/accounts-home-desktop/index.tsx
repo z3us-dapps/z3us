@@ -34,7 +34,7 @@ export const AccountsHomeDesktop = () => {
 									<Routes location={location} key={location.pathname}>
 										{[routes.ACCOUNT].map(path => (
 											<Route
-												key="assetshome" // to avoid full re-renders when these routes change
+												key="assetsHome" // to avoid full re-renders when these routes change
 												path={path}
 												element={
 													<AnimatedPage>

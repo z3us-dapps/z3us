@@ -114,6 +114,7 @@ export const indexAssetLinkRow = style([
 		width: 'full',
 		color: 'borderDivider',
 		transition: 'fast',
+		display: 'block',
 	}),
 	{
 		boxShadow: '0 -1px 0 0',
