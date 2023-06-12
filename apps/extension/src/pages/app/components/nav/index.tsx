@@ -6,7 +6,6 @@ import { Box } from 'ui/src/components-v2/box'
 import { darkThemeClass, lightThemeClass } from 'ui/src/components-v2/system/theme.css'
 import { CheckIcon, ExternalLinkIcon } from 'ui/src/components/icons'
 
-import ConnectButton from '../connect-button'
 import * as styles from './styles.css'
 
 const TempNav: React.FC = () => {
@@ -44,7 +43,6 @@ const TempNav: React.FC = () => {
 
 	return (
 		<Box>
-			<ConnectButton />
 			<Box
 				display="flex"
 				position="fixed"

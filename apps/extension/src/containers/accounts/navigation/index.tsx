@@ -11,6 +11,7 @@ import { Text } from 'ui/src/components-v2/typography'
 import { BellIcon, CoinsIcon, Home2Icon, Settings2Icon, Swap2Icon, SwitchHorizontal } from 'ui/src/components/icons'
 
 import { Button } from '@src/components/button'
+import ConnectButton from '@src/components/connect-button'
 import { CopyAddressButton } from '@src/components/copy-address-button'
 import { Link } from '@src/components/link'
 import * as containerStyles from '@src/components/styles/container-styles.css'
@@ -80,6 +81,7 @@ export const DesktopNavigation: React.FC = () => {
 					</LayoutGroup>
 				</Box>
 				<Box display="flex" alignItems="center" gap="medium">
+					<ConnectButton />
 					<ToolTip message={<Translation capitalizeFirstLetter text="global.search" />}>
 						<Button to={`${pathname}?query=hello`} styleVariant="ghost" sizeVariant="small" iconOnly rounded>
 							<BellIcon />
@@ -171,6 +173,7 @@ export const MobileHeaderNavigation = forwardRef<HTMLElement, IMobileHeaderNavig
 						/>
 					</Box>
 					<Box display="flex" alignItems="center" gap="medium">
+						<ConnectButton />
 						<Box
 							transition="fast"
 							style={{

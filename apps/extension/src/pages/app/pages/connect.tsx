@@ -41,8 +41,7 @@ const Connect: React.FC = () => {
 							width: 200,
 						}}
 					>
-						<Box
-							component="button"
+						<button
 							style={{ display: 'block', marginBottom: 10, width: '100%' }}
 							onClick={() =>
 								requestData({
@@ -55,10 +54,10 @@ const Connect: React.FC = () => {
 							}
 						>
 							Request data
-						</Box>
+						</button>
 
 						{connected && (
-							<Box
+							<button
 								style={{ display: 'block', marginBottom: 10, width: '100%' }}
 								onClick={() =>
 									sendTransaction(`
@@ -83,7 +82,7 @@ CREATE_FUNGIBLE_RESOURCE
 								}
 							>
 								Send transaction
-							</Box>
+							</button>
 						)}
 					</Box>
 				</Box>
