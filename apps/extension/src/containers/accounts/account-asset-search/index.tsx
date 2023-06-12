@@ -1,103 +1,59 @@
 /* eslint-disable react/jsx-no-useless-fragment, @typescript-eslint/no-unused-vars */
-import clsx, { ClassValue } from 'clsx'
-import React, { useRef, useState } from 'react'
-import { useTranslation } from 'react-i18next'
-import { useEventListener } from 'usehooks-ts'
+import type { ClassValue } from 'clsx'
+import clsx from 'clsx'
+import React from 'react'
+import { useLocation } from 'react-router-dom'
 
 import { Box } from 'ui/src/components-v2/box'
-import { FormElement, Input } from 'ui/src/components-v2/input'
 import { ToolTip } from 'ui/src/components-v2/tool-tip'
-import { Close2Icon, SearchIcon } from 'ui/src/components/icons'
-import { capitalizeFirstLetter } from 'ui/src/utils/capitalize-first-letter'
+import { ArrowUpIcon, SearchIcon } from 'ui/src/components/icons'
 
 import { Button } from '@src/components/button'
 import Translation from '@src/components/translation'
 
 import * as styles from './account-asset.css'
 
-interface IAccountAssetSearchRequiredProps {
-	searchTitle: string
-	onChange: (value: String) => void
+interface IAccountAssetSearchProps {
 	balance: React.ReactNode
-}
-
-interface IAccountAssetSearchOptionalProps {
 	className?: ClassValue
-}
-
-interface IAccountAssetSearchProps extends IAccountAssetSearchRequiredProps, IAccountAssetSearchOptionalProps {}
-
-const defaultProps: IAccountAssetSearchOptionalProps = {
-	className: undefined,
+	scrollableNode: HTMLElement
 }
 
 export const AccountAssetSearch: React.FC<IAccountAssetSearchProps> = props => {
-	const { onChange, className, searchTitle, balance } = props
+	const { className, balance, scrollableNode } = props
 
-	const { t } = useTranslation()
+	const { pathname } = useLocation()
+	const isScrolled = scrollableNode?.scrollTop > 0
 
-	const [isInputVisible, setIsInputVisible] = useState<boolean>(false)
-	const [inputValue, setInputValue] = useState<string>('')
-	const inputRef = useRef(null)
-
-	const handleOnChange = (event: React.ChangeEvent<FormElement>) => {
-		const { value } = event.target
-
-		setInputValue(value)
-		onChange(value)
+	const handleUpClick = () => {
+		if (!scrollableNode) return
+		scrollableNode.scrollTo({ top: 0, behavior: 'smooth' })
 	}
-
-	const handleCloseSearch = () => {
-		setIsInputVisible(false)
-		setInputValue('')
-		onChange('')
-	}
-
-	const handleSearchClick = () => {
-		setIsInputVisible(true)
-		inputRef.current.focus()
-	}
-
-	useEventListener('keydown', e => {
-		if (e.key === 'Escape') {
-			inputRef.current.blur()
-			handleCloseSearch()
-		}
-	})
 
 	return (
 		<Box className={clsx(styles.accountAssetWrapperWrapper, className)}>
 			<Box display="flex" alignItems="center" position="relative" gap="large">
 				<Box className={styles.accountSearchWrapper}>
-					{!isInputVisible ? (
-						<Box className={styles.accountBalanceWrapper}>
-							<>{balance}</>
-						</Box>
-					) : null}
-					<Box className={clsx(styles.inputWrapper, isInputVisible && styles.inputWrapperVisible)}>
-						<Input
-							value={inputValue}
-							ref={inputRef}
-							className={styles.inputElement}
-							placeholder={capitalizeFirstLetter(`${t('global.search')} ${searchTitle || ''}`)}
-							onChange={handleOnChange}
-						/>
+					<Box className={styles.accountBalanceWrapper}>
+						<>{balance}</>
+					</Box>
+					<ToolTip theme="backgroundPrimary" message={<Translation capitalizeFirstLetter text="global.up" />}>
 						<Button
-							className={styles.accountCloseSearchButton}
+							className={clsx(styles.accountUpButton, isScrolled && styles.accountUpButtonVisible)}
 							styleVariant="ghost"
 							sizeVariant="small"
-							onClick={handleCloseSearch}
+							onClick={handleUpClick}
 							iconOnly
 						>
-							<Close2Icon />
+							<ArrowUpIcon />
 						</Button>
-					</Box>
+					</ToolTip>
 					<ToolTip theme="backgroundPrimary" message={<Translation capitalizeFirstLetter text="global.search" />}>
 						<Button
-							className={clsx(styles.accountSearchButton, isInputVisible && styles.accountSearchButtonHidden)}
+							className={styles.accountSearchButton}
 							styleVariant="ghost"
 							sizeVariant="small"
-							onClick={handleSearchClick}
+							to={`${pathname}?query=hello&account=all`}
 							iconOnly
 						>
 							<SearchIcon />
@@ -108,5 +64,3 @@ export const AccountAssetSearch: React.FC<IAccountAssetSearchProps> = props => {
 		</Box>
 	)
 }
-
-AccountAssetSearch.defaultProps = defaultProps

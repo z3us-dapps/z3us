@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
+import { toast } from 'sonner'
 
 import { Box } from 'ui/src/components-v2/box'
 import { darkThemeClass, lightThemeClass } from 'ui/src/components-v2/system/theme.css'
-import { CheckIcon } from 'ui/src/components/icons'
+import { CheckIcon, ExternalLinkIcon } from 'ui/src/components/icons'
 
 import ConnectButton from '../connect-button'
 import * as styles from './styles.css'
@@ -55,6 +56,31 @@ const TempNav: React.FC = () => {
 				<Link to="/">Home</Link>
 				<Link to="/pairing">Pairing</Link>
 				<Link to="/connect">Connect</Link>
+				<button
+					onClick={() => {
+						// toast.error('Event has not been created', { duration: Infinity })
+						// toast.promise(() => new Promise((resolve) => setTimeout(resolve, 2000)), {
+						//   loading: 'Loading',
+						//   success: 'Success',
+						//   error: 'Error',
+						// });
+						toast('Event has been created', {
+							description: 'Monday, January 3rd at 6:00pm',
+							icon: <ExternalLinkIcon />,
+							// className: 'toast-success',
+							descriptionClassName: 'my-toast-description',
+							// duration: Infinity,
+						})
+						// toast('Event has been created', {
+						// 	duration: Infinity,
+						// 	className: 'my-toast',
+						// 	descriptionClassName: 'my-toast-description',
+						// })
+					}}
+					type="button"
+				>
+					<ExternalLinkIcon />
+				</button>
 				<button onClick={() => setIsDarkTheme(!isDarkTheme)} type="button">
 					<CheckIcon />
 				</button>

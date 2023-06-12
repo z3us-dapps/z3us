@@ -6,7 +6,7 @@ import { SideMenu } from 'components/side-menu'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import React, { useEffect, useState } from 'react'
-import { DocsPageProps } from 'types'
+import type { DocsPageProps } from 'types'
 
 export const PageDocs: React.FC<DocsPageProps> = ({ toc, docs, mdxSource }) => {
 	const router = useRouter()

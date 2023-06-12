@@ -1,11 +1,10 @@
 import clsx from 'clsx'
 import React, { useCallback, useEffect, useRef } from 'react'
-import SimpleBar from 'simplebar-react'
-import 'simplebar-react/dist/simplebar.min.css'
 import { useImmer } from 'use-immer'
 import { useEventListener, useIsomorphicLayoutEffect } from 'usehooks-ts'
 
 import { Box } from '../box'
+import SimpleBar from '../simple-bar'
 import * as styles from './scroll-area.css'
 
 interface ImmerT {

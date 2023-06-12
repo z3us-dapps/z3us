@@ -11,7 +11,7 @@ import Link from 'next/link'
 import { useRouter } from 'next/router'
 import React, { useState } from 'react'
 
-import { Docs } from '../../types'
+import type { Docs } from '../../types'
 
 interface IAccordion {
 	i: string

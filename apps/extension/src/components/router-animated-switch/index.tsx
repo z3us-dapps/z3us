@@ -3,7 +3,7 @@ import React from 'react'
 import { Switch, useLocation } from 'wouter'
 
 import { MotionBox } from 'ui/src/components/atoms/motion-box'
-import { CSS } from 'ui/src/theme'
+import type { CSS } from 'ui/src/theme'
 
 export const AnimatedSwitch = ({ children, css }: { children: any; css?: CSS }) => {
 	const [location = ''] = useLocation()

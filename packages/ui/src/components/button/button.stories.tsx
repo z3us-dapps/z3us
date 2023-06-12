@@ -1,8 +1,8 @@
 /* eslint-disable react/jsx-props-no-spreading, react/no-array-index-key  */
-import { ComponentMeta, ComponentStory } from '@storybook/react'
+import type { ComponentMeta, ComponentStory } from '@storybook/react'
 import React from 'react'
 
-import { NormalColors, NormalSizes } from '../../utils/prop-types'
+import type { NormalColors, NormalSizes } from '../../utils/prop-types'
 import { Box } from '../atoms/box'
 import { Flex } from '../atoms/flex'
 import { Grid } from '../atoms/grid'

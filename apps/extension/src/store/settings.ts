@@ -1,4 +1,4 @@
-import { AddressBookEntry, SettingsState } from './types'
+import type { AddressBookEntry, SettingsState } from './types'
 
 const defaultState = {
 	addressBook: {},

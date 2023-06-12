@@ -9,6 +9,7 @@ export const panelWrapper = style([
 		boxShadow: 'shadowPanel',
 		borderRadius: 'xlarge',
 		overflow: 'hidden',
+		transition: 'slow',
 	}),
 	{},
 ])

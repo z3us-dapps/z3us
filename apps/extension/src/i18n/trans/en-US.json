@@ -29,7 +29,8 @@
 		"to": "to",
 		"coin": "coin",
 		"back": "back",
-		"up": "up"
+		"up": "up",
+		"continue": "continue"
 	},
 	"accounts": {
 		"navigation": {
@@ -54,6 +55,9 @@
 			"listHeaderAmount": "amount",
 			"listHeaderCategory": "category",
 			"listHeaderAccount": "account"
+		},
+		"transfer": {
+			"overview": "overview"
 		}
 	}
 }

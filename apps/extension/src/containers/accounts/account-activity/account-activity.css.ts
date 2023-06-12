@@ -78,7 +78,6 @@ export const activtyItemInner = style([
 		flexDirection: 'column',
 		alignItems: 'center',
 		color: 'borderDivider',
-
 		transition: 'fast',
 		border: 0,
 	}),
@@ -149,6 +148,17 @@ export const activtyItemInnerBtn = style([
 	},
 ])
 
+export const activtyItemTextWrapper = style([
+	sprinkles({
+		display: 'flex',
+		flexDirection: 'column',
+		flexGrow: 1,
+	}),
+	{
+		// maxWidth: 'calc(100% - 82px)',
+	},
+])
+
 export const activtyItemInnerSelected = style([
 	sprinkles({}),
 	{
@@ -159,16 +169,9 @@ export const activtyItemInnerSelected = style([
 	},
 ])
 
-export const activtyItemTextWrapper = style([
-	sprinkles({
-		display: 'flex',
-		flexDirection: 'column',
-		flexGrow: 1,
-	}),
-	{
-		maxWidth: 'calc(100% - 82px)',
-	},
-])
+globalStyle(`${activtyItemInnerSelected} ${activtyItemTextWrapper}`, {
+	maxWidth: 'calc(100% - 82px)',
+})
 
 export const activtyItemInnerSelectedContent = style([
 	sprinkles({

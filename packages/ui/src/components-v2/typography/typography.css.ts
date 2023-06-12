@@ -9,6 +9,8 @@ export const baseTextSprinkles = sprinkles({})
 
 export const capitalizeFirstLetter = style([{ '::first-letter': { textTransform: 'uppercase' } }])
 
+export const capitalize = style([{ textTransform: 'uppercase' }])
+
 export const truncateText = style([
 	{
 		whiteSpace: 'nowrap',
@@ -17,9 +19,36 @@ export const truncateText = style([
 	},
 ])
 
+export const lineClamp = style([
+	{
+		display: '-webkit-box',
+		overflow: 'hidden',
+		WebkitBoxOrient: 'vertical',
+	},
+])
+
+export const underlineText = style([
+	{
+		textDecoration: 'none',
+		textUnderlinePosition: 'under',
+		textDecorationThickness: 'from-font',
+		textDecorationLine: 'underline',
+	},
+])
+
+export const underlineOnHover = style({
+	textDecoration: 'none',
+	':hover': {
+		textDecoration: 'none',
+		textUnderlinePosition: 'under',
+		textDecorationThickness: 'from-font',
+		textDecorationLine: 'underline',
+	},
+})
+
 export const firstLetterLowercase = style([{ '::first-letter': { textTransform: 'lowercase' } }])
 
-// @TODO: TYPE spacing properly
+// @TODO: resolve types, no `any`
 // const makeTypographyRules = (textDefinition: typeof vars.text.medium, textSpacingDefinition: any) => {
 const makeTypographyRules = (textDefinition: any, textSpacingDefinition: any) => {
 	const { fontSize: mobileFontSize, lineHeight: mobileLineHeight } = textDefinition.mobile

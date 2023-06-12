@@ -1,36 +1,41 @@
-import clsx from 'clsx'
+import clsx, { type ClassValue } from 'clsx'
 import React, { forwardRef } from 'react'
 
 import { Box } from '../box'
 import { element } from '../system/reset.css'
 import * as styles from './input.css'
 
+export type TSizeVariant = 'small' | 'medium' | 'large'
+export type TStyleVariant = 'primary' | 'secondary' | 'primary-error' | 'secondary-error'
+
 export type FormElement = HTMLInputElement | HTMLTextAreaElement
 
-interface IInputRequiredProps {
-	value: string
+export interface IInputRequiredProps {
+	value: string | number | undefined
 }
 
-interface IInputOptionalProps {
-	className?: string
+export interface IInputOptionalProps {
+	className?: ClassValue
 	onClick?: () => void
 	disabled?: boolean
 	rounded?: boolean
-	sizeVariant?: 'small' | 'medium' | 'large'
-	styleVariant?: 'primary' | 'secondary'
+	sizeVariant?: TSizeVariant
+	styleVariant?: TStyleVariant
 	type?: 'text' | 'email'
 	elementType?: 'input' | 'textarea'
 	placeholder?: string
 	leftIcon?: React.ReactNode
+	leftIconClassName?: ClassValue
 	rightIcon?: React.ReactNode
+	rightIconClassName?: ClassValue
 	onChange?: (e: React.ChangeEvent<FormElement>) => void
-	// onFocus?: (e: React.ChangeEvent<FormElement>) => void
-	// onBlur?: (e: React.ChangeEvent<FormElement>) => void
+	onFocus?: (e: React.FocusEvent<FormElement>) => void
+	onBlur?: (e: React.FocusEvent<FormElement>) => void
 }
 
 export interface IInputProps extends IInputRequiredProps, IInputOptionalProps {}
 
-const defaultProps: IInputOptionalProps = {
+export const inputDefaultProps: IInputOptionalProps = {
 	className: undefined,
 	onClick: undefined,
 	rounded: false,
@@ -40,9 +45,13 @@ const defaultProps: IInputOptionalProps = {
 	elementType: 'input',
 	type: 'text',
 	leftIcon: undefined,
+	leftIconClassName: undefined,
 	rightIcon: undefined,
+	rightIconClassName: undefined,
 	placeholder: undefined,
 	onChange: undefined,
+	onFocus: undefined,
+	onBlur: undefined,
 }
 
 export const Input = forwardRef<FormElement, IInputProps>((props, ref: React.Ref<FormElement | null>) => {
@@ -58,8 +67,12 @@ export const Input = forwardRef<FormElement, IInputProps>((props, ref: React.Ref
 		value,
 		placeholder,
 		leftIcon,
+		leftIconClassName,
 		rightIcon,
+		rightIconClassName,
 		onChange,
+		onFocus,
+		onBlur,
 		...rest
 	} = props
 
@@ -69,7 +82,7 @@ export const Input = forwardRef<FormElement, IInputProps>((props, ref: React.Ref
 	}
 
 	return (
-		<Box position="relative" width="full">
+		<Box className={styles.inputWrapper}>
 			<Box
 				ref={ref}
 				component={elementType}
@@ -91,6 +104,8 @@ export const Input = forwardRef<FormElement, IInputProps>((props, ref: React.Ref
 				onClick={onClick}
 				placeholder={placeholder}
 				onChange={handleOnChange}
+				onFocus={onFocus}
+				onBlur={onBlur}
 				{...rest}
 			/>
 			{leftIcon ? (
@@ -99,6 +114,7 @@ export const Input = forwardRef<FormElement, IInputProps>((props, ref: React.Ref
 						styles.iconLeft({
 							sizeVariant,
 						}),
+						leftIconClassName,
 					)}
 				>
 					{leftIcon}
@@ -110,6 +126,7 @@ export const Input = forwardRef<FormElement, IInputProps>((props, ref: React.Ref
 						styles.iconRight({
 							sizeVariant,
 						}),
+						rightIconClassName,
 					)}
 				>
 					{rightIcon}
@@ -119,4 +136,4 @@ export const Input = forwardRef<FormElement, IInputProps>((props, ref: React.Ref
 	)
 })
 
-Input.defaultProps = defaultProps
+Input.defaultProps = inputDefaultProps

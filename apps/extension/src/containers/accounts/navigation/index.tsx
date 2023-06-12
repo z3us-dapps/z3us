@@ -1,15 +1,20 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import clsx, { type ClassValue } from 'clsx'
 import { LayoutGroup, motion } from 'framer-motion'
 import React, { forwardRef } from 'react'
 import { useTranslation } from 'react-i18next'
-import { useMatch } from 'react-router-dom'
+import { useLocation } from 'react-router-dom'
 
 import { Box } from 'ui/src/components-v2/box'
+import { ToolTip } from 'ui/src/components-v2/tool-tip'
 import { Text } from 'ui/src/components-v2/typography'
-import { CoinsIcon, Home2Icon, Settings2Icon, Swap2Icon, SwitchHorizontal } from 'ui/src/components/icons'
+import { BellIcon, CoinsIcon, Home2Icon, Settings2Icon, Swap2Icon, SwitchHorizontal } from 'ui/src/components/icons'
 
+import { Button } from '@src/components/button'
 import { CopyAddressButton } from '@src/components/copy-address-button'
 import { Link } from '@src/components/link'
+import * as containerStyles from '@src/components/styles/container-styles.css'
+import Translation from '@src/components/translation'
 import { WalletDropdown } from '@src/components/wallet-dropdown'
 import { Z3usLogo } from '@src/components/z3us-logo-babylon'
 import { accountMenuSlugs, routes } from '@src/constants'
@@ -20,14 +25,16 @@ import { useAccountParams } from '@src/hooks/use-account-params'
 import * as styles from './navigation.css'
 
 const useSelectedItem = (href: string) => {
-	const match = useMatch(href)
 	const { account } = useAccountParams()
-
+	const location = useLocation()
+	const splitPath = href.split('/')
+	const splitPathName = splitPath[2]
+	const locationSplitPath = location.pathname.split('/')
+	const locationSplitPathName = locationSplitPath[2]
 	const accountMatchBlackList = [routes.TRANSFER, routes.STAKING, routes.SWAP, routes.SETTINGS]
 	const isAccountsMatch = href === accountMenuSlugs.ACCOUNTS && account && !accountMatchBlackList.includes(account)
-	const selected = !!match || isAccountsMatch
 
-	return selected
+	return splitPathName === locationSplitPathName || isAccountsMatch
 }
 
 const MenuItemDesktop = ({ text, href }) => {
@@ -50,16 +57,17 @@ const MenuItemDesktop = ({ text, href }) => {
 
 export const DesktopNavigation: React.FC = () => {
 	const { t } = useTranslation()
+	const { pathname } = useLocation()
 
 	return (
-		<Box component="nav" className={styles.navigationWrapper}>
-			<Box className={styles.navigationContainer}>
+		<Box component="nav" className={clsx(styles.navigationWrapper, containerStyles.containerWrapper)}>
+			<Box className={clsx(styles.navigationContainer, containerStyles.containerInnerWrapper)}>
 				<Z3usLogo />
 				<Box className={styles.navigationMenuTabletWrapper}>
 					<AccountTabletNavigationDropdown />
 				</Box>
 				<Box className={styles.navigationMenu}>
-					<LayoutGroup>
+					<LayoutGroup id="accounts-menu">
 						{[
 							{ text: t('accounts.navigation.accounts'), href: accountMenuSlugs.ACCOUNTS },
 							{ text: t('accounts.navigation.transfer'), href: accountMenuSlugs.TRANSFER },
@@ -72,6 +80,11 @@ export const DesktopNavigation: React.FC = () => {
 					</LayoutGroup>
 				</Box>
 				<Box display="flex" alignItems="center" gap="medium">
+					<ToolTip message={<Translation capitalizeFirstLetter text="global.search" />}>
+						<Button to={`${pathname}?query=hello`} styleVariant="ghost" sizeVariant="small" iconOnly rounded>
+							<BellIcon />
+						</Button>
+					</ToolTip>
 					<CopyAddressButton address="rdx1b707388613169bf701d533e143d8f698c9090f605e677a967eaf70a4c69250ce" />
 					<AccountViewDropdown />
 					<WalletDropdown />
@@ -118,6 +131,7 @@ interface IMobileHeaderNavigationOptionalProps {
 	className?: ClassValue
 	style?: React.CSSProperties
 	isShadowVisible?: boolean
+	isAllAccount?: boolean
 }
 
 interface IMobileHeaderNavigationProps
@@ -128,11 +142,13 @@ const mobileHeaderNavigationDefaultProps: IMobileHeaderNavigationOptionalProps =
 	className: undefined,
 	style: undefined,
 	isShadowVisible: false,
+	isAllAccount: false,
 }
 
 export const MobileHeaderNavigation = forwardRef<HTMLElement, IMobileHeaderNavigationProps>(
 	(props, ref: React.Ref<HTMLElement | null>) => {
-		const { className, style, copyAddressBtnVisible, isShadowVisible } = props
+		// eslint-disable-next-line
+		const { className, style, copyAddressBtnVisible, isShadowVisible, isAllAccount } = props
 
 		return (
 			<Box
@@ -148,7 +164,11 @@ export const MobileHeaderNavigation = forwardRef<HTMLElement, IMobileHeaderNavig
 				<Box className={styles.accountsHomeMobileHeaderWalletWrapper}>
 					<Box display="flex" alignItems="center" gap="small" flexGrow={1}>
 						<Z3usLogo />
-						<AccountViewDropdown styleVariant="white-transparent" isLeftButtonIconVisible={false} />
+						<AccountViewDropdown
+							styleVariant="tertiary"
+							// styleVariant={isAllAccount ? 'tertiary' : 'white-transparent'}
+							isLeftButtonIconVisible={false}
+						/>
 					</Box>
 					<Box display="flex" alignItems="center" gap="medium">
 						<Box
@@ -165,7 +185,7 @@ export const MobileHeaderNavigation = forwardRef<HTMLElement, IMobileHeaderNavig
 								/>
 							) : null}
 						</Box>
-						<WalletDropdown buttonSize="small" />
+						<WalletDropdown />
 					</Box>
 				</Box>
 			</Box>

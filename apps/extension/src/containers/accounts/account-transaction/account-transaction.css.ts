@@ -21,10 +21,7 @@ export const transactionHeaderWrapper = style([
 		alignItems: 'center',
 		paddingX: 'medium',
 		paddingY: 'medium',
-		background: {
-			lightMode: 'backgroundSecondary',
-			darkMode: 'backgroundPrimary',
-		},
+		background: 'backgroundSecondary',
 		borderTopLeftRadius: 'large',
 		borderTopRightRadius: 'large',
 		transition: 'fast',
@@ -57,73 +54,13 @@ export const transactionBodyScrollWrapper = style([
 	}),
 ])
 
-export const transactionOverlay = style([
-	sprinkles({
-		position: 'fixed',
-		inset: 0,
-		zIndex: 1,
-	}),
-	{
-		// TODO: need theme background color
-		background: 'rgba(0, 0, 0, 0.6)',
-		animationTimingFunction: 'cubic-bezier(0.16, 1, 0.3, 1)',
-		transformOrigin: 'var(--radix-dropdown-menu-content-transform-origin)',
-		willChange: 'transform, opacity',
-		animationDuration: '1150ms',
-		selectors: {
-			'&[data-state="open"]': {
-				animationName: fadeIn,
-				animationFillMode: 'forwards',
-			},
-			'&[data-state="closed"]': {
-				animationName: fadeOut,
-				animationFillMode: 'forwards',
-			},
-		},
-	},
-])
-
 export const transactionContent = style([
-	sprinkles({
-		position: 'fixed',
-		zIndex: 1,
-		background: {
-			lightMode: 'backgroundSecondary',
-			darkMode: 'backgroundPrimary',
-		},
-		color: 'colorNeutral',
-		bottom: 0,
-		boxShadow: 'shadowActivePanel',
-		borderTopLeftRadius: 'large',
-		borderTopRightRadius: 'large',
-		overflow: 'clip',
-	}),
-	{
-		transform: 'translateX(-50%)',
-		width: '100%',
-		left: '50%',
-		animationTimingFunction: 'cubic-bezier(0.16, 1, 0.3, 1)',
-		transformOrigin: 'var(--radix-dropdown-menu-content-transform-origin)',
-		willChange: 'transform, opacity',
-		animationDuration: '150ms',
-		selectors: {
-			'&:focus': {
-				outline: 'none',
-			},
-			'&[data-state="open"]': {
-				animationName: fadeIn,
-				animationFillMode: 'forwards',
-			},
-			'&[data-state="closed"]': {
-				animationName: fadeOut,
-				animationFillMode: 'forwards',
-			},
-		},
-	},
+	sprinkles({}),
+	{},
 	responsiveStyle({
-		mobile: { maxWidth: '90%', top: '48px' },
-		tablet: { maxWidth: '480px', top: '48px' },
-		desktop: { maxWidth: '480px', top: '72px' },
+		mobile: { maxWidth: '90%', top: '48px', bottom: '48px' },
+		tablet: { maxWidth: '480px', top: '48px', bottom: '48px' },
+		desktop: { maxWidth: '480px', top: '72px', bottom: '72px' },
 	}),
 ])
 

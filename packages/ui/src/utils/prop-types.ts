@@ -1,4 +1,4 @@
-import { ElementType } from 'react'
+import type { ElementType } from 'react'
 
 export const tuple = <T extends string[]>(...args: T) => args
 

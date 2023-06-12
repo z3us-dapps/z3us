@@ -1,12 +1,14 @@
 /* eslint-disable react/jsx-props-no-spreading */
 import { Cross2Icon } from '@radix-ui/react-icons'
-import React, { PropsWithoutRef, RefAttributes, useImperativeHandle, useRef } from 'react'
+import type { PropsWithoutRef, RefAttributes} from 'react';
+import React, { useImperativeHandle, useRef } from 'react'
 
-import { PropsWithCSS } from '../../types'
+import type { PropsWithCSS } from '../../types'
 import { __DEV__ } from '../../utils/assertion'
 import withDefaults from '../../utils/with-defaults'
 import Button from '../button'
-import { PillVariantsProps, StyledPill } from './pill.styles'
+import type { PillVariantsProps} from './pill.styles';
+import { StyledPill } from './pill.styles'
 
 export interface Props {
 	as?: keyof JSX.IntrinsicElements

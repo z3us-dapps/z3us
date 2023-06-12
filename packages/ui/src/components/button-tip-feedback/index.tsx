@@ -1,7 +1,7 @@
 import { CheckIcon } from '@radix-ui/react-icons'
 import React, { useRef, useState } from 'react'
 
-import { CSS } from '../../theme'
+import type { CSS } from '../../theme'
 import { Box } from '../atoms/box'
 import { Flex } from '../atoms/flex'
 import { Tooltip, TooltipArrow, TooltipContent, TooltipProvider, TooltipTrigger } from '../tool-tip'

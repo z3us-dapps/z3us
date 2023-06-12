@@ -28,6 +28,14 @@ export const accountSearchWrapperWrapperSticky = style([
 	},
 ])
 
+export const accountSearchBorderWrapper = style([
+	sprinkles({
+		borderTop: 1,
+		borderStyle: 'solid',
+		borderColor: 'borderDivider',
+	}),
+])
+
 export const accountSearchWrapperWrapperStickyShadow = style([
 	sprinkles({
 		boxShadow: 'shadowScrollTop',
@@ -38,12 +46,22 @@ export const accountSearchWrapper = style([
 	sprinkles({
 		position: 'relative',
 		display: 'flex',
-		justifyContent: 'flex-end',
+		justifyContent: 'flex-start',
 		alignItems: 'center',
 		width: 'full',
 	}),
 	{},
 ])
+
+export const accountSearchTextWrapper = style([
+	sprinkles({
+		position: 'relative',
+	}),
+	{
+		maxWidth: '280px'
+	},
+])
+
 
 export const accountSearchButton = style([
 	sprinkles({
@@ -60,7 +78,7 @@ export const accountUpButton = style([
 		position: 'absolute',
 	}),
 	{
-		right: '32px',
+		right: '36px',
 	},
 ])
 
@@ -93,24 +111,3 @@ export const accountSearchButtonHidden = style([
 	{},
 ])
 
-export const inputWrapper = style([
-	sprinkles({
-		position: 'relative',
-		display: 'flex',
-		alignItems: 'center',
-		justifyContent: 'flex-end',
-		transition: 'fast',
-		width: 'full',
-		opacity: 0,
-	}),
-	{},
-])
-
-export const inputWrapperVisible = style([sprinkles({}), { opacity: 1 }])
-
-export const inputElement = style([
-	sprinkles({
-		width: 'full',
-	}),
-	{},
-])

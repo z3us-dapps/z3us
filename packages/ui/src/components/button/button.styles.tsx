@@ -1,4 +1,5 @@
-import { VariantProps, keyframes, sharedFocus, styled } from '../../theme'
+import type { VariantProps} from '../../theme';
+import { keyframes, sharedFocus, styled } from '../../theme'
 
 const animateRotate = keyframes({
 	'0%': { opacity: 1, transform: 'rotate(0deg)' },

@@ -1,10 +1,10 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import clsx from 'clsx'
-import React, { forwardRef, useState } from 'react'
+import clsx, { type ClassValue } from 'clsx'
+import React, { forwardRef, useEffect, useState } from 'react'
 import { useLocation, useNavigate, useSearchParams } from 'react-router-dom'
 
 import { Box } from 'ui/src/components-v2/box'
-import { Dialog, DialogContent, DialogOverlay, DialogPortal } from 'ui/src/components-v2/dialog'
+import { DialogContent, DialogOverlay, DialogPortal, DialogRoot } from 'ui/src/components-v2/dialog'
 import { ScrollArea } from 'ui/src/components-v2/scroll-area'
 import { ToolTip } from 'ui/src/components-v2/tool-tip'
 import { Text } from 'ui/src/components-v2/typography'
@@ -12,6 +12,7 @@ import { Close2Icon, ShareIcon } from 'ui/src/components/icons'
 
 import { Button } from '@src/components/button'
 import { CopyAddressButton } from '@src/components/copy-address-button'
+import * as dialogStyles from '@src/components/styles/dialog-styles.css'
 import { TransactionIcon } from '@src/components/transaction-icon'
 import Translation from '@src/components/translation'
 import { ACCOUNT_PARAM_ACTIVITY, ACCOUNT_PARAM_ASSET, ACCOUNT_PARAM_TRANSACTION_ID } from '@src/constants'
@@ -20,16 +21,8 @@ import { getShortAddress } from '@src/utils/string-utils'
 import { AccountsTransactionInfo } from './account-transaction-info'
 import * as styles from './account-transaction.css'
 
-interface IAccountTransactionRequiredProps {}
-
-interface IAccountTransactionOptionalProps {
-	className?: number
-}
-
-interface IAccountTransactionProps extends IAccountTransactionRequiredProps, IAccountTransactionOptionalProps {}
-
-const defaultProps: IAccountTransactionOptionalProps = {
-	className: undefined,
+interface IAccountTransactionProps {
+	className?: ClassValue
 }
 
 export const AccountTransaction = forwardRef<HTMLElement, IAccountTransactionProps>(
@@ -60,15 +53,28 @@ export const AccountTransaction = forwardRef<HTMLElement, IAccountTransactionPro
 			setIsScrolled(scrollTop > 0)
 		}
 
-		return asset && transactionId ? (
-			<Dialog open>
+		useEffect(() => {
+			if (!transactionId) {
+				setIsScrolled(false)
+			}
+		}, [transactionId])
+
+		return (
+			<DialogRoot open={!!asset && !!transactionId}>
 				<DialogPortal>
-					<DialogOverlay className={styles.transactionOverlay} />
-					<DialogContent className={clsx(styles.transactionContent, className)} onEscapeKeyDown={navigateBack}>
+					<DialogOverlay className={dialogStyles.dialogOverlay} />
+					<DialogContent
+						className={clsx(dialogStyles.dialogContent, styles.transactionContent, className)}
+						onEscapeKeyDown={navigateBack}
+					>
 						<ScrollArea onScroll={handleScroll}>
 							<Box ref={ref} className={styles.transactionBodyScrollWrapper}>
 								<Box display="flex" flexDirection="column" alignItems="center">
-									<TransactionIcon transactionIconSize="large" transactionType="deposit" />
+									<TransactionIcon
+										transactionIconBorderColor="borderDividerSecondary"
+										transactionIconSize="large"
+										transactionType="deposit"
+									/>
 									<Box marginTop="small">
 										<Text size="small" color="strong">
 											<Translation capitalizeFirstLetter text="global.received" /> XRD
@@ -91,6 +97,42 @@ export const AccountTransaction = forwardRef<HTMLElement, IAccountTransactionPro
 										</Text>
 									</Box>
 									<Box display="flex" flexDirection="column" gap="medium" width="full">
+										<AccountsTransactionInfo
+											leftTitle={<Translation capitalizeFirstLetter text="global.type" />}
+											rightData={
+												<Text size="small">
+													{/* TODO:  */}
+													<Translation text="global.deposit" />
+												</Text>
+											}
+										/>
+										<AccountsTransactionInfo
+											leftTitle={<Box as="span">Tags</Box>}
+											rightData={
+												<Text size="small">
+													{/* TODO:  */}
+													???
+												</Text>
+											}
+										/>
+										<AccountsTransactionInfo
+											leftTitle={<Box as="span">Category</Box>}
+											rightData={
+												<Text size="small">
+													{/* TODO:  */}
+													???
+												</Text>
+											}
+										/>
+										<AccountsTransactionInfo
+											leftTitle={<Box as="span">Add note</Box>}
+											rightData={
+												<Text size="small">
+													{/* TODO:  */}
+													????
+												</Text>
+											}
+										/>
 										<AccountsTransactionInfo
 											leftTitle={<Translation capitalizeFirstLetter text="global.type" />}
 											rightData={
@@ -179,11 +221,10 @@ export const AccountTransaction = forwardRef<HTMLElement, IAccountTransactionPro
 												</Text>
 												<CopyAddressButton
 													styleVariant="ghost"
-													address="messssageeeaskjdfhlsakjdhflksjdhfg lkjhlkjh"
+													address="Copy message"
 													iconOnly
 													rounded={false}
 													tickColor="colorStrong"
-													toolTipDisabled
 												/>
 											</Box>
 										</Box>
@@ -224,9 +265,7 @@ export const AccountTransaction = forwardRef<HTMLElement, IAccountTransactionPro
 						</Box>
 					</DialogContent>
 				</DialogPortal>
-			</Dialog>
-		) : null
+			</DialogRoot>
+		)
 	},
 )
-
-AccountTransaction.defaultProps = defaultProps

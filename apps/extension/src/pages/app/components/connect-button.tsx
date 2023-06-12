@@ -1,9 +1,5 @@
 import React from 'react'
 
-import { Box } from 'ui/src/components-v2/box'
-
-import '@src/browser/content-script'
-
 declare global {
 	namespace JSX {
 		interface IntrinsicElements {
@@ -12,10 +8,6 @@ declare global {
 	}
 }
 
-const ConnectButton: React.FC = () => (
-	<Box>
-		<radix-connect-button />
-	</Box>
-)
+const ConnectButton: React.FC = () => <radix-connect-button />
 
 export default ConnectButton

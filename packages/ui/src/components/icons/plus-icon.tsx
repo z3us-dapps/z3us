@@ -1,20 +1,21 @@
 /* eslint-disable react/jsx-props-no-spreading */
 import * as React from 'react'
 
-import { IconProps } from './types'
+import type { IconProps } from './types'
 
 export const PlusIcon = React.forwardRef<SVGSVGElement, IconProps>(
 	({ color = 'currentColor', ...props }, forwardedRef) => (
 		<svg
-			width="20"
-			height="20"
-			viewBox="0 0 20 20"
+			width="24"
+			height="24"
+			viewBox="0 0 24 24"
 			fill="none"
 			xmlns="http://www.w3.org/2000/svg"
 			{...props}
 			ref={forwardedRef}
 		>
-			<path fill={color} d="M11,4H9v5H4v2h5v5h2v-5h5V9h-5V4z" />
+			<path stroke={color} strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M12 5.75V18.25" />
+			<path stroke={color} strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M18.25 12L5.75 12" />
 		</svg>
 	),
 )

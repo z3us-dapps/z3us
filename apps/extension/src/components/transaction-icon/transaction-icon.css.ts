@@ -68,6 +68,9 @@ export const transactionAvatarFallbackWrapper = style([
 		borderRadius: 'full',
 		width: 'full',
 		height: 'full',
+		display: 'flex',
+		alignItems: 'center',
+		justifyContent: 'center',
 	}),
 	{},
 ])

@@ -12,7 +12,7 @@ import { Link } from '@src/components/link'
 import * as skeletonStyles from '@src/components/styles/skeleton-loading.css'
 import { animtePageVariants, routes } from '@src/constants'
 import { useAccountParams } from '@src/hooks/use-account-params'
-import { TListItem } from '@src/types'
+import type { TListItem } from '@src/types'
 
 import { Context } from '../context'
 import * as styles from './accounts-mobile-index-list-item.css'

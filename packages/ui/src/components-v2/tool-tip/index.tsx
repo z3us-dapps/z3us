@@ -1,4 +1,4 @@
-import { Side } from '@radix-ui/popper'
+import type { Side } from '@radix-ui/popper'
 import * as TooltipPrimitive from '@radix-ui/react-tooltip'
 import clsx from 'clsx'
 import React from 'react'
@@ -33,9 +33,9 @@ interface IToolTipProps extends IToolTipRequiredProps, IToolTipOptionalProps {}
 
 const defaultProps: IToolTipOptionalProps = {
 	disabled: false,
-	sideOffset: 3,
+	sideOffset: 5,
 	arrowOffset: 5,
-	isArrowVisible: true,
+	isArrowVisible: false,
 	side: 'bottom',
 	theme: 'backgroundSecondary',
 }

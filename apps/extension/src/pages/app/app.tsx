@@ -2,18 +2,21 @@ import { AnimatePresence } from 'framer-motion'
 import React from 'react'
 import { Link, Navigate, Route, Routes, useLocation } from 'react-router-dom'
 
-import { AnimatedPage } from '@src/components/animated-route'
+import { AnimatedPage } from '@src/components/animated-page'
 import { routes } from '@src/constants'
 import { Accounts } from '@src/containers/accounts'
 import { useIsMobileWidth } from '@src/hooks/use-is-mobile'
 
-import TempNav from './components/nav'
-import Pairing from './pages/pairing'
-
 import * as styles from './app.css'
+import TempNav from './components/nav'
+
+if (APP_RADIX && chrome.runtime) {
+	import('@src/browser/content-script').catch(console.error)
+}
 
 const Connect = React.lazy(() => import('./pages/connect'))
 const NotFound = React.lazy(() => import('./pages/404'))
+const Pairing = React.lazy(() => import('./pages/pairing'))
 
 const App: React.FC = () => {
 	const location = useLocation()

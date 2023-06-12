@@ -1,6 +1,6 @@
 import dotenv from 'dotenv'
 import path from 'path'
-import { ChromiumBrowserContext, Page } from 'playwright'
+import type { ChromiumBrowserContext, Page } from 'playwright'
 
 import { closePages, initBrowserWithExtension } from './util'
 

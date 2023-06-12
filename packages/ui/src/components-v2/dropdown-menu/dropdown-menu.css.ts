@@ -1,6 +1,20 @@
 import { keyframes, style } from '@vanilla-extract/css'
 
-import { Sprinkles, sprinkles } from '../system/sprinkles.css'
+import type { Sprinkles } from '../system/sprinkles.css'
+import { sprinkles } from '../system/sprinkles.css'
+import { responsiveStyle } from '../system/theme-utils'
+
+// import { vars } from 'ui/src/components-v2/system/theme.css'
+
+export const fadeIn = keyframes({
+	'0%': { opacity: '0' },
+	'100%': { opacity: '1' },
+})
+
+export const fadeOut = keyframes({
+	'0%': { opacity: '1' },
+	'100%': { opacity: '0' },
+})
 
 export const sharedItemStyles = {
 	position: 'relative',
@@ -20,40 +34,49 @@ export const sharedItemStyles = {
 	},
 }
 
-export const fadeIn = keyframes({
-	'0%': { transform: 'scale(0.90) translateY(-20px)', opacity: '0' },
-	'100%': { transform: 'scale(1.00) translateY(0px)', opacity: '1' },
-})
+export const sharedPopoverBgSprinkles = {
+	background: 'backgroundSecondary',
+	boxShadow: {
+		lightMode: 'shadowDropdown',
+		// TODO: remove ?
+		// focusVisible: 'shadowDropdownFocusVisible',
+	},
+	color: 'colorNeutral',
+	borderRadius: 'medium',
+}
 
-export const fadeOut = keyframes({
-	'0%': { transform: 'scale(1.00) translateY(0px)', opacity: '1' },
-	'100%': { transform: 'scale(0.90) translateY(0px)', opacity: '0' },
-})
+export const sharedPopoverBgStyles = {
+	transform: 'translateX(-50%)',
+	width: '100%',
+	left: '50%',
+	animationTimingFunction: 'cubic-bezier(0.16, 1, 0.3, 1)',
+	transformOrigin: 'var(--radix-dropdown-menu-content-transform-origin)',
+	willChange: 'transform, opacity',
+	animationDuration: '150ms',
+}
+
+export const sharedPopoverBgSelectorStyles = {
+	'&[data-state="open"]': {
+		animationName: fadeIn,
+		animationFillMode: 'forwards',
+	},
+	'&[data-state="closed"]': {
+		animationName: fadeOut,
+		animationFillMode: 'forwards',
+	},
+	'&:focus-visible': {
+		outline: 'none',
+	},
+}
 
 export const dropdownMenuContent = style([
 	sprinkles({
-		background: 'backgroundSecondary',
-		boxShadow: 'shadowDropdown',
-		paddingX: 'small',
-		paddingY: 'medium',
-		color: 'colorNeutral',
-		borderRadius: 'medium',
+		...(sharedPopoverBgSprinkles as Sprinkles),
 	}),
 	{
-		minWidth: '70px',
-		transformOrigin: 'var(--radix-dropdown-menu-content-transform-origin)',
-		animationTimingFunction: 'cubic-bezier(0.16, 1, 0.3, 1)',
-		willChange: 'transform, opacity',
-		animationDuration: '150ms',
+		...sharedPopoverBgStyles,
 		selectors: {
-			'&[data-state="open"]': {
-				animationName: fadeIn,
-				animationFillMode: 'forwards',
-			},
-			'&[data-state="closed"]': {
-				animationName: fadeOut,
-				animationFillMode: 'forwards',
-			},
+			...sharedPopoverBgSelectorStyles,
 		},
 	},
 ])
@@ -64,6 +87,7 @@ export const dropdownMenuItem = style([
 	}),
 	{
 		outline: 'none',
+		minHeight: '40px',
 	},
 ])
 
@@ -73,6 +97,8 @@ export const dropdownMenuRadioItem = style([
 	}),
 	{
 		outline: 'none',
+		minHeight: '40px',
+		maxWidth: '100%',
 	},
 ])
 
@@ -120,7 +146,6 @@ export const dropdownMenuItemIndicator = style([
 		alignItems: 'center',
 		marginLeft: 'medium',
 	}),
-	{},
 ])
 
 export const dropdownMenuItemRightSlot = style([
@@ -141,4 +166,47 @@ export const dropdownMenuItemLeftSlot = style([
 		justifyContent: 'center',
 	}),
 	{},
+])
+
+export const dropdownMenuVirtuosoWrapper = style([
+	sprinkles({
+		position: 'relative',
+	}),
+	{},
+])
+
+export const dropdownMenuVirtuosoContentWrapper = style([
+	sprinkles({
+		position: 'relative',
+	}),
+	{
+		paddingTop: 0,
+		paddingBottom: 0,
+		paddingLeft: 0,
+		paddingRight: 0,
+	},
+])
+
+export const dropdownMenuVirtuosoSimpleBarWrapper = style([
+	sprinkles({
+		position: 'relative',
+	}),
+	{},
+	responsiveStyle({
+		mobile: { maxHeight: '40vh' },
+		tablet: { maxHeight: '40vh' },
+	}),
+])
+
+export const dropdownMenuVirtuosoScrollAreaWrapper = style([
+	sprinkles({
+		position: 'relative',
+		width: 'full',
+		height: 'full',
+		paddingY: 'small',
+		paddingX: 'small',
+	}),
+	{
+		minHeight: '200px',
+	},
 ])

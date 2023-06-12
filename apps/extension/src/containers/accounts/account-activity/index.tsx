@@ -163,10 +163,6 @@ export const AccountActivity = forwardRef<HTMLElement, IAccountActivityProps>(
 		const [items, setItems] = useState(Array.from({ length: 20 }, _ => ({ id: hash(), name: hash(), loaded: false })))
 
 		useEffect(() => {
-			if (scrollableNode) {
-				scrollableNode.scrollTo({ top: 0 })
-			}
-
 			// DEMO CODE DEMONSTRATE LOADING
 			// eslint-disable-next-line
 			setItems(Array.from({ length: 20 }, _ => ({ id: hash(), name: hash(), loaded: false })))

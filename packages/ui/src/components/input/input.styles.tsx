@@ -1,4 +1,5 @@
-import { VariantProps, styled } from '../../theme'
+import type { VariantProps} from '../../theme';
+import { styled } from '../../theme'
 
 export const StyledInputWrapper = styled('div', {
 	position: 'relative',

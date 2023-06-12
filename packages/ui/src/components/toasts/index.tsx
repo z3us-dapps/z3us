@@ -4,7 +4,7 @@ import { createPortal } from 'react-dom'
 import create from 'zustand'
 import shallow from 'zustand/shallow'
 
-import { PropsWithCSS } from '../../types'
+import type { PropsWithCSS } from '../../types'
 import { __DEV__ } from '../../utils/assertion'
 import { Box } from '../atoms'
 import { Toast as ToastC } from './toast'

@@ -12,7 +12,7 @@ import { ChevronDown3Icon, ChevronLeftIcon, Close2Icon, SearchIcon } from 'ui/sr
 import { isEmpty } from 'ui/src/utils/assertion'
 import { capitalizeFirstLetter } from 'ui/src/utils/capitalize-first-letter'
 
-import { AnimatedCard } from '@src/components/animated-card'
+import { AccountCards } from '@src/components/account-cards'
 import { Button } from '@src/components/button'
 import { CardButtons } from '@src/components/card-buttons'
 import { Link } from '@src/components/link'
@@ -34,27 +34,28 @@ import * as styles from './accounts-home-mobile.css'
 const CARD_COLORS = [
 	{
 		// accountId: 'rdx1...ldg0',
+		accountId: 'rdx1b7073_all',
 		accountName: 'all',
 		accountBalance: '$80,043.43',
 		// backgroundImage:
 		// 	'url("/images/account-images/z3us-apple-hermes-v2.png"), radial-gradient(77.21% 96.45% at 50% 100%, #BF9E76 0%, #BF9E76 17.71%, #BF9E76 50.52%, #BF9E76 100%)',
 	},
 	{
-		accountId: 'rdx1b707388613169bf701d533e143d8f698c9090f605e677a967eaf70a4c69250ce',
+		accountId: 'rdx1b707388613',
 		accountName: 'Spend',
 		accountBalance: '$1043.43',
 		backgroundImage:
 			'url("/images/account-images/z3us-apple-hermes.png"), radial-gradient(77.21% 96.45% at 50% 100%, #FE845E 0%, #E08BAB 17.71%, #AB8CFF 50.52%, #946DFF 100%)',
 	},
 	{
-		accountId: 'rdx1b707388613169bf701d533e143d8f698c9090f605e677a967eaf70a4c69250ce',
+		accountId: 'rdx1b707388613169b',
 		accountName: 'Savings',
 		accountBalance: '$5043.43',
 		backgroundImage:
 			'url("/images/account-images/z3us-athens.png"), radial-gradient(77.21% 96.45% at 50% 100%, #C0D7EF 0%, #C0D7EF 17.71%, #C0D7EF 50.52%, #C0D7EF 100%)',
 	},
 	{
-		accountId: 'rdx1b707388613169bf701d533e143d8f698c9090f605e677a967eaf70a4c69250ce',
+		accountId: 'rdx1b7',
 		accountName: 'Defi',
 		accountBalance: '$80,043.43',
 		backgroundImage:
@@ -199,18 +200,7 @@ export const AccountsHomeMobileHeader = forwardRef<HTMLElement, IAccountsHomeMob
 			return (
 				<AnimatePresence initial={false}>
 					<Box component="ul" className={styles.cardWrapperAll}>
-						{cards.map(({ accountName, accountId, accountBalance }, idx) => (
-							<AnimatedCard
-								key={accountName}
-								selectedCardIndex={1}
-								cardIndex={idx}
-								accountAddress={accountId}
-								accountBalance={accountBalance}
-								accountName={accountName}
-								showCopyAddressButton
-								isAllAccount={accountName === ACCOUNTS_ALL}
-							/>
-						))}
+						<AccountCards accountCards={cards} selectedCardIndex={1} />
 					</Box>
 				</AnimatePresence>
 			)

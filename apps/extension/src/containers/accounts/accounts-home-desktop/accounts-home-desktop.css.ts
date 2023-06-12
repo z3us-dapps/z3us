@@ -25,6 +25,15 @@ export const accountsWrapper = style([
 	{},
 ])
 
+export const accountsContainerWrapper = style([
+	sprinkles({
+		width: 'full',
+		height: 'full',
+		maxWidth: 'xxlarge',
+	}),
+	{},
+])
+
 export const panelWrapper = style([
 	sprinkles({
 		position: 'relative',
@@ -57,7 +66,6 @@ export const rightPanel = style([
 		width: '392px',
 		flexBasis: '392px',
 	},
-
 	responsiveStyle({
 		tablet: {
 			width: '40%',
@@ -68,10 +76,4 @@ export const rightPanel = style([
 			flexBasis: '392px',
 		},
 	}),
-])
-
-export const rightPanelAssetType = style([
-	{
-		alignSelf: 'flex-start',
-	},
 ])

@@ -7,7 +7,10 @@ export const scrollWrapper = style([
 		position: 'relative',
 		height: 'full',
 		width: 'full',
-		background: 'backgroundPrimary',
+		background: {
+			lightMode: 'backgroundPrimary',
+			darkMode: 'backgroundSecondary',
+		},
 	}),
 	{},
 ])

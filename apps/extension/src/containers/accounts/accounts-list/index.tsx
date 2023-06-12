@@ -130,7 +130,6 @@ const ItemWrapper = props => {
 }
 
 interface IAccountListRequiredProps {
-	scrollTop: number
 	scrollableNode: HTMLElement
 }
 
@@ -146,13 +145,11 @@ const defaultProps: IAccountListOptionalProps = {
 
 export const AccountsList = React.forwardRef<HTMLElement, IAccountListProps>(
 	(props, ref: React.Ref<HTMLElement | null>) => {
-		const { className, scrollTop, scrollableNode } = props
+		const { className, scrollableNode } = props
 
 		// eslint-disable-next-line
 		const [items, setItems] = useState(Array.from({ length: 20 }, _ => ({ id: hash(), name: hash(), loaded: false })))
 		const { account, assetType, asset } = useAccountParams()
-
-		const isScrolled = scrollTop > 0
 
 		// computeItemKey is necessary for animation to ensure Virtuoso reuses the same elements
 		const computeItemKey = useCallback(index => items[index].id, [items])
@@ -165,7 +162,7 @@ export const AccountsList = React.forwardRef<HTMLElement, IAccountListProps>(
 
 		return (
 			<Box ref={ref} className={clsx(styles.tokenListWrapper, className)} style={{ minHeight: '200px' }}>
-				<AccountListHeader isScrolled={isScrolled} />
+				<AccountListHeader scrollableNode={scrollableNode} />
 				{/* TODO: this context is temporary until we hook up proper state, just here for demo purposes */}
 				{/* eslint-disable-next-line */}
 				<Context.Provider value={{ setItems }}>

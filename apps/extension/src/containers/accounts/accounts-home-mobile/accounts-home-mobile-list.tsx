@@ -18,7 +18,7 @@ import {
 	LIST_ITEM_ASSET_TYPE,
 	LIST_ITEM_INDEX,
 } from '@src/constants'
-import { TListItem } from '@src/types'
+import type { TListItem } from '@src/types'
 
 import * as styles from './accounts-home-mobile.css'
 import { AccountsMobileActivityListItem } from './accounts-mobile-activity-list-item'

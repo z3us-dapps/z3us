@@ -1,7 +1,9 @@
 import { style } from '@vanilla-extract/css'
-import { RecipeVariants, recipe } from '@vanilla-extract/recipes'
+import type { RecipeVariants } from '@vanilla-extract/recipes'
+import { recipe } from '@vanilla-extract/recipes'
 
 import { sprinkles } from '../system/sprinkles.css'
+import { vars } from '../system/theme.css'
 
 export const baseSprinkles = style([
 	sprinkles({
@@ -18,15 +20,15 @@ export const button = recipe({
 		cursor: 'pointer',
 		flexShrink: 0,
 		margin: '0',
-		padding: '0',
 		outline: 'none',
 		WebkitTapHighlightColor: 'rgba(0, 0, 0, 0)',
+		maxWidth: '100%',
 	},
 	variants: {
 		styleVariant: {
 			primary: sprinkles({
 				background: { lightMode: 'purple500', hover: 'purple600', focus: 'purple600' },
-				color: 'purple100',
+				color: 'purple0',
 				boxShadow: {
 					focusVisible: 'btnSecondaryShadowFocus',
 				},
@@ -46,6 +48,21 @@ export const button = recipe({
 				border: 1,
 				borderStyle: 'solid',
 			}),
+			'secondary-error': sprinkles({
+				background: {
+					lightMode: 'btnSecondaryBackground',
+					hover: 'btnSecondaryBackgroundHover',
+					active: 'btnSecondaryBackground',
+					focusVisible: 'btnSecondaryBackgroundHover',
+				},
+				boxShadow: {
+					focusVisible: 'btnSecondaryShadowFocus',
+				},
+				color: 'colorNeutral',
+				borderColor: { lightMode: 'red400', hover: 'red500' },
+				border: 1,
+				borderStyle: 'solid',
+			}),
 			tertiary: sprinkles({
 				background: { lightMode: 'btnTertiaryBackground', hover: 'btnTertiaryBackgroundHover' },
 				boxShadow: {
@@ -53,6 +70,16 @@ export const button = recipe({
 				},
 				color: 'colorStrong',
 				borderColor: { lightMode: 'btnTertiaryBorderColor', hover: 'btnTertiaryBorderColorHover' },
+				border: 1,
+				borderStyle: 'solid',
+			}),
+			'tertiary-error': sprinkles({
+				background: { lightMode: 'btnTertiaryBackground', hover: 'btnTertiaryBackgroundHover' },
+				boxShadow: {
+					focusVisible: 'btnSecondaryShadowFocus',
+				},
+				color: 'colorStrong',
+				borderColor: { lightMode: 'red400', hover: 'red500' },
 				border: 1,
 				borderStyle: 'solid',
 			}),
@@ -91,8 +118,42 @@ export const button = recipe({
 				border: 1,
 				borderStyle: 'solid',
 			}),
+			destructive: sprinkles({
+				background: {
+					lightMode: 'red500',
+				},
+				borderColor: { lightMode: 'transparent', hover: 'transparent' },
+				boxShadow: {
+					focusVisible: 'btnSecondaryShadowFocus',
+				},
+				color: 'white',
+				border: 1,
+				borderStyle: 'solid',
+			}),
+			avatar: sprinkles({
+				background: {
+					lightMode: 'transparent',
+				},
+				boxShadow: {
+					hover: 'btnAvatarShadowHover',
+					focusVisible: 'btnAvatarShadowFocus',
+				},
+			}),
 		},
 		sizeVariant: {
+			xsmall: [
+				sprinkles({
+					borderRadius: 'small',
+					padding: 'small',
+				}),
+				{
+					height: '26px',
+					fontSize: '12px',
+					lineHeight: '12px',
+					paddingLeft: '8px',
+					paddingRight: '8px',
+				},
+			],
 			small: [
 				sprinkles({
 					borderRadius: 'small',
@@ -100,11 +161,10 @@ export const button = recipe({
 				}),
 				{
 					height: '32px',
-					fontSize: '15px',
-					lineHeight: '20px',
+					fontSize: '14px',
+					lineHeight: '14px',
 					paddingLeft: '8px',
 					paddingRight: '8px',
-					gap: '6px',
 				},
 			],
 			medium: [
@@ -115,29 +175,38 @@ export const button = recipe({
 					height: '40px',
 					fontSize: '14px',
 					lineHeight: '14px',
-					paddingLeft: '18px',
-					paddingRight: '18px',
-					gap: '10px',
+					paddingLeft: '16px',
+					paddingRight: '16px',
 				},
 			],
 			large: [
 				sprinkles({
 					borderRadius: 'large',
-					padding: 'medium',
+					paddingX: 'large',
 				}),
 				{
 					height: '44px',
+					fontSize: '15px',
+					lineHeight: '15px',
 				},
 			],
 			xlarge: [
 				sprinkles({
 					borderRadius: 'large',
-					padding: 'medium',
+					paddingX: 'large',
 				}),
 				{
 					height: '48px',
+					fontSize: '16px',
+					lineHeight: '16px',
+					fontWeight: '500',
 				},
 			],
+		},
+		fullWidth: {
+			true: {
+				width: '100%',
+			},
 		},
 		rounded: {
 			true: {},
@@ -148,10 +217,25 @@ export const button = recipe({
 		disabled: {
 			true: {
 				cursor: 'not-allowed',
+				pointerEvents: 'none',
+				opacity: '0.7',
 			},
+		},
+		active: {
+			true: {},
 		},
 	},
 	compoundVariants: [
+		{
+			variants: {
+				sizeVariant: 'xsmall',
+				iconOnly: true,
+			},
+			style: {
+				width: '26px',
+				padding: '0px',
+			},
+		},
 		{
 			variants: {
 				sizeVariant: 'small',
@@ -226,12 +310,31 @@ export const button = recipe({
 		},
 		{
 			variants: {
+				sizeVariant: 'medium',
+				rounded: true,
+				iconOnly: true,
+			},
+			style: {
+				borderRadius: '50%',
+			},
+		},
+		{
+			variants: {
 				sizeVariant: 'large',
 				rounded: true,
 				iconOnly: true,
 			},
 			style: {
 				borderRadius: '50%',
+			},
+		},
+		{
+			variants: {
+				styleVariant: 'avatar',
+				active: true,
+			},
+			style: {
+				boxShadow: `${vars.color.btnAvatarShadowHover}`,
 			},
 		},
 	],
@@ -249,6 +352,7 @@ export type ButtonVariants = RecipeVariants<typeof button>
 export const buttonIconLeft = recipe({
 	base: {
 		display: 'inline-flex',
+		flexShrink: 0,
 		alignItems: 'center',
 		justifyContent: 'center',
 		textDecoration: 'none',
@@ -263,7 +367,13 @@ export const buttonIconLeft = recipe({
 			secondary: sprinkles({
 				color: 'colorNeutral',
 			}),
+			'secondary-error': sprinkles({
+				color: 'colorNeutral',
+			}),
 			tertiary: sprinkles({
+				color: 'colorNeutral',
+			}),
+			'tertiary-error': sprinkles({
 				color: 'colorNeutral',
 			}),
 			inverse: sprinkles({
@@ -273,14 +383,21 @@ export const buttonIconLeft = recipe({
 				color: 'colorNeutral',
 			}),
 			'white-transparent': sprinkles({
-				color: 'colorStrong',
+				color: 'white',
+			}),
+			destructive: sprinkles({
+				color: 'white',
+			}),
+			avatar: sprinkles({
+				color: 'white',
 			}),
 		},
 		sizeVariant: {
-			small: [{ marginLeft: '-6px' }],
-			medium: [],
-			large: [],
-			xlarge: [],
+			xsmall: [{ marginRight: '4px', marginLeft: '-2px' }],
+			small: [{ marginRight: '4px', marginLeft: '-4px' }],
+			medium: [{ marginRight: '2px', marginLeft: '-6px' }],
+			large: [{ marginRight: '6px', marginLeft: '-6px' }],
+			xlarge: [{ marginRight: '6px', marginLeft: '-6px' }],
 		},
 		iconOnly: {
 			true: {},
@@ -295,6 +412,7 @@ export const buttonIconLeft = recipe({
 export const buttonIconRight = recipe({
 	base: {
 		display: 'inline-flex',
+		flexShrink: 0,
 		alignItems: 'center',
 		justifyContent: 'center',
 		textDecoration: 'none',
@@ -309,7 +427,13 @@ export const buttonIconRight = recipe({
 			secondary: sprinkles({
 				color: 'colorNeutral',
 			}),
+			'secondary-error': sprinkles({
+				color: 'colorNeutral',
+			}),
 			tertiary: sprinkles({
+				color: 'colorNeutral',
+			}),
+			'tertiary-error': sprinkles({
 				color: 'colorNeutral',
 			}),
 			inverse: sprinkles({
@@ -320,25 +444,46 @@ export const buttonIconRight = recipe({
 			}),
 			'white-transparent': [
 				sprinkles({
-					color: 'colorStrong',
+					color: 'white',
 				}),
 				{
 					opacity: '0.8',
 				},
 			],
+			destructive: [
+				sprinkles({
+					color: 'white',
+				}),
+				{
+					opacity: '0.8',
+				},
+			],
+			avatar: sprinkles({
+				color: 'colorNeutral',
+			}),
 		},
 		sizeVariant: {
-			small: [{ marginRight: '-6px' }],
-			medium: [],
-			large: [],
-			xlarge: [],
+			xsmall: [{ marginLeft: '4px', marginRight: '-6px' }],
+			small: [{ marginLeft: '4px', marginRight: '-4px' }],
+			medium: [{ marginLeft: '4px', marginRight: '-8px' }],
+			large: [{ marginLeft: '6px', marginRight: '-6px' }],
+			xlarge: [{ marginLeft: '6px', marginRight: '-6px' }],
 		},
 		iconOnly: {
 			true: {},
 		},
 	},
-
 	compoundVariants: [
+		{
+			variants: {
+				sizeVariant: 'xsmall',
+				iconOnly: true,
+			},
+			style: {
+				marginRight: '0',
+				marginLeft: '0',
+			},
+		},
 		{
 			variants: {
 				sizeVariant: 'small',
@@ -346,6 +491,17 @@ export const buttonIconRight = recipe({
 			},
 			style: {
 				marginRight: '0',
+				marginLeft: '0',
+			},
+		},
+		{
+			variants: {
+				sizeVariant: 'medium',
+				iconOnly: true,
+			},
+			style: {
+				marginRight: '0',
+				marginLeft: '0',
 			},
 		},
 	],

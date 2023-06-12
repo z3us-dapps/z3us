@@ -2,7 +2,7 @@ import React from 'react'
 
 import { Box } from 'ui/src/components/atoms'
 import { Avatar, AvatarFallback, AvatarImage } from 'ui/src/components/avatar'
-import { CSS } from 'ui/src/theme'
+import type { CSS } from 'ui/src/theme'
 
 interface IProps {
 	image?: string

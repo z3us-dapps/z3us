@@ -1,6 +1,6 @@
 import { RadixDappToolkit } from '@radixdlt/radix-dapp-toolkit'
 
-import { LIST_ITEM_ACTIVITY, LIST_ITEM_ASSET, LIST_ITEM_ASSET_TYPE, LIST_ITEM_INDEX } from '@src/constants'
+import type { LIST_ITEM_ACTIVITY, LIST_ITEM_ASSET, LIST_ITEM_ASSET_TYPE, LIST_ITEM_INDEX } from '@src/constants'
 
 export type Rdt = ReturnType<typeof RadixDappToolkit>
 

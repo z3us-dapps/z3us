@@ -1,10 +1,21 @@
-import { RecipeVariants, recipe } from '@vanilla-extract/recipes'
+import { style } from '@vanilla-extract/css'
+import type { RecipeVariants} from '@vanilla-extract/recipes';
+import { recipe } from '@vanilla-extract/recipes'
 
 import { sprinkles } from '../system/sprinkles.css'
 
 export const baseSprinkles = sprinkles({
+	width: 'full',
 	transition: 'fast',
 })
+
+export const inputWrapper = style([
+	sprinkles({
+		position: 'relative',
+		width: 'full',
+	}),
+	{},
+])
 
 export const input = recipe({
 	base: {
@@ -26,7 +37,6 @@ export const input = recipe({
 					lightMode: 'inputPrimaryBorderColor',
 					hover: 'inputPrimaryBorderHover',
 					focus: 'inputPrimaryBorderFocus',
-					// TODO: focusvisible update
 					focusVisible: 'inputPrimaryBorderFocus',
 				},
 				boxShadow: {
@@ -38,9 +48,65 @@ export const input = recipe({
 				borderStyle: 'solid',
 			}),
 			secondary: sprinkles({
-				background: { lightMode: 'btnSecondaryBackground', hover: 'btnSecondaryBackgroundHover' },
-				borderColor: { lightMode: 'btnSecondaryBorderColor', hover: 'btnSecondaryBorderColorHover' },
-				color: 'colorNeutral',
+				background: {
+					lightMode: 'inputSecondaryBackground',
+					hover: 'inputSecondaryBackgroundHover',
+					focus: 'inputSecondaryBackgroundFocus',
+					focusVisible: 'inputSecondaryBackgroundFocus',
+				},
+				borderColor: {
+					lightMode: 'inputSecondaryBorderColor',
+					hover: 'inputSecondaryBorderHover',
+					focus: 'inputSecondaryBorderFocus',
+					focusVisible: 'inputSecondaryBorderFocus',
+				},
+				boxShadow: {
+					focus: 'inputSecondaryShadowFocus',
+					focusVisible: 'inputSecondaryShadowFocus',
+				},
+				color: 'colorStrong',
+				border: 1,
+				borderStyle: 'solid',
+			}),
+			'primary-error': sprinkles({
+				background: {
+					lightMode: 'inputPrimaryBackground',
+					hover: 'inputPrimaryBackgroundHover',
+					focus: 'inputPrimaryBackgroundFocus',
+					focusVisible: 'inputPrimaryBackgroundFocus',
+				},
+				borderColor: {
+					lightMode: 'red500',
+					hover: 'red500',
+					focus: 'red500',
+					focusVisible: 'red500',
+				},
+				boxShadow: {
+					focus: 'inputPrimaryShadowFocus',
+					focusVisible: 'inputPrimaryShadowFocus',
+				},
+				color: 'colorStrong',
+				border: 1,
+				borderStyle: 'solid',
+			}),
+			'secondary-error': sprinkles({
+				background: {
+					lightMode: 'inputSecondaryBackground',
+					hover: 'inputSecondaryBackgroundHover',
+					focus: 'inputSecondaryBackgroundFocus',
+					focusVisible: 'inputSecondaryBackgroundFocus',
+				},
+				borderColor: {
+					lightMode: 'red500',
+					hover: 'red500',
+					focus: 'red500',
+					focusVisible: 'red500',
+				},
+				boxShadow: {
+					focus: 'inputSecondaryShadowFocus',
+					focusVisible: 'inputSecondaryShadowFocus',
+				},
+				color: 'colorStrong',
 				border: 1,
 				borderStyle: 'solid',
 			}),
@@ -73,7 +139,8 @@ export const input = recipe({
 			large: [
 				sprinkles({
 					borderRadius: 'large',
-					padding: 'medium',
+					paddingY: 'medium',
+					paddingX: 'large',
 				}),
 				{
 					height: '48px',
@@ -100,6 +167,51 @@ export const input = recipe({
 			},
 			style: {
 				paddingLeft: '36px',
+			},
+		},
+		{
+			variants: {
+				sizeVariant: 'medium',
+				leftIcon: true,
+			},
+			style: {
+				paddingLeft: '36px',
+			},
+		},
+		{
+			variants: {
+				sizeVariant: 'large',
+				leftIcon: true,
+			},
+			style: {
+				paddingLeft: '36px',
+			},
+		},
+		{
+			variants: {
+				sizeVariant: 'small',
+				rightIcon: true,
+			},
+			style: {
+				paddingRight: '36px',
+			},
+		},
+		{
+			variants: {
+				sizeVariant: 'medium',
+				rightIcon: true,
+			},
+			style: {
+				paddingRight: '36px',
+			},
+		},
+		{
+			variants: {
+				sizeVariant: 'large',
+				rightIcon: true,
+			},
+			style: {
+				paddingRight: '36px',
 			},
 		},
 	],
@@ -159,19 +271,22 @@ export const iconRight = recipe({
 			small: [
 				{
 					height: '32px',
-					width: '32px',
+					// width: '32px',
+					marginRight: '16px',
 				},
 			],
 			medium: [
 				{
 					height: '40px',
-					width: '40px',
+					// width: '40px',
+					marginRight: '16px',
 				},
 			],
 			large: [
 				{
 					height: '48px',
-					width: '48px',
+					// width: '48px',
+					marginRight: '16px',
 				},
 			],
 		},

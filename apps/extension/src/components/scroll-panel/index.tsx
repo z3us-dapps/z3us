@@ -9,13 +9,14 @@ import { ScrollArea } from 'ui/src/components-v2/scroll-area'
 import * as styles from './scroll-panel.css'
 
 interface IScrollPanelRequiredProps {
-	renderPanel: (customScrollParent: HTMLElement | null, scrollTop: number) => any
+	renderPanel: (customScrollParent: HTMLElement | null) => any
 }
 
 interface IScrollPanelOptionalProps {
 	className?: string
 	scrollDisabled?: boolean
 	scrollTopOnRoute?: boolean
+	isTopShadowVisible?: boolean
 }
 
 interface IScrollPanelProps extends IScrollPanelRequiredProps, IScrollPanelOptionalProps {}
@@ -24,10 +25,11 @@ const defaultProps: IScrollPanelOptionalProps = {
 	className: undefined,
 	scrollDisabled: undefined,
 	scrollTopOnRoute: undefined,
+	isTopShadowVisible: false,
 }
 
 export const ScrollPanel: React.FC<IScrollPanelProps> = props => {
-	const { renderPanel, className, scrollDisabled, scrollTopOnRoute } = props
+	const { renderPanel, className, scrollDisabled, scrollTopOnRoute, isTopShadowVisible } = props
 
 	const ref = useRef(null)
 	const location = useLocation()
@@ -61,9 +63,12 @@ export const ScrollPanel: React.FC<IScrollPanelProps> = props => {
 		const { pathname } = location
 		if (pathname !== currentPath && scrollTopOnRoute) {
 			setCurrentPath(pathname)
-			panelRef.scrollTop = 0
+
+			// hack to trigger virtuoso refresh on route change
+			const scrollTo = scrollTop === 0 ? 1 : 0
+			panelRef.scrollTo({ top: scrollTo })
 		}
-	}, [location.pathname, scrollTopOnRoute])
+	}, [location.pathname, scrollTopOnRoute, scrollTop])
 
 	return (
 		<Box
@@ -79,9 +84,9 @@ export const ScrollPanel: React.FC<IScrollPanelProps> = props => {
 				onScrollAreaSizeChange={setListSize}
 				scrollDisabled={scrollDisabled}
 				onScroll={handleScroll}
-				isTopShadowVisible={false}
+				isTopShadowVisible={isTopShadowVisible}
 			>
-				{renderPanel(panelRef, scrollTop)}
+				{renderPanel(panelRef)}
 			</ScrollArea>
 		</Box>
 	)

@@ -3,8 +3,9 @@ import { useStore } from 'zustand'
 import shallow from 'zustand/shallow'
 
 import { NoneSharedStoreContext } from '@src/context/state'
-import { NoneSharedStore, SharedStore, sharedStore } from '@src/store'
-import { NoneSharedState, SharedState } from '@src/store/types'
+import type { NoneSharedStore, SharedStore} from '@src/store';
+import { sharedStore } from '@src/store'
+import type { NoneSharedState, SharedState } from '@src/store/types'
 
 const selectAll = state => state
 

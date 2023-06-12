@@ -9,7 +9,7 @@ import React from 'react'
 import rehypeAutolinkHeadings from 'rehype-autolink-headings'
 import rehypePrettyCode from 'rehype-pretty-code'
 import rehypeSlug from 'rehype-slug'
-import { DocsPageProps } from 'types'
+import type { DocsPageProps } from 'types'
 
 import { getAllFiles, getTableOfContents, mdxOptions } from '../../docs/utils'
 

@@ -4,7 +4,8 @@ import { useTranslation } from 'react-i18next'
 import { useLocation, useNavigate } from 'react-router-dom'
 
 import { Box } from 'ui/src/components-v2/box'
-import { Button, TStyleVariant } from 'ui/src/components-v2/button'
+import type { TStyleVariant } from 'ui/src/components-v2/button';
+import { Button } from 'ui/src/components-v2/button'
 import {
 	DropdownMenu,
 	DropdownMenuArrow,

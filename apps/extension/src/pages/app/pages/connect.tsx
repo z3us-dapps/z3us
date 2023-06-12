@@ -2,7 +2,7 @@ import React from 'react'
 
 import { Box } from 'ui/src/components-v2/box'
 
-import { AnimatedPage } from '@src/components/animated-route'
+import { AnimatedPage } from '@src/components/animated-page'
 import { useAccounts } from '@src/hooks/dapp/use-accounts'
 import { useConnected } from '@src/hooks/dapp/use-connected'
 import { usePersona } from '@src/hooks/dapp/use-persona'

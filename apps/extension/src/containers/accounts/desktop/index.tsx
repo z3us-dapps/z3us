@@ -4,15 +4,14 @@ import { Route, Routes } from 'react-router-dom'
 
 import { Box } from 'ui/src/components-v2/box'
 
-import { AnimatedPage } from '@src/components/animated-route'
+import { AnimatedPage } from '@src/components/animated-page'
 import { routes } from '@src/constants'
-import { AccountSettings } from '@src/containers/accounts/account-settings'
+import { AccountSettingsDesktop } from '@src/containers/accounts/account-settings'
 import { AccountStaking } from '@src/containers/accounts/account-staking'
 import { AccountSwap } from '@src/containers/accounts/account-swap'
-import { AccountTransfer } from '@src/containers/accounts/account-transfer'
+import { AccountsTransferDesktop } from '@src/containers/accounts/account-transfer/account-transfer-desktop'
 import { AccountsHomeDesktop } from '@src/containers/accounts/accounts-home-desktop'
 import { DesktopNavigation as Navigation } from '@src/containers/accounts/navigation'
-import { NavigationScrollContainer } from '@src/containers/accounts/navigation-scroll-container'
 import { useLocationKey } from '@src/hooks/use-location-key'
 
 import * as styles from './accounts-desktop.css'
@@ -38,12 +37,7 @@ export const AccountsDesktop = (): JSX.Element => {
 							path={routes.TRANSFER}
 							element={
 								<AnimatedPage>
-									<NavigationScrollContainer
-										isMobileNavVisible={false}
-										renderPanel={(scrollableNode: HTMLElement | null, scrollTop: number) => (
-											<AccountTransfer scrollableNode={scrollableNode} scrollTop={scrollTop} />
-										)}
-									/>
+									<AccountsTransferDesktop />
 								</AnimatedPage>
 							}
 						/>
@@ -64,10 +58,10 @@ export const AccountsDesktop = (): JSX.Element => {
 							}
 						/>
 						<Route
-							path={routes.SETTINGS}
+							path={`${routes.SETTINGS}/*`}
 							element={
 								<AnimatedPage>
-									<AccountSettings />
+									<AccountSettingsDesktop />
 								</AnimatedPage>
 							}
 						/>

@@ -5,7 +5,7 @@ import darkTokens from 'design/dist/dark/index.json'
 import lightTokens from 'design/dist/light/index.json'
 import tokens from 'design/dist/tailwind-tokens.json'
 
-import { Breakpoint } from './theme-utils'
+import type { Breakpoint } from './theme-utils'
 
 const grid = 4
 const px = (value: string | number) => `${value}px`
@@ -271,28 +271,18 @@ export const sharedThemeValues = {
 	},
 	transition: {
 		slow: 'transform .3s ease, opacity .3s ease, background .3s ease, color .3s ease, border .3s ease, box-shadow .3s ease',
-		slowall: 'transition: all 300ms ease',
+		slowall: 'all 300ms ease',
 		fast: 'transform .15s ease, opacity .15s ease, background .15s ease, color .15s ease, border .15s ease, box-shadow .15s ease',
-		fastall: 'transition: all 150ms ease',
+		fastall: 'all 150ms ease',
 	},
 }
-
-/**
- * Color types
- */
-type TRGB = `rgb(${number}, ${number}, ${number})`
-type TRGBA = `rgba(${number}, ${number}, ${number}, ${number})`
-type THEX = `#${string}`
-export type Color = TRGB | TRGBA | THEX
-
-// TODO: create type for  primitiveColors
 
 /**
  * Primitive Color values
  * These are the palette that all themes pull from
  */
 export const primitiveColors = {
-	transparent: 'transparent',
+	transparent: 'rgba(255,255,255,0)',
 	white: '#fff',
 	black: '#0e0e10',
 
@@ -356,6 +346,18 @@ export const primitiveColors = {
 	purple900: tokens.color.core.purple['900'],
 	purple1000: tokens.color.core.purple['1000'],
 
+	blue_magenta0: tokens.color.core.blue_magenta['0'],
+	blue_magenta100: tokens.color.core.blue_magenta['100'],
+	blue_magenta200: tokens.color.core.blue_magenta['200'],
+	blue_magenta300: tokens.color.core.blue_magenta['300'],
+	blue_magenta400: tokens.color.core.blue_magenta['400'],
+	blue_magenta500: tokens.color.core.blue_magenta['500'],
+	blue_magenta600: tokens.color.core.blue_magenta['600'],
+	blue_magenta700: tokens.color.core.blue_magenta['700'],
+	blue_magenta800: tokens.color.core.blue_magenta['800'],
+	blue_magenta900: tokens.color.core.blue_magenta['900'],
+	blue_magenta1000: tokens.color.core.blue_magenta['1000'],
+
 	red0: tokens.color.core.red['0'],
 	red100: tokens.color.core.red['100'],
 	red200: tokens.color.core.red['200'],
@@ -367,6 +369,30 @@ export const primitiveColors = {
 	red800: tokens.color.core.red['800'],
 	red900: tokens.color.core.red['900'],
 	red1000: tokens.color.core.red['1000'],
+
+	yellow0: tokens.color.core.yellow['0'],
+	yellow100: tokens.color.core.yellow['100'],
+	yellow200: tokens.color.core.yellow['200'],
+	yellow300: tokens.color.core.yellow['300'],
+	yellow400: tokens.color.core.yellow['400'],
+	yellow500: tokens.color.core.yellow['500'],
+	yellow600: tokens.color.core.yellow['600'],
+	yellow700: tokens.color.core.yellow['700'],
+	yellow800: tokens.color.core.yellow['800'],
+	yellow900: tokens.color.core.yellow['900'],
+	yellow1000: tokens.color.core.yellow['1000'],
+
+	orange0: tokens.color.core.orange['0'],
+	orange100: tokens.color.core.orange['100'],
+	orange200: tokens.color.core.orange['200'],
+	orange300: tokens.color.core.orange['300'],
+	orange400: tokens.color.core.orange['400'],
+	orange500: tokens.color.core.orange['500'],
+	orange600: tokens.color.core.orange['600'],
+	orange700: tokens.color.core.orange['700'],
+	orange800: tokens.color.core.orange['800'],
+	orange900: tokens.color.core.orange['900'],
+	orange1000: tokens.color.core.orange['1000'],
 
 	green0: tokens.color.core.green['0'],
 	green100: tokens.color.core.green['100'],
@@ -387,20 +413,27 @@ const generateColorTokens = (colorTokens: any) => ({
 	colorInverse: colorTokens.color.font.inverse.value,
 	backgroundPrimary: colorTokens.color.background.primary.value,
 	backgroundSecondary: colorTokens.color.background.secondary.value,
+	backgroundOverlayPrimary: colorTokens.color.background.overlay_primary.value,
 	borderDivider: colorTokens.color.border.divider_primary.value,
 	borderDividerSecondary: colorTokens.color.border.divider_secondary.value,
 	shadowDropdown: colorTokens.color.shadow.dropdown.value,
+	shadowDropdownFocusVisible: colorTokens.color.shadow.dropdownFocusVisible.value,
 	shadowScrollTop: colorTokens.color.shadow.shadow_scroll_top.value,
 	shadowScrollBottom: colorTokens.color.shadow.shadow_scroll_bottom.value,
 	shadowTooltip: colorTokens.color.shadow.shadow_tooltip.value,
 	shadowPanel: colorTokens.color.shadow.shadow_panel.value,
 	shadowActivePanel: colorTokens.color.shadow.shadow_active_panel.value,
+	shadowAccordionOpen: colorTokens.color.shadow.shadow_accordion_open.value,
 	btnSecondaryBackground: colorTokens.color.background.btn_secondary_background.value,
 	btnSecondaryBackgroundHover: colorTokens.color.background.btn_secondary_background_hover.value,
 	btnWhiteTransparentBackgroundHover: colorTokens.color.background.btn_white_transparent_background_hover.value,
+	btnSecondaryShadowHover: colorTokens.color.shadow.button_secondary_hover.value,
+	btnSecondaryShadowActive: colorTokens.color.shadow.button_secondary_active.value,
 	btnSecondaryShadowFocus: colorTokens.color.shadow.button_secondary_focus.value,
 	btnSecondaryBorderColor: colorTokens.color.border.btn_secondary_border.value,
 	btnSecondaryBorderColorHover: colorTokens.color.border.btn_secondary_border_hover.value,
+	btnAvatarShadowHover: colorTokens.color.shadow.button_avatar_hover.value,
+	btnAvatarShadowFocus: colorTokens.color.shadow.button_avatar_focus.value,
 	btnTertiaryBackground: colorTokens.color.background.btn_tertiary_background.value,
 	btnTertiaryBackgroundHover: colorTokens.color.background.btn_tertiary_background_hover.value,
 	btnTertiaryBorderColor: colorTokens.color.border.btn_tertiary_border.value,
@@ -416,6 +449,13 @@ const generateColorTokens = (colorTokens: any) => ({
 	inputPrimaryBorderHover: colorTokens.color.border.input_primary_border_hover.value,
 	inputPrimaryBorderFocus: colorTokens.color.border.input_primary_border_focus.value,
 	inputPrimaryShadowFocus: colorTokens.color.shadow.input_primary_focus.value,
+	inputSecondaryBackground: colorTokens.color.background.input_secondary_background.value,
+	inputSecondaryBackgroundHover: colorTokens.color.background.input_secondary_background_hover.value,
+	inputSecondaryBackgroundFocus: colorTokens.color.background.input_secondary_background_hover.value,
+	inputSecondaryBorderColor: colorTokens.color.border.input_secondary_border.value,
+	inputSecondaryBorderHover: colorTokens.color.border.input_secondary_border_hover.value,
+	inputSecondaryBorderFocus: colorTokens.color.border.input_secondary_border_focus.value,
+	inputSecondaryShadowFocus: colorTokens.color.shadow.input_secondary_focus.value,
 })
 
 /**
@@ -435,7 +475,7 @@ export const darkThemeColors = {
 /**
  * Variable Semantic color keys
  */
-export const themeSpecificColorsKeys = Object.keys(lightThemeColors)
+export const lightThemeSpecificColorsKeys = Object.keys(lightThemeColors)
 
 /**
  * Theme Shape for Vanilla Extract's createTheme
@@ -449,14 +489,18 @@ export const themeShape = {
 }
 
 /**
+ * Colors Types
+ */
+export type TThemeColors = typeof themeShape['color']
+export type TThemeColorKey = keyof TThemeColors
+
+/**
  * Static Light Theme
- * Do not use inline for styles
  */
 export const lightTheme = themeShape
 
 /**
  * Static Dark Theme
- * Do not use inline for styles
  */
 export const darkTheme = {
 	color: {
@@ -467,7 +511,7 @@ export const darkTheme = {
 }
 
 /**
- * List of ALL themes
+ * Themes
  */
 export const themes = {
 	lightTheme,
@@ -475,7 +519,7 @@ export const themes = {
 }
 
 /**
- * Light Theme tools
+ * Light Theme
  */
 export const [lightThemeClass, vars] = createTheme(themeShape)
 
@@ -484,5 +528,6 @@ export const [lightThemeClass, vars] = createTheme(themeShape)
  * note: validated by light theme's vars so we make sure it has the same shape
  */
 
-// TODO: fix type `darkTheme as ny`
+// TODO: fix type `darkTheme as any`
+// will need to resolve -> toasts-container/toasts-container.css.ts#L24
 export const darkThemeClass = createTheme(vars, darkTheme as any)

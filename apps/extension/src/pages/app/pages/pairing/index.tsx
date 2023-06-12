@@ -5,7 +5,7 @@ import { Box } from 'ui/src/components-v2/box'
 import 'ui/src/components-v2/system/global.css'
 import { Text } from 'ui/src/components-v2/typography'
 
-import { AnimatedPage } from '@src/components/animated-route'
+import { AnimatedPage } from '@src/components/animated-page'
 
 import * as styles from './styles.css'
 

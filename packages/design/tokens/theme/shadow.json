@@ -5,6 +5,10 @@
 				"value": "{shadow.panel.shadow_dropdown_light.value}",
 				"darkValue": "{shadow.panel.shadow_dropdown_dark.value}"
 			},
+			"dropdownFocusVisible": {
+				"value": "{shadow.panel.shadow_dropdown_focus_visible_light.value}",
+				"darkValue": "{shadow.panel.shadow_dropdown_focus_visible_dark.value}"
+			},
 			"shadow_panel": {
 				"value": "{shadow.panel.shadow_panel_light.value}",
 				"darkValue": "{shadow.panel.shadow_panel_dark.value}"
@@ -12,6 +16,10 @@
 			"shadow_active_panel": {
 				"value": "{shadow.panel.shadow_active_panel_light.value}",
 				"darkValue": "{shadow.panel.shadow_active_panel_dark.value}"
+			},
+			"shadow_accordion_open": {
+				"value": "{shadow.panel.shadow_accordion_open_light.value}",
+				"darkValue": "{shadow.panel.shadow_accordion_open_dark.value}"
 			},
 			"shadow_scroll_top": {
 				"value": "{shadow.panel.shadow_scroll_top_light.value}",
@@ -25,11 +33,31 @@
 				"value": "{shadow.panel.shadow_tooltip_light.value}",
 				"darkValue": "{shadow.panel.shadow_tooltip_dark.value}"
 			},
+			"button_secondary_hover": {
+				"value": "{shadow.panel.button_secondary_shadow_hover_light.value}",
+				"darkValue": "{shadow.panel.button_secondary_shadow_hover_dark.value}"
+			},
+			"button_secondary_active": {
+				"value": "{shadow.panel.button_secondary_shadow_active_light.value}",
+				"darkValue": "{shadow.panel.button_secondary_shadow_active_dark.value}"
+			},
 			"button_secondary_focus": {
 				"value": "{shadow.panel.button_secondary_shadow_focus_light.value}",
 				"darkValue": "{shadow.panel.button_secondary_shadow_focus_dark.value}"
 			},
+			"button_avatar_hover": {
+				"value": "{shadow.panel.button_avatar_shadow_hover_light.value}",
+				"darkValue": "{shadow.panel.button_avatar_shadow_hover_dark.value}"
+			},
+			"button_avatar_focus": {
+				"value": "{shadow.panel.button_avatar_shadow_focus_light.value}",
+				"darkValue": "{shadow.panel.button_avatar_shadow_focus_dark.value}"
+			},
 			"input_primary_focus": {
+				"value": "{shadow.panel.input_primary_focus_shadow_light.value}",
+				"darkValue": "{shadow.panel.input_primary_focus_shadow_dark.value}"
+			},
+			"input_secondary_focus": {
 				"value": "{shadow.panel.input_primary_focus_shadow_light.value}",
 				"darkValue": "{shadow.panel.input_primary_focus_shadow_dark.value}"
 			}

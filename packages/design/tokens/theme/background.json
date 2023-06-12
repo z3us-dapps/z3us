@@ -3,12 +3,28 @@
 		"background": {
 			"primary": { "value": "{color.core.bleached_silk.500.value}", "darkValue": "{color.core.wax.500.value}" },
 			"secondary": { "value": "{color.core.white}", "darkValue": "{color.core.lead.500.value}" },
+			"overlay_primary": {
+				"value": "{color.core.wax.1000.value}",
+				"darkValue": "{color.core.lead.600.value}",
+				"modify": [
+					{
+						"type": "alpha",
+						"amount": "{alpha.7}"
+					}
+				],
+				"modifyDarkValue": [
+					{
+						"type": "alpha",
+						"amount": "{alpha.4}"
+					}
+				]
+			},
 			"btn_secondary_background": {
 				"value": "{color.core.bleached_silk.500.value}",
 				"darkValue": "{color.core.wax.500.value}"
 			},
 			"btn_secondary_background_hover": {
-				"value": "{color.core.bleached_silk.100.value}",
+				"value": "{color.core.bai_pearl.400.value}",
 				"darkValue": "{color.core.wax.400.value}"
 			},
 			"btn_tertiary_background": {
@@ -16,7 +32,7 @@
 				"darkValue": "{color.core.lead.500.value}"
 			},
 			"btn_tertiary_background_hover": {
-				"value": "{color.core.white.value}",
+				"value": "{color.core.bai_pearl.300.value}",
 				"darkValue": "{color.core.wax.700.value}"
 			},
 			"btn_inverse_background": {
@@ -29,14 +45,34 @@
 			},
 			"btn_white_transparent_background_hover": {
 				"value": "{color.core.bleached_silk.100.value}",
-				"darkValue": "rgba(255,255,255, 0.2)"
+				"darkValue": "{color.core.wax.900.value}",
+				"modify": [
+					{
+						"type": "alpha",
+						"amount": "{alpha.7}"
+					}
+				],
+				"modifyDarkValue": [
+					{
+						"type": "alpha",
+						"amount": "{alpha.6}"
+					}
+				]
 			},
 			"input_primary_background": {
 				"value": "{color.core.bai_pearl.0.value}",
-				"darkValue": "{color.core.wax.500.value}"
+				"darkValue": "{color.core.lead.500.value}"
 			},
 			"input_primary_background_hover": {
 				"value": "{color.core.bai_pearl.100.value}",
+				"darkValue": "{color.core.wax.700.value}"
+			},
+			"input_secondary_background": {
+				"value": "{color.core.bleached_silk.500.value}",
+				"darkValue": "{color.core.wax.500.value}"
+			},
+			"input_secondary_background_hover": {
+				"value": "{color.core.bai_pearl.400.value}",
 				"darkValue": "{color.core.wax.400.value}"
 			}
 		}

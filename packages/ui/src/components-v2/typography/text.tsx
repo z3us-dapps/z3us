@@ -1,8 +1,10 @@
 import clsx from 'clsx'
-import React, { ElementType, ReactNode } from 'react'
+import type { ElementType, ReactNode } from 'react';
+import React from 'react'
 
 import { Box } from '../box'
-import { Sprinkles, sprinkles } from '../system/sprinkles.css'
+import type { Sprinkles} from '../system/sprinkles.css';
+import { sprinkles } from '../system/sprinkles.css'
 import * as styles from './typography.css'
 
 const colorMap = {
@@ -28,7 +30,11 @@ interface TextStyleProps {
 	type?: Exclude<keyof typeof styles.font, 'brand' | 'heading'>
 	className?: string
 	capitalizeFirstLetter?: boolean
+	capitalize?: boolean
 	truncate?: boolean
+	underline?: 'always' | 'hover' | 'never'
+	inheritColor?: boolean
+	lineClamp?: number
 }
 
 export interface TextProps extends TextStyleProps {
@@ -47,7 +53,11 @@ const defaultProps = {
 	type: 'body',
 	className: undefined,
 	capitalizeFirstLetter: false,
+	capitalize: false,
 	truncate: false,
+	underline: 'never',
+	inheritColor: false,
+	lineClamp: undefined,
 }
 
 export const textStyles = ({
@@ -59,7 +69,11 @@ export const textStyles = ({
 	baseline,
 	className,
 	capitalizeFirstLetter,
+	capitalize,
 	truncate,
+	underline,
+	inheritColor,
+	lineClamp,
 }: TextStyleProps) =>
 	clsx(
 		styles.baseTextSprinkles,
@@ -67,9 +81,13 @@ export const textStyles = ({
 		baseline ? styles.text[size].trimmed : styles.text[size].untrimmed,
 		styles.weight[weight],
 		capitalizeFirstLetter && styles.capitalizeFirstLetter,
+		capitalize && styles.capitalize,
 		truncate && styles.truncateText,
+		lineClamp && styles.lineClamp,
+		underline === 'hover' ? styles.underlineOnHover : undefined,
+		underline === 'always' ? styles.underlineText : undefined,
 		sprinkles({
-			...(colorMap[color]
+			...(colorMap[color] && !inheritColor
 				? {
 						color: colorMap[color],
 				  }
@@ -91,12 +109,31 @@ const Text = ({
 	children,
 	className,
 	capitalizeFirstLetter,
+	capitalize,
+	underline,
 	truncate,
+	inheritColor,
+	lineClamp,
 }: TextProps) => (
 	<Box
 		component={component}
 		display={display}
-		className={textStyles({ size, color, weight, type, align, baseline, className, capitalizeFirstLetter, truncate })}
+		className={textStyles({
+			size,
+			color,
+			weight,
+			type,
+			align,
+			baseline,
+			className,
+			capitalizeFirstLetter,
+			capitalize,
+			truncate,
+			underline,
+			inheritColor,
+			lineClamp,
+		})}
+		style={{ ...(lineClamp ? { WebkitLineClamp: lineClamp } : {}) }}
 	>
 		{children}
 	</Box>

@@ -4,9 +4,9 @@ import { Route, Routes } from 'react-router-dom'
 
 import { Box } from 'ui/src/components-v2/box'
 
-import { AnimatedPage } from '@src/components/animated-route'
+import { AnimatedPage } from '@src/components/animated-page'
 import { routes } from '@src/constants'
-import { AccountSettings } from '@src/containers/accounts/account-settings'
+import { AccountSettingsMobile } from '@src/containers/accounts/account-settings'
 import { AccountStaking } from '@src/containers/accounts/account-staking'
 import { AccountSwap } from '@src/containers/accounts/account-swap'
 import { AccountTransfer } from '@src/containers/accounts/account-transfer'
@@ -38,8 +38,8 @@ export const AccountsMobile: React.FC = () => {
 							element={
 								<AnimatedPage>
 									<NavigationScrollContainer
-										renderPanel={(scrollableNode: HTMLElement | null, scrollTop: number) => (
-											<AccountTransfer scrollableNode={scrollableNode} scrollTop={scrollTop} />
+										renderPanel={(scrollableNode: HTMLElement | null) => (
+											<AccountTransfer scrollableNode={scrollableNode} />
 										)}
 									/>
 								</AnimatedPage>
@@ -62,12 +62,14 @@ export const AccountsMobile: React.FC = () => {
 							}
 						/>
 						<Route
-							path={routes.SETTINGS}
+							path={`${routes.SETTINGS}/*`}
 							element={
 								<AnimatedPage>
 									<NavigationScrollContainer
+										isMobileNavVisible={false}
+										isTopShadowVisible={false}
 										renderPanel={(scrollableNode: HTMLElement | null, scrollTop: number) => (
-											<AccountSettings scrollableNode={scrollableNode} scrollTop={scrollTop} />
+											<AccountSettingsMobile scrollableNode={scrollableNode} scrollTop={scrollTop} />
 										)}
 									/>
 								</AnimatedPage>

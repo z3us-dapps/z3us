@@ -13,7 +13,7 @@ import { useAccountParams } from '@src/hooks/use-account-params'
 import * as styles from './accounts-list.css'
 
 interface IAccountListHeaderRequiredProps {
-	isScrolled: boolean
+	scrollableNode: HTMLElement
 }
 
 interface IAccountListHeaderOptionalProps {
@@ -27,9 +27,9 @@ const defaultProps: IAccountListHeaderOptionalProps = {
 }
 
 export const AccountListHeader: React.FC<IAccountListHeaderProps> = props => {
-	const { className, isScrolled } = props
-
+	const { className, scrollableNode } = props
 	const { account, assetType, asset } = useAccountParams()
+	const isScrolled = scrollableNode?.scrollTop > 0
 
 	return (
 		<Box
@@ -80,16 +80,12 @@ export const AccountListHeader: React.FC<IAccountListHeaderProps> = props => {
 						) : null}
 					</Box>
 					<AccountAssetSearch
+						scrollableNode={scrollableNode}
 						balance={
 							<Text weight="medium" size="xxxlarge" color="strong" truncate>
 								$4,440,206.25,206.25,206.253332222222222
 							</Text>
 						}
-						searchTitle={asset ? `${asset}` : `${assetType}`}
-						onChange={_value => {
-							// eslint-disable-next-line
-							console.log(_value)
-						}}
 					/>
 				</Box>
 			</Box>

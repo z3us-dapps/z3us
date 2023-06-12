@@ -6,7 +6,6 @@ import { vars } from 'ui/src/components-v2/system/theme.css'
 
 export const navigationWrapper = style([
 	sprinkles({
-		zIndex: 1,
 		display: 'flex',
 		justifyContent: 'center',
 		borderBottom: 1,
@@ -25,9 +24,6 @@ export const navigationWrapper = style([
 
 export const navigationContainer = style([
 	sprinkles({
-		position: 'relative',
-		maxWidth: 'xxlarge',
-		width: 'full',
 		display: 'flex',
 		alignItems: 'center',
 	}),
@@ -154,7 +150,7 @@ export const accountsHomeMobileHeader = style([
 
 export const accountsHomeMobileHeaderShadow = style([
 	sprinkles({
-		background: 'backgroundSecondary',
+		background: 'backgroundPrimary',
 		boxShadow: 'shadowScrollTop',
 	}),
 	{},
@@ -183,7 +179,7 @@ export const navigationMobileWrapper = style([
 		borderColor: 'borderDivider',
 	}),
 	{
-		height: '56px',
+		height: '48px',
 	},
 ])
 

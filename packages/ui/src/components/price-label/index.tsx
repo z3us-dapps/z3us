@@ -1,10 +1,12 @@
 /* eslint-disable react/jsx-props-no-spreading */
-import React, { PropsWithoutRef, RefAttributes, useImperativeHandle, useRef } from 'react'
+import type { PropsWithoutRef, RefAttributes} from 'react';
+import React, { useImperativeHandle, useRef } from 'react'
 
-import { PropsWithCSS } from '../../types'
+import type { PropsWithCSS } from '../../types'
 import { __DEV__ } from '../../utils/assertion'
 import withDefaults from '../../utils/with-defaults'
-import { PriceLabelVariantsProps, StyledPriceLabel } from './price-label.styles'
+import type { PriceLabelVariantsProps} from './price-label.styles';
+import { StyledPriceLabel } from './price-label.styles'
 
 export interface Props {
 	as?: keyof JSX.IntrinsicElements

@@ -9,7 +9,7 @@ import { MobileHeaderNavigation } from '@src/containers/accounts/navigation'
 import * as styles from './navigation-scroll-container.css'
 
 interface INavigationScrollContainerRequiredProps {
-	// TODO: fix type
+	// TODO: fix return type
 	// renderPanel: (customScrollParent: HTMLElement | null, scrollTop: number) => React.ReactNode
 	renderPanel: (customScrollParent: HTMLElement | null, scrollTop: number) => any
 }
@@ -17,6 +17,7 @@ interface INavigationScrollContainerRequiredProps {
 interface INavigationScrollContainerOptionalProps {
 	className?: string
 	isMobileNavVisible?: boolean
+	isTopShadowVisible?: boolean
 }
 
 interface INavigationScrollContainerProps
@@ -26,11 +27,12 @@ interface INavigationScrollContainerProps
 const defaultProps: INavigationScrollContainerOptionalProps = {
 	className: undefined,
 	isMobileNavVisible: true,
+	isTopShadowVisible: true,
 }
 
 export const NavigationScrollContainer = forwardRef<HTMLElement, INavigationScrollContainerProps>(
 	(props, ref: React.Ref<HTMLElement | null>) => {
-		const { className, renderPanel, isMobileNavVisible } = props
+		const { className, renderPanel, isMobileNavVisible, isTopShadowVisible } = props
 
 		const [customScrollParent, setCustomScrollParent] = useState<HTMLElement | null>(null)
 		const [scrollTop, setScrollTop] = useState<number>(0)
@@ -52,7 +54,7 @@ export const NavigationScrollContainer = forwardRef<HTMLElement, INavigationScro
 				) : null}
 				<ScrollArea
 					scrollableNodeProps={{ ref: setCustomScrollParent }}
-					isTopShadowVisible={!isMobileNavVisible}
+					isTopShadowVisible={isTopShadowVisible}
 					onScroll={handleScroll}
 				>
 					<Box className={clsx(isMobileNavVisible && styles.scrollPaddingWrapper)}>

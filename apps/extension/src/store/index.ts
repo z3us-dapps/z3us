@@ -1,5 +1,6 @@
 import browser from 'webextension-polyfill'
-import { StateCreator, createStore } from 'zustand'
+import type { StateCreator } from 'zustand'
+import { createStore } from 'zustand'
 import { devtools, persist, subscribeWithSelector } from 'zustand/middleware'
 import { immer } from 'zustand/middleware/immer'
 
@@ -17,6 +18,7 @@ type MutatorsTypes = [
 	['zustand/persist', Partial<SharedState>],
 	['zustand/immer', never],
 ]
+
 const middlewares = <T>(name: string, f: StateCreator<T, MutatorsTypes>) =>
 	devtools(
 		subscribeWithSelector(
@@ -27,6 +29,7 @@ const middlewares = <T>(name: string, f: StateCreator<T, MutatorsTypes>) =>
 		),
 		{ name },
 	)
+
 export const sharedStore = createStore(
 	middlewares<SharedState>(sharedStoreKey, (set, get) => ({
 		...createThemeStore(set),

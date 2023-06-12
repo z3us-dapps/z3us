@@ -1,7 +1,7 @@
 import React from 'react'
 
 import { Box, Flex, Text } from 'ui/src/components/atoms'
-import { CSS } from 'ui/src/theme'
+import type { CSS } from 'ui/src/theme'
 
 import { CircleAvatar } from '@src/components/circle-avatar'
 

@@ -8,6 +8,8 @@ export const resetBase = style({
 	padding: 0,
 	border: 0,
 	minWidth: 0,
+	background: 'none',
+	outline: 'none',
 	boxSizing: 'border-box',
 	fontSize: '100%',
 	font: 'inherit',

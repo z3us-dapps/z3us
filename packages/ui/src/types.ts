@@ -1,3 +1,3 @@
-import { CSS } from './theme'
+import type { CSS } from './theme'
 
 export type PropsWithCSS<P> = P & { css?: CSS | undefined }

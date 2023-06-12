@@ -1,10 +1,10 @@
-import { Side } from '@radix-ui/popper'
+import type { Side } from '@radix-ui/popper'
 import * as TooltipPrimitive from '@radix-ui/react-tooltip'
 import { keyframes, styled } from '@stitches/react'
 import React from 'react'
 
-import { CSS } from '../../theme'
-import { PropsWithCSS } from '../../types'
+import type { CSS } from '../../theme'
+import type { PropsWithCSS } from '../../types'
 
 const animateOut = keyframes({
 	from: { transform: 'translateY(0)', opacity: 1 },

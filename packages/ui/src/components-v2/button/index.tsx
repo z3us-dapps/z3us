@@ -4,8 +4,19 @@ import React, { forwardRef } from 'react'
 import { Box } from '../box'
 import * as styles from './button.css'
 
-export type TSizeVariant = 'small' | 'medium' | 'large' | 'xlarge'
-export type TStyleVariant = 'primary' | 'secondary' | 'tertiary' | 'ghost' | 'inverse' | 'white-transparent'
+export type TType = 'button' | 'submit'
+export type TSizeVariant = 'xsmall' | 'small' | 'medium' | 'large' | 'xlarge'
+export type TStyleVariant =
+	| 'primary'
+	| 'secondary'
+	| 'secondary-error'
+	| 'tertiary'
+	| 'tertiary-error'
+	| 'ghost'
+	| 'inverse'
+	| 'white-transparent'
+	| 'destructive'
+	| 'avatar'
 
 interface IButtonRequiredProps {
 	children: React.ReactNode
@@ -14,15 +25,19 @@ interface IButtonRequiredProps {
 interface IButtonOptionalProps {
 	className?: string
 	linkFrameWorkComp?: any
-	onClick?: () => void
+	onClick?: React.MouseEventHandler<HTMLButtonElement>
 	disabled?: boolean
 	iconOnly?: boolean
 	rightIcon?: React.ReactNode
 	leftIcon?: React.ReactNode
 	sizeVariant?: TSizeVariant
 	styleVariant?: TStyleVariant
+	type?: TType
 	href?: string
 	rounded?: boolean
+	fullWidth?: boolean
+	loading?: boolean
+	active?: boolean
 }
 
 export interface IButtonProps extends IButtonRequiredProps, IButtonOptionalProps {}
@@ -35,10 +50,14 @@ const defaultProps: IButtonOptionalProps = {
 	rightIcon: undefined,
 	leftIcon: undefined,
 	rounded: false,
+	fullWidth: false,
 	disabled: false,
 	sizeVariant: 'medium',
 	styleVariant: 'primary',
+	type: 'button',
 	href: undefined,
+	loading: false,
+	active: false,
 }
 
 export const Button = forwardRef<HTMLButtonElement, IButtonProps>((props, ref: React.Ref<HTMLButtonElement | null>) => {
@@ -49,22 +68,34 @@ export const Button = forwardRef<HTMLButtonElement, IButtonProps>((props, ref: R
 		rightIcon,
 		leftIcon,
 		rounded,
+		fullWidth,
 		onClick,
 		className,
 		sizeVariant,
 		styleVariant,
+		type,
 		linkFrameWorkComp,
 		href,
+		loading,
+		active,
 		...rest
 	} = props
 
 	const ButtonComponent = linkFrameWorkComp || Box
 
+	const clickHandler = (e: React.MouseEvent<HTMLButtonElement>) => {
+		if (disabled) return
+
+		if (onClick) {
+			onClick(e)
+		}
+	}
+
 	return (
 		<ButtonComponent
 			component={href ? 'a' : 'button'}
 			href={href}
-			type="button"
+			type={type}
 			ref={ref}
 			className={clsx(
 				className,
@@ -75,10 +106,12 @@ export const Button = forwardRef<HTMLButtonElement, IButtonProps>((props, ref: R
 					iconOnly,
 					disabled,
 					rounded,
+					fullWidth,
+					active,
 				}),
 			)}
 			disabled={disabled}
-			onClick={onClick}
+			onClick={clickHandler}
 			{...rest}
 		>
 			{leftIcon ? (

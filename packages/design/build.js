@@ -1,4 +1,5 @@
 const StyleDictionaryPackage = require('style-dictionary')
+const chroma = require('chroma-js')
 const { fileHeader } = StyleDictionaryPackage.formatHelpers
 
 const options = {
@@ -9,6 +10,23 @@ const PLATFORM_WEB_CSS = 'web/css'
 const PLATFORM_WEB_TAILWIND = 'web/tailwind'
 const THEME_LIGHT = 'light'
 const THEME_DARK = 'dark'
+
+const colorTransform = (value = '', modify = []) => {
+	let color = chroma(value)
+
+	// iterate over the modify array (see tokens/color.json)
+	// and apply each modification in order
+	modify.forEach(({ type, amount }) => {
+		// modifier type must match a method name in chromajs
+		// https://gka.github.io/chroma.js/
+		// chroma methods can be chained, so each time we override the color variable
+		// we can still call other chroma methods, similar to
+		// chroma(value).brighten(1).darken(1).hex();
+		color = color[type](amount)
+	})
+
+	return color.hex()
+}
 
 StyleDictionaryPackage.registerFormat({
 	name: 'css/variables-themed',
@@ -58,6 +76,21 @@ StyleDictionaryPackage.registerFormat({
 		const formatTokens = removeTokenSiblings(tokens, theme)
 
 		return JSON.stringify(formatTokens, null, 2)
+	},
+})
+
+StyleDictionaryPackage.registerTransform({
+	name: 'colorTransform',
+	type: 'attribute',
+	matcher: function (token) {
+		const isThemeToken = token.filePath.includes('tokens/theme') && !!token.modify
+		return isThemeToken
+	},
+	transformer: function (token) {
+		const transformedValue = colorTransform(token.value, token.modify)
+		const transformedDarkValue = colorTransform(token.darkValue, token.modifyDarkValue)
+		const transformedToken = Object.assign(token, { value: transformedValue, darkValue: transformedDarkValue })
+		return transformedToken
 	},
 })
 
@@ -114,16 +147,14 @@ const getStyleDictionaryThemeConfig = ({ theme }) => {
 				],
 			},
 			[PLATFORM_WEB_TAILWIND]: {
-				transformGroup: 'js',
+				transforms: [`colorTransform`],
 				buildPath: `./dist/${theme}/`,
 				options,
 				files: [
 					{
 						destination: 'index.json',
 						format: 'json/variables-themed',
-						filter: token => {
-							return !token.filePath.includes('tokens/foundation') && token.attributes.category === `color`
-						},
+						filter: token => token.filePath.includes('tokens/theme'),
 						options: {
 							outputReferences: true,
 							theme,

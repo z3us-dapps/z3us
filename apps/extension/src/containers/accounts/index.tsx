@@ -1,5 +1,6 @@
 import React from 'react'
 
+import { AccountSearch } from '@src/containers/accounts/account-search'
 import { AccountTransaction } from '@src/containers/accounts/account-transaction'
 
 import { AccountsDesktop } from './desktop'
@@ -22,6 +23,7 @@ export const Accounts = (props: IAccountsProps): JSX.Element => {
 		<>
 			{isMobile ? <AccountsMobile /> : <AccountsDesktop />}
 			<AccountTransaction />
+			<AccountSearch />
 		</>
 	)
 }
