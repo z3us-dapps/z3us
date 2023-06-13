@@ -8,6 +8,7 @@ import 'ui/src/components-v2/system/global.css'
 
 import { FallbackRenderer } from '@src/components/fallback-renderer'
 import { RdtProvider } from '@src/context/rdt-provider'
+import { NoneSharedStoreProvider } from '@src/context/state-provider'
 import i18n from '@src/i18n/i18n'
 import rdt from '@src/radix/rdt'
 
@@ -20,9 +21,11 @@ ReactDOM.createRoot(container).render(
 		<I18nextProvider i18n={i18n}>
 			<HashRouter>
 				<RdtProvider value={rdt}>
-					<ErrorBoundary fallbackRender={FallbackRenderer}>
-						<App />
-					</ErrorBoundary>
+					<NoneSharedStoreProvider>
+						<ErrorBoundary fallbackRender={FallbackRenderer}>
+							<App />
+						</ErrorBoundary>
+					</NoneSharedStoreProvider>
 				</RdtProvider>
 			</HashRouter>
 		</I18nextProvider>

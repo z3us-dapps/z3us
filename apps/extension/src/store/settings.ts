@@ -1,13 +1,10 @@
 import type { AddressBookEntry, SettingsState } from './types'
 
 const defaultState = {
-	addressBook: {},
 	currency: 'USD',
 	walletUnlockTimeoutInMinutes: 5,
-	accountPanelExpanded: false,
 	transactionNotificationsEnabled: true,
-
-	activeApp: ['accounts', 0],
+	addressBook: {},
 }
 
 export const factory = (set): SettingsState => ({
@@ -32,18 +29,6 @@ export const factory = (set): SettingsState => ({
 	setWalletUnclokTimeoutInMinutesAction: (timeoutInMinutes: number) => {
 		set(state => {
 			state.walletUnlockTimeoutInMinutes = timeoutInMinutes
-		})
-	},
-
-	setAccountPanelExpandedAction: (expanded: boolean) => {
-		set(state => {
-			state.accountPanelExpanded = expanded
-		})
-	},
-
-	setActiveAppAction: (activeApp: Array<string | number>) => {
-		set(state => {
-			state.activeApp = activeApp
 		})
 	},
 

@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import type { ClassValue } from 'clsx'
 import clsx from 'clsx'
 import React, { useMemo } from 'react'
@@ -10,57 +9,46 @@ import { Box } from 'ui/src/components-v2/box'
 import { Button } from 'ui/src/components-v2/button'
 import { Dialog } from 'ui/src/components-v2/dialog'
 import { DialogAlert } from 'ui/src/components-v2/dialog-alert'
-import { type FormElement, Input, type TSizeVariant, type TStyleVariant } from 'ui/src/components-v2/input'
+import { type FormElement, Input } from 'ui/src/components-v2/input'
 import { Table } from 'ui/src/components-v2/table'
 import { Text } from 'ui/src/components-v2/typography'
-import { CheckCircleIcon, EditIcon, LoadingBarsIcon, PlusIcon, TrashIcon } from 'ui/src/components/icons'
+import { CheckCircleIcon, PlusIcon } from 'ui/src/components/icons'
 
 import { ValidationErrorMessage } from '@src/components/validation-error-message'
+import { useNoneSharedStore } from '@src/hooks/use-store'
+import { AddressBookEntry } from '@src/store/types'
 
 import * as styles from '../account-settings.css'
 import { AddressEditButtonsCell } from './address-edit-buttons-cell'
 import { AddressNameCell } from './address-name-cell'
 import { type IImmerSettingsGeneralProps, getError, validateAddressBookForm } from './settings-address-book-utils'
 
-function generateRandomString() {
-	const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789'
-	const minLength = 10
-	const maxLength = 100
-	const stringLength = Math.floor(Math.random() * (maxLength - minLength + 1)) + minLength
-	let randomString = ''
-
-	// eslint-disable-next-line
-	for (let i = 0; i < stringLength; i++) {
-		const randomIndex = Math.floor(Math.random() * characters.length)
-		randomString += characters.charAt(randomIndex)
-	}
-
-	return randomString
-}
-
 interface ISettingsGeneralProps {
 	className?: ClassValue
 	scrollableNode: HTMLElement
 }
 
+const emptyEntry: AddressBookEntry = {
+	name: '',
+	address: '',
+	dateAdded: 0,
+	dateUpdated: 0,
+}
+
 export const SettingsAddressBook: React.FC<ISettingsGeneralProps> = props => {
+	const { addressBook, setAddressBookEntry, handleRemoveAddress } = useNoneSharedStore(state => ({
+		addressBook: state.addressBook,
+		setAddressBookEntry: state.setAddressBookEntryAction,
+		handleRemoveAddress: state.removeAddressBookEntryAction,
+	}))
+
 	const { className, scrollableNode } = props
 
 	const [state, setState] = useImmer<IImmerSettingsGeneralProps>({
-		deleteAccountId: undefined,
-		editAccountId: undefined,
+		deleteAccountAddress: undefined,
+		editAccountAddress: undefined,
 		isEditDialogVisible: false,
-		data: Array.from({ length: 2 }, (_, i) => ({
-			id: generateRandomString(),
-			name: generateRandomString(),
-			address: 'rdx14587ghgjdjfhalkhglakjdfhladfgy36fu4t87g8y84ht84h8gh48h',
-			dateAdded: Math.floor(Math.random() * 30),
-			dateUpdated: Math.floor(Math.random() * 30),
-		})),
-		editingAddress: {
-			name: '',
-			address: '',
-		},
+		editingAddress: emptyEntry,
 		initValidation: false,
 		validation: undefined,
 	})
@@ -73,27 +61,33 @@ export const SettingsAddressBook: React.FC<ISettingsGeneralProps> = props => {
 		}
 	}, [state.editingAddress])
 
-	const handleDeleteAddress = (id: string) => {
+	const handleDeleteAddress = (address: string) => {
 		setState(draft => {
-			draft.deleteAccountId = id
+			draft.deleteAccountAddress = address
 		})
 	}
 
-	const handleAddEditAddress = (id?: string | undefined) => {
-		const editingAddress = state.data.find(address => address.id === id)
+	const handleAddEditAddress = (address?: string | undefined) => {
+		const editingAddress = addressBook[address]
 
 		setState(draft => {
-			draft.editAccountId = id
+			draft.editAccountAddress = address
 			draft.isEditDialogVisible = true
+			draft.editingAddress = {
+				dateAdded: Date.now(),
+				...editingAddress,
+				name: editingAddress.name,
+				address: editingAddress.address,
+			}
 			if (editingAddress) {
-				draft.editingAddress = { name: editingAddress.name, address: editingAddress.address }
+				draft.editingAddress.dateUpdated = Date.now()
 			}
 		})
 	}
 
 	const handleCloseEditAddressDialog = () => {
 		setState(draft => {
-			draft.editingAddress = { name: '', address: '' }
+			draft.editingAddress = emptyEntry
 			draft.isEditDialogVisible = false
 			draft.validation = undefined
 			draft.initValidation = false
@@ -102,14 +96,15 @@ export const SettingsAddressBook: React.FC<ISettingsGeneralProps> = props => {
 
 	const handleCancelDeleteAddress = () => {
 		setState(draft => {
-			draft.deleteAccountId = undefined
+			draft.deleteAccountAddress = undefined
 		})
 	}
 
 	const handleConfirmDeleteAddress = () => {
+		handleRemoveAddress(state.deleteAccountAddress)
+
 		setState(draft => {
-			draft.data = state.data.filter(({ id }) => id !== state.deleteAccountId)
-			draft.deleteAccountId = undefined
+			draft.deleteAccountAddress = undefined
 		})
 
 		toast('Address has been moved to archive', {
@@ -146,32 +141,15 @@ export const SettingsAddressBook: React.FC<ISettingsGeneralProps> = props => {
 			return
 		}
 
-		const toastMessage = state.editAccountId ? 'updated' : 'saved'
+		setAddressBookEntry(state.editingAddress.address, state.editingAddress)
+
+		const toastMessage = state.editAccountAddress ? 'updated' : 'saved'
 
 		setState(draft => {
-			if (state.editAccountId) {
-				const entryIndex = state.data.findIndex(item => item.id === state.editAccountId)
-				if (entryIndex !== -1) {
-					draft.data[entryIndex].name = state.editingAddress.name
-					draft.data[entryIndex].address = state.editingAddress.address
-					draft.editAccountId = undefined
-				}
-			} else {
-				draft.data = [
-					...state.data,
-					{
-						id: generateRandomString(),
-						name: state.editingAddress.name,
-						address: state.editingAddress.address,
-						dateAdded: Math.floor(Math.random() * 30),
-						dateUpdated: Math.floor(Math.random() * 30),
-					},
-				]
-			}
-
+			draft.editAccountAddress = undefined
 			draft.isEditDialogVisible = false
-			draft.editingAddress = { name: '', address: '' }
-			draft.editAccountId = undefined
+			draft.editingAddress = emptyEntry
+			draft.editAccountAddress = undefined
 			draft.validation = undefined
 			draft.initValidation = false
 		})
@@ -203,7 +181,7 @@ export const SettingsAddressBook: React.FC<ISettingsGeneralProps> = props => {
 				),
 			},
 		],
-		[state.data.length],
+		[Object.keys(addressBook).length],
 	)
 
 	return (
@@ -225,16 +203,16 @@ export const SettingsAddressBook: React.FC<ISettingsGeneralProps> = props => {
 								New address
 							</Button>
 						</Box>
-						<Table scrollableNode={scrollableNode} data={state.data} columns={columns} />
+						<Table scrollableNode={scrollableNode} data={Object.values(addressBook)} columns={columns} />
 					</Box>
 				</Box>
 			</Box>
 			<DialogAlert
-				open={!!state.deleteAccountId}
+				open={!!state.deleteAccountAddress}
 				title="Are you sure?"
 				description={
 					<Box component="span">
-						<Text truncate>Are you sure you want to delete {state.deleteAccountId}</Text>?
+						<Text truncate>Are you sure you want to delete {state.deleteAccountAddress}</Text>?
 					</Box>
 				}
 				confirmButtonText="Delete"
@@ -289,7 +267,6 @@ export const SettingsAddressBook: React.FC<ISettingsGeneralProps> = props => {
 						<Button sizeVariant="small" styleVariant="secondary" onClick={handleCloseEditAddressDialog}>
 							cancel
 						</Button>
-						{/* <Button sizeVariant="small" onClick={handleSaveAddress}> */}
 						<Button sizeVariant="small" type="submit">
 							save
 						</Button>

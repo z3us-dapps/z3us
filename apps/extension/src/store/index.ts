@@ -33,7 +33,7 @@ const middlewares = <T>(name: string, f: StateCreator<T, MutatorsTypes>) =>
 export const sharedStore = createStore(
 	middlewares<SharedState>(sharedStoreKey, (set, get) => ({
 		...createThemeStore(set),
-		...createToastsStore(set, get),
+		...createToastsStore(set),
 	})),
 )
 

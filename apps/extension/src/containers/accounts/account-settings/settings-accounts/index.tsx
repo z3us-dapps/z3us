@@ -1,19 +1,18 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import type { ClassValue } from 'clsx'
 import clsx from 'clsx'
-import React, { forwardRef, useMemo, useState } from 'react'
+import React, { forwardRef } from 'react'
 
 import { Avatar } from 'ui/src/components-v2/avatar'
 import { Box } from 'ui/src/components-v2/box'
 import { Button } from 'ui/src/components-v2/button'
-import { type FormElement, Input, type TSizeVariant, type TStyleVariant } from 'ui/src/components-v2/input'
+import { Input } from 'ui/src/components-v2/input'
 import { SelectSimple } from 'ui/src/components-v2/select'
-import { Switch } from 'ui/src/components-v2/switch'
 import { Text } from 'ui/src/components-v2/typography'
 import { LoadingBarsIcon } from 'ui/src/components/icons'
 
 import { AccountCards } from '@src/components/account-cards'
-import { ValidationErrorMessage } from '@src/components/validation-error-message'
+import { useSupportedCurrencies } from '@src/hooks/react-query/queries/market'
+import { useNoneSharedStore } from '@src/hooks/use-store'
 
 import * as styles from '../account-settings.css'
 import * as accountsStyles from './settings-accounts.css'
@@ -57,23 +56,11 @@ export const SettingsAccounts: React.FC<ISettingsAccountsProps> = forwardRef<HTM
 	(props, ref: React.Ref<HTMLElement | null>) => {
 		const { className } = props
 
-		const [value, setValue] = useState<string | undefined>('1')
-
-		const data = useMemo(
-			() =>
-				Array.from({ length: 3 }, (_, i) => ({
-					id: `${i}`,
-					title: `${i} -- ${(Math.random() + 1)
-						.toString(36)
-						.substring(
-							7,
-						)} llong test long tes tong test long test llong test long tes tong test long test llong test long tes
-        tong test long test llong test long tes tong test long test llong test long tes tong test long test llong test long tes
-        tong test long test llong test long tes tong test long test llong test long tes tong test long test llong test long tes
-        tong test long test`,
-				})),
-			[],
-		)
+		const { data: currencies } = useSupportedCurrencies()
+		const { currency, setCurrency } = useNoneSharedStore(state => ({
+			currency: state.currency,
+			setCurrency: state.setCurrencyAction,
+		}))
 
 		return (
 			<Box ref={ref} className={clsx(styles.settingsSectionFlexColumnWrapper, className)}>
@@ -106,12 +93,10 @@ export const SettingsAccounts: React.FC<ISettingsAccountsProps> = forwardRef<HTM
 						<Box display="flex" flexDirection="row" gap="large">
 							<Box className={accountsStyles.accountsSelectWrapper}>
 								<SelectSimple
-									value={value}
+									value={currency}
 									placeholder="Select currency"
-									onValueChange={val => {
-										setValue(val)
-									}}
-									data={data}
+									onValueChange={setCurrency}
+									data={currencies?.map(curr => ({ id: curr, title: curr.toUpperCase() }))}
 								/>
 							</Box>
 							<Box className={accountsStyles.accountsCardWrapper}>

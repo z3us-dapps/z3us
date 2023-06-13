@@ -5,13 +5,14 @@ import { NoneSharedStore } from '@src/store'
 
 import { NoneSharedStoreContext } from './state'
 
+// @TODO: fix this to be connected with connect button - rdt
 export const NoneSharedStoreProvider = ({ children }: React.PropsWithChildren<{}>) => {
 	// const { keystoreId } = useSharedStore(state => ({
 	// 	keystoreId: state.selectKeystoreId,
 	// }))
 
-	const [state] = useState<{ keystoreId: string; store: NoneSharedStore }>({
-		keystoreId: '',
+	const [state] = useState<{ id: string; store: NoneSharedStore }>({
+		id: '',
 		store: defaultNoneSharedStore,
 	})
 

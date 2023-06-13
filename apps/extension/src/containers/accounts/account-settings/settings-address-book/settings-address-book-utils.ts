@@ -1,5 +1,6 @@
 import { z } from 'zod'
 
+import { AddressBookEntry } from '@src/store/types'
 import { type TZodValidationGeneric, getZodError } from '@src/utils/get-zod-error'
 
 export type TAddressBookSchema = z.infer<typeof addressBookSchema>
@@ -7,11 +8,10 @@ export type TAddressBookSchema = z.infer<typeof addressBookSchema>
 export type TZodValidation = TZodValidationGeneric<TAddressBookSchema>
 
 export interface IImmerSettingsGeneralProps {
-	deleteAccountId: string | undefined
-	editAccountId: string | undefined
+	deleteAccountAddress: string | undefined
+	editAccountAddress: string | undefined
 	isEditDialogVisible: boolean
-	data: any
-	editingAddress: any
+	editingAddress: AddressBookEntry
 	initValidation: boolean
 	validation: TZodValidation
 }
