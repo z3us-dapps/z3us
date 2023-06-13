@@ -1,47 +1,40 @@
-const withTM = require('next-transpile-modules')(['ui'])
 
-const nextConfig = withTM({
-	reactStrictMode: true,
-	async headers() {
-		return [
-			{
-				source: '/fonts/:font*',
-				headers: [
-					{
-						key: 'Cache-Control',
-						value: 'public, immutable, max-age=31536000',
-					},
-				],
-			},
-		]
-	},
-	webpack: (config, { buildId, dev, isServer, defaultLoaders, webpack }) => {
-		config.resolve = {
-			...config.resolve,
-			fallback: {
-				...config.resolve.fallback,
-				fs: false,
-				stream: require.resolve('stream-browserify'),
-				buffer: require.resolve('buffer'),
-				crypto: require.resolve('crypto-browserify'),
-				assert: require.resolve('assert'),
-				http: require.resolve('stream-http'),
-				https: require.resolve('https-browserify'),
-				os: require.resolve('os-browserify'),
-				path: require.resolve('path-browserify'),
-			},
-		}
+const million = require("million/compiler");
+const { withContentlayer } = require("next-contentlayer");
+const { createVanillaExtractPlugin } = require("@vanilla-extract/next-plugin");
 
-		config.plugins = [
-			...config.plugins,
-			new webpack.ProvidePlugin({
-				Buffer: ['buffer', 'Buffer'],
-				process: 'process/browser',
-			}),
-		]
+const withVanillaExtract = createVanillaExtractPlugin();
 
-		return config
-	},
-})
+/** @type {import("next").NextConfig} */
+const config = {
+  experimental: {
+    appDir: false,
+  },
+  reactStrictMode: true,
+  swcMinify: true,
 
-module.exports = nextConfig
+  /**
+   * If you have `experimental: { appDir: true }` set, then you must comment the below `i18n` config
+   * out.
+   *
+   * @see https://github.com/vercel/next.js/issues/41980
+   */
+  i18n: {
+    locales: ["en"],
+    defaultLocale: "en",
+  },
+  // Rewrite everything else to use `pages/index`
+  // async rewrites() {
+  //   return [
+  //     {
+  //       source: '/:path*',
+  //       destination: '/',
+  //     },
+  //   ];
+  // },
+};
+
+
+const nextConfig = withVanillaExtract(config);
+
+module.exports = withContentlayer(million.next(nextConfig));

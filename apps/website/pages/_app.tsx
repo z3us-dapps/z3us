@@ -1,24 +1,23 @@
-/* eslint-disable react/jsx-props-no-spreading */
-import { useBodyClass } from 'hooks/use-body-class'
-import { DefaultSeo } from 'next-seo'
-import { ThemeProvider } from 'next-themes'
-import React from 'react'
+// import { type Metadata } from "next";
+// import { siteConfig } from "@/config/site";
+import { ThemeProvider } from "@/components/theme-provider";
+import "@/styles/global-style.css";
+import { type AppProps } from "next/app";
+import { useEffect, useState } from "react";
 
-import SEO from '../next-seo.config'
-import '../styles/globals.css'
-import './global.css'
-
-const Z3us = ({ Component, pageProps }) => {
-	useBodyClass()
+function App({ Component, pageProps }: AppProps) {
+	const [isServer, setIsServer] = useState(true);
+	useEffect(() => {
+		setIsServer(false);
+	}, []);
+	if (isServer) return null;
 
 	return (
-		<>
-			<DefaultSeo {...SEO} />
-			<ThemeProvider forcedTheme={Component.theme || undefined} attribute="class">
-				<Component {...pageProps} />
+		<div suppressHydrationWarning>
+			<ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+				{typeof window === "undefined" ? null : <Component {...pageProps} />}
 			</ThemeProvider>
-		</>
-	)
+		</div>
+	);
 }
-
-export default Z3us
+export default App;

@@ -1,54 +1,45 @@
-import { MdxTheme } from 'components/mdx-theme'
-import { SinglePageDocs } from 'components/pages/single-page-docs'
-import { config } from 'config'
-import fs from 'fs'
-import matter from 'gray-matter'
-import { serialize } from 'next-mdx-remote/serialize'
-import { NextSeo } from 'next-seo'
-import path from 'path'
-import React from 'react'
+/* eslint-disable */
+import { Mdx } from "@/components/mdx-components";
+import { allDocs } from "contentlayer/generated";
+import NextLink from "next/link";
+import { notFound } from "next/navigation";
+import React from "react";
 
-const TermsIndex = ({ mdxSource }) => (
-	<>
-		<NextSeo
-			title="Terms"
-			openGraph={{
-				type: 'website',
-				url: config.Z3US_URL,
-				title: config.OPEN_GRAPH_TITLE,
-				description: config.OPEN_GRAPH_DESCRIPTION,
-				images: [
-					{
-						url: `${config.Z3US_URL}/og-image-1.png`,
-						width: 800,
-						height: 600,
-						alt: 'Og Image Alt',
-					},
-					{
-						url: `${config.Z3US_URL}/og-image-2.png`,
-						width: 800,
-						height: 600,
-						alt: 'Og Image Alt 2',
-					},
-				],
-			}}
-		/>
-		<SinglePageDocs>
-			<MdxTheme mdxSource={mdxSource} />
-		</SinglePageDocs>
-	</>
-)
+interface DocPageProps {
+	params: {
+		slug: string[];
+	};
+}
 
-export const getStaticProps = async () => {
-	const markdownWithMeta = fs.readFileSync(path.join('docs/terms.mdx'), 'utf-8')
-	const { content } = matter(markdownWithMeta)
-	const mdxSource = await serialize(content)
+function getDocFromParams({ params }: DocPageProps) {
+	const slug = params.slug?.join("/") || "";
+	const doc = allDocs.find((doc) => doc.slugAsParams === slug);
+
+	if (!doc) {
+		null;
+	}
+
+	return doc;
+}
+
+export default function TermsPage(props: { message: string; doc: any }) {
+	return (
+		<div>
+			<h1>terms</h1>
+			<p>{props.message}</p>
+			<NextLink href="/">Home</NextLink>
+			<Mdx code={props.doc.body.code} />
+		</div>
+	);
+}
+
+export const getStaticProps = () => {
+	const doc = getDocFromParams({ params: { slug: ["terms"] } });
 
 	return {
 		props: {
-			mdxSource,
+			message: "TERMS This page is rendered on the server!",
+			doc,
 		},
-	}
-}
-
-export default TermsIndex
+	};
+};
