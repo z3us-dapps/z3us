@@ -10,7 +10,7 @@ import { useIsMobileWidth } from '@src/hooks/use-is-mobile'
 import * as styles from './app.css'
 import TempNav from './components/nav'
 
-if (APP_RADIX && chrome.runtime) {
+if (APP_RADIX && chrome?.runtime?.id) {
 	import('@src/browser/content-script').catch(console.error)
 }
 

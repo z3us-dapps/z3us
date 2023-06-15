@@ -1,21 +1,13 @@
 import { Mutex } from 'async-mutex'
 
-import { defaultNoneStoreKey } from '@src/store/constants'
 import { NoneSharedStore, createNoneSharedStore } from '@src/store'
 
 const mutex = new Mutex()
 
-// @TODO: remove default store since its not allowed
-export const defaultNoneSharedStore = createNoneSharedStore(defaultNoneStoreKey)
+const noneSharedStoreContainer: { [key: string]: NoneSharedStore } = {}
 
-const noneSharedStoreContainer: { [key: string]: NoneSharedStore } = {
-	[defaultNoneStoreKey]: defaultNoneSharedStore,
-}
-
-// @TODO: refactor suffix to be equal account id
-export const getNoneSharedStore = async (suffix: string): Promise<NoneSharedStore> => {
-	const name = !suffix ? defaultNoneStoreKey : `${defaultNoneStoreKey}-${suffix}`
-
+export const getNoneSharedStore = async (id: string): Promise<NoneSharedStore> => {
+	const name = `z3us:rdt:${id}`
 	let store = noneSharedStoreContainer[name]
 	if (store) {
 		return store

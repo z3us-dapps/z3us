@@ -1,12 +1,8 @@
-import browser from 'webextension-polyfill'
 import type { StateCreator } from 'zustand'
 import { createStore } from 'zustand'
 import { devtools, persist, subscribeWithSelector } from 'zustand/middleware'
 import { immer } from 'zustand/middleware/immer'
 
-import { BrowserStorageService } from '@src/storage/browser'
-
-import { sharedStoreKey } from './constants'
 import { factory as createSettingsStore } from './settings'
 import { factory as createThemeStore } from './theme'
 import { factory as createToastsStore } from './toasts'
@@ -20,18 +16,10 @@ type MutatorsTypes = [
 ]
 
 const middlewares = <T>(name: string, f: StateCreator<T, MutatorsTypes>) =>
-	devtools(
-		subscribeWithSelector(
-			persist(immer(f), {
-				name,
-				getStorage: () => new BrowserStorageService(browser.storage),
-			}),
-		),
-		{ name },
-	)
+	devtools(subscribeWithSelector(persist(immer(f), { name })), { name })
 
 export const sharedStore = createStore(
-	middlewares<SharedState>(sharedStoreKey, (set, get) => ({
+	middlewares<SharedState>('z3us:store', set => ({
 		...createThemeStore(set),
 		...createToastsStore(set),
 	})),
