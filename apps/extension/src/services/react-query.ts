@@ -14,10 +14,8 @@ const newQueryClient = (localStorage: Storage) => {
 		},
 	})
 
-	const cacheKey = 'z3us-cache'
-
 	const localStoragePersistor = createWebStoragePersistor({
-		key: cacheKey,
+		key: 'z3us:cache',
 		throttleTime: 1 * 1000, // To avoid localStorage spamming, pass a time in ms to throttle saving the cache to disk
 		storage: localStorage,
 	})
