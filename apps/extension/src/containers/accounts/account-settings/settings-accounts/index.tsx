@@ -11,7 +11,7 @@ import { Text } from 'ui/src/components-v2/typography'
 import { LoadingBarsIcon } from 'ui/src/components/icons'
 
 import { AccountCards } from '@src/components/account-cards'
-import { useSupportedCurrencies } from '@src/hooks/react-query/queries/market'
+import { useSupportedCurrencies } from '@src/hooks/queries/market'
 import { useNoneSharedStore } from '@src/hooks/use-store'
 
 import * as styles from '../account-settings.css'

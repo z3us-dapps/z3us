@@ -1,8 +1,8 @@
 import { AnimatePresence } from 'framer-motion'
 import React, { useEffect, useImperativeHandle, useRef, useState } from 'react'
 import { createPortal } from 'react-dom'
-import create from 'zustand'
-import shallow from 'zustand/shallow'
+import { create } from 'zustand'
+import { shallow } from 'zustand/shallow'
 
 import type { PropsWithCSS } from '../../types'
 import { __DEV__ } from '../../utils/assertion'
