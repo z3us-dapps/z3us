@@ -3,7 +3,6 @@ import React, { useEffect, useState } from 'react'
 import { useRdtState } from '@src/hooks/dapp/use-rdt-state'
 import { getNoneSharedStore } from '@src/services/state'
 import { type NoneSharedStore, createNoneSharedStore } from '@src/store'
-import type { AddressBookEntry } from '@src/store/types'
 
 import { NoneSharedStoreContext } from './state'
 
