@@ -24,7 +24,8 @@
 		"react": "18.2.0",
 		"react-dom": "18.2.0",
 		"react-router-dom": "^6.12.1",
-		"zod": "^3.21.4"
+		"zod": "^3.21.4",
+		"ui": "*"
 	},
 	"devDependencies": {
 		"@types/eslint": "^8.37.0",
@@ -39,7 +40,9 @@
 		"eslint": "^8.40.0",
 		"eslint-config-next": "^13.4.2",
 		"prettier": "^2.8.8",
-		"typescript": "^5.0.4"
+		"typescript": "^5.0.4",
+		"tsconfig": "*",
+		"config": "*"
 	},
 	"ct3aMetadata": {
 		"initVersion": "7.13.1"

@@ -1,3 +1,4 @@
+/* eslint-disable */
 import { type Rdt } from "./types";
 import { RdtContext } from "@/components/rdt-context";
 

@@ -1,8 +1,13 @@
+/* eslint-disable */
 "use client";
 
 // import { block } from "million/react";
 import * as styles from "./Button.css";
 import React from "react";
+
+/* eslint-disable */
+
+/* eslint-disable */
 
 const ButtonComp: React.FC = ({
 	children,

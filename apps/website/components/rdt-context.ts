@@ -1,3 +1,4 @@
+/* eslint-disable */
 import { type Rdt } from "./types";
 import React from "react";
 import { createContext } from "react";

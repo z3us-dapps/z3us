@@ -10,6 +10,7 @@ const config = {
 	},
 	reactStrictMode: true,
 	swcMinify: true,
+	transpilePackages: ["ui"],
 
 	/**
 	 * If you have `experimental: { appDir: true }` set, then you must comment the below `i18n` config

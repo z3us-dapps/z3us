@@ -17,8 +17,8 @@ import Head from "next/head";
 import NextLink from "next/link";
 import React, { useState, useEffect } from "react";
 import { HashRouter as Router, Routes, Route, Link } from "react-router-dom";
+import { Box } from "ui/src/components-v2/box";
 
-// import { Box } from "ui/src/components-v2/box";
 // import {
 // 	darkThemeClass,
 // 	lightThemeClass,
@@ -88,11 +88,11 @@ export default function App() {
 									}
 								)}
 							>
-								<div>
-									<div className={styles.radixButtonWrapper}>
+								<Box marginTop="xxxlarge">
+									<Box className={styles.radixButtonWrapper}>
 										<radix-connect-button className="test-class-rdx-btn"></radix-connect-button>
-									</div>
-								</div>
+									</Box>
+								</Box>
 								<ul>
 									<li>
 										<Link to="/">Home</Link>
