@@ -9,6 +9,7 @@
 	"scripts": {
 		"build": "turbo run build",
 		"dev": "turbo run dev --parallel",
+		"clean": "turbo clean",
 		"test": "turbo run test",
 		"lint": "turbo run lint",
 		"deploy": "turbo run deploy",
