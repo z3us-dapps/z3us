@@ -3,7 +3,7 @@ User-agent: *
 Allow: /
 
 # Host
-Host: https://z3us.com/
+Host: https://example.com
 
 # Sitemaps
-Sitemap: https://z3us.com/sitemap.xml
+Sitemap: https://example.com/sitemap.xml

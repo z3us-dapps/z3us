@@ -1,4 +1,5 @@
 import { type Rdt } from "./types";
+import React from "react";
 import { createContext } from "react";
 
-export const RdtContext = createContext<Rdt | null>(null);
+export const RdtContext: any = createContext<Rdt | null>(null);

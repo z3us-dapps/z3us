@@ -3,9 +3,10 @@
 import { ThemeProvider } from "@/components/theme-provider";
 import "@/styles/global-style.css";
 import { type AppProps } from "next/app";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 
-function App({ Component, pageProps }: AppProps) {
+// function App({ Component, pageProps }: AppProps) {
+function App({ Component, pageProps }: any) {
 	const [isServer, setIsServer] = useState(true);
 	useEffect(() => {
 		setIsServer(false);

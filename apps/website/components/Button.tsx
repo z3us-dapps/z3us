@@ -1,16 +1,19 @@
-/* eslint-disable */
 "use client";
 
 // import { block } from "million/react";
 import * as styles from "./Button.css";
 import React from "react";
 
-/* eslint-disable */
-
-const ButtonComp = ({ children, onClick }: { children: any; onClick: any }) => {
+const ButtonComp: React.FC = ({
+	children,
+	onClick,
+}: {
+	children: any;
+	onClick: () => void;
+}) => {
 	return (
 		<button className={styles.button} onClick={onClick}>
-			{children}
+			<div>{children}</div>
 		</button>
 	);
 };

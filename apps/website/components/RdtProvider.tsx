@@ -1,7 +1,7 @@
 import { type Rdt } from "./types";
 import { RdtContext } from "@/components/rdt-context";
 
-export const RdtProvider = (
+export const RdtProvider: any = (
 	input: React.PropsWithChildren<{
 		value: Rdt;
 	}>

@@ -1,4 +1,6 @@
 /* eslint-disable */
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-nocheck
 import { useRdt } from "./useRdt";
 import { State } from "@radixdlt/radix-dapp-toolkit";
 import { useEffect, useState } from "react";
