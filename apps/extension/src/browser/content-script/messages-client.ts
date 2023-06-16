@@ -2,7 +2,8 @@ import { createMessage as createRadixMessage } from '@radixdlt/connector-extensi
 import browser from 'webextension-polyfill'
 
 import { PORT_NAME } from '@src/browser/messages/constants'
-import { Message, MessageAction, MessageSource } from '@src/browser/messages/types'
+import type { Message } from '@src/browser/messages/types'
+import { MessageAction, MessageSource } from '@src/browser/messages/types'
 
 import { chromeDAppClient, radixMessageHandler } from './radix'
 
@@ -43,9 +44,8 @@ export const MessageClient = () => {
 	const onRuntimeMessage = async (message: any) => {
 		if (message?.source === MessageSource.BACKGROUND && message?.action === MessageAction.PING) {
 			return true
-		} else {
-			radixMessageHandler.onMessage(message)
 		}
+		return radixMessageHandler.onMessage(message)
 	}
 
 	return {

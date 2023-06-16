@@ -1,4 +1,5 @@
-import { Message, MessageSource, ResponseMessage } from '@src/browser/messages/types'
+import type { Message, ResponseMessage } from '@src/browser/messages/types';
+import { MessageSource } from '@src/browser/messages/types'
 import { generateId } from '@src/utils/generate-id'
 
 export type MessageClientType = ReturnType<typeof MessageClient>

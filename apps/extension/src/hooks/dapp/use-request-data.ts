@@ -1,4 +1,4 @@
-import { DataRequestInput } from '@radixdlt/radix-dapp-toolkit'
+import type { DataRequestInput } from '@radixdlt/radix-dapp-toolkit'
 import { useCallback } from 'react'
 
 import { useRdt } from './use-rdt'

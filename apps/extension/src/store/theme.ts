@@ -1,4 +1,4 @@
-import { ThemeState } from './types'
+import type { ThemeState } from './types'
 
 export const factory = (set): ThemeState => ({
 	theme: 'system',

@@ -1,9 +1,9 @@
 import { ContentScriptMessageHandler } from '@radixdlt/connector-extension/src/chrome/content-script/message-handler'
-import { MessageLifeCycleEvent } from '@radixdlt/connector-extension/src/chrome/dapp/_types'
+import type { MessageLifeCycleEvent } from '@radixdlt/connector-extension/src/chrome/dapp/_types'
 import { ChromeDAppClient } from '@radixdlt/connector-extension/src/chrome/dapp/dapp-client'
 import { getTabById } from '@radixdlt/connector-extension/src/chrome/helpers/get-tab-by-id'
 import { sendMessageToTab as chromeSendMessageToTab } from '@radixdlt/connector-extension/src/chrome/helpers/send-message-to-tab'
-import {
+import type {
 	ConfirmationMessageError,
 	Message as RadixMessage,
 } from '@radixdlt/connector-extension/src/chrome/messages/_types'

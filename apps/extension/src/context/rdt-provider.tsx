@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { Rdt } from '@src/types'
+import type { Rdt } from '@src/types'
 
 import { RdtContext } from './rdt'
 

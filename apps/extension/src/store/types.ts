@@ -43,8 +43,13 @@ export type SettingsState = {
 	setAddressBookEntryAction: (address: string, entry: AddressBookEntry) => void
 }
 
+export type RDTState = {
+	selectedAccount: string
+	selectAccountAction: (address: string) => void
+}
+
 export type SharedState = ThemeState & ToastsState
 
-export type NoneSharedState = SettingsState
+export type NoneSharedState = SettingsState & RDTState
 
 export type AppState = SharedState & NoneSharedState

@@ -2,7 +2,8 @@ import '@src/helpers/polyfills'
 
 import { INIT } from '@src/browser/inpage/events'
 import { MessageClient } from '@src/browser/inpage/message-client'
-import { MessageAction, ResponseMessage } from '@src/browser/messages/types'
+import type { ResponseMessage } from '@src/browser/messages/types';
+import { MessageAction } from '@src/browser/messages/types'
 import { config } from '@src/config'
 
 declare global {
@@ -28,4 +29,4 @@ if (!window.z3us) {
 	window.dispatchEvent(new CustomEvent(INIT, { detail: z3us }))
 }
 
-export {}
+export default {}

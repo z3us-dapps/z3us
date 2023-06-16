@@ -1,6 +1,6 @@
 import { z } from 'zod'
 
-import { AddressBookEntry } from '@src/store/types'
+import type { AddressBookEntry } from '@src/store/types'
 import { type TZodValidationGeneric, getZodError } from '@src/utils/get-zod-error'
 
 export type TAddressBookSchema = z.infer<typeof addressBookSchema>

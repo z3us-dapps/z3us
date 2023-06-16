@@ -8,7 +8,7 @@ const injectContentScript = async ({ menuItemId }) => {
 	if (menuItemId !== menuId) return
 
 	const [tab] = await browser.tabs.query({ active: true, currentWindow: true })
-	tab?.id && handleContentScriptInject(tab.id)
+	if (tab?.id) handleContentScriptInject(tab.id)
 }
 
 export const addInjectContentScript = () => {

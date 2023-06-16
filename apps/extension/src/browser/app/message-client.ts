@@ -2,7 +2,8 @@ import browser from 'webextension-polyfill'
 
 import { PORT_NAME } from '@src/browser/messages/constants'
 import timeout from '@src/browser/messages/timeout'
-import { Message, MessageSource, ResponseMessage } from '@src/browser/messages/types'
+import type { Message, ResponseMessage } from '@src/browser/messages/types';
+import { MessageSource } from '@src/browser/messages/types'
 
 export type MessageClientType = ReturnType<typeof MessageClient>
 

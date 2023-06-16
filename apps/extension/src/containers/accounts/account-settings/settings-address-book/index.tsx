@@ -16,7 +16,7 @@ import { CheckCircleIcon, PlusIcon } from 'ui/src/components/icons'
 
 import { ValidationErrorMessage } from '@src/components/validation-error-message'
 import { useNoneSharedStore } from '@src/hooks/use-store'
-import { AddressBookEntry } from '@src/store/types'
+import type { AddressBookEntry } from '@src/store/types'
 
 import * as styles from '../account-settings.css'
 import { AddressEditButtonsCell } from './address-edit-buttons-cell'

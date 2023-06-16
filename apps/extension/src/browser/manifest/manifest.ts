@@ -1,4 +1,5 @@
-import { ManifestV3Export, defineManifest } from '@crxjs/vite-plugin'
+import type { ManifestV3Export} from '@crxjs/vite-plugin';
+import { defineManifest } from '@crxjs/vite-plugin'
 
 import { version } from '../../../package.json'
 import matches from './content_matches.json'

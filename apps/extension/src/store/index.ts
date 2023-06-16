@@ -3,10 +3,11 @@ import { createStore } from 'zustand'
 import { devtools, persist, subscribeWithSelector } from 'zustand/middleware'
 import { immer } from 'zustand/middleware/immer'
 
+import { factory as createRDTStore } from './rdt'
 import { factory as createSettingsStore } from './settings'
 import { factory as createThemeStore } from './theme'
 import { factory as createToastsStore } from './toasts'
-import { NoneSharedState, SharedState } from './types'
+import type { NoneSharedState, SharedState } from './types'
 
 type MutatorsTypes = [
 	['zustand/devtools', never],
@@ -29,6 +30,7 @@ export const createNoneSharedStore = (name: string) =>
 	createStore(
 		middlewares<NoneSharedState>(name, set => ({
 			...createSettingsStore(set),
+			...createRDTStore(set),
 		})),
 	)
 

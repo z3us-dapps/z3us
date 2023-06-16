@@ -1,13 +1,15 @@
 import { BackgroundMessageHandler } from '@radixdlt/connector-extension/src/chrome/background/message-handler'
 import { MessageClient as RadixMessageClient } from '@radixdlt/connector-extension/src/chrome/messages/message-client'
-import { AppLogger } from '@radixdlt/connector-extension/src/utils/logger'
-import browser, { Runtime } from 'webextension-polyfill'
+import type { AppLogger } from '@radixdlt/connector-extension/src/utils/logger'
+import type { Runtime } from 'webextension-polyfill'
+import browser from 'webextension-polyfill'
 
 import { ledgerTabWatcher } from '@src/browser/background/tabs'
 import { PORT_NAME } from '@src/browser/messages/constants'
 import { newReply } from '@src/browser/messages/message'
 import messageHandlers from '@src/browser/messages/message-handlers'
-import { Message, MessageSource, ResponseMessage } from '@src/browser/messages/types'
+import type { Message, ResponseMessage } from '@src/browser/messages/types'
+import { MessageSource } from '@src/browser/messages/types'
 
 const popupURL = new URL(browser.runtime.getURL(''))
 
@@ -23,7 +25,7 @@ export const MessageClient = () => {
 	const radixMessageHandler = RadixMessageClient(
 		BackgroundMessageHandler({
 			logger: backgroundLogger,
-			ledgerTabWatcher: ledgerTabWatcher,
+			ledgerTabWatcher,
 		}),
 		'background',
 		{ logger: backgroundLogger },
@@ -125,7 +127,7 @@ export const MessageClient = () => {
 
 	const onRadixMessage = (message: any, tabId?: number) => {
 		if (!APP_RADIX) return
-		return radixMessageHandler.onMessage(message, tabId)
+		radixMessageHandler.onMessage(message, tabId)
 	}
 
 	return { onPort, onRadixMessage }

@@ -1,3 +1,4 @@
+/* eslint-disable react/button-has-type */
 import React from 'react'
 
 import { Box } from 'ui/src/components-v2/box'

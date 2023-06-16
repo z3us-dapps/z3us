@@ -1,4 +1,4 @@
-import { State } from '@radixdlt/radix-dapp-toolkit'
+import type { State } from '@radixdlt/radix-dapp-toolkit'
 import { useEffect, useState } from 'react'
 
 // https://github.com/radixdlt/radix-dapp-toolkit/blob/develop/examples/rdt/hooks/useRdtState.ts

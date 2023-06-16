@@ -1,9 +1,8 @@
 import clsx, { type ClassValue } from 'clsx'
 import React, { forwardRef } from 'react'
 
-import { TokenImageIcon } from '@src/components/token-image-icon'
 import { Box } from 'ui/src/components-v2/box'
-import type { TStyleVariant } from 'ui/src/components-v2/button';
+import type { TStyleVariant } from 'ui/src/components-v2/button'
 import { Button } from 'ui/src/components-v2/button'
 import {
 	DropdownMenu,
@@ -20,7 +19,10 @@ import SimpleBar from 'ui/src/components-v2/simple-bar'
 import { Text } from 'ui/src/components-v2/typography'
 import { CheckIcon, ChevronDownIcon } from 'ui/src/components/icons'
 
+import { TokenImageIcon } from '@src/components/token-image-icon'
 import { useIsMobileWidth } from '@src/hooks/use-is-mobile'
+import { useNoneSharedStore } from '@src/hooks/use-store'
+import { useWalletAccounts } from '@src/hooks/use-wallet-account'
 
 import * as styles from './account-view-dropdown.css'
 
@@ -47,6 +49,14 @@ export const AccountViewDropdown = forwardRef<HTMLElement, IAccountViewDropdownP
 		const { className, styleVariant, isLeftButtonIconVisible } = props
 
 		const isMobile = useIsMobileWidth()
+		const accounts = useWalletAccounts()
+		const { addressBook, selectedAccount, selectAccount } = useNoneSharedStore(state => ({
+			addressBook: state.addressBook,
+			selectedAccount: state.selectedAccount,
+			selectAccount: state.selectAccountAction,
+		}))
+
+		console.log(selectAccount)
 
 		return (
 			<Box ref={ref} className={clsx(styles.accountViewDropdownWrapper, className)}>
@@ -70,7 +80,7 @@ export const AccountViewDropdown = forwardRef<HTMLElement, IAccountViewDropdownP
 							}
 							rightIcon={<ChevronDownIcon />}
 						>
-							Savings
+							{addressBook[selectedAccount]?.name}
 						</Button>
 					</DropdownMenuTrigger>
 
@@ -82,234 +92,30 @@ export const AccountViewDropdown = forwardRef<HTMLElement, IAccountViewDropdownP
 						>
 							<SimpleBar className={styles.accountViewSimpleBarWrapper}>
 								<Box className={styles.accountViewScrollAreaWrapper}>
-									<DropdownMenuRadioGroup value="light" onValueChange={() => {}}>
-										<DropdownMenuRadioItem value="light">
-											<DropdownMenuLeftSlot>
-												<Box
-													style={{ width: '60px', height: '40px' }}
-													borderRadius="small"
-													flexShrink={0}
-													background="backgroundPrimary"
-													marginRight="small"
-												/>
-											</DropdownMenuLeftSlot>
-											<Box flexGrow={1} style={{ maxWidth: '98px' }}>
-												<Text size="xsmall" truncate>
-													Savings Savings Savings Savings Savings
-												</Text>
-											</Box>
-											<DropdownMenuItemIndicator>
-												<CheckIcon />
-											</DropdownMenuItemIndicator>
-										</DropdownMenuRadioItem>
-										<DropdownMenuRadioItem value="dark">
-											<DropdownMenuLeftSlot>
-												<Box
-													style={{ width: '60px', height: '40px' }}
-													borderRadius="small"
-													background="backgroundPrimary"
-													marginRight="small"
-												/>
-											</DropdownMenuLeftSlot>
-											<Box flexGrow={1}>
-												<Text size="xsmall">Degen account</Text>
-											</Box>
-											<DropdownMenuItemIndicator>
-												<CheckIcon />
-											</DropdownMenuItemIndicator>
-										</DropdownMenuRadioItem>
-										<DropdownMenuRadioItem value="dark">
-											<DropdownMenuLeftSlot>
-												<Box
-													style={{ width: '60px', height: '40px' }}
-													borderRadius="small"
-													background="backgroundPrimary"
-													marginRight="small"
-												/>
-											</DropdownMenuLeftSlot>
-											<Box flexGrow={1}>
-												<Text size="xsmall">Defi account</Text>
-											</Box>
-											<DropdownMenuItemIndicator>
-												<CheckIcon />
-											</DropdownMenuItemIndicator>
-										</DropdownMenuRadioItem>
-										<DropdownMenuRadioItem value="dark">
-											<DropdownMenuLeftSlot>
-												<Box
-													style={{ width: '60px', height: '40px' }}
-													borderRadius="small"
-													background="backgroundPrimary"
-													marginRight="small"
-												/>
-											</DropdownMenuLeftSlot>
-											<Box flexGrow={1}>
-												<Text size="xsmall">Payments account</Text>
-											</Box>
-											<DropdownMenuItemIndicator>
-												<CheckIcon />
-											</DropdownMenuItemIndicator>
-										</DropdownMenuRadioItem>
-										<DropdownMenuRadioItem value="dark">
-											<DropdownMenuLeftSlot>
-												<Box
-													style={{ width: '60px', height: '40px' }}
-													borderRadius="small"
-													background="backgroundPrimary"
-													marginRight="small"
-												/>
-											</DropdownMenuLeftSlot>
-											<Box flexGrow={1}>
-												<Text size="xsmall">Payments account</Text>
-											</Box>
-											<DropdownMenuItemIndicator>
-												<CheckIcon />
-											</DropdownMenuItemIndicator>
-										</DropdownMenuRadioItem>
-										<DropdownMenuRadioItem value="dark">
-											<DropdownMenuLeftSlot>
-												<Box
-													style={{ width: '60px', height: '40px' }}
-													borderRadius="small"
-													background="backgroundPrimary"
-													marginRight="small"
-												/>
-											</DropdownMenuLeftSlot>
-											<Box flexGrow={1}>
-												<Text size="xsmall">Payments account</Text>
-											</Box>
-											<DropdownMenuItemIndicator>
-												<CheckIcon />
-											</DropdownMenuItemIndicator>
-										</DropdownMenuRadioItem>
-										<DropdownMenuRadioItem value="dark">
-											<DropdownMenuLeftSlot>
-												<Box
-													style={{ width: '60px', height: '40px' }}
-													borderRadius="small"
-													background="backgroundPrimary"
-													marginRight="small"
-												/>
-											</DropdownMenuLeftSlot>
-											<Box flexGrow={1}>
-												<Text size="xsmall">Payments account</Text>
-											</Box>
-											<DropdownMenuItemIndicator>
-												<CheckIcon />
-											</DropdownMenuItemIndicator>
-										</DropdownMenuRadioItem>
-										<DropdownMenuRadioItem value="dark">
-											<DropdownMenuLeftSlot>
-												<Box
-													style={{ width: '60px', height: '40px' }}
-													borderRadius="small"
-													background="backgroundPrimary"
-													marginRight="small"
-												/>
-											</DropdownMenuLeftSlot>
-											<Box flexGrow={1}>
-												<Text size="xsmall">Payments account</Text>
-											</Box>
-											<DropdownMenuItemIndicator>
-												<CheckIcon />
-											</DropdownMenuItemIndicator>
-										</DropdownMenuRadioItem>
-										<DropdownMenuRadioItem value="dark">
-											<DropdownMenuLeftSlot>
-												<Box
-													style={{ width: '60px', height: '40px' }}
-													borderRadius="small"
-													background="backgroundPrimary"
-													marginRight="small"
-												/>
-											</DropdownMenuLeftSlot>
-											<Box flexGrow={1}>
-												<Text size="xsmall">Payments account</Text>
-											</Box>
-											<DropdownMenuItemIndicator>
-												<CheckIcon />
-											</DropdownMenuItemIndicator>
-										</DropdownMenuRadioItem>
-										<DropdownMenuRadioItem value="dark">
-											<DropdownMenuLeftSlot>
-												<Box
-													style={{ width: '60px', height: '40px' }}
-													borderRadius="small"
-													background="backgroundPrimary"
-													marginRight="small"
-												/>
-											</DropdownMenuLeftSlot>
-											<Box flexGrow={1}>
-												<Text size="xsmall">Payments account</Text>
-											</Box>
-											<DropdownMenuItemIndicator>
-												<CheckIcon />
-											</DropdownMenuItemIndicator>
-										</DropdownMenuRadioItem>
-										<DropdownMenuRadioItem value="dark">
-											<DropdownMenuLeftSlot>
-												<Box
-													style={{ width: '60px', height: '40px' }}
-													borderRadius="small"
-													background="backgroundPrimary"
-													marginRight="small"
-												/>
-											</DropdownMenuLeftSlot>
-											<Box flexGrow={1}>
-												<Text size="xsmall">Payments account</Text>
-											</Box>
-											<DropdownMenuItemIndicator>
-												<CheckIcon />
-											</DropdownMenuItemIndicator>
-										</DropdownMenuRadioItem>
-										<DropdownMenuRadioItem value="dark">
-											<DropdownMenuLeftSlot>
-												<Box
-													style={{ width: '60px', height: '40px' }}
-													borderRadius="small"
-													background="backgroundPrimary"
-													marginRight="small"
-												/>
-											</DropdownMenuLeftSlot>
-											<Box flexGrow={1}>
-												<Text size="xsmall">Payments account</Text>
-											</Box>
-											<DropdownMenuItemIndicator>
-												<CheckIcon />
-											</DropdownMenuItemIndicator>
-										</DropdownMenuRadioItem>
-										<DropdownMenuRadioItem value="dark">
-											<DropdownMenuLeftSlot>
-												<Box
-													style={{ width: '60px', height: '40px' }}
-													borderRadius="small"
-													background="backgroundPrimary"
-													marginRight="small"
-												/>
-											</DropdownMenuLeftSlot>
-											<Box flexGrow={1}>
-												<Text size="xsmall">Payments account</Text>
-											</Box>
-											<DropdownMenuItemIndicator>
-												<CheckIcon />
-											</DropdownMenuItemIndicator>
-										</DropdownMenuRadioItem>
-										<DropdownMenuRadioItem value="dark">
-											<DropdownMenuLeftSlot>
-												<Box
-													style={{ width: '60px', height: '40px' }}
-													borderRadius="small"
-													background="backgroundPrimary"
-													marginRight="small"
-												/>
-											</DropdownMenuLeftSlot>
-											<Box flexGrow={1}>
-												<Text size="xsmall">Payments account</Text>
-											</Box>
-											<DropdownMenuItemIndicator>
-												<CheckIcon />
-											</DropdownMenuItemIndicator>
-										</DropdownMenuRadioItem>
+									<DropdownMenuRadioGroup value="light" onValueChange={(...args) => {console.log('DropdownMenuRadioGroup', args)}}>
+										{accounts.map((account, idx) => (
+											<DropdownMenuRadioItem value={idx % 2 === 0 ? 'light' : 'dark'}>
+												<DropdownMenuLeftSlot>
+													<Box
+														style={{ width: '60px', height: '40px' }}
+														borderRadius="small"
+														flexShrink={0}
+														background="backgroundPrimary"
+														marginRight="small"
+													/>
+												</DropdownMenuLeftSlot>
+												<Box flexGrow={1} style={{ maxWidth: '98px' }}>
+													<Text size="xsmall" truncate>
+														{account.name}
+													</Text>
+												</Box>
+												{account.address === selectedAccount && (
+													<DropdownMenuItemIndicator>
+														<CheckIcon />
+													</DropdownMenuItemIndicator>
+												)}
+											</DropdownMenuRadioItem>
+										))}
 									</DropdownMenuRadioGroup>
 								</Box>
 							</SimpleBar>

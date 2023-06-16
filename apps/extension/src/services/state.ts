@@ -1,6 +1,7 @@
 import { Mutex } from 'async-mutex'
 
-import { NoneSharedStore, createNoneSharedStore } from '@src/store'
+import type { NoneSharedStore} from '@src/store';
+import { createNoneSharedStore } from '@src/store'
 
 const mutex = new Mutex()
 

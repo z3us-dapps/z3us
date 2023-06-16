@@ -9,8 +9,7 @@ import { AnimatedPage } from '@src/components/animated-page'
 
 import * as styles from './styles.css'
 
-const Pairing: React.FC = () => {
-	return (
+const Pairing: React.FC = () => (
 		<AnimatedPage>
 			<Box padding="xxxlarge" className={styles.pairingWrapper}>
 				<Text size="xlarge">we are here</Text>
@@ -18,6 +17,5 @@ const Pairing: React.FC = () => {
 			</Box>
 		</AnimatedPage>
 	)
-}
 
 export default Pairing

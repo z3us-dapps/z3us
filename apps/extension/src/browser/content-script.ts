@@ -16,4 +16,4 @@ head.appendChild(script)
 window.addEventListener('message', forwardMessageToBackground, false)
 browser.runtime.onMessage.addListener(onRuntimeMessage)
 
-export {}
+export default {}

@@ -11,8 +11,8 @@ import { Text } from 'ui/src/components-v2/typography'
 import { LoadingBarsIcon } from 'ui/src/components/icons'
 
 import { AccountCards } from '@src/components/account-cards'
-import { useSupportedCurrencies } from '@src/hooks/queries/market'
 import { useNoneSharedStore } from '@src/hooks/use-store'
+import { useWalletAccounts } from '@src/hooks/use-wallet-account'
 
 import * as styles from '../account-settings.css'
 import * as accountsStyles from './settings-accounts.css'
@@ -56,10 +56,10 @@ export const SettingsAccounts: React.FC<ISettingsAccountsProps> = forwardRef<HTM
 	(props, ref: React.Ref<HTMLElement | null>) => {
 		const { className } = props
 
-		const { data: currencies } = useSupportedCurrencies()
-		const { currency, setCurrency } = useNoneSharedStore(state => ({
-			currency: state.currency,
-			setCurrency: state.setCurrencyAction,
+		const accounts = useWalletAccounts()
+		const { selectedAccount, selectAccount } = useNoneSharedStore(state => ({
+			selectedAccount: state.selectedAccount,
+			selectAccount: state.selectAccountAction,
 		}))
 
 		return (
@@ -93,10 +93,10 @@ export const SettingsAccounts: React.FC<ISettingsAccountsProps> = forwardRef<HTM
 						<Box display="flex" flexDirection="row" gap="large">
 							<Box className={accountsStyles.accountsSelectWrapper}>
 								<SelectSimple
-									value={currency}
-									placeholder="Select currency"
-									onValueChange={setCurrency}
-									data={currencies?.map(curr => ({ id: curr, title: curr.toUpperCase() }))}
+									value={selectedAccount}
+									placeholder="Select account"
+									onValueChange={selectAccount}
+									data={accounts.map(account => ({ id: account.address, title: account.name }))}
 								/>
 							</Box>
 							<Box className={accountsStyles.accountsCardWrapper}>
