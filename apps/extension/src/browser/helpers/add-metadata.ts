@@ -1,14 +1,20 @@
 import { addMetadata as addRadixMetadata } from '@radixdlt/connector-extension/src/chrome/helpers/add-metadata'
+import browser from 'webextension-polyfill'
 
 import { DAPP_ORIGIN } from '@src/constants'
 
-const overideOrigin = (message: Record<string, any>): Record<string, any> => ({
-	...message,
-	metadata: {
-		...(message.metadata || {}),
-		origin: DAPP_ORIGIN,
-	},
-})
+const popupURL = new URL(browser.runtime.getURL(''))
+
+const overrideOrigin = (message: Record<string, any>): Record<string, any> => {
+	const metadata = message.metadata || {}
+	return {
+		...message,
+		metadata: {
+			...metadata,
+			origin: metadata?.origin === popupURL.origin ? DAPP_ORIGIN : metadata?.origin,
+		},
+	}
+}
 
 export const addMetadata = (message: Record<string, any>): Record<string, any> =>
-	overideOrigin(addRadixMetadata(message))
+	overrideOrigin(addRadixMetadata(message))

@@ -1,9 +1,9 @@
 import { useContext } from 'react'
 import { useStore } from 'zustand'
-import shallow from 'zustand/shallow'
+import { shallow } from 'zustand/shallow'
 
 import { NoneSharedStoreContext } from '@src/context/state'
-import type { NoneSharedStore, SharedStore} from '@src/store';
+import type { NoneSharedStore, SharedStore } from '@src/store'
 import { sharedStore } from '@src/store'
 import type { NoneSharedState, SharedState } from '@src/store/types'
 

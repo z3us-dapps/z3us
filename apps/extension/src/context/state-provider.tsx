@@ -1,28 +1,23 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 
-import { defaultNoneSharedStore } from '@src/services/state'
+import { useRdtState } from '@src/hooks/dapp/use-rdt-state'
+import { getNoneSharedStore } from '@src/services/state'
 import { NoneSharedStore } from '@src/store'
 
 import { NoneSharedStoreContext } from './state'
 
-// @TODO: fix this to be connected with connect button - rdt
 export const NoneSharedStoreProvider = ({ children }: React.PropsWithChildren<{}>) => {
-	// const { keystoreId } = useSharedStore(state => ({
-	// 	keystoreId: state.selectKeystoreId,
-	// }))
+	const rdtState = useRdtState()
+	const [state, setState] = useState<{ id: string; store?: NoneSharedStore }>({ id: '' })
+	const identity = (rdtState as any)?.walletData?.persona?.identityAddress || 'test' // @TODO: fix this to be connected with connect button - rdt
 
-	const [state] = useState<{ id: string; store: NoneSharedStore }>({
-		id: '',
-		store: defaultNoneSharedStore,
-	})
-
-	// useEffect(() => {
-	// 	const load = async (suffix: string) => {
-	// 		const store = await getNoneSharedStore(suffix)
-	// 		setState({ keystoreId: suffix, store })
-	// 	}
-	// 	load(keystoreId)
-	// }, [keystoreId])
+	useEffect(() => {
+		const load = async (id: string) => {
+			const store = await getNoneSharedStore(id)
+			setState({ id, store })
+		}
+		if (rdtState?.connected) load(identity)
+	}, [rdtState?.connected, identity])
 
 	return <NoneSharedStoreContext.Provider value={state}>{children}</NoneSharedStoreContext.Provider>
 }

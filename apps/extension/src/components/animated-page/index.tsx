@@ -1,5 +1,8 @@
 import { motion } from 'framer-motion'
 import React from 'react'
+import { ErrorBoundary } from 'react-error-boundary'
+
+import { FallbackRenderer } from '@src/components/fallback-renderer'
 
 export const AnimatedPage = ({ children }: { children: JSX.Element | JSX.Element[] }) => (
 	<motion.div
@@ -12,6 +15,6 @@ export const AnimatedPage = ({ children }: { children: JSX.Element | JSX.Element
 		}}
 		style={{ width: '100%', height: '100%', top: 0, left: 0 }}
 	>
-		{children}
+		<ErrorBoundary fallbackRender={FallbackRenderer}>{children}</ErrorBoundary>
 	</motion.div>
 )

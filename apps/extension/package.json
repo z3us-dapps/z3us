@@ -4,7 +4,7 @@
 	"scripts": {
 		"dev": "DEV_TOOLS=true yarn start:radix",
 		"start:radix": "RADIX=true yarn start",
-		"start": "vite --mode rcnet",
+		"start": "vite --mode development",
 		"build:dev": "DEV_TOOLS=true yarn build:radix",
 		"build:radix": "RADIX=true yarn build",
 		"build": "npm_config_build_from_source=true tsc --build && vite build --mode rcnet",
