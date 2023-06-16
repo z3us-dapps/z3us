@@ -46,3 +46,5 @@ apps/extension/stats.html
 apps/extension/playwright-report/index.html
 apps/extension/m-jest.sh
 apps/extension/jestOutput.txt
+
+.contentlayer
