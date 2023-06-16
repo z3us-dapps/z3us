@@ -15,7 +15,6 @@
 		"concurrently": "^8.2.0",
 		"contentlayer": "^0.3.3",
 		"framer-motion": "^10.12.16",
-		"million": "^2.4.4",
 		"next": "^13.4.2",
 		"next-contentlayer": "^0.3.3",
 		"next-seo": "^6.0.0",
