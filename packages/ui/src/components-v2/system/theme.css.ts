@@ -491,7 +491,7 @@ export const themeShape = {
 /**
  * Colors Types
  */
-export type TThemeColors = typeof themeShape['color']
+export type TThemeColors = (typeof themeShape)['color']
 export type TThemeColorKey = keyof TThemeColors
 
 /**
@@ -521,13 +521,13 @@ export const themes = {
 /**
  * Light Theme
  */
-export const [lightThemeClass, vars] = createTheme(themeShape)
+// TODO: fix type any
+// will need to resolve -> toasts-container/toasts-container.css.ts#L24
+export const [lightThemeClass, vars]: any = createTheme(themeShape)
 
 /**
  * Dark Theme tools
  * note: validated by light theme's vars so we make sure it has the same shape
  */
 
-// TODO: fix type `darkTheme as any`
-// will need to resolve -> toasts-container/toasts-container.css.ts#L24
-export const darkThemeClass = createTheme(vars, darkTheme as any)
+export const darkThemeClass: any = createTheme(vars, darkTheme)
