@@ -1,15 +1,25 @@
-const { withContentlayer } = require("next-contentlayer");
-const { createVanillaExtractPlugin } = require("@vanilla-extract/next-plugin");
+const { withContentlayer } = require('next-contentlayer')
+const { createVanillaExtractPlugin } = require('@vanilla-extract/next-plugin')
 
-const withVanillaExtract = createVanillaExtractPlugin();
+const withVanillaExtract = createVanillaExtractPlugin()
 
-/** @type {import("next").NextConfig} */
+/**
+ * @type {import('next').NextConfig}
+ **/
 const config = {
 	experimental: {
 		appDir: false,
 	},
 	reactStrictMode: true,
 	swcMinify: true,
+	transpilePackages: ['ui'],
+	typescript: {
+		// !! WARN !!
+		// Dangerously allow production builds to successfully complete even if
+		// your project has type errors.
+		// !! WARN !!
+		ignoreBuildErrors: false,
+	},
 
 	/**
 	 * If you have `experimental: { appDir: true }` set, then you must comment the below `i18n` config
@@ -18,8 +28,8 @@ const config = {
 	 * @see https://github.com/vercel/next.js/issues/41980
 	 */
 	i18n: {
-		locales: ["en"],
-		defaultLocale: "en",
+		locales: ['en'],
+		defaultLocale: 'en',
 	},
 	// Rewrite everything else to use `pages/index`
 	// async rewrites() {
@@ -30,8 +40,8 @@ const config = {
 	//     },
 	//   ];
 	// },
-};
+}
 
-const nextConfig = withVanillaExtract(config);
+const nextConfig = withVanillaExtract(config)
 
-module.exports = withContentlayer(nextConfig);
+module.exports = withContentlayer(nextConfig)

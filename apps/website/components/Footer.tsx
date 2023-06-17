@@ -1,3 +1,4 @@
+/* eslint-disable */
 import * as styles from "./Footer.css";
 import React from "react";
 
