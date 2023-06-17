@@ -1,4 +1,4 @@
 #!/bin/sh
 . "$(dirname "$0")/_/husky.sh"
 
-yarn format
+# yarn format # we dont want prettier to change the import order in extension, moving pollyfils around
