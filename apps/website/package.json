@@ -8,6 +8,8 @@
 		"build": "contentlayer build && next build",
 		"lint": "next lint",
 		"start": "next start",
+		"dev:static": "serve ./out",
+		"deploy": "rm -rf node_modules/.cache && next build && next export && touch out/.nojekyll",
 		"postbuild": "next-sitemap"
 	},
 	"dependencies": {

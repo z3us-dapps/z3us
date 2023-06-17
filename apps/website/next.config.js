@@ -20,6 +20,11 @@ const config = {
 		// !! WARN !!
 		ignoreBuildErrors: false,
 	},
+	output: 'export',
+	images: {
+		unoptimized: true,
+		// loader: 'custom',
+	},
 
 	/**
 	 * If you have `experimental: { appDir: true }` set, then you must comment the below `i18n` config
@@ -27,10 +32,10 @@ const config = {
 	 *
 	 * @see https://github.com/vercel/next.js/issues/41980
 	 */
-	i18n: {
-		locales: ['en'],
-		defaultLocale: 'en',
-	},
+	// i18n: {
+	// 	locales: ['en'],
+	// 	defaultLocale: 'en',
+	// },
 	// Rewrite everything else to use `pages/index`
 	// async rewrites() {
 	//   return [

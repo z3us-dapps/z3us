@@ -2,3 +2,5 @@
 coverage
 out
 tsconfig.tsbuildinfo
+public/sitemap.xml
+public/sitemap-0.xml
