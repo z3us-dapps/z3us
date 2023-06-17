@@ -29,8 +29,7 @@ globalStyle('radix-button', {
 
 export const page = style([
 	sprinkles({
-		color: 'green_500',
-		color: 'bai_pearl500',
+		color: 'green100',
 		width: 'full',
 		height: 'full',
 	}),
