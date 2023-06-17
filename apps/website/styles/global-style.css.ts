@@ -23,6 +23,7 @@ globalStyle('::selection', {
 globalStyle('body', {
 	textRendering: 'optimizeLegibility',
 	fontFamily: vars.fonts.body,
+	background: vars.color.backgroundPrimary,
 })
 
 globalStyle(`body.${darkMode}`, {

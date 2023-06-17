@@ -32,6 +32,7 @@ export const page = style([
 		color: 'green100',
 		width: 'full',
 		height: 'full',
+		background: 'backgroundPrimary',
 	}),
 	{
 		display: 'block',
