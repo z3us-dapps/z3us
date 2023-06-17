@@ -1,29 +1,19 @@
-/* eslint-disable */
-"use client";
+'use client'
 
-import { fontSans } from "@/lib/fonts";
-import { ThemeProvider as NextThemesProvider } from "next-themes";
-import { type ThemeProviderProps } from "next-themes/dist/types";
-import * as React from "react";
+import { fontMono, fontSans } from '@/lib/fonts'
+import { ThemeProvider as NextThemesProvider } from 'next-themes'
+// import { type ThemeProviderProps } from 'next-themes/dist/types'
+import * as React from 'react'
 
-/* eslint-disable */
+export const ThemeProvider = ({ children, ...props }) => (
+	<NextThemesProvider {...props}>
+		<style>{`
+			:root {
+				--font-sans: ${fontSans.style.fontFamily};
+				--font-mono: ${fontMono.style.fontFamily};
+			}
+		`}</style>
 
-/* eslint-disable */
-
-/* eslint-disable */
-
-/* eslint-disable */
-
-export function ThemeProvider({ children, ...props }: ThemeProviderProps) {
-	return (
-		<NextThemesProvider {...props}>
-			<style jsx global>{`
-				:root {
-					--font-inter: ${fontSans.style.fontFamily};
-				}
-			`}</style>
-
-			{children}
-		</NextThemesProvider>
-	);
-}
+		{children}
+	</NextThemesProvider>
+)

@@ -1,9 +1,9 @@
 import clsx from 'clsx'
-import type { ElementType, ReactNode } from 'react';
+import type { ElementType, ReactNode } from 'react'
 import React from 'react'
 
 import { Box } from '../box'
-import type { Sprinkles} from '../system/sprinkles.css';
+import type { Sprinkles } from '../system/sprinkles.css'
 import { sprinkles } from '../system/sprinkles.css'
 import * as styles from './typography.css'
 

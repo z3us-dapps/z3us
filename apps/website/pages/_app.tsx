@@ -2,8 +2,6 @@ import { ThemeProvider } from '@/components/theme-provider'
 import '@/styles/global-style.css'
 import React, { useEffect, useState } from 'react'
 
-// TODO: refactor
-// import 'ui/src/components-v2/system/global.css'
 import { darkThemeClass } from 'ui/src/components-v2/system/theme.css'
 
 // eslint-disable-next-line react/function-component-definition

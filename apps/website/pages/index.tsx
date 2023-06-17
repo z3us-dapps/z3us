@@ -19,6 +19,7 @@ import React, { useEffect, useState } from 'react'
 import { Link, Route, HashRouter as Router, Routes } from 'react-router-dom'
 
 import { Box } from 'ui/src/components-v2/box'
+import { Text } from 'ui/src/components-v2/typography'
 
 declare global {
 	namespace JSX {
@@ -116,6 +117,10 @@ export default function App() {
 									<p>
 										<pre>hello</pre>
 										<div>hello</div>
+
+										<Text size="xxlarge" weight="strong" color="strong">
+											hey General settings
+										</Text>
 									</p>
 								</div>
 
