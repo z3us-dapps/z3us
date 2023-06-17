@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 
 import { useRdtState } from '@src/hooks/dapp/use-rdt-state'
+import { useSharedStore } from '@src/hooks/use-store'
 import { getNoneSharedStore } from '@src/services/state'
 import { type NoneSharedStore, createNoneSharedStore } from '@src/store'
 
@@ -15,15 +16,20 @@ const defaultValue = {
 
 export const NoneSharedStoreProvider = ({ children }: React.PropsWithChildren<{}>) => {
 	const rdtState = useRdtState()
+	const { identityId, reloadTrigger } = useSharedStore(state => ({
+		identityId: state.identityId,
+		reloadTrigger: state.sharedStoreReloadTrigger,
+	}))
 
 	const [state, setState] = useState<{ id: string; store?: NoneSharedStore }>(defaultValue)
 
-	const identity = (rdtState as any)?.walletData?.persona?.identityAddress
-
 	useEffect(() => {
 		const load = async (id: string) => {
-			const store = await getNoneSharedStore(id)
-			setState({ id, store })
+			let { store } = state
+			if (id !== state.id || !store) {
+				store = await getNoneSharedStore(id)
+				setState({ id, store })
+			}
 
 			const { addressBook, setAddressBookEntryAction } = store.getState()
 			rdtState?.accounts.forEach(account =>
@@ -35,12 +41,13 @@ export const NoneSharedStoreProvider = ({ children }: React.PropsWithChildren<{}
 				}),
 			)
 		}
-		if (rdtState?.connected && identity) {
-			load(identity)
-		} else {
+
+		if (identityId) {
+			load(identityId)
+		} else if (identityId !== state.id) {
 			setState(defaultValue)
 		}
-	}, [rdtState?.connected, rdtState?.accounts?.length, identity])
+	}, [identityId, reloadTrigger])
 
 	return <NoneSharedStoreContext.Provider value={state}>{children}</NoneSharedStoreContext.Provider>
 }

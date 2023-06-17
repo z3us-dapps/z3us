@@ -12,7 +12,6 @@ import { config } from '@src/config'
 import { RdtProvider } from '@src/context/rdt-provider'
 import { NoneSharedStoreProvider } from '@src/context/state-provider'
 import i18n from '@src/i18n/i18n'
-import rdt from '@src/services/rdt'
 import newQueryClient from '@src/services/react-query'
 
 import App from './app'
@@ -27,7 +26,7 @@ ReactDOM.createRoot(container).render(
 	<React.StrictMode>
 		<I18nextProvider i18n={i18n}>
 			<QueryClientProvider client={queryClient}>
-				<RdtProvider value={rdt}>
+				<RdtProvider>
 					<NoneSharedStoreProvider>
 						<HashRouter>
 							<App />
