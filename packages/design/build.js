@@ -7,7 +7,7 @@ const options = {
 }
 
 const PLATFORM_WEB_CSS = 'web/css'
-const PLATFORM_WEB_TAILWIND = 'web/tailwind'
+const PLATFORM_WEB_JSON = 'web/json'
 const THEME_LIGHT = 'light'
 const THEME_DARK = 'dark'
 
@@ -109,13 +109,13 @@ const getStyleDictionaryConfig = () => {
 					},
 				],
 			},
-			[PLATFORM_WEB_TAILWIND]: {
+			[PLATFORM_WEB_JSON]: {
 				transformGroup: 'js',
 				buildPath: `./dist/`,
 				options,
 				files: [
 					{
-						destination: 'tailwind-tokens.json',
+						destination: 'tokens.json',
 						format: 'json/nested',
 					},
 				],
@@ -146,7 +146,7 @@ const getStyleDictionaryThemeConfig = ({ theme }) => {
 					},
 				],
 			},
-			[PLATFORM_WEB_TAILWIND]: {
+			[PLATFORM_WEB_JSON]: {
 				transforms: [`colorTransform`],
 				buildPath: `./dist/${theme}/`,
 				options,
@@ -168,7 +168,7 @@ const getStyleDictionaryThemeConfig = ({ theme }) => {
 
 console.log(`\n\n Building tokens ...`)
 
-const platforms = [PLATFORM_WEB_CSS, PLATFORM_WEB_TAILWIND]
+const platforms = [PLATFORM_WEB_CSS, PLATFORM_WEB_JSON]
 const themes = [THEME_LIGHT, THEME_DARK]
 
 platforms.forEach(platform => {
@@ -183,7 +183,7 @@ themes.forEach(theme => {
 	const config = getStyleDictionaryThemeConfig({ theme })
 	const StyleDictionary = StyleDictionaryPackage.extend(config)
 	StyleDictionary.buildPlatform(PLATFORM_WEB_CSS)
-	StyleDictionary.buildPlatform(PLATFORM_WEB_TAILWIND)
+	StyleDictionary.buildPlatform(PLATFORM_WEB_JSON)
 })
 
 console.log('Build finished...')

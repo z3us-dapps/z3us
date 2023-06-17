@@ -1,6 +1,6 @@
 import darkTokens from 'design/dist/dark/index.json'
 import lightTokens from 'design/dist/light/index.json'
-import tokens from 'design/dist/tailwind-tokens.json'
+import tokens from 'design/dist/tokens.json'
 
 /**
  * Primitive Color values
