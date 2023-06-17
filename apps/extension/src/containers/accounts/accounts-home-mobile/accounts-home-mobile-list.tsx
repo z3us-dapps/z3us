@@ -7,7 +7,6 @@ import { Virtuoso } from 'react-virtuoso'
 import { Box } from 'ui/src/components-v2/box'
 import { isEmptyArray } from 'ui/src/utils/assertion'
 
-import { NoResultsPlaceholder } from '@src/components/no-results-placeholder'
 import {
 	ASSET_TYPE_BADGES,
 	ASSET_TYPE_LP_TOKENS,
@@ -116,7 +115,7 @@ export const AccountsHomeMobileList = forwardRef<HTMLElement, IAccountTransactio
 			<Box ref={ref} className={clsx(styles.mobileAccountsListWrapperInner, className)}>
 				{isEmptyArray(filteredList) ? (
 					<Box paddingTop="large">
-						<NoResultsPlaceholder />
+						<div />
 					</Box>
 				) : (
 					<>

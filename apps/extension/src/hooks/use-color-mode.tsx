@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 
-import { darkTheme } from 'ui/src/theme'
-
+// TODO: fix
+// import { darkTheme } from 'ui/src/theme'
 import { useSharedStore } from '@src/hooks/use-store'
 
 const DARK_MODE_MEDIA_QUERY = '(prefers-color-scheme: dark)'
@@ -28,12 +28,12 @@ export const useColorMode = () => {
 				realizedColorMode = autoThemeIsDark ? 'dark' : 'light'
 			}
 
-			const element = window.document.body
+			// const element = window.document.body
 			if (realizedColorMode === 'dark') {
-				element.classList.add(darkTheme)
+				// element.classList.add(darkTheme)
 				setIsDarkMode(true)
 			} else {
-				element.classList.remove(darkTheme)
+				// element.classList.remove(darkTheme)
 				setIsDarkMode(false)
 			}
 

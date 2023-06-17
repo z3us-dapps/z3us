@@ -1,6 +1,7 @@
+/* eslint-disable */
 import React from 'react'
 
-import { SelectBox } from 'ui/src/components/select'
+import { SelectSimple as SelectBox } from 'ui/src/components-v2/select'
 
 import { useSupportedCurrencies } from '@src/hooks/queries/market'
 import { useNoneSharedStore } from '@src/hooks/use-store'
@@ -12,15 +13,17 @@ export const CurrencySelector: React.FC = () => {
 	}))
 	const { data: currencies } = useSupportedCurrencies()
 
-	return (
-		<SelectBox
-			defaultValue="usd"
-			value={currency.toLowerCase()}
-			onValueChange={setCurrency}
-			buttonAriaLabel="select currency"
-			selectLabel="Currencies"
-			selectOptions={currencies?.map(c => ({ value: c, name: c }))}
-			selectNameFormatter={name => name.toUpperCase()}
-		/>
-	)
+	return <div>select</div>
+
+	// return (
+	// 	<SelectBox
+	// 		defaultValue="usd"
+	// 		value={currency.toLowerCase()}
+	// 		onValueChange={setCurrency}
+	// 		buttonAriaLabel="select currency"
+	// 		selectLabel="Currencies"
+	// 		selectOptions={currencies?.map(c => ({ value: c, name: c }))}
+	// 		selectNameFormatter={name => name.toUpperCase()}
+	// 	/>
+	// )
 }

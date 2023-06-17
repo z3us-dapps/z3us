@@ -8,8 +8,8 @@ import { SelectSimple } from 'ui/src/components-v2/select'
 import { Switch } from 'ui/src/components-v2/switch'
 import { Text } from 'ui/src/components-v2/typography'
 import { LoadingBarsIcon } from 'ui/src/components/icons'
-import { StyledRange, StyledSlider, StyledThumb, StyledTrack } from 'ui/src/components/slider'
 
+// import { StyledRange, StyledSlider, StyledThumb, StyledTrack } from 'ui/src/components/slider'
 import { useSupportedCurrencies } from '@src/hooks/queries/market'
 import { useNoneSharedStore } from '@src/hooks/use-store'
 
@@ -41,6 +41,7 @@ export const SettingsGeneral: React.FC<ISettingsGeneralProps> = forwardRef<HTMLE
 		const { className } = props
 
 		const { data: currencies } = useSupportedCurrencies()
+		// eslint-disable-next-line
 		const { currency, setCurrency, unlockTimer, setWalletUnclokTimeoutInMinutes } = useNoneSharedStore(state => ({
 			currency: state.currency,
 			setCurrency: state.setCurrencyAction,
@@ -48,9 +49,9 @@ export const SettingsGeneral: React.FC<ISettingsGeneralProps> = forwardRef<HTMLE
 			setWalletUnclokTimeoutInMinutes: state.setWalletUnclokTimeoutInMinutesAction,
 		}))
 
-		const handleChangeUnlockTime = async ([minute]: Array<number>) => {
-			setWalletUnclokTimeoutInMinutes(minute)
-		}
+		// const handleChangeUnlockTime = async ([minute]: Array<number>) => {
+		// 	setWalletUnclokTimeoutInMinutes(minute)
+		// }
 
 		return (
 			<Box ref={ref} className={clsx(styles.settingsSectionFlexColumnWrapper, className)}>
@@ -87,7 +88,7 @@ export const SettingsGeneral: React.FC<ISettingsGeneralProps> = forwardRef<HTMLE
 							</Box>
 						</Box>
 						<Box display="flex" flexDirection="column" gap="small">
-							<StyledSlider
+							{/* <StyledSlider
 								onValueChange={handleChangeUnlockTime}
 								defaultValue={[unlockTimer]}
 								max={59}
@@ -99,7 +100,7 @@ export const SettingsGeneral: React.FC<ISettingsGeneralProps> = forwardRef<HTMLE
 									<StyledRange />
 								</StyledTrack>
 								<StyledThumb />
-							</StyledSlider>
+							</StyledSlider> */}
 						</Box>
 					</Box>
 				</Box>

@@ -113,16 +113,16 @@ export const SelectSimple: React.FC<ISelectSimpleProps> = props => {
 		<SelectRoot value={value} onValueChange={onValueChange}>
 			{trigger || (
 				<SelectTrigger asChild aria-label={selectAriaLabel}>
-					<Box style={{maxWidth: `${width}px`}}>
+					<Box style={{ maxWidth: `${width}px` }}>
 						<Button styleVariant="secondary" rightIcon={<ChevronDown2Icon />}>
-							<span style={{overflow: 'hidden'}}>
+							<span style={{ overflow: 'hidden' }}>
 								<SelectValue aria-label={value} placeholder={placeholder} />
 							</span>
 						</Button>
 					</Box>
 				</SelectTrigger>
 			)}
-			<SelectContent style={{maxWidth: `${width}px`}}>
+			<SelectContent style={{ maxWidth: `${width}px` }}>
 				<SelectGroup>
 					{data.map(({ id, title }) => (
 						<SelectItem key={id} value={id}>
