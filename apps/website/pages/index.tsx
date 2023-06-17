@@ -19,7 +19,6 @@ import React, { useEffect, useState } from 'react'
 import { Link, Route, HashRouter as Router, Routes } from 'react-router-dom'
 
 import { Box } from 'ui/src/components-v2/box'
-import { darkThemeClass, lightThemeClass } from 'ui/src/components-v2/system/theme.css'
 
 declare global {
 	namespace JSX {
@@ -52,7 +51,7 @@ export default function App() {
 				<meta property="og:image" content="https://example.com/images/cool-page.jpg" />
 			</Head>
 
-			<main className={darkThemeClass}>
+			<main>
 				<div className={styles.page}>
 					<Router>
 						<div>
