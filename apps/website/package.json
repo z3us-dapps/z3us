@@ -6,9 +6,9 @@
 		"clean": "rm -rf .turbo && rm -rf node_modules && rm -rf dist",
 		"dev": "concurrently \"contentlayer dev\" \"next dev -p 3001\"",
 		"build": "contentlayer build && next build",
+		"build:serve": "serve -p 3001 ./out",
 		"lint": "next lint",
 		"start": "next start",
-		"dev:static": "serve ./out",
 		"deploy": "rm -rf node_modules/.cache && next build && next export && touch out/.nojekyll",
 		"postbuild": "next-sitemap"
 	},
