@@ -3,12 +3,12 @@ import { createStore } from 'zustand'
 import { devtools, persist, subscribeWithSelector } from 'zustand/middleware'
 import { immer } from 'zustand/middleware/immer'
 
-import { factory as createWalletStore } from './wallet'
 import { factory as createRDTStore } from './rdt'
 import { factory as createSettingsStore } from './settings'
 import { factory as createThemeStore } from './theme'
 import { factory as createToastsStore } from './toasts'
 import type { NoneSharedState, SharedState } from './types'
+import { factory as createWalletStore } from './wallet'
 
 type MutatorsTypes = [
 	['zustand/devtools', never],

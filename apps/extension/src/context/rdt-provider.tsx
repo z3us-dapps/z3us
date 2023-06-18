@@ -13,8 +13,9 @@ export const RdtProvider: React.FC<PropsWithChildren> = ({ children }) => {
 		reloadSharedStore: state.reloadSharedStoreAction,
 	}))
 
-	const onStateChange = () => {
+	const onStateChange = s => {
 		reloadSharedStore()
+		console.log('RdtProvider.onStateChange', s)
 	}
 
 	const ref = useRef<Rdt>(
