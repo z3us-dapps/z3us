@@ -1,28 +1,20 @@
-/* eslint-disable */
-"use client";
+'use client'
 
 // import { block } from "million/react";
-import * as styles from "./Button.css";
-import React from "react";
+import React from 'react'
 
-/* eslint-disable */
+import * as styles from './Button.css'
 
-/* eslint-disable */
-
-const ButtonComp: React.FC = ({
-	children,
-	onClick,
-}: {
-	children: any;
-	onClick: () => void;
-}) => {
+// eslint-disable-next-line arrow-body-style
+const ButtonComp: React.FC = ({ children, onClick }: { children: any; onClick: () => void }) => {
 	return (
+		// eslint-disable-next-line react/button-has-type
 		<button className={styles.button} onClick={onClick}>
 			<div>{children}</div>
 		</button>
-	);
-};
+	)
+}
 
 // const Button = block(ButtonComp);
 
-export default ButtonComp;
+export default ButtonComp
