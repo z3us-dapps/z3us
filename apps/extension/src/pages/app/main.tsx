@@ -30,7 +30,7 @@ ReactDOM.createRoot(container).render(
 					<NoneSharedStoreProvider>
 						<HashRouter>
 							<App />
-							{config.isDevlopmentMode && <ReactQueryDevtools initialIsOpen />}
+							{config.isDevlopmentMode && <ReactQueryDevtools initialIsOpen={false} />}
 						</HashRouter>
 					</NoneSharedStoreProvider>
 				</RdtProvider>
