@@ -15,9 +15,9 @@ import {
 	DropdownMenuRadioItem,
 	DropdownMenuTrigger,
 } from 'ui/src/components/dropdown-menu'
+import { CheckIcon, ChevronDownIcon } from 'ui/src/components/icons'
 import SimpleBar from 'ui/src/components/simple-bar'
 import { Text } from 'ui/src/components/typography'
-import { CheckIcon, ChevronDownIcon } from 'ui/src/components/icons'
 
 import { TokenImageIcon } from '@src/components/token-image-icon'
 import { useIsMobileWidth } from '@src/hooks/use-is-mobile'
@@ -56,8 +56,6 @@ export const AccountViewDropdown = forwardRef<HTMLElement, IAccountViewDropdownP
 			selectAccount: state.selectAccountAction,
 		}))
 
-		console.log(selectAccount)
-
 		return (
 			<Box ref={ref} className={clsx(styles.accountViewDropdownWrapper, className)}>
 				<DropdownMenu>
@@ -92,7 +90,13 @@ export const AccountViewDropdown = forwardRef<HTMLElement, IAccountViewDropdownP
 						>
 							<SimpleBar className={styles.accountViewSimpleBarWrapper}>
 								<Box className={styles.accountViewScrollAreaWrapper}>
-									<DropdownMenuRadioGroup value="light" onValueChange={(...args) => {console.log('DropdownMenuRadioGroup', args)}}>
+									<DropdownMenuRadioGroup
+										value="light"
+										onValueChange={(...args) => {
+											console.log('DropdownMenuRadioGroup', args)
+											selectAccount(args[0])
+										}}
+									>
 										{accounts.map((account, idx) => (
 											<DropdownMenuRadioItem value={idx % 2 === 0 ? 'light' : 'dark'}>
 												<DropdownMenuLeftSlot>

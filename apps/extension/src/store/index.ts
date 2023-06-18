@@ -3,7 +3,7 @@ import { createStore } from 'zustand'
 import { devtools, persist, subscribeWithSelector } from 'zustand/middleware'
 import { immer } from 'zustand/middleware/immer'
 
-import { factory as createIdentityStore } from './identity'
+import { factory as createWalletStore } from './wallet'
 import { factory as createRDTStore } from './rdt'
 import { factory as createSettingsStore } from './settings'
 import { factory as createThemeStore } from './theme'
@@ -24,7 +24,7 @@ export const sharedStore = createStore(
 	middlewares<SharedState>('z3us:store', set => ({
 		...createThemeStore(set),
 		...createToastsStore(set),
-		...createIdentityStore(set),
+		...createWalletStore(set),
 	})),
 )
 

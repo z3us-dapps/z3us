@@ -7,7 +7,7 @@ import { type NoneSharedStore, createNoneSharedStore } from '@src/store'
 
 import { NoneSharedStoreContext } from './state'
 
-const defaultStoreKey = 'default'
+const defaultStoreKey = 'z3us:rdt:default'
 const defaultStore = createNoneSharedStore(defaultStoreKey)
 const defaultValue = {
 	id: defaultStoreKey,
@@ -16,8 +16,7 @@ const defaultValue = {
 
 export const NoneSharedStoreProvider = ({ children }: React.PropsWithChildren<{}>) => {
 	const rdtState = useRdtState()
-	const { identityId, reloadTrigger } = useSharedStore(state => ({
-		identityId: state.identityId,
+	const { reloadTrigger } = useSharedStore(state => ({
 		reloadTrigger: state.sharedStoreReloadTrigger,
 	}))
 
@@ -26,9 +25,15 @@ export const NoneSharedStoreProvider = ({ children }: React.PropsWithChildren<{}
 	useEffect(() => {
 		const load = async (id: string) => {
 			let { store } = state
+
 			if (id !== state.id || !store) {
-				store = await getNoneSharedStore(id)
-				setState({ id, store })
+				if (!id) {
+					store = defaultStore
+					setState(defaultValue)
+				} else {
+					store = await getNoneSharedStore(id)
+					setState({ id, store })
+				}
 			}
 
 			const { addressBook, setAddressBookEntryAction } = store.getState()
@@ -42,12 +47,8 @@ export const NoneSharedStoreProvider = ({ children }: React.PropsWithChildren<{}
 			)
 		}
 
-		if (identityId) {
-			load(identityId)
-		} else if (identityId !== state.id) {
-			setState(defaultValue)
-		}
-	}, [identityId, reloadTrigger])
+		load(rdtState?.persona?.identityAddress)
+	}, [reloadTrigger])
 
 	return <NoneSharedStoreContext.Provider value={state}>{children}</NoneSharedStoreContext.Provider>
 }

@@ -9,19 +9,16 @@ import type { Rdt } from '@src/types'
 import { RdtContext } from './rdt'
 
 export const RdtProvider: React.FC<PropsWithChildren> = ({ children }) => {
-	const ref = useRef<Rdt>()
-	const { setIdentityId, reloadSharedStore } = useSharedStore(state => ({
-		setIdentityId: state.setIdentityIdAction,
+	const { reloadSharedStore } = useSharedStore(state => ({
 		reloadSharedStore: state.reloadSharedStoreAction,
 	}))
 
-	const onStateChange = state => {
-		setIdentityId(state?.walletData?.persona?.identityAddress || '')
+	const onStateChange = () => {
 		reloadSharedStore()
 	}
 
-	useEffect(() => {
-		ref.current = RadixDappToolkit(
+	const ref = useRef<Rdt>(
+		RadixDappToolkit(
 			{
 				dAppName: DAPP_NAME,
 				dAppDefinitionAddress: DAPP_ADDRESS,
@@ -29,6 +26,9 @@ export const RdtProvider: React.FC<PropsWithChildren> = ({ children }) => {
 			requestData => {
 				requestData({
 					accounts: { quantifier: 'atLeast', quantity: 1 },
+					personaData: {
+						fields: ['givenName', 'emailAddress', 'familyName', 'phoneNumber'],
+					},
 				})
 			},
 			{
@@ -36,10 +36,10 @@ export const RdtProvider: React.FC<PropsWithChildren> = ({ children }) => {
 				onStateChange,
 				onInit: onStateChange,
 			},
-		)
+		),
+	)
 
-		return () => ref.current.destroy()
-	}, [])
+	useEffect(() => () => ref.current.destroy(), [])
 
 	return <RdtContext.Provider value={ref.current}>{children}</RdtContext.Provider>
 }

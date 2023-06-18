@@ -28,11 +28,9 @@ export type ThemeState = {
 	setThemeAction: (theme: string) => void
 }
 
-export type IdentityState = {
+export type WalletState = {
 	sharedStoreReloadTrigger: number
-	identityId: string
 	reloadSharedStoreAction: () => void
-	setIdentityIdAction: (id: string) => void
 }
 
 export type SettingsState = {
@@ -55,7 +53,7 @@ export type RDTState = {
 	selectAccountAction: (address: string) => void
 }
 
-export type SharedState = ThemeState & ToastsState & IdentityState
+export type SharedState = ThemeState & ToastsState & WalletState
 
 export type NoneSharedState = SettingsState & RDTState
 
