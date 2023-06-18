@@ -3,8 +3,8 @@ import clsx from 'clsx'
 import { AnimatePresence, motion } from 'framer-motion'
 import React, { useEffect, useRef, useState } from 'react'
 
-import { Box } from 'ui/src/components-v2/box'
-import { Text } from 'ui/src/components-v2/typography'
+import { Box } from 'ui/src/components/box'
+import { Text } from 'ui/src/components/typography'
 
 import * as styles from './z3us-loading.css'
 

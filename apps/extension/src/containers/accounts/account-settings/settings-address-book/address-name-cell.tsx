@@ -4,12 +4,12 @@ import clsx from 'clsx'
 import React, { useMemo, useState } from 'react'
 import { useImmer } from 'use-immer'
 
-import { Avatar } from 'ui/src/components-v2/avatar'
-import { Box } from 'ui/src/components-v2/box'
-import { Button } from 'ui/src/components-v2/button'
-import { DialogAlert } from 'ui/src/components-v2/dialog-alert'
-import { Table } from 'ui/src/components-v2/table'
-import { Text } from 'ui/src/components-v2/typography'
+import { Avatar } from 'ui/src/components/avatar'
+import { Box } from 'ui/src/components/box'
+import { Button } from 'ui/src/components/button'
+import { DialogAlert } from 'ui/src/components/dialog-alert'
+import { Table } from 'ui/src/components/table'
+import { Text } from 'ui/src/components/typography'
 import { EditIcon, LoadingBarsIcon, PlusIcon, TrashIcon } from 'ui/src/components/icons'
 
 interface IAddressNameCellProps {

@@ -3,8 +3,8 @@ import React, { useCallback, useRef, useState } from 'react'
 import { Route, Routes, useLocation, useSearchParams } from 'react-router-dom'
 import { useDebounce } from 'usehooks-ts'
 
-import { Box } from 'ui/src/components-v2/box'
-import { ScrollArea } from 'ui/src/components-v2/scroll-area'
+import { Box } from 'ui/src/components/box'
+import { ScrollArea } from 'ui/src/components/scroll-area'
 
 import {
 	ACCOUNTS_ALL,

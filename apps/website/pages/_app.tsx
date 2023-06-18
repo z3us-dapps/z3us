@@ -4,7 +4,7 @@ import '@/styles/global-style.css'
 import { RadixDappToolkit } from '@radixdlt/radix-dapp-toolkit'
 import React, { useEffect, useState } from 'react'
 
-import { darkThemeClass } from 'ui/src/components-v2/system/theme.css'
+import { darkThemeClass } from 'ui/src/components/system/theme.css'
 
 // eslint-disable-next-line react/function-component-definition
 function App({ Component, pageProps }) {

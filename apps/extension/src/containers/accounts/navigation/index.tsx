@@ -5,8 +5,8 @@ import React, { forwardRef } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useLocation } from 'react-router-dom'
 
-import { Box } from 'ui/src/components-v2/box'
-import { Text } from 'ui/src/components-v2/typography'
+import { Box } from 'ui/src/components/box'
+import { Text } from 'ui/src/components/typography'
 import { CoinsIcon, Home2Icon, Settings2Icon, Swap2Icon, SwitchHorizontal } from 'ui/src/components/icons'
 
 import ConnectButton from '@src/components/connect-button'

@@ -1,10 +1,10 @@
 import clsx from 'clsx'
 import React, { useState } from 'react'
 
-import { Box } from 'ui/src/components-v2/box'
-import { Button } from 'ui/src/components-v2/button'
-import { DialogRoot, DialogContent, DialogOverlay, DialogPortal } from 'ui/src/components-v2/dialog'
-import { Text } from 'ui/src/components-v2/typography'
+import { Box } from 'ui/src/components/box'
+import { Button } from 'ui/src/components/button'
+import { DialogRoot, DialogContent, DialogOverlay, DialogPortal } from 'ui/src/components/dialog'
+import { Text } from 'ui/src/components/typography'
 import { ArrowLeftIcon, ChevronDown2Icon, LockIcon } from 'ui/src/components/icons'
 
 import * as dialogStyles from '@src/components/styles/dialog-styles.css'

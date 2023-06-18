@@ -5,8 +5,8 @@ import { AnimatePresence } from 'framer-motion'
 import React, { forwardRef } from 'react'
 import { Link, Route, Routes, useLocation } from 'react-router-dom'
 
-import { Box } from 'ui/src/components-v2/box'
-import { Text } from 'ui/src/components-v2/typography'
+import { Box } from 'ui/src/components/box'
+import { Text } from 'ui/src/components/typography'
 import { HomeIcon , ArrowLeftIcon, ChevronDown3Icon, ChevronLeftIcon } from 'ui/src/components/icons'
 
 import { AnimatedPage } from '@src/components/animated-page'

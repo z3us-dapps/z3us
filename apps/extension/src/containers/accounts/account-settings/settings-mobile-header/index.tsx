@@ -1,7 +1,7 @@
 import clsx from 'clsx'
 import React, { forwardRef } from 'react'
 
-import { Box } from 'ui/src/components-v2/box'
+import { Box } from 'ui/src/components/box'
 
 import { WalletDropdown } from '@src/components/wallet-dropdown'
 import { Z3usLogo } from '@src/components/z3us-logo-babylon'

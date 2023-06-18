@@ -6,8 +6,8 @@ import React, { forwardRef } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Navigate, Route, Routes, useLocation, useMatch } from 'react-router-dom'
 
-import { Box } from 'ui/src/components-v2/box'
-import { Text } from 'ui/src/components-v2/typography'
+import { Box } from 'ui/src/components/box'
+import { Text } from 'ui/src/components/typography'
 
 import { AnimatedPage } from '@src/components/animated-page'
 import { Link } from '@src/components/link'

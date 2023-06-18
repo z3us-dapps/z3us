@@ -4,8 +4,8 @@ import React, { useCallback, useContext, useEffect, useState } from 'react'
 import { VirtuosoGrid } from 'react-virtuoso'
 import { useTimeout } from 'usehooks-ts'
 
-import { Box } from 'ui/src/components-v2/box'
-import { Text } from 'ui/src/components-v2/typography'
+import { Box } from 'ui/src/components/box'
+import { Text } from 'ui/src/components/typography'
 
 import { Link } from '@src/components/link'
 import * as skeletonStyles from '@src/components/styles/skeleton-loading.css'

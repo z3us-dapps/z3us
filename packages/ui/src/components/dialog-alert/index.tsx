@@ -1,7 +1,7 @@
 import * as AlertDialogPrimitive from '@radix-ui/react-dialog'
 import React from 'react'
 
-import { LoadingBarsIcon } from '../../components/icons'
+import { LoadingBarsIcon } from "../icons"
 import { Box } from '../box'
 import { Button, type TStyleVariant } from '../button'
 import { Text } from '../typography'

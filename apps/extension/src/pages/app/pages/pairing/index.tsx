@@ -1,9 +1,9 @@
 import { Paring } from '@radixdlt/connector-extension/src/pairing/pairing'
 import React from 'react'
 
-import { Box } from 'ui/src/components-v2/box'
-import 'ui/src/components-v2/system/global.css'
-import { Text } from 'ui/src/components-v2/typography'
+import { Box } from 'ui/src/components/box'
+import 'ui/src/components/system/global.css'
+import { Text } from 'ui/src/components/typography'
 
 import { AnimatedPage } from '@src/components/animated-page'
 

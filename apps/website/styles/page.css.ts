@@ -1,6 +1,6 @@
 import { globalStyle, style } from '@vanilla-extract/css'
 
-import { sprinkles } from 'ui/src/components-v2/system/sprinkles.css'
+import { sprinkles } from 'ui/src/components/system/sprinkles.css'
 
 globalStyle('.test-class-wrapper', {
 	margin: 0,

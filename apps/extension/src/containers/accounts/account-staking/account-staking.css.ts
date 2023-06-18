@@ -1,6 +1,6 @@
 import { keyframes, style } from '@vanilla-extract/css'
 
-import { sprinkles } from 'ui/src/components-v2/system/sprinkles.css'
+import { sprinkles } from 'ui/src/components/system/sprinkles.css'
 
 export const fadeIn = keyframes({
 	'0%': { opacity: '0' },

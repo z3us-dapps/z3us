@@ -1,8 +1,8 @@
 import React, { forwardRef } from 'react'
 import { Link } from 'react-router-dom'
 
-import type { IButtonProps } from 'ui/src/components-v2/button';
-import { Button as ButtonComponent } from 'ui/src/components-v2/button'
+import type { IButtonProps } from 'ui/src/components/button';
+import { Button as ButtonComponent } from 'ui/src/components/button'
 
 interface IProps extends IButtonProps {
 	to?: string

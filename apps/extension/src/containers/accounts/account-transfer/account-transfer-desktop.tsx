@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { Box } from 'ui/src/components-v2/box'
+import { Box } from 'ui/src/components/box'
 
 import { ScrollPanel } from '@src/components/scroll-panel'
 import * as containerStyles from '@src/components/styles/container-styles.css'

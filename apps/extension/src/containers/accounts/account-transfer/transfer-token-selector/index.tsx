@@ -1,10 +1,10 @@
 import clsx, { type ClassValue } from 'clsx'
 import React, { useState } from 'react'
 
-import { Box } from 'ui/src/components-v2/box'
-import { Button, type TStyleVariant as TButtonStyleVariant } from 'ui/src/components-v2/button'
-import { type TSizeVariant, type TStyleVariant } from 'ui/src/components-v2/input'
-import { NumberInput } from 'ui/src/components-v2/number-input'
+import { Box } from 'ui/src/components/box'
+import { Button, type TStyleVariant as TButtonStyleVariant } from 'ui/src/components/button'
+import { type TSizeVariant, type TStyleVariant } from 'ui/src/components/input'
+import { NumberInput } from 'ui/src/components/number-input'
 import {
 	SelectContent,
 	SelectGroup,
@@ -15,8 +15,8 @@ import {
 	SelectSeparator,
 	SelectTrigger,
 	SelectValue,
-} from 'ui/src/components-v2/select'
-import { Text } from 'ui/src/components-v2/typography'
+} from 'ui/src/components/select'
+import { Text } from 'ui/src/components/typography'
 import { ChevronDown2Icon } from 'ui/src/components/icons'
 
 import { Link } from '@src/components/link'

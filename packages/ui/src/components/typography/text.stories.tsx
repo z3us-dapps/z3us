@@ -6,7 +6,7 @@ import { Box } from '../box'
 import Text from './text'
 
 export default {
-	title: 'components-v2/Text',
+	title: 'components/Text',
 	component: Text,
 	argTypes: {
 		backgroundColor: { control: 'color' },

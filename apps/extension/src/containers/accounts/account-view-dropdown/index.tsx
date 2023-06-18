@@ -1,9 +1,9 @@
 import clsx, { type ClassValue } from 'clsx'
 import React, { forwardRef } from 'react'
 
-import { Box } from 'ui/src/components-v2/box'
-import type { TStyleVariant } from 'ui/src/components-v2/button'
-import { Button } from 'ui/src/components-v2/button'
+import { Box } from 'ui/src/components/box'
+import type { TStyleVariant } from 'ui/src/components/button'
+import { Button } from 'ui/src/components/button'
 import {
 	DropdownMenu,
 	DropdownMenuArrow,
@@ -14,9 +14,9 @@ import {
 	DropdownMenuRadioGroup,
 	DropdownMenuRadioItem,
 	DropdownMenuTrigger,
-} from 'ui/src/components-v2/dropdown-menu'
-import SimpleBar from 'ui/src/components-v2/simple-bar'
-import { Text } from 'ui/src/components-v2/typography'
+} from 'ui/src/components/dropdown-menu'
+import SimpleBar from 'ui/src/components/simple-bar'
+import { Text } from 'ui/src/components/typography'
 import { CheckIcon, ChevronDownIcon } from 'ui/src/components/icons'
 
 import { TokenImageIcon } from '@src/components/token-image-icon'

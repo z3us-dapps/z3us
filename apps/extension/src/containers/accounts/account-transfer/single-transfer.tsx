@@ -1,13 +1,13 @@
 import React from 'react'
 
-import { Box } from 'ui/src/components-v2/box'
-import { Button } from 'ui/src/components-v2/button'
+import { Box } from 'ui/src/components/box'
+import { Button } from 'ui/src/components/button'
 import {
 	DropdownMenuItemIndicator,
 	DropdownMenuRadioItem,
 	DropdownMenuVirtuoso,
-} from 'ui/src/components-v2/dropdown-menu'
-import { Text } from 'ui/src/components-v2/typography'
+} from 'ui/src/components/dropdown-menu'
+import { Text } from 'ui/src/components/typography'
 import { Check2Icon, CheckCircleIcon, ChevronDown2Icon, WriteNoteIcon } from 'ui/src/components/icons'
 
 import * as plainButtonStyles from '@src/components/styles/plain-button-styles.css'

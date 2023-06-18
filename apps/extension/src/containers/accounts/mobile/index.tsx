@@ -2,7 +2,7 @@ import { AnimatePresence } from 'framer-motion'
 import React from 'react'
 import { Route, Routes } from 'react-router-dom'
 
-import { Box } from 'ui/src/components-v2/box'
+import { Box } from 'ui/src/components/box'
 
 import { AnimatedPage } from '@src/components/animated-page'
 import { routes } from '@src/constants'

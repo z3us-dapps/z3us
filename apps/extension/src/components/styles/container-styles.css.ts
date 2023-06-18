@@ -1,6 +1,6 @@
 import { globalKeyframes, globalStyle, style } from '@vanilla-extract/css'
 
-import { darkMode, sprinkles } from 'ui/src/components-v2/system/sprinkles.css'
+import { darkMode, sprinkles } from 'ui/src/components/system/sprinkles.css'
 
 export const containerWrapper = style([
 	sprinkles({

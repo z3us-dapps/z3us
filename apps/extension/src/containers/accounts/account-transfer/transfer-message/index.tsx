@@ -1,9 +1,9 @@
 import React from 'react'
 
-import { Box } from 'ui/src/components-v2/box'
-import { Checkbox } from 'ui/src/components-v2/checkbox'
-import { type FormElement, Input, type TStyleVariant } from 'ui/src/components-v2/input'
-import { Text } from 'ui/src/components-v2/typography'
+import { Box } from 'ui/src/components/box'
+import { Checkbox } from 'ui/src/components/checkbox'
+import { type FormElement, Input, type TStyleVariant } from 'ui/src/components/input'
+import { Text } from 'ui/src/components/typography'
 
 import { ShowHidePanel } from '@src/components/show-hide-panel'
 

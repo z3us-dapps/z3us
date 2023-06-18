@@ -3,8 +3,8 @@
 // import { block } from "million/react";
 import React from 'react'
 
-import { Box } from 'ui/src/components-v2/box'
-import { Text } from 'ui/src/components-v2/typography'
+import { Box } from 'ui/src/components/box'
+import { Text } from 'ui/src/components/typography'
 
 import * as styles from './landing-page.css'
 

@@ -2,7 +2,7 @@ import * as SelectPrimitive from '@radix-ui/react-select'
 import clsx, { type ClassValue } from 'clsx'
 import React, { forwardRef } from 'react'
 
-import { ArrowDownIcon, ArrowUpIcon, Check2Icon, ChevronDown2Icon } from '../../components/icons'
+import { ArrowDownIcon, ArrowUpIcon, Check2Icon, ChevronDown2Icon } from "../icons"
 import { Box } from '../box'
 import { Button } from '../button'
 import { Text } from '../typography'

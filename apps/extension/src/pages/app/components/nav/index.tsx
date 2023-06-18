@@ -2,8 +2,8 @@ import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { toast } from 'sonner'
 
-import { Box } from 'ui/src/components-v2/box'
-import { darkThemeClass, lightThemeClass } from 'ui/src/components-v2/system/theme.css'
+import { Box } from 'ui/src/components/box'
+import { darkThemeClass, lightThemeClass } from 'ui/src/components/system/theme.css'
 import { CheckIcon, ExternalLinkIcon } from 'ui/src/components/icons'
 
 import * as styles from './styles.css'

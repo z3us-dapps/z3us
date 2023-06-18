@@ -7,11 +7,11 @@ import {
 	AccordionItem,
 	AccordionRoot,
 	AccordionTrigger,
-} from 'ui/src/components-v2/accordion'
-import { Box } from 'ui/src/components-v2/box'
-import { Button } from 'ui/src/components-v2/button'
-import { ToolTip } from 'ui/src/components-v2/tool-tip'
-import { Text } from 'ui/src/components-v2/typography'
+} from 'ui/src/components/accordion'
+import { Box } from 'ui/src/components/box'
+import { Button } from 'ui/src/components/button'
+import { ToolTip } from 'ui/src/components/tool-tip'
+import { Text } from 'ui/src/components/typography'
 import { CheckCircleIcon, ChevronDown2Icon, CirclePlusIcon, TrashIcon, WriteNoteIcon } from 'ui/src/components/icons'
 
 import * as plainButtonStyles from '@src/components/styles/plain-button-styles.css'

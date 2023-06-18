@@ -1,8 +1,8 @@
 /* eslint-disable  @typescript-eslint/no-unused-vars, react/no-array-index-key */
 import React from 'react'
 
-import { Box } from 'ui/src/components-v2/box'
-import { Text } from 'ui/src/components-v2/typography'
+import { Box } from 'ui/src/components/box'
+import { Text } from 'ui/src/components/typography'
 
 import { CopyAddressButton } from '@src/components/copy-address-button'
 import { getShortAddress } from '@src/utils/string-utils'

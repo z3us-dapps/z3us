@@ -5,9 +5,9 @@ import { useLocation } from 'react-router-dom'
 import { Virtuoso } from 'react-virtuoso'
 import { useTimeout } from 'usehooks-ts'
 
-import { Box } from 'ui/src/components-v2/box'
-import { ToolTip } from 'ui/src/components-v2/tool-tip'
-import { Text } from 'ui/src/components-v2/typography'
+import { Box } from 'ui/src/components/box'
+import { ToolTip } from 'ui/src/components/tool-tip'
+import { Text } from 'ui/src/components/typography'
 import { ShareIcon } from 'ui/src/components/icons'
 
 import { Button } from '@src/components/button'

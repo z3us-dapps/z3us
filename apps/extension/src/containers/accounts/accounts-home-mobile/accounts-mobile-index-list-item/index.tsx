@@ -4,8 +4,8 @@ import { AnimatePresence, motion } from 'framer-motion'
 import React, { forwardRef, useContext } from 'react'
 import { useTimeout } from 'usehooks-ts'
 
-import { Box } from 'ui/src/components-v2/box'
-import { Text } from 'ui/src/components-v2/typography'
+import { Box } from 'ui/src/components/box'
+import { Text } from 'ui/src/components/typography'
 import { ChevronRightIcon } from 'ui/src/components/icons'
 
 import { Link } from '@src/components/link'

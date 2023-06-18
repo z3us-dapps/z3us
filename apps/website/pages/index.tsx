@@ -7,9 +7,9 @@ import { useRouter } from 'next/router'
 import React, { useEffect, useState } from 'react'
 import { Link, Route, HashRouter as Router, Routes, redirect } from 'react-router-dom'
 
-import { Box } from 'ui/src/components-v2/box'
-import { Button } from 'ui/src/components-v2/button'
-import { Text } from 'ui/src/components-v2/typography'
+import { Box } from 'ui/src/components/box'
+import { Button } from 'ui/src/components/button'
+import { Text } from 'ui/src/components/typography'
 import { LoadingBarsIcon } from 'ui/src/components/icons'
 
 const App = () => {

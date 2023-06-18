@@ -4,7 +4,7 @@ import React, { forwardRef, useCallback, useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Virtuoso } from 'react-virtuoso'
 
-import { Box } from 'ui/src/components-v2/box'
+import { Box } from 'ui/src/components/box'
 import { isEmptyArray } from 'ui/src/utils/assertion'
 
 import {

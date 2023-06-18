@@ -2,7 +2,7 @@ import * as DialogPrimitive from '@radix-ui/react-dialog'
 import clsx, { type ClassValue } from 'clsx'
 import React from 'react'
 
-import { Close2Icon } from '../../components/icons'
+import { Close2Icon } from "../icons"
 import { Box } from '../box'
 import { Button } from '../button'
 import { SimpleBarStyled } from '../simple-bar-styled'

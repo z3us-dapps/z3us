@@ -3,9 +3,9 @@ import React, { forwardRef, useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useLocation, useNavigate } from 'react-router-dom'
 
-import { Box } from 'ui/src/components-v2/box'
-import type { TStyleVariant } from 'ui/src/components-v2/button';
-import { Button } from 'ui/src/components-v2/button'
+import { Box } from 'ui/src/components/box'
+import type { TStyleVariant } from 'ui/src/components/button';
+import { Button } from 'ui/src/components/button'
 import {
 	DropdownMenu,
 	DropdownMenuArrow,
@@ -14,8 +14,8 @@ import {
 	DropdownMenuRadioGroup,
 	DropdownMenuRadioItem,
 	DropdownMenuTrigger,
-} from 'ui/src/components-v2/dropdown-menu'
-import { Text } from 'ui/src/components-v2/typography'
+} from 'ui/src/components/dropdown-menu'
+import { Text } from 'ui/src/components/typography'
 import { CheckIcon, ChevronDownIcon } from 'ui/src/components/icons'
 
 import { accountMenuSlugs } from '@src/constants'

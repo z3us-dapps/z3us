@@ -6,7 +6,7 @@ import { useLocation, useNavigate, useSearchParams } from 'react-router-dom'
 import { Virtuoso } from 'react-virtuoso'
 import { useTimeout } from 'usehooks-ts'
 
-import { Box } from 'ui/src/components-v2/box'
+import { Box } from 'ui/src/components/box'
 import {
 	DialogClose,
 	DialogContent,
@@ -14,12 +14,12 @@ import {
 	DialogPortal,
 	DialogRoot,
 	DialogTrigger,
-} from 'ui/src/components-v2/dialog'
-import type { FormElement } from 'ui/src/components-v2/input'
-import { Input } from 'ui/src/components-v2/input'
-import { ScrollArea } from 'ui/src/components-v2/scroll-area'
-import { ToolTip } from 'ui/src/components-v2/tool-tip'
-import { Text } from 'ui/src/components-v2/typography'
+} from 'ui/src/components/dialog'
+import type { FormElement } from 'ui/src/components/input'
+import { Input } from 'ui/src/components/input'
+import { ScrollArea } from 'ui/src/components/scroll-area'
+import { ToolTip } from 'ui/src/components/tool-tip'
+import { Text } from 'ui/src/components/typography'
 import { Close2Icon, SearchIcon, ShareIcon } from 'ui/src/components/icons'
 
 import { Button } from '@src/components/button'

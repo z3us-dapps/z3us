@@ -1,7 +1,7 @@
 import React, { forwardRef } from 'react'
 import { type LinkProps, Link as RouterLink } from 'react-router-dom'
 
-import LinkComponent, { type LProps } from 'ui/src/components-v2/typography/link'
+import LinkComponent, { type LProps } from 'ui/src/components/typography/link'
 
 interface ILinkProps extends LProps {
 	to?: string

@@ -7,9 +7,9 @@ import useMeasure from 'react-use-measure'
 import useDeepCompareEffect from 'use-deep-compare-effect'
 import { useImmer } from 'use-immer'
 
-import { Box } from 'ui/src/components-v2/box'
-import { Button } from 'ui/src/components-v2/button'
-import { Text } from 'ui/src/components-v2/typography'
+import { Box } from 'ui/src/components/box'
+import { Button } from 'ui/src/components/button'
+import { Text } from 'ui/src/components/typography'
 import { LoadingBarsIcon } from 'ui/src/components/icons'
 
 import { AnimatedPage } from '@src/components/animated-page'

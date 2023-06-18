@@ -1,8 +1,8 @@
 import clsx from 'clsx'
 import React, { forwardRef, useState } from 'react'
 
-import { Box } from 'ui/src/components-v2/box'
-import { ScrollArea } from 'ui/src/components-v2/scroll-area'
+import { Box } from 'ui/src/components/box'
+import { ScrollArea } from 'ui/src/components/scroll-area'
 
 import { MobileHeaderNavigation } from '@src/containers/accounts/navigation'
 

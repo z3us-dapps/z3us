@@ -3,7 +3,7 @@ import { AnimatePresence } from 'framer-motion'
 import React from 'react'
 import { Route, Routes, useLocation } from 'react-router-dom'
 
-import { Box } from 'ui/src/components-v2/box'
+import { Box } from 'ui/src/components/box'
 
 import { AnimatedPage } from '@src/components/animated-page'
 import { ScrollPanel } from '@src/components/scroll-panel'

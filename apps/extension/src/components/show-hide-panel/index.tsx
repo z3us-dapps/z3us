@@ -2,7 +2,7 @@ import clsx, { type ClassValue } from 'clsx'
 import { AnimatePresence, motion } from 'framer-motion'
 import React from 'react'
 
-import { Box } from 'ui/src/components-v2/box'
+import { Box } from 'ui/src/components/box'
 
 import * as styles from './show-hide-panel.css'
 

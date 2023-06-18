@@ -1,7 +1,7 @@
 import { Head, Html, Main, NextScript } from 'next/document'
 import React from 'react'
 
-import { lightThemeClass } from 'ui/src/components-v2/system/theme.css'
+import { lightThemeClass } from 'ui/src/components/system/theme.css'
 
 // eslint-disable-next-line react/function-component-definition
 export default function Document() {

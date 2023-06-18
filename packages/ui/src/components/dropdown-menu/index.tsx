@@ -4,7 +4,7 @@ import React, { forwardRef, useState } from 'react'
 import useMeasure from 'react-use-measure'
 import { Virtuoso } from 'react-virtuoso'
 
-import { Check2Icon } from '../../components/icons'
+import { Check2Icon } from "../icons"
 import { Box } from '../box'
 import SimpleBar from '../simple-bar'
 import { Text } from '../typography'

@@ -6,9 +6,9 @@ import useMeasure from 'react-use-measure'
 import { Cell, Pie, PieChart, ResponsiveContainer, Sector, Tooltip } from 'recharts'
 import { useTimeout } from 'usehooks-ts'
 
-import { Box } from 'ui/src/components-v2/box'
-import { ToolTip } from 'ui/src/components-v2/tool-tip'
-import { Text } from 'ui/src/components-v2/typography'
+import { Box } from 'ui/src/components/box'
+import { ToolTip } from 'ui/src/components/tool-tip'
+import { Text } from 'ui/src/components/typography'
 import { ArrowLeftIcon, ArrowRightIcon, Close2Icon } from 'ui/src/components/icons'
 
 import { Button } from '@src/components/button'

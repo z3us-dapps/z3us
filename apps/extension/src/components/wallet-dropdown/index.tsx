@@ -4,9 +4,9 @@ import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router-dom'
 
-import { Avatar } from 'ui/src/components-v2/avatar'
-import { Box } from 'ui/src/components-v2/box'
-import { Button } from 'ui/src/components-v2/button'
+import { Avatar } from 'ui/src/components/avatar'
+import { Box } from 'ui/src/components/box'
+import { Button } from 'ui/src/components/button'
 import {
 	DropdownMenu,
 	DropdownMenuArrow,
@@ -20,9 +20,9 @@ import {
 	DropdownMenuRadioItem,
 	DropdownMenuSeparator,
 	DropdownMenuTrigger,
-} from 'ui/src/components-v2/dropdown-menu'
-import SimpleBar from 'ui/src/components-v2/simple-bar'
-import { Text } from 'ui/src/components-v2/typography'
+} from 'ui/src/components/dropdown-menu'
+import SimpleBar from 'ui/src/components/simple-bar'
+import { Text } from 'ui/src/components/typography'
 import { CheckIcon, LockIcon, Settings2Icon, ShareIcon } from 'ui/src/components/icons'
 
 import { Link } from '@src/components/link'

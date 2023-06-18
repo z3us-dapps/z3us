@@ -3,8 +3,8 @@ import NextLink from 'next/link'
 import React from 'react'
 import { Link, Route, HashRouter as Router, Routes } from 'react-router-dom'
 
-import { Box } from 'ui/src/components-v2/box'
-import { Text } from 'ui/src/components-v2/typography'
+import { Box } from 'ui/src/components/box'
+import { Text } from 'ui/src/components/typography'
 
 import * as styles from './app-page.css'
 

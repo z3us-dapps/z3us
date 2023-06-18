@@ -2,7 +2,7 @@ import clsx from 'clsx'
 import React from 'react'
 import { Link as LinkRouter } from 'react-router-dom'
 
-import { Box } from 'ui/src/components-v2/box'
+import { Box } from 'ui/src/components/box'
 
 import { accountMenuSlugs } from '@src/constants'
 

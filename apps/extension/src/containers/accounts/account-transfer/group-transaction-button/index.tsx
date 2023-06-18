@@ -1,10 +1,10 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import React from 'react'
 
-import { Box } from 'ui/src/components-v2/box'
-import { Button } from 'ui/src/components-v2/button'
-import { PopoverContent, PopoverPortal, PopoverRoot, PopoverTrigger } from 'ui/src/components-v2/popover'
-import { Text } from 'ui/src/components-v2/typography'
+import { Box } from 'ui/src/components/box'
+import { Button } from 'ui/src/components/button'
+import { PopoverContent, PopoverPortal, PopoverRoot, PopoverTrigger } from 'ui/src/components/popover'
+import { Text } from 'ui/src/components/typography'
 import { InformationIcon, PlusIcon } from 'ui/src/components/icons'
 
 interface IGroupTransactionButtonProps {

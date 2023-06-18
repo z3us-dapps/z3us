@@ -1,7 +1,7 @@
 /* eslint-disable react/button-has-type */
 import React from 'react'
 
-import { Box } from 'ui/src/components-v2/box'
+import { Box } from 'ui/src/components/box'
 
 import { AnimatedPage } from '@src/components/animated-page'
 import { useAccounts } from '@src/hooks/dapp/use-accounts'
@@ -68,7 +68,7 @@ CREATE_FUNGIBLE_RESOURCE
         "name", "MyResource",                                        # Resource Name
         "symbol", "RSRC",                                            # Resource Symbol
         "description", "A very innovative and important resource"    # Resource Description
-    ) 
+    )
     Map<Enum, Tuple>(
         Enum("ResourceMethodAuthKey::Withdraw"), Tuple(Enum("AccessRule::AllowAll"), Enum("AccessRule::DenyAll")),
         Enum("ResourceMethodAuthKey::Deposit"), Tuple(Enum("AccessRule::AllowAll"), Enum("AccessRule::DenyAll"))
@@ -76,7 +76,7 @@ CREATE_FUNGIBLE_RESOURCE
     Some(Decimal("500000"));
 
   CALL_METHOD
-    ComponentAddress("${accounts[0].address}") 
+    ComponentAddress("${accounts[0].address}")
     "deposit_batch"
     Expression("ENTIRE_WORKTOP");
 `)

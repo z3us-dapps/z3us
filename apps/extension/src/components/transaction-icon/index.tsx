@@ -2,9 +2,9 @@ import * as AvatarPrimitive from '@radix-ui/react-avatar'
 import clsx, { type ClassValue } from 'clsx'
 import React, { forwardRef } from 'react'
 
-import { Box } from 'ui/src/components-v2/box'
-import { type TThemeColorKey } from 'ui/src/components-v2/system/theme.css'
-import { Text } from 'ui/src/components-v2/typography'
+import { Box } from 'ui/src/components/box'
+import { type TThemeColorKey } from 'ui/src/components/system/theme.css'
+import { Text } from 'ui/src/components/typography'
 import { DownLeftIcon, UpRightIcon } from 'ui/src/components/icons'
 
 import * as styles from './transaction-icon.css'

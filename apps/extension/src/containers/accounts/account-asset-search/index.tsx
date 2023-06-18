@@ -4,8 +4,8 @@ import clsx from 'clsx'
 import React from 'react'
 import { useLocation } from 'react-router-dom'
 
-import { Box } from 'ui/src/components-v2/box'
-import { ToolTip } from 'ui/src/components-v2/tool-tip'
+import { Box } from 'ui/src/components/box'
+import { ToolTip } from 'ui/src/components/tool-tip'
 import { ArrowUpIcon, SearchIcon } from 'ui/src/components/icons'
 
 import { Button } from '@src/components/button'

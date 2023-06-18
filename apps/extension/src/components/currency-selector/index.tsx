@@ -1,7 +1,7 @@
 /* eslint-disable */
 import React from 'react'
 
-import { SelectSimple as SelectBox } from 'ui/src/components-v2/select'
+import { SelectSimple as SelectBox } from 'ui/src/components/select'
 
 import { useSupportedCurrencies } from '@src/hooks/queries/market'
 import { useNoneSharedStore } from '@src/hooks/use-store'

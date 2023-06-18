@@ -1,7 +1,7 @@
 import React from 'react'
 
-import { Box } from 'ui/src/components-v2/box'
-import { Button } from 'ui/src/components-v2/button'
+import { Box } from 'ui/src/components/box'
+import { Button } from 'ui/src/components/button'
 import { EditIcon, TrashIcon } from 'ui/src/components/icons'
 
 interface IAddressEditButtonsCellProps {

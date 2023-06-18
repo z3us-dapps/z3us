@@ -1,8 +1,8 @@
 import clsx from 'clsx'
 import React from 'react'
 
-import { Box } from 'ui/src/components-v2/box'
-import { type TTheme, ToolTip } from 'ui/src/components-v2/tool-tip'
+import { Box } from 'ui/src/components/box'
+import { type TTheme, ToolTip } from 'ui/src/components/tool-tip'
 import { DownLeft2Icon, QrCode2Icon, UpRight2Icon } from 'ui/src/components/icons'
 
 import { Button } from '@src/components/button'

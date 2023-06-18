@@ -2,9 +2,9 @@
 import React, { useRef } from 'react'
 import { Area, AreaChart, CartesianGrid, ResponsiveContainer, Tooltip, type TooltipProps, XAxis, YAxis } from 'recharts'
 
-import { Box } from 'ui/src/components-v2/box'
-import { ToolTip } from 'ui/src/components-v2/tool-tip'
-import { Text } from 'ui/src/components-v2/typography'
+import { Box } from 'ui/src/components/box'
+import { ToolTip } from 'ui/src/components/tool-tip'
+import { Text } from 'ui/src/components/typography'
 import { Close2Icon } from 'ui/src/components/icons'
 
 import { Button } from '@src/components/button'

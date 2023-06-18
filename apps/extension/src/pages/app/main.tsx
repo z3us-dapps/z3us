@@ -6,7 +6,7 @@ import { QueryClientProvider } from 'react-query'
 import { ReactQueryDevtools } from 'react-query/devtools'
 import { HashRouter } from 'react-router-dom'
 
-import 'ui/src/components-v2/system/global.css'
+import 'ui/src/components/system/global.css'
 
 import { config } from '@src/config'
 import { RdtProvider } from '@src/context/rdt-provider'

@@ -3,7 +3,7 @@ import type { ComponentMeta, ComponentStory } from '@storybook/react'
 import React from 'react'
 
 import * as icons from '.'
-import { Box } from '../../components-v2/box'
+import { Box } from "../box"
 // import { Flex } from '../atoms/flex'
 // import { Tooltip, TooltipArrow, TooltipContent, TooltipProvider, TooltipTrigger } from '../tool-tip'
 import Icon from './plus-icon'

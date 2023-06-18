@@ -1,6 +1,6 @@
 import { keyframes, style } from '@vanilla-extract/css'
 
-import { darkMode, sprinkles } from 'ui/src/components-v2/system/sprinkles.css'
+import { darkMode, sprinkles } from 'ui/src/components/system/sprinkles.css'
 
 // TODO can import this from components, alert dialog or dialog
 export const fadeIn = keyframes({
