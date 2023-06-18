@@ -13,6 +13,9 @@ const TempNav = () => {
 	const [isMounted, setIsMounted] = useState<boolean>(false)
 
 	useEffect(() => {
+		document.documentElement.style.setProperty('--font-sans', '"Inter"')
+		document.documentElement.style.setProperty('--font-mono', '"Inter"')
+
 		const element = window.document.body
 		const match = window.matchMedia('(prefers-color-scheme: dark)')
 		const isDarkMode = match.matches
