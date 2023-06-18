@@ -3,16 +3,19 @@ import { Link } from 'react-router-dom'
 import { toast } from 'sonner'
 
 import { Box } from 'ui/src/components/box'
-import { darkThemeClass, lightThemeClass } from 'ui/src/components/system/theme.css'
 import { CheckIcon, ExternalLinkIcon } from 'ui/src/components/icons'
+import { darkThemeClass, lightThemeClass } from 'ui/src/components/system/theme.css'
 
 import * as styles from './styles.css'
 
-const TempNav: React.FC = () => {
+const TempNav = () => {
 	const [isDarkTheme, setIsDarkTheme] = useState<boolean>(false)
 	const [isMounted, setIsMounted] = useState<boolean>(false)
 
 	useEffect(() => {
+		document.documentElement.style.setProperty('--font-sans', '"Inter"')
+		document.documentElement.style.setProperty('--font-mono', '"Inter"')
+
 		const element = window.document.body
 		const match = window.matchMedia('(prefers-color-scheme: dark)')
 		const isDarkMode = match.matches

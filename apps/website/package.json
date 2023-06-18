@@ -17,6 +17,7 @@
 		"clsx": "^1.2.1",
 		"contentlayer": "^0.3.3",
 		"framer-motion": "^10.12.16",
+		"immer": "^10.0.2",
 		"next": "^13.4.2",
 		"next-contentlayer": "^0.3.3",
 		"next-seo": "^6.0.0",
