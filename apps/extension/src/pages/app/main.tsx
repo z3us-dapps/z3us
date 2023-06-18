@@ -1,17 +1,16 @@
 import { enableMapSet } from 'immer'
 import React from 'react'
 import * as ReactDOM from 'react-dom/client'
-import { I18nextProvider } from 'react-i18next'
 import { QueryClientProvider } from 'react-query'
 import { ReactQueryDevtools } from 'react-query/devtools'
 import { HashRouter } from 'react-router-dom'
 
+import I18Provider from 'ui/src/components/i18n'
 import 'ui/src/components/system/global.css'
 
 import { config } from '@src/config'
 import { RdtProvider } from '@src/context/rdt-provider'
 import { NoneSharedStoreProvider } from '@src/context/state-provider'
-import i18n from '@src/i18n/i18n'
 import newQueryClient from '@src/services/react-query'
 
 import App from './app'
@@ -24,7 +23,7 @@ enableMapSet()
 
 ReactDOM.createRoot(container).render(
 	<React.StrictMode>
-		<I18nextProvider i18n={i18n}>
+		<I18Provider>
 			<QueryClientProvider client={queryClient}>
 				<RdtProvider>
 					<NoneSharedStoreProvider>
@@ -35,6 +34,6 @@ ReactDOM.createRoot(container).render(
 					</NoneSharedStoreProvider>
 				</RdtProvider>
 			</QueryClientProvider>
-		</I18nextProvider>
+		</I18Provider>
 	</React.StrictMode>,
 )
