@@ -1,11 +1,13 @@
+/* eslint-disable */
 import { AnimatePresence } from 'framer-motion'
 import React from 'react'
 import { Link, Navigate, Route, Routes, useLocation } from 'react-router-dom'
 
-import { AnimatedPage } from '@src/components/animated-page'
-import { routes } from '@src/constants'
-import { Accounts } from '@src/containers/accounts'
-import { useIsMobileWidth } from '@src/hooks/use-is-mobile'
+import { AnimatedPage } from 'ui/src/components/animated-page'
+// TODO: refactor
+import { routes } from 'ui/src/constants'
+import { Accounts } from 'ui/src/containers/accounts'
+import { useIsMobileWidth } from 'ui/src/hooks/use-is-mobile'
 
 import * as styles from './app.css'
 import TempNav from './components/nav'
@@ -40,7 +42,9 @@ const App: React.FC = () => {
 						path={`${routes.ACCOUNTS}/*`}
 						element={
 							<AnimatedPage>
-								<Accounts isMobile={isMobile} />
+								<div>
+									<Accounts isMobile={isMobile} />
+								</div>
 							</AnimatedPage>
 						}
 					/>

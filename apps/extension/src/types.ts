@@ -1,6 +1,7 @@
 import type { RadixDappToolkit } from '@radixdlt/radix-dapp-toolkit'
 
-import type { LIST_ITEM_ACTIVITY, LIST_ITEM_ASSET, LIST_ITEM_ASSET_TYPE, LIST_ITEM_INDEX } from '@src/constants'
+// @TODO: improve
+import type { LIST_ITEM_ACTIVITY, LIST_ITEM_ASSET, LIST_ITEM_ASSET_TYPE, LIST_ITEM_INDEX } from 'ui/src/constants'
 
 export type Rdt = ReturnType<typeof RadixDappToolkit>
 

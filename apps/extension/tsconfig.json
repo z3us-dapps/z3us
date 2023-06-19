@@ -1,22 +1,11 @@
 {
 	"extends": "tsconfig/nextjs.json",
 	"compilerOptions": {
-		"baseUrl": ".",
 		"paths": {
-			"@src/*": ["src/*"],
+			"@src/*": ["./apps/extension/src/*"]
 		},
-
 		"tsBuildInfoFile": ".build-cache/tsconfig.tsbuildinfo"
 	},
-	"include": [
-		"src/**/*.json",
-		"src/**/*.ts",
-		"src/**/*.tsx",
-		"src/**/*.d.ts",
-		"tests/**/*.ts",
-	],
-	"references": [
-		{ "path": "./tsconfig.node.json" },
-		{ "path": "./tsconfig.radix.json" },
-	]
+	"include": ["src/**/*.json", "src/**/*.ts", "src/**/*.tsx", "src/**/*.d.ts", "tests/**/*.ts"],
+	"references": [{ "path": "./tsconfig.node.json" }, { "path": "./tsconfig.radix.json" }]
 }

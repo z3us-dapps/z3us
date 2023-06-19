@@ -18,7 +18,7 @@ const fontMetrics = {
 	body: {
 		...interFontMetrics,
 	},
-	// TODO: better font suisse mono ? jetbrains mono ?
+	// TODO: better mono font suisse mono ? jetbrains mono ?
 	code: {
 		...interFontMetrics,
 	},
@@ -324,12 +324,9 @@ export const themes = {
 /**
  * Light Theme
  */
-// TODO: fix type any
-// will need to resolve -> toasts-container/toasts-container.css.ts#L24
 export const [lightThemeClass, vars] = createTheme(themeShape)
 
 /**
- * Dark Theme tools
- * note: validated by light theme's vars so we make sure it has the same shape
+ * Dark Theme
  */
 export const darkThemeClass = createTheme(vars, darkTheme)

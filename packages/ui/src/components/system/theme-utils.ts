@@ -1,4 +1,4 @@
-import type { GlobalStyleRule, StyleRule} from '@vanilla-extract/css';
+import type { GlobalStyleRule, StyleRule } from '@vanilla-extract/css'
 import { globalStyle } from '@vanilla-extract/css'
 import type { Properties, SimplePseudos } from 'csstype'
 import isEqual from 'lodash/isEqual'

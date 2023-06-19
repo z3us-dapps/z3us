@@ -1,18 +1,31 @@
 {
 	"cSpell.words": [
+		"bignumber",
+		"capsizecss",
 		"clsx",
+		"contentlayer",
+		"csstype",
 		"fira",
 		"immer",
 		"monospace",
+		"nextjs",
 		"Nextra",
 		"nextui",
+		"nocheck",
+		"noemit",
+		"persistor",
+		"radixdlt",
+		"simplebar",
 		"Söhne",
+		"sonner",
+		"tsup",
 		"unoptimized",
 		"usehooks",
 		"useImmer",
 		"xlarge",
 		"xsmall",
 		"xxlarge",
-		"xxxlarge"
+		"xxxlarge",
+		"zustand"
 	]
 }

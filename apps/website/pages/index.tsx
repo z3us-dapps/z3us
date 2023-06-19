@@ -9,8 +9,8 @@ import { Link, Route, HashRouter as Router, Routes, redirect } from 'react-route
 
 import { Box } from 'ui/src/components/box'
 import { Button } from 'ui/src/components/button'
-import { Text } from 'ui/src/components/typography'
 import { LoadingBarsIcon } from 'ui/src/components/icons'
+import { Text } from 'ui/src/components/typography'
 
 const App = () => {
 	const router = useRouter()

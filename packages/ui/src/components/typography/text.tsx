@@ -77,9 +77,9 @@ export const textStyles = ({
 }: TextStyleProps) =>
 	clsx(
 		styles.baseTextSprinkles,
-		styles.font[type],
-		baseline ? styles.text[size].trimmed : styles.text[size].untrimmed,
-		styles.weight[weight],
+		type && styles.font[type],
+		baseline && size ? styles.text[size].trimmed : size && styles.text[size].untrimmed,
+		weight && styles.weight[weight],
 		capitalizeFirstLetter && styles.capitalizeFirstLetter,
 		capitalize && styles.capitalize,
 		truncate && styles.truncateText,
@@ -87,7 +87,7 @@ export const textStyles = ({
 		underline === 'hover' ? styles.underlineOnHover : undefined,
 		underline === 'always' ? styles.underlineText : undefined,
 		sprinkles({
-			...(colorMap[color] && !inheritColor
+			...(color && colorMap[color] && !inheritColor
 				? {
 						color: colorMap[color],
 				  }

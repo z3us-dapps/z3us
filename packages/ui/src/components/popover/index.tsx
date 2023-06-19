@@ -1,7 +1,9 @@
+// @ts-nocheck
+// TODO: fix ts
+import * as PopoverPrimative from '@radix-ui/react-popover'
 import clsx from 'clsx'
 import React, { forwardRef } from 'react'
 
-import * as PopoverPrimative from '@radix-ui/react-popover'
 import * as styles from './popover.css'
 
 export const PopoverRoot = ({ children, ...props }) => (

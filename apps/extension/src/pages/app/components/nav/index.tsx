@@ -6,7 +6,7 @@ import { Box } from 'ui/src/components/box'
 import { CheckIcon, ExternalLinkIcon } from 'ui/src/components/icons'
 import { darkThemeClass, lightThemeClass } from 'ui/src/components/system/theme.css'
 
-import * as styles from './styles.css'
+import * as styles from './temp-nav-styles.css'
 
 const TempNav = () => {
 	const [isDarkTheme, setIsDarkTheme] = useState<boolean>(false)

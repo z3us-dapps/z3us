@@ -1,6 +1,6 @@
-import { generateId } from '@src/utils/generate-id'
+import { generateId } from 'ui/src/utils/generate-id'
 
-import type { Message, MessageAction, ResponseMessage, MessageSource } from './types'
+import type { Message, MessageAction, MessageSource, ResponseMessage } from './types'
 
 export const newMessage = (
 	action: MessageAction,

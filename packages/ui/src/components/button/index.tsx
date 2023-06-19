@@ -1,7 +1,8 @@
 import clsx from 'clsx'
 import React, { forwardRef } from 'react'
 
-import { Box } from '../box'
+import { Box } from 'ui/src/components/box'
+
 import * as styles from './button.css'
 
 export type TType = 'button' | 'submit'

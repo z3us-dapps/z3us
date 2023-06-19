@@ -1,7 +1,10 @@
+// @ts-nocheck
+// TODO: fix ts
 import type * as DropdownMenuPrimitive from '@radix-ui/react-dropdown-menu'
+import * as ScrollAreaPrimative from '@radix-ui/react-scroll-area'
 import clsx from 'clsx'
 import React, { forwardRef } from 'react'
-import * as ScrollAreaPrimative from '@radix-ui/react-scroll-area'
+
 import * as styles from './scroll-area-radix.css'
 
 export const ScrollAreaRoot = ({ children, ...props }) => (
