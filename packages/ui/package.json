@@ -52,6 +52,7 @@
 		"@capsizecss/metrics": "^1.1.1",
 		"@capsizecss/vanilla-extract": "^1.0.0",
 		"@radix-ui/popper": "^0.1.0",
+		"neverthrow": "^5.0.1",
 		"@radix-ui/react-accordion": "^1.1.1",
 		"@radix-ui/react-alert-dialog": "^1.0.4",
 		"@radix-ui/react-avatar": "^1.0.2",
