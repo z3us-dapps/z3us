@@ -47,6 +47,7 @@ const MenuItemDesktop = ({ text, href }) => {
 			{selected ? <motion.span layoutId="underline" className={styles.navigationMenuActiveLine} /> : null}
 			<Text
 				size="medium"
+				weight="medium"
 				color={null}
 				className={clsx(styles.navigationMenuLinkText, selected && styles.navigationMenuLinkTextSelected)}
 				capitalizeFirstLetter
