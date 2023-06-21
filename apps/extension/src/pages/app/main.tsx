@@ -6,12 +6,12 @@ import { ReactQueryDevtools } from 'react-query/devtools'
 import { HashRouter } from 'react-router-dom'
 
 import I18Provider from 'ui/src/components/i18n'
-import 'ui/src/components/system/global.css'
 import { RdtProvider } from 'ui/src/context/rdt-provider'
 import { NoneSharedStoreProvider } from 'ui/src/context/state-provider'
 import newQueryClient from 'ui/src/services/react-query'
 
 import { config } from '@src/config'
+import '@src/styles/global-style.css'
 
 import App from './app'
 
