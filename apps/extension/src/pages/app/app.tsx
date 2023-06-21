@@ -1,7 +1,6 @@
-/*eslint-disable */
 import { AnimatePresence } from 'framer-motion'
 import React from 'react'
-import { Link, Navigate, Route, Routes, useLocation, useNavigate, useSearchParams } from 'react-router-dom'
+import { Link, Navigate, Route, Routes, useLocation } from 'react-router-dom'
 
 import { AnimatedPage } from 'ui/src/components/animated-page'
 import { Accounts } from 'ui/src/containers/accounts'
