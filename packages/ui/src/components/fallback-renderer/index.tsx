@@ -13,7 +13,7 @@ export const FallbackRenderer: React.FC<IFallbackRendererProps> = props => {
 	const { error } = props
 
 	return (
-		<Box className={styles.chartTooltipWrapper}>
+		<Box className={styles.fallbackRendererWrapper}>
 			<Box display="flex" alignItems="center" gap="small">
 				<Text size="xsmall" color="strong">
 					oops, something went wrong

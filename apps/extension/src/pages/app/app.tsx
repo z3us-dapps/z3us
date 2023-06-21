@@ -1,18 +1,18 @@
-/* eslint-disable */
+/*eslint-disable */
 import { AnimatePresence } from 'framer-motion'
 import React from 'react'
-import { Link, Navigate, Route, Routes, useLocation } from 'react-router-dom'
+import { Link, Navigate, Route, Routes, useLocation, useNavigate, useSearchParams } from 'react-router-dom'
 
 import { AnimatedPage } from 'ui/src/components/animated-page'
-// TODO: refactor
-import { routes } from 'ui/src/constants'
 import { Accounts } from 'ui/src/containers/accounts'
+import { routes } from 'ui/src/containers/accounts/constants'
 import { useIsMobileWidth } from 'ui/src/hooks/use-is-mobile'
 
 import * as styles from './app.css'
 import TempNav from './components/nav'
 
 if (APP_RADIX && chrome?.runtime?.id) {
+	// eslint-disable-next-line no-console
 	import('@src/browser/content-script').catch(console.error)
 }
 
@@ -22,6 +22,7 @@ const Pairing = React.lazy(() => import('./pages/pairing'))
 
 const App: React.FC = () => {
 	const location = useLocation()
+
 	const locationArr = location.pathname?.split('/') ?? []
 	const isMobile = useIsMobileWidth()
 
@@ -42,9 +43,7 @@ const App: React.FC = () => {
 						path={`${routes.ACCOUNTS}/*`}
 						element={
 							<AnimatedPage>
-								<div>
-									<Accounts isMobile={isMobile} />
-								</div>
+								<Accounts isMobile={isMobile} />
 							</AnimatedPage>
 						}
 					/>
