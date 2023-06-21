@@ -15,7 +15,7 @@ import { Link } from 'ui/src/components/router-link'
 import * as skeletonStyles from 'ui/src/components/styles/skeleton-loading.css'
 import Translation from 'ui/src/components/translation'
 import { Text } from 'ui/src/components/typography'
-import { animtePageVariants } from 'ui/src/constants'
+import { animtePageVariants } from 'ui/src/containers/accounts/constants'
 
 import * as styles from './account-index-assets.css'
 

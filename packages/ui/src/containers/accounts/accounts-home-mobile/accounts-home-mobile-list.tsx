@@ -18,7 +18,7 @@ import {
 	LIST_ITEM_ASSET,
 	LIST_ITEM_ASSET_TYPE,
 	LIST_ITEM_INDEX,
-} from 'ui/src/constants'
+} from 'ui/src/containers/accounts/constants'
 import type { TListItem } from 'ui/src/types'
 import { isEmptyArray } from 'ui/src/utils/assertion'
 

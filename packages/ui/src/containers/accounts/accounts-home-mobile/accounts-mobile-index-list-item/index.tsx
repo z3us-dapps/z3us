@@ -16,7 +16,7 @@ import { ChevronRightIcon } from 'ui/src/components/icons'
 import { Link } from 'ui/src/components/router-link'
 import * as skeletonStyles from 'ui/src/components/styles/skeleton-loading.css'
 import { Text } from 'ui/src/components/typography'
-import { animtePageVariants, routes } from 'ui/src/constants'
+import { animtePageVariants, routes } from 'ui/src/containers/accounts/constants'
 import { useAccountParams } from 'ui/src/hooks/use-account-params'
 import type { TListItem } from 'ui/src/types'
 

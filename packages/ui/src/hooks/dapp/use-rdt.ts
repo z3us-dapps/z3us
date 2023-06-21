@@ -1,6 +1,8 @@
+import { type RadixDappToolkit } from '@radixdlt/radix-dapp-toolkit'
 import { useContext } from 'react'
 
 import { RdtContext } from 'ui/src/context/rdt'
-import type { Rdt } from 'ui/src/types'
+
+export type Rdt = ReturnType<typeof RadixDappToolkit>
 
 export const useRdt = (): Rdt => useContext(RdtContext)!

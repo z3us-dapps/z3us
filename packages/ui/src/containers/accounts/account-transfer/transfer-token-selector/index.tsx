@@ -22,7 +22,7 @@ import * as plainButtonStyles from 'ui/src/components/styles/plain-button-styles
 import { TokenImageIcon } from 'ui/src/components/token-image-icon'
 import { Text } from 'ui/src/components/typography'
 import { ValidationErrorMessage } from 'ui/src/components/validation-error-message'
-import { accountMenuSlugs } from 'ui/src/constants'
+import { accountMenuSlugs } from 'ui/src/containers/accounts/constants'
 // TODO: move to components outside of the containers
 import { TokenSelectorDialog } from 'ui/src/containers/accounts/token-selector-dialog'
 import { getZodError } from 'ui/src/utils/get-zod-error'

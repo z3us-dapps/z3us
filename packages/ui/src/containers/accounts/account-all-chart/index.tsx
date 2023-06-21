@@ -20,7 +20,7 @@ import { ToolTip } from 'ui/src/components/tool-tip'
 import Translation from 'ui/src/components/translation'
 import { Text } from 'ui/src/components/typography'
 import { Z3usLoading } from 'ui/src/components/z3us-loading'
-import { ACCOUNTS_ALL, animtePageVariants } from 'ui/src/constants'
+import { ACCOUNTS_ALL, animtePageVariants } from 'ui/src/containers/accounts/constants'
 import { useAccountParams } from 'ui/src/hooks/use-account-params'
 import { getShortAddress } from 'ui/src/utils/string-utils'
 

@@ -17,7 +17,7 @@ import {
 	LIST_ITEM_INDEX,
 	SEARCH_ACTIVITY_PARAM,
 	routes,
-} from 'ui/src/constants'
+} from 'ui/src/containers/accounts/constants'
 import { MobileHeaderNavigation } from 'ui/src/containers/accounts/navigation'
 import { useAccountParams } from 'ui/src/hooks/use-account-params'
 

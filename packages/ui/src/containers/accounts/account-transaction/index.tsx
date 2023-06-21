@@ -18,7 +18,11 @@ import { ToolTip } from 'ui/src/components/tool-tip'
 import { TransactionIcon } from 'ui/src/components/transaction-icon'
 import Translation from 'ui/src/components/translation'
 import { Text } from 'ui/src/components/typography'
-import { ACCOUNT_PARAM_ACTIVITY, ACCOUNT_PARAM_ASSET, ACCOUNT_PARAM_TRANSACTION_ID } from 'ui/src/constants'
+import {
+	ACCOUNT_PARAM_ACTIVITY,
+	ACCOUNT_PARAM_ASSET,
+	ACCOUNT_PARAM_TRANSACTION_ID,
+} from 'ui/src/containers/accounts/constants'
 import { getShortAddress } from 'ui/src/utils/string-utils'
 
 import { AccountsTransactionInfo } from './account-transaction-info'
