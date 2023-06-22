@@ -1,19 +1,21 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { AppPage } from '@/components/layouts/app-page'
+// import { AppPage } from '@/components/layouts/app-page'
 import { LandingPage } from '@/components/layouts/landing-page'
 import { LazyMotion } from '@/components/lazy-motion'
 import { AnimatePresence, m as motion } from 'framer-motion'
+import dynamic from 'next/dynamic'
 import Head from 'next/head'
 import NextLink from 'next/link'
 import { useRouter } from 'next/router'
 import React, { useEffect, useState } from 'react'
 import { Link, Route, HashRouter as Router, Routes, redirect } from 'react-router-dom'
 
-import { AnimatedPage } from 'ui/src/components/animated-page'
 import { Box } from 'ui/src/components/box'
 import { Button } from 'ui/src/components/button'
 import { LoadingBarsIcon } from 'ui/src/components/icons'
 import { Text } from 'ui/src/components/typography'
+
+const AppPage = dynamic(() => import('../components/layouts/app-page'), { ssr: false })
 
 const App = () => {
 	const router = useRouter()

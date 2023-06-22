@@ -13,7 +13,7 @@ import { useIsMobileWidth } from 'ui/src/hooks/use-is-mobile'
 
 import * as styles from './app-page.css'
 
-export const AppPage = () => {
+const AppPage = () => {
 	const location = useLocation()
 	const locationArr = location.pathname?.split('/') ?? []
 	const isMobile = useIsMobileWidth()
@@ -51,6 +51,8 @@ export const AppPage = () => {
 		</AnimatePresence>
 	)
 }
+
+export default AppPage
 
 // export const AppPage = () => {
 // 	return (
