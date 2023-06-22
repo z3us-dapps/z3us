@@ -9,16 +9,8 @@ import { useTranslation } from 'react-i18next'
 import { Virtuoso } from 'react-virtuoso'
 
 import { Box } from 'ui/src/components/box'
-import {
-	ASSET_TYPE_BADGES,
-	ASSET_TYPE_LP_TOKENS,
-	ASSET_TYPE_NFTS,
-	ASSET_TYPE_TOKENS,
-	LIST_ITEM_ACTIVITY,
-	LIST_ITEM_ASSET,
-	LIST_ITEM_ASSET_TYPE,
-	LIST_ITEM_INDEX,
-} from 'ui/src/containers/accounts/constants'
+import { LIST_ITEM_ACTIVITY, LIST_ITEM_ASSET, LIST_ITEM_ASSET_TYPE, LIST_ITEM_INDEX } from 'ui/src/constants/list'
+import { ASSET_TYPE_BADGES, ASSET_TYPE_LP_TOKENS, ASSET_TYPE_NFTS, ASSET_TYPE_TOKENS } from 'ui/src/constants/routes'
 import type { TListItem } from 'ui/src/types'
 import { isEmptyArray } from 'ui/src/utils/assertion'
 

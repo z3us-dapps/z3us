@@ -1,7 +1,7 @@
 import { useEffect, useRef } from 'react'
 import { useLocation } from 'react-router-dom'
 
-import { SETTINGS, STAKING, SWAP, TRANSFER } from 'ui/src/containers/accounts/constants'
+import { SETTINGS, STAKING, SWAP, TRANSFER } from 'ui/src/constants/routes'
 
 export const useLocationKey = () => {
 	const location = useLocation()

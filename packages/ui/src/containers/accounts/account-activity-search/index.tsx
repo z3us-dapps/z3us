@@ -16,7 +16,7 @@ import { ArrowUpIcon, Close2Icon, SearchIcon } from 'ui/src/components/icons'
 import { ToolTip } from 'ui/src/components/tool-tip'
 import Translation from 'ui/src/components/translation'
 import { Text } from 'ui/src/components/typography'
-import { ACCOUNTS_ALL } from 'ui/src/containers/accounts/constants'
+import { ACCOUNTS_ALL } from 'ui/src/constants/routes'
 import { useAccountParams } from 'ui/src/hooks/use-account-params'
 
 import * as styles from './account-search.css'

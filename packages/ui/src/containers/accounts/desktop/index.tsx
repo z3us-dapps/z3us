@@ -7,12 +7,12 @@ import { Route, Routes } from 'react-router-dom'
 
 import { AnimatedPage } from 'ui/src/components/animated-page'
 import { Box } from 'ui/src/components/box'
+import { routes } from 'ui/src/constants/routes'
 import { AccountSettingsDesktop } from 'ui/src/containers/accounts/account-settings'
 import { AccountStaking } from 'ui/src/containers/accounts/account-staking'
 import { AccountSwap } from 'ui/src/containers/accounts/account-swap'
 import { AccountsTransferDesktop } from 'ui/src/containers/accounts/account-transfer/account-transfer-desktop'
 import { AccountsHomeDesktop } from 'ui/src/containers/accounts/accounts-home-desktop'
-import { routes } from 'ui/src/containers/accounts/constants'
 import { DesktopNavigation as Navigation } from 'ui/src/containers/accounts/navigation'
 import { useLocationKey } from 'ui/src/hooks/use-location-key'
 

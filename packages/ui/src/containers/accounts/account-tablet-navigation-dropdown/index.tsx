@@ -20,7 +20,7 @@ import {
 } from 'ui/src/components/dropdown-menu'
 import { CheckIcon, ChevronDownIcon } from 'ui/src/components/icons'
 import { Text } from 'ui/src/components/typography'
-import { accountMenuSlugs } from 'ui/src/containers/accounts/constants'
+import { accountMenuSlugs } from 'ui/src/constants/accounts'
 
 import * as styles from './account-tablet-navigation-dropdown.css'
 

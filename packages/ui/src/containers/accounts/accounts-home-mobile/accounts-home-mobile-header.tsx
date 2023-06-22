@@ -27,7 +27,7 @@ import {
 	ASSET_TYPE_TOKENS,
 	SEARCH_ACTIVITY_PARAM,
 	routes,
-} from 'ui/src/containers/accounts/constants'
+} from 'ui/src/constants/routes'
 import { useAccountParams } from 'ui/src/hooks/use-account-params'
 import { isEmpty } from 'ui/src/utils/assertion'
 import { capitalizeFirstLetter } from 'ui/src/utils/capitalize-first-letter'

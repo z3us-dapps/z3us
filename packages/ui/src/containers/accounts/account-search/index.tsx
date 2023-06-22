@@ -27,7 +27,7 @@ import {
 	ACCOUNT_PARAM_ASSET,
 	ACCOUNT_PARAM_QUERY,
 	ACCOUNT_PARAM_TRANSACTION_ID,
-} from 'ui/src/containers/accounts/constants'
+} from 'ui/src/constants/accounts'
 import { capitalizeFirstLetter } from 'ui/src/utils/capitalize-first-letter'
 import { getShortAddress } from 'ui/src/utils/string-utils'
 

@@ -3,8 +3,8 @@ import React from 'react'
 import { Link, Navigate, Route, Routes, useLocation } from 'react-router-dom'
 
 import { AnimatedPage } from 'ui/src/components/animated-page'
+import { routes } from 'ui/src/constants/routes'
 import { Accounts } from 'ui/src/containers/accounts'
-import { routes } from 'ui/src/containers/accounts/constants'
 import { useIsMobileWidth } from 'ui/src/hooks/use-is-mobile'
 
 import * as styles from './app.css'

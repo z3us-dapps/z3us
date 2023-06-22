@@ -9,15 +9,8 @@ import { useDebounce } from 'usehooks-ts'
 
 import { Box } from 'ui/src/components/box'
 import { ScrollArea } from 'ui/src/components/scroll-area'
-import {
-	ACCOUNTS_ALL,
-	LIST_ITEM_ACTIVITY,
-	LIST_ITEM_ASSET,
-	LIST_ITEM_ASSET_TYPE,
-	LIST_ITEM_INDEX,
-	SEARCH_ACTIVITY_PARAM,
-	routes,
-} from 'ui/src/containers/accounts/constants'
+import { LIST_ITEM_ACTIVITY, LIST_ITEM_ASSET, LIST_ITEM_ASSET_TYPE, LIST_ITEM_INDEX } from 'ui/src/constants/list'
+import { ACCOUNTS_ALL, SEARCH_ACTIVITY_PARAM, routes } from 'ui/src/constants/routes'
 import { MobileHeaderNavigation } from 'ui/src/containers/accounts/navigation'
 import { useAccountParams } from 'ui/src/hooks/use-account-params'
 

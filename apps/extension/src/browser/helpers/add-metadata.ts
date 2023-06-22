@@ -1,7 +1,7 @@
 import { addMetadata as addRadixMetadata } from '@radixdlt/connector-extension/src/chrome/helpers/add-metadata'
 import browser from 'webextension-polyfill'
 
-import { DAPP_ORIGIN } from 'ui/src/containers/accounts/constants'
+import { DAPP_ORIGIN } from 'ui/src/constants/dapp'
 
 const popupURL = new URL(browser.runtime.getURL(''))
 

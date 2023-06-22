@@ -3,7 +3,7 @@ import React from 'react'
 import { Link as LinkRouter } from 'react-router-dom'
 
 import { Box } from 'ui/src/components/box'
-import { accountMenuSlugs } from 'ui/src/containers/accounts/constants'
+import { accountMenuSlugs } from 'ui/src/constants/accounts'
 
 import * as styles from './z3us-logo.css'
 
