@@ -12,7 +12,6 @@ import { NoneSharedStoreProvider } from 'ui/src/context/state-provider'
 // eslint-disable-next-line react/function-component-definition
 function App({ Component, pageProps }) {
 	const [isServer, setIsServer] = useState<boolean>(true)
-	// const [queryClient, setQueryClient] = useState<any>(true)
 	const [queryClient] = useState<any>(() => new QueryClient())
 
 	// TODO: local storage??
@@ -24,8 +23,6 @@ function App({ Component, pageProps }) {
 	}, [])
 
 	if (isServer) return null
-
-	const showReactQueryDevTools = false
 
 	return (
 		<div suppressHydrationWarning>
@@ -46,7 +43,7 @@ function App({ Component, pageProps }) {
 									{typeof window === 'undefined' ? null : <Component {...pageProps} />}
 								</NoneSharedStoreProvider>
 							</Hydrate>
-							<ReactQueryDevtools initialIsOpen={showReactQueryDevTools} />
+							<ReactQueryDevtools initialIsOpen={false} />
 						</QueryClientProvider>
 					</RdtProvider>
 				</I18Provider>

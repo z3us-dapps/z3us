@@ -9,7 +9,7 @@ import { Text } from 'ui/src/components/typography'
 import * as styles from './app-page.css'
 
 // eslint-disable-next-line arrow-body-style
-export const AppPage: React.FC = () => {
+export const AppPage = () => {
 	return (
 		// eslint-disable-next-line react/button-has-type
 		<Box className={styles.landingWrapper}>
