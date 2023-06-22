@@ -13,7 +13,7 @@ import { useIsMobileWidth } from 'ui/src/hooks/use-is-mobile'
 
 import * as styles from './app-page.css'
 
-const AppPage = () => {
+const AppPage: React.FC = () => {
 	const location = useLocation()
 	const locationArr = location.pathname?.split('/') ?? []
 	const isMobile = useIsMobileWidth()
