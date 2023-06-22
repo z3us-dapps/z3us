@@ -5,7 +5,7 @@ import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
 import React, { useEffect, useState } from 'react'
 
 import I18Provider from 'ui/src/components/i18n'
-import { darkThemeClass } from 'ui/src/components/system/theme.css'
+import { darkThemeClass, lightThemeClass } from 'ui/src/components/system/theme.css'
 import { RdtProvider } from 'ui/src/context/rdt-provider'
 import { NoneSharedStoreProvider } from 'ui/src/context/state-provider'
 
@@ -34,7 +34,7 @@ function App({ Component, pageProps }) {
 				defaultTheme="system"
 				enableSystem
 				value={{
-					light: 'light',
+					light: lightThemeClass,
 					dark: darkThemeClass,
 				}}
 			>
