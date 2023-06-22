@@ -7,6 +7,8 @@ export const landingWrapper = style([
 		display: 'block',
 	}),
 	{
-		gap: '1em',
+		width: '100vw',
+		height: '100vh',
+		border: '2px solid red',
 	},
 ])

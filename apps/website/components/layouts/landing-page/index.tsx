@@ -11,9 +11,9 @@ import * as styles from './landing-page.css'
 // eslint-disable-next-line arrow-body-style
 export const LandingPage: React.FC = () => {
 	return (
-		// eslint-disable-next-line react/button-has-type
 		<Box className={styles.landingWrapper}>
 			<Box>
+				<Text>landing</Text>
 				<Text>landing</Text>
 			</Box>
 		</Box>

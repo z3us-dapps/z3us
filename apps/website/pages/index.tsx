@@ -1,12 +1,15 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { AppPage } from '@/components/layouts/app-page'
 import { LandingPage } from '@/components/layouts/landing-page'
+import { LazyMotion } from '@/components/lazy-motion'
+import { AnimatePresence, m as motion } from 'framer-motion'
 import Head from 'next/head'
 import NextLink from 'next/link'
 import { useRouter } from 'next/router'
 import React, { useEffect, useState } from 'react'
 import { Link, Route, HashRouter as Router, Routes, redirect } from 'react-router-dom'
 
+import { AnimatedPage } from 'ui/src/components/animated-page'
 import { Box } from 'ui/src/components/box'
 import { Button } from 'ui/src/components/button'
 import { LoadingBarsIcon } from 'ui/src/components/icons'
@@ -14,20 +17,16 @@ import { Text } from 'ui/src/components/typography'
 
 const App = () => {
 	const router = useRouter()
-	const [isConnected, setIsConnected] = useState<boolean>(false)
 	const [isLoading, setIsLoading] = useState<boolean>(false)
+	const isConnected = router.asPath.includes('/#/accounts')
 
 	const handleConnect = () => {
 		setIsLoading(true)
 		setTimeout(() => {
-			setIsConnected(true)
 			setIsLoading(false)
+			router.push('#/accounts/all', undefined, { scroll: false })
 		}, 1000)
 	}
-
-	// if (!isConnected) {
-	// 	router.push('/')
-	// }
 
 	return (
 		<>
@@ -42,25 +41,60 @@ const App = () => {
 				<meta property="og:image" content="https://example.com/images/cool-page.jpg" />
 			</Head>
 
-			<Router>
-				<div>
-					<Box padding="large">
-						<Button
-							onClick={handleConnect}
-							rightIcon={
-								isLoading ? (
-									<Box marginLeft="small">
-										<LoadingBarsIcon />
-									</Box>
-								) : null
-							}
-						>
-							Connect
-						</Button>
-					</Box>
-					{isConnected ? <AppPage /> : <LandingPage />}
-				</div>
-			</Router>
+			<LazyMotion>
+				<Router>
+					<div>
+						<AnimatePresence initial={false}>
+							{!isConnected && (
+								<motion.div
+									initial={{ opacity: 0, position: 'absolute' }}
+									animate={{ opacity: 1, position: 'relative' }}
+									exit={{ opacity: 0, position: 'absolute' }}
+									transition={{
+										opacity: { ease: 'linear' },
+										layout: { duration: 0.15 },
+									}}
+									style={{ width: '100%', height: '100%', top: 0, left: 0 }}
+								>
+									<LandingPage />
+								</motion.div>
+							)}
+						</AnimatePresence>
+						<AnimatePresence initial={false}>
+							{isConnected && (
+								<motion.div
+									initial={{ opacity: 0, position: 'absolute' }}
+									animate={{ opacity: 1, position: 'relative' }}
+									exit={{ opacity: 0, position: 'absolute' }}
+									transition={{
+										opacity: { ease: 'linear' },
+										layout: { duration: 0.15 },
+									}}
+									style={{ width: '100%', height: '100%', top: 0, left: 0 }}
+								>
+									<AppPage />
+								</motion.div>
+							)}
+						</AnimatePresence>
+						<Box padding="large" style={{ position: 'absolute', bottom: '0', left: '0' }}>
+							<Button
+								onClick={handleConnect}
+								rightIcon={
+									isLoading ? (
+										<Box marginLeft="small">
+											<LoadingBarsIcon />
+										</Box>
+									) : null
+								}
+							>
+								Connect
+							</Button>
+
+							<NextLink href="/">home (SSR)</NextLink>
+						</Box>
+					</div>
+				</Router>
+			</LazyMotion>
 		</>
 	)
 }
