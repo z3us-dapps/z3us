@@ -1,5 +1,5 @@
 /* eslint-disable react/function-component-definition */
-import { ThemeProvider } from '@/components/theme-provider'
+import { ThemeProvider, ThemeProviderDarkClass } from '@/components/theme-provider'
 import '@/styles/global-style.css'
 import { Hydrate, QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
@@ -36,18 +36,20 @@ export default function App({ Component, pageProps }: AppProps) {
 					dark: darkThemeClass,
 				}}
 			>
-				<I18Provider>
-					<RdtProvider>
-						<QueryClientProvider client={queryClient}>
-							<Hydrate state={pageProps.dehydratedState}>
-								<NoneSharedStoreProvider>
-									{typeof window === 'undefined' ? null : <Component {...pageProps} />}
-								</NoneSharedStoreProvider>
-							</Hydrate>
-							<ReactQueryDevtools initialIsOpen={false} />
-						</QueryClientProvider>
-					</RdtProvider>
-				</I18Provider>
+				<ThemeProviderDarkClass>
+					<I18Provider>
+						<RdtProvider>
+							<QueryClientProvider client={queryClient}>
+								<Hydrate state={pageProps.dehydratedState}>
+									<NoneSharedStoreProvider>
+										{typeof window === 'undefined' ? null : <Component {...pageProps} />}
+									</NoneSharedStoreProvider>
+								</Hydrate>
+								<ReactQueryDevtools initialIsOpen={false} />
+							</QueryClientProvider>
+						</RdtProvider>
+					</I18Provider>
+				</ThemeProviderDarkClass>
 			</ThemeProvider>
 		</div>
 	)
