@@ -7,6 +7,14 @@ export const landingWrapper = style([
 		display: 'block',
 	}),
 	{
-		gap: '1em',
+		minHeight: '100vh',
+		minWidth: '100vw',
 	},
+])
+
+export const landingWrapperContainer = style([
+	sprinkles({
+		display: 'block',
+	}),
+	{},
 ])

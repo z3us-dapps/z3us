@@ -1,5 +1,5 @@
 import clsx, { type ClassValue } from 'clsx'
-import type { AllHTMLAttributes, ElementType} from 'react';
+import type { AllHTMLAttributes, ElementType } from 'react'
 import { createElement, forwardRef } from 'react'
 
 import { type Sprinkles, resetBase, sprinkles } from '../system/sprinkles.css'
@@ -70,6 +70,7 @@ export const Box = forwardRef(
 			overflow,
 			...restProps
 		}: BoxProps,
+		// TODO: fix type
 		ref: any,
 	) => {
 		const atomClasses = clsx(

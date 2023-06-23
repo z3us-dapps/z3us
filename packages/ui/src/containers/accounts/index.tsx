@@ -16,7 +16,7 @@ interface IAccountsProps extends IAccountsRequiredProps, IAccountsOptionalProps 
 
 const defaultProps: IAccountsOptionalProps = {}
 
-export const Accounts = (props: IAccountsProps): JSX.Element => {
+export const Accounts = (props: IAccountsProps): React.JSX.Element => {
 	const { isMobile } = props
 
 	return (
