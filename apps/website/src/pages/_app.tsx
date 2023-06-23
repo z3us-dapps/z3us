@@ -1,8 +1,10 @@
 /* eslint-disable react/function-component-definition */
 import { ThemeProvider, ThemeProviderDarkClass } from '@/components/theme-provider'
+import { Z3usLogoLink } from '@/components/z3us-logo-link'
 import '@/styles/global-style.css'
 import { Hydrate, QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
+// import { displayValue } from '@tanstack/react-query-devtools/build/lib/utils'
 import type { AppProps } from 'next/app'
 import React, { useEffect, useState } from 'react'
 
@@ -41,7 +43,7 @@ export default function App({ Component, pageProps }: AppProps) {
 						<RdtProvider>
 							<QueryClientProvider client={queryClient}>
 								<Hydrate state={pageProps.dehydratedState}>
-									<NoneSharedStoreProvider>
+									<NoneSharedStoreProvider z3usLogoLink={<Z3usLogoLink />}>
 										{typeof window === 'undefined' ? null : <Component {...pageProps} />}
 									</NoneSharedStoreProvider>
 								</Hydrate>

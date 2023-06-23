@@ -1,11 +1,6 @@
-/* eslint-disable */
-// @ts-nocheck
-// TODO: fix
-
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import clsx, { type ClassValue } from 'clsx'
 import { LayoutGroup, motion } from 'framer-motion'
-import React, { forwardRef } from 'react'
+import React, { forwardRef, useContext } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useLocation } from 'react-router-dom'
 
@@ -23,6 +18,7 @@ import { accountMenuSlugs } from 'ui/src/constants/accounts'
 import { routes } from 'ui/src/constants/routes'
 import { AccountTabletNavigationDropdown } from 'ui/src/containers/accounts/account-tablet-navigation-dropdown'
 import { AccountViewDropdown } from 'ui/src/containers/accounts/account-view-dropdown'
+import { NoneSharedStoreContext } from 'ui/src/context/state'
 import { useAccountParams } from 'ui/src/hooks/use-account-params'
 
 import * as styles from './navigation.css'
@@ -59,27 +55,19 @@ const MenuItemDesktop = ({ text, href }) => {
 	)
 }
 
-interface IMobileHeaderNavigationProps {
-	z3usLogo?: React.ReactElement
-}
-
-export const DesktopNavigation: React.FC = (props: IMobileHeaderNavigationProps) => {
+export const DesktopNavigation: React.FC = () => {
 	const { t } = useTranslation()
-	const { pathname } = useLocation()
 
-	// TODO: this needs be initialized with context
-	const {
-		z3usLogo = (
-			<Link to={accountMenuSlugs.ACCOUNTS}>
-				<Z3usLogo />
-			</Link>
-		),
-	} = props
+	const { z3usLogoLink } = useContext(NoneSharedStoreContext)
 
 	return (
 		<Box component="nav" className={clsx(styles.navigationWrapper, containerStyles.containerWrapper)}>
 			<Box className={clsx(styles.navigationContainer, containerStyles.containerInnerWrapper)}>
-				{z3usLogo}
+				{z3usLogoLink || (
+					<Link to={accountMenuSlugs.ACCOUNTS}>
+						<Z3usLogo />
+					</Link>
+				)}
 				<Box className={styles.navigationMenuTabletWrapper}>
 					<AccountTabletNavigationDropdown />
 				</Box>
@@ -142,25 +130,12 @@ interface IMobileHeaderNavigationProps {
 	className?: ClassValue
 	style?: React.CSSProperties
 	isShadowVisible?: boolean
-	isAllAccount?: boolean
-	z3usLogo?: React.ReactElement
 }
 
 export const MobileHeaderNavigation = forwardRef<HTMLElement, IMobileHeaderNavigationProps>(
 	(props, ref: React.Ref<HTMLElement | null>) => {
-		// eslint-disable-next-line
-		const {
-			className,
-			style,
-			copyAddressBtnVisible,
-			isShadowVisible = false,
-			isAllAccount = false,
-			z3usLogo = (
-				<Link to={accountMenuSlugs.ACCOUNTS}>
-					<Z3usLogo />
-				</Link>
-			),
-		} = props
+		const { z3usLogoLink } = useContext(NoneSharedStoreContext)
+		const { className, style, copyAddressBtnVisible, isShadowVisible = false } = props
 
 		return (
 			<Box
@@ -175,7 +150,11 @@ export const MobileHeaderNavigation = forwardRef<HTMLElement, IMobileHeaderNavig
 			>
 				<Box className={styles.accountsHomeMobileHeaderWalletWrapper}>
 					<Box display="flex" alignItems="center" gap="small" flexGrow={1}>
-						{z3usLogo}
+						{z3usLogoLink || (
+							<Link to={accountMenuSlugs.ACCOUNTS}>
+								<Z3usLogo />
+							</Link>
+						)}
 						<AccountViewDropdown
 							styleVariant="tertiary"
 							// styleVariant={isAllAccount ? 'tertiary' : 'white-transparent'}
