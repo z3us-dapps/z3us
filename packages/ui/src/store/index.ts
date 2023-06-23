@@ -4,6 +4,7 @@ import { createStore } from 'zustand'
 import { devtools, persist, subscribeWithSelector } from 'zustand/middleware'
 import { immer } from 'zustand/middleware/immer'
 
+import { factory as createKeystoreStore } from './keystore'
 import { factory as createRDTStore } from './rdt'
 import { factory as createSettingsStore } from './settings'
 import { factory as createThemeStore } from './theme'
@@ -22,7 +23,8 @@ const middlewares = <T>(name: string, f: StateCreator<T, MutatorsTypes>) =>
 	devtools(subscribeWithSelector(persist(immer(f), { name })), { name })
 
 export const sharedStore = createStore(
-	middlewares<SharedState>('z3us:store', set => ({
+	middlewares<SharedState>('z3us-store', set => ({
+		...createKeystoreStore(set),
 		...createThemeStore(set),
 		...createWalletStore(set),
 	})),

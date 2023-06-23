@@ -8,7 +8,7 @@ const mutex = new Mutex()
 const noneSharedStoreContainer: { [key: string]: NoneSharedStore } = {}
 
 export const getNoneSharedStore = async (id: string): Promise<NoneSharedStore> => {
-	const name = `z3us:rdt:${id}`
+	const name = `z3us-store:${id}`
 	let store = noneSharedStoreContainer[name]
 	if (store) {
 		return store

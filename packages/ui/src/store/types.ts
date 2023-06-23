@@ -7,6 +7,18 @@ export type AddressBookEntry = {
 	colorSettings?: { [key: string]: string }
 }
 
+export enum KeystoreType {
+	LOCAL = 'local',
+	HARDWARE = 'hardware',
+	RADIX_WALLET = 'radix_wallet',
+}
+
+export type Keystore = {
+	id: string
+	name: string
+	type: KeystoreType
+}
+
 export type ThemeState = {
 	theme: string
 	setThemeAction: (theme: string) => void
@@ -14,6 +26,20 @@ export type ThemeState = {
 
 export interface IThemeStateSetter {
 	(fn: (state: ThemeState) => void): void
+}
+
+export type KeystoresState = {
+	selectKeystoreId: string
+	selectKeystoreAction: (id: string) => void
+
+	keystores: Keystore[]
+	addKeystoreAction: (id: string, name: string, type: KeystoreType) => void
+	removeKeystoreAction: (id: string) => void
+	changeKeystoreNameAction: (id: string, name: string) => void
+}
+
+export interface IKeystoresStateSetter {
+	(fn: (state: KeystoresState) => void): void
 }
 
 export type WalletState = {
@@ -53,7 +79,7 @@ export interface IRDTStateSetter {
 	(fn: (state: RDTState) => void): void
 }
 
-export type SharedState = ThemeState & WalletState
+export type SharedState = ThemeState & WalletState & KeystoresState
 
 export type NoneSharedState = SettingsState & RDTState
 

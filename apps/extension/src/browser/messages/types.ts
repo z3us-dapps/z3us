@@ -6,6 +6,9 @@ export enum MessageSource {
 
 export enum MessageAction {
 	PING = 'v1-ping',
+	VAULT_SAVE = 'v1-vault-store',
+	VAULT_GET = 'v1-vault-get',
+	VAULT_REMOVE = 'v1-vault-remvoe',
 }
 
 export type Message = {

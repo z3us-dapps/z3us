@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react'
 
-import { useRdtState } from '../hooks/dapp/use-rdt-state'
+import { useSharedStore } from '../hooks/use-store'
 import { getNoneSharedStore } from '../services/state'
 import { type NoneSharedStore, createNoneSharedStore } from '../store'
 import { NoneSharedStoreContext } from './state'
 
-const defaultStoreKey = 'z3us:rdt:default'
+const defaultStoreKey = 'z3us-store:unknown'
 const defaultStore = createNoneSharedStore(defaultStoreKey)
 const defaultValue = {
 	id: defaultStoreKey,
@@ -13,7 +13,10 @@ const defaultValue = {
 }
 
 export const NoneSharedStoreProvider = ({ children }: React.PropsWithChildren<{}>) => {
-	const rdtState = useRdtState()
+	const { keystoreId } = useSharedStore(state => ({
+		keystoreId: state.selectKeystoreId,
+	}))
+
 	const [state, setState] = useState<{ id: string; store?: NoneSharedStore }>(defaultValue)
 
 	useEffect(() => {
@@ -24,12 +27,8 @@ export const NoneSharedStoreProvider = ({ children }: React.PropsWithChildren<{}
 				setState({ id, store: await getNoneSharedStore(id) })
 			}
 		}
-
-		const id = rdtState?.persona?.identityAddress || ''
-		if (id !== state.id || !state.store) {
-			load(id)
-		}
-	}, [rdtState?.persona?.identityAddress])
+		load(keystoreId)
+	}, [keystoreId])
 
 	return <NoneSharedStoreContext.Provider value={state}>{children}</NoneSharedStoreContext.Provider>
 }

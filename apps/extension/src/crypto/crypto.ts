@@ -31,11 +31,11 @@ export class CryptoService {
 		})
 	}
 
-	decrypt = async <T>(password: string, data: string): Promise<T | boolean> => {
+	decrypt = async <T>(password: string, data: string): Promise<T> => {
 		const payload = JSON.parse(data) as { data: string; iv: string; salt: string }
 		const { salt } = payload
 		if (!salt) {
-			return false
+			throw new Error('Invalid secret data')
 		}
 
 		const key = await this.getKey(password, salt)
