@@ -1,7 +1,9 @@
+/* eslint-disable react/function-component-definition */
 import { ThemeProvider } from '@/components/theme-provider'
 import '@/styles/global-style.css'
 import { Hydrate, QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
+import type { AppProps } from 'next/app'
 import React, { useEffect, useState } from 'react'
 
 import I18Provider from 'ui/src/components/i18n'
@@ -9,8 +11,7 @@ import { darkThemeClass, lightThemeClass } from 'ui/src/components/system/theme.
 import { RdtProvider } from 'ui/src/context/rdt-provider'
 import { NoneSharedStoreProvider } from 'ui/src/context/state-provider'
 
-// eslint-disable-next-line react/function-component-definition
-function App({ Component, pageProps }) {
+export default function App({ Component, pageProps }: AppProps) {
 	const [isServer, setIsServer] = useState<boolean>(true)
 	const [queryClient] = useState<any>(() => new QueryClient())
 
@@ -51,4 +52,3 @@ function App({ Component, pageProps }) {
 		</div>
 	)
 }
-export default App

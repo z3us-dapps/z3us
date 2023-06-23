@@ -13,17 +13,9 @@ const config = {
 	reactStrictMode: true,
 	swcMinify: true,
 	transpilePackages: ['ui'],
-	typescript: {
-		// !! WARN !!
-		// Dangerously allow production builds to successfully complete even if
-		// your project has type errors.
-		// !! WARN !!
-		ignoreBuildErrors: false,
-	},
 	output: 'export',
 	images: {
 		unoptimized: true,
-		// loader: 'custom',
 	},
 
 	/**

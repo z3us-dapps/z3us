@@ -1,5 +1,4 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-// import { AppPage } from '@/components/layouts/app-page'
 import { LandingPage } from '@/components/layouts/landing-page'
 import { LazyMotion } from '@/components/lazy-motion'
 import { AnimatePresence, m as motion } from 'framer-motion'

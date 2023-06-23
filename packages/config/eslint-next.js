@@ -26,6 +26,7 @@ module.exports = {
 				namedComponents: 'arrow-function',
 			},
 		],
+		'react/react-in-jsx-scope': 'off',
 		'react/prop-types': 'off',
 		'react/require-default-props': 'off',
 		'no-console': 1,
