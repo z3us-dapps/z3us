@@ -59,14 +59,27 @@ const MenuItemDesktop = ({ text, href }) => {
 	)
 }
 
-export const DesktopNavigation: React.FC = () => {
+interface IMobileHeaderNavigationProps {
+	z3usLogo?: React.ReactElement
+}
+
+export const DesktopNavigation: React.FC = (props: IMobileHeaderNavigationProps) => {
 	const { t } = useTranslation()
 	const { pathname } = useLocation()
+
+	// TODO: this needs be initialized with context
+	const {
+		z3usLogo = (
+			<Link to={accountMenuSlugs.ACCOUNTS}>
+				<Z3usLogo />
+			</Link>
+		),
+	} = props
 
 	return (
 		<Box component="nav" className={clsx(styles.navigationWrapper, containerStyles.containerWrapper)}>
 			<Box className={clsx(styles.navigationContainer, containerStyles.containerInnerWrapper)}>
-				<Z3usLogo />
+				{z3usLogo}
 				<Box className={styles.navigationMenuTabletWrapper}>
 					<AccountTabletNavigationDropdown />
 				</Box>
@@ -124,32 +137,30 @@ const MenuItemMobile = ({ href }: { href: string }) => {
 	)
 }
 
-interface IMobileHeaderNavigationRequiredProps {
+interface IMobileHeaderNavigationProps {
 	copyAddressBtnVisible: boolean
-}
-
-interface IMobileHeaderNavigationOptionalProps {
 	className?: ClassValue
 	style?: React.CSSProperties
 	isShadowVisible?: boolean
 	isAllAccount?: boolean
-}
-
-interface IMobileHeaderNavigationProps
-	extends IMobileHeaderNavigationRequiredProps,
-		IMobileHeaderNavigationOptionalProps {}
-
-const mobileHeaderNavigationDefaultProps: IMobileHeaderNavigationOptionalProps = {
-	className: undefined,
-	style: undefined,
-	isShadowVisible: false,
-	isAllAccount: false,
+	z3usLogo?: React.ReactElement
 }
 
 export const MobileHeaderNavigation = forwardRef<HTMLElement, IMobileHeaderNavigationProps>(
 	(props, ref: React.Ref<HTMLElement | null>) => {
 		// eslint-disable-next-line
-		const { className, style, copyAddressBtnVisible, isShadowVisible, isAllAccount } = props
+		const {
+			className,
+			style,
+			copyAddressBtnVisible,
+			isShadowVisible = false,
+			isAllAccount = false,
+			z3usLogo = (
+				<Link to={accountMenuSlugs.ACCOUNTS}>
+					<Z3usLogo />
+				</Link>
+			),
+		} = props
 
 		return (
 			<Box
@@ -164,7 +175,7 @@ export const MobileHeaderNavigation = forwardRef<HTMLElement, IMobileHeaderNavig
 			>
 				<Box className={styles.accountsHomeMobileHeaderWalletWrapper}>
 					<Box display="flex" alignItems="center" gap="small" flexGrow={1}>
-						<Z3usLogo />
+						{z3usLogo}
 						<AccountViewDropdown
 							styleVariant="tertiary"
 							// styleVariant={isAllAccount ? 'tertiary' : 'white-transparent'}
@@ -194,8 +205,6 @@ export const MobileHeaderNavigation = forwardRef<HTMLElement, IMobileHeaderNavig
 		)
 	},
 )
-
-MobileHeaderNavigation.defaultProps = mobileHeaderNavigationDefaultProps
 
 export const MobileFooterNavigation: React.FC = () => (
 	<Box component="nav" className={styles.navigationMobileWrapper}>

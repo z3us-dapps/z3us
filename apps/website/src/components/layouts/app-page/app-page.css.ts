@@ -2,7 +2,7 @@ import { style } from '@vanilla-extract/css'
 
 import { sprinkles } from 'ui/src/components/system/sprinkles.css'
 
-export const landingWrapper = style([
+export const appPageWrapper = style([
 	sprinkles({
 		display: 'block',
 	}),
