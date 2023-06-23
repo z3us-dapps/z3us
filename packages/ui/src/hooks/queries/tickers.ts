@@ -2,10 +2,10 @@
 // TODO: fix ts
 import { useQueries, useQuery } from 'react-query'
 
-// import dsor, { TokensResponse as DSORTokensResponse } from 'ui/src/swap/dsor'
+// import dsor, { TokensResponse as DSORTokensResponse } from 'ui/src/services/swap/dsor'
 import { CoinGeckoService } from 'ui/src/services/coingecko'
-import type { TokensResponse as OCITokensResponse } from 'ui/src/swap/oci'
-import oci from 'ui/src/swap/oci'
+import type { TokensResponse as OCITokensResponse } from 'ui/src/services/swap/oci'
+import oci from 'ui/src/services/swap/oci'
 
 // import type { Ticker } from 'ui/src/types'
 
