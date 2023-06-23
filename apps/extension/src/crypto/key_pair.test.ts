@@ -12,7 +12,7 @@ describe('secp256k1Service', () => {
 	it('should encrypt and decrypt message', () => {
 		const service = secp256k1Service.fromPrivateKeyHex(privateKey)
 		const encrypted = service.encrypt(publicKey, message)
-		const decrypted = service.decrypt(encrypted.encryptedMessage, encrypted.iv, encrypted.authTag)
+		const decrypted = service.decrypt(encrypted)
 		expect(decrypted).toBe(message)
 	})
 
@@ -45,7 +45,7 @@ describe('ed25519Service', () => {
 	it('should encrypt and decrypt message', () => {
 		const service = ed25519Service.fromPrivateKeyHex(privateKey)
 		const encrypted = service.encrypt(publicKey, message)
-		const decrypted = service.decrypt(encrypted.encryptedMessage, encrypted.iv, encrypted.authTag)
+		const decrypted = service.decrypt(encrypted)
 		expect(decrypted).toBe(message)
 	})
 
