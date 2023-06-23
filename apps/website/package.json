@@ -39,6 +39,6 @@
 		"@types/eslint": "^8.40.2",
 		"eslint": "^8.43.0",
 		"concurrently": "^8.2.0",
-		"typescript": "^5.0.4"
+		"typescript": "5.0.4"
 	}
 }
