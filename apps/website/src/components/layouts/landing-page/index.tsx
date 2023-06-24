@@ -1,6 +1,7 @@
 'use client'
 
 // import { block } from "million/react";
+import { ContentContainer } from '@/components/content-container'
 import { useTheme } from 'next-themes'
 import React from 'react'
 
@@ -16,16 +17,18 @@ export const LandingPage: React.FC = () => {
 
 	return (
 		<Box className={styles.landingWrapper}>
-			<Box>
-				<Text>landing</Text>
-				<Text>landing</Text>
-				<Box display="flex" gap="small">
-					<h2 className="text-5xl font-extrabold tracking-tight text-white sm:text-[5rem]">Theme</h2>
-					<Button onClick={() => setTheme('light')}>Theme light</Button>
-					<Button onClick={() => setTheme('dark')}>Theme dark</Button>
-					<Button onClick={() => setTheme('system')}>Theme system</Button>
+			<ContentContainer>
+				<Box>
+					<Text>landing</Text>
+					<Text>landing</Text>
+					<Box display="flex" gap="small">
+						<h2 className="text-5xl font-extrabold tracking-tight text-white sm:text-[5rem]">Theme</h2>
+						<Button onClick={() => setTheme('light')}>Theme light</Button>
+						<Button onClick={() => setTheme('dark')}>Theme dark</Button>
+						<Button onClick={() => setTheme('system')}>Theme system</Button>
+					</Box>
 				</Box>
-			</Box>
+			</ContentContainer>
 		</Box>
 	)
 }

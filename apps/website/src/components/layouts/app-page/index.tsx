@@ -17,6 +17,7 @@ const AppPage: React.FC = () => {
 	const location = useLocation()
 	const locationArr = location.pathname?.split('/') ?? []
 	const isMobile = useIsMobileWidth()
+
 	return (
 		<AnimatePresence initial={false}>
 			<Routes location={location} key={locationArr[1]}>

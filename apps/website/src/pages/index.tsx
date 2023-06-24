@@ -41,7 +41,6 @@ const App = () => {
 				<meta property="og:description" content="And a social description for our cool page" />
 				<meta property="og:image" content="https://example.com/images/cool-page.jpg" />
 			</Head>
-
 			<LazyMotion>
 				<Router>
 					<div>
@@ -77,8 +76,15 @@ const App = () => {
 								</motion.div>
 							)}
 						</AnimatePresence>
-						<Box padding="large" style={{ position: 'absolute', bottom: '0', left: '0' }}>
+						<Box
+							alignItems="center"
+							display="flex"
+							padding="large"
+							gap="medium"
+							style={{ position: 'absolute', bottom: '0', left: '50px' }}
+						>
 							<Button
+								sizeVariant="small"
 								onClick={handleConnect}
 								rightIcon={
 									isLoading ? (
@@ -90,7 +96,9 @@ const App = () => {
 							>
 								Connect
 							</Button>
-
+							<Button sizeVariant="small" onClick={() => {}}>
+								Disconnect
+							</Button>
 							<NextLink href="/">home (SSR)</NextLink>
 						</Box>
 					</div>

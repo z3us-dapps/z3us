@@ -2,4 +2,8 @@ import { createContext } from 'react'
 
 import type { NoneSharedStore } from '../store'
 
-export const NoneSharedStoreContext = createContext<{ id: string; store?: NoneSharedStore }>({ id: '' })
+export type TStoreContext = { id: string; store?: NoneSharedStore; z3usLogoLink?: React.ReactNode }
+
+export const NoneSharedStoreContext = createContext<TStoreContext>({
+	id: '',
+})

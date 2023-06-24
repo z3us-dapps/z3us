@@ -6,15 +6,9 @@ import { AccountTransaction } from 'ui/src/containers/accounts/account-transacti
 import { AccountsDesktop } from './desktop'
 import { AccountsMobile } from './mobile'
 
-interface IAccountsRequiredProps {
+interface IAccountsProps {
 	isMobile: boolean
 }
-
-interface IAccountsOptionalProps {}
-
-interface IAccountsProps extends IAccountsRequiredProps, IAccountsOptionalProps {}
-
-const defaultProps: IAccountsOptionalProps = {}
 
 export const Accounts = (props: IAccountsProps): React.JSX.Element => {
 	const { isMobile } = props
@@ -27,5 +21,3 @@ export const Accounts = (props: IAccountsProps): React.JSX.Element => {
 		</>
 	)
 }
-
-Accounts.defaultProps = defaultProps

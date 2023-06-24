@@ -1,29 +1,19 @@
 import clsx from 'clsx'
 import React from 'react'
-import { Link as LinkRouter } from 'react-router-dom'
 
 import { Box } from 'ui/src/components/box'
-import { accountMenuSlugs } from 'ui/src/constants/accounts'
 
 import * as styles from './z3us-logo.css'
 
-interface IZ3usLogoRequiredProps {}
-
-interface IZ3usLogoOptionalProps {
+interface IZ3usLogoProps {
 	className?: string
-}
-
-interface IZ3usLogoProps extends IZ3usLogoRequiredProps, IZ3usLogoOptionalProps {}
-
-const defaultProps: IZ3usLogoOptionalProps = {
-	className: undefined,
 }
 
 export const Z3usLogo: React.FC<IZ3usLogoProps> = props => {
 	const { className } = props
 
 	return (
-		<LinkRouter to={accountMenuSlugs.ACCOUNTS} className={clsx(styles.navigationLogoLink, className)}>
+		<Box className={clsx(styles.navigationLogoLink, className)}>
 			<Box className={styles.navigationLogoLinkScreen} />
 			<svg x="0px" y="0px" viewBox="0 0 24 24" className={styles.logoSvg}>
 				<g>
@@ -39,8 +29,6 @@ export const Z3usLogo: React.FC<IZ3usLogoProps> = props => {
 					/>
 				</g>
 			</svg>
-		</LinkRouter>
+		</Box>
 	)
 }
-
-Z3usLogo.defaultProps = defaultProps
