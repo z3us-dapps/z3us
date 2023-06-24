@@ -23,6 +23,7 @@ export interface KeyPair {
 }
 
 interface EllipticCurve {
+	generateNew(): KeyPair
 	fromPrivateKeyHex(privateKeyHex: string): KeyPair
 	fromSeed(seed: string): KeyPair
 	fromMnemonic(mnemonic: string): KeyPair
@@ -104,6 +105,13 @@ export const secp256k1Service: EllipticCurve = {
 		}
 	},
 
+	generateNew(): KeyPair {
+		const keyPair = secp256k1.genKeyPair()
+		const privateKey = keyPair.getPrivate()
+
+		return this.fromPrivateKeyHex(privateKey.toString('hex'))
+	},
+
 	fromSeed(seed: string): KeyPair {
 		const root = hdkey.fromMasterSeed(Buffer.from(seed, 'hex'))
 		// const key = root.derive("m/44'/0'/0'/0/0")
@@ -179,6 +187,13 @@ export const ed25519Service: EllipticCurve = {
 				},
 			},
 		}
+	},
+
+	generateNew(): KeyPair {
+		const keyPair = ed25519.genKeyPair()
+		const privateKey = keyPair.getSecret()
+
+		return this.fromPrivateKeyHex(privateKey.toString('hex'))
 	},
 
 	fromSeed(seed: string): KeyPair {
