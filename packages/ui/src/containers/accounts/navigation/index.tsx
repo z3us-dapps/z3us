@@ -55,9 +55,27 @@ const MenuItemDesktop = ({ text, href }) => {
 	)
 }
 
-export const DesktopNavigation: React.FC = () => {
+export const AccountDesktopLavaMenu = () => {
 	const { t } = useTranslation()
 
+	return (
+		<Box className={styles.navigationMenu}>
+			<LayoutGroup id="accounts-menu">
+				{[
+					{ text: t('accounts.navigation.accounts'), href: accountMenuSlugs.ACCOUNTS },
+					{ text: t('accounts.navigation.transfer'), href: accountMenuSlugs.TRANSFER },
+					// { text: t('accounts.navigation.staking'), href: accountMenuSlugs.STAKING },
+					// { text: t('accounts.navigation.swap'), href: accountMenuSlugs.SWAP },
+					{ text: t('accounts.navigation.settings'), href: accountMenuSlugs.SETTINGS },
+				].map(({ text, href }) => (
+					<MenuItemDesktop text={text} key={href} href={href} />
+				))}
+			</LayoutGroup>
+		</Box>
+	)
+}
+
+export const DesktopNavigation: React.FC = () => {
 	const { z3usLogoLink } = useContext(NoneSharedStoreContext)
 
 	return (
@@ -71,19 +89,7 @@ export const DesktopNavigation: React.FC = () => {
 				<Box className={styles.navigationMenuTabletWrapper}>
 					<AccountTabletNavigationDropdown />
 				</Box>
-				<Box className={styles.navigationMenu}>
-					<LayoutGroup id="accounts-menu">
-						{[
-							{ text: t('accounts.navigation.accounts'), href: accountMenuSlugs.ACCOUNTS },
-							{ text: t('accounts.navigation.transfer'), href: accountMenuSlugs.TRANSFER },
-							{ text: t('accounts.navigation.staking'), href: accountMenuSlugs.STAKING },
-							// { text: t('accounts.navigation.swap'), href: accountMenuSlugs.SWAP },
-							{ text: t('accounts.navigation.settings'), href: accountMenuSlugs.SETTINGS },
-						].map(({ text, href }) => (
-							<MenuItemDesktop text={text} key={href} href={href} />
-						))}
-					</LayoutGroup>
-				</Box>
+				<AccountDesktopLavaMenu />
 				<Box display="flex" alignItems="center" gap="medium">
 					<NotificationsDropdown />
 					<CopyAddressButton address="rdx1b707388613169bf701d533e143d8f698c9090f605e677a967eaf70a4c69250ce" />

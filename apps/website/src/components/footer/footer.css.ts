@@ -11,7 +11,10 @@ export const footerWrapper = style([
 		justifyContent: 'center',
 		borderTop: 1,
 		borderStyle: 'solid',
-		borderColor: 'borderDividerSecondary',
+		borderColor: {
+			lightMode: 'bleached_silk600',
+			darkMode: 'lead500',
+		},
 	}),
 	{},
 ])

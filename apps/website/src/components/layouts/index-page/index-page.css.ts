@@ -2,13 +2,9 @@ import { style } from '@vanilla-extract/css'
 
 import { sprinkles } from 'ui/src/components/system/sprinkles.css'
 
-export const appPageWrapper = style([
+export const indexPageWrapper = style([
 	sprinkles({
-		display: 'block',
+		position: 'relative',
 	}),
-	{
-		width: '100vw',
-		height: '100vh',
-		border: '2px solid red',
-	},
+	{},
 ])

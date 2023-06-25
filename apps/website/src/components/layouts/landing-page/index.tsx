@@ -18,9 +18,8 @@ import * as styles from './landing-page.css'
 export const LandingPage: React.FC = () => {
 	return (
 		<Box className={styles.landingWrapper}>
-			<ContentContainer>
-				<Header />
-				<Box className={styles.landingBodyWrapper}>
+			<Box className={styles.landingBodyWrapper}>
+				<ContentContainer>
 					<Box>
 						{Array.from({ length: 10 }, (_, i) => (
 							<Box display="flex" flexDirection="column" key={i}>
@@ -28,9 +27,9 @@ export const LandingPage: React.FC = () => {
 							</Box>
 						))}
 					</Box>
-				</Box>
-				<Footer />
-			</ContentContainer>
+				</ContentContainer>
+			</Box>
+			<Footer />
 		</Box>
 	)
 }

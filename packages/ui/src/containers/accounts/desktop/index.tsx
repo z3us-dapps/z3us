@@ -15,12 +15,17 @@ import { useLocationKey } from 'ui/src/hooks/use-location-key'
 
 import * as styles from './accounts-desktop.css'
 
-export const AccountsDesktop = (): React.JSX.Element => {
+interface IAccountsDesktopProps {
+	isNavigationVisible: boolean
+}
+
+export const AccountsDesktop = (props: IAccountsDesktopProps): React.JSX.Element => {
+	const { isNavigationVisible = true } = props
 	const { location, locationKey } = useLocationKey()
 
 	return (
 		<Box className={styles.desktopWrapper}>
-			<DesktopNavigation />
+			{isNavigationVisible ? <DesktopNavigation /> : null}
 			<Box className={styles.desktopBody}>
 				<AnimatePresence initial={false}>
 					<Routes location={location} key={locationKey}>
