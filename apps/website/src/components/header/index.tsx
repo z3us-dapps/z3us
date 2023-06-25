@@ -2,35 +2,48 @@
 import { NextButton } from '@/components/next-button'
 import { NextLink } from '@/components/next-link'
 import { useRouter } from 'next/router'
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
+import { Link, Route, HashRouter as Router, Routes, redirect } from 'react-router-dom'
 
 import { Box } from 'ui/src/components/box'
 import { Button } from 'ui/src/components/button'
 import { ConnectButton, useConnectButtonDappInfo } from 'ui/src/components/connect-button'
-import { LoadingBarsIcon } from 'ui/src/components/icons'
+import { ExternalLinkIcon, LoadingBarsIcon } from 'ui/src/components/icons'
 import { GithubIcon } from 'ui/src/components/icons/github-icon'
 import { TelegramIcon } from 'ui/src/components/icons/telegram-icon'
 import { TwitterIcon } from 'ui/src/components/icons/twitter-icon'
 import { Z3usLogoText } from 'ui/src/components/z3us-logo-babylon'
+import { NoneSharedStoreContext } from 'ui/src/context/state'
 
 import * as styles from './header.css'
 
+const fetchLocalStorage = () => {
+	let data: any
+	const localStorageKeys = Object.keys(localStorage)
+	const matchingKey = localStorageKeys.find(key => /^rdt:account/.test(key))
+
+	if (matchingKey) {
+		data = JSON.parse(localStorage.getItem(matchingKey))
+	}
+
+	return data
+}
+
 export const Header = () => {
 	const router = useRouter()
-	// const [isLoading, setIsLoading] = useState<boolean>(false)
+	const [isFirstConnect, setIsFirstConnect] = useState<boolean>(false)
+	// TODO make is connected hook
+	const localStorage = fetchLocalStorage()
 	const { connected } = useConnectButtonDappInfo()
 
-	// const handleConnect = () => {
-	// 	setIsLoading(true)
-	// 	setTimeout(() => {
-	// 		setIsLoading(false)
-	// 		router.push('#/accounts/all', undefined, { scroll: false })
-	// 	}, 1000)
-	// }
+	const handleGoToDapp = () => {
+		router.push('#/accounts/all', undefined, { scroll: false })
+	}
 
+	// TODO: refactor
 	useEffect(() => {
-		if (connected) {
-			router.push('#/accounts/all', undefined, { scroll: false })
+		if (connected && !isFirstConnect) {
+			setIsFirstConnect(true)
 		}
 	}, [connected])
 
@@ -51,22 +64,21 @@ export const Header = () => {
 				<NextButton sizeVariant="small" styleVariant="ghost" iconOnly to="https://github.com/z3us-dapps">
 					<GithubIcon />
 				</NextButton>
-				<Box>
-					{/* <Button
-						sizeVariant="small"
-						onClick={handleConnect}
-						rightIcon={
-							isLoading ? (
-								<Box marginLeft="small">
-									<LoadingBarsIcon />
-								</Box>
-							) : null
-						}
-					>
-						Connect
-					</Button> */}
+				{connected || localStorage?.connected ? (
+					<Box>
+						<Button
+							styleVariant="tertiary"
+							sizeVariant="small"
+							onClick={handleGoToDapp}
+							rightIcon={<ExternalLinkIcon />}
+						>
+							Go to Dapp
+						</Button>
+					</Box>
+				) : null}
+				<Box className={styles.connectButtonWrapper}>
+					<ConnectButton />
 				</Box>
-				<ConnectButton />
 			</Box>
 		</Box>
 	)

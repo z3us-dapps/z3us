@@ -18,3 +18,13 @@ export const landingHeaderBrandWrapper = style([
 	}),
 	{},
 ])
+
+export const connectButtonWrapper = style([
+	sprinkles({
+		display: 'flex',
+		justifyContent: 'flex-end',
+	}),
+	{
+		width: '140px',
+	},
+])

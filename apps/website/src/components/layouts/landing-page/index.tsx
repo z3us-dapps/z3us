@@ -11,7 +11,6 @@ import { Button } from 'ui/src/components/button'
 import { ConnectButton } from 'ui/src/components/connect-button'
 import { LoadingBarsIcon } from 'ui/src/components/icons'
 import { Text } from 'ui/src/components/typography'
-import { Z3usLogoText } from 'ui/src/components/z3us-logo-babylon'
 
 import * as styles from './landing-page.css'
 

@@ -20,8 +20,8 @@ const App = () => {
 	return (
 		<>
 			<Head>
-				<title>iPhone 12 XS Max For Sale in Colorado - Big Discounts | Apple</title>
 				{/* TODO: meta description for z3us.com */}
+				<title>iPhone 12 XS Max For Sale in Colorado - Big Discounts | Apple</title>
 				<meta
 					name="description"
 					content="Check out iPhone 12 XR Pro and iPhone 12 Pro Max. Visit your local store and for expert advice."
