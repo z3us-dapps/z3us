@@ -12,9 +12,21 @@ export const landingWrapper = style([
 	},
 ])
 
-export const landingWrapperContainer = style([
+export const landingBodyWrapper = style([
 	sprinkles({
 		display: 'block',
+	}),
+	{
+		minHeight: 'calc(100vh - 70px)',
+	},
+])
+
+export const landingFooterWrapper = style([
+	sprinkles({
+		display: 'flex',
+		alignItems: 'center',
+		paddingTop: 'large',
+		paddingBottom: 'large',
 	}),
 	{},
 ])

@@ -3,7 +3,7 @@ import { ThemeProvider, ThemeProviderDarkClass } from '@/components/theme-provid
 import { Z3usLogoLink } from '@/components/z3us-logo-link'
 import '@/styles/global-style.css'
 import { Hydrate, QueryClient, QueryClientProvider } from '@tanstack/react-query'
-import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
+// import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
 // import { displayValue } from '@tanstack/react-query-devtools/build/lib/utils'
 import type { AppProps } from 'next/app'
 import React, { useEffect, useState } from 'react'
@@ -47,7 +47,7 @@ export default function App({ Component, pageProps }: AppProps) {
 										{typeof window === 'undefined' ? null : <Component {...pageProps} />}
 									</NoneSharedStoreProvider>
 								</Hydrate>
-								<ReactQueryDevtools initialIsOpen={false} />
+								{/* <ReactQueryDevtools initialIsOpen={false} /> */}
 							</QueryClientProvider>
 						</RdtProvider>
 					</I18Provider>

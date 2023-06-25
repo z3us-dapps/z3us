@@ -1,5 +1,3 @@
-// @ts-nocheck
-// TODO: fix ts
 import React, { forwardRef } from 'react'
 import { type LinkProps, Link as RouterLink } from 'react-router-dom'
 

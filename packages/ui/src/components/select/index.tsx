@@ -1,8 +1,8 @@
-// @ts-nocheck
-// TODO: fix ts
 import * as SelectPrimitive from '@radix-ui/react-select'
 import clsx, { type ClassValue } from 'clsx'
 import React, { forwardRef } from 'react'
+
+import { type TSizeVariant, type TStyleVariant } from 'ui/src/components/button'
 
 import { Box } from '../box'
 import { Button } from '../button'
@@ -106,17 +106,29 @@ interface ISelectSimpleProps {
 	trigger?: React.ReactNode
 	selectAriaLabel?: string
 	width?: number
+	sizeVariant?: TSizeVariant
+	styleVariant?: TStyleVariant
 }
 
 export const SelectSimple: React.FC<ISelectSimpleProps> = props => {
-	const { value, onValueChange, trigger, data = [], placeholder, selectAriaLabel, width = 300 } = props
+	const {
+		value,
+		onValueChange,
+		trigger,
+		data = [],
+		placeholder,
+		selectAriaLabel,
+		width = 300,
+		sizeVariant = 'medium',
+		styleVariant = 'secondary',
+	} = props
 
 	return (
 		<SelectRoot value={value} onValueChange={onValueChange}>
 			{trigger || (
 				<SelectTrigger asChild aria-label={selectAriaLabel}>
 					<Box style={{ maxWidth: `${width}px` }}>
-						<Button styleVariant="secondary" rightIcon={<ChevronDown2Icon />}>
+						<Button sizeVariant={sizeVariant} styleVariant={styleVariant} rightIcon={<ChevronDown2Icon />}>
 							<span style={{ overflow: 'hidden' }}>
 								<SelectValue aria-label={value} placeholder={placeholder} />
 							</span>

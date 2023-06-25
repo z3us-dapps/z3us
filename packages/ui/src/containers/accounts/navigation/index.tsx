@@ -5,7 +5,7 @@ import { useTranslation } from 'react-i18next'
 import { useLocation } from 'react-router-dom'
 
 import { Box } from 'ui/src/components/box'
-import ConnectButton from 'ui/src/components/connect-button'
+import { ConnectButton } from 'ui/src/components/connect-button'
 import { CopyAddressButton } from 'ui/src/components/copy-address-button'
 import { CoinsIcon, Home2Icon, Settings2Icon, Swap2Icon, SwitchHorizontal } from 'ui/src/components/icons'
 import { NotificationsDropdown } from 'ui/src/components/notifications-dropdown'

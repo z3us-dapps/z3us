@@ -3,6 +3,10 @@ import { globalStyle } from '@vanilla-extract/css'
 import { darkMode } from 'ui/src/components/system/sprinkles.css'
 import { vars } from 'ui/src/components/system/theme.css'
 
+globalStyle('html', {
+	overflowX: 'hidden',
+})
+
 globalStyle('html, body', {
 	margin: 0,
 })
