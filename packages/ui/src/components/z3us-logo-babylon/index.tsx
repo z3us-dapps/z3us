@@ -42,7 +42,6 @@ export const Z3usLogoText: React.FC<IZ3usLogoTextProps> = props => {
 
 	return (
 		<Box className={clsx(styles.z3usBrandTextWrapper, className)}>
-			{/* <Box className={styles.z3usBrandTextWrapperScreen} /> */}
 			<svg width="128" height="20" viewBox="0 0 128 20" className={styles.z3usBrandTextSvgWrapper}>
 				<g>
 					<path d="M65.8286 13.2917V0.857422H69.4858V12.5603C69.4858 14.1761 70.7956 15.486 72.4115 15.486H89.2343C90.8502 15.486 92.16 14.1761 92.16 12.5603V0.857422H95.8172V11.2803V13.2917C95.8172 16.5234 93.1974 19.1431 89.9658 19.1431H71.68C68.4484 19.1431 65.8286 16.5234 65.8286 13.2917Z" />

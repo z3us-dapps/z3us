@@ -85,11 +85,11 @@ export const DesktopNavigation: React.FC = () => {
 					</LayoutGroup>
 				</Box>
 				<Box display="flex" alignItems="center" gap="medium">
-					<ConnectButton />
 					<NotificationsDropdown />
 					<CopyAddressButton address="rdx1b707388613169bf701d533e143d8f698c9090f605e677a967eaf70a4c69250ce" />
 					<AccountViewDropdown />
-					<WalletDropdown />
+					{/* <WalletDropdown /> */}
+					<ConnectButton />
 				</Box>
 			</Box>
 		</Box>

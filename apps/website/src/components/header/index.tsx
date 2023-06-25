@@ -1,11 +1,12 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { NextButton } from '@/components/next-button'
 import { NextLink } from '@/components/next-link'
 import { useRouter } from 'next/router'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 
 import { Box } from 'ui/src/components/box'
 import { Button } from 'ui/src/components/button'
-import { ConnectButton } from 'ui/src/components/connect-button'
+import { ConnectButton, useConnectButtonDappInfo } from 'ui/src/components/connect-button'
 import { LoadingBarsIcon } from 'ui/src/components/icons'
 import { GithubIcon } from 'ui/src/components/icons/github-icon'
 import { TelegramIcon } from 'ui/src/components/icons/telegram-icon'
@@ -16,15 +17,22 @@ import * as styles from './header.css'
 
 export const Header = () => {
 	const router = useRouter()
-	const [isLoading, setIsLoading] = useState<boolean>(false)
+	// const [isLoading, setIsLoading] = useState<boolean>(false)
+	const { connected } = useConnectButtonDappInfo()
 
-	const handleConnect = () => {
-		setIsLoading(true)
-		setTimeout(() => {
-			setIsLoading(false)
+	// const handleConnect = () => {
+	// 	setIsLoading(true)
+	// 	setTimeout(() => {
+	// 		setIsLoading(false)
+	// 		router.push('#/accounts/all', undefined, { scroll: false })
+	// 	}, 1000)
+	// }
+
+	useEffect(() => {
+		if (connected) {
 			router.push('#/accounts/all', undefined, { scroll: false })
-		}, 1000)
-	}
+		}
+	}, [connected])
 
 	return (
 		<Box className={styles.headerWrapper}>
@@ -44,7 +52,7 @@ export const Header = () => {
 					<GithubIcon />
 				</NextButton>
 				<Box>
-					<Button
+					{/* <Button
 						sizeVariant="small"
 						onClick={handleConnect}
 						rightIcon={
@@ -56,7 +64,7 @@ export const Header = () => {
 						}
 					>
 						Connect
-					</Button>
+					</Button> */}
 				</Box>
 				<ConnectButton />
 			</Box>

@@ -1,3 +1,6 @@
+/* eslint-disable */
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-nocheck
 import * as crypto from 'crypto'
 import * as ed25519 from 'ed25519'
 import { ec as EC } from 'elliptic'

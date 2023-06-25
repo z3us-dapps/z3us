@@ -6,5 +6,6 @@ export const radixConnectButtonWrapper = style([
 	sprinkles({}),
 	{
 		display: 'block',
+		width: '138px',
 	},
 ])
