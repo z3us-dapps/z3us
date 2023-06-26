@@ -1,10 +1,10 @@
-import { useAccounts } from './dapp/use-accounts'
 import { useNetworkId } from './dapp/use-network-id'
+import { useRdtState } from './dapp/use-rdt-state'
 import { useNoneSharedStore } from './use-store'
 
 export const useWalletAccounts = () => {
 	const networkId = useNetworkId()
-	const accounts = useAccounts()
+	const { accounts = [] } = useRdtState()!
 
 	const { addressBook } = useNoneSharedStore(state => ({
 		addressBook: state.addressBook[networkId] || {},

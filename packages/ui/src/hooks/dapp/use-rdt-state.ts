@@ -20,5 +20,5 @@ export const useRdtState = () => {
 		}
 	}, [rdt])
 
-	return state
+	return state || {}
 }

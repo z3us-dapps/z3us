@@ -1,59 +1,54 @@
-/* eslint-disable */
-// @ts-nocheck
-// TODO: fix
+import type { CommittedTransactionInfo } from '@radixdlt/babylon-gateway-api-sdk'
 import clsx from 'clsx'
-import { AnimatePresence, motion } from 'framer-motion'
-import React, { forwardRef, useContext, useEffect, useState } from 'react'
+import {
+	AnimatePresence,
+	/** motion */
+} from 'framer-motion'
+import { ACCOUNTS_ALL } from 'packages/ui/src/constants/routes'
+import { useTransactions } from 'packages/ui/src/hooks/dapp/use-transactions'
+import React, { forwardRef, useCallback, useState } from 'react'
 import { useLocation } from 'react-router-dom'
 import { Virtuoso } from 'react-virtuoso'
-import { useTimeout } from 'usehooks-ts'
 
 import { Box } from 'ui/src/components/box'
 import { Button } from 'ui/src/components/button'
 import { ShareIcon } from 'ui/src/components/icons'
 import { Link } from 'ui/src/components/router-link'
-import * as skeletonStyles from 'ui/src/components/styles/skeleton-loading.css'
+// import * as skeletonStyles from 'ui/src/components/styles/skeleton-loading.css'
 import { ToolTip } from 'ui/src/components/tool-tip'
 import { TransactionIcon } from 'ui/src/components/transaction-icon'
 import Translation from 'ui/src/components/translation'
 import { Text } from 'ui/src/components/typography'
-import { animtePageVariants } from 'ui/src/constants/page'
+// import { animtePageVariants } from 'ui/src/constants/page'
 import { useAccountParams } from 'ui/src/hooks/use-account-params'
 
 import * as styles from './account-activity.css'
-import { Context } from './context'
-
-const hash = () => Math.random().toString(36).substring(7)
 
 const ListContainer = React.forwardRef<HTMLDivElement>((props, ref) => <div ref={ref} {...props} />)
 
 const ItemContainer = props => <Box {...props} className={styles.activtyItem} />
 
-const ItemWrapper = props => {
-	const { setItems } = useContext(Context)
-	const { id, index, loaded, user, selected, hovered, setHovered } = props
+interface IAllAccountListRowProps {
+	index: number
+	transaction: CommittedTransactionInfo
+	selected: number
+	hovered: number
+	setHovered: (number) => void
+	setSelected: (number) => void
+}
+
+const ItemWrapper: React.FC<IAllAccountListRowProps> = props => {
+	const { index, transaction, selected, hovered, setHovered, setSelected } = props
 
 	const { pathname } = useLocation()
 
-	const isSelected = selected === user.id
-	const isHovered = hovered === user.id
-
-	// demo for timing
-	useTimeout(() => {
-		setItems(items =>
-			items.map(item => {
-				if (item.id === id) {
-					item.loaded = true
-				}
-				return item
-			}),
-		)
-	}, 1000)
+	const isSelected = selected === index
+	const isHovered = hovered === index
 
 	return (
 		<Box className={styles.activtyItemOuter}>
 			<AnimatePresence initial={false}>
-				{!loaded && (
+				{/* {!loaded && (
 					<motion.div
 						initial="hidden"
 						animate="visible"
@@ -86,58 +81,54 @@ const ItemWrapper = props => {
 							</Box>
 						</Box>
 					</motion.div>
-				)}
-			</AnimatePresence>
-			<AnimatePresence initial={false}>
-				{loaded && (
-					<>
-						<Box
-							className={clsx(styles.activtyItemInner, (isSelected || isHovered) && styles.activtyItemInnerSelected)}
+				)} */}
+				{/* {loaded && ( */}
+				<>
+					<Box className={clsx(styles.activtyItemInner, (isSelected || isHovered) && styles.activtyItemInnerSelected)}>
+						<Link
+							underline="never"
+							to={`${pathname}?asset=xrd&transactionId=1eaf53c4256c384d76ca72c0f18ef37a2e4441d4e6bae450e2b8507f42faa5b6`}
+							// to={`/accounts/transactions/btc/1eaf53c4256c384d76ca72c0f18ef37a2e4441d4e6bae450e2b8507f42faa5b6`}
+							className={styles.activtyItemInnerBtn}
+							// onClick={handleClickItem}
+							onMouseOver={() => setHovered(index)}
+							onMouseLeave={() => setHovered(null)}
 						>
-							<Link
-								underline="never"
-								to={`${pathname}?asset=xrd&transactionId=1eaf53c4256c384d76ca72c0f18ef37a2e4441d4e6bae450e2b8507f42faa5b6`}
-								// to={`/accounts/transactions/btc/1eaf53c4256c384d76ca72c0f18ef37a2e4441d4e6bae450e2b8507f42faa5b6`}
-								className={styles.activtyItemInnerBtn}
-								// onClick={handleClickItem}
-								onMouseOver={() => setHovered(user.id)}
+							<Box className={styles.indicatorCircle}>
+								<TransactionIcon transactionType="deposit" />
+							</Box>
+							<Box className={styles.activtyItemTextWrapper}>
+								<Text weight="stronger" size="small" color="strong" truncate>
+									{transaction.transaction_status}
+								</Text>
+								<Text size="xsmall" truncate>
+									{transaction.confirmed_at?.toLocaleString()}
+								</Text>
+							</Box>
+						</Link>
+					</Box>
+					<Box
+						className={clsx(
+							styles.activtyItemExternalLinkWrapper,
+							(isSelected || isHovered) && styles.activtyItemExternalLinkWrapperActive,
+						)}
+					>
+						<ToolTip theme="backgroundPrimary" message={<Translation capitalizeFirstLetter text="global.explorer" />}>
+							<Button
+								sizeVariant="small"
+								styleVariant="ghost"
+								iconOnly
+								to="https://explorer.radixdlt.com/"
+								target="_blank"
+								onMouseOver={() => setHovered(index)}
 								onMouseLeave={() => setHovered(null)}
 							>
-								<Box className={styles.indicatorCircle}>
-									<TransactionIcon transactionType="deposit" />
-								</Box>
-								<Box className={styles.activtyItemTextWrapper}>
-									<Text weight="stronger" size="small" color="strong" truncate>
-										+1.249 XRD +1.249 XRD +1.249 XRD +1.249 XRD +1.249 XRD
-									</Text>
-									<Text size="xsmall" truncate>
-										29 Aug, 10est, 2023 29 Aug, 10est, 2023 29 Aug, 10est, 2023 29 Aug, 10est, 2023
-									</Text>
-								</Box>
-							</Link>
-						</Box>
-						<Box
-							className={clsx(
-								styles.activtyItemExternalLinkWrapper,
-								(isSelected || isHovered) && styles.activtyItemExternalLinkWrapperActive,
-							)}
-						>
-							<ToolTip theme="backgroundPrimary" message={<Translation capitalizeFirstLetter text="global.explorer" />}>
-								<Button
-									sizeVariant="small"
-									styleVariant="ghost"
-									iconOnly
-									to="https://explorer.radixdlt.com/"
-									target="_blank"
-									onMouseOver={() => setHovered(user.id)}
-									onMouseLeave={() => setHovered(null)}
-								>
-									<ShareIcon />
-								</Button>
-							</ToolTip>
-						</Box>
-					</>
-				)}
+								<ShareIcon />
+							</Button>
+						</ToolTip>
+					</Box>
+				</>
+				{/* )} */}
 			</AnimatePresence>
 		</Box>
 	)
@@ -156,54 +147,47 @@ const defaultProps: IAccountActivityOptionalProps = {}
 export const AccountActivity = forwardRef<HTMLElement, IAccountActivityProps>(
 	(props, ref: React.Ref<HTMLElement | null>) => {
 		const { scrollableNode } = props
-		const { account, assetType, asset } = useAccountParams()
 
-		const [selected, setSelected] = useState<string | null>(null)
-		const [hovered, setHovered] = useState<string | null>(null)
+		const [selected, setSelected] = useState<number | null>(null)
+		const [hovered, setHovered] = useState<number | null>(null)
+		const { account } = useAccountParams()
 
-		// eslint-disable-next-line
-		const [items, setItems] = useState(Array.from({ length: 20 }, _ => ({ id: hash(), name: hash(), loaded: false })))
+		const { isFetching, data, error, fetchNextPage, hasNextPage } = useTransactions(
+			account !== ACCOUNTS_ALL ? { [account]: null } : null,
+		)
 
-		useEffect(() => {
-			// DEMO CODE DEMONSTRATE LOADING
-			// eslint-disable-next-line
-			setItems(Array.from({ length: 20 }, _ => ({ id: hash(), name: hash(), loaded: false })))
+		const flatten = data?.pages.reduce((container, page) => [...container, ...page.items], []) || []
 
-			// DEMO CODE DEMONSTRATE LOADING
-			setTimeout(() => {
-				// eslint-disable-next-line
-				setItems(Array.from({ length: 20 }, _ => ({ id: hash(), name: hash(), loaded: true })))
-			}, 1000)
-		}, [account, assetType, asset])
+		const loadMore = useCallback(() => {
+			if (isFetching) return
+			if (hasNextPage) {
+				fetchNextPage()
+			}
+		}, [isFetching, fetchNextPage, hasNextPage])
 
 		return (
 			<Box ref={ref} className={clsx(styles.activityWrapper)} style={{ minHeight: '100px' }}>
-				{/* @TODO: remove eslint when we remove context provider */}
-				{/* eslint-disable-next-line */}
-				<Context.Provider value={{ setItems }}>
-					<Virtuoso
-						customScrollParent={scrollableNode}
-						data={items}
-						// todo fix lint issue
-						// eslint-disable-next-line
-						itemContent={(index, user) => (
-							<ItemWrapper
-								index={index}
-								id={user.id}
-								loaded={user.loaded}
-								user={user}
-								selected={selected}
-								setSelected={setSelected}
-								hovered={hovered}
-								setHovered={setHovered}
-							/>
-						)}
-						components={{
-							List: ListContainer,
-							Item: ItemContainer,
-						}}
-					/>
-				</Context.Provider>
+				<Virtuoso
+					customScrollParent={scrollableNode}
+					totalCount={flatten.length}
+					data={flatten}
+					endReached={loadMore}
+					// eslint-disable-next-line react/no-unstable-nested-components
+					itemContent={(index, tx) => (
+						<ItemWrapper
+							index={index}
+							transaction={tx}
+							selected={selected}
+							setSelected={setSelected}
+							hovered={hovered}
+							setHovered={setHovered}
+						/>
+					)}
+					components={{
+						List: ListContainer,
+						Item: ItemContainer,
+					}}
+				/>
 			</Box>
 		)
 	},

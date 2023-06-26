@@ -98,7 +98,7 @@ export const AccountViewDropdown = forwardRef<HTMLElement, IAccountViewDropdownP
 										}}
 									>
 										{accounts.map((account, idx) => (
-											<DropdownMenuRadioItem value={idx % 2 === 0 ? 'light' : 'dark'}>
+											<DropdownMenuRadioItem key={account.address} value={idx % 2 === 0 ? 'light' : 'dark'}>
 												<DropdownMenuLeftSlot>
 													<Box
 														style={{ width: '60px', height: '40px' }}

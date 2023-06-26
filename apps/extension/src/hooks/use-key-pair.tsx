@@ -1,8 +1,9 @@
 import { useSharedStore } from 'packages/ui/src/hooks/use-store'
 import { useEffect, useState } from 'react'
 
-import { entropyToMnemonic, secp256k1Service } from '@src/crypto/key_pair'
+import { secp256k1 } from '@src/crypto/key_pair'
 import type { KeyPair } from '@src/crypto/key_pair'
+import { entropyToMnemonic } from '@src/crypto/mnemonic'
 import type { Data } from '@src/types/vault'
 import { DataType } from '@src/types/vault'
 
@@ -11,9 +12,9 @@ import { useMessageClient } from './use-message-client'
 function getKeyPair(data: Data): KeyPair | null {
 	switch (data.type) {
 		case DataType.MNEMONIC:
-			return secp256k1Service.fromMnemonic(entropyToMnemonic(data.secret))
+			return secp256k1.fromMnemonic(entropyToMnemonic(data.secret))
 		case DataType.PRIVATE_KEY:
-			return secp256k1Service.fromExtendedPrivateKey(data.secret)
+			return secp256k1.fromExtendedPrivateKey(data.secret)
 		default:
 			return null
 	}

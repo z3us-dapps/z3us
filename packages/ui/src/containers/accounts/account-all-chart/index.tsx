@@ -1,29 +1,18 @@
-/* eslint-disable */
-// @ts-nocheck
-// TODO: fix
-
-/* eslint-disable  @typescript-eslint/no-unused-vars, react/no-array-index-key */
-import clsx, { type ClassValue } from 'clsx'
+import clsx from 'clsx'
 import { AnimatePresence, motion } from 'framer-motion'
+import { useResourceBalances } from 'packages/ui/src/hooks/dapp/use-balances'
 import React, { useState } from 'react'
-import useMeasure from 'react-use-measure'
-import { Cell, Pie, PieChart, ResponsiveContainer, Sector, Tooltip } from 'recharts'
+import { Cell, Pie, PieChart, ResponsiveContainer, Tooltip } from 'recharts'
 import { useTimeout } from 'usehooks-ts'
 
 import { Box } from 'ui/src/components/box'
 import { Button } from 'ui/src/components/button'
 import { ChartToolTip } from 'ui/src/components/chart-tool-tip'
-import { CopyAddressButton } from 'ui/src/components/copy-address-button'
 import { HeightAnimatePanel } from 'ui/src/components/height-animate-panel'
-import { ArrowLeftIcon, ArrowRightIcon, Close2Icon } from 'ui/src/components/icons'
-import { ToolTip } from 'ui/src/components/tool-tip'
-import Translation from 'ui/src/components/translation'
-import { Text } from 'ui/src/components/typography'
 import { Z3usLoading } from 'ui/src/components/z3us-loading'
 import { animtePageVariants } from 'ui/src/constants/page'
 import { ACCOUNTS_ALL } from 'ui/src/constants/routes'
 import { useAccountParams } from 'ui/src/hooks/use-account-params'
-import { getShortAddress } from 'ui/src/utils/string-utils'
 
 import * as styles from './account-all-chart.css'
 import { AllAccountListRow } from './all-account-list-row'
@@ -36,13 +25,7 @@ const COLORS = [
 	{ start: '#da9d35', end: '#e96935' },
 ]
 
-const data = [
-	{ name: '1', value: 150 },
-	{ name: '2', value: 200 },
-	{ name: '3', value: 250 },
-]
-
-export const AccountAllChart: React.FC<IAccountAllChartProps> = props => {
+export const AccountAllChart: React.FC<IAccountAllChartProps> = () => {
 	const { account, assetType } = useAccountParams()
 	const [loaded, setLoaded] = useState<boolean>(false)
 	const [showFullAccountList, setShowFullAccountList] = useState<boolean>(false)
@@ -50,9 +33,7 @@ export const AccountAllChart: React.FC<IAccountAllChartProps> = props => {
 	const isAllAccount = account === ACCOUNTS_ALL
 	// const [measureRef, { width: chartWrapperWidth, height: chartWrapperHeight }] = useMeasure()
 
-	// TODO: temp
-	const accountAddress =
-		'ardx1qspt0lthflcd45zhwvrxkqdrv5ne5avsgarjcpfatyw7n7n93v38dhcdtlag0sdfalksjdhf7d8f78d7f8d7f8d7f8d7f'
+	const balances = useResourceBalances(!isAllAccount ? { [account]: null } : null)
 
 	useTimeout(() => {
 		setLoaded(true)
@@ -102,7 +83,7 @@ export const AccountAllChart: React.FC<IAccountAllChartProps> = props => {
 								<ResponsiveContainer width="100%" height="100%">
 									<PieChart width={400} height={400}>
 										<defs>
-											{data.map((entry, index) => (
+											{balances.map((entry, index) => (
 												<linearGradient key={entry.name} id={`myGradient${index}`}>
 													<stop offset="0%" stopColor={COLORS[index % COLORS.length].start} />
 													<stop offset="100%" stopColor={COLORS[index % COLORS.length].end} />
@@ -113,16 +94,16 @@ export const AccountAllChart: React.FC<IAccountAllChartProps> = props => {
 											dataKey="value"
 											startAngle={0}
 											endAngle={360}
-											data={data}
+											data={balances.map(resource => ({ ...resource, value: resource.amount.toNumber() }))}
 											cx="50%"
 											cy="50%"
 											outerRadius={100}
 											innerRadius={40}
 											isAnimationActive={false} // Disable initial animation on mount
 										>
-											{data.map((entry, index) => (
+											{balances.map((entry, index) => (
 												<Cell
-													key={`cell-${index}`}
+													key={`cell-${entry.address}`}
 													fill={`url(#myGradient${index})`}
 													stroke={COLORS[index % COLORS.length].start}
 													strokeWidth={index === hoveredCellIndex ? 2 : 1}
@@ -144,9 +125,8 @@ export const AccountAllChart: React.FC<IAccountAllChartProps> = props => {
 								<Box display="flex" flexDirection="column" gap="xsmall" width="full">
 									<HeightAnimatePanel>
 										<Box>
-											{[...Array(showFullAccountList ? 10 : 3)].map((x, i) => (
-												// eslint-disable-next-line
-												<AllAccountListRow key={i} />
+											{(showFullAccountList ? balances : balances.slice(0, 3)).map(resource => (
+												<AllAccountListRow key={resource.address} {...resource} />
 											))}
 										</Box>
 									</HeightAnimatePanel>

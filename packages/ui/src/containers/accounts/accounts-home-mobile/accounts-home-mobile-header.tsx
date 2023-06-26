@@ -1,10 +1,8 @@
-/* eslint-disable */
-// @ts-nocheck
-// TODO: fix
-
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import clsx, { type ClassValue } from 'clsx'
 import { AnimatePresence } from 'framer-motion'
+import { Change } from 'packages/ui/src/components/change'
+import { Price } from 'packages/ui/src/components/price'
+import { useTotalBalance } from 'packages/ui/src/hooks/dapp/use-balances'
 import React, { forwardRef, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useIntersectionObserver } from 'usehooks-ts'
@@ -107,6 +105,8 @@ export const AccountsHomeMobileHeader = forwardRef<HTMLElement, IAccountsHomeMob
 		const elementRef = useRef<HTMLDivElement | null>(null)
 		const entry = useIntersectionObserver(elementRef, { threshold: [1] })
 
+		const [value, change] = useTotalBalance()
+
 		const { t } = useTranslation()
 
 		const isSticky = !entry?.isIntersecting
@@ -161,10 +161,10 @@ export const AccountsHomeMobileHeader = forwardRef<HTMLElement, IAccountsHomeMob
 								<Translation capitalizeFirstLetter text="accounts.home.accountBalanceTitle" />
 							</Text>
 							<Text color="strong" align="center" size="xlarge">
-								$13,300
+								<Price value={value} />
 							</Text>
 							<Text align="center" size="xlarge">
-								+2.43%
+								<Change change={change} />
 							</Text>
 						</Box>
 					</Box>
