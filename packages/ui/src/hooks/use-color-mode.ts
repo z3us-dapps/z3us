@@ -1,5 +1,3 @@
-// @ts-nocheck
-// TODO: fix ts
 import { useEffect, useState } from 'react'
 
 // TODO: fix

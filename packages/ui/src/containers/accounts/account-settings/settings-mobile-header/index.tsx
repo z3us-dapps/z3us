@@ -1,6 +1,3 @@
-/* eslint-disable */
-// @ts-nocheck
-// TODO: fix
 import clsx from 'clsx'
 import React, { forwardRef } from 'react'
 

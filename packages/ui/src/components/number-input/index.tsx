@@ -1,5 +1,3 @@
-// @ts-nocheck
-// TODO: fix ts
 import React, { forwardRef, useState } from 'react'
 
 import type { IInputOptionalProps } from '../input'

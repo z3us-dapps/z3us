@@ -1,6 +1,3 @@
-/* eslint-disable */
-// @ts-nocheck
-// TODO: fix
 import { z } from 'zod'
 
 import { type IToken } from './account-transfer-types'

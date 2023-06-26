@@ -1,5 +1,3 @@
-// @ts-nocheck
-// TODO: fix ts
 import { useMatch } from 'react-router-dom'
 
 type TAccountParams = {

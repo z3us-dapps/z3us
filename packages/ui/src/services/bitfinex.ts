@@ -1,5 +1,4 @@
-// @ts-nocheck
-import type { Ticker } from 'ui/src/types'
+import type { Ticker } from 'ui/src/types/types'
 
 // https://docs.bitfinex.com/reference#rest-public-ticker
 const parseTicker = (ticker: Array<string | number>) => ({

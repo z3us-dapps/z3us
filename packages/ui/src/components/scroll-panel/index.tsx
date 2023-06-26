@@ -1,5 +1,3 @@
-// @ts-nocheck
-// TODO: fix ts
 import clsx from 'clsx'
 import { screens } from 'design/tokens/foundation/screens.json'
 import React, { useEffect, useRef, useState } from 'react'

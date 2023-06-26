@@ -1,7 +1,3 @@
-/* eslint-disable */
-// @ts-nocheck
-// TODO: fix
-
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import React, { useCallback, useRef, useState } from 'react'
 import { Route, Routes, useLocation, useSearchParams } from 'react-router-dom'
@@ -135,7 +131,7 @@ export const AccountsHomeMobile = () => {
 			</ScrollArea>
 			<MobileHeaderNavigation
 				copyAddressBtnVisible={isScrolledPastHeader && !isAllAccounts}
-				isAllAccount={isAllAccounts}
+				// isAllAccount={isAllAccounts}
 				className={styles.accountsColorBackground}
 				style={bgStyle}
 			/>

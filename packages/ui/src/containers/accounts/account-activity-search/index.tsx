@@ -1,7 +1,3 @@
-/* eslint-disable */
-// @ts-nocheck
-// TODO: fix
-
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import type { ClassValue } from 'clsx'
 import clsx from 'clsx'
@@ -11,8 +7,8 @@ import { useLocation } from 'react-router-dom'
 import { useIntersectionObserver } from 'usehooks-ts'
 
 import { Box } from 'ui/src/components/box'
-import { Button } from 'ui/src/components/button'
 import { ArrowUpIcon, Close2Icon, SearchIcon } from 'ui/src/components/icons'
+import { Button } from 'ui/src/components/router-button'
 import { ToolTip } from 'ui/src/components/tool-tip'
 import Translation from 'ui/src/components/translation'
 import { Text } from 'ui/src/components/typography'

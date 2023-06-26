@@ -38,6 +38,7 @@ interface IAllAccountListRowProps {
 }
 
 const ItemWrapper: React.FC<IAllAccountListRowProps> = props => {
+	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	const { index, transaction, selected, hovered, setHovered, setSelected } = props
 
 	const { pathname } = useLocation()
@@ -118,10 +119,10 @@ const ItemWrapper: React.FC<IAllAccountListRowProps> = props => {
 								sizeVariant="small"
 								styleVariant="ghost"
 								iconOnly
-								to="https://explorer.radixdlt.com/"
-								target="_blank"
-								onMouseOver={() => setHovered(index)}
-								onMouseLeave={() => setHovered(null)}
+								// to="https://explorer.radixdlt.com/"
+								// target="_blank"
+								// onMouseOver={() => setHovered(index)}
+								// onMouseLeave={() => setHovered(null)}
 							>
 								<ShareIcon />
 							</Button>
@@ -152,6 +153,7 @@ export const AccountActivity = forwardRef<HTMLElement, IAccountActivityProps>(
 		const [hovered, setHovered] = useState<number | null>(null)
 		const { account } = useAccountParams()
 
+		// eslint-disable-next-line @typescript-eslint/no-unused-vars
 		const { isFetching, data, error, fetchNextPage, hasNextPage } = useTransactions(
 			account !== ACCOUNTS_ALL ? { [account]: null } : null,
 		)

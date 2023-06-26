@@ -116,7 +116,8 @@ export const AccountsHomeMobileHeader = forwardRef<HTMLElement, IAccountsHomeMob
 				generateAssetLink && asset ? `/${asset}` : ''
 			}${isActivity ? `?${SEARCH_ACTIVITY_PARAM}=true` : ''}`
 
-		const clickBackLink = `/${routes.ACCOUNTS}${account ? `/${account}` : ''}`
+		// TODO: fix
+		// const clickBackLink = `/${routes.ACCOUNTS}${account ? `/${account}` : ''}`
 
 		const handleSearch = (event: React.ChangeEvent<FormElement>) => {
 			onSearch(event.currentTarget.value || '')
@@ -281,7 +282,8 @@ export const AccountsHomeMobileHeader = forwardRef<HTMLElement, IAccountsHomeMob
 									iconOnly
 									styleVariant="secondary"
 									sizeVariant="small"
-									to={clickBackLink}
+									// TODO: fix
+									// to={clickBackLink}
 									onClick={handleClearSearch}
 								>
 									<ChevronLeftIcon />

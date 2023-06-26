@@ -1,7 +1,3 @@
-/* eslint-disable */
-// @ts-nocheck
-// TODO: fix
-
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import type { ClassValue } from 'clsx'
 import clsx from 'clsx'

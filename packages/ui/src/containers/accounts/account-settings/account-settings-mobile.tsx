@@ -1,7 +1,3 @@
-/* eslint-disable */
-// @ts-nocheck
-// TODO: fix
-
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import type { ClassValue } from 'clsx'
 import clsx from 'clsx'
@@ -11,8 +7,8 @@ import { Link, Route, Routes, useLocation } from 'react-router-dom'
 
 import { AnimatedPage } from 'ui/src/components/animated-page'
 import { Box } from 'ui/src/components/box'
-import { Button } from 'ui/src/components/button'
 import { ArrowLeftIcon, ChevronDown3Icon, ChevronLeftIcon, HomeIcon } from 'ui/src/components/icons'
+import { Button } from 'ui/src/components/router-button'
 import { Text } from 'ui/src/components/typography'
 
 import * as styles from './account-settings.css'

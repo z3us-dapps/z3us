@@ -1,34 +1,32 @@
-// @ts-nocheck
-// TODO: fix ts
 import type * as DropdownMenuPrimitive from '@radix-ui/react-dropdown-menu'
-import * as ScrollAreaPrimative from '@radix-ui/react-scroll-area'
+import * as ScrollAreaPrimitive from '@radix-ui/react-scroll-area'
 import clsx from 'clsx'
 import React, { forwardRef } from 'react'
 
 import * as styles from './scroll-area-radix.css'
 
 export const ScrollAreaRoot = ({ children, ...props }) => (
-	<ScrollAreaPrimative.Root className={styles.scrollAreaRootWrapper} {...props}>
+	<ScrollAreaPrimitive.Root className={styles.scrollAreaRootWrapper} {...props}>
 		{children}
-	</ScrollAreaPrimative.Root>
+	</ScrollAreaPrimitive.Root>
 )
 
 export const ScrollAreaViewport = forwardRef<HTMLDivElement, DropdownMenuPrimitive.DropdownMenuContentProps>(
 	({ children, className, ...props }, ref) => (
-		<ScrollAreaPrimative.Viewport ref={ref} className={clsx(styles.scrollAreaRootWrapper, className)} {...props}>
+		<ScrollAreaPrimitive.Viewport ref={ref} className={clsx(styles.scrollAreaRootWrapper, className)} {...props}>
 			{children}
-		</ScrollAreaPrimative.Viewport>
+		</ScrollAreaPrimitive.Viewport>
 	),
 )
 
 export const ScrollAreaScrollbar = ({ children, ...props }) => (
-	<ScrollAreaPrimative.Scrollbar className={styles.scrollAreaScrollbarWrapper} {...props}>
+	<ScrollAreaPrimitive.Scrollbar className={styles.scrollAreaScrollbarWrapper} {...props}>
 		{children}
-	</ScrollAreaPrimative.Scrollbar>
+	</ScrollAreaPrimitive.Scrollbar>
 )
 
 export const ScrollAreaThumb = ({ ...props }) => (
-	<ScrollAreaPrimative.Thumb className={styles.scrollAreaThumbWrapper} {...props} />
+	<ScrollAreaPrimitive.Thumb className={styles.scrollAreaThumbWrapper} {...props} />
 )
 
 export const ScrollAreaRadix = ({ children, ...props }) => (

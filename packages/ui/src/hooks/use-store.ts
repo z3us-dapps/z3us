@@ -1,5 +1,3 @@
-// @ts-nocheck
-// TODO: fix ts
 import { useContext } from 'react'
 import { useStore } from 'zustand'
 import { shallow } from 'zustand/shallow'

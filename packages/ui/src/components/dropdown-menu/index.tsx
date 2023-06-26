@@ -1,5 +1,3 @@
-// @ts-nocheck
-// TODO: fix ts
 import * as DropdownMenuPrimitive from '@radix-ui/react-dropdown-menu'
 import clsx, { type ClassValue } from 'clsx'
 import React, { forwardRef, useState } from 'react'

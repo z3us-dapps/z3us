@@ -1,7 +1,3 @@
-/* eslint-disable */
-// @ts-nocheck
-// TODO: fix
-
 /* eslint-disable react/jsx-no-useless-fragment, @typescript-eslint/no-unused-vars */
 import type { ClassValue } from 'clsx'
 import clsx from 'clsx'
@@ -9,8 +5,8 @@ import React from 'react'
 import { useLocation } from 'react-router-dom'
 
 import { Box } from 'ui/src/components/box'
-import { Button } from 'ui/src/components/button'
 import { ArrowUpIcon, SearchIcon } from 'ui/src/components/icons'
+import { Button } from 'ui/src/components/router-button'
 import { ToolTip } from 'ui/src/components/tool-tip'
 import Translation from 'ui/src/components/translation'
 

@@ -1,5 +1,4 @@
-// @ts-nocheck
-import type { Ticker } from 'ui/src/types'
+import type { Ticker } from 'ui/src/types/types'
 
 const parseTicker = (ticker: any, currency: string) => ({
 	last_price: (ticker[currency.toLowerCase()] || 0) as number,

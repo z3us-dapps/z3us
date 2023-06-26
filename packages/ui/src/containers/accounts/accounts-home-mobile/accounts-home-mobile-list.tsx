@@ -1,7 +1,3 @@
-/* eslint-disable */
-// @ts-nocheck
-// TODO: fix
-
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import clsx, { type ClassValue } from 'clsx'
 import React, { forwardRef, useCallback, useEffect, useState } from 'react'
@@ -11,7 +7,7 @@ import { Virtuoso } from 'react-virtuoso'
 import { Box } from 'ui/src/components/box'
 import { LIST_ITEM_ACTIVITY, LIST_ITEM_ASSET, LIST_ITEM_ASSET_TYPE, LIST_ITEM_INDEX } from 'ui/src/constants/list'
 import { ASSET_TYPE_BADGES, ASSET_TYPE_LP_TOKENS, ASSET_TYPE_NFTS, ASSET_TYPE_TOKENS } from 'ui/src/constants/routes'
-import type { TListItem } from 'ui/src/types'
+import type { TListItem } from 'ui/src/types/types'
 import { isEmptyArray } from 'ui/src/utils/assertion'
 
 import * as styles from './accounts-home-mobile.css'
