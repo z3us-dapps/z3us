@@ -1,12 +1,14 @@
-import { screens } from 'design/tokens/foundation/screens.json'
 import { useState } from 'react'
 import { useDebouncedCallback } from 'use-debounce'
 import { useEventListener } from 'usehooks-ts'
 
+const DEBOUNCE_TIMEOUT = 50
+
 const getIsMobileWidth = (): boolean => {
 	const windowWidth = window.innerWidth
-	const mobileBreakPoint = screens.md.value.replace('px', '')
-	return windowWidth < parseInt(mobileBreakPoint, 10)
+	const mobileBreakPoint = 768
+
+	return windowWidth < mobileBreakPoint
 }
 
 export const useIsMobileWidth = () => {
@@ -14,7 +16,7 @@ export const useIsMobileWidth = () => {
 
 	const debouncedResizeHandler = useDebouncedCallback(() => {
 		setIsMobileWidth(getIsMobileWidth())
-	}, 50)
+	}, DEBOUNCE_TIMEOUT)
 
 	useEventListener('resize', debouncedResizeHandler)
 

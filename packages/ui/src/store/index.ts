@@ -1,4 +1,3 @@
-// @ts-nocheck
 import type { StateCreator } from 'zustand'
 import { createStore } from 'zustand'
 import { devtools, persist, subscribeWithSelector } from 'zustand/middleware'
@@ -18,7 +17,6 @@ type MutatorsTypes = [
 	['zustand/immer', never],
 ]
 
-// TODO: fix type error
 const middlewares = <T>(name: string, f: StateCreator<T, MutatorsTypes>) =>
 	devtools(subscribeWithSelector(persist(immer(f), { name })), { name })
 

@@ -1,6 +1,3 @@
-// TODO: fix
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-nocheck
 import { ContentScriptMessageHandler } from '@radixdlt/connector-extension/src/chrome/content-script/message-handler'
 import type { MessageLifeCycleEvent } from '@radixdlt/connector-extension/src/chrome/dapp/_types'
 import { ChromeDAppClient } from '@radixdlt/connector-extension/src/chrome/dapp/dapp-client'

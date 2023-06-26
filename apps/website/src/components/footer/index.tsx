@@ -28,6 +28,17 @@ export const Footer = () => {
 		setTheme(_theme)
 	}
 
+	const pageLinks = (
+		<>
+			<NextLink size="small" href="/privacy" underline="hover">
+				Privacy
+			</NextLink>
+			<NextLink size="small" href="/terms" underline="hover">
+				Terms
+			</NextLink>
+		</>
+	)
+
 	return (
 		<ContentContainer>
 			<Box className={styles.footerWrapper}>
@@ -35,14 +46,10 @@ export const Footer = () => {
 					<Box className={styles.footerLeftWrapper}>
 						<Z3usLogoLink />
 						<Text size="small">&copy; {new Date().getFullYear()} Z3US</Text>
+						<Box className={styles.mobileLinks}>{pageLinks}</Box>
 					</Box>
 					<Box className={styles.footerRightWrapper}>
-						<NextLink size="small" href="/privacy" underline="hover">
-							Privacy
-						</NextLink>
-						<NextLink size="small" href="/terms" underline="hover">
-							Terms
-						</NextLink>
+						<Box className={styles.tabletLinks}>{pageLinks}</Box>
 						<Box display="flex" gap="xsmall">
 							<ToolTip message={<Translation capitalizeFirstLetter text="global.telegram" />}>
 								<NextButton

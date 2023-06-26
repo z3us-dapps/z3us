@@ -1,5 +1,3 @@
-// @ts-nocheck
-// TODO: fix ts
 import clsx, { type ClassValue } from 'clsx'
 import React, { useEffect, useRef, useState } from 'react'
 

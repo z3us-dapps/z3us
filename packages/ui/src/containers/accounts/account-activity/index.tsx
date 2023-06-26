@@ -4,6 +4,7 @@ import {
 	AnimatePresence,
 	/** motion */
 } from 'framer-motion'
+import { config } from 'packages/ui/src/constants/config'
 import { ACCOUNTS_ALL } from 'packages/ui/src/constants/routes'
 import { useTransactions } from 'packages/ui/src/hooks/dapp/use-transactions'
 import React, { forwardRef, useCallback, useState } from 'react'
@@ -38,6 +39,7 @@ interface IAllAccountListRowProps {
 }
 
 const ItemWrapper: React.FC<IAllAccountListRowProps> = props => {
+	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	const { index, transaction, selected, hovered, setHovered, setSelected } = props
 
 	const { pathname } = useLocation()
@@ -119,10 +121,13 @@ const ItemWrapper: React.FC<IAllAccountListRowProps> = props => {
 								sizeVariant="small"
 								styleVariant="ghost"
 								iconOnly
-								to="https://explorer.radixdlt.com/"
-								target="_blank"
 								onMouseOver={() => setHovered(transaction.intent_hash_hex)}
-								onMouseLeave={() => setHovered(null)}
+								onMouseOut={() => setHovered(null)}
+								onClick={() =>
+									window
+										.open(`${config.defaultExplorerURL}/transaction/${transaction.intent_hash_hex}`, '_blank')
+										.focus()
+								}
 							>
 								<ShareIcon />
 							</Button>
@@ -153,6 +158,7 @@ export const AccountActivity = forwardRef<HTMLElement, IAccountActivityProps>(
 		const [hovered, setHovered] = useState<string | null>(null)
 		const { account } = useAccountParams()
 
+		// eslint-disable-next-line @typescript-eslint/no-unused-vars
 		const { isFetching, data, error, fetchNextPage, hasNextPage } = useTransactions(
 			account !== ACCOUNTS_ALL ? { [account]: null } : null,
 		)

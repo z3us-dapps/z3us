@@ -1,6 +1,3 @@
-/* eslint-disable */
-// @ts-nocheck
-// TODO: fix
 import clsx, { type ClassValue } from 'clsx'
 import React, { useRef, useState } from 'react'
 import useMeasure from 'react-use-measure'

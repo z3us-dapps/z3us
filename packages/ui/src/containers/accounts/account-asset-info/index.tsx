@@ -1,16 +1,12 @@
-/* eslint-disable */
-// @ts-nocheck
-// TODO: fix
-
 /* eslint-disable  @typescript-eslint/no-unused-vars */
 import React, { useRef } from 'react'
 import { Area, AreaChart, CartesianGrid, ResponsiveContainer, Tooltip, type TooltipProps, XAxis, YAxis } from 'recharts'
 
 import { Box } from 'ui/src/components/box'
-import { Button } from 'ui/src/components/button'
 import { CardButtons } from 'ui/src/components/card-buttons'
 import { ChartToolTip } from 'ui/src/components/chart-tool-tip'
 import { Close2Icon } from 'ui/src/components/icons'
+import { Button } from 'ui/src/components/router-button'
 import { ToolTip } from 'ui/src/components/tool-tip'
 import { TransactionIcon } from 'ui/src/components/transaction-icon'
 import Translation from 'ui/src/components/translation'

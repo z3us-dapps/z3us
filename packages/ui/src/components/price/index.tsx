@@ -10,5 +10,6 @@ export const Price: React.FC<IAllAccountListRowProps> = ({ value }) => {
 	const { currency } = useNoneSharedStore(state => ({
 		currency: state.currency,
 	}))
-	return formatBigNumber(value, currency, 2)
+
+	return <>{formatBigNumber(value, currency, 2)}</>
 }

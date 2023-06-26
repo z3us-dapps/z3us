@@ -1,7 +1,3 @@
-/* eslint-disable */
-// @ts-nocheck
-// TODO: fix
-
 /* eslint-disable  @typescript-eslint/no-unused-vars */
 import clsx from 'clsx'
 import { AnimatePresence, motion } from 'framer-motion'

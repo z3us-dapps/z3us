@@ -1,10 +1,3 @@
-/* eslint-disable */
-// @ts-nocheck
-// TODO: fix
-
-/* eslint-disable */
-// @ts-nocheck
-// TODO: fix
 import * as AvatarPrimitive from '@radix-ui/react-avatar'
 import clsx, { type ClassValue } from 'clsx'
 import { AnimatePresence, motion } from 'framer-motion'
@@ -19,7 +12,7 @@ import { Text } from 'ui/src/components/typography'
 import { animtePageVariants } from 'ui/src/constants/page'
 import { routes } from 'ui/src/constants/routes'
 import { useAccountParams } from 'ui/src/hooks/use-account-params'
-import type { TListItem } from 'ui/src/types'
+import type { TListItem } from 'ui/src/types/types'
 
 import { Context } from '../context'
 import * as styles from './accounts-mobile-index-list-item.css'

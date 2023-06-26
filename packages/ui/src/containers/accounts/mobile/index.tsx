@@ -1,6 +1,3 @@
-/* eslint-disable */
-// @ts-nocheck
-// TODO: fix
 import { AnimatePresence } from 'framer-motion'
 import React from 'react'
 import { Route, Routes } from 'react-router-dom'

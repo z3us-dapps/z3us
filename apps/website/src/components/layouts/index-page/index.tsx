@@ -11,16 +11,11 @@ import React, { useState } from 'react'
 import { Link, Route, HashRouter as Router, Routes, redirect, useLocation } from 'react-router-dom'
 
 import { Box } from 'ui/src/components/box'
-import { Button } from 'ui/src/components/button'
-import { ConnectButton } from 'ui/src/components/connect-button'
-import { LoadingBarsIcon } from 'ui/src/components/icons'
-import { Text } from 'ui/src/components/typography'
 
 import * as styles from './index-page.css'
 
 const AppPage = dynamic(() => import('../app-page'), { ssr: false })
 
-// eslint-disable-next-line arrow-body-style
 export const IndexPage: React.FC = () => {
 	const location = useLocation()
 	const isConnected = location.pathname.includes('/accounts')

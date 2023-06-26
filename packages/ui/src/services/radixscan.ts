@@ -1,5 +1,3 @@
-// @ts-nocheck
-
 export type Token = {
 	rri: string
 	name: string

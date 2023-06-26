@@ -36,7 +36,7 @@
 		"react-i18next": "^13.0.0",
 		"react-router-dom": "^6.13.0",
 		"react-test-renderer": "^18.2.0",
-		"react-virtuoso": "^4.3.6",
+		"react-virtuoso": "^4.3.11",
 		"readable-stream": "^4.3.0",
 		"secp256k1": "^5.0.0",
 		"simple-zustand-devtools": "^1.1.0",

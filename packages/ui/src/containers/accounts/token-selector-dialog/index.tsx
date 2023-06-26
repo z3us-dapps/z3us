@@ -1,7 +1,3 @@
-/* eslint-disable */
-// @ts-nocheck
-// TODO: fix
-
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import clsx, { type ClassValue } from 'clsx'
 import React, { forwardRef, useEffect, useRef, useState } from 'react'
@@ -11,7 +7,6 @@ import { Virtuoso } from 'react-virtuoso'
 import { useTimeout } from 'usehooks-ts'
 
 import { Box } from 'ui/src/components/box'
-import { Button } from 'ui/src/components/button'
 import { CopyAddressButton } from 'ui/src/components/copy-address-button'
 import {
 	DialogClose,
@@ -24,6 +19,7 @@ import {
 import { Close2Icon, SearchIcon, ShareIcon } from 'ui/src/components/icons'
 import type { FormElement } from 'ui/src/components/input'
 import { Input } from 'ui/src/components/input'
+import { Button } from 'ui/src/components/router-button'
 import { ScrollArea } from 'ui/src/components/scroll-area'
 import * as dialogStyles from 'ui/src/components/styles/dialog-styles.css'
 import { TokenImageIcon } from 'ui/src/components/token-image-icon'

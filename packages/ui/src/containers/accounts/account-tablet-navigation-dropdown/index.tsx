@@ -1,6 +1,3 @@
-/* eslint-disable */
-// @ts-nocheck
-// TODO: fix
 import clsx, { type ClassValue } from 'clsx'
 import React, { forwardRef, useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
@@ -14,6 +11,7 @@ import {
 	DropdownMenuArrow,
 	DropdownMenuContent,
 	DropdownMenuItemIndicator,
+	DropdownMenuPortal,
 	DropdownMenuRadioGroup,
 	DropdownMenuRadioItem,
 	DropdownMenuTrigger,
@@ -82,23 +80,25 @@ export const AccountTabletNavigationDropdown = forwardRef<HTMLElement, IAccountT
 							<Text capitalizeFirstLetter>{getActiveMenuText()}</Text>
 						</Button>
 					</DropdownMenuTrigger>
-					<DropdownMenuContent align="start" sideOffset={2} className={styles.accountViewContentWrapper}>
-						<DropdownMenuRadioGroup value={activeMenu} onValueChange={handleValueChanged}>
-							{menuSlugs.map(({ id, text }) => (
-								<DropdownMenuRadioItem value={id} key={id}>
-									<Box flexGrow={1}>
-										<Text capitalizeFirstLetter size="xsmall">
-											{text}
-										</Text>
-									</Box>
-									<DropdownMenuItemIndicator>
-										<CheckIcon />
-									</DropdownMenuItemIndicator>
-								</DropdownMenuRadioItem>
-							))}
-						</DropdownMenuRadioGroup>
-						<DropdownMenuArrow />
-					</DropdownMenuContent>
+					<DropdownMenuPortal>
+						<DropdownMenuContent align="start" sideOffset={2} className={styles.accountViewContentWrapper}>
+							<DropdownMenuRadioGroup value={activeMenu} onValueChange={handleValueChanged}>
+								{menuSlugs.map(({ id, text }) => (
+									<DropdownMenuRadioItem value={id} key={id}>
+										<Box flexGrow={1}>
+											<Text capitalizeFirstLetter size="xsmall">
+												{text}
+											</Text>
+										</Box>
+										<DropdownMenuItemIndicator>
+											<CheckIcon />
+										</DropdownMenuItemIndicator>
+									</DropdownMenuRadioItem>
+								))}
+							</DropdownMenuRadioGroup>
+							<DropdownMenuArrow />
+						</DropdownMenuContent>
+					</DropdownMenuPortal>
 				</DropdownMenu>
 			</Box>
 		)

@@ -1,7 +1,3 @@
-/* eslint-disable */
-// @ts-nocheck
-// TODO: fix
-
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import clsx from 'clsx'
 import { AnimatePresence, motion } from 'framer-motion'
@@ -10,8 +6,8 @@ import { useLocation } from 'react-router-dom'
 import { useTimeout } from 'usehooks-ts'
 
 import { Box } from 'ui/src/components/box'
-import { Button } from 'ui/src/components/button'
 import { ShareIcon } from 'ui/src/components/icons'
+import { Button } from 'ui/src/components/router-button'
 import { Link } from 'ui/src/components/router-link'
 import * as skeletonStyles from 'ui/src/components/styles/skeleton-loading.css'
 import { TransactionIcon } from 'ui/src/components/transaction-icon'

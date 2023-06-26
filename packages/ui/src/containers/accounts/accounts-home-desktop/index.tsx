@@ -1,6 +1,3 @@
-/* eslint-disable */
-// @ts-nocheck
-// TODO: fix
 import clsx from 'clsx'
 import { AnimatePresence } from 'framer-motion'
 import React from 'react'

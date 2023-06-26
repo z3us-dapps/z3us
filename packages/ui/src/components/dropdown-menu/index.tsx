@@ -1,5 +1,3 @@
-// @ts-nocheck
-// TODO: fix ts
 import * as DropdownMenuPrimitive from '@radix-ui/react-dropdown-menu'
 import clsx, { type ClassValue } from 'clsx'
 import React, { forwardRef, useState } from 'react'
@@ -30,7 +28,7 @@ export const DropdownMenuItem = ({ children, ...props }) => (
 	</DropdownMenuPrimitive.Item>
 )
 
-export const DropdownMenuSeparator = () => <DropdownMenuPrimitive.Separator className={styles.dropdownMenuSeperator} />
+export const DropdownMenuSeparator = () => <DropdownMenuPrimitive.Separator className={styles.dropdownMenuSeparator} />
 
 export const DropdownMenuArrow = () => <DropdownMenuPrimitive.Arrow className={styles.dropdownMenuArrow} />
 

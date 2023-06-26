@@ -1,31 +1,29 @@
-// @ts-nocheck
-// TODO: fix ts
-import * as PopoverPrimative from '@radix-ui/react-popover'
+import * as PopoverPrimitive from '@radix-ui/react-popover'
 import clsx from 'clsx'
 import React, { forwardRef } from 'react'
 
 import * as styles from './popover.css'
 
 export const PopoverRoot = ({ children, ...props }) => (
-	<PopoverPrimative.Root {...props}>{children}</PopoverPrimative.Root>
+	<PopoverPrimitive.Root {...props}>{children}</PopoverPrimitive.Root>
 )
 
 export const PopoverAnchor = ({ children, ...props }) => (
-	<PopoverPrimative.Anchor {...props}>{children}</PopoverPrimative.Anchor>
+	<PopoverPrimitive.Anchor {...props}>{children}</PopoverPrimitive.Anchor>
 )
 
 export const PopoverTrigger = ({ children, ...props }) => (
-	<PopoverPrimative.Trigger {...props}>{children}</PopoverPrimative.Trigger>
+	<PopoverPrimitive.Trigger {...props}>{children}</PopoverPrimitive.Trigger>
 )
 
 export const PopoverPortal = ({ children, ...props }) => (
-	<PopoverPrimative.Portal {...props}>{children}</PopoverPrimative.Portal>
+	<PopoverPrimitive.Portal {...props}>{children}</PopoverPrimitive.Portal>
 )
 
-export const PopoverContent = forwardRef<HTMLDivElement, PopoverPrimative.PopoverContentProps>(
+export const PopoverContent = forwardRef<HTMLDivElement, PopoverPrimitive.PopoverContentProps>(
 	({ children, className, ...props }, ref) => (
-		<PopoverPrimative.Content ref={ref} className={clsx(styles.popoverContentWrapper, className)} {...props}>
+		<PopoverPrimitive.Content ref={ref} className={clsx(styles.popoverContentWrapper, className)} {...props}>
 			{children}
-		</PopoverPrimative.Content>
+		</PopoverPrimitive.Content>
 	),
 )

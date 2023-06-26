@@ -1,6 +1,3 @@
-/* eslint-disable */
-// @ts-nocheck
-// TODO: fix
 import clsx, { type ClassValue } from 'clsx'
 import { AnimatePresence, motion } from 'framer-motion'
 import React, { useCallback, useContext, useEffect, useState } from 'react'

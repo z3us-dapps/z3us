@@ -1,5 +1,3 @@
-// @ts-nocheck
-// TODO: fix ts
 import clsx from 'clsx'
 import type { ClassValue } from 'clsx'
 import { AnimatePresence, motion } from 'framer-motion'

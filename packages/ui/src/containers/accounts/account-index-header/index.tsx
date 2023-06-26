@@ -1,6 +1,3 @@
-/* eslint-disable */
-// @ts-nocheck
-// TODO: fix
 import clsx, { type ClassValue } from 'clsx'
 import { Price } from 'packages/ui/src/components/price'
 import { useTotalBalance } from 'packages/ui/src/hooks/dapp/use-balances'
@@ -8,8 +5,8 @@ import React, { forwardRef } from 'react'
 import { useLocation } from 'react-router-dom'
 
 import { Box } from 'ui/src/components/box'
-import { Button } from 'ui/src/components/button'
 import { SearchIcon } from 'ui/src/components/icons'
+import { Button } from 'ui/src/components/router-button'
 import { ToolTip } from 'ui/src/components/tool-tip'
 import Translation from 'ui/src/components/translation'
 import { Text } from 'ui/src/components/typography'

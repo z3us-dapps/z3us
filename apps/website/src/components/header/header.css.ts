@@ -1,6 +1,7 @@
 import { style } from '@vanilla-extract/css'
 
 import { sprinkles } from 'ui/src/components/system/sprinkles.css'
+import { responsiveStyle } from 'ui/src/components/system/theme-utils'
 
 export const headerWrapper = style([
 	sprinkles({
@@ -32,9 +33,18 @@ export const headerInnerWrapper = style([
 	},
 ])
 
+export const landingLogoWrapper = style([
+	sprinkles({
+		display: 'flex',
+	}),
+	responsiveStyle({
+		mobile: { width: '100px' },
+		tablet: { width: 'auto' },
+	}),
+])
+
 export const landingHeaderBrandWrapper = style([
 	sprinkles({
-		flexGrow: 1,
 		display: 'flex',
 		alignItems: 'center',
 	}),
@@ -49,4 +59,48 @@ export const connectButtonWrapper = style([
 	{
 		width: '140px',
 	},
+])
+
+export const connectedMenuWrapper = style([
+	sprinkles({
+		display: 'flex',
+		flexGrow: 1,
+		paddingRight: 'small',
+	}),
+	{
+		minHeight: '32px',
+	},
+])
+
+export const connectedMenuVisibleWrapper = style([
+	sprinkles({
+		display: 'flex',
+		gap: 'small',
+		alignItems: 'center',
+		width: 'full',
+	}),
+	{},
+])
+
+export const navigationMenuTabletWrapper = style([
+	sprinkles({
+		flexGrow: 1,
+		paddingLeft: 'medium',
+		display: {
+			mobile: 'none',
+			tablet: 'flex',
+			desktop: 'none',
+		},
+	}),
+	{},
+])
+
+export const navigationCopyAddressWrapper = style([
+	sprinkles({
+		display: {
+			mobile: 'none',
+			tablet: 'flex',
+		},
+	}),
+	{},
 ])
