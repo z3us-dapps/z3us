@@ -31,10 +31,10 @@ const ItemContainer = props => <Box {...props} className={styles.activtyItem} />
 interface IAllAccountListRowProps {
 	index: number
 	transaction: CommittedTransactionInfo
-	selected: number
-	hovered: number
-	setHovered: (number) => void
-	setSelected: (number) => void
+	selected: string
+	hovered: string
+	setHovered: (_: string) => void
+	setSelected: (_: string) => void
 }
 
 const ItemWrapper: React.FC<IAllAccountListRowProps> = props => {
@@ -42,8 +42,8 @@ const ItemWrapper: React.FC<IAllAccountListRowProps> = props => {
 
 	const { pathname } = useLocation()
 
-	const isSelected = selected === index
-	const isHovered = hovered === index
+	const isSelected = selected === transaction.intent_hash_hex
+	const isHovered = hovered === transaction.intent_hash_hex
 
 	return (
 		<Box className={styles.activtyItemOuter}>
@@ -87,11 +87,12 @@ const ItemWrapper: React.FC<IAllAccountListRowProps> = props => {
 					<Box className={clsx(styles.activtyItemInner, (isSelected || isHovered) && styles.activtyItemInnerSelected)}>
 						<Link
 							underline="never"
-							to={`${pathname}?asset=xrd&transactionId=1eaf53c4256c384d76ca72c0f18ef37a2e4441d4e6bae450e2b8507f42faa5b6`}
+							to={`${pathname}?asset=xrd&transactionId=${transaction.intent_hash_hex}`}
 							// to={`/accounts/transactions/btc/1eaf53c4256c384d76ca72c0f18ef37a2e4441d4e6bae450e2b8507f42faa5b6`}
 							className={styles.activtyItemInnerBtn}
 							// onClick={handleClickItem}
-							onMouseOver={() => setHovered(index)}
+							onClick={() => setSelected(transaction.intent_hash_hex)}
+							onMouseOver={() => setHovered(transaction.intent_hash_hex)}
 							onMouseLeave={() => setHovered(null)}
 						>
 							<Box className={styles.indicatorCircle}>
@@ -120,7 +121,7 @@ const ItemWrapper: React.FC<IAllAccountListRowProps> = props => {
 								iconOnly
 								to="https://explorer.radixdlt.com/"
 								target="_blank"
-								onMouseOver={() => setHovered(index)}
+								onMouseOver={() => setHovered(transaction.intent_hash_hex)}
 								onMouseLeave={() => setHovered(null)}
 							>
 								<ShareIcon />
@@ -148,8 +149,8 @@ export const AccountActivity = forwardRef<HTMLElement, IAccountActivityProps>(
 	(props, ref: React.Ref<HTMLElement | null>) => {
 		const { scrollableNode } = props
 
-		const [selected, setSelected] = useState<number | null>(null)
-		const [hovered, setHovered] = useState<number | null>(null)
+		const [selected, setSelected] = useState<string | null>(null)
+		const [hovered, setHovered] = useState<string | null>(null)
 		const { account } = useAccountParams()
 
 		const { isFetching, data, error, fetchNextPage, hasNextPage } = useTransactions(

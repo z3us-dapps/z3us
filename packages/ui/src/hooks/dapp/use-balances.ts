@@ -1,6 +1,6 @@
 import type { FungibleResourcesCollectionItemGloballyAggregated } from '@radixdlt/babylon-gateway-api-sdk'
 import BigNumber from 'bignumber.js'
-import { useEffect, useState } from 'react'
+import { useMemo } from 'react'
 
 import { useXRDPriceOnDay } from '../queries/market'
 import { useTokens } from '../queries/oci'
@@ -43,10 +43,8 @@ export const useResourceBalances = (selected: SelectedAdresses = null) => {
 	const metadatas = useEntitiesMetadata(resourceAddresses)
 	const { data: tokens } = useTokens()
 
-	const [state, setState] = useState<ResourceBalance[]>([])
-
-	useEffect(() => {
-		setState(
+	return useMemo(
+		() =>
 			Object.entries(resourceToBalanceMap).map(([address, amount], idx) => {
 				const metadata = metadatas[idx]
 				const symbol = metadata.data.find(detail => detail.key === 'symbol')?.value.as_string
@@ -63,21 +61,21 @@ export const useResourceBalances = (selected: SelectedAdresses = null) => {
 					change: token ? +(token.price.usd || 0) / +(token.price.usd_24h || 0) : 0,
 				} as ResourceBalance
 			}),
-		)
-	}, [currency, price, resourceAddresses])
-
-	return state
+		[currency, price, resourceAddresses],
+	)
 }
 
 export const useTotalBalance = (selected: SelectedAdresses = null) => {
 	const balances = useResourceBalances(selected)
 
-	const totalValue = balances.reduce((value, balance) => value.plus(balance.value), new BigNumber(0))
+	return useMemo(() => {
+		const totalValue = balances.reduce((value, balance) => value.plus(balance.value), new BigNumber(0))
 
-	const totalChange = balances.reduce(
-		(change, balance) => change.plus(new BigNumber(balance.change).div(totalValue.dividedBy(balance.value))),
-		new BigNumber(0),
-	)
+		const totalChange = balances.reduce(
+			(change, balance) => change.plus(new BigNumber(balance.change).div(totalValue.dividedBy(balance.value))),
+			new BigNumber(0),
+		)
 
-	return [totalValue, totalChange]
+		return [totalValue, totalChange]
+	}, [balances])
 }
