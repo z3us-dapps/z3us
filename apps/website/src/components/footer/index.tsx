@@ -14,6 +14,7 @@ import { TelegramIcon } from 'ui/src/components/icons/telegram-icon'
 import { TwitterIcon } from 'ui/src/components/icons/twitter-icon'
 import { SelectSimple, SelectTrigger, SelectValue } from 'ui/src/components/select'
 import { ToolTip } from 'ui/src/components/tool-tip'
+import Translation from 'ui/src/components/translation'
 import { Text } from 'ui/src/components/typography'
 
 import * as styles from './footer.css'
@@ -43,23 +44,21 @@ export const Footer = () => {
 							Terms
 						</NextLink>
 						<Box display="flex" gap="xsmall">
-							{/* @TODO: fix translation */}
-							{/* <ToolTip message={<Translation capitalizeFirstLetter text="global.send" />} theme={theme}>
-				<Button iconOnly rounded styleVariant="inverse" sizeVariant="large" to={`${accountMenuSlugs.TRANSFER}/asdf`}>
-					<UpRight2Icon />
-				</Button>
-			</ToolTip> */}
-							<ToolTip message="Telegram">
+							<ToolTip message={<Translation capitalizeFirstLetter text="global.telegram" />}>
 								<NextButton sizeVariant="small" styleVariant="ghost" iconOnly to="https://t.me/z3us_dapps">
 									<TelegramIcon />
 								</NextButton>
 							</ToolTip>
-							<NextButton sizeVariant="small" styleVariant="ghost" iconOnly to="https://twitter.com/z3us_dapps">
-								<TwitterIcon />
-							</NextButton>
-							<NextButton sizeVariant="small" styleVariant="ghost" iconOnly to="https://github.com/z3us-dapps">
-								<GithubIcon />
-							</NextButton>
+							<ToolTip message={<Translation capitalizeFirstLetter text="global.twitter" />}>
+								<NextButton sizeVariant="small" styleVariant="ghost" iconOnly to="https://twitter.com/z3us_dapps">
+									<TwitterIcon />
+								</NextButton>
+							</ToolTip>
+							<ToolTip message={<Translation capitalizeFirstLetter text="global.github" />}>
+								<NextButton sizeVariant="small" styleVariant="ghost" iconOnly to="https://github.com/z3us-dapps">
+									<GithubIcon />
+								</NextButton>
+							</ToolTip>
 						</Box>
 						<Box>
 							<SelectSimple

@@ -4,10 +4,10 @@ import React from 'react'
 import { Box } from 'ui/src/components/box'
 import { DownLeft2Icon, QrCode2Icon, UpRight2Icon } from 'ui/src/components/icons'
 import { type TTheme, ToolTip } from 'ui/src/components/tool-tip'
+import Translation from 'ui/src/components/translation'
 import { accountMenuSlugs } from 'ui/src/constants/accounts'
 
 import { Button } from '../router-button'
-import Translation from '../translation'
 import * as styles from './card-buttons.css'
 
 interface ICardButtonsRequiredProps {}

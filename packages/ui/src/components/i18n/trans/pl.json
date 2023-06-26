@@ -32,7 +32,10 @@
 		"coin": "moneta",
 		"back": "z powrotem",
 		"up": "w górę",
-		"continue": "kontynuować"
+		"continue": "kontynuować",
+		"telegram": "telegram",
+		"twitter": "twitter",
+		"github": "github"
 	},
 	"accounts": {
 		"navigation": {
