@@ -2,9 +2,12 @@ import { useState } from 'react'
 import { useDebouncedCallback } from 'use-debounce'
 import { useEventListener } from 'usehooks-ts'
 
+const DEBOUNCE_TIMEOUT = 50
+
 const getIsMobileWidth = (): boolean => {
 	const windowWidth = window.innerWidth
 	const mobileBreakPoint = 768
+
 	return windowWidth < mobileBreakPoint
 }
 
@@ -13,7 +16,7 @@ export const useIsMobileWidth = () => {
 
 	const debouncedResizeHandler = useDebouncedCallback(() => {
 		setIsMobileWidth(getIsMobileWidth())
-	}, 50)
+	}, DEBOUNCE_TIMEOUT)
 
 	useEventListener('resize', debouncedResizeHandler)
 
