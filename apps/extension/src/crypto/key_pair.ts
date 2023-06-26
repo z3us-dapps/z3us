@@ -1,17 +1,14 @@
 import bip39 from 'bip39'
 import crypto from 'crypto'
-import ed25519 from 'ed25519'
+import elliptic from 'elliptic'
 import hdkey from 'hdkey'
-import secp256k1 from 'secp256k1'
+
+import { nonceLength, scryptOptions } from './constants'
+import { sha256 } from './sha'
 
 export enum EncryptionScheme {
 	NONE = 0x00,
 	DH_ADD_EPH_AESGCM256_SCRYPT_000 = 0xff,
-}
-
-interface Encryption {
-	encrypt(publicKey: string, message: string): EncodedMessage
-	decrypt(message: EncodedMessage): string
 }
 
 export interface KeyPair {
@@ -19,7 +16,12 @@ export interface KeyPair {
 	encryptions: { [key in Exclude<EncryptionScheme, EncryptionScheme.NONE>]: Encryption }
 
 	sign(message: string): string
-	signHash(message: string): string
+	verify(message: string, signature: string): boolean
+}
+
+interface Encryption {
+	encrypt(publicKeyOfOtherParty: string, message: string): EncodedMessage
+	decrypt(publicKeyOfOtherParty: string, message: EncodedMessage): string
 }
 
 interface EllipticCurve {
@@ -37,64 +39,69 @@ interface EncodedMessage {
 	ciphertext: Buffer
 }
 
-export function entropyToMnemonic(entropyHex: string): string {
-	const entropy = Buffer.from(entropyHex, 'hex')
-	const mnemonic = bip39.entropyToMnemonic(entropy)
-	return mnemonic
-}
+const secp256k1Curve = elliptic.ec('secp256k1')
 
 // Service implementation for secp256k1 curve
-export const secp256k1Service: EllipticCurve = {
+export const secp256k1: EllipticCurve = {
 	fromPrivateKeyHex(privateKeyHex: string): KeyPair {
-		const keyPair = secp256k1.keyFromPrivate(privateKeyHex, 'hex')
+		const keyPair = secp256k1Curve.keyFromPrivate(privateKeyHex, 'hex')
 
-		const publicKey = keyPair.getPublic().encode('hex', true)
+		const calculateSharedSecret = (publicKeyOfOtherParty: string, ephemeralPublicKey: string): Buffer => {
+			const otherPartyKeyPair = secp256k1Curve.keyFromPublic(publicKeyOfOtherParty, 'hex')
+			const ephemeralKeyPair = secp256k1Curve.keyFromPublic(ephemeralPublicKey, 'hex')
+
+			const diffieHellmanPoint = otherPartyKeyPair.getPublic().mul(keyPair.getPrivate())
+			const sharedSecretPoint = diffieHellmanPoint.add(ephemeralKeyPair.getPublic())
+
+			return Buffer.from(sharedSecretPoint.getX().toArray('be', 32))
+		}
 
 		return {
-			publicKey,
+			publicKey: keyPair.getPublic().encode('hex', true),
 
 			sign(message: string): string {
-				const signature = keyPair.sign(message)
-				const derSignature = signature.toDER('hex')
-				return derSignature
+				return keyPair.sign(message).toDER('hex')
 			},
 
-			signHash(message: string): string {
-				const hash = crypto.createHash('sha256').update(message).digest()
-				const signature = keyPair.sign(hash)
-				const derSignature = signature.toDER('hex')
-				return derSignature
+			verify(message: string, signature: string): boolean {
+				return keyPair.verify(message, signature)
 			},
 
 			encryptions: {
 				[EncryptionScheme.DH_ADD_EPH_AESGCM256_SCRYPT_000]: {
-					encrypt(message: string): EncodedMessage {
-						const ephemeralKeyPair = secp256k1.genKeyPair()
-						const ephemeralPublicKey = ephemeralKeyPair.getPublic()
+					encrypt(publicKeyOfOtherParty: string, message: string): EncodedMessage {
+						const ephemeralPublicKey = secp256k1Curve.genKeyPair().getPublic()
+						const ephemeralPublicKeyData = Buffer.from(ephemeralPublicKey.encodeCompressed())
+						const sharedSecret = calculateSharedSecret(publicKeyOfOtherParty, ephemeralPublicKeyData.toString('hex'))
 
-						const sharedSecret = secp256k1.keyFromPublic(ephemeralPublicKey).derive(keyPair.getPrivate())
+						const iv = crypto.randomBytes(nonceLength)
+						const salt = Buffer.from(sha256(iv), 'hex')
 
-						const key = crypto.scryptSync(sharedSecret.toArrayLike(Buffer, 'be', 32), crypto.randomBytes(16), 32)
-						const iv = crypto.randomBytes(12)
+						const key = crypto.scryptSync(sharedSecret, salt, 32, scryptOptions)
 
 						const cipher = crypto.createCipheriv('aes-256-gcm', key, iv)
+						cipher.setAAD(ephemeralPublicKeyData)
+
 						const ciphertext = Buffer.concat([cipher.update(message, 'utf8'), cipher.final()])
 						const authTag = cipher.getAuthTag()
 
 						return {
-							ephemeralPublicKey: ephemeralPublicKey.encode('array', true),
+							ephemeralPublicKey: ephemeralPublicKeyData,
 							iv,
 							authTag,
 							ciphertext,
 						}
 					},
 
-					decrypt(input: EncodedMessage): string {
-						const sharedSecret = secp256k1.keyFromPublic(input.ephemeralPublicKey).derive(keyPair.getPrivate())
+					decrypt(publicKeyOfOtherParty: string, input: EncodedMessage): string {
+						const sharedSecret = calculateSharedSecret(publicKeyOfOtherParty, input.ephemeralPublicKey.toString('hex'))
 
-						const key = crypto.scryptSync(sharedSecret.toArrayLike(Buffer, 'be', 32), input.iv, 32)
+						const salt = Buffer.from(sha256(input.iv), 'hex')
+						const key = crypto.scryptSync(sharedSecret, salt, 32, scryptOptions)
+
 						const decipher = crypto.createDecipheriv('aes-256-gcm', key, input.iv)
 						decipher.setAuthTag(input.authTag)
+						decipher.setAAD(input.ephemeralPublicKey)
 
 						const decryptedBuffer = Buffer.concat([decipher.update(input.ciphertext), decipher.final()])
 
@@ -106,7 +113,7 @@ export const secp256k1Service: EllipticCurve = {
 	},
 
 	generateNew(): KeyPair {
-		const keyPair = secp256k1.genKeyPair()
+		const keyPair = secp256k1Curve.genKeyPair()
 		const privateKey = keyPair.getPrivate()
 
 		return this.fromPrivateKeyHex(privateKey.toString('hex'))
@@ -131,54 +138,69 @@ export const secp256k1Service: EllipticCurve = {
 	},
 }
 
+const ed25519Curve = elliptic.eddsa('ed25519')
+
 // Service implementation for Ed25519 curve
-export const ed25519Service: EllipticCurve = {
+export const ed25519: EllipticCurve = {
 	fromPrivateKeyHex(privateKeyHex: string): KeyPair {
-		const keyPair = ed25519.MakeKeypair(privateKeyHex)
+		const privateKey = Buffer.from(privateKeyHex, 'hex')
+		const keyPair = ed25519Curve.keyFromSecret(privateKey)
+
+		const calculateSharedSecret = (publicKeyOfOtherParty: string, ephemeralPublicKey: string): Buffer => {
+			const ephemeralKeyPair = ed25519Curve.keyFromPublic(ephemeralPublicKey, 'hex')
+
+			const diffieHellmanPoint = keyPair.derive(publicKeyOfOtherParty)
+			const sharedSecretPoint = diffieHellmanPoint.add(ephemeralKeyPair.getPublic())
+
+			return Buffer.from(sharedSecretPoint.getX().toArray('be', 32))
+		}
 
 		return {
-			publicKey: keyPair.publicKey.toString('hex'),
+			publicKey: keyPair.getPublic('hex'),
 
 			sign(message: string): string {
-				const signature = ed25519.Sign(Buffer.from(message, 'utf8'), keyPair.privateKey)
-				return signature.toString('hex')
+				return keyPair.sign(message)
 			},
 
-			signHash(message: string): string {
-				const hash = crypto.createHash('sha256').update(message).digest()
-				const signature = ed25519.Sign(hash, keyPair.privateKey)
-				return signature.toString('hex')
+			verify(message: string, signature: string): boolean {
+				return keyPair.verify(message, signature)
 			},
 
 			encryptions: {
 				[EncryptionScheme.DH_ADD_EPH_AESGCM256_SCRYPT_000]: {
-					encrypt(message: string): EncodedMessage {
-						const ephemeralKeyPair = ed25519.keyFromSecret(crypto.randomBytes(32))
-						const ephemeralPublicKey = ephemeralKeyPair.getPublic()
+					encrypt(publicKeyOfOtherParty: string, message: string): EncodedMessage {
+						const ephemeralKeyPair = ed25519Curve.keyFromSecret(crypto.randomBytes(32))
+						const ephemeralPublicKeyData = ephemeralKeyPair.getPublic()
+						const sharedSecret = calculateSharedSecret(publicKeyOfOtherParty, ephemeralPublicKeyData.toString('hex'))
 
-						const sharedSecret = ephemeralKeyPair.derive(keyPair.getPublic())
-						const key = crypto.scryptSync(sharedSecret.toArrayLike(Buffer, 'be', 32), crypto.randomBytes(16), 32)
+						const iv = crypto.randomBytes(nonceLength)
+						const salt = Buffer.from(sha256(iv), 'hex')
 
-						const iv = crypto.randomBytes(12)
+						const key = crypto.scryptSync(sharedSecret, salt, 32, scryptOptions)
+
 						const cipher = crypto.createCipheriv('aes-256-gcm', key, iv)
+						cipher.setAAD(ephemeralPublicKeyData)
 
-						const encryptedBuffer = Buffer.concat([cipher.update(message, 'utf8'), cipher.final()])
+						const ciphertext = Buffer.concat([cipher.update(message, 'utf8'), cipher.final()])
 						const authTag = cipher.getAuthTag()
 
 						return {
-							ephemeralPublicKey: ephemeralPublicKey.encode('array', true),
+							ephemeralPublicKey: ephemeralPublicKeyData,
 							iv,
 							authTag,
-							ciphertext: encryptedBuffer,
+							ciphertext,
 						}
 					},
 
-					decrypt(input: EncodedMessage): string {
-						const sharedSecret = ed25519.keyFromPublic(input.ephemeralPublicKey).derive(keyPair.getSecret())
-						const key = crypto.scryptSync(sharedSecret.toArrayLike(Buffer, 'be', 32), input.iv, 32)
+					decrypt(publicKeyOfOtherParty: string, input: EncodedMessage): string {
+						const sharedSecret = calculateSharedSecret(publicKeyOfOtherParty, input.ephemeralPublicKey.toString('hex'))
+
+						const salt = Buffer.from(sha256(input.iv), 'hex')
+						const key = crypto.scryptSync(sharedSecret, salt, 32, scryptOptions)
 
 						const decipher = crypto.createDecipheriv('aes-256-gcm', key, input.iv)
 						decipher.setAuthTag(input.authTag)
+						decipher.setAAD(input.ephemeralPublicKey)
 
 						const decryptedBuffer = Buffer.concat([decipher.update(input.ciphertext), decipher.final()])
 
@@ -190,14 +212,14 @@ export const ed25519Service: EllipticCurve = {
 	},
 
 	generateNew(): KeyPair {
-		const keyPair = ed25519.genKeyPair()
+		const keyPair = ed25519Curve.keyFromSecret(elliptic.rand(32))
 		const privateKey = keyPair.getSecret()
 
 		return this.fromPrivateKeyHex(privateKey.toString('hex'))
 	},
 
 	fromSeed(seed: string): KeyPair {
-		const privateKey = ed25519.MakeKeypairSeed(Buffer.from(seed, 'hex')).privateKey.toString('hex')
+		const privateKey = ed25519Curve.MakeKeypairSeed(Buffer.from(seed, 'hex')).privateKey.toString('hex')
 		return this.fromPrivateKeyHex(privateKey)
 	},
 

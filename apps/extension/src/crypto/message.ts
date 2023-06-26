@@ -1,3 +1,4 @@
+import { ephemeralPublicKeyLength, nonceLength, tagLength } from './constants'
 import { EncryptionScheme, type KeyPair } from './key_pair'
 
 enum MessageType {
@@ -13,11 +14,7 @@ export interface EncodedMessage {
 	ciphertext: Buffer
 }
 
-const ephemeralPublicKeyLength = 33
-const nonceLength = 12
-const tagLength = 16
-
-export function decodeMessage(keyPair: KeyPair, encryptedMessage: string) {
+export function decodeMessage(keyPair: KeyPair, encryptedMessage: string, publicKey: string) {
 	const encryptedBuffer = Buffer.from(encryptedMessage, 'hex')
 
 	const messageType = encryptedBuffer.readUIntBE(0, 1)
@@ -35,7 +32,7 @@ export function decodeMessage(keyPair: KeyPair, encryptedMessage: string) {
 			if (!keyPair.encryptions[encryptionScheme]) {
 				throw new Error(`Missing encryption scheme: ${encryptionScheme}`)
 			}
-			return keyPair.encryptions[encryptionScheme].decrypt({
+			return keyPair.encryptions[encryptionScheme].decrypt(publicKey, {
 				ephemeralPublicKey,
 				iv,
 				authTag,
