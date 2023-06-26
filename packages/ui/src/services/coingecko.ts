@@ -165,7 +165,7 @@ export class CoinGeckoService {
 
 	getXRDPriceOnDay = async (date: Date, currency: string, coin: string = 'radix'): Promise<number | null> => {
 		const url = new URL(`${this.baseURL}/${this.apiVersion}/coins/${coin}/history`)
-		url.searchParams.set('date', `${date.getDate()}-${date.getMonth() + 1}-${date.getFullYear()}`)
+		url.searchParams.set('date', `${date.getUTCDate()}-${date.getUTCMonth() + 1}-${date.getUTCFullYear()}`)
 		const path = url.toString()
 
 		const response = await fetch(path, this.options)
