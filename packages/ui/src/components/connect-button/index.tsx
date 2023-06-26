@@ -1,5 +1,4 @@
-import React, { useRef, useState } from 'react'
-import { useInterval } from 'usehooks-ts'
+import React, { useRef } from 'react'
 
 import { Box } from 'ui/src/components/box'
 

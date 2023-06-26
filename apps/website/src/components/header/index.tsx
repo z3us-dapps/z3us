@@ -14,6 +14,7 @@ import { ConnectButton } from 'ui/src/components/connect-button'
 import { CopyAddressButton } from 'ui/src/components/copy-address-button'
 import { NotificationsDropdown } from 'ui/src/components/notifications-dropdown'
 import { Z3usLogoText } from 'ui/src/components/z3us-logo-babylon'
+import { AccountTabletNavigationDropdown } from 'ui/src/containers/accounts/account-tablet-navigation-dropdown'
 import { AccountViewDropdown } from 'ui/src/containers/accounts/account-view-dropdown'
 import { AccountDesktopLavaMenu } from 'ui/src/containers/accounts/navigation'
 import { useConnected } from 'ui/src/hooks/dapp/use-connected'
@@ -31,7 +32,7 @@ export const Header = () => {
 				<Box className={styles.headerInnerWrapper}>
 					<Box className={styles.landingHeaderBrandWrapper}>
 						<Link to="/">
-							<Z3usLogoText />
+							<Z3usLogoText className={styles.landingLogoWrapper} />
 						</Link>
 					</Box>
 					<Box className={styles.connectedMenuWrapper}>
@@ -40,10 +41,20 @@ export const Header = () => {
 							showUi={
 								<Box className={styles.connectedMenuVisibleWrapper}>
 									<Box flexGrow={1}>
+										<Box className={styles.navigationMenuTabletWrapper}>
+											<AccountTabletNavigationDropdown />
+										</Box>
 										<AccountDesktopLavaMenu />
 									</Box>
 									<NotificationsDropdown />
-									<CopyAddressButton address="rdx1b707388613169bf701d533e143d8f698c9090f605e677a967eaf70a4c69250ce" />
+
+									<Box className={styles.navigationMenuTabletWrapper}>
+										<AccountTabletNavigationDropdown />
+									</Box>
+
+									<Box className={styles.navigationCopyAddressWrapper}>
+										<CopyAddressButton address="rdx1b707388613169bf701d533e143d8f698c9090f605e677a967eaf70a4c69250ce" />
+									</Box>
 									<AccountViewDropdown />
 								</Box>
 							}

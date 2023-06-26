@@ -1,6 +1,7 @@
 import { style } from '@vanilla-extract/css'
 
 import { sprinkles } from 'ui/src/components/system/sprinkles.css'
+import { responsiveStyle } from 'ui/src/components/system/theme-utils'
 
 export const headerWrapper = style([
 	sprinkles({
@@ -30,6 +31,16 @@ export const headerInnerWrapper = style([
 	{
 		height: '70px',
 	},
+])
+
+export const landingLogoWrapper = style([
+	sprinkles({
+		display: 'flex',
+	}),
+	responsiveStyle({
+		mobile: { width: '100px' },
+		tablet: { width: 'auto' },
+	}),
 ])
 
 export const landingHeaderBrandWrapper = style([
@@ -67,6 +78,29 @@ export const connectedMenuVisibleWrapper = style([
 		gap: 'small',
 		alignItems: 'center',
 		width: 'full',
+	}),
+	{},
+])
+
+export const navigationMenuTabletWrapper = style([
+	sprinkles({
+		flexGrow: 1,
+		paddingLeft: 'medium',
+		display: {
+			mobile: 'none',
+			tablet: 'flex',
+			desktop: 'none',
+		},
+	}),
+	{},
+])
+
+export const navigationCopyAddressWrapper = style([
+	sprinkles({
+		display: {
+			mobile: 'none',
+			tablet: 'flex',
+		},
 	}),
 	{},
 ])

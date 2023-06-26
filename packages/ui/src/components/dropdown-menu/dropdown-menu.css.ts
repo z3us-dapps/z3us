@@ -72,6 +72,7 @@ export const sharedPopoverBgSelectorStyles = {
 export const dropdownMenuContent = style([
 	sprinkles({
 		...(sharedPopoverBgSprinkles as Sprinkles),
+		padding: 'small',
 	}),
 	{
 		...sharedPopoverBgStyles,
@@ -102,7 +103,7 @@ export const dropdownMenuRadioItem = style([
 	},
 ])
 
-export const dropdownMenuSeperator = style([
+export const dropdownMenuSeparator = style([
 	sprinkles({
 		position: 'relative',
 		marginY: 'small',

@@ -28,7 +28,7 @@ export const DropdownMenuItem = ({ children, ...props }) => (
 	</DropdownMenuPrimitive.Item>
 )
 
-export const DropdownMenuSeparator = () => <DropdownMenuPrimitive.Separator className={styles.dropdownMenuSeperator} />
+export const DropdownMenuSeparator = () => <DropdownMenuPrimitive.Separator className={styles.dropdownMenuSeparator} />
 
 export const DropdownMenuArrow = () => <DropdownMenuPrimitive.Arrow className={styles.dropdownMenuArrow} />
 

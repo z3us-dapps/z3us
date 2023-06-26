@@ -63,7 +63,7 @@ export const AccountDesktopLavaMenu = () => {
 				{[
 					{ text: t('accounts.navigation.accounts'), href: accountMenuSlugs.ACCOUNTS },
 					{ text: t('accounts.navigation.transfer'), href: accountMenuSlugs.TRANSFER },
-					// { text: t('accounts.navigation.staking'), href: accountMenuSlugs.STAKING },
+					{ text: t('accounts.navigation.staking'), href: accountMenuSlugs.STAKING },
 					// { text: t('accounts.navigation.swap'), href: accountMenuSlugs.SWAP },
 					{ text: t('accounts.navigation.settings'), href: accountMenuSlugs.SETTINGS },
 				].map(({ text, href }) => (

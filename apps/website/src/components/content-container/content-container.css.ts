@@ -9,7 +9,8 @@ export const contentContainerWrapper = style([
 		width: 'full',
 		justifyContent: 'center',
 		paddingX: {
-			mobile: 'large',
+			mobile: 'small',
+			tablet: 'large',
 			desktop: 'xxlarge',
 		},
 	}),
