@@ -64,26 +64,26 @@ Object.entries(curves).forEach(([name, curve]) => {
 			})
 		})
 	})
+})
 
-	describe('can decrypt message from buffer that was encrypted earlier', () => {
-		const alice = curve.fromPrivateKeyHex(BigInt(1).toString(16))
-		const bob = curve.fromPrivateKeyHex(BigInt(2).toString(16))
+describe('can decrypt message from buffer that was encrypted earlier', () => {
+	const alice = secp256k1.fromPrivateKeyHex(BigInt(1).toString(16))
+	const bob = secp256k1.fromPrivateKeyHex(BigInt(2).toString(16))
 
-		const aliceDecrypt = (message: string) => decodeMessage(alice, message, bob.publicKey)
-		const bobDecrypt = (message: string) => decodeMessage(bob, message, alice.publicKey)
+	const aliceDecrypt = (message: string) => decodeMessage(alice, message, bob.publicKey)
+	const bobDecrypt = (message: string) => decodeMessage(bob, message, alice.publicKey)
 
-		const plaintext = 'Hey Bob, this is Alice, you and I can read this message, but no one else.'
-		const encryptedMessageByAliceToBob =
-			'01ff02663a6aaf4d5ec607330b9b74a840bf5c13b0a7357202fa85be56b1326065561657d6ee46d4d84e94ec615b425a472dd8c813bad125335a097d29b64b72319357406b2b04491b4ca1a5a05fe8772b0c05f4633b399914348c5b03af58445d42c2f740f8407e572775a571805e582c6b96ffd4ccca764f2002510abddaab735ee4fb0b18c26d'
+	const plaintext = 'Hey Bob, this is Alice, you and I can read this message, but no one else.'
+	const encryptedMessageByAliceToBob =
+		'01ff02663a6aaf4d5ec607330b9b74a840bf5c13b0a7357202fa85be56b1326065561657d6ee46d4d84e94ec615b425a472dd8c813bad125335a097d29b64b72319357406b2b04491b4ca1a5a05fe8772b0c05f4633b399914348c5b03af58445d42c2f740f8407e572775a571805e582c6b96ffd4ccca764f2002510abddaab735ee4fb0b18c26d'
 
-		it('alice can decrypt msg encrypted by herself', () => {
-			const decryptedByAlice = aliceDecrypt(encryptedMessageByAliceToBob)
-			expect(decryptedByAlice).toBe(plaintext)
-		})
+	it('alice can decrypt msg encrypted by herself', () => {
+		const decryptedByAlice = aliceDecrypt(encryptedMessageByAliceToBob)
+		expect(decryptedByAlice).toBe(plaintext)
+	})
 
-		it('bob can decrypt msg encrypted by alice', () => {
-			const decryptedByBob = bobDecrypt(encryptedMessageByAliceToBob)
-			expect(decryptedByBob).toBe(plaintext)
-		})
+	it('bob can decrypt msg encrypted by alice', () => {
+		const decryptedByBob = bobDecrypt(encryptedMessageByAliceToBob)
+		expect(decryptedByBob).toBe(plaintext)
 	})
 })
