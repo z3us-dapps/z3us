@@ -45,17 +45,35 @@ export const Footer = () => {
 						</NextLink>
 						<Box display="flex" gap="xsmall">
 							<ToolTip message={<Translation capitalizeFirstLetter text="global.telegram" />}>
-								<NextButton sizeVariant="small" styleVariant="ghost" iconOnly to="https://t.me/z3us_dapps">
+								<NextButton
+									sizeVariant="small"
+									styleVariant="ghost"
+									iconOnly
+									to="https://t.me/z3us_dapps"
+									target="_blank"
+								>
 									<TelegramIcon />
 								</NextButton>
 							</ToolTip>
 							<ToolTip message={<Translation capitalizeFirstLetter text="global.twitter" />}>
-								<NextButton sizeVariant="small" styleVariant="ghost" iconOnly to="https://twitter.com/z3us_dapps">
+								<NextButton
+									sizeVariant="small"
+									styleVariant="ghost"
+									iconOnly
+									to="https://twitter.com/z3us_dapps"
+									target="_blank"
+								>
 									<TwitterIcon />
 								</NextButton>
 							</ToolTip>
 							<ToolTip message={<Translation capitalizeFirstLetter text="global.github" />}>
-								<NextButton sizeVariant="small" styleVariant="ghost" iconOnly to="https://github.com/z3us-dapps">
+								<NextButton
+									sizeVariant="small"
+									styleVariant="ghost"
+									iconOnly
+									to="https://github.com/z3us-dapps"
+									target="_blank"
+								>
 									<GithubIcon />
 								</NextButton>
 							</ToolTip>
