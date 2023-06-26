@@ -37,7 +37,7 @@ export default function App({ Component, pageProps }: AppProps) {
 				<ThemeProviderDarkClass>
 					<I18Provider>
 						<ReactQueryProvider dehydratedState={pageProps.dehydratedState}>
-							<NoneSharedStoreProvider z3usLogoLink={<Z3usLogoLink />}>
+							<NoneSharedStoreProvider>
 								<RdtProvider>{typeof window === 'undefined' ? null : <Component {...pageProps} />}</RdtProvider>
 							</NoneSharedStoreProvider>
 							{/* <ReactQueryDevtools initialIsOpen={false} /> */}
