@@ -1,4 +1,4 @@
-import { useQueries, useQuery } from 'react-query'
+import { useQueries, useQuery } from '@tanstack/react-query'
 
 import { CoinGeckoService } from 'ui/src/services/coingecko'
 
@@ -54,5 +54,5 @@ export const useXRDPrices = (currency: string, dates: Array<Date>) => {
 		},
 		enabled: !!currency && !!dates,
 	}))
-	return useQueries(queries)
+	return useQueries({ queries })
 }

@@ -1,13 +1,13 @@
-// @ts-nocheck
-// TODO: fix ts
 import { useAccounts } from './dapp/use-accounts'
+import { useNetworkId } from './dapp/use-network-id'
 import { useNoneSharedStore } from './use-store'
 
 export const useWalletAccounts = () => {
+	const networkId = useNetworkId()
 	const accounts = useAccounts()
 
 	const { addressBook } = useNoneSharedStore(state => ({
-		addressBook: state.addressBook,
+		addressBook: state.addressBook[networkId] || {},
 	}))
 
 	return accounts.map(account => ({

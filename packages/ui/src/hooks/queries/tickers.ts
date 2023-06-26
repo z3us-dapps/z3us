@@ -1,6 +1,4 @@
-// @ts-nocheck
-// TODO: fix ts
-import { useQueries, useQuery } from 'react-query'
+import { useQueries, useQuery } from '@tanstack/react-query'
 
 // import dsor, { TokensResponse as DSORTokensResponse } from 'ui/src/services/swap/dsor'
 import { CoinGeckoService } from 'ui/src/services/coingecko'
@@ -112,5 +110,5 @@ export const useTickers = (currency: string, assets: string[]) => {
 		},
 		enabled: !isLoading,
 	}))
-	return useQueries(queries)
+	return useQueries({ queries })
 }

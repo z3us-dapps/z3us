@@ -4,10 +4,11 @@ import { useEffect, useState } from 'react'
 
 import { useRdt } from './use-rdt'
 
+type RdtState = any
+
 export const useRdtState = () => {
 	const rdt = useRdt()!
-	// const [state, setState] = useState<RdtState>()
-	const [state, setState] = useState<any>()
+	const [state, setState] = useState<RdtState>()
 
 	useEffect(() => {
 		const subscription = rdt.state$.subscribe(s => {
@@ -17,7 +18,7 @@ export const useRdtState = () => {
 		return () => {
 			subscription.unsubscribe()
 		}
-	}, [])
+	}, [rdt])
 
 	return state
 }

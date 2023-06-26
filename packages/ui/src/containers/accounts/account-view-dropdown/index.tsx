@@ -1,7 +1,5 @@
-/* eslint-disable */
-// @ts-nocheck
-// TODO: fix
 import clsx, { type ClassValue } from 'clsx'
+import { useNetworkId } from 'packages/ui/src/hooks/dapp/use-network-id'
 import React, { forwardRef } from 'react'
 
 import { Box } from 'ui/src/components/box'
@@ -51,9 +49,10 @@ export const AccountViewDropdown = forwardRef<HTMLElement, IAccountViewDropdownP
 		const { className, styleVariant, isLeftButtonIconVisible } = props
 
 		const isMobile = useIsMobileWidth()
+		const networkId = useNetworkId()
 		const accounts = useWalletAccounts()
 		const { addressBook, selectedAccount, selectAccount } = useNoneSharedStore(state => ({
-			addressBook: state.addressBook,
+			addressBook: state.addressBook[networkId] || {},
 			selectedAccount: state.selectedAccount,
 			selectAccount: state.selectAccountAction,
 		}))

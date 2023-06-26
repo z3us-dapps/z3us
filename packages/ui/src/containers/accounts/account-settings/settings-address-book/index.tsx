@@ -1,8 +1,6 @@
-/* eslint-disable */
-// @ts-nocheck
-// TODO: fix
 import type { ClassValue } from 'clsx'
 import clsx from 'clsx'
+import { useNetworkId } from 'packages/ui/src/hooks/dapp/use-network-id'
 import React, { useMemo } from 'react'
 import { toast } from 'sonner'
 import useDeepCompareEffect from 'use-deep-compare-effect'
@@ -38,8 +36,9 @@ const emptyEntry: AddressBookEntry = {
 }
 
 export const SettingsAddressBook: React.FC<ISettingsGeneralProps> = props => {
+	const networkId = useNetworkId()
 	const { addressBook, setAddressBookEntry, handleRemoveAddress } = useNoneSharedStore(state => ({
-		addressBook: state.addressBook,
+		addressBook: state.addressBook[networkId] || {},
 		setAddressBookEntry: state.setAddressBookEntryAction,
 		handleRemoveAddress: state.removeAddressBookEntryAction,
 	}))
@@ -103,7 +102,7 @@ export const SettingsAddressBook: React.FC<ISettingsGeneralProps> = props => {
 	}
 
 	const handleConfirmDeleteAddress = () => {
-		handleRemoveAddress(state.deleteAccountAddress)
+		handleRemoveAddress(networkId, state.deleteAccountAddress)
 
 		setState(draft => {
 			draft.deleteAccountAddress = undefined
@@ -143,7 +142,7 @@ export const SettingsAddressBook: React.FC<ISettingsGeneralProps> = props => {
 			return
 		}
 
-		setAddressBookEntry(state.editingAddress.address, state.editingAddress)
+		setAddressBookEntry(networkId, state.editingAddress.address, state.editingAddress)
 
 		const toastMessage = state.editAccountAddress ? 'updated' : 'saved'
 

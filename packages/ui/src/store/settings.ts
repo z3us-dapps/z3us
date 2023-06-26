@@ -1,7 +1,9 @@
+import { config } from '../constants/config'
 import { type AddressBookEntry, type ISettingsStateSetter, type SettingsState } from './types'
 
 const defaultState = {
-	currency: 'USD',
+	gatewayBaseUrl: config.defaultGatewayBaseUrl,
+	currency: config.defaultCurrency,
 	walletUnlockTimeoutInMinutes: 5,
 	transactionNotificationsEnabled: true,
 	addressBook: {},
@@ -10,25 +12,9 @@ const defaultState = {
 export const factory = (set: ISettingsStateSetter): SettingsState => ({
 	...defaultState,
 
-	setAddressBookEntryAction: (address: string, settings: AddressBookEntry) => {
+	setGatewayUrl: (gatewayBaseUrl: string) => {
 		set(state => {
-			state.addressBook = {
-				...state.addressBook,
-				[address]: { ...state.addressBook[address], ...{ address }, ...settings },
-			}
-		})
-	},
-
-	removeAddressBookEntryAction: (address: string) => {
-		set(state => {
-			delete state.addressBook[address]
-			state.addressBook = { ...state.addressBook }
-		})
-	},
-
-	setWalletUnclokTimeoutInMinutesAction: (timeoutInMinutes: number) => {
-		set(state => {
-			state.walletUnlockTimeoutInMinutes = timeoutInMinutes
+			state.gatewayBaseUrl = gatewayBaseUrl
 		})
 	},
 
@@ -38,9 +24,34 @@ export const factory = (set: ISettingsStateSetter): SettingsState => ({
 		})
 	},
 
+	setWalletUnclokTimeoutInMinutesAction: (timeoutInMinutes: number) => {
+		set(state => {
+			state.walletUnlockTimeoutInMinutes = timeoutInMinutes
+		})
+	},
+
 	setTransactionNotificationsEnabledAction: (enabled: boolean) => {
 		set(state => {
 			state.transactionNotificationsEnabled = enabled
+		})
+	},
+
+	setAddressBookEntryAction: (networkId: number, address: string, settings: AddressBookEntry) => {
+		set(state => {
+			const addressBook = state.addressBook[networkId] || {}
+			state.addressBook[networkId] = {
+				...addressBook,
+				[address]: { ...addressBook, ...{ address }, ...settings },
+			}
+		})
+	},
+
+	removeAddressBookEntryAction: (networkId: number, address: string) => {
+		set(state => {
+			const addressBook = state.addressBook[networkId] || {}
+			delete addressBook[address]
+
+			state.addressBook = { ...state.addressBook, [networkId]: addressBook }
 		})
 	},
 })

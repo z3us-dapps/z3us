@@ -1,22 +1,30 @@
 import { RadixDappToolkit } from '@radixdlt/radix-dapp-toolkit'
-import React, { type PropsWithChildren, useEffect, useRef } from 'react'
+import React, { type PropsWithChildren, useEffect, useState } from 'react'
 
-import { DAPP_NETWORK_ID, dAppMeta } from '../constants/dapp'
-import { useSharedStore } from '../hooks/use-store'
+import { dAppMeta } from '../constants/dapp'
+import { useNetworkConfiguration } from '../hooks/dapp/use-network-configuration'
+import { useNoneSharedStore, useSharedStore } from '../hooks/use-store'
 import type { Rdt } from './rdt'
 import { RdtContext } from './rdt'
 
 export const RdtProvider: React.FC<PropsWithChildren> = ({ children }) => {
+	const { data: configuration } = useNetworkConfiguration()
 	const { reloadSharedStore } = useSharedStore(state => ({
 		reloadSharedStore: state.reloadSharedStoreAction,
 	}))
+	const { gatewayBaseUrl } = useNoneSharedStore(state => ({
+		gatewayBaseUrl: state.gatewayBaseUrl,
+	}))
+	const [state, setState] = useState<Rdt>()
 
 	const onStateChange = () => {
 		reloadSharedStore()
 	}
 
-	const ref = useRef<Rdt>(
-		RadixDappToolkit(
+	useEffect(() => {
+		if (!configuration?.network_id) return () => {}
+
+		const rdt = RadixDappToolkit(
 			dAppMeta,
 			requestData => {
 				requestData({
@@ -27,14 +35,17 @@ export const RdtProvider: React.FC<PropsWithChildren> = ({ children }) => {
 				})
 			},
 			{
-				networkId: DAPP_NETWORK_ID,
+				networkId: configuration.network_id,
 				onStateChange,
 				onInit: onStateChange,
+				gatewayBaseUrl,
 			},
-		),
-	)
+		)
+		setState(rdt)
+		return () => rdt.destroy()
+	}, [gatewayBaseUrl, configuration?.network_id])
 
-	useEffect(() => () => ref.current.destroy(), [])
+	if (!state) return null
 
-	return <RdtContext.Provider value={ref.current}>{children}</RdtContext.Provider>
+	return <RdtContext.Provider value={state}>{children}</RdtContext.Provider>
 }

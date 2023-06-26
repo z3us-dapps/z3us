@@ -52,6 +52,9 @@ export interface IWalletStateSetter {
 }
 
 export type SettingsState = {
+	gatewayBaseUrl: string
+	setGatewayUrl: (currency: string) => void
+
 	currency: string
 	setCurrencyAction: (currency: string) => void
 
@@ -61,9 +64,9 @@ export type SettingsState = {
 	transactionNotificationsEnabled: boolean
 	setTransactionNotificationsEnabledAction: (enabled: boolean) => void
 
-	addressBook: { [key: string]: AddressBookEntry }
-	removeAddressBookEntryAction: (address: string) => void
-	setAddressBookEntryAction: (address: string, entry: AddressBookEntry) => void
+	addressBook: { [networkId: number]: { [key: string]: AddressBookEntry } }
+	removeAddressBookEntryAction: (networkId: number, address: string) => void
+	setAddressBookEntryAction: (networkId: number, address: string, entry: AddressBookEntry) => void
 }
 
 export interface ISettingsStateSetter {

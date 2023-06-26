@@ -1,19 +1,13 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
-import type { Account } from '@radixdlt/radix-dapp-toolkit'
-import React, { useEffect } from 'react'
+import { useQuery } from '@tanstack/react-query'
 
-import { useRdt } from './use-rdt'
+import { useGatewayClient } from './use-gateway-client'
 
 export const useAccount = (accountAddress: string) => {
-	// const rdt = useRdt()
-	const [state, useState] = React.useState<Account>()
+	const { state } = useGatewayClient()!
 
-	// useEffect(() => {
-	// 	rdt.gatewayApi
-	// 		.getEntityDetails(accountAddress)
-	// 		.map(accounts => useState(accounts))
-	// 		.mapErr(() => useState(undefined))
-	// }, [accountAddress])
-
-	return state
+	return useQuery({
+		queryKey: ['useAccount', accountAddress],
+		queryFn: () => state.getEntityDetailsVaultAggregated(accountAddress),
+		enabled: !!state,
+	})
 }

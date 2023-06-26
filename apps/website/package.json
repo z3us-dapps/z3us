@@ -14,15 +14,13 @@
 	},
 	"dependencies": {
 		"@radixdlt/radix-dapp-toolkit": "^0.2.0",
-		"@tanstack/react-query": "^4.7.1",
-		"@tanstack/react-query-devtools": "^4.7.1",
-		"clsx": "^1.2.1",
-		"immer": "^10.0.2",
 		"@vanilla-extract/css": "^1.11.1",
 		"@vanilla-extract/next-plugin": "^2.1.3",
+		"clsx": "^1.2.1",
 		"concurrently": "^8.2.0",
 		"contentlayer": "^0.3.3",
 		"framer-motion": "^10.12.16",
+		"immer": "^10.0.2",
 		"next": "13.4.7",
 		"next-contentlayer": "^0.3.3",
 		"next-sitemap": "^4.1.3",
@@ -33,12 +31,13 @@
 		"ui": "*"
 	},
 	"devDependencies": {
+		"@tanstack/react-query-devtools": "^4.29.17",
+		"@types/eslint": "^8.40.2",
 		"@types/node": "20.3.1",
 		"@types/react": "18.2.13",
 		"@types/react-dom": "18.2.6",
-		"@types/eslint": "^8.40.2",
-		"eslint": "^8.43.0",
 		"concurrently": "^8.2.0",
+		"eslint": "^8.43.0",
 		"typescript": "5.0.4"
 	}
 }
