@@ -28,6 +28,10 @@ export const footerInnerWrapper = style([
 			mobile: 'large',
 			desktop: 'xlarge',
 		},
+		flexDirection: {
+			mobile: 'column',
+			tablet: 'row',
+		},
 	}),
 	{},
 ])
@@ -47,6 +51,38 @@ export const footerRightWrapper = style([
 		display: 'flex',
 		gap: 'medium',
 		alignItems: 'center',
+		paddingTop: {
+			mobile: 'large',
+			tablet: 'none',
+		},
+		justifyContent: {
+			mobile: 'flex-end',
+			tablet: 'flex-start',
+		},
+		flexDirection: {
+			mobile: 'row-reverse',
+			tablet: 'row',
+		},
+	}),
+	{},
+])
+
+export const mobileLinks = style([
+	sprinkles({
+		display: {
+			mobile: 'block',
+			tablet: 'none',
+		},
+	}),
+	{},
+])
+
+export const tabletLinks = style([
+	sprinkles({
+		display: {
+			mobile: 'none',
+			tablet: 'flex',
+		},
 	}),
 	{},
 ])
