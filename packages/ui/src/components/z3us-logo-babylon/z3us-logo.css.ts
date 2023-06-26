@@ -49,3 +49,32 @@ export const logoSvg = style([
 		fill: 'backgroundPrimary',
 	}),
 ])
+
+export const z3usBrandTextWrapper = style([
+	sprinkles({
+		position: 'relative',
+		display: 'flex',
+		overflow: 'hidden',
+		cursor: 'pointer',
+		boxShadow: {
+			focusVisible: 'btnSecondaryShadowFocus',
+		},
+	}),
+	{
+		outline: 'none',
+		width: '120px',
+		height: '20px',
+	},
+])
+
+export const z3usBrandTextSvgWrapper = style([
+	sprinkles({
+		position: 'relative',
+		transition: 'fastall',
+		fill: {
+			lightMode: 'wax400',
+			darkMode: 'bleached_silk300',
+			hover: 'blue_magenta400',
+		},
+	}),
+])

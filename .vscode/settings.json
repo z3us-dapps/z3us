@@ -5,6 +5,7 @@
 		"clsx",
 		"contentlayer",
 		"csstype",
+		"fastall",
 		"fira",
 		"immer",
 		"monospace",

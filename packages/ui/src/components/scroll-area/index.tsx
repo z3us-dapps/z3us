@@ -129,8 +129,6 @@ export const ScrollArea: React.FC<IProps> = ({
 
 	return (
 		<Box className={clsx(styles.scrollAreaWrapper, scrollDisabled && styles.scrollAreaWrapperDisabled)}>
-			{/* @TODO: resolve typescript error, this will be resolved when upgrade to react 18 */}
-			{/* @ts-ignore */}
 			<SimpleBar
 				ref={sRef}
 				scrollableNodeProps={scrollableNodeProps}
