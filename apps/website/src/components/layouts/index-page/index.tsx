@@ -54,7 +54,7 @@ export const IndexPage: React.FC = () => {
 								opacity: { ease: 'linear' },
 								layout: { duration: 0.15 },
 							}}
-							style={{ width: '100vw', height: 'calc(100vh - 71px)', top: 0, left: 0, overflow: 'hidden' }}
+							style={{ width: '100vw', height: 'calc(100vh - 71px)', top: 0, left: 0 }}
 						>
 							<AppPage />
 						</motion.div>
