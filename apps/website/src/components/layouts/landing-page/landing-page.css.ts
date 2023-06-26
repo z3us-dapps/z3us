@@ -9,7 +9,7 @@ export const landingWrapper = style([
 	}),
 	{
 		minHeight: 'calc(100vh - 71px)',
-		// minWidth: '100vw',
+		minWidth: '100vw',
 	},
 ])
 
@@ -19,9 +19,7 @@ export const landingBodyWrapper = style([
 		paddingTop: 'large',
 		flexGrow: 1,
 	}),
-	{
-		// minHeight: 'calc(100vh - 70px)',
-	},
+	{},
 ])
 
 export const landingFooterWrapper = style([

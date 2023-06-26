@@ -8,7 +8,7 @@ import { AccountsMobile } from './mobile'
 
 interface IAccountsProps {
 	isMobile: boolean
-	isNavigationVisible: boolean
+	isNavigationVisible?: boolean
 }
 
 export const Accounts = (props: IAccountsProps): React.JSX.Element => {

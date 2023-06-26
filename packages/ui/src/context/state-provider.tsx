@@ -14,11 +14,10 @@ const defaultValue = {
 
 interface INoneSharedStoreProvider {
 	children: React.ReactNode
-	z3usLogoLink?: React.ReactNode
 }
 
 export const NoneSharedStoreProvider = (props: INoneSharedStoreProvider) => {
-	const { children, z3usLogoLink } = props
+	const { children } = props
 	const { keystoreId } = useSharedStore(state => ({
 		keystoreId: state.selectKeystoreId,
 	}))
@@ -28,9 +27,9 @@ export const NoneSharedStoreProvider = (props: INoneSharedStoreProvider) => {
 	useEffect(() => {
 		const load = async (id: string) => {
 			if (!id) {
-				setState({ ...defaultValue, z3usLogoLink })
+				setState({ ...defaultValue })
 			} else {
-				setState({ id, store: await getNoneSharedStore(id), z3usLogoLink })
+				setState({ id, store: await getNoneSharedStore(id) })
 			}
 		}
 		load(keystoreId)

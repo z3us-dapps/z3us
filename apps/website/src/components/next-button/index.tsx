@@ -5,12 +5,13 @@ import { Button, type IButtonProps } from 'ui/src/components/button'
 
 interface INextButtonProps extends IButtonProps {
 	to?: string
+	target?: string
 }
 
 export const NextButton = forwardRef<HTMLButtonElement, INextButtonProps>(
 	(props, ref: React.Ref<HTMLButtonElement | null>) => {
-		const { to } = props
+		const { to, target } = props
 
-		return <Button ref={ref} href={to} linkFrameWorkComp={NLink} {...props} />
+		return <Button ref={ref} href={to} target={target} linkFrameWorkComp={NLink} {...props} />
 	},
 )

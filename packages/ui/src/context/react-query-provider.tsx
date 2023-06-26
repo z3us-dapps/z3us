@@ -3,6 +3,8 @@ import { Hydrate, QueryClient } from '@tanstack/react-query'
 import { PersistQueryClientProvider } from '@tanstack/react-query-persist-client'
 import React, { type PropsWithChildren } from 'react'
 
+import { domExists } from 'ui/src/utils/dom-exists'
+
 const client = new QueryClient({
 	defaultOptions: {
 		queries: {
@@ -15,7 +17,7 @@ const client = new QueryClient({
 })
 
 const persister = createSyncStoragePersister({
-	storage: window.localStorage,
+	storage: domExists() ? window?.localStorage : undefined,
 })
 
 type Props = { dehydratedState?: any }
