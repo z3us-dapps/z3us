@@ -1,6 +1,6 @@
 import clsx, { type ClassValue } from 'clsx'
 import { LayoutGroup, motion } from 'framer-motion'
-import React, { forwardRef, useContext } from 'react'
+import React, { forwardRef } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useLocation } from 'react-router-dom'
 
@@ -18,7 +18,6 @@ import { accountMenuSlugs } from 'ui/src/constants/accounts'
 import { routes } from 'ui/src/constants/routes'
 import { AccountTabletNavigationDropdown } from 'ui/src/containers/accounts/account-tablet-navigation-dropdown'
 import { AccountViewDropdown } from 'ui/src/containers/accounts/account-view-dropdown'
-import { NoneSharedStoreContext } from 'ui/src/context/state'
 import { useAccountParams } from 'ui/src/hooks/use-account-params'
 
 import * as styles from './navigation.css'
@@ -75,32 +74,26 @@ export const AccountDesktopLavaMenu = () => {
 	)
 }
 
-export const DesktopNavigation: React.FC = () => {
-	const { z3usLogoLink } = useContext(NoneSharedStoreContext)
-
-	return (
-		<Box component="nav" className={clsx(styles.navigationWrapper, containerStyles.containerWrapper)}>
-			<Box className={clsx(styles.navigationContainer, containerStyles.containerInnerWrapper)}>
-				{z3usLogoLink || (
-					<Link to={accountMenuSlugs.ACCOUNTS}>
-						<Z3usLogo />
-					</Link>
-				)}
-				<Box className={styles.navigationMenuTabletWrapper}>
-					<AccountTabletNavigationDropdown />
-				</Box>
-				<AccountDesktopLavaMenu />
-				<Box display="flex" alignItems="center" gap="medium">
-					<NotificationsDropdown />
-					<CopyAddressButton address="rdx1b707388613169bf701d533e143d8f698c9090f605e677a967eaf70a4c69250ce" />
-					<AccountViewDropdown />
-					{/* <WalletDropdown /> */}
-					<ConnectButton />
-				</Box>
+export const DesktopNavigation: React.FC = () => (
+	<Box component="nav" className={clsx(styles.navigationWrapper, containerStyles.containerWrapper)}>
+		<Box className={clsx(styles.navigationContainer, containerStyles.containerInnerWrapper)}>
+			<Link to={accountMenuSlugs.ACCOUNTS}>
+				<Z3usLogo />
+			</Link>
+			<Box className={styles.navigationMenuTabletWrapper}>
+				<AccountTabletNavigationDropdown />
+			</Box>
+			<AccountDesktopLavaMenu />
+			<Box display="flex" alignItems="center" gap="medium">
+				<NotificationsDropdown />
+				<CopyAddressButton address="rdx1b707388613169bf701d533e143d8f698c9090f605e677a967eaf70a4c69250ce" />
+				<AccountViewDropdown />
+				{/* <WalletDropdown /> */}
+				<ConnectButton />
 			</Box>
 		</Box>
-	)
-}
+	</Box>
+)
 
 const MenuItemMobile = ({ href }: { href: string }) => {
 	const selected = useSelectedItem(href)
@@ -140,7 +133,6 @@ interface IMobileHeaderNavigationProps {
 
 export const MobileHeaderNavigation = forwardRef<HTMLElement, IMobileHeaderNavigationProps>(
 	(props, ref: React.Ref<HTMLElement | null>) => {
-		const { z3usLogoLink } = useContext(NoneSharedStoreContext)
 		const { className, style, copyAddressBtnVisible, isShadowVisible = false } = props
 
 		return (
@@ -156,11 +148,9 @@ export const MobileHeaderNavigation = forwardRef<HTMLElement, IMobileHeaderNavig
 			>
 				<Box className={styles.accountsHomeMobileHeaderWalletWrapper}>
 					<Box display="flex" alignItems="center" gap="small" flexGrow={1}>
-						{z3usLogoLink || (
-							<Link to={accountMenuSlugs.ACCOUNTS}>
-								<Z3usLogo />
-							</Link>
-						)}
+						<Link to={accountMenuSlugs.ACCOUNTS}>
+							<Z3usLogo />
+						</Link>
 						<AccountViewDropdown
 							styleVariant="tertiary"
 							// styleVariant={isAllAccount ? 'tertiary' : 'white-transparent'}
