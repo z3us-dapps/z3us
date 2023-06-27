@@ -9,7 +9,7 @@ import React, { useState } from 'react'
 
 import { Box } from 'ui/src/components/box'
 import { Button, type TStyleVariant as TButtonStyleVariant } from 'ui/src/components/button'
-import { ChevronDown2Icon } from 'ui/src/components/icons'
+import { ChevronDown2Icon, TrashIcon } from 'ui/src/components/icons'
 import { type TSizeVariant, type TStyleVariant } from 'ui/src/components/input'
 import { NumberInput } from 'ui/src/components/number-input'
 import { ResourceImageIcon } from 'ui/src/components/resource-image-icon'
@@ -36,7 +36,7 @@ import { getZodError } from 'ui/src/utils/get-zod-error'
 import type { TTransferSchema, TZodValidation } from '../account-transfer-types'
 import * as styles from './transfer-token-selector.css'
 
-interface ITransferTokenSelectorRequiredProps {
+interface ITransferTokenSelectorProps {
 	balances: ResourceBalance[]
 	token: string
 	tokenValue: number
@@ -45,24 +45,10 @@ interface ITransferTokenSelectorRequiredProps {
 	validation: TZodValidation
 	onUpdateTokenValue: (tokenValue: number) => void
 	onUpdateToken: (token: string) => void
-}
-
-interface ITransferTokenSelectorOptionalProps {
 	className?: ClassValue
 	styleVariant?: TStyleVariant
 	sizeVariant?: TSizeVariant
 	placeholder?: string
-}
-
-interface ITransferTokenSelectorProps
-	extends ITransferTokenSelectorRequiredProps,
-		ITransferTokenSelectorOptionalProps {}
-
-const defaultProps: ITransferTokenSelectorOptionalProps = {
-	className: undefined,
-	styleVariant: 'primary',
-	sizeVariant: 'large',
-	placeholder: 'Enter amount',
 }
 
 export const TransferTokenSelector: React.FC<ITransferTokenSelectorProps> = props => {
@@ -73,7 +59,7 @@ export const TransferTokenSelector: React.FC<ITransferTokenSelectorProps> = prop
 		className,
 		styleVariant,
 		sizeVariant,
-		placeholder,
+		placeholder = 'enter amount',
 		sendIndex,
 		tokenIndex,
 		validation,
@@ -127,10 +113,23 @@ export const TransferTokenSelector: React.FC<ITransferTokenSelectorProps> = prop
 		<Box className={clsx(className)}>
 			<Box display="flex" paddingBottom="medium" paddingTop="large">
 				<Box display="flex" alignItems="center" width="full">
-					<Box display="flex" alignItems="center" flexGrow={1}>
+					<Box display="flex" alignItems="center" flexGrow={1} gap="small">
 						<Text size="medium" color="strong">
 							Amount:
 						</Text>
+						{tokenIndex ? (
+							<Button
+								iconOnly
+								sizeVariant="small"
+								styleVariant="ghost"
+								onClick={() => {
+									// eslint-disable-next-line
+									console.log('trash this token')
+								}}
+							>
+								<TrashIcon />
+							</Button>
+						) : null}
 					</Box>
 					<Box display="flex" alignItems="center" gap="xsmall">
 						<Text inheritColor component="span" size="medium" truncate>
@@ -262,5 +261,3 @@ export const TransferTokenSelector: React.FC<ITransferTokenSelectorProps> = prop
 		</Box>
 	)
 }
-
-TransferTokenSelector.defaultProps = defaultProps
