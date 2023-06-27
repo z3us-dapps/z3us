@@ -1,7 +1,8 @@
 import clsx, { type ClassValue } from 'clsx'
-import React, { useRef, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import useMeasure from 'react-use-measure'
 import { Virtuoso } from 'react-virtuoso'
+import { useDebounce } from 'use-debounce'
 
 import { Box } from 'ui/src/components/box'
 import { Check2Icon, ChevronDown2Icon } from 'ui/src/components/icons'
@@ -32,14 +33,7 @@ export const SearchableInput: React.FC<ISearchableInputProps> = props => {
 	const [measureRef, { width: triggerWidth }] = useMeasure()
 	const inputWrapperRef = useRef<HTMLInputElement>(null)
 
-	const closePopover = () => {
-		setIsPopoverOpen(false)
-	}
-
-	const handleItemSelected = (val: string) => {
-		onValueChange(val)
-		closePopover()
-	}
+	const [debouncedValue] = useDebounce<string>(value, 200)
 
 	const searchArray = (input: string, array: TData) => {
 		const lowerCaseInput = input.toLowerCase()
@@ -54,9 +48,27 @@ export const SearchableInput: React.FC<ISearchableInputProps> = props => {
 		)
 	}
 
+	useEffect(() => {
+		setLocalData(searchArray(debouncedValue, data))
+	}, [data])
+
+	useEffect(() => {
+		if (!isPopoverOpen) return
+		setLocalData(searchArray(debouncedValue, data))
+	}, [debouncedValue])
+
+	const closePopover = () => {
+		setIsPopoverOpen(false)
+	}
+
+	const handleItemSelected = (val: string) => {
+		setLocalData(data)
+		onValueChange(val)
+		closePopover()
+	}
+
 	const handleOnChange = (e: React.ChangeEvent<FormElement>) => {
 		const val = e.currentTarget.value
-		setLocalData(searchArray(val, data))
 		onValueChange(val)
 	}
 
@@ -130,9 +142,11 @@ export const SearchableInput: React.FC<ISearchableInputProps> = props => {
 											<Box flexGrow={1}>
 												<Text truncate>{account}</Text>
 											</Box>
-											<Box flexShrink={0} display="flex" alignItems="center" justifyContent="center">
-												<Check2Icon />
-											</Box>
+											{id === value && (
+												<Box flexShrink={0} display="flex" alignItems="center" justifyContent="center">
+													<Check2Icon />
+												</Box>
+											)}
 										</Box>
 									)}
 									customScrollParent={customScrollParent}

@@ -1,3 +1,4 @@
+/* eslint-disable react/no-array-index-key */
 import BigNumber from 'bignumber.js'
 import clsx from 'clsx'
 import { Amount } from 'packages/ui/src/components/amount'
@@ -13,7 +14,6 @@ import { Box } from 'ui/src/components/box'
 import { Button } from 'ui/src/components/button'
 import { DialogContent, DialogOverlay, DialogPortal, DialogRoot } from 'ui/src/components/dialog'
 import { ArrowLeftIcon, ChevronDown2Icon, LockIcon } from 'ui/src/components/icons'
-import { ImageIcon } from 'ui/src/components/image-icon'
 import * as dialogStyles from 'ui/src/components/styles/dialog-styles.css'
 import Translation from 'ui/src/components/translation'
 import { Text } from 'ui/src/components/typography'
@@ -51,9 +51,11 @@ export const ReviewTransfer: React.FC<IReviewTransferProps> = props => {
 			tokens.map(token => ({ amount: token.amount, resource: token.address, to })),
 		)
 
+		const transactionManifest = sendTokens(transaction.from).fungible(fungibles.flat())
+
 		sendTransaction({
 			version: 0,
-			transactionManifest: sendTokens(transaction.from).fungible(fungibles.flat()),
+			transactionManifest,
 		})
 			.andThen(response => {
 				console.log(response)
@@ -136,8 +138,8 @@ export const ReviewTransfer: React.FC<IReviewTransferProps> = props => {
 					{/* END START MESSAGE */}
 
 					{/* START TO */}
-					{transaction.sends.map(send => (
-						<Box display="flex" flexDirection="column" gap="small">
+					{transaction.sends.map((send, sendIdx) => (
+						<Box display="flex" flexDirection="column" gap="small" key={`group-${sendIdx}`}>
 							<Box display="flex" gap="xsmall">
 								<Text color="strong" size="xlarge" weight="strong">
 									To
@@ -149,13 +151,7 @@ export const ReviewTransfer: React.FC<IReviewTransferProps> = props => {
 									styleVariant="secondary"
 									sizeVariant="xlarge"
 									fullWidth
-									leftIcon={
-										<ImageIcon
-											imgSrc="https://images.unsplash.com/photo-1492633423870-43d1cd2775eb?&w=128&h=128&dpr=2&q=80"
-											imgAlt="btc token image"
-											fallbackText="btc"
-										/>
-									}
+									leftIcon={<ResourceImageIcon address={send.to} />}
 								>
 									<Box display="flex" alignItems="center" width="full" textAlign="left" paddingLeft="xsmall">
 										<Text size="large" color="strong">
@@ -174,12 +170,12 @@ export const ReviewTransfer: React.FC<IReviewTransferProps> = props => {
 							</Box>
 
 							<Box className={styles.tokensWrapper}>
-								{send.tokens.map(token => (
-									<Box className={styles.tokenRowWrapper}>
+								{send.tokens.map((token, tokenIdx) => (
+									<Box className={styles.tokenRowWrapper} key={`tokens-${sendIdx}-${tokenIdx}`}>
 										<ResourceImageIcon address={token.address} />
 										<Text size="small" weight="medium">
-											{token.symbol.toUpperCase()}
-											<Amount value={new BigNumber(token.amount)} /> -
+											{token.symbol.toUpperCase()} <Amount value={new BigNumber(token.amount)} />
+											{' - '}
 											<TokenPrice amount={new BigNumber(token.amount)} symbol={token.symbol} />
 										</Text>
 									</Box>

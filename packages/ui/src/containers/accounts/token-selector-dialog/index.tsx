@@ -40,18 +40,18 @@ interface ITokenSelectorDialogRequiredProps {
 }
 
 interface ITokenSelectorDialogOptionalProps {
-	token?: string
+	tokenAddress?: string
 }
 
 interface ITokenSelectorDialogProps extends ITokenSelectorDialogRequiredProps, ITokenSelectorDialogOptionalProps {}
 
 const defaultProps: ITokenSelectorDialogOptionalProps = {
-	token: undefined,
+	tokenAddress: undefined,
 }
 
 export const TokenSelectorDialog = forwardRef<HTMLElement, ITokenSelectorDialogProps>(
 	(props, ref: React.Ref<HTMLElement | null>) => {
-		const { trigger, balances, token, onTokenUpdate } = props
+		const { trigger, balances, tokenAddress, onTokenUpdate } = props
 		const { t } = useTranslation()
 		const [searchParams] = useSearchParams()
 		const navigate = useNavigate()
@@ -63,7 +63,7 @@ export const TokenSelectorDialog = forwardRef<HTMLElement, ITokenSelectorDialogP
 		const [isOpen, setIsOpen] = useState<boolean>(false)
 		const [inputValue, setInputValue] = useState<string>('')
 
-		const selected = balances.find(resource => resource.address === token)
+		const selected = balances.find(resource => resource.address === tokenAddress)
 
 		const handleScroll = (event: Event) => {
 			const target = event.target as Element

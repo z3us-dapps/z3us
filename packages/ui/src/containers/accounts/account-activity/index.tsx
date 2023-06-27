@@ -7,6 +7,7 @@ import {
 import { config } from 'packages/ui/src/constants/config'
 import { ACCOUNTS_ALL } from 'packages/ui/src/constants/routes'
 import { useTransactions } from 'packages/ui/src/hooks/dapp/use-transactions'
+import { getShortAddress } from 'packages/ui/src/utils/string-utils'
 import React, { forwardRef, useCallback, useState } from 'react'
 import { useLocation } from 'react-router-dom'
 import { Virtuoso } from 'react-virtuoso'
@@ -86,13 +87,13 @@ const ItemWrapper: React.FC<IAllAccountListRowProps> = props => {
 				)} */}
 				{/* {loaded && ( */}
 				<>
-					<Box className={clsx(styles.activityItemInner, (isSelected || isHovered) && styles.activityItemInnerSelected)}>
+					<Box
+						className={clsx(styles.activityItemInner, (isSelected || isHovered) && styles.activityItemInnerSelected)}
+					>
 						<Link
 							underline="never"
 							to={`${pathname}?asset=xrd&transactionId=${transaction.intent_hash_hex}`}
-							// to={`/accounts/transactions/btc/1eaf53c4256c384d76ca72c0f18ef37a2e4441d4e6bae450e2b8507f42faa5b6`}
 							className={styles.activityItemInnerBtn}
-							// onClick={handleClickItem}
 							onClick={() => setSelected(transaction.intent_hash_hex)}
 							onMouseOver={() => setHovered(transaction.intent_hash_hex)}
 							onMouseLeave={() => setHovered(null)}
@@ -102,9 +103,10 @@ const ItemWrapper: React.FC<IAllAccountListRowProps> = props => {
 							</Box>
 							<Box className={styles.activityItemTextWrapper}>
 								<Text weight="stronger" size="small" color="strong" truncate>
-									{transaction.transaction_status}
+									{getShortAddress(transaction.intent_hash_hex)}
 								</Text>
 								<Text size="xsmall" truncate>
+									{/* {transaction?.payload_hash_hex && console.log(atob(Buffer.from(transaction.payload_hash_hex,'hex').toString()))} */}
 									{transaction.confirmed_at?.toLocaleString()}
 								</Text>
 							</Box>

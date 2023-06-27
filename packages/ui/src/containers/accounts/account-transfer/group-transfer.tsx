@@ -246,11 +246,11 @@ export const GroupItem: React.FC<IGroupItemProps> = props => {
 								onUpdateIsMessageEncrypted={onUpdateIsMessageEncrypted}
 							/>
 						) : null}
-						{send.tokens.map(({ token, amount }: any, tokenIndex: number) => (
+						{send.tokens.map(({ amount, address }: any, tokenIndex: number) => (
 							<TransferTokenSelector
 								key={`group-${sendIndex}-${tokenIndex}`}
 								balances={balances}
-								token={token}
+								tokenAddress={address}
 								tokenValue={amount}
 								sendIndex={sendIndex}
 								tokenIndex={tokenIndex}

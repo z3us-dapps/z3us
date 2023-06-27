@@ -40,7 +40,7 @@ import * as styles from './transfer-token-selector.css'
 
 interface ITransferTokenSelectorProps {
 	balances: ResourceBalance[]
-	token: string
+	tokenAddress: string
 	tokenValue: number
 	sendIndex: number
 	tokenIndex: number
@@ -56,7 +56,7 @@ interface ITransferTokenSelectorProps {
 export const TransferTokenSelector: React.FC<ITransferTokenSelectorProps> = props => {
 	const {
 		balances,
-		token,
+		tokenAddress,
 		tokenValue,
 		className,
 		styleVariant = 'primary',
@@ -76,7 +76,7 @@ export const TransferTokenSelector: React.FC<ITransferTokenSelectorProps> = prop
 
 	const [selectedCurrency, setCurrency] = useState<string>(currency)
 
-	const selectedToken = balances.find(b => b.address === token)
+	const selectedToken = balances.find(b => b.address === tokenAddress)
 
 	const favoriteCurrencies = ['usd', 'eur', 'btc']
 
@@ -164,7 +164,7 @@ export const TransferTokenSelector: React.FC<ITransferTokenSelectorProps> = prop
 					precision={9}
 				/>
 				<TokenSelectorDialog
-					token={token}
+					tokenAddress={tokenAddress}
 					onTokenUpdate={handleTokenUpdate}
 					trigger={
 						<Button
@@ -196,7 +196,7 @@ export const TransferTokenSelector: React.FC<ITransferTokenSelectorProps> = prop
 				<Box display="flex" alignItems="center" flexGrow={1} gap="xsmall">
 					<Box display="flex" alignItems="center">
 						<Text size="medium" truncate>
-							{tokenValue} {selectedToken?.symbol} =
+							{tokenValue || 0} {selectedToken?.symbol} =
 						</Text>
 					</Box>
 					{/* TODO: move to own component */}
