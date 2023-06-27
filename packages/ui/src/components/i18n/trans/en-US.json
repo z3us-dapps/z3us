@@ -64,5 +64,10 @@
 		"transfer": {
 			"overview": "overview"
 		}
+	},
+	"transfer": {
+		"sendTokens": {
+			"deleteToken": "delete token"
+		}
 	}
 }

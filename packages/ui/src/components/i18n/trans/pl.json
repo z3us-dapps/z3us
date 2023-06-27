@@ -61,5 +61,10 @@
 			"listHeaderCategory": "Kategoria",
 			"listHeaderAccount": "konto"
 		}
+	},
+	"transfer": {
+		"sendTokens": {
+			"deleteToken": "usunąć token"
+		}
 	}
 }
