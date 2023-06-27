@@ -8,7 +8,7 @@ import { routes } from 'ui/src/constants/routes'
 import { AccountSettingsDesktop } from 'ui/src/containers/accounts/account-settings'
 import { AccountStaking } from 'ui/src/containers/accounts/account-staking'
 import { AccountSwap } from 'ui/src/containers/accounts/account-swap'
-import { AccountsTransferDesktop } from 'ui/src/containers/accounts/account-transfer/account-transfer-desktop'
+import { AccountTransferDesktop } from 'ui/src/containers/accounts/account-transfer'
 import { AccountsHomeDesktop } from 'ui/src/containers/accounts/accounts-home-desktop'
 import { DesktopNavigation } from 'ui/src/containers/accounts/navigation'
 import { useLocationKey } from 'ui/src/hooks/use-location-key'
@@ -38,10 +38,10 @@ export const AccountsDesktop = (props: IAccountsDesktopProps): React.JSX.Element
 							}
 						/>
 						<Route
-							path={routes.TRANSFER}
+							path={`${routes.TRANSFER}/*`}
 							element={
 								<AnimatedPage>
-									<AccountsTransferDesktop />
+									<AccountTransferDesktop />
 								</AnimatedPage>
 							}
 						/>

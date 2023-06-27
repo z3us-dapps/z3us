@@ -8,7 +8,7 @@ import { routes } from 'ui/src/constants/routes'
 import { AccountSettingsMobile } from 'ui/src/containers/accounts/account-settings'
 import { AccountStaking } from 'ui/src/containers/accounts/account-staking'
 import { AccountSwap } from 'ui/src/containers/accounts/account-swap'
-import { AccountTransfer } from 'ui/src/containers/accounts/account-transfer'
+import { AccountTransferMobile } from 'ui/src/containers/accounts/account-transfer'
 import { AccountsHomeMobile } from 'ui/src/containers/accounts/accounts-home-mobile'
 import { MobileFooterNavigation } from 'ui/src/containers/accounts/navigation'
 import { NavigationScrollContainer } from 'ui/src/containers/accounts/navigation-scroll-container'
@@ -36,7 +36,8 @@ export const AccountsMobile: React.FC = () => {
 							path={routes.TRANSFER}
 							element={
 								<AnimatedPage>
-									<NavigationScrollContainer renderPanel={() => <AccountTransfer />} />
+									<AccountTransferMobile />
+									{/* <NavigationScrollContainer renderPanel={() => <AccountTransfer />} /> */}
 								</AnimatedPage>
 							}
 						/>
