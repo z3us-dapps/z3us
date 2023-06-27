@@ -3498,7 +3498,7 @@
     "@radix-ui/react-use-size" "1.0.1"
     "@radix-ui/rect" "1.0.1"
 
-"@radix-ui/react-portal@1.0.3", "@radix-ui/react-portal@^1.0.2":
+"@radix-ui/react-portal@1.0.3", "@radix-ui/react-portal@^1.0.3":
   version "1.0.3"
   resolved "https://registry.npmjs.org/@radix-ui/react-portal/-/react-portal-1.0.3.tgz"
   integrity sha512-xLYZeHrWoPmA5mEKEfZZevoVRK/Q43GfzRXkWV6qawIWWK8t6ifIiLQdd7rmQ4Vk1bmI21XhqF9BN3jWf+phpA==
