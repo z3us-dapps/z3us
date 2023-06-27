@@ -5,7 +5,7 @@ import packageJson from '../package.json'
 const { version } = packageJson
 
 export type ConfigType = typeof radixCfg & {
-	isDevlopmentMode: boolean
+	isDevelopmentMode: boolean
 	isProductionMode: boolean
 	popup: typeof radixCfg.popup & {
 		pages: {
@@ -34,6 +34,6 @@ export const config: ConfigType = {
 		},
 	},
 	version,
-	isDevlopmentMode: import.meta.env.MODE === 'development',
+	isDevelopmentMode: import.meta.env.MODE === 'development',
 	isProductionMode: import.meta.env.MODE === 'production' || import.meta.env.MODE === 'rcnet',
 }

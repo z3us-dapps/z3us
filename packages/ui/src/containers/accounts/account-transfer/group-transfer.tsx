@@ -297,6 +297,7 @@ export const GroupTransfer: React.FC<IGroupTransferProps> = ({ transaction, acco
 		<Box display="flex" flexDirection="column" gap="large">
 			{transaction.sends.map((send, sendIndex: number) => (
 				<GroupItem
+					key={sendIndex}
 					message={transaction.message}
 					isMessageEncrypted={transaction.isMessageEncrypted}
 					send={send}
