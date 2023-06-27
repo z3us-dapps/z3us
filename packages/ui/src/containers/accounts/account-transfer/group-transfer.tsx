@@ -142,10 +142,10 @@ export const GroupItem: React.FC<IGroupItemProps> = props => {
 					<Box padding="large">
 						{sendIndex === 0 && (
 							<Box paddingBottom="medium">
-								<Box display="flex" paddingBottom="medium" alignItems="center">
+								<Box display="flex" paddingBottom="small" alignItems="center">
 									<Box flexGrow={1} alignItems="center">
-										<Text size="medium" color="strong">
-											From
+										<Text size="medium" color="strong" weight="medium">
+											From:
 										</Text>
 									</Box>
 								</Box>
@@ -172,7 +172,7 @@ export const GroupItem: React.FC<IGroupItemProps> = props => {
 										)}
 										trigger={
 											<Button
-												styleVariant={getError(validation, ['from']).error ? 'secondary-error' : 'secondary'}
+												styleVariant={getError(validation, ['from']).error ? 'tertiary-error' : 'tertiary'}
 												sizeVariant="xlarge"
 												fullWidth
 												leftIcon={<ResourceImageIcon address={fromAccount} />}
@@ -190,10 +190,10 @@ export const GroupItem: React.FC<IGroupItemProps> = props => {
 								</Box>
 							</Box>
 						)}
-						<Box display="flex" paddingBottom="medium">
+						<Box display="flex" paddingBottom="small">
 							<Box display="flex" alignItems="center" width="full">
 								<Box display="flex" alignItems="center" flexGrow={1}>
-									<Text size="medium" color="strong">
+									<Text size="medium" color="strong" weight="medium">
 										To:
 									</Text>
 									<Box display="flex" alignItems="center" color="green500" marginLeft="xxsmall">

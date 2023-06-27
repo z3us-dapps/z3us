@@ -59,7 +59,7 @@ export const TransferTokenSelector: React.FC<ITransferTokenSelectorProps> = prop
 		token,
 		tokenValue,
 		className,
-		styleVariant,
+		styleVariant = 'primary',
 		sizeVariant = 'large',
 		placeholder = 'enter amount',
 		sendIndex,
@@ -113,10 +113,10 @@ export const TransferTokenSelector: React.FC<ITransferTokenSelectorProps> = prop
 
 	return (
 		<Box className={clsx(className)}>
-			<Box display="flex" paddingBottom="medium" paddingTop="large">
+			<Box display="flex" paddingBottom="small" paddingTop="large">
 				<Box display="flex" alignItems="center" width="full">
 					<Box display="flex" alignItems="center" flexGrow={1} gap="small">
-						<Text size="medium" color="strong">
+						<Text size="medium" color="strong" weight="medium">
 							Amount:
 						</Text>
 						{tokenIndex ? (
