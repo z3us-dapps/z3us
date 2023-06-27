@@ -1,5 +1,5 @@
 import clsx from 'clsx'
-import { screens } from 'design/tokens/foundation/screens.json'
+import screensJson from 'design/tokens/foundation/screens.json'
 import React, { useEffect, useRef, useState } from 'react'
 import { useLocation } from 'react-router-dom'
 
@@ -48,7 +48,7 @@ export const ScrollPanel: React.FC<IScrollPanelProps> = props => {
 	const setListSize = () => {
 		const listRef = ref.current
 		if (listRef) {
-			const desktopBreakPoint = screens.lg.value.replace('px', '')
+			const desktopBreakPoint = screensJson.screens.lg.value.replace('px', '')
 			const isDesktopWidth = window.innerWidth > parseInt(desktopBreakPoint, 10)
 			const simpleBarContent = listRef.getElementsByClassName('simplebar-content')[0]
 			setListHeight(simpleBarContent?.offsetHeight || 100)

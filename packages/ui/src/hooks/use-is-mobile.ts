@@ -1,4 +1,4 @@
-import { screens } from 'design/tokens/foundation/screens.json'
+import screensJson from 'design/tokens/foundation/screens.json'
 import { useState } from 'react'
 import { useDebouncedCallback } from 'use-debounce'
 import { useEventListener } from 'usehooks-ts'
@@ -7,7 +7,7 @@ const DEBOUNCE_TIMEOUT = 50
 
 const getIsMobileWidth = (): boolean => {
 	const windowWidth = window.innerWidth
-	const mobileBreakPoint = screens.md.value.replace('px', '')
+	const mobileBreakPoint = screensJson.screens.md.value.replace('px', '')
 	return windowWidth < parseInt(mobileBreakPoint, 10)
 }
 
