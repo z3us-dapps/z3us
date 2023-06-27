@@ -22,6 +22,7 @@ import {
 	CheckCircleIcon,
 	ChevronDown2Icon,
 	CirclePlusIcon,
+	PictureInPictureIcon,
 	TrashIcon,
 	WriteNoteIcon,
 } from 'ui/src/components/icons'
@@ -62,7 +63,6 @@ interface IGroupTransferProps {
 
 interface IGroupItemProps extends Omit<Omit<Omit<IGroupTransferProps, 'accounts'>, 'addressBook'>, 'transaction'> {
 	sendIndex: number
-	// send: TSendSchema | TSendNftSchema
 	send: TCombinedSendSchema
 	message: string
 	isMessageEncrypted: boolean
@@ -268,40 +268,62 @@ export const GroupItem: React.FC<IGroupItemProps> = props => {
 							/>
 						))}
 						{/* // TODO: resolve any type */}
-						{(send.nfts || []).map(({ amount, address }: any, tokenIndex: number) => (
+						{(send.nfts || []).map(({ amount, address }: any, nftIndex: number) => (
 							<TransferNftSelector
-								key={`group-${sendIndex}-${tokenIndex}`}
+								key={`group-${sendIndex}-${nftIndex}`}
 								balances={balances}
 								tokenAddress={address}
 								tokenValue={amount}
 								sendIndex={sendIndex}
-								tokenIndex={tokenIndex}
+								nftIndex={nftIndex}
 								validation={validation}
 								onUpdateToken={(_value: string) => {
-									const t = balances.find(b => b.address === _value)
-									if (t) onUpdateToken(sendIndex)(tokenIndex)(t.address, t.symbol, t.name)
+									console.log('🚀 ~ file: group-transfer.tsx:280 ~ _value:', _value)
+									// const t = balances.find(b => b.address === _value)
+									// if (t) onUpdateToken(sendIndex)(tokenIndex)(t.address, t.symbol, t.name)
 								}}
 								onUpdateTokenValue={(_value: number) => {
-									onUpdateTokenValue(sendIndex)(tokenIndex)(_value)
+									console.log('🚀 ~ file: group-transfer.tsx:291 ~ _value:', _value)
+									// onUpdateTokenValue(sendIndex)(tokenIndex)(_value)
 								}}
 							/>
 						))}
+
 						<Box width="full" paddingTop="large">
-							<Button
-								styleVariant="tertiary"
-								sizeVariant="xlarge"
-								fullWidth
-								onClick={() => {
-									onAddToken(sendIndex)
-								}}
-								leftIcon={
-									<Box marginLeft="small">
-										<CirclePlusIcon />
-									</Box>
-								}
-							>
-								Add another token
-							</Button>
+							{send.tokens ? (
+								<Button
+									styleVariant="tertiary"
+									sizeVariant="xlarge"
+									fullWidth
+									onClick={() => {
+										onAddToken(sendIndex)
+									}}
+									leftIcon={
+										<Box marginLeft="small">
+											<CirclePlusIcon />
+										</Box>
+									}
+								>
+									Add another token
+								</Button>
+							) : null}
+							{send.nfts ? (
+								<Button
+									styleVariant="tertiary"
+									sizeVariant="xlarge"
+									fullWidth
+									onClick={() => {
+										// onAddToken(sendIndex)
+									}}
+									leftIcon={
+										<Box marginLeft="small">
+											<PictureInPictureIcon />
+										</Box>
+									}
+								>
+									Add another nft
+								</Button>
+							) : null}
 						</Box>
 					</Box>
 				</AccordionContent>

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import BigNumber from 'bignumber.js'
 import clsx, { type ClassValue } from 'clsx'
 import { TokenPrice } from 'packages/ui/src/components/token-price'
@@ -9,7 +10,8 @@ import React, { useState } from 'react'
 
 import { Box } from 'ui/src/components/box'
 import { Button, type TStyleVariant as TButtonStyleVariant } from 'ui/src/components/button'
-import { ChevronDown2Icon, TrashIcon } from 'ui/src/components/icons'
+import { DropdownMenuItemIndicator, DropdownMenuRadioItem, DropdownMenuVirtuoso } from 'ui/src/components/dropdown-menu'
+import { Check2Icon, ChevronDown2Icon, TrashIcon } from 'ui/src/components/icons'
 import { type TSizeVariant, type TStyleVariant } from 'ui/src/components/input'
 import { NumberInput } from 'ui/src/components/number-input'
 import { ResourceImageIcon } from 'ui/src/components/resource-image-icon'
@@ -30,20 +32,18 @@ import { ToolTip } from 'ui/src/components/tool-tip'
 import Translation from 'ui/src/components/translation'
 import { Text } from 'ui/src/components/typography'
 import { ValidationErrorMessage } from 'ui/src/components/validation-error-message'
-import { accountMenuSlugs } from 'ui/src/constants/accounts'
 // TODO: move to components outside of the containers
-import { TokenSelectorDialog } from 'ui/src/containers/accounts/token-selector-dialog'
+// import { TokenSelectorDialog } from 'ui/src/containers/accounts/token-selector-dialog'
 import { getZodError } from 'ui/src/utils/get-zod-error'
 
 import type { TTransferSchema, TZodValidation } from '../account-transfer-types'
-import * as styles from './transfer-nft-selector.css'
 
 interface ITransferNftSelectorProps {
 	balances: ResourceBalance[]
 	tokenAddress: string
 	tokenValue: number
 	sendIndex: number
-	tokenIndex: number
+	nftIndex: number
 	validation: TZodValidation
 	onUpdateTokenValue: (tokenValue: number) => void
 	onUpdateToken: (token: string) => void
@@ -63,7 +63,7 @@ export const TransferNftSelector: React.FC<ITransferNftSelectorProps> = props =>
 		sizeVariant = 'large',
 		placeholder = 'enter amount',
 		sendIndex,
-		tokenIndex,
+		nftIndex,
 		validation,
 		onUpdateToken,
 		onUpdateTokenValue,
@@ -80,7 +80,7 @@ export const TransferNftSelector: React.FC<ITransferNftSelectorProps> = props =>
 
 	const favoriteCurrencies = ['usd', 'eur', 'btc']
 
-	const baseErrKey = ['sends', sendIndex, 'tokens', tokenIndex]
+	const baseErrKey = ['sends', sendIndex, 'nfts', nftIndex]
 	const tokenError =
 		getZodError<TTransferSchema>(validation, [...baseErrKey, 'address']) ||
 		getZodError<TTransferSchema>(validation, [...baseErrKey, 'name']) ||
@@ -119,7 +119,7 @@ export const TransferNftSelector: React.FC<ITransferNftSelectorProps> = props =>
 						<Text size="medium" color="strong" weight="medium">
 							Nft:
 						</Text>
-						{tokenIndex ? (
+						{nftIndex ? (
 							<ToolTip
 								side="top"
 								message={<Translation capitalizeFirstLetter text="transfer.sendTokens.deleteToken" />}
@@ -130,7 +130,7 @@ export const TransferNftSelector: React.FC<ITransferNftSelectorProps> = props =>
 									styleVariant="ghost"
 									onClick={() => {
 										// eslint-disable-next-line
-										console.log('trash this token')
+										console.log('trash this nft')
 									}}
 								>
 									<TrashIcon />
@@ -138,54 +138,55 @@ export const TransferNftSelector: React.FC<ITransferNftSelectorProps> = props =>
 							</ToolTip>
 						) : null}
 					</Box>
-					<Box display="flex" alignItems="center" gap="xsmall">
-						<Text inheritColor component="span" size="medium" truncate>
-							Available:
-						</Text>
-						<Link
-							to={accountMenuSlugs.ACCOUNTS}
-							underline="hover"
-							className={plainButtonStyles.plainButtonHoverWrapper}
-						>
-							<Text inheritColor component="span" size="medium" underline="always" truncate>
-								{selectedToken?.amount ? formatBigNumber(selectedToken.amount, selectedToken.symbol) : 0}
-							</Text>
-						</Link>
-					</Box>
 				</Box>
 			</Box>
 			<Box width="full" position="relative">
-				<NumberInput
-					styleVariant={getAmountInputStyleVariant() as TStyleVariant}
-					sizeVariant={sizeVariant}
-					value={tokenValue}
-					placeholder={placeholder}
-					onChange={handleTokenValueUpdate}
-					precision={9}
-				/>
-				<TokenSelectorDialog
-					tokenAddress={tokenAddress}
-					onTokenUpdate={handleTokenUpdate}
+				<DropdownMenuVirtuoso
+					value="1"
+					// value={fromAccount}
+					// onValueChange={onUpdateFromAccount}
+					onValueChange={() => {}}
+					// data={accountEntries}
+					data={[
+						{ id: '1', title: 'hhdh' },
+						{ id: 'he', title: 'hhdhfidhf' },
+						{ id: 'h7474747', title: 'difudifu' },
+					]}
+					// eslint-disable-next-line react/no-unstable-nested-components
+					itemContentRenderer={(index, { id, title }) => (
+						<DropdownMenuRadioItem value={id} key={index}>
+							<Box display="flex" alignItems="center" gap="medium">
+								<Box flexShrink={0}>
+									nft
+									{/* <ResourceImageIcon address={fromAccount} /> */}
+								</Box>
+								<Box flexGrow={1} minWidth={0}>
+									<Text truncate>{title}</Text>
+								</Box>
+							</Box>
+							<DropdownMenuItemIndicator>
+								<Check2Icon />
+							</DropdownMenuItemIndicator>
+						</DropdownMenuRadioItem>
+					)}
 					trigger={
 						<Button
-							className={styles.tokenSelectBtnWrapper}
-							styleVariant={getTokenInputStyleVariant() as TButtonStyleVariant}
-							sizeVariant="medium"
+							// styleVariant={getError(validation, ['from']).error ? 'tertiary-error' : 'tertiary'}
+							styleVariant="tertiary"
+							sizeVariant="xlarge"
+							fullWidth
+							// leftIcon={<ResourceImageIcon address={fromAccount} />}
+							leftIcon={<ChevronDown2Icon />}
 							rightIcon={<ChevronDown2Icon />}
-							leftIcon={
-								<Box marginRight="small">
-									<ResourceImageIcon size="small" address={selectedToken?.address} />
-								</Box>
-							}
 						>
-							<Box display="flex" alignItems="center" width="full" textAlign="left">
-								<Text size="medium" color="strong" truncate>
-									{selectedToken?.symbol}
+							<Box display="flex" alignItems="center" width="full" textAlign="left" paddingLeft="xsmall">
+								<Text size="large" color="strong">
+									nft
+									{/* {knownAddresses[fromAccount]?.name || getShortAddress(fromAccount)} */}
 								</Text>
 							</Box>
 						</Button>
 					}
-					balances={balances}
 				/>
 			</Box>
 			<Box display="flex" justifyContent="space-between">
