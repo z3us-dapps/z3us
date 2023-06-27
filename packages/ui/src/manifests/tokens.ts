@@ -18,8 +18,8 @@ export const sendTokens = (from: string) => ({
           Bucket('fungible${idx}');`,
 	)}
 `,
-	nft: (nfts: Array<{ resource: string; id: string }>) => `${nfts.map(
-		({ resource, id }, idx) => `
+	nft: (nfts: Array<{ resource: string; id: string; to: string }>) => `${nfts.map(
+		({ resource, id, to }, idx) => `
       CALL_METHOD
         Address('${from}') 
         'withdraw_non_fungibles'
