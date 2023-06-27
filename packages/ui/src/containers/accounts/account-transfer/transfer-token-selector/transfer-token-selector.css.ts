@@ -1,8 +1,7 @@
 import { style } from '@vanilla-extract/css'
 
-import { responsiveStyle } from 'ui/src/components/system/theme-utils'
 import { sprinkles } from 'ui/src/components/system/sprinkles.css'
-
+import { responsiveStyle } from 'ui/src/components/system/theme-utils'
 
 export const tokenSelectBtnWrapper = style([
 	sprinkles({
@@ -23,4 +22,3 @@ export const tokenSelectBtnWrapper = style([
 		desktop: { maxWidth: '140px' },
 	}),
 ])
-

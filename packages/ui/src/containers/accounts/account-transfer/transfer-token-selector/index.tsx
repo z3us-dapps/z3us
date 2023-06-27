@@ -238,7 +238,7 @@ export const TransferTokenSelector: React.FC<ITransferTokenSelectorProps> = prop
 										Favorite
 									</Text>
 								</SelectLabel>
-								{favoriteCurrencies.map(c => (
+								{favoriteCurrencies?.map(c => (
 									<SelectItem key={c} value={c}>
 										<Text truncate size="small" color="strong">
 											{c.toUpperCase()}

@@ -27,6 +27,7 @@ import {
 import { ResourceImageIcon } from 'ui/src/components/resource-image-icon'
 import * as plainButtonStyles from 'ui/src/components/styles/plain-button-styles.css'
 import { ToolTip } from 'ui/src/components/tool-tip'
+import Translation from 'ui/src/components/translation'
 import { Text } from 'ui/src/components/typography'
 import { ValidationErrorMessage } from 'ui/src/components/validation-error-message'
 
@@ -114,20 +115,26 @@ export const GroupItem: React.FC<IGroupItemProps> = props => {
 									</Text>
 								</Box>
 							</Button>
-							<ToolTip side="top" theme="backgroundPrimary" message="Remove group transaction">
-								<Button
-									className={styles.transferAccordionDeleteBtn}
-									iconOnly
-									styleVariant="ghost"
-									sizeVariant="small"
-									onClick={(e: React.MouseEvent<HTMLButtonElement>) => {
-										e.preventDefault()
-										onRemoveGroupTransaction(sendIndex)
-									}}
+							{sendIndex !== 0 ? (
+								<ToolTip
+									side="top"
+									theme="backgroundPrimary"
+									message={<Translation capitalizeFirstLetter text="transfer.sendTokens.removeGroup" />}
 								>
-									<TrashIcon />
-								</Button>
-							</ToolTip>
+									<Button
+										className={styles.transferAccordionDeleteBtn}
+										iconOnly
+										styleVariant="ghost"
+										sizeVariant="small"
+										onClick={(e: React.MouseEvent<HTMLButtonElement>) => {
+											e.preventDefault()
+											onRemoveGroupTransaction(sendIndex)
+										}}
+									>
+										<TrashIcon />
+									</Button>
+								</ToolTip>
+							) : null}
 						</Box>
 					</AccordionTrigger>
 				</AccordionHeader>
