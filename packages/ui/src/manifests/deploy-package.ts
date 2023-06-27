@@ -1,3 +1,6 @@
+/* eslint-disable import/no-unresolved */
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-nocheck
 import blake from 'blakejs'
 import { Buffer } from 'buffer'
 
@@ -17,24 +20,24 @@ export const getDeployPackageManifest = ({
 	const codeHash: string = hash(wasm).toString('hex')
 	const schemaHash: string = hash(schema).toString('hex')
 	return `
-    PUBLISH_PACKAGE 
-    Blob("${codeHash}") 
-    Blob("${schemaHash}") 
+    PUBLISH_PACKAGE
+    Blob("${codeHash}")
+    Blob("${schemaHash}")
     Map<String, Tuple>()       # Royalty Configuration
-    Map<String, String>()      # Metadata 
+    Map<String, String>()      # Metadata
     Tuple(                     # Access Rules Struct
         Map<Tuple, Enum>(      # Method auth Field
             Tuple(
                 Enum("NodeModuleId::SELF"), "set_royalty_config"),
-            Enum("AccessRuleEntry::AccessRule", 
+            Enum("AccessRuleEntry::AccessRule",
                 Enum(
-                    "AccessRule::Protected", 
+                    "AccessRule::Protected",
                     Enum(
-                        "AccessRuleNode::ProofRule", 
+                        "AccessRuleNode::ProofRule",
                         Enum(
-                            "ProofRule::Require", 
+                            "ProofRule::Require",
                             Enum(
-                                "SoftResourceOrNonFungible::StaticNonFungible", 
+                                "SoftResourceOrNonFungible::StaticNonFungible",
                                 NonFungibleGlobalId("${nftAddress}")
                             )
                         )
@@ -46,15 +49,15 @@ export const getDeployPackageManifest = ({
                 "claim_royalty"
             ),
             Enum(
-                "AccessRuleEntry::AccessRule", 
+                "AccessRuleEntry::AccessRule",
                 Enum(
-                    "AccessRule::Protected", 
+                    "AccessRule::Protected",
                     Enum(
-                        "AccessRuleNode::ProofRule", 
+                        "AccessRuleNode::ProofRule",
                         Enum(
-                            "ProofRule::Require", 
+                            "ProofRule::Require",
                             Enum(
-                                "SoftResourceOrNonFungible::StaticNonFungible", 
+                                "SoftResourceOrNonFungible::StaticNonFungible",
                                 NonFungibleGlobalId("${nftAddress}")
                             )
                         )
@@ -66,15 +69,15 @@ export const getDeployPackageManifest = ({
                 "set"
             ),
             Enum(
-                "AccessRuleEntry::AccessRule", 
+                "AccessRuleEntry::AccessRule",
                 Enum(
-                    "AccessRule::Protected", 
+                    "AccessRule::Protected",
                     Enum(
-                        "AccessRuleNode::ProofRule", 
+                        "AccessRuleNode::ProofRule",
                         Enum(
-                            "ProofRule::Require", 
+                            "ProofRule::Require",
                             Enum(
-                                "SoftResourceOrNonFungible::StaticNonFungible", 
+                                "SoftResourceOrNonFungible::StaticNonFungible",
                                 NonFungibleGlobalId("${nftAddress}")
                             )
                         )
@@ -86,10 +89,10 @@ export const getDeployPackageManifest = ({
                 "get"
             ),
             Enum(
-                "AccessRuleEntry::AccessRule", 
+                "AccessRuleEntry::AccessRule",
                 Enum("AccessRule::AllowAll")
             )
-        ), 
+        ),
         Map<String, Enum>(),            # Grouped Auth Field
         Enum("AccessRule::DenyAll"),    # Default Auth Field
         Map<Tuple, Enum>(               # Method Auth Mutability Field
@@ -98,13 +101,13 @@ export const getDeployPackageManifest = ({
                 "set_royalty_config"
             ),
             Enum(
-                "AccessRule::Protected", 
+                "AccessRule::Protected",
                 Enum(
-                    "AccessRuleNode::ProofRule", 
+                    "AccessRuleNode::ProofRule",
                     Enum(
-                        "ProofRule::Require", 
+                        "ProofRule::Require",
                         Enum(
-                            "SoftResourceOrNonFungible::StaticNonFungible", 
+                            "SoftResourceOrNonFungible::StaticNonFungible",
                             NonFungibleGlobalId("${nftAddress}")
                         )
                     )
@@ -115,13 +118,13 @@ export const getDeployPackageManifest = ({
                 "claim_royalty"
             ),
             Enum(
-                "AccessRule::Protected", 
+                "AccessRule::Protected",
                 Enum(
-                    "AccessRuleNode::ProofRule", 
+                    "AccessRuleNode::ProofRule",
                     Enum(
-                        "ProofRule::Require", 
+                        "ProofRule::Require",
                         Enum(
-                            "SoftResourceOrNonFungible::StaticNonFungible", 
+                            "SoftResourceOrNonFungible::StaticNonFungible",
                             NonFungibleGlobalId("${nftAddress}")
                         )
                     )
@@ -130,15 +133,15 @@ export const getDeployPackageManifest = ({
             Tuple(
                 Enum("NodeModuleId::Metadata"),
                 "set"
-            ), 
+            ),
             Enum(
-                "AccessRule::Protected", 
+                "AccessRule::Protected",
                 Enum(
-                    "AccessRuleNode::ProofRule", 
+                    "AccessRuleNode::ProofRule",
                     Enum(
-                        "ProofRule::Require", 
+                        "ProofRule::Require",
                         Enum(
-                            "SoftResourceOrNonFungible::StaticNonFungible", 
+                            "SoftResourceOrNonFungible::StaticNonFungible",
                             NonFungibleGlobalId("${nftAddress}")
                         )
                     )
@@ -149,19 +152,19 @@ export const getDeployPackageManifest = ({
                 "get"
             ),
             Enum(
-                "AccessRule::Protected", 
+                "AccessRule::Protected",
                 Enum(
-                    "AccessRuleNode::ProofRule", 
+                    "AccessRuleNode::ProofRule",
                     Enum(
-                        "ProofRule::Require", 
+                        "ProofRule::Require",
                         Enum(
-                            "SoftResourceOrNonFungible::StaticNonFungible", 
+                            "SoftResourceOrNonFungible::StaticNonFungible",
                             NonFungibleGlobalId("${nftAddress}")
                         )
                     )
                 )
             )
-        ), 
+        ),
         Map<String, Enum>(),     # Group Auth Mutability Field
         Enum("AccessRule::DenyAll")          # Default Auth Mutability Field
     );`

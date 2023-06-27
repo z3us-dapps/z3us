@@ -1,5 +1,4 @@
 import { globalStyle, style } from '@vanilla-extract/css'
-import { calc } from '@vanilla-extract/css-utils'
 
 import { darkMode, sprinkles } from 'ui/src/components/system/sprinkles.css'
 import { vars } from 'ui/src/components/system/theme.css'

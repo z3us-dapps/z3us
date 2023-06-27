@@ -1,5 +1,5 @@
 import clsx, { type ClassValue } from 'clsx'
-import { LayoutGroup, motion } from 'framer-motion'
+import { LayoutGroup } from 'framer-motion'
 import { useNoneSharedStore } from 'packages/ui/src/hooks/use-store'
 import React, { forwardRef } from 'react'
 import { useTranslation } from 'react-i18next'

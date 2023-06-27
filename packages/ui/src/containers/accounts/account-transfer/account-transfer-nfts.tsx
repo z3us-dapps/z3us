@@ -16,8 +16,8 @@ import { LoadingBarsIcon } from 'ui/src/components/icons'
 import Translation from 'ui/src/components/translation'
 import { Text } from 'ui/src/components/typography'
 
-import { defaultToken } from './account-transfer-constants'
-import { type IAccountTransferImmer } from './account-transfer-types'
+import { defaultNft } from './account-transfer-constants'
+import { type IAccountTransferNftsImmer } from './account-transfer-types'
 import { validateTransferForm } from './account-transfer-utils'
 import * as styles from './account-transfer.css'
 import { GroupTransactionButton } from './group-transaction-button'
@@ -25,11 +25,11 @@ import { GroupTransfer } from './group-transfer'
 import { ReviewTransfer } from './review-transfer'
 import { TransferPageAnimation } from './transfer-page-animation'
 
-interface IAccountTransferProps {
+interface IAccountTransferNftProps {
 	className?: string
 }
 
-export const AccountTransferNfts = forwardRef<HTMLElement, IAccountTransferProps>(
+export const AccountTransferNfts = forwardRef<HTMLElement, IAccountTransferNftProps>(
 	(props, ref: React.Ref<HTMLElement | null>) => {
 		const { className } = props
 		const [measureRef, { height: slideWrapperHeight }] = useMeasure()
@@ -42,12 +42,12 @@ export const AccountTransferNfts = forwardRef<HTMLElement, IAccountTransferProps
 		const balances = useResourceBalances(selectedAccount ? { [selectedAccount]: null } : null)
 		const accounts = useWalletAccounts()
 
-		const [state, setState] = useImmer<IAccountTransferImmer>({
+		const [state, setState] = useImmer<IAccountTransferNftsImmer>({
 			transaction: {
 				from: selectedAccount || Object.values(accounts)[0]?.address,
 				isMessageEncrypted: false,
 				message: '',
-				sends: [{ to: '', tokens: [defaultToken] }],
+				sends: [{ to: '', nfts: [defaultNft] }],
 			},
 			slides: [0, 0],
 			isMessageUiVisible: false,
@@ -106,7 +106,7 @@ export const AccountTransferNfts = forwardRef<HTMLElement, IAccountTransferProps
 		const handleRemoveGroupTransaction = (sendIndex: number) => {
 			setState(draft => {
 				if (sendIndex === 0) {
-					draft.transaction.sends = [{ to: '', tokens: [defaultToken] }]
+					draft.transaction.sends = [{ to: '', nfts: [defaultNft] }]
 				} else {
 					draft.transaction.sends = state.transaction.sends.filter((_, index) => index !== sendIndex)
 				}
@@ -115,13 +115,13 @@ export const AccountTransferNfts = forwardRef<HTMLElement, IAccountTransferProps
 
 		const handleAddToken = (sendIndex: number) => {
 			setState(draft => {
-				draft.transaction.sends[sendIndex].tokens = [...state.transaction.sends[sendIndex].tokens, defaultToken]
+				draft.transaction.sends[sendIndex].nfts = [...state.transaction.sends[sendIndex].nfts, defaultNft]
 			})
 		}
 
 		const handleAddGroup = () => {
 			setState(draft => {
-				draft.transaction.sends = [...state.transaction.sends, { to: '', tokens: [defaultToken] }]
+				draft.transaction.sends = [...state.transaction.sends, { to: '', nfts: [defaultNft] }]
 			})
 		}
 
@@ -133,15 +133,15 @@ export const AccountTransferNfts = forwardRef<HTMLElement, IAccountTransferProps
 
 		const handleUpdateTokenValue = (sendIndex: number) => (tokenIndex: number) => (tokenValue: number) => {
 			setState(draft => {
-				draft.transaction.sends[sendIndex].tokens[tokenIndex].amount = tokenValue
+				draft.transaction.sends[sendIndex].nfts[tokenIndex].amount = tokenValue
 			})
 		}
 
 		const handleUpdateToken =
 			(sendIndex: number) => (tokenIndex: number) => (address: string, symbol: string, name: string) => {
 				setState(draft => {
-					draft.transaction.sends[sendIndex].tokens[tokenIndex] = {
-						...draft.transaction.sends[sendIndex].tokens[tokenIndex],
+					draft.transaction.sends[sendIndex].nfts[tokenIndex] = {
+						...draft.transaction.sends[sendIndex].nfts[tokenIndex],
 						address,
 						name,
 						symbol,

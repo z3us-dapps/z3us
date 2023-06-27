@@ -32,12 +32,13 @@ import Translation from 'ui/src/components/translation'
 import { Text } from 'ui/src/components/typography'
 import { ValidationErrorMessage } from 'ui/src/components/validation-error-message'
 
-import type { TSendSchema, TTransferSchema, TZodValidation } from './account-transfer-types'
+import type { TCombinedSendSchema, TTransferSchema, TZodValidation } from './account-transfer-types'
 import { getError } from './account-transfer-utils'
 import * as styles from './account-transfer.css'
 import type { ISearchableInputProps } from './searchable-input'
 import { SearchableInput } from './searchable-input'
 import { TransferMessage } from './transfer-message'
+import { TransferNftSelector } from './transfer-nft-selector'
 import { TransferTokenSelector } from './transfer-token-selector'
 
 interface IGroupTransferProps {
@@ -61,7 +62,8 @@ interface IGroupTransferProps {
 
 interface IGroupItemProps extends Omit<Omit<Omit<IGroupTransferProps, 'accounts'>, 'addressBook'>, 'transaction'> {
 	sendIndex: number
-	send: TSendSchema
+	// send: TSendSchema | TSendNftSchema
+	send: TCombinedSendSchema
 	message: string
 	isMessageEncrypted: boolean
 	allEntries: ISearchableInputProps['data']
@@ -246,8 +248,28 @@ export const GroupItem: React.FC<IGroupItemProps> = props => {
 								onUpdateIsMessageEncrypted={onUpdateIsMessageEncrypted}
 							/>
 						) : null}
-						{send.tokens.map(({ amount, address }: any, tokenIndex: number) => (
+						{/* // TODO: resolve any type */}
+						{(send.tokens || []).map(({ amount, address }: any, tokenIndex: number) => (
 							<TransferTokenSelector
+								key={`group-${sendIndex}-${tokenIndex}`}
+								balances={balances}
+								tokenAddress={address}
+								tokenValue={amount}
+								sendIndex={sendIndex}
+								tokenIndex={tokenIndex}
+								validation={validation}
+								onUpdateToken={(_value: string) => {
+									const t = balances.find(b => b.address === _value)
+									if (t) onUpdateToken(sendIndex)(tokenIndex)(t.address, t.symbol, t.name)
+								}}
+								onUpdateTokenValue={(_value: number) => {
+									onUpdateTokenValue(sendIndex)(tokenIndex)(_value)
+								}}
+							/>
+						))}
+						{/* // TODO: resolve any type */}
+						{(send.nfts || []).map(({ amount, address }: any, tokenIndex: number) => (
+							<TransferNftSelector
 								key={`group-${sendIndex}-${tokenIndex}`}
 								balances={balances}
 								tokenAddress={address}
