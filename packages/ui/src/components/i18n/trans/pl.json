@@ -64,7 +64,8 @@
 	},
 	"transfer": {
 		"sendTokens": {
-			"deleteToken": "usunąć token"
+			"deleteToken": "usunąć token",
+			"removeGroup": "usuń grupę"
 		}
 	}
 }

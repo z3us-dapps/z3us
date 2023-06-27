@@ -28,6 +28,7 @@ import {
 import { ResourceImageIcon } from 'ui/src/components/resource-image-icon'
 import * as plainButtonStyles from 'ui/src/components/styles/plain-button-styles.css'
 import { ToolTip } from 'ui/src/components/tool-tip'
+import Translation from 'ui/src/components/translation'
 import { Text } from 'ui/src/components/typography'
 import { ValidationErrorMessage } from 'ui/src/components/validation-error-message'
 
@@ -116,20 +117,26 @@ export const GroupItem: React.FC<IGroupItemProps> = props => {
 									</Text>
 								</Box>
 							</Button>
-							<ToolTip side="top" theme="backgroundPrimary" message="Remove group transaction">
-								<Button
-									className={styles.transferAccordionDeleteBtn}
-									iconOnly
-									styleVariant="ghost"
-									sizeVariant="small"
-									onClick={(e: React.MouseEvent<HTMLButtonElement>) => {
-										e.preventDefault()
-										onRemoveGroupTransaction(sendIndex)
-									}}
+							{sendIndex !== 0 ? (
+								<ToolTip
+									side="top"
+									theme="backgroundPrimary"
+									message={<Translation capitalizeFirstLetter text="transfer.sendTokens.removeGroup" />}
 								>
-									<TrashIcon />
-								</Button>
-							</ToolTip>
+									<Button
+										className={styles.transferAccordionDeleteBtn}
+										iconOnly
+										styleVariant="ghost"
+										sizeVariant="small"
+										onClick={(e: React.MouseEvent<HTMLButtonElement>) => {
+											e.preventDefault()
+											onRemoveGroupTransaction(sendIndex)
+										}}
+									>
+										<TrashIcon />
+									</Button>
+								</ToolTip>
+							) : null}
 						</Box>
 					</AccordionTrigger>
 				</AccordionHeader>
@@ -137,10 +144,10 @@ export const GroupItem: React.FC<IGroupItemProps> = props => {
 					<Box padding="large">
 						{sendIndex === 0 && (
 							<Box paddingBottom="medium">
-								<Box display="flex" paddingBottom="medium" alignItems="center">
+								<Box display="flex" paddingBottom="small" alignItems="center">
 									<Box flexGrow={1} alignItems="center">
-										<Text size="medium" color="strong">
-											From
+										<Text size="medium" color="strong" weight="medium">
+											From:
 										</Text>
 									</Box>
 								</Box>
@@ -167,7 +174,7 @@ export const GroupItem: React.FC<IGroupItemProps> = props => {
 										)}
 										trigger={
 											<Button
-												styleVariant={getError(validation, ['from']).error ? 'secondary-error' : 'secondary'}
+												styleVariant={getError(validation, ['from']).error ? 'tertiary-error' : 'tertiary'}
 												sizeVariant="xlarge"
 												fullWidth
 												leftIcon={<ResourceImageIcon address={fromAccount} />}
@@ -185,10 +192,10 @@ export const GroupItem: React.FC<IGroupItemProps> = props => {
 								</Box>
 							</Box>
 						)}
-						<Box display="flex" paddingBottom="medium">
+						<Box display="flex" paddingBottom="small">
 							<Box display="flex" alignItems="center" width="full">
 								<Box display="flex" alignItems="center" flexGrow={1}>
-									<Text size="medium" color="strong">
+									<Text size="medium" color="strong" weight="medium">
 										To:
 									</Text>
 									<Box display="flex" alignItems="center" color="green500" marginLeft="xxsmall">

@@ -9,6 +9,7 @@ export const imageWrapper = recipe({
 		padding: 'none',
 		position: 'relative',
 		flexShrink: 0,
+		boxShadow: 'inset 0 0 1px 0px',
 	},
 	variants: {
 		size: {

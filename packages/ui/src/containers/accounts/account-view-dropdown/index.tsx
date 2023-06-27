@@ -68,7 +68,6 @@ export const AccountViewDropdown = forwardRef<HTMLElement, IAccountViewDropdownP
 							{entries[selectedAccount]?.name || getShortAddress(selectedAccount)}
 						</Button>
 					</DropdownMenuTrigger>
-
 					<DropdownMenuPortal>
 						<DropdownMenuContent
 							align={isMobile ? 'start' : 'end'}
