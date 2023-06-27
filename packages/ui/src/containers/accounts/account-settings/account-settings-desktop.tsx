@@ -8,32 +8,13 @@ import { Navigate, Route, Routes, useLocation, useMatch } from 'react-router-dom
 
 import { AnimatedPage } from 'ui/src/components/animated-page'
 import { Box } from 'ui/src/components/box'
-import { Link } from 'ui/src/components/router-link'
+import { PillNavigation } from 'ui/src/components/pill-navigation'
 import { ScrollPanel } from 'ui/src/components/scroll-panel'
-import { Text } from 'ui/src/components/typography'
 
 import * as styles from './account-settings.css'
 import { SettingsAccounts } from './settings-accounts'
 import { SettingsAddressBook } from './settings-address-book'
 import { SettingsGeneral } from './settings-general'
-
-const MenuItemDesktop = ({ text, href }: { text: string; href: string }) => {
-	const selected = useMatch(href)
-
-	return (
-		<Link to={href} className={styles.settingsDesktopNavigationLink} underline="never">
-			{selected ? <motion.span layoutId="underline" className={styles.settingsDesktopNavigationActive} /> : null}
-			<Text
-				size="medium"
-				color={null}
-				className={clsx(styles.settingsDesktopNavigationText, selected && styles.settingsDesktopNavigationTextAcitve)}
-				capitalizeFirstLetter
-			>
-				{text}
-			</Text>
-		</Link>
-	)
-}
 
 interface IAccountSettingsDesktopProps {
 	className?: ClassValue
@@ -58,7 +39,7 @@ export const AccountSettingsDesktop = forwardRef<HTMLElement, IAccountSettingsDe
 								// { text: t('accounts.navigation.swap'), href: accountMenuSlugs.SWAP },
 								// { text: t('accounts.navigation.settings'), href: accountMenuSlugs.SETTINGS },
 							].map(({ text, href }) => (
-								<MenuItemDesktop text={text} key={href} href={href} />
+								<PillNavigation text={text} key={href} href={href} />
 							))}
 						</LayoutGroup>
 					</Box>

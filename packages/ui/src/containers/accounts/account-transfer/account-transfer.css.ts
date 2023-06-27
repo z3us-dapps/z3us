@@ -162,69 +162,6 @@ export const transferDesktopRightWrapper = style([
 	{},
 ])
 
-export const transferDesktopNavigationLink = style([
-	sprinkles({
-		display: 'flex',
-		position: 'relative',
-		borderRadius: 'full',
-		paddingX: 'medium',
-		alignItems: 'center',
-		justifyContent: 'center',
-		transition: 'fast',
-		height: 'xlarge',
-		background: {
-			lightMode: 'transparent',
-			hover: 'white',
-		},
-	}),
-	{
-		selectors: {
-			[`.${darkMode} &:hover`]: {
-				background: vars.color.lead400,
-			},
-		},
-	},
-])
-
-export const transferDesktopNavigationActive = style([
-	sprinkles({
-		position: 'absolute',
-		display: 'block',
-		width: 'full',
-		height: 'full',
-		borderRadius: 'full',
-		top: 0,
-		left: 0,
-		background: {
-			lightMode: 'white',
-			darkMode: 'backgroundSecondary',
-		},
-	}),
-	{
-		selectors: {
-			[`.${darkMode} &`]: {
-				// boxShadow: vars.color.shadowDropdown as any,
-			},
-		},
-	},
-])
-
-export const transferDesktopNavigationText = style([
-	sprinkles({
-		position: 'relative',
-		transition: 'fastall',
-	}),
-])
-
-export const transferDesktopNavigationTextActive = style([
-	sprinkles({
-		color: {
-			lightMode: 'colorStrong',
-			darkMode: 'colorStrong',
-		},
-	}),
-])
-
 export const settingsSectionFlexColumnWrapper = style([
 	sprinkles({
 		display: 'flex',

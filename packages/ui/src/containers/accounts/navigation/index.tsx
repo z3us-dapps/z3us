@@ -10,9 +10,9 @@ import { ConnectButton } from 'ui/src/components/connect-button'
 import { CopyAddressButton } from 'ui/src/components/copy-address-button'
 import { CoinsIcon, Home2Icon, Settings2Icon, Swap2Icon, SwitchHorizontal } from 'ui/src/components/icons'
 import { NotificationsDropdown } from 'ui/src/components/notifications-dropdown'
+import { PillNavigation } from 'ui/src/components/pill-navigation'
 import { Link } from 'ui/src/components/router-link'
 import * as containerStyles from 'ui/src/components/styles/container-styles.css'
-import { Text } from 'ui/src/components/typography'
 import { WalletDropdown } from 'ui/src/components/wallet-dropdown'
 import { Z3usLogo } from 'ui/src/components/z3us-logo-babylon'
 import { accountMenuSlugs } from 'ui/src/constants/accounts'
@@ -23,7 +23,7 @@ import { useAccountParams } from 'ui/src/hooks/use-account-params'
 
 import * as styles from './navigation.css'
 
-const useSelectedItem = (href: string) => {
+const useSelectedItem = (href: string): boolean => {
 	const { account } = useAccountParams()
 	const location = useLocation()
 	const splitPath = href.split('/')
@@ -34,25 +34,6 @@ const useSelectedItem = (href: string) => {
 	const isAccountsMatch = href === accountMenuSlugs.ACCOUNTS && account && !accountMatchBlackList.includes(account)
 
 	return splitPathName === locationSplitPathName || isAccountsMatch
-}
-
-const MenuItemDesktop = ({ text, href }) => {
-	const selected = useSelectedItem(href)
-
-	return (
-		<Link to={href} className={styles.navigationMenuLink} underline="never">
-			{selected ? <motion.span layoutId="underline" className={styles.navigationMenuActiveLine} /> : null}
-			<Text
-				size="medium"
-				weight="medium"
-				color={null}
-				className={clsx(styles.navigationMenuLinkText, selected && styles.navigationMenuLinkTextSelected)}
-				capitalizeFirstLetter
-			>
-				{text}
-			</Text>
-		</Link>
-	)
 }
 
 export const AccountDesktopLavaMenu = () => {
@@ -68,7 +49,7 @@ export const AccountDesktopLavaMenu = () => {
 					// { text: t('accounts.navigation.swap'), href: accountMenuSlugs.SWAP },
 					{ text: t('accounts.navigation.settings'), href: accountMenuSlugs.SETTINGS },
 				].map(({ text, href }) => (
-					<MenuItemDesktop text={text} key={href} href={href} />
+					<PillNavigation text={text} key={href} href={href} matchActiveFn={useSelectedItem} />
 				))}
 			</LayoutGroup>
 		</Box>

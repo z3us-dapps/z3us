@@ -58,50 +58,6 @@ export const navigationMenuTabletWrapper = style([
 	{},
 ])
 
-export const navigationMenuLink = style([
-	sprinkles({
-		display: 'flex',
-		alignItems: 'center',
-		paddingX: 'medium',
-		justifyContent: 'center',
-		position: 'relative',
-		textDecoration: 'none',
-		borderRadius: 'xlarge',
-		transition: 'fast',
-		boxShadow: {
-			focusVisible: 'btnSecondaryShadowFocus',
-		},
-	}),
-	{
-		outline: 'none',
-		height: `${calc(vars.grid).multiply(8)}`,
-		':hover': {
-			background: vars.color.white,
-		},
-		selectors: {
-			[`.${darkMode} &:hover`]: {
-				background: vars.color.lead400,
-			},
-		},
-	},
-])
-
-export const navigationMenuLinkText = style([
-	sprinkles({
-		position: 'relative',
-		transition: 'fast',
-	}),
-])
-
-export const navigationMenuLinkTextSelected = style([
-	sprinkles({
-		color: {
-			lightMode: 'colorStrong',
-			darkMode: 'colorStrong',
-		},
-	}),
-])
-
 export const navigationMenuActiveLine = style([
 	sprinkles({
 		position: 'absolute',

@@ -1,39 +1,19 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import type { ClassValue } from 'clsx'
 import clsx from 'clsx'
-import { AnimatePresence, LayoutGroup, motion } from 'framer-motion'
+import { AnimatePresence, LayoutGroup } from 'framer-motion'
 import React, { forwardRef } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Navigate, Route, Routes, useLocation, useMatch } from 'react-router-dom'
 
 import { AnimatedPage } from 'ui/src/components/animated-page'
 import { Box } from 'ui/src/components/box'
-import { Link } from 'ui/src/components/router-link'
+import { PillNavigation } from 'ui/src/components/pill-navigation'
 import { ScrollPanel } from 'ui/src/components/scroll-panel'
-import { Text } from 'ui/src/components/typography'
 
 import { AccountTransferNfts } from './account-transfer-nfts'
 import { AccountTransferTokens } from './account-transfer-tokens'
 import * as styles from './account-transfer.css'
-
-// TODO: refactor to component used by settings / transfer
-const MenuItemDesktop = ({ text, href }: { text: string; href: string }) => {
-	const selected = useMatch(href)
-
-	return (
-		<Link to={href} className={styles.transferDesktopNavigationLink} underline="never">
-			{selected ? <motion.span layoutId="underline" className={styles.transferDesktopNavigationActive} /> : null}
-			<Text
-				size="medium"
-				color={null}
-				className={clsx(styles.transferDesktopNavigationText, selected && styles.transferDesktopNavigationTextActive)}
-				capitalizeFirstLetter
-			>
-				{text}
-			</Text>
-		</Link>
-	)
-}
 
 interface IAccountTransferDesktopProps {
 	className?: ClassValue
@@ -59,7 +39,7 @@ export const AccountTransferDesktop = forwardRef<HTMLElement, IAccountTransferDe
 								// { text: t('accounts.navigation.swap'), href: accountMenuSlugs.SWAP },
 								// { text: t('accounts.navigation.settings'), href: accountMenuSlugs.SETTINGS },
 							].map(({ text, href }) => (
-								<MenuItemDesktop text={text} key={href} href={href} />
+								<PillNavigation text={text} key={href} href={href} />
 							))}
 						</LayoutGroup>
 					</Box>
