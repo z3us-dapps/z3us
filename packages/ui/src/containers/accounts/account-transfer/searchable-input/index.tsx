@@ -12,32 +12,21 @@ import { Text } from 'ui/src/components/typography'
 
 import * as styles from './searchable-input.css'
 
+// TODO? fix types move to central local?
 type TData = Array<{ id: string; account: string; alias: string }>
 
-interface ISearchableInputRequiredProps {
+interface ISearchableInputProps {
 	value: string
 	data: TData
 	onValueChange: (value: string) => void
-}
-
-interface ISearchableInputOptionalProps {
 	className?: ClassValue
 	styleVariant?: TStyleVariant
 	sizeVariant?: TSizeVariant
 	placeholder?: string
 }
 
-interface ISearchableInputProps extends ISearchableInputRequiredProps, ISearchableInputOptionalProps {}
-
-const defaultProps: ISearchableInputOptionalProps = {
-	className: undefined,
-	styleVariant: 'primary',
-	sizeVariant: 'large',
-	placeholder: undefined,
-}
-
 export const SearchableInput: React.FC<ISearchableInputProps> = props => {
-	const { className, data, value, onValueChange, styleVariant, sizeVariant, placeholder } = props
+	const { className, data, value, onValueChange, styleVariant = 'primary', sizeVariant = 'large', placeholder } = props
 	const [isPopoverOpen, setIsPopoverOpen] = useState<boolean>(false)
 	const [customScrollParent, setCustomScrollParent] = useState<HTMLElement | undefined>(undefined)
 	const [localData, setLocalData] = useState<TData>(data)
@@ -158,5 +147,3 @@ export const SearchableInput: React.FC<ISearchableInputProps> = props => {
 		</Box>
 	)
 }
-
-SearchableInput.defaultProps = defaultProps
