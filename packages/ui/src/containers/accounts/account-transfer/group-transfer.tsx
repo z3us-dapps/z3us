@@ -15,6 +15,7 @@ import {
 } from 'ui/src/components/accordion'
 import { Box } from 'ui/src/components/box'
 import { Button } from 'ui/src/components/button'
+import type { IDropdownMenuVirtuosoRequiredProps } from 'ui/src/components/dropdown-menu'
 import { DropdownMenuItemIndicator, DropdownMenuRadioItem, DropdownMenuVirtuoso } from 'ui/src/components/dropdown-menu'
 import {
 	Check2Icon,
@@ -33,6 +34,7 @@ import { ValidationErrorMessage } from 'ui/src/components/validation-error-messa
 import type { TSendSchema, TTransferSchema, TZodValidation } from './account-transfer-types'
 import { getError } from './account-transfer-utils'
 import * as styles from './account-transfer.css'
+import type { ISearchableInputProps } from './searchable-input'
 import { SearchableInput } from './searchable-input'
 import { TransferMessage } from './transfer-message'
 import { TransferTokenSelector } from './transfer-token-selector'
@@ -61,8 +63,8 @@ interface IGroupItemProps extends Omit<Omit<Omit<IGroupTransferProps, 'accounts'
 	send: TSendSchema
 	message: string
 	isMessageEncrypted: boolean
-	allEntries
-	accountEntries
+	allEntries: ISearchableInputProps['data']
+	accountEntries: IDropdownMenuVirtuosoRequiredProps['data']
 	knownAddresses: { [key: string]: AddressBookEntry }
 }
 

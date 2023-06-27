@@ -1,6 +1,6 @@
-export const sendTokens = (from: string, to: string) => ({
-	fungible: (fungibles: Array<{ resource: string; amount: number }>) => `${fungibles.map(
-		({ resource, amount }, idx) => `
+export const sendTokens = (from: string) => ({
+	fungible: (fungibles: Array<{ resource: string; amount: number; to: string }>) => `${fungibles.map(
+		({ resource, amount, to }, idx) => `
         CALL_METHOD 
           Address('${from}') 
           'withdraw'

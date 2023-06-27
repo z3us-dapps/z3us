@@ -12,10 +12,9 @@ import { Text } from 'ui/src/components/typography'
 
 import * as styles from './searchable-input.css'
 
-// TODO? fix types move to central local?
 type TData = Array<{ id: string; account: string; alias: string }>
 
-interface ISearchableInputProps {
+export interface ISearchableInputProps {
 	value: string
 	data: TData
 	onValueChange: (value: string) => void

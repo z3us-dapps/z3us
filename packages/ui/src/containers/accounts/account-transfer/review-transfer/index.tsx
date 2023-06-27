@@ -1,4 +1,12 @@
+import BigNumber from 'bignumber.js'
 import clsx from 'clsx'
+import { Amount } from 'packages/ui/src/components/amount'
+import { ResourceImageIcon } from 'packages/ui/src/components/resource-image-icon'
+import { TokenPrice } from 'packages/ui/src/components/token-price'
+import { useSendTransaction } from 'packages/ui/src/hooks/dapp/use-send-transaction'
+import { sendTokens } from 'packages/ui/src/manifests/tokens'
+import type { AddressBookEntry } from 'packages/ui/src/store/types'
+import { getShortAddress } from 'packages/ui/src/utils/string-utils'
 import React, { useState } from 'react'
 
 import { Box } from 'ui/src/components/box'
@@ -11,9 +19,13 @@ import Translation from 'ui/src/components/translation'
 import { Text } from 'ui/src/components/typography'
 import { Z3usLoading } from 'ui/src/components/z3us-loading'
 
+import type { TTransferSchema } from '../account-transfer-types'
 import * as styles from './review-transfer.css'
 
 interface IReviewTransferRequiredProps {
+	accounts: { [key: string]: AddressBookEntry }
+	addressBook: { [key: string]: AddressBookEntry }
+	transaction: TTransferSchema
 	onNavigateBack: () => void
 }
 
@@ -24,15 +36,36 @@ interface IReviewTransferProps extends IReviewTransferRequiredProps, IReviewTran
 const defaultProps: IReviewTransferOptionalProps = {}
 
 export const ReviewTransfer: React.FC<IReviewTransferProps> = props => {
-	const { onNavigateBack } = props
+	const { transaction, accounts, addressBook, onNavigateBack } = props
+
+	const sendTransaction = useSendTransaction()
+
+	const knownAddresses = { ...accounts, ...addressBook }
 
 	const [isOpen, setIsOpen] = useState<boolean>(false)
 
 	const handleOpenSendingDialog = () => {
 		setIsOpen(true)
+
+		const fungibles = transaction.sends.map(({ to, tokens }) =>
+			tokens.map(token => ({ amount: token.amount, resource: token.address, to })),
+		)
+
+		sendTransaction({
+			version: 0,
+			transactionManifest: sendTokens(transaction.from).fungible(fungibles.flat()),
+		})
+			.andThen(response => {
+				console.log(response)
+				setIsOpen(false)
+			})
+			.mapErr(error => {
+				console.error(error)
+				setIsOpen(false)
+			})
 	}
 
-	const handleNaviateBack = () => {
+	const handleNavigateBack = () => {
 		onNavigateBack()
 	}
 
@@ -40,13 +73,14 @@ export const ReviewTransfer: React.FC<IReviewTransferProps> = props => {
 		<>
 			<Box position="relative">
 				<Box display="flex" alignItems="center" paddingBottom="large" gap="medium">
-					<Button onClick={handleNaviateBack} sizeVariant="small" styleVariant="ghost" iconOnly>
+					<Button onClick={handleNavigateBack} sizeVariant="small" styleVariant="ghost" iconOnly>
 						<ArrowLeftIcon />
 					</Button>
 					<Text size="xxxlarge" weight="strong" color="strong">
 						Review transaction
 					</Text>
 				</Box>
+
 				<Box display="flex" flexDirection="column" gap="large">
 					{/* START FROM */}
 					<Box display="flex" flexDirection="column" gap="small">
@@ -61,123 +95,98 @@ export const ReviewTransfer: React.FC<IReviewTransferProps> = props => {
 								styleVariant="secondary"
 								sizeVariant="xlarge"
 								fullWidth
-								leftIcon={
-									<ImageIcon
-										imgSrc="https://images.unsplash.com/photo-1492633423870-43d1cd2775eb?&w=128&h=128&dpr=2&q=80"
-										imgAlt="btc token image"
-										fallbackText="btc"
-									/>
-								}
+								leftIcon={<ResourceImageIcon address={transaction.from} />}
 							>
 								<Box display="flex" alignItems="center" width="full" textAlign="left" paddingLeft="xsmall">
 									<Text size="large" color="strong">
-										Savings account rdx1...3343
+										{knownAddresses[transaction.from]?.name || getShortAddress(transaction.from)}
 									</Text>
 								</Box>
 							</Button>
 						</Box>
 					</Box>
 					{/* END FROM */}
+
 					{/* START MESSAGE */}
-					<Box display="flex" flexDirection="column" gap="small">
-						<Box display="flex" gap="xsmall" width="full">
-							<Text color="strong" size="xlarge" weight="strong">
-								Message
-							</Text>
-							<Box display="flex" alignItems="center">
-								<Text size="xlarge" weight="strong">
-									(encrypted)
+					{transaction.message && (
+						<Box display="flex" flexDirection="column" gap="small">
+							<Box display="flex" gap="xsmall" width="full">
+								<Text color="strong" size="xlarge" weight="strong">
+									Message
 								</Text>
-								<LockIcon />
+								{transaction.isMessageEncrypted && (
+									<Box display="flex" alignItems="center">
+										<Text size="xlarge" weight="strong">
+											(encrypted)
+										</Text>
+										<LockIcon />
+									</Box>
+								)}
+								<Box display="flex" alignItems="center" justifyContent="flex-end" flexGrow={1}>
+									<Button sizeVariant="small" styleVariant="ghost" iconOnly>
+										<ChevronDown2Icon />
+									</Button>
+								</Box>
 							</Box>
-							<Box display="flex" alignItems="center" justifyContent="flex-end" flexGrow={1}>
-								<Button sizeVariant="small" styleVariant="ghost" iconOnly>
-									<ChevronDown2Icon />
-								</Button>
+							<Box className={styles.messageWrapper}>
+								<Text size="xsmall">{transaction.message}</Text>
 							</Box>
 						</Box>
-						<Box className={styles.messageWrapper}>
-							<Text size="xsmall">
-								Lorem ipsum dolor sitOdio magna suspendisse consequat, lectus eu convallis faucibus nisl efficitur
-								penatibus pellentesque velit nunc arcu. Lorem adipiscing ut tincidunt ligula faucibus, consequat et
-								finibus id rutrum vitae praesent porttitor aliquam finibus, arcu in nunc phasellus congue quisque dictum
-								elit luctus lectus facilisis pellentesque augue iaculis. Malesuada vel suscipit cras convallis eget,
-								elit auctor aliquet
-							</Text>
-						</Box>
-					</Box>
+					)}
 					{/* END START MESSAGE */}
 
 					{/* START TO */}
-					<Box display="flex" flexDirection="column" gap="small">
-						<Box display="flex" gap="xsmall">
-							<Text color="strong" size="xlarge" weight="strong">
-								To
-							</Text>
-						</Box>
-						<Box>
-							<Button
-								disabled
-								styleVariant="secondary"
-								sizeVariant="xlarge"
-								fullWidth
-								leftIcon={
-									<ImageIcon
-										imgSrc="https://images.unsplash.com/photo-1492633423870-43d1cd2775eb?&w=128&h=128&dpr=2&q=80"
-										imgAlt="btc token image"
-										fallbackText="btc"
-									/>
-								}
-							>
-								<Box display="flex" alignItems="center" width="full" textAlign="left" paddingLeft="xsmall">
-									<Text size="large" color="strong">
-										Savings account rdx1...3343
-									</Text>
-								</Box>
-							</Button>
-						</Box>
-
-						<Box>
+					{transaction.sends.map(send => (
+						<Box display="flex" flexDirection="column" gap="small">
 							<Box display="flex" gap="xsmall">
 								<Text color="strong" size="xlarge" weight="strong">
-									Tokens
+									To
 								</Text>
 							</Box>
-						</Box>
+							<Box>
+								<Button
+									disabled
+									styleVariant="secondary"
+									sizeVariant="xlarge"
+									fullWidth
+									leftIcon={
+										<ImageIcon
+											imgSrc="https://images.unsplash.com/photo-1492633423870-43d1cd2775eb?&w=128&h=128&dpr=2&q=80"
+											imgAlt="btc token image"
+											fallbackText="btc"
+										/>
+									}
+								>
+									<Box display="flex" alignItems="center" width="full" textAlign="left" paddingLeft="xsmall">
+										<Text size="large" color="strong">
+											{knownAddresses[send.to]?.name || getShortAddress(send.to)}
+										</Text>
+									</Box>
+								</Button>
+							</Box>
 
-						<Box className={styles.tokensWrapper}>
-							<Box className={styles.tokenRowWrapper}>
-								<ImageIcon
-									imgSrc="https://images.unsplash.com/photo-1492633423870-43d1cd2775eb?&w=128&h=128&dpr=2&q=80"
-									imgAlt="btc token image"
-									fallbackText="btc"
-								/>
-								<Text size="small" weight="medium">
-									XRD 454.33 - ($10.24 USD)
-								</Text>
+							<Box>
+								<Box display="flex" gap="xsmall">
+									<Text color="strong" size="xlarge" weight="strong">
+										Tokens
+									</Text>
+								</Box>
 							</Box>
-							<Box className={styles.tokenRowWrapper}>
-								<ImageIcon
-									imgSrc="https://images.unsplash.com/photo-1492633423870-43d1cd2775eb?&w=128&h=128&dpr=2&q=80"
-									imgAlt="btc token image"
-									fallbackText="btc"
-								/>
-								<Text size="small" weight="medium">
-									XRD 454.33 - ($10.24 USD)
-								</Text>
-							</Box>
-							<Box className={styles.tokenRowWrapper}>
-								<ImageIcon
-									imgSrc="https://images.unsplash.com/photo-1492633423870-43d1cd2775eb?&w=128&h=128&dpr=2&q=80"
-									imgAlt="btc token image"
-									fallbackText="btc"
-								/>
-								<Text size="small" weight="medium">
-									XRD 454.33 - ($10.24 USD)
-								</Text>
+
+							<Box className={styles.tokensWrapper}>
+								{send.tokens.map(token => (
+									<Box className={styles.tokenRowWrapper}>
+										<ResourceImageIcon address={token.address} />
+										<Text size="small" weight="medium">
+											{token.symbol.toUpperCase()}
+											<Amount value={new BigNumber(token.amount)} /> -
+											<TokenPrice amount={new BigNumber(token.amount)} symbol={token.symbol} />
+										</Text>
+									</Box>
+								))}
 							</Box>
 						</Box>
-					</Box>
+					))}
 					{/* END TO */}
 				</Box>
 

@@ -69,7 +69,7 @@ export const DropdownMenuLeftSlot = ({ children, ...props }) => (
 )
 
 // Virtuoso menu
-interface IDropdownMenuVirtuosoRequiredProps {
+export interface IDropdownMenuVirtuosoRequiredProps {
 	trigger: React.ReactNode
 	value: string
 	data: Array<{ id: string; title: string }>

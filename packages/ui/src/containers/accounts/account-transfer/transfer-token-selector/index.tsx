@@ -251,7 +251,7 @@ export const TransferTokenSelector: React.FC<ITransferTokenSelectorProps> = prop
 								<SelectLabel>
 									<Text size="small">Rest</Text>
 								</SelectLabel>
-								{currencies.map(c =>
+								{currencies?.map(c =>
 									favoriteCurrencies.includes(c) ? null : (
 										<SelectItem key={c} value={c}>
 											<Text truncate size="small" color="strong">

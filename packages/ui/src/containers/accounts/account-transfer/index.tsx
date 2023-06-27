@@ -225,6 +225,9 @@ export const AccountTransfer = forwardRef<HTMLElement, IAccountTransferProps>(
 						)}
 						{page === 1 && (
 							<ReviewTransfer
+								accounts={accounts}
+								addressBook={addressBook}
+								transaction={state.transaction}
 								onNavigateBack={() => {
 									paginate(-1)
 								}}
