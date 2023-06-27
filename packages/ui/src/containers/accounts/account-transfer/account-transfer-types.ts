@@ -10,7 +10,9 @@ export interface ISend {
 }
 
 export interface IToken {
-	token: string
+	name: string
+	symbol: string
+	address: string
 	amount: number
 }
 
@@ -21,7 +23,6 @@ export type TZodValidation = TZodValidationGeneric<TTransferSchema>
 export interface IAccountTransferImmer {
 	transaction: TTransferSchema
 	slides: [number, number]
-	isGroupUiVisible: boolean
 	isMessageUiVisible: boolean
 	isSubmittingReview: boolean
 	initValidation: boolean

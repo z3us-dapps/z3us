@@ -10,10 +10,7 @@ import * as styles from './account-transfer.css'
 export const AccountsTransferDesktop = () => (
 	<Box className={containerStyles.containerWrapper}>
 		<Box className={styles.panelWrapper}>
-			<ScrollPanel
-				isTopShadowVisible
-				renderPanel={(scrollableNode: HTMLElement | null) => <AccountTransfer scrollableNode={scrollableNode} />}
-			/>
+			<ScrollPanel isTopShadowVisible renderPanel={() => <AccountTransfer />} />
 		</Box>
 	</Box>
 )

@@ -36,11 +36,7 @@ export const AccountsMobile: React.FC = () => {
 							path={routes.TRANSFER}
 							element={
 								<AnimatedPage>
-									<NavigationScrollContainer
-										renderPanel={(scrollableNode: HTMLElement | null) => (
-											<AccountTransfer scrollableNode={scrollableNode} />
-										)}
-									/>
+									<NavigationScrollContainer renderPanel={() => <AccountTransfer />} />
 								</AnimatedPage>
 							}
 						/>

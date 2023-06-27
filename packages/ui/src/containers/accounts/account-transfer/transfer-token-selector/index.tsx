@@ -1,4 +1,10 @@
+import BigNumber from 'bignumber.js'
 import clsx, { type ClassValue } from 'clsx'
+import { Amount } from 'packages/ui/src/components/amount'
+import { Price } from 'packages/ui/src/components/price'
+import { useSupportedCurrencies } from 'packages/ui/src/hooks/queries/market'
+import { useNoneSharedStore } from 'packages/ui/src/hooks/use-store'
+import type { ResourceBalance } from 'packages/ui/src/types/types'
 import React, { useState } from 'react'
 
 import { Box } from 'ui/src/components/box'
@@ -6,6 +12,7 @@ import { Button, type TStyleVariant as TButtonStyleVariant } from 'ui/src/compon
 import { ChevronDown2Icon } from 'ui/src/components/icons'
 import { type TSizeVariant, type TStyleVariant } from 'ui/src/components/input'
 import { NumberInput } from 'ui/src/components/number-input'
+import { ResourceImageIcon } from 'ui/src/components/resource-image-icon'
 import { Link } from 'ui/src/components/router-link'
 import {
 	SelectContent,
@@ -19,7 +26,6 @@ import {
 	SelectValue,
 } from 'ui/src/components/select'
 import * as plainButtonStyles from 'ui/src/components/styles/plain-button-styles.css'
-import { TokenImageIcon } from 'ui/src/components/token-image-icon'
 import { Text } from 'ui/src/components/typography'
 import { ValidationErrorMessage } from 'ui/src/components/validation-error-message'
 import { accountMenuSlugs } from 'ui/src/constants/accounts'
@@ -31,7 +37,7 @@ import type { TTransferSchema, TZodValidation } from '../account-transfer-types'
 import * as styles from './transfer-token-selector.css'
 
 interface ITransferTokenSelectorRequiredProps {
-	tokens: any
+	balances: ResourceBalance[]
 	token: string
 	tokenValue: number
 	sendIndex: number
@@ -61,7 +67,7 @@ const defaultProps: ITransferTokenSelectorOptionalProps = {
 
 export const TransferTokenSelector: React.FC<ITransferTokenSelectorProps> = props => {
 	const {
-		tokens,
+		balances,
 		token,
 		tokenValue,
 		className,
@@ -75,7 +81,14 @@ export const TransferTokenSelector: React.FC<ITransferTokenSelectorProps> = prop
 		onUpdateTokenValue,
 	} = props
 
-	const [value, setValue] = useState<string>('usd')
+	const { data: currencies } = useSupportedCurrencies()
+	const { currency } = useNoneSharedStore(state => ({
+		currency: state.currency,
+	}))
+
+	const [selectedCurrency, setCurrency] = useState<string>(currency)
+
+	const selectedToken = balances.find(b => b.address === token)
 
 	const handleTokenUpdate = (val: string) => {
 		onUpdateToken(val)
@@ -136,7 +149,7 @@ export const TransferTokenSelector: React.FC<ITransferTokenSelectorProps> = prop
 							className={plainButtonStyles.plainButtonHoverWrapper}
 						>
 							<Text inheritColor component="span" size="medium" underline="always" truncate>
-								2.12 BTC
+								<Amount value={selectedToken?.amount} currency={selectedToken?.symbol} />
 							</Text>
 						</Link>
 					</Box>
@@ -162,22 +175,18 @@ export const TransferTokenSelector: React.FC<ITransferTokenSelectorProps> = prop
 							rightIcon={<ChevronDown2Icon />}
 							leftIcon={
 								<Box marginRight="small">
-									<TokenImageIcon
-										imgSrc="https://images.unsplash.com/photo-1492633423870-43d1cd2775eb?&w=128&h=128&dpr=2&q=80"
-										imgAlt="btc token image"
-										fallbackText="btc"
-									/>
+									<ResourceImageIcon size="small" address={selectedToken?.address} />
 								</Box>
 							}
 						>
 							<Box display="flex" alignItems="center" width="full" textAlign="left">
 								<Text size="medium" color="strong" truncate>
-									{token}
+									{selectedToken?.symbol}
 								</Text>
 							</Box>
 						</Button>
 					}
-					tokens={tokens}
+					balances={balances}
 				/>
 			</Box>
 			<Box display="flex" justifyContent="space-between">
@@ -192,12 +201,12 @@ export const TransferTokenSelector: React.FC<ITransferTokenSelectorProps> = prop
 				<Box display="flex" alignItems="center" flexGrow={1} gap="xsmall">
 					<Box display="flex" alignItems="center">
 						<Text size="medium" truncate>
-							2.12 BTC =
+							{tokenValue} {selectedToken?.symbol} =
 						</Text>
 					</Box>
 					{/* TODO: move to own component */}
-					<SelectRoot value={value} onValueChange={setValue}>
-						<SelectTrigger asChild aria-label="Food">
+					<SelectRoot value={selectedCurrency} onValueChange={setCurrency}>
+						<SelectTrigger asChild aria-label="Currency">
 							<Box
 								component="button"
 								display="inline-flex"
@@ -207,11 +216,14 @@ export const TransferTokenSelector: React.FC<ITransferTokenSelectorProps> = prop
 									plainButtonStyles.plainButtonHoverUnderlineWrapper,
 								)}
 							>
-								<SelectValue aria-label={value}>
+								<SelectValue aria-label={selectedCurrency}>
 									<Box display="flex">
-										<Box component="span">$70,887&nbsp;</Box>
+										<Box component="span">
+											<Price value={new BigNumber(tokenValue || 0)} currency={selectedCurrency} />
+											&nbsp;
+										</Box>
 										<Box component="span" style={{ textTransform: 'uppercase' }}>
-											{value}
+											{selectedCurrency}
 										</Box>
 									</Box>
 								</SelectValue>
@@ -227,19 +239,14 @@ export const TransferTokenSelector: React.FC<ITransferTokenSelectorProps> = prop
 										Favorite
 									</Text>
 								</SelectLabel>
-								<SelectItem value="usd">
+								<SelectItem value="USD">
 									<Text truncate size="small" color="strong">
-										usd
+										USD
 									</Text>
 								</SelectItem>
 								<SelectItem value="eur">
 									<Text truncate size="small" color="strong">
-										eur
-									</Text>
-								</SelectItem>
-								<SelectItem value="eth">
-									<Text truncate size="small" color="strong">
-										eth
+										EUR
 									</Text>
 								</SelectItem>
 							</SelectGroup>
@@ -248,16 +255,11 @@ export const TransferTokenSelector: React.FC<ITransferTokenSelectorProps> = prop
 								<SelectLabel>
 									<Text size="small">Rest</Text>
 								</SelectLabel>
-								{Array.from({ length: 100 }).map((_, i, a) => (
-									<SelectItem
-										key={`v1.2.0-betav1.2.0-betav1.2.0-betav1.2.0-betav1.2.0-beta.${a.length - i}`}
-										value={`v1.2.0-betav1.2.0-betav1.2.0-betav1.2.0-betav1.2.0-beta.${a.length - i}`}
-									>
-										<Text
-											truncate
-											size="small"
-											color="strong"
-										>{`v1.2.0-betav1.2.0-betav1.2.0-betav1.2.0-betav1.2.0-beta.${a.length - i}`}</Text>
+								{currencies.map(c => (
+									<SelectItem key={c} value={c}>
+										<Text truncate size="small" color="strong">
+											{c.toUpperCase()}
+										</Text>
 									</SelectItem>
 								))}
 							</SelectGroup>

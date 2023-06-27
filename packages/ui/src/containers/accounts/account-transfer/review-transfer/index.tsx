@@ -5,8 +5,8 @@ import { Box } from 'ui/src/components/box'
 import { Button } from 'ui/src/components/button'
 import { DialogContent, DialogOverlay, DialogPortal, DialogRoot } from 'ui/src/components/dialog'
 import { ArrowLeftIcon, ChevronDown2Icon, LockIcon } from 'ui/src/components/icons'
+import { ImageIcon } from 'ui/src/components/image-icon'
 import * as dialogStyles from 'ui/src/components/styles/dialog-styles.css'
-import { TokenImageIcon } from 'ui/src/components/token-image-icon'
 import Translation from 'ui/src/components/translation'
 import { Text } from 'ui/src/components/typography'
 import { Z3usLoading } from 'ui/src/components/z3us-loading'
@@ -62,7 +62,7 @@ export const ReviewTransfer: React.FC<IReviewTransferProps> = props => {
 								sizeVariant="xlarge"
 								fullWidth
 								leftIcon={
-									<TokenImageIcon
+									<ImageIcon
 										imgSrc="https://images.unsplash.com/photo-1492633423870-43d1cd2775eb?&w=128&h=128&dpr=2&q=80"
 										imgAlt="btc token image"
 										fallbackText="btc"
@@ -122,7 +122,7 @@ export const ReviewTransfer: React.FC<IReviewTransferProps> = props => {
 								sizeVariant="xlarge"
 								fullWidth
 								leftIcon={
-									<TokenImageIcon
+									<ImageIcon
 										imgSrc="https://images.unsplash.com/photo-1492633423870-43d1cd2775eb?&w=128&h=128&dpr=2&q=80"
 										imgAlt="btc token image"
 										fallbackText="btc"
@@ -147,7 +147,7 @@ export const ReviewTransfer: React.FC<IReviewTransferProps> = props => {
 
 						<Box className={styles.tokensWrapper}>
 							<Box className={styles.tokenRowWrapper}>
-								<TokenImageIcon
+								<ImageIcon
 									imgSrc="https://images.unsplash.com/photo-1492633423870-43d1cd2775eb?&w=128&h=128&dpr=2&q=80"
 									imgAlt="btc token image"
 									fallbackText="btc"
@@ -157,7 +157,7 @@ export const ReviewTransfer: React.FC<IReviewTransferProps> = props => {
 								</Text>
 							</Box>
 							<Box className={styles.tokenRowWrapper}>
-								<TokenImageIcon
+								<ImageIcon
 									imgSrc="https://images.unsplash.com/photo-1492633423870-43d1cd2775eb?&w=128&h=128&dpr=2&q=80"
 									imgAlt="btc token image"
 									fallbackText="btc"
@@ -167,7 +167,7 @@ export const ReviewTransfer: React.FC<IReviewTransferProps> = props => {
 								</Text>
 							</Box>
 							<Box className={styles.tokenRowWrapper}>
-								<TokenImageIcon
+								<ImageIcon
 									imgSrc="https://images.unsplash.com/photo-1492633423870-43d1cd2775eb?&w=128&h=128&dpr=2&q=80"
 									imgAlt="btc token image"
 									fallbackText="btc"

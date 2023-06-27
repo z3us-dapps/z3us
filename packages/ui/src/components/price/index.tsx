@@ -1,15 +1,17 @@
 import type BigNumber from 'bignumber.js'
 import { useNoneSharedStore } from 'packages/ui/src/hooks/use-store'
-import { formatBigNumber } from 'packages/ui/src/utils/formatters'
+
+import { Amount } from '../amount'
 
 interface IAllAccountListRowProps {
 	value: BigNumber
+	currency?: string
 }
 
-export const Price: React.FC<IAllAccountListRowProps> = ({ value }) => {
-	const { currency } = useNoneSharedStore(state => ({
-		currency: state.currency,
+export const Price: React.FC<IAllAccountListRowProps> = ({ value, currency }) => {
+	const { defaultCurrency } = useNoneSharedStore(state => ({
+		defaultCurrency: state.currency,
 	}))
 
-	return <>{formatBigNumber(value, currency, 2)}</>
+	return <Amount value={value} currency={currency || defaultCurrency} />
 }

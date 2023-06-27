@@ -3,26 +3,16 @@ import React from 'react'
 
 import { Box } from 'ui/src/components/box'
 import { Button } from 'ui/src/components/button'
+import { InformationIcon, PlusIcon } from 'ui/src/components/icons'
 import { PopoverContent, PopoverPortal, PopoverRoot, PopoverTrigger } from 'ui/src/components/popover'
 import { Text } from 'ui/src/components/typography'
-import { InformationIcon, PlusIcon } from 'ui/src/components/icons'
 
 interface IGroupTransactionButtonProps {
-	isGroupUiVisible: boolean
-	onGroupTransaction: () => void
 	onAddGroup: () => void
 }
 
 export const GroupTransactionButton: React.FC<IGroupTransactionButtonProps> = props => {
-	const { isGroupUiVisible, onAddGroup, onGroupTransaction } = props
-
-	const handleClick = () => {
-		if (isGroupUiVisible) {
-			onAddGroup()
-		}
-
-		onGroupTransaction()
-	}
+	const { onAddGroup } = props
 
 	return (
 		<Box display="flex" width="full" flexDirection="column">
@@ -62,7 +52,7 @@ export const GroupTransactionButton: React.FC<IGroupTransactionButtonProps> = pr
 					styleVariant="tertiary"
 					sizeVariant="xlarge"
 					fullWidth
-					onClick={handleClick}
+					onClick={onAddGroup}
 					leftIcon={
 						<Box marginLeft="small">
 							<PlusIcon />

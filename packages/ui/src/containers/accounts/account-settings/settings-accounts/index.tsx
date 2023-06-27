@@ -61,6 +61,8 @@ export const SettingsAccounts: React.FC<ISettingsAccountsProps> = forwardRef<HTM
 			selectAccount: state.selectAccountAction,
 		}))
 
+		const accountsAsArray = Object.values(accounts)
+
 		return (
 			<Box ref={ref} className={clsx(styles.settingsSectionFlexColumnWrapper, className)}>
 				{/* START TITLE SECTION */}
@@ -95,7 +97,7 @@ export const SettingsAccounts: React.FC<ISettingsAccountsProps> = forwardRef<HTM
 									value={selectedAccount}
 									placeholder="Select account"
 									onValueChange={selectAccount}
-									data={accounts.map(account => ({ id: account.address, title: account.name }))}
+									data={accountsAsArray.map(account => ({ id: account.address, title: account.name }))}
 								/>
 							</Box>
 							<Box className={accountsStyles.accountsCardWrapper}>
@@ -120,8 +122,15 @@ export const SettingsAccounts: React.FC<ISettingsAccountsProps> = forwardRef<HTM
 										Account color
 									</Text>
 									<Box display="flex" gap="small" flexWrap="wrap" flexGrow={0} flexShrink={0}>
-										{Array.from({ length: 10 }, (_, i) => (
-											<Button key={i} active={i === 1} rounded styleVariant="avatar" sizeVariant="small" iconOnly>
+										{accountsAsArray.map((a, i) => (
+											<Button
+												key={a.address}
+												active={i === 1}
+												rounded
+												styleVariant="avatar"
+												sizeVariant="small"
+												iconOnly
+											>
 												<Box
 													width="full"
 													height="full"
@@ -140,8 +149,8 @@ export const SettingsAccounts: React.FC<ISettingsAccountsProps> = forwardRef<HTM
 										Account image
 									</Text>
 									<Box display="flex" gap="small" flexWrap="wrap" flexGrow={0} flexShrink={0}>
-										{Array.from({ length: 10 }, (_, i) => (
-											<Button key={i} active={i === 1} styleVariant="avatar" sizeVariant="medium" iconOnly>
+										{accountsAsArray.map((a, i) => (
+											<Button key={a.address} active={i === 1} styleVariant="avatar" sizeVariant="medium" iconOnly>
 												<Avatar
 													styleVariant="square"
 													sizeVariant="medium"

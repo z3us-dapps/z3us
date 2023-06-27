@@ -1,8 +1,10 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import clsx from 'clsx'
 import { AnimatePresence } from 'framer-motion'
+import { useResourceBalances } from 'packages/ui/src/hooks/dapp/use-balances'
+import { useNetworkId } from 'packages/ui/src/hooks/dapp/use-network-id'
+import { useNoneSharedStore } from 'packages/ui/src/hooks/use-store'
+import { useWalletAccounts } from 'packages/ui/src/hooks/use-wallet-account'
 import React, { forwardRef } from 'react'
-import { useTranslation } from 'react-i18next'
 import useMeasure from 'react-use-measure'
 import useDeepCompareEffect from 'use-deep-compare-effect'
 import { useImmer } from 'use-immer'
@@ -21,31 +23,9 @@ import * as styles from './account-transfer.css'
 import { GroupTransactionButton } from './group-transaction-button'
 import { GroupTransfer } from './group-transfer'
 import { ReviewTransfer } from './review-transfer'
-import { SingleTransfer } from './single-transfer'
 import { TransferPageAnimation } from './transfer-page-animation'
 
-// TODO: temp accounts
-const ACCOUNTS = Array.from({ length: 500 }).map((_, i, a) => ({
-	id: `v1.2.0--account-beta.${a.length - i}`,
-	account: `v1.2.0--account-beta.${a.length - i}`,
-	alias: `v1.2.0-alias-beta.${a.length - i}`,
-}))
-
-const ADDRESS_BOOK = Array.from({ length: 500 }).map((_, i, a) => ({
-	id: `rdx187783782744.v1.2.0--address-book-account-beta.${a.length - i}`,
-	account: `rdx187783782744.v1.2.0--address-book-account-beta.${a.length - i}`,
-	alias: `v1.2.0-address-book-account-alias-beta.${a.length - i}`,
-}))
-
-const TOKENS = Array.from({ length: 500 }).map((_, i, a) => ({
-	id: `v1.2.0-TOKENS.${a.length - i}`,
-	title: `v1.2.0-TOKENS.${a.length - i}`,
-	test: 'heheh',
-}))
-
-interface IAccountTransferRequiredProps {
-	scrollableNode: HTMLElement | null
-}
+interface IAccountTransferRequiredProps {}
 
 interface IAccountTransferOptionalProps {
 	className?: string
@@ -59,19 +39,25 @@ const defaultProps: IAccountTransferOptionalProps = {
 
 export const AccountTransfer = forwardRef<HTMLElement, IAccountTransferProps>(
 	(props, ref: React.Ref<HTMLElement | null>) => {
-		const { className, scrollableNode } = props
-		const { t } = useTranslation()
+		const { className } = props
 		const [measureRef, { height: slideWrapperHeight }] = useMeasure()
+
+		const networkId = useNetworkId()
+		const { addressBook, selectedAccount } = useNoneSharedStore(state => ({
+			addressBook: state.addressBook[networkId] || {},
+			selectedAccount: state.selectedAccount,
+		}))
+		const balances = useResourceBalances()
+		const accounts = useWalletAccounts()
 
 		const [state, setState] = useImmer<IAccountTransferImmer>({
 			transaction: {
-				from: '',
+				from: selectedAccount,
 				isMessageEncrypted: false,
 				message: '',
 				sends: [{ to: '', tokens: [defaultToken] }],
 			},
 			slides: [0, 0],
-			isGroupUiVisible: false,
 			isMessageUiVisible: false,
 			isSubmittingReview: false,
 			initValidation: false,
@@ -125,23 +111,14 @@ export const AccountTransfer = forwardRef<HTMLElement, IAccountTransferProps>(
 			}, 2000)
 		}
 
-		const handleGroupTransaction = () => {
-			setState(draft => {
-				draft.isGroupUiVisible = true
-			})
-		}
-
 		const handleRemoveGroupTransaction = (sendIndex: number) => {
-			const isMultipleGroups = state.transaction.sends.length > 1
-			if (isMultipleGroups) {
-				setState(draft => {
+			setState(draft => {
+				if (sendIndex === 0) {
+					draft.transaction.sends = [{ to: '', tokens: [defaultToken] }]
+				} else {
 					draft.transaction.sends = state.transaction.sends.filter((_, index) => index !== sendIndex)
-				})
-			} else {
-				setState(draft => {
-					draft.isGroupUiVisible = false
-				})
-			}
+				}
+			})
 		}
 
 		const handleAddToken = (sendIndex: number) => {
@@ -168,11 +145,17 @@ export const AccountTransfer = forwardRef<HTMLElement, IAccountTransferProps>(
 			})
 		}
 
-		const handleUpdateToken = (sendIndex: number) => (tokenIndex: number) => (token: string) => {
-			setState(draft => {
-				draft.transaction.sends[sendIndex].tokens[tokenIndex].token = token
-			})
-		}
+		const handleUpdateToken =
+			(sendIndex: number) => (tokenIndex: number) => (address: string, symbol: string, name: string) => {
+				setState(draft => {
+					draft.transaction.sends[sendIndex].tokens[tokenIndex] = {
+						...draft.transaction.sends[sendIndex].tokens[tokenIndex],
+						address,
+						name,
+						symbol,
+					}
+				})
+			}
 
 		const handleToggleMessageUi = () => {
 			setState(draft => {
@@ -205,56 +188,30 @@ export const AccountTransfer = forwardRef<HTMLElement, IAccountTransferProps>(
 								</Box>
 								<Box position="relative">
 									<AnimatePresence initial={false}>
-										{!state.isGroupUiVisible && (
-											<AnimatedPage>
-												<SingleTransfer
-													transaction={state.transaction}
-													isMessageUiVisible={state.isMessageUiVisible}
-													fromAccount={state.transaction.from}
-													accounts={ACCOUNTS}
-													addressBook={ADDRESS_BOOK}
-													tokens={TOKENS}
-													validation={state.validation}
-													onUpdateFromAccount={handleUpdateFromAccount}
-													onUpdateToAccount={handleUpdateToAccount}
-													onUpdateTokenValue={handleUpdateTokenValue}
-													onUpdateToken={handleUpdateToken}
-													onToggleMessageUi={handleToggleMessageUi}
-													onUpdateMessage={handleUpdateMessage}
-													onUpdateIsMessageEncrypted={handleUpdateIsMessageEncrypted}
-												/>
-											</AnimatedPage>
-										)}
-									</AnimatePresence>
-									<AnimatePresence initial={false}>
-										{state.isGroupUiVisible && (
-											<AnimatedPage>
-												<GroupTransfer
-													transaction={state.transaction}
-													isMessageUiVisible={state.isMessageUiVisible}
-													fromAccount={state.transaction.from}
-													addressBook={ADDRESS_BOOK}
-													tokens={TOKENS}
-													validation={state.validation}
-													onUpdateToAccount={handleUpdateToAccount}
-													onRemoveGroupTransaction={handleRemoveGroupTransaction}
-													onUpdateTokenValue={handleUpdateTokenValue}
-													onUpdateToken={handleUpdateToken}
-													onAddToken={handleAddToken}
-													onToggleMessageUi={handleToggleMessageUi}
-													onUpdateMessage={handleUpdateMessage}
-													onUpdateIsMessageEncrypted={handleUpdateIsMessageEncrypted}
-												/>
-											</AnimatedPage>
-										)}
+										<AnimatedPage>
+											<GroupTransfer
+												transaction={state.transaction}
+												isMessageUiVisible={state.isMessageUiVisible}
+												fromAccount={state.transaction.from}
+												accounts={accounts}
+												addressBook={addressBook}
+												balances={balances}
+												validation={state.validation}
+												onUpdateFromAccount={handleUpdateFromAccount}
+												onUpdateToAccount={handleUpdateToAccount}
+												onRemoveGroupTransaction={handleRemoveGroupTransaction}
+												onUpdateTokenValue={handleUpdateTokenValue}
+												onUpdateToken={handleUpdateToken}
+												onAddToken={handleAddToken}
+												onToggleMessageUi={handleToggleMessageUi}
+												onUpdateMessage={handleUpdateMessage}
+												onUpdateIsMessageEncrypted={handleUpdateIsMessageEncrypted}
+											/>
+										</AnimatedPage>
 									</AnimatePresence>
 								</Box>
 								<Box paddingTop="large" display="flex" flexDirection="column" gap="medium">
-									<GroupTransactionButton
-										isGroupUiVisible={state.isGroupUiVisible}
-										onGroupTransaction={handleGroupTransaction}
-										onAddGroup={handleAddGroup}
-									/>
+									<GroupTransactionButton onAddGroup={handleAddGroup} />
 									<Button
 										styleVariant="primary"
 										sizeVariant="xlarge"

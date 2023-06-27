@@ -1,5 +1,6 @@
 import clsx, { type ClassValue } from 'clsx'
 import { useNetworkId } from 'packages/ui/src/hooks/dapp/use-network-id'
+import { getShortAddress } from 'packages/ui/src/utils/string-utils'
 import React, { forwardRef } from 'react'
 
 import { Box } from 'ui/src/components/box'
@@ -17,8 +18,8 @@ import {
 	DropdownMenuTrigger,
 } from 'ui/src/components/dropdown-menu'
 import { CheckIcon, ChevronDownIcon } from 'ui/src/components/icons'
+import { ResourceImageIcon } from 'ui/src/components/resource-image-icon'
 import SimpleBar from 'ui/src/components/simple-bar'
-import { TokenImageIcon } from 'ui/src/components/token-image-icon'
 import { Text } from 'ui/src/components/typography'
 import { useIsMobileWidth } from 'ui/src/hooks/use-is-mobile'
 import { useNoneSharedStore } from 'ui/src/hooks/use-store'
@@ -57,6 +58,8 @@ export const AccountViewDropdown = forwardRef<HTMLElement, IAccountViewDropdownP
 			selectAccount: state.selectAccountAction,
 		}))
 
+		const entries = { ...addressBook, ...accounts }
+
 		return (
 			<Box ref={ref} className={clsx(styles.accountViewDropdownWrapper, className)}>
 				<DropdownMenu>
@@ -68,18 +71,13 @@ export const AccountViewDropdown = forwardRef<HTMLElement, IAccountViewDropdownP
 							leftIcon={
 								isLeftButtonIconVisible ? (
 									<Box style={{ marginRight: '4px' }}>
-										<TokenImageIcon
-											size="small"
-											imgSrc="https://images.unsplash.com/photo-1492633423870-43d1cd2775eb?&w=128&h=128&dpr=2&q=80"
-											imgAlt="btc token image"
-											fallbackText="btc"
-										/>
+										<ResourceImageIcon size="small" address={selectedAccount} />
 									</Box>
 								) : null
 							}
 							rightIcon={<ChevronDownIcon />}
 						>
-							{addressBook[selectedAccount]?.name}
+							{entries[selectedAccount]?.name || getShortAddress(selectedAccount)}
 						</Button>
 					</DropdownMenuTrigger>
 
@@ -91,14 +89,9 @@ export const AccountViewDropdown = forwardRef<HTMLElement, IAccountViewDropdownP
 						>
 							<SimpleBar className={styles.accountViewSimpleBarWrapper}>
 								<Box className={styles.accountViewScrollAreaWrapper}>
-									<DropdownMenuRadioGroup
-										value="light"
-										onValueChange={(...args) => {
-											selectAccount(args[0])
-										}}
-									>
-										{accounts.map((account, idx) => (
-											<DropdownMenuRadioItem key={account.address} value={idx % 2 === 0 ? 'light' : 'dark'}>
+									<DropdownMenuRadioGroup value={selectAccount} onValueChange={selectAccount}>
+										{Object.values(accounts).map(account => (
+											<DropdownMenuRadioItem key={account.address} value={account.address}>
 												<DropdownMenuLeftSlot>
 													<Box
 														style={{ width: '60px', height: '40px' }}

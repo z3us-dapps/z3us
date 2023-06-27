@@ -46,8 +46,7 @@ export const useXRDPrices = (currency: string, dates: Array<Date>) => {
 		queryKey: getXRDPriceOnDayQueryKey(currency, date),
 		queryFn: async () => {
 			try {
-				const token = await service.getXRDPriceOnDay(date, currency)
-				return token
+				return await service.getXRDPriceOnDay(date, currency)
 			} catch (err: any) {
 				return null
 			}

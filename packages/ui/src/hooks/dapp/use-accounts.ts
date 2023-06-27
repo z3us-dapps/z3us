@@ -2,10 +2,9 @@ import { ResourceAggregationLevel } from '@radixdlt/babylon-gateway-api-sdk'
 import { useQuery } from '@tanstack/react-query'
 import { useMemo } from 'react'
 
+import type { SelectedAdresses } from '../../types/types'
 import { useGatewayClient } from './use-gateway-client'
 import { useRdtState } from './use-rdt-state'
-
-type SelectedAdresses = { [address: string]: null } | null
 
 export const useAccounts = (
 	selected: SelectedAdresses = null,

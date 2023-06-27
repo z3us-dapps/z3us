@@ -1,10 +1,9 @@
 import { useInfiniteQuery } from '@tanstack/react-query'
 import { useMemo } from 'react'
 
+import type { SelectedAdresses } from '../../types/types'
 import { useGatewayClient } from './use-gateway-client'
 import { useRdtState } from './use-rdt-state'
-
-type SelectedAdresses = { [address: string]: null } | null
 
 // const fakeTransaction: CommittedTransactionInfo & {isLoading: boolean} = {
 // 	isLoading: true,

@@ -1,11 +1,13 @@
+import type { AddressBookEntry } from 'packages/ui/src/store/types'
+import type { ResourceBalance } from 'packages/ui/src/types/types'
 import React from 'react'
 
 import { Box } from 'ui/src/components/box'
 import { Button } from 'ui/src/components/button'
 import { DropdownMenuItemIndicator, DropdownMenuRadioItem, DropdownMenuVirtuoso } from 'ui/src/components/dropdown-menu'
 import { Check2Icon, CheckCircleIcon, ChevronDown2Icon, WriteNoteIcon } from 'ui/src/components/icons'
+import { ResourceImageIcon } from 'ui/src/components/resource-image-icon'
 import * as plainButtonStyles from 'ui/src/components/styles/plain-button-styles.css'
-import { TokenImageIcon } from 'ui/src/components/token-image-icon'
 import { Text } from 'ui/src/components/typography'
 import { ValidationErrorMessage } from 'ui/src/components/validation-error-message'
 
@@ -19,9 +21,9 @@ const SEND_INDEX = 0
 const TOKEN_INDEX = 0
 
 interface ISingleTransferRequiredProps {
-	accounts: any // TODO
-	addressBook: any // TODO
-	tokens: any // TODO
+	balances: ResourceBalance[]
+	accounts: { [key: string]: AddressBookEntry }
+	addressBook: { [key: string]: AddressBookEntry }
 	transaction: TTransferSchema
 	isMessageUiVisible: boolean
 	fromAccount: string
@@ -30,7 +32,7 @@ interface ISingleTransferRequiredProps {
 	onUpdateFromAccount: (account: string) => void
 	onUpdateToAccount: (key: number) => (value: string) => void
 	onUpdateTokenValue: (sendIndex: number) => (tokenIndex: number) => (tokenValue: number) => void
-	onUpdateToken: (sendIndex: number) => (tokenIndex: number) => (tokenValue: string) => void
+	onUpdateToken: (sendIndex: number) => (tokenIndex: number) => (address: string, symbol: string, name: string) => void
 	onUpdateMessage: (message: string) => void
 	onUpdateIsMessageEncrypted: (isEncrypted: boolean) => void
 }
@@ -43,10 +45,10 @@ const defaultProps: ISingleTransferOptionalProps = {}
 
 export const SingleTransfer: React.FC<ISingleTransferProps> = props => {
 	const {
-		transaction,
+		balances,
 		accounts,
 		addressBook,
-		tokens,
+		transaction,
 		fromAccount,
 		isMessageUiVisible,
 		validation,
@@ -62,12 +64,23 @@ export const SingleTransfer: React.FC<ISingleTransferProps> = props => {
 	const send = transaction.sends[SEND_INDEX]
 	const sendToken = send.tokens[TOKEN_INDEX]
 
+	const accountData = Object.values(accounts).map(entry => ({
+		id: entry.address,
+		title: entry.name,
+	}))
+	const entries = Object.values({ ...accounts, ...addressBook }).map(entry => ({
+		id: entry.address,
+		account: entry.address,
+		alias: entry.name,
+	}))
+
 	const handleUpdateToAccount = (value: string) => {
 		onUpdateToAccount(SEND_INDEX)(value)
 	}
 
 	const handleTokenUpdate = (value: string) => {
-		onUpdateToken(SEND_INDEX)(TOKEN_INDEX)(value)
+		const t = balances.find(b => b.address === value)
+		if (t) onUpdateToken(SEND_INDEX)(TOKEN_INDEX)(t.address, t.symbol, t.name)
 	}
 
 	const handleTokenValueUpdate = (value: number) => {
@@ -87,17 +100,13 @@ export const SingleTransfer: React.FC<ISingleTransferProps> = props => {
 				<DropdownMenuVirtuoso
 					value={fromAccount}
 					onValueChange={onUpdateFromAccount}
-					data={accounts}
+					data={accountData}
 					// eslint-disable-next-line react/no-unstable-nested-components
 					itemContentRenderer={(index, { id, title }) => (
 						<DropdownMenuRadioItem value={id} key={index}>
 							<Box display="flex" alignItems="center" gap="medium">
 								<Box flexShrink={0}>
-									<TokenImageIcon
-										imgSrc="https://images.unsplash.com/photo-1492633423870-43d1cd2775eb?&w=128&h=128&dpr=2&q=80"
-										imgAlt="btc token image"
-										fallbackText="btc"
-									/>
+									<ResourceImageIcon address={id} />
 								</Box>
 								<Box flexGrow={1} minWidth={0}>
 									<Text truncate>
@@ -117,13 +126,7 @@ export const SingleTransfer: React.FC<ISingleTransferProps> = props => {
 							styleVariant={getError(validation, ['from']).error ? 'secondary-error' : 'secondary'}
 							sizeVariant="xlarge"
 							fullWidth
-							leftIcon={
-								<TokenImageIcon
-									imgSrc="https://images.unsplash.com/photo-1492633423870-43d1cd2775eb?&w=128&h=128&dpr=2&q=80"
-									imgAlt="btc token image"
-									fallbackText="btc"
-								/>
-							}
+							leftIcon={<ResourceImageIcon address={fromAccount} />}
 							rightIcon={<ChevronDown2Icon />}
 						>
 							<Box display="flex" alignItems="center" width="full" textAlign="left" paddingLeft="xsmall">
@@ -173,7 +176,7 @@ export const SingleTransfer: React.FC<ISingleTransferProps> = props => {
 					// placeholder={capitalizeFirstLetter(`${t('global.search')}`)}
 					styleVariant={getError(validation, ['sends', SEND_INDEX, 'to']).error ? 'secondary-error' : 'secondary'}
 					onValueChange={handleUpdateToAccount}
-					data={addressBook}
+					data={entries}
 				/>
 				<ValidationErrorMessage error={getError(validation, ['sends', SEND_INDEX, 'to'])} />
 			</Box>
@@ -188,8 +191,8 @@ export const SingleTransfer: React.FC<ISingleTransferProps> = props => {
 			<ValidationErrorMessage error={getError(validation, ['message'])} />
 			<TransferTokenSelector
 				styleVariant="secondary"
-				tokens={tokens}
-				token={sendToken.token}
+				balances={balances}
+				token={sendToken.address}
 				tokenValue={sendToken.amount}
 				onUpdateToken={handleTokenUpdate}
 				onUpdateTokenValue={handleTokenValueUpdate}

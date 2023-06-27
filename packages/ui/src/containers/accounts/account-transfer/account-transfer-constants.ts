@@ -5,7 +5,9 @@ import { type IToken } from './account-transfer-types'
 const positiveNumberValidator = (value: number): boolean => value > 0
 
 const tokensSchema = z.object({
-	token: z.string().min(1, 'Must include to token').max(30, 'Must include to token'),
+	address: z.string().min(1, 'Must include to resource address').max(30, 'Must include to resource address'),
+	name: z.string().min(1, 'Must include to token name').max(30, 'Must include to token name'),
+	symbol: z.string().min(1, 'Must include to token symbol').max(30, 'Must include to token symbol'),
 	amount: z.number().refine(positiveNumberValidator, { message: 'Please enter a valid amount' }),
 })
 
@@ -23,4 +25,4 @@ export const transferFormSchema = z.object({
 	sends: z.array(sendsSchema),
 })
 
-export const defaultToken: IToken = { token: '', amount: undefined }
+export const defaultToken: IToken = { address: '', name: '', symbol: '', amount: undefined }

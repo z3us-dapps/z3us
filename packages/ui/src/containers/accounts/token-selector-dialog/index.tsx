@@ -1,5 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import clsx, { type ClassValue } from 'clsx'
+import { config } from 'packages/ui/src/constants/config'
+import type { ResourceBalance } from 'packages/ui/src/types/types'
 import React, { forwardRef, useEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useLocation, useNavigate, useSearchParams } from 'react-router-dom'
@@ -19,10 +21,10 @@ import {
 import { Close2Icon, SearchIcon, ShareIcon } from 'ui/src/components/icons'
 import type { FormElement } from 'ui/src/components/input'
 import { Input } from 'ui/src/components/input'
+import { ResourceImageIcon } from 'ui/src/components/resource-image-icon'
 import { Button } from 'ui/src/components/router-button'
 import { ScrollArea } from 'ui/src/components/scroll-area'
 import * as dialogStyles from 'ui/src/components/styles/dialog-styles.css'
-import { TokenImageIcon } from 'ui/src/components/token-image-icon'
 import { ToolTip } from 'ui/src/components/tool-tip'
 import { TransactionIcon } from 'ui/src/components/transaction-icon'
 import Translation from 'ui/src/components/translation'
@@ -33,8 +35,8 @@ import * as styles from './token-selector-dialog.css'
 
 interface ITokenSelectorDialogRequiredProps {
 	trigger: React.ReactNode
-	tokens: Array<{ id: string; title: string }>
-	onTokenUpdate: (tokenId: string) => void
+	balances: ResourceBalance[]
+	onTokenUpdate: (address: string) => void
 }
 
 interface ITokenSelectorDialogOptionalProps {
@@ -49,7 +51,7 @@ const defaultProps: ITokenSelectorDialogOptionalProps = {
 
 export const TokenSelectorDialog = forwardRef<HTMLElement, ITokenSelectorDialogProps>(
 	(props, ref: React.Ref<HTMLElement | null>) => {
-		const { trigger, tokens, token, onTokenUpdate } = props
+		const { trigger, balances, token, onTokenUpdate } = props
 		const { t } = useTranslation()
 		const [searchParams] = useSearchParams()
 		const navigate = useNavigate()
@@ -60,6 +62,8 @@ export const TokenSelectorDialog = forwardRef<HTMLElement, ITokenSelectorDialogP
 		const [isScrolled, setIsScrolled] = useState<boolean>(false)
 		const [isOpen, setIsOpen] = useState<boolean>(false)
 		const [inputValue, setInputValue] = useState<string>('')
+
+		const selected = balances.find(resource => resource.address === token)
 
 		const handleScroll = (event: Event) => {
 			const target = event.target as Element
@@ -91,10 +95,6 @@ export const TokenSelectorDialog = forwardRef<HTMLElement, ITokenSelectorDialogP
 				setIsScrolled(false)
 			}
 		}, [isOpen])
-
-		// TODO: temp
-		const accountAddress =
-			'ardx1qspt0lthflcd45zhwvrxkqdrv5ne5avsgarjcpfatyw7n7n93v38dhcdtlag0sdfalksjdhf7d8f78d7f8d7f8d7f8d7f'
 
 		return (
 			<DialogRoot open={isOpen} onOpenChange={handleOnOpenChange}>
@@ -139,68 +139,58 @@ export const TokenSelectorDialog = forwardRef<HTMLElement, ITokenSelectorDialogP
 										</ToolTip>
 									</Box>
 								</Box>
-								<Box display="flex" width="full" gap="small" flexWrap="wrap">
-									<Button styleVariant="tertiary" sizeVariant="small">
-										<Text size="small" capitalize>
-											xrd
-										</Text>
-									</Button>
-									<Button
-										leftIcon={
-											<TokenImageIcon
-												size="small"
-												imgSrc="https://images.unsplash.com/photo-1492633423870-43d1cd2775eb?&w=128&h=128&dpr=2&q=80"
-												imgAlt="btc token image"
-												fallbackText="btc"
-											/>
-										}
-										styleVariant="tertiary"
-										sizeVariant="small"
-									>
-										<Text size="small" capitalize>
-											oci
-										</Text>
-									</Button>
-								</Box>
+								{selected && (
+									<Box display="flex" width="full" gap="small" flexWrap="wrap">
+										<Button styleVariant="tertiary" sizeVariant="small">
+											<Text size="small" capitalize>
+												{selected.symbol}
+											</Text>
+										</Button>
+										<Button
+											leftIcon={<ResourceImageIcon size="small" address={selected.address} />}
+											styleVariant="tertiary"
+											sizeVariant="small"
+										>
+											<Text size="small" capitalize>
+												{selected.name}
+											</Text>
+										</Button>
+									</Box>
+								)}
 							</Box>
 							<Box ref={ref}>
 								<Virtuoso
-									data={tokens}
+									data={balances}
 									// eslint-disable-next-line react/no-unstable-nested-components
-									itemContent={(index, { id, title }) => (
-										<Box value={id} key={index} className={styles.tokenListItemWrapper}>
+									itemContent={(index, { symbol, name, address }) => (
+										<Box value={address} key={index} className={styles.tokenListItemWrapper}>
 											<Box
 												component="button"
 												className={styles.tokenListItemWrapperButton}
 												onClick={() => {
-													handleSelectToken(id)
+													handleSelectToken(address)
 												}}
 											>
 												<Box className={styles.tokenListItemWrapperInnerButton}>
-													<TokenImageIcon
-														imgSrc="https://images.unsplash.com/photo-1492633423870-43d1cd2775eb?&w=128&h=128&dpr=2&q=80"
-														imgAlt="btc token image"
-														fallbackText="btc"
-														size="large"
-													/>
+													<ResourceImageIcon address={address} size="large" />
 													<Box className={styles.tokenListItemTextWrapper}>
 														<Text size="medium" color="strong" truncate>
-															{title} Lorum ipsum
+															{symbol}
 														</Text>
 														<Text size="small" truncate>
-															{title} Lorum ipsum
+															{name}
 														</Text>
 													</Box>
 													<Box className={styles.tokenListTagWrapper}>
-														<ToolTip message={accountAddress}>
+														<ToolTip message={address}>
 															<Button
 																leftIcon={<ShareIcon />}
 																styleVariant="tertiary"
 																sizeVariant="small"
-																to="https://explorer.radixdlt.com/#"
+																to={`${config.defaultExplorerURL}/resource/${address}`}
 																target="_blank"
 															>
-																{getShortAddress(accountAddress)}
+																{getShortAddress(address)}
 															</Button>
 														</ToolTip>
 													</Box>
