@@ -27,7 +27,7 @@ import * as styles from './account-activity.css'
 
 const ListContainer = React.forwardRef<HTMLDivElement>((props, ref) => <div ref={ref} {...props} />)
 
-const ItemContainer = props => <Box {...props} className={styles.activtyItem} />
+const ItemContainer = props => <Box {...props} className={styles.activityItem} />
 
 interface IAllAccountListRowProps {
 	index: number
@@ -48,7 +48,7 @@ const ItemWrapper: React.FC<IAllAccountListRowProps> = props => {
 	const isHovered = hovered === transaction.intent_hash_hex
 
 	return (
-		<Box className={styles.activtyItemOuter}>
+		<Box className={styles.activityItemOuter}>
 			<AnimatePresence initial={false}>
 				{/* {!loaded && (
 					<motion.div
@@ -86,12 +86,12 @@ const ItemWrapper: React.FC<IAllAccountListRowProps> = props => {
 				)} */}
 				{/* {loaded && ( */}
 				<>
-					<Box className={clsx(styles.activtyItemInner, (isSelected || isHovered) && styles.activtyItemInnerSelected)}>
+					<Box className={clsx(styles.activityItemInner, (isSelected || isHovered) && styles.activityItemInnerSelected)}>
 						<Link
 							underline="never"
 							to={`${pathname}?asset=xrd&transactionId=${transaction.intent_hash_hex}`}
 							// to={`/accounts/transactions/btc/1eaf53c4256c384d76ca72c0f18ef37a2e4441d4e6bae450e2b8507f42faa5b6`}
-							className={styles.activtyItemInnerBtn}
+							className={styles.activityItemInnerBtn}
 							// onClick={handleClickItem}
 							onClick={() => setSelected(transaction.intent_hash_hex)}
 							onMouseOver={() => setHovered(transaction.intent_hash_hex)}
@@ -100,7 +100,7 @@ const ItemWrapper: React.FC<IAllAccountListRowProps> = props => {
 							<Box className={styles.indicatorCircle}>
 								<TransactionIcon transactionType="deposit" />
 							</Box>
-							<Box className={styles.activtyItemTextWrapper}>
+							<Box className={styles.activityItemTextWrapper}>
 								<Text weight="stronger" size="small" color="strong" truncate>
 									{transaction.transaction_status}
 								</Text>
@@ -112,8 +112,8 @@ const ItemWrapper: React.FC<IAllAccountListRowProps> = props => {
 					</Box>
 					<Box
 						className={clsx(
-							styles.activtyItemExternalLinkWrapper,
-							(isSelected || isHovered) && styles.activtyItemExternalLinkWrapperActive,
+							styles.activityItemExternalLinkWrapper,
+							(isSelected || isHovered) && styles.activityItemExternalLinkWrapperActive,
 						)}
 					>
 						<ToolTip theme="backgroundPrimary" message={<Translation capitalizeFirstLetter text="global.explorer" />}>

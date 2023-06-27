@@ -25,7 +25,7 @@ export const activityWrapper = style([
 	// }),
 ])
 
-export const activtyItem = style([
+export const activityItem = style([
 	sprinkles({
 		position: 'relative',
 		paddingX: 'large',
@@ -36,7 +36,7 @@ export const activtyItem = style([
 	}),
 ])
 
-export const activtyItemOuter = style([
+export const activityItemOuter = style([
 	sprinkles({
 		position: 'relative',
 	}),
@@ -45,7 +45,7 @@ export const activtyItemOuter = style([
 	},
 ])
 
-export const activtyItemExternalLinkWrapper = style([
+export const activityItemExternalLinkWrapper = style([
 	sprinkles({
 		position: 'absolute',
 		right: 0,
@@ -60,18 +60,18 @@ export const activtyItemExternalLinkWrapper = style([
 	},
 ])
 
-export const activtyItemExternalLinkWrapperActive = style([
+export const activityItemExternalLinkWrapperActive = style([
 	sprinkles({
 		opacity: 1,
 	}),
 	{},
 ])
 
-globalStyle(`${activtyItemExternalLinkWrapperActive} > a`, {
+globalStyle(`${activityItemExternalLinkWrapperActive} > a`, {
 	pointerEvents: 'auto',
 })
 
-export const activtyItemInner = style([
+export const activityItemInner = style([
 	sprinkles({
 		position: 'relative',
 		display: 'flex',
@@ -117,11 +117,11 @@ export const activtyItemInner = style([
 ])
 
 // TODO: put a class on ListContainer to fix this
-globalStyle(`${activityWrapper} > div > div > div > div:first-child ${activtyItemInner}`, {
+globalStyle(`${activityWrapper} > div > div > div > div:first-child ${activityItemInner}`, {
 	boxShadow: 'none',
 })
 
-export const activtyItemInnerBtn = style([
+export const activityItemInnerBtn = style([
 	sprinkles({
 		display: 'flex',
 		alignItems: 'center',
@@ -148,7 +148,7 @@ export const activtyItemInnerBtn = style([
 	},
 ])
 
-export const activtyItemTextWrapper = style([
+export const activityItemTextWrapper = style([
 	sprinkles({
 		display: 'flex',
 		flexDirection: 'column',
@@ -159,7 +159,7 @@ export const activtyItemTextWrapper = style([
 	},
 ])
 
-export const activtyItemInnerSelected = style([
+export const activityItemInnerSelected = style([
 	sprinkles({}),
 	{
 		boxShadow: 'none',
@@ -169,11 +169,11 @@ export const activtyItemInnerSelected = style([
 	},
 ])
 
-globalStyle(`${activtyItemInnerSelected} ${activtyItemTextWrapper}`, {
+globalStyle(`${activityItemInnerSelected} ${activityItemTextWrapper}`, {
 	maxWidth: 'calc(100% - 82px)',
 })
 
-export const activtyItemInnerSelectedContent = style([
+export const activityItemInnerSelectedContent = style([
 	sprinkles({
 		width: 'full',
 	}),

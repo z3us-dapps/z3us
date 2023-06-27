@@ -129,7 +129,7 @@ export const AccountsMobileActivityListItem = forwardRef<HTMLElement, IAccountsM
 								</motion.div>
 							</Link>
 							<Button
-								className={styles.activtyItemExternalLinkButton}
+								className={styles.activityItemExternalLinkButton}
 								sizeVariant="small"
 								styleVariant="ghost"
 								iconOnly

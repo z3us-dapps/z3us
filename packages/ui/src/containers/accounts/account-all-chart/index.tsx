@@ -96,7 +96,7 @@ export const AccountAllChart: React.FC<IAccountAllChartProps> = () => {
 											dataKey="value"
 											startAngle={0}
 											endAngle={360}
-											data={balances.map(resource => ({ ...resource, value: resource.value.toNumber() }))}
+											data={balances.map(resource => ({ name: resource.symbol, value: resource.value.toNumber() }))}
 											cx="50%"
 											cy="50%"
 											outerRadius={100}

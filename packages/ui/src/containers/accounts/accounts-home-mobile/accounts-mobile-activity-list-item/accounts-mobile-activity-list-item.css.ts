@@ -45,7 +45,7 @@ export const mobileAccountsActivityWrapper = style([
 	{},
 ])
 
-export const activtyItemExternalLinkButton = style([
+export const activityItemExternalLinkButton = style([
 	sprinkles({
 		position: 'absolute',
 		right: 0,
@@ -75,7 +75,7 @@ export const mobileAccountsActivityLink = style([
 	}),
 ])
 
-globalStyle(`${mobileAccountsActivityLink}:hover + ${activtyItemExternalLinkButton}`, {
+globalStyle(`${mobileAccountsActivityLink}:hover + ${activityItemExternalLinkButton}`, {
 	opacity: 1,
 })
 
