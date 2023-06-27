@@ -25,6 +25,8 @@ const COLORS = [
 	{ start: '#da9d35', end: '#e96935' },
 ]
 
+const defaultRowsShown = 3
+
 export const AccountAllChart: React.FC<IAccountAllChartProps> = () => {
 	const { account, assetType } = useAccountParams()
 	const [loaded, setLoaded] = useState<boolean>(false)
@@ -94,7 +96,7 @@ export const AccountAllChart: React.FC<IAccountAllChartProps> = () => {
 											dataKey="value"
 											startAngle={0}
 											endAngle={360}
-											data={balances.map(resource => ({ ...resource, value: resource.amount.toNumber() }))}
+											data={balances.map(resource => ({ ...resource, value: resource.value.toNumber() }))}
 											cx="50%"
 											cy="50%"
 											outerRadius={100}
@@ -125,17 +127,19 @@ export const AccountAllChart: React.FC<IAccountAllChartProps> = () => {
 								<Box display="flex" flexDirection="column" gap="xsmall" width="full">
 									<HeightAnimatePanel>
 										<Box>
-											{(showFullAccountList ? balances : balances.slice(0, 3)).map(resource => (
+											{(showFullAccountList ? balances : balances.slice(0, defaultRowsShown)).map(resource => (
 												<AllAccountListRow key={resource.address} {...resource} />
 											))}
 										</Box>
 									</HeightAnimatePanel>
 								</Box>
-								<Box display="flex" flexDirection="column" gap="xsmall" width="full" paddingTop="medium">
-									<Button styleVariant="tertiary" onClick={handleToggleFullAccountList}>
-										{showFullAccountList ? 'Show less accounts' : 'Show all accounts'}
-									</Button>
-								</Box>
+								{balances?.length > defaultRowsShown && (
+									<Box display="flex" flexDirection="column" gap="xsmall" width="full" paddingTop="medium">
+										<Button styleVariant="tertiary" onClick={handleToggleFullAccountList}>
+											{showFullAccountList ? 'Show less accounts' : 'Show all accounts'}
+										</Button>
+									</Box>
+								)}
 							</Box>
 						</motion.div>
 					)}
