@@ -2,7 +2,7 @@ import type { z } from 'zod'
 
 import { type TZodValidationGeneric } from 'ui/src/utils/get-zod-error'
 
-import type { transferFormSchema } from './account-transfer-constants'
+import type { transferFormSchema, sendsSchema } from './account-transfer-constants'
 
 export interface ISend {
 	to: string
@@ -15,6 +15,7 @@ export interface IToken {
 	address: string
 	amount: number
 }
+export type TSendSchema = z.infer<typeof sendsSchema>
 
 export type TTransferSchema = z.infer<typeof transferFormSchema>
 

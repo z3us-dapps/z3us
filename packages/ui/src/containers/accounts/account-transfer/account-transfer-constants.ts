@@ -11,7 +11,7 @@ const tokensSchema = z.object({
 	amount: z.number().refine(positiveNumberValidator, { message: 'Please enter a valid amount' }),
 })
 
-const sendsSchema = z.object({
+export const sendsSchema = z.object({
 	to: z.string().min(1, 'Must include to address'),
 	tokens: z.array(tokensSchema),
 })
