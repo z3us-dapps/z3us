@@ -29,7 +29,7 @@ interface IAccountTransferProps {
 	className?: string
 }
 
-export const AccountTransferTokens = forwardRef<HTMLElement, IAccountTransferProps>(
+export const AccountTransferNfts = forwardRef<HTMLElement, IAccountTransferProps>(
 	(props, ref: React.Ref<HTMLElement | null>) => {
 		const { className } = props
 		const [measureRef, { height: slideWrapperHeight }] = useMeasure()
@@ -175,7 +175,7 @@ export const AccountTransferTokens = forwardRef<HTMLElement, IAccountTransferPro
 							<Box position="relative">
 								<Box paddingBottom="large">
 									<Text size="xxxlarge" weight="strong" color="strong">
-										Transfer tokens
+										Transfer nfts
 									</Text>
 								</Box>
 								<Box position="relative">

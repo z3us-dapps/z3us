@@ -12,23 +12,21 @@ import { Link } from 'ui/src/components/router-link'
 import { ScrollPanel } from 'ui/src/components/scroll-panel'
 import { Text } from 'ui/src/components/typography'
 
+import { AccountTransferNfts } from './account-transfer-nfts'
 import { AccountTransferTokens } from './account-transfer-tokens'
 import * as styles from './account-transfer.css'
 
-// import { SettingsAccounts } from './settings-accounts'
-// import { SettingsAddressBook } from './settings-address-book'
-// import { SettingsGeneral } from './settings-general'
-
+// TODO: refactor to component used by settings / transfer
 const MenuItemDesktop = ({ text, href }: { text: string; href: string }) => {
 	const selected = useMatch(href)
 
 	return (
-		<Link to={href} className={styles.settingsDesktopNavigationLink} underline="never">
-			{selected ? <motion.span layoutId="underline" className={styles.settingsDesktopNavigationActive} /> : null}
+		<Link to={href} className={styles.transferDesktopNavigationLink} underline="never">
+			{selected ? <motion.span layoutId="underline" className={styles.transferDesktopNavigationActive} /> : null}
 			<Text
 				size="medium"
 				color={null}
-				className={clsx(styles.settingsDesktopNavigationText, selected && styles.settingsDesktopNavigationTextAcitve)}
+				className={clsx(styles.transferDesktopNavigationText, selected && styles.transferDesktopNavigationTextActive)}
 				capitalizeFirstLetter
 			>
 				{text}
@@ -37,11 +35,11 @@ const MenuItemDesktop = ({ text, href }: { text: string; href: string }) => {
 	)
 }
 
-interface IAccountSettingsDesktopProps {
+interface IAccountTransferDesktopProps {
 	className?: ClassValue
 }
 
-export const AccountTransferDesktop = forwardRef<HTMLElement, IAccountSettingsDesktopProps>(
+export const AccountTransferDesktop = forwardRef<HTMLElement, IAccountTransferDesktopProps>(
 	(props, ref: React.Ref<HTMLElement | null>) => {
 		const { className } = props
 
@@ -49,15 +47,15 @@ export const AccountTransferDesktop = forwardRef<HTMLElement, IAccountSettingsDe
 		// const { t } = useTranslation()
 
 		return (
-			<Box ref={ref} className={clsx(styles.settingsDesktopWrapper, className)}>
-				<Box className={styles.settingsDesktopContainerWrapper}>
-					<Box className={styles.settingsDesktopLeftMenu}>
+			<Box ref={ref} className={clsx(styles.transferDesktopWrapper, className)}>
+				<Box className={styles.transferDesktopContainerWrapper}>
+					<Box className={styles.transferDesktopLeftMenu}>
 						<LayoutGroup id="account-transfer-nav">
 							{[
 								{ text: 'transfer tokens', href: '/accounts/transfer' },
 								{ text: 'transfer nfts', href: '/accounts/transfer/nfts' },
-								{ text: 'send raw', href: '/accounts/transfer/raw' },
-								{ text: 'deploy', href: '/accounts/transfer/deploy' },
+								{ text: 'send raw transaction', href: '/accounts/transfer/raw' },
+								{ text: 'deploy package', href: '/accounts/transfer/deploy' },
 								// { text: t('accounts.navigation.swap'), href: accountMenuSlugs.SWAP },
 								// { text: t('accounts.navigation.settings'), href: accountMenuSlugs.SETTINGS },
 							].map(({ text, href }) => (
@@ -65,58 +63,53 @@ export const AccountTransferDesktop = forwardRef<HTMLElement, IAccountSettingsDe
 							))}
 						</LayoutGroup>
 					</Box>
-					<Box className={styles.settingsDesktopRightWrapper}>
+					<Box className={styles.transferDesktopRightWrapper}>
 						<ScrollPanel
 							isTopShadowVisible={false}
 							renderPanel={(scrollableNode: HTMLElement | null) => {
 								// TODO: remove
 								const test = 1
 								return (
-									<Box position="relative" padding="xlarge">
-										<Box position="relative">
-											<AnimatePresence initial={false}>
-												<Routes location={location} key={location.pathname}>
-													{['/', '/transfer'].map(path => (
-														<Route
-															key="transferTokens" // to avoid full re-renders when these routes change
-															path={path}
-															element={
-																<AnimatedPage>
-																	<AccountTransferTokens />
-																</AnimatedPage>
-															}
-														/>
-													))}
+									<Box position="relative">
+										<AnimatePresence initial={false}>
+											<Routes location={location} key={location.pathname}>
+												{['/', '/transfer'].map(path => (
 													<Route
-														path="/nfts"
+														key="transferTokens" // to avoid full re-renders when these routes change
+														path={path}
 														element={
 															<AnimatedPage>
-																<Box>transfer nfts</Box>
-																{/* <SettingsAccounts /> */}
+																<AccountTransferTokens />
 															</AnimatedPage>
 														}
 													/>
-													<Route
-														path="/raw"
-														element={
-															<AnimatedPage>
-																<Box>send raw</Box>
-																{/* <SettingsAddressBook scrollableNode={scrollableNode} /> */}
-															</AnimatedPage>
-														}
-													/>
-													<Route
-														path="/deploy"
-														element={
-															<AnimatedPage>
-																<Box>deploy package</Box>
-																{/* <SettingsAccounts /> */}
-															</AnimatedPage>
-														}
-													/>
-												</Routes>
-											</AnimatePresence>
-										</Box>
+												))}
+												<Route
+													path="/nfts"
+													element={
+														<AnimatedPage>
+															<AccountTransferNfts />
+														</AnimatedPage>
+													}
+												/>
+												<Route
+													path="/raw"
+													element={
+														<AnimatedPage>
+															<Box>send raw</Box>
+														</AnimatedPage>
+													}
+												/>
+												<Route
+													path="/deploy"
+													element={
+														<AnimatedPage>
+															<Box>deploy package</Box>
+														</AnimatedPage>
+													}
+												/>
+											</Routes>
+										</AnimatePresence>
 									</Box>
 								)
 							}}

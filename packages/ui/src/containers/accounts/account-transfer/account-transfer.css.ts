@@ -3,18 +3,19 @@ import { globalStyle, style } from '@vanilla-extract/css'
 import { darkMode, sprinkles } from 'ui/src/components/system/sprinkles.css'
 import { vars } from 'ui/src/components/system/theme.css'
 
-export const transferWrapper = style([
+export const transferRouteWrapper = style([
 	sprinkles({
+		position: 'relative',
 		padding: {
 			mobile: 'medium',
-			tablet: 'large',
-			desktop: 'large',
+			tablet: 'xxlarge',
+			desktop: 'xxlarge',
 		},
 	}),
 	{},
 ])
 
-export const transferUiTextSeperator = style([
+export const transferUiTextSeparator = style([
 	sprinkles({
 		height: 'medium',
 		background: 'borderDividerSecondary',
@@ -107,7 +108,7 @@ export const settingsMobileWrapper = style([
 	{},
 ])
 
-export const settingsDesktopWrapper = style([
+export const transferDesktopWrapper = style([
 	sprinkles({
 		display: 'flex',
 		justifyContent: 'center',
@@ -128,7 +129,7 @@ export const settingsDesktopWrapper = style([
 	{},
 ])
 
-export const settingsDesktopContainerWrapper = style([
+export const transferDesktopContainerWrapper = style([
 	sprinkles({
 		width: 'full',
 		height: 'full',
@@ -139,7 +140,7 @@ export const settingsDesktopContainerWrapper = style([
 	{},
 ])
 
-export const settingsDesktopLeftMenu = style([
+export const transferDesktopLeftMenu = style([
 	sprinkles({
 		position: 'relative',
 		display: 'flex',
@@ -153,7 +154,7 @@ export const settingsDesktopLeftMenu = style([
 	},
 ])
 
-export const settingsDesktopRightWrapper = style([
+export const transferDesktopRightWrapper = style([
 	sprinkles({
 		position: 'relative',
 		flexGrow: 1,
@@ -161,7 +162,7 @@ export const settingsDesktopRightWrapper = style([
 	{},
 ])
 
-export const settingsDesktopNavigationLink = style([
+export const transferDesktopNavigationLink = style([
 	sprinkles({
 		display: 'flex',
 		position: 'relative',
@@ -185,7 +186,7 @@ export const settingsDesktopNavigationLink = style([
 	},
 ])
 
-export const settingsDesktopNavigationActive = style([
+export const transferDesktopNavigationActive = style([
 	sprinkles({
 		position: 'absolute',
 		display: 'block',
@@ -208,14 +209,14 @@ export const settingsDesktopNavigationActive = style([
 	},
 ])
 
-export const settingsDesktopNavigationText = style([
+export const transferDesktopNavigationText = style([
 	sprinkles({
 		position: 'relative',
 		transition: 'fastall',
 	}),
 ])
 
-export const settingsDesktopNavigationTextAcitve = style([
+export const transferDesktopNavigationTextActive = style([
 	sprinkles({
 		color: {
 			lightMode: 'colorStrong',
