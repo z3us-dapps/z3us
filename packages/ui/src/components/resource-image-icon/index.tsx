@@ -8,21 +8,24 @@ interface IResourceImageIcon extends IImageIconOptionalProps {
 	address: string
 }
 
-export const ResourceImageIcon = forwardRef<HTMLElement, IResourceImageIcon>(({ address, ...props }) => {
-	const metadata = useEntityMetadata(address)
+export const ResourceImageIcon = forwardRef<HTMLElement, IResourceImageIcon>(
+	({ address, ...props }, ref: React.Ref<HTMLElement | null>) => {
+		const metadata = useEntityMetadata(address)
 
-	const shortAddress = getShortAddress(address)
+		const shortAddress = getShortAddress(address)
 
-	const name = metadata?.data?.find(detail => detail.key === 'name')?.value.as_string
-	const symbol = metadata?.data?.find(detail => detail.key === 'symbol')?.value.as_string
-	const imageUrl = metadata?.data?.find(detail => detail.key === 'image_url')?.value.as_string
+		const name = metadata?.data?.find(detail => detail.key === 'name')?.value.as_string
+		const symbol = metadata?.data?.find(detail => detail.key === 'symbol')?.value.as_string
+		const imageUrl = metadata?.data?.find(detail => detail.key === 'image_url')?.value.as_string
 
-	return (
-		<ImageIcon
-			imgSrc={imageUrl}
-			imgAlt={name || shortAddress}
-			fallbackText={symbol || name || shortAddress}
-			{...props}
-		/>
-	)
-})
+		return (
+			<ImageIcon
+				imgSrc={imageUrl}
+				imgAlt={name || shortAddress}
+				fallbackText={symbol || name || shortAddress}
+				{...props}
+				ref={ref}
+			/>
+		)
+	},
+)

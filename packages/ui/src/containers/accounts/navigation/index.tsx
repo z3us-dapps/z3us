@@ -1,5 +1,6 @@
 import clsx, { type ClassValue } from 'clsx'
 import { LayoutGroup, motion } from 'framer-motion'
+import { useNoneSharedStore } from 'packages/ui/src/hooks/use-store'
 import React, { forwardRef } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useLocation } from 'react-router-dom'
@@ -74,26 +75,32 @@ export const AccountDesktopLavaMenu = () => {
 	)
 }
 
-export const DesktopNavigation: React.FC = () => (
-	<Box component="nav" className={clsx(styles.navigationWrapper, containerStyles.containerWrapper)}>
-		<Box className={clsx(styles.navigationContainer, containerStyles.containerInnerWrapper)}>
-			<Link to={accountMenuSlugs.ACCOUNTS}>
-				<Z3usLogo />
-			</Link>
-			<Box className={styles.navigationMenuTabletWrapper}>
-				<AccountTabletNavigationDropdown />
-			</Box>
-			<AccountDesktopLavaMenu />
-			<Box display="flex" alignItems="center" gap="medium">
-				<NotificationsDropdown />
-				<CopyAddressButton address="rdx1b707388613169bf701d533e143d8f698c9090f605e677a967eaf70a4c69250ce" />
-				<AccountViewDropdown />
-				{/* <WalletDropdown /> */}
-				<ConnectButton />
+export const DesktopNavigation: React.FC = () => {
+	const { selectedAccount } = useNoneSharedStore(state => ({
+		selectedAccount: state.selectedAccount,
+	}))
+
+	return (
+		<Box component="nav" className={clsx(styles.navigationWrapper, containerStyles.containerWrapper)}>
+			<Box className={clsx(styles.navigationContainer, containerStyles.containerInnerWrapper)}>
+				<Link to={accountMenuSlugs.ACCOUNTS}>
+					<Z3usLogo />
+				</Link>
+				<Box className={styles.navigationMenuTabletWrapper}>
+					<AccountTabletNavigationDropdown />
+				</Box>
+				<AccountDesktopLavaMenu />
+				<Box display="flex" alignItems="center" gap="medium">
+					<NotificationsDropdown />
+					<CopyAddressButton address={selectedAccount} />
+					<AccountViewDropdown />
+					{/* <WalletDropdown /> */}
+					<ConnectButton />
+				</Box>
 			</Box>
 		</Box>
-	</Box>
-)
+	)
+}
 
 const MenuItemMobile = ({ href }: { href: string }) => {
 	const selected = useSelectedItem(href)
@@ -133,6 +140,10 @@ interface IMobileHeaderNavigationProps {
 
 export const MobileHeaderNavigation = forwardRef<HTMLElement, IMobileHeaderNavigationProps>(
 	(props, ref: React.Ref<HTMLElement | null>) => {
+		const { selectedAccount } = useNoneSharedStore(state => ({
+			selectedAccount: state.selectedAccount,
+		}))
+
 		const { className, style, copyAddressBtnVisible, isShadowVisible = false } = props
 
 		return (
@@ -167,10 +178,7 @@ export const MobileHeaderNavigation = forwardRef<HTMLElement, IMobileHeaderNavig
 							}}
 						>
 							{copyAddressBtnVisible ? (
-								<CopyAddressButton
-									styleVariant="white-transparent"
-									address="rdx1b707388613169bf701d533e143d8f698c9090f605e677a967eaf70a4c69250ce"
-								/>
+								<CopyAddressButton styleVariant="white-transparent" address={selectedAccount} />
 							) : null}
 						</Box>
 						<WalletDropdown />

@@ -13,7 +13,7 @@ export const useEntityMetadata = (address: string) => {
 					stateEntityMetadataPageRequest: { address },
 				})
 				.then(resp => resp.items),
-		enabled: !!state,
+		enabled: !!state && !!address,
 	})
 }
 
@@ -28,7 +28,7 @@ export const useEntitiesMetadata = (addresses: string[]) => {
 					stateEntityMetadataPageRequest: { address },
 				})
 				.then(resp => resp.items),
-		enabled: !!state,
+		enabled: !!state && !!address,
 	}))
 	return useQueries({ queries })
 }

@@ -5,6 +5,7 @@ import { NextLink } from '@/components/next-link'
 import { ShowHideUi } from '@/components/show-hide-ui'
 import { clsx } from 'clsx'
 import { useRouter } from 'next/router'
+import { useNoneSharedStore } from 'packages/ui/src/hooks/use-store'
 import React, { useContext, useEffect, useState } from 'react'
 import { Link, Route, HashRouter as Router, Routes, redirect, useNavigate } from 'react-router-dom'
 
@@ -25,6 +26,10 @@ export const Header = () => {
 	const navigate = useNavigate()
 	const router = useRouter()
 	const isConnected = useConnected()
+
+	const { selectedAccount } = useNoneSharedStore(state => ({
+		selectedAccount: state.selectedAccount,
+	}))
 
 	return (
 		<Box className={clsx(styles.headerWrapper, isConnected && styles.headerWrapperBorderColor)}>
@@ -53,7 +58,7 @@ export const Header = () => {
 									</Box>
 
 									<Box className={styles.navigationCopyAddressWrapper}>
-										<CopyAddressButton address="rdx1b707388613169bf701d533e143d8f698c9090f605e677a967eaf70a4c69250ce" />
+										<CopyAddressButton address={selectedAccount} />
 									</Box>
 									<AccountViewDropdown />
 								</Box>
