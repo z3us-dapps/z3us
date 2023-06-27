@@ -106,7 +106,6 @@ const ItemWrapper: React.FC<IAllAccountListRowProps> = props => {
 									{getShortAddress(transaction.intent_hash_hex)}
 								</Text>
 								<Text size="xsmall" truncate>
-									{/* {transaction?.payload_hash_hex && console.log(atob(Buffer.from(transaction.payload_hash_hex,'hex').toString()))} */}
 									{transaction.confirmed_at?.toLocaleString()}
 								</Text>
 							</Box>
