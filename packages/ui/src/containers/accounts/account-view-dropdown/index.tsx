@@ -27,27 +27,15 @@ import { useWalletAccounts } from 'ui/src/hooks/use-wallet-account'
 
 import * as styles from './account-view-dropdown.css'
 
-interface IAccountViewDropdownRequiredProps {
-	// onChange: (view: string) => void
-}
-
-interface IAccountViewDropdownOptionalProps {
+interface IAccountViewDropdownProps {
 	className?: ClassValue
 	styleVariant?: TStyleVariant
 	isLeftButtonIconVisible?: boolean
 }
 
-interface IAccountViewDropdownProps extends IAccountViewDropdownRequiredProps, IAccountViewDropdownOptionalProps {}
-
-const defaultProps: IAccountViewDropdownOptionalProps = {
-	className: undefined,
-	styleVariant: 'tertiary',
-	isLeftButtonIconVisible: true,
-}
-
 export const AccountViewDropdown = forwardRef<HTMLElement, IAccountViewDropdownProps>(
 	(props, ref: React.Ref<HTMLElement | null>) => {
-		const { className, styleVariant, isLeftButtonIconVisible } = props
+		const { className, styleVariant = 'tertiary', isLeftButtonIconVisible = true } = props
 
 		const isMobile = useIsMobileWidth()
 		const networkId = useNetworkId()
@@ -70,7 +58,7 @@ export const AccountViewDropdown = forwardRef<HTMLElement, IAccountViewDropdownP
 							rounded
 							leftIcon={
 								isLeftButtonIconVisible ? (
-									<Box style={{ marginRight: '4px' }}>
+									<Box marginRight="xsmall">
 										<ResourceImageIcon size="small" address={selectedAccount} />
 									</Box>
 								) : null
@@ -124,5 +112,3 @@ export const AccountViewDropdown = forwardRef<HTMLElement, IAccountViewDropdownP
 		)
 	},
 )
-
-AccountViewDropdown.defaultProps = defaultProps

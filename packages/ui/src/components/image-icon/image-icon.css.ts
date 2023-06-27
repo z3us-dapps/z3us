@@ -35,9 +35,9 @@ export const imageFallbackTextWrapper = recipe({
 	},
 	variants: {
 		size: {
-			small: { fontSize: '9px', lineHeight: '9px' },
-			medium: { fontSize: '10px', lineHeight: '10px' },
-			large: { fontSize: '11px', lineHeight: '11px' },
+			small: { fontSize: '9px', lineHeight: '9px', fontWeight: 'medium' },
+			medium: { fontSize: '10px', lineHeight: '10px', fontWeight: 'medium' },
+			large: { fontSize: '11px', lineHeight: '11px', fontWeight: 'medium' },
 		},
 	},
 	defaultVariants: {
