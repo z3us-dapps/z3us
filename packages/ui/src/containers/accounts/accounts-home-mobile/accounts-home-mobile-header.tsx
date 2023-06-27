@@ -1,7 +1,7 @@
 import clsx, { type ClassValue } from 'clsx'
 import { AnimatePresence } from 'framer-motion'
+import { Amount } from 'packages/ui/src/components/amount'
 import { Change } from 'packages/ui/src/components/change'
-import { Price } from 'packages/ui/src/components/price'
 import { useTotalBalance } from 'packages/ui/src/hooks/dapp/use-balances'
 import React, { forwardRef, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
@@ -162,7 +162,7 @@ export const AccountsHomeMobileHeader = forwardRef<HTMLElement, IAccountsHomeMob
 								<Translation capitalizeFirstLetter text="accounts.home.accountBalanceTitle" />
 							</Text>
 							<Text color="strong" align="center" size="xlarge">
-								<Price value={value} />
+								<Amount value={value} />
 							</Text>
 							<Text align="center" size="xlarge">
 								<Change change={change} />

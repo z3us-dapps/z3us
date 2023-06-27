@@ -1,5 +1,5 @@
 import clsx, { type ClassValue } from 'clsx'
-import { Price } from 'packages/ui/src/components/price'
+import { Amount } from 'packages/ui/src/components/amount'
 import { useTotalBalance } from 'packages/ui/src/hooks/dapp/use-balances'
 import React, { forwardRef } from 'react'
 import { useLocation } from 'react-router-dom'
@@ -45,7 +45,7 @@ export const AccountIndexHeader = forwardRef<HTMLElement, IAccountIndexHeaderPro
 						<Box display="flex" alignItems="center" gap="small">
 							<Box flexGrow={1}>
 								<Text weight="medium" size="xxxlarge" color="strong" truncate>
-									<Price value={value} />
+									<Amount value={value} />
 								</Text>
 							</Box>
 							<ToolTip theme="backgroundPrimary" message={<Translation capitalizeFirstLetter text="global.search" />}>

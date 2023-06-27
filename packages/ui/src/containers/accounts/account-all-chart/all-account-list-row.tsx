@@ -1,5 +1,5 @@
 import type BigNumber from 'bignumber.js'
-import { Price } from 'packages/ui/src/components/price'
+import { Amount } from 'packages/ui/src/components/amount'
 import React from 'react'
 
 import { Box } from 'ui/src/components/box'
@@ -37,7 +37,7 @@ export const AllAccountListRow: React.FC<IAllAccountListRowProps> = ({ address, 
 		<Box className={styles.dottedSpacer} />
 		<Box className={styles.addressInfoWrapperRight}>
 			<Text size="xsmall" truncate>
-				<Price value={value} />
+				<Amount value={value} />
 			</Text>
 		</Box>
 	</Box>

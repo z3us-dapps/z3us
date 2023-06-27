@@ -1,7 +1,7 @@
 import BigNumber from 'bignumber.js'
 import clsx, { type ClassValue } from 'clsx'
 import { Amount } from 'packages/ui/src/components/amount'
-import { Price } from 'packages/ui/src/components/price'
+import { TokenPrice } from 'packages/ui/src/components/token-price'
 import { useSupportedCurrencies } from 'packages/ui/src/hooks/queries/market'
 import { useNoneSharedStore } from 'packages/ui/src/hooks/use-store'
 import type { ResourceBalance } from 'packages/ui/src/types/types'
@@ -89,6 +89,8 @@ export const TransferTokenSelector: React.FC<ITransferTokenSelectorProps> = prop
 	const [selectedCurrency, setCurrency] = useState<string>(currency)
 
 	const selectedToken = balances.find(b => b.address === token)
+
+	const favoriteCurriencies = ['usd', 'eur', 'btc']
 
 	const handleTokenUpdate = (val: string) => {
 		onUpdateToken(val)
@@ -219,7 +221,11 @@ export const TransferTokenSelector: React.FC<ITransferTokenSelectorProps> = prop
 								<SelectValue aria-label={selectedCurrency}>
 									<Box display="flex">
 										<Box component="span">
-											<Price value={new BigNumber(tokenValue || 0)} currency={selectedCurrency} />
+											<TokenPrice
+												symbol={selectedToken?.symbol}
+												amount={new BigNumber(tokenValue || 0)}
+												currency={selectedCurrency}
+											/>
 											&nbsp;
 										</Box>
 										<Box component="span" style={{ textTransform: 'uppercase' }}>
@@ -239,29 +245,28 @@ export const TransferTokenSelector: React.FC<ITransferTokenSelectorProps> = prop
 										Favorite
 									</Text>
 								</SelectLabel>
-								<SelectItem value="USD">
-									<Text truncate size="small" color="strong">
-										USD
-									</Text>
-								</SelectItem>
-								<SelectItem value="eur">
-									<Text truncate size="small" color="strong">
-										EUR
-									</Text>
-								</SelectItem>
-							</SelectGroup>
-							<SelectSeparator />
-							<SelectGroup>
-								<SelectLabel>
-									<Text size="small">Rest</Text>
-								</SelectLabel>
-								{currencies.map(c => (
+								{favoriteCurriencies.map(c => (
 									<SelectItem key={c} value={c}>
 										<Text truncate size="small" color="strong">
 											{c.toUpperCase()}
 										</Text>
 									</SelectItem>
 								))}
+							</SelectGroup>
+							<SelectSeparator />
+							<SelectGroup>
+								<SelectLabel>
+									<Text size="small">Rest</Text>
+								</SelectLabel>
+								{currencies.map(c =>
+									favoriteCurriencies.includes(c) ? null : (
+										<SelectItem key={c} value={c}>
+											<Text truncate size="small" color="strong">
+												{c.toUpperCase()}
+											</Text>
+										</SelectItem>
+									),
+								)}
 							</SelectGroup>
 						</SelectContent>
 					</SelectRoot>
