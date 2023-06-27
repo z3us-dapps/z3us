@@ -14,5 +14,5 @@ export const Amount: React.FC<IAllAccountListRowProps> = ({ value, currency }) =
 		defaultCurrency: state.currency,
 	}))
 
-	return formatBigNumber(value || zero, currency || defaultCurrency, 2)
+	return <>{formatBigNumber(value || zero, currency || defaultCurrency, 2)}</>
 }
