@@ -20,7 +20,7 @@ import { ToolTip } from 'ui/src/components/tool-tip'
 import { TransactionIcon } from 'ui/src/components/transaction-icon'
 import Translation from 'ui/src/components/translation'
 import { Text } from 'ui/src/components/typography'
-// import { animtePageVariants } from 'ui/src/constants/page'
+// import { animatePageVariants } from 'ui/src/constants/page'
 import { useAccountParams } from 'ui/src/hooks/use-account-params'
 
 import * as styles from './account-activity.css'
@@ -54,7 +54,7 @@ const ItemWrapper: React.FC<IAllAccountListRowProps> = props => {
 					<motion.div
 						initial="hidden"
 						animate="visible"
-						variants={animtePageVariants}
+						variants={animatePageVariants}
 						style={{ position: 'absolute', top: '0', left: '0', right: '0', bottom: '0' }}
 					>
 						<Box

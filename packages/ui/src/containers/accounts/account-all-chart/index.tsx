@@ -10,7 +10,7 @@ import { Button } from 'ui/src/components/button'
 import { ChartToolTip } from 'ui/src/components/chart-tool-tip'
 import { HeightAnimatePanel } from 'ui/src/components/height-animate-panel'
 import { Z3usLoading } from 'ui/src/components/z3us-loading'
-import { animtePageVariants } from 'ui/src/constants/page'
+import { animatePageVariants } from 'ui/src/constants/page'
 import { ACCOUNTS_ALL } from 'ui/src/constants/routes'
 import { useAccountParams } from 'ui/src/hooks/use-account-params'
 
@@ -67,7 +67,7 @@ export const AccountAllChart: React.FC<IAccountAllChartProps> = () => {
 							className={clsx(styles.motionWrapper, styles.chartLoadingWrapper)}
 							initial="hidden"
 							animate="visible"
-							variants={animtePageVariants}
+							variants={animatePageVariants}
 						>
 							<Z3usLoading message="Loading" />
 						</motion.div>
@@ -79,7 +79,7 @@ export const AccountAllChart: React.FC<IAccountAllChartProps> = () => {
 							className={styles.motionWrapper}
 							initial="hidden"
 							animate="visible"
-							variants={animtePageVariants}
+							variants={animatePageVariants}
 						>
 							<Box className={styles.pieChartWrapper}>
 								<ResponsiveContainer width="100%" height="100%">

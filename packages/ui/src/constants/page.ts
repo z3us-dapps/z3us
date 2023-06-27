@@ -1,4 +1,4 @@
-export const animtePageVariants = {
+export const animatePageVariants = {
 	visible: {
 		opacity: 1,
 		transition: {

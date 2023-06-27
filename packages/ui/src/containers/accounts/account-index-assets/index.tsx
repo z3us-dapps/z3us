@@ -12,7 +12,7 @@ import { Link } from 'ui/src/components/router-link'
 import * as skeletonStyles from 'ui/src/components/styles/skeleton-loading.css'
 import Translation from 'ui/src/components/translation'
 import { Text } from 'ui/src/components/typography'
-import { animtePageVariants } from 'ui/src/constants/page'
+import { animatePageVariants } from 'ui/src/constants/page'
 
 import * as styles from './account-index-assets.css'
 
@@ -60,7 +60,7 @@ export const AccountIndexAssets = forwardRef<HTMLElement, IAccountIndexAssetsPro
 									<motion.div
 										initial="hidden"
 										animate="visible"
-										variants={animtePageVariants}
+										variants={animatePageVariants}
 										className={styles.indexAssetLinkRowLoading}
 									>
 										<Box className={styles.indexAssetLinkRowLoadingGrid}>
@@ -96,7 +96,7 @@ export const AccountIndexAssets = forwardRef<HTMLElement, IAccountIndexAssetsPro
 							</AnimatePresence>
 							<AnimatePresence initial={false}>
 								{loaded && (
-									<motion.div initial="hidden" animate="visible" variants={animtePageVariants}>
+									<motion.div initial="hidden" animate="visible" variants={animatePageVariants}>
 										<Box>
 											<Link
 												to="/accounts/all/tokens"

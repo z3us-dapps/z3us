@@ -9,7 +9,7 @@ import { ChevronRightIcon } from 'ui/src/components/icons'
 import { Link } from 'ui/src/components/router-link'
 import * as skeletonStyles from 'ui/src/components/styles/skeleton-loading.css'
 import { Text } from 'ui/src/components/typography'
-import { animtePageVariants } from 'ui/src/constants/page'
+import { animatePageVariants } from 'ui/src/constants/page'
 import { routes } from 'ui/src/constants/routes'
 import { useAccountParams } from 'ui/src/hooks/use-account-params'
 import type { TListItem } from 'ui/src/types/types'
@@ -84,7 +84,7 @@ export const AccountsMobileIndexListItem = forwardRef<HTMLElement, IAccountsMobi
 						<motion.div
 							initial="hidden"
 							animate="visible"
-							variants={animtePageVariants}
+							variants={animatePageVariants}
 							style={{ position: 'absolute', top: '0', left: '0', right: '0', bottom: '0' }}
 						>
 							<Box
@@ -142,7 +142,7 @@ export const AccountsMobileIndexListItem = forwardRef<HTMLElement, IAccountsMobi
 								<motion.div
 									initial="hidden"
 									animate="visible"
-									variants={animtePageVariants}
+									variants={animatePageVariants}
 									className={styles.mobileAccountsIndexMotionWrapper}
 								>
 									<Box className={clsx(styles.mobileAccountsIndexInner)}>
