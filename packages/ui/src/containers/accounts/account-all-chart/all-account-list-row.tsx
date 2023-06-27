@@ -1,6 +1,7 @@
 import type BigNumber from 'bignumber.js'
-import { Amount } from 'packages/ui/src/components/amount'
 import { ToolTip } from 'packages/ui/src/components/tool-tip'
+import { useNoneSharedStore } from 'packages/ui/src/hooks/use-store'
+import { formatBigNumber } from 'packages/ui/src/utils/formatters'
 import React from 'react'
 
 import { Box } from 'ui/src/components/box'
@@ -16,33 +17,39 @@ interface IAllAccountListRowProps {
 	value: BigNumber
 }
 
-export const AllAccountListRow: React.FC<IAllAccountListRowProps> = ({ address, symbol, name, value }) => (
-	<Box className={styles.addressInfoWrapper}>
-		<Box className={styles.addressInfoWrapperLeft}>
-			<Box display="flex" alignItems="center">
-				<Box className={styles.accountDotBg} />
-				<ToolTip message={name}>
-					<Box marginRight="xsmall">
-						<Text size="xsmall" color="strong" truncate>
-							{symbol}
-						</Text>
-					</Box>
-				</ToolTip>
-				<CopyAddressButton
-					styleVariant="ghost"
-					sizeVariant="xsmall"
-					address={address}
-					iconOnly
-					rounded={false}
-					tickColor="colorStrong"
-				/>
+export const AllAccountListRow: React.FC<IAllAccountListRowProps> = ({ address, symbol, name, value }) => {
+	const { defaultCurrency } = useNoneSharedStore(state => ({
+		defaultCurrency: state.currency,
+	}))
+
+	return (
+		<Box className={styles.addressInfoWrapper}>
+			<Box className={styles.addressInfoWrapperLeft}>
+				<Box display="flex" alignItems="center">
+					<Box className={styles.accountDotBg} />
+					<ToolTip message={name}>
+						<Box marginRight="xsmall">
+							<Text size="xsmall" color="strong" truncate>
+								{symbol}
+							</Text>
+						</Box>
+					</ToolTip>
+					<CopyAddressButton
+						styleVariant="ghost"
+						sizeVariant="xsmall"
+						address={address}
+						iconOnly
+						rounded={false}
+						tickColor="colorStrong"
+					/>
+				</Box>
+			</Box>
+			<Box className={styles.dottedSpacer} />
+			<Box className={styles.addressInfoWrapperRight}>
+				<Text size="xsmall" truncate>
+					{formatBigNumber(value, defaultCurrency, 2)}
+				</Text>
 			</Box>
 		</Box>
-		<Box className={styles.dottedSpacer} />
-		<Box className={styles.addressInfoWrapperRight}>
-			<Text size="xsmall" truncate>
-				<Amount value={value} />
-			</Text>
-		</Box>
-	</Box>
-)
+	)
+}

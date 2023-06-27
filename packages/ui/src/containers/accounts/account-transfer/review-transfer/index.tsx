@@ -1,12 +1,12 @@
 /* eslint-disable react/no-array-index-key */
 import BigNumber from 'bignumber.js'
 import clsx from 'clsx'
-import { Amount } from 'packages/ui/src/components/amount'
 import { ResourceImageIcon } from 'packages/ui/src/components/resource-image-icon'
 import { TokenPrice } from 'packages/ui/src/components/token-price'
 import { useSendTransaction } from 'packages/ui/src/hooks/dapp/use-send-transaction'
 import { sendTokens } from 'packages/ui/src/manifests/tokens'
 import type { AddressBookEntry } from 'packages/ui/src/store/types'
+import { formatBigNumber } from 'packages/ui/src/utils/formatters'
 import { getShortAddress } from 'packages/ui/src/utils/string-utils'
 import React, { useState } from 'react'
 
@@ -174,7 +174,7 @@ export const ReviewTransfer: React.FC<IReviewTransferProps> = props => {
 									<Box className={styles.tokenRowWrapper} key={`tokens-${sendIdx}-${tokenIdx}`}>
 										<ResourceImageIcon address={token.address} />
 										<Text size="small" weight="medium">
-											{token.symbol.toUpperCase()} <Amount value={new BigNumber(token.amount)} />
+											{token.symbol.toUpperCase()} {formatBigNumber(new BigNumber(token.amount), token.symbol)}
 											{' - '}
 											<TokenPrice amount={new BigNumber(token.amount)} symbol={token.symbol} />
 										</Text>

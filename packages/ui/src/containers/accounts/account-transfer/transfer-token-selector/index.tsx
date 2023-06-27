@@ -1,10 +1,10 @@
 import BigNumber from 'bignumber.js'
 import clsx, { type ClassValue } from 'clsx'
-import { Amount } from 'packages/ui/src/components/amount'
 import { TokenPrice } from 'packages/ui/src/components/token-price'
 import { useSupportedCurrencies } from 'packages/ui/src/hooks/queries/market'
 import { useNoneSharedStore } from 'packages/ui/src/hooks/use-store'
 import type { ResourceBalance } from 'packages/ui/src/types/types'
+import { formatBigNumber } from 'packages/ui/src/utils/formatters'
 import React, { useState } from 'react'
 
 import { Box } from 'ui/src/components/box'
@@ -148,7 +148,7 @@ export const TransferTokenSelector: React.FC<ITransferTokenSelectorProps> = prop
 							className={plainButtonStyles.plainButtonHoverWrapper}
 						>
 							<Text inheritColor component="span" size="medium" underline="always" truncate>
-								<Amount value={selectedToken?.amount} currency={selectedToken?.symbol} />
+								{selectedToken?.amount ? formatBigNumber(selectedToken.amount, selectedToken.symbol) : 0}
 							</Text>
 						</Link>
 					</Box>

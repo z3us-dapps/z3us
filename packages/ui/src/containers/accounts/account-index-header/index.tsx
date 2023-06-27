@@ -1,6 +1,7 @@
 import clsx, { type ClassValue } from 'clsx'
-import { Amount } from 'packages/ui/src/components/amount'
 import { useTotalBalance } from 'packages/ui/src/hooks/dapp/use-balances'
+import { useNoneSharedStore } from 'packages/ui/src/hooks/use-store'
+import { formatBigNumber } from 'packages/ui/src/utils/formatters'
 import React, { forwardRef } from 'react'
 import { useLocation } from 'react-router-dom'
 
@@ -28,6 +29,9 @@ const defaultProps: IAccountIndexHeaderOptionalProps = {
 export const AccountIndexHeader = forwardRef<HTMLElement, IAccountIndexHeaderProps>(
 	(props, ref: React.Ref<HTMLElement | null>) => {
 		const { className } = props
+		const { defaultCurrency } = useNoneSharedStore(state => ({
+			defaultCurrency: state.currency,
+		}))
 		const { pathname } = useLocation()
 		const [value] = useTotalBalance()
 
@@ -45,7 +49,7 @@ export const AccountIndexHeader = forwardRef<HTMLElement, IAccountIndexHeaderPro
 						<Box display="flex" alignItems="center" gap="small">
 							<Box flexGrow={1}>
 								<Text weight="medium" size="xxxlarge" color="strong" truncate>
-									<Amount value={value} />
+									{formatBigNumber(value, defaultCurrency, 2)}
 								</Text>
 							</Box>
 							<ToolTip theme="backgroundPrimary" message={<Translation capitalizeFirstLetter text="global.search" />}>

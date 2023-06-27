@@ -1,7 +1,7 @@
 import { useInfiniteQuery } from '@tanstack/react-query'
 import { useMemo } from 'react'
 
-import type { SelectedAdresses } from '../../types/types'
+import type { SelectedAddresses } from '../../types/types'
 import { useGatewayClient } from './use-gateway-client'
 import { useRdtState } from './use-rdt-state'
 
@@ -26,7 +26,7 @@ import { useRdtState } from './use-rdt-state'
 // 	items: [fakeTransaction, fakeTransaction, fakeTransaction, fakeTransaction],
 // }
 
-export const useTransactions = (selected: SelectedAdresses = null) => {
+export const useTransactions = (selected: SelectedAddresses = null) => {
 	const { stream } = useGatewayClient()!
 	const { accounts = [] } = useRdtState()!
 

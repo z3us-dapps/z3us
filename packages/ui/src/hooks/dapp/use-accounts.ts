@@ -2,12 +2,12 @@ import { ResourceAggregationLevel } from '@radixdlt/babylon-gateway-api-sdk'
 import { useQuery } from '@tanstack/react-query'
 import { useMemo } from 'react'
 
-import type { SelectedAdresses } from '../../types/types'
+import type { SelectedAddresses } from '../../types/types'
 import { useGatewayClient } from './use-gateway-client'
 import { useRdtState } from './use-rdt-state'
 
 export const useAccounts = (
-	selected: SelectedAdresses = null,
+	selected: SelectedAddresses = null,
 	aggregation: ResourceAggregationLevel = ResourceAggregationLevel.Global,
 ) => {
 	const { state } = useGatewayClient()!

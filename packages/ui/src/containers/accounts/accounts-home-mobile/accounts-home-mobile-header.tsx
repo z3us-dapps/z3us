@@ -1,8 +1,9 @@
 import clsx, { type ClassValue } from 'clsx'
 import { AnimatePresence } from 'framer-motion'
-import { Amount } from 'packages/ui/src/components/amount'
 import { Change } from 'packages/ui/src/components/change'
 import { useTotalBalance } from 'packages/ui/src/hooks/dapp/use-balances'
+import { useNoneSharedStore } from 'packages/ui/src/hooks/use-store'
+import { formatBigNumber } from 'packages/ui/src/utils/formatters'
 import React, { forwardRef, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useIntersectionObserver } from 'usehooks-ts'
@@ -99,6 +100,9 @@ export const AccountsHomeMobileHeader = forwardRef<HTMLElement, IAccountsHomeMob
 			search,
 			onSearch,
 		} = props
+		const { defaultCurrency } = useNoneSharedStore(state => ({
+			defaultCurrency: state.currency,
+		}))
 		const { account, assetType, asset } = useAccountParams()
 		const isAllAccount = account === ACCOUNTS_ALL && !asset
 		const [cards] = useState<Array<any>>(CARD_COLORS)
@@ -162,7 +166,7 @@ export const AccountsHomeMobileHeader = forwardRef<HTMLElement, IAccountsHomeMob
 								<Translation capitalizeFirstLetter text="accounts.home.accountBalanceTitle" />
 							</Text>
 							<Text color="strong" align="center" size="xlarge">
-								<Amount value={value} />
+								{formatBigNumber(value, defaultCurrency, 2)}
 							</Text>
 							<Text align="center" size="xlarge">
 								<Change change={change} />

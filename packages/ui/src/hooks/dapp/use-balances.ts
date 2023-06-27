@@ -2,14 +2,14 @@ import type { FungibleResourcesCollectionItemGloballyAggregated } from '@radixdl
 import BigNumber from 'bignumber.js'
 import { useMemo } from 'react'
 
-import type { ResourceBalance, SelectedAdresses } from '../../types/types'
+import type { ResourceBalance, SelectedAddresses } from '../../types/types'
 import { useXRDPriceOnDay } from '../queries/market'
 import { useTokens } from '../queries/oci'
 import { useNoneSharedStore } from '../use-store'
 import { useAccounts } from './use-accounts'
 import { useEntitiesMetadata } from './use-metadata'
 
-export const useResourceBalances = (selected: SelectedAdresses = null) => {
+export const useResourceBalances = (selected: SelectedAddresses = null) => {
 	const { currency } = useNoneSharedStore(state => ({
 		currency: state.currency,
 	}))
@@ -28,14 +28,14 @@ export const useResourceBalances = (selected: SelectedAdresses = null) => {
 	}, {})
 
 	const resourceAddresses = Object.keys(resourceToBalanceMap)
-	const metadatas = useEntitiesMetadata(resourceAddresses)
+	const metadata = useEntitiesMetadata(resourceAddresses)
 	const { data: tokens } = useTokens()
 
 	return useMemo(
 		() =>
 			Object.entries(resourceToBalanceMap).map(([address, amount], idx) => {
-				const metadata = metadatas[idx]
-				const symbol = metadata.data.find(detail => detail.key === 'symbol')?.value.as_string
+				const meta = metadata[idx]
+				const symbol = meta.data.find(detail => detail.key === 'symbol')?.value.as_string
 				const token = tokens[symbol.toUpperCase()]
 
 				return {
@@ -43,10 +43,10 @@ export const useResourceBalances = (selected: SelectedAdresses = null) => {
 					amount: amount as BigNumber,
 					value: currencyConverter(amount as BigNumber, new BigNumber(token?.price.xrd || 0)),
 					symbol,
-					name: metadata.data.find(detail => detail.key === 'name')?.value.as_string,
-					description: metadata.data.find(detail => detail.key === 'description')?.value.as_string,
-					url: metadata.data.find(detail => detail.key === 'url')?.value.as_string,
-					imageUrl: metadata.data.find(detail => detail.key === 'image_url')?.value.as_string,
+					name: meta.data.find(detail => detail.key === 'name')?.value.as_string,
+					description: meta.data.find(detail => detail.key === 'description')?.value.as_string,
+					url: meta.data.find(detail => detail.key === 'url')?.value.as_string,
+					imageUrl: meta.data.find(detail => detail.key === 'image_url')?.value.as_string,
 					change: token ? +(token.price.usd || 0) / +(token.price.usd_24h || 0) : 0,
 				} as ResourceBalance
 			}),
@@ -54,7 +54,7 @@ export const useResourceBalances = (selected: SelectedAdresses = null) => {
 	)
 }
 
-export const useTotalBalance = (selected: SelectedAdresses = null) => {
+export const useTotalBalance = (selected: SelectedAddresses = null) => {
 	const balances = useResourceBalances(selected)
 
 	return useMemo(() => {

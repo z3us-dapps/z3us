@@ -39,7 +39,7 @@ export const AccountTransfer = forwardRef<HTMLElement, IAccountTransferProps>(
 			addressBook: state.addressBook[networkId] || {},
 			selectedAccount: state.selectedAccount,
 		}))
-		const balances = useResourceBalances()
+		const balances = useResourceBalances(selectedAccount ? { [selectedAccount]: null } : null)
 		const accounts = useWalletAccounts()
 
 		const [state, setState] = useImmer<IAccountTransferImmer>({
