@@ -98,6 +98,7 @@ export const Input = forwardRef<FormElement, IInputProps>((props, ref: React.Ref
 						leftIcon: !!leftIcon,
 						rightIcon: !!rightIcon,
 					}),
+					elementType === 'textarea' && styles.textAreaDefault,
 				)}
 				value={value}
 				disabled={disabled}
@@ -106,6 +107,7 @@ export const Input = forwardRef<FormElement, IInputProps>((props, ref: React.Ref
 				onChange={handleOnChange}
 				onFocus={onFocus}
 				onBlur={onBlur}
+				rows={20}
 				{...rest}
 			/>
 			{leftIcon ? (

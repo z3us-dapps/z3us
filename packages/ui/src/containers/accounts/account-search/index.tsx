@@ -101,8 +101,8 @@ export const AccountSearch = forwardRef<HTMLElement, IAccountSearchProps>(
 								<Box display="flex" width="full" alignItems="center" gap="medium">
 									<Box flexGrow={1}>
 										<Input
-											value={inputValue}
 											ref={inputRef}
+											value={inputValue}
 											className={styles.searchElement}
 											placeholder={capitalizeFirstLetter(`${t('global.search')}`)}
 											onChange={handleOnChange}

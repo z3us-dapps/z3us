@@ -1,5 +1,5 @@
 import { style } from '@vanilla-extract/css'
-import type { RecipeVariants} from '@vanilla-extract/recipes';
+import type { RecipeVariants } from '@vanilla-extract/recipes'
 import { recipe } from '@vanilla-extract/recipes'
 
 import { sprinkles } from '../system/sprinkles.css'
@@ -15,6 +15,15 @@ export const inputWrapper = style([
 		width: 'full',
 	}),
 	{},
+])
+
+export const textAreaDefault = style([
+	sprinkles({
+		paddingTop: 'medium',
+	}),
+	{
+		height: 'auto !important',
+	},
 ])
 
 export const input = recipe({

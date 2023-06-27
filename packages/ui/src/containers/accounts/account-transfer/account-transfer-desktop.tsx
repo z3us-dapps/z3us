@@ -12,6 +12,7 @@ import { PillNavigation } from 'ui/src/components/pill-navigation'
 import { ScrollPanel } from 'ui/src/components/scroll-panel'
 
 import { AccountTransferNfts } from './account-transfer-nfts'
+import { AccountTransferRaw } from './account-transfer-raw'
 import { AccountTransferTokens } from './account-transfer-tokens'
 import * as styles from './account-transfer.css'
 
@@ -76,7 +77,7 @@ export const AccountTransferDesktop = forwardRef<HTMLElement, IAccountTransferDe
 													path="/raw"
 													element={
 														<AnimatedPage>
-															<Box>send raw</Box>
+															<AccountTransferRaw />
 														</AnimatedPage>
 													}
 												/>

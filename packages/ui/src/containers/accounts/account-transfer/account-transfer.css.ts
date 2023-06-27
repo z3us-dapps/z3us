@@ -255,3 +255,11 @@ export const settingsMobileIndexLinkIconWrapper = style([
 		height: '50px',
 	},
 ])
+
+export const transferSendingDialog = style([
+	sprinkles({}),
+	{
+		width: '400px',
+		height: '400px',
+	},
+])

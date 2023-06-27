@@ -29,7 +29,6 @@ export const tokensWrapper = style([
 	{},
 ])
 
-
 export const tokenRowWrapper = style([
 	sprinkles({
 		display: 'flex',
@@ -40,8 +39,7 @@ export const tokenRowWrapper = style([
 		borderStyle: 'dashed',
 		borderColor: 'borderDividerSecondary',
 	}),
-	{
-	},
+	{},
 ])
 
 globalStyle(`${tokensWrapper} > ${tokenRowWrapper}:first-child`, {
@@ -49,10 +47,8 @@ globalStyle(`${tokensWrapper} > ${tokenRowWrapper}:first-child`, {
 	borderTop: '0',
 })
 
-
 export const transferSendingDialog = style([
-	sprinkles({
-	}),
+	sprinkles({}),
 	{
 		width: '400px',
 		height: '400px',
