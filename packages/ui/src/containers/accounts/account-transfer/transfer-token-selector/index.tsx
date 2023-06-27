@@ -90,7 +90,7 @@ export const TransferTokenSelector: React.FC<ITransferTokenSelectorProps> = prop
 
 	const selectedToken = balances.find(b => b.address === token)
 
-	const favoriteCurriencies = ['usd', 'eur', 'btc']
+	const favoriteCurrencies = ['usd', 'eur', 'btc']
 
 	const baseErrKey = ['sends', sendIndex, 'tokens', tokenIndex]
 	const tokenError =
@@ -232,7 +232,7 @@ export const TransferTokenSelector: React.FC<ITransferTokenSelectorProps> = prop
 										Favorite
 									</Text>
 								</SelectLabel>
-								{favoriteCurriencies.map(c => (
+								{favoriteCurrencies.map(c => (
 									<SelectItem key={c} value={c}>
 										<Text truncate size="small" color="strong">
 											{c.toUpperCase()}
@@ -246,7 +246,7 @@ export const TransferTokenSelector: React.FC<ITransferTokenSelectorProps> = prop
 									<Text size="small">Rest</Text>
 								</SelectLabel>
 								{currencies.map(c =>
-									favoriteCurriencies.includes(c) ? null : (
+									favoriteCurrencies.includes(c) ? null : (
 										<SelectItem key={c} value={c}>
 											<Text truncate size="small" color="strong">
 												{c.toUpperCase()}

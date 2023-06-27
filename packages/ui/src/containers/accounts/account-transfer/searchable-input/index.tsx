@@ -42,8 +42,7 @@ export const SearchableInput: React.FC<ISearchableInputProps> = props => {
 		closePopover()
 	}
 
-	// TODO: fix the types
-	const searchArray = (input: string, array: any) => {
+	const searchArray = (input: string, array: TData) => {
 		const lowerCaseInput = input.toLowerCase()
 
 		return array.filter(item =>
