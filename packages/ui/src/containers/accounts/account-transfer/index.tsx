@@ -52,7 +52,7 @@ export const AccountTransfer = forwardRef<HTMLElement, IAccountTransferProps>(
 
 		const [state, setState] = useImmer<IAccountTransferImmer>({
 			transaction: {
-				from: selectedAccount,
+				from: selectedAccount || Object.values(accounts)[0]?.address,
 				isMessageEncrypted: false,
 				message: '',
 				sends: [{ to: '', tokens: [defaultToken] }],

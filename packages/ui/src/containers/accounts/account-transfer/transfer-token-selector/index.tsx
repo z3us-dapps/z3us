@@ -92,6 +92,13 @@ export const TransferTokenSelector: React.FC<ITransferTokenSelectorProps> = prop
 
 	const favoriteCurriencies = ['usd', 'eur', 'btc']
 
+	const baseErrKey = ['sends', sendIndex, 'tokens', tokenIndex]
+	const tokenError =
+		getZodError<TTransferSchema>(validation, [...baseErrKey, 'address']) ||
+		getZodError<TTransferSchema>(validation, [...baseErrKey, 'name']) ||
+		getZodError<TTransferSchema>(validation, [...baseErrKey, 'symbol'])
+	const amountError = getZodError<TTransferSchema>(validation, [...baseErrKey, 'amount'])
+
 	const handleTokenUpdate = (val: string) => {
 		onUpdateToken(val)
 	}
@@ -101,15 +108,7 @@ export const TransferTokenSelector: React.FC<ITransferTokenSelectorProps> = prop
 	}
 
 	const getAmountInputStyleVariant = () => {
-		const isAmountError = getZodError<TTransferSchema>(validation, [
-			'sends',
-			sendIndex,
-			'tokens',
-			tokenIndex,
-			'amount',
-		]).error
-
-		if (isAmountError) {
+		if (amountError.error) {
 			return styleVariant === 'primary' ? 'primary-error' : 'secondary-error'
 		}
 
@@ -117,15 +116,7 @@ export const TransferTokenSelector: React.FC<ITransferTokenSelectorProps> = prop
 	}
 
 	const getTokenInputStyleVariant = () => {
-		const isAmountError = getZodError<TTransferSchema>(validation, [
-			'sends',
-			sendIndex,
-			'tokens',
-			tokenIndex,
-			'token',
-		]).error
-
-		if (isAmountError) {
+		if (tokenError.error) {
 			return styleVariant === 'primary' ? 'secondary-error' : 'tertiary-error'
 		}
 
@@ -192,12 +183,8 @@ export const TransferTokenSelector: React.FC<ITransferTokenSelectorProps> = prop
 				/>
 			</Box>
 			<Box display="flex" justifyContent="space-between">
-				<ValidationErrorMessage
-					error={getZodError<TTransferSchema>(validation, ['sends', sendIndex, 'tokens', tokenIndex, 'amount'])}
-				/>
-				<ValidationErrorMessage
-					error={getZodError<TTransferSchema>(validation, ['sends', sendIndex, 'tokens', tokenIndex, 'token'])}
-				/>
+				<ValidationErrorMessage error={amountError} />
+				<ValidationErrorMessage error={tokenError} />
 			</Box>
 			<Box display="flex" paddingTop="small">
 				<Box display="flex" alignItems="center" flexGrow={1} gap="xsmall">
