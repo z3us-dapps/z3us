@@ -25,16 +25,8 @@ import { GroupTransfer } from './group-transfer'
 import { ReviewTransfer } from './review-transfer'
 import { TransferPageAnimation } from './transfer-page-animation'
 
-interface IAccountTransferRequiredProps {}
-
-interface IAccountTransferOptionalProps {
+interface IAccountTransferProps {
 	className?: string
-}
-
-interface IAccountTransferProps extends IAccountTransferRequiredProps, IAccountTransferOptionalProps {}
-
-const defaultProps: IAccountTransferOptionalProps = {
-	className: undefined,
 }
 
 export const AccountTransfer = forwardRef<HTMLElement, IAccountTransferProps>(
@@ -244,5 +236,3 @@ export const AccountTransfer = forwardRef<HTMLElement, IAccountTransferProps>(
 		)
 	},
 )
-
-AccountTransfer.defaultProps = defaultProps
