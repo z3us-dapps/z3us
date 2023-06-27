@@ -26,6 +26,8 @@ import {
 	SelectValue,
 } from 'ui/src/components/select'
 import * as plainButtonStyles from 'ui/src/components/styles/plain-button-styles.css'
+import { ToolTip } from 'ui/src/components/tool-tip'
+import Translation from 'ui/src/components/translation'
 import { Text } from 'ui/src/components/typography'
 import { ValidationErrorMessage } from 'ui/src/components/validation-error-message'
 import { accountMenuSlugs } from 'ui/src/constants/accounts'
@@ -58,7 +60,7 @@ export const TransferTokenSelector: React.FC<ITransferTokenSelectorProps> = prop
 		tokenValue,
 		className,
 		styleVariant,
-		sizeVariant,
+		sizeVariant = 'large',
 		placeholder = 'enter amount',
 		sendIndex,
 		tokenIndex,
@@ -118,17 +120,22 @@ export const TransferTokenSelector: React.FC<ITransferTokenSelectorProps> = prop
 							Amount:
 						</Text>
 						{tokenIndex ? (
-							<Button
-								iconOnly
-								sizeVariant="small"
-								styleVariant="ghost"
-								onClick={() => {
-									// eslint-disable-next-line
-									console.log('trash this token')
-								}}
+							<ToolTip
+								side="top"
+								message={<Translation capitalizeFirstLetter text="transfer.sendTokens.deleteToken" />}
 							>
-								<TrashIcon />
-							</Button>
+								<Button
+									iconOnly
+									sizeVariant="small"
+									styleVariant="ghost"
+									onClick={() => {
+										// eslint-disable-next-line
+										console.log('trash this token')
+									}}
+								>
+									<TrashIcon />
+								</Button>
+							</ToolTip>
 						) : null}
 					</Box>
 					<Box display="flex" alignItems="center" gap="xsmall">
