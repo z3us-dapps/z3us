@@ -1,6 +1,7 @@
 import React, { forwardRef } from 'react'
 
-import { getShortAddress, getStrPrefix } from 'ui/src/utils/string-utils'
+import { getStrPrefix } from 'ui/src/utils/get-str-prefix'
+import { getShortAddress } from 'ui/src/utils/string-utils'
 
 import { useEntityMetadata } from '../../hooks/dapp/use-metadata'
 import { type IImageIconOptionalProps, ImageIcon } from '../image-icon'
