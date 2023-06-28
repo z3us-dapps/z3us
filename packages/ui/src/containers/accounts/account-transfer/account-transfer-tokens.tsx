@@ -142,7 +142,7 @@ export const AccountTransferTokens: React.FC = () => {
 	}
 
 	return (
-		<AccountTransfer title="Transfer tokens" helpTitle="Transfer tokens" help="Transfer tokens.">
+		<AccountTransfer title="Transfer tokens">
 			{/* eslint-disable-next-line @typescript-eslint/no-unused-vars */}
 			{setTransaction => (
 				<Box position="relative">
