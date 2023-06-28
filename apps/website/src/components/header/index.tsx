@@ -16,8 +16,8 @@ import { CopyAddressButton } from 'ui/src/components/copy-address-button'
 import { NotificationsDropdown } from 'ui/src/components/notifications-dropdown'
 import { Z3usLogoText } from 'ui/src/components/z3us-logo-babylon'
 import { AccountTabletNavigationDropdown } from 'ui/src/containers/accounts/account-tablet-navigation-dropdown'
-import { AccountViewDropdown } from 'ui/src/containers/accounts/account-view-dropdown'
 import { AccountDesktopLavaMenu } from 'ui/src/containers/accounts/navigation'
+import { AccountViewDropdown } from 'ui/src/containers/accounts/navigation/account-view-dropdown'
 import { useConnected } from 'ui/src/hooks/dapp/use-connected'
 
 import * as styles from './header.css'
@@ -52,11 +52,9 @@ export const Header = () => {
 										<AccountDesktopLavaMenu />
 									</Box>
 									<NotificationsDropdown />
-
 									<Box className={styles.navigationMenuTabletWrapper}>
 										<AccountTabletNavigationDropdown />
 									</Box>
-
 									<Box className={styles.navigationCopyAddressWrapper}>
 										<CopyAddressButton address={selectedAccount} />
 									</Box>
