@@ -33,6 +33,7 @@ interface IAccountViewDropdownProps {
 	isLeftButtonIconVisible?: boolean
 }
 
+// TODO: rename and move inside the navigation
 export const AccountViewDropdown = forwardRef<HTMLElement, IAccountViewDropdownProps>(
 	(props, ref: React.Ref<HTMLElement | null>) => {
 		const { className, styleVariant = 'tertiary', isLeftButtonIconVisible = true } = props

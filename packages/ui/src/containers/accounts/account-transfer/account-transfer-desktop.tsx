@@ -11,6 +11,7 @@ import { Box } from 'ui/src/components/box'
 import { PillNavigation } from 'ui/src/components/pill-navigation'
 import { ScrollPanel } from 'ui/src/components/scroll-panel'
 
+import { AccountTransferDeploy } from './account-transfer-deploy'
 import { AccountTransferNfts } from './account-transfer-nfts'
 import { AccountTransferRaw } from './account-transfer-raw'
 import { AccountTransferTokens } from './account-transfer-tokens'
@@ -85,7 +86,7 @@ export const AccountTransferDesktop = forwardRef<HTMLElement, IAccountTransferDe
 													path="/deploy"
 													element={
 														<AnimatedPage>
-															<Box>deploy package</Box>
+															<AccountTransferDeploy />
 														</AnimatedPage>
 													}
 												/>

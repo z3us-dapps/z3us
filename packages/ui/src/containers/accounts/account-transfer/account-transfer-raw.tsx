@@ -1,17 +1,10 @@
-import type { ClassValue } from 'clsx'
 import React, { useEffect, useRef, useState } from 'react'
 
 import { type FormElement, Input } from 'ui/src/components/input'
 
 import { AccountTransfer } from './account-transfer'
 
-interface IAccountTransferRawProps {
-	className?: ClassValue
-}
-
-export const AccountTransferRaw: React.FC<IAccountTransferRawProps> = props => {
-	const { className } = props
-
+export const AccountTransferRaw: React.FC = () => {
 	const inputRef = useRef(null)
 	const [inputValue, setInputValue] = useState<string>('')
 
@@ -21,7 +14,6 @@ export const AccountTransferRaw: React.FC<IAccountTransferRawProps> = props => {
 
 	return (
 		<AccountTransfer
-			className={className}
 			title="Send raw transaction"
 			description="Enter transaction manifest"
 			helpTitle="Raw transaction"
