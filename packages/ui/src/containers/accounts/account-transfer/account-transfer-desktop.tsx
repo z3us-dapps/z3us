@@ -33,9 +33,9 @@ export const AccountTransferDesktop = forwardRef<HTMLElement, IAccountTransferDe
 					<Box className={styles.transferDesktopLeftMenu}>
 						<LayoutGroup id="account-transfer-nav">
 							{[
+								{ text: 'send raw transaction', href: '/accounts/transfer/raw' },
 								{ text: 'transfer tokens', href: '/accounts/transfer' },
 								{ text: 'transfer nfts', href: '/accounts/transfer/nfts' },
-								{ text: 'send raw transaction', href: '/accounts/transfer/raw' },
 								{ text: 'deploy package', href: '/accounts/transfer/deploy' },
 								// { text: t('accounts.navigation.swap'), href: accountMenuSlugs.SWAP },
 								// { text: t('accounts.navigation.settings'), href: accountMenuSlugs.SETTINGS },

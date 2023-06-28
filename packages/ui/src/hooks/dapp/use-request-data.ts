@@ -1,10 +1,11 @@
-import type { DataRequestInput } from '@radixdlt/radix-dapp-toolkit'
 import { useCallback } from 'react'
+
+import type { Rdt } from 'ui/src/context/rdt'
 
 import { useRdt } from './use-rdt'
 
-export const useRequestData = (): any => {
+export const useRequestData: () => Rdt['requestData'] = () => {
 	const rdt = useRdt()!
 
-	return useCallback((value: DataRequestInput) => rdt.requestData(value), [rdt])
+	return useCallback(rdt.requestData, [rdt])
 }

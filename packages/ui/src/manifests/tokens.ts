@@ -1,6 +1,7 @@
 export const sendTokens = (from: string) => ({
-	fungible: (fungibles: Array<{ resource: string; amount: number; to: string }>) => `${fungibles.map(
-		({ resource, amount, to }, idx) => `
+	fungible: (fungibles: Array<{ resource: string; amount: number; to: string }>) =>
+		fungibles.map(
+			({ resource, amount, to }, idx) => `
         CALL_METHOD 
           Address('${from}') 
           'withdraw'
@@ -16,10 +17,10 @@ export const sendTokens = (from: string) => ({
           Address('${to}') 
           'deposit'
           Bucket('fungible${idx}');`,
-	)}
-`,
-	nft: (nfts: Array<{ resource: string; id: string; to: string }>) => `${nfts.map(
-		({ resource, id, to }, idx) => `
+		),
+	nft: (nfts: Array<{ resource: string; id: string; to: string }>) =>
+		nfts.map(
+			({ resource, id, to }, idx) => `
       CALL_METHOD
         Address('${from}') 
         'withdraw_non_fungibles'
@@ -35,8 +36,7 @@ export const sendTokens = (from: string) => ({
         Address('${to}')
         'deposit'
         Bucket('nft${idx}');`,
-	)}
-`,
+		),
 })
 
 export const createToken = (address: string) => ({
@@ -50,6 +50,7 @@ export const createToken = (address: string) => ({
 		symbol: string
 		initialSupply: number
 	}>) => `CREATE_FUNGIBLE_RESOURCE_WITH_INITIAL_SUPPLY
+    18u8
     Map<String, String>(
         ${Object.entries(details)
 					.filter(([, value]) => !!value)
