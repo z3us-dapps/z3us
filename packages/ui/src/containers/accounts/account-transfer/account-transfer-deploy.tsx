@@ -2,6 +2,7 @@
 import React, { useEffect, useRef, useState } from 'react'
 
 import { Box } from 'ui/src/components/box'
+import { Dropzone } from 'ui/src/components/dropzone'
 import { type FormElement, Input } from 'ui/src/components/input'
 import { Text } from 'ui/src/components/typography'
 import { AccountDropdown } from 'ui/src/containers/accounts/account-dropdown'
@@ -26,7 +27,7 @@ export const AccountTransferDeploy: React.FC = () => {
 			{setTransaction => (
 				<Box>
 					<Box>
-						<Text>text</Text>
+						<Dropzone title="Drop the package WASM file here, or browse" />
 					</Box>
 					<Box paddingTop="large">
 						<Text>

@@ -48,53 +48,49 @@ export const AccountTransferDesktop = forwardRef<HTMLElement, IAccountTransferDe
 					<Box className={styles.transferDesktopRightWrapper}>
 						<ScrollPanel
 							isTopShadowVisible={false}
-							renderPanel={(scrollableNode: HTMLElement | null) => {
-								// TODO: remove
-								const test = 1
-								return (
-									<Box position="relative">
-										<AnimatePresence initial={false}>
-											<Routes location={location} key={location.pathname}>
-												{['/', '/transfer'].map(path => (
-													<Route
-														key="transferTokens" // to avoid full re-renders when these routes change
-														path={path}
-														element={
-															<AnimatedPage>
-																<AccountTransferTokens />
-															</AnimatedPage>
-														}
-													/>
-												))}
+							renderPanel={(scrollableNode: HTMLElement | null) => (
+								<Box position="relative">
+									<AnimatePresence initial={false}>
+										<Routes location={location} key={location.pathname}>
+											{['/', '/transfer'].map(path => (
 												<Route
-													path="/nfts"
+													key="transferTokens" // to avoid full re-renders when these routes change
+													path={path}
 													element={
 														<AnimatedPage>
-															<AccountTransferNfts />
+															<AccountTransferTokens />
 														</AnimatedPage>
 													}
 												/>
-												<Route
-													path="/raw"
-													element={
-														<AnimatedPage>
-															<AccountTransferRaw />
-														</AnimatedPage>
-													}
-												/>
-												<Route
-													path="/deploy"
-													element={
-														<AnimatedPage>
-															<AccountTransferDeploy />
-														</AnimatedPage>
-													}
-												/>
-											</Routes>
-										</AnimatePresence>
-									</Box>
-								)
-							}}
+											))}
+											<Route
+												path="/nfts"
+												element={
+													<AnimatedPage>
+														<AccountTransferNfts />
+													</AnimatedPage>
+												}
+											/>
+											<Route
+												path="/raw"
+												element={
+													<AnimatedPage>
+														<AccountTransferRaw />
+													</AnimatedPage>
+												}
+											/>
+											<Route
+												path="/deploy"
+												element={
+													<AnimatedPage>
+														<AccountTransferDeploy />
+													</AnimatedPage>
+												}
+											/>
+										</Routes>
+									</AnimatePresence>
+								</Box>
+							)}
 						/>
 					</Box>
 				</Box>
