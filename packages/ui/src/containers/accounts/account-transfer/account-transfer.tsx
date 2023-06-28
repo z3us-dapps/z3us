@@ -20,7 +20,7 @@ type TransactionDetails = Parameters<WalletSdkType['sendTransaction']>[0]
 
 interface IAccountTransferProps {
 	title: string
-	description: string
+	description?: string
 	children: (setTransaction: (input: TransactionDetails) => void) => JSX.Element
 	helpTitle?: string
 	help?: string
