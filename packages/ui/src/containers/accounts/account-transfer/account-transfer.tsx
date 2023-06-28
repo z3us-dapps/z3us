@@ -21,20 +21,16 @@ type TransactionDetails = Parameters<WalletSdkType['sendTransaction']>[0]
 interface IAccountTransferProps {
 	title: string
 	description: string
+	children: (setTransaction: (input: TransactionDetails) => void) => JSX.Element
 	helpTitle?: string
 	help?: string
-
 	className?: ClassValue
-	children: (setTransaction: (input: TransactionDetails) => void) => JSX.Element
 }
 
 export const AccountTransfer: React.FC<IAccountTransferProps> = props => {
 	const { title, description, helpTitle, help, className, children } = props
-
 	const sendTransaction = useSendTransaction()
-
 	const [tx, setTransaction] = useState<TransactionDetails>()
-
 	const [isOpen, setIsOpen] = useState<boolean>(false)
 	const [isLoading, setIsLoading] = useState<boolean>(false)
 	const [txError, setTxError] = useState<string>('')
@@ -45,17 +41,27 @@ export const AccountTransfer: React.FC<IAccountTransferProps> = props => {
 		setTxError('')
 	}
 
+	const handleEscapeKeyDown = () => {
+		if (txError) {
+			handleClose()
+		}
+	}
+
 	const handleOpenSendingDialog = () => {
 		setIsOpen(true)
 		setIsLoading(true)
 
 		sendTransaction(tx)
+			// TODO: fix
+			// @ts-ignore
 			.andThen(() => {
 				setIsLoading(false)
 				setTxError('')
 			})
 			.mapErr(error => {
 				setIsLoading(false)
+				// TODO: fix
+				// @ts-ignore
 				setTxError(error.message || 'Action failed')
 			})
 	}
@@ -121,28 +127,31 @@ export const AccountTransfer: React.FC<IAccountTransferProps> = props => {
 				<DialogPortal>
 					<DialogOverlay className={dialogStyles.dialogOverlay} />
 					<DialogContent
+						onEscapeKeyDown={handleEscapeKeyDown}
 						className={clsx(
 							dialogStyles.dialogContent,
 							dialogStyles.dialogContentFixedHeight,
 							styles.transferSendingDialog,
 						)}
 					>
+						{txError ? (
+							<Box className={styles.transferSendingDialogCloseBtn}>
+								<Button styleVariant="ghost" sizeVariant="small" iconOnly onClick={handleClose}>
+									<Close2Icon />
+								</Button>
+							</Box>
+						) : null}
 						<Box width="full" height="full" display="flex" alignItems="center" justifyContent="center">
 							<Box display="flex" flexDirection="column" gap="medium" alignItems="center">
 								{isLoading && (
-									<>
-										<Z3usLoading message="Sending..." />
+									<Box>
+										<Z3usLoading message="Sending" />
 										<Text>confirm transaction on your device</Text>
-									</>
+									</Box>
 								)}
 								{txError && <Text color="red">{txError}</Text>}
 							</Box>
 						</Box>
-						{txError ? (
-							<Button styleVariant="ghost" sizeVariant="small" iconOnly onClick={handleClose}>
-								<Close2Icon />
-							</Button>
-						) : null}
 					</DialogContent>
 				</DialogPortal>
 			</DialogRoot>

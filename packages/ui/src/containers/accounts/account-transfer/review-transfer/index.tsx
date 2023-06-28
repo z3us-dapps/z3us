@@ -53,7 +53,11 @@ export const ReviewTransfer: React.FC<IReviewTransferProps> = props => {
 
 		const transactionManifest = sendTokens(transaction.from).fungible(fungibles.flat())
 
+		// TODO: fix
+		// @ts-ignore
 		sendTransaction(transactionManifest, transaction.message)
+			// TODO: fix
+			// @ts-ignore
 			.andThen(response => {
 				console.log(response)
 				setIsOpen(false)

@@ -263,3 +263,14 @@ export const transferSendingDialog = style([
 		height: '400px',
 	},
 ])
+
+export const transferSendingDialogCloseBtn = style([
+	sprinkles({
+		position: 'absolute',
+		top: 0,
+		right: 0,
+		marginTop: 'medium',
+		marginRight: 'medium',
+	}),
+	{},
+])
