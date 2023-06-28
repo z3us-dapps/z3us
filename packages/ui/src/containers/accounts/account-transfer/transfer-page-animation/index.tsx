@@ -1,20 +1,12 @@
 import { AnimatePresence, motion } from 'framer-motion'
 import React from 'react'
 
-interface ITransferPageAnimationRequiredProps {
+interface ITransferPageAnimationProps {
 	children: React.ReactNode
 	slideWrapperHeight: number
 	page: number
 	direction: number
 }
-
-interface ITransferPageAnimationOptionalProps {}
-
-interface ITransferPageAnimationProps
-	extends ITransferPageAnimationRequiredProps,
-		ITransferPageAnimationOptionalProps {}
-
-const defaultProps: ITransferPageAnimationOptionalProps = {}
 
 export const TransferPageAnimation: React.FC<ITransferPageAnimationProps> = props => {
 	const { children, slideWrapperHeight, page, direction } = props
@@ -59,5 +51,3 @@ export const TransferPageAnimation: React.FC<ITransferPageAnimationProps> = prop
 		</AnimatePresence>
 	)
 }
-
-TransferPageAnimation.defaultProps = defaultProps
