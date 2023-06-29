@@ -77,6 +77,34 @@ export const SettingsGeneral: React.FC = () => {
 				</Box>
 			</Box>
 			{/* END LOCK SELECT */}
+			{/* START COLOR THEME SECTION */}
+			<Box className={styles.settingsSectionBorderWrapper}>
+				<Box className={styles.settingsSectionGridBasic}>
+					<Box display="flex" flexDirection="column">
+						<Text size="large" weight="strong" color="strong">
+							Theme
+						</Text>
+						<Box>
+							<Text size="small">light</Text>
+						</Box>
+					</Box>
+					<Box display="flex" flexDirection="column" gap="small">
+						<Box>
+							<SelectSimple
+								value="light"
+								placeholder="Select currency"
+								onValueChange={() => {}}
+								data={[
+									{ id: 'light', title: 'Light' },
+									{ id: 'dark', title: 'Dark' },
+									{ id: 'system', title: 'System' },
+								]}
+							/>
+						</Box>
+					</Box>
+				</Box>
+			</Box>
+			{/* END COLOR THEME SELECTION */}
 			{/* START CURRENCY SELECTION SECTION */}
 			<Box className={styles.settingsSectionBorderWrapper}>
 				<Box className={styles.settingsSectionGridBasic}>

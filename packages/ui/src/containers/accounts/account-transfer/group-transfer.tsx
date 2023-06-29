@@ -152,7 +152,7 @@ export const GroupItem: React.FC<IGroupItemProps> = props => {
 								</Box>
 								<AccountDropdown
 									account={fromAccount}
-									accountReadableName={knownAddresses[fromAccount]?.name || getShortAddress(fromAccount)}
+									knownAddresses={knownAddresses}
 									onUpdateAccount={onUpdateFromAccount}
 									accounts={accountEntries}
 									styleVariant={getError(validation, ['from']).error ? 'tertiary-error' : 'tertiary'}

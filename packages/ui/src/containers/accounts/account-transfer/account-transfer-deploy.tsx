@@ -42,7 +42,6 @@ export const AccountTransferDeploy: React.FC = () => {
 					</Box>
 					<AccountDropdown
 						account="1"
-						accountReadableName="1"
 						onUpdateAccount={() => {}}
 						accounts={[
 							{ id: '1', title: 'hhdh' },
@@ -58,7 +57,6 @@ export const AccountTransferDeploy: React.FC = () => {
 					</Box>
 					<AccountDropdown
 						account="1"
-						accountReadableName="1"
 						onUpdateAccount={() => {}}
 						accounts={[
 							{ id: '1', title: 'hhdh' },

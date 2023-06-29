@@ -1,3 +1,5 @@
+import type { AddressBookEntry } from 'packages/ui/src/store/types'
+import { getShortAddress } from 'packages/ui/src/utils/string-utils'
 import React from 'react'
 
 import { Box } from 'ui/src/components/box'
@@ -14,8 +16,8 @@ import { Text } from 'ui/src/components/typography'
 
 interface IAccountDropdownProps {
 	account: string
-	accountReadableName: string
 	accounts: IDropdownMenuVirtuosoRequiredProps['data']
+	knownAddresses?: { [key: string]: AddressBookEntry }
 	onUpdateAccount: IDropdownMenuVirtuosoRequiredProps['onValueChange']
 	styleVariant?: TStyleVariant
 	sizeVariant?: TSizeVariant
@@ -24,12 +26,14 @@ interface IAccountDropdownProps {
 export const AccountDropdown: React.FC<IAccountDropdownProps> = props => {
 	const {
 		account,
-		accountReadableName,
+		knownAddresses = {},
 		accounts,
 		onUpdateAccount,
 		styleVariant = 'tertiary',
 		sizeVariant = 'large',
 	} = props
+
+	const accountReadableName = knownAddresses[account]?.name || getShortAddress(account)
 
 	return (
 		<DropdownMenuVirtuoso
