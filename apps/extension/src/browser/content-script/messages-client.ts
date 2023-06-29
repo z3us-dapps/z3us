@@ -5,6 +5,7 @@ import { PORT_NAME } from '@src/browser/messages/constants'
 import type { Message } from '@src/browser/messages/types'
 import { MessageAction, MessageSource } from '@src/browser/messages/types'
 
+import { addMetadata } from '../helpers/add-metadata'
 import { chromeDAppClient, radixMessageHandler } from './radix'
 
 export type MessageClientType = ReturnType<typeof MessageClient>
@@ -27,7 +28,7 @@ export const MessageClient = () => {
 	})
 
 	chromeDAppClient.messageListener(message => {
-		radixMessageHandler.onMessage(createRadixMessage.incomingDappMessage('dApp', message))
+		radixMessageHandler.onMessage(addMetadata(createRadixMessage.incomingDappMessage('dApp', message)))
 	})
 
 	const forwardMessageToBackground = (event: MessageEvent<Message>) => {

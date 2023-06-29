@@ -45,7 +45,6 @@ export interface IAccountTransferImmer {
 	transaction: TTransferSchema
 	slides: [number, number]
 	isMessageUiVisible: boolean
-	isSubmittingReview: boolean
 	initValidation: boolean
 	validation: TZodValidation
 }
@@ -54,7 +53,6 @@ export interface IAccountTransferNftsImmer {
 	transaction: TTransferNftSchema
 	slides: [number, number]
 	isMessageUiVisible: boolean
-	isSubmittingReview: boolean
 	initValidation: boolean
 	validation: TZodValidation
 }

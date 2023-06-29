@@ -13,9 +13,7 @@ const tokensSchema = z.object({
 
 const nftsSchema = z.object({
 	address: z.string().min(1, 'Please select token'),
-	name: z.string().min(1, 'Please select token'),
-	symbol: z.string().min(1, 'Please select token'),
-	amount: z.number().refine(positiveNumberValidator, { message: 'Please enter a valid amount' }),
+	id: z.string().min(1, 'Please select token'),
 })
 
 export const sendsSchema = z.object({

@@ -17,7 +17,7 @@ export const ResourceImageIcon = forwardRef<HTMLElement, IResourceImageIcon>(
 
 		const name = data?.find(detail => detail.key === 'name')?.value.as_string
 		const symbol = data?.find(detail => detail.key === 'symbol')?.value.as_string
-		const imageUrl = data?.find(detail => detail.key === 'image_url')?.value.as_string
+		const imageUrl = data?.find(detail => detail.key === 'icon_url')?.value.as_string
 
 		return (
 			<ImageIcon

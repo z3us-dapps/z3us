@@ -1,13 +1,16 @@
+import { ManifestBuilder } from '@radixdlt/radix-dapp-toolkit'
 import { useResourceBalances } from 'packages/ui/src/hooks/dapp/use-balances'
 import { useNetworkId } from 'packages/ui/src/hooks/dapp/use-network-id'
 import { useNoneSharedStore } from 'packages/ui/src/hooks/use-store'
 import { useWalletAccounts } from 'packages/ui/src/hooks/use-wallet-account'
+import { sendFungibleTokens } from 'packages/ui/src/manifests/tokens'
 import React from 'react'
 import useDeepCompareEffect from 'use-deep-compare-effect'
 import { useImmer } from 'use-immer'
 
 import { Box } from 'ui/src/components/box'
 
+import type { TransactionDetailsGetter } from './account-transfer'
 import { AccountTransfer } from './account-transfer'
 import { defaultToken } from './account-transfer-constants'
 import { type IAccountTransferImmer } from './account-transfer-types'
@@ -33,7 +36,6 @@ export const AccountTransferTokens: React.FC = () => {
 		},
 		slides: [0, 0],
 		isMessageUiVisible: false,
-		isSubmittingReview: false,
 		initValidation: false,
 		validation: undefined,
 	})
@@ -52,8 +54,7 @@ export const AccountTransferTokens: React.FC = () => {
 		})
 	}
 
-	// eslint-disable-next-line @typescript-eslint/no-unused-vars
-	const handleContinue = () => {
+	const handleContinue: TransactionDetailsGetter = () => {
 		const validation = validateTransferForm(state.transaction)
 
 		setState(draft => {
@@ -62,19 +63,22 @@ export const AccountTransferTokens: React.FC = () => {
 		})
 
 		if (!validation.success) {
-			return
+			return null
 		}
 
-		// DEMO FOR SUBMIT AND REVIEW...
-		setState(draft => {
-			draft.isSubmittingReview = true
-		})
+		const fungibles = state.transaction.sends.map(({ to, tokens }) => ({
+			from: state.transaction.from,
+			to,
+			tokens: tokens.map(token => ({ amount: token.amount, resource: token.address })),
+		}))
 
-		setTimeout(() => {
-			setState(draft => {
-				draft.isSubmittingReview = false
-			})
-		}, 2000)
+		const transactionManifest = sendFungibleTokens(new ManifestBuilder(), fungibles).build().toString()
+
+		return {
+			version: 1,
+			transactionManifest,
+			message: state.transaction.message,
+		}
 	}
 
 	const handleRemoveGroupTransaction = (sendIndex: number) => {
@@ -142,33 +146,30 @@ export const AccountTransferTokens: React.FC = () => {
 	}
 
 	return (
-		<AccountTransfer title="Transfer tokens">
-			{/* eslint-disable-next-line @typescript-eslint/no-unused-vars */}
-			{setTransaction => (
-				<Box position="relative">
-					<GroupTransfer
-						transaction={state.transaction}
-						isMessageUiVisible={state.isMessageUiVisible}
-						fromAccount={state.transaction.from}
-						accounts={accounts}
-						addressBook={addressBook}
-						balances={balances}
-						validation={state.validation}
-						onUpdateFromAccount={handleUpdateFromAccount}
-						onUpdateToAccount={handleUpdateToAccount}
-						onRemoveGroupTransaction={handleRemoveGroupTransaction}
-						onUpdateTokenValue={handleUpdateTokenValue}
-						onUpdateToken={handleUpdateToken}
-						onAddToken={handleAddToken}
-						onToggleMessageUi={handleToggleMessageUi}
-						onUpdateMessage={handleUpdateMessage}
-						onUpdateIsMessageEncrypted={handleUpdateIsMessageEncrypted}
-					/>
-					<Box paddingTop="large" display="flex" flexDirection="column" gap="medium">
-						<GroupTransactionButton onAddGroup={handleAddGroup} />
-					</Box>
+		<AccountTransfer title="Transfer tokens" transaction={handleContinue}>
+			<Box position="relative">
+				<GroupTransfer
+					transaction={state.transaction}
+					isMessageUiVisible={state.isMessageUiVisible}
+					fromAccount={state.transaction.from}
+					accounts={accounts}
+					addressBook={addressBook}
+					balances={balances}
+					validation={state.validation}
+					onUpdateFromAccount={handleUpdateFromAccount}
+					onUpdateToAccount={handleUpdateToAccount}
+					onRemoveGroupTransaction={handleRemoveGroupTransaction}
+					onUpdateTokenValue={handleUpdateTokenValue}
+					onUpdateToken={handleUpdateToken}
+					onAddToken={handleAddToken}
+					onToggleMessageUi={handleToggleMessageUi}
+					onUpdateMessage={handleUpdateMessage}
+					onUpdateIsMessageEncrypted={handleUpdateIsMessageEncrypted}
+				/>
+				<Box paddingTop="large" display="flex" flexDirection="column" gap="medium">
+					<GroupTransactionButton onAddGroup={handleAddGroup} />
 				</Box>
-			)}
+			</Box>
 		</AccountTransfer>
 	)
 }

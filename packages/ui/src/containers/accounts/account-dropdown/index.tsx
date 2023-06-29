@@ -41,7 +41,7 @@ export const AccountDropdown: React.FC<IAccountDropdownProps> = props => {
 				<DropdownMenuRadioItem value={id} key={index}>
 					<Box display="flex" alignItems="center" gap="medium">
 						<Box flexShrink={0}>
-							<ResourceImageIcon address={account} />
+							<ResourceImageIcon address={id} />
 						</Box>
 						<Box flexGrow={1} minWidth={0}>
 							<Text truncate>{title}</Text>

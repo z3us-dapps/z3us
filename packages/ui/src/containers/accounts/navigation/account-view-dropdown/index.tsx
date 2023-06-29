@@ -87,7 +87,7 @@ export const AccountViewDropdown = forwardRef<HTMLElement, IAccountViewDropdownP
 														background="backgroundPrimary"
 														marginRight="small"
 													>
-														<ResourceImageIcon size="small" address={account.name} />
+														<ResourceImageIcon size="small" address={account.address} />
 													</Box>
 												</DropdownMenuLeftSlot>
 												<Box flexGrow={1} style={{ maxWidth: '98px' }}>

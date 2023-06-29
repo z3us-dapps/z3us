@@ -34,19 +34,26 @@ export const useResourceBalances = (selected: SelectedAddresses = null) => {
 	return useMemo(
 		() =>
 			Object.entries(resourceToBalanceMap).map(([address, amount], idx) => {
-				const meta = metadata[idx]
-				const symbol = meta.data.find(detail => detail.key === 'symbol')?.value.as_string
-				const token = tokens[symbol.toUpperCase()]
+				const meta = metadata[idx].data
+
+				const name = meta?.find(detail => detail.key === 'name')?.value.as_string
+				const symbol = meta?.find(detail => detail.key === 'symbol')?.value.as_string || name
+				const imageUrl = meta?.find(detail => detail.key === 'icon_url' || detail.key === 'key_image_url')?.value
+					.as_string
+				const url = meta?.find(detail => detail.key === 'info_url')?.value.as_string
+				const description = meta?.find(detail => detail.key === 'description')?.value.as_string
+
+				const token = tokens[symbol?.toUpperCase()]
 
 				return {
 					address,
 					amount: amount as BigNumber,
 					value: currencyConverter(amount as BigNumber, new BigNumber(token?.price.xrd || 0)),
 					symbol,
-					name: meta.data.find(detail => detail.key === 'name')?.value.as_string,
-					description: meta.data.find(detail => detail.key === 'description')?.value.as_string,
-					url: meta.data.find(detail => detail.key === 'url')?.value.as_string,
-					imageUrl: meta.data.find(detail => detail.key === 'image_url')?.value.as_string,
+					name,
+					description,
+					url,
+					imageUrl,
 					change: token ? +(token.price.usd || 0) / +(token.price.usd_24h || 0) : 0,
 				} as ResourceBalance
 			}),

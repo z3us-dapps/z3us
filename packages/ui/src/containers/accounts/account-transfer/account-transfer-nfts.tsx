@@ -1,13 +1,17 @@
+import type { NonFungibleLocalIdString } from '@radixdlt/radix-dapp-toolkit'
+import { ManifestBuilder } from '@radixdlt/radix-dapp-toolkit'
 import { useResourceBalances } from 'packages/ui/src/hooks/dapp/use-balances'
 import { useNetworkId } from 'packages/ui/src/hooks/dapp/use-network-id'
 import { useNoneSharedStore } from 'packages/ui/src/hooks/use-store'
 import { useWalletAccounts } from 'packages/ui/src/hooks/use-wallet-account'
+import { sendNftTokens } from 'packages/ui/src/manifests/tokens'
 import React from 'react'
 import useDeepCompareEffect from 'use-deep-compare-effect'
 import { useImmer } from 'use-immer'
 
 import { Box } from 'ui/src/components/box'
 
+import type { TransactionDetailsGetter } from './account-transfer'
 import { AccountTransfer } from './account-transfer'
 import { defaultNft } from './account-transfer-constants'
 import { type IAccountTransferNftsImmer } from './account-transfer-types'
@@ -33,7 +37,6 @@ export const AccountTransferNfts: React.FC = () => {
 		},
 		slides: [0, 0],
 		isMessageUiVisible: false,
-		isSubmittingReview: false,
 		initValidation: false,
 		validation: undefined,
 	})
@@ -52,8 +55,7 @@ export const AccountTransferNfts: React.FC = () => {
 		})
 	}
 
-	// eslint-disable-next-line @typescript-eslint/no-unused-vars
-	const handleContinue = () => {
+	const handleContinue: TransactionDetailsGetter = () => {
 		const validation = validateTransferForm(state.transaction)
 
 		setState(draft => {
@@ -62,19 +64,22 @@ export const AccountTransferNfts: React.FC = () => {
 		})
 
 		if (!validation.success) {
-			return
+			return null
 		}
 
-		// DEMO FOR SUBMIT AND REVIEW...
-		setState(draft => {
-			draft.isSubmittingReview = true
-		})
+		const nfts = state.transaction.sends.map(({ to, nfts: tokens }) => ({
+			from: state.transaction.from,
+			to,
+			tokens: tokens.map(nft => ({ resource: nft.address, ids: [nft.id as NonFungibleLocalIdString] })),
+		}))
 
-		setTimeout(() => {
-			setState(draft => {
-				draft.isSubmittingReview = false
-			})
-		}, 2000)
+		const transactionManifest = sendNftTokens(new ManifestBuilder(), nfts).build().toString()
+
+		return {
+			version: 1,
+			transactionManifest,
+			message: state.transaction.message,
+		}
 	}
 
 	const handleRemoveGroupTransaction = (sendIndex: number) => {
@@ -105,23 +110,17 @@ export const AccountTransferNfts: React.FC = () => {
 		})
 	}
 
-	const handleUpdateTokenValue = (sendIndex: number) => (tokenIndex: number) => (tokenValue: number) => {
+	const handleUpdateTokenValue = (sendIndex: number) => (tokenIndex: number) => (id: number) => {
 		setState(draft => {
-			draft.transaction.sends[sendIndex].nfts[tokenIndex].amount = tokenValue
+			draft.transaction.sends[sendIndex].nfts[tokenIndex].id = `#${id}#`
 		})
 	}
 
-	const handleUpdateToken =
-		(sendIndex: number) => (tokenIndex: number) => (address: string, symbol: string, name: string) => {
-			setState(draft => {
-				draft.transaction.sends[sendIndex].nfts[tokenIndex] = {
-					...draft.transaction.sends[sendIndex].nfts[tokenIndex],
-					address,
-					name,
-					symbol,
-				}
-			})
-		}
+	const handleUpdateToken = (sendIndex: number) => (tokenIndex: number) => (address: string) => {
+		setState(draft => {
+			draft.transaction.sends[sendIndex].nfts[tokenIndex].address = address
+		})
+	}
 
 	const handleToggleMessageUi = () => {
 		setState(draft => {
@@ -147,33 +146,31 @@ export const AccountTransferNfts: React.FC = () => {
 			description="Transfer tokens"
 			helpTitle="Transfer tokens"
 			help="Transfer tokens."
+			transaction={handleContinue}
 		>
-			{/* eslint-disable-next-line @typescript-eslint/no-unused-vars */}
-			{setTransaction => (
-				<Box position="relative">
-					<GroupTransfer
-						transaction={state.transaction}
-						isMessageUiVisible={state.isMessageUiVisible}
-						fromAccount={state.transaction.from}
-						accounts={accounts}
-						addressBook={addressBook}
-						balances={balances}
-						validation={state.validation}
-						onUpdateFromAccount={handleUpdateFromAccount}
-						onUpdateToAccount={handleUpdateToAccount}
-						onRemoveGroupTransaction={handleRemoveGroupTransaction}
-						onUpdateTokenValue={handleUpdateTokenValue}
-						onUpdateToken={handleUpdateToken}
-						onAddToken={handleAddToken}
-						onToggleMessageUi={handleToggleMessageUi}
-						onUpdateMessage={handleUpdateMessage}
-						onUpdateIsMessageEncrypted={handleUpdateIsMessageEncrypted}
-					/>
-					<Box paddingTop="large" display="flex" flexDirection="column" gap="medium">
-						<GroupTransactionButton onAddGroup={handleAddGroup} />
-					</Box>
+			<Box position="relative">
+				<GroupTransfer
+					transaction={state.transaction}
+					isMessageUiVisible={state.isMessageUiVisible}
+					fromAccount={state.transaction.from}
+					accounts={accounts}
+					addressBook={addressBook}
+					balances={balances}
+					validation={state.validation}
+					onUpdateFromAccount={handleUpdateFromAccount}
+					onUpdateToAccount={handleUpdateToAccount}
+					onRemoveGroupTransaction={handleRemoveGroupTransaction}
+					onUpdateTokenValue={handleUpdateTokenValue}
+					onUpdateToken={handleUpdateToken}
+					onAddToken={handleAddToken}
+					onToggleMessageUi={handleToggleMessageUi}
+					onUpdateMessage={handleUpdateMessage}
+					onUpdateIsMessageEncrypted={handleUpdateIsMessageEncrypted}
+				/>
+				<Box paddingTop="large" display="flex" flexDirection="column" gap="medium">
+					<GroupTransactionButton onAddGroup={handleAddGroup} />
 				</Box>
-			)}
+			</Box>
 		</AccountTransfer>
 	)
 }

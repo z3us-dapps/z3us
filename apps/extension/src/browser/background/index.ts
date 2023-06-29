@@ -1,7 +1,7 @@
 import { openParingPopup } from '@radixdlt/connector-extension/src/chrome/helpers/open-pairing-popup'
 import browser from 'webextension-polyfill'
 
-import { addDasboard } from '@src/browser/app/context-menu'
+import { addDashboard } from '@src/browser/app/context-menu'
 import { handleInstall } from '@src/browser/background/install'
 import { MessageClient } from '@src/browser/background/message-client'
 import { getConnectHandler, getRadixMessageHandler } from '@src/browser/background/messages'
@@ -40,7 +40,7 @@ browser.contextMenus.removeAll().then(() => {
 	addPairing()
 	addLedger()
 	addOffscreen()
-	addDasboard()
+	addDashboard()
 	addInjectContentScript()
 })
 

@@ -20,7 +20,7 @@ const openAppPage = async ({ menuItemId }) => {
 	}
 }
 
-export const addDasboard = () => {
+export const addDashboard = () => {
 	browser.contextMenus.create({
 		id: menuId,
 		title: 'Open in browser',

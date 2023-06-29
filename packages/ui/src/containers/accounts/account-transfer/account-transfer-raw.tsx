@@ -12,27 +12,27 @@ export const AccountTransferRaw: React.FC = () => {
 		inputRef?.current?.focus()
 	}, [])
 
+	const handleChange = (event: React.ChangeEvent<FormElement>) => {
+		const { value } = event.target
+		setInputValue(value)
+	}
+
 	return (
 		<AccountTransfer
 			title="Send raw transaction"
 			description="Enter transaction manifest"
 			helpTitle="Raw transaction"
 			help="Enter raw transaction manifest text to send to your linked Radix Wallet. No method call to 'lock_fee' is required - the wallet will add this automatically."
+			transaction={inputValue ? { version: 1, transactionManifest: inputValue } : null}
 		>
-			{setTransaction => (
-				<Input
-					value={inputValue}
-					ref={inputRef}
-					elementType="textarea"
-					sizeVariant="medium"
-					placeholder="Enter transaction manifest"
-					onChange={(event: React.ChangeEvent<FormElement>) => {
-						const { value } = event.target
-						setInputValue(value)
-						setTransaction({ version: 1, transactionManifest: value })
-					}}
-				/>
-			)}
+			<Input
+				value={inputValue}
+				ref={inputRef}
+				elementType="textarea"
+				sizeVariant="medium"
+				placeholder="Enter transaction manifest"
+				onChange={handleChange}
+			/>
 		</AccountTransfer>
 	)
 }

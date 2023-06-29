@@ -2,6 +2,7 @@ import type { WalletSdk as WalletSdkType } from '@radixdlt/wallet-sdk'
 import type { ClassValue } from 'clsx'
 import clsx from 'clsx'
 import { useSendTransaction } from 'packages/ui/src/hooks/dapp/use-send-transaction'
+import type { PropsWithChildren } from 'react'
 import React, { useState } from 'react'
 
 import { Box } from 'ui/src/components/box'
@@ -16,21 +17,24 @@ import { Z3usLoading } from 'ui/src/components/z3us-loading'
 
 import * as styles from './account-transfer.css'
 
-type TransactionDetails = Parameters<WalletSdkType['sendTransaction']>[0]
+export type TransactionDetails = Parameters<WalletSdkType['sendTransaction']>[0]
 
-interface IAccountTransferProps {
+export type TransactionDetailsGetter = () => TransactionDetails | null
+
+export type SetTransaction = (input: TransactionDetails | TransactionDetailsGetter) => void
+
+export interface IAccountTransferProps {
 	title: string
 	description?: string
-	children: (setTransaction: (input: TransactionDetails) => void) => JSX.Element
+	transaction: TransactionDetails | TransactionDetailsGetter
 	helpTitle?: string
 	help?: string
 	className?: ClassValue
 }
 
-export const AccountTransfer: React.FC<IAccountTransferProps> = props => {
-	const { title, description, helpTitle, help, className, children } = props
+export const AccountTransfer: React.FC<PropsWithChildren<IAccountTransferProps>> = props => {
+	const { title, description, helpTitle, help, className, transaction, children } = props
 	const sendTransaction = useSendTransaction()
-	const [tx, setTransaction] = useState<TransactionDetails>()
 	const [isOpen, setIsOpen] = useState<boolean>(false)
 	const [isLoading, setIsLoading] = useState<boolean>(false)
 	const [txError, setTxError] = useState<string>('')
@@ -51,8 +55,10 @@ export const AccountTransfer: React.FC<IAccountTransferProps> = props => {
 		setIsOpen(true)
 		setIsLoading(true)
 
-		sendTransaction(tx)
-			// TODO: fix
+		const input = typeof transaction === 'function' ? transaction() : transaction
+		if (!input) return
+
+		sendTransaction(input)
 			// @ts-ignore
 			.andThen(() => {
 				setIsLoading(false)
@@ -60,7 +66,6 @@ export const AccountTransfer: React.FC<IAccountTransferProps> = props => {
 			})
 			.mapErr(error => {
 				setIsLoading(false)
-				// TODO: fix
 				// @ts-ignore
 				setTxError(error.message || 'Action failed')
 			})
@@ -101,14 +106,14 @@ export const AccountTransfer: React.FC<IAccountTransferProps> = props => {
 					<Box>
 						<Text size="small">{description}</Text>
 					</Box>
-					<Box marginTop="large">{children(setTransaction)}</Box>
+					<Box marginTop="large">{children}</Box>
 					<Box display="flex" paddingTop="xlarge" width="full">
 						<Button
 							styleVariant="primary"
 							sizeVariant="xlarge"
 							fullWidth
 							onClick={handleOpenSendingDialog}
-							disabled={isOpen || isLoading || !tx?.transactionManifest}
+							disabled={isOpen || isLoading || !transaction}
 							rightIcon={
 								isOpen ? (
 									<Box marginLeft="small">
