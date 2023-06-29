@@ -6,7 +6,7 @@ import { TransactionManifest } from 'packages/ui/src/components/transaction-mani
 import { config } from 'packages/ui/src/constants/config'
 import { useTransaction } from 'packages/ui/src/hooks/dapp/use-transactions'
 import { formatBigNumber } from 'packages/ui/src/utils/formatters'
-import React, { forwardRef, useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useLocation, useNavigate, useSearchParams } from 'react-router-dom'
 
 import { Box } from 'ui/src/components/box'
@@ -27,7 +27,6 @@ import { AccountsTransactionInfo } from './account-transaction-info'
 import * as styles from './account-transaction.css'
 
 export const AccountTransaction = () => {
-	const [manifest, setManifest] = useState<string>('')
 	const [isScrolled, setIsScrolled] = useState<boolean>(false)
 	const [searchParams] = useSearchParams()
 	const navigate = useNavigate()
@@ -55,22 +54,6 @@ export const AccountTransaction = () => {
 			setIsScrolled(false)
 		}
 	}, [transactionId])
-
-	useEffect(() => {
-		const decode = async () => {
-			if (data.transaction.raw_hex) {
-				const intent = await RadixEngineToolkit.decompileUnknownTransactionIntent(
-					Buffer.from(data.transaction.raw_hex, 'hex'),
-				)
-				setManifest(intent.toObject().signed_intent.intent.manifest.instructions.value)
-			} else {
-				setManifest('')
-			}
-		}
-		if (data) {
-			decode()
-		}
-	}, [data])
 
 	return (
 		<DialogRoot open={isAccountTransactionVisible}>
