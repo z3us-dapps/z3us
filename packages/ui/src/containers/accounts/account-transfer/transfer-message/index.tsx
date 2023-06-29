@@ -8,28 +8,26 @@ import { Text } from 'ui/src/components/typography'
 
 import * as styles from './transfer-message.css'
 
-interface ITransferMessageRequiredProps {
+interface ITransferMessageProps {
 	isVisible: boolean
 	message: string
 	isEncrypted: boolean
 	onUpdateIsMessageEncrypted: (isEncrypted: boolean) => void
 	onUpdateMessage: (message: string) => void
-}
-
-interface ITransferMessageOptionalProps {
 	styleVariant?: TStyleVariant
 	isError?: boolean
 }
 
-interface ITransferMessageProps extends ITransferMessageRequiredProps, ITransferMessageOptionalProps {}
-
-const defaultProps: ITransferMessageOptionalProps = {
-	styleVariant: 'secondary',
-	isError: false,
-}
-
 export const TransferMessage: React.FC<ITransferMessageProps> = props => {
-	const { isVisible, message, isEncrypted, styleVariant, isError, onUpdateMessage, onUpdateIsMessageEncrypted } = props
+	const {
+		isVisible,
+		message,
+		isEncrypted,
+		styleVariant = 'secondary',
+		isError = false,
+		onUpdateMessage,
+		onUpdateIsMessageEncrypted,
+	} = props
 
 	const handleUpdateMessage = (event: React.ChangeEvent<FormElement>) => {
 		onUpdateMessage(event.currentTarget.value)
@@ -74,5 +72,3 @@ export const TransferMessage: React.FC<ITransferMessageProps> = props => {
 		</ShowHidePanel>
 	)
 }
-
-TransferMessage.defaultProps = defaultProps

@@ -1,4 +1,4 @@
-import clsx, { type ClassValue } from 'clsx'
+import clsx from 'clsx'
 import { AnimatePresence, motion } from 'framer-motion'
 import React, { useCallback, useContext, useEffect, useState } from 'react'
 import { VirtuosoGrid } from 'react-virtuoso'
@@ -45,7 +45,7 @@ const ItemWrapper = props => {
 	}, 1000)
 
 	return (
-		<Box className={clsx(styles.itemWrapper)}>
+		<Box className={styles.itemWrapper}>
 			<AnimatePresence initial={false}>
 				{!user.loaded && (
 					<motion.div
@@ -128,59 +128,45 @@ const ItemWrapper = props => {
 	)
 }
 
-interface IAccountListRequiredProps {
+interface IAccountListProps {
 	scrollableNode: HTMLElement
 }
 
-interface IAccountListOptionalProps {
-	className?: ClassValue
+export const AccountsList: React.FC<IAccountListProps> = props => {
+	const { scrollableNode } = props
+
+	// eslint-disable-next-line
+	const [items, setItems] = useState(Array.from({ length: 20 }, _ => ({ id: hash(), name: hash(), loaded: false })))
+	const { account, assetType, asset } = useAccountParams()
+
+	// computeItemKey is necessary for animation to ensure Virtuoso reuses the same elements
+	const computeItemKey = useCallback(index => items[index].id, [items])
+
+	useEffect(() => {
+		if (scrollableNode) {
+			scrollableNode.scrollTo({ top: 0 })
+		}
+	}, [account, assetType, asset])
+
+	return (
+		<Box className={styles.tokenListWrapper} style={{ minHeight: '200px' }}>
+			<AccountListHeader scrollableNode={scrollableNode} />
+			{/* TODO: this context is temporary until we hook up proper state, just here for demo purposes */}
+			{/* eslint-disable-next-line */}
+			<Context.Provider value={{ setItems }}>
+				<VirtuosoGrid
+					customScrollParent={scrollableNode}
+					data={items}
+					// todo fix lint issue
+					// eslint-disable-next-line
+					itemContent={(index, user) => <ItemWrapper idx={index} user={user} />}
+					components={{
+						List: ListContainer,
+						Item: ItemContainer,
+					}}
+					computeItemKey={computeItemKey}
+				/>
+			</Context.Provider>
+		</Box>
+	)
 }
-
-interface IAccountListProps extends IAccountListRequiredProps, IAccountListOptionalProps {}
-
-const defaultProps: IAccountListOptionalProps = {
-	className: undefined,
-}
-
-export const AccountsList = React.forwardRef<HTMLElement, IAccountListProps>(
-	(props, ref: React.Ref<HTMLElement | null>) => {
-		const { className, scrollableNode } = props
-
-		// eslint-disable-next-line
-		const [items, setItems] = useState(Array.from({ length: 20 }, _ => ({ id: hash(), name: hash(), loaded: false })))
-		const { account, assetType, asset } = useAccountParams()
-
-		// computeItemKey is necessary for animation to ensure Virtuoso reuses the same elements
-		const computeItemKey = useCallback(index => items[index].id, [items])
-
-		useEffect(() => {
-			if (scrollableNode) {
-				scrollableNode.scrollTo({ top: 0 })
-			}
-		}, [account, assetType, asset])
-
-		return (
-			<Box ref={ref} className={clsx(styles.tokenListWrapper, className)} style={{ minHeight: '200px' }}>
-				<AccountListHeader scrollableNode={scrollableNode} />
-				{/* TODO: this context is temporary until we hook up proper state, just here for demo purposes */}
-				{/* eslint-disable-next-line */}
-				<Context.Provider value={{ setItems }}>
-					<VirtuosoGrid
-						customScrollParent={scrollableNode}
-						data={items}
-						// todo fix lint issue
-						// eslint-disable-next-line
-						itemContent={(index, user) => <ItemWrapper idx={index} user={user} />}
-						components={{
-							List: ListContainer,
-							Item: ItemContainer,
-						}}
-						computeItemKey={computeItemKey}
-					/>
-				</Context.Provider>
-			</Box>
-		)
-	},
-)
-
-AccountsList.defaultProps = defaultProps

@@ -21,8 +21,6 @@ export const AccountTransferDeploy: React.FC = () => {
 			transaction={null}
 			title="Deploy package"
 			description="Deploy a new blueprint package to the Radix Betanet by attaching your WASM and ABI files to a deploy transaction."
-			// helpTitle="Lorum"
-			// help="lorum"
 		>
 			<Box>
 				<Box>

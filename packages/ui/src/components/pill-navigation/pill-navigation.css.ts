@@ -18,6 +18,7 @@ export const pillNavigationLink = style([
 			lightMode: 'transparent',
 			hover: 'white',
 		},
+		maxWidth: 'full',
 	}),
 	{
 		selectors: {

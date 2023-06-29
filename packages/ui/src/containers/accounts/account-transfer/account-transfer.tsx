@@ -59,6 +59,7 @@ export const AccountTransfer: React.FC<PropsWithChildren<IAccountTransferProps>>
 		if (!input) return
 
 		sendTransaction(input)
+			// TODO:
 			// @ts-ignore
 			.andThen(() => {
 				setIsLoading(false)
@@ -66,6 +67,8 @@ export const AccountTransfer: React.FC<PropsWithChildren<IAccountTransferProps>>
 			})
 			.mapErr(error => {
 				setIsLoading(false)
+
+				// TODO:
 				// @ts-ignore
 				setTxError(error.message || 'Action failed')
 			})

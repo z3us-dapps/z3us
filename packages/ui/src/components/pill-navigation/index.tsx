@@ -31,6 +31,7 @@ export const PillNavigation = forwardRef<HTMLAnchorElement, IPillProps>((props, 
 				color={null}
 				className={clsx(styles.pillNavigationText, selected && styles.pillNavigationTextActive)}
 				capitalizeFirstLetter
+				truncate
 			>
 				{text}
 			</Text>
