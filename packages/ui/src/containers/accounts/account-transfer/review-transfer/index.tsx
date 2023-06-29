@@ -1,10 +1,11 @@
 /* eslint-disable react/no-array-index-key */
+import { ManifestBuilder } from '@radixdlt/radix-dapp-toolkit'
 import BigNumber from 'bignumber.js'
 import clsx from 'clsx'
 import { ResourceImageIcon } from 'packages/ui/src/components/resource-image-icon'
 import { TokenPrice } from 'packages/ui/src/components/token-price'
 import { useSendTransaction } from 'packages/ui/src/hooks/dapp/use-send-transaction'
-import { sendTokens } from 'packages/ui/src/manifests/tokens'
+import { sendFungibleTokens } from 'packages/ui/src/manifests/tokens'
 import type { AddressBookEntry } from 'packages/ui/src/store/types'
 import { formatBigNumber } from 'packages/ui/src/utils/formatters'
 import { getShortAddress } from 'packages/ui/src/utils/string-utils'
@@ -47,13 +48,19 @@ export const ReviewTransfer: React.FC<IReviewTransferProps> = props => {
 	const handleOpenSendingDialog = () => {
 		setIsOpen(true)
 
-		const fungibles = transaction.sends.map(({ to, tokens }) =>
-			tokens.map(token => ({ amount: token.amount, resource: token.address, to })),
-		)
+		const fungibles = transaction.sends.map(({ to, tokens }) => ({
+			from: transaction.from,
+			to,
+			tokens: tokens.map(token => ({ amount: token.amount, resource: token.address })),
+		}))
 
-		const transactionManifest = sendTokens(transaction.from).fungible(fungibles.flat())
+		const transactionManifest = sendFungibleTokens(new ManifestBuilder(), fungibles).build().toString()
 
-		sendTransaction(transactionManifest, transaction.message)
+		sendTransaction({
+			version: 1,
+			transactionManifest,
+			message: transaction.message,
+		})
 			.andThen(response => {
 				console.log(response)
 				setIsOpen(false)

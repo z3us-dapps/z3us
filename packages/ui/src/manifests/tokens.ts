@@ -1,55 +1,72 @@
-export const sendTokens = (from: string) => ({
-	fungible: (fungibles: Array<{ resource: string; amount: number; to: string }>) =>
-		fungibles.map(
-			({ resource, amount, to }, idx) => `
-        CALL_METHOD 
-          Address('${from}') 
-          'withdraw'
-          Address('${resource}')
-          Decimal('${amount}');  
-          
-        TAKE_FROM_WORKTOP_BY_AMOUNT
-          Decimal('${amount}')
-          Address('${resource}')
-          Bucket('fungible${idx}');
-      
-        CALL_METHOD
-          Address('${to}') 
-          'deposit'
-          Bucket('fungible${idx}');`,
-		),
-	nft: (nfts: Array<{ resource: string; id: string; to: string }>) =>
-		nfts.map(
-			({ resource, id, to }, idx) => `
-      CALL_METHOD
-        Address('${from}') 
-        'withdraw_non_fungibles'
-        Address('${resource}')
-        Array<NonFungibleLocalId>(NonFungibleLocalId('${id}'));
+import type { ManifestBuilder, NonFungibleLocalIdString } from '@radixdlt/radix-dapp-toolkit'
 
-      TAKE_FROM_WORKTOP_BY_IDS 
-        Array<NonFungibleLocalId>(NonFungibleLocalId('${id}'))
-        Address('${resource}')
-        Bucket('nft${idx}');
+interface SendFungibleTokens {
+	tokens: Array<{
+		resource: string
+		amount: number
+	}>
+	from: string
+	to: string
+}
 
-      CALL_METHOD
-        Address('${to}')
-        'deposit'
-        Bucket('nft${idx}');`,
-		),
-})
+export const sendFungibleTokens = (manifest: ManifestBuilder, fungibles: Array<SendFungibleTokens>): ManifestBuilder =>
+	fungibles.reduce(
+		(group, { tokens, from, to }, idx) =>
+			tokens
+				.reduce(
+					(amounts, { resource, amount }) =>
+						amounts
+							.withdrawFromAccount(from, resource, amount)
+							.takeFromWorktopByAmount(amount, resource, `fungible${idx}`),
+					group,
+				)
+				.callMethod(to, 'deposit', [`Bucket('fungible${idx}')`]),
+		manifest,
+	)
+
+interface SendNftTokens {
+	from: string
+	to: string
+	tokens: Array<{
+		resource: string
+		ids: NonFungibleLocalIdString[]
+	}>
+}
+
+export const sendNftTokens = (manifest: ManifestBuilder, nfts: Array<SendNftTokens>): ManifestBuilder =>
+	nfts.reduce(
+		(group, { tokens, from, to }, idx) =>
+			tokens
+				.reduce(
+					(amounts, { resource, ids }) =>
+						amounts
+							.withdrawNonFungiblesFromAccount(from, resource, ids)
+							.takeFromWorktopByIds(ids, resource, `nfts${idx}`),
+					group,
+				)
+				.callMethod(to, 'deposit', [`Bucket('nfts${idx}')`]),
+		manifest,
+	)
+
+interface CreateFungibleToken {
+	address: string
+	initialSupply: number
+	name: string
+	symbol: string
+	description: string
+	icon_url?: string
+}
+
+interface CreateNftToken {
+	address: string
+	icon_url?: string
+	name: string
+	description: string
+	items: string[]
+}
 
 export const createToken = (address: string) => ({
-	fungible: ({
-		initialSupply,
-		...details
-	}: Partial<{
-		icon_url: string
-		name: string
-		description: string
-		symbol: string
-		initialSupply: number
-	}>) => `CREATE_FUNGIBLE_RESOURCE_WITH_INITIAL_SUPPLY
+	fungible: ({ initialSupply, ...details }: CreateFungibleToken) => `CREATE_FUNGIBLE_RESOURCE_WITH_INITIAL_SUPPLY
     18u8
     Map<String, String>(
         ${Object.entries(details)
@@ -69,15 +86,7 @@ export const createToken = (address: string) => ({
     Address("${address}") 
     "deposit_batch"
     Expression("ENTIRE_WORKTOP");`,
-	nft: ({
-		items,
-		...details
-	}: {
-		icon_url?: string
-		name: string
-		description: string
-		items: string[]
-	}) => `CREATE_NON_FUNGIBLE_RESOURCE_WITH_INITIAL_SUPPLY
+	nft: ({ items, ...details }: CreateNftToken) => `CREATE_NON_FUNGIBLE_RESOURCE_WITH_INITIAL_SUPPLY
         Enum("NonFungibleIdType::Integer")
         Tuple(Tuple(Array<Enum>(), Array<Tuple>(), Array<Enum>()), Enum(0u8, 64u8), Array<String>())
         Map<String, String>(${Object.entries(details)
