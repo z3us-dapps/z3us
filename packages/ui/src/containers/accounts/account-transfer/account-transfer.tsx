@@ -24,11 +24,11 @@ export type TransactionDetailsGetter = () => TransactionDetails | null
 export type SetTransaction = (input: TransactionDetails | TransactionDetailsGetter) => void
 
 export interface IAccountTransferProps {
-	title: string
-	description?: string
+	title: string | React.ReactElement
+	description?: string | React.ReactElement
 	transaction: TransactionDetails | TransactionDetailsGetter
-	helpTitle?: string
-	help?: string
+	helpTitle?: string | React.ReactElement
+	help?: string | React.ReactElement
 	className?: ClassValue
 }
 

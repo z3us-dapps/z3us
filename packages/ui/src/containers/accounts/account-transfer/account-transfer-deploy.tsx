@@ -4,6 +4,7 @@ import React, { useEffect, useRef, useState } from 'react'
 import { Box } from 'ui/src/components/box'
 import { Dropzone } from 'ui/src/components/dropzone'
 import { type FormElement, Input } from 'ui/src/components/input'
+import Translation from 'ui/src/components/translation'
 import { Text } from 'ui/src/components/typography'
 import { AccountDropdown } from 'ui/src/containers/accounts/account-dropdown'
 
@@ -19,7 +20,7 @@ export const AccountTransferDeploy: React.FC = () => {
 	return (
 		<AccountTransfer
 			transaction={null}
-			title="Deploy package"
+			title={<Translation capitalizeFirstLetter text="transfer.navigation.transferDeployPackage" />}
 			description="Deploy a new blueprint package to the Radix Betanet by attaching your WASM and ABI files to a deploy transaction."
 		>
 			<Box>

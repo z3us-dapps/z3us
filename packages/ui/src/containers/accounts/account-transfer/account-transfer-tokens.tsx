@@ -9,6 +9,7 @@ import useDeepCompareEffect from 'use-deep-compare-effect'
 import { useImmer } from 'use-immer'
 
 import { Box } from 'ui/src/components/box'
+import Translation from 'ui/src/components/translation'
 
 import type { TransactionDetailsGetter } from './account-transfer'
 import { AccountTransfer } from './account-transfer'
@@ -147,7 +148,10 @@ export const AccountTransferTokens: React.FC = () => {
 	}
 
 	return (
-		<AccountTransfer title="Transfer tokens" transaction={handleContinue}>
+		<AccountTransfer
+			title={<Translation capitalizeFirstLetter text="transfer.navigation.transferTokens" />}
+			transaction={handleContinue}
+		>
 			<Box position="relative">
 				<GroupTransfer
 					transaction={state.transaction}

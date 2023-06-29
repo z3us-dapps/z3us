@@ -24,10 +24,10 @@ export const AccountTransferDesktop = () => {
 				<Box className={styles.transferDesktopLeftMenu}>
 					<LayoutGroup id="account-transfer-nav">
 						{[
-							{ text: t('accounts.navigation.transferTokens'), href: '/accounts/transfer' },
-							{ text: t('accounts.navigation.transferNfts'), href: '/accounts/transfer/nfts' },
-							{ text: t('accounts.navigation.transferRaw'), href: '/accounts/transfer/raw' },
-							{ text: t('accounts.navigation.transferDeployPackage'), href: '/accounts/transfer/deploy' },
+							{ text: t('transfer.navigation.transferTokens'), href: '/accounts/transfer' },
+							{ text: t('transfer.navigation.transferNfts'), href: '/accounts/transfer/nfts' },
+							{ text: t('transfer.navigation.transferRaw'), href: '/accounts/transfer/raw' },
+							{ text: t('transfer.navigation.transferDeployPackage'), href: '/accounts/transfer/deploy' },
 						].map(({ text, href }) => (
 							<PillNavigation text={text} key={href} href={href} />
 						))}
