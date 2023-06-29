@@ -1,6 +1,6 @@
 {
 	"name": "z3us-extension",
-	"version": "1.0.42",
+	"version": "1.0.45",
 	"scripts": {
 		"clean": "rm -rf .turbo && rm -rf node_modules && rm -rf dist",
 		"dev": "DEV_TOOLS=true yarn start:radix",
