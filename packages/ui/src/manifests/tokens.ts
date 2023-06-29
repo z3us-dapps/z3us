@@ -9,20 +9,44 @@ interface SendFungibleTokens {
 	to: string
 }
 
-export const sendFungibleTokens = (manifest: ManifestBuilder, fungibles: Array<SendFungibleTokens>): ManifestBuilder =>
-	fungibles.reduce(
-		(group, { tokens, from, to }, idx) =>
+export const sendFungibleTokens = (
+	manifest: ManifestBuilder,
+	fungibles: Array<SendFungibleTokens>,
+): ManifestBuilder => {
+	// group amounts by token and then by from account address to reduce number of method calls on manifest
+	const amountsByTokenByAccount = fungibles.reduce(
+		(container, fungible) => ({
+			...container,
+			[fungible.from]: fungible.tokens.reduce(
+				(tokens, token) => ({ ...tokens, [token.resource]: token.amount + tokens[token.resource] }),
+				{},
+			),
+		}),
+		{},
+	)
+
+	// withdraw aggregated amounts
+	manifest = Object.entries(amountsByTokenByAccount).reduce(
+		(group, [from, tokens]) =>
+			Object.entries(tokens).reduce(
+				(amounts, [resource, amount]) => amounts.withdrawFromAccount(from, resource, amount),
+				group,
+			),
+		manifest,
+	)
+
+	// deposit from worktop to destination account correct amounts
+	return fungibles.reduce(
+		(group, { tokens, to }, idx) =>
 			tokens
 				.reduce(
-					(amounts, { resource, amount }) =>
-						amounts
-							.withdrawFromAccount(from, resource, amount)
-							.takeFromWorktopByAmount(amount, resource, `fungible${idx}`),
+					(amounts, { resource, amount }) => amounts.takeFromWorktopByAmount(amount, resource, `fungible${idx}`),
 					group,
 				)
 				.callMethod(to, 'deposit', [`Bucket('fungible${idx}')`]),
 		manifest,
 	)
+}
 
 interface SendNftTokens {
 	from: string
@@ -33,20 +57,42 @@ interface SendNftTokens {
 	}>
 }
 
-export const sendNftTokens = (manifest: ManifestBuilder, nfts: Array<SendNftTokens>): ManifestBuilder =>
-	nfts.reduce(
-		(group, { tokens, from, to }, idx) =>
+export const sendNftTokens = (manifest: ManifestBuilder, nfts: Array<SendNftTokens>): ManifestBuilder => {
+	// group ids by token and then by from account address to reduce number of method calls on manifest
+	const idsByTokenByAccount = nfts.reduce(
+		(container, nft) => ({
+			...container,
+			[nft.from]: nft.tokens.reduce(
+				(tokens, token) => ({
+					...tokens,
+					[token.resource]: token.ids.reduce((ids, id) => ({ ...ids, [id]: null }), tokens[token.resource] || {}),
+				}),
+				{},
+			),
+		}),
+		{},
+	)
+
+	// withdraw aggregated nfts by ids
+	manifest = Object.entries(idsByTokenByAccount).reduce(
+		(group, [from, tokens]) =>
+			Object.entries(tokens).reduce(
+				(ids, [resource, idMap]) =>
+					ids.withdrawNonFungiblesFromAccount(from, resource, Object.keys(idMap) as NonFungibleLocalIdString[]),
+				group,
+			),
+		manifest,
+	)
+
+	// deposit from worktop to destination account correct nfts by ids
+	return nfts.reduce(
+		(group, { tokens, to }, idx) =>
 			tokens
-				.reduce(
-					(amounts, { resource, ids }) =>
-						amounts
-							.withdrawNonFungiblesFromAccount(from, resource, ids)
-							.takeFromWorktopByIds(ids, resource, `nfts${idx}`),
-					group,
-				)
+				.reduce((amounts, { resource, ids }) => amounts.takeFromWorktopByIds(ids, resource, `nfts${idx}`), group)
 				.callMethod(to, 'deposit', [`Bucket('nfts${idx}')`]),
 		manifest,
 	)
+}
 
 interface CreateFungibleToken {
 	address: string
