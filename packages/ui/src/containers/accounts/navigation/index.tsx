@@ -18,9 +18,9 @@ import { Z3usLogo } from 'ui/src/components/z3us-logo-babylon'
 import { accountMenuSlugs } from 'ui/src/constants/accounts'
 import { routes } from 'ui/src/constants/routes'
 import { AccountTabletNavigationDropdown } from 'ui/src/containers/accounts/account-tablet-navigation-dropdown'
-import { AccountViewDropdown } from 'ui/src/containers/accounts/account-view-dropdown'
 import { useAccountParams } from 'ui/src/hooks/use-account-params'
 
+import { AccountViewDropdown } from './account-view-dropdown'
 import * as styles from './navigation.css'
 
 const useSelectedItem = (href: string): boolean => {

@@ -76,7 +76,7 @@ export const AccountViewDropdown = forwardRef<HTMLElement, IAccountViewDropdownP
 						>
 							<SimpleBar className={styles.accountViewSimpleBarWrapper}>
 								<Box className={styles.accountViewScrollAreaWrapper}>
-									<DropdownMenuRadioGroup value={selectAccount} onValueChange={selectAccount}>
+									<DropdownMenuRadioGroup value={selectedAccount} onValueChange={selectAccount}>
 										{Object.values(accounts).map(account => (
 											<DropdownMenuRadioItem key={account.address} value={account.address}>
 												<DropdownMenuLeftSlot>
@@ -86,18 +86,18 @@ export const AccountViewDropdown = forwardRef<HTMLElement, IAccountViewDropdownP
 														flexShrink={0}
 														background="backgroundPrimary"
 														marginRight="small"
-													/>
+													>
+														<ResourceImageIcon size="small" address={account.name} />
+													</Box>
 												</DropdownMenuLeftSlot>
 												<Box flexGrow={1} style={{ maxWidth: '98px' }}>
 													<Text size="xsmall" truncate>
 														{account.name}
 													</Text>
 												</Box>
-												{account.address === selectedAccount && (
-													<DropdownMenuItemIndicator>
-														<CheckIcon />
-													</DropdownMenuItemIndicator>
-												)}
+												<DropdownMenuItemIndicator>
+													<CheckIcon />
+												</DropdownMenuItemIndicator>
 											</DropdownMenuRadioItem>
 										))}
 									</DropdownMenuRadioGroup>

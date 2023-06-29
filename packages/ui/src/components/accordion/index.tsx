@@ -2,7 +2,6 @@ import * as AccordionPrimitive from '@radix-ui/react-accordion'
 import clsx from 'clsx'
 import React, { forwardRef } from 'react'
 
-import { Box } from '../box'
 import * as styles from './accordion.css'
 
 export const AccordionRoot = AccordionPrimitive.Root
@@ -30,7 +29,7 @@ export const AccordionTrigger = forwardRef<HTMLButtonElement, AccordionPrimitive
 export const AccordionContent = forwardRef<HTMLDivElement, AccordionPrimitive.AccordionContentProps>(
 	({ children, className, ...props }, ref) => (
 		<AccordionPrimitive.Content ref={ref} className={clsx(styles.accordionContentWrapper, className)} {...props}>
-			<Box>{children}</Box>
+			{children}
 		</AccordionPrimitive.Content>
 	),
 )

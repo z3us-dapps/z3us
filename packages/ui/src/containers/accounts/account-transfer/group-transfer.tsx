@@ -16,9 +16,7 @@ import {
 import { Box } from 'ui/src/components/box'
 import { Button } from 'ui/src/components/button'
 import type { IDropdownMenuVirtuosoRequiredProps } from 'ui/src/components/dropdown-menu'
-import { DropdownMenuItemIndicator, DropdownMenuRadioItem, DropdownMenuVirtuoso } from 'ui/src/components/dropdown-menu'
 import {
-	Check2Icon,
 	CheckCircleIcon,
 	ChevronDown2Icon,
 	CirclePlusIcon,
@@ -32,6 +30,7 @@ import { ToolTip } from 'ui/src/components/tool-tip'
 import Translation from 'ui/src/components/translation'
 import { Text } from 'ui/src/components/typography'
 import { ValidationErrorMessage } from 'ui/src/components/validation-error-message'
+import { AccountDropdown } from 'ui/src/containers/accounts/account-dropdown'
 
 import type { TCombinedSendSchema, TTransferSchema, TZodValidation } from './account-transfer-types'
 import { getError } from './account-transfer-utils'
@@ -146,52 +145,19 @@ export const GroupItem: React.FC<IGroupItemProps> = props => {
 					<Box padding="large">
 						{sendIndex === 0 && (
 							<Box paddingBottom="medium">
-								<Box display="flex" paddingBottom="small" alignItems="center">
-									<Box flexGrow={1} alignItems="center">
-										<Text size="medium" color="strong" weight="medium">
-											From:
-										</Text>
-									</Box>
+								<Box display="flex" paddingBottom="small" flexGrow={1} alignItems="center">
+									<Text size="medium" color="strong" weight="medium">
+										From:
+									</Text>
 								</Box>
-								<Box width="full">
-									<DropdownMenuVirtuoso
-										value={fromAccount}
-										onValueChange={onUpdateFromAccount}
-										data={accountEntries}
-										// eslint-disable-next-line react/no-unstable-nested-components
-										itemContentRenderer={(index, { id, title }) => (
-											<DropdownMenuRadioItem value={id} key={index}>
-												<Box display="flex" alignItems="center" gap="medium">
-													<Box flexShrink={0}>
-														<ResourceImageIcon address={fromAccount} />
-													</Box>
-													<Box flexGrow={1} minWidth={0}>
-														<Text truncate>{title}</Text>
-													</Box>
-												</Box>
-												<DropdownMenuItemIndicator>
-													<Check2Icon />
-												</DropdownMenuItemIndicator>
-											</DropdownMenuRadioItem>
-										)}
-										trigger={
-											<Button
-												styleVariant={getError(validation, ['from']).error ? 'tertiary-error' : 'tertiary'}
-												sizeVariant="xlarge"
-												fullWidth
-												leftIcon={<ResourceImageIcon address={fromAccount} />}
-												rightIcon={<ChevronDown2Icon />}
-											>
-												<Box display="flex" alignItems="center" width="full" textAlign="left" paddingLeft="xsmall">
-													<Text size="large" color="strong">
-														{knownAddresses[fromAccount]?.name || getShortAddress(fromAccount)}
-													</Text>
-												</Box>
-											</Button>
-										}
-									/>
-									<ValidationErrorMessage error={getError(validation, ['from'])} />
-								</Box>
+								<AccountDropdown
+									account={fromAccount}
+									accountReadableName={knownAddresses[fromAccount]?.name || getShortAddress(fromAccount)}
+									onUpdateAccount={onUpdateFromAccount}
+									accounts={accountEntries}
+									styleVariant={getError(validation, ['from']).error ? 'tertiary-error' : 'tertiary'}
+								/>
+								<ValidationErrorMessage error={getError(validation, ['from'])} />
 							</Box>
 						)}
 						<Box display="flex" paddingBottom="small">
