@@ -161,7 +161,7 @@ export const AccountActivity = forwardRef<HTMLElement, IAccountActivityProps>(
 
 		// eslint-disable-next-line @typescript-eslint/no-unused-vars
 		const { isFetching, data, error, fetchNextPage, hasNextPage } = useTransactions(
-			account !== ACCOUNTS_ALL ? { [account]: null } : null,
+			account !== ACCOUNTS_ALL ? { [account]: true } : null,
 		)
 
 		const flatten = data?.pages.reduce((container, page) => [...container, ...page.items], []) || []

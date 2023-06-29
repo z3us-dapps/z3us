@@ -35,7 +35,7 @@ export const AccountAllChart: React.FC<IAccountAllChartProps> = () => {
 	const isAllAccount = account === ACCOUNTS_ALL
 	// const [measureRef, { width: chartWrapperWidth, height: chartWrapperHeight }] = useMeasure()
 
-	const balances = useResourceBalances(!isAllAccount ? { [account]: null } : null)
+	const balances = useResourceBalances(!isAllAccount ? { [account]: true } : null)
 
 	useTimeout(() => {
 		setLoaded(true)

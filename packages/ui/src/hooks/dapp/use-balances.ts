@@ -57,7 +57,7 @@ export const useResourceBalances = (selected: SelectedAddresses = null) => {
 					change: token ? +(token.price.usd || 0) / +(token.price.usd_24h || 0) : 0,
 				} as ResourceBalance
 			}),
-		[currency, price, resourceAddresses],
+		[currency, price, resourceAddresses, metadata, tokens],
 	)
 }
 

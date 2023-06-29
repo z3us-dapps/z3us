@@ -25,7 +25,7 @@ export const AccountTransferNfts: React.FC = () => {
 		addressBook: state.addressBook[networkId] || {},
 		selectedAccount: state.selectedAccount,
 	}))
-	const balances = useResourceBalances(selectedAccount ? { [selectedAccount]: null } : null)
+	const balances = useResourceBalances(selectedAccount ? { [selectedAccount]: true } : null)
 	const accounts = useWalletAccounts()
 
 	const [state, setState] = useImmer<IAccountTransferNftsImmer>({

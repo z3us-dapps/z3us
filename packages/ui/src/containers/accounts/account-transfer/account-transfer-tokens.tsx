@@ -24,7 +24,6 @@ export const AccountTransferTokens: React.FC = () => {
 		addressBook: state.addressBook[networkId] || {},
 		selectedAccount: state.selectedAccount,
 	}))
-	const balances = useResourceBalances(selectedAccount ? { [selectedAccount]: null } : null)
 	const accounts = useWalletAccounts()
 
 	const [state, setState] = useImmer<IAccountTransferImmer>({
@@ -39,6 +38,8 @@ export const AccountTransferTokens: React.FC = () => {
 		initValidation: false,
 		validation: undefined,
 	})
+
+	const balances = useResourceBalances(state.transaction.from ? { [state.transaction.from]: true } : null)
 
 	useDeepCompareEffect(() => {
 		if (state.initValidation) {
