@@ -1,5 +1,11 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
+import { RadixEngineToolkit } from '@radixdlt/radix-engine-toolkit'
+import BigNumber from 'bignumber.js'
 import clsx, { type ClassValue } from 'clsx'
+import { TokenPrice } from 'packages/ui/src/components/token-price'
+import { config } from 'packages/ui/src/constants/config'
+import { useTransaction } from 'packages/ui/src/hooks/dapp/use-transactions'
+import { formatBigNumber } from 'packages/ui/src/utils/formatters'
 import React, { forwardRef, useEffect, useState } from 'react'
 import { useLocation, useNavigate, useSearchParams } from 'react-router-dom'
 
@@ -28,6 +34,7 @@ export const AccountTransaction = forwardRef<HTMLElement, IAccountTransactionPro
 	(props, ref: React.Ref<HTMLElement | null>) => {
 		const { className } = props
 
+		const [manifest, setManifest] = useState<string>('')
 		const [isScrolled, setIsScrolled] = useState<boolean>(false)
 		const [searchParams] = useSearchParams()
 		const navigate = useNavigate()
@@ -37,9 +44,7 @@ export const AccountTransaction = forwardRef<HTMLElement, IAccountTransactionPro
 		const transactionId = searchParams.get(ACCOUNT_PARAM_TRANSACTION_ID)
 		const isActivityLink = searchParams.get(ACCOUNT_PARAM_ACTIVITY)
 
-		// TODO: temp
-		const accountAddress =
-			'ardx1qspt0lthflcd45zhwvrxkqdrv5ne5avsgarjcpfatyw7n7n93v38dhcdtlag0sdfalksjdhf7d8f78d7f8d7f8d7f8d7f'
+		const { data } = useTransaction(transactionId)
 
 		const navigateBack = () => {
 			navigate(`${pathname}${isActivityLink ? `?${ACCOUNT_PARAM_ACTIVITY}=true` : ''}`)
@@ -57,6 +62,22 @@ export const AccountTransaction = forwardRef<HTMLElement, IAccountTransactionPro
 				setIsScrolled(false)
 			}
 		}, [transactionId])
+
+		useEffect(() => {
+			const decode = async () => {
+				if (data.transaction.raw_hex) {
+					const intent = await RadixEngineToolkit.decompileUnknownTransactionIntent(
+						Buffer.from(data.transaction.raw_hex, 'hex'),
+					)
+					setManifest(intent.toObject().signed_intent.intent.manifest.instructions.value)
+				} else {
+					setManifest('')
+				}
+			}
+			if (data) {
+				decode()
+			}
+		}, [data])
 
 		return (
 			<DialogRoot open={!!asset && !!transactionId}>
@@ -76,16 +97,21 @@ export const AccountTransaction = forwardRef<HTMLElement, IAccountTransactionPro
 									/>
 									<Box marginTop="small">
 										<Text size="small" color="strong">
-											<Translation capitalizeFirstLetter text="global.received" /> XRD
+											<Translation capitalizeFirstLetter text="global.fee" />
 										</Text>
 									</Box>
 									<Box marginTop="xxsmall">
 										<Text size="xxxlarge" color="strong">
-											0.0014
+											{formatBigNumber(new BigNumber((data?.transaction.fee_paid as any)?.value || 0), 'XRD', 8)}
 										</Text>
 									</Box>
 									<Box marginTop="xxsmall">
-										<Text size="xlarge">$24,000</Text>
+										<Text size="xlarge">
+											<TokenPrice
+												amount={new BigNumber((data?.transaction.fee_paid as any)?.value || 0)}
+												symbol="XRD"
+											/>
+										</Text>
 									</Box>
 								</Box>
 								<Box className={styles.transactionDetailsWrapper}>
@@ -97,130 +123,118 @@ export const AccountTransaction = forwardRef<HTMLElement, IAccountTransactionPro
 									</Box>
 									<Box display="flex" flexDirection="column" gap="medium" width="full">
 										<AccountsTransactionInfo
-											leftTitle={<Translation capitalizeFirstLetter text="global.type" />}
+											leftTitle={<Translation capitalizeFirstLetter text="global.id" />}
 											rightData={
-												<Text size="small">
-													{/* TODO:  */}
-													<Translation text="global.deposit" />
-												</Text>
+												<Box display="flex" alignItems="flex-end" gap="xsmall">
+													<Box className={styles.transactionInfoCopyBtnWrapper}>
+														<CopyAddressButton
+															styleVariant="ghost"
+															address={data?.transaction.intent_hash_hex}
+															iconOnly
+															rounded={false}
+															tickColor="colorStrong"
+														/>
+													</Box>
+													<ToolTip message={data?.transaction.intent_hash_hex}>
+														<Box>
+															<Text size="small">{getShortAddress(data?.transaction.intent_hash_hex)}</Text>
+														</Box>
+													</ToolTip>
+												</Box>
 											}
 										/>
+
 										<AccountsTransactionInfo
-											leftTitle={<Box as="span">Tags</Box>}
-											rightData={
-												<Text size="small">
-													{/* TODO:  */}
-													???
-												</Text>
-											}
+											leftTitle={<Translation capitalizeFirstLetter text="global.transaction_status" />}
+											rightData={<Text size="small">{data?.transaction.transaction_status}</Text>}
 										/>
+
+										{/* <AccountsTransactionInfo
+											leftTitle={<Translation capitalizeFirstLetter text="global.status" />}
+											rightData={<Text size="small">{data?.transaction.receipt?.status}</Text>}
+										/> */}
+
 										<AccountsTransactionInfo
-											leftTitle={<Box as="span">Category</Box>}
-											rightData={
-												<Text size="small">
-													{/* TODO:  */}
-													???
-												</Text>
-											}
+											leftTitle={<Translation capitalizeFirstLetter text="global.state_version" />}
+											rightData={<Text size="small">{data?.transaction.state_version}</Text>}
 										/>
+
 										<AccountsTransactionInfo
-											leftTitle={<Box as="span">Add note</Box>}
-											rightData={
-												<Text size="small">
-													{/* TODO:  */}
-													????
-												</Text>
-											}
+											leftTitle={<Translation capitalizeFirstLetter text="global.epoch" />}
+											rightData={<Text size="small">{data?.transaction.epoch}</Text>}
 										/>
+
 										<AccountsTransactionInfo
-											leftTitle={<Translation capitalizeFirstLetter text="global.type" />}
-											rightData={
-												<Text size="small">
-													{/* TODO:  */}
-													<Translation text="global.deposit" />
-												</Text>
-											}
+											leftTitle={<Translation capitalizeFirstLetter text="global.round" />}
+											rightData={<Text size="small">{data?.transaction.round}</Text>}
 										/>
+
 										<AccountsTransactionInfo
 											leftTitle={<Translation capitalizeFirstLetter text="global.date" />}
 											rightData={
 												<Box display="flex">
 													{/* TODO: need date hook based on settings  */}
-													<Text size="small">07/04/2023, 08:45:34</Text>
+													<Text size="small">{data?.transaction.confirmed_at.toLocaleString()}</Text>
 												</Box>
 											}
 										/>
+
 										<AccountsTransactionInfo
-											leftTitle={<Translation capitalizeFirstLetter text="global.id" />}
-											rightData={
-												<Box display="flex">
-													<ToolTip message={accountAddress}>
-														<Box>
-															<Text size="small">{getShortAddress(accountAddress)}</Text>
-														</Box>
-													</ToolTip>
-												</Box>
-											}
-										/>
-										<AccountsTransactionInfo
-											leftTitle={
-												<>
-													<Translation capitalizeFirstLetter text="global.from" /> <Translation text="global.address" />
-												</>
-											}
+											leftTitle={<Translation capitalizeFirstLetter text="global.affected_global_entities" />}
 											rightData={
 												<Box display="flex" alignItems="flex-end" gap="xsmall">
-													<Box className={styles.transactionInfoCopyBtnWrapper}>
+													{data?.transaction.affected_global_entities?.map(entity => (
+														<Box>
+															<Box className={styles.transactionInfoCopyBtnWrapper}>
+																<CopyAddressButton
+																	styleVariant="ghost"
+																	address={entity}
+																	iconOnly
+																	rounded={false}
+																	tickColor="colorStrong"
+																/>
+															</Box>
+															<ToolTip message={entity}>
+																<Box>
+																	<Text size="small">{getShortAddress(entity)}</Text>
+																</Box>
+															</ToolTip>
+														</Box>
+													))}
+												</Box>
+											}
+										/>
+
+										{data?.transaction.message_hex && (
+											<>
+												<Box position="relative" width="full">
+													<Box display="flex" alignItems="center" gap="xsmall">
+														<Text size="small" color="strong">
+															Message
+														</Text>
 														<CopyAddressButton
 															styleVariant="ghost"
-															address={accountAddress}
+															address="Copy message"
 															iconOnly
 															rounded={false}
 															tickColor="colorStrong"
 														/>
 													</Box>
-													<ToolTip message={accountAddress}>
-														<Box>
-															<Text size="small">{getShortAddress(accountAddress)}</Text>
-														</Box>
-													</ToolTip>
 												</Box>
-											}
-										/>
-										<AccountsTransactionInfo
-											leftTitle={
-												<>
-													<Translation capitalizeFirstLetter text="global.to" /> <Translation text="global.address" />
-												</>
-											}
-											rightData={
-												<Box display="flex" alignItems="flex-end" gap="xsmall">
-													<Box className={styles.transactionInfoCopyBtnWrapper}>
-														<CopyAddressButton
-															styleVariant="ghost"
-															address={accountAddress}
-															iconOnly
-															rounded={false}
-															tickColor="colorStrong"
-														/>
-													</Box>
-													<ToolTip message={accountAddress}>
-														<Box>
-															<Text size="small">{getShortAddress(accountAddress)}</Text>
-														</Box>
-													</ToolTip>
+												<Box position="relative" width="full">
+													<Text size="xsmall">{Buffer.from(data?.transaction.message_hex, 'hex').toString()}</Text>
 												</Box>
-											}
-										/>
-										{/* message */}
+											</>
+										)}
+
 										<Box position="relative" width="full">
 											<Box display="flex" alignItems="center" gap="xsmall">
 												<Text size="small" color="strong">
-													Message (encryped)
+													Transaction manifest
 												</Text>
 												<CopyAddressButton
 													styleVariant="ghost"
-													address="Copy message"
+													address="Copy transaction manifest"
 													iconOnly
 													rounded={false}
 													tickColor="colorStrong"
@@ -228,14 +242,7 @@ export const AccountTransaction = forwardRef<HTMLElement, IAccountTransactionPro
 											</Box>
 										</Box>
 										<Box position="relative" width="full">
-											<Text size="xsmall">
-												Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been
-												thes standard dummy text ever since the 1500s, when an unknown printer took a galley of type and
-												scrambled it to make a type specimen book. It has survived not only five centuries, but also the
-												leap into electronic typesetting, remaining essentially unchanged. It was popularised in the
-												1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently
-												with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsu
-											</Text>
+											<Text size="xsmall">{manifest}</Text>
 										</Box>
 									</Box>
 								</Box>
@@ -249,7 +256,7 @@ export const AccountTransaction = forwardRef<HTMLElement, IAccountTransactionPro
 										sizeVariant="small"
 										styleVariant="ghost"
 										iconOnly
-										to="https://explorer.radixdlt.com/"
+										to={`${config.defaultExplorerURL}/transaction/${transactionId}`}
 										target="_blank"
 									>
 										<ShareIcon />

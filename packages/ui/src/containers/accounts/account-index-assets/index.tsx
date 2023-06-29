@@ -48,12 +48,7 @@ export const AccountIndexAssets = forwardRef<HTMLElement, IAccountIndexAssetsPro
 					</Text>
 				</Box>
 				<Box className={styles.indexAssetsWrapper}>
-					{[
-						{ name: t('accounts.home.assetsCoinsTokens') },
-						{ name: t('accounts.home.assetsNfts') },
-						{ name: t('accounts.home.assetsLpTokens') },
-						{ name: t('accounts.home.assetsBadges') },
-					].map(({ name }, idx) => (
+					{[{ name: t('accounts.home.assetsTokens') }, { name: t('accounts.home.assetsNfts') }].map(({ name }, idx) => (
 						<Box key={name} className={styles.indexAssetWrapper}>
 							<AnimatePresence initial={false}>
 								{!loaded && (

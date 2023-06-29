@@ -9,9 +9,7 @@ export const ACCOUNT = ':account'
 export const ASSET_TYPE = ':assetType'
 export const ASSET = ':asset'
 export const ASSET_TYPE_TOKENS = 'tokens'
-export const ASSET_TYPE_LP_TOKENS = 'lp-tokens'
 export const ASSET_TYPE_NFTS = 'nfts'
-export const ASSET_TYPE_BADGES = 'badges'
 
 export const SEARCH_ACTIVITY_PARAM = 'activity'
 

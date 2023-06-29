@@ -20,8 +20,6 @@ import Translation from 'ui/src/components/translation'
 import { Text } from 'ui/src/components/typography'
 import {
 	ACCOUNTS_ALL,
-	ASSET_TYPE_BADGES,
-	ASSET_TYPE_LP_TOKENS,
 	ASSET_TYPE_NFTS,
 	ASSET_TYPE_TOKENS,
 	SEARCH_ACTIVITY_PARAM,
@@ -142,14 +140,8 @@ export const AccountsHomeMobileHeader = forwardRef<HTMLElement, IAccountsHomeMob
 						</>
 					)
 				}
-				case ASSET_TYPE_LP_TOKENS: {
-					return <Translation capitalizeFirstLetter text="accounts.home.assetsLpTokens" />
-				}
 				case ASSET_TYPE_NFTS: {
 					return <Translation capitalizeFirstLetter text="accounts.home.assetsNfts" />
-				}
-				case ASSET_TYPE_BADGES: {
-					return <Translation capitalizeFirstLetter text="accounts.home.assetsBadges" />
 				}
 				default:
 					return <Translation capitalizeFirstLetter text="global.assets" />

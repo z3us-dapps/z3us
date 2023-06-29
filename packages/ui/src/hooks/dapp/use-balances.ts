@@ -31,6 +31,8 @@ export const useResourceBalances = (selected: SelectedAddresses = null) => {
 	const metadata = useEntitiesMetadata(resourceAddresses)
 	const { data: tokens } = useTokens()
 
+	const keys = Object.keys(selected || {})
+
 	return useMemo(
 		() =>
 			Object.entries(resourceToBalanceMap).map(([address, amount], idx) => {
@@ -57,12 +59,14 @@ export const useResourceBalances = (selected: SelectedAddresses = null) => {
 					change: token ? +(token.price.usd || 0) / +(token.price.usd_24h || 0) : 0,
 				} as ResourceBalance
 			}),
-		[currency, price, resourceAddresses, metadata, tokens],
+		[currency, price, resourceAddresses, keys, metadata, tokens],
 	)
 }
 
 export const useTotalBalance = (selected: SelectedAddresses = null) => {
 	const balances = useResourceBalances(selected)
+
+	const keys = Object.keys(selected || {})
 
 	return useMemo(() => {
 		const totalValue = balances.reduce((value, balance) => value.plus(balance.value), new BigNumber(0))
@@ -73,5 +77,5 @@ export const useTotalBalance = (selected: SelectedAddresses = null) => {
 		)
 
 		return [totalValue, totalChange]
-	}, [balances])
+	}, [balances, keys])
 }

@@ -1,9 +1,35 @@
-import { useInfiniteQuery } from '@tanstack/react-query'
+import { useInfiniteQuery, useQuery } from '@tanstack/react-query'
 import { useMemo } from 'react'
 
 import type { SelectedAddresses } from '../../types/types'
 import { useGatewayClient } from './use-gateway-client'
 import { useRdtState } from './use-rdt-state'
+
+export const useTransactionStatus = (intent_hash_hex: string) => {
+	const { state, transaction } = useGatewayClient()!
+
+	return useQuery({
+		queryKey: ['useTransactionStatus', intent_hash_hex],
+		queryFn: () =>
+			transaction.innerClient.transactionStatus({
+				transactionStatusRequest: { intent_hash_hex },
+			}),
+		enabled: !!state && !!intent_hash_hex,
+	})
+}
+
+export const useTransaction = (intent_hash_hex: string) => {
+	const { state, transaction } = useGatewayClient()!
+
+	return useQuery({
+		queryKey: ['useTransaction', intent_hash_hex],
+		queryFn: () =>
+			transaction.innerClient.transactionCommittedDetails({
+				transactionCommittedDetailsRequest: { intent_hash_hex },
+			}),
+		enabled: !!state && !!intent_hash_hex,
+	})
+}
 
 // const fakeTransaction: CommittedTransactionInfo & {isLoading: boolean} = {
 // 	isLoading: true,
@@ -30,20 +56,21 @@ export const useTransactions = (selected: SelectedAddresses = null) => {
 	const { stream } = useGatewayClient()!
 	const { accounts = [] } = useRdtState()!
 
+	const keys = Object.keys(selected || {})
+
 	const addresses = useMemo(
 		() => accounts.map(({ address }) => address).filter(address => !selected || !!selected[address]),
-		[Object.keys(selected || {})],
+		[keys],
 	)
 
 	const data = useInfiniteQuery({
-		queryKey: ['useTransactions'],
+		queryKey: ['useTransactions', ...keys],
 		queryFn: ({ pageParam }) =>
 			stream.innerClient.streamTransactions({
 				streamTransactionsRequest: { cursor: pageParam, affected_global_entities_filter: addresses },
 			}),
 		getNextPageParam: lastPage => lastPage.next_cursor,
 		getPreviousPageParam: firstPage => firstPage.previous_cursor,
-		keepPreviousData: true,
 		enabled: !!stream,
 		// placeholderData,
 	})

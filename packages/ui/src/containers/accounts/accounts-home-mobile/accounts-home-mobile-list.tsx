@@ -6,7 +6,7 @@ import { Virtuoso } from 'react-virtuoso'
 
 import { Box } from 'ui/src/components/box'
 import { LIST_ITEM_ACTIVITY, LIST_ITEM_ASSET, LIST_ITEM_ASSET_TYPE, LIST_ITEM_INDEX } from 'ui/src/constants/list'
-import { ASSET_TYPE_BADGES, ASSET_TYPE_LP_TOKENS, ASSET_TYPE_NFTS, ASSET_TYPE_TOKENS } from 'ui/src/constants/routes'
+import { ASSET_TYPE_NFTS, ASSET_TYPE_TOKENS } from 'ui/src/constants/routes'
 import type { TListItem } from 'ui/src/types/types'
 import { isEmptyArray } from 'ui/src/utils/assertion'
 
@@ -50,16 +50,9 @@ export const AccountsHomeMobileList = forwardRef<HTMLElement, IAccountTransactio
 			{
 				id: `id-${ASSET_TYPE_TOKENS}`,
 				loaded: false,
-				name: t('accounts.home.assetsCoinsTokens'),
+				name: t('accounts.home.assetsTokens'),
 				count: 12,
 				assetType: ASSET_TYPE_TOKENS,
-			},
-			{
-				id: `id-${ASSET_TYPE_LP_TOKENS}`,
-				loaded: false,
-				name: t('accounts.home.assetsLpTokens'),
-				count: 2,
-				assetType: ASSET_TYPE_LP_TOKENS,
 			},
 			{
 				id: `id-${ASSET_TYPE_NFTS}`,
@@ -68,13 +61,6 @@ export const AccountsHomeMobileList = forwardRef<HTMLElement, IAccountTransactio
 				isImageSquare: true,
 				count: 6,
 				assetType: ASSET_TYPE_NFTS,
-			},
-			{
-				id: `id-${ASSET_TYPE_BADGES}`,
-				loaded: false,
-				name: t('accounts.home.assetsBadges'),
-				count: 2,
-				assetType: ASSET_TYPE_BADGES,
 			},
 		]
 
