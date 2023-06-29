@@ -1,8 +1,8 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { RadixEngineToolkit } from '@radixdlt/radix-engine-toolkit'
 import BigNumber from 'bignumber.js'
 import clsx, { type ClassValue } from 'clsx'
 import { TokenPrice } from 'packages/ui/src/components/token-price'
+import { TransactionManifest } from 'packages/ui/src/components/transaction-manifest'
 import { config } from 'packages/ui/src/constants/config'
 import { useTransaction } from 'packages/ui/src/hooks/dapp/use-transactions'
 import { formatBigNumber } from 'packages/ui/src/utils/formatters'
@@ -34,7 +34,6 @@ export const AccountTransaction = forwardRef<HTMLElement, IAccountTransactionPro
 	(props, ref: React.Ref<HTMLElement | null>) => {
 		const { className } = props
 
-		const [manifest, setManifest] = useState<string>('')
 		const [isScrolled, setIsScrolled] = useState<boolean>(false)
 		const [searchParams] = useSearchParams()
 		const navigate = useNavigate()
@@ -62,22 +61,6 @@ export const AccountTransaction = forwardRef<HTMLElement, IAccountTransactionPro
 				setIsScrolled(false)
 			}
 		}, [transactionId])
-
-		useEffect(() => {
-			const decode = async () => {
-				if (data.transaction.raw_hex) {
-					const intent = await RadixEngineToolkit.decompileUnknownTransactionIntent(
-						Buffer.from(data.transaction.raw_hex, 'hex'),
-					)
-					setManifest(intent.toObject().signed_intent.intent.manifest.instructions.value)
-				} else {
-					setManifest('')
-				}
-			}
-			if (data) {
-				decode()
-			}
-		}, [data])
 
 		return (
 			<DialogRoot open={!!asset && !!transactionId}>
@@ -242,7 +225,7 @@ export const AccountTransaction = forwardRef<HTMLElement, IAccountTransactionPro
 											</Box>
 										</Box>
 										<Box position="relative" width="full">
-											<Text size="xsmall">{manifest}</Text>
+											<TransactionManifest body={data?.transaction.raw_hex} />
 										</Box>
 									</Box>
 								</Box>
