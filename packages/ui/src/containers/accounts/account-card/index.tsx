@@ -51,15 +51,7 @@ const CARD_COLORS = [
 	},
 ]
 
-interface IAccountCardRequiredProps {}
-
-interface IAccountCardOptionalProps {}
-
-interface IAccountCardProps extends IAccountCardRequiredProps, IAccountCardOptionalProps {}
-
-const defaultProps: IAccountCardOptionalProps = {}
-
-export const AccountCard: React.FC<IAccountCardProps> = props => {
+export const AccountCard: React.FC = () => {
 	const navigate = useNavigate()
 	const { account, assetType, asset } = useAccountParams()
 	const [isMounted, setIsMounted] = useState<boolean>(false)
@@ -143,5 +135,3 @@ export const AccountCard: React.FC<IAccountCardProps> = props => {
 		</Box>
 	)
 }
-
-AccountCard.defaultProps = defaultProps

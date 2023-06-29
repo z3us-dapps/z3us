@@ -244,11 +244,13 @@ export const GroupItem: React.FC<IGroupItemProps> = props => {
 								nftIndex={nftIndex}
 								validation={validation}
 								onUpdateToken={(_value: string) => {
+									// eslint-disable-next-line no-console
 									console.log('🚀 ~ file: group-transfer.tsx:280 ~ _value:', _value)
 									// const t = balances.find(b => b.address === _value)
 									// if (t) onUpdateToken(sendIndex)(tokenIndex)(t.address, t.symbol, t.name)
 								}}
 								onUpdateTokenValue={(_value: number) => {
+									// eslint-disable-next-line no-console
 									console.log('🚀 ~ file: group-transfer.tsx:291 ~ _value:', _value)
 									// onUpdateTokenValue(sendIndex)(tokenIndex)(_value)
 								}}

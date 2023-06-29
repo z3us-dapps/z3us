@@ -29,168 +29,156 @@ import { getShortAddress } from 'ui/src/utils/string-utils'
 
 import * as styles from './account-search.css'
 
-interface IAccountSearchRequiredProps {}
+export const AccountSearch = () => {
+	const { t } = useTranslation()
+	const [searchParams] = useSearchParams()
+	const navigate = useNavigate()
+	const { pathname } = useLocation()
+	const inputRef = useRef(null)
 
-interface IAccountSearchOptionalProps {}
+	const query = searchParams.get(ACCOUNT_PARAM_QUERY)
 
-interface IAccountSearchProps extends IAccountSearchRequiredProps, IAccountSearchOptionalProps {}
+	const [isScrolled, setIsScrolled] = useState<boolean>(false)
+	const [inputValue, setInputValue] = useState<string>('')
 
-const defaultProps: IAccountSearchOptionalProps = {}
+	// https://www.algolia.com/search/?query=hello&tab=&website%5Bquery%5D=hello
+	// http://localhost:8003/#/accounts/all?asset=xrd&transactionId=1eaf53c4256c384d76ca72c0f18ef37a2e4441d4e6bae450e2b8507f42faa5b6
 
-export const AccountSearch = forwardRef<HTMLElement, IAccountSearchProps>(
-	(props, ref: React.Ref<HTMLElement | null>) => {
-		const { t } = useTranslation()
-		const [searchParams] = useSearchParams()
-		const navigate = useNavigate()
-		const { pathname } = useLocation()
-		const inputRef = useRef(null)
+	// TODO: temp
+	const accountAddress =
+		'ardx1qspt0lthflcd45zhwvrxkqdrv5ne5avsgarjcpfatyw7n7n93v38dhcdtlag0sdfalksjdhf7d8f78d7f8d7f8d7f8d7f'
 
-		const query = searchParams.get(ACCOUNT_PARAM_QUERY)
+	const navigateBack = () => {
+		// eslint-disable-next-line
+		console.log('navigate')
+		// navigate(`${pathname}${isActivityLink ? `?${ACCOUNT_PARAM_ACTIVITY}=true` : ''}`)
+		navigate(pathname)
+	}
 
-		const [isScrolled, setIsScrolled] = useState<boolean>(false)
-		const [inputValue, setInputValue] = useState<string>('')
+	const handleScroll = (event: Event) => {
+		const target = event.target as Element
+		const { scrollTop } = target
 
-		// https://www.algolia.com/search/?query=hello&tab=&website%5Bquery%5D=hello
-		// http://localhost:8003/#/accounts/all?asset=xrd&transactionId=1eaf53c4256c384d76ca72c0f18ef37a2e4441d4e6bae450e2b8507f42faa5b6
+		setIsScrolled(scrollTop > 0)
+	}
 
-		// TODO: temp
-		const accountAddress =
-			'ardx1qspt0lthflcd45zhwvrxkqdrv5ne5avsgarjcpfatyw7n7n93v38dhcdtlag0sdfalksjdhf7d8f78d7f8d7f8d7f8d7f'
+	const handleOnChange = (event: React.ChangeEvent<FormElement>) => {
+		const { value } = event.target
 
-		const navigateBack = () => {
-			// eslint-disable-next-line
-			console.log('navigate')
-			// navigate(`${pathname}${isActivityLink ? `?${ACCOUNT_PARAM_ACTIVITY}=true` : ''}`)
-			navigate(pathname)
+		setInputValue(value)
+	}
+
+	useEffect(() => {
+		if (query) {
+			setInputValue(query)
+		}
+		if (!query) {
+			setIsScrolled(false)
 		}
 
-		const handleScroll = (event: Event) => {
-			const target = event.target as Element
-			const { scrollTop } = target
+		inputRef?.current?.focus()
+	}, [query])
 
-			setIsScrolled(scrollTop > 0)
-		}
-
-		const handleOnChange = (event: React.ChangeEvent<FormElement>) => {
-			const { value } = event.target
-
-			setInputValue(value)
-		}
-
-		useEffect(() => {
-			if (query) {
-				setInputValue(query)
-			}
-			if (!query) {
-				setIsScrolled(false)
-			}
-
-			inputRef?.current?.focus()
-		}, [query])
-
-		return (
-			<DialogRoot open={!!query}>
-				<DialogPortal>
-					<DialogOverlay className={dialogStyles.dialogOverlay} />
-					<DialogContent
-						className={clsx(dialogStyles.dialogContent, styles.searchContent)}
-						onEscapeKeyDown={navigateBack}
-					>
-						<ScrollArea isTopShadowVisible={false} onScroll={handleScroll}>
-							<Box className={clsx(styles.searchHeaderWrapper, isScrolled && styles.searchHeaderWrapperShadow)}>
-								<Box display="flex" width="full" alignItems="center" gap="medium">
-									<Box flexGrow={1}>
-										<Input
-											ref={inputRef}
-											value={inputValue}
-											className={styles.searchElement}
-											placeholder={capitalizeFirstLetter(`${t('global.search')}`)}
-											onChange={handleOnChange}
-										/>
-									</Box>
-									<Box flexShrink={0} display="flex" justifyContent="flex-end" gap="small">
-										<ToolTip message={<Translation capitalizeFirstLetter text="global.close" />}>
-											<Button styleVariant="ghost" sizeVariant="small" iconOnly onClick={navigateBack}>
-												<Close2Icon />
-											</Button>
-										</ToolTip>
-									</Box>
+	return (
+		<DialogRoot open={!!query}>
+			<DialogPortal>
+				<DialogOverlay className={dialogStyles.dialogOverlay} />
+				<DialogContent
+					className={clsx(dialogStyles.dialogContent, styles.searchContent)}
+					onEscapeKeyDown={navigateBack}
+				>
+					<ScrollArea isTopShadowVisible={false} onScroll={handleScroll}>
+						<Box className={clsx(styles.searchHeaderWrapper, isScrolled && styles.searchHeaderWrapperShadow)}>
+							<Box display="flex" width="full" alignItems="center" gap="medium">
+								<Box flexGrow={1}>
+									<Input
+										ref={inputRef}
+										value={inputValue}
+										className={styles.searchElement}
+										placeholder={capitalizeFirstLetter(`${t('global.search')}`)}
+										onChange={handleOnChange}
+									/>
 								</Box>
-								<Box display="flex" width="full">
-									<Box flexGrow={1}>
-										<Text size="xsmall">Lorem Ipsum</Text>
+								<Box flexShrink={0} display="flex" justifyContent="flex-end" gap="small">
+									<ToolTip message={<Translation capitalizeFirstLetter text="global.close" />}>
+										<Button styleVariant="ghost" sizeVariant="small" iconOnly onClick={navigateBack}>
+											<Close2Icon />
+										</Button>
+									</ToolTip>
+								</Box>
+							</Box>
+							<Box display="flex" width="full">
+								<Box flexGrow={1}>
+									<Text size="xsmall">Lorem Ipsum</Text>
+								</Box>
+							</Box>
+						</Box>
+						<Box className={styles.searchBodyScrollWrapper}>
+							<Box className={styles.searchDetailsWrapper}>
+								<Box display="flex" flexDirection="column" gap="medium" width="full">
+									{/* message */}
+									<Box position="relative" width="full">
+										<Box display="flex" alignItems="center" gap="xsmall">
+											<Text size="small" color="strong">
+												Message (encryped)
+											</Text>
+											<CopyAddressButton
+												styleVariant="ghost"
+												address="Copy message"
+												iconOnly
+												rounded={false}
+												tickColor="colorStrong"
+											/>
+										</Box>
+									</Box>
+									<Box position="relative" width="full">
+										<Text size="large">
+											Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been
+											thes standard dummy text ever since the 1500s, when an unknown printer took a galley of type and
+											scrambled it to make a type specimen book. It has survived not only five centuries, but also the
+											leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s
+											with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with
+											desktop publishing software like Aldus PageMaker including versions of Lorem Ipsu
+										</Text>
+										<Text size="large">
+											Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been
+											thes standard dummy text ever since the 1500s, when an unknown printer took a galley of type and
+											scrambled it to make a type specimen book. It has survived not only five centuries, but also the
+											leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s
+											with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with
+											desktop publishing software like Aldus PageMaker including versions of Lorem Ipsu
+										</Text>
+										<Text size="large">
+											Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been
+											thes standard dummy text ever since the 1500s, when an unknown printer took a galley of type and
+											scrambled it to make a type specimen book. It has survived not only five centuries, but also the
+											leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s
+											with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with
+											desktop publishing software like Aldus PageMaker including versions of Lorem Ipsu
+										</Text>
+										<Text size="large">
+											Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been
+											thes standard dummy text ever since the 1500s, when an unknown printer took a galley of type and
+											scrambled it to make a type specimen book. It has survived not only five centuries, but also the
+											leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s
+											with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with
+											desktop publishing software like Aldus PageMaker including versions of Lorem Ipsu
+										</Text>
+										<Text size="xsmall">
+											Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been
+											thes standard dummy text ever since the 1500s, when an unknown printer took a galley of type and
+											scrambled it to make a type specimen book. It has survived not only five centuries, but also the
+											leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s
+											with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with
+											desktop publishing software like Aldus PageMaker including versions of Lorem Ipsu
+										</Text>
 									</Box>
 								</Box>
 							</Box>
-							<Box ref={ref} className={styles.searchBodyScrollWrapper}>
-								<Box className={styles.searchDetailsWrapper}>
-									<Box display="flex" flexDirection="column" gap="medium" width="full">
-										{/* message */}
-										<Box position="relative" width="full">
-											<Box display="flex" alignItems="center" gap="xsmall">
-												<Text size="small" color="strong">
-													Message (encryped)
-												</Text>
-												<CopyAddressButton
-													styleVariant="ghost"
-													address="Copy message"
-													iconOnly
-													rounded={false}
-													tickColor="colorStrong"
-												/>
-											</Box>
-										</Box>
-										<Box position="relative" width="full">
-											<Text size="large">
-												Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been
-												thes standard dummy text ever since the 1500s, when an unknown printer took a galley of type and
-												scrambled it to make a type specimen book. It has survived not only five centuries, but also the
-												leap into electronic typesetting, remaining essentially unchanged. It was popularised in the
-												1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently
-												with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsu
-											</Text>
-											<Text size="large">
-												Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been
-												thes standard dummy text ever since the 1500s, when an unknown printer took a galley of type and
-												scrambled it to make a type specimen book. It has survived not only five centuries, but also the
-												leap into electronic typesetting, remaining essentially unchanged. It was popularised in the
-												1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently
-												with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsu
-											</Text>
-											<Text size="large">
-												Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been
-												thes standard dummy text ever since the 1500s, when an unknown printer took a galley of type and
-												scrambled it to make a type specimen book. It has survived not only five centuries, but also the
-												leap into electronic typesetting, remaining essentially unchanged. It was popularised in the
-												1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently
-												with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsu
-											</Text>
-											<Text size="large">
-												Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been
-												thes standard dummy text ever since the 1500s, when an unknown printer took a galley of type and
-												scrambled it to make a type specimen book. It has survived not only five centuries, but also the
-												leap into electronic typesetting, remaining essentially unchanged. It was popularised in the
-												1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently
-												with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsu
-											</Text>
-											<Text size="xsmall">
-												Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been
-												thes standard dummy text ever since the 1500s, when an unknown printer took a galley of type and
-												scrambled it to make a type specimen book. It has survived not only five centuries, but also the
-												leap into electronic typesetting, remaining essentially unchanged. It was popularised in the
-												1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently
-												with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsu
-											</Text>
-										</Box>
-									</Box>
-								</Box>
-							</Box>
-						</ScrollArea>
-					</DialogContent>
-				</DialogPortal>
-			</DialogRoot>
-		)
-	},
-)
-
-AccountSearch.defaultProps = defaultProps
+						</Box>
+					</ScrollArea>
+				</DialogContent>
+			</DialogPortal>
+		</DialogRoot>
+	)
+}
