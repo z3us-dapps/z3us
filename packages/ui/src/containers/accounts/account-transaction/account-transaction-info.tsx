@@ -1,4 +1,4 @@
-/* eslint-disable react/jsx-no-useless-fragment, @typescript-eslint/no-unused-vars */
+/* eslint-disable react/jsx-no-useless-fragment */
 import React from 'react'
 
 import { Box } from 'ui/src/components/box'
@@ -6,20 +6,12 @@ import { Text } from 'ui/src/components/typography'
 
 import * as styles from './account-transaction.css'
 
-interface IAccountsTransactionInfoRequiredProps {
+interface IAccountsTransactionInfoProps {
 	leftTitle: React.ReactNode
 	rightData: React.ReactNode
 }
 
-interface IAccountsTransactionInfoOptionalProps {}
-
-interface IAccountsTransactionInfoProps
-	extends IAccountsTransactionInfoRequiredProps,
-		IAccountsTransactionInfoOptionalProps {}
-
-const defaultProps: IAccountsTransactionInfoOptionalProps = {}
-
-export const AccountsTransactionInfo = (props: IAccountsTransactionInfoProps): JSX.Element => {
+export const AccountsTransactionInfo: React.FC<IAccountsTransactionInfoProps> = props => {
 	const { leftTitle, rightData } = props
 
 	return (
@@ -36,5 +28,3 @@ export const AccountsTransactionInfo = (props: IAccountsTransactionInfoProps): J
 		</Box>
 	)
 }
-
-AccountsTransactionInfo.defaultProps = defaultProps

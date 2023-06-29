@@ -171,18 +171,15 @@ export const TransferNftSelector: React.FC<ITransferNftSelectorProps> = props =>
 					)}
 					trigger={
 						<Button
-							// styleVariant={getError(validation, ['from']).error ? 'tertiary-error' : 'tertiary'}
 							styleVariant="tertiary"
 							sizeVariant="xlarge"
 							fullWidth
-							// leftIcon={<ResourceImageIcon address={fromAccount} />}
 							leftIcon={<ChevronDown2Icon />}
 							rightIcon={<ChevronDown2Icon />}
 						>
 							<Box display="flex" alignItems="center" width="full" textAlign="left" paddingLeft="xsmall">
 								<Text size="large" color="strong">
 									nft
-									{/* {knownAddresses[fromAccount]?.name || getShortAddress(fromAccount)} */}
 								</Text>
 							</Box>
 						</Button>

@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react'
 
 import { type FormElement, Input } from 'ui/src/components/input'
+import Translation from 'ui/src/components/translation'
 
 import { AccountTransfer } from './account-transfer'
 
@@ -19,7 +20,7 @@ export const AccountTransferRaw: React.FC = () => {
 
 	return (
 		<AccountTransfer
-			title="Send raw transaction"
+			title={<Translation capitalizeFirstLetter text="transfer.navigation.transferRaw" />}
 			description="Enter transaction manifest"
 			helpTitle="Raw transaction"
 			help="Enter raw transaction manifest text to send to your linked Radix Wallet. No method call to 'lock_fee' is required - the wallet will add this automatically."

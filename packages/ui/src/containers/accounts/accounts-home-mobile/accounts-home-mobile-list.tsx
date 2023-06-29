@@ -24,128 +24,108 @@ const ListContainer = React.forwardRef<HTMLDivElement>((props, ref) => (
 
 const ItemContainer = props => <Box {...props} />
 
-interface IAccountTransactionRequiredProps {
+interface IAccountTransactionProps {
 	customScrollParent: HTMLElement
 	listItemType: TListItem
 	search: string
 }
 
-interface IAccountTransactionOptionalProps {
-	className?: ClassValue
-}
+export const AccountsHomeMobileList: React.FC<IAccountTransactionProps> = props => {
+	const { customScrollParent, listItemType, search } = props
 
-interface IAccountTransactionProps extends IAccountTransactionRequiredProps, IAccountTransactionOptionalProps {}
+	const { t, i18n } = useTranslation()
 
-const defaultProps: IAccountTransactionOptionalProps = {
-	className: undefined,
-}
+	const indexItems = [
+		{
+			id: `id-${ASSET_TYPE_TOKENS}`,
+			loaded: false,
+			name: t('accounts.home.assetsTokens'),
+			count: 12,
+			assetType: ASSET_TYPE_TOKENS,
+		},
+		{
+			id: `id-${ASSET_TYPE_NFTS}`,
+			loaded: false,
+			name: t('accounts.home.assetsNfts'),
+			isImageSquare: true,
+			count: 6,
+			assetType: ASSET_TYPE_NFTS,
+		},
+	]
 
-export const AccountsHomeMobileList = forwardRef<HTMLElement, IAccountTransactionProps>(
-	(props, ref: React.Ref<HTMLElement | null>) => {
-		const { customScrollParent, listItemType, className, search } = props
+	const [items, setItems] = useState<any>(indexItems)
 
-		const { t, i18n } = useTranslation()
+	// TODO: demo data fetching
+	useEffect(() => {
+		// Needs to scroll to top or the virtuoso list will bug out and not load
+		customScrollParent?.scrollTo({ top: 0 })
 
-		const indexItems = [
-			{
-				id: `id-${ASSET_TYPE_TOKENS}`,
-				loaded: false,
-				name: t('accounts.home.assetsTokens'),
-				count: 12,
-				assetType: ASSET_TYPE_TOKENS,
-			},
-			{
-				id: `id-${ASSET_TYPE_NFTS}`,
-				loaded: false,
-				name: t('accounts.home.assetsNfts'),
-				isImageSquare: true,
-				count: 6,
-				assetType: ASSET_TYPE_NFTS,
-			},
-		]
+		if (listItemType === LIST_ITEM_INDEX) {
+			setItems(indexItems)
+		} else {
+			setItems(Array.from({ length: 40 }, _ => ({ id: hash(), name: hash(), loaded: false, symbol: 'xrd' })))
+		}
+	}, [listItemType, i18n.language])
 
-		const [items, setItems] = useState<any>(indexItems)
+	const computeItemKey = useCallback(index => items[index].id, [items])
 
-		// TODO: demo data fetching
-		useEffect(() => {
-			// Needs to scroll to top or the virtuoso list will bug out and not load
-			customScrollParent?.scrollTo({ top: 0 })
-
-			if (listItemType === LIST_ITEM_INDEX) {
-				setItems(indexItems)
-			} else {
-				setItems(Array.from({ length: 40 }, _ => ({ id: hash(), name: hash(), loaded: false, symbol: 'xrd' })))
-			}
-		}, [listItemType, i18n.language])
-
-		const computeItemKey = useCallback(index => items[index].id, [items])
-
-		// todo: fix token type
-		const filteredList = items.filter((_token: any) => {
-			const searchLowerCase = search.toLowerCase()
-			return (
-				_token.name?.toLowerCase().includes(searchLowerCase) || _token.symbol?.toLowerCase().includes(searchLowerCase)
-			)
-		})
-
+	// todo: fix token type
+	const filteredList = items.filter((_token: any) => {
+		const searchLowerCase = search.toLowerCase()
 		return (
-			<Box ref={ref} className={clsx(styles.mobileAccountsListWrapperInner, className)}>
-				{isEmptyArray(filteredList) ? (
-					<Box paddingTop="large">
-						<div />
-					</Box>
-				) : (
-					<>
-						{/* @TODO: remove eslint when we remove context provider */}
-						{/* eslint-disable-next-line */}
-						<Context.Provider value={{ setItems }}>
-							<Virtuoso
-								customScrollParent={customScrollParent}
-								data={filteredList}
-								// @TODO: fix eslint issue, probably define component better....
-								// eslint-disable-next-line
-								itemContent={(index, { id, loaded, name, isImageSquare, count, assetType, symbol }) => {
-									switch (listItemType) {
-										case LIST_ITEM_INDEX:
-											return (
-												<AccountsMobileIndexListItem
-													id={id}
-													index={index}
-													loaded={loaded}
-													name={name}
-													isImageSquare={isImageSquare}
-													count={count}
-													assetType={assetType}
-												/>
-											)
-										case LIST_ITEM_ASSET_TYPE:
-											return (
-												<AccountsMobileAssetListItem
-													id={id}
-													index={index}
-													loaded={loaded}
-													name={name}
-													symbol={symbol}
-												/>
-											)
-										case LIST_ITEM_ACTIVITY:
-											return <AccountsMobileActivityListItem id={id} index={index} loaded={loaded} name={name} />
-										default:
-											return <Box />
-									}
-								}}
-								components={{
-									List: ListContainer,
-									Item: ItemContainer,
-								}}
-								computeItemKey={computeItemKey}
-							/>
-						</Context.Provider>
-					</>
-				)}
-			</Box>
+			_token.name?.toLowerCase().includes(searchLowerCase) || _token.symbol?.toLowerCase().includes(searchLowerCase)
 		)
-	},
-)
+	})
 
-AccountsHomeMobileList.defaultProps = defaultProps
+	return (
+		<Box className={styles.mobileAccountsListWrapperInner}>
+			{isEmptyArray(filteredList) ? (
+				<Box paddingTop="large">
+					<div />
+				</Box>
+			) : (
+				<>
+					{/* @TODO: remove eslint when we remove context provider */}
+					{/* eslint-disable-next-line */}
+					<Context.Provider value={{ setItems }}>
+						<Virtuoso
+							customScrollParent={customScrollParent}
+							data={filteredList}
+							// @TODO: fix eslint issue, probably define component better....
+							// eslint-disable-next-line
+							itemContent={(index, { id, loaded, name, isImageSquare, count, assetType, symbol }) => {
+								switch (listItemType) {
+									case LIST_ITEM_INDEX:
+										return (
+											<AccountsMobileIndexListItem
+												id={id}
+												index={index}
+												loaded={loaded}
+												name={name}
+												isImageSquare={isImageSquare}
+												count={count}
+												assetType={assetType}
+											/>
+										)
+									case LIST_ITEM_ASSET_TYPE:
+										return (
+											<AccountsMobileAssetListItem id={id} index={index} loaded={loaded} name={name} symbol={symbol} />
+										)
+									case LIST_ITEM_ACTIVITY:
+										return <AccountsMobileActivityListItem id={id} index={index} loaded={loaded} name={name} />
+									default:
+										return <Box />
+								}
+							}}
+							components={{
+								List: ListContainer,
+								Item: ItemContainer,
+							}}
+							computeItemKey={computeItemKey}
+						/>
+					</Context.Provider>
+				</>
+			)}
+		</Box>
+	)
+}

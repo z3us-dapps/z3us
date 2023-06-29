@@ -1,6 +1,7 @@
 /* eslint-disable import/no-unresolved */
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-nocheck
+// eslint-disable-next-line import/no-extraneous-dependencies
 import blake from 'blakejs'
 import { Buffer } from 'buffer'
 

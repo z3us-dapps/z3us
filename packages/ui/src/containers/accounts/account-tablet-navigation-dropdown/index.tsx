@@ -1,5 +1,4 @@
-import clsx, { type ClassValue } from 'clsx'
-import React, { forwardRef, useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useLocation, useNavigate } from 'react-router-dom'
 
@@ -22,87 +21,71 @@ import { accountMenuSlugs } from 'ui/src/constants/accounts'
 
 import * as styles from './account-tablet-navigation-dropdown.css'
 
-interface IAccountTabletNavigationDropdownRequiredProps {}
-
-interface IAccountTabletNavigationDropdownOptionalProps {
-	className?: ClassValue
+interface IAccountTabletNavigationDropdown {
 	styleVariant?: TStyleVariant
 }
 
-interface IAccountTabletNavigationDropdownProps
-	extends IAccountTabletNavigationDropdownRequiredProps,
-		IAccountTabletNavigationDropdownOptionalProps {}
+export const AccountTabletNavigationDropdown: React.FC<IAccountTabletNavigationDropdown> = props => {
+	const { styleVariant = 'tertiary' } = props
 
-const defaultProps: IAccountTabletNavigationDropdownOptionalProps = {
-	className: undefined,
-	styleVariant: 'tertiary',
-}
+	const { t } = useTranslation()
+	const navigate = useNavigate()
+	const { pathname } = useLocation()
+	const [activeMenu, setActiveMenu] = useState<string>('accounts')
 
-export const AccountTabletNavigationDropdown = forwardRef<HTMLElement, IAccountTabletNavigationDropdownProps>(
-	(props, ref: React.Ref<HTMLElement | null>) => {
-		const { className, styleVariant } = props
+	const menuSlugs = [
+		{ id: 'accounts', text: t('accounts.navigation.accounts'), href: accountMenuSlugs.ACCOUNTS },
+		{ id: 'transfer', text: t('accounts.navigation.transfer'), href: accountMenuSlugs.TRANSFER },
+		{ id: 'staking', text: t('accounts.navigation.staking'), href: accountMenuSlugs.STAKING },
+		{ id: 'swap', text: t('accounts.navigation.swap'), href: accountMenuSlugs.SWAP },
+		{ id: 'settings', text: t('accounts.navigation.settings'), href: accountMenuSlugs.SETTINGS },
+	]
 
-		const { t } = useTranslation()
-		const navigate = useNavigate()
-		const { pathname } = useLocation()
-		const [activeMenu, setActiveMenu] = useState<string>('accounts')
+	const handleValueChanged = (menuItemId: string) => {
+		setActiveMenu(menuItemId)
+		const { href } = menuSlugs.find(({ id }) => id === menuItemId)
+		navigate(href)
+	}
 
-		const menuSlugs = [
-			{ id: 'accounts', text: t('accounts.navigation.accounts'), href: accountMenuSlugs.ACCOUNTS },
-			{ id: 'transfer', text: t('accounts.navigation.transfer'), href: accountMenuSlugs.TRANSFER },
-			{ id: 'staking', text: t('accounts.navigation.staking'), href: accountMenuSlugs.STAKING },
-			{ id: 'swap', text: t('accounts.navigation.swap'), href: accountMenuSlugs.SWAP },
-			{ id: 'settings', text: t('accounts.navigation.settings'), href: accountMenuSlugs.SETTINGS },
-		]
+	const getActiveMenuText = () =>
+		menuSlugs.find(({ id }) => id === activeMenu)?.text || t('accounts.navigation.accounts')
 
-		const handleValueChanged = (menuItemId: string) => {
-			setActiveMenu(menuItemId)
-			const { href } = menuSlugs.find(({ id }) => id === menuItemId)
-			navigate(href)
+	useEffect(() => {
+		const pathKey = pathname?.split('/')?.[2] || ''
+		const active = menuSlugs.find(({ id }) => id === pathKey)
+		if (active) {
+			setActiveMenu(active?.id)
 		}
+	}, [pathname])
 
-		const getActiveMenuText = () =>
-			menuSlugs.find(({ id }) => id === activeMenu)?.text || t('accounts.navigation.accounts')
-
-		useEffect(() => {
-			const pathKey = pathname?.split('/')?.[2] || ''
-			const active = menuSlugs.find(({ id }) => id === pathKey)
-			if (active) {
-				setActiveMenu(active?.id)
-			}
-		}, [pathname])
-
-		return (
-			<Box ref={ref} className={clsx(styles.accountViewDropdownWrapper, className)}>
-				<DropdownMenu>
-					<DropdownMenuTrigger asChild>
-						<Button styleVariant={styleVariant} sizeVariant="small" rounded rightIcon={<ChevronDownIcon />}>
-							<Text capitalizeFirstLetter>{getActiveMenuText()}</Text>
-						</Button>
-					</DropdownMenuTrigger>
-					<DropdownMenuPortal>
-						<DropdownMenuContent align="start" sideOffset={2} className={styles.accountViewContentWrapper}>
-							<DropdownMenuRadioGroup value={activeMenu} onValueChange={handleValueChanged}>
-								{menuSlugs.map(({ id, text }) => (
-									<DropdownMenuRadioItem value={id} key={id}>
-										<Box flexGrow={1}>
-											<Text capitalizeFirstLetter size="xsmall">
-												{text}
-											</Text>
-										</Box>
-										<DropdownMenuItemIndicator>
-											<CheckIcon />
-										</DropdownMenuItemIndicator>
-									</DropdownMenuRadioItem>
-								))}
-							</DropdownMenuRadioGroup>
-							<DropdownMenuArrow />
-						</DropdownMenuContent>
-					</DropdownMenuPortal>
-				</DropdownMenu>
-			</Box>
-		)
-	},
-)
-
-AccountTabletNavigationDropdown.defaultProps = defaultProps
+	return (
+		<Box className={styles.accountViewDropdownWrapper}>
+			<DropdownMenu>
+				<DropdownMenuTrigger asChild>
+					<Button styleVariant={styleVariant} sizeVariant="small" rounded rightIcon={<ChevronDownIcon />}>
+						<Text capitalizeFirstLetter>{getActiveMenuText()}</Text>
+					</Button>
+				</DropdownMenuTrigger>
+				<DropdownMenuPortal>
+					<DropdownMenuContent align="start" sideOffset={2} className={styles.accountViewContentWrapper}>
+						<DropdownMenuRadioGroup value={activeMenu} onValueChange={handleValueChanged}>
+							{menuSlugs.map(({ id, text }) => (
+								<DropdownMenuRadioItem value={id} key={id}>
+									<Box flexGrow={1}>
+										<Text capitalizeFirstLetter size="xsmall">
+											{text}
+										</Text>
+									</Box>
+									<DropdownMenuItemIndicator>
+										<CheckIcon />
+									</DropdownMenuItemIndicator>
+								</DropdownMenuRadioItem>
+							))}
+						</DropdownMenuRadioGroup>
+						<DropdownMenuArrow />
+					</DropdownMenuContent>
+				</DropdownMenuPortal>
+			</DropdownMenu>
+		</Box>
+	)
+}

@@ -1,8 +1,7 @@
-import clsx, { type ClassValue } from 'clsx'
 import { useTotalBalance } from 'packages/ui/src/hooks/dapp/use-balances'
 import { useNoneSharedStore } from 'packages/ui/src/hooks/use-store'
 import { formatBigNumber } from 'packages/ui/src/utils/formatters'
-import React, { forwardRef } from 'react'
+import React from 'react'
 import { useLocation } from 'react-router-dom'
 
 import { Box } from 'ui/src/components/box'
@@ -14,55 +13,38 @@ import { Text } from 'ui/src/components/typography'
 
 import * as styles from './account-index-header.css'
 
-interface IAccountIndexHeaderRequiredProps {}
+export const AccountIndexHeader = () => {
+	const { defaultCurrency } = useNoneSharedStore(state => ({
+		defaultCurrency: state.currency,
+	}))
+	const { pathname } = useLocation()
+	const [value] = useTotalBalance()
 
-interface IAccountIndexHeaderOptionalProps {
-	className?: ClassValue
-}
-
-interface IAccountIndexHeaderProps extends IAccountIndexHeaderRequiredProps, IAccountIndexHeaderOptionalProps {}
-
-const defaultProps: IAccountIndexHeaderOptionalProps = {
-	className: undefined,
-}
-
-export const AccountIndexHeader = forwardRef<HTMLElement, IAccountIndexHeaderProps>(
-	(props, ref: React.Ref<HTMLElement | null>) => {
-		const { className } = props
-		const { defaultCurrency } = useNoneSharedStore(state => ({
-			defaultCurrency: state.currency,
-		}))
-		const { pathname } = useLocation()
-		const [value] = useTotalBalance()
-
-		return (
-			<Box ref={ref} className={clsx(className, styles.accountIndexWrapper)}>
-				<Box display="flex" width="full">
-					<Box flexGrow={1}>
-						<Box display="flex" alignItems="center" paddingBottom="medium" flexGrow={0}>
-							<Box>
-								<Text size="large">
-									<Translation capitalizeFirstLetter text="accounts.home.accountBalanceTitle" />
-								</Text>
-							</Box>
+	return (
+		<Box className={styles.accountIndexWrapper}>
+			<Box display="flex" width="full">
+				<Box flexGrow={1}>
+					<Box display="flex" alignItems="center" paddingBottom="medium" flexGrow={0}>
+						<Box>
+							<Text size="large">
+								<Translation capitalizeFirstLetter text="accounts.home.accountBalanceTitle" />
+							</Text>
 						</Box>
-						<Box display="flex" alignItems="center" gap="small">
-							<Box flexGrow={1}>
-								<Text weight="medium" size="xxxlarge" color="strong" truncate>
-									{formatBigNumber(value, defaultCurrency, 2)}
-								</Text>
-							</Box>
-							<ToolTip theme="backgroundPrimary" message={<Translation capitalizeFirstLetter text="global.search" />}>
-								<Button to={`${pathname}?query=hello`} styleVariant="ghost" sizeVariant="small" iconOnly>
-									<SearchIcon />
-								</Button>
-							</ToolTip>
+					</Box>
+					<Box display="flex" alignItems="center" gap="small">
+						<Box flexGrow={1}>
+							<Text weight="medium" size="xxxlarge" color="strong" truncate>
+								{formatBigNumber(value, defaultCurrency, 2)}
+							</Text>
 						</Box>
+						<ToolTip theme="backgroundPrimary" message={<Translation capitalizeFirstLetter text="global.search" />}>
+							<Button to={`${pathname}?query=hello`} styleVariant="ghost" sizeVariant="small" iconOnly>
+								<SearchIcon />
+							</Button>
+						</ToolTip>
 					</Box>
 				</Box>
 			</Box>
-		)
-	},
-)
-
-AccountIndexHeader.defaultProps = defaultProps
+		</Box>
+	)
+}

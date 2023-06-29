@@ -1,4 +1,4 @@
-/* eslint-disable */
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import clsx from 'clsx'
 import React, { forwardRef, useEffect, useState } from 'react'
 
@@ -8,28 +8,11 @@ import { Text } from 'ui/src/components/typography'
 
 import * as styles from './account-staking.css'
 
-interface IAccountStakingRequiredProps {}
-
-interface IAccountStakingOptionalProps {
-	className?: string
+// eslint-disable-next-line arrow-body-style
+export const AccountStaking = () => {
+	return (
+		<Box className={styles.stakingWrapper}>
+			<Box>Staking</Box>
+		</Box>
+	)
 }
-
-interface IAccountStakingProps extends IAccountStakingRequiredProps, IAccountStakingOptionalProps {}
-
-const defaultProps: IAccountStakingOptionalProps = {
-	className: undefined,
-}
-
-export const AccountStaking = forwardRef<HTMLElement, IAccountStakingProps>(
-	(props, ref: React.Ref<HTMLElement | null>) => {
-		const { className } = props
-
-		return (
-			<Box ref={ref} className={clsx(className)}>
-				<Box>Staking</Box>
-			</Box>
-		)
-	},
-)
-
-AccountStaking.defaultProps = defaultProps

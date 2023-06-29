@@ -10,13 +10,18 @@ export const ASSET_TYPE = ':assetType'
 export const ASSET = ':asset'
 export const ASSET_TYPE_TOKENS = 'tokens'
 export const ASSET_TYPE_NFTS = 'nfts'
-
 export const SEARCH_ACTIVITY_PARAM = 'activity'
 
-// '/:account/:assetType'
+/**
+ * Represents the URL pattern for the account and asset type.
+ * @example `/:account/:assetType`
+ */
 export const ACCOUNT_ASSET_TYPE = `/${ACCOUNT}/${ASSET_TYPE}`
 
-// '/:account/:assetType/:asset'
+/**
+ * Represents the URL pattern for the account, asset type, and asset.
+ * @example `/:account/:assetType/:asset`
+ */
 export const ACCOUNT_ASSET = `/${ACCOUNT}/${ASSET_TYPE}/${ASSET}`
 
 export const routes = {

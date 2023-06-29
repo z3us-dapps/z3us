@@ -17,13 +17,12 @@ import { animatePageVariants } from 'ui/src/constants/page'
 import * as styles from './account-index-assets.css'
 
 interface IAccountIndexAssetsProps {
-	className?: string
 	scrollableNode: HTMLElement | null
 }
 
 export const AccountIndexAssets = forwardRef<HTMLElement, IAccountIndexAssetsProps>(
 	(props, ref: React.Ref<HTMLElement | null>) => {
-		const { className, scrollableNode } = props
+		const { scrollableNode } = props
 
 		const { t } = useTranslation()
 
@@ -41,7 +40,7 @@ export const AccountIndexAssets = forwardRef<HTMLElement, IAccountIndexAssetsPro
 		}, 1000)
 
 		return (
-			<Box ref={ref} className={clsx(styles.indexAssetsOuterWrapper, className)}>
+			<Box ref={ref} className={styles.indexAssetsOuterWrapper}>
 				<Box className={styles.indexAssetsTitleWrapper}>
 					<Text size="xlarge" color="strong" weight="medium" truncate>
 						<Translation capitalizeFirstLetter text="accounts.home.assetsBadgesTitle" />

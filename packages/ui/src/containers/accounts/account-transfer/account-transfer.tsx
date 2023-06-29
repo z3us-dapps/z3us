@@ -24,11 +24,11 @@ export type TransactionDetailsGetter = () => TransactionDetails | null
 export type SetTransaction = (input: TransactionDetails | TransactionDetailsGetter) => void
 
 export interface IAccountTransferProps {
-	title: string
-	description?: string
+	title: string | React.ReactElement
+	description?: string | React.ReactElement
 	transaction: TransactionDetails | TransactionDetailsGetter
-	helpTitle?: string
-	help?: string
+	helpTitle?: string | React.ReactElement
+	help?: string | React.ReactElement
 	className?: ClassValue
 }
 
@@ -59,6 +59,7 @@ export const AccountTransfer: React.FC<PropsWithChildren<IAccountTransferProps>>
 		if (!input) return
 
 		sendTransaction(input)
+			// TODO:
 			// @ts-ignore
 			.andThen(() => {
 				setIsLoading(false)
@@ -66,6 +67,8 @@ export const AccountTransfer: React.FC<PropsWithChildren<IAccountTransferProps>>
 			})
 			.mapErr(error => {
 				setIsLoading(false)
+
+				// TODO:
 				// @ts-ignore
 				setTxError(error.message || 'Action failed')
 			})

@@ -66,6 +66,12 @@
 		}
 	},
 	"transfer": {
+		"navigation": {
+			"transferTokens": "transfer tokens",
+			"transferNfts": "transfer nfts",
+			"transferRaw": "transfer raw",
+			"transferDeployPackage": "deploy package"
+		},
 		"sendTokens": {
 			"deleteToken": "delete token",
 			"removeGroup": "remove group"

@@ -1,9 +1,12 @@
 import { useEffect, useRef } from 'react'
-import { useLocation } from 'react-router-dom'
+import { type Location, useLocation } from 'react-router-dom'
 
 import { SETTINGS, STAKING, SWAP, TRANSFER } from 'ui/src/constants/routes'
 
-export const useLocationKey = () => {
+export const useLocationKey = (): {
+	location: Location
+	locationKey: string
+} => {
 	const location = useLocation()
 	const locationArr = location.pathname?.split('/') ?? []
 	const key = locationArr[2] ?? ''

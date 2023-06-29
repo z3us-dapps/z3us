@@ -1,4 +1,4 @@
-/* eslint-disable */
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import clsx from 'clsx'
 import React, { forwardRef, useEffect, useState } from 'react'
 
@@ -8,26 +8,11 @@ import { Text } from 'ui/src/components/typography'
 
 import * as styles from './account-swap.css'
 
-interface IAccountSwapRequiredProps {}
-
-interface IAccountSwapOptionalProps {
-	className?: string
-}
-
-interface IAccountSwapProps extends IAccountSwapRequiredProps, IAccountSwapOptionalProps {}
-
-const defaultProps: IAccountSwapOptionalProps = {
-	className: undefined,
-}
-
-export const AccountSwap = forwardRef<HTMLElement, IAccountSwapProps>((props, ref: React.Ref<HTMLElement | null>) => {
-	const { className } = props
-
+// eslint-disable-next-line arrow-body-style
+export const AccountSwap = () => {
 	return (
-		<Box ref={ref} className={clsx(className)}>
-			<Box>Swap</Box>
+		<Box className={styles.swapWrapper}>
+			<Box>swap</Box>
 		</Box>
 	)
-})
-
-AccountSwap.defaultProps = defaultProps
+}

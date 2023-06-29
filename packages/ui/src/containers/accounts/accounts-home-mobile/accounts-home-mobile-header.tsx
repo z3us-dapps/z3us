@@ -63,27 +63,15 @@ const CARD_COLORS = [
 	},
 ]
 
-interface IAccountsHomeMobileHeaderRequiredProps {
+interface IAccountsHomeMobileHeaderProps {
 	isScrolledPastHeader: boolean
 	onClickChevron: () => void
 	onSearch: (search: string) => void
 	search: string
 	isAreaScrollable: boolean
 	isActivityRoute: boolean
-}
-
-interface IAccountsHomeMobileHeaderOptionalProps {
 	className?: ClassValue
 	backgroundStyle?: React.CSSProperties
-}
-
-interface IAccountsHomeMobileHeaderProps
-	extends IAccountsHomeMobileHeaderRequiredProps,
-		IAccountsHomeMobileHeaderOptionalProps {}
-
-const defaultProps: IAccountsHomeMobileHeaderOptionalProps = {
-	className: undefined,
-	backgroundStyle: undefined,
 }
 
 export const AccountsHomeMobileHeader = forwardRef<HTMLElement, IAccountsHomeMobileHeaderProps>(
@@ -312,5 +300,3 @@ export const AccountsHomeMobileHeader = forwardRef<HTMLElement, IAccountsHomeMob
 		)
 	},
 )
-
-AccountsHomeMobileHeader.defaultProps = defaultProps
