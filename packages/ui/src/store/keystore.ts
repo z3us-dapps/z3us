@@ -13,19 +13,21 @@ export const factory = (set: IKeystoresStateSetter): KeystoresState => ({
 
 	changeKeystoreNameAction: (id: string, name: string) => {
 		set(draft => {
-			const keysotres = draft.keystores || []
-			draft.keystores = keysotres.map(keystore => (keystore.id === id ? { ...keystore, name } : keystore))
+			const keystores = draft.keystores || []
+			draft.keystores = keystores.map(keystore => (keystore.id === id ? { ...keystore, name } : keystore))
 		})
 	},
 
 	removeKeystoreAction: (keystoreId: string) => {
 		set(draft => {
-			if (draft.selectKeystoreId === keystoreId) {
-				draft.selectKeystoreId = ''
-			}
 			draft.keystores = draft.keystores.filter(({ id }) => keystoreId !== id) || []
-			if (draft.keystores.length > 0) {
-				draft.selectKeystoreId = draft.keystores[0].id
+			const current = draft.keystores.find(({ id }) => id === draft.selectKeystoreId)
+			if (!current) {
+				if (draft.keystores.length > 0) {
+					draft.selectKeystoreId = draft.keystores[0].id
+				} else {
+					draft.selectKeystoreId = ''
+				}
 			}
 		})
 	},

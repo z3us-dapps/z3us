@@ -1,4 +1,5 @@
-import type { ManifestBuilder, NonFungibleLocalIdString } from '@radixdlt/radix-dapp-toolkit'
+import type { ManifestBuilder } from '@radixdlt/radix-dapp-toolkit'
+import type { NonFungibleLocalIdString } from '@radixdlt/wallet-sdk/dist/manifest-value'
 
 interface SendFungibleTokens {
 	tokens: Array<{

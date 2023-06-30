@@ -1,4 +1,4 @@
-import { useTotalBalance } from 'packages/ui/src/hooks/dapp/use-balances'
+import { useGlobalResourceBalances } from 'packages/ui/src/hooks/dapp/use-balances'
 import { useNoneSharedStore } from 'packages/ui/src/hooks/use-store'
 import { formatBigNumber } from 'packages/ui/src/utils/formatters'
 import React from 'react'
@@ -18,7 +18,7 @@ export const AccountIndexHeader = () => {
 		defaultCurrency: state.currency,
 	}))
 	const { pathname } = useLocation()
-	const [value] = useTotalBalance()
+	const { totalValue, isLoading } = useGlobalResourceBalances()
 
 	return (
 		<Box className={styles.accountIndexWrapper}>
@@ -34,7 +34,7 @@ export const AccountIndexHeader = () => {
 					<Box display="flex" alignItems="center" gap="small">
 						<Box flexGrow={1}>
 							<Text weight="medium" size="xxxlarge" color="strong" truncate>
-								{formatBigNumber(value, defaultCurrency, 2)}
+								{isLoading ? 'Loading...' : formatBigNumber(totalValue, defaultCurrency, 2)}
 							</Text>
 						</Box>
 						<ToolTip theme="backgroundPrimary" message={<Translation capitalizeFirstLetter text="global.search" />}>

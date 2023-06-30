@@ -1,7 +1,6 @@
 import { useRdtState } from './use-rdt-state'
 
 export const useConnected = () => {
-	const { connected = false } = useRdtState()!
-
+	const { connected } = useRdtState()
 	return connected
 }

@@ -1,5 +1,4 @@
 import { useInfiniteQuery, useQuery } from '@tanstack/react-query'
-import { useMemo } from 'react'
 
 import type { SelectedAddresses } from '../../types/types'
 import { useGatewayClient } from './use-gateway-client'
@@ -54,17 +53,14 @@ export const useTransaction = (intent_hash_hex: string) => {
 
 export const useTransactions = (selected: SelectedAddresses = null) => {
 	const { stream } = useGatewayClient()!
-	const { walletData } = useRdtState()!
+	const { walletData } = useRdtState()
 
-	const keys = Object.keys(selected || {})
-
-	const addresses = useMemo(
-		() => walletData.accounts.map(({ address }) => address).filter(address => !selected || !!selected[address]),
-		[keys],
-	)
+	const addresses = walletData.accounts
+		.map(({ address }) => address)
+		.filter(address => !selected || address in selected)
 
 	const data = useInfiniteQuery({
-		queryKey: ['useTransactions', ...keys],
+		queryKey: ['useTransactions', ...addresses],
 		queryFn: ({ pageParam }) =>
 			stream.innerClient.streamTransactions({
 				streamTransactionsRequest: { cursor: pageParam, affected_global_entities_filter: addresses },

@@ -1,6 +1,5 @@
 import { ResourceAggregationLevel } from '@radixdlt/babylon-gateway-api-sdk'
 import { useQuery } from '@tanstack/react-query'
-import { useMemo } from 'react'
 
 import type { SelectedAddresses } from '../../types/types'
 import { useGatewayClient } from './use-gateway-client'
@@ -11,21 +10,22 @@ export const useAccounts = (
 	aggregation: ResourceAggregationLevel = ResourceAggregationLevel.Global,
 ) => {
 	const { state } = useGatewayClient()!
-	const { walletData } = useRdtState()!
+	const { walletData } = useRdtState()
 
-	const addresses = useMemo(
-		() => walletData.accounts.map(({ address }) => address).filter(address => !selected || !!selected[address]),
-		[Object.keys(selected || {})],
-	)
+	const addresses = walletData.accounts
+		.map(({ address }) => address)
+		.filter(address => !selected || address in selected)
 
 	return useQuery({
 		queryKey: ['useAccount', aggregation, ...addresses],
 		queryFn: () =>
-			state.innerClient
-				.stateEntityDetails({
-					stateEntityDetailsRequest: { addresses, aggregation_level: aggregation },
-				})
-				.then(resp => resp.items),
-		enabled: !!state && addresses.length > 0,
+			addresses.length > 0
+				? state.innerClient
+						.stateEntityDetails({
+							stateEntityDetailsRequest: { addresses, aggregation_level: aggregation },
+						})
+						.then(resp => resp.items)
+				: [],
+		enabled: !!state,
 	})
 }

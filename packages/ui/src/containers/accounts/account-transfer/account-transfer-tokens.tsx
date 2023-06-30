@@ -1,5 +1,5 @@
 import { ManifestBuilder } from '@radixdlt/radix-dapp-toolkit'
-import { useResourceBalances } from 'packages/ui/src/hooks/dapp/use-balances'
+import { useGlobalResourceBalances } from 'packages/ui/src/hooks/dapp/use-balances'
 import { useNetworkId } from 'packages/ui/src/hooks/dapp/use-network-id'
 import { useNoneSharedStore } from 'packages/ui/src/hooks/use-store'
 import { useWalletAccounts } from 'packages/ui/src/hooks/use-wallet-account'
@@ -40,7 +40,9 @@ export const AccountTransferTokens: React.FC = () => {
 		validation: undefined,
 	})
 
-	const balances = useResourceBalances(state.transaction.from ? { [state.transaction.from]: true } : null)
+	const { balances, isLoading } = useGlobalResourceBalances(
+		state.transaction.from ? { [state.transaction.from]: true } : null,
+	)
 
 	useDeepCompareEffect(() => {
 		if (state.initValidation) {

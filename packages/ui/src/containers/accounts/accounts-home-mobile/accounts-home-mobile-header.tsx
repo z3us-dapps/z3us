@@ -1,7 +1,7 @@
 import clsx, { type ClassValue } from 'clsx'
 import { AnimatePresence } from 'framer-motion'
 import { Change } from 'packages/ui/src/components/change'
-import { useTotalBalance } from 'packages/ui/src/hooks/dapp/use-balances'
+import { useGlobalResourceBalances } from 'packages/ui/src/hooks/dapp/use-balances'
 import { useNoneSharedStore } from 'packages/ui/src/hooks/use-store'
 import { formatBigNumber } from 'packages/ui/src/utils/formatters'
 import React, { forwardRef, useRef, useState } from 'react'
@@ -95,7 +95,7 @@ export const AccountsHomeMobileHeader = forwardRef<HTMLElement, IAccountsHomeMob
 		const elementRef = useRef<HTMLDivElement | null>(null)
 		const entry = useIntersectionObserver(elementRef, { threshold: [1] })
 
-		const [value, change] = useTotalBalance()
+		const { totalValue, totalChange, isLoading } = useGlobalResourceBalances()
 
 		const { t } = useTranslation()
 
@@ -146,10 +146,10 @@ export const AccountsHomeMobileHeader = forwardRef<HTMLElement, IAccountsHomeMob
 								<Translation capitalizeFirstLetter text="accounts.home.accountBalanceTitle" />
 							</Text>
 							<Text color="strong" align="center" size="xlarge">
-								{formatBigNumber(value, defaultCurrency, 2)}
+								{isLoading ? 'Loading...' : formatBigNumber(totalValue, defaultCurrency, 2)}
 							</Text>
 							<Text align="center" size="xlarge">
-								<Change change={change} />
+								{isLoading ? 'Loading...' : <Change change={totalChange} />}
 							</Text>
 						</Box>
 					</Box>

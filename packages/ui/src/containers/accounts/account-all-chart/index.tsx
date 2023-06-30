@@ -1,6 +1,6 @@
 import clsx from 'clsx'
 import { AnimatePresence, motion } from 'framer-motion'
-import { useResourceBalances } from 'packages/ui/src/hooks/dapp/use-balances'
+import { useGlobalResourceBalances } from 'packages/ui/src/hooks/dapp/use-balances'
 import React, { useState } from 'react'
 import { Cell, Pie, PieChart, ResponsiveContainer, Tooltip } from 'recharts'
 import { useTimeout } from 'usehooks-ts'
@@ -35,7 +35,7 @@ export const AccountAllChart: React.FC<IAccountAllChartProps> = () => {
 	const isAllAccount = account === ACCOUNTS_ALL
 	// const [measureRef, { width: chartWrapperWidth, height: chartWrapperHeight }] = useMeasure()
 
-	const balances = useResourceBalances(!isAllAccount ? { [account]: true } : null)
+	const { balances, isLoading } = useGlobalResourceBalances(!isAllAccount ? { [account]: true } : null)
 
 	useTimeout(() => {
 		setLoaded(true)

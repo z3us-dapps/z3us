@@ -1,7 +1,7 @@
 import { RadixDappToolkit } from '@radixdlt/radix-dapp-toolkit'
 import React, { type PropsWithChildren, useEffect, useState } from 'react'
 
-import { dAppMeta } from '../constants/dapp'
+import { DAPP_ADDRESS } from '../constants/dapp'
 import { useNetworkConfiguration } from '../hooks/dapp/use-network-configuration'
 import { useNoneSharedStore, useSharedStore } from '../hooks/use-store'
 import type { Rdt } from './rdt'
@@ -25,7 +25,10 @@ export const RdtProvider: React.FC<PropsWithChildren> = ({ children }) => {
 		if (!configuration?.network_id) return () => {}
 
 		const rdt = RadixDappToolkit(
-			dAppMeta,
+			{
+				networkId: configuration.network_id,
+				dAppDefinitionAddress: DAPP_ADDRESS,
+			},
 			requestData => {
 				requestData({
 					accounts: { quantifier: 'atLeast', quantity: 1 },
@@ -35,7 +38,6 @@ export const RdtProvider: React.FC<PropsWithChildren> = ({ children }) => {
 				})
 			},
 			{
-				networkId: configuration.network_id,
 				onStateChange,
 				onInit: onStateChange,
 				gatewayBaseUrl,
