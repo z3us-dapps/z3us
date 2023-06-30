@@ -3,26 +3,28 @@ import React, { useEffect, useState } from 'react'
 
 import { Text } from 'ui/src/components/typography'
 
-interface IProps {
-	body: string
+import type { TextProps } from '../typography/text'
+
+interface IProps extends Omit<TextProps, 'children'> {
+	manifestHex: string
 }
 
-export const TransactionManifest: React.FC<IProps> = ({ body }) => {
+export const TransactionManifest: React.FC<IProps> = ({ manifestHex, ...textProps }) => {
 	const [manifest, setManifest] = useState<string>('')
 
 	useEffect(() => {
 		const decode = async () => {
-			if (body) {
-				const intent = await RadixEngineToolkit.decompileUnknownTransactionIntent(Buffer.from(body, 'hex'))
+			if (manifestHex) {
+				const intent = await RadixEngineToolkit.decompileUnknownTransactionIntent(Buffer.from(manifestHex, 'hex'))
 				setManifest(intent.toObject().signed_intent.intent.manifest.instructions.value)
 			} else {
 				setManifest('')
 			}
 		}
-		if (body) {
+		if (manifestHex) {
 			decode()
 		}
-	}, [body])
+	}, [manifestHex])
 
-	return <Text size="xsmall">{manifest}</Text>
+	return <Text {...textProps}>{manifest}</Text>
 }

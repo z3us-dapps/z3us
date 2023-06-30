@@ -3750,6 +3750,11 @@
   resolved "https://registry.yarnpkg.com/@radixdlt/babylon-gateway-api-sdk/-/babylon-gateway-api-sdk-1.0.0-birch.1.tgz#2fd56b3e6a60c1070ba463debd5e90f3fb47d049"
   integrity sha512-Jd9sMdiX62D7NHL7EcAoR17AfW6eCnO0kjhFFzILNPrf39X3WknHPeft+xU78v66IUXTWLXLAzKt/Le4za2LuA==
 
+"@radixdlt/babylon-gateway-api-sdk@^1.0.0-birch.2":
+  version "1.0.0-birch.2"
+  resolved "https://registry.yarnpkg.com/@radixdlt/babylon-gateway-api-sdk/-/babylon-gateway-api-sdk-1.0.0-birch.2.tgz#52cb0220d7cf2dcc476722edcd13ad329afd0d11"
+  integrity sha512-jwnqyJ6NKP2fOw2/P3mHD7fJ+M5ZwadfLbKXYb8P6qejAKLGGcX0dna/uxcwdnSq4JNVLciceXzfttY5gVrClA==
+
 "@radixdlt/babylon-gateway-api-sdk@^1.0.0-rc.1.4":
   version "1.0.0-rc.1.8"
   resolved "https://registry.npmjs.org/@radixdlt/babylon-gateway-api-sdk/-/babylon-gateway-api-sdk-1.0.0-rc.1.8.tgz"
@@ -3759,6 +3764,14 @@
   version "0.12.0-alpha.4"
   resolved "https://registry.npmjs.org/@radixdlt/connect-button/-/connect-button-0.12.0-alpha.4.tgz"
   integrity sha512-tSCUSlLyX8tJwQak3cq68/bvjVfhmaM7k/VW5OOISNyuBAgAahpDi7Yqyyep+gf1rp9QRAaob0r3ZGoOiEb1jg==
+  dependencies:
+    lit "^2.6.1"
+    rxjs "^7.8.0"
+
+"@radixdlt/connect-button@0.13.0-alpha.1":
+  version "0.13.0-alpha.1"
+  resolved "https://registry.yarnpkg.com/@radixdlt/connect-button/-/connect-button-0.13.0-alpha.1.tgz#2e603722760d853900e4b3f1c4ac496d333409ee"
+  integrity sha512-vjKV6yEjABNn2SbC0X7jsFFnbkF6+0LUqbXBbGfzZcqmz57vwuinNVuHFImwU5YCLoRS7LuukOW9t2Vtsso1eQ==
   dependencies:
     lit "^2.6.1"
     rxjs "^7.8.0"
@@ -3801,10 +3814,24 @@
     rxjs "^7.8.0"
     tslog "^4.8.2"
 
-"@radixdlt/radix-engine-toolkit@^0.1.10":
-  version "0.1.10"
-  resolved "https://registry.yarnpkg.com/@radixdlt/radix-engine-toolkit/-/radix-engine-toolkit-0.1.10.tgz#de74f2b42f5130ca95088ec066d1628b1fb4a319"
-  integrity sha512-EvkriiMPIxA0Z5OgzWHFpgAaUUgH4PLA5hiF7VKYK5S1v5rl2AAWyunvGQYUdRCzVRADUH+dPLaf85lY9o+vEA==
+"@radixdlt/radix-dapp-toolkit@^0.3.0-birch.2":
+  version "0.3.0-birch.2"
+  resolved "https://registry.yarnpkg.com/@radixdlt/radix-dapp-toolkit/-/radix-dapp-toolkit-0.3.0-birch.2.tgz#438744d23afef86aee73b59535abb7350511343d"
+  integrity sha512-P88vDn1EEt5a48ErixTsFOQWrQN3oVKaFerrNjb+fm/B1QwqnTjuaFJGVVKbWdR0pRUOm/H0OM4JcfyshCxL5w==
+  dependencies:
+    "@radixdlt/babylon-gateway-api-sdk" "^1.0.0-birch.1"
+    "@radixdlt/connect-button" "0.13.0-alpha.1"
+    "@radixdlt/radix-engine-toolkit" "^0.2.0-birch.2"
+    "@radixdlt/wallet-sdk" "0.9.0-alpha.10"
+    lodash.isequal "^4.5.0"
+    neverthrow "^6.0.0"
+    rxjs "^7.8.1"
+    zod "^3.21.4"
+
+"@radixdlt/radix-engine-toolkit@^0.2.0-birch.2", "@radixdlt/radix-engine-toolkit@^0.2.0-birch.5":
+  version "0.2.0-damson.1"
+  resolved "https://registry.yarnpkg.com/@radixdlt/radix-engine-toolkit/-/radix-engine-toolkit-0.2.0-damson.1.tgz#381271a389d21aa38ca9e7b9394093daf96f8216"
+  integrity sha512-gK07/TQBBBn8Gtmp1JA/+F5s6t4+Gmj26U4CkK61/oZgaY1w5VVPrA8rfpwY41OuTprnntqsvvFOr1W9FIztqQ==
   dependencies:
     "@noble/ed25519" "2.0.0"
     "@noble/hashes" "1.3.0"
@@ -3827,6 +3854,16 @@
     neverthrow "^6.0.0"
     rxjs "^7.6.0"
     zod "^3.19.1"
+
+"@radixdlt/wallet-sdk@0.9.0-alpha.10":
+  version "0.9.0-alpha.10"
+  resolved "https://registry.yarnpkg.com/@radixdlt/wallet-sdk/-/wallet-sdk-0.9.0-alpha.10.tgz#179f5dfa8d676b9fb7b5ee4d5d626ba984a55ce9"
+  integrity sha512-V5qsrZpCQYJJ6/UrkPK2N9DcA3A7xInwt2Y9hBkHFz4sKL796stnrJId0fl8fyIfZeNJiWIhVX8DjBuqJu1ouA==
+  dependencies:
+    neverthrow "^6.0.0"
+    rxjs "^7.8.1"
+    tslog "^4.8.2"
+    zod "^3.21.4"
 
 "@remix-run/router@1.6.3":
   version "1.6.3"

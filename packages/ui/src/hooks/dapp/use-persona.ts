@@ -1,7 +1,13 @@
 import { useRdtState } from './use-rdt-state'
 
 export const usePersona = () => {
-	const state = useRdtState()
+	const { walletData } = useRdtState()!
 
-	return state?.persona
+	if (walletData)
+		return {
+			...walletData.persona,
+			...walletData.personaData.reduce((merged, { field, value }) => ({ ...merged, [field]: value }), {}),
+		}
+
+	return null
 }

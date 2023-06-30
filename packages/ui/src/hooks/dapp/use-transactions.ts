@@ -54,12 +54,12 @@ export const useTransaction = (intent_hash_hex: string) => {
 
 export const useTransactions = (selected: SelectedAddresses = null) => {
 	const { stream } = useGatewayClient()!
-	const { accounts = [] } = useRdtState()!
+	const { walletData } = useRdtState()!
 
 	const keys = Object.keys(selected || {})
 
 	const addresses = useMemo(
-		() => accounts.map(({ address }) => address).filter(address => !selected || !!selected[address]),
+		() => walletData.accounts.map(({ address }) => address).filter(address => !selected || !!selected[address]),
 		[keys],
 	)
 

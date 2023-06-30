@@ -1,10 +1,7 @@
-// TODO: this type does not exist ?
-// import type { RdtState } from '@radixdlt/radix-dapp-toolkit/io/schemas'
+import type { RdtState } from '@radixdlt/radix-dapp-toolkit'
 import { useEffect, useState } from 'react'
 
 import { useRdt } from './use-rdt'
-
-type RdtState = any
 
 export const useRdtState = () => {
 	const rdt = useRdt()!
@@ -20,5 +17,5 @@ export const useRdtState = () => {
 		}
 	}, [rdt])
 
-	return state || {}
+	return state
 }

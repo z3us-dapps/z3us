@@ -215,7 +215,7 @@ export const AccountTransaction = () => {
 										</Box>
 									</Box>
 									<Box position="relative" width="full">
-										<TransactionManifest body={data?.transaction.raw_hex} />
+										<TransactionManifest manifestHex={data?.transaction.raw_hex} size="xsmall" />
 									</Box>
 								</Box>
 							</Box>

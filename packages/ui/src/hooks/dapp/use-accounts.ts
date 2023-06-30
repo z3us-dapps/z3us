@@ -11,15 +11,15 @@ export const useAccounts = (
 	aggregation: ResourceAggregationLevel = ResourceAggregationLevel.Global,
 ) => {
 	const { state } = useGatewayClient()!
-	const { accounts = [] } = useRdtState()!
+	const { walletData } = useRdtState()!
 
 	const addresses = useMemo(
-		() => accounts.map(({ address }) => address).filter(address => !selected || !!selected[address]),
+		() => walletData.accounts.map(({ address }) => address).filter(address => !selected || !!selected[address]),
 		[Object.keys(selected || {})],
 	)
 
 	return useQuery({
-		queryKey: ['useAccount', ...addresses],
+		queryKey: ['useAccount', aggregation, ...addresses],
 		queryFn: () =>
 			state.innerClient
 				.stateEntityDetails({

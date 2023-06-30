@@ -30,5 +30,6 @@ export const useEntitiesMetadata = (addresses: string[]) => {
 				.then(resp => resp.items),
 		enabled: !!state && !!address,
 	}))
+
 	return useQueries({ queries })
 }
