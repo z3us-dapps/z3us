@@ -135,21 +135,14 @@ const ItemWrapper: React.FC<IAllAccountListRowProps> = props => {
 						</ToolTip>
 					</Box>
 				</>
-				{/* )} */}
 			</AnimatePresence>
 		</Box>
 	)
 }
 
-interface IAccountActivityRequiredProps {
+interface IAccountActivityProps {
 	scrollableNode: HTMLElement
 }
-
-interface IAccountActivityOptionalProps {}
-
-interface IAccountActivityProps extends IAccountActivityRequiredProps, IAccountActivityOptionalProps {}
-
-const defaultProps: IAccountActivityOptionalProps = {}
 
 export const AccountActivity = forwardRef<HTMLElement, IAccountActivityProps>(
 	(props, ref: React.Ref<HTMLElement | null>) => {
@@ -200,5 +193,3 @@ export const AccountActivity = forwardRef<HTMLElement, IAccountActivityProps>(
 		)
 	},
 )
-
-AccountActivity.defaultProps = defaultProps

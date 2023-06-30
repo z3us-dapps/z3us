@@ -62,6 +62,7 @@ export const AccountTransaction = () => {
 				<DialogContent
 					className={clsx(dialogStyles.dialogContent, styles.transactionContent)}
 					onEscapeKeyDown={navigateBack}
+					onInteractOutside={navigateBack}
 				>
 					<ScrollArea onScroll={handleScroll}>
 						<Box className={styles.transactionBodyScrollWrapper}>

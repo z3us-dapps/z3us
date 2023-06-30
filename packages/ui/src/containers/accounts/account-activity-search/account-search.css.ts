@@ -9,15 +9,15 @@ export const accountSearchWrapperWrapperSticky = style([
 		top: 0,
 		paddingX: {
 			mobile: 'large',
-			desktop: 'large',
+			tablet: 'large',
 		},
 		paddingTop: {
 			mobile: 'medium',
-			desktop: 'large',
+			tablet: 'medium',
 		},
 		paddingBottom: {
 			mobile: 'small',
-			desktop: 'medium',
+			tablet: 'medium',
 		},
 		background: 'backgroundSecondary',
 		zIndex: 1,
@@ -58,10 +58,9 @@ export const accountSearchTextWrapper = style([
 		position: 'relative',
 	}),
 	{
-		maxWidth: '280px'
+		maxWidth: '280px',
 	},
 ])
-
 
 export const accountSearchButton = style([
 	sprinkles({
@@ -110,4 +109,3 @@ export const accountSearchButtonHidden = style([
 	}),
 	{},
 ])
-

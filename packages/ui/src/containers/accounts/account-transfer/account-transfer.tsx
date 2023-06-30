@@ -1,5 +1,4 @@
 import type { WalletSdk as WalletSdkType } from '@radixdlt/wallet-sdk'
-import type { ClassValue } from 'clsx'
 import clsx from 'clsx'
 import { useSendTransaction } from 'packages/ui/src/hooks/dapp/use-send-transaction'
 import type { PropsWithChildren } from 'react'
@@ -29,11 +28,10 @@ export interface IAccountTransferProps {
 	transaction: TransactionDetails | TransactionDetailsGetter
 	helpTitle?: string | React.ReactElement
 	help?: string | React.ReactElement
-	className?: ClassValue
 }
 
 export const AccountTransfer: React.FC<PropsWithChildren<IAccountTransferProps>> = props => {
-	const { title, description, helpTitle, help, className, transaction, children } = props
+	const { title, description, helpTitle, help, transaction, children } = props
 	const sendTransaction = useSendTransaction()
 	const [isOpen, setIsOpen] = useState<boolean>(false)
 	const [isLoading, setIsLoading] = useState<boolean>(false)
@@ -76,7 +74,7 @@ export const AccountTransfer: React.FC<PropsWithChildren<IAccountTransferProps>>
 
 	return (
 		<>
-			<Box className={clsx(styles.transferDesktopWrapper, className)}>
+			<Box className={styles.transferDesktopWrapper}>
 				<Box width="full">
 					<Box display="flex" alignItems="flex-end" paddingBottom="small" gap="xsmall">
 						<Box paddingTop="xxsmall">
@@ -130,7 +128,6 @@ export const AccountTransfer: React.FC<PropsWithChildren<IAccountTransferProps>>
 					</Box>
 				</Box>
 			</Box>
-
 			<DialogRoot open={isOpen}>
 				<DialogPortal>
 					<DialogOverlay className={dialogStyles.dialogOverlay} />

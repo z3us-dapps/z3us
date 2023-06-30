@@ -16,9 +16,9 @@ import { AccountIndexAssets } from 'ui/src/containers/accounts/account-index-ass
 import { AccountIndexHeader } from 'ui/src/containers/accounts/account-index-header'
 import { AccountsList } from 'ui/src/containers/accounts/accounts-list'
 
-import * as styles from './accounts-home-desktop.css'
+import * as styles from './account-home.css'
 
-export const AccountsHomeDesktop = () => {
+export const AccountsHome = () => {
 	const location = useLocation()
 
 	return (
@@ -26,6 +26,7 @@ export const AccountsHomeDesktop = () => {
 			<Box className={styles.accountsContainerWrapper}>
 				<Box className={clsx(styles.panelWrapper)}>
 					<ScrollPanel
+						isTopShadowVisible={false}
 						className={styles.leftPanel}
 						renderPanel={(scrollableNode: HTMLElement | null) => (
 							<Box position="relative">
@@ -62,6 +63,7 @@ export const AccountsHomeDesktop = () => {
 					<ScrollPanel
 						className={styles.rightPanel}
 						scrollTopOnRoute
+						isTopShadowVisible={false}
 						renderPanel={(scrollableNode: HTMLElement | null) => (
 							<>
 								<AccountAllChart />

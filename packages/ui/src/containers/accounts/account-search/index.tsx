@@ -86,6 +86,7 @@ export const AccountSearch = () => {
 				<DialogContent
 					className={clsx(dialogStyles.dialogContent, styles.searchContent)}
 					onEscapeKeyDown={navigateBack}
+					onInteractOutside={navigateBack}
 				>
 					<ScrollArea isTopShadowVisible={false} onScroll={handleScroll}>
 						<Box className={clsx(styles.searchHeaderWrapper, isScrolled && styles.searchHeaderWrapperShadow)}>

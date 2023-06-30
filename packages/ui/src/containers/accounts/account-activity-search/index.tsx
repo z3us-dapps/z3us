@@ -18,12 +18,11 @@ import { useAccountParams } from 'ui/src/hooks/use-account-params'
 import * as styles from './account-search.css'
 
 interface IAccountActivitySearchProps {
-	className?: ClassValue
 	scrollableNode: HTMLElement
 }
 
 export const AccountActivitySearch: React.FC<IAccountActivitySearchProps> = props => {
-	const { className, scrollableNode } = props
+	const { scrollableNode } = props
 
 	const { t } = useTranslation()
 	const { pathname } = useLocation()
@@ -52,13 +51,12 @@ export const AccountActivitySearch: React.FC<IAccountActivitySearchProps> = prop
 				styles.accountSearchWrapperWrapperSticky,
 				isSticky && styles.accountSearchWrapperWrapperStickyShadow,
 				isBorderVisible && styles.accountSearchBorderWrapper,
-				className,
 			)}
 		>
 			<Box display="flex" alignItems="center" position="relative" gap="large">
 				<Box className={styles.accountSearchWrapper}>
 					<Box className={styles.accountSearchTextWrapper} flexShrink={0}>
-						<Text capitalizeFirstLetter size="large" weight="medium" color="strong" truncate>
+						<Text capitalizeFirstLetter size="large" weight="strong" color="strong" truncate>
 							{searchTitle}
 						</Text>
 					</Box>

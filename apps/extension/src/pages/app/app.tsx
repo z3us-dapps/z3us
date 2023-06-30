@@ -1,11 +1,10 @@
 import { AnimatePresence } from 'framer-motion'
 import React from 'react'
-import { Link, Navigate, Route, Routes, useLocation } from 'react-router-dom'
+import { Navigate, Route, Routes, useLocation } from 'react-router-dom'
 
 import { AnimatedPage } from 'ui/src/components/animated-page'
 import { routes } from 'ui/src/constants/routes'
 import { Accounts } from 'ui/src/containers/accounts'
-import { useIsMobileWidth } from 'ui/src/hooks/use-is-mobile'
 
 import * as styles from './app.css'
 import TempNav from './components/nav'
@@ -21,9 +20,7 @@ const Pairing = React.lazy(() => import('./pages/pairing'))
 
 const App: React.FC = () => {
 	const location = useLocation()
-
 	const locationArr = location.pathname?.split('/') ?? []
-	const isMobile = useIsMobileWidth()
 
 	return (
 		<div className={styles.container}>
@@ -42,20 +39,12 @@ const App: React.FC = () => {
 						path={`${routes.ACCOUNTS}/*`}
 						element={
 							<AnimatedPage>
-								<Accounts isMobile={isMobile} />
+								<Accounts />
 							</AnimatedPage>
 						}
 					/>
 					{APP_RADIX && <Route path={`${routes.PAIRING}/*`} element={<Pairing />} />}
 					<Route path="/connect/*" element={<Connect />} />
-					<Route
-						path="/page2/*"
-						element={
-							<AnimatedPage>
-								<Link to="../page1">Next page</Link>
-							</AnimatedPage>
-						}
-					/>
 					<Route
 						path="*"
 						element={

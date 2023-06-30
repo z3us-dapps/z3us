@@ -13,7 +13,7 @@ export const SettingsMobileHeader = props => {
 		isShadowVisible,
 		leftSlot = (
 			<Box className={styles.settingsHeaderLogoWrapper}>
-				<Z3usLogo />{' '}
+				<Z3usLogo />
 			</Box>
 		),
 		middleSlot = <Box />,
