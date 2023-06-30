@@ -71,8 +71,13 @@ export const settingsSectionFlexColumnWrapper = style([
 	}),
 ])
 
-export const settingsSectionWrapper = style([
+// TODO
+export const settingsSectionBorderWrapper = style([
 	sprinkles({
+		borderBottom: 1,
+		borderStyle: 'solid',
+		borderColor: 'borderDivider',
+		paddingBottom: 'xlarge',
 		paddingX: {
 			mobile: 'xlarge',
 			tablet: 'none',
@@ -80,12 +85,9 @@ export const settingsSectionWrapper = style([
 	}),
 ])
 
-export const settingsSectionBorderWrapper = style([
+// TODO: remove
+export const settingsSectionWrapper = style([
 	sprinkles({
-		borderBottom: 1,
-		borderStyle: 'solid',
-		borderColor: 'borderDivider',
-		paddingBottom: 'xlarge',
 		paddingX: {
 			mobile: 'xlarge',
 			tablet: 'none',

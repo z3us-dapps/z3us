@@ -1,5 +1,3 @@
-import type { ClassValue } from 'clsx'
-import clsx from 'clsx'
 import { useNetworkId } from 'packages/ui/src/hooks/dapp/use-network-id'
 import React, { useMemo } from 'react'
 import { toast } from 'sonner'
@@ -13,18 +11,19 @@ import { DialogAlert } from 'ui/src/components/dialog-alert'
 import { CheckCircleIcon, PlusIcon } from 'ui/src/components/icons'
 import { type FormElement, Input } from 'ui/src/components/input'
 import { Table } from 'ui/src/components/table'
+import Translation from 'ui/src/components/translation'
 import { Text } from 'ui/src/components/typography'
 import { ValidationErrorMessage } from 'ui/src/components/validation-error-message'
 import { useNoneSharedStore } from 'ui/src/hooks/use-store'
 import type { AddressBookEntry } from 'ui/src/store/types'
 
 import * as styles from '../account-settings.css'
+import { SettingsTitle } from '../components/settings-title'
 import { AddressEditButtonsCell } from './address-edit-buttons-cell'
 import { AddressNameCell } from './address-name-cell'
 import { type IImmerSettingsGeneralProps, getError, validateAddressBookForm } from './settings-address-book-utils'
 
 interface ISettingsGeneralProps {
-	className?: ClassValue
 	scrollableNode: HTMLElement
 }
 
@@ -43,7 +42,7 @@ export const SettingsAddressBook: React.FC<ISettingsGeneralProps> = props => {
 		handleRemoveAddress: state.removeAddressBookEntryAction,
 	}))
 
-	const { className, scrollableNode } = props
+	const { scrollableNode } = props
 
 	const [state, setState] = useImmer<IImmerSettingsGeneralProps>({
 		deleteAccountAddress: undefined,
@@ -187,25 +186,18 @@ export const SettingsAddressBook: React.FC<ISettingsGeneralProps> = props => {
 
 	return (
 		<>
-			<Box className={clsx(styles.settingsSectionFlexColumnWrapper, className)}>
-				<Box className={styles.settingsSectionWrapper}>
-					<Box display="flex" flexDirection="column" gap="small">
-						<Text size="xxlarge" weight="strong" color="strong">
-							Address book
-						</Text>
-						<Box>
-							<Text>
-								add Ut imperdiet nam nam velit eu magna, neque eu eu porta. m duis non pretium, mus laoreet tempor velit
-								integer tristique etiam integer.
-							</Text>
-						</Box>
-						<Box paddingBottom="medium" paddingTop="medium">
-							<Button styleVariant="primary" leftIcon={<PlusIcon />} onClick={() => handleAddEditAddress()}>
-								New address
-							</Button>
-						</Box>
-						<Table scrollableNode={scrollableNode} data={Object.values(addressBook)} columns={columns} />
+			<Box className={styles.settingsSectionFlexColumnWrapper}>
+				<SettingsTitle
+					title={<Translation capitalizeFirstLetter text="settings.navigation.accountsAddressBookTitle" />}
+					subTitle={<Translation capitalizeFirstLetter text="settings.navigation.accountsAddressBookSubTitle" />}
+				/>
+				<Box display="flex" flexDirection="column" gap="small">
+					<Box paddingBottom="medium">
+						<Button styleVariant="primary" leftIcon={<PlusIcon />} onClick={() => handleAddEditAddress()}>
+							New address
+						</Button>
 					</Box>
+					<Table scrollableNode={scrollableNode} data={Object.values(addressBook)} columns={columns} />
 				</Box>
 			</Box>
 			<DialogAlert

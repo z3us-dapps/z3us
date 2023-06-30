@@ -73,5 +73,15 @@
 			"deleteToken": "usunąć token",
 			"removeGroup": "usuń grupę"
 		}
+	},
+	"settings": {
+		"navigation": {
+			"generalTitle": "Settings",
+			"generalSubTitle": "Ut imperdiet nam nam ",
+			"accountsTitle": "Accounts",
+			"accountsSubTitle": "Ut imperdiet nam nam ",
+			"accountsAddressBookTitle": "Address book",
+			"accountsAddressBookSubTitle": "Ut imperdiet "
+		}
 	}
 }
