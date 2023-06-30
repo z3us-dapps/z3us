@@ -17,8 +17,6 @@ import { useAccountParams } from 'ui/src/hooks/use-account-params'
 import * as styles from './account-all-chart.css'
 import { AllAccountListRow } from './all-account-list-row'
 
-interface IAccountAllChartProps {}
-
 const COLORS = [
 	{ start: '#9e54ed', end: '#5c4cb6' },
 	{ start: '#34c3ff', end: '#2876bd' },
@@ -27,7 +25,7 @@ const COLORS = [
 
 const defaultRowsShown = 3
 
-export const AccountAllChart: React.FC<IAccountAllChartProps> = () => {
+export const AccountAllChart: React.FC = () => {
 	const { account, assetType } = useAccountParams()
 	const [loaded, setLoaded] = useState<boolean>(false)
 	const [showFullAccountList, setShowFullAccountList] = useState<boolean>(false)

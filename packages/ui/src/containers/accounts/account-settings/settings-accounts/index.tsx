@@ -12,6 +12,7 @@ import { useNoneSharedStore } from 'ui/src/hooks/use-store'
 import { useWalletAccounts } from 'ui/src/hooks/use-wallet-account'
 
 import * as styles from '../account-settings.css'
+import { SettingsTitle } from '../components/settings-title'
 import * as accountsStyles from './settings-accounts.css'
 
 const CARD_COLORS = [
@@ -47,21 +48,10 @@ export const SettingsAccounts: React.FC = () => {
 
 	return (
 		<Box className={styles.settingsSectionFlexColumnWrapper}>
-			{/* START TITLE SECTION */}
-			<Box className={styles.settingsSectionBorderWrapper}>
-				<Box display="flex" flexDirection="column" gap="small">
-					<Text size="xxlarge" weight="strong" color="strong">
-						Accounts settings
-					</Text>
-					<Box>
-						<Text>
-							Accounts set imperdiet nam nam velit eu magna, neque eu eu porta. m duis non pretium, mus laoreet tempor
-							velit integer tristique etiam integer.
-						</Text>
-					</Box>
-				</Box>
-			</Box>
-			{/* END TITLE SECTION */}
+			<SettingsTitle
+				title={<Translation capitalizeFirstLetter text="settings.navigation.accountsTitle" />}
+				subTitle={<Translation capitalizeFirstLetter text="settings.navigation.accountsSubTitle" />}
+			/>
 			{/* START LOCK SECTION */}
 			<Box className={styles.settingsSectionWrapper}>
 				<Box className={styles.settingsSectionGridBasic}>

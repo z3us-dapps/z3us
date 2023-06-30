@@ -5,12 +5,14 @@ import { Button } from 'ui/src/components/button'
 import { LoadingBarsIcon } from 'ui/src/components/icons'
 import { SelectSimple } from 'ui/src/components/select'
 import { Switch } from 'ui/src/components/switch'
+import Translation from 'ui/src/components/translation'
 import { Text } from 'ui/src/components/typography'
 // import { StyledRange, StyledSlider, StyledThumb, StyledTrack } from 'ui/src/components/slider'
 import { useSupportedCurrencies } from 'ui/src/hooks/queries/market'
 import { useNoneSharedStore } from 'ui/src/hooks/use-store'
 
 import * as styles from '../account-settings.css'
+import { SettingsTitle } from '../components/settings-title'
 
 export const SettingsGeneral: React.FC = () => {
 	const { data: currencies } = useSupportedCurrencies()
@@ -28,21 +30,10 @@ export const SettingsGeneral: React.FC = () => {
 
 	return (
 		<Box className={styles.settingsSectionFlexColumnWrapper}>
-			{/* START TITLE SECTION */}
-			<Box className={styles.settingsSectionBorderWrapper}>
-				<Box display="flex" flexDirection="column" gap="small">
-					<Text size="xxlarge" weight="strong" color="strong">
-						General settings
-					</Text>
-					<Box>
-						<Text>
-							Ut imperdiet nam nam velit eu magna, neque eu eu porta. m duis non pretium, mus laoreet tempor velit
-							integer tristique etiam integer.
-						</Text>
-					</Box>
-				</Box>
-			</Box>
-			{/* END TITLE SECTION */}
+			<SettingsTitle
+				title={<Translation capitalizeFirstLetter text="settings.navigation.generalTitle" />}
+				subTitle={<Translation capitalizeFirstLetter text="settings.navigation.generalSubTitle" />}
+			/>
 			{/* START LOCK SECTION */}
 			<Box className={styles.settingsSectionBorderWrapper}>
 				<Box className={styles.settingsSectionGridBasic}>
