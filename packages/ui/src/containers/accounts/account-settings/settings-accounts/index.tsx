@@ -12,6 +12,7 @@ import { useNoneSharedStore } from 'ui/src/hooks/use-store'
 import { useWalletAccounts } from 'ui/src/hooks/use-wallet-account'
 
 import * as styles from '../account-settings.css'
+import { SettingsBlock } from '../components/settings-block'
 import { SettingsTitle } from '../components/settings-title'
 import * as accountsStyles from './settings-accounts.css'
 
@@ -53,17 +54,15 @@ export const SettingsAccounts: React.FC = () => {
 				subTitle={<Translation capitalizeFirstLetter text="settings.navigation.accountsSubTitle" />}
 			/>
 			{/* START LOCK SECTION */}
-			<Box className={styles.settingsSectionWrapper}>
-				<Box className={styles.settingsSectionGridBasic}>
-					<Box display="flex" flexDirection="column">
-						<Text size="large" weight="strong" color="strong">
-							Account
-						</Text>
-						<Box>
-							<Text size="small">Ut imperdiet</Text>
-						</Box>
-					</Box>
-					<Box display="flex" flexDirection="column" gap="large">
+
+			<SettingsBlock
+				leftCol={
+					<Text size="large" weight="strong" color="strong">
+						Account
+					</Text>
+				}
+				rightCol={
+					<>
 						<AccountDropdown
 							account={selectedAccount}
 							knownAddresses={knownAddresses}
@@ -120,34 +119,9 @@ export const SettingsAccounts: React.FC = () => {
 								))}
 							</Box>
 						</Box>
-					</Box>
-				</Box>
-			</Box>
-			{/* END LOCK SELECT */}
-
-			{/* SAVE SECTION */}
-			{/* <Box className={styles.settingsSectionWrapper}>
-				<Box className={styles.settingsSectionGridBasic}>
-					<Box className={styles.settingsSectionGridBasicSpacer}>&nbsp;</Box>
-					<Box display="flex" flexDirection="column" gap="small">
-						<Box width="full" display="flex" justifyContent="flex-end">
-							<Button
-								styleVariant="primary"
-								sizeVariant="large"
-								disabled
-								rightIcon={
-									<Box marginLeft="small">
-										<LoadingBarsIcon />
-									</Box>
-								}
-							>
-								Save
-							</Button>
-						</Box>
-					</Box>
-				</Box>
-			</Box> */}
-			{/* END SAVE SECTION */}
+					</>
+				}
+			/>
 		</Box>
 	)
 }
