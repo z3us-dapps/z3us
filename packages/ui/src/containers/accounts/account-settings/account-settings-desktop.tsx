@@ -36,7 +36,7 @@ export const AccountSettingsDesktop = () => {
 				</Box>
 				<Box className={styles.settingsDesktopRightWrapper}>
 					<ScrollPanel
-						isTopShadowVisible={false}
+						isTopShadowVisible
 						renderPanel={(scrollableNode: HTMLElement | null) => (
 							<Box position="relative" padding="xlarge">
 								<Box position="relative">

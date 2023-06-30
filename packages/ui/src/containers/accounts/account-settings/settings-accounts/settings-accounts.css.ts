@@ -4,15 +4,6 @@ import { style } from '@vanilla-extract/css'
 import { darkMode, sprinkles } from 'ui/src/components/system/sprinkles.css'
 import { vars } from 'ui/src/components/system/theme.css'
 
-// export const accountsSelectWrapper = style([
-// 	sprinkles({
-// 		position: 'relative',
-// 	}),
-// 	{
-// 		maxWidth: '240px',
-// 	},
-// ])
-
 export const accountsCardWrapper = style([
 	sprinkles({
 		position: 'relative',
@@ -23,5 +14,6 @@ export const accountsCardWrapper = style([
 	}),
 	{
 		maxWidth: '340px',
+		maxHeight: '190px',
 	},
 ])

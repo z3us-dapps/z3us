@@ -32,8 +32,6 @@ export const AccountCards: React.FC<IAccountCardsProps> = props => {
 
 	const accountAddress = 'rdx183794872309487'
 
-	console.log('accountCards ', accountCards)
-
 	return (
 		<AnimatePresence initial={false}>
 			<motion.ul

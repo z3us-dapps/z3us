@@ -8,24 +8,12 @@ import { ScrollArea } from 'ui/src/components/scroll-area'
 
 import * as styles from './scroll-panel.css'
 
-interface IScrollPanelRequiredProps {
+interface IScrollPanelProps {
 	renderPanel: (customScrollParent: HTMLElement | null) => any
-}
-
-interface IScrollPanelOptionalProps {
 	className?: string
 	scrollDisabled?: boolean
 	scrollTopOnRoute?: boolean
 	isTopShadowVisible?: boolean
-}
-
-interface IScrollPanelProps extends IScrollPanelRequiredProps, IScrollPanelOptionalProps {}
-
-const defaultProps: IScrollPanelOptionalProps = {
-	className: undefined,
-	scrollDisabled: undefined,
-	scrollTopOnRoute: undefined,
-	isTopShadowVisible: false,
 }
 
 export const ScrollPanel: React.FC<IScrollPanelProps> = props => {
@@ -91,5 +79,3 @@ export const ScrollPanel: React.FC<IScrollPanelProps> = props => {
 		</Box>
 	)
 }
-
-ScrollPanel.defaultProps = defaultProps

@@ -9,7 +9,7 @@ import * as styles from './scroll-area.css'
 
 interface ImmerT {
 	isTopShadowVisible: boolean
-	isBottmShadowVisible: boolean
+	isBottomShadowVisible: boolean
 }
 
 interface IProps {
@@ -43,11 +43,11 @@ export const ScrollArea: React.FC<IProps> = ({
 	const sRef: any = useRef()
 	const observer = useRef<ResizeObserver | null>(null)
 	const scrollObserver = useRef<ResizeObserver | null>(null)
-	const scrollElemement = sRef?.current?.getScrollElement()
+	const scrollElement = sRef?.current?.getScrollElement()
 
 	const [state, setState] = useImmer<ImmerT>({
 		isTopShadowVisible: false,
-		isBottmShadowVisible: false,
+		isBottomShadowVisible: false,
 	})
 
 	const handleScrollAreaSizeChange = useCallback(() => {
@@ -55,7 +55,7 @@ export const ScrollArea: React.FC<IProps> = ({
 			onScrollAreaSizeChange()
 		}
 		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, [scrollElemement?.offsetHeight, scrollElemement?.offsetWidth, scrollElemement])
+	}, [scrollElement?.offsetHeight, scrollElement?.offsetWidth, scrollElement])
 
 	const handleScroll = useCallback(
 		(event: Event) => {
@@ -68,7 +68,7 @@ export const ScrollArea: React.FC<IProps> = ({
 
 			setState(draft => {
 				draft.isTopShadowVisible = showTopShadow
-				draft.isBottmShadowVisible = showBottomShadow
+				draft.isBottomShadowVisible = showBottomShadow
 			})
 
 			if (onScroll) {
@@ -76,7 +76,7 @@ export const ScrollArea: React.FC<IProps> = ({
 			}
 			// eslint-disable-next-line react-hooks/exhaustive-deps
 		},
-		[scrollElemement?.offsetHeight, scrollElemement?.offsetWidth, scrollElemement],
+		[scrollElement?.offsetHeight, scrollElement?.offsetWidth, scrollElement],
 	)
 
 	useEffect(() => {
@@ -91,7 +91,7 @@ export const ScrollArea: React.FC<IProps> = ({
 				}
 				const contentBoxSize = Array.isArray(entry.contentBoxSize) ? entry.contentBoxSize[0] : entry.contentBoxSize
 				setState(draft => {
-					draft.isBottmShadowVisible = contentBoxSize.blockSize > scrollRef.clientHeight
+					draft.isBottomShadowVisible = contentBoxSize.blockSize > scrollRef.clientHeight
 				})
 			})
 		})
@@ -99,7 +99,7 @@ export const ScrollArea: React.FC<IProps> = ({
 			entries.forEach(entry => {
 				const contentBoxSize = Array.isArray(entry.contentBoxSize) ? entry.contentBoxSize[0] : entry.contentBoxSize
 				setState(draft => {
-					draft.isBottmShadowVisible = simpleBarContent.clientHeight > contentBoxSize.blockSize
+					draft.isBottomShadowVisible = simpleBarContent.clientHeight > contentBoxSize.blockSize
 				})
 			})
 		})
@@ -118,14 +118,14 @@ export const ScrollArea: React.FC<IProps> = ({
 				scrollObserver.current.disconnect()
 			}
 		}
-	}, [scrollElemement])
+	}, [scrollElement])
 
 	useEventListener('resize', handleScrollAreaSizeChange)
 
 	useIsomorphicLayoutEffect(() => {
 		handleScrollAreaSizeChange()
 		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, [scrollElemement?.offsetHeight, scrollElemement?.offsetWidth])
+	}, [scrollElement?.offsetHeight, scrollElement?.offsetWidth])
 
 	return (
 		<Box className={clsx(styles.scrollAreaWrapper, scrollDisabled && styles.scrollAreaWrapperDisabled)}>
@@ -148,7 +148,7 @@ export const ScrollArea: React.FC<IProps> = ({
 			<Box
 				className={clsx(
 					styles.scrollAreaBottomShadow,
-					isBottomShadowVisible && state.isBottmShadowVisible && styles.scrollAreaBottomShadowVisible,
+					isBottomShadowVisible && state.isBottomShadowVisible && styles.scrollAreaBottomShadowVisible,
 				)}
 			/>
 		</Box>

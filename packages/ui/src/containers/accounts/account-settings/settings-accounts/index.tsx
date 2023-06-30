@@ -53,16 +53,15 @@ export const SettingsAccounts: React.FC = () => {
 				title={<Translation capitalizeFirstLetter text="settings.navigation.accountsTitle" />}
 				subTitle={<Translation capitalizeFirstLetter text="settings.navigation.accountsSubTitle" />}
 			/>
-			{/* START LOCK SECTION */}
-
 			<SettingsBlock
+				isBottomBorderVisible={false}
 				leftCol={
 					<Text size="large" weight="strong" color="strong">
 						Account
 					</Text>
 				}
 				rightCol={
-					<>
+					<Box display="flex" flexDirection="column" gap="xlarge">
 						<AccountDropdown
 							account={selectedAccount}
 							knownAddresses={knownAddresses}
@@ -119,9 +118,23 @@ export const SettingsAccounts: React.FC = () => {
 								))}
 							</Box>
 						</Box>
-					</>
+					</Box>
 				}
 			/>
+			<Box>
+				<Text size="large">
+					Consequat veniam eiusmod ad officia aliqua eiusmod sit exercitation cupidatat voluptate anim dolore laborum.
+					Consequat veniam eiusmod ad officia aliqua eiusmod sit exercitation cupidatat voluptate anim dolore laborum.
+					Consequat veniam eiusmod ad officia aliqua eiusmod sit exercitation cupidatat voluptate anim dolore laborum.
+					Consequat veniam eiusmod ad officia aliqua eiusmod sit exercitation cupidatat voluptate anim dolore laborum.
+					Consequat veniam eiusmod ad officia aliqua eiusmod sit exercitation cupidatat voluptate anim dolore laborum.
+					Consequat veniam eiusmod ad officia aliqua eiusmod sit exercitation cupidatat voluptate anim dolore laborum.
+					Consequat veniam eiusmod ad officia aliqua eiusmod sit exercitation cupidatat voluptate anim dolore laborum.
+					Consequat veniam eiusmod ad officia aliqua eiusmod sit exercitation cupidatat voluptate anim dolore laborum.
+					Consequat veniam eiusmod ad officia aliqua eiusmod sit exercitation cupidatat voluptate anim dolore laborum.
+					Consequat veniam eiusmod ad officia aliqua eiusmod sit exercitation cupidatat voluptate anim dolore laborum.
+				</Text>
+			</Box>
 		</Box>
 	)
 }
