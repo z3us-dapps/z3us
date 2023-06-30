@@ -14,8 +14,8 @@ import { Text } from 'ui/src/components/typography'
 import * as styles from './account-index-header.css'
 
 export const AccountIndexHeader = () => {
-	const { defaultCurrency } = useNoneSharedStore(state => ({
-		defaultCurrency: state.currency,
+	const { currency } = useNoneSharedStore(state => ({
+		currency: state.currency,
 	}))
 	const { pathname } = useLocation()
 	const { totalValue, isLoading } = useGlobalResourceBalances()
@@ -34,7 +34,7 @@ export const AccountIndexHeader = () => {
 					<Box display="flex" alignItems="center" gap="small">
 						<Box flexGrow={1}>
 							<Text weight="medium" size="xxxlarge" color="strong" truncate>
-								{isLoading ? 'Loading...' : formatBigNumber(totalValue, defaultCurrency, 2)}
+								{isLoading ? 'Loading...' : formatBigNumber(totalValue, currency, 2)}
 							</Text>
 						</Box>
 						<ToolTip theme="backgroundPrimary" message={<Translation capitalizeFirstLetter text="global.search" />}>

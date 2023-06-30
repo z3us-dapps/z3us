@@ -18,8 +18,8 @@ interface IAllAccountListRowProps {
 }
 
 export const AllAccountListRow: React.FC<IAllAccountListRowProps> = ({ address, symbol, name, value }) => {
-	const { defaultCurrency } = useNoneSharedStore(state => ({
-		defaultCurrency: state.currency,
+	const { currency } = useNoneSharedStore(state => ({
+		currency: state.currency,
 	}))
 
 	return (
@@ -47,7 +47,7 @@ export const AllAccountListRow: React.FC<IAllAccountListRowProps> = ({ address, 
 			<Box className={styles.dottedSpacer} />
 			<Box className={styles.addressInfoWrapperRight}>
 				<Text size="xsmall" truncate>
-					{formatBigNumber(value, defaultCurrency, 2)}
+					{formatBigNumber(value, currency, 2)}
 				</Text>
 			</Box>
 		</Box>

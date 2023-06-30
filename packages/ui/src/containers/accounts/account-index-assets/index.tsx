@@ -1,8 +1,12 @@
 import clsx from 'clsx'
 import { AnimatePresence, motion } from 'framer-motion'
+import { Change } from 'packages/ui/src/components/change'
+import { useGlobalResourceBalances } from 'packages/ui/src/hooks/dapp/use-balances'
+import { useNoneSharedStore } from 'packages/ui/src/hooks/use-store'
+import { ResourceBalanceType } from 'packages/ui/src/types/types'
+import { formatBigNumber } from 'packages/ui/src/utils/formatters'
 import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { useTimeout } from 'usehooks-ts'
 
 import { Avatar } from 'ui/src/components/avatar'
 import { Box } from 'ui/src/components/box'
@@ -16,25 +20,30 @@ import { animatePageVariants } from 'ui/src/constants/page'
 
 import * as styles from './account-index-assets.css'
 
+const defaultRowsShown = 4
+
 interface IAccountIndexAssetsProps {
 	scrollableNode: HTMLElement | null
 }
 
 export const AccountIndexAssets: React.FC<IAccountIndexAssetsProps> = ({ scrollableNode }) => {
 	const { t } = useTranslation()
+	const { currency } = useNoneSharedStore(state => ({
+		currency: state.currency,
+	}))
+	const { balances, fungibleChange, nonFungibleChange, fungibleValue, nonFungibleValue, isLoading } =
+		useGlobalResourceBalances()
+
+	const fungible = balances.filter(b => b.type === ResourceBalanceType.FUNGIBLE)
+	const nfts = balances.filter(b => b.type === ResourceBalanceType.NON_FUNGIBLE)
 
 	const [hoveredLink, setHoveredLink] = useState<string | null>(null)
-	const [loaded, setLoaded] = useState<boolean>(false)
 
 	useEffect(() => {
 		if (scrollableNode) {
 			scrollableNode.scrollTop = 0
 		}
 	}, [])
-
-	useTimeout(() => {
-		setLoaded(true)
-	}, 1000)
 
 	return (
 		<Box className={styles.indexAssetsOuterWrapper}>
@@ -44,10 +53,13 @@ export const AccountIndexAssets: React.FC<IAccountIndexAssetsProps> = ({ scrolla
 				</Text>
 			</Box>
 			<Box className={styles.indexAssetsWrapper}>
-				{[{ name: t('accounts.home.assetsTokens') }, { name: t('accounts.home.assetsNfts') }].map(({ name }, idx) => (
+				{[
+					{ name: t('accounts.home.assetsTokens'), resources: fungible, value: fungibleValue, change: fungibleChange },
+					{ name: t('accounts.home.assetsNfts'), resources: nfts, value: nonFungibleValue, change: nonFungibleChange },
+				].map(({ name, resources, value, change }, idx) => (
 					<Box key={name} className={styles.indexAssetWrapper}>
 						<AnimatePresence initial={false}>
-							{!loaded && (
+							{isLoading && (
 								<motion.div
 									initial="hidden"
 									animate="visible"
@@ -86,7 +98,7 @@ export const AccountIndexAssets: React.FC<IAccountIndexAssetsProps> = ({ scrolla
 							)}
 						</AnimatePresence>
 						<AnimatePresence initial={false}>
-							{loaded && (
+							{!isLoading && (
 								<motion.div initial="hidden" animate="visible" variants={animatePageVariants}>
 									<Box>
 										<Link
@@ -104,7 +116,7 @@ export const AccountIndexAssets: React.FC<IAccountIndexAssetsProps> = ({ scrolla
 														{name}
 													</Text>
 													<Box paddingLeft="xsmall">
-														<Text size="medium">(12)</Text>
+														<Text size="medium">({resources.length})</Text>
 													</Box>
 												</Box>
 												<Box
@@ -115,37 +127,37 @@ export const AccountIndexAssets: React.FC<IAccountIndexAssetsProps> = ({ scrolla
 													className={styles.textMaxWidthWrapper}
 												>
 													<Text size="small" color="strong" weight="strong" truncate>
-														$12,40112,40112,40112,40112,40112,40112,40112,40112,40112,401
-														$12,40112,40112,40112,40112,40112,40112,40112,40112,40112,401
+														{formatBigNumber(value, currency, 2)}
 													</Text>
-													<Text weight="medium" size="xsmall" color={idx % 2 === 0 ? 'green' : 'red'}>
-														+1.23%
+													<Text weight="medium" size="xsmall" color={change.gte(0) ? 'green' : 'red'}>
+														<Change change={change} />
 													</Text>
 												</Box>
 											</Box>
 										</Link>
 										<Box className={styles.indexAssetRowOverlay}>
-											<Box display="flex" alignItems="center" marginRight="large">
-												<Text size="xsmall" weight="medium">
-													+7
-												</Text>
-											</Box>
-											{[...Array(4)].map((x, i) => (
+											{resources.length > defaultRowsShown && (
+												<Box display="flex" alignItems="center" marginRight="large">
+													<Text size="xsmall" weight="medium">
+														+{resources.length - defaultRowsShown}
+													</Text>
+												</Box>
+											)}
+											{resources.slice(0, defaultRowsShown).map(resource => (
 												<Button
-													// eslint-disable-next-line
-													key={i}
+													key={resource.address}
 													className={styles.indexAssetCircle}
 													onMouseOver={() => setHoveredLink(name)}
-													href="/accounts/all/tokens887878"
+													href={`/accounts/all/tokens/${resource.address}`}
 													styleVariant="avatar"
 													sizeVariant="medium"
 													iconOnly
 													rounded
 												>
 													<Avatar
-														fallback="asdf"
-														src="https://images.unsplash.com/photo-1492633423870-43d1cd2775eb?&w=128&h=128&dpr=2&q=80"
-														alt="Colm Tuite"
+														fallback={resource.symbol || resource.name}
+														src={resource.imageUrl}
+														alt={resource.name}
 													/>
 												</Button>
 											))}

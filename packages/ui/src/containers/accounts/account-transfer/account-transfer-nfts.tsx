@@ -26,7 +26,6 @@ export const AccountTransferNfts: React.FC = () => {
 		addressBook: state.addressBook[networkId] || {},
 		selectedAccount: state.selectedAccount,
 	}))
-	const { balances, isLoading } = useGlobalResourceBalances(selectedAccount ? { [selectedAccount]: true } : null)
 	const accounts = useWalletAccounts()
 
 	const [state, setState] = useImmer<IAccountTransferNftsImmer>({
@@ -41,6 +40,10 @@ export const AccountTransferNfts: React.FC = () => {
 		initValidation: false,
 		validation: undefined,
 	})
+
+	const { balances, isLoading } = useGlobalResourceBalances(
+		state.transaction.from ? { [state.transaction.from]: true } : null,
+	)
 
 	useDeepCompareEffect(() => {
 		if (state.initValidation) {

@@ -86,8 +86,8 @@ export const AccountsHomeMobileHeader = forwardRef<HTMLElement, IAccountsHomeMob
 			search,
 			onSearch,
 		} = props
-		const { defaultCurrency } = useNoneSharedStore(state => ({
-			defaultCurrency: state.currency,
+		const { currency } = useNoneSharedStore(state => ({
+			currency: state.currency,
 		}))
 		const { account, assetType, asset } = useAccountParams()
 		const isAllAccount = account === ACCOUNTS_ALL && !asset
@@ -146,7 +146,7 @@ export const AccountsHomeMobileHeader = forwardRef<HTMLElement, IAccountsHomeMob
 								<Translation capitalizeFirstLetter text="accounts.home.accountBalanceTitle" />
 							</Text>
 							<Text color="strong" align="center" size="xlarge">
-								{isLoading ? 'Loading...' : formatBigNumber(totalValue, defaultCurrency, 2)}
+								{isLoading ? 'Loading...' : formatBigNumber(totalValue, currency, 2)}
 							</Text>
 							<Text align="center" size="xlarge">
 								{isLoading ? 'Loading...' : <Change change={totalChange} />}
