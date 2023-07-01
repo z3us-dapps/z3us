@@ -101,7 +101,7 @@ export const AccountSearch = () => {
 									/>
 								</Box>
 								<Box flexShrink={0} display="flex" justifyContent="flex-end" gap="small">
-									<ToolTip message={<Translation capitalizeFirstLetter text="global.close" />}>
+									<ToolTip message="global.close">
 										<Button styleVariant="ghost" sizeVariant="small" iconOnly onClick={navigateBack}>
 											<Close2Icon />
 										</Button>

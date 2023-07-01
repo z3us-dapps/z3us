@@ -71,7 +71,7 @@ export const AccountActivitySearch: React.FC<IAccountActivitySearchProps> = prop
 							<ArrowUpIcon />
 						</Button>
 					</ToolTip>
-					<ToolTip theme="backgroundPrimary" message={<Translation capitalizeFirstLetter text="global.search" />}>
+					<ToolTip theme="backgroundPrimary" message="global.search">
 						<Button
 							className={clsx(styles.accountSearchButton)}
 							styleVariant="ghost"

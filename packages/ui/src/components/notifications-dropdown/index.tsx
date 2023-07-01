@@ -25,12 +25,7 @@ import { Text } from 'ui/src/components/typography'
 
 import * as styles from './notifications-dropdown.css'
 
-interface INotificationsDropdownProps {
-	className?: ClassValue
-}
-
-export const NotificationsDropdown: React.FC<INotificationsDropdownProps> = props => {
-	const { className } = props
+export const NotificationsDropdown: React.FC = props => {
 	const navigate = useNavigate()
 
 	const handleGoToSettings = () => {
@@ -38,11 +33,11 @@ export const NotificationsDropdown: React.FC<INotificationsDropdownProps> = prop
 	}
 
 	return (
-		<Box className={clsx(styles.notifcationsDropdownProfilWrapper, className)}>
+		<Box className={styles.notificationsDropdownProfileWrapper}>
 			<DropdownMenu>
 				<DropdownMenuTrigger asChild>
 					<Box>
-						<ToolTip message={<Translation capitalizeFirstLetter text="global.notifications" />}>
+						<ToolTip message="global.notifications">
 							<Button styleVariant="ghost" sizeVariant="small" iconOnly rounded>
 								<BellIcon />
 							</Button>
