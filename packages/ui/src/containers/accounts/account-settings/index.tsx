@@ -11,6 +11,7 @@ import { ArrowLeftIcon, ChevronDown3Icon, ChevronLeftIcon, HomeIcon } from 'ui/s
 import { PillNavigation } from 'ui/src/components/pill-navigation'
 import { ScrollPanel } from 'ui/src/components/scroll-panel'
 import { Text } from 'ui/src/components/typography'
+import { settingsMenuSlugs } from 'ui/src/constants/settings'
 
 import * as styles from './account-settings.css'
 import { SettingsMobileNavigation } from './components/settings-mobile-navigation'
@@ -21,7 +22,7 @@ import { SettingsGeneral } from './settings-general'
 export const AccountSettings = () => {
 	const location = useLocation()
 	const isSettingsHome = location.pathname === '/accounts/settings'
-	// const { t } = useTranslation()
+	const { t } = useTranslation()
 
 	return (
 		<Box className={styles.settingsWrapper}>
@@ -29,12 +30,9 @@ export const AccountSettings = () => {
 				<Box className={styles.settingsDesktopLeftMenu}>
 					<LayoutGroup id="account-desktop-nav">
 						{[
-							// { href: accountMenuSlugs.ACCOUNTS },
-							{ text: 'settings', href: '/accounts/settings' },
-							{ text: 'accounts', href: '/accounts/settings/accounts' },
-							{ text: 'address book', href: '/accounts/settings/address-book' },
-							// { text: t('accounts.navigation.swap'), href: accountMenuSlugs.SWAP },
-							// { text: t('accounts.navigation.settings'), href: accountMenuSlugs.SETTINGS },
+							{ text: t('settings.navigation.generalTitle'), href: settingsMenuSlugs.GENERAL },
+							{ text: t('settings.navigation.accountsTitle'), href: settingsMenuSlugs.ACCOUNTS },
+							{ text: t('settings.navigation.accountsAddressBookTitle'), href: settingsMenuSlugs.ADDRESS_BOOK },
 						].map(({ text, href }) => (
 							<PillNavigation text={text} key={href} href={href} />
 						))}

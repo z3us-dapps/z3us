@@ -1,11 +1,13 @@
 /* eslint-disable */
 import clsx, { type ClassValue } from 'clsx'
 import React from 'react'
+import { useTranslation } from 'react-i18next'
 import { Link, Navigate, Route, Routes, useLocation, useMatch } from 'react-router-dom'
 
 import { Box } from 'ui/src/components/box'
 import { ArrowLeftIcon, ChevronDown3Icon, ChevronLeftIcon, HomeIcon } from 'ui/src/components/icons'
 import { Text } from 'ui/src/components/typography'
+import { settingsMenuSlugs } from 'ui/src/constants/settings'
 
 import * as styles from './settings-mobile-navigation.css'
 
@@ -19,13 +21,15 @@ export interface ISettingsMobileNavigation {
 export const SettingsMobileNavigation: React.FC<ISettingsMobileNavigation> = props => {
 	const { className, title, subTitle, isBottomBorderVisible = true } = props
 
+	const { t } = useTranslation()
+
 	return (
 		<Box position="relative" className={className}>
 			<Box display="flex" flexDirection="column">
 				{[
-					{ href: '/accounts/settings/general', title: 'General' },
-					{ href: '/accounts/settings/accounts', title: 'Accounts' },
-					{ href: '/accounts/settings/address-book', title: 'Address book' },
+					{ text: t('settings.navigation.generalTitle'), href: settingsMenuSlugs.GENERAL },
+					{ text: t('settings.navigation.accountsTitle'), href: settingsMenuSlugs.ACCOUNTS },
+					{ text: t('settings.navigation.accountsAddressBookTitle'), href: settingsMenuSlugs.ADDRESS_BOOK },
 				].map(({ href, title }, i) => (
 					<Link key={href} to={href} className={styles.settingsMobileIndexLinkWrapper}>
 						<Box className={styles.settingsMobileIndexLinkIconWrapper}>
