@@ -14,7 +14,6 @@ import { TelegramIcon } from 'ui/src/components/icons/telegram-icon'
 import { TwitterIcon } from 'ui/src/components/icons/twitter-icon'
 import { SelectSimple, SelectTrigger, SelectValue } from 'ui/src/components/select'
 import { ToolTip } from 'ui/src/components/tool-tip'
-import Translation from 'ui/src/components/translation'
 import { Text } from 'ui/src/components/typography'
 
 import * as styles from './footer.css'
@@ -51,7 +50,7 @@ export const Footer = () => {
 					<Box className={styles.footerRightWrapper}>
 						<Box className={styles.tabletLinks}>{pageLinks}</Box>
 						<Box display="flex" gap="xsmall">
-							<ToolTip message={<Translation capitalizeFirstLetter text="global.telegram" />}>
+							<ToolTip message="global.telegram">
 								<NextButton
 									sizeVariant="small"
 									styleVariant="ghost"
@@ -62,7 +61,7 @@ export const Footer = () => {
 									<TelegramIcon />
 								</NextButton>
 							</ToolTip>
-							<ToolTip message={<Translation capitalizeFirstLetter text="global.twitter" />}>
+							<ToolTip message="global.twitter">
 								<NextButton
 									sizeVariant="small"
 									styleVariant="ghost"
@@ -73,7 +72,7 @@ export const Footer = () => {
 									<TwitterIcon />
 								</NextButton>
 							</ToolTip>
-							<ToolTip message={<Translation capitalizeFirstLetter text="global.github" />}>
+							<ToolTip message="global.github">
 								<NextButton
 									sizeVariant="small"
 									styleVariant="ghost"

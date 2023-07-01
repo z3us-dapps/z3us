@@ -4,7 +4,6 @@ import React from 'react'
 import { Box } from 'ui/src/components/box'
 import { DownLeft2Icon, QrCode2Icon, UpRight2Icon } from 'ui/src/components/icons'
 import { type TTheme, ToolTip } from 'ui/src/components/tool-tip'
-import Translation from 'ui/src/components/translation'
 import { accountMenuSlugs } from 'ui/src/constants/accounts'
 
 import { Button } from '../router-button'
@@ -29,17 +28,17 @@ export const CardButtons: React.FC<ICardButtonsProps> = props => {
 
 	return (
 		<Box className={clsx(styles.cardButtonsWrapper, className)}>
-			<ToolTip message={<Translation capitalizeFirstLetter text="global.send" />} theme={theme}>
+			<ToolTip message="global.send" theme={theme}>
 				<Button iconOnly rounded styleVariant="inverse" sizeVariant="large" to={`${accountMenuSlugs.TRANSFER}/asdf`}>
 					<UpRight2Icon />
 				</Button>
 			</ToolTip>
-			<ToolTip message={<Translation capitalizeFirstLetter text="global.receive" />} theme={theme}>
+			<ToolTip message="global.receive" theme={theme}>
 				<Button iconOnly rounded styleVariant="inverse" sizeVariant="large" to="/accounts/transfer">
 					<DownLeft2Icon />
 				</Button>
 			</ToolTip>
-			<ToolTip message={<Translation capitalizeFirstLetter text="global.address" />} theme={theme}>
+			<ToolTip message="global.address" theme={theme}>
 				<Button iconOnly rounded styleVariant="inverse" sizeVariant="large" to="/accounts/transfer">
 					<QrCode2Icon />
 				</Button>

@@ -32,7 +32,6 @@ import { Link } from 'ui/src/components/router-link'
 import * as containerStyles from 'ui/src/components/styles/container-styles.css'
 import * as dialogStyles from 'ui/src/components/styles/dialog-styles.css'
 import { ToolTip } from 'ui/src/components/tool-tip'
-import Translation from 'ui/src/components/translation'
 import { WalletDropdown } from 'ui/src/components/wallet-dropdown'
 import { Z3usLogo } from 'ui/src/components/z3us-logo-babylon'
 import { accountMenuSlugs } from 'ui/src/constants/accounts'
@@ -208,7 +207,7 @@ export const MobileMenu: React.FC = () => (
 	<DialogRoot>
 		<DialogTrigger asChild>
 			<Box>
-				<ToolTip side="right" message={<Translation capitalizeFirstLetter text="global.menu" />}>
+				<ToolTip side="right" message="global.menu">
 					<Button iconOnly styleVariant="ghost">
 						<Z3usIcon />
 					</Button>
