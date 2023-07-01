@@ -13,7 +13,10 @@ import { Box } from 'ui/src/components/box'
 import { Button } from 'ui/src/components/button'
 import { ConnectButton } from 'ui/src/components/connect-button'
 import { CopyAddressButton } from 'ui/src/components/copy-address-button'
+import { SlideMenuIcon } from 'ui/src/components/icons/slide-menu-icon'
 import { NotificationsDropdown } from 'ui/src/components/notifications-dropdown'
+import { ToolTip } from 'ui/src/components/tool-tip'
+import Translation from 'ui/src/components/translation'
 import { Z3usLogoText } from 'ui/src/components/z3us-logo-babylon'
 import { AccountTabletNavigationDropdown } from 'ui/src/containers/accounts/account-tablet-navigation-dropdown'
 import { AccountDesktopLavaMenu } from 'ui/src/containers/accounts/navigation'
@@ -35,6 +38,13 @@ export const Header = () => {
 		<Box className={clsx(styles.headerWrapper, isConnected && styles.headerWrapperBorderColor)}>
 			<ContentContainer>
 				<Box className={styles.headerInnerWrapper}>
+					<Box className={styles.headerMenuWrapper}>
+						<ToolTip side="right" message={<Translation capitalizeFirstLetter text="global.open" />}>
+							<Button iconOnly styleVariant="secondary">
+								<SlideMenuIcon />
+							</Button>
+						</ToolTip>
+					</Box>
 					<Box className={styles.landingHeaderBrandWrapper}>
 						<Link to="/">
 							<Z3usLogoText className={styles.landingLogoWrapper} />

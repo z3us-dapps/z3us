@@ -127,6 +127,8 @@ export const accountsHomeMobileHeaderWalletWrapper = style([
 export const navigationMobileWrapper = style([
 	sprinkles({
 		display: 'flex',
+		position: 'sticky',
+		bottom: 0,
 		borderTop: 1,
 		zIndex: 1,
 		borderTopStyle: 'solid',

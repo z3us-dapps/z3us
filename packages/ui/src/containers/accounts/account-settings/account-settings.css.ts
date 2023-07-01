@@ -2,14 +2,7 @@ import { style } from '@vanilla-extract/css'
 
 import { sprinkles } from 'ui/src/components/system/sprinkles.css'
 
-export const settingsMobileWrapper = style([
-	sprinkles({
-		position: 'relative',
-	}),
-	{},
-])
-
-export const settingsDesktopWrapper = style([
+export const settingsWrapper = style([
 	sprinkles({
 		display: 'flex',
 		justifyContent: 'center',
@@ -25,9 +18,13 @@ export const settingsDesktopWrapper = style([
 			mobile: 'large',
 			desktop: 'xxlarge',
 		},
-		height: 'full',
+		height: {
+			tablet: 'full',
+		},
 	}),
-	{},
+	{
+		border: '1px solid red',
+	},
 ])
 
 export const settingsDesktopContainerWrapper = style([

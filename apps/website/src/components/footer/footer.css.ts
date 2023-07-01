@@ -69,8 +69,9 @@ export const footerRightWrapper = style([
 
 export const mobileLinks = style([
 	sprinkles({
+		gap: 'xsmall',
 		display: {
-			mobile: 'block',
+			mobile: 'flex',
 			tablet: 'none',
 		},
 	}),
@@ -79,6 +80,7 @@ export const mobileLinks = style([
 
 export const tabletLinks = style([
 	sprinkles({
+		gap: 'small',
 		display: {
 			mobile: 'none',
 			tablet: 'flex',

@@ -7,6 +7,8 @@ import { useRouter } from 'next/router'
 import React, { useState } from 'react'
 
 import { Box } from 'ui/src/components/box'
+import { Button } from 'ui/src/components/button'
+import { Link } from 'ui/src/components/router-link'
 import { Text } from 'ui/src/components/typography'
 
 import * as styles from './landing-page.css'
@@ -19,6 +21,9 @@ export const LandingPage: React.FC = () => {
 				<ContentContainer>
 					<Box>
 						<LogoTest />
+						<Box padding="large">
+							<Link to="/accounts/settings">HIii</Link>
+						</Box>
 						{Array.from({ length: 10 }, (_, i) => (
 							<Box display="flex" flexDirection="column" key={i}>
 								<Text size="large">Landing page content here</Text>

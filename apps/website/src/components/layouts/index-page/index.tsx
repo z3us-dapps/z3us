@@ -42,6 +42,7 @@ export const IndexPage: React.FC = () => {
 				<AnimatePresence initial={false}>
 					{isConnected && (
 						<motion.div
+							className={styles.indexPageAppWrapper}
 							initial={{ opacity: 0, position: 'absolute' }}
 							animate={{ opacity: 1, position: 'relative' }}
 							exit={{ opacity: 0, position: 'absolute' }}
@@ -49,7 +50,6 @@ export const IndexPage: React.FC = () => {
 								opacity: { ease: 'linear' },
 								layout: { duration: 0.15 },
 							}}
-							style={{ width: '100vw', height: 'calc(100vh - 71px)', top: 0, left: 0, overflow: 'hidden' }}
 						>
 							<AppPage />
 						</motion.div>

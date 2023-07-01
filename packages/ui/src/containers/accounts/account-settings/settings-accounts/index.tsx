@@ -121,20 +121,6 @@ export const SettingsAccounts: React.FC = () => {
 					</Box>
 				}
 			/>
-			<Box>
-				<Text size="large">
-					Consequat veniam eiusmod ad officia aliqua eiusmod sit exercitation cupidatat voluptate anim dolore laborum.
-					Consequat veniam eiusmod ad officia aliqua eiusmod sit exercitation cupidatat voluptate anim dolore laborum.
-					Consequat veniam eiusmod ad officia aliqua eiusmod sit exercitation cupidatat voluptate anim dolore laborum.
-					Consequat veniam eiusmod ad officia aliqua eiusmod sit exercitation cupidatat voluptate anim dolore laborum.
-					Consequat veniam eiusmod ad officia aliqua eiusmod sit exercitation cupidatat voluptate anim dolore laborum.
-					Consequat veniam eiusmod ad officia aliqua eiusmod sit exercitation cupidatat voluptate anim dolore laborum.
-					Consequat veniam eiusmod ad officia aliqua eiusmod sit exercitation cupidatat voluptate anim dolore laborum.
-					Consequat veniam eiusmod ad officia aliqua eiusmod sit exercitation cupidatat voluptate anim dolore laborum.
-					Consequat veniam eiusmod ad officia aliqua eiusmod sit exercitation cupidatat voluptate anim dolore laborum.
-					Consequat veniam eiusmod ad officia aliqua eiusmod sit exercitation cupidatat voluptate anim dolore laborum.
-				</Text>
-			</Box>
 		</Box>
 	)
 }

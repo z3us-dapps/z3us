@@ -12,7 +12,7 @@ import { AccountStaking } from 'ui/src/containers/accounts/account-staking'
 import { AccountSwap } from 'ui/src/containers/accounts/account-swap'
 import { AccountTransaction } from 'ui/src/containers/accounts/account-transaction'
 import { AccountTransfer } from 'ui/src/containers/accounts/account-transfer'
-import { DesktopNavigation } from 'ui/src/containers/accounts/navigation'
+import { DesktopNavigation, MobileFooterNavigation } from 'ui/src/containers/accounts/navigation'
 import { useLocationKey } from 'ui/src/hooks/use-location-key'
 
 import * as styles from './accounts.css'
@@ -76,6 +76,7 @@ export const Accounts = (props: IAccountsProps): React.JSX.Element => {
 						</Routes>
 					</AnimatePresence>
 				</Box>
+				<MobileFooterNavigation />
 			</Box>
 			<AccountTransaction />
 			<AccountSearch />

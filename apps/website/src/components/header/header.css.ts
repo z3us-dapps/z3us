@@ -5,7 +5,8 @@ import { responsiveStyle } from 'ui/src/components/system/theme-utils'
 
 export const headerWrapper = style([
 	sprinkles({
-		position: 'relative',
+		position: 'sticky',
+		top: 0,
 		borderBottom: 1,
 		borderBottomStyle: 'solid',
 		borderColor: 'transparent',
@@ -44,6 +45,14 @@ export const landingLogoWrapper = style([
 ])
 
 export const landingHeaderBrandWrapper = style([
+	sprinkles({
+		display: 'flex',
+		alignItems: 'center',
+	}),
+	{},
+])
+
+export const headerMenuWrapper = style([
 	sprinkles({
 		display: 'flex',
 		alignItems: 'center',

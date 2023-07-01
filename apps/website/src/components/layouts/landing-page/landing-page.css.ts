@@ -6,10 +6,11 @@ export const landingWrapper = style([
 	sprinkles({
 		display: 'flex',
 		flexDirection: 'column',
+		width: 'vw100',
+		maxWidth: 'full',
 	}),
 	{
 		minHeight: 'calc(100vh - 71px)',
-		minWidth: '100vw',
 	},
 ])
 
