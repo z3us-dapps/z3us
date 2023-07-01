@@ -19,8 +19,8 @@ export const AccountSettingsDesktop = () => {
 	// const { t } = useTranslation()
 
 	return (
-		<Box className={styles.settingsDesktopWrapper}>
-			<Box className={styles.settingsDesktopContainerWrapper}>
+		<Box className={styles.settingsWrapper}>
+			<Box className={styles.settingsContainerWrapper}>
 				<Box className={styles.settingsDesktopLeftMenu}>
 					<LayoutGroup id="account-desktop-nav">
 						{[
@@ -34,7 +34,7 @@ export const AccountSettingsDesktop = () => {
 						))}
 					</LayoutGroup>
 				</Box>
-				<Box className={styles.settingsDesktopRightWrapper}>
+				<Box className={styles.settingsRightWrapper}>
 					<ScrollPanel
 						isTopShadowVisible
 						renderPanel={(scrollableNode: HTMLElement | null) => (

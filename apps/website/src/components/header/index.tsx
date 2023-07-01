@@ -10,16 +10,12 @@ import React, { useContext, useEffect, useState } from 'react'
 import { Link, Route, HashRouter as Router, Routes, redirect, useNavigate } from 'react-router-dom'
 
 import { Box } from 'ui/src/components/box'
-import { Button } from 'ui/src/components/button'
 import { ConnectButton } from 'ui/src/components/connect-button'
 import { CopyAddressButton } from 'ui/src/components/copy-address-button'
-import { SlideMenuIcon } from 'ui/src/components/icons/slide-menu-icon'
 import { NotificationsDropdown } from 'ui/src/components/notifications-dropdown'
-import { ToolTip } from 'ui/src/components/tool-tip'
-import Translation from 'ui/src/components/translation'
 import { Z3usLogoText } from 'ui/src/components/z3us-logo-babylon'
 import { AccountTabletNavigationDropdown } from 'ui/src/containers/accounts/account-tablet-navigation-dropdown'
-import { AccountDesktopLavaMenu } from 'ui/src/containers/accounts/navigation'
+import { AccountDesktopLavaMenu, MobileMenu } from 'ui/src/containers/accounts/navigation'
 import { AccountViewDropdown } from 'ui/src/containers/accounts/navigation/account-view-dropdown'
 import { useConnected } from 'ui/src/hooks/dapp/use-connected'
 
@@ -38,12 +34,9 @@ export const Header = () => {
 		<Box className={clsx(styles.headerWrapper, isConnected && styles.headerWrapperBorderColor)}>
 			<ContentContainer>
 				<Box className={styles.headerInnerWrapper}>
-					<Box className={styles.headerMenuWrapper}>
-						<ToolTip side="right" message={<Translation capitalizeFirstLetter text="global.open" />}>
-							<Button iconOnly styleVariant="secondary">
-								<SlideMenuIcon />
-							</Button>
-						</ToolTip>
+					{/* TODO: need to handle this menu when connected */}
+					<Box className={styles.headerMobileMenuWrapper}>
+						<MobileMenu />
 					</Box>
 					<Box className={styles.landingHeaderBrandWrapper}>
 						<Link to="/">

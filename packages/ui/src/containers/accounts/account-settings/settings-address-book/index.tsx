@@ -188,6 +188,7 @@ export const SettingsAddressBook: React.FC<ISettingsGeneralProps> = props => {
 		<>
 			<Box className={styles.settingsSectionFlexColumnWrapper}>
 				<SettingsTitle
+					backLink="/accounts/settings"
 					title={<Translation capitalizeFirstLetter text="settings.navigation.accountsAddressBookTitle" />}
 					subTitle={<Translation capitalizeFirstLetter text="settings.navigation.accountsAddressBookSubTitle" />}
 				/>

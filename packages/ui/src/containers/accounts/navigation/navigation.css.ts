@@ -1,4 +1,4 @@
-import { globalStyle, style } from '@vanilla-extract/css'
+import { globalStyle, keyframes, style } from '@vanilla-extract/css'
 
 import { darkMode, sprinkles } from 'ui/src/components/system/sprinkles.css'
 import { vars } from 'ui/src/components/system/theme.css'
@@ -126,14 +126,19 @@ export const accountsHomeMobileHeaderWalletWrapper = style([
 
 export const navigationMobileWrapper = style([
 	sprinkles({
-		display: 'flex',
+		display: {
+			mobile: 'flex',
+			tablet: 'none',
+		},
 		position: 'sticky',
+		justifyContent: 'center',
 		bottom: 0,
 		borderTop: 1,
 		zIndex: 1,
 		borderTopStyle: 'solid',
 		width: 'full',
 		borderColor: 'borderDivider',
+		background: 'backgroundSecondary',
 	}),
 	{
 		height: '48px',
@@ -152,15 +157,12 @@ export const navigationMenuLinkMobile = style([
 		boxShadow: {
 			focusVisible: 'btnSecondaryShadowFocus',
 		},
-		background: {
-			lightMode: 'backgroundSecondary',
-			darkMode: 'backgroundSecondary',
-		},
+		background: 'backgroundSecondary',
 	}),
 	{
 		outline: 0,
-		width: '25%',
-		flexBasis: '25%',
+		width: '84px',
+		flexBasis: '84px',
 		selectors: {
 			'&:focus-visible': {
 				position: 'relative',
@@ -193,6 +195,51 @@ export const navigationMenuLinkMobileCircleSelect = style([
 		background: 'purple400',
 	}),
 	{},
+])
+
+export const fadeIn = keyframes({
+	'0%': { transform: 'translateX(-100%)' },
+	'100%': { transform: 'translateX(0%)' },
+})
+
+export const fadeOut = keyframes({
+	'0%': { transform: 'translateX(0%)' },
+	'100%': { transform: 'translateX(-100%)' },
+})
+
+export const mobileSlideOutDialogContent = style([
+	sprinkles({
+		position: 'fixed',
+		zIndex: 1,
+		background: 'backgroundSecondary',
+		boxShadow: 'shadowPanel',
+		overflow: 'hidden',
+		color: 'colorNeutral',
+		height: 'vh100',
+		left: 0,
+		top: 0,
+	}),
+	{
+		maxWidth: '420px',
+		width: '80%',
+		animationTimingFunction: 'cubic-bezier(0.16, 1, 0.3, 1)',
+		transformOrigin: 'var(--radix-dropdown-menu-content-transform-origin)',
+		willChange: 'transform, opacity',
+		animationDuration: '150ms',
+		selectors: {
+			'&:focus': {
+				outline: 'none',
+			},
+			'&[data-state="open"]': {
+				animationName: fadeIn,
+				animationFillMode: 'forwards',
+			},
+			'&[data-state="closed"]': {
+				animationName: fadeOut,
+				animationFillMode: 'forwards',
+			},
+		},
+	},
 ])
 
 globalStyle(`${navigationMenuLinkMobile}:hover ${navigationMenuLinkMobileCircle}`, {

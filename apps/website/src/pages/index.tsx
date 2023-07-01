@@ -14,8 +14,6 @@ import { Link, Route, HashRouter as Router, Routes, redirect, useLocation } from
 
 import { Box } from 'ui/src/components/box'
 
-const AppPage = dynamic(() => import('../components/layouts/app-page'), { ssr: false })
-
 const App = () => (
 	<>
 		<Head>

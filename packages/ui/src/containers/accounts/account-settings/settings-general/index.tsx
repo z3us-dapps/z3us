@@ -30,6 +30,7 @@ export const SettingsGeneral: React.FC = () => {
 	return (
 		<Box className={styles.settingsSectionFlexColumnWrapper}>
 			<SettingsTitle
+				backLink="/accounts/settings"
 				title={<Translation capitalizeFirstLetter text="settings.navigation.generalTitle" />}
 				subTitle={<Translation capitalizeFirstLetter text="settings.navigation.generalSubTitle" />}
 			/>

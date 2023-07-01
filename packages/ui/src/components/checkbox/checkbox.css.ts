@@ -1,5 +1,5 @@
 import { style } from '@vanilla-extract/css'
-import type { RecipeVariants} from '@vanilla-extract/recipes';
+import type { RecipeVariants } from '@vanilla-extract/recipes'
 import { recipe } from '@vanilla-extract/recipes'
 
 import { sprinkles } from '../system/sprinkles.css'
@@ -122,7 +122,5 @@ export const checkboxIndicator = style([
 		width: 'full',
 		height: 'full',
 	}),
-	{
-		border: '1px solid red',
-	},
+	{},
 ])

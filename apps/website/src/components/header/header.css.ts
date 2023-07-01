@@ -46,15 +46,21 @@ export const landingLogoWrapper = style([
 
 export const landingHeaderBrandWrapper = style([
 	sprinkles({
-		display: 'flex',
+		display: {
+			mobile: 'none',
+			desktop: 'flex',
+		},
 		alignItems: 'center',
 	}),
 	{},
 ])
 
-export const headerMenuWrapper = style([
+export const headerMobileMenuWrapper = style([
 	sprinkles({
-		display: 'flex',
+		display: {
+			mobile: 'flex',
+			desktop: 'none',
+		},
 		alignItems: 'center',
 	}),
 	{},

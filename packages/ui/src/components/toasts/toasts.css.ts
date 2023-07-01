@@ -36,7 +36,7 @@ globalStyle(`${toastsWrapper}.toast-success`, {
 })
 
 globalStyle(`${toastsWrapper}.toast-error`, {
-	border: '1px solid red',
+	border: '1px solid pink',
 })
 
 globalStyle(`${toastsWrapper}.toast-caution`, {

@@ -1,33 +1,70 @@
 import { style } from '@vanilla-extract/css'
 
 import { sprinkles } from 'ui/src/components/system/sprinkles.css'
+import { responsiveStyle } from 'ui/src/components/system/theme-utils'
 
 export const settingsWrapper = style([
 	sprinkles({
 		display: 'flex',
 		justifyContent: 'center',
 		paddingX: {
-			mobile: 'large',
+			mobile: 'medium',
+			tablet: 'large',
 			desktop: 'xxlarge',
 		},
 		paddingBottom: {
-			mobile: 'large',
+			mobile: 'medium',
+			tablet: 'large',
 			desktop: 'xxlarge',
 		},
 		paddingTop: {
-			mobile: 'large',
+			mobile: 'medium',
+			tablet: 'large',
 			desktop: 'xxlarge',
-		},
-		height: {
-			tablet: 'full',
 		},
 	}),
 	{
-		border: '1px solid red',
+		// border: '1px solid red',
+		// TODO: should be calc with footer and header variables
+		// minHeight: 'calc(100vh - 120px)',
 	},
+	responsiveStyle({
+		mobile: { minHeight: 'calc(100vh - 120px)' },
+		tablet: { minHeight: 'unset' },
+	}),
 ])
 
-export const settingsDesktopContainerWrapper = style([
+export const settingsHomeMobileMenuVisibleWrapper = style([
+	sprinkles({
+		display: {
+			mobile: 'block',
+			tablet: 'none',
+		},
+	}),
+	{},
+])
+
+export const settingsHomeMobileMenuHiddenWrapper = style([
+	sprinkles({
+		display: {
+			mobile: 'none',
+		},
+	}),
+	{},
+])
+
+export const settingsHomeWrapper = style([
+	sprinkles({
+		position: 'relative',
+		display: {
+			mobile: 'none',
+			tablet: 'block',
+		},
+	}),
+	{},
+])
+
+export const settingsContainerWrapper = style([
 	sprinkles({
 		width: 'full',
 		height: 'full',
@@ -41,7 +78,10 @@ export const settingsDesktopContainerWrapper = style([
 export const settingsDesktopLeftMenu = style([
 	sprinkles({
 		position: 'relative',
-		display: 'flex',
+		display: {
+			mobile: 'none',
+			tablet: 'flex',
+		},
 		flexDirection: 'column',
 		gap: 'medium',
 		paddingLeft: 'medium',
@@ -52,10 +92,21 @@ export const settingsDesktopLeftMenu = style([
 	},
 ])
 
-export const settingsDesktopRightWrapper = style([
+export const settingsRightWrapper = style([
 	sprinkles({
 		position: 'relative',
 		flexGrow: 1,
+	}),
+	{},
+])
+
+export const settingsScrollPanelWrapper = style([
+	sprinkles({
+		position: 'relative',
+		margin: {
+			mobile: 'xlarge',
+			tablet: 'xlarge',
+		},
 	}),
 	{},
 ])
@@ -65,30 +116,6 @@ export const settingsSectionFlexColumnWrapper = style([
 		display: 'flex',
 		flexDirection: 'column',
 		gap: 'xlarge',
-	}),
-])
-
-// TODO
-export const settingsSectionBorderWrapper = style([
-	sprinkles({
-		borderBottom: 1,
-		borderStyle: 'solid',
-		borderColor: 'borderDivider',
-		paddingBottom: 'xlarge',
-		paddingX: {
-			mobile: 'xlarge',
-			tablet: 'none',
-		},
-	}),
-])
-
-// TODO: remove
-export const settingsSectionWrapper = style([
-	sprinkles({
-		paddingX: {
-			mobile: 'xlarge',
-			tablet: 'none',
-		},
 	}),
 ])
 
@@ -113,45 +140,4 @@ export const settingsSectionGridBasicSpacer = style([
 			tablet: 'flex',
 		},
 	}),
-])
-
-export const settingsMobileIndexLinkWrapper = style([
-	sprinkles({
-		display: 'flex',
-		paddingX: 'large',
-		paddingY: 'large',
-		gap: 'medium',
-		borderBottom: 1,
-		borderBottomStyle: 'solid',
-		borderColor: 'borderDivider',
-		textDecoration: 'none',
-		transition: 'fast',
-		background: {
-			lightMode: 'transparent',
-			hover: 'backgroundPrimary',
-		},
-	}),
-	{},
-])
-
-export const settingsMobileIndexLinkTextWrapper = style([
-	sprinkles({
-		display: 'flex',
-		flexDirection: 'column',
-		gap: 'xxsmall',
-	}),
-	{},
-])
-
-export const settingsMobileIndexLinkIconWrapper = style([
-	sprinkles({
-		display: 'flex',
-		alignItems: 'center',
-		justifyContent: 'center',
-		flexShrink: 0,
-	}),
-	{
-		width: '50px',
-		height: '50px',
-	},
 ])

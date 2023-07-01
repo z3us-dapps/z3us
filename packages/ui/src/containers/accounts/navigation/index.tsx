@@ -6,13 +6,33 @@ import { useTranslation } from 'react-i18next'
 import { useLocation } from 'react-router-dom'
 
 import { Box } from 'ui/src/components/box'
+import { Button } from 'ui/src/components/button'
 import { ConnectButton } from 'ui/src/components/connect-button'
 import { CopyAddressButton } from 'ui/src/components/copy-address-button'
-import { CoinsIcon, Home2Icon, Settings2Icon, Swap2Icon, SwitchHorizontal } from 'ui/src/components/icons'
+import {
+	DialogClose,
+	DialogContent,
+	DialogOverlay,
+	DialogPortal,
+	DialogRoot,
+	DialogTrigger,
+} from 'ui/src/components/dialog'
+import {
+	Close2Icon,
+	CoinsIcon,
+	Home2Icon,
+	Settings2Icon,
+	Swap2Icon,
+	SwitchHorizontal,
+	Z3usIcon,
+} from 'ui/src/components/icons'
 import { NotificationsDropdown } from 'ui/src/components/notifications-dropdown'
 import { PillNavigation } from 'ui/src/components/pill-navigation'
 import { Link } from 'ui/src/components/router-link'
 import * as containerStyles from 'ui/src/components/styles/container-styles.css'
+import * as dialogStyles from 'ui/src/components/styles/dialog-styles.css'
+import { ToolTip } from 'ui/src/components/tool-tip'
+import Translation from 'ui/src/components/translation'
 import { WalletDropdown } from 'ui/src/components/wallet-dropdown'
 import { Z3usLogo } from 'ui/src/components/z3us-logo-babylon'
 import { accountMenuSlugs } from 'ui/src/constants/accounts'
@@ -182,4 +202,37 @@ export const MobileFooterNavigation: React.FC = () => (
 			<MenuItemMobile key={href} href={href} />
 		))}
 	</Box>
+)
+
+export const MobileMenu: React.FC = () => (
+	<DialogRoot>
+		<DialogTrigger asChild>
+			<Box>
+				<ToolTip side="right" message={<Translation capitalizeFirstLetter text="global.menu" />}>
+					<Button iconOnly styleVariant="ghost">
+						<Z3usIcon />
+					</Button>
+				</ToolTip>
+			</Box>
+		</DialogTrigger>
+		<DialogPortal>
+			<DialogOverlay className={dialogStyles.dialogOverlay} />
+			<DialogContent className={styles.mobileSlideOutDialogContent}>
+				<Box padding="medium">
+					<Box display="flex" flexDirection="row" justifyContent="flex-end">
+						<DialogClose asChild>
+							<Button iconOnly styleVariant="ghost">
+								<Close2Icon />
+							</Button>
+						</DialogClose>
+					</Box>
+					<Box>
+						<DialogClose asChild>
+							<Link to="/">go to home</Link>
+						</DialogClose>
+					</Box>
+				</Box>
+			</DialogContent>
+		</DialogPortal>
+	</DialogRoot>
 )
