@@ -37,25 +37,6 @@ export const settingsWrapper = style([
 	}),
 ])
 
-export const settingsHomeMobileMenuVisibleWrapper = style([
-	sprinkles({
-		display: {
-			mobile: 'block',
-			tablet: 'none',
-		},
-	}),
-	{},
-])
-
-export const settingsHomeMobileMenuHiddenWrapper = style([
-	sprinkles({
-		display: {
-			mobile: 'none',
-		},
-	}),
-	{},
-])
-
 export const settingsHomeWrapper = style([
 	sprinkles({
 		position: 'relative',

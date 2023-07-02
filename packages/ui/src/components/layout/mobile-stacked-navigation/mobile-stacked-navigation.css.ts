@@ -3,7 +3,26 @@ import { globalStyle, style } from '@vanilla-extract/css'
 import { sprinkles } from 'ui/src/components/system/sprinkles.css'
 import { vars } from 'ui/src/components/system/theme.css'
 
-export const settingsMobileLinksWrapper = style([
+export const mobileStackedNavVisibleWrapper = style([
+	sprinkles({
+		display: {
+			mobile: 'block',
+			tablet: 'none',
+		},
+	}),
+	{},
+])
+
+export const mobileStackedNavHiddenWrapper = style([
+	sprinkles({
+		display: {
+			mobile: 'none',
+		},
+	}),
+	{},
+])
+
+export const mobileStackedNavLinksWrapper = style([
 	sprinkles({
 		display: 'flex',
 		flexDirection: 'column',
@@ -12,7 +31,7 @@ export const settingsMobileLinksWrapper = style([
 	{},
 ])
 
-export const settingsMobileIndexLinkWrapper = style([
+export const mobileStackedNavLinkWrapper = style([
 	sprinkles({
 		display: 'flex',
 		position: 'relative',
@@ -46,7 +65,7 @@ export const settingsMobileIndexLinkWrapper = style([
 	},
 ])
 
-export const settingsMobileIndexLinkTextWrapper = style([
+export const mobileStackedNavLinkTextWrapper = style([
 	sprinkles({
 		display: 'flex',
 		flexDirection: 'column',
@@ -55,7 +74,7 @@ export const settingsMobileIndexLinkTextWrapper = style([
 	{},
 ])
 
-export const settingsMobileIndexLinkIconWrapper = style([
+export const mobileStackedNavLinkIconWrapper = style([
 	sprinkles({
 		display: 'flex',
 		alignItems: 'center',
@@ -68,7 +87,7 @@ export const settingsMobileIndexLinkIconWrapper = style([
 	},
 ])
 
-export const settingsMobileIndexArrowWrapper = style([
+export const mobileStackedNavLinkArrowWrapper = style([
 	sprinkles({
 		display: 'flex',
 		alignItems: 'center',
@@ -82,25 +101,25 @@ export const settingsMobileIndexArrowWrapper = style([
 	},
 ])
 
-globalStyle(`${settingsMobileIndexLinkWrapper}:hover ${settingsMobileIndexArrowWrapper}`, {
+globalStyle(`${mobileStackedNavLinkWrapper}:hover ${mobileStackedNavLinkArrowWrapper}`, {
 	opacity: 1,
 })
 
-globalStyle(`${settingsMobileLinksWrapper} ${settingsMobileIndexLinkWrapper}:first-child`, {
+globalStyle(`${mobileStackedNavLinksWrapper} ${mobileStackedNavLinkWrapper}:first-child`, {
 	marginTop: '0',
 })
 
-globalStyle(`${settingsMobileLinksWrapper} ${settingsMobileIndexLinkWrapper}:first-child:after`, {
+globalStyle(`${mobileStackedNavLinksWrapper} ${mobileStackedNavLinkWrapper}:first-child:after`, {
 	display: 'none',
 })
 
-globalStyle(`${settingsMobileLinksWrapper} ${settingsMobileIndexLinkWrapper}:hover:after`, {
+globalStyle(`${mobileStackedNavLinksWrapper} ${mobileStackedNavLinkWrapper}:hover:after`, {
 	left: `calc(${vars.spacing.medium} * 1)`,
 	right: `calc(${vars.spacing.medium} * 1)`,
 })
 
 globalStyle(
-	`${settingsMobileLinksWrapper} ${settingsMobileIndexLinkWrapper}:hover + ${settingsMobileIndexLinkWrapper}:after`,
+	`${mobileStackedNavLinksWrapper} ${mobileStackedNavLinkWrapper}:hover + ${mobileStackedNavLinkWrapper}:after`,
 	{
 		left: `calc(${vars.spacing.medium} * 1)`,
 		right: `calc(${vars.spacing.medium} * 1)`,

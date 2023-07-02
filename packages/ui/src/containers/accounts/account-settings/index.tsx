@@ -7,14 +7,13 @@ import { Link, Navigate, Route, Routes, useLocation, useMatch } from 'react-rout
 
 import { AnimatedPage } from 'ui/src/components/animated-page'
 import { Box } from 'ui/src/components/box'
-import { ArrowLeftIcon, ChevronDown3Icon, ChevronLeftIcon, HomeIcon } from 'ui/src/components/icons'
+import { AddressBookIcon, ArrowRightIcon, CoinsIcon, Settings2Icon } from 'ui/src/components/icons'
+import { MobileStackedNavigation } from 'ui/src/components/layout/mobile-stacked-navigation'
 import { PillNavigation } from 'ui/src/components/pill-navigation'
 import { ScrollPanel } from 'ui/src/components/scroll-panel'
-import { Text } from 'ui/src/components/typography'
 import { settingsMenuPaths, settingsMenuSlugs } from 'ui/src/constants/settings'
 
 import * as styles from './account-settings.css'
-import { SettingsMobileNavigation } from './components/settings-mobile-navigation'
 import { SettingsAccounts } from './settings-accounts'
 import { SettingsAddressBook } from './settings-address-book'
 import { SettingsGeneral } from './settings-general'
@@ -24,16 +23,33 @@ export const AccountSettings = () => {
 	const isSettingsHome = location.pathname === settingsMenuSlugs.HOME
 	const { t } = useTranslation()
 
+	const settingsMenu = [
+		{
+			title: t('settings.navigation.generalTitle'),
+			subTitle: t('settings.navigation.generalSubTitle'),
+			href: settingsMenuSlugs.GENERAL,
+			icon: <Settings2Icon />,
+		},
+		{
+			title: t('settings.navigation.accountsTitle'),
+			subTitle: t('settings.navigation.accountsSubTitle'),
+			href: settingsMenuSlugs.ACCOUNTS,
+			icon: <CoinsIcon />,
+		},
+		{
+			title: t('settings.navigation.accountsAddressBookTitle'),
+			subTitle: t('settings.navigation.accountsAddressBookSubTitle'),
+			href: settingsMenuSlugs.ADDRESS_BOOK,
+			icon: <AddressBookIcon />,
+		},
+	]
+
 	return (
 		<Box className={styles.settingsWrapper}>
 			<Box className={styles.settingsContainerWrapper}>
 				<Box className={styles.settingsDesktopLeftMenu}>
 					<LayoutGroup id="account-desktop-nav">
-						{[
-							{ text: t('settings.navigation.generalTitle'), href: settingsMenuSlugs.GENERAL },
-							{ text: t('settings.navigation.accountsTitle'), href: settingsMenuSlugs.ACCOUNTS },
-							{ text: t('settings.navigation.accountsAddressBookTitle'), href: settingsMenuSlugs.ADDRESS_BOOK },
-						].map(({ text, href }) => (
+						{settingsMenu.map(({ title: text, href }) => (
 							<PillNavigation text={text} key={href} href={href} />
 						))}
 					</LayoutGroup>
@@ -51,13 +67,7 @@ export const AccountSettings = () => {
 												path={path}
 												element={
 													<AnimatedPage>
-														<SettingsMobileNavigation
-															className={clsx(
-																isSettingsHome
-																	? styles.settingsHomeMobileMenuVisibleWrapper
-																	: styles.settingsHomeMobileMenuHiddenWrapper,
-															)}
-														/>
+														<MobileStackedNavigation menu={settingsMenu} isVisible={isSettingsHome} />
 														<Box className={clsx(isSettingsHome && styles.settingsHomeWrapper)}>
 															<SettingsGeneral />
 														</Box>
