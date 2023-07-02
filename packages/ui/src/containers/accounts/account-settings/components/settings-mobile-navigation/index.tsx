@@ -40,7 +40,7 @@ export const SettingsMobileNavigation: React.FC<ISettingsMobileNavigation> = pro
 						href: settingsMenuSlugs.ADDRESS_BOOK,
 						icon: <AddressBookIcon />,
 					},
-				].map(({ href, title, subTitle, icon }, i) => (
+				].map(({ href, title, subTitle, icon }) => (
 					<Link key={href} to={href} className={styles.settingsMobileIndexLinkWrapper}>
 						<Box className={styles.settingsMobileIndexLinkIconWrapper}>{icon}</Box>
 						<Box className={styles.settingsMobileIndexLinkTextWrapper}>
