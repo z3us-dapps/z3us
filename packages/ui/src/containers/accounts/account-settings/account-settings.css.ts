@@ -110,6 +110,10 @@ export const settingsScrollPanelWrapper = style([
 			mobile: 'small',
 			tablet: 'xlarge',
 		},
+		paddingBottom: {
+			mobile: 'xlarge',
+			tablet: 'none',
+		},
 	}),
 	{},
 ])
@@ -118,7 +122,10 @@ export const settingsSectionFlexColumnWrapper = style([
 	sprinkles({
 		display: 'flex',
 		flexDirection: 'column',
-		gap: 'xlarge',
+		gap: {
+			mobile: 'large',
+			tablet: 'xlarge',
+		},
 	}),
 ])
 

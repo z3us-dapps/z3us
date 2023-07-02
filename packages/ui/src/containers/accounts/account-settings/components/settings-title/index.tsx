@@ -4,6 +4,7 @@ import React from 'react'
 import { Box } from 'ui/src/components/box'
 import { ArrowLeftIcon } from 'ui/src/components/icons'
 import { Button } from 'ui/src/components/router-button'
+import { ToolTip } from 'ui/src/components/tool-tip'
 import { Text } from 'ui/src/components/typography'
 
 import * as styles from './settings-title.css'
@@ -25,17 +26,21 @@ export const SettingsTitle: React.FC<ISettingsTitle> = props => {
 				isBottomBorderVisible ? styles.settingsSectionBorderWrapper : styles.settingsSectionWrapper,
 			)}
 		>
-			{backLink && (
-				<Box className={styles.settingsTitleBackLinkWrapper}>
-					<Button to={backLink} styleVariant="secondary" sizeVariant="medium" iconOnly>
-						<ArrowLeftIcon />
-					</Button>
-				</Box>
-			)}
 			<Box display="flex" flexDirection="column" gap="small">
-				<Text size="xxlarge" weight="strong" color="strong">
-					{title}
-				</Text>
+				<Box display="flex" gap="small">
+					{backLink && (
+						<Box className={styles.settingsTitleBackLinkWrapper}>
+							<ToolTip theme="backgroundPrimary" message="global.back">
+								<Button to={backLink} styleVariant="ghost" sizeVariant="small" iconOnly>
+									<ArrowLeftIcon />
+								</Button>
+							</ToolTip>
+						</Box>
+					)}
+					<Text size="xxlarge" weight="strong" color="strong">
+						{title}
+					</Text>
+				</Box>
 				<Box>
 					<Text>{subTitle}</Text>
 				</Box>

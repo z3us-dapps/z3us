@@ -7,9 +7,12 @@ export const settingsSectionBorderWrapper = style([
 		borderBottom: 1,
 		borderStyle: 'solid',
 		borderColor: 'borderDivider',
-		paddingBottom: 'xlarge',
+		paddingBottom: {
+			mobile: 'large',
+			tablet: 'xlarge',
+		},
 		paddingX: {
-			mobile: 'xlarge',
+			mobile: 'small',
 			tablet: 'none',
 		},
 	}),
@@ -18,7 +21,7 @@ export const settingsSectionBorderWrapper = style([
 export const settingsSectionWrapper = style([
 	sprinkles({
 		paddingX: {
-			mobile: 'xlarge',
+			mobile: 'small',
 			tablet: 'none',
 		},
 	}),
