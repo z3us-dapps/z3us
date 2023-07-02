@@ -107,7 +107,7 @@ export const settingsScrollPanelWrapper = style([
 	sprinkles({
 		position: 'relative',
 		margin: {
-			mobile: 'xlarge',
+			mobile: 'small',
 			tablet: 'xlarge',
 		},
 	}),

@@ -128,10 +128,8 @@ export const indexAssetLinkRow = style([
 			left: `calc(${vars.spacing.medium} * -1)`,
 			right: `calc(${vars.spacing.medium} * -1)`,
 			pointerEvents: 'none',
-
-			// TODO: fix needing to make these a string
-			boxShadow: `${vars.color.shadowActivePanel}`,
-			color: `${vars.color.borderDivider}`,
+			boxShadow: vars.color.shadowActivePanel,
+			color: vars.color.borderDivider,
 			borderRadius: vars.border.radius.medium,
 			background: vars.color.bai_pearl200,
 		},
