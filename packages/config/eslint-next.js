@@ -41,6 +41,10 @@ module.exports = {
 		'react/jsx-props-no-spreading': 'off',
 		'require-explicit-generics/require-explicit-generics': [2, ['React.useState', 'useState', 'useImmer']],
 		'@typescript-eslint/consistent-type-imports': 1,
+		// TODO: fix
+		// '@typescript-eslint/no-floating-promises': 1,
+		// '@typescript-eslint/await-thenable': 1,
+		// '@typescript-eslint/no-misused-promises': 1,
 	},
 	overrides: [
 		{
