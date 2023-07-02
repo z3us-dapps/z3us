@@ -8,6 +8,7 @@ import { Link, Navigate, Route, Routes, useLocation, useMatch } from 'react-rout
 import { AnimatedPage } from 'ui/src/components/animated-page'
 import { Box } from 'ui/src/components/box'
 import { AddressBookIcon, ArrowRightIcon, CoinsIcon, Settings2Icon } from 'ui/src/components/icons'
+import { LayoutTwoCol } from 'ui/src/components/layout/layout-two-col'
 import { MobileStackedNavigation } from 'ui/src/components/layout/mobile-stacked-navigation'
 import { PillNavigation } from 'ui/src/components/pill-navigation'
 import { ScrollPanel } from 'ui/src/components/scroll-panel'
@@ -45,59 +46,57 @@ export const AccountSettings = () => {
 	]
 
 	return (
-		<Box className={styles.settingsWrapper}>
-			<Box className={styles.settingsContainerWrapper}>
-				<Box className={styles.settingsDesktopLeftMenu}>
-					<LayoutGroup id="account-desktop-nav">
-						{settingsMenu.map(({ title: text, href }) => (
-							<PillNavigation text={text} key={href} href={href} />
-						))}
-					</LayoutGroup>
-				</Box>
-				<Box className={styles.settingsRightWrapper}>
-					<ScrollPanel
-						isTopShadowVisible
-						renderPanel={(scrollableNode: HTMLElement | null) => (
-							<Box className={styles.settingsScrollPanelWrapper}>
-								<AnimatePresence initial={false}>
-									<Routes location={location} key={location.pathname}>
-										{['/', `/${settingsMenuPaths.GENERAL}`].map(path => (
-											<Route
-												key="settingsGeneral" // to avoid full re-renders when these routes change
-												path={path}
-												element={
-													<AnimatedPage>
-														<MobileStackedNavigation menu={settingsMenu} isVisible={isSettingsHome} />
-														<Box className={clsx(isSettingsHome && styles.settingsHomeWrapper)}>
-															<SettingsGeneral />
-														</Box>
-													</AnimatedPage>
-												}
-											/>
-										))}
+		<LayoutTwoCol
+			leftCol={
+				<LayoutGroup id="account-desktop-nav">
+					{settingsMenu.map(({ title: text, href }) => (
+						<PillNavigation text={text} key={href} href={href} />
+					))}
+				</LayoutGroup>
+			}
+			rightCol={
+				<ScrollPanel
+					isTopShadowVisible
+					renderPanel={(scrollableNode: HTMLElement | null) => (
+						<Box className={styles.settingsScrollPanelWrapper}>
+							<AnimatePresence initial={false}>
+								<Routes location={location} key={location.pathname}>
+									{['/', `/${settingsMenuPaths.GENERAL}`].map(path => (
 										<Route
-											path={`/${settingsMenuPaths.ACCOUNTS}`}
+											key={settingsMenuPaths.GENERAL} // to avoid full re-renders when these routes change
+											path={path}
 											element={
 												<AnimatedPage>
-													<SettingsAccounts />
+													<MobileStackedNavigation menu={settingsMenu} isVisible={isSettingsHome} />
+													<Box className={clsx(isSettingsHome && styles.settingsHomeWrapper)}>
+														<SettingsGeneral />
+													</Box>
 												</AnimatedPage>
 											}
 										/>
-										<Route
-											path={`/${settingsMenuPaths.ADDRESS_BOOK}`}
-											element={
-												<AnimatedPage>
-													<SettingsAddressBook scrollableNode={scrollableNode} />
-												</AnimatedPage>
-											}
-										/>
-									</Routes>
-								</AnimatePresence>
-							</Box>
-						)}
-					/>
-				</Box>
-			</Box>
-		</Box>
+									))}
+									<Route
+										path={`/${settingsMenuPaths.ACCOUNTS}`}
+										element={
+											<AnimatedPage>
+												<SettingsAccounts />
+											</AnimatedPage>
+										}
+									/>
+									<Route
+										path={`/${settingsMenuPaths.ADDRESS_BOOK}`}
+										element={
+											<AnimatedPage>
+												<SettingsAddressBook scrollableNode={scrollableNode} />
+											</AnimatedPage>
+										}
+									/>
+								</Routes>
+							</AnimatePresence>
+						</Box>
+					)}
+				/>
+			}
+		/>
 	)
 }
