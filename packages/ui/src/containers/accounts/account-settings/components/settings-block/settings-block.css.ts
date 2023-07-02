@@ -7,19 +7,16 @@ export const settingsSectionBorderWrapper = style([
 		borderBottom: 1,
 		borderStyle: 'solid',
 		borderColor: 'borderDivider',
-		paddingBottom: {
-			mobile: 'large',
-			tablet: 'xlarge',
-		},
-		paddingX: {
-			mobile: 'small',
-			tablet: 'none',
-		},
 	}),
 ])
 
 export const settingsSectionWrapper = style([
 	sprinkles({
+		paddingBottom: {
+			mobile: 'large',
+			tablet: 'large',
+			desktop: 'xlarge',
+		},
 		paddingX: {
 			mobile: 'small',
 			tablet: 'none',
@@ -31,7 +28,7 @@ export const settingsSectionGridBasic = style([
 	sprinkles({
 		display: {
 			mobile: 'flex',
-			tablet: 'grid',
+			desktop: 'grid',
 		},
 		flexDirection: 'column',
 		gap: 'large',
@@ -45,7 +42,7 @@ export const settingsSectionGridBasicSpacer = style([
 	sprinkles({
 		display: {
 			mobile: 'none',
-			tablet: 'flex',
+			desktop: 'flex',
 		},
 	}),
 ])

@@ -20,12 +20,7 @@ export const SettingsTitle: React.FC<ISettingsTitle> = props => {
 	const { backLink, title, subTitle, isBottomBorderVisible = true } = props
 
 	return (
-		<Box
-			className={clsx(
-				styles.settingsTitleWrapper,
-				isBottomBorderVisible ? styles.settingsSectionBorderWrapper : styles.settingsSectionWrapper,
-			)}
-		>
+		<Box className={clsx(styles.settingsTitleWrapper, isBottomBorderVisible && styles.settingsSectionBorderWrapper)}>
 			<Box display="flex" flexDirection="column" gap="small">
 				<Box display="flex" gap="small">
 					{backLink && (

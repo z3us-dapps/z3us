@@ -15,7 +15,7 @@ export const SettingsBlock: React.FC<ISettingsBlock> = props => {
 	const { leftCol, rightCol, isBottomBorderVisible = true } = props
 
 	return (
-		<Box className={clsx(isBottomBorderVisible ? styles.settingsSectionBorderWrapper : styles.settingsSectionWrapper)}>
+		<Box className={clsx(styles.settingsSectionWrapper, isBottomBorderVisible && styles.settingsSectionBorderWrapper)}>
 			<Box className={styles.settingsSectionGridBasic}>
 				<Box display="flex" flexDirection="column">
 					{leftCol}

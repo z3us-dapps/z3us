@@ -87,12 +87,16 @@ export const settingsDesktopLeftMenu = style([
 		},
 		flexDirection: 'column',
 		gap: 'medium',
-		paddingLeft: 'medium',
-	}),
-	{
-		width: '260px',
+		paddingLeft: {
+			desktop: 'medium',
+		},
 		alignItems: 'self-start',
-	},
+	}),
+	{},
+	responsiveStyle({
+		tablet: { width: '20%' },
+		desktop: { width: '260px' },
+	}),
 ])
 
 export const settingsRightWrapper = style([
@@ -123,8 +127,9 @@ export const settingsSectionFlexColumnWrapper = style([
 		display: 'flex',
 		flexDirection: 'column',
 		gap: {
-			mobile: 'large',
-			tablet: 'xlarge',
+			mobile: 'medium',
+			tablet: 'large',
+			desktop: 'xlarge',
 		},
 	}),
 ])

@@ -28,7 +28,7 @@ const responsiveProperties = defineProperties({
 		display: ['none', 'flex', 'block', 'inline-flex', 'grid'],
 		flexDirection: ['row', 'row-reverse', 'column', 'column-reverse'],
 		justifyContent: ['stretch', 'flex-start', 'center', 'flex-end', 'space-around', 'space-between'],
-		alignItems: ['stretch', 'flex-start', 'center', 'flex-end'],
+		alignItems: ['stretch', 'flex-start', 'center', 'flex-end', 'self-start'],
 		flexWrap: ['wrap', 'nowrap'],
 		gap: vars.spacing,
 		borderTop: [0, 1],

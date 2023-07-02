@@ -7,17 +7,9 @@ export const settingsTitleWrapper = style([
 		display: {
 			mobile: 'flex',
 		},
-	}),
-])
-
-export const settingsSectionBorderWrapper = style([
-	sprinkles({
-		borderBottom: 1,
-		borderStyle: 'solid',
-		borderColor: 'borderDivider',
 		paddingBottom: {
 			mobile: 'large',
-			tablet: 'xlarge',
+			desktop: 'xlarge',
 		},
 		paddingX: {
 			mobile: 'small',
@@ -26,12 +18,11 @@ export const settingsSectionBorderWrapper = style([
 	}),
 ])
 
-export const settingsSectionWrapper = style([
+export const settingsSectionBorderWrapper = style([
 	sprinkles({
-		paddingX: {
-			mobile: 'xlarge',
-			tablet: 'none',
-		},
+		borderBottom: 1,
+		borderStyle: 'solid',
+		borderColor: 'borderDivider',
 	}),
 ])
 
