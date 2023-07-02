@@ -3,6 +3,18 @@ import { globalStyle, style } from '@vanilla-extract/css'
 import { sprinkles } from 'ui/src/components/system/sprinkles.css'
 import { vars } from 'ui/src/components/system/theme.css'
 
+// TODO: show hide the menu
+// export const settingsHomeWrapper = style([
+// 	sprinkles({
+// 		position: 'relative',
+// 		display: {
+// 			mobile: 'none',
+// 			tablet: 'block',
+// 		},
+// 	}),
+// 	{},
+// ])
+
 export const transferRouteWrapper = style([
 	sprinkles({
 		position: 'relative',

@@ -59,6 +59,7 @@ export const AccountSettings = () => {
 					isTopShadowVisible
 					renderPanel={(scrollableNode: HTMLElement | null) => (
 						<Box className={styles.settingsScrollPanelWrapper}>
+							{/* TODO: remove abolve class */}
 							<AnimatePresence initial={false}>
 								<Routes location={location} key={location.pathname}>
 									{['/', `/${settingsMenuPaths.GENERAL}`].map(path => (
