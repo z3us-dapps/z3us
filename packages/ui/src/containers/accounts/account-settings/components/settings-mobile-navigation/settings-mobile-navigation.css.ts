@@ -7,6 +7,7 @@ export const settingsMobileLinksWrapper = style([
 	sprinkles({
 		display: 'flex',
 		flexDirection: 'column',
+		paddingBottom: 'xlarge',
 	}),
 	{},
 ])
@@ -14,29 +15,36 @@ export const settingsMobileLinksWrapper = style([
 export const settingsMobileIndexLinkWrapper = style([
 	sprinkles({
 		display: 'flex',
+		position: 'relative',
 		alignItems: 'center',
 		paddingX: 'small',
 		paddingY: 'large',
 		gap: 'xsmall',
-		borderTop: 1,
-		borderTopStyle: 'solid',
-		borderColor: 'borderDivider',
 		textDecoration: 'none',
 		transition: 'fast',
+		borderRadius: 'large',
 		background: {
 			lightMode: 'transparent',
-			hover: 'bai_pearl300',
+			hover: 'backgroundPrimary',
 		},
 		boxShadow: {
 			hover: 'shadowActivePanel',
 		},
 	}),
-	{},
+	{
+		marginTop: '-1px',
+		':after': {
+			content: '""',
+			position: 'absolute',
+			left: 0,
+			right: 0,
+			top: 0,
+			backgroundColor: vars.color.borderDivider,
+			pointerEvents: 'none',
+			height: '1px',
+		},
+	},
 ])
-
-globalStyle(`${settingsMobileLinksWrapper} ${settingsMobileIndexLinkWrapper}:first-child`, {
-	borderTop: 'none',
-})
 
 export const settingsMobileIndexLinkTextWrapper = style([
 	sprinkles({
@@ -74,11 +82,27 @@ export const settingsMobileIndexArrowWrapper = style([
 	},
 ])
 
-globalStyle(`${settingsMobileIndexLinkWrapper}:hover`, {
-	borderRadius: vars.border.radius.large,
-	borderColor: 'transparent',
-})
-
 globalStyle(`${settingsMobileIndexLinkWrapper}:hover ${settingsMobileIndexArrowWrapper}`, {
 	opacity: 1,
 })
+
+globalStyle(`${settingsMobileLinksWrapper} ${settingsMobileIndexLinkWrapper}:first-child`, {
+	marginTop: '0',
+})
+
+globalStyle(`${settingsMobileLinksWrapper} ${settingsMobileIndexLinkWrapper}:first-child:after`, {
+	display: 'none',
+})
+
+globalStyle(`${settingsMobileLinksWrapper} ${settingsMobileIndexLinkWrapper}:hover:after`, {
+	left: `calc(${vars.spacing.medium} * 1)`,
+	right: `calc(${vars.spacing.medium} * 1)`,
+})
+
+globalStyle(
+	`${settingsMobileLinksWrapper} ${settingsMobileIndexLinkWrapper}:hover + ${settingsMobileIndexLinkWrapper}:after`,
+	{
+		left: `calc(${vars.spacing.medium} * 1)`,
+		right: `calc(${vars.spacing.medium} * 1)`,
+	},
+)

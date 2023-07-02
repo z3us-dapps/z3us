@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next'
 import { Link } from 'react-router-dom'
 
 import { Box } from 'ui/src/components/box'
-import { AccountsIcon, AddressBookIcon, ArrowRightIcon, Settings2Icon } from 'ui/src/components/icons'
+import { AddressBookIcon, ArrowRightIcon, CoinsIcon, Settings2Icon } from 'ui/src/components/icons'
 import { Text } from 'ui/src/components/typography'
 import { settingsMenuSlugs } from 'ui/src/constants/settings'
 
@@ -32,7 +32,7 @@ export const SettingsMobileNavigation: React.FC<ISettingsMobileNavigation> = pro
 						title: t('settings.navigation.accountsTitle'),
 						subTitle: t('settings.navigation.accountsSubTitle'),
 						href: settingsMenuSlugs.ACCOUNTS,
-						icon: <AccountsIcon />,
+						icon: <CoinsIcon />,
 					},
 					{
 						title: t('settings.navigation.accountsAddressBookTitle'),
