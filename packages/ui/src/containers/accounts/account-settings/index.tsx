@@ -58,43 +58,42 @@ export const AccountSettings = () => {
 				<ScrollPanel
 					isTopShadowVisible
 					renderPanel={(scrollableNode: HTMLElement | null) => (
-						<Box className={styles.settingsScrollPanelWrapper}>
-							{/* TODO: remove abolve class */}
-							<AnimatePresence initial={false}>
-								<Routes location={location} key={location.pathname}>
-									{['/', `/${settingsMenuPaths.GENERAL}`].map(path => (
-										<Route
-											key={settingsMenuPaths.GENERAL} // to avoid full re-renders when these routes change
-											path={path}
-											element={
-												<AnimatedPage>
+						<AnimatePresence initial={false}>
+							<Routes location={location} key={location.pathname}>
+								{['/', `/${settingsMenuPaths.GENERAL}`].map(path => (
+									<Route
+										key={settingsMenuPaths.GENERAL} // to avoid full re-renders when these routes change
+										path={path}
+										element={
+											<AnimatedPage>
+												<Box paddingX="small">
 													<MobileStackedNavigation menu={settingsMenu} isVisible={isSettingsHome} />
-													<Box className={clsx(isSettingsHome && styles.settingsHomeWrapper)}>
-														<SettingsGeneral />
-													</Box>
-												</AnimatedPage>
-											}
-										/>
-									))}
-									<Route
-										path={`/${settingsMenuPaths.ACCOUNTS}`}
-										element={
-											<AnimatedPage>
-												<SettingsAccounts />
+												</Box>
+												<Box className={clsx(isSettingsHome && styles.settingsHomeWrapper)}>
+													<SettingsGeneral />
+												</Box>
 											</AnimatedPage>
 										}
 									/>
-									<Route
-										path={`/${settingsMenuPaths.ADDRESS_BOOK}`}
-										element={
-											<AnimatedPage>
-												<SettingsAddressBook scrollableNode={scrollableNode} />
-											</AnimatedPage>
-										}
-									/>
-								</Routes>
-							</AnimatePresence>
-						</Box>
+								))}
+								<Route
+									path={`/${settingsMenuPaths.ACCOUNTS}`}
+									element={
+										<AnimatedPage>
+											<SettingsAccounts />
+										</AnimatedPage>
+									}
+								/>
+								<Route
+									path={`/${settingsMenuPaths.ADDRESS_BOOK}`}
+									element={
+										<AnimatedPage>
+											<SettingsAddressBook scrollableNode={scrollableNode} />
+										</AnimatedPage>
+									}
+								/>
+							</Routes>
+						</AnimatePresence>
 					)}
 				/>
 			}
