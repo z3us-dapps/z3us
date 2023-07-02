@@ -6,6 +6,7 @@ import { responsiveStyle } from 'ui/src/components/system/theme-utils'
 export const headerWrapper = style([
 	sprinkles({
 		position: 'sticky',
+		zIndex: 1,
 		top: 0,
 		borderBottom: 1,
 		borderBottomStyle: 'solid',

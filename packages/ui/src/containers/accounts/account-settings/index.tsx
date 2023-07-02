@@ -11,7 +11,7 @@ import { ArrowLeftIcon, ChevronDown3Icon, ChevronLeftIcon, HomeIcon } from 'ui/s
 import { PillNavigation } from 'ui/src/components/pill-navigation'
 import { ScrollPanel } from 'ui/src/components/scroll-panel'
 import { Text } from 'ui/src/components/typography'
-import { settingsMenuSlugs } from 'ui/src/constants/settings'
+import { settingsMenuPaths, settingsMenuSlugs } from 'ui/src/constants/settings'
 
 import * as styles from './account-settings.css'
 import { SettingsMobileNavigation } from './components/settings-mobile-navigation'
@@ -21,7 +21,7 @@ import { SettingsGeneral } from './settings-general'
 
 export const AccountSettings = () => {
 	const location = useLocation()
-	const isSettingsHome = location.pathname === '/accounts/settings'
+	const isSettingsHome = location.pathname === settingsMenuSlugs.HOME
 	const { t } = useTranslation()
 
 	return (
@@ -45,7 +45,7 @@ export const AccountSettings = () => {
 							<Box className={styles.settingsScrollPanelWrapper}>
 								<AnimatePresence initial={false}>
 									<Routes location={location} key={location.pathname}>
-										{['/', '/general'].map(path => (
+										{['/', `/${settingsMenuPaths.GENERAL}`].map(path => (
 											<Route
 												key="settingsGeneral" // to avoid full re-renders when these routes change
 												path={path}
@@ -66,7 +66,7 @@ export const AccountSettings = () => {
 											/>
 										))}
 										<Route
-											path="/accounts"
+											path={`/${settingsMenuPaths.ACCOUNTS}`}
 											element={
 												<AnimatedPage>
 													<SettingsAccounts />
@@ -74,7 +74,7 @@ export const AccountSettings = () => {
 											}
 										/>
 										<Route
-											path="/address-book"
+											path={`/${settingsMenuPaths.ADDRESS_BOOK}`}
 											element={
 												<AnimatedPage>
 													<SettingsAddressBook scrollableNode={scrollableNode} />
