@@ -207,7 +207,7 @@ export const MobileMenu: React.FC = () => (
 	<DialogRoot>
 		<DialogTrigger asChild>
 			<Box>
-				<ToolTip side="right" message="global.menu">
+				<ToolTip side="right" message="global.menu" theme="backgroundPrimary">
 					<Button iconOnly styleVariant="ghost">
 						<Z3usIcon />
 					</Button>
