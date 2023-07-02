@@ -7,30 +7,33 @@ export const settingsWrapper = style([
 	sprinkles({
 		display: 'flex',
 		justifyContent: 'center',
+		height: 'full',
 		paddingX: {
-			mobile: 'medium',
+			mobile: 'none',
 			tablet: 'large',
 			desktop: 'xxlarge',
 		},
 		paddingBottom: {
-			mobile: 'medium',
+			mobile: 'none',
 			tablet: 'large',
 			desktop: 'xxlarge',
 		},
 		paddingTop: {
-			mobile: 'medium',
+			mobile: 'none',
 			tablet: 'large',
 			desktop: 'xxlarge',
 		},
 	}),
 	{
-		// border: '1px solid red',
+		// border: '1px solid yellow',
+		// overflow: 'hidden',
 		// TODO: should be calc with footer and header variables
 		// minHeight: 'calc(100vh - 120px)',
 	},
 	responsiveStyle({
-		mobile: { minHeight: 'calc(100vh - 120px)' },
-		tablet: { minHeight: 'unset' },
+		// mobile: { height: 'calc(500px)' },
+		// mobile: { minHeight: 'calc(100vh - 120px)' },
+		// tablet: { minHeight: 'unset' },
 	}),
 ])
 

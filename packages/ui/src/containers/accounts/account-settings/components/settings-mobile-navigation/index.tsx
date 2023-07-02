@@ -27,9 +27,9 @@ export const SettingsMobileNavigation: React.FC<ISettingsMobileNavigation> = pro
 		<Box position="relative" className={className}>
 			<Box display="flex" flexDirection="column">
 				{[
-					{ text: t('settings.navigation.generalTitle'), href: settingsMenuSlugs.GENERAL },
-					{ text: t('settings.navigation.accountsTitle'), href: settingsMenuSlugs.ACCOUNTS },
-					{ text: t('settings.navigation.accountsAddressBookTitle'), href: settingsMenuSlugs.ADDRESS_BOOK },
+					{ title: t('settings.navigation.generalTitle'), href: settingsMenuSlugs.GENERAL },
+					{ title: t('settings.navigation.accountsTitle'), href: settingsMenuSlugs.ACCOUNTS },
+					{ title: t('settings.navigation.accountsAddressBookTitle'), href: settingsMenuSlugs.ADDRESS_BOOK },
 				].map(({ href, title }, i) => (
 					<Link key={href} to={href} className={styles.settingsMobileIndexLinkWrapper}>
 						<Box className={styles.settingsMobileIndexLinkIconWrapper}>
@@ -48,7 +48,17 @@ export const SettingsMobileNavigation: React.FC<ISettingsMobileNavigation> = pro
 						</Box>
 					</Link>
 				))}
-			</Box>{' '}
+			</Box>
+			{/* <Box>
+				{Array.from({ length: 2 }, (_, i) => (
+					<Text size="xlarge" key={i}>
+						Lorum ipsumIn convallis vel neque facilisis est mi in varius gravida eget convallis convallis ut velit
+						lacus, eros faucibus odio. Varius dui porttitor eu ac egestas in tempus nisi suscipit fusce urna. Vitae
+						semper velit facilisis nunc, suspendisse vivamus duis vestibulum ullamcorper dui lectus sapien tempus sit eu
+						dapibus arcu pellentesque.
+					</Text>
+				))}
+			</Box> */}
 		</Box>
 	)
 }

@@ -35,7 +35,6 @@ const responsiveProperties = defineProperties({
 		borderBottom: [0, 1],
 		borderLeft: [0, 1],
 		borderRight: [0, 1],
-
 		borderTopStyle: ['solid', 'dashed'],
 		borderBottomStyle: ['solid', 'dashed'],
 		borderLeftStyle: ['solid', 'dashed'],

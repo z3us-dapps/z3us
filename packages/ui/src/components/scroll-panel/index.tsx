@@ -37,11 +37,13 @@ export const ScrollPanel: React.FC<IScrollPanelProps> = props => {
 		const listRef = ref.current
 		if (listRef) {
 			const desktopBreakPoint = screensJson.screens.lg.value.replace('px', '')
-			const isDesktopWidth = window.innerWidth > parseInt(desktopBreakPoint, 10)
+			const tabletBreakPoint = screensJson.screens.md.value.replace('px', '')
+			const isTabletWidth =
+				window.innerWidth > parseInt(tabletBreakPoint, 10) && window.innerWidth < parseInt(desktopBreakPoint, 10)
 			const simpleBarContent = listRef.getElementsByClassName('simplebar-content')[0]
 			setListHeight(simpleBarContent?.offsetHeight || 100)
 			const listBounding = listRef.getBoundingClientRect()
-			const maxHeightBottomGutter = isDesktopWidth ? 48 : 24
+			const maxHeightBottomGutter = isTabletWidth ? 24 : 48
 			const maxHeight = window.innerHeight - listBounding.top - maxHeightBottomGutter
 			setListMaxHeight(maxHeight)
 		}

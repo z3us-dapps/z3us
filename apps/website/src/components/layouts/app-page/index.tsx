@@ -14,7 +14,6 @@ import { useIsMobileWidth } from 'ui/src/hooks/use-is-mobile'
 const AppPage: React.FC = () => {
 	const location = useLocation()
 	const locationArr = location.pathname?.split('/') ?? []
-	const isMobile = useIsMobileWidth()
 
 	return (
 		<AnimatePresence initial={false}>
@@ -23,7 +22,7 @@ const AppPage: React.FC = () => {
 					path={`${routes.ACCOUNTS}/*`}
 					element={
 						<AnimatedPage>
-							<Accounts isMobile={isMobile} isNavigationVisible={false} />
+							<Accounts isNavigationVisible={false} />
 						</AnimatedPage>
 					}
 				/>

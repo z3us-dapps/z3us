@@ -3,6 +3,7 @@ import { ContentContainer } from '@/components/content-container'
 import { Footer } from '@/components/footer'
 import { Header } from '@/components/header'
 import { LandingPage } from '@/components/layouts/landing-page'
+import clsx from 'clsx'
 import { AnimatePresence, m as motion } from 'framer-motion'
 import dynamic from 'next/dynamic'
 import NextLink from 'next/link'
@@ -21,7 +22,7 @@ export const IndexPage: React.FC = () => {
 	const isConnected = location.pathname.includes('/accounts')
 
 	return (
-		<>
+		<Box className={clsx(isConnected && styles.connectedPageWrapper)}>
 			<Header />
 			<Box className={styles.indexPageWrapper}>
 				<AnimatePresence initial={false}>
@@ -56,6 +57,6 @@ export const IndexPage: React.FC = () => {
 					)}
 				</AnimatePresence>
 			</Box>
-		</>
+		</Box>
 	)
 }

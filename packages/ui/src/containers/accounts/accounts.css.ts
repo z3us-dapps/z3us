@@ -6,28 +6,25 @@ import { sprinkles } from 'ui/src/components/system/sprinkles.css'
 
 export const accountsWrapper = style([
 	sprinkles({
-		// height: 'vh100',
-		// width: 'vw100',
-		// flexDirection: 'column',
-		// display: 'flex',
-		height: {
-			desktop: 'vh100',
-		},
 		maxWidth: 'full',
-		width: {
-			mobile: 'vw100',
-			desktop: 'vw100',
-		},
-		flexDirection: {
-			desktop: 'column',
-		},
-		display: {
-			desktop: 'flex',
-		},
-		// background: 'backgroundPrimary',
+		width: 'vw100',
+		height: 'full',
+		display: 'flex',
+		flexDirection: 'column',
+	}),
+	{},
+])
+
+export const accountsBodyWrapper = style([
+	sprinkles({
+		position: 'relative',
+		flexGrow: 1,
+		flexShrink: 0,
 	}),
 	{
-		border: '0px solid blue',
+		// border: '1px solid blue',
+		// height: '50%',
+		// overflow: 'hidden',
 	},
 	// responsiveStyle({
 	// 	mobile: { display: 'none' },
@@ -35,8 +32,3 @@ export const accountsWrapper = style([
 	// 	desktop: { display: 'flex' },
 	// }),
 ])
-
-export const accountsBodyWrapper = sprinkles({
-	position: 'relative',
-	flexGrow: 1,
-})
