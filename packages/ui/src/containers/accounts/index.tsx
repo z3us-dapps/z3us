@@ -5,17 +5,18 @@ import { Route, Routes } from 'react-router-dom'
 import { AnimatedPage } from 'ui/src/components/animated-page'
 import { Box } from 'ui/src/components/box'
 import { routes } from 'ui/src/constants/routes'
-import { AccountsHome } from 'ui/src/containers/accounts/account-home'
-import { AccountSearch } from 'ui/src/containers/accounts/account-search'
-import { AccountSettings } from 'ui/src/containers/accounts/account-settings'
-import { AccountStaking } from 'ui/src/containers/accounts/account-staking'
-import { AccountSwap } from 'ui/src/containers/accounts/account-swap'
-import { AccountTransaction } from 'ui/src/containers/accounts/account-transaction'
-import { AccountTransfer } from 'ui/src/containers/accounts/account-transfer'
 import { DesktopNavigation, MobileFooterNavigation } from 'ui/src/containers/accounts/navigation'
 import { useLocationKey } from 'ui/src/hooks/use-location-key'
 
 import * as styles from './accounts.css'
+
+const AccountHome = React.lazy(() => import('./account-home'))
+const AccountTransaction = React.lazy(() => import('./account-transaction'))
+const AccountTransfer = React.lazy(() => import('./account-transfer'))
+const AccountSwap = React.lazy(() => import('./account-swap'))
+const AccountSettings = React.lazy(() => import('./account-settings'))
+const AccountStaking = React.lazy(() => import('./account-staking'))
+const AccountSearch = React.lazy(() => import('./account-search'))
 
 interface IAccountsProps {
 	isNavigationVisible?: boolean
@@ -37,7 +38,7 @@ export const Accounts = (props: IAccountsProps): React.JSX.Element => {
 								path="/*"
 								element={
 									<AnimatedPage>
-										<AccountsHome />
+										<AccountHome />
 									</AnimatedPage>
 								}
 							/>

@@ -15,3 +15,17 @@ export const fallbackRendererWrapper = style([
 	}),
 	{},
 ])
+
+export const fallbackLoadingWrapper = style([
+	sprinkles({
+		position: 'relative',
+		padding: 'small',
+		borderRadius: 'medium',
+		background: {
+			lightMode: 'bai_pearl200',
+			darkMode: 'backgroundSecondary',
+		},
+		boxShadow: 'shadowTooltip',
+	}),
+	{},
+])

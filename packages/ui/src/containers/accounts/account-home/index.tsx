@@ -18,7 +18,7 @@ import { AccountsList } from 'ui/src/containers/accounts/accounts-list'
 
 import * as styles from './account-home.css'
 
-export const AccountsHome = () => {
+const AccountsHome = () => {
 	const location = useLocation()
 
 	return (
@@ -79,3 +79,5 @@ export const AccountsHome = () => {
 		</Box>
 	)
 }
+
+export default AccountsHome

@@ -19,7 +19,7 @@ import { SettingsAccounts } from './settings-accounts'
 import { SettingsAddressBook } from './settings-address-book'
 import { SettingsGeneral } from './settings-general'
 
-export const AccountSettings = () => {
+const AccountSettings = () => {
 	const location = useLocation()
 	const isSettingsHome = location.pathname === settingsMenuSlugs.HOME
 	const { t } = useTranslation()
@@ -100,3 +100,5 @@ export const AccountSettings = () => {
 		/>
 	)
 }
+
+export default AccountSettings

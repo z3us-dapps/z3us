@@ -26,7 +26,7 @@ import { getShortAddress } from 'ui/src/utils/string-utils'
 import { AccountsTransactionInfo } from './account-transaction-info'
 import * as styles from './account-transaction.css'
 
-export const AccountTransaction = () => {
+const AccountTransaction = () => {
 	const [isScrolled, setIsScrolled] = useState<boolean>(false)
 	const [searchParams] = useSearchParams()
 	const navigate = useNavigate()
@@ -248,3 +248,5 @@ export const AccountTransaction = () => {
 		</DialogRoot>
 	)
 }
+
+export default AccountTransaction

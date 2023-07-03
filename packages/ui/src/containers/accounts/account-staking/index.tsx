@@ -9,10 +9,12 @@ import { Text } from 'ui/src/components/typography'
 import * as styles from './account-staking.css'
 
 // eslint-disable-next-line arrow-body-style
-export const AccountStaking = () => {
+const AccountStaking = () => {
 	return (
 		<Box className={styles.stakingWrapper}>
 			<Box>Staking</Box>
 		</Box>
 	)
 }
+
+export default AccountStaking

@@ -29,7 +29,7 @@ import { getShortAddress } from 'ui/src/utils/string-utils'
 
 import * as styles from './account-search.css'
 
-export const AccountSearch = () => {
+const AccountSearch = () => {
 	const { t } = useTranslation()
 	const [searchParams] = useSearchParams()
 	const navigate = useNavigate()
@@ -183,3 +183,5 @@ export const AccountSearch = () => {
 		</DialogRoot>
 	)
 }
+
+export default AccountSearch

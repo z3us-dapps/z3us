@@ -1,21 +1,21 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
-import { ContentContainer } from '@/components/content-container'
-import { Footer } from '@/components/footer'
 import { Header } from '@/components/header'
 import { LandingPage } from '@/components/layouts/landing-page'
 import clsx from 'clsx'
 import { AnimatePresence, m as motion } from 'framer-motion'
 import dynamic from 'next/dynamic'
-import NextLink from 'next/link'
-import { useRouter } from 'next/router'
-import React, { useState } from 'react'
-import { Link, Route, HashRouter as Router, Routes, redirect, useLocation } from 'react-router-dom'
+import React from 'react'
+import { useLocation } from 'react-router-dom'
 
 import { Box } from 'ui/src/components/box'
 
 import * as styles from './index-page.css'
 
 const AppPage = dynamic(() => import('../app-page'), { ssr: false })
+
+const pageTransition = {
+	opacity: { ease: 'linear' },
+	layout: { duration: 0.15 },
+}
 
 export const IndexPage: React.FC = () => {
 	const location = useLocation()
@@ -31,10 +31,7 @@ export const IndexPage: React.FC = () => {
 							initial={{ opacity: 0, position: 'absolute' }}
 							animate={{ opacity: 1, position: 'relative' }}
 							exit={{ opacity: 0, position: 'absolute' }}
-							transition={{
-								opacity: { ease: 'linear' },
-								layout: { duration: 0.15 },
-							}}
+							transition={pageTransition}
 						>
 							<LandingPage />
 						</motion.div>
@@ -47,10 +44,7 @@ export const IndexPage: React.FC = () => {
 							initial={{ opacity: 0, position: 'absolute' }}
 							animate={{ opacity: 1, position: 'relative' }}
 							exit={{ opacity: 0, position: 'absolute' }}
-							transition={{
-								opacity: { ease: 'linear' },
-								layout: { duration: 0.15 },
-							}}
+							transition={pageTransition}
 						>
 							<AppPage />
 						</motion.div>

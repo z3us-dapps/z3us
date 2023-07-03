@@ -17,7 +17,7 @@ import { AccountTransferTokens } from './account-transfer-tokens'
 
 // import * as styles from './account-transfer.css'
 
-export const AccountTransfer = () => {
+const AccountTransfer = () => {
 	const location = useLocation()
 	const { t } = useTranslation()
 
@@ -86,3 +86,5 @@ export const AccountTransfer = () => {
 		/>
 	)
 }
+
+export default AccountTransfer

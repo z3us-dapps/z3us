@@ -9,10 +9,12 @@ import { Text } from 'ui/src/components/typography'
 import * as styles from './account-swap.css'
 
 // eslint-disable-next-line arrow-body-style
-export const AccountSwap = () => {
+const AccountSwap: React.FC = () => {
 	return (
 		<Box className={styles.swapWrapper}>
 			<Box>swap</Box>
 		</Box>
 	)
 }
+
+export default AccountSwap

@@ -25,3 +25,13 @@ export const FallbackRenderer: React.FC<IFallbackRendererProps> = props => {
 		</Box>
 	)
 }
+
+export const FallbackLoading: React.FC = () => (
+	<Box className={styles.fallbackLoadingWrapper}>
+		<Box display="flex" alignItems="center" gap="small">
+			<Text size="xsmall" color="strong">
+				loading
+			</Text>
+		</Box>
+	</Box>
+)

@@ -12,8 +12,6 @@ import { useRouter } from 'next/router'
 import React, { useEffect, useState } from 'react'
 import { Link, Route, HashRouter as Router, Routes, redirect, useLocation } from 'react-router-dom'
 
-import { Box } from 'ui/src/components/box'
-
 const App = () => (
 	<>
 		<Head>
