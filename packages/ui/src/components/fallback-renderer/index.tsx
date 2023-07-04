@@ -1,6 +1,7 @@
 import React from 'react'
 
 import { Box } from 'ui/src/components/box'
+import { LoadingBarsIcon } from 'ui/src/components/icons'
 import { Text } from 'ui/src/components/typography'
 
 import * as styles from './fallback-renderer.css'
@@ -28,10 +29,8 @@ export const FallbackRenderer: React.FC<IFallbackRendererProps> = props => {
 
 export const FallbackLoading: React.FC = () => (
 	<Box className={styles.fallbackLoadingWrapper}>
-		<Box display="flex" alignItems="center" gap="small">
-			<Text size="xsmall" color="strong">
-				loading
-			</Text>
+		<Box display="flex" placeItems="center" color="colorNeutral">
+			<LoadingBarsIcon />
 		</Box>
 	</Box>
 )
