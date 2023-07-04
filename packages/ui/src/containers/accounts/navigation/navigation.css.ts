@@ -131,6 +131,7 @@ export const navigationMobileWrapper = style([
 			tablet: 'none',
 		},
 		position: 'sticky',
+		flexShrink: 0,
 		justifyContent: 'center',
 		bottom: 0,
 		borderTop: 1,

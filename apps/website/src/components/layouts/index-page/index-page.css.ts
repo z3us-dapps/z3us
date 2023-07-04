@@ -17,9 +17,11 @@ export const indexPageAppWrapper = style([
 		left: 0,
 		overflow: 'hidden',
 	}),
-	{
-		height: 'calc(100vh - 71px)',
-	},
+	{},
+	responsiveStyle({
+		mobile: { height: 'calc(100vh - 58px)' },
+		tablet: { height: 'calc(100vh - 70px)' },
+	}),
 ])
 
 export const connectedPageWrapper = style([

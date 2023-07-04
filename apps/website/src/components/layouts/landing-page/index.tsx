@@ -22,7 +22,10 @@ export const LandingPage: React.FC = () => {
 					<Box>
 						<LogoTest />
 						<Box padding="large">
-							<Link to="/accounts/settings">HIii</Link>
+							<Link to="/accounts/settings">settings</Link>
+						</Box>
+						<Box padding="large">
+							<Link to="/accounts/all">accounts</Link>
 						</Box>
 						{Array.from({ length: 10 }, (_, i) => (
 							<Box display="flex" flexDirection="column" key={i}>

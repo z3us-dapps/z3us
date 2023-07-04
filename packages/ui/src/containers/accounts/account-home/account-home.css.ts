@@ -9,15 +9,15 @@ export const accountsWrapper = style([
 		display: 'flex',
 		justifyContent: 'center',
 		paddingX: {
-			mobile: 'large',
+			tablet: 'large',
 			desktop: 'xxlarge',
 		},
 		paddingBottom: {
-			mobile: 'large',
+			tablet: 'large',
 			desktop: 'xxlarge',
 		},
 		paddingTop: {
-			mobile: 'large',
+			tablet: 'large',
 			desktop: 'xxlarge',
 		},
 		height: 'full',
@@ -39,25 +39,39 @@ export const panelWrapper = style([
 		position: 'relative',
 		display: 'flex',
 		gap: {
-			mobile: 'large',
+			tablet: 'large',
 			desktop: 'xlarge',
 		},
 		width: 'full',
+		height: 'full',
+		flexDirection: {
+			mobile: 'column',
+			tablet: 'row',
+		},
 	}),
 	{},
 ])
 
 export const leftPanel = style([
 	sprinkles({
+		position: 'relative',
 		flexGrow: 1,
 		flexShrink: 0,
 	}),
 	{},
+	responsiveStyle({
+		mobile: {
+			// background: '#8A4AE1',
+		},
+	}),
 ])
 
 export const rightPanel = style([
 	sprinkles({
-		display: 'flex',
+		display: {
+			mobile: 'none',
+			tablet: 'flex',
+		},
 		flexDirection: 'column',
 		flexShrink: 0,
 		overflow: 'clip',

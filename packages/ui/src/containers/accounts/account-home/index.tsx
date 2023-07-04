@@ -29,35 +29,33 @@ const AccountsHome = () => {
 						isTopShadowVisible={false}
 						className={styles.leftPanel}
 						renderPanel={(scrollableNode: HTMLElement | null) => (
-							<Box position="relative">
-								<AnimatePresence initial={false}>
-									<Routes location={location} key={location.pathname}>
-										{[routes.ACCOUNT].map(path => (
-											<Route
-												key="assetsHome" // to avoid full re-renders when these routes change
-												path={path}
-												element={
-													<AnimatedPage>
-														<AccountIndexHeader />
-														<AccountIndexAssets scrollableNode={scrollableNode} />
-													</AnimatedPage>
-												}
-											/>
-										))}
-										{[routes.ACCOUNT_ASSET_TYPE, routes.ACCOUNT_ASSET].map(path => (
-											<Route
-												key="assetsList" // to avoid full re-renders when these routes change
-												path={path}
-												element={
-													<AnimatedPage>
-														<AccountsList scrollableNode={scrollableNode} />
-													</AnimatedPage>
-												}
-											/>
-										))}
-									</Routes>
-								</AnimatePresence>
-							</Box>
+							<AnimatePresence initial={false}>
+								<Routes location={location} key={location.pathname}>
+									{[routes.ACCOUNT].map(path => (
+										<Route
+											key="assetsHome" // to avoid full re-renders when these routes change
+											path={path}
+											element={
+												<AnimatedPage>
+													<AccountIndexHeader />
+													<AccountIndexAssets scrollableNode={scrollableNode} />
+												</AnimatedPage>
+											}
+										/>
+									))}
+									{[routes.ACCOUNT_ASSET_TYPE, routes.ACCOUNT_ASSET].map(path => (
+										<Route
+											key="assetsList" // to avoid full re-renders when these routes change
+											path={path}
+											element={
+												<AnimatedPage>
+													<AccountsList scrollableNode={scrollableNode} />
+												</AnimatedPage>
+											}
+										/>
+									))}
+								</Routes>
+							</AnimatePresence>
 						)}
 					/>
 					<ScrollPanel

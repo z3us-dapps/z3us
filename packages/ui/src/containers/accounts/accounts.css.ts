@@ -6,10 +6,11 @@ import { sprinkles } from 'ui/src/components/system/sprinkles.css'
 
 export const accountsWrapper = style([
 	sprinkles({
+		display: 'flex',
+		justifyContent: 'center',
+		height: 'full',
 		maxWidth: 'full',
 		width: 'vw100',
-		height: 'full',
-		display: 'flex',
 		flexDirection: 'column',
 	}),
 	{},

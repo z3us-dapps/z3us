@@ -1,6 +1,7 @@
 import { style } from '@vanilla-extract/css'
 
 import { sprinkles } from 'ui/src/components/system/sprinkles.css'
+import { responsiveStyle } from 'ui/src/components/system/theme-utils'
 
 export const landingWrapper = style([
 	sprinkles({
@@ -9,9 +10,11 @@ export const landingWrapper = style([
 		width: 'vw100',
 		maxWidth: 'full',
 	}),
-	{
-		minHeight: 'calc(100vh - 71px)',
-	},
+	{},
+	responsiveStyle({
+		mobile: { minHeight: 'calc(100vh - 58px)' },
+		tablet: { minHeight: 'calc(100vh - 70px)' },
+	}),
 ])
 
 export const landingBodyWrapper = style([

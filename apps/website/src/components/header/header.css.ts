@@ -8,13 +8,15 @@ export const headerWrapper = style([
 		position: 'sticky',
 		zIndex: 1,
 		top: 0,
-		borderBottom: 1,
-		borderBottomStyle: 'solid',
-		borderColor: 'transparent',
+		// TODO: inner shadow border
+		// borderBottom: 1,
+		// borderBottomStyle: 'solid',
+		// borderColor: 'transparent',
 	}),
 	{},
 ])
 
+// TODO: inner shadow border
 export const headerWrapperBorderColor = style([
 	sprinkles({
 		borderColor: {
@@ -30,9 +32,11 @@ export const headerInnerWrapper = style([
 		display: 'flex',
 		alignItems: 'center',
 	}),
-	{
-		height: '70px',
-	},
+	{},
+	responsiveStyle({
+		mobile: { height: '58px' },
+		tablet: { height: '70px' },
+	}),
 ])
 
 export const landingLogoWrapper = style([
