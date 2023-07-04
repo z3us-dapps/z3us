@@ -59,11 +59,11 @@ export const leftPanel = style([
 		flexShrink: 0,
 	}),
 	{},
-	responsiveStyle({
-		mobile: {
-			// background: '#8A4AE1',
-		},
-	}),
+	// responsiveStyle({
+	// 	mobile: {
+	// 		background: '#8A4AE1',
+	// 	},
+	// }),
 ])
 
 export const rightPanel = style([
