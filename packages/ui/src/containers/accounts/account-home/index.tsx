@@ -12,11 +12,11 @@ import { AccountActivitySearch } from 'ui/src/containers/accounts/account-activi
 import { AccountAllChart } from 'ui/src/containers/accounts/account-all-chart'
 import { AccountAssetInfo } from 'ui/src/containers/accounts/account-asset-info'
 import { AccountCard } from 'ui/src/containers/accounts/account-card'
-import { AccountIndexAssets } from 'ui/src/containers/accounts/account-index-assets'
-import { AccountIndexHeader } from 'ui/src/containers/accounts/account-index-header'
+// import { AccountIndexAssets } from 'ui/src/containers/accounts/account-index-assets'
+// import { AccountIndexHeader } from 'ui/src/containers/accounts/account-index-header'
 import { AccountRoutes } from 'ui/src/containers/accounts/account-routes'
-import { AccountsList } from 'ui/src/containers/accounts/accounts-list'
 
+// import { AccountsList } from 'ui/src/containers/accounts/accounts-list'
 import * as styles from './account-home.css'
 
 const AccountsHome = () => {
@@ -44,31 +44,6 @@ const AccountsHome = () => {
 										/>
 									))}
 								</Routes>
-								{/* <Routes location={location} key={location.pathname}>
-									{[routes.ACCOUNT].map(path => (
-										<Route
-											key="assetsHome" // to avoid full re-renders when these routes change
-											path={path}
-											element={
-												<AnimatedPage>
-													<AccountIndexHeader />
-													<AccountIndexAssets scrollableNode={scrollableNode} />
-												</AnimatedPage>
-											}
-										/>
-									))}
-									{[routes.ACCOUNT_ASSET_TYPE, routes.ACCOUNT_ASSET].map(path => (
-										<Route
-											key="assetsList" // to avoid full re-renders when these routes change
-											path={path}
-											element={
-												<AnimatedPage>
-													<AccountsList scrollableNode={scrollableNode} />
-												</AnimatedPage>
-											}
-										/>
-									))}
-								</Routes> */}
 							</AnimatePresence>
 						)}
 					/>

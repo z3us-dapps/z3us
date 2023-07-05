@@ -12,20 +12,20 @@ import { TransactionIcon } from 'ui/src/components/transaction-icon'
 import { Text } from 'ui/src/components/typography'
 import { useAccountParams } from 'ui/src/hooks/use-account-params'
 
-import * as styles from './account-routes.css'
-import { AccountRouteHeader } from './components/account-route-header'
+import * as styles from './account-route-header.css'
 
+// // import { AccountRouteHeader } from './components/account-route-header'
 // // import { AccountTable } from './components/account-table'
 // // import { MobileScrollingBackground } from './components/mobile-scrolling-background'
 // // import { MobileScrollingButtons } from './components/mobile-scrolling-buttons'
 
 export const hash = () => Math.random().toString(36).substring(7)
 
-interface IAccountRoutesProps {
-	scrollableNode: HTMLElement
+interface IAccountRouteHeaderProps {
+	scrollableNode?: HTMLElement
 }
 
-export const AccountRoutes: React.FC<IAccountRoutesProps> = props => {
+export const AccountRouteHeader: React.FC<IAccountRouteHeaderProps> = props => {
 	const { scrollableNode } = props
 	const [items, setItems] = useState<any>([])
 
@@ -35,29 +35,8 @@ export const AccountRoutes: React.FC<IAccountRoutesProps> = props => {
 	}, [])
 
 	return (
-		<Box className={styles.accountRoutesWrapper}>
-			<AccountRouteHeader />
-
-			<Box className={styles.accountRoutesScrollingStickySheet} />
-			<Box className={styles.accountRoutesScrollingWrapper}>
-				<Box className={styles.accountRoutesScrollingStickyBtnWrapper}>
-					<Box className={styles.accountRoutesScrollingStickyBtnInner}>
-						<Text>buttons wil live </Text>
-					</Box>
-				</Box>
-				<Box>
-					<Box padding="large">
-						{Array.from({ length: 2 }, (_, i) => (
-							<Text size="xlarge" key={i}>
-								Lorum ipsumIn convallis vel neque facilisis est mi in varius gravida eget convallis convallis ut velit
-								lacus, eros faucibus odio. Varius dui porttitor eu ac egestas in tempus nisi suscipit fusce urna. Vitae
-								semper velit facilisis nunc, suspendisse vivamus duis vestibulum ullamcorper dui lectus sapien tempus
-								sit eu dapibus arcu pellentesque.
-							</Text>
-						))}
-					</Box>
-				</Box>
-			</Box>
+		<Box className={styles.accountRoutesMobileAccountHeader}>
+			<Text>This is the mobile account info box</Text>
 		</Box>
 	)
 }
