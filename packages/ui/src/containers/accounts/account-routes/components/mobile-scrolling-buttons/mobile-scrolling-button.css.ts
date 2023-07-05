@@ -21,10 +21,7 @@ export const accountRoutesWrapper = style([
 
 export const accountRoutesMobileAccountHeader = style([
 	sprinkles({
-		position: {
-			mobile: 'sticky',
-			tablet: 'relative',
-		},
+		position: 'sticky',
 		top: 0,
 	}),
 	{
@@ -77,6 +74,11 @@ export const accountRoutesScrollingStickyBtnWrapper = style([
 	sprinkles({
 		position: 'sticky',
 		top: 0,
+		zIndex: 1,
+		display: {
+			mobile: 'block',
+			tablet: 'none',
+		},
 	}),
 	{},
 ])
@@ -90,7 +92,6 @@ export const accountRoutesScrollingStickyBtnInner = style([
 		padding: 'xlarge',
 	}),
 	{
-		zIndex: 1,
 		minHeight: '58px',
 	},
 ])

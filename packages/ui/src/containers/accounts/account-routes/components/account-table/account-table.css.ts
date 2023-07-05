@@ -21,10 +21,7 @@ export const accountRoutesWrapper = style([
 
 export const accountRoutesMobileAccountHeader = style([
 	sprinkles({
-		position: {
-			mobile: 'sticky',
-			tablet: 'relative',
-		},
+		position: 'sticky',
 		top: 0,
 	}),
 	{

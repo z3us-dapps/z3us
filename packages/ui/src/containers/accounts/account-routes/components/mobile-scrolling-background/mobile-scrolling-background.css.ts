@@ -21,10 +21,7 @@ export const accountRoutesWrapper = style([
 
 export const accountRoutesMobileAccountHeader = style([
 	sprinkles({
-		position: {
-			mobile: 'sticky',
-			tablet: 'relative',
-		},
+		position: 'sticky',
 		top: 0,
 	}),
 	{
@@ -54,6 +51,10 @@ export const accountRoutesScrollingStickySheet = style([
 	sprinkles({
 		position: 'sticky',
 		top: 0,
+		display: {
+			mobile: 'block',
+			tablet: 'none',
+		},
 	}),
 	{
 		height: '0px',
@@ -61,8 +62,8 @@ export const accountRoutesScrollingStickySheet = style([
 		'::before': {
 			content: '" "',
 			position: 'absolute',
-			bottom: '-calc(100vh - 300px)',
-			height: 'calc(100vh - 300px)',
+			bottom: '-calc(100vh - 100px)',
+			height: 'calc(100vh - 100px)',
 			left: '0',
 			right: '0',
 			pointerEvents: 'none',
