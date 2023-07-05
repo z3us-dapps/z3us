@@ -17,11 +17,20 @@ export const scrollAreaWrapper = style([
 	},
 ])
 
-export const scrollAreaWrapperDisabled = style([
+export const scrollAreaWrapperDisablePointerEvents = style([
 	sprinkles({
 		pointerEvents: 'none',
 	}),
 	{},
+])
+
+export const scrollAreaSimpleBarDisabledWrapper = style([
+	sprinkles({
+		// pointerEvents: 'none',
+	}),
+	{
+		border: '1px solid red',
+	},
 ])
 
 export const scrollAreaTopShadow = style([
@@ -81,3 +90,17 @@ globalStyle(
 		outline: 'none',
 	},
 )
+
+globalStyle(`${scrollAreaSimpleBarDisabledWrapper} .simplebar-wrapper`, {
+	overflow: 'unset',
+})
+
+globalStyle(`${scrollAreaSimpleBarDisabledWrapper} .simplebar-mask`, {
+	overflow: 'unset',
+	position: 'relative',
+})
+
+globalStyle(`${scrollAreaSimpleBarDisabledWrapper} .simplebar-offset`, {
+	overflow: 'unset',
+	position: 'unset !important' as 'unset',
+})

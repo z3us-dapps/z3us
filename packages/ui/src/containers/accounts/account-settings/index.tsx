@@ -11,9 +11,9 @@ import { AddressBookIcon, ArrowRightIcon, CoinsIcon, Settings2Icon } from 'ui/sr
 import { LayoutTwoCol } from 'ui/src/components/layout/layout-two-col'
 import { MobileStackedNavigation } from 'ui/src/components/layout/mobile-stacked-navigation'
 import { PillNavigation } from 'ui/src/components/pill-navigation'
-import { ScrollPanel } from 'ui/src/components/scroll-panel'
 import { settingsMenuPaths, settingsMenuSlugs } from 'ui/src/constants/settings'
 
+import { ScrollPanel } from '../scroll-panel'
 import * as styles from './account-settings.css'
 import { SettingsAccounts } from './settings-accounts'
 import { SettingsAddressBook } from './settings-address-book'

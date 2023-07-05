@@ -14,20 +14,22 @@ interface ImmerT {
 
 interface IProps {
 	children: React.ReactNode
-	scrollDisabled?: boolean
+	isPointerEventsDisabled?: boolean
 	scrollableNodeProps?: any
 	onScrollAreaSizeChange?: () => void
 	onScroll?: (e: Event) => void
 	isTopShadowVisible?: boolean
 	isBottomShadowVisible?: boolean
+	isSimpleBarDisabled?: boolean
 }
 
 export const ScrollArea: React.FC<IProps> = ({
 	children,
-	scrollDisabled,
 	scrollableNodeProps,
 	onScrollAreaSizeChange,
 	onScroll,
+	isSimpleBarDisabled = false,
+	isPointerEventsDisabled = false,
 	isTopShadowVisible = true,
 	isBottomShadowVisible = true,
 }) => {
@@ -72,40 +74,40 @@ export const ScrollArea: React.FC<IProps> = ({
 
 	useEffect(() => {
 		const scrollRef = sRef?.current?.getScrollElement()
+		if (isSimpleBarDisabled) {
+			console.log('is DISABLD')
+			sRef?.current.unMount()
+		} else {
+			const simpleBarContent = scrollRef.getElementsByClassName('simplebar-content')[0]
+			scrollRef.addEventListener('scroll', handleScroll, { passive: true })
 
-		// console.log('🚀 ~ file: index.tsx:84 ~ useEffect ~ scrollRef:', sRef?.current)
-		// console.log('sRef?.current ', sRef?.current.unMount)
-		// console.log('sRef?.current ', sRef?.current.removeObserver)
-		// sRef?.current.unMount()
-
-		const simpleBarContent = scrollRef.getElementsByClassName('simplebar-content')[0]
-		scrollRef.addEventListener('scroll', handleScroll, { passive: true })
-
-		observer.current = new ResizeObserver(entries => {
-			entries.forEach(entry => {
-				if (onScrollAreaSizeChange) {
-					onScrollAreaSizeChange()
-				}
-				const contentBoxSize = Array.isArray(entry.contentBoxSize) ? entry.contentBoxSize[0] : entry.contentBoxSize
-				setState(draft => {
-					draft.isBottomShadowVisible = contentBoxSize.blockSize > scrollRef.clientHeight
+			observer.current = new ResizeObserver(entries => {
+				entries.forEach(entry => {
+					if (onScrollAreaSizeChange) {
+						onScrollAreaSizeChange()
+					}
+					const contentBoxSize = Array.isArray(entry.contentBoxSize) ? entry.contentBoxSize[0] : entry.contentBoxSize
+					setState(draft => {
+						draft.isBottomShadowVisible = contentBoxSize.blockSize > scrollRef.clientHeight
+					})
 				})
 			})
-		})
-		scrollObserver.current = new ResizeObserver(entries => {
-			entries.forEach(entry => {
-				const contentBoxSize = Array.isArray(entry.contentBoxSize) ? entry.contentBoxSize[0] : entry.contentBoxSize
-				setState(draft => {
-					draft.isBottomShadowVisible = simpleBarContent.clientHeight > contentBoxSize.blockSize
+			scrollObserver.current = new ResizeObserver(entries => {
+				entries.forEach(entry => {
+					const contentBoxSize = Array.isArray(entry.contentBoxSize) ? entry.contentBoxSize[0] : entry.contentBoxSize
+					setState(draft => {
+						draft.isBottomShadowVisible = simpleBarContent.clientHeight > contentBoxSize.blockSize
+					})
 				})
 			})
-		})
-		if (simpleBarContent) {
-			observer.current.observe(simpleBarContent)
+			if (simpleBarContent) {
+				observer.current.observe(simpleBarContent)
+			}
+			if (scrollRef) {
+				scrollObserver.current.observe(scrollRef)
+			}
 		}
-		if (scrollRef) {
-			scrollObserver.current.observe(scrollRef)
-		}
+
 		return () => {
 			scrollRef.removeEventListener('scroll', handleScroll)
 			if (observer.current) {
@@ -115,7 +117,7 @@ export const ScrollArea: React.FC<IProps> = ({
 				scrollObserver.current.disconnect()
 			}
 		}
-	}, [scrollElement])
+	}, [scrollElement, isSimpleBarDisabled])
 
 	useEventListener('resize', handleScrollAreaSizeChange)
 
@@ -125,7 +127,13 @@ export const ScrollArea: React.FC<IProps> = ({
 	}, [scrollElement?.offsetHeight, scrollElement?.offsetWidth])
 
 	return (
-		<Box className={clsx(styles.scrollAreaWrapper, scrollDisabled && styles.scrollAreaWrapperDisabled)}>
+		<Box
+			className={clsx(
+				styles.scrollAreaWrapper,
+				isSimpleBarDisabled && styles.scrollAreaSimpleBarDisabledWrapper,
+				isPointerEventsDisabled && styles.scrollAreaWrapperDisablePointerEvents,
+			)}
+		>
 			<SimpleBar
 				ref={sRef}
 				scrollableNodeProps={scrollableNodeProps}

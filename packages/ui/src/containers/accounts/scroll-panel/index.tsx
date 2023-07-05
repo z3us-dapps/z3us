@@ -11,13 +11,15 @@ import * as styles from './scroll-panel.css'
 interface IScrollPanelProps {
 	renderPanel: (customScrollParent: HTMLElement | null) => any
 	className?: string
-	scrollDisabled?: boolean
 	scrollTopOnRoute?: boolean
 	isTopShadowVisible?: boolean
 }
 
+const DESKTOP_BREAK_POINT = screensJson.screens.lg.value.replace('px', '')
+const TABLET_BREAK_POINT = screensJson.screens.md.value.replace('px', '')
+
 export const ScrollPanel: React.FC<IScrollPanelProps> = props => {
-	const { renderPanel, className, scrollDisabled, scrollTopOnRoute, isTopShadowVisible } = props
+	const { renderPanel, className, scrollTopOnRoute, isTopShadowVisible } = props
 
 	const ref = useRef(null)
 	const location = useLocation()
@@ -26,6 +28,8 @@ export const ScrollPanel: React.FC<IScrollPanelProps> = props => {
 	const [listMaxHeight, setListMaxHeight] = useState<number>(300)
 	const [listHeight, setListHeight] = useState<number>(200)
 	const [scrollTop, setScrollTop] = useState<number>(0)
+
+	const isSimpleBarDisabled = true
 
 	const handleScroll = (e: Event) => {
 		const target = e.target as Element
@@ -36,10 +40,8 @@ export const ScrollPanel: React.FC<IScrollPanelProps> = props => {
 	const setListSize = () => {
 		const listRef = ref.current
 		if (listRef) {
-			const desktopBreakPoint = screensJson.screens.lg.value.replace('px', '')
-			const tabletBreakPoint = screensJson.screens.md.value.replace('px', '')
 			const isTabletWidth =
-				window.innerWidth > parseInt(tabletBreakPoint, 10) && window.innerWidth < parseInt(desktopBreakPoint, 10)
+				window.innerWidth > parseInt(TABLET_BREAK_POINT, 10) && window.innerWidth < parseInt(DESKTOP_BREAK_POINT, 10)
 			const simpleBarContent = listRef.getElementsByClassName('simplebar-content')[0]
 			setListHeight(simpleBarContent?.offsetHeight || 100)
 			const listBounding = listRef.getBoundingClientRect()
@@ -72,9 +74,9 @@ export const ScrollPanel: React.FC<IScrollPanelProps> = props => {
 			<ScrollArea
 				scrollableNodeProps={{ ref: setPanelRef }}
 				onScrollAreaSizeChange={setListSize}
-				scrollDisabled={scrollDisabled}
 				onScroll={handleScroll}
 				isTopShadowVisible={isTopShadowVisible}
+				isSimpleBarDisabled={isSimpleBarDisabled}
 			>
 				{renderPanel(panelRef)}
 			</ScrollArea>

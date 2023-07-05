@@ -22,7 +22,9 @@ export const accountsWrapper = style([
 		},
 		height: 'full',
 	}),
-	{},
+	{
+		border: '1px solid blue',
+	},
 ])
 
 export const accountsContainerWrapper = style([
