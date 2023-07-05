@@ -22,23 +22,14 @@ interface IProps {
 	isBottomShadowVisible?: boolean
 }
 
-const defaultProps = {
-	scrollDisabled: false,
-	scrollableNodeProps: undefined,
-	onScrollAreaSizeChange: undefined,
-	onScroll: undefined,
-	isTopShadowVisible: true,
-	isBottomShadowVisible: true,
-}
-
 export const ScrollArea: React.FC<IProps> = ({
 	children,
 	scrollDisabled,
 	scrollableNodeProps,
 	onScrollAreaSizeChange,
 	onScroll,
-	isTopShadowVisible,
-	isBottomShadowVisible,
+	isTopShadowVisible = true,
+	isBottomShadowVisible = true,
 }) => {
 	const sRef: any = useRef()
 	const observer = useRef<ResizeObserver | null>(null)
@@ -81,6 +72,12 @@ export const ScrollArea: React.FC<IProps> = ({
 
 	useEffect(() => {
 		const scrollRef = sRef?.current?.getScrollElement()
+
+		// console.log('🚀 ~ file: index.tsx:84 ~ useEffect ~ scrollRef:', sRef?.current)
+		// console.log('sRef?.current ', sRef?.current.unMount)
+		// console.log('sRef?.current ', sRef?.current.removeObserver)
+		// sRef?.current.unMount()
+
 		const simpleBarContent = scrollRef.getElementsByClassName('simplebar-content')[0]
 		scrollRef.addEventListener('scroll', handleScroll, { passive: true })
 
@@ -154,5 +151,3 @@ export const ScrollArea: React.FC<IProps> = ({
 		</Box>
 	)
 }
-
-ScrollArea.defaultProps = defaultProps
