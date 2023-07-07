@@ -7,10 +7,11 @@ export enum MessageSource {
 export enum MessageAction {
 	PING = 'v1-ping',
 
+	VAULT_UNLOCK = 'v1-vault-get',
 	VAULT_SAVE = 'v1-vault-store',
-	VAULT_GET = 'v1-vault-get',
 	VAULT_REMOVE = 'v1-vault-remove',
 
+	SIGN = 'v1-sign',
 	GET_PUBLIC_KEY = 'v1-get-public-key',
 }
 

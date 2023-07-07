@@ -28,7 +28,7 @@ export class Vault {
 		this.wallet = null
 	}
 
-	get = async (password: string): Promise<Data> => {
+	unlock = async (password: string): Promise<WalletData> => {
 		if (!password) {
 			throw new Error('Missing password')
 		}
@@ -59,10 +59,28 @@ export class Vault {
 			throw error
 		}
 
-		return this.wallet.data
+		return this.wallet
 	}
 
-	save = async (keystore: Keystore, data: Data, password: string): Promise<Data> => {
+	get = async (): Promise<WalletData | null> => {
+		if (!this.wallet) {
+			return null
+		}
+
+		const keystore = getSelectedKeystore()
+		if (!keystore) {
+			throw new Error('Keystore is not selected')
+		}
+		if (this.wallet?.keystore.id !== keystore.id) {
+			throw new Error('Forbidden!')
+		}
+
+		await this.restartTimer()
+
+		return this.wallet
+	}
+
+	save = async (keystore: Keystore, data: Data, password: string): Promise<WalletData> => {
 		if (!password) {
 			throw new Error('Missing password')
 		}
@@ -77,7 +95,7 @@ export class Vault {
 		const secret = await this.crypto.encrypt<Data>(password, data)
 		await saveSecret(keystore, secret)
 
-		return this.get(password)
+		return this.unlock(password)
 	}
 
 	remove = async (password: string) => {
@@ -106,26 +124,6 @@ export class Vault {
 			this.lock()
 			release()
 		}
-	}
-
-	// returns wallet.data or null if locked
-	// wallet.data should not leave sw scope, will extend unlocked timer
-	getWalletData = async (): Promise<WalletData | null> => {
-		if (!this.wallet) {
-			return null
-		}
-
-		const keystore = getSelectedKeystore()
-		if (!keystore) {
-			throw new Error('Keystore is not selected')
-		}
-		if (this.wallet?.keystore.id !== keystore.id) {
-			throw new Error('Forbidden!')
-		}
-
-		await this.restartTimer()
-
-		return this.wallet
 	}
 
 	private restartTimer = async () => {
