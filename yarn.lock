@@ -3755,6 +3755,11 @@
   resolved "https://registry.yarnpkg.com/@radixdlt/babylon-gateway-api-sdk/-/babylon-gateway-api-sdk-1.0.0-birch.2.tgz#52cb0220d7cf2dcc476722edcd13ad329afd0d11"
   integrity sha512-jwnqyJ6NKP2fOw2/P3mHD7fJ+M5ZwadfLbKXYb8P6qejAKLGGcX0dna/uxcwdnSq4JNVLciceXzfttY5gVrClA==
 
+"@radixdlt/babylon-gateway-api-sdk@^1.0.0-birch.5":
+  version "1.0.0-birch.5"
+  resolved "https://registry.yarnpkg.com/@radixdlt/babylon-gateway-api-sdk/-/babylon-gateway-api-sdk-1.0.0-birch.5.tgz#4ca0c4a2a22d4acc3521f80c42a5079dea4d5f75"
+  integrity sha512-V9wNFei2W+RyXxObTIko5BCJXK1uz7RtW91BhbZupB47/1LVbTmugru92R0/OqU9fjn6GJKaWNdbQkoC7cWr/A==
+
 "@radixdlt/babylon-gateway-api-sdk@^1.0.0-rc.1.4":
   version "1.0.0-rc.1.8"
   resolved "https://registry.npmjs.org/@radixdlt/babylon-gateway-api-sdk/-/babylon-gateway-api-sdk-1.0.0-rc.1.8.tgz"
@@ -3827,6 +3832,22 @@
     neverthrow "^6.0.0"
     rxjs "^7.8.1"
     zod "^3.21.4"
+
+"@radixdlt/radix-engine-toolkit@^0.1.10":
+  version "0.1.10"
+  resolved "https://registry.yarnpkg.com/@radixdlt/radix-engine-toolkit/-/radix-engine-toolkit-0.1.10.tgz#de74f2b42f5130ca95088ec066d1628b1fb4a319"
+  integrity sha512-EvkriiMPIxA0Z5OgzWHFpgAaUUgH4PLA5hiF7VKYK5S1v5rl2AAWyunvGQYUdRCzVRADUH+dPLaf85lY9o+vEA==
+  dependencies:
+    "@noble/ed25519" "2.0.0"
+    "@noble/hashes" "1.3.0"
+    "@types/secp256k1" "4.0.3"
+    "@types/secure-random" "1.1.0"
+    blakejs "1.2.1"
+    change-case "4.1.2"
+    class-transformer "0.5.1"
+    decimal.js "10.4.3"
+    reflect-metadata "0.1.13"
+    secp256k1 "5.0.0"
 
 "@radixdlt/radix-engine-toolkit@^0.2.0-birch.2", "@radixdlt/radix-engine-toolkit@^0.2.0-birch.5":
   version "0.2.0-damson.1"
@@ -4864,13 +4885,6 @@
   resolved "https://registry.npmjs.org/@types/blake2b/-/blake2b-2.1.0.tgz"
   integrity sha512-Mv8N0qtdb72iW1XJR/4Yp01frtibnv8BpFUZDROnzd7hVEX4cEN/xHgU2ZfsnOnTDt+fHJVc0uRIWcNz6uIB2A==
 
-"@types/bn.js@*":
-  version "5.1.1"
-  resolved "https://registry.npmjs.org/@types/bn.js/-/bn.js-5.1.1.tgz"
-  integrity sha512-qNrYbZqMx0uJAfKnKclPh+dTwK33KfLHYqtyODwd5HnXOjnkhc4qgn3BrK6RWyGZm5+sIFE7Q7Vz6QQtJB7w7g==
-  dependencies:
-    "@types/node" "*"
-
 "@types/body-parser@*":
   version "1.19.2"
   resolved "https://registry.npmjs.org/@types/body-parser/-/body-parser-1.19.2.tgz"
@@ -4976,13 +4990,6 @@
   version "3.1.2"
   resolved "https://registry.npmjs.org/@types/ejs/-/ejs-3.1.2.tgz"
   integrity sha512-ZmiaE3wglXVWBM9fyVC17aGPkLo/UgaOjEiI2FXQfyczrCefORPxIe+2dVmnmk3zkVIbizjrlQzmPGhSYGXG5g==
-
-"@types/elliptic@^6.4.14":
-  version "6.4.14"
-  resolved "https://registry.npmjs.org/@types/elliptic/-/elliptic-6.4.14.tgz"
-  integrity sha512-z4OBcDAU0GVwDTuwJzQCiL6188QvZMkvoERgcVjq0/mPM8jCfdwZ3x5zQEVoL9WCAru3aG5wl3Z5Ww5wBWn7ZQ==
-  dependencies:
-    "@types/bn.js" "*"
 
 "@types/escodegen@^0.0.6":
   version "0.0.6"
@@ -6460,7 +6467,7 @@ binary-extensions@^2.0.0:
   resolved "https://registry.npmjs.org/binary-extensions/-/binary-extensions-2.2.0.tgz"
   integrity sha512-jDctJ/IVQbZoJykoeHbhXpOlNBqGNcwXJKJog42E5HDPUwQTSdjCHdihjj0DlnheQ7blbT6dHOafNAiS8ooQKA==
 
-bindings@^1.3.0, bindings@^1.5.0:
+bindings@^1.3.0:
   version "1.5.0"
   resolved "https://registry.npmjs.org/bindings/-/bindings-1.5.0.tgz"
   integrity sha512-p2q/t/mhvuOj/UeLlV6566GD/guowlr0hHxClI0W9m7MWYkL1F0hLo+0Aexs9HSPCtR1SXQ0TD3MMKrXZajbiQ==
@@ -8227,14 +8234,6 @@ ed25519-hd-key@^1.3.0:
   dependencies:
     create-hmac "1.1.7"
     tweetnacl "1.0.3"
-
-ed25519@^0.0.5:
-  version "0.0.5"
-  resolved "https://registry.yarnpkg.com/ed25519/-/ed25519-0.0.5.tgz#237bc8f8a13b612467a460a981110ea50de7e2fd"
-  integrity sha512-bg8uNetUVrkTyAVsnCUUmC/we1CFB7DYa59rwEUHut26SISXN2o319HzIt0r7ncqbtjVi0hn9r/A0epUmMNulQ==
-  dependencies:
-    bindings "^1.5.0"
-    nan "^2.14.1"
 
 ee-first@1.1.1:
   version "1.1.1"
@@ -12977,7 +12976,7 @@ mz@^2.7.0:
     object-assign "^4.0.1"
     thenify-all "^1.0.0"
 
-nan@^2.13.2, nan@^2.14.1:
+nan@^2.13.2:
   version "2.17.0"
   resolved "https://registry.npmjs.org/nan/-/nan-2.17.0.tgz"
   integrity sha512-2ZTgtl0nJsO0KQCjEpxcIr5D+Yv90plTitZt9JBfQvVJDS5seMl3FOvsh3+9CoYWXf/1l5OaZzzF6nDm4cagaQ==
@@ -15050,7 +15049,7 @@ screenfull@^5.1.0:
   resolved "https://registry.npmjs.org/screenfull/-/screenfull-5.2.0.tgz"
   integrity sha512-9BakfsO2aUQN2K9Fdbj87RJIEZ82Q9IGim7FqM5OsebfoFC6ZHXgDq/KvniuLTPdeM8wY2o6Dj3WQ7KeQCj3cA==
 
-secp256k1@5.0.0, secp256k1@^5.0.0:
+secp256k1@5.0.0:
   version "5.0.0"
   resolved "https://registry.yarnpkg.com/secp256k1/-/secp256k1-5.0.0.tgz#be6f0c8c7722e2481e9773336d351de8cddd12f7"
   integrity sha512-TKWX8xvoGHrxVdqbYeZM9w+izTF4b9z3NhSaDkdn81btvuh+ivbIMGT/zQvDtTFWhRlThpoz6LEYTr7n8A5GcA==

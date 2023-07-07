@@ -21,7 +21,7 @@ const middlewares = <T>(name: string, f: StateCreator<T, MutatorsTypes>) =>
 	devtools(subscribeWithSelector(persist(immer(f), { name })), { name })
 
 export const sharedStore = createStore(
-	middlewares<SharedState>('z3us-store', set => ({
+	middlewares<SharedState>('z3us:store:shared', set => ({
 		...createKeystoreStore(set),
 		...createThemeStore(set),
 		...createWalletStore(set),

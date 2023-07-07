@@ -5,7 +5,7 @@ import { getNoneSharedStore } from '../services/state'
 import { createNoneSharedStore } from '../store'
 import { NoneSharedStoreContext, type TStoreContext } from './state'
 
-const defaultStoreKey = 'z3us-store:default'
+const defaultStoreKey = 'z3us:store:default'
 const defaultStore = createNoneSharedStore(defaultStoreKey)
 const defaultValue = {
 	id: defaultStoreKey,

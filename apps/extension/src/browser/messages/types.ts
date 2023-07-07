@@ -9,7 +9,9 @@ export enum MessageAction {
 
 	VAULT_SAVE = 'v1-vault-store',
 	VAULT_GET = 'v1-vault-get',
-	VAULT_REMOVE = 'v1-vault-remvoe',
+	VAULT_REMOVE = 'v1-vault-remove',
+
+	GET_PUBLIC_KEY = 'v1-vault-get-public-key',
 }
 
 export type Message = {

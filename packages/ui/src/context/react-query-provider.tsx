@@ -16,7 +16,10 @@ const client = new QueryClient({
 	},
 })
 
+const cacheKey = 'z3us:cache'
 const persister = createSyncStoragePersister({
+	key: cacheKey,
+	throttleTime: 1 * 1000, // To avoid localStorage spamming, pass a time in ms to throttle saving the cache to disk
 	storage: domExists() ? window?.localStorage : undefined,
 })
 
