@@ -17,6 +17,7 @@ export type Keystore = {
 	id: string
 	name: string
 	type: KeystoreType
+	olympiaAddresses?: unknown
 }
 
 export type ThemeState = {
