@@ -27,7 +27,7 @@ const migrateOlympiaAddresses = async () => {
 			}),
 		)
 
-		currentState.keystores = newKeystores.filter(keystore => !!keystore)
+		currentState.keystores = [...currentState.keystores, ...newKeystores.filter(keystore => !!keystore)]
 		sharedStore.setState(currentState)
 		sharedStore.persist.rehydrate()
 

@@ -1,8 +1,11 @@
-import type { IKeystoresStateSetter, KeystoreType, KeystoresState } from './types'
+import { KeystoreType } from './types'
+import type { IKeystoresStateSetter, KeystoresState } from './types'
+
+const defaultKeystore = { id: 'default', name: 'default', type: KeystoreType.RADIX_WALLET }
 
 export const factory = (set: IKeystoresStateSetter): KeystoresState => ({
-	keystores: [],
-	selectKeystoreId: '',
+	keystores: [defaultKeystore],
+	selectKeystoreId: defaultKeystore.id,
 
 	addKeystoreAction: (id: string, name: string, type: KeystoreType) => {
 		set(draft => {
