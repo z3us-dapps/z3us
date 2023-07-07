@@ -46,3 +46,11 @@ export const removeSecret = async (keystore: Keystore) => {
 		throw new Error(lastError.message)
 	}
 }
+
+export const setConnectionPassword = async (password: string) => {
+	if (!password) {
+		await browser.storage.local.set({ connectionPassword: password })
+	} else {
+		await browser.storage.local.remove('connectionPassword')
+	}
+}

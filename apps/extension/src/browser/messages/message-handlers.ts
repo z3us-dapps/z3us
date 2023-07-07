@@ -30,7 +30,7 @@ async function getPublicKey() {
 	if (!walletData) {
 		return null
 	}
-	const publicKey = cryptoGetPublicKey(walletData)
+	const publicKey = cryptoGetPublicKey(walletData.data)
 	return publicKey
 }
 

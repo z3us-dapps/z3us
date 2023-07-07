@@ -11,7 +11,7 @@ export enum MessageAction {
 	VAULT_GET = 'v1-vault-get',
 	VAULT_REMOVE = 'v1-vault-remove',
 
-	GET_PUBLIC_KEY = 'v1-vault-get-public-key',
+	GET_PUBLIC_KEY = 'v1-get-public-key',
 }
 
 export type Message = {

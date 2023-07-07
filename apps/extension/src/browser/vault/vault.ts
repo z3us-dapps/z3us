@@ -1,13 +1,13 @@
 import { Mutex } from 'async-mutex'
 import { getNoneSharedStore } from 'packages/ui/src/services/state'
 import { sharedStore } from 'packages/ui/src/store'
-import type { Keystore } from 'packages/ui/src/store/types'
+import { type Keystore, KeystoreType } from 'packages/ui/src/store/types'
 
 import { CryptoService } from '@src/crypto/crypto'
 import type { Data } from '@src/types/vault'
 
 import { getSelectedKeystore } from './keystore'
-import { getSecret, removeSecret, saveSecret } from './storage'
+import { getSecret, removeSecret, saveSecret, setConnectionPassword } from './storage'
 
 type WalletData = {
 	timer: NodeJS.Timeout
@@ -50,9 +50,12 @@ export class Vault {
 				clearTimeout(this.wallet.timer)
 			}
 			this.wallet = { keystore, data, timer: setTimeout(this.lock, walletUnlockTimeoutInMinutes * 60 * 1000) }
+			this.setConnectionPassword()
 			release()
 		} catch (error) {
+			const release = await this.mutex.acquire()
 			this.lock()
+			release()
 			throw error
 		}
 
@@ -107,7 +110,7 @@ export class Vault {
 
 	// returns wallet.data or null if locked
 	// wallet.data should not leave sw scope, will extend unlocked timer
-	getWalletData = async (): Promise<Data | null> => {
+	getWalletData = async (): Promise<WalletData | null> => {
 		if (!this.wallet) {
 			return null
 		}
@@ -122,7 +125,7 @@ export class Vault {
 
 		await this.restartTimer()
 
-		return this.wallet.data
+		return this.wallet
 	}
 
 	private restartTimer = async () => {
@@ -147,6 +150,23 @@ export class Vault {
 			clearTimeout(this.wallet.timer)
 		}
 		this.wallet = null
+		this.setConnectionPassword()
 		release()
+	}
+
+	private setConnectionPassword = () => {
+		switch (this.wallet?.keystore.type) {
+			case KeystoreType.RADIX_WALLET:
+				setConnectionPassword(this.wallet.data.secret)
+				break
+			case KeystoreType.LOCAL:
+				setConnectionPassword('')
+				break
+			case KeystoreType.HARDWARE:
+				setConnectionPassword('')
+				break
+			default:
+				setConnectionPassword('')
+		}
 	}
 }
