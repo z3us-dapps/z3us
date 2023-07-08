@@ -4,6 +4,25 @@ import { sprinkles } from 'ui/src/components/system/sprinkles.css'
 import { responsiveStyle } from 'ui/src/components/system/theme-utils'
 import { vars } from 'ui/src/components/system/theme.css'
 
+export const scrollWrapper = style([
+	sprinkles({
+		position: 'relative',
+	}),
+	{
+		// height: '500px',
+		// maxHeight: '500px',
+		border: '1px solid red',
+		// maxHeight: '100px',
+	},
+	responsiveStyle({
+		tablet: {
+			maxHeight: 'calc(100vh - 168px)',
+			// maxHeight: 'calc(100vh - 168px)',
+			width: '90%',
+		},
+	}),
+])
+
 export const panelWrapper = style([
 	sprinkles({
 		position: 'relative',

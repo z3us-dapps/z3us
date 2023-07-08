@@ -1,11 +1,11 @@
 import * as ScrollAreaPrimitive from '@radix-ui/react-scroll-area'
 import clsx from 'clsx'
-import React, { forwardRef, useState } from 'react'
+import React, { forwardRef, useEffect, useState } from 'react'
 
 import * as styles from './scroll-area-radix.css'
 
-export const ScrollAreaRoot = ({ children, className }) => (
-	<ScrollAreaPrimitive.Root className={clsx(styles.scrollAreaRootWrapper, className)}>
+export const ScrollAreaRoot = ({ children, className, ...rest }) => (
+	<ScrollAreaPrimitive.Root className={clsx(styles.scrollAreaRootWrapper, className)} {...rest}>
 		{children}
 	</ScrollAreaPrimitive.Root>
 )
@@ -38,12 +38,16 @@ interface IScrollAreaRadix extends ScrollAreaPrimitive.ScrollAreaProps {
 }
 
 export const ScrollAreaRadix = ({ children, ...props }: IScrollAreaRadix) => {
-	const { className, renderScrollArea } = props
+	const { className, renderScrollArea, ...rest } = props
 
 	const [scrollParent, setScrollParent] = useState<HTMLElement | null>(null)
 
+	useEffect(() => {
+		console.log('hello')
+	}, [])
+
 	return (
-		<ScrollAreaRoot className={clsx(className)}>
+		<ScrollAreaRoot className={clsx(className)} {...rest}>
 			<ScrollAreaViewport ref={setScrollParent}>{renderScrollArea(scrollParent)}</ScrollAreaViewport>
 			<ScrollAreaScrollbar orientation="vertical">
 				<ScrollAreaThumb />

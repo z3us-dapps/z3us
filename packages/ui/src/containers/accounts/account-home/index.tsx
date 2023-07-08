@@ -20,7 +20,7 @@ import { AccountCard } from 'ui/src/containers/accounts/account-card'
 import { AccountRoutes } from 'ui/src/containers/accounts/account-routes'
 
 // move to containers ... rename
-import { ScrollPanel, useIsMobileScroll } from '../scroll-panel'
+import { ScrollPanel } from '../scroll-panel'
 // import { AccountsList } from 'ui/src/containers/accounts/accounts-list'
 import * as styles from './account-home.css'
 
@@ -28,9 +28,6 @@ const TAGS = Array.from({ length: 500 }).map((_, i, a) => `v1.2.0-beta.${a.lengt
 
 const AccountsHome = () => {
 	const location = useLocation()
-	const isMobileScroll = useIsMobileScroll()
-
-	console.log('🚀 ~ file: index.tsx:32 ~ AccountsHome ~ isMobileScroll:', isMobileScroll)
 
 	return (
 		<Box className={styles.accountsWrapper}>
@@ -39,12 +36,13 @@ const AccountsHome = () => {
 				renderScrollArea={(scrollMobileParent: HTMLElement) => (
 					<Box className={clsx(styles.panelWrapper)}>
 						<Box className={styles.leftPanelWrapper}>
-							<ScrollArea
-								// disabled={isMobileScroll}
-								className={styles.scrollWrapper}
-								renderScrollArea={() => (
+							{/* // TODO: component here */}
+							{/* // TODO: pass the scrollMobileParent */}
+							<ScrollPanel
+								scrollParent={scrollMobileParent}
+								renderPanel={() => (
 									<Box>
-										{Array.from({ length: 2 }, (_, i) => (
+										{Array.from({ length: 20 }, (_, i) => (
 											<Text size="xlarge" key={i}>
 												left col
 											</Text>
@@ -54,9 +52,9 @@ const AccountsHome = () => {
 							/>
 						</Box>
 						<Box className={styles.rightPanelWrapper}>
-							<ScrollArea
-								className={styles.scrollWrapper}
-								renderScrollArea={(scrollRightPanelParent: HTMLElement) => (
+							<ScrollPanel
+								scrollParent={scrollMobileParent}
+								renderPanel={(scrollRef: HTMLElement) => (
 									<Box>
 										{Array.from({ length: 20 }, (_, i) => (
 											<Text size="xlarge" key={i}>
@@ -67,7 +65,7 @@ const AccountsHome = () => {
 											<Virtuoso
 												data={TAGS}
 												itemContent={(index, tag) => <div className="Tag">{tag}</div>}
-												customScrollParent={isMobileScroll ? scrollMobileParent : scrollRightPanelParent}
+												customScrollParent={scrollRef ?? undefined}
 											/>
 										</Box>
 									</Box>

@@ -82,7 +82,7 @@ export const scrollWrapper = style([
 
 export const leftPanelWrapper = style([
 	sprinkles({
-		display: 'block',
+		display: 'flex',
 		flexShrink: 0,
 		flexGrow: 1,
 	}),
@@ -130,32 +130,6 @@ export const rightPanelWrapper = style([
 	}),
 ])
 
-export const rightPanelOld = style([
-	sprinkles({
-		display: {
-			mobile: 'none',
-			tablet: 'flex',
-		},
-		flexDirection: 'column',
-		flexShrink: 0,
-		overflow: 'clip',
-	}),
-	{
-		width: '392px',
-		flexBasis: '392px',
-	},
-	responsiveStyle({
-		tablet: {
-			width: '40%',
-			flexBasis: '40%',
-		},
-		desktop: {
-			width: '392px',
-			flexBasis: '392px',
-		},
-	}),
-])
-
 export const mobileScrollWrapper = style([
 	sprinkles({
 		position: 'relative',
@@ -176,15 +150,4 @@ export const mobileScrollWrapper = style([
 			height: '100%',
 		},
 	}),
-])
-
-export const testScroll = style([
-	sprinkles({}),
-	{
-		width: '200px',
-		height: '200px',
-		border: '1px solid green',
-	},
-	// responsiveStyle({
-	// }),
 ])
