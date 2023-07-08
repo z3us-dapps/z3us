@@ -39,10 +39,10 @@ interface IScrollAreaRadix extends ScrollAreaPrimitive.ScrollAreaProps {
 }
 
 export const ScrollAreaRadix = ({ children, ...props }: IScrollAreaRadix) => {
-	const { className, fixHeight, renderScrollArea, ...rest } = props
+	const { className, fixHeight, renderScrollArea, disabled, ...rest } = props
 
 	const [scrollParent, setScrollParent] = useState<HTMLElement | null>(null)
-	const [scrollHeight, setScrollHeight] = useState<number | undefined>(undefined)
+	const [scrollHeight, setScrollHeight] = useState<number | undefined>(1)
 
 	useEffect(() => {
 		const resizeObserver = new ResizeObserver(entries => {
@@ -63,7 +63,7 @@ export const ScrollAreaRadix = ({ children, ...props }: IScrollAreaRadix) => {
 
 	return (
 		<ScrollAreaRoot
-			className={clsx(className)}
+			className={clsx(className, disabled && styles.scrollAreaRootDisabledWrapper)}
 			style={{ ...(scrollHeight ? { height: `${scrollHeight}px` } : {}) }}
 			{...rest}
 		>
@@ -71,7 +71,6 @@ export const ScrollAreaRadix = ({ children, ...props }: IScrollAreaRadix) => {
 			<ScrollAreaScrollbar orientation="vertical">
 				<ScrollAreaThumb />
 			</ScrollAreaScrollbar>
-			<ScrollAreaCorner />
 		</ScrollAreaRoot>
 	)
 }

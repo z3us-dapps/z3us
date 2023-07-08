@@ -20,7 +20,7 @@ import { AccountCard } from 'ui/src/containers/accounts/account-card'
 import { AccountRoutes } from 'ui/src/containers/accounts/account-routes'
 
 // move to containers ... rename
-import { ScrollPanel } from '../scroll-panel'
+import { ScrollPanel, useIsMobileScroll } from '../scroll-panel'
 // import { AccountsList } from 'ui/src/containers/accounts/accounts-list'
 import * as styles from './account-home.css'
 
@@ -28,16 +28,16 @@ const TAGS = Array.from({ length: 500 }).map((_, i, a) => `v1.2.0-beta.${a.lengt
 
 const AccountsHome = () => {
 	const location = useLocation()
+	const isMobileScroll = useIsMobileScroll()
 
 	return (
 		<Box className={styles.accountsWrapper}>
 			<ScrollArea
+				disabled={!isMobileScroll}
 				className={styles.mobileScrollWrapper}
 				renderScrollArea={(scrollMobileParent: HTMLElement) => (
-					<Box className={clsx(styles.panelWrapper)}>
+					<Box className={styles.panelWrapper}>
 						<Box className={styles.leftPanelWrapper}>
-							{/* // TODO: component here */}
-							{/* // TODO: pass the scrollMobileParent */}
 							<ScrollPanel
 								scrollParent={scrollMobileParent}
 								renderPanel={() => (

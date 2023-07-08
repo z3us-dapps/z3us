@@ -19,9 +19,11 @@ interface IScrollPanelProps {
 	renderPanel: (scrollRef: HTMLElement | null) => any
 }
 
+export const useIsMobileScroll = () => useMediaQuery(`(max-width: ${TABLET_BREAK_POINT}px)`)
+
 export const ScrollPanel: React.FC<IScrollPanelProps> = props => {
 	const { className, scrollParent, renderPanel } = props
-	const isMobileScroll = useMediaQuery(`(max-width: ${TABLET_BREAK_POINT}px)`)
+	const isMobileScroll = useIsMobileScroll()
 
 	return (
 		<ScrollArea

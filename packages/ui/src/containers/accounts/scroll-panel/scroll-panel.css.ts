@@ -7,18 +7,15 @@ import { vars } from 'ui/src/components/system/theme.css'
 export const scrollWrapper = style([
 	sprinkles({
 		position: 'relative',
+		width: 'full',
 	}),
-	{
-		// height: '500px',
-		// maxHeight: '500px',
-		border: '1px solid red',
-		// maxHeight: '100px',
-	},
+	{},
 	responsiveStyle({
 		tablet: {
 			maxHeight: 'calc(100vh - 168px)',
-			// maxHeight: 'calc(100vh - 168px)',
-			width: '90%',
+			borderRadius: vars.border.radius.xlarge,
+			background: vars.color.backgroundSecondary,
+			boxShadow: vars.color.shadowPanel,
 		},
 	}),
 ])

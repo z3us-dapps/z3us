@@ -49,33 +49,12 @@ export const panelWrapper = style([
 		width: 'full',
 		height: 'full',
 	}),
-	{
-		border: '1px solid blue',
-	},
+	{},
 
 	responsiveStyle({
 		tablet: {
 			height: 'calc(100vh - 168px)',
 			// maxHeight: 'calc(100vh - 168px)',
-		},
-	}),
-])
-
-export const scrollWrapper = style([
-	sprinkles({
-		position: 'relative',
-	}),
-	{
-		// height: '500px',
-		// maxHeight: '500px',
-		border: '1px solid red',
-		// maxHeight: '100px',
-	},
-	responsiveStyle({
-		tablet: {
-			maxHeight: 'calc(100vh - 168px)',
-			// maxHeight: 'calc(100vh - 168px)',
-			width: '90%',
 		},
 	}),
 ])
@@ -88,7 +67,6 @@ export const leftPanelWrapper = style([
 	}),
 	{
 		width: '392px',
-		background: 'pink',
 	},
 	responsiveStyle({
 		mobile: {
@@ -105,15 +83,9 @@ export const leftPanelWrapper = style([
 export const rightPanelWrapper = style([
 	sprinkles({
 		display: 'flex',
-		// display: {
-		// 	mobile: 'none',
-		// 	tablet: 'flex',
-		// },
 		flexShrink: 0,
 	}),
-	{
-		background: 'blue',
-	},
+	{},
 	responsiveStyle({
 		mobile: {
 			width: '100%',
@@ -134,12 +106,7 @@ export const mobileScrollWrapper = style([
 	sprinkles({
 		position: 'relative',
 	}),
-	{
-		// width: '600px',
-		// height: 'calc(100vh - 170px)',
-		// height: 'calc(50vh -1px)',
-		// border: '1px solid blue',
-	},
+	{},
 	responsiveStyle({
 		mobile: {
 			width: '100%',

@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { keyframes, style } from '@vanilla-extract/css'
+import { globalStyle, keyframes, style } from '@vanilla-extract/css'
 
 import { Sprinkles, sprinkles } from '../system/sprinkles.css'
 import { responsiveStyle } from '../system/theme-utils'
@@ -20,6 +20,8 @@ export const scrollAreaViewportWrapper = style([
 		borderRadius: 'inherit',
 	},
 ])
+
+export const scrollAreaRootDisabledWrapper = style([sprinkles({}), {}])
 
 export const scrollAreaScrollbarWrapper = style([
 	sprinkles({
@@ -52,7 +54,6 @@ export const scrollAreaThumbWrapper = style([
 	sprinkles({
 		position: 'relative',
 		flexGrow: 1,
-		// background: 'purple300',
 		borderRadius: 'small',
 	}),
 	{
@@ -68,7 +69,6 @@ export const scrollAreaThumbWrapper = style([
 			height: '100%',
 			minWidth: '44px',
 			minHeight: '44px',
-			background: 'red',
 		},
 	},
 ])
@@ -84,3 +84,11 @@ export const scrollAreaCornerWrapper = style([
 		background: 'brown',
 	},
 ])
+
+globalStyle(`${scrollAreaRootDisabledWrapper} > div`, {
+	overflow: 'unset !important',
+})
+
+globalStyle(`${scrollAreaRootDisabledWrapper} > ${scrollAreaScrollbarWrapper}`, {
+	display: 'none !important',
+})
