@@ -28,15 +28,15 @@ const TAGS = Array.from({ length: 500 }).map((_, i, a) => `v1.2.0-beta.${a.lengt
 
 const AccountsHome = () => {
 	const location = useLocation()
-	const ref = useRef(null)
 	const isMobileScroll = useIsMobileScroll()
-	console.log('🚀 ~ file: index.tsx:39 ~ AccountsHome ~ isMobileScroll:', isMobileScroll)
+
+	console.log('🚀 ~ file: index.tsx:32 ~ AccountsHome ~ isMobileScroll:', isMobileScroll)
 
 	return (
 		<Box className={styles.accountsWrapper}>
 			<ScrollArea
 				className={styles.mobileScrollWrapper}
-				renderScrollArea={(scrollParent: HTMLElement) => (
+				renderScrollArea={(scrollMobileParent: HTMLElement) => (
 					<Box className={clsx(styles.panelWrapper)}>
 						<Box className={styles.leftPanelWrapper}>
 							<ScrollArea
@@ -56,13 +56,20 @@ const AccountsHome = () => {
 						<Box className={styles.rightPanelWrapper}>
 							<ScrollArea
 								className={styles.scrollWrapper}
-								renderScrollArea={() => (
+								renderScrollArea={(scrollRightPanelParent: HTMLElement) => (
 									<Box>
-										{Array.from({ length: 200 }, (_, i) => (
+										{Array.from({ length: 20 }, (_, i) => (
 											<Text size="xlarge" key={i}>
 												right
 											</Text>
 										))}
+										<Box style={{ width: '300px', border: '1px solid blue' }}>
+											<Virtuoso
+												data={TAGS}
+												itemContent={(index, tag) => <div className="Tag">{tag}</div>}
+												customScrollParent={isMobileScroll ? scrollMobileParent : scrollRightPanelParent}
+											/>
+										</Box>
 									</Box>
 								)}
 							/>
@@ -82,15 +89,6 @@ const AccountsHome = () => {
 // 		sit eu dapibus arcu pellentesque.
 // 	</Text>
 // ))}
-{
-	/* <Box style={{ width: '300px', border: '1px solid blue' }}>
-							<Virtuoso
-								data={TAGS}
-								itemContent={(index, tag) => <div className="Tag">{tag}</div>}
-								customScrollParent={scrollParent ?? undefined}
-							/>
-						</Box> */
-}
 
 export default AccountsHome
 

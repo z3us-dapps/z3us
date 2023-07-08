@@ -49,7 +49,16 @@ export const panelWrapper = style([
 		width: 'full',
 		height: 'full',
 	}),
-	{},
+	{
+		border: '1px solid blue',
+	},
+
+	responsiveStyle({
+		tablet: {
+			height: 'calc(100vh - 168px)',
+			// maxHeight: 'calc(100vh - 168px)',
+		},
+	}),
 ])
 
 export const scrollWrapper = style([
@@ -59,10 +68,13 @@ export const scrollWrapper = style([
 	{
 		// height: '500px',
 		// maxHeight: '500px',
+		border: '1px solid red',
+		// maxHeight: '100px',
 	},
 	responsiveStyle({
 		tablet: {
 			maxHeight: 'calc(100vh - 168px)',
+			// maxHeight: 'calc(100vh - 168px)',
 			width: '90%',
 		},
 	}),
@@ -70,7 +82,7 @@ export const scrollWrapper = style([
 
 export const leftPanelWrapper = style([
 	sprinkles({
-		display: 'flex',
+		display: 'block',
 		flexShrink: 0,
 		flexGrow: 1,
 	}),
