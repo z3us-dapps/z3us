@@ -34,20 +34,39 @@ export const ScrollAreaCorner = ({ ...props }) => (
 
 interface IScrollAreaRadix extends ScrollAreaPrimitive.ScrollAreaProps {
 	disabled?: boolean
+	fixHeight?: boolean
 	renderScrollArea: (scrollParent: HTMLElement | null) => any
 }
 
 export const ScrollAreaRadix = ({ children, ...props }: IScrollAreaRadix) => {
-	const { className, renderScrollArea, ...rest } = props
+	const { className, fixHeight, renderScrollArea, ...rest } = props
 
 	const [scrollParent, setScrollParent] = useState<HTMLElement | null>(null)
+	const [scrollHeight, setScrollHeight] = useState<number | undefined>(undefined)
 
 	useEffect(() => {
-		console.log('hello')
-	}, [])
+		const resizeObserver = new ResizeObserver(entries => {
+			const observedHeight = entries[0].contentRect.height
+			setScrollHeight(observedHeight)
+		})
+
+		if (fixHeight && scrollParent?.firstChild instanceof HTMLElement) {
+			resizeObserver.observe(scrollParent?.firstChild)
+		}
+
+		return () => {
+			if (fixHeight && scrollParent?.firstChild) {
+				resizeObserver.disconnect()
+			}
+		}
+	}, [fixHeight, scrollParent])
 
 	return (
-		<ScrollAreaRoot className={clsx(className)} {...rest}>
+		<ScrollAreaRoot
+			className={clsx(className)}
+			style={{ ...(scrollHeight ? { height: `${scrollHeight}px` } : {}) }}
+			{...rest}
+		>
 			<ScrollAreaViewport ref={setScrollParent}>{renderScrollArea(scrollParent)}</ScrollAreaViewport>
 			<ScrollAreaScrollbar orientation="vertical">
 				<ScrollAreaThumb />

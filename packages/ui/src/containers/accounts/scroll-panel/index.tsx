@@ -14,7 +14,7 @@ import * as styles from './scroll-panel.css'
 const TABLET_BREAK_POINT = parseInt(screensJson.screens.md.value.replace('px', ''), 10)
 
 interface IScrollPanelProps {
-	className: ClassValue
+	className?: ClassValue
 	scrollParent: HTMLElement | null
 	renderPanel: (scrollRef: HTMLElement | null) => any
 }
@@ -25,6 +25,7 @@ export const ScrollPanel: React.FC<IScrollPanelProps> = props => {
 
 	return (
 		<ScrollArea
+			fixHeight
 			className={clsx(styles.scrollWrapper, className)}
 			renderScrollArea={panelRef => renderPanel(isMobileScroll ? scrollParent : panelRef)}
 		/>

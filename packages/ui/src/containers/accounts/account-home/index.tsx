@@ -42,7 +42,7 @@ const AccountsHome = () => {
 								scrollParent={scrollMobileParent}
 								renderPanel={() => (
 									<Box>
-										{Array.from({ length: 20 }, (_, i) => (
+										{Array.from({ length: 2 }, (_, i) => (
 											<Text size="xlarge" key={i}>
 												left col
 											</Text>
@@ -56,7 +56,7 @@ const AccountsHome = () => {
 								scrollParent={scrollMobileParent}
 								renderPanel={(scrollRef: HTMLElement) => (
 									<Box>
-										{Array.from({ length: 20 }, (_, i) => (
+										{Array.from({ length: 10 }, (_, i) => (
 											<Text size="xlarge" key={i}>
 												right
 											</Text>
