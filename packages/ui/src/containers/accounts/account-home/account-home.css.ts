@@ -22,9 +22,7 @@ export const accountsWrapper = style([
 		},
 		height: 'full',
 	}),
-	{
-		border: '1px solid blue',
-	},
+	{},
 ])
 
 export const accountsContainerWrapper = style([
@@ -44,31 +42,83 @@ export const panelWrapper = style([
 			tablet: 'large',
 			desktop: 'xlarge',
 		},
-		width: 'full',
-		height: 'full',
 		flexDirection: {
-			mobile: 'column',
+			mobile: 'column-reverse',
 			tablet: 'row',
 		},
+		width: 'full',
+		height: 'full',
 	}),
 	{},
 ])
 
-export const leftPanel = style([
+export const scrollWrapper = style([
 	sprinkles({
 		position: 'relative',
-		flexGrow: 1,
-		flexShrink: 0,
 	}),
-	{},
-	// responsiveStyle({
-	// 	mobile: {
-	// 		background: '#8A4AE1',
-	// 	},
-	// }),
+	{
+		// height: '500px',
+		// maxHeight: '500px',
+	},
+	responsiveStyle({
+		tablet: {
+			maxHeight: 'calc(100vh - 168px)',
+			width: '90%',
+		},
+	}),
 ])
 
-export const rightPanel = style([
+export const leftPanelWrapper = style([
+	sprinkles({
+		display: 'flex',
+		flexShrink: 0,
+		flexGrow: 1,
+	}),
+	{
+		width: '392px',
+		background: 'pink',
+	},
+	responsiveStyle({
+		mobile: {
+			width: '100%',
+			flexBasis: '100%',
+		},
+		tablet: {
+			width: '392px',
+			flexBasis: '392px',
+		},
+	}),
+])
+
+export const rightPanelWrapper = style([
+	sprinkles({
+		display: 'flex',
+		// display: {
+		// 	mobile: 'none',
+		// 	tablet: 'flex',
+		// },
+		flexShrink: 0,
+	}),
+	{
+		background: 'blue',
+	},
+	responsiveStyle({
+		mobile: {
+			width: '100%',
+			flexBasis: '100%',
+		},
+		tablet: {
+			width: '40%',
+			flexBasis: '40%',
+		},
+		desktop: {
+			width: '392px',
+			flexBasis: '392px',
+		},
+	}),
+])
+
+export const rightPanelOld = style([
 	sprinkles({
 		display: {
 			mobile: 'none',
@@ -92,4 +142,37 @@ export const rightPanel = style([
 			flexBasis: '392px',
 		},
 	}),
+])
+
+export const mobileScrollWrapper = style([
+	sprinkles({
+		position: 'relative',
+	}),
+	{
+		// width: '600px',
+		// height: 'calc(100vh - 170px)',
+		// height: 'calc(50vh -1px)',
+		// border: '1px solid blue',
+	},
+	responsiveStyle({
+		mobile: {
+			width: '100%',
+			height: 'calc(100vh - 106px)',
+		},
+		tablet: {
+			width: '100%',
+			height: '100%',
+		},
+	}),
+])
+
+export const testScroll = style([
+	sprinkles({}),
+	{
+		width: '200px',
+		height: '200px',
+		border: '1px solid green',
+	},
+	// responsiveStyle({
+	// }),
 ])

@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 
-export const useMinWidthMatch = (minWidth: string): boolean => {
+export const useMinWidthMatch = (minWidth: string | number): boolean => {
 	const [isMatch, setIsMatch] = useState<boolean>(true)
 
 	useEffect(() => {

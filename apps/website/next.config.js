@@ -10,7 +10,7 @@ const config = {
 	experimental: {
 		appDir: false,
 	},
-	reactStrictMode: true,
+	reactStrictMode: true, // disabled for `react-scrollbars-custom-2`
 	swcMinify: true,
 	transpilePackages: ['ui'],
 	output: 'export',

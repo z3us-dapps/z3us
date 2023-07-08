@@ -26,11 +26,10 @@ export const scrollAreaWrapperDisablePointerEvents = style([
 
 export const scrollAreaSimpleBarDisabledWrapper = style([
 	sprinkles({
-		// pointerEvents: 'none',
+		position: 'relative',
+		width: 'full',
 	}),
-	{
-		border: '1px solid red',
-	},
+	{},
 ])
 
 export const scrollAreaTopShadow = style([

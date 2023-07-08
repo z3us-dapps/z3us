@@ -75,7 +75,6 @@ export const ScrollArea: React.FC<IProps> = ({
 	useEffect(() => {
 		const scrollRef = sRef?.current?.getScrollElement()
 		if (isSimpleBarDisabled) {
-			console.log('is DISABLD')
 			sRef?.current.unMount()
 		} else {
 			const simpleBarContent = scrollRef.getElementsByClassName('simplebar-content')[0]

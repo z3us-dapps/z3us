@@ -2,6 +2,7 @@ import clsx from 'clsx'
 import screensJson from 'design/tokens/foundation/screens.json'
 import React, { useEffect, useRef, useState } from 'react'
 import { useLocation } from 'react-router-dom'
+import { useMediaQuery } from 'usehooks-ts'
 
 import { Box } from 'ui/src/components/box'
 import { ScrollArea } from 'ui/src/components/scroll-area'
@@ -15,8 +16,8 @@ interface IScrollPanelProps {
 	isTopShadowVisible?: boolean
 }
 
-const DESKTOP_BREAK_POINT = screensJson.screens.lg.value.replace('px', '')
-const TABLET_BREAK_POINT = screensJson.screens.md.value.replace('px', '')
+const DESKTOP_BREAK_POINT = parseInt(screensJson.screens.lg.value.replace('px', ''), 10)
+const TABLET_BREAK_POINT = parseInt(screensJson.screens.md.value.replace('px', ''), 10)
 
 export const ScrollPanel: React.FC<IScrollPanelProps> = props => {
 	const { renderPanel, className, scrollTopOnRoute, isTopShadowVisible } = props
@@ -28,8 +29,7 @@ export const ScrollPanel: React.FC<IScrollPanelProps> = props => {
 	const [listMaxHeight, setListMaxHeight] = useState<number>(300)
 	const [listHeight, setListHeight] = useState<number>(200)
 	const [scrollTop, setScrollTop] = useState<number>(0)
-
-	const isSimpleBarDisabled = true
+	const [isSimpleBarDisabled, setIsSimpleBarDisabled] = useState<boolean>(window.innerWidth < TABLET_BREAK_POINT)
 
 	const handleScroll = (e: Event) => {
 		const target = e.target as Element
@@ -40,8 +40,7 @@ export const ScrollPanel: React.FC<IScrollPanelProps> = props => {
 	const setListSize = () => {
 		const listRef = ref.current
 		if (listRef) {
-			const isTabletWidth =
-				window.innerWidth > parseInt(TABLET_BREAK_POINT, 10) && window.innerWidth < parseInt(DESKTOP_BREAK_POINT, 10)
+			const isTabletWidth = window.innerWidth >= TABLET_BREAK_POINT && window.innerWidth < DESKTOP_BREAK_POINT
 			const simpleBarContent = listRef.getElementsByClassName('simplebar-content')[0]
 			setListHeight(simpleBarContent?.offsetHeight || 100)
 			const listBounding = listRef.getBoundingClientRect()
@@ -67,8 +66,10 @@ export const ScrollPanel: React.FC<IScrollPanelProps> = props => {
 			ref={ref}
 			className={clsx(styles.panelWrapper, className)}
 			style={{
-				height: `${listHeight}px`,
-				maxHeight: `${listMaxHeight}px`,
+				height: `${200}px`,
+				maxHeight: `${200}px`,
+				// height: `${listHeight}px`,
+				// maxHeight: `${listMaxHeight}px`,
 			}}
 		>
 			<ScrollArea
@@ -76,10 +77,16 @@ export const ScrollPanel: React.FC<IScrollPanelProps> = props => {
 				onScrollAreaSizeChange={setListSize}
 				onScroll={handleScroll}
 				isTopShadowVisible={isTopShadowVisible}
-				isSimpleBarDisabled={isSimpleBarDisabled}
+				// isSimpleBarDisabled={isSimpleBarDisabled}
 			>
 				{renderPanel(panelRef)}
 			</ScrollArea>
 		</Box>
 	)
+}
+
+export const useIsMobileScroll = (): boolean => {
+	const isMobileScroll = useMediaQuery(`(max-width: ${TABLET_BREAK_POINT}px)`)
+
+	return isMobileScroll
 }
