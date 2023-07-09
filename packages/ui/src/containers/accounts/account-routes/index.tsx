@@ -10,6 +10,10 @@ import { Link } from 'ui/src/components/router-link'
 import * as skeletonStyles from 'ui/src/components/styles/skeleton-loading.css'
 import { TransactionIcon } from 'ui/src/components/transaction-icon'
 import { Text } from 'ui/src/components/typography'
+// OLD
+import { AccountIndexAssets } from 'ui/src/containers/accounts/account-index-assets'
+import { AccountIndexHeader } from 'ui/src/containers/accounts/account-index-header'
+import { AccountsList } from 'ui/src/containers/accounts/accounts-list'
 import { useAccountParams } from 'ui/src/hooks/use-account-params'
 
 import * as styles from './account-routes.css'
@@ -32,6 +36,13 @@ export const AccountRoutes: React.FC<IAccountRoutesProps> = props => {
 	useEffect(() => {
 		setItems(Array.from({ length: 40 }, _ => ({ id: hash(), name: hash(), loaded: false, symbol: 'xrd' })))
 	}, [])
+
+	return (
+		<>
+			<AccountIndexHeader />
+			<AccountIndexAssets scrollableNode={scrollableNode} />
+		</>
+	)
 
 	return (
 		<div>

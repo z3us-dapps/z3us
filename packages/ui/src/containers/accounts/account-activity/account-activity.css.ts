@@ -9,7 +9,10 @@ export const activityWrapper = style([
 	sprinkles({
 		position: 'relative',
 		background: 'backgroundSecondary',
-		display: 'flex',
+		display: {
+			mobile: 'none',
+			tablet: 'flex',
+		},
 		flexDirection: 'column',
 		borderBottomRightRadius: 'large',
 		borderBottomLeftRadius: 'large',
