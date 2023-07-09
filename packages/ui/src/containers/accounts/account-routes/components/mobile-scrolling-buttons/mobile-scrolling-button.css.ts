@@ -74,14 +74,15 @@ export const accountRoutesScrollingStickySheet = style([
 export const accountRoutesScrollingStickyBtnWrapper = style([
 	sprinkles({
 		position: 'sticky',
-		top: 0,
 		zIndex: 1,
 		display: {
 			mobile: 'block',
 			tablet: 'none',
 		},
 	}),
-	{},
+	{
+		top: '-1px',
+	},
 ])
 
 export const accountRoutesScrollingStickyBtnInner = style([

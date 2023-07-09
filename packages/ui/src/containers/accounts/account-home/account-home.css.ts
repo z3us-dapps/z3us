@@ -3,6 +3,7 @@ import { globalStyle, style } from '@vanilla-extract/css'
 
 import { darkMode, sprinkles } from 'ui/src/components/system/sprinkles.css'
 import { responsiveStyle } from 'ui/src/components/system/theme-utils'
+import { vars } from 'ui/src/components/system/theme.css'
 
 export const accountsWrapper = style([
 	sprinkles({
@@ -23,6 +24,14 @@ export const accountsWrapper = style([
 		height: 'full',
 	}),
 	{},
+	responsiveStyle({
+		mobile: {
+			background: vars.color.purple600,
+		},
+		tablet: {
+			background: 'transparent',
+		},
+	}),
 ])
 
 export const accountsContainerWrapper = style([

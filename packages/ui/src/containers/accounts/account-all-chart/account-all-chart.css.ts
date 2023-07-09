@@ -9,6 +9,10 @@ export const allChartWrapper = style([
 	sprinkles({
 		paddingTop: 'large',
 		paddingX: 'large',
+		paddingBottom: {
+			mobile: 'large',
+			tablet: 'none',
+		},
 	}),
 	{},
 ])

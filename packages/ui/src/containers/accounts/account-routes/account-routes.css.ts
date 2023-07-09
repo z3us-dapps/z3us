@@ -14,7 +14,7 @@ export const accountRoutesWrapper = style([
 
 	responsiveStyle({
 		mobile: {
-			background: '#8A4AE1',
+			// background: '#8A4AE1',
 			// minHeight: 'calc(100vh - 58px - 48px)',
 		},
 		tablet: {
@@ -50,12 +50,11 @@ export const accountRoutesScrollingStickySheet = style([
 	}),
 	{
 		height: '0px',
-		background: 'green',
 		'::before': {
 			content: '" "',
 			position: 'absolute',
-			bottom: '-calc(100vh - 300px)',
-			height: 'calc(100vh - 300px)',
+			bottom: '-calc(100vh)',
+			height: 'calc(100vh)',
 			left: '0',
 			right: '0',
 			pointerEvents: 'none',

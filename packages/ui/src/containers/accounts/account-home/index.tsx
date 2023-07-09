@@ -53,13 +53,13 @@ const AccountsHome = () => {
 							<ScrollPanel
 								scrollParent={scrollMobileParent}
 								renderPanel={(scrollRef: HTMLElement) => (
-									<Box>
+									<>
 										<AccountAllChart />
 										<AccountCard />
 										<AccountAssetInfo />
 										<AccountActivitySearch scrollableNode={scrollRef} />
 										<AccountActivity scrollableNode={scrollRef} />
-									</Box>
+									</>
 								)}
 							/>
 						</Box>

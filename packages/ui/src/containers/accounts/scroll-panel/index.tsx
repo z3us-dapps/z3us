@@ -24,6 +24,7 @@ export const ScrollPanel: React.FC<IScrollPanelProps> = props => {
 	return (
 		<ScrollArea
 			fixHeight
+			disabled={isMobileScroll}
 			className={clsx(styles.scrollWrapper, className)}
 			renderScrollArea={panelRef => renderPanel(isMobileScroll ? scrollParent : panelRef)}
 		/>
