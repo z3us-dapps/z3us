@@ -24,7 +24,7 @@ import { ScrollPanel, useIsMobileScroll } from '../scroll-panel'
 // import { AccountsList } from 'ui/src/containers/accounts/accounts-list'
 import * as styles from './account-home.css'
 
-const TAGS = Array.from({ length: 500 }).map((_, i, a) => `v1.2.0-beta.${a.length - i}`)
+// const TAGS = Array.from({ length: 500 }).map((_, i, a) => `v1.2.0-beta.${a.length - i}`)
 
 const AccountsHome = () => {
 	const location = useLocation()

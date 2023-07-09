@@ -19,7 +19,9 @@ export const allChartInnerWrapper = style([
 		background: 'backgroundPrimary',
 		width: 'full',
 	}),
-	{},
+	{
+		aspectRatio: '8 / 5',
+	},
 ])
 
 globalStyle(`${allChartInnerWrapper} .recharts-layer.recharts-pie-sector path:focus`, {
@@ -36,14 +38,14 @@ export const motionWrapper = style([
 	}),
 ])
 
-
 export const chartLoadingWrapper = style([
 	sprinkles({
 		display: 'flex',
 		alignItems: 'center',
-	}), {
-		minHeight: '200px'
-	}
+	}),
+	{
+		minHeight: '200px',
+	},
 ])
 
 export const pieChartWrapper = style([
@@ -51,9 +53,8 @@ export const pieChartWrapper = style([
 		display: 'flex',
 		alignItems: 'center',
 		paddingTop: 'medium',
-	}), {
-		height: '220px'
-	}
+	}),
+	{},
 ])
 
 export const accountsListWrapper = style([
@@ -64,8 +65,7 @@ export const accountsListWrapper = style([
 		paddingX: 'large',
 		paddingBottom: 'medium',
 	}),
-	{
-	},
+	{},
 ])
 
 export const accountDotBg = style([
