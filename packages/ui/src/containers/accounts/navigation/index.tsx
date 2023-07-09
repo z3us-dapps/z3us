@@ -91,7 +91,7 @@ export const DesktopNavigation: React.FC = () => {
 				</Box>
 				<AccountDesktopLavaMenu />
 				<Box display="flex" alignItems="center" gap="medium">
-					<NotificationsDropdown />
+					{/* <NotificationsDropdown /> */}
 					<CopyAddressButton address={selectedAccount} />
 					<AccountViewDropdown />
 					<WalletDropdown />
