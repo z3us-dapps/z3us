@@ -32,7 +32,7 @@ const App: React.FC = () => {
 				<Routes location={location} key={locationArr[1]}>
 					{['/', routes.ACCOUNTS].map(path => (
 						<Route
-							key="Accounts" // optional: avoid full re-renders on route changes
+							key={routes.ACCOUNTS} // optional: avoid full re-renders on route changes
 							path={path}
 							element={<Navigate to={`${routes.ACCOUNTS}/all`} />}
 						/>

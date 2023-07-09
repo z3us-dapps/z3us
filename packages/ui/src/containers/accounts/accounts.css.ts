@@ -12,6 +12,7 @@ export const accountsWrapper = style([
 		maxWidth: 'full',
 		width: 'vw100',
 		flexDirection: 'column',
+		background: 'backgroundPrimary',
 	}),
 	{},
 ])

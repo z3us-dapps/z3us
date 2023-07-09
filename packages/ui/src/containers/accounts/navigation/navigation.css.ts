@@ -44,19 +44,6 @@ export const navigationMenu = style([
 	{},
 ])
 
-export const navigationMenuTabletWrapper = style([
-	sprinkles({
-		flexGrow: 1,
-		paddingLeft: 'medium',
-		display: {
-			mobile: 'none',
-			tablet: 'flex',
-			desktop: 'none',
-		},
-	}),
-	{},
-])
-
 export const navigationMenuActiveLine = style([
 	sprinkles({
 		position: 'absolute',

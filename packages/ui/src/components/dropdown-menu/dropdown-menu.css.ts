@@ -38,11 +38,11 @@ export const sharedPopoverBgSprinkles = {
 	background: 'backgroundSecondary',
 	boxShadow: {
 		lightMode: 'shadowDropdown',
-		// TODO: remove ?
-		// focusVisible: 'shadowDropdownFocusVisible',
 	},
 	color: 'colorNeutral',
 	borderRadius: 'medium',
+	position: 'relative',
+	zIndex: 1,
 }
 
 export const sharedPopoverBgStyles = {

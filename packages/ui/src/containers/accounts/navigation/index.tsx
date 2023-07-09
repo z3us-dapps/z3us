@@ -26,7 +26,6 @@ import {
 	SwitchHorizontal,
 	Z3usIcon,
 } from 'ui/src/components/icons'
-import { NotificationsDropdown } from 'ui/src/components/notifications-dropdown'
 import { PillNavigation } from 'ui/src/components/pill-navigation'
 import { Link } from 'ui/src/components/router-link'
 import * as containerStyles from 'ui/src/components/styles/container-styles.css'
@@ -36,7 +35,6 @@ import { WalletDropdown } from 'ui/src/components/wallet-dropdown'
 import { Z3usLogo } from 'ui/src/components/z3us-logo-babylon'
 import { accountMenuSlugs } from 'ui/src/constants/accounts'
 import { routes } from 'ui/src/constants/routes'
-import { AccountTabletNavigationDropdown } from 'ui/src/containers/accounts/account-tablet-navigation-dropdown'
 import { useAccountParams } from 'ui/src/hooks/use-account-params'
 
 import { AccountViewDropdown } from './account-view-dropdown'
@@ -86,12 +84,8 @@ export const DesktopNavigation: React.FC = () => {
 				<Link to={accountMenuSlugs.ACCOUNTS}>
 					<Z3usLogo />
 				</Link>
-				<Box className={styles.navigationMenuTabletWrapper}>
-					<AccountTabletNavigationDropdown />
-				</Box>
 				<AccountDesktopLavaMenu />
-				<Box display="flex" alignItems="center" gap="medium">
-					{/* <NotificationsDropdown /> */}
+				<Box display="flex" alignItems="center" gap="medium" flexGrow={1} justifyContent="flex-end">
 					<CopyAddressButton address={selectedAccount} />
 					<AccountViewDropdown />
 					<WalletDropdown />
@@ -162,11 +156,7 @@ export const MobileHeaderNavigation = forwardRef<HTMLElement, IMobileHeaderNavig
 						<Link to={accountMenuSlugs.ACCOUNTS}>
 							<Z3usLogo />
 						</Link>
-						<AccountViewDropdown
-							styleVariant="tertiary"
-							// styleVariant={isAllAccount ? 'tertiary' : 'white-transparent'}
-							isLeftButtonIconVisible={false}
-						/>
+						<AccountViewDropdown styleVariant="tertiary" isLeftButtonIconVisible={false} />
 					</Box>
 					<Box display="flex" alignItems="center" gap="medium">
 						<ConnectButton />
