@@ -64,7 +64,7 @@ export const ScrollAreaRadix = ({ children, ...props }: IScrollAreaRadix) => {
 	return (
 		<ScrollAreaRoot
 			className={clsx(className, disabled && styles.scrollAreaRootDisabledWrapper)}
-			style={{ ...(scrollHeight ? { height: `${scrollHeight}px` } : {}) }}
+			style={{ ...(fixHeight && scrollHeight ? { height: `${scrollHeight}px` } : {}) }}
 			{...rest}
 		>
 			<ScrollAreaViewport ref={setScrollParent}>{renderScrollArea(scrollParent)}</ScrollAreaViewport>

@@ -36,7 +36,7 @@ export const AccountRoutes: React.FC<IAccountRoutesProps> = props => {
 	return (
 		<div>
 			<div>
-				{Array.from({ length: 20 }, (_, i) => (
+				{Array.from({ length: 2 }, (_, i) => (
 					<Text size="xlarge" key={i}>
 						Lorum ipsumIn convallis vel neque facilisis est mi in varius gravida eget convallis convallis ut velit
 						lacus, eros faucibus odio. Varius dui porttitor eu ac egestas in tempus nisi suscipit fusce urna. Vitae

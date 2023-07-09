@@ -40,14 +40,22 @@ const AccountsHome = () => {
 						<Box className={styles.leftPanelWrapper}>
 							<ScrollPanel
 								scrollParent={scrollMobileParent}
-								renderPanel={() => (
-									<Box>
-										{Array.from({ length: 2 }, (_, i) => (
-											<Text size="xlarge" key={i}>
-												left col
-											</Text>
-										))}
-									</Box>
+								renderPanel={(scrollRef: HTMLElement) => (
+									<AnimatePresence initial={false}>
+										<Routes location={location} key={location.pathname}>
+											{[routes.ACCOUNT, routes.ACCOUNT_ASSET_TYPE, routes.ACCOUNT_ASSET].map(path => (
+												<Route
+													key={routes.ACCOUNT} // single key to avoid full re-renders when these routes change
+													path={path}
+													element={
+														<AnimatedPage>
+															<AccountRoutes scrollableNode={scrollRef} />
+														</AnimatedPage>
+													}
+												/>
+											))}
+										</Routes>
+									</AnimatePresence>
 								)}
 							/>
 						</Box>
@@ -56,6 +64,9 @@ const AccountsHome = () => {
 								scrollParent={scrollMobileParent}
 								renderPanel={(scrollRef: HTMLElement) => (
 									<Box>
+										<AccountAllChart />
+										<AccountCard />
+										<AccountAssetInfo />
 										{Array.from({ length: 10 }, (_, i) => (
 											<Text size="xlarge" key={i}>
 												right
@@ -79,55 +90,4 @@ const AccountsHome = () => {
 	)
 }
 
-// {Array.from({ length: 2 }, (_, i) => (
-// 	<Text size="xlarge" key={i}>
-// 		Lorum ipsumIn convallis vel neque facilisis est mi in varius gravida eget convallis convallis ut velit
-// 		lacus, eros faucibus odio. Varius dui porttitor eu ac egestas in tempus nisi suscipit fusce urna. Vitae
-// 		semper velit facilisis nunc, suspendisse vivamus duis vestibulum ullamcorper dui lectus sapien tempus
-// 		sit eu dapibus arcu pellentesque.
-// 	</Text>
-// ))}
-
 export default AccountsHome
-
-// <Box className={styles.accountsContainerWrapper}>
-
-// <Box className={clsx(styles.panelWrapper)}>
-// 	<ScrollPanel
-// 		isTopShadowVisible={false}
-// 		className={styles.leftPanel}
-// 		renderPanel={(scrollableNode: HTMLElement | null) => (
-// 			<AnimatePresence initial={false}>
-// 				<Routes location={location} key={location.pathname}>
-// 					{[routes.ACCOUNT, routes.ACCOUNT_ASSET_TYPE, routes.ACCOUNT_ASSET].map(path => (
-// 						<Route
-// 							key={routes.ACCOUNT} // single key to avoid full re-renders when these routes change
-// 							path={path}
-// 							element={
-// 								<AnimatedPage>
-// 									<AccountRoutes
-// 										// scrollableNode={isMobileScrollEnabled ? mobileScrollableNode : scrollableNode}
-// 										scrollableNode={scrollableNode}
-// 									/>
-// 								</AnimatedPage>
-// 							}
-// 						/>
-// 					))}
-// 				</Routes>
-// 			</AnimatePresence>
-// 		)}
-// 	/>
-// 	<ScrollPanel
-// 		className={styles.rightPanel}
-// 		scrollTopOnRoute
-// 		isTopShadowVisible={false}
-// 		renderPanel={(scrollableNode: HTMLElement | null) => (
-// 			<>
-// 				<AccountAllChart />
-// 				<AccountCard />
-// 				<AccountAssetInfo />
-// 				{/* <AccountActivitySearch scrollableNode={scrollableNode} /> */}
-// 			</>
-// 		)}
-// 	/>
-// </Box>
