@@ -102,19 +102,6 @@ export const connectedMenuVisibleWrapper = style([
 	{},
 ])
 
-export const navigationMenuTabletWrapper = style([
-	sprinkles({
-		flexGrow: 1,
-		paddingLeft: 'medium',
-		display: {
-			mobile: 'none',
-			tablet: 'flex',
-			desktop: 'none',
-		},
-	}),
-	{},
-])
-
 export const navigationCopyAddressWrapper = style([
 	sprinkles({
 		display: {

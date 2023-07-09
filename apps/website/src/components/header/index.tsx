@@ -14,7 +14,6 @@ import { ConnectButton } from 'ui/src/components/connect-button'
 import { CopyAddressButton } from 'ui/src/components/copy-address-button'
 import { NotificationsDropdown } from 'ui/src/components/notifications-dropdown'
 import { Z3usLogoText } from 'ui/src/components/z3us-logo-babylon'
-import { AccountTabletNavigationDropdown } from 'ui/src/containers/accounts/account-tablet-navigation-dropdown'
 import { AccountDesktopLavaMenu, MobileMenu } from 'ui/src/containers/accounts/navigation'
 import { AccountViewDropdown } from 'ui/src/containers/accounts/navigation/account-view-dropdown'
 import { useConnected } from 'ui/src/hooks/dapp/use-connected'
@@ -49,15 +48,9 @@ export const Header = () => {
 							showUi={
 								<Box className={styles.connectedMenuVisibleWrapper}>
 									<Box flexGrow={1}>
-										<Box className={styles.navigationMenuTabletWrapper}>
-											<AccountTabletNavigationDropdown />
-										</Box>
 										<AccountDesktopLavaMenu />
 									</Box>
 									<NotificationsDropdown />
-									<Box className={styles.navigationMenuTabletWrapper}>
-										<AccountTabletNavigationDropdown />
-									</Box>
 									<Box className={styles.navigationCopyAddressWrapper}>
 										<CopyAddressButton address={selectedAccount} />
 									</Box>
