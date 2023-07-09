@@ -7,6 +7,7 @@ import { vars } from 'ui/src/components/system/theme.css'
 
 export const allChartWrapper = style([
 	sprinkles({
+		position: 'relative',
 		paddingTop: 'large',
 		paddingX: 'large',
 		paddingBottom: {
@@ -20,8 +21,10 @@ export const allChartWrapper = style([
 export const allChartInnerWrapper = style([
 	sprinkles({
 		borderRadius: 'small',
+		position: 'relative',
 		background: 'backgroundPrimary',
 		width: 'full',
+		overflow: 'hidden',
 	}),
 	{
 		aspectRatio: '8 / 5',

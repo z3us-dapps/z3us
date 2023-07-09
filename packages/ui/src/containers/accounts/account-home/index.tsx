@@ -1,3 +1,4 @@
+/* eslint-disable react/no-unstable-nested-components */
 import { AnimatePresence } from 'framer-motion'
 import React from 'react'
 import { Route, Routes, useLocation } from 'react-router-dom'
