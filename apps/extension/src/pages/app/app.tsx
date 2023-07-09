@@ -41,7 +41,7 @@ const App: React.FC = () => {
 						path={`${routes.ACCOUNTS}/*`}
 						element={
 							<AnimatedPage>
-								<Accounts />
+								<Accounts isNavigationVisible />
 							</AnimatedPage>
 						}
 					/>
