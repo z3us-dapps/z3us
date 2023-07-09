@@ -1,15 +1,8 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
-import { globalStyle, keyframes, style } from '@vanilla-extract/css'
+import { globalStyle, style } from '@vanilla-extract/css'
 
-import { Sprinkles, darkMode, sprinkles } from '../system/sprinkles.css'
-import { responsiveStyle } from '../system/theme-utils'
+import { darkMode, sprinkles } from '../system/sprinkles.css'
 
-export const scrollAreaRootWrapper = style([
-	sprinkles({
-		// background: 'backgroundPrimary',
-	}),
-	{},
-])
+export const scrollAreaRootWrapper = style([sprinkles({}), {}])
 
 export const scrollAreaViewportWrapper = style([
 	sprinkles({
@@ -21,11 +14,10 @@ export const scrollAreaViewportWrapper = style([
 	},
 ])
 
-export const scrollAreaRootDisabledWrapper = style([sprinkles({}), {}])
-
 export const scrollAreaScrollbarWrapper = style([
 	sprinkles({
 		position: 'relative',
+		zIndex: 1,
 		display: 'flex',
 		padding: 'xxsmall',
 		cursor: 'pointer',
@@ -36,19 +28,10 @@ export const scrollAreaScrollbarWrapper = style([
 		width: '10px',
 		userSelect: 'none',
 		transition: 'background 160ms ease-out',
-		opacity: '0.5',
+		opacity: '0.3',
 		':hover': {
-			opacity: '0.8',
+			opacity: '0.5',
 		},
-		// selectors: {
-		// 	[`.${darkMode} &:hover`]: {
-		// 		color: vars.color.white,
-		// 	},
-		// },
-		// ':focus': {
-		// 	outline: 'none',
-		// 	color: vars.color.wax200,
-		// },
 	},
 ])
 
@@ -85,14 +68,11 @@ export const scrollAreaThumbWrapper = style([
 export const scrollAreaCornerWrapper = style([
 	sprinkles({
 		// position: 'relative',
-		// flexGrow: 1,
-		// background: 'purple300',
-		// borderRadius: 'small',
 	}),
-	{
-		background: 'brown',
-	},
+	{},
 ])
+
+export const scrollAreaRootDisabledWrapper = style([sprinkles({}), {}])
 
 globalStyle(`${scrollAreaRootDisabledWrapper} > div`, {
 	overflow: 'unset !important',

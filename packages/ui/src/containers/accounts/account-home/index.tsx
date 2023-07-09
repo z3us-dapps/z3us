@@ -10,7 +10,7 @@ import { Box } from 'ui/src/components/box'
 import { ScrollAreaRadix as ScrollArea } from 'ui/src/components/scroll-area-radix'
 import { Text } from 'ui/src/components/typography'
 import { routes } from 'ui/src/constants/routes'
-// import { AccountActivity } from 'ui/src/containers/accounts/account-activity'
+import { AccountActivity } from 'ui/src/containers/accounts/account-activity'
 import { AccountActivitySearch } from 'ui/src/containers/accounts/account-activity-search'
 import { AccountAllChart } from 'ui/src/containers/accounts/account-all-chart'
 import { AccountAssetInfo } from 'ui/src/containers/accounts/account-asset-info'
@@ -62,12 +62,15 @@ const AccountsHome = () => {
 						<Box className={styles.rightPanelWrapper}>
 							<ScrollPanel
 								scrollParent={scrollMobileParent}
+								// eslint-disable-next-line @typescript-eslint/no-unused-vars
 								renderPanel={(scrollRef: HTMLElement) => (
 									<Box>
 										<AccountAllChart />
 										<AccountCard />
 										<AccountAssetInfo />
-										{Array.from({ length: 10 }, (_, i) => (
+										<AccountActivitySearch scrollableNode={scrollRef} />
+										<AccountActivity scrollableNode={scrollRef} />
+										{/* {Array.from({ length: 10 }, (_, i) => (
 											<Text size="xlarge" key={i}>
 												right
 											</Text>
@@ -78,7 +81,7 @@ const AccountsHome = () => {
 												itemContent={(index, tag) => <div className="Tag">{tag}</div>}
 												customScrollParent={scrollRef ?? undefined}
 											/>
-										</Box>
+										</Box> */}
 									</Box>
 								)}
 							/>
