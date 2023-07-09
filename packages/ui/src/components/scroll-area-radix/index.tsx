@@ -35,11 +35,21 @@ export const ScrollAreaCorner = ({ ...props }) => (
 interface IScrollAreaRadix extends ScrollAreaPrimitive.ScrollAreaProps {
 	disabled?: boolean
 	fixHeight?: boolean
+	showTopScrollShadow?: boolean
+	showBottomScrollShadow?: boolean
 	renderScrollArea: (scrollParent: HTMLElement | null) => any
 }
 
 export const ScrollAreaRadix = ({ children, ...props }: IScrollAreaRadix) => {
-	const { className, fixHeight, renderScrollArea, disabled, ...rest } = props
+	const {
+		className,
+		fixHeight,
+		renderScrollArea,
+		disabled,
+		showTopScrollShadow = true,
+		showBottomScrollShadow = true,
+		...rest
+	} = props
 
 	const [scrollParent, setScrollParent] = useState<HTMLElement | null>(null)
 	const [scrollHeight, setScrollHeight] = useState<number | undefined>(1)
@@ -63,7 +73,12 @@ export const ScrollAreaRadix = ({ children, ...props }: IScrollAreaRadix) => {
 
 	return (
 		<ScrollAreaRoot
-			className={clsx(className, disabled && styles.scrollAreaRootDisabledWrapper)}
+			className={clsx(
+				className,
+				!disabled && showTopScrollShadow && styles.scrollAreaShowTopShadowsWrapper,
+				!disabled && showBottomScrollShadow && styles.scrollAreaShowBottomShadowsWrapper,
+				disabled && styles.scrollAreaRootDisabledWrapper,
+			)}
 			style={{ ...(!disabled && fixHeight && scrollHeight ? { height: `${scrollHeight}px` } : {}) }}
 			{...rest}
 		>

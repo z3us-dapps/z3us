@@ -1,6 +1,7 @@
 import { globalStyle, style } from '@vanilla-extract/css'
 
 import { darkMode, sprinkles } from '../system/sprinkles.css'
+import { vars } from '../system/theme.css'
 
 export const scrollAreaRootWrapper = style([sprinkles({}), {}])
 
@@ -67,12 +68,50 @@ export const scrollAreaThumbWrapper = style([
 
 export const scrollAreaCornerWrapper = style([
 	sprinkles({
-		// position: 'relative',
+		position: 'relative',
 	}),
 	{},
 ])
 
 export const scrollAreaRootDisabledWrapper = style([sprinkles({}), {}])
+
+export const scrollAreaShowTopShadowsWrapper = style([
+	sprinkles({
+		position: 'relative',
+	}),
+	{
+		'::before': {
+			content: '""',
+			position: 'absolute',
+			left: 0,
+			right: 0,
+			pointerEvents: 'none',
+			zIndex: '2',
+			boxShadow: vars.color.shadowScrollTop,
+			height: '24px',
+			top: '-24px',
+		},
+	},
+])
+
+export const scrollAreaShowBottomShadowsWrapper = style([
+	sprinkles({
+		position: 'relative',
+	}),
+	{
+		'::after': {
+			content: '""',
+			position: 'absolute',
+			left: 0,
+			right: 0,
+			pointerEvents: 'none',
+			zIndex: '2',
+			boxShadow: vars.color.shadowScrollBottom,
+			height: '24px',
+			bottom: '-24px',
+		},
+	},
+])
 
 globalStyle(`${scrollAreaRootDisabledWrapper} > div`, {
 	overflow: 'unset !important',
