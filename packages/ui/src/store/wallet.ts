@@ -1,7 +1,10 @@
 import { type IWalletStateSetter, type WalletState } from './types'
 
-export const factory = (set: IWalletStateSetter): WalletState => ({
+const defaultState = {
 	sharedStoreReloadTrigger: Date.now(),
+}
+export const factory = (set: IWalletStateSetter): WalletState => ({
+	...defaultState,
 
 	reloadSharedStoreAction: async () => {
 		set(state => {

@@ -16,15 +16,15 @@ import { SettingsTitle } from '../components/settings-title'
 export const SettingsGeneral: React.FC = () => {
 	const { data: currencies } = useSupportedCurrencies()
 	// eslint-disable-next-line
-	const { currency, setCurrency, unlockTimer, setWalletUnclokTimeoutInMinutes } = useNoneSharedStore(state => ({
+	const { currency, setCurrency, unlockTimer, setWalletUnlockTimeoutInMinutes } = useNoneSharedStore(state => ({
 		currency: state.currency,
 		setCurrency: state.setCurrencyAction,
 		unlockTimer: state.walletUnlockTimeoutInMinutes,
-		setWalletUnclokTimeoutInMinutes: state.setWalletUnclokTimeoutInMinutesAction,
+		setWalletUnlockTimeoutInMinutes: state.setWalletUnlockTimeoutInMinutesAction,
 	}))
 
 	// const handleChangeUnlockTime = async ([minute]: Array<number>) => {
-	// 	setWalletUnclokTimeoutInMinutes(minute)
+	// 	setWalletUnlockTimeoutInMinutes(minute)
 	// }
 
 	return (

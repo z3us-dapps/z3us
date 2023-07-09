@@ -24,7 +24,7 @@ export const factory = (set: ISettingsStateSetter): SettingsState => ({
 		})
 	},
 
-	setWalletUnclokTimeoutInMinutesAction: (timeoutInMinutes: number) => {
+	setWalletUnlockTimeoutInMinutesAction: (timeoutInMinutes: number) => {
 		set(state => {
 			state.walletUnlockTimeoutInMinutes = timeoutInMinutes
 		})

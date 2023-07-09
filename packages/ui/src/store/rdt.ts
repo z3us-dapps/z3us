@@ -1,6 +1,6 @@
-import { type IRDTStateSetter, type RDTState } from './types'
+import { type IRdtStateSetter, type RdtState } from './types'
 
-export const factory = (set: IRDTStateSetter): RDTState => ({
+export const factory = (set: IRdtStateSetter): RdtState => ({
 	selectedAccount: '',
 
 	selectAccountAction: (address: string) => {

@@ -17,7 +17,6 @@ export type Keystore = {
 	id: string
 	name: string
 	type: KeystoreType
-	olympiaAddresses?: unknown
 }
 
 export type ThemeState = {
@@ -60,7 +59,7 @@ export type SettingsState = {
 	setCurrencyAction: (currency: string) => void
 
 	walletUnlockTimeoutInMinutes: number
-	setWalletUnclokTimeoutInMinutesAction: (timeoutInMinutes: number) => void
+	setWalletUnlockTimeoutInMinutesAction: (timeoutInMinutes: number) => void
 
 	transactionNotificationsEnabled: boolean
 	setTransactionNotificationsEnabledAction: (enabled: boolean) => void
@@ -74,17 +73,21 @@ export interface ISettingsStateSetter {
 	(fn: (state: SettingsState) => void): void
 }
 
-export type RDTState = {
+export type RdtState = {
 	selectedAccount: string
 	selectAccountAction: (address: string) => void
 }
 
-export interface IRDTStateSetter {
-	(fn: (state: RDTState) => void): void
+export interface IRdtStateSetter {
+	(fn: (state: RdtState) => void): void
+}
+
+export type OlympiaState = {
+	olympiaAddresses?: { [key: number]: { address: string } }
 }
 
 export type SharedState = ThemeState & WalletState & KeystoresState
 
-export type NoneSharedState = SettingsState & RDTState
+export type NoneSharedState = SettingsState & RdtState & OlympiaState
 
 export type AppState = SharedState & NoneSharedState

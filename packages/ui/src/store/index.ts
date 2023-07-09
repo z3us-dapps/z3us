@@ -4,6 +4,7 @@ import { devtools, persist, subscribeWithSelector } from 'zustand/middleware'
 import { immer } from 'zustand/middleware/immer'
 
 import { factory as createKeystoreStore } from './keystore'
+import { factory as olympiaStore } from './olympia'
 import { factory as createRDTStore } from './rdt'
 import { factory as createSettingsStore } from './settings'
 import { factory as createThemeStore } from './theme'
@@ -33,6 +34,7 @@ export const createNoneSharedStore = (name: string) =>
 		middlewares<NoneSharedState>(name, set => ({
 			...createSettingsStore(set),
 			...createRDTStore(set),
+			...olympiaStore(),
 		})),
 	)
 

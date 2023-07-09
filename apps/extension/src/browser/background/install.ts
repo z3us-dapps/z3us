@@ -1,5 +1,6 @@
+import { getNoneSharedStore } from 'packages/ui/src/services/state'
 import { sharedStore } from 'packages/ui/src/store'
-import type { Keystore as NewKeystore } from 'packages/ui/src/store/types'
+import { type Keystore, KeystoreType, type Keystore as NewKeystore } from 'packages/ui/src/store/types'
 import type { Runtime } from 'webextension-polyfill'
 import browser from 'webextension-polyfill'
 
@@ -10,14 +11,22 @@ const migrateOlympiaAddresses = async () => {
 		const currentState = sharedStore.getState()
 
 		const newKeystores = await Promise.all(
-			oldSharedState.keystores.map(async keystore => {
+			oldSharedState.keystores.map(async (keystore: Keystore) => {
 				try {
+					if (keystore.type !== KeystoreType.LOCAL) return null
+
 					const oldNoneSharedStore = await browser.storage.local.get(`z3us-store-${keystore.id}`)
 					const oldNoneSharedState = JSON.parse(oldNoneSharedStore[`z3us-store-${keystore.id}`] || {}).state
 					if (!oldNoneSharedState) return null
+
+					const noneSharedStore = await getNoneSharedStore(keystore.id)
+					const currentKeystoreState = noneSharedStore.getState()
+					currentKeystoreState.olympiaAddresses = oldNoneSharedState?.publicAddresses || undefined
+					noneSharedStore.setState(currentKeystoreState)
+					await noneSharedStore.persist.rehydrate()
+
 					return {
 						...keystore,
-						olympiaAddresses: oldNoneSharedState?.publicAddresses || {},
 					} as NewKeystore
 				} catch (error) {
 					// eslint-disable-next-line no-console
@@ -29,7 +38,7 @@ const migrateOlympiaAddresses = async () => {
 
 		currentState.keystores = [...currentState.keystores, ...newKeystores.filter(keystore => !!keystore)]
 		sharedStore.setState(currentState)
-		sharedStore.persist.rehydrate()
+		await sharedStore.persist.rehydrate()
 
 		try {
 			await browser.storage.local.remove('z3us-store-shared')
