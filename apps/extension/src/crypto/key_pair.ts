@@ -44,8 +44,8 @@ export function getPrivateKey(data: Data, index: number = 0): PrivateKey.IPrivat
 	}
 }
 
-export function getPublicKey(data: Data): PublicKey.PublicKey | null {
-	const pk = getPrivateKey(data)
+export function getPublicKey(data: Data, index: number = 0): PublicKey.PublicKey | null {
+	const pk = getPrivateKey(data, index)
 	if (!pk) {
 		return null
 	}
