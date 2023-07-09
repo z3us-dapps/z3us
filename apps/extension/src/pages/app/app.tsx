@@ -6,10 +6,12 @@ import { AnimatedPage } from 'ui/src/components/animated-page'
 import { routes } from 'ui/src/constants/routes'
 import { Accounts } from 'ui/src/containers/accounts'
 
+import { config } from '@src/config'
+
 import * as styles from './app.css'
 import TempNav from './components/nav'
 
-if (APP_RADIX && chrome?.runtime?.id) {
+if (APP_RADIX && config.isExtensionContext) {
 	// eslint-disable-next-line no-console
 	import('@src/browser/content-script').catch(console.error)
 }

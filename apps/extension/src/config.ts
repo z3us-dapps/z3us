@@ -7,6 +7,7 @@ const { version } = packageJson
 export type ConfigType = typeof radixCfg & {
 	isDevelopmentMode: boolean
 	isProductionMode: boolean
+	isExtensionContext: boolean
 	popup: typeof radixCfg.popup & {
 		pages: {
 			app: string
@@ -36,4 +37,5 @@ export const config: ConfigType = {
 	version,
 	isDevelopmentMode: import.meta.env.MODE === 'development',
 	isProductionMode: import.meta.env.MODE === 'production' || import.meta.env.MODE === 'rcnet',
+	isExtensionContext: Boolean(globalThis.chrome?.runtime?.id || globalThis.browser?.runtime?.id),
 }

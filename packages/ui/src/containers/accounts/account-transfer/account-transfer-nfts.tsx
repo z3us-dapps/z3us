@@ -41,9 +41,7 @@ export const AccountTransferNfts: React.FC = () => {
 		validation: undefined,
 	})
 
-	const { balances, isLoading } = useGlobalResourceBalances(
-		state.transaction.from ? { [state.transaction.from]: true } : null,
-	)
+	const { balances, isLoading } = useGlobalResourceBalances(state.transaction.from)
 
 	useDeepCompareEffect(() => {
 		if (state.initValidation) {

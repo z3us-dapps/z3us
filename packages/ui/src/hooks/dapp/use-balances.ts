@@ -46,17 +46,18 @@ const resourceToBalance = (
 	}
 }
 
-export const useGlobalResourceBalances = () => {
+export const useGlobalResourceBalances = (forAccount?: string) => {
 	const { selectedAccount, currency } = useNoneSharedStore(state => ({
 		currency: state.currency,
 		selectedAccount: state.selectedAccount,
 	}))
 
+	forAccount = forAccount || selectedAccount
 	const {
 		data: accounts = [],
 		isLoading: isLoadingAccounts,
 		fetchStatus: fetchAccountsStatus,
-	} = useAccounts(selectedAccount ? { [selectedAccount]: true } : null)
+	} = useAccounts(forAccount ? { [forAccount]: true } : null)
 
 	const {
 		data: price,
