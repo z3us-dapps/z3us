@@ -1,6 +1,7 @@
 import * as ScrollAreaPrimitive from '@radix-ui/react-scroll-area'
 import clsx from 'clsx'
-import React, { forwardRef, useEffect, useState } from 'react'
+import React, { forwardRef, useEffect, useRef, useState } from 'react'
+import { useIntersectionObserver } from 'usehooks-ts'
 
 import * as styles from './scroll-area-radix.css'
 
@@ -54,6 +55,14 @@ export const ScrollAreaRadix = ({ children, ...props }: IScrollAreaRadix) => {
 	const [scrollParent, setScrollParent] = useState<HTMLElement | null>(null)
 	const [scrollHeight, setScrollHeight] = useState<number | undefined>(1)
 
+	const bottomRef = useRef<HTMLDivElement | null>(null)
+	const bottomRefEntry = useIntersectionObserver(bottomRef, {})
+	const isScrolledBottom = !!bottomRefEntry?.isIntersecting
+
+	const topRef = useRef<HTMLDivElement | null>(null)
+	const topRefEntry = useIntersectionObserver(topRef, {})
+	const isScrolledTop = !!topRefEntry?.isIntersecting
+
 	useEffect(() => {
 		const resizeObserver = new ResizeObserver(entries => {
 			const observedHeight = entries[0].contentRect.height
@@ -75,14 +84,18 @@ export const ScrollAreaRadix = ({ children, ...props }: IScrollAreaRadix) => {
 		<ScrollAreaRoot
 			className={clsx(
 				className,
-				!disabled && showTopScrollShadow && styles.scrollAreaShowTopShadowsWrapper,
-				!disabled && showBottomScrollShadow && styles.scrollAreaShowBottomShadowsWrapper,
+				!disabled && showTopScrollShadow && !isScrolledTop && styles.scrollAreaShowTopShadowsWrapper,
+				!disabled && showBottomScrollShadow && !isScrolledBottom && styles.scrollAreaShowBottomShadowsWrapper,
 				disabled && styles.scrollAreaRootDisabledWrapper,
 			)}
 			style={{ ...(!disabled && fixHeight && scrollHeight ? { height: `${scrollHeight}px` } : {}) }}
 			{...rest}
 		>
-			<ScrollAreaViewport ref={setScrollParent}>{renderScrollArea(scrollParent)}</ScrollAreaViewport>
+			<ScrollAreaViewport ref={setScrollParent}>
+				{!disabled && <div ref={topRef} className={styles.scrollAreaIntersectionSlice} />}
+				{renderScrollArea(scrollParent)}
+				{!disabled && <div ref={bottomRef} className={styles.scrollAreaIntersectionSlice} />}
+			</ScrollAreaViewport>
 			<ScrollAreaScrollbar orientation="vertical">
 				<ScrollAreaThumb />
 			</ScrollAreaScrollbar>

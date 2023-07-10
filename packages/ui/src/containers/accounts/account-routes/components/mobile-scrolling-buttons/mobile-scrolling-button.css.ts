@@ -85,6 +85,13 @@ export const accountRoutesScrollingStickyBtnWrapper = style([
 	},
 ])
 
+export const accountRoutesScrollingStickyShadow = style([
+	sprinkles({
+		boxShadow: 'shadowScrollTop',
+	}),
+	{},
+])
+
 export const accountRoutesScrollingStickyBtnInner = style([
 	sprinkles({
 		position: 'relative',

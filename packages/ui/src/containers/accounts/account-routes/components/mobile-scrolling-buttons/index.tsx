@@ -1,9 +1,9 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import clsx from 'clsx'
 import { AnimatePresence, motion } from 'framer-motion'
-import React, { useCallback, useContext, useEffect, useState } from 'react'
+import React, { useCallback, useContext, useEffect, useRef, useState } from 'react'
 import { VirtuosoGrid } from 'react-virtuoso'
-import { useTimeout } from 'usehooks-ts'
+import { useIntersectionObserver, useTimeout } from 'usehooks-ts'
 
 import { Box } from 'ui/src/components/box'
 import { Link } from 'ui/src/components/router-link'
@@ -23,9 +23,18 @@ interface IMobileScrollingButtonsProps {
 export const MobileScrollingButtons: React.FC<IMobileScrollingButtonsProps> = props => {
 	const { scrollableNode } = props
 	const [items, setItems] = useState<any>([])
+	const wrapperRef = useRef(null)
+	const entry = useIntersectionObserver(wrapperRef, { threshold: [1] })
+	const isSticky = !entry?.isIntersecting
 
 	return (
-		<Box className={styles.accountRoutesScrollingStickyBtnWrapper}>
+		<Box
+			ref={wrapperRef}
+			className={clsx(
+				styles.accountRoutesScrollingStickyBtnWrapper,
+				isSticky && styles.accountRoutesScrollingStickyShadow,
+			)}
+		>
 			<Box className={styles.accountRoutesScrollingStickyBtnInner}>
 				<Text>buttons wil live </Text>
 			</Box>

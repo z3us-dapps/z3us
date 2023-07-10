@@ -24,6 +24,7 @@ const AccountsHome = () => {
 	return (
 		<Box className={styles.accountsWrapper}>
 			<ScrollArea
+				showTopScrollShadow={false}
 				disabled={!isMobileScroll}
 				className={styles.mobileScrollWrapper}
 				renderScrollArea={(scrollMobileParent: HTMLElement) => (

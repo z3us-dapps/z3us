@@ -94,6 +94,16 @@ export const scrollAreaShowTopShadowsWrapper = style([
 	},
 ])
 
+export const scrollAreaIntersectionSlice = style([
+	sprinkles({
+		position: 'relative',
+		pointerEvents: 'none',
+	}),
+	{
+		height: '1px',
+	},
+])
+
 export const scrollAreaShowBottomShadowsWrapper = style([
 	sprinkles({
 		position: 'relative',
