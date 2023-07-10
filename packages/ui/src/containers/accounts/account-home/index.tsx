@@ -32,7 +32,7 @@ const AccountsHome = () => {
 						<Box className={styles.leftPanelWrapper}>
 							<ScrollPanel
 								scrollParent={scrollMobileParent}
-								renderPanel={(scrollRef: HTMLElement) => (
+								renderPanel={(scrollableNode: HTMLElement) => (
 									<AnimatePresence initial={false}>
 										<Routes location={location} key={location.pathname}>
 											{[routes.ACCOUNT, routes.ACCOUNT_ASSET_TYPE, routes.ACCOUNT_ASSET].map(path => (
@@ -41,7 +41,7 @@ const AccountsHome = () => {
 													path={path}
 													element={
 														<AnimatedPage>
-															<AccountRoutes scrollableNode={scrollRef} />
+															<AccountRoutes scrollableNode={scrollableNode} />
 														</AnimatedPage>
 													}
 												/>

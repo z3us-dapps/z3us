@@ -41,7 +41,7 @@ export const AccountRoutes: React.FC<IAccountRoutesProps> = props => {
 			<Box className={styles.accountRoutesScrollingWrapper}>
 				<Box className={styles.accountRoutesScrollingStickySheet} />
 				<MobileScrollingButtons />
-				<AccountTable />
+				<AccountTable scrollableNode={scrollableNode} />
 			</Box>
 		</Box>
 	)

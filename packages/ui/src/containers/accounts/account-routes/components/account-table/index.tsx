@@ -2,7 +2,7 @@
 import clsx from 'clsx'
 import { AnimatePresence, motion } from 'framer-motion'
 import React, { useCallback, useContext, useEffect, useState } from 'react'
-import { VirtuosoGrid } from 'react-virtuoso'
+import { Virtuoso } from 'react-virtuoso'
 import { useTimeout } from 'usehooks-ts'
 
 import { Box } from 'ui/src/components/box'
@@ -27,6 +27,13 @@ export const AccountTable: React.FC<IAccountTableProps> = props => {
 	return (
 		<Box position="relative">
 			<Box padding="large">
+				<Virtuoso
+					data={Array.from({ length: 500 }).map((_, i, a) => `v1.2.0-beta.${a.length - i}`)}
+					// eslint-disable-next-line react/no-unstable-nested-components
+					itemContent={(index, tag) => <div className="Tag">{tag}</div>}
+					customScrollParent={scrollableNode ?? undefined}
+				/>
+
 				{Array.from({ length: 20 }, (_, i) => (
 					<Text size="xlarge" key={i}>
 						Lorum ipsumIn convallis vel neque facilisis est mi in varius gravida eget convallis convallis ut velit
