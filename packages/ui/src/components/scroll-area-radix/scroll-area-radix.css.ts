@@ -3,7 +3,39 @@ import { globalStyle, style } from '@vanilla-extract/css'
 import { darkMode, sprinkles } from '../system/sprinkles.css'
 import { vars } from '../system/theme.css'
 
-export const scrollAreaRootWrapper = style([sprinkles({}), {}])
+export const scrollAreaRootWrapper = style([
+	sprinkles({
+		position: 'relative',
+	}),
+	{
+		'::after': {
+			content: '""',
+			position: 'absolute',
+			left: 0,
+			right: 0,
+			pointerEvents: 'none',
+			zIndex: '1',
+			background: 'linear-gradient(0deg, rgba(0,0,0,0.10) 0%, rgba(0,0,0,0.03) 50%, rgba(0,0,0,0) 100%)',
+			height: '12px',
+			bottom: '0px',
+			opacity: '0',
+			transition: vars.transition.fastall,
+		},
+		'::before': {
+			content: '""',
+			position: 'absolute',
+			left: 0,
+			right: 0,
+			pointerEvents: 'none',
+			zIndex: '1',
+			background: 'linear-gradient(0deg, rgba(0,0,0,0.10) 0%, rgba(0,0,0,0.03) 50%, rgba(0,0,0,0) 100%)',
+			height: '12px',
+			top: '0px',
+			opacity: '0',
+			transition: vars.transition.fastall,
+		},
+	},
+])
 
 export const scrollAreaViewportWrapper = style([
 	sprinkles({
@@ -75,25 +107,6 @@ export const scrollAreaCornerWrapper = style([
 
 export const scrollAreaRootDisabledWrapper = style([sprinkles({}), {}])
 
-export const scrollAreaShowTopShadowsWrapper = style([
-	sprinkles({
-		position: 'relative',
-	}),
-	{
-		'::before': {
-			content: '""',
-			position: 'absolute',
-			left: 0,
-			right: 0,
-			pointerEvents: 'none',
-			zIndex: '1',
-			background: 'linear-gradient(180deg, rgba(0,0,0,0.4) 0%, rgba(0,0,0,0.1) 54%, rgba(0,0,0,0) 100%)',
-			height: '24px',
-			top: '0px',
-		},
-	},
-])
-
 export const scrollAreaIntersectionSlice = style([
 	sprinkles({
 		position: 'relative',
@@ -104,24 +117,25 @@ export const scrollAreaIntersectionSlice = style([
 	},
 ])
 
-export const scrollAreaShowBottomShadowsWrapper = style([
-	sprinkles({
-		position: 'relative',
-	}),
+export const scrollAreaShowTopShadowsWrapper = style([
 	{
-		'::after': {
-			content: '""',
-			position: 'absolute',
-			left: 0,
-			right: 0,
-			pointerEvents: 'none',
-			zIndex: '1',
-			background: 'linear-gradient(0deg, rgba(0,0,0,0.4) 0%, rgba(0,0,0,0.1) 54%, rgba(0,0,0,0) 100%)',
-			height: '24px',
-			bottom: '0px',
+		'::before': {
+			opacity: '1',
 		},
 	},
 ])
+
+export const scrollAreaShowBottomShadowsWrapper = style([
+	{
+		'::after': {
+			opacity: '1',
+		},
+	},
+])
+
+globalStyle(`.${darkMode} ${scrollAreaShowBottomShadowsWrapper}::after`, {
+	background: 'linear-gradient(0deg, rgba(0,0,0,0.4) 0%, rgba(0,0,0,0.1) 54%, rgba(0,0,0,0) 100%)',
+})
 
 globalStyle(`${scrollAreaRootDisabledWrapper} > div`, {
 	overflow: 'unset !important',
