@@ -57,7 +57,11 @@ export const scrollAreaScrollbarWrapper = style([
 		transition: 'fast',
 	}),
 	{
-		padding: '2px',
+		// TODO: rounded prop
+		paddingTop: '8px',
+		paddingBottom: '8px',
+		paddingRight: '2px',
+		paddingLeft: '2px',
 		width: '10px',
 		userSelect: 'none',
 		transition: 'background 160ms ease-out',
