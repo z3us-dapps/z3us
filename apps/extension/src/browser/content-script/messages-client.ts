@@ -1,3 +1,4 @@
+import { messageDiscriminator } from '@radixdlt/connector-extension/src/chrome/messages/_types'
 import { createMessage as createRadixMessage } from '@radixdlt/connector-extension/src/chrome/messages/create-message'
 import browser from 'webextension-polyfill'
 
@@ -28,7 +29,21 @@ export const MessageClient = () => {
 	})
 
 	chromeDAppClient.messageListener(message => {
-		radixMessageHandler.onMessage(addMetadata(createRadixMessage.incomingDappMessage('dApp', message)))
+		const radixMsg = addMetadata(createRadixMessage.incomingDappMessage('dApp', message))
+		radixMessageHandler.onMessage(radixMsg)
+
+		switch (radixMsg.discriminator) {
+			case messageDiscriminator.dAppRequest:
+			case messageDiscriminator.ledgerResponse:
+				// @TODO
+				console.error(
+					'⚡️Z3US⚡️: content-script chromeDAppClient.messageListener @TODO: handle radix message for none mobile wallets',
+					radixMsg,
+				)
+				break
+			default:
+				break
+		}
 	})
 
 	const forwardMessageToBackground = (event: MessageEvent<Message>) => {
