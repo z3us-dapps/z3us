@@ -28,6 +28,7 @@ export const AccountTable: React.FC<IAccountTableProps> = props => {
 		<Box position="relative">
 			<Box padding="large">
 				<Virtuoso
+					overscan={10}
 					data={Array.from({ length: 500 }).map((_, i, a) => `v1.2.0-beta.${a.length - i}`)}
 					// eslint-disable-next-line react/no-unstable-nested-components
 					itemContent={(index, tag) => <div className="Tag">{tag}</div>}

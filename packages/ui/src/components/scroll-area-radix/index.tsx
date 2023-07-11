@@ -54,11 +54,10 @@ export const ScrollAreaRadix = ({ children, ...props }: IScrollAreaRadix) => {
 
 	const [scrollParent, setScrollParent] = useState<HTMLElement | null>(null)
 	const [scrollHeight, setScrollHeight] = useState<number | undefined>(1)
+	const [isScrolledBottom, setIsScrolledBottom] = useState<boolean>(1)
 
 	const bottomRef = useRef<HTMLDivElement | null>(null)
 	const bottomRefEntry = useIntersectionObserver(bottomRef, {})
-	const isScrolledBottom = !!bottomRefEntry?.isIntersecting
-
 	const topRef = useRef<HTMLDivElement | null>(null)
 	const topRefEntry = useIntersectionObserver(topRef, {})
 	const isScrolledTop = !!topRefEntry?.isIntersecting
@@ -73,12 +72,14 @@ export const ScrollAreaRadix = ({ children, ...props }: IScrollAreaRadix) => {
 			resizeObserver.observe(scrollParent?.firstChild)
 		}
 
+		setIsScrolledBottom(bottomRefEntry?.isIntersecting)
+
 		return () => {
 			if (fixHeight && scrollParent?.firstChild) {
 				resizeObserver.disconnect()
 			}
 		}
-	}, [fixHeight, scrollParent, disabled])
+	}, [fixHeight, scrollParent, disabled, bottomRefEntry?.isIntersecting])
 
 	return (
 		<ScrollAreaRoot

@@ -19,6 +19,7 @@
 		"nextui",
 		"nocheck",
 		"noemit",
+		"overscan",
 		"persistor",
 		"postbuild",
 		"precompute",
