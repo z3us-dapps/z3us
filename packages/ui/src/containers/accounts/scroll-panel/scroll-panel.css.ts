@@ -9,7 +9,20 @@ export const scrollWrapper = style([
 		position: 'relative',
 		width: 'full',
 	}),
-	{},
+	{
+		'::before': {
+			borderTopLeftRadius: vars.border.radius.xxlarge,
+			borderTopRightRadius: vars.border.radius.xxlarge,
+			left: '2px',
+			right: '3px',
+		},
+		'::after': {
+			borderBottomLeftRadius: vars.border.radius.xxlarge,
+			borderBottomRightRadius: vars.border.radius.xxlarge,
+			left: '3px',
+			right: '3px',
+		},
+	},
 	responsiveStyle({
 		tablet: {
 			maxHeight: 'calc(100vh - 168px)',
@@ -20,21 +33,21 @@ export const scrollWrapper = style([
 	}),
 ])
 
-export const panelWrapper = style([
-	sprinkles({
-		position: 'relative',
-		overflow: 'hidden',
-		transition: 'slow',
-	}),
-	{},
-	responsiveStyle({
-		tablet: {
-			borderRadius: vars.border.radius.xlarge,
-			background: vars.color.backgroundSecondary,
-			boxShadow: vars.color.shadowPanel,
-		},
-	}),
-])
+// export const panelWrapper = style([
+// 	sprinkles({
+// 		position: 'relative',
+// 		overflow: 'hidden',
+// 		transition: 'slow',
+// 	}),
+// 	{},
+// 	responsiveStyle({
+// 		tablet: {
+// 			borderRadius: vars.border.radius.xlarge,
+// 			background: vars.color.backgroundSecondary,
+// 			boxShadow: vars.color.shadowPanel,
+// 		},
+// 	}),
+// ])
 
 export const mobileScrollWrapper = style([
 	sprinkles({

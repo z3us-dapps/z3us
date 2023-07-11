@@ -53,6 +53,7 @@ const AccountsHome = () => {
 						</Box>
 						<Box className={styles.rightPanelWrapper}>
 							<ScrollPanel
+								showTopScrollShadow={false}
 								scrollParent={scrollMobileParent}
 								renderPanel={(scrollRef: HTMLElement) => (
 									<>

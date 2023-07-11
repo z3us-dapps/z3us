@@ -13,12 +13,14 @@ interface IScrollPanelProps {
 	className?: ClassValue
 	scrollParent: HTMLElement | null
 	renderPanel: (scrollRef: HTMLElement | null) => any
+	showTopScrollShadow?: boolean
+	showBottomScrollShadow?: boolean
 }
 
 export const useIsMobileScroll = () => useMediaQuery(`(max-width: ${TABLET_BREAK_POINT}px)`)
 
 export const ScrollPanel: React.FC<IScrollPanelProps> = props => {
-	const { className, scrollParent, renderPanel } = props
+	const { className, scrollParent, showTopScrollShadow, showBottomScrollShadow, renderPanel } = props
 	const isMobileScroll = useIsMobileScroll()
 
 	return (
@@ -26,6 +28,8 @@ export const ScrollPanel: React.FC<IScrollPanelProps> = props => {
 			fixHeight
 			disabled={isMobileScroll}
 			className={clsx(styles.scrollWrapper, className)}
+			showTopScrollShadow={showTopScrollShadow}
+			showBottomScrollShadow={showBottomScrollShadow}
 			renderScrollArea={panelRef => renderPanel(isMobileScroll ? scrollParent : panelRef)}
 		/>
 	)

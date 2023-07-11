@@ -28,7 +28,7 @@ export const scrollAreaRootWrapper = style([
 			right: 0,
 			pointerEvents: 'none',
 			zIndex: '1',
-			background: 'linear-gradient(0deg, rgba(0,0,0,0.10) 0%, rgba(0,0,0,0.03) 50%, rgba(0,0,0,0) 100%)',
+			background: 'linear-gradient(180deg, rgba(0,0,0,0.10) 0%, rgba(0,0,0,0.03) 50%, rgba(0,0,0,0) 100%)',
 			height: '12px',
 			top: '0px',
 			opacity: '0',
@@ -133,8 +133,12 @@ export const scrollAreaShowBottomShadowsWrapper = style([
 	},
 ])
 
+globalStyle(`.${darkMode} ${scrollAreaShowBottomShadowsWrapper}::before`, {
+	background: 'linear-gradient(180deg, rgba(0,0,0,0.2) 0%, rgba(0,0,0,0.1) 54%, rgba(0,0,0,0) 100%)',
+})
+
 globalStyle(`.${darkMode} ${scrollAreaShowBottomShadowsWrapper}::after`, {
-	background: 'linear-gradient(0deg, rgba(0,0,0,0.4) 0%, rgba(0,0,0,0.1) 54%, rgba(0,0,0,0) 100%)',
+	background: 'linear-gradient(0deg, rgba(0,0,0,0.2) 0%, rgba(0,0,0,0.1) 54%, rgba(0,0,0,0) 100%)',
 })
 
 globalStyle(`${scrollAreaRootDisabledWrapper} > div`, {
