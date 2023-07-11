@@ -12,8 +12,9 @@ const tokensSchema = z.object({
 })
 
 const nftsSchema = z.object({
-	address: z.string().min(1, 'Please select token'),
-	id: z.string().min(1, 'Please select token'),
+	name: z.string().min(1, 'Please select nft'),
+	address: z.string().min(1, 'Please select nft'),
+	id: z.string().min(1, 'Please select nft'),
 })
 
 export const sendsSchema = z.object({
@@ -48,4 +49,4 @@ export const transferNftFormSchema = z.object({
 
 export const defaultToken: IToken = { address: '', name: '', symbol: '', amount: undefined }
 
-export const defaultNft: INft = { address: '', name: '', symbol: '', amount: undefined }
+export const defaultNft: INft = { address: '', name: '', id: '' }

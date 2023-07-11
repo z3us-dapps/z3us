@@ -24,9 +24,8 @@ export interface IToken {
 
 export interface INft {
 	name: string
-	symbol: string
+	id: string
 	address: string
-	amount: number
 }
 
 export type TSendSchema = z.infer<typeof sendsSchema>
