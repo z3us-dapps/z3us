@@ -57,13 +57,14 @@ export const panelWrapper = style([
 		},
 		width: 'full',
 		height: 'full',
+		maxWidth: 'xxlarge',
 	}),
-	{},
-
+	{
+		margin: '0 auto',
+	},
 	responsiveStyle({
 		tablet: {
 			height: 'calc(100vh - 168px)',
-			// maxHeight: 'calc(100vh - 168px)',
 		},
 	}),
 ])
@@ -71,8 +72,10 @@ export const panelWrapper = style([
 export const leftPanelWrapper = style([
 	sprinkles({
 		display: 'flex',
+		position: 'relative',
 		flexShrink: 0,
 		flexGrow: 1,
+		zIndex: 1,
 	}),
 	{
 		width: '392px',

@@ -11,8 +11,8 @@ import { AccountActivity } from 'ui/src/containers/accounts/account-activity'
 import { AccountActivitySearch } from 'ui/src/containers/accounts/account-activity-search'
 import { AccountAllChart } from 'ui/src/containers/accounts/account-all-chart'
 import { AccountAssetInfo } from 'ui/src/containers/accounts/account-asset-info'
+import { AccountAssets } from 'ui/src/containers/accounts/account-assets'
 import { AccountCard } from 'ui/src/containers/accounts/account-card'
-import { AccountRoutes } from 'ui/src/containers/accounts/account-routes'
 
 import { ScrollPanel, useIsMobileScroll } from '../scroll-panel'
 import * as styles from './account-home.css'
@@ -30,7 +30,7 @@ const AccountsHome = () => {
 				renderScrollArea={(scrollMobileParent: HTMLElement) => (
 					<Box className={styles.panelWrapper}>
 						<Box className={styles.leftPanelWrapper}>
-							<ScrollPanel
+							{/* <ScrollPanel
 								scrollParent={scrollMobileParent}
 								renderPanel={(scrollableNode: HTMLElement) => (
 									<AnimatePresence initial={false}>
@@ -49,6 +49,10 @@ const AccountsHome = () => {
 										</Routes>
 									</AnimatePresence>
 								)}
+							/> */}
+							<ScrollPanel
+								scrollParent={scrollMobileParent}
+								renderPanel={(scrollableNode: HTMLElement) => <AccountAssets scrollableNode={scrollableNode} />}
 							/>
 						</Box>
 						<Box className={styles.rightPanelWrapper}>

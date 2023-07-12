@@ -12,7 +12,7 @@ import { TransactionIcon } from 'ui/src/components/transaction-icon'
 import { Text } from 'ui/src/components/typography'
 import { useAccountParams } from 'ui/src/hooks/use-account-params'
 
-import * as styles from './account-table.css'
+import * as styles from './assets-table.css'
 
 export const hash = () => Math.random().toString(36).substring(7)
 
@@ -20,15 +20,15 @@ interface IAccountTableProps {
 	scrollableNode?: HTMLElement
 }
 
-export const AccountTable: React.FC<IAccountTableProps> = props => {
+export const AssetsTable: React.FC<IAccountTableProps> = props => {
 	const { scrollableNode } = props
 	const [items, setItems] = useState<any>([])
 
 	return (
-		<Box position="relative">
+		<Box className={styles.assetsTableWrapper}>
 			<Box padding="large">
 				<Virtuoso
-					overscan={10}
+					overscan={20}
 					data={Array.from({ length: 500 }).map((_, i, a) => `v1.2.0-beta.${a.length - i}`)}
 					// eslint-disable-next-line react/no-unstable-nested-components
 					itemContent={(index, tag) => <div className="Tag">{tag}</div>}

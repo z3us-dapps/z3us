@@ -114,23 +114,9 @@ export const AccountCard: React.FC = () => {
 			</Box>
 			<Box display="flex" flexDirection="column" alignItems="center">
 				<AccountCards accountCards={CARD_COLORS} selectedCardIndex={selectedIndexCard} />
-				<AnimatePresence initial={false}>
-					<motion.div
-						key="buttons"
-						initial={{ opacity: 0, x: 0, y: 0, height: 48 }}
-						animate={{
-							opacity: 1,
-							x: 0,
-							y: 0,
-							height: 48,
-						}}
-						exit={{ opacity: 0, x: 0, y: 0, height: 48 }}
-						transition={{ duration: 0.3 }}
-						className={styles.accountCardButtonWrapper}
-					>
-						<CardButtons />
-					</motion.div>
-				</AnimatePresence>
+				<Box className={styles.accountCardButtonWrapper}>
+					<CardButtons />
+				</Box>
 			</Box>
 		</Box>
 	)
