@@ -7,7 +7,6 @@ import { factory as createKeystoreStore } from './keystore'
 import { factory as olympiaStore } from './olympia'
 import { factory as createRDTStore } from './rdt'
 import { factory as createSettingsStore } from './settings'
-import { factory as createThemeStore } from './theme'
 import type { NoneSharedState, SharedState } from './types'
 import { factory as createWalletStore } from './wallet'
 
@@ -24,7 +23,6 @@ const middlewares = <T>(name: string, f: StateCreator<T, MutatorsTypes>) =>
 export const sharedStore = createStore(
 	middlewares<SharedState>('z3us:store', set => ({
 		...createKeystoreStore(set),
-		...createThemeStore(set),
 		...createWalletStore(set),
 	})),
 )

@@ -2,6 +2,12 @@ import type BigNumber from 'bignumber.js'
 
 import type { LIST_ITEM_ACTIVITY, LIST_ITEM_ASSET, LIST_ITEM_ASSET_TYPE, LIST_ITEM_INDEX } from 'ui/src/constants/list'
 
+export enum Theme {
+	LIGHT = 'light',
+	DARK = 'dark',
+	SYSTEM = 'system',
+}
+
 export type SelectedAddresses = { [address: string]: boolean } | null
 
 export enum ResourceBalanceType {

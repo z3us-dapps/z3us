@@ -1,7 +1,5 @@
-// import * as Avatar from '@radix-ui/react-avatar'
 import clsx, { type ClassValue } from 'clsx'
 import React from 'react'
-import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router-dom'
 
 import { Avatar } from 'ui/src/components/avatar'
@@ -21,7 +19,7 @@ import {
 	DropdownMenuSeparator,
 	DropdownMenuTrigger,
 } from 'ui/src/components/dropdown-menu'
-import { CheckIcon, LockIcon, Settings2Icon, ShareIcon } from 'ui/src/components/icons'
+import { CheckIcon, LockIcon, PlusIcon, Settings2Icon, ShareIcon } from 'ui/src/components/icons'
 // TODO: can update references here
 import { Link } from 'ui/src/components/router-link'
 import SimpleBar from 'ui/src/components/simple-bar'
@@ -36,12 +34,6 @@ interface IWalletDropdownProps {
 export const WalletDropdown: React.FC<IWalletDropdownProps> = props => {
 	const { className } = props
 	const navigate = useNavigate()
-	const { i18n } = useTranslation()
-
-	// TODO: type correctly
-	const handleLangSelect = (lang: 'enUS' | 'pl') => {
-		i18n.changeLanguage(lang)
-	}
 
 	const handleGoToSettings = () => {
 		navigate('/accounts/settings')
@@ -101,12 +93,41 @@ export const WalletDropdown: React.FC<IWalletDropdownProps> = props => {
 										</Link>
 									</Text>
 								</DropdownMenuLabel>
+
+								<DropdownMenuLabel>
+									<Text size="xsmall" weight="strong" color="strong">
+										Wallet
+									</Text>
+								</DropdownMenuLabel>
+								<DropdownMenuRadioGroup value="light" onValueChange={() => {}}>
+									<DropdownMenuRadioItem value="light">
+										<Box flexGrow={1}>
+											<Text size="xsmall">Main driver</Text>
+										</Box>
+										<DropdownMenuItemIndicator>
+											<CheckIcon />
+										</DropdownMenuItemIndicator>
+									</DropdownMenuRadioItem>
+									<DropdownMenuRadioItem value="dark">
+										<Box flexGrow={1}>
+											<Text size="xsmall">Burner test wallet</Text>
+										</Box>
+										<DropdownMenuItemIndicator>
+											<CheckIcon />
+										</DropdownMenuItemIndicator>
+									</DropdownMenuRadioItem>
+								</DropdownMenuRadioGroup>
+
 								<DropdownMenuSeparator />
+
+								<DropdownMenuSeparator />
+
 								<DropdownMenuLabel>
 									<Text size="xsmall" weight="strong" color="strong">
 										Persona
 									</Text>
 								</DropdownMenuLabel>
+
 								<DropdownMenuRadioGroup value="light" onValueChange={() => {}}>
 									<DropdownMenuRadioItem value="light">
 										<Box flexGrow={1}>
@@ -126,32 +147,17 @@ export const WalletDropdown: React.FC<IWalletDropdownProps> = props => {
 									</DropdownMenuRadioItem>
 								</DropdownMenuRadioGroup>
 
-								<DropdownMenuSeparator />
-								<DropdownMenuLabel>
-									<Text size="xsmall" weight="strong" color="strong">
-										Wallet
-									</Text>
-								</DropdownMenuLabel>
+								<DropdownMenuItem>
+									<DropdownMenuLeftSlot>
+										<PlusIcon />
+									</DropdownMenuLeftSlot>
+									<Box display="flex">
+										<Text size="xsmall">Add new persona</Text>
+									</Box>
+								</DropdownMenuItem>
 
-								<DropdownMenuRadioGroup value="light" onValueChange={() => {}}>
-									<DropdownMenuRadioItem value="light">
-										<Box flexGrow={1}>
-											<Text size="xsmall">Main driver</Text>
-										</Box>
-										<DropdownMenuItemIndicator>
-											<CheckIcon />
-										</DropdownMenuItemIndicator>
-									</DropdownMenuRadioItem>
-									<DropdownMenuRadioItem value="dark">
-										<Box flexGrow={1}>
-											<Text size="xsmall">Burner test wallet</Text>
-										</Box>
-										<DropdownMenuItemIndicator>
-											<CheckIcon />
-										</DropdownMenuItemIndicator>
-									</DropdownMenuRadioItem>
-								</DropdownMenuRadioGroup>
 								<DropdownMenuSeparator />
+
 								<DropdownMenuItem onSelect={() => handleGoToSettings()}>
 									<DropdownMenuLeftSlot>
 										<Settings2Icon />
@@ -176,51 +182,6 @@ export const WalletDropdown: React.FC<IWalletDropdownProps> = props => {
 										<Text size="xsmall">Open in browser</Text>
 									</Box>
 								</DropdownMenuItem>
-								<DropdownMenuSeparator />
-								<DropdownMenuItem onSelect={() => handleLangSelect('enUS')}>
-									<DropdownMenuLeftSlot>🇦🇺</DropdownMenuLeftSlot>
-									<Box display="flex" marginLeft="small">
-										<Text size="xsmall">English</Text>
-									</Box>
-								</DropdownMenuItem>
-								<DropdownMenuItem onSelect={() => handleLangSelect('pl')}>
-									<DropdownMenuLeftSlot>🇵🇱</DropdownMenuLeftSlot>
-									<Box display="flex" marginLeft="small">
-										<Text size="xsmall">Polish</Text>
-									</Box>
-								</DropdownMenuItem>
-								{/* <DropdownMenuItem> */}
-								{/* 	<DropdownMenuLeftSlot> */}
-								{/* 		<PersonIcon /> */}
-								{/* 	</DropdownMenuLeftSlot> */}
-								{/* 	<Box display="flex"> */}
-								{/* 		<Text size="xsmall">Add new persona</Text> */}
-								{/* 	</Box> */}
-								{/* </DropdownMenuItem> */}
-
-								{/* <DropdownMenuSeparator /> */}
-								{/* <DropdownMenuLabel>Theme</DropdownMenuLabel> */}
-								{/**/}
-								{/* <DropdownMenuRadioGroup value="light" onValueChange={() => {}}> */}
-								{/* 	<DropdownMenuRadioItem value="light"> */}
-								{/* 		<DropdownMenuItemIndicator> */}
-								{/* 			<DotFilledIcon /> */}
-								{/* 		</DropdownMenuItemIndicator> */}
-								{/* 		Light */}
-								{/* 	</DropdownMenuRadioItem> */}
-								{/* 	<DropdownMenuRadioItem value="dark"> */}
-								{/* 		<DropdownMenuItemIndicator> */}
-								{/* 			<DotFilledIcon /> */}
-								{/* 		</DropdownMenuItemIndicator> */}
-								{/* 		Dark */}
-								{/* 	</DropdownMenuRadioItem> */}
-								{/* 	<DropdownMenuRadioItem value="system"> */}
-								{/* 		<DropdownMenuItemIndicator> */}
-								{/* 			<DotFilledIcon /> */}
-								{/* 		</DropdownMenuItemIndicator> */}
-								{/* 		System */}
-								{/* 	</DropdownMenuRadioItem> */}
-								{/* </DropdownMenuRadioGroup> */}
 							</Box>
 						</SimpleBar>
 

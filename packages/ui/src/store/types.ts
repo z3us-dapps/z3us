@@ -19,15 +19,6 @@ export type Keystore = {
 	type: KeystoreType
 }
 
-export type ThemeState = {
-	theme: string
-	setThemeAction: (theme: string) => void
-}
-
-export interface IThemeStateSetter {
-	(fn: (state: ThemeState) => void): void
-}
-
 export type KeystoresState = {
 	selectKeystoreId: string
 	selectKeystoreAction: (id: string) => void
@@ -86,7 +77,7 @@ export type OlympiaState = {
 	olympiaAddresses?: { [key: number]: { address: string } }
 }
 
-export type SharedState = ThemeState & WalletState & KeystoresState
+export type SharedState = WalletState & KeystoresState
 
 export type NoneSharedState = SettingsState & RdtState & OlympiaState
 

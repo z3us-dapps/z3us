@@ -2,7 +2,6 @@ import { ContentContainer } from '@/components/content-container'
 import { NextButton } from '@/components/next-button'
 import { NextLink } from '@/components/next-link'
 import { Z3usLogoLink } from '@/components/z3us-logo-link'
-import { useTheme } from 'next-themes'
 import React from 'react'
 
 import { Box } from 'ui/src/components/box'
@@ -15,6 +14,7 @@ import { TwitterIcon } from 'ui/src/components/icons/twitter-icon'
 import { SelectSimple, SelectTrigger, SelectValue } from 'ui/src/components/select'
 import { ToolTip } from 'ui/src/components/tool-tip'
 import { Text } from 'ui/src/components/typography'
+import { useTheme } from 'ui/src/hooks/dapp/use-theme'
 
 import * as styles from './footer.css'
 

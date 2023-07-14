@@ -121,7 +121,7 @@ const AccountSearch = () => {
 									<Box position="relative" width="full">
 										<Box display="flex" alignItems="center" gap="xsmall">
 											<Text size="small" color="strong">
-												Message (encryped)
+												Message (encrypted)
 											</Text>
 											<CopyAddressButton
 												styleVariant="ghost"
