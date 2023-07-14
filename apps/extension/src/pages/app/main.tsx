@@ -10,7 +10,7 @@ import { ReactQueryProvider } from 'ui/src/context/react-query-provider'
 import { NoneSharedStoreProvider } from 'ui/src/context/state-provider'
 
 import { config } from '@src/config'
-import { ContentScriptStatusProvider } from '@src/context/content-script-status-provider'
+import { DappStatusProvider } from '@src/context/dapp-status-provider'
 import { ThemeProvider } from '@src/context/theme-provider'
 import '@src/styles/global-style.css'
 
@@ -23,7 +23,7 @@ enableMapSet()
 ReactDOM.createRoot(container).render(
 	<React.StrictMode>
 		<ThemeProvider>
-			<ContentScriptStatusProvider>
+			<DappStatusProvider>
 				<I18Provider>
 					<ReactQueryProvider>
 						<NoneSharedStoreProvider>
@@ -36,7 +36,7 @@ ReactDOM.createRoot(container).render(
 						</NoneSharedStoreProvider>
 					</ReactQueryProvider>
 				</I18Provider>
-			</ContentScriptStatusProvider>
+			</DappStatusProvider>
 		</ThemeProvider>
 	</React.StrictMode>,
 )

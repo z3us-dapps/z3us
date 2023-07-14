@@ -1,4 +1,4 @@
-import type { State } from 'packages/ui/src/context/content-script'
+import type { State } from 'packages/ui/src/context/dapp-status'
 import { useEffect } from 'react'
 import { useImmer } from 'use-immer'
 import browser from 'webextension-polyfill'
@@ -18,7 +18,7 @@ const isPopupPage = (url?: URL) => url?.hostname === popupURL.hostname
 
 const isSecureHost = (url?: URL) => url?.protocol === 'https:'
 
-export const useContentScriptStatus = () => {
+export const useDappStatus = () => {
 	const isUnlocked = useIsUnlocked()
 	// const { approvedWebsites } = useNoneSharedStore(state => ({
 	// 	approvedWebsites: state.approvedWebsites,

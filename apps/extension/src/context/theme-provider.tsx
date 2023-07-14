@@ -17,14 +17,14 @@ export const ThemeProvider: React.FC<PropsWithChildren> = ({ children }) => {
 		() => {
 			localStorage?.setItem('z3us:theme', JSON.stringify(theme))
 
-			const onSystemDarkModeChange = evt => {
-				setAutoThemeIsDark(evt.matches)
+			const onSystemDarkModeChange = (event: MediaQueryListEvent) => {
+				setAutoThemeIsDark(event.matches)
 			}
 
 			if (mediaList) {
-				mediaList.addListener(onSystemDarkModeChange)
+				mediaList.addEventListener('change', onSystemDarkModeChange)
 				return () => {
-					mediaList.removeListener(onSystemDarkModeChange)
+					mediaList.removeEventListener('change', onSystemDarkModeChange)
 				}
 			}
 			return () => {}

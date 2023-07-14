@@ -8,4 +8,4 @@ export type State = {
 	currentTabHost: string
 }
 
-export const ContentScriptStatusContext: Context<State | null> = createContext<State | null>(null)
+export const DappStatusContext: Context<State | null> = createContext<State | null>(null)
