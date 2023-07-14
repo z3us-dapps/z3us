@@ -55,6 +55,7 @@ export const AssetsTable: React.FC<IAccountTableProps> = props => {
 	const [items, setItems] = useState<any>([])
 
 	useEffect(() => {
+		// Array.from({ length: 500 }).map((_, i, a) => ({
 		setItems(
 			Array.from({ length: 500 }).map((_, i, a) => ({
 				id: a.length - i,

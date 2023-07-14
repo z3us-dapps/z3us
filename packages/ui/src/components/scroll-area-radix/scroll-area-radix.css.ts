@@ -111,7 +111,18 @@ export const scrollAreaCornerWrapper = style([
 
 export const scrollAreaRootDisabledWrapper = style([sprinkles({}), {}])
 
-export const scrollAreaIntersectionSlice = style([
+export const scrollAreaIntersectionSliceTop = style([
+	sprinkles({
+		position: 'relative',
+		pointerEvents: 'none',
+	}),
+	{
+		height: '1px',
+		marginBottom: '-1px',
+	},
+])
+
+export const scrollAreaIntersectionSliceBottom = style([
 	sprinkles({
 		position: 'relative',
 		pointerEvents: 'none',
