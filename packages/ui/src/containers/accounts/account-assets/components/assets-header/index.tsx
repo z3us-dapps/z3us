@@ -13,7 +13,7 @@ import { Text } from 'ui/src/components/typography'
 
 import * as styles from './assets-header.css'
 
-export const AssetsHeader = () => {
+export const AssetsHeader = React.forwardRef<HTMLDivElement>((props, ref) => {
 	const { currency } = useNoneSharedStore(state => ({
 		currency: state.currency,
 	}))
@@ -21,7 +21,7 @@ export const AssetsHeader = () => {
 	const { totalValue, isLoading } = useGlobalResourceBalances()
 
 	return (
-		<Box className={styles.assetsHeaderWrapper}>
+		<Box ref={ref} className={styles.assetsHeaderWrapper}>
 			<Box display="flex" width="full">
 				<Box flexGrow={1}>
 					<Box display="flex" alignItems="center" paddingBottom="medium" flexGrow={0}>
@@ -47,4 +47,4 @@ export const AssetsHeader = () => {
 			</Box>
 		</Box>
 	)
-}
+})

@@ -51,8 +51,11 @@ const AccountsHome = () => {
 								)}
 							/> */}
 							<ScrollPanel
+								showTopScrollShadow={false}
 								scrollParent={scrollMobileParent}
-								renderPanel={(scrollableNode: HTMLElement) => <AccountAssets scrollableNode={scrollableNode} />}
+								renderPanel={(scrollableNode: HTMLElement, isScrolledTop: boolean) => (
+									<AccountAssets scrollableNode={scrollableNode} isScrolledTop={isScrolledTop} />
+								)}
 							/>
 						</Box>
 						<Box className={styles.rightPanelWrapper}>

@@ -24,6 +24,25 @@ export const accountRoutesWrapper = style([
 	}),
 ])
 
+globalStyle(`${accountRoutesWrapper} thead`, {
+	top: '121px !important',
+	transition: vars.transition.fast,
+})
+
+export const accountTheadShadow = style([
+	sprinkles({
+		position: 'relative',
+	}),
+])
+
+globalStyle(`${accountTheadShadow} thead`, {
+	boxShadow: '0px 13px 13px -14px rgba(0, 0, 0, 0.4)',
+})
+
+globalStyle(`.${darkMode} ${accountTheadShadow} thead`, {
+	boxShadow: '0px 13px 13px -14px rgba(0, 0, 0, 0.4)',
+})
+
 export const accountRoutesMobileAccountHeader = style([
 	sprinkles({
 		position: 'sticky',
@@ -47,14 +66,18 @@ export const accountRoutesScrollingStickySheet = style([
 	sprinkles({
 		position: 'sticky',
 		top: 0,
+		display: {
+			mobile: 'block',
+			tablet: 'none',
+		},
 	}),
 	{
 		height: '0px',
 		'::before': {
 			content: '" "',
 			position: 'absolute',
-			bottom: '-calc(100vh)',
-			height: 'calc(100vh)',
+			bottom: '-calc(100vh - 100px)',
+			height: 'calc(100vh - 100px)',
 			left: '0',
 			right: '0',
 			pointerEvents: 'none',

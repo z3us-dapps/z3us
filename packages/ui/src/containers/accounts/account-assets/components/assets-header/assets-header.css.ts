@@ -7,20 +7,25 @@ import { vars } from 'ui/src/components/system/theme.css'
 
 export const assetsHeaderWrapper = style([
 	sprinkles({
-		position: 'relative',
+		position: 'sticky',
+		background: 'backgroundSecondary',
+		padding: 'large',
 		display: {
 			mobile: 'none',
 			tablet: 'flex',
 		},
+		zIndex: 1,
 	}),
-	{},
+	{
+		top: '1px',
+	},
 ])
 
 export const accountIndexWrapper = style([
 	sprinkles({
 		position: 'sticky',
 		top: 0,
-		zIndex: 1,
+		// zIndex: 1,
 		display: 'flex',
 		paddingX: {
 			mobile: 'large',

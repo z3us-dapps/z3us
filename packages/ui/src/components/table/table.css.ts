@@ -6,7 +6,6 @@ import { sprinkles } from '../system/sprinkles.css'
 import { recipeGlobalStyle } from '../system/theme-utils'
 import { vars } from '../system/theme.css'
 
-
 export const tableRootWrapper = style([
 	sprinkles({
 		display: 'block',
@@ -46,13 +45,13 @@ export const tableRecipe = recipe({
 	},
 })
 
-recipeGlobalStyle(tableRecipe({ sizeVariant: 'medium', styleVariant: 'primary' }), 'thead tr th:first-child', {
-	borderTopLeftRadius: `${vars.border.radius.medium}`,
-})
+// recipeGlobalStyle(tableRecipe({ sizeVariant: 'medium', styleVariant: 'primary' }), 'thead tr th:first-child', {
+// 	borderTopLeftRadius: `${vars.border.radius.medium}`,
+// })
 
-recipeGlobalStyle(tableRecipe({ sizeVariant: 'medium', styleVariant: 'primary' }), 'thead tr th:last-child', {
-	borderTopRightRadius: `${vars.border.radius.medium}`,
-})
+// recipeGlobalStyle(tableRecipe({ sizeVariant: 'medium', styleVariant: 'primary' }), 'thead tr th:last-child', {
+// 	borderTopRightRadius: `${vars.border.radius.medium}`,
+// })
 
 export const tableThRecipe = recipe({
 	base: {
@@ -62,7 +61,7 @@ export const tableThRecipe = recipe({
 		styleVariant: {
 			primary: [
 				sprinkles({
-					background: 'backgroundPrimary',
+					background: 'backgroundSecondary',
 					color: 'colorStrong',
 				}),
 				{},
@@ -81,7 +80,16 @@ export const tableThRecipe = recipe({
 					fontWeight: '500',
 				},
 			],
-			large: {},
+			large: [
+				sprinkles({
+					paddingX: 'large',
+					paddingY: 'large',
+				}),
+				{
+					fontSize: '14px',
+					fontWeight: '500',
+				},
+			],
 		},
 	},
 })
@@ -90,12 +98,15 @@ export const tableTrRecipe = recipe({
 	base: {},
 	variants: {
 		styleVariant: {
-			primary: [sprinkles({
-				transition: 'fast',
-				background: {
-					// hover: 'backgroundPrimary'
-				}
-				}), {}],
+			primary: [
+				sprinkles({
+					transition: 'fast',
+					background: {
+						// hover: 'backgroundPrimary'
+					},
+				}),
+				{},
+			],
 			secondary: [sprinkles({}), {}],
 		},
 		sizeVariant: {
@@ -111,7 +122,9 @@ export const tableTdRecipe = recipe({
 	variants: {
 		styleVariant: {
 			primary: [
-				sprinkles({}),
+				sprinkles({
+					background: 'backgroundSecondary',
+				}),
 				{
 					boxShadow: `inset 0px 1px 0px 0px ${vars.color.borderDivider}`,
 				},
@@ -130,7 +143,16 @@ export const tableTdRecipe = recipe({
 					lineHeight: '14px',
 				},
 			],
-			large: {},
+			large: [
+				sprinkles({
+					paddingX: 'large',
+					paddingY: 'large',
+				}),
+				{
+					fontSize: '14px',
+					lineHeight: '14px',
+				},
+			],
 		},
 	},
 })

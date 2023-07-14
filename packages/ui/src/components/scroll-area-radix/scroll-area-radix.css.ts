@@ -50,11 +50,11 @@ export const scrollAreaViewportWrapper = style([
 export const scrollAreaScrollbarWrapper = style([
 	sprinkles({
 		position: 'relative',
-		zIndex: 1,
 		display: 'flex',
 		padding: 'xxsmall',
 		cursor: 'pointer',
 		transition: 'fast',
+		zIndex: 2,
 	}),
 	{
 		// TODO: rounded prop

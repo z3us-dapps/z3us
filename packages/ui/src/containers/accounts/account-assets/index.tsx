@@ -2,6 +2,7 @@
 import clsx from 'clsx'
 import { AnimatePresence, motion } from 'framer-motion'
 import React, { useCallback, useContext, useEffect, useState } from 'react'
+import useMeasure from 'react-use-measure'
 import { VirtuosoGrid } from 'react-virtuoso'
 import { useTimeout } from 'usehooks-ts'
 
@@ -26,32 +27,21 @@ export const hash = () => Math.random().toString(36).substring(7)
 
 interface IAccountRoutesProps {
 	scrollableNode: HTMLElement
+	isScrolledTop: boolean
 }
 
 export const AccountAssets: React.FC<IAccountRoutesProps> = props => {
-	const { scrollableNode } = props
-	const [items, setItems] = useState<any>([])
-
-	// TODO: demo data fetching
-	useEffect(() => {
-		setItems(Array.from({ length: 40 }, _ => ({ id: hash(), name: hash(), loaded: false, symbol: 'xrd' })))
-	}, [])
+	const [measureRef, { height: headerHeight }] = useMeasure()
+	const { scrollableNode, isScrolledTop } = props
 
 	return (
-		<Box className={styles.accountRoutesWrapper}>
+		<Box className={clsx(styles.accountRoutesWrapper, !isScrolledTop && styles.accountTheadShadow)}>
 			<Box className={styles.accountRoutesScrollingWrapper}>
 				<Box className={styles.accountRoutesScrollingStickySheet} />
 				<MobileScrollingButtons />
-				<AssetsHeader />
+				<AssetsHeader ref={measureRef} />
 				<AssetsTable scrollableNode={scrollableNode} />
 			</Box>
 		</Box>
 	)
 }
-
-// return (
-// 	<>
-// 		<AccountIndexHeader />
-// 		<AccountIndexAssets scrollableNode={scrollableNode} />
-// 	</>
-// )

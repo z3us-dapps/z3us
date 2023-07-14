@@ -38,7 +38,7 @@ interface IScrollAreaRadix extends ScrollAreaPrimitive.ScrollAreaProps {
 	fixHeight?: boolean
 	showTopScrollShadow?: boolean
 	showBottomScrollShadow?: boolean
-	renderScrollArea: (scrollParent: HTMLElement | null) => any
+	renderScrollArea: (scrollParent: HTMLElement | null, isScrollTop: boolean) => any
 }
 
 export const ScrollAreaRadix = ({ children, ...props }: IScrollAreaRadix) => {
@@ -54,7 +54,7 @@ export const ScrollAreaRadix = ({ children, ...props }: IScrollAreaRadix) => {
 
 	const [scrollParent, setScrollParent] = useState<HTMLElement | null>(null)
 	const [scrollHeight, setScrollHeight] = useState<number | undefined>(1)
-	const [isScrolledBottom, setIsScrolledBottom] = useState<boolean>(1)
+	const [isScrolledBottom, setIsScrolledBottom] = useState<boolean>(false)
 
 	const bottomRef = useRef<HTMLDivElement | null>(null)
 	const bottomRefEntry = useIntersectionObserver(bottomRef, {})
@@ -94,7 +94,7 @@ export const ScrollAreaRadix = ({ children, ...props }: IScrollAreaRadix) => {
 		>
 			<ScrollAreaViewport ref={setScrollParent}>
 				{!disabled && <div ref={topRef} className={styles.scrollAreaIntersectionSlice} />}
-				{renderScrollArea(scrollParent)}
+				{renderScrollArea(scrollParent, isScrolledTop)}
 				{!disabled && <div ref={bottomRef} className={styles.scrollAreaIntersectionSlice} />}
 			</ScrollAreaViewport>
 			<ScrollAreaScrollbar orientation="vertical">

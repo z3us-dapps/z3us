@@ -1,3 +1,4 @@
+/* eslint-disable react/no-unstable-nested-components */
 import clsx, { type ClassValue } from 'clsx'
 import React, { useMemo } from 'react'
 import { useTable } from 'react-table'
@@ -30,7 +31,6 @@ export const Table: React.FC<ISwitchProps> = ({
 
 	const memoizedComponents = useMemo(
 		() => ({
-			// eslint-disable-next-line react/no-unstable-nested-components
 			Table: ({ style, ...tableProps }) => (
 				<table
 					{...getTableProps()}
@@ -42,12 +42,9 @@ export const Table: React.FC<ISwitchProps> = ({
 					style={{ ...style }}
 				/>
 			),
-
-			// eslint-disable-next-line react/no-unstable-nested-components
 			TableBody: React.forwardRef((tableBodyProps, ref) => (
 				<tbody {...getTableBodyProps()} {...tableBodyProps} ref={ref} />
 			)),
-			// eslint-disable-next-line react/no-unstable-nested-components
 			TableRow: tableRowProps => {
 				// eslint-disable-next-line react/destructuring-assignment
 				const index = tableRowProps['data-index']
@@ -59,7 +56,7 @@ export const Table: React.FC<ISwitchProps> = ({
 							styleVariant,
 						})}
 						{...tableRowProps}
-						{...row?.getRowProps()}
+						{...(row?.getRowProps ? row?.getRowProps() : {})}
 					/>
 				)
 			},
@@ -73,7 +70,6 @@ export const Table: React.FC<ISwitchProps> = ({
 				className={clsx(styles.tableRootWrapper, className)}
 				totalCount={rows.length}
 				customScrollParent={scrollableNode}
-				// fix any
 				components={memoizedComponents as any}
 				fixedHeaderContent={() =>
 					headerGroups.map(headerGroup => (

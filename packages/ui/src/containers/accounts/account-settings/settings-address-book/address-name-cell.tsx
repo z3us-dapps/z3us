@@ -8,9 +8,9 @@ import { Avatar } from 'ui/src/components/avatar'
 import { Box } from 'ui/src/components/box'
 import { Button } from 'ui/src/components/button'
 import { DialogAlert } from 'ui/src/components/dialog-alert'
+import { EditIcon, LoadingBarsIcon, PlusIcon, TrashIcon } from 'ui/src/components/icons'
 import { Table } from 'ui/src/components/table'
 import { Text } from 'ui/src/components/typography'
-import { EditIcon, LoadingBarsIcon, PlusIcon, TrashIcon } from 'ui/src/components/icons'
 
 interface IAddressNameCellProps {
 	// TODO

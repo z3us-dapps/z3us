@@ -12,7 +12,7 @@ const TABLET_BREAK_POINT = parseInt(screensJson.screens.md.value.replace('px', '
 interface IScrollPanelProps {
 	className?: ClassValue
 	scrollParent: HTMLElement | null
-	renderPanel: (scrollRef: HTMLElement | null) => any
+	renderPanel: (scrollRef: HTMLElement | null, isScrollTop: boolean) => React.ReactElement
 	showTopScrollShadow?: boolean
 	showBottomScrollShadow?: boolean
 }
@@ -30,7 +30,7 @@ export const ScrollPanel: React.FC<IScrollPanelProps> = props => {
 			className={clsx(styles.scrollWrapper, className)}
 			showTopScrollShadow={showTopScrollShadow}
 			showBottomScrollShadow={showBottomScrollShadow}
-			renderScrollArea={panelRef => renderPanel(isMobileScroll ? scrollParent : panelRef)}
+			renderScrollArea={(panelRef, isScrollTop) => renderPanel(isMobileScroll ? scrollParent : panelRef, isScrollTop)}
 		/>
 	)
 }
