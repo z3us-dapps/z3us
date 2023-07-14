@@ -2,7 +2,7 @@ import { LTSRadixEngineToolkit } from '@radixdlt/radix-engine-toolkit'
 import { useNetworkId } from 'packages/ui/src/hooks/dapp/use-network-id'
 import { useMemo } from 'react'
 
-import { usePublicKey } from './use-publick-key'
+import { usePublicKey } from './use-public-key'
 
 export const useVirtualAccountAddress = () => {
 	const networkId = useNetworkId()

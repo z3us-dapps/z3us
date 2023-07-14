@@ -20,7 +20,7 @@ export type Keystore = {
 }
 
 export type KeystoresState = {
-	selectKeystoreId: string
+	selectedKeystoreId: string
 	selectKeystoreAction: (id: string) => void
 
 	keystores: Keystore[]

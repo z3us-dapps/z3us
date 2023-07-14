@@ -7,7 +7,7 @@ import { useMessageClient } from './use-message-client'
 export const usePublicKey = (): [PublicKey.PublicKey | null, Error | null] => {
 	const client = useMessageClient()
 	const { keystoreId } = useSharedStore(state => ({
-		keystoreId: state.selectKeystoreId,
+		keystoreId: state.selectedKeystoreId,
 	}))
 
 	const [error, setError] = useState<Error | null>(null)

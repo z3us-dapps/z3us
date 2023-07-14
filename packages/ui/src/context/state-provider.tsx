@@ -19,7 +19,7 @@ interface INoneSharedStoreProvider {
 export const NoneSharedStoreProvider = (props: INoneSharedStoreProvider) => {
 	const { children } = props
 	const { keystoreId } = useSharedStore(state => ({
-		keystoreId: state.selectKeystoreId,
+		keystoreId: state.selectedKeystoreId,
 	}))
 
 	const [state, setState] = useState<TStoreContext>(defaultValue)

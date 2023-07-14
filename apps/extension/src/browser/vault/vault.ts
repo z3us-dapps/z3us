@@ -41,8 +41,8 @@ export class Vault {
 		try {
 			const data = await this.crypto.decrypt<Data>(password, secret)
 
-			const { selectKeystoreId } = sharedStore.getState()
-			const noneSharedStore = await getNoneSharedStore(selectKeystoreId)
+			const { selectedKeystoreId } = sharedStore.getState()
+			const noneSharedStore = await getNoneSharedStore(selectedKeystoreId)
 			const { walletUnlockTimeoutInMinutes = 5 } = noneSharedStore.getState()
 
 			const release = await this.mutex.acquire()
@@ -137,8 +137,8 @@ export class Vault {
 	}
 
 	private restartTimer = async () => {
-		const { selectKeystoreId } = sharedStore.getState()
-		const noneSharedStore = await getNoneSharedStore(selectKeystoreId)
+		const { selectedKeystoreId } = sharedStore.getState()
+		const noneSharedStore = await getNoneSharedStore(selectedKeystoreId)
 		const { walletUnlockTimeoutInMinutes = 5 } = noneSharedStore.getState()
 
 		const release = await this.mutex.acquire()

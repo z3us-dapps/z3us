@@ -19,11 +19,24 @@ import {
 	DropdownMenuSeparator,
 	DropdownMenuTrigger,
 } from 'ui/src/components/dropdown-menu'
-import { CheckIcon, LockIcon, PlusIcon, Settings2Icon, ShareIcon } from 'ui/src/components/icons'
+import {
+	CheckIcon,
+	HardwareWalletIcon,
+	HomeIcon,
+	LockIcon,
+	NetworkIcon,
+	PlusIcon,
+	Settings2Icon,
+	ShareIcon,
+} from 'ui/src/components/icons'
 // TODO: can update references here
 import { Link } from 'ui/src/components/router-link'
 import SimpleBar from 'ui/src/components/simple-bar'
+import Translation from 'ui/src/components/translation'
 import { Text } from 'ui/src/components/typography'
+import { useContentScriptStatus } from 'ui/src/hooks/use-content-script-status'
+import { useSharedStore } from 'ui/src/hooks/use-store'
+import { KeystoreType } from 'ui/src/store/types'
 
 import * as styles from './dropdown-profile.css'
 
@@ -34,6 +47,13 @@ interface IWalletDropdownProps {
 export const WalletDropdown: React.FC<IWalletDropdownProps> = props => {
 	const { className } = props
 	const navigate = useNavigate()
+	const contentScriptStatus = useContentScriptStatus()
+
+	const { selectedKeystoreId, keystores, selectKeystore } = useSharedStore(state => ({
+		selectedKeystoreId: state.selectedKeystoreId,
+		keystores: state.keystores,
+		selectKeystore: state.selectKeystoreAction,
+	}))
 
 	const handleGoToSettings = () => {
 		navigate('/accounts/settings')
@@ -83,48 +103,47 @@ export const WalletDropdown: React.FC<IWalletDropdownProps> = props => {
 					<DropdownMenuContent align="end" sideOffset={2} className={styles.dropdownProfileContentWrapper}>
 						<SimpleBar className={styles.dropdownProfileSimpleBarWrapper}>
 							<Box className={styles.dropdownProfileScrollAreaWrapper}>
-								<DropdownMenuLabel>
-									<Text size="xsmall" weight="strong" color="strong">
-										Connected to{' '}
-										<Link href="https://ociswap.com/">
-											<Text size="xsmall" weight="strong" color="strong">
-												ociswap.com
-											</Text>
-										</Link>
-									</Text>
-								</DropdownMenuLabel>
+								{contentScriptStatus && (
+									<DropdownMenuLabel>
+										<Text size="xsmall" weight="strong" color="strong">
+											<Translation capitalizeFirstLetter text="wallet_dropdown.content_script.title" />{' '}
+											<Link href="https://ociswap.com/">
+												<Text size="xsmall" weight="strong" color="strong">
+													{contentScriptStatus.currentTabHost}
+												</Text>
+											</Link>
+										</Text>
+									</DropdownMenuLabel>
+								)}
 
 								<DropdownMenuLabel>
 									<Text size="xsmall" weight="strong" color="strong">
-										Wallet
+										<Translation capitalizeFirstLetter text="wallet_dropdown.wallet.title" />
 									</Text>
 								</DropdownMenuLabel>
-								<DropdownMenuRadioGroup value="light" onValueChange={() => {}}>
-									<DropdownMenuRadioItem value="light">
-										<Box flexGrow={1}>
-											<Text size="xsmall">Main driver</Text>
-										</Box>
-										<DropdownMenuItemIndicator>
-											<CheckIcon />
-										</DropdownMenuItemIndicator>
-									</DropdownMenuRadioItem>
-									<DropdownMenuRadioItem value="dark">
-										<Box flexGrow={1}>
-											<Text size="xsmall">Burner test wallet</Text>
-										</Box>
-										<DropdownMenuItemIndicator>
-											<CheckIcon />
-										</DropdownMenuItemIndicator>
-									</DropdownMenuRadioItem>
+								<DropdownMenuRadioGroup value={selectedKeystoreId} onValueChange={selectKeystore}>
+									{keystores.map(keystore => (
+										<DropdownMenuRadioItem key={keystore.id} value={keystore.id}>
+											<DropdownMenuLeftSlot>
+												{keystore.type === KeystoreType.RADIX_WALLET && <HomeIcon />}
+												{keystore.type === KeystoreType.HARDWARE && <HardwareWalletIcon />}
+												{keystore.type === KeystoreType.LOCAL && <NetworkIcon />}
+											</DropdownMenuLeftSlot>
+											<Box flexGrow={1}>
+												<Text size="xsmall"> {keystore.name}</Text>
+											</Box>
+											<DropdownMenuItemIndicator>
+												<CheckIcon />
+											</DropdownMenuItemIndicator>
+										</DropdownMenuRadioItem>
+									))}
 								</DropdownMenuRadioGroup>
 
 								<DropdownMenuSeparator />
 
-								<DropdownMenuSeparator />
-
 								<DropdownMenuLabel>
 									<Text size="xsmall" weight="strong" color="strong">
-										Persona
+										<Translation capitalizeFirstLetter text="wallet_dropdown.person.title" />
 									</Text>
 								</DropdownMenuLabel>
 
@@ -163,7 +182,9 @@ export const WalletDropdown: React.FC<IWalletDropdownProps> = props => {
 										<Settings2Icon />
 									</DropdownMenuLeftSlot>
 									<Box display="flex" marginLeft="small">
-										<Text size="xsmall">Settings</Text>
+										<Text size="xsmall">
+											<Translation capitalizeFirstLetter text="wallet_dropdown.settings" />
+										</Text>
 									</Box>
 								</DropdownMenuItem>
 								<DropdownMenuItem>
@@ -171,7 +192,9 @@ export const WalletDropdown: React.FC<IWalletDropdownProps> = props => {
 										<LockIcon />
 									</DropdownMenuLeftSlot>
 									<Box display="flex" marginLeft="small">
-										<Text size="xsmall">Lock wallet</Text>
+										<Text size="xsmall">
+											<Translation capitalizeFirstLetter text="wallet_dropdown.lock" />
+										</Text>
 									</Box>
 								</DropdownMenuItem>
 								<DropdownMenuItem>
@@ -179,7 +202,9 @@ export const WalletDropdown: React.FC<IWalletDropdownProps> = props => {
 										<ShareIcon />
 									</DropdownMenuLeftSlot>
 									<Box display="flex" marginLeft="small">
-										<Text size="xsmall">Open in browser</Text>
+										<Text size="xsmall">
+											<Translation capitalizeFirstLetter text="wallet_dropdown.open_in_browser" />
+										</Text>
 									</Box>
 								</DropdownMenuItem>
 							</Box>

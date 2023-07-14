@@ -4,6 +4,7 @@ import '@/styles/global-style.css'
 // import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
 // import { displayValue } from '@tanstack/react-query-devtools/build/lib/utils'
 import type { AppProps } from 'next/app'
+import { ContentScriptStatusContext } from 'packages/ui/src/context/content-script'
 import React, { useEffect, useState } from 'react'
 
 import I18Provider from 'ui/src/components/i18n'
@@ -24,14 +25,16 @@ export default function App({ Component, pageProps }: AppProps) {
 	return (
 		<div suppressHydrationWarning>
 			<ThemeProvider>
-				<I18Provider>
-					<ReactQueryProvider dehydratedState={pageProps.dehydratedState}>
-						<NoneSharedStoreProvider>
-							<RdtProvider>{typeof window === 'undefined' ? null : <Component {...pageProps} />}</RdtProvider>
-						</NoneSharedStoreProvider>
-						{/* <ReactQueryDevtools initialIsOpen={false} /> */}
-					</ReactQueryProvider>
-				</I18Provider>
+				<ContentScriptStatusContext.Provider value={null}>
+					<I18Provider>
+						<ReactQueryProvider dehydratedState={pageProps.dehydratedState}>
+							<NoneSharedStoreProvider>
+								<RdtProvider>{typeof window === 'undefined' ? null : <Component {...pageProps} />}</RdtProvider>
+							</NoneSharedStoreProvider>
+							{/* <ReactQueryDevtools initialIsOpen={false} /> */}
+						</ReactQueryProvider>
+					</I18Provider>
+				</ContentScriptStatusContext.Provider>
 			</ThemeProvider>
 		</div>
 	)

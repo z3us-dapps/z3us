@@ -10,6 +10,7 @@ import { ReactQueryProvider } from 'ui/src/context/react-query-provider'
 import { NoneSharedStoreProvider } from 'ui/src/context/state-provider'
 
 import { config } from '@src/config'
+import { ContentScriptStatusProvider } from '@src/context/content-script-status-provider'
 import { ThemeProvider } from '@src/context/theme-provider'
 import '@src/styles/global-style.css'
 
@@ -22,18 +23,20 @@ enableMapSet()
 ReactDOM.createRoot(container).render(
 	<React.StrictMode>
 		<ThemeProvider>
-			<I18Provider>
-				<ReactQueryProvider>
-					<NoneSharedStoreProvider>
-						<RdtProvider>
-							<HashRouter>
-								<App />
-								{config.isDevelopmentMode && <ReactQueryDevtools initialIsOpen={false} />}
-							</HashRouter>
-						</RdtProvider>
-					</NoneSharedStoreProvider>
-				</ReactQueryProvider>
-			</I18Provider>
+			<ContentScriptStatusProvider>
+				<I18Provider>
+					<ReactQueryProvider>
+						<NoneSharedStoreProvider>
+							<RdtProvider>
+								<HashRouter>
+									<App />
+									{config.isDevelopmentMode && <ReactQueryDevtools initialIsOpen={false} />}
+								</HashRouter>
+							</RdtProvider>
+						</NoneSharedStoreProvider>
+					</ReactQueryProvider>
+				</I18Provider>
+			</ContentScriptStatusProvider>
 		</ThemeProvider>
 	</React.StrictMode>,
 )

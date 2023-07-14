@@ -1,16 +1,16 @@
 import { KeystoreType } from './types'
 import type { IKeystoresStateSetter, KeystoresState } from './types'
 
-const defaultKeystore = { id: 'default', name: 'default', type: KeystoreType.RADIX_WALLET }
+const defaultKeystore = { id: 'default', name: 'Default', type: KeystoreType.RADIX_WALLET }
 
 export const factory = (set: IKeystoresStateSetter): KeystoresState => ({
 	keystores: [defaultKeystore],
-	selectKeystoreId: defaultKeystore.id,
+	selectedKeystoreId: defaultKeystore.id,
 
 	addKeystoreAction: (id: string, name: string, type: KeystoreType) => {
 		set(draft => {
 			draft.keystores = [...draft.keystores, { id, name, type }]
-			draft.selectKeystoreId = id
+			draft.selectedKeystoreId = id
 		})
 	},
 
@@ -24,12 +24,12 @@ export const factory = (set: IKeystoresStateSetter): KeystoresState => ({
 	removeKeystoreAction: (keystoreId: string) => {
 		set(draft => {
 			draft.keystores = draft.keystores.filter(({ id }) => keystoreId !== id) || []
-			const current = draft.keystores.find(({ id }) => id === draft.selectKeystoreId)
+			const current = draft.keystores.find(({ id }) => id === draft.selectedKeystoreId)
 			if (!current) {
 				if (draft.keystores.length > 0) {
-					draft.selectKeystoreId = draft.keystores[0].id
+					draft.selectedKeystoreId = draft.keystores[0].id
 				} else {
-					draft.selectKeystoreId = ''
+					draft.selectedKeystoreId = ''
 				}
 			}
 		})
@@ -37,7 +37,7 @@ export const factory = (set: IKeystoresStateSetter): KeystoresState => ({
 
 	selectKeystoreAction: (keystoreId: string) => {
 		set(draft => {
-			draft.selectKeystoreId = draft.keystores.find(({ id }) => id === keystoreId)?.id || ''
+			draft.selectedKeystoreId = draft.keystores.find(({ id }) => id === keystoreId)?.id || ''
 		})
 	},
 })
