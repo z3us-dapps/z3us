@@ -25,7 +25,7 @@ export const accountRoutesWrapper = style([
 ])
 
 globalStyle(`${accountRoutesWrapper} thead`, {
-	top: '121px !important',
+	top: '120px !important',
 	transition: vars.transition.fast,
 })
 

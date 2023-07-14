@@ -9,7 +9,8 @@ export const assetsHeaderWrapper = style([
 	sprinkles({
 		position: 'sticky',
 		background: 'backgroundSecondary',
-		padding: 'xlarge',
+		paddingX: 'xlarge',
+		paddingTop: 'xlarge',
 		display: {
 			mobile: 'none',
 			tablet: 'flex',
@@ -17,7 +18,8 @@ export const assetsHeaderWrapper = style([
 		zIndex: 1,
 	}),
 	{
-		top: '1px',
+		top: '0px',
+		height: '120px',
 	},
 ])
 
