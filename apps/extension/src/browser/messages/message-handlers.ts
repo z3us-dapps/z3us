@@ -13,6 +13,10 @@ async function ping() {
 	return true
 }
 
+async function lockVault() {
+	vault.lock()
+}
+
 export interface UnlockVaultMessage {
 	password: string
 }
@@ -75,6 +79,7 @@ async function getPublicKey(message: Message) {
 export type MessageTypes = {
 	[MessageAction.PING]: undefined
 
+	[MessageAction.VAULT_LOCK]: undefined
 	[MessageAction.VAULT_UNLOCK]: UnlockVaultMessage
 	[MessageAction.VAULT_SAVE]: StoreInVaultMessage
 	[MessageAction.VAULT_REMOVE]: RemoveFromVaultMessage
@@ -86,6 +91,7 @@ export type MessageTypes = {
 export default {
 	[MessageAction.PING]: ping,
 
+	[MessageAction.VAULT_LOCK]: lockVault,
 	[MessageAction.VAULT_UNLOCK]: unlockVault,
 	[MessageAction.VAULT_SAVE]: storeInVault,
 	[MessageAction.VAULT_REMOVE]: removeFromVault,

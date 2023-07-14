@@ -158,7 +158,7 @@ export const WalletDropdown: React.FC<IWalletDropdownProps> = props => {
 
 								<DropdownMenuSeparator />
 
-								<DropdownMenuItem onSelect={() => handleGoToSettings()}>
+								<DropdownMenuItem onSelect={handleGoToSettings}>
 									<DropdownMenuLeftSlot>
 										<Settings2Icon />
 									</DropdownMenuLeftSlot>

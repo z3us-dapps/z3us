@@ -13,6 +13,7 @@ export const useMessageClient = () => ({
 
 	ping: async (): Promise<boolean> => client.sendMessage(MessageAction.PING),
 
+	lockVault: async (): Promise<void> => client.sendMessage(MessageAction.VAULT_LOCK),
 	unlockVault: async (password: string): Promise<void> =>
 		client.sendMessage(MessageAction.VAULT_UNLOCK, { password } as MessageTypes[MessageAction.VAULT_UNLOCK]),
 	storeInVault: async (keystore: Keystore, data: Data, password: string): Promise<void> =>

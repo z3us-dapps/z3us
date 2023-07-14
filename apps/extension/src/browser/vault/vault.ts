@@ -126,6 +126,16 @@ export class Vault {
 		}
 	}
 
+	lock = async () => {
+		const release = await this.mutex.acquire()
+		if (this.wallet?.timer) {
+			clearTimeout(this.wallet.timer)
+		}
+		this.wallet = null
+		this.setConnectionPassword()
+		release()
+	}
+
 	private restartTimer = async () => {
 		const { selectKeystoreId } = sharedStore.getState()
 		const noneSharedStore = await getNoneSharedStore(selectKeystoreId)
@@ -139,16 +149,6 @@ export class Vault {
 
 		clearTimeout(this.wallet.timer)
 		this.wallet.timer = setTimeout(this.lock, walletUnlockTimeoutInMinutes * 60 * 1000)
-		release()
-	}
-
-	private lock = async () => {
-		const release = await this.mutex.acquire()
-		if (this.wallet?.timer) {
-			clearTimeout(this.wallet.timer)
-		}
-		this.wallet = null
-		this.setConnectionPassword()
 		release()
 	}
 
