@@ -93,9 +93,9 @@ export const ScrollAreaRadix = ({ children, ...props }: IScrollAreaRadix) => {
 			{...rest}
 		>
 			<ScrollAreaViewport ref={setScrollParent}>
-				{!disabled && <div ref={topRef} className={styles.scrollAreaIntersectionSlice} />}
+				{!disabled && <div ref={topRef} className={styles.scrollAreaIntersectionSliceTop} />}
 				{renderScrollArea(scrollParent, isScrolledTop)}
-				{!disabled && <div ref={bottomRef} className={styles.scrollAreaIntersectionSlice} />}
+				{!disabled && <div ref={bottomRef} className={styles.scrollAreaIntersectionSliceBottom} />}
 			</ScrollAreaViewport>
 			<ScrollAreaScrollbar orientation="vertical">
 				<ScrollAreaThumb />

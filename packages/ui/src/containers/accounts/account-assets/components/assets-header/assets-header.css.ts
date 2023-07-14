@@ -9,7 +9,7 @@ export const assetsHeaderWrapper = style([
 	sprinkles({
 		position: 'sticky',
 		background: 'backgroundSecondary',
-		padding: 'large',
+		padding: 'xlarge',
 		display: {
 			mobile: 'none',
 			tablet: 'flex',
