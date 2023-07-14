@@ -32,7 +32,7 @@ export const tableRecipe = recipe({
 					borderRadius: 'medium',
 				}),
 				{
-					boxShadow: `inset 0px 0px 0px 1px ${vars.color.borderDivider}`,
+					// boxShadow: `inset 0px 0px 0px 1px ${vars.color.borderDivider}`,
 				},
 			],
 			secondary: [sprinkles({}), {}],
@@ -61,37 +61,44 @@ export const tableThRecipe = recipe({
 		styleVariant: {
 			primary: [
 				sprinkles({
-					background: 'backgroundSecondary',
-					color: 'colorStrong',
+					// background: 'backgroundSecondary',
+					color: 'colorNeutral',
 				}),
 				{},
 			],
 			secondary: [sprinkles({}), {}],
 		},
 		sizeVariant: {
-			small: {},
 			medium: [
-				sprinkles({
-					paddingX: 'medium',
-					paddingY: 'medium',
-				}),
+				sprinkles({}),
 				{
-					fontSize: '14px',
+					fontSize: '12px',
+					lineHeight: '18px',
 					fontWeight: '500',
 				},
 			],
 			large: [
-				sprinkles({
-					paddingX: 'large',
-					paddingY: 'large',
-				}),
+				sprinkles({}),
 				{
-					fontSize: '14px',
+					fontSize: '12px',
+					lineHeight: '18px',
 					fontWeight: '500',
 				},
 			],
 		},
 	},
+	compoundVariants: [
+		{
+			variants: {
+				sizeVariant: 'large',
+				styleVariant: 'primary',
+			},
+			style: {
+				paddingTop: vars.spacing.medium,
+				paddingBottom: vars.spacing.medium,
+			},
+		},
+	],
 })
 
 export const tableTrRecipe = recipe({
@@ -110,9 +117,8 @@ export const tableTrRecipe = recipe({
 			secondary: [sprinkles({}), {}],
 		},
 		sizeVariant: {
-			small: {},
 			medium: [sprinkles({}), {}],
-			large: {},
+			large: [sprinkles({}), {}],
 		},
 	},
 })
@@ -123,36 +129,43 @@ export const tableTdRecipe = recipe({
 		styleVariant: {
 			primary: [
 				sprinkles({
-					background: 'backgroundSecondary',
+					// background: 'backgroundSecondary',
 				}),
 				{
-					boxShadow: `inset 0px 1px 0px 0px ${vars.color.borderDivider}`,
+					// boxShadow: `inset 0px 1px 0px 0px ${vars.color.borderDivider}`,
 				},
 			],
 			secondary: [sprinkles({}), {}],
 		},
 		sizeVariant: {
-			small: {},
 			medium: [
-				sprinkles({
-					paddingX: 'medium',
-					paddingY: 'medium',
-				}),
+				sprinkles({}),
 				{
-					fontSize: '14px',
-					lineHeight: '14px',
+					fontSize: '13px',
+					lineHeight: '28px',
+					fontWeight: '500',
 				},
 			],
 			large: [
-				sprinkles({
-					paddingX: 'large',
-					paddingY: 'large',
-				}),
+				sprinkles({}),
 				{
 					fontSize: '14px',
-					lineHeight: '14px',
+					lineHeight: '20px',
+					fontWeight: '500',
 				},
 			],
 		},
 	},
+	compoundVariants: [
+		{
+			variants: {
+				sizeVariant: 'large',
+				styleVariant: 'primary',
+			},
+			style: {
+				paddingTop: vars.spacing.medium,
+				paddingBottom: vars.spacing.medium,
+			},
+		},
+	],
 })

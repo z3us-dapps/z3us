@@ -92,7 +92,13 @@ export const AssetsTable: React.FC<IAccountTableProps> = props => {
 
 	return (
 		<Box className={styles.assetsTableWrapper}>
-			<Table sizeVariant="large" scrollableNode={scrollableNode ?? undefined} data={items} columns={columns} />
+			<Table
+				styleVariant="primary"
+				sizeVariant="large"
+				scrollableNode={scrollableNode ?? undefined}
+				data={items}
+				columns={columns}
+			/>
 		</Box>
 	)
 }

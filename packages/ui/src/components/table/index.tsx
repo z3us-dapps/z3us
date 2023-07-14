@@ -12,7 +12,7 @@ interface ISwitchProps {
 	data: Array<object>
 	scrollableNode?: HTMLElement
 	className?: ClassValue
-	sizeVariant?: 'small' | 'medium' | 'large'
+	sizeVariant?: 'medium' | 'large'
 	styleVariant?: 'primary' | 'secondary'
 }
 

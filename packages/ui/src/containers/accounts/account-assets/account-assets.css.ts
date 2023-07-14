@@ -13,10 +13,7 @@ export const accountRoutesWrapper = style([
 	}),
 
 	responsiveStyle({
-		mobile: {
-			// background: '#8A4AE1',
-			// minHeight: 'calc(100vh - 58px - 48px)',
-		},
+		mobile: {},
 		tablet: {
 			background: 'unset',
 			minHeight: 'unset',
@@ -27,6 +24,7 @@ export const accountRoutesWrapper = style([
 globalStyle(`${accountRoutesWrapper} thead`, {
 	top: '120px !important',
 	transition: vars.transition.fast,
+	background: vars.color.backgroundSecondary,
 })
 
 export const accountTheadShadow = style([
