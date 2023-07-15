@@ -7,7 +7,7 @@ import { TableVirtuoso } from 'react-virtuoso'
 import { Box } from '../box'
 import * as styles from './table.css'
 
-interface ISwitchProps {
+interface ITableProps {
 	columns: Array<object>
 	data: Array<object>
 	scrollableNode?: HTMLElement
@@ -17,7 +17,7 @@ interface ISwitchProps {
 	onRowSelected: (row: any) => void
 }
 
-export const Table: React.FC<ISwitchProps> = ({
+export const Table: React.FC<ITableProps> = ({
 	scrollableNode,
 	className,
 	sizeVariant = 'medium',
@@ -34,7 +34,15 @@ export const Table: React.FC<ISwitchProps> = ({
 		[],
 	)
 
-	const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } = useTable(
+	const {
+		getTableProps,
+		getTableBodyProps,
+		headerGroups,
+		rows,
+		prepareRow,
+		// state: { selectedRowIds },
+		toggleAllRowsSelected,
+	} = useTable(
 		{
 			columns,
 			data,
@@ -46,6 +54,10 @@ export const Table: React.FC<ISwitchProps> = ({
 		useSortBy,
 		useRowSelect,
 	)
+
+	const deselectAllRows = () => {
+		toggleAllRowsSelected(false)
+	}
 
 	const memoizedComponents = useMemo(
 		() => ({
@@ -71,7 +83,11 @@ export const Table: React.FC<ISwitchProps> = ({
 
 				return (
 					<tr
-						onClick={rowSelectedProps.onChange}
+						onClick={e => {
+							deselectAllRows()
+							rowSelectedProps.onChange(e)
+							onRowSelected(row)
+						}}
 						className={clsx(
 							styles.tableTrRecipe({
 								sizeVariant,
