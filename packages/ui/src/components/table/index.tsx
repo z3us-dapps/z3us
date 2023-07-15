@@ -5,6 +5,7 @@ import { useRowSelect, useSortBy, useTable } from 'react-table'
 import { TableVirtuoso } from 'react-virtuoso'
 
 import { Box } from '../box'
+import { ChevronDown2Icon, ChevronUp2Icon } from '../icons'
 import * as styles from './table.css'
 
 interface ITableProps {
@@ -26,7 +27,8 @@ export const Table: React.FC<ITableProps> = ({
 	columns,
 	onRowSelected,
 }) => {
-	const initialSort = React.useMemo(() => [{ id: 'token', desc: false }], [])
+	const initialSort = React.useMemo(() => [{ id: 'token', desc: true }], [])
+
 	const initialSelectedRows = React.useMemo(
 		() => ({
 			2: true, // Select row with ID 2 by default
@@ -127,8 +129,10 @@ export const Table: React.FC<ITableProps> = ({
 									{...column.getHeaderProps(column.getSortByToggleProps())}
 								>
 									{column.render('Header')}
-									{/* eslint-disable-next-line no-nested-ternary */}
-									<span>{column.isSorted ? (column.isSortedDesc ? ' 🔽' : ' 🔼') : ''}</span>
+									<Box height="medium" display="flex" alignItems="center" justifyContent="center">
+										{/* eslint-disable-next-line no-nested-ternary */}
+										{column.isSorted ? column.isSortedDesc ? <ChevronDown2Icon /> : <ChevronUp2Icon /> : ''}
+									</Box>
 								</th>
 							))}
 						</tr>
