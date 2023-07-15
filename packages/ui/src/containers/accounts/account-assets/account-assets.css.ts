@@ -23,7 +23,23 @@ export const accountRoutesWrapper = style([
 
 globalStyle(`${accountRoutesWrapper} thead`, {
 	top: '120px !important',
+	position: 'relative',
 	transition: vars.transition.fast,
+	// background: vars.color.backgroundSecondary,
+})
+
+globalStyle(`${accountRoutesWrapper} thead tr`, {
+	position: 'relative',
+})
+
+globalStyle(`${accountRoutesWrapper} thead::before`, {
+	position: 'absolute',
+	content: "''",
+	transition: vars.transition.fast,
+	top: '0',
+	left: '-15px',
+	right: '-15px',
+	bottom: '2px',
 	background: vars.color.backgroundSecondary,
 })
 
@@ -33,11 +49,11 @@ export const accountTheadShadow = style([
 	}),
 ])
 
-globalStyle(`${accountTheadShadow} thead`, {
+globalStyle(`${accountTheadShadow} thead::before`, {
 	boxShadow: '0px 13px 13px -14px rgba(0, 0, 0, 0.4)',
 })
 
-globalStyle(`.${darkMode} ${accountTheadShadow} thead`, {
+globalStyle(`.${darkMode} ${accountTheadShadow} thead::before`, {
 	boxShadow: '0px 13px 13px -14px rgba(0, 0, 0, 0.4)',
 })
 

@@ -1,6 +1,6 @@
 /* eslint-disable react/no-unstable-nested-components */
 import clsx, { type ClassValue } from 'clsx'
-import React, { useMemo } from 'react'
+import React, { useMemo, useState } from 'react'
 import { useTable } from 'react-table'
 import { TableVirtuoso } from 'react-virtuoso'
 
@@ -14,6 +14,7 @@ interface ISwitchProps {
 	className?: ClassValue
 	sizeVariant?: 'medium' | 'large'
 	styleVariant?: 'primary' | 'secondary'
+	onRowSelected: (row: any) => void
 }
 
 export const Table: React.FC<ISwitchProps> = ({
@@ -23,10 +24,19 @@ export const Table: React.FC<ISwitchProps> = ({
 	styleVariant = 'primary',
 	data,
 	columns,
+	onRowSelected,
 }) => {
+	const [selected, setSelected] = useState<number | undefined>(undefined)
+
+	const handleRowSelection = (row: any) => {
+		setSelected(row.index)
+		if (onRowSelected) onRowSelected(row)
+	}
+
 	const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } = useTable({
 		columns,
 		data,
+		onRowSelectionChange: handleRowSelection,
 	})
 
 	const memoizedComponents = useMemo(
@@ -49,19 +59,25 @@ export const Table: React.FC<ISwitchProps> = ({
 				// eslint-disable-next-line react/destructuring-assignment
 				const index = tableRowProps['data-index']
 				const row = rows[index]
+
 				return (
 					<tr
-						className={styles.tableTrRecipe({
-							sizeVariant,
-							styleVariant,
-						})}
+						onClick={() => handleRowSelection(row)}
+						className={clsx(
+							styles.tableTrRecipe({
+								sizeVariant,
+								styleVariant,
+								isRowSelectable: !!onRowSelected,
+								selected: index === selected,
+							}),
+						)}
 						{...tableRowProps}
 						{...(row?.getRowProps ? row?.getRowProps() : {})}
 					/>
 				)
 			},
 		}),
-		[],
+		[data, columns, selected],
 	)
 
 	return (

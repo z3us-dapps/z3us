@@ -1,9 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import clsx from 'clsx'
-import { AnimatePresence, motion } from 'framer-motion'
-import React, { useCallback, useContext, useEffect, useMemo, useState } from 'react'
-import { Virtuoso } from 'react-virtuoso'
-import { useTimeout } from 'usehooks-ts'
+import React, { useEffect, useMemo, useState } from 'react'
+import { useLocation, useNavigate } from 'react-router-dom'
 
 import { Box } from 'ui/src/components/box'
 import { Link } from 'ui/src/components/router-link'
@@ -32,7 +30,7 @@ export const AddressNameCell: React.FC<IAddressNameCellProps> = props => {
 	const { id, address } = original
 
 	return (
-		<Box key={id} id={id} display="flex" alignItems="center" gap="small" style={{ minWidth: 0 }}>
+		<Box key={id} id={id} display="flex" alignItems="center" gap="small" style={{ minWidth: 0 }} position="relative">
 			<Box flexGrow={1} style={{ minWidth: 0 }}>
 				<Text size="small" color="strong" truncate>
 					{value}
@@ -49,46 +47,86 @@ interface IAccountTableProps {
 	scrollableNode?: HTMLElement
 }
 
+// eslint-disable-next-line arrow-body-style
+const generateRandomString = () => {
+	return Math.floor(Math.random() * Date.now()).toString(36)
+}
+
 export const AssetsTable: React.FC<IAccountTableProps> = props => {
+	const { pathname } = useLocation()
+	const navigate = useNavigate()
 	const { scrollableNode } = props
 	const { account, assetType, asset } = useAccountParams()
 	const [items, setItems] = useState<any>([])
 
 	useEffect(() => {
-		// Array.from({ length: 500 }).map((_, i, a) => ({
 		setItems(
-			Array.from({ length: 500 }).map((_, i, a) => ({
-				id: a.length - i,
-				name: `${account} - ${assetType} - name`,
-			})),
+			Array.from({ length: 500 }).map((_, i, a) => {
+				const randomStr = generateRandomString()
+				return {
+					id: randomStr,
+					token: `${account} - ${randomStr}`,
+					portfolio: '65%',
+					price: '$1.83',
+					balance: `99`,
+				}
+			}),
 		)
-	}, [account, assetType, asset])
+	}, [account])
 
 	const columns = useMemo(
 		() => [
+			// {
+			// 	Header: 'Id',
+			// 	accessor: 'id',
+			// 	width: 'auto',
+			// 	// eslint-disable-next-line react/no-unstable-nested-components
+			// 	Cell: AddressNameCell,
+			// 	Cell: ({ row }) => (
+			// 		<AddressEditButtonsCell
+			// 			id={row.original.id}
+			// 			onDelete={() => handleDeleteAddress(row.original.id)}
+			// 			onEdit={() => handleAddEditAddress(row.original.id)}
+			// 		/>
+			// 	),
+			// },
 			{
-				Header: 'Name',
-				accessor: 'name',
-				width: '70%',
+				Header: 'Token',
+				accessor: 'token',
+				width: 'auto',
+				// width: '70%',
 				Cell: AddressNameCell,
 			},
 			{
-				Header: 'Id',
-				accessor: 'id',
+				Header: 'Portfolio',
+				accessor: 'portfolio',
 				width: 'auto',
-				// eslint-disable-next-line react/no-unstable-nested-components
+				// width: '70%',
 				Cell: AddressNameCell,
-				// Cell: ({ row }) => (
-				// 	<AddressEditButtonsCell
-				// 		id={row.original.id}
-				// 		onDelete={() => handleDeleteAddress(row.original.id)}
-				// 		onEdit={() => handleAddEditAddress(row.original.id)}
-				// 	/>
-				// ),
+			},
+			{
+				Header: 'Balance',
+				accessor: 'balance',
+				width: 'auto',
+				// width: '70%',
+				Cell: AddressNameCell,
+			},
+			{
+				Header: 'Price',
+				accessor: 'price',
+				width: 'auto',
+				// width: '70%',
+				Cell: AddressNameCell,
 			},
 		],
-		[],
+		[account, assetType, asset],
 	)
+
+	const handleRowSelected = (row: any) => {
+		const { original } = row
+
+		navigate(`/accounts/${account}/${original.id}`)
+	}
 
 	return (
 		<Box className={styles.assetsTableWrapper}>
@@ -98,6 +136,7 @@ export const AssetsTable: React.FC<IAccountTableProps> = props => {
 				scrollableNode={scrollableNode ?? undefined}
 				data={items}
 				columns={columns}
+				onRowSelected={handleRowSelected}
 			/>
 		</Box>
 	)

@@ -54,9 +54,7 @@ export const tableRecipe = recipe({
 // })
 
 export const tableThRecipe = recipe({
-	base: {
-		textAlign: 'left',
-	},
+	base: {},
 	variants: {
 		styleVariant: {
 			primary: [
@@ -94,22 +92,27 @@ export const tableThRecipe = recipe({
 				styleVariant: 'primary',
 			},
 			style: {
+				textAlign: 'left',
 				paddingTop: vars.spacing.medium,
 				paddingBottom: vars.spacing.medium,
+				paddingLeft: vars.spacing.large,
+				paddingRight: vars.spacing.large,
 			},
 		},
 	],
 })
 
 export const tableTrRecipe = recipe({
-	base: {},
+	base: {
+		position: 'relative',
+	},
 	variants: {
 		styleVariant: {
 			primary: [
 				sprinkles({
 					transition: 'fast',
-					background: {
-						// hover: 'backgroundPrimary'
+					boxShadow: {
+						hover: 'shadowActivePanel',
 					},
 				}),
 				{},
@@ -120,7 +123,28 @@ export const tableTrRecipe = recipe({
 			medium: [sprinkles({}), {}],
 			large: [sprinkles({}), {}],
 		},
+		selected: {
+			true: {
+				boxShadow: vars.color.shadowActivePanel,
+			},
+		},
+		isRowSelectable: {
+			true: {
+				cursor: 'pointer',
+			},
+		},
 	},
+	compoundVariants: [
+		{
+			variants: {
+				sizeVariant: 'large',
+				styleVariant: 'primary',
+			},
+			style: {
+				borderRadius: vars.border.radius.medium,
+			},
+		},
+	],
 })
 
 export const tableTdRecipe = recipe({
@@ -129,7 +153,7 @@ export const tableTdRecipe = recipe({
 		styleVariant: {
 			primary: [
 				sprinkles({
-					// background: 'backgroundSecondary',
+					// position: 'relative',
 				}),
 				{
 					// boxShadow: `inset 0px 1px 0px 0px ${vars.color.borderDivider}`,
@@ -147,7 +171,6 @@ export const tableTdRecipe = recipe({
 				},
 			],
 			large: [
-				sprinkles({}),
 				{
 					fontSize: '14px',
 					lineHeight: '20px',
@@ -163,8 +186,10 @@ export const tableTdRecipe = recipe({
 				styleVariant: 'primary',
 			},
 			style: {
-				paddingTop: vars.spacing.medium,
-				paddingBottom: vars.spacing.medium,
+				paddingTop: '26px',
+				paddingBottom: '26px',
+				paddingLeft: vars.spacing.large,
+				paddingRight: vars.spacing.large,
 			},
 		},
 	],

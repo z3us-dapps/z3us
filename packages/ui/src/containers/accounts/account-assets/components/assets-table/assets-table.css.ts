@@ -9,7 +9,7 @@ export const assetsTableWrapper = style([
 	sprinkles({
 		position: 'relative',
 		background: 'backgroundSecondary',
-		paddingX: 'xlarge',
+		paddingX: 'large',
 		paddingBottom: 'xlarge',
 	}),
 	{},
