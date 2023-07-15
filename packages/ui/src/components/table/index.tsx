@@ -1,7 +1,7 @@
 /* eslint-disable react/no-unstable-nested-components */
 import clsx, { type ClassValue } from 'clsx'
-import React, { useMemo, useState } from 'react'
-import { useSortBy, useTable } from 'react-table'
+import React, { useMemo } from 'react'
+import { useRowSelect, useSortBy, useTable } from 'react-table'
 import { TableVirtuoso } from 'react-virtuoso'
 
 import { Box } from '../box'
@@ -26,32 +26,25 @@ export const Table: React.FC<ISwitchProps> = ({
 	columns,
 	onRowSelected,
 }) => {
-	const [selected, setSelected] = useState<number | undefined>(undefined)
-
-	const handleRowSelection = (row: any) => {
-		setSelected(row.index)
-		if (onRowSelected) onRowSelected(row)
-	}
-
-	// const sortees = React.useMemo(
-	// 	() => [
-	// 		{
-	// 			id: 'token',
-	// 			desc: false,
-	// 		},
-	// 	],
-	// 	[],
-	// )
+	const initialSort = React.useMemo(() => [{ id: 'token', desc: false }], [])
+	const initialSelectedRows = React.useMemo(
+		() => ({
+			2: true, // Select row with ID 2 by default
+		}),
+		[],
+	)
 
 	const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } = useTable(
 		{
 			columns,
 			data,
-			// TODO: initial sort state for table
-			// initialState: { sortBy: sortees },
-			onRowSelectionChange: handleRowSelection,
+			initialState: {
+				sortBy: initialSort,
+				selectedRowIds: initialSelectedRows,
+			},
 		},
 		useSortBy,
+		useRowSelect,
 	)
 
 	const memoizedComponents = useMemo(
@@ -74,16 +67,17 @@ export const Table: React.FC<ISwitchProps> = ({
 				// eslint-disable-next-line react/destructuring-assignment
 				const index = tableRowProps['data-index']
 				const row = rows[index]
+				const rowSelectedProps = row.getToggleRowSelectedProps()
 
 				return (
 					<tr
-						onClick={() => handleRowSelection(row)}
+						onClick={rowSelectedProps.onChange}
 						className={clsx(
 							styles.tableTrRecipe({
 								sizeVariant,
 								styleVariant,
 								isRowSelectable: !!onRowSelected,
-								selected: index === selected,
+								selected: rowSelectedProps.checked,
 							}),
 						)}
 						{...tableRowProps}
@@ -92,7 +86,7 @@ export const Table: React.FC<ISwitchProps> = ({
 				)
 			},
 		}),
-		[data, columns, selected],
+		[data, columns],
 	)
 
 	return (
