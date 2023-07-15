@@ -1,7 +1,7 @@
 /* eslint-disable react/no-unstable-nested-components */
 import clsx, { type ClassValue } from 'clsx'
 import React, { useMemo, useState } from 'react'
-import { useTable } from 'react-table'
+import { useSortBy, useTable } from 'react-table'
 import { TableVirtuoso } from 'react-virtuoso'
 
 import { Box } from '../box'
@@ -33,11 +33,25 @@ export const Table: React.FC<ISwitchProps> = ({
 		if (onRowSelected) onRowSelected(row)
 	}
 
-	const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } = useTable({
-		columns,
-		data,
-		onRowSelectionChange: handleRowSelection,
-	})
+	const sortees = React.useMemo(
+		() => [
+			{
+				id: 'token',
+				desc: false,
+			},
+		],
+		[],
+	)
+
+	const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } = useTable(
+		{
+			columns,
+			data,
+			initialState: { sortBy: sortees },
+			onRowSelectionChange: handleRowSelection,
+		},
+		useSortBy,
+	)
 
 	const memoizedComponents = useMemo(
 		() => ({
@@ -99,9 +113,11 @@ export const Table: React.FC<ISwitchProps> = ({
 									style={{
 										width: column.width,
 									}}
-									{...column.getHeaderProps()}
+									{...column.getHeaderProps(column.getSortByToggleProps())}
 								>
 									{column.render('Header')}
+									{/* eslint-disable-next-line no-nested-ternary */}
+									<span>{column.isSorted ? (column.isSortedDesc ? ' 🔽' : ' 🔼') : ''}</span>
 								</th>
 							))}
 						</tr>
