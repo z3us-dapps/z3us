@@ -81,7 +81,7 @@ export const Table: React.FC<ITableProps> = ({
 				// eslint-disable-next-line react/destructuring-assignment
 				const index = tableRowProps['data-index']
 				const row = rows[index]
-				const rowSelectedProps = row.getToggleRowSelectedProps()
+				const rowSelectedProps = row?.getToggleRowSelectedProps()
 
 				return (
 					<tr
@@ -95,7 +95,7 @@ export const Table: React.FC<ITableProps> = ({
 								sizeVariant,
 								styleVariant,
 								isRowSelectable: !!onRowSelected,
-								selected: rowSelectedProps.checked,
+								selected: rowSelectedProps?.checked,
 							}),
 						)}
 						{...tableRowProps}
@@ -128,10 +128,12 @@ export const Table: React.FC<ITableProps> = ({
 									}}
 									{...column.getHeaderProps(column.getSortByToggleProps())}
 								>
-									{column.render('Header')}
-									<Box height="medium" display="flex" alignItems="center" justifyContent="center">
-										{/* eslint-disable-next-line no-nested-ternary */}
-										{column.isSorted ? column.isSortedDesc ? <ChevronDown2Icon /> : <ChevronUp2Icon /> : ''}
+									<Box component="span" display="inline-flex" alignItems="center" gap="xsmall">
+										<Box component="span">{column.render('Header')}</Box>
+										<Box component="span" className={styles.tableIconWrapper}>
+											{/* eslint-disable-next-line no-nested-ternary */}
+											{column.isSorted ? column.isSortedDesc ? <ChevronDown2Icon /> : <ChevronUp2Icon /> : ''}
+										</Box>
 									</Box>
 								</th>
 							))}

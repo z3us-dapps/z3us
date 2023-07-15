@@ -16,6 +16,17 @@ export const tableRootWrapper = style([
 	},
 ])
 
+export const tableIconWrapper = style([
+	sprinkles({
+		position: 'relative',
+	}),
+	{
+		transform: 'translateY(-1px)',
+		width: '24px',
+		height: '24px',
+	},
+])
+
 export const tableRecipe = recipe({
 	base: {
 		margin: 0,
