@@ -33,21 +33,22 @@ export const Table: React.FC<ISwitchProps> = ({
 		if (onRowSelected) onRowSelected(row)
 	}
 
-	const sortees = React.useMemo(
-		() => [
-			{
-				id: 'token',
-				desc: false,
-			},
-		],
-		[],
-	)
+	// const sortees = React.useMemo(
+	// 	() => [
+	// 		{
+	// 			id: 'token',
+	// 			desc: false,
+	// 		},
+	// 	],
+	// 	[],
+	// )
 
 	const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } = useTable(
 		{
 			columns,
 			data,
-			initialState: { sortBy: sortees },
+			// TODO: initial sort state for table
+			// initialState: { sortBy: sortees },
 			onRowSelectionChange: handleRowSelection,
 		},
 		useSortBy,

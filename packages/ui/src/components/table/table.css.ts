@@ -45,6 +45,18 @@ export const tableRecipe = recipe({
 	},
 })
 
+recipeGlobalStyle(tableRecipe({ sizeVariant: 'large', styleVariant: 'primary' }), 'tbody tr td:first-child:after', {
+	left: vars.spacing.medium,
+})
+
+recipeGlobalStyle(tableRecipe({ sizeVariant: 'large', styleVariant: 'primary' }), 'tbody tr td:last-child:after', {
+	right: vars.spacing.medium,
+})
+
+recipeGlobalStyle(tableRecipe({ sizeVariant: 'large', styleVariant: 'primary' }), 'tbody tr:hover td::after', {
+	opacity: '0',
+})
+
 // recipeGlobalStyle(tableRecipe({ sizeVariant: 'medium', styleVariant: 'primary' }), 'thead tr th:first-child', {
 // 	borderTopLeftRadius: `${vars.border.radius.medium}`,
 // })
@@ -110,12 +122,14 @@ export const tableTrRecipe = recipe({
 		styleVariant: {
 			primary: [
 				sprinkles({
-					transition: 'fast',
+					transition: 'fastall',
 					boxShadow: {
 						hover: 'shadowActivePanel',
 					},
 				}),
-				{},
+				{
+					// boxShadow: `inset 0px 1px 0px 0px ${vars.color.borderDivider}`,
+				},
 			],
 			secondary: [sprinkles({}), {}],
 		},
@@ -148,7 +162,9 @@ export const tableTrRecipe = recipe({
 })
 
 export const tableTdRecipe = recipe({
-	base: {},
+	base: {
+		position: 'relative',
+	},
 	variants: {
 		styleVariant: {
 			primary: [
@@ -157,6 +173,18 @@ export const tableTdRecipe = recipe({
 				}),
 				{
 					// boxShadow: `inset 0px 1px 0px 0px ${vars.color.borderDivider}`,
+					'::after': {
+						content: '""',
+						position: 'absolute',
+						left: 0,
+						right: 0,
+						bottom: 0,
+						height: '1px',
+						pointerEvents: 'none',
+						background: vars.color.borderDivider,
+						opacity: '1',
+						transition: vars.transition.fast,
+					},
 				},
 			],
 			secondary: [sprinkles({}), {}],
