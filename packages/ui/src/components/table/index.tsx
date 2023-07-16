@@ -4,6 +4,8 @@ import React, { useMemo } from 'react'
 import { useRowSelect, useSortBy, useTable } from 'react-table'
 import { TableVirtuoso } from 'react-virtuoso'
 
+import { useIsMobileWidth } from 'ui/src/hooks/use-is-mobile'
+
 import { Box } from '../box'
 import { ChevronDown2Icon, ChevronUp2Icon } from '../icons'
 import * as styles from './table.css'
@@ -27,6 +29,7 @@ export const Table: React.FC<ITableProps> = ({
 	columns,
 	onRowSelected,
 }) => {
+	const isMobile = useIsMobileWidth()
 	const initialSort = React.useMemo(() => [{ id: 'token', desc: true }], [])
 
 	const initialSelectedRows = React.useMemo(
@@ -115,17 +118,20 @@ export const Table: React.FC<ITableProps> = ({
 				customScrollParent={scrollableNode}
 				components={memoizedComponents as any}
 				fixedHeaderContent={() =>
+					!isMobile &&
 					headerGroups.map(headerGroup => (
 						<tr {...headerGroup.getHeaderGroupProps()}>
 							{headerGroup.headers.map(column => (
 								<th
-									className={styles.tableThRecipe({
-										sizeVariant,
-										styleVariant,
-									})}
+									className={clsx(
+										styles.tableThRecipe({
+											sizeVariant,
+											styleVariant,
+										}),
+										column.className,
+									)}
 									{...column.getHeaderProps(column.getSortByToggleProps())}
 									style={{
-										// test: console.log('testing ', column),
 										width: column.width,
 									}}
 								>
@@ -153,10 +159,13 @@ export const Table: React.FC<ITableProps> = ({
 					prepareRow(row)
 					return row.cells.map(cell => (
 						<td
-							className={styles.tableTdRecipe({
-								sizeVariant,
-								styleVariant,
-							})}
+							className={clsx(
+								styles.tableTdRecipe({
+									sizeVariant,
+									styleVariant,
+								}),
+								cell.column.className,
+							)}
 							{...cell.getCellProps()}
 						>
 							{cell.render('Cell')}

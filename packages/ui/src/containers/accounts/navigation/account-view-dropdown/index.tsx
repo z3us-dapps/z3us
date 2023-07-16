@@ -2,7 +2,6 @@ import clsx, { type ClassValue } from 'clsx'
 import { useNetworkId } from 'packages/ui/src/hooks/dapp/use-network-id'
 import { getShortAddress } from 'packages/ui/src/utils/string-utils'
 import React, { forwardRef } from 'react'
-import { useMediaQuery } from 'usehooks-ts'
 
 import { Box } from 'ui/src/components/box'
 import type { TStyleVariant } from 'ui/src/components/button'

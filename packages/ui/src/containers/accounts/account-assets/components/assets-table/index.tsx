@@ -122,6 +122,7 @@ export const AssetsTable: React.FC<IAccountTableProps> = props => {
 				accessor: 'price',
 				width: 'auto',
 				Cell: CellC,
+				className: styles.mobileHideTableCellWrapper,
 			},
 		],
 		[account, assetType, asset],
