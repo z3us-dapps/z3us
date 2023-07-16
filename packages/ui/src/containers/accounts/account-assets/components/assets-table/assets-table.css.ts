@@ -13,3 +13,10 @@ export const assetsTableWrapper = style([
 	}),
 	{},
 ])
+
+export const mobileHideTableCellWrapper = style([
+	sprinkles({}),
+	{
+		border: '1px solid red',
+	},
+])

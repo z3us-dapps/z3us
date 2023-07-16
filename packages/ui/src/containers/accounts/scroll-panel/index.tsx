@@ -1,13 +1,10 @@
 import clsx, { type ClassValue } from 'clsx'
-import screensJson from 'design/tokens/foundation/screens.json'
 import React from 'react'
-import { useMediaQuery } from 'usehooks-ts'
 
 import { ScrollAreaRadix as ScrollArea } from 'ui/src/components/scroll-area-radix'
+import { useIsMobileWidth } from 'ui/src/hooks/use-is-mobile'
 
 import * as styles from './scroll-panel.css'
-
-const TABLET_BREAK_POINT = parseInt(screensJson.screens.md.value.replace('px', ''), 10)
 
 interface IScrollPanelProps {
 	className?: ClassValue
@@ -17,20 +14,18 @@ interface IScrollPanelProps {
 	showBottomScrollShadow?: boolean
 }
 
-export const useIsMobileScroll = () => useMediaQuery(`(max-width: ${TABLET_BREAK_POINT}px)`)
-
 export const ScrollPanel: React.FC<IScrollPanelProps> = props => {
 	const { className, scrollParent, showTopScrollShadow, showBottomScrollShadow, renderPanel } = props
-	const isMobileScroll = useIsMobileScroll()
+	const isMobile = useIsMobileWidth()
 
 	return (
 		<ScrollArea
 			fixHeight
-			disabled={isMobileScroll}
+			disabled={isMobile}
 			className={clsx(styles.scrollWrapper, className)}
 			showTopScrollShadow={showTopScrollShadow}
 			showBottomScrollShadow={showBottomScrollShadow}
-			renderScrollArea={(panelRef, isScrollTop) => renderPanel(isMobileScroll ? scrollParent : panelRef, isScrollTop)}
+			renderScrollArea={(panelRef, isScrollTop) => renderPanel(isMobile ? scrollParent : panelRef, isScrollTop)}
 		/>
 	)
 }

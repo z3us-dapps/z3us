@@ -2,9 +2,6 @@
 import clsx from 'clsx'
 import { AnimatePresence, motion } from 'framer-motion'
 import React, { useCallback, useContext, useEffect, useState } from 'react'
-import useMeasure from 'react-use-measure'
-import { VirtuosoGrid } from 'react-virtuoso'
-import { useTimeout } from 'usehooks-ts'
 
 import { Box } from 'ui/src/components/box'
 import { Link } from 'ui/src/components/router-link'
@@ -23,16 +20,12 @@ import { AssetsHeader } from './components/assets-header'
 import { AssetsTable } from './components/assets-table'
 import { MobileScrollingButtons } from './components/mobile-scrolling-buttons'
 
-export const hash = () => Math.random().toString(36).substring(7)
-
 interface IAccountRoutesProps {
 	scrollableNode: HTMLElement
 	isScrolledTop: boolean
 }
 
 export const AccountAssets: React.FC<IAccountRoutesProps> = props => {
-	// TODO: remove??
-	const [measureRef, { height: headerHeight }] = useMeasure()
 	const { scrollableNode, isScrolledTop } = props
 
 	return (
@@ -40,7 +33,7 @@ export const AccountAssets: React.FC<IAccountRoutesProps> = props => {
 			<Box className={styles.accountRoutesScrollingWrapper}>
 				<Box className={styles.accountRoutesScrollingStickySheet} />
 				<MobileScrollingButtons />
-				<AssetsHeader ref={measureRef} />
+				<AssetsHeader />
 				<AssetsTable scrollableNode={scrollableNode} />
 			</Box>
 		</Box>

@@ -11,6 +11,7 @@ import { Table } from 'ui/src/components/table'
 import { TransactionIcon } from 'ui/src/components/transaction-icon'
 import { Text } from 'ui/src/components/typography'
 import { useAccountParams } from 'ui/src/hooks/use-account-params'
+import { useIsMobileWidth } from 'ui/src/hooks/use-is-mobile'
 
 import * as styles from './assets-table.css'
 
@@ -69,15 +70,15 @@ interface IAccountTableProps {
 }
 
 // eslint-disable-next-line arrow-body-style
-const generateRandomString = () => {
-	return Math.floor(Math.random() * Date.now()).toString(36)
-}
+export const generateRandomString = () => Math.random().toString(36).substring(7)
 
 export const AssetsTable: React.FC<IAccountTableProps> = props => {
 	const { pathname } = useLocation()
 	const navigate = useNavigate()
 	const { scrollableNode } = props
 	const { account, assetType, asset } = useAccountParams()
+	const isMobile = useIsMobileWidth()
+
 	const [items, setItems] = useState<any>([])
 
 	useEffect(() => {
@@ -108,6 +109,7 @@ export const AssetsTable: React.FC<IAccountTableProps> = props => {
 				accessor: 'portfolio',
 				width: 'auto',
 				Cell: CellC,
+				className: styles.mobileHideTableCellWrapper,
 			},
 			{
 				Header: 'Balance',

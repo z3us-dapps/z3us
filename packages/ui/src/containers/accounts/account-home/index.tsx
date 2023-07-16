@@ -8,18 +8,19 @@ import { AccountAllChart } from 'ui/src/containers/accounts/account-all-chart'
 import { AccountAssetInfo } from 'ui/src/containers/accounts/account-asset-info'
 import { AccountAssets } from 'ui/src/containers/accounts/account-assets'
 import { AccountCard } from 'ui/src/containers/accounts/account-card'
+import { useIsMobileWidth } from 'ui/src/hooks/use-is-mobile'
 
-import { ScrollPanel, useIsMobileScroll } from '../scroll-panel'
+import { ScrollPanel } from '../scroll-panel'
 import * as styles from './account-home.css'
 
 const AccountsHome = () => {
-	const isMobileScroll = useIsMobileScroll()
+	const isMobile = useIsMobileWidth()
 
 	return (
 		<Box className={styles.accountsWrapper}>
 			<ScrollArea
 				showTopScrollShadow={false}
-				disabled={!isMobileScroll}
+				disabled={!isMobile}
 				className={styles.mobileScrollWrapper}
 				renderScrollArea={(scrollMobileParent: HTMLElement) => (
 					<Box className={styles.panelWrapper}>
