@@ -6,7 +6,7 @@ import React from 'react'
 import { useLocation } from 'react-router-dom'
 
 import { Box } from 'ui/src/components/box'
-import { ArrowUpIcon, SearchIcon } from 'ui/src/components/icons'
+import { ArrowUpIcon, EyeOffIcon, SearchIcon } from 'ui/src/components/icons'
 import { Button } from 'ui/src/components/router-button'
 import { ToolTip } from 'ui/src/components/tool-tip'
 import Translation from 'ui/src/components/translation'
@@ -44,10 +44,15 @@ export const AssetsHeader: React.FC<IAccountRoutesProps> = props => {
 						</Box>
 					</Box>
 					<Box display="flex" alignItems="center" gap="small">
-						<Box flexGrow={1}>
+						<Box flexGrow={1} display="flex" alignItems="center" gap="small">
 							<Text weight="medium" size="xxxlarge" color="strong" truncate>
 								{isLoading ? 'Loading...' : formatBigNumber(totalValue, currency, 2)}
 							</Text>
+							<ToolTip theme="backgroundPrimary" message="global.hide">
+								<Button onClick={handleUpClick} styleVariant="ghost" sizeVariant="small" iconOnly>
+									<EyeOffIcon />
+								</Button>
+							</ToolTip>
 						</Box>
 						<Box className={clsx(styles.assetsHeaderUpWrapper, !isScrolledTop && styles.assetsHeaderUpVisibleWrapper)}>
 							<ToolTip theme="backgroundPrimary" message="global.up">
