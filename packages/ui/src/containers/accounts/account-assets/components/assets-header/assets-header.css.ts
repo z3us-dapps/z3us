@@ -23,20 +23,38 @@ export const assetsHeaderWrapper = style([
 	},
 ])
 
-export const accountIndexWrapper = style([
+export const assetsHeaderUpWrapper = style([
 	sprinkles({
-		position: 'sticky',
-		top: 0,
-		// zIndex: 1,
-		display: 'flex',
-		paddingX: {
-			mobile: 'large',
-			desktop: 'xlarge',
-		},
-		paddingTop: {
-			mobile: 'large',
-			desktop: 'xlarge',
-		},
-		transition: 'slowall',
+		position: 'relative',
+		pointerEvents: 'none',
+		transition: 'fast',
+		opacity: 0,
 	}),
+	{},
 ])
+
+export const assetsHeaderUpVisibleWrapper = style([
+	sprinkles({
+		pointerEvents: 'auto',
+		opacity: 1,
+	}),
+	{},
+])
+
+// export const accountIndexWrapper = style([
+// 	sprinkles({
+// 		position: 'sticky',
+// 		top: 0,
+// 		// zIndex: 1,
+// 		display: 'flex',
+// 		paddingX: {
+// 			mobile: 'large',
+// 			desktop: 'xlarge',
+// 		},
+// 		paddingTop: {
+// 			mobile: 'large',
+// 			desktop: 'xlarge',
+// 		},
+// 		transition: 'slowall',
+// 	}),
+// ])
