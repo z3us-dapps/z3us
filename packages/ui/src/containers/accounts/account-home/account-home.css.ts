@@ -7,6 +7,7 @@ import { vars } from 'ui/src/components/system/theme.css'
 
 export const accountsWrapper = style([
 	sprinkles({
+		position: 'relative',
 		display: 'flex',
 		justifyContent: 'center',
 		paddingX: {
@@ -26,10 +27,29 @@ export const accountsWrapper = style([
 	{},
 	responsiveStyle({
 		mobile: {
-			background: vars.color.purple600,
+			'::before': {
+				content: '""',
+				position: 'absolute',
+				top: '-58px',
+				bottom: 0,
+				left: 0,
+				right: 0,
+				background: vars.color.purple600,
+				pointerEvents: 'none',
+			},
 		},
 		tablet: {
-			background: 'transparent',
+			'::before': {
+				display: 'none',
+				content: '""',
+				position: 'absolute',
+				top: '-58px',
+				bottom: 0,
+				left: 0,
+				right: 0,
+				background: vars.color.purple600,
+				pointerEvents: 'none',
+			},
 		},
 	}),
 ])
@@ -102,10 +122,13 @@ export const rightPanelWrapper = style([
 		mobile: {
 			width: '100%',
 			flexBasis: '100%',
+			position: 'sticky',
+			top: 0,
 		},
 		tablet: {
 			width: '40%',
 			flexBasis: '40%',
+			position: 'relative',
 		},
 		desktop: {
 			width: '392px',

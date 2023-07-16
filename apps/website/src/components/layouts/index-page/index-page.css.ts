@@ -15,12 +15,11 @@ export const indexPageAppWrapper = style([
 	sprinkles({
 		top: 0,
 		left: 0,
-		overflow: 'hidden',
 	}),
 	{},
 	responsiveStyle({
 		mobile: { height: 'calc(100vh - 58px)' },
-		tablet: { height: 'calc(100vh - 70px)' },
+		tablet: { height: 'calc(100vh - 70px)', overflow: 'hidden' },
 	}),
 ])
 

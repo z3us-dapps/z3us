@@ -13,7 +13,7 @@ export const landingWrapper = style([
 	{},
 	responsiveStyle({
 		mobile: { minHeight: 'calc(100vh - 58px)' },
-		tablet: { minHeight: 'calc(100vh - 70px)' },
+		tablet: { minHeight: 'calc(100vh - 70px)', overflow: 'hidden' },
 	}),
 ])
 
