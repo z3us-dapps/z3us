@@ -81,14 +81,14 @@ export const Table: React.FC<ITableProps> = ({
 				// eslint-disable-next-line react/destructuring-assignment
 				const index = tableRowProps['data-index']
 				const row = rows[index]
-				const rowSelectedProps = row?.getToggleRowSelectedProps()
+				const rowSelectedProps = row?.getToggleRowSelectedProps ? row?.getToggleRowSelectedProps() : null
 
 				return (
 					<tr
 						onClick={e => {
 							deselectAllRows()
-							rowSelectedProps.onChange(e)
 							onRowSelected(row)
+							if (rowSelectedProps) rowSelectedProps.onChange(e)
 						}}
 						className={clsx(
 							styles.tableTrRecipe({
@@ -123,12 +123,20 @@ export const Table: React.FC<ITableProps> = ({
 										sizeVariant,
 										styleVariant,
 									})}
+									{...column.getHeaderProps(column.getSortByToggleProps())}
 									style={{
+										// test: console.log('testing ', column),
 										width: column.width,
 									}}
-									{...column.getHeaderProps(column.getSortByToggleProps())}
 								>
-									<Box component="span" display="inline-flex" alignItems="center" gap="xsmall">
+									<Box
+										position="relative"
+										component="span"
+										display="inline-flex"
+										alignItems="center"
+										gap="xsmall"
+										cursor="pointer"
+									>
 										<Box component="span">{column.render('Header')}</Box>
 										<Box component="span" className={styles.tableIconWrapper}>
 											{/* eslint-disable-next-line no-nested-ternary */}

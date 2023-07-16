@@ -31,6 +31,7 @@ interface IAccountRoutesProps {
 }
 
 export const AccountAssets: React.FC<IAccountRoutesProps> = props => {
+	// TODO: remove??
 	const [measureRef, { height: headerHeight }] = useMeasure()
 	const { scrollableNode, isScrolledTop } = props
 

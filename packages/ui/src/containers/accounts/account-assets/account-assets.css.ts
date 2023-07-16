@@ -25,14 +25,13 @@ globalStyle(`${accountRoutesWrapper} thead`, {
 	top: '120px !important',
 	position: 'relative',
 	transition: vars.transition.fast,
-	// background: vars.color.backgroundSecondary,
 })
 
 globalStyle(`${accountRoutesWrapper} thead tr`, {
 	position: 'relative',
 })
 
-globalStyle(`${accountRoutesWrapper} thead::before`, {
+globalStyle(`${accountRoutesWrapper} thead tr th:first-child::before`, {
 	position: 'absolute',
 	content: "''",
 	transition: vars.transition.fast,
@@ -49,11 +48,11 @@ export const accountTheadShadow = style([
 	}),
 ])
 
-globalStyle(`${accountTheadShadow} thead::before`, {
+globalStyle(`${accountTheadShadow} thead tr th:first-child::before`, {
 	boxShadow: '0px 13px 13px -14px rgba(0, 0, 0, 0.4)',
 })
 
-globalStyle(`.${darkMode} ${accountTheadShadow} thead::before`, {
+globalStyle(`.${darkMode} ${accountTheadShadow} thead tr th:first-child::before`, {
 	boxShadow: '0px 13px 13px -14px rgba(0, 0, 0, 0.4)',
 })
 
