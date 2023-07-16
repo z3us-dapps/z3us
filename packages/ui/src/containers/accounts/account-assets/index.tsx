@@ -33,7 +33,7 @@ export const AccountAssets: React.FC<IAccountRoutesProps> = props => {
 			<Box className={styles.accountRoutesScrollingWrapper}>
 				<Box className={styles.accountRoutesScrollingStickySheet} />
 				<MobileScrollingButtons />
-				<AssetsHeader />
+				<AssetsHeader isScrolledTop={isScrolledTop} scrollableNode={scrollableNode} />
 				<AssetsTable scrollableNode={scrollableNode} />
 			</Box>
 		</Box>
