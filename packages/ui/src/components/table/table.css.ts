@@ -68,6 +68,28 @@ recipeGlobalStyle(tableRecipe({ sizeVariant: 'large', styleVariant: 'primary' })
 	opacity: '0',
 })
 
+recipeGlobalStyle(tableRecipe({ sizeVariant: 'large', styleVariant: 'primary' }), 'tbody tr:hover', {
+	backgroundColor: vars.color.backgroundPrimary,
+})
+
+recipeGlobalStyle(tableRecipe({ sizeVariant: 'large', styleVariant: 'primary' }), 'tbody tr:hover + tr td::after', {
+	opacity: '0',
+})
+
+recipeGlobalStyle(tableRecipe({ sizeVariant: 'large', styleVariant: 'primary' }), 'tbody tr:first-child td::after', {
+	opacity: '0',
+})
+
+recipeGlobalStyle(tableRecipe({ sizeVariant: 'large', styleVariant: 'primary' }), 'tbody tr td:first-child', {
+	borderTopLeftRadius: vars.spacing.medium,
+	borderBottomLeftRadius: vars.spacing.medium,
+})
+
+recipeGlobalStyle(tableRecipe({ sizeVariant: 'large', styleVariant: 'primary' }), 'tbody tr td:last-child', {
+	borderTopRightRadius: vars.spacing.medium,
+	borderBottomRightRadius: vars.spacing.medium,
+})
+
 // recipeGlobalStyle(tableRecipe({ sizeVariant: 'medium', styleVariant: 'primary' }), 'thead tr th:first-child', {
 // 	borderTopLeftRadius: `${vars.border.radius.medium}`,
 // })
@@ -134,6 +156,9 @@ export const tableTrRecipe = recipe({
 			primary: [
 				sprinkles({
 					transition: 'fastall',
+					// background: {
+					// 	hover: 'backgroundPrimary',
+					// },
 					boxShadow: {
 						hover: 'shadowActivePanel',
 					},
@@ -189,7 +214,7 @@ export const tableTdRecipe = recipe({
 						position: 'absolute',
 						left: 0,
 						right: 0,
-						bottom: 0,
+						top: 0,
 						height: '1px',
 						pointerEvents: 'none',
 						background: vars.color.borderDivider,
