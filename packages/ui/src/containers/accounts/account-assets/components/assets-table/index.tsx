@@ -133,22 +133,14 @@ export const AssetsTable: React.FC<IAccountTableProps> = props => {
 
 	return (
 		<Box className={styles.assetsTableWrapper}>
-			{/* <Table
+			<Table
 				styleVariant="primary"
 				sizeVariant="large"
 				scrollableNode={scrollableNode ?? undefined}
 				data={items}
 				columns={columns}
 				onRowSelected={handleRowSelected}
-			/> */}
-			{Array.from({ length: 20 }, (_, i) => (
-				<Text size="xlarge" key={i}>
-					Lorum ipsumIn convallis vel neque facilisis est mi in varius gravida eget convallis convallis ut velit lacus,
-					eros faucibus odio. Varius dui porttitor eu ac egestas in tempus nisi suscipit fusce urna. Vitae semper velit
-					facilisis nunc, suspendisse vivamus duis vestibulum ullamcorper dui lectus sapien tempus sit eu dapibus arcu
-					pellentesque.
-				</Text>
-			))}
+			/>
 		</Box>
 	)
 }
