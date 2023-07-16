@@ -100,6 +100,7 @@ export const Table: React.FC<ITableProps> = ({
 								isRowSelectable: !!onRowSelected,
 								selected: rowSelectedProps?.checked,
 							}),
+							rowSelectedProps?.checked && 'tr-selected',
 						)}
 						{...tableRowProps}
 						{...(row?.getRowProps ? row?.getRowProps() : {})}

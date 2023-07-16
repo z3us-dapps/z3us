@@ -72,6 +72,18 @@ recipeGlobalStyle(tableRecipe({ sizeVariant: 'large', styleVariant: 'primary' })
 	backgroundColor: vars.color.backgroundPrimary,
 })
 
+recipeGlobalStyle(tableRecipe({ sizeVariant: 'large', styleVariant: 'primary' }), 'tbody tr.tr-selected', {
+	backgroundColor: vars.color.backgroundPrimary,
+})
+
+recipeGlobalStyle(
+	tableRecipe({ sizeVariant: 'large', styleVariant: 'primary' }),
+	'tbody tr.tr-selected + tr td::after',
+	{
+		opacity: '0',
+	},
+)
+
 recipeGlobalStyle(tableRecipe({ sizeVariant: 'large', styleVariant: 'primary' }), 'tbody tr:hover + tr td::after', {
 	opacity: '0',
 })
