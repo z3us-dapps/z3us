@@ -2,12 +2,12 @@
 import clsx, { type ClassValue } from 'clsx'
 import React, { useMemo } from 'react'
 import { useRowSelect, useSortBy, useTable } from 'react-table'
-import { TableVirtuoso } from 'react-virtuoso'
+import { type TableComponents, TableVirtuoso } from 'react-virtuoso'
 
 import { useIsMobileWidth } from 'ui/src/hooks/use-is-mobile'
 
 import { Box } from '../box'
-import { ChevronDown2Icon, ChevronUp2Icon } from '../icons'
+import { ChevronDown2Icon, ChevronUp2Icon, LoadingBarsIcon } from '../icons'
 import * as styles from './table.css'
 
 interface ITableProps {
@@ -17,21 +17,31 @@ interface ITableProps {
 	className?: ClassValue
 	sizeVariant?: 'medium' | 'large'
 	styleVariant?: 'primary' | 'secondary'
-	onRowSelected: (row: any) => void
+	loading?: boolean
+	loadMore?: boolean
+	overscan?: number
+	onEndReached?: () => void
+	// TODO: type
+	onRowSelected?: (row: any) => void
 }
 
-export const Table: React.FC<ITableProps> = ({
-	scrollableNode,
-	className,
-	sizeVariant = 'medium',
-	styleVariant = 'primary',
-	data,
-	columns,
-	onRowSelected,
-}) => {
+export const Table: React.FC<ITableProps> = props => {
+	const {
+		scrollableNode,
+		className,
+		sizeVariant = 'medium',
+		styleVariant = 'primary',
+		data,
+		columns,
+		loading = false,
+		loadMore = false,
+		overscan = 100,
+		onEndReached = () => {},
+		onRowSelected = () => {},
+	} = props
 	const isMobile = useIsMobileWidth()
-	const initialSort = React.useMemo(() => [{ id: 'token', desc: true }], [])
 
+	const initialSort = React.useMemo(() => [{ id: 'token', desc: true }], [])
 	const initialSelectedRows = React.useMemo(
 		() => ({
 			2: true, // Select row with ID 2 by default
@@ -39,15 +49,7 @@ export const Table: React.FC<ITableProps> = ({
 		[],
 	)
 
-	const {
-		getTableProps,
-		getTableBodyProps,
-		headerGroups,
-		rows,
-		prepareRow,
-		// state: { selectedRowIds },
-		toggleAllRowsSelected,
-	} = useTable(
+	const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow, toggleAllRowsSelected } = useTable(
 		{
 			columns,
 			data,
@@ -60,8 +62,12 @@ export const Table: React.FC<ITableProps> = ({
 		useRowSelect,
 	)
 
-	const deselectAllRows = () => {
+	const handleDeselectAllRows = () => {
 		toggleAllRowsSelected(false)
+	}
+
+	const handleEndReached = () => {
+		onEndReached()
 	}
 
 	const memoizedComponents = useMemo(
@@ -89,7 +95,7 @@ export const Table: React.FC<ITableProps> = ({
 				return (
 					<tr
 						onClick={e => {
-							deselectAllRows()
+							handleDeselectAllRows()
 							onRowSelected(row)
 							if (rowSelectedProps) rowSelectedProps.onChange(e)
 						}}
@@ -107,73 +113,116 @@ export const Table: React.FC<ITableProps> = ({
 					/>
 				)
 			},
+			TableFoot: React.forwardRef((tableBodyProps, ref) => (
+				<tfoot
+					className={clsx(styles.tFootWrapper, loadMore && styles.tFootWrapperVisible)}
+					{...getTableBodyProps()}
+					{...tableBodyProps}
+					ref={ref}
+				/>
+			)),
 		}),
-		[data, columns],
+		[data, columns, loading, loadMore],
 	)
 
 	return (
-		<Box>
-			<TableVirtuoso
-				className={clsx(styles.tableRootWrapper, className)}
-				totalCount={rows.length}
-				customScrollParent={scrollableNode}
-				components={memoizedComponents as any}
-				fixedHeaderContent={() =>
-					!isMobile &&
-					headerGroups.map(headerGroup => (
-						<tr {...headerGroup.getHeaderGroupProps()}>
-							{headerGroup.headers.map(column => (
-								<th
-									className={clsx(
-										styles.tableThRecipe({
-											sizeVariant,
-											styleVariant,
-										}),
-										column.className,
-									)}
-									{...column.getHeaderProps(column.getSortByToggleProps())}
-									style={{
-										width: column.width,
-									}}
-								>
-									<Box
-										position="relative"
-										component="span"
-										display="inline-flex"
-										alignItems="center"
-										gap="xsmall"
-										cursor="pointer"
+		<Box className={styles.tableWrapper}>
+			{loading ? (
+				<Box className={styles.tableLoadingWrapper}>
+					{Array.from({ length: 4 }, (_, i) => (
+						<Box key={i} height="xxxlarge">
+							loading - {i} - right
+						</Box>
+					))}
+				</Box>
+			) : (
+				<TableVirtuoso
+					className={clsx(styles.tableRootWrapper, className)}
+					overscan={overscan}
+					totalCount={rows.length}
+					customScrollParent={scrollableNode}
+					components={memoizedComponents as TableComponents}
+					endReached={handleEndReached}
+					fixedFooterContent={() =>
+						headerGroups.map(headerGroup => (
+							<tr {...headerGroup.getHeaderGroupProps()}>
+								{headerGroup.headers.map((column, columnIndex) => (
+									<th
+										className={clsx(column.className)}
+										{...column.getHeaderProps(column.getSortByToggleProps())}
+										style={{
+											width: column.width,
+										}}
 									>
-										<Box component="span">{column.render('Header')}</Box>
-										<Box component="span" className={styles.tableIconWrapper}>
-											{/* eslint-disable-next-line no-nested-ternary */}
-											{column.isSorted ? column.isSortedDesc ? <ChevronDown2Icon /> : <ChevronUp2Icon /> : ''}
+										{columnIndex === 0 ? (
+											<Box className={styles.footerLoadingIconWrapper}>
+												<LoadingBarsIcon />
+											</Box>
+										) : (
+											<Box style={{ height: '30px' }}>&nbsp;</Box>
+										)}
+									</th>
+								))}
+							</tr>
+						))
+					}
+					fixedHeaderContent={() =>
+						!isMobile &&
+						headerGroups.map(headerGroup => (
+							<tr {...headerGroup.getHeaderGroupProps()}>
+								{headerGroup.headers.map(column => (
+									<th
+										className={clsx(
+											styles.tableThRecipe({
+												sizeVariant,
+												styleVariant,
+											}),
+											column.className,
+										)}
+										{...column.getHeaderProps(column.getSortByToggleProps())}
+										style={{
+											width: column.width,
+										}}
+									>
+										<Box
+											position="relative"
+											component="span"
+											display="inline-flex"
+											alignItems="center"
+											gap="xsmall"
+											cursor="pointer"
+										>
+											<Box component="span">{column.render('Header')}</Box>
+											<Box component="span" className={styles.tableIconWrapper}>
+												{/* eslint-disable-next-line no-nested-ternary */}
+												{column.isSorted ? column.isSortedDesc ? <ChevronDown2Icon /> : <ChevronUp2Icon /> : ''}
+											</Box>
 										</Box>
-									</Box>
-								</th>
-							))}
-						</tr>
-					))
-				}
-				itemContent={index => {
-					const row = rows[index]
-					prepareRow(row)
-					return row.cells.map(cell => (
-						<td
-							className={clsx(
-								styles.tableTdRecipe({
-									sizeVariant,
-									styleVariant,
-								}),
-								cell.column.className,
-							)}
-							{...cell.getCellProps()}
-						>
-							{cell.render('Cell')}
-						</td>
-					))
-				}}
-			/>
+									</th>
+								))}
+							</tr>
+						))
+					}
+					itemContent={index => {
+						const row = rows[index]
+						prepareRow(row)
+						return row.cells.map(cell => (
+							<td
+								className={clsx(
+									styles.tableTdRecipe({
+										sizeVariant,
+										styleVariant,
+									}),
+									cell.column.className,
+								)}
+								{...cell.getCellProps()}
+							>
+								{cell.render('Cell')}
+							</td>
+						))
+					}}
+				/>
+			)}
 		</Box>
 	)
 }

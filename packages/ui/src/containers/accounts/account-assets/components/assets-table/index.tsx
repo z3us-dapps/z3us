@@ -80,21 +80,8 @@ export const AssetsTable: React.FC<IAccountTableProps> = props => {
 	const isMobile = useIsMobileWidth()
 
 	const [items, setItems] = useState<any>([])
-
-	useEffect(() => {
-		setItems(
-			Array.from({ length: 500 }).map((_, i, a) => {
-				const randomStr = generateRandomString()
-				return {
-					id: randomStr,
-					token: `${account} - ${randomStr}`,
-					portfolio: '65%',
-					price: '$1.83',
-					balance: `99`,
-				}
-			}),
-		)
-	}, [account])
+	const [loading, setLoading] = useState<boolean>(true)
+	const [loadMore, setLoadMore] = useState<boolean>(false)
 
 	const columns = useMemo(
 		() => [
@@ -134,6 +121,48 @@ export const AssetsTable: React.FC<IAccountTableProps> = props => {
 		navigate(`/accounts/${account}/${original.id}`)
 	}
 
+	const handleEndReached = () => {
+		setLoadMore(true)
+
+		setTimeout(() => {
+			setItems(prev => [
+				...prev,
+				...Array.from({ length: 50 }).map((_, i, a) => {
+					const randomStr = generateRandomString()
+					return {
+						id: randomStr,
+						token: `${account} - ${randomStr}`,
+						portfolio: '65%',
+						price: '$1.83',
+						balance: `99`,
+					}
+				}),
+			])
+
+			setLoadMore(false)
+		}, 2000)
+	}
+
+	useEffect(() => {
+		setLoading(true)
+		setTimeout(() => {
+			setItems(
+				Array.from({ length: 50 }).map((_, i, a) => {
+					const randomStr = generateRandomString()
+					return {
+						id: randomStr,
+						token: `${account} - ${randomStr}`,
+						portfolio: '65%',
+						price: '$1.83',
+						balance: `99`,
+					}
+				}),
+			)
+
+			setLoading(false)
+		}, 1000)
+	}, [account])
+
 	return (
 		<Box className={styles.assetsTableWrapper}>
 			<Table
@@ -143,6 +172,9 @@ export const AssetsTable: React.FC<IAccountTableProps> = props => {
 				data={items}
 				columns={columns}
 				onRowSelected={handleRowSelected}
+				onEndReached={handleEndReached}
+				loading={loading}
+				loadMore={loadMore}
 			/>
 		</Box>
 	)

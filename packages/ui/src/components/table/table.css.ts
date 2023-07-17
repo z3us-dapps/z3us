@@ -3,8 +3,16 @@ import { style } from '@vanilla-extract/css'
 import { recipe } from '@vanilla-extract/recipes'
 
 import { sprinkles } from '../system/sprinkles.css'
-import { recipeGlobalStyle } from '../system/theme-utils'
+import { recipeGlobalStyle, responsiveStyle } from '../system/theme-utils'
 import { vars } from '../system/theme.css'
+
+export const tableWrapper = style([
+	sprinkles({
+		display: 'block',
+		position: 'relative',
+	}),
+	{},
+])
 
 export const tableRootWrapper = style([
 	sprinkles({
@@ -13,6 +21,51 @@ export const tableRootWrapper = style([
 	}),
 	{
 		maxWidth: '100%',
+	},
+])
+
+export const tableLoadingWrapper = style([
+	sprinkles({
+		display: 'block',
+		position: 'relative',
+	}),
+	{},
+	responsiveStyle({
+		mobile: { marginTop: '40px' },
+		tablet: { marginTop: '40px' },
+		desktop: {},
+	}),
+])
+
+export const tFootWrapper = style([
+	sprinkles({
+		position: 'relative',
+		opacity: 0,
+		pointerEvents: 'none',
+	}),
+	{
+		display: 'table-footer-group',
+	},
+])
+
+export const tFootWrapperVisible = style([
+	sprinkles({
+		opacity: 1,
+	}),
+])
+
+export const footerLoadingIconWrapper = style([
+	sprinkles({
+		position: 'absolute',
+		display: 'flex',
+		alignItems: 'center',
+		justifyContent: 'center',
+	}),
+	{
+		top: 0,
+		left: '50%',
+		width: '40px',
+		height: '20px',
 	},
 ])
 
