@@ -159,7 +159,7 @@ export const Table: React.FC<ITableProps> = props => {
 												<LoadingBarsIcon />
 											</Box>
 										) : (
-											<Box style={{ height: '30px' }}>&nbsp;</Box>
+											<Box className={styles.footerLoadingDefaultWrapper}>&nbsp;</Box>
 										)}
 									</th>
 								))}

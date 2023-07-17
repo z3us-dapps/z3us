@@ -54,6 +54,13 @@ export const tFootWrapperVisible = style([
 	}),
 ])
 
+export const footerLoadingDefaultWrapper = style([
+	sprinkles({}),
+	{
+		height: '30px',
+	},
+])
+
 export const footerLoadingIconWrapper = style([
 	sprinkles({
 		position: 'absolute',
@@ -122,12 +129,30 @@ recipeGlobalStyle(tableRecipe({ sizeVariant: 'large', styleVariant: 'primary' })
 })
 
 recipeGlobalStyle(tableRecipe({ sizeVariant: 'large', styleVariant: 'primary' }), 'tbody tr:hover', {
-	backgroundColor: vars.color.backgroundPrimary,
+	backgroundColor: vars.color.bai_pearl200,
 })
 
 recipeGlobalStyle(tableRecipe({ sizeVariant: 'large', styleVariant: 'primary' }), 'tbody tr.tr-selected', {
-	backgroundColor: vars.color.backgroundPrimary,
+	backgroundColor: vars.color.bai_pearl200,
 })
+
+recipeGlobalStyle(
+	tableRecipe({ sizeVariant: 'large', styleVariant: 'primary' }),
+	'tbody tr:hover',
+	{
+		backgroundColor: vars.color.backgroundSecondary,
+	},
+	true,
+)
+
+recipeGlobalStyle(
+	tableRecipe({ sizeVariant: 'large', styleVariant: 'primary' }),
+	'tbody tr.tr-selected',
+	{
+		backgroundColor: vars.color.backgroundSecondary,
+	},
+	true,
+)
 
 recipeGlobalStyle(
 	tableRecipe({ sizeVariant: 'large', styleVariant: 'primary' }),
@@ -256,7 +281,7 @@ export const tableTrRecipe = recipe({
 				styleVariant: 'primary',
 			},
 			style: {
-				borderRadius: vars.border.radius.medium,
+				borderRadius: vars.border.radius.large,
 			},
 		},
 	],

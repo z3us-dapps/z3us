@@ -5,8 +5,14 @@ import isEqual from 'lodash/isEqual'
 import mapValues from 'lodash/mapValues'
 import omit from 'lodash/omit'
 
-export const recipeGlobalStyle = (recipeSelector: string, selector: string, rule: GlobalStyleRule): void =>
-	globalStyle(`${recipeSelector.split(' ')[1]} ${selector}`, rule)
+import { darkMode } from './sprinkles.css'
+
+export const recipeGlobalStyle = (
+	recipeSelector: string,
+	selector: string,
+	rule: GlobalStyleRule,
+	isDarkMode?: boolean,
+): void => globalStyle(`${isDarkMode ? `.${darkMode}` : ''} ${recipeSelector.split(' ')[1]} ${selector}`, rule)
 
 // import { recipe } from '@vanilla-extract/recipes'
 //
