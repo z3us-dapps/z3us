@@ -8,8 +8,12 @@ import { vars } from 'ui/src/components/system/theme.css'
 export const assetsTableWrapper = style([
 	sprinkles({
 		position: 'relative',
-		paddingX: 'large',
-		paddingBottom: 'xlarge',
+		paddingX: {
+			tablet: 'large',
+		},
+		paddingBottom: {
+			tablet: 'xlarge',
+		},
 	}),
 	{},
 ])

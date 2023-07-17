@@ -55,7 +55,7 @@ export const AddressNameCell: React.FC<IAddressNameCellProps> = props => {
 
 	return (
 		<Box key={id} display="flex" alignItems="center" gap="medium">
-			<ResourceImageIcon size="large" address={resourceAddress} />
+			<ResourceImageIcon size="xlarge" address={resourceAddress} />
 			<Text capitalizeFirstLetter size="small" color="strong" truncate weight="medium">
 				{value} - lorem Nulla dolore veniam reprehenderit laborum cupidatat officia elit anim enim. Sint sit incididunt
 				cupidatat esse laboris elit anim incididunt. Esse culpa officia enim non irure labore ut minim. Anim dolore duis

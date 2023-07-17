@@ -3,7 +3,7 @@ import { style } from '@vanilla-extract/css'
 import { recipe } from '@vanilla-extract/recipes'
 
 import { sprinkles } from '../system/sprinkles.css'
-import { recipeGlobalStyle, responsiveStyle } from '../system/theme-utils'
+import { recipeGlobalStyle, recipeTabletGlobalStyle, responsiveStyle } from '../system/theme-utils'
 import { vars } from '../system/theme.css'
 
 export const tableWrapper = style([
@@ -103,14 +103,6 @@ export const tableRecipe = recipe({
 	},
 })
 
-recipeGlobalStyle(tableRecipe({ sizeVariant: 'large', styleVariant: 'primary' }), 'tbody tr td:first-child:after', {
-	left: vars.spacing.medium,
-})
-
-recipeGlobalStyle(tableRecipe({ sizeVariant: 'large', styleVariant: 'primary' }), 'tbody tr td:last-child:after', {
-	right: vars.spacing.medium,
-})
-
 recipeGlobalStyle(tableRecipe({ sizeVariant: 'large', styleVariant: 'primary' }), 'tbody tr:hover td::after', {
 	opacity: '0',
 })
@@ -153,15 +145,31 @@ recipeGlobalStyle(tableRecipe({ sizeVariant: 'large', styleVariant: 'primary' })
 	opacity: '0',
 })
 
-recipeGlobalStyle(tableRecipe({ sizeVariant: 'large', styleVariant: 'primary' }), 'tbody tr td:first-child', {
+recipeTabletGlobalStyle(tableRecipe({ sizeVariant: 'large', styleVariant: 'primary' }), 'tbody tr td:first-child', {
 	borderTopLeftRadius: vars.spacing.medium,
 	borderBottomLeftRadius: vars.spacing.medium,
 })
 
-recipeGlobalStyle(tableRecipe({ sizeVariant: 'large', styleVariant: 'primary' }), 'tbody tr td:last-child', {
+recipeTabletGlobalStyle(tableRecipe({ sizeVariant: 'large', styleVariant: 'primary' }), 'tbody tr td:last-child', {
 	borderTopRightRadius: vars.spacing.medium,
 	borderBottomRightRadius: vars.spacing.medium,
 })
+
+recipeTabletGlobalStyle(
+	tableRecipe({ sizeVariant: 'large', styleVariant: 'primary' }),
+	'tbody tr td:first-child:after',
+	{
+		left: vars.spacing.medium,
+	},
+)
+
+recipeTabletGlobalStyle(
+	tableRecipe({ sizeVariant: 'large', styleVariant: 'primary' }),
+	'tbody tr td:last-child:after',
+	{
+		right: vars.spacing.medium,
+	},
+)
 
 export const tableThRecipe = recipe({
 	base: {},
@@ -300,6 +308,16 @@ export const tableTdRecipe = recipe({
 				},
 			],
 			large: [
+				sprinkles({
+					paddingY: {
+						mobile: 'medium',
+						tablet: 'large',
+					},
+					paddingX: {
+						mobile: 'medium',
+						tablet: 'medium',
+					},
+				}),
 				{
 					fontSize: '14px',
 					lineHeight: '20px',
@@ -315,10 +333,10 @@ export const tableTdRecipe = recipe({
 				styleVariant: 'primary',
 			},
 			style: {
-				paddingTop: '26px',
-				paddingBottom: '26px',
-				paddingLeft: vars.spacing.medium,
-				paddingRight: vars.spacing.medium,
+				// paddingTop: '26px',
+				// paddingBottom: '26px',
+				// paddingLeft: vars.spacing.medium,
+				// paddingRight: vars.spacing.medium,
 			},
 		},
 	],

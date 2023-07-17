@@ -16,6 +16,7 @@ export const imageWrapper = recipe({
 			small: { width: '20px', height: '20px' },
 			medium: { width: '24px', height: '24px' },
 			large: { width: '32px', height: '32px' },
+			xlarge: { width: '40px', height: '40px' },
 		},
 		rounded: {
 			true: { borderRadius: 999 },
@@ -39,6 +40,7 @@ export const imageFallbackTextWrapper = recipe({
 			small: { fontSize: '9px', lineHeight: '9px', fontWeight: 'medium' },
 			medium: { fontSize: '10px', lineHeight: '10px', fontWeight: 'medium' },
 			large: { fontSize: '11px', lineHeight: '11px', fontWeight: 'medium' },
+			xlarge: { fontSize: '12px', lineHeight: '12px', fontWeight: 'medium' },
 		},
 	},
 	defaultVariants: {

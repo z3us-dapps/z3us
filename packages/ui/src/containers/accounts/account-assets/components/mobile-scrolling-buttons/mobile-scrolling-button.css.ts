@@ -98,7 +98,7 @@ export const accountRoutesScrollingStickyBtnInner = style([
 		background: 'backgroundSecondary',
 		borderTopLeftRadius: 'xxxlarge',
 		borderTopRightRadius: 'xxxlarge',
-		padding: 'xlarge',
+		paddingY: 'xlarge',
 	}),
 	{
 		minHeight: '58px',

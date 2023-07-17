@@ -8,7 +8,7 @@ import { Text } from 'ui/src/components/typography'
 
 import * as styles from './image-icon.css'
 
-export type TImageSizes = 'small' | 'medium' | 'large'
+export type TImageSizes = 'small' | 'medium' | 'large' | 'xlarge'
 export type TImageColors = 'primary' | 'secondary'
 
 export interface IImageIconRequiredProps {

@@ -7,33 +7,10 @@ import omit from 'lodash/omit'
 
 import { darkMode } from './sprinkles.css'
 
-export const recipeGlobalStyle = (
-	recipeSelector: string,
-	selector: string,
-	rule: GlobalStyleRule,
-	isDarkMode?: boolean,
-): void => globalStyle(`${isDarkMode ? `.${darkMode}` : ''} ${recipeSelector.split(' ')[1]} ${selector}`, rule)
-
-// import { recipe } from '@vanilla-extract/recipes'
-//
-// const stack = recipe({
-//   variants: {
-//     size: {
-//       large: {},
-//     },
-//   },
-// })
-//
-// recipeGlobalStyle(stack({ size: 'large' }), '> * + *', {
-//   marginBlockStart: '3em',
-// })
-
 export const breakpoints = {
 	mobile: 0,
 	tablet: 768,
 	desktop: 1024,
-	// xl: 1240,
-	// xl2: 1536,
 }
 
 export type Breakpoint = keyof typeof breakpoints
@@ -92,3 +69,23 @@ export const mapToProperty =
 
 		return breakpoint ? responsiveStyle({ [breakpoint]: styleRule }) : styleRule
 	}
+
+export const recipeGlobalStyle = (
+	recipeSelector: string,
+	selector: string,
+	rule: GlobalStyleRule,
+	isDarkMode?: boolean,
+): void => globalStyle(`${isDarkMode ? `.${darkMode}` : ''} ${recipeSelector.split(' ')[1]} ${selector}`, rule)
+
+export const recipeTabletGlobalStyle = (
+	recipeSelector: string,
+	selector: string,
+	rule: GlobalStyleRule,
+	isDarkMode?: boolean,
+): void => {
+	globalStyle(`${isDarkMode ? `.${darkMode}` : ''} ${recipeSelector.split(' ')[1]} ${selector}`, {
+		'@media': {
+			[`screen and (min-width: ${breakpoints.tablet}px)`]: rule,
+		},
+	})
+}
