@@ -43,6 +43,7 @@ export const tokenListSkeleton = style([
 		position: 'relative',
 		borderRadius: 'medium',
 		overflow: 'hidden',
+		flexShrink: 0,
 		background: {
 			lightMode: 'bleached_silk500',
 			darkMode: 'lead400',

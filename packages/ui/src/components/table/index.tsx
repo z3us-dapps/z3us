@@ -4,6 +4,7 @@ import React, { useMemo } from 'react'
 import { useRowSelect, useSortBy, useTable } from 'react-table'
 import { type TableComponents, TableVirtuoso } from 'react-virtuoso'
 
+import * as skeletonStyles from 'ui/src/components/styles/skeleton-loading.css'
 import { useIsMobileWidth } from 'ui/src/hooks/use-is-mobile'
 
 import { Box } from '../box'
@@ -20,8 +21,9 @@ interface ITableProps {
 	loading?: boolean
 	loadMore?: boolean
 	overscan?: number
+	defaultLoadingRows?: number
 	onEndReached?: () => void
-	// TODO: type
+	// todo type
 	onRowSelected?: (row: any) => void
 }
 
@@ -36,6 +38,7 @@ export const Table: React.FC<ITableProps> = props => {
 		loading = false,
 		loadMore = false,
 		overscan = 100,
+		defaultLoadingRows = 4,
 		onEndReached = () => {},
 		onRowSelected = () => {},
 	} = props
@@ -128,12 +131,39 @@ export const Table: React.FC<ITableProps> = props => {
 	return (
 		<Box className={styles.tableWrapper}>
 			{loading ? (
-				<Box className={styles.tableLoadingWrapper}>
-					{Array.from({ length: 4 }, (_, i) => (
-						<Box key={i} height="xxxlarge">
-							loading - {i} - right
-						</Box>
-					))}
+				<Box className={styles.tableLoadingWrapperRecipe({ sizeVariant, styleVariant })}>
+					{Array.from({ length: defaultLoadingRows }, (_, i) =>
+						headerGroups.map(headerGroup => (
+							<Box
+								className={styles.tableLoadingRowRecipe({ sizeVariant, styleVariant })}
+								{...headerGroup.getHeaderGroupProps()}
+							>
+								{headerGroup.headers.map((column, columnIndex) => (
+									<Box
+										className={styles.tableLoadingCellRecipe({ sizeVariant, styleVariant })}
+										{...column.getHeaderProps(column.getSortByToggleProps())}
+										style={{
+											width: column.width,
+										}}
+									>
+										{columnIndex === 0 && (
+											<Box className={clsx(skeletonStyles.tokenListSkeleton, skeletonStyles.tokenListGridCircle)} />
+										)}
+										<Box display="flex" width="full" flexDirection="column" gap="small">
+											<Box
+												className={skeletonStyles.tokenListSkeleton}
+												style={{ height: '12px', width: i % 3 === 0 ? '65%' : '35%' }}
+											/>
+											<Box
+												className={skeletonStyles.tokenListSkeleton}
+												style={{ height: '12px', width: i % 2 === 0 ? '35%' : '55%' }}
+											/>
+										</Box>
+									</Box>
+								))}
+							</Box>
+						)),
+					)}
 				</Box>
 			) : (
 				<TableVirtuoso
@@ -155,7 +185,7 @@ export const Table: React.FC<ITableProps> = props => {
 										}}
 									>
 										{columnIndex === 0 ? (
-											<Box className={styles.footerLoadingIconWrapper}>
+											<Box color="colorNeutral" className={styles.footerLoadingIconWrapper}>
 												<LoadingBarsIcon />
 											</Box>
 										) : (

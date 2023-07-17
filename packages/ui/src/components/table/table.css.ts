@@ -24,19 +24,6 @@ export const tableRootWrapper = style([
 	},
 ])
 
-export const tableLoadingWrapper = style([
-	sprinkles({
-		display: 'block',
-		position: 'relative',
-	}),
-	{},
-	responsiveStyle({
-		mobile: { marginTop: '40px' },
-		tablet: { marginTop: '40px' },
-		desktop: {},
-	}),
-])
-
 export const tFootWrapper = style([
 	sprinkles({
 		position: 'relative',
@@ -166,10 +153,6 @@ recipeGlobalStyle(tableRecipe({ sizeVariant: 'large', styleVariant: 'primary' })
 	opacity: '0',
 })
 
-recipeGlobalStyle(tableRecipe({ sizeVariant: 'large', styleVariant: 'primary' }), 'tbody tr:first-child td::after', {
-	opacity: '0',
-})
-
 recipeGlobalStyle(tableRecipe({ sizeVariant: 'large', styleVariant: 'primary' }), 'tbody tr td:first-child', {
 	borderTopLeftRadius: vars.spacing.medium,
 	borderBottomLeftRadius: vars.spacing.medium,
@@ -179,14 +162,6 @@ recipeGlobalStyle(tableRecipe({ sizeVariant: 'large', styleVariant: 'primary' })
 	borderTopRightRadius: vars.spacing.medium,
 	borderBottomRightRadius: vars.spacing.medium,
 })
-
-// recipeGlobalStyle(tableRecipe({ sizeVariant: 'medium', styleVariant: 'primary' }), 'thead tr th:first-child', {
-// 	borderTopLeftRadius: `${vars.border.radius.medium}`,
-// })
-
-// recipeGlobalStyle(tableRecipe({ sizeVariant: 'medium', styleVariant: 'primary' }), 'thead tr th:last-child', {
-// 	borderTopRightRadius: `${vars.border.radius.medium}`,
-// })
 
 export const tableThRecipe = recipe({
 	base: {},
@@ -344,6 +319,109 @@ export const tableTdRecipe = recipe({
 				paddingBottom: '26px',
 				paddingLeft: vars.spacing.medium,
 				paddingRight: vars.spacing.medium,
+			},
+		},
+	],
+})
+
+export const tableLoadingWrapperRecipe = recipe({
+	base: {},
+	variants: {
+		styleVariant: {
+			primary: [
+				sprinkles({
+					// background: 'backgroundSecondary',
+					// color: 'colorNeutral',
+				}),
+				{},
+			],
+			secondary: [sprinkles({}), {}],
+		},
+		sizeVariant: {
+			medium: [sprinkles({}), {}],
+			large: [sprinkles({}), {}],
+		},
+	},
+	compoundVariants: [
+		{
+			variants: {
+				sizeVariant: 'large',
+				styleVariant: 'primary',
+			},
+			style: {
+				paddingTop: '48px',
+				paddingLeft: '12px',
+				paddingRight: '12px',
+			},
+		},
+	],
+})
+
+export const tableLoadingRowRecipe = recipe({
+	base: {
+		display: 'flex',
+		alignItems: 'center',
+		width: '100%',
+		gap: '12px',
+	},
+	variants: {
+		styleVariant: {
+			primary: [
+				sprinkles({
+					borderTop: 1,
+					borderStyle: 'solid',
+					borderColor: 'borderDivider',
+				}),
+				{},
+			],
+			secondary: [sprinkles({}), {}],
+		},
+		sizeVariant: {
+			medium: [sprinkles({}), {}],
+			large: [sprinkles({}), {}],
+		},
+	},
+	compoundVariants: [
+		{
+			variants: {
+				sizeVariant: 'large',
+				styleVariant: 'primary',
+			},
+			style: {
+				textAlign: 'left',
+				height: '84px',
+			},
+		},
+	],
+})
+
+export const tableLoadingCellRecipe = recipe({
+	base: {
+		display: 'flex',
+		flexGrow: '1',
+		alignItems: 'center',
+		width: '100%',
+		gap: '12px',
+	},
+	variants: {
+		styleVariant: {
+			primary: [sprinkles({}), {}],
+			secondary: [sprinkles({}), {}],
+		},
+		sizeVariant: {
+			medium: [sprinkles({}), {}],
+			large: [sprinkles({}), {}],
+		},
+	},
+	compoundVariants: [
+		{
+			variants: {
+				sizeVariant: 'large',
+				styleVariant: 'primary',
+			},
+			style: {
+				textAlign: 'left',
+				height: '84px',
 			},
 		},
 	],
