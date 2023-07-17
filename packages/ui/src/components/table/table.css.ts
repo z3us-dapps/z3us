@@ -140,7 +140,7 @@ recipeGlobalStyle(
 	tableRecipe({ sizeVariant: 'large', styleVariant: 'primary' }),
 	'tbody tr:hover',
 	{
-		backgroundColor: vars.color.backgroundSecondary,
+		backgroundColor: vars.color.wax500,
 	},
 	true,
 )
@@ -149,7 +149,7 @@ recipeGlobalStyle(
 	tableRecipe({ sizeVariant: 'large', styleVariant: 'primary' }),
 	'tbody tr.tr-selected',
 	{
-		backgroundColor: vars.color.backgroundSecondary,
+		backgroundColor: vars.color.wax500,
 	},
 	true,
 )
