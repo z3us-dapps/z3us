@@ -103,74 +103,6 @@ export const tableRecipe = recipe({
 	},
 })
 
-recipeGlobalStyle(tableRecipe({ sizeVariant: 'large', styleVariant: 'primary' }), 'tbody tr:hover td::after', {
-	opacity: '0',
-})
-
-recipeGlobalStyle(tableRecipe({ sizeVariant: 'large', styleVariant: 'primary' }), 'tbody tr:hover', {
-	backgroundColor: vars.color.bai_pearl200,
-})
-
-recipeGlobalStyle(tableRecipe({ sizeVariant: 'large', styleVariant: 'primary' }), 'tbody tr.tr-selected', {
-	backgroundColor: vars.color.bai_pearl200,
-})
-
-recipeGlobalStyle(
-	tableRecipe({ sizeVariant: 'large', styleVariant: 'primary' }),
-	'tbody tr:hover',
-	{
-		backgroundColor: vars.color.wax500,
-	},
-	true,
-)
-
-recipeGlobalStyle(
-	tableRecipe({ sizeVariant: 'large', styleVariant: 'primary' }),
-	'tbody tr.tr-selected',
-	{
-		backgroundColor: vars.color.wax500,
-	},
-	true,
-)
-
-recipeGlobalStyle(
-	tableRecipe({ sizeVariant: 'large', styleVariant: 'primary' }),
-	'tbody tr.tr-selected + tr td::after',
-	{
-		opacity: '0',
-	},
-)
-
-recipeGlobalStyle(tableRecipe({ sizeVariant: 'large', styleVariant: 'primary' }), 'tbody tr:hover + tr td::after', {
-	opacity: '0',
-})
-
-recipeTabletGlobalStyle(tableRecipe({ sizeVariant: 'large', styleVariant: 'primary' }), 'tbody tr td:first-child', {
-	borderTopLeftRadius: vars.spacing.medium,
-	borderBottomLeftRadius: vars.spacing.medium,
-})
-
-recipeTabletGlobalStyle(tableRecipe({ sizeVariant: 'large', styleVariant: 'primary' }), 'tbody tr td:last-child', {
-	borderTopRightRadius: vars.spacing.medium,
-	borderBottomRightRadius: vars.spacing.medium,
-})
-
-recipeTabletGlobalStyle(
-	tableRecipe({ sizeVariant: 'large', styleVariant: 'primary' }),
-	'tbody tr td:first-child:after',
-	{
-		left: vars.spacing.medium,
-	},
-)
-
-recipeTabletGlobalStyle(
-	tableRecipe({ sizeVariant: 'large', styleVariant: 'primary' }),
-	'tbody tr td:last-child:after',
-	{
-		right: vars.spacing.medium,
-	},
-)
-
 export const tableThRecipe = recipe({
 	base: {},
 	variants: {
@@ -314,7 +246,7 @@ export const tableTdRecipe = recipe({
 						tablet: 'large',
 					},
 					paddingX: {
-						mobile: 'medium',
+						mobile: 'large',
 						tablet: 'medium',
 					},
 				}),
@@ -443,4 +375,64 @@ export const tableLoadingCellRecipe = recipe({
 			},
 		},
 	],
+})
+
+recipeGlobalStyle(tableRecipe({ sizeVariant: 'large', styleVariant: 'primary' }), 'tbody tr:hover td::after', {
+	opacity: '0',
+})
+
+recipeGlobalStyle(tableRecipe({ sizeVariant: 'large', styleVariant: 'primary' }), 'tbody tr:hover', {
+	backgroundColor: vars.color.bai_pearl200,
+})
+
+recipeGlobalStyle(tableRecipe({ sizeVariant: 'large', styleVariant: 'primary' }), 'tbody tr.tr-selected', {
+	backgroundColor: vars.color.bai_pearl200,
+})
+
+recipeGlobalStyle(
+	tableRecipe({ sizeVariant: 'large', styleVariant: 'primary' }),
+	'tbody tr:hover',
+	{
+		backgroundColor: vars.color.wax500,
+	},
+	true,
+)
+
+recipeGlobalStyle(
+	tableRecipe({ sizeVariant: 'large', styleVariant: 'primary' }),
+	'tbody tr.tr-selected',
+	{
+		backgroundColor: vars.color.wax500,
+	},
+	true,
+)
+
+recipeGlobalStyle(
+	tableRecipe({ sizeVariant: 'large', styleVariant: 'primary' }),
+	'tbody tr.tr-selected + tr td::after',
+	{
+		opacity: '0',
+	},
+)
+
+recipeGlobalStyle(tableRecipe({ sizeVariant: 'large', styleVariant: 'primary' }), 'tbody tr:hover + tr td::after', {
+	opacity: '0',
+})
+
+recipeGlobalStyle(tableRecipe({ sizeVariant: 'large', styleVariant: 'primary' }), 'tbody tr td:nth-child(1):after', {
+	left: vars.spacing.large,
+})
+
+recipeGlobalStyle(tableRecipe({ sizeVariant: 'large', styleVariant: 'primary' }), 'tbody tr td:last-child:after', {
+	right: vars.spacing.large,
+})
+
+recipeTabletGlobalStyle(tableRecipe({ sizeVariant: 'large', styleVariant: 'primary' }), 'tbody tr td:first-child', {
+	borderTopLeftRadius: vars.spacing.medium,
+	borderBottomLeftRadius: vars.spacing.medium,
+})
+
+recipeTabletGlobalStyle(tableRecipe({ sizeVariant: 'large', styleVariant: 'primary' }), 'tbody tr td:last-child', {
+	borderTopRightRadius: vars.spacing.medium,
+	borderBottomRightRadius: vars.spacing.medium,
 })

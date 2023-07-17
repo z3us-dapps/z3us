@@ -81,6 +81,7 @@ export const accountRoutesScrollingStickyBtnWrapper = style([
 		},
 	}),
 	{
+		paddingTop: '1px',
 		top: '-1px',
 	},
 ])
@@ -95,12 +96,113 @@ export const accountRoutesScrollingStickyShadow = style([
 export const accountRoutesScrollingStickyBtnInner = style([
 	sprinkles({
 		position: 'relative',
-		background: 'backgroundSecondary',
 		borderTopLeftRadius: 'xxxlarge',
 		borderTopRightRadius: 'xxxlarge',
-		paddingY: 'xlarge',
+	}),
+	{},
+])
+
+export const tabsWrapper = style([
+	sprinkles({
+		width: 'full',
+		position: 'relative',
+		display: 'flex',
+		borderBottom: 1,
+		borderStyle: 'solid',
+		borderColor: 'borderDivider',
+	}),
+	{},
+])
+
+export const tabsWrapperButton = style([
+	sprinkles({
+		width: 'full',
+		display: 'flex',
+		alignItems: 'center',
+		justifyContent: 'center',
+		cursor: 'pointer',
+		position: 'relative',
+		transition: 'fast',
+		background: { lightMode: 'btnTertiaryBackground', hover: 'btnTertiaryBackgroundHover' },
+		boxShadow: {
+			focusVisible: 'btnSecondaryShadowFocus',
+		},
 	}),
 	{
-		minHeight: '58px',
+		flex: 1,
+		outline: 0,
+		height: '58px',
+		selectors: {
+			'&:focus-visible': {
+				zIndex: '1',
+			},
+		},
 	},
 ])
+
+export const tabsWrapperButtonLeft = style([
+	sprinkles({
+		borderTopLeftRadius: 'xxxlarge',
+	}),
+	{},
+])
+
+export const tabsWrapperButtonRight = style([
+	sprinkles({
+		borderTopRightRadius: 'xxxlarge',
+	}),
+	{},
+])
+
+export const tabsWrapperButtonActive = style([
+	{
+		selectors: {
+			'&:after': {
+				content: '""',
+				position: 'absolute',
+				height: '2px',
+				width: '100%',
+				background: vars.color.purple600,
+				left: '0',
+				bottom: '0',
+				pointerEvents: 'none',
+			},
+		},
+	},
+])
+
+export const tabsWrapperScrollBtn = style([
+	sprinkles({
+		position: 'absolute',
+		top: 0,
+		zIndex: 1,
+	}),
+	{
+		left: '50%',
+		marginLeft: '-16px',
+	},
+])
+
+export const tabsWrapperScrollBtnHidden = style([
+	sprinkles({
+		opacity: 0,
+		transition: 'fast',
+		pointerEvents: 'none',
+	}),
+])
+
+export const tabsWrapperScrollBtnScrolled = style([
+	{
+		position: 'absolute',
+	},
+])
+
+globalStyle(`${tabsWrapperScrollBtn} > svg`, {
+	transition: vars.transition.fast,
+	backfaceVisibility: 'hidden',
+	transform: 'rotateX(0deg) scale3d(1,1,1)',
+})
+
+globalStyle(`${tabsWrapperScrollBtnScrolled} > svg`, {
+	transform: 'rotateX(180deg) scale3d(1,1,1)',
+})

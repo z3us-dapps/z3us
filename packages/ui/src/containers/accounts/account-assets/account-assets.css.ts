@@ -62,7 +62,6 @@ export const accountRoutesMobileAccountHeader = style([
 		top: 0,
 	}),
 	{
-		// border: '1px solid red',
 		height: '300px',
 	},
 ])
