@@ -79,9 +79,10 @@ export const accountRoutesScrollingStickyBtnWrapper = style([
 			mobile: 'block',
 			tablet: 'none',
 		},
+		borderTopLeftRadius: 'xxxlarge',
+		borderTopRightRadius: 'xxxlarge',
 	}),
 	{
-		paddingTop: '1px',
 		top: '-1px',
 	},
 ])
@@ -107,20 +108,17 @@ export const tabsWrapper = style([
 		width: 'full',
 		position: 'relative',
 		display: 'flex',
-		borderBottom: 1,
-		borderStyle: 'solid',
-		borderColor: 'borderDivider',
 	}),
 	{},
 ])
 
 export const tabsWrapperButton = style([
 	sprinkles({
+		cursor: 'pointer',
 		width: 'full',
 		display: 'flex',
 		alignItems: 'center',
 		justifyContent: 'center',
-		cursor: 'pointer',
 		position: 'relative',
 		transition: 'fast',
 		background: { lightMode: 'btnTertiaryBackground', hover: 'btnTertiaryBackgroundHover' },

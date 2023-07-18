@@ -3,12 +3,7 @@ import { style } from '@vanilla-extract/css'
 import { recipe } from '@vanilla-extract/recipes'
 
 import { sprinkles } from '../system/sprinkles.css'
-import {
-	recipeGlobalStyle,
-	recipeResponsiveGlobalStyle,
-	recipeTabletGlobalStyle,
-	responsiveStyle,
-} from '../system/theme-utils'
+import { recipeGlobalStyle, recipeResponsiveGlobalStyle } from '../system/theme-utils'
 import { vars } from '../system/theme.css'
 
 export const tableWrapper = style([
@@ -166,27 +161,14 @@ export const tableTrRecipe = recipe({
 			primary: [
 				sprinkles({
 					transition: 'fastall',
-					// background: {
-					// 	hover: 'backgroundPrimary',
-					// },
-					boxShadow: {
-						hover: 'shadowActivePanel',
-					},
 				}),
-				{
-					// boxShadow: `inset 0px 1px 0px 0px ${vars.color.borderDivider}`,
-				},
+				{},
 			],
 			secondary: [sprinkles({}), {}],
 		},
 		sizeVariant: {
 			medium: [sprinkles({}), {}],
 			large: [sprinkles({}), {}],
-		},
-		selected: {
-			true: {
-				boxShadow: vars.color.shadowActivePanel,
-			},
 		},
 		isRowSelectable: {
 			true: {
@@ -214,11 +196,8 @@ export const tableTdRecipe = recipe({
 	variants: {
 		styleVariant: {
 			primary: [
-				sprinkles({
-					// position: 'relative',
-				}),
+				sprinkles({}),
 				{
-					// boxShadow: `inset 0px 1px 0px 0px ${vars.color.borderDivider}`,
 					'::after': {
 						content: '""',
 						position: 'absolute',
@@ -269,12 +248,7 @@ export const tableTdRecipe = recipe({
 				sizeVariant: 'large',
 				styleVariant: 'primary',
 			},
-			style: {
-				// paddingTop: '26px',
-				// paddingBottom: '26px',
-				// paddingLeft: vars.spacing.medium,
-				// paddingRight: vars.spacing.medium,
-			},
+			style: {},
 		},
 	],
 })
@@ -382,47 +356,63 @@ export const tableLoadingCellRecipe = recipe({
 	],
 })
 
-recipeGlobalStyle(tableRecipe({ sizeVariant: 'large', styleVariant: 'primary' }), 'tbody tr:hover td::after', {
-	opacity: '0',
+recipeResponsiveGlobalStyle(tableRecipe({ sizeVariant: 'large', styleVariant: 'primary' }), 'tbody tr:hover', {
+	tablet: {
+		backgroundColor: vars.color.bai_pearl200,
+		boxShadow: vars.color.shadowActivePanel,
+	},
 })
 
-recipeGlobalStyle(tableRecipe({ sizeVariant: 'large', styleVariant: 'primary' }), 'tbody tr:hover', {
-	backgroundColor: vars.color.bai_pearl200,
+recipeResponsiveGlobalStyle(tableRecipe({ sizeVariant: 'large', styleVariant: 'primary' }), 'tbody tr.tr-selected', {
+	tablet: {
+		backgroundColor: vars.color.bai_pearl200,
+		boxShadow: vars.color.shadowActivePanel,
+	},
 })
 
-recipeGlobalStyle(tableRecipe({ sizeVariant: 'large', styleVariant: 'primary' }), 'tbody tr.tr-selected', {
-	backgroundColor: vars.color.bai_pearl200,
-})
-
-recipeGlobalStyle(
+recipeResponsiveGlobalStyle(
 	tableRecipe({ sizeVariant: 'large', styleVariant: 'primary' }),
 	'tbody tr:hover',
 	{
-		backgroundColor: vars.color.wax500,
+		tablet: {
+			backgroundColor: vars.color.wax500,
+			boxShadow: vars.color.shadowActivePanel,
+		},
 	},
 	true,
 )
 
-recipeGlobalStyle(
+recipeResponsiveGlobalStyle(
 	tableRecipe({ sizeVariant: 'large', styleVariant: 'primary' }),
 	'tbody tr.tr-selected',
 	{
-		backgroundColor: vars.color.wax500,
+		tablet: {
+			backgroundColor: vars.color.wax500,
+			boxShadow: vars.color.shadowActivePanel,
+		},
 	},
 	true,
 )
 
-recipeGlobalStyle(
+recipeResponsiveGlobalStyle(
 	tableRecipe({ sizeVariant: 'large', styleVariant: 'primary' }),
 	'tbody tr.tr-selected + tr td::after',
 	{
-		opacity: '0',
+		tablet: {
+			opacity: '0',
+		},
 	},
 )
 
-recipeGlobalStyle(tableRecipe({ sizeVariant: 'large', styleVariant: 'primary' }), 'tbody tr:hover + tr td::after', {
-	opacity: '0',
-})
+recipeResponsiveGlobalStyle(
+	tableRecipe({ sizeVariant: 'large', styleVariant: 'primary' }),
+	'tbody tr:hover + tr td::after',
+	{
+		tablet: {
+			opacity: '0',
+		},
+	},
+)
 
 recipeResponsiveGlobalStyle(
 	tableRecipe({ sizeVariant: 'large', styleVariant: 'primary' }),

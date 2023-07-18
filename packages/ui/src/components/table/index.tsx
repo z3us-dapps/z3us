@@ -107,7 +107,6 @@ export const Table: React.FC<ITableProps> = props => {
 								sizeVariant,
 								styleVariant,
 								isRowSelectable: !!onRowSelected,
-								selected: rowSelectedProps?.checked,
 							}),
 							rowSelectedProps?.checked && 'tr-selected',
 						)}

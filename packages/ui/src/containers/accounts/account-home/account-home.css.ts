@@ -82,11 +82,6 @@ export const panelWrapper = style([
 	{
 		margin: '0 auto',
 	},
-	responsiveStyle({
-		tablet: {
-			height: 'calc(100vh - 168px)',
-		},
-	}),
 ])
 
 export const leftPanelWrapper = style([

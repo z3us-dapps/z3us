@@ -48,7 +48,7 @@ export const AssetsHeader: React.FC<IAccountRoutesProps> = props => {
 							<Text weight="medium" size="xxxlarge" color="strong" truncate>
 								{isLoading ? 'Loading...' : formatBigNumber(totalValue, currency, 2)}
 							</Text>
-							<ToolTip theme="backgroundPrimary" message="global.hide">
+							<ToolTip theme="backgroundPrimary" message="accounts.home.accountHideBalance">
 								<Button onClick={handleUpClick} styleVariant="ghost" sizeVariant="small" iconOnly>
 									<EyeOffIcon />
 								</Button>

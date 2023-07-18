@@ -57,7 +57,7 @@ export const scrollAreaScrollbarWrapper = style([
 		zIndex: 2,
 	}),
 	{
-		// TODO: rounded prop
+		// TODO: spacing for rounded prop
 		paddingTop: '8px',
 		paddingBottom: '8px',
 		paddingRight: '2px',
@@ -81,6 +81,7 @@ export const scrollAreaThumbWrapper = style([
 	{
 		width: '3px',
 		background: '#000',
+		opacity: '0.9',
 		'::before': {
 			content: '""',
 			position: 'absolute',
@@ -96,7 +97,8 @@ export const scrollAreaThumbWrapper = style([
 	{
 		selectors: {
 			[`.${darkMode} &`]: {
-				background: '#eee',
+				background: '#000',
+				opacity: '0.8',
 			},
 		},
 	},

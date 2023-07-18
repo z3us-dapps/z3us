@@ -48,6 +48,8 @@
 		},
 		"home": {
 			"accountBalanceTitle": "bilans konta",
+			"accountHideBalance": "hide balance",
+			"accountShowBalance": "show balance",
 			"assetsBadgesTitle": "zasoby i odznaki",
 			"assetsTokens": "żetony",
 			"assetsCoinsTokens": "monety i żetony",

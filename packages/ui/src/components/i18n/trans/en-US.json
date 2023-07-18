@@ -48,6 +48,8 @@
 		},
 		"home": {
 			"accountBalanceTitle": "account balance",
+			"accountHideBalance": "hide balance",
+			"accountShowBalance": "show balance",
 			"assetsBadgesTitle": "assets and badges",
 			"assetsTokens": "tokens",
 			"assetsCoinsTokens": "coins & tokens",
