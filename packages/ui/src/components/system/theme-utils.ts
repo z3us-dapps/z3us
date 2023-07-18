@@ -77,15 +77,11 @@ export const recipeGlobalStyle = (
 	isDarkMode?: boolean,
 ): void => globalStyle(`${isDarkMode ? `.${darkMode}` : ''} ${recipeSelector.split(' ')[1]} ${selector}`, rule)
 
-export const recipeTabletGlobalStyle = (
+export const recipeResponsiveGlobalStyle = (
 	recipeSelector: string,
 	selector: string,
-	rule: GlobalStyleRule,
+	rule: ResponsiveStyle,
 	isDarkMode?: boolean,
 ): void => {
-	globalStyle(`${isDarkMode ? `.${darkMode}` : ''} ${recipeSelector.split(' ')[1]} ${selector}`, {
-		'@media': {
-			[`screen and (min-width: ${breakpoints.tablet}px)`]: rule,
-		},
-	})
+	globalStyle(`${isDarkMode ? `.${darkMode}` : ''} ${recipeSelector.split(' ')[1]} ${selector}`, responsiveStyle(rule))
 }

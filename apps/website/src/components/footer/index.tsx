@@ -14,7 +14,8 @@ import { TwitterIcon } from 'ui/src/components/icons/twitter-icon'
 import { SelectSimple, SelectTrigger, SelectValue } from 'ui/src/components/select'
 import { ToolTip } from 'ui/src/components/tool-tip'
 import { Text } from 'ui/src/components/typography'
-import { useTheme } from 'ui/src/hooks/dapp/use-theme'
+import { useTheme } from 'ui/src/hooks/use-theme'
+import { type Theme } from 'ui/src/types/types'
 
 import * as styles from './footer.css'
 
@@ -23,7 +24,7 @@ export const Footer = () => {
 
 	const isDarkTheme = resolvedTheme === 'dark'
 
-	const handleChangeTheme = (_theme: string) => {
+	const handleChangeTheme = (_theme: Theme) => {
 		setTheme(_theme)
 	}
 

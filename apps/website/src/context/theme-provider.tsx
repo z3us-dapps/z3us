@@ -11,11 +11,12 @@ export const ThemeProvider: React.FC<PropsWithChildren> = ({ children }) => {
 	const { setTheme, theme, resolvedTheme } = useTheme()
 
 	useEffect(() => {
-		if (resolvedTheme === 'dark') {
-			document.documentElement.classList.add('dark')
-		} else {
-			document.documentElement.classList.remove('dark')
-		}
+		document.documentElement.classList.add('dark')
+		// if (resolvedTheme === 'dark') {
+		// 	document.documentElement.classList.add('dark')
+		// } else {
+		// 	document.documentElement.classList.remove('dark')
+		// }
 	}, [resolvedTheme])
 
 	const ctx = useMemo(

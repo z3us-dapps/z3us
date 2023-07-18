@@ -3,7 +3,12 @@ import { style } from '@vanilla-extract/css'
 import { recipe } from '@vanilla-extract/recipes'
 
 import { sprinkles } from '../system/sprinkles.css'
-import { recipeGlobalStyle, recipeTabletGlobalStyle, responsiveStyle } from '../system/theme-utils'
+import {
+	recipeGlobalStyle,
+	recipeResponsiveGlobalStyle,
+	recipeTabletGlobalStyle,
+	responsiveStyle,
+} from '../system/theme-utils'
 import { vars } from '../system/theme.css'
 
 export const tableWrapper = style([
@@ -419,20 +424,44 @@ recipeGlobalStyle(tableRecipe({ sizeVariant: 'large', styleVariant: 'primary' })
 	opacity: '0',
 })
 
-recipeGlobalStyle(tableRecipe({ sizeVariant: 'large', styleVariant: 'primary' }), 'tbody tr td:nth-child(1):after', {
-	left: vars.spacing.large,
+recipeResponsiveGlobalStyle(
+	tableRecipe({ sizeVariant: 'large', styleVariant: 'primary' }),
+	'tbody tr td:nth-child(1):after',
+	{
+		mobile: {
+			left: vars.spacing.large,
+			right: vars.spacing.large,
+		},
+		tablet: {
+			left: vars.spacing.medium,
+			right: 0,
+		},
+	},
+)
+
+recipeResponsiveGlobalStyle(
+	tableRecipe({ sizeVariant: 'large', styleVariant: 'primary' }),
+	'tbody tr td:last-child:after',
+	{
+		mobile: {
+			right: vars.spacing.large,
+		},
+		tablet: {
+			right: vars.spacing.medium,
+		},
+	},
+)
+
+recipeResponsiveGlobalStyle(tableRecipe({ sizeVariant: 'large', styleVariant: 'primary' }), 'tbody tr td:first-child', {
+	tablet: {
+		borderTopLeftRadius: vars.spacing.medium,
+		borderBottomLeftRadius: vars.spacing.medium,
+	},
 })
 
-recipeGlobalStyle(tableRecipe({ sizeVariant: 'large', styleVariant: 'primary' }), 'tbody tr td:last-child:after', {
-	right: vars.spacing.large,
-})
-
-recipeTabletGlobalStyle(tableRecipe({ sizeVariant: 'large', styleVariant: 'primary' }), 'tbody tr td:first-child', {
-	borderTopLeftRadius: vars.spacing.medium,
-	borderBottomLeftRadius: vars.spacing.medium,
-})
-
-recipeTabletGlobalStyle(tableRecipe({ sizeVariant: 'large', styleVariant: 'primary' }), 'tbody tr td:last-child', {
-	borderTopRightRadius: vars.spacing.medium,
-	borderBottomRightRadius: vars.spacing.medium,
+recipeResponsiveGlobalStyle(tableRecipe({ sizeVariant: 'large', styleVariant: 'primary' }), 'tbody tr td:last-child', {
+	tablet: {
+		borderTopRightRadius: vars.spacing.medium,
+		borderBottomRightRadius: vars.spacing.medium,
+	},
 })
