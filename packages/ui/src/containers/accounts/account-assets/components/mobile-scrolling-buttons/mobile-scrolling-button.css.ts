@@ -14,7 +14,6 @@ export const accountRoutesWrapper = style([
 
 	responsiveStyle({
 		mobile: {
-			background: '#8A4AE1',
 			minHeight: 'calc(100vh - 58px - 48px)',
 		},
 	}),
@@ -25,10 +24,7 @@ export const accountRoutesMobileAccountHeader = style([
 		position: 'sticky',
 		top: 0,
 	}),
-	{
-		// border: '1px solid red',
-		// height: '300px',
-	},
+	{},
 
 	responsiveStyle({
 		mobile: {
@@ -79,11 +75,23 @@ export const accountRoutesScrollingStickyBtnWrapper = style([
 			mobile: 'block',
 			tablet: 'none',
 		},
-		borderTopLeftRadius: 'xxxlarge',
-		borderTopRightRadius: 'xxxlarge',
 	}),
 	{
-		top: '-1px',
+		top: '0px',
+	},
+])
+
+export const accountRoutesScrollingStickyElem = style([
+	sprinkles({
+		position: 'absolute',
+		pointerEvents: 'none',
+		top: 0,
+		left: 0,
+		right: 0,
+	}),
+	{
+		height: '1px',
+		marginTop: '-1px',
 	},
 ])
 
@@ -190,14 +198,13 @@ export const tabsWrapperScrollBtnHidden = style([
 ])
 
 export const tabsWrapperScrollBtnScrolled = style([
-	{
+	sprinkles({
 		position: 'absolute',
-	},
+	}),
 ])
 
 globalStyle(`${tabsWrapperScrollBtn} > svg`, {
-	transition: vars.transition.fast,
-	backfaceVisibility: 'hidden',
+	transition: vars.transition.fastall,
 	transform: 'rotateX(0deg) scale3d(1,1,1)',
 })
 

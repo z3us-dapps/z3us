@@ -54,10 +54,11 @@ export const footerLoadingIconWrapper = style([
 		display: 'flex',
 		alignItems: 'center',
 		justifyContent: 'center',
+		top: 0,
 	}),
 	{
-		top: 0,
 		left: '50%',
+		marginLeft: '-20px',
 		width: '40px',
 		height: '20px',
 	},

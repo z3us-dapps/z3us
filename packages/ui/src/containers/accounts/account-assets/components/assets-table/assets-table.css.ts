@@ -12,6 +12,7 @@ export const assetsTableWrapper = style([
 			tablet: 'large',
 		},
 		paddingBottom: {
+			mobile: 'xlarge',
 			tablet: 'xlarge',
 		},
 	}),

@@ -34,7 +34,8 @@ export const MobileScrollingButtons: React.FC<IMobileScrollingButtonsProps> = pr
 	const { scrollableNode } = props
 	const { account, assetType, asset } = useAccountParams()
 	const wrapperRef = useRef(null)
-	const entry = useIntersectionObserver(wrapperRef, { threshold: [1] })
+	const stickyRef = useRef(null)
+	const entry = useIntersectionObserver(stickyRef, { threshold: [1] })
 	const isSticky = !entry?.isIntersecting
 
 	// const isActivityRoute = !!searchParams.get(SEARCH_ACTIVITY_PARAM)
@@ -82,6 +83,7 @@ export const MobileScrollingButtons: React.FC<IMobileScrollingButtonsProps> = pr
 				isSticky && styles.accountRoutesScrollingStickyShadow,
 			)}
 		>
+			<Box ref={stickyRef} className={styles.accountRoutesScrollingStickyElem} />
 			<Box className={styles.accountRoutesScrollingStickyBtnInner}>
 				<Box className={styles.tabsWrapper}>
 					<Link
