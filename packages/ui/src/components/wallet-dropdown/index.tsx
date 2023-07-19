@@ -34,7 +34,7 @@ import { Link } from 'ui/src/components/router-link'
 import SimpleBar from 'ui/src/components/simple-bar'
 import Translation from 'ui/src/components/translation'
 import { Text } from 'ui/src/components/typography'
-// import { useDapStatus } from 'ui/src/hooks/use-content-script-status'
+import { useDappStatus } from 'ui/src/hooks/use-dapp-status'
 import { useSharedStore } from 'ui/src/hooks/use-store'
 import { KeystoreType } from 'ui/src/store/types'
 
@@ -47,7 +47,7 @@ interface IWalletDropdownProps {
 export const WalletDropdown: React.FC<IWalletDropdownProps> = props => {
 	const { className } = props
 	const navigate = useNavigate()
-	// const dappStatus = useDapStatus()
+	const dappStatus = useDappStatus()
 
 	const { selectedKeystoreId, keystores, selectKeystore } = useSharedStore(state => ({
 		selectedKeystoreId: state.selectedKeystoreId,
@@ -103,7 +103,7 @@ export const WalletDropdown: React.FC<IWalletDropdownProps> = props => {
 					<DropdownMenuContent align="end" sideOffset={2} className={styles.dropdownProfileContentWrapper}>
 						<SimpleBar className={styles.dropdownProfileSimpleBarWrapper}>
 							<Box className={styles.dropdownProfileScrollAreaWrapper}>
-								{/* {dappStatus && (
+								{dappStatus && (
 									<DropdownMenuLabel>
 										<Text size="xsmall" weight="strong" color="strong">
 											<Translation capitalizeFirstLetter text="wallet_dropdown.content_script.title" />{' '}
@@ -114,7 +114,7 @@ export const WalletDropdown: React.FC<IWalletDropdownProps> = props => {
 											</Link>
 										</Text>
 									</DropdownMenuLabel>
-								)} */}
+								)}
 
 								<DropdownMenuLabel>
 									<Text size="xsmall" weight="strong" color="strong">
