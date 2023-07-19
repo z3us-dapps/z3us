@@ -13,57 +13,11 @@ import { Text } from 'ui/src/components/typography'
 import { useAccountParams } from 'ui/src/hooks/use-account-params'
 import { useIsMobileWidth } from 'ui/src/hooks/use-is-mobile'
 
+import { AssetNameCell } from './asset-name-cell'
+import { AssetStatisticCell } from './asset-statistic-cell'
 import * as styles from './assets-table.css'
 
 export const hash = () => Math.random().toString(36).substring(7)
-
-interface ICellProps {
-	value?: any
-	row?: any
-}
-
-export const CellC: React.FC<ICellProps> = props => {
-	const {
-		value,
-		row: { original },
-	} = props
-
-	const { id, address } = original
-
-	return (
-		<Box key={id} display="flex">
-			<Text size="small" color="strong" truncate>
-				{value}
-			</Text>
-		</Box>
-	)
-}
-
-interface IAddressNameCellProps {
-	value?: any
-	row?: any
-}
-
-export const AddressNameCell: React.FC<IAddressNameCellProps> = props => {
-	const {
-		value,
-		row: { original },
-	} = props
-
-	const { id, address } = original
-	const resourceAddress = '78374384783748374'
-
-	return (
-		<Box key={id} display="flex" alignItems="center" gap="medium">
-			<ResourceImageIcon size="xlarge" address={resourceAddress} />
-			<Text capitalizeFirstLetter size="small" color="strong" truncate weight="medium">
-				{value} - lorem Nulla dolore veniam reprehenderit laborum cupidatat officia elit anim enim. Sint sit incididunt
-				cupidatat esse laboris elit anim incididunt. Esse culpa officia enim non irure labore ut minim. Anim dolore duis
-				quis sit ex ad aliqua eu adipisicing proident nisi voluptate. Quis deserunt id laboris proident amet aliquip.
-			</Text>
-		</Box>
-	)
-}
 
 interface IAccountTableProps {
 	scrollableNode?: HTMLElement
@@ -89,27 +43,28 @@ export const AssetsTable: React.FC<IAccountTableProps> = props => {
 				Header: 'Token',
 				accessor: 'token',
 				width: '50%',
-				Cell: AddressNameCell,
+				Cell: AssetNameCell,
 			},
 			{
 				Header: 'Portfolio',
 				accessor: 'portfolio',
 				width: 'auto',
-				Cell: CellC,
+				Cell: AssetStatisticCell,
 				className: styles.mobileHideTableCellWrapper,
+				test: 'test',
 			},
 			{
 				Header: 'Balance',
 				accessor: 'balance',
 				width: 'auto',
-				Cell: CellC,
+				Cell: AssetStatisticCell,
 				className: styles.mobileHideTableCellWrapper,
 			},
 			{
 				Header: 'Price',
 				accessor: 'price',
 				width: 'auto',
-				Cell: CellC,
+				Cell: AssetStatisticCell,
 				className: styles.mobileHideTableCellWrapper,
 			},
 		],

@@ -2,11 +2,11 @@ import clsx from 'clsx'
 import { useGlobalResourceBalances } from 'packages/ui/src/hooks/dapp/use-balances'
 import { useNoneSharedStore } from 'packages/ui/src/hooks/use-store'
 import { formatBigNumber } from 'packages/ui/src/utils/formatters'
-import React from 'react'
+import React, { useState } from 'react'
 import { useLocation } from 'react-router-dom'
 
 import { Box } from 'ui/src/components/box'
-import { ArrowUpIcon, EyeOffIcon, SearchIcon } from 'ui/src/components/icons'
+import { ArrowUpIcon, EyeIcon, EyeOffIcon, SearchIcon } from 'ui/src/components/icons'
 import { Button } from 'ui/src/components/router-button'
 import { ToolTip } from 'ui/src/components/tool-tip'
 import Translation from 'ui/src/components/translation'
@@ -26,10 +26,15 @@ export const AssetsHeader: React.FC<IAccountRoutesProps> = props => {
 	}))
 	const { pathname } = useLocation()
 	const { totalValue, isLoading } = useGlobalResourceBalances()
+	const [hidden, setHidden] = useState<boolean>(false)
 
 	const handleUpClick = () => {
 		if (!scrollableNode) return
 		scrollableNode.scrollTo({ top: 0, behavior: 'smooth' })
+	}
+
+	const handleToggleHidden = () => {
+		setHidden(!hidden)
 	}
 
 	return (
@@ -44,15 +49,23 @@ export const AssetsHeader: React.FC<IAccountRoutesProps> = props => {
 						</Box>
 					</Box>
 					<Box display="flex" alignItems="center" gap="small">
-						<Box flexGrow={1} display="flex" alignItems="center" gap="small">
-							<Text weight="medium" size="xxxlarge" color="strong" truncate>
-								{isLoading ? 'Loading...' : formatBigNumber(totalValue, currency, 2)}
+						<Box flexGrow={1} display="flex" flexDirection="column" gap="xxsmall">
+							<Box display="flex" alignItems="center" gap="medium">
+								<Text weight="medium" size="xxxlarge" color="strong" truncate blur={hidden}>
+									{isLoading ? 'Loading...' : formatBigNumber(totalValue, currency, 2)}
+								</Text>
+								<ToolTip
+									theme="backgroundPrimary"
+									message={hidden ? 'accounts.home.accountShowBalance' : 'accounts.home.accountHideBalance'}
+								>
+									<Button onClick={handleToggleHidden} styleVariant="ghost" sizeVariant="small" iconOnly>
+										{hidden ? <EyeIcon /> : <EyeOffIcon />}
+									</Button>
+								</ToolTip>
+							</Box>
+							<Text size="xxsmall" color="green" weight="medium" blur={hidden}>
+								+$0.39 (+0.29%)
 							</Text>
-							<ToolTip theme="backgroundPrimary" message="accounts.home.accountHideBalance">
-								<Button onClick={handleUpClick} styleVariant="ghost" sizeVariant="small" iconOnly>
-									<EyeOffIcon />
-								</Button>
-							</ToolTip>
 						</Box>
 						<Box className={clsx(styles.assetsHeaderUpWrapper, !isScrolledTop && styles.assetsHeaderUpVisibleWrapper)}>
 							<ToolTip theme="backgroundPrimary" message="global.up">

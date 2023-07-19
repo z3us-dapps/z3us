@@ -19,7 +19,7 @@ export const assetsHeaderWrapper = style([
 	}),
 	{
 		top: '0px',
-		height: '120px',
+		height: '138px',
 	},
 ])
 

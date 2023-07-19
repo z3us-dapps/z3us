@@ -32,6 +32,7 @@ interface TextStyleProps {
 	capitalizeFirstLetter?: boolean
 	capitalize?: boolean
 	truncate?: boolean
+	blur?: boolean
 	underline?: 'always' | 'hover' | 'never'
 	inheritColor?: boolean
 	lineClamp?: number
@@ -55,6 +56,7 @@ const defaultProps = {
 	capitalizeFirstLetter: false,
 	capitalize: false,
 	truncate: false,
+	blur: false,
 	underline: 'never',
 	inheritColor: false,
 	lineClamp: undefined,
@@ -71,6 +73,7 @@ export const textStyles = ({
 	capitalizeFirstLetter,
 	capitalize,
 	truncate,
+	blur,
 	underline,
 	inheritColor,
 	lineClamp,
@@ -83,6 +86,7 @@ export const textStyles = ({
 		capitalizeFirstLetter && styles.capitalizeFirstLetter,
 		capitalize && styles.capitalize,
 		truncate && styles.truncateText,
+		blur && styles.blurText,
 		lineClamp && styles.lineClamp,
 		underline === 'hover' ? styles.underlineOnHover : undefined,
 		underline === 'always' ? styles.underlineText : undefined,
@@ -112,6 +116,7 @@ const Text = ({
 	capitalize,
 	underline,
 	truncate,
+	blur,
 	inheritColor,
 	lineClamp,
 }: TextProps) => (
@@ -129,6 +134,7 @@ const Text = ({
 			capitalizeFirstLetter,
 			capitalize,
 			truncate,
+			blur,
 			underline,
 			inheritColor,
 			lineClamp,

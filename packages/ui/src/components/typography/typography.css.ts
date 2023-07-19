@@ -19,6 +19,12 @@ export const truncateText = style([
 	},
 ])
 
+export const blurText = style([
+	{
+		filter: 'blur(6px)',
+	},
+])
+
 export const lineClamp = style([
 	{
 		display: '-webkit-box',
