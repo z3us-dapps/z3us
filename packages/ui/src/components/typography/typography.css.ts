@@ -22,6 +22,7 @@ export const truncateText = style([
 export const blurText = style([
 	{
 		filter: 'blur(6px)',
+		userSelect: 'none',
 	},
 ])
 

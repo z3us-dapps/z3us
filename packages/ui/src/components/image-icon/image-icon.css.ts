@@ -37,10 +37,10 @@ export const imageFallbackTextWrapper = recipe({
 	},
 	variants: {
 		size: {
-			small: { fontSize: '9px', lineHeight: '9px', fontWeight: 'medium' },
-			medium: { fontSize: '10px', lineHeight: '10px', fontWeight: 'medium' },
-			large: { fontSize: '11px', lineHeight: '11px', fontWeight: 'medium' },
-			xlarge: { fontSize: '12px', lineHeight: '12px', fontWeight: 'medium' },
+			small: { fontSize: '9px', lineHeight: '9px', fontWeight: '500' },
+			medium: { fontSize: '10px', lineHeight: '10px', fontWeight: '500' },
+			large: { fontSize: '11px', lineHeight: '11px', fontWeight: '500' },
+			xlarge: { fontSize: '12px', lineHeight: '12px', fontWeight: '500' },
 		},
 	},
 	defaultVariants: {
