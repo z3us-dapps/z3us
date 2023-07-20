@@ -7,16 +7,16 @@ import React, { type PropsWithChildren, useEffect, useMemo } from 'react'
 
 import { darkThemeClass, lightThemeClass } from 'ui/src/components/system/theme.css'
 
-export const ThemeProvider: React.FC<PropsWithChildren> = ({ children }) => {
+export const InnerThemeProvider: React.FC<PropsWithChildren> = ({ children }) => {
 	const { setTheme, theme, resolvedTheme } = useTheme()
 
 	useEffect(() => {
-		// document.documentElement.classList.add('dark')
-		// if (resolvedTheme === 'dark') {
-		// 	document.documentElement.classList.add('dark')
-		// } else {
-		// 	document.documentElement.classList.remove('dark')
-		// }
+		document.documentElement.classList.add('dark')
+		if (resolvedTheme === 'dark') {
+			document.documentElement.classList.add('dark')
+		} else {
+			document.documentElement.classList.remove('dark')
+		}
 	}, [resolvedTheme])
 
 	const ctx = useMemo(
@@ -28,23 +28,25 @@ export const ThemeProvider: React.FC<PropsWithChildren> = ({ children }) => {
 		[theme],
 	)
 
-	return (
-		<NextThemesProvider
-			attribute="class"
-			defaultTheme="system"
-			enableSystem
-			value={{
-				light: lightThemeClass,
-				dark: darkThemeClass,
-			}}
-		>
-			<style>{`
+	return <ThemeContext.Provider value={ctx}>{children}</ThemeContext.Provider>
+}
+
+export const ThemeProvider: React.FC<PropsWithChildren> = ({ children }) => (
+	<NextThemesProvider
+		attribute="class"
+		defaultTheme="system"
+		enableSystem
+		value={{
+			light: lightThemeClass,
+			dark: darkThemeClass,
+		}}
+	>
+		<style>{`
 		:root {
 			--font-sans: ${fontSans.style.fontFamily};
 			--font-mono: ${fontMono.style.fontFamily};
 		}
 	`}</style>
-			<ThemeContext.Provider value={ctx}>{children}</ThemeContext.Provider>
-		</NextThemesProvider>
-	)
-}
+		<InnerThemeProvider>{children}</InnerThemeProvider>
+	</NextThemesProvider>
+)
