@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 
-export const useScrambleText = (inputString: string, scramble: boolean, scrambleAnimationLength = 150): string => {
+export const useScrambleText = (inputString: string, scramble: boolean, scrambleAnimationLength = 50): string => {
 	const [scrambledString, setScrambledString] = useState<string>('')
 
 	useEffect(() => {
@@ -16,30 +16,24 @@ export const useScrambleText = (inputString: string, scramble: boolean, scramble
 			return characters[randomIndex]
 		}
 
-		// Replace each character with a random alphanumeric character
-		const scrambled = inputString.replace(/./g, getRandomChar)
-		setScrambledString(scrambled)
+		// Function to scramble characters from left to right
+		const animateScramble = (currentCharIndex: number) => {
+			if (currentCharIndex >= inputString.length) {
+				return // Animation completed, no need to update the state
+			}
 
-		if (scramble) {
-			const animationDuration = scrambleAnimationLength // in milliseconds
-			const totalChars = inputString.length
-			const charsPerInterval = Math.ceil(animationDuration / totalChars)
-			let currentCharIndex = 0
+			setScrambledString(prevScrambled => {
+				const nextChar = getRandomChar()
+				return prevScrambled.slice(0, currentCharIndex) + nextChar + prevScrambled.slice(currentCharIndex + 1)
+			})
 
-			const intervalId = setInterval(() => {
-				setScrambledString(prevScrambled => {
-					if (currentCharIndex >= totalChars) {
-						clearInterval(intervalId)
-						return prevScrambled // Return the last state (scrambled string)
-					}
-
-					const nextChar = getRandomChar()
-					currentCharIndex += 1
-
-					return prevScrambled.slice(0, currentCharIndex - 1) + nextChar + prevScrambled.slice(currentCharIndex)
-				})
-			}, charsPerInterval)
+			setTimeout(() => {
+				animateScramble(currentCharIndex + 1)
+			}, scrambleAnimationLength) // Adjust the interval value to control the animation speed
 		}
+
+		// Start the animation
+		animateScramble(0)
 	}, [inputString, scramble])
 
 	return scramble ? scrambledString : inputString
