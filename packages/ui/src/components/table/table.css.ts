@@ -11,7 +11,16 @@ export const tableWrapper = style([
 		display: 'block',
 		position: 'relative',
 	}),
-	{},
+	{
+		transition: 'min-height 300ms ease',
+		minHeight: '420px',
+	},
+])
+
+export const tableMinHeightWrapper = style([
+	{
+		minHeight: '10px',
+	},
 ])
 
 export const tableRootWrapper = style([
@@ -363,6 +372,19 @@ recipeResponsiveGlobalStyle(tableRecipe({ sizeVariant: 'large', styleVariant: 'p
 		boxShadow: vars.color.shadowActivePanel,
 	},
 })
+
+recipeResponsiveGlobalStyle(
+	tableRecipe({ sizeVariant: 'large', styleVariant: 'primary' }),
+	'tbody tr:hover .tr-text-elem',
+	{
+		mobile: {
+			color: vars.color.purple500,
+		},
+		tablet: {
+			color: 'unset',
+		},
+	},
+)
 
 recipeResponsiveGlobalStyle(tableRecipe({ sizeVariant: 'large', styleVariant: 'primary' }), 'tbody tr.tr-selected', {
 	tablet: {

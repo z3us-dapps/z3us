@@ -11,7 +11,6 @@ export const InnerThemeProvider: React.FC<PropsWithChildren> = ({ children }) =>
 	const { setTheme, theme, resolvedTheme } = useTheme()
 
 	useEffect(() => {
-		document.documentElement.classList.add('dark')
 		if (resolvedTheme === 'dark') {
 			document.documentElement.classList.add('dark')
 		} else {

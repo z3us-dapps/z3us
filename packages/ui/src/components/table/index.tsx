@@ -1,6 +1,6 @@
 /* eslint-disable react/no-unstable-nested-components */
 import clsx, { type ClassValue } from 'clsx'
-import React, { useMemo } from 'react'
+import React, { useEffect, useMemo } from 'react'
 import { useRowSelect, useSortBy, useTable } from 'react-table'
 import { type TableComponents, TableVirtuoso } from 'react-virtuoso'
 
@@ -128,7 +128,7 @@ export const Table: React.FC<ITableProps> = props => {
 	)
 
 	return (
-		<Box className={styles.tableWrapper}>
+		<Box className={clsx(styles.tableWrapper, !loading && styles.tableMinHeightWrapper)}>
 			{loading ? (
 				<Box className={styles.tableLoadingWrapperRecipe({ sizeVariant, styleVariant })}>
 					{Array.from({ length: defaultLoadingRows }, (_, i) =>
@@ -167,7 +167,7 @@ export const Table: React.FC<ITableProps> = props => {
 			) : (
 				<TableVirtuoso
 					className={clsx(styles.tableRootWrapper, className)}
-					overscan={overscan}
+					overscan={{ main: overscan, reverse: overscan }}
 					totalCount={rows.length}
 					customScrollParent={scrollableNode}
 					components={memoizedComponents as TableComponents}

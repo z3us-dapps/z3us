@@ -27,14 +27,14 @@ export const AssetNameCell: React.FC<IAssetNameCellProps> = props => {
 			<ResourceImageIcon size={isMobile ? 'large' : 'xlarge'} address={resourceAddress} />
 			<Box className={styles.assetNameCellStatsWrapper}>
 				<Box className={styles.assetNameCellNameWrapper}>
-					<Text capitalizeFirstLetter size="small" color="strong" truncate weight="medium">
+					<Text className="tr-text-elem" capitalizeFirstLetter size="small" color="strong" truncate weight="medium">
 						{value} - lorem Nulla dolore veniam reprehenderit laborum cupidatat officia elit anim enim. Sint sit
 						incididunt cupidatat esse laboris elit anim incididunt. Esse culpa officia enim non irure labore ut minim.
 						Anim dolore duis quis sit ex ad aliqua eu adipisicing proident nisi voluptate. Quis deserunt id laboris
 						proident amet aliquip.
 					</Text>
 					<Box className={styles.assetNameCellBalanceWrapper}>
-						<Text capitalizeFirstLetter size="small" truncate weight="strong">
+						<Text capitalizeFirstLetter size="xsmall" truncate weight="regular">
 							$4,35848484884848484848484848484884488.54
 						</Text>
 					</Box>
