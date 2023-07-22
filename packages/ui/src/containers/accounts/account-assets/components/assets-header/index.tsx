@@ -11,6 +11,7 @@ import { Button } from 'ui/src/components/router-button'
 import { ToolTip } from 'ui/src/components/tool-tip'
 import Translation from 'ui/src/components/translation'
 import { Text } from 'ui/src/components/typography'
+import { useScrambleText } from 'ui/src/hooks/use-scramble-text'
 
 import * as styles from './assets-header.css'
 
@@ -27,6 +28,9 @@ export const AssetsHeader: React.FC<IAccountRoutesProps> = props => {
 	const { pathname } = useLocation()
 	const { totalValue, isLoading } = useGlobalResourceBalances()
 	const [hidden, setHidden] = useState<boolean>(false)
+	const valueStr = isLoading ? 'Loading...' : `${formatBigNumber(totalValue, currency, 2)}`
+	const valueScramble = useScrambleText(valueStr, hidden)
+	const percentageValueScramble = useScrambleText('+$0.39 (+0.29%)', hidden)
 
 	const handleUpClick = () => {
 		if (!scrollableNode) return
@@ -52,7 +56,7 @@ export const AssetsHeader: React.FC<IAccountRoutesProps> = props => {
 						<Box flexGrow={1} display="flex" flexDirection="column" gap="xxsmall">
 							<Box display="flex" alignItems="center" gap="medium">
 								<Text weight="medium" size="xxxlarge" color="strong" truncate blur={hidden}>
-									{isLoading ? 'Loading...' : formatBigNumber(totalValue, currency, 2)}
+									{valueScramble}
 								</Text>
 								<ToolTip
 									theme="backgroundPrimary"
@@ -64,7 +68,7 @@ export const AssetsHeader: React.FC<IAccountRoutesProps> = props => {
 								</ToolTip>
 							</Box>
 							<Text size="xxsmall" color="green" weight="medium" blur={hidden}>
-								+$0.39 (+0.29%)
+								{percentageValueScramble}
 							</Text>
 						</Box>
 						<Box className={clsx(styles.assetsHeaderUpWrapper, !isScrolledTop && styles.assetsHeaderUpVisibleWrapper)}>
