@@ -3,7 +3,7 @@ import { style } from '@vanilla-extract/css'
 import { recipe } from '@vanilla-extract/recipes'
 
 import { sprinkles } from '../system/sprinkles.css'
-import { recipeGlobalStyle, recipeResponsiveGlobalStyle } from '../system/theme-utils'
+import { recipeResponsiveGlobalStyle } from '../system/theme-utils'
 import { vars } from '../system/theme.css'
 
 export const tableWrapper = style([
@@ -99,9 +99,7 @@ export const tableRecipe = recipe({
 				sprinkles({
 					borderRadius: 'medium',
 				}),
-				{
-					// boxShadow: `inset 0px 0px 0px 1px ${vars.color.borderDivider}`,
-				},
+				{},
 			],
 			secondary: [sprinkles({}), {}],
 		},
@@ -119,7 +117,6 @@ export const tableThRecipe = recipe({
 		styleVariant: {
 			primary: [
 				sprinkles({
-					// background: 'backgroundSecondary',
 					color: 'colorNeutral',
 				}),
 				{},
@@ -267,13 +264,7 @@ export const tableLoadingWrapperRecipe = recipe({
 	base: {},
 	variants: {
 		styleVariant: {
-			primary: [
-				sprinkles({
-					// background: 'backgroundSecondary',
-					// color: 'colorNeutral',
-				}),
-				{},
-			],
+			primary: [sprinkles({}), {}],
 			secondary: [sprinkles({}), {}],
 		},
 		sizeVariant: {
@@ -423,6 +414,19 @@ recipeResponsiveGlobalStyle(
 	{
 		tablet: {
 			opacity: '0',
+		},
+	},
+)
+
+recipeResponsiveGlobalStyle(
+	tableRecipe({ sizeVariant: 'large', styleVariant: 'primary' }),
+	'tbody tr:first-child td::after',
+	{
+		mobile: {
+			opacity: '0',
+		},
+		tablet: {
+			opacity: '1',
 		},
 	},
 )

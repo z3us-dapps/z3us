@@ -5,7 +5,7 @@ import { darkMode, sprinkles } from 'ui/src/components/system/sprinkles.css'
 import { responsiveStyle } from 'ui/src/components/system/theme-utils'
 import { vars } from 'ui/src/components/system/theme.css'
 
-export const accountsWrapper = style([
+export const accountsOuterWrapper = style([
 	sprinkles({
 		position: 'relative',
 		display: 'flex',
@@ -25,33 +25,6 @@ export const accountsWrapper = style([
 		height: 'full',
 	}),
 	{},
-	responsiveStyle({
-		mobile: {
-			'::before': {
-				content: '""',
-				position: 'absolute',
-				top: '-58px',
-				bottom: 0,
-				left: 0,
-				right: 0,
-				background: vars.color.purple600,
-				pointerEvents: 'none',
-			},
-		},
-		tablet: {
-			'::before': {
-				display: 'none',
-				content: '""',
-				position: 'absolute',
-				top: '-58px',
-				bottom: 0,
-				left: 0,
-				right: 0,
-				background: vars.color.purple600,
-				pointerEvents: 'none',
-			},
-		},
-	}),
 ])
 
 export const accountsContainerWrapper = style([

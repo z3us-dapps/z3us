@@ -12,6 +12,7 @@ import { Box } from 'ui/src/components/box'
 import * as styles from './account-assets.css'
 import { AssetsHeader } from './components/assets-header'
 import { AssetsTable } from './components/assets-table'
+import { MobileScrollingBackground } from './components/mobile-scrolling-background'
 import { MobileScrollingButtons } from './components/mobile-scrolling-buttons'
 
 interface IAccountRoutesProps {
@@ -25,7 +26,7 @@ export const AccountAssets: React.FC<IAccountRoutesProps> = props => {
 	return (
 		<Box className={clsx(styles.accountRoutesWrapper, !isScrolledTop && styles.accountTheadShadow)}>
 			<Box className={styles.accountRoutesScrollingWrapper}>
-				<Box className={styles.accountRoutesScrollingStickySheet} />
+				<MobileScrollingBackground />
 				<MobileScrollingButtons scrollableNode={scrollableNode} />
 				<AssetsHeader isScrolledTop={isScrolledTop} scrollableNode={scrollableNode} />
 				<AssetsTable scrollableNode={scrollableNode} />

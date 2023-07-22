@@ -1,6 +1,6 @@
 /* eslint-disable react/no-unstable-nested-components */
 import clsx, { type ClassValue } from 'clsx'
-import React, { useEffect, useMemo } from 'react'
+import React, { useMemo } from 'react'
 import { useRowSelect, useSortBy, useTable } from 'react-table'
 import { type TableComponents, TableVirtuoso } from 'react-virtuoso'
 
