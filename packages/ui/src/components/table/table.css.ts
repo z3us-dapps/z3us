@@ -3,7 +3,7 @@ import { style } from '@vanilla-extract/css'
 import { recipe } from '@vanilla-extract/recipes'
 
 import { sprinkles } from '../system/sprinkles.css'
-import { recipeResponsiveGlobalStyle } from '../system/theme-utils'
+import { recipeResponsiveGlobalStyle, responsiveStyle } from '../system/theme-utils'
 import { vars } from '../system/theme.css'
 
 export const tableWrapper = style([
@@ -69,8 +69,11 @@ export const footerLoadingIconWrapper = style([
 		left: '50%',
 		marginLeft: '-20px',
 		width: '40px',
-		height: '20px',
 	},
+	responsiveStyle({
+		mobile: { height: '60px' },
+		tablet: { height: '50px' },
+	}),
 ])
 
 export const tableIconWrapper = style([
