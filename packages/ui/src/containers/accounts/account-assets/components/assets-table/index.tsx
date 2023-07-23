@@ -127,11 +127,11 @@ export const AssetsTable: React.FC<IAccountTableProps> = props => {
 				scrollableNode={scrollableNode ?? undefined}
 				data={items}
 				columns={columns}
-				loading
-				// loading={loading}
+				// loading
+				loading={loading}
 				loadMore={loadMore}
 				onRowSelected={handleRowSelected}
-				// onEndReached={handleEndReached}
+				onEndReached={handleEndReached}
 			/>
 		</Box>
 	)
