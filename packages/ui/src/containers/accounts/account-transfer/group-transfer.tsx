@@ -96,7 +96,7 @@ export const GroupItem: React.FC<IGroupItemProps> = props => {
 
 	const [debouncedValue] = useDebounce<string>(send.to, 500)
 	const { data } = useEntityMetadata(debouncedValue)
-	const name = data?.find(detail => detail.key === 'name')?.value.as_string
+	const name = data?.find(detail => detail.key === 'name')?.value.raw_hex
 	const toName = knownAddresses[send.to]?.name || name
 
 	return (

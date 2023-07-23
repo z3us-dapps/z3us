@@ -15,6 +15,7 @@ import { addDevTools } from '@src/browser/dev-tools/context-menu'
 import { addLedger } from '@src/browser/ledger/context-menu'
 import { addOffscreen } from '@src/browser/offscreen/context-menu'
 import { createOffscreen } from '@src/browser/offscreen/offscreen'
+import { addOptions } from '@src/browser/options/context-menu'
 import { addPairing } from '@src/browser/pairing/context-menu'
 
 const messageHandler = MessageClient()
@@ -38,6 +39,7 @@ browser.action.onClicked.addListener(openParingPopup)
 browser.contextMenus.removeAll().then(() => {
 	addDevTools()
 	addPairing()
+	addOptions()
 	addLedger()
 	addOffscreen()
 	addDashboard()

@@ -1,4 +1,4 @@
-import { Paring } from '@radixdlt/connector-extension/src/pairing/pairing'
+import { Options as RadixOptions } from '@radixdlt/connector-extension/src/options/options'
 import React from 'react'
 
 import { Box } from 'ui/src/components/box'
@@ -8,13 +8,13 @@ import '@src/styles/global-style.css'
 
 import * as styles from './styles.css'
 
-const Pairing: React.FC = () => (
+const Options: React.FC = () => (
 	<Box>
 		<Box padding="xxxlarge" className={styles.pairingWrapper}>
-			<Text size="xlarge">Radix Connector Pairing</Text>
-			<Paring />
+			<Text size="xlarge">Radix Connector Options</Text>
+			<RadixOptions />
 		</Box>
 	</Box>
 )
 
-export default Pairing
+export default Options

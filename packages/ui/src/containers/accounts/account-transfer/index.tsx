@@ -39,7 +39,7 @@ const AccountTransfer = () => {
 			}
 			rightCol={
 				<ScrollPanel
-					isTopShadowVisible
+					showTopScrollShadow
 					renderPanel={() => (
 						<AnimatePresence initial={false}>
 							<Routes location={location} key={location.pathname}>

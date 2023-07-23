@@ -56,7 +56,7 @@ const AccountSettings = () => {
 			}
 			rightCol={
 				<ScrollPanel
-					isTopShadowVisible
+					showTopScrollShadow
 					renderPanel={(scrollableNode: HTMLElement | null) => (
 						<AnimatePresence initial={false}>
 							<Routes location={location} key={location.pathname}>

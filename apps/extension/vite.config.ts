@@ -34,6 +34,7 @@ const config = {
 			'io-types': resolve(__dirname, '../../node_modules/@radixdlt/connector-extension/src/io-types'),
 			ledger: resolve(__dirname, '../../node_modules/@radixdlt/connector-extension/src/ledger'),
 			pairing: resolve(__dirname, '../../node_modules/@radixdlt/connector-extension/src/pairing'),
+			options: resolve(__dirname, '../../node_modules/@radixdlt/connector-extension/src/options'),
 			queues: resolve(__dirname, '../../node_modules/@radixdlt/connector-extension/src/queues'),
 			utils: resolve(__dirname, '../../node_modules/@radixdlt/connector-extension/src/utils'),
 			'chrome/helpers/add-metadata': resolve(__dirname, 'src/browser/helpers/add-metadata'),

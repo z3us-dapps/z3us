@@ -10,7 +10,13 @@ export type ConfigType = typeof radixCfg & {
 	isExtensionContext: boolean
 	popup: typeof radixCfg.popup & {
 		pages: {
+			options: string
 			app: string
+		}
+	}
+	radix: {
+		extension: {
+			id: string
 		}
 	}
 }
@@ -31,10 +37,16 @@ export const config: ConfigType = {
 			...radixCfg.popup.pages,
 			ledger: 'src/pages/ledger/index.html',
 			pairing: 'src/pages/app/index.html#/pairing',
+			options: 'src/pages/app/index.html#/options',
 			app: 'src/pages/app/index.html#/accounts/all',
 		},
 	},
 	version,
+	radix: {
+		extension: {
+			id: 'knnddnciondgghmgcmjjebigcehhkeoi',
+		},
+	},
 	isDevelopmentMode: import.meta.env.MODE === 'development',
 	isProductionMode: import.meta.env.MODE === 'production' || import.meta.env.MODE === 'rcnet',
 	isExtensionContext: Boolean(globalThis.chrome?.runtime?.id || globalThis.browser?.runtime?.id),

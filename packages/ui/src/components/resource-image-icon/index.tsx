@@ -15,9 +15,9 @@ export const ResourceImageIcon = forwardRef<HTMLElement, IResourceImageIcon>(
 		const { data } = useEntityMetadata(address)
 		const shortAddress = getShortAddress(address)
 
-		const name = data?.find(detail => detail.key === 'name')?.value.as_string
-		const symbol = data?.find(detail => detail.key === 'symbol')?.value.as_string
-		const imageUrl = data?.find(detail => detail.key === 'icon_url')?.value.as_string
+		const name = data?.find(detail => detail.key === 'name')?.value.raw_hex
+		const symbol = data?.find(detail => detail.key === 'symbol')?.value.raw_hex
+		const imageUrl = data?.find(detail => detail.key === 'icon_url')?.value.raw_hex
 
 		return (
 			<ImageIcon

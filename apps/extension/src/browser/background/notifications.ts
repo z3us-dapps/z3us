@@ -1,7 +1,11 @@
+import { RadixNetworkConfigById } from '@radixdlt/babylon-gateway-api-sdk'
+import {
+	txNotificationPrefix as radixTxNotificationPrefix,
+	txNotificationSplitter as radixTxNotificationSplitter,
+} from '@radixdlt/connector-extension/src/chrome/background/notification-dispatcher'
 import browser from 'webextension-polyfill'
 
 export const notificationDelimiter = '--'
-
 export const txNotificationIdPrefix = `tx${notificationDelimiter}`
 
 export const openTabWithURL = async (url: string) => {
@@ -20,8 +24,15 @@ export const handleTransactionNotificationClick = async id => {
 	return openTabWithURL(url)
 }
 
+export const handleRadixTransactionNotificationClick = async id => {
+	const [, networkId, txId] = id.split(radixTxNotificationSplitter)
+	return openTabWithURL(`${RadixNetworkConfigById[Number(networkId)].dashboardUrl}/transaction/${txId}`)
+}
+
 export const handleNotificationClick = async id => {
 	switch (true) {
+		case id.startsWith(radixTxNotificationPrefix):
+			return handleTransactionNotificationClick(id)
 		case id.startsWith(txNotificationIdPrefix):
 			return handleTransactionNotificationClick(id)
 		default:

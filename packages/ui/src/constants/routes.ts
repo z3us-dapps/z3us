@@ -1,4 +1,5 @@
 export const PAIRING = 'pairing'
+export const OPTIONS = 'options'
 export const TRANSFER = 'transfer'
 export const STAKING = 'staking'
 export const SWAP = 'swap'
@@ -26,6 +27,7 @@ export const ACCOUNT_ASSET = `/${ACCOUNT}/${ASSET_TYPE}/${ASSET}`
 
 export const routes = {
 	PAIRING,
+	OPTIONS,
 	TRANSFER,
 	STAKING,
 	SWAP,

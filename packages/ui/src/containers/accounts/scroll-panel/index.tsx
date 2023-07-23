@@ -8,7 +8,7 @@ import * as styles from './scroll-panel.css'
 
 interface IScrollPanelProps {
 	className?: ClassValue
-	scrollParent: HTMLElement | null
+	scrollParent?: HTMLElement | null
 	renderPanel: (scrollRef: HTMLElement | null, isScrollTop: boolean) => React.ReactElement
 	showTopScrollShadow?: boolean
 	showBottomScrollShadow?: boolean

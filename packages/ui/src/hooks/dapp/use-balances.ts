@@ -22,13 +22,13 @@ const resourceToBalance = (
 ): ResourceBalance => {
 	const amount = new BigNumber(resource.amount)
 
-	const name = resource.explicit_metadata?.items.find(detail => detail.key === 'name')?.value.as_string
-	const symbol = resource.explicit_metadata?.items.find(detail => detail.key === 'symbol')?.value.as_string || name
+	const name = resource.explicit_metadata?.items.find(detail => detail.key === 'name')?.value.raw_hex
+	const symbol = resource.explicit_metadata?.items.find(detail => detail.key === 'symbol')?.value.raw_hex || name
 	const imageUrl = resource.explicit_metadata?.items.find(
 		detail => detail.key === 'icon_url' || detail.key === 'key_image_url',
-	)?.value.as_string
-	const url = resource.explicit_metadata?.items.find(detail => detail.key === 'info_url')?.value.as_string
-	const description = resource.explicit_metadata?.items.find(detail => detail.key === 'description')?.value.as_string
+	)?.value.raw_hex
+	const url = resource.explicit_metadata?.items.find(detail => detail.key === 'info_url')?.value.raw_hex
+	const description = resource.explicit_metadata?.items.find(detail => detail.key === 'description')?.value.raw_hex
 
 	const token = tokens[symbol?.toUpperCase()]
 

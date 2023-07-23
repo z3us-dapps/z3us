@@ -1,45 +1,41 @@
+import type { ContentScriptMessageHandlerOptions } from '@radixdlt/connector-extension/src/chrome/content-script/message-handler'
 import { ContentScriptMessageHandler } from '@radixdlt/connector-extension/src/chrome/content-script/message-handler'
-import type { MessageLifeCycleEvent } from '@radixdlt/connector-extension/src/chrome/dapp/_types'
-import { ChromeDAppClient } from '@radixdlt/connector-extension/src/chrome/dapp/dapp-client'
+import {
+	ChromeDAppClient,
+	type ChromeDAppClient as ChromeDAppClientType,
+} from '@radixdlt/connector-extension/src/chrome/dapp/dapp-client'
 import { getTabById } from '@radixdlt/connector-extension/src/chrome/helpers/get-tab-by-id'
 import { sendMessageToTab as chromeSendMessageToTab } from '@radixdlt/connector-extension/src/chrome/helpers/send-message-to-tab'
-import type {
-	ConfirmationMessageError,
-	Message as RadixMessage,
-} from '@radixdlt/connector-extension/src/chrome/messages/_types'
+import type { Message as RadixMessage } from '@radixdlt/connector-extension/src/chrome/messages/_types'
 import { MessageClient as RadixMessageClient } from '@radixdlt/connector-extension/src/chrome/messages/message-client'
+import type { SendMessage } from '@radixdlt/connector-extension/src/chrome/messages/send-message'
 import { logger } from '@radixdlt/connector-extension/src/utils/logger'
 import { ResultAsync, errAsync, okAsync } from 'neverthrow'
 
-export const chromeDAppClient = ChromeDAppClient()
+import { config } from '@src/config'
 
-export const sendMessageToDapp = (
-	message: Record<string, any>,
-): ResultAsync<undefined, ConfirmationMessageError['error']> => {
+export const chromeDAppClient: ChromeDAppClientType = ChromeDAppClient()
+
+export const sendMessageToDapp: ContentScriptMessageHandlerOptions['sendMessageToDapp'] = message => {
 	const result = chromeDAppClient.sendMessage(message)
 	return result.isErr() ? errAsync({ reason: 'unableToSendMessageToDapp' }) : okAsync(undefined)
 }
 
-export const sendMessageEventToDapp = (
-	interactionId: string,
-	eventType: MessageLifeCycleEvent,
-): ResultAsync<undefined, ConfirmationMessageError['error']> => {
+export const sendMessageEventToDapp: ContentScriptMessageHandlerOptions['sendMessageEventToDapp'] = (
+	interactionId,
+	eventType,
+) => {
 	const result = chromeDAppClient.sendMessageEvent(interactionId, eventType)
 	return result.isErr() ? errAsync({ reason: 'unableToSendMessageEventToDapp' }) : okAsync(undefined)
 }
 
 export const chromeSendMessage = (message: RadixMessage) =>
 	ResultAsync.fromPromise(
-		APP_RADIX
-			? chrome.runtime.sendMessage(message)
-			: chrome.runtime.sendMessage('knnddnciondgghmgcmjjebigcehhkeoi', message),
+		APP_RADIX ? chrome.runtime.sendMessage(message) : chrome.runtime.sendMessage(config.radix.extension.id, message),
 		error => error as Error,
 	)
 
-export const sendMessage = (
-	message: RadixMessage,
-	tabId?: number,
-): ResultAsync<undefined, ConfirmationMessageError['error']> => {
+export const sendMessage: SendMessage = (message, tabId) => {
 	const canSendMessageToTab = message.source === 'background' && tabId
 
 	if (canSendMessageToTab) {

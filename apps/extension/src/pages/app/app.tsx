@@ -19,6 +19,7 @@ if (APP_RADIX && config.isExtensionContext) {
 const Connect = React.lazy(() => import('./pages/connect'))
 const NotFound = React.lazy(() => import('./pages/404'))
 const Pairing = React.lazy(() => import('./pages/pairing'))
+const Options = React.lazy(() => import('./pages/options'))
 
 const App: React.FC = () => {
 	const location = useLocation()
@@ -46,6 +47,7 @@ const App: React.FC = () => {
 						}
 					/>
 					{APP_RADIX && <Route path={`${routes.PAIRING}/*`} element={<Pairing />} />}
+					{APP_RADIX && <Route path={`${routes.OPTIONS}/*`} element={<Options />} />}
 					<Route path="/connect/*" element={<Connect />} />
 					<Route
 						path="*"
