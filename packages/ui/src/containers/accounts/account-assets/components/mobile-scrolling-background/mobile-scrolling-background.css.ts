@@ -21,6 +21,7 @@ export const accountRoutesScrollingStickyInnerSheet = style([
 	sprinkles({
 		position: 'absolute',
 		left: 0,
+		top: 0,
 		right: 0,
 		pointerEvents: 'none',
 		background: 'backgroundSecondary',

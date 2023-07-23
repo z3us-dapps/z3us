@@ -94,7 +94,7 @@ export const useAssetsTable = (): TAssetsTable => {
 	useEffect(() => {
 		setLoading(true)
 		setTimeout(() => {
-			const newItems = Array.from({ length: 50 }).map((_, i, a) => {
+			const newItems = Array.from({ length: 60 }).map((_, i, a) => {
 				const randomStr = generateRandomString()
 				return {
 					id: randomStr,

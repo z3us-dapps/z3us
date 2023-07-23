@@ -26,7 +26,7 @@ export const AccountAssets: React.FC<IAccountRoutesProps> = props => {
 	return (
 		<Box className={clsx(styles.accountRoutesWrapper, !isScrolledTop && styles.accountTheadShadow)}>
 			<Box className={styles.accountRoutesScrollingWrapper}>
-				<MobileScrollingBackground />
+				<MobileScrollingBackground scrollableNode={scrollableNode} />
 				<MobileScrollingButtons scrollableNode={scrollableNode} />
 				<AssetsHeader isScrolledTop={isScrolledTop} scrollableNode={scrollableNode} />
 				<AssetsTable scrollableNode={scrollableNode} />
