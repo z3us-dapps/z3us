@@ -103,7 +103,7 @@ export const AssetsTable: React.FC<IAccountTableProps> = props => {
 		setLoading(true)
 		setTimeout(() => {
 			setItems(
-				Array.from({ length: 2 }).map((_, i, a) => {
+				Array.from({ length: 50 }).map((_, i, a) => {
 					const randomStr = generateRandomString()
 					return {
 						id: randomStr,
@@ -127,7 +127,8 @@ export const AssetsTable: React.FC<IAccountTableProps> = props => {
 				scrollableNode={scrollableNode ?? undefined}
 				data={items}
 				columns={columns}
-				loading={loading}
+				loading
+				// loading={loading}
 				loadMore={loadMore}
 				onRowSelected={handleRowSelected}
 				// onEndReached={handleEndReached}

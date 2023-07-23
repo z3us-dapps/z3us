@@ -279,7 +279,6 @@ export const tableLoadingWrapperRecipe = recipe({
 				styleVariant: 'primary',
 			},
 			style: {
-				paddingTop: '48px',
 				paddingLeft: '12px',
 				paddingRight: '12px',
 			},
@@ -287,9 +286,14 @@ export const tableLoadingWrapperRecipe = recipe({
 	],
 })
 
+recipeResponsiveGlobalStyle(tableLoadingWrapperRecipe({ sizeVariant: 'large', styleVariant: 'primary' }), '', {
+	tablet: {
+		paddingTop: '48px',
+	},
+})
+
 export const tableLoadingRowRecipe = recipe({
 	base: {
-		display: 'flex',
 		alignItems: 'center',
 		width: '100%',
 		gap: '12px',
@@ -325,9 +329,25 @@ export const tableLoadingRowRecipe = recipe({
 	],
 })
 
+recipeResponsiveGlobalStyle(tableLoadingRowRecipe({ sizeVariant: 'large', styleVariant: 'primary' }), '', {
+	tablet: {
+		display: 'flex',
+	},
+})
+
+recipeResponsiveGlobalStyle(
+	tableLoadingRowRecipe({ sizeVariant: 'large', styleVariant: 'primary' }),
+	'> div.td-mobile-loading',
+	{
+		mobile: {
+			display: 'flex !important',
+			width: '100% !important',
+		},
+	},
+)
+
 export const tableLoadingCellRecipe = recipe({
 	base: {
-		display: 'flex',
 		flexGrow: '1',
 		alignItems: 'center',
 		width: '100%',
@@ -355,6 +375,12 @@ export const tableLoadingCellRecipe = recipe({
 			},
 		},
 	],
+})
+
+recipeResponsiveGlobalStyle(tableLoadingCellRecipe({ sizeVariant: 'large', styleVariant: 'primary' }), '', {
+	tablet: {
+		display: 'flex',
+	},
 })
 
 recipeResponsiveGlobalStyle(tableRecipe({ sizeVariant: 'large', styleVariant: 'primary' }), 'tbody tr:hover', {
