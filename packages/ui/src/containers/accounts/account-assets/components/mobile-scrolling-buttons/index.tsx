@@ -33,7 +33,6 @@ export const MobileScrollingButtons: React.FC<IMobileScrollingButtonsProps> = pr
 	const stickyRef = useRef(null)
 	const entry = useIntersectionObserver(stickyRef, { threshold: [1] })
 	const isSticky = !entry?.isIntersecting
-
 	const isActivityRoute = !!searchParams.get(SEARCH_ACTIVITY_PARAM)
 	const isVerticalScrollable = scrollableNode?.scrollHeight > scrollableNode?.clientHeight
 
