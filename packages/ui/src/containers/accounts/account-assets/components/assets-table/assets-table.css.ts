@@ -11,10 +11,10 @@ export const assetsTableWrapper = style([
 		paddingX: {
 			tablet: 'large',
 		},
-		paddingBottom: {
-			mobile: 'xlarge',
-			tablet: 'xlarge',
-		},
+		// paddingBottom: {
+		// 	mobile: 'xlarge',
+		// 	tablet: 'xlarge',
+		// },
 	}),
 	{},
 ])

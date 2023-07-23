@@ -1,16 +1,13 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import clsx from 'clsx'
-import { AnimatePresence, motion } from 'framer-motion'
-import React, { useCallback, useContext, useEffect, useRef, useState } from 'react'
-import { VirtuosoGrid } from 'react-virtuoso'
+import React, { useRef } from 'react'
+import { useSearchParams } from 'react-router-dom'
 import { useIntersectionObserver, useTimeout } from 'usehooks-ts'
 
 import { Box } from 'ui/src/components/box'
 import { Button } from 'ui/src/components/button'
 import { ChevronDown3Icon } from 'ui/src/components/icons'
 import { Link } from 'ui/src/components/router-link'
-import * as skeletonStyles from 'ui/src/components/styles/skeleton-loading.css'
-import { TransactionIcon } from 'ui/src/components/transaction-icon'
 import Translation from 'ui/src/components/translation'
 import { Text } from 'ui/src/components/typography'
 import {
@@ -24,8 +21,6 @@ import { useAccountParams } from 'ui/src/hooks/use-account-params'
 
 import * as styles from './mobile-scrolling-button.css'
 
-export const hash = () => Math.random().toString(36).substring(7)
-
 interface IMobileScrollingButtonsProps {
 	scrollableNode: HTMLElement
 }
@@ -33,13 +28,13 @@ interface IMobileScrollingButtonsProps {
 export const MobileScrollingButtons: React.FC<IMobileScrollingButtonsProps> = props => {
 	const { scrollableNode } = props
 	const { account, assetType, asset } = useAccountParams()
+	const [searchParams] = useSearchParams()
 	const wrapperRef = useRef(null)
 	const stickyRef = useRef(null)
 	const entry = useIntersectionObserver(stickyRef, { threshold: [1] })
 	const isSticky = !entry?.isIntersecting
-
-	// const isActivityRoute = !!searchParams.get(SEARCH_ACTIVITY_PARAM)
-	const isActivityRoute = false
+	const isActivityRoute = !!searchParams.get(SEARCH_ACTIVITY_PARAM)
+	const isVerticalScrollable = scrollableNode?.scrollHeight > scrollableNode?.clientHeight
 
 	const onClickChevron = () => {
 		if (isSticky) {
@@ -101,6 +96,7 @@ export const MobileScrollingButtons: React.FC<IMobileScrollingButtonsProps> = pr
 					</Link>
 					<Link
 						underline="never"
+						to={generateAccountLink(true, true)}
 						className={clsx(
 							styles.tabsWrapperButton,
 							styles.tabsWrapperButtonRight,
@@ -118,7 +114,7 @@ export const MobileScrollingButtons: React.FC<IMobileScrollingButtonsProps> = pr
 						className={clsx(
 							styles.tabsWrapperScrollBtn,
 							isSticky && styles.tabsWrapperScrollBtnScrolled,
-							// !isAreaScrollable && styles.tabsWrapperScrollBtnHidden,
+							!isVerticalScrollable && styles.tabsWrapperScrollBtnHidden,
 						)}
 						onClick={onClickChevron}
 					>

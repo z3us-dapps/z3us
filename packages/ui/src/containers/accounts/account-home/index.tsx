@@ -7,6 +7,7 @@ import { AccountActivitySearch } from 'ui/src/containers/accounts/account-activi
 import { AccountAllChart } from 'ui/src/containers/accounts/account-all-chart'
 import { AccountAssetInfo } from 'ui/src/containers/accounts/account-asset-info'
 import { AccountAssets } from 'ui/src/containers/accounts/account-assets'
+import { MobileAccountBackground } from 'ui/src/containers/accounts/account-assets/components/mobile-account-background'
 import { AccountCard } from 'ui/src/containers/accounts/account-card'
 import { useIsMobileWidth } from 'ui/src/hooks/use-is-mobile'
 
@@ -17,7 +18,8 @@ const AccountsHome = () => {
 	const isMobile = useIsMobileWidth()
 
 	return (
-		<Box className={styles.accountsWrapper}>
+		<Box className={styles.accountsOuterWrapper}>
+			<MobileAccountBackground />
 			<ScrollArea
 				showTopScrollShadow={false}
 				disabled={!isMobile}

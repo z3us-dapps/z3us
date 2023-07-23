@@ -54,7 +54,7 @@ export const ScrollAreaRadix = ({ children, ...props }: IScrollAreaRadix) => {
 
 	const [scrollParent, setScrollParent] = useState<HTMLElement | null>(null)
 	const [scrollHeight, setScrollHeight] = useState<number | undefined>(1)
-	const [isScrolledBottom, setIsScrolledBottom] = useState<boolean>(false)
+	const [isScrolledBottom, setIsScrolledBottom] = useState<boolean>(true)
 
 	const bottomRef = useRef<HTMLDivElement | null>(null)
 	const bottomRefEntry = useIntersectionObserver(bottomRef, {})

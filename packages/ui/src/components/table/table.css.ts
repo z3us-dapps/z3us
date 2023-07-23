@@ -3,7 +3,7 @@ import { style } from '@vanilla-extract/css'
 import { recipe } from '@vanilla-extract/recipes'
 
 import { sprinkles } from '../system/sprinkles.css'
-import { recipeGlobalStyle, recipeResponsiveGlobalStyle } from '../system/theme-utils'
+import { recipeResponsiveGlobalStyle } from '../system/theme-utils'
 import { vars } from '../system/theme.css'
 
 export const tableWrapper = style([
@@ -11,7 +11,16 @@ export const tableWrapper = style([
 		display: 'block',
 		position: 'relative',
 	}),
-	{},
+	{
+		transition: 'min-height 300ms ease',
+		minHeight: '420px',
+	},
+])
+
+export const tableMinHeightWrapper = style([
+	{
+		minHeight: '10px',
+	},
 ])
 
 export const tableRootWrapper = style([
@@ -90,9 +99,7 @@ export const tableRecipe = recipe({
 				sprinkles({
 					borderRadius: 'medium',
 				}),
-				{
-					// boxShadow: `inset 0px 0px 0px 1px ${vars.color.borderDivider}`,
-				},
+				{},
 			],
 			secondary: [sprinkles({}), {}],
 		},
@@ -110,7 +117,6 @@ export const tableThRecipe = recipe({
 		styleVariant: {
 			primary: [
 				sprinkles({
-					// background: 'backgroundSecondary',
 					color: 'colorNeutral',
 				}),
 				{},
@@ -258,13 +264,7 @@ export const tableLoadingWrapperRecipe = recipe({
 	base: {},
 	variants: {
 		styleVariant: {
-			primary: [
-				sprinkles({
-					// background: 'backgroundSecondary',
-					// color: 'colorNeutral',
-				}),
-				{},
-			],
+			primary: [sprinkles({}), {}],
 			secondary: [sprinkles({}), {}],
 		},
 		sizeVariant: {
@@ -279,7 +279,6 @@ export const tableLoadingWrapperRecipe = recipe({
 				styleVariant: 'primary',
 			},
 			style: {
-				paddingTop: '48px',
 				paddingLeft: '12px',
 				paddingRight: '12px',
 			},
@@ -287,9 +286,14 @@ export const tableLoadingWrapperRecipe = recipe({
 	],
 })
 
+recipeResponsiveGlobalStyle(tableLoadingWrapperRecipe({ sizeVariant: 'large', styleVariant: 'primary' }), '', {
+	tablet: {
+		paddingTop: '48px',
+	},
+})
+
 export const tableLoadingRowRecipe = recipe({
 	base: {
-		display: 'flex',
 		alignItems: 'center',
 		width: '100%',
 		gap: '12px',
@@ -325,9 +329,25 @@ export const tableLoadingRowRecipe = recipe({
 	],
 })
 
+recipeResponsiveGlobalStyle(tableLoadingRowRecipe({ sizeVariant: 'large', styleVariant: 'primary' }), '', {
+	tablet: {
+		display: 'flex',
+	},
+})
+
+recipeResponsiveGlobalStyle(
+	tableLoadingRowRecipe({ sizeVariant: 'large', styleVariant: 'primary' }),
+	'> div.td-mobile-loading',
+	{
+		mobile: {
+			display: 'flex !important',
+			width: '100% !important',
+		},
+	},
+)
+
 export const tableLoadingCellRecipe = recipe({
 	base: {
-		display: 'flex',
 		flexGrow: '1',
 		alignItems: 'center',
 		width: '100%',
@@ -357,12 +377,31 @@ export const tableLoadingCellRecipe = recipe({
 	],
 })
 
+recipeResponsiveGlobalStyle(tableLoadingCellRecipe({ sizeVariant: 'large', styleVariant: 'primary' }), '', {
+	tablet: {
+		display: 'flex',
+	},
+})
+
 recipeResponsiveGlobalStyle(tableRecipe({ sizeVariant: 'large', styleVariant: 'primary' }), 'tbody tr:hover', {
 	tablet: {
 		backgroundColor: vars.color.bai_pearl200,
 		boxShadow: vars.color.shadowActivePanel,
 	},
 })
+
+recipeResponsiveGlobalStyle(
+	tableRecipe({ sizeVariant: 'large', styleVariant: 'primary' }),
+	'tbody tr:hover .tr-text-elem',
+	{
+		mobile: {
+			color: vars.color.purple500,
+		},
+		tablet: {
+			color: 'unset',
+		},
+	},
+)
 
 recipeResponsiveGlobalStyle(tableRecipe({ sizeVariant: 'large', styleVariant: 'primary' }), 'tbody tr.tr-selected', {
 	tablet: {
@@ -401,6 +440,19 @@ recipeResponsiveGlobalStyle(
 	{
 		tablet: {
 			opacity: '0',
+		},
+	},
+)
+
+recipeResponsiveGlobalStyle(
+	tableRecipe({ sizeVariant: 'large', styleVariant: 'primary' }),
+	'tbody tr:first-child td::after',
+	{
+		mobile: {
+			opacity: '0',
+		},
+		tablet: {
+			opacity: '1',
 		},
 	},
 )

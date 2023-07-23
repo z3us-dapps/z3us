@@ -43,7 +43,6 @@ export const Table: React.FC<ITableProps> = props => {
 		onRowSelected = () => {},
 	} = props
 	const isMobile = useIsMobileWidth()
-
 	const initialSort = React.useMemo(() => [{ id: 'token', desc: true }], [])
 	const initialSelectedRows = React.useMemo(
 		() => ({
@@ -128,7 +127,7 @@ export const Table: React.FC<ITableProps> = props => {
 	)
 
 	return (
-		<Box className={styles.tableWrapper}>
+		<Box className={clsx(styles.tableWrapper, !loading && styles.tableMinHeightWrapper)}>
 			{loading ? (
 				<Box className={styles.tableLoadingWrapperRecipe({ sizeVariant, styleVariant })}>
 					{Array.from({ length: defaultLoadingRows }, (_, i) =>
@@ -139,7 +138,11 @@ export const Table: React.FC<ITableProps> = props => {
 							>
 								{headerGroup.headers.map((column, columnIndex) => (
 									<Box
-										className={styles.tableLoadingCellRecipe({ sizeVariant, styleVariant })}
+										className={clsx(
+											styles.tableLoadingCellRecipe({ sizeVariant, styleVariant }),
+											column.className,
+											isMobile && columnIndex === 0 && 'td-mobile-loading',
+										)}
 										{...column.getHeaderProps(column.getSortByToggleProps())}
 										style={{
 											width: column.width,
@@ -167,7 +170,7 @@ export const Table: React.FC<ITableProps> = props => {
 			) : (
 				<TableVirtuoso
 					className={clsx(styles.tableRootWrapper, className)}
-					overscan={overscan}
+					overscan={{ main: overscan, reverse: overscan }}
 					totalCount={rows.length}
 					customScrollParent={scrollableNode}
 					components={memoizedComponents as TableComponents}
@@ -177,7 +180,7 @@ export const Table: React.FC<ITableProps> = props => {
 							<tr {...headerGroup.getHeaderGroupProps()}>
 								{headerGroup.headers.map((column, columnIndex) => (
 									<th
-										className={clsx(column.className)}
+										className={column.className}
 										{...column.getHeaderProps(column.getSortByToggleProps())}
 										style={{
 											width: column.width,

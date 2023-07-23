@@ -8,6 +8,7 @@ import { useLocation } from 'react-router-dom'
 import { Box } from 'ui/src/components/box'
 import { ArrowUpIcon, EyeIcon, EyeOffIcon, SearchIcon } from 'ui/src/components/icons'
 import { Button } from 'ui/src/components/router-button'
+import { TextScramble } from 'ui/src/components/text-scramble'
 import { ToolTip } from 'ui/src/components/tool-tip'
 import Translation from 'ui/src/components/translation'
 import { Text } from 'ui/src/components/typography'
@@ -51,9 +52,11 @@ export const AssetsHeader: React.FC<IAccountRoutesProps> = props => {
 					<Box display="flex" alignItems="center" gap="small">
 						<Box flexGrow={1} display="flex" flexDirection="column" gap="xxsmall">
 							<Box display="flex" alignItems="center" gap="medium">
-								<Text weight="medium" size="xxxlarge" color="strong" truncate blur={hidden}>
-									{isLoading ? 'Loading...' : formatBigNumber(totalValue, currency, 2)}
-								</Text>
+								<TextScramble scramble={hidden}>
+									<Text weight="medium" size="xxxlarge" color="strong" truncate blur={hidden}>
+										{isLoading ? 'Loading...' : `${formatBigNumber(totalValue, currency, 2)}`}
+									</Text>
+								</TextScramble>
 								<ToolTip
 									theme="backgroundPrimary"
 									message={hidden ? 'accounts.home.accountShowBalance' : 'accounts.home.accountHideBalance'}
@@ -63,9 +66,11 @@ export const AssetsHeader: React.FC<IAccountRoutesProps> = props => {
 									</Button>
 								</ToolTip>
 							</Box>
-							<Text size="xxsmall" color="green" weight="medium" blur={hidden}>
-								+$0.39 (+0.29%)
-							</Text>
+							<TextScramble scramble={hidden}>
+								<Text size="xxsmall" color="green" weight="medium">
+									+$0.39 (+0.29%)
+								</Text>
+							</TextScramble>
 						</Box>
 						<Box className={clsx(styles.assetsHeaderUpWrapper, !isScrolledTop && styles.assetsHeaderUpVisibleWrapper)}>
 							<ToolTip theme="backgroundPrimary" message="global.up">

@@ -74,32 +74,6 @@ export const accountRoutesScrollingWrapper = style([
 	{},
 ])
 
-export const accountRoutesScrollingStickySheet = style([
-	sprinkles({
-		position: 'sticky',
-		top: 0,
-		display: {
-			mobile: 'block',
-			tablet: 'none',
-		},
-	}),
-	{
-		height: '0px',
-		'::before': {
-			content: '" "',
-			position: 'absolute',
-			bottom: '-calc(100vh - 100px)',
-			height: 'calc(100vh - 100px)',
-			left: '0',
-			right: '0',
-			pointerEvents: 'none',
-			backgroundColor: vars.color.backgroundSecondary,
-			borderTopLeftRadius: vars.border.radius.xxxlarge,
-			borderTopRightRadius: vars.border.radius.xxxlarge,
-		},
-	},
-])
-
 export const accountRoutesScrollingStickyBtnWrapper = style([
 	sprinkles({
 		position: 'sticky',
