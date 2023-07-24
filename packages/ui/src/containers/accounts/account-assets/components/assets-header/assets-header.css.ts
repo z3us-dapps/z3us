@@ -41,20 +41,13 @@ export const assetsHeaderUpVisibleWrapper = style([
 	{},
 ])
 
-// export const accountIndexWrapper = style([
-// 	sprinkles({
-// 		position: 'sticky',
-// 		top: 0,
-// 		// zIndex: 1,
-// 		display: 'flex',
-// 		paddingX: {
-// 			mobile: 'large',
-// 			desktop: 'xlarge',
-// 		},
-// 		paddingTop: {
-// 			mobile: 'large',
-// 			desktop: 'xlarge',
-// 		},
-// 		transition: 'slowall',
-// 	}),
-// ])
+export const accountBreadCrumbWrapper = style([
+	sprinkles({
+		display: 'flex',
+		flexGrow: 0,
+		alignItems: 'self-start',
+	}),
+	{
+		height: '40px',
+	},
+])

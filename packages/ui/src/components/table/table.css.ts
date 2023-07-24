@@ -13,7 +13,8 @@ export const tableWrapper = style([
 	}),
 	{
 		transition: 'min-height 300ms ease',
-		minHeight: '420px',
+		// TODO: fix
+		minHeight: '520px',
 	},
 ])
 

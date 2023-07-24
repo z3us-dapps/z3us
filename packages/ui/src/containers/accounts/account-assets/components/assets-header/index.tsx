@@ -6,12 +6,14 @@ import React, { useState } from 'react'
 import { useLocation } from 'react-router-dom'
 
 import { Box } from 'ui/src/components/box'
-import { ArrowUpIcon, EyeIcon, EyeOffIcon, SearchIcon } from 'ui/src/components/icons'
+import { ArrowUpIcon, ChevronRightIcon, EyeIcon, EyeOffIcon, SearchIcon } from 'ui/src/components/icons'
 import { Button } from 'ui/src/components/router-button'
+import { Link } from 'ui/src/components/router-link'
 import { TextScramble } from 'ui/src/components/text-scramble'
 import { ToolTip } from 'ui/src/components/tool-tip'
 import Translation from 'ui/src/components/translation'
 import { Text } from 'ui/src/components/typography'
+import { useAccountParams } from 'ui/src/hooks/use-account-params'
 
 import * as styles from './assets-header.css'
 
@@ -22,12 +24,17 @@ interface IAccountRoutesProps {
 
 export const AssetsHeader: React.FC<IAccountRoutesProps> = props => {
 	const { isScrolledTop, scrollableNode } = props
+
+	const { account, assetType, asset } = useAccountParams()
+
 	const { currency } = useNoneSharedStore(state => ({
 		currency: state.currency,
 	}))
 	const { pathname } = useLocation()
 	const { totalValue, isLoading } = useGlobalResourceBalances()
 	const [hidden, setHidden] = useState<boolean>(false)
+
+	const isBreadCrumbVisible = !!assetType
 
 	const handleUpClick = () => {
 		if (!scrollableNode) return
@@ -42,12 +49,32 @@ export const AssetsHeader: React.FC<IAccountRoutesProps> = props => {
 		<Box className={styles.assetsHeaderWrapper}>
 			<Box display="flex" width="full">
 				<Box flexGrow={1}>
-					<Box display="flex" alignItems="center" paddingBottom="medium" flexGrow={0}>
-						<Box>
-							<Text size="large">
-								<Translation capitalizeFirstLetter text="accounts.home.accountBalanceTitle" />
-							</Text>
-						</Box>
+					<Box className={styles.accountBreadCrumbWrapper}>
+						{isBreadCrumbVisible ? (
+							<Box display="flex" alignItems="center" color="colorNeutral">
+								<Link size="large" to="/accounts/all" underline="hover">
+									Overview
+								</Link>
+								<ChevronRightIcon />
+								<Link size="large" to="/accounts/xrd" color="strong" underline="hover">
+									Token
+								</Link>
+								{asset && (
+									<>
+										<ChevronRightIcon />
+										<Link size="large" to="/accounts/settings" color="strong">
+											Overview
+										</Link>
+									</>
+								)}
+							</Box>
+						) : (
+							<Box>
+								<Text size="large">
+									<Translation capitalizeFirstLetter text="accounts.home.accountBalanceTitle" />
+								</Text>
+							</Box>
+						)}
 					</Box>
 					<Box display="flex" alignItems="center" gap="small">
 						<Box flexGrow={1} display="flex" flexDirection="column" gap="xxsmall">

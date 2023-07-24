@@ -3,12 +3,13 @@ import clsx from 'clsx'
 import React from 'react'
 
 import { Box } from 'ui/src/components/box'
+// OLD REMOVE
+import { AccountIndexAssets } from 'ui/src/containers/accounts/account-index-assets'
+// OLD REMOVE
+import { AccountIndexHeader } from 'ui/src/containers/accounts/account-index-header'
+// OLD REMOVE
+import { AccountsList } from 'ui/src/containers/accounts/accounts-list'
 
-// OLD
-// import { AccountIndexAssets } from 'ui/src/containers/accounts/account-index-assets'
-// import { AccountIndexHeader } from 'ui/src/containers/accounts/account-index-header'
-// import { AccountsList } from 'ui/src/containers/accounts/accounts-list'
-// import { useAccountParams } from 'ui/src/hooks/use-account-params'
 import * as styles from './account-assets.css'
 import { AssetsHeader } from './components/assets-header'
 import { AssetsTable } from './components/assets-table'
