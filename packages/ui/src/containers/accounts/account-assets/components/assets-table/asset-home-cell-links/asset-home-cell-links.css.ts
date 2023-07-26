@@ -43,3 +43,25 @@ export const assetHomeCellLinksLoadingWrapper = style([
 	}),
 	{},
 ])
+
+export const assetHomeCellLinksIconsWrapper = style([
+	sprinkles({
+		display: 'flex',
+		marginLeft: 'small',
+		marginRight: 'small',
+	}),
+	{},
+])
+
+globalStyle(`${assetHomeCellLinksIconsWrapper} > a:nth-child(1)`, {
+	marginLeft: '0px',
+})
+
+globalStyle(`${assetHomeCellLinksIconsWrapper} > a`, {
+	position: 'relative',
+	marginLeft: '-10px',
+})
+
+globalStyle(`${assetHomeCellLinksIconsWrapper} > a:hover`, {
+	zIndex: '1',
+})
