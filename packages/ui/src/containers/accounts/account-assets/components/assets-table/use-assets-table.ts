@@ -5,6 +5,7 @@ import { useNavigate } from 'react-router-dom'
 import { useAccountParams } from 'ui/src/hooks/use-account-params'
 
 import { AssetHomeCell } from './asset-home-cell'
+import { AssetHomeCellLinks } from './asset-home-cell-links'
 import { AssetNameCell } from './asset-name-cell'
 import { AssetStatisticCell } from './asset-statistic-cell'
 import * as styles from './assets-table.css'
@@ -80,7 +81,7 @@ export const useAssetsTable = (): TAssetsTable => {
 				Header: '',
 				accessor: 'portfolio',
 				width: 'auto',
-				Cell: AssetHomeCell,
+				Cell: AssetHomeCellLinks,
 				className: styles.mobileHideTableCellWrapper,
 			},
 		],
