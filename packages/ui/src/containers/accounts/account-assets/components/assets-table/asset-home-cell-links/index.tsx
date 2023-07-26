@@ -2,6 +2,7 @@ import clsx from 'clsx'
 import React, { useMemo } from 'react'
 
 import { Box } from 'ui/src/components/box'
+import { ChevronRightIcon } from 'ui/src/components/icons'
 import { ResourceImageIcon } from 'ui/src/components/resource-image-icon'
 import { Link } from 'ui/src/components/router-link'
 import * as skeletonStyles from 'ui/src/components/styles/skeleton-loading.css'
@@ -64,9 +65,7 @@ export const AssetHomeCellLinks: React.FC<IAssetHomeCellLinksProps> = props => {
 							<ResourceImageIcon size={isMobile ? 'large' : 'xlarge'} address={resourceAddress} />
 						</Link>
 					</Box>
-					<Text weight="medium" size="small" color="strong" truncate>
-						Links
-					</Text>
+					<ChevronRightIcon />
 				</Box>
 			</Box>
 			{loading}

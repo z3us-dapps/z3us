@@ -15,6 +15,7 @@ export const assetHomeCellLinksWrapper = style([
 export const assetHomeCellLinksContentWrapper = style([
 	sprinkles({
 		position: 'relative',
+		color: 'colorNeutral',
 		display: 'flex',
 		alignItems: 'center',
 		transition: 'fast',
