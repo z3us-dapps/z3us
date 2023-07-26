@@ -21,6 +21,7 @@ export const tableWrapper = style([
 export const tableLoadingWrapper = style([
 	sprinkles({
 		position: 'relative',
+		pointerEvents: 'none',
 	}),
 	{},
 ])

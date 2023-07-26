@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom'
 
 import { useAccountParams } from 'ui/src/hooks/use-account-params'
 
+import { AssetHomeCell } from './asset-home-cell'
 import { AssetNameCell } from './asset-name-cell'
 import { AssetStatisticCell } from './asset-statistic-cell'
 import * as styles from './assets-table.css'
@@ -34,12 +35,8 @@ export const useAssetsTable = (): TAssetsTable => {
 	const navigate = useNavigate()
 	const { account, assetType, asset } = useAccountParams()
 
-	const [items, setItems] = useState<any>(loadingItems)
-	const [loading, setLoading] = useState<boolean>(true)
-	const [loadMore, setLoadMore] = useState<boolean>(false)
-
-	const columns = useMemo(() => {
-		let cols = [
+	const columnsAssets = useMemo(
+		() => [
 			{
 				Header: 'Token',
 				accessor: 'token',
@@ -67,39 +64,33 @@ export const useAssetsTable = (): TAssetsTable => {
 				Cell: AssetStatisticCell,
 				className: styles.mobileHideTableCellWrapper,
 			},
-		]
+		],
+		[],
+	)
 
-		if (assetType && !loading) {
-			cols = [
-				{
-					Header: 'Token',
-					accessor: 'token',
-					width: '50%',
-					Cell: AssetNameCell,
-				},
-			]
-		}
+	const columnsHome = useMemo(
+		() => [
+			{
+				Header: 'Asset',
+				accessor: 'token',
+				width: '50%',
+				Cell: AssetHomeCell,
+			},
+			{
+				Header: '',
+				accessor: 'portfolio',
+				width: 'auto',
+				Cell: AssetHomeCell,
+				className: styles.mobileHideTableCellWrapper,
+			},
+		],
+		[],
+	)
 
-		if (asset && !loading) {
-			cols = [
-				{
-					Header: 'Token',
-					accessor: 'token',
-					width: '50%',
-					Cell: AssetNameCell,
-				},
-				{
-					Header: 'Portfolio',
-					accessor: 'portfolio',
-					width: 'auto',
-					Cell: AssetStatisticCell,
-					className: styles.mobileHideTableCellWrapper,
-				},
-			]
-		}
-
-		return cols
-	}, [account, assetType, asset, loading])
+	const [items, setItems] = useState<any>(loadingItems)
+	const [loading, setLoading] = useState<boolean>(true)
+	const [loadMore, setLoadMore] = useState<boolean>(false)
+	const [columns, setColumns] = useState<any>(columnsHome)
 
 	const handleRowSelected = (row: any) => {
 		const { original } = row
@@ -138,6 +129,30 @@ export const useAssetsTable = (): TAssetsTable => {
 				}
 			})
 			setItems(newItems)
+			setLoading(false)
+		}, 2000)
+	}, [])
+
+	useEffect(() => {
+		setLoading(true)
+		setTimeout(() => {
+			const newItems = Array.from({ length: assetType ? 50 : 4 }).map((_, i, a) => {
+				const randomStr = generateRandomString()
+				return {
+					id: randomStr,
+					token: `${account} - ${randomStr}`,
+					portfolio: '65%',
+					price: '$1.83',
+					balance: '99',
+				}
+			})
+			setItems(newItems)
+			if (assetType) {
+				setColumns(columnsAssets)
+			} else {
+				setColumns(columnsHome)
+			}
+
 			setLoading(false)
 		}, 2000)
 	}, [account, assetType, asset])
