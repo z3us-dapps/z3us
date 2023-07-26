@@ -95,3 +95,23 @@ export const accountRoutesScrollingStickyBtnInner = style([
 		minHeight: '58px',
 	},
 ])
+
+export const assetsTableWrapper = style([
+	sprinkles({
+		position: 'relative',
+		paddingX: {
+			tablet: 'large',
+		},
+	}),
+	{},
+])
+
+export const mobileHideTableCellWrapper = style([
+	sprinkles({
+		display: {
+			mobile: 'none',
+			tablet: 'table-cell',
+		},
+	}),
+	{},
+])

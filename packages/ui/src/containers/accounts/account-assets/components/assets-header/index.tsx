@@ -25,6 +25,7 @@ interface IAccountRoutesProps {
 export const AssetsHeader: React.FC<IAccountRoutesProps> = props => {
 	const { isScrolledTop, scrollableNode } = props
 
+	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	const { account, assetType, asset } = useAccountParams()
 
 	const { currency } = useNoneSharedStore(state => ({

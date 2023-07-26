@@ -1,10 +1,9 @@
 /* eslint-disable react/no-unstable-nested-components */
 import clsx, { type ClassValue } from 'clsx'
-import React, { useMemo } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 import { useRowSelect, useSortBy, useTable } from 'react-table'
 import { type TableComponents, TableVirtuoso } from 'react-virtuoso'
 
-import * as skeletonStyles from 'ui/src/components/styles/skeleton-loading.css'
 import { useIsMobileWidth } from 'ui/src/hooks/use-is-mobile'
 
 import { Box } from '../box'
@@ -21,7 +20,6 @@ interface ITableProps {
 	loading?: boolean
 	loadMore?: boolean
 	overscan?: number
-	defaultLoadingRows?: number
 	onEndReached?: () => void
 	// todo type
 	onRowSelected?: (row: any) => void
@@ -38,12 +36,14 @@ export const Table: React.FC<ITableProps> = props => {
 		loading = false,
 		loadMore = false,
 		overscan = 100,
-		defaultLoadingRows = 4,
 		onEndReached = () => {},
 		onRowSelected = () => {},
 	} = props
+	const [isMounted, setIsMounted] = useState<boolean>(false)
 	const isMobile = useIsMobileWidth()
 	const initialSort = React.useMemo(() => [{ id: 'token', desc: true }], [])
+
+	// TODO: this will need to be selected by url
 	const initialSelectedRows = React.useMemo(
 		() => ({
 			2: true, // Select row with ID 2 by default
@@ -93,7 +93,6 @@ export const Table: React.FC<ITableProps> = props => {
 				const index = tableRowProps['data-index']
 				const row = rows[index]
 				const rowSelectedProps = row?.getToggleRowSelectedProps ? row?.getToggleRowSelectedProps() : null
-
 				return (
 					<tr
 						onClick={e => {
@@ -107,7 +106,7 @@ export const Table: React.FC<ITableProps> = props => {
 								styleVariant,
 								isRowSelectable: !!onRowSelected,
 							}),
-							rowSelectedProps?.checked && 'tr-selected',
+							!loading && rowSelectedProps?.checked && 'tr-selected',
 						)}
 						{...tableRowProps}
 						{...(row?.getRowProps ? row?.getRowProps() : {})}
@@ -126,135 +125,101 @@ export const Table: React.FC<ITableProps> = props => {
 		[data, columns, loading, loadMore],
 	)
 
+	useEffect(() => {
+		if (!isMounted && !loading) {
+			setIsMounted(true)
+		}
+	}, [isMounted, loading])
+
 	return (
-		<Box className={clsx(styles.tableWrapper, !loading && styles.tableMinHeightWrapper)}>
-			{loading ? (
-				<Box className={styles.tableLoadingWrapperRecipe({ sizeVariant, styleVariant })}>
-					{Array.from({ length: defaultLoadingRows }, (_, i) =>
-						headerGroups.map(headerGroup => (
-							<Box
-								className={styles.tableLoadingRowRecipe({ sizeVariant, styleVariant })}
-								{...headerGroup.getHeaderGroupProps()}
-							>
-								{headerGroup.headers.map((column, columnIndex) => (
+		<Box className={clsx(styles.tableWrapper, isMounted && styles.tableMinHeightWrapper)}>
+			<TableVirtuoso
+				className={clsx(styles.tableRootWrapper, loading && styles.tableLoadingWrapper, className)}
+				overscan={{ main: overscan, reverse: overscan }}
+				totalCount={rows.length}
+				customScrollParent={scrollableNode}
+				components={memoizedComponents as TableComponents}
+				endReached={handleEndReached}
+				fixedHeaderContent={() =>
+					!isMobile &&
+					headerGroups.map(headerGroup => (
+						<tr {...headerGroup.getHeaderGroupProps()}>
+							{headerGroup.headers.map(column => (
+								<th
+									className={clsx(
+										styles.tableThRecipe({
+											sizeVariant,
+											styleVariant,
+											loading,
+										}),
+										column.className,
+									)}
+									{...column.getHeaderProps(column.getSortByToggleProps())}
+									style={{
+										width: column.width,
+									}}
+								>
 									<Box
-										className={clsx(
-											styles.tableLoadingCellRecipe({ sizeVariant, styleVariant }),
-											column.className,
-											isMobile && columnIndex === 0 && 'td-mobile-loading',
-										)}
-										{...column.getHeaderProps(column.getSortByToggleProps())}
-										style={{
-											width: column.width,
-										}}
+										position="relative"
+										component="span"
+										display="inline-flex"
+										alignItems="center"
+										gap="xsmall"
+										cursor="pointer"
 									>
-										{columnIndex === 0 && (
-											<Box className={clsx(skeletonStyles.tokenListSkeleton, skeletonStyles.tokenListGridCircle)} />
-										)}
-										<Box display="flex" width="full" flexDirection="column" gap="small">
-											<Box
-												className={skeletonStyles.tokenListSkeleton}
-												style={{ height: '12px', width: i % 3 === 0 ? '65%' : '35%' }}
-											/>
-											<Box
-												className={skeletonStyles.tokenListSkeleton}
-												style={{ height: '12px', width: i % 2 === 0 ? '35%' : '55%' }}
-											/>
+										<Box component="span">{column.render('Header')}</Box>
+										<Box component="span" className={styles.tableIconWrapper}>
+											{/* eslint-disable-next-line no-nested-ternary */}
+											{column.isSorted ? column.isSortedDesc ? <ChevronDown2Icon /> : <ChevronUp2Icon /> : ''}
 										</Box>
 									</Box>
-								))}
-							</Box>
-						)),
-					)}
-				</Box>
-			) : (
-				<TableVirtuoso
-					className={clsx(styles.tableRootWrapper, className)}
-					overscan={{ main: overscan, reverse: overscan }}
-					totalCount={rows.length}
-					customScrollParent={scrollableNode}
-					components={memoizedComponents as TableComponents}
-					endReached={handleEndReached}
-					fixedFooterContent={() =>
-						headerGroups.map(headerGroup => (
-							<tr {...headerGroup.getHeaderGroupProps()}>
-								{headerGroup.headers.map((column, columnIndex) => (
-									<th
-										className={column.className}
-										{...column.getHeaderProps(column.getSortByToggleProps())}
-										style={{
-											width: column.width,
-										}}
-									>
-										{columnIndex === 0 ? (
-											<Box color="colorNeutral" className={styles.footerLoadingIconWrapper}>
-												<LoadingBarsIcon />
-											</Box>
-										) : (
-											<Box className={styles.footerLoadingDefaultWrapper}>&nbsp;</Box>
-										)}
-									</th>
-								))}
-							</tr>
-						))
-					}
-					fixedHeaderContent={() =>
-						!isMobile &&
-						headerGroups.map(headerGroup => (
-							<tr {...headerGroup.getHeaderGroupProps()}>
-								{headerGroup.headers.map(column => (
-									<th
-										className={clsx(
-											styles.tableThRecipe({
-												sizeVariant,
-												styleVariant,
-											}),
-											column.className,
-										)}
-										{...column.getHeaderProps(column.getSortByToggleProps())}
-										style={{
-											width: column.width,
-										}}
-									>
-										<Box
-											position="relative"
-											component="span"
-											display="inline-flex"
-											alignItems="center"
-											gap="xsmall"
-											cursor="pointer"
-										>
-											<Box component="span">{column.render('Header')}</Box>
-											<Box component="span" className={styles.tableIconWrapper}>
-												{/* eslint-disable-next-line no-nested-ternary */}
-												{column.isSorted ? column.isSortedDesc ? <ChevronDown2Icon /> : <ChevronUp2Icon /> : ''}
-											</Box>
+								</th>
+							))}
+						</tr>
+					))
+				}
+				fixedFooterContent={() =>
+					headerGroups.map(headerGroup => (
+						<tr {...headerGroup.getHeaderGroupProps()}>
+							{headerGroup.headers.map((column, columnIndex) => (
+								<th
+									className={column.className}
+									{...column.getHeaderProps(column.getSortByToggleProps())}
+									style={{
+										width: column.width,
+									}}
+								>
+									{columnIndex === 0 ? (
+										<Box color="colorNeutral" className={styles.footerLoadingIconWrapper}>
+											<LoadingBarsIcon />
 										</Box>
-									</th>
-								))}
-							</tr>
-						))
-					}
-					itemContent={index => {
-						const row = rows[index]
-						prepareRow(row)
-						return row.cells.map(cell => (
-							<td
-								className={clsx(
-									styles.tableTdRecipe({
-										sizeVariant,
-										styleVariant,
-									}),
-									cell.column.className,
-								)}
-								{...cell.getCellProps()}
-							>
-								{cell.render('Cell')}
-							</td>
-						))
-					}}
-				/>
-			)}
+									) : (
+										<Box className={styles.footerLoadingDefaultWrapper}>&nbsp;</Box>
+									)}
+								</th>
+							))}
+						</tr>
+					))
+				}
+				itemContent={index => {
+					const row = rows[index]
+					prepareRow(row)
+					return row.cells.map(cell => (
+						<td
+							className={clsx(
+								styles.tableTdRecipe({
+									sizeVariant,
+									styleVariant,
+								}),
+								cell.column.className,
+							)}
+							{...cell.getCellProps()}
+						>
+							{cell.render('Cell')}
+						</td>
+					))
+				}}
+			/>
 		</Box>
 	)
 }

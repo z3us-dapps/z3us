@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { useEffect, useMemo, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 
@@ -8,6 +9,17 @@ import { AssetStatisticCell } from './asset-statistic-cell'
 import * as styles from './assets-table.css'
 
 const generateRandomString = () => Math.random().toString(36).substring(7)
+
+const loadingItems = Array.from({ length: 4 }).map((_, i, a) => {
+	const randomStr = generateRandomString()
+	return {
+		id: `${i}-${randomStr}`,
+		token: `${i}-${randomStr}`,
+		portfolio: '65%',
+		price: '$1.83',
+		balance: '99',
+	}
+})
 
 type TAssetsTable = {
 	items: any
@@ -22,7 +34,7 @@ export const useAssetsTable = (): TAssetsTable => {
 	const navigate = useNavigate()
 	const { account, assetType, asset } = useAccountParams()
 
-	const [items, setItems] = useState<any>([])
+	const [items, setItems] = useState<any>(loadingItems)
 	const [loading, setLoading] = useState<boolean>(true)
 	const [loadMore, setLoadMore] = useState<boolean>(false)
 
@@ -40,7 +52,6 @@ export const useAssetsTable = (): TAssetsTable => {
 				width: 'auto',
 				Cell: AssetStatisticCell,
 				className: styles.mobileHideTableCellWrapper,
-				test: 'test',
 			},
 			{
 				Header: 'Balance',
@@ -58,7 +69,7 @@ export const useAssetsTable = (): TAssetsTable => {
 			},
 		]
 
-		if (assetType) {
+		if (assetType && !loading) {
 			cols = [
 				{
 					Header: 'Token',
@@ -69,7 +80,7 @@ export const useAssetsTable = (): TAssetsTable => {
 			]
 		}
 
-		if (asset) {
+		if (asset && !loading) {
 			cols = [
 				{
 					Header: 'Token',
@@ -83,31 +94,12 @@ export const useAssetsTable = (): TAssetsTable => {
 					width: 'auto',
 					Cell: AssetStatisticCell,
 					className: styles.mobileHideTableCellWrapper,
-					test: 'test',
 				},
 			]
 		}
 
 		return cols
-	}, [account, assetType, asset])
-
-	useEffect(() => {
-		setLoading(true)
-		setTimeout(() => {
-			const newItems = Array.from({ length: 60 }).map((_, i, a) => {
-				const randomStr = generateRandomString()
-				return {
-					id: randomStr,
-					token: `${account} - ${randomStr}`,
-					portfolio: '65%',
-					price: '$1.83',
-					balance: '99',
-				}
-			})
-			setItems(newItems)
-			setLoading(false)
-		}, 1000)
-	}, [account, assetType, asset])
+	}, [account, assetType, asset, loading])
 
 	const handleRowSelected = (row: any) => {
 		const { original } = row
@@ -120,7 +112,7 @@ export const useAssetsTable = (): TAssetsTable => {
 			const newItems = Array.from({ length: 50 }).map((_, i, a) => {
 				const randomStr = generateRandomString()
 				return {
-					id: randomStr,
+					id: `${account} - ${randomStr}`,
 					token: `${account} - ${randomStr}`,
 					portfolio: '65%',
 					price: '$1.83',
@@ -131,6 +123,24 @@ export const useAssetsTable = (): TAssetsTable => {
 			setLoadMore(false)
 		}, 2000)
 	}
+
+	useEffect(() => {
+		setLoading(true)
+		setTimeout(() => {
+			const newItems = Array.from({ length: assetType ? 50 : 4 }).map((_, i, a) => {
+				const randomStr = generateRandomString()
+				return {
+					id: randomStr,
+					token: `${account} - ${randomStr}`,
+					portfolio: '65%',
+					price: '$1.83',
+					balance: '99',
+				}
+			})
+			setItems(newItems)
+			setLoading(false)
+		}, 2000)
+	}, [account, assetType, asset])
 
 	return {
 		items,

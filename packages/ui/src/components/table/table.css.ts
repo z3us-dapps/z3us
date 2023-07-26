@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { style } from '@vanilla-extract/css'
+import { globalStyle, style } from '@vanilla-extract/css'
 import { recipe } from '@vanilla-extract/recipes'
 
 import { sprinkles } from '../system/sprinkles.css'
@@ -10,17 +10,24 @@ export const tableWrapper = style([
 	sprinkles({
 		display: 'block',
 		position: 'relative',
+		paddingBottom: 'large',
 	}),
 	{
 		transition: 'min-height 300ms ease',
-		// TODO: fix
-		minHeight: '520px',
+		minHeight: '100vh',
 	},
+])
+
+export const tableLoadingWrapper = style([
+	sprinkles({
+		position: 'relative',
+	}),
+	{},
 ])
 
 export const tableMinHeightWrapper = style([
 	{
-		minHeight: '10px',
+		minHeight: '20px',
 	},
 ])
 
@@ -37,18 +44,19 @@ export const tableRootWrapper = style([
 export const tFootWrapper = style([
 	sprinkles({
 		position: 'relative',
-		opacity: 0,
 		pointerEvents: 'none',
+		display: 'none',
 	}),
-	{
-		display: 'table-footer-group',
-	},
+	{},
 ])
 
 export const tFootWrapperVisible = style([
 	sprinkles({
 		opacity: 1,
 	}),
+	{
+		display: 'table-footer-group',
+	},
 ])
 
 export const footerLoadingDefaultWrapper = style([
@@ -116,7 +124,9 @@ export const tableRecipe = recipe({
 })
 
 export const tableThRecipe = recipe({
-	base: {},
+	base: {
+		transition: vars.transition.fast,
+	},
 	variants: {
 		styleVariant: {
 			primary: [
@@ -144,6 +154,12 @@ export const tableThRecipe = recipe({
 					fontWeight: '500',
 				},
 			],
+		},
+		loading: {
+			true: {
+				opacity: '0.2',
+				pointerEvents: 'none',
+			},
 		},
 	},
 	compoundVariants: [
@@ -203,6 +219,7 @@ export const tableTrRecipe = recipe({
 export const tableTdRecipe = recipe({
 	base: {
 		position: 'relative',
+		transition: vars.transition.fast,
 	},
 	variants: {
 		styleVariant: {
@@ -262,129 +279,6 @@ export const tableTdRecipe = recipe({
 			style: {},
 		},
 	],
-})
-
-export const tableLoadingWrapperRecipe = recipe({
-	base: {},
-	variants: {
-		styleVariant: {
-			primary: [sprinkles({}), {}],
-			secondary: [sprinkles({}), {}],
-		},
-		sizeVariant: {
-			medium: [sprinkles({}), {}],
-			large: [sprinkles({}), {}],
-		},
-	},
-	compoundVariants: [
-		{
-			variants: {
-				sizeVariant: 'large',
-				styleVariant: 'primary',
-			},
-			style: {
-				paddingLeft: '12px',
-				paddingRight: '12px',
-			},
-		},
-	],
-})
-
-recipeResponsiveGlobalStyle(tableLoadingWrapperRecipe({ sizeVariant: 'large', styleVariant: 'primary' }), '', {
-	tablet: {
-		paddingTop: '48px',
-	},
-})
-
-export const tableLoadingRowRecipe = recipe({
-	base: {
-		alignItems: 'center',
-		width: '100%',
-		gap: '12px',
-	},
-	variants: {
-		styleVariant: {
-			primary: [
-				sprinkles({
-					borderTop: 1,
-					borderStyle: 'solid',
-					borderColor: 'borderDivider',
-				}),
-				{},
-			],
-			secondary: [sprinkles({}), {}],
-		},
-		sizeVariant: {
-			medium: [sprinkles({}), {}],
-			large: [sprinkles({}), {}],
-		},
-	},
-	compoundVariants: [
-		{
-			variants: {
-				sizeVariant: 'large',
-				styleVariant: 'primary',
-			},
-			style: {
-				textAlign: 'left',
-				height: '84px',
-			},
-		},
-	],
-})
-
-recipeResponsiveGlobalStyle(tableLoadingRowRecipe({ sizeVariant: 'large', styleVariant: 'primary' }), '', {
-	tablet: {
-		display: 'flex',
-	},
-})
-
-recipeResponsiveGlobalStyle(
-	tableLoadingRowRecipe({ sizeVariant: 'large', styleVariant: 'primary' }),
-	'> div.td-mobile-loading',
-	{
-		mobile: {
-			display: 'flex !important',
-			width: '100% !important',
-		},
-	},
-)
-
-export const tableLoadingCellRecipe = recipe({
-	base: {
-		flexGrow: '1',
-		alignItems: 'center',
-		width: '100%',
-		gap: '12px',
-	},
-	variants: {
-		styleVariant: {
-			primary: [sprinkles({}), {}],
-			secondary: [sprinkles({}), {}],
-		},
-		sizeVariant: {
-			medium: [sprinkles({}), {}],
-			large: [sprinkles({}), {}],
-		},
-	},
-	compoundVariants: [
-		{
-			variants: {
-				sizeVariant: 'large',
-				styleVariant: 'primary',
-			},
-			style: {
-				textAlign: 'left',
-				height: '84px',
-			},
-		},
-	],
-})
-
-recipeResponsiveGlobalStyle(tableLoadingCellRecipe({ sizeVariant: 'large', styleVariant: 'primary' }), '', {
-	tablet: {
-		display: 'flex',
-	},
 })
 
 recipeResponsiveGlobalStyle(tableRecipe({ sizeVariant: 'large', styleVariant: 'primary' }), 'tbody tr:hover', {
@@ -511,4 +405,12 @@ recipeResponsiveGlobalStyle(tableRecipe({ sizeVariant: 'large', styleVariant: 'p
 		borderTopRightRadius: vars.spacing.medium,
 		borderBottomRightRadius: vars.spacing.medium,
 	},
+})
+
+globalStyle(`${tableLoadingWrapper} .td-cell-loading`, {
+	opacity: 1,
+})
+
+globalStyle(`${tableLoadingWrapper} .td-cell`, {
+	opacity: 0,
 })

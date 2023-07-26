@@ -3,6 +3,7 @@ import clsx from 'clsx'
 import React from 'react'
 
 import { Box } from 'ui/src/components/box'
+import { Table } from 'ui/src/components/table'
 // OLD REMOVE
 import { AccountIndexAssets } from 'ui/src/containers/accounts/account-index-assets'
 // OLD REMOVE
@@ -12,7 +13,9 @@ import { AccountsList } from 'ui/src/containers/accounts/accounts-list'
 
 import * as styles from './account-assets.css'
 import { AssetsHeader } from './components/assets-header'
-import { AssetsTable } from './components/assets-table'
+// OLD REMOVE
+// import { AssetsTable } from './components/assets-table'
+import { useAssetsTable } from './components/assets-table/use-assets-table'
 import { MobileScrollingBackground } from './components/mobile-scrolling-background'
 import { MobileScrollingButtons } from './components/mobile-scrolling-buttons'
 
@@ -24,13 +27,27 @@ interface IAccountRoutesProps {
 export const AccountAssets: React.FC<IAccountRoutesProps> = props => {
 	const { scrollableNode, isScrolledTop } = props
 
+	const { items, columns, loading, loadMore, onRowSelected, onEndReached } = useAssetsTable()
+
 	return (
-		<Box className={clsx(styles.accountRoutesWrapper, !isScrolledTop && styles.accountTheadShadow)}>
+		<Box className={clsx(styles.accountRoutesWrapper, !loading && !isScrolledTop && styles.accountTheadShadow)}>
 			<Box className={styles.accountRoutesScrollingWrapper}>
 				<MobileScrollingBackground scrollableNode={scrollableNode} />
 				<MobileScrollingButtons scrollableNode={scrollableNode} />
 				<AssetsHeader isScrolledTop={isScrolledTop} scrollableNode={scrollableNode} />
-				<AssetsTable scrollableNode={scrollableNode} />
+				<Box className={styles.assetsTableWrapper}>
+					<Table
+						styleVariant="primary"
+						sizeVariant="large"
+						scrollableNode={scrollableNode ?? undefined}
+						data={items}
+						columns={columns}
+						loading={loading}
+						loadMore={loadMore}
+						onRowSelected={onRowSelected}
+						// onEndReached={onEndReached}
+					/>
+				</Box>
 			</Box>
 		</Box>
 	)
