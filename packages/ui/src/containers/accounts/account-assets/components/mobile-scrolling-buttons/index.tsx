@@ -6,9 +6,9 @@ import { useSearchParams } from 'react-router-dom'
 import { useIntersectionObserver, useTimeout } from 'usehooks-ts'
 
 import { Box } from 'ui/src/components/box'
-import { Button } from 'ui/src/components/button'
 import { ChevronDown3Icon, ChevronLeftIcon, Close2Icon, SearchIcon } from 'ui/src/components/icons'
 import { type FormElement, Input } from 'ui/src/components/input'
+import { Button } from 'ui/src/components/router-button'
 import { Link } from 'ui/src/components/router-link'
 import Translation from 'ui/src/components/translation'
 import { Text } from 'ui/src/components/typography'
@@ -20,6 +20,7 @@ import {
 	routes,
 } from 'ui/src/constants/routes'
 import { useAccountParams } from 'ui/src/hooks/use-account-params'
+import { useIsAccountActivityRoute } from 'ui/src/hooks/use-is-account-activity-route'
 import { capitalizeFirstLetter } from 'ui/src/utils/capitalize-first-letter'
 
 import * as styles from './mobile-scrolling-button.css'
@@ -36,7 +37,8 @@ export const MobileScrollingButtons: React.FC<IMobileScrollingButtonsProps> = pr
 	const stickyRef = useRef(null)
 	const entry = useIntersectionObserver(stickyRef, { threshold: [1] })
 	const isSticky = !entry?.isIntersecting
-	const isActivityRoute = !!searchParams.get(SEARCH_ACTIVITY_PARAM)
+
+	const isAccountActivityRoute = useIsAccountActivityRoute()
 	const isVerticalScrollable = scrollableNode?.scrollHeight > scrollableNode?.clientHeight
 	const { t } = useTranslation()
 
@@ -54,6 +56,8 @@ export const MobileScrollingButtons: React.FC<IMobileScrollingButtonsProps> = pr
 		`/${routes.ACCOUNTS}${account ? `/${account}` : ''}${assetType ? `/${assetType}` : ''}${
 			generateAssetLink && asset ? `/${asset}` : ''
 		}${isActivity ? `?${SEARCH_ACTIVITY_PARAM}=true` : ''}`
+
+	const generateBackLink = () => `/${routes.ACCOUNTS}/all`
 
 	const getTabTitle = () => {
 		switch (assetType) {
@@ -91,10 +95,10 @@ export const MobileScrollingButtons: React.FC<IMobileScrollingButtonsProps> = pr
 						className={clsx(
 							styles.tabsWrapperButton,
 							styles.tabsWrapperButtonLeft,
-							!isActivityRoute && styles.tabsWrapperButtonActive,
+							!isAccountActivityRoute && styles.tabsWrapperButtonActive,
 						)}
 					>
-						<Text size="medium" weight="strong" align="center" color={!isActivityRoute ? 'strong' : 'neutral'}>
+						<Text size="medium" weight="strong" align="center" color={!isAccountActivityRoute ? 'strong' : 'neutral'}>
 							{getTabTitle()}
 						</Text>
 					</Link>
@@ -104,10 +108,10 @@ export const MobileScrollingButtons: React.FC<IMobileScrollingButtonsProps> = pr
 						className={clsx(
 							styles.tabsWrapperButton,
 							styles.tabsWrapperButtonRight,
-							isActivityRoute && styles.tabsWrapperButtonActive,
+							isAccountActivityRoute && styles.tabsWrapperButtonActive,
 						)}
 					>
-						<Text size="medium" weight="strong" align="center" color={isActivityRoute ? 'strong' : 'neutral'}>
+						<Text size="medium" weight="strong" align="center" color={isAccountActivityRoute ? 'strong' : 'neutral'}>
 							<Translation capitalizeFirstLetter text="global.activity" />
 						</Text>
 					</Link>
@@ -127,7 +131,7 @@ export const MobileScrollingButtons: React.FC<IMobileScrollingButtonsProps> = pr
 				</Box>
 				<Box className={styles.searchWrapper}>
 					{assetType ? (
-						<Button iconOnly styleVariant="ghost" sizeVariant="small" rounded onClick={() => {}}>
+						<Button to={generateBackLink()} iconOnly styleVariant="ghost" sizeVariant="small" rounded>
 							<ChevronLeftIcon />
 						</Button>
 					) : null}
@@ -144,11 +148,12 @@ export const MobileScrollingButtons: React.FC<IMobileScrollingButtonsProps> = pr
 						}
 						rightIcon={
 							true ? (
-								<Button iconOnly sizeVariant="small" styleVariant="ghost" rounded onClick={() => {}}>
+								<Button iconOnly sizeVariant="small" styleVariant="ghost" rounded>
 									<Close2Icon />
 								</Button>
 							) : null
 						}
+						rightIconClassName={styles.inputSearchClearBtn}
 						onChange={() => {}}
 					/>
 				</Box>

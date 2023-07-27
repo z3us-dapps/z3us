@@ -2,7 +2,9 @@ import { useEffect, useMemo, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 
 import { useAccountParams } from 'ui/src/hooks/use-account-params'
+import { useIsAccountActivityRoute } from 'ui/src/hooks/use-is-account-activity-route'
 
+import { AssetActivityCell } from './asset-activity-cell'
 import { AssetHomeCell } from './asset-home-cell'
 import { AssetHomeCellLinks } from './asset-home-cell-links'
 import { AssetNameCell } from './asset-name-cell'
@@ -34,6 +36,7 @@ type TAssetsTable = {
 export const useAssetsTable = (): TAssetsTable => {
 	const navigate = useNavigate()
 	const { account, assetType, asset } = useAccountParams()
+	const isAccountActivityRoute = useIsAccountActivityRoute()
 
 	const columnsAssets = useMemo(
 		() => [
@@ -82,6 +85,18 @@ export const useAssetsTable = (): TAssetsTable => {
 				width: 'auto',
 				Cell: AssetHomeCellLinks,
 				className: styles.mobileHideTableCellWrapper,
+			},
+		],
+		[],
+	)
+
+	const columnsActivity = useMemo(
+		() => [
+			{
+				Header: 'Activity',
+				accessor: 'Activity',
+				width: 'auto',
+				Cell: AssetActivityCell,
 			},
 		],
 		[],
@@ -147,7 +162,10 @@ export const useAssetsTable = (): TAssetsTable => {
 				}
 			})
 			setItems(newItems)
-			if (assetType) {
+
+			if (isAccountActivityRoute) {
+				setColumns(columnsActivity)
+			} else if (assetType) {
 				setColumns(columnsAssets)
 			} else {
 				setColumns(columnsHome)
@@ -155,7 +173,7 @@ export const useAssetsTable = (): TAssetsTable => {
 
 			setLoading(false)
 		}, 2000)
-	}, [account, assetType, asset])
+	}, [account, assetType, asset, isAccountActivityRoute])
 
 	return {
 		items,

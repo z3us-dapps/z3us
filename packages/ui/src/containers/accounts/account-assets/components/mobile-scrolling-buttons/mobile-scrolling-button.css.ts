@@ -224,6 +224,17 @@ export const inputSearch = style([
 	{},
 ])
 
+export const inputSearchClearBtn = style([
+	sprinkles({
+		position: 'relative',
+	}),
+	{},
+])
+
+globalStyle(`${searchWrapper} ${inputSearchClearBtn}`, {
+	marginRight: '0',
+})
+
 globalStyle(`${tabsWrapperScrollBtn} > svg`, {
 	transition: vars.transition.fastall,
 	transform: 'rotateX(0deg) scale3d(1,1,1)',
