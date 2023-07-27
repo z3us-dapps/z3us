@@ -21,7 +21,7 @@ interface ITableProps {
 	loadMore?: boolean
 	overscan?: number
 	onEndReached?: () => void
-	// todo type
+	// TODO: should this just be ID?? and not the whole row??
 	onRowSelected?: (row: any) => void
 }
 

@@ -107,6 +107,7 @@ export const useAssetsTable = (): TAssetsTable => {
 	const [loadMore, setLoadMore] = useState<boolean>(false)
 	const [columns, setColumns] = useState<any>(columnsHome)
 
+	// TODO: should probably pass just ID? not row??
 	const handleRowSelected = (row: any) => {
 		const { original } = row
 		navigate(`/accounts/${account}/${original.id}`)

@@ -33,7 +33,7 @@ export const AssetHomeCellLinks: React.FC<IAssetHomeCellLinksProps> = props => {
 				<Box alignItems="center" justifyContent="flex-end" display="flex" width="full" gap="xsmall" flexGrow={1}>
 					<Box className={skeletonStyles.tokenListSkeleton} style={{ height: '12px', width: '20px' }} />
 					<Box className={styles.assetHomeCellLinksIconsWrapper}>
-						{Array.from({ length: getRandomNumberInRange(2, 4) }, (_, i) => (
+						{Array.from({ length: getRandomNumberInRange(2, 3) }, (_, i) => (
 							<Box key={i} className={clsx(skeletonStyles.tokenListSkeleton, skeletonStyles.tokenListGridCircle)} />
 						))}
 					</Box>
