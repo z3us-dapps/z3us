@@ -159,14 +159,7 @@ export const Table: React.FC<ITableProps> = props => {
 										width: column.width,
 									}}
 								>
-									<Box
-										position="relative"
-										component="span"
-										display="inline-flex"
-										alignItems="center"
-										gap="xsmall"
-										cursor="pointer"
-									>
+									<Box position="relative" component="span" display="inline-flex" alignItems="center" gap="xsmall">
 										<Box component="span">{column.render('Header')}</Box>
 										<Box component="span" className={styles.tableIconWrapper}>
 											{/* eslint-disable-next-line no-nested-ternary */}

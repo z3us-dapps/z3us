@@ -32,15 +32,14 @@ export const AssetHomeCellLinks: React.FC<IAssetHomeCellLinksProps> = props => {
 	const loading = useMemo(
 		() => (
 			<Box className={clsx(styles.assetHomeCellLinksLoadingWrapper, 'td-cell-loading')}>
-				<Box display="flex" width="full" flexDirection="column" gap="small" flexGrow={1}>
-					<Box
-						className={skeletonStyles.tokenListSkeleton}
-						style={{ height: '12px', width: `${getRandomNumberInRange(50, 90)}%` }}
-					/>
-					<Box
-						className={skeletonStyles.tokenListSkeleton}
-						style={{ height: '12px', width: `${getRandomNumberInRange(40, 70)}%` }}
-					/>
+				<Box alignItems="center" justifyContent="flex-end" display="flex" width="full" gap="xsmall" flexGrow={1}>
+					<Box className={skeletonStyles.tokenListSkeleton} style={{ height: '12px', width: '20px' }} />
+					<Box className={styles.assetHomeCellLinksIconsWrapper}>
+						{Array.from({ length: getRandomNumberInRange(2, 4) }, (_, i) => (
+							<Box key={i} className={clsx(skeletonStyles.tokenListSkeleton, skeletonStyles.tokenListGridCircle)} />
+						))}
+					</Box>
+					<Box className={skeletonStyles.tokenListSkeleton} style={{ height: '12px', width: '12px' }} />
 				</Box>
 			</Box>
 		),

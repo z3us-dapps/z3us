@@ -54,11 +54,11 @@ export const assetHomeCellLinksIconsWrapper = style([
 	{},
 ])
 
-globalStyle(`${assetHomeCellLinksIconsWrapper} > a:nth-child(1)`, {
+globalStyle(`${assetHomeCellLinksIconsWrapper} > *:nth-child(1)`, {
 	marginLeft: '0px',
 })
 
-globalStyle(`${assetHomeCellLinksIconsWrapper} > a`, {
+globalStyle(`${assetHomeCellLinksIconsWrapper} > *`, {
 	position: 'relative',
 	marginLeft: '-10px',
 })

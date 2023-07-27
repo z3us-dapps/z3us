@@ -14,7 +14,7 @@ export const tableWrapper = style([
 	}),
 	{
 		transition: 'min-height 300ms ease',
-		minHeight: '100vh',
+		minHeight: '420px',
 	},
 ])
 
@@ -127,12 +127,16 @@ export const tableRecipe = recipe({
 export const tableThRecipe = recipe({
 	base: {
 		transition: vars.transition.fast,
+		cursor: 'pointer',
 	},
 	variants: {
 		styleVariant: {
 			primary: [
 				sprinkles({
-					color: 'colorNeutral',
+					color: {
+						lightMode: 'colorNeutral',
+						hover: 'colorStrong',
+					},
 				}),
 				{},
 			],
