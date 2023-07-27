@@ -197,10 +197,31 @@ export const tabsWrapperScrollBtnHidden = style([
 	}),
 ])
 
+export const searchWrapper = style([
+	sprinkles({
+		width: 'full',
+		position: 'relative',
+		display: 'flex',
+		gap: 'xsmall',
+		paddingX: 'large',
+		paddingY: 'medium',
+		background: 'backgroundSecondary',
+	}),
+	{},
+])
+
 export const tabsWrapperScrollBtnScrolled = style([
 	sprinkles({
 		position: 'absolute',
 	}),
+])
+
+export const inputSearch = style([
+	sprinkles({
+		width: 'full',
+		padding: 'small',
+	}),
+	{},
 ])
 
 globalStyle(`${tabsWrapperScrollBtn} > svg`, {

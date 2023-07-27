@@ -14,7 +14,6 @@ import { AccountsList } from 'ui/src/containers/accounts/accounts-list'
 import * as styles from './account-assets.css'
 import { AssetsHeader } from './components/assets-header'
 // OLD REMOVE
-// import { AssetsTable } from './components/assets-table'
 import { useAssetsTable } from './components/assets-table/use-assets-table'
 import { MobileScrollingBackground } from './components/mobile-scrolling-background'
 import { MobileScrollingButtons } from './components/mobile-scrolling-buttons'

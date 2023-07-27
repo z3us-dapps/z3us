@@ -1,12 +1,14 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import clsx from 'clsx'
 import React, { useRef } from 'react'
+import { useTranslation } from 'react-i18next'
 import { useSearchParams } from 'react-router-dom'
 import { useIntersectionObserver, useTimeout } from 'usehooks-ts'
 
 import { Box } from 'ui/src/components/box'
 import { Button } from 'ui/src/components/button'
-import { ChevronDown3Icon } from 'ui/src/components/icons'
+import { ChevronDown3Icon, ChevronLeftIcon, Close2Icon, SearchIcon } from 'ui/src/components/icons'
+import { type FormElement, Input } from 'ui/src/components/input'
 import { Link } from 'ui/src/components/router-link'
 import Translation from 'ui/src/components/translation'
 import { Text } from 'ui/src/components/typography'
@@ -18,6 +20,7 @@ import {
 	routes,
 } from 'ui/src/constants/routes'
 import { useAccountParams } from 'ui/src/hooks/use-account-params'
+import { capitalizeFirstLetter } from 'ui/src/utils/capitalize-first-letter'
 
 import * as styles from './mobile-scrolling-button.css'
 
@@ -35,6 +38,7 @@ export const MobileScrollingButtons: React.FC<IMobileScrollingButtonsProps> = pr
 	const isSticky = !entry?.isIntersecting
 	const isActivityRoute = !!searchParams.get(SEARCH_ACTIVITY_PARAM)
 	const isVerticalScrollable = scrollableNode?.scrollHeight > scrollableNode?.clientHeight
+	const { t } = useTranslation()
 
 	const onClickChevron = () => {
 		if (isSticky) {
@@ -120,6 +124,33 @@ export const MobileScrollingButtons: React.FC<IMobileScrollingButtonsProps> = pr
 					>
 						<ChevronDown3Icon />
 					</Button>
+				</Box>
+				<Box className={styles.searchWrapper}>
+					{assetType ? (
+						<Button iconOnly styleVariant="ghost" sizeVariant="small" rounded onClick={() => {}}>
+							<ChevronLeftIcon />
+						</Button>
+					) : null}
+					<Input
+						sizeVariant="small"
+						className={styles.inputSearch}
+						value=""
+						placeholder={capitalizeFirstLetter(t('global.search'))}
+						rounded
+						leftIcon={
+							<Box paddingLeft="small" display="flex" alignItems="center">
+								<SearchIcon />
+							</Box>
+						}
+						rightIcon={
+							true ? (
+								<Button iconOnly sizeVariant="small" styleVariant="ghost" rounded onClick={() => {}}>
+									<Close2Icon />
+								</Button>
+							) : null
+						}
+						onChange={() => {}}
+					/>
 				</Box>
 			</Box>
 		</Box>
