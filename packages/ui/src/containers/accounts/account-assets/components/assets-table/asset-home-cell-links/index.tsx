@@ -8,7 +8,6 @@ import { Link } from 'ui/src/components/router-link'
 import * as skeletonStyles from 'ui/src/components/styles/skeleton-loading.css'
 import { Text } from 'ui/src/components/typography'
 import { accountMenuSlugs } from 'ui/src/constants/accounts'
-import { useIsMobileWidth } from 'ui/src/hooks/use-is-mobile'
 import { getRandomNumberInRange } from 'ui/src/utils/get-random-number-in-ranger'
 
 import * as styles from './asset-home-cell-links.css'
@@ -27,7 +26,6 @@ export const AssetHomeCellLinks: React.FC<IAssetHomeCellLinksProps> = props => {
 
 	const { id } = original
 	const resourceAddress = '78374384783748374'
-	const isMobile = useIsMobileWidth()
 
 	const loading = useMemo(
 		() => (
@@ -55,13 +53,13 @@ export const AssetHomeCellLinks: React.FC<IAssetHomeCellLinksProps> = props => {
 					</Text>
 					<Box className={styles.assetHomeCellLinksIconsWrapper}>
 						<Link to={`${accountMenuSlugs.ACCOUNTS}/1`} underline="never">
-							<ResourceImageIcon size={isMobile ? 'large' : 'xlarge'} address={resourceAddress} />
+							<ResourceImageIcon size="xlarge" address={resourceAddress} />
 						</Link>
 						<Link to={`${accountMenuSlugs.ACCOUNTS}/2`} underline="never">
-							<ResourceImageIcon size={isMobile ? 'large' : 'xlarge'} address={resourceAddress} />
+							<ResourceImageIcon size="xlarge" address={resourceAddress} />
 						</Link>
 						<Link to={`${accountMenuSlugs.ACCOUNTS}/3`} underline="never">
-							<ResourceImageIcon size={isMobile ? 'large' : 'xlarge'} address={resourceAddress} />
+							<ResourceImageIcon size="xlarge" address={resourceAddress} />
 						</Link>
 					</Box>
 					<ChevronRightIcon />

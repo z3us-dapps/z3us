@@ -43,3 +43,34 @@ export const assetHomeCellLoadingWrapper = style([
 	}),
 	{},
 ])
+
+export const assetHomeCellLoadingMobileWrapper = style([
+	sprinkles({
+		display: {
+			mobile: 'flex',
+			tablet: 'none',
+		},
+		flexShrink: 0,
+		justifyContent: 'flex-end',
+		alignItems: 'center',
+		gap: 'small',
+	}),
+	{},
+])
+
+export const assetHomeCellLoadingMobileIconsWrapper = style([
+	sprinkles({
+		display: 'flex',
+		width: 'full',
+	}),
+	{},
+])
+
+globalStyle(`${assetHomeCellLoadingMobileIconsWrapper} > *:nth-child(1)`, {
+	marginLeft: '0px',
+})
+
+globalStyle(`${assetHomeCellLoadingMobileIconsWrapper} > *`, {
+	position: 'relative',
+	marginLeft: '-10px',
+})

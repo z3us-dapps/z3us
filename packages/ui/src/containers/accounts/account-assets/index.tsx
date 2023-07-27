@@ -42,6 +42,7 @@ export const AccountAssets: React.FC<IAccountRoutesProps> = props => {
 						scrollableNode={scrollableNode ?? undefined}
 						data={items}
 						columns={columns}
+						// loading
 						loading={loading}
 						loadMore={loadMore}
 						onRowSelected={onRowSelected}

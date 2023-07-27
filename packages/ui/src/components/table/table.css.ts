@@ -298,6 +298,7 @@ recipeResponsiveGlobalStyle(
 	'tbody tr:hover .tr-text-elem',
 	{
 		mobile: {
+			transition: vars.transition.fast,
 			color: vars.color.purple500,
 		},
 		tablet: {
