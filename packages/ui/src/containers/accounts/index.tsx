@@ -29,7 +29,7 @@ export const Accounts = (props: IAccountsProps): React.JSX.Element => {
 	return (
 		<>
 			<Box className={styles.accountsWrapper}>
-				{/* NOTE: navigation is conditional because NEXTJS site will header */}
+				{/* NOTE: navigation is conditional because NEXTJS site will render own header */}
 				{isNavigationVisible ? <DesktopNavigation /> : null}
 				<Box className={styles.accountsBodyWrapper}>
 					<AnimatePresence initial={false}>
