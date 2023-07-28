@@ -1,4 +1,7 @@
-import { RadixDappToolkit } from '@radixdlt/radix-dapp-toolkit'
+import { RadixNetworkConfigById } from '@radixdlt/babylon-gateway-api-sdk'
+import { DataRequestStateClient, RadixDappToolkit } from '@radixdlt/radix-dapp-toolkit'
+import { GatewayClient } from '@radixdlt/radix-dapp-toolkit/types/gateway/gateway'
+import { GatewayApiClient } from '@radixdlt/radix-dapp-toolkit/types/gateway/gateway-api'
 import React, { type PropsWithChildren, useEffect, useState } from 'react'
 
 import { DAPP_ADDRESS } from '../constants/dapp'
@@ -24,25 +27,24 @@ export const RdtProvider: React.FC<PropsWithChildren> = ({ children }) => {
 	useEffect(() => {
 		if (!configuration?.network_id) return () => {}
 
-		const rdt = RadixDappToolkit(
-			{
-				networkId: configuration.network_id,
-				dAppDefinitionAddress: DAPP_ADDRESS,
+		const gatewayApi = GatewayApiClient({
+			basePath: RadixNetworkConfigById[configuration?.network_id].gatewayUrl,
+		})
+
+		const dataRequestStateClient = DataRequestStateClient({})
+
+		const options = {
+			networkId: configuration.network_id,
+			dAppDefinitionAddress: DAPP_ADDRESS,
+			logger: console, 
+			providers: {
+				gatewayClient: GatewayClient({ gatewayApi }),
+				dataRequestStateClient,
 			},
-			requestData => {
-				requestData({
-					accounts: { quantifier: 'atLeast', quantity: 1 },
-					personaData: {
-						fields: ['givenName', 'emailAddress', 'familyName', 'phoneNumber'],
-					},
-				})
-			},
-			{
-				onStateChange,
-				onInit: onStateChange,
-				gatewayBaseUrl,
-			},
-		)
+			useCache: false,
+		}
+
+		const rdt = RadixDappToolkit(options)
 		setState(rdt)
 		return () => rdt.destroy()
 	}, [gatewayBaseUrl, configuration?.network_id])
