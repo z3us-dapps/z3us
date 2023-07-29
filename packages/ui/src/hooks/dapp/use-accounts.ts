@@ -12,11 +12,9 @@ export const useAccounts = (
 ) => {
 	const networkId = useNetworkId()
 	const { state } = useGatewayClient()!
-	const { walletData } = useRdtState()
+	const { accounts = [] } = useRdtState()
 
-	const addresses = walletData.accounts
-		.map(({ address }) => address)
-		.filter(address => !selected || address in selected)
+	const addresses = accounts?.map(({ address }) => address).filter(address => !selected || address in selected)
 
 	return useQuery({
 		queryKey: ['useAccount', networkId, aggregation, ...addresses],

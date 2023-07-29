@@ -36,11 +36,9 @@ export const useTransaction = (intent_hash_hex: string) => {
 export const useTransactions = (selected: SelectedAddresses = null) => {
 	const networkId = useNetworkId()
 	const { stream } = useGatewayClient()!
-	const { walletData } = useRdtState()
+	const { accounts = [] } = useRdtState()
 
-	const addresses = walletData.accounts
-		.map(({ address }) => address)
-		.filter(address => !selected || address in selected)
+	const addresses = accounts.map(({ address }) => address).filter(address => !selected || address in selected)
 
 	const data = useInfiniteQuery({
 		queryKey: ['useTransactions', networkId, ...addresses],

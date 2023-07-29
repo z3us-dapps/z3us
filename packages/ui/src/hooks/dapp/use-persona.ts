@@ -3,16 +3,16 @@ import { useMemo } from 'react'
 import { useRdtState } from './use-rdt-state'
 
 export const usePersona = () => {
-	const { walletData } = useRdtState()
+	const { persona, personaData } = useRdtState()
 
 	return useMemo(
 		() =>
-			walletData.persona?.identityAddress
+			persona?.identityAddress
 				? {
-						...walletData.persona,
-						...walletData.personaData.reduce((merged, { field, value }) => ({ ...merged, [field]: value }), {}),
+						...persona,
+						...personaData.reduce((merged, { entry, ...rest }) => ({ ...merged, [entry]: rest }), {}),
 				  }
 				: null,
-		[walletData.persona?.identityAddress],
+		[persona?.identityAddress],
 	)
 }

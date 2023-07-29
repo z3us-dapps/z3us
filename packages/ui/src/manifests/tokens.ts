@@ -1,5 +1,4 @@
-import type { ManifestBuilder } from '@radixdlt/radix-dapp-toolkit'
-import type { NonFungibleLocalIdString } from '@radixdlt/wallet-sdk/dist/manifest-value'
+import { ManifestAstValue, type ManifestBuilder } from '@radixdlt/radix-engine-toolkit'
 
 interface SendFungibleTokens {
 	tokens: Array<{
@@ -30,7 +29,11 @@ export const sendFungibleTokens = (
 	manifest = Object.entries(amountsByTokenByAccount).reduce(
 		(group, [from, tokens]) =>
 			Object.entries(tokens).reduce(
-				(amounts, [resource, amount]) => amounts.withdrawFromAccount(from, resource, amount),
+				(amounts, [resource, amount]) =>
+					amounts.callMethod(from, 'withdraw', [
+						new ManifestAstValue.Address(resource),
+						new ManifestAstValue.Decimal(amount),
+					]),
 				group,
 			),
 		manifest,
@@ -38,13 +41,14 @@ export const sendFungibleTokens = (
 
 	// deposit from worktop to destination account correct amounts
 	return fungibles.reduce(
-		(group, { tokens, to }, idx) =>
-			tokens
-				.reduce(
-					(amounts, { resource, amount }) => amounts.takeFromWorktopByAmount(amount, resource, `fungible${idx}`),
-					group,
-				)
-				.callMethod(to, 'deposit', [`Bucket('fungible${idx}')`]),
+		(group, { tokens, to }) =>
+			tokens.reduce(
+				(amounts, { resource, amount }) =>
+					amounts.takeFromWorktop(resource, amount, (builder: ManifestBuilder, bucket: ManifestAstValue.Bucket) =>
+						builder.callMethod(to, 'try_deposit_or_abort', [bucket]),
+					),
+				group,
+			),
 		manifest,
 	)
 }
@@ -54,7 +58,7 @@ interface SendNftTokens {
 	to: string
 	tokens: Array<{
 		resource: string
-		ids: NonFungibleLocalIdString[]
+		ids: string[]
 	}>
 }
 
@@ -79,7 +83,13 @@ export const sendNftTokens = (manifest: ManifestBuilder, nfts: Array<SendNftToke
 		(group, [from, tokens]) =>
 			Object.entries(tokens).reduce(
 				(ids, [resource, idMap]) =>
-					ids.withdrawNonFungiblesFromAccount(from, resource, Object.keys(idMap) as NonFungibleLocalIdString[]),
+					ids.callMethod(from, 'withdraw', [
+						new ManifestAstValue.Address(resource),
+						new ManifestAstValue.Array(
+							ManifestAstValue.Kind.Array,
+							Object.keys(idMap).map(id => new ManifestAstValue.NonFungibleLocalId(id)),
+						),
+					]),
 				group,
 			),
 		manifest,
@@ -87,10 +97,17 @@ export const sendNftTokens = (manifest: ManifestBuilder, nfts: Array<SendNftToke
 
 	// deposit from worktop to destination account correct nfts by ids
 	return nfts.reduce(
-		(group, { tokens, to }, idx) =>
-			tokens
-				.reduce((amounts, { resource, ids }) => amounts.takeFromWorktopByIds(ids, resource, `nfts${idx}`), group)
-				.callMethod(to, 'deposit', [`Bucket('nfts${idx}')`]),
+		(group, { tokens, to }) =>
+			tokens.reduce(
+				(amounts, { resource, ids }) =>
+					amounts.takeNonFungiblesFromWorktop(
+						resource,
+						ids.map(id => new ManifestAstValue.NonFungibleLocalId(id)),
+						(builder: ManifestBuilder, bucket: ManifestAstValue.Bucket) =>
+							builder.callMethod(to, 'try_deposit_or_abort', [bucket]),
+					),
+				group,
+			),
 		manifest,
 	)
 }

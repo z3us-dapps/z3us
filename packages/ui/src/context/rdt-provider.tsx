@@ -1,14 +1,14 @@
-import { RadixNetworkConfigById } from '@radixdlt/babylon-gateway-api-sdk'
-import { DataRequestStateClient, RadixDappToolkit } from '@radixdlt/radix-dapp-toolkit'
-import { GatewayClient } from '@radixdlt/radix-dapp-toolkit/types/gateway/gateway'
-import { GatewayApiClient } from '@radixdlt/radix-dapp-toolkit/types/gateway/gateway-api'
+import type { RadixDappToolkitOptions } from '@radixdlt/radix-dapp-toolkit'
+import { DataRequestBuilder, RadixDappToolkit } from '@radixdlt/radix-dapp-toolkit'
+import { Buffer } from 'buffer'
 import React, { type PropsWithChildren, useEffect, useState } from 'react'
 
 import { DAPP_ADDRESS } from '../constants/dapp'
 import { useNetworkConfiguration } from '../hooks/dapp/use-network-configuration'
 import { useNoneSharedStore, useSharedStore } from '../hooks/use-store'
-import type { Rdt } from './rdt'
 import { RdtContext } from './rdt'
+
+export const createChallenge = () => Buffer.from(crypto.getRandomValues(new Uint8Array(32))).toString('hex')
 
 export const RdtProvider: React.FC<PropsWithChildren> = ({ children }) => {
 	const { data: configuration } = useNetworkConfiguration()
@@ -18,33 +18,24 @@ export const RdtProvider: React.FC<PropsWithChildren> = ({ children }) => {
 	const { gatewayBaseUrl } = useNoneSharedStore(state => ({
 		gatewayBaseUrl: state.gatewayBaseUrl,
 	}))
-	const [state, setState] = useState<Rdt>()
-
-	const onStateChange = () => {
-		reloadSharedStore()
-	}
+	const [state, setState] = useState<RadixDappToolkit>()
 
 	useEffect(() => {
 		if (!configuration?.network_id) return () => {}
 
-		const gatewayApi = GatewayApiClient({
-			basePath: RadixNetworkConfigById[configuration?.network_id].gatewayUrl,
-		})
-
-		const dataRequestStateClient = DataRequestStateClient({})
-
-		const options = {
+		const options: RadixDappToolkitOptions = {
 			networkId: configuration.network_id,
 			dAppDefinitionAddress: DAPP_ADDRESS,
-			logger: console, 
-			providers: {
-				gatewayClient: GatewayClient({ gatewayApi }),
-				dataRequestStateClient,
-			},
+			logger: console as any,
 			useCache: false,
 		}
 
 		const rdt = RadixDappToolkit(options)
+
+		rdt.walletApi.walletData$.subscribe(reloadSharedStore)
+		rdt.walletApi.setRequestData(DataRequestBuilder.accounts().atLeast(1))
+		rdt.walletApi.provideChallengeGenerator(async () => createChallenge())
+
 		setState(rdt)
 		return () => rdt.destroy()
 	}, [gatewayBaseUrl, configuration?.network_id])

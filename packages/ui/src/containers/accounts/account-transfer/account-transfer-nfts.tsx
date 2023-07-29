@@ -1,5 +1,4 @@
-import { ManifestBuilder } from '@radixdlt/radix-dapp-toolkit'
-import type { NonFungibleLocalIdString } from '@radixdlt/wallet-sdk/dist/manifest-value'
+import { ManifestBuilder } from '@radixdlt/radix-engine-toolkit'
 import { useGlobalResourceBalances } from 'packages/ui/src/hooks/dapp/use-balances'
 import { useNetworkId } from 'packages/ui/src/hooks/dapp/use-network-id'
 import { useNoneSharedStore } from 'packages/ui/src/hooks/use-store'
@@ -72,7 +71,7 @@ export const AccountTransferNfts: React.FC = () => {
 		const nfts = state.transaction.sends.map(({ to, nfts: tokens }) => ({
 			from: state.transaction.from,
 			to,
-			tokens: tokens.map(nft => ({ resource: nft.address, ids: [nft.id as NonFungibleLocalIdString] })),
+			tokens: tokens.map(nft => ({ resource: nft.address, ids: [nft.id] })),
 		}))
 
 		const transactionManifest = sendNftTokens(new ManifestBuilder(), nfts).build().toString()

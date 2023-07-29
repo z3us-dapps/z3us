@@ -1,4 +1,4 @@
-import { ManifestBuilder } from '@radixdlt/radix-dapp-toolkit'
+import { ManifestBuilder } from '@radixdlt/radix-engine-toolkit'
 import { useGlobalResourceBalances } from 'packages/ui/src/hooks/dapp/use-balances'
 import { useNetworkId } from 'packages/ui/src/hooks/dapp/use-network-id'
 import { useNoneSharedStore } from 'packages/ui/src/hooks/use-store'

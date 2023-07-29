@@ -5,13 +5,13 @@ import { useNoneSharedStore } from './use-store'
 
 export const useWalletAccounts = (): { [key: string]: AddressBookEntry } => {
 	const networkId = useNetworkId()
-	const { walletData } = useRdtState()
+	const { accounts = [] } = useRdtState()
 
 	const { addressBook } = useNoneSharedStore(state => ({
 		addressBook: state.addressBook[networkId] || {},
 	}))
 
-	return walletData.accounts.reduce(
+	return accounts.reduce(
 		(ac, account) => ({
 			...ac,
 			[account.address]: {
