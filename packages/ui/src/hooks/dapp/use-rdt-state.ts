@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react'
 
 import { useRdt } from './use-rdt'
 
-export const useRdtState = () => {
+export const useRdtState = (): WalletData => {
 	const rdt = useRdt()!
 	const [state, setState] = useState<WalletData>()
 
@@ -17,5 +17,5 @@ export const useRdtState = () => {
 		}
 	}, [rdt])
 
-	return state
+	return (state || {}) as WalletData
 }
