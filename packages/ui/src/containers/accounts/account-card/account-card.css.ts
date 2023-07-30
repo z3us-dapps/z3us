@@ -4,7 +4,27 @@ import { sprinkles } from 'ui/src/components/system/sprinkles.css'
 import { responsiveStyle } from 'ui/src/components/system/theme-utils'
 import { vars } from 'ui/src/components/system/theme.css'
 
-// TODO: remove, this is the card button wrapper
+// TODO: remove
+export const tempBg = style([
+	sprinkles({
+		background: 'backgroundPrimary',
+		padding: 'large',
+	}),
+	{
+		height: '160px',
+		width: '100%',
+	},
+])
+
+// TODO: remove
+export const tempNav = sprinkles({
+	position: 'fixed',
+	bottom: 0,
+	right: 0,
+	zIndex: 1,
+})
+
+// TODO: remove
 export const tempyy = style([
 	{
 		position: 'absolute',
@@ -20,40 +40,64 @@ export const accountCardWrapper = style([
 		top: 0,
 		paddingTop: 'large',
 		paddingX: 'large',
+		paddingBottom: {
+			mobile: 'large',
+			tablet: 'none',
+		},
 	}),
-	{
-		margin: '0 auto',
-		maxWidth: '480px',
-	},
+	{},
 	responsiveStyle({
 		tablet: { background: vars.color.backgroundSecondary },
 	}),
 ])
 
-export const tempBg = style([
+export const accountCardInnerWrapper = style([
 	sprinkles({
-		background: 'backgroundPrimary',
-		padding: 'large',
+		position: 'relative',
 	}),
 	{
-		height: '160px',
-		width: '100%',
+		aspectRatio: '8 / 5',
 	},
 ])
 
-export const tempNav = sprinkles({
-	position: 'fixed',
-	bottom: 0,
-	right: 0,
-	zIndex: 1,
-})
+export const accountHeightFlexWrapper = style([
+	sprinkles({
+		position: 'relative',
+		display: 'flex',
+		alignItems: 'center',
+	}),
+	{
+		margin: '0 auto',
+	},
+	responsiveStyle({
+		mobile: {
+			maxWidth: '70%',
+			height: 'calc(100% - 50px)',
+		},
+		tablet: {
+			maxWidth: '100%',
+			height: 'auto',
+		},
+	}),
+])
 
 export const accountCardButtonWrapper = style([
 	sprinkles({
 		position: 'relative',
 		display: 'flex',
+		justifyContent: 'center',
+		alignItems: 'center',
 		gap: 'large',
-		marginY: 'large',
 		zIndex: 1,
+	}),
+	{},
+
+	responsiveStyle({
+		mobile: {
+			height: '50px',
+		},
+		tablet: {
+			height: '80px',
+		},
 	}),
 ])

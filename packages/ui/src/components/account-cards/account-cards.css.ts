@@ -10,16 +10,19 @@ export const cardWrapperAll = style([
 		borderRadius: 'xlarge',
 		overflow: 'hidden',
 	}),
+	{
+		aspectRatio: '8 / 5',
+	},
 	responsiveStyle({
 		mobile: {
 			width: '100%',
-			paddingBottom: '56.25%',
-			height: '0px',
+			// paddingBottom: '56.25%',
+			// height: '0px',
 		},
 		desktop: {
-			width: '97%',
-			paddingBottom: '56.25%',
-			height: '0px',
+			width: '100%',
+			// paddingBottom: '56.25%',
+			// height: '0px',
 		},
 	}),
 ])

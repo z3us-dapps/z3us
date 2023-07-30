@@ -1,6 +1,4 @@
 /* eslint-disable  @typescript-eslint/no-unused-vars */
-import clsx from 'clsx'
-import { AnimatePresence, motion } from 'framer-motion'
 import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 
@@ -9,10 +7,6 @@ import { Box } from 'ui/src/components/box'
 import { Button } from 'ui/src/components/button'
 import { CardButtons } from 'ui/src/components/card-buttons'
 import { ArrowLeftIcon, ArrowRightIcon, Close2Icon } from 'ui/src/components/icons'
-import { ToolTip } from 'ui/src/components/tool-tip'
-import { TransactionIcon } from 'ui/src/components/transaction-icon'
-import Translation from 'ui/src/components/translation'
-import { Text } from 'ui/src/components/typography'
 import { ACCOUNTS_ALL } from 'ui/src/constants/routes'
 import { useAccountParams } from 'ui/src/hooks/use-account-params'
 
@@ -91,7 +85,7 @@ export const AccountCard: React.FC = () => {
 	}
 
 	return (
-		<Box className={clsx(styles.accountCardWrapper)}>
+		<Box className={styles.accountCardWrapper}>
 			<Box display="flex" gap="small" className={styles.tempyy}>
 				<Button
 					iconOnly
@@ -112,8 +106,10 @@ export const AccountCard: React.FC = () => {
 					<ArrowRightIcon />
 				</Button>
 			</Box>
-			<Box display="flex" flexDirection="column" alignItems="center">
-				<AccountCards accountCards={CARD_COLORS} selectedCardIndex={selectedIndexCard} />
+			<Box className={styles.accountCardInnerWrapper}>
+				<Box className={styles.accountHeightFlexWrapper}>
+					<AccountCards accountCards={CARD_COLORS} selectedCardIndex={selectedIndexCard} />
+				</Box>
 				<Box className={styles.accountCardButtonWrapper}>
 					<CardButtons />
 				</Box>
