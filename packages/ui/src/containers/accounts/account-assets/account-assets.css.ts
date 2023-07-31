@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import { globalStyle, style } from '@vanilla-extract/css'
 
 import { darkMode, sprinkles } from 'ui/src/components/system/sprinkles.css'
