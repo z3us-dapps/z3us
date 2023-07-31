@@ -89,7 +89,6 @@ export const dialogContentCloseWrapper = style([
 	{},
 ])
 
-
 export const dialogContentSimpleBarWrapper = style([
 	sprinkles({
 		position: 'relative',

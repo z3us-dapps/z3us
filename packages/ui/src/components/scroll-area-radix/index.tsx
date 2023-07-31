@@ -85,6 +85,7 @@ export const ScrollAreaRadix = ({ children, ...props }: IScrollAreaRadix) => {
 		<ScrollAreaRoot
 			className={clsx(
 				className,
+				!disabled && styles.scrollAreaEnabledStyles,
 				!disabled && showTopScrollShadow && !isScrolledTop && styles.scrollAreaShowTopShadowsWrapper,
 				!disabled && showBottomScrollShadow && !isScrolledBottom && styles.scrollAreaShowBottomShadowsWrapper,
 				disabled && styles.scrollAreaRootDisabledWrapper,
