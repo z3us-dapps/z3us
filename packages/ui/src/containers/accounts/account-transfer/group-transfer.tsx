@@ -1,5 +1,5 @@
 /* eslint-disable react/no-array-index-key */
-import { useEntityMetadata } from 'packages/ui/src/hooks/dapp/use-metadata'
+import { useEntityMetadata, useMetadataValue } from 'packages/ui/src/hooks/dapp/use-entity-metadata'
 import type { AddressBookEntry } from 'packages/ui/src/store/types'
 import type { ResourceBalance } from 'packages/ui/src/types/types'
 import { getShortAddress } from 'packages/ui/src/utils/string-utils'
@@ -96,7 +96,8 @@ export const GroupItem: React.FC<IGroupItemProps> = props => {
 
 	const [debouncedValue] = useDebounce<string>(send.to, 500)
 	const { data } = useEntityMetadata(debouncedValue)
-	const name = data?.find(detail => detail.key === 'name')?.value.raw_hex
+
+	const name = useMetadataValue('name', data)
 	const toName = knownAddresses[send.to]?.name || name
 
 	return (

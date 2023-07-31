@@ -1,4 +1,4 @@
-import type { ManifestV3Export} from '@crxjs/vite-plugin';
+import type { ManifestV3Export } from '@crxjs/vite-plugin'
 import { defineManifest } from '@crxjs/vite-plugin'
 
 import { version } from '../../../package.json'
@@ -74,6 +74,9 @@ const manifest: ManifestV3Export = {
 			// run_at: 'document_idle',
 		},
 	],
+	content_security_policy: {
+		extension_pages: "script-src 'self' 'wasm-unsafe-eval'; object-src 'self';",
+	},
 	// web_accessible_resources: [
 	// 	{
 	// 		matches: protocols,

@@ -3,7 +3,7 @@ import React, { forwardRef } from 'react'
 import { getStrPrefix } from 'ui/src/utils/get-str-prefix'
 import { getShortAddress } from 'ui/src/utils/string-utils'
 
-import { useEntityMetadata } from '../../hooks/dapp/use-metadata'
+import { useEntityMetadata, useMetadataValue } from '../../hooks/dapp/use-entity-metadata'
 import { type IImageIconOptionalProps, ImageIcon } from '../image-icon'
 
 interface IResourceImageIcon extends IImageIconOptionalProps {
@@ -15,9 +15,9 @@ export const ResourceImageIcon = forwardRef<HTMLElement, IResourceImageIcon>(
 		const { data } = useEntityMetadata(address)
 		const shortAddress = getShortAddress(address)
 
-		const name = data?.find(detail => detail.key === 'name')?.value.raw_hex
-		const symbol = data?.find(detail => detail.key === 'symbol')?.value.raw_hex
-		const imageUrl = data?.find(detail => detail.key === 'icon_url')?.value.raw_hex
+		const name = useMetadataValue('name', data)
+		const symbol = useMetadataValue('symbol', data) || ''
+		const imageUrl = useMetadataValue('icon_url', data) || ''
 
 		return (
 			<ImageIcon

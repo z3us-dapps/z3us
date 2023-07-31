@@ -1,49 +1,52 @@
-import type {
-	FungibleResourcesCollectionItemGloballyAggregated,
-	NonFungibleResourcesCollectionItemGloballyAggregated,
+import {
+	type FungibleResourcesCollectionItemGloballyAggregated,
+	type NonFungibleResourcesCollectionItemGloballyAggregated,
 } from '@radixdlt/babylon-gateway-api-sdk'
 import BigNumber from 'bignumber.js'
 import { useMemo } from 'react'
 
-import type { Token } from 'ui/src/services/swap/oci'
+import { useXRDPriceOnDay } from 'ui/src/hooks/queries/market'
+import { useTokens } from 'ui/src/hooks/queries/oci'
+import { useNoneSharedStore } from 'ui/src/hooks/use-store'
+import { resourceBalanceFromEntityMetadataItems } from 'ui/src/services/metadata'
+import type { ResourceBalance } from 'ui/src/types/types'
+import { ResourceBalanceType } from 'ui/src/types/types'
 
-import type { ResourceBalance } from '../../types/types'
-import { ResourceBalanceType } from '../../types/types'
-import { useXRDPriceOnDay } from '../queries/market'
-import { useTokens } from '../queries/oci'
-import { useNoneSharedStore } from '../use-store'
 import { useAccounts } from './use-accounts'
+import { useEntityMetadata } from './use-entity-metadata'
 
-const resourceToBalance = (
-	resource: FungibleResourcesCollectionItemGloballyAggregated | NonFungibleResourcesCollectionItemGloballyAggregated,
-	type: ResourceBalanceType,
-	price: number,
-	tokens: { [symbol: string]: Token },
-): ResourceBalance => {
-	const amount = new BigNumber(resource.amount)
+export const useResourceBalance = (
+	resourceAddress: string,
+	resourceType: ResourceBalanceType,
+	amount: BigNumber,
+	atDate: Date = new Date(),
+): { data: ResourceBalance; isLoading: boolean } => {
+	const { currency } = useNoneSharedStore(state => ({
+		currency: state.currency,
+		selectedAccount: state.selectedAccount,
+	}))
+	const { data: tokens, isLoading: isLoadingTokens, fetchStatus: fetchTokensStatus } = useTokens()
+	const { data: price, isLoading: isLoadingPrice, fetchStatus: fetchPriceStatus } = useXRDPriceOnDay(currency, atDate)
+	const {
+		data: metadata,
+		isLoading: isLoadingMetadata,
+		fetchStatus: fetchMetadataStatus,
+	} = useEntityMetadata(resourceAddress)
 
-	const name = resource.explicit_metadata?.items.find(detail => detail.key === 'name')?.value.raw_hex
-	const symbol = resource.explicit_metadata?.items.find(detail => detail.key === 'symbol')?.value.raw_hex || name
-	const imageUrl = resource.explicit_metadata?.items.find(
-		detail => detail.key === 'icon_url' || detail.key === 'key_image_url',
-	)?.value.raw_hex
-	const url = resource.explicit_metadata?.items.find(detail => detail.key === 'info_url')?.value.raw_hex
-	const description = resource.explicit_metadata?.items.find(detail => detail.key === 'description')?.value.raw_hex
-
-	const token = tokens[symbol?.toUpperCase()]
-
-	return {
-		address: resource.resource_address,
-		amount: amount as BigNumber,
-		value: (amount as BigNumber).multipliedBy(new BigNumber(token?.price.xrd || 0)).multipliedBy(price),
-		symbol,
-		name,
-		description,
-		url,
-		imageUrl,
-		change: token ? +(token.price.usd || 0) / +(token.price.usd_24h || 0) : 0,
-		type,
-	}
+	return useMemo(
+		() => ({
+			isLoading: isLoadingPrice || isLoadingTokens || isLoadingMetadata,
+			data: resourceBalanceFromEntityMetadataItems(
+				resourceAddress,
+				resourceType,
+				amount,
+				new BigNumber(price || 0),
+				metadata,
+				tokens,
+			),
+		}),
+		[isLoadingTokens, fetchTokensStatus, isLoadingPrice, fetchPriceStatus, isLoadingMetadata, fetchMetadataStatus],
+	)
 }
 
 export const useGlobalResourceBalances = (forAccount?: string) => {
@@ -60,7 +63,7 @@ export const useGlobalResourceBalances = (forAccount?: string) => {
 	} = useAccounts(forAccount ? { [forAccount]: true } : null)
 
 	const {
-		data: price,
+		data: xrdPrice,
 		isLoading: isLoadingPrice,
 		fetchStatus: fetchPriceStatus,
 	} = useXRDPriceOnDay(currency, new Date())
@@ -73,7 +76,14 @@ export const useGlobalResourceBalances = (forAccount?: string) => {
 			(container, { fungible_resources, non_fungible_resources }) => {
 				container = fungible_resources.items.reduce(
 					(c, resource: FungibleResourcesCollectionItemGloballyAggregated) => {
-						const balance = resourceToBalance(resource, ResourceBalanceType.FUNGIBLE, price, tokens)
+						const balance = resourceBalanceFromEntityMetadataItems(
+							resource.resource_address,
+							ResourceBalanceType.FUNGIBLE,
+							new BigNumber(resource.amount || 0),
+							new BigNumber(xrdPrice || 0),
+							resource.explicit_metadata?.items,
+							tokens,
+						)
 						fungibleValue = fungibleValue.plus(balance.value)
 						return {
 							...c,
@@ -82,14 +92,24 @@ export const useGlobalResourceBalances = (forAccount?: string) => {
 					},
 					container,
 				)
-				return non_fungible_resources.items.reduce((c, resource: FungibleResourcesCollectionItemGloballyAggregated) => {
-					const balance = resourceToBalance(resource, ResourceBalanceType.NON_FUNGIBLE, price, tokens)
-					nonFungibleValue = nonFungibleValue.plus(balance.value)
-					return {
-						...c,
-						[resource.resource_address]: balance,
-					}
-				}, container)
+				return non_fungible_resources.items.reduce(
+					(c, resource: NonFungibleResourcesCollectionItemGloballyAggregated) => {
+						const balance = resourceBalanceFromEntityMetadataItems(
+							resource.resource_address,
+							ResourceBalanceType.NON_FUNGIBLE,
+							new BigNumber(resource.amount || 0),
+							new BigNumber(xrdPrice || 0),
+							resource.explicit_metadata?.items,
+							tokens,
+						)
+						nonFungibleValue = nonFungibleValue.plus(balance.value)
+						return {
+							...c,
+							[resource.resource_address]: balance,
+						}
+					},
+					container,
+				)
 			},
 			{},
 		)
@@ -122,5 +142,8 @@ export const useGlobalResourceBalances = (forAccount?: string) => {
 		return { balances, totalValue, fungibleValue, nonFungibleValue, totalChange, fungibleChange, nonFungibleChange }
 	}, [fetchAccountsStatus, fetchAccountsStatus, fetchTokensStatus, fetchPriceStatus])
 
-	return { ...response, isLoading: isLoadingAccounts || isLoadingTokens || isLoadingPrice }
+	return {
+		...response,
+		isLoading: isLoadingAccounts || isLoadingTokens || isLoadingPrice,
+	}
 }

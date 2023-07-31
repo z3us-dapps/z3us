@@ -174,10 +174,9 @@ export class CoinGeckoService {
 		}
 
 		const data = await response.json()
-
 		if (data?.id !== coin) {
 			return null
 		}
-		return data?.market_data?.current_price[currency] || null
+		return data?.market_data?.current_price[currency.toLocaleLowerCase()] || null
 	}
 }

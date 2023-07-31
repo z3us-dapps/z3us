@@ -84,7 +84,7 @@ export const AccountAllChart: React.FC = () => {
 									<PieChart width={400} height={400}>
 										<defs>
 											{balances.map((entry, index) => (
-												<linearGradient key={entry.name} id={`myGradient${index}`}>
+												<linearGradient key={entry.address} id={`myGradient${index}`}>
 													<stop offset="0%" stopColor={COLORS[index % COLORS.length].start} />
 													<stop offset="100%" stopColor={COLORS[index % COLORS.length].end} />
 												</linearGradient>
