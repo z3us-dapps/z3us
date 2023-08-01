@@ -2,6 +2,7 @@ import { languages } from 'packages/ui/src/constants/i18n'
 import { Theme } from 'packages/ui/src/types/types'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
+import { toast } from 'sonner'
 
 import { Box } from 'ui/src/components/box'
 import { SelectSimple } from 'ui/src/components/select'
@@ -82,7 +83,12 @@ export const SettingsGeneral: React.FC = () => {
 					<SelectSimple
 						value={theme}
 						placeholder={t('settings.theme.select.placeholder')}
-						onValueChange={setTheme}
+						onValueChange={_theme => {
+							toast(`Theme has been updated ${_theme}`, {
+								description: 'Just here for testing toasts',
+							})
+							setTheme(_theme as any)
+						}}
 						data={[
 							{ id: Theme.LIGHT, title: t('settings.theme.light') },
 							{ id: Theme.DARK, title: t('settings.theme.dark') },

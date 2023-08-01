@@ -1,4 +1,4 @@
-import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
+// import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
 import { enableMapSet } from 'immer'
 import React from 'react'
 import * as ReactDOM from 'react-dom/client'
@@ -9,7 +9,7 @@ import { RdtProvider } from 'ui/src/context/rdt-provider'
 import { ReactQueryProvider } from 'ui/src/context/react-query-provider'
 import { NoneSharedStoreProvider } from 'ui/src/context/state-provider'
 
-import { config } from '@src/config'
+// import { config } from '@src/config'
 import { DappStatusProvider } from '@src/context/dapp-status-provider'
 import { ThemeProvider } from '@src/context/theme-provider'
 import '@src/styles/global-style.css'
@@ -30,7 +30,7 @@ ReactDOM.createRoot(container).render(
 							<RdtProvider>
 								<HashRouter>
 									<App />
-									{config.isDevelopmentMode && <ReactQueryDevtools initialIsOpen={false} />}
+									{/* {config.isDevelopmentMode && <ReactQueryDevtools initialIsOpen={false} />} */}
 								</HashRouter>
 							</RdtProvider>
 						</NoneSharedStoreProvider>

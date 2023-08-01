@@ -2,6 +2,7 @@ import { style } from '@vanilla-extract/css'
 
 import { sprinkles } from 'ui/src/components/system/sprinkles.css'
 import { responsiveStyle } from 'ui/src/components/system/theme-utils'
+import { vars } from 'ui/src/components/system/theme.css'
 
 export const accountsWrapper = style([
 	sprinkles({
@@ -11,17 +12,11 @@ export const accountsWrapper = style([
 		maxWidth: 'full',
 		width: 'vw100',
 		flexDirection: 'column',
-		// background: {
-		// 	mobile: 'backgroundPrimary',
-		// },
-		// background: {
-		// 	tablet: 'backgroundPrimary',
-		// },
 	}),
 	{},
 
 	responsiveStyle({
-		tablet: { background: 'backgroundPrimary' },
+		tablet: { background: vars.color.backgroundPrimary },
 	}),
 ])
 
@@ -31,14 +26,4 @@ export const accountsBodyWrapper = style([
 		flexGrow: 1,
 		flexShrink: 0,
 	}),
-	{
-		// border: '1px solid blue',
-		// height: '50%',
-		// overflow: 'hidden',
-	},
-	// responsiveStyle({
-	// 	mobile: { display: 'none' },
-	// 	tablet: { display: 'flex' },
-	// 	desktop: { display: 'flex' },
-	// }),
 ])

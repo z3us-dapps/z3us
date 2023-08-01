@@ -3,6 +3,8 @@ import { ThemeContext } from 'packages/ui/src/context/theme'
 import { Theme } from 'packages/ui/src/types/types'
 import React, { type PropsWithChildren, useEffect, useMemo, useState } from 'react'
 
+import { darkThemeClass, lightThemeClass } from 'ui/src/components/system/theme.css'
+
 const DARK_MODE_MEDIA_QUERY = '(prefers-color-scheme: dark)'
 
 const defaultThemeValue = localStorage?.getItem('z3us:theme')
@@ -31,6 +33,26 @@ export const ThemeProvider: React.FC<PropsWithChildren> = ({ children }) => {
 		},
 		[theme], // Only re-call effect when value changes
 	)
+
+	useEffect(() => {
+		const element = window.document.body
+		document.documentElement.style.setProperty('--font-sans', '"Inter"')
+		document.documentElement.style.setProperty('--font-mono', '"Inter"')
+		// TODO: fix auto autoThemeIsDark
+		// const resolvedTheme = autoThemeIsDark ? Theme.DARK : Theme.LIGHT
+
+		if (theme === 'dark') {
+			element.classList.add(darkThemeClass)
+			element.classList.add('dark')
+			element.classList.remove('light')
+			element.classList.remove(lightThemeClass)
+		} else {
+			element.classList.remove(darkThemeClass)
+			element.classList.remove('dark')
+			element.classList.add('light')
+			element.classList.add(lightThemeClass)
+		}
+	}, [theme, autoThemeIsDark])
 
 	const ctx = useMemo(
 		(): ThemeState => ({
