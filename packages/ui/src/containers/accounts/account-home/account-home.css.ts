@@ -14,10 +14,10 @@ export const accountsOuterWrapper = style([
 			tablet: 'large',
 			desktop: 'xxlarge',
 		},
-		paddingBottom: {
-			tablet: 'large',
-			desktop: 'xxlarge',
-		},
+		// paddingBottom: {
+		// 	tablet: 'large',
+		// 	desktop: 'xxlarge',
+		// },
 		paddingTop: {
 			tablet: 'large',
 			desktop: 'xxlarge',
@@ -113,7 +113,7 @@ export const mobileScrollWrapper = style([
 	responsiveStyle({
 		mobile: {
 			width: '100%',
-			height: 'calc(100vh - 106px)',
+			height: '100%',
 		},
 		tablet: {
 			width: '100%',

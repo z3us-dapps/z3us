@@ -1,6 +1,7 @@
 import { globalStyle, keyframes, style } from '@vanilla-extract/css'
 
 import { darkMode, sprinkles } from 'ui/src/components/system/sprinkles.css'
+import { responsiveStyle } from 'ui/src/components/system/theme-utils'
 import { vars } from 'ui/src/components/system/theme.css'
 
 export const navigationWrapper = style([
@@ -9,6 +10,7 @@ export const navigationWrapper = style([
 		justifyContent: 'center',
 		borderBottom: 1,
 		borderBottomStyle: 'solid',
+		zIndex: 1,
 		borderColor: {
 			lightMode: 'bleached_silk600',
 			darkMode: 'lead500',
@@ -21,14 +23,19 @@ export const navigationWrapper = style([
 	{},
 ])
 
-export const navigationContainer = style([
+export const navigationInnerWrapper = style([
 	sprinkles({
 		display: 'flex',
 		alignItems: 'center',
 	}),
-	{
-		height: '70px',
-	},
+	responsiveStyle({
+		mobile: {
+			height: '58px',
+		},
+		tablet: {
+			height: '70px',
+		},
+	}),
 ])
 
 export const navigationMenu = style([

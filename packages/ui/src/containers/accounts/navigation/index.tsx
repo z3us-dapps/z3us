@@ -80,7 +80,7 @@ export const DesktopNavigation: React.FC = () => {
 
 	return (
 		<Box component="nav" className={clsx(styles.navigationWrapper, containerStyles.containerWrapper)}>
-			<Box className={clsx(styles.navigationContainer, containerStyles.containerInnerWrapper)}>
+			<Box className={clsx(styles.navigationInnerWrapper, containerStyles.containerInnerWrapper)}>
 				<Link to={accountMenuSlugs.ACCOUNTS}>
 					<Z3usLogo />
 				</Link>

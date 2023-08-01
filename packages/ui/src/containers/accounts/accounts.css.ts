@@ -7,23 +7,31 @@ import { vars } from 'ui/src/components/system/theme.css'
 export const accountsWrapper = style([
 	sprinkles({
 		display: 'flex',
-		justifyContent: 'center',
 		height: 'full',
 		maxWidth: 'full',
 		width: 'vw100',
 		flexDirection: 'column',
 	}),
 	{},
-
 	responsiveStyle({
 		tablet: { background: vars.color.backgroundPrimary },
 	}),
 ])
-
 export const accountsBodyWrapper = style([
 	sprinkles({
 		position: 'relative',
-		flexGrow: 1,
 		flexShrink: 0,
+	}),
+	{},
+
+	responsiveStyle({
+		mobile: {
+			height: 'calc(100vh - 106px)',
+			overflow: 'hidden',
+		},
+		tablet: {
+			height: 'calc(100vh - 72px)',
+			overflow: 'unset',
+		},
 	}),
 ])
