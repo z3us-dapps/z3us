@@ -130,7 +130,7 @@ export const TokenSelectorDialog: React.FC<ITokenSelectorDialogProps> = props =>
 								<Box display="flex" width="full" gap="small" flexWrap="wrap">
 									<Button styleVariant="tertiary" sizeVariant="small">
 										<Text size="small" capitalize>
-											{selected.symbol}
+											{selected.symbol || selected.name}
 										</Text>
 									</Button>
 									<Button

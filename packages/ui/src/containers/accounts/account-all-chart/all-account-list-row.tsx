@@ -11,7 +11,7 @@ import { Text } from 'ui/src/components/typography'
 import * as styles from './account-all-chart.css'
 
 interface IAllAccountListRowProps {
-	symbol: string
+	symbol?: string
 	name: string
 	address: string
 	value: BigNumber
@@ -30,7 +30,7 @@ export const AllAccountListRow: React.FC<IAllAccountListRowProps> = ({ address, 
 					<ToolTip message={name}>
 						<Box marginRight="xsmall">
 							<Text size="xsmall" color="strong" truncate>
-								{symbol}
+								{symbol || name}
 							</Text>
 						</Box>
 					</ToolTip>

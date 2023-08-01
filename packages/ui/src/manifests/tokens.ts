@@ -113,7 +113,6 @@ export const sendNftTokens = (manifest: ManifestBuilder, nfts: Array<SendNftToke
 }
 
 interface CreateFungibleToken {
-	address: string
 	initialSupply: number
 	name: string
 	symbol: string
@@ -122,7 +121,6 @@ interface CreateFungibleToken {
 }
 
 interface CreateNftToken {
-	address: string
 	icon_url?: string
 	name: string
 	description: string
@@ -130,45 +128,109 @@ interface CreateNftToken {
 }
 
 export const createToken = (address: string) => ({
-	fungible: ({ initialSupply, ...details }: CreateFungibleToken) => `CREATE_FUNGIBLE_RESOURCE_WITH_INITIAL_SUPPLY
-    18u8
-    Map<String, String>(
-        ${Object.entries(details)
-					.filter(([, value]) => !!value)
-					.map(([key, value]) => `"${key}", "${value}"`)
-					.join(', ')}
-    ) 
-    Map<Enum, Tuple>(
-        Enum("ResourceMethodAuthKey::Withdraw"), Tuple(Enum("AccessRule::AllowAll"), Enum("AccessRule::DenyAll")),
-        Enum("ResourceMethodAuthKey::Deposit"), Tuple(Enum("AccessRule::AllowAll"), Enum("AccessRule::DenyAll"))
-    )
-    Decimal("${initialSupply}");
+	fungible: ({ initialSupply, name, symbol,description, icon_url }: CreateFungibleToken) => `
+	CREATE_FUNGIBLE_RESOURCE_WITH_INITIAL_SUPPLY
+		# Owner role - This gets metadata permissions, and is the default for other permissions
+		# Can set as Enum<OwnerRole::Fixed>(access_rule)  or Enum<OwnerRole::Updatable>(access_rule)
+		Enum<OwnerRole::None>()
+		true             # Whether the engine should track supply (avoid for massively parallelizable tokens)
+		18u8             # Divisibility (between 0u8 and 18u8)
+		Decimal("${initialSupply}") # Initial supply
+		Tuple(
+			Some(         # Mint Roles (if None: defaults to DenyAll, DenyAll)
+				Tuple(
+					Some(Enum<AccessRule::AllowAll>()),  # Minter (if None: defaults to Owner)
+					Some(Enum<AccessRule::DenyAll>())    # Minter Updater (if None: defaults to Owner)
+				)
+			),
+			None,        # Burn Roles (if None: defaults to DenyAll, DenyAll)
+			None,        # Freeze Roles (if None: defaults to DenyAll, DenyAll)
+			None,        # Recall Roles (if None: defaults to DenyAll, DenyAll)
+			None,        # Withdraw Roles (if None: defaults to AllowAll, DenyAll)
+			None         # Deposit Roles (if None: defaults to AllowAll, DenyAll)
+		)
+		Tuple(                                                                   # Metadata initialization
+			Map<String, Tuple>(                                                  # Initial metadata values
+				"name" => Tuple(
+					Some(Enum<Metadata::String>("${name}")),    				 # Resource Name
+					true                                                         # Locked
+				),
+				"symbol" => Tuple(
+					Some(Enum<Metadata::String>("${symbol}")),   
+					true                                                        
+				),
+				"description" => Tuple(
+					Some(Enum<Metadata::String>("${description}")),   
+					false                                                        
+				),
+				"icon_url" => Tuple(
+				  Some(Enum<Metadata::Url>("${icon_url}")),
+				  false
+				)
+			),
+			Map<String, Enum>(                                                   # Metadata roles
+				"metadata_setter" => Some(Enum<AccessRule::AllowAll>()),         # Metadata setter role
+				"metadata_setter_updater" => None,                               # Metadata setter updater role as None defaults to OWNER
+				"metadata_locker" => Some(Enum<AccessRule::DenyAll>()),          # Metadata locker role
+				"metadata_locker_updater" => None                                # Metadata locker updater role as None defaults to OWNER
+			)
+		)
+		None;             # No Address Reservation	
   
-  # Depositing the entirety of the initial supply of the newly created resource into our account 
-  # component.
-  CALL_METHOD
-    Address("${address}") 
-    "deposit_batch"
-    Expression("ENTIRE_WORKTOP");`,
-	nft: ({ items, ...details }: CreateNftToken) => `CREATE_NON_FUNGIBLE_RESOURCE_WITH_INITIAL_SUPPLY
-        Enum("NonFungibleIdType::Integer")
-        Tuple(Tuple(Array<Enum>(), Array<Tuple>(), Array<Enum>()), Enum(0u8, 64u8), Array<String>())
-        Map<String, String>(${Object.entries(details)
-					.filter(([, value]) => !!value)
-					.map(([key, value]) => `"${key}", "${value}"`)
-					.join(', ')}
-        )
-        Map<Enum, Tuple>(
-            Enum("ResourceMethodAuthKey::Withdraw"), Tuple(Enum("AccessRule::AllowAll"), Enum("AccessRule::DenyAll")),
-            Enum("ResourceMethodAuthKey::Deposit"), Tuple(Enum("AccessRule::AllowAll"), Enum("AccessRule::DenyAll"))
-        )
-        Map<NonFungibleLocalId, Tuple>(${items
+	# Depositing the entirety of the initial supply of the newly created resource into our account 
+	# component.
+	CALL_METHOD
+		Address("${address}") 
+		"deposit_batch"
+		Expression("ENTIRE_WORKTOP");`,
+	nft: ({ items, ...details }: CreateNftToken) => `
+	CREATE_NON_FUNGIBLE_RESOURCE_WITH_INITIAL_SUPPLY
+		# Owner role - This gets metadata permissions, and is the default for other permissions
+		# Can set as Enum<OwnerRole::Fixed>(access_rule)  or Enum<OwnerRole::Updatable>(access_rule)
+		Enum<OwnerRole::None>()
+		Enum<NonFungibleIdType::Integer>()                                                                  # The type of NonFungible Id
+		true                                                                                                # Whether the engine should track supply (avoid for massively parallelizable tokens)
+		Tuple(Tuple(Array<Enum>(), Array<Tuple>(), Array<Enum>()), Enum<0u8>(66u8), Array<String>())        # Non Fungible Data Schema
+		Map<NonFungibleLocalId, Tuple>(${items
 					.map((item, index) => `NonFungibleLocalId("#${index + 1}#"), Tuple(Tuple("${item}", Decimal("${index}")))`)
 					.join(', ')}
-        );
-      
-      CALL_METHOD
-        Address("${address}") 
-        "deposit_batch"
-        Expression("ENTIRE_WORKTOP");`,
+		);
+		Tuple(
+			Some(         # Mint Roles (if None: defaults to DenyAll, DenyAll)
+				Tuple(
+					Some(Enum<AccessRule::AllowAll>()),  # Minter (if None: defaults to Owner)
+					Some(Enum<AccessRule::DenyAll>())    # Minter Updater (if None: defaults to Owner)
+				)
+			),
+			None,        # Burn Roles (if None: defaults to DenyAll, DenyAll)
+			None,        # Freeze Roles (if None: defaults to DenyAll, DenyAll)
+			None,        # Recall Roles (if None: defaults to DenyAll, DenyAll)
+			None,        # Withdraw Roles (if None: defaults to AllowAll, DenyAll)
+			None,        # Deposit Roles (if None: defaults to AllowAll, DenyAll)
+			None         # Non Fungible Data Update Roles (if None: defaults to DenyAll, DenyAll)
+		)
+		Tuple(                                                       # Metadata initialization
+			Map<String, String>(${Object.entries(details)
+				.filter(([, value]) => !!value)
+				.map(([key, value]) => `
+					"${key}" => Tuple(
+						Some(Enum<Metadata::String>("${value}")),    # Resource Name
+						false                                      	 # Locked
+					)`
+				)
+				.join(', ')}
+			),
+			Map<String, Enum>(                                                   # Metadata roles
+				"metadata_setter" => Some(Enum<AccessRule::AllowAll>()),         # Metadata setter role
+				"metadata_setter_updater" => None,                               # Metadata setter updater role as None defaults to OWNER
+				"metadata_locker" => Some(Enum<AccessRule::DenyAll>()),          # Metadata locker role
+				"metadata_locker_updater" => None                                # Metadata locker updater role as None defaults to OWNER
+			)
+		)
+		None;
+
+	CALL_METHOD
+		Address("${address}") 
+		"deposit_batch"
+		Expression("ENTIRE_WORKTOP");`,
 })

@@ -16,16 +16,19 @@ export enum ResourceBalanceType {
 }
 
 export type ResourceBalance = {
+	type: ResourceBalanceType
+
 	address: string
-	amount: BigNumber
-	value: BigNumber
-	symbol: string
 	name: string
+	symbol?: string
 	description?: string
 	url?: string
 	imageUrl?: string
+	validator?: string
+
+	amount: BigNumber
+	value: BigNumber
 	change: number
-	type: ResourceBalanceType
 }
 
 export interface Ticker {

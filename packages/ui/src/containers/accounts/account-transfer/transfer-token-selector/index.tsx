@@ -180,7 +180,7 @@ export const TransferTokenSelector: React.FC<ITransferTokenSelectorProps> = prop
 						>
 							<Box display="flex" alignItems="center" width="full" textAlign="left">
 								<Text size="medium" color="strong" truncate>
-									{selectedToken?.symbol}
+									{selectedToken?.symbol || selectedToken?.name}
 								</Text>
 							</Box>
 						</Button>
@@ -196,7 +196,7 @@ export const TransferTokenSelector: React.FC<ITransferTokenSelectorProps> = prop
 				<Box display="flex" alignItems="center" flexGrow={1} gap="xsmall">
 					<Box display="flex" alignItems="center">
 						<Text size="medium" truncate>
-							{tokenValue || 0} {selectedToken?.symbol} =
+							{tokenValue || 0} {selectedToken?.symbol || selectedToken?.name} =
 						</Text>
 					</Box>
 					{/* TODO: move to own component */}
@@ -215,7 +215,7 @@ export const TransferTokenSelector: React.FC<ITransferTokenSelectorProps> = prop
 									<Box display="flex">
 										<Box component="span">
 											<TokenPrice
-												symbol={selectedToken?.symbol}
+												symbol={selectedToken?.symbol || selectedToken?.name}
 												amount={new BigNumber(tokenValue || 0)}
 												currency={selectedCurrency}
 											/>

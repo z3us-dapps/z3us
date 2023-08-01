@@ -90,8 +90,6 @@ export const getEntityMetadataItemValue = (item?: EntityMetadataItem): any => {
 	}
 }
 
-const imageUrlMetadataItemKeys = ['icon_url', 'key_image_url']
-
 export const resourceBalanceFromEntityMetadataItems = (
 	address: string,
 	type: ResourceBalanceType,
@@ -103,13 +101,17 @@ export const resourceBalanceFromEntityMetadataItems = (
 	const name = getEntityMetadataItemValue(metadata?.find(detail => detail.key === 'name'))
 	const symbol = getEntityMetadataItemValue(metadata?.find(detail => detail.key === 'symbol'))
 	const description = getEntityMetadataItemValue(metadata?.find(detail => detail.key === 'description'))
-	const imageUrl = getEntityMetadataItemValue(metadata?.find(detail => imageUrlMetadataItemKeys.includes(detail.key)))
+	const imageUrl = getEntityMetadataItemValue(metadata?.find(detail => detail.key === 'icon_url'))
 	const url = getEntityMetadataItemValue(metadata?.find(detail => detail.key === 'info_url'))
+	const validator = getEntityMetadataItemValue(metadata?.find(detail => detail.key === 'validator'))
 
-	const token = tokens[symbol?.toUpperCase()]
+	let tokenKey = symbol?.toUpperCase()
+	if (!tokenKey && validator) tokenKey = 'XRD'
+	const token = tokens[tokenKey]
 
 	return {
 		address,
+		validator,
 		amount: amount as BigNumber,
 		value: (amount as BigNumber).multipliedBy(new BigNumber(token?.price.xrd || 0)).multipliedBy(xrdPrice),
 		symbol,

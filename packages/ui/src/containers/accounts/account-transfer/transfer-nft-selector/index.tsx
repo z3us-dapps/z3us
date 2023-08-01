@@ -194,7 +194,7 @@ export const TransferNftSelector: React.FC<ITransferNftSelectorProps> = props =>
 				<Box display="flex" alignItems="center" flexGrow={1} gap="xsmall">
 					<Box display="flex" alignItems="center">
 						<Text size="medium" truncate>
-							{tokenValue || 0} {selectedToken?.symbol} =
+							{tokenValue || 0} {selectedToken?.symbol || selectedToken?.name} =
 						</Text>
 					</Box>
 				</Box>
