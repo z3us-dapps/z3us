@@ -64,7 +64,15 @@ export const ToolTip: React.FC<IToolTipProps> = ({
 							/>
 						) : null}
 						<Text size="xxsmall" color="strong">
-							{isTranslated ? <Translation capitalizeFirstLetter text={message as string} /> : message}
+							{isTranslated
+								? `${message}`.split(' ').map((m, i) => (
+										// eslint-disable-next-line react/no-array-index-key
+										<React.Fragment key={`${i}-${m}`}>
+											{i > 0 ? ' ' : null}
+											<Translation capitalizeFirstLetter={i === 0} text={m as string} />
+										</React.Fragment>
+								  ))
+								: message}
 						</Text>
 					</ToolTipContent>
 				) : null}

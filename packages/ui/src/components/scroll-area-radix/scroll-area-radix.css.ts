@@ -1,5 +1,12 @@
 import { globalStyle, style } from '@vanilla-extract/css'
 
+import {
+	fadeIn,
+	fadeOut,
+	sharedPopoverBgSelectorStyles,
+	sharedPopoverBgSprinkles,
+	sharedPopoverBgStyles,
+} from '../dropdown-menu/dropdown-menu.css'
 import { darkMode, sprinkles } from '../system/sprinkles.css'
 import { vars } from '../system/theme.css'
 
@@ -15,9 +22,10 @@ export const scrollAreaRootWrapper = style([
 			right: 0,
 			pointerEvents: 'none',
 			zIndex: '1',
-			background: 'linear-gradient(0deg, rgba(0,0,0,0.10) 0%, rgba(0,0,0,0.03) 50%, rgba(0,0,0,0) 100%)',
+			background: 'blue',
+			boxShadow: `${vars.color.shadowScrollBottom}`,
 			height: '12px',
-			bottom: '0px',
+			bottom: '-12px',
 			opacity: '0',
 			transition: vars.transition.fastall,
 		},
@@ -28,13 +36,20 @@ export const scrollAreaRootWrapper = style([
 			right: 0,
 			pointerEvents: 'none',
 			zIndex: '1',
-			background: 'linear-gradient(180deg, rgba(0,0,0,0.10) 0%, rgba(0,0,0,0.03) 50%, rgba(0,0,0,0) 100%)',
+			boxShadow: `${vars.color.shadowScrollTop}`,
 			height: '12px',
-			top: '0px',
+			top: '-12px',
 			opacity: '0',
 			transition: vars.transition.fastall,
 		},
 	},
+])
+
+export const scrollAreaEnabledStyles = style([
+	sprinkles({
+		overflow: 'hidden',
+	}),
+	{},
 ])
 
 export const scrollAreaViewportWrapper = style([
@@ -58,6 +73,7 @@ export const scrollAreaScrollbarWrapper = style([
 	}),
 	{
 		// TODO: spacing for rounded prop
+		// if the scroll area is square there will be a gap at the top
 		paddingTop: '8px',
 		paddingBottom: '8px',
 		paddingRight: '2px',
@@ -65,9 +81,17 @@ export const scrollAreaScrollbarWrapper = style([
 		width: '10px',
 		userSelect: 'none',
 		transition: 'background 160ms ease-out',
-		opacity: '0.3',
-		':hover': {
-			opacity: '0.5',
+		willChange: ' opacity',
+		animationDuration: '300ms',
+		selectors: {
+			'&[data-state="visible"]': {
+				animationName: fadeIn,
+				animationFillMode: 'forwards',
+			},
+			'&[data-state="hidden"]': {
+				animationName: fadeOut,
+				animationFillMode: 'forwards',
+			},
 		},
 	},
 ])
@@ -80,8 +104,8 @@ export const scrollAreaThumbWrapper = style([
 	}),
 	{
 		width: '3px',
-		background: '#000',
-		opacity: '0.9',
+		background: vars.color.bleached_silk600,
+		transition: 'background-color .15s ease',
 		'::before': {
 			content: '""',
 			position: 'absolute',
@@ -96,9 +120,14 @@ export const scrollAreaThumbWrapper = style([
 	},
 	{
 		selectors: {
+			[`&:hover`]: {
+				background: vars.color.bleached_silk700,
+			},
 			[`.${darkMode} &`]: {
-				background: '#000',
-				opacity: '0.8',
+				background: vars.color.bleached_silk400,
+			},
+			[`.${darkMode} &:hover`]: {
+				background: vars.color.lead400,
 			},
 		},
 	},

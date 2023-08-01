@@ -56,11 +56,13 @@ const AccountTransaction = () => {
 	}, [transactionId])
 
 	return (
-		<DialogRoot open={isAccountTransactionVisible}>
+		<DialogRoot open={isAccountTransactionVisible} modal={false}>
 			<DialogPortal>
-				<DialogOverlay className={dialogStyles.dialogOverlay} />
+				{/* <DialogOverlay className={dialogStyles.dialogOverlay} /> */}
 				<DialogContent
-					className={clsx(dialogStyles.dialogContent, styles.transactionContent)}
+					// NOTE: might bring back, trialing new slide in styles
+					//className={clsx(dialogStyles.dialogContent, styles.transactionContent)}
+					className={styles.transactionContentSlideOutDialogContent}
 					onEscapeKeyDown={navigateBack}
 					onInteractOutside={navigateBack}
 				>
@@ -225,7 +227,7 @@ const AccountTransaction = () => {
 					<Box className={clsx(styles.transactionHeaderWrapper, isScrolled && styles.transactionHeaderWrapperShadow)}>
 						<Box flexGrow={1} />
 						<Box flexGrow={1} display="flex" justifyContent="flex-end" gap="small">
-							<ToolTip message="global.explorer">
+							<ToolTip message="global.open global.explorer">
 								<Button
 									sizeVariant="small"
 									styleVariant="ghost"
