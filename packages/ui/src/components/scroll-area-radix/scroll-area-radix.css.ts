@@ -1,12 +1,6 @@
 import { globalStyle, style } from '@vanilla-extract/css'
 
-import {
-	fadeIn,
-	fadeOut,
-	sharedPopoverBgSelectorStyles,
-	sharedPopoverBgSprinkles,
-	sharedPopoverBgStyles,
-} from '../dropdown-menu/dropdown-menu.css'
+import { fadeIn, fadeOut } from '../dropdown-menu/dropdown-menu.css'
 import { darkMode, sprinkles } from '../system/sprinkles.css'
 import { vars } from '../system/theme.css'
 
@@ -72,10 +66,8 @@ export const scrollAreaScrollbarWrapper = style([
 		zIndex: 2,
 	}),
 	{
-		// TODO: spacing for rounded prop
-		// if the scroll area is square there will be a gap at the top
-		paddingTop: '8px',
-		paddingBottom: '8px',
+		paddingTop: '0px',
+		paddingBottom: '0px',
 		paddingRight: '2px',
 		paddingLeft: '2px',
 		width: '10px',
@@ -96,6 +88,13 @@ export const scrollAreaScrollbarWrapper = style([
 	},
 ])
 
+export const scrollAreaScrollbarRoundedWrapper = style([
+	{
+		paddingTop: '8px',
+		paddingBottom: '8px',
+	},
+])
+
 export const scrollAreaThumbWrapper = style([
 	sprinkles({
 		position: 'relative',
@@ -106,6 +105,7 @@ export const scrollAreaThumbWrapper = style([
 		width: '3px',
 		background: vars.color.bleached_silk600,
 		transition: 'background-color .15s ease',
+		opacity: '0.5',
 		'::before': {
 			content: '""',
 			position: 'absolute',
@@ -121,13 +121,10 @@ export const scrollAreaThumbWrapper = style([
 	{
 		selectors: {
 			[`&:hover`]: {
-				background: vars.color.bleached_silk700,
+				opacity: '0.7',
 			},
 			[`.${darkMode} &`]: {
-				background: vars.color.bleached_silk400,
-			},
-			[`.${darkMode} &:hover`]: {
-				background: vars.color.lead400,
+				background: vars.color.lead900,
 			},
 		},
 	},
