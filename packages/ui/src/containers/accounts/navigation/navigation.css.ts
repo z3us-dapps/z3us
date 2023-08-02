@@ -1,14 +1,15 @@
-import { globalStyle, keyframes, style } from '@vanilla-extract/css'
+import { keyframes, style } from '@vanilla-extract/css'
 
-import { darkMode, sprinkles } from 'ui/src/components/system/sprinkles.css'
+import { sprinkles } from 'ui/src/components/system/sprinkles.css'
 import { responsiveStyle } from 'ui/src/components/system/theme-utils'
-import { vars } from 'ui/src/components/system/theme.css'
 
 export const navigationWrapper = style([
 	sprinkles({
 		display: 'flex',
 		justifyContent: 'center',
-		borderBottom: 1,
+		borderBottom: {
+			tablet: 1,
+		},
 		borderBottomStyle: 'solid',
 		zIndex: 1,
 		borderColor: {

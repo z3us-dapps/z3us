@@ -198,9 +198,7 @@ export const MobileMenu: React.FC = () => (
 		<DialogTrigger asChild>
 			<Box>
 				<ToolTip side="right" message="global.menu" theme="backgroundPrimary">
-					<Button iconOnly styleVariant="ghost">
-						<Z3usIcon />
-					</Button>
+					<Z3usLogo />
 				</ToolTip>
 			</Box>
 		</DialogTrigger>
@@ -208,14 +206,18 @@ export const MobileMenu: React.FC = () => (
 			<DialogOverlay className={dialogStyles.dialogOverlay} />
 			<DialogContent className={styles.mobileSlideOutDialogContent}>
 				<Box padding="medium">
-					<Box display="flex" flexDirection="row" justifyContent="flex-end">
-						<DialogClose asChild>
-							<Button iconOnly styleVariant="ghost">
-								<Close2Icon />
-							</Button>
-						</DialogClose>
-					</Box>
-					<Box>
+					<Box display="flex" flexDirection="column" justifyContent="flex-end">
+						<Box display="flex" width="full" justifyContent="flex-end">
+							<DialogClose asChild>
+								<Box>
+									<ToolTip message="global.close" theme="backgroundPrimary">
+										<Button iconOnly styleVariant="ghost" sizeVariant="small">
+											<Close2Icon />
+										</Button>
+									</ToolTip>
+								</Box>
+							</DialogClose>
+						</Box>
 						<DialogClose asChild>
 							<Link to="/">go to home</Link>
 						</DialogClose>
