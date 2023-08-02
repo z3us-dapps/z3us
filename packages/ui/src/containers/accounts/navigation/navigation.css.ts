@@ -152,7 +152,10 @@ export const navigationMenuLinkMobile = style([
 		boxShadow: {
 			focusVisible: 'btnSecondaryShadowFocus',
 		},
-		background: 'backgroundSecondary',
+		background: {
+			lightMode: 'backgroundSecondary',
+			hover: 'backgroundPrimary',
+		},
 	}),
 	{
 		outline: 0,
@@ -162,9 +165,6 @@ export const navigationMenuLinkMobile = style([
 			'&:focus-visible': {
 				position: 'relative',
 				zIndex: 1,
-			},
-			[`.${darkMode} &:hover`]: {
-				background: vars.color.lead400,
 			},
 		},
 	},
@@ -236,23 +236,3 @@ export const mobileSlideOutDialogContent = style([
 		},
 	},
 ])
-
-globalStyle(`${navigationMenuLinkMobile}:hover ${navigationMenuLinkMobileCircle}`, {
-	background: vars.color.lead300,
-	color: vars.color.white,
-})
-
-globalStyle(`${navigationMenuLinkMobile}:hover ${navigationMenuLinkMobileCircleSelect}`, {
-	color: vars.color.white,
-	background: vars.color.purple400,
-})
-
-globalStyle(`.${darkMode} ${navigationMenuLinkMobile}:hover ${navigationMenuLinkMobileCircle}`, {
-	color: vars.color.white,
-	background: vars.color.lead300,
-})
-
-globalStyle(`.${darkMode} ${navigationMenuLinkMobile}:hover ${navigationMenuLinkMobileCircleSelect}`, {
-	color: vars.color.white,
-	background: vars.color.purple400,
-})

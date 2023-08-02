@@ -27,7 +27,6 @@ export const accountsBodyWrapper = style([
 	responsiveStyle({
 		mobile: {
 			height: 'calc(100vh - 106px)',
-			overflow: 'hidden',
 		},
 		tablet: {
 			height: 'calc(100vh - 72px)',

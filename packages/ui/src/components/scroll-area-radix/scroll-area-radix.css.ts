@@ -66,8 +66,8 @@ export const scrollAreaScrollbarWrapper = style([
 		zIndex: 2,
 	}),
 	{
-		paddingTop: '0px',
-		paddingBottom: '0px',
+		paddingTop: '2px',
+		paddingBottom: '2px',
 		paddingRight: '2px',
 		paddingLeft: '2px',
 		width: '10px',
@@ -105,7 +105,7 @@ export const scrollAreaThumbWrapper = style([
 		width: '3px',
 		background: vars.color.bleached_silk600,
 		transition: 'background-color .15s ease',
-		opacity: '0.5',
+		opacity: '0.6',
 		'::before': {
 			content: '""',
 			position: 'absolute',
