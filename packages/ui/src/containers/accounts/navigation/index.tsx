@@ -17,15 +17,7 @@ import {
 	DialogRoot,
 	DialogTrigger,
 } from 'ui/src/components/dialog'
-import {
-	Close2Icon,
-	CoinsIcon,
-	Home2Icon,
-	Settings2Icon,
-	Swap2Icon,
-	SwitchHorizontal,
-	Z3usIcon,
-} from 'ui/src/components/icons'
+import { Close2Icon, CoinsIcon, Home2Icon, Settings2Icon, Swap2Icon, SwitchHorizontal } from 'ui/src/components/icons'
 import { PillNavigation } from 'ui/src/components/pill-navigation'
 import { Link } from 'ui/src/components/router-link'
 import * as containerStyles from 'ui/src/components/styles/container-styles.css'
