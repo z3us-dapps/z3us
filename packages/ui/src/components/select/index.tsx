@@ -129,7 +129,7 @@ export const SelectSimple: React.FC<ISelectSimpleProps> = props => {
 		<SelectRoot value={value} onValueChange={onValueChange}>
 			{trigger || (
 				<SelectTrigger asChild aria-label={selectAriaLabel}>
-					<Box style={{ maxWidth: `${width}px` }}>
+					<Box display="inline-flex" style={{ maxWidth: `${width}px`, width: 'fit-content' }}>
 						<Button sizeVariant={sizeVariant} styleVariant={styleVariant} rightIcon={<ChevronDown2Icon />}>
 							<span style={{ overflow: 'hidden' }}>
 								<SelectValue aria-label={value} placeholder={placeholder} />
