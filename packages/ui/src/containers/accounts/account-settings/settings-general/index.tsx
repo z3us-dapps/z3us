@@ -74,7 +74,7 @@ export const SettingsGeneral: React.FC = () => {
 							<Translation capitalizeFirstLetter text="settings.theme.title" />
 						</Text>
 						<Box>
-							<Text size="small">
+							<Text size="xsmall">
 								<Translation capitalizeFirstLetter text="settings.theme.subTitle" />
 							</Text>
 						</Box>
@@ -105,7 +105,7 @@ export const SettingsGeneral: React.FC = () => {
 							<Translation capitalizeFirstLetter text="settings.currency.title" />
 						</Text>
 						<Box>
-							<Text size="small">
+							<Text size="xsmall">
 								<Translation capitalizeFirstLetter text="settings.currency.subTitle" />
 							</Text>
 						</Box>
@@ -126,7 +126,7 @@ export const SettingsGeneral: React.FC = () => {
 							<Translation capitalizeFirstLetter text="settings.language.title" />
 						</Text>
 						<Box>
-							<Text size="small">
+							<Text size="xsmall">
 								<Translation capitalizeFirstLetter text="settings.language.subTitle" />
 							</Text>
 						</Box>
