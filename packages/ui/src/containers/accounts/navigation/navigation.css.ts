@@ -21,7 +21,7 @@ export const navigationWrapper = style([
 	{},
 	responsiveStyle({
 		tablet: {
-			borderBottom: '1px solid',
+			borderBottomWidth: '1px',
 		},
 	}),
 ])
