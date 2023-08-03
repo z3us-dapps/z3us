@@ -21,11 +21,11 @@ export const SettingsTitle: React.FC<ISettingsTitle> = props => {
 
 	return (
 		<Box className={clsx(styles.settingsTitleWrapper, isBottomBorderVisible && styles.settingsSectionBorderWrapper)}>
-			<Box display="flex" flexDirection="column" gap="small">
+			<Box display="flex" flexDirection="column" gap="xsmall">
 				<Box display="flex" gap="small">
 					{backLink && (
 						<Box className={styles.settingsTitleBackLinkWrapper}>
-							<ToolTip theme="backgroundPrimary" message="global.back">
+							<ToolTip message="global.back">
 								<Button to={backLink} styleVariant="ghost" sizeVariant="small" iconOnly>
 									<ArrowLeftIcon />
 								</Button>
@@ -36,8 +36,8 @@ export const SettingsTitle: React.FC<ISettingsTitle> = props => {
 						{title}
 					</Text>
 				</Box>
-				<Box>
-					<Text>{subTitle}</Text>
+				<Box className={styles.settingsSubTitleWrapper}>
+					<Text size="small">{subTitle}</Text>
 				</Box>
 			</Box>
 		</Box>

@@ -108,6 +108,7 @@ interface ISelectSimpleProps {
 	width?: number
 	sizeVariant?: TSizeVariant
 	styleVariant?: TStyleVariant
+	capitalizeFirstLetter?: boolean
 }
 
 export const SelectSimple: React.FC<ISelectSimpleProps> = props => {
@@ -121,6 +122,7 @@ export const SelectSimple: React.FC<ISelectSimpleProps> = props => {
 		width = 300,
 		sizeVariant = 'medium',
 		styleVariant = 'secondary',
+		capitalizeFirstLetter = false,
 	} = props
 
 	return (
@@ -140,7 +142,7 @@ export const SelectSimple: React.FC<ISelectSimpleProps> = props => {
 				<SelectGroup>
 					{data.map(({ id, title }) => (
 						<SelectItem key={id} value={id}>
-							<Text truncate size="small" color="strong">
+							<Text truncate size="small" color="strong" capitalizeFirstLetter={capitalizeFirstLetter}>
 								{title}
 							</Text>
 						</SelectItem>

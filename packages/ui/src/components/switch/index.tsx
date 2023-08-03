@@ -1,16 +1,18 @@
 import * as SwitchPrimitive from '@radix-ui/react-switch'
+import clsx from 'clsx'
 import React, { forwardRef } from 'react'
-import clsx, { type ClassValue } from 'clsx'
+
 import * as styles from './switch.css'
 
 interface ISwitchProps {
-	className?: ClassValue
 	id?: string
 	sizeVariant?: 'small' | 'medium' | 'large'
 	styleVariant?: 'primary' | 'secondary'
 }
 
-export const Switch = forwardRef<HTMLButtonElement, ISwitchProps>((props, ref) => {
+export interface IExtendedSwitchProps extends ISwitchProps, SwitchPrimitive.SwitchProps {}
+
+export const Switch = forwardRef<HTMLButtonElement, IExtendedSwitchProps>((props, ref) => {
 	const { className, sizeVariant, styleVariant, id, ...rest } = props
 
 	return (

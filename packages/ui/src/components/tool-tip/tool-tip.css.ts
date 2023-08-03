@@ -67,7 +67,7 @@ export const toolTipContent = style([
 			},
 
 			[`.${darkMode} &`]: {
-				background: 'rgba(20, 20, 20, 0.7)',
+				background: 'rgba(20, 20, 20, 0.9)',
 			},
 		},
 	},
@@ -87,7 +87,7 @@ export const toolTipArrow = style([
 		fill: 'rgba(218, 218, 218, 0.5)',
 		selectors: {
 			[`.${darkMode} &`]: {
-				fill: 'rgba(20, 20, 20, 0.7)',
+				fill: 'rgba(20, 20, 20, 0.9)',
 			},
 		},
 	},

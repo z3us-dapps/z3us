@@ -84,11 +84,42 @@
 	"settings": {
 		"navigation": {
 			"generalTitle": "Settings",
-			"generalSubTitle": "Sunt velit velit velit mollit. Aliqua ipsum occaecat dolor ad ex deserunt fugiat labore in ut ullamco fugiat qui. Culpa fugiat laborum reprehenderit ipsum.",
+			"generalSubTitle": "Fine-tune your Z3US preferences. Manage session time and choose your ideal color theme for a personalized and secure Z3US experience.",
 			"accountsTitle": "Accounts",
 			"accountsSubTitle": "Sunt velit velit velit mollit. Aliqua ipsum occaecat dolor ad ex deserunt fugiat labore in ut ullamco fugiat qui. Culpa fugiat laborum reprehenderit ipsum.",
 			"accountsAddressBookTitle": "Address book",
 			"accountsAddressBookSubTitle": "Sunt velit velit velit mollit. Aliqua ipsum occaecat dolor ad ex deserunt fugiat labore in ut ullamco fugiat qui. Culpa fugiat laborum reprehenderit ipsum."
+		},
+		"session": {
+			"title": "Auto-Lock timer",
+			"willLockAfter": "Z3US will automatically lock after",
+			"select": {
+				"oneMinute": "1 minute",
+				"fiveMinutes": "5 minutes",
+				"thirtyMinutes": "30 minutes",
+				"sixtyMinutes": "60 minutes"
+			}
+		},
+		"theme": {
+			"title": "Theme",
+			"subTitle": "Color Your Z3US Experience, select from light or dark themes, or let your system select for you.",
+			"options": {
+				"light": "light",
+				"dark": "dark",
+				"system": "system"
+			}
+		},
+		"currency": {
+			"title": "Currency",
+			"subTitle": "Display balances in your preferred currency."
+		},
+		"language": {
+			"title": "Language",
+			"subTitle": "Select your preferred language."
+		},
+		"notifications": {
+			"title": "Notifications",
+			"subTitle": "Enable push notifications to receive real-time updates and important alerts."
 		}
 	}
 }

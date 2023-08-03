@@ -80,12 +80,39 @@
 	},
 	"settings": {
 		"navigation": {
-			"generalTitle": "Settings",
-			"generalSubTitle": "Sunt velit velit velit mollit. Aliqua ipsum occaecat dolor ad ex deserunt fugiat labore in ut ullamco fugiat qui. Culpa fugiat laborum reprehenderit ipsum.",
+			"generalTitle": "Ustawienia",
+			"generalSubTitle": "Dostosuj swoje preferencje Z3US. Zarządzaj czasem sesji i wybierz idealny motyw kolorystyczny, aby uzyskać spersonalizowane i bezpieczne korzystanie z Z3US.",
 			"accountsTitle": "Accounts",
-			"accountsSubTitle": "Sunt velit velit velit mollit. Aliqua ipsum occaecat dolor ad ex deserunt fugiat labore in ut ullamco fugiat qui. Culpa fugiat laborum reprehenderit ipsum.",
+			"accountsSubTitle": "",
 			"accountsAddressBookTitle": "Address book",
-			"accountsAddressBookSubTitle": "Sunt velit velit velit mollit. Aliqua ipsum occaecat dolor ad ex deserunt fugiat labore in ut ullamco fugiat qui. Culpa fugiat laborum reprehenderit ipsum."
+			"accountsAddressBookSubTitle": ""
+		},
+		"session": {
+			"title": "Timer z automatyczną blokadą",
+			"willLockAfter": "Z3US automatycznie zablokuje się po",
+			"select": {
+				"oneMinute": "1 minuta",
+				"fiveMinutes": "5 minut",
+				"thirtyMinutes": "30 minut",
+				"sixtyMinutes": "60 minut"
+			}
+		},
+		"theme": {
+			"title": "Temat",
+			"subTitle": "Pokoloruj swoje doświadczenie Z3US, wybieraj jasne lub ciemne motywy lub pozwól systemowi wybrać za Ciebie.",
+			"options": {
+				"light": "światło",
+				"dark": "ciemny",
+				"system": "system"
+			}
+		},
+		"currency": {
+			"title": "Waluta",
+			"subTitle": "Wyświetl salda w preferowanej walucie."
+		},
+		"language": {
+			"title": "Język",
+			"subTitle": "Wybierz preferowany język."
 		}
 	}
 }

@@ -7,9 +7,6 @@ export const navigationWrapper = style([
 	sprinkles({
 		display: 'flex',
 		justifyContent: 'center',
-		borderBottom: {
-			tablet: 1,
-		},
 		borderBottomStyle: 'solid',
 		zIndex: 1,
 		borderColor: {
@@ -22,6 +19,11 @@ export const navigationWrapper = style([
 		},
 	}),
 	{},
+	responsiveStyle({
+		tablet: {
+			borderBottom: '1px solid',
+		},
+	}),
 ])
 
 export const navigationInnerWrapper = style([

@@ -34,7 +34,7 @@ export const settingsSectionGridBasic = style([
 		gap: 'large',
 	}),
 	{
-		gridTemplateColumns: '240px 1fr',
+		gridTemplateColumns: '260px 1fr',
 	},
 ])
 

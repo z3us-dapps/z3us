@@ -14,10 +14,6 @@ export const accountsOuterWrapper = style([
 			tablet: 'large',
 			desktop: 'xxlarge',
 		},
-		// paddingBottom: {
-		// 	tablet: 'large',
-		// 	desktop: 'xxlarge',
-		// },
 		paddingTop: {
 			tablet: 'large',
 			desktop: 'xxlarge',

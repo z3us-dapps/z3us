@@ -21,7 +21,7 @@ export const SettingsGeneral: React.FC = () => {
 	const { t, i18n } = useTranslation()
 	const { theme, setTheme } = useTheme()
 	const { data: currencies } = useSupportedCurrencies()
-	// eslint-disable-next-line
+
 	const { currency, setCurrency, unlockTimer, setWalletUnlockTimeoutInMinutes } = useNoneSharedStore(state => ({
 		currency: state.currency,
 		setCurrency: state.setCurrencyAction,
@@ -47,9 +47,9 @@ export const SettingsGeneral: React.FC = () => {
 							<Translation capitalizeFirstLetter text="settings.session.title" />
 						</Text>
 						<Text size="small">
-							<Translation capitalizeFirstLetter text="settings.session.will_lock_after" />{' '}
+							<Translation capitalizeFirstLetter text="settings.session.willLockAfter" />{' '}
 							<Box component="span">
-								{unlockTimer} {unlockTimer === 1 ? 'minute' : 'minutes'}
+								{unlockTimer} {unlockTimer === 1 ? 'minute' : 'minutes'}.
 							</Box>
 						</Text>
 					</>
@@ -57,13 +57,12 @@ export const SettingsGeneral: React.FC = () => {
 				rightCol={
 					<SelectSimple
 						value={`${unlockTimer}`}
-						placeholder={t('settings.session.select.placeholder')}
 						onValueChange={handleChangeUnlockTime}
 						data={[
-							{ id: '1', title: t('settings.session.select.minute') },
-							{ id: '5', title: t('settings.session.select.five_minutes') },
-							{ id: '30', title: t('settings.session.select.half_an_hour') },
-							{ id: '60', title: t('settings.session.select.hour') },
+							{ id: '1', title: t('settings.session.select.oneMinute') },
+							{ id: '5', title: t('settings.session.select.fiveMinutes') },
+							{ id: '30', title: t('settings.session.select.thirtyMinutes') },
+							{ id: '60', title: t('settings.session.select.sixtyMinutes') },
 						]}
 					/>
 				}
@@ -75,14 +74,16 @@ export const SettingsGeneral: React.FC = () => {
 							<Translation capitalizeFirstLetter text="settings.theme.title" />
 						</Text>
 						<Box>
-							<Text size="small">{theme}</Text>
+							<Text size="small">
+								<Translation capitalizeFirstLetter text="settings.theme.subTitle" />
+							</Text>
 						</Box>
 					</>
 				}
 				rightCol={
 					<SelectSimple
+						capitalizeFirstLetter
 						value={theme}
-						placeholder={t('settings.theme.select.placeholder')}
 						onValueChange={_theme => {
 							toast(`Theme has been updated ${_theme}`, {
 								description: 'Just here for testing toasts',
@@ -90,9 +91,9 @@ export const SettingsGeneral: React.FC = () => {
 							setTheme(_theme as any)
 						}}
 						data={[
-							{ id: Theme.LIGHT, title: t('settings.theme.light') },
-							{ id: Theme.DARK, title: t('settings.theme.dark') },
-							{ id: Theme.SYSTEM, title: t('settings.theme.system') },
+							{ id: Theme.LIGHT, title: t('settings.theme.options.light') },
+							{ id: Theme.DARK, title: t('settings.theme.options.dark') },
+							{ id: Theme.SYSTEM, title: t('settings.theme.options.system') },
 						]}
 					/>
 				}
@@ -104,14 +105,15 @@ export const SettingsGeneral: React.FC = () => {
 							<Translation capitalizeFirstLetter text="settings.currency.title" />
 						</Text>
 						<Box>
-							<Text size="small">{currency}</Text>
+							<Text size="small">
+								<Translation capitalizeFirstLetter text="settings.currency.subTitle" />
+							</Text>
 						</Box>
 					</>
 				}
 				rightCol={
 					<SelectSimple
 						value={currency.toLocaleLowerCase()}
-						placeholder={t('settings.currency.select.placeholder')}
 						onValueChange={setCurrency}
 						data={currencies?.map(curr => ({ id: curr, title: curr.toUpperCase() }))}
 					/>
@@ -124,14 +126,15 @@ export const SettingsGeneral: React.FC = () => {
 							<Translation capitalizeFirstLetter text="settings.language.title" />
 						</Text>
 						<Box>
-							<Text size="small">{languages[i18n.language].name}</Text>
+							<Text size="small">
+								<Translation capitalizeFirstLetter text="settings.language.subTitle" />
+							</Text>
 						</Box>
 					</>
 				}
 				rightCol={
 					<SelectSimple
 						value={i18n.language}
-						placeholder={t('settings.language.select.placeholder')}
 						onValueChange={i18n.changeLanguage}
 						data={Object.entries(languages).map(([id, lang]) => ({ id, title: `${lang.flag} ${lang.name}` }))}
 					/>
@@ -140,19 +143,28 @@ export const SettingsGeneral: React.FC = () => {
 			<SettingsBlock
 				isBottomBorderVisible={false}
 				leftCol={
-					<Text size="large" weight="strong" color="strong">
-						<Translation capitalizeFirstLetter text="settings.notifications.title" />
-					</Text>
+					<>
+						<Text size="large" weight="strong" color="strong">
+							<Translation capitalizeFirstLetter text="settings.notifications.title" />
+						</Text>
+						<Box>
+							<Text size="small">
+								<Translation capitalizeFirstLetter text="settings.notifications.subTitle" />
+							</Text>
+						</Box>
+					</>
 				}
 				rightCol={
 					<Box display="flex" alignItems="center" gap="medium">
 						<Box>
-							<Switch />
-						</Box>
-						<Box>
-							<Text size="xsmall">
-								<Translation capitalizeFirstLetter text="settings.notifications.push" />
-							</Text>
+							<Switch
+								defaultChecked
+								onCheckedChange={() => {
+									toast(`Enabled push `, {
+										description: 'Just here for testing toasts',
+									})
+								}}
+							/>
 						</Box>
 					</Box>
 				}

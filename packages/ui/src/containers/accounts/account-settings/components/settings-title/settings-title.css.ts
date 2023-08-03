@@ -34,3 +34,13 @@ export const settingsTitleBackLinkWrapper = style([
 		},
 	}),
 ])
+
+export const settingsSubTitleWrapper = style([
+	sprinkles({
+		maxWidth: {
+			mobile: 'full',
+			tablet: 'xsmall',
+		},
+	}),
+	{},
+])

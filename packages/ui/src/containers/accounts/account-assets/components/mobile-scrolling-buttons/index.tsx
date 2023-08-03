@@ -10,6 +10,7 @@ import { ChevronDown3Icon, ChevronLeftIcon, Close2Icon, SearchIcon } from 'ui/sr
 import { Input } from 'ui/src/components/input'
 import { Button } from 'ui/src/components/router-button'
 import { Link } from 'ui/src/components/router-link'
+import { ToolTip } from 'ui/src/components/tool-tip'
 import Translation from 'ui/src/components/translation'
 import { Text } from 'ui/src/components/typography'
 import { capitalizeFirstLetter } from 'ui/src/utils/capitalize-first-letter'
@@ -126,9 +127,11 @@ export const MobileScrollingButtons: React.FC<IMobileScrollingButtonsProps> = pr
 				</Box>
 				<Box className={styles.searchWrapper}>
 					{assetType ? (
-						<Button to={generateBackLink()} iconOnly styleVariant="ghost" sizeVariant="small" rounded>
-							<ChevronLeftIcon />
-						</Button>
+						<ToolTip message="global.back">
+							<Button to={generateBackLink()} iconOnly styleVariant="ghost" sizeVariant="small" rounded>
+								<ChevronLeftIcon />
+							</Button>
+						</ToolTip>
 					) : null}
 					<Input
 						sizeVariant="small"
@@ -143,9 +146,11 @@ export const MobileScrollingButtons: React.FC<IMobileScrollingButtonsProps> = pr
 						}
 						rightIcon={
 							show ? (
-								<Button iconOnly sizeVariant="small" styleVariant="ghost" rounded>
-									<Close2Icon />
-								</Button>
+								<ToolTip message="global.clear">
+									<Button iconOnly sizeVariant="small" styleVariant="ghost" rounded>
+										<Close2Icon />
+									</Button>
+								</ToolTip>
 							) : null
 						}
 						rightIconClassName={styles.inputSearchClearBtn}
