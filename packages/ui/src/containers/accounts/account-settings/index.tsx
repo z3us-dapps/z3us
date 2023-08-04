@@ -23,6 +23,16 @@ const AccountSettings = () => {
 	const isSettingsHome = !!settingsIndex || !!settingsGeneral
 	const { t } = useTranslation()
 
+	const useSelectedItem = (href: string): boolean => {
+		const splitPath = href.split('/')
+		const splitPathName = splitPath[3]
+		const locationSplitPath = location.pathname.split('/')
+		const locationSplitPathName = locationSplitPath[3]
+		const isGeneral = !locationSplitPathName && splitPathName === settingsMenuPaths.GENERAL
+
+		return splitPathName === locationSplitPathName || isGeneral
+	}
+
 	const settingsMenu = [
 		{
 			title: t('settings.navigation.generalTitle'),
@@ -49,7 +59,7 @@ const AccountSettings = () => {
 			leftCol={
 				<LayoutGroup id="account-desktop-nav">
 					{settingsMenu.map(({ title: text, href }) => (
-						<PillNavigation text={text} key={href} href={href} />
+						<PillNavigation text={text} key={href} href={href} matchActiveFn={useSelectedItem} />
 					))}
 				</LayoutGroup>
 			}

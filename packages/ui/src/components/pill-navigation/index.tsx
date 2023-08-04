@@ -1,6 +1,4 @@
 import clsx, { type ClassValue } from 'clsx'
-// TODO: try get lazy
-// import { m as motion } from 'framer-motion'
 import { motion } from 'framer-motion'
 import React, { forwardRef } from 'react'
 import { useMatch } from 'react-router-dom'
