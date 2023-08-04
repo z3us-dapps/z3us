@@ -57,9 +57,14 @@ export const SettingsAccounts: React.FC = () => {
 			<SettingsBlock
 				isBottomBorderVisible={false}
 				leftCol={
-					<Text size="large" weight="strong" color="strong">
-						Account
-					</Text>
+					<>
+						<Text size="large" weight="strong" color="strong">
+							<Translation capitalizeFirstLetter text="settings.accounts.accountTitle" />
+						</Text>
+						<Text size="small">
+							<Translation capitalizeFirstLetter text="settings.accounts.accountSubTitle" />
+						</Text>
+					</>
 				}
 				rightCol={
 					<Box display="flex" flexDirection="column" gap="xlarge">
@@ -75,7 +80,7 @@ export const SettingsAccounts: React.FC = () => {
 						</Box>
 						<Box display="flex" flexDirection="column" gap="small">
 							<Text size="small" weight="medium" color="strong">
-								<Translation capitalizeFirstLetter text="settings.accounts.colorTitle" />
+								<Translation capitalizeFirstLetter text="settings.accounts.accountColor" />
 							</Text>
 							<Box display="flex" gap="small" flexWrap="wrap" flexGrow={0} flexShrink={0}>
 								{accountsAsArray.map((a, i) => (
@@ -95,7 +100,7 @@ export const SettingsAccounts: React.FC = () => {
 						</Box>
 						<Box display="flex" flexDirection="column" gap="small">
 							<Text size="small" weight="medium" color="strong">
-								<Translation capitalizeFirstLetter text="settings.accounts.accountImageTitle" />
+								<Translation capitalizeFirstLetter text="settings.accounts.accountImage" />
 							</Text>
 							<Box display="flex" gap="small" flexWrap="wrap" flexGrow={0} flexShrink={0}>
 								{accountsAsArray.map((a, i) => (
@@ -110,7 +115,6 @@ export const SettingsAccounts: React.FC = () => {
 										<Avatar
 											styleVariant="square"
 											sizeVariant="medium"
-											// src="https://images.unsplash.com/photo-1492633423870-43d1cd2775eb?&w=128&h=128&dpr=2&q=80"
 											src={`/images/account-images/${CARD_IMAGES[i]}`}
 											alt="this is the image"
 											fallback="df"

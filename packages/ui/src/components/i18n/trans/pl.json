@@ -83,7 +83,7 @@
 			"generalTitle": "Ustawienia",
 			"generalSubTitle": "Dostosuj swoje preferencje Z3US. Zarządzaj czasem sesji i wybierz idealny motyw kolorystyczny, aby uzyskać spersonalizowane i bezpieczne korzystanie z Z3US.",
 			"accountsTitle": "Accounts",
-			"accountsSubTitle": "",
+			"accountsSubTitle": "Dostosuj wygląd i styl swojego konta Radix. Spersonalizuj swoje wrażenia, wybierając unikalny obraz tła i schemat kolorów, który pasuje do Twojego stylu.",
 			"accountsAddressBookTitle": "Address book",
 			"accountsAddressBookSubTitle": ""
 		},
@@ -113,6 +113,12 @@
 		"language": {
 			"title": "Język",
 			"subTitle": "Wybierz preferowany język."
+		},
+		"accounts": {
+			"accountTitle": "Konto",
+			"accountSubTitle": "Wybierz konto z rozwijanego menu i dostosuj kolorystykę oraz obraz tła karty konta.",
+			"accountColor": "Kolor konta",
+			"accountImage": "Obraz konta"
 		}
 	}
 }

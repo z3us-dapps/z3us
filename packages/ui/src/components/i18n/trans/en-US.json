@@ -86,7 +86,7 @@
 			"generalTitle": "General",
 			"generalSubTitle": "Fine-tune your Z3US preferences. Manage session time and choose your ideal color theme for a personalized and secure Z3US experience.",
 			"accountsTitle": "Accounts",
-			"accountsSubTitle": "Sunt velit velit velit mollit. Aliqua ipsum occaecat dolor ad ex deserunt fugiat labore in ut ullamco fugiat qui. Culpa fugiat laborum reprehenderit ipsum.",
+			"accountsSubTitle": "Customize your Radix account's look and feel. Personalize your experience by choosing a unique background image and color scheme that suits your style.",
 			"accountsAddressBookTitle": "Address book",
 			"accountsAddressBookSubTitle": "Sunt velit velit velit mollit. Aliqua ipsum occaecat dolor ad ex deserunt fugiat labore in ut ullamco fugiat qui. Culpa fugiat laborum reprehenderit ipsum."
 		},
@@ -120,6 +120,12 @@
 		"notifications": {
 			"title": "Notifications",
 			"subTitle": "Enable push notifications to receive real-time updates and important alerts."
+		},
+		"accounts": {
+			"accountTitle": "Account",
+			"accountSubTitle": "Select account from the dropdown menu, and adjust color scheme and background image for the account card.",
+			"accountColor": "Account color",
+			"accountImage": "Account image"
 		}
 	}
 }

@@ -49,6 +49,7 @@ export const SettingsGeneral: React.FC = () => {
 						<Text size="small">
 							<Translation capitalizeFirstLetter text="settings.session.willLockAfter" />{' '}
 							<Box component="span">
+								{/* TODO:  needs to be language aware {unlockTimer === 1 ? 'minute' : 'minutes'} */}
 								{unlockTimer} {unlockTimer === 1 ? 'minute' : 'minutes'}.
 							</Box>
 						</Text>
