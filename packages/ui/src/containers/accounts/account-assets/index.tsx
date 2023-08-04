@@ -36,6 +36,7 @@ export const AccountAssets: React.FC<IAccountRoutesProps> = props => {
 				<AssetsHeader isScrolledTop={isScrolledTop} scrollableNode={scrollableNode} />
 				<Box className={styles.assetsTableWrapper}>
 					<Table
+						className={styles.accountsTableMinHeightWrapper}
 						styleVariant="primary"
 						sizeVariant="large"
 						scrollableNode={scrollableNode ?? undefined}

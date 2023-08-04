@@ -84,8 +84,8 @@
 			"generalSubTitle": "Dostosuj swoje preferencje Z3US. Zarządzaj czasem sesji i wybierz idealny motyw kolorystyczny, aby uzyskać spersonalizowane i bezpieczne korzystanie z Z3US.",
 			"accountsTitle": "Accounts",
 			"accountsSubTitle": "Dostosuj wygląd i styl swojego konta Radix. Spersonalizuj swoje wrażenia, wybierając unikalny obraz tła i schemat kolorów, który pasuje do Twojego stylu.",
-			"accountsAddressBookTitle": "Address book",
-			"accountsAddressBookSubTitle": ""
+			"accountsAddressBookTitle": "Książka adresowa",
+			"accountsAddressBookSubTitle": "Bezproblemowa organizacja kont książki adresowej. Z łatwością zarządzaj swoją książką adresową Radix, edytując nazwy kont i adresy w wygodnym widoku tabeli, aby zapewnić bezproblemowe transakcje i lepszą kontrolę finansową."
 		},
 		"session": {
 			"title": "Timer z automatyczną blokadą",
@@ -119,6 +119,16 @@
 			"accountSubTitle": "Wybierz konto z rozwijanego menu i dostosuj kolorystykę oraz obraz tła karty konta.",
 			"accountColor": "Kolor konta",
 			"accountImage": "Obraz konta"
+		},
+		"addressBook": {
+			"newAddress": "Nowy adres",
+			"deleteAlertTitle": "Jesteś pewny?",
+			"deleteAlertDescription": "Czy na pewno chcesz usunąć",
+			"addDialogTitle": "Dodaj adres",
+			"addDialogNameTitle": "Nazwa",
+			"addDialogInputNamePlaceholder": "Nazwa",
+			"addDialogAddressTitle": "Adres",
+			"addDialogInputAddress": "Adres"
 		}
 	}
 }

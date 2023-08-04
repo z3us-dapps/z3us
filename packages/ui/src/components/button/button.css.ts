@@ -174,6 +174,7 @@ export const button = recipe({
 				{
 					height: '40px',
 					fontSize: '14px',
+					fontWeight: '500',
 					lineHeight: '14px',
 					paddingLeft: '16px',
 					paddingRight: '16px',

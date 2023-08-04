@@ -1,9 +1,9 @@
 import * as AlertDialogPrimitive from '@radix-ui/react-dialog'
 import React from 'react'
 
-import { LoadingBarsIcon } from "../icons"
 import { Box } from '../box'
 import { Button, type TStyleVariant } from '../button'
+import { LoadingBarsIcon } from '../icons'
 import { Text } from '../typography'
 import * as styles from './dialog-alert.css'
 
@@ -24,7 +24,7 @@ interface IAlertProps {
 	description?: string | React.ReactNode
 	cancelButtonText?: string
 	confirmButtonText?: string
-	confirmActionLoding?: boolean
+	confirmActionLoading?: boolean
 	confirmButtonStyleVariant?: TStyleVariant
 	onCancel?: () => void
 	onConfirm?: () => void
@@ -39,7 +39,7 @@ export const DialogAlert: React.FC<IAlertProps> = props => {
 		footer,
 		cancelButtonText = 'Cancel',
 		confirmButtonText = 'Confirm',
-		confirmActionLoding = false,
+		confirmActionLoading = false,
 		confirmButtonStyleVariant = 'destructive',
 		onCancel = () => {},
 		onConfirm = () => {},
@@ -78,7 +78,7 @@ export const DialogAlert: React.FC<IAlertProps> = props => {
 									sizeVariant="small"
 									styleVariant="secondary"
 									onClick={handleCancelButtonClicked}
-									disabled={confirmActionLoding}
+									disabled={confirmActionLoading}
 								>
 									{cancelButtonText}
 								</Button>
@@ -87,9 +87,9 @@ export const DialogAlert: React.FC<IAlertProps> = props => {
 								sizeVariant="small"
 								styleVariant={confirmButtonStyleVariant}
 								onClick={handleConfirmButtonClicked}
-								disabled={confirmActionLoding}
+								disabled={confirmActionLoading}
 								rightIcon={
-									confirmActionLoding && (
+									confirmActionLoading && (
 										<Box marginLeft="small">
 											<LoadingBarsIcon />
 										</Box>

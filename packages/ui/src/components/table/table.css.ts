@@ -14,7 +14,12 @@ export const tableWrapper = style([
 	}),
 	{
 		transition: 'min-height 300ms ease',
-		minHeight: '420px',
+	},
+])
+
+export const tableMinHeightWrapper = style([
+	{
+		minHeight: '20px',
 	},
 ])
 
@@ -24,12 +29,6 @@ export const tableLoadingWrapper = style([
 		pointerEvents: 'none',
 	}),
 	{},
-])
-
-export const tableMinHeightWrapper = style([
-	{
-		minHeight: '20px',
-	},
 ])
 
 export const tableRootWrapper = style([
@@ -114,10 +113,18 @@ export const tableRecipe = recipe({
 				}),
 				{},
 			],
-			secondary: [sprinkles({}), {}],
+			secondary: [
+				sprinkles({
+					borderBottom: 1,
+					borderBottomStyle: 'solid',
+					borderRight: 1,
+					borderRightStyle: 'solid',
+					borderColor: 'borderDivider',
+				}),
+				{},
+			],
 		},
 		sizeVariant: {
-			small: {},
 			medium: [sprinkles({}), {}],
 			large: {},
 		},
@@ -140,7 +147,15 @@ export const tableThRecipe = recipe({
 				}),
 				{},
 			],
-			secondary: [sprinkles({}), {}],
+			secondary: [
+				sprinkles({
+					color: {
+						lightMode: 'colorNeutral',
+						hover: 'colorStrong',
+					},
+				}),
+				{},
+			],
 		},
 		sizeVariant: {
 			medium: [
@@ -181,6 +196,20 @@ export const tableThRecipe = recipe({
 				paddingRight: vars.spacing.medium,
 			},
 		},
+		{
+			variants: {
+				sizeVariant: 'medium',
+				styleVariant: 'secondary',
+			},
+			style: {
+				background: vars.color.backgroundPrimary,
+				textAlign: 'left',
+				paddingTop: vars.spacing.medium,
+				paddingBottom: vars.spacing.medium,
+				paddingLeft: vars.spacing.medium,
+				paddingRight: vars.spacing.medium,
+			},
+		},
 	],
 })
 
@@ -203,9 +232,7 @@ export const tableTrRecipe = recipe({
 			large: [sprinkles({}), {}],
 		},
 		isRowSelectable: {
-			true: {
-				cursor: 'pointer',
-			},
+			true: {},
 		},
 	},
 	compoundVariants: [
@@ -216,6 +243,17 @@ export const tableTrRecipe = recipe({
 			},
 			style: {
 				borderRadius: vars.border.radius.large,
+			},
+		},
+
+		{
+			variants: {
+				sizeVariant: 'large',
+				styleVariant: 'primary',
+				isRowSelectable: true,
+			},
+			style: {
+				cursor: 'pointer',
 			},
 		},
 	],
@@ -249,7 +287,21 @@ export const tableTdRecipe = recipe({
 		},
 		sizeVariant: {
 			medium: [
-				sprinkles({}),
+				sprinkles({
+					borderLeft: 1,
+					borderLeftStyle: 'solid',
+					borderBottom: 1,
+					borderBottomStyle: 'solid',
+					borderColor: 'borderDivider',
+					paddingY: {
+						mobile: 'medium',
+						tablet: 'medium',
+					},
+					paddingX: {
+						mobile: 'large',
+						tablet: 'medium',
+					},
+				}),
 				{
 					fontSize: '13px',
 					lineHeight: '28px',

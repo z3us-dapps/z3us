@@ -132,9 +132,9 @@ export const Table: React.FC<ITableProps> = props => {
 	}, [isMounted, loading])
 
 	return (
-		<Box className={clsx(styles.tableWrapper, isMounted && styles.tableMinHeightWrapper)}>
+		<Box className={clsx(className, styles.tableWrapper, isMounted && styles.tableMinHeightWrapper)}>
 			<TableVirtuoso
-				className={clsx(styles.tableRootWrapper, loading && styles.tableLoadingWrapper, className)}
+				className={clsx(styles.tableRootWrapper, loading && styles.tableLoadingWrapper)}
 				overscan={{ main: overscan, reverse: overscan }}
 				totalCount={rows.length}
 				customScrollParent={scrollableNode}

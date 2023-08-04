@@ -20,6 +20,13 @@ export const accountRoutesWrapper = style([
 	}),
 ])
 
+export const accountsTableMinHeightWrapper = style([
+	sprinkles({}),
+	{
+		minHeight: '420px',
+	},
+])
+
 globalStyle(`${accountRoutesWrapper} thead`, {
 	top: '138px !important',
 	position: 'relative',

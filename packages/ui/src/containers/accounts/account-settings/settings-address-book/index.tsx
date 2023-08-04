@@ -1,5 +1,6 @@
 import { useNetworkId } from 'packages/ui/src/hooks/dapp/use-network-id'
 import React, { useMemo } from 'react'
+import { useTranslation } from 'react-i18next'
 import { toast } from 'sonner'
 import useDeepCompareEffect from 'use-deep-compare-effect'
 import { useImmer } from 'use-immer'
@@ -19,8 +20,7 @@ import type { AddressBookEntry } from 'ui/src/store/types'
 
 import * as styles from '../account-settings.css'
 import { SettingsTitle } from '../components/settings-title'
-import { AddressEditButtonsCell } from './address-edit-buttons-cell'
-import { AddressNameCell } from './address-name-cell'
+import { AddressTableCell } from './address-table-cell'
 import { type IImmerSettingsGeneralProps, getError, validateAddressBookForm } from './settings-address-book-utils'
 
 interface ISettingsGeneralProps {
@@ -34,15 +34,30 @@ const emptyEntry: AddressBookEntry = {
 	dateUpdated: 0,
 }
 
+const generateRandomString = () => Math.random().toString(36).substring(7)
+
+const loadingItems = Array.from({ length: 100 }).map((_, i, a) => {
+	const randomStr = generateRandomString()
+	return {
+		id: `${i}-${randomStr}`,
+		name: `${i}-${randomStr}`,
+		address: `${i}-${randomStr}`,
+		token: `${i}-${randomStr}`,
+		portfolio: '65%',
+		price: '$1.83',
+		balance: '99',
+	}
+})
+
 export const SettingsAddressBook: React.FC<ISettingsGeneralProps> = props => {
+	const { scrollableNode } = props
 	const networkId = useNetworkId()
+	const { t } = useTranslation()
 	const { addressBook, setAddressBookEntry, handleRemoveAddress } = useNoneSharedStore(state => ({
 		addressBook: state.addressBook[networkId] || {},
 		setAddressBookEntry: state.setAddressBookEntryAction,
 		handleRemoveAddress: state.removeAddressBookEntryAction,
 	}))
-
-	const { scrollableNode } = props
 
 	const [state, setState] = useImmer<IImmerSettingsGeneralProps>({
 		deleteAccountAddress: undefined,
@@ -164,17 +179,13 @@ export const SettingsAddressBook: React.FC<ISettingsGeneralProps> = props => {
 			{
 				Header: 'Name',
 				accessor: 'name',
-				width: '70%',
-				Cell: AddressNameCell,
-			},
-			{
-				Header: '',
-				accessor: 'id',
 				width: 'auto',
 				// eslint-disable-next-line react/no-unstable-nested-components
 				Cell: ({ row }) => (
-					<AddressEditButtonsCell
+					<AddressTableCell
 						id={row.original.id}
+						name={row.original.name}
+						address={row.original.address}
 						onDelete={() => handleDeleteAddress(row.original.id)}
 						onEdit={() => handleAddEditAddress(row.original.id)}
 					/>
@@ -195,18 +206,29 @@ export const SettingsAddressBook: React.FC<ISettingsGeneralProps> = props => {
 				<Box display="flex" flexDirection="column" gap="small">
 					<Box paddingBottom="medium">
 						<Button styleVariant="primary" leftIcon={<PlusIcon />} onClick={() => handleAddEditAddress()}>
-							New address
+							<Translation capitalizeFirstLetter text="settings.addressBook.newAddress" />
 						</Button>
 					</Box>
-					<Table scrollableNode={scrollableNode} data={Object.values(addressBook)} columns={columns} />
+					<Table
+						styleVariant="secondary"
+						sizeVariant="medium"
+						scrollableNode={scrollableNode}
+						// data={Object.values(addressBook)}
+						data={loadingItems}
+						columns={columns}
+					/>
 				</Box>
 			</Box>
 			<DialogAlert
 				open={!!state.deleteAccountAddress}
-				title="Are you sure?"
+				title={<Translation capitalizeFirstLetter text="settings.addressBook.deleteAlertTitle" />}
 				description={
 					<Box component="span">
-						<Text truncate>Are you sure you want to delete {state.deleteAccountAddress}</Text>?
+						<Text truncate>
+							<Translation capitalizeFirstLetter text="settings.addressBook.deleteAlertDescription" />{' '}
+							{state.deleteAccountAddress}
+						</Text>
+						?
 					</Box>
 				}
 				confirmButtonText="Delete"
@@ -223,13 +245,15 @@ export const SettingsAddressBook: React.FC<ISettingsGeneralProps> = props => {
 					onSubmit={handleSaveAddress}
 				>
 					<Text size="xlarge" color="strong" weight="strong">
-						Add address
+						<Translation capitalizeFirstLetter text="settings.addressBook.addDialogTitle" />
 					</Text>
 					<Box display="flex" flexDirection="column" gap="xsmall">
-						<Text size="xsmall">Name</Text>
+						<Text size="xsmall">
+							<Translation capitalizeFirstLetter text="settings.addressBook.addDialogNameTitle" />
+						</Text>
 						<Box>
 							<Input
-								placeholder="Name"
+								placeholder={t('settings.addressBook.addDialogInputNamePlaceholder')}
 								value={state.editingAddress.name}
 								onChange={handleChangeName}
 								styleVariant={getError(state.validation, ['name']).error ? 'primary-error' : 'primary'}
@@ -238,10 +262,12 @@ export const SettingsAddressBook: React.FC<ISettingsGeneralProps> = props => {
 						</Box>
 					</Box>
 					<Box display="flex" flexDirection="column" gap="xsmall">
-						<Text size="xsmall">Address</Text>
+						<Text size="xsmall">
+							<Translation capitalizeFirstLetter text="settings.addressBook.addDialogAddressTitle" />
+						</Text>
 						<Box>
 							<Input
-								placeholder="Address"
+								placeholder={t('settings.addressBook.Address')}
 								value={state.editingAddress.address}
 								styleVariant={getError(state.validation, ['address']).error ? 'primary-error' : 'primary'}
 								onChange={handleChangeAddress}
@@ -259,10 +285,10 @@ export const SettingsAddressBook: React.FC<ISettingsGeneralProps> = props => {
 					</Box>
 					<Box display="flex" gap="small" justifyContent="flex-end">
 						<Button sizeVariant="small" styleVariant="secondary" onClick={handleCloseEditAddressDialog}>
-							cancel
+							<Translation capitalizeFirstLetter text="global.cancel" />
 						</Button>
 						<Button sizeVariant="small" type="submit">
-							save
+							<Translation capitalizeFirstLetter text="global.save" />
 						</Button>
 					</Box>
 				</Box>
