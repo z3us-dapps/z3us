@@ -30,7 +30,6 @@ import { ToolTip } from 'ui/src/components/tool-tip'
 import Translation from 'ui/src/components/translation'
 import { Text } from 'ui/src/components/typography'
 import { ValidationErrorMessage } from 'ui/src/components/validation-error-message'
-import { accountMenuSlugs } from 'ui/src/constants/accounts'
 // TODO: move to components outside of the containers
 import { TokenSelectorDialog } from 'ui/src/containers/accounts/token-selector-dialog'
 import { getZodError } from 'ui/src/utils/get-zod-error'
@@ -142,11 +141,7 @@ export const TransferTokenSelector: React.FC<ITransferTokenSelectorProps> = prop
 						<Text inheritColor component="span" size="medium" truncate>
 							Available:
 						</Text>
-						<Link
-							to={accountMenuSlugs.ACCOUNTS}
-							underline="hover"
-							className={plainButtonStyles.plainButtonHoverWrapper}
-						>
+						<Link to="/accounts" underline="hover" className={plainButtonStyles.plainButtonHoverWrapper}>
 							<Text inheritColor component="span" size="medium" underline="always" truncate>
 								{selectedToken?.amount ? formatBigNumber(selectedToken.amount, selectedToken.symbol) : 0}
 							</Text>

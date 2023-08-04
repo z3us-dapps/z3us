@@ -3,8 +3,8 @@ import { LandingPage } from '@/components/layouts/landing-page'
 import clsx from 'clsx'
 import { AnimatePresence, m as motion } from 'framer-motion'
 import dynamic from 'next/dynamic'
+import { useConnected } from 'packages/ui/src/hooks/dapp/use-connected'
 import React from 'react'
-import { useLocation } from 'react-router-dom'
 
 import { Box } from 'ui/src/components/box'
 
@@ -18,8 +18,7 @@ const pageTransition = {
 }
 
 export const IndexPage: React.FC = () => {
-	const location = useLocation()
-	const isConnected = location.pathname.includes('/accounts')
+	const isConnected = useConnected()
 
 	return (
 		<Box className={clsx(isConnected && styles.connectedPageWrapper)}>

@@ -3,7 +3,7 @@ import { LayoutGroup } from 'framer-motion'
 import { useNoneSharedStore } from 'packages/ui/src/hooks/use-store'
 import React, { forwardRef } from 'react'
 import { useTranslation } from 'react-i18next'
-import { useLocation } from 'react-router-dom'
+import { NavLink } from 'react-router-dom'
 
 import { Box } from 'ui/src/components/box'
 import { Button } from 'ui/src/components/button'
@@ -17,7 +17,7 @@ import {
 	DialogRoot,
 	DialogTrigger,
 } from 'ui/src/components/dialog'
-import { Close2Icon, CoinsIcon, Home2Icon, Settings2Icon, Swap2Icon, SwitchHorizontal } from 'ui/src/components/icons'
+import { Close2Icon, CoinsIcon, Home2Icon, Settings2Icon, SwitchHorizontal } from 'ui/src/components/icons'
 import { PillNavigation } from 'ui/src/components/pill-navigation'
 import { Link } from 'ui/src/components/router-link'
 import * as containerStyles from 'ui/src/components/styles/container-styles.css'
@@ -25,25 +25,9 @@ import * as dialogStyles from 'ui/src/components/styles/dialog-styles.css'
 import { ToolTip } from 'ui/src/components/tool-tip'
 import { WalletDropdown } from 'ui/src/components/wallet-dropdown'
 import { Z3usLogo } from 'ui/src/components/z3us-logo-babylon'
-import { accountMenuSlugs } from 'ui/src/constants/accounts'
-import { routes } from 'ui/src/constants/routes'
-import { useAccountParams } from 'ui/src/hooks/use-account-params'
 
 import { AccountViewDropdown } from './account-view-dropdown'
 import * as styles from './navigation.css'
-
-const useSelectedItem = (href: string): boolean => {
-	const { account } = useAccountParams()
-	const location = useLocation()
-	const splitPath = href.split('/')
-	const splitPathName = splitPath[2]
-	const locationSplitPath = location.pathname.split('/')
-	const locationSplitPathName = locationSplitPath[2]
-	const accountMatchBlackList = [routes.TRANSFER, routes.STAKING, routes.SWAP, routes.SETTINGS]
-	const isAccountsMatch = href === accountMenuSlugs.ACCOUNTS && account && !accountMatchBlackList.includes(account)
-
-	return splitPathName === locationSplitPathName || isAccountsMatch
-}
 
 export const AccountDesktopLavaMenu = () => {
 	const { t } = useTranslation()
@@ -52,13 +36,15 @@ export const AccountDesktopLavaMenu = () => {
 		<Box className={styles.navigationMenu}>
 			<LayoutGroup id="accounts-menu">
 				{[
-					{ text: t('accounts.navigation.accounts'), href: accountMenuSlugs.ACCOUNTS },
-					{ text: t('accounts.navigation.transfer'), href: accountMenuSlugs.TRANSFER },
-					{ text: t('accounts.navigation.staking'), href: accountMenuSlugs.STAKING },
-					// { text: t('accounts.navigation.swap'), href: accountMenuSlugs.SWAP },
-					{ text: t('accounts.navigation.settings'), href: accountMenuSlugs.SETTINGS },
+					{ text: t('accounts.navigation.accounts'), href: '/accounts' },
+					{ text: t('accounts.navigation.transfer'), href: '/accounts/transfer' },
+					{ text: t('accounts.navigation.staking'), href: '/accounts/staking' },
+					// { text: t('accounts.navigation.swap'), href: '/accounts/swap'  },
+					{ text: t('accounts.navigation.settings'), href: '/accounts/settings' },
 				].map(({ text, href }) => (
-					<PillNavigation text={text} key={href} href={href} matchActiveFn={useSelectedItem} />
+					<NavLink to={href} end>
+						{({ isActive }) => <PillNavigation text={text} key={href} href={href} matchActiveFn={() => isActive} />}
+					</NavLink>
 				))}
 			</LayoutGroup>
 		</Box>
@@ -73,7 +59,7 @@ export const DesktopNavigation: React.FC = () => {
 	return (
 		<Box component="nav" className={clsx(styles.navigationWrapper, containerStyles.containerWrapper)}>
 			<Box className={clsx(styles.navigationInnerWrapper, containerStyles.containerInnerWrapper)}>
-				<Link to={accountMenuSlugs.ACCOUNTS}>
+				<Link to="/accounts">
 					<Z3usLogo />
 				</Link>
 				<AccountDesktopLavaMenu />
@@ -88,34 +74,22 @@ export const DesktopNavigation: React.FC = () => {
 	)
 }
 
-const MenuItemMobile = ({ href }: { href: string }) => {
-	const selected = useSelectedItem(href)
-
-	return (
-		<Link to={href} className={styles.navigationMenuLinkMobile} underline="never">
-			<Box
-				className={clsx(styles.navigationMenuLinkMobileCircle, selected && styles.navigationMenuLinkMobileCircleSelect)}
-			>
-				{(() => {
-					switch (href) {
-						case accountMenuSlugs.ACCOUNTS:
-							return <Home2Icon />
-						case accountMenuSlugs.TRANSFER:
-							return <SwitchHorizontal />
-						case accountMenuSlugs.STAKING:
-							return <CoinsIcon />
-						case accountMenuSlugs.SWAP:
-							return <Swap2Icon />
-						case accountMenuSlugs.SETTINGS:
-							return <Settings2Icon />
-						default:
-							return null
-					}
-				})()}
-			</Box>
-		</Link>
-	)
-}
+const MenuItemMobile = ({ href, children }: { href: string; children: React.ReactNode }) => (
+	<NavLink to={href} end>
+		{({ isActive }) => (
+			<Link to={href} className={styles.navigationMenuLinkMobile} underline="never">
+				<Box
+					className={clsx(
+						styles.navigationMenuLinkMobileCircle,
+						isActive && styles.navigationMenuLinkMobileCircleSelect,
+					)}
+				>
+					{children}
+				</Box>
+			</Link>
+		)}
+	</NavLink>
+)
 
 interface IMobileHeaderNavigationProps {
 	copyAddressBtnVisible: boolean
@@ -145,7 +119,7 @@ export const MobileHeaderNavigation = forwardRef<HTMLElement, IMobileHeaderNavig
 			>
 				<Box className={styles.accountsHomeMobileHeaderWalletWrapper}>
 					<Box display="flex" alignItems="center" gap="small" flexGrow={1}>
-						<Link to={accountMenuSlugs.ACCOUNTS}>
+						<Link to="/accounts">
 							<Z3usLogo />
 						</Link>
 						<AccountViewDropdown styleVariant="tertiary" isLeftButtonIconVisible={false} />
@@ -174,13 +148,15 @@ export const MobileHeaderNavigation = forwardRef<HTMLElement, IMobileHeaderNavig
 export const MobileFooterNavigation: React.FC = () => (
 	<Box component="nav" className={styles.navigationMobileWrapper}>
 		{[
-			{ href: accountMenuSlugs.ACCOUNTS },
-			{ href: accountMenuSlugs.TRANSFER },
-			{ href: accountMenuSlugs.STAKING },
-			// { href: accountMenuSlugs.SWAP },
-			{ href: accountMenuSlugs.SETTINGS },
-		].map(({ href }) => (
-			<MenuItemMobile key={href} href={href} />
+			{ href: '/accounts', icon: <Home2Icon /> },
+			{ href: '/accounts/transfer/*', icon: <SwitchHorizontal /> },
+			{ href: '/accounts/staking/*', icon: <CoinsIcon /> },
+			// { href: '/accounts/swap/*', icon: <Swap2Icon />  },
+			{ href: '/accounts/settings/*', icon: <Settings2Icon /> },
+		].map(({ href, icon }) => (
+			<MenuItemMobile key={href} href={href}>
+				{icon}
+			</MenuItemMobile>
 		))}
 	</Box>
 )

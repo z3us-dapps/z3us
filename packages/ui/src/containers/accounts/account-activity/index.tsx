@@ -5,6 +5,7 @@ import { AnimatePresence, motion } from 'framer-motion'
 import { TokenPrice } from 'packages/ui/src/components/token-price'
 import { config } from 'packages/ui/src/constants/config'
 import { useTransactions } from 'packages/ui/src/hooks/dapp/use-transactions'
+import { useAccountParam } from 'packages/ui/src/hooks/use-params'
 import { getShortAddress } from 'packages/ui/src/utils/string-utils'
 import React, { forwardRef, useCallback, useState } from 'react'
 import { useLocation } from 'react-router-dom'
@@ -20,7 +21,6 @@ import { TransactionIcon } from 'ui/src/components/transaction-icon'
 import Translation from 'ui/src/components/translation'
 import { Text } from 'ui/src/components/typography'
 import { animatePageVariants } from 'ui/src/constants/page'
-import { useAccountParams } from 'ui/src/hooks/use-account-params'
 
 import * as styles from './account-activity.css'
 
@@ -159,7 +159,7 @@ export const AccountActivity = forwardRef<HTMLElement, IProps>((props, ref: Reac
 
 	const [selected, setSelected] = useState<string | null>(null)
 	const [hovered, setHovered] = useState<string | null>(null)
-	const { account } = useAccountParams()
+	const account = useAccountParam()
 
 	const { isFetching, data, fetchNextPage, hasNextPage } = useTransactions(account ? { [account]: true } : null)
 

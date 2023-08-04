@@ -1,4 +1,5 @@
 import clsx from 'clsx'
+import { useWalletAccounts } from 'packages/ui/src/hooks/use-wallet-account'
 import React, { useMemo } from 'react'
 
 import { Box } from 'ui/src/components/box'
@@ -7,7 +8,6 @@ import { ResourceImageIcon } from 'ui/src/components/resource-image-icon'
 import { Link } from 'ui/src/components/router-link'
 import * as skeletonStyles from 'ui/src/components/styles/skeleton-loading.css'
 import { Text } from 'ui/src/components/typography'
-import { accountMenuSlugs } from 'ui/src/constants/accounts'
 import { getRandomNumberInRange } from 'ui/src/utils/get-random-number-in-ranger'
 
 import * as styles from './asset-home-cell-links.css'
@@ -18,6 +18,7 @@ interface IAssetHomeCellLinksProps {
 }
 
 export const AssetHomeCellLinks: React.FC<IAssetHomeCellLinksProps> = props => {
+	const accounts = useWalletAccounts()
 	const {
 		// eslint-disable-next-line @typescript-eslint/no-unused-vars
 		value,
@@ -52,15 +53,11 @@ export const AssetHomeCellLinks: React.FC<IAssetHomeCellLinksProps> = props => {
 						+ 7
 					</Text>
 					<Box className={styles.assetHomeCellLinksIconsWrapper}>
-						<Link to={`${accountMenuSlugs.ACCOUNTS}/1`} underline="never">
-							<ResourceImageIcon size="xlarge" address={resourceAddress} />
-						</Link>
-						<Link to={`${accountMenuSlugs.ACCOUNTS}/2`} underline="never">
-							<ResourceImageIcon size="xlarge" address={resourceAddress} />
-						</Link>
-						<Link to={`${accountMenuSlugs.ACCOUNTS}/3`} underline="never">
-							<ResourceImageIcon size="xlarge" address={resourceAddress} />
-						</Link>
+						{Object.values(accounts).map(account => (
+							<Link to={`/accounts?account=${account.address}&resource=${resourceAddress}`} underline="never">
+								<ResourceImageIcon size="xlarge" address={resourceAddress} />
+							</Link>
+						))}
 					</Box>
 					<ChevronRightIcon />
 				</Box>

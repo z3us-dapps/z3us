@@ -1,13 +1,13 @@
 /* eslint-disable  @typescript-eslint/no-unused-vars */
+import { useAccountParam, useAssetParam } from 'packages/ui/src/hooks/use-params'
 import React, { useEffect, useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 
 import { AccountCards } from 'ui/src/components/account-cards'
 import { Box } from 'ui/src/components/box'
 import { Button } from 'ui/src/components/button'
 import { CardButtons } from 'ui/src/components/card-buttons'
 import { ArrowLeftIcon, ArrowRightIcon, Close2Icon } from 'ui/src/components/icons'
-import { useAccountParams } from 'ui/src/hooks/use-account-params'
 
 import * as styles from './account-card.css'
 
@@ -46,7 +46,9 @@ const CARD_COLORS = [
 
 export const AccountCard: React.FC = () => {
 	const navigate = useNavigate()
-	const { account, asset } = useAccountParams()
+	const { assetType } = useParams()
+	const account = useAccountParam()
+	const asset = useAssetParam()
 	const [isMounted, setIsMounted] = useState<boolean>(false)
 	// const [cards] = useState<Array<any>>(CARD_COLORS)
 	const [selectedIndexCard, setSelectedIndexCard] = useState<number>(0)
@@ -57,7 +59,7 @@ export const AccountCard: React.FC = () => {
 		setSelectedIndexCard(newIndex)
 		// eslint-disable-next-line
 		const cardAccount = CARD_COLORS.find((item, index) => index === newIndex)
-		navigate(`/accounts?account=${cardAccount.accountName.toLowerCase()}${asset ? `&asset=${asset}` : ''}`)
+		navigate(`/accounts${assetType ? `/${assetType}` : ''}?account=${cardAccount.accountName.toLowerCase()}`)
 	}
 
 	const handleGotoPrevAccount = () => {
@@ -66,7 +68,7 @@ export const AccountCard: React.FC = () => {
 		setSelectedIndexCard(newIndex)
 		// eslint-disable-next-line
 		const cardAccount = CARD_COLORS.find((item, index) => index === newIndex)
-		navigate(`/accounts?account=${cardAccount.accountName.toLowerCase()}${asset ? `&asset=${asset}` : ''}`)
+		navigate(`/accounts${assetType ? `/${assetType}` : ''}?account=${cardAccount.accountName.toLowerCase()}`)
 	}
 
 	useEffect(() => {
@@ -78,7 +80,7 @@ export const AccountCard: React.FC = () => {
 		setIsMounted(true)
 	}, [account])
 
-	if (!account && !asset) {
+	if ((!account && !assetType) || asset) {
 		return null
 	}
 

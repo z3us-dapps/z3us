@@ -5,6 +5,7 @@ import { TokenPrice } from 'packages/ui/src/components/token-price'
 import { TransactionManifest } from 'packages/ui/src/components/transaction-manifest'
 import { config } from 'packages/ui/src/constants/config'
 import { useTransaction } from 'packages/ui/src/hooks/dapp/use-transactions'
+import { useAssetParam, useTransactionParam } from 'packages/ui/src/hooks/use-params'
 import { formatBigNumber } from 'packages/ui/src/utils/formatters'
 import React, { useEffect, useState } from 'react'
 import { useLocation, useNavigate, useSearchParams } from 'react-router-dom'
@@ -20,7 +21,6 @@ import { ToolTip } from 'ui/src/components/tool-tip'
 import { TransactionIcon } from 'ui/src/components/transaction-icon'
 import Translation from 'ui/src/components/translation'
 import { Text } from 'ui/src/components/typography'
-import { ACCOUNT_PARAM_ACTIVITY, ACCOUNT_PARAM_ASSET, ACCOUNT_PARAM_TRANSACTION_ID } from 'ui/src/constants/accounts'
 import { getShortAddress } from 'ui/src/utils/string-utils'
 
 import { AccountsTransactionInfo } from './account-transaction-info'
@@ -32,14 +32,14 @@ const AccountTransaction = () => {
 	const navigate = useNavigate()
 	const { pathname } = useLocation()
 
-	const asset = searchParams.get(ACCOUNT_PARAM_ASSET)
-	const transactionId = searchParams.get(ACCOUNT_PARAM_TRANSACTION_ID)
-	const isActivityLink = searchParams.get(ACCOUNT_PARAM_ACTIVITY)
+	const asset = useAssetParam()
+	const transactionId = useTransactionParam()
+	const isActivityLink = '' //@TODO
 	const { data } = useTransaction(transactionId)
 	const isAccountTransactionVisible = !!asset && !!transactionId
 
 	const navigateBack = () => {
-		navigate(`${pathname}${isActivityLink ? `?${ACCOUNT_PARAM_ACTIVITY}=true` : ''}`)
+		navigate(`${pathname}${isActivityLink ? `?activity=true` : ''}`)
 	}
 
 	const handleScroll = (event: Event) => {

@@ -4,7 +4,6 @@ import React from 'react'
 import { Box } from 'ui/src/components/box'
 import { DownLeft2Icon, QrCode2Icon, UpRight2Icon } from 'ui/src/components/icons'
 import { type TTheme, ToolTip } from 'ui/src/components/tool-tip'
-import { accountMenuSlugs } from 'ui/src/constants/accounts'
 import { useIsMobileWidth } from 'ui/src/hooks/use-is-mobile'
 
 import { Button } from '../router-button'
@@ -34,13 +33,7 @@ export const CardButtons: React.FC<ICardButtonsProps> = props => {
 	return (
 		<Box className={clsx(styles.cardButtonsWrapper, className)}>
 			<ToolTip message="global.send" theme={theme}>
-				<Button
-					iconOnly
-					rounded
-					styleVariant="inverse"
-					sizeVariant={buttonSize}
-					to={`${accountMenuSlugs.TRANSFER}/asdf`}
-				>
+				<Button iconOnly rounded styleVariant="inverse" sizeVariant={buttonSize} to="accounts/transfer">
 					<UpRight2Icon />
 				</Button>
 			</ToolTip>

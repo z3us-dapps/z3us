@@ -36,8 +36,8 @@ export const config: ConfigType = {
 		pages: {
 			...radixCfg.popup.pages,
 			ledger: 'src/pages/ledger/index.html',
-			pairing: 'src/pages/app/index.html#/pairing',
-			options: 'src/pages/app/index.html#/options',
+			pairing: 'src/pages/app/index.html#/radix/pairing',
+			options: 'src/pages/app/index.html#/radix/options',
 			app: 'src/pages/app/index.html#/accounts',
 		},
 	},

@@ -1,5 +1,7 @@
 import clsx, { type ClassValue } from 'clsx'
+import { useAccountParam, useAssetParam } from 'packages/ui/src/hooks/use-params'
 import React from 'react'
+import { useParams } from 'react-router-dom'
 
 import { Box } from 'ui/src/components/box'
 import { ChevronRightIcon } from 'ui/src/components/icons'
@@ -7,7 +9,6 @@ import { Link } from 'ui/src/components/router-link'
 import Translation from 'ui/src/components/translation'
 import { Text } from 'ui/src/components/typography'
 import { AccountAssetSearch } from 'ui/src/containers/accounts/account-asset-search'
-import { useAccountParams } from 'ui/src/hooks/use-account-params'
 
 import * as styles from './accounts-list.css'
 
@@ -27,7 +28,9 @@ const defaultProps: IAccountListHeaderOptionalProps = {
 
 export const AccountListHeader: React.FC<IAccountListHeaderProps> = props => {
 	const { className, scrollableNode } = props
-	const { account, asset } = useAccountParams()
+	const { assetType } = useParams()
+	const account = useAccountParam()
+	const asset = useAssetParam()
 	const isScrolled = scrollableNode?.scrollTop > 0
 
 	return (
@@ -37,7 +40,7 @@ export const AccountListHeader: React.FC<IAccountListHeaderProps> = props => {
 			<Box width="full" paddingBottom="small">
 				<Box width="full">
 					<Box display="flex" paddingBottom="xsmall" width="full">
-						{asset ? (
+						{assetType ? (
 							<>
 								<Box flexShrink={0}>
 									<Link underline="hover" to={`/accounts?accounts=${account}`}>
@@ -52,14 +55,17 @@ export const AccountListHeader: React.FC<IAccountListHeaderProps> = props => {
 										<ChevronRightIcon />
 									</Box>
 									{asset ? (
-										<Link underline="hover" to={`/accounts?accounts=${account}&asset=${asset}`}>
+										<Link
+											underline="hover"
+											to={`/accounts${assetType ? `/${assetType}` : ''}?accounts=${account}&asset=${asset}`}
+										>
 											<Text size="large" truncate>
-												{asset}
+												{assetType}
 											</Text>
 										</Link>
 									) : (
 										<Text size="large" color="strong" truncate>
-											{asset}
+											{assetType}
 										</Text>
 									)}
 								</Box>

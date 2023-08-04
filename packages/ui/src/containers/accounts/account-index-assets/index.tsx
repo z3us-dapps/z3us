@@ -148,7 +148,7 @@ export const AccountIndexAssets: React.FC<IAccountIndexAssetsProps> = ({ scrolla
 													key={resource.address}
 													className={styles.indexAssetCircle}
 													onMouseOver={() => setHoveredLink(name)}
-													href={`/accounts/tokens?resource=${resource.address}`}
+													href={`/accounts/tokens?asset=${resource.address}`}
 													styleVariant="avatar"
 													sizeVariant="medium"
 													iconOnly

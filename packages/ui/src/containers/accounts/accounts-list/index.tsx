@@ -1,6 +1,8 @@
 import clsx from 'clsx'
 import { AnimatePresence, motion } from 'framer-motion'
+import { useAccountParam, useAssetParam } from 'packages/ui/src/hooks/use-params'
 import React, { useCallback, useContext, useEffect, useState } from 'react'
+import { useParams } from 'react-router-dom'
 import { VirtuosoGrid } from 'react-virtuoso'
 import { useTimeout } from 'usehooks-ts'
 
@@ -10,7 +12,6 @@ import * as skeletonStyles from 'ui/src/components/styles/skeleton-loading.css'
 import { TransactionIcon } from 'ui/src/components/transaction-icon'
 import { Text } from 'ui/src/components/typography'
 import { animatePageVariants } from 'ui/src/constants/page'
-import { useAccountParams } from 'ui/src/hooks/use-account-params'
 
 import { AccountListHeader } from './account-list-header'
 import * as styles from './accounts-list.css'
@@ -31,7 +32,8 @@ const ItemWrapper = props => {
 	const { idx, user } = props
 	const { setItems } = useContext(Context)
 
-	const { account, asset } = useAccountParams()
+	const account = useAccountParam()
+	const asset = useAssetParam()
 
 	useTimeout(() => {
 		setItems(items =>
@@ -134,10 +136,12 @@ interface IAccountListProps {
 
 export const AccountsList: React.FC<IAccountListProps> = props => {
 	const { scrollableNode } = props
+	const { assetType } = useParams()
+	const account = useAccountParam()
+	const asset = useAssetParam()
 
 	// eslint-disable-next-line
 	const [items, setItems] = useState(Array.from({ length: 20 }, _ => ({ id: hash(), name: hash(), loaded: false })))
-	const { account, asset } = useAccountParams()
 
 	// computeItemKey is necessary for animation to ensure Virtuoso reuses the same elements
 	const computeItemKey = useCallback(index => items[index].id, [items])
@@ -146,7 +150,7 @@ export const AccountsList: React.FC<IAccountListProps> = props => {
 		if (scrollableNode) {
 			scrollableNode.scrollTo({ top: 0 })
 		}
-	}, [account, asset])
+	}, [account, assetType, asset])
 
 	return (
 		<Box className={styles.tokenListWrapper} style={{ minHeight: '200px' }}>

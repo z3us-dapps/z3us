@@ -1,9 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
+import { useAccountParam, useAssetParam, useIsActivity } from 'packages/ui/src/hooks/use-params'
 import { useEffect, useMemo, useState } from 'react'
-import { useNavigate } from 'react-router-dom'
-
-import { useAccountParams } from 'ui/src/hooks/use-account-params'
-import { useIsAccountActivityRoute } from 'ui/src/hooks/use-is-account-activity-route'
+import { useNavigate, useParams } from 'react-router-dom'
 
 import { AssetActivityCell } from './asset-activity-cell'
 import { AssetHomeCell } from './asset-home-cell'
@@ -35,9 +33,11 @@ type TAssetsTable = {
 }
 
 export const useAssetsTable = (): TAssetsTable => {
+	const { assetType } = useParams()
 	const navigate = useNavigate()
-	const { account, asset } = useAccountParams()
-	const isAccountActivityRoute = useIsAccountActivityRoute()
+	const account = useAccountParam()
+	const asset = useAssetParam()
+	const isAccountActivityRoute = useIsActivity()
 
 	const columnsAssets = useMemo(
 		() => [
@@ -111,7 +111,7 @@ export const useAssetsTable = (): TAssetsTable => {
 	// TODO: should probably pass just ID? not row??
 	const handleRowSelected = (row: any) => {
 		const { original } = row
-		navigate(`/accounts?account=${account}&asset=${original.id}`)
+		navigate(`/accounts${original.id ? `/${original.id}` : ''}?account=${account}`)
 	}
 
 	const handleEndReached = () => {
@@ -135,7 +135,7 @@ export const useAssetsTable = (): TAssetsTable => {
 	useEffect(() => {
 		setLoading(true)
 		setTimeout(() => {
-			const newItems = Array.from({ length: asset ? 50 : 4 }).map((_, i, a) => {
+			const newItems = Array.from({ length: assetType ? 50 : 4 }).map((_, i, a) => {
 				const randomStr = generateRandomString()
 				return {
 					id: randomStr,
@@ -153,7 +153,7 @@ export const useAssetsTable = (): TAssetsTable => {
 	useEffect(() => {
 		setLoading(true)
 		setTimeout(() => {
-			const newItems = Array.from({ length: asset ? 50 : 4 }).map((_, i, a) => {
+			const newItems = Array.from({ length: assetType ? 50 : 4 }).map((_, i, a) => {
 				const randomStr = generateRandomString()
 				return {
 					id: randomStr,
@@ -167,7 +167,7 @@ export const useAssetsTable = (): TAssetsTable => {
 
 			if (isAccountActivityRoute) {
 				setColumns(columnsActivity)
-			} else if (asset) {
+			} else if (assetType) {
 				setColumns(columnsAssets)
 			} else {
 				setColumns(columnsHome)
@@ -175,7 +175,7 @@ export const useAssetsTable = (): TAssetsTable => {
 
 			setLoading(false)
 		}, 2000)
-	}, [account, asset, isAccountActivityRoute])
+	}, [account, assetType, asset, isAccountActivityRoute])
 
 	return {
 		items,

@@ -1,14 +1,15 @@
 import clsx from 'clsx'
 import { AnimatePresence, motion } from 'framer-motion'
 import { useGlobalResourceBalances } from 'packages/ui/src/hooks/dapp/use-balances'
+import { useAccountParam } from 'packages/ui/src/hooks/use-params'
 import React, { useState } from 'react'
+import { useParams } from 'react-router-dom'
 
 import { Box } from 'ui/src/components/box'
 import { Button } from 'ui/src/components/button'
 import { HeightAnimatePanel } from 'ui/src/components/height-animate-panel'
 import { Z3usLoading } from 'ui/src/components/z3us-loading'
 import { animatePageVariants } from 'ui/src/constants/page'
-import { useAccountParams } from 'ui/src/hooks/use-account-params'
 
 import { Chart } from './chart'
 import { ListRow } from './list-row'
@@ -17,13 +18,14 @@ import * as styles from './styles.css'
 const defaultRowsShown = 3
 
 export const AccountAllChart: React.FC = () => {
-	const { account, asset } = useAccountParams()
+	const { assetType } = useParams()
+	const account = useAccountParam()
 	const [showFullAccountList, setShowFullAccountList] = useState<boolean>(false)
 	// const [measureRef, { width: chartWrapperWidth, height: chartWrapperHeight }] = useMeasure()
 
 	const { balances, isLoading } = useGlobalResourceBalances()
 
-	if (!!account || asset) {
+	if (!!account || assetType) {
 		return null
 	}
 

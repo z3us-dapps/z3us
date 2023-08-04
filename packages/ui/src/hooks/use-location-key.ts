@@ -1,7 +1,7 @@
 import { useEffect, useRef } from 'react'
 import { type Location, useLocation } from 'react-router-dom'
 
-import { SETTINGS, STAKING, SWAP, TRANSFER } from 'ui/src/constants/routes'
+const animatedKeys = ['transfer', 'staking', 'swap', 'settings']
 
 export const useLocationKey = (): {
 	location: Location
@@ -10,7 +10,6 @@ export const useLocationKey = (): {
 	const location = useLocation()
 	const locationArr = location.pathname?.split('/') ?? []
 	const key = locationArr[2] ?? ''
-	const animatedKeys = [TRANSFER, STAKING, SWAP, SETTINGS]
 	const prevHash = useRef<string | null>(null)
 	const isAnimateRoute = animatedKeys.includes(key)
 	const isPrevAnimateRoute = prevHash.current !== null && animatedKeys.includes(prevHash.current)

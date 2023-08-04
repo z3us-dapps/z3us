@@ -1,20 +1,17 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import clsx from 'clsx'
+import { useAccountParam, useAssetParam, useIsActivity } from 'packages/ui/src/hooks/use-params'
 import React, { useRef } from 'react'
 import { useTranslation } from 'react-i18next'
-import { useSearchParams } from 'react-router-dom'
-import { useIntersectionObserver, useTimeout } from 'usehooks-ts'
+import { useParams } from 'react-router-dom'
+import { useIntersectionObserver } from 'usehooks-ts'
 
 import { Box } from 'ui/src/components/box'
 import { ChevronDown3Icon, ChevronLeftIcon, Close2Icon, SearchIcon } from 'ui/src/components/icons'
-import { type FormElement, Input } from 'ui/src/components/input'
+import { Input } from 'ui/src/components/input'
 import { Button } from 'ui/src/components/router-button'
 import { Link } from 'ui/src/components/router-link'
 import Translation from 'ui/src/components/translation'
 import { Text } from 'ui/src/components/typography'
-import { ASSET_TYPE_NFTS, ASSET_TYPE_TOKENS, SEARCH_ACTIVITY_PARAM, routes } from 'ui/src/constants/routes'
-import { useAccountParams } from 'ui/src/hooks/use-account-params'
-import { useIsAccountActivityRoute } from 'ui/src/hooks/use-is-account-activity-route'
 import { capitalizeFirstLetter } from 'ui/src/utils/capitalize-first-letter'
 
 import * as styles from './mobile-scrolling-button.css'
@@ -23,16 +20,37 @@ interface IMobileScrollingButtonsProps {
 	scrollableNode: HTMLElement
 }
 
+const TabTitle: React.FC = () => {
+	const { assetType } = useParams()
+	const asset = useAssetParam()
+
+	switch (assetType) {
+		case 'tokens':
+			return (
+				<>
+					{/* TODO: if the asset is XRD, should say `coin` not `token`  */}
+					<Translation capitalizeFirstLetter text="accounts.home.assetsTokens" />
+					{asset ? ` (${asset.toUpperCase()})` : ''}
+				</>
+			)
+		case 'nfts':
+			return <Translation capitalizeFirstLetter text="accounts.home.assetsNfts" />
+		default:
+			return <Translation capitalizeFirstLetter text="global.assets" />
+	}
+}
+
 export const MobileScrollingButtons: React.FC<IMobileScrollingButtonsProps> = props => {
 	const { scrollableNode } = props
-	const { account, asset } = useAccountParams()
+	const account = useAccountParam()
+	const asset = useAssetParam()
 	const wrapperRef = useRef(null)
 	const stickyRef = useRef(null)
 	const entry = useIntersectionObserver(stickyRef, { threshold: [1] })
 	const isSticky = !entry?.isIntersecting
-
-	const isAccountActivityRoute = useIsAccountActivityRoute()
+	const isAccountActivityRoute = useIsActivity()
 	const isVerticalScrollable = scrollableNode?.scrollHeight > scrollableNode?.clientHeight
+	const { assetType } = useParams()
 	const { t } = useTranslation()
 
 	const onClickChevron = () => {
@@ -46,30 +64,11 @@ export const MobileScrollingButtons: React.FC<IMobileScrollingButtonsProps> = pr
 	}
 
 	const generateAccountLink = (isActivity = false, generateAssetLink = false) =>
-		`/${routes.ACCOUNTS}${account ? `?account=${account}` : ''}${asset ? `&asset=${asset}` : ''}${
+		`/accounts${assetType ? `/${assetType}` : ''}${account ? `?account=${account}` : ''}${
 			generateAssetLink && asset ? `/${asset}` : ''
-		}${isActivity ? `?${SEARCH_ACTIVITY_PARAM}=true` : ''}`
+		}${isActivity ? `?activity=true` : ''}`
 
-	const generateBackLink = () => `/${routes.ACCOUNTS}`
-
-	const getTabTitle = () => {
-		switch (asset) {
-			case ASSET_TYPE_TOKENS: {
-				return (
-					<>
-						{/* TODO: if the asset is XRD, should say `coin` not `token`  */}
-						<Translation capitalizeFirstLetter text="accounts.home.assetsTokens" />
-						{asset ? ` (${asset.toUpperCase()})` : ''}
-					</>
-				)
-			}
-			case ASSET_TYPE_NFTS: {
-				return <Translation capitalizeFirstLetter text="accounts.home.assetsNfts" />
-			}
-			default:
-				return <Translation capitalizeFirstLetter text="global.assets" />
-		}
-	}
+	const generateBackLink = () => `/accounts`
 
 	return (
 		<Box
@@ -92,7 +91,7 @@ export const MobileScrollingButtons: React.FC<IMobileScrollingButtonsProps> = pr
 						)}
 					>
 						<Text size="medium" weight="strong" align="center" color={!isAccountActivityRoute ? 'strong' : 'neutral'}>
-							{getTabTitle()}
+							<TabTitle />
 						</Text>
 					</Link>
 					<Link
@@ -123,7 +122,7 @@ export const MobileScrollingButtons: React.FC<IMobileScrollingButtonsProps> = pr
 					</Button>
 				</Box>
 				<Box className={styles.searchWrapper}>
-					{asset ? (
+					{assetType ? (
 						<Button to={generateBackLink()} iconOnly styleVariant="ghost" sizeVariant="small" rounded>
 							<ChevronLeftIcon />
 						</Button>

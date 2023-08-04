@@ -1,9 +1,10 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import type { ClassValue } from 'clsx'
 import clsx from 'clsx'
+import { useAccountParam, useAssetParam } from 'packages/ui/src/hooks/use-params'
 import React, { useRef } from 'react'
 import { useTranslation } from 'react-i18next'
-import { useLocation } from 'react-router-dom'
+import { useLocation, useParams } from 'react-router-dom'
 import { useIntersectionObserver } from 'usehooks-ts'
 
 import { Box } from 'ui/src/components/box'
@@ -12,7 +13,6 @@ import { Button } from 'ui/src/components/router-button'
 import { ToolTip } from 'ui/src/components/tool-tip'
 import Translation from 'ui/src/components/translation'
 import { Text } from 'ui/src/components/typography'
-import { useAccountParams } from 'ui/src/hooks/use-account-params'
 
 import * as styles from './account-search.css'
 
@@ -25,7 +25,9 @@ export const AccountActivitySearch: React.FC<IAccountActivitySearchProps> = prop
 
 	const { t } = useTranslation()
 	const { pathname } = useLocation()
-	const { account, asset, activity } = useAccountParams()
+	const { assetType } = useParams()
+	const account = useAccountParam()
+	const asset = useAssetParam()
 
 	const elementRef = useRef<HTMLDivElement | null>(null)
 	const entry = useIntersectionObserver(elementRef, { threshold: [1] })
@@ -34,8 +36,8 @@ export const AccountActivitySearch: React.FC<IAccountActivitySearchProps> = prop
 	const isBorderVisible = asset || !!account
 
 	const searchTitle = asset
-		? `${activity} ${t('global.activity')}`
-		: `${asset || t('global.all')} ${t('global.activity')}`
+		? `${asset} ${t('global.activity')}`
+		: `${assetType || t('global.all')} ${t('global.activity')}`
 
 	const handleUpClick = () => {
 		if (!scrollableNode) return

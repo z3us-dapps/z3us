@@ -1,5 +1,7 @@
 /* eslint-disable  @typescript-eslint/no-unused-vars */
+import { useAccountParam, useAssetParam } from 'packages/ui/src/hooks/use-params'
 import React, { useRef } from 'react'
+import { useParams } from 'react-router-dom'
 import { Area, AreaChart, CartesianGrid, ResponsiveContainer, Tooltip, type TooltipProps, XAxis, YAxis } from 'recharts'
 
 import { Box } from 'ui/src/components/box'
@@ -11,7 +13,6 @@ import { ToolTip } from 'ui/src/components/tool-tip'
 import { TransactionIcon } from 'ui/src/components/transaction-icon'
 import Translation from 'ui/src/components/translation'
 import { Text } from 'ui/src/components/typography'
-import { useAccountParams } from 'ui/src/hooks/use-account-params'
 
 import * as styles from './account-asset-info.css'
 
@@ -63,7 +64,9 @@ const data = [
 ]
 
 export const AccountAssetInfo: React.FC<IAccountAssetInfoProps> = () => {
-	const { account, asset } = useAccountParams()
+	const { assetType } = useParams()
+	const account = useAccountParam()
+	const asset = useAssetParam()
 
 	if (!asset) {
 		return null
@@ -88,7 +91,7 @@ export const AccountAssetInfo: React.FC<IAccountAssetInfoProps> = () => {
 							iconOnly
 							styleVariant="ghost"
 							sizeVariant="small"
-							to={`/accounts?account=${account}&asset=${asset}`}
+							to={`/accounts${assetType ? `/${assetType}` : ''}?account=${account}`}
 						>
 							<Close2Icon />
 						</Button>

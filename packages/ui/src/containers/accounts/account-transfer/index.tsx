@@ -1,12 +1,10 @@
 import { AnimatePresence, LayoutGroup } from 'framer-motion'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
-import { Route, Routes, useLocation } from 'react-router-dom'
+import { Route, Routes } from 'react-router-dom'
 
 import { AnimatedPage } from 'ui/src/components/animated-page'
-// import { Box } from 'ui/src/components/box'
 import { LayoutTwoCol } from 'ui/src/components/layout/layout-two-col'
-// import { MobileStackedNavigation } from 'ui/src/components/layout/mobile-stacked-navigation'
 import { PillNavigation } from 'ui/src/components/pill-navigation'
 
 import { ScrollPanel } from '../scroll-panel'
@@ -15,10 +13,7 @@ import { AccountTransferNfts } from './account-transfer-nfts'
 import { AccountTransferRaw } from './account-transfer-raw'
 import { AccountTransferTokens } from './account-transfer-tokens'
 
-// import * as styles from './account-transfer.css'
-
 const AccountTransfer = () => {
-	const location = useLocation()
 	const { t } = useTranslation()
 
 	const transferMenu = [
@@ -42,20 +37,25 @@ const AccountTransfer = () => {
 					showTopScrollShadow
 					renderPanel={() => (
 						<AnimatePresence initial={false}>
-							<Routes location={location} key={location.pathname}>
-								{['/', '/transfer'].map(path => (
-									<Route
-										key="transferTokens" // to avoid full re-renders when these routes change
-										path={path}
-										element={
-											<AnimatedPage>
-												<AccountTransferTokens />
-											</AnimatedPage>
-										}
-									/>
-								))}
+							<Routes>
 								<Route
-									path="/nfts"
+									index
+									element={
+										<AnimatedPage>
+											<AccountTransferTokens />
+										</AnimatedPage>
+									}
+								/>
+								<Route
+									path="tokens"
+									element={
+										<AnimatedPage>
+											<AccountTransferTokens />
+										</AnimatedPage>
+									}
+								/>
+								<Route
+									path="nfts"
 									element={
 										<AnimatedPage>
 											<AccountTransferNfts />
@@ -63,7 +63,7 @@ const AccountTransfer = () => {
 									}
 								/>
 								<Route
-									path="/raw"
+									path="raw"
 									element={
 										<AnimatedPage>
 											<AccountTransferRaw />
@@ -71,7 +71,7 @@ const AccountTransfer = () => {
 									}
 								/>
 								<Route
-									path="/deploy"
+									path="deploy"
 									element={
 										<AnimatedPage>
 											<AccountTransferDeploy />

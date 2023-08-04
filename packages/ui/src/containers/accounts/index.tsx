@@ -4,9 +4,7 @@ import { Route, Routes } from 'react-router-dom'
 
 import { AnimatedPage } from 'ui/src/components/animated-page'
 import { Box } from 'ui/src/components/box'
-import { routes } from 'ui/src/constants/routes'
 import { DesktopNavigation, MobileFooterNavigation } from 'ui/src/containers/accounts/navigation'
-import { useLocationKey } from 'ui/src/hooks/use-location-key'
 
 import * as styles from './accounts.css'
 
@@ -24,18 +22,17 @@ interface IAccountsProps {
 
 export const Accounts = (props: IAccountsProps): React.JSX.Element => {
 	const { isNavigationVisible } = props
-	const { location, locationKey } = useLocationKey()
 
 	return (
-		<>
+		<AnimatedPage>
 			<Box className={styles.accountsWrapper}>
 				{/* NOTE: navigation is conditional because NEXTJS site will render own header */}
 				{isNavigationVisible ? <DesktopNavigation /> : null}
 				<Box className={styles.accountsBodyWrapper}>
 					<AnimatePresence initial={false}>
-						<Routes location={location} key={locationKey}>
+						<Routes>
 							<Route
-								path="/*"
+								index
 								element={
 									<AnimatedPage>
 										<AccountHome />
@@ -43,7 +40,7 @@ export const Accounts = (props: IAccountsProps): React.JSX.Element => {
 								}
 							/>
 							<Route
-								path={`${routes.TRANSFER}/*`}
+								path="transfer/*"
 								element={
 									<AnimatedPage>
 										<AccountTransfer />
@@ -51,7 +48,7 @@ export const Accounts = (props: IAccountsProps): React.JSX.Element => {
 								}
 							/>
 							<Route
-								path={routes.STAKING}
+								path="staking/*"
 								element={
 									<AnimatedPage>
 										<AccountStaking />
@@ -59,7 +56,7 @@ export const Accounts = (props: IAccountsProps): React.JSX.Element => {
 								}
 							/>
 							<Route
-								path={routes.SWAP}
+								path="swap/*"
 								element={
 									<AnimatedPage>
 										<AccountSwap />
@@ -67,10 +64,18 @@ export const Accounts = (props: IAccountsProps): React.JSX.Element => {
 								}
 							/>
 							<Route
-								path={`${routes.SETTINGS}/*`}
+								path="settings/*"
 								element={
 									<AnimatedPage>
 										<AccountSettings />
+									</AnimatedPage>
+								}
+							/>
+							<Route
+								path=":assetType/*"
+								element={
+									<AnimatedPage>
+										<AccountHome />
 									</AnimatedPage>
 								}
 							/>
@@ -81,6 +86,6 @@ export const Accounts = (props: IAccountsProps): React.JSX.Element => {
 			</Box>
 			<AccountTransaction />
 			<AccountSearch />
-		</>
+		</AnimatedPage>
 	)
 }

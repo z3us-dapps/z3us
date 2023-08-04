@@ -3,14 +3,9 @@ import { Header } from '@/components/header'
 import { IndexPage } from '@/components/layouts/index-page'
 import { LandingPage } from '@/components/layouts/landing-page'
 import { LazyMotion } from '@/components/lazy-motion'
-import * as styles from '@/styles/home-page.css'
-import { AnimatePresence, m as motion } from 'framer-motion'
-import dynamic from 'next/dynamic'
 import Head from 'next/head'
-import NextLink from 'next/link'
-import { useRouter } from 'next/router'
 import React, { useEffect, useState } from 'react'
-import { Link, Route, HashRouter as Router, Routes, redirect, useLocation } from 'react-router-dom'
+import { HashRouter as Router } from 'react-router-dom'
 
 const App = () => (
 	<>

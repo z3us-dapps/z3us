@@ -1,9 +1,10 @@
 import clsx from 'clsx'
 import { useGlobalResourceBalances } from 'packages/ui/src/hooks/dapp/use-balances'
+import { useAssetParam } from 'packages/ui/src/hooks/use-params'
 import { useNoneSharedStore } from 'packages/ui/src/hooks/use-store'
 import { formatBigNumber } from 'packages/ui/src/utils/formatters'
 import React, { useState } from 'react'
-import { useLocation } from 'react-router-dom'
+import { useLocation, useParams } from 'react-router-dom'
 
 import { Box } from 'ui/src/components/box'
 import { ArrowUpIcon, ChevronRightIcon, EyeIcon, EyeOffIcon, SearchIcon } from 'ui/src/components/icons'
@@ -13,7 +14,6 @@ import { TextScramble } from 'ui/src/components/text-scramble'
 import { ToolTip } from 'ui/src/components/tool-tip'
 import Translation from 'ui/src/components/translation'
 import { Text } from 'ui/src/components/typography'
-import { useAccountParams } from 'ui/src/hooks/use-account-params'
 
 import * as styles from './assets-header.css'
 
@@ -24,9 +24,8 @@ interface IAccountRoutesProps {
 
 export const AssetsHeader: React.FC<IAccountRoutesProps> = props => {
 	const { isScrolledTop, scrollableNode } = props
-
-	// eslint-disable-next-line @typescript-eslint/no-unused-vars
-	const { account, asset } = useAccountParams()
+	const { assetType } = useParams()
+	const asset = useAssetParam()
 
 	const { currency } = useNoneSharedStore(state => ({
 		currency: state.currency,
@@ -35,7 +34,7 @@ export const AssetsHeader: React.FC<IAccountRoutesProps> = props => {
 	const { totalValue, isLoading } = useGlobalResourceBalances()
 	const [hidden, setHidden] = useState<boolean>(false)
 
-	const isBreadCrumbVisible = !!asset
+	const isBreadCrumbVisible = !!assetType
 
 	const handleUpClick = () => {
 		if (!scrollableNode) return
