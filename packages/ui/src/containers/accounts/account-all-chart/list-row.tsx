@@ -8,16 +8,16 @@ import { Box } from 'ui/src/components/box'
 import { CopyAddressButton } from 'ui/src/components/copy-address-button'
 import { Text } from 'ui/src/components/typography'
 
-import * as styles from './account-all-chart.css'
+import * as styles from './styles.css'
 
-interface IAllAccountListRowProps {
+interface IProps {
 	symbol?: string
 	name: string
 	address: string
 	value: BigNumber
 }
 
-export const AllAccountListRow: React.FC<IAllAccountListRowProps> = ({ address, symbol, name, value }) => {
+export const ListRow: React.FC<IProps> = ({ address, symbol, name, value }) => {
 	const { currency } = useNoneSharedStore(state => ({
 		currency: state.currency,
 	}))
