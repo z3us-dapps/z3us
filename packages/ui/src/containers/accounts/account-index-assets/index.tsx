@@ -102,7 +102,7 @@ export const AccountIndexAssets: React.FC<IAccountIndexAssetsProps> = ({ scrolla
 								<motion.div initial="hidden" animate="visible" variants={animatePageVariants}>
 									<Box>
 										<Link
-											to="/accounts/all/tokens"
+											to="/accounts/tokens"
 											underline="never"
 											className={clsx(styles.indexAssetLinkRow, name === hoveredLink && styles.indexAssetLinkRowHover)}
 										>
@@ -148,7 +148,7 @@ export const AccountIndexAssets: React.FC<IAccountIndexAssetsProps> = ({ scrolla
 													key={resource.address}
 													className={styles.indexAssetCircle}
 													onMouseOver={() => setHoveredLink(name)}
-													href={`/accounts/all/tokens/${resource.address}`}
+													href={`/accounts/tokens?resource=${resource.address}`}
 													styleVariant="avatar"
 													sizeVariant="medium"
 													iconOnly

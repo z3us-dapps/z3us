@@ -82,7 +82,7 @@ const ItemWrapper = props => {
 			</AnimatePresence>
 			<AnimatePresence initial={false}>
 				{user.loaded && (
-					<Link to={`/accounts/${account}/tokens/${user.id}`}>
+					<Link to={`/accounts/tokens?accounts${account}&user=${user.id}`}>
 						<motion.div
 							initial="hidden"
 							animate="visible"
@@ -137,7 +137,7 @@ export const AccountsList: React.FC<IAccountListProps> = props => {
 
 	// eslint-disable-next-line
 	const [items, setItems] = useState(Array.from({ length: 20 }, _ => ({ id: hash(), name: hash(), loaded: false })))
-	const { account, assetType, asset } = useAccountParams()
+	const { account, asset } = useAccountParams()
 
 	// computeItemKey is necessary for animation to ensure Virtuoso reuses the same elements
 	const computeItemKey = useCallback(index => items[index].id, [items])
@@ -146,7 +146,7 @@ export const AccountsList: React.FC<IAccountListProps> = props => {
 		if (scrollableNode) {
 			scrollableNode.scrollTo({ top: 0 })
 		}
-	}, [account, assetType, asset])
+	}, [account, asset])
 
 	return (
 		<Box className={styles.tokenListWrapper} style={{ minHeight: '200px' }}>

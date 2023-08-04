@@ -8,7 +8,6 @@ import { Button } from 'ui/src/components/button'
 import { HeightAnimatePanel } from 'ui/src/components/height-animate-panel'
 import { Z3usLoading } from 'ui/src/components/z3us-loading'
 import { animatePageVariants } from 'ui/src/constants/page'
-import { ACCOUNTS_ALL } from 'ui/src/constants/routes'
 import { useAccountParams } from 'ui/src/hooks/use-account-params'
 
 import { Chart } from './chart'
@@ -18,14 +17,13 @@ import * as styles from './styles.css'
 const defaultRowsShown = 3
 
 export const AccountAllChart: React.FC = () => {
-	const { account, assetType } = useAccountParams()
+	const { account, asset } = useAccountParams()
 	const [showFullAccountList, setShowFullAccountList] = useState<boolean>(false)
-	const isAllAccount = account === ACCOUNTS_ALL
 	// const [measureRef, { width: chartWrapperWidth, height: chartWrapperHeight }] = useMeasure()
 
 	const { balances, isLoading } = useGlobalResourceBalances()
 
-	if (!isAllAccount || assetType) {
+	if (!!account || asset) {
 		return null
 	}
 

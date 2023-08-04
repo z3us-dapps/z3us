@@ -1,52 +1,36 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
-import clsx, { type ClassValue } from 'clsx'
-import { AnimatePresence, motion } from 'framer-motion'
-import React, { forwardRef, useEffect, useRef, useState } from 'react'
+import clsx from 'clsx'
+import { useAccountParams } from 'packages/ui/src/hooks/use-account-params'
+import React, { useEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { useLocation, useNavigate, useSearchParams } from 'react-router-dom'
+import { useLocation, useNavigate } from 'react-router-dom'
 
 import { Box } from 'ui/src/components/box'
 import { Button } from 'ui/src/components/button'
 import { CopyAddressButton } from 'ui/src/components/copy-address-button'
 import { DialogContent, DialogOverlay, DialogPortal, DialogRoot } from 'ui/src/components/dialog'
-import { Close2Icon, ShareIcon } from 'ui/src/components/icons'
+import { Close2Icon } from 'ui/src/components/icons'
 import type { FormElement } from 'ui/src/components/input'
 import { Input } from 'ui/src/components/input'
 import { ScrollArea } from 'ui/src/components/scroll-area'
 import * as dialogStyles from 'ui/src/components/styles/dialog-styles.css'
 import { ToolTip } from 'ui/src/components/tool-tip'
-import { TransactionIcon } from 'ui/src/components/transaction-icon'
-import Translation from 'ui/src/components/translation'
 import { Text } from 'ui/src/components/typography'
-import {
-	ACCOUNT_PARAM_ACTIVITY,
-	ACCOUNT_PARAM_ASSET,
-	ACCOUNT_PARAM_QUERY,
-	ACCOUNT_PARAM_TRANSACTION_ID,
-} from 'ui/src/constants/accounts'
 import { capitalizeFirstLetter } from 'ui/src/utils/capitalize-first-letter'
-import { getShortAddress } from 'ui/src/utils/string-utils'
 
 import * as styles from './account-search.css'
 
 const AccountSearch = () => {
 	const { t } = useTranslation()
-	const [searchParams] = useSearchParams()
 	const navigate = useNavigate()
 	const { pathname } = useLocation()
 	const inputRef = useRef(null)
-
-	const query = searchParams.get(ACCOUNT_PARAM_QUERY)
+	const { query } = useAccountParams()
 
 	const [isScrolled, setIsScrolled] = useState<boolean>(false)
 	const [inputValue, setInputValue] = useState<string>('')
 
 	// https://www.algolia.com/search/?query=hello&tab=&website%5Bquery%5D=hello
-	// http://localhost:8003/#/accounts/all?asset=xrd&transactionId=1eaf53c4256c384d76ca72c0f18ef37a2e4441d4e6bae450e2b8507f42faa5b6
-
-	// TODO: temp
-	const accountAddress =
-		'ardx1qspt0lthflcd45zhwvrxkqdrv5ne5avsgarjcpfatyw7n7n93v38dhcdtlag0sdfalksjdhf7d8f78d7f8d7f8d7f8d7f'
+	// http://localhost:8003/#/accounts?asset=xrd&transactionId=1eaf53c4256c384d76ca72c0f18ef37a2e4441d4e6bae450e2b8507f42faa5b6
 
 	const navigateBack = () => {
 		// eslint-disable-next-line

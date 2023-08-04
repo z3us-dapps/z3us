@@ -12,7 +12,6 @@ import { Button } from 'ui/src/components/router-button'
 import { ToolTip } from 'ui/src/components/tool-tip'
 import Translation from 'ui/src/components/translation'
 import { Text } from 'ui/src/components/typography'
-import { ACCOUNTS_ALL } from 'ui/src/constants/routes'
 import { useAccountParams } from 'ui/src/hooks/use-account-params'
 
 import * as styles from './account-search.css'
@@ -26,18 +25,17 @@ export const AccountActivitySearch: React.FC<IAccountActivitySearchProps> = prop
 
 	const { t } = useTranslation()
 	const { pathname } = useLocation()
-	const { account, assetType, asset } = useAccountParams()
+	const { account, asset, activity } = useAccountParams()
 
 	const elementRef = useRef<HTMLDivElement | null>(null)
 	const entry = useIntersectionObserver(elementRef, { threshold: [1] })
 	const isSticky = !entry?.isIntersecting
-	const isAllAccount = account === ACCOUNTS_ALL
 
-	const isBorderVisible = assetType || asset || !isAllAccount
+	const isBorderVisible = asset || !!account
 
 	const searchTitle = asset
-		? `${asset} ${t('global.activity')}`
-		: `${assetType || t('global.all')} ${t('global.activity')}`
+		? `${activity} ${t('global.activity')}`
+		: `${asset || t('global.all')} ${t('global.activity')}`
 
 	const handleUpClick = () => {
 		if (!scrollableNode) return

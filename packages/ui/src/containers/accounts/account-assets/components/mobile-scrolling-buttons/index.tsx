@@ -12,13 +12,7 @@ import { Button } from 'ui/src/components/router-button'
 import { Link } from 'ui/src/components/router-link'
 import Translation from 'ui/src/components/translation'
 import { Text } from 'ui/src/components/typography'
-import {
-	ACCOUNTS_ALL,
-	ASSET_TYPE_NFTS,
-	ASSET_TYPE_TOKENS,
-	SEARCH_ACTIVITY_PARAM,
-	routes,
-} from 'ui/src/constants/routes'
+import { ASSET_TYPE_NFTS, ASSET_TYPE_TOKENS, SEARCH_ACTIVITY_PARAM, routes } from 'ui/src/constants/routes'
 import { useAccountParams } from 'ui/src/hooks/use-account-params'
 import { useIsAccountActivityRoute } from 'ui/src/hooks/use-is-account-activity-route'
 import { capitalizeFirstLetter } from 'ui/src/utils/capitalize-first-letter'
@@ -31,8 +25,7 @@ interface IMobileScrollingButtonsProps {
 
 export const MobileScrollingButtons: React.FC<IMobileScrollingButtonsProps> = props => {
 	const { scrollableNode } = props
-	const { account, assetType, asset } = useAccountParams()
-	const [searchParams] = useSearchParams()
+	const { account, asset } = useAccountParams()
 	const wrapperRef = useRef(null)
 	const stickyRef = useRef(null)
 	const entry = useIntersectionObserver(stickyRef, { threshold: [1] })
@@ -53,14 +46,14 @@ export const MobileScrollingButtons: React.FC<IMobileScrollingButtonsProps> = pr
 	}
 
 	const generateAccountLink = (isActivity = false, generateAssetLink = false) =>
-		`/${routes.ACCOUNTS}${account ? `/${account}` : ''}${assetType ? `/${assetType}` : ''}${
+		`/${routes.ACCOUNTS}${account ? `?account=${account}` : ''}${asset ? `&asset=${asset}` : ''}${
 			generateAssetLink && asset ? `/${asset}` : ''
 		}${isActivity ? `?${SEARCH_ACTIVITY_PARAM}=true` : ''}`
 
-	const generateBackLink = () => `/${routes.ACCOUNTS}/all`
+	const generateBackLink = () => `/${routes.ACCOUNTS}`
 
 	const getTabTitle = () => {
-		switch (assetType) {
+		switch (asset) {
 			case ASSET_TYPE_TOKENS: {
 				return (
 					<>
@@ -130,7 +123,7 @@ export const MobileScrollingButtons: React.FC<IMobileScrollingButtonsProps> = pr
 					</Button>
 				</Box>
 				<Box className={styles.searchWrapper}>
-					{assetType ? (
+					{asset ? (
 						<Button to={generateBackLink()} iconOnly styleVariant="ghost" sizeVariant="small" rounded>
 							<ChevronLeftIcon />
 						</Button>
@@ -147,11 +140,9 @@ export const MobileScrollingButtons: React.FC<IMobileScrollingButtonsProps> = pr
 							</Box>
 						}
 						rightIcon={
-							true ? (
-								<Button iconOnly sizeVariant="small" styleVariant="ghost" rounded>
-									<Close2Icon />
-								</Button>
-							) : null
+							<Button iconOnly sizeVariant="small" styleVariant="ghost" rounded>
+								<Close2Icon />
+							</Button>
 						}
 						rightIconClassName={styles.inputSearchClearBtn}
 						onChange={() => {}}

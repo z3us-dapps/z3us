@@ -29,11 +29,11 @@ const App: React.FC = () => {
 		<div className={styles.container}>
 			<AnimatePresence initial={false}>
 				<Routes location={location} key={locationArr[1]}>
-					{['/', routes.ACCOUNTS].map(path => (
+					{['/'].map(path => (
 						<Route
 							key={routes.ACCOUNTS} // optional: avoid full re-renders on route changes
 							path={path}
-							element={<Navigate to={`${routes.ACCOUNTS}/all`} />}
+							element={<Navigate to={routes.ACCOUNTS} />}
 						/>
 					))}
 					<Route

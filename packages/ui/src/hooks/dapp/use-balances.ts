@@ -49,7 +49,7 @@ export const useResourceBalance = (
 	)
 }
 
-export const useGlobalResourceBalances = (forAccount?: string) => {
+export const useFungibleResourceBalances = (forAccount?: string) => {
 	const { selectedAccount, currency } = useNoneSharedStore(state => ({
 		currency: state.currency,
 		selectedAccount: state.selectedAccount,
@@ -70,80 +70,133 @@ export const useGlobalResourceBalances = (forAccount?: string) => {
 	const { data: tokens, isLoading: isLoadingTokens, fetchStatus: fetchTokensStatus } = useTokens()
 
 	const response = useMemo(() => {
-		let fungibleValue = new BigNumber(0)
-		let nonFungibleValue = new BigNumber(0)
+		let totalValue = new BigNumber(0)
 		const data: { [address: string]: ResourceBalance } = accounts.reduce(
-			(container, { fungible_resources, non_fungible_resources }) => {
-				container = fungible_resources.items.reduce(
-					(c, resource: FungibleResourcesCollectionItemGloballyAggregated) => {
-						const balance = resourceBalanceFromEntityMetadataItems(
-							resource.resource_address,
-							ResourceBalanceType.FUNGIBLE,
-							new BigNumber(resource.amount || 0),
-							new BigNumber(xrdPrice || 0),
-							resource.explicit_metadata?.items,
-							tokens,
-						)
-						fungibleValue = fungibleValue.plus(balance.value)
-						return {
-							...c,
-							[resource.resource_address]: balance,
-						}
-					},
-					container,
-				)
-				return non_fungible_resources.items.reduce(
-					(c, resource: NonFungibleResourcesCollectionItemGloballyAggregated) => {
-						const balance = resourceBalanceFromEntityMetadataItems(
-							resource.resource_address,
-							ResourceBalanceType.NON_FUNGIBLE,
-							new BigNumber(resource.amount || 0),
-							new BigNumber(xrdPrice || 0),
-							resource.explicit_metadata?.items,
-							tokens,
-						)
-						nonFungibleValue = nonFungibleValue.plus(balance.value)
-						return {
-							...c,
-							[resource.resource_address]: balance,
-						}
-					},
-					container,
-				)
-			},
+			(container, { fungible_resources }) =>
+				fungible_resources.items.reduce((c, resource: FungibleResourcesCollectionItemGloballyAggregated) => {
+					const amount = new BigNumber(resource.amount || 0)
+					if (amount.isZero()) return c
+					const balance = resourceBalanceFromEntityMetadataItems(
+						resource.resource_address,
+						ResourceBalanceType.FUNGIBLE,
+						amount,
+						new BigNumber(xrdPrice || 0),
+						resource.explicit_metadata?.items,
+						tokens,
+					)
+					totalValue = totalValue.plus(balance.value)
+					return {
+						...c,
+						[resource.resource_address]: balance,
+					}
+				}, container),
 			{},
 		)
 
 		const balances = Object.values(data)
+		const totalChange = balances.reduce(
+			(change, balance) => change.plus(new BigNumber(balance.change).div(totalValue.dividedBy(balance.value))),
+			new BigNumber(0),
+		)
 
-		let fungibleChange = new BigNumber(0)
-		let nonFungibleChange = new BigNumber(0)
-
-		const totalValue = fungibleValue.plus(nonFungibleValue)
-		const totalChange = balances.reduce((change, balance) => {
-			switch (balance.type) {
-				case ResourceBalanceType.FUNGIBLE:
-					fungibleChange = fungibleChange.plus(
-						new BigNumber(balance.change).div(fungibleValue.dividedBy(balance.value)),
-					)
-					break
-				case ResourceBalanceType.NON_FUNGIBLE:
-					nonFungibleChange = nonFungibleChange.plus(
-						new BigNumber(balance.change).div(nonFungibleValue.dividedBy(balance.value)),
-					)
-					break
-				default:
-					break
-			}
-
-			return change.plus(new BigNumber(balance.change).div(totalValue.dividedBy(balance.value)))
-		}, new BigNumber(0))
-
-		return { balances, totalValue, fungibleValue, nonFungibleValue, totalChange, fungibleChange, nonFungibleChange }
+		return { balances, totalValue, totalChange }
 	}, [fetchAccountsStatus, fetchAccountsStatus, fetchTokensStatus, fetchPriceStatus])
 
 	return {
 		...response,
 		isLoading: isLoadingAccounts || isLoadingTokens || isLoadingPrice,
+	}
+}
+
+export const useNonFungibleResourceBalances = (forAccount?: string) => {
+	const { selectedAccount, currency } = useNoneSharedStore(state => ({
+		currency: state.currency,
+		selectedAccount: state.selectedAccount,
+	}))
+
+	forAccount = forAccount || selectedAccount
+	const {
+		data: accounts = [],
+		isLoading: isLoadingAccounts,
+		fetchStatus: fetchAccountsStatus,
+	} = useAccounts(forAccount ? { [forAccount]: true } : null)
+
+	const {
+		data: xrdPrice,
+		isLoading: isLoadingPrice,
+		fetchStatus: fetchPriceStatus,
+	} = useXRDPriceOnDay(currency, new Date())
+	const { data: tokens, isLoading: isLoadingTokens, fetchStatus: fetchTokensStatus } = useTokens()
+
+	const response = useMemo(() => {
+		let totalValue = new BigNumber(0)
+		const data: { [address: string]: ResourceBalance } = accounts.reduce(
+			(container, { non_fungible_resources }) =>
+				non_fungible_resources.items.reduce((c, resource: NonFungibleResourcesCollectionItemGloballyAggregated) => {
+					const amount = new BigNumber(resource.amount || 0)
+					if (amount.isZero()) return c
+					const balance = resourceBalanceFromEntityMetadataItems(
+						resource.resource_address,
+						ResourceBalanceType.NON_FUNGIBLE,
+						amount,
+						new BigNumber(xrdPrice || 0),
+						resource.explicit_metadata?.items,
+						tokens,
+					)
+					totalValue = totalValue.plus(balance.value)
+					return {
+						...c,
+						[resource.resource_address]: balance,
+					}
+				}, container),
+			{},
+		)
+
+		const balances = Object.values(data)
+		const totalChange = balances.reduce(
+			(change, balance) => change.plus(new BigNumber(balance.change).div(totalValue.dividedBy(balance.value))),
+			new BigNumber(0),
+		)
+
+		return { balances, totalValue, totalChange }
+	}, [fetchAccountsStatus, fetchAccountsStatus, fetchTokensStatus, fetchPriceStatus])
+
+	return {
+		...response,
+		isLoading: isLoadingAccounts || isLoadingTokens || isLoadingPrice,
+	}
+}
+
+export const useGlobalResourceBalances = (forAccount?: string) => {
+	const {
+		balances: fungibleBalances,
+		totalValue: fungibleValue,
+		totalChange: fungibleChange,
+		isLoading: fungibleIsLoading,
+	} = useFungibleResourceBalances(forAccount)
+	const {
+		balances: nonFungibleBalances,
+		totalValue: nonFungibleValue,
+		totalChange: nonFungibleChange,
+		isLoading: nonFungibleIsLoading,
+	} = useNonFungibleResourceBalances(forAccount)
+
+	const balances = [...(fungibleBalances || []), ...(nonFungibleBalances || [])]
+
+	const totalValue = fungibleValue.plus(nonFungibleValue)
+	const totalChange = balances.reduce(
+		(change, balance) => change.plus(new BigNumber(balance.change).div(totalValue.dividedBy(balance.value))),
+		new BigNumber(0),
+	)
+
+	return {
+		balances,
+		totalValue,
+		fungibleValue,
+		nonFungibleValue,
+		totalChange,
+		fungibleChange,
+		nonFungibleChange,
+		isLoading: fungibleIsLoading || nonFungibleIsLoading,
 	}
 }

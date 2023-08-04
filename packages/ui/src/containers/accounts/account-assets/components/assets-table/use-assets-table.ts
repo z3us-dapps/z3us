@@ -36,7 +36,7 @@ type TAssetsTable = {
 
 export const useAssetsTable = (): TAssetsTable => {
 	const navigate = useNavigate()
-	const { account, assetType, asset } = useAccountParams()
+	const { account, asset } = useAccountParams()
 	const isAccountActivityRoute = useIsAccountActivityRoute()
 
 	const columnsAssets = useMemo(
@@ -111,7 +111,7 @@ export const useAssetsTable = (): TAssetsTable => {
 	// TODO: should probably pass just ID? not row??
 	const handleRowSelected = (row: any) => {
 		const { original } = row
-		navigate(`/accounts/${account}/${original.id}`)
+		navigate(`/accounts?account=${account}&asset=${original.id}`)
 	}
 
 	const handleEndReached = () => {
@@ -135,7 +135,7 @@ export const useAssetsTable = (): TAssetsTable => {
 	useEffect(() => {
 		setLoading(true)
 		setTimeout(() => {
-			const newItems = Array.from({ length: assetType ? 50 : 4 }).map((_, i, a) => {
+			const newItems = Array.from({ length: asset ? 50 : 4 }).map((_, i, a) => {
 				const randomStr = generateRandomString()
 				return {
 					id: randomStr,
@@ -153,7 +153,7 @@ export const useAssetsTable = (): TAssetsTable => {
 	useEffect(() => {
 		setLoading(true)
 		setTimeout(() => {
-			const newItems = Array.from({ length: assetType ? 50 : 4 }).map((_, i, a) => {
+			const newItems = Array.from({ length: asset ? 50 : 4 }).map((_, i, a) => {
 				const randomStr = generateRandomString()
 				return {
 					id: randomStr,
@@ -167,7 +167,7 @@ export const useAssetsTable = (): TAssetsTable => {
 
 			if (isAccountActivityRoute) {
 				setColumns(columnsActivity)
-			} else if (assetType) {
+			} else if (asset) {
 				setColumns(columnsAssets)
 			} else {
 				setColumns(columnsHome)
@@ -175,7 +175,7 @@ export const useAssetsTable = (): TAssetsTable => {
 
 			setLoading(false)
 		}, 2000)
-	}, [account, assetType, asset, isAccountActivityRoute])
+	}, [account, asset, isAccountActivityRoute])
 
 	return {
 		items,

@@ -7,7 +7,6 @@ import { Box } from 'ui/src/components/box'
 import { Button } from 'ui/src/components/button'
 import { CardButtons } from 'ui/src/components/card-buttons'
 import { ArrowLeftIcon, ArrowRightIcon, Close2Icon } from 'ui/src/components/icons'
-import { ACCOUNTS_ALL } from 'ui/src/constants/routes'
 import { useAccountParams } from 'ui/src/hooks/use-account-params'
 
 import * as styles from './account-card.css'
@@ -47,11 +46,10 @@ const CARD_COLORS = [
 
 export const AccountCard: React.FC = () => {
 	const navigate = useNavigate()
-	const { account, assetType, asset } = useAccountParams()
+	const { account, asset } = useAccountParams()
 	const [isMounted, setIsMounted] = useState<boolean>(false)
 	// const [cards] = useState<Array<any>>(CARD_COLORS)
 	const [selectedIndexCard, setSelectedIndexCard] = useState<number>(0)
-	const isAllAccount = account === ACCOUNTS_ALL
 
 	const handleGotoNextAccount = () => {
 		if (selectedIndexCard === CARD_COLORS.length - 1) return
@@ -59,7 +57,7 @@ export const AccountCard: React.FC = () => {
 		setSelectedIndexCard(newIndex)
 		// eslint-disable-next-line
 		const cardAccount = CARD_COLORS.find((item, index) => index === newIndex)
-		navigate(`/accounts/${cardAccount.accountName.toLowerCase()}${assetType ? `/${assetType}` : ''}`)
+		navigate(`/accounts?account=${cardAccount.accountName.toLowerCase()}${asset ? `&asset=${asset}` : ''}`)
 	}
 
 	const handleGotoPrevAccount = () => {
@@ -68,7 +66,7 @@ export const AccountCard: React.FC = () => {
 		setSelectedIndexCard(newIndex)
 		// eslint-disable-next-line
 		const cardAccount = CARD_COLORS.find((item, index) => index === newIndex)
-		navigate(`/accounts/${cardAccount.accountName.toLowerCase()}${assetType ? `/${assetType}` : ''}`)
+		navigate(`/accounts?account=${cardAccount.accountName.toLowerCase()}${asset ? `&asset=${asset}` : ''}`)
 	}
 
 	useEffect(() => {
@@ -80,7 +78,7 @@ export const AccountCard: React.FC = () => {
 		setIsMounted(true)
 	}, [account])
 
-	if ((isAllAccount && !assetType) || asset) {
+	if (!account && !asset) {
 		return null
 	}
 

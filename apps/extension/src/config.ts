@@ -38,7 +38,7 @@ export const config: ConfigType = {
 			ledger: 'src/pages/ledger/index.html',
 			pairing: 'src/pages/app/index.html#/pairing',
 			options: 'src/pages/app/index.html#/options',
-			app: 'src/pages/app/index.html#/accounts/all',
+			app: 'src/pages/app/index.html#/accounts',
 		},
 	},
 	version,

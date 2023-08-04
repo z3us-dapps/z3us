@@ -63,7 +63,7 @@ const data = [
 ]
 
 export const AccountAssetInfo: React.FC<IAccountAssetInfoProps> = () => {
-	const { account, assetType, asset } = useAccountParams()
+	const { account, asset } = useAccountParams()
 
 	if (!asset) {
 		return null
@@ -84,7 +84,12 @@ export const AccountAssetInfo: React.FC<IAccountAssetInfoProps> = () => {
 			<Box display="flex" flexDirection="column" alignItems="center">
 				<Box className={styles.assetCloseBtnWrapper}>
 					<ToolTip theme="backgroundPrimary" message={<Translation capitalizeFirstLetter text="global.back" />}>
-						<Button iconOnly styleVariant="ghost" sizeVariant="small" to={`/accounts/${account}/${assetType}`}>
+						<Button
+							iconOnly
+							styleVariant="ghost"
+							sizeVariant="small"
+							to={`/accounts?account=${account}&asset=${asset}`}
+						>
 							<Close2Icon />
 						</Button>
 					</ToolTip>

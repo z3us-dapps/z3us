@@ -26,7 +26,7 @@ export const AssetsHeader: React.FC<IAccountRoutesProps> = props => {
 	const { isScrolledTop, scrollableNode } = props
 
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
-	const { account, assetType, asset } = useAccountParams()
+	const { account, asset } = useAccountParams()
 
 	const { currency } = useNoneSharedStore(state => ({
 		currency: state.currency,
@@ -35,7 +35,7 @@ export const AssetsHeader: React.FC<IAccountRoutesProps> = props => {
 	const { totalValue, isLoading } = useGlobalResourceBalances()
 	const [hidden, setHidden] = useState<boolean>(false)
 
-	const isBreadCrumbVisible = !!assetType
+	const isBreadCrumbVisible = !!asset
 
 	const handleUpClick = () => {
 		if (!scrollableNode) return
@@ -53,7 +53,7 @@ export const AssetsHeader: React.FC<IAccountRoutesProps> = props => {
 					<Box className={styles.accountBreadCrumbWrapper}>
 						{isBreadCrumbVisible ? (
 							<Box display="flex" alignItems="center" color="colorNeutral">
-								<Link size="large" to="/accounts/all" underline="hover">
+								<Link size="large" to="/accounts" underline="hover">
 									Overview
 								</Link>
 								<ChevronRightIcon />

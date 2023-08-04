@@ -27,7 +27,7 @@ const defaultProps: IAccountListHeaderOptionalProps = {
 
 export const AccountListHeader: React.FC<IAccountListHeaderProps> = props => {
 	const { className, scrollableNode } = props
-	const { account, assetType, asset } = useAccountParams()
+	const { account, asset } = useAccountParams()
 	const isScrolled = scrollableNode?.scrollTop > 0
 
 	return (
@@ -37,10 +37,10 @@ export const AccountListHeader: React.FC<IAccountListHeaderProps> = props => {
 			<Box width="full" paddingBottom="small">
 				<Box width="full">
 					<Box display="flex" paddingBottom="xsmall" width="full">
-						{assetType ? (
+						{asset ? (
 							<>
 								<Box flexShrink={0}>
-									<Link underline="hover" to={`/accounts/${account}`}>
+									<Link underline="hover" to={`/accounts?accounts=${account}`}>
 										<Text size="large" truncate>
 											<Translation capitalizeFirstLetter text="accounts.assetsList.overview" />
 											{account ? `: ${account}` : ''}
@@ -52,14 +52,14 @@ export const AccountListHeader: React.FC<IAccountListHeaderProps> = props => {
 										<ChevronRightIcon />
 									</Box>
 									{asset ? (
-										<Link underline="hover" to={`/accounts/${account}/${assetType}`}>
+										<Link underline="hover" to={`/accounts?accounts=${account}&asset=${asset}`}>
 											<Text size="large" truncate>
-												{assetType}
+												{asset}
 											</Text>
 										</Link>
 									) : (
 										<Text size="large" color="strong" truncate>
-											{assetType}
+											{asset}
 										</Text>
 									)}
 								</Box>
