@@ -17,15 +17,7 @@ import {
 	DialogRoot,
 	DialogTrigger,
 } from 'ui/src/components/dialog'
-import {
-	Close2Icon,
-	CoinsIcon,
-	Home2Icon,
-	Settings2Icon,
-	Swap2Icon,
-	SwitchHorizontal,
-	Z3usIcon,
-} from 'ui/src/components/icons'
+import { Close2Icon, CoinsIcon, Home2Icon, Settings2Icon, Swap2Icon, SwitchHorizontal } from 'ui/src/components/icons'
 import { PillNavigation } from 'ui/src/components/pill-navigation'
 import { Link } from 'ui/src/components/router-link'
 import * as containerStyles from 'ui/src/components/styles/container-styles.css'
@@ -80,7 +72,7 @@ export const DesktopNavigation: React.FC = () => {
 
 	return (
 		<Box component="nav" className={clsx(styles.navigationWrapper, containerStyles.containerWrapper)}>
-			<Box className={clsx(styles.navigationContainer, containerStyles.containerInnerWrapper)}>
+			<Box className={clsx(styles.navigationInnerWrapper, containerStyles.containerInnerWrapper)}>
 				<Link to={accountMenuSlugs.ACCOUNTS}>
 					<Z3usLogo />
 				</Link>
@@ -198,9 +190,7 @@ export const MobileMenu: React.FC = () => (
 		<DialogTrigger asChild>
 			<Box>
 				<ToolTip side="right" message="global.menu" theme="backgroundPrimary">
-					<Button iconOnly styleVariant="ghost">
-						<Z3usIcon />
-					</Button>
+					<Z3usLogo />
 				</ToolTip>
 			</Box>
 		</DialogTrigger>
@@ -208,14 +198,18 @@ export const MobileMenu: React.FC = () => (
 			<DialogOverlay className={dialogStyles.dialogOverlay} />
 			<DialogContent className={styles.mobileSlideOutDialogContent}>
 				<Box padding="medium">
-					<Box display="flex" flexDirection="row" justifyContent="flex-end">
-						<DialogClose asChild>
-							<Button iconOnly styleVariant="ghost">
-								<Close2Icon />
-							</Button>
-						</DialogClose>
-					</Box>
-					<Box>
+					<Box display="flex" flexDirection="column" justifyContent="flex-end">
+						<Box display="flex" width="full" justifyContent="flex-end">
+							<DialogClose asChild>
+								<Box>
+									<ToolTip message="global.close" theme="backgroundPrimary">
+										<Button iconOnly styleVariant="ghost" sizeVariant="small">
+											<Close2Icon />
+										</Button>
+									</ToolTip>
+								</Box>
+							</DialogClose>
+						</Box>
 						<DialogClose asChild>
 							<Link to="/">go to home</Link>
 						</DialogClose>

@@ -3,13 +3,13 @@ import React from 'react'
 import { Navigate, Route, Routes, useLocation } from 'react-router-dom'
 
 import { AnimatedPage } from 'ui/src/components/animated-page'
+import { Toasts } from 'ui/src/components/toasts'
 import { routes } from 'ui/src/constants/routes'
 import { Accounts } from 'ui/src/containers/accounts'
 
 import { config } from '@src/config'
 
 import * as styles from './app.css'
-import TempNav from './components/nav'
 
 if (APP_RADIX && config.isExtensionContext) {
 	// eslint-disable-next-line no-console
@@ -27,8 +27,6 @@ const App: React.FC = () => {
 
 	return (
 		<div className={styles.container}>
-			{/* TODO: TempNav will go, just to demonstrate route changes   */}
-			<TempNav />
 			<AnimatePresence initial={false}>
 				<Routes location={location} key={locationArr[1]}>
 					{['/', routes.ACCOUNTS].map(path => (
@@ -59,6 +57,7 @@ const App: React.FC = () => {
 					/>
 				</Routes>
 			</AnimatePresence>
+			<Toasts />
 		</div>
 	)
 }

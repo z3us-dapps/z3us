@@ -1,14 +1,17 @@
-import { globalStyle, keyframes, style } from '@vanilla-extract/css'
+import { keyframes, style } from '@vanilla-extract/css'
 
-import { darkMode, sprinkles } from 'ui/src/components/system/sprinkles.css'
-import { vars } from 'ui/src/components/system/theme.css'
+import { sprinkles } from 'ui/src/components/system/sprinkles.css'
+import { responsiveStyle } from 'ui/src/components/system/theme-utils'
 
 export const navigationWrapper = style([
 	sprinkles({
 		display: 'flex',
 		justifyContent: 'center',
-		borderBottom: 1,
+		borderBottom: {
+			tablet: 1,
+		},
 		borderBottomStyle: 'solid',
+		zIndex: 1,
 		borderColor: {
 			lightMode: 'bleached_silk600',
 			darkMode: 'lead500',
@@ -21,14 +24,19 @@ export const navigationWrapper = style([
 	{},
 ])
 
-export const navigationContainer = style([
+export const navigationInnerWrapper = style([
 	sprinkles({
 		display: 'flex',
 		alignItems: 'center',
 	}),
-	{
-		height: '70px',
-	},
+	responsiveStyle({
+		mobile: {
+			height: '58px',
+		},
+		tablet: {
+			height: '70px',
+		},
+	}),
 ])
 
 export const navigationMenu = style([
@@ -145,7 +153,10 @@ export const navigationMenuLinkMobile = style([
 		boxShadow: {
 			focusVisible: 'btnSecondaryShadowFocus',
 		},
-		background: 'backgroundSecondary',
+		background: {
+			lightMode: 'backgroundSecondary',
+			hover: 'backgroundPrimary',
+		},
 	}),
 	{
 		outline: 0,
@@ -155,9 +166,6 @@ export const navigationMenuLinkMobile = style([
 			'&:focus-visible': {
 				position: 'relative',
 				zIndex: 1,
-			},
-			[`.${darkMode} &:hover`]: {
-				background: vars.color.lead400,
 			},
 		},
 	},
@@ -229,23 +237,3 @@ export const mobileSlideOutDialogContent = style([
 		},
 	},
 ])
-
-globalStyle(`${navigationMenuLinkMobile}:hover ${navigationMenuLinkMobileCircle}`, {
-	background: vars.color.lead300,
-	color: vars.color.white,
-})
-
-globalStyle(`${navigationMenuLinkMobile}:hover ${navigationMenuLinkMobileCircleSelect}`, {
-	color: vars.color.white,
-	background: vars.color.purple400,
-})
-
-globalStyle(`.${darkMode} ${navigationMenuLinkMobile}:hover ${navigationMenuLinkMobileCircle}`, {
-	color: vars.color.white,
-	background: vars.color.lead300,
-})
-
-globalStyle(`.${darkMode} ${navigationMenuLinkMobile}:hover ${navigationMenuLinkMobileCircleSelect}`, {
-	color: vars.color.white,
-	background: vars.color.purple400,
-})

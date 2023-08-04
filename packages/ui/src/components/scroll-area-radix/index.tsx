@@ -19,8 +19,8 @@ export const ScrollAreaViewport = forwardRef<HTMLDivElement, ScrollAreaPrimitive
 	),
 )
 
-export const ScrollAreaScrollbar = ({ children, ...props }) => (
-	<ScrollAreaPrimitive.Scrollbar className={styles.scrollAreaScrollbarWrapper} {...props}>
+export const ScrollAreaScrollbar = ({ children, className, ...props }) => (
+	<ScrollAreaPrimitive.Scrollbar className={clsx(styles.scrollAreaScrollbarWrapper, className)} {...props}>
 		{children}
 	</ScrollAreaPrimitive.Scrollbar>
 )
@@ -38,6 +38,7 @@ interface IScrollAreaRadix extends ScrollAreaPrimitive.ScrollAreaProps {
 	fixHeight?: boolean
 	showTopScrollShadow?: boolean
 	showBottomScrollShadow?: boolean
+	roundedScrollArea?: boolean
 	renderScrollArea: (scrollParent: HTMLElement | null, isScrollTop: boolean) => any
 }
 
@@ -49,6 +50,7 @@ export const ScrollAreaRadix = ({ children, ...props }: IScrollAreaRadix) => {
 		disabled,
 		showTopScrollShadow = true,
 		showBottomScrollShadow = true,
+		roundedScrollArea = false,
 		...rest
 	} = props
 
@@ -98,7 +100,10 @@ export const ScrollAreaRadix = ({ children, ...props }: IScrollAreaRadix) => {
 				{renderScrollArea(scrollParent, isScrolledTop)}
 				{!disabled && <div ref={bottomRef} className={styles.scrollAreaIntersectionSliceBottom} />}
 			</ScrollAreaViewport>
-			<ScrollAreaScrollbar orientation="vertical">
+			<ScrollAreaScrollbar
+				orientation="vertical"
+				className={clsx(roundedScrollArea && styles.scrollAreaScrollbarRoundedWrapper)}
+			>
 				<ScrollAreaThumb />
 			</ScrollAreaScrollbar>
 		</ScrollAreaRoot>

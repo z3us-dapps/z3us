@@ -1,7 +1,5 @@
-/* eslint-disable react/function-component-definition */
 import { ThemeProvider } from '@/context/theme-provider'
 import '@/styles/global-style.css'
-// import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
 // import { displayValue } from '@tanstack/react-query-devtools/build/lib/utils'
 import type { AppProps } from 'next/app'
 import { DappStatusContext } from 'packages/ui/src/context/dapp-status'
@@ -12,6 +10,7 @@ import { RdtProvider } from 'ui/src/context/rdt-provider'
 import { ReactQueryProvider } from 'ui/src/context/react-query-provider'
 import { NoneSharedStoreProvider } from 'ui/src/context/state-provider'
 
+// eslint-disable-next-line react/function-component-definition
 export default function App({ Component, pageProps }: AppProps) {
 	const [isServer, setIsServer] = useState<boolean>(true)
 
@@ -31,7 +30,6 @@ export default function App({ Component, pageProps }: AppProps) {
 							<NoneSharedStoreProvider>
 								<RdtProvider>{typeof window === 'undefined' ? null : <Component {...pageProps} />}</RdtProvider>
 							</NoneSharedStoreProvider>
-							{/* <ReactQueryDevtools initialIsOpen={false} /> */}
 						</ReactQueryProvider>
 					</I18Provider>
 				</DappStatusContext.Provider>
