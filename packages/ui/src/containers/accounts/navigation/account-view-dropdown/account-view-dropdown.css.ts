@@ -13,7 +13,7 @@ export const accountViewDropdownWrapper = style([
 export const accountViewSimpleBarWrapper = style([
 	responsiveStyle({
 		mobile: { maxHeight: '460px' },
-		tablet: { maxHeight: '70vh' },
+		tablet: { maxHeight: '235px' },
 	}),
 ])
 
@@ -22,7 +22,7 @@ export const accountViewContentWrapper = style([
 		position: 'relative',
 	}),
 	{
-		minWidth: '200px',
+		width: '200px',
 		paddingTop: 0,
 		paddingBottom: 0,
 		paddingLeft: 0,
@@ -34,12 +34,20 @@ export const accountViewContentWrapper = style([
 	}),
 ])
 
-export const accountViewScrollAreaWrapper = style([
+export const accountViewPaddingWrapper = style([
 	sprinkles({
 		position: 'relative',
 		width: 'full',
-		height: 'full',
 		paddingY: 'small',
+		paddingX: 'small',
+	}),
+	{},
+])
+
+export const accountViewPaddingXWrapper = style([
+	sprinkles({
+		position: 'relative',
+		width: 'full',
 		paddingX: 'small',
 	}),
 	{},

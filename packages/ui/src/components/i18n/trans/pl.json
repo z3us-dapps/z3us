@@ -41,6 +41,15 @@
 		"twitter": "twitter",
 		"github": "github"
 	},
+	"walletDropdown": {
+		"contentScriptTitle": "Połączony dapp",
+		"walletTitle": "Portfel",
+		"accountTitle": "konto",
+		"personaTitle": "osoba",
+		"settingsTitle": "ustawienia",
+		"lockTitle": "zamek",
+		"openInBrowserTitle": "Otwórz w przeglądarce"
+	},
 	"accounts": {
 		"navigation": {
 			"accounts": "konta",

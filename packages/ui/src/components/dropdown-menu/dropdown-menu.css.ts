@@ -165,6 +165,7 @@ export const dropdownMenuItemLeftSlot = style([
 		display: 'flex',
 		alignItems: 'center',
 		justifyContent: 'center',
+		flexShrink: 0,
 	}),
 	{},
 ])

@@ -2,7 +2,6 @@ import clsx from 'clsx'
 import React from 'react'
 
 import { Box } from 'ui/src/components/box'
-import { WalletDropdown } from 'ui/src/components/wallet-dropdown'
 import { Z3usLogo } from 'ui/src/components/z3us-logo-babylon'
 
 import * as styles from './settings-mobile-header.css'
@@ -17,7 +16,7 @@ export const SettingsMobileHeader = props => {
 			</Box>
 		),
 		middleSlot = <Box />,
-		rightSlot = <WalletDropdown />,
+		rightSlot = <Box />,
 	} = props
 
 	return (

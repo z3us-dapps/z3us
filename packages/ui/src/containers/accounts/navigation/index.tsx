@@ -23,7 +23,6 @@ import { Link } from 'ui/src/components/router-link'
 import * as containerStyles from 'ui/src/components/styles/container-styles.css'
 import * as dialogStyles from 'ui/src/components/styles/dialog-styles.css'
 import { ToolTip } from 'ui/src/components/tool-tip'
-import { WalletDropdown } from 'ui/src/components/wallet-dropdown'
 import { Z3usLogo } from 'ui/src/components/z3us-logo-babylon'
 
 import { AccountViewDropdown } from './account-view-dropdown'
@@ -66,7 +65,6 @@ export const DesktopNavigation: React.FC = () => {
 				<Box display="flex" alignItems="center" gap="medium" flexGrow={1} justifyContent="flex-end">
 					<CopyAddressButton address={selectedAccount} />
 					<AccountViewDropdown />
-					<WalletDropdown />
 					<ConnectButton />
 				</Box>
 			</Box>
@@ -137,7 +135,6 @@ export const MobileHeaderNavigation = forwardRef<HTMLElement, IMobileHeaderNavig
 								<CopyAddressButton styleVariant="white-transparent" address={selectedAccount} />
 							) : null}
 						</Box>
-						<WalletDropdown />
 					</Box>
 				</Box>
 			</Box>
