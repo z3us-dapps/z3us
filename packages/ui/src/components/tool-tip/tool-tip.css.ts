@@ -1,6 +1,6 @@
 import { keyframes, style } from '@vanilla-extract/css'
 
-import { sprinkles } from '../system/sprinkles.css'
+import { darkMode, sprinkles } from '../system/sprinkles.css'
 import { responsiveStyle } from '../system/theme-utils'
 
 const TRANSLATE_PX = '4px'
@@ -33,14 +33,15 @@ const fadeOut = keyframes({
 
 export const toolTipContent = style([
 	sprinkles({
-		color: 'colorNeutral',
-		paddingX: 'small',
-		paddingY: 'small',
+		color: 'colorStrong',
+		paddingX: 'xsmall',
+		paddingY: 'xsmall',
 		borderRadius: 'small',
 		pointerEvents: 'none',
 		boxShadow: 'shadowTooltip',
 	}),
 	{
+		background: 'rgba(218, 218, 218, 0.5)',
 		maxWidth: '220px',
 		zIndex: '10',
 		overflowWrap: 'break-word',
@@ -64,6 +65,10 @@ export const toolTipContent = style([
 				animation: `${fadeOut} 0.2s ease-out`,
 				animationDelay: '300ms',
 			},
+
+			[`.${darkMode} &`]: {
+				background: 'rgba(20, 20, 20, 0.7)',
+			},
 		},
 	},
 
@@ -74,48 +79,16 @@ export const toolTipContent = style([
 	}),
 ])
 
-export const toolTipContentBgSecondary = style([
-	sprinkles({
-		background: {
-			lightMode: 'bai_pearl200',
-			darkMode: 'backgroundSecondary',
-		},
-	}),
-	{},
-])
-
-export const toolTipContentBgPrimary = style([
-	sprinkles({
-		background: {
-			lightMode: 'bai_pearl300',
-			darkMode: 'backgroundPrimary',
-		},
-	}),
-	{},
-])
-
-export const toolTipArrowFillSecondary = style([
-	sprinkles({
-		fill: {
-			lightMode: 'bai_pearl200',
-			darkMode: 'backgroundSecondary',
-		},
-	}),
-	{},
-])
-export const toolTipArrowFillPrimary = style([
-	sprinkles({
-		fill: {
-			lightMode: 'bai_pearl300',
-			darkMode: 'backgroundPrimary',
-		},
-	}),
-	{},
-])
-
 export const toolTipArrow = style([
 	sprinkles({
 		position: 'relative',
 	}),
-	{},
+	{
+		fill: 'rgba(218, 218, 218, 0.5)',
+		selectors: {
+			[`.${darkMode} &`]: {
+				fill: 'rgba(20, 20, 20, 0.7)',
+			},
+		},
+	},
 ])

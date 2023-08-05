@@ -3,7 +3,7 @@ import React from 'react'
 
 import { Box } from 'ui/src/components/box'
 import { DownLeft2Icon, QrCode2Icon, UpRight2Icon } from 'ui/src/components/icons'
-import { type TTheme, ToolTip } from 'ui/src/components/tool-tip'
+import { ToolTip } from 'ui/src/components/tool-tip'
 import { useIsMobileWidth } from 'ui/src/hooks/use-is-mobile'
 
 import { Button } from '../router-button'
@@ -13,18 +13,16 @@ interface ICardButtonsRequiredProps {}
 
 interface ICardButtonsOptionalProps {
 	className?: string
-	theme?: TTheme
 }
 
 interface ICardButtonsProps extends ICardButtonsRequiredProps, ICardButtonsOptionalProps {}
 
 const defaultProps: ICardButtonsOptionalProps = {
 	className: undefined,
-	theme: 'backgroundPrimary',
 }
 
 export const CardButtons: React.FC<ICardButtonsProps> = props => {
-	const { className, theme } = props
+	const { className } = props
 
 	const isMobile = useIsMobileWidth()
 
@@ -32,17 +30,17 @@ export const CardButtons: React.FC<ICardButtonsProps> = props => {
 
 	return (
 		<Box className={clsx(styles.cardButtonsWrapper, className)}>
-			<ToolTip message="global.send" theme={theme}>
+			<ToolTip message="global.send">
 				<Button iconOnly rounded styleVariant="inverse" sizeVariant={buttonSize} to="accounts/transfer">
 					<UpRight2Icon />
 				</Button>
 			</ToolTip>
-			<ToolTip message="global.receive" theme={theme}>
+			<ToolTip message="global.receive">
 				<Button iconOnly rounded styleVariant="inverse" sizeVariant={buttonSize} to="/accounts/transfer">
 					<DownLeft2Icon />
 				</Button>
 			</ToolTip>
-			<ToolTip message="global.address" theme={theme}>
+			<ToolTip message="global.address">
 				<Button iconOnly rounded styleVariant="inverse" sizeVariant={buttonSize} to="/accounts/transfer">
 					<QrCode2Icon />
 				</Button>

@@ -36,7 +36,7 @@ export const AccountAssetSearch: React.FC<IAccountAssetSearchProps> = props => {
 					<Box className={styles.accountBalanceWrapper}>
 						<>{balance}</>
 					</Box>
-					<ToolTip theme="backgroundPrimary" message="global.up">
+					<ToolTip message="global.up">
 						<Button
 							className={clsx(styles.accountUpButton, isScrolled && styles.accountUpButtonVisible)}
 							styleVariant="ghost"
@@ -47,7 +47,7 @@ export const AccountAssetSearch: React.FC<IAccountAssetSearchProps> = props => {
 							<ArrowUpIcon />
 						</Button>
 					</ToolTip>
-					<ToolTip theme="backgroundPrimary" message="global.search">
+					<ToolTip message="global.search">
 						<Button
 							className={styles.accountSearchButton}
 							styleVariant="ghost"

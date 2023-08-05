@@ -165,7 +165,7 @@ export const MobileMenu: React.FC = () => (
 	<DialogRoot>
 		<DialogTrigger asChild>
 			<Box>
-				<ToolTip side="right" message="global.menu" theme="backgroundPrimary">
+				<ToolTip side="right" message="global.menu">
 					<Z3usLogo />
 				</ToolTip>
 			</Box>
@@ -178,7 +178,7 @@ export const MobileMenu: React.FC = () => (
 						<Box display="flex" width="full" justifyContent="flex-end">
 							<DialogClose asChild>
 								<Box>
-									<ToolTip message="global.close" theme="backgroundPrimary">
+									<ToolTip message="global.close">
 										<Button iconOnly styleVariant="ghost" sizeVariant="small">
 											<Close2Icon />
 										</Button>

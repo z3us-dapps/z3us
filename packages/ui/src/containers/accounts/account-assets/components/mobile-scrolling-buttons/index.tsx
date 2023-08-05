@@ -70,6 +70,9 @@ export const MobileScrollingButtons: React.FC<IMobileScrollingButtonsProps> = pr
 
 	const generateBackLink = () => `/accounts`
 
+	// TODO
+	const show = true
+
 	return (
 		<Box
 			ref={wrapperRef}
@@ -139,9 +142,11 @@ export const MobileScrollingButtons: React.FC<IMobileScrollingButtonsProps> = pr
 							</Box>
 						}
 						rightIcon={
-							<Button iconOnly sizeVariant="small" styleVariant="ghost" rounded>
-								<Close2Icon />
-							</Button>
+							show ? (
+								<Button iconOnly sizeVariant="small" styleVariant="ghost" rounded>
+									<Close2Icon />
+								</Button>
+							) : null
 						}
 						rightIconClassName={styles.inputSearchClearBtn}
 						onChange={() => {}}

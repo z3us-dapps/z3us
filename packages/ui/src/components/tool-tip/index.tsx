@@ -15,8 +15,6 @@ export const ToolTipTrigger = TooltipPrimitive.Trigger
 export const ToolTipContent = TooltipPrimitive.Content
 export const ToolTipArrow = TooltipPrimitive.Arrow
 
-export type TTheme = 'backgroundSecondary' | 'backgroundPrimary'
-
 interface IToolTipProps {
 	children: React.ReactNode
 	message: string | React.ReactNode
@@ -26,7 +24,6 @@ interface IToolTipProps {
 	side?: Side
 	isArrowVisible?: boolean
 	isTranslated?: boolean
-	theme?: TTheme
 }
 
 export const ToolTip: React.FC<IToolTipProps> = ({
@@ -38,7 +35,6 @@ export const ToolTip: React.FC<IToolTipProps> = ({
 	isArrowVisible = false,
 	arrowOffset = 5,
 	isTranslated = true,
-	theme = 'backgroundSecondary',
 }) => (
 	<TooltipProvider>
 		<ToolTipRoot>
@@ -49,20 +45,9 @@ export const ToolTip: React.FC<IToolTipProps> = ({
 						sideOffset={sideOffset}
 						side={side}
 						collisionPadding={10}
-						className={clsx(
-							styles.toolTipContent,
-							theme === 'backgroundSecondary' ? styles.toolTipContentBgSecondary : styles.toolTipContentBgPrimary,
-						)}
+						className={clsx(styles.toolTipContent)}
 					>
-						{isArrowVisible ? (
-							<ToolTipArrow
-								offset={arrowOffset}
-								className={clsx(
-									styles.toolTipArrow,
-									theme === 'backgroundSecondary' ? styles.toolTipArrowFillSecondary : styles.toolTipArrowFillPrimary,
-								)}
-							/>
-						) : null}
+						{isArrowVisible ? <ToolTipArrow offset={arrowOffset} className={clsx(styles.toolTipArrow)} /> : null}
 						<Text size="xxsmall" color="strong">
 							{isTranslated
 								? `${message}`.split(' ').map((m, i) => (

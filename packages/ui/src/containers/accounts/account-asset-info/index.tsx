@@ -86,13 +86,8 @@ export const AccountAssetInfo: React.FC<IAccountAssetInfoProps> = () => {
 		<Box flexShrink={0}>
 			<Box display="flex" flexDirection="column" alignItems="center">
 				<Box className={styles.assetCloseBtnWrapper}>
-					<ToolTip theme="backgroundPrimary" message={<Translation capitalizeFirstLetter text="global.back" />}>
-						<Button
-							iconOnly
-							styleVariant="ghost"
-							sizeVariant="small"
-							to={`/accounts${assetType ? `/${assetType}` : ''}?account=${account}`}
-						>
+					<ToolTip message={<Translation capitalizeFirstLetter text="global.back" />}>
+						<Button iconOnly styleVariant="ghost" sizeVariant="small" to={`/accounts/${account}/${assetType}`}>
 							<Close2Icon />
 						</Button>
 					</ToolTip>

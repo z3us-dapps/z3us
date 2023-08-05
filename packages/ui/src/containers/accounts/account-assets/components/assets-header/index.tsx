@@ -84,10 +84,7 @@ export const AssetsHeader: React.FC<IAccountRoutesProps> = props => {
 										{isLoading ? 'Loading...' : `${formatBigNumber(totalValue, currency, 2)}`}
 									</Text>
 								</TextScramble>
-								<ToolTip
-									theme="backgroundPrimary"
-									message={hidden ? 'accounts.home.accountShowBalance' : 'accounts.home.accountHideBalance'}
-								>
+								<ToolTip message={hidden ? 'accounts.home.accountShowBalance' : 'accounts.home.accountHideBalance'}>
 									<Button onClick={handleToggleHidden} styleVariant="ghost" sizeVariant="small" iconOnly>
 										{hidden ? <EyeIcon /> : <EyeOffIcon />}
 									</Button>
@@ -100,13 +97,13 @@ export const AssetsHeader: React.FC<IAccountRoutesProps> = props => {
 							</TextScramble>
 						</Box>
 						<Box className={clsx(styles.assetsHeaderUpWrapper, !isScrolledTop && styles.assetsHeaderUpVisibleWrapper)}>
-							<ToolTip theme="backgroundPrimary" message="global.up">
+							<ToolTip message="global.up">
 								<Button onClick={handleUpClick} styleVariant="ghost" sizeVariant="small" iconOnly>
 									<ArrowUpIcon />
 								</Button>
 							</ToolTip>
 						</Box>
-						<ToolTip theme="backgroundPrimary" message="global.search">
+						<ToolTip message="global.search">
 							<Button to={`${pathname}?query=hello`} styleVariant="ghost" sizeVariant="small" iconOnly>
 								<SearchIcon />
 							</Button>

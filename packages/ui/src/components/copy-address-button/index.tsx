@@ -6,7 +6,7 @@ import { Box } from 'ui/src/components/box'
 import { Button, type TSizeVariant, type TStyleVariant } from 'ui/src/components/button'
 import { CopyIcon } from 'ui/src/components/icons'
 import { type TThemeColorKey } from 'ui/src/components/system/theme.css'
-import { type TTheme, ToolTip } from 'ui/src/components/tool-tip'
+import { ToolTip } from 'ui/src/components/tool-tip'
 import Translation from 'ui/src/components/translation'
 import { Text } from 'ui/src/components/typography'
 import { copyTextToClipboard } from 'ui/src/utils/copy-to-clipboard'
@@ -68,7 +68,6 @@ interface ICopyAddressButtonOptionalProps {
 	rounded?: boolean
 	animationTimeout?: number
 	toolTipDisabled?: boolean
-	toolTipTheme?: TTheme
 }
 
 interface ICopyAddressButtonProps extends ICopyAddressButtonRequiredProps, ICopyAddressButtonOptionalProps {}
@@ -82,7 +81,6 @@ const defaultProps: ICopyAddressButtonOptionalProps = {
 	rounded: true,
 	animationTimeout: 1500,
 	toolTipDisabled: false,
-	toolTipTheme: 'backgroundSecondary',
 }
 
 export const CopyAddressButton: React.FC<ICopyAddressButtonProps> = props => {
@@ -96,7 +94,6 @@ export const CopyAddressButton: React.FC<ICopyAddressButtonProps> = props => {
 		tickColor,
 		animationTimeout,
 		toolTipDisabled,
-		toolTipTheme,
 	} = props
 
 	const [copiedAnimate, setCopiedAnimate] = useState<boolean>(false)
@@ -117,7 +114,7 @@ export const CopyAddressButton: React.FC<ICopyAddressButtonProps> = props => {
 	}, [copiedAnimate])
 
 	return (
-		<ToolTip theme={toolTipTheme} message={address} disabled={toolTipDisabled}>
+		<ToolTip message={address} disabled={toolTipDisabled}>
 			<Button
 				className={clsx(className)}
 				sizeVariant={sizeVariant}
