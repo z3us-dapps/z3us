@@ -13,6 +13,7 @@ import * as styles from './dropdown-menu.css'
 export const DropdownMenu = DropdownMenuPrimitive.Root
 export const DropdownMenuPortal = DropdownMenuPrimitive.Portal
 export const DropdownMenuTrigger = DropdownMenuPrimitive.Trigger
+export const DropdownMenuSub = DropdownMenuPrimitive.Sub
 
 export const DropdownMenuContent = forwardRef<HTMLDivElement, DropdownMenuPrimitive.DropdownMenuContentProps>(
 	({ children, className, ...props }, ref) => (
@@ -54,6 +55,18 @@ export const DropdownMenuItemIndicator = ({ children, ...props }) => (
 	<DropdownMenuPrimitive.ItemIndicator className={styles.dropdownMenuItemIndicator} {...props}>
 		{children}
 	</DropdownMenuPrimitive.ItemIndicator>
+)
+
+export const DropdownMenuSubTrigger = ({ children, ...props }) => (
+	<DropdownMenuPrimitive.SubTrigger className={styles.dropdownMenuSubTrigger} {...props}>
+		{children}
+	</DropdownMenuPrimitive.SubTrigger>
+)
+
+export const DropdownMenuSubContent = ({ children, ...props }) => (
+	<DropdownMenuPrimitive.SubContent className={styles.dropdownMenuSubContent} {...props}>
+		{children}
+	</DropdownMenuPrimitive.SubContent>
 )
 
 export const DropdownMenuRightSlot = ({ children, ...props }) => (

@@ -82,6 +82,30 @@ export const dropdownMenuContent = style([
 	},
 ])
 
+export const dropdownMenuSubContent = style([
+	sprinkles({
+		...(sharedPopoverBgSprinkles as Sprinkles),
+		padding: 'small',
+	}),
+	{
+		...sharedPopoverBgStyles,
+		selectors: {
+			...sharedPopoverBgSelectorStyles,
+		},
+	},
+])
+
+export const dropdownMenuSubTrigger = style([
+	sprinkles({
+		...(sharedItemStyles as Sprinkles),
+	}),
+	{
+		outline: 'none',
+		minHeight: '40px',
+		maxWidth: '100%',
+	},
+])
+
 export const dropdownMenuItem = style([
 	sprinkles({
 		...(sharedItemStyles as Sprinkles),

@@ -1,7 +1,9 @@
 import clsx, { type ClassValue } from 'clsx'
 import { useNetworkId } from 'packages/ui/src/hooks/dapp/use-network-id'
+import { Theme } from 'packages/ui/src/types/types'
 import { getShortAddress } from 'packages/ui/src/utils/string-utils'
 import React, { forwardRef } from 'react'
+import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router-dom'
 
 import { Box } from 'ui/src/components/box'
@@ -18,18 +20,25 @@ import {
 	DropdownMenuPortal,
 	DropdownMenuRadioGroup,
 	DropdownMenuRadioItem,
+	DropdownMenuRightSlot,
 	DropdownMenuSeparator,
+	DropdownMenuSub,
+	DropdownMenuSubContent,
+	DropdownMenuSubTrigger,
 	DropdownMenuTrigger,
 } from 'ui/src/components/dropdown-menu'
 import {
 	CheckIcon,
 	ChevronDownIcon,
+	ChevronRightIcon,
 	HardwareWalletIcon,
 	HomeIcon,
 	LockIcon,
+	MoonIcon,
 	NetworkIcon,
 	Settings2Icon,
 	ShareIcon,
+	SunIcon,
 } from 'ui/src/components/icons'
 import { ResourceImageIcon } from 'ui/src/components/resource-image-icon'
 import { Link } from 'ui/src/components/router-link'
@@ -39,6 +48,7 @@ import { Text } from 'ui/src/components/typography'
 import { useDappStatus } from 'ui/src/hooks/use-dapp-status'
 import { useIsMobileWidth } from 'ui/src/hooks/use-is-mobile'
 import { useNoneSharedStore, useSharedStore } from 'ui/src/hooks/use-store'
+import { useTheme } from 'ui/src/hooks/use-theme'
 import { useWalletAccounts } from 'ui/src/hooks/use-wallet-account'
 import { KeystoreType } from 'ui/src/store/types'
 
@@ -52,11 +62,14 @@ interface IAccountViewDropdownProps {
 
 export const AccountViewDropdown = forwardRef<HTMLElement, IAccountViewDropdownProps>(
 	(props, ref: React.Ref<HTMLElement | null>) => {
+		const { t } = useTranslation()
 		const { className, styleVariant = 'tertiary', isLeftButtonIconVisible = true } = props
 
 		const isMobile = useIsMobileWidth()
 		const networkId = useNetworkId()
 		const accounts = useWalletAccounts()
+
+		const { resolvedTheme, theme, setTheme } = useTheme()
 
 		const navigate = useNavigate()
 
@@ -245,8 +258,45 @@ export const AccountViewDropdown = forwardRef<HTMLElement, IAccountViewDropdownP
 										</Text>
 									</Box>
 								</DropdownMenuItem>
+								<DropdownMenuSub>
+									<DropdownMenuSubTrigger>
+										<DropdownMenuLeftSlot>
+											{resolvedTheme === Theme.LIGHT && <SunIcon />}
+											{resolvedTheme === Theme.DARK && <MoonIcon />}
+										</DropdownMenuLeftSlot>
+										<Box flexGrow={1} display="flex" marginLeft="small">
+											<Text size="xsmall" truncate>
+												<Translation capitalizeFirstLetter text="walletDropdown.theme" />
+											</Text>
+										</Box>
+										<DropdownMenuRightSlot>
+											<ChevronRightIcon />
+										</DropdownMenuRightSlot>
+									</DropdownMenuSubTrigger>
+									<DropdownMenuPortal>
+										<DropdownMenuSubContent>
+											<DropdownMenuRadioGroup value={theme} onValueChange={setTheme}>
+												{[
+													{ id: Theme.LIGHT, title: t('settings.theme.options.light') },
+													{ id: Theme.DARK, title: t('settings.theme.options.dark') },
+													{ id: Theme.SYSTEM, title: t('settings.theme.options.system') },
+												].map(({ id, title }) => (
+													<DropdownMenuRadioItem key={id} value={id}>
+														<Box flexGrow={1} marginLeft="small">
+															<Text size="xsmall" capitalizeFirstLetter>
+																{title}
+															</Text>
+														</Box>
+														<DropdownMenuItemIndicator>
+															<CheckIcon />
+														</DropdownMenuItemIndicator>
+													</DropdownMenuRadioItem>
+												))}
+											</DropdownMenuRadioGroup>
+										</DropdownMenuSubContent>
+									</DropdownMenuPortal>
+								</DropdownMenuSub>
 							</Box>
-
 							<DropdownMenuArrow />
 						</DropdownMenuContent>
 					</DropdownMenuPortal>

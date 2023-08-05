@@ -42,13 +42,14 @@
 		"github": "github"
 	},
 	"walletDropdown": {
-		"contentScriptTitle": "Connected dapp",
-		"walletTitle": "Wallet",
-		"accountTitle": "Account",
-		"personaTitle": "Persona",
-		"settingsTitle": "Settings",
-		"lockTitle": "Lock",
-		"openInBrowserTitle": "Open in browser"
+		"contentScriptTitle": "connected dapp",
+		"walletTitle": "wallet",
+		"accountTitle": "account",
+		"personaTitle": "persona",
+		"settingsTitle": "settings",
+		"lockTitle": "lock",
+		"openInBrowserTitle": "open in browser",
+		"theme": "theme"
 	},
 	"accounts": {
 		"navigation": {

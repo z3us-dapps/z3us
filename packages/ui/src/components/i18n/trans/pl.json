@@ -48,7 +48,8 @@
 		"personaTitle": "osoba",
 		"settingsTitle": "ustawienia",
 		"lockTitle": "zamek",
-		"openInBrowserTitle": "Otwórz w przeglądarce"
+		"openInBrowserTitle": "Otwórz w przeglądarce",
+		"theme": "temat"
 	},
 	"accounts": {
 		"navigation": {
