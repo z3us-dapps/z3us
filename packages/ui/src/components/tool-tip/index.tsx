@@ -48,7 +48,7 @@ export const ToolTip: React.FC<IToolTipProps> = ({
 						className={clsx(styles.toolTipContent)}
 					>
 						{isArrowVisible ? <ToolTipArrow offset={arrowOffset} className={clsx(styles.toolTipArrow)} /> : null}
-						<Text size="xxsmall" color="strong">
+						<Text size="xxsmall" color="white">
 							{isTranslated
 								? `${message}`.split(' ').map((m, i) => (
 										// eslint-disable-next-line react/no-array-index-key

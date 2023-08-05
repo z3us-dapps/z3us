@@ -1,5 +1,6 @@
 import { keyframes, style } from '@vanilla-extract/css'
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { darkMode, sprinkles } from '../system/sprinkles.css'
 import { responsiveStyle } from '../system/theme-utils'
 
@@ -33,7 +34,6 @@ const fadeOut = keyframes({
 
 export const toolTipContent = style([
 	sprinkles({
-		color: 'colorStrong',
 		paddingX: 'xsmall',
 		paddingY: 'xsmall',
 		borderRadius: 'small',
@@ -41,7 +41,7 @@ export const toolTipContent = style([
 		boxShadow: 'shadowTooltip',
 	}),
 	{
-		background: 'rgba(218, 218, 218, 0.5)',
+		background: 'rgba(20, 20, 20, 0.9)',
 		maxWidth: '220px',
 		zIndex: '10',
 		overflowWrap: 'break-word',
@@ -65,10 +65,9 @@ export const toolTipContent = style([
 				animation: `${fadeOut} 0.2s ease-out`,
 				animationDelay: '300ms',
 			},
-
-			[`.${darkMode} &`]: {
-				background: 'rgba(20, 20, 20, 0.9)',
-			},
+			// [`.${darkMode} &`]: {
+			// 	background: 'rgba(20, 20, 20, 0.9)',
+			// },
 		},
 	},
 
@@ -84,11 +83,12 @@ export const toolTipArrow = style([
 		position: 'relative',
 	}),
 	{
-		fill: 'rgba(218, 218, 218, 0.5)',
-		selectors: {
-			[`.${darkMode} &`]: {
-				fill: 'rgba(20, 20, 20, 0.9)',
-			},
-		},
+		fill: 'rgba(20, 20, 20, 0.9)',
+		// fill: 'rgba(218, 218, 218, 0.5)',
+		// selectors: {
+		// 	[`.${darkMode} &`]: {
+		// 		fill: 'rgba(20, 20, 20, 0.9)',
+		// 	},
+		// },
 	},
 ])

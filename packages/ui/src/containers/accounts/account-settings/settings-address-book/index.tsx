@@ -214,6 +214,7 @@ export const SettingsAddressBook: React.FC<ISettingsGeneralProps> = props => {
 						sizeVariant="medium"
 						scrollableNode={scrollableNode}
 						// data={Object.values(addressBook)}
+						// TODO: temp data for testing
 						data={loadingItems}
 						columns={columns}
 					/>

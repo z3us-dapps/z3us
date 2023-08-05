@@ -148,7 +148,6 @@ export const sharedThemeValues = {
 				desktop: '0.0em',
 			},
 		},
-
 		small: {
 			calculate: calculateTypographyStyles(
 				{

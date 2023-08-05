@@ -12,21 +12,22 @@ interface IScrollPanelProps {
 	renderPanel: (scrollRef: HTMLElement | null, isScrollTop: boolean) => React.ReactElement
 	showTopScrollShadow?: boolean
 	showBottomScrollShadow?: boolean
+	disabled?: boolean
 }
 
 export const ScrollPanel: React.FC<IScrollPanelProps> = props => {
-	const { className, scrollParent, showTopScrollShadow, showBottomScrollShadow, renderPanel } = props
 	const isMobile = useIsMobileWidth()
+	const { className, scrollParent, showTopScrollShadow, showBottomScrollShadow, disabled = false, renderPanel } = props
 
 	return (
 		<ScrollArea
 			fixHeight
-			roundedScrollArea
-			disabled={isMobile}
+			roundedScrollArea={!isMobile}
+			disabled={disabled}
 			className={clsx(styles.scrollWrapper, className)}
 			showTopScrollShadow={showTopScrollShadow}
 			showBottomScrollShadow={showBottomScrollShadow}
-			renderScrollArea={(panelRef, isScrollTop) => renderPanel(isMobile ? scrollParent : panelRef, isScrollTop)}
+			renderScrollArea={(panelRef, isScrollTop) => renderPanel(scrollParent || panelRef, isScrollTop)}
 		/>
 	)
 }

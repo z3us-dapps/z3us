@@ -29,7 +29,7 @@ const AccountsHome = () => {
 						<Box className={styles.leftPanelWrapper}>
 							<ScrollPanel
 								showTopScrollShadow={false}
-								scrollParent={scrollMobileParent}
+								scrollParent={isMobile ? scrollMobileParent : undefined}
 								renderPanel={(scrollableNode: HTMLElement, isScrolledTop: boolean) => (
 									<AccountAssets scrollableNode={scrollableNode} isScrolledTop={isScrolledTop} />
 								)}
@@ -38,7 +38,7 @@ const AccountsHome = () => {
 						<Box className={styles.rightPanelWrapper}>
 							<ScrollPanel
 								showTopScrollShadow={false}
-								scrollParent={scrollMobileParent}
+								scrollParent={isMobile ? scrollMobileParent : undefined}
 								renderPanel={(scrollRef: HTMLElement) => (
 									<>
 										<AccountAllChart />
