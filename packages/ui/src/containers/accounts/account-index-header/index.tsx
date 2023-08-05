@@ -37,7 +37,7 @@ export const AccountIndexHeader = () => {
 								{isLoading ? 'Loading...' : formatBigNumber(totalValue, currency, 2)}
 							</Text>
 						</Box>
-						<ToolTip theme="backgroundPrimary" message="global.search">
+						<ToolTip message="global.search">
 							<Button to={`${pathname}?query=hello`} styleVariant="ghost" sizeVariant="small" iconOnly>
 								<SearchIcon />
 							</Button>

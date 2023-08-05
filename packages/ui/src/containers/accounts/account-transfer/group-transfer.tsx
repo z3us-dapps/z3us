@@ -122,7 +122,6 @@ export const GroupItem: React.FC<IGroupItemProps> = props => {
 							{sendIndex !== 0 ? (
 								<ToolTip
 									side="top"
-									theme="backgroundPrimary"
 									message={<Translation capitalizeFirstLetter text="transfer.sendTokens.removeGroup" />}
 								>
 									<Button

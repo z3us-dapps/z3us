@@ -36,6 +36,7 @@ const emptyEntry: AddressBookEntry = {
 
 const generateRandomString = () => Math.random().toString(36).substring(7)
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const loadingItems = Array.from({ length: 100 }).map((_, i, a) => {
 	const randomStr = generateRandomString()
 	return {

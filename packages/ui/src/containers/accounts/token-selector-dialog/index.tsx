@@ -114,10 +114,7 @@ export const TokenSelectorDialog: React.FC<ITokenSelectorDialogProps> = props =>
 									/>
 								</Box>
 								<Box flexShrink={0} display="flex" justifyContent="flex-end" gap="small">
-									<ToolTip
-										theme="backgroundPrimary"
-										message={<Translation capitalizeFirstLetter text="global.close" />}
-									>
+									<ToolTip message={<Translation capitalizeFirstLetter text="global.close" />}>
 										<DialogClose asChild>
 											<Button styleVariant="ghost" sizeVariant="medium" iconOnly>
 												<Close2Icon />
