@@ -4,7 +4,6 @@ import { Theme } from 'packages/ui/src/types/types'
 import { getShortAddress } from 'packages/ui/src/utils/string-utils'
 import React, { forwardRef } from 'react'
 import { useTranslation } from 'react-i18next'
-import { useNavigate } from 'react-router-dom'
 
 import { Box } from 'ui/src/components/box'
 import type { TStyleVariant } from 'ui/src/components/button'
@@ -36,7 +35,6 @@ import {
 	LockIcon,
 	MoonIcon,
 	NetworkIcon,
-	Settings2Icon,
 	ShareIcon,
 	SunIcon,
 } from 'ui/src/components/icons'
@@ -71,8 +69,6 @@ export const AccountViewDropdown = forwardRef<HTMLElement, IAccountViewDropdownP
 
 		const { resolvedTheme, theme, setTheme } = useTheme()
 
-		const navigate = useNavigate()
-
 		const dappStatus = useDappStatus()
 		const { addressBook, selectedAccount, selectAccount } = useNoneSharedStore(state => ({
 			addressBook: state.addressBook[networkId] || {},
@@ -85,10 +81,6 @@ export const AccountViewDropdown = forwardRef<HTMLElement, IAccountViewDropdownP
 			keystores: state.keystores,
 			selectKeystore: state.selectKeystoreAction,
 		}))
-
-		const handleGoToSettings = () => {
-			navigate('/accounts/settings')
-		}
 
 		const entries = { ...addressBook, ...accounts }
 
@@ -228,16 +220,6 @@ export const AccountViewDropdown = forwardRef<HTMLElement, IAccountViewDropdownP
 
 								<DropdownMenuSeparator />
 
-								<DropdownMenuItem onSelect={handleGoToSettings}>
-									<DropdownMenuLeftSlot>
-										<Settings2Icon />
-									</DropdownMenuLeftSlot>
-									<Box display="flex" marginLeft="small">
-										<Text size="xsmall" truncate>
-											<Translation capitalizeFirstLetter text="walletDropdown.settingsTitle" />
-										</Text>
-									</Box>
-								</DropdownMenuItem>
 								<DropdownMenuItem>
 									<DropdownMenuLeftSlot>
 										<LockIcon />
