@@ -1,7 +1,8 @@
 import * as ScrollAreaPrimitive from '@radix-ui/react-scroll-area'
 import clsx from 'clsx'
-import React, { forwardRef, useEffect, useRef, useState } from 'react'
-import { useIntersectionObserver } from 'usehooks-ts'
+import React, { forwardRef, useCallback, useEffect, useRef, useState } from 'react'
+import { useDebouncedCallback } from 'use-debounce'
+import { useEventListener, useIntersectionObserver } from 'usehooks-ts'
 
 import * as styles from './scroll-area-radix.css'
 
@@ -98,6 +99,13 @@ export const ScrollAreaRadix = ({ children, ...props }: IScrollAreaRadix) => {
 			}
 		}
 	}, [fixHeight, scrollParent, disabled, bottomRefEntry?.isIntersecting, topRefEntry?.isIntersecting])
+
+	const handleDebouncedResizeHandler = useDebouncedCallback(() => {
+		setIsScrolledBottom(bottomRefEntry.isIntersecting)
+		setIsScrolledTop(topRefEntry.isIntersecting)
+	}, 100)
+
+	useEventListener('resize', handleDebouncedResizeHandler)
 
 	return (
 		<ScrollAreaRoot
