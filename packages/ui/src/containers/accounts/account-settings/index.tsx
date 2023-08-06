@@ -67,6 +67,7 @@ const AccountSettings = () => {
 			}
 			rightCol={
 				<ScrollPanel
+					className={styles.settingsScrollAreaWrapper}
 					showTopScrollShadow
 					showBottomScrollShadow
 					renderPanel={(scrollableNode: HTMLElement | null) => (

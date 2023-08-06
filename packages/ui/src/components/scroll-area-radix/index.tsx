@@ -54,15 +54,16 @@ export const ScrollAreaRadix = ({ children, ...props }: IScrollAreaRadix) => {
 		...rest
 	} = props
 
+	const updateTimeout = useRef(null)
 	const [scrollParent, setScrollParent] = useState<HTMLElement | null>(null)
 	const [scrollHeight, setScrollHeight] = useState<number | undefined>(1)
 	const [isScrolledBottom, setIsScrolledBottom] = useState<boolean>(true)
+	const [isScrolledTop, setIsScrolledTop] = useState<boolean>(true)
 
 	const bottomRef = useRef<HTMLDivElement | null>(null)
 	const bottomRefEntry = useIntersectionObserver(bottomRef, {})
 	const topRef = useRef<HTMLDivElement | null>(null)
 	const topRefEntry = useIntersectionObserver(topRef, {})
-	const isScrolledTop = !!topRefEntry?.isIntersecting
 
 	useEffect(() => {
 		const resizeObserver = new ResizeObserver(entries => {
@@ -74,14 +75,29 @@ export const ScrollAreaRadix = ({ children, ...props }: IScrollAreaRadix) => {
 			resizeObserver.observe(scrollParent?.firstChild)
 		}
 
-		setIsScrolledBottom(bottomRefEntry?.isIntersecting)
+		if (bottomRefEntry?.isIntersecting !== undefined && topRefEntry?.isIntersecting !== undefined) {
+			// Clear the previous timeout if it exists
+			if (updateTimeout.current) {
+				clearTimeout(updateTimeout.current)
+			}
+
+			// Update after 20ms to avoid FOUT with the shadows
+			updateTimeout.current = setTimeout(() => {
+				setIsScrolledBottom(bottomRefEntry.isIntersecting)
+				setIsScrolledTop(topRefEntry.isIntersecting)
+			}, 20)
+		}
 
 		return () => {
 			if (fixHeight && scrollParent?.firstChild) {
 				resizeObserver.disconnect()
 			}
+			// Clear the timeout when the component unmounts
+			if (updateTimeout.current) {
+				clearTimeout(updateTimeout.current)
+			}
 		}
-	}, [fixHeight, scrollParent, disabled, bottomRefEntry?.isIntersecting])
+	}, [fixHeight, scrollParent, disabled, bottomRefEntry?.isIntersecting, topRefEntry?.isIntersecting])
 
 	return (
 		<ScrollAreaRoot

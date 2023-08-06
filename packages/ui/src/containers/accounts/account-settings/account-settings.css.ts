@@ -34,3 +34,14 @@ export const settingsSectionFlexColumnWrapper = style([
 		tablet: { height: 'unset' },
 	}),
 ])
+
+export const settingsScrollAreaWrapper = style([
+	sprinkles({}),
+	{},
+	responsiveStyle({
+		mobile: {
+			maxHeight: 'calc(100vh - 106px)',
+		},
+		tablet: { height: 'unset' },
+	}),
+])
