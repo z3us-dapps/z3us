@@ -23,14 +23,16 @@ const AccountSettings = () => {
 	const isSettingsHome = !!settingsIndex || !!settingsGeneral
 	const { t } = useTranslation()
 
+	// eslint-disable-next-line arrow-body-style, @typescript-eslint/no-unused-vars
 	const useSelectedItem = (href: string): boolean => {
-		const splitPath = href.split('/')
-		const splitPathName = splitPath[3]
-		const locationSplitPath = location.pathname.split('/')
-		const locationSplitPathName = locationSplitPath[3]
-		const isGeneral = !locationSplitPathName && splitPathName === settingsMenuPaths.GENERAL
+		// const splitPath = href.split('/')
+		// const splitPathName = splitPath[3]
+		// const locationSplitPath = location.pathname.split('/')
+		// const locationSplitPathName = locationSplitPath[3]
+		// const isGeneral = !locationSplitPathName && splitPathName === settingsMenuPaths.GENERAL
 
-		return splitPathName === locationSplitPathName || isGeneral
+		// return splitPathName === locationSplitPathName || isGeneral
+		return false
 	}
 
 	const settingsMenu = [
@@ -66,6 +68,7 @@ const AccountSettings = () => {
 			rightCol={
 				<ScrollPanel
 					showTopScrollShadow
+					showBottomScrollShadow
 					renderPanel={(scrollableNode: HTMLElement | null) => (
 						<AnimatePresence initial={false}>
 							<Routes>

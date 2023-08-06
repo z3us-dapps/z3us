@@ -38,10 +38,11 @@ export const mobileStackedNavLinkWrapper = style([
 		alignItems: 'center',
 		paddingX: 'small',
 		paddingY: 'large',
-		gap: 'xsmall',
+		gap: 'medium',
 		textDecoration: 'none',
 		transition: 'fast',
 		borderRadius: 'large',
+		color: 'purple500',
 		background: {
 			lightMode: 'transparent',
 			hover: 'backgroundPrimary',
@@ -69,7 +70,8 @@ export const mobileStackedNavLinkTextWrapper = style([
 	sprinkles({
 		display: 'flex',
 		flexDirection: 'column',
-		gap: 'xxsmall',
+		gap: 'xsmall',
+		flexGrow: 1,
 	}),
 	{},
 ])
@@ -82,8 +84,8 @@ export const mobileStackedNavLinkIconWrapper = style([
 		flexShrink: 0,
 	}),
 	{
-		width: '50px',
-		height: '50px',
+		width: '24px',
+		height: '24px',
 	},
 ])
 
@@ -97,12 +99,13 @@ export const mobileStackedNavLinkArrowWrapper = style([
 		transition: 'fast',
 	}),
 	{
-		opacity: '0.2',
+		opacity: '0.7',
 	},
 ])
 
 globalStyle(`${mobileStackedNavLinkWrapper}:hover ${mobileStackedNavLinkArrowWrapper}`, {
 	opacity: 1,
+	transform: 'translateX(-5px)',
 })
 
 globalStyle(`${mobileStackedNavLinksWrapper} ${mobileStackedNavLinkWrapper}:first-child`, {

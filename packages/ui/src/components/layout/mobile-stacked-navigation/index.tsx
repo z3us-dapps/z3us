@@ -33,15 +33,12 @@ export const MobileStackedNavigation: React.FC<IMobileStackedNavigation> = props
 			)}
 		>
 			<Box className={styles.mobileStackedNavLinksWrapper}>
-				{menu.map(({ href, title, subTitle, icon }) => (
+				{menu.map(({ href, title, icon }) => (
 					<Link key={href} to={href} className={styles.mobileStackedNavLinkWrapper}>
 						<Box className={styles.mobileStackedNavLinkIconWrapper}>{icon}</Box>
 						<Box className={styles.mobileStackedNavLinkTextWrapper}>
-							<Text color="strong" size="large" weight="strong">
+							<Text color="strong" size="medium" weight="strong">
 								{title}
-							</Text>
-							<Text lineClamp={3} size="small">
-								{subTitle}
 							</Text>
 						</Box>
 						<Box className={styles.mobileStackedNavLinkArrowWrapper}>
