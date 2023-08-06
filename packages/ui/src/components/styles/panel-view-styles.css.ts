@@ -1,11 +1,9 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
-import { globalStyle, style } from '@vanilla-extract/css'
+import { globalKeyframes, globalStyle, style } from '@vanilla-extract/css'
 
 import { darkMode, sprinkles } from 'ui/src/components/system/sprinkles.css'
 import { responsiveStyle } from 'ui/src/components/system/theme-utils'
-import { vars } from 'ui/src/components/system/theme.css'
 
-export const accountsOuterWrapper = style([
+export const panelViewOuterWrapper = style([
 	sprinkles({
 		position: 'relative',
 		display: 'flex',
@@ -23,16 +21,7 @@ export const accountsOuterWrapper = style([
 	{},
 ])
 
-export const accountsContainerWrapper = style([
-	sprinkles({
-		width: 'full',
-		height: 'full',
-		maxWidth: 'xxlarge',
-	}),
-	{},
-])
-
-export const panelWrapper = style([
+export const panelViewWrapper = style([
 	sprinkles({
 		position: 'relative',
 		display: 'flex',
@@ -53,7 +42,7 @@ export const panelWrapper = style([
 	},
 ])
 
-export const leftPanelWrapper = style([
+export const panelViewLeftWrapper = style([
 	sprinkles({
 		display: 'flex',
 		position: 'relative',
@@ -76,7 +65,7 @@ export const leftPanelWrapper = style([
 	}),
 ])
 
-export const rightPanelWrapper = style([
+export const panelViewRightWrapper = style([
 	sprinkles({
 		display: 'flex',
 		flexShrink: 0,
@@ -101,7 +90,7 @@ export const rightPanelWrapper = style([
 	}),
 ])
 
-export const mobileScrollWrapper = style([
+export const panelViewMobileScrollWrapper = style([
 	sprinkles({
 		position: 'relative',
 	}),

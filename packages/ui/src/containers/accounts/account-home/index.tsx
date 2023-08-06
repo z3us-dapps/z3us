@@ -2,6 +2,7 @@ import React from 'react'
 
 import { Box } from 'ui/src/components/box'
 import { ScrollAreaRadix as ScrollArea } from 'ui/src/components/scroll-area-radix'
+import * as panelViewStyles from 'ui/src/components/styles/panel-view-styles.css'
 import { AccountActivity } from 'ui/src/containers/accounts/account-activity'
 import { AccountActivitySearch } from 'ui/src/containers/accounts/account-activity-search'
 import { AccountAllChart } from 'ui/src/containers/accounts/account-all-chart'
@@ -12,21 +13,20 @@ import { AccountCard } from 'ui/src/containers/accounts/account-card'
 import { useIsMobileWidth } from 'ui/src/hooks/use-is-mobile'
 
 import { ScrollPanel } from '../scroll-panel'
-import * as styles from './account-home.css'
 
 const AccountsHome = () => {
 	const isMobile = useIsMobileWidth()
 
 	return (
-		<Box className={styles.accountsOuterWrapper}>
+		<Box className={panelViewStyles.panelViewOuterWrapper}>
 			<MobileAccountBackground />
 			<ScrollArea
 				showTopScrollShadow={false}
 				disabled={!isMobile}
-				className={styles.mobileScrollWrapper}
+				className={panelViewStyles.panelViewMobileScrollWrapper}
 				renderScrollArea={(scrollMobileParent: HTMLElement) => (
-					<Box className={styles.panelWrapper}>
-						<Box className={styles.leftPanelWrapper}>
+					<Box className={panelViewStyles.panelViewWrapper}>
+						<Box className={panelViewStyles.panelViewLeftWrapper}>
 							<ScrollPanel
 								showTopScrollShadow={false}
 								scrollParent={isMobile ? scrollMobileParent : undefined}
@@ -35,7 +35,7 @@ const AccountsHome = () => {
 								)}
 							/>
 						</Box>
-						<Box className={styles.rightPanelWrapper}>
+						<Box className={panelViewStyles.panelViewRightWrapper}>
 							<ScrollPanel
 								showTopScrollShadow={false}
 								scrollParent={isMobile ? scrollMobileParent : undefined}
