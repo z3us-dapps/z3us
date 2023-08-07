@@ -1,9 +1,10 @@
-import { Header } from '@/components/header'
+/* eslint-disable @typescript-eslint/no-unused-vars */
+// import { Header } from '@/components/header'
 import { LandingPage } from '@/components/layouts/landing-page'
 import clsx from 'clsx'
 import { AnimatePresence, m as motion } from 'framer-motion'
 import dynamic from 'next/dynamic'
-import { useConnected } from 'packages/ui/src/hooks/dapp/use-connected'
+// import { useConnected } from 'packages/ui/src/hooks/dapp/use-connected'
 import React from 'react'
 
 import { Box } from 'ui/src/components/box'
@@ -18,11 +19,12 @@ const pageTransition = {
 }
 
 export const IndexPage: React.FC = () => {
-	const isConnected = useConnected()
+	// const isConnected = useConnected()
+	const isConnected = false
 
 	return (
 		<Box className={clsx(isConnected && styles.connectedPageWrapper)}>
-			<Header />
+			{/* <Header /> */}
 			<Box className={styles.indexPageWrapper}>
 				<AnimatePresence initial={false}>
 					{!isConnected && (

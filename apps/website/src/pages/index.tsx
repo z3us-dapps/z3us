@@ -1,9 +1,6 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
-import { Header } from '@/components/header'
 import { IndexPage } from '@/components/layouts/index-page'
-import { LandingPage } from '@/components/layouts/landing-page'
 import Head from 'next/head'
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 import { HashRouter as Router } from 'react-router-dom'
 
 import { LazyMotion } from 'ui/src/components/lazy-motion'
