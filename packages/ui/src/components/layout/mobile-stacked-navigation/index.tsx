@@ -11,7 +11,7 @@ import * as styles from './mobile-stacked-navigation.css'
 type TMenuStacked = {
 	href: string
 	title: string
-	subTitle: string | React.ReactElement
+	subTitle?: string | React.ReactElement
 	icon: React.ReactElement
 }
 

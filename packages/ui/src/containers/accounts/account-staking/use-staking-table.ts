@@ -7,7 +7,9 @@ import { StakingTableCell } from './components/staking-table-cell'
 
 const generateRandomString = () => Math.random().toString(36).substring(7)
 
-const loadingItems = Array.from({ length: 4 }).map((_, i, a) => {
+const STAKING_NUMBER = 400
+
+const loadingItems = Array.from({ length: STAKING_NUMBER }).map((_, i, a) => {
 	const randomStr = generateRandomString()
 	return {
 		id: `${i}-${randomStr}`,
@@ -95,25 +97,7 @@ export const useStakingTable = (): TAssetsTable => {
 	useEffect(() => {
 		setLoading(true)
 		setTimeout(() => {
-			const newItems = Array.from({ length: assetType ? 50 : 4 }).map((_, i, a) => {
-				const randomStr = generateRandomString()
-				return {
-					id: randomStr,
-					token: `${account} - ${randomStr}`,
-					portfolio: '65%',
-					price: '$1.83',
-					balance: '99',
-				}
-			})
-			setItems(newItems)
-			setLoading(false)
-		}, 2000)
-	}, [])
-
-	useEffect(() => {
-		setLoading(true)
-		setTimeout(() => {
-			const newItems = Array.from({ length: assetType ? 50 : 4 }).map((_, i, a) => {
+			const newItems = Array.from({ length: STAKING_NUMBER }).map((_, i, a) => {
 				const randomStr = generateRandomString()
 				return {
 					id: randomStr,

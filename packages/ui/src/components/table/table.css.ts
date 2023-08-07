@@ -128,6 +128,9 @@ export const tableRecipe = recipe({
 			medium: [sprinkles({}), {}],
 			large: {},
 		},
+		isScrolledTop: {
+			true: {},
+		},
 	},
 })
 
@@ -245,7 +248,15 @@ export const tableTrRecipe = recipe({
 				borderRadius: vars.border.radius.large,
 			},
 		},
-
+		{
+			variants: {
+				sizeVariant: 'large',
+				styleVariant: 'primary',
+			},
+			style: {
+				height: '80px',
+			},
+		},
 		{
 			variants: {
 				sizeVariant: 'large',
@@ -337,6 +348,36 @@ export const tableTdRecipe = recipe({
 		},
 	],
 })
+
+recipeResponsiveGlobalStyle(tableRecipe({ sizeVariant: 'large', styleVariant: 'primary' }), 'thead', {
+	mobile: {
+		position: 'relative',
+		transition: vars.transition.fast,
+	},
+})
+
+recipeResponsiveGlobalStyle(tableRecipe({ sizeVariant: 'large', styleVariant: 'primary' }), 'thead tr', {
+	mobile: {
+		position: 'relative',
+	},
+})
+
+recipeResponsiveGlobalStyle(
+	tableRecipe({ sizeVariant: 'large', styleVariant: 'primary' }),
+	'thead tr th:first-child::before',
+	{
+		mobile: {
+			position: 'absolute',
+			content: "''",
+			transition: vars.transition.fast,
+			top: '0',
+			left: '-15px',
+			right: '-15px',
+			bottom: '2px',
+			background: vars.color.backgroundSecondary,
+		},
+	},
+)
 
 recipeResponsiveGlobalStyle(tableRecipe({ sizeVariant: 'large', styleVariant: 'primary' }), 'tbody tr:hover', {
 	tablet: {

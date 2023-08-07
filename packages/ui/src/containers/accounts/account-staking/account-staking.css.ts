@@ -14,9 +14,25 @@ export const stakingTableWrapper = style([
 	{},
 ])
 
-export const stakingTableMinHeightWrapper = style([
+export const stakingScrollAreaWrapper = style([
 	sprinkles({}),
-	{
-		minHeight: '420px',
-	},
+	{},
+	responsiveStyle({
+		mobile: {
+			maxHeight: 'calc(100vh - 106px)',
+		},
+		tablet: { maxHeight: 'calc(100vh - 106px)' },
+		desktop: { maxHeight: 'calc(100vh - 166px)' },
+	}),
+])
+
+export const stakingHomeWrapper = style([
+	sprinkles({
+		position: 'relative',
+		display: {
+			mobile: 'none',
+			tablet: 'block',
+		},
+	}),
+	{},
 ])

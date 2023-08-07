@@ -149,5 +149,16 @@
 			"addDialogAddressTitle": "Address",
 			"addDialogInputAddress": "Address"
 		}
+	},
+	"staking": {
+		"navigation": {
+			"stakingValidatorsTitle": "staking validators",
+			"yourStakes": "your stakes",
+			"stakingValidatorTransactions": "transactions"
+		},
+		"stakingValidatorsTitle": {
+			"title": "Staking validators",
+			"subTitle": "View all currently registered Radix Network validator nodes, and manage your own XRD stakes to validators."
+		}
 	}
 }

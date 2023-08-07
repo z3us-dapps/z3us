@@ -42,7 +42,7 @@ export const sharedPopoverBgSprinkles = {
 	color: 'colorNeutral',
 	borderRadius: 'medium',
 	position: 'relative',
-	zIndex: 1,
+	zIndex: 2,
 }
 
 export const sharedPopoverBgStyles = {

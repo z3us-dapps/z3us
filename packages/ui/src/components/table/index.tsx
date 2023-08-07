@@ -20,6 +20,7 @@ interface ITableProps {
 	loading?: boolean
 	loadMore?: boolean
 	overscan?: number
+	isScrolledTop?: boolean
 	onEndReached?: () => void
 	// TODO: should this just be ID?? and not the whole row??
 	onRowSelected?: (row: any) => void

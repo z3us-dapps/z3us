@@ -5,20 +5,30 @@ import { darkMode, sprinkles } from 'ui/src/components/system/sprinkles.css'
 import { responsiveStyle } from 'ui/src/components/system/theme-utils'
 import { vars } from 'ui/src/components/system/theme.css'
 
-export const stakingHeaderWrapper = style([
+export const stakingValidatorsWrapper = style([
 	sprinkles({
-		position: 'sticky',
+		paddingX: 'large',
+	}),
+	{},
+])
+
+export const stakingValidatorsHeaderWrapper = style([
+	sprinkles({
+		// position: 'sticky',
 		background: 'backgroundSecondary',
-		paddingX: 'xlarge',
 		paddingTop: 'xlarge',
-		display: {
-			mobile: 'none',
-			tablet: 'flex',
-		},
-		zIndex: 1,
+		paddingBottom: 'large',
+		paddingX: 'medium',
+		// zIndex: 1,
 	}),
 	{
 		top: '0px',
-		height: '138px',
+	},
+])
+
+export const stakingValidatorsTableMinHeightWrapper = style([
+	sprinkles({}),
+	{
+		minHeight: '100vh',
 	},
 ])

@@ -29,37 +29,6 @@ export const accountsTableMinHeightWrapper = style([
 
 globalStyle(`${accountRoutesWrapper} thead`, {
 	top: '138px !important',
-	position: 'relative',
-	transition: vars.transition.fast,
-})
-
-globalStyle(`${accountRoutesWrapper} thead tr`, {
-	position: 'relative',
-})
-
-globalStyle(`${accountRoutesWrapper} thead tr th:first-child::before`, {
-	position: 'absolute',
-	content: "''",
-	transition: vars.transition.fast,
-	top: '0',
-	left: '-15px',
-	right: '-15px',
-	bottom: '2px',
-	background: vars.color.backgroundSecondary,
-})
-
-export const accountTheadShadow = style([
-	sprinkles({
-		position: 'relative',
-	}),
-])
-
-globalStyle(`${accountTheadShadow} thead tr th:first-child::before`, {
-	boxShadow: '0px 13px 13px -14px rgba(0, 0, 0, 0.4)',
-})
-
-globalStyle(`.${darkMode} ${accountTheadShadow} thead tr th:first-child::before`, {
-	boxShadow: '0px 13px 13px -14px rgba(0, 0, 0, 0.4)',
 })
 
 export const accountRoutesMobileAccountHeader = style([

@@ -3,6 +3,7 @@ import clsx from 'clsx'
 import React from 'react'
 
 import { Box } from 'ui/src/components/box'
+import * as tableHeadStyles from 'ui/src/components/styles/table-head-shadow.css'
 import { Table } from 'ui/src/components/table'
 // OLD REMOVE
 import { AccountIndexAssets } from 'ui/src/containers/accounts/account-index-assets'
@@ -29,7 +30,9 @@ export const AccountAssets: React.FC<IAccountRoutesProps> = props => {
 	const { items, columns, loading, loadMore, onRowSelected, onEndReached } = useAssetsTable()
 
 	return (
-		<Box className={clsx(styles.accountRoutesWrapper, !loading && !isScrolledTop && styles.accountTheadShadow)}>
+		<Box
+			className={clsx(styles.accountRoutesWrapper, !loading && !isScrolledTop && tableHeadStyles.accountTheadShadow)}
+		>
 			<Box className={styles.accountRoutesScrollingWrapper}>
 				<MobileScrollingBackground scrollableNode={scrollableNode} />
 				<MobileScrollingButtons scrollableNode={scrollableNode} />
@@ -42,6 +45,7 @@ export const AccountAssets: React.FC<IAccountRoutesProps> = props => {
 						scrollableNode={scrollableNode ?? undefined}
 						data={items}
 						columns={columns}
+						isScrolledTop={isScrolledTop}
 						// loading
 						loading={loading}
 						loadMore={loadMore}
