@@ -6,7 +6,7 @@ import { Text } from 'ui/src/components/typography'
 
 import * as styles from './styles.css'
 
-const NotFound = () => (
+const NoMatch = () => (
 	<AnimatedPage>
 		<Box padding="large">
 			<Box className={styles.teststyle} paddingTop="large" display="flex" flexDirection="column">
@@ -25,4 +25,4 @@ const NotFound = () => (
 	</AnimatedPage>
 )
 
-export default NotFound
+export default NoMatch

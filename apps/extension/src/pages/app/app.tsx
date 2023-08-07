@@ -1,34 +1,47 @@
-import { AnimatePresence } from 'framer-motion'
 import React from 'react'
-import { Navigate, Route, Routes } from 'react-router-dom'
+import { Navigate, RouterProvider, createHashRouter } from 'react-router-dom'
 
-import { Toasts } from 'ui/src/components/toasts'
-import { Accounts } from 'ui/src/containers/accounts'
+import LayoutErrorBoundary from 'ui/src/components/error-boundary'
+import Layout from 'ui/src/components/layout'
+import Loader from 'ui/src/components/loader'
+import accountsRoute from 'ui/src/pages/accounts/router'
+import noMatchRoute from 'ui/src/pages/no-match/router'
+import settingsRoute from 'ui/src/pages/settings/router'
+import stakingRoute from 'ui/src/pages/staking/router'
+import transferRoute from 'ui/src/pages/transfer/router'
 
 import { config } from '@src/config'
-
-import * as styles from './app.css'
+import radixRoute from '@src/pages/radix/router'
 
 if (APP_RADIX && config.isExtensionContext) {
 	// eslint-disable-next-line no-console
 	import('@src/browser/content-script').catch(console.error)
 }
 
-const NotFound = React.lazy(() => import('./pages/404'))
-const Radix = React.lazy(() => import('./pages/radix'))
+export const router = createHashRouter([
+	{
+		path: '/',
+		element: <Layout />,
+		errorElement: <LayoutErrorBoundary />,
+		children: [
+			{
+				index: true,
+				element: <Navigate to="/accounts" />,
+			},
+			accountsRoute,
+			settingsRoute,
+			stakingRoute,
+			transferRoute,
+			radixRoute,
+			noMatchRoute,
+		],
+	},
+])
 
-const App: React.FC = () => (
-	<div className={styles.container}>
-		<AnimatePresence initial={false}>
-			<Routes>
-				<Route index element={<Navigate to="accounts" />} />
-				<Route path="accounts/*" element={<Accounts isNavigationVisible />} />
-				{APP_RADIX && <Route path="radix" element={<Radix />} />}
-				<Route path="*" element={<NotFound />} />
-			</Routes>
-		</AnimatePresence>
-		<Toasts />
-	</div>
-)
+if (import.meta.hot) {
+	import.meta.hot.dispose(() => router.dispose())
+}
+
+const App: React.FC = () => <RouterProvider router={router} fallbackElement={<Loader />} />
 
 export default App
