@@ -26,7 +26,7 @@ export const router = createHashRouter([
 		children: [
 			{
 				index: true,
-				element: <Navigate to="/accounts" />,
+				element: <Navigate to={`/${accountsRoute.path}`} />,
 			},
 			accountsRoute,
 			settingsRoute,
