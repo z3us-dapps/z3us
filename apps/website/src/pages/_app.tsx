@@ -2,16 +2,9 @@ import { ThemeProvider } from '@/context/theme-provider'
 import '@/styles/global-style.css'
 // import { displayValue } from '@tanstack/react-query-devtools/build/lib/utils'
 import type { AppProps } from 'next/app'
-import { DappStatusContext } from 'packages/ui/src/context/dapp-status'
 import React, { useEffect, useState } from 'react'
 
-import I18Provider from 'ui/src/components/i18n'
-import { RdtProvider } from 'ui/src/context/rdt-provider'
-import { ReactQueryProvider } from 'ui/src/context/react-query-provider'
-import { NoneSharedStoreProvider } from 'ui/src/context/state-provider'
-
-// eslint-disable-next-line react/function-component-definition
-export default function App({ Component, pageProps }: AppProps) {
+const App = ({ Component, pageProps }: AppProps) => {
 	const [isServer, setIsServer] = useState<boolean>(true)
 
 	// @NOTE: this is needed for react-router-dom integration
@@ -23,17 +16,9 @@ export default function App({ Component, pageProps }: AppProps) {
 
 	return (
 		<div suppressHydrationWarning>
-			<ThemeProvider>
-				<DappStatusContext.Provider value={null}>
-					<I18Provider>
-						<ReactQueryProvider dehydratedState={pageProps.dehydratedState}>
-							<NoneSharedStoreProvider>
-								<RdtProvider>{typeof window === 'undefined' ? null : <Component {...pageProps} />}</RdtProvider>
-							</NoneSharedStoreProvider>
-						</ReactQueryProvider>
-					</I18Provider>
-				</DappStatusContext.Provider>
-			</ThemeProvider>
+			<ThemeProvider>{typeof window === 'undefined' ? null : <Component {...pageProps} />}</ThemeProvider>
 		</div>
 	)
 }
+
+export default App
