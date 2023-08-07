@@ -38,11 +38,33 @@ export const StakingValidators: React.FC<IAccountRoutesProps> = props => {
 			)}
 		>
 			<Box className={styles.stakingValidatorsHeaderWrapper}>
-				<Text capitalizeFirstLetter size="xxlarge" weight="strong" color="strong">
-					<Translation text="global.copied" />
-				</Text>
-				<Box>
-					<Text size="small">vall</Text>
+				<Box className={styles.stakingValidatorsHeaderLeftWrapper}>
+					<Text capitalizeFirstLetter size="xxlarge" weight="strong" color="strong">
+						<Translation text="staking.stakingValidators.title" />
+					</Text>
+					<Box maxWidth="small">
+						<Text capitalizeFirstLetter size="small">
+							<Translation text="staking.stakingValidators.subTitle" />
+						</Text>
+					</Box>
+					<Box display="flex">
+						<Text capitalizeFirstLetter size="small">
+							Search
+						</Text>
+						<Text capitalizeFirstLetter size="small">
+							Filter
+						</Text>
+					</Box>
+				</Box>
+				<Box className={styles.stakingValidatorsHeaderRightWrapper}>
+					<Text capitalizeFirstLetter size="xxlarge" weight="strong" color="strong">
+						<Translation text="staking.stakingValidators.title" />
+					</Text>
+					<Box maxWidth="small">
+						<Text capitalizeFirstLetter size="small">
+							<Translation text="staking.stakingValidators.subTitle" />
+						</Text>
+					</Box>
 				</Box>
 			</Box>
 			<Table

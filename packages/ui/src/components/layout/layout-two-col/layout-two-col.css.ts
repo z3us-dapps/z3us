@@ -51,6 +51,7 @@ export const layoutTwoColLeftWrapper = style([
 			desktop: 'medium',
 		},
 		alignItems: 'self-start',
+		flexShrink: 0,
 	}),
 	{},
 	responsiveStyle({

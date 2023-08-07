@@ -19,11 +19,31 @@ export const stakingValidatorsHeaderWrapper = style([
 		paddingTop: 'xlarge',
 		paddingBottom: 'large',
 		paddingX: 'medium',
+		gap: 'small',
+		display: 'flex',
 		// zIndex: 1,
 	}),
 	{
 		top: '0px',
 	},
+])
+
+export const stakingValidatorsHeaderLeftWrapper = style([
+	sprinkles({
+		display: 'flex',
+		flexDirection: 'column',
+		gap: 'small',
+	}),
+	{},
+])
+
+export const stakingValidatorsHeaderRightWrapper = style([
+	sprinkles({
+		display: 'flex',
+		flexDirection: 'column',
+		gap: 'small',
+	}),
+	{},
 ])
 
 export const stakingValidatorsTableMinHeightWrapper = style([

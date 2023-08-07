@@ -154,9 +154,9 @@
 		"navigation": {
 			"stakingValidatorsTitle": "staking validators",
 			"yourStakes": "your stakes",
-			"stakingValidatorTransactions": "transactions"
+			"stakingValidatorTransactions": "Staking transactions"
 		},
-		"stakingValidatorsTitle": {
+		"stakingValidators": {
 			"title": "Staking validators",
 			"subTitle": "View all currently registered Radix Network validator nodes, and manage your own XRD stakes to validators."
 		}
