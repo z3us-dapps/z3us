@@ -12,7 +12,6 @@ declare global {
 	}
 }
 
-// eslint-disable-next-line arrow-body-style
 export const ConnectButton = () => {
 	const radixConnectButtonRef = useRef(null)
 

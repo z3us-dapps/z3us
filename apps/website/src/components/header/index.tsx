@@ -25,9 +25,9 @@ export const Header = () => {
 	const router = useRouter()
 	const isConnected = useConnected()
 
-	const { selectedAccount } = useNoneSharedStore(state => ({
-		selectedAccount: state.selectedAccount,
-	}))
+	// const { selectedAccount } = useNoneSharedStore(state => ({
+	// 	selectedAccount: state.selectedAccount,
+	// }))
 
 	return (
 		<Box className={clsx(styles.headerWrapper, isConnected && styles.headerWrapperBorderColor)}>
@@ -52,7 +52,8 @@ export const Header = () => {
 									</Box>
 									<NotificationsDropdown />
 									<Box className={styles.navigationCopyAddressWrapper}>
-										<CopyAddressButton address={selectedAccount} />
+										<CopyAddressButton address="TODO" />
+										{/* <CopyAddressButton address={selectedAccount} /> */}
 									</Box>
 									<AccountViewDropdown />
 								</Box>

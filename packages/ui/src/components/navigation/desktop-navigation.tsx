@@ -4,8 +4,6 @@ import { useNoneSharedStore } from 'packages/ui/src/hooks/use-store'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 
-// import { NavLink } from 'react-router-dom'
-// import {NavLink} from 'ui/src/components/router-link'
 import { Box } from 'ui/src/components/box'
 import { ConnectButton } from 'ui/src/components/connect-button'
 import { CopyAddressButton } from 'ui/src/components/copy-address-button'
@@ -27,7 +25,6 @@ const AccountDesktopLavaMenu = () => {
 					{ text: t('accounts.navigation.accounts'), href: '/accounts' },
 					{ text: t('accounts.navigation.transfer'), href: '/accounts/transfer' },
 					{ text: t('accounts.navigation.staking'), href: '/accounts/staking' },
-					// { text: t('accounts.navigation.swap'), href: '/accounts/swap'  },
 					{ text: t('accounts.navigation.settings'), href: '/accounts/settings' },
 				].map(({ text, href }) => (
 					<Box component="li">
@@ -49,7 +46,7 @@ const DesktopNavigation: React.FC = () => {
 	return (
 		<Box component="nav" className={clsx(styles.navigationWrapper, containerStyles.containerWrapper)}>
 			<Box className={clsx(styles.navigationInnerWrapper, containerStyles.containerInnerWrapper)}>
-				<Link to="/accounts">
+				<Link to="/">
 					<Z3usLogo />
 				</Link>
 				<AccountDesktopLavaMenu />

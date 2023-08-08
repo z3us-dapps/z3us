@@ -10,8 +10,6 @@ import * as styles from './styles.css'
 const Layout: React.FC = () => (
 	<div className={styles.container}>
 		<DesktopNavigation />
-		<hr />
-		<hr />
 		{/* <AnimatePresence initial={false}> */}
 		<Outlet />
 		{/* </AnimatePresence> */}

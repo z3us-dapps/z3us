@@ -1,9 +1,8 @@
 import { IndexPage } from '@/components/layouts/index-page'
 import Head from 'next/head'
 import React from 'react'
-import { HashRouter as Router } from 'react-router-dom'
 
-import { LazyMotion } from 'ui/src/components/lazy-motion'
+// import { LazyMotion } from 'ui/src/components/lazy-motion'
 
 const App = () => (
 	<>
@@ -19,11 +18,7 @@ const App = () => (
 			<meta property="og:description" content="And a social description for our cool page" />
 			<meta property="og:image" content="https://example.com/images/cool-page.jpg" />
 		</Head>
-		<LazyMotion>
-			<Router>
-				<IndexPage />
-			</Router>
-		</LazyMotion>
+		<IndexPage />
 	</>
 )
 
