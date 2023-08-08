@@ -2,14 +2,14 @@
 import React from 'react'
 import { Outlet } from 'react-router-dom'
 
+import { DesktopNavigation } from 'ui/src/components/navigation'
 import { Toasts } from 'ui/src/components/toasts'
 
-import Nav from '../nav'
 import * as styles from './styles.css'
 
 const Layout: React.FC = () => (
 	<div className={styles.container}>
-		<Nav />
+		<DesktopNavigation />
 		<hr />
 		<hr />
 		{/* <AnimatePresence initial={false}> */}
