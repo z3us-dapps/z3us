@@ -1,6 +1,6 @@
 import { DappStatusContext } from 'packages/ui/src/context/dapp-status'
 import React from 'react'
-import { Navigate, RouterProvider, createHashRouter } from 'react-router-dom'
+import { RouterProvider, createHashRouter } from 'react-router-dom'
 
 import LayoutErrorBoundary from 'ui/src/components/error-boundary'
 import I18Provider from 'ui/src/components/i18n'

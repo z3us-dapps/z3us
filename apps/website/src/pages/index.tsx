@@ -2,8 +2,6 @@ import { IndexPage } from '@/components/layouts/index-page'
 import Head from 'next/head'
 import React from 'react'
 
-// import { LazyMotion } from 'ui/src/components/lazy-motion'
-
 const App = () => (
 	<>
 		<Head>
