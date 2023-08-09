@@ -7,8 +7,14 @@ import { ScrollPanel } from 'ui/src/components/scroll-panel'
 import * as panelViewStyles from 'ui/src/components/styles/panel-view-styles.css'
 import { useIsMobileWidth } from 'ui/src/hooks/use-is-mobile'
 
-import { MobileAccountBackground } from './mobile-account-background'
-import Nav from './nav'
+import { AccountActivity } from '../account-activity'
+import { AccountActivitySearch } from '../account-activity-search'
+import { AccountAllChart } from '../account-all-chart'
+import { AccountAssetInfo } from '../account-asset-info'
+import { AccountAssets } from '../account-assets'
+import { AccountCard } from '../account-card'
+import { MobileAccountBackground } from '../mobile-account-background'
+import Nav from '../nav'
 
 const Layout: React.FC = () => {
 	const isMobile = useIsMobileWidth()
@@ -31,18 +37,12 @@ const Layout: React.FC = () => {
 							<ScrollPanel
 								showTopScrollShadow={false}
 								scrollParent={isMobile ? scrollMobileParent : undefined}
-								// eslint-disable-next-line @typescript-eslint/no-unused-vars
 								renderPanel={(scrollableNode: HTMLElement, isScrolledTop: boolean) => (
-									<Box padding="xlarge">
+									<>
 										<Nav />
-										<Box padding="large">
-											<hr />
-										</Box>
-										<Box>
-											<Outlet />
-										</Box>
-										{/* <AccountAssets scrollableNode={scrollableNode} isScrolledTop={isScrolledTop} /> */}
-									</Box>
+										<AccountAssets scrollableNode={scrollableNode} isScrolledTop={isScrolledTop} />
+										<Outlet />
+									</>
 								)}
 							/>
 						</Box>
@@ -50,15 +50,14 @@ const Layout: React.FC = () => {
 							<ScrollPanel
 								showTopScrollShadow={false}
 								scrollParent={isMobile ? scrollMobileParent : undefined}
-								// eslint-disable-next-line @typescript-eslint/no-unused-vars
-								renderPanel={(scrollRef: HTMLElement) => (
+								renderPanel={(scrollableNode: HTMLElement) => (
 									<>
 										<Box>{sidebar}</Box>
-										{/* <AccountAllChart />
+										<AccountAllChart />
 										<AccountCard />
 										<AccountAssetInfo />
-										<AccountActivitySearch scrollableNode={scrollRef} />
-										<AccountActivity scrollableNode={scrollRef} /> */}
+										<AccountActivitySearch scrollableNode={scrollableNode} />
+										<AccountActivity scrollableNode={scrollableNode} />
 									</>
 								)}
 							/>
