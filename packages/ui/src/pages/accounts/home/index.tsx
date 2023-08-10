@@ -1,25 +1,20 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import clsx from 'clsx'
+import { useScroll } from 'packages/ui/src/components/scroll-area-radix/use-scroll'
 import React from 'react'
 
 import { Box } from 'ui/src/components/box'
 import * as tableHeadStyles from 'ui/src/components/styles/table-head-shadow.css'
 import { Table } from 'ui/src/components/table'
 
-import { AssetsHeader } from '../assets-header'
-import { useAssetsTable } from '../assets-table/use-assets-table'
-import { MobileScrollingBackground } from '../mobile-scrolling-background'
-import { MobileScrollingButtons } from '../mobile-scrolling-buttons'
-import * as styles from './account-assets.css'
+import { AssetsHeader } from '../components/assets-header'
+import { useAssetsTable } from '../components/assets-table/use-assets-table'
+import { MobileScrollingBackground } from '../components/mobile-scrolling-background'
+import { MobileScrollingButtons } from '../components/mobile-scrolling-buttons'
+import * as styles from './styles.css'
 
-interface IAccountRoutesProps {
-	scrollableNode: HTMLElement
-	isScrolledTop: boolean
-}
-
-export const AccountAssets: React.FC<IAccountRoutesProps> = props => {
-	const { scrollableNode, isScrolledTop } = props
-
+const Home: React.FC = () => {
+	const { scrollableNode, isScrolledTop } = useScroll()
 	const { items, columns, loading, loadMore, onRowSelected, onEndReached } = useAssetsTable()
 
 	return (
@@ -50,3 +45,5 @@ export const AccountAssets: React.FC<IAccountRoutesProps> = props => {
 		</Box>
 	)
 }
+
+export default Home

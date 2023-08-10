@@ -17,7 +17,7 @@ import * as styles from './styles.css'
 
 const defaultRowsShown = 3
 
-export const AccountAllChart: React.FC = () => {
+export const BalanceChart: React.FC = () => {
 	const { assetType } = useParams()
 	const account = useAccountParam()
 	const [showFullAccountList, setShowFullAccountList] = useState<boolean>(false)

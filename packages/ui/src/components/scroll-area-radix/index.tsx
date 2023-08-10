@@ -1,9 +1,11 @@
 import * as ScrollAreaPrimitive from '@radix-ui/react-scroll-area'
 import clsx from 'clsx'
-import React, { forwardRef, useEffect, useRef, useState } from 'react'
+import type { PropsWithChildren } from 'react'
+import React, { forwardRef, useEffect, useMemo, useRef, useState } from 'react'
 import { useDebouncedCallback } from 'use-debounce'
 import { useEventListener, useIntersectionObserver } from 'usehooks-ts'
 
+import { ScrollContext } from './context'
 import * as styles from './scroll-area-radix.css'
 
 export const ScrollAreaRoot = ({ children, className, ...rest }) => (
@@ -40,14 +42,17 @@ interface IScrollAreaRadix extends ScrollAreaPrimitive.ScrollAreaProps {
 	showTopScrollShadow?: boolean
 	showBottomScrollShadow?: boolean
 	roundedScrollArea?: boolean
-	renderScrollArea: (scrollParent: HTMLElement | null, isScrollTop: boolean) => any
+	overrideScrollParent?: HTMLElement | null
 }
 
-export const ScrollAreaRadix = ({ children, ...props }: IScrollAreaRadix) => {
+export const ScrollAreaRadix: React.FC<PropsWithChildren<IScrollAreaRadix>> = ({
+	children,
+	overrideScrollParent,
+	...props
+}) => {
 	const {
 		className,
 		fixHeight,
-		renderScrollArea,
 		disabled,
 		showTopScrollShadow = true,
 		showBottomScrollShadow = true,
@@ -65,6 +70,14 @@ export const ScrollAreaRadix = ({ children, ...props }: IScrollAreaRadix) => {
 	const bottomRefEntry = useIntersectionObserver(bottomRef, {})
 	const topRef = useRef<HTMLDivElement | null>(null)
 	const topRefEntry = useIntersectionObserver(topRef, {})
+
+	const scrollCtx = useMemo(
+		() => ({
+			scrollableNode: overrideScrollParent || scrollParent,
+			isScrolledTop,
+		}),
+		[overrideScrollParent, scrollParent, isScrolledTop],
+	)
 
 	useEffect(() => {
 		const resizeObserver = new ResizeObserver(entries => {
@@ -121,7 +134,7 @@ export const ScrollAreaRadix = ({ children, ...props }: IScrollAreaRadix) => {
 		>
 			<ScrollAreaViewport ref={setScrollParent}>
 				{!disabled && <div ref={topRef} className={styles.scrollAreaIntersectionSliceTop} />}
-				{renderScrollArea(scrollParent, isScrolledTop)}
+				<ScrollContext.Provider value={scrollCtx}>{children}</ScrollContext.Provider>
 				{!disabled && <div ref={bottomRef} className={styles.scrollAreaIntersectionSliceBottom} />}
 			</ScrollAreaViewport>
 			<ScrollAreaScrollbar

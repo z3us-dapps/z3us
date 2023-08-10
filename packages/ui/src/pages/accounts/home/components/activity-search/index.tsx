@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import type { ClassValue } from 'clsx'
 import clsx from 'clsx'
+import { useScroll } from 'packages/ui/src/components/scroll-area-radix/use-scroll'
 import { useAccountParam, useAssetParam } from 'packages/ui/src/hooks/use-params'
 import React, { useRef } from 'react'
 import { useTranslation } from 'react-i18next'
@@ -8,20 +9,16 @@ import { useLocation, useParams } from 'react-router-dom'
 import { useIntersectionObserver } from 'usehooks-ts'
 
 import { Box } from 'ui/src/components/box'
-import { ArrowUpIcon, Close2Icon, SearchIcon } from 'ui/src/components/icons'
+import { ArrowUpIcon, SearchIcon } from 'ui/src/components/icons'
 import { Button } from 'ui/src/components/router-button'
 import { ToolTip } from 'ui/src/components/tool-tip'
 import Translation from 'ui/src/components/translation'
 import { Text } from 'ui/src/components/typography'
 
-import * as styles from './account-search.css'
+import * as styles from './styles.css'
 
-interface IAccountActivitySearchProps {
-	scrollableNode: HTMLElement
-}
-
-export const AccountActivitySearch: React.FC<IAccountActivitySearchProps> = props => {
-	const { scrollableNode } = props
+export const ActivitySearch: React.FC = () => {
+	const { scrollableNode } = useScroll()
 
 	const { t } = useTranslation()
 	const { pathname } = useLocation()

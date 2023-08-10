@@ -1,8 +1,8 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import type { CommittedTransactionInfo } from '@radixdlt/babylon-gateway-api-sdk'
 import BigNumber from 'bignumber.js'
 import clsx from 'clsx'
 import { AnimatePresence, motion } from 'framer-motion'
+import { useScroll } from 'packages/ui/src/components/scroll-area-radix/use-scroll'
 import { TokenPrice } from 'packages/ui/src/components/token-price'
 import { config } from 'packages/ui/src/constants/config'
 import { useTransactions } from 'packages/ui/src/hooks/dapp/use-transactions'
@@ -23,7 +23,7 @@ import Translation from 'ui/src/components/translation'
 import { Text } from 'ui/src/components/typography'
 import { animatePageVariants } from 'ui/src/constants/page'
 
-import * as styles from './account-activity.css'
+import * as styles from './styles.css'
 
 const ListContainer = React.forwardRef<HTMLDivElement>((props, ref) => <div ref={ref} {...props} />)
 
@@ -152,14 +152,10 @@ const ItemWrapper: React.FC<IRowProps> = props => {
 	)
 }
 
-interface IProps {
-	scrollableNode: HTMLElement
-}
-
 const skeletons = [null, null, null, null, null]
 
-export const AccountActivity = forwardRef<HTMLElement, IProps>((props, ref: React.Ref<HTMLElement | null>) => {
-	const { scrollableNode } = props
+export const Activity = forwardRef<HTMLElement>((_, ref: React.Ref<HTMLElement | null>) => {
+	const { scrollableNode } = useScroll()
 
 	const [selected, setSelected] = useState<string | null>(null)
 	const [hovered, setHovered] = useState<string | null>(null)

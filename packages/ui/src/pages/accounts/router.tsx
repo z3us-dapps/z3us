@@ -3,7 +3,8 @@ import { lazy } from 'react'
 import Suspense from 'ui/src/components/suspense'
 
 const Layout = lazy(() => import('./components/layout'))
-const Home = lazy(() => import('./accounts'))
+const Home = lazy(() => import('./home'))
+const HomeSidebar = lazy(() => import('./home/sidebar'))
 const Fungibles = lazy(() => import('./fungibles'))
 const NonFungibles = lazy(() => import('./non-fungibles'))
 const Resource = lazy(() => import('./resource'))
@@ -24,7 +25,11 @@ const route = {
 				</Suspense>
 			),
 			handle: {
-				sidebar: <p>Accounts activities</p>,
+				sidebar: (
+					<Suspense>
+						<HomeSidebar />
+					</Suspense>
+				),
 			},
 		},
 		{

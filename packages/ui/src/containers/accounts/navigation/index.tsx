@@ -41,7 +41,7 @@ export const AccountDesktopLavaMenu = () => {
 					// { text: t('accounts.navigation.swap'), href: '/accounts/swap'  },
 					{ text: t('accounts.navigation.settings'), href: '/accounts/settings' },
 				].map(({ text, href }) => (
-					<NavLink to={href} end>
+					<NavLink key={href} to={href} end>
 						{({ isActive }) => <PillNavigation text={text} key={href} href={href} matchActiveFn={() => isActive} />}
 					</NavLink>
 				))}
