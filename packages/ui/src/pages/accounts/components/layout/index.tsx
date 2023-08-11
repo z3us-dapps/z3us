@@ -4,6 +4,7 @@ import { useScroll } from 'packages/ui/src/components/scroll-area-radix/use-scro
 import React, { Suspense } from 'react'
 import { useLocation, useMatches, useOutlet } from 'react-router-dom'
 
+import MotionBox from 'ui/src/components/motion-box'
 import { ScrollAreaRadix as ScrollArea } from 'ui/src/components/scroll-area-radix'
 import { ScrollPanel } from 'ui/src/components/scroll-panel'
 import * as panelViewStyles from 'ui/src/components/styles/panel-view-styles.css'
@@ -55,16 +56,18 @@ const Layout: React.FC = () => {
 	const isMobile = useIsMobileWidth()
 
 	return (
-		<Box className={panelViewStyles.panelViewOuterWrapper}>
-			<MobileAccountBackground />
-			<ScrollArea
-				showTopScrollShadow={false}
-				disabled={!isMobile}
-				className={panelViewStyles.panelViewMobileScrollWrapper}
-			>
-				<ScrollContent />
-			</ScrollArea>
-		</Box>
+		<MotionBox>
+			<Box className={panelViewStyles.panelViewOuterWrapper}>
+				<MobileAccountBackground />
+				<ScrollArea
+					showTopScrollShadow={false}
+					disabled={!isMobile}
+					className={panelViewStyles.panelViewMobileScrollWrapper}
+				>
+					<ScrollContent />
+				</ScrollArea>
+			</Box>
+		</MotionBox>
 	)
 }
 

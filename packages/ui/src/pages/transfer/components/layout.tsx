@@ -1,6 +1,9 @@
-import Loader from 'packages/ui/src/components/loader'
+import { AnimatePresence } from 'framer-motion'
 import React, { Suspense } from 'react'
 import { useLocation, useOutlet } from 'react-router-dom'
+
+import Loader from 'ui/src/components/loader'
+import MotionBox from 'ui/src/components/motion-box'
 
 import Nav from './nav'
 
@@ -9,14 +12,14 @@ const Layout: React.FC = () => {
 	const outlet = useOutlet()
 
 	return (
-		<div>
-			<h1>Transfer</h1>
+		<MotionBox>
 			<Nav />
-			<hr />
-			<Suspense key={location.pathname} fallback={<Loader />}>
-				{outlet}
-			</Suspense>
-		</div>
+			<AnimatePresence initial={false}>
+				<Suspense key={location.pathname} fallback={<Loader />}>
+					{outlet}
+				</Suspense>
+			</AnimatePresence>
+		</MotionBox>
 	)
 }
 
