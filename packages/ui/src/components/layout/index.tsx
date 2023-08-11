@@ -10,7 +10,7 @@ import * as styles from './styles.css'
 
 const Layout: React.FC = () => {
 	const location = useLocation()
-	const o = useOutlet()
+	const outlet = useOutlet()
 
 	const key = useMemo(() => location.pathname.split('/')[1], [location.pathname])
 
@@ -19,7 +19,7 @@ const Layout: React.FC = () => {
 			<DesktopNavigation />
 			<AnimatePresence initial={false}>
 				<Suspense key={key} fallback={<Loader />}>
-					{o}
+					{outlet}
 				</Suspense>
 			</AnimatePresence>
 			<Toasts />

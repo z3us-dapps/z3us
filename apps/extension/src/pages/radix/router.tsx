@@ -1,4 +1,5 @@
 import { lazy } from 'react'
+import { Navigate } from 'react-router-dom'
 
 const Layout = lazy(() => import('./components/layout'))
 const Pairing = lazy(() => import('./pairing'))
@@ -10,7 +11,7 @@ const route = {
 	children: [
 		{
 			index: true,
-			element: <Pairing />,
+			element: <Navigate to="/radix/pairing" />,
 		},
 		{
 			path: 'pairing',

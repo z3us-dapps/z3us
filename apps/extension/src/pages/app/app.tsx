@@ -32,9 +32,14 @@ export const router = createHashRouter([
 			settingsRoute,
 			stakingRoute,
 			transferRoute,
-			radixRoute,
 			noMatchRoute,
 		],
+	},
+	{
+		path: '/radix',
+		element: <Layout />, // @TODO: use custom layout for radix pages
+		errorElement: <LayoutErrorBoundary />,
+		children: radixRoute.children,
 	},
 ])
 
