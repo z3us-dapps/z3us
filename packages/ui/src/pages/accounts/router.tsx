@@ -1,8 +1,7 @@
 import { lazy } from 'react'
 
-import Suspense from 'ui/src/components/suspense'
+import Layout from './components/layout'
 
-const Layout = lazy(() => import('./components/layout'))
 const Home = lazy(() => import('./home'))
 const HomeSidebar = lazy(() => import('./home/sidebar'))
 const Fungibles = lazy(() => import('./fungibles'))
@@ -11,25 +10,13 @@ const Resource = lazy(() => import('./resource'))
 
 const route = {
 	path: 'accounts',
-	element: (
-		<Suspense>
-			<Layout />
-		</Suspense>
-	),
+	element: <Layout />,
 	children: [
 		{
 			index: true,
-			element: (
-				<Suspense>
-					<Home />
-				</Suspense>
-			),
+			element: <Home />,
 			handle: {
-				sidebar: (
-					<Suspense>
-						<HomeSidebar />
-					</Suspense>
-				),
+				sidebar: <HomeSidebar />,
 			},
 		},
 		{
@@ -40,22 +27,14 @@ const route = {
 					children: [
 						{
 							index: true,
-							element: (
-								<Suspense>
-									<Fungibles />
-								</Suspense>
-							),
+							element: <Fungibles />,
 							handle: {
 								sidebar: <p>Fungibles activities</p>,
 							},
 						},
 						{
 							path: ':resource',
-							element: (
-								<Suspense>
-									<Resource />
-								</Suspense>
-							),
+							element: <Resource />,
 							handle: {
 								sidebar: <p>Token details</p>,
 							},
@@ -67,22 +46,14 @@ const route = {
 					children: [
 						{
 							index: true,
-							element: (
-								<Suspense>
-									<NonFungibles />
-								</Suspense>
-							),
+							element: <NonFungibles />,
 							handle: {
 								sidebar: <p>NonFungibles activities</p>,
 							},
 						},
 						{
 							path: ':resource',
-							element: (
-								<Suspense>
-									<Resource />
-								</Suspense>
-							),
+							element: <Resource />,
 							handle: {
 								sidebar: <p>Token details</p>,
 							},

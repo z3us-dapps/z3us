@@ -1,7 +1,8 @@
 import { Box } from 'packages/ui/src/components/box'
+import Loader from 'packages/ui/src/components/loader'
 import { useScroll } from 'packages/ui/src/components/scroll-area-radix/use-scroll'
-import React from 'react'
-import { Outlet, useMatches } from 'react-router-dom'
+import React, { Suspense } from 'react'
+import { useLocation, useMatches, useOutlet } from 'react-router-dom'
 
 import { ScrollAreaRadix as ScrollArea } from 'ui/src/components/scroll-area-radix'
 import { ScrollPanel } from 'ui/src/components/scroll-panel'
@@ -11,8 +12,10 @@ import { useIsMobileWidth } from 'ui/src/hooks/use-is-mobile'
 import { MobileAccountBackground } from '../mobile-account-background'
 
 const ScrollContent: React.FC = () => {
-	const isMobile = useIsMobileWidth()
+	const location = useLocation()
+	const outlet = useOutlet()
 	const matches = useMatches()
+	const isMobile = useIsMobileWidth()
 	const { scrollableNode } = useScroll()
 
 	const [sidebar] = matches
@@ -30,12 +33,16 @@ const ScrollContent: React.FC = () => {
 				<Box className={panelViewStyles.panelViewWrapper}>
 					<Box className={panelViewStyles.panelViewLeftWrapper}>
 						<ScrollPanel showTopScrollShadow={false} scrollParent={isMobile ? scrollableNode : undefined}>
-							<Outlet />
+							<Suspense key={location.pathname} fallback={<Loader />}>
+								{outlet}
+							</Suspense>
 						</ScrollPanel>
 					</Box>
 					<Box className={panelViewStyles.panelViewRightWrapper}>
 						<ScrollPanel showTopScrollShadow={false} scrollParent={isMobile ? scrollableNode : undefined}>
-							{sidebar}
+							<Suspense key={location.pathname} fallback={<Loader />}>
+								{sidebar}
+							</Suspense>
 						</ScrollPanel>
 					</Box>
 				</Box>

@@ -1,20 +1,15 @@
 import { lazy } from 'react'
 import { Navigate } from 'react-router-dom'
 
-import Suspense from 'ui/src/components/suspense'
+import Layout from './components/layout'
 
-const Layout = lazy(() => import('./components/layout'))
 const General = lazy(() => import('./general'))
 const Accounts = lazy(() => import('./accounts'))
 const AddressBook = lazy(() => import('./address-book'))
 
 const route = {
 	path: 'settings',
-	element: (
-		<Suspense>
-			<Layout />
-		</Suspense>
-	),
+	element: <Layout />,
 	children: [
 		{
 			index: true,
@@ -22,27 +17,15 @@ const route = {
 		},
 		{
 			path: 'general',
-			element: (
-				<Suspense>
-					<General />
-				</Suspense>
-			),
+			element: <General />,
 		},
 		{
 			path: 'accounts',
-			element: (
-				<Suspense>
-					<Accounts />
-				</Suspense>
-			),
+			element: <Accounts />,
 		},
 		{
 			path: 'address-book',
-			element: (
-				<Suspense>
-					<AddressBook />
-				</Suspense>
-			),
+			element: <AddressBook />,
 		},
 	],
 }

@@ -1,9 +1,8 @@
 import { lazy } from 'react'
 import { Navigate } from 'react-router-dom'
 
-import Suspense from 'ui/src/components/suspense'
+import Layout from './components/layout'
 
-const Layout = lazy(() => import('./components/layout'))
 const Fungibles = lazy(() => import('./fungibles'))
 const NonFungibles = lazy(() => import('./non-fungibles'))
 const Raw = lazy(() => import('./raw'))
@@ -11,11 +10,7 @@ const Deploy = lazy(() => import('./deploy'))
 
 const route = {
 	path: 'transfer',
-	element: (
-		<Suspense>
-			<Layout />
-		</Suspense>
-	),
+	element: <Layout />,
 	children: [
 		{
 			index: true,
@@ -23,35 +18,19 @@ const route = {
 		},
 		{
 			path: 'fungibles',
-			element: (
-				<Suspense>
-					<Fungibles />
-				</Suspense>
-			),
+			element: <Fungibles />,
 		},
 		{
 			path: 'non-fungibles',
-			element: (
-				<Suspense>
-					<NonFungibles />
-				</Suspense>
-			),
+			element: <NonFungibles />,
 		},
 		{
 			path: 'raw',
-			element: (
-				<Suspense>
-					<Raw />
-				</Suspense>
-			),
+			element: <Raw />,
 		},
 		{
 			path: 'deploy',
-			element: (
-				<Suspense>
-					<Deploy />
-				</Suspense>
-			),
+			element: <Deploy />,
 		},
 	],
 }
