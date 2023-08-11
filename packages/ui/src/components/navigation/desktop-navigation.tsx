@@ -23,12 +23,12 @@ const AccountDesktopLavaMenu = () => {
 			<LayoutGroup id="accounts-menu">
 				{[
 					{ text: t('accounts.navigation.accounts'), href: '/accounts' },
-					{ text: t('accounts.navigation.transfer'), href: '/accounts/transfer' },
-					{ text: t('accounts.navigation.staking'), href: '/accounts/staking' },
-					{ text: t('accounts.navigation.settings'), href: '/accounts/settings' },
+					{ text: t('accounts.navigation.transfer'), href: '/transfer' },
+					{ text: t('accounts.navigation.staking'), href: '/staking' },
+					{ text: t('accounts.navigation.settings'), href: '/settings' },
 				].map(({ text, href }) => (
 					<Box component="li">
-						<NavLink to={href} end underline="never">
+						<NavLink to={href} underline="never">
 							{({ isActive }) => <PillNavigation text={text} matchActiveFn={() => isActive} />}
 						</NavLink>
 					</Box>

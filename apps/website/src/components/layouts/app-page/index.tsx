@@ -1,12 +1,11 @@
 import { DappStatusContext } from 'packages/ui/src/context/dapp-status'
-import React from 'react'
+import React, { Suspense } from 'react'
 import { RouterProvider, createHashRouter } from 'react-router-dom'
 
 import LayoutErrorBoundary from 'ui/src/components/error-boundary'
 import I18Provider from 'ui/src/components/i18n'
 import Layout from 'ui/src/components/layout'
 import Loader from 'ui/src/components/loader'
-import Suspense from 'ui/src/components/suspense'
 import { RdtProvider } from 'ui/src/context/rdt-provider'
 import { ReactQueryProvider } from 'ui/src/context/react-query-provider'
 import { NoneSharedStoreProvider } from 'ui/src/context/state-provider'
