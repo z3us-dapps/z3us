@@ -11,8 +11,8 @@ import { HeightAnimatePanel } from 'ui/src/components/height-animate-panel'
 import { Z3usLoading } from 'ui/src/components/z3us-loading'
 import { animatePageVariants } from 'ui/src/constants/page'
 
-import { Chart } from './chart'
-import { ListRow } from './list-row'
+import { Chart } from './components/chart'
+import { ListRow } from './components/list-row'
 import * as styles from './styles.css'
 
 const defaultRowsShown = 3
