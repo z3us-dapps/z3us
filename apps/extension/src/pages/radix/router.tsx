@@ -1,42 +1,24 @@
 import { lazy } from 'react'
 
-import Suspense from 'ui/src/components/suspense'
-
 const Layout = lazy(() => import('./components/layout'))
 const Pairing = lazy(() => import('./pairing'))
 const Options = lazy(() => import('./options'))
 
 const route = {
 	path: 'radix',
-	element: (
-		<Suspense>
-			<Layout />
-		</Suspense>
-	),
+	element: <Layout />,
 	children: [
 		{
 			index: true,
-			element: (
-				<Suspense>
-					<Pairing />
-				</Suspense>
-			),
+			element: <Pairing />,
 		},
 		{
 			path: 'pairing',
-			element: (
-				<Suspense>
-					<Pairing />
-				</Suspense>
-			),
+			element: <Pairing />,
 		},
 		{
 			path: 'options',
-			element: (
-				<Suspense>
-					<Options />
-				</Suspense>
-			),
+			element: <Options />,
 		},
 	],
 }
