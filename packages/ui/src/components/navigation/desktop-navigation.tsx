@@ -27,7 +27,7 @@ const AccountDesktopLavaMenu = () => {
 					{ text: t('accounts.navigation.staking'), href: '/staking' },
 					{ text: t('accounts.navigation.settings'), href: '/settings' },
 				].map(({ text, href }) => (
-					<Box component="li">
+					<Box key={href} component="li">
 						<NavLink to={href} underline="never">
 							{({ isActive }) => <PillNavigation text={text} matchActiveFn={() => isActive} />}
 						</NavLink>

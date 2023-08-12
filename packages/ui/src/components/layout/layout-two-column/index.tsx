@@ -3,7 +3,7 @@ import React from 'react'
 
 import { Box } from 'ui/src/components/box'
 
-import * as styles from './layout-two-col.css'
+import * as styles from './styles.css'
 
 export interface ILayoutTwoCol {
 	className?: ClassValue
@@ -11,7 +11,7 @@ export interface ILayoutTwoCol {
 	rightCol?: React.ReactElement
 }
 
-export const LayoutTwoCol: React.FC<ILayoutTwoCol> = props => {
+export const LayoutTwoColumn: React.FC<ILayoutTwoCol> = props => {
 	const { className, leftCol, rightCol } = props
 
 	return (

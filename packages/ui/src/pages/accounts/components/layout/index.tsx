@@ -24,7 +24,7 @@ const ScrollContent: React.FC = () => {
 		.map(match => (match.handle as any).sidebar)
 
 	return (
-		<Box className={panelViewStyles.panelViewOuterWrapper}>
+		<>
 			<MobileAccountBackground />
 			<ScrollArea
 				showTopScrollShadow={false}
@@ -48,7 +48,7 @@ const ScrollContent: React.FC = () => {
 					</Box>
 				</Box>
 			</ScrollArea>
-		</Box>
+		</>
 	)
 }
 

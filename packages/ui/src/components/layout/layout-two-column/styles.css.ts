@@ -1,4 +1,4 @@
-import { style } from '@vanilla-extract/css'
+import { globalStyle, style } from '@vanilla-extract/css'
 
 import { sprinkles } from 'ui/src/components/system/sprinkles.css'
 import { responsiveStyle } from 'ui/src/components/system/theme-utils'
@@ -59,6 +59,13 @@ export const layoutTwoColLeftWrapper = style([
 		desktop: { width: '260px' },
 	}),
 ])
+
+globalStyle(`${layoutTwoColLeftWrapper} ul`, {
+	listStyleType: 'none',
+	display: 'flex',
+	flexDirection: 'column',
+	gap: '1rem',
+})
 
 export const layoutTwoColRightWrapper = style([
 	sprinkles({

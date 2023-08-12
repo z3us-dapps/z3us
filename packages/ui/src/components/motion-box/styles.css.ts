@@ -9,8 +9,7 @@ export const animatedPageWrapper = style([
 		height: 'full',
 		width: 'full',
 		left: 0,
+		top: 0,
 	}),
-	{
-		top: '71px',
-	},
+	{},
 ])

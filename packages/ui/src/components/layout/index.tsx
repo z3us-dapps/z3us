@@ -2,6 +2,7 @@ import { AnimatePresence } from 'framer-motion'
 import React, { Suspense, useMemo } from 'react'
 import { useLocation, useOutlet } from 'react-router-dom'
 
+import { Box } from 'ui/src/components/Box'
 import { DesktopNavigation } from 'ui/src/components/navigation'
 import { Toasts } from 'ui/src/components/toasts'
 
@@ -15,15 +16,17 @@ const Layout: React.FC = () => {
 	const key = useMemo(() => location.pathname.split('/')[1], [location.pathname])
 
 	return (
-		<div className={styles.container}>
+		<Box className={styles.layoutWrapper}>
 			<DesktopNavigation />
-			<AnimatePresence initial={false}>
-				<Suspense key={key} fallback={<Loader />}>
-					{outlet}
-				</Suspense>
-			</AnimatePresence>
+			<Box className={styles.layoutRouteWrapper}>
+				<AnimatePresence initial={false}>
+					<Suspense key={key} fallback={<Loader />}>
+						{outlet}
+					</Suspense>
+				</AnimatePresence>
+			</Box>
 			<Toasts />
-		</div>
+		</Box>
 	)
 }
 
