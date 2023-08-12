@@ -2,7 +2,7 @@ import { AnimatePresence } from 'framer-motion'
 import React, { Suspense, useMemo } from 'react'
 import { useLocation, useOutlet } from 'react-router-dom'
 
-import { Box } from 'ui/src/components/Box'
+import { Box } from 'ui/src/components/box'
 import { DesktopNavigation } from 'ui/src/components/navigation'
 import { Toasts } from 'ui/src/components/toasts'
 
