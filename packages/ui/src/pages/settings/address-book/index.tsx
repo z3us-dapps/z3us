@@ -206,15 +206,13 @@ const AddressBook: React.FC = () => {
 							<Translation capitalizeFirstLetter text="settings.addressBook.newAddress" />
 						</Button>
 					</Box>
-					<div style={{ height: '400px', border: '1px solid red' }}>
-						<Table
-							styleVariant="secondary"
-							sizeVariant="medium"
-							scrollableNode={scrollableNode}
-							data={Object.values(addressBook)}
-							columns={columns}
-						/>
-					</div>
+					<Table
+						styleVariant="secondary"
+						sizeVariant="medium"
+						scrollableNode={scrollableNode}
+						data={Object.values(addressBook)}
+						columns={columns}
+					/>
 				</Box>
 			</SettingsWrapper>
 
