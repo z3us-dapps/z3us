@@ -6,11 +6,11 @@ import { InformationIcon, PlusIcon } from 'ui/src/components/icons'
 import { PopoverContent, PopoverPortal, PopoverRoot, PopoverTrigger } from 'ui/src/components/popover'
 import { Text } from 'ui/src/components/typography'
 
-interface IGroupTransactionButtonProps {
+interface IProps {
 	onAddGroup: () => void
 }
 
-export const GroupTransactionButton: React.FC<IGroupTransactionButtonProps> = props => {
+export const GroupTransactionButton: React.FC<IProps> = props => {
 	const { onAddGroup } = props
 
 	return (
@@ -32,8 +32,10 @@ export const GroupTransactionButton: React.FC<IGroupTransactionButtonProps> = pr
 					<PopoverPortal>
 						<PopoverContent align="start" sideOffset={2} style={{ maxWidth: '300px' }}>
 							<Box padding="medium" display="flex" flexDirection="column" gap="small">
-								<Text color="strong">Group transaction</Text>
-								<Text>
+								<Text size="medium" weight="strong" color="strong">
+									Group transaction
+								</Text>
+								<Text size="small">
 									If you wish to send multiple tokens to an address, or send tokens to multiple addresses
 									<br />
 									<br />

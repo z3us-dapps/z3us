@@ -3,7 +3,7 @@ import { Navigate } from 'react-router-dom'
 
 import Layout from './components/layout'
 
-const Fungibles = lazy(() => import('./fungibles'))
+const Fungibles = lazy(() => import('./fungibles/index'))
 const NonFungibles = lazy(() => import('./non-fungibles'))
 const Raw = lazy(() => import('./raw'))
 const Deploy = lazy(() => import('./deploy'))
