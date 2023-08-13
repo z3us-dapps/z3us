@@ -18,8 +18,8 @@ export const Deploy: React.FC = () => {
 	return (
 		<TransferWrapper
 			transaction={null}
-			title={<Translation capitalizeFirstLetter text="transfer.navigation.transferDeployPackage" />}
-			description="Deploy a new blueprint package to the Radix Betanet by attaching your WASM and ABI files to a deploy transaction."
+			title={<Translation capitalizeFirstLetter text="transfer.deploy.title" />}
+			description={<Translation capitalizeFirstLetter text="transfer.deploy.description" />}
 		>
 			<Box>
 				<Box>

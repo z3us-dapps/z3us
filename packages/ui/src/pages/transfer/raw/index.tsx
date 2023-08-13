@@ -1,9 +1,11 @@
+import { t } from 'i18next'
 import React, { useEffect, useRef, useState } from 'react'
 
 import { type FormElement, Input } from 'ui/src/components/input'
 import Translation from 'ui/src/components/translation'
 
 import { TransferWrapper } from '../components/transfer-wrapper'
+import * as styles from './styles.css'
 
 export const Raw: React.FC = () => {
 	const inputRef = useRef(null)
@@ -20,18 +22,19 @@ export const Raw: React.FC = () => {
 
 	return (
 		<TransferWrapper
-			title={<Translation capitalizeFirstLetter text="transfer.navigation.transferRaw" />}
-			description="Enter transaction manifest"
-			helpTitle="Raw transaction"
-			help="Enter raw transaction manifest text to send to your linked Radix Wallet. No method call to 'lock_fee' is required - the wallet will add this automatically."
+			title={<Translation capitalizeFirstLetter text="transfer.raw.title" />}
+			description={<Translation capitalizeFirstLetter text="transfer.raw.description" />}
+			helpTitle={<Translation capitalizeFirstLetter text="transfer.raw.helpTitle" />}
+			help={<Translation capitalizeFirstLetter text="transfer.raw.help" />}
 			transaction={inputValue ? { version: 1, transactionManifest: inputValue } : null}
 		>
 			<Input
+				className={styles.transferRawTextAreaMessage}
 				value={inputValue}
 				ref={inputRef}
 				elementType="textarea"
 				sizeVariant="medium"
-				placeholder="Enter transaction manifest"
+				placeholder={t('transfer.raw.inputPlaceholder')}
 				onChange={handleChange}
 			/>
 		</TransferWrapper>

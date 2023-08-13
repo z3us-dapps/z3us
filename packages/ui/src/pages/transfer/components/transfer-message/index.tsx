@@ -1,12 +1,14 @@
+import { t } from 'i18next'
 import React from 'react'
 
 import { Box } from 'ui/src/components/box'
 import { Checkbox } from 'ui/src/components/checkbox'
-import { type FormElement, Input, type TStyleVariant } from 'ui/src/components/input'
+import { type FormElement, Input } from 'ui/src/components/input'
 import { ShowHidePanel } from 'ui/src/components/show-hide-panel'
+import Translation from 'ui/src/components/translation'
 import { Text } from 'ui/src/components/typography'
 
-import * as styles from './transfer-message.css'
+import * as styles from './styles.css'
 
 interface ITransferMessageProps {
 	isVisible: boolean
@@ -14,20 +16,11 @@ interface ITransferMessageProps {
 	isEncrypted: boolean
 	onUpdateIsMessageEncrypted: (isEncrypted: boolean) => void
 	onUpdateMessage: (message: string) => void
-	styleVariant?: TStyleVariant
 	isError?: boolean
 }
 
 export const TransferMessage: React.FC<ITransferMessageProps> = props => {
-	const {
-		isVisible,
-		message,
-		isEncrypted,
-		styleVariant = 'secondary',
-		isError = false,
-		onUpdateMessage,
-		onUpdateIsMessageEncrypted,
-	} = props
+	const { isVisible, message, isEncrypted, isError = false, onUpdateMessage, onUpdateIsMessageEncrypted } = props
 
 	const handleUpdateMessage = (event: React.ChangeEvent<FormElement>) => {
 		onUpdateMessage(event.currentTarget.value)
@@ -45,17 +38,13 @@ export const TransferMessage: React.FC<ITransferMessageProps> = props => {
 						<Box display="flex" alignItems="center" gap="small" width="full">
 							<Box flexGrow={1}>
 								<Text size="medium" truncate>
-									Enter transaction message (10/180)
+									<Translation capitalizeFirstLetter text="transfer.group.enterMessage" /> (10/180)
 								</Text>
 							</Box>
 							<Text size="medium" truncate>
-								Encrypt
+								<Translation capitalizeFirstLetter text="transfer.group.encrypt" />
 							</Text>
-							<Checkbox
-								checked={isEncrypted}
-								onCheckedChange={handleUpdateEncryptedMessage}
-								styleVariant={styleVariant}
-							/>
+							<Checkbox checked={isEncrypted} onCheckedChange={handleUpdateEncryptedMessage} styleVariant="primary" />
 						</Box>
 					</Box>
 				</Box>
@@ -63,8 +52,8 @@ export const TransferMessage: React.FC<ITransferMessageProps> = props => {
 					className={styles.transferUiTextAreaMessage}
 					elementType="textarea"
 					sizeVariant="large"
-					placeholder="Enter message"
-					styleVariant={isError ? 'secondary-error' : 'secondary'}
+					placeholder={t('transfer.group.messagePlaceholder')}
+					styleVariant={isError ? 'secondary-error' : 'primary'}
 					value={message}
 					onChange={handleUpdateMessage}
 				/>

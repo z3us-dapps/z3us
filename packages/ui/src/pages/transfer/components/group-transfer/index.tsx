@@ -25,6 +25,8 @@ import {
 	WriteNoteIcon,
 } from 'ui/src/components/icons'
 import { ResourceImageIcon } from 'ui/src/components/resource-image-icon'
+import type { ISearchableInputProps } from 'ui/src/components/searchable-input'
+import { SearchableInput } from 'ui/src/components/searchable-input'
 import * as plainButtonStyles from 'ui/src/components/styles/plain-button-styles.css'
 import { ToolTip } from 'ui/src/components/tool-tip'
 import Translation from 'ui/src/components/translation'
@@ -32,10 +34,8 @@ import { Text } from 'ui/src/components/typography'
 import { ValidationErrorMessage } from 'ui/src/components/validation-error-message'
 import { AccountDropdown } from 'ui/src/containers/accounts/account-dropdown'
 
-import type { TCombinedSendSchema, TTransferSchema, TZodValidation } from '../../types'
+import type { INft, IToken, TCombinedSendSchema, TTransferSchema, TZodValidation } from '../../types'
 import { getError } from '../../utils/get-transfer-form-error'
-import type { ISearchableInputProps } from '../searchable-input'
-import { SearchableInput } from '../searchable-input'
 import { TransferMessage } from '../transfer-message'
 import { TransferNftSelector } from '../transfer-nft-selector'
 import { TransferTokenSelector } from '../transfer-token-selector'
@@ -147,7 +147,7 @@ export const GroupItem: React.FC<IGroupItemProps> = props => {
 							<Box paddingBottom="medium">
 								<Box display="flex" paddingBottom="small" flexGrow={1} alignItems="center">
 									<Text size="medium" color="strong" weight="medium">
-										From:
+										<Translation capitalizeFirstLetter text="transfer.group.from" />:
 									</Text>
 								</Box>
 								<AccountDropdown
@@ -164,7 +164,7 @@ export const GroupItem: React.FC<IGroupItemProps> = props => {
 							<Box display="flex" alignItems="center" width="full">
 								<Box display="flex" alignItems="center" flexGrow={1}>
 									<Text size="medium" color="strong" weight="medium">
-										To:
+										<Translation capitalizeFirstLetter text="transfer.group.to" />:
 									</Text>
 									<Box display="flex" alignItems="center" color="green500" marginLeft="xxsmall">
 										{toName && <Text size="medium">({toName})</Text>}
@@ -185,7 +185,11 @@ export const GroupItem: React.FC<IGroupItemProps> = props => {
 												<WriteNoteIcon />
 											</Box>
 											<Text inheritColor component="span" size="medium" underline="always" truncate>
-												{isMessageUiVisible ? 'Hide message' : 'Add message'}
+												{isMessageUiVisible ? (
+													<Translation capitalizeFirstLetter text="transfer.group.hideMessage" />
+												) : (
+													<Translation capitalizeFirstLetter text="transfer.group.addMessage" />
+												)}
 											</Text>
 										</Box>
 									) : null}
@@ -209,13 +213,11 @@ export const GroupItem: React.FC<IGroupItemProps> = props => {
 								isVisible={isMessageUiVisible}
 								message={message}
 								isEncrypted={isMessageEncrypted}
-								styleVariant="primary"
 								onUpdateMessage={onUpdateMessage}
 								onUpdateIsMessageEncrypted={onUpdateIsMessageEncrypted}
 							/>
 						) : null}
-						{/* // TODO: resolve any type */}
-						{(send.tokens || []).map(({ amount, address }: any, tokenIndex: number) => (
+						{(send.tokens || []).map(({ amount, address }: IToken, tokenIndex: number) => (
 							<TransferTokenSelector
 								key={`group-${sendIndex}-${tokenIndex}`}
 								balances={balances}
@@ -233,8 +235,7 @@ export const GroupItem: React.FC<IGroupItemProps> = props => {
 								}}
 							/>
 						))}
-						{/* // TODO: resolve any type */}
-						{(send.nfts || []).map(({ amount, address }: any, nftIndex: number) => (
+						{(send.nfts || []).map(({ amount, address }: INft, nftIndex: number) => (
 							<TransferNftSelector
 								key={`group-${sendIndex}-${nftIndex}`}
 								balances={balances}
@@ -256,7 +257,6 @@ export const GroupItem: React.FC<IGroupItemProps> = props => {
 								}}
 							/>
 						))}
-
 						<Box width="full" paddingTop="large">
 							{send.tokens ? (
 								<Button
@@ -272,7 +272,7 @@ export const GroupItem: React.FC<IGroupItemProps> = props => {
 										</Box>
 									}
 								>
-									Add another token
+									<Translation capitalizeFirstLetter text="transfer.group.addAnotherToken" />
 								</Button>
 							) : null}
 							{send.nfts ? (
@@ -289,7 +289,7 @@ export const GroupItem: React.FC<IGroupItemProps> = props => {
 										</Box>
 									}
 								>
-									Add another nft
+									<Translation capitalizeFirstLetter text="transfer.group.addAnotherNft" />
 								</Button>
 							) : null}
 						</Box>

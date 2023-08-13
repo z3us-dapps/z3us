@@ -26,6 +26,7 @@ export type SetTransaction = (input: TransactionDetails | TransactionDetailsGett
 
 export interface ITransferWrapperProps {
 	title: string | React.ReactElement
+	titleSuffix?: string | React.ReactElement
 	description?: string | React.ReactElement
 	transaction: TransactionDetails | TransactionDetailsGetter
 	helpTitle?: string | React.ReactElement
@@ -33,7 +34,7 @@ export interface ITransferWrapperProps {
 }
 
 export const TransferWrapper: React.FC<PropsWithChildren<ITransferWrapperProps>> = props => {
-	const { title, description, helpTitle, help, transaction, children } = props
+	const { title, titleSuffix, description, helpTitle, help, transaction, children } = props
 	const sendTransaction = useSendTransaction()
 	const [isOpen, setIsOpen] = useState<boolean>(false)
 	const [isLoading, setIsLoading] = useState<boolean>(false)
@@ -80,16 +81,22 @@ export const TransferWrapper: React.FC<PropsWithChildren<ITransferWrapperProps>>
 				<ScrollPanel>
 					<Box className={styles.transferDesktopWrapper}>
 						<Box width="full">
-							<Box display="flex" alignItems="flex-end" paddingBottom="small" gap="xsmall">
-								<Box paddingTop="xxsmall">
+							<Box display="flex" alignItems="flex-end" paddingBottom="small">
+								<Box display="flex" paddingTop="xxsmall" alignItems="center">
 									<Text size="xxlarge" weight="strong" color="strong">
 										{title}
 									</Text>
+									&nbsp;
+									{titleSuffix && (
+										<Text size="xxlarge" weight="strong">
+											({titleSuffix})
+										</Text>
+									)}
 								</Box>
 								{(helpTitle || help) && (
 									<PopoverRoot>
 										<PopoverTrigger asChild>
-											<Box marginBottom="xsmall" marginLeft="xsmall">
+											<Box marginBottom="xxsmall">
 												<Button styleVariant="ghost" sizeVariant="xsmall" iconOnly aria-label="TODO">
 													<InformationIcon />
 												</Button>
@@ -98,10 +105,10 @@ export const TransferWrapper: React.FC<PropsWithChildren<ITransferWrapperProps>>
 										<PopoverPortal>
 											<PopoverContent align="start" sideOffset={2} style={{ maxWidth: '300px' }}>
 												<Box padding="medium" display="flex" flexDirection="column" gap="small">
-													<Text size="small" color="strong">
+													<Text size="xsmall" color="strong" weight="medium">
 														{helpTitle}
 													</Text>
-													<Text>{help}</Text>
+													<Text size="xsmall">{help}</Text>
 												</Box>
 											</PopoverContent>
 										</PopoverPortal>
@@ -157,8 +164,11 @@ export const TransferWrapper: React.FC<PropsWithChildren<ITransferWrapperProps>>
 							<Box display="flex" flexDirection="column" gap="medium" alignItems="center">
 								{isLoading && (
 									<Box>
-										<Z3usLoading message="Sending" />
-										<Text>confirm transaction on your device</Text>
+										<Z3usLoading message={<Translation capitalizeFirstLetter text="global.send" />} />
+										<Text>
+											{' '}
+											<Translation capitalizeFirstLetter text="global.confirmDevice" />
+										</Text>
 									</Box>
 								)}
 								{txError && <Text color="red">{txError}</Text>}

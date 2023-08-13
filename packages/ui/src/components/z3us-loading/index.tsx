@@ -52,7 +52,7 @@ interface IZ3usLoadingRequiredProps {}
 
 interface IZ3usLoadingOptionalProps {
 	className?: string
-	message?: string
+	message?: string | React.ReactElement
 }
 
 interface IZ3usLoadingProps extends IZ3usLoadingRequiredProps, IZ3usLoadingOptionalProps {}

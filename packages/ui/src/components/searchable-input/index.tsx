@@ -11,7 +11,7 @@ import { PopoverAnchor, PopoverContent, PopoverPortal, PopoverRoot } from 'ui/sr
 import SimpleBar from 'ui/src/components/simple-bar'
 import { Text } from 'ui/src/components/typography'
 
-import * as styles from './searchable-input.css'
+import * as styles from './styles.css'
 
 type TData = Array<{ id: string; account: string; alias: string }>
 

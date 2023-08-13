@@ -149,7 +149,8 @@ export const Fungibles: React.FC = () => {
 
 	return (
 		<TransferWrapper
-			title={<Translation capitalizeFirstLetter text="transfer.navigation.transferTokens" />}
+			title={<Translation capitalizeFirstLetter text="transfer.tokens.title" />}
+			titleSuffix={<Translation text="transfer.tokens.titleSuffix" />}
 			transaction={handleContinue}
 		>
 			<Box position="relative">
@@ -171,9 +172,7 @@ export const Fungibles: React.FC = () => {
 					onUpdateMessage={handleUpdateMessage}
 					onUpdateIsMessageEncrypted={handleUpdateIsMessageEncrypted}
 				/>
-				<Box paddingTop="large" display="flex" flexDirection="column" gap="medium">
-					<GroupTransactionButton onAddGroup={handleAddGroup} />
-				</Box>
+				<GroupTransactionButton onAddGroup={handleAddGroup} />
 			</Box>
 		</TransferWrapper>
 	)

@@ -142,7 +142,8 @@ const NonFungibles: React.FC = () => {
 	}
 	return (
 		<TransferWrapper
-			title={<Translation capitalizeFirstLetter text="transfer.navigation.transferNfts" />}
+			title={<Translation capitalizeFirstLetter text="transfer.nfts.title" />}
+			titleSuffix={<Translation text="transfer.nfts.titleSuffix" />}
 			transaction={handleContinue}
 		>
 			<Box position="relative">
@@ -164,9 +165,7 @@ const NonFungibles: React.FC = () => {
 					onUpdateMessage={handleUpdateMessage}
 					onUpdateIsMessageEncrypted={handleUpdateIsMessageEncrypted}
 				/>
-				<Box paddingTop="large" display="flex" flexDirection="column" gap="medium">
-					<GroupTransactionButton onAddGroup={handleAddGroup} />
-				</Box>
+				<GroupTransactionButton onAddGroup={handleAddGroup} />
 			</Box>
 		</TransferWrapper>
 	)

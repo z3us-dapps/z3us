@@ -1,7 +1,7 @@
 import { style } from '@vanilla-extract/css'
 
 import { sharedItemStyles } from 'ui/src/components/dropdown-menu/dropdown-menu.css'
-import type { Sprinkles} from 'ui/src/components/system/sprinkles.css';
+import type { Sprinkles } from 'ui/src/components/system/sprinkles.css'
 import { sprinkles } from 'ui/src/components/system/sprinkles.css'
 import { responsiveStyle } from 'ui/src/components/system/theme-utils'
 

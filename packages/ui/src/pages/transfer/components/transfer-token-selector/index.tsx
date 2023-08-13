@@ -1,11 +1,7 @@
-import BigNumber from 'bignumber.js'
 import clsx, { type ClassValue } from 'clsx'
-import { TokenPrice } from 'packages/ui/src/components/token-price'
-import { useSupportedCurrencies } from 'packages/ui/src/hooks/queries/market'
-import { useNoneSharedStore } from 'packages/ui/src/hooks/use-store'
 import type { ResourceBalance } from 'packages/ui/src/types/types'
 import { formatBigNumber } from 'packages/ui/src/utils/formatters'
-import React, { useState } from 'react'
+import React from 'react'
 
 import { Box } from 'ui/src/components/box'
 import { Button, type TStyleVariant as TButtonStyleVariant } from 'ui/src/components/button'
@@ -14,28 +10,17 @@ import { type TSizeVariant, type TStyleVariant } from 'ui/src/components/input'
 import { NumberInput } from 'ui/src/components/number-input'
 import { ResourceImageIcon } from 'ui/src/components/resource-image-icon'
 import { Link } from 'ui/src/components/router-link'
-import {
-	SelectContent,
-	SelectGroup,
-	SelectIcon,
-	SelectItem,
-	SelectLabel,
-	SelectRoot,
-	SelectSeparator,
-	SelectTrigger,
-	SelectValue,
-} from 'ui/src/components/select'
 import * as plainButtonStyles from 'ui/src/components/styles/plain-button-styles.css'
+import { TokenSelectorDialog } from 'ui/src/components/token-selector-dialog'
 import { ToolTip } from 'ui/src/components/tool-tip'
 import Translation from 'ui/src/components/translation'
 import { Text } from 'ui/src/components/typography'
 import { ValidationErrorMessage } from 'ui/src/components/validation-error-message'
-// TODO: move to components outside of the containers
-import { TokenSelectorDialog } from 'ui/src/containers/accounts/token-selector-dialog'
 import { getZodError } from 'ui/src/utils/get-zod-error'
 
-import type { TTransferSchema, TZodValidation } from '../account-transfer-types'
-import * as styles from './transfer-token-selector.css'
+import type { TTransferSchema, TZodValidation } from '../../types'
+import { CurrencySelect } from '../currency-select'
+import * as styles from './styles.css'
 
 interface ITransferTokenSelectorProps {
 	balances: ResourceBalance[]
@@ -68,16 +53,7 @@ export const TransferTokenSelector: React.FC<ITransferTokenSelectorProps> = prop
 		onUpdateTokenValue,
 	} = props
 
-	const { data: currencies } = useSupportedCurrencies()
-	const { currency } = useNoneSharedStore(state => ({
-		currency: state.currency,
-	}))
-
-	const [selectedCurrency, setCurrency] = useState<string>(currency)
-
 	const selectedToken = balances.find(b => b.address === tokenAddress)
-
-	const favoriteCurrencies = ['usd', 'eur', 'btc']
 
 	const baseErrKey = ['sends', sendIndex, 'tokens', tokenIndex]
 	const tokenError =
@@ -116,7 +92,7 @@ export const TransferTokenSelector: React.FC<ITransferTokenSelectorProps> = prop
 				<Box display="flex" alignItems="center" width="full">
 					<Box display="flex" alignItems="center" flexGrow={1} gap="small">
 						<Text size="medium" color="strong" weight="medium">
-							Amount:
+							<Translation capitalizeFirstLetter text="transfer.group.amount" />:
 						</Text>
 						{tokenIndex ? (
 							<ToolTip
@@ -139,7 +115,7 @@ export const TransferTokenSelector: React.FC<ITransferTokenSelectorProps> = prop
 					</Box>
 					<Box display="flex" alignItems="center" gap="xsmall">
 						<Text inheritColor component="span" size="medium" truncate>
-							Available:
+							<Translation capitalizeFirstLetter text="transfer.group.available" />:
 						</Text>
 						<Link to="/accounts" underline="hover" className={plainButtonStyles.plainButtonHoverWrapper}>
 							<Text inheritColor component="span" size="medium" underline="always" truncate>
@@ -194,70 +170,7 @@ export const TransferTokenSelector: React.FC<ITransferTokenSelectorProps> = prop
 							{tokenValue || 0} {selectedToken?.symbol || selectedToken?.name} =
 						</Text>
 					</Box>
-					{/* TODO: move to own component */}
-					<SelectRoot value={selectedCurrency} onValueChange={setCurrency}>
-						<SelectTrigger asChild aria-label="Currency">
-							<Box
-								component="button"
-								display="inline-flex"
-								alignItems="center"
-								className={clsx(
-									plainButtonStyles.plainButtonHoverWrapper,
-									plainButtonStyles.plainButtonHoverUnderlineWrapper,
-								)}
-							>
-								<SelectValue aria-label={selectedCurrency}>
-									<Box display="flex">
-										<Box component="span">
-											<TokenPrice
-												symbol={selectedToken?.symbol || selectedToken?.name}
-												amount={new BigNumber(tokenValue || 0)}
-												currency={selectedCurrency}
-											/>
-											&nbsp;
-										</Box>
-										<Box component="span" style={{ textTransform: 'uppercase' }}>
-											{selectedCurrency}
-										</Box>
-									</Box>
-								</SelectValue>
-								<SelectIcon style={{ height: '24px' }}>
-									<ChevronDown2Icon />
-								</SelectIcon>
-							</Box>
-						</SelectTrigger>
-						<SelectContent>
-							<SelectGroup>
-								<SelectLabel>
-									<Text truncate size="small">
-										Favorite
-									</Text>
-								</SelectLabel>
-								{favoriteCurrencies?.map(c => (
-									<SelectItem key={c} value={c}>
-										<Text truncate size="small" color="strong">
-											{c.toUpperCase()}
-										</Text>
-									</SelectItem>
-								))}
-							</SelectGroup>
-							<SelectSeparator />
-							<SelectGroup>
-								<SelectLabel>
-									<Text size="small">Rest</Text>
-								</SelectLabel>
-								{currencies?.map(c =>
-									favoriteCurrencies.includes(c) ? null : (
-										<SelectItem key={c} value={c}>
-											<Text truncate size="small" color="strong">
-												{c.toUpperCase()}
-											</Text>
-										</SelectItem>
-									),
-								)}
-							</SelectGroup>
-						</SelectContent>
-					</SelectRoot>
+					<CurrencySelect selectedToken={selectedToken} tokenValue={tokenValue} />
 				</Box>
 			</Box>
 		</Box>

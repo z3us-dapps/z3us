@@ -22,7 +22,7 @@ export const textAreaDefault = style([
 		paddingTop: 'medium',
 	}),
 	{
-		height: 'auto !important',
+		height: 'auto',
 	},
 ])
 

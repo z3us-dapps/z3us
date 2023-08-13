@@ -12,19 +12,19 @@ const Navigation: React.FC = () => (
 			<LayoutGroup id="settings-menu">
 				{[
 					{
-						title: t('transfer.navigation.transferTokens'),
+						title: t('transfer.navigation.tokenTitle'),
 						href: '/transfer/fungibles',
 					},
 					{
-						title: t('transfer.navigation.transferNfts'),
+						title: t('transfer.navigation.nftTitle'),
 						href: '/transfer/non-fungibles',
 					},
 					{
-						title: t('transfer.navigation.transferRaw'),
+						title: t('transfer.navigation.rawTitle'),
 						href: '/transfer/raw',
 					},
 					{
-						title: t('transfer.navigation.transferDeployPackage'),
+						title: t('transfer.navigation.deployTitle'),
 						href: '/transfer/deploy',
 					},
 				].map(({ title, href }) => (
