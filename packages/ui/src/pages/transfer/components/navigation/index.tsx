@@ -1,0 +1,42 @@
+import { LayoutGroup } from 'framer-motion'
+import { t } from 'i18next'
+import { PillNavigation } from 'packages/ui/src/components/pill-navigation'
+import React from 'react'
+
+import { Box } from 'ui/src/components/box'
+import { NavLink } from 'ui/src/components/router-link'
+
+const Navigation: React.FC = () => (
+	<nav>
+		<Box component="ul">
+			<LayoutGroup id="settings-menu">
+				{[
+					{
+						title: t('transfer.navigation.transferTokens'),
+						href: '/transfer/fungibles',
+					},
+					{
+						title: t('transfer.navigation.transferNfts'),
+						href: '/transfer/non-fungibles',
+					},
+					{
+						title: t('transfer.navigation.transferRaw'),
+						href: '/transfer/raw',
+					},
+					{
+						title: t('transfer.navigation.transferDeployPackage'),
+						href: '/transfer/deploy',
+					},
+				].map(({ title, href }) => (
+					<Box key={href} component="li">
+						<NavLink to={href} underline="never">
+							{({ isActive }) => <PillNavigation text={title} matchActiveFn={() => isActive} />}
+						</NavLink>
+					</Box>
+				))}
+			</LayoutGroup>
+		</Box>
+	</nav>
+)
+
+export default Navigation
