@@ -1,5 +1,4 @@
 import { t } from 'i18next'
-import { useScroll } from 'packages/ui/src/components/scroll-area-radix/use-scroll'
 import { useNetworkId } from 'packages/ui/src/hooks/dapp/use-network-id'
 import React, { useMemo } from 'react'
 import { toast } from 'sonner'
@@ -12,7 +11,6 @@ import { Dialog } from 'ui/src/components/dialog'
 import { DialogAlert } from 'ui/src/components/dialog-alert'
 import { CheckCircleIcon, PlusIcon } from 'ui/src/components/icons'
 import { type FormElement, Input } from 'ui/src/components/input'
-import { Table } from 'ui/src/components/table'
 import Translation from 'ui/src/components/translation'
 import { Text } from 'ui/src/components/typography'
 import { ValidationErrorMessage } from 'ui/src/components/validation-error-message'
@@ -21,6 +19,7 @@ import type { AddressBookEntry } from 'ui/src/store/types'
 
 import { SettingsTitle } from '../components/settings-title'
 import { SettingsWrapper } from '../components/settings-wrapper'
+import { AddressBookTable } from './components/address-book-table'
 import { AddressTableCell } from './components/address-table-cell'
 import { type IImmerSettingsGeneralProps, getError, validateAddressBookForm } from './settings-address-book-utils'
 
@@ -31,24 +30,7 @@ const emptyEntry: AddressBookEntry = {
 	dateUpdated: 0,
 }
 
-const generateRandomString = () => Math.random().toString(36).substring(7)
-//data={loadingItems}
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-const loadingItems = Array.from({ length: 100 }).map((_, i, a) => {
-	const randomStr = generateRandomString()
-	return {
-		id: `${i}-${randomStr}`,
-		name: `${i}-${randomStr}`,
-		address: `${i}-${randomStr}`,
-		token: `${i}-${randomStr}`,
-		portfolio: '65%',
-		price: '$1.83',
-		balance: '99',
-	}
-})
-
 const AddressBook: React.FC = () => {
-	const { scrollableNode } = useScroll()
 	const networkId = useNetworkId()
 	const { addressBook, setAddressBookEntry, handleRemoveAddress } = useNoneSharedStore(state => ({
 		addressBook: state.addressBook[networkId] || {},
@@ -206,13 +188,7 @@ const AddressBook: React.FC = () => {
 							<Translation capitalizeFirstLetter text="settings.addressBook.newAddress" />
 						</Button>
 					</Box>
-					<Table
-						styleVariant="secondary"
-						sizeVariant="medium"
-						scrollableNode={scrollableNode}
-						data={Object.values(addressBook)}
-						columns={columns}
-					/>
+					<AddressBookTable data={Object.values(addressBook)} columns={columns} />
 				</Box>
 			</SettingsWrapper>
 
