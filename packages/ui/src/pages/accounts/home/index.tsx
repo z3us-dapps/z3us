@@ -1,7 +1,8 @@
 import clsx from 'clsx'
 import { useScroll } from 'packages/ui/src/components/scroll-area-radix/use-scroll'
+import { useFungibleResourceBalances, useNonFungibleResourceBalances } from 'packages/ui/src/hooks/dapp/use-balances'
 import React from 'react'
-import { NavLink, useParams } from 'react-router-dom'
+import { Link, useParams } from 'react-router-dom'
 
 import { Box } from 'ui/src/components/box'
 import * as tableHeadStyles from 'ui/src/components/styles/table-head-shadow.css'
@@ -15,20 +16,27 @@ const Home: React.FC = () => {
 	const { scrollableNode, isScrolledTop } = useScroll()
 	const { accountId = '-' } = useParams()
 
+	const { balances: fungibleBalances, isLoading: fungibleIsLoading } = useFungibleResourceBalances()
+	const { balances: nonFungibleBalances, isLoading: nonFungibleIsLoading } = useNonFungibleResourceBalances()
+
+	const isLoading = fungibleIsLoading || nonFungibleIsLoading
+
 	return (
-		<Box className={clsx(styles.accountRoutesWrapper, !isScrolledTop && tableHeadStyles.accountTheadShadow)}>
+		<Box
+			className={clsx(styles.accountRoutesWrapper, !isLoading && !isScrolledTop && tableHeadStyles.accountTheadShadow)}
+		>
 			<Box className={styles.accountRoutesScrollingWrapper}>
 				<MobileScrollingBackground scrollableNode={scrollableNode} />
 				<MobileScrollingButtons scrollableNode={scrollableNode} />
 				<AssetsHeader isScrolledTop={isScrolledTop} scrollableNode={scrollableNode} />
 				<Box className={styles.assetsTableWrapper}>
 					<ul>
-						<NavLink to={`/accounts/${accountId}/fungibles`} end>
-							{({ isActive }) => <li>Fungibles {isActive ? '(active)' : ''}</li>}
-						</NavLink>
-						<NavLink to={`/accounts/${accountId}/non-fungibles`} end>
-							{({ isActive }) => <li>Non-Fungibles {isActive ? '(active)' : ''}</li>}
-						</NavLink>
+						<Link to={`/accounts/${accountId}/fungibles`}>
+							<li>Fungibles {fungibleBalances.length}</li>
+						</Link>
+						<Link to={`/accounts/${accountId}/non-fungibles`}>
+							<li>Non-Fungibles {nonFungibleBalances.length}</li>
+						</Link>
 					</ul>
 				</Box>
 			</Box>
