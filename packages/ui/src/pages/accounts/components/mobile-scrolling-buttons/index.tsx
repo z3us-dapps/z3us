@@ -1,9 +1,10 @@
 import clsx from 'clsx'
 import { useEntityMetadata, useMetadataValue } from 'packages/ui/src/hooks/dapp/use-entity-metadata'
-import { useShowActivitiesParam } from 'packages/ui/src/hooks/use-show-activities-param'
+import { useShowActivitiesParam } from 'packages/ui/src/pages/accounts/hooks/use-show-activities-param'
+import { useResourceType } from 'packages/ui/src/pages/accounts/hooks/use-resource-type'
 import React, { useRef } from 'react'
 import { useTranslation } from 'react-i18next'
-import { useMatch, useParams } from 'react-router-dom'
+import { useParams } from 'react-router-dom'
 import { useIntersectionObserver } from 'usehooks-ts'
 
 import { Box } from 'ui/src/components/box'
@@ -23,8 +24,8 @@ interface IMobileScrollingButtonsProps {
 }
 
 const TabTitle: React.FC = () => {
-	const match = useMatch('/accounts/:accountId/:resourceType/:resourceId')
-	const { resourceType, resourceId } = match?.params || {}
+	const { resourceId } = useParams()
+	const resourceType = useResourceType()
 	const { data } = useEntityMetadata(resourceId)
 
 	const name = useMetadataValue('name', data)
@@ -48,8 +49,8 @@ const TabTitle: React.FC = () => {
 
 export const MobileScrollingButtons: React.FC<IMobileScrollingButtonsProps> = props => {
 	const { scrollableNode } = props
-	const match = useMatch('/accounts/:accountId/:resourceType/:resourceId')
-	const { accountId = '-', resourceType, resourceId } = match?.params || {}
+	const { accountId, resourceId } = useParams()
+	const resourceType = useResourceType()
 	const showActivities = useShowActivitiesParam()
 	const wrapperRef = useRef(null)
 	const stickyRef = useRef(null)

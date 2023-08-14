@@ -1,5 +1,5 @@
 import clsx from 'clsx'
-import { useQueryParam } from 'packages/ui/src/hooks/use-query-param'
+import { useQuerySearchParam } from 'packages/ui/src/hooks/router/use-query-param'
 import React, { useEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useLocation, useNavigate } from 'react-router-dom'
@@ -24,7 +24,7 @@ const AccountSearch = () => {
 	const navigate = useNavigate()
 	const { pathname } = useLocation()
 	const inputRef = useRef(null)
-	const query = useQueryParam()
+	const query = useQuerySearchParam()
 
 	const [isScrolled, setIsScrolled] = useState<boolean>(false)
 	const [inputValue, setInputValue] = useState<string>('')

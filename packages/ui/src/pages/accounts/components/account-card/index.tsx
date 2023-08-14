@@ -8,6 +8,7 @@ import { Button } from 'ui/src/components/button'
 import { CardButtons } from 'ui/src/components/card-buttons'
 import { ArrowLeftIcon, ArrowRightIcon, Close2Icon } from 'ui/src/components/icons'
 
+import { useResourceType } from '../../hooks/use-resource-type'
 import * as styles from './account-card.css'
 
 const CARD_COLORS = [
@@ -45,8 +46,8 @@ const CARD_COLORS = [
 
 export const AccountCard: React.FC = () => {
 	const navigate = useNavigate()
-	const match = useMatch('/accounts/:accountId/:resourceType/:resourceId')
-	const { accountId = '-', resourceType, resourceId } = match?.params || {}
+	const { accountId, resourceId } = useParams()
+	const resourceType = useResourceType()
 	const [isMounted, setIsMounted] = useState<boolean>(false)
 	// const [cards] = useState<Array<any>>(CARD_COLORS)
 	const [selectedIndexCard, setSelectedIndexCard] = useState<number>(0)

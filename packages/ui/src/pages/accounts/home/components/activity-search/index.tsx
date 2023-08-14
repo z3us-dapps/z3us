@@ -2,7 +2,7 @@ import clsx from 'clsx'
 import { useScroll } from 'packages/ui/src/components/scroll-area-radix/use-scroll'
 import React, { useRef } from 'react'
 import { useTranslation } from 'react-i18next'
-import { useLocation, useMatch } from 'react-router-dom'
+import { useLocation, useParams } from 'react-router-dom'
 import { useIntersectionObserver } from 'usehooks-ts'
 
 import { Box } from 'ui/src/components/box'
@@ -12,6 +12,7 @@ import { ToolTip } from 'ui/src/components/tool-tip'
 import Translation from 'ui/src/components/translation'
 import { Text } from 'ui/src/components/typography'
 
+import { useResourceType } from '../../../hooks/use-resource-type'
 import * as styles from './styles.css'
 
 export const ActivitySearch: React.FC = () => {
@@ -19,8 +20,8 @@ export const ActivitySearch: React.FC = () => {
 
 	const { t } = useTranslation()
 	const { pathname } = useLocation()
-	const match = useMatch('/accounts/:accountId/:resourceType/:resourceId')
-	const { accountId = '-', resourceType, resourceId } = match?.params || {}
+	const { accountId, resourceId } = useParams()
+	const resourceType = useResourceType()
 
 	const elementRef = useRef<HTMLDivElement | null>(null)
 	const entry = useIntersectionObserver(elementRef, { threshold: [1] })
