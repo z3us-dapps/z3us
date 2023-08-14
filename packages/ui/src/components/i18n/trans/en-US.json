@@ -11,6 +11,8 @@
 		"menu": "menu",
 		"previous": "previous",
 		"activity": "activity",
+		"fungibles": "fungibles",
+		"nonFungibles": "non-fungibles",
 		"assets": "assets",
 		"tokens": "tokens",
 		"nfts": "nfts",
@@ -76,21 +78,49 @@
 			"listHeaderAmount": "amount",
 			"listHeaderCategory": "category",
 			"listHeaderAccount": "account"
-		},
-		"transfer": {
-			"overview": "overview"
 		}
 	},
 	"transfer": {
 		"navigation": {
-			"transferTokens": "transfer tokens",
-			"transferNfts": "transfer nfts",
-			"transferRaw": "transfer raw",
-			"transferDeployPackage": "deploy package"
+			"tokenTitle": "Tokens (fungibles)",
+			"nftTitle": "NFTs (non-fungibles)",
+			"rawTitle": "Raw",
+			"deployTitle": "Deploy package"
 		},
-		"sendTokens": {
-			"deleteToken": "delete token",
-			"removeGroup": "remove group"
+		"tokens": {
+			"title": "Tokens",
+			"titleSuffix": "fungibles"
+		},
+		"nfts": {
+			"title": "Nfts",
+			"titleSuffix": "non-fungibles"
+		},
+		"group": {
+			"from": "from",
+			"to": "to",
+			"available": "available",
+			"amount": "amount",
+			"addMessage": "add message",
+			"hideMessage": "hide message",
+			"enterMessage": "transaction message",
+			"encrypt": "encrypt",
+			"messagePlaceholder": "Message",
+			"addAnotherToken": "Add another token",
+			"addAnotherNft": "Add another nft",
+			"groupTransaction": "Group transaction",
+			"addGroup": "Add group",
+			"groupInfoPopover": "Add another group to send assets to multiple addresses within the same transaction."
+		},
+		"raw": {
+			"title": "Raw transaction",
+			"inputPlaceholder": "transaction manifest",
+			"description": "Enter transaction manifest",
+			"helpTitle": "Raw transaction",
+			"help": "Enter raw transaction manifest text to send to your linked Radix Wallet. No method call to 'lock_fee' is required - the wallet will add this automatically."
+		},
+		"deploy": {
+			"title": "Deploy package",
+			"description": "Deploy a new blueprint package to the Radix Betanet by attaching your WASM and ABI files to a deploy transaction."
 		}
 	},
 	"settings": {

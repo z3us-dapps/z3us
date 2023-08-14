@@ -12,6 +12,8 @@
 		"previous": "poprzedni",
 		"tokens": "żetony",
 		"activity": "działalność",
+		"fungibles": "przeznaczony na stracenie",
+		"nonFungibles": "niezamienne",
 		"assets": "aktywa",
 		"nfts": "nfts",
 		"lpTokens": "LP Żetony",
@@ -80,14 +82,45 @@
 	},
 	"transfer": {
 		"navigation": {
-			"transferTokens": "tokeny transferowe",
-			"transferNfts": "przenosić nfts",
-			"transferRaw": "przenieść na surowo",
-			"transferDeployPackage": "wdrożyć"
+			"tokenTitle": "Tokeny (fungible)",
+			"nftTitle": "NFT-y (non-fungible)",
+			"rawTitle": "Surowe",
+			"deployTitle": "Wdroż pakiet"
 		},
-		"sendTokens": {
-			"deleteToken": "usunąć token",
-			"removeGroup": "usuń grupę"
+		"tokens": {
+			"title": "Tokeny",
+			"titleSuffix": "fungible"
+		},
+		"nfts": {
+			"title": "NFT-y",
+			"titleSuffix": "non-fungible"
+		},
+		"group": {
+			"from": "od",
+			"to": "do",
+			"available": "dostępne",
+			"amount": "ilość",
+			"addMessage": "dodaj wiadomość",
+			"hideMessage": "ukryj wiadomość",
+			"enterMessage": "wiadomość transakcji",
+			"encrypt": "zaszyfruj",
+			"messagePlaceholder": "Wiadomość",
+			"addAnotherToken": "Dodaj kolejny token",
+			"addAnotherNft": "Dodaj kolejny NFT",
+			"groupTransaction": "Transakcja grupowa",
+			"addGroup": "Dodaj grupę",
+			"groupInfoPopover": "Dodaj kolejną grupę, aby wysłać aktywa na wiele adresów w ramach tej samej transakcji."
+		},
+		"raw": {
+			"title": "Surowa transakcja",
+			"inputPlaceholder": "manifest transakcji",
+			"description": "Wprowadź manifest transakcji",
+			"helpTitle": "Surowa transakcja",
+			"help": "Wprowadź tekst manifestu surowej transakcji, aby wysłać go do powiązanego Portfela Radix. Automatycznie zostanie dodane wywołanie metody 'lock_fee', nie jest to wymagane - portfel doda to automatycznie."
+		},
+		"deploy": {
+			"title": "Wdroż pakiet",
+			"description": "Wdróż nowy pakiet blueprint na Radix Betanet, dołączając swoje pliki WASM i ABI do transakcji wdrożenia."
 		}
 	},
 	"settings": {

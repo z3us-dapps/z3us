@@ -2,24 +2,16 @@ import { motion } from 'framer-motion'
 import type { PropsWithChildren } from 'react'
 import React from 'react'
 
+import * as styles from './styles.css'
+
 const MotionBox: React.FC<PropsWithChildren> = ({ children }) => (
 	<motion.div
-		style={{
-			zIndex: 10,
-			position: 'absolute',
-			height: '50vh',
-			width: '50vw',
-			backgroundColor: 'skyblue',
-		}}
-		initial={{
-			scale: 0,
-		}}
-		animate={{ scale: 1, left: 0, top: '200px' }}
-		exit={{
-			scale: 0,
-		}}
+		className={styles.animatedPageWrapper}
+		initial={{ opacity: 0, position: 'absolute' }}
+		animate={{ opacity: 1, position: 'relative' }}
+		exit={{ opacity: 0, position: 'absolute' }}
 		transition={{
-			duration: 3,
+			duration: 0.3,
 			ease: 'easeOut',
 		}}
 	>
