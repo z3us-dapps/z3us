@@ -16,9 +16,11 @@ const Home: React.FC = () => {
 	const { scrollableNode, isScrolledTop } = useScroll()
 	const { accountId = '-' } = useParams()
 
-	const { balances: fungibleBalances, isLoading: fungibleIsLoading } = useFungibleResourceBalances()
-	const { balances: nonFungibleBalances, isLoading: nonFungibleIsLoading } = useNonFungibleResourceBalances()
+	const { data: fungibleResourceBalances, isLoading: fungibleIsLoading } = useFungibleResourceBalances()
+	const { data: nonFungibleResourceBalances, isLoading: nonFungibleIsLoading } = useNonFungibleResourceBalances()
 
+	const { balances: fungibleBalances } = fungibleResourceBalances || {}
+	const { balances: nonFungibleBalances } = nonFungibleResourceBalances || {}
 	const isLoading = fungibleIsLoading || nonFungibleIsLoading
 
 	return (

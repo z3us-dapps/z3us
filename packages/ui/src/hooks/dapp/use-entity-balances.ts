@@ -37,7 +37,6 @@ export const useEntityFungibles = (
 					},
 				})
 				.then(resp => resp.items),
-		keepPreviousData: true,
 		enabled: !!state && !!address,
 	})
 }
@@ -66,7 +65,6 @@ export const useEntitiesFungibles = (
 					},
 				})
 				.then(resp => resp.items),
-		keepPreviousData: true,
 		enabled: !!state && !!address,
 	}))
 
@@ -133,7 +131,6 @@ export const useEntitiesNonFungibles = (
 					},
 				})
 				.then(resp => resp.items),
-		keepPreviousData: true,
 		enabled: !!state && !!address,
 	}))
 
