@@ -1,5 +1,5 @@
+import { lazy } from 'react'
 import { Navigate } from 'react-router-dom'
-import { Suspense, lazy } from 'react'
 
 const Layout = lazy(() => import('./components/layout'))
 const Pairing = lazy(() => import('./pairing'))

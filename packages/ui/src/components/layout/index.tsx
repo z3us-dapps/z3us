@@ -3,7 +3,7 @@ import React, { Suspense, useMemo } from 'react'
 import { useLocation, useOutlet } from 'react-router-dom'
 
 import { Box } from 'ui/src/components/box'
-import { DesktopNavigation } from 'ui/src/components/navigation'
+import { DesktopNavigation, MobileFooterNavigation } from 'ui/src/components/navigation'
 import { Toasts } from 'ui/src/components/toasts'
 
 import Loader from '../loader'
@@ -25,6 +25,7 @@ const Layout: React.FC = () => {
 					</Suspense>
 				</AnimatePresence>
 			</Box>
+			<MobileFooterNavigation />
 			<Toasts />
 		</Box>
 	)
