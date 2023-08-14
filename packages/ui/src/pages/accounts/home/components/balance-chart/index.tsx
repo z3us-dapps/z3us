@@ -1,9 +1,7 @@
 import clsx from 'clsx'
 import { AnimatePresence, motion } from 'framer-motion'
 import { useGlobalResourceBalances } from 'packages/ui/src/hooks/dapp/use-balances'
-import { useAccountParam } from 'packages/ui/src/hooks/use-params'
 import React, { useState } from 'react'
-import { useParams } from 'react-router-dom'
 
 import { Box } from 'ui/src/components/box'
 import { Button } from 'ui/src/components/button'
@@ -18,16 +16,10 @@ import * as styles from './styles.css'
 const defaultRowsShown = 3
 
 export const BalanceChart: React.FC = () => {
-	const { assetType } = useParams()
-	const account = useAccountParam()
 	const [showFullAccountList, setShowFullAccountList] = useState<boolean>(false)
 	// const [measureRef, { width: chartWrapperWidth, height: chartWrapperHeight }] = useMeasure()
 
 	const { balances, isLoading } = useGlobalResourceBalances()
-
-	if (!!account || assetType) {
-		return null
-	}
 
 	const handleToggleFullAccountList = () => {
 		setShowFullAccountList(!showFullAccountList)

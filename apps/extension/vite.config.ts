@@ -61,9 +61,6 @@ const config = {
 			treeshake: true,
 			input: {
 				app: resolve(__dirname, 'src/pages/app/index.html'),
-				app_dark: resolve(__dirname, 'src/pages/app/popup-theme-dark.html'),
-				app_light: resolve(__dirname, 'src/pages/app/popup-theme-light.html'),
-				app_system: resolve(__dirname, 'src/pages/app/popup-theme-system.html'),
 			},
 		},
 	},

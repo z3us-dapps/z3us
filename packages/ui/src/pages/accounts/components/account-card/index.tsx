@@ -1,7 +1,6 @@
 /* eslint-disable  @typescript-eslint/no-unused-vars */
-import { useAccountParam, useAssetParam } from 'packages/ui/src/hooks/use-params'
 import React, { useEffect, useState } from 'react'
-import { useNavigate, useParams } from 'react-router-dom'
+import { useMatch, useNavigate, useParams } from 'react-router-dom'
 
 import { AccountCards } from 'ui/src/components/account-cards'
 import { Box } from 'ui/src/components/box'
@@ -46,9 +45,8 @@ const CARD_COLORS = [
 
 export const AccountCard: React.FC = () => {
 	const navigate = useNavigate()
-	const { assetType } = useParams()
-	const account = useAccountParam()
-	const asset = useAssetParam()
+	const match = useMatch('/accounts/:accountId/:resourceType/:resourceId')
+	const { accountId = '-', resourceType, resourceId } = match?.params || {}
 	const [isMounted, setIsMounted] = useState<boolean>(false)
 	// const [cards] = useState<Array<any>>(CARD_COLORS)
 	const [selectedIndexCard, setSelectedIndexCard] = useState<number>(0)
@@ -59,7 +57,7 @@ export const AccountCard: React.FC = () => {
 		setSelectedIndexCard(newIndex)
 		// eslint-disable-next-line
 		const cardAccount = CARD_COLORS.find((item, index) => index === newIndex)
-		navigate(`/accounts${assetType ? `/${assetType}` : ''}?account=${cardAccount.accountName.toLowerCase()}`)
+		navigate(`/accounts/${cardAccount.accountName.toLowerCase()}/${resourceType}/${resourceId}`)
 	}
 
 	const handleGotoPrevAccount = () => {
@@ -68,21 +66,17 @@ export const AccountCard: React.FC = () => {
 		setSelectedIndexCard(newIndex)
 		// eslint-disable-next-line
 		const cardAccount = CARD_COLORS.find((item, index) => index === newIndex)
-		navigate(`/accounts${assetType ? `/${assetType}` : ''}?account=${cardAccount.accountName.toLowerCase()}`)
+		navigate(`/accounts/${cardAccount.accountName.toLowerCase()}/${resourceType}/${resourceId}`)
 	}
 
 	useEffect(() => {
 		if (!isMounted) {
-			const cardIndex = CARD_COLORS.findIndex(({ accountName }) => accountName.toLowerCase() === account)
+			const cardIndex = CARD_COLORS.findIndex(({ accountName }) => accountName.toLowerCase() === accountId)
 			setSelectedIndexCard(cardIndex)
 		}
 
 		setIsMounted(true)
-	}, [account])
-
-	if ((!account && !assetType) || asset) {
-		return null
-	}
+	}, [accountId])
 
 	return (
 		<Box className={styles.accountCardWrapper}>

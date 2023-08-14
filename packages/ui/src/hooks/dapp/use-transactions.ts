@@ -1,9 +1,7 @@
 import { useInfiniteQuery, useQuery } from '@tanstack/react-query'
 
-import type { SelectedAddresses } from '../../types/types'
 import { useGatewayClient } from './use-gateway-client'
 import { useNetworkId } from './use-network-id'
-import { useRdtState } from './use-rdt-state'
 
 export const useTransactionStatus = (intent_hash_hex: string) => {
 	const networkId = useNetworkId()
@@ -33,12 +31,9 @@ export const useTransaction = (intent_hash_hex: string) => {
 	})
 }
 
-export const useTransactions = (selected: SelectedAddresses = null) => {
+export const useTransactions = (addresses: string[]) => {
 	const networkId = useNetworkId()
 	const { stream } = useGatewayClient()!
-	const { accounts = [] } = useRdtState()
-
-	const addresses = accounts.map(({ address }) => address).filter(address => !selected || address in selected)
 
 	const data = useInfiniteQuery({
 		queryKey: ['useTransactions', networkId, ...addresses],

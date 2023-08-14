@@ -1,14 +1,13 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { useAccountParam, useAssetParam, useIsActivity } from 'packages/ui/src/hooks/use-params'
 import { useEffect, useMemo, useState } from 'react'
 import { useLocation, useNavigate, useParams } from 'react-router-dom'
 
-import { AssetActivityCell } from './asset-activity-cell'
-import { AssetHomeCell } from './asset-home-cell'
-import { AssetHomeCellLinks } from './asset-home-cell-links'
-import { AssetNameCell } from './asset-name-cell'
-import { AssetStatisticCell } from './asset-statistic-cell'
-import * as styles from './assets-table.css'
+import { AssetActivityCell } from '../../components/assets-table/asset-activity-cell'
+import { AssetHomeCell } from '../../components/assets-table/asset-home-cell'
+import { AssetHomeCellLinks } from '../../components/assets-table/asset-home-cell-links'
+import { AssetNameCell } from '../../components/assets-table/asset-name-cell'
+import { AssetStatisticCell } from '../../components/assets-table/asset-statistic-cell'
+import * as styles from '../../components/assets-table/assets-table.css'
 
 const generateRandomString = () => Math.random().toString(36).substring(7)
 

@@ -1,10 +1,9 @@
 import clsx from 'clsx'
 import { useGlobalResourceBalances } from 'packages/ui/src/hooks/dapp/use-balances'
-import { useAssetParam } from 'packages/ui/src/hooks/use-params'
 import { useNoneSharedStore } from 'packages/ui/src/hooks/use-store'
 import { formatBigNumber } from 'packages/ui/src/utils/formatters'
 import React, { useState } from 'react'
-import { useLocation, useParams } from 'react-router-dom'
+import { useLocation, useMatch } from 'react-router-dom'
 
 import { Box } from 'ui/src/components/box'
 import { ArrowUpIcon, ChevronRightIcon, EyeIcon, EyeOffIcon, SearchIcon } from 'ui/src/components/icons'
@@ -24,8 +23,8 @@ interface IAccountRoutesProps {
 
 export const AssetsHeader: React.FC<IAccountRoutesProps> = props => {
 	const { isScrolledTop, scrollableNode } = props
-	const { assetType } = useParams()
-	const asset = useAssetParam()
+	const match = useMatch('/accounts/:accountId/:resourceType/:resourceId')
+	const { resourceType, resourceId } = match?.params || {}
 
 	const { currency } = useNoneSharedStore(state => ({
 		currency: state.currency,
@@ -34,7 +33,7 @@ export const AssetsHeader: React.FC<IAccountRoutesProps> = props => {
 	const { totalValue, isLoading } = useGlobalResourceBalances()
 	const [hidden, setHidden] = useState<boolean>(false)
 
-	const isBreadCrumbVisible = !!assetType
+	const isBreadCrumbVisible = !!resourceType
 
 	const handleUpClick = () => {
 		if (!scrollableNode) return
@@ -59,7 +58,7 @@ export const AssetsHeader: React.FC<IAccountRoutesProps> = props => {
 								<Link size="large" to="/accounts/xrd" color="strong" underline="hover">
 									Token
 								</Link>
-								{asset && (
+								{resourceId && (
 									<>
 										<ChevronRightIcon />
 										<Link size="large" to="/accounts/settings" color="strong">

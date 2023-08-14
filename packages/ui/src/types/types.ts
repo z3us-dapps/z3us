@@ -8,8 +8,6 @@ export enum Theme {
 	SYSTEM = 'system',
 }
 
-export type SelectedAddresses = { [address: string]: boolean } | null
-
 export enum ResourceBalanceType {
 	FUNGIBLE = 'fungible',
 	NON_FUNGIBLE = 'non_fungible',

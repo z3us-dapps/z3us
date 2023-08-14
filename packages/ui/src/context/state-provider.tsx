@@ -1,12 +1,9 @@
 import React, { useEffect, useState } from 'react'
 
 import { useSharedStore } from '../hooks/use-store'
-import { getNoneSharedStore } from '../services/state'
-import { createNoneSharedStore } from '../store'
+import { defaultStore, defaultStoreKey, getNoneSharedStore } from '../services/state'
 import { NoneSharedStoreContext, type TStoreContext } from './state'
 
-const defaultStoreKey = 'z3us:store:default'
-const defaultStore = createNoneSharedStore(defaultStoreKey)
 const defaultValue = {
 	id: defaultStoreKey,
 	store: defaultStore,

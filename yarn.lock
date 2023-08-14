@@ -3940,35 +3940,26 @@
   dependencies:
     "@babel/runtime" "^7.13.10"
 
-"@radixdlt/babylon-gateway-api-sdk@^1.0.0-rc.1.4":
-  version "1.0.0-rc.1.8"
-  resolved "https://registry.npmjs.org/@radixdlt/babylon-gateway-api-sdk/-/babylon-gateway-api-sdk-1.0.0-rc.1.8.tgz"
-  integrity sha512-E6rqgU7mzwNhw9j453GzO3h1c1ALe97CMaJ4KZX5wvLSASuskBe6NXRkeneJwNR+6bWBgnSY7YEEhs2lRQxFdw==
-
 "@radixdlt/babylon-gateway-api-sdk@^1.0.0-rc.2.4", "@radixdlt/babylon-gateway-api-sdk@^1.0.0-rc.2.5":
   version "1.0.0-rc.2.5"
   resolved "https://registry.yarnpkg.com/@radixdlt/babylon-gateway-api-sdk/-/babylon-gateway-api-sdk-1.0.0-rc.2.5.tgz#2ba2ca6ef98a978d6b70cdf350505d2afcf5831e"
   integrity sha512-zXel/2KWB3zTExdBFzIx4Nq9fo1ifr8n9FnM9o999PbyotoABrH0dKiRKzVicae8i4Wgb+sxa+mlhWJ6V943pQ==
 
-"@radixdlt/connect-button@0.12.0-alpha.4":
-  version "0.12.0-alpha.4"
-  resolved "https://registry.npmjs.org/@radixdlt/connect-button/-/connect-button-0.12.0-alpha.4.tgz"
-  integrity sha512-tSCUSlLyX8tJwQak3cq68/bvjVfhmaM7k/VW5OOISNyuBAgAahpDi7Yqyyep+gf1rp9QRAaob0r3ZGoOiEb1jg==
-  dependencies:
-    lit "^2.6.1"
-    rxjs "^7.8.0"
+"@radixdlt/babylon-gateway-api-sdk@^1.0.0-rc.2.6":
+  version "1.0.0-rc.2.6"
+  resolved "https://registry.yarnpkg.com/@radixdlt/babylon-gateway-api-sdk/-/babylon-gateway-api-sdk-1.0.0-rc.2.6.tgz#be67811ecab34b6ec3f8c258dc7d1ea5e4a485ef"
+  integrity sha512-gM/zn4XTUs0pAZy4iqo+UK1JoZpGfvYXWBQSm6WjvogJnufpmRboL9FCxUf42hsfebrKZn1hoyfqZBfV618fgQ==
 
-"@radixdlt/connect-button@0.13.0-alpha.1":
-  version "0.13.0-alpha.1"
-  resolved "https://registry.yarnpkg.com/@radixdlt/connect-button/-/connect-button-0.13.0-alpha.1.tgz#2e603722760d853900e4b3f1c4ac496d333409ee"
-  integrity sha512-vjKV6yEjABNn2SbC0X7jsFFnbkF6+0LUqbXBbGfzZcqmz57vwuinNVuHFImwU5YCLoRS7LuukOW9t2Vtsso1eQ==
+"@radixdlt/connect-button@0.13.2":
+  version "0.13.2"
+  resolved "https://registry.yarnpkg.com/@radixdlt/connect-button/-/connect-button-0.13.2.tgz#1afd5c92304927f75ed928e056644f5a694d4d71"
+  integrity sha512-4Xle5YOhm12GmCPQnmBimCUdD9fJQBzEPuSSIrbVBAUJ+Ao79VMkVl4MrUdHkb61zehcS3XvdNp9lPsZvdFuiQ==
   dependencies:
-    lit "^2.6.1"
-    rxjs "^7.8.0"
+    lit "^2.7.5"
 
-"@radixdlt/connector-extension@https://github.com/radixdlt/connector-extension#main":
+"@radixdlt/connector-extension@https://github.com/radixdlt/connector-extension#v0.4.0":
   version "0.0.0"
-  resolved "https://github.com/radixdlt/connector-extension#cb465674370c6e9fbb9cbcf8a011307ac73d2713"
+  resolved "https://github.com/radixdlt/connector-extension#02bde750a97610625ba4fb648825cd66fbf01af6"
   dependencies:
     "@emotion/react" "^11.11.1"
     "@emotion/styled" "^11.11.0"
@@ -3995,37 +3986,24 @@
     tslog "^4.7.1"
     zod "^3.19.1"
 
-"@radixdlt/radix-dapp-toolkit@^0.2.0":
-  version "0.2.0"
-  resolved "https://registry.npmjs.org/@radixdlt/radix-dapp-toolkit/-/radix-dapp-toolkit-0.2.0.tgz"
-  integrity sha512-osmuU3HtXwFBxXSHPKKW12Ha5JF3JEm0s3H9ZHUb9s36vFdKsLqY42fkj1EScmJ4hBB9Qgpr7kk10NOKZjqRIw==
-  dependencies:
-    "@radixdlt/babylon-gateway-api-sdk" "^1.0.0-rc.1.4"
-    "@radixdlt/connect-button" "0.12.0-alpha.4"
-    "@radixdlt/wallet-sdk" "0.8.0-alpha.4"
-    lodash.isequal "^4.5.0"
-    neverthrow "^6.0.0"
-    rxjs "^7.8.0"
-    tslog "^4.8.2"
-
-"@radixdlt/radix-dapp-toolkit@^0.4.0":
-  version "0.4.0"
-  resolved "https://registry.yarnpkg.com/@radixdlt/radix-dapp-toolkit/-/radix-dapp-toolkit-0.4.0.tgz#5886fe817417d3c193f08e11550008f4fa33e67f"
-  integrity sha512-kn92ZpW7NZptFocHg8EFTeTmxix9X6KwNV8sd2W8gnenmgayRqLwnJChYy+IkdtM6JlGPjQAIeap6IW1LtjxmA==
+"@radixdlt/radix-dapp-toolkit@^0.5.0":
+  version "0.5.0"
+  resolved "https://registry.yarnpkg.com/@radixdlt/radix-dapp-toolkit/-/radix-dapp-toolkit-0.5.0.tgz#4b24ba5ed78f71bb2eb7a1593e553cdb0c239228"
+  integrity sha512-TQ8e0RG0mEDG6Bfya/CS4wQvE+y2W/ixiiMUIylzk0VqdVfcYZGTvu3FbCGivvI3IfRzQiUmUG3TotsEbPJJjQ==
   dependencies:
     "@radixdlt/babylon-gateway-api-sdk" "^1.0.0-rc.2.4"
-    "@radixdlt/connect-button" "0.13.0-alpha.1"
-    "@radixdlt/wallet-sdk" "0.9.0-alpha.11"
+    "@radixdlt/connect-button" "0.13.2"
+    "@radixdlt/wallet-sdk" "0.10.0"
     immer "^10.0.2"
     lodash.isequal "^4.5.0"
     neverthrow "^6.0.0"
     rxjs "^7.8.1"
     zod "^3.21.4"
 
-"@radixdlt/radix-engine-toolkit@^0.2.4":
-  version "0.2.4"
-  resolved "https://registry.yarnpkg.com/@radixdlt/radix-engine-toolkit/-/radix-engine-toolkit-0.2.4.tgz#6733ed82188e08fa6ef8f6d9658de43a5bdf56cf"
-  integrity sha512-1ecHJCQFngR5o4qlcjTX2WLamKyaNy6IfjNJmCF2Yto/A/4dgulH90AzHjg6HpVG4Geo978x346cuAQjFXdR5w==
+"@radixdlt/radix-engine-toolkit@^0.2.5":
+  version "0.2.5"
+  resolved "https://registry.yarnpkg.com/@radixdlt/radix-engine-toolkit/-/radix-engine-toolkit-0.2.5.tgz#a01596ecbbdedb338dfab3ae1857956eca825d07"
+  integrity sha512-Liujkd8g9hfSrqzFXzmWOzU08S9nW11PJsfLJ92t6L9XFD2B+c4PhwKNgwH9cBLE5dFcKxoViSqkDmSn7uD4Pg==
   dependencies:
     "@noble/ed25519" "2.0.0"
     "@noble/hashes" "1.3.0"
@@ -4038,21 +4016,10 @@
     reflect-metadata "0.1.13"
     secp256k1 "5.0.0"
 
-"@radixdlt/wallet-sdk@0.8.0-alpha.4":
-  version "0.8.0-alpha.4"
-  resolved "https://registry.npmjs.org/@radixdlt/wallet-sdk/-/wallet-sdk-0.8.0-alpha.4.tgz"
-  integrity sha512-nj6JnoXPYPzpYVcY/R/47iXLv46olvY7A0c7Str+NjrkGh2tvlwqWLILMVNz0oF6CZ2fvihkZFQ5amvdfpz6Sg==
-  dependencies:
-    lodash.flow "^3.5.0"
-    loglevel "^1.8.1"
-    neverthrow "^6.0.0"
-    rxjs "^7.6.0"
-    zod "^3.19.1"
-
-"@radixdlt/wallet-sdk@0.9.0-alpha.11":
-  version "0.9.0-alpha.11"
-  resolved "https://registry.yarnpkg.com/@radixdlt/wallet-sdk/-/wallet-sdk-0.9.0-alpha.11.tgz#d7b5e9ba0991f9e286cddf8df837ce536a750315"
-  integrity sha512-vW+wlriLm6qldjL97nuFL0S48MU/MvfcsIFHIGUcYP31BxCkLZhiCHBMm/MaTCTWeOG2ppp8qsqF5JkDFqCm/A==
+"@radixdlt/wallet-sdk@0.10.0":
+  version "0.10.0"
+  resolved "https://registry.yarnpkg.com/@radixdlt/wallet-sdk/-/wallet-sdk-0.10.0.tgz#6a5e2f04eb0391e1165b9624cfb5f7a83f723bcd"
+  integrity sha512-BzW1X5cEq4Rax8WP+zPEC3hDQammdTtWrnyaqFRshhMEeFN1bPVc8OxEghwDDRWwCWVqAa9FSfLPsmcCXAbZmw==
   dependencies:
     neverthrow "^6.0.0"
     rxjs "^7.8.1"
@@ -12151,14 +12118,21 @@ lit-html@^2.7.0:
   dependencies:
     "@types/trusted-types" "^2.0.2"
 
-lit@^2.6.1:
-  version "2.7.4"
-  resolved "https://registry.npmjs.org/lit/-/lit-2.7.4.tgz"
-  integrity sha512-cgD7xrZoYr21mbrkZIuIrj98YTMw/snJPg52deWVV4A8icLyNHI3bF70xsJeAgwTuiq5Kkd+ZR8gybSJDCPB7g==
+lit-html@^2.8.0:
+  version "2.8.0"
+  resolved "https://registry.yarnpkg.com/lit-html/-/lit-html-2.8.0.tgz#96456a4bb4ee717b9a7d2f94562a16509d39bffa"
+  integrity sha512-o9t+MQM3P4y7M7yNzqAyjp7z+mQGa4NS4CxiyLqFPyFWyc4O+nodLrkrxSaCTrla6M5YOLaT3RpbbqjszB5g3Q==
+  dependencies:
+    "@types/trusted-types" "^2.0.2"
+
+lit@^2.7.5:
+  version "2.8.0"
+  resolved "https://registry.yarnpkg.com/lit/-/lit-2.8.0.tgz#4d838ae03059bf9cafa06e5c61d8acc0081e974e"
+  integrity sha512-4Sc3OFX9QHOJaHbmTMk28SYgVxLN3ePDjg7hofEft2zWlehFL3LiAuapWc4U/kYwMYJSh2hTCPZ6/LIC7ii0MA==
   dependencies:
     "@lit/reactive-element" "^1.6.0"
     lit-element "^3.3.0"
-    lit-html "^2.7.0"
+    lit-html "^2.8.0"
 
 load-tsconfig@^0.2.3:
   version "0.2.5"
@@ -12220,11 +12194,6 @@ lodash.flattendeep@^4.4.0:
   version "4.4.0"
   resolved "https://registry.npmjs.org/lodash.flattendeep/-/lodash.flattendeep-4.4.0.tgz"
   integrity sha512-uHaJFihxmJcEX3kT4I23ABqKKalJ/zDrDg0lsFtc1h+3uw49SIJ5beyhx5ExVRti3AvKoOJngIj7xz3oylPdWQ==
-
-lodash.flow@^3.5.0:
-  version "3.5.0"
-  resolved "https://registry.npmjs.org/lodash.flow/-/lodash.flow-3.5.0.tgz"
-  integrity sha512-ff3BX/tSioo+XojX4MOsOMhJw0nZoUEF011LX8g8d3gvjVbxd89cCio4BCXronjxcTUIJUoqKEUA+n4CqvvRPw==
 
 lodash.isequal@^4.5.0:
   version "4.5.0"
@@ -12314,7 +12283,7 @@ log-update@^4.0.0:
     slice-ansi "^4.0.0"
     wrap-ansi "^6.2.0"
 
-loglevel@^1.8.0, loglevel@^1.8.1:
+loglevel@^1.8.0:
   version "1.8.1"
   resolved "https://registry.npmjs.org/loglevel/-/loglevel-1.8.1.tgz"
   integrity sha512-tCRIJM51SHjAayKwC+QAg8hT8vg6z7GSgLJKGvzuPb1Wc+hLzqtuVLxp6/HzSPOozuK+8ErAhy7U/sVzw8Dgfg==
@@ -15190,7 +15159,7 @@ rxjs@6, rxjs@^6.6.3:
   dependencies:
     tslib "^1.9.0"
 
-rxjs@^7.5.5, rxjs@^7.6.0, rxjs@^7.8.0, rxjs@^7.8.1:
+rxjs@^7.5.5, rxjs@^7.8.0, rxjs@^7.8.1:
   version "7.8.1"
   resolved "https://registry.npmjs.org/rxjs/-/rxjs-7.8.1.tgz"
   integrity sha512-AA3TVj+0A2iuIoQkWEK/tqFjBq2j+6PO6Y0zJcvzLAFhEFIO3HL0vls9hWLncZbAAbK0mar7oZ4V079I/qPMxg==

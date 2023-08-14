@@ -5,8 +5,8 @@ import { AnimatePresence, motion } from 'framer-motion'
 import { useScroll } from 'packages/ui/src/components/scroll-area-radix/use-scroll'
 import { TokenPrice } from 'packages/ui/src/components/token-price'
 import { config } from 'packages/ui/src/constants/config'
+import { useSelectedAccounts } from 'packages/ui/src/hooks/dapp/use-accounts'
 import { useTransactions } from 'packages/ui/src/hooks/dapp/use-transactions'
-import { useAccountParam } from 'packages/ui/src/hooks/use-params'
 import { getShortAddress } from 'packages/ui/src/utils/string-utils'
 import React, { forwardRef, useCallback, useState } from 'react'
 import { useLocation } from 'react-router-dom'
@@ -128,7 +128,7 @@ const ItemWrapper: React.FC<IRowProps> = props => {
 								(isSelected || isHovered) && styles.activityItemExternalLinkWrapperActive,
 							)}
 						>
-							<ToolTip theme="backgroundPrimary" message={<Translation capitalizeFirstLetter text="global.explorer" />}>
+							<ToolTip message={<Translation capitalizeFirstLetter text="global.explorer" />}>
 								<Button
 									sizeVariant="small"
 									styleVariant="ghost"
@@ -159,9 +159,9 @@ export const Activity = forwardRef<HTMLElement>((_, ref: React.Ref<HTMLElement |
 
 	const [selected, setSelected] = useState<string | null>(null)
 	const [hovered, setHovered] = useState<string | null>(null)
-	const account = useAccountParam()
 
-	const { isFetching, data, fetchNextPage, hasNextPage } = useTransactions(account ? { [account]: true } : null)
+	const addresses = useSelectedAccounts()
+	const { isFetching, data, fetchNextPage, hasNextPage } = useTransactions(addresses)
 
 	const flatten = data?.pages.reduce((container, page) => [...container, ...page.items], []) || []
 	const flattenWithLoading = hasNextPage && isFetching ? [...flatten, ...skeletons] : flatten

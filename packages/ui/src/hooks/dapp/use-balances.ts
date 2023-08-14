@@ -12,7 +12,7 @@ import { resourceBalanceFromEntityMetadataItems } from 'ui/src/services/metadata
 import type { ResourceBalance } from 'ui/src/types/types'
 import { ResourceBalanceType } from 'ui/src/types/types'
 
-import { useAccounts } from './use-accounts'
+import { useAccounts, useSelectedAccounts } from './use-accounts'
 import { useEntityMetadata } from './use-entity-metadata'
 
 export const useResourceBalance = (
@@ -50,17 +50,15 @@ export const useResourceBalance = (
 }
 
 export const useFungibleResourceBalances = (forAccount?: string) => {
-	const { selectedAccount, currency } = useNoneSharedStore(state => ({
+	const { currency } = useNoneSharedStore(state => ({
 		currency: state.currency,
-		selectedAccount: state.selectedAccount,
 	}))
-
-	forAccount = forAccount || selectedAccount
+	const addresses = useSelectedAccounts()
 	const {
 		data: accounts = [],
 		isLoading: isLoadingAccounts,
 		fetchStatus: fetchAccountsStatus,
-	} = useAccounts(forAccount ? { [forAccount]: true } : null)
+	} = useAccounts(forAccount ? [forAccount] : addresses)
 
 	const {
 		data: xrdPrice,
@@ -109,17 +107,16 @@ export const useFungibleResourceBalances = (forAccount?: string) => {
 }
 
 export const useNonFungibleResourceBalances = (forAccount?: string) => {
-	const { selectedAccount, currency } = useNoneSharedStore(state => ({
+	const { currency } = useNoneSharedStore(state => ({
 		currency: state.currency,
-		selectedAccount: state.selectedAccount,
 	}))
 
-	forAccount = forAccount || selectedAccount
+	const addresses = useSelectedAccounts()
 	const {
 		data: accounts = [],
 		isLoading: isLoadingAccounts,
 		fetchStatus: fetchAccountsStatus,
-	} = useAccounts(forAccount ? { [forAccount]: true } : null)
+	} = useAccounts(forAccount ? [forAccount] : addresses)
 
 	const {
 		data: xrdPrice,

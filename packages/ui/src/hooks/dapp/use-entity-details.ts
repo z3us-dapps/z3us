@@ -10,7 +10,7 @@ const defaultOptIns: StateEntityDetailsOptIns = {
 	component_royalty_vault_balance: true,
 	package_royalty_vault_balance: true,
 	non_fungible_include_nfids: true,
-	explicit_metadata: ['name', 'description'],
+	explicit_metadata: ['name', 'symbol', 'description', 'tags', 'icon_url', 'info_url', 'key_image_url', 'validator'],
 }
 
 export const useEntitiesDetails = (

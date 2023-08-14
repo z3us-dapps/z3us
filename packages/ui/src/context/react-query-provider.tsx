@@ -1,20 +1,10 @@
 import { createSyncStoragePersister } from '@tanstack/query-sync-storage-persister'
-import { Hydrate, QueryClient } from '@tanstack/react-query'
+import { Hydrate } from '@tanstack/react-query'
 import { PersistQueryClientProvider } from '@tanstack/react-query-persist-client'
 import React, { type PropsWithChildren } from 'react'
 
+import queryClient from 'ui/src/services/react-query'
 import { domExists } from 'ui/src/utils/dom-exists'
-
-const client = new QueryClient({
-	defaultOptions: {
-		queries: {
-			cacheTime: 1000 * 60 * 60 * 24 * 7, // 7 days
-			staleTime: 60 * 1000, // cache for 1 minute
-			refetchInterval: 60 * 1000, // automatically refetch every minute
-			refetchIntervalInBackground: true,
-		},
-	},
-})
 
 const cacheKey = 'z3us:cache'
 const persister = createSyncStoragePersister({
@@ -26,7 +16,7 @@ const persister = createSyncStoragePersister({
 type Props = { dehydratedState?: any }
 
 export const ReactQueryProvider: React.FC<PropsWithChildren & Props> = ({ children, dehydratedState }) => (
-	<PersistQueryClientProvider client={client} persistOptions={{ persister }}>
+	<PersistQueryClientProvider client={queryClient} persistOptions={{ persister }}>
 		<Hydrate state={dehydratedState}>{children}</Hydrate>
 	</PersistQueryClientProvider>
 )

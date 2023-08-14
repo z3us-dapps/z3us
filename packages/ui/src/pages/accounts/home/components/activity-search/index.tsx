@@ -1,11 +1,8 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
-import type { ClassValue } from 'clsx'
 import clsx from 'clsx'
 import { useScroll } from 'packages/ui/src/components/scroll-area-radix/use-scroll'
-import { useAccountParam, useAssetParam } from 'packages/ui/src/hooks/use-params'
 import React, { useRef } from 'react'
 import { useTranslation } from 'react-i18next'
-import { useLocation, useParams } from 'react-router-dom'
+import { useLocation, useMatch } from 'react-router-dom'
 import { useIntersectionObserver } from 'usehooks-ts'
 
 import { Box } from 'ui/src/components/box'
@@ -22,19 +19,18 @@ export const ActivitySearch: React.FC = () => {
 
 	const { t } = useTranslation()
 	const { pathname } = useLocation()
-	const { assetType } = useParams()
-	const account = useAccountParam()
-	const asset = useAssetParam()
+	const match = useMatch('/accounts/:accountId/:resourceType/:resourceId')
+	const { accountId = '-', resourceType, resourceId } = match?.params || {}
 
 	const elementRef = useRef<HTMLDivElement | null>(null)
 	const entry = useIntersectionObserver(elementRef, { threshold: [1] })
 	const isSticky = !entry?.isIntersecting
 
-	const isBorderVisible = asset || !!account
+	const isBorderVisible = resourceType || !!accountId
 
-	const searchTitle = asset
-		? `${asset} ${t('global.activity')}`
-		: `${assetType || t('global.all')} ${t('global.activity')}`
+	const searchTitle = resourceId
+		? `${resourceId} ${t('global.activity')}`
+		: `${resourceType || t('global.all')} ${t('global.activity')}`
 
 	const handleUpClick = () => {
 		if (!scrollableNode) return

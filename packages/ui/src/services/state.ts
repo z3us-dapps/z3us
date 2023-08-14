@@ -29,3 +29,6 @@ export const getNoneSharedStore = async (id: string): Promise<NoneSharedStore> =
 	release()
 	return newStore
 }
+
+export const defaultStoreKey = 'z3us:store:default'
+export const defaultStore = createNoneSharedStore(defaultStoreKey)

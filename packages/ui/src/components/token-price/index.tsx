@@ -4,6 +4,7 @@ import { useXRDPriceOnDay } from '../../hooks/queries/market'
 import { useTokens } from '../../hooks/queries/oci'
 import { useNoneSharedStore } from '../../hooks/use-store'
 import { formatBigNumber } from '../../utils/formatters'
+import Loader from '../loader'
 
 interface IProps {
 	symbol: string
@@ -18,8 +19,10 @@ export const TokenPrice: React.FC<IProps> = ({ amount, symbol, currency }) => {
 
 	const inCurrency = currency || defaultCurrency
 
-	const { data: tokens } = useTokens()
-	const { data: price } = useXRDPriceOnDay(inCurrency, new Date())
+	const { data: tokens, isLoading: isLoadingTokens } = useTokens()
+	const { data: price, isLoading: isLoadingPrice } = useXRDPriceOnDay(inCurrency, new Date())
+
+	if (isLoadingTokens || isLoadingPrice) return <Loader />
 
 	const token = tokens[symbol?.toUpperCase()]
 

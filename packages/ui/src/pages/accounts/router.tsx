@@ -1,4 +1,5 @@
 import { lazy } from 'react'
+import { Navigate } from 'react-router-dom'
 
 import Layout from './components/layout'
 
@@ -14,13 +15,17 @@ const route = {
 	children: [
 		{
 			index: true,
+			element: <Navigate to="/accounts/-" />,
+		},
+		{
+			path: '-',
 			element: <Home />,
 			handle: {
 				sidebar: <HomeSidebar />,
 			},
 		},
 		{
-			path: ':account',
+			path: ':accountId',
 			children: [
 				{
 					path: 'fungibles',
@@ -33,7 +38,7 @@ const route = {
 							},
 						},
 						{
-							path: ':resource',
+							path: ':resourceId',
 							element: <Resource />,
 							handle: {
 								sidebar: <p>Token details</p>,
@@ -52,7 +57,7 @@ const route = {
 							},
 						},
 						{
-							path: ':resource',
+							path: ':resourceId',
 							element: <Resource />,
 							handle: {
 								sidebar: <p>Token details</p>,

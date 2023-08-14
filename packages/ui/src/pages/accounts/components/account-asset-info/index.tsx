@@ -1,5 +1,4 @@
 /* eslint-disable  @typescript-eslint/no-unused-vars */
-import { useAccountParam, useAssetParam } from 'packages/ui/src/hooks/use-params'
 import React, { useRef } from 'react'
 import { useParams } from 'react-router-dom'
 import { Area, AreaChart, CartesianGrid, ResponsiveContainer, Tooltip, type TooltipProps, XAxis, YAxis } from 'recharts'
@@ -64,11 +63,8 @@ const data = [
 ]
 
 export const AccountAssetInfo: React.FC<IAccountAssetInfoProps> = () => {
-	const { assetType } = useParams()
-	const account = useAccountParam()
-	const asset = useAssetParam()
-
-	if (!asset) {
+	const { accountId = '-', resourceId } = useParams()
+	if (!resourceId) {
 		return null
 	}
 
@@ -87,7 +83,7 @@ export const AccountAssetInfo: React.FC<IAccountAssetInfoProps> = () => {
 			<Box display="flex" flexDirection="column" alignItems="center">
 				<Box className={styles.assetCloseBtnWrapper}>
 					<ToolTip message={<Translation capitalizeFirstLetter text="global.back" />}>
-						<Button iconOnly styleVariant="ghost" sizeVariant="small" to={`/accounts/${account}/${assetType}`}>
+						<Button iconOnly styleVariant="ghost" sizeVariant="small" to={`/accounts/${accountId}/${resourceId}`}>
 							<Close2Icon />
 						</Button>
 					</ToolTip>

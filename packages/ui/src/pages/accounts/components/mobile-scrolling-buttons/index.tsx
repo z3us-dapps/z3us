@@ -1,8 +1,9 @@
 import clsx from 'clsx'
-import { useAccountParam, useAssetParam, useIsActivity } from 'packages/ui/src/hooks/use-params'
+import { useEntityMetadata, useMetadataValue } from 'packages/ui/src/hooks/dapp/use-entity-metadata'
+import { useShowActivitiesParam } from 'packages/ui/src/hooks/use-show-activities-param'
 import React, { useRef } from 'react'
 import { useTranslation } from 'react-i18next'
-import { useParams } from 'react-router-dom'
+import { useMatch, useParams } from 'react-router-dom'
 import { useIntersectionObserver } from 'usehooks-ts'
 
 import { Box } from 'ui/src/components/box'
@@ -22,19 +23,23 @@ interface IMobileScrollingButtonsProps {
 }
 
 const TabTitle: React.FC = () => {
-	const { assetType } = useParams()
-	const asset = useAssetParam()
+	const match = useMatch('/accounts/:accountId/:resourceType/:resourceId')
+	const { resourceType, resourceId } = match?.params || {}
+	const { data } = useEntityMetadata(resourceId)
 
-	switch (assetType) {
-		case 'tokens':
+	const name = useMetadataValue('name', data)
+	const symbol = useMetadataValue('symbol', data) || name
+
+	switch (resourceType) {
+		case 'fungibles':
 			return (
 				<>
 					{/* TODO: if the asset is XRD, should say `coin` not `token`  */}
 					<Translation capitalizeFirstLetter text="accounts.home.assetsTokens" />
-					{asset ? ` (${asset.toUpperCase()})` : ''}
+					{symbol ? ` (${symbol.toUpperCase()})` : ''}
 				</>
 			)
-		case 'nfts':
+		case 'non-fungibles':
 			return <Translation capitalizeFirstLetter text="accounts.home.assetsNfts" />
 		default:
 			return <Translation capitalizeFirstLetter text="global.assets" />
@@ -43,13 +48,13 @@ const TabTitle: React.FC = () => {
 
 export const MobileScrollingButtons: React.FC<IMobileScrollingButtonsProps> = props => {
 	const { scrollableNode } = props
-	const account = useAccountParam()
-	const asset = useAssetParam()
+	const match = useMatch('/accounts/:accountId/:resourceType/:resourceId')
+	const { accountId = '-', resourceType, resourceId } = match?.params || {}
+	const showActivities = useShowActivitiesParam()
 	const wrapperRef = useRef(null)
 	const stickyRef = useRef(null)
 	const entry = useIntersectionObserver(stickyRef, { threshold: [1] })
 	const isSticky = !entry?.isIntersecting
-	const isAccountActivityRoute = useIsActivity()
 	const isVerticalScrollable = scrollableNode?.scrollHeight > scrollableNode?.clientHeight
 	const { assetType } = useParams()
 	const { t } = useTranslation()
@@ -65,14 +70,11 @@ export const MobileScrollingButtons: React.FC<IMobileScrollingButtonsProps> = pr
 	}
 
 	const generateAccountLink = (isActivity = false, generateAssetLink = false) =>
-		`/accounts${assetType ? `/${assetType}` : ''}${account ? `?account=${account}` : ''}${
-			generateAssetLink && asset ? `/${asset}` : ''
-		}${isActivity ? `?activity=true` : ''}`
+		!generateAssetLink
+			? `/accounts/${accountId}${isActivity ? `?activity=true` : ''}`
+			: `/accounts/${accountId}/${resourceType}/${resourceId}${isActivity ? `?show-activities=true` : ''}`
 
 	const generateBackLink = () => `/accounts`
-
-	// TODO
-	const show = true
 
 	return (
 		<Box
@@ -91,10 +93,10 @@ export const MobileScrollingButtons: React.FC<IMobileScrollingButtonsProps> = pr
 						className={clsx(
 							styles.tabsWrapperButton,
 							styles.tabsWrapperButtonLeft,
-							!isAccountActivityRoute && styles.tabsWrapperButtonActive,
+							!showActivities && styles.tabsWrapperButtonActive,
 						)}
 					>
-						<Text size="medium" weight="strong" align="center" color={!isAccountActivityRoute ? 'strong' : 'neutral'}>
+						<Text size="medium" weight="strong" align="center" color={!showActivities ? 'strong' : 'neutral'}>
 							<TabTitle />
 						</Text>
 					</Link>
@@ -104,10 +106,10 @@ export const MobileScrollingButtons: React.FC<IMobileScrollingButtonsProps> = pr
 						className={clsx(
 							styles.tabsWrapperButton,
 							styles.tabsWrapperButtonRight,
-							isAccountActivityRoute && styles.tabsWrapperButtonActive,
+							showActivities && styles.tabsWrapperButtonActive,
 						)}
 					>
-						<Text size="medium" weight="strong" align="center" color={isAccountActivityRoute ? 'strong' : 'neutral'}>
+						<Text size="medium" weight="strong" align="center" color={showActivities ? 'strong' : 'neutral'}>
 							<Translation capitalizeFirstLetter text="global.activity" />
 						</Text>
 					</Link>
@@ -145,7 +147,7 @@ export const MobileScrollingButtons: React.FC<IMobileScrollingButtonsProps> = pr
 							</Box>
 						}
 						rightIcon={
-							show ? (
+							showActivities ? (
 								<ToolTip message="global.clear">
 									<Button iconOnly sizeVariant="small" styleVariant="ghost" rounded>
 										<Close2Icon />

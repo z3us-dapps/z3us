@@ -154,39 +154,35 @@ export const AccountViewDropdown = forwardRef<HTMLElement, IAccountViewDropdownP
 									</Text>
 								</DropdownMenuLabel>
 							</Box>
-							<ScrollArea
-								fixHeight
-								className={styles.accountViewSimpleBarWrapper}
-								renderScrollArea={() => (
-									<Box className={styles.accountViewPaddingWrapper}>
-										<DropdownMenuRadioGroup value={selectedAccount} onValueChange={selectAccount}>
-											{Object.values(accounts).map(account => (
-												<DropdownMenuRadioItem key={account.address} value={account.address}>
-													<DropdownMenuLeftSlot>
-														<Box
-															style={{ width: '60px', height: '40px' }}
-															borderRadius="small"
-															flexShrink={0}
-															background="backgroundPrimary"
-															marginRight="small"
-														>
-															<ResourceImageIcon size="small" address={account.address} />
-														</Box>
-													</DropdownMenuLeftSlot>
-													<Box flexGrow={1} style={{ maxWidth: '98px' }}>
-														<Text size="xsmall" truncate>
-															{account.name}
-														</Text>
+							<ScrollArea fixHeight className={styles.accountViewSimpleBarWrapper}>
+								<Box className={styles.accountViewPaddingWrapper}>
+									<DropdownMenuRadioGroup value={selectedAccount} onValueChange={selectAccount}>
+										{Object.values(accounts).map(account => (
+											<DropdownMenuRadioItem key={account.address} value={account.address}>
+												<DropdownMenuLeftSlot>
+													<Box
+														style={{ width: '60px', height: '40px' }}
+														borderRadius="small"
+														flexShrink={0}
+														background="backgroundPrimary"
+														marginRight="small"
+													>
+														<ResourceImageIcon size="small" address={account.address} />
 													</Box>
-													<DropdownMenuItemIndicator>
-														<CheckIcon />
-													</DropdownMenuItemIndicator>
-												</DropdownMenuRadioItem>
-											))}
-										</DropdownMenuRadioGroup>
-									</Box>
-								)}
-							/>
+												</DropdownMenuLeftSlot>
+												<Box flexGrow={1} style={{ maxWidth: '98px' }}>
+													<Text size="xsmall" truncate>
+														{account.name}
+													</Text>
+												</Box>
+												<DropdownMenuItemIndicator>
+													<CheckIcon />
+												</DropdownMenuItemIndicator>
+											</DropdownMenuRadioItem>
+										))}
+									</DropdownMenuRadioGroup>
+								</Box>
+							</ScrollArea>
 
 							<Box className={styles.accountViewPaddingWrapper}>
 								<DropdownMenuLabel>

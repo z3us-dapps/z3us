@@ -25,10 +25,6 @@ export const Header = () => {
 	const router = useRouter()
 	const isConnected = useConnected()
 
-	// const { selectedAccount } = useNoneSharedStore(state => ({
-	// 	selectedAccount: state.selectedAccount,
-	// }))
-
 	return (
 		<Box className={clsx(styles.headerWrapper, isConnected && styles.headerWrapperBorderColor)}>
 			<ContentContainer>
