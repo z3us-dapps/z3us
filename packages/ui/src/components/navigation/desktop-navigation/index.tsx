@@ -12,8 +12,8 @@ import { Link, NavLink } from 'ui/src/components/router-link'
 import * as containerStyles from 'ui/src/components/styles/container-styles.css'
 import { Z3usLogo } from 'ui/src/components/z3us-logo-babylon'
 
-import { AccountViewDropdown } from './account-view-dropdown'
-import * as styles from './navigation.css'
+import { AccountViewDropdown } from '../account-view-dropdown'
+import * as styles from './styles.css'
 
 const AccountDesktopLavaMenu = () => {
 	const { t } = useTranslation()

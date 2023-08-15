@@ -35,7 +35,7 @@ const General: React.FC = () => {
 	return (
 		<SettingsWrapper>
 			<SettingsTitle
-				backLink="/accounts/settings"
+				backLink="/settings"
 				title={<Translation capitalizeFirstLetter text="settings.navigation.generalTitle" />}
 				subTitle={<Translation capitalizeFirstLetter text="settings.navigation.generalSubTitle" />}
 			/>

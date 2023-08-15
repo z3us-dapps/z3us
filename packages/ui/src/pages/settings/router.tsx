@@ -1,7 +1,7 @@
 import { lazy } from 'react'
-import { Navigate } from 'react-router-dom'
 
 import Layout from './components/layout'
+import { MobileNavigation } from './components/navigation'
 
 const General = lazy(() => import('./general'))
 const Accounts = lazy(() => import('./accounts'))
@@ -13,7 +13,7 @@ const route = {
 	children: [
 		{
 			index: true,
-			element: <Navigate to="/settings/general" />,
+			element: <MobileNavigation />,
 		},
 		{
 			path: 'general',

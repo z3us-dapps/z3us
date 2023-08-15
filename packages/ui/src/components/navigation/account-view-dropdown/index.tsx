@@ -50,7 +50,7 @@ import { useTheme } from 'ui/src/hooks/use-theme'
 import { useWalletAccounts } from 'ui/src/hooks/use-wallet-account'
 import { KeystoreType } from 'ui/src/store/types'
 
-import * as styles from './account-view-dropdown.css'
+import * as styles from './styles.css'
 
 interface IAccountViewDropdownProps {
 	className?: ClassValue

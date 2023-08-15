@@ -6,7 +6,7 @@ import { LayoutTwoColumn } from 'ui/src/components/layout/layout-two-column'
 import Loader from 'ui/src/components/loader'
 import MotionBox from 'ui/src/components/motion-box'
 
-import Navigation from '../navigation'
+import { DesktopNavigation } from '../navigation'
 
 const Layout: React.FC = () => {
 	const location = useLocation()
@@ -15,7 +15,7 @@ const Layout: React.FC = () => {
 	return (
 		<MotionBox>
 			<LayoutTwoColumn
-				leftCol={<Navigation />}
+				leftCol={<DesktopNavigation />}
 				rightCol={
 					<AnimatePresence initial={false}>
 						<Suspense key={location.pathname} fallback={<Loader />}>

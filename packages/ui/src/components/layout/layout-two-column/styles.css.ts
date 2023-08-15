@@ -50,6 +50,10 @@ export const layoutTwoColLeftWrapper = style([
 		paddingLeft: {
 			desktop: 'medium',
 		},
+		paddingTop: {
+			tablet: 'large',
+			desktop: 'large',
+		},
 		alignItems: 'self-start',
 		flexShrink: 0,
 	}),
@@ -73,4 +77,7 @@ export const layoutTwoColRightWrapper = style([
 		flexGrow: 1,
 	}),
 	{},
+	responsiveStyle({
+		desktop: { maxWidth: '820px' },
+	}),
 ])
