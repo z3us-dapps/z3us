@@ -5,10 +5,11 @@ import { responsiveStyle } from 'ui/src/components/system/theme-utils'
 
 export const navigationWrapper = style([
 	sprinkles({
+		position: 'relative',
 		display: 'flex',
 		justifyContent: 'center',
 		borderBottomStyle: 'solid',
-		zIndex: 1,
+		zIndex: 2,
 		borderColor: {
 			lightMode: 'bleached_silk600',
 			darkMode: 'lead500',
