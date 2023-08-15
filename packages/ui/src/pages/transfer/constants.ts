@@ -1,6 +1,6 @@
 import { z } from 'zod'
 
-import { type INft, type IToken } from './account-transfer-types'
+import { type INft, type IToken } from './types'
 
 const positiveNumberValidator = (value: number): boolean => value > 0
 
