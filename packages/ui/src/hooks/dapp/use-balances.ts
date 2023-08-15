@@ -94,7 +94,6 @@ export const useFungibleResourceBalances = (forAccount?: string) => {
 
 			return { balances, totalValue, totalChange }
 		},
-		keepPreviousData: true,
 		enabled: !isLoadingAccounts && !isLoadingTokens && !isLoadingPrice,
 	})
 }
@@ -105,10 +104,9 @@ export const useNonFungibleResourceBalances = (forAccount?: string) => {
 	}))
 
 	const addresses = useSelectedAccounts()
-	const { data: accounts = [], isLoading: isLoadingAccounts } = useAccounts(forAccount ? [forAccount] : addresses)
-
-	const { data: xrdPrice, isLoading: isLoadingPrice } = useXRDPriceOnDay(currency, new Date())
-	const { data: tokens, isLoading: isLoadingTokens } = useTokens()
+	const { data: accounts = [] } = useAccounts(forAccount ? [forAccount] : addresses)
+	const { data: xrdPrice } = useXRDPriceOnDay(currency, new Date())
+	const { data: tokens } = useTokens()
 
 	return useQuery({
 		queryKey: ['useNonFungibleResourceBalances', forAccount],
@@ -144,15 +142,13 @@ export const useNonFungibleResourceBalances = (forAccount?: string) => {
 
 			return { balances, totalValue, totalChange }
 		},
-		keepPreviousData: true,
-		enabled: !isLoadingAccounts && !isLoadingTokens && !isLoadingPrice,
+		enabled: !!xrdPrice && !!tokens,
 	})
 }
 
 export const useGlobalResourceBalances = (forAccount?: string) => {
-	const { data: fungibleResourceBalances, isLoading: fungibleIsLoading } = useFungibleResourceBalances(forAccount)
-	const { data: nonFungibleResourceBalances, isLoading: nonFungibleIsLoading } =
-		useNonFungibleResourceBalances(forAccount)
+	const { data: fungibleResourceBalances } = useFungibleResourceBalances(forAccount)
+	const { data: nonFungibleResourceBalances } = useNonFungibleResourceBalances(forAccount)
 
 	return useQuery({
 		queryKey: ['useGlobalResourceBalances', forAccount],
@@ -161,12 +157,12 @@ export const useGlobalResourceBalances = (forAccount?: string) => {
 				balances: fungibleBalances,
 				totalValue: fungibleValue,
 				totalChange: fungibleChange,
-			} = fungibleResourceBalances || {}
+			} = fungibleResourceBalances
 			const {
 				balances: nonFungibleBalances,
 				totalValue: nonFungibleValue,
 				totalChange: nonFungibleChange,
-			} = nonFungibleResourceBalances || {}
+			} = nonFungibleResourceBalances
 
 			const balances = [...(fungibleBalances || []), ...(nonFungibleBalances || [])]
 
@@ -186,7 +182,6 @@ export const useGlobalResourceBalances = (forAccount?: string) => {
 				nonFungibleChange,
 			}
 		},
-		keepPreviousData: true,
-		enabled: !fungibleIsLoading && !nonFungibleIsLoading,
+		enabled: !fungibleResourceBalances && !nonFungibleResourceBalances,
 	})
 }

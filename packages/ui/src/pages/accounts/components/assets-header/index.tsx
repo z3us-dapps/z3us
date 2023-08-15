@@ -33,6 +33,7 @@ export const AssetsHeader: React.FC<IAccountRoutesProps> = props => {
 	}))
 	const { pathname } = useLocation()
 	const { data, isLoading } = useGlobalResourceBalances()
+	const { totalValue = '0' } = data || {}
 	const [hidden, setHidden] = useState<boolean>(false)
 
 	const isBreadCrumbVisible = !!resourceType
@@ -82,7 +83,7 @@ export const AssetsHeader: React.FC<IAccountRoutesProps> = props => {
 							<Box display="flex" alignItems="center" gap="medium">
 								<TextScramble scramble={hidden}>
 									<Text weight="medium" size="xxxlarge" color="strong" truncate blur={hidden}>
-										{isLoading ? 'Loading...' : `${formatBigNumber(data?.totalValue || new BigNumber(0), currency, 2)}`}
+										{isLoading ? 'Loading...' : `${formatBigNumber(new BigNumber(totalValue), currency, 2)}`}
 									</Text>
 								</TextScramble>
 								<ToolTip message={hidden ? 'accounts.home.accountShowBalance' : 'accounts.home.accountHideBalance'}>
