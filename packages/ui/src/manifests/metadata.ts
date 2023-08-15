@@ -1,3 +1,6 @@
+import type { ManifestBuilder } from '@radixdlt/radix-engine-toolkit'
+import { ManifestAstValue } from '@radixdlt/radix-engine-toolkit'
+
 interface IAccountMetadata {
 	name: string
 	description: string
@@ -5,10 +8,5 @@ interface IAccountMetadata {
 	account_type: string
 }
 
-export const updateAccountMetadata =
-	(address: string) =>
-	({ name, description, domain, account_type }: IAccountMetadata) =>
-		`SET_METADATA ComponentAddress("${address}") "name" "${name}";   
-   SET_METADATA ComponentAddress("${address}") "description" "${description}";     
-   SET_METADATA ComponentAddress("${address}") "domain" "${domain}";     
-   SET_METADATA ComponentAddress("${address}") "account_type" "${account_type}";`.trim()
+export const updateAccountMetadata = (manifest: ManifestBuilder, address: string) => (details: IAccountMetadata) =>
+	Object.entries(details).map(([key, value]) => manifest.setMetadata(address, new ManifestAstValue.String(key), value))

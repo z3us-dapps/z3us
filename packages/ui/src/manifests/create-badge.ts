@@ -1,10 +1,10 @@
-// TODO
+import type { ManifestBuilder } from '@radixdlt/radix-engine-toolkit'
 
-/* eslint-disable import/no-unresolved */
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-nocheck
-// eslint-disable-next-line import/no-extraneous-dependencies
 import { createToken } from './tokens'
 
-export const getCreateBadgeManifest = (accountAddress: string, name: string, description: string) =>
-	createToken(accountAddress).nft({ name, description, items: [name] })
+export const getCreateBadgeManifest = (
+	manifest: ManifestBuilder,
+	accountAddress: string,
+	name: string,
+	description: string,
+) => createToken(manifest, accountAddress).nft([{ name, description, initialSupply: 1, items: [name] }])

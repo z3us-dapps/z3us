@@ -3,7 +3,7 @@ import { useGlobalResourceBalances } from 'packages/ui/src/hooks/dapp/use-balanc
 import { useNetworkId } from 'packages/ui/src/hooks/dapp/use-network-id'
 import { useNoneSharedStore } from 'packages/ui/src/hooks/use-store'
 import { useWalletAccounts } from 'packages/ui/src/hooks/use-wallet-account'
-import { sendNftTokens } from 'packages/ui/src/manifests/tokens'
+import { sendNftTokens } from 'packages/ui/src/manifests/transfer'
 import React from 'react'
 import useDeepCompareEffect from 'use-deep-compare-effect'
 import { useImmer } from 'use-immer'
