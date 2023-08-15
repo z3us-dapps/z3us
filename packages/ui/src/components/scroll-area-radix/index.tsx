@@ -114,8 +114,8 @@ export const ScrollAreaRadix: React.FC<PropsWithChildren<IScrollAreaRadix>> = ({
 	}, [fixHeight, scrollParent, disabled, bottomRefEntry?.isIntersecting, topRefEntry?.isIntersecting])
 
 	const handleDebouncedResizeHandler = useDebouncedCallback(() => {
-		setIsScrolledBottom(bottomRefEntry.isIntersecting)
-		setIsScrolledTop(topRefEntry.isIntersecting)
+		setIsScrolledBottom(bottomRefEntry?.isIntersecting)
+		setIsScrolledTop(topRefEntry?.isIntersecting)
 	}, 100)
 
 	useEventListener('resize', handleDebouncedResizeHandler)

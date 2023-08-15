@@ -94,6 +94,7 @@ export const useFungibleResourceBalances = (forAccount?: string) => {
 
 			return { balances, totalValue, totalChange }
 		},
+		keepPreviousData: true,
 		enabled: !isLoadingAccounts && !isLoadingTokens && !isLoadingPrice,
 	})
 }
@@ -143,6 +144,7 @@ export const useNonFungibleResourceBalances = (forAccount?: string) => {
 
 			return { balances, totalValue, totalChange }
 		},
+		keepPreviousData: true,
 		enabled: !isLoadingAccounts && !isLoadingTokens && !isLoadingPrice,
 	})
 }
@@ -184,6 +186,7 @@ export const useGlobalResourceBalances = (forAccount?: string) => {
 				nonFungibleChange,
 			}
 		},
+		keepPreviousData: true,
 		enabled: !fungibleIsLoading && !nonFungibleIsLoading,
 	})
 }

@@ -19,7 +19,7 @@ export const BalanceChart: React.FC = () => {
 	const [showFullAccountList, setShowFullAccountList] = useState<boolean>(false)
 	// const [measureRef, { width: chartWrapperWidth, height: chartWrapperHeight }] = useMeasure()
 
-	const { balances, isLoading } = useGlobalResourceBalances()
+	const { data, isLoading } = useGlobalResourceBalances()
 
 	const handleToggleFullAccountList = () => {
 		setShowFullAccountList(!showFullAccountList)
@@ -49,19 +49,21 @@ export const BalanceChart: React.FC = () => {
 							variants={animatePageVariants}
 						>
 							<Box className={styles.pieChartWrapper}>
-								<Chart balances={balances} />
+								<Chart balances={data?.balances} />
 							</Box>
 							<Box className={styles.accountsListWrapper}>
 								<Box display="flex" flexDirection="column" gap="xsmall" width="full">
 									<HeightAnimatePanel>
 										<Box>
-											{(showFullAccountList ? balances : balances.slice(0, defaultRowsShown)).map(resource => (
-												<ListRow key={resource.address} {...resource} />
-											))}
+											{(showFullAccountList ? data.balances : data.balances.slice(0, defaultRowsShown)).map(
+												resource => (
+													<ListRow key={resource.address} {...resource} />
+												),
+											)}
 										</Box>
 									</HeightAnimatePanel>
 								</Box>
-								{balances?.length > defaultRowsShown && (
+								{data?.balances?.length > defaultRowsShown && (
 									<Box display="flex" flexDirection="column" gap="xsmall" width="full" paddingTop="medium">
 										<Button styleVariant="tertiary" onClick={handleToggleFullAccountList}>
 											{showFullAccountList ? 'Show less accounts' : 'Show all accounts'}

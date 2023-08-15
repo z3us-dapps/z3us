@@ -1,3 +1,4 @@
+import BigNumber from 'bignumber.js'
 import clsx from 'clsx'
 import { useGlobalResourceBalances } from 'packages/ui/src/hooks/dapp/use-balances'
 import { useNoneSharedStore } from 'packages/ui/src/hooks/use-store'
@@ -31,7 +32,7 @@ export const AssetsHeader: React.FC<IAccountRoutesProps> = props => {
 		currency: state.currency,
 	}))
 	const { pathname } = useLocation()
-	const { totalValue, isLoading } = useGlobalResourceBalances()
+	const { data, isLoading } = useGlobalResourceBalances()
 	const [hidden, setHidden] = useState<boolean>(false)
 
 	const isBreadCrumbVisible = !!resourceType
@@ -81,7 +82,7 @@ export const AssetsHeader: React.FC<IAccountRoutesProps> = props => {
 							<Box display="flex" alignItems="center" gap="medium">
 								<TextScramble scramble={hidden}>
 									<Text weight="medium" size="xxxlarge" color="strong" truncate blur={hidden}>
-										{isLoading ? 'Loading...' : `${formatBigNumber(totalValue, currency, 2)}`}
+										{isLoading ? 'Loading...' : `${formatBigNumber(data?.totalValue || new BigNumber(0), currency, 2)}`}
 									</Text>
 								</TextScramble>
 								<ToolTip message={hidden ? 'accounts.home.accountShowBalance' : 'accounts.home.accountHideBalance'}>

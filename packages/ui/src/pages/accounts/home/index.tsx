@@ -1,4 +1,5 @@
 import clsx from 'clsx'
+import Loader from 'packages/ui/src/components/loader'
 import { useScroll } from 'packages/ui/src/components/scroll-area-radix/use-scroll'
 import { useFungibleResourceBalances, useNonFungibleResourceBalances } from 'packages/ui/src/hooks/dapp/use-balances'
 import React from 'react'
@@ -32,14 +33,18 @@ const Home: React.FC = () => {
 				<MobileScrollingButtons scrollableNode={scrollableNode} />
 				<AssetsHeader isScrolledTop={isScrolledTop} scrollableNode={scrollableNode} />
 				<Box className={styles.assetsTableWrapper}>
-					<ul>
-						<Link to={`/accounts/${accountId}/fungibles`}>
-							<li>Fungibles {fungibleBalances.length}</li>
-						</Link>
-						<Link to={`/accounts/${accountId}/non-fungibles`}>
-							<li>Non-Fungibles {nonFungibleBalances.length}</li>
-						</Link>
-					</ul>
+					{isLoading ? (
+						<Loader />
+					) : (
+						<ul>
+							<Link to={`/accounts/${accountId}/fungibles`}>
+								<li>Fungibles {fungibleBalances.length}</li>
+							</Link>
+							<Link to={`/accounts/${accountId}/non-fungibles`}>
+								<li>Non-Fungibles {nonFungibleBalances.length}</li>
+							</Link>
+						</ul>
+					)}
 				</Box>
 			</Box>
 		</Box>
