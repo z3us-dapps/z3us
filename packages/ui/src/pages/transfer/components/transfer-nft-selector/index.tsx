@@ -36,7 +36,7 @@ import { ValidationErrorMessage } from 'ui/src/components/validation-error-messa
 // import { TokenSelectorDialog } from 'ui/src/containers/accounts/token-selector-dialog'
 import { getZodError } from 'ui/src/utils/get-zod-error'
 
-import type { TTransferSchema, TZodValidation } from '../account-transfer-types'
+import type { TTransferSchema, TZodValidation } from '../../types'
 
 interface ITransferNftSelectorProps {
 	balances: ResourceBalance[]
