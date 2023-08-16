@@ -105,11 +105,11 @@ export const AssetsHeader: React.FC<IAccountRoutesProps> = props => {
 								</Button>
 							</ToolTip>
 						</Box>
-						<ToolTip message="global.search">
+						{/* <ToolTip message="global.search">
 							<Button to={`${pathname}?query=hello`} styleVariant="ghost" sizeVariant="small" iconOnly>
 								<SearchIcon />
 							</Button>
-						</ToolTip>
+						</ToolTip> */}
 					</Box>
 				</Box>
 			</Box>

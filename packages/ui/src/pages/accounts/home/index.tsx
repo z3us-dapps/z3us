@@ -7,6 +7,8 @@ import { Link, useParams } from 'react-router-dom'
 
 import { Box } from 'ui/src/components/box'
 import * as tableHeadStyles from 'ui/src/components/styles/table-head-shadow.css'
+import Translation from 'ui/src/components/translation'
+import { Text } from 'ui/src/components/typography'
 
 import { AssetsHeader } from '../components/assets-header'
 import { MobileScrollingBackground } from '../components/mobile-scrolling-background'
@@ -32,18 +34,35 @@ const Home: React.FC = () => {
 				<MobileScrollingBackground scrollableNode={scrollableNode} />
 				<MobileScrollingButtons scrollableNode={scrollableNode} />
 				<AssetsHeader isScrolledTop={isScrolledTop} scrollableNode={scrollableNode} />
-				<Box className={styles.assetsTableWrapper}>
+				<Box className={styles.assetsHomeWrapper}>
 					{isLoading ? (
 						<Loader />
 					) : (
-						<ul>
-							<Link to={`/accounts/${accountId}/fungibles`}>
-								<li>Fungibles {fungibleBalances.length}</li>
-							</Link>
-							<Link to={`/accounts/${accountId}/non-fungibles`}>
-								<li>Non-Fungibles {nonFungibleBalances.length}</li>
-							</Link>
-						</ul>
+						<>
+							<Box className={styles.assetsHomeTitleWrapper}>
+								<Text capitalizeFirstLetter color="strong" weight="strong" size="medium">
+									<Translation text="global.assets" />
+								</Text>
+							</Box>
+							<ul className={styles.assetsHomeList}>
+								<li>
+									<Link className={styles.assetsHomeListLink} to={`/accounts/${accountId}/fungibles`}>
+										<Box>
+											<Text capitalizeFirstLetter color="strong" weight="medium" size="small">
+												Fungibles {fungibleBalances.length}
+											</Text>
+										</Box>
+									</Link>
+								</li>
+								<li>
+									<Link className={styles.assetsHomeListLink} to={`/accounts/${accountId}/non-fungibles`}>
+										<Text capitalizeFirstLetter color="strong" weight="medium" size="small">
+											Non-Fungibles {nonFungibleBalances.length}
+										</Text>
+									</Link>
+								</li>
+							</ul>
+						</>
 					)}
 				</Box>
 			</Box>

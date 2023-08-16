@@ -63,10 +63,12 @@ export const DropdownMenuSubTrigger = ({ children, ...props }) => (
 	</DropdownMenuPrimitive.SubTrigger>
 )
 
-export const DropdownMenuSubContent = ({ children, ...props }) => (
-	<DropdownMenuPrimitive.SubContent className={styles.dropdownMenuSubContent} {...props}>
-		{children}
-	</DropdownMenuPrimitive.SubContent>
+export const DropdownMenuSubContent = forwardRef<HTMLDivElement, DropdownMenuPrimitive.DropdownMenuContentProps>(
+	({ children, className, ...props }, ref) => (
+		<DropdownMenuPrimitive.SubContent ref={ref} className={clsx(styles.dropdownMenuSubContent, className)} {...props}>
+			{children}
+		</DropdownMenuPrimitive.SubContent>
+	),
 )
 
 export const DropdownMenuRightSlot = ({ children, ...props }) => (
