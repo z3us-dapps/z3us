@@ -18,11 +18,11 @@ import { Text } from 'ui/src/components/typography'
 import { ValidationErrorMessage } from 'ui/src/components/validation-error-message'
 import { getZodError } from 'ui/src/utils/get-zod-error'
 
+import { CurrencySelect } from '../../../components/currency-select'
 import type { TTransferSchema, TZodValidation } from '../../types'
-import { CurrencySelect } from '../currency-select'
 import * as styles from './styles.css'
 
-interface ITransferTokenSelectorProps {
+interface IProps {
 	balances: ResourceBalance[]
 	tokenAddress: string
 	tokenValue: number
@@ -37,7 +37,7 @@ interface ITransferTokenSelectorProps {
 	placeholder?: string
 }
 
-export const TransferTokenSelector: React.FC<ITransferTokenSelectorProps> = props => {
+export const TokenSelector: React.FC<IProps> = props => {
 	const {
 		balances,
 		tokenAddress,

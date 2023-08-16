@@ -1,5 +1,5 @@
 import { ManifestBuilder } from '@radixdlt/radix-engine-toolkit'
-import { useGlobalResourceBalances } from 'packages/ui/src/hooks/dapp/use-balances'
+import { useNonFungibleResourceBalances } from 'packages/ui/src/hooks/dapp/use-balances'
 import { useNetworkId } from 'packages/ui/src/hooks/dapp/use-network-id'
 import { useNoneSharedStore } from 'packages/ui/src/hooks/use-store'
 import { useWalletAccounts } from 'packages/ui/src/hooks/use-wallet-account'
@@ -12,14 +12,14 @@ import { Box } from 'ui/src/components/box'
 import Translation from 'ui/src/components/translation'
 
 import { GroupTransactionButton } from '../components/group-transaction-button'
-import { GroupTransfer } from '../components/group-transfer'
-import type { TransactionDetailsGetter } from '../components/transfer-wrapper'
 import { TransferWrapper } from '../components/transfer-wrapper'
-import { defaultNft } from '../constants'
-import type { IAccountTransferNftsImmer } from '../types'
+import type { TransactionDetailsGetter } from '../components/transfer-wrapper'
 import { validateTransferForm } from '../utils/validate-transfer-form'
+import { GroupTransfer } from './components/group-transfer'
+import { defaultNft } from './constants'
+import { type IAccountTransferImmer } from './types'
 
-const NonFungibles: React.FC = () => {
+export const NonFungibles: React.FC = () => {
 	const networkId = useNetworkId()
 	const { addressBook, selectedAccount } = useNoneSharedStore(state => ({
 		addressBook: state.addressBook[networkId] || {},
@@ -27,7 +27,7 @@ const NonFungibles: React.FC = () => {
 	}))
 	const accounts = useWalletAccounts()
 
-	const [state, setState] = useImmer<IAccountTransferNftsImmer>({
+	const [state, setState] = useImmer<IAccountTransferImmer>({
 		transaction: {
 			from: selectedAccount || Object.values(accounts)[0]?.address,
 			isMessageEncrypted: false,
@@ -40,7 +40,7 @@ const NonFungibles: React.FC = () => {
 		validation: undefined,
 	})
 
-	const { data, isLoading } = useGlobalResourceBalances(state.transaction.from)
+	const { data } = useNonFungibleResourceBalances(state.transaction.from)
 
 	useDeepCompareEffect(() => {
 		if (state.initValidation) {
@@ -93,7 +93,7 @@ const NonFungibles: React.FC = () => {
 		})
 	}
 
-	const handleAddToken = (sendIndex: number) => {
+	const handleAddNft = (sendIndex: number) => {
 		setState(draft => {
 			draft.transaction.sends[sendIndex].nfts = [...state.transaction.sends[sendIndex].nfts, defaultNft]
 		})
@@ -111,13 +111,13 @@ const NonFungibles: React.FC = () => {
 		})
 	}
 
-	const handleUpdateTokenValue = (sendIndex: number) => (tokenIndex: number) => (id: number) => {
+	const handleUpdateNftValue = (sendIndex: number) => (tokenIndex: number) => (id: number) => {
 		setState(draft => {
 			draft.transaction.sends[sendIndex].nfts[tokenIndex].id = `#${id}#`
 		})
 	}
 
-	const handleUpdateToken = (sendIndex: number) => (tokenIndex: number) => (address: string) => {
+	const handleUpdateNft = (sendIndex: number) => (tokenIndex: number) => (address: string) => {
 		setState(draft => {
 			draft.transaction.sends[sendIndex].nfts[tokenIndex].address = address
 		})
@@ -140,10 +140,11 @@ const NonFungibles: React.FC = () => {
 			draft.transaction.isMessageEncrypted = isEncrypted
 		})
 	}
+
 	return (
 		<TransferWrapper
 			title={<Translation capitalizeFirstLetter text="transfer.nfts.title" />}
-			titleSuffix={<Translation text="transfer.nfts.titleSuffix" />}
+			titleSuffix={<Translation text="transfer.tokens.titleSuffix" />}
 			transaction={handleContinue}
 		>
 			<Box position="relative">
@@ -157,10 +158,10 @@ const NonFungibles: React.FC = () => {
 					validation={state.validation}
 					onUpdateFromAccount={handleUpdateFromAccount}
 					onUpdateToAccount={handleUpdateToAccount}
-					onRemoveGroupTransaction={handleRemoveGroupTransaction}
-					onUpdateTokenValue={handleUpdateTokenValue}
-					onUpdateToken={handleUpdateToken}
-					onAddToken={handleAddToken}
+					onRemoveGroup={handleRemoveGroupTransaction}
+					onUpdateNftValue={handleUpdateNftValue}
+					onUpdateNft={handleUpdateNft}
+					onAddNft={handleAddNft}
 					onToggleMessageUi={handleToggleMessageUi}
 					onUpdateMessage={handleUpdateMessage}
 					onUpdateIsMessageEncrypted={handleUpdateIsMessageEncrypted}

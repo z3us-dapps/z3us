@@ -1,5 +1,5 @@
 import { ManifestBuilder } from '@radixdlt/radix-engine-toolkit'
-import { useGlobalResourceBalances } from 'packages/ui/src/hooks/dapp/use-balances'
+import { useFungibleResourceBalances } from 'packages/ui/src/hooks/dapp/use-balances'
 import { useNetworkId } from 'packages/ui/src/hooks/dapp/use-network-id'
 import { useNoneSharedStore } from 'packages/ui/src/hooks/use-store'
 import { useWalletAccounts } from 'packages/ui/src/hooks/use-wallet-account'
@@ -12,12 +12,12 @@ import { Box } from 'ui/src/components/box'
 import Translation from 'ui/src/components/translation'
 
 import { GroupTransactionButton } from '../components/group-transaction-button'
-import { GroupTransfer } from '../components/group-transfer'
 import { TransferWrapper } from '../components/transfer-wrapper'
 import type { TransactionDetailsGetter } from '../components/transfer-wrapper'
-import { defaultToken } from '../constants'
-import { type IAccountTransferImmer } from '../types'
 import { validateTransferForm } from '../utils/validate-transfer-form'
+import { GroupTransfer } from './components/group-transfer'
+import { defaultToken } from './constants'
+import { type IAccountTransferImmer } from './types'
 
 export const Fungibles: React.FC = () => {
 	const networkId = useNetworkId()
@@ -40,7 +40,7 @@ export const Fungibles: React.FC = () => {
 		validation: undefined,
 	})
 
-	const { data, isLoading } = useGlobalResourceBalances(state.transaction.from)
+	const { data } = useFungibleResourceBalances(state.transaction.from)
 
 	useDeepCompareEffect(() => {
 		if (state.initValidation) {
@@ -164,7 +164,7 @@ export const Fungibles: React.FC = () => {
 					validation={state.validation}
 					onUpdateFromAccount={handleUpdateFromAccount}
 					onUpdateToAccount={handleUpdateToAccount}
-					onRemoveGroupTransaction={handleRemoveGroupTransaction}
+					onRemoveGroup={handleRemoveGroupTransaction}
 					onUpdateTokenValue={handleUpdateTokenValue}
 					onUpdateToken={handleUpdateToken}
 					onAddToken={handleAddToken}
