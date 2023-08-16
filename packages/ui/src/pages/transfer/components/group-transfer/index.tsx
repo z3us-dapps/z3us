@@ -235,12 +235,12 @@ export const GroupItem: React.FC<IGroupItemProps> = props => {
 								}}
 							/>
 						))}
-						{(send.nfts || []).map(({ amount, address }: INft, nftIndex: number) => (
+						{(send.nfts || []).map(({ address }: INft, nftIndex: number) => (
 							<TransferNftSelector
 								key={`group-${sendIndex}-${nftIndex}`}
 								balances={balances}
 								tokenAddress={address}
-								tokenValue={amount}
+								tokenValue={0}
 								sendIndex={sendIndex}
 								nftIndex={nftIndex}
 								validation={validation}
