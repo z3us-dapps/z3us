@@ -40,7 +40,7 @@ export const NonFungibles: React.FC = () => {
 		validation: undefined,
 	})
 
-	const { data } = useNonFungibleResourceBalances(state.transaction.from)
+	const { balances } = useNonFungibleResourceBalances(state.transaction.from)
 
 	useDeepCompareEffect(() => {
 		if (state.initValidation) {
@@ -154,7 +154,7 @@ export const NonFungibles: React.FC = () => {
 					fromAccount={state.transaction.from}
 					accounts={accounts}
 					addressBook={addressBook}
-					balances={data?.balances}
+					balances={balances}
 					validation={state.validation}
 					onUpdateFromAccount={handleUpdateFromAccount}
 					onUpdateToAccount={handleUpdateToAccount}

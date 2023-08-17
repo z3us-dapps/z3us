@@ -40,7 +40,7 @@ export const AccountTransferTokens: React.FC = () => {
 		validation: undefined,
 	})
 
-	const { data, isLoading } = useGlobalResourceBalances(state.transaction.from)
+	const { balances, isLoading } = useGlobalResourceBalances(state.transaction.from)
 
 	useDeepCompareEffect(() => {
 		if (state.initValidation) {
@@ -159,7 +159,7 @@ export const AccountTransferTokens: React.FC = () => {
 					fromAccount={state.transaction.from}
 					accounts={accounts}
 					addressBook={addressBook}
-					balances={data?.balances}
+					balances={balances}
 					validation={state.validation}
 					onUpdateFromAccount={handleUpdateFromAccount}
 					onUpdateToAccount={handleUpdateToAccount}

@@ -40,7 +40,7 @@ export const Fungibles: React.FC = () => {
 		validation: undefined,
 	})
 
-	const { data } = useFungibleResourceBalances(state.transaction.from)
+	const { balances } = useFungibleResourceBalances(state.transaction.from)
 
 	useDeepCompareEffect(() => {
 		if (state.initValidation) {
@@ -160,7 +160,7 @@ export const Fungibles: React.FC = () => {
 					fromAccount={state.transaction.from}
 					accounts={accounts}
 					addressBook={addressBook}
-					balances={data?.balances}
+					balances={balances}
 					validation={state.validation}
 					onUpdateFromAccount={handleUpdateFromAccount}
 					onUpdateToAccount={handleUpdateToAccount}

@@ -20,6 +20,10 @@ export const RdtProvider: React.FC<PropsWithChildren> = ({ children }) => {
 	}))
 	const [state, setState] = useState<RadixDappToolkit>()
 
+	const onStateChange = () => {
+		reloadSharedStore()
+	}
+
 	useEffect(() => {
 		if (!configuration?.network_id) return () => {}
 
@@ -32,7 +36,7 @@ export const RdtProvider: React.FC<PropsWithChildren> = ({ children }) => {
 
 		const rdt = RadixDappToolkit(options)
 
-		rdt.walletApi.walletData$.subscribe(reloadSharedStore)
+		rdt.walletApi.walletData$.subscribe(onStateChange)
 		rdt.walletApi.setRequestData(DataRequestBuilder.accounts().atLeast(1))
 		rdt.walletApi.provideChallengeGenerator(async () => createChallenge())
 
