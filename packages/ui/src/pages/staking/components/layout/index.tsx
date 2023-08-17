@@ -14,13 +14,8 @@ import { useIsMobileWidth } from 'ui/src/hooks/use-is-mobile'
 const ScrollContent: React.FC = () => {
 	const location = useLocation()
 	const outlet = useOutlet()
-	const matches = useMatches()
 	const isMobile = useIsMobileWidth()
 	const { scrollableNode } = useScroll()
-
-	const [sidebar] = matches
-		.filter(match => Boolean((match.handle as any)?.sidebar))
-		.map(match => (match.handle as any).sidebar)
 
 	return (
 		<>
@@ -33,9 +28,9 @@ const ScrollContent: React.FC = () => {
 			</Box>
 			<Box className={panelViewStyles.panelViewRightWrapper}>
 				<ScrollPanel showTopScrollShadow={false} scrollParent={isMobile ? scrollableNode : undefined}>
-					<Suspense key={location.pathname} fallback={<Loader />}>
-						{sidebar}
-					</Suspense>
+					<Box padding="large">
+						<h1>Staking sidebar</h1>
+					</Box>
 				</ScrollPanel>
 			</Box>
 		</>
