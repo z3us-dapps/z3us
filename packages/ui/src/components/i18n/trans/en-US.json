@@ -65,12 +65,10 @@
 			"accountBalanceTitle": "account balance",
 			"accountHideBalance": "hide balance",
 			"accountShowBalance": "show balance",
-			"assetsBadgesTitle": "assets and badges",
-			"assetsTokens": "tokens",
-			"assetsCoinsTokens": "coins & tokens",
-			"assetsNfts": "NFTs",
-			"assetsLpTokens": "LP Tokens",
-			"assetsBadges": "badges"
+			"fungiblesTitle": "fungibles",
+			"fungiblesSubTitle": "Tokens",
+			"nonFungiblesTitle": "non fungibles",
+			"nonFungiblesSubTitle": "nfts"
 		},
 		"assetsList": {
 			"overview": "overview",
