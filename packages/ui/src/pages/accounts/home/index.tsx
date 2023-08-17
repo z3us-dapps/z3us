@@ -94,7 +94,7 @@ const Home: React.FC = () => {
 									</Link>
 									<OverlayAssetIcons
 										balances={fungibleBalances}
-										href={`/accounts/${accountId}/fungibles`}
+										accountId={accountId}
 										onButtonMouseOver={() => setHoveredLink(FUNGIBLES_PATH)}
 									/>
 								</Box>

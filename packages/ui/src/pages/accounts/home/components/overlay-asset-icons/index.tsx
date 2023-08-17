@@ -40,7 +40,7 @@ export const OverlayAssetIcons: React.FC<IProps> = props => {
 					iconOnly
 					rounded
 				>
-					<ResourceImageIcon size="xlarge" address={resource.address} />
+					<ResourceImageIcon size="xlarge" address={resource.address} toolTipEnabled />
 				</Button>
 			))}
 			<Box paddingLeft="xsmall">
