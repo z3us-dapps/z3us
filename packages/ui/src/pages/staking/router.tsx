@@ -4,7 +4,6 @@ import Layout from './components/layout'
 import { ValidatorPanel } from './components/validator-panel'
 
 const Home = lazy(() => import('./home'))
-const HomeSidebar = lazy(() => import('./home/sidebar'))
 
 const route = {
 	path: 'staking',
@@ -14,7 +13,6 @@ const route = {
 			index: true,
 			element: <Home />,
 			handle: {
-				sidebar: <HomeSidebar />,
 				validatorPanel: null,
 			},
 		},
@@ -22,7 +20,6 @@ const route = {
 			path: ':validatorId',
 			element: <Home />,
 			handle: {
-				sidebar: <HomeSidebar />,
 				validatorPanel: <ValidatorPanel />,
 			},
 		},

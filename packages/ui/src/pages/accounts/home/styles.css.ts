@@ -119,21 +119,23 @@ export const assetsHomeList = style([
 	{ listStyle: 'none' },
 ])
 
+export const assetsHomeListLi = style([
+	sprinkles({
+		position: 'relative',
+	}),
+	{},
+])
+
 export const assetsHomeListLink = style([
 	sprinkles({
 		position: 'relative',
 		paddingY: 'xlarge',
 		paddingX: 'large',
 		display: 'flex',
+		flexDirection: 'column',
 		textDecoration: 'none',
 		transition: 'fast',
 		borderRadius: 'large',
-		background: {
-			hover: 'bai_pearl200',
-		},
-		boxShadow: {
-			hover: 'shadowActivePanel',
-		},
 	}),
 	{
 		':after': {
@@ -147,12 +149,29 @@ export const assetsHomeListLink = style([
 			height: '1px',
 			transition: vars.transition.fast,
 		},
+	},
+])
+
+export const assetsHomeListLinkHover = style([
+	sprinkles({
+		background: 'bai_pearl200',
+		boxShadow: 'shadowActivePanel',
+	}),
+	{
 		selectors: {
-			[`.${darkMode} &:hover`]: {
+			[`.${darkMode} &`]: {
 				background: vars.color.wax500,
 			},
 		},
 	},
+])
+
+export const assetsHomeListTitleWrapper = style([
+	sprinkles({
+		display: 'flex',
+		gap: 'xsmall',
+	}),
+	{},
 ])
 
 globalStyle(`${assetsHomeList} ${assetsHomeListLink}:hover::after`, {
