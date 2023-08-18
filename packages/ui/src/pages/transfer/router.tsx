@@ -7,6 +7,7 @@ const Fungibles = lazy(() => import('./fungibles'))
 const NonFungibles = lazy(() => import('./non-fungibles'))
 const Raw = lazy(() => import('./raw'))
 const Deploy = lazy(() => import('./deploy'))
+const Demo = lazy(() => import('./demo'))
 
 const route = {
 	path: 'transfer',
@@ -31,6 +32,10 @@ const route = {
 		{
 			path: 'deploy',
 			element: <Deploy />,
+		},
+		{
+			path: 'demo',
+			element: <Demo />,
 		},
 	],
 }

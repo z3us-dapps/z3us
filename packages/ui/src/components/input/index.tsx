@@ -10,18 +10,16 @@ export type TStyleVariant = 'primary' | 'secondary' | 'primary-error' | 'seconda
 
 export type FormElement = HTMLInputElement | HTMLTextAreaElement
 
-export interface IInputRequiredProps {
-	value: string | number | undefined
-}
-
 export interface IInputOptionalProps {
+	value?: string | number
 	className?: ClassValue
 	onClick?: () => void
 	disabled?: boolean
 	rounded?: boolean
 	sizeVariant?: TSizeVariant
 	styleVariant?: TStyleVariant
-	type?: 'text' | 'email'
+	name?: string
+	type?: 'text' | 'email' | 'number'
 	elementType?: 'input' | 'textarea'
 	placeholder?: string
 	leftIcon?: React.ReactNode
@@ -33,7 +31,7 @@ export interface IInputOptionalProps {
 	onBlur?: (e: React.FocusEvent<FormElement>) => void
 }
 
-export interface IInputProps extends IInputRequiredProps, IInputOptionalProps {}
+export interface IInputProps extends IInputOptionalProps {}
 
 export const inputDefaultProps: IInputOptionalProps = {
 	className: undefined,
@@ -44,6 +42,8 @@ export const inputDefaultProps: IInputOptionalProps = {
 	styleVariant: 'primary',
 	elementType: 'input',
 	type: 'text',
+	name: undefined,
+	value: undefined,
 	leftIcon: undefined,
 	leftIconClassName: undefined,
 	rightIcon: undefined,
@@ -65,6 +65,7 @@ export const Input = forwardRef<FormElement, IInputProps>((props, ref: React.Ref
 		elementType,
 		type,
 		value,
+		name,
 		placeholder,
 		leftIcon,
 		leftIconClassName,
@@ -100,6 +101,7 @@ export const Input = forwardRef<FormElement, IInputProps>((props, ref: React.Ref
 					}),
 					elementType === 'textarea' && styles.textAreaDefault,
 				)}
+				name={name}
 				value={value}
 				disabled={disabled}
 				onClick={onClick}

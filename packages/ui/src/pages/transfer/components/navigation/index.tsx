@@ -27,6 +27,10 @@ const Navigation: React.FC = () => (
 						title: t('transfer.navigation.deployTitle'),
 						href: '/transfer/deploy',
 					},
+					{
+						title: 'Demo',
+						href: '/transfer/demo',
+					},
 				].map(({ title, href }) => (
 					<Box key={href} component="li">
 						<NavLink to={href} underline="never">

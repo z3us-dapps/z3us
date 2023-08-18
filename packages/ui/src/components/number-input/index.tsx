@@ -45,7 +45,7 @@ interface INumberInputOptionalProps extends Omit<IInputOptionalProps, 'onChange'
 	min?: number
 }
 
-export interface INumbberInputProps extends INumberInputRequiredProps, INumberInputOptionalProps {}
+export interface INumberInputProps extends INumberInputRequiredProps, INumberInputOptionalProps {}
 
 const defaultProps: INumberInputOptionalProps = {
 	onChange: value => value,
@@ -78,7 +78,7 @@ const defaultProps: INumberInputOptionalProps = {
 	max: Infinity,
 }
 
-export const NumberInput = forwardRef<HTMLInputElement, INumbberInputProps>(
+export const NumberInput = forwardRef<HTMLInputElement, INumberInputProps>(
 	(props, ref: React.Ref<HTMLInputElement | null>) => {
 		const {
 			value,
