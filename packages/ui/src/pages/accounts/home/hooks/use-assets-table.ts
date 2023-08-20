@@ -108,7 +108,8 @@ export const useAssetsTable = (): TAssetsTable => {
 	// TODO: should probably pass just ID? not row??
 	const handleRowSelected = (row: any) => {
 		const { original } = row
-		navigate('-/fungibles/1')
+		const asset = `xrd___4985485`
+		navigate(`${location.pathname}/${asset}`)
 	}
 
 	const handleEndReached = () => {

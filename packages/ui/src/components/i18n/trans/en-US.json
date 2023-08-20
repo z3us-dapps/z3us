@@ -11,6 +11,7 @@
 		"menu": "menu",
 		"previous": "previous",
 		"activity": "activity",
+		"accounts": "accounts",
 		"fungibles": "fungibles",
 		"nonFungibles": "non-fungibles",
 		"assets": "assets",
@@ -65,10 +66,8 @@
 			"accountBalanceTitle": "account balance",
 			"accountHideBalance": "hide balance",
 			"accountShowBalance": "show balance",
-			"fungiblesTitle": "fungibles",
-			"fungiblesSubTitle": "Tokens",
-			"nonFungiblesTitle": "non fungibles",
-			"nonFungiblesSubTitle": "nfts"
+			"fungiblesTitle": "Tokens",
+			"nonFungiblesTitle": "Nfts"
 		},
 		"assetsList": {
 			"overview": "overview",

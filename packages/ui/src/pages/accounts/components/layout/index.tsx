@@ -10,6 +10,7 @@ import { ScrollPanel } from 'ui/src/components/scroll-panel'
 import * as panelViewStyles from 'ui/src/components/styles/panel-view-styles.css'
 import { useIsMobileWidth } from 'ui/src/hooks/use-is-mobile'
 
+import { AssetsBreadcrumb } from '../assets-breadcrumb'
 import { MobileAccountBackground } from '../mobile-account-background'
 
 const ScrollContent: React.FC = () => {
@@ -34,6 +35,7 @@ const ScrollContent: React.FC = () => {
 				<Box className={panelViewStyles.panelViewWrapper}>
 					<Box className={panelViewStyles.panelViewLeftWrapper}>
 						<ScrollPanel showTopScrollShadow={false} scrollParent={isMobile ? scrollableNode : undefined}>
+							<AssetsBreadcrumb />
 							<Suspense key={location.pathname} fallback={<Loader />}>
 								{outlet}
 							</Suspense>

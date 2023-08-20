@@ -12,6 +12,7 @@
 		"previous": "poprzedni",
 		"tokens": "żetony",
 		"activity": "działalność",
+		"accounts": "konta",
 		"fungibles": "przeznaczony na stracenie",
 		"nonFungibles": "niezamienne",
 		"assets": "aktywa",
@@ -62,13 +63,11 @@
 			"settings": "ustawienia"
 		},
 		"home": {
-			"accountBalanceTitle": "stan konta",
-			"accountHideBalance": "ukryj saldo",
-			"accountShowBalance": "pokaż saldo",
-			"fungiblesTitle": "środki wymienne",
-			"fungiblesSubTitle": "Tokeny",
-			"nonFungiblesTitle": "środki niewymienne",
-			"nonFungiblesSubTitle": "NFT-y"
+			"accountBalanceTitle": "account balance",
+			"accountHideBalance": "hide balance",
+			"accountShowBalance": "show balance",
+			"fungiblesTitle": "Tokens",
+			"nonFungiblesTitle": "Nfts"
 		},
 		"assetsList": {
 			"overview": "przegląd",

@@ -1,5 +1,6 @@
 import clsx from 'clsx'
 import { useScroll } from 'packages/ui/src/components/scroll-area-radix/use-scroll'
+import { useResourceType } from 'packages/ui/src/pages/accounts/hooks/use-resource-type'
 import React, { useRef } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useLocation, useParams } from 'react-router-dom'
@@ -12,7 +13,6 @@ import { ToolTip } from 'ui/src/components/tool-tip'
 import Translation from 'ui/src/components/translation'
 import { Text } from 'ui/src/components/typography'
 
-import { useResourceType } from '../../../hooks/use-resource-type'
 import * as styles from './styles.css'
 
 export const ActivitySearch: React.FC = () => {

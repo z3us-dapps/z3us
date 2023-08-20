@@ -1,3 +1,4 @@
+import { useScroll } from 'packages/ui/src/components/scroll-area-radix/use-scroll'
 import React, { useEffect, useState } from 'react'
 import useMeasure from 'react-use-measure'
 
@@ -5,12 +6,8 @@ import { Box } from 'ui/src/components/box'
 
 import * as styles from './mobile-scrolling-background.css'
 
-interface IMobileScrollingButtonsProps {
-	scrollableNode: HTMLElement
-}
-
-export const MobileScrollingBackground: React.FC<IMobileScrollingButtonsProps> = props => {
-	const { scrollableNode } = props
+export const MobileScrollingBackground: React.FC = () => {
+	const { scrollableNode } = useScroll()
 	const [measureRef, { top: triggerTop }] = useMeasure()
 	const [sheetHeight, setSheetHeight] = useState<number | undefined>(undefined)
 	const scrollWrapperHeight = scrollableNode?.clientHeight
