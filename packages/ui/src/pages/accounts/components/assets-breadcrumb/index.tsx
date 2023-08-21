@@ -13,7 +13,6 @@ import * as styles from './styles.css'
 export const AssetsBreadcrumb: React.FC = () => {
 	const location = useLocation()
 	const pathSegments = location.pathname.split('/').filter(segment => segment)
-	const isHomeAccounts = pathSegments[1] === '-'
 	const accounts = useWalletAccounts()
 
 	const lookupSegmentName = (segment: string) => {
@@ -23,12 +22,8 @@ export const AssetsBreadcrumb: React.FC = () => {
 			return accountName
 		}
 
-		if (segment === 'fungibles') {
-			return 'Tokens'
-		}
-
-		if (segment === 'non-fungibles') {
-			return 'Nfts'
+		if (segment === '-') {
+			return 'All'
 		}
 
 		return segment
@@ -54,7 +49,5 @@ export const AssetsBreadcrumb: React.FC = () => {
 			)
 		})
 
-	return (
-		<Box className={styles.accountBreadCrumbWrapper}>{isHomeAccounts ? <Text>Accounts</Text> : renderBreadCrumb()}</Box>
-	)
+	return <Box className={styles.accountBreadCrumbWrapper}>{renderBreadCrumb()}</Box>
 }

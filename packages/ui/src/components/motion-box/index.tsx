@@ -11,7 +11,8 @@ const MotionBox: React.FC<PropsWithChildren> = ({ children }) => (
 		animate={{ opacity: 1, position: 'relative' }}
 		exit={{ opacity: 0, position: 'absolute' }}
 		transition={{
-			duration: 0.3,
+			duration: 0.0,
+			// duration: 0.3,
 			ease: 'easeOut',
 		}}
 	>

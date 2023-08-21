@@ -8,6 +8,7 @@ import React, { useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
 
 import { Box } from 'ui/src/components/box'
+import { CopyAddressButton } from 'ui/src/components/copy-address-button'
 import Translation from 'ui/src/components/translation'
 import { Text } from 'ui/src/components/typography'
 import { useWalletAccounts } from 'ui/src/hooks/use-wallet-account'
@@ -28,6 +29,7 @@ const Account: React.FC = () => {
 	const { accountId = '-' } = useParams()
 	const accounts = useWalletAccounts()
 	const accountName = accounts?.[accountId]?.name
+	const isAllAccount = accountId === '-'
 
 	const {
 		balances: fungibleBalances,
@@ -56,9 +58,18 @@ const Account: React.FC = () => {
 					) : (
 						<>
 							<Box className={styles.assetsHomeTitleWrapper}>
-								<Text capitalizeFirstLetter color="strong" weight="strong" size="medium">
-									{accountName} <Translation text="global.assets" />
-								</Text>
+								{isAllAccount ? (
+									<Text capitalizeFirstLetter color="strong" weight="strong" size="medium">
+										<Translation capitalizeFirstLetter text="accounts.home.allAssets" />{' '}
+									</Text>
+								) : (
+									<>
+										<Text capitalizeFirstLetter color="strong" weight="strong" size="medium">
+											{accountName}
+										</Text>
+										<CopyAddressButton address={accountId} />
+									</>
+								)}
 							</Box>
 							<Box component="ul" className={styles.assetsHomeList}>
 								<Box component="li" className={styles.assetsHomeListLi}>

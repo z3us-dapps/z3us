@@ -67,7 +67,8 @@
 			"accountHideBalance": "hide balance",
 			"accountShowBalance": "show balance",
 			"fungiblesTitle": "Tokens",
-			"nonFungiblesTitle": "Nfts"
+			"nonFungiblesTitle": "Nfts",
+			"allAssets": "All assets"
 		},
 		"assetsList": {
 			"overview": "overview",

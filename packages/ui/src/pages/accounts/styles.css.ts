@@ -102,6 +102,9 @@ export const assetsHomeWrapper = style([
 
 export const assetsHomeTitleWrapper = style([
 	sprinkles({
+		display: 'flex',
+		alignItems: 'center',
+		gap: 'small',
 		paddingX: {
 			tablet: 'xlarge',
 		},
