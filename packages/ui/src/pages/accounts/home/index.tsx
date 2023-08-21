@@ -61,6 +61,11 @@ const Home: React.FC = () => {
 								</Text>
 							</Box>
 							<Box className={styles.assetsHomeAssetTileWrapper}>
+								<Link to="/accounts?tx=7878" className={styles.assetsHomeAssetTile}>
+									<Text capitalizeFirstLetter color="strong" weight="strong" size="medium">
+										TX demo
+									</Text>
+								</Link>
 								<Link to="/accounts/-/tokens" className={styles.assetsHomeAssetTile}>
 									<Text capitalizeFirstLetter color="strong" weight="strong" size="medium">
 										All tokens

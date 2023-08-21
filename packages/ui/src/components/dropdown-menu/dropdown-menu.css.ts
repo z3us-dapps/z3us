@@ -4,8 +4,6 @@ import type { Sprinkles } from '../system/sprinkles.css'
 import { sprinkles } from '../system/sprinkles.css'
 import { responsiveStyle } from '../system/theme-utils'
 
-// import { vars } from 'ui/src/components/system/theme.css'
-
 export const fadeIn = keyframes({
 	'0%': { opacity: '0' },
 	'100%': { opacity: '1' },
@@ -52,7 +50,7 @@ export const sharedPopoverBgStyles = {
 	animationTimingFunction: 'cubic-bezier(0.16, 1, 0.3, 1)',
 	transformOrigin: 'var(--radix-dropdown-menu-content-transform-origin)',
 	willChange: 'transform, opacity',
-	animationDuration: '150ms',
+	animationDuration: '300ms',
 }
 
 export const sharedPopoverBgSelectorStyles = {

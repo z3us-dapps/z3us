@@ -42,7 +42,19 @@
 		"continue": "continue",
 		"telegram": "telegram",
 		"twitter": "twitter",
-		"github": "github"
+		"github": "github",
+		"fee": "fee"
+	},
+	"transaction": {
+		"transactionDetails": "transaction details",
+		"transactionStatus": "status",
+		"stateVersion": "state version",
+		"epoch": "epoch",
+		"round": "round",
+		"date": "date",
+		"affectedGlobalEntities": "affected global entities",
+		"message": "message",
+		"transactionManifest": "transaction manifest"
 	},
 	"walletDropdown": {
 		"contentScriptTitle": "connected dapp",

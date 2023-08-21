@@ -8,6 +8,7 @@ import { Toasts } from 'ui/src/components/toasts'
 
 import Loader from '../loader'
 import * as styles from './styles.css'
+import { Transaction } from './transaction'
 
 const Layout: React.FC = () => {
 	const location = useLocation()
@@ -26,6 +27,7 @@ const Layout: React.FC = () => {
 				</AnimatePresence>
 			</Box>
 			<MobileFooterNavigation />
+			<Transaction />
 			<Toasts />
 		</Box>
 	)

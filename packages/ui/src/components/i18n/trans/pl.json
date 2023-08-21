@@ -42,17 +42,19 @@
 		"continue": "kontynuować",
 		"telegram": "telegram",
 		"twitter": "twitter",
-		"github": "github"
+		"github": "github",
+		"fee": "opłata"
 	},
-	"walletDropdown": {
-		"contentScriptTitle": "Połączony dapp",
-		"walletTitle": "Portfel",
-		"accountTitle": "konto",
-		"personaTitle": "osoba",
-		"settingsTitle": "ustawienia",
-		"lockTitle": "zamek",
-		"openInBrowserTitle": "Otwórz w przeglądarce",
-		"theme": "temat"
+	"transaction": {
+		"transactionDetails": "szczegóły transakcji",
+		"transactionStatus": "status transakcji",
+		"stateVersion": "wersja stanu",
+		"epoch": "epoka",
+		"round": "runda",
+		"date": "data",
+		"affectedGlobalEntities": "dotknięte globalne jednostki",
+		"message": "wiadomość",
+		"transactionManifest": "manifest transakcji"
 	},
 	"accounts": {
 		"navigation": {
