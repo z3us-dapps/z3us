@@ -1,27 +1,54 @@
+import set from 'lodash/set'
 import type { FormEvent, PropsWithChildren } from 'react'
-import React from 'react'
+import React, { useMemo, useState } from 'react'
 
 import { Box } from 'ui/src/components/box'
 import { Button } from 'ui/src/components/button'
+import { LoadingBarsIcon } from 'ui/src/components/icons'
 import Translation from 'ui/src/components/translation'
 
-import { LoadingBarsIcon } from '../icons'
+import { FormContext } from './context'
+import { type FormData, type FormErrors } from './types'
 
-interface IProps {
-	onSubmit: (event: React.FormEvent) => void
+type IProps<P = {}> = {
+	initialValues: P
+	onSubmit: (form: P) => Promise<void> | void
 }
 
-export const Form: React.FC<PropsWithChildren<IProps>> = ({ children, onSubmit, ...rest }) => {
-	const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
-		onSubmit(e)
+export const Form: React.FC<PropsWithChildren<IProps>> = ({ children, initialValues, onSubmit, ...rest }) => {
+	const [isLoading, setIsLoading] = useState<boolean>(false)
+	const [form, setForm] = useState<FormData<IProps['initialValues']>>(initialValues)
+	const [errors, setErrors] = useState<FormErrors>({})
+
+	const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
+		e.preventDefault()
+
+		setIsLoading(true)
+		await onSubmit(form)
+		setIsLoading(false)
 	}
 
-	const isLoading = false // @TODO
+	const handleFormChange = (name: string, value: any, error: any) => {
+		setForm(set(form, name, value))
+		if (error)
+			setErrors({
+				...errors,
+				[name]: error,
+			})
+	}
+
+	const ctx = useMemo(
+		() => ({
+			form,
+			errors,
+			onFormChange: handleFormChange,
+		}),
+		[form],
+	)
 
 	return (
 		<form {...rest} onSubmit={handleSubmit}>
-			{children}
-
+			<FormContext.Provider value={ctx}>{children}</FormContext.Provider>
 			<Box display="flex" paddingTop="xlarge" width="full">
 				<Button
 					styleVariant="primary"

@@ -19,7 +19,7 @@ export interface IInputOptionalProps {
 	sizeVariant?: TSizeVariant
 	styleVariant?: TStyleVariant
 	name?: string
-	type?: 'text' | 'email' | 'number'
+	type?: HTMLInputElement['type'] | HTMLTextAreaElement['type']
 	elementType?: 'input' | 'textarea'
 	placeholder?: string
 	leftIcon?: React.ReactNode

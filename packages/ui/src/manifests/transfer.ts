@@ -1,23 +1,23 @@
 import { ManifestAstValue, type ManifestBuilder } from '@radixdlt/radix-engine-toolkit'
 
 interface SendFungibleTokens {
+	from: string
+	to: string
 	tokens: Array<{
 		resource: string
 		amount: number
 	}>
-	from: string
-	to: string
 }
 
 export const sendFungibleTokens = (
 	manifest: ManifestBuilder,
-	fungibles: Array<SendFungibleTokens>,
+	transfers: Array<SendFungibleTokens>,
 ): ManifestBuilder => {
 	// group amounts by token and then by from account address to reduce number of method calls on manifest
-	const amountsByTokenByAccount = fungibles.reduce(
-		(container, fungible) => ({
+	const amountsByTokenByAccount = transfers.reduce(
+		(container, transfer) => ({
 			...container,
-			[fungible.from]: fungible.tokens.reduce(
+			[transfer.from]: transfer.tokens.reduce(
 				(tokens, token) => ({ ...tokens, [token.resource]: token.amount + tokens[token.resource] }),
 				{},
 			),
@@ -40,7 +40,7 @@ export const sendFungibleTokens = (
 	)
 
 	// deposit from worktop to destination account correct amounts
-	return fungibles.reduce(
+	return transfers.reduce(
 		(group, { tokens, to }) =>
 			tokens.reduce(
 				(amounts, { resource, amount }) =>
@@ -56,21 +56,21 @@ export const sendFungibleTokens = (
 interface SendNftTokens {
 	from: string
 	to: string
-	tokens: Array<{
+	nfts: Array<{
 		resource: string
 		ids: string[]
 	}>
 }
 
-export const sendNftTokens = (manifest: ManifestBuilder, nfts: Array<SendNftTokens>): ManifestBuilder => {
+export const sendNftTokens = (manifest: ManifestBuilder, transfers: Array<SendNftTokens>): ManifestBuilder => {
 	// group ids by token and then by from account address to reduce number of method calls on manifest
-	const idsByTokenByAccount = nfts.reduce(
+	const idsByNftByAccount = transfers.reduce(
 		(container, nft) => ({
 			...container,
-			[nft.from]: nft.tokens.reduce(
-				(tokens, token) => ({
-					...tokens,
-					[token.resource]: token.ids.reduce((ids, id) => ({ ...ids, [id]: null }), tokens[token.resource] || {}),
+			[nft.from]: nft.nfts.reduce(
+				(nfts, token) => ({
+					...nfts,
+					[token.resource]: token.ids.reduce((ids, id) => ({ ...ids, [id]: null }), nfts[token.resource] || {}),
 				}),
 				{},
 			),
@@ -79,9 +79,9 @@ export const sendNftTokens = (manifest: ManifestBuilder, nfts: Array<SendNftToke
 	)
 
 	// withdraw aggregated nfts by ids
-	manifest = Object.entries(idsByTokenByAccount).reduce(
-		(group, [from, tokens]) =>
-			Object.entries(tokens).reduce(
+	manifest = Object.entries(idsByNftByAccount).reduce(
+		(group, [from, nft]) =>
+			Object.entries(nft).reduce(
 				(ids, [resource, idMap]) =>
 					ids.callMethod(from, 'withdraw', [
 						new ManifestAstValue.Address(resource),
@@ -96,9 +96,9 @@ export const sendNftTokens = (manifest: ManifestBuilder, nfts: Array<SendNftToke
 	)
 
 	// deposit from worktop to destination account correct nfts by ids
-	return nfts.reduce(
-		(group, { tokens, to }) =>
-			tokens.reduce(
+	return transfers.reduce(
+		(group, { nfts, to }) =>
+			nfts.reduce(
 				(amounts, { resource, ids }) =>
 					amounts.takeNonFungiblesFromWorktop(
 						resource,

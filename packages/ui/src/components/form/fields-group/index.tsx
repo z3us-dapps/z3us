@@ -1,5 +1,5 @@
 import type { PropsWithChildren } from 'react'
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 
 import { Box } from 'ui/src/components/box'
 import { Button } from 'ui/src/components/button'
@@ -27,19 +27,15 @@ export const FieldsGroup: React.FC<PropsWithChildren<IProps>> = ({ parentName, n
 		setKeys([...keys, generateId()])
 	}
 
-	useEffect(() => {
-		handleAdd()
-	}, [])
-
 	return (
 		<Box>
 			<Box width="full" paddingTop="large">
-				{keys.map(key => (
+				{keys.map((key, idx) => (
 					<Box key={key}>
 						{React.Children.map(children, child => {
 							if (React.isValidElement(child)) {
 								return React.cloneElement(child, {
-									parentName: `${parentName ? `${parentName}.` : ``}${name}[${key}]`,
+									parentName: `${parentName ? `${parentName}.` : ``}${name}[${idx}]`,
 								} as Partial<IChildProps>)
 							}
 							return child
