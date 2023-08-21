@@ -4,7 +4,7 @@ import React from 'react'
 import { Box } from 'ui/src/components/box'
 import { Text } from 'ui/src/components/typography'
 
-import * as styles from './account-transaction.css'
+import * as styles from './styles.css'
 
 interface IAccountsTransactionInfoProps {
 	leftTitle: React.ReactNode
