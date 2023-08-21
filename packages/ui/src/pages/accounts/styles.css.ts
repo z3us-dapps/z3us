@@ -162,6 +162,7 @@ export const assetsHomeListLink = style([
 		textDecoration: 'none',
 		transition: 'fast',
 		borderRadius: 'large',
+		width: 'full',
 	}),
 	{
 		':after': {

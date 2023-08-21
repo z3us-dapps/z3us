@@ -7,9 +7,10 @@ import { useFungibleResourceBalances, useNonFungibleResourceBalances } from 'pac
 import { useNoneSharedStore } from 'packages/ui/src/hooks/use-store'
 import { formatBigNumber } from 'packages/ui/src/utils/formatters'
 import React, { useState } from 'react'
-import { Link, useParams } from 'react-router-dom'
+import { useParams } from 'react-router-dom'
 
 import { Box } from 'ui/src/components/box'
+import { Link } from 'ui/src/components/router-link'
 import Translation from 'ui/src/components/translation'
 import { Text } from 'ui/src/components/typography'
 import { useWalletAccounts } from 'ui/src/hooks/use-wallet-account'
@@ -53,23 +54,23 @@ const Home: React.FC = () => {
 					{isLoading ? (
 						<Loader />
 					) : (
-						<>
+						<Box>
 							<Box className={styles.assetsHomeTitleWrapper}>
 								<Text capitalizeFirstLetter color="strong" weight="strong" size="medium">
-									Top performers
+									All
 								</Text>
 							</Box>
 							<Box className={styles.assetsHomeAssetTileWrapper}>
-								<Box className={styles.assetsHomeAssetTile}>
+								<Link to="/accounts/-/tokens" className={styles.assetsHomeAssetTile}>
 									<Text capitalizeFirstLetter color="strong" weight="strong" size="medium">
-										Tokens top gainers
+										All tokens
 									</Text>
-								</Box>
-								<Box className={styles.assetsHomeAssetTile}>
+								</Link>
+								<Link to="/accounts/-/nfts" className={styles.assetsHomeAssetTile}>
 									<Text capitalizeFirstLetter color="strong" weight="strong" size="medium">
-										nfts top gainers
+										All nfts
 									</Text>
-								</Box>
+								</Link>
 							</Box>
 							<Box className={styles.assetsHomeTitleWrapper}>
 								<Text capitalizeFirstLetter color="strong" weight="strong" size="medium">
@@ -87,6 +88,7 @@ const Home: React.FC = () => {
 											)}
 											onMouseOver={() => setHoveredLink(account.address)}
 											onMouseLeave={() => setHoveredLink(null)}
+											underline="never"
 										>
 											<Box className={styles.assetsHomeListTitleWrapper}>
 												<ResourceImageIcon size="large" address={account.address} />
@@ -113,7 +115,7 @@ const Home: React.FC = () => {
 									</Box>
 								))}
 							</Box>
-						</>
+						</Box>
 					)}
 				</Box>
 			</Box>

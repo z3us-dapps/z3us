@@ -18,8 +18,8 @@ import { MobileScrollingButtons } from '../components/mobile-scrolling-buttons'
 import { OverlayAssetIcons } from '../components/overlay-asset-icons'
 import * as styles from '../styles.css'
 
-const FUNGIBLES_PATH = 'fungibles'
-const NON_FUNGIBLES_PATH = 'non-fungibles'
+const TOKENS_PATH = 'tokens'
+const NFTS_PATH = 'nfts'
 
 const Account: React.FC = () => {
 	const { currency } = useNoneSharedStore(state => ({
@@ -63,12 +63,12 @@ const Account: React.FC = () => {
 							<Box component="ul" className={styles.assetsHomeList}>
 								<Box component="li" className={styles.assetsHomeListLi}>
 									<Link
-										to={`/accounts/${accountId}/fungibles`}
+										to={`/accounts/${accountId}/${TOKENS_PATH}`}
 										className={clsx(
 											styles.assetsHomeListLink,
-											hoveredLink === FUNGIBLES_PATH && styles.assetsHomeListLinkHover,
+											hoveredLink === TOKENS_PATH && styles.assetsHomeListLinkHover,
 										)}
-										onMouseOver={() => setHoveredLink(FUNGIBLES_PATH)}
+										onMouseOver={() => setHoveredLink(TOKENS_PATH)}
 										onMouseLeave={() => setHoveredLink(null)}
 									>
 										<Box className={styles.assetsHomeListTitleWrapper}>
@@ -93,17 +93,17 @@ const Account: React.FC = () => {
 									<OverlayAssetIcons
 										balances={fungibleBalances}
 										accountId={accountId}
-										onButtonMouseOver={() => setHoveredLink(FUNGIBLES_PATH)}
+										onButtonMouseOver={() => setHoveredLink(TOKENS_PATH)}
 									/>
 								</Box>
 								<Box component="li" className={styles.assetsHomeListLi}>
 									<Link
-										to={`/accounts/${accountId}/non-fungibles`}
+										to={`/accounts/${accountId}/${NFTS_PATH}`}
 										className={clsx(
 											styles.assetsHomeListLink,
-											hoveredLink === NON_FUNGIBLES_PATH && styles.assetsHomeListLinkHover,
+											hoveredLink === NFTS_PATH && styles.assetsHomeListLinkHover,
 										)}
-										onMouseOver={() => setHoveredLink(NON_FUNGIBLES_PATH)}
+										onMouseOver={() => setHoveredLink(NFTS_PATH)}
 										onMouseLeave={() => setHoveredLink(null)}
 									>
 										<Box className={styles.assetsHomeListTitleWrapper}>
@@ -128,7 +128,7 @@ const Account: React.FC = () => {
 									<OverlayAssetIcons
 										balances={nonFungibleBalances}
 										accountId={accountId}
-										onButtonMouseOver={() => setHoveredLink(FUNGIBLES_PATH)}
+										onButtonMouseOver={() => setHoveredLink(TOKENS_PATH)}
 									/>
 								</Box>
 							</Box>

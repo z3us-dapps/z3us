@@ -7,9 +7,8 @@ const Home = lazy(() => import('./home'))
 // const HomeSidebar = lazy(() => import('./home/sidebar'))
 const Account = lazy(() => import('./account'))
 // const AccountSidebar = lazy(() => import('./account/sidebar'))
-const Fungibles = lazy(() => import('./fungibles'))
-const NonFungibles = lazy(() => import('./non-fungibles'))
-// const Resource = lazy(() => import('./resource'))
+const Tokens = lazy(() => import('./tokens'))
+const Nfts = lazy(() => import('./nfts'))
 
 const route = {
 	path: 'accounts',
@@ -36,29 +35,29 @@ const route = {
 			},
 		},
 		{
-			path: ':accountId/fungibles',
-			element: <Fungibles />,
+			path: ':accountId/tokens',
+			element: <Tokens />,
 			handle: {
 				sidebar: <p>account tokens sidebar</p>,
 			},
 		},
 		{
-			path: ':accountId/fungibles/:resourceId',
-			element: <Fungibles />,
+			path: ':accountId/tokens/:resourceId',
+			element: <Tokens />,
 			handle: {
 				sidebar: <p>account resource tokens sidebar</p>,
 			},
 		},
 		{
-			path: ':accountId/non-fungibles',
-			element: <NonFungibles />,
+			path: ':accountId/nfts',
+			element: <Nfts />,
 			handle: {
 				sidebar: <p>nfts activities</p>,
 			},
 		},
 		{
-			path: ':accountId/non-fungibles/:resourceId',
-			element: <NonFungibles />,
+			path: ':accountId/nfts/:resourceId',
+			element: <Nfts />,
 			handle: {
 				sidebar: <p>account resource nfts sidebar</p>,
 			},
