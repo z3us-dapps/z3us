@@ -4,10 +4,9 @@ import { sprinkles } from 'ui/src/components/system/sprinkles.css'
 
 export const radixConnectButtonWrapper = style([
 	sprinkles({
-		display: 'block',
+		display: 'flex',
+		alignItems: 'center',
 		position: 'relative',
 	}),
-	{
-		width: '138px',
-	},
+	{},
 ])

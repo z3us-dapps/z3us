@@ -176,6 +176,29 @@ export const scrollAreaShowBottomShadowsWrapper = style([
 	},
 ])
 
+export const scrolledButtonWrapper = style([
+	sprinkles({
+		position: 'absolute',
+		transition: 'fast',
+		zIndex: 2,
+		bottom: 0,
+		right: 0,
+		marginRight: 'medium',
+		marginBottom: 'medium',
+		opacity: 0,
+		pointerEvents: 'none',
+	}),
+	{},
+])
+
+export const scrolledButtonWrapperVisible = style([
+	sprinkles({
+		opacity: 1,
+		pointerEvents: 'auto',
+	}),
+	{},
+])
+
 globalStyle(`.${darkMode} ${scrollAreaShowBottomShadowsWrapper}::before`, {
 	background: 'linear-gradient(180deg, rgba(0,0,0,0.2) 0%, rgba(0,0,0,0.1) 54%, rgba(0,0,0,0) 100%)',
 })

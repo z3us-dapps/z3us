@@ -10,7 +10,9 @@ export const assetsHeaderWrapper = style([
 		position: 'sticky',
 		background: 'backgroundSecondary',
 		paddingX: 'xlarge',
-		paddingTop: 'xlarge',
+		paddingBottom: {
+			tablet: 'large',
+		},
 		display: {
 			mobile: 'none',
 			tablet: 'flex',
@@ -18,36 +20,6 @@ export const assetsHeaderWrapper = style([
 		zIndex: 1,
 	}),
 	{
-		top: '0px',
-		height: '138px',
-	},
-])
-
-export const assetsHeaderUpWrapper = style([
-	sprinkles({
-		position: 'relative',
-		pointerEvents: 'none',
-		transition: 'fast',
-		opacity: 0,
-	}),
-	{},
-])
-
-export const assetsHeaderUpVisibleWrapper = style([
-	sprinkles({
-		pointerEvents: 'auto',
-		opacity: 1,
-	}),
-	{},
-])
-
-export const accountBreadCrumbWrapper = style([
-	sprinkles({
-		display: 'flex',
-		flexGrow: 0,
-		alignItems: 'self-start',
-	}),
-	{
-		height: '40px',
+		top: '68px',
 	},
 ])

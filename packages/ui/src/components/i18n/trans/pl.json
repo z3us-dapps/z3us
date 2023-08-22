@@ -12,6 +12,7 @@
 		"previous": "poprzedni",
 		"tokens": "żetony",
 		"activity": "działalność",
+		"accounts": "konta",
 		"fungibles": "przeznaczony na stracenie",
 		"nonFungibles": "niezamienne",
 		"assets": "aktywa",
@@ -41,17 +42,19 @@
 		"continue": "kontynuować",
 		"telegram": "telegram",
 		"twitter": "twitter",
-		"github": "github"
+		"github": "github",
+		"fee": "opłata"
 	},
-	"walletDropdown": {
-		"contentScriptTitle": "Połączony dapp",
-		"walletTitle": "Portfel",
-		"accountTitle": "konto",
-		"personaTitle": "osoba",
-		"settingsTitle": "ustawienia",
-		"lockTitle": "zamek",
-		"openInBrowserTitle": "Otwórz w przeglądarce",
-		"theme": "temat"
+	"transaction": {
+		"transactionDetails": "szczegóły transakcji",
+		"transactionStatus": "status transakcji",
+		"stateVersion": "wersja stanu",
+		"epoch": "epoka",
+		"round": "runda",
+		"date": "data",
+		"affectedGlobalEntities": "dotknięte globalne jednostki",
+		"message": "wiadomość",
+		"transactionManifest": "manifest transakcji"
 	},
 	"accounts": {
 		"navigation": {
@@ -62,13 +65,12 @@
 			"settings": "ustawienia"
 		},
 		"home": {
-			"accountBalanceTitle": "stan konta",
-			"accountHideBalance": "ukryj saldo",
-			"accountShowBalance": "pokaż saldo",
-			"fungiblesTitle": "środki wymienne",
-			"fungiblesSubTitle": "Tokeny",
-			"nonFungiblesTitle": "środki niewymienne",
-			"nonFungiblesSubTitle": "NFT-y"
+			"accountBalanceTitle": "account balance",
+			"accountHideBalance": "hide balance",
+			"accountShowBalance": "show balance",
+			"fungiblesTitle": "Tokens",
+			"nonFungiblesTitle": "Nfts",
+			"allAssets": "All assets"
 		},
 		"assetsList": {
 			"overview": "przegląd",
