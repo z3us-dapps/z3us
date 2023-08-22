@@ -1,4 +1,5 @@
 import clsx, { type ClassValue } from 'clsx'
+import { t } from 'i18next'
 import type { ResourceBalance } from 'packages/ui/src/types/types'
 import { formatBigNumber } from 'packages/ui/src/utils/formatters'
 import React from 'react'
@@ -16,6 +17,7 @@ import { ToolTip } from 'ui/src/components/tool-tip'
 import Translation from 'ui/src/components/translation'
 import { Text } from 'ui/src/components/typography'
 import { ValidationErrorMessage } from 'ui/src/components/validation-error-message'
+import { capitalizeFirstLetter } from 'ui/src/utils/capitalize-first-letter'
 import { getZodError } from 'ui/src/utils/get-zod-error'
 
 import { CurrencySelect } from '../../../components/currency-select'
@@ -24,6 +26,7 @@ import * as styles from './styles.css'
 
 interface IProps {
 	balances: ResourceBalance[]
+	fromAccount: string
 	tokenAddress: string
 	tokenValue: number
 	sendIndex: number
@@ -34,18 +37,17 @@ interface IProps {
 	className?: ClassValue
 	styleVariant?: TStyleVariant
 	sizeVariant?: TSizeVariant
-	placeholder?: string
 }
 
 export const TokenSelector: React.FC<IProps> = props => {
 	const {
 		balances,
+		fromAccount,
 		tokenAddress,
 		tokenValue,
 		className,
 		styleVariant = 'primary',
 		sizeVariant = 'large',
-		placeholder = 'enter amount',
 		sendIndex,
 		tokenIndex,
 		validation,
@@ -113,16 +115,22 @@ export const TokenSelector: React.FC<IProps> = props => {
 							</ToolTip>
 						) : null}
 					</Box>
-					<Box display="flex" alignItems="center" gap="xsmall">
-						<Text inheritColor component="span" size="medium" truncate>
-							<Translation capitalizeFirstLetter text="transfer.group.available" />:
-						</Text>
-						<Link to="/accounts" underline="hover" className={plainButtonStyles.plainButtonHoverWrapper}>
-							<Text inheritColor component="span" size="medium" underline="always" truncate>
-								{selectedToken?.amount ? formatBigNumber(selectedToken.amount, selectedToken.symbol) : 0}
+					{selectedToken?.amount && (
+						<Box display="flex" alignItems="center" gap="xsmall">
+							<Text inheritColor component="span" size="medium" truncate>
+								<Translation capitalizeFirstLetter text="transfer.group.available" />:
 							</Text>
-						</Link>
-					</Box>
+							<Link
+								to={`/accounts/${fromAccount}`}
+								underline="hover"
+								className={plainButtonStyles.plainButtonHoverWrapper}
+							>
+								<Text inheritColor component="span" size="medium" underline="always" truncate>
+									{selectedToken?.amount ? formatBigNumber(selectedToken.amount, selectedToken.symbol) : 0}
+								</Text>
+							</Link>
+						</Box>
+					)}
 				</Box>
 			</Box>
 			<Box width="full" position="relative">
@@ -130,7 +138,7 @@ export const TokenSelector: React.FC<IProps> = props => {
 					styleVariant={getAmountInputStyleVariant() as TStyleVariant}
 					sizeVariant={sizeVariant}
 					value={tokenValue}
-					placeholder={placeholder}
+					placeholder={capitalizeFirstLetter(t('transfer.group.enterTokenAmount'))}
 					onChange={handleTokenValueUpdate}
 					precision={9}
 				/>
@@ -159,19 +167,21 @@ export const TokenSelector: React.FC<IProps> = props => {
 					balances={balances}
 				/>
 			</Box>
+			{selectedToken?.amount && (
+				<Box display="flex" paddingTop="small">
+					<Box display="flex" alignItems="center" flexGrow={1} gap="xsmall">
+						<Box display="flex" alignItems="center">
+							<Text size="small" truncate>
+								{tokenValue || 0} {selectedToken?.symbol || selectedToken?.name} =
+							</Text>
+						</Box>
+						<CurrencySelect selectedToken={selectedToken} tokenValue={tokenValue} />
+					</Box>
+				</Box>
+			)}
 			<Box display="flex" justifyContent="space-between">
 				<ValidationErrorMessage error={amountError} />
 				<ValidationErrorMessage error={tokenError} />
-			</Box>
-			<Box display="flex" paddingTop="small">
-				<Box display="flex" alignItems="center" flexGrow={1} gap="xsmall">
-					<Box display="flex" alignItems="center">
-						<Text size="medium" truncate>
-							{tokenValue || 0} {selectedToken?.symbol || selectedToken?.name} =
-						</Text>
-					</Box>
-					<CurrencySelect selectedToken={selectedToken} tokenValue={tokenValue} />
-				</Box>
 			</Box>
 		</Box>
 	)

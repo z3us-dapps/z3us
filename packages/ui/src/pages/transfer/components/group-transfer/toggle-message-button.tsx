@@ -26,7 +26,7 @@ export const ToggleMessageButton: React.FC<IProps> = props => {
 			<Box component="span" display="flex" alignItems="center" marginRight="xxsmall">
 				<WriteNoteIcon />
 			</Box>
-			<Text inheritColor component="span" size="medium" underline="always" truncate>
+			<Text inheritColor component="span" size="small" underline="always" truncate>
 				{isVisible ? (
 					<Translation capitalizeFirstLetter text="transfer.group.hideMessage" />
 				) : (

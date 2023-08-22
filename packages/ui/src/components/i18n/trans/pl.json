@@ -82,8 +82,8 @@
 	},
 	"transfer": {
 		"navigation": {
-			"tokenTitle": "Tokeny (fungible)",
-			"nftTitle": "NFT-y (non-fungible)",
+			"tokenTitle": "Tokeny",
+			"nftTitle": "NFT-y",
 			"rawTitle": "Surowe",
 			"deployTitle": "Wdroż pakiet"
 		},
@@ -100,11 +100,14 @@
 			"to": "do",
 			"available": "dostępne",
 			"amount": "ilość",
+			"knownAddress": "known address",
 			"addMessage": "dodaj wiadomość",
 			"hideMessage": "ukryj wiadomość",
 			"enterMessage": "wiadomość transakcji",
+			"enterAddressPlaceholder": "enter address",
 			"encrypt": "zaszyfruj",
 			"messagePlaceholder": "Wiadomość",
+			"enterTokenAmount": "enter token amount",
 			"addAnotherToken": "Dodaj kolejny token",
 			"addAnotherNft": "Dodaj kolejny NFT",
 			"groupTransaction": "Transakcja grupowa",

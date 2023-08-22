@@ -142,17 +142,19 @@ export const input = recipe({
 					lineHeight: '14px',
 					paddingLeft: '12px',
 					paddingRight: '12px',
-					gap: '10px',
 				},
 			],
 			large: [
 				sprinkles({
 					borderRadius: 'large',
 					paddingY: 'medium',
-					paddingX: 'large',
 				}),
 				{
 					height: '48px',
+					fontSize: '14px',
+					lineHeight: '14px',
+					paddingLeft: '12px',
+					paddingRight: '12px',
 				},
 			],
 		},

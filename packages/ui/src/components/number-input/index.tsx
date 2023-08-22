@@ -10,11 +10,8 @@ export function clamp(value: number, min: number, max: number) {
 type Formatter = (value: string | '') => string
 type Parser = (value: string | '') => string
 
-interface INumberInputRequiredProps {
+interface INumberInputProps extends Omit<IInputOptionalProps, 'onChange'> {
 	value: number | ''
-}
-
-interface INumberInputOptionalProps extends Omit<IInputOptionalProps, 'onChange'> {
 	onChange?: (value: number) => void
 
 	/** Formats the number into the input */
@@ -45,53 +42,40 @@ interface INumberInputOptionalProps extends Omit<IInputOptionalProps, 'onChange'
 	min?: number
 }
 
-export interface INumberInputProps extends INumberInputRequiredProps, INumberInputOptionalProps {}
-
-const defaultProps: INumberInputOptionalProps = {
-	onChange: value => value,
-	formatter: value => value || '',
-	parser: num => {
-		if (num === '-') {
-			return num
-		}
-
-		let tempNum = num
-
-		if (tempNum[0] === '.') {
-			tempNum = `0${num}`
-		}
-
-		const parsedNum = parseFloat(tempNum)
-
-		if (Number.isNaN(parsedNum)) {
-			return ''
-		}
-
+const DEFAULT_PARSER = num => {
+	if (num === '-') {
 		return num
-	},
-	precision: 0,
-	removeTrailingZeros: false,
-	decimalSeparator: '.',
-	thousandsSeparator: ',',
-	noClampOnBlur: false,
-	min: 0,
-	max: Infinity,
+	}
+
+	let tempNum = num
+
+	if (tempNum[0] === '.') {
+		tempNum = `0${num}`
+	}
+
+	const parsedNum = parseFloat(tempNum)
+
+	if (Number.isNaN(parsedNum)) {
+		return ''
+	}
+
+	return num
 }
 
 export const NumberInput = forwardRef<HTMLInputElement, INumberInputProps>(
 	(props, ref: React.Ref<HTMLInputElement | null>) => {
 		const {
 			value,
-			onChange,
-			precision,
-			removeTrailingZeros,
-			decimalSeparator,
-			thousandsSeparator,
-			formatter,
-			parser,
-			noClampOnBlur,
-			min,
-			max,
+			onChange = val => val,
+			formatter = val => val || '',
+			parser = DEFAULT_PARSER,
+			precision = 0,
+			removeTrailingZeros = false,
+			decimalSeparator = '.',
+			thousandsSeparator = ',',
+			noClampOnBlur = false,
+			min = 0,
+			max = Infinity,
 			...rest
 		} = props
 
@@ -175,5 +159,3 @@ export const NumberInput = forwardRef<HTMLInputElement, INumberInputProps>(
 		return <Input {...rest} ref={ref} value={inputValue} onChange={handleOnChange} />
 	},
 )
-
-NumberInput.defaultProps = defaultProps

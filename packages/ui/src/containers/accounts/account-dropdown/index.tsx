@@ -30,7 +30,7 @@ export const AccountDropdown: React.FC<IAccountDropdownProps> = props => {
 		accounts,
 		onUpdateAccount,
 		styleVariant = 'tertiary',
-		sizeVariant = 'large',
+		sizeVariant = 'xlarge',
 	} = props
 
 	const accountReadableName = knownAddresses[account]?.name || getShortAddress(account)
@@ -48,7 +48,9 @@ export const AccountDropdown: React.FC<IAccountDropdownProps> = props => {
 							<ResourceImageIcon address={id} />
 						</Box>
 						<Box flexGrow={1} minWidth={0}>
-							<Text truncate>{title}</Text>
+							<Text truncate size="small">
+								{title}
+							</Text>
 						</Box>
 					</Box>
 					<DropdownMenuItemIndicator>

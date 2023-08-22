@@ -53,19 +53,21 @@ export const CurrencySelect: React.FC<IProps> = props => {
 					)}
 				>
 					<SelectValue aria-label={selectedCurrency}>
-						<Box display="flex">
-							<Box component="span">
-								<TokenPrice
-									symbol={selectedToken?.symbol || selectedToken?.name}
-									amount={new BigNumber(tokenValue || 0)}
-									currency={currency}
-								/>
-								&nbsp;
+						<Text truncate size="small">
+							<Box display="flex">
+								<Box component="span">
+									<TokenPrice
+										symbol={selectedToken?.symbol || selectedToken?.name}
+										amount={new BigNumber(tokenValue || 0)}
+										currency={currency}
+									/>
+									&nbsp;
+								</Box>
+								<Box component="span" style={{ textTransform: 'uppercase' }}>
+									{selectedCurrency}
+								</Box>
 							</Box>
-							<Box component="span" style={{ textTransform: 'uppercase' }}>
-								{selectedCurrency}
-							</Box>
-						</Box>
+						</Text>
 					</SelectValue>
 					<SelectIcon style={{ height: '24px' }}>
 						<ChevronDown2Icon />

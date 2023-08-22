@@ -15,14 +15,14 @@ const route = {
 	children: [
 		{
 			index: true,
-			element: <Navigate to="/transfer/fungibles" />,
+			element: <Navigate to="/transfer/tokens" />,
 		},
 		{
-			path: 'fungibles',
+			path: 'tokens',
 			element: <Fungibles />,
 		},
 		{
-			path: 'non-fungibles',
+			path: 'nfts',
 			element: <NonFungibles />,
 		},
 		{

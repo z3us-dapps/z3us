@@ -1,10 +1,7 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
-import clsx, { type ClassValue } from 'clsx'
+import clsx from 'clsx'
 import { config } from 'packages/ui/src/constants/config'
 import type { ResourceBalance } from 'packages/ui/src/types/types'
-import React, { forwardRef, useEffect, useRef, useState } from 'react'
-import { useTranslation } from 'react-i18next'
-import { useLocation, useNavigate, useSearchParams } from 'react-router-dom'
+import React, { useEffect, useRef, useState } from 'react'
 import { Virtuoso } from 'react-virtuoso'
 
 import { Box } from 'ui/src/components/box'
@@ -24,7 +21,6 @@ import { Button } from 'ui/src/components/router-button'
 import { ScrollArea } from 'ui/src/components/scroll-area'
 import * as dialogStyles from 'ui/src/components/styles/dialog-styles.css'
 import { ToolTip } from 'ui/src/components/tool-tip'
-import { TransactionIcon } from 'ui/src/components/transaction-icon'
 import Translation from 'ui/src/components/translation'
 import { Text } from 'ui/src/components/typography'
 import { getShortAddress } from 'ui/src/utils/string-utils'
@@ -40,10 +36,6 @@ interface ITokenSelectorDialogProps {
 
 export const TokenSelectorDialog: React.FC<ITokenSelectorDialogProps> = props => {
 	const { trigger, balances, tokenAddress, onTokenUpdate } = props
-	const { t } = useTranslation()
-	const [searchParams] = useSearchParams()
-	const navigate = useNavigate()
-	const { pathname } = useLocation()
 	const inputRef = useRef(null)
 	const [customScrollParent, setCustomScrollParent] = useState<HTMLElement | null>(null)
 
@@ -112,7 +104,7 @@ export const TokenSelectorDialog: React.FC<ITokenSelectorDialogProps> = props =>
 									/>
 								</Box>
 								<Box flexShrink={0} display="flex" justifyContent="flex-end" gap="small">
-									<ToolTip message={<Translation capitalizeFirstLetter text="global.close" />}>
+									<ToolTip message="global.close">
 										<DialogClose asChild>
 											<Button styleVariant="ghost" sizeVariant="medium" iconOnly>
 												<Close2Icon />
