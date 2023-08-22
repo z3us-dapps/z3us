@@ -1,7 +1,8 @@
 import clsx from 'clsx'
+import { useScroll } from 'packages/ui/src/components/scroll-area-radix/use-scroll'
 import { useEntityMetadata, useMetadataValue } from 'packages/ui/src/hooks/dapp/use-entity-metadata'
-import { useShowActivitiesParam } from 'packages/ui/src/pages/accounts/hooks/use-show-activities-param'
 import { useResourceType } from 'packages/ui/src/pages/accounts/hooks/use-resource-type'
+import { useShowActivitiesParam } from 'packages/ui/src/pages/accounts/hooks/use-show-activities-param'
 import React, { useRef } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useParams } from 'react-router-dom'
@@ -18,10 +19,6 @@ import { Text } from 'ui/src/components/typography'
 import { capitalizeFirstLetter } from 'ui/src/utils/capitalize-first-letter'
 
 import * as styles from './mobile-scrolling-button.css'
-
-interface IMobileScrollingButtonsProps {
-	scrollableNode: HTMLElement
-}
 
 const TabTitle: React.FC = () => {
 	const { resourceId } = useParams()
@@ -47,8 +44,8 @@ const TabTitle: React.FC = () => {
 	}
 }
 
-export const MobileScrollingButtons: React.FC<IMobileScrollingButtonsProps> = props => {
-	const { scrollableNode } = props
+export const MobileScrollingButtons: React.FC = () => {
+	const { scrollableNode } = useScroll()
 	const { accountId, resourceId } = useParams()
 	const resourceType = useResourceType()
 	const showActivities = useShowActivitiesParam()

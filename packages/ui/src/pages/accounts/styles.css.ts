@@ -28,7 +28,7 @@ export const accountsTableMinHeightWrapper = style([
 ])
 
 globalStyle(`${accountRoutesWrapper} thead`, {
-	top: '138px !important',
+	top: '150px !important',
 })
 
 export const accountRoutesMobileAccountHeader = style([
@@ -102,10 +102,39 @@ export const assetsHomeWrapper = style([
 
 export const assetsHomeTitleWrapper = style([
 	sprinkles({
+		display: 'flex',
+		alignItems: 'center',
+		gap: 'small',
 		paddingX: {
 			tablet: 'xlarge',
 		},
 	}),
+])
+
+export const assetsHomeAssetTileWrapper = style([
+	sprinkles({
+		display: 'flex',
+		paddingTop: 'large',
+		paddingBottom: 'xlarge',
+		gap: 'large',
+		paddingX: {
+			tablet: 'xlarge',
+		},
+	}),
+])
+
+export const assetsHomeAssetTile = style([
+	sprinkles({
+		padding: 'large',
+		border: 1,
+		borderStyle: 'solid',
+		borderRadius: 'large',
+		borderColor: 'borderDivider',
+	}),
+	{
+		width: '50%',
+		flexBasis: '50%',
+	},
 ])
 
 export const assetsHomeList = style([
@@ -136,6 +165,7 @@ export const assetsHomeListLink = style([
 		textDecoration: 'none',
 		transition: 'fast',
 		borderRadius: 'large',
+		width: 'full',
 	}),
 	{
 		':after': {
@@ -169,7 +199,8 @@ export const assetsHomeListLinkHover = style([
 export const assetsHomeListTitleWrapper = style([
 	sprinkles({
 		display: 'flex',
-		gap: 'xsmall',
+		alignItems: 'center',
+		gap: 'small',
 	}),
 	{},
 ])

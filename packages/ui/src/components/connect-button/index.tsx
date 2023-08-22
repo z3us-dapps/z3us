@@ -1,6 +1,7 @@
-import React, { useRef } from 'react'
+import React from 'react'
 
 import { Box } from 'ui/src/components/box'
+import { useIsMobileWidth } from 'ui/src/hooks/use-is-mobile'
 
 import * as styles from './connect-button.css'
 
@@ -13,11 +14,20 @@ declare global {
 }
 
 export const ConnectButton = () => {
-	const radixConnectButtonRef = useRef(null)
+	const isMobile = useIsMobileWidth()
+	const buttonRadius = isMobile ? 12 : 40
+	const buttonWidth = isMobile ? 40 : 138
+	const buttonHeight = isMobile ? 32 : 32
 
 	return (
 		<Box className={styles.radixConnectButtonWrapper}>
-			<radix-connect-button ref={radixConnectButtonRef} />
+			<style
+				// eslint-disable-next-line react/no-danger
+				dangerouslySetInnerHTML={{
+					__html: `radix-connect-button { --radix-connect-button-border-radius: ${buttonRadius}px; --radix-connect-button-width: ${buttonWidth}px; --radix-connect-button-height: ${buttonHeight}px}`,
+				}}
+			/>
+			<radix-connect-button />
 		</Box>
 	)
 }

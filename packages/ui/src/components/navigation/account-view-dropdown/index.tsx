@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import clsx, { type ClassValue } from 'clsx'
 import { useNetworkId } from 'packages/ui/src/hooks/dapp/use-network-id'
 import { Theme } from 'packages/ui/src/types/types'
@@ -28,6 +29,7 @@ import {
 } from 'ui/src/components/dropdown-menu'
 import {
 	CheckIcon,
+	ChevronDown2Icon,
 	ChevronDownIcon,
 	ChevronRightIcon,
 	HardwareWalletIcon,
@@ -61,7 +63,7 @@ interface IAccountViewDropdownProps {
 export const AccountViewDropdown = forwardRef<HTMLElement, IAccountViewDropdownProps>(
 	(props, ref: React.Ref<HTMLElement | null>) => {
 		const { t } = useTranslation()
-		const { className, styleVariant = 'tertiary', isLeftButtonIconVisible = true } = props
+		const { className, styleVariant = 'ghost', isLeftButtonIconVisible = true } = props
 
 		const isMobile = useIsMobileWidth()
 		const networkId = useNetworkId()
@@ -88,7 +90,7 @@ export const AccountViewDropdown = forwardRef<HTMLElement, IAccountViewDropdownP
 			<Box ref={ref} className={clsx(styles.accountViewDropdownWrapper, className)}>
 				<DropdownMenu>
 					<DropdownMenuTrigger asChild>
-						<Button
+						{/* <Button
 							styleVariant={styleVariant}
 							sizeVariant="small"
 							rounded
@@ -102,6 +104,9 @@ export const AccountViewDropdown = forwardRef<HTMLElement, IAccountViewDropdownP
 							rightIcon={<ChevronDownIcon />}
 						>
 							{entries[selectedAccount]?.name || getShortAddress(selectedAccount)}
+						</Button> */}
+						<Button styleVariant={styleVariant} sizeVariant="small" rounded iconOnly>
+							<ChevronDown2Icon />
 						</Button>
 					</DropdownMenuTrigger>
 					<DropdownMenuPortal>
@@ -147,14 +152,14 @@ export const AccountViewDropdown = forwardRef<HTMLElement, IAccountViewDropdownP
 								</DropdownMenuRadioGroup>
 								<DropdownMenuSeparator />
 							</Box>
-							<Box className={styles.accountViewPaddingXWrapper}>
+							{/* <Box className={styles.accountViewPaddingXWrapper}>
 								<DropdownMenuLabel>
 									<Text size="xsmall" weight="strong" color="strong">
 										<Translation capitalizeFirstLetter text="walletDropdown.accountTitle" />
 									</Text>
 								</DropdownMenuLabel>
-							</Box>
-							<ScrollArea fixHeight className={styles.accountViewSimpleBarWrapper}>
+							</Box> */}
+							{/* <ScrollArea fixHeight className={styles.accountViewSimpleBarWrapper}>
 								<Box className={styles.accountViewPaddingWrapper}>
 									<DropdownMenuRadioGroup value={selectedAccount} onValueChange={selectAccount}>
 										{Object.values(accounts).map(account => (
@@ -182,40 +187,9 @@ export const AccountViewDropdown = forwardRef<HTMLElement, IAccountViewDropdownP
 										))}
 									</DropdownMenuRadioGroup>
 								</Box>
-							</ScrollArea>
+							</ScrollArea> */}
 
 							<Box className={styles.accountViewPaddingWrapper}>
-								<DropdownMenuLabel>
-									<Text size="xsmall" weight="strong" color="strong" truncate>
-										<Translation capitalizeFirstLetter text="walletDropdown.personaTitle" />
-									</Text>
-								</DropdownMenuLabel>
-
-								<DropdownMenuRadioGroup value="light" onValueChange={() => {}}>
-									<DropdownMenuRadioItem value="light">
-										<Box flexGrow={1}>
-											<Text size="xsmall" truncate>
-												Main persona
-											</Text>
-										</Box>
-										<DropdownMenuItemIndicator>
-											<CheckIcon />
-										</DropdownMenuItemIndicator>
-									</DropdownMenuRadioItem>
-									<DropdownMenuRadioItem value="dark">
-										<Box flexGrow={1}>
-											<Text size="xsmall" truncate>
-												Degen persona
-											</Text>
-										</Box>
-										<DropdownMenuItemIndicator>
-											<CheckIcon />
-										</DropdownMenuItemIndicator>
-									</DropdownMenuRadioItem>
-								</DropdownMenuRadioGroup>
-
-								<DropdownMenuSeparator />
-
 								<DropdownMenuItem>
 									<DropdownMenuLeftSlot>
 										<LockIcon />

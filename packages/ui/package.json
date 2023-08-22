@@ -71,6 +71,7 @@
 		"recharts": "^2.7.1",
 		"simplebar-react": "^3.2.4",
 		"sonner": "^0.5.0",
+		"throttle-debounce": "^5.0.0",
 		"typescript": "5.0.4",
 		"use-debounce": "^9.0.4",
 		"use-deep-compare-effect": "^1.8.1",

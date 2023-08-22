@@ -1,12 +1,20 @@
 import * as ScrollAreaPrimitive from '@radix-ui/react-scroll-area'
 import clsx from 'clsx'
 import type { PropsWithChildren } from 'react'
-import React, { forwardRef, useEffect, useMemo, useRef, useState } from 'react'
+import React, { forwardRef, useCallback, useEffect, useMemo, useState } from 'react'
+import { throttle } from 'throttle-debounce'
 import { useDebouncedCallback } from 'use-debounce'
-import { useEventListener, useIntersectionObserver } from 'usehooks-ts'
+import { useEventListener } from 'usehooks-ts'
 
+import { Box } from '../box'
+import { Button } from '../button'
+import { ArrowUpIcon } from '../icons'
+import { ToolTip } from '../tool-tip'
 import { ScrollContext } from './context'
 import * as styles from './scroll-area-radix.css'
+
+const SCROLL_TOP_BUTTON_VISIBLE_PX = 100
+const THROTTLE_MS = 300
 
 export const ScrollAreaRoot = ({ children, className, ...rest }) => (
 	<ScrollAreaPrimitive.Root className={clsx(styles.scrollAreaRootWrapper, className)} {...rest}>
@@ -41,6 +49,7 @@ interface IScrollAreaRadix extends ScrollAreaPrimitive.ScrollAreaProps {
 	fixHeight?: boolean
 	showTopScrollShadow?: boolean
 	showBottomScrollShadow?: boolean
+	showScrollUpButton?: boolean
 	roundedScrollArea?: boolean
 	overrideScrollParent?: HTMLElement | null
 }
@@ -56,20 +65,16 @@ export const ScrollAreaRadix: React.FC<PropsWithChildren<IScrollAreaRadix>> = ({
 		disabled,
 		showTopScrollShadow = true,
 		showBottomScrollShadow = true,
+		showScrollUpButton = true,
 		roundedScrollArea = false,
 		...rest
 	} = props
 
-	const updateTimeout = useRef(null)
 	const [scrollParent, setScrollParent] = useState<HTMLElement | null>(null)
 	const [scrollHeight, setScrollHeight] = useState<number | undefined>(1)
 	const [isScrolledBottom, setIsScrolledBottom] = useState<boolean>(true)
 	const [isScrolledTop, setIsScrolledTop] = useState<boolean>(true)
-
-	const bottomRef = useRef<HTMLDivElement | null>(null)
-	const bottomRefEntry = useIntersectionObserver(bottomRef, {})
-	const topRef = useRef<HTMLDivElement | null>(null)
-	const topRefEntry = useIntersectionObserver(topRef, {})
+	const [isScrollUpButtonVisible, setIsScrollUpButtonVisible] = useState<boolean>(false)
 
 	const scrollCtx = useMemo(
 		() => ({
@@ -78,6 +83,14 @@ export const ScrollAreaRadix: React.FC<PropsWithChildren<IScrollAreaRadix>> = ({
 		}),
 		[overrideScrollParent, scrollParent, isScrolledTop],
 	)
+
+	const handleDetermineScrollPosition = () => {
+		if (scrollParent) {
+			setIsScrolledBottom(scrollParent.scrollTop + scrollParent.clientHeight >= scrollParent.scrollHeight)
+			setIsScrolledTop(scrollParent.scrollTop === 0)
+			setIsScrollUpButtonVisible(scrollParent.scrollTop > SCROLL_TOP_BUTTON_VISIBLE_PX)
+		}
+	}
 
 	useEffect(() => {
 		const resizeObserver = new ResizeObserver(entries => {
@@ -89,36 +102,41 @@ export const ScrollAreaRadix: React.FC<PropsWithChildren<IScrollAreaRadix>> = ({
 			resizeObserver.observe(scrollParent?.firstChild)
 		}
 
-		if (bottomRefEntry?.isIntersecting !== undefined && topRefEntry?.isIntersecting !== undefined) {
-			// Clear the previous timeout if it exists
-			if (updateTimeout.current) {
-				clearTimeout(updateTimeout.current)
-			}
-
-			// Update after 20ms to avoid FOUT with the shadows
-			updateTimeout.current = setTimeout(() => {
-				setIsScrolledBottom(bottomRefEntry.isIntersecting)
-				setIsScrolledTop(topRefEntry.isIntersecting)
-			}, 20)
-		}
-
 		return () => {
 			if (fixHeight && scrollParent?.firstChild) {
 				resizeObserver.disconnect()
 			}
-			// Clear the timeout when the component unmounts
-			if (updateTimeout.current) {
-				clearTimeout(updateTimeout.current)
-			}
 		}
-	}, [fixHeight, scrollParent, disabled, bottomRefEntry?.isIntersecting, topRefEntry?.isIntersecting])
+	}, [fixHeight, scrollParent, disabled])
 
 	const handleDebouncedResizeHandler = useDebouncedCallback(() => {
-		setIsScrolledBottom(bottomRefEntry?.isIntersecting)
-		setIsScrolledTop(topRefEntry?.isIntersecting)
-	}, 100)
+		handleDetermineScrollPosition()
+	}, THROTTLE_MS)
+
+	const handleUpButtonClick = useCallback(() => {
+		scrollParent.scrollTo({
+			top: 0,
+			behavior: 'smooth',
+		})
+	}, [scrollParent])
 
 	useEventListener('resize', handleDebouncedResizeHandler)
+
+	const handleThrottleScrollHandler = throttle(THROTTLE_MS, () => {
+		handleDetermineScrollPosition()
+	})
+
+	useEffect(() => {
+		if (scrollParent) {
+			scrollParent.addEventListener('scroll', handleThrottleScrollHandler)
+		}
+
+		return () => {
+			if (scrollParent) {
+				scrollParent.removeEventListener('scroll', handleThrottleScrollHandler)
+			}
+		}
+	}, [scrollParent])
 
 	return (
 		<ScrollAreaRoot
@@ -133,9 +151,7 @@ export const ScrollAreaRadix: React.FC<PropsWithChildren<IScrollAreaRadix>> = ({
 			{...rest}
 		>
 			<ScrollAreaViewport ref={setScrollParent}>
-				{!disabled && <div ref={topRef} className={styles.scrollAreaIntersectionSliceTop} />}
 				<ScrollContext.Provider value={scrollCtx}>{children}</ScrollContext.Provider>
-				{!disabled && <div ref={bottomRef} className={styles.scrollAreaIntersectionSliceBottom} />}
 			</ScrollAreaViewport>
 			<ScrollAreaScrollbar
 				orientation="vertical"
@@ -143,6 +159,17 @@ export const ScrollAreaRadix: React.FC<PropsWithChildren<IScrollAreaRadix>> = ({
 			>
 				<ScrollAreaThumb />
 			</ScrollAreaScrollbar>
+			{!disabled && showScrollUpButton ? (
+				<Box
+					className={clsx(styles.scrolledButtonWrapper, isScrollUpButtonVisible && styles.scrolledButtonWrapperVisible)}
+				>
+					<ToolTip message="global.up" side="top">
+						<Button styleVariant="ghost" sizeVariant="small" iconOnly onClick={handleUpButtonClick}>
+							<ArrowUpIcon />
+						</Button>
+					</ToolTip>
+				</Box>
+			) : null}
 		</ScrollAreaRoot>
 	)
 }

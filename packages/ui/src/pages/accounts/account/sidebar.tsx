@@ -1,12 +1,13 @@
 import React from 'react'
 
+import { Box } from 'ui/src/components/box'
+
 import { Activity } from '../components/activity'
 import { ActivitySearch } from '../components/activity-search'
-import { BalanceChart } from './components/balance-chart'
 
 const Sidebar: React.FC = () => (
 	<>
-		<BalanceChart />
+		<Box>account side bar</Box>
 		<ActivitySearch />
 		<Activity />
 	</>
