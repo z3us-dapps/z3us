@@ -140,7 +140,7 @@ export const TokenSelector: React.FC<IProps> = props => {
 					value={tokenValue}
 					placeholder={capitalizeFirstLetter(t('transfer.group.enterTokenAmount'))}
 					onChange={handleTokenValueUpdate}
-					precision={9}
+					precision={18}
 				/>
 				<TokenSelectorDialog
 					tokenAddress={tokenAddress}

@@ -3,7 +3,7 @@ import React, { forwardRef, useState } from 'react'
 import type { IInputOptionalProps } from '../input'
 import { Input } from '../input'
 
-export function clamp(value: number, min: number, max: number) {
+function clamp(value: number, min: number, max: number) {
 	return Math.min(Math.max(value, min), max)
 }
 
@@ -11,7 +11,7 @@ type Formatter = (value: string | '') => string
 type Parser = (value: string | '') => string
 
 interface INumberInputProps extends Omit<IInputOptionalProps, 'onChange'> {
-	value: number | ''
+	value: number | string
 	onChange?: (value: number) => void
 
 	/** Formats the number into the input */
@@ -70,7 +70,7 @@ export const NumberInput = forwardRef<HTMLInputElement, INumberInputProps>(
 			formatter = val => val || '',
 			parser = DEFAULT_PARSER,
 			precision = 0,
-			removeTrailingZeros = false,
+			removeTrailingZeros = true,
 			decimalSeparator = '.',
 			thousandsSeparator = ',',
 			noClampOnBlur = false,
@@ -136,7 +136,6 @@ export const NumberInput = forwardRef<HTMLInputElement, INumberInputProps>(
 			const parsedValue = parseFloat(parsePrecision(parseFloat(parseNum(normalizedInputValue))))
 			const clampedValue = !noClampOnBlur ? clamp(parsedValue, minNum, maxNum) : parsedValue
 			const finalValue = Number.isNaN(clampedValue) ? '' : clampedValue
-
 			const internalValueChanged = internalValue !== finalValue
 
 			setInputValue(newInputValue)
