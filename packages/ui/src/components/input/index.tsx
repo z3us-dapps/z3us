@@ -1,4 +1,5 @@
 import clsx, { type ClassValue } from 'clsx'
+import type { HTMLProps } from 'react'
 import React, { forwardRef } from 'react'
 
 import { Box } from '../box'
@@ -10,9 +11,8 @@ export type TStyleVariant = 'primary' | 'secondary' | 'primary-error' | 'seconda
 
 export type FormElement = HTMLInputElement | HTMLTextAreaElement
 
-export interface IInputOptionalProps {
+export interface IInputProps extends Omit<HTMLProps<HTMLInputElement>, 'onChange' | 'onFocus' | 'onBlur'> {
 	value?: string | number
-	className?: ClassValue
 	onClick?: () => void
 	disabled?: boolean
 	rounded?: boolean
@@ -31,40 +31,17 @@ export interface IInputOptionalProps {
 	onBlur?: (e: React.FocusEvent<FormElement>) => void
 }
 
-export interface IInputProps extends IInputOptionalProps {}
-
-export const inputDefaultProps: IInputOptionalProps = {
-	className: undefined,
-	onClick: undefined,
-	rounded: false,
-	disabled: false,
-	sizeVariant: 'medium',
-	styleVariant: 'primary',
-	elementType: 'input',
-	type: 'text',
-	name: undefined,
-	value: undefined,
-	leftIcon: undefined,
-	leftIconClassName: undefined,
-	rightIcon: undefined,
-	rightIconClassName: undefined,
-	placeholder: undefined,
-	onChange: undefined,
-	onFocus: undefined,
-	onBlur: undefined,
-}
-
 export const Input = forwardRef<FormElement, IInputProps>((props, ref: React.Ref<FormElement | null>) => {
 	const {
-		disabled,
-		rounded,
+		disabled = false,
+		rounded = false,
 		onClick,
 		className,
-		sizeVariant,
-		styleVariant,
-		elementType,
-		type,
-		value,
+		sizeVariant = 'medium',
+		styleVariant = 'primary',
+		elementType = 'input',
+		type = 'text',
+		value = '',
 		name,
 		placeholder,
 		leftIcon,
@@ -77,6 +54,21 @@ export const Input = forwardRef<FormElement, IInputProps>((props, ref: React.Ref
 		...rest
 	} = props
 
+	const isElementTextArea = elementType === 'textarea'
+	const baseStyles = clsx(
+		className,
+		element.textarea,
+		styles.baseSprinkles,
+		styles.input({
+			sizeVariant,
+			styleVariant,
+			rounded,
+			leftIcon: !!leftIcon,
+			rightIcon: !!rightIcon,
+		}),
+		isElementTextArea && styles.textAreaDefault,
+	)
+
 	const handleOnChange = (event: React.ChangeEvent<FormElement>) => {
 		if (disabled) return
 		onChange(event)
@@ -84,34 +76,36 @@ export const Input = forwardRef<FormElement, IInputProps>((props, ref: React.Ref
 
 	return (
 		<Box className={styles.inputWrapper}>
-			<Box
-				ref={ref}
-				component={elementType}
-				type={type}
-				className={clsx(
-					className,
-					element.textarea,
-					styles.baseSprinkles,
-					styles.input({
-						sizeVariant,
-						styleVariant,
-						rounded,
-						leftIcon: !!leftIcon,
-						rightIcon: !!rightIcon,
-					}),
-					elementType === 'textarea' && styles.textAreaDefault,
-				)}
-				name={name}
-				value={value}
-				disabled={disabled}
-				onClick={onClick}
-				placeholder={placeholder}
-				onChange={handleOnChange}
-				onFocus={onFocus}
-				onBlur={onBlur}
-				rows={20}
-				{...rest}
-			/>
+			{isElementTextArea ? (
+				<textarea
+					ref={ref as React.Ref<HTMLTextAreaElement>}
+					className={baseStyles}
+					name={name}
+					value={value}
+					disabled={disabled}
+					onClick={onClick}
+					placeholder={placeholder}
+					onChange={handleOnChange}
+					onFocus={onFocus}
+					onBlur={onBlur}
+					rows={20}
+				/>
+			) : (
+				<input
+					ref={ref as React.Ref<HTMLInputElement>}
+					type={type}
+					className={baseStyles}
+					name={name}
+					value={value}
+					disabled={disabled}
+					onClick={onClick}
+					placeholder={placeholder}
+					onChange={handleOnChange}
+					onFocus={onFocus}
+					onBlur={onBlur}
+					{...rest}
+				/>
+			)}
 			{leftIcon ? (
 				<Box
 					className={clsx(
@@ -139,5 +133,3 @@ export const Input = forwardRef<FormElement, IInputProps>((props, ref: React.Ref
 		</Box>
 	)
 })
-
-Input.defaultProps = inputDefaultProps

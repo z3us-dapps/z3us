@@ -10,6 +10,7 @@ import { Box } from 'ui/src/components/box'
 import { Button } from 'ui/src/components/button'
 import type { IDropdownMenuVirtuosoRequiredProps } from 'ui/src/components/dropdown-menu'
 import { CheckCircleIcon, CirclePlusIcon } from 'ui/src/components/icons'
+import { getResourceIdByName } from 'ui/src/components/resource-image-icon/resource-image-map'
 import type { ISearchableInputProps } from 'ui/src/components/searchable-input'
 import { SearchableInput } from 'ui/src/components/searchable-input'
 import { ToolTip } from 'ui/src/components/tool-tip'
@@ -151,7 +152,7 @@ export const GroupItem: React.FC<IGroupItemProps> = props => {
 								key={`group-${sendIndex}-${tokenIndex}`}
 								fromAccount={fromAccount}
 								balances={balances}
-								tokenAddress={address}
+								tokenAddress={address || getResourceIdByName('radix')}
 								tokenValue={amount}
 								sendIndex={sendIndex}
 								tokenIndex={tokenIndex}

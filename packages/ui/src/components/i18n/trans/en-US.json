@@ -122,7 +122,8 @@
 			"addAnotherNft": "Add another nft",
 			"groupTransaction": "Group transaction",
 			"addGroup": "Add group",
-			"groupInfoPopover": "Add another group to send assets to multiple addresses within the same transaction."
+			"groupInfoPopover": "Add another group to send assets to multiple addresses within the same transaction.",
+			"tokenDialogInputPlaceholder": "Search token or paste address"
 		},
 		"raw": {
 			"title": "Raw transaction",

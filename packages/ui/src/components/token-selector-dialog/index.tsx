@@ -1,8 +1,10 @@
 import clsx from 'clsx'
+import { t } from 'i18next'
 import { config } from 'packages/ui/src/constants/config'
 import type { ResourceBalance } from 'packages/ui/src/types/types'
 import React, { useEffect, useRef, useState } from 'react'
 import { Virtuoso } from 'react-virtuoso'
+import { useDebounce } from 'use-debounce'
 
 import { Box } from 'ui/src/components/box'
 import {
@@ -13,6 +15,7 @@ import {
 	DialogRoot,
 	DialogTrigger,
 } from 'ui/src/components/dialog'
+import { EmptyState } from 'ui/src/components/empty-state'
 import { Close2Icon, SearchIcon, ShareIcon } from 'ui/src/components/icons'
 import type { FormElement } from 'ui/src/components/input'
 import { Input } from 'ui/src/components/input'
@@ -21,8 +24,8 @@ import { Button } from 'ui/src/components/router-button'
 import { ScrollArea } from 'ui/src/components/scroll-area'
 import * as dialogStyles from 'ui/src/components/styles/dialog-styles.css'
 import { ToolTip } from 'ui/src/components/tool-tip'
-import Translation from 'ui/src/components/translation'
 import { Text } from 'ui/src/components/typography'
+import { capitalizeFirstLetter } from 'ui/src/utils/capitalize-first-letter'
 import { getShortAddress } from 'ui/src/utils/string-utils'
 
 import * as styles from './styles.css'
@@ -34,14 +37,24 @@ interface ITokenSelectorDialogProps {
 	tokenAddress?: string
 }
 
+const searchAndFilterArray = (array: Array<any>, searchString: string) =>
+	array.filter(item => {
+		const nameMatch = item.name.toLowerCase().includes(searchString.toLowerCase())
+		const addressMatch = item.address.toLowerCase().includes(searchString.toLowerCase())
+		const symbolMatch = item.symbol.toLowerCase().includes(searchString.toLowerCase())
+
+		return nameMatch || addressMatch || symbolMatch
+	})
+
 export const TokenSelectorDialog: React.FC<ITokenSelectorDialogProps> = props => {
 	const { trigger, balances, tokenAddress, onTokenUpdate } = props
 	const inputRef = useRef(null)
 	const [customScrollParent, setCustomScrollParent] = useState<HTMLElement | null>(null)
-
 	const [isScrolled, setIsScrolled] = useState<boolean>(false)
+	const [localBalances, setLocalBalances] = useState<ResourceBalance[]>(balances)
 	const [isOpen, setIsOpen] = useState<boolean>(false)
 	const [inputValue, setInputValue] = useState<string>('')
+	const [debouncedInputValue] = useDebounce<string>(inputValue, 500)
 
 	const selected = balances.find(resource => resource.address === tokenAddress)
 
@@ -68,13 +81,17 @@ export const TokenSelectorDialog: React.FC<ITokenSelectorDialogProps> = props =>
 	}
 
 	useEffect(() => {
-		if (inputRef?.current) {
+		if (inputRef?.current && isOpen) {
 			inputRef?.current?.focus()
 		}
 		if (!isOpen) {
 			setIsScrolled(false)
 		}
-	}, [isOpen])
+	}, [isOpen, inputRef?.current])
+
+	useEffect(() => {
+		setLocalBalances(searchAndFilterArray(balances, debouncedInputValue))
+	}, [debouncedInputValue])
 
 	return (
 		<DialogRoot open={isOpen} onOpenChange={handleOnOpenChange}>
@@ -93,13 +110,12 @@ export const TokenSelectorDialog: React.FC<ITokenSelectorDialogProps> = props =>
 							<Box display="flex" width="full" alignItems="center" gap="medium">
 								<Box flexGrow={1}>
 									<Input
+										ref={inputRef}
 										value={inputValue}
 										styleVariant="secondary"
-										ref={inputRef}
 										className={styles.searchElement}
-										placeholder="Search token or paste address"
 										leftIcon={<SearchIcon />}
-										// placeholder={capitalizeFirstLetter(`${t('global.search')}`)}
+										placeholder={capitalizeFirstLetter(`${t('transfer.group.tokenDialogInputPlaceholder')}`)}
 										onChange={handleOnChange}
 									/>
 								</Box>
@@ -113,7 +129,8 @@ export const TokenSelectorDialog: React.FC<ITokenSelectorDialogProps> = props =>
 									</ToolTip>
 								</Box>
 							</Box>
-							{selected && (
+							{/* // TODO: this will be star token section from user settings */}
+							{/* {selected && (
 								<Box display="flex" width="full" gap="small" flexWrap="wrap">
 									<Button styleVariant="tertiary" sizeVariant="small">
 										<Text size="small" capitalize>
@@ -130,17 +147,25 @@ export const TokenSelectorDialog: React.FC<ITokenSelectorDialogProps> = props =>
 										</Text>
 									</Button>
 								</Box>
-							)}
+							)} */}
 						</Box>
 						<Box>
+							{localBalances?.length === 0 && (
+								<Box display="flex" alignItems="center" justifyContent="center" width="full" paddingTop="xxlarge">
+									<EmptyState title="empty state" />
+								</Box>
+							)}
 							<Virtuoso
-								data={balances}
+								data={localBalances}
 								// eslint-disable-next-line react/no-unstable-nested-components
 								itemContent={(index, { symbol, name, address }) => (
 									<Box value={address} key={index} className={styles.tokenListItemWrapper}>
 										<Box
 											component="button"
-											className={styles.tokenListItemWrapperButton}
+											className={clsx(
+												styles.tokenListItemWrapperButton,
+												address === selected.address && styles.tokenListItemWrapperButtonSelected,
+											)}
 											onClick={() => {
 												handleSelectToken(address)
 											}}

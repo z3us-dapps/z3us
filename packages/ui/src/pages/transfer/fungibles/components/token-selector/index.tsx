@@ -7,9 +7,9 @@ import React from 'react'
 import { Box } from 'ui/src/components/box'
 import { Button, type TStyleVariant as TButtonStyleVariant } from 'ui/src/components/button'
 import { ChevronDown2Icon, TrashIcon } from 'ui/src/components/icons'
-import { type TSizeVariant, type TStyleVariant } from 'ui/src/components/input'
-import { NumberInput } from 'ui/src/components/number-input'
+import { type FormElement, Input, type TSizeVariant, type TStyleVariant } from 'ui/src/components/input'
 import { ResourceImageIcon } from 'ui/src/components/resource-image-icon'
+import { getResourceIdByName } from 'ui/src/components/resource-image-icon/resource-image-map'
 import { Link } from 'ui/src/components/router-link'
 import * as plainButtonStyles from 'ui/src/components/styles/plain-button-styles.css'
 import { TokenSelectorDialog } from 'ui/src/components/token-selector-dialog'
@@ -18,6 +18,7 @@ import Translation from 'ui/src/components/translation'
 import { Text } from 'ui/src/components/typography'
 import { ValidationErrorMessage } from 'ui/src/components/validation-error-message'
 import { capitalizeFirstLetter } from 'ui/src/utils/capitalize-first-letter'
+import { convertToNumber } from 'ui/src/utils/convert-to-number'
 import { getZodError } from 'ui/src/utils/get-zod-error'
 
 import { CurrencySelect } from '../../../components/currency-select'
@@ -43,7 +44,7 @@ export const TokenSelector: React.FC<IProps> = props => {
 	const {
 		balances,
 		fromAccount,
-		tokenAddress,
+		tokenAddress = getResourceIdByName('radix'),
 		tokenValue,
 		className,
 		styleVariant = 'primary',
@@ -68,8 +69,9 @@ export const TokenSelector: React.FC<IProps> = props => {
 		onUpdateToken(val)
 	}
 
-	const handleTokenValueUpdate = (val: number) => {
-		onUpdateTokenValue(val)
+	const handleTokenValueUpdate = (event: React.ChangeEvent<FormElement>) => {
+		const { value } = event.target
+		onUpdateTokenValue(convertToNumber(value))
 	}
 
 	const getAmountInputStyleVariant = () => {
@@ -134,13 +136,14 @@ export const TokenSelector: React.FC<IProps> = props => {
 				</Box>
 			</Box>
 			<Box width="full" position="relative">
-				<NumberInput
+				<Input
+					type="number"
 					styleVariant={getAmountInputStyleVariant() as TStyleVariant}
 					sizeVariant={sizeVariant}
 					value={tokenValue}
 					placeholder={capitalizeFirstLetter(t('transfer.group.enterTokenAmount'))}
 					onChange={handleTokenValueUpdate}
-					precision={18}
+					min={0}
 				/>
 				<TokenSelectorDialog
 					tokenAddress={tokenAddress}

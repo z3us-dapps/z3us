@@ -112,7 +112,8 @@
 			"addAnotherNft": "Dodaj kolejny NFT",
 			"groupTransaction": "Transakcja grupowa",
 			"addGroup": "Dodaj grupę",
-			"groupInfoPopover": "Dodaj kolejną grupę, aby wysłać aktywa na wiele adresów w ramach tej samej transakcji."
+			"groupInfoPopover": "Dodaj kolejną grupę, aby wysłać aktywa na wiele adresów w ramach tej samej transakcji.",
+			"tokenDialogInputPlaceholder": "Search token or paste address"
 		},
 		"raw": {
 			"title": "Surowa transakcja",

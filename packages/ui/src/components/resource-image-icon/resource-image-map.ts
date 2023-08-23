@@ -20,8 +20,18 @@ export const resourceImageMap: Map<string, ImageMapEntry> = new Map([
 	[
 		'resource_tdx_d_1tknxxxxxxxxxradxrdxxxxxxxxx009923554798xxxxxxxxxepwmma',
 		{
-			name: 'Radix icon',
+			name: 'radix',
 			imageUrl: '/images/token-images/radix-Icon-400x400.png',
 		},
 	],
 ])
+
+export const getResourceIdByName = (name: string): string | undefined => {
+	// eslint-disable-next-line no-restricted-syntax
+	for (const [resourceId, imageMapEntry] of resourceImageMap) {
+		if (imageMapEntry.name === name) {
+			return resourceId
+		}
+	}
+	return undefined
+}

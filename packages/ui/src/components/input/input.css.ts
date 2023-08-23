@@ -2,6 +2,8 @@ import { style } from '@vanilla-extract/css'
 import type { RecipeVariants } from '@vanilla-extract/recipes'
 import { recipe } from '@vanilla-extract/recipes'
 
+import { vars } from 'ui/src/components/system/theme.css'
+
 import { sprinkles } from '../system/sprinkles.css'
 
 export const baseSprinkles = sprinkles({
@@ -32,6 +34,7 @@ export const input = recipe({
 		alignItems: 'center',
 		justifyContent: 'center',
 		outline: 'none',
+		fontFamily: vars.fonts.body,
 	},
 	variants: {
 		styleVariant: {
@@ -151,8 +154,8 @@ export const input = recipe({
 				}),
 				{
 					height: '48px',
-					fontSize: '14px',
-					lineHeight: '14px',
+					fontSize: '15px',
+					lineHeight: '15px',
 					paddingLeft: '12px',
 					paddingRight: '12px',
 				},
