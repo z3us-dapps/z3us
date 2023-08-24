@@ -1,8 +1,10 @@
+import { t } from 'i18next'
 import React, { type ReactNode, forwardRef, useContext, useEffect, useState } from 'react'
 import { useDebounce } from 'use-debounce'
 
 import { Box } from 'ui/src/components/box'
 import { type IInputProps, Input } from 'ui/src/components/input'
+import { SelectSimple } from 'ui/src/components/select'
 import { ValidationErrorMessage } from 'ui/src/components/validation-error-message'
 
 import { FormContext } from '../context'
@@ -40,13 +42,35 @@ export const FormField = forwardRef<HTMLInputElement, IProps>(
 			setValue(event.target.value)
 		}
 
+		const renderInput = (_type: string) => {
+			switch (_type) {
+				case 'text':
+					return <Input {...rest} type={type} ref={ref} name={fieldName} value={value} onChange={handleChange} />
+				case 'select':
+					return (
+						<SelectSimple
+							value={`${1}`}
+							onValueChange={() => {}}
+							data={[
+								{ id: '1', title: t('settings.session.select.oneMinute') },
+								{ id: '5', title: t('settings.session.select.fiveMinutes') },
+								{ id: '30', title: t('settings.session.select.thirtyMinutes') },
+								{ id: '60', title: t('settings.session.select.sixtyMinutes') },
+							]}
+						/>
+					)
+				default:
+					return null // or a default component if needed
+			}
+		}
+
 		return (
 			<Box>
 				<Box display="flex" paddingBottom="small" paddingTop="large">
 					{label}
 				</Box>
 				<Box width="full" position="relative">
-					<Input {...rest} type={type} ref={ref} name={fieldName} value={value} onChange={handleChange} />
+					{renderInput(type)}
 				</Box>
 				<Box display="flex" justifyContent="space-between">
 					{errors[name] && <ValidationErrorMessage error={errors[name]} />}

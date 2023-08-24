@@ -6,10 +6,10 @@ import type { IDropdownMenuVirtuosoRequiredProps } from 'ui/src/components/dropd
 import Translation from 'ui/src/components/translation'
 import { Text } from 'ui/src/components/typography'
 import { ValidationErrorMessage } from 'ui/src/components/validation-error-message'
-import { AccountDropdown } from 'ui/src/containers/accounts/account-dropdown'
 
 import type { TZodValidation } from '../../types'
 import { getError } from '../../utils/get-transfer-form-error'
+import { AccountDropdown } from '../account-dropdown'
 
 interface IProps {
 	onUpdate: (account: string) => void
