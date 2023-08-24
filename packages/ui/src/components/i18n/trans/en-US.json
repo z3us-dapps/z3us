@@ -123,7 +123,9 @@
 			"groupTransaction": "Group transaction",
 			"addGroup": "Add group",
 			"groupInfoPopover": "Add another group to send assets to multiple addresses within the same transaction.",
-			"tokenDialogInputPlaceholder": "Search token or paste address"
+			"tokenDialogInputPlaceholder": "Search token or paste address",
+			"tokenDialogNoSearchResultsTitle": "No results.",
+			"tokenDialogNoSearchResultsSubTitle": "Please search another token."
 		},
 		"raw": {
 			"title": "Raw transaction",

@@ -2,8 +2,7 @@ import * as ScrollAreaPrimitive from '@radix-ui/react-scroll-area'
 import clsx from 'clsx'
 import type { PropsWithChildren } from 'react'
 import React, { forwardRef, useCallback, useEffect, useMemo, useState } from 'react'
-import { throttle } from 'throttle-debounce'
-import { useDebouncedCallback } from 'use-debounce'
+import { useDebouncedCallback, useThrottledCallback } from 'use-debounce'
 import { useEventListener } from 'usehooks-ts'
 
 import { Box } from '../box'
@@ -122,9 +121,9 @@ export const ScrollAreaRadix: React.FC<PropsWithChildren<IScrollAreaRadix>> = ({
 
 	useEventListener('resize', handleDebouncedResizeHandler)
 
-	const handleThrottleScrollHandler = throttle(THROTTLE_MS, () => {
+	const handleThrottleScrollHandler = useThrottledCallback(() => {
 		handleDetermineScrollPosition()
-	})
+	}, THROTTLE_MS)
 
 	useEffect(() => {
 		if (scrollParent) {

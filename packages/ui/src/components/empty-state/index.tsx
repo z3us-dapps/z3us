@@ -6,8 +6,8 @@ import { Text } from 'ui/src/components/typography'
 import * as styles from './styles.css'
 
 interface IProps {
-	title: string
-	subTitle?: string
+	title: string | React.ReactNode
+	subTitle?: string | React.ReactNode
 }
 
 export const EmptyState: React.FC<IProps> = props => {
@@ -15,14 +15,10 @@ export const EmptyState: React.FC<IProps> = props => {
 
 	return (
 		<Box className={styles.emptyStateWrapper}>
-			<Text size="xsmall" color="red">
+			<Text size="large" weight="stronger" color="strong">
 				{title}
 			</Text>
-			{subTitle && (
-				<Text size="xsmall" color="red">
-					{subTitle}
-				</Text>
-			)}
+			{subTitle && <Text size="xsmall">{subTitle}</Text>}
 		</Box>
 	)
 }

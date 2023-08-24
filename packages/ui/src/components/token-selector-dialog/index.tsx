@@ -152,7 +152,10 @@ export const TokenSelectorDialog: React.FC<ITokenSelectorDialogProps> = props =>
 						<Box>
 							{localBalances?.length === 0 && (
 								<Box display="flex" alignItems="center" justifyContent="center" width="full" paddingTop="xxlarge">
-									<EmptyState title="empty state" />
+									<EmptyState
+										title={t('transfer.group.tokenDialogNoSearchResultsTitle')}
+										subTitle={t('transfer.group.tokenDialogNoSearchResultsSubTitle')}
+									/>
 								</Box>
 							)}
 							<Virtuoso
