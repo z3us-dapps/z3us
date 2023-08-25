@@ -231,6 +231,6 @@ export const dropdownMenuVirtuosoScrollAreaWrapper = style([
 		paddingX: 'small',
 	}),
 	{
-		minHeight: '200px',
+		minHeight: '20px',
 	},
 ])

@@ -1,4 +1,5 @@
 import clsx, { type ClassValue } from 'clsx'
+import { t } from 'i18next'
 import type { ResourceBalance } from 'packages/ui/src/types/types'
 import { formatBigNumber } from 'packages/ui/src/utils/formatters'
 import React from 'react'
@@ -6,9 +7,9 @@ import React from 'react'
 import { Box } from 'ui/src/components/box'
 import { Button, type TStyleVariant as TButtonStyleVariant } from 'ui/src/components/button'
 import { ChevronDown2Icon, TrashIcon } from 'ui/src/components/icons'
-import { type TSizeVariant, type TStyleVariant } from 'ui/src/components/input'
-import { NumberInput } from 'ui/src/components/number-input'
+import { type FormElement, Input, type TSizeVariant, type TStyleVariant } from 'ui/src/components/input'
 import { ResourceImageIcon } from 'ui/src/components/resource-image-icon'
+import { getResourceIdByName } from 'ui/src/components/resource-image-icon/resource-image-map'
 import { Link } from 'ui/src/components/router-link'
 import * as plainButtonStyles from 'ui/src/components/styles/plain-button-styles.css'
 import { TokenSelectorDialog } from 'ui/src/components/token-selector-dialog'
@@ -16,6 +17,8 @@ import { ToolTip } from 'ui/src/components/tool-tip'
 import Translation from 'ui/src/components/translation'
 import { Text } from 'ui/src/components/typography'
 import { ValidationErrorMessage } from 'ui/src/components/validation-error-message'
+import { capitalizeFirstLetter } from 'ui/src/utils/capitalize-first-letter'
+import { convertToNumber } from 'ui/src/utils/convert-to-number'
 import { getZodError } from 'ui/src/utils/get-zod-error'
 
 import { CurrencySelect } from '../../../components/currency-select'
@@ -24,6 +27,7 @@ import * as styles from './styles.css'
 
 interface IProps {
 	balances: ResourceBalance[]
+	fromAccount: string
 	tokenAddress: string
 	tokenValue: number
 	sendIndex: number
@@ -34,18 +38,17 @@ interface IProps {
 	className?: ClassValue
 	styleVariant?: TStyleVariant
 	sizeVariant?: TSizeVariant
-	placeholder?: string
 }
 
 export const TokenSelector: React.FC<IProps> = props => {
 	const {
 		balances,
-		tokenAddress,
+		fromAccount,
+		tokenAddress = getResourceIdByName('radix'),
 		tokenValue,
 		className,
 		styleVariant = 'primary',
 		sizeVariant = 'large',
-		placeholder = 'enter amount',
 		sendIndex,
 		tokenIndex,
 		validation,
@@ -66,8 +69,9 @@ export const TokenSelector: React.FC<IProps> = props => {
 		onUpdateToken(val)
 	}
 
-	const handleTokenValueUpdate = (val: number) => {
-		onUpdateTokenValue(val)
+	const handleTokenValueUpdate = (event: React.ChangeEvent<FormElement>) => {
+		const { value } = event.target
+		onUpdateTokenValue(convertToNumber(value))
 	}
 
 	const getAmountInputStyleVariant = () => {
@@ -113,26 +117,33 @@ export const TokenSelector: React.FC<IProps> = props => {
 							</ToolTip>
 						) : null}
 					</Box>
-					<Box display="flex" alignItems="center" gap="xsmall">
-						<Text inheritColor component="span" size="medium" truncate>
-							<Translation capitalizeFirstLetter text="transfer.group.available" />:
-						</Text>
-						<Link to="/accounts" underline="hover" className={plainButtonStyles.plainButtonHoverWrapper}>
-							<Text inheritColor component="span" size="medium" underline="always" truncate>
-								{selectedToken?.amount ? formatBigNumber(selectedToken.amount, selectedToken.symbol) : 0}
+					{selectedToken?.amount && (
+						<Box display="flex" alignItems="center" gap="xsmall">
+							<Text inheritColor component="span" size="medium" truncate>
+								<Translation capitalizeFirstLetter text="transfer.group.available" />:
 							</Text>
-						</Link>
-					</Box>
+							<Link
+								to={`/accounts/${fromAccount}`}
+								underline="hover"
+								className={plainButtonStyles.plainButtonHoverWrapper}
+							>
+								<Text inheritColor component="span" size="medium" underline="always" truncate>
+									{selectedToken?.amount ? formatBigNumber(selectedToken.amount, selectedToken.symbol) : 0}
+								</Text>
+							</Link>
+						</Box>
+					)}
 				</Box>
 			</Box>
 			<Box width="full" position="relative">
-				<NumberInput
+				<Input
+					type="number"
 					styleVariant={getAmountInputStyleVariant() as TStyleVariant}
 					sizeVariant={sizeVariant}
 					value={tokenValue}
-					placeholder={placeholder}
+					placeholder={capitalizeFirstLetter(t('transfer.group.enterTokenAmount'))}
 					onChange={handleTokenValueUpdate}
-					precision={9}
+					min={0}
 				/>
 				<TokenSelectorDialog
 					tokenAddress={tokenAddress}
@@ -159,19 +170,21 @@ export const TokenSelector: React.FC<IProps> = props => {
 					balances={balances}
 				/>
 			</Box>
+			{selectedToken?.amount && (
+				<Box display="flex" paddingTop="small">
+					<Box display="flex" alignItems="center" flexGrow={1} gap="xsmall">
+						<Box display="flex" alignItems="center">
+							<Text size="small" truncate>
+								{tokenValue || 0} {selectedToken?.symbol || selectedToken?.name} =
+							</Text>
+						</Box>
+						<CurrencySelect selectedToken={selectedToken} tokenValue={tokenValue} />
+					</Box>
+				</Box>
+			)}
 			<Box display="flex" justifyContent="space-between">
 				<ValidationErrorMessage error={amountError} />
 				<ValidationErrorMessage error={tokenError} />
-			</Box>
-			<Box display="flex" paddingTop="small">
-				<Box display="flex" alignItems="center" flexGrow={1} gap="xsmall">
-					<Box display="flex" alignItems="center">
-						<Text size="medium" truncate>
-							{tokenValue || 0} {selectedToken?.symbol || selectedToken?.name} =
-						</Text>
-					</Box>
-					<CurrencySelect selectedToken={selectedToken} tokenValue={tokenValue} />
-				</Box>
 			</Box>
 		</Box>
 	)

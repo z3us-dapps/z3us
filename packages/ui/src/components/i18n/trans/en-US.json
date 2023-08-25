@@ -92,8 +92,8 @@
 	},
 	"transfer": {
 		"navigation": {
-			"tokenTitle": "Tokens (fungibles)",
-			"nftTitle": "NFTs (non-fungibles)",
+			"tokenTitle": "Tokens",
+			"nftTitle": "NFTs",
 			"rawTitle": "Raw",
 			"deployTitle": "Deploy package"
 		},
@@ -110,16 +110,22 @@
 			"to": "to",
 			"available": "available",
 			"amount": "amount",
+			"knownAddress": "known address",
 			"addMessage": "add message",
 			"hideMessage": "hide message",
 			"enterMessage": "transaction message",
+			"enterAddressPlaceholder": "enter address",
 			"encrypt": "encrypt",
-			"messagePlaceholder": "Message",
+			"messagePlaceholder": "Enter message",
+			"enterTokenAmount": "enter token amount",
 			"addAnotherToken": "Add another token",
 			"addAnotherNft": "Add another nft",
 			"groupTransaction": "Group transaction",
 			"addGroup": "Add group",
-			"groupInfoPopover": "Add another group to send assets to multiple addresses within the same transaction."
+			"groupInfoPopover": "Add another group to send assets to multiple addresses within the same transaction.",
+			"tokenDialogInputPlaceholder": "Search token or paste address",
+			"tokenDialogNoSearchResultsTitle": "No results.",
+			"tokenDialogNoSearchResultsSubTitle": "Please search another token."
 		},
 		"raw": {
 			"title": "Raw transaction",

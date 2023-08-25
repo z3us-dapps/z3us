@@ -17,7 +17,7 @@ export const dialogOverlay = style([
 	sprinkles({
 		position: 'fixed',
 		inset: 0,
-		zIndex: 1,
+		zIndex: 2,
 		background: 'backgroundOverlayPrimary',
 	}),
 	{
@@ -42,7 +42,7 @@ export const dialogOverlay = style([
 export const dialogContent = style([
 	sprinkles({
 		position: 'fixed',
-		zIndex: 1,
+		zIndex: 2,
 		background: 'backgroundSecondary',
 		boxShadow: 'shadowPanel',
 		borderRadius: 'xlarge',

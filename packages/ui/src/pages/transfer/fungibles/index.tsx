@@ -150,30 +150,27 @@ export const Fungibles: React.FC = () => {
 	return (
 		<TransferWrapper
 			title={<Translation capitalizeFirstLetter text="transfer.tokens.title" />}
-			titleSuffix={<Translation text="transfer.tokens.titleSuffix" />}
 			transaction={handleContinue}
 		>
-			<Box position="relative">
-				<GroupTransfer
-					transaction={state.transaction}
-					isMessageUiVisible={state.isMessageUiVisible}
-					fromAccount={state.transaction.from}
-					accounts={accounts}
-					addressBook={addressBook}
-					balances={balances}
-					validation={state.validation}
-					onUpdateFromAccount={handleUpdateFromAccount}
-					onUpdateToAccount={handleUpdateToAccount}
-					onRemoveGroup={handleRemoveGroupTransaction}
-					onUpdateTokenValue={handleUpdateTokenValue}
-					onUpdateToken={handleUpdateToken}
-					onAddToken={handleAddToken}
-					onToggleMessageUi={handleToggleMessageUi}
-					onUpdateMessage={handleUpdateMessage}
-					onUpdateIsMessageEncrypted={handleUpdateIsMessageEncrypted}
-				/>
-				<GroupTransactionButton onAddGroup={handleAddGroup} />
-			</Box>
+			<GroupTransfer
+				transaction={state.transaction}
+				isMessageUiVisible={state.isMessageUiVisible}
+				fromAccount={state.transaction.from}
+				accounts={accounts}
+				addressBook={addressBook}
+				balances={balances}
+				validation={state.validation}
+				onUpdateFromAccount={handleUpdateFromAccount}
+				onUpdateToAccount={handleUpdateToAccount}
+				onRemoveGroup={handleRemoveGroupTransaction}
+				onUpdateTokenValue={handleUpdateTokenValue}
+				onUpdateToken={handleUpdateToken}
+				onAddToken={handleAddToken}
+				onToggleMessageUi={handleToggleMessageUi}
+				onUpdateMessage={handleUpdateMessage}
+				onUpdateIsMessageEncrypted={handleUpdateIsMessageEncrypted}
+			/>
+			<GroupTransactionButton onAddGroup={handleAddGroup} />
 		</TransferWrapper>
 	)
 }

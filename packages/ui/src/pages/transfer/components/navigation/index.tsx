@@ -9,15 +9,15 @@ import { NavLink } from 'ui/src/components/router-link'
 const Navigation: React.FC = () => (
 	<nav>
 		<Box component="ul">
-			<LayoutGroup id="settings-menu">
+			<LayoutGroup id="transfer-menu">
 				{[
 					{
 						title: t('transfer.navigation.tokenTitle'),
-						href: '/transfer/fungibles',
+						href: '/transfer/tokens',
 					},
 					{
 						title: t('transfer.navigation.nftTitle'),
-						href: '/transfer/non-fungibles',
+						href: '/transfer/nfts',
 					},
 					{
 						title: t('transfer.navigation.rawTitle'),

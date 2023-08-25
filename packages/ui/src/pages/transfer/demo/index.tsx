@@ -1,9 +1,13 @@
 import React, { useEffect, useRef } from 'react'
 import { z } from 'zod'
 
+import { AccordionContent, AccordionItem, AccordionRoot, AccordionTrigger } from 'ui/src/components/accordion'
+import { Box } from 'ui/src/components/box'
 import { Form } from 'ui/src/components/form'
 import { FieldsGroup } from 'ui/src/components/form/fields-group'
-import { FormField } from 'ui/src/components/form/form-field'
+import { NumberField } from 'ui/src/components/form/fields/number-field'
+import { SelectField } from 'ui/src/components/form/fields/select-field'
+import { TextField } from 'ui/src/components/form/fields/text-field'
 import Translation from 'ui/src/components/translation'
 
 import { TransferWrapper } from '../components/transfer-wrapper'
@@ -48,13 +52,44 @@ export const Demo: React.FC = () => {
 			description={<Translation capitalizeFirstLetter text="transfer.demo.description" />}
 		>
 			<Form onSubmit={handleSubmit} validate={handleValidate} initialValues={initialValues}>
-				<FormField type="text" label="from" name="from" ref={inputRef} />
-				<FormField type="text" label="to" name="to" />
-				<FormField type="textarea" label="message" name="message" validate={() => {}} />
+				<AccordionRoot key={`accordion-${1}`} type="single" defaultValue={`send-${1}`} collapsible>
+					<AccordionItem value={`send-${1}`}>
+						<AccordionTrigger>
+							<h2>Group one</h2>
+						</AccordionTrigger>
+						<AccordionContent>
+							<Box padding="large">Group one here</Box>
+						</AccordionContent>
+					</AccordionItem>
+
+					<AccordionItem value={`send-${2}`}>
+						<AccordionTrigger>
+							<h2>Group two</h2>
+						</AccordionTrigger>
+						<AccordionContent>
+							<Box padding="large">Group two here</Box>
+						</AccordionContent>
+					</AccordionItem>
+				</AccordionRoot>
+
+				<TextField label="from" name="from" ref={inputRef} />
+				<SelectField
+					label="from"
+					name="from"
+					data={[
+						{ id: '1', title: 'settings.session.select.oneMinute' },
+						{ id: '5', title: 'settings.session.select.fiveMinutes' },
+						{ id: '30', title: 'settings.session.select.thirtyMinutes' },
+						{ id: '60', title: 'settings.session.select.sixtyMinutes' },
+					]}
+				/>
+				<TextField label="to" name="to" />
+				<TextField label="message" name="message" validate={() => {}} />
+				{/* <FormField type="textarea" label="message" name="message" validate={() => {}} /> */}
 
 				<FieldsGroup name="tokens">
-					<FormField type="text" label="resource" name="resource" />
-					<FormField type="number" label="amount" name="amount" />
+					<TextField label="resource" name="resource" />
+					<NumberField label="amount" name="amount" />
 
 					{/* <TextArea />
 					<Select option={[]} name="xxx"/>
@@ -67,9 +102,9 @@ export const Demo: React.FC = () => {
 				</FieldsGroup>
 
 				<FieldsGroup name="nfts">
-					<FormField type="text" label="resource" name="resource" />
+					<TextField label="resource" name="resource" />
 					<FieldsGroup name="ids">
-						<FormField type="text" label="id" name="id" />
+						<TextField label="id" name="id" />
 					</FieldsGroup>
 				</FieldsGroup>
 			</Form>

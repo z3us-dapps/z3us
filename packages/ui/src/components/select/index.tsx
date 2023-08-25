@@ -98,7 +98,7 @@ export const SelectIcon = ({ children, ...props }) => (
 	</SelectPrimitive.Icon>
 )
 
-interface ISelectSimpleProps {
+export interface ISelectSimpleProps {
 	value?: string
 	placeholder?: string
 	onValueChange?: (value: string) => void
@@ -111,26 +111,27 @@ interface ISelectSimpleProps {
 	capitalizeFirstLetter?: boolean
 }
 
-export const SelectSimple: React.FC<ISelectSimpleProps> = props => {
-	const {
-		value,
-		onValueChange,
-		trigger,
-		data = [],
-		placeholder,
-		selectAriaLabel,
-		width = 300,
-		sizeVariant = 'medium',
-		styleVariant = 'secondary',
-		capitalizeFirstLetter = false,
-	} = props
-
-	return (
+export const SelectSimple = forwardRef<HTMLButtonElement, ISelectSimpleProps>(
+	(
+		{
+			value,
+			onValueChange,
+			trigger,
+			data = [],
+			placeholder,
+			selectAriaLabel,
+			width = 300,
+			sizeVariant = 'medium',
+			styleVariant = 'secondary',
+			capitalizeFirstLetter = false,
+		},
+		ref,
+	) => (
 		<SelectRoot value={value} onValueChange={onValueChange}>
 			{trigger || (
 				<SelectTrigger asChild aria-label={selectAriaLabel}>
 					<Box display="inline-flex" style={{ maxWidth: `${width}px`, width: 'fit-content' }}>
-						<Button sizeVariant={sizeVariant} styleVariant={styleVariant} rightIcon={<ChevronDown2Icon />}>
+						<Button ref={ref} sizeVariant={sizeVariant} styleVariant={styleVariant} rightIcon={<ChevronDown2Icon />}>
 							<span style={{ overflow: 'hidden' }}>
 								<SelectValue aria-label={value} placeholder={placeholder} />
 							</span>
@@ -150,5 +151,5 @@ export const SelectSimple: React.FC<ISelectSimpleProps> = props => {
 				</SelectGroup>
 			</SelectContent>
 		</SelectRoot>
-	)
-}
+	),
+)

@@ -1,4 +1,5 @@
 /* eslint-disable react/no-array-index-key */
+import { t } from 'i18next'
 import { useEntityMetadata, useMetadataValue } from 'packages/ui/src/hooks/dapp/use-entity-metadata'
 import type { AddressBookEntry } from 'packages/ui/src/store/types'
 import React from 'react'
@@ -9,11 +10,14 @@ import { Box } from 'ui/src/components/box'
 import { Button } from 'ui/src/components/button'
 import type { IDropdownMenuVirtuosoRequiredProps } from 'ui/src/components/dropdown-menu'
 import { CheckCircleIcon, CirclePlusIcon } from 'ui/src/components/icons'
+import { getResourceIdByName } from 'ui/src/components/resource-image-icon/resource-image-map'
 import type { ISearchableInputProps } from 'ui/src/components/searchable-input'
 import { SearchableInput } from 'ui/src/components/searchable-input'
+import { ToolTip } from 'ui/src/components/tool-tip'
 import Translation from 'ui/src/components/translation'
 import { Text } from 'ui/src/components/typography'
 import { ValidationErrorMessage } from 'ui/src/components/validation-error-message'
+import { capitalizeFirstLetter } from 'ui/src/utils/capitalize-first-letter'
 
 import { FromAccountDropdown } from '../../../components/group-transfer/from-account-dropdown'
 import { GroupHeader } from '../../../components/group-transfer/header'
@@ -110,7 +114,11 @@ export const GroupItem: React.FC<IGroupItemProps> = props => {
 									</Text>
 									<Box display="flex" alignItems="center" color="green500" marginLeft="xxsmall">
 										{toName && <Text size="medium">({toName})</Text>}
-										{knownAddresses[send.to] && <CheckCircleIcon />}
+										{knownAddresses[send.to] && (
+											<ToolTip message="transfer.group.knownAddress" side="top">
+												<CheckCircleIcon />
+											</ToolTip>
+										)}
 									</Box>
 								</Box>
 								<Box display="flex" alignItems="center" gap="medium">
@@ -122,7 +130,7 @@ export const GroupItem: React.FC<IGroupItemProps> = props => {
 						</Box>
 						<Box width="full">
 							<SearchableInput
-								placeholder="Enter address"
+								placeholder={capitalizeFirstLetter(t('transfer.group.enterAddressPlaceholder'))}
 								value={send.to}
 								styleVariant={getError(validation, ['sends', sendIndex, 'to']).error ? 'primary-error' : 'primary'}
 								onValueChange={handleToAccountUpdate}
@@ -142,8 +150,9 @@ export const GroupItem: React.FC<IGroupItemProps> = props => {
 						{send.tokens.map(({ amount, address }: IToken, tokenIndex: number) => (
 							<TokenSelector
 								key={`group-${sendIndex}-${tokenIndex}`}
+								fromAccount={fromAccount}
 								balances={balances}
-								tokenAddress={address}
+								tokenAddress={address || getResourceIdByName('radix')}
 								tokenValue={amount}
 								sendIndex={sendIndex}
 								tokenIndex={tokenIndex}

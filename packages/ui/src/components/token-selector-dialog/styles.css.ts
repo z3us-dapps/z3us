@@ -2,6 +2,7 @@ import { style } from '@vanilla-extract/css'
 
 import { sprinkles } from 'ui/src/components/system/sprinkles.css'
 import { responsiveStyle } from 'ui/src/components/system/theme-utils'
+import { vars } from 'ui/src/components/system/theme.css'
 
 export const tokenSelectorHeaderWrapper = style([
 	sprinkles({
@@ -89,6 +90,12 @@ export const tokenListItemWrapperButton = style([
 				zIndex: 1,
 			},
 		},
+	},
+])
+
+export const tokenListItemWrapperButtonSelected = style([
+	{
+		background: vars.color.backgroundPrimary,
 	},
 ])
 

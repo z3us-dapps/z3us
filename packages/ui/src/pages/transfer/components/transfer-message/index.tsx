@@ -38,7 +38,7 @@ export const TransferMessage: React.FC<ITransferMessageProps> = props => {
 						<Box display="flex" alignItems="center" gap="small" width="full">
 							<Box flexGrow={1}>
 								<Text size="medium" truncate>
-									<Translation capitalizeFirstLetter text="transfer.group.enterMessage" /> (10/180)
+									<Translation capitalizeFirstLetter text="transfer.group.enterMessage" />
 								</Text>
 							</Box>
 							<Text size="medium" truncate>

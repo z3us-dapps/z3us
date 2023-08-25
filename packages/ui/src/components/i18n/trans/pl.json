@@ -82,8 +82,8 @@
 	},
 	"transfer": {
 		"navigation": {
-			"tokenTitle": "Tokeny (fungible)",
-			"nftTitle": "NFT-y (non-fungible)",
+			"tokenTitle": "Tokeny",
+			"nftTitle": "NFT-y",
 			"rawTitle": "Surowe",
 			"deployTitle": "Wdroż pakiet"
 		},
@@ -99,17 +99,23 @@
 			"from": "od",
 			"to": "do",
 			"available": "dostępne",
-			"amount": "ilość",
+			"amount": "kwota",
+			"knownAddress": "znany adres",
 			"addMessage": "dodaj wiadomość",
 			"hideMessage": "ukryj wiadomość",
 			"enterMessage": "wiadomość transakcji",
+			"enterAddressPlaceholder": "wprowadź adres",
 			"encrypt": "zaszyfruj",
-			"messagePlaceholder": "Wiadomość",
-			"addAnotherToken": "Dodaj kolejny token",
-			"addAnotherNft": "Dodaj kolejny NFT",
+			"messagePlaceholder": "Wprowadź wiadomość",
+			"enterTokenAmount": "wprowadź ilość tokenów",
+			"addAnotherToken": "Dodaj inny token",
+			"addAnotherNft": "Dodaj inny NFT",
 			"groupTransaction": "Transakcja grupowa",
 			"addGroup": "Dodaj grupę",
-			"groupInfoPopover": "Dodaj kolejną grupę, aby wysłać aktywa na wiele adresów w ramach tej samej transakcji."
+			"groupInfoPopover": "Dodaj inną grupę, aby wysłać aktywa na wiele adresów w ramach tej samej transakcji.",
+			"tokenDialogInputPlaceholder": "Szukaj tokena lub wklej adres",
+			"tokenDialogNoSearchResultsTitle": "Brak wyników.",
+			"tokenDialogNoSearchResultsSubTitle": "Proszę wyszukać inny token."
 		},
 		"raw": {
 			"title": "Surowa transakcja",
