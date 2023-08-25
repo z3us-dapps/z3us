@@ -14,6 +14,7 @@ import { TransferWrapper } from '../components/transfer-wrapper'
 
 const initialValues = {
 	from: '',
+	test: '1',
 	to: '',
 	message: '',
 	tokens: [],
@@ -74,8 +75,8 @@ export const Demo: React.FC = () => {
 
 				<TextField label="from" name="from" ref={inputRef} />
 				<SelectField
-					label="from"
-					name="from"
+					label="test"
+					name="test"
 					data={[
 						{ id: '1', title: 'settings.session.select.oneMinute' },
 						{ id: '5', title: 'settings.session.select.fiveMinutes' },
@@ -85,7 +86,6 @@ export const Demo: React.FC = () => {
 				/>
 				<TextField label="to" name="to" />
 				<TextField label="message" name="message" validate={() => {}} />
-				{/* <FormField type="textarea" label="message" name="message" validate={() => {}} /> */}
 
 				<FieldsGroup name="tokens">
 					<TextField label="resource" name="resource" />
