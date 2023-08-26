@@ -456,6 +456,16 @@ recipeResponsiveGlobalStyle(
 
 recipeResponsiveGlobalStyle(
 	tableRecipe({ sizeVariant: 'large', styleVariant: 'primary' }),
+	'tbody tr:hover td::after',
+	{
+		tablet: {
+			opacity: '0',
+		},
+	},
+)
+
+recipeResponsiveGlobalStyle(
+	tableRecipe({ sizeVariant: 'large', styleVariant: 'primary' }),
 	'tbody tr:hover + tr td::after',
 	{
 		tablet: {

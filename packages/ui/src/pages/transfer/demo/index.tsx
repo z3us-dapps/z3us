@@ -14,7 +14,7 @@ import { TransferWrapper } from '../components/transfer-wrapper'
 
 const initialValues = {
 	from: '',
-	test: '1',
+	test: '5',
 	to: '',
 	message: '',
 	tokens: [],
@@ -78,10 +78,8 @@ export const Demo: React.FC = () => {
 					label="test"
 					name="test"
 					data={[
-						{ id: '1', title: 'settings.session.select.oneMinute' },
-						{ id: '5', title: 'settings.session.select.fiveMinutes' },
-						{ id: '30', title: 'settings.session.select.thirtyMinutes' },
-						{ id: '60', title: 'settings.session.select.sixtyMinutes' },
+						{ id: '1', title: 'testing' },
+						{ id: '5', title: 'test' },
 					]}
 				/>
 				<TextField label="to" name="to" />

@@ -43,7 +43,8 @@
 		"telegram": "telegram",
 		"twitter": "twitter",
 		"github": "github",
-		"fee": "fee"
+		"fee": "fee",
+		"na": "N/A"
 	},
 	"transaction": {
 		"transactionDetails": "transaction details",
@@ -205,6 +206,16 @@
 		"stakingValidators": {
 			"title": "Staking validators",
 			"subTitle": "View all currently registered Radix Network validator nodes, and manage your own XRD stakes to validators."
+		},
+		"validatorPanel": {
+			"validatorDetailsTitle": "validator details",
+			"validatorAddress": "validator address",
+			"totalStake": "total stake",
+			"ownerStake": "owner stake",
+			"fee": "fee",
+			"apy": "apy",
+			"acceptsStake": "accepts stake",
+			"registrationStake": "registration stake"
 		}
 	}
 }

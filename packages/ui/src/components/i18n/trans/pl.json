@@ -43,7 +43,8 @@
 		"telegram": "telegram",
 		"twitter": "twitter",
 		"github": "github",
-		"fee": "opłata"
+		"fee": "opłata",
+		"na": "N/A"
 	},
 	"transaction": {
 		"transactionDetails": "szczegóły transakcji",
