@@ -1,6 +1,6 @@
 import { useGlobalResourceBalances } from 'packages/ui/src/hooks/dapp/use-balances'
 import { useNoneSharedStore } from 'packages/ui/src/hooks/use-store'
-import { formatBigNumber } from 'packages/ui/src/utils/formatters'
+import { formatBigNumber, formatChange } from 'packages/ui/src/utils/formatters'
 import React, { useState } from 'react'
 
 import { Box } from 'ui/src/components/box'
@@ -12,11 +12,15 @@ import { Text } from 'ui/src/components/typography'
 
 import * as styles from './styles.css'
 
-export const AssetsPrice: React.FC = () => {
+interface IProps {
+	account?: string
+}
+
+export const AccountTotalValue: React.FC<IProps> = ({ account }) => {
 	const { currency } = useNoneSharedStore(state => ({
 		currency: state.currency,
 	}))
-	const { totalValue, isLoading } = useGlobalResourceBalances()
+	const { totalValue, totalChange, isLoading } = useGlobalResourceBalances(account)
 	const [hidden, setHidden] = useState<boolean>(false)
 
 	const handleToggleHidden = () => {
@@ -42,8 +46,13 @@ export const AssetsPrice: React.FC = () => {
 								</ToolTip>
 							</Box>
 							<TextScramble scramble={hidden}>
-								<Text size="xxsmall" color="green" weight="medium">
-									+$0.39 (+0.29%)
+								<Text
+									size="xxsmall"
+									weight="medium"
+									color={totalChange && totalChange.gt(0) ? 'green' : 'red'}
+									truncate
+								>
+									{formatChange(totalChange)}
 								</Text>
 							</TextScramble>
 						</Box>

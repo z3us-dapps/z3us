@@ -1,44 +1,85 @@
 import clsx from 'clsx'
 import { useScroll } from 'packages/ui/src/components/scroll-area-radix/use-scroll'
+import { useNonFungibleResourceBalances } from 'packages/ui/src/hooks/dapp/use-balances'
+import type { ResourceBalance } from 'packages/ui/src/types/types'
 import React from 'react'
+import { useNavigate, useParams } from 'react-router-dom'
 
 import { Box } from 'ui/src/components/box'
 import * as tableHeadStyles from 'ui/src/components/styles/table-head-shadow.css'
 import { Table } from 'ui/src/components/table'
 
-import { AssetsPrice } from '../components/assets-price'
+import { AccountTotalValue } from '../components/account-total-value'
 import { MobileScrollingBackground } from '../components/mobile-scrolling-background'
 import { MobileScrollingButtons } from '../components/mobile-scrolling-buttons'
-import { useAssetsTable } from '../home/hooks/use-assets-table'
 import * as styles from '../styles.css'
+import { AssetAmountCell } from './components/asset-amount-cell'
+import { AssetChangeCell } from './components/asset-change-cell'
+import { AssetNameCell } from './components/asset-name-cell'
+import { AssetValueCell } from './components/asset-value-cell'
+
+const columns = [
+	{
+		Header: 'NFT',
+		accessor: 'address',
+		width: 'auto',
+		Cell: AssetNameCell,
+	},
+	{
+		Header: 'Balance',
+		accessor: 'amount',
+		width: 'auto',
+		Cell: AssetAmountCell,
+		className: styles.mobileHideTableCellWrapper,
+	},
+	{
+		Header: 'Value',
+		accessor: 'value',
+		width: 'auto',
+		Cell: AssetValueCell,
+		className: styles.mobileHideTableCellWrapper,
+	},
+	{
+		Header: 'Change',
+		accessor: 'change',
+		width: 'auto',
+		Cell: AssetChangeCell,
+		className: styles.mobileHideTableCellWrapper,
+	},
+]
 
 const NonFungibles: React.FC = () => {
 	const { scrollableNode, isScrolledTop } = useScroll()
+	const navigate = useNavigate()
+	const { accountId } = useParams()
 
-	// eslint-disable-next-line @typescript-eslint/no-unused-vars
-	const { items, columns, loading, loadMore, onRowSelected, onEndReached } = useAssetsTable()
+	const { balances, isLoading } = useNonFungibleResourceBalances(accountId === '-' ? undefined : accountId)
+
+	const handleRowSelected = (row: { original: ResourceBalance }) => {
+		const { original } = row
+		navigate(`/accounts/${accountId}/nfts/${original.address}`)
+	}
 
 	return (
 		<Box
-			className={clsx(styles.accountRoutesWrapper, !loading && !isScrolledTop && tableHeadStyles.accountTheadShadow)}
+			className={clsx(styles.accountRoutesWrapper, !isLoading && !isScrolledTop && tableHeadStyles.accountTheadShadow)}
 		>
 			<Box className={styles.accountRoutesScrollingWrapper}>
 				<MobileScrollingBackground />
 				<MobileScrollingButtons />
-				<AssetsPrice />
+				<AccountTotalValue account={accountId !== '-' ? accountId : ''} />
 				<Box className={styles.assetsTableWrapper}>
 					<Table
 						className={styles.accountsTableMinHeightWrapper}
 						styleVariant="primary"
 						sizeVariant="large"
 						scrollableNode={scrollableNode ?? undefined}
-						data={items}
+						data={balances}
 						columns={columns}
 						isScrolledTop={isScrolledTop}
-						// loading
-						loading={loading}
-						loadMore={loadMore}
-						onRowSelected={onRowSelected}
+						loading={isLoading}
+						// loadMore={loadMore}
+						onRowSelected={handleRowSelected}
 						// onEndReached={onEndReached}
 					/>
 				</Box>

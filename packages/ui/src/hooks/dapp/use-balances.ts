@@ -93,7 +93,7 @@ export const useFungibleResourceBalances = (forAccount?: string) => {
 
 		const balances = Object.values(data)
 		const totalChange = balances.reduce(
-			(change, balance) => change.plus(new BigNumber(balance.change).div(totalValue.dividedBy(balance.value))),
+			(change, balance) => change.plus(balance.change.div(totalValue.dividedBy(balance.value))),
 			new BigNumber(0),
 		)
 
@@ -151,7 +151,7 @@ export const useNonFungibleResourceBalances = (forAccount?: string) => {
 
 		const balances = Object.values(data)
 		const totalChange = balances.reduce(
-			(change, balance) => change.plus(new BigNumber(balance.change).div(totalValue.dividedBy(balance.value))),
+			(change, balance) => change.plus(balance.change.div(totalValue.dividedBy(balance.value))),
 			new BigNumber(0),
 		)
 
@@ -182,7 +182,7 @@ export const useGlobalResourceBalances = (forAccount?: string) => {
 
 	const totalValue = fungibleValue.plus(nonFungibleValue)
 	const totalChange = balances.reduce(
-		(change, balance) => change.plus(new BigNumber(balance.change).div(totalValue.dividedBy(balance.value))),
+		(change, balance) => change.plus(balance.change.div(totalValue.dividedBy(balance.value))),
 		new BigNumber(0),
 	)
 

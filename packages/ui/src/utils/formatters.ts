@@ -63,3 +63,12 @@ export const formatBigNumber = (x: BigNumber, currency: string = '', decimalPlac
 				...(currencySettingsMap[currency.toUpperCase() as keyof typeof currencySettingsMap] || {}),
 		  })
 		: x.decimalPlaces(decimalPlaces).toString()
+
+export const formatChange = (change: BigNumber): string => {
+	if (!change) return '0.00%'
+	const percentageChange = !change.isEqualTo(0)
+		? `${change.isGreaterThan(0) ? '+' : ''}${change.toFixed(2).toLocaleString()}%`
+		: '0.00%'
+
+	return percentageChange
+}

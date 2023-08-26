@@ -2,7 +2,7 @@ import { lazy } from 'react'
 
 import Layout from './components/layout'
 
-const Home = lazy(() => import('./home'))
+const Accounts = lazy(() => import('./accounts'))
 // const HomeSidebar = lazy(() => import('./home/sidebar'))
 const Account = lazy(() => import('./account'))
 // const AccountSidebar = lazy(() => import('./account/sidebar'))
@@ -15,47 +15,58 @@ const route = {
 	children: [
 		{
 			index: true,
-			element: <Home />,
+			element: <Accounts />,
 			handle: {
-				// sidebar: <HomeSidebar />,
-				sidebar: <p>home sidebar</p>,
+				sidebar: <p>accounts sidebar</p>,
 			},
 		},
 		{
 			path: ':accountId',
-			element: <Account />,
-			handle: {
-				// sidebar: <AccountSidebar />,
-				sidebar: <p>account sidebar</p>,
-			},
-		},
-		{
-			path: ':accountId/tokens',
-			element: <Tokens />,
-			handle: {
-				sidebar: <p>account tokens sidebar</p>,
-			},
-		},
-		{
-			path: ':accountId/tokens/:resourceId',
-			element: <Tokens />,
-			handle: {
-				sidebar: <p>account resource tokens sidebar</p>,
-			},
-		},
-		{
-			path: ':accountId/nfts',
-			element: <Nfts />,
-			handle: {
-				sidebar: <p>nfts activities</p>,
-			},
-		},
-		{
-			path: ':accountId/nfts/:resourceId',
-			element: <Nfts />,
-			handle: {
-				sidebar: <p>account resource nfts sidebar</p>,
-			},
+			children: [
+				{
+					index: true,
+					element: <Account />,
+					handle: {
+						sidebar: <p>account sidebar</p>,
+					},
+				},
+				{
+					path: 'tokens',
+					element: <Tokens />,
+					children: [
+						{
+							index: true,
+							handle: {
+								sidebar: <p>tokens sidebar</p>,
+							},
+						},
+						{
+							path: ':resourceId',
+							handle: {
+								sidebar: <p>Token sidebar</p>,
+							},
+						},
+					],
+				},
+				{
+					path: 'nfts',
+					element: <Nfts />,
+					children: [
+						{
+							index: true,
+							handle: {
+								sidebar: <p>NFTs sidebar</p>,
+							},
+						},
+						{
+							path: ':resourceId',
+							handle: {
+								sidebar: <p>NFT sidebar</p>,
+							},
+						},
+					],
+				},
+			],
 		},
 	],
 }

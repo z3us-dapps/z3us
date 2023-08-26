@@ -26,7 +26,7 @@ export type ResourceBalance = {
 
 	amount: BigNumber
 	value: BigNumber
-	change: number
+	change: BigNumber
 }
 
 export interface Ticker {

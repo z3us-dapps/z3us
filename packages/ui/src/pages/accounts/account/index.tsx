@@ -1,9 +1,8 @@
 import clsx from 'clsx'
-import { Change } from 'packages/ui/src/components/change'
 import Loader from 'packages/ui/src/components/loader'
 import { useFungibleResourceBalances, useNonFungibleResourceBalances } from 'packages/ui/src/hooks/dapp/use-balances'
 import { useNoneSharedStore } from 'packages/ui/src/hooks/use-store'
-import { formatBigNumber } from 'packages/ui/src/utils/formatters'
+import { formatBigNumber, formatChange } from 'packages/ui/src/utils/formatters'
 import React, { useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
 
@@ -13,7 +12,7 @@ import Translation from 'ui/src/components/translation'
 import { Text } from 'ui/src/components/typography'
 import { useWalletAccounts } from 'ui/src/hooks/use-wallet-account'
 
-import { AssetsPrice } from '../components/assets-price'
+import { AccountTotalValue } from '../components/account-total-value'
 import { MobileScrollingBackground } from '../components/mobile-scrolling-background'
 import { MobileScrollingButtons } from '../components/mobile-scrolling-buttons'
 import { OverlayAssetIcons } from '../components/overlay-asset-icons'
@@ -51,7 +50,7 @@ const Account: React.FC = () => {
 			<Box className={styles.accountRoutesScrollingWrapper}>
 				<MobileScrollingBackground />
 				<MobileScrollingButtons />
-				<AssetsPrice />
+				<AccountTotalValue account={accountId !== '-' ? accountId : ''} />
 				<Box className={styles.assetsHomeWrapper}>
 					{isLoading ? (
 						<Loader />
@@ -96,8 +95,12 @@ const Account: React.FC = () => {
 											<Text weight="strong" size="small" color="strong" truncate>
 												{formatBigNumber(fungibleTotalValue, currency, 2)}
 											</Text>
-											<Text size="small" color="green" truncate>
-												<Change change={fungibleTotalChange} />
+											<Text
+												size="small"
+												color={fungibleTotalChange && fungibleTotalChange.gt(0) ? 'green' : 'red'}
+												truncate
+											>
+												{formatChange(fungibleTotalChange)}
 											</Text>
 										</Box>
 									</Link>
@@ -131,8 +134,12 @@ const Account: React.FC = () => {
 											<Text weight="strong" size="small" color="strong" truncate>
 												{formatBigNumber(nonFungibleTotalValue, currency, 2)}
 											</Text>
-											<Text size="small" color="green" truncate>
-												<Change change={nonFungibleTotalChange} />
+											<Text
+												size="small"
+												color={nonFungibleTotalChange && nonFungibleTotalChange.gt(0) ? 'green' : 'red'}
+												truncate
+											>
+												{formatChange(nonFungibleTotalChange)}
 											</Text>
 										</Box>
 									</Link>

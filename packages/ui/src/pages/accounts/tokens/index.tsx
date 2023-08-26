@@ -3,48 +3,47 @@ import { useScroll } from 'packages/ui/src/components/scroll-area-radix/use-scro
 import { useFungibleResourceBalances } from 'packages/ui/src/hooks/dapp/use-balances'
 import type { ResourceBalance } from 'packages/ui/src/types/types'
 import React from 'react'
-import { useLocation, useNavigate, useParams } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 
 import { Box } from 'ui/src/components/box'
 import * as tableHeadStyles from 'ui/src/components/styles/table-head-shadow.css'
 import { Table } from 'ui/src/components/table'
 
-import { AssetsPrice } from '../components/assets-price'
-import { AssetActivityCell } from '../components/assets-table/asset-activity-cell'
-import { AssetHomeCell } from '../components/assets-table/asset-home-cell'
-import { AssetHomeCellLinks } from '../components/assets-table/asset-home-cell-links'
-import { AssetNameCell } from '../components/assets-table/asset-name-cell'
-import { AssetStatisticCell } from '../components/assets-table/asset-statistic-cell'
+import { AccountTotalValue } from '../components/account-total-value'
 import { MobileScrollingBackground } from '../components/mobile-scrolling-background'
 import { MobileScrollingButtons } from '../components/mobile-scrolling-buttons'
 import * as styles from '../styles.css'
+import { AssetAmountCell } from './components/asset-amount-cell'
+import { AssetChangeCell } from './components/asset-change-cell'
+import { AssetNameCell } from './components/asset-name-cell'
+import { AssetValueCell } from './components/asset-value-cell'
 
 const columns = [
 	{
 		Header: 'Token',
-		accessor: 'token',
-		width: '50%',
+		accessor: 'address',
+		width: 'auto',
 		Cell: AssetNameCell,
 	},
 	{
-		Header: 'Portfolio',
-		accessor: 'portfolio',
-		width: 'auto',
-		Cell: AssetStatisticCell,
-		className: styles.mobileHideTableCellWrapper,
-	},
-	{
 		Header: 'Balance',
-		accessor: 'balance',
+		accessor: 'amount',
 		width: 'auto',
-		Cell: AssetStatisticCell,
+		Cell: AssetAmountCell,
 		className: styles.mobileHideTableCellWrapper,
 	},
 	{
-		Header: 'Price',
-		accessor: 'price',
+		Header: 'Value',
+		accessor: 'value',
 		width: 'auto',
-		Cell: AssetStatisticCell,
+		Cell: AssetValueCell,
+		className: styles.mobileHideTableCellWrapper,
+	},
+	{
+		Header: 'Change',
+		accessor: 'change',
+		width: 'auto',
+		Cell: AssetChangeCell,
 		className: styles.mobileHideTableCellWrapper,
 	},
 ]
@@ -52,13 +51,13 @@ const columns = [
 const Fungibles: React.FC = () => {
 	const { scrollableNode, isScrolledTop } = useScroll()
 	const navigate = useNavigate()
-	const location = useLocation()
 	const { accountId } = useParams()
 
 	const { balances, isLoading } = useFungibleResourceBalances(accountId === '-' ? undefined : accountId)
 
-	const handleRowSelected = (resourceBalance: ResourceBalance) => {
-		navigate(`${location.pathname}/${resourceBalance.address}`)
+	const handleRowSelected = (row: { original: ResourceBalance }) => {
+		const { original } = row
+		navigate(`/accounts/${accountId}/tokens/${original.address}`)
 	}
 
 	return (
@@ -68,7 +67,7 @@ const Fungibles: React.FC = () => {
 			<Box className={styles.accountRoutesScrollingWrapper}>
 				<MobileScrollingBackground />
 				<MobileScrollingButtons />
-				<AssetsPrice />
+				<AccountTotalValue account={accountId !== '-' ? accountId : ''} />
 				<Box className={styles.assetsTableWrapper}>
 					<Table
 						className={styles.accountsTableMinHeightWrapper}
@@ -78,7 +77,6 @@ const Fungibles: React.FC = () => {
 						data={balances}
 						columns={columns}
 						isScrolledTop={isScrolledTop}
-						// loading
 						loading={isLoading}
 						// loadMore={loadMore}
 						onRowSelected={handleRowSelected}

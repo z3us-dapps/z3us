@@ -1,10 +1,9 @@
 import clsx from 'clsx'
 import { AnimatePresence, motion } from 'framer-motion'
-import { Change } from 'packages/ui/src/components/change'
 import { useGlobalResourceBalances } from 'packages/ui/src/hooks/dapp/use-balances'
 import { useNoneSharedStore } from 'packages/ui/src/hooks/use-store'
 import { ResourceBalanceType } from 'packages/ui/src/types/types'
-import { formatBigNumber } from 'packages/ui/src/utils/formatters'
+import { formatBigNumber, formatChange } from 'packages/ui/src/utils/formatters'
 import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
@@ -130,7 +129,7 @@ export const AccountIndexAssets: React.FC<IAccountIndexAssetsProps> = ({ scrolla
 														{formatBigNumber(value, currency, 2)}
 													</Text>
 													<Text weight="medium" size="xsmall" color={change.gte(0) ? 'green' : 'red'}>
-														<Change change={change} />
+														{formatChange(change)}
 													</Text>
 												</Box>
 											</Box>
