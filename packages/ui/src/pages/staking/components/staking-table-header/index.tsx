@@ -10,6 +10,7 @@ import { Button } from 'ui/src/components/router-button'
 import { Link } from 'ui/src/components/router-link'
 import { ScrollAreaRadix as ScrollArea } from 'ui/src/components/scroll-area-radix'
 import Translation from 'ui/src/components/translation'
+import { Text } from 'ui/src/components/typography'
 import { useIsMobileWidth } from 'ui/src/hooks/use-is-mobile'
 
 import * as styles from './styles.css'
@@ -26,13 +27,13 @@ export const StakingTableHeader: React.FC = () => {
 
 	return (
 		<Box className={styles.stakingHeaderWrapper}>
-			<Box display="flex" gap="medium">
-				<Link to="/accounts">accounts</Link>
-				<Link to="/staking">staking</Link>
-				<Link to="/staking/validator_tdx_d_1sw59jzn7cgp0c94xqfflvl2jxrgymy2qrucs78ye0p0qrwddvhgulc">
-					staking validator x
-				</Link>
-				<Link to="/staking/validator_tdx_d_1sw59jzn7cgp0c94xqfflvl2jxrgymy29999999999999999">staking validator y</Link>
+			<Text size="xxlarge" color="strong" weight="strong">
+				<Translation capitalizeFirstLetter text="staking.stakingValidators.title" />
+			</Text>
+			<Box maxWidth="xsmall">
+				<Text size="medium">
+					<Translation capitalizeFirstLetter text="staking.stakingValidators.subTitle" />
+				</Text>
 			</Box>
 		</Box>
 	)

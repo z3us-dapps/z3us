@@ -207,6 +207,9 @@
 			"title": "Staking validators",
 			"subTitle": "View all currently registered Radix Network validator nodes, and manage your own XRD stakes to validators."
 		},
+		"validatorTable": {
+			"validatorTitle": "Validator"
+		},
 		"validatorPanel": {
 			"validatorDetailsTitle": "validator details",
 			"validatorAddress": "validator address",

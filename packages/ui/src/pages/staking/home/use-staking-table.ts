@@ -1,7 +1,11 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
+import { t } from 'i18next'
 import { useEffect, useMemo, useState } from 'react'
 import { useLocation, useNavigate, useParams } from 'react-router-dom'
 import { useTimeout } from 'usehooks-ts'
+
+import { capitalizeFirstLetter } from 'ui/src/utils/capitalize-first-letter'
+import { getRandomNumberInRange } from 'ui/src/utils/get-random-number-in-ranger'
 
 import { StakingStatisticCell } from '../components/staking-statistic-cell'
 import * as styles from './styles.css'
@@ -12,10 +16,14 @@ const loadingItems = Array.from({ length: 400 }).map((_, i, a) => {
 	const randomStr = generateRandomString()
 	return {
 		id: `${i}-${randomStr}`,
-		token: `${i}-${randomStr}`,
-		portfolio: '65%',
-		price: '$1.83',
-		balance: '99',
+		validator: `${i}-${randomStr}`,
+		address: `${i}-${randomStr}`,
+		totalStake: getRandomNumberInRange(1, 100),
+		ownerStake: getRandomNumberInRange(1, 100),
+		apy: getRandomNumberInRange(1, 100),
+		fee: getRandomNumberInRange(1, 100),
+		upTime: getRandomNumberInRange(1, 100),
+		acceptsStake: getRandomNumberInRange(1, 100),
 	}
 })
 
@@ -36,32 +44,56 @@ export const useStakingTable = (): TAssetsTable => {
 	const columnsAssets = useMemo(
 		() => [
 			{
-				Header: 'Token',
-				accessor: 'token',
-				width: '50%',
+				Header: `${t('staking.validatorTable.validatorTitle')} `,
+				accessor: 'validator',
+				width: '20%',
+				// width: 'auto',
+				Cell: StakingStatisticCell,
+				// className: styles.mobileHideTableCellWrapper,
+			},
+			{
+				Header: 'Address',
+				accessor: 'address',
+				width: 'auto',
 				Cell: StakingStatisticCell,
 			},
 			{
-				Header: 'Portfolio',
-				accessor: 'portfolio',
+				Header: 'Total stake',
+				accessor: 'totalStake',
 				width: 'auto',
 				Cell: StakingStatisticCell,
 				// className: styles.mobileHideTableCellWrapper,
 			},
 			{
-				Header: 'Balance',
-				accessor: 'balance',
+				Header: 'Owner stake',
+				accessor: 'ownerStake',
 				width: 'auto',
 				Cell: StakingStatisticCell,
-				// className: styles.mobileHideTableCellWrapper,
 			},
 			{
-				Header: 'Price',
-				accessor: 'price',
-				width: 'auto',
+				Header: 'Up time',
+				accessor: 'upTime',
+				width: '13%',
 				Cell: StakingStatisticCell,
-				// className: styles.mobileHideTableCellWrapper,
 			},
+			{
+				Header: 'Apy',
+				accessor: 'apy',
+				width: '8%',
+				Cell: StakingStatisticCell,
+			},
+			{
+				Header: 'Fee',
+				accessor: 'fee',
+				width: '8%',
+				Cell: StakingStatisticCell,
+			},
+			// {
+			// 	Header: 'Accepts',
+			// 	accessor: 'acceptsStake',
+			// 	width: '10%',
+			// 	Cell: StakingStatisticCell,
+			// },
 		],
 		[],
 	)
