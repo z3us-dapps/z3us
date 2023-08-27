@@ -81,7 +81,7 @@ export const TransferWrapper: React.FC<PropsWithChildren<ITransferWrapperProps>>
 				<ScrollPanel>
 					<Box className={styles.transferDesktopWrapper}>
 						<Box width="full">
-							<Box display="flex" alignItems="flex-end" paddingBottom="small">
+							<Box display="flex" alignItems="flex-end" paddingBottom="xxsmall">
 								<Box display="flex" paddingTop="xxsmall" alignItems="center">
 									<Text size="xxlarge" weight="strong" color="strong">
 										{title}
@@ -119,7 +119,7 @@ export const TransferWrapper: React.FC<PropsWithChildren<ITransferWrapperProps>>
 								<Text size="small">{description}</Text>
 							</Box>
 							<Box marginTop="large">{children}</Box>
-							<Box display="flex" paddingTop="xlarge" width="full">
+							{/* <Box display="flex" paddingTop="xlarge" width="full">
 								<Button
 									styleVariant="primary"
 									sizeVariant="xlarge"
@@ -136,7 +136,7 @@ export const TransferWrapper: React.FC<PropsWithChildren<ITransferWrapperProps>>
 								>
 									<Translation capitalizeFirstLetter text="global.send" />
 								</Button>
-							</Box>
+							</Box> */}
 						</Box>
 					</Box>
 				</ScrollPanel>

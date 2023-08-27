@@ -1,5 +1,6 @@
 import * as DropdownMenuPrimitive from '@radix-ui/react-dropdown-menu'
 import clsx, { type ClassValue } from 'clsx'
+import type { ForwardedRef } from 'react'
 import React, { forwardRef, useState } from 'react'
 import useMeasure from 'react-use-measure'
 import { Virtuoso } from 'react-virtuoso'
@@ -83,48 +84,38 @@ export const DropdownMenuLeftSlot = ({ children, ...props }) => (
 	</Box>
 )
 
-// Virtuoso menu
-export interface IDropdownMenuVirtuosoRequiredProps {
+export interface IDropdownMenuVirtuosoProps {
 	trigger: React.ReactNode
 	value: string
 	data: Array<{ id: string; title: string }>
 	onValueChange: (value: string) => void
-}
-
-interface IDropdownMenuVirtuosoOptionalProps {
 	className?: ClassValue
 	itemContentRenderer?: (index: number, item: { id: string; title: string }) => React.ReactNode
 }
 
-interface IDropdownMenuVirtuosoProps extends IDropdownMenuVirtuosoRequiredProps, IDropdownMenuVirtuosoOptionalProps {}
-
-const defaultProps: IDropdownMenuVirtuosoOptionalProps = {
-	className: undefined,
-	itemContentRenderer: (index, { id, title }) => (
-		<DropdownMenuRadioItem value={id} key={index}>
-			<Box flexGrow={1}>
-				<Text>{title}</Text>
-			</Box>
-			<DropdownMenuItemIndicator>
-				<Check2Icon />
-			</DropdownMenuItemIndicator>
-		</DropdownMenuRadioItem>
-	),
-}
-
-export const DropdownMenuVirtuoso: React.FC<IDropdownMenuVirtuosoProps> = ({
-	trigger,
-	className,
-	data,
-	value,
-	itemContentRenderer,
-	onValueChange,
-}) => {
+export const DropdownMenuVirtuoso = forwardRef((props: IDropdownMenuVirtuosoProps, ref: ForwardedRef<any>) => {
+	const {
+		trigger,
+		className,
+		data,
+		value,
+		itemContentRenderer = (index, { id, title }) => (
+			<DropdownMenuRadioItem value={id} key={index}>
+				<Box flexGrow={1}>
+					<Text>{title}</Text>
+				</Box>
+				<DropdownMenuItemIndicator>
+					<Check2Icon />
+				</DropdownMenuItemIndicator>
+			</DropdownMenuRadioItem>
+		),
+		onValueChange,
+	} = props
 	const [customScrollParent, setCustomScrollParent] = useState<HTMLElement | undefined>(undefined)
 	const [measureRef, { width: triggerWidth }] = useMeasure()
 
 	return (
-		<Box className={clsx(styles.dropdownMenuVirtuosoWrapper, className)}>
+		<Box className={clsx(styles.dropdownMenuVirtuosoWrapper, className)} ref={ref}>
 			<DropdownMenu>
 				<DropdownMenuTrigger asChild ref={measureRef}>
 					{trigger}
@@ -151,6 +142,4 @@ export const DropdownMenuVirtuoso: React.FC<IDropdownMenuVirtuosoProps> = ({
 			</DropdownMenu>
 		</Box>
 	)
-}
-
-DropdownMenuVirtuoso.defaultProps = defaultProps
+})

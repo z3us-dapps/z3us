@@ -31,7 +31,7 @@ import Translation from 'ui/src/components/translation'
 import { Text } from 'ui/src/components/typography'
 import { getShortAddress } from 'ui/src/utils/string-utils'
 
-import * as styles from './token-selector-dialog.css'
+import * as styles from './styles'
 
 interface ITokenSelectorDialogProps {
 	trigger: React.ReactNode

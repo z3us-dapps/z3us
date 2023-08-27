@@ -1,7 +1,8 @@
 import * as CheckboxPrimitive from '@radix-ui/react-checkbox'
 import clsx, { type ClassValue } from 'clsx'
 import { AnimatePresence, motion } from 'framer-motion'
-import React, { useState } from 'react'
+import type { ForwardedRef } from 'react'
+import React, { forwardRef, useState } from 'react'
 
 import { Box } from '../box'
 import { type TThemeColorKey } from '../system/theme.css'
@@ -13,9 +14,7 @@ export type TStyleVariant = 'primary' | 'primary-error' | 'secondary' | 'seconda
 export const CheckboxRoot = CheckboxPrimitive.Root
 export const CheckboxIndicator = CheckboxPrimitive.Indicator
 
-interface ICheckboxRequiredProps {}
-
-interface ICheckboxOptionalProps {
+export interface ICheckboxProps {
 	checked?: boolean
 	className?: ClassValue
 	disabled?: boolean
@@ -25,28 +24,17 @@ interface ICheckboxOptionalProps {
 	onCheckedChange?: (checked: boolean) => void
 }
 
-interface ICheckboxProps extends ICheckboxRequiredProps, ICheckboxOptionalProps {}
-
-const defaultProps: ICheckboxOptionalProps = {
-	checked: false,
-	className: undefined,
-	disabled: false,
-	sizeVariant: 'small',
-	styleVariant: 'secondary',
-	tickColor: 'colorNeutral',
-	onCheckedChange: undefined,
-}
-
-export const Checkbox: React.FC<ICheckboxProps> = ({
-	checked,
-	className,
-	sizeVariant,
-	styleVariant,
-	disabled,
-	tickColor,
-	onCheckedChange,
-	...rest
-}) => {
+export const Checkbox = forwardRef<HTMLElement, ICheckboxProps>((props, ref: ForwardedRef<any>) => {
+	const {
+		checked = false,
+		className,
+		sizeVariant = 'small',
+		styleVariant = 'secondary',
+		disabled,
+		tickColor = 'colorNeutral',
+		onCheckedChange,
+		...rest
+	} = props
 	const [animate, setAnimate] = useState<boolean>(checked)
 
 	const handleCheckChanged = (_checked: boolean) => {
@@ -56,6 +44,7 @@ export const Checkbox: React.FC<ICheckboxProps> = ({
 
 	return (
 		<CheckboxRoot
+			ref={ref}
 			checked={animate}
 			onCheckedChange={handleCheckChanged}
 			className={clsx(
@@ -90,6 +79,4 @@ export const Checkbox: React.FC<ICheckboxProps> = ({
 			</AnimatePresence>
 		</CheckboxRoot>
 	)
-}
-
-Checkbox.defaultProps = defaultProps
+})
