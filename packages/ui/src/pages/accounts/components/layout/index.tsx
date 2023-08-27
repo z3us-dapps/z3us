@@ -1,6 +1,7 @@
-import { Box } from 'packages/ui/src/components/box'
-import Loader from 'packages/ui/src/components/loader'
-import { useScroll } from 'packages/ui/src/components/scroll-area-radix/use-scroll'
+import clsx from 'clsx'
+import { Box } from 'ui/src/components/box'
+import Loader from 'ui/src/components/loader'
+import { useScroll } from 'ui/src/components/scroll-area-radix/use-scroll'
 import React, { Suspense } from 'react'
 import { useLocation, useMatches, useOutlet } from 'react-router-dom'
 
@@ -10,8 +11,12 @@ import { ScrollPanel } from 'ui/src/components/scroll-panel'
 import * as panelViewStyles from 'ui/src/components/styles/panel-view-styles.css'
 import { useIsMobileWidth } from 'ui/src/hooks/use-is-mobile'
 
-import { AssetsBreadcrumb } from '../assets-breadcrumb'
-import { MobileAccountBackground } from '../mobile-account-background'
+import { Breadcrumbs } from './components/breadcrumbs'
+import { MobileBackground } from './components/mobile/background'
+import { MobileScrollingBackground } from './components/mobile/scrolling-background'
+import { MobileScrollingButtons } from './components/mobile/scrolling-buttons'
+import { AccountTotalValue } from './components/total-value'
+import * as styles from './styles.css'
 
 const ScrollContent: React.FC = () => {
 	const location = useLocation()
@@ -20,13 +25,15 @@ const ScrollContent: React.FC = () => {
 	const isMobile = useIsMobileWidth()
 	const { scrollableNode } = useScroll()
 
-	const [sidebar] = matches
+	const sidebars = matches
 		.filter(match => Boolean((match.handle as any)?.sidebar))
 		.map(match => (match.handle as any).sidebar)
 
+	const [sidebar] = sidebars.toReversed()
+
 	return (
 		<>
-			<MobileAccountBackground />
+			<MobileBackground />
 			<ScrollArea
 				showTopScrollShadow={false}
 				disabled={!isMobile}
@@ -35,10 +42,19 @@ const ScrollContent: React.FC = () => {
 				<Box className={panelViewStyles.panelViewWrapper}>
 					<Box className={panelViewStyles.panelViewLeftWrapper}>
 						<ScrollPanel showTopScrollShadow={false} scrollParent={isMobile ? scrollableNode : undefined}>
-							<AssetsBreadcrumb />
-							<Suspense key={location.pathname} fallback={<Loader />}>
-								{outlet}
-							</Suspense>
+							<Breadcrumbs />
+							<Box className={clsx(styles.routesWrapper)}>
+								<Box className={styles.scrollingWrapper}>
+									<MobileScrollingBackground />
+									<MobileScrollingButtons />
+									<AccountTotalValue />
+									<Box className={styles.contentWrapper}>
+										<Suspense key={location.pathname} fallback={<Loader />}>
+											{outlet}
+										</Suspense>
+									</Box>
+								</Box>
+							</Box>
 						</ScrollPanel>
 					</Box>
 					<Box className={panelViewStyles.panelViewRightWrapper}>
@@ -60,7 +76,7 @@ const Layout: React.FC = () => {
 	return (
 		<MotionBox>
 			<Box className={panelViewStyles.panelViewOuterWrapper}>
-				<MobileAccountBackground />
+				<MobileBackground />
 				<ScrollArea
 					showTopScrollShadow={false}
 					disabled={!isMobile}

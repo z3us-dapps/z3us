@@ -1,5 +1,6 @@
-import { ResourceImageIcon } from 'packages/ui/src/components/resource-image-icon'
+import { ResourceImageIcon } from 'ui/src/components/resource-image-icon'
 import React from 'react'
+import { useParams } from 'react-router-dom'
 
 import { Box } from 'ui/src/components/box'
 import { ChevronRightIcon } from 'ui/src/components/icons'
@@ -9,16 +10,16 @@ import type { ResourceBalance } from 'ui/src/types/types'
 
 import * as styles from './styles.css'
 
-const DEFAULT_ITEMS = 4
+const DEFAULT_ITEMS = 3
 
 interface IProps {
+	resourceType: 'token' | 'nft'
 	balances: ResourceBalance[]
-	accountId: string
 	onButtonMouseOver: () => void
 }
 
-export const OverlayAssetIcons: React.FC<IProps> = props => {
-	const { balances, accountId, onButtonMouseOver } = props
+export const OverlayAssetIcons: React.FC<IProps> = ({ resourceType, balances, onButtonMouseOver }) => {
+	const { accountId } = useParams()
 
 	return (
 		<Box className={styles.overlayAssetIconsWrapper}>
@@ -34,7 +35,7 @@ export const OverlayAssetIcons: React.FC<IProps> = props => {
 					key={resource.address}
 					className={styles.overlayAssetIconCircleWrapper}
 					onMouseOver={onButtonMouseOver}
-					href={`/accounts/${accountId}/fungibles`}
+					href={`/accounts/${accountId || '-'}/${resourceType}s`}
 					styleVariant="avatar"
 					sizeVariant="medium"
 					iconOnly

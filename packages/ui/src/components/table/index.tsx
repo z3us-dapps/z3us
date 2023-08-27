@@ -11,7 +11,13 @@ import { ChevronDown2Icon, ChevronUp2Icon, LoadingBarsIcon } from '../icons'
 import * as styles from './table.css'
 
 interface ITableProps {
-	columns: Array<object>
+	columns: Array<{
+		Header: React.ReactNode | React.FC
+		Cell: React.ReactNode | React.FC
+		accessor: string
+		width: string
+		className?: string
+	}>
 	data: Array<object>
 	scrollableNode?: HTMLElement
 	className?: ClassValue
@@ -21,6 +27,8 @@ interface ITableProps {
 	loadMore?: boolean
 	overscan?: number
 	isScrolledTop?: boolean
+	selectedRowIds?: { [key: number]: boolean }
+	sort?: { id: string; desc: boolean }
 	onEndReached?: () => void
 	// TODO: should this just be ID?? and not the whole row??
 	onRowSelected?: (row: any) => void
@@ -34,23 +42,20 @@ export const Table: React.FC<ITableProps> = props => {
 		styleVariant = 'primary',
 		data,
 		columns,
+		selectedRowIds = {},
 		loading = false,
 		loadMore = false,
 		overscan = 100,
+		sort,
 		onEndReached = () => {},
 		onRowSelected = () => {},
 	} = props
 	const [isMounted, setIsMounted] = useState<boolean>(false)
 	const isMobile = useIsMobileWidth()
-	const initialSort = React.useMemo(() => [{ id: 'token', desc: true }], [])
-
-	// TODO: this will need to be selected by url
-	const initialSelectedRows = React.useMemo(
-		() => ({
-			2: true, // Select row with ID 2 by default
-		}),
-		[],
-	)
+	const initialSort = React.useMemo(() => {
+		if (sort || !columns?.length) return sort
+		return [{ id: columns[0].accessor, desc: true }]
+	}, [sort])
 
 	const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow, toggleAllRowsSelected } = useTable(
 		{
@@ -58,7 +63,7 @@ export const Table: React.FC<ITableProps> = props => {
 			data,
 			initialState: {
 				sortBy: initialSort,
-				selectedRowIds: initialSelectedRows,
+				selectedRowIds,
 			},
 		},
 		useSortBy,

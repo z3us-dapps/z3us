@@ -188,6 +188,8 @@ export const useGlobalResourceBalances = (forAccount?: string) => {
 
 	return {
 		balances,
+		fungibleBalances,
+		nonFungibleBalances,
 		totalValue,
 		fungibleValue,
 		nonFungibleValue,
