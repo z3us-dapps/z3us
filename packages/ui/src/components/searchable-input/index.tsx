@@ -1,5 +1,6 @@
 import clsx, { type ClassValue } from 'clsx'
-import React, { useEffect, useRef, useState } from 'react'
+import type { ForwardedRef } from 'react'
+import React, { forwardRef, useEffect, useRef, useState } from 'react'
 import useMeasure from 'react-use-measure'
 import { Virtuoso } from 'react-virtuoso'
 import { useDebounce } from 'use-debounce'
@@ -25,7 +26,7 @@ export interface ISearchableInputProps {
 	placeholder?: string
 }
 
-export const SearchableInput: React.FC<ISearchableInputProps> = props => {
+export const SearchableInput = forwardRef<HTMLInputElement, ISearchableInputProps>((props, ref: ForwardedRef<any>) => {
 	const { className, data, value, onValueChange, styleVariant = 'primary', sizeVariant = 'large', placeholder } = props
 	const [isPopoverOpen, setIsPopoverOpen] = useState<boolean>(false)
 	const [customScrollParent, setCustomScrollParent] = useState<HTMLElement | undefined>(undefined)
@@ -85,7 +86,7 @@ export const SearchableInput: React.FC<ISearchableInputProps> = props => {
 	}
 
 	return (
-		<Box className={clsx(styles.searchableInputWrapper, className)}>
+		<Box ref={ref} className={clsx(styles.searchableInputWrapper, className)}>
 			<PopoverRoot open={isPopoverOpen}>
 				<PopoverAnchor asChild>
 					<Box ref={measureRef} className={styles.inputWrapper}>
@@ -134,13 +135,11 @@ export const SearchableInput: React.FC<ISearchableInputProps> = props => {
 												handleItemSelected(id)
 											}}
 										>
-											<Box flexGrow={1}>
-												<Text color="strong" truncate>
-													{alias}
-												</Text>
+											<Box flexGrow={1} flexShrink={0}>
+												<Text color="strong">{alias}</Text>
 											</Box>
 											<Box flexGrow={1}>
-												<Text truncate>{account}</Text>
+												<Text truncate>({account})</Text>
 											</Box>
 											{id === value && (
 												<Box flexShrink={0} display="flex" alignItems="center" justifyContent="center">
@@ -158,4 +157,4 @@ export const SearchableInput: React.FC<ISearchableInputProps> = props => {
 			</PopoverRoot>
 		</Box>
 	)
-}
+})

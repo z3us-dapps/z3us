@@ -6,7 +6,6 @@ import { type ZodObject, ZodRawShape } from 'zod'
 import { Box } from 'ui/src/components/box'
 import { Button } from 'ui/src/components/button'
 import { LoadingBarsIcon } from 'ui/src/components/icons'
-import Translation from 'ui/src/components/translation'
 
 import { FormContext } from './context'
 import { type FormData, type FormErrors } from './types'
@@ -16,9 +15,18 @@ type IProps<P = {}> = {
 	// validationSchema?: unknown
 	onSubmit: (form: P) => Promise<void> | void
 	validate?: (form: P) => any
+	className?: string
+	submitButtonTitle?: string | React.ReactNode
 }
 
-export const Form: React.FC<PropsWithChildren<IProps>> = ({ children, initialValues, validate, onSubmit, ...rest }) => {
+export const Form: React.FC<PropsWithChildren<IProps>> = ({
+	children,
+	submitButtonTitle,
+	initialValues,
+	validate,
+	onSubmit,
+	...rest
+}) => {
 	const [isLoading, setIsLoading] = useState<boolean>(false)
 	const [form, setForm] = useState<FormData<IProps['initialValues']>>(initialValues)
 	const [errors, setErrors] = useState<FormErrors>({})
@@ -53,23 +61,22 @@ export const Form: React.FC<PropsWithChildren<IProps>> = ({ children, initialVal
 	return (
 		<form {...rest} onSubmit={handleSubmit}>
 			<FormContext.Provider value={ctx}>{children}</FormContext.Provider>
-			<Box display="flex" paddingTop="xlarge" width="full">
-				<Button
-					styleVariant="primary"
-					sizeVariant="xlarge"
-					type="submit"
-					disabled={isLoading}
-					rightIcon={
-						isLoading ? (
-							<Box marginLeft="small">
-								<LoadingBarsIcon />
-							</Box>
-						) : null
-					}
-				>
-					<Translation capitalizeFirstLetter text="global.submit" />
-				</Button>
-			</Box>
+			<Button
+				fullWidth
+				styleVariant="primary"
+				sizeVariant="xlarge"
+				type="submit"
+				disabled={isLoading}
+				rightIcon={
+					isLoading ? (
+						<Box marginLeft="small">
+							<LoadingBarsIcon />
+						</Box>
+					) : null
+				}
+			>
+				{submitButtonTitle}
+			</Button>
 		</form>
 	)
 }

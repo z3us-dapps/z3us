@@ -34,9 +34,11 @@ export const FieldWrapper: React.FC<PropsWithChildren<IProps>> = ({ validate, ch
 
 	return (
 		<Box>
-			<Box display="flex" paddingBottom="small" paddingTop="large">
-				{label}
-			</Box>
+			{label && (
+				<Box display="flex" paddingBottom="small" paddingTop="large">
+					{label}
+				</Box>
+			)}
 			<Box width="full" position="relative">
 				{React.Children.map(children, child =>
 					React.isValidElement(child)

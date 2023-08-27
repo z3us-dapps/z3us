@@ -39,9 +39,9 @@ interface ITokenSelectorDialogProps {
 
 const searchAndFilterArray = (array: Array<any>, searchString: string) =>
 	array.filter(item => {
-		const nameMatch = item.name.toLowerCase().includes(searchString.toLowerCase())
-		const addressMatch = item.address.toLowerCase().includes(searchString.toLowerCase())
-		const symbolMatch = item.symbol.toLowerCase().includes(searchString.toLowerCase())
+		const nameMatch = item.name?.toLowerCase().includes(searchString.toLowerCase())
+		const addressMatch = item.address?.toLowerCase().includes(searchString.toLowerCase())
+		const symbolMatch = item.symbol?.toLowerCase().includes(searchString.toLowerCase())
 
 		return nameMatch || addressMatch || symbolMatch
 	})

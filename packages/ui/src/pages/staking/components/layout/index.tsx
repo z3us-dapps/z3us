@@ -1,8 +1,7 @@
-import { AnimatePresence } from 'framer-motion'
 import { Box } from 'packages/ui/src/components/box'
 import { useScroll } from 'packages/ui/src/components/scroll-area-radix/use-scroll'
 import React, { Suspense } from 'react'
-import { useLocation, useMatches, useOutlet } from 'react-router-dom'
+import { useLocation, useOutlet } from 'react-router-dom'
 
 import Loader from 'ui/src/components/loader'
 import MotionBox from 'ui/src/components/motion-box'
@@ -10,6 +9,8 @@ import { ScrollAreaRadix as ScrollArea } from 'ui/src/components/scroll-area-rad
 import { ScrollPanel } from 'ui/src/components/scroll-panel'
 import * as panelViewStyles from 'ui/src/components/styles/panel-view-styles.css'
 import { useIsMobileWidth } from 'ui/src/hooks/use-is-mobile'
+
+import { ValidatorPanel } from '../validator-panel'
 
 const ScrollContent: React.FC = () => {
 	const location = useLocation()
@@ -39,13 +40,6 @@ const ScrollContent: React.FC = () => {
 
 const Layout: React.FC = () => {
 	const isMobile = useIsMobileWidth()
-	const location = useLocation()
-
-	const matches = useMatches()
-
-	const [validatorPanel] = matches
-		.filter(match => Boolean((match.handle as any)?.validatorPanel))
-		.map(match => (match.handle as any).validatorPanel)
 
 	return (
 		<MotionBox>
@@ -60,11 +54,7 @@ const Layout: React.FC = () => {
 					</Box>
 				</ScrollArea>
 			</Box>
-			<AnimatePresence initial={false}>
-				<Suspense key={`${location.pathname?.split('/').length}`} fallback={<Loader />}>
-					{validatorPanel}
-				</Suspense>
-			</AnimatePresence>
+			<ValidatorPanel />
 		</MotionBox>
 	)
 }

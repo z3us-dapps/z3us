@@ -93,7 +93,7 @@ export const transactionContentSlideOutDialogContent = style([
 		animationTimingFunction: 'cubic-bezier(0.16, 1, 0.3, 1)',
 		transformOrigin: 'var(--radix-dropdown-menu-content-transform-origin)',
 		willChange: 'transform, opacity',
-		animationDuration: '150ms',
+		animationDuration: '300ms',
 		selectors: {
 			'&:focus': {
 				outline: 'none',
