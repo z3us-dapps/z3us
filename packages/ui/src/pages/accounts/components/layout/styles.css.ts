@@ -39,3 +39,13 @@ export const contentWrapper = style([
 		},
 	}),
 ])
+
+export const tableWrapper = style([
+	sprinkles({
+		position: 'relative',
+		paddingX: {
+			tablet: 'large',
+		},
+	}),
+	{},
+])

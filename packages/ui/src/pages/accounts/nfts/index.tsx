@@ -1,7 +1,6 @@
 import React from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 
-import { Box } from 'ui/src/components/box'
 import { useScroll } from 'ui/src/components/scroll-area-radix/use-scroll'
 import { Table } from 'ui/src/components/table'
 import { useNonFungibleResourceBalances } from 'ui/src/hooks/dapp/use-balances'
@@ -56,21 +55,19 @@ const Fungibles: React.FC = () => {
 	}
 
 	return (
-		<Box className={styles.tableWrapper}>
-			<Table
-				className={styles.tableMinHeightWrapper}
-				styleVariant="primary"
-				sizeVariant="large"
-				scrollableNode={scrollableNode ?? undefined}
-				data={balances}
-				columns={columns}
-				isScrolledTop={isScrolledTop}
-				onRowSelected={handleRowSelected}
-				loading={isLoading}
-				// loadMore={loadMore}
-				// onEndReached={onEndReached}
-			/>
-		</Box>
+		<Table
+			className={styles.tableMinHeightWrapper}
+			styleVariant="primary"
+			sizeVariant="large"
+			scrollableNode={scrollableNode ?? undefined}
+			data={balances}
+			columns={columns}
+			isScrolledTop={isScrolledTop}
+			onRowSelected={handleRowSelected}
+			loading={isLoading}
+			// loadMore={loadMore}
+			// onEndReached={onEndReached}
+		/>
 	)
 }
 

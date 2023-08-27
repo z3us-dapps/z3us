@@ -98,7 +98,7 @@ export const useFungibleResourceBalances = (forAccount?: string) => {
 		)
 
 		return { balances, totalValue, totalChange }
-	}, [fetchAccountsStatus, fetchAccountsStatus, fetchTokensStatus, fetchPriceStatus])
+	}, [forAccount, fetchAccountsStatus, fetchTokensStatus, fetchPriceStatus])
 
 	return {
 		...response,
@@ -156,7 +156,7 @@ export const useNonFungibleResourceBalances = (forAccount?: string) => {
 		)
 
 		return { balances, totalValue, totalChange }
-	}, [fetchAccountsStatus, fetchAccountsStatus, fetchTokensStatus, fetchPriceStatus])
+	}, [forAccount, fetchAccountsStatus, fetchTokensStatus, fetchPriceStatus])
 
 	return {
 		...response,

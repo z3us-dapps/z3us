@@ -1,17 +1,17 @@
 import clsx from 'clsx'
-import Loader from 'ui/src/components/loader'
-import { useFungibleResourceBalances, useNonFungibleResourceBalances } from 'ui/src/hooks/dapp/use-balances'
-import { useNoneSharedStore } from 'ui/src/hooks/use-store'
-import { OverlayAssetIcons } from 'ui/src/pages/accounts/components/overlay-asset-icons'
-import { formatBigNumber, formatChange } from 'ui/src/utils/formatters'
 import React, { useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
 
 import { Box } from 'ui/src/components/box'
 import { CopyAddressButton } from 'ui/src/components/copy-address-button'
+import Loader from 'ui/src/components/loader'
 import Translation from 'ui/src/components/translation'
 import { Text } from 'ui/src/components/typography'
+import { useFungibleResourceBalances, useNonFungibleResourceBalances } from 'ui/src/hooks/dapp/use-balances'
+import { useNoneSharedStore } from 'ui/src/hooks/use-store'
 import { useWalletAccounts } from 'ui/src/hooks/use-wallet-account'
+import { OverlayAssetIcons } from 'ui/src/pages/accounts/components/overlay-asset-icons'
+import { formatBigNumber, formatChange } from 'ui/src/utils/formatters'
 
 import * as styles from './styles.css'
 

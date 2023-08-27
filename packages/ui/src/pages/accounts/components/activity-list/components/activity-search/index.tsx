@@ -11,9 +11,9 @@ import { useScroll } from 'ui/src/components/scroll-area-radix/use-scroll'
 import { ToolTip } from 'ui/src/components/tool-tip'
 import Translation from 'ui/src/components/translation'
 import { Text } from 'ui/src/components/typography'
+import { useResourceType } from 'ui/src/pages/accounts/hooks/use-resource-type'
 
 import * as styles from './styles.css'
-import { useResourceType } from './use-resource-type'
 
 export const ActivitySearch: React.FC = () => {
 	const { scrollableNode } = useScroll()

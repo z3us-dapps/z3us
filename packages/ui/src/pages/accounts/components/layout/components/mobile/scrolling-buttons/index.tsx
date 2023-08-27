@@ -14,10 +14,10 @@ import { ToolTip } from 'ui/src/components/tool-tip'
 import Translation from 'ui/src/components/translation'
 import { Text } from 'ui/src/components/typography'
 import { useEntityMetadata, useMetadataValue } from 'ui/src/hooks/dapp/use-entity-metadata'
+import { useResourceType } from 'ui/src/pages/accounts/hooks/use-resource-type'
 import { capitalizeFirstLetter } from 'ui/src/utils/capitalize-first-letter'
 
 import * as styles from './styles.css'
-import { useResourceType } from './use-resource-type'
 import { useShowActivitiesParam } from './use-show-activities-param'
 
 const TabTitle: React.FC = () => {

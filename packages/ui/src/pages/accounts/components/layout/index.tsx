@@ -1,12 +1,12 @@
 import clsx from 'clsx'
-import { Box } from 'ui/src/components/box'
-import Loader from 'ui/src/components/loader'
-import { useScroll } from 'ui/src/components/scroll-area-radix/use-scroll'
 import React, { Suspense } from 'react'
 import { useLocation, useMatches, useOutlet } from 'react-router-dom'
 
+import { Box } from 'ui/src/components/box'
+import Loader from 'ui/src/components/loader'
 import MotionBox from 'ui/src/components/motion-box'
 import { ScrollAreaRadix as ScrollArea } from 'ui/src/components/scroll-area-radix'
+import { useScroll } from 'ui/src/components/scroll-area-radix/use-scroll'
 import { ScrollPanel } from 'ui/src/components/scroll-panel'
 import * as panelViewStyles from 'ui/src/components/styles/panel-view-styles.css'
 import { useIsMobileWidth } from 'ui/src/hooks/use-is-mobile'
@@ -49,9 +49,11 @@ const ScrollContent: React.FC = () => {
 									<MobileScrollingButtons />
 									<AccountTotalValue />
 									<Box className={styles.contentWrapper}>
-										<Suspense key={location.pathname} fallback={<Loader />}>
-											{outlet}
-										</Suspense>
+										<Box className={styles.tableWrapper}>
+											<Suspense key={location.pathname} fallback={<Loader />}>
+												{outlet}
+											</Suspense>
+										</Box>
 									</Box>
 								</Box>
 							</Box>

@@ -35,7 +35,7 @@ export const useAccounts = (
 	const { state } = useGatewayClient()!
 
 	return useQuery({
-		queryKey: ['useAccount', networkId, aggregation, ...addresses],
+		queryKey: ['useAccounts', networkId, aggregation, ...addresses],
 		queryFn: async (): Promise<StateEntityDetailsResponseItem[]> =>
 			addresses.length === 0
 				? []
