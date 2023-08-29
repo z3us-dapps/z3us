@@ -10,10 +10,10 @@ import { Button } from '../button'
 import { ArrowUpIcon } from '../icons'
 import { ToolTip } from '../tool-tip'
 import { ScrollContext } from './context'
-import * as styles from './scroll-area-radix.css'
+import * as styles from './styles.css'
 
 const SCROLL_TOP_BUTTON_VISIBLE_PX = 100
-const THROTTLE_MS = 300
+const THROTTLE_MS = 50
 
 export const ScrollAreaRoot = ({ children, className, ...rest }) => (
 	<ScrollAreaPrimitive.Root className={clsx(styles.scrollAreaRootWrapper, className)} {...rest}>
@@ -70,7 +70,7 @@ export const ScrollAreaRadix: React.FC<PropsWithChildren<IScrollAreaRadix>> = ({
 	} = props
 
 	const [scrollParent, setScrollParent] = useState<HTMLElement | null>(null)
-	const [scrollHeight, setScrollHeight] = useState<number | undefined>(1)
+	const [scrollHeight, setScrollHeight] = useState<number | undefined>(0)
 	const [isScrolledBottom, setIsScrolledBottom] = useState<boolean>(true)
 	const [isScrolledTop, setIsScrolledTop] = useState<boolean>(true)
 	const [isScrollUpButtonVisible, setIsScrollUpButtonVisible] = useState<boolean>(false)
@@ -95,7 +95,9 @@ export const ScrollAreaRadix: React.FC<PropsWithChildren<IScrollAreaRadix>> = ({
 		const resizeObserver = new ResizeObserver(entries => {
 			const observedHeight = entries[0].contentRect.height
 			setScrollHeight(observedHeight)
-			// handleDetermineScrollPosition()
+			if (scrollHeight > 0) {
+				handleDetermineScrollPosition()
+			}
 		})
 
 		if (fixHeight && scrollParent?.firstChild instanceof HTMLElement) {
@@ -107,7 +109,7 @@ export const ScrollAreaRadix: React.FC<PropsWithChildren<IScrollAreaRadix>> = ({
 				resizeObserver.disconnect()
 			}
 		}
-	}, [fixHeight, scrollParent, disabled])
+	}, [fixHeight, scrollParent, disabled, scrollHeight])
 
 	const handleDebouncedResizeHandler = useDebouncedCallback(() => {
 		handleDetermineScrollPosition()

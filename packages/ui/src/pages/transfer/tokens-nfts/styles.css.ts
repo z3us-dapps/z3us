@@ -1,4 +1,4 @@
-import { globalStyle, style } from '@vanilla-extract/css'
+import { style } from '@vanilla-extract/css'
 
 import { sprinkles } from 'ui/src/components/system/sprinkles.css'
 import { responsiveStyle } from 'ui/src/components/system/theme-utils'
@@ -20,17 +20,9 @@ export const transferFormOuterWrapper = style([
 export const transferFormWrapper = style([
 	sprinkles({
 		position: 'relative',
-		// maxWidth: 'medium',
 		width: 'full',
-		// padding: {
-		// 	mobile: 'medium',
-		// 	tablet: 'xxlarge',
-		// 	desktop: 'xxlarge',
-		// },
 	}),
-	{
-		// border: '1px solid red',
-	},
+	{},
 ])
 
 export const transferFormGridBoxWrapper = style([
