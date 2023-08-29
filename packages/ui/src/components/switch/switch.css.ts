@@ -1,9 +1,8 @@
 import { style } from '@vanilla-extract/css'
-
 import { recipe } from '@vanilla-extract/recipes'
-import { vars } from '../system/theme.css'
 
 import { sprinkles } from '../system/sprinkles.css'
+import { vars } from '../system/theme.css'
 
 export const switchRootWrapper = style([
 	sprinkles({

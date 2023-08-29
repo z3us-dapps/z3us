@@ -129,11 +129,11 @@ export const transferDesktopWrapper = style([
 		},
 		paddingBottom: {
 			mobile: 'large',
-			desktop: 'xxlarge',
+			desktop: 'xlarge',
 		},
 		paddingTop: {
 			mobile: 'large',
-			desktop: 'xxlarge',
+			desktop: 'xlarge',
 		},
 		height: 'full',
 	}),

@@ -30,7 +30,7 @@ export const ToolTip: React.FC<IToolTipProps> = ({
 	children,
 	message,
 	disabled,
-	side = 'bottom',
+	side = 'top',
 	sideOffset = 5,
 	isArrowVisible = false,
 	arrowOffset = 5,

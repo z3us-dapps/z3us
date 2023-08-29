@@ -30,7 +30,7 @@ import { getShortAddress } from 'ui/src/utils/string-utils'
 
 import * as styles from './styles.css'
 
-interface ITokenSelectorDialogProps {
+export interface ITokenSelectorDialogProps {
 	trigger: React.ReactNode
 	balances: ResourceBalance[]
 	onTokenUpdate: (address: string) => void
@@ -115,7 +115,7 @@ export const TokenSelectorDialog: React.FC<ITokenSelectorDialogProps> = props =>
 										styleVariant="secondary"
 										className={styles.searchElement}
 										leftIcon={<SearchIcon />}
-										placeholder={capitalizeFirstLetter(`${t('transfer.group.tokenDialogInputPlaceholder')}`)}
+										placeholder={capitalizeFirstLetter(`${t('tokenSelectDialog.inputPlaceholder')}`)}
 										onChange={handleOnChange}
 									/>
 								</Box>
@@ -129,7 +129,8 @@ export const TokenSelectorDialog: React.FC<ITokenSelectorDialogProps> = props =>
 									</ToolTip>
 								</Box>
 							</Box>
-							{/* // TODO: this will be star token section from user settings */}
+							{/* // TODO: this will be the star'd/ tokens section from user settings */}
+							{/* // */}
 							{/* {selected && (
 								<Box display="flex" width="full" gap="small" flexWrap="wrap">
 									<Button styleVariant="tertiary" sizeVariant="small">
@@ -153,8 +154,8 @@ export const TokenSelectorDialog: React.FC<ITokenSelectorDialogProps> = props =>
 							{localBalances?.length === 0 && (
 								<Box display="flex" alignItems="center" justifyContent="center" width="full" paddingTop="xxlarge">
 									<EmptyState
-										title={t('transfer.group.tokenDialogNoSearchResultsTitle')}
-										subTitle={t('transfer.group.tokenDialogNoSearchResultsSubTitle')}
+										title={t('tokenSelectDialog.emptyStateTitle')}
+										subTitle={t('tokenSelectDialog.emptyStateSubTitle')}
 									/>
 								</Box>
 							)}

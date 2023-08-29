@@ -12,12 +12,8 @@ const Navigation: React.FC = () => (
 			<LayoutGroup id="transfer-menu">
 				{[
 					{
-						title: t('transfer.navigation.tokenTitle'),
-						href: '/transfer/tokens',
-					},
-					{
-						title: t('transfer.navigation.nftTitle'),
-						href: '/transfer/nfts',
+						title: t('transfer.navigation.tokensNftsTitle'),
+						href: '/transfer/tokens-nfts',
 					},
 					{
 						title: t('transfer.navigation.rawTitle'),
@@ -26,10 +22,6 @@ const Navigation: React.FC = () => (
 					{
 						title: t('transfer.navigation.deployTitle'),
 						href: '/transfer/deploy',
-					},
-					{
-						title: 'Demo',
-						href: '/transfer/demo',
 					},
 				].map(({ title, href }) => (
 					<Box key={href} component="li">
