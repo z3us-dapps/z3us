@@ -1,22 +1,16 @@
-import clsx from 'clsx'
-import { useScroll } from 'packages/ui/src/components/scroll-area-radix/use-scroll'
-import { useNonFungibleResourceBalances } from 'packages/ui/src/hooks/dapp/use-balances'
-import type { ResourceBalance } from 'packages/ui/src/types/types'
 import React from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 
-import { Box } from 'ui/src/components/box'
-import * as tableHeadStyles from 'ui/src/components/styles/table-head-shadow.css'
+import { useScroll } from 'ui/src/components/scroll-area-radix/use-scroll'
 import { Table } from 'ui/src/components/table'
+import { useNonFungibleResourceBalances } from 'ui/src/hooks/dapp/use-balances'
+import { AssetAmountCell } from 'ui/src/pages/accounts/components/table/asset-amount-cell'
+import { AssetChangeCell } from 'ui/src/pages/accounts/components/table/asset-change-cell'
+import { AssetNameCell } from 'ui/src/pages/accounts/components/table/asset-name-cell'
+import { AssetValueCell } from 'ui/src/pages/accounts/components/table/asset-value-cell'
+import type { ResourceBalance } from 'ui/src/types/types'
 
-import { AccountTotalValue } from '../components/account-total-value'
-import { MobileScrollingBackground } from '../components/mobile-scrolling-background'
-import { MobileScrollingButtons } from '../components/mobile-scrolling-buttons'
-import * as styles from '../styles.css'
-import { AssetAmountCell } from './components/asset-amount-cell'
-import { AssetChangeCell } from './components/asset-change-cell'
-import { AssetNameCell } from './components/asset-name-cell'
-import { AssetValueCell } from './components/asset-value-cell'
+import * as styles from './styles.css'
 
 const columns = [
 	{
@@ -48,7 +42,7 @@ const columns = [
 	},
 ]
 
-const NonFungibles: React.FC = () => {
+const Fungibles: React.FC = () => {
 	const { scrollableNode, isScrolledTop } = useScroll()
 	const navigate = useNavigate()
 	const { accountId } = useParams()
@@ -61,31 +55,20 @@ const NonFungibles: React.FC = () => {
 	}
 
 	return (
-		<Box
-			className={clsx(styles.accountRoutesWrapper, !isLoading && !isScrolledTop && tableHeadStyles.accountTheadShadow)}
-		>
-			<Box className={styles.accountRoutesScrollingWrapper}>
-				<MobileScrollingBackground />
-				<MobileScrollingButtons />
-				<AccountTotalValue account={accountId !== '-' ? accountId : ''} />
-				<Box className={styles.assetsTableWrapper}>
-					<Table
-						className={styles.accountsTableMinHeightWrapper}
-						styleVariant="primary"
-						sizeVariant="large"
-						scrollableNode={scrollableNode ?? undefined}
-						data={balances}
-						columns={columns}
-						isScrolledTop={isScrolledTop}
-						loading={isLoading}
-						// loadMore={loadMore}
-						onRowSelected={handleRowSelected}
-						// onEndReached={onEndReached}
-					/>
-				</Box>
-			</Box>
-		</Box>
+		<Table
+			className={styles.tableMinHeightWrapper}
+			styleVariant="primary"
+			sizeVariant="large"
+			scrollableNode={scrollableNode ?? undefined}
+			data={balances}
+			columns={columns}
+			isScrolledTop={isScrolledTop}
+			onRowSelected={handleRowSelected}
+			loading={isLoading}
+			// loadMore={loadMore}
+			// onEndReached={onEndReached}
+		/>
 	)
 }
 
-export default NonFungibles
+export default Fungibles
