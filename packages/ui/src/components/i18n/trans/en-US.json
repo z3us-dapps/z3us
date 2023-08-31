@@ -74,6 +74,11 @@
 		"emptyStateSubTitle": "Please refine search"
 	},
 	"accounts": {
+		"breadcrumbs": {
+			"accounts": "All accounts",
+			"tokens": "Tokens",
+			"nfts": "NFTs"
+		},
 		"navigation": {
 			"accounts": "accounts",
 			"transfer": "transfer",
@@ -95,6 +100,14 @@
 			"listHeaderAmount": "amount",
 			"listHeaderCategory": "category",
 			"listHeaderAccount": "account"
+		},
+		"tokens": {
+			"noNftsEmptyStateTitle": "No results",
+			"noNftsEmptyStateSubTitle": "could not find any tokens in this account"
+		},
+		"nfts": {
+			"noNftsEmptyStateTitle": "No results",
+			"noNftsEmptyStateSubTitle": "could not find any NFTs in this account"
 		}
 	},
 	"transfer": {

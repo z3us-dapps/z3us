@@ -21,6 +21,9 @@ export const assetsList = style([
 		padding: 'none',
 		display: 'flex',
 		flexDirection: 'column',
+		paddingBottom: {
+			tablet: 'xlarge',
+		},
 	}),
 	{ listStyle: 'none' },
 ])
@@ -35,16 +38,17 @@ export const assetsListLi = style([
 export const assetsListLink = style([
 	sprinkles({
 		position: 'relative',
-		paddingY: 'xlarge',
 		paddingX: 'large',
 		display: 'flex',
 		flexDirection: 'column',
+		justifyContent: 'center',
 		textDecoration: 'none',
 		transition: 'fast',
 		borderRadius: 'large',
 		width: 'full',
 	}),
 	{
+		height: '88px',
 		':after': {
 			content: '""',
 			position: 'absolute',

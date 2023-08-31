@@ -1,4 +1,3 @@
-import clsx from 'clsx'
 import React, { Suspense } from 'react'
 import { useLocation, useMatches, useOutlet } from 'react-router-dom'
 
@@ -13,8 +12,8 @@ import { useIsMobileWidth } from 'ui/src/hooks/use-is-mobile'
 
 import { Breadcrumbs } from './components/breadcrumbs'
 import { MobileBackground } from './components/mobile/background'
-import { MobileScrollingBackground } from './components/mobile/scrolling-background'
-import { MobileScrollingButtons } from './components/mobile/scrolling-buttons'
+// import { MobileScrollingBackground } from './components/mobile/scrolling-background'
+// import { MobileScrollingButtons } from './components/mobile/scrolling-buttons'
 import { AccountTotalValue } from './components/total-value'
 import * as styles from './styles.css'
 
@@ -42,21 +41,13 @@ const ScrollContent: React.FC = () => {
 				<Box className={panelViewStyles.panelViewWrapper}>
 					<Box className={panelViewStyles.panelViewLeftWrapper}>
 						<ScrollPanel showTopScrollShadow={false} scrollParent={isMobile ? scrollableNode : undefined}>
-							<Breadcrumbs />
-							<Box className={clsx(styles.routesWrapper)}>
-								<Box className={styles.scrollingWrapper}>
-									<MobileScrollingBackground />
-									<MobileScrollingButtons />
-									<AccountTotalValue />
-									<Box className={styles.contentWrapper}>
-										<Box className={styles.tableWrapper}>
-											<Suspense key={location.pathname} fallback={<Loader />}>
-												{outlet}
-											</Suspense>
-										</Box>
-									</Box>
-								</Box>
+							<Box className={styles.accountsStickyWrapper}>
+								<Breadcrumbs />
+								<AccountTotalValue />
 							</Box>
+							<Suspense key={location.pathname} fallback={<Loader />}>
+								{outlet}
+							</Suspense>
 						</ScrollPanel>
 					</Box>
 					<Box className={panelViewStyles.panelViewRightWrapper}>

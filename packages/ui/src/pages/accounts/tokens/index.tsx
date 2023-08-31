@@ -1,6 +1,9 @@
+import { t } from 'i18next'
 import React from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 
+import { Box } from 'ui/src/components/box'
+import { EmptyState } from 'ui/src/components/empty-state'
 import { useScroll } from 'ui/src/components/scroll-area-radix/use-scroll'
 import { Table } from 'ui/src/components/table'
 import { useFungibleResourceBalances } from 'ui/src/hooks/dapp/use-balances'
@@ -42,7 +45,7 @@ const columns = [
 	},
 ]
 
-const Fungibles: React.FC = () => {
+const Tokens: React.FC = () => {
 	const { scrollableNode, isScrolledTop } = useScroll()
 	const navigate = useNavigate()
 	const { accountId, resourceId } = useParams()
@@ -65,21 +68,32 @@ const Fungibles: React.FC = () => {
 	}
 
 	return (
-		<Table
-			className={styles.tableMinHeightWrapper}
-			styleVariant="primary"
-			sizeVariant="large"
-			scrollableNode={scrollableNode ?? undefined}
-			data={balances}
-			columns={columns}
-			isScrolledTop={isScrolledTop}
-			onRowSelected={handleRowSelected}
-			loading={isLoading}
-			selectedRowIds={selectedRowIds}
-			// loadMore={loadMore}
-			// onEndReached={onEndReached}
-		/>
+		<Box className={styles.tableWrapper}>
+			{balances?.length === 0 ? (
+				<Box display="flex" alignItems="center" justifyContent="center" width="full" paddingY="xxlarge">
+					<EmptyState
+						title={t('accounts.tokens.noTokensEmptyStateTitle')}
+						subTitle={t('accounts.tokens.noTokensEmptyStateSubTitle')}
+					/>
+				</Box>
+			) : (
+				<Table
+					className={styles.tableMinHeightWrapper}
+					styleVariant="primary"
+					sizeVariant="large"
+					scrollableNode={scrollableNode ?? undefined}
+					data={balances}
+					columns={columns}
+					isScrolledTop={isScrolledTop}
+					onRowSelected={handleRowSelected}
+					loading={isLoading}
+					selectedRowIds={selectedRowIds}
+					// loadMore={loadMore}
+					// onEndReached={onEndReached}
+				/>
+			)}
+		</Box>
 	)
 }
 
-export default Fungibles
+export default Tokens

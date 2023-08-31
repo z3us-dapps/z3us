@@ -14,7 +14,7 @@ export const panelViewOuterWrapper = style([
 		},
 		paddingTop: {
 			tablet: 'large',
-			desktop: 'xxlarge',
+			desktop: 'xlarge',
 		},
 		height: 'full',
 	}),

@@ -4,6 +4,8 @@ import { fadeIn, fadeOut } from '../dropdown-menu/dropdown-menu.css'
 import { darkMode, sprinkles } from '../system/sprinkles.css'
 import { vars } from '../system/theme.css'
 
+const SCROLLBAR_SIZE = '10px'
+
 export const scrollAreaRootWrapper = style([
 	sprinkles({
 		position: 'relative',
@@ -63,14 +65,12 @@ export const scrollAreaScrollbarWrapper = style([
 		padding: 'xxsmall',
 		cursor: 'pointer',
 		transition: 'fast',
-		zIndex: 2,
 	}),
 	{
 		paddingTop: '2px',
 		paddingBottom: '2px',
 		paddingRight: '2px',
 		paddingLeft: '2px',
-		width: '10px',
 		userSelect: 'none',
 		transition: 'background 160ms ease-out',
 		willChange: ' opacity',
@@ -83,6 +83,11 @@ export const scrollAreaScrollbarWrapper = style([
 			'&[data-state="hidden"]': {
 				animationName: fadeOut,
 				animationFillMode: 'forwards',
+			},
+			'&[data-orientation="vertical"]': { width: SCROLLBAR_SIZE, zIndex: 2 },
+			'&[data-orientation="horizontal"]': {
+				flexDirection: 'column',
+				height: SCROLLBAR_SIZE,
 			},
 		},
 	},

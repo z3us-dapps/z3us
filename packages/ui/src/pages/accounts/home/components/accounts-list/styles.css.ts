@@ -5,9 +5,15 @@ import { vars } from 'ui/src/components/system/theme.css'
 
 export const assetsList = style([
 	sprinkles({
-		marginTop: 'medium',
-		paddingX: 'medium',
-		padding: 'none',
+		paddingX: {
+			tablet: 'medium',
+		},
+		marginTop: {
+			tablet: 'medium',
+		},
+		paddingBottom: {
+			tablet: 'large',
+		},
 		display: 'flex',
 		flexDirection: 'column',
 	}),
@@ -24,9 +30,9 @@ export const assetsListLi = style([
 export const assetsListLink = style([
 	sprinkles({
 		position: 'relative',
-		paddingY: 'xlarge',
 		paddingX: 'large',
 		display: 'flex',
+		justifyContent: 'center',
 		flexDirection: 'column',
 		textDecoration: 'none',
 		transition: 'fast',
@@ -34,6 +40,7 @@ export const assetsListLink = style([
 		width: 'full',
 	}),
 	{
+		height: '88px',
 		':after': {
 			content: '""',
 			position: 'absolute',

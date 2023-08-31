@@ -9,16 +9,11 @@ export const accountBreadCrumbWrapper = style([
 	sprinkles({
 		display: 'flex',
 		background: 'backgroundSecondary',
-		position: 'sticky',
-		top: 0,
 		flexGrow: 0,
 		alignItems: 'center',
 		zIndex: 1,
-		paddingX: {
-			tablet: 'xlarge',
-		},
 	}),
 	{
-		height: '68px',
+		minHeight: '24px',
 	},
 ])

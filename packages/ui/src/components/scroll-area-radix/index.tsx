@@ -15,7 +15,11 @@ import * as styles from './styles.css'
 const SCROLL_TOP_BUTTON_VISIBLE_PX = 100
 const THROTTLE_MS = 50
 
-export const ScrollAreaRoot = ({ children, className, ...rest }) => (
+interface IScrollAreaRootProps extends ScrollAreaPrimitive.ScrollAreaProps {
+	className?: string
+}
+
+export const ScrollAreaRoot = ({ children, className, ...rest }: IScrollAreaRootProps) => (
 	<ScrollAreaPrimitive.Root className={clsx(styles.scrollAreaRootWrapper, className)} {...rest}>
 		{children}
 	</ScrollAreaPrimitive.Root>
@@ -29,7 +33,11 @@ export const ScrollAreaViewport = forwardRef<HTMLDivElement, ScrollAreaPrimitive
 	),
 )
 
-export const ScrollAreaScrollbar = ({ children, className, ...props }) => (
+interface IScrollAreaScrollbarProps extends ScrollAreaPrimitive.ScrollAreaScrollbarProps {
+	className?: string
+}
+
+export const ScrollAreaScrollbar = ({ children, className, ...props }: IScrollAreaScrollbarProps) => (
 	<ScrollAreaPrimitive.Scrollbar className={clsx(styles.scrollAreaScrollbarWrapper, className)} {...props}>
 		{children}
 	</ScrollAreaPrimitive.Scrollbar>

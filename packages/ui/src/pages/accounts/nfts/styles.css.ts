@@ -2,6 +2,15 @@ import { style } from '@vanilla-extract/css'
 
 import { sprinkles } from 'ui/src/components/system/sprinkles.css'
 
+export const tableWrapper = style([
+	sprinkles({
+		paddingX: {
+			tablet: 'large',
+		},
+	}),
+	{},
+])
+
 export const mobileHideTableCellWrapper = style([
 	sprinkles({
 		display: {
@@ -15,6 +24,6 @@ export const mobileHideTableCellWrapper = style([
 export const tableMinHeightWrapper = style([
 	sprinkles({}),
 	{
-		minHeight: '420px',
+		minHeight: '88px',
 	},
 ])
