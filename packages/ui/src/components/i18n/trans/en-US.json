@@ -39,6 +39,7 @@
 		"coin": "coin",
 		"back": "back",
 		"up": "up",
+		"remove": "remove",
 		"continue": "continue",
 		"telegram": "telegram",
 		"twitter": "twitter",
@@ -67,6 +68,11 @@
 		"openInBrowserTitle": "open in browser",
 		"theme": "theme"
 	},
+	"tokenSelectDialog": {
+		"inputPlaceholder": "Search token paste address",
+		"emptyStateTitle": "No tokens found",
+		"emptyStateSubTitle": "Please refine search"
+	},
 	"accounts": {
 		"navigation": {
 			"accounts": "accounts",
@@ -93,40 +99,29 @@
 	},
 	"transfer": {
 		"navigation": {
-			"tokenTitle": "Tokens",
-			"nftTitle": "NFTs",
+			"tokensNftsTitle": "Tokens & NFTs",
 			"rawTitle": "Raw",
 			"deployTitle": "Deploy package"
 		},
-		"tokens": {
-			"title": "Tokens",
-			"titleSuffix": "fungibles"
-		},
-		"nfts": {
-			"title": "Nfts",
-			"titleSuffix": "non-fungibles"
-		},
-		"group": {
-			"from": "from",
-			"to": "to",
-			"available": "available",
-			"amount": "amount",
-			"knownAddress": "known address",
-			"addMessage": "add message",
-			"hideMessage": "hide message",
-			"enterMessage": "transaction message",
-			"enterAddressPlaceholder": "enter address",
-			"encrypt": "encrypt",
-			"messagePlaceholder": "Enter message",
-			"enterTokenAmount": "enter token amount",
-			"addAnotherToken": "Add another token",
-			"addAnotherNft": "Add another nft",
-			"groupTransaction": "Group transaction",
-			"addGroup": "Add group",
-			"groupInfoPopover": "Add another group to send assets to multiple addresses within the same transaction.",
-			"tokenDialogInputPlaceholder": "Search token or paste address",
-			"tokenDialogNoSearchResultsTitle": "No results.",
-			"tokenDialogNoSearchResultsSubTitle": "Please search another token."
+		"tokensNfts": {
+			"submitFormButtonTitle": "transfer",
+			"submitFormGroupToAccountAdd": "Add another account",
+			"submitFormGroupTokensAdd": "Add another token",
+			"submitFormKnownAddress": "Known address",
+			"title": "Transfer Tokens and NFTs",
+			"fromAccountTitle": "From account",
+			"fromAccountSubTitle": "Select the account, you wish to send tokens and NFT's from",
+			"messageTitle": "Message",
+			"messageSubTitle": "Send an optional message with the transaction.",
+			"messagePlaceholder": "Enter transaction message",
+			"encryptMessageTitle": "Encrypt message",
+			"toAccountTitle": "To account",
+			"toAccountSubTitle": "Select account to send tokens or nfts",
+			"tokensTabTitle": "Tokens",
+			"tokensNftsTitle": "NFTs",
+			"tokenInputValuePlaceholder": "Enter token amount",
+			"tokenAvailableLabel": "available",
+			"xxx": "xxx"
 		},
 		"raw": {
 			"title": "Raw transaction",

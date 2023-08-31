@@ -1,9 +1,54 @@
 import * as TabsPrimitive from '@radix-ui/react-tabs'
+import clsx from 'clsx'
+import React from 'react'
 
-// import { radixWithClassName } from '../system/radix-with-class-name'
-// import * as styles from './tabs.css'
+import * as styles from './styles.css'
 
-export const Tabs = TabsPrimitive.Root
+export const TabsRoot = TabsPrimitive.Root
 export const TabsList = TabsPrimitive.List
-export const TabsTrigger = TabsPrimitive.List
+export const TabTrigger = TabsPrimitive.TabsTrigger
 export const TabsContent = TabsPrimitive.Content
+
+interface ITabsProps extends TabsPrimitive.TabsProps {
+	list: {
+		value: string
+		label: string
+	}[]
+	sizeVariant?: 'small' | 'medium' | 'large'
+	styleVariant?: 'primary' | 'secondary'
+}
+
+export const Tabs = (props: ITabsProps) => {
+	const { children, list, sizeVariant = 'medium', styleVariant = 'primary', ...rest } = props
+
+	return (
+		<TabsRoot {...rest}>
+			<TabsList
+				className={clsx(
+					styles.tabsListRootWrapper,
+					styles.tabsListRecipe({
+						sizeVariant,
+						styleVariant,
+					}),
+				)}
+			>
+				{list.map(({ label, value }) => (
+					<TabTrigger
+						key={value}
+						value={value}
+						className={clsx(
+							styles.tabsTriggerRecipe({
+								sizeVariant,
+								styleVariant,
+							}),
+							styles.tabsTriggerRoot,
+						)}
+					>
+						{label}
+					</TabTrigger>
+				))}
+			</TabsList>
+			{children}
+		</TabsRoot>
+	)
+}

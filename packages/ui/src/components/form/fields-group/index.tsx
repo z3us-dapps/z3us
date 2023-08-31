@@ -3,23 +3,52 @@ import React, { useState } from 'react'
 
 import { Box } from 'ui/src/components/box'
 import { Button } from 'ui/src/components/button'
-import { CirclePlusIcon, TrashIcon } from 'ui/src/components/icons'
+import { TrashIcon } from 'ui/src/components/icons'
+import { ToolTip } from 'ui/src/components/tool-tip'
 import Translation from 'ui/src/components/translation'
 import { generateId } from 'ui/src/utils/generate-id'
 
 interface IProps {
 	name: string
 	parentName?: string
+	defaultKeys?: number
+	trashTrigger?: React.ReactElement
+	addTrigger?: React.ReactElement
 }
 
 interface IChildProps {
 	parentName?: string
 }
 
-export const FieldsGroup: React.FC<PropsWithChildren<IProps>> = ({ parentName, name, children }) => {
-	const [keys, setKeys] = useState<string[]>([])
+export const FieldsGroup: React.FC<PropsWithChildren<IProps>> = props => {
+	const {
+		parentName,
+		name,
+		children,
+		trashTrigger = (
+			<Button
+				styleVariant="tertiary"
+				sizeVariant="xlarge"
+				fullWidth
+				leftIcon={
+					<Box marginLeft="small">
+						<TrashIcon />
+					</Box>
+				}
+			>
+				<Translation capitalizeFirstLetter text="form.group.remove" />
+			</Button>
+		),
+		addTrigger = (
+			<Button styleVariant="tertiary" sizeVariant="xlarge" fullWidth>
+				<Translation capitalizeFirstLetter text="form.group.add" />
+			</Button>
+		),
+		defaultKeys = 0,
+	} = props
+	const [keys, setKeys] = useState<string[]>(Array.from({ length: defaultKeys }, generateId))
 
-	const handleRemove = (key: string) => () => {
+	const handleRemove = (key: string) => {
 		setKeys(keys.filter(k => k !== key))
 	}
 
@@ -28,50 +57,29 @@ export const FieldsGroup: React.FC<PropsWithChildren<IProps>> = ({ parentName, n
 	}
 
 	return (
-		<Box>
-			<Box width="full" paddingTop="large">
-				{keys.map((key, idx) => (
-					<Box key={key}>
-						{React.Children.map(children, child => {
-							if (React.isValidElement(child)) {
-								return React.cloneElement(child, {
-									parentName: `${parentName ? `${parentName}.` : ``}${name}[${idx}]`,
-								} as Partial<IChildProps>)
-							}
-							return child
-						})}
-
-						<Button
-							styleVariant="tertiary"
-							sizeVariant="xlarge"
-							fullWidth
-							onClick={handleRemove(key)}
-							leftIcon={
-								<Box marginLeft="small">
-									<TrashIcon />
-								</Box>
-							}
-						>
-							<Translation capitalizeFirstLetter text="form.group.remove" />
-						</Button>
-					</Box>
-				))}
-			</Box>
-			<Box width="full" paddingTop="large">
-				<Button
-					styleVariant="tertiary"
-					sizeVariant="xlarge"
-					fullWidth
-					onClick={handleAdd}
-					leftIcon={
-						<Box marginLeft="small">
-							<CirclePlusIcon />
-						</Box>
-					}
-				>
-					<Translation capitalizeFirstLetter text="form.group.add" />
-				</Button>
-			</Box>
-		</Box>
+		<>
+			{keys.map((key, idx) => (
+				<Box position="relative" key={key}>
+					{React.Children.map(children, child => {
+						if (React.isValidElement(child)) {
+							return React.cloneElement(child, {
+								parentName: `${parentName ? `${parentName}.` : ``}${name}[${idx}]`,
+							} as Partial<IChildProps>)
+						}
+						return child
+					})}
+					{idx >= defaultKeys && (
+						<ToolTip message="global.remove">
+							{React.cloneElement(trashTrigger, {
+								onClick: () => handleRemove(key),
+							})}
+						</ToolTip>
+					)}
+				</Box>
+			))}
+			{React.cloneElement(addTrigger, {
+				onClick: handleAdd,
+			})}
+		</>
 	)
 }

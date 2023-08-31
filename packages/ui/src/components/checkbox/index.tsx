@@ -6,7 +6,7 @@ import React, { forwardRef, useState } from 'react'
 
 import { Box } from '../box'
 import { type TThemeColorKey } from '../system/theme.css'
-import * as styles from './checkbox.css'
+import * as styles from './styles.css'
 
 export type TSizeVariant = 'small' | 'medium'
 export type TStyleVariant = 'primary' | 'primary-error' | 'secondary' | 'secondary-error' | 'tertiary'
@@ -56,9 +56,9 @@ export const Checkbox = forwardRef<HTMLElement, ICheckboxProps>((props, ref: For
 			)}
 			{...rest}
 		>
-			<AnimatePresence initial={false}>
-				{animate && (
-					<Box color={tickColor} width="full" height="full">
+			<Box color={tickColor} width="full" height="full">
+				<AnimatePresence initial={false}>
+					{animate && (
 						<svg fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="CheckIcon">
 							<motion.path
 								initial={{ pathLength: 0 }}
@@ -74,9 +74,9 @@ export const Checkbox = forwardRef<HTMLElement, ICheckboxProps>((props, ref: For
 								d="M7.75 12.75L10 15.25L16.25 8.75"
 							/>
 						</svg>
-					</Box>
-				)}
-			</AnimatePresence>
+					)}
+				</AnimatePresence>
+			</Box>
 		</CheckboxRoot>
 	)
 })

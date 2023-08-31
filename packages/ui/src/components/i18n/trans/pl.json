@@ -96,28 +96,6 @@
 			"title": "NFT-y",
 			"titleSuffix": "non-fungible"
 		},
-		"group": {
-			"from": "od",
-			"to": "do",
-			"available": "dostępne",
-			"amount": "kwota",
-			"knownAddress": "znany adres",
-			"addMessage": "dodaj wiadomość",
-			"hideMessage": "ukryj wiadomość",
-			"enterMessage": "wiadomość transakcji",
-			"enterAddressPlaceholder": "wprowadź adres",
-			"encrypt": "zaszyfruj",
-			"messagePlaceholder": "Wprowadź wiadomość",
-			"enterTokenAmount": "wprowadź ilość tokenów",
-			"addAnotherToken": "Dodaj inny token",
-			"addAnotherNft": "Dodaj inny NFT",
-			"groupTransaction": "Transakcja grupowa",
-			"addGroup": "Dodaj grupę",
-			"groupInfoPopover": "Dodaj inną grupę, aby wysłać aktywa na wiele adresów w ramach tej samej transakcji.",
-			"tokenDialogInputPlaceholder": "Szukaj tokena lub wklej adres",
-			"tokenDialogNoSearchResultsTitle": "Brak wyników.",
-			"tokenDialogNoSearchResultsSubTitle": "Proszę wyszukać inny token."
-		},
 		"raw": {
 			"title": "Surowa transakcja",
 			"inputPlaceholder": "manifest transakcji",
