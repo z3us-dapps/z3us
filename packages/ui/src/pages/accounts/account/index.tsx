@@ -13,6 +13,7 @@ import { useWalletAccounts } from 'ui/src/hooks/use-wallet-account'
 import { OverlayAssetIcons } from 'ui/src/pages/accounts/components/overlay-asset-icons'
 import { formatBigNumber, formatChange } from 'ui/src/utils/formatters'
 
+import { HomeScrollShadow } from '../components/home-scroll-shadow'
 import * as styles from './styles.css'
 
 const TOKENS_PATH = 'tokens'
@@ -45,7 +46,8 @@ const Account: React.FC = () => {
 	if (isLoading) return <Loader />
 
 	return (
-		<>
+		<Box className={styles.assetsWrapper}>
+			<HomeScrollShadow />
 			<Box className={styles.titleWrapper}>
 				{isAllAccount ? (
 					<Text capitalizeFirstLetter color="strong" weight="strong" size="medium">
@@ -130,7 +132,7 @@ const Account: React.FC = () => {
 					/>
 				</Box>
 			</Box>
-		</>
+		</Box>
 	)
 }
 

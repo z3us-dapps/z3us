@@ -65,6 +65,7 @@ export const AccountHomeCard: React.FC<IProps> = props => {
 				accountName={name}
 				accountBalance={formatBigNumber(totalValue, currency, 2)}
 				accountAddress={address}
+				showCopyAddressButton={false}
 			/>
 		</Link>
 	)

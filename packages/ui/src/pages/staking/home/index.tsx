@@ -6,8 +6,8 @@ import React from 'react'
 
 import { Box } from 'ui/src/components/box'
 import { Link } from 'ui/src/components/router-link'
-import * as tableHeadStyles from 'ui/src/components/styles/table-head-shadow.css'
 
+// import * as tableHeadStyles from 'ui/src/components/styles/table-head-shadow.css'
 import { StakingTableHeader } from '../components/staking-table-header'
 import * as styles from './styles.css'
 import { useStakingTable } from './use-staking-table'
@@ -17,8 +17,9 @@ const Home: React.FC = () => {
 
 	const { items, columns, loading, loadMore, onRowSelected, onEndReached } = useStakingTable()
 
+	// <Box className={clsx(styles.stakingHomeWrapper, !loading && !isScrolledTop && tableHeadStyles.accountTheadShadow)}>
 	return (
-		<Box className={clsx(styles.stakingHomeWrapper, !loading && !isScrolledTop && tableHeadStyles.accountTheadShadow)}>
+		<Box className={clsx(styles.stakingHomeWrapper)}>
 			<StakingTableHeader />
 			<Box className={styles.stakingTableWrapper}>
 				<Table

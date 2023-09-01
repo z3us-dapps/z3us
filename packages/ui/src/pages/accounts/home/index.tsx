@@ -1,4 +1,3 @@
-import clsx from 'clsx'
 import React from 'react'
 import useMeasure from 'react-use-measure'
 
@@ -9,34 +8,22 @@ import {
 	ScrollAreaThumb,
 	ScrollAreaViewport,
 } from 'ui/src/components/scroll-area-radix'
-import { useScroll } from 'ui/src/components/scroll-area-radix/use-scroll'
-import * as scrollingShadowStyles from 'ui/src/components/styles/scrolling-shadow.css'
 import Translation from 'ui/src/components/translation'
 import { Text } from 'ui/src/components/typography'
 import { useWalletAccounts } from 'ui/src/hooks/use-wallet-account'
 
+import { HomeScrollShadow } from '../components/home-scroll-shadow'
 import { AccountHomeCard } from './components/account-home-card'
 import { AccountsList } from './components/accounts-list'
 import * as styles from './styles.css'
 
 const Home: React.FC = () => {
 	const accounts = useWalletAccounts()
-	const { scrollableNode, isScrolledTop } = useScroll()
-	const nodeBounding = scrollableNode?.getBoundingClientRect()
 	const [wrapperRef, { width: horizontalScrollWidth }] = useMeasure()
-	const [scrollShadowRef, { top, height }] = useMeasure()
-	const stickyTop = top - nodeBounding.y + height
 
 	return (
 		<Box ref={wrapperRef} className={styles.assetsHomeWrapper}>
-			<Box
-				ref={scrollShadowRef}
-				style={{ top: `${stickyTop}px` }}
-				className={clsx(
-					scrollingShadowStyles.accountHeadShadow,
-					!isScrolledTop && scrollingShadowStyles.accountHeadShadowScrolled,
-				)}
-			/>
+			<HomeScrollShadow />
 			<Box className={styles.accountsHorizontalWrapper}>
 				<ScrollAreaRoot style={{ maxWidth: `${horizontalScrollWidth}px` }}>
 					<ScrollAreaViewport>

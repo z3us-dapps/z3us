@@ -1,16 +1,24 @@
 import { globalStyle, style } from '@vanilla-extract/css'
 
 import { sprinkles } from 'ui/src/components/system/sprinkles.css'
+import { responsiveStyle } from 'ui/src/components/system/theme-utils'
+import { vars } from 'ui/src/components/system/theme.css'
 
 export const allChartWrapper = style([
 	sprinkles({
 		position: 'relative',
 		paddingTop: 'large',
-		paddingX: 'large',
-		paddingBottom: {
+		paddingX: {
 			mobile: 'large',
 			tablet: 'none',
 		},
+		paddingBottom: {
+			mobile: 'large',
+			tablet: 'medium',
+		},
+		borderBottom: 1,
+		borderBottomStyle: 'solid',
+		borderColor: 'borderDivider',
 	}),
 	{},
 ])
@@ -19,13 +27,17 @@ export const allChartInnerWrapper = style([
 	sprinkles({
 		borderRadius: 'small',
 		position: 'relative',
-		background: 'backgroundPrimary',
 		width: 'full',
 		overflow: 'hidden',
 	}),
-	{
-		aspectRatio: '8 / 5',
-	},
+	{},
+	responsiveStyle({
+		mobile: { aspectRatio: '8 / 5', background: vars.color.backgroundPrimary },
+		tablet: {
+			aspectRatio: 'unset',
+			background: 'unset',
+		},
+	}),
 ])
 
 globalStyle(`${allChartInnerWrapper} .recharts-layer.recharts-pie-sector path:focus`, {

@@ -32,6 +32,7 @@ import {
 	ChevronDown2Icon,
 	ChevronDownIcon,
 	ChevronRightIcon,
+	DropdownIcon,
 	HardwareWalletIcon,
 	HomeIcon,
 	LockIcon,
@@ -52,6 +53,7 @@ import { useTheme } from 'ui/src/hooks/use-theme'
 import { useWalletAccounts } from 'ui/src/hooks/use-wallet-account'
 import { KeystoreType } from 'ui/src/store/types'
 
+import { ToolTip } from '../../tool-tip'
 import * as styles from './styles.css'
 
 interface IAccountViewDropdownProps {
@@ -105,9 +107,13 @@ export const AccountViewDropdown = forwardRef<HTMLElement, IAccountViewDropdownP
 						>
 							{entries[selectedAccount]?.name || getShortAddress(selectedAccount)}
 						</Button> */}
-						<Button styleVariant={styleVariant} sizeVariant="small" rounded iconOnly>
-							<ChevronDown2Icon />
-						</Button>
+						<Box>
+							<ToolTip message="global.menu">
+								<Button styleVariant={styleVariant} sizeVariant="small" rounded iconOnly>
+									<DropdownIcon />
+								</Button>
+							</ToolTip>
+						</Box>
 					</DropdownMenuTrigger>
 					<DropdownMenuPortal>
 						<DropdownMenuContent

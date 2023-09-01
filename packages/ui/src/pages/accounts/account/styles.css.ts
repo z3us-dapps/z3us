@@ -3,6 +3,14 @@ import { globalStyle, style } from '@vanilla-extract/css'
 import { darkMode, sprinkles } from 'ui/src/components/system/sprinkles.css'
 import { vars } from 'ui/src/components/system/theme.css'
 
+export const assetsWrapper = style([
+	sprinkles({
+		display: 'flex',
+		flexDirection: 'column',
+	}),
+	{},
+])
+
 export const titleWrapper = style([
 	sprinkles({
 		display: 'flex',

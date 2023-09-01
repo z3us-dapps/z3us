@@ -9,6 +9,7 @@ import { HeightAnimatePanel } from 'ui/src/components/height-animate-panel'
 import { Z3usLoading } from 'ui/src/components/z3us-loading'
 import { animatePageVariants } from 'ui/src/constants/page'
 import { useGlobalResourceBalances } from 'ui/src/hooks/dapp/use-balances'
+import { useIsMobileWidth } from 'ui/src/hooks/use-is-mobile'
 import { useResourceType } from 'ui/src/pages/accounts/hooks/use-resource-type'
 
 import { Chart } from './components/chart'
@@ -19,10 +20,10 @@ const defaultRowsShown = 3
 
 export const BalanceChart: React.FC = () => {
 	const { accountId } = useParams()
+	const isMobile = useIsMobileWidth()
 	const resourceType = useResourceType()
 
 	const [showFullAccountList, setShowFullAccountList] = useState<boolean>(false)
-	// const [measureRef, { width: chartWrapperWidth, height: chartWrapperHeight }] = useMeasure()
 
 	const { balances, fungibleBalances, nonFungibleBalances, isLoading } = useGlobalResourceBalances(
 		accountId !== '-' ? accountId : '',
@@ -78,7 +79,7 @@ export const BalanceChart: React.FC = () => {
 								</Box>
 								{selectedBalances?.length > defaultRowsShown && (
 									<Box display="flex" flexDirection="column" gap="xsmall" width="full" paddingTop="medium">
-										<Button styleVariant="tertiary" onClick={handleToggleFullAccountList}>
+										<Button styleVariant={isMobile ? 'tertiary' : 'secondary'} onClick={handleToggleFullAccountList}>
 											{showFullAccountList ? 'Show less accounts' : 'Show all accounts'}
 										</Button>
 									</Box>
