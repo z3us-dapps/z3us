@@ -1,20 +1,54 @@
-import { style } from '@vanilla-extract/css'
+import { globalStyle, style } from '@vanilla-extract/css'
+import { vars } from 'packages/ui/src/components/system/theme.css'
 
 import { sprinkles } from 'ui/src/components/system/sprinkles.css'
 import { responsiveStyle } from 'ui/src/components/system/theme-utils'
 
 export const headerWrapper = style([
 	sprinkles({
-		position: 'sticky',
-		zIndex: 1,
-		top: 0,
+		// position: 'sticky',
+		// zIndex: 1,
+		// top: 0,
 		// TODO: inner shadow border
-		// borderBottom: 1,
-		// borderBottomStyle: 'solid',
+		borderBottom: 1,
+		borderBottomStyle: 'solid',
 		// borderColor: 'transparent',
+
+		borderColor: 'lead800',
 	}),
 	{},
 ])
+
+export const headerTextLinks = style([
+	sprinkles({
+		display: 'flex',
+		alignItems: 'center',
+		gap: 'large',
+		paddingRight: 'large',
+	}),
+	{},
+])
+
+export const headerSocialLinks = style([
+	sprinkles({
+		display: 'flex',
+		alignItems: 'center',
+		gap: 'xsmall',
+	}),
+	{
+		marginRight: '0px',
+	},
+])
+
+// export const landingPageHeaderWrapper = style([
+// 	sprinkles({
+// 		position: 'relative',
+// 		borderBottom: 1,
+// 		borderBottomStyle: 'solid',
+// 		borderColor: 'lead800',
+// 	}),
+// 	{},
+// ])
 
 // TODO: inner shadow border
 export const headerWrapperBorderColor = style([
@@ -111,3 +145,49 @@ export const navigationCopyAddressWrapper = style([
 	}),
 	{},
 ])
+
+export const landingPageHeaderInnerWrapper = style([
+	sprinkles({
+		position: 'relative',
+		display: 'flex',
+		alignItems: 'center',
+	}),
+	{},
+	responsiveStyle({
+		// mobile: { width: '100%' },
+		tablet: { height: '72px' },
+		// desktop: { width: '25%' },
+	}),
+])
+
+export const landingHeaderZ3usLink = style([
+	sprinkles({
+		position: 'relative',
+		display: 'flex',
+		alignItems: 'center',
+		gap: 'small',
+	}),
+	{},
+])
+
+export const landingPageHeaderMenuWrapper = style([
+	sprinkles({
+		display: 'flex',
+		alignItems: 'center',
+		justifyContent: 'flex-end',
+		flexGrow: 1,
+	}),
+	{},
+])
+
+globalStyle(`${landingHeaderZ3usLink} > div`, {
+	transition: vars.transition.fastall,
+})
+
+globalStyle(`${landingHeaderZ3usLink}:hover > div:nth-child(1)`, {
+	background: vars.color.blue_magenta400,
+})
+
+globalStyle(`${landingHeaderZ3usLink}:hover > div:nth-child(2) svg`, {
+	fill: vars.color.blue_magenta400,
+})

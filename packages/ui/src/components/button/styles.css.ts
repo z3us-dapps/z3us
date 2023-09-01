@@ -198,9 +198,12 @@ export const button = recipe({
 				}),
 				{
 					height: '48px',
-					fontSize: '16px',
-					lineHeight: '16px',
-					fontWeight: '500',
+					// fontSize: '16px',
+					// lineHeight: '16px',
+					// fontWeight: '500',
+					fontSize: '18px',
+					lineHeight: '24px',
+					fontWeight: '700',
 				},
 			],
 		},
@@ -327,6 +330,15 @@ export const button = recipe({
 			},
 			style: {
 				borderRadius: '50%',
+			},
+		},
+		{
+			variants: {
+				sizeVariant: 'xlarge',
+				rounded: true,
+			},
+			style: {
+				borderRadius: '48px',
 			},
 		},
 		{

@@ -17,7 +17,7 @@ import { Text } from 'ui/src/components/typography'
 
 // import { useTheme } from 'ui/src/hooks/use-theme'
 // import { type Theme } from 'ui/src/types/types'
-import * as styles from './footer.css'
+import * as styles from './styles.css'
 
 export const Footer = () => {
 	// const { setTheme, theme, resolvedTheme } = useTheme()
@@ -53,6 +53,7 @@ export const Footer = () => {
 						<Box display="flex" gap="xsmall">
 							<ToolTip message="global.telegram">
 								<NextButton
+									rounded
 									sizeVariant="small"
 									styleVariant="ghost"
 									iconOnly
@@ -64,6 +65,7 @@ export const Footer = () => {
 							</ToolTip>
 							<ToolTip message="global.twitter">
 								<NextButton
+									rounded
 									sizeVariant="small"
 									styleVariant="ghost"
 									iconOnly
@@ -75,10 +77,11 @@ export const Footer = () => {
 							</ToolTip>
 							<ToolTip message="global.github">
 								<NextButton
+									rounded
 									sizeVariant="small"
 									styleVariant="ghost"
 									iconOnly
-									to="https://github.com/z3us-dapps"
+									to="https://github.com/z3us-dapps/z3us"
 									target="_blank"
 								>
 									<GithubIcon />

@@ -3,7 +3,7 @@ import React, { forwardRef } from 'react'
 
 import { Box } from 'ui/src/components/box'
 
-import * as styles from './button.css'
+import * as styles from './styles.css'
 
 export type TType = 'button' | 'submit'
 export type TSizeVariant = 'xsmall' | 'small' | 'medium' | 'large' | 'xlarge'
