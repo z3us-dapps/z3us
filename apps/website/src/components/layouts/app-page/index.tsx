@@ -15,7 +15,7 @@ import settingsRoute from 'ui/src/pages/settings/router'
 import stakingRoute from 'ui/src/pages/staking/router'
 import transferRoute from 'ui/src/pages/transfer/router'
 
-import { LandingPage } from '../landing-page'
+// import { LandingPage } from '../landing-page'
 
 export const router = createHashRouter([
 	{
@@ -23,14 +23,14 @@ export const router = createHashRouter([
 		element: <Layout />,
 		errorElement: <LayoutErrorBoundary />,
 		children: [
-			{
-				index: true,
-				element: (
-					<Suspense>
-						<LandingPage />
-					</Suspense>
-				),
-			},
+			// {
+			// 	index: true,
+			// 	element: (
+			// 		<Suspense>
+			// 			<LandingPage />
+			// 		</Suspense>
+			// 	),
+			// },
 			accountsRoute,
 			settingsRoute,
 			stakingRoute,

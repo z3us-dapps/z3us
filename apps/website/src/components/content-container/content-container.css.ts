@@ -20,8 +20,10 @@ export const contentContainerWrapper = style([
 export const contentContainerInnerWrapper = style([
 	sprinkles({
 		position: 'relative',
-		maxWidth: 'xxlarge',
+		// maxWidth: 'xxlarge',
 		width: 'full',
 	}),
-	{},
+	{
+		maxWidth: '1160px',
+	},
 ])

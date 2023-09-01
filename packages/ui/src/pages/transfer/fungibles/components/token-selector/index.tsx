@@ -12,7 +12,7 @@ import { ResourceImageIcon } from 'ui/src/components/resource-image-icon'
 import { getResourceIdByName } from 'ui/src/components/resource-image-icon/resource-image-map'
 import { Link } from 'ui/src/components/router-link'
 import * as plainButtonStyles from 'ui/src/components/styles/plain-button-styles.css'
-import { TokenSelectorDialog } from 'ui/src/components/token-selector-dialog'
+// import { TokenSelectorDialog } from 'ui/src/components/token-selector-dialog'
 import { ToolTip } from 'ui/src/components/tool-tip'
 import Translation from 'ui/src/components/translation'
 import { Text } from 'ui/src/components/typography'
@@ -145,7 +145,7 @@ export const TokenSelector: React.FC<IProps> = props => {
 					onChange={handleTokenValueUpdate}
 					min={0}
 				/>
-				<TokenSelectorDialog
+				{/* <TokenSelectorDialog
 					tokenAddress={tokenAddress}
 					onTokenUpdate={handleTokenUpdate}
 					trigger={
@@ -168,7 +168,7 @@ export const TokenSelector: React.FC<IProps> = props => {
 						</Button>
 					}
 					balances={balances}
-				/>
+				/> */}
 			</Box>
 			{selectedToken?.amount && (
 				<Box display="flex" paddingTop="small">
