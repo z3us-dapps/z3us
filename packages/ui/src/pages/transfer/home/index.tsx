@@ -18,7 +18,6 @@ import { CirclePlusIcon, TrashIcon, UsersPlusIcon } from 'ui/src/components/icon
 import { Tabs, TabsContent } from 'ui/src/components/tabs'
 import Translation from 'ui/src/components/translation'
 import { Text } from 'ui/src/components/typography'
-import { useGlobalResourceBalances } from 'ui/src/hooks/dapp/use-balances'
 import { capitalizeFirstLetter } from 'ui/src/utils/capitalize-first-letter'
 
 import { useTransferContext } from '../components/transfer-wrapper/use-context'
@@ -70,8 +69,6 @@ const initialValues = {
 export const Home: React.FC = () => {
 	const inputRef = useRef(null)
 	const { onSubmit } = useTransferContext()
-
-	const { balances = [] } = useGlobalResourceBalances()
 
 	useEffect(() => {
 		inputRef?.current?.focus()
@@ -229,12 +226,44 @@ export const Home: React.FC = () => {
 									}
 								>
 									<Box className={styles.transferActionToAssetWrapper}>
-										<TokenAmountSelect name="resource" balances={balances} />
+										<TokenAmountSelect name="resource" accountKey="from" />
 									</Box>
 								</FieldsGroup>
 							</TabsContent>
 							<TabsContent value={NFTS} className={styles.transferActionTabsContentWrapper}>
-								<Text>nfts field group</Text>
+								<FieldsGroup
+									name="nfts"
+									defaultKeys={1}
+									addTrigger={
+										<Button
+											styleVariant="secondary"
+											sizeVariant="large"
+											fullWidth
+											leftIcon={
+												<Box marginLeft="small">
+													<CirclePlusIcon />
+												</Box>
+											}
+											className={styles.transferActionTokensNftsAddButton}
+										>
+											<Translation capitalizeFirstLetter text="transfer.tokensNfts.submitFormGroupNFTAdd" />
+										</Button>
+									}
+									trashTrigger={
+										<Button
+											styleVariant="ghost"
+											sizeVariant="small"
+											iconOnly
+											className={styles.transferActionTrashTokensNftsButton}
+										>
+											<TrashIcon />
+										</Button>
+									}
+								>
+									<Box className={styles.transferActionToAssetWrapper}>
+										<Text>nfts field group</Text>
+									</Box>
+								</FieldsGroup>
 							</TabsContent>
 						</Tabs>
 					</Box>

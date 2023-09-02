@@ -38,13 +38,15 @@ export interface ITokenSelectorDialogProps {
 }
 
 const searchAndFilterArray = (array: Array<any>, searchString: string) =>
-	array.filter(item => {
-		const nameMatch = item.name?.toLowerCase().includes(searchString.toLowerCase())
-		const addressMatch = item.address?.toLowerCase().includes(searchString.toLowerCase())
-		const symbolMatch = item.symbol?.toLowerCase().includes(searchString.toLowerCase())
+	searchString
+		? array.filter(item => {
+				const nameMatch = item.name?.toLowerCase().includes(searchString.toLowerCase())
+				const addressMatch = item.address?.toLowerCase().includes(searchString.toLowerCase())
+				const symbolMatch = item.symbol?.toLowerCase().includes(searchString.toLowerCase())
 
-		return nameMatch || addressMatch || symbolMatch
-	})
+				return nameMatch || addressMatch || symbolMatch
+		  })
+		: array
 
 export const TokenSelectorDialog: React.FC<ITokenSelectorDialogProps> = props => {
 	const { trigger, balances, tokenAddress, onTokenUpdate } = props
@@ -168,7 +170,7 @@ export const TokenSelectorDialog: React.FC<ITokenSelectorDialogProps> = props =>
 											component="button"
 											className={clsx(
 												styles.tokenListItemWrapperButton,
-												address === selected.address && styles.tokenListItemWrapperButtonSelected,
+												address === selected?.address && styles.tokenListItemWrapperButtonSelected,
 											)}
 											onClick={() => {
 												handleSelectToken(address)
