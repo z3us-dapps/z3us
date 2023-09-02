@@ -40,16 +40,8 @@ const nftSchema = z.object({
 
 const actionsSchema = z.object({
 	to: z.string().min(1, 'Please enter recipient'),
-	nfts: z.array(
-		z.object({
-			resource: nftSchema,
-		}),
-	),
-	tokens: z.array(
-		z.object({
-			resource: tokenSchema,
-		}),
-	),
+	nfts: z.array(nftSchema),
+	tokens: z.array(tokenSchema),
 })
 
 const validationSchema = z.object({
@@ -79,13 +71,13 @@ export const Home: React.FC = () => {
 		const tokens = []
 		values.actions.forEach(action => {
 			if (action.nfts?.length > 0) {
-				nfts.push({ from: values.from, to: action.to, nfts: action.nfts.map(nft => nft.resource) })
+				nfts.push({ from: values.from, to: action.to, nfts: action.nfts })
 			}
 			if (action.tokens?.length > 0) {
 				tokens.push({
 					from: values.from,
 					to: action.to,
-					tokens: action.tokens.map(token => token.resource),
+					tokens: action.tokens,
 				})
 			}
 		})
@@ -226,7 +218,7 @@ export const Home: React.FC = () => {
 									}
 								>
 									<Box className={styles.transferActionToAssetWrapper}>
-										<TokenAmountSelect name="resource" accountKey="from" />
+										<TokenAmountSelect accountKey="from" />
 									</Box>
 								</FieldsGroup>
 							</TabsContent>

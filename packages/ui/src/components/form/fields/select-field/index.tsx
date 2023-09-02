@@ -14,12 +14,10 @@ export const SelectAdapter = forwardRef<HTMLButtonElement, IAdapterProps>(({ onC
 
 interface IProps extends Omit<ISelectSimpleProps, 'onValueChange' | 'value' | 'name'>, WrapperProps {}
 
-export const SelectField = forwardRef<HTMLButtonElement, IProps>(
-	({ validate, name, parentName, label, ...rest }, ref) => (
-		<FieldWrapper name={name} parentName={parentName} label={label} validate={validate}>
-			<SelectAdapter {...rest} ref={ref} />
-		</FieldWrapper>
-	),
-)
+export const SelectField = forwardRef<HTMLButtonElement, IProps>(({ validate, name, label, ...rest }, ref) => (
+	<FieldWrapper name={name} label={label} validate={validate}>
+		<SelectAdapter {...rest} ref={ref} />
+	</FieldWrapper>
+))
 
 export default SelectField

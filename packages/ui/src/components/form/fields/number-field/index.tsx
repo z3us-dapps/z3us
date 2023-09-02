@@ -23,12 +23,10 @@ export const NumberInputAdapter = forwardRef<HTMLInputElement, IAdapterProps>(({
 
 interface IProps extends Omit<IInputProps, 'onChange' | 'value' | 'type' | 'label' | 'name'>, WrapperProps {}
 
-export const NumberField = forwardRef<HTMLInputElement, IProps>(
-	({ validate, name, parentName, label, ...rest }, ref) => (
-		<FieldWrapper name={name} parentName={parentName} label={label} validate={validate}>
-			<NumberInputAdapter {...rest} ref={ref} />
-		</FieldWrapper>
-	),
-)
+export const NumberField = forwardRef<HTMLInputElement, IProps>(({ validate, name, label, ...rest }, ref) => (
+	<FieldWrapper name={name} label={label} validate={validate}>
+		<NumberInputAdapter {...rest} ref={ref} />
+	</FieldWrapper>
+))
 
 export default NumberField

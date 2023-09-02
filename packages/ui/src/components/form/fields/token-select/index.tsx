@@ -54,10 +54,10 @@ export const SelectAdapter = forwardRef<HTMLButtonElement, IAdapterProps>((props
 interface IProps extends Omit<IAdapterProps, 'onValueChange' | 'value'>, WrapperProps {}
 
 export const TokenSelect = forwardRef<HTMLButtonElement, IProps>((props, ref) => {
-	const { validate, name, parentName, label, ...rest } = props
+	const { validate, name, label, ...rest } = props
 
 	return (
-		<FieldWrapper name={name} parentName={parentName} label={label} validate={validate}>
+		<FieldWrapper name={name} label={label} validate={validate}>
 			<SelectAdapter {...rest} ref={ref} />
 		</FieldWrapper>
 	)

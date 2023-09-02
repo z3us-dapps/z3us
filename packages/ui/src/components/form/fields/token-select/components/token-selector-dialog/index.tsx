@@ -93,7 +93,7 @@ export const TokenSelectorDialog: React.FC<ITokenSelectorDialogProps> = props =>
 
 	useEffect(() => {
 		setLocalBalances(searchAndFilterArray(balances, debouncedInputValue))
-	}, [debouncedInputValue])
+	}, [balances, debouncedInputValue])
 
 	return (
 		<DialogRoot open={isOpen} onOpenChange={handleOnOpenChange}>

@@ -1,22 +1,27 @@
 import set from 'lodash/set'
 import type { FormEvent, PropsWithChildren } from 'react'
 import React, { useMemo, useState } from 'react'
-import { type ZodObject, ZodRawShape } from 'zod'
 
 import { Box } from 'ui/src/components/box'
 import { Button } from 'ui/src/components/button'
 import { LoadingBarsIcon } from 'ui/src/components/icons'
 
-import { FormContext } from './context'
+import { FieldContext } from './context/field'
+import { FormContext } from './context/form'
 import { type FormData, type FormErrors } from './types'
 
 type IProps<P = {}> = {
 	initialValues: P
-	// validationSchema?: unknown
 	onSubmit: (form: P) => Promise<void> | void
 	validate?: (form: P) => any
 	className?: string
 	submitButtonTitle?: string | React.ReactNode
+}
+
+const rootFieldCtx = {
+	name: '',
+	value: undefined,
+	onChange: () => {},
 }
 
 export const Form: React.FC<PropsWithChildren<IProps>> = ({
@@ -49,7 +54,7 @@ export const Form: React.FC<PropsWithChildren<IProps>> = ({
 			})
 	}
 
-	const ctx = useMemo(
+	const formCtx = useMemo(
 		() => ({
 			form,
 			errors,
@@ -60,7 +65,9 @@ export const Form: React.FC<PropsWithChildren<IProps>> = ({
 
 	return (
 		<form {...rest} onSubmit={handleSubmit}>
-			<FormContext.Provider value={ctx}>{children}</FormContext.Provider>
+			<FormContext.Provider value={formCtx}>
+				<FieldContext.Provider value={rootFieldCtx}>{children}</FieldContext.Provider>
+			</FormContext.Provider>
 			<Button
 				fullWidth
 				styleVariant="primary"

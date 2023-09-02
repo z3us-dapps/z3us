@@ -18,12 +18,10 @@ export const CheckboxAdapter = forwardRef<HTMLInputElement, IAdapterProps>(({ on
 
 interface IProps extends Omit<ICheckboxProps, 'onChange' | 'value' | 'type' | 'label' | 'name'>, WrapperProps {}
 
-export const CheckboxField = forwardRef<HTMLInputElement, IProps>(
-	({ validate, name, parentName, label, ...rest }, ref) => (
-		<FieldWrapper name={name} parentName={parentName} label={label} validate={validate}>
-			<CheckboxAdapter {...rest} ref={ref} />
-		</FieldWrapper>
-	),
-)
+export const CheckboxField = forwardRef<HTMLInputElement, IProps>(({ validate, name, label, ...rest }, ref) => (
+	<FieldWrapper name={name} label={label} validate={validate}>
+		<CheckboxAdapter {...rest} ref={ref} />
+	</FieldWrapper>
+))
 
 export default CheckboxField

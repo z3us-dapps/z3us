@@ -61,10 +61,10 @@ export const SelectAdapter = forwardRef<HTMLInputElement, IAdapterProps>(
 interface IProps extends Omit<IAdapterProps, 'onChange' | 'value' | 'name' | 'label' | 'type'>, WrapperProps {}
 
 export const AddressBookSelect = forwardRef<HTMLInputElement, IProps>((props, ref) => {
-	const { validate, name, parentName, label, ...rest } = props
+	const { validate, name, label, ...rest } = props
 
 	return (
-		<FieldWrapper name={name} parentName={parentName} label={label} validate={validate}>
+		<FieldWrapper name={name} label={label} validate={validate}>
 			<SelectAdapter {...rest} ref={ref} />
 		</FieldWrapper>
 	)

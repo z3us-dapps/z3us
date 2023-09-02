@@ -23,12 +23,10 @@ export const TextAreaAdapter = forwardRef<HTMLInputElement, IAdapterProps>(({ on
 
 interface IProps extends Omit<IInputProps, 'onChange' | 'value' | 'type' | 'label' | 'name'>, WrapperProps {}
 
-export const TextAreaField = forwardRef<HTMLInputElement, IProps>(
-	({ validate, name, parentName, label, ...rest }, ref) => (
-		<FieldWrapper name={name} parentName={parentName} label={label} validate={validate}>
-			<TextAreaAdapter {...rest} ref={ref} />
-		</FieldWrapper>
-	),
-)
+export const TextAreaField = forwardRef<HTMLInputElement, IProps>(({ validate, name, label, ...rest }, ref) => (
+	<FieldWrapper name={name} label={label} validate={validate}>
+		<TextAreaAdapter {...rest} ref={ref} />
+	</FieldWrapper>
+))
 
 export default TextAreaField
