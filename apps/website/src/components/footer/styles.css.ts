@@ -9,6 +9,12 @@ export const footerWrapper = style([
 		display: 'flex',
 		width: 'full',
 		justifyContent: 'center',
+	}),
+	{},
+])
+
+export const footerBorderWrapper = style([
+	sprinkles({
 		borderTop: 1,
 		borderStyle: 'solid',
 		borderColor: {
@@ -81,6 +87,7 @@ export const mobileLinks = style([
 export const tabletLinks = style([
 	sprinkles({
 		gap: 'small',
+		marginRight: 'small',
 		display: {
 			mobile: 'none',
 			tablet: 'flex',

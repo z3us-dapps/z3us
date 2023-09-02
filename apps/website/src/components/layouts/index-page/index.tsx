@@ -5,6 +5,7 @@ import LogoTest from '@/components/logo-test'
 import { NextButton } from '@/components/next-button'
 // import NextLink from 'next/link'
 import { NextLink } from '@/components/next-link'
+import clsx from 'clsx'
 import dynamic from 'next/dynamic'
 import Image from 'next/image'
 import React from 'react'
@@ -31,6 +32,33 @@ export const IndexPage: React.FC = () => {
 			<Box className={styles.landingPageBodyWrapper}>
 				<Box className={styles.landingPageDarkWrapper}>
 					<ContentContainer>
+						<Box className={styles.landingPageLargeImgFloatBottom}>
+							<Image
+								priority
+								src="/landing-page-2023/zeus-golden-apple.png"
+								width={1440}
+								height={1119}
+								alt="Chrome logo"
+							/>
+						</Box>
+						<Box className={styles.landingPageLargeImgFloatLeft}>
+							<Image
+								priority
+								src="/landing-page-2023/hero-angel-left.png"
+								width={786}
+								height={1222}
+								alt="Chrome logo"
+							/>
+						</Box>
+						<Box className={styles.landingPageLargeImgFloatRight}>
+							<Image
+								priority
+								src="/landing-page-2023/hero-angel-right.png"
+								width={710}
+								height={474}
+								alt="Chrome logo"
+							/>
+						</Box>
 						<Box className={styles.landingHeroTextWrapper}>
 							<HeroTextSvg />
 						</Box>
@@ -53,7 +81,17 @@ export const IndexPage: React.FC = () => {
 										// iconOnly
 										to="https://t.me/z3us_dapps"
 										target="_blank"
-										leftIcon={<Box className={styles.landingCalloutButtonIcon}>a</Box>}
+										leftIcon={
+											<Box className={styles.landingCalloutButtonIcon}>
+												<Image
+													priority
+													src="/landing-page-2023/google-chrome-logo.png"
+													width={20}
+													height={20}
+													alt="Chrome logo"
+												/>
+											</Box>
+										}
 									>
 										Download for chrome
 									</NextButton>
@@ -72,40 +110,87 @@ export const IndexPage: React.FC = () => {
 						</Box>
 					</ContentContainer>
 				</Box>
+
+				<Box className={styles.landingPageInvadersWrapper}>
+					<Box className={styles.landingPageInvadersInnerWrapper}>
+						<Image
+							priority
+							src="/landing-page-2023/purple-invaders-horizontal-bg.png"
+							width={1440}
+							height={244}
+							alt="Vanilla Extract logo"
+						/>
+					</Box>
+				</Box>
 				<Box className={styles.landingPagePurpleWrapper}>
 					<ContentContainer>
+						<Box className={styles.landingLeftHeroTextWrapper}>
+							<Text
+								component="h4"
+								capitalize
+								size="large"
+								weight="stronger"
+								color="strong"
+								className={styles.landingTextOpacity50}
+							>
+								Seamless
+							</Text>
+							<Text size="xxxxlarge" color="strong" weight="stronger">
+								Experience your radix wallet in a whole new way.
+							</Text>
+							<Text size="large" color="strong">
+								Access your existing Radix wallets seamlessly alongside newly created Z3US wallets, simplifying asset
+								consolidation and management. Say goodbye to platform hopping – Z3US keeps your crypto world unified.
+							</Text>
+						</Box>
 						<Box>
-							<LogoTest />
-							<Box padding="large">
-								<p>hello</p>
-							</Box>
-							{Array.from({ length: 10 }, (_, i) => (
-								<Box display="flex" flexDirection="column" key={i}>
-									<Text size="large">Landing page content here</Text>
-								</Box>
-							))}
-							<LogoTest />
+							<p>image</p>
+						</Box>
+						<Box className={styles.landingLeftHeroTextWrapper}>
+							<Text
+								component="h4"
+								capitalize
+								size="large"
+								weight="stronger"
+								color="strong"
+								className={styles.landingTextOpacity50}
+							>
+								Seamless
+							</Text>
+							<Text size="xxxxlarge" color="strong" weight="stronger">
+								Experience your radix wallet in a whole new way.
+							</Text>
+							<Text size="large" color="strong">
+								Access your existing Radix wallets seamlessly alongside newly created Z3US wallets, simplifying asset
+								consolidation and management. Say goodbye to platform hopping – Z3US keeps your crypto world unified.
+							</Text>
 						</Box>
 					</ContentContainer>
 				</Box>
 				<Box className={styles.landingPageDarkWrapper}>
 					<ContentContainer>
 						<Box>
-							<Image priority src="/vercel.svg" width={100} height={120} alt="Vanilla Extract logo" />
 							<Box padding="large">
-								<p>hello</p>
+								<Text size="large">Landing page content here</Text>
 							</Box>
-							{Array.from({ length: 10 }, (_, i) => (
-								<Box display="flex" flexDirection="column" key={i}>
-									<Text size="large">Landing page content here</Text>
-								</Box>
-							))}
-							<LogoTest />
 						</Box>
 					</ContentContainer>
 				</Box>
+				<Box className={styles.landingPageInvadersWrapper}>
+					<Box className={styles.landingPageInvadersInnerWrapper}>
+						<Image
+							priority
+							src="/landing-page-2023/purple-invaders-horizontal-bg.png"
+							width={1440}
+							height={244}
+							alt="Vanilla Extract logo"
+						/>
+					</Box>
+				</Box>
 			</Box>
-			<Footer />
+			<Box className={clsx(styles.landingPagePurpleWrapper, styles.landingPageFooterWrapper)}>
+				<Footer textColor="strong" />
+			</Box>
 		</Box>
 	)
 }

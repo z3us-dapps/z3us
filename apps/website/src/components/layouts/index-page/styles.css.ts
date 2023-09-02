@@ -27,9 +27,71 @@ export const landingPageBodyWrapper = style([
 	}),
 ])
 
+export const landingPageLargeImgFloatLeft = style([
+	sprinkles({
+		position: 'absolute',
+		pointerEvents: 'none',
+	}),
+	{
+		top: '314px',
+		left: '-140px',
+		// border: '1px solid red',
+		width: '786px',
+		height: '1222px',
+
+		// width={786}
+		// height={1222}
+	},
+	responsiveStyle({
+		// mobile: { width: '100%' },
+		// tablet: { paddingTop: '72px' },
+		// desktop: { width: '25%' },
+	}),
+])
+
+export const landingPageLargeImgFloatRight = style([
+	sprinkles({
+		position: 'absolute',
+		pointerEvents: 'none',
+	}),
+	{
+		top: '0px',
+		right: '-200px',
+		width: '710px',
+		height: '474px',
+	},
+	responsiveStyle({
+		// mobile: { width: '100%' },
+		// tablet: { paddingTop: '72px' },
+		// desktop: { width: '25%' },
+	}),
+])
+
+export const landingPageLargeImgFloatBottom = style([
+	sprinkles({
+		position: 'absolute',
+		pointerEvents: 'none',
+	}),
+	{
+		top: '700px',
+		width: '1440px',
+		height: '1119px',
+		left: '50%',
+		marginLeft: '-720px',
+	},
+	responsiveStyle({
+		// mobile: { width: '100%' },
+		// tablet: { paddingTop: '72px' },
+		// desktop: { width: '25%' },
+	}),
+])
+
 export const landingPageDarkWrapper = style([
 	sprinkles({
 		position: 'relative',
+		display: 'flex',
+		justifyContent: 'center',
+		background: 'lead500',
 	}),
 	{},
 	responsiveStyle({
@@ -39,13 +101,55 @@ export const landingPageDarkWrapper = style([
 	}),
 ])
 
+export const landingPageInvadersWrapper = style([
+	sprinkles({
+		position: 'relative',
+		display: 'flex',
+		justifyContent: 'center',
+		overflow: 'hidden',
+	}),
+	{},
+])
+
+export const landingPageInvadersInnerWrapper = style([
+	sprinkles({
+		position: 'relative',
+	}),
+	{
+		width: '1440px',
+		height: '244px',
+		'::before': {
+			content: '""',
+			position: 'absolute',
+			right: 0,
+			height: '107px',
+			bottom: 0,
+			width: '2000px',
+			marginRight: '-2000px',
+			pointerEvents: 'none',
+			backgroundColor: '#7C4DFF',
+		},
+		'::after': {
+			content: '""',
+			position: 'absolute',
+			left: 0,
+			height: '104px',
+			bottom: 0,
+			width: '2000px',
+			marginLeft: '-2000px',
+			pointerEvents: 'none',
+			backgroundColor: '#7C4DFF',
+		},
+	},
+])
+
 export const landingPagePurpleWrapper = style([
 	sprinkles({
 		position: 'relative',
-		background: 'blue_magenta400',
+		// background: 'blue_magenta400',
 	}),
 	{
-		// backgroundColor: '#7C4DFF',
+		backgroundColor: '#7C4DFF',
 	},
 	responsiveStyle({
 		// mobile: { width: '100%' },
@@ -54,26 +158,36 @@ export const landingPagePurpleWrapper = style([
 	}),
 ])
 
-// globalStyle(`${landingPageWrapper} thead`, {
-// 	top: '50px !important',
-// })
+export const landingLeftHeroTextWrapper = style([
+	sprinkles({
+		position: 'relative',
+		display: 'flex',
+		flexDirection: 'column',
+		gap: 'medium',
+		// background: 'blue_magenta400',
+	}),
+	{
+		// border: '1px solid red',
+	},
+	responsiveStyle({
+		// mobile: { width: '100%' },
+		tablet: { paddingTop: '20px', paddingBottom: '120px', maxWidth: '640px' },
+		// desktop: { width: '25%' },
+	}),
+])
 
-// export const stakingTableMinHeightWrapper = style([
-// 	sprinkles({}),
-// 	{
-// 		minHeight: '420px',
-// 	},
-// ])
-
-// export const stakingTableWrapper = style([
-// 	sprinkles({
-// 		position: 'relative',
-// 		paddingX: {
-// 			tablet: 'large',
-// 		},
-// 	}),
-// 	{},
-// ])
+export const landingPageFooterWrapper = style([
+	sprinkles({
+		position: 'relative',
+		// background: 'blue_magenta400',
+	}),
+	{},
+	responsiveStyle({
+		// mobile: { width: '100%' },
+		tablet: { marginTop: '-72px' },
+		// desktop: { width: '25%' },
+	}),
+])
 
 export const landingHeroTextWrapper = style([
 	sprinkles({
@@ -111,7 +225,7 @@ export const landingCalloutTextWrapper = style([
 	{},
 	responsiveStyle({
 		// mobile: { width: '100%' },
-		tablet: { paddingBottom: '72px', maxWidth: '500px', marginRight: '200px' },
+		tablet: { paddingBottom: '172px', maxWidth: '500px', marginRight: '200px' },
 		// desktop: { width: '25%' },
 	}),
 ])
@@ -122,6 +236,9 @@ export const landingCalloutButtonIcon = style([
 		background: 'white',
 		borderRadius: 'full',
 		marginRight: 'xsmall',
+		display: 'flex',
+		alignItems: 'center',
+		justifyContent: 'center',
 	}),
 	{
 		width: '20px',
@@ -147,3 +264,5 @@ export const landingHeroCalloutImg = style([
 		// desktop: { width: '25%' },
 	}),
 ])
+
+export const landingTextOpacity50 = style([{ opacity: '0.5' }])

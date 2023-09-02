@@ -2,6 +2,10 @@ import { ContentContainer } from '@/components/content-container'
 import { NextButton } from '@/components/next-button'
 import { NextLink } from '@/components/next-link'
 import { Z3usLogoLink } from '@/components/z3us-logo-link'
+import clsx from 'clsx'
+// import { useTheme } from 'ui/src/hooks/use-theme'
+// import { type Theme } from 'ui/src/types/types'
+import { Props } from 'next/script'
 import React from 'react'
 
 import { Box } from 'ui/src/components/box'
@@ -13,13 +17,17 @@ import { TelegramIcon } from 'ui/src/components/icons/telegram-icon'
 import { TwitterIcon } from 'ui/src/components/icons/twitter-icon'
 import { SelectSimple, SelectTrigger, SelectValue } from 'ui/src/components/select'
 import { ToolTip } from 'ui/src/components/tool-tip'
-import { Text } from 'ui/src/components/typography'
+import { Text, type TextProps } from 'ui/src/components/typography'
 
-// import { useTheme } from 'ui/src/hooks/use-theme'
-// import { type Theme } from 'ui/src/types/types'
 import * as styles from './styles.css'
 
-export const Footer = () => {
+interface IProps {
+	showTopBorder?: boolean
+	textColor?: TextProps.color
+}
+
+export const Footer: React.FC<IProps> = props => {
+	const { showTopBorder = false, textColor = 'neutral' } = props
 	// const { setTheme, theme, resolvedTheme } = useTheme()
 
 	// const isDarkTheme = resolvedTheme === 'dark'
@@ -30,22 +38,33 @@ export const Footer = () => {
 
 	const pageLinks = (
 		<>
-			<NextLink size="small" href="/privacy" underline="hover">
+			<NextLink size="small" href="/privacy" underline="hover" color={textColor}>
 				Privacy
 			</NextLink>
-			<NextLink size="small" href="/terms" underline="hover">
+			<Box>&middot;</Box>
+			<NextLink size="small" href="/terms" underline="hover" color={textColor}>
 				Terms
+			</NextLink>
+			<Box>&middot;</Box>
+			<NextLink size="small" href="/terms" underline="hover" color={textColor}>
+				Support
+			</NextLink>
+			<Box>&middot;</Box>
+			<NextLink size="small" href="/terms" underline="hover" color={textColor}>
+				FAQ
 			</NextLink>
 		</>
 	)
 
 	return (
 		<ContentContainer>
-			<Box className={styles.footerWrapper}>
+			<Box className={clsx(styles.footerWrapper, showTopBorder && styles.footerBorderWrapper)}>
 				<Box className={styles.footerInnerWrapper}>
 					<Box className={styles.footerLeftWrapper}>
 						<Z3usLogoLink />
-						<Text size="small">&copy; {new Date().getFullYear()} Z3US</Text>
+						<Text size="small" color={textColor}>
+							&copy; {new Date().getFullYear()} Z3US
+						</Text>
 						<Box className={styles.mobileLinks}>{pageLinks}</Box>
 					</Box>
 					<Box className={styles.footerRightWrapper}>
@@ -55,7 +74,7 @@ export const Footer = () => {
 								<NextButton
 									rounded
 									sizeVariant="small"
-									styleVariant="ghost"
+									styleVariant="primary"
 									iconOnly
 									to="https://t.me/z3us_dapps"
 									target="_blank"
@@ -67,7 +86,7 @@ export const Footer = () => {
 								<NextButton
 									rounded
 									sizeVariant="small"
-									styleVariant="ghost"
+									styleVariant="primary"
 									iconOnly
 									to="https://twitter.com/z3us_dapps"
 									target="_blank"
@@ -79,7 +98,7 @@ export const Footer = () => {
 								<NextButton
 									rounded
 									sizeVariant="small"
-									styleVariant="ghost"
+									styleVariant="primary"
 									iconOnly
 									to="https://github.com/z3us-dapps/z3us"
 									target="_blank"
