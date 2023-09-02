@@ -109,4 +109,5 @@ export const text = {
 	xlarge: makeTypographyRules(vars.text.xlarge.calculate, vars.text.xlarge.spacing),
 	xxlarge: makeTypographyRules(vars.text.xxlarge.calculate, vars.text.xxlarge.spacing),
 	xxxlarge: makeTypographyRules(vars.text.xxxlarge.calculate, vars.text.xxxlarge.spacing),
+	xxxxlarge: makeTypographyRules(vars.text.xxxxlarge.calculate, vars.text.xxxxlarge.spacing),
 }

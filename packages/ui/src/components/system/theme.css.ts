@@ -91,6 +91,7 @@ export const sharedThemeValues = {
 		xlarge: px(8 * grid),
 		xxlarge: px(12 * grid),
 		xxxlarge: px(24 * grid),
+		xxxxlarge: px(32 * grid),
 	},
 	contentWidth: {
 		xsmall: px(480),
@@ -193,7 +194,6 @@ export const sharedThemeValues = {
 				desktop: '0.0em',
 			},
 		},
-
 		xlarge: {
 			calculate: calculateTypographyStyles(
 				{
@@ -234,9 +234,24 @@ export const sharedThemeValues = {
 				'heading',
 			),
 			spacing: {
-				mobile: '0em',
-				tablet: '0em',
-				desktop: '0em',
+				mobile: '-0.02em',
+				tablet: '-0.02em',
+				desktop: '-0.02em',
+			},
+		},
+		xxxxlarge: {
+			calculate: calculateTypographyStyles(
+				{
+					mobile: { fontSize: 48, rows: 12 },
+					tablet: { fontSize: 48, rows: 12 },
+					desktop: { fontSize: 48, rows: 12 },
+				},
+				'heading',
+			),
+			spacing: {
+				mobile: '-0.05em',
+				tablet: '-0.05em',
+				desktop: '-0.05em',
 			},
 		},
 	},
