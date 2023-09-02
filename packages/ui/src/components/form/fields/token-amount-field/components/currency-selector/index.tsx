@@ -1,13 +1,9 @@
 import BigNumber from 'bignumber.js'
 import clsx from 'clsx'
-import { ChevronDown2Icon } from 'packages/ui/src/components/icons'
-import { TokenPrice } from 'packages/ui/src/components/token-price'
-import { useSupportedCurrencies } from 'packages/ui/src/hooks/queries/market'
-import { useNoneSharedStore } from 'packages/ui/src/hooks/use-store'
-import type { ResourceBalance } from 'packages/ui/src/types/types'
 import React, { useState } from 'react'
 
 import { Box } from 'ui/src/components/box'
+import { ChevronDown2Icon } from 'ui/src/components/icons'
 import {
 	SelectContent,
 	SelectGroup,
@@ -20,19 +16,22 @@ import {
 	SelectValue,
 } from 'ui/src/components/select'
 import * as plainButtonStyles from 'ui/src/components/styles/plain-button-styles.css'
+import { TokenPrice } from 'ui/src/components/token-price'
+import Translation from 'ui/src/components/translation'
 import { Text } from 'ui/src/components/typography'
+import { useSupportedCurrencies } from 'ui/src/hooks/queries/market'
+import { useNoneSharedStore } from 'ui/src/hooks/use-store'
+import type { ResourceBalance } from 'ui/src/types/types'
 
 interface IProps {
 	selectedToken: ResourceBalance
-	tokenValue: number
+	amount: number
 }
 
-export const CurrencySelect: React.FC<IProps> = props => {
-	const { selectedToken, tokenValue } = props
+const favoriteCurrencies = ['usd', 'eur', 'btc']
 
+export const CurrencySelect: React.FC<IProps> = ({ selectedToken, amount }) => {
 	const { data: currencies } = useSupportedCurrencies()
-
-	const favoriteCurrencies = ['usd', 'eur', 'btc']
 
 	const { currency } = useNoneSharedStore(state => ({
 		currency: state.currency,
@@ -58,7 +57,7 @@ export const CurrencySelect: React.FC<IProps> = props => {
 								<Box component="span">
 									<TokenPrice
 										symbol={selectedToken?.symbol || selectedToken?.name}
-										amount={new BigNumber(tokenValue || 0)}
+										amount={new BigNumber(amount || 0)}
 										currency={currency}
 									/>
 									&nbsp;
@@ -78,7 +77,7 @@ export const CurrencySelect: React.FC<IProps> = props => {
 				<SelectGroup>
 					<SelectLabel>
 						<Text truncate size="small">
-							Favorite
+							<Translation capitalizeFirstLetter text="currency_select.favorite" />
 						</Text>
 					</SelectLabel>
 					{favoriteCurrencies?.map(c => (
@@ -92,7 +91,9 @@ export const CurrencySelect: React.FC<IProps> = props => {
 				<SelectSeparator />
 				<SelectGroup>
 					<SelectLabel>
-						<Text size="small">Rest</Text>
+						<Text size="small">
+							<Translation capitalizeFirstLetter text="currency_select.reset" />
+						</Text>
 					</SelectLabel>
 					{currencies?.map(c =>
 						favoriteCurrencies.includes(c) ? null : (

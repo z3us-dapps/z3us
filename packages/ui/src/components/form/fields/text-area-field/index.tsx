@@ -4,25 +4,31 @@ import { type IInputProps, Input } from 'ui/src/components/input'
 
 import { FieldWrapper, type IProps as WrapperProps } from '../../field-wrapper'
 
-interface IProps extends Omit<IInputProps, 'onChange' | 'value' | 'name' | 'label' | 'type'>, WrapperProps {
-	onChange?: (value: string | number) => void
+interface IAdapterProps extends Omit<IInputProps, 'onChange'> {
+	onChange?: (value: string) => void
 }
 
-export const TextAreaField = forwardRef<HTMLInputElement, IProps>(
-	({ onChange, validate, name, parentName, label, ...rest }, ref) => {
-		const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-			const evt = event.nativeEvent as InputEvent
-			if (evt.isComposing) {
-				return
-			}
-
-			onChange(event.target.value)
+export const TextAreaAdapter = forwardRef<HTMLInputElement, IAdapterProps>(({ onChange, ...rest }, ref) => {
+	const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+		const evt = event.nativeEvent as InputEvent
+		if (evt.isComposing) {
+			return
 		}
 
-		return (
-			<FieldWrapper name={name} parentName={parentName} label={label} validate={validate}>
-				<Input {...rest} elementType="textarea" type="text" ref={ref} onChange={handleChange} />
-			</FieldWrapper>
-		)
-	},
+		onChange(event.target.value)
+	}
+
+	return <Input {...rest} elementType="textarea" type="text" ref={ref} onChange={handleChange} />
+})
+
+interface IProps extends Omit<IInputProps, 'onChange' | 'value' | 'type' | 'label' | 'name'>, WrapperProps {}
+
+export const TextAreaField = forwardRef<HTMLInputElement, IProps>(
+	({ validate, name, parentName, label, ...rest }, ref) => (
+		<FieldWrapper name={name} parentName={parentName} label={label} validate={validate}>
+			<TextAreaAdapter {...rest} ref={ref} />
+		</FieldWrapper>
+	),
 )
+
+export default TextAreaField

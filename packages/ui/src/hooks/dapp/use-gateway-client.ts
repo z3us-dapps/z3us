@@ -13,6 +13,7 @@ export const useGatewayClient = () => {
 		setState(
 			GatewayApiClient.initialize({
 				basePath: gatewayBaseUrl,
+				applicationName: 'Z3US',
 			}),
 		)
 	}, [gatewayBaseUrl])

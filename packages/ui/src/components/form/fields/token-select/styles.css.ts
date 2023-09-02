@@ -8,7 +8,7 @@ export const tokenSelectBtnWrapper = style([
 		position: 'absolute',
 	}),
 	{
-		top: '4px',
+		top: '-44px',
 		right: '5px',
 		borderTopLeftRadius: '30px',
 		borderBottomLeftRadius: '30px',

@@ -1,43 +1,74 @@
+import clsx from 'clsx'
 import { t } from 'i18next'
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useEffect, useRef } from 'react'
+import { z } from 'zod'
 
-import { type FormElement, Input } from 'ui/src/components/input'
+import { Box } from 'ui/src/components/box'
+import { Form } from 'ui/src/components/form'
+import { TextAreaField } from 'ui/src/components/form/fields/text-area-field'
 import Translation from 'ui/src/components/translation'
+import { Text } from 'ui/src/components/typography'
+import { capitalizeFirstLetter } from 'ui/src/utils/capitalize-first-letter'
 
-import { TransferWrapper } from '../components/transfer-wrapper'
+import { useTransferContext } from '../components/transfer-wrapper/use-context'
 import * as styles from './styles.css'
+
+const initialValues = {
+	raw: '',
+}
+
+const validationSchema = z.object({
+	raw: z.string().min(1, 'Transaction input can not be empty'),
+})
 
 export const Raw: React.FC = () => {
 	const inputRef = useRef(null)
-	const [inputValue, setInputValue] = useState<string>('')
+	const { onSubmit } = useTransferContext()
 
 	useEffect(() => {
 		inputRef?.current?.focus()
 	}, [])
 
-	const handleChange = (event: React.ChangeEvent<FormElement>) => {
-		const { value } = event.target
-		setInputValue(value)
+	const handleSubmit = async (values: typeof initialValues) => {
+		onSubmit({
+			version: 1,
+			transactionManifest: values.raw,
+		})
+	}
+
+	const handleValidate = (values: typeof initialValues) => {
+		const result = validationSchema.safeParse(values)
+		if (result.success === false) return result.error
+		return undefined
 	}
 
 	return (
-		<TransferWrapper
-			title={<Translation capitalizeFirstLetter text="transfer.raw.title" />}
-			description={<Translation capitalizeFirstLetter text="transfer.raw.description" />}
-			helpTitle={<Translation capitalizeFirstLetter text="transfer.raw.helpTitle" />}
-			help={<Translation capitalizeFirstLetter text="transfer.raw.help" />}
-			transaction={inputValue ? { version: 1, transactionManifest: inputValue } : null}
+		<Form
+			onSubmit={handleSubmit}
+			validate={handleValidate}
+			initialValues={initialValues}
+			submitButtonTitle={<Translation capitalizeFirstLetter text="transfer.raw.submitFormButtonTitle" />}
+			className={styles.transferFormWrapper}
 		>
-			<Input
-				className={styles.transferRawTextAreaMessage}
-				value={inputValue}
-				ref={inputRef}
-				elementType="textarea"
-				sizeVariant="medium"
-				placeholder={t('transfer.raw.inputPlaceholder')}
-				onChange={handleChange}
-			/>
-		</TransferWrapper>
+			<Box className={clsx(styles.transferFormGridBoxWrapper, styles.transferFormGridBoxWrapperBorder)}>
+				<Box className={styles.transferFormGridBoxWrapperLeft}>
+					<Text color="strong" size="xlarge" weight="strong">
+						<Translation capitalizeFirstLetter text="transfer.raw.messageTitle" />
+					</Text>
+					<Text size="xsmall">
+						<Translation capitalizeFirstLetter text="transfer.raw.messageSubTitle" />
+					</Text>
+				</Box>
+				<Box>
+					<TextAreaField
+						name="raw"
+						placeholder={capitalizeFirstLetter(`${t('transfer.raw.inputPlaceholder')}`)}
+						sizeVariant="medium"
+						className={styles.transferFormMessageTextArea}
+					/>
+				</Box>
+			</Box>
+		</Form>
 	)
 }
 

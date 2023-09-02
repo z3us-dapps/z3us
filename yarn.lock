@@ -3940,32 +3940,32 @@
   dependencies:
     "@babel/runtime" "^7.13.10"
 
-"@radixdlt/babylon-gateway-api-sdk@^1.0.0-rc.2.4", "@radixdlt/babylon-gateway-api-sdk@^1.0.0-rc.2.5":
-  version "1.0.0-rc.2.5"
-  resolved "https://registry.yarnpkg.com/@radixdlt/babylon-gateway-api-sdk/-/babylon-gateway-api-sdk-1.0.0-rc.2.5.tgz#2ba2ca6ef98a978d6b70cdf350505d2afcf5831e"
-  integrity sha512-zXel/2KWB3zTExdBFzIx4Nq9fo1ifr8n9FnM9o999PbyotoABrH0dKiRKzVicae8i4Wgb+sxa+mlhWJ6V943pQ==
+"@radixdlt/babylon-gateway-api-sdk@1.0.0-rc.3.2":
+  version "1.0.0-rc.3.2"
+  resolved "https://registry.yarnpkg.com/@radixdlt/babylon-gateway-api-sdk/-/babylon-gateway-api-sdk-1.0.0-rc.3.2.tgz#b89dd2cbdadb49767a723940f0635b182481182a"
+  integrity sha512-7odQHQARzK1HIwpqjdH3ZHcYLpywHfZXdLRBw+1Lpx8cQ4X8nUeIwlEns3+g5XhX8+2dfOdQnumSsN/BcL41BA==
 
-"@radixdlt/babylon-gateway-api-sdk@^1.0.0-rc.2.6":
-  version "1.0.0-rc.2.6"
-  resolved "https://registry.yarnpkg.com/@radixdlt/babylon-gateway-api-sdk/-/babylon-gateway-api-sdk-1.0.0-rc.2.6.tgz#be67811ecab34b6ec3f8c258dc7d1ea5e4a485ef"
-  integrity sha512-gM/zn4XTUs0pAZy4iqo+UK1JoZpGfvYXWBQSm6WjvogJnufpmRboL9FCxUf42hsfebrKZn1hoyfqZBfV618fgQ==
+"@radixdlt/babylon-gateway-api-sdk@^1.0.0-rc.3.2":
+  version "1.0.0-rc.3.3"
+  resolved "https://registry.yarnpkg.com/@radixdlt/babylon-gateway-api-sdk/-/babylon-gateway-api-sdk-1.0.0-rc.3.3.tgz#85afb54354e2139ba00d87f3db6eb363a839eafe"
+  integrity sha512-c723dWAbBTUxKcK1WPS2b9kSJMd7OcgJ6nZR+VBwPmFZYh9gWkD75fxCi0XaeZL7xaib6N3BEPEpjYqEllRwcg==
 
-"@radixdlt/connect-button@0.13.2":
-  version "0.13.2"
-  resolved "https://registry.yarnpkg.com/@radixdlt/connect-button/-/connect-button-0.13.2.tgz#1afd5c92304927f75ed928e056644f5a694d4d71"
-  integrity sha512-4Xle5YOhm12GmCPQnmBimCUdD9fJQBzEPuSSIrbVBAUJ+Ao79VMkVl4MrUdHkb61zehcS3XvdNp9lPsZvdFuiQ==
+"@radixdlt/connect-button@0.13.4":
+  version "0.13.4"
+  resolved "https://registry.yarnpkg.com/@radixdlt/connect-button/-/connect-button-0.13.4.tgz#afde0d441d395fcfb2c8b5ffb22e4803cba268e6"
+  integrity sha512-5jeiiFJLBnJzC3nimWY7sKzQgRgtHAb0rMRjxtBxdBusr/HjTIoedLmOHBv5Yc+kpJSKAdtBp/PovaVOcM06qQ==
   dependencies:
     lit "^2.7.5"
 
-"@radixdlt/connector-extension@https://github.com/radixdlt/connector-extension#v0.4.0":
+"@radixdlt/connector-extension@https://github.com/radixdlt/connector-extension#v0.5.1":
   version "0.0.0"
-  resolved "https://github.com/radixdlt/connector-extension#02bde750a97610625ba4fb648825cd66fbf01af6"
+  resolved "https://github.com/radixdlt/connector-extension#935f8bb3f207dac1b841af039199aa7f9c43d3bc"
   dependencies:
     "@emotion/react" "^11.11.1"
     "@emotion/styled" "^11.11.0"
     "@ledgerhq/hw-transport-webhid" "^6.27.12"
     "@mui/material" "^5.14.0"
-    "@radixdlt/babylon-gateway-api-sdk" "^1.0.0-rc.2.5"
+    "@radixdlt/babylon-gateway-api-sdk" "^1.0.0-rc.3.2"
     "@stitches/react" "^1.2.8"
     "@types/blake2b" "^2.1.0"
     bech32 "^2.0.0"
@@ -3986,24 +3986,24 @@
     tslog "^4.7.1"
     zod "^3.19.1"
 
-"@radixdlt/radix-dapp-toolkit@^0.5.0":
-  version "0.5.0"
-  resolved "https://registry.yarnpkg.com/@radixdlt/radix-dapp-toolkit/-/radix-dapp-toolkit-0.5.0.tgz#4b24ba5ed78f71bb2eb7a1593e553cdb0c239228"
-  integrity sha512-TQ8e0RG0mEDG6Bfya/CS4wQvE+y2W/ixiiMUIylzk0VqdVfcYZGTvu3FbCGivvI3IfRzQiUmUG3TotsEbPJJjQ==
+"@radixdlt/radix-dapp-toolkit@^0.6.1":
+  version "0.6.1"
+  resolved "https://registry.yarnpkg.com/@radixdlt/radix-dapp-toolkit/-/radix-dapp-toolkit-0.6.1.tgz#ddc074f57ecbc36f1f9db1327ad60a50efc44a3a"
+  integrity sha512-rVU71RYbF8ZkBMWtzN2Gr1PrcdSdAjxGUBeDBq/hB2aAo9hvOjURbvoQWTylEJznOQfINQM9IWVHNSfAUuCZ6g==
   dependencies:
-    "@radixdlt/babylon-gateway-api-sdk" "^1.0.0-rc.2.4"
-    "@radixdlt/connect-button" "0.13.2"
-    "@radixdlt/wallet-sdk" "0.10.0"
+    "@radixdlt/babylon-gateway-api-sdk" "1.0.0-rc.3.2"
+    "@radixdlt/connect-button" "0.13.4"
+    "@radixdlt/wallet-sdk" "0.10.1-alpha.1"
     immer "^10.0.2"
     lodash.isequal "^4.5.0"
     neverthrow "^6.0.0"
     rxjs "^7.8.1"
     zod "^3.21.4"
 
-"@radixdlt/radix-engine-toolkit@^0.2.5":
-  version "0.2.5"
-  resolved "https://registry.yarnpkg.com/@radixdlt/radix-engine-toolkit/-/radix-engine-toolkit-0.2.5.tgz#a01596ecbbdedb338dfab3ae1857956eca825d07"
-  integrity sha512-Liujkd8g9hfSrqzFXzmWOzU08S9nW11PJsfLJ92t6L9XFD2B+c4PhwKNgwH9cBLE5dFcKxoViSqkDmSn7uD4Pg==
+"@radixdlt/radix-engine-toolkit@^0.3.0":
+  version "0.3.0"
+  resolved "https://registry.yarnpkg.com/@radixdlt/radix-engine-toolkit/-/radix-engine-toolkit-0.3.0.tgz#beb475ba0c651b4d74e3c211674cdaf11af2215e"
+  integrity sha512-bODSTuAICMW2MT2R6IcUvacIek8AHBfYh4bABFQliP+FXsjRk+3MNQbGACuEGLuU9jfWrandZUXADgKPs6Wniw==
   dependencies:
     "@noble/ed25519" "2.0.0"
     "@noble/hashes" "1.3.0"
@@ -4011,15 +4011,14 @@
     "@types/secure-random" "1.1.0"
     blakejs "1.2.1"
     change-case "4.1.2"
-    class-transformer "0.5.1"
     decimal.js "10.4.3"
     reflect-metadata "0.1.13"
     secp256k1 "5.0.0"
 
-"@radixdlt/wallet-sdk@0.10.0":
-  version "0.10.0"
-  resolved "https://registry.yarnpkg.com/@radixdlt/wallet-sdk/-/wallet-sdk-0.10.0.tgz#6a5e2f04eb0391e1165b9624cfb5f7a83f723bcd"
-  integrity sha512-BzW1X5cEq4Rax8WP+zPEC3hDQammdTtWrnyaqFRshhMEeFN1bPVc8OxEghwDDRWwCWVqAa9FSfLPsmcCXAbZmw==
+"@radixdlt/wallet-sdk@0.10.1-alpha.1":
+  version "0.10.1-alpha.1"
+  resolved "https://registry.yarnpkg.com/@radixdlt/wallet-sdk/-/wallet-sdk-0.10.1-alpha.1.tgz#a2cce2d0b8c0e0aa2465dbaf7853d83289ae06c9"
+  integrity sha512-kCmCLJ3Yi2VZhN7/B9nhnTi6JNuiy8+otQy3kh1JNb0pd9CV6o6YS/Vj85mVoGtePVog4UHmu6RKFbPR9TVrfg==
   dependencies:
     neverthrow "^6.0.0"
     rxjs "^7.8.1"
@@ -7288,11 +7287,6 @@ cjs-module-lexer@^1.0.0:
   version "1.2.2"
   resolved "https://registry.npmjs.org/cjs-module-lexer/-/cjs-module-lexer-1.2.2.tgz"
   integrity sha512-cOU9usZw8/dXIXKtwa8pM0OTJQuJkxMN6w30csNRUerHfeQ5R6U3kkU/FtJeIf3M202OHfY2U8ccInBG7/xogA==
-
-class-transformer@0.5.1:
-  version "0.5.1"
-  resolved "https://registry.yarnpkg.com/class-transformer/-/class-transformer-0.5.1.tgz#24147d5dffd2a6cea930a3250a677addf96ab336"
-  integrity sha512-SQa1Ws6hUbfC98vKGxZH3KFY0Y1lm5Zm0SY8XX9zbK7FJCyVEac3ATW0RIpwzW+oOfmHE5PMPufDG9hCfoEOMw==
 
 class-utils@^0.3.5:
   version "0.3.6"
@@ -16232,11 +16226,6 @@ throttle-debounce@^3.0.1:
   version "3.0.1"
   resolved "https://registry.npmjs.org/throttle-debounce/-/throttle-debounce-3.0.1.tgz"
   integrity sha512-dTEWWNu6JmeVXY0ZYoPuH5cRIwc0MeGbJwah9KUNYSJwommQpCzTySTpEe8Gs1J23aeWEuAobe4Ag7EHVt/LOg==
-
-throttle-debounce@^5.0.0:
-  version "5.0.0"
-  resolved "https://registry.yarnpkg.com/throttle-debounce/-/throttle-debounce-5.0.0.tgz#a17a4039e82a2ed38a5e7268e4132d6960d41933"
-  integrity sha512-2iQTSgkkc1Zyk0MeVrt/3BvuOXYPl/R8Z0U2xxo9rjwNciaHDG3R+Lm6dh4EeUci49DanvBnuqI6jshoQQRGEg==
 
 through2@^2.0.3:
   version "2.0.5"

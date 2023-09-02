@@ -4,19 +4,6 @@ import { sprinkles } from 'ui/src/components/system/sprinkles.css'
 import { responsiveStyle } from 'ui/src/components/system/theme-utils'
 import { vars } from 'ui/src/components/system/theme.css'
 
-export const transferFormOuterWrapper = style([
-	sprinkles({
-		position: 'relative',
-		display: 'flex',
-		width: 'full',
-		paddingTop: {
-			tablet: 'small',
-			desktop: 'medium',
-		},
-	}),
-	{},
-])
-
 export const transferFormWrapper = style([
 	sprinkles({
 		position: 'relative',

@@ -1,13 +1,13 @@
+import type { SendTransactionInput } from '@radixdlt/radix-dapp-toolkit'
 import type { WalletSdk as WalletSdkType } from '@radixdlt/wallet-sdk'
 import clsx from 'clsx'
-import { useSendTransaction } from 'packages/ui/src/hooks/dapp/use-send-transaction'
 import type { PropsWithChildren } from 'react'
-import React, { useState } from 'react'
+import React, { useMemo, useState } from 'react'
 
 import { Box } from 'ui/src/components/box'
 import { Button } from 'ui/src/components/button'
 import { DialogContent, DialogOverlay, DialogPortal, DialogRoot } from 'ui/src/components/dialog'
-import { Close2Icon, InformationIcon, LoadingBarsIcon } from 'ui/src/components/icons'
+import { Close2Icon, InformationIcon } from 'ui/src/components/icons'
 import MotionBox from 'ui/src/components/motion-box'
 import { PopoverContent, PopoverPortal, PopoverRoot, PopoverTrigger } from 'ui/src/components/popover'
 import { ScrollPanel } from 'ui/src/components/scroll-panel'
@@ -15,7 +15,9 @@ import * as dialogStyles from 'ui/src/components/styles/dialog-styles.css'
 import Translation from 'ui/src/components/translation'
 import { Text } from 'ui/src/components/typography'
 import { Z3usLoading } from 'ui/src/components/z3us-loading'
+import { useSendTransaction } from 'ui/src/hooks/dapp/use-send-transaction'
 
+import { Context as TransferContext } from './context'
 import * as styles from './styles.css'
 
 export type TransactionDetails = Parameters<WalletSdkType['sendTransaction']>[0]
@@ -28,13 +30,12 @@ export interface ITransferWrapperProps {
 	title: string | React.ReactElement
 	titleSuffix?: string | React.ReactElement
 	description?: string | React.ReactElement
-	transaction: TransactionDetails | TransactionDetailsGetter
 	helpTitle?: string | React.ReactElement
 	help?: string | React.ReactElement
 }
 
 export const TransferWrapper: React.FC<PropsWithChildren<ITransferWrapperProps>> = props => {
-	const { title, titleSuffix, description, helpTitle, help, transaction, children } = props
+	const { title, titleSuffix, description, helpTitle, help, children } = props
 	const sendTransaction = useSendTransaction()
 	const [isOpen, setIsOpen] = useState<boolean>(false)
 	const [isLoading, setIsLoading] = useState<boolean>(false)
@@ -52,28 +53,28 @@ export const TransferWrapper: React.FC<PropsWithChildren<ITransferWrapperProps>>
 		}
 	}
 
-	const handleOpenSendingDialog = () => {
+	const handleOpenSendingDialog = (input: SendTransactionInput) => {
 		setIsOpen(true)
 		setIsLoading(true)
 
-		const input = typeof transaction === 'function' ? transaction() : transaction
-		if (!input) return
-
 		sendTransaction(input)
-			// TODO:
-			// @ts-ignore
-			.andThen(() => {
+			.map(() => {
 				setIsLoading(false)
 				setTxError('')
+				return undefined
 			})
-			.mapErr(error => {
+			.mapErr((error: any) => {
 				setIsLoading(false)
-
-				// TODO:
-				// @ts-ignore
 				setTxError(error.message || 'Action failed')
 			})
 	}
+
+	const ctx = useMemo(
+		() => ({
+			onSubmit: handleOpenSendingDialog,
+		}),
+		[],
+	)
 
 	return (
 		<>
@@ -118,25 +119,9 @@ export const TransferWrapper: React.FC<PropsWithChildren<ITransferWrapperProps>>
 							<Box>
 								<Text size="small">{description}</Text>
 							</Box>
-							<Box marginTop="large">{children}</Box>
-							{/* <Box display="flex" paddingTop="xlarge" width="full">
-								<Button
-									styleVariant="primary"
-									sizeVariant="xlarge"
-									fullWidth
-									onClick={handleOpenSendingDialog}
-									disabled={isOpen || isLoading || !transaction}
-									rightIcon={
-										isOpen ? (
-											<Box marginLeft="small">
-												<LoadingBarsIcon />
-											</Box>
-										) : null
-									}
-								>
-									<Translation capitalizeFirstLetter text="global.send" />
-								</Button>
-							</Box> */}
+							<Box marginTop="large">
+								<TransferContext.Provider value={ctx}>{children}</TransferContext.Provider>
+							</Box>
 						</Box>
 					</Box>
 				</ScrollPanel>

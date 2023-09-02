@@ -13,7 +13,7 @@ const Navigation: React.FC = () => (
 				{[
 					{
 						title: t('transfer.navigation.tokensNftsTitle'),
-						href: '/transfer/tokens-nfts',
+						href: '/transfer',
 					},
 					{
 						title: t('transfer.navigation.rawTitle'),

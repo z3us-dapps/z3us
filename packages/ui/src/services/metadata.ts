@@ -107,7 +107,7 @@ export const resourceBalanceFromEntityMetadataItems = (
 
 	let tokenKey = symbol?.toUpperCase()
 	if (!tokenKey && validator) tokenKey = 'XRD'
-	const token = tokens[tokenKey]
+	const token = tokens[tokenKey] || null
 
 	return {
 		address,

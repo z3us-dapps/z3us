@@ -1,4 +1,15 @@
-import { ManifestAstValue, type ManifestBuilder } from '@radixdlt/radix-engine-toolkit'
+import {
+	Expression,
+	type ManifestBuilder,
+	ValueKind,
+	bool,
+	decimal,
+	enumeration,
+	expression,
+	map,
+	tuple,
+	u8,
+} from '@radixdlt/radix-engine-toolkit'
 
 interface CreateFungibleToken {
 	initialSupply: number
@@ -21,50 +32,42 @@ export const createToken = (manifest: ManifestBuilder, address: string) => ({
 		tokens
 			.reduce(
 				(group, { initialSupply, ...details }) =>
-					group.createFungibleResourceWithInitialSupply(
-						new ManifestAstValue.Bool(true),
-						new ManifestAstValue.U8(18),
-						new ManifestAstValue.Map(
-							ManifestAstValue.Kind.String,
-							ManifestAstValue.Kind.String,
-							Object.entries(details).map(([key, value]) => [
-								new ManifestAstValue.String(key),
-								new ManifestAstValue.String(value),
-							]),
-						),
-						new ManifestAstValue.Map(ManifestAstValue.Kind.Enum, ManifestAstValue.Kind.Tuple, []),
-						new ManifestAstValue.Decimal(initialSupply),
-					),
+					// group.createNonFungibleResourceWithInitialSupply(
+					// 	bool(true),
+					// 	u8(18),
+					// 	map(ValueKind.String, ValueKind.String, Object.entries(details)),
+					// 	map(ValueKind.Enum, ValueKind.Tuple, []),
+					// 	decimal(initialSupply),
+					// ),
+					group,
 				manifest,
 			)
-			.callMethod(address, 'deposit_batch', [ManifestAstValue.Expression.entireWorktop()]),
+			.callMethod(address, 'deposit_batch', [expression(Expression.EntireWorktop)]),
 	nft: (nfts: CreateNftToken[]) =>
 		nfts
 			.reduce(
 				(group, { items, initialSupply, ...details }) =>
-					group.createNonFungibleResourceWithInitialSupply(
-						new ManifestAstValue.Bool(true),
-						new ManifestAstValue.Enum(new ManifestAstValue.EnumU8Discriminator(0)),
-						new ManifestAstValue.Tuple([
-							new ManifestAstValue.Map(ManifestAstValue.Kind.Tuple, ManifestAstValue.Kind.Enum, []),
-							new ManifestAstValue.Map(ManifestAstValue.Kind.String, ManifestAstValue.Kind.Enum, []),
-							new ManifestAstValue.Enum(new ManifestAstValue.EnumU8Discriminator(0)),
-							new ManifestAstValue.Map(ManifestAstValue.Kind.Tuple, ManifestAstValue.Kind.Enum, []),
-							new ManifestAstValue.Map(ManifestAstValue.Kind.String, ManifestAstValue.Kind.Enum, []),
-							new ManifestAstValue.Enum(new ManifestAstValue.EnumU8Discriminator(0)),
-						]),
-						new ManifestAstValue.Map(
-							ManifestAstValue.Kind.String,
-							ManifestAstValue.Kind.String,
-							Object.entries(details).map(([key, value]) => [
-								new ManifestAstValue.String(key),
-								new ManifestAstValue.String(value),
-							]),
-						),
-						new ManifestAstValue.Map(ManifestAstValue.Kind.Enum, ManifestAstValue.Kind.Tuple, []),
-						new ManifestAstValue.Decimal(initialSupply),
-					),
+					// group.createNonFungibleResourceWithInitialSupply(
+					// 	bool(true),
+					// 	enumeration(0),
+					// 	tuple([
+					// 		map(ValueKind.Tuple, ValueKind.Enum, []),
+					// 		map(ValueKind.String, ValueKind.Enum, []),
+					// 		enumeration(0),
+					// 		map(ValueKind.Tuple, ValueKind.Enum, []),
+					// 		map(ValueKind.String, ValueKind.Enum, []),
+					// 		enumeration(0),
+					// 	]),
+					// 	map(
+					// 		ValueKind.String,
+					// 		ValueKind.String,
+					// 		Object.entries(details),
+					// 	),
+					// 	map(ValueKind.Enum, ValueKind.Tuple, []),
+					// 	decimal(initialSupply),
+					// ),
+					group,
 				manifest,
 			)
-			.callMethod(address, 'deposit_batch', [ManifestAstValue.Expression.entireWorktop()]),
+			.callMethod(address, 'deposit_batch', [expression(Expression.EntireWorktop)]),
 })

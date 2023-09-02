@@ -6,5 +6,5 @@ import { useRdt } from './use-rdt'
 export const useSendTransaction: () => WalletApi['sendTransaction'] = () => {
 	const rdt = useRdt()!
 
-	return useCallback(rdt.walletApi.sendTransaction, [rdt])
+	return useCallback<typeof rdt.walletApi.sendTransaction>(rdt.walletApi.sendTransaction, [rdt])
 }
