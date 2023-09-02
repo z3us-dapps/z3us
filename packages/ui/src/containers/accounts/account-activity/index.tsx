@@ -77,8 +77,8 @@ const ItemWrapper: React.FC<IRowProps> = props => {
 
 	const { pathname } = useLocation()
 
-	const isSelected = selected === transaction.intent_hash_hex
-	const isHovered = hovered === transaction.intent_hash_hex
+	const isSelected = selected === transaction.intent_hash
+	const isHovered = hovered === transaction.intent_hash
 
 	return (
 		<Box className={styles.activityItemOuter}>
@@ -91,10 +91,10 @@ const ItemWrapper: React.FC<IRowProps> = props => {
 						>
 							<Link
 								underline="never"
-								to={`${pathname}?asset=xrd&transactionId=${transaction.intent_hash_hex}`}
+								to={`${pathname}?asset=xrd&transactionId=${transaction.intent_hash}`}
 								className={styles.activityItemInnerBtn}
-								onClick={() => setSelected(transaction.intent_hash_hex)}
-								onMouseOver={() => setHovered(transaction.intent_hash_hex)}
+								onClick={() => setSelected(transaction.intent_hash)}
+								onMouseOver={() => setHovered(transaction.intent_hash)}
 								onMouseLeave={() => setHovered(null)}
 							>
 								<Box className={styles.indicatorCircle}>
@@ -102,7 +102,7 @@ const ItemWrapper: React.FC<IRowProps> = props => {
 								</Box>
 								<Box className={styles.activityItemTextWrapper}>
 									<Text weight="stronger" size="small" color="strong" truncate>
-										{getShortAddress(transaction.intent_hash_hex)}
+										{getShortAddress(transaction.intent_hash)}
 									</Text>
 									<Text size="xsmall" truncate>
 										{transaction.confirmed_at?.toLocaleString()}
@@ -129,11 +129,11 @@ const ItemWrapper: React.FC<IRowProps> = props => {
 									sizeVariant="small"
 									styleVariant="ghost"
 									iconOnly
-									onMouseOver={() => setHovered(transaction.intent_hash_hex)}
+									onMouseOver={() => setHovered(transaction.intent_hash)}
 									onMouseOut={() => setHovered(null)}
 									onClick={() =>
 										window
-											.open(`${config.defaultExplorerURL}/transaction/${transaction.intent_hash_hex}`, '_blank')
+											.open(`${config.defaultExplorerURL}/transaction/${transaction.intent_hash}`, '_blank')
 											.focus()
 									}
 								>

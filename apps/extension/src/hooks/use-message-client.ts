@@ -25,19 +25,19 @@ export const useMessageClient = () => ({
 	removeFromVault: async (password: string) =>
 		client.sendMessage(MessageAction.VAULT_REMOVE, { password } as MessageTypes[MessageAction.VAULT_REMOVE]),
 
-	sign: async (password: string, data: string, index: number = 0): Promise<PublicKey.PublicKey | null> =>
+	sign: async (password: string, data: string, index: number = 0): Promise<PublicKey | null> =>
 		client.sendMessage(MessageAction.SIGN, {
 			index,
 			password,
 			toSign: Convert.Uint8Array.toHexString(Buffer.from(data, 'utf-8')),
 		} as MessageTypes[MessageAction.SIGN]),
-	signHash: async (password: string, data: string, index: number = 0): Promise<PublicKey.PublicKey | null> =>
+	signHash: async (password: string, data: string, index: number = 0): Promise<PublicKey | null> =>
 		client.sendMessage(MessageAction.SIGN, {
 			index,
 			password,
 			toSign: Convert.Uint8Array.toHexString(LTSRadixEngineToolkit.Utils.hash(Buffer.from(data, 'utf-8'))),
 		} as MessageTypes[MessageAction.SIGN]),
 
-	getPublicKey: async (index: number = 0): Promise<PublicKey.PublicKey | null> =>
+	getPublicKey: async (index: number = 0): Promise<PublicKey | null> =>
 		client.sendMessage(MessageAction.GET_PUBLIC_KEY, { index } as MessageTypes[MessageAction.GET_PUBLIC_KEY]),
 })

@@ -59,7 +59,7 @@ async function sign(message: Message) {
 		return null
 	}
 	const privateKey = getPrivateKey(walletData.data, index)
-	return privateKey.signToSignature(Convert.Uint8Array.from(toSign))
+	return privateKey.signToSignature(Convert.HexString.toUint8Array(toSign))
 }
 
 export interface GetPublicKeyMessage {

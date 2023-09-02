@@ -15,8 +15,8 @@ export const TransactionManifest: React.FC<IProps> = ({ manifestHex, ...textProp
 	useEffect(() => {
 		const decode = async () => {
 			if (manifestHex) {
-				const intent = await RadixEngineToolkit.decompileUnknownTransactionIntent(Buffer.from(manifestHex, 'hex'))
-				setManifest(intent.toObject().signed_intent.intent.manifest.instructions.value)
+				const intent = await RadixEngineToolkit.Intent.decompile(Buffer.from(manifestHex, 'hex'))
+				setManifest(intent.manifest.instructions.value.toString())
 			} else {
 				setManifest('')
 			}

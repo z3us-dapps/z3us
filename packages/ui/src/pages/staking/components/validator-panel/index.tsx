@@ -128,15 +128,15 @@ export const ValidatorPanel = () => {
 														<Box className={styles.validatorInfoCopyBtnWrapper}>
 															<CopyAddressButton
 																styleVariant="ghost"
-																address={data?.transaction.intent_hash_hex}
+																address={data?.transaction.intent_hash}
 																iconOnly
 																rounded={false}
 																tickColor="colorStrong"
 															/>
 														</Box>
-														<ToolTip message={data?.transaction.intent_hash_hex}>
+														<ToolTip message={data?.transaction.intent_hash}>
 															<Box>
-																<Text size="small">{getShortAddress(data?.transaction.intent_hash_hex)}</Text>
+																<Text size="small">{getShortAddress(data?.transaction.intent_hash)}</Text>
 															</Box>
 														</ToolTip>
 													</Box>

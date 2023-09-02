@@ -4,14 +4,14 @@ import { useEffect, useState } from 'react'
 
 import { useMessageClient } from './use-message-client'
 
-export const usePublicKey = (): [PublicKey.PublicKey | null, Error | null] => {
+export const usePublicKey = (): [PublicKey | null, Error | null] => {
 	const client = useMessageClient()
 	const { keystoreId } = useSharedStore(state => ({
 		keystoreId: state.selectedKeystoreId,
 	}))
 
 	const [error, setError] = useState<Error | null>(null)
-	const [state, setState] = useState<PublicKey.PublicKey | null>(null)
+	const [state, setState] = useState<PublicKey | null>(null)
 
 	useEffect(() => {
 		const load = async () => {

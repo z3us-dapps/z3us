@@ -135,15 +135,15 @@ export const Transaction = () => {
 														<Box className={styles.transactionInfoCopyBtnWrapper}>
 															<CopyAddressButton
 																styleVariant="ghost"
-																address={data?.transaction.intent_hash_hex}
+																address={data?.transaction.intent_hash}
 																iconOnly
 																rounded={false}
 																tickColor="colorStrong"
 															/>
 														</Box>
-														<ToolTip message={data?.transaction.intent_hash_hex}>
+														<ToolTip message={data?.transaction.intent_hash}>
 															<Box>
-																<Text size="small">{getShortAddress(data?.transaction.intent_hash_hex)}</Text>
+																<Text size="small">{getShortAddress(data?.transaction.intent_hash)}</Text>
 															</Box>
 														</ToolTip>
 													</Box>
@@ -204,7 +204,7 @@ export const Transaction = () => {
 													</Box>
 												}
 											/>
-											{data?.transaction.message_hex && (
+											{data?.transaction.message && (
 												<>
 													<Box position="relative" width="full">
 														<Box display="flex" alignItems="center" gap="xsmall">
@@ -221,7 +221,8 @@ export const Transaction = () => {
 														</Box>
 													</Box>
 													<Box position="relative" width="full">
-														<Text size="xsmall">{Buffer.from(data?.transaction.message_hex, 'hex').toString()}</Text>
+														{/* <Text size="xsmall">{Buffer.from(data?.transaction.message, 'hex').toString()}</Text> */}
+														<Text size="xsmall">{JSON.stringify(data?.transaction.message)}</Text>
 													</Box>
 												</>
 											)}

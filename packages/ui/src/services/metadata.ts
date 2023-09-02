@@ -44,7 +44,7 @@ export const getEntityMetadataItemValue = (item?: EntityMetadataItem): any => {
 		return null
 	}
 	if (!item.value.typed) {
-		item.value.typed = MetadataTypedValueFromJSON(item.value.raw_json)
+		item.value.typed = MetadataTypedValueFromJSON(item.value.programmatic_json)
 	}
 	switch (item.value.typed.type) {
 		case MetadataBoolValueTypeEnum.Bool:

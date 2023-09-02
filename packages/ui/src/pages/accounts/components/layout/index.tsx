@@ -28,7 +28,7 @@ const ScrollContent: React.FC = () => {
 		.filter(match => Boolean((match.handle as any)?.sidebar))
 		.map(match => (match.handle as any).sidebar)
 
-	const [sidebar] = sidebars.toReversed()
+	const [sidebar] = sidebars.reverse()
 
 	return (
 		<>
