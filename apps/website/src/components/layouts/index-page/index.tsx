@@ -110,7 +110,6 @@ export const IndexPage: React.FC = () => {
 						</Box>
 					</ContentContainer>
 				</Box>
-
 				<Box className={styles.landingPageInvadersWrapper}>
 					<Box className={styles.landingPageInvadersInnerWrapper}>
 						<Image
@@ -143,8 +142,23 @@ export const IndexPage: React.FC = () => {
 								consolidation and management. Say goodbye to platform hopping – Z3US keeps your crypto world unified.
 							</Text>
 						</Box>
-						<Box>
-							<p>image</p>
+						<Box className={styles.landingHeroExperienceImageWrapper}>
+							<Image
+								priority
+								src="/landing-page-2023/experience-hero-left.png"
+								width={760}
+								height={726}
+								alt="Vanilla Extract logo"
+								className={clsx(styles.landingHeroCalloutImg, styles.landingHeroCalloutRoundedImg)}
+							/>
+							<Image
+								priority
+								src="/landing-page-2023/experience-hero-right.png"
+								width={360}
+								height={926}
+								alt="Vanilla Extract logo"
+								className={clsx(styles.landingHeroCalloutImg, styles.landingHeroCalloutRoundedImg)}
+							/>
 						</Box>
 						<Box className={styles.landingLeftHeroTextWrapper}>
 							<Text
@@ -155,23 +169,88 @@ export const IndexPage: React.FC = () => {
 								color="strong"
 								className={styles.landingTextOpacity50}
 							>
-								Seamless
+								ALl-in-one
 							</Text>
 							<Text size="xxxxlarge" color="strong" weight="stronger">
-								Experience your radix wallet in a whole new way.
+								Send. Receive. Stake.
 							</Text>
 							<Text size="large" color="strong">
-								Access your existing Radix wallets seamlessly alongside newly created Z3US wallets, simplifying asset
-								consolidation and management. Say goodbye to platform hopping – Z3US keeps your crypto world unified.
+								Flawless essentials and powerful features. With the added functionality of group transactions, sending
+								assets becomes even more convenient.
 							</Text>
+						</Box>
+						<Box className={styles.landingHeroSendReceiveStakeWrapper}>
+							<Image
+								priority
+								src="/landing-page-2023/send-receive-stake-01.png"
+								width={360}
+								height={600}
+								alt="Vanilla Extract logo"
+								className={clsx(styles.landingHeroCalloutImg, styles.landingHeroCalloutRoundedImg)}
+							/>
+							<Image
+								priority
+								src="/landing-page-2023/send-receive-stake-02.png"
+								width={360}
+								height={529}
+								alt="Vanilla Extract logo"
+								className={clsx(styles.landingHeroCalloutImg, styles.landingHeroCalloutRoundedImg)}
+							/>
+							<Image
+								priority
+								src="/landing-page-2023/send-receive-stake-03.png"
+								width={360}
+								height={600}
+								alt="Vanilla Extract logo"
+								className={clsx(styles.landingHeroCalloutImg, styles.landingHeroCalloutRoundedImg)}
+							/>
 						</Box>
 					</ContentContainer>
 				</Box>
+				<Box className={clsx(styles.landingPageInvadersWrapper, styles.landingPageInvadersFlipped)}>
+					<Box className={styles.landingPageInvadersInnerWrapper}>
+						<Image
+							priority
+							src="/landing-page-2023/purple-invaders-horizontal-bg.png"
+							width={1440}
+							height={244}
+							alt="Vanilla Extract logo"
+						/>
+					</Box>
+				</Box>
 				<Box className={styles.landingPageDarkWrapper}>
 					<ContentContainer>
-						<Box>
-							<Box padding="large">
-								<Text size="large">Landing page content here</Text>
+						<Box className={styles.landingFeaturePointBlockWrapper}>
+							<Box className={styles.landingFeaturePointBlock}>
+								<Text
+									component="h4"
+									capitalize
+									size="large"
+									weight="stronger"
+									color="strong"
+									className={styles.landingTextOpacity50}
+								>
+									ALl-in-one
+								</Text>
+								<Text size="xxxxlarge" color="strong" weight="stronger">
+									Send. Receive. Stake.
+								</Text>
+								<Text size="large" color="strong">
+									Flawless essentials and powerful features. With the added functionality of group transactions, sending
+									assets becomes even more convenient.
+								</Text>
+							</Box>
+							<Box className={styles.landingFeaturePointImgBlock}>
+								<Text
+									component="h4"
+									capitalize
+									size="large"
+									weight="stronger"
+									color="strong"
+									className={styles.landingTextOpacity50}
+								>
+									ALl-in-one
+								</Text>
 							</Box>
 						</Box>
 					</ContentContainer>

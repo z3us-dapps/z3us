@@ -88,7 +88,6 @@ export const landingPageLargeImgFloatBottom = style([
 
 export const landingPageDarkWrapper = style([
 	sprinkles({
-		position: 'relative',
 		display: 'flex',
 		justifyContent: 'center',
 		background: 'lead500',
@@ -103,12 +102,18 @@ export const landingPageDarkWrapper = style([
 
 export const landingPageInvadersWrapper = style([
 	sprinkles({
-		position: 'relative',
 		display: 'flex',
 		justifyContent: 'center',
 		overflow: 'hidden',
 	}),
 	{},
+])
+
+export const landingPageInvadersFlipped = style([
+	sprinkles({}),
+	{
+		transform: 'scaleY(-1)',
+	},
 ])
 
 export const landingPageInvadersInnerWrapper = style([
@@ -171,7 +176,60 @@ export const landingLeftHeroTextWrapper = style([
 	},
 	responsiveStyle({
 		// mobile: { width: '100%' },
-		tablet: { paddingTop: '20px', paddingBottom: '120px', maxWidth: '640px' },
+		tablet: { paddingTop: '0px', paddingBottom: '0px', maxWidth: '640px' },
+		// desktop: { width: '25%' },
+	}),
+])
+
+export const landingFeaturePointBlockWrapper = style([
+	sprinkles({
+		position: 'relative',
+		paddingY: 'xxlarge',
+		display: 'flex',
+		justifyContent: 'space-between',
+		// background: 'blue_magenta400',
+	}),
+	{
+		// border: '1px solid red',
+	},
+	responsiveStyle({
+		// mobile: { width: '100%' },
+		// tablet: { paddingTop: '0px', paddingBottom: '0px', maxWidth: '640px' },
+		// desktop: { width: '25%' },
+	}),
+])
+
+export const landingFeaturePointBlock = style([
+	sprinkles({
+		position: 'relative',
+		display: 'flex',
+		flexDirection: 'column',
+		gap: 'medium',
+		// background: 'blue_magenta400',
+	}),
+	{
+		// border: '1px solid red',
+	},
+	responsiveStyle({
+		// mobile: { width: '100%' },
+		tablet: { paddingTop: '0px', paddingBottom: '0px', maxWidth: '490px' },
+		// desktop: { width: '25%' },
+	}),
+])
+
+export const landingFeaturePointImgBlock = style([
+	sprinkles({
+		position: 'relative',
+		display: 'flex',
+		flexDirection: 'column',
+		gap: 'medium',
+	}),
+	{
+		border: '1px solid red',
+	},
+	responsiveStyle({
+		// mobile: { width: '100%' },
+		tablet: { paddingTop: '0px', paddingBottom: '0px', maxWidth: '240px' },
 		// desktop: { width: '25%' },
 	}),
 ])
@@ -256,6 +314,8 @@ export const landingHeroCalloutImg = style([
 		position: 'relative',
 		display: 'block',
 		boxShadow: 'shadowActivePanel',
+		flexShrink: 0,
+		flexGrow: 0,
 	}),
 	{},
 	responsiveStyle({
@@ -263,6 +323,32 @@ export const landingHeroCalloutImg = style([
 		// tablet: { paddingBottom: '72px', maxWidth: '500px', marginRight: '200px' },
 		// desktop: { width: '25%' },
 	}),
+])
+
+export const landingHeroCalloutRoundedImg = style([
+	sprinkles({
+		borderRadius: 'xxlarge',
+	}),
+])
+
+export const landingHeroExperienceImageWrapper = style([
+	sprinkles({
+		display: 'flex',
+		justifyContent: 'space-between',
+		marginTop: 'xlarge',
+	}),
+	{},
+])
+
+export const landingHeroSendReceiveStakeWrapper = style([
+	sprinkles({
+		position: 'relative',
+		zIndex: 1,
+		display: 'flex',
+		justifyContent: 'space-between',
+		marginTop: 'xxlarge',
+	}),
+	{},
 ])
 
 export const landingTextOpacity50 = style([{ opacity: '0.5' }])
