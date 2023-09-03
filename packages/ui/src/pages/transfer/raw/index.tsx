@@ -10,7 +10,7 @@ import Translation from 'ui/src/components/translation'
 import { Text } from 'ui/src/components/typography'
 import { capitalizeFirstLetter } from 'ui/src/utils/capitalize-first-letter'
 
-import { useTransferContext } from '../components/transfer-wrapper/use-context'
+import { useTransferContext } from '../use-context'
 import * as styles from './styles.css'
 
 const initialValues = {

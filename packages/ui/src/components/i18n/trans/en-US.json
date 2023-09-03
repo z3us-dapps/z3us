@@ -112,7 +112,7 @@
 	},
 	"transfer": {
 		"navigation": {
-			"tokensNftsTitle": "Tokens & NFTs",
+			"homeTitle": "Tokens & NFTs",
 			"rawTitle": "Raw",
 			"deployTitle": "Deploy package"
 		},
@@ -131,7 +131,7 @@
 			"toAccountTitle": "To account",
 			"toAccountSubTitle": "Select account to send tokens or nfts",
 			"tokensTabTitle": "Tokens",
-			"tokensNftsTitle": "NFTs",
+			"nftsTabTitle": "NFTs",
 			"tokenInputValuePlaceholder": "Enter token amount",
 			"tokenAvailableLabel": "available",
 			"xxx": "xxx"

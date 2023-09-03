@@ -5,8 +5,8 @@ import { useDebounce } from 'use-debounce'
 import { Box } from 'ui/src/components/box'
 import { ValidationErrorMessage } from 'ui/src/components/validation-error-message'
 
-import { FieldContext } from '../context/field'
-import { FormContext } from '../context/form'
+import { FieldContext } from './context'
+import { FormContext } from '../context'
 
 export interface IProps {
 	name: string

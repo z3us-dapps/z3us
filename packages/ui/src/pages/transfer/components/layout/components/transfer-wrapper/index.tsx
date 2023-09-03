@@ -16,8 +16,8 @@ import Translation from 'ui/src/components/translation'
 import { Text } from 'ui/src/components/typography'
 import { Z3usLoading } from 'ui/src/components/z3us-loading'
 import { useSendTransaction } from 'ui/src/hooks/dapp/use-send-transaction'
+import { Context as TransferContext } from 'ui/src/pages/transfer/context'
 
-import { Context as TransferContext } from './context'
 import * as styles from './styles.css'
 
 export type TransactionDetails = Parameters<WalletSdkType['sendTransaction']>[0]
@@ -165,3 +165,5 @@ export const TransferWrapper: React.FC<PropsWithChildren<ITransferWrapperProps>>
 		</>
 	)
 }
+
+export default TransferWrapper

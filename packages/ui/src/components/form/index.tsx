@@ -6,8 +6,8 @@ import { Box } from 'ui/src/components/box'
 import { Button } from 'ui/src/components/button'
 import { LoadingBarsIcon } from 'ui/src/components/icons'
 
-import { FieldContext } from './context/field'
-import { FormContext } from './context/form'
+import { FieldContext } from './field-wrapper/context'
+import { FormContext } from './context'
 import { type FormData, type FormErrors } from './types'
 
 type IProps<P = {}> = {
