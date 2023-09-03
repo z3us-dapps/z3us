@@ -21,21 +21,21 @@ export const AccountTotalValue: React.FC = () => {
 	const { currency } = useNoneSharedStore(state => ({
 		currency: state.currency,
 	}))
-
 	const { totalValue, totalChange, fungibleValue, nonFungibleValue, fungibleChange, nonFungibleChange, isLoading } =
 		useGlobalResourceBalances(accountId !== '-' ? accountId : undefined)
+
 	const [hidden, setHidden] = useState<boolean>(false)
 
 	const value = useMemo(() => {
 		if (resourceType === 'nfts') return nonFungibleValue
 		if (resourceType === 'tokens') return fungibleValue
 		return totalValue
-	}, [resourceType, isLoading, totalValue])
+	}, [resourceType, totalValue, fungibleValue, nonFungibleValue])
 	const change = useMemo(() => {
 		if (resourceType === 'nfts') return nonFungibleChange
 		if (resourceType === 'tokens') return fungibleChange
 		return totalChange
-	}, [resourceType, isLoading, totalValue])
+	}, [resourceType, totalValue, fungibleValue, nonFungibleValue])
 
 	const handleToggleHidden = () => {
 		setHidden(!hidden)

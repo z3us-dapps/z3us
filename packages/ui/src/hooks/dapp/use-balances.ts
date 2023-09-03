@@ -54,18 +54,10 @@ export const useFungibleResourceBalances = (forAccount?: string) => {
 		currency: state.currency,
 	}))
 	const addresses = useSelectedAccounts()
-	const {
-		data: accounts = [],
-		isLoading: isLoadingAccounts,
-		fetchStatus: fetchAccountsStatus,
-	} = useAccounts(forAccount ? [forAccount] : addresses)
+	const { data: accounts = [], isLoading: isLoadingAccounts } = useAccounts(forAccount ? [forAccount] : addresses)
 
-	const {
-		data: xrdPrice,
-		isLoading: isLoadingPrice,
-		fetchStatus: fetchPriceStatus,
-	} = useXRDPriceOnDay(currency, new Date())
-	const { data: tokens, isLoading: isLoadingTokens, fetchStatus: fetchTokensStatus } = useTokens()
+	const { data: xrdPrice, isLoading: isLoadingPrice } = useXRDPriceOnDay(currency, new Date())
+	const { data: tokens, isLoading: isLoadingTokens } = useTokens()
 
 	const response = useMemo(() => {
 		let totalValue = new BigNumber(0)
@@ -98,7 +90,7 @@ export const useFungibleResourceBalances = (forAccount?: string) => {
 		)
 
 		return { balances, totalValue, totalChange }
-	}, [forAccount, fetchAccountsStatus, fetchTokensStatus, fetchPriceStatus])
+	}, [accounts, xrdPrice, tokens])
 
 	return {
 		...response,
@@ -112,18 +104,10 @@ export const useNonFungibleResourceBalances = (forAccount?: string) => {
 	}))
 
 	const addresses = useSelectedAccounts()
-	const {
-		data: accounts = [],
-		isLoading: isLoadingAccounts,
-		fetchStatus: fetchAccountsStatus,
-	} = useAccounts(forAccount ? [forAccount] : addresses)
+	const { data: accounts = [], isLoading: isLoadingAccounts } = useAccounts(forAccount ? [forAccount] : addresses)
 
-	const {
-		data: xrdPrice,
-		isLoading: isLoadingPrice,
-		fetchStatus: fetchPriceStatus,
-	} = useXRDPriceOnDay(currency, new Date())
-	const { data: tokens, isLoading: isLoadingTokens, fetchStatus: fetchTokensStatus } = useTokens()
+	const { data: xrdPrice, isLoading: isLoadingPrice } = useXRDPriceOnDay(currency, new Date())
+	const { data: tokens, isLoading: isLoadingTokens } = useTokens()
 
 	const response = useMemo(() => {
 		let totalValue = new BigNumber(0)
@@ -156,7 +140,7 @@ export const useNonFungibleResourceBalances = (forAccount?: string) => {
 		)
 
 		return { balances, totalValue, totalChange }
-	}, [forAccount, fetchAccountsStatus, fetchTokensStatus, fetchPriceStatus])
+	}, [accounts, xrdPrice, tokens])
 
 	return {
 		...response,
