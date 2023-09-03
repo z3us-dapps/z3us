@@ -12,10 +12,22 @@ export const assetsHomeWrapper = style([
 
 export const accountsHorizontalWrapper = style([
 	sprinkles({
-		display: 'flex',
+		position: 'relative',
 		borderBottom: 1,
 		borderBottomStyle: 'solid',
 		borderColor: 'borderDivider',
+	}),
+	{
+		height: '228px',
+	},
+])
+
+export const accountsHorizontalAbsoluteWrapper = style([
+	sprinkles({
+		display: 'flex',
+		position: 'absolute',
+		top: 0,
+		left: 0,
 	}),
 	{},
 ])

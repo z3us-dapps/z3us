@@ -25,18 +25,20 @@ const Home: React.FC = () => {
 		<Box ref={wrapperRef} className={styles.assetsHomeWrapper}>
 			<HomeScrollShadow />
 			<Box className={styles.accountsHorizontalWrapper}>
-				<ScrollAreaRoot style={{ maxWidth: `${horizontalScrollWidth}px` }}>
-					<ScrollAreaViewport>
-						<Box className={styles.accountsHorizontalCardsWrapper}>
-							{Object.values(accounts).map(({ address, name }) => (
-								<AccountHomeCard key={address} name={name} address={address} />
-							))}
-						</Box>
-					</ScrollAreaViewport>
-					<ScrollAreaScrollbar orientation="horizontal">
-						<ScrollAreaThumb />
-					</ScrollAreaScrollbar>
-				</ScrollAreaRoot>
+				<Box className={styles.accountsHorizontalAbsoluteWrapper}>
+					<ScrollAreaRoot style={{ maxWidth: `${horizontalScrollWidth}px`, width: '100%' }}>
+						<ScrollAreaViewport>
+							<Box className={styles.accountsHorizontalCardsWrapper}>
+								{Object.values(accounts).map(({ address, name }) => (
+									<AccountHomeCard key={address} name={name} address={address} />
+								))}
+							</Box>
+						</ScrollAreaViewport>
+						<ScrollAreaScrollbar orientation="horizontal">
+							<ScrollAreaThumb />
+						</ScrollAreaScrollbar>
+					</ScrollAreaRoot>
+				</Box>
 			</Box>
 			<Box className={styles.homeAssetsTitleWrapper}>
 				<Text capitalizeFirstLetter color="strong" weight="strong" size="medium">
