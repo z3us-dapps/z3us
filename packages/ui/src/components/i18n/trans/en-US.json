@@ -45,7 +45,8 @@
 		"twitter": "twitter",
 		"github": "github",
 		"fee": "fee",
-		"na": "N/A"
+		"na": "N/A",
+		"clear": "clear"
 	},
 	"transaction": {
 		"transactionDetails": "transaction details",
