@@ -83,6 +83,7 @@ export const SearchableInput = forwardRef<HTMLInputElement, ISearchableInputProp
 		onValueChange('')
 		setLocalData(searchArray('', data))
 		setIsPopoverOpen(true)
+		inputWrapperRef.current.focus()
 	}
 
 	const handleOnPointerDownOutside = (e: any) => {
