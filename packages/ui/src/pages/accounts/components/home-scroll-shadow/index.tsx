@@ -4,7 +4,8 @@ import useMeasure from 'react-use-measure'
 
 import { Box } from 'ui/src/components/box'
 import { useScroll } from 'ui/src/components/scroll-area-radix/use-scroll'
-import * as scrollingShadowStyles from 'ui/src/components/styles/scrolling-shadow.css'
+
+import * as styles from './styles.css'
 
 export const HomeScrollShadow: React.FC = () => {
 	const { scrollableNode, isScrolledTop } = useScroll()
@@ -19,10 +20,7 @@ export const HomeScrollShadow: React.FC = () => {
 		<Box
 			ref={scrollShadowRef}
 			style={{ top: `${stickyTop}px` }}
-			className={clsx(
-				scrollingShadowStyles.accountHeadShadow,
-				!isScrolledTop && scrollingShadowStyles.accountHeadShadowScrolled,
-			)}
+			className={clsx(styles.accountHeadShadow, !isScrolledTop && styles.accountHeadShadowScrolled)}
 		/>
 	)
 }

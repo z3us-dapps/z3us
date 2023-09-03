@@ -1,2 +1,2 @@
-export { default as DesktopNavigation } from './desktop-navigation'
+export { HeaderNav } from './header-navigation'
 export { default as MobileFooterNavigation } from './mobile-footer-navigation'

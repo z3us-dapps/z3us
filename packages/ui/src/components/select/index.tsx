@@ -109,6 +109,7 @@ export interface ISelectSimpleProps {
 	sizeVariant?: TSizeVariant
 	styleVariant?: TStyleVariant
 	capitalizeFirstLetter?: boolean
+	rounded?: boolean
 }
 
 export const SelectSimple = forwardRef<HTMLButtonElement, ISelectSimpleProps>(
@@ -124,6 +125,7 @@ export const SelectSimple = forwardRef<HTMLButtonElement, ISelectSimpleProps>(
 			sizeVariant = 'medium',
 			styleVariant = 'secondary',
 			capitalizeFirstLetter = false,
+			rounded = false,
 		},
 		ref,
 	) => (
@@ -131,7 +133,13 @@ export const SelectSimple = forwardRef<HTMLButtonElement, ISelectSimpleProps>(
 			{trigger || (
 				<SelectTrigger asChild aria-label={selectAriaLabel}>
 					<Box display="inline-flex" style={{ maxWidth: `${width}px`, width: 'fit-content' }}>
-						<Button ref={ref} sizeVariant={sizeVariant} styleVariant={styleVariant} rightIcon={<ChevronDown2Icon />}>
+						<Button
+							ref={ref}
+							sizeVariant={sizeVariant}
+							styleVariant={styleVariant}
+							rightIcon={<ChevronDown2Icon />}
+							rounded={rounded}
+						>
 							<span style={{ overflow: 'hidden' }}>
 								<SelectValue aria-label={value} placeholder={placeholder} />
 							</span>

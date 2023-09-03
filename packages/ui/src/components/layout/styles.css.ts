@@ -23,8 +23,11 @@ export const layoutRouteWrapper = style([
 	sprinkles({
 		position: 'relative',
 		width: 'vw100',
-		overflow: 'clip',
 		height: 'full',
 	}),
 	{},
+	responsiveStyle({
+		mobile: {},
+		tablet: { overflow: 'clip' },
+	}),
 ])

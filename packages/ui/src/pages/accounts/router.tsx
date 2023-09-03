@@ -4,6 +4,7 @@ import Layout from './components/layout'
 import { AccountBreadcrumb } from './components/layout/components/breadcrumbs/account-breadcrumb'
 import { LinkBreadcrumb } from './components/layout/components/breadcrumbs/link-breadcrumb'
 import { ResourceBreadcrumb } from './components/layout/components/breadcrumbs/resource-breadcrumb'
+import { BackButton } from './components/layout/components/mobile/back-button'
 
 const Home = lazy(() => import('./home'))
 const Account = lazy(() => import('./account'))
@@ -39,6 +40,7 @@ const route = {
 					path: 'tokens',
 					element: <Tokens />,
 					handle: {
+						backButton: <BackButton />,
 						crumb: ({ accountId }) => (
 							<LinkBreadcrumb to={`/accounts/${accountId}/tokens`} translationKey="accounts.breadcrumbs.tokens" />
 						),
@@ -57,6 +59,7 @@ const route = {
 					path: 'nfts',
 					element: <Nfts />,
 					handle: {
+						backButton: <BackButton />,
 						crumb: ({ accountId }) => (
 							<LinkBreadcrumb to={`/accounts/${accountId}/nfts`} translationKey="accounts.breadcrumbs.nfts" />
 						),

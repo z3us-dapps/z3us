@@ -9,6 +9,7 @@ import { type TThemeColorKey } from 'ui/src/components/system/theme.css'
 import { ToolTip } from 'ui/src/components/tool-tip'
 import Translation from 'ui/src/components/translation'
 import { Text } from 'ui/src/components/typography'
+import type * as textStyles from 'ui/src/components/typography/typography.css'
 import { copyTextToClipboard } from 'ui/src/utils/copy-to-clipboard'
 import { getShortAddress } from 'ui/src/utils/string-utils'
 
@@ -55,14 +56,13 @@ const CopyIconAnimation = ({ animate, tickColor }: { animate: boolean; tickColor
 	</Box>
 )
 
-interface ICopyAddressButtonRequiredProps {
+interface ICopyAddressButtonProps {
 	address: string
-}
-
-interface ICopyAddressButtonOptionalProps {
 	className?: string
+	name?: string
 	styleVariant?: TStyleVariant
 	sizeVariant?: TSizeVariant
+	textSize?: keyof typeof textStyles.text
 	tickColor?: TThemeColorKey
 	iconOnly?: boolean
 	rounded?: boolean
@@ -70,30 +70,19 @@ interface ICopyAddressButtonOptionalProps {
 	toolTipDisabled?: boolean
 }
 
-interface ICopyAddressButtonProps extends ICopyAddressButtonRequiredProps, ICopyAddressButtonOptionalProps {}
-
-const defaultProps: ICopyAddressButtonOptionalProps = {
-	className: undefined,
-	styleVariant: 'tertiary',
-	sizeVariant: 'small',
-	tickColor: 'green400',
-	iconOnly: false,
-	rounded: true,
-	animationTimeout: 1500,
-	toolTipDisabled: false,
-}
-
 export const CopyAddressButton: React.FC<ICopyAddressButtonProps> = props => {
 	const {
 		className,
+		name,
 		address,
-		styleVariant,
-		sizeVariant,
-		iconOnly,
-		rounded,
-		tickColor,
-		animationTimeout,
-		toolTipDisabled,
+		styleVariant = 'tertiary',
+		sizeVariant = 'small',
+		textSize = 'small',
+		iconOnly = false,
+		rounded = true,
+		tickColor = 'green400',
+		animationTimeout = 1500,
+		toolTipDisabled = false,
 	} = props
 
 	const [copiedAnimate, setCopiedAnimate] = useState<boolean>(false)
@@ -127,7 +116,8 @@ export const CopyAddressButton: React.FC<ICopyAddressButtonProps> = props => {
 				{!iconOnly ? (
 					<Box position="relative">
 						<Box transition="slow" opacity={copiedAnimate ? 0 : 1}>
-							<Text align="center" color="strong">
+							<Text align="center" color="strong" size={textSize}>
+								{name ? <>{name} - </> : null}
 								{getShortAddress(address)}
 							</Text>
 						</Box>
@@ -150,5 +140,3 @@ export const CopyAddressButton: React.FC<ICopyAddressButtonProps> = props => {
 		</ToolTip>
 	)
 }
-
-CopyAddressButton.defaultProps = defaultProps

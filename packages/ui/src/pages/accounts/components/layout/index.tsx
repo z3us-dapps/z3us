@@ -31,35 +31,32 @@ const ScrollContent: React.FC = () => {
 	const [sidebar] = sidebars.reverse()
 
 	return (
-		<>
-			<MobileBackground />
-			<ScrollArea
-				showTopScrollShadow={false}
-				disabled={!isMobile}
-				className={panelViewStyles.panelViewMobileScrollWrapper}
-			>
-				<Box className={panelViewStyles.panelViewWrapper}>
-					<Box className={panelViewStyles.panelViewLeftWrapper}>
-						<ScrollPanel showTopScrollShadow={false} scrollParent={isMobile ? scrollableNode : undefined}>
-							<Box className={styles.accountsStickyWrapper}>
-								<Breadcrumbs />
-								<AccountTotalValue />
-							</Box>
-							<Suspense key={location.pathname} fallback={<Loader />}>
-								{outlet}
-							</Suspense>
-						</ScrollPanel>
-					</Box>
-					<Box className={panelViewStyles.panelViewRightWrapper}>
-						<ScrollPanel showTopScrollShadow={false} scrollParent={isMobile ? scrollableNode : undefined}>
-							<Suspense key={location.pathname} fallback={<Loader />}>
-								{sidebar}
-							</Suspense>
-						</ScrollPanel>
-					</Box>
+		<ScrollArea
+			showTopScrollShadow={false}
+			disabled={!isMobile}
+			className={panelViewStyles.panelViewMobileScrollWrapper}
+		>
+			<Box className={panelViewStyles.panelViewWrapper}>
+				<Box className={panelViewStyles.panelViewLeftWrapper}>
+					<ScrollPanel showTopScrollShadow={false} scrollParent={isMobile ? scrollableNode : undefined}>
+						<Box className={styles.accountsStickyWrapper}>
+							<Breadcrumbs />
+							<AccountTotalValue />
+						</Box>
+						<Suspense key={location.pathname} fallback={<Loader />}>
+							{outlet}
+						</Suspense>
+					</ScrollPanel>
 				</Box>
-			</ScrollArea>
-		</>
+				<Box className={panelViewStyles.panelViewRightWrapper}>
+					<ScrollPanel showTopScrollShadow={false} scrollParent={isMobile ? scrollableNode : undefined}>
+						<Suspense key={location.pathname} fallback={<Loader />}>
+							{sidebar}
+						</Suspense>
+					</ScrollPanel>
+				</Box>
+			</Box>
+		</ScrollArea>
 	)
 }
 

@@ -13,6 +13,10 @@ export const assetsHomeWrapper = style([
 export const accountsHorizontalWrapper = style([
 	sprinkles({
 		position: 'relative',
+		display: {
+			mobile: 'none',
+			tablet: 'block',
+		},
 		borderBottom: 1,
 		borderBottomStyle: 'solid',
 		borderColor: 'borderDivider',
@@ -47,7 +51,10 @@ export const accountsHorizontalCardsWrapper = style([
 
 export const homeAssetsTitleWrapper = style([
 	sprinkles({
-		display: 'flex',
+		display: {
+			mobile: 'none',
+			tablet: 'flex',
+		},
 		alignItems: 'center',
 		gap: 'small',
 		paddingTop: {
