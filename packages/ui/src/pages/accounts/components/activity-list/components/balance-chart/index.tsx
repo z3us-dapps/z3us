@@ -20,6 +20,7 @@ const defaultRowsShown = 3
 
 export const BalanceChart: React.FC = () => {
 	const { accountId } = useParams()
+
 	const isMobile = useIsMobileWidth()
 	const resourceType = useResourceType()
 
@@ -37,6 +38,10 @@ export const BalanceChart: React.FC = () => {
 
 	const handleToggleFullAccountList = () => {
 		setShowFullAccountList(!showFullAccountList)
+	}
+
+	if (accountId === '-' || accountId?.length > 1) {
+		return null
 	}
 
 	return (
