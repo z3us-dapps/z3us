@@ -64,3 +64,13 @@ export const searchableInputRightIconWrapper = style([
 		pointerEvents: 'none',
 	}),
 ])
+
+export const searchableInputClearButton = style([
+	sprinkles({
+		position: 'absolute',
+	}),
+	{
+		top: '8px',
+		right: '8px',
+	},
+])

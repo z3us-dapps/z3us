@@ -6,10 +6,12 @@ import { Virtuoso } from 'react-virtuoso'
 import { useDebounce } from 'use-debounce'
 
 import { Box } from 'ui/src/components/box'
-import { Check2Icon, ChevronDown2Icon } from 'ui/src/components/icons'
+import { Button } from 'ui/src/components/button'
+import { Check2Icon, ChevronDown2Icon, Close2Icon } from 'ui/src/components/icons'
 import { type FormElement, Input, type TSizeVariant, type TStyleVariant } from 'ui/src/components/input'
 import { PopoverAnchor, PopoverContent, PopoverPortal, PopoverRoot } from 'ui/src/components/popover'
 import SimpleBar from 'ui/src/components/simple-bar'
+import { ToolTip } from 'ui/src/components/tool-tip'
 import { Text } from 'ui/src/components/typography'
 
 import * as styles from './styles.css'
@@ -33,7 +35,7 @@ export const SearchableInput = forwardRef<HTMLInputElement, ISearchableInputProp
 	const [localData, setLocalData] = useState<TData>(data)
 	const [measureRef, { width: triggerWidth }] = useMeasure()
 	const inputWrapperRef = useRef<HTMLInputElement>(null)
-
+	const cleanBtnWrapperRef = useRef<HTMLButtonElement>(null)
 	const [debouncedValue] = useDebounce<string>(value, 200)
 
 	const searchArray = (input: string, array: TData) => {
@@ -77,9 +79,19 @@ export const SearchableInput = forwardRef<HTMLInputElement, ISearchableInputProp
 		closePopover()
 	}
 
+	const handleClearSearch = () => {
+		onValueChange('')
+		setLocalData(searchArray('', data))
+		setIsPopoverOpen(true)
+	}
+
 	const handleOnPointerDownOutside = (e: any) => {
 		// Do nothing if clicking ref's element or descendent elements
-		if (!inputWrapperRef || inputWrapperRef.current.contains(e.target as Node)) {
+		if (
+			!inputWrapperRef ||
+			inputWrapperRef.current?.contains(e.target as Node) ||
+			cleanBtnWrapperRef.current?.contains(e.target as Node)
+		) {
 			return
 		}
 		closePopover()
@@ -103,6 +115,20 @@ export const SearchableInput = forwardRef<HTMLInputElement, ISearchableInputProp
 							rightIconClassName={styles.searchableInputRightIconWrapper}
 							rightIcon={<ChevronDown2Icon />}
 						/>
+						{isPopoverOpen && value?.length > 0 && (
+							<ToolTip message="global.clear">
+								<Button
+									ref={cleanBtnWrapperRef}
+									styleVariant="secondary"
+									sizeVariant="small"
+									iconOnly
+									className={styles.searchableInputClearButton}
+									onClick={handleClearSearch}
+								>
+									<Close2Icon />
+								</Button>
+							</ToolTip>
+						)}
 					</Box>
 				</PopoverAnchor>
 				<PopoverPortal>
