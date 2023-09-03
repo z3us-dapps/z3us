@@ -194,7 +194,23 @@ export const landingFeaturePointBlockWrapper = style([
 	},
 	responsiveStyle({
 		// mobile: { width: '100%' },
-		// tablet: { paddingTop: '0px', paddingBottom: '0px', maxWidth: '640px' },
+		tablet: { marginTop: '180px', paddingTop: '180px', paddingBottom: '180px' },
+		// desktop: { width: '25%' },
+	}),
+])
+
+export const landingFeaturePointBlockBorder = style([
+	sprinkles({
+		borderTop: 1,
+		borderStyle: 'solid',
+		borderColor: 'borderDivider',
+	}),
+	{
+		// border: '1px solid red',
+	},
+	responsiveStyle({
+		// mobile: { width: '100%' },
+		// tablet: { paddingTop: '180px', paddingBottom: '180px' },
 		// desktop: { width: '25%' },
 	}),
 ])
@@ -217,19 +233,62 @@ export const landingFeaturePointBlock = style([
 	}),
 ])
 
+globalStyle(`${landingFeaturePointBlock} ul`, {
+	listStyleType: 'none',
+	display: 'flex',
+	flexDirection: 'column',
+	gap: '6px',
+})
+
+globalStyle(`${landingFeaturePointBlock} ul li`, {
+	display: 'flex',
+	alignItems: 'center',
+	gap: '6px',
+})
+
 export const landingFeaturePointImgBlock = style([
 	sprinkles({
 		position: 'relative',
-		display: 'flex',
-		flexDirection: 'column',
-		gap: 'medium',
 	}),
 	{
-		border: '1px solid red',
+		// border: '1px solid red',
 	},
 	responsiveStyle({
 		// mobile: { width: '100%' },
-		tablet: { paddingTop: '0px', paddingBottom: '0px', maxWidth: '240px' },
+		tablet: { paddingTop: '0px', paddingBottom: '0px', width: '490px' },
+		// desktop: { width: '25%' },
+	}),
+])
+
+export const landingMakeItYourOwnImgLarge = style([
+	sprinkles({
+		position: 'relative',
+	}),
+	{
+		// border: '1px solid red',
+	},
+	responsiveStyle({
+		// mobile: { width: '100%' },
+		tablet: { marginTop: '118px', marginLeft: '190px' },
+		// desktop: { width: '25%' },
+	}),
+])
+
+export const landingMakeItYourOwnAccountsColumn = style([
+	sprinkles({
+		position: 'absolute',
+		top: 0,
+		left: 0,
+		display: 'flex',
+		flexDirection: 'column',
+		gap: 'large',
+	}),
+	{
+		// border: '1px solid red',
+	},
+	responsiveStyle({
+		// mobile: { width: '100%' },
+		tablet: { width: '316px', marginLeft: '0px' },
 		// desktop: { width: '25%' },
 	}),
 ])
@@ -352,3 +411,9 @@ export const landingHeroSendReceiveStakeWrapper = style([
 ])
 
 export const landingTextOpacity50 = style([{ opacity: '0.5' }])
+
+export const landingTextPurple = style([
+	{
+		color: vars.color.purple400,
+	},
+])

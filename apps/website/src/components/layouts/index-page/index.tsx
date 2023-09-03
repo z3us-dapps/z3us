@@ -11,6 +11,7 @@ import Image from 'next/image'
 import React from 'react'
 
 import { Box } from 'ui/src/components/box'
+import { Check2Icon } from 'ui/src/components/icons'
 import { Text } from 'ui/src/components/typography'
 
 import { HeroTextSvg } from './components/hero-text-svg'
@@ -220,7 +221,89 @@ export const IndexPage: React.FC = () => {
 				</Box>
 				<Box className={styles.landingPageDarkWrapper}>
 					<ContentContainer>
-						<Box className={styles.landingFeaturePointBlockWrapper}>
+						{/* START: MAKE IT YOUR OWN */}
+						<Box className={clsx(styles.landingFeaturePointBlockWrapper, styles.landingFeaturePointBlockBorder)}>
+							<Box className={styles.landingFeaturePointBlock}>
+								<Text component="h4" capitalize size="large" weight="stronger" className={styles.landingTextPurple}>
+									Personalization
+								</Text>
+								<Text size="xxxxlarge" color="strong" weight="stronger">
+									Make it your own
+								</Text>
+								<Text size="large">
+									With Z3US&apos;s customization, every transaction becomes an expression of your identity. It&apos;s
+									more than just a wallet – it&apos;s a canvas for your digital financial interactions.
+								</Text>
+								<Box component="ul">
+									<Box component="li" color="colorNeutral">
+										<Check2Icon />
+										<Text>With Z3US&apos;s</Text>
+									</Box>
+									<Box component="li" color="colorNeutral">
+										<Check2Icon />
+										<Text>With Z3US&apos;s</Text>
+									</Box>
+									<Box component="li" color="colorNeutral">
+										<Check2Icon />
+										<Text>With Z3US&apos;s</Text>
+									</Box>
+								</Box>
+							</Box>
+							<Box className={styles.landingFeaturePointImgBlock}>
+								<Box className={styles.landingMakeItYourOwnAccountsColumn}>
+									<Image
+										priority
+										src="/landing-page-2023/make-it-your-own-card-01.png"
+										width={316}
+										height={190}
+										alt="Vanilla Extract logo"
+										className={clsx(styles.landingHeroCalloutImg, styles.landingHeroCalloutRoundedImg)}
+									/>
+									<Image
+										priority
+										src="/landing-page-2023/make-it-your-own-card-01.png"
+										width={316}
+										height={190}
+										alt="Vanilla Extract logo"
+										className={clsx(styles.landingHeroCalloutImg, styles.landingHeroCalloutRoundedImg)}
+									/>
+									<Image
+										priority
+										src="/landing-page-2023/make-it-your-own-card-01.png"
+										width={316}
+										height={190}
+										alt="Vanilla Extract logo"
+										className={clsx(styles.landingHeroCalloutImg, styles.landingHeroCalloutRoundedImg)}
+									/>
+								</Box>
+								<Image
+									priority
+									src="/landing-page-2023/make-it-your-own-01.png"
+									width={360}
+									height={600}
+									alt="Vanilla Extract logo"
+									className={clsx(
+										styles.landingHeroCalloutImg,
+										styles.landingHeroCalloutRoundedImg,
+										styles.landingMakeItYourOwnImgLarge,
+									)}
+								/>
+							</Box>
+						</Box>
+						{/* END: MAKE IT YOUR OWN */}
+
+						{/* START: MAKE IT YOUR OWN */}
+						<Box className={clsx(styles.landingFeaturePointBlockWrapper, styles.landingFeaturePointBlockBorder)}>
+							<Box className={styles.landingFeaturePointImgBlock}>
+								<Image
+									priority
+									src="/landing-page-2023/make-it-your-own-01.png"
+									width={360}
+									height={600}
+									alt="Vanilla Extract logo"
+									className={clsx(styles.landingHeroCalloutImg, styles.landingHeroCalloutRoundedImg)}
+								/>
+							</Box>
 							<Box className={styles.landingFeaturePointBlock}>
 								<Text
 									component="h4"
@@ -228,31 +311,35 @@ export const IndexPage: React.FC = () => {
 									size="large"
 									weight="stronger"
 									color="strong"
-									className={styles.landingTextOpacity50}
+									className={styles.landingTextPurple}
 								>
-									ALl-in-one
+									Address book
 								</Text>
 								<Text size="xxxxlarge" color="strong" weight="stronger">
-									Send. Receive. Stake.
+									Make it easy
 								</Text>
 								<Text size="large" color="strong">
-									Flawless essentials and powerful features. With the added functionality of group transactions, sending
-									assets becomes even more convenient.
+									With Z3US's customization, every transaction becomes an expression of your identity. It's more than
+									just a wallet – it's a canvas for your digital financial interactions.
 								</Text>
-							</Box>
-							<Box className={styles.landingFeaturePointImgBlock}>
-								<Text
-									component="h4"
-									capitalize
-									size="large"
-									weight="stronger"
-									color="strong"
-									className={styles.landingTextOpacity50}
-								>
-									ALl-in-one
-								</Text>
+								<Box component="ul">
+									<Box component="li" color="colorNeutral">
+										<Check2Icon />
+										<Text>With Z3US&apos;s</Text>
+									</Box>
+									<Box component="li" color="colorNeutral">
+										<Check2Icon />
+										<Text>With Z3US&apos;s</Text>
+									</Box>
+									<Box component="li" color="colorNeutral">
+										<Check2Icon />
+										<Text>With Z3US&apos;s</Text>
+									</Box>
+								</Box>
 							</Box>
 						</Box>
+
+						{/* END: MAKE IT YOUR OWN */}
 					</ContentContainer>
 				</Box>
 				<Box className={styles.landingPageInvadersWrapper}>
