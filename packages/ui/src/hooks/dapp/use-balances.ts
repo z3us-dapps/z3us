@@ -25,13 +25,9 @@ export const useResourceBalance = (
 		currency: state.currency,
 		selectedAccount: state.selectedAccount,
 	}))
-	const { data: tokens, isLoading: isLoadingTokens, fetchStatus: fetchTokensStatus } = useTokens()
-	const { data: price, isLoading: isLoadingPrice, fetchStatus: fetchPriceStatus } = useXRDPriceOnDay(currency, atDate)
-	const {
-		data: metadata,
-		isLoading: isLoadingMetadata,
-		fetchStatus: fetchMetadataStatus,
-	} = useEntityMetadata(resourceAddress)
+	const { data: tokens, isLoading: isLoadingTokens } = useTokens()
+	const { data: price, isLoading: isLoadingPrice } = useXRDPriceOnDay(currency, atDate)
+	const { data: metadata, isLoading: isLoadingMetadata } = useEntityMetadata(resourceAddress)
 
 	return useMemo(
 		() => ({
@@ -45,7 +41,7 @@ export const useResourceBalance = (
 				tokens,
 			),
 		}),
-		[isLoadingTokens, fetchTokensStatus, isLoadingPrice, fetchPriceStatus, isLoadingMetadata, fetchMetadataStatus],
+		[tokens, price, metadata],
 	)
 }
 
