@@ -1,4 +1,4 @@
-import { type TZodReturnError } from 'ui/src/utils/get-zod-error'
+import type { ZodFormattedError } from 'zod'
 
 export type FormData<T> = T extends object
 	? {
@@ -6,6 +6,4 @@ export type FormData<T> = T extends object
 	  }
 	: any
 
-export type FormErrors = {
-	[k: string]: TZodReturnError
-}
+export type FormErrors<T> = ZodFormattedError<T> | {}

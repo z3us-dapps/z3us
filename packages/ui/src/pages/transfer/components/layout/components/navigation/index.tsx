@@ -25,7 +25,7 @@ const Navigation: React.FC = () => (
 					},
 				].map(({ title, href }) => (
 					<Box key={href} component="li">
-						<NavLink to={href} underline="never">
+						<NavLink to={href} underline="never" end>
 							{({ isActive }) => <PillNavigation text={title} matchActiveFn={() => isActive} />}
 						</NavLink>
 					</Box>

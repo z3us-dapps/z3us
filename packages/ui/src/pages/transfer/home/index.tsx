@@ -1,9 +1,8 @@
 import { ManifestBuilder } from '@radixdlt/radix-engine-toolkit'
 import clsx from 'clsx'
 import { t } from 'i18next'
-import { TokenAmountSelect } from 'packages/ui/src/components/form/fields/token-amount-field'
-import { sendFungibleTokens, sendNftTokens } from 'packages/ui/src/manifests/transfer'
-import React, { useEffect, useRef } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
+import type { ZodError } from 'zod'
 import { z } from 'zod'
 
 import { Box } from 'ui/src/components/box'
@@ -14,13 +13,15 @@ import { AccountSelect } from 'ui/src/components/form/fields/account-select'
 import { AddressBookSelect } from 'ui/src/components/form/fields/address-book-select'
 import { CheckboxField } from 'ui/src/components/form/fields/checkbox-field'
 import { TextAreaField } from 'ui/src/components/form/fields/text-area-field'
+import { TokenAmountSelect } from 'ui/src/components/form/fields/token-amount-field'
 import { CirclePlusIcon, TrashIcon, UsersPlusIcon } from 'ui/src/components/icons'
 import { Tabs, TabsContent } from 'ui/src/components/tabs'
 import Translation from 'ui/src/components/translation'
 import { Text } from 'ui/src/components/typography'
+import { useSendTransaction } from 'ui/src/hooks/dapp/use-send-transaction'
+import { sendFungibleTokens, sendNftTokens } from 'ui/src/manifests/transfer'
 import { capitalizeFirstLetter } from 'ui/src/utils/capitalize-first-letter'
 
-import { useTransferContext } from '../use-context'
 import * as styles from './styles.css'
 
 const TOKENS = 'tokens'
@@ -28,20 +29,15 @@ const NFTS = 'nfts'
 
 const positiveNumberValidator = (value: number): boolean => value > 0
 
-const tokenSchema = z.object({
+const resourcesSchema = z.object({
 	address: z.string().min(1, 'Please select token'),
 	amount: z.number().refine(positiveNumberValidator, { message: 'Please enter a valid amount' }),
-})
-
-const nftSchema = z.object({
-	address: z.string().min(1, 'Please select NFT collection'),
 	ids: z.array(z.string().min(1, 'NFT id can not be empty')).min(1, 'Please select NFT items'),
 })
 
 const actionsSchema = z.object({
 	to: z.string().min(1, 'Please enter recipient'),
-	nfts: z.array(nftSchema),
-	tokens: z.array(tokenSchema),
+	resources: z.array(resourcesSchema),
 })
 
 const validationSchema = z.object({
@@ -55,58 +51,63 @@ const initialValues = {
 	from: '',
 	message: '',
 	messageEncrypted: false,
-	actions: [{ to: '', nfts: [], tokens: [] }],
+	actions: [{ to: '', resources: [] }],
 }
 
 export const Home: React.FC = () => {
 	const inputRef = useRef(null)
-	const { onSubmit } = useTransferContext()
+	const [validation, setValidation] = useState<ZodError>()
+	const sendTransaction = useSendTransaction()
 
 	useEffect(() => {
 		inputRef?.current?.focus()
 	}, [])
 
-	const handleSubmit = async (values: typeof initialValues) => {
-		const nfts = []
-		const tokens = []
+	const handleSubmit = (values: typeof initialValues) => {
+		const result = validationSchema.safeParse(values)
+		if (result.success === false) {
+			setValidation(result.error)
+			return
+		}
+
+		let manifest = new ManifestBuilder()
 		values.actions.forEach(action => {
-			if (action.nfts?.length > 0) {
-				nfts.push({ from: values.from, to: action.to, nfts: action.nfts })
-			}
-			if (action.tokens?.length > 0) {
-				tokens.push({
-					from: values.from,
-					to: action.to,
-					tokens: action.tokens,
+			if (action.resources?.length > 0) {
+				const nfts = []
+				const tokens = []
+				action.resources.forEach(resource => {
+					if (resource.ids?.length > 0) {
+						nfts.push(resource)
+					} else {
+						tokens.push(resource)
+					}
 				})
+
+				manifest = sendNftTokens(new ManifestBuilder(), [{ from: values.from, to: action.to, nfts }])
+				manifest = sendFungibleTokens(new ManifestBuilder(), [{ from: values.from, to: action.to, tokens }])
 			}
 		})
 
-		let manifest = new ManifestBuilder()
-		manifest = sendNftTokens(new ManifestBuilder(), nfts)
-		manifest = sendFungibleTokens(new ManifestBuilder(), tokens)
-
-		onSubmit({
+		sendTransaction({
 			version: 1,
 			transactionManifest: manifest.build().toString(),
 			message: values.message,
 		})
 	}
 
-	const handleValidate = (values: typeof initialValues) => {
-		const result = validationSchema.safeParse(values)
-		if (result.success === false) return result.error
-		return undefined
-	}
-
 	return (
 		<Form
 			onSubmit={handleSubmit}
-			validate={handleValidate}
 			initialValues={initialValues}
+			errors={validation?.format()}
 			submitButtonTitle={<Translation capitalizeFirstLetter text="transfer.tokensNfts.submitFormButtonTitle" />}
 			className={styles.transferFormWrapper}
 		>
+			{validation && (
+				<Box>
+					<Text color="red">{validation.flatten().formErrors[0] || ''}</Text>
+				</Box>
+			)}
 			<Box className={styles.transferFormGridBoxWrapper}>
 				<Box className={styles.transferFormGridBoxWrapperLeft}>
 					<Text color="strong" size="xlarge" weight="strong">
@@ -179,85 +180,57 @@ export const Home: React.FC = () => {
 					</Box>
 					<Box>
 						<AddressBookSelect name="to" toolTipMessageKnownAddress="transfer.tokensNfts.submitFormKnownAddress" />
-						<Tabs
-							list={[
-								{ label: capitalizeFirstLetter(`${t('transfer.tokensNfts.tokensTabTitle')}`), value: TOKENS },
-								{ label: capitalizeFirstLetter(`${t('transfer.tokensNfts.nftsTabTitle')}`), value: NFTS },
-							]}
-							defaultValue={TOKENS}
-							className={styles.transferActionTabsWrapper}
+						<FieldsGroup
+							name="resources"
+							defaultKeys={1}
+							addTrigger={
+								<Button
+									styleVariant="secondary"
+									sizeVariant="large"
+									fullWidth
+									leftIcon={
+										<Box marginLeft="small">
+											<CirclePlusIcon />
+										</Box>
+									}
+									className={styles.transferActionTokensNftsAddButton}
+								>
+									<Translation capitalizeFirstLetter text="transfer.tokensNfts.submitFormGroupTokensAdd" />
+								</Button>
+							}
+							trashTrigger={
+								<Button
+									styleVariant="ghost"
+									sizeVariant="small"
+									iconOnly
+									className={styles.transferActionTrashTokensNftsButton}
+								>
+									<TrashIcon />
+								</Button>
+							}
 						>
-							<TabsContent value={TOKENS} className={styles.transferActionTabsContentWrapper}>
-								<FieldsGroup
-									name="tokens"
-									defaultKeys={1}
-									addTrigger={
-										<Button
-											styleVariant="secondary"
-											sizeVariant="large"
-											fullWidth
-											leftIcon={
-												<Box marginLeft="small">
-													<CirclePlusIcon />
-												</Box>
-											}
-											className={styles.transferActionTokensNftsAddButton}
-										>
-											<Translation capitalizeFirstLetter text="transfer.tokensNfts.submitFormGroupTokensAdd" />
-										</Button>
-									}
-									trashTrigger={
-										<Button
-											styleVariant="ghost"
-											sizeVariant="small"
-											iconOnly
-											className={styles.transferActionTrashTokensNftsButton}
-										>
-											<TrashIcon />
-										</Button>
-									}
+							<Box className={styles.transferActionToAssetWrapper}>
+								<Tabs
+									list={[
+										{ label: capitalizeFirstLetter(`${t('transfer.tokensNfts.tokensTabTitle')}`), value: TOKENS },
+										{ label: capitalizeFirstLetter(`${t('transfer.tokensNfts.nftsTabTitle')}`), value: NFTS },
+									]}
+									defaultValue={TOKENS}
+									className={styles.transferActionTabsWrapper}
 								>
-									<Box className={styles.transferActionToAssetWrapper}>
-										<TokenAmountSelect accountKey="from" />
-									</Box>
-								</FieldsGroup>
-							</TabsContent>
-							<TabsContent value={NFTS} className={styles.transferActionTabsContentWrapper}>
-								<FieldsGroup
-									name="nfts"
-									defaultKeys={1}
-									addTrigger={
-										<Button
-											styleVariant="secondary"
-											sizeVariant="large"
-											fullWidth
-											leftIcon={
-												<Box marginLeft="small">
-													<CirclePlusIcon />
-												</Box>
-											}
-											className={styles.transferActionTokensNftsAddButton}
-										>
-											<Translation capitalizeFirstLetter text="transfer.tokensNfts.submitFormGroupNFTAdd" />
-										</Button>
-									}
-									trashTrigger={
-										<Button
-											styleVariant="ghost"
-											sizeVariant="small"
-											iconOnly
-											className={styles.transferActionTrashTokensNftsButton}
-										>
-											<TrashIcon />
-										</Button>
-									}
-								>
-									<Box className={styles.transferActionToAssetWrapper}>
-										<Text>nfts field group</Text>
-									</Box>
-								</FieldsGroup>
-							</TabsContent>
-						</Tabs>
+									<TabsContent value={TOKENS} className={styles.transferActionTabsContentWrapper}>
+										<Box className={styles.transferActionToAssetWrapper}>
+											<TokenAmountSelect accountKey="from" />
+										</Box>
+									</TabsContent>
+									<TabsContent value={NFTS} className={styles.transferActionTabsContentWrapper}>
+										<Box className={styles.transferActionToAssetWrapper}>
+											<Text>nft select</Text>
+										</Box>
+									</TabsContent>
+								</Tabs>
+							</Box>
+						</FieldsGroup>
 					</Box>
 				</Box>
 			</FieldsGroup>

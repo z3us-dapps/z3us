@@ -1,21 +1,31 @@
+import get from 'lodash/get'
 import set from 'lodash/set'
+import unset from 'lodash/unset'
 import type { FormEvent, PropsWithChildren } from 'react'
-import React, { useMemo, useState } from 'react'
+import React, { useEffect, useMemo } from 'react'
+import { useImmer } from 'use-immer'
 
 import { Box } from 'ui/src/components/box'
 import { Button } from 'ui/src/components/button'
 import { LoadingBarsIcon } from 'ui/src/components/icons'
 
-import { FieldContext } from './field-wrapper/context'
 import { FormContext } from './context'
+import { FieldContext } from './field-wrapper/context'
 import { type FormData, type FormErrors } from './types'
 
-type IProps<P = {}> = {
+type Props<P = {}> = {
 	initialValues: P
-	onSubmit: (form: P) => Promise<void> | void
-	validate?: (form: P) => any
+	errors?: FormErrors<P>
 	className?: string
 	submitButtonTitle?: string | React.ReactNode
+
+	onSubmit: (values: P) => Promise<void> | void
+	onChange?: (values: P) => Promise<void> | void
+}
+
+type State<P = {}> = {
+	isLoading: boolean
+	values: FormData<P>
 }
 
 const rootFieldCtx = {
@@ -24,43 +34,55 @@ const rootFieldCtx = {
 	onChange: () => {},
 }
 
-export const Form: React.FC<PropsWithChildren<IProps>> = ({
+export const Form: React.FC<PropsWithChildren<Props>> = ({
 	children,
 	submitButtonTitle,
 	initialValues,
-	validate,
+	errors = {},
 	onSubmit,
+	onChange,
 	...rest
 }) => {
-	const [isLoading, setIsLoading] = useState<boolean>(false)
-	const [form, setForm] = useState<FormData<IProps['initialValues']>>(initialValues)
-	const [errors, setErrors] = useState<FormErrors>({})
+	const [state, setState] = useImmer<State<Props['initialValues']>>({
+		isLoading: false,
+		values: initialValues,
+	})
+
+	useEffect(() => {
+		if (onChange) onChange(state.values)
+	}, [state.values])
 
 	const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
 		e.preventDefault()
-
-		setIsLoading(true)
-		if (validate) validate(form)
-		await onSubmit(form)
-		setIsLoading(false)
+		setState(draft => {
+			draft.isLoading = true
+		})
+		await onSubmit(state.values)
+		setState(draft => {
+			draft.isLoading = false
+		})
 	}
 
-	const handleFormChange = (name: string, value: any, error: any) => {
-		setForm(set(form, name, value))
-		if (error)
-			setErrors({
-				...errors,
-				[name]: error,
-			})
+	const handleGetFieldValue = (name: string): any => get(state.values, name)
+
+	const handleFieldChange = (name: string, value?: any) => {
+		setState(draft => {
+			if (value === null) {
+				unset(draft.values, name)
+			} else {
+				set(draft.values, name, value)
+			}
+		})
 	}
 
 	const formCtx = useMemo(
 		() => ({
-			form,
+			...state,
 			errors,
-			onFormChange: handleFormChange,
+			getFieldValue: handleGetFieldValue,
+			onFieldChange: handleFieldChange,
 		}),
-		[form],
+		[state.values, errors],
 	)
 
 	return (
@@ -73,9 +95,9 @@ export const Form: React.FC<PropsWithChildren<IProps>> = ({
 				styleVariant="primary"
 				sizeVariant="xlarge"
 				type="submit"
-				disabled={isLoading}
+				disabled={state.isLoading}
 				rightIcon={
-					isLoading ? (
+					state.isLoading ? (
 						<Box marginLeft="small">
 							<LoadingBarsIcon />
 						</Box>

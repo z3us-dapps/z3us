@@ -1,6 +1,6 @@
 import { ManifestBuilder } from '@radixdlt/radix-engine-toolkit'
-import { getDeployPackageManifest } from 'packages/ui/src/manifests/deploy-package'
-import React, { useEffect, useRef } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
+import type { ZodError } from 'zod'
 import { z } from 'zod'
 
 import { Box } from 'ui/src/components/box'
@@ -9,8 +9,9 @@ import { Form } from 'ui/src/components/form'
 import { AccountSelect } from 'ui/src/components/form/fields/account-select'
 import Translation from 'ui/src/components/translation'
 import { Text } from 'ui/src/components/typography'
+import { useSendTransaction } from 'ui/src/hooks/dapp/use-send-transaction'
+import { getDeployPackageManifest } from 'ui/src/manifests/deploy-package'
 
-import { useTransferContext } from '../use-context'
 import * as styles from './styles.css'
 
 const initialValues = {
@@ -23,7 +24,7 @@ const validationSchema = z.object({
 	badge: z.string().min(1, 'Please select nft for an owner badge'),
 	wasm: z
 		.custom<FileList>()
-		.transform(file => file.length > 0 && file.item(0))
+		.transform(file => file?.length > 0 && file.item(0))
 		.refine(file => !file || (!!file && file.size <= 10 * 1024 * 1024), {
 			message: 'The WASM file must be a maximum of 10MB',
 		})
@@ -32,7 +33,7 @@ const validationSchema = z.object({
 		}),
 	schema: z
 		.custom<FileList>()
-		.transform(file => file.length > 0 && file.item(0))
+		.transform(file => file?.length > 0 && file.item(0))
 		.refine(file => !file || (!!file && file.size <= 10 * 1024 * 1024), {
 			message: 'The RPD file must be a maximum of 10MB',
 		})
@@ -43,35 +44,41 @@ const validationSchema = z.object({
 
 export const Deploy: React.FC = () => {
 	const inputRef = useRef(null)
-	const { onSubmit } = useTransferContext()
+	const [validation, setValidation] = useState<ZodError>()
+	const sendTransaction = useSendTransaction()
 
 	useEffect(() => {
 		inputRef?.current?.focus()
 	}, [])
 
-	const handleSubmit = async (values: typeof initialValues) => {
+	const handleSubmit = (values: typeof initialValues) => {
+		const result = validationSchema.safeParse(values)
+		if (result.success === false) {
+			setValidation(result.error)
+			return
+		}
+
 		const transactionManifest = getDeployPackageManifest(new ManifestBuilder(), values).build().toString()
 
-		onSubmit({
+		sendTransaction({
 			version: 1,
 			transactionManifest,
 		})
 	}
 
-	const handleValidate = (values: typeof initialValues) => {
-		const result = validationSchema.safeParse(values)
-		if (result.success === false) return result.error
-		return undefined
-	}
-
 	return (
 		<Form
 			onSubmit={handleSubmit}
-			validate={handleValidate}
 			initialValues={initialValues}
+			errors={validation?.format()}
 			submitButtonTitle={<Translation capitalizeFirstLetter text="transfer.raw.submitFormButtonTitle" />}
 			className={styles.transferFormWrapper}
 		>
+			{validation && (
+				<Box>
+					<Text color="red">{validation.flatten().formErrors[0] || ''}</Text>
+				</Box>
+			)}
 			<Box>
 				<Box paddingTop="large">
 					<Box paddingBottom="small">
