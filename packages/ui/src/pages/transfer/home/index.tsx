@@ -1,12 +1,11 @@
 import { ManifestBuilder } from '@radixdlt/radix-engine-toolkit'
+import { ValidationErrorMessage } from 'packages/ui/src/components/validation-error-message'
 import React, { useState } from 'react'
 import type { ZodError } from 'zod'
 import { z } from 'zod'
 
-import { Box } from 'ui/src/components/box'
 import { Form } from 'ui/src/components/form'
 import Translation from 'ui/src/components/translation'
-import { Text } from 'ui/src/components/typography'
 import { useSendTransaction } from 'ui/src/hooks/dapp/use-send-transaction'
 import { sendFungibleTokens, sendNftTokens } from 'ui/src/manifests/transfer'
 
@@ -84,11 +83,7 @@ export const Home: React.FC = () => {
 			submitButtonTitle={<Translation capitalizeFirstLetter text="transfer.tokensNfts.submitFormButtonTitle" />}
 			className={styles.formWrapper}
 		>
-			{validation && (
-				<Box>
-					<Text color="red">{validation.flatten().formErrors[0] || ''}</Text>
-				</Box>
-			)}
+			<ValidationErrorMessage message={validation?.flatten().formErrors[0]} />
 			<TransferFormFields />
 		</Form>
 	)

@@ -1,5 +1,6 @@
 import clsx from 'clsx'
 import { t } from 'i18next'
+import { ValidationErrorMessage } from 'packages/ui/src/components/validation-error-message'
 import React, { useEffect, useRef, useState } from 'react'
 import type { ZodError } from 'zod'
 import { z } from 'zod'
@@ -52,11 +53,7 @@ export const Raw: React.FC = () => {
 			submitButtonTitle={<Translation capitalizeFirstLetter text="transfer.raw.submitFormButtonTitle" />}
 			className={styles.transferFormWrapper}
 		>
-			{validation && (
-				<Box>
-					<Text color="red">{validation.flatten().formErrors[0] || ''}</Text>
-				</Box>
-			)}
+			<ValidationErrorMessage message={validation?.flatten().formErrors[0]} />
 			<Box className={clsx(styles.transferFormGridBoxWrapper, styles.transferFormGridBoxWrapperBorder)}>
 				<Box className={styles.transferFormGridBoxWrapperLeft}>
 					<Text color="strong" size="xlarge" weight="strong">

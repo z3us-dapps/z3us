@@ -1,4 +1,5 @@
 import { ManifestBuilder } from '@radixdlt/radix-engine-toolkit'
+import { ValidationErrorMessage } from 'packages/ui/src/components/validation-error-message'
 import React, { useEffect, useRef, useState } from 'react'
 import type { ZodError } from 'zod'
 import { z } from 'zod'
@@ -74,11 +75,7 @@ export const Deploy: React.FC = () => {
 			submitButtonTitle={<Translation capitalizeFirstLetter text="transfer.raw.submitFormButtonTitle" />}
 			className={styles.transferFormWrapper}
 		>
-			{validation && (
-				<Box>
-					<Text color="red">{validation.flatten().formErrors[0] || ''}</Text>
-				</Box>
-			)}
+			<ValidationErrorMessage message={validation?.flatten().formErrors[0]} />
 			<Box>
 				<Box paddingTop="large">
 					<Box paddingBottom="small">
