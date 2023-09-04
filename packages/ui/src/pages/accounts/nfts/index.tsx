@@ -52,7 +52,7 @@ const NFTs: React.FC = () => {
 	const { accountId } = useParams()
 
 	const selectedAccounts = useSelectedAccounts()
-	const { nonFungibleBalances, isLoading } = useBalances(...(accountId !== '-' ? [accountId] : selectedAccounts))
+	const { nonFungibleBalances, isLoading } = useBalances(...selectedAccounts)
 
 	const handleRowSelected = (row: { original: ResourceBalance }) => {
 		const { original } = row

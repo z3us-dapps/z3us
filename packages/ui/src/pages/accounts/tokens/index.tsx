@@ -52,7 +52,7 @@ const Tokens: React.FC = () => {
 	const { accountId, resourceId } = useParams()
 
 	const selectedAccounts = useSelectedAccounts()
-	const { fungibleBalances, isLoading } = useBalances(...(accountId !== '-' ? [accountId] : selectedAccounts))
+	const { fungibleBalances, isLoading } = useBalances(...selectedAccounts)
 
 	const selectedRowIds = React.useMemo(() => {
 		const idx = fungibleBalances.findIndex(b => b.address === resourceId)

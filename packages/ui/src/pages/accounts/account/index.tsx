@@ -38,7 +38,7 @@ const Account: React.FC = () => {
 		nonFungibleBalances,
 		nonFungibleChange,
 		nonFungibleValue,
-	} = useBalances(...(accountId !== '-' ? [accountId] : selectedAccounts))
+	} = useBalances(...selectedAccounts)
 	const [hoveredLink, setHoveredLink] = useState<string | null>(null)
 
 	if (isLoading) return <Loader />

@@ -1,5 +1,4 @@
 import React, { useMemo, useState } from 'react'
-import { useParams } from 'react-router-dom'
 
 import { Box } from 'ui/src/components/box'
 import { EyeIcon, EyeOffIcon } from 'ui/src/components/icons'
@@ -16,7 +15,6 @@ import { formatBigNumber, formatChange } from 'ui/src/utils/formatters'
 import * as styles from './styles.css'
 
 export const AccountTotalValue: React.FC = () => {
-	const { accountId } = useParams()
 	const resourceType = useResourceType()
 
 	const { currency } = useNoneSharedStore(state => ({
@@ -25,7 +23,7 @@ export const AccountTotalValue: React.FC = () => {
 
 	const selectedAccounts = useSelectedAccounts()
 	const { totalValue, totalChange, fungibleValue, nonFungibleValue, fungibleChange, nonFungibleChange, isLoading } =
-		useBalances(...(accountId !== '-' ? [accountId] : selectedAccounts))
+		useBalances(...selectedAccounts)
 
 	const [hidden, setHidden] = useState<boolean>(false)
 

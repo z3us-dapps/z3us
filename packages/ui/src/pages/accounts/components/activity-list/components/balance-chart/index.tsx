@@ -27,10 +27,8 @@ export const BalanceChart: React.FC = () => {
 
 	const [showFullAccountList, setShowFullAccountList] = useState<boolean>(false)
 
-	const accounts = useSelectedAccounts()
-	const { balances, fungibleBalances, nonFungibleBalances, isLoading } = useBalances(
-		...(accountId !== '-' ? [accountId] : accounts),
-	)
+	const selectedAccounts = useSelectedAccounts()
+	const { balances, fungibleBalances, nonFungibleBalances, isLoading } = useBalances(...selectedAccounts)
 
 	const selectedBalances = useMemo(() => {
 		if (resourceType === 'nfts') return nonFungibleBalances
