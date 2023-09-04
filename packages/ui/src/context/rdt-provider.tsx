@@ -1,5 +1,5 @@
 import type { RadixDappToolkitOptions } from '@radixdlt/radix-dapp-toolkit'
-import { DataRequestBuilder, RadixDappToolkit } from '@radixdlt/radix-dapp-toolkit'
+import { DataRequestBuilder, DataRequestStateClient, RadixDappToolkit } from '@radixdlt/radix-dapp-toolkit'
 import { Buffer } from 'buffer'
 import React, { type PropsWithChildren, useEffect, useState } from 'react'
 
@@ -9,6 +9,8 @@ import { useNoneSharedStore, useSharedStore } from '../hooks/use-store'
 import { RdtContext } from './rdt'
 
 export const createChallenge = () => Buffer.from(crypto.getRandomValues(new Uint8Array(32))).toString('hex')
+
+export const dataRequestStateClient = DataRequestStateClient({})
 
 export const RdtProvider: React.FC<PropsWithChildren> = ({ children }) => {
 	const { data: configuration } = useNetworkConfiguration()

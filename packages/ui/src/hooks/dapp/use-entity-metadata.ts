@@ -1,8 +1,5 @@
-import type { EntityMetadataItem } from '@radixdlt/babylon-gateway-api-sdk'
 import { useQueries, useQuery } from '@tanstack/react-query'
-import { useMemo } from 'react'
 
-import { getEntityMetadataItemValue } from '../../services/metadata'
 import { useGatewayClient } from './use-gateway-client'
 import { useNetworkId } from './use-network-id'
 
@@ -38,14 +35,4 @@ export const useEntitiesMetadata = (addresses: string[]) => {
 	}))
 
 	return useQueries({ queries })
-}
-
-export const useMetadataValue = (keysOrKey: string[] | string, data?: EntityMetadataItem[]) => {
-	const keys = Array.isArray(keysOrKey) ? keysOrKey : [keysOrKey]
-	const isValidData = !!data
-
-	return useMemo(
-		() => (!isValidData ? null : getEntityMetadataItemValue(data?.find(detail => keys.includes(detail.key)))),
-		[isValidData, ...keys],
-	)
 }

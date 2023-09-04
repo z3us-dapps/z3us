@@ -1,5 +1,6 @@
 import clsx from 'clsx'
 import { t } from 'i18next'
+import { NftSelect } from 'packages/ui/src/components/form/fields/nft-select'
 import React, { useEffect, useRef } from 'react'
 
 import { Box } from 'ui/src/components/box'
@@ -149,7 +150,7 @@ export const TransferFormFields: React.FC = () => {
 									</TabsContent>
 									<TabsContent value={NFTS} className={styles.transferActionTabsContentWrapper}>
 										<Box className={styles.transferActionToAssetWrapper}>
-											<Text>nft select</Text>
+											<NftSelect fromAccount={from} />
 										</Box>
 									</TabsContent>
 								</Tabs>

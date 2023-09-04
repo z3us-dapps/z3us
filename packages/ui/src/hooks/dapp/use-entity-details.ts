@@ -15,7 +15,7 @@ const defaultOptIns: StateEntityDetailsOptIns = {
 
 export const useEntitiesDetails = (
 	addresses: string[],
-	aggregation: ResourceAggregationLevel = ResourceAggregationLevel.Global,
+	aggregation: ResourceAggregationLevel = ResourceAggregationLevel.Vault,
 	optIns: StateEntityDetailsOptIns = defaultOptIns,
 ) => {
 	const networkId = useNetworkId()
@@ -39,6 +39,6 @@ export const useEntitiesDetails = (
 
 export const useEntityDetails = (
 	address: string,
-	aggregation: ResourceAggregationLevel = ResourceAggregationLevel.Global,
+	aggregation: ResourceAggregationLevel = ResourceAggregationLevel.Vault,
 	optIns: StateEntityDetailsOptIns = defaultOptIns,
 ) => useEntitiesDetails([address], aggregation, optIns)

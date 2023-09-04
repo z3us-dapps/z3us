@@ -6,7 +6,8 @@ import { useNavigate, useParams } from 'react-router-dom'
 import { EmptyState } from 'ui/src/components/empty-state'
 import { useScroll } from 'ui/src/components/scroll-area-radix/use-scroll'
 import { Table } from 'ui/src/components/table'
-import { useNonFungibleResourceBalances } from 'ui/src/hooks/dapp/use-balances'
+import { useSelectedAccounts } from 'ui/src/hooks/dapp/use-accounts'
+import { useBalances } from 'ui/src/hooks/dapp/use-balances'
 import { AssetAmountCell } from 'ui/src/pages/accounts/components/table/asset-amount-cell'
 import { AssetChangeCell } from 'ui/src/pages/accounts/components/table/asset-change-cell'
 import { AssetNameCell } from 'ui/src/pages/accounts/components/table/asset-name-cell'
@@ -50,7 +51,8 @@ const NFTs: React.FC = () => {
 	const navigate = useNavigate()
 	const { accountId } = useParams()
 
-	const { balances, isLoading } = useNonFungibleResourceBalances(accountId === '-' ? undefined : accountId)
+	const selectedAccounts = useSelectedAccounts()
+	const { nonFungibleBalances, isLoading } = useBalances(...(accountId !== '-' ? [accountId] : selectedAccounts))
 
 	const handleRowSelected = (row: { original: ResourceBalance }) => {
 		const { original } = row
@@ -59,7 +61,7 @@ const NFTs: React.FC = () => {
 
 	return (
 		<Box className={styles.tableWrapper}>
-			{balances?.length === 0 ? (
+			{nonFungibleBalances?.length === 0 ? (
 				<Box display="flex" alignItems="center" justifyContent="center" width="full" paddingY="xxlarge">
 					<EmptyState
 						title={t('accounts.nfts.noNftsEmptyStateTitle')}
@@ -72,7 +74,7 @@ const NFTs: React.FC = () => {
 					styleVariant="primary"
 					sizeVariant="large"
 					scrollableNode={scrollableNode ?? undefined}
-					data={balances}
+					data={nonFungibleBalances}
 					columns={columns}
 					isScrolledTop={isScrolledTop}
 					onRowSelected={handleRowSelected}

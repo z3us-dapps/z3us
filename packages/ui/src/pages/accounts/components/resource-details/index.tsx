@@ -1,5 +1,5 @@
 import React from 'react'
-import { useLocation, useParams } from 'react-router-dom'
+import { useParams } from 'react-router-dom'
 import { Area, AreaChart, ResponsiveContainer, Tooltip } from 'recharts'
 
 import { Box } from 'ui/src/components/box'
@@ -12,7 +12,7 @@ import { ToolTip } from 'ui/src/components/tool-tip'
 import { TransactionIcon } from 'ui/src/components/transaction-icon'
 import { Text } from 'ui/src/components/typography'
 import { useEntityDetails } from 'ui/src/hooks/dapp/use-entity-details'
-import { useMetadataValue } from 'ui/src/hooks/dapp/use-entity-metadata'
+import { getStringMetadata } from 'ui/src/services/metadata'
 
 import * as styles from './styles.css'
 
@@ -63,12 +63,10 @@ const chartData = [
 
 const ResourceDetails: React.FC = () => {
 	const { resourceId, accountId } = useParams()
-
-	const { pathname } = useLocation()
 	const { data = [], isLoading } = useEntityDetails(resourceId)
 	const details = data[0] || null
 
-	const name = useMetadataValue('name', details?.explicit_metadata.items)
+	const name = getStringMetadata('name', details?.explicit_metadata.items)
 
 	const renderTooltipContent = ({ active, payload }) => {
 		if (active && payload && payload.length) {

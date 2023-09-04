@@ -13,8 +13,9 @@ import { useScroll } from 'ui/src/components/scroll-area-radix/use-scroll'
 import { ToolTip } from 'ui/src/components/tool-tip'
 import Translation from 'ui/src/components/translation'
 import { Text } from 'ui/src/components/typography'
-import { useEntityMetadata, useMetadataValue } from 'ui/src/hooks/dapp/use-entity-metadata'
+import { useEntityMetadata } from 'ui/src/hooks/dapp/use-entity-metadata'
 import { useResourceType } from 'ui/src/pages/accounts/hooks/use-resource-type'
+import { getStringMetadata } from 'ui/src/services/metadata'
 import { capitalizeFirstLetter } from 'ui/src/utils/capitalize-first-letter'
 
 import * as styles from './styles.css'
@@ -25,8 +26,8 @@ const TabTitle: React.FC = () => {
 	const resourceType = useResourceType()
 	const { data } = useEntityMetadata(resourceId)
 
-	const name = useMetadataValue('name', data)
-	const symbol = useMetadataValue('symbol', data) || name
+	const name = getStringMetadata('name', data)
+	const symbol = getStringMetadata('symbol', data) || name
 
 	switch (resourceType) {
 		case 'fungibles':

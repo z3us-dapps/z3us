@@ -7,7 +7,8 @@ import { Button } from 'ui/src/components/router-button'
 import { TextScramble } from 'ui/src/components/text-scramble'
 import { ToolTip } from 'ui/src/components/tool-tip'
 import { Text } from 'ui/src/components/typography'
-import { useGlobalResourceBalances } from 'ui/src/hooks/dapp/use-balances'
+import { useSelectedAccounts } from 'ui/src/hooks/dapp/use-accounts'
+import { useBalances } from 'ui/src/hooks/dapp/use-balances'
 import { useNoneSharedStore } from 'ui/src/hooks/use-store'
 import { useResourceType } from 'ui/src/pages/accounts/hooks/use-resource-type'
 import { formatBigNumber, formatChange } from 'ui/src/utils/formatters'
@@ -21,8 +22,10 @@ export const AccountTotalValue: React.FC = () => {
 	const { currency } = useNoneSharedStore(state => ({
 		currency: state.currency,
 	}))
+
+	const selectedAccounts = useSelectedAccounts()
 	const { totalValue, totalChange, fungibleValue, nonFungibleValue, fungibleChange, nonFungibleChange, isLoading } =
-		useGlobalResourceBalances(accountId !== '-' ? accountId : undefined)
+		useBalances(...(accountId !== '-' ? [accountId] : selectedAccounts))
 
 	const [hidden, setHidden] = useState<boolean>(false)
 

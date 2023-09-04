@@ -6,7 +6,8 @@ import { Box } from 'ui/src/components/box'
 import { EmptyState } from 'ui/src/components/empty-state'
 import { useScroll } from 'ui/src/components/scroll-area-radix/use-scroll'
 import { Table } from 'ui/src/components/table'
-import { useFungibleResourceBalances } from 'ui/src/hooks/dapp/use-balances'
+import { useSelectedAccounts } from 'ui/src/hooks/dapp/use-accounts'
+import { useBalances } from 'ui/src/hooks/dapp/use-balances'
 import { AssetAmountCell } from 'ui/src/pages/accounts/components/table/asset-amount-cell'
 import { AssetChangeCell } from 'ui/src/pages/accounts/components/table/asset-change-cell'
 import { AssetNameCell } from 'ui/src/pages/accounts/components/table/asset-name-cell'
@@ -50,10 +51,11 @@ const Tokens: React.FC = () => {
 	const navigate = useNavigate()
 	const { accountId, resourceId } = useParams()
 
-	const { balances = [], isLoading } = useFungibleResourceBalances(accountId === '-' ? undefined : accountId)
+	const selectedAccounts = useSelectedAccounts()
+	const { fungibleBalances, isLoading } = useBalances(...(accountId !== '-' ? [accountId] : selectedAccounts))
 
 	const selectedRowIds = React.useMemo(() => {
-		const idx = balances.findIndex(b => b.address === resourceId)
+		const idx = fungibleBalances.findIndex(b => b.address === resourceId)
 		if (idx >= 0) {
 			return {
 				[idx]: true,
@@ -69,7 +71,7 @@ const Tokens: React.FC = () => {
 
 	return (
 		<Box className={styles.tableWrapper}>
-			{balances?.length === 0 ? (
+			{fungibleBalances?.length === 0 ? (
 				<Box display="flex" alignItems="center" justifyContent="center" width="full" paddingY="xxlarge">
 					<EmptyState
 						title={t('accounts.tokens.noTokensEmptyStateTitle')}
@@ -82,7 +84,7 @@ const Tokens: React.FC = () => {
 					styleVariant="primary"
 					sizeVariant="large"
 					scrollableNode={scrollableNode ?? undefined}
-					data={balances}
+					data={fungibleBalances}
 					columns={columns}
 					isScrolledTop={isScrolledTop}
 					onRowSelected={handleRowSelected}

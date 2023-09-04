@@ -6,7 +6,7 @@ import Loader from 'ui/src/components/loader'
 import { ResourceImageIcon } from 'ui/src/components/resource-image-icon'
 import { Link } from 'ui/src/components/router-link'
 import { Text } from 'ui/src/components/typography'
-import { useGlobalResourceBalances } from 'ui/src/hooks/dapp/use-balances'
+import { useBalances } from 'ui/src/hooks/dapp/use-balances'
 import { useNoneSharedStore } from 'ui/src/hooks/use-store'
 import { OverlayAssetIcons } from 'ui/src/pages/accounts/components/overlay-asset-icons'
 import type { AddressBookEntry } from 'ui/src/store/types'
@@ -25,7 +25,7 @@ const AccountRow: React.FC<IProps> = ({ account, isHovered, onSelect }) => {
 		currency: state.currency,
 	}))
 
-	const { fungibleBalances, nonFungibleBalances, isLoading, totalChange, totalValue } = useGlobalResourceBalances(
+	const { fungibleBalances, nonFungibleBalances, isLoading, totalChange, totalValue } = useBalances(
 		account.address,
 	)
 

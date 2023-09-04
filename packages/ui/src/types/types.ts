@@ -17,6 +17,8 @@ export type ResourceBalance = {
 	type: ResourceBalanceType
 
 	address: string
+	vaultAddress?: string
+	ownerAddress?: string
 	name: string
 	symbol?: string
 	description?: string

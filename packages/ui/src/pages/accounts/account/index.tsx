@@ -7,7 +7,8 @@ import { CopyAddressButton } from 'ui/src/components/copy-address-button'
 import Loader from 'ui/src/components/loader'
 import Translation from 'ui/src/components/translation'
 import { Text } from 'ui/src/components/typography'
-import { useFungibleResourceBalances, useNonFungibleResourceBalances } from 'ui/src/hooks/dapp/use-balances'
+import { useSelectedAccounts } from 'ui/src/hooks/dapp/use-accounts'
+import { useBalances } from 'ui/src/hooks/dapp/use-balances'
 import { useNoneSharedStore } from 'ui/src/hooks/use-store'
 import { useWalletAccounts } from 'ui/src/hooks/use-wallet-account'
 import { OverlayAssetIcons } from 'ui/src/pages/accounts/components/overlay-asset-icons'
@@ -28,19 +29,16 @@ const Account: React.FC = () => {
 	const accountName = accounts?.[accountId]?.name
 	const isAllAccount = accountId === '-'
 
+	const selectedAccounts = useSelectedAccounts()
 	const {
-		balances: fungibleBalances,
-		isLoading: fungibleIsLoading,
-		totalChange: fungibleTotalChange,
-		totalValue: fungibleTotalValue,
-	} = useFungibleResourceBalances()
-	const {
-		balances: nonFungibleBalances,
-		isLoading: nonFungibleIsLoading,
-		totalChange: nonFungibleTotalChange,
-		totalValue: nonFungibleTotalValue,
-	} = useNonFungibleResourceBalances()
-	const isLoading = fungibleIsLoading || nonFungibleIsLoading
+		isLoading,
+		fungibleBalances,
+		fungibleChange,
+		fungibleValue,
+		nonFungibleBalances,
+		nonFungibleChange,
+		nonFungibleValue,
+	} = useBalances(...(accountId !== '-' ? [accountId] : selectedAccounts))
 	const [hoveredLink, setHoveredLink] = useState<string | null>(null)
 
 	if (isLoading) return <Loader />
@@ -82,10 +80,10 @@ const Account: React.FC = () => {
 						</Box>
 						<Box className={styles.assetsListTitleWrapper}>
 							<Text weight="strong" size="small" color="strong" truncate>
-								{formatBigNumber(fungibleTotalValue, currency, 2)}
+								{formatBigNumber(fungibleValue, currency, 2)}
 							</Text>
-							<Text size="small" color={fungibleTotalChange && fungibleTotalChange.gt(0) ? 'green' : 'red'} truncate>
-								{formatChange(fungibleTotalChange)}
+							<Text size="small" color={fungibleChange && fungibleChange.gt(0) ? 'green' : 'red'} truncate>
+								{formatChange(fungibleChange)}
 							</Text>
 						</Box>
 					</Link>
@@ -114,14 +112,10 @@ const Account: React.FC = () => {
 						</Box>
 						<Box className={styles.assetsListTitleWrapper}>
 							<Text weight="strong" size="small" color="strong" truncate>
-								{formatBigNumber(nonFungibleTotalValue, currency, 2)}
+								{formatBigNumber(nonFungibleValue, currency, 2)}
 							</Text>
-							<Text
-								size="small"
-								color={nonFungibleTotalChange && nonFungibleTotalChange.gt(0) ? 'green' : 'red'}
-								truncate
-							>
-								{formatChange(nonFungibleTotalChange)}
+							<Text size="small" color={nonFungibleChange && nonFungibleChange.gt(0) ? 'green' : 'red'} truncate>
+								{formatChange(nonFungibleChange)}
 							</Text>
 						</Box>
 					</Link>

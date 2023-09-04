@@ -1,6 +1,6 @@
 import clsx from 'clsx'
 import { AnimatePresence, motion } from 'framer-motion'
-import { useGlobalResourceBalances } from 'packages/ui/src/hooks/dapp/use-balances'
+import { useBalances } from 'packages/ui/src/hooks/dapp/use-balances'
 import { useAccountParam } from 'packages/ui/src/hooks/use-params'
 import React, { useState } from 'react'
 import { useParams } from 'react-router-dom'

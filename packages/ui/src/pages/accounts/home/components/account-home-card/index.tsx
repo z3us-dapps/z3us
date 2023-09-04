@@ -1,5 +1,5 @@
 import { AccountCard } from 'packages/ui/src/components/account-cards'
-import { useGlobalResourceBalances } from 'packages/ui/src/hooks/dapp/use-balances'
+import { useBalances } from 'packages/ui/src/hooks/dapp/use-balances'
 import { useNoneSharedStore } from 'packages/ui/src/hooks/use-store'
 import React from 'react'
 
@@ -53,7 +53,7 @@ export const AccountHomeCard: React.FC<IProps> = props => {
 		currency: state.currency,
 	}))
 
-	const { isLoading, totalValue } = useGlobalResourceBalances(address)
+	const { isLoading, totalValue } = useBalances(address)
 
 	if (isLoading) return <Loader />
 

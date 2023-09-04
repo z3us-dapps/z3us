@@ -1,5 +1,5 @@
 import { t } from 'i18next'
-import { useFungibleResourceBalances } from 'packages/ui/src/hooks/dapp/use-balances'
+import { useBalances } from 'packages/ui/src/hooks/dapp/use-balances'
 import React, { forwardRef, useContext } from 'react'
 
 import { capitalizeFirstLetter } from 'ui/src/utils/capitalize-first-letter'
@@ -22,22 +22,22 @@ export const TokenAmountSelect = forwardRef<HTMLInputElement, IProps>((props, re
 	const { fromAccount, amountKey = 'amount', resourceKey = 'address', ...rest } = props
 	const { name: parentName } = useContext(FieldContext)
 
-	const { balances = [], isLoading } = useFungibleResourceBalances(fromAccount)
+	const { fungibleBalances = [], isLoading } = useBalances(fromAccount)
 	const amount = useFieldValue(`${parentName}${parentName ? '.' : ''}${amountKey}`)
 	const resource = useFieldValue(`${parentName}${parentName ? '.' : ''}${resourceKey}`)
 
-	const selectedToken = balances.find(b => b.address === resource)
+	const selectedToken = fungibleBalances.find(b => b.address === resource)
 
 	return (
 		<Box disabled={!fromAccount || isLoading}>
 			<NumberField
 				{...rest}
 				ref={ref}
-				name="amount"
+				name={amountKey}
 				placeholder={capitalizeFirstLetter(`${t('token_amount_select.amount')}`)}
 				sizeVariant="large"
 			/>
-			<TokenSelect name="address" balances={balances} />
+			<TokenSelect name={resourceKey} balances={fungibleBalances} />
 			<CurrencySelect selectedToken={selectedToken} amount={amount} />
 		</Box>
 	)

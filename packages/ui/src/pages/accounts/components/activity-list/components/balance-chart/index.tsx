@@ -8,7 +8,8 @@ import { Button } from 'ui/src/components/button'
 import { HeightAnimatePanel } from 'ui/src/components/height-animate-panel'
 import { Z3usLoading } from 'ui/src/components/z3us-loading'
 import { animatePageVariants } from 'ui/src/constants/page'
-import { useGlobalResourceBalances } from 'ui/src/hooks/dapp/use-balances'
+import { useSelectedAccounts } from 'ui/src/hooks/dapp/use-accounts'
+import { useBalances } from 'ui/src/hooks/dapp/use-balances'
 import { useIsMobileWidth } from 'ui/src/hooks/use-is-mobile'
 import { useResourceType } from 'ui/src/pages/accounts/hooks/use-resource-type'
 
@@ -26,8 +27,9 @@ export const BalanceChart: React.FC = () => {
 
 	const [showFullAccountList, setShowFullAccountList] = useState<boolean>(false)
 
-	const { balances, fungibleBalances, nonFungibleBalances, isLoading } = useGlobalResourceBalances(
-		accountId !== '-' ? accountId : '',
+	const accounts = useSelectedAccounts()
+	const { balances, fungibleBalances, nonFungibleBalances, isLoading } = useBalances(
+		...(accountId !== '-' ? [accountId] : accounts),
 	)
 
 	const selectedBalances = useMemo(() => {

@@ -1,6 +1,6 @@
 /* eslint-disable  @typescript-eslint/no-unused-vars */
 import { AccountCard, AccountCards } from 'packages/ui/src/components/account-cards'
-import { useGlobalResourceBalances } from 'packages/ui/src/hooks/dapp/use-balances'
+import { useBalances } from 'packages/ui/src/hooks/dapp/use-balances'
 import { useNoneSharedStore } from 'packages/ui/src/hooks/use-store'
 import React, { useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
@@ -56,7 +56,7 @@ export const Card: React.FC = () => {
 		currency: state.currency,
 	}))
 
-	const { isLoading, totalValue } = useGlobalResourceBalances(address)
+	const { isLoading, totalValue } = useBalances(address)
 
 	if (!accountId || accountId?.length < 1) {
 		return null

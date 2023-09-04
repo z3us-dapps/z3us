@@ -17,7 +17,7 @@ export const useEntityFungibles = (
 	address: string,
 	cursor: string = null,
 	limit: number = null,
-	aggregation: ResourceAggregationLevel = ResourceAggregationLevel.Global,
+	aggregation: ResourceAggregationLevel = ResourceAggregationLevel.Vault,
 	optIns: StateEntityDetailsOptIns = defaultFungiblesOptIns,
 ) => {
 	const networkId = useNetworkId()
@@ -45,7 +45,7 @@ export const useEntitiesFungibles = (
 	addresses: string[],
 	cursor: string = null,
 	limit: number = null,
-	aggregation: ResourceAggregationLevel = ResourceAggregationLevel.Global,
+	aggregation: ResourceAggregationLevel = ResourceAggregationLevel.Vault,
 	optIns: StateEntityDetailsOptIns = defaultFungiblesOptIns,
 ) => {
 	const networkId = useNetworkId()
@@ -83,7 +83,7 @@ export const useEntityNonFungibles = (
 	address: string,
 	cursor: string = null,
 	limit: number = null,
-	aggregation: ResourceAggregationLevel = ResourceAggregationLevel.Global,
+	aggregation: ResourceAggregationLevel = ResourceAggregationLevel.Vault,
 	optIns: StateEntityDetailsOptIns = defaultNonFungiblesOptIns,
 ) => {
 	const networkId = useNetworkId()
@@ -111,7 +111,7 @@ export const useEntitiesNonFungibles = (
 	addresses: string[],
 	cursor: string = null,
 	limit: number = null,
-	aggregation: ResourceAggregationLevel = ResourceAggregationLevel.Global,
+	aggregation: ResourceAggregationLevel = ResourceAggregationLevel.Vault,
 	optIns: StateEntityDetailsOptIns = defaultFungiblesOptIns,
 ) => {
 	const networkId = useNetworkId()
