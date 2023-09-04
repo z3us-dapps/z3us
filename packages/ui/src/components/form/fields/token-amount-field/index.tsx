@@ -13,24 +13,23 @@ import { TokenSelect } from '../token-select'
 import { CurrencySelect } from './components/currency-selector'
 
 interface IProps extends Omit<WrapperProps, 'name'> {
-	accountKey?: string
+	fromAccount?: string
 	amountKey?: string
 	resourceKey?: string
 }
 
 export const TokenAmountSelect = forwardRef<HTMLInputElement, IProps>((props, ref) => {
-	const { accountKey, amountKey = 'amount', resourceKey = 'address', ...rest } = props
+	const { fromAccount, amountKey = 'amount', resourceKey = 'address', ...rest } = props
 	const { name: parentName } = useContext(FieldContext)
 
-	const from = useFieldValue(accountKey)
+	const { balances = [], isLoading } = useFungibleResourceBalances(fromAccount)
 	const amount = useFieldValue(`${parentName}${parentName ? '.' : ''}${amountKey}`)
 	const resource = useFieldValue(`${parentName}${parentName ? '.' : ''}${resourceKey}`)
-	const { balances = [], isLoading } = useFungibleResourceBalances(from)
 
 	const selectedToken = balances.find(b => b.address === resource)
 
 	return (
-		<Box disabled={!from || isLoading}>
+		<Box disabled={!fromAccount || isLoading}>
 			<NumberField
 				{...rest}
 				ref={ref}
