@@ -1,21 +1,19 @@
 import { globalStyle, style } from '@vanilla-extract/css'
+import { vars } from 'packages/ui/src/components/system/theme.css'
 
 import { darkMode, sprinkles } from 'ui/src/components/system/sprinkles.css'
-import { vars } from 'ui/src/components/system/theme.css'
+import { responsiveStyle } from 'ui/src/components/system/theme-utils'
 
 export const assetsList = style([
 	sprinkles({
-		paddingX: {
-			tablet: 'medium',
-		},
-		marginTop: {
-			tablet: 'medium',
-		},
-		paddingBottom: {
-			tablet: 'large',
-		},
+		marginTop: 'medium',
+		paddingX: 'medium',
+		padding: 'none',
 		display: 'flex',
 		flexDirection: 'column',
+		paddingBottom: {
+			tablet: 'xlarge',
+		},
 	}),
 	{ listStyle: 'none' },
 ])
@@ -32,8 +30,8 @@ export const assetsListLink = style([
 		position: 'relative',
 		paddingX: 'large',
 		display: 'flex',
-		justifyContent: 'center',
 		flexDirection: 'column',
+		justifyContent: 'center',
 		textDecoration: 'none',
 		transition: 'fast',
 		borderRadius: 'large',

@@ -37,6 +37,7 @@ export const AccountTotalValue: React.FC = () => {
 		return totalChange
 	}, [resourceType, totalValue, fungibleValue, nonFungibleValue])
 
+	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	const handleToggleHidden = () => {
 		setHidden(!hidden)
 	}
@@ -53,11 +54,12 @@ export const AccountTotalValue: React.FC = () => {
 										{isLoading ? 'Loading...' : `${formatBigNumber(value, currency, 2)}`}
 									</Text>
 								</TextScramble>
-								<ToolTip message={hidden ? 'accounts.home.accountShowBalance' : 'accounts.home.accountHideBalance'}>
+								{/* NOTE: TODO: */}
+								{/* <ToolTip message={hidden ? 'accounts.home.accountShowBalance' : 'accounts.home.accountHideBalance'}>
 									<Button onClick={handleToggleHidden} styleVariant="ghost" sizeVariant="small" iconOnly>
 										{hidden ? <EyeIcon /> : <EyeOffIcon />}
 									</Button>
-								</ToolTip>
+								</ToolTip> */}
 							</Box>
 							<TextScramble scramble={hidden}>
 								<Text size="xxsmall" weight="medium" color={change && change.gt(0) ? 'green' : 'red'} truncate>
