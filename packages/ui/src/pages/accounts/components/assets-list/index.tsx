@@ -1,3 +1,4 @@
+import type BigNumber from 'bignumber.js'
 import clsx from 'clsx'
 import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
@@ -6,7 +7,7 @@ import { Box } from 'ui/src/components/box'
 import Translation from 'ui/src/components/translation'
 import { Text } from 'ui/src/components/typography'
 import { useNoneSharedStore } from 'ui/src/hooks/use-store'
-import { type ResourceBalance } from 'ui/src/types/types'
+import { type ResourceBalanceKind } from 'ui/src/types/types'
 import { formatBigNumber, formatChange } from 'ui/src/utils/formatters'
 
 import { OverlayAssetIcons } from '../overlay-asset-icons'
@@ -17,13 +18,12 @@ const NFTS_PATH = 'nfts'
 
 interface IProps {
 	accountId: string
-	fungibleBalances: ResourceBalance[]
-	// TODO
-	fungibleValue: any
-	fungibleChange: any
-	nonFungibleBalances: ResourceBalance[]
-	nonFungibleValue: any
-	nonFungibleChange: any
+	fungibleBalances: ResourceBalanceKind[]
+	fungibleValue: BigNumber
+	fungibleChange: BigNumber
+	nonFungibleBalances: ResourceBalanceKind[]
+	nonFungibleValue: BigNumber
+	nonFungibleChange: BigNumber
 }
 
 export const AssetsList: React.FC<IProps> = props => {
