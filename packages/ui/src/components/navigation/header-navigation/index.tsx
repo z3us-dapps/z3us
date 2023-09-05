@@ -1,14 +1,13 @@
 import clsx from 'clsx'
 import { LayoutGroup } from 'framer-motion'
 import { t } from 'i18next'
-import React, { Suspense } from 'react'
+import React from 'react'
 import { useLocation, useMatches, useNavigate, useParams } from 'react-router-dom'
 
 import { Box } from 'ui/src/components/box'
 import { ConnectButton } from 'ui/src/components/connect-button'
 import { CopyAddressButton } from 'ui/src/components/copy-address-button'
 import { SearchIcon } from 'ui/src/components/icons'
-import Loader from 'ui/src/components/loader'
 import { PillNavigation } from 'ui/src/components/pill-navigation'
 import { Button } from 'ui/src/components/router-button'
 import { Link, NavLink } from 'ui/src/components/router-link'
@@ -57,7 +56,6 @@ const HeaderNavDesktop = () => {
 }
 
 const HeaderNavMobile = () => {
-	const location = useLocation()
 	const accounts = useWalletAccounts()
 	const { accountId } = useParams()
 	const matches = useMatches()
@@ -90,9 +88,7 @@ const HeaderNavMobile = () => {
 		<Box className={styles.headerMobileNavWrapper}>
 			{hasBackButton ? (
 				<>
-					<Suspense key={location.pathname} fallback={<Loader />}>
-						{backButton}
-					</Suspense>
+					{backButton}
 					<Box display="flex" marginLeft="small" justifyContent="center" alignItems="center" gap="xsmall" flexGrow={1}>
 						<CopyAddressButton
 							styleVariant="white-transparent"

@@ -1,8 +1,8 @@
-import type { ResourceBalanceKind } from 'packages/ui/src/types/types'
 import React, { useState } from 'react'
 import { Cell, Pie, PieChart, ResponsiveContainer, Tooltip } from 'recharts'
 
 import { ChartToolTip } from 'ui/src/components/chart-tool-tip'
+import type { ResourceBalance, ResourceBalanceKind, ResourceBalanceType } from 'ui/src/types/types'
 
 const COLORS = [
 	{ start: '#9e54ed', end: '#5c4cb6' },
@@ -42,7 +42,7 @@ export const Chart: React.FC<IProps> = ({ balances }) => {
 					startAngle={0}
 					endAngle={360}
 					data={balances.map(resource => ({
-						name: resource.symbol || resource.name || 'Unknown', // @TODO: need a component here {resource address + amount}
+						name: (resource as ResourceBalance[ResourceBalanceType.FUNGIBLE]).symbol || resource.name || 'Unknown', // @TODO: need a component here {resource address + amount}
 						value: resource.value.toNumber(),
 					}))}
 					cx="50%"

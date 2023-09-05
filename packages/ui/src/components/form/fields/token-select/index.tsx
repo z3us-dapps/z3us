@@ -5,6 +5,7 @@ import { Button } from 'ui/src/components/button'
 import { ChevronDown2Icon } from 'ui/src/components/icons'
 import { ResourceImageIcon } from 'ui/src/components/resource-image-icon'
 import { Text } from 'ui/src/components/typography'
+import type { ResourceBalance, ResourceBalanceType } from 'ui/src/types/types'
 
 import { FieldWrapper, type IProps as WrapperProps } from '../../field-wrapper'
 import { type ITokenSelectorDialogProps, TokenSelectorDialog } from './components/token-selector-dialog'
@@ -18,7 +19,7 @@ interface IAdapterProps extends Omit<ITokenSelectorDialogProps, 'onTokenUpdate' 
 export const SelectAdapter = forwardRef<HTMLButtonElement, IAdapterProps>((props, ref) => {
 	const { value, onChange, balances, ...rest } = props
 
-	const selectedToken = balances.find(b => b.address === value)
+	const selectedToken = balances.find(b => b.address === value) as ResourceBalance[ResourceBalanceType.FUNGIBLE]
 
 	return (
 		<TokenSelectorDialog

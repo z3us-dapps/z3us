@@ -40,7 +40,7 @@ const route = {
 					path: 'tokens',
 					element: <Tokens />,
 					handle: {
-						backButton: <BackButton />,
+						backButton: <BackButton key="tokens" />,
 						crumb: ({ accountId }) => (
 							<LinkBreadcrumb to={`/accounts/${accountId}/tokens`} translationKey="accounts.breadcrumbs.tokens" />
 						),
@@ -59,7 +59,7 @@ const route = {
 					path: 'nfts',
 					element: <Nfts />,
 					handle: {
-						backButton: <BackButton />,
+						backButton: <BackButton key="nfts" />,
 						crumb: ({ accountId }) => (
 							<LinkBreadcrumb to={`/accounts/${accountId}/nfts`} translationKey="accounts.breadcrumbs.nfts" />
 						),
@@ -71,6 +71,15 @@ const route = {
 								crumb: () => <ResourceBreadcrumb resourceType="nft" />,
 								sidebar: <ResourceDetails />,
 							},
+							children: [
+								{
+									path: ':nftId',
+									handle: {
+										crumb: ({ nftId }) => nftId,
+										sidebar: <ResourceDetails />,
+									},
+								},
+							],
 						},
 					],
 				},

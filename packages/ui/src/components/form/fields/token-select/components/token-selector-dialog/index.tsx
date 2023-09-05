@@ -164,7 +164,7 @@ export const TokenSelectorDialog: React.FC<ITokenSelectorDialogProps> = props =>
 							<Virtuoso
 								data={localBalances}
 								// eslint-disable-next-line react/no-unstable-nested-components
-								itemContent={(index, { symbol, name, address }) => (
+								itemContent={(index, { symbol, name, address }: any) => (
 									<Box value={address} key={index} className={styles.tokenListItemWrapper}>
 										<Box
 											component="button"
