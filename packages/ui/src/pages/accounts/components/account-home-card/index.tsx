@@ -44,10 +44,11 @@ const accountCards = [
 interface IProps {
 	address: string
 	name: string
+	className: string
 }
 
 export const AccountHomeCard: React.FC<IProps> = props => {
-	const { address, name } = props
+	const { address, name, className } = props
 
 	const { currency } = useNoneSharedStore(state => ({
 		currency: state.currency,
@@ -66,6 +67,7 @@ export const AccountHomeCard: React.FC<IProps> = props => {
 				accountBalance={formatBigNumber(totalValue, currency, 2)}
 				accountAddress={address}
 				showCopyAddressButton={false}
+				className={className}
 			/>
 		</Link>
 	)

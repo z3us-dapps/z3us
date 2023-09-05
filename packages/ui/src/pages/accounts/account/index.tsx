@@ -1,5 +1,6 @@
 import React from 'react'
 import { useParams } from 'react-router-dom'
+import useMeasure from 'react-use-measure'
 
 import { Box } from 'ui/src/components/box'
 import { CopyAddressButton } from 'ui/src/components/copy-address-button'
@@ -12,11 +13,14 @@ import { useWalletAccounts } from 'ui/src/hooks/use-wallet-account'
 
 import { AssetsList } from '../components/assets-list'
 import { HomeScrollShadow } from '../components/home-scroll-shadow'
+import { HorizontalAccountsScrollList } from '../components/horizontal-accounts-scroll-list'
 import * as styles from './styles.css'
 
 const Account: React.FC = () => {
 	const { accountId = '-' } = useParams()
 	const accounts = useWalletAccounts()
+
+	const [wrapperRef, { width: horizontalScrollWidth }] = useMeasure()
 	const accountName = accounts?.[accountId]?.name
 	const isAllAccount = accountId === '-'
 
@@ -34,8 +38,10 @@ const Account: React.FC = () => {
 	if (isLoading) return <Loader />
 
 	return (
-		<Box className={styles.assetsWrapper}>
+		<Box ref={wrapperRef} className={styles.assetsWrapper}>
 			<HomeScrollShadow />
+
+			<HorizontalAccountsScrollList horizontalScrollWidth={horizontalScrollWidth} />
 			<Box className={styles.titleWrapper}>
 				{isAllAccount ? (
 					<Text capitalizeFirstLetter color="strong" weight="strong" size="medium">

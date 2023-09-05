@@ -19,6 +19,7 @@ interface IAccountCardProps {
 	accountBalance: string
 	accountName: string
 	accountAddress: string
+	className: string
 }
 
 export const AccountCard: React.FC<IAccountCardProps> = props => {
@@ -31,12 +32,13 @@ export const AccountCard: React.FC<IAccountCardProps> = props => {
 		accountBalance,
 		accountName,
 		accountAddress,
+		className,
 	} = props
 
 	return (
 		<motion.li
 			key={id}
-			className={clsx(styles.card, isAllAccount && styles.cardAllWrapper)}
+			className={clsx(styles.card, isAllAccount && styles.cardAllWrapper, className)}
 			style={{
 				backgroundImage,
 			}}

@@ -16,6 +16,9 @@ export const titleWrapper = style([
 		display: 'flex',
 		alignItems: 'center',
 		gap: 'small',
+		paddingTop: {
+			tablet: 'large',
+		},
 		paddingX: {
 			tablet: 'xlarge',
 		},
