@@ -12,7 +12,7 @@ import { AssetAmountCell } from 'ui/src/pages/accounts/components/table/asset-am
 import { AssetChangeCell } from 'ui/src/pages/accounts/components/table/asset-change-cell'
 import { AssetNameCell } from 'ui/src/pages/accounts/components/table/asset-name-cell'
 import { AssetValueCell } from 'ui/src/pages/accounts/components/table/asset-value-cell'
-import type { ResourceBalance } from 'ui/src/types/types'
+import type { ResourceBalanceKind } from 'ui/src/types/types'
 
 import * as styles from './styles.css'
 
@@ -54,7 +54,7 @@ const NFTs: React.FC = () => {
 	const selectedAccounts = useSelectedAccounts()
 	const { nonFungibleBalances, isLoading } = useBalances(...selectedAccounts)
 
-	const handleRowSelected = (row: { original: ResourceBalance }) => {
+	const handleRowSelected = (row: { original: ResourceBalanceKind }) => {
 		const { original } = row
 		navigate(`/accounts/${accountId}/nfts/${original.address}`)
 	}

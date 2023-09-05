@@ -5,13 +5,13 @@ import { Box } from 'ui/src/components/box'
 import { ResourceImageIcon } from 'ui/src/components/resource-image-icon'
 import { Text } from 'ui/src/components/typography'
 import { useIsMobileWidth } from 'ui/src/hooks/use-is-mobile'
-import type { ResourceBalance } from 'ui/src/types/types'
+import type { ResourceBalance, ResourceBalanceKind, ResourceBalanceType } from 'ui/src/types/types'
 
 import * as styles from './styles.css'
 
 interface IProps {
 	value?: string
-	row?: { original: ResourceBalance }
+	row?: { original: ResourceBalanceKind }
 }
 
 export const AssetNameCell: React.FC<IProps> = props => {
@@ -19,7 +19,7 @@ export const AssetNameCell: React.FC<IProps> = props => {
 		value,
 		row: { original },
 	} = props
-	const { symbol, name } = original
+	const { symbol, name } = original as ResourceBalance[ResourceBalanceType.FUNGIBLE]
 
 	const isMobile = useIsMobileWidth()
 

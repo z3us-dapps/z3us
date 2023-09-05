@@ -1,7 +1,7 @@
 import clsx from 'clsx'
 import { t } from 'i18next'
 import { config } from 'packages/ui/src/constants/config'
-import type { ResourceBalance } from 'packages/ui/src/types/types'
+import type { ResourceBalanceKind } from 'packages/ui/src/types/types'
 import React, { useEffect, useRef, useState } from 'react'
 import { Virtuoso } from 'react-virtuoso'
 import { useDebounce } from 'use-debounce'
@@ -32,7 +32,7 @@ import * as styles from './styles.css'
 
 export interface ITokenSelectorDialogProps {
 	trigger: React.ReactNode
-	balances: ResourceBalance[]
+	balances: ResourceBalanceKind[]
 	onTokenUpdate: (address: string) => void
 	tokenAddress?: string
 }
@@ -53,7 +53,7 @@ export const TokenSelectorDialog: React.FC<ITokenSelectorDialogProps> = props =>
 	const inputRef = useRef(null)
 	const [customScrollParent, setCustomScrollParent] = useState<HTMLElement | null>(null)
 	const [isScrolled, setIsScrolled] = useState<boolean>(false)
-	const [localBalances, setLocalBalances] = useState<ResourceBalance[]>(balances)
+	const [localBalances, setLocalBalances] = useState<ResourceBalanceKind[]>(balances)
 	const [isOpen, setIsOpen] = useState<boolean>(false)
 	const [inputValue, setInputValue] = useState<string>('')
 	const [debouncedInputValue] = useDebounce<string>(inputValue, 500)

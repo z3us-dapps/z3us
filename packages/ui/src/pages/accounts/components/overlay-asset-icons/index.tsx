@@ -6,7 +6,7 @@ import { Box } from 'ui/src/components/box'
 import { ChevronRightIcon } from 'ui/src/components/icons'
 import { Button } from 'ui/src/components/router-button'
 import { Text } from 'ui/src/components/typography'
-import type { ResourceBalance } from 'ui/src/types/types'
+import type { ResourceBalanceKind } from 'ui/src/types/types'
 
 import * as styles from './styles.css'
 
@@ -14,7 +14,7 @@ const DEFAULT_ITEMS = 3
 
 interface IProps {
 	resourceType: 'token' | 'nft'
-	balances: ResourceBalance[]
+	balances: ResourceBalanceKind[]
 	onButtonMouseOver: () => void
 }
 

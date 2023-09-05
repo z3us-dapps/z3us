@@ -1,6 +1,7 @@
 import { t } from 'i18next'
 import { useBalances } from 'packages/ui/src/hooks/dapp/use-balances'
 import { useEntityNonFungibleIds } from 'packages/ui/src/hooks/dapp/use-entity-nft'
+import type { ResourceBalance, ResourceBalanceType } from 'packages/ui/src/types/types'
 import React, { forwardRef, useContext } from 'react'
 
 import { capitalizeFirstLetter } from 'ui/src/utils/capitalize-first-letter'
@@ -24,13 +25,17 @@ export const NftSelect = forwardRef<HTMLButtonElement, IProps>((props, ref) => {
 	const { nonFungibleBalances = [], isLoading } = useBalances(fromAccount)
 	const resource = useFieldValue(`${parentName}${parentName ? '.' : ''}${resourceKey}`)
 
-	const selectedToken = nonFungibleBalances.find(b => b.address === resource)
+	const selectedToken = nonFungibleBalances.find(
+		b => b.address === resource,
+	) as ResourceBalance[ResourceBalanceType.NON_FUNGIBLE]
 
-	const { data: ids = [] } = useEntityNonFungibleIds(
-		selectedToken?.ownerAddress,
-		selectedToken?.vaultAddress,
-		selectedToken?.address,
-	)
+	const pages = useEntityNonFungibleIds(fromAccount, selectedToken?.address, selectedToken?.vaults)
+	const ids =
+		pages
+			?.filter(({ data }) => !!data)
+			.map(({ data }) => data)
+			?.flat()
+			.map(id => ({ id, title: id })) || []
 
 	return (
 		<Box disabled={!fromAccount || isLoading}>
@@ -41,12 +46,7 @@ export const NftSelect = forwardRef<HTMLButtonElement, IProps>((props, ref) => {
 				placeholder={capitalizeFirstLetter(`${t('nft_select.collection')}`)}
 				data={nonFungibleBalances.map(collection => ({ id: collection.address, title: collection.name }))}
 			/>
-			<SelectField
-				{...rest}
-				name={itemKey}
-				placeholder={capitalizeFirstLetter(`${t('nft_select.item')}`)}
-				data={ids.map(id => ({ id, title: id }))}
-			/>
+			<SelectField {...rest} name={itemKey} placeholder={capitalizeFirstLetter(`${t('nft_select.item')}`)} data={ids} />
 		</Box>
 	)
 })

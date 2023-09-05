@@ -1,4 +1,4 @@
-import React, { Suspense } from 'react'
+import React, { Suspense, useMemo } from 'react'
 import { useLocation, useMatches, useOutlet } from 'react-router-dom'
 
 import { Box } from 'ui/src/components/box'
@@ -29,6 +29,7 @@ const ScrollContent: React.FC = () => {
 		.map(match => (match.handle as any).sidebar)
 
 	const [sidebar] = sidebars.reverse()
+	const key = useMemo(() => location.pathname.split('/')[2] || '-', [location.pathname])
 
 	return (
 		<ScrollArea
@@ -43,7 +44,7 @@ const ScrollContent: React.FC = () => {
 							<Breadcrumbs />
 							<AccountTotalValue />
 						</Box>
-						<Suspense key={location.pathname} fallback={<Loader />}>
+						<Suspense key={key} fallback={<Loader />}>
 							{outlet}
 						</Suspense>
 					</ScrollPanel>

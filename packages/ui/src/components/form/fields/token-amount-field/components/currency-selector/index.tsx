@@ -21,10 +21,10 @@ import Translation from 'ui/src/components/translation'
 import { Text } from 'ui/src/components/typography'
 import { useSupportedCurrencies } from 'ui/src/hooks/queries/market'
 import { useNoneSharedStore } from 'ui/src/hooks/use-store'
-import type { ResourceBalance } from 'ui/src/types/types'
+import type { ResourceBalanceKind } from 'ui/src/types/types'
 
 interface IProps {
-	selectedToken: ResourceBalance
+	selectedToken: ResourceBalanceKind
 	amount: number
 }
 

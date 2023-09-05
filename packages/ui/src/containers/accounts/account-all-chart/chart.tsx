@@ -1,4 +1,4 @@
-import type { ResourceBalance } from 'packages/ui/src/types/types'
+import type { ResourceBalanceKind } from 'packages/ui/src/types/types'
 import React, { useState } from 'react'
 import { Cell, Pie, PieChart, ResponsiveContainer, Tooltip } from 'recharts'
 
@@ -11,7 +11,7 @@ const COLORS = [
 ]
 
 interface IProps {
-	balances: ResourceBalance[]
+	balances: ResourceBalanceKind[]
 }
 
 export const Chart: React.FC<IProps> = ({ balances }) => {
