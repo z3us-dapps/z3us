@@ -23,7 +23,7 @@ export const NftSelect = forwardRef<HTMLButtonElement, IProps>((props, ref) => {
 	const { name: parentName } = useContext(FieldContext)
 
 	const { nonFungibleBalances = [], isLoading } = useBalances(fromAccount)
-	const resource = useFieldValue(`${parentName}${parentName ? '.' : ''}${resourceKey}`)
+	const resource = useFieldValue(`${parentName ? `${parentName}.` : ''}${resourceKey}`)
 
 	const selectedToken = nonFungibleBalances.find(
 		b => b.address === resource,

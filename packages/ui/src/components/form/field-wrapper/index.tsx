@@ -24,7 +24,7 @@ type State = {
 export const FieldWrapper: React.FC<PropsWithChildren<IProps>> = ({ validate, children, name, label }) => {
 	const { errors, getFieldValue, onFieldChange } = useContext(FormContext)
 	const { name: parentName } = useContext(FieldContext)
-	const fieldName = `${parentName}${name}`
+	const fieldName = `${parentName ? `${parentName}.` : ''}${name}`
 
 	const [state, setState] = useImmer<State>({
 		isLoading: false,

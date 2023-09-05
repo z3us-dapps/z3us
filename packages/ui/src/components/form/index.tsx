@@ -49,7 +49,8 @@ export const Form: React.FC<PropsWithChildren<Props>> = ({
 	})
 
 	useEffect(() => {
-		if (onChange) onChange(state.values)
+		const { values } = state
+		if (onChange) onChange(values)
 	}, [state.values])
 
 	const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
@@ -57,20 +58,27 @@ export const Form: React.FC<PropsWithChildren<Props>> = ({
 		setState(draft => {
 			draft.isLoading = true
 		})
-		await onSubmit(state.values)
+		const { values } = state
+		await onSubmit(values)
 		setState(draft => {
 			draft.isLoading = false
 		})
 	}
 
-	const handleGetFieldValue = (name: string): any => get(state.values, name)
+	const handleGetFieldValue = (name: string) => {
+		const { values } = state
+		const value = get(values, name)
+		return value
+	}
 
 	const handleFieldChange = (name: string, value?: any) => {
 		setState(draft => {
+			const { values } = draft
 			if (value === null) {
-				unset(draft.values, name)
+				unset(values, name)
+				draft.values = values
 			} else {
-				set(draft.values, name, value)
+				draft.values = set({ ...values }, name, value)
 			}
 		})
 	}

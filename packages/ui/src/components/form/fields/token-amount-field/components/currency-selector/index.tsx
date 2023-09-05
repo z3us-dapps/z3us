@@ -21,10 +21,10 @@ import Translation from 'ui/src/components/translation'
 import { Text } from 'ui/src/components/typography'
 import { useSupportedCurrencies } from 'ui/src/hooks/queries/market'
 import { useNoneSharedStore } from 'ui/src/hooks/use-store'
-import type { ResourceBalance, ResourceBalanceType } from 'ui/src/types/types'
+import type { ResourceBalance, ResourceBalanceKind, ResourceBalanceType } from 'ui/src/types/types'
 
 interface IProps {
-	selectedToken: ResourceBalance[ResourceBalanceType.FUNGIBLE]
+	selectedToken: ResourceBalanceKind
 	amount: number
 }
 
@@ -56,7 +56,9 @@ export const CurrencySelect: React.FC<IProps> = ({ selectedToken, amount }) => {
 							<Box display="flex">
 								<Box component="span">
 									<TokenPrice
-										symbol={selectedToken?.symbol || selectedToken?.name}
+										symbol={
+											(selectedToken as ResourceBalance[ResourceBalanceType.FUNGIBLE])?.symbol || selectedToken?.name
+										}
 										amount={new BigNumber(amount || 0)}
 										currency={currency}
 									/>

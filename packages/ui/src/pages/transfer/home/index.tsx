@@ -14,20 +14,27 @@ import * as styles from './styles.css'
 
 const positiveNumberValidator = (value: number): boolean => value > 0
 
-const resourcesSchema = z.object({
+const tokenSchema = z.object({
 	address: z.string().min(1, 'Please select token'),
 	amount: z.number().refine(positiveNumberValidator, { message: 'Please enter a valid amount' }),
-	ids: z.array(z.string().min(1, 'NFT id can not be empty')).min(1, 'Please select NFT items'),
 })
+
+const nftSchema = z.object({
+	address: z.string().min(1, 'Please select NFT collection'),
+	id: z.string().min(1, 'Please select NFT item'),
+	// ids: z.array(z.string().min(1, 'NFT id can not be empty')).min(1, 'Please select NFT items'),
+})
+
+const tokenOrNft = tokenSchema.or(nftSchema)
 
 const actionsSchema = z.object({
 	to: z.string().min(1, 'Please enter recipient'),
-	resources: z.array(resourcesSchema),
+	resources: z.array(tokenOrNft),
 })
 
 const validationSchema = z.object({
 	message: z.string(),
-	messageEncrypted: z.boolean(),
+	messageEncrypted: z.boolean().or(z.undefined()),
 	from: z.string().min(1, 'Please select account'),
 	actions: z.array(actionsSchema),
 })
@@ -50,27 +57,29 @@ export const Home: React.FC = () => {
 			return
 		}
 
-		let manifest = new ManifestBuilder()
+		let builder = new ManifestBuilder()
 		values.actions.forEach(action => {
 			if (action.resources?.length > 0) {
 				const nfts = []
 				const tokens = []
-				action.resources.forEach(resource => {
-					if (resource.ids?.length > 0) {
-						nfts.push(resource)
+				action.resources.forEach(({ address, id, amount }) => {
+					if (id) {
+						nfts.push({ resource: address, ids: [id] })
 					} else {
-						tokens.push(resource)
+						tokens.push({ resource: address, amount })
 					}
 				})
 
-				manifest = sendNftTokens(new ManifestBuilder(), [{ from: values.from, to: action.to, nfts }])
-				manifest = sendFungibleTokens(new ManifestBuilder(), [{ from: values.from, to: action.to, tokens }])
+				builder = sendNftTokens(builder, [{ from: values.from, to: action.to, nfts }])
+				builder = sendFungibleTokens(builder, [{ from: values.from, to: action.to, tokens }])
 			}
 		})
 
+		const manifest = builder.build()
+
 		sendTransaction({
 			version: 1,
-			transactionManifest: manifest.build().toString(),
+			transactionManifest: manifest.toString(),
 			message: values.message,
 		})
 	}
