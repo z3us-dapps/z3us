@@ -1,9 +1,9 @@
-import { ResourceImageIcon } from 'ui/src/components/resource-image-icon'
 import React from 'react'
 import { useParams } from 'react-router-dom'
 
 import { Box } from 'ui/src/components/box'
 import { ChevronRightIcon } from 'ui/src/components/icons'
+import { ResourceImageIcon } from 'ui/src/components/resource-image-icon'
 import { Button } from 'ui/src/components/router-button'
 import { Text } from 'ui/src/components/typography'
 import type { ResourceBalanceKind } from 'ui/src/types/types'
