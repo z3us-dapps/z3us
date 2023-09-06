@@ -42,7 +42,11 @@ const route = {
 					handle: {
 						backButton: <BackButton key="tokens" />,
 						crumb: ({ accountId }) => (
-							<LinkBreadcrumb to={`/accounts/${accountId}/tokens`} translationKey="accounts.breadcrumbs.tokens" />
+							<LinkBreadcrumb
+								key={accountId}
+								to={`/accounts/${accountId}/tokens`}
+								translationKey="accounts.breadcrumbs.tokens"
+							/>
 						),
 					},
 					children: [
@@ -61,7 +65,11 @@ const route = {
 					handle: {
 						backButton: <BackButton key="nfts" />,
 						crumb: ({ accountId }) => (
-							<LinkBreadcrumb to={`/accounts/${accountId}/nfts`} translationKey="accounts.breadcrumbs.nfts" />
+							<LinkBreadcrumb
+								key={accountId}
+								to={`/accounts/${accountId}/nfts`}
+								translationKey="accounts.breadcrumbs.nfts"
+							/>
 						),
 					},
 					children: [

@@ -4,7 +4,6 @@ import useMeasure from 'react-use-measure'
 
 import { Box } from 'ui/src/components/box'
 import { CopyAddressButton } from 'ui/src/components/copy-address-button'
-import Loader from 'ui/src/components/loader'
 import Translation from 'ui/src/components/translation'
 import { Text } from 'ui/src/components/typography'
 import { useSelectedAccounts } from 'ui/src/hooks/dapp/use-accounts'
@@ -26,7 +25,6 @@ const Account: React.FC = () => {
 
 	const selectedAccounts = useSelectedAccounts()
 	const {
-		isLoading,
 		fungibleBalances,
 		fungibleChange,
 		fungibleValue,
@@ -34,8 +32,6 @@ const Account: React.FC = () => {
 		nonFungibleChange,
 		nonFungibleValue,
 	} = useBalances(...selectedAccounts)
-
-	if (isLoading) return <Loader />
 
 	return (
 		<Box ref={wrapperRef} className={styles.assetsWrapper}>

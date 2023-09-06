@@ -1,65 +1,74 @@
-import { ManifestBuilder } from '@radixdlt/radix-engine-toolkit'
-import { ValidationErrorMessage } from 'packages/ui/src/components/validation-error-message'
 import React, { useEffect, useRef, useState } from 'react'
 import type { ZodError } from 'zod'
 import { z } from 'zod'
 
-import { Box } from 'ui/src/components/box'
-import { Dropzone } from 'ui/src/components/dropzone'
 import { Form } from 'ui/src/components/form'
-import { AccountSelect } from 'ui/src/components/form/fields/account-select'
 import Translation from 'ui/src/components/translation'
-import { Text } from 'ui/src/components/typography'
+import { ValidationErrorMessage } from 'ui/src/components/validation-error-message'
 import { useSendTransaction } from 'ui/src/hooks/dapp/use-send-transaction'
+import type { DeployPackage } from 'ui/src/manifests/deploy-package'
 import { getDeployPackageManifest } from 'ui/src/manifests/deploy-package'
 
+import DeployFormFields from './components/form-fields'
 import * as styles from './styles.css'
+
+const MAX_FILE_SIZE = 5010 * 1024 * 10240000
+const ALLOWED_FILE_TYPES = ['application/wasm', 'application/rdp']
 
 const initialValues = {
 	badge: '',
-	wasm: undefined,
+	files: undefined,
 	schema: undefined,
 }
 
 const validationSchema = z.object({
+	from: z.string().min(1, 'Please select account'),
 	badge: z.string().min(1, 'Please select nft for an owner badge'),
-	wasm: z
+	files: z
 		.custom<FileList>()
-		.transform(file => file?.length > 0 && file.item(0))
-		.refine(file => !file || (!!file && file.size <= 10 * 1024 * 1024), {
-			message: 'The WASM file must be a maximum of 10MB',
+		// .transform(files => files?.length > 0 && files[0])
+		.refine(files => files?.length === 2, {
+			message: 'Both WASM and RPD files are required',
 		})
-		.refine(file => !file || (!!file && file.type?.startsWith('application/wasm')), {
-			message: 'Only WASM files are allowed',
-		}),
-	schema: z
-		.custom<FileList>()
-		.transform(file => file?.length > 0 && file.item(0))
-		.refine(file => !file || (!!file && file.size <= 10 * 1024 * 1024), {
-			message: 'The RPD file must be a maximum of 10MB',
-		})
-		.refine(file => !file || (!!file && file.type?.startsWith('application/rdp')), {
-			message: 'Only RPD files are allowed',
-		}),
+		.refine(
+			files => files?.[0]?.size <= MAX_FILE_SIZE || files?.[1]?.size <= MAX_FILE_SIZE,
+			`Each file must be a maximum of 10MB`,
+		)
+		.refine(
+			files => ALLOWED_FILE_TYPES.includes(files?.[0]?.type) || ALLOWED_FILE_TYPES.includes(files?.[1]?.type),
+			'Invalid files, please upload both WASM and RPD file with correct types.',
+		),
 })
 
 export const Deploy: React.FC = () => {
 	const inputRef = useRef(null)
-	const [validation, setValidation] = useState<ZodError>()
 	const sendTransaction = useSendTransaction()
+
+	const [validation, setValidation] = useState<ZodError>()
 
 	useEffect(() => {
 		inputRef?.current?.focus()
 	}, [])
 
-	const handleSubmit = (values: typeof initialValues) => {
+	const handleSubmit = async (values: typeof initialValues) => {
 		const result = validationSchema.safeParse(values)
 		if (result.success === false) {
 			setValidation(result.error)
 			return
 		}
 
-		const transactionManifest = getDeployPackageManifest(new ManifestBuilder(), values).build().toString()
+		const input: DeployPackage = { badge: values.badge, wasm: undefined, schema: undefined }
+		if (values.files?.[0]?.type === 'application/wasm') {
+			input.wasm = values.files?.[0]
+			input.schema = values.files?.[0]
+		} else {
+			input.schema = values.files?.[0]
+			input.wasm = values.files?.[0]
+		}
+
+		const transactionManifest = await getDeployPackageManifest(input)
+
+		console.log(transactionManifest)
 
 		sendTransaction({
 			version: 1,
@@ -76,37 +85,7 @@ export const Deploy: React.FC = () => {
 			className={styles.transferFormWrapper}
 		>
 			<ValidationErrorMessage message={validation?.flatten().formErrors[0]} />
-			<Box>
-				<Box paddingTop="large">
-					<Box paddingBottom="small">
-						<Text size="small">
-							<Translation capitalizeFirstLetter text="transfer.deploy.wasmFileTitle" />
-						</Text>
-					</Box>
-					<Dropzone title={<Translation capitalizeFirstLetter text="transfer.raw.wasmFileTitle" />} />
-				</Box>
-				<Box paddingTop="large">
-					<Box paddingBottom="small">
-						<Text size="small">
-							<Translation capitalizeFirstLetter text="transfer.deploy.rpdFileTitle" />
-						</Text>
-					</Box>
-					<Dropzone title={<Translation capitalizeFirstLetter text="transfer.raw.rpdFileTitle" />} />
-				</Box>
-				<Box paddingTop="large">
-					<Box paddingBottom="small">
-						<Text size="small">
-							<Translation capitalizeFirstLetter text="transfer.deploy.accountTitle" />
-						</Text>
-					</Box>
-					<Box paddingTop="large">
-						<Text>
-							<Translation capitalizeFirstLetter text="transfer.deploy.badgeDescription" />
-						</Text>
-					</Box>
-					<AccountSelect name="badge" />
-				</Box>
-			</Box>
+			<DeployFormFields />
 		</Form>
 	)
 }

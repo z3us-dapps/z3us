@@ -10,6 +10,7 @@ import { Box } from '../../../box'
 import { type IProps as WrapperProps } from '../../field-wrapper'
 import { FieldContext } from '../../field-wrapper/context'
 import { useFieldValue } from '../../use-field-value'
+import { NftCollectionSelect } from '../nft-collection-select'
 import SelectField from '../select-field'
 
 interface IProps extends Omit<WrapperProps, 'name'> {
@@ -39,13 +40,7 @@ export const NftSelect = forwardRef<HTMLButtonElement, IProps>((props, ref) => {
 
 	return (
 		<Box disabled={!fromAccount || isLoading}>
-			<SelectField
-				{...rest}
-				ref={ref}
-				name={resourceKey}
-				placeholder={capitalizeFirstLetter(`${t('nft_select.collection')}`)}
-				data={nonFungibleBalances.map(collection => ({ id: collection.address, title: collection.name }))}
-			/>
+			<NftCollectionSelect ref={ref} name={resourceKey} />
 			<SelectField {...rest} name={itemKey} placeholder={capitalizeFirstLetter(`${t('nft_select.item')}`)} data={ids} />
 		</Box>
 	)

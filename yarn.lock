@@ -4000,10 +4000,10 @@
     rxjs "^7.8.1"
     zod "^3.21.4"
 
-"@radixdlt/radix-engine-toolkit@^0.3.0-rcnetv3.5":
-  version "0.3.0"
-  resolved "https://registry.yarnpkg.com/@radixdlt/radix-engine-toolkit/-/radix-engine-toolkit-0.3.0.tgz#beb475ba0c651b4d74e3c211674cdaf11af2215e"
-  integrity sha512-bODSTuAICMW2MT2R6IcUvacIek8AHBfYh4bABFQliP+FXsjRk+3MNQbGACuEGLuU9jfWrandZUXADgKPs6Wniw==
+"@radixdlt/radix-engine-toolkit@^0.4.0":
+  version "0.4.0"
+  resolved "https://registry.yarnpkg.com/@radixdlt/radix-engine-toolkit/-/radix-engine-toolkit-0.4.0.tgz#5d186efa469d6393b62ee0609694cd03fd4b7d35"
+  integrity sha512-IfNXfqPYqk6yZoQS+YFx9/uHLLAdCP82BSe+6gi4nq0sGnP2N9R+p6ak2bx6B+rhpasdlEdV2DMpYT2ihvrqRg==
   dependencies:
     "@noble/ed25519" "2.0.0"
     "@noble/hashes" "1.3.0"

@@ -1,4 +1,4 @@
-import { type ManifestBuilder, address, bucket, decimal } from '@radixdlt/radix-engine-toolkit'
+import { type ManifestBuilder, address, bucket, decimal, nonFungibleLocalId } from '@radixdlt/radix-engine-toolkit'
 
 interface SendFungibleTokens {
 	from: string
@@ -18,7 +18,7 @@ export const sendFungibleTokens = (
 		(container, transfer) => ({
 			...container,
 			[transfer.from]: transfer.tokens.reduce(
-				(tokens, token) => ({ ...tokens, [token.resource]: token.amount + tokens[token.resource] }),
+				(tokens, token) => ({ ...tokens, [token.resource]: token.amount + (tokens[token.resource] || 0) }),
 				{},
 			),
 		}),
@@ -77,10 +77,12 @@ export const sendNftTokens = (manifest: ManifestBuilder, transfers: Array<SendNf
 	// withdraw aggregated nfts by ids
 	manifest = Object.entries(idsByNftByAccount).reduce(
 		(group, [from, nft]) =>
-			Object.entries(nft).reduce(
-				(ids, [resource, idMap]) => ids.callMethod(from, 'withdraw', [address(resource), idMap]),
-				group,
-			),
+			Object.entries(nft).reduce((ids, [resource, idMap]) => {
+				Object.keys(idMap).forEach(id => {
+					ids = ids.callMethod(from, 'withdraw', [address(resource), nonFungibleLocalId(id)])
+				})
+				return ids
+			}, group),
 		manifest,
 	)
 
