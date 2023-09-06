@@ -8,6 +8,7 @@ import Translation from 'ui/src/components/translation'
 import { Text } from 'ui/src/components/typography'
 import { useSelectedAccounts } from 'ui/src/hooks/dapp/use-accounts'
 import { useBalances } from 'ui/src/hooks/dapp/use-balances'
+import { useIsAllAccounts } from 'ui/src/hooks/use-is-all-accounts'
 import { useWalletAccounts } from 'ui/src/hooks/use-wallet-account'
 
 import { AssetsList } from '../components/assets-list'
@@ -21,7 +22,7 @@ const Account: React.FC = () => {
 
 	const [wrapperRef, { width: horizontalScrollWidth }] = useMeasure()
 	const accountName = accounts?.[accountId]?.name
-	const isAllAccount = accountId === '-'
+	const isAllAccounts = useIsAllAccounts()
 
 	const selectedAccounts = useSelectedAccounts()
 	const {
@@ -39,7 +40,7 @@ const Account: React.FC = () => {
 
 			<HorizontalAccountsScrollList horizontalScrollWidth={horizontalScrollWidth} />
 			<Box className={styles.titleWrapper}>
-				{isAllAccount ? (
+				{isAllAccounts ? (
 					<Text capitalizeFirstLetter color="strong" weight="strong" size="medium">
 						<Translation capitalizeFirstLetter text="accounts.home.allAssets" />{' '}
 					</Text>

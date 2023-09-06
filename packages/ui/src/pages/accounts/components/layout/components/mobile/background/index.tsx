@@ -1,3 +1,4 @@
+import { useIsAllAccounts } from 'packages/ui/src/hooks/use-is-all-accounts'
 import React, { useState } from 'react'
 
 import { Box } from 'ui/src/components/box'
@@ -17,13 +18,19 @@ export const MobileBackground: React.FC = () => {
 	const [cardColor] = useState<number>(0)
 	const [cardImage] = useState<number>(0)
 
+	const isAllAccounts = useIsAllAccounts()
+
 	return (
 		<Box
 			className={styles.accountsBgCardWrapper}
 			style={{
-				backgroundSize: '140% auto',
-				backgroundRepeat: 'no-repeat',
-				backgroundImage: `url(/images/account-images/${CARD_IMAGES[cardImage]}), ${CARD_COLORS[cardColor]}`,
+				...(!isAllAccounts
+					? {
+							backgroundSize: '140% auto',
+							backgroundRepeat: 'no-repeat',
+							backgroundImage: `url(/images/account-images/${CARD_IMAGES[cardImage]}), ${CARD_COLORS[cardColor]}`,
+					  }
+					: {}),
 			}}
 		/>
 	)

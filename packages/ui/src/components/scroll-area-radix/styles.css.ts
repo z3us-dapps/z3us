@@ -184,6 +184,10 @@ export const scrollAreaShowBottomShadowsWrapper = style([
 export const scrolledButtonWrapper = style([
 	sprinkles({
 		position: 'absolute',
+		display: {
+			mobile: 'none',
+			tablet: 'flex',
+		},
 		transition: 'fast',
 		zIndex: 2,
 		bottom: 0,
@@ -198,10 +202,9 @@ export const scrolledButtonWrapper = style([
 
 export const scrolledButtonWrapperVisible = style([
 	sprinkles({
-		opacity: 1,
 		pointerEvents: 'auto',
 	}),
-	{},
+	{ opacity: 0.7 },
 ])
 
 globalStyle(`.${darkMode} ${scrollAreaShowBottomShadowsWrapper}::before`, {

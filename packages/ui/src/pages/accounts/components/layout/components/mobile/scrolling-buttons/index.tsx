@@ -93,6 +93,7 @@ export const MobileScrollingButtons: React.FC = () => {
 							styles.tabsWrapperButton,
 							styles.tabsWrapperButtonLeft,
 							!showActivities && styles.tabsWrapperButtonActive,
+							isSticky && styles.tabsWrapperButtonSticky,
 						)}
 					>
 						<Text size="medium" weight="strong" align="center" color={!showActivities ? 'strong' : 'neutral'}>
@@ -106,6 +107,7 @@ export const MobileScrollingButtons: React.FC = () => {
 							styles.tabsWrapperButton,
 							styles.tabsWrapperButtonRight,
 							showActivities && styles.tabsWrapperButtonActive,
+							isSticky && styles.tabsWrapperButtonSticky,
 						)}
 					>
 						<Text size="medium" weight="strong" align="center" color={showActivities ? 'strong' : 'neutral'}>

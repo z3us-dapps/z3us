@@ -15,7 +15,8 @@ export const navigationWrapper = style([
 			darkMode: 'lead500',
 		},
 		paddingX: {
-			mobile: 'large',
+			mobile: 'medium',
+			tablet: 'xxlarge',
 			desktop: 'xxlarge',
 		},
 	}),

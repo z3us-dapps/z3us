@@ -1,6 +1,7 @@
 import React from 'react'
 import { useParams } from 'react-router-dom'
 import useMeasure from 'react-use-measure'
+import { useWindowSize } from 'usehooks-ts'
 
 import { Box } from 'ui/src/components/box'
 import Loader from 'ui/src/components/loader'
@@ -8,6 +9,7 @@ import Translation from 'ui/src/components/translation'
 import { Text } from 'ui/src/components/typography'
 import { useSelectedAccounts } from 'ui/src/hooks/dapp/use-accounts'
 import { useBalances } from 'ui/src/hooks/dapp/use-balances'
+import { useIsMobileWidth } from 'ui/src/hooks/use-is-mobile'
 
 import { AssetsList } from '../components/assets-list'
 import { HomeScrollShadow } from '../components/home-scroll-shadow'
@@ -16,7 +18,10 @@ import * as styles from './styles.css'
 
 const Home: React.FC = () => {
 	const { accountId = '-' } = useParams()
-	const [wrapperRef, { width: horizontalScrollWidth }] = useMeasure()
+	const [wrapperRef, { width: horizontalScrollWidth, top }] = useMeasure()
+	const { height } = useWindowSize()
+	const isMobile = useIsMobileWidth()
+	const mobileMinHeight = height - top - 48
 
 	const selectedAccounts = useSelectedAccounts()
 	const {
@@ -32,7 +37,11 @@ const Home: React.FC = () => {
 	if (isLoading) return <Loader />
 
 	return (
-		<Box ref={wrapperRef} className={styles.assetsHomeWrapper}>
+		<Box
+			ref={wrapperRef}
+			className={styles.assetsHomeWrapper}
+			style={{ ...(isMobile ? { minHeight: `${mobileMinHeight}px` } : {}) }}
+		>
 			<HomeScrollShadow />
 			<HorizontalAccountsScrollList horizontalScrollWidth={horizontalScrollWidth} />
 			<Box className={styles.homeAssetsTitleWrapper}>

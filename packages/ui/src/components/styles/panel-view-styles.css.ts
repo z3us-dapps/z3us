@@ -34,7 +34,7 @@ export const panelViewWrapper = style([
 			tablet: 'row',
 		},
 		width: 'full',
-		height: 'full',
+		// height: 'full',
 		maxWidth: 'xxlarge',
 	}),
 	{
@@ -43,42 +43,38 @@ export const panelViewWrapper = style([
 ])
 
 export const panelViewLeftWrapper = style([
-	sprinkles({
-		display: 'flex',
-		position: 'relative',
-		flexShrink: 0,
-		flexGrow: 1,
-		zIndex: 1,
-	}),
-	{
-		width: '392px',
-	},
-	responsiveStyle({
-		mobile: {
-			width: '100%',
-			flexBasis: '100%',
-		},
-		tablet: {
-			width: '392px',
-			flexBasis: '392px',
-		},
-	}),
-])
-
-export const panelViewRightWrapper = style([
-	sprinkles({
-		display: 'flex',
-		flexShrink: 0,
-	}),
+	sprinkles({}),
 	{},
 	responsiveStyle({
 		mobile: {
 			width: '100%',
 			flexBasis: '100%',
-			position: 'sticky',
-			top: 0,
+			zIndex: 1,
 		},
 		tablet: {
+			width: '392px',
+			flexBasis: '392px',
+			display: 'flex',
+			position: 'relative',
+			flexShrink: 0,
+			flexGrow: 1,
+		},
+	}),
+])
+
+export const panelViewRightWrapper = style([
+	sprinkles({}),
+	{},
+	responsiveStyle({
+		mobile: {
+			position: 'sticky',
+			top: '0',
+			width: '100%',
+			flexBasis: '100%',
+			flexShrink: 0,
+		},
+		tablet: {
+			display: 'flex',
 			width: '40%',
 			flexBasis: '40%',
 			position: 'relative',

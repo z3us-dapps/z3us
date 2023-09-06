@@ -22,7 +22,6 @@ export const HorizontalAccountsScrollList: React.FC<IProps> = props => {
 	const { horizontalScrollWidth } = props
 	const { accountId = '-' } = useParams()
 	const isAllAccounts = accountId === '-'
-	console.log('🚀 ~ file: index.tsx:23 ~ accountId:', accountId)
 
 	const accounts = useWalletAccounts()
 

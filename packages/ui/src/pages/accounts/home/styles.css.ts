@@ -1,13 +1,26 @@
 import { style } from '@vanilla-extract/css'
 
 import { sprinkles } from 'ui/src/components/system/sprinkles.css'
+import { responsiveStyle } from 'ui/src/components/system/theme-utils'
+import { vars } from 'ui/src/components/system/theme.css'
 
 export const assetsHomeWrapper = style([
 	sprinkles({
 		display: 'flex',
 		flexDirection: 'column',
+		background: 'backgroundSecondary',
 	}),
 	{},
+	// responsiveStyle({
+	// 	mobile: {
+	// 		borderTopLeftRadius: vars.border.radius.xxxlarge,
+	// 		borderTopRightRadius: vars.border.radius.xxxlarge,
+	// 	},
+	// 	tablet: {
+	// 		borderTopLeftRadius: 0,
+	// 		borderTopRightRadius: 0,
+	// 	},
+	// }),
 ])
 
 export const homeAssetsTitleWrapper = style([
@@ -25,6 +38,7 @@ export const homeAssetsTitleWrapper = style([
 			tablet: 'xlarge',
 		},
 	}),
+	{},
 ])
 
 export const assetTileWrapper = style([

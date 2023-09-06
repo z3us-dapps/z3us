@@ -1,5 +1,4 @@
 import clsx from 'clsx'
-import { useAccountParam, useAssetParam, useIsActivity } from 'packages/ui/src/hooks/use-params'
 import React, { useRef } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useParams } from 'react-router-dom'
@@ -23,7 +22,7 @@ interface IMobileScrollingButtonsProps {
 
 const TabTitle: React.FC = () => {
 	const { assetType } = useParams()
-	const asset = useAssetParam()
+	const asset = 'xrd'
 
 	switch (assetType) {
 		case 'tokens':
@@ -43,13 +42,10 @@ const TabTitle: React.FC = () => {
 
 export const MobileScrollingButtons: React.FC<IMobileScrollingButtonsProps> = props => {
 	const { scrollableNode } = props
-	const account = useAccountParam()
-	const asset = useAssetParam()
 	const wrapperRef = useRef(null)
 	const stickyRef = useRef(null)
 	const entry = useIntersectionObserver(stickyRef, { threshold: [1] })
 	const isSticky = !entry?.isIntersecting
-	const isAccountActivityRoute = useIsActivity()
 	const isVerticalScrollable = scrollableNode?.scrollHeight > scrollableNode?.clientHeight
 	const { assetType } = useParams()
 	const { t } = useTranslation()
@@ -64,15 +60,18 @@ export const MobileScrollingButtons: React.FC<IMobileScrollingButtonsProps> = pr
 		}
 	}
 
-	const generateAccountLink = (isActivity = false, generateAssetLink = false) =>
-		`/accounts${assetType ? `/${assetType}` : ''}${account ? `?account=${account}` : ''}${
-			generateAssetLink && asset ? `/${asset}` : ''
-		}${isActivity ? `?activity=true` : ''}`
+	const generateAccountLink = (isActivity = false, generateAssetLink = false) => '/'
+
+	// const generateAccountLink = (isActivity = false, generateAssetLink = false) =>
+	// 	`/accounts${assetType ? `/${assetType}` : ''}${account ? `?account=${account}` : ''}${
+	// 		generateAssetLink && asset ? `/${asset}` : ''
+	// 	}${isActivity ? `?activity=true` : ''}`
 
 	const generateBackLink = () => `/accounts`
 
 	// TODO
 	const show = true
+	const isAccountActivityRoute = false
 
 	return (
 		<Box
@@ -91,7 +90,7 @@ export const MobileScrollingButtons: React.FC<IMobileScrollingButtonsProps> = pr
 						className={clsx(
 							styles.tabsWrapperButton,
 							styles.tabsWrapperButtonLeft,
-							!isAccountActivityRoute && styles.tabsWrapperButtonActive,
+							// !isAccountActivityRoute && styles.tabsWrapperButtonActive,
 						)}
 					>
 						<Text size="medium" weight="strong" align="center" color={!isAccountActivityRoute ? 'strong' : 'neutral'}>

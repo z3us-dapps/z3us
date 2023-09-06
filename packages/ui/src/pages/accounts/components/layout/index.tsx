@@ -13,7 +13,7 @@ import { useIsMobileWidth } from 'ui/src/hooks/use-is-mobile'
 import { Breadcrumbs } from './components/breadcrumbs'
 import { MobileBackground } from './components/mobile/background'
 // import { MobileScrollingBackground } from './components/mobile/scrolling-background'
-// import { MobileScrollingButtons } from './components/mobile/scrolling-buttons'
+import { MobileScrollingButtons } from './components/mobile/scrolling-buttons'
 import { AccountTotalValue } from './components/total-value'
 import * as styles from './styles.css'
 
@@ -32,32 +32,28 @@ const ScrollContent: React.FC = () => {
 	const key = useMemo(() => location.pathname.split('/')[2] || '-', [location.pathname])
 
 	return (
-		<ScrollArea
-			showTopScrollShadow={false}
-			disabled={!isMobile}
-			className={panelViewStyles.panelViewMobileScrollWrapper}
-		>
-			<Box className={panelViewStyles.panelViewWrapper}>
-				<Box className={panelViewStyles.panelViewLeftWrapper}>
-					<ScrollPanel showTopScrollShadow={false} scrollParent={isMobile ? scrollableNode : undefined}>
-						<Box className={styles.accountsStickyWrapper}>
-							<Breadcrumbs />
-							<AccountTotalValue />
-						</Box>
-						<Suspense key={key} fallback={<Loader />}>
-							{outlet}
-						</Suspense>
-					</ScrollPanel>
-				</Box>
-				<Box className={panelViewStyles.panelViewRightWrapper}>
-					<ScrollPanel showTopScrollShadow={false} scrollParent={isMobile ? scrollableNode : undefined}>
-						<Suspense key={location.pathname} fallback={<Loader />}>
-							{sidebar}
-						</Suspense>
-					</ScrollPanel>
-				</Box>
+		<Box className={panelViewStyles.panelViewWrapper}>
+			<Box className={panelViewStyles.panelViewLeftWrapper}>
+				<ScrollPanel showTopScrollShadow={false} scrollParent={isMobile ? scrollableNode : undefined}>
+					<Box className={styles.accountsStickyWrapper}>
+						<Breadcrumbs />
+						<AccountTotalValue />
+					</Box>
+					<Suspense key={key} fallback={<Loader />}>
+						{outlet}
+					</Suspense>
+				</ScrollPanel>
 			</Box>
-		</ScrollArea>
+			{/* <MobileScrollingBackground /> */}
+			<MobileScrollingButtons />
+			<Box className={panelViewStyles.panelViewRightWrapper}>
+				<ScrollPanel showTopScrollShadow={false} scrollParent={isMobile ? scrollableNode : undefined}>
+					<Suspense key={location.pathname} fallback={<Loader />}>
+						{sidebar}
+					</Suspense>
+				</ScrollPanel>
+			</Box>
+		</Box>
 	)
 }
 

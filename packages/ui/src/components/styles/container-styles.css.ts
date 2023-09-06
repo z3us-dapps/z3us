@@ -9,7 +9,7 @@ export const containerWrapper = style([
 		width: 'full',
 		justifyContent: 'center',
 		paddingX: {
-			mobile: 'large',
+			mobile: 'medium',
 			desktop: 'xxlarge',
 		},
 	}),

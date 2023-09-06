@@ -8,7 +8,7 @@ export const accountsBgCardWrapper = style([
 		bottom: 0,
 		left: 0,
 		right: 0,
-		background: 'purple400',
+		background: 'backgroundPrimary',
 		pointerEvents: 'none',
 		display: {
 			mobile: 'block',

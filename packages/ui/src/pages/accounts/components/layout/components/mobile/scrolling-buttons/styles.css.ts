@@ -128,7 +128,7 @@ export const tabsWrapperButton = style([
 		alignItems: 'center',
 		justifyContent: 'center',
 		position: 'relative',
-		transition: 'fast',
+		transition: 'fastall',
 		background: { lightMode: 'btnTertiaryBackground', hover: 'btnTertiaryBackgroundHover' },
 		boxShadow: {
 			focusVisible: 'btnSecondaryShadowFocus',
@@ -143,6 +143,14 @@ export const tabsWrapperButton = style([
 				zIndex: '1',
 			},
 		},
+	},
+])
+
+export const tabsWrapperButtonSticky = style([
+	sprinkles({}),
+	{
+		borderTopLeftRadius: '0 ',
+		borderTopRightRadius: 0,
 	},
 ])
 

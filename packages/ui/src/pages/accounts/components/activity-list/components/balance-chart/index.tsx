@@ -20,6 +20,7 @@ import * as styles from './styles.css'
 const defaultRowsShown = 3
 
 export const BalanceChart: React.FC = () => {
+	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	const { accountId } = useParams()
 
 	const isMobile = useIsMobileWidth()
@@ -38,10 +39,6 @@ export const BalanceChart: React.FC = () => {
 
 	const handleToggleFullAccountList = () => {
 		setShowFullAccountList(!showFullAccountList)
-	}
-
-	if (accountId === '-' || accountId?.length > 1) {
-		return null
 	}
 
 	return (

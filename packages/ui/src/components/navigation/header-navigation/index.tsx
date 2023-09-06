@@ -44,11 +44,12 @@ const HeaderNavDesktop = () => {
 				</LayoutGroup>
 			</Box>
 			<Box display="flex" alignItems="center" gap="small" flexGrow={1} paddingRight="medium" justifyContent="flex-end">
-				<ToolTip message="global.search">
+				{/* TODO: search */}
+				{/* <ToolTip message="global.search">
 					<Button rounded styleVariant="ghost" sizeVariant="small" to={`${pathname}?query=hello&account=all`} iconOnly>
 						<SearchIcon />
 					</Button>
-				</ToolTip>
+				</ToolTip> */}
 				<AccountViewDropdown />
 			</Box>
 		</Box>
@@ -105,7 +106,7 @@ const HeaderNavMobile = () => {
 					<Link to="/">
 						<Z3usLogo />
 					</Link>
-					<Box marginLeft="xsmall" display="flex" justifyContent="space-between" flexGrow={1} flexShrink={0}>
+					<Box marginLeft="small" display="flex" justifyContent="space-between" flexGrow={1} flexShrink={0}>
 						<SelectSimple
 							value={accountAddress || 'home'}
 							onValueChange={handleSelectAccount}

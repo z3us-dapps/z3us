@@ -32,10 +32,10 @@ import {
 	ChevronDown2Icon,
 	ChevronDownIcon,
 	ChevronRightIcon,
-	DropdownIcon,
 	HardwareWalletIcon,
 	HomeIcon,
 	LockIcon,
+	MenuIcon,
 	MoonIcon,
 	NetworkIcon,
 	ShareIcon,
@@ -110,7 +110,7 @@ export const AccountViewDropdown = forwardRef<HTMLElement, IAccountViewDropdownP
 						<Box>
 							<ToolTip message="global.menu">
 								<Button styleVariant={styleVariant} sizeVariant="small" rounded iconOnly>
-									<DropdownIcon />
+									<MenuIcon />
 								</Button>
 							</ToolTip>
 						</Box>
