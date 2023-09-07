@@ -6,7 +6,7 @@ import matches from './content_matches.json'
 import hosts from './host_permissions.json'
 
 const protocols = ['https://*/*']
-const [major, minor, patch, label = '0'] = version.replace(/[^\d.-]+/g, '').split(/[.-]/)
+const [major, minor, patch] = version.replace(/[^\d.-]+/g, '').split(/[.-]/)
 const permissions = [
 	'storage',
 	'offscreen',
@@ -27,7 +27,7 @@ if (process.env.NODE_ENV === 'development') {
 
 const manifest: ManifestV3Export = {
 	manifest_version: 3,
-	version: `${major}.${minor}.${patch}.${label}`,
+	version: `${major}.${minor}.${patch}`,
 	version_name: version,
 	author: 'https://z3us.com',
 	name: 'Z3US',
