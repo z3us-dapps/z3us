@@ -1,25 +1,55 @@
+import { ManifestSborStringRepresentation, RadixEngineToolkit } from '@radixdlt/radix-engine-toolkit'
 import blake from 'blakejs'
 import { Buffer } from 'buffer'
 
-export function hash(input: string): Buffer {
-	return Buffer.from(blake.blake2bHex(Buffer.from(input, 'hex'), undefined, 32).toString(), 'hex')
-}
-
 export interface DeployPackage {
-	wasm: File
-	schema: File
-	badge: string
+	account: string
+	networkId: number
+	wasm: string
+	rpd: string
+	nftCollection: string
+	nftId: string
 }
 
-export const getDeployPackageManifest = async ({ wasm, schema, badge }: DeployPackage): Promise<string> => {
-	const manifest = new TextDecoder('utf-8').decode(Buffer.from(await schema.arrayBuffer()))
-	const wasmHash = Buffer.from(blake.blake2bHex(Buffer.from(await wasm.arrayBuffer()), undefined, 32).toString(), 'hex')
+const hash = (input: string) =>
+	Buffer.from(blake.blake2bHex(Buffer.from(input, 'hex'), undefined, 32).toString(), 'hex').toString('hex')
 
-	return `
-	  PUBLISH_PACKAGE_ADVANCED
-	  Enum<AccessRule::AllowAll>() # Owner AccessRule
-	  ${manifest}
-	  Blob("${wasmHash}")    		# Package Code
-	  Map<String, Tuple>()         # Metadata
-	  None;                        # Address Reservation`
-}
+const sborDecode = (networkId: number, hexEncodedSchema: string) =>
+	RadixEngineToolkit.ManifestSbor.decodeToString(
+		Buffer.from(hexEncodedSchema, 'hex'),
+		networkId,
+		ManifestSborStringRepresentation.ManifestString,
+	)
+
+export const getDeployPackageManifest = async ({
+	networkId,
+	account,
+	wasm,
+	rpd,
+	nftCollection,
+	nftId,
+}: DeployPackage): Promise<string> => `
+    CALL_METHOD
+    Address("${account}")
+    "create_proof_of_non_fungibles"
+    Address("${nftCollection}")
+    Array<NonFungibleLocalId>(
+        NonFungibleLocalId("${nftId}")
+    );
+
+    PUBLISH_PACKAGE_ADVANCED
+    Enum<OwnerRole::Fixed>(     # Owner Role
+        Enum<AccessRule::Protected>(
+            Enum<AccessRuleNode::ProofRule>(
+                Enum<ProofRule::Require>(
+                    Enum<0u8>(   # ResourceOrNonFungible::NonFungible
+                        NonFungibleGlobalId("${nftCollection}:${nftId}")
+                    )
+                )
+            )
+        )
+    )
+    ${await sborDecode(networkId, rpd)}
+    Blob("${hash(wasm)}")        # Package Code
+    Map<String, Tuple>()         # Metadata
+    None;`

@@ -20,12 +20,14 @@ import { capitalizeFirstLetter } from 'ui/src/utils/capitalize-first-letter'
 
 import * as styles from './styles.css'
 
+const accountKey = 'from'
+
 const TOKENS = 'tokens'
 const NFTS = 'nfts'
 
 export const TransferFormFields: React.FC = () => {
 	const inputRef = useRef(null)
-	const from = useFieldValue('from') || ''
+	const from = useFieldValue(accountKey) || ''
 
 	useEffect(() => {
 		inputRef?.current?.focus()
@@ -43,7 +45,7 @@ export const TransferFormFields: React.FC = () => {
 					</Text>
 				</Box>
 				<Box>
-					<AccountSelect ref={inputRef} name="from" />
+					<AccountSelect ref={inputRef} name={accountKey} />
 				</Box>
 			</Box>
 			<Box className={clsx(styles.transferFormGridBoxWrapper, styles.transferFormGridBoxWrapperBorder)}>

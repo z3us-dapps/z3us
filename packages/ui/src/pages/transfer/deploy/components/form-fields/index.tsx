@@ -1,16 +1,18 @@
-import { NftCollectionSelect } from 'packages/ui/src/components/form/fields/nft-collection-select'
-import { useFieldValue } from 'packages/ui/src/components/form/use-field-value'
 import React, { useEffect, useRef } from 'react'
 
 import { Box } from 'ui/src/components/box'
 import { AccountSelect } from 'ui/src/components/form/fields/account-select'
 import { Dropzone } from 'ui/src/components/form/fields/dropzone'
+import { NftSelect } from 'ui/src/components/form/fields/nft-select'
+import { useFieldValue } from 'ui/src/components/form/use-field-value'
 import Translation from 'ui/src/components/translation'
 import { Text } from 'ui/src/components/typography'
 
+const accountKey = 'from'
+
 export const DeployFormFields: React.FC = () => {
 	const inputRef = useRef(null)
-	const from = useFieldValue('from') || ''
+	const from = useFieldValue(accountKey) || ''
 
 	useEffect(() => {
 		inputRef?.current?.focus()
@@ -24,7 +26,7 @@ export const DeployFormFields: React.FC = () => {
 						<Translation capitalizeFirstLetter text="transfer.deploy.accountTitle" />
 					</Text>
 				</Box>
-				<AccountSelect name="from" />
+				<AccountSelect name={accountKey} />
 			</Box>
 			<Box paddingTop="large">
 				<Box paddingBottom="small">
@@ -32,7 +34,7 @@ export const DeployFormFields: React.FC = () => {
 						<Translation capitalizeFirstLetter text="transfer.deploy.badgeTitle" />
 					</Text>
 				</Box>
-				<NftCollectionSelect name="badge" fromAccount={from} />
+				<NftSelect fromAccount={from} resourceKey="badge" />
 			</Box>
 			<Box paddingTop="large">
 				<Dropzone

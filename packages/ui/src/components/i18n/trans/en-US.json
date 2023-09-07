@@ -113,8 +113,8 @@
 	},
 	"transfer": {
 		"navigation": {
-			"homeTitle": "Tokens & NFTs",
-			"rawTitle": "Raw",
+			"homeTitle": "Transfer",
+			"rawTitle": "Advanced",
 			"deployTitle": "Deploy package"
 		},
 		"tokensNfts": {
@@ -122,7 +122,7 @@
 			"submitFormGroupToAccountAdd": "Add another account",
 			"submitFormGroupTokensAdd": "Add another token",
 			"submitFormKnownAddress": "Known address",
-			"title": "Transfer Tokens and NFTs",
+			"title": "Transfer",
 			"fromAccountTitle": "From account",
 			"fromAccountSubTitle": "Select the account, you wish to send tokens and NFT's from",
 			"messageTitle": "Message",
