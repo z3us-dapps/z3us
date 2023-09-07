@@ -5,7 +5,7 @@ const defaultState = {
 	gatewayBaseUrl: config.defaultGatewayBaseUrl,
 	currency: config.defaultCurrency,
 	walletUnlockTimeoutInMinutes: 5,
-	transactionNotificationsEnabled: true,
+	pushNotificationsEnabled: true,
 	addressBook: {},
 }
 
@@ -30,9 +30,9 @@ export const factory = (set: ISettingsStateSetter): SettingsState => ({
 		})
 	},
 
-	setTransactionNotificationsEnabledAction: (enabled: boolean) => {
+	setPushNotificationsEnabledAction: (enabled: boolean) => {
 		set(state => {
-			state.transactionNotificationsEnabled = enabled
+			state.pushNotificationsEnabled = enabled
 		})
 	},
 

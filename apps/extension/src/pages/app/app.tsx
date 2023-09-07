@@ -13,9 +13,21 @@ import transferRoute from 'ui/src/pages/transfer/router'
 import { config } from '@src/config'
 import radixRoute from '@src/pages/radix/router'
 
+import RadixSettings from './components/settings'
+
+let patchedSettingsRoute = settingsRoute
 if (APP_RADIX && config.isExtensionContext) {
 	// eslint-disable-next-line no-console
 	import('@src/browser/content-script').catch(console.error)
+
+	patchedSettingsRoute = {
+		...settingsRoute,
+		children: settingsRoute.children.map(child =>
+			child.path === 'general'
+				? { ...child, handle: { ...((child as any).handle || {}), custom: <RadixSettings key="radix-settings" /> } }
+				: child,
+		),
+	}
 }
 
 export const router = createHashRouter([
@@ -29,7 +41,7 @@ export const router = createHashRouter([
 				element: <Navigate to={`/${accountsRoute.path}`} />,
 			},
 			accountsRoute,
-			settingsRoute,
+			patchedSettingsRoute,
 			stakingRoute,
 			transferRoute,
 			noMatchRoute,

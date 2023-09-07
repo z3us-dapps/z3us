@@ -52,8 +52,8 @@ export type SettingsState = {
 	walletUnlockTimeoutInMinutes: number
 	setWalletUnlockTimeoutInMinutesAction: (timeoutInMinutes: number) => void
 
-	transactionNotificationsEnabled: boolean
-	setTransactionNotificationsEnabledAction: (enabled: boolean) => void
+	pushNotificationsEnabled: boolean
+	setPushNotificationsEnabledAction: (enabled: boolean) => void
 
 	addressBook: { [networkId: number]: { [key: string]: AddressBookEntry } }
 	removeAddressBookEntryAction: (networkId: number, address: string) => void

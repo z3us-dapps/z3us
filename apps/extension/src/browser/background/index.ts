@@ -27,14 +27,15 @@ const handleTabUpdated = getTabUpdatedHandler(messageHandler)
 
 browser.runtime.onInstalled.addListener(handleInstall)
 browser.runtime.onConnect.addListener(handleConnect)
-browser.storage.onChanged.addListener(handleStorageChange)
 browser.runtime.onMessage.addListener(handleRadixMessage)
-browser.notifications.onClicked.addListener(handleNotificationClick)
+browser.storage.onChanged.addListener(handleStorageChange)
 browser.tabs.onActivated.addListener(handleTabActivated)
 browser.tabs.onUpdated.addListener(handleTabUpdated)
 browser.tabs.onRemoved.addListener(handleTabRemoved)
-browser.omnibox.onInputChanged.addListener(handleOmniboxChange)
+browser.notifications.onClicked.addListener(handleNotificationClick)
+browser.notifications.onButtonClicked.addListener(handleNotificationClick)
 browser.action.onClicked.addListener(openParingPopup)
+browser.omnibox.onInputChanged.addListener(handleOmniboxChange)
 
 browser.contextMenus.removeAll().then(() => {
 	addDevTools()

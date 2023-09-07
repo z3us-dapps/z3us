@@ -19,7 +19,7 @@ interface IAccountCardProps {
 	accountBalance: string
 	accountName: string
 	accountAddress: string
-	className: string
+	className?: string
 }
 
 export const AccountCard: React.FC<IAccountCardProps> = props => {
@@ -129,6 +129,7 @@ export const AccountCards: React.FC<IAccountCardsProps> = props => {
 			>
 				{accountCards.map(({ backgroundImage, accountName, accountId, accountBalance }, cardIndex: number) => (
 					<AccountCard
+						key={accountId}
 						id={accountId}
 						isAllAccount={isAllAccount}
 						visible={selectedCardIndex === cardIndex}

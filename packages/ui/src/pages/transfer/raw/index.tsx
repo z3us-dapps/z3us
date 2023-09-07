@@ -20,7 +20,7 @@ const initialValues = {
 }
 
 const validationSchema = z.object({
-	raw: z.string().min(1, 'Transaction input can not be empty'),
+	raw: z.string().min(1, 'Transaction can not be empty'),
 })
 
 export const Raw: React.FC = () => {

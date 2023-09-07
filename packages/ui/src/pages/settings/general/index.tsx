@@ -2,6 +2,7 @@ import { languages } from 'packages/ui/src/constants/i18n'
 import { Theme } from 'packages/ui/src/types/types'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
+import { useMatches } from 'react-router-dom'
 import { toast } from 'sonner'
 
 import { Box } from 'ui/src/components/box'
@@ -20,18 +21,31 @@ import { SettingsWrapper } from '../components/settings-wrapper'
 const General: React.FC = () => {
 	const { t, i18n } = useTranslation()
 	const { theme, setTheme } = useTheme()
+	const matches = useMatches()
 	const { data: currencies } = useSupportedCurrencies()
 
-	const { currency, setCurrency, unlockTimer, setWalletUnlockTimeoutInMinutes } = useNoneSharedStore(state => ({
-		currency: state.currency,
-		setCurrency: state.setCurrencyAction,
-		unlockTimer: state.walletUnlockTimeoutInMinutes,
-		setWalletUnlockTimeoutInMinutes: state.setWalletUnlockTimeoutInMinutesAction,
-	}))
+	const customSettings = matches
+		.filter(match => Boolean((match.handle as any)?.custom))
+		.map(match => (match.handle as any).custom)
 
-	const handleChangeUnlockTime = async (minute: string) => {
+	const { currency, setCurrency, unlockTimer, setWalletUnlockTimeoutInMinutes, notifications, toggleNotifications } =
+		useNoneSharedStore(state => ({
+			currency: state.currency,
+			setCurrency: state.setCurrencyAction,
+			unlockTimer: state.walletUnlockTimeoutInMinutes,
+			setWalletUnlockTimeoutInMinutes: state.setWalletUnlockTimeoutInMinutesAction,
+			notifications: state.pushNotificationsEnabled,
+			toggleNotifications: state.setPushNotificationsEnabledAction,
+		}))
+
+	const handleChangeUnlockTime = (minute: string) => {
 		setWalletUnlockTimeoutInMinutes(parseInt(minute, 10))
 	}
+
+	const handleToggleNotifications = () => {
+		toggleNotifications(!notifications)
+	}
+
 	return (
 		<SettingsWrapper>
 			<SettingsTitle
@@ -162,18 +176,12 @@ const General: React.FC = () => {
 				rightCol={
 					<Box display="flex" alignItems="center" gap="medium">
 						<Box>
-							<Switch
-								defaultChecked
-								onCheckedChange={() => {
-									toast(`Enabled push `, {
-										description: 'Just here for testing toasts',
-									})
-								}}
-							/>
+							<Switch defaultChecked={notifications} onCheckedChange={handleToggleNotifications} />
 						</Box>
 					</Box>
 				}
 			/>
+			{customSettings}
 		</SettingsWrapper>
 	)
 }
