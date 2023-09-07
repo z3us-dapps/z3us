@@ -91,7 +91,7 @@ const ItemWrapper: React.FC<IRowProps> = props => {
 						>
 							<Link
 								underline="never"
-								to={`${pathname}?asset=xrd&transactionId=${transaction.intent_hash}`}
+								to={`${pathname}?tx=${transaction.intent_hash}`}
 								className={styles.activityItemInnerBtn}
 								onClick={() => setSelected(transaction.intent_hash)}
 								onMouseOver={() => setHovered(transaction.intent_hash)}
