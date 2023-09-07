@@ -85,7 +85,7 @@ export const Home: React.FC = () => {
 			'String',
 		)
 
-		sendTransaction({
+		await sendTransaction({
 			version: 1,
 			transactionManifest: convertedInstructions.value as string,
 			message: values.message,

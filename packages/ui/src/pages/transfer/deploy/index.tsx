@@ -87,7 +87,7 @@ export const Deploy: React.FC = () => {
 
 		const transactionManifest = await getDeployPackageManifest(input)
 
-		sendTransaction({
+		await sendTransaction({
 			version: 1,
 			transactionManifest,
 			blobs: [input.wasm],

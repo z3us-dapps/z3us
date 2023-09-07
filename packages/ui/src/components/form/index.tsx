@@ -9,6 +9,7 @@ import { Box } from 'ui/src/components/box'
 import { Button } from 'ui/src/components/button'
 import { LoadingBarsIcon } from 'ui/src/components/icons'
 
+import { ValidationErrorMessage } from '../validation-error-message'
 import { FormContext } from './context'
 import { FieldContext } from './field-wrapper/context'
 import { type FormData, type FormErrors } from './types'
@@ -24,6 +25,7 @@ type Props<P = {}> = {
 }
 
 type State<P = {}> = {
+	error: string
 	isLoading: boolean
 	values: FormData<P>
 }
@@ -44,6 +46,7 @@ export const Form: React.FC<PropsWithChildren<Props>> = ({
 	...rest
 }) => {
 	const [state, setState] = useImmer<State<Props['initialValues']>>({
+		error: '',
 		isLoading: false,
 		values: initialValues,
 	})
@@ -58,11 +61,19 @@ export const Form: React.FC<PropsWithChildren<Props>> = ({
 		setState(draft => {
 			draft.isLoading = true
 		})
-		const { values } = state
-		await onSubmit(values)
-		setState(draft => {
-			draft.isLoading = false
-		})
+
+		try {
+			const { values } = state
+			await onSubmit(values)
+		} catch (error) {
+			setState(draft => {
+				draft.error = error?.message || error
+			})
+		} finally {
+			setState(draft => {
+				draft.isLoading = false
+			})
+		}
 	}
 
 	const handleGetFieldValue = (name: string) => {
@@ -95,6 +106,7 @@ export const Form: React.FC<PropsWithChildren<Props>> = ({
 
 	return (
 		<form {...rest} onSubmit={handleSubmit}>
+			<ValidationErrorMessage message={state.error} />
 			<FormContext.Provider value={formCtx}>
 				<FieldContext.Provider value={rootFieldCtx}>{children}</FieldContext.Provider>
 			</FormContext.Provider>

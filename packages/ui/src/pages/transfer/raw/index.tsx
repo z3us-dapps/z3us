@@ -25,21 +25,22 @@ const validationSchema = z.object({
 
 export const Raw: React.FC = () => {
 	const inputRef = useRef(null)
-	const [validation, setValidation] = useState<ZodError>()
 	const sendTransaction = useSendTransaction()
+
+	const [validation, setValidation] = useState<ZodError>()
 
 	useEffect(() => {
 		inputRef?.current?.focus()
 	}, [])
 
-	const handleSubmit = (values: typeof initialValues) => {
+	const handleSubmit = async (values: typeof initialValues) => {
 		const result = validationSchema.safeParse(values)
 		if (result.success === false) {
 			setValidation(result.error)
 			return
 		}
 
-		sendTransaction({
+		await sendTransaction({
 			version: 1,
 			transactionManifest: values.raw,
 		})
