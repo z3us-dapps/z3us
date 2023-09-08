@@ -195,7 +195,7 @@
 			"accountColor": "Account color",
 			"accountImage": "Account image"
 		},
-		"addressBook": {
+		"address_book": {
 			"newAddress": "New address",
 			"deleteAlertTitle": "Are you sure?",
 			"deleteAlertDescription": "Are you sure you want to delete",

@@ -1,44 +1,40 @@
 import React from 'react'
 
-// import { Avatar } from 'ui/src/components/avatar'
 import { Box } from 'ui/src/components/box'
 import { Button } from 'ui/src/components/button'
 import { EditIcon, TrashIcon } from 'ui/src/components/icons'
+import { ResourceImageIcon } from 'ui/src/components/resource-image-icon'
+import Translation from 'ui/src/components/translation'
 import { Text } from 'ui/src/components/typography'
+import type { AddressBookEntry } from 'ui/src/store/types'
 
 import * as styles from './address-table-cell.css'
 
 interface IAddressTableCellProps {
-	id: string
-	name: string
-	address: string
+	row: { original: AddressBookEntry }
 	onDelete: () => void
 	onEdit: () => void
 }
 
 export const AddressTableCell: React.FC<IAddressTableCellProps> = props => {
-	const { id, name, address, onDelete, onEdit } = props
+	const { row, onDelete, onEdit } = props
 
 	return (
-		<Box key={id} id={id} className={styles.addressTableCellWrapper}>
-			{/* <Avatar
-				src="https://images.unsplash.com/photo-1492633423870-43d1cd2775eb?&w=128&h=128&dpr=2&q=80"
-				alt="this is the image"
-				fallback="df"
-			/> */}
+		<Box key={row.original.address} className={styles.addressTableCellWrapper}>
+			<ResourceImageIcon address={row.original.address} />
 			<Box className={styles.addressTableCellTextWrapper}>
 				<Text size="small" color="strong" weight="medium" truncate>
-					{name}
+					{row.original.name}
 				</Text>
 				<Text size="xsmall" truncate>
-					{address}
+					{row.original.address}
 				</Text>
 			</Box>
 			<Button sizeVariant="small" styleVariant="secondary" leftIcon={<TrashIcon />} onClick={onDelete}>
-				Delete
+				<Translation capitalizeFirstLetter text="settings.address_book.entry.delete" />
 			</Button>
 			<Button sizeVariant="small" styleVariant="secondary" leftIcon={<EditIcon />} onClick={onEdit}>
-				Edit
+				<Translation capitalizeFirstLetter text="settings.address_book.entry.edit" />
 			</Button>
 		</Box>
 	)

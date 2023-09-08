@@ -1,6 +1,5 @@
 import { t } from 'i18next'
-import { useNetworkId } from 'packages/ui/src/hooks/dapp/use-network-id'
-import React, { useMemo } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 import { toast } from 'sonner'
 import useDeepCompareEffect from 'use-deep-compare-effect'
 import { useImmer } from 'use-immer'
@@ -14,7 +13,9 @@ import { type FormElement, Input } from 'ui/src/components/input'
 import Translation from 'ui/src/components/translation'
 import { Text } from 'ui/src/components/typography'
 import { ValidationErrorMessage } from 'ui/src/components/validation-error-message'
+import { useNetworkId } from 'ui/src/hooks/dapp/use-network-id'
 import { useNoneSharedStore } from 'ui/src/hooks/use-store'
+import { useWalletAccounts } from 'ui/src/hooks/use-wallet-account'
 import type { AddressBookEntry } from 'ui/src/store/types'
 
 import { SettingsTitle } from '../components/settings-title'
@@ -23,7 +24,7 @@ import { AddressBookTable } from './components/address-book-table'
 import { AddressTableCell } from './components/address-table-cell'
 import { type IImmerSettingsGeneralProps, getError, validateAddressBookForm } from './settings-address-book-utils'
 
-const emptyEntry: AddressBookEntry = {
+const emptyEntry = {
 	name: '',
 	address: '',
 	dateAdded: 0,
@@ -32,11 +33,14 @@ const emptyEntry: AddressBookEntry = {
 
 const AddressBook: React.FC = () => {
 	const networkId = useNetworkId()
+	const accounts = useWalletAccounts()
 	const { addressBook, setAddressBookEntry, handleRemoveAddress } = useNoneSharedStore(state => ({
 		addressBook: state.addressBook[networkId] || {},
 		setAddressBookEntry: state.setAddressBookEntryAction,
 		handleRemoveAddress: state.removeAddressBookEntryAction,
 	}))
+
+	const [entries, setEntries] = useState<AddressBookEntry[]>([])
 
 	const [state, setState] = useImmer<IImmerSettingsGeneralProps>({
 		deleteAccountAddress: undefined,
@@ -46,6 +50,13 @@ const AddressBook: React.FC = () => {
 		initValidation: false,
 		validation: undefined,
 	})
+
+	useEffect(() => {
+		Object.keys(accounts).forEach(k => {
+			delete addressBook[k]
+		})
+		setEntries(Object.values(addressBook))
+	}, [addressBook])
 
 	useDeepCompareEffect(() => {
 		if (state.initValidation) {
@@ -62,7 +73,7 @@ const AddressBook: React.FC = () => {
 	}
 
 	const handleAddEditAddress = (address?: string | undefined) => {
-		const editingAddress = addressBook[address]
+		const editingAddress = addressBook[address] || emptyEntry
 
 		setState(draft => {
 			draft.editAccountAddress = address
@@ -70,12 +81,8 @@ const AddressBook: React.FC = () => {
 			draft.editingAddress = {
 				dateAdded: Date.now(),
 				...editingAddress,
-				name: editingAddress.name,
-				address: editingAddress.address,
-			}
-			if (editingAddress) {
-				draft.editingAddress.dateUpdated = Date.now()
-			}
+				dateUpdated: Date.now(),
+			} as AddressBookEntry
 		})
 	}
 
@@ -162,16 +169,15 @@ const AddressBook: React.FC = () => {
 				// eslint-disable-next-line react/no-unstable-nested-components
 				Cell: ({ row }) => (
 					<AddressTableCell
-						id={row.original.id}
-						name={row.original.name}
-						address={row.original.address}
-						onDelete={() => handleDeleteAddress(row.original.id)}
-						onEdit={() => handleAddEditAddress(row.original.id)}
+						row={row}
+						key={row.original.address}
+						onDelete={() => handleDeleteAddress(row.original.address)}
+						onEdit={() => handleAddEditAddress(row.original.address)}
 					/>
 				),
 			},
 		],
-		[Object.keys(addressBook).length],
+		[entries],
 	)
 
 	return (
@@ -185,20 +191,20 @@ const AddressBook: React.FC = () => {
 				<Box display="flex" flexDirection="column" gap="small">
 					<Box paddingBottom="medium">
 						<Button styleVariant="primary" leftIcon={<PlusIcon />} onClick={() => handleAddEditAddress()}>
-							<Translation capitalizeFirstLetter text="settings.addressBook.newAddress" />
+							<Translation capitalizeFirstLetter text="settings.address_book.newAddress" />
 						</Button>
 					</Box>
-					<AddressBookTable data={Object.values(addressBook)} columns={columns} />
+					<AddressBookTable data={entries} columns={columns} />
 				</Box>
 			</SettingsWrapper>
 
 			<DialogAlert
 				open={!!state.deleteAccountAddress}
-				title={<Translation capitalizeFirstLetter text="settings.addressBook.deleteAlertTitle" />}
+				title={<Translation capitalizeFirstLetter text="settings.address_book.deleteAlertTitle" />}
 				description={
 					<Box component="span">
 						<Text truncate>
-							<Translation capitalizeFirstLetter text="settings.addressBook.deleteAlertDescription" />{' '}
+							<Translation capitalizeFirstLetter text="settings.address_book.deleteAlertDescription" />{' '}
 							{state.deleteAccountAddress}
 						</Text>
 						?
@@ -218,29 +224,29 @@ const AddressBook: React.FC = () => {
 					onSubmit={handleSaveAddress}
 				>
 					<Text size="xlarge" color="strong" weight="strong">
-						<Translation capitalizeFirstLetter text="settings.addressBook.addDialogTitle" />
+						<Translation capitalizeFirstLetter text="settings.address_book.addDialogTitle" />
 					</Text>
 					<Box display="flex" flexDirection="column" gap="xsmall">
 						<Text size="xsmall">
-							<Translation capitalizeFirstLetter text="settings.addressBook.addDialogNameTitle" />
+							<Translation capitalizeFirstLetter text="settings.address_book.addDialogNameTitle" />
 						</Text>
 						<Box>
 							<Input
-								placeholder={t('settings.addressBook.addDialogInputNamePlaceholder')}
+								placeholder={t('settings.address_book.addDialogInputNamePlaceholder')}
 								value={state.editingAddress.name}
 								onChange={handleChangeName}
 								styleVariant={getError(state.validation, ['name']).error ? 'primary-error' : 'primary'}
 							/>
-							<ValidationErrorMessage error={getError(state.validation, ['name'])} />
+							<ValidationErrorMessage message={getError(state.validation, ['name']).message} />
 						</Box>
 					</Box>
 					<Box display="flex" flexDirection="column" gap="xsmall">
 						<Text size="xsmall">
-							<Translation capitalizeFirstLetter text="settings.addressBook.addDialogAddressTitle" />
+							<Translation capitalizeFirstLetter text="settings.address_book.addDialogAddressTitle" />
 						</Text>
 						<Box>
 							<Input
-								// placeholder={t('settings.addressBook.Address')}
+								placeholder={t('settings.address_book.address')}
 								value={state.editingAddress.address}
 								styleVariant={getError(state.validation, ['address']).error ? 'primary-error' : 'primary'}
 								onChange={handleChangeAddress}
@@ -253,7 +259,7 @@ const AddressBook: React.FC = () => {
 									)
 								}
 							/>
-							<ValidationErrorMessage error={getError(state.validation, ['address'])} />
+							<ValidationErrorMessage message={getError(state.validation, ['address']).message} />
 						</Box>
 					</Box>
 					<Box display="flex" gap="small" justifyContent="flex-end">
