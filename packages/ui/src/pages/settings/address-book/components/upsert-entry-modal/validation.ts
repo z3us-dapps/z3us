@@ -1,20 +1,10 @@
 import { z } from 'zod'
 
-import type { AddressBookEntry } from 'ui/src/store/types'
 import { type TZodValidationGeneric, getZodError } from 'ui/src/utils/get-zod-error'
 
 export type TAddressBookSchema = z.infer<typeof addressBookSchema>
 
 export type TZodValidation = TZodValidationGeneric<TAddressBookSchema>
-
-export interface IImmerSettingsGeneralProps {
-	deleteAccountAddress: string | undefined
-	editAccountAddress: string | undefined
-	isEditDialogVisible: boolean
-	editingAddress: AddressBookEntry
-	initValidation: boolean
-	validation: TZodValidation
-}
 
 export const addressBookSchema = z.object({
 	name: z.string().min(1, 'Must include from name').max(30, 'Must include from name'),
