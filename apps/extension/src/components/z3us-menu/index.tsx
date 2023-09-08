@@ -74,6 +74,8 @@ export const Z3usMenu: React.FC = () => {
 		addPendingAction: state.addPendingActionAction,
 	}))
 
+	const isBabylonExportOptVisible = true
+
 	const [state, setState] = useImmer<ImmerT>({
 		isOpen: false,
 		keystoreId: undefined,
@@ -191,6 +193,10 @@ export const Z3usMenu: React.FC = () => {
 			// eslint-disable-next-line no-console
 			console.error(error)
 		}
+	}
+
+	const handleNavigateToBabylonAccountExport = () => {
+		setLocation(`#/notification/export/`)
 	}
 
 	const Icon = contentScriptStatus.isConnected ? (
@@ -315,6 +321,17 @@ export const Z3usMenu: React.FC = () => {
 									<Box css={{ flex: '1', pr: '$1' }}>
 										<Text size="2" bold truncate css={{ maxWidth: '130px' }}>
 											Connect to {contentScriptStatus.currentTabHost}
+										</Text>
+									</Box>
+								</DropdownMenuTriggerItem>
+							</DropdownMenu>
+						)}
+						{isBabylonExportOptVisible && (
+							<DropdownMenu>
+								<DropdownMenuTriggerItem onClick={handleNavigateToBabylonAccountExport}>
+									<Box css={{ flex: '1', pr: '$1' }}>
+										<Text size="2" bold truncate css={{ maxWidth: '180px' }}>
+											Babylon account export
 										</Text>
 									</Box>
 								</DropdownMenuTriggerItem>
