@@ -3,8 +3,8 @@ export type AddressBookEntry = {
 	address: string
 	dateAdded: number
 	dateUpdated: number
-	background?: string
-	colorSettings?: { [key: string]: string }
+	cardImage?: string
+	cardColor?: string
 }
 
 export enum KeystoreType {
@@ -64,21 +64,12 @@ export interface ISettingsStateSetter {
 	(fn: (state: SettingsState) => void): void
 }
 
-export type RdtState = {
-	selectedAccount: string
-	selectAccountAction: (address: string) => void
-}
-
-export interface IRdtStateSetter {
-	(fn: (state: RdtState) => void): void
-}
-
 export type OlympiaState = {
 	olympiaAddresses?: { [key: number]: { address: string } }
 }
 
 export type SharedState = WalletState & KeystoresState
 
-export type NoneSharedState = SettingsState & RdtState & OlympiaState
+export type NoneSharedState = SettingsState & OlympiaState
 
 export type AppState = SharedState & NoneSharedState

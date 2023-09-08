@@ -5,42 +5,44 @@ import React from 'react'
 
 import { Box } from 'ui/src/components/box'
 import { Text } from 'ui/src/components/typography'
+import { CARD_COLORS, CARD_IMAGES } from 'ui/src/constants/account'
+import { useBalances } from 'ui/src/hooks/dapp/use-balances'
+import { useAddressBook } from 'ui/src/hooks/use-address-book'
+import { useNoneSharedStore } from 'ui/src/hooks/use-store'
+import type { AddressBookEntry } from 'ui/src/store/types'
+import { formatBigNumber } from 'ui/src/utils/formatters'
+import { getShortAddress } from 'ui/src/utils/string-utils'
 
-import { getShortAddress } from '../../utils/string-utils'
 import { CopyAddressButton } from '../copy-address-button'
 import * as styles from './account-cards.css'
 
 interface IAccountCardProps {
-	id: string
+	address: string
 	isAllAccount?: boolean
 	visible?: boolean
-	backgroundImage: string
 	showCopyAddressButton?: boolean
-	accountBalance: string
-	accountName: string
-	accountAddress: string
 	className?: string
 }
 
 export const AccountCard: React.FC<IAccountCardProps> = props => {
-	const {
-		id,
-		isAllAccount = false,
-		backgroundImage,
-		visible = true,
-		showCopyAddressButton = true,
-		accountBalance,
-		accountName,
-		accountAddress,
-		className,
-	} = props
+	const { address, isAllAccount = false, visible = true, showCopyAddressButton = true, className } = props
+
+	const addressBook = useAddressBook()
+	const { totalValue } = useBalances(address)
+	const { currency } = useNoneSharedStore(state => ({
+		currency: state.currency,
+	}))
+
+	const account = addressBook[address]
 
 	return (
 		<motion.li
-			key={id}
+			key={address}
 			className={clsx(styles.card, isAllAccount && styles.cardAllWrapper, className)}
 			style={{
-				backgroundImage,
+				backgroundImage: `url(/images/account-images/${account?.cardImage || CARD_IMAGES[0]}), ${
+					account?.cardColor || CARD_COLORS[0]
+				}`,
 			}}
 			variants={{
 				visible: {
@@ -58,14 +60,14 @@ export const AccountCard: React.FC<IAccountCardProps> = props => {
 				<Box flexGrow={1} paddingTop="xsmall" display="flex" gap="small">
 					<Text size="large" weight="medium" className={styles.cardAccountTextSpaced}>
 						<Box component="span" className={clsx(styles.cardAccountText, isAllAccount && styles.cardAccountTextAll)}>
-							{getShortAddress(accountAddress)}
+							{getShortAddress(address)}
 						</Box>
 					</Text>
 					{showCopyAddressButton ? (
 						<Box className={styles.copyAddressButtonWrapper}>
 							<CopyAddressButton
 								styleVariant="white-transparent"
-								address={accountAddress}
+								address={address}
 								iconOnly
 								rounded={false}
 								tickColor="white"
@@ -76,12 +78,12 @@ export const AccountCard: React.FC<IAccountCardProps> = props => {
 				<Box paddingBottom="xsmall">
 					<Text size="xlarge" weight="stronger">
 						<Box component="span" className={clsx(styles.cardAccountText, isAllAccount && styles.cardAccountTextAll)}>
-							{accountBalance}
+							{formatBigNumber(totalValue, currency, 2)}
 						</Box>
 					</Text>
 					<Text size="large" weight="strong">
 						<Box component="span" className={clsx(styles.cardAccountText, isAllAccount && styles.cardAccountTextAll)}>
-							{accountName}
+							{account?.name}
 						</Box>
 					</Text>
 				</Box>
@@ -95,8 +97,7 @@ interface IAccountCardsProps {
 	className?: ClassValue
 	isAllAccount?: boolean
 	showCopyAddressButton?: boolean
-	// should be typed, and required
-	accountCards?: any
+	accounts: AddressBookEntry[]
 	selectedCardIndex: number
 	isCardShadowVisible?: boolean
 }
@@ -105,13 +106,11 @@ export const AccountCards: React.FC<IAccountCardsProps> = props => {
 	const {
 		className,
 		isAllAccount = false,
-		accountCards,
+		accounts,
 		selectedCardIndex = 0,
 		showCopyAddressButton = false,
 		isCardShadowVisible = true,
 	} = props
-
-	const accountAddress = 'rdx183794872309487'
 
 	return (
 		<AnimatePresence initial={false}>
@@ -127,16 +126,12 @@ export const AccountCards: React.FC<IAccountCardsProps> = props => {
 				transition={{ duration: 0.3 }}
 				className={clsx(styles.cardWrapperAll, isCardShadowVisible && styles.cardShadow, className)}
 			>
-				{accountCards.map(({ backgroundImage, accountName, accountId, accountBalance }, cardIndex: number) => (
+				{accounts.map(({ address }, cardIndex: number) => (
 					<AccountCard
-						key={accountId}
-						id={accountId}
+						key={address}
+						address={address}
 						isAllAccount={isAllAccount}
 						visible={selectedCardIndex === cardIndex}
-						backgroundImage={backgroundImage}
-						accountName={accountName}
-						accountBalance={accountBalance}
-						accountAddress={accountAddress}
 						showCopyAddressButton={showCopyAddressButton}
 					/>
 				))}

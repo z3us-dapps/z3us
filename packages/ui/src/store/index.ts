@@ -5,7 +5,6 @@ import { immer } from 'zustand/middleware/immer'
 
 import { factory as createKeystoreStore } from './keystore'
 import { factory as olympiaStore } from './olympia'
-import { factory as createRDTStore } from './rdt'
 import { factory as createSettingsStore } from './settings'
 import type { NoneSharedState, SharedState } from './types'
 import { factory as createWalletStore } from './wallet'
@@ -31,7 +30,6 @@ export const createNoneSharedStore = (name: string) =>
 	createStore(
 		middlewares<NoneSharedState>(name, set => ({
 			...createSettingsStore(set),
-			...createRDTStore(set),
 			...olympiaStore(),
 		})),
 	)

@@ -1,8 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import clsx, { type ClassValue } from 'clsx'
-import { useNetworkId } from 'packages/ui/src/hooks/dapp/use-network-id'
 import { Theme } from 'packages/ui/src/types/types'
-import { getShortAddress } from 'packages/ui/src/utils/string-utils'
 import React, { forwardRef } from 'react'
 import { useTranslation } from 'react-i18next'
 
@@ -29,8 +27,6 @@ import {
 } from 'ui/src/components/dropdown-menu'
 import {
 	CheckIcon,
-	ChevronDown2Icon,
-	ChevronDownIcon,
 	ChevronRightIcon,
 	HardwareWalletIcon,
 	HomeIcon,
@@ -41,16 +37,13 @@ import {
 	ShareIcon,
 	SunIcon,
 } from 'ui/src/components/icons'
-import { ResourceImageIcon } from 'ui/src/components/resource-image-icon'
 import { Link } from 'ui/src/components/router-link'
-import { ScrollAreaRadix as ScrollArea } from 'ui/src/components/scroll-area-radix'
 import Translation from 'ui/src/components/translation'
 import { Text } from 'ui/src/components/typography'
 import { useDappStatus } from 'ui/src/hooks/use-dapp-status'
 import { useIsMobileWidth } from 'ui/src/hooks/use-is-mobile'
-import { useNoneSharedStore, useSharedStore } from 'ui/src/hooks/use-store'
+import { useSharedStore } from 'ui/src/hooks/use-store'
 import { useTheme } from 'ui/src/hooks/use-theme'
-import { useWalletAccounts } from 'ui/src/hooks/use-wallet-account'
 import { KeystoreType } from 'ui/src/store/types'
 
 import { ToolTip } from '../../tool-tip'
@@ -64,29 +57,17 @@ interface IAccountViewDropdownProps {
 
 export const AccountViewDropdown = forwardRef<HTMLElement, IAccountViewDropdownProps>(
 	(props, ref: React.Ref<HTMLElement | null>) => {
-		const { t } = useTranslation()
 		const { className, styleVariant = 'ghost', isLeftButtonIconVisible = true } = props
 
-		const isMobile = useIsMobileWidth()
-		const networkId = useNetworkId()
-		const accounts = useWalletAccounts()
-
-		const { resolvedTheme, theme, setTheme } = useTheme()
-
+		const { t } = useTranslation()
 		const dappStatus = useDappStatus()
-		const { addressBook, selectedAccount, selectAccount } = useNoneSharedStore(state => ({
-			addressBook: state.addressBook[networkId] || {},
-			selectedAccount: state.selectedAccount,
-			selectAccount: state.selectAccountAction,
-		}))
-
+		const isMobile = useIsMobileWidth()
+		const { resolvedTheme, theme, setTheme } = useTheme()
 		const { selectedKeystoreId, keystores, selectKeystore } = useSharedStore(state => ({
 			selectedKeystoreId: state.selectedKeystoreId,
 			keystores: state.keystores,
 			selectKeystore: state.selectKeystoreAction,
 		}))
-
-		const entries = { ...addressBook, ...accounts }
 
 		return (
 			<Box ref={ref} className={clsx(styles.accountViewDropdownWrapper, className)}>

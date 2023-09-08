@@ -1,5 +1,3 @@
-import { useNetworkId } from 'packages/ui/src/hooks/dapp/use-network-id'
-import { getShortAddress } from 'packages/ui/src/utils/string-utils'
 import React, { forwardRef } from 'react'
 
 import { Box } from 'ui/src/components/box'
@@ -8,8 +6,8 @@ import { type IInputProps } from 'ui/src/components/input'
 import { SearchableInput } from 'ui/src/components/searchable-input'
 import { ToolTip } from 'ui/src/components/tool-tip'
 import { Text } from 'ui/src/components/typography'
-import { useNoneSharedStore } from 'ui/src/hooks/use-store'
-import { useWalletAccounts } from 'ui/src/hooks/use-wallet-account'
+import { useAddressBook } from 'ui/src/hooks/use-address-book'
+import { getShortAddress } from 'ui/src/utils/string-utils'
 
 import { FieldWrapper, type IProps as WrapperProps } from '../../field-wrapper'
 import * as styles from './styles.css'
@@ -26,19 +24,14 @@ export const SelectAdapter = forwardRef<HTMLInputElement, IAdapterProps>(
 			onChange(_value)
 		}
 
-		const networkId = useNetworkId()
-		const accounts = useWalletAccounts()
-		const { addressBook } = useNoneSharedStore(state => ({
-			addressBook: state.addressBook[networkId] || {},
-		}))
-		const knownAddresses = { ...accounts, ...addressBook }
-		const allEntries = Object.values(knownAddresses).map(entry => ({
+		const addressBook = useAddressBook()
+		const allEntries = Object.values(addressBook).map(entry => ({
 			id: entry.address,
 			account: entry.address,
 			alias: entry.name,
 		}))
 
-		const toName = knownAddresses[value]?.name || getShortAddress(`${value}`)
+		const toName = addressBook[value]?.name || getShortAddress(`${value}`)
 
 		return (
 			<>

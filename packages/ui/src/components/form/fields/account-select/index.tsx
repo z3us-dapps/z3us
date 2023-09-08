@@ -1,5 +1,3 @@
-import { useNetworkId } from 'packages/ui/src/hooks/dapp/use-network-id'
-import { getShortAddress } from 'packages/ui/src/utils/string-utils'
 import React, { forwardRef } from 'react'
 
 import { Box } from 'ui/src/components/box'
@@ -8,8 +6,9 @@ import { DropdownMenuItemIndicator, DropdownMenuRadioItem, DropdownMenuVirtuoso 
 import { Check2Icon, ChevronDown2Icon } from 'ui/src/components/icons'
 import { ResourceImageIcon } from 'ui/src/components/resource-image-icon'
 import { Text } from 'ui/src/components/typography'
-import { useNoneSharedStore } from 'ui/src/hooks/use-store'
+import { useAddressBook } from 'ui/src/hooks/use-address-book'
 import { useWalletAccounts } from 'ui/src/hooks/use-wallet-account'
+import { getShortAddress } from 'ui/src/utils/string-utils'
 
 import { FieldWrapper, type IProps as WrapperProps } from '../../field-wrapper'
 
@@ -23,14 +22,10 @@ interface IAdapterProps {
 export const SelectAdapter = forwardRef<HTMLElement, IAdapterProps>((props, ref) => {
 	const { value, onChange, styleVariant = 'tertiary', sizeVariant = 'xlarge', ...rest } = props
 
-	const networkId = useNetworkId()
 	const accounts = useWalletAccounts()
-	const { addressBook } = useNoneSharedStore(state => ({
-		addressBook: state.addressBook[networkId] || {},
-	}))
+	const addressBook = useAddressBook()
 
-	const knownAddresses = { ...accounts, ...addressBook }
-	const accountReadableName = knownAddresses[value]?.name || getShortAddress(value)
+	const accountReadableName = addressBook[value]?.name || getShortAddress(value)
 
 	return (
 		<DropdownMenuVirtuoso

@@ -31,10 +31,9 @@ export const HorizontalAccountsScrollList: React.FC<IProps> = props => {
 				<ScrollAreaRoot style={{ maxWidth: `${horizontalScrollWidth}px`, width: '100%' }}>
 					<ScrollAreaViewport>
 						<Box className={styles.accountsHorizontalCardsWrapper}>
-							{Object.values(accounts).map(({ address, name }) => (
+							{Object.values(accounts).map(({ address }) => (
 								<AccountHomeCard
 									key={address}
-									name={name}
 									address={address}
 									className={clsx(!isAllAccounts && address !== accountId && styles.accountCardOpacity)}
 								/>
