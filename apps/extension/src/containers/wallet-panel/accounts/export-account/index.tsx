@@ -8,6 +8,7 @@ import Button from 'ui/src/components/button'
 import Input from 'ui/src/components/input'
 import InputFeedBack from 'ui/src/components/input/input-feedback'
 
+import { HardwareWalletReconnect } from '@src/components/hardware-wallet-reconnect'
 import { SLIDE_PANEL_EXPAND_HEIGHT, SLIDE_PANEL_HEADER_HEIGHT, SLIDE_PANEL_HEIGHT } from '@src/config'
 import { useColorMode } from '@src/hooks/use-color-mode'
 import { useMessanger } from '@src/hooks/use-messanger'
@@ -104,20 +105,13 @@ const AccountExport: React.FC = () => {
 		})
 		try {
 			const { mnemonic } = await getWallet(state.password)
-			if (mnemonic) {
-				const summary = accountSummary(account, accountIndex, keystore.type === KeystoreType.LOCAL)
-				const data = exportAsCode([summary], 1800, mnemonic?.words?.length || 18)[0]
-				setState(draft => {
-					draft.data = data
-					draft.isQrModalOpen = true
-				})
-			} else {
-				setState(draft => {
-					draft.errorMessage = 'Invalid key'
-				})
-			}
+			const summary = accountSummary(account, accountIndex, keystore.type === KeystoreType.LOCAL)
+			const data = exportAsCode([summary], 1800, mnemonic?.words.length)[0]
+			setState(draft => {
+				draft.data = data
+				draft.isQrModalOpen = true
+			})
 		} catch (error) {
-			console.error(error)
 			setState(draft => {
 				draft.errorMessage = 'Invalid password'
 			})
@@ -140,6 +134,7 @@ const AccountExport: React.FC = () => {
 
 	return (
 		<Box>
+			<HardwareWalletReconnect />
 			<Text css={{ pb: '$3' }}>Enter your password to reveal export QR code for this account.</Text>
 			<Input
 				ref={inputRef}
