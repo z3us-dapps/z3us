@@ -17,11 +17,18 @@ const AccountActivity = lazy(() => import('./account-activity'))
 
 const AcounteRoute = ({ children }: { children: ReactNode }) => <Suspense fallback="Loading...">{children}</Suspense>
 
+const ExportRoute = () => (
+	<AcounteRoute>
+		<ExportAccount />
+	</AcounteRoute>
+)
+
 const TokenListRoute = () => (
 	<AcounteRoute>
 		<TokenList />
 	</AcounteRoute>
 )
+
 const TokenRoute = () => (
 	<AcounteRoute>
 		<Token />
@@ -59,7 +66,7 @@ export const Accounts: React.FC = () => {
 		>
 			<RouterScope base="/wallet" hook={useHashLocation}>
 				<AnimatedSwitch>
-					<Route path="/account" component={isBabylon ? ExportAccount : TokenListRoute} />
+					<Route path="/account" component={isBabylon ? ExportRoute : TokenListRoute} />
 					{!isBabylon && <Route path="/account/token/:rri" component={TokenRoute} />}
 					{!isBabylon && <Route path="/account/send" component={SendTokenRoute} />}
 					{!isBabylon && <Route path="/account/send/:rri" component={SendTokenRoute} />}
