@@ -21,7 +21,7 @@
 		"@radix-ui/react-icons": "^1.1.0",
 		"@radix-ui/react-portal": "^0.1.4",
 		"@radixdlt/account": "^3.0.13",
-		"@radixdlt/application": "^4.0.18",
+		"@radixdlt/application": "^4.0.21",
 		"@radixdlt/crypto": "^2.1.16",
 		"@radixdlt/hardware-ledger": "^2.1.39",
 		"@radixdlt/hardware-wallet": "^2.1.19",

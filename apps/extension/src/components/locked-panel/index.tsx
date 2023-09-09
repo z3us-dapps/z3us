@@ -13,6 +13,7 @@ import { Z3usText } from 'ui/src/components/z3us-text'
 
 import { WalletMenu } from '@src/components/wallet-menu'
 import { useColorMode } from '@src/hooks/use-color-mode'
+import { useIsBabylon } from '@src/hooks/use-is-babylon'
 import { useMessanger } from '@src/hooks/use-messanger'
 import { useSharedStore } from '@src/hooks/use-store'
 import { createLocalSigningKey } from '@src/services/signing-key'
@@ -32,6 +33,7 @@ interface IImmer {
 }
 
 export const LockedPanel: React.FC = () => {
+	const isBabylon = useIsBabylon()
 	const isDarkMode = useColorMode()
 	const panelControls = useAnimationControls()
 	const z3usLogoControls = useAnimationControls()
@@ -246,8 +248,6 @@ export const LockedPanel: React.FC = () => {
 		})
 	}
 
-	const isBabylonExportOptVisible = true
-
 	return (
 		<MotionBox
 			animate={panelControls}
@@ -287,7 +287,7 @@ export const LockedPanel: React.FC = () => {
 					</Box>
 				</Flex>
 				<Flex align="center" justify="center" css={{ flex: '1', position: 'relative' }}>
-					{isBabylonExportOptVisible ? (
+					{isBabylon ? (
 						<Box css={{ px: '$5' }}>
 							<AlertCard icon color="warning" css={{ py: '$4' }}>
 								<Box css={{ p: '$2' }}>

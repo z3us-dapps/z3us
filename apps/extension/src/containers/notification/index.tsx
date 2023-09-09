@@ -7,7 +7,6 @@ import UnlockedPanel from '@src/components/unlocked-panel'
 import { useHashLocation } from '@src/hooks/use-hash-location'
 
 const Connect = lazy(() => import('./connect'))
-const Export = lazy(() => import('./export'))
 const Encrypt = lazy(() => import('./encrypt'))
 const Decrypt = lazy(() => import('./decrypt'))
 const Sign = lazy(() => import('./sign'))
@@ -17,7 +16,6 @@ export const Notification: React.FC = () => (
 	<UnlockedPanel css={{ display: 'flex', flexDirection: 'column' }}>
 		<RouterScope base="/notification" hook={useHashLocation}>
 			<Suspense fallback={<Loader />}>
-				<Route path="/export" component={Export} />
 				<Route path="/connect/:id" component={Connect} />
 				<Route path="/encrypt/:id" component={Encrypt} />
 				<Route path="/decrypt/:id" component={Decrypt} />

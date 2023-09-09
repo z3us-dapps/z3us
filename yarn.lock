@@ -3921,10 +3921,24 @@
     prelude-ts "^1.0.2"
     rxjs "7.0.0"
 
-"@radixdlt/application@^4.0.16", "@radixdlt/application@^4.0.18":
+"@radixdlt/application@^4.0.16":
   version "4.0.20"
   resolved "https://registry.yarnpkg.com/@radixdlt/application/-/application-4.0.20.tgz#67920a128c6b0aa96d6d826c5c114bf006755d81"
   integrity sha512-oOQ9S45a/1dP1VVCSh33NEXpXJaIZ25lQOlvxtHxN9IIbDGVwAGJMZn4J6cxQbYy5iENegIlnJPhnI8CD24f5A==
+  dependencies:
+    "@open-rpc/mock-server" "1.7.2"
+    "@open-rpc/schema-utils-js" "1.14.3"
+    jest "^26.6.3"
+    json-schema-faker "^0.5.0-rcv.34"
+    neverthrow "^4.0.1"
+    node-fetch "^2.6.1"
+    ramda "^0.27.1"
+    rxjs "7.0.0"
+
+"@radixdlt/application@^4.0.21":
+  version "4.0.22"
+  resolved "https://registry.yarnpkg.com/@radixdlt/application/-/application-4.0.22.tgz#af017dd6bdbc077698a8ef79cfd9711b3d9e6176"
+  integrity sha512-JMKoQyoLf48sNg0/yAsqby/32k0t9sRmf8nI/1sZiBbQgxptCi1NaSkociUlT9UCdJlka3YahhyKxJFPvkqZlg==
   dependencies:
     "@open-rpc/mock-server" "1.7.2"
     "@open-rpc/schema-utils-js" "1.14.3"
