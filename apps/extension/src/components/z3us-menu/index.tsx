@@ -31,7 +31,6 @@ import { ToolTip, Tooltip, TooltipContent, TooltipTrigger } from 'ui/src/compone
 import { useColorMode } from '@src/hooks/use-color-mode'
 import { useContentScriptStatus } from '@src/hooks/use-content-script-status'
 import { useHashLocation } from '@src/hooks/use-hash-location'
-import { useIsBabylon } from '@src/hooks/use-is-babylon'
 import { useMessanger } from '@src/hooks/use-messanger'
 import { useNoneSharedStore, useSharedStore } from '@src/hooks/use-store'
 import { CONNECT } from '@src/lib/v1/actions'
@@ -46,7 +45,6 @@ interface ImmerT {
 }
 
 export const Z3usMenu: React.FC = () => {
-	const isBabylon = useIsBabylon()
 	const walletInputRef = useRef(null)
 	const [location, setLocation] = useHashLocation()
 	const [isSendRoute] = useRoute('/wallet/account/send')
@@ -300,11 +298,9 @@ export const Z3usMenu: React.FC = () => {
 								</DropdownMenuContent>
 							</DropdownMenu>
 						)}
-						{!isBabylon && (
-							<DropdownMenuItem onSelect={handleAdd}>
-								<Box css={{ flex: '1', pr: '$4' }}>Add new wallet</Box>
-							</DropdownMenuItem>
-						)}
+						<DropdownMenuItem onSelect={handleAdd}>
+							<Box css={{ flex: '1', pr: '$4' }}>Add new wallet</Box>
+						</DropdownMenuItem>
 						{isUnlocked && (
 							<DropdownMenuItem onSelect={handleLockWallet}>
 								<Box css={{ flex: '1' }}>Lock wallet</Box>

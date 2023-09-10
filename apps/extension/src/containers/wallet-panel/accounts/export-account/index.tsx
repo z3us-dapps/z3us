@@ -112,7 +112,7 @@ const AccountExport: React.FC = () => {
 			Object.keys(publicAddresses).forEach(idx =>
 				summaries.push(accountSummary(publicAddresses[idx], +idx, keystore.type === KeystoreType.LOCAL)),
 			)
-			const exports = exportAsCode(summaries, 1800, mnemonic?.words.length)
+			const exports = exportAsCode(summaries, 1800, mnemonic?.words.length || 24)
 			setState(draft => {
 				draft.words = mnemonic?.words || []
 				draft.exports = exports
@@ -137,25 +137,30 @@ const AccountExport: React.FC = () => {
 			draft.words = []
 			draft.exports = []
 			draft.isQrModalOpen = false
+			draft.isExportingAccounts = false
 		})
 	}
 
 	return (
 		<Box>
 			<HardwareWalletReconnect />
-			<Text css={{ pb: '$3' }}>Enter your password to reveal export QR code for this account.</Text>
-			<Input
-				ref={inputRef}
-				type="password"
-				placeholder="Password"
-				error={state.errorMessage !== ''}
-				onChange={(e: React.ChangeEvent<HTMLInputElement>): void => {
-					setState(draft => {
-						draft.password = e.target.value
-						draft.errorMessage = ''
-					})
-				}}
-			/>
+			{keystore.type === KeystoreType.LOCAL && (
+				<>
+					<Text css={{ pb: '$3' }}>Enter your password to reveal export QR code for this account.</Text>
+					<Input
+						ref={inputRef}
+						type="password"
+						placeholder="Password"
+						error={state.errorMessage !== ''}
+						onChange={(e: React.ChangeEvent<HTMLInputElement>): void => {
+							setState(draft => {
+								draft.password = e.target.value
+								draft.errorMessage = ''
+							})
+						}}
+					/>
+				</>
+			)}
 			<InputFeedBack
 				showFeedback={!!state.errorMessage}
 				animateHeight={25}
@@ -173,7 +178,7 @@ const AccountExport: React.FC = () => {
 						loading={state.isExportingAccounts}
 						size="6"
 						color="primary"
-						aria-label="confirm connect wallet"
+						aria-label="export"
 						css={{ px: '0', flex: '1' }}
 					>
 						Export

@@ -21,7 +21,6 @@ import {
 } from 'ui/src/components/select'
 import { ToolTip } from 'ui/src/components/tool-tip'
 
-import { useIsBabylon } from '@src/hooks/use-is-babylon'
 import { useMessanger } from '@src/hooks/use-messanger'
 import { useSharedStore } from '@src/hooks/use-store'
 import { KeystoreType } from '@src/types'
@@ -35,7 +34,6 @@ const defaultProps: Partial<IProps> = {
 const newWalletOptions = '_new'
 
 export const WalletSelector: React.FC<IProps> = () => {
-	const isBabylon = useIsBabylon()
 	const [open, setOpen] = useState<boolean>(false)
 	const [measureRef, { width: triggerWidth }] = useMeasure()
 
@@ -156,27 +154,25 @@ export const WalletSelector: React.FC<IProps> = () => {
 						</SelectItem>
 					))}
 
-					{!isBabylon && (
-						<>
-							<SelectSeparator />
+					<>
+						<SelectSeparator />
 
-							<SelectItem
-								value={newWalletOptions}
-								css={{
-									'span:first-child': {
-										overflow: 'hidden',
-										textOverflow: 'ellipsis',
-										whiteSpace: 'nowrap',
-										maxWidth: `${triggerWidth - 25}px`,
-										minWidth: '100px',
-									},
-								}}
-							>
-								<SelectItemText>Add new wallet</SelectItemText>
-								<SelectItemIndicator />
-							</SelectItem>
-						</>
-					)}
+						<SelectItem
+							value={newWalletOptions}
+							css={{
+								'span:first-child': {
+									overflow: 'hidden',
+									textOverflow: 'ellipsis',
+									whiteSpace: 'nowrap',
+									maxWidth: `${triggerWidth - 25}px`,
+									minWidth: '100px',
+								},
+							}}
+						>
+							<SelectItemText>Add new wallet</SelectItemText>
+							<SelectItemIndicator />
+						</SelectItem>
+					</>
 				</SelectViewport>
 				<SelectScrollDownButton>
 					<ChevronDownIcon />

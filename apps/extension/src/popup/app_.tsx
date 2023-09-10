@@ -8,7 +8,6 @@ import { Toasts } from '@src/containers/toasts'
 import { useColorMode } from '@src/hooks/use-color-mode'
 import { useEvents } from '@src/hooks/use-events'
 import { multipathMatcher, useHashLocation } from '@src/hooks/use-hash-location'
-import { useIsBabylon } from '@src/hooks/use-is-babylon'
 import { useMessanger } from '@src/hooks/use-messanger'
 import { useSharedStore } from '@src/hooks/use-store'
 import { useVault } from '@src/hooks/use-vault'
@@ -24,7 +23,6 @@ const HardwareWallet = lazy(() => import('@src/containers/hardware-wallet'))
 const Credentials = lazy(() => import('@src/containers/credentials'))
 
 export const App: React.FC = () => {
-	const isBabylon = useIsBabylon()
 	const { messanger } = useMessanger()
 	useVault(messanger)
 	useEvents(messanger)
@@ -62,22 +60,16 @@ export const App: React.FC = () => {
 				<Router matcher={multipathMatcher as any} hook={useHashLocation as any}>
 					<Suspense fallback={<Loader />}>
 						<Route path="/wallet/:rest*" component={WalletPanel} />
-						{!isBabylon && <Route path="/notification/:rest*" component={Notification} />}
-						{!isBabylon && (
-							<Route path="/onboarding/:rest*">
-								<OnboardingWorkFlow />
-							</Route>
-						)}
-						{!isBabylon && (
-							<Route path="/hardware-wallet/:rest*">
-								<HardwareWallet />
-							</Route>
-						)}
-						{!isBabylon && (
-							<Route path="/credentials/:rest*">
-								<Credentials />
-							</Route>
-						)}
+						<Route path="/notification/:rest*" component={Notification} />
+						<Route path="/onboarding/:rest*">
+							<OnboardingWorkFlow />
+						</Route>
+						<Route path="/hardware-wallet/:rest*">
+							<HardwareWallet />
+						</Route>
+						<Route path="/credentials/:rest*">
+							<Credentials />
+						</Route>
 						<Route component={WalletPanel} />
 					</Suspense>
 				</Router>
