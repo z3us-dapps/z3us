@@ -112,49 +112,47 @@ export const AccountSwitcher = (): JSX.Element => {
 							<AccountInfo address={address} />
 						</Box>
 					))}
-					{!isBabylon && (
-						<Box
-							css={{
-								width: `${SLIDER_WIDTH}px`,
-								height: `${SLIDER_HEIGHT}px`,
-								px: '6px',
-								py: '0',
-								margin: 0,
-								border: 'none',
-							}}
-							onClick={() => handleSlideClick(addresses.length)}
+					<Box
+						css={{
+							width: `${SLIDER_WIDTH}px`,
+							height: `${SLIDER_HEIGHT}px`,
+							px: '6px',
+							py: '0',
+							margin: 0,
+							border: 'none',
+						}}
+						onClick={() => handleSlideClick(addresses.length)}
+					>
+						<Flex
+							align="center"
+							justify="center"
+							css={{ border: '1px dashed #a8a8a8', height: '100%', borderRadius: '14px' }}
 						>
-							<Flex
-								align="center"
-								justify="center"
-								css={{ border: '1px dashed #a8a8a8', height: '100%', borderRadius: '14px' }}
-							>
-								<Box css={{ textAlign: 'center' }}>
-									{signingKey && (
-										<>
-											<Button
-												size="5"
-												color="inverse"
-												iconOnly
-												circle
-												onClick={handleAddAccount}
-												css={{ mt: '5px' }}
-												data-test-e2e="account-add-new-account"
-											>
-												<PlusIcon />
-											</Button>
-											<Text size="4" css={{ mt: '12px' }} medium>
-												New account
-											</Text>
-										</>
-									)}
-									<Box css={{ p: '10px' }}>
-										<HardwareWalletReconnect />
-									</Box>
+							<Box css={{ textAlign: 'center' }}>
+								{signingKey && (
+									<>
+										<Button
+											size="5"
+											color="inverse"
+											iconOnly
+											circle
+											onClick={handleAddAccount}
+											css={{ mt: '5px' }}
+											data-test-e2e="account-add-new-account"
+										>
+											<PlusIcon />
+										</Button>
+										<Text size="4" css={{ mt: '12px' }} medium>
+											New account
+										</Text>
+									</>
+								)}
+								<Box css={{ p: '10px' }}>
+									<HardwareWalletReconnect />
 								</Box>
-							</Flex>
-						</Box>
-					)}
+							</Box>
+						</Flex>
+					</Box>
 				</MotionBox>
 			</Box>
 			<Box

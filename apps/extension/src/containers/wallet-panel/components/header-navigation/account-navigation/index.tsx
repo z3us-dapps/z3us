@@ -118,25 +118,23 @@ export const AccountNaviation: React.FC = () => {
 						/>
 					</Button>
 				))}
-				{!isBabylon && (
-					<Button iconOnly size="1" onClick={() => handleBreadCrumbClick(addresses.length)}>
-						<Box
-							data-test-e2e="account-breadcrumb-last-btn"
-							css={{
-								border: '1px solid $iconDefault',
-								borderRadius: '50%',
-								transition: 'all 150ms ease-out',
-								background: 'transparent',
-								transformOrigin: 'center',
-								width: '5px',
-								height: '5px',
-								...(activeSlideIndex === addresses.length
-									? { transform: 'scale(1.5) translate(0,0px)', opacity: '1' }
-									: { transform: 'scale(1.0)', opacity: '0.4' }),
-							}}
-						/>
-					</Button>
-				)}
+				<Button iconOnly size="1" onClick={() => handleBreadCrumbClick(addresses.length)}>
+					<Box
+						data-test-e2e="account-breadcrumb-last-btn"
+						css={{
+							border: '1px solid $iconDefault',
+							borderRadius: '50%',
+							transition: 'all 150ms ease-out',
+							background: 'transparent',
+							transformOrigin: 'center',
+							width: '5px',
+							height: '5px',
+							...(activeSlideIndex === addresses.length
+								? { transform: 'scale(1.5) translate(0,0px)', opacity: '1' }
+								: { transform: 'scale(1.0)', opacity: '0.4' }),
+						}}
+					/>
+				</Button>
 			</Flex>
 		</Flex>
 	)

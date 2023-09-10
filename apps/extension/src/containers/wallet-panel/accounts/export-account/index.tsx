@@ -7,6 +7,7 @@ import { Box, Flex, Text } from 'ui/src/components/atoms'
 import Button from 'ui/src/components/button'
 import Input from 'ui/src/components/input'
 import InputFeedBack from 'ui/src/components/input/input-feedback'
+import { ScrollArea } from 'ui/src/components/scroll-area'
 
 import { HardwareWalletReconnect } from '@src/components/hardware-wallet-reconnect'
 import { SLIDE_PANEL_EXPAND_HEIGHT, SLIDE_PANEL_HEADER_HEIGHT, SLIDE_PANEL_HEIGHT } from '@src/config'
@@ -73,6 +74,7 @@ export const exportAsCode = (accounts: string[], payloadSize: number, mnemonicLe
 }
 
 interface ImmerT {
+	words: string[]
 	exports: string[]
 	password: string
 	errorMessage: string
@@ -90,7 +92,9 @@ const AccountExport: React.FC = () => {
 	const { publicAddresses } = useNoneSharedStore(state => ({
 		publicAddresses: state.publicAddresses,
 	}))
+
 	const [state, setState] = useImmer<ImmerT>({
+		words: [],
 		exports: [],
 		password: '',
 		errorMessage: '',
@@ -110,6 +114,7 @@ const AccountExport: React.FC = () => {
 			)
 			const exports = exportAsCode(summaries, 1800, mnemonic?.words.length)
 			setState(draft => {
+				draft.words = mnemonic?.words || []
 				draft.exports = exports
 				draft.isQrModalOpen = true
 			})
@@ -129,6 +134,7 @@ const AccountExport: React.FC = () => {
 
 	const handleCloseQrModal = async () => {
 		setState(draft => {
+			draft.words = []
 			draft.exports = []
 			draft.isQrModalOpen = false
 		})
@@ -174,55 +180,79 @@ const AccountExport: React.FC = () => {
 					</Button>
 				</AlertDialogTrigger>
 				<AlertDialogContent>
-					<Flex direction="column" css={{ p: '$2', position: 'relative' }}>
-						<Box css={{ flex: '1' }}>
-							<Flex css={{ pb: '$3' }}>
-								<Text medium size="3" css={{ position: 'relative' }}>
-									To import your accounts, use the &#34;Import from a Legacy Wallet&#34; feature of the new Radix Wallet
-									mobile app to scan this QR code.
-								</Text>
-							</Flex>
-							<Flex direction="column" align="center" css={{ bg: '$bgPanel2', width: '100%', p: '$2', br: '$2' }}>
-								<Box css={{ pb: '$4', ta: 'center' }}>
-									<Flex justify="center" css={{ mt: '24px' }}>
-										<Flex
-											align="center"
-											justify="center"
-											css={{
-												border: '1px solid',
-												borderColor: '$borderPanel2',
-												width: '200px',
-												height: '200px',
-												br: '$2',
-											}}
-										>
-											{state.exports.map(data => (
-												<QRCodeSVG
-													value={data}
-													size={180}
-													fgColor={isDarkMode ? '#a6a6a6' : '#161718'}
-													bgColor={isDarkMode ? '#161718' : '#ffffff'}
-												/>
-											))}
-										</Flex>
+					<Box css={{ position: 'relative', height: '497px' }}>
+						<ScrollArea>
+							<Flex direction="column" css={{ p: '$2', position: 'relative' }}>
+								<Box css={{ flex: '1' }}>
+									<Flex css={{ pb: '$3' }}>
+										<Text medium size="3" css={{ position: 'relative' }}>
+											To import your accounts, use the &#34;Import from a Legacy Wallet&#34; feature of the new Radix
+											Wallet mobile app to scan below QR codes and then type in your seed phrase.
+										</Text>
+									</Flex>
+									<Flex direction="column" align="center" css={{ bg: '$bgPanel2', width: '100%', p: '$2', br: '$2' }}>
+										{state.exports.map(data => (
+											<Box css={{ pb: '$4', ta: 'center' }}>
+												<Flex justify="center" css={{ mt: '24px' }}>
+													<Flex
+														align="center"
+														justify="center"
+														css={{
+															border: '1px solid',
+															borderColor: '$borderPanel2',
+															width: '200px',
+															height: '200px',
+															br: '$2',
+														}}
+													>
+														<QRCodeSVG
+															value={data}
+															size={180}
+															fgColor={isDarkMode ? '#a6a6a6' : '#161718'}
+															bgColor={isDarkMode ? '#161718' : '#ffffff'}
+														/>
+													</Flex>
+												</Flex>
+											</Box>
+										))}
+										{state.words.length > 0 && (
+											<Box
+												css={{
+													background: '$bgPanel',
+													p: '$4',
+													pb: '100px',
+													br: '$2',
+													border: '1px solid $borderPanel',
+													position: 'relative',
+												}}
+											>
+												<Flex css={{ overflow: 'hidden', flexWrap: 'wrap' }}>
+													{state.words.map(word => (
+														<Box key={word} css={{ mr: '$2', mb: '$1' }}>
+															<Text size="4">{word}</Text>
+														</Box>
+													))}
+												</Flex>
+											</Box>
+										)}
 									</Flex>
 								</Box>
+								<Box css={{ mt: '$2' }}>
+									<Button
+										data-test-e2e="accounts-send-transaction-close"
+										size="6"
+										color="primary"
+										aria-label="close"
+										css={{ px: '0', flex: '1' }}
+										onClick={handleCloseQrModal}
+										fullWidth
+									>
+										Close
+									</Button>
+								</Box>
 							</Flex>
-						</Box>
-						<Box css={{ mt: '$2' }}>
-							<Button
-								data-test-e2e="accounts-send-transaction-close"
-								size="6"
-								color="primary"
-								aria-label="close"
-								css={{ px: '0', flex: '1' }}
-								onClick={handleCloseQrModal}
-								fullWidth
-							>
-								Close
-							</Button>
-						</Box>
-					</Flex>
+						</ScrollArea>
+					</Box>
 				</AlertDialogContent>
 			</AlertDialog>
 		</Box>
