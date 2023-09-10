@@ -9,7 +9,6 @@ import Input from 'ui/src/components/input'
 import InputFeedBack from 'ui/src/components/input/input-feedback'
 import { ScrollArea } from 'ui/src/components/scroll-area'
 
-import { HardwareWalletReconnect } from '@src/components/hardware-wallet-reconnect'
 import { SLIDE_PANEL_EXPAND_HEIGHT, SLIDE_PANEL_HEADER_HEIGHT, SLIDE_PANEL_HEIGHT } from '@src/config'
 import { useColorMode } from '@src/hooks/use-color-mode'
 import { useMessanger } from '@src/hooks/use-messanger'
@@ -143,7 +142,6 @@ const AccountExport: React.FC = () => {
 
 	return (
 		<Box>
-			<HardwareWalletReconnect />
 			{keystore.type === KeystoreType.LOCAL && (
 				<>
 					<Text css={{ pb: '$3' }}>Enter your password to reveal export QR code for this account.</Text>
