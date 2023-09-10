@@ -73,7 +73,7 @@ export const exportAsCode = (accounts: string[], payloadSize: number, mnemonicLe
 }
 
 interface ImmerT {
-	data: string
+	exports: string[]
 	password: string
 	errorMessage: string
 	isQrModalOpen: boolean
@@ -87,12 +87,11 @@ const AccountExport: React.FC = () => {
 	const { keystore } = useSharedStore(state => ({
 		keystore: state.keystores.find(({ id }) => id === state.selectKeystoreId),
 	}))
-	const { accountIndex, account } = useNoneSharedStore(state => ({
-		accountIndex: state.selectedAccountIndex,
-		account: state.publicAddresses[Object.keys(state.publicAddresses)[state.selectedAccountIndex]],
+	const { publicAddresses } = useNoneSharedStore(state => ({
+		publicAddresses: state.publicAddresses,
 	}))
 	const [state, setState] = useImmer<ImmerT>({
-		data: '',
+		exports: [],
 		password: '',
 		errorMessage: '',
 		isQrModalOpen: false,
@@ -105,10 +104,13 @@ const AccountExport: React.FC = () => {
 		})
 		try {
 			const { mnemonic } = await getWallet(state.password)
-			const summary = accountSummary(account, accountIndex, keystore.type === KeystoreType.LOCAL)
-			const data = exportAsCode([summary], 1800, mnemonic?.words.length)[0]
+			const summaries = []
+			Object.keys(publicAddresses).forEach(idx =>
+				summaries.push(accountSummary(publicAddresses[idx], +idx, keystore.type === KeystoreType.LOCAL)),
+			)
+			const exports = exportAsCode(summaries, 1800, mnemonic?.words.length)
 			setState(draft => {
-				draft.data = data
+				draft.exports = exports
 				draft.isQrModalOpen = true
 			})
 		} catch (error) {
@@ -127,7 +129,7 @@ const AccountExport: React.FC = () => {
 
 	const handleCloseQrModal = async () => {
 		setState(draft => {
-			draft.data = ''
+			draft.exports = []
 			draft.isQrModalOpen = false
 		})
 	}
@@ -194,12 +196,14 @@ const AccountExport: React.FC = () => {
 												br: '$2',
 											}}
 										>
-											<QRCodeSVG
-												value={state.data}
-												size={180}
-												fgColor={isDarkMode ? '#a6a6a6' : '#161718'}
-												bgColor={isDarkMode ? '#161718' : '#ffffff'}
-											/>
+											{state.exports.map(data => (
+												<QRCodeSVG
+													value={data}
+													size={180}
+													fgColor={isDarkMode ? '#a6a6a6' : '#161718'}
+													bgColor={isDarkMode ? '#161718' : '#ffffff'}
+												/>
+											))}
 										</Flex>
 									</Flex>
 								</Box>
@@ -250,7 +254,7 @@ export const ExportAccount: React.FC = () => {
 			>
 				<SlideUpPanel headerComponent={<Box />}>
 					<Box css={{ position: 'relative', height: `${calculateHeight}px` }}>
-						{activeSlideIndex === -1 ? <Box>Select account to export</Box> : <AccountExport />}
+						<AccountExport />
 					</Box>
 				</SlideUpPanel>
 			</Box>
