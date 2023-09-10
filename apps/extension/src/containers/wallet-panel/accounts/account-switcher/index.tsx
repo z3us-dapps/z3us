@@ -76,7 +76,7 @@ export const AccountSwitcher = (): JSX.Element => {
 				css={{ width: `${containerWidth}px`, height: `${SLIDER_HEIGHT}px`, position: 'relative', mt: '20px' }}
 			>
 				<MotionBox
-					css={{ width: `${SLIDER_WIDTH * (addresses.length + (isBabylon ? 0 : 2))}px`, display: 'flex' }}
+					css={{ width: `${SLIDER_WIDTH * (addresses.length + (isBabylon ? 0 : 1))}px`, display: 'flex' }}
 					animate={{ x: xVal }}
 					initial={false}
 					transition={{ duration: 0.3 }}
