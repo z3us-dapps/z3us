@@ -65,8 +65,6 @@ export const AccountSwitcher = (): JSX.Element => {
 		}
 	})
 
-	console.log('999 ', `${SLIDER_WIDTH * (addresses.length + (isBabylon ? 0 : 1))}px`)
-
 	return (
 		<Flex
 			ref={containerRef}
