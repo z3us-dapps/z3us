@@ -295,7 +295,7 @@ export const LockedPanel: React.FC = () => {
 										Babylon is live. Read
 										<StyledLink
 											underline
-											href="https://z3us.com/docs"
+											href="https://z3us.com/docs/migration/"
 											css={{ display: 'inline', px: '$1' }}
 											target="_blank"
 										>
