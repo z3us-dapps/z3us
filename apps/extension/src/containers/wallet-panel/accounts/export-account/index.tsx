@@ -168,7 +168,6 @@ const AccountExport: React.FC = () => {
 					{state.errorMessage}
 				</Text>
 			</InputFeedBack>
-
 			<Box css={{ pt: '$2' }}>
 				<AlertDialog open={state.isQrModalOpen}>
 					<AlertDialogTrigger asChild>

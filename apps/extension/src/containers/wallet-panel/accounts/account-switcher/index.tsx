@@ -65,6 +65,8 @@ export const AccountSwitcher = (): JSX.Element => {
 		}
 	})
 
+	console.log('999 ', `${SLIDER_WIDTH * (addresses.length + (isBabylon ? 0 : 1))}px`)
+
 	return (
 		<Flex
 			ref={containerRef}
@@ -76,26 +78,30 @@ export const AccountSwitcher = (): JSX.Element => {
 				css={{ width: `${containerWidth}px`, height: `${SLIDER_HEIGHT}px`, position: 'relative', mt: '20px' }}
 			>
 				<MotionBox
-					css={{ width: `${SLIDER_WIDTH * (addresses.length + (isBabylon ? 0 : 1))}px`, display: 'flex' }}
+					css={{ width: `${SLIDER_WIDTH * (addresses.length + 2)}px`, display: 'flex' }}
 					animate={{ x: xVal }}
 					initial={false}
 					transition={{ duration: 0.3 }}
 				>
-					{!isBabylon && (
-						<Box
-							css={{
-								width: `${SLIDER_WIDTH}px`,
-								height: `${SLIDER_HEIGHT}px`,
-								px: '6px',
-								py: '0',
-								margin: 0,
-								border: 'none',
-							}}
-							onClick={() => handleSlideClick(-1)}
-						>
-							<AccountsTotal />
-						</Box>
-					)}
+					<Box
+						css={{
+							width: `${SLIDER_WIDTH}px`,
+							height: `${SLIDER_HEIGHT}px`,
+							px: '6px',
+							py: '0',
+							margin: 0,
+							border: 'none',
+							...(isBabylon
+								? {
+										opacity: 0,
+										pointerEvents: 'none',
+								  }
+								: {}),
+						}}
+						onClick={() => !isBabylon && handleSlideClick(-1)}
+					>
+						<AccountsTotal />
+					</Box>
 					{addresses.map((address, idx) => (
 						<Box
 							onClick={() => handleSlideClick(idx)}
