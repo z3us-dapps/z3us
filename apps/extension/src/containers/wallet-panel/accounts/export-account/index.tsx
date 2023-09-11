@@ -2,8 +2,9 @@ import { QRCodeSVG } from 'qrcode.react'
 import React, { useRef } from 'react'
 import { useImmer } from 'use-immer'
 
+import AlertCard from 'ui/src/components/alert-card'
 import { AlertDialog, AlertDialogContent, AlertDialogTrigger } from 'ui/src/components/alert-dialog'
-import { Box, Flex, Text } from 'ui/src/components/atoms'
+import { Box, Flex, StyledLink, Text } from 'ui/src/components/atoms'
 import Button from 'ui/src/components/button'
 import Input from 'ui/src/components/input'
 import InputFeedBack from 'ui/src/components/input/input-feedback'
@@ -14,7 +15,7 @@ import { useColorMode } from '@src/hooks/use-color-mode'
 import { useMessanger } from '@src/hooks/use-messanger'
 import { useNoneSharedStore, useSharedStore } from '@src/hooks/use-store'
 import { parseAccountAddress } from '@src/services/radix/serializer'
-import { AddressBookEntry } from '@src/store/types'
+import type { AddressBookEntry } from '@src/store/types'
 import { KeystoreType } from '@src/types'
 
 import { AccountSwitcher } from '../account-switcher'
@@ -260,6 +261,24 @@ const AccountExport: React.FC = () => {
 						</Box>
 					</AlertDialogContent>
 				</AlertDialog>
+			</Box>
+			<Box css={{ pt: '$2' }}>
+				<AlertCard icon color="warning" css={{ py: '$4' }}>
+					<Box css={{ p: '$2' }}>
+						<Text size="3" css={{ display: 'inline', lineHeight: '16px' }}>
+							Babylon is live. Read
+							<StyledLink
+								underline
+								href="https://z3us.com/docs/migration/"
+								css={{ display: 'inline', px: '$1' }}
+								target="_blank"
+							>
+								here
+							</StyledLink>
+							on how to export your accounts.
+						</Text>
+					</Box>
+				</AlertCard>
 			</Box>
 		</Box>
 	)
