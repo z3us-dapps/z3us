@@ -1,11 +1,13 @@
 import type { StateCreator } from 'zustand'
 import { createStore } from 'zustand'
+import type { StateStorage as IStateStorage } from 'zustand/middleware'
 import { devtools, persist, subscribeWithSelector } from 'zustand/middleware'
 import { immer } from 'zustand/middleware/immer'
 
 import { factory as createKeystoreStore } from './keystore'
 import { factory as olympiaStore } from './olympia'
 import { factory as createSettingsStore } from './settings'
+import { StateStorage } from './storage'
 import type { NoneSharedState, SharedState } from './types'
 import { factory as createWalletStore } from './wallet'
 
@@ -16,8 +18,15 @@ type MutatorsTypes = [
 	['zustand/immer', never],
 ]
 
+const getStorage: () => IStateStorage = () => {
+	if (globalThis.browser?.runtime?.id) return new StateStorage(globalThis.browser.storage.local)
+	if (globalThis.chrome?.runtime?.id) return new StateStorage(globalThis.chrome.storage.local)
+
+	return globalThis.localStorage
+}
+
 const middlewares = <T>(name: string, f: StateCreator<T, MutatorsTypes>) =>
-	devtools(subscribeWithSelector(persist(immer(f), { name })), { name })
+	devtools(subscribeWithSelector(persist(immer(f), { name, getStorage })), { name })
 
 export const sharedStore = createStore(
 	middlewares<SharedState>('z3us:store', set => ({

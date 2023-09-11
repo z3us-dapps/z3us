@@ -10,7 +10,7 @@ const migrateOlympiaAddresses = async () => {
 	if (!oldSharedStore['z3us-store-shared']) return
 
 	const oldSharedState = JSON.parse(oldSharedStore['z3us-store-shared']).state
-	if (oldSharedState) return
+	if (!oldSharedState) return
 
 	const newKeystores = await Promise.all(
 		oldSharedState.keystores.map(async (keystore: Keystore) => {
@@ -45,7 +45,7 @@ const migrateOlympiaAddresses = async () => {
 	await Promise.all(
 		oldSharedState.keystores.map(async keystore => {
 			try {
-				// await browser.storage.local.remove(`z3us-store-${keystore.id}`)
+				await browser.storage.local.remove(`z3us-store-${keystore.id}`)
 			} catch (error) {
 				console.error(`failed to remove none shared store for: ${JSON.stringify(keystore)}: ${error}`)
 			}
@@ -53,7 +53,7 @@ const migrateOlympiaAddresses = async () => {
 	)
 
 	try {
-		// await browser.storage.local.remove('z3us-store-shared')
+		await browser.storage.local.remove('z3us-store-shared')
 	} catch (error) {
 		console.error(`failed to remove old shared store: ${error}`)
 	}
