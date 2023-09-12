@@ -88,9 +88,9 @@ const AddressBook: React.FC = () => {
 		<>
 			<SettingsWrapper>
 				<SettingsTitle
-					backLink="/accounts/settings"
-					title={<Translation capitalizeFirstLetter text="settings.navigation.title" />}
-					subTitle={<Translation capitalizeFirstLetter text="settings.navigation.sub_title" />}
+					backLink="/settings"
+					title={<Translation capitalizeFirstLetter text="settings.navigation.accountsAddressBookTitle" />}
+					subTitle={<Translation capitalizeFirstLetter text="settings.navigation.accountsAddressBookSubTitle" />}
 				/>
 				<Box display="flex" flexDirection="column" gap="small">
 					<Box paddingBottom="medium">

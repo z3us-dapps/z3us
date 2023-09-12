@@ -1,8 +1,8 @@
 import { lazy } from 'react'
 
 import Layout from './components/layout'
-import { MobileNavigation } from './components/navigation'
 
+const Home = lazy(() => import('./home'))
 const General = lazy(() => import('./general'))
 const Accounts = lazy(() => import('./accounts'))
 const AddressBook = lazy(() => import('./address-book'))
@@ -13,7 +13,7 @@ const route = {
 	children: [
 		{
 			index: true,
-			element: <MobileNavigation />,
+			element: <Home />,
 		},
 		{
 			path: 'general',

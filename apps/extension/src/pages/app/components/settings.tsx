@@ -22,6 +22,7 @@ const Settings: React.FC = () => {
 			toggleRadixConnector: state.setRadixConnectorEnabledAction,
 		}))
 
+	const [isLoading, setIsLoading] = useState<boolean>(false)
 	const [options, setOptions] = useState<ConnectorExtensionOptions>(defaultConnectorExtensionOptions)
 
 	useEffect(() => {
@@ -32,28 +33,42 @@ const Settings: React.FC = () => {
 		setWalletUnlockTimeoutInMinutes(parseInt(minute, 10))
 	}
 
-	const handleToggleRadixConnector = () => {
+	const handleToggleRadixConnector = async () => {
+		setIsLoading(true)
+		if (!radixConnectorEnabled) {
+			const updatedOptions = {
+				...options,
+				showDAppRequestNotifications: false,
+				showTransactionResultNotifications: false,
+			}
+
+			await chromeStorageSync.setSingleItem('options', updatedOptions).map(() => setOptions(updatedOptions))
+		}
+
 		toggleRadixConnector(!radixConnectorEnabled)
+		setIsLoading(false)
 	}
 
-	const handleToggleDAppRequestNotifications = () => {
+	const handleToggleDAppRequestNotifications = async () => {
 		const updatedOptions = {
 			...options,
 			showDAppRequestNotifications: !options.showDAppRequestNotifications,
 		}
 
-		setOptions(updatedOptions)
-		chromeStorageSync.setSingleItem('options', updatedOptions)
+		setIsLoading(true)
+		await chromeStorageSync.setSingleItem('options', updatedOptions).map(() => setOptions(updatedOptions))
+		setIsLoading(false)
 	}
 
-	const handleToggleTransactionResultNotifications = () => {
+	const handleToggleTransactionResultNotifications = async () => {
 		const updatedOptions = {
 			...options,
 			showTransactionResultNotifications: !options.showTransactionResultNotifications,
 		}
 
-		setOptions(updatedOptions)
-		chromeStorageSync.setSingleItem('options', updatedOptions)
+		setIsLoading(true)
+		await chromeStorageSync.setSingleItem('options', updatedOptions).map(() => setOptions(updatedOptions))
+		setIsLoading(false)
 	}
 
 	return (
@@ -108,7 +123,11 @@ const Settings: React.FC = () => {
 				rightCol={
 					<Box display="flex" alignItems="center" gap="medium">
 						<Box>
-							<Switch defaultChecked={radixConnectorEnabled} onCheckedChange={handleToggleRadixConnector} />
+							<Switch
+								disabled={isLoading}
+								defaultChecked={radixConnectorEnabled}
+								onCheckedChange={handleToggleRadixConnector}
+							/>
 						</Box>
 					</Box>
 				}
@@ -120,17 +139,11 @@ const Settings: React.FC = () => {
 						leftCol={
 							<>
 								<Text size="large" weight="strong" color="strong">
-									<Translation
-										capitalizeFirstLetter
-										text="settings.radix.showDAppRequestNotifications.title"
-									/>
+									<Translation capitalizeFirstLetter text="settings.radix.showDAppRequestNotifications.title" />
 								</Text>
 								<Box>
 									<Text size="small">
-										<Translation
-											capitalizeFirstLetter
-											text="settings.radix.showDAppRequestNotifications.subTitle"
-										/>
+										<Translation capitalizeFirstLetter text="settings.radix.showDAppRequestNotifications.subTitle" />
 									</Text>
 								</Box>
 							</>
@@ -139,6 +152,7 @@ const Settings: React.FC = () => {
 							<Box display="flex" alignItems="center" gap="medium">
 								<Box>
 									<Switch
+										disabled={isLoading}
 										defaultChecked={!!options?.showDAppRequestNotifications}
 										onCheckedChange={handleToggleDAppRequestNotifications}
 									/>
@@ -151,10 +165,7 @@ const Settings: React.FC = () => {
 						leftCol={
 							<>
 								<Text size="large" weight="strong" color="strong">
-									<Translation
-										capitalizeFirstLetter
-										text="settings.radix.showTransactionResultNotifications.title"
-									/>
+									<Translation capitalizeFirstLetter text="settings.radix.showTransactionResultNotifications.title" />
 								</Text>
 								<Box>
 									<Text size="small">
@@ -170,6 +181,7 @@ const Settings: React.FC = () => {
 							<Box display="flex" alignItems="center" gap="medium">
 								<Box>
 									<Switch
+										disabled={isLoading}
 										defaultChecked={!!options?.showTransactionResultNotifications}
 										onCheckedChange={handleToggleTransactionResultNotifications}
 									/>

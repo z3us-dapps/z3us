@@ -1,6 +1,7 @@
 {
 	"global": {
 		"ok": "okay",
+		"save": "save",
 		"cancel": "cancel",
 		"close": "close",
 		"open": "open",
@@ -196,22 +197,22 @@
 			"accountImage": "Account image"
 		},
 		"address_book": {
-			"newAddress": "New address",
-			"deleteAlertTitle": "Are you sure?",
-			"deleteAlertDescription": "Are you sure you want to delete",
-			"addDialogTitle": "Add address",
-			"addDialogNameTitle": "Name",
-			"addDialogInputNamePlaceholder": "Name",
-			"addDialogAddressTitle": "Address",
-			"addDialogInputAddress": "Address"
+			"new_address": "New address",
+			"delete_alert_title": "Are you sure?",
+			"delete_alert_description": "Are you sure you want to delete",
+			"addDialog_title": "Add address",
+			"addDialog_name_title": "Name",
+			"addDialog_input_name_placeholder": "Name",
+			"addDialog_address_title": "Address",
+			"addDialog_input_address": "Address"
 		},
 		"radix": {
 			"radixConnectorEnabled": {
 				"title":"Enable Radix Connector",
-				"subTitle":"Use embedded radix connector extension from within Z3US wallet"
+				"subTitle":"Enable Radix Connector extension features via Z3US"
 			},
 			"showDAppRequestNotifications": {
-				"title":"DApp Request Notifications",
+				"title":"Request Notifications",
 				"subTitle":"Show DApp request notifications"
 			},
 			"showTransactionResultNotifications": {
