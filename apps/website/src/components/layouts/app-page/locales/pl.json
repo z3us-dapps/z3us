@@ -1,0 +1,164 @@
+{
+	"global": {
+		"ok": "dobra",
+		"cancel": "anulować",
+		"close": "anulować",
+		"open": "anulować",
+		"next": "następny",
+		"all": "wszystko",
+		"minute": "minuta",
+		"minutes": "minuty",
+		"menu": "menu",
+		"previous": "poprzedni",
+		"tokens": "żetony",
+		"activity": "działalność",
+		"accounts": "konta",
+		"fungibles": "przeznaczony na stracenie",
+		"nonFungibles": "niezamienne",
+		"assets": "aktywa",
+		"nfts": "nfts",
+		"lpTokens": "LP Żetony",
+		"badges": "odznaki",
+		"send": "wysłać",
+		"receive": "odbierać",
+		"received": "otrzymane",
+		"address": "adres",
+		"copied": "skopiowane",
+		"search": "szukaj",
+		"notification": "powiadomienie",
+		"notifications": "powiadomienia",
+		"explorer": "eksploratora",
+		"transaction": "transaction",
+		"details": "details",
+		"deposit": "depozyt",
+		"type": "typ",
+		"date": "date",
+		"id": "id",
+		"from": "z",
+		"to": "do",
+		"coin": "moneta",
+		"back": "z powrotem",
+		"up": "w górę",
+		"continue": "kontynuować",
+		"telegram": "telegram",
+		"twitter": "twitter",
+		"github": "github",
+		"fee": "opłata",
+		"na": "N/A"
+	},
+	"transaction": {
+		"transactionDetails": "szczegóły transakcji",
+		"transactionStatus": "status transakcji",
+		"stateVersion": "wersja stanu",
+		"epoch": "epoka",
+		"round": "runda",
+		"date": "data",
+		"affectedGlobalEntities": "dotknięte globalne jednostki",
+		"message": "wiadomość",
+		"transactionManifest": "manifest transakcji"
+	},
+	"accounts": {
+		"navigation": {
+			"accounts": "konta",
+			"transfer": "przenosić",
+			"staking": "obstawianie",
+			"swap": "zamieniać",
+			"settings": "ustawienia"
+		},
+		"home": {
+			"accountBalanceTitle": "account balance",
+			"accountHideBalance": "hide balance",
+			"accountShowBalance": "show balance",
+			"fungiblesTitle": "Tokens",
+			"nonFungiblesTitle": "Nfts",
+			"allAssets": "All assets"
+		},
+		"assetsList": {
+			"overview": "przegląd",
+			"listHeaderAsset": "zaleta",
+			"listHeaderAmount": "kwota",
+			"listHeaderCategory": "Kategoria",
+			"listHeaderAccount": "konto"
+		}
+	},
+	"transfer": {
+		"navigation": {
+			"tokenTitle": "Tokeny",
+			"nftTitle": "NFT-y",
+			"rawTitle": "Surowe",
+			"deployTitle": "Wdroż pakiet"
+		},
+		"tokens": {
+			"title": "Tokeny",
+			"titleSuffix": "fungible"
+		},
+		"nfts": {
+			"title": "NFT-y",
+			"titleSuffix": "non-fungible"
+		},
+		"raw": {
+			"title": "Surowa transakcja",
+			"inputPlaceholder": "manifest transakcji",
+			"description": "Wprowadź manifest transakcji",
+			"helpTitle": "Surowa transakcja",
+			"help": "Wprowadź tekst manifestu surowej transakcji, aby wysłać go do powiązanego Portfela Radix. Automatycznie zostanie dodane wywołanie metody 'lock_fee', nie jest to wymagane - portfel doda to automatycznie."
+		},
+		"deploy": {
+			"title": "Wdroż pakiet",
+			"description": "Wdróż nowy pakiet blueprint na Radix Betanet, dołączając swoje pliki WASM i ABI do transakcji wdrożenia."
+		}
+	},
+	"settings": {
+		"navigation": {
+			"generalTitle": "Ustawienia",
+			"generalSubTitle": "Dostosuj swoje preferencje Z3US. Zarządzaj czasem sesji i wybierz idealny motyw kolorystyczny, aby uzyskać spersonalizowane i bezpieczne korzystanie z Z3US.",
+			"accountsTitle": "Accounts",
+			"accountsSubTitle": "Dostosuj wygląd i styl swojego konta Radix. Spersonalizuj swoje wrażenia, wybierając unikalny obraz tła i schemat kolorów, który pasuje do Twojego stylu.",
+			"accountsAddressBookTitle": "Książka adresowa",
+			"accountsAddressBookSubTitle": "Bezproblemowa organizacja kont książki adresowej. Z łatwością zarządzaj swoją książką adresową Radix, edytując nazwy kont i adresy w wygodnym widoku tabeli, aby zapewnić bezproblemowe transakcje i lepszą kontrolę finansową."
+		},
+		"session": {
+			"title": "Timer z automatyczną blokadą",
+			"willLockAfter": "Z3US automatycznie zablokuje się po",
+			"select": {
+				"oneMinute": "1 minuta",
+				"fiveMinutes": "5 minut",
+				"thirtyMinutes": "30 minut",
+				"sixtyMinutes": "60 minut"
+			}
+		},
+		"theme": {
+			"title": "Temat",
+			"subTitle": "Pokoloruj swoje doświadczenie Z3US, wybieraj jasne lub ciemne motywy lub pozwól systemowi wybrać za Ciebie.",
+			"options": {
+				"light": "światło",
+				"dark": "ciemny",
+				"system": "system"
+			}
+		},
+		"currency": {
+			"title": "Waluta",
+			"subTitle": "Wyświetl salda w preferowanej walucie."
+		},
+		"language": {
+			"title": "Język",
+			"subTitle": "Wybierz preferowany język."
+		},
+		"accounts": {
+			"accountTitle": "Konto",
+			"accountSubTitle": "Wybierz konto z rozwijanego menu i dostosuj kolorystykę oraz obraz tła karty konta.",
+			"accountColor": "Kolor konta",
+			"accountImage": "Obraz konta"
+		},
+		"addressBook": {
+			"newAddress": "Nowy adres",
+			"deleteAlertTitle": "Jesteś pewny?",
+			"deleteAlertDescription": "Czy na pewno chcesz usunąć",
+			"addDialogTitle": "Dodaj adres",
+			"addDialogNameTitle": "Nazwa",
+			"addDialogInputNamePlaceholder": "Nazwa",
+			"addDialogAddressTitle": "Adres",
+			"addDialogInputAddress": "Adres"
+		}
+	}
+}

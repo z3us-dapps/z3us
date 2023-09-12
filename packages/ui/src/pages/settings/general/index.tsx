@@ -1,4 +1,4 @@
-import { languages } from 'packages/ui/src/constants/i18n'
+import { languages } from 'packages/ui/src/i18n/constants'
 import { Theme } from 'packages/ui/src/types/types'
 import React from 'react'
 import { useTranslation } from 'react-i18next'

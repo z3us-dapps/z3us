@@ -96,11 +96,11 @@ const Settings: React.FC = () => {
 				leftCol={
 					<>
 						<Text size="large" weight="strong" color="strong">
-							<Translation capitalizeFirstLetter text="settings.notifications.radix.radixConnectorEnabled.title" />
+							<Translation capitalizeFirstLetter text="settings.radix.radixConnectorEnabled.title" />
 						</Text>
 						<Box>
 							<Text size="small">
-								<Translation capitalizeFirstLetter text="settings.notifications.radix.radixConnectorEnabled.subTitle" />
+								<Translation capitalizeFirstLetter text="settings.radix.radixConnectorEnabled.subTitle" />
 							</Text>
 						</Box>
 					</>
@@ -122,14 +122,14 @@ const Settings: React.FC = () => {
 								<Text size="large" weight="strong" color="strong">
 									<Translation
 										capitalizeFirstLetter
-										text="settings.notifications.radix.showDAppRequestNotifications.title"
+										text="settings.radix.showDAppRequestNotifications.title"
 									/>
 								</Text>
 								<Box>
 									<Text size="small">
 										<Translation
 											capitalizeFirstLetter
-											text="settings.notifications.radix.showDAppRequestNotifications.subTitle"
+											text="settings.radix.showDAppRequestNotifications.subTitle"
 										/>
 									</Text>
 								</Box>
@@ -153,14 +153,14 @@ const Settings: React.FC = () => {
 								<Text size="large" weight="strong" color="strong">
 									<Translation
 										capitalizeFirstLetter
-										text="settings.notifications.radix.showTransactionResultNotifications.title"
+										text="settings.radix.showTransactionResultNotifications.title"
 									/>
 								</Text>
 								<Box>
 									<Text size="small">
 										<Translation
 											capitalizeFirstLetter
-											text="settings.notifications.radix.showTransactionResultNotifications.subTitle"
+											text="settings.radix.showTransactionResultNotifications.subTitle"
 										/>
 									</Text>
 								</Box>

@@ -1,0 +1,247 @@
+{
+	"global": {
+		"ok": "okay",
+		"cancel": "cancel",
+		"close": "close",
+		"open": "open",
+		"next": "next",
+		"all": "all",
+		"minute": "minute",
+		"minutes": "minutes",
+		"menu": "menu",
+		"previous": "previous",
+		"activity": "activity",
+		"accounts": "accounts",
+		"fungibles": "fungibles",
+		"nonFungibles": "non-fungibles",
+		"assets": "assets",
+		"tokens": "tokens",
+		"nfts": "nfts",
+		"lpTokens": "LP Tokens",
+		"badges": "badges",
+		"send": "send",
+		"receive": "receive",
+		"received": "received",
+		"address": "address",
+		"copied": "copied",
+		"search": "search",
+		"notification": "notification",
+		"notifications": "notifications",
+		"explorer": "explorer",
+		"transaction": "transaction",
+		"details": "details",
+		"deposit": "deposit",
+		"type": "type",
+		"date": "date",
+		"id": "id",
+		"from": "from",
+		"to": "to",
+		"coin": "coin",
+		"back": "back",
+		"up": "up",
+		"remove": "remove",
+		"continue": "continue",
+		"telegram": "telegram",
+		"twitter": "twitter",
+		"github": "github",
+		"fee": "fee",
+		"na": "N/A",
+		"clear": "clear"
+	},
+	"transaction": {
+		"transactionDetails": "transaction details",
+		"transactionStatus": "status",
+		"stateVersion": "state version",
+		"epoch": "epoch",
+		"round": "round",
+		"date": "date",
+		"affectedGlobalEntities": "affected global entities",
+		"message": "message",
+		"transactionManifest": "transaction manifest"
+	},
+	"walletDropdown": {
+		"contentScriptTitle": "connected dapp",
+		"walletTitle": "wallet",
+		"accountTitle": "account",
+		"personaTitle": "persona",
+		"settingsTitle": "settings",
+		"lockTitle": "lock",
+		"openInBrowserTitle": "open in browser",
+		"theme": "theme"
+	},
+	"tokenSelectDialog": {
+		"inputPlaceholder": "Search token paste address",
+		"emptyStateTitle": "No tokens found",
+		"emptyStateSubTitle": "Please refine search"
+	},
+	"accounts": {
+		"breadcrumbs": {
+			"accounts": "All accounts",
+			"tokens": "Tokens",
+			"nfts": "NFTs"
+		},
+		"navigation": {
+			"accounts": "accounts",
+			"transfer": "transfer",
+			"staking": "staking",
+			"swap": "swap",
+			"settings": "settings"
+		},
+		"home": {
+			"accountBalanceTitle": "account balance",
+			"accountHideBalance": "hide balance",
+			"accountShowBalance": "show balance",
+			"fungiblesTitle": "Tokens",
+			"nonFungiblesTitle": "Nfts",
+			"allAssets": "All assets"
+		},
+		"assetsList": {
+			"overview": "overview",
+			"listHeaderAsset": "asset",
+			"listHeaderAmount": "amount",
+			"listHeaderCategory": "category",
+			"listHeaderAccount": "account"
+		},
+		"tokens": {
+			"noNftsEmptyStateTitle": "No results",
+			"noNftsEmptyStateSubTitle": "could not find any tokens in this account"
+		},
+		"nfts": {
+			"noNftsEmptyStateTitle": "No results",
+			"noNftsEmptyStateSubTitle": "could not find any NFTs in this account"
+		}
+	},
+	"transfer": {
+		"navigation": {
+			"homeTitle": "Transfer",
+			"rawTitle": "Advanced",
+			"deployTitle": "Deploy package"
+		},
+		"tokensNfts": {
+			"submitFormButtonTitle": "transfer",
+			"submitFormGroupToAccountAdd": "Add another account",
+			"submitFormGroupTokensAdd": "Add another token",
+			"submitFormKnownAddress": "Known address",
+			"title": "Transfer",
+			"fromAccountTitle": "From account",
+			"fromAccountSubTitle": "Select the account, you wish to send tokens and NFT's from",
+			"messageTitle": "Message",
+			"messageSubTitle": "Send an optional message with the transaction.",
+			"messagePlaceholder": "Enter transaction message",
+			"encryptMessageTitle": "Encrypt message",
+			"toAccountTitle": "To account",
+			"toAccountSubTitle": "Select account to send tokens or nfts",
+			"tokensTabTitle": "Tokens",
+			"nftsTabTitle": "NFTs",
+			"tokenInputValuePlaceholder": "Enter token amount",
+			"tokenAvailableLabel": "available",
+			"xxx": "xxx"
+		},
+		"raw": {
+			"title": "Raw transaction",
+			"inputPlaceholder": "transaction manifest",
+			"description": "Enter transaction manifest",
+			"helpTitle": "Raw transaction",
+			"help": "Enter raw transaction manifest text to send to your linked Radix Wallet. No method call to 'lock_fee' is required - the wallet will add this automatically."
+		},
+		"deploy": {
+			"title": "Deploy package",
+			"description": "Deploy a new blueprint package to the Radix Betanet by attaching your WASM and ABI files to a deploy transaction."
+		}
+	},
+	"settings": {
+		"navigation": {
+			"generalTitle": "General",
+			"generalSubTitle": "Fine-tune your Z3US preferences. Manage session time and choose your ideal color theme for a personalized and secure Z3US experience.",
+			"accountsTitle": "Accounts",
+			"accountsSubTitle": "Customize your Radix account's look and feel. Personalize your experience by choosing a unique background image and color scheme that suits your style.",
+			"accountsAddressBookTitle": "Address book",
+			"accountsAddressBookSubTitle": "Effortless organization for your address book accounts. Manage your Radix address book with ease, editing account names and addresses in a convenient table view for seamless transactions and better financial control."
+		},
+		"session": {
+			"title": "Auto-Lock timer",
+			"willLockAfter": "Z3US will automatically lock after",
+			"select": {
+				"oneMinute": "1 minute",
+				"fiveMinutes": "5 minutes",
+				"thirtyMinutes": "30 minutes",
+				"sixtyMinutes": "60 minutes"
+			}
+		},
+		"theme": {
+			"title": "Theme",
+			"subTitle": "Color Your Z3US Experience, select from light or dark themes, or let your system select for you.",
+			"options": {
+				"light": "light",
+				"dark": "dark",
+				"system": "system"
+			}
+		},
+		"currency": {
+			"title": "Currency",
+			"subTitle": "Display balances in your preferred currency."
+		},
+		"language": {
+			"title": "Language",
+			"subTitle": "Select your preferred language."
+		},
+		"notifications": {
+			"title": "Notifications",
+			"subTitle": "Enable push notifications to receive real-time updates and important alerts."
+		},
+		"accounts": {
+			"accountTitle": "Account",
+			"accountSubTitle": "Select account from the dropdown menu, and adjust color scheme and background image for the account card.",
+			"accountColor": "Account color",
+			"accountImage": "Account image"
+		},
+		"address_book": {
+			"newAddress": "New address",
+			"deleteAlertTitle": "Are you sure?",
+			"deleteAlertDescription": "Are you sure you want to delete",
+			"addDialogTitle": "Add address",
+			"addDialogNameTitle": "Name",
+			"addDialogInputNamePlaceholder": "Name",
+			"addDialogAddressTitle": "Address",
+			"addDialogInputAddress": "Address"
+		},
+		"radix": {
+			"radixConnectorEnabled": {
+				"title":"Enable Radix Connector",
+				"subTitle":"Use embedded radix connector extension from within Z3US wallet"
+			},
+			"showDAppRequestNotifications": {
+				"title":"DApp Request Notifications",
+				"subTitle":"Show DApp request notifications"
+			},
+			"showTransactionResultNotifications": {
+				"title":"Transaction Result Notifications",
+				"subTitle":"Show transaction result notifications"
+			}
+		}
+	},
+	"staking": {
+		"navigation": {
+			"stakingValidatorsTitle": "staking validators",
+			"yourStakes": "your stakes",
+			"stakingValidatorTransactions": "Staking transactions"
+		},
+		"stakingValidators": {
+			"title": "Staking validators",
+			"subTitle": "View all currently registered Radix Network validator nodes, and manage your own XRD stakes to validators."
+		},
+		"validatorTable": {
+			"validatorTitle": "Validator"
+		},
+		"validatorPanel": {
+			"validatorDetailsTitle": "validator details",
+			"validatorAddress": "validator address",
+			"totalStake": "total stake",
+			"ownerStake": "owner stake",
+			"fee": "fee",
+			"apy": "apy",
+			"acceptsStake": "accepts stake",
+			"registrationStake": "registration stake"
+		}
+	}
+}
