@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import clsx, { type ClassValue } from 'clsx'
 import { Theme } from 'packages/ui/src/types/types'
 import React, { forwardRef } from 'react'
@@ -33,9 +32,9 @@ import {
 	LockIcon,
 	MenuIcon,
 	MoonIcon,
-	NetworkIcon,
 	ShareIcon,
 	SunIcon,
+	Z3usIcon,
 } from 'ui/src/components/icons'
 import { Link } from 'ui/src/components/router-link'
 import Translation from 'ui/src/components/translation'
@@ -52,12 +51,17 @@ import * as styles from './styles.css'
 interface IAccountViewDropdownProps {
 	className?: ClassValue
 	styleVariant?: TStyleVariant
-	isLeftButtonIconVisible?: boolean
+}
+
+const weights = {
+	[KeystoreType.RADIX_WALLET]: 1,
+	[KeystoreType.HARDWARE]: 2,
+	[KeystoreType.LOCAL]: 3,
 }
 
 export const AccountViewDropdown = forwardRef<HTMLElement, IAccountViewDropdownProps>(
 	(props, ref: React.Ref<HTMLElement | null>) => {
-		const { className, styleVariant = 'ghost', isLeftButtonIconVisible = true } = props
+		const { className, styleVariant = 'ghost' } = props
 
 		const { t } = useTranslation()
 		const dappStatus = useDappStatus()
@@ -121,21 +125,33 @@ export const AccountViewDropdown = forwardRef<HTMLElement, IAccountViewDropdownP
 									</Text>
 								</DropdownMenuLabel>
 								<DropdownMenuRadioGroup value={selectedKeystoreId} onValueChange={selectKeystore}>
-									{keystores.map(keystore => (
-										<DropdownMenuRadioItem key={keystore.id} value={keystore.id}>
-											<DropdownMenuLeftSlot>
-												{keystore.type === KeystoreType.RADIX_WALLET && <HomeIcon />}
-												{keystore.type === KeystoreType.HARDWARE && <HardwareWalletIcon />}
-												{keystore.type === KeystoreType.LOCAL && <NetworkIcon />}
-											</DropdownMenuLeftSlot>
-											<Box flexGrow={1} marginLeft="small">
-												<Text size="xsmall"> {keystore.name}</Text>
-											</Box>
-											<DropdownMenuItemIndicator>
-												<CheckIcon />
-											</DropdownMenuItemIndicator>
-										</DropdownMenuRadioItem>
-									))}
+									{keystores
+										.sort((a, b) => weights[a.type] - weights[b.type])
+										.map(keystore => (
+											<DropdownMenuRadioItem
+												disabled={keystore.type !== KeystoreType.RADIX_WALLET}
+												key={keystore.id}
+												value={keystore.id}
+											>
+												<DropdownMenuLeftSlot>
+													{keystore.type === KeystoreType.RADIX_WALLET && <HomeIcon />}
+													{keystore.type === KeystoreType.HARDWARE && <HardwareWalletIcon />}
+													{keystore.type === KeystoreType.LOCAL && <Z3usIcon />}
+												</DropdownMenuLeftSlot>
+												<Box flexGrow={1} marginLeft="small">
+													<Text size="xsmall"> {keystore.name}</Text>
+													{keystore.type !== KeystoreType.RADIX_WALLET && (
+														<Text size="xsmall" color="neutral">
+															{' '}
+															<Translation text="global.coming_soon" />
+														</Text>
+													)}
+												</Box>
+												<DropdownMenuItemIndicator>
+													<CheckIcon />
+												</DropdownMenuItemIndicator>
+											</DropdownMenuRadioItem>
+										))}
 								</DropdownMenuRadioGroup>
 								<DropdownMenuSeparator />
 							</Box>
