@@ -1,11 +1,14 @@
 import React, { useEffect } from 'react'
 import { useEventListener } from 'usehooks-ts'
-import { useNoneSharedStore } from '@src/hooks/use-store'
-import { Box, Flex, MotionBox } from 'ui/src/components/atoms'
 import { useLocation } from 'wouter'
-import { UpArrowWideIcon } from 'ui/src/components/icons'
+
+import { Box, Flex, MotionBox } from 'ui/src/components/atoms'
 import Button from 'ui/src/components/button'
-import { SLIDE_PANEL_HEIGHT, SLIDE_PANEL_EXPAND_HEIGHT } from '@src/config'
+import { UpArrowWideIcon } from 'ui/src/components/icons'
+
+import { SLIDE_PANEL_EXPAND_HEIGHT, SLIDE_PANEL_HEIGHT } from '@src/config'
+import { useIsBabylon } from '@src/hooks/use-is-babylon'
+import { useNoneSharedStore } from '@src/hooks/use-store'
 
 interface IProps {
 	children: React.ReactNode
@@ -18,6 +21,7 @@ const defaultProps = {
 }
 
 export const SlideUpPanel: React.FC<IProps> = ({ children, headerComponent, slidePanelHeight }) => {
+	const isBabylon = useIsBabylon()
 	const [location] = useLocation()
 	const { expanded, setExpanded } = useNoneSharedStore(state => ({
 		expanded: state.accountPanelExpanded,
@@ -55,6 +59,7 @@ export const SlideUpPanel: React.FC<IProps> = ({ children, headerComponent, slid
 				<Button
 					size="6"
 					color="ghost"
+					disabled={isBabylon}
 					iconOnly
 					onClick={() => {
 						setExpanded(!expanded)
@@ -72,7 +77,7 @@ export const SlideUpPanel: React.FC<IProps> = ({ children, headerComponent, slid
 			<MotionBox
 				variants={{
 					contracted: {
-						height: `${slidePanelHeight}px`,
+						height: `${isBabylon ? 246 : slidePanelHeight}px`,
 						transition: {
 							type: 'spring',
 							stiffness: 200,
