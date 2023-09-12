@@ -154,23 +154,25 @@ export const WalletSelector: React.FC<IProps> = () => {
 						</SelectItem>
 					))}
 
-					<SelectSeparator />
+					<>
+						<SelectSeparator />
 
-					<SelectItem
-						value={newWalletOptions}
-						css={{
-							'span:first-child': {
-								overflow: 'hidden',
-								textOverflow: 'ellipsis',
-								whiteSpace: 'nowrap',
-								maxWidth: `${triggerWidth - 25}px`,
-								minWidth: '100px',
-							},
-						}}
-					>
-						<SelectItemText>Add new wallet</SelectItemText>
-						<SelectItemIndicator />
-					</SelectItem>
+						<SelectItem
+							value={newWalletOptions}
+							css={{
+								'span:first-child': {
+									overflow: 'hidden',
+									textOverflow: 'ellipsis',
+									whiteSpace: 'nowrap',
+									maxWidth: `${triggerWidth - 25}px`,
+									minWidth: '100px',
+								},
+							}}
+						>
+							<SelectItemText>Add new wallet</SelectItemText>
+							<SelectItemIndicator />
+						</SelectItem>
+					</>
 				</SelectViewport>
 				<SelectScrollDownButton>
 					<ChevronDownIcon />

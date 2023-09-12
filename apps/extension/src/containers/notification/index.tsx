@@ -1,9 +1,10 @@
-import React, { lazy, Suspense } from 'react'
-import { useHashLocation } from '@src/hooks/use-hash-location'
-import { RouterScope } from '@src/components/router-scope'
-import { Loader } from '@src/components/loader'
+import React, { Suspense, lazy } from 'react'
 import { Route } from 'wouter'
+
+import { Loader } from '@src/components/loader'
+import { RouterScope } from '@src/components/router-scope'
 import UnlockedPanel from '@src/components/unlocked-panel'
+import { useHashLocation } from '@src/hooks/use-hash-location'
 
 const Connect = lazy(() => import('./connect'))
 const Encrypt = lazy(() => import('./encrypt'))

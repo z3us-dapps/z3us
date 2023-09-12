@@ -1,11 +1,13 @@
+import { CheckIcon, ExclamationTriangleIcon } from '@radix-ui/react-icons'
 import React, { useEffect } from 'react'
-import { ExclamationTriangleIcon, CheckIcon } from '@radix-ui/react-icons'
+
+import { Box, Flex, Text } from '../../atoms'
 import Button from '../../button'
 import { CloseIcon } from '../../icons'
-import { Box, Flex, Text } from '../../atoms'
 
 export const TYPE_SUCCESS = 'success'
 export const TYPE_ERROR = 'error'
+export const TYPE_INFO = 'info'
 
 const typeMap = {
 	[TYPE_SUCCESS]: {
@@ -18,7 +20,11 @@ const typeMap = {
 		icon: '',
 		iconBg: '#e94c24',
 	},
-	info: { bg: '', icon: '', iconBg: '' },
+	[TYPE_INFO]: {
+		bg: '$bgToastError',
+		icon: '',
+		iconBg: '#e94c24',
+	},
 	caution: { bg: '', icon: '', iconBg: '' },
 }
 
@@ -26,7 +32,7 @@ interface IProps {
 	children?: React.ReactNode
 	type?: string
 	title?: string
-	subTitle?: string
+	subTitle?: string | React.ReactElement
 	duration?: number
 	isAutoRemovable?: boolean
 	onClickClose?: () => void

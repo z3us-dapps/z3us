@@ -39,6 +39,10 @@ body.home-page {
 	order: 2;
 }
 
+.homepage .coming-soon-wrapper {
+	min-height: calc(100vh - 160px)
+}
+
 .homepage .homepage__h1 {
 	font-size: 4rem;
 	line-height: 4rem;

@@ -1,11 +1,31 @@
 import React from 'react'
-import { useNoneSharedStore } from '@src/hooks/use-store'
 import { useLocation, useRoute } from 'wouter'
+
 import { Flex } from 'ui/src/components/atoms'
 import Button from 'ui/src/components/button'
-import { routesInfo } from '@src/config'
+import { HomeIcon, SettingsIcon } from 'ui/src/components/icons'
+
+import { ACCOUNTS, SETTINGS, routesInfo } from '@src/config'
+import { useIsBabylon } from '@src/hooks/use-is-babylon'
+import { useNoneSharedStore } from '@src/hooks/use-store'
+
+export const babylonRoutesInfo = {
+	[ACCOUNTS]: {
+		id: ACCOUNTS,
+		name: 'Accounts',
+		icon: <HomeIcon />,
+		href: 'account',
+	},
+	[SETTINGS]: {
+		id: SETTINGS,
+		name: 'Settings',
+		icon: <SettingsIcon />,
+		href: 'settings',
+	},
+}
 
 export const FooterNavigation: React.FC = () => {
+	const isBabylon = useIsBabylon()
 	const { activeApp, setActiveApp } = useNoneSharedStore(state => ({
 		activeApp: state.activeApp,
 		setActiveApp: state.setActiveAppAction,
@@ -18,6 +38,8 @@ export const FooterNavigation: React.FC = () => {
 	const [isDepositRoute] = useRoute('/wallet/account/deposit')
 	const [isDepositRouteRri] = useRoute('/wallet/account/deposit/:rri')
 	const isFooterHidden = isSendRoute || isSendRouteRri || isDepositRoute || isDepositRouteRri || isSendConfirmRouteRri
+
+	const routes = isBabylon ? babylonRoutesInfo : routesInfo
 
 	return (
 		<Flex
@@ -35,9 +57,9 @@ export const FooterNavigation: React.FC = () => {
 			}}
 			as="ul"
 		>
-			{Object.entries(routesInfo).map(([key, { icon, href }], i) => {
+			{Object.entries(routes).map(([key, { icon, href }], i) => {
 				const isActive = key === page
-				const currentPageIndex = Object.keys(routesInfo).findIndex(_key => _key === page)
+				const currentPageIndex = Object.keys(routes).findIndex(_key => _key === page)
 				return (
 					<Button
 						key={key}

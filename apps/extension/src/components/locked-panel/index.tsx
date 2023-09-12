@@ -5,6 +5,7 @@ import React, { useEffect, useRef } from 'react'
 import { useImmer } from 'use-immer'
 import { useTimeout } from 'usehooks-ts'
 
+import AlertCard from 'ui/src/components/alert-card'
 import { Box, Flex, MotionBox, StyledLink, Text } from 'ui/src/components/atoms'
 import Button from 'ui/src/components/button'
 import Input from 'ui/src/components/input'
@@ -12,6 +13,7 @@ import { Z3usText } from 'ui/src/components/z3us-text'
 
 import { WalletMenu } from '@src/components/wallet-menu'
 import { useColorMode } from '@src/hooks/use-color-mode'
+import { useIsBabylon } from '@src/hooks/use-is-babylon'
 import { useMessanger } from '@src/hooks/use-messanger'
 import { useSharedStore } from '@src/hooks/use-store'
 import { createLocalSigningKey } from '@src/services/signing-key'
@@ -31,6 +33,7 @@ interface IImmer {
 }
 
 export const LockedPanel: React.FC = () => {
+	const isBabylon = useIsBabylon()
 	const isDarkMode = useColorMode()
 	const panelControls = useAnimationControls()
 	const z3usLogoControls = useAnimationControls()
@@ -284,55 +287,78 @@ export const LockedPanel: React.FC = () => {
 					</Box>
 				</Flex>
 				<Flex align="center" justify="center" css={{ flex: '1', position: 'relative' }}>
-					<MotionBox
-						animate={imageControls}
-						css={{
-							pe: 'none',
-							opacity: '0',
-							position: 'absolute',
-							width: '204px',
-							height: '347px',
-							top: '-16px',
-							right: '0px',
-							backgroundImage: 'url("/images/locked-panel-right.webp")',
-							backgroundSize: '100%',
-						}}
-					/>
-					<MotionBox
-						animate={z3usLogoControls}
-						css={{
-							width: '232px',
-							height: '232px',
-							borderRadius: '50%',
-							position: 'absolute',
-							top: '40px',
-							left: '50%',
-							marginLeft: '-116px',
-							transition: '$default',
-							zIndex: '99',
-							boxShadow: logoShadow,
-							fill: logoFill,
-							backgroundColor: logoBackgroundStart,
-						}}
-					>
-						<MotionBox
-							animate={z3usLogoSpinnerControls}
-							css={{ width: '232px', height: '232px', position: 'absolute', top: '0', left: '0' }}
-						>
-							<Z3USLogoOuter />
-						</MotionBox>
-						<Box
-							css={{
-								width: '168px',
-								height: '168px',
-								position: 'absolute',
-								top: '32px',
-								left: '32px',
-							}}
-						>
-							<Z3USLogoInner />
+					{isBabylon ? (
+						<Box css={{ px: '$5' }}>
+							<AlertCard icon color="warning" css={{ py: '$4' }}>
+								<Box css={{ p: '$2' }}>
+									<Text size="3" css={{ display: 'inline', lineHeight: '16px' }}>
+										Babylon is live. Read
+										<StyledLink
+											underline
+											href="https://z3us.com/docs/migration/"
+											css={{ display: 'inline', px: '$1' }}
+											target="_blank"
+										>
+											here
+										</StyledLink>
+										on how to export your accounts.
+									</Text>
+								</Box>
+							</AlertCard>
 						</Box>
-					</MotionBox>
+					) : (
+						<>
+							<MotionBox
+								animate={imageControls}
+								css={{
+									pe: 'none',
+									opacity: '0',
+									position: 'absolute',
+									width: '204px',
+									height: '347px',
+									top: '-16px',
+									right: '0px',
+									backgroundImage: 'url("/images/locked-panel-right.webp")',
+									backgroundSize: '100%',
+								}}
+							/>
+							<MotionBox
+								animate={z3usLogoControls}
+								css={{
+									width: '232px',
+									height: '232px',
+									borderRadius: '50%',
+									position: 'absolute',
+									top: '40px',
+									left: '50%',
+									marginLeft: '-116px',
+									transition: '$default',
+									zIndex: '99',
+									boxShadow: logoShadow,
+									fill: logoFill,
+									backgroundColor: logoBackgroundStart,
+								}}
+							>
+								<MotionBox
+									animate={z3usLogoSpinnerControls}
+									css={{ width: '232px', height: '232px', position: 'absolute', top: '0', left: '0' }}
+								>
+									<Z3USLogoOuter />
+								</MotionBox>
+								<Box
+									css={{
+										width: '168px',
+										height: '168px',
+										position: 'absolute',
+										top: '32px',
+										left: '32px',
+									}}
+								>
+									<Z3USLogoInner />
+								</Box>
+							</MotionBox>
+						</>
+					)}
 				</Flex>
 
 				<form onSubmit={handleSubmitForm}>
