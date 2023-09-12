@@ -1,7 +1,7 @@
 /* eslint-disable no-console */
 import { getNoneSharedStore } from 'packages/ui/src/services/state'
 import { sharedStore } from 'packages/ui/src/store'
-import { type Keystore, KeystoreType, type Keystore as NewKeystore } from 'packages/ui/src/store/types'
+import { type Keystore, KeystoreType } from 'packages/ui/src/store/types'
 import type { Runtime } from 'webextension-polyfill'
 import browser from 'webextension-polyfill'
 
@@ -32,7 +32,7 @@ const migrateOlympiaAddresses = async () => {
 
 				return {
 					...keystore,
-				} as NewKeystore
+				} as Keystore
 			} catch (error) {
 				console.error(`migrateOlympiaAddresses: ${JSON.stringify(keystore)}: ${error}`)
 			}
@@ -43,7 +43,17 @@ const migrateOlympiaAddresses = async () => {
 	await sharedStore.persist.rehydrate()
 	const currentState = sharedStore.getState()
 
-	currentState.keystores = [...currentState.keystores, ...newKeystores.filter(keystore => !!keystore)]
+	const keystoresMap: { [key: string]: Keystore } = {}
+	newKeystores.forEach(keystore => {
+		if (!keystore) return
+		keystoresMap[keystore.id] = keystore
+	})
+	currentState.keystores.forEach(keystore => {
+		if (!keystore) return
+		keystoresMap[keystore.id] = keystore
+	})
+
+	currentState.keystores = Object.values(keystoresMap)
 	sharedStore.setState(currentState)
 
 	await Promise.all(
