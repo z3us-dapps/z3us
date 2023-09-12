@@ -2,8 +2,10 @@ import { chromeStorageSync } from '@radixdlt/connector-extension/src/chrome/help
 import type { ConnectorExtensionOptions } from '@radixdlt/connector-extension/src/options'
 import { defaultConnectorExtensionOptions, getExtensionOptions } from '@radixdlt/connector-extension/src/options'
 import React, { useEffect, useState } from 'react'
+import { useTranslation } from 'react-i18next'
 
 import { Box } from 'ui/src/components/box'
+import { SelectSimple } from 'ui/src/components/select'
 import { Switch } from 'ui/src/components/switch'
 import Translation from 'ui/src/components/translation'
 import { Text } from 'ui/src/components/typography'
@@ -11,10 +13,14 @@ import { useNoneSharedStore } from 'ui/src/hooks/use-store'
 import { SettingsBlock } from 'ui/src/pages/settings/components/settings-block'
 
 const Settings: React.FC = () => {
-	const { notifications, toggleNotifications } = useNoneSharedStore(state => ({
-		notifications: state.pushNotificationsEnabled,
-		toggleNotifications: state.setPushNotificationsEnabledAction,
-	}))
+	const { t } = useTranslation()
+	const { unlockTimer, setWalletUnlockTimeoutInMinutes, radixConnectorEnabled, toggleRadixConnector } =
+		useNoneSharedStore(state => ({
+			unlockTimer: state.walletUnlockTimeoutInMinutes,
+			setWalletUnlockTimeoutInMinutes: state.setWalletUnlockTimeoutInMinutesAction,
+			radixConnectorEnabled: state.radixConnectorEnabled,
+			toggleRadixConnector: state.setRadixConnectorEnabledAction,
+		}))
 
 	const [options, setOptions] = useState<ConnectorExtensionOptions>(defaultConnectorExtensionOptions)
 
@@ -22,22 +28,28 @@ const Settings: React.FC = () => {
 		getExtensionOptions().map(setOptions)
 	}, [])
 
+	const handleChangeUnlockTime = (minute: string) => {
+		setWalletUnlockTimeoutInMinutes(parseInt(minute, 10))
+	}
+
+	const handleToggleRadixConnector = () => {
+		toggleRadixConnector(!radixConnectorEnabled)
+	}
+
 	const handleToggleDAppRequestNotifications = () => {
 		const updatedOptions = {
 			...options,
-			showDAppRequestNotifications: !notifications,
+			showDAppRequestNotifications: !options.showDAppRequestNotifications,
 		}
 
 		setOptions(updatedOptions)
 		chromeStorageSync.setSingleItem('options', updatedOptions)
-
-		toggleNotifications(!notifications)
 	}
 
 	const handleToggleTransactionResultNotifications = () => {
 		const updatedOptions = {
 			...options,
-			showTransactionResultNotifications: !notifications,
+			showTransactionResultNotifications: !options.showTransactionResultNotifications,
 		}
 
 		setOptions(updatedOptions)
@@ -47,53 +59,48 @@ const Settings: React.FC = () => {
 	return (
 		<>
 			<SettingsBlock
-				isBottomBorderVisible={false}
 				leftCol={
 					<>
 						<Text size="large" weight="strong" color="strong">
-							<Translation
-								capitalizeFirstLetter
-								text="settings.notifications.radix.showDAppRequestNotifications.title"
-							/>
+							<Translation capitalizeFirstLetter text="settings.session.title" />
 						</Text>
-						<Box>
-							<Text size="small">
-								<Translation
-									capitalizeFirstLetter
-									text="settings.notifications.radix.showDAppRequestNotifications.subTitle"
-								/>
-							</Text>
-						</Box>
+						<Text size="xsmall">
+							<Translation capitalizeFirstLetter text="settings.session.willLockAfter" />{' '}
+							<Box component="span">
+								{unlockTimer}{' '}
+								{unlockTimer === 1 ? (
+									<Translation capitalizeFirstLetter text="global.minute" />
+								) : (
+									<Translation capitalizeFirstLetter text="global.minutes" />
+								)}
+								.
+							</Box>
+						</Text>
 					</>
 				}
 				rightCol={
-					<Box display="flex" alignItems="center" gap="medium">
-						<Box>
-							<Switch
-								defaultChecked={!!options?.showDAppRequestNotifications}
-								onCheckedChange={handleToggleDAppRequestNotifications}
-							/>
-						</Box>
-					</Box>
+					<SelectSimple
+						value={`${unlockTimer}`}
+						onValueChange={handleChangeUnlockTime}
+						data={[
+							{ id: '1', title: t('settings.session.select.oneMinute') },
+							{ id: '5', title: t('settings.session.select.fiveMinutes') },
+							{ id: '30', title: t('settings.session.select.thirtyMinutes') },
+							{ id: '60', title: t('settings.session.select.sixtyMinutes') },
+						]}
+					/>
 				}
 			/>
-
 			<SettingsBlock
 				isBottomBorderVisible={false}
 				leftCol={
 					<>
 						<Text size="large" weight="strong" color="strong">
-							<Translation
-								capitalizeFirstLetter
-								text="settings.notifications.radix.showTransactionResultNotifications.title"
-							/>
+							<Translation capitalizeFirstLetter text="settings.notifications.radix.radixConnectorEnabled.title" />
 						</Text>
 						<Box>
 							<Text size="small">
-								<Translation
-									capitalizeFirstLetter
-									text="settings.notifications.radix.showTransactionResultNotifications.subTitle"
-								/>
+								<Translation capitalizeFirstLetter text="settings.notifications.radix.radixConnectorEnabled.subTitle" />
 							</Text>
 						</Box>
 					</>
@@ -101,14 +108,77 @@ const Settings: React.FC = () => {
 				rightCol={
 					<Box display="flex" alignItems="center" gap="medium">
 						<Box>
-							<Switch
-								defaultChecked={!!options?.showTransactionResultNotifications}
-								onCheckedChange={handleToggleTransactionResultNotifications}
-							/>
+							<Switch defaultChecked={radixConnectorEnabled} onCheckedChange={handleToggleRadixConnector} />
 						</Box>
 					</Box>
 				}
 			/>
+			{radixConnectorEnabled && (
+				<>
+					<SettingsBlock
+						isBottomBorderVisible={false}
+						leftCol={
+							<>
+								<Text size="large" weight="strong" color="strong">
+									<Translation
+										capitalizeFirstLetter
+										text="settings.notifications.radix.showDAppRequestNotifications.title"
+									/>
+								</Text>
+								<Box>
+									<Text size="small">
+										<Translation
+											capitalizeFirstLetter
+											text="settings.notifications.radix.showDAppRequestNotifications.subTitle"
+										/>
+									</Text>
+								</Box>
+							</>
+						}
+						rightCol={
+							<Box display="flex" alignItems="center" gap="medium">
+								<Box>
+									<Switch
+										defaultChecked={!!options?.showDAppRequestNotifications}
+										onCheckedChange={handleToggleDAppRequestNotifications}
+									/>
+								</Box>
+							</Box>
+						}
+					/>
+					<SettingsBlock
+						isBottomBorderVisible={false}
+						leftCol={
+							<>
+								<Text size="large" weight="strong" color="strong">
+									<Translation
+										capitalizeFirstLetter
+										text="settings.notifications.radix.showTransactionResultNotifications.title"
+									/>
+								</Text>
+								<Box>
+									<Text size="small">
+										<Translation
+											capitalizeFirstLetter
+											text="settings.notifications.radix.showTransactionResultNotifications.subTitle"
+										/>
+									</Text>
+								</Box>
+							</>
+						}
+						rightCol={
+							<Box display="flex" alignItems="center" gap="medium">
+								<Box>
+									<Switch
+										defaultChecked={!!options?.showTransactionResultNotifications}
+										onCheckedChange={handleToggleTransactionResultNotifications}
+									/>
+								</Box>
+							</Box>
+						}
+					/>
+				</>
+			)}
 		</>
 	)
 }

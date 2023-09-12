@@ -24,6 +24,8 @@ const migrateOlympiaAddresses = async () => {
 				if (!oldNoneSharedState) return null
 
 				const noneSharedStore = await getNoneSharedStore(keystore.id)
+				await noneSharedStore.persist.rehydrate()
+
 				const currentKeystoreState = noneSharedStore.getState()
 				currentKeystoreState.olympiaAddresses = oldNoneSharedState?.publicAddresses || {}
 				noneSharedStore.setState(currentKeystoreState)
@@ -38,7 +40,9 @@ const migrateOlympiaAddresses = async () => {
 		}),
 	)
 
+	await sharedStore.persist.rehydrate()
 	const currentState = sharedStore.getState()
+
 	currentState.keystores = [...currentState.keystores, ...newKeystores.filter(keystore => !!keystore)]
 	sharedStore.setState(currentState)
 

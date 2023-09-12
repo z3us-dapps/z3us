@@ -6,6 +6,7 @@ const defaultState = {
 	currency: config.defaultCurrency,
 	walletUnlockTimeoutInMinutes: 5,
 	pushNotificationsEnabled: true,
+	radixConnectorEnabled: true,
 	addressBook: {},
 }
 
@@ -33,6 +34,12 @@ export const factory = (set: ISettingsStateSetter): SettingsState => ({
 	setPushNotificationsEnabledAction: (enabled: boolean) => {
 		set(state => {
 			state.pushNotificationsEnabled = enabled
+		})
+	},
+
+	setRadixConnectorEnabledAction: (enabled: boolean) => {
+		set(state => {
+			state.radixConnectorEnabled = enabled
 		})
 	},
 

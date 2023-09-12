@@ -7,6 +7,7 @@ import type { Message } from '@src/browser/messages/types'
 import { MessageAction, MessageSource } from '@src/browser/messages/types'
 
 import { addMetadata } from '../helpers/add-metadata'
+import { isConnectorEnabled } from '../radix'
 import { chromeDAppClient, radixMessageHandler } from './radix'
 
 export type MessageClientType = ReturnType<typeof MessageClient>
@@ -28,23 +29,27 @@ export const MessageClient = () => {
 		window.postMessage(message)
 	})
 
-	chromeDAppClient.messageListener(message => {
-		const radixMsg = addMetadata(createRadixMessage.incomingDappMessage('dApp', message))
-		radixMessageHandler.onMessage(radixMsg)
+	chromeDAppClient.messageListener(message =>
+		isConnectorEnabled().then(enabled => {
+			if (enabled) {
+				const radixMsg = addMetadata(createRadixMessage.incomingDappMessage('dApp', message))
+				radixMessageHandler.onMessage(radixMsg)
 
-		switch (radixMsg.discriminator) {
-			case messageDiscriminator.dAppRequest:
-			case messageDiscriminator.ledgerResponse:
-				// @TODO
-				console.error(
-					'⚡️Z3US⚡️: content-script chromeDAppClient.messageListener @TODO: handle radix message for none mobile wallets',
-					radixMsg,
-				)
-				break
-			default:
-				break
-		}
-	})
+				switch (radixMsg.discriminator) {
+					case messageDiscriminator.dAppRequest:
+					case messageDiscriminator.ledgerResponse:
+						// @TODO
+						console.error(
+							'⚡️Z3US⚡️: content-script chromeDAppClient.messageListener @TODO: handle radix message for none mobile wallets',
+							radixMsg,
+						)
+						break
+					default:
+						break
+				}
+			}
+		}),
+	)
 
 	const forwardMessageToBackground = (event: MessageEvent<Message>) => {
 		if (event.source !== window) {
@@ -61,6 +66,7 @@ export const MessageClient = () => {
 		if (message?.source === MessageSource.BACKGROUND && message?.action === MessageAction.PING) {
 			return true
 		}
+		if ((await isConnectorEnabled()) !== true) return undefined
 		return radixMessageHandler.onMessage(message)
 	}
 

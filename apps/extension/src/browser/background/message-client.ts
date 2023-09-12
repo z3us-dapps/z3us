@@ -11,6 +11,8 @@ import messageHandlers from '@src/browser/messages/message-handlers'
 import type { Message, ResponseMessage } from '@src/browser/messages/types'
 import { MessageSource } from '@src/browser/messages/types'
 
+import { isConnectorEnabled } from '../radix'
+
 const popupURL = new URL(browser.runtime.getURL(''))
 
 const backgroundLogger = {
@@ -125,8 +127,9 @@ export const MessageClient = () => {
 		})
 	}
 
-	const onRadixMessage = (message: any, tabId?: number) => {
+	const onRadixMessage = async (message: any, tabId?: number) => {
 		if (!APP_RADIX) return
+		if ((await isConnectorEnabled()) !== true) return
 		radixMessageHandler.onMessage(message, tabId)
 	}
 

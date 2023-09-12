@@ -28,19 +28,12 @@ const General: React.FC = () => {
 		.filter(match => Boolean((match.handle as any)?.custom))
 		.map(match => (match.handle as any).custom)
 
-	const { currency, setCurrency, unlockTimer, setWalletUnlockTimeoutInMinutes, notifications, toggleNotifications } =
-		useNoneSharedStore(state => ({
-			currency: state.currency,
-			setCurrency: state.setCurrencyAction,
-			unlockTimer: state.walletUnlockTimeoutInMinutes,
-			setWalletUnlockTimeoutInMinutes: state.setWalletUnlockTimeoutInMinutesAction,
-			notifications: state.pushNotificationsEnabled,
-			toggleNotifications: state.setPushNotificationsEnabledAction,
-		}))
-
-	const handleChangeUnlockTime = (minute: string) => {
-		setWalletUnlockTimeoutInMinutes(parseInt(minute, 10))
-	}
+	const { currency, setCurrency, notifications, toggleNotifications } = useNoneSharedStore(state => ({
+		currency: state.currency,
+		setCurrency: state.setCurrencyAction,
+		notifications: state.pushNotificationsEnabled,
+		toggleNotifications: state.setPushNotificationsEnabledAction,
+	}))
 
 	const handleToggleNotifications = () => {
 		toggleNotifications(!notifications)
@@ -52,39 +45,6 @@ const General: React.FC = () => {
 				backLink="/settings"
 				title={<Translation capitalizeFirstLetter text="settings.navigation.generalTitle" />}
 				subTitle={<Translation capitalizeFirstLetter text="settings.navigation.generalSubTitle" />}
-			/>
-			<SettingsBlock
-				leftCol={
-					<>
-						<Text size="large" weight="strong" color="strong">
-							<Translation capitalizeFirstLetter text="settings.session.title" />
-						</Text>
-						<Text size="xsmall">
-							<Translation capitalizeFirstLetter text="settings.session.willLockAfter" />{' '}
-							<Box component="span">
-								{unlockTimer}{' '}
-								{unlockTimer === 1 ? (
-									<Translation capitalizeFirstLetter text="global.minute" />
-								) : (
-									<Translation capitalizeFirstLetter text="global.minutes" />
-								)}
-								.
-							</Box>
-						</Text>
-					</>
-				}
-				rightCol={
-					<SelectSimple
-						value={`${unlockTimer}`}
-						onValueChange={handleChangeUnlockTime}
-						data={[
-							{ id: '1', title: t('settings.session.select.oneMinute') },
-							{ id: '5', title: t('settings.session.select.fiveMinutes') },
-							{ id: '30', title: t('settings.session.select.thirtyMinutes') },
-							{ id: '60', title: t('settings.session.select.sixtyMinutes') },
-						]}
-					/>
-				}
 			/>
 			<SettingsBlock
 				leftCol={

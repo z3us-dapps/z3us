@@ -55,6 +55,9 @@ export type SettingsState = {
 	pushNotificationsEnabled: boolean
 	setPushNotificationsEnabledAction: (enabled: boolean) => void
 
+	radixConnectorEnabled: boolean
+	setRadixConnectorEnabledAction: (enabled: boolean) => void
+
 	addressBook: { [networkId: number]: { [key: string]: AddressBookEntry } }
 	removeAddressBookEntryAction: (networkId: number, address: string) => void
 	setAddressBookEntryAction: (networkId: number, address: string, entry: AddressBookEntry) => void
