@@ -125,7 +125,7 @@ export const AccountViewDropdown = forwardRef<HTMLElement, IAccountViewDropdownP
 									</Text>
 								</DropdownMenuLabel>
 								<DropdownMenuRadioGroup value={selectedKeystoreId} onValueChange={selectKeystore}>
-									{keystores
+									{[...keystores]
 										.sort((a, b) => weights[a.type] - weights[b.type])
 										.map(keystore => (
 											<DropdownMenuRadioItem
