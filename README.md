@@ -86,6 +86,16 @@ Before adding to firefox some changes to manifest file must be made:
   },
 ```
 
+3. Add `extension id` to `manifest`
+```diff
++  "browser_specific_settings": {
++    "gecko": {
++      "id": "webextension@z3us.com",
++      "strict_min_version": "42.0"
++    }
++  },  
+```
+
 - Create archive by compresing all the files `inside` the directory `apps/extension/dist`.
 - In the Firefox browser navigate to `about:debugging#/runtime/this-firefox`.
 - Click the button `Load temporary Add-on...`, then select an archive file you prepared.
