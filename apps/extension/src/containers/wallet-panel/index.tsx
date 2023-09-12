@@ -1,10 +1,14 @@
-import React, { lazy, ReactNode, Suspense, useEffect } from 'react'
-import { useLocation } from 'wouter'
-import { useNoneSharedStore } from '@src/hooks/use-store'
 import { AnimatePresence, motion } from 'framer-motion'
+import React, { ReactNode, Suspense, lazy, useEffect } from 'react'
+import { useLocation } from 'wouter'
+
 import { Box, MotionBox } from 'ui/src/components/atoms'
+
 import UnlockedPanel from '@src/components/unlocked-panel'
-import { routesInfo, PANEL_HEIGHT, APP_WIDTH, ACCOUNTS, STAKING, SWAP, SETTINGS } from '@src/config'
+import { ACCOUNTS, APP_WIDTH, PANEL_HEIGHT, SETTINGS, STAKING, SWAP, routesInfo } from '@src/config'
+import { useIsBabylon } from '@src/hooks/use-is-babylon'
+import { useNoneSharedStore } from '@src/hooks/use-store'
+
 import { FooterNavigation } from './components/footer-navigation'
 import { HeaderNavigation } from './components/header-navigation'
 
@@ -48,6 +52,7 @@ const pageStyle = {
 }
 
 export const WalletPanel = (): JSX.Element => {
+	const isBabylon = useIsBabylon()
 	const [location] = useLocation()
 	const { activeApp } = useNoneSharedStore(state => ({
 		activeApp: state.activeApp,
@@ -121,12 +126,12 @@ export const WalletPanel = (): JSX.Element => {
 									<Accounts />
 								</AccountPage>
 							) : null}
-							{page === STAKING ? (
+							{!isBabylon && page === STAKING ? (
 								<AccountPage>
 									<Staking />
 								</AccountPage>
 							) : null}
-							{page === SWAP ? (
+							{!isBabylon && page === SWAP ? (
 								<AccountPage>
 									<Swap />
 								</AccountPage>

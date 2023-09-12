@@ -58,6 +58,25 @@ export const Header: React.FC<IProps> = ({ className, isBetaButtonVisible, isDoc
 					</div>
 					<MobileMenu />
 					<ul className="font-medium text-sm gap-3 lg:gap-5 hidden md:flex items-center">
+						<li>
+							<Link href={config.HELLO_NEXT_FEEDBACK_URL} passHref>
+								<a className="cursor-pointer hover:underline decoration-from-font underline-offset-4" target="_blank">
+									Feedback
+								</a>
+							</Link>
+						</li>
+						<li>
+							<Link href="/roadmap" passHref>
+								<a className="cursor-pointer hover:underline decoration-from-font underline-offset-4">Road map</a>
+							</Link>
+						</li>
+						{isDocsButtonVisible ? (
+							<li>
+								<Link href="/docs" passHref>
+									<a className="cursor-pointer hover:underline decoration-from-font underline-offset-4">Docs</a>
+								</Link>
+							</li>
+						) : null}
 						<li className="h-6">
 							<a
 								className="header-icon cursor-pointer inline-flex items-center justify-center fill-inherit hover:opacity-60 transition-opacity"
@@ -82,6 +101,14 @@ export const Header: React.FC<IProps> = ({ className, isBetaButtonVisible, isDoc
 								<GithubIcon />
 							</a>
 						</li>
+						{isBetaButtonVisible ? (
+							<li>
+								<FlashCtaButton size="base" variant="secondary">
+									<span className="hidden lg:block">Get BETA access</span>
+									<span className="lg:hidden">Get BETA</span>
+								</FlashCtaButton>
+							</li>
+						) : null}
 					</ul>
 				</div>
 			</PageContainer>

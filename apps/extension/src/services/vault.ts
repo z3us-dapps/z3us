@@ -201,7 +201,7 @@ export class VaultService {
 
 	unlock = async (password: string) => {
 		const { secret, keystore } = await this.getSecret()
-		const { hdMasterNode, type: signingKeyType } = await this.getHDMasterNode(secret, password, keystore)
+		const { type: signingKeyType, hdMasterNode } = await this.getHDMasterNode(secret, password, keystore)
 
 		const release = await this.mutex.acquire()
 		this.signingKeyType = signingKeyType

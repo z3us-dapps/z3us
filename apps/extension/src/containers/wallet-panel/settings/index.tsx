@@ -1,17 +1,21 @@
-import React, { lazy, ReactNode, Suspense } from 'react'
-import { useImmer } from 'use-immer'
-import { ScrollArea } from 'ui/src/components/scroll-area'
-import {
-	KeyIcon,
-	TrustedAppsIcon,
-	NetworkIcon,
-	AccountsIcon,
-	AddressBookIcon,
-	ActivityIcon,
-} from 'ui/src/components/icons'
 import { LockClosedIcon, TokensIcon } from '@radix-ui/react-icons'
+import React, { ReactNode, Suspense, lazy } from 'react'
+import { useImmer } from 'use-immer'
+
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from 'ui/src/components/accordion'
 import { Box, Flex, Text } from 'ui/src/components/atoms'
-import { Accordion, AccordionItem, AccordionTrigger, AccordionContent } from 'ui/src/components/accordion'
+import {
+	AccountsIcon,
+	ActivityIcon,
+	AddressBookIcon,
+	KeyIcon,
+	NetworkIcon,
+	TrustedAppsIcon,
+} from 'ui/src/components/icons'
+import { ScrollArea } from 'ui/src/components/scroll-area'
+
+import { useIsBabylon } from '@src/hooks/use-is-babylon'
+
 import { accordians } from './constants'
 
 const AddressBook = lazy(() => import('./address-book'))
@@ -56,6 +60,7 @@ interface ImmerT {
 }
 
 export const Settings: React.FC = () => {
+	const isBabylon = useIsBabylon()
 	const [state, setState] = useImmer<ImmerT>({
 		activeAccordion: '',
 	})
@@ -127,13 +132,15 @@ export const Settings: React.FC = () => {
 									<AddressBook />
 								</AccordionSettingsItem>
 
-								<AccordionSettingsItem
-									value={accordians.TOKEN_MANAGEMENT}
-									icon={<TokensIcon />}
-									title="Token management"
-								>
-									<TokenManagementSettings />
-								</AccordionSettingsItem>
+								{!isBabylon && (
+									<AccordionSettingsItem
+										value={accordians.TOKEN_MANAGEMENT}
+										icon={<TokensIcon />}
+										title="Token management"
+									>
+										<TokenManagementSettings />
+									</AccordionSettingsItem>
+								)}
 
 								<AccordionSettingsItem
 									value={accordians.KEY_MANAGEMENT}
