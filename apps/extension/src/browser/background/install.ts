@@ -1,7 +1,8 @@
 /* eslint-disable no-console */
 import { getNoneSharedStore } from 'packages/ui/src/services/state'
 import { sharedStore } from 'packages/ui/src/store'
-import { type Keystore, KeystoreType } from 'packages/ui/src/store/types'
+import { AddressType, KeystoreType } from 'packages/ui/src/store/types'
+import type { Address, Keystore } from 'packages/ui/src/store/types'
 import type { Runtime } from 'webextension-polyfill'
 import browser from 'webextension-polyfill'
 
@@ -23,11 +24,20 @@ const migrateOlympiaAddresses = async () => {
 				const oldNoneSharedState = JSON.parse(oldNoneSharedStore[`z3us-store-${keystore.id}`] || {}).state
 				if (!oldNoneSharedState) return null
 
+				const olympiaAddresses: { [key: number]: { address: string } } = oldNoneSharedState?.publicAddresses || {}
+
 				const noneSharedStore = await getNoneSharedStore(keystore.id)
 				await noneSharedStore.persist.rehydrate()
 
 				const currentKeystoreState = noneSharedStore.getState()
-				currentKeystoreState.olympiaAddresses = oldNoneSharedState?.publicAddresses || {}
+
+				Object.keys(olympiaAddresses).map(async idx => {
+					const current = currentKeystoreState.accountIndexes[idx]
+					currentKeystoreState.accountIndexes[idx] = {
+						type: current ? AddressType.BOTH : AddressType.OLYMPIA,
+					} as Address
+				})
+
 				noneSharedStore.setState(currentKeystoreState)
 
 				return {

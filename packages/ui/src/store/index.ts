@@ -4,8 +4,8 @@ import type { StateStorage as IStateStorage } from 'zustand/middleware'
 import { devtools, persist, subscribeWithSelector } from 'zustand/middleware'
 import { immer } from 'zustand/middleware/immer'
 
+import { factory as createExtensionStore } from './extension'
 import { factory as createKeystoreStore } from './keystore'
-import { factory as olympiaStore } from './olympia'
 import { factory as createSettingsStore } from './settings'
 import { StateStorage } from './storage'
 import type { NoneSharedState, SharedState } from './types'
@@ -39,7 +39,7 @@ export const createNoneSharedStore = (name: string) =>
 	createStore(
 		middlewares<NoneSharedState>(name, set => ({
 			...createSettingsStore(set),
-			...olympiaStore(),
+			...createExtensionStore(set),
 		})),
 	)
 

@@ -5,6 +5,7 @@ export type AddressBookEntry = {
 	dateUpdated: number
 	cardImage?: string
 	cardColor?: string
+	isOlympia?: boolean
 }
 
 export enum KeystoreType {
@@ -67,12 +68,32 @@ export interface ISettingsStateSetter {
 	(fn: (state: SettingsState) => void): void
 }
 
-export type OlympiaState = {
-	olympiaAddresses?: { [key: number]: { address: string } }
-}
-
 export type SharedState = WalletState & KeystoresState
 
-export type NoneSharedState = SettingsState & OlympiaState
+export type NoneSharedState = SettingsState & ExtensionState
 
 export type AppState = SharedState & NoneSharedState
+
+export enum AddressType {
+	OLYMPIA = 'olympia',
+	BABYLON = 'babylon',
+	BOTH = 'both',
+}
+
+export type Address = {
+	type: AddressType
+}
+
+export type ExtensionState = {
+	personaIndexes: { [idx: number]: Address }
+	removePersonaAction: (idx: number) => void
+	addPersonaAction: (idx: number, address: Address) => void
+
+	accountIndexes: { [idx: number]: Address }
+	removeAccountAction: (idx: number) => void
+	addAccountAction: (idx: number, address: Address) => void
+}
+
+export interface IExtensionStateSetter {
+	(fn: (state: ExtensionState) => void): void
+}
