@@ -40,4 +40,7 @@ export const useMessageClient = () => ({
 
 	getPublicKey: async (index: number = 0): Promise<PublicKey | null> =>
 		client.sendMessage(MessageAction.GET_PUBLIC_KEY, { index } as MessageTypes[MessageAction.GET_PUBLIC_KEY]),
+
+	handleRadixMessage: async (message: MessageTypes[MessageAction.RADIX]): Promise<PublicKey | null> =>
+		client.sendMessage(MessageAction.RADIX, message as MessageTypes[MessageAction.RADIX]),
 })

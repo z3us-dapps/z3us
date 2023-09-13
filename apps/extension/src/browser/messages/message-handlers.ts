@@ -1,5 +1,8 @@
+import type { Message as RadixMessage } from '@radixdlt/connector-extension/src/chrome/messages/_types'
 import { Convert } from '@radixdlt/radix-engine-toolkit'
+import { sharedStore } from 'packages/ui/src/store'
 import type { Keystore } from 'packages/ui/src/store/types'
+import { KeystoreType } from 'packages/ui/src/store/types'
 
 import type { Message, MessageHandlers } from '@src/browser/messages/types'
 import { MessageAction } from '@src/browser/messages/types'
@@ -76,6 +79,22 @@ async function getPublicKey(message: Message) {
 	return publicKey
 }
 
+async function handleRadixMessage(message: Message) {
+	await sharedStore.persist.rehydrate()
+	const sharedState = sharedStore.getState()
+
+	const keystore = sharedState.keystores.find(k => k.id === sharedState.selectedKeystoreId)
+	if (!keystore) throw Error(`Missing keystore: ${sharedState.selectedKeystoreId}`)
+	if (keystore.type === KeystoreType.RADIX_WALLET) return
+
+	const radixMsg = message.payload as RadixMessage
+
+	console.error(
+		`⚡️Z3US⚡️: from: ${message.source}: ${radixMsg?.discriminator} @TODO: handle radix message for none mobile wallets`,
+		radixMsg,
+	)
+}
+
 export type MessageTypes = {
 	[MessageAction.PING]: undefined
 
@@ -86,6 +105,8 @@ export type MessageTypes = {
 
 	[MessageAction.SIGN]: SignMessage
 	[MessageAction.GET_PUBLIC_KEY]: GetPublicKeyMessage
+
+	[MessageAction.RADIX]: RadixMessage
 }
 
 export default {
@@ -98,4 +119,6 @@ export default {
 
 	[MessageAction.SIGN]: sign,
 	[MessageAction.GET_PUBLIC_KEY]: getPublicKey,
+
+	[MessageAction.RADIX]: handleRadixMessage,
 } as MessageHandlers

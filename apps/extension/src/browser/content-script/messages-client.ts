@@ -1,4 +1,3 @@
-import { messageDiscriminator } from '@radixdlt/connector-extension/src/chrome/messages/_types'
 import { createMessage as createRadixMessage } from '@radixdlt/connector-extension/src/chrome/messages/create-message'
 import browser from 'webextension-polyfill'
 
@@ -7,8 +6,9 @@ import type { Message } from '@src/browser/messages/types'
 import { MessageAction, MessageSource } from '@src/browser/messages/types'
 
 import { addMetadata } from '../helpers/add-metadata'
-import { isConnectorEnabled } from '../radix'
+import { newMessage } from '../messages/message'
 import { chromeDAppClient, radixMessageHandler } from './radix'
+import { isHandledByRadix } from './radix-connector'
 
 export type MessageClientType = ReturnType<typeof MessageClient>
 
@@ -29,27 +29,16 @@ export const MessageClient = () => {
 		window.postMessage(message)
 	})
 
-	chromeDAppClient.messageListener(message =>
-		isConnectorEnabled().then(enabled => {
-			if (enabled) {
-				const radixMsg = addMetadata(createRadixMessage.incomingDappMessage('dApp', message))
-				radixMessageHandler.onMessage(radixMsg)
+	chromeDAppClient.messageListener(message => {
+		const radixMsg = addMetadata(createRadixMessage.incomingDappMessage('dApp', message))
 
-				switch (radixMsg.discriminator) {
-					case messageDiscriminator.dAppRequest:
-					case messageDiscriminator.ledgerResponse:
-						// @TODO
-						console.error(
-							'⚡️Z3US⚡️: content-script chromeDAppClient.messageListener @TODO: handle radix message for none mobile wallets',
-							radixMsg,
-						)
-						break
-					default:
-						break
-				}
-			}
-		}),
-	)
+		// if connector enabled forward message to radix handler otherwise we handle message in background (none mobile wallet)
+		isHandledByRadix().then(enabled =>
+			enabled
+				? radixMessageHandler.onMessage(radixMsg)
+				: port.postMessage(newMessage(MessageAction.RADIX, MessageSource.INPAGE, MessageSource.BACKGROUND, radixMsg)),
+		)
+	})
 
 	const forwardMessageToBackground = (event: MessageEvent<Message>) => {
 		if (event.source !== window) {
@@ -63,11 +52,19 @@ export const MessageClient = () => {
 	}
 
 	const onRuntimeMessage = async (message: any) => {
-		if (message?.source === MessageSource.BACKGROUND && message?.action === MessageAction.PING) {
+		const { source, action } = (message || {}) as Message
+		if (source === MessageSource.BACKGROUND && action === MessageAction.PING) {
 			return true
 		}
-		if ((await isConnectorEnabled()) !== true) return undefined
-		return radixMessageHandler.onMessage(message)
+
+		// if connector enabled forward message to radix handler otherwise we handle message in background (none mobile wallet)
+		return isHandledByRadix().then(enabled =>
+			enabled
+				? radixMessageHandler.onMessage(message)
+				: port.postMessage(
+						newMessage(MessageAction.RADIX, MessageSource.BACKGROUND, MessageSource.BACKGROUND, message),
+				  ),
+		)
 	}
 
 	return {

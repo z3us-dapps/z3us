@@ -14,6 +14,8 @@ export enum MessageAction {
 
 	SIGN = 'v1-sign',
 	GET_PUBLIC_KEY = 'v1-get-public-key',
+
+	RADIX = 'v1-radix',
 }
 
 export type Message = {

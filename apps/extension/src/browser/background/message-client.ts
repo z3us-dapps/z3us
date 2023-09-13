@@ -1,4 +1,5 @@
 import { BackgroundMessageHandler } from '@radixdlt/connector-extension/src/chrome/background/message-handler'
+import type { Message as RadixMessage } from '@radixdlt/connector-extension/src/chrome/messages/_types'
 import { MessageClient as RadixMessageClient } from '@radixdlt/connector-extension/src/chrome/messages/message-client'
 import type { AppLogger } from '@radixdlt/connector-extension/src/utils/logger'
 import type { Runtime } from 'webextension-polyfill'
@@ -10,8 +11,6 @@ import { newReply } from '@src/browser/messages/message'
 import messageHandlers from '@src/browser/messages/message-handlers'
 import type { Message, ResponseMessage } from '@src/browser/messages/types'
 import { MessageSource } from '@src/browser/messages/types'
-
-import { isConnectorEnabled } from '../radix'
 
 const popupURL = new URL(browser.runtime.getURL(''))
 
@@ -127,9 +126,8 @@ export const MessageClient = () => {
 		})
 	}
 
-	const onRadixMessage = async (message: any, tabId?: number) => {
+	const onRadixMessage = async (message: RadixMessage, tabId?: number) => {
 		if (!APP_RADIX) return
-		if ((await isConnectorEnabled()) !== true) return
 		radixMessageHandler.onMessage(message, tabId)
 	}
 
