@@ -1,3 +1,4 @@
+import HDNode from 'hdkey'
 import { QRCodeSVG } from 'qrcode.react'
 import React, { useRef } from 'react'
 import { useImmer } from 'use-immer'
@@ -76,6 +77,7 @@ export const exportAsCode = (accounts: string[], payloadSize: number, mnemonicLe
 interface ImmerT {
 	words: string[]
 	exports: string[]
+	privateExtendedKey: string
 	password: string
 	errorMessage: string
 	isQrModalOpen: boolean
@@ -96,6 +98,7 @@ const AccountExport: React.FC = () => {
 	const [state, setState] = useImmer<ImmerT>({
 		words: [],
 		exports: [],
+		privateExtendedKey: '',
 		password: '',
 		errorMessage: '',
 		isQrModalOpen: false,
@@ -107,7 +110,7 @@ const AccountExport: React.FC = () => {
 			draft.isExportingAccounts = true
 		})
 		try {
-			const { mnemonic } = await getWallet(state.password)
+			const { mnemonic, hdMasterNode } = await getWallet(state.password)
 			const summaries = []
 			Object.keys(publicAddresses).forEach(idx =>
 				summaries.push(accountSummary(publicAddresses[idx], +idx, keystore.type === KeystoreType.LOCAL)),
@@ -115,6 +118,7 @@ const AccountExport: React.FC = () => {
 			const exports = exportAsCode(summaries, 1800, mnemonic?.words.length || 24)
 			setState(draft => {
 				draft.words = mnemonic?.words || []
+				draft.privateExtendedKey = hdMasterNode ? HDNode.fromJSON(hdMasterNode).privateExtendedKey.toString() : ''
 				draft.exports = exports
 				draft.isQrModalOpen = true
 			})
@@ -238,6 +242,22 @@ const AccountExport: React.FC = () => {
 																<Text size="4">{word}</Text>
 															</Box>
 														))}
+													</Flex>
+												</Box>
+											)}
+											{state.privateExtendedKey && (
+												<Box
+													css={{
+														background: '$bgPanel',
+														p: '$4',
+														pb: '30px',
+														br: '$2',
+														border: '1px solid $borderPanel',
+														position: 'relative',
+													}}
+												>
+													<Flex css={{ overflow: 'hidden', flexWrap: 'wrap', overflowWrap: 'anywhere' }}>
+														<Text size="4">{state.privateExtendedKey}</Text>
 													</Flex>
 												</Box>
 											)}
