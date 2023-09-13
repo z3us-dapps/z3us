@@ -1,7 +1,6 @@
 import type { StateCreator } from 'zustand'
 import { createStore } from 'zustand'
-import type { StateStorage as IStateStorage } from 'zustand/middleware'
-import { devtools, persist, subscribeWithSelector } from 'zustand/middleware'
+import { createJSONStorage, devtools, persist, subscribeWithSelector } from 'zustand/middleware'
 import { immer } from 'zustand/middleware/immer'
 
 import { factory as createExtensionStore } from './extension'
@@ -18,7 +17,7 @@ type MutatorsTypes = [
 	['zustand/immer', never],
 ]
 
-const getStorage: () => IStateStorage = () => {
+const getStorage = () => {
 	if (globalThis.browser?.runtime?.id) return new StateStorage(globalThis.browser.storage.local)
 	if (globalThis.chrome?.runtime?.id) return new StateStorage(globalThis.chrome.storage.local)
 
@@ -26,7 +25,7 @@ const getStorage: () => IStateStorage = () => {
 }
 
 const middlewares = <T>(name: string, f: StateCreator<T, MutatorsTypes>) =>
-	devtools(subscribeWithSelector(persist(immer(f), { name, getStorage })), { name })
+	devtools(subscribeWithSelector(persist(immer(f), { name, storage: createJSONStorage<T>(getStorage) })), { name })
 
 export const sharedStore = createStore(
 	middlewares<SharedState>('z3us:store', set => ({

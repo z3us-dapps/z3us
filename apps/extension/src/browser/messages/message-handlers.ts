@@ -1,9 +1,15 @@
-import type { Message as RadixMessage } from '@radixdlt/connector-extension/src/chrome/messages/_types'
+import {
+	type Message as RadixMessage,
+	messageDiscriminator,
+	messageSource as radixMessageSource,
+} from '@radixdlt/connector-extension/src/chrome/messages/_types'
+import { createMessage as createRadixMessage } from '@radixdlt/connector-extension/src/chrome/messages/create-message'
 import { Convert } from '@radixdlt/radix-engine-toolkit'
 import { sharedStore } from 'packages/ui/src/store'
 import type { Keystore } from 'packages/ui/src/store/types'
 import { KeystoreType } from 'packages/ui/src/store/types'
 
+import { openAppPopup } from '@src/browser/app/popup'
 import type { Message, MessageHandlers } from '@src/browser/messages/types'
 import { MessageAction } from '@src/browser/messages/types'
 import { Vault } from '@src/browser/vault/vault'
@@ -85,14 +91,95 @@ async function handleRadixMessage(message: Message) {
 
 	const keystore = sharedState.keystores.find(k => k.id === sharedState.selectedKeystoreId)
 	if (!keystore) throw Error(`Missing keystore: ${sharedState.selectedKeystoreId}`)
-	if (keystore.type === KeystoreType.RADIX_WALLET) return
+	if (keystore.type === KeystoreType.RADIX_WALLET) return null
 
 	const radixMsg = message.payload as RadixMessage
 
-	console.error(
-		`⚡️Z3US⚡️: from: ${message.source}: ${radixMsg?.discriminator} @TODO: handle radix message for none mobile wallets`,
-		radixMsg,
-	)
+	// @TODO
+	console.error(`⚡️Z3US⚡️: background handleRadixMessage: ${radixMsg?.discriminator}`, radixMsg)
+
+	switch (radixMsg?.discriminator) {
+		case messageDiscriminator.incomingDappMessage: {
+			switch (radixMsg?.data?.discriminator) {
+				case messageDiscriminator.extensionStatus:
+					return createRadixMessage.extensionStatus(true)
+				case messageDiscriminator.openParingPopup:
+					try {
+						await openAppPopup()
+						return null
+					} catch (error) {
+						console.error(error)
+						return createRadixMessage.confirmationError(radixMessageSource.contentScript, radixMsg.messageId, {
+							reason: 'unableToOpenParingPopup',
+						})
+					}
+				default:
+					try {
+						const { interactionId, items } = radixMsg.data
+						await chrome.runtime.sendMessage(
+							createRadixMessage.sendMessageEventToDapp(
+								radixMessageSource.contentScript,
+								'receivedByExtension',
+								interactionId,
+							),
+						)
+						await chrome.runtime.sendMessage(
+							createRadixMessage.sendMessageEventToDapp(
+								radixMessageSource.offScreen,
+								'receivedByWallet',
+								interactionId,
+							),
+						)
+
+						// https://github.com/radixdlt/wallet-sdk/blob/c4a8433a2b2357c4d28dcf36fe2810f0d5fe158e/lib/__tests__/wallet-sdk.spec.ts#L93
+						console.error('items', interactionId, items) // @TODO: handle specifically using popup or such
+						// below are example payloads we need to return
+
+						await chrome.runtime.sendMessage(
+							createRadixMessage.walletResponse(radixMessageSource.offScreen, {
+								discriminator: 'success',
+								items: {
+									discriminator: 'authorizedRequest',
+									auth: {
+										discriminator: 'loginWithoutChallenge',
+										persona: {
+											identityAddress: 'account_tdx_b_1qlu8fdyj77jpmu2mqe4rgh3738jcva4nfd2y2vp675zqgdg72y',
+											label: '2nd persona',
+										},
+									},
+									ongoingAccounts: {
+										accounts: [
+											{
+												address: 'account_tdx_b_1qaz0nxslmr9nssmy463rd57hl7q0xsadaal0gy7cwsuqwecaws',
+												label: 'Jakub Another Accoun',
+												appearanceId: 1,
+											},
+											{
+												address: 'account_tdx_b_1q7te4nk60fy2wt7d0wh8l2dhlp5c0n75phcnrwa8uglsrf6sjr',
+												label: '3rd Account',
+												appearanceId: 2,
+											},
+										],
+									},
+								},
+								interactionId,
+							}),
+						)
+
+						return null
+					} catch (error) {
+						console.error(error)
+						return createRadixMessage.confirmationError(radixMessageSource.contentScript, radixMsg.messageId, {
+							reason: 'failedToDetectWalletLink',
+						})
+					}
+			}
+		}
+		default:
+			return createRadixMessage.confirmationError(radixMessageSource.contentScript, radixMsg.messageId, {
+				reason: 'unhandledMessageDiscriminator',
+			})
+	}
 }
 
 export type MessageTypes = {

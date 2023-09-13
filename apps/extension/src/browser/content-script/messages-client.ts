@@ -1,3 +1,4 @@
+import { getConnectionPassword } from '@radixdlt/connector-extension/src/chrome/helpers/get-connection-password'
 import { createMessage as createRadixMessage } from '@radixdlt/connector-extension/src/chrome/messages/create-message'
 import browser from 'webextension-polyfill'
 
@@ -7,7 +8,7 @@ import { MessageAction, MessageSource } from '@src/browser/messages/types'
 
 import { addMetadata } from '../helpers/add-metadata'
 import { newMessage } from '../messages/message'
-import { chromeDAppClient, radixMessageHandler } from './radix'
+import { chromeDAppClient, radixMessageHandler, sendRadixMessage, sendRadixMessageToDapp } from './radix'
 import { isHandledByRadix } from './radix-connector'
 
 export type MessageClientType = ReturnType<typeof MessageClient>
@@ -23,20 +24,26 @@ export const MessageClient = () => {
 	})
 
 	port.onMessage.addListener((message: Message) => {
-		if (message?.target !== MessageSource.INPAGE) {
-			return
+		switch (message?.target) {
+			case MessageSource.INPAGE:
+				window.postMessage(message)
+				break
+			case MessageSource.RADIX:
+				// @TODO
+				console.error(`⚡️Z3US⚡️: content-script port.onMessage.addListener`, message.fromTabId, message.payload)
+
+				sendRadixMessage(message.payload, message.fromTabId)
+				break
+			default:
 		}
-		window.postMessage(message)
 	})
 
 	chromeDAppClient.messageListener(message => {
 		const radixMsg = addMetadata(createRadixMessage.incomingDappMessage('dApp', message))
-
-		// if connector enabled forward message to radix handler otherwise we handle message in background (none mobile wallet)
 		isHandledByRadix().then(enabled =>
 			enabled
 				? radixMessageHandler.onMessage(radixMsg)
-				: port.postMessage(newMessage(MessageAction.RADIX, MessageSource.INPAGE, MessageSource.BACKGROUND, radixMsg)),
+				: port.postMessage(newMessage(MessageAction.RADIX, MessageSource.RADIX, MessageSource.BACKGROUND, radixMsg)),
 		)
 	})
 
@@ -57,18 +64,23 @@ export const MessageClient = () => {
 			return true
 		}
 
-		// if connector enabled forward message to radix handler otherwise we handle message in background (none mobile wallet)
-		return isHandledByRadix().then(enabled =>
-			enabled
-				? radixMessageHandler.onMessage(message)
-				: port.postMessage(
-						newMessage(MessageAction.RADIX, MessageSource.BACKGROUND, MessageSource.BACKGROUND, message),
-				  ),
-		)
+		return radixMessageHandler.onMessage(message)
 	}
+
+	const checkConnectButtonStatus = () =>
+		isHandledByRadix().then(enabled => {
+			if (enabled) {
+				getConnectionPassword().map(connectionPassword =>
+					sendRadixMessageToDapp(createRadixMessage.extensionStatus(!!connectionPassword)),
+				)
+			} else {
+				sendRadixMessageToDapp(createRadixMessage.extensionStatus(true))
+			}
+		})
 
 	return {
 		onRuntimeMessage,
 		forwardMessageToBackground,
+		checkConnectButtonStatus,
 	}
 }

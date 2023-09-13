@@ -77,21 +77,6 @@ export const AccountViewDropdown = forwardRef<HTMLElement, IAccountViewDropdownP
 			<Box ref={ref} className={clsx(styles.accountViewDropdownWrapper, className)}>
 				<DropdownMenu>
 					<DropdownMenuTrigger asChild>
-						{/* <Button
-							styleVariant={styleVariant}
-							sizeVariant="small"
-							rounded
-							leftIcon={
-								isLeftButtonIconVisible ? (
-									<Box marginRight="xsmall">
-										<ResourceImageIcon size="small" address={selectedAccount} />
-									</Box>
-								) : null
-							}
-							rightIcon={<ChevronDownIcon />}
-						>
-							{entries[selectedAccount]?.name || getShortAddress(selectedAccount)}
-						</Button> */}
 						<Box>
 							<ToolTip message="global.menu">
 								<Button styleVariant={styleVariant} sizeVariant="small" rounded iconOnly>
@@ -128,11 +113,7 @@ export const AccountViewDropdown = forwardRef<HTMLElement, IAccountViewDropdownP
 									{[...keystores]
 										.sort((a, b) => weights[a.type] - weights[b.type])
 										.map(keystore => (
-											<DropdownMenuRadioItem
-												disabled={keystore.type !== KeystoreType.RADIX_WALLET}
-												key={keystore.id}
-												value={keystore.id}
-											>
+											<DropdownMenuRadioItem key={keystore.id} value={keystore.id}>
 												<DropdownMenuLeftSlot>
 													{keystore.type === KeystoreType.RADIX_WALLET && <HomeIcon />}
 													{keystore.type === KeystoreType.HARDWARE && <HardwareWalletIcon />}
@@ -140,12 +121,6 @@ export const AccountViewDropdown = forwardRef<HTMLElement, IAccountViewDropdownP
 												</DropdownMenuLeftSlot>
 												<Box flexGrow={1} marginLeft="small">
 													<Text size="xsmall"> {keystore.name}</Text>
-													{keystore.type !== KeystoreType.RADIX_WALLET && (
-														<Text size="xsmall" color="neutral">
-															{' '}
-															<Translation text="global.coming_soon" />
-														</Text>
-													)}
 												</Box>
 												<DropdownMenuItemIndicator>
 													<CheckIcon />
@@ -155,42 +130,6 @@ export const AccountViewDropdown = forwardRef<HTMLElement, IAccountViewDropdownP
 								</DropdownMenuRadioGroup>
 								<DropdownMenuSeparator />
 							</Box>
-							{/* <Box className={styles.accountViewPaddingXWrapper}>
-								<DropdownMenuLabel>
-									<Text size="xsmall" weight="strong" color="strong">
-										<Translation capitalizeFirstLetter text="walletDropdown.accountTitle" />
-									</Text>
-								</DropdownMenuLabel>
-							</Box> */}
-							{/* <ScrollArea fixHeight className={styles.accountViewSimpleBarWrapper}>
-								<Box className={styles.accountViewPaddingWrapper}>
-									<DropdownMenuRadioGroup value={selectedAccount} onValueChange={selectAccount}>
-										{Object.values(accounts).map(account => (
-											<DropdownMenuRadioItem key={account.address} value={account.address}>
-												<DropdownMenuLeftSlot>
-													<Box
-														style={{ width: '60px', height: '40px' }}
-														borderRadius="small"
-														flexShrink={0}
-														background="backgroundPrimary"
-														marginRight="small"
-													>
-														<ResourceImageIcon size="small" address={account.address} />
-													</Box>
-												</DropdownMenuLeftSlot>
-												<Box flexGrow={1} style={{ maxWidth: '98px' }}>
-													<Text size="xsmall" truncate>
-														{account.name}
-													</Text>
-												</Box>
-												<DropdownMenuItemIndicator>
-													<CheckIcon />
-												</DropdownMenuItemIndicator>
-											</DropdownMenuRadioItem>
-										))}
-									</DropdownMenuRadioGroup>
-								</Box>
-							</ScrollArea> */}
 
 							<Box className={styles.accountViewPaddingWrapper}>
 								<DropdownMenuItem>

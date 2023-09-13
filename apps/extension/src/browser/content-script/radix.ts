@@ -16,12 +16,12 @@ import { config } from '@src/config'
 
 export const chromeDAppClient: ChromeDAppClientType = ChromeDAppClient()
 
-export const sendMessageToDapp: ContentScriptMessageHandlerOptions['sendMessageToDapp'] = message => {
+export const sendRadixMessageToDapp: ContentScriptMessageHandlerOptions['sendMessageToDapp'] = message => {
 	const result = chromeDAppClient.sendMessage(message)
 	return result.isErr() ? errAsync({ reason: 'unableToSendMessageToDapp' }) : okAsync(undefined)
 }
 
-export const sendMessageEventToDapp: ContentScriptMessageHandlerOptions['sendMessageEventToDapp'] = (
+export const sendRadixMessageEventToDapp: ContentScriptMessageHandlerOptions['sendMessageEventToDapp'] = (
 	interactionId,
 	eventType,
 ) => {
@@ -29,13 +29,13 @@ export const sendMessageEventToDapp: ContentScriptMessageHandlerOptions['sendMes
 	return result.isErr() ? errAsync({ reason: 'unableToSendMessageEventToDapp' }) : okAsync(undefined)
 }
 
-export const chromeSendMessage = (message: RadixMessage) =>
+export const chromeSendRadixMessage = (message: RadixMessage) =>
 	ResultAsync.fromPromise(
 		APP_RADIX ? chrome.runtime.sendMessage(message) : chrome.runtime.sendMessage(config.radix.extension.id, message),
 		error => error as Error,
 	)
 
-export const sendMessage: SendMessage = (message, tabId) => {
+export const sendRadixMessage: SendMessage = (message, tabId) => {
 	const canSendMessageToTab = message.source === 'background' && tabId
 
 	if (canSendMessageToTab) {
@@ -53,7 +53,7 @@ export const sendMessage: SendMessage = (message, tabId) => {
 			)
 	}
 
-	return chromeSendMessage(message).mapErr(error => ({
+	return chromeSendRadixMessage(message).mapErr(error => ({
 		reason: 'couldNotSendMessage',
 		jsError: error,
 	}))
@@ -61,10 +61,10 @@ export const sendMessage: SendMessage = (message, tabId) => {
 
 export const radixMessageHandler: any = RadixMessageClient(
 	ContentScriptMessageHandler({
-		sendMessageToDapp,
-		sendMessageEventToDapp,
+		sendMessageToDapp: sendRadixMessageToDapp,
+		sendMessageEventToDapp: sendRadixMessageEventToDapp,
 		logger,
 	}),
 	'contentScript',
-	{ logger, sendMessage },
+	{ logger, sendMessage: sendRadixMessage },
 )

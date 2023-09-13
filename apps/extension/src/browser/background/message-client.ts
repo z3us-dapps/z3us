@@ -10,7 +10,7 @@ import { PORT_NAME } from '@src/browser/messages/constants'
 import { newReply } from '@src/browser/messages/message'
 import messageHandlers from '@src/browser/messages/message-handlers'
 import type { Message, ResponseMessage } from '@src/browser/messages/types'
-import { MessageSource } from '@src/browser/messages/types'
+import { MessageAction, MessageSource } from '@src/browser/messages/types'
 
 const popupURL = new URL(browser.runtime.getURL(''))
 
@@ -51,6 +51,9 @@ export const MessageClient = () => {
 
 		const sendReplyToInpage = async (msg: Message | ResponseMessage, response: any) =>
 			port.postMessage(newReply(msg, MessageSource.BACKGROUND, MessageSource.INPAGE, response))
+
+		const sendReplyToRadix = async (msg: Message | ResponseMessage, response: any) =>
+			port.postMessage(newReply(msg, MessageSource.BACKGROUND, MessageSource.RADIX, response))
 
 		port.onMessage.addListener(async (message: Message) => {
 			if (message.target !== MessageSource.BACKGROUND) {
@@ -110,6 +113,17 @@ export const MessageClient = () => {
 								code: 400,
 								error: 'Bad request',
 							})
+						}
+					}
+					break
+				case MessageSource.RADIX:
+					if (messageHandlers[MessageAction.RADIX]) {
+						try {
+							const response = await messageHandlers[MessageAction.RADIX](message)
+							if (response) sendReplyToRadix(message, response)
+						} catch (error) {
+							// eslint-disable-next-line no-console
+							console.error(`⚡️Z3US⚡️: background message client failed to handle radix message.`, error)
 						}
 					}
 					break
