@@ -7,8 +7,8 @@ const refreshInterval = 60 * 1000 // 1 minute
 
 export const useIsUnlocked = (): { isUnlocked: boolean; isLoading: boolean; reload: () => void } => {
 	const client = useMessageClient()
-	const { keystoreId } = useSharedStore(state => ({
-		keystoreId: state.selectedKeystoreId,
+	const { trigger } = useSharedStore(state => ({
+		trigger: state.sharedStoreReloadTrigger,
 	}))
 
 	const [isLoading, setIsLoading] = useState<boolean>(true)
@@ -36,7 +36,7 @@ export const useIsUnlocked = (): { isUnlocked: boolean; isLoading: boolean; relo
 			}
 		}
 		load()
-	}, [time, keystoreId])
+	}, [time, trigger])
 
 	return { isUnlocked, isLoading, reload: () => setTime(Date.now()) }
 }

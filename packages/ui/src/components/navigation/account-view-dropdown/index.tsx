@@ -33,6 +33,7 @@ import {
 	LockIcon,
 	MenuIcon,
 	MoonIcon,
+	PlusIcon,
 	ShareIcon,
 	SunIcon,
 	Z3usIcon,
@@ -65,7 +66,7 @@ export const AccountViewDropdown = forwardRef<HTMLElement, IAccountViewDropdownP
 		const { className, styleVariant = 'ghost' } = props
 
 		const { t } = useTranslation()
-		const { lock } = useZdtState()
+		const { lock, isWallet } = useZdtState()
 		const dappStatus = useDappStatus()
 		const isMobile = useIsMobileWidth()
 		const { resolvedTheme, theme, setTheme } = useTheme()
@@ -87,6 +88,14 @@ export const AccountViewDropdown = forwardRef<HTMLElement, IAccountViewDropdownP
 			} finally {
 				setIsSwitchingKeystore(false)
 			}
+		}
+
+		const handleOpenInBrowser = () => {
+			window.open(window.location.href, '_blank', 'noreferrer')
+		}
+
+		const handleAddNewWallet = () => {
+			window.open(window.location.href, '_blank', 'noreferrer')
 		}
 
 		return (
@@ -146,30 +155,48 @@ export const AccountViewDropdown = forwardRef<HTMLElement, IAccountViewDropdownP
 											</DropdownMenuRadioItem>
 										))}
 								</DropdownMenuRadioGroup>
-								<DropdownMenuSeparator />
+
+								{isWallet && (
+									<DropdownMenuItem onSelect={handleAddNewWallet}>
+										<DropdownMenuLeftSlot>
+											<PlusIcon />
+										</DropdownMenuLeftSlot>
+										<Box display="flex" marginLeft="small">
+											<Text size="xsmall" truncate>
+												<Translation capitalizeFirstLetter text="global.add" />
+											</Text>
+										</Box>
+									</DropdownMenuItem>
+								)}
 							</Box>
 
+							<DropdownMenuSeparator />
+
 							<Box className={styles.accountViewPaddingWrapper}>
-								<DropdownMenuItem>
-									<DropdownMenuLeftSlot>
-										<LockIcon />
-									</DropdownMenuLeftSlot>
-									<Box display="flex" marginLeft="small">
-										<Text size="xsmall" truncate>
-											<Translation capitalizeFirstLetter text="walletDropdown.lockTitle" />
-										</Text>
-									</Box>
-								</DropdownMenuItem>
-								<DropdownMenuItem>
-									<DropdownMenuLeftSlot>
-										<ShareIcon />
-									</DropdownMenuLeftSlot>
-									<Box display="flex" marginLeft="small">
-										<Text size="xsmall" truncate>
-											<Translation capitalizeFirstLetter text="walletDropdown.openInBrowserTitle" />
-										</Text>
-									</Box>
-								</DropdownMenuItem>
+								{isWallet && (
+									<>
+										<DropdownMenuItem onSelect={lock}>
+											<DropdownMenuLeftSlot>
+												<LockIcon />
+											</DropdownMenuLeftSlot>
+											<Box display="flex" marginLeft="small">
+												<Text size="xsmall" truncate>
+													<Translation capitalizeFirstLetter text="walletDropdown.lockTitle" />
+												</Text>
+											</Box>
+										</DropdownMenuItem>
+										<DropdownMenuItem onSelect={handleOpenInBrowser}>
+											<DropdownMenuLeftSlot>
+												<ShareIcon />
+											</DropdownMenuLeftSlot>
+											<Box display="flex" marginLeft="small">
+												<Text size="xsmall" truncate>
+													<Translation capitalizeFirstLetter text="walletDropdown.openInBrowserTitle" />
+												</Text>
+											</Box>
+										</DropdownMenuItem>
+									</>
+								)}
 								<DropdownMenuSub>
 									<DropdownMenuSubTrigger>
 										<DropdownMenuLeftSlot>

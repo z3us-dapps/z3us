@@ -10,13 +10,13 @@ export const useIsPaired = (): { isPaired: boolean; isLoading: boolean; reload: 
 	}))
 
 	const [isLoading, setIsLoading] = useState<boolean>(keystore?.type === KeystoreType.RADIX_WALLET)
-	const [isPaired, setIsPaired] = useState<boolean>(false)
+	const [isPaired, setIsPaired] = useState<boolean>(keystore?.type !== KeystoreType.RADIX_WALLET)
 	const [time, setTime] = useState<number>(Date.now())
 
 	useMemo(() => {
 		const load = async () => {
 			try {
-				setIsPaired(await hasConnectionPassword())
+				setIsPaired(keystore?.type !== KeystoreType.RADIX_WALLET || (await hasConnectionPassword()))
 			} catch (err) {
 				// eslint-disable-next-line no-console
 				console.error(err)
