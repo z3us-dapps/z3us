@@ -25,6 +25,7 @@ export const useMessageClient = () => ({
 		} as MessageTypes[MessageAction.VAULT_SAVE]),
 	removeFromVault: async (password: string) =>
 		client.sendMessage(MessageAction.VAULT_REMOVE, { password } as MessageTypes[MessageAction.VAULT_REMOVE]),
+	isVaultUnlocked: async (): Promise<boolean> => client.sendMessage(MessageAction.VAULT_IS_UNLOCKED),
 
 	sign: async (password: string, data: string, index: number = 0): Promise<PublicKey | null> =>
 		client.sendMessage(MessageAction.SIGN, {

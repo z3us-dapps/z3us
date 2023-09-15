@@ -9,7 +9,7 @@ import { usePersonas } from '@src/hooks/use-personas'
 
 export const ZdtProvider: React.FC<PropsWithChildren> = ({ children }) => {
 	const client = useMessageClient()
-	const isUnlocked = useIsUnlocked()
+	const { isUnlocked } = useIsUnlocked()
 	const personas = usePersonas()
 	const accounts = useAccounts()
 

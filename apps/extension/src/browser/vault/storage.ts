@@ -54,3 +54,8 @@ export const setConnectionPassword = async (password: string) => {
 		await browser.storage.local.remove('connectionPassword')
 	}
 }
+
+export const hasConnectionPassword = async (): Promise<boolean> => {
+	const data = await browser.storage.local.get(['connectionPassword'])
+	return !!data?.connectionPassword
+}

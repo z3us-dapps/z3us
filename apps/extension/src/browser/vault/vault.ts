@@ -29,10 +29,6 @@ export class Vault {
 	}
 
 	unlock = async (password: string): Promise<WalletData> => {
-		if (!password) {
-			throw new Error('Missing password')
-		}
-
 		const release = await this.mutex.acquire()
 		try {
 			const keystore = await getSelectedKeystore()
@@ -193,7 +189,7 @@ export class Vault {
 	private setConnectionPassword = async () => {
 		switch (this.wallet?.keystore.type) {
 			case KeystoreType.RADIX_WALLET:
-				await setConnectionPassword(this.wallet.data.secret)
+				await setConnectionPassword(this.wallet.data?.secret || '')
 				break
 			case KeystoreType.LOCAL:
 				await setConnectionPassword('')
@@ -202,7 +198,8 @@ export class Vault {
 				await setConnectionPassword('')
 				break
 			default:
-				await setConnectionPassword('')
+			// we do not reset password on lock here to let connect button send events to radix mobile
+			// await setConnectionPassword('')
 		}
 	}
 }

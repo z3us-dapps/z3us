@@ -12,6 +12,7 @@ export enum MessageAction {
 	VAULT_UNLOCK = 'v1-vault-unlock',
 	VAULT_SAVE = 'v1-vault-store',
 	VAULT_REMOVE = 'v1-vault-remove',
+	VAULT_IS_UNLOCKED = 'v1-vault-is-unlocked',
 
 	SIGN = 'v1-sign',
 	GET_PUBLIC_KEY = 'v1-get-public-key',

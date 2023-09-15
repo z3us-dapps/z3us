@@ -2,18 +2,17 @@ import { useSharedStore } from 'packages/ui/src/hooks/use-store'
 import { useEffect, useMemo, useState } from 'react'
 
 import { useMessageClient } from './use-message-client'
-import { usePublicKey } from './use-public-key'
 
 const refreshInterval = 60 * 1000 // 1 minute
 
-export const useIsUnlocked = (): boolean => {
-	const pk = usePublicKey(0)
+export const useIsUnlocked = (): { isUnlocked: boolean; isLoading: boolean; reload: () => void } => {
 	const client = useMessageClient()
 	const { keystoreId } = useSharedStore(state => ({
 		keystoreId: state.selectedKeystoreId,
 	}))
 
-	const [isUnlocked, setIsUnlocked] = useState<boolean>(!!pk)
+	const [isLoading, setIsLoading] = useState<boolean>(true)
+	const [isUnlocked, setIsUnlocked] = useState<boolean>(false)
 	const [time, setTime] = useState<number>(Date.now())
 
 	useEffect(() => {
@@ -27,14 +26,17 @@ export const useIsUnlocked = (): boolean => {
 	useMemo(() => {
 		const load = async () => {
 			try {
-				setIsUnlocked(!!(await client.getPublicKey(0)))
+				setIsUnlocked(await client.isVaultUnlocked())
 			} catch (err) {
+				// eslint-disable-next-line no-console
 				console.error(err)
 				setIsUnlocked(false)
+			} finally {
+				if (isLoading) setIsLoading(false)
 			}
 		}
 		load()
 	}, [time, keystoreId])
 
-	return isUnlocked
+	return { isUnlocked, isLoading, reload: () => setTime(Date.now()) }
 }

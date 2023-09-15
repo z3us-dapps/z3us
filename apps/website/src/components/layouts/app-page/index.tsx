@@ -1,4 +1,4 @@
-import { DappStatusContext } from 'packages/ui/src/context/dapp-status'
+import { DappStatusContext, defaultState as defaultDappState } from 'packages/ui/src/context/dapp-status'
 import { ZdtContext, defaultState as defaultZdtState } from 'packages/ui/src/context/zdt'
 import React from 'react'
 import { RouterProvider, createHashRouter } from 'react-router-dom'
@@ -44,7 +44,7 @@ export const router = createHashRouter([
 type Props = { dehydratedState?: any }
 
 const AppPage: React.FC<Props> = ({ dehydratedState }: Props) => (
-	<DappStatusContext.Provider value={null}>
+	<DappStatusContext.Provider value={defaultDappState}>
 		<I18Provider>
 			<ReactQueryProvider dehydratedState={dehydratedState}>
 				<NoneSharedStoreProvider>

@@ -108,18 +108,16 @@ export const AccountViewDropdown = forwardRef<HTMLElement, IAccountViewDropdownP
 							className={styles.accountViewContentWrapper}
 						>
 							<Box className={styles.accountViewPaddingWrapper}>
-								{dappStatus && (
-									<DropdownMenuLabel>
-										<Text size="xsmall" weight="strong" color="strong">
-											<Translation capitalizeFirstLetter text="walletDropdown.contentScriptTitle" />{' '}
-											<Link href="https://ociswap.com/">
-												<Text size="xsmall" weight="strong" color="strong">
-													{dappStatus.currentTabHost}
-												</Text>
-											</Link>
-										</Text>
-									</DropdownMenuLabel>
-								)}
+								<DropdownMenuLabel>
+									<Text size="xsmall" weight="strong" color="strong">
+										<Translation capitalizeFirstLetter text="walletDropdown.contentScriptTitle" />{' '}
+										<Link href="https://ociswap.com/">
+											<Text size="xsmall" weight="strong" color="strong">
+												{dappStatus.currentTabHost}
+											</Text>
+										</Link>
+									</Text>
+								</DropdownMenuLabel>
 								<DropdownMenuLabel>
 									<Text size="xsmall" weight="strong" color="strong">
 										<Translation capitalizeFirstLetter text="walletDropdown.walletTitle" />

@@ -38,6 +38,11 @@ async function unlockVault(message: Message): Promise<void> {
 	await vault.unlock(password)
 }
 
+async function isVaultUnlocked(): Promise<boolean> {
+	const walletData = await vault.get()
+	return !!walletData
+}
+
 export interface StoreInVaultMessage {
 	keystore: Keystore
 	data: Data
@@ -228,6 +233,7 @@ export type MessageTypes = {
 	[MessageAction.VAULT_UNLOCK]: UnlockVaultMessage
 	[MessageAction.VAULT_SAVE]: StoreInVaultMessage
 	[MessageAction.VAULT_REMOVE]: RemoveFromVaultMessage
+	[MessageAction.VAULT_IS_UNLOCKED]: undefined
 
 	[MessageAction.SIGN]: SignMessage
 	[MessageAction.GET_PUBLIC_KEY]: GetPublicKeyMessage
@@ -245,6 +251,7 @@ export default {
 	[MessageAction.VAULT_UNLOCK]: unlockVault,
 	[MessageAction.VAULT_SAVE]: storeInVault,
 	[MessageAction.VAULT_REMOVE]: removeFromVault,
+	[MessageAction.VAULT_IS_UNLOCKED]: isVaultUnlocked,
 
 	[MessageAction.SIGN]: sign,
 	[MessageAction.GET_PUBLIC_KEY]: getPublicKey,

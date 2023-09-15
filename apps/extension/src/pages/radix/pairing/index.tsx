@@ -11,7 +11,7 @@ import * as styles from './styles.css'
 const Pairing: React.FC = () => (
 	<Box>
 		<Box padding="xxxlarge" className={styles.pairingWrapper}>
-			<Text size="xlarge">Radix Connector Pairing</Text>
+			<Text size="xlarge">Pairing</Text>
 			<Paring />
 		</Box>
 	</Box>

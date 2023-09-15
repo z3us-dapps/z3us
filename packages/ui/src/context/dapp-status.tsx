@@ -8,4 +8,11 @@ export type State = {
 	currentTabHost: string
 }
 
-export const DappStatusContext: Context<State | null> = createContext<State | null>(null)
+export const defaultState = {
+	canConnectToTab: false,
+	isConnected: true,
+	currentTabId: 0,
+	currentTabHost: globalThis?.location?.hostname,
+}
+
+export const DappStatusContext: Context<State> = createContext<State>(defaultState)

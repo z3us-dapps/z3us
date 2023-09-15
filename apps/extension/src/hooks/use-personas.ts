@@ -7,7 +7,7 @@ import { useIsUnlocked } from './use-is-unlocked'
 import { useMessageClient } from './use-message-client'
 
 export const usePersonas = (): Persona[] => {
-	const isUnlocked = useIsUnlocked()
+	const { isUnlocked } = useIsUnlocked()
 	const networkId = useNetworkId()
 	const client = useMessageClient()
 	const { indexes } = useNoneSharedStore(state => ({

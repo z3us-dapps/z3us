@@ -19,7 +19,7 @@ const isPopupPage = (url?: URL) => url?.hostname === popupURL.hostname
 const isSecureHost = (url?: URL) => url?.protocol === 'https:'
 
 export const useDappStatus = () => {
-	const isUnlocked = useIsUnlocked()
+	const { isUnlocked } = useIsUnlocked()
 	// const { approvedWebsites } = useNoneSharedStore(state => ({
 	// 	approvedWebsites: state.approvedWebsites,
 	// }))
