@@ -24,16 +24,18 @@ export const useEntitiesDetails = (
 	return useQuery({
 		queryKey: ['useEntitiesDetails', networkId, ...addresses],
 		queryFn: () =>
-			state.innerClient
-				.stateEntityDetails({
-					stateEntityDetailsRequest: {
-						addresses,
-						aggregation_level: aggregation,
-						opt_ins: optIns,
-					},
-				})
-				.then(resp => resp.items),
-		enabled: !!state && addresses.length > 0,
+			addresses.length > 0
+				? state.innerClient
+						.stateEntityDetails({
+							stateEntityDetailsRequest: {
+								addresses,
+								aggregation_level: aggregation,
+								opt_ins: optIns,
+							},
+						})
+						.then(resp => resp.items)
+				: [],
+		enabled: !!state,
 	})
 }
 

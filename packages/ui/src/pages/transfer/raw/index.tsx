@@ -10,7 +10,7 @@ import { Form } from 'ui/src/components/form'
 import TextAreaField from 'ui/src/components/form/fields/text-area-field'
 import Translation from 'ui/src/components/translation'
 import { Text } from 'ui/src/components/typography'
-import { useSendTransaction } from 'ui/src/hooks/dapp/use-send-transaction'
+import { useSendTransaction } from 'ui/src/hooks/use-send-transaction'
 import { capitalizeFirstLetter } from 'ui/src/utils/capitalize-first-letter'
 
 import * as styles from './styles.css'

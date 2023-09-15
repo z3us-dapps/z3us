@@ -6,8 +6,8 @@ import { DropdownMenuItemIndicator, DropdownMenuRadioItem, DropdownMenuVirtuoso 
 import { Check2Icon, ChevronDown2Icon } from 'ui/src/components/icons'
 import { ResourceImageIcon } from 'ui/src/components/resource-image-icon'
 import { Text } from 'ui/src/components/typography'
+import { useWalletAccounts } from 'ui/src/hooks/use-accounts'
 import { useAddressBook } from 'ui/src/hooks/use-address-book'
-import { useWalletAccounts } from 'ui/src/hooks/use-wallet-account'
 import { getShortAddress } from 'ui/src/utils/string-utils'
 
 import { FieldWrapper, type IProps as WrapperProps } from '../../field-wrapper'

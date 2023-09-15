@@ -19,8 +19,8 @@ import Translation from 'ui/src/components/translation'
 import { Text } from 'ui/src/components/typography'
 import { config } from 'ui/src/constants/config'
 import { animatePageVariants } from 'ui/src/constants/page'
-import { useSelectedAccounts } from 'ui/src/hooks/dapp/use-accounts'
 import { useTransactions } from 'ui/src/hooks/dapp/use-transactions'
+import { useSelectedAccounts } from 'ui/src/hooks/use-accounts'
 import { getShortAddress } from 'ui/src/utils/string-utils'
 
 import * as styles from './styles.css'
@@ -133,9 +133,7 @@ const ItemWrapper: React.FC<IRowProps> = props => {
 									onMouseOver={() => setHovered(transaction.intent_hash)}
 									onMouseOut={() => setHovered(null)}
 									onClick={() =>
-										window
-											.open(`${config.defaultExplorerURL}/transaction/${transaction.intent_hash}`, '_blank')
-											.focus()
+										window.open(`${config.defaultExplorerURL}/transaction/${transaction.intent_hash}`, '_blank').focus()
 									}
 								>
 									<ShareIcon />

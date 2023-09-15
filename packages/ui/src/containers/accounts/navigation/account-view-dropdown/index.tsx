@@ -47,7 +47,7 @@ import { useDappStatus } from 'ui/src/hooks/use-dapp-status'
 import { useIsMobileWidth } from 'ui/src/hooks/use-is-mobile'
 import { useNoneSharedStore, useSharedStore } from 'ui/src/hooks/use-store'
 import { useTheme } from 'ui/src/hooks/use-theme'
-import { useWalletAccounts } from 'ui/src/hooks/use-wallet-account'
+import { useWalletAccounts } from 'ui/src/hooks/use-accounts'
 import { KeystoreType } from 'ui/src/store/types'
 
 import * as styles from './account-view-dropdown.css'

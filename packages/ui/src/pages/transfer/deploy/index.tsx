@@ -7,7 +7,7 @@ import { Form } from 'ui/src/components/form'
 import Translation from 'ui/src/components/translation'
 import { ValidationErrorMessage } from 'ui/src/components/validation-error-message'
 import { useNetworkId } from 'ui/src/hooks/dapp/use-network-id'
-import { useSendTransaction } from 'ui/src/hooks/dapp/use-send-transaction'
+import { useSendTransaction } from 'ui/src/hooks/use-send-transaction'
 import type { DeployPackage } from 'ui/src/manifests/deploy-package'
 import { getDeployPackageManifest } from 'ui/src/manifests/deploy-package'
 

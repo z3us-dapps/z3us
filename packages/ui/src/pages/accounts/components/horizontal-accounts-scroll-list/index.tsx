@@ -9,7 +9,7 @@ import {
 	ScrollAreaThumb,
 	ScrollAreaViewport,
 } from 'ui/src/components/scroll-area-radix'
-import { useWalletAccounts } from 'ui/src/hooks/use-wallet-account'
+import { useWalletAccounts } from 'ui/src/hooks/use-accounts'
 
 import { AccountHomeCard } from '../account-home-card'
 import * as styles from './styles.css'

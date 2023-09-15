@@ -1,5 +1,6 @@
+import type { Account, Persona } from '@radixdlt/radix-dapp-toolkit'
 import { Convert, LTSRadixEngineToolkit, type PublicKey } from '@radixdlt/radix-engine-toolkit'
-import type { Keystore } from 'packages/ui/src/store/types'
+import type { AddressBook, AddressIndexes, Keystore } from 'packages/ui/src/store/types'
 
 import { MessageClient } from '@src/browser/app/message-client'
 import type { MessageTypes } from '@src/browser/messages/message-handlers'
@@ -40,6 +41,15 @@ export const useMessageClient = () => ({
 
 	getPublicKey: async (index: number = 0): Promise<PublicKey | null> =>
 		client.sendMessage(MessageAction.GET_PUBLIC_KEY, { index } as MessageTypes[MessageAction.GET_PUBLIC_KEY]),
+
+	getPersonas: async (networkId: number, indexes: AddressIndexes): Promise<Array<Persona>> =>
+		client.sendMessage(MessageAction.GET_PERSONAS, { networkId, indexes } as MessageTypes[MessageAction.GET_PERSONAS]),
+	getAccounts: async (networkId: number, indexes: AddressIndexes, addressBook: AddressBook): Promise<Array<Account>> =>
+		client.sendMessage(MessageAction.GET_ACCOUNTS, {
+			networkId,
+			indexes,
+			addressBook,
+		} as MessageTypes[MessageAction.GET_ACCOUNTS]),
 
 	handleRadixMessage: async (message: MessageTypes[MessageAction.RADIX]): Promise<PublicKey | null> =>
 		client.sendMessage(MessageAction.RADIX, message as MessageTypes[MessageAction.RADIX]),

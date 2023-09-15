@@ -15,7 +15,7 @@ import { SelectSimple } from 'ui/src/components/select'
 import * as containerStyles from 'ui/src/components/styles/container-styles.css'
 import { ToolTip } from 'ui/src/components/tool-tip'
 import { Z3usLogo } from 'ui/src/components/z3us-logo-babylon'
-import { useWalletAccounts } from 'ui/src/hooks/use-wallet-account'
+import { useWalletAccounts } from 'ui/src/hooks/use-accounts'
 
 import { AccountViewDropdown } from '../account-view-dropdown'
 import * as styles from './styles.css'

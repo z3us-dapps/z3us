@@ -1,0 +1,72 @@
+import type { Account, Persona } from '@radixdlt/radix-dapp-toolkit'
+import { RadixEngineToolkit } from '@radixdlt/radix-engine-toolkit'
+import type { PublicKey } from '@radixdlt/radix-engine-toolkit'
+import type { AddressBook, AddressIndexes } from 'packages/ui/src/store/types'
+
+import { newMessage } from './message'
+import type { GetPublicKeyMessage } from './message-handlers'
+import type { MessageHandler } from './types'
+import { MessageAction, MessageSource } from './types'
+
+const getPublicKey =
+	(handler: MessageHandler) =>
+	(index: number): Promise<PublicKey | null> =>
+		handler(
+			newMessage(MessageAction.GET_PUBLIC_KEY, MessageSource.BACKGROUND, MessageSource.BACKGROUND, {
+				index,
+			} as GetPublicKeyMessage),
+		)
+
+const personaReducer =
+	(publicMessageHandler: MessageHandler, accountIndexes: AddressIndexes, networkId: number) =>
+	async (container, idx) => {
+		container = await container
+		const publicKey = await getPublicKey(publicMessageHandler)(idx)
+		if (!publicKey) return container
+
+		const details = accountIndexes[idx]
+
+		const virtualIdentityAddress = await RadixEngineToolkit.Derive.virtualIdentityAddressFromPublicKey(
+			publicKey,
+			networkId,
+		)
+
+		const identityAddress = virtualIdentityAddress.toString()
+
+		container.push({
+			identityAddress,
+			label: details.label || `Unknown: ${idx}`,
+		} as Persona)
+
+		return container
+	}
+
+const accountReducer =
+	(publicMessageHandler: MessageHandler, addressBook: AddressBook, networkId: number) => async (container, idx) => {
+		container = await container
+		const publicKey = await getPublicKey(publicMessageHandler)(idx)
+		if (!publicKey) return container
+
+		const accountAddress = await RadixEngineToolkit.Derive.virtualAccountAddressFromPublicKey(publicKey, networkId)
+		const address = accountAddress.toString()
+
+		container.push({
+			address,
+			label: addressBook[address]?.name || `Unknown: ${idx}`,
+			appearanceId: container.length + 1,
+		} as Account)
+		return container
+	}
+
+export const derivePersonas = (
+	publicMessageHandler: MessageHandler,
+	accountIndexes: AddressIndexes,
+	networkId: number,
+) => Object.keys(accountIndexes).reduce(personaReducer(publicMessageHandler, accountIndexes, networkId), [])
+
+export const deriveAccounts = (
+	publicMessageHandler: MessageHandler,
+	addressBook: AddressBook,
+	accountIndexes: AddressIndexes,
+	networkId: number,
+) => Object.keys(accountIndexes).reduce(accountReducer(publicMessageHandler, addressBook, networkId), [])

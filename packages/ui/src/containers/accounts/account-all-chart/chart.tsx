@@ -32,8 +32,8 @@ export const Chart: React.FC<IProps> = ({ balances }) => {
 				<defs>
 					{balances.map((entry, index) => (
 						<linearGradient key={entry.address} id={`myGradient${index}`}>
-							<stop offset="0%" stopColor={COLORS[index % COLORS.length].start} />
-							<stop offset="100%" stopColor={COLORS[index % COLORS.length].end} />
+							<stop offset="0%" stopColor={COLORS[COLORS.length % index].start} />
+							<stop offset="100%" stopColor={COLORS[COLORS.length % index].end} />
 						</linearGradient>
 					))}
 				</defs>
@@ -55,11 +55,11 @@ export const Chart: React.FC<IProps> = ({ balances }) => {
 						<Cell
 							key={`cell-${entry.address}`}
 							fill={`url(#myGradient${index})`}
-							stroke={COLORS[index % COLORS.length].start}
+							stroke={COLORS[COLORS.length % index].start}
 							strokeWidth={index === hoveredCellIndex ? 2 : 1}
 							style={{
 								filter: `drop-shadow(0px 0px ${index === hoveredCellIndex ? '4' : '0'}px ${
-									COLORS[index % COLORS.length].start
+									COLORS[COLORS.length % index].start
 								}`,
 							}}
 							onMouseOver={() => setHoveredCellIndex(index)}

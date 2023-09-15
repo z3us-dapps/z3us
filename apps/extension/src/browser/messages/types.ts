@@ -16,6 +16,9 @@ export enum MessageAction {
 	SIGN = 'v1-sign',
 	GET_PUBLIC_KEY = 'v1-get-public-key',
 
+	GET_PERSONAS = 'v1-personas',
+	GET_ACCOUNTS = 'v1-accounts',
+
 	RADIX = 'v1-radix',
 }
 

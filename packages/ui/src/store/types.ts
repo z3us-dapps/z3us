@@ -1,3 +1,5 @@
+export type AddressBook = { [networkId: number]: { [key: string]: AddressBookEntry } }
+
 export type AddressBookEntry = {
 	name: string
 	address: string
@@ -59,7 +61,7 @@ export type SettingsState = {
 	radixConnectorEnabled: boolean
 	setRadixConnectorEnabledAction: (enabled: boolean) => void
 
-	addressBook: { [networkId: number]: { [key: string]: AddressBookEntry } }
+	addressBook: AddressBook
 	removeAddressBookEntryAction: (networkId: number, address: string) => void
 	setAddressBookEntryAction: (networkId: number, address: string, entry: AddressBookEntry) => void
 }
@@ -82,14 +84,17 @@ export enum AddressType {
 
 export type Address = {
 	type: AddressType
+	label: string
 }
 
+export type AddressIndexes = { [idx: number]: Address }
+
 export type ExtensionState = {
-	personaIndexes: { [idx: number]: Address }
+	personaIndexes: AddressIndexes
 	removePersonaAction: (idx: number) => void
 	addPersonaAction: (idx: number, address: Address) => void
 
-	accountIndexes: { [idx: number]: Address }
+	accountIndexes: AddressIndexes
 	removeAccountAction: (idx: number) => void
 	addAccountAction: (idx: number, address: Address) => void
 }

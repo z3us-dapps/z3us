@@ -1,22 +1,9 @@
 import { DappStatusContext } from 'packages/ui/src/context/dapp-status'
-import React, { type PropsWithChildren, useEffect, useRef } from 'react'
+import React, { type PropsWithChildren } from 'react'
 
-import { config } from '@src/config'
-
-const useStatus = () => {
-	const ref = useRef(() => null)
-
-	useEffect(() => {
-		if (!config.isExtensionContext) return
-		import('@src/hooks/use-dapp-status').then(({ useDappStatus }) => {
-			ref.current = useDappStatus
-		})
-	}, [])
-
-	return ref.current()
-}
+import { useDappStatus } from '@src/hooks/use-dapp-status'
 
 export const DappStatusProvider: React.FC<PropsWithChildren> = ({ children }) => {
-	const status = useStatus()
+	const status = useDappStatus()
 	return <DappStatusContext.Provider value={status}>{children}</DappStatusContext.Provider>
 }

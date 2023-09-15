@@ -1,6 +1,6 @@
 import type { WalletSdk as WalletSdkType } from '@radixdlt/wallet-sdk'
 import clsx from 'clsx'
-import { useSendTransaction } from 'packages/ui/src/hooks/dapp/use-send-transaction'
+import { useSendTransaction } from 'packages/ui/src/hooks/use-send-transaction'
 import type { PropsWithChildren } from 'react'
 import React, { useState } from 'react'
 

@@ -29,9 +29,6 @@ export const MessageClient = () => {
 				window.postMessage(message)
 				break
 			case MessageSource.RADIX:
-				// @TODO
-				console.error(`⚡️Z3US⚡️: content-script port.onMessage.addListener`, message.fromTabId, message.payload)
-
 				sendRadixMessage(message.payload, message.fromTabId)
 				break
 			default:

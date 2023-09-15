@@ -1,4 +1,5 @@
 import { DappStatusContext } from 'packages/ui/src/context/dapp-status'
+import { ZdtContext, defaultState as defaultZdtState } from 'packages/ui/src/context/zdt'
 import React from 'react'
 import { RouterProvider, createHashRouter } from 'react-router-dom'
 
@@ -14,19 +15,6 @@ import noMatchRoute from 'ui/src/pages/no-match/router'
 import settingsRoute from 'ui/src/pages/settings/router'
 import stakingRoute from 'ui/src/pages/staking/router'
 import transferRoute from 'ui/src/pages/transfer/router'
-
-import enUS from './locales/en.json'
-import pl from './locales/pl.json'
-
-// codes: https://www.science.co.il/language/Locale-codes.php
-const resources = {
-	enUS: {
-		translation: enUS,
-	},
-	pl: {
-		translation: pl,
-	},
-}
 
 // import { LandingPage } from '../landing-page'
 
@@ -57,12 +45,14 @@ type Props = { dehydratedState?: any }
 
 const AppPage: React.FC<Props> = ({ dehydratedState }: Props) => (
 	<DappStatusContext.Provider value={null}>
-		<I18Provider resources={resources}>
+		<I18Provider>
 			<ReactQueryProvider dehydratedState={dehydratedState}>
 				<NoneSharedStoreProvider>
-					<RdtProvider>
-						<RouterProvider router={router} fallbackElement={<Loader />} />
-					</RdtProvider>
+					<ZdtContext.Provider value={defaultZdtState}>
+						<RdtProvider>
+							<RouterProvider router={router} fallbackElement={<Loader />} />
+						</RdtProvider>
+					</ZdtContext.Provider>
 				</NoneSharedStoreProvider>
 			</ReactQueryProvider>
 		</I18Provider>

@@ -1,7 +1,7 @@
 import type { AddressBookEntry } from '../store/types'
 import { useNetworkId } from './dapp/use-network-id'
+import { useWalletAccounts } from './use-accounts'
 import { useNoneSharedStore } from './use-store'
-import { useWalletAccounts } from './use-wallet-account'
 
 export const useAddressBook = (): { [key: string]: AddressBookEntry } => {
 	const networkId = useNetworkId()

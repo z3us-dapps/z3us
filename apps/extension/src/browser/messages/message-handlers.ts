@@ -4,9 +4,10 @@ import {
 	messageSource as radixMessageSource,
 } from '@radixdlt/connector-extension/src/chrome/messages/_types'
 import { createMessage as createRadixMessage } from '@radixdlt/connector-extension/src/chrome/messages/create-message'
+import type { Account, Persona } from '@radixdlt/radix-dapp-toolkit'
 import { Convert } from '@radixdlt/radix-engine-toolkit'
 import { sharedStore } from 'packages/ui/src/store'
-import type { Keystore } from 'packages/ui/src/store/types'
+import type { AddressBook, AddressIndexes, Keystore } from 'packages/ui/src/store/types'
 import { KeystoreType } from 'packages/ui/src/store/types'
 
 import { openAppPopup } from '@src/browser/app/popup'
@@ -15,6 +16,8 @@ import { MessageAction } from '@src/browser/messages/types'
 import { Vault } from '@src/browser/vault/vault'
 import { getPublicKey as cryptoGetPublicKey, getPrivateKey } from '@src/crypto/key_pair'
 import type { Data } from '@src/types/vault'
+
+import { deriveAccounts, derivePersonas } from './radix-address'
 
 const vault = new Vault(globalThis.crypto)
 
@@ -32,7 +35,7 @@ export interface UnlockVaultMessage {
 
 async function unlockVault(message: Message): Promise<void> {
 	const { password } = message.payload as UnlockVaultMessage
-	vault.unlock(password)
+	await vault.unlock(password)
 }
 
 export interface StoreInVaultMessage {
@@ -43,7 +46,7 @@ export interface StoreInVaultMessage {
 
 async function storeInVault(message: Message): Promise<void> {
 	const { keystore, data, password } = message.payload as StoreInVaultMessage
-	vault.save(keystore, data, password)
+	await vault.save(keystore, data, password)
 }
 
 export interface RemoveFromVaultMessage {
@@ -85,6 +88,39 @@ async function getPublicKey(message: Message) {
 	return publicKey
 }
 
+export interface GetPersonasMessage {
+	networkId: number
+	indexes: AddressIndexes
+}
+
+async function getPersonas(message: Message): Promise<Persona[]> {
+	const { networkId, indexes } = message.payload as GetPersonasMessage
+	const walletData = await vault.get()
+	if (!walletData) {
+		return []
+	}
+
+	const personas = await derivePersonas(getPublicKey, indexes, networkId)
+	return personas
+}
+
+export interface GetAccountsMessage {
+	networkId: number
+	indexes: AddressIndexes
+	addressBook: AddressBook
+}
+
+async function getAccounts(message: Message): Promise<Account[]> {
+	const { networkId, indexes, addressBook } = message.payload as GetAccountsMessage
+	const walletData = await vault.get()
+	if (!walletData) {
+		return []
+	}
+
+	const accounts = await deriveAccounts(getPublicKey, addressBook, indexes, networkId)
+	return accounts
+}
+
 async function handleRadixMessage(message: Message) {
 	await sharedStore.persist.rehydrate()
 	const sharedState = sharedStore.getState()
@@ -95,7 +131,6 @@ async function handleRadixMessage(message: Message) {
 
 	const radixMsg = message.payload as RadixMessage
 
-	// @TODO
 	console.error(`⚡️Z3US⚡️: background handleRadixMessage: ${radixMsg?.discriminator}`, radixMsg)
 
 	switch (radixMsg?.discriminator) {
@@ -108,7 +143,7 @@ async function handleRadixMessage(message: Message) {
 						await openAppPopup()
 						return null
 					} catch (error) {
-						console.error(error)
+						console.error(`⚡️Z3US⚡️: background handleRadixMessage: ${radixMsg?.discriminator}`, radixMsg, error)
 						return createRadixMessage.confirmationError(radixMessageSource.contentScript, radixMsg.messageId, {
 							reason: 'unableToOpenParingPopup',
 						})
@@ -123,6 +158,7 @@ async function handleRadixMessage(message: Message) {
 								interactionId,
 							),
 						)
+
 						await chrome.runtime.sendMessage(
 							createRadixMessage.sendMessageEventToDapp(
 								radixMessageSource.offScreen,
@@ -131,9 +167,26 @@ async function handleRadixMessage(message: Message) {
 							),
 						)
 
-						// https://github.com/radixdlt/wallet-sdk/blob/c4a8433a2b2357c4d28dcf36fe2810f0d5fe158e/lib/__tests__/wallet-sdk.spec.ts#L93
-						console.error('items', interactionId, items) // @TODO: handle specifically using popup or such
+						// const publicKey = await getPublicKey(
+						// 	newMessage(MessageAction.GET_PUBLIC_KEY, MessageSource.BACKGROUND, MessageSource.BACKGROUND, {
+						// 		index: 0,
+						// 	} as GetPublicKeyMessage),
+						// )
+						// if (!publicKey) {
+						// 	await chrome.runtime.sendMessage(
+						// 		createRadixMessage.walletResponse(radixMessageSource.offScreen, {
+						// 			discriminator: 'success',
+						// 			items: createRadixMessage.sendMessageToTab,
+						// 			interactionId,
+						// 		}),
+						// 	)
+						// 	return null
+						// }
+
 						// below are example payloads we need to return
+
+						// https://github.com/radixdlt/wallet-sdk/blob/c4a8433a2b2357c4d28dcf36fe2810f0d5fe158e/lib/__tests__/wallet-sdk.spec.ts#L93
+						console.info('items', interactionId, items) // @TODO: handle specifically using popup or such
 
 						await chrome.runtime.sendMessage(
 							createRadixMessage.walletResponse(radixMessageSource.offScreen, {
@@ -142,24 +195,10 @@ async function handleRadixMessage(message: Message) {
 									discriminator: 'authorizedRequest',
 									auth: {
 										discriminator: 'loginWithoutChallenge',
-										persona: {
-											identityAddress: 'account_tdx_b_1qlu8fdyj77jpmu2mqe4rgh3738jcva4nfd2y2vp675zqgdg72y',
-											label: '2nd persona',
-										},
+										persona: {},
 									},
 									ongoingAccounts: {
-										accounts: [
-											{
-												address: 'account_tdx_b_1qaz0nxslmr9nssmy463rd57hl7q0xsadaal0gy7cwsuqwecaws',
-												label: 'Jakub Another Accoun',
-												appearanceId: 1,
-											},
-											{
-												address: 'account_tdx_b_1q7te4nk60fy2wt7d0wh8l2dhlp5c0n75phcnrwa8uglsrf6sjr',
-												label: '3rd Account',
-												appearanceId: 2,
-											},
-										],
+										accounts: [],
 									},
 								},
 								interactionId,
@@ -168,7 +207,7 @@ async function handleRadixMessage(message: Message) {
 
 						return null
 					} catch (error) {
-						console.error(error)
+						console.error(`⚡️Z3US⚡️: background handleRadixMessage: ${radixMsg?.discriminator}`, radixMsg, error)
 						return createRadixMessage.confirmationError(radixMessageSource.contentScript, radixMsg.messageId, {
 							reason: 'failedToDetectWalletLink',
 						})
@@ -193,6 +232,9 @@ export type MessageTypes = {
 	[MessageAction.SIGN]: SignMessage
 	[MessageAction.GET_PUBLIC_KEY]: GetPublicKeyMessage
 
+	[MessageAction.GET_PERSONAS]: GetPersonasMessage
+	[MessageAction.GET_ACCOUNTS]: GetAccountsMessage
+
 	[MessageAction.RADIX]: RadixMessage
 }
 
@@ -206,6 +248,9 @@ export default {
 
 	[MessageAction.SIGN]: sign,
 	[MessageAction.GET_PUBLIC_KEY]: getPublicKey,
+
+	[MessageAction.GET_PERSONAS]: getPersonas,
+	[MessageAction.GET_ACCOUNTS]: getAccounts,
 
 	[MessageAction.RADIX]: handleRadixMessage,
 } as MessageHandlers

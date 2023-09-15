@@ -1,29 +1,28 @@
 import type { PublicKey } from '@radixdlt/radix-engine-toolkit'
 import { PrivateKey } from '@radixdlt/radix-engine-toolkit'
-import bip39 from 'bip39'
-import hdkey from 'hdkey'
+import { HDKey } from '@scure/bip32'
+import { entropyToMnemonic, mnemonicToSeedSync } from 'bip39'
 
-import { entropyToMnemonic } from '@src/crypto/mnemonic'
 import { type Data, DataType } from '@src/types/vault'
 
-export function legacyDerivePrivateKeyFromIndex(privateKey: PrivateKey, index: number = 0): PrivateKey {
-	const root = hdkey.fromMasterSeed(privateKey.toString())
-	// `m/${purpose}'/${coin_type}'/${account}'/${change}/${address_index}`
-	// defaults to: `m/44'/1022'/0'/0/0`
-	const key = root.derive(`m/44'/1022'/0'/0/${index}`)
-	return new PrivateKey.Ed25519(key.toString('hex'))
+export function legacyDerivePrivateKeyFromIndex(root: HDKey, index: number = 0): PrivateKey {
+	// // `m/${purpose}'/${coin_type}'/${account}'/${change}/${address_index}`
+	// // defaults to: `m/44'/1022'/0'/0/0`
+	const child = root.derive(`m/44'/1022'/0'/0/${index}`)
+
+	return new PrivateKey.Secp256k1(child.privateKey)
 }
 
-export function legacyEntropyToPrivateKey(entropy: string): PrivateKey {
+export function legacyEntropyToPrivateKey(entropyHex: string): HDKey {
+	const entropy = Buffer.from(entropyHex, 'hex')
 	const mnemonic = entropyToMnemonic(entropy)
-	const seed = bip39.mnemonicToSeedSync(mnemonic).toString('hex')
-	const root = hdkey.fromMasterSeed(Buffer.from(seed, 'hex'))
-	return new PrivateKey.Ed25519(root.privateKey.toString('hex'))
+	const seed = mnemonicToSeedSync(mnemonic)
+
+	return HDKey.fromMasterSeed(seed)
 }
 
-export function fromExtendedPrivateKey(xpriv: string): PrivateKey {
-	const root = hdkey.fromJSON({ xpriv, xpub: 'not used' })
-	return new PrivateKey.Ed25519(root.privateKey.toString('hex'))
+export function fromExtendedPrivateKey(xpriv: string): HDKey {
+	return HDKey.fromJSON({ xpriv })
 }
 
 export function getPrivateKey(data: Data, index: number = 0): PrivateKey | null {
@@ -33,7 +32,7 @@ export function getPrivateKey(data: Data, index: number = 0): PrivateKey | null 
 		case DataType.PRIVATE_KEY:
 			return legacyDerivePrivateKeyFromIndex(fromExtendedPrivateKey(data.secret), index)
 		case DataType.ECDSA_SECP_256K1:
-			return new PrivateKey.Ed25519(data.secret)
+			return new PrivateKey.Secp256k1(data.secret)
 		case DataType.EDDSA_ED25519:
 			return new PrivateKey.Ed25519(data.secret)
 		default:

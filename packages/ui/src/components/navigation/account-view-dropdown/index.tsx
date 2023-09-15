@@ -1,6 +1,7 @@
 import clsx, { type ClassValue } from 'clsx'
+import { useZdtState } from 'packages/ui/src/hooks/zdt/use-zdt'
 import { Theme } from 'packages/ui/src/types/types'
-import React, { forwardRef } from 'react'
+import React, { forwardRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
 import { Box } from 'ui/src/components/box'
@@ -64,6 +65,7 @@ export const AccountViewDropdown = forwardRef<HTMLElement, IAccountViewDropdownP
 		const { className, styleVariant = 'ghost' } = props
 
 		const { t } = useTranslation()
+		const { lock } = useZdtState()
 		const dappStatus = useDappStatus()
 		const isMobile = useIsMobileWidth()
 		const { resolvedTheme, theme, setTheme } = useTheme()
@@ -72,6 +74,20 @@ export const AccountViewDropdown = forwardRef<HTMLElement, IAccountViewDropdownP
 			keystores: state.keystores,
 			selectKeystore: state.selectKeystoreAction,
 		}))
+
+		const [isSwitchingKeystore, setIsSwitchingKeystore] = useState<boolean>(false)
+
+		const handleSelectKeystore = async (id: string) => {
+			setIsSwitchingKeystore(true)
+			try {
+				await lock()
+				selectKeystore(id)
+			} catch (err) {
+				console.error(err)
+			} finally {
+				setIsSwitchingKeystore(false)
+			}
+		}
 
 		return (
 			<Box ref={ref} className={clsx(styles.accountViewDropdownWrapper, className)}>
@@ -109,7 +125,11 @@ export const AccountViewDropdown = forwardRef<HTMLElement, IAccountViewDropdownP
 										<Translation capitalizeFirstLetter text="walletDropdown.walletTitle" />
 									</Text>
 								</DropdownMenuLabel>
-								<DropdownMenuRadioGroup value={selectedKeystoreId} onValueChange={selectKeystore}>
+								<DropdownMenuRadioGroup
+									disabled={isSwitchingKeystore}
+									value={selectedKeystoreId}
+									onValueChange={handleSelectKeystore}
+								>
 									{[...keystores]
 										.sort((a, b) => weights[a.type] - weights[b.type])
 										.map(keystore => (

@@ -6,10 +6,9 @@ import { Box } from 'ui/src/components/box'
 import { CopyAddressButton } from 'ui/src/components/copy-address-button'
 import Translation from 'ui/src/components/translation'
 import { Text } from 'ui/src/components/typography'
-import { useSelectedAccounts } from 'ui/src/hooks/dapp/use-accounts'
 import { useBalances } from 'ui/src/hooks/dapp/use-balances'
+import { useSelectedAccounts, useWalletAccounts } from 'ui/src/hooks/use-accounts'
 import { useIsAllAccounts } from 'ui/src/hooks/use-is-all-accounts'
-import { useWalletAccounts } from 'ui/src/hooks/use-wallet-account'
 
 import { AssetsList } from '../components/assets-list'
 import { HomeScrollShadow } from '../components/home-scroll-shadow'
@@ -25,14 +24,8 @@ const Account: React.FC = () => {
 	const isAllAccounts = useIsAllAccounts()
 
 	const selectedAccounts = useSelectedAccounts()
-	const {
-		fungibleBalances,
-		fungibleChange,
-		fungibleValue,
-		nonFungibleBalances,
-		nonFungibleChange,
-		nonFungibleValue,
-	} = useBalances(...selectedAccounts)
+	const { fungibleBalances, fungibleChange, fungibleValue, nonFungibleBalances, nonFungibleChange, nonFungibleValue } =
+		useBalances(...selectedAccounts)
 
 	return (
 		<Box ref={wrapperRef} className={styles.assetsWrapper}>
