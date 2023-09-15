@@ -55,7 +55,7 @@ export const HomePage: React.FC = () => {
 									</div>
 									<div className="w-6/12">
 										{' '}
-										"Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium,
+										Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium,
 										<br />
 										<br />
 										totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae
@@ -65,7 +65,7 @@ export const HomePage: React.FC = () => {
 										modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem. Ut enim ad minima
 										veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea
 										commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil
-										molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur?"
+										molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur?
 									</div>
 								</div>
 							</div>
