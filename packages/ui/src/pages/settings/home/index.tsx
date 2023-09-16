@@ -5,8 +5,6 @@ import { Box } from 'ui/src/components/box'
 import { MobileStackedNavigation } from 'ui/src/components/layout/mobile-stacked-navigation'
 import { useIsMobileWidth } from 'ui/src/hooks/use-is-mobile'
 
-import { SETTINGS_MENU } from '../components/navigation'
-
 const Home: React.FC = () => {
 	const isMobile = useIsMobileWidth()
 
@@ -16,7 +14,7 @@ const Home: React.FC = () => {
 
 	return (
 		<Box component="ul" paddingX="small">
-			<MobileStackedNavigation menu={SETTINGS_MENU} />
+			<MobileStackedNavigation />
 		</Box>
 	)
 }

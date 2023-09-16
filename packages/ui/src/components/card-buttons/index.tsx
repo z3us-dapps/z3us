@@ -1,5 +1,6 @@
 import clsx from 'clsx'
 import React from 'react'
+import { defineMessages, useIntl } from 'react-intl'
 
 import { Box } from 'ui/src/components/box'
 import { DownLeft2Icon, QrCode2Icon, UpRight2Icon } from 'ui/src/components/icons'
@@ -21,26 +22,42 @@ const defaultProps: ICardButtonsOptionalProps = {
 	className: undefined,
 }
 
+const messages = defineMessages({
+	send: {
+		id: 'card.buttons.send',
+		defaultMessage: 'Send',
+	},
+	receive: {
+		id: 'card.buttons.receive',
+		defaultMessage: 'Receive',
+	},
+	address: {
+		id: 'card.buttons.address',
+		defaultMessage: 'Address',
+	},
+})
+
 export const CardButtons: React.FC<ICardButtonsProps> = props => {
 	const { className } = props
 
+	const intl = useIntl()
 	const isMobile = useIsMobileWidth()
 
 	const buttonSize = isMobile ? 'medium' : 'large'
 
 	return (
 		<Box className={clsx(styles.cardButtonsWrapper, className)}>
-			<ToolTip message="global.send">
+			<ToolTip message={intl.formatMessage(messages.send)}>
 				<Button iconOnly rounded styleVariant="inverse" sizeVariant={buttonSize} to="accounts/transfer">
 					<UpRight2Icon />
 				</Button>
 			</ToolTip>
-			<ToolTip message="global.receive">
+			<ToolTip message={intl.formatMessage(messages.receive)}>
 				<Button iconOnly rounded styleVariant="inverse" sizeVariant={buttonSize} to="/accounts/transfer">
 					<DownLeft2Icon />
 				</Button>
 			</ToolTip>
-			<ToolTip message="global.address">
+			<ToolTip message={intl.formatMessage(messages.address)}>
 				<Button iconOnly rounded styleVariant="inverse" sizeVariant={buttonSize} to="/accounts/transfer">
 					<QrCode2Icon />
 				</Button>

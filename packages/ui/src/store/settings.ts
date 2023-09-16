@@ -1,12 +1,11 @@
 import { config } from '../constants/config'
-import { type AddressBookEntry, type ISettingsStateSetter, type SettingsState } from './types'
+import { type AddressBookEntry, CURRENCY, type ISettingsStateSetter, type SettingsState } from './types'
 
 const defaultState = {
 	gatewayBaseUrl: config.defaultGatewayBaseUrl,
 	currency: config.defaultCurrency,
 	walletUnlockTimeoutInMinutes: 5,
 	pushNotificationsEnabled: true,
-	radixConnectorEnabled: true,
 	addressBook: {},
 }
 
@@ -19,7 +18,7 @@ export const factory = (set: ISettingsStateSetter): SettingsState => ({
 		})
 	},
 
-	setCurrencyAction: (currency: string) => {
+	setCurrencyAction: (currency: CURRENCY) => {
 		set(state => {
 			state.currency = currency
 		})
@@ -34,12 +33,6 @@ export const factory = (set: ISettingsStateSetter): SettingsState => ({
 	setPushNotificationsEnabledAction: (enabled: boolean) => {
 		set(state => {
 			state.pushNotificationsEnabled = enabled
-		})
-	},
-
-	setRadixConnectorEnabledAction: (enabled: boolean) => {
-		set(state => {
-			state.radixConnectorEnabled = enabled
 		})
 	},
 

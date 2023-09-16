@@ -9,12 +9,13 @@ import Loader from 'ui/src/components/loader'
 import { RdtProvider } from 'ui/src/context/rdt-provider'
 import { ReactQueryProvider } from 'ui/src/context/react-query-provider'
 import { NoneSharedStoreProvider } from 'ui/src/context/state-provider'
-import I18Provider from 'ui/src/i18n'
 import accountsRoute from 'ui/src/pages/accounts/router'
 import noMatchRoute from 'ui/src/pages/no-match/router'
 import settingsRoute from 'ui/src/pages/settings/router'
 import stakingRoute from 'ui/src/pages/staking/router'
 import transferRoute from 'ui/src/pages/transfer/router'
+
+import IntlProvider from './intl-provider'
 
 // import { LandingPage } from '../landing-page'
 
@@ -45,17 +46,17 @@ type Props = { dehydratedState?: any }
 
 const AppPage: React.FC<Props> = ({ dehydratedState }: Props) => (
 	<DappStatusContext.Provider value={defaultDappState}>
-		<I18Provider>
-			<ReactQueryProvider dehydratedState={dehydratedState}>
-				<NoneSharedStoreProvider>
+		<ReactQueryProvider dehydratedState={dehydratedState}>
+			<NoneSharedStoreProvider>
+				<IntlProvider>
 					<ZdtContext.Provider value={defaultZdtState}>
 						<RdtProvider>
 							<RouterProvider router={router} fallbackElement={<Loader />} />
 						</RdtProvider>
 					</ZdtContext.Provider>
-				</NoneSharedStoreProvider>
-			</ReactQueryProvider>
-		</I18Provider>
+				</IntlProvider>
+			</NoneSharedStoreProvider>
+		</ReactQueryProvider>
 	</DappStatusContext.Provider>
 )
 

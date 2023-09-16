@@ -1,10 +1,10 @@
 import type BigNumber from 'bignumber.js'
 import clsx from 'clsx'
 import React, { useState } from 'react'
+import { defineMessages, useIntl } from 'react-intl'
 import { Link } from 'react-router-dom'
 
 import { Box } from 'ui/src/components/box'
-import Translation from 'ui/src/components/translation'
 import { Text } from 'ui/src/components/typography'
 import { useNoneSharedStore } from 'ui/src/hooks/use-store'
 import { type ResourceBalanceKind } from 'ui/src/types/types'
@@ -26,6 +26,17 @@ interface IProps {
 	nonFungibleChange: BigNumber
 }
 
+const messages = defineMessages({
+	fungibles: {
+		id: 'accounts.assets_list.fungibles',
+		defaultMessage: 'Tokens',
+	},
+	non_fungibles: {
+		id: 'accounts.assets_list.non_fungibles',
+		defaultMessage: 'NFTs',
+	},
+})
+
 export const AssetsList: React.FC<IProps> = props => {
 	const {
 		accountId,
@@ -37,6 +48,7 @@ export const AssetsList: React.FC<IProps> = props => {
 		nonFungibleChange,
 	} = props
 
+	const intl = useIntl()
 	const { currency } = useNoneSharedStore(state => ({
 		currency: state.currency,
 	}))
@@ -53,7 +65,7 @@ export const AssetsList: React.FC<IProps> = props => {
 				>
 					<Box className={styles.assetsListTitleWrapper}>
 						<Text capitalizeFirstLetter color="strong" weight="medium" size="small">
-							<Translation capitalizeFirstLetter text="accounts.home.fungiblesTitle" />{' '}
+							{intl.formatMessage(messages.fungibles)}
 						</Text>
 						{fungibleBalances.length > 0 && (
 							<Text size="small" truncate>
@@ -85,7 +97,7 @@ export const AssetsList: React.FC<IProps> = props => {
 				>
 					<Box className={styles.assetsListTitleWrapper}>
 						<Text capitalizeFirstLetter color="strong" weight="medium" size="small">
-							<Translation capitalizeFirstLetter text="accounts.home.nonFungiblesTitle" />
+							{intl.formatMessage(messages.non_fungibles)}
 						</Text>
 						{nonFungibleBalances.length > 0 && (
 							<Text size="small" truncate>

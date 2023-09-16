@@ -1,13 +1,13 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import BigNumber from 'bignumber.js'
-import clsx, { type ClassValue } from 'clsx'
+import clsx from 'clsx'
 import { TokenPrice } from 'packages/ui/src/components/token-price'
 import { TransactionManifest } from 'packages/ui/src/components/transaction-manifest'
 import { config } from 'packages/ui/src/constants/config'
 import { useTransaction } from 'packages/ui/src/hooks/dapp/use-transactions'
 import { formatBigNumber } from 'packages/ui/src/utils/formatters'
 import React, { useEffect, useState } from 'react'
-import { useLocation, useNavigate, useParams, useSearchParams } from 'react-router-dom'
+import { defineMessages, useIntl } from 'react-intl'
+import { useLocation, useNavigate, useSearchParams } from 'react-router-dom'
 
 import { Box } from 'ui/src/components/box'
 import { CopyAddressButton } from 'ui/src/components/copy-address-button'
@@ -19,7 +19,6 @@ import { ScrollArea } from 'ui/src/components/scroll-area'
 import * as dialogStyles from 'ui/src/components/styles/dialog-styles.css'
 import { ToolTip } from 'ui/src/components/tool-tip'
 import { TransactionIcon } from 'ui/src/components/transaction-icon'
-import Translation from 'ui/src/components/translation'
 import { Text } from 'ui/src/components/typography'
 import { useIsMobileWidth } from 'ui/src/hooks/use-is-mobile'
 import { getShortAddress } from 'ui/src/utils/string-utils'
@@ -27,28 +26,73 @@ import { getShortAddress } from 'ui/src/utils/string-utils'
 import { TransactionLoadingSkeleton } from './components/transaction-loading-skeleton'
 import * as styles from './styles.css'
 
-export const Transaction = () => {
-	const isMobile = useIsMobileWidth()
-	const [isScrolled, setIsScrolled] = useState<boolean>(false)
-	// START DEMO LOADING
-	const [isLoading, setIsLoading] = useState<boolean>(true)
-	useEffect(() => {
-		const timer = setTimeout(() => {
-			setIsLoading(false)
-		}, 1500)
+const messages = defineMessages({
+	fee: {
+		id: 'transaction.fee',
+		defaultMessage: 'Fee',
+	},
+	details: {
+		id: 'transaction.details',
+		defaultMessage: 'Details',
+	},
+	id: {
+		id: 'transaction.id',
+		defaultMessage: 'ID',
+	},
+	status: {
+		id: 'transaction.status',
+		defaultMessage: 'Status',
+	},
+	version: {
+		id: 'transaction.version',
+		defaultMessage: 'State version',
+	},
+	epoch: {
+		id: 'transaction.epoch',
+		defaultMessage: 'Epoch',
+	},
+	round: {
+		id: 'transaction.round',
+		defaultMessage: 'Round',
+	},
+	date: {
+		id: 'transaction.date',
+		defaultMessage: 'Date',
+	},
+	affected_global_entities: {
+		id: 'transaction.affected_global_entities',
+		defaultMessage: 'Affected global entities',
+	},
+	message: {
+		id: 'transaction.message',
+		defaultMessage: 'Message',
+	},
+	manifest: {
+		id: 'transaction.manifest',
+		defaultMessage: 'Transaction manifest',
+	},
+	explorer: {
+		id: 'transaction.explorer',
+		defaultMessage: 'Open in explorer',
+	},
+	close: {
+		id: 'transaction.close',
+		defaultMessage: 'Close',
+	},
+})
 
-		return () => {
-			clearTimeout(timer)
-		}
-	}, [])
-	// END DEMO LOADING
-	const [searchParams] = useSearchParams()
+export const Transaction = () => {
+	const intl = useIntl()
 	const navigate = useNavigate()
 	const { pathname } = useLocation()
+	const [searchParams] = useSearchParams()
+	const isMobile = useIsMobileWidth()
 
 	const transactionId = searchParams.get('tx')
-	const { data } = useTransaction(transactionId)
 	const isTransactionVisible = !!transactionId
+	const { data, isLoading } = useTransaction(transactionId)
+
+	const [isScrolled, setIsScrolled] = useState<boolean>(false)
 
 	const navigateBack = () => {
 		navigate(pathname)
@@ -104,7 +148,7 @@ export const Transaction = () => {
 										/>
 										<Box marginTop="small">
 											<Text size="small" color="strong">
-												<Translation capitalizeFirstLetter text="global.fee" />
+												{intl.formatMessage(messages.fee)}
 											</Text>
 										</Box>
 										<Box marginTop="xxsmall">
@@ -124,12 +168,12 @@ export const Transaction = () => {
 									<Box className={styles.transactionDetailsWrapper}>
 										<Box marginTop="xsmall" paddingBottom="medium">
 											<Text size="medium" weight="medium" color="strong">
-												<Translation capitalizeFirstLetter text="transaction.transactionDetails" />{' '}
+												{intl.formatMessage(messages.details)}
 											</Text>
 										</Box>
 										<Box display="flex" flexDirection="column" gap="medium" width="full">
 											<AccountsTransactionInfo
-												leftTitle={<Translation capitalizeFirstLetter text="global.id" />}
+												leftTitle={intl.formatMessage(messages.id)}
 												rightData={
 													<Box display="flex" alignItems="flex-end" gap="xsmall">
 														<Box className={styles.transactionInfoCopyBtnWrapper}>
@@ -150,37 +194,36 @@ export const Transaction = () => {
 												}
 											/>
 											<AccountsTransactionInfo
-												leftTitle={<Translation capitalizeFirstLetter text="transaction.transactionStatus" />}
+												leftTitle={intl.formatMessage(messages.status)}
 												rightData={<Text size="small">{data?.transaction.transaction_status}</Text>}
 											/>
 											{/* TODO: ? */}
 											{/* <AccountsTransactionInfo
-											leftTitle={<Translation capitalizeFirstLetter text="global.status" />}
+											leftTitle={<Translation capitalizeFirstLetter text={intl.formatMessage(messages.status)} />}
 											rightData={<Text size="small">{data?.transaction.receipt?.status}</Text>}
 										/> */}
 											<AccountsTransactionInfo
-												leftTitle={<Translation capitalizeFirstLetter text="transaction.stateVersion" />}
+												leftTitle={intl.formatMessage(messages.version)}
 												rightData={<Text size="small">{data?.transaction.state_version}</Text>}
 											/>
 											<AccountsTransactionInfo
-												leftTitle={<Translation capitalizeFirstLetter text="transaction.epoch" />}
+												leftTitle={intl.formatMessage(messages.epoch)}
 												rightData={<Text size="small">{data?.transaction.epoch}</Text>}
 											/>
 											<AccountsTransactionInfo
-												leftTitle={<Translation capitalizeFirstLetter text="transaction.round" />}
+												leftTitle={intl.formatMessage(messages.round)}
 												rightData={<Text size="small">{data?.transaction.round}</Text>}
 											/>
 											<AccountsTransactionInfo
-												leftTitle={<Translation capitalizeFirstLetter text="transaction.date" />}
+												leftTitle={intl.formatMessage(messages.date)}
 												rightData={
 													<Box display="flex">
-														{/* TODO: need date hook based on settings  */}
-														<Text size="small">{data?.transaction.confirmed_at.toLocaleString()}</Text>
+														<Text size="small">{intl.formatDate(data?.transaction.confirmed_at)}</Text>
 													</Box>
 												}
 											/>
 											<AccountsTransactionInfo
-												leftTitle={<Translation capitalizeFirstLetter text="transaction.affectedGlobalEntities" />}
+												leftTitle={intl.formatMessage(messages.affected_global_entities)}
 												rightData={
 													<Box display="flex" alignItems="flex-end" gap="xsmall">
 														{data?.transaction.affected_global_entities?.map(entity => (
@@ -209,7 +252,7 @@ export const Transaction = () => {
 													<Box position="relative" width="full">
 														<Box display="flex" alignItems="center" gap="xsmall">
 															<Text size="xsmall" color="strong">
-																<Translation capitalizeFirstLetter text="transaction.message" />
+																{intl.formatMessage(messages.message)}
 															</Text>
 															<CopyAddressButton
 																styleVariant="ghost"
@@ -228,7 +271,7 @@ export const Transaction = () => {
 											)}
 
 											<AccountsTransactionInfo
-												leftTitle={<Translation capitalizeFirstLetter text="transaction.transactionManifest" />}
+												leftTitle={intl.formatMessage(messages.manifest)}
 												rightData={
 													<Box display="flex" alignItems="flex-end" gap="xsmall">
 														<Box className={styles.transactionInfoCopyBtnWrapper}>
@@ -255,7 +298,7 @@ export const Transaction = () => {
 					<Box className={clsx(styles.transactionHeaderWrapper, isScrolled && styles.transactionHeaderWrapperShadow)}>
 						<Box flexGrow={1} />
 						<Box flexGrow={1} display="flex" justifyContent="flex-end" gap="small">
-							<ToolTip message="global.open global.explorer">
+							<ToolTip message={intl.formatMessage(messages.explorer)}>
 								<Button
 									sizeVariant="small"
 									styleVariant="ghost"
@@ -266,7 +309,7 @@ export const Transaction = () => {
 									<ShareIcon />
 								</Button>
 							</ToolTip>
-							<ToolTip message="global.close">
+							<ToolTip message={intl.formatMessage(messages.close)}>
 								<Button styleVariant="ghost" sizeVariant="small" iconOnly onClick={navigateBack}>
 									<Close2Icon />
 								</Button>

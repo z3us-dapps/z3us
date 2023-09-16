@@ -1,6 +1,7 @@
 import BigNumber from 'bignumber.js'
 import clsx from 'clsx'
 import React, { useState } from 'react'
+import { defineMessages, useIntl } from 'react-intl'
 
 import { Box } from 'ui/src/components/box'
 import { ChevronDown2Icon } from 'ui/src/components/icons'
@@ -17,10 +18,11 @@ import {
 } from 'ui/src/components/select'
 import * as plainButtonStyles from 'ui/src/components/styles/plain-button-styles.css'
 import { TokenPrice } from 'ui/src/components/token-price'
-import Translation from 'ui/src/components/translation'
 import { Text } from 'ui/src/components/typography'
+import { FAVORITE_CURRENCIES } from 'ui/src/constants/currency'
 import { useSupportedCurrencies } from 'ui/src/hooks/queries/market'
 import { useNoneSharedStore } from 'ui/src/hooks/use-store'
+import { CURRENCY } from 'ui/src/store/types'
 import type { ResourceBalance, ResourceBalanceKind, ResourceBalanceType } from 'ui/src/types/types'
 
 interface IProps {
@@ -28,9 +30,19 @@ interface IProps {
 	amount: number
 }
 
-const favoriteCurrencies = ['usd', 'eur', 'btc']
+const messages = defineMessages({
+	favorite: {
+		id: 'currency_select.favorite',
+		defaultMessage: 'Favorite',
+	},
+	reset: {
+		id: 'currency_select.reset',
+		defaultMessage: 'Reset',
+	},
+})
 
 export const CurrencySelect: React.FC<IProps> = ({ selectedToken, amount }) => {
+	const intl = useIntl()
 	const { data: currencies } = useSupportedCurrencies()
 
 	const { currency } = useNoneSharedStore(state => ({
@@ -79,10 +91,10 @@ export const CurrencySelect: React.FC<IProps> = ({ selectedToken, amount }) => {
 				<SelectGroup>
 					<SelectLabel>
 						<Text truncate size="small">
-							<Translation capitalizeFirstLetter text="currency_select.favorite" />
+							{intl.formatMessage(messages.favorite)}
 						</Text>
 					</SelectLabel>
-					{favoriteCurrencies?.map(c => (
+					{FAVORITE_CURRENCIES?.map(c => (
 						<SelectItem key={c} value={c}>
 							<Text truncate size="small" color="strong">
 								{c.toUpperCase()}
@@ -93,12 +105,10 @@ export const CurrencySelect: React.FC<IProps> = ({ selectedToken, amount }) => {
 				<SelectSeparator />
 				<SelectGroup>
 					<SelectLabel>
-						<Text size="small">
-							<Translation capitalizeFirstLetter text="currency_select.reset" />
-						</Text>
+						<Text size="small">{intl.formatMessage(messages.reset)}</Text>
 					</SelectLabel>
 					{currencies?.map(c =>
-						favoriteCurrencies.includes(c) ? null : (
+						FAVORITE_CURRENCIES.includes(c.toUpperCase() as CURRENCY) ? null : (
 							<SelectItem key={c} value={c}>
 								<Text truncate size="small" color="strong">
 									{c.toUpperCase()}

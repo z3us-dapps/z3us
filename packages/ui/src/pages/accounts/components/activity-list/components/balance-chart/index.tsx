@@ -1,7 +1,7 @@
 import clsx from 'clsx'
 import { AnimatePresence, motion } from 'framer-motion'
 import React, { useMemo, useState } from 'react'
-import { useParams } from 'react-router-dom'
+import { defineMessages, useIntl } from 'react-intl'
 
 import { Box } from 'ui/src/components/box'
 import { Button } from 'ui/src/components/button'
@@ -17,12 +17,17 @@ import { Chart } from './components/chart'
 import { ListRow } from './components/list-row'
 import * as styles from './styles.css'
 
+const messages = defineMessages({
+	loading: {
+		id: 'accounts.activity_list.balance_chart.loading',
+		defaultMessage: 'Loading',
+	},
+})
+
 const defaultRowsShown = 3
 
 export const BalanceChart: React.FC = () => {
-	// eslint-disable-next-line @typescript-eslint/no-unused-vars
-	const { accountId } = useParams()
-
+	const intl = useIntl()
 	const isMobile = useIsMobileWidth()
 	const resourceType = useResourceType()
 
@@ -52,7 +57,7 @@ export const BalanceChart: React.FC = () => {
 							animate="visible"
 							variants={animatePageVariants}
 						>
-							<Z3usLoading message="Loading" />
+							<Z3usLoading message={intl.formatMessage(messages.loading)} />
 						</motion.div>
 					)}
 				</AnimatePresence>

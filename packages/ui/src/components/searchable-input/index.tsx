@@ -1,6 +1,7 @@
 import clsx, { type ClassValue } from 'clsx'
 import type { ForwardedRef } from 'react'
 import React, { forwardRef, useEffect, useRef, useState } from 'react'
+import { defineMessages, useIntl } from 'react-intl'
 import useMeasure from 'react-use-measure'
 import { Virtuoso } from 'react-virtuoso'
 import { useDebounce } from 'use-debounce'
@@ -16,6 +17,13 @@ import { Text } from 'ui/src/components/typography'
 
 import * as styles from './styles.css'
 
+const messages = defineMessages({
+	clear: {
+		id: 'searchable_input.clear',
+		defaultMessage: 'Clear',
+	},
+})
+
 type TData = Array<{ id: string; account: string; alias: string }>
 
 export interface ISearchableInputProps {
@@ -30,6 +38,8 @@ export interface ISearchableInputProps {
 
 export const SearchableInput = forwardRef<HTMLInputElement, ISearchableInputProps>((props, ref: ForwardedRef<any>) => {
 	const { className, data, value, onValueChange, styleVariant = 'primary', sizeVariant = 'large', placeholder } = props
+
+	const intl = useIntl()
 	const [isPopoverOpen, setIsPopoverOpen] = useState<boolean>(false)
 	const [customScrollParent, setCustomScrollParent] = useState<HTMLElement | undefined>(undefined)
 	const [localData, setLocalData] = useState<TData>(data)
@@ -117,7 +127,7 @@ export const SearchableInput = forwardRef<HTMLInputElement, ISearchableInputProp
 							rightIcon={<ChevronDown2Icon />}
 						/>
 						{isPopoverOpen && value?.length > 0 && (
-							<ToolTip message="global.clear">
+							<ToolTip message={intl.formatMessage(messages.clear)}>
 								<Button
 									ref={cleanBtnWrapperRef}
 									styleVariant="secondary"

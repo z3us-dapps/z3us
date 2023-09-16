@@ -2,7 +2,7 @@ import clsx, { type ClassValue } from 'clsx'
 import { useZdtState } from 'packages/ui/src/hooks/zdt/use-zdt'
 import { Theme } from 'packages/ui/src/types/types'
 import React, { forwardRef, useState } from 'react'
-import { useTranslation } from 'react-i18next'
+import { defineMessages, useIntl } from 'react-intl'
 
 import { Box } from 'ui/src/components/box'
 import type { TStyleVariant } from 'ui/src/components/button'
@@ -39,7 +39,6 @@ import {
 	Z3usIcon,
 } from 'ui/src/components/icons'
 import { Link } from 'ui/src/components/router-link'
-import Translation from 'ui/src/components/translation'
 import { Text } from 'ui/src/components/typography'
 import { useDappStatus } from 'ui/src/hooks/use-dapp-status'
 import { useIsMobileWidth } from 'ui/src/hooks/use-is-mobile'
@@ -61,11 +60,66 @@ const weights = {
 	[KeystoreType.LOCAL]: 3,
 }
 
+const messages = defineMessages({
+	content_script: {
+		id: 'account_menu.content_script',
+		defaultMessage: 'Connected DApp: {DappLink}',
+	},
+	wallet: {
+		id: 'account_menu.wallet',
+		defaultMessage: 'Wallet',
+	},
+	wallet_add: {
+		id: 'account_menu.wallet_add',
+		defaultMessage: 'Add wallet...',
+	},
+	account: {
+		id: 'account_menu.account',
+		defaultMessage: 'Account',
+	},
+	persona: {
+		id: 'account_menu.persona',
+		defaultMessage: 'Persona',
+	},
+	settings: {
+		id: 'account_menu.settings',
+		defaultMessage: 'Settings',
+	},
+	lock: {
+		id: 'account_menu.lock',
+		defaultMessage: 'Lock',
+	},
+	open_in_browser: {
+		id: 'account_menu.open_in_browser',
+		defaultMessage: 'Open in browser',
+	},
+	theme: {
+		id: 'account_menu.theme',
+		defaultMessage: 'Theme',
+	},
+	theme_light: {
+		id: 'account_menu.theme_light',
+		defaultMessage: 'Light',
+	},
+	theme_dark: {
+		id: 'account_menu.theme_dark',
+		defaultMessage: 'Dark',
+	},
+	theme_system: {
+		id: 'account_menu.theme_system',
+		defaultMessage: 'System',
+	},
+	menu: {
+		id: 'account_menu.menu',
+		defaultMessage: 'Menu',
+	},
+})
+
 export const AccountViewDropdown = forwardRef<HTMLElement, IAccountViewDropdownProps>(
 	(props, ref: React.Ref<HTMLElement | null>) => {
 		const { className, styleVariant = 'ghost' } = props
 
-		const { t } = useTranslation()
+		const intl = useIntl()
 		const { lock, isWallet } = useZdtState()
 		const dappStatus = useDappStatus()
 		const isMobile = useIsMobileWidth()
@@ -103,7 +157,7 @@ export const AccountViewDropdown = forwardRef<HTMLElement, IAccountViewDropdownP
 				<DropdownMenu>
 					<DropdownMenuTrigger asChild>
 						<Box>
-							<ToolTip message="global.menu">
+							<ToolTip message={intl.formatMessage(messages.menu)}>
 								<Button styleVariant={styleVariant} sizeVariant="small" rounded iconOnly>
 									<MenuIcon />
 								</Button>
@@ -119,17 +173,20 @@ export const AccountViewDropdown = forwardRef<HTMLElement, IAccountViewDropdownP
 							<Box className={styles.accountViewPaddingWrapper}>
 								<DropdownMenuLabel>
 									<Text size="xsmall" weight="strong" color="strong">
-										<Translation capitalizeFirstLetter text="walletDropdown.contentScriptTitle" />{' '}
-										<Link href="https://ociswap.com/">
-											<Text size="xsmall" weight="strong" color="strong">
-												{dappStatus.currentTabHost}
-											</Text>
-										</Link>
+										{intl.formatMessage(messages.content_script, {
+											DappLink: (
+												<Link href={dappStatus.currentTabHost}>
+													<Text size="xsmall" weight="strong" color="strong">
+														{dappStatus.currentTabHost}
+													</Text>
+												</Link>
+											),
+										})}
 									</Text>
 								</DropdownMenuLabel>
 								<DropdownMenuLabel>
 									<Text size="xsmall" weight="strong" color="strong">
-										<Translation capitalizeFirstLetter text="walletDropdown.walletTitle" />
+										{intl.formatMessage(messages.wallet)}
 									</Text>
 								</DropdownMenuLabel>
 								<DropdownMenuRadioGroup
@@ -163,7 +220,7 @@ export const AccountViewDropdown = forwardRef<HTMLElement, IAccountViewDropdownP
 										</DropdownMenuLeftSlot>
 										<Box display="flex" marginLeft="small">
 											<Text size="xsmall" truncate>
-												<Translation capitalizeFirstLetter text="global.add" />
+												{intl.formatMessage(messages.wallet_add)}
 											</Text>
 										</Box>
 									</DropdownMenuItem>
@@ -181,7 +238,7 @@ export const AccountViewDropdown = forwardRef<HTMLElement, IAccountViewDropdownP
 											</DropdownMenuLeftSlot>
 											<Box display="flex" marginLeft="small">
 												<Text size="xsmall" truncate>
-													<Translation capitalizeFirstLetter text="walletDropdown.lockTitle" />
+													{intl.formatMessage(messages.lock)}
 												</Text>
 											</Box>
 										</DropdownMenuItem>
@@ -191,7 +248,7 @@ export const AccountViewDropdown = forwardRef<HTMLElement, IAccountViewDropdownP
 											</DropdownMenuLeftSlot>
 											<Box display="flex" marginLeft="small">
 												<Text size="xsmall" truncate>
-													<Translation capitalizeFirstLetter text="walletDropdown.openInBrowserTitle" />
+													{intl.formatMessage(messages.open_in_browser)}
 												</Text>
 											</Box>
 										</DropdownMenuItem>
@@ -205,7 +262,7 @@ export const AccountViewDropdown = forwardRef<HTMLElement, IAccountViewDropdownP
 										</DropdownMenuLeftSlot>
 										<Box flexGrow={1} display="flex" marginLeft="small">
 											<Text size="xsmall" truncate>
-												<Translation capitalizeFirstLetter text="walletDropdown.theme" />
+												{intl.formatMessage(messages.theme)}
 											</Text>
 										</Box>
 										<DropdownMenuRightSlot>
@@ -216,9 +273,9 @@ export const AccountViewDropdown = forwardRef<HTMLElement, IAccountViewDropdownP
 										<DropdownMenuSubContent>
 											<DropdownMenuRadioGroup value={theme} onValueChange={setTheme}>
 												{[
-													{ id: Theme.LIGHT, title: t('settings.theme.options.light') },
-													{ id: Theme.DARK, title: t('settings.theme.options.dark') },
-													{ id: Theme.SYSTEM, title: t('settings.theme.options.system') },
+													{ id: Theme.LIGHT, title: intl.formatMessage(messages.theme_light) },
+													{ id: Theme.DARK, title: intl.formatMessage(messages.theme_dark) },
+													{ id: Theme.SYSTEM, title: intl.formatMessage(messages.theme_system) },
 												].map(({ id, title }) => (
 													<DropdownMenuRadioItem key={id} value={id}>
 														<Box flexGrow={1} marginLeft="small">

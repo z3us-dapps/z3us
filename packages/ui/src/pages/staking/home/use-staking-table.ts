@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { t } from 'i18next'
 import { useEffect, useMemo, useState } from 'react'
+import { defineMessages, useIntl } from 'react-intl'
 import { useLocation, useNavigate, useParams } from 'react-router-dom'
 import { useTimeout } from 'usehooks-ts'
 
@@ -9,6 +9,37 @@ import { getRandomNumberInRange } from 'ui/src/utils/get-random-number-in-ranger
 
 import { StakingStatisticCell } from '../components/staking-statistic-cell'
 import * as styles from './styles.css'
+
+const messages = defineMessages({
+	validator: {
+		id: 'staking.table.column.validator',
+		defaultMessage: 'Validator',
+	},
+	address: {
+		id: 'staking.table.column.address',
+		defaultMessage: 'Address',
+	},
+	total_stake: {
+		id: 'staking.table.column.total_stake',
+		defaultMessage: 'Total stake',
+	},
+	owner_stake: {
+		id: 'staking.table.column.owner_stake',
+		defaultMessage: 'Owner stake',
+	},
+	uptime: {
+		id: 'staking.table.column.uptime',
+		defaultMessage: 'Uptime',
+	},
+	apy: {
+		id: 'staking.table.column.apy',
+		defaultMessage: 'APY',
+	},
+	fee: {
+		id: 'staking.table.column.fee',
+		defaultMessage: 'Fee %',
+	},
+})
 
 const generateRandomString = () => Math.random().toString(36).substring(7)
 
@@ -37,14 +68,14 @@ type TAssetsTable = {
 }
 
 export const useStakingTable = (): TAssetsTable => {
+	const intl = useIntl()
 	const navigate = useNavigate()
 	const location = useLocation()
-	const isFungibles = location.pathname.includes('fungibles')
 
 	const columnsAssets = useMemo(
 		() => [
 			{
-				Header: `${t('staking.validatorTable.validatorTitle')} `,
+				Header: intl.formatMessage(messages.validator),
 				accessor: 'validator',
 				width: '20%',
 				// width: 'auto',
@@ -52,38 +83,38 @@ export const useStakingTable = (): TAssetsTable => {
 				// className: styles.mobileHideTableCellWrapper,
 			},
 			{
-				Header: 'Address',
+				Header: intl.formatMessage(messages.address),
 				accessor: 'address',
 				width: 'auto',
 				Cell: StakingStatisticCell,
 			},
 			{
-				Header: 'Total stake',
+				Header: intl.formatMessage(messages.total_stake),
 				accessor: 'totalStake',
 				width: 'auto',
 				Cell: StakingStatisticCell,
 				// className: styles.mobileHideTableCellWrapper,
 			},
 			{
-				Header: 'Owner stake',
+				Header: intl.formatMessage(messages.owner_stake),
 				accessor: 'ownerStake',
 				width: 'auto',
 				Cell: StakingStatisticCell,
 			},
 			{
-				Header: 'Up time',
+				Header: intl.formatMessage(messages.uptime),
 				accessor: 'upTime',
 				width: '13%',
 				Cell: StakingStatisticCell,
 			},
 			{
-				Header: 'Apy',
+				Header: intl.formatMessage(messages.apy),
 				accessor: 'apy',
 				width: '8%',
 				Cell: StakingStatisticCell,
 			},
 			{
-				Header: 'Fee',
+				Header: intl.formatMessage(messages.fee),
 				accessor: 'fee',
 				width: '8%',
 				Cell: StakingStatisticCell,

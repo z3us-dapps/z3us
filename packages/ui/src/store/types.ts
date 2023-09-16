@@ -45,21 +45,27 @@ export interface IWalletStateSetter {
 	(fn: (state: WalletState) => void): void
 }
 
+export enum CURRENCY {
+	USD = 'USD',
+	EUR = 'EUR',
+	AUD = 'AUD',
+
+	BTC = 'BTC',
+	XRD = 'XRD',
+}
+
 export type SettingsState = {
 	gatewayBaseUrl: string
 	setGatewayUrl: (currency: string) => void
 
-	currency: string
-	setCurrencyAction: (currency: string) => void
+	currency: CURRENCY
+	setCurrencyAction: (currency: CURRENCY) => void
 
 	walletUnlockTimeoutInMinutes: number
 	setWalletUnlockTimeoutInMinutesAction: (timeoutInMinutes: number) => void
 
 	pushNotificationsEnabled: boolean
 	setPushNotificationsEnabledAction: (enabled: boolean) => void
-
-	radixConnectorEnabled: boolean
-	setRadixConnectorEnabledAction: (enabled: boolean) => void
 
 	addressBook: AddressBook
 	removeAddressBookEntryAction: (networkId: number, address: string) => void
@@ -72,7 +78,7 @@ export interface ISettingsStateSetter {
 
 export type SharedState = WalletState & KeystoresState
 
-export type NoneSharedState = SettingsState & ExtensionState
+export type NoneSharedState = SettingsState & ExtensionState & IntlState
 
 export type AppState = SharedState & NoneSharedState
 
@@ -101,4 +107,18 @@ export type ExtensionState = {
 
 export interface IExtensionStateSetter {
 	(fn: (state: ExtensionState) => void): void
+}
+
+export enum LOCALE {
+	en = 'en',
+	pl = 'pl',
+}
+
+export type IntlState = {
+	locale: LOCALE
+	selectLocaleAction: (locale: LOCALE) => void
+}
+
+export interface IIntlStateSetter {
+	(fn: (state: IntlState) => void): void
 }

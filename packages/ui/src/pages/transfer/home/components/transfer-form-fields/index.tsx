@@ -1,7 +1,7 @@
 import clsx from 'clsx'
-import { t } from 'i18next'
 import { NftSelect } from 'packages/ui/src/components/form/fields/nft-select'
 import React, { useEffect, useRef } from 'react'
+import { defineMessages, useIntl } from 'react-intl'
 
 import { Box } from 'ui/src/components/box'
 import { Button } from 'ui/src/components/button'
@@ -14,7 +14,6 @@ import { TokenAmountSelect } from 'ui/src/components/form/fields/token-amount-fi
 import { useFieldValue } from 'ui/src/components/form/use-field-value'
 import { CirclePlusIcon, TrashIcon, UsersPlusIcon } from 'ui/src/components/icons'
 import { Tabs, TabsContent } from 'ui/src/components/tabs'
-import Translation from 'ui/src/components/translation'
 import { Text } from 'ui/src/components/typography'
 import { capitalizeFirstLetter } from 'ui/src/utils/capitalize-first-letter'
 
@@ -25,7 +24,67 @@ const accountKey = 'from'
 const TOKENS = 'tokens'
 const NFTS = 'nfts'
 
+const messages = defineMessages({
+	button_add_account: {
+		id: 'transfer.form.button.add_account',
+		defaultMessage: 'Add another recipient',
+	},
+	button_add_token: {
+		id: 'transfer.form.button.add_token',
+		defaultMessage: 'Add another item',
+	},
+	known_address: {
+		id: 'transfer.known_address',
+		defaultMessage: 'Known address',
+	},
+	title: {
+		id: 'transfer.form.title',
+		defaultMessage: 'Transfer',
+	},
+	from_title: {
+		id: 'transfer.form.field.from.title',
+		defaultMessage: 'From account',
+	},
+	from_subtitle: {
+		id: 'transfer.form.field.from.subtitle',
+		defaultMessage: 'Select account you wish to send items from',
+	},
+	to_title: {
+		id: 'transfer.form.field.to.title',
+		defaultMessage: 'To account',
+	},
+	to_subtitle: {
+		id: 'transfer.form.field.to.subtitle',
+		defaultMessage: 'Select recipient to send items to',
+	},
+	message_title: {
+		id: 'transfer.form.field.message.title',
+		defaultMessage: 'Message',
+	},
+	message_subtitle: {
+		id: 'transfer.form.field.message.subtitle',
+		defaultMessage: 'Send an optional message with the transaction',
+	},
+	message_placeholder: {
+		id: 'transfer.form.field.message.placeholder',
+		defaultMessage: 'Enter transaction message',
+	},
+	message_encrypt_title: {
+		id: 'transfer.form.field.message.encrypt_title',
+		defaultMessage: 'Encrypt message',
+	},
+	tab_tokens: {
+		id: 'transfer.form.tab.tokens',
+		defaultMessage: 'Tokens',
+	},
+	tab_nfts: {
+		id: 'transfer.form.tab.nfts',
+		defaultMessage: 'NFTs',
+	},
+})
+
 export const TransferFormFields: React.FC = () => {
+	const intl = useIntl()
 	const inputRef = useRef(null)
 	const from = useFieldValue(accountKey) || ''
 
@@ -38,11 +97,9 @@ export const TransferFormFields: React.FC = () => {
 			<Box className={styles.transferFormGridBoxWrapper}>
 				<Box className={styles.transferFormGridBoxWrapperLeft}>
 					<Text color="strong" size="xlarge" weight="strong">
-						<Translation capitalizeFirstLetter text="transfer.tokensNfts.fromAccountTitle" />
+						{intl.formatMessage(messages.from_title)}
 					</Text>
-					<Text size="xsmall">
-						<Translation capitalizeFirstLetter text="transfer.tokensNfts.fromAccountSubTitle" />
-					</Text>
+					<Text size="xsmall">{intl.formatMessage(messages.from_subtitle)}</Text>
 				</Box>
 				<Box>
 					<AccountSelect ref={inputRef} name={accountKey} />
@@ -51,23 +108,19 @@ export const TransferFormFields: React.FC = () => {
 			<Box className={clsx(styles.transferFormGridBoxWrapper, styles.transferFormGridBoxWrapperBorder)}>
 				<Box className={styles.transferFormGridBoxWrapperLeft}>
 					<Text color="strong" size="xlarge" weight="strong">
-						<Translation capitalizeFirstLetter text="transfer.tokensNfts.messageTitle" />
+						{intl.formatMessage(messages.message_title)}
 					</Text>
-					<Text size="xsmall">
-						<Translation capitalizeFirstLetter text="transfer.tokensNfts.messageSubTitle" />
-					</Text>
+					<Text size="xsmall">{intl.formatMessage(messages.message_subtitle)}</Text>
 				</Box>
 				<Box>
 					<TextAreaField
 						name="message"
-						placeholder={capitalizeFirstLetter(`${t('transfer.tokensNfts.messagePlaceholder')}`)}
+						placeholder={intl.formatMessage(messages.message_placeholder)}
 						sizeVariant="medium"
 						className={styles.transferFormMessageTextArea}
 					/>
 					<Box className={styles.transferFormEncryptWrapper}>
-						<Text size="xsmall">
-							<Translation capitalizeFirstLetter text="transfer.tokensNfts.encryptMessageTitle" />
-						</Text>
+						<Text size="xsmall">{intl.formatMessage(messages.message_encrypt_title)}</Text>
 						<CheckboxField name="messageEncrypted" styleVariant="primary" sizeVariant="small" />
 					</Box>
 				</Box>
@@ -92,21 +145,19 @@ export const TransferFormFields: React.FC = () => {
 						}
 						className={styles.transferActionAddButtonWrapper}
 					>
-						<Translation capitalizeFirstLetter text="transfer.tokensNfts.submitFormGroupToAccountAdd" />
+						{intl.formatMessage(messages.button_add_account)}
 					</Button>
 				}
 			>
 				<Box className={clsx(styles.transferFormGridBoxWrapper, styles.transferFormGridBoxWrapperBorder)}>
 					<Box className={styles.transferFormGridBoxWrapperLeft}>
 						<Text color="strong" size="xlarge" weight="strong">
-							<Translation capitalizeFirstLetter text="transfer.tokensNfts.toAccountTitle" />
+							{intl.formatMessage(messages.to_title)}
 						</Text>
-						<Text size="xsmall">
-							<Translation capitalizeFirstLetter text="transfer.tokensNfts.toAccountSubTitle" />
-						</Text>
+						<Text size="xsmall">{intl.formatMessage(messages.to_subtitle)}</Text>
 					</Box>
 					<Box>
-						<AddressBookSelect name="to" toolTipMessageKnownAddress="transfer.tokensNfts.submitFormKnownAddress" />
+						<AddressBookSelect name="to" toolTipMessageKnownAddress={intl.formatMessage(messages.known_address)} />
 						<FieldsGroup
 							name="resources"
 							defaultKeys={1}
@@ -122,7 +173,7 @@ export const TransferFormFields: React.FC = () => {
 									}
 									className={styles.transferActionTokensNftsAddButton}
 								>
-									<Translation capitalizeFirstLetter text="transfer.tokensNfts.submitFormGroupTokensAdd" />
+									{intl.formatMessage(messages.button_add_token)}
 								</Button>
 							}
 							trashTrigger={
@@ -139,8 +190,8 @@ export const TransferFormFields: React.FC = () => {
 							<Box className={styles.transferActionToAssetWrapper}>
 								<Tabs
 									list={[
-										{ label: capitalizeFirstLetter(`${t('transfer.tokensNfts.tokensTabTitle')}`), value: TOKENS },
-										{ label: capitalizeFirstLetter(`${t('transfer.tokensNfts.nftsTabTitle')}`), value: NFTS },
+										{ label: capitalizeFirstLetter(intl.formatMessage(messages.tab_tokens)), value: TOKENS },
+										{ label: capitalizeFirstLetter(intl.formatMessage(messages.tab_nfts)), value: NFTS },
 									]}
 									defaultValue={TOKENS}
 									className={styles.transferActionTabsWrapper}

@@ -1,10 +1,10 @@
 import React from 'react'
+import { defineMessages, useIntl } from 'react-intl'
 import { useParams } from 'react-router-dom'
 import useMeasure from 'react-use-measure'
 
 import { Box } from 'ui/src/components/box'
 import { CopyAddressButton } from 'ui/src/components/copy-address-button'
-import Translation from 'ui/src/components/translation'
 import { Text } from 'ui/src/components/typography'
 import { useBalances } from 'ui/src/hooks/dapp/use-balances'
 import { useSelectedAccounts, useWalletAccounts } from 'ui/src/hooks/use-accounts'
@@ -15,7 +15,15 @@ import { HomeScrollShadow } from '../components/home-scroll-shadow'
 import { HorizontalAccountsScrollList } from '../components/horizontal-accounts-scroll-list'
 import * as styles from './styles.css'
 
+const messages = defineMessages({
+	all_assets: {
+		id: 'accounts.account.all_assets',
+		defaultMessage: 'All assets',
+	},
+})
+
 const Account: React.FC = () => {
+	const intl = useIntl()
 	const { accountId = '-' } = useParams()
 	const accounts = useWalletAccounts()
 
@@ -35,7 +43,7 @@ const Account: React.FC = () => {
 			<Box className={styles.titleWrapper}>
 				{isAllAccounts ? (
 					<Text capitalizeFirstLetter color="strong" weight="strong" size="medium">
-						<Translation capitalizeFirstLetter text="accounts.home.allAssets" />{' '}
+						{intl.formatMessage(messages.all_assets)}{' '}
 					</Text>
 				) : (
 					<>

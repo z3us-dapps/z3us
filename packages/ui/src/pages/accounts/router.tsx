@@ -1,4 +1,5 @@
 import { lazy } from 'react'
+import { FormattedMessage } from 'react-intl'
 
 import Layout from './components/layout'
 import { AccountBreadcrumb } from './components/layout/components/breadcrumbs/account-breadcrumb'
@@ -18,7 +19,11 @@ const route = {
 	path: 'accounts',
 	element: <Layout />,
 	handle: {
-		crumb: () => <LinkBreadcrumb to="/accounts" translationKey="accounts.breadcrumbs.accounts" />,
+		crumb: () => (
+			<LinkBreadcrumb to="/accounts">
+				<FormattedMessage id="accounts.breadcrumbs.accounts" defaultMessage="All accounts" />
+			</LinkBreadcrumb>
+		),
 		sidebar: <ActivityList />,
 	},
 	children: [
@@ -42,11 +47,9 @@ const route = {
 					handle: {
 						backButton: <BackButton key="tokens" />,
 						crumb: ({ accountId }) => (
-							<LinkBreadcrumb
-								key={accountId}
-								to={`/accounts/${accountId}/tokens`}
-								translationKey="accounts.breadcrumbs.tokens"
-							/>
+							<LinkBreadcrumb key={accountId} to={`/accounts/${accountId}/tokens`}>
+								<FormattedMessage id="accounts.breadcrumbs.tokens" defaultMessage="Tokens" />
+							</LinkBreadcrumb>
 						),
 					},
 					children: [
@@ -65,11 +68,9 @@ const route = {
 					handle: {
 						backButton: <BackButton key="nfts" />,
 						crumb: ({ accountId }) => (
-							<LinkBreadcrumb
-								key={accountId}
-								to={`/accounts/${accountId}/nfts`}
-								translationKey="accounts.breadcrumbs.nfts"
-							/>
+							<LinkBreadcrumb key={accountId} to={`/accounts/${accountId}/nfts`}>
+								<FormattedMessage id="accounts.breadcrumbs.nfts" defaultMessage="NFTs" />
+							</LinkBreadcrumb>
 						),
 					},
 					children: [

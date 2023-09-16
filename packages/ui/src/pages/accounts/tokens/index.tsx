@@ -1,5 +1,5 @@
-import { t } from 'i18next'
-import React from 'react'
+import React, { useMemo } from 'react'
+import { defineMessages, useIntl } from 'react-intl'
 import { useNavigate, useParams } from 'react-router-dom'
 
 import { Box } from 'ui/src/components/box'
@@ -16,37 +16,35 @@ import type { ResourceBalanceKind } from 'ui/src/types/types'
 
 import * as styles from './styles.css'
 
-const columns = [
-	{
-		Header: 'Token',
-		accessor: 'address',
-		width: 'auto',
-		Cell: AssetNameCell,
+const messages = defineMessages({
+	address: {
+		id: 'tokens.address',
+		defaultMessage: 'Token',
 	},
-	{
-		Header: 'Balance',
-		accessor: 'amount',
-		width: 'auto',
-		Cell: AssetAmountCell,
-		className: styles.mobileHideTableCellWrapper,
+	amount: {
+		id: 'tokens.amount',
+		defaultMessage: 'Balance',
 	},
-	{
-		Header: 'Value',
-		accessor: 'value',
-		width: 'auto',
-		Cell: AssetValueCell,
-		className: styles.mobileHideTableCellWrapper,
+	value: {
+		id: 'tokens.value',
+		defaultMessage: 'Value',
 	},
-	{
-		Header: 'Change',
-		accessor: 'change',
-		width: 'auto',
-		Cell: AssetChangeCell,
-		className: styles.mobileHideTableCellWrapper,
+	change: {
+		id: 'tokens.change',
+		defaultMessage: 'Change',
 	},
-]
+	empty_title: {
+		id: 'tokens.empty_title',
+		defaultMessage: 'No results',
+	},
+	empty_subtitle: {
+		id: 'tokens.empty_subtitle',
+		defaultMessage: 'Could not find any NFTs in this account',
+	},
+})
 
 const Tokens: React.FC = () => {
+	const intl = useIntl()
 	const { scrollableNode, isScrolledTop } = useScroll()
 	const navigate = useNavigate()
 	const { accountId, resourceId } = useParams()
@@ -69,13 +67,46 @@ const Tokens: React.FC = () => {
 		navigate(`/accounts/${accountId}/tokens/${original.address}`)
 	}
 
+	const columns = useMemo(
+		() => [
+			{
+				Header: intl.formatMessage(messages.address),
+				accessor: 'address',
+				width: 'auto',
+				Cell: AssetNameCell,
+			},
+			{
+				Header: intl.formatMessage(messages.amount),
+				accessor: 'amount',
+				width: 'auto',
+				Cell: AssetAmountCell,
+				className: styles.mobileHideTableCellWrapper,
+			},
+			{
+				Header: intl.formatMessage(messages.value),
+				accessor: 'value',
+				width: 'auto',
+				Cell: AssetValueCell,
+				className: styles.mobileHideTableCellWrapper,
+			},
+			{
+				Header: intl.formatMessage(messages.change),
+				accessor: 'change',
+				width: 'auto',
+				Cell: AssetChangeCell,
+				className: styles.mobileHideTableCellWrapper,
+			},
+		],
+		[],
+	)
+
 	return (
 		<Box className={styles.tableWrapper}>
 			{fungibleBalances?.length === 0 ? (
 				<Box display="flex" alignItems="center" justifyContent="center" width="full" paddingY="xxlarge">
 					<EmptyState
-						title={t('accounts.tokens.noTokensEmptyStateTitle')}
-						subTitle={t('accounts.tokens.noTokensEmptyStateSubTitle')}
+						title={intl.formatMessage(messages.empty_title)}
+						subTitle={intl.formatMessage(messages.empty_subtitle)}
 					/>
 				</Box>
 			) : (

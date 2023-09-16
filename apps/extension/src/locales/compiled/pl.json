@@ -1,0 +1,1260 @@
+{
+  "account_menu.account": [
+    {
+      "type": 0,
+      "value": "Konto"
+    }
+  ],
+  "account_menu.content_script": [
+    {
+      "type": 0,
+      "value": "Podłączony DApp: "
+    },
+    {
+      "type": 1,
+      "value": "DappLink"
+    }
+  ],
+  "account_menu.lock": [
+    {
+      "type": 0,
+      "value": "Zablokuj"
+    }
+  ],
+  "account_menu.menu": [
+    {
+      "type": 0,
+      "value": "Menu"
+    }
+  ],
+  "account_menu.open_in_browser": [
+    {
+      "type": 0,
+      "value": "Otwórz w przeglądarce"
+    }
+  ],
+  "account_menu.persona": [
+    {
+      "type": 0,
+      "value": "Persona"
+    }
+  ],
+  "account_menu.settings": [
+    {
+      "type": 0,
+      "value": "Ustawienia"
+    }
+  ],
+  "account_menu.theme": [
+    {
+      "type": 0,
+      "value": "Motyw"
+    }
+  ],
+  "account_menu.theme_dark": [
+    {
+      "type": 0,
+      "value": "Ciemny"
+    }
+  ],
+  "account_menu.theme_light": [
+    {
+      "type": 0,
+      "value": "Jasny"
+    }
+  ],
+  "account_menu.theme_system": [
+    {
+      "type": 0,
+      "value": "Systemowy"
+    }
+  ],
+  "account_menu.wallet": [
+    {
+      "type": 0,
+      "value": "Portfel"
+    }
+  ],
+  "account_menu.wallet_add": [
+    {
+      "type": 0,
+      "value": "Dodaj portfel..."
+    }
+  ],
+  "accounts.account.all_assets": [
+    {
+      "type": 0,
+      "value": "Wszystkie środki"
+    }
+  ],
+  "accounts.activity_list.balance_chart.loading": [
+    {
+      "type": 0,
+      "value": "Ładowanie"
+    }
+  ],
+  "accounts.activity_list.explorer": [
+    {
+      "type": 0,
+      "value": "Eksplorator"
+    }
+  ],
+  "accounts.assets_list.fungibles": [
+    {
+      "type": 0,
+      "value": "Tokeny"
+    }
+  ],
+  "accounts.assets_list.non_fungibles": [
+    {
+      "type": 0,
+      "value": "NFT-y"
+    }
+  ],
+  "accounts.breadcrumbs.account": [
+    {
+      "type": 0,
+      "value": "Konto"
+    }
+  ],
+  "accounts.breadcrumbs.accounts": [
+    {
+      "type": 0,
+      "value": "Wszystkie konta"
+    }
+  ],
+  "accounts.breadcrumbs.nfts": [
+    {
+      "type": 0,
+      "value": "NFT-y"
+    }
+  ],
+  "accounts.breadcrumbs.resource": [
+    {
+      "type": 0,
+      "value": "Zasób"
+    }
+  ],
+  "accounts.breadcrumbs.tokens": [
+    {
+      "type": 0,
+      "value": "Tokeny"
+    }
+  ],
+  "accounts.home.all_assets": [
+    {
+      "type": 0,
+      "value": "Wszystkie środki"
+    }
+  ],
+  "accounts.layout.back_button.title": [
+    {
+      "type": 0,
+      "value": "Wstecz"
+    }
+  ],
+  "accounts.resource_details.back": [
+    {
+      "type": 0,
+      "value": "Wstecz"
+    }
+  ],
+  "address_book.delete_modal.button_text": [
+    {
+      "type": 0,
+      "value": "Usuń"
+    }
+  ],
+  "address_book.delete_modal.description": [
+    {
+      "type": 0,
+      "value": "Czy na pewno chcesz usunąć "
+    },
+    {
+      "type": 1,
+      "value": "address"
+    },
+    {
+      "type": 0,
+      "value": " z książki adresowej?"
+    }
+  ],
+  "address_book.delete_modal.success_message": [
+    {
+      "type": 0,
+      "value": "Pomyślnie usunięto pozycję"
+    }
+  ],
+  "address_book.delete_modal.title": [
+    {
+      "type": 0,
+      "value": "Czy jesteś pewien?"
+    }
+  ],
+  "address_book.upsert_modal.created_toast": [
+    {
+      "type": 0,
+      "value": "Pomyślnie dodano nowy wpis w książce adresowej"
+    }
+  ],
+  "address_book.upsert_modal.form.address": [
+    {
+      "type": 0,
+      "value": "Adres"
+    }
+  ],
+  "address_book.upsert_modal.form.address_placeholder": [
+    {
+      "type": 0,
+      "value": "Wprowadź adres..."
+    }
+  ],
+  "address_book.upsert_modal.form.cancel": [
+    {
+      "type": 0,
+      "value": "Anuluj"
+    }
+  ],
+  "address_book.upsert_modal.form.name": [
+    {
+      "type": 0,
+      "value": "Nazwa"
+    }
+  ],
+  "address_book.upsert_modal.form.name_placeholder": [
+    {
+      "type": 0,
+      "value": "Wprowadź nazwę..."
+    }
+  ],
+  "address_book.upsert_modal.form.submit": [
+    {
+      "type": 0,
+      "value": "Zapisz"
+    }
+  ],
+  "address_book.upsert_modal.title": [
+    {
+      "type": 0,
+      "value": "Wpis w książce adresowej"
+    }
+  ],
+  "address_book.upsert_modal.updated_toast": [
+    {
+      "type": 0,
+      "value": "Pomyślnie zaktualizowano wpis w książce adresowej"
+    }
+  ],
+  "card.buttons.address": [
+    {
+      "type": 0,
+      "value": "Adres"
+    }
+  ],
+  "card.buttons.receive": [
+    {
+      "type": 0,
+      "value": "Odbierz"
+    }
+  ],
+  "card.buttons.send": [
+    {
+      "type": 0,
+      "value": "Wyślij"
+    }
+  ],
+  "copy_address_btn.success_message": [
+    {
+      "type": 0,
+      "value": "Skopiowano"
+    }
+  ],
+  "currency_select.favorite": [
+    {
+      "type": 0,
+      "value": "Ulubione"
+    }
+  ],
+  "currency_select.reset": [
+    {
+      "type": 0,
+      "value": "Resetuj"
+    }
+  ],
+  "form.field_group.remove": [
+    {
+      "type": 0,
+      "value": "Usuń"
+    }
+  ],
+  "form_group.add": [
+    {
+      "type": 0,
+      "value": "Dodaj"
+    }
+  ],
+  "form_group.remove": [
+    {
+      "type": 0,
+      "value": "Usuń"
+    }
+  ],
+  "mobile.menu.activity": [
+    {
+      "type": 0,
+      "value": "Aktywność"
+    }
+  ],
+  "mobile.menu.assets": [
+    {
+      "type": 0,
+      "value": "Środki"
+    }
+  ],
+  "mobile.menu.back": [
+    {
+      "type": 0,
+      "value": "Wstecz"
+    }
+  ],
+  "mobile.menu.clear": [
+    {
+      "type": 0,
+      "value": "Wyczyść"
+    }
+  ],
+  "mobile.menu.nfts": [
+    {
+      "type": 0,
+      "value": "NFT-y"
+    }
+  ],
+  "mobile.menu.search": [
+    {
+      "type": 0,
+      "value": "Szukaj..."
+    }
+  ],
+  "mobile.menu.tokens": [
+    {
+      "type": 0,
+      "value": "Tokeny "
+    },
+    {
+      "type": 1,
+      "value": "symbol"
+    }
+  ],
+  "navigation.accounts": [
+    {
+      "type": 0,
+      "value": "Konta"
+    }
+  ],
+  "navigation.settings": [
+    {
+      "type": 0,
+      "value": "Ustawienia"
+    }
+  ],
+  "navigation.staking": [
+    {
+      "type": 0,
+      "value": "Staking"
+    }
+  ],
+  "navigation.transfer": [
+    {
+      "type": 0,
+      "value": "Transfer"
+    }
+  ],
+  "nft.collection": [
+    {
+      "type": 0,
+      "value": "Kolekcja NFT"
+    }
+  ],
+  "nft.item": [
+    {
+      "type": 0,
+      "value": "NFT"
+    }
+  ],
+  "nfts.address": [
+    {
+      "type": 0,
+      "value": "NFT"
+    }
+  ],
+  "nfts.amount": [
+    {
+      "type": 0,
+      "value": "Saldo"
+    }
+  ],
+  "nfts.change": [
+    {
+      "type": 0,
+      "value": "Zmień"
+    }
+  ],
+  "nfts.empty_subtitle": [
+    {
+      "type": 0,
+      "value": "Nie można znaleźć żadnych NFT-ów na tym koncie"
+    }
+  ],
+  "nfts.empty_title": [
+    {
+      "type": 0,
+      "value": "Brak wyników"
+    }
+  ],
+  "nfts.value": [
+    {
+      "type": 0,
+      "value": "Wartość"
+    }
+  ],
+  "notifications.dropdown.title": [
+    {
+      "type": 0,
+      "value": "Powiadomienia"
+    }
+  ],
+  "scroll_area_up": [
+    {
+      "type": 0,
+      "value": "Przejdź na górę"
+    }
+  ],
+  "searchable_input.clear": [
+    {
+      "type": 0,
+      "value": "Wyczyść"
+    }
+  ],
+  "settings.accounts.account.color": [
+    {
+      "type": 0,
+      "value": "Kolor konta"
+    }
+  ],
+  "settings.accounts.account.image": [
+    {
+      "type": 0,
+      "value": "Obraz konta"
+    }
+  ],
+  "settings.accounts.account.subtitle": [
+    {
+      "type": 0,
+      "value": "Wybierz konto z menu rozwijanego i dostosuj schemat kolorów oraz obraz tła dla karty konta"
+    }
+  ],
+  "settings.accounts.account.title": [
+    {
+      "type": 0,
+      "value": "Konto"
+    }
+  ],
+  "settings.accounts.subtitle": [
+    {
+      "type": 0,
+      "value": "Dostosuj wygląd i odczucie swojego konta Radix. Spersonalizuj swoje doświadczenie, wybierając unikalny obraz tła i schemat kolorów, który pasuje do twojego stylu"
+    }
+  ],
+  "settings.accounts.title": [
+    {
+      "type": 0,
+      "value": "Konta"
+    }
+  ],
+  "settings.address_book.entry.delete": [
+    {
+      "type": 0,
+      "value": "Usuń"
+    }
+  ],
+  "settings.address_book.entry.edit": [
+    {
+      "type": 0,
+      "value": "Edytuj"
+    }
+  ],
+  "settings.address_book.new_address": [
+    {
+      "type": 0,
+      "value": "Nowy adres"
+    }
+  ],
+  "settings.address_book.subtitle": [
+    {
+      "type": 0,
+      "value": "Łatwa organizacja kont w książce adresowej. Zarządzaj swoją książką adresową Radix z łatwością, edytując nazwy kont i adresy w wygodnym widoku tabeli, aby transakcje były bezproblemowe, a kontrola finansów lepsza"
+    }
+  ],
+  "settings.address_book.title": [
+    {
+      "type": 0,
+      "value": "Książka adresowa"
+    }
+  ],
+  "settings.dapp_request_notifications.subtitle": [
+    {
+      "type": 0,
+      "value": "Pokaż powiadomienia DApp o żądaniach Radix"
+    }
+  ],
+  "settings.dapp_request_notifications.title": [
+    {
+      "type": 0,
+      "value": "Powiadomienia o żądaniach"
+    }
+  ],
+  "settings.general.currency.subtitle": [
+    {
+      "type": 0,
+      "value": "Wyświetlaj salda w preferowanej walucie"
+    }
+  ],
+  "settings.general.currency.title": [
+    {
+      "type": 0,
+      "value": "Waluta"
+    }
+  ],
+  "settings.general.language.subtitle": [
+    {
+      "type": 0,
+      "value": "Wybierz preferowany język"
+    }
+  ],
+  "settings.general.language.title": [
+    {
+      "type": 0,
+      "value": "Język"
+    }
+  ],
+  "settings.general.notifications.subtitle": [
+    {
+      "type": 0,
+      "value": "Włącz powiadomienia push, aby otrzymywać aktualizacje na żywo i ważne alerty"
+    }
+  ],
+  "settings.general.notifications.title": [
+    {
+      "type": 0,
+      "value": "Powiadomienia"
+    }
+  ],
+  "settings.general.subtitle": [
+    {
+      "type": 0,
+      "value": "Dopasuj preferencje Z3US. Zarządzaj czasem sesji i wybierz swój idealny schemat kolorów, aby spersonalizować i zabezpieczyć swoje doświadczenie Z3US"
+    }
+  ],
+  "settings.general.theme.options.dark": [
+    {
+      "type": 0,
+      "value": "Ciemny"
+    }
+  ],
+  "settings.general.theme.options.light": [
+    {
+      "type": 0,
+      "value": "Jasny"
+    }
+  ],
+  "settings.general.theme.options.system": [
+    {
+      "type": 0,
+      "value": "System"
+    }
+  ],
+  "settings.general.theme.subtitle": [
+    {
+      "type": 0,
+      "value": "Koloruj swoje doświadczenie Z3US, wybierając tematy jasne lub ciemne lub pozwalając systemowi wybrać za ciebie"
+    }
+  ],
+  "settings.general.theme.title": [
+    {
+      "type": 0,
+      "value": "Motyw"
+    }
+  ],
+  "settings.general.title": [
+    {
+      "type": 0,
+      "value": "Ogólne"
+    }
+  ],
+  "settings.navigation.accounts.subtitle": [
+    {
+      "type": 0,
+      "value": "Dostosuj wygląd i odczucie swojego konta Radix. Spersonalizuj swoje doświadczenie, wybierając unikalny obraz tła i schemat kolorów, który pasuje do twojego stylu"
+    }
+  ],
+  "settings.navigation.accounts.title": [
+    {
+      "type": 0,
+      "value": "Konta"
+    }
+  ],
+  "settings.navigation.address_book.subtitle": [
+    {
+      "type": 0,
+      "value": "Łatwa organizacja kont w książce adresowej. Zarządzaj swoją książką adresową Radix z łatwością, edytując nazwy kont i adresy w wygodnym widoku tabeli, aby transakcje były bezproblemowe, a kontrola finansów lepsza"
+    }
+  ],
+  "settings.navigation.address_book.title": [
+    {
+      "type": 0,
+      "value": "Książka adresowa"
+    }
+  ],
+  "settings.navigation.general.subtitle": [
+    {
+      "type": 0,
+      "value": "Dopasuj preferencje Z3US. Zarządzaj czasem sesji i wybierz swój idealny schemat kolorów, aby spersonalizować i zabezpieczyć swoje doświadczenie Z3US"
+    }
+  ],
+  "settings.navigation.general.title": [
+    {
+      "type": 0,
+      "value": "Ogólne"
+    }
+  ],
+  "settings.session.five_minutes": [
+    {
+      "type": 0,
+      "value": "5 minut"
+    }
+  ],
+  "settings.session.never": [
+    {
+      "type": 0,
+      "value": "Nigdy nie zamykaj"
+    }
+  ],
+  "settings.session.one_minute": [
+    {
+      "type": 0,
+      "value": "1 minuta"
+    }
+  ],
+  "settings.session.sixty_minutes": [
+    {
+      "type": 0,
+      "value": "1 godzina"
+    }
+  ],
+  "settings.session.subtitle": [
+    {
+      "type": 0,
+      "value": "Z3US automatycznie zablokuje się po "
+    },
+    {
+      "offset": 0,
+      "options": {
+        "=0": {
+          "value": [
+            {
+              "type": 0,
+              "value": "nigdy"
+            }
+          ]
+        },
+        "one": {
+          "value": [
+            {
+              "type": 0,
+              "value": "1 minucie"
+            }
+          ]
+        },
+        "other": {
+          "value": [
+            {
+              "type": 1,
+              "value": "unlockTimer"
+            },
+            {
+              "type": 0,
+              "value": " minutach"
+            }
+          ]
+        }
+      },
+      "pluralType": "cardinal",
+      "type": 6,
+      "value": "unlockTimer"
+    }
+  ],
+  "settings.session.thirty_minutes": [
+    {
+      "type": 0,
+      "value": "Pół godziny"
+    }
+  ],
+  "settings.session.title": [
+    {
+      "type": 0,
+      "value": "Timer Auto-Blokady"
+    }
+  ],
+  "settings.title.back": [
+    {
+      "type": 0,
+      "value": "Wstecz"
+    }
+  ],
+  "settings.tx_result_notifications.subtitle": [
+    {
+      "type": 0,
+      "value": "Pokaż powiadomienia wyników transakcji Radix"
+    }
+  ],
+  "settings.tx_result_notifications.title": [
+    {
+      "type": 0,
+      "value": "Powiadomienia o Wynikach Transakcji"
+    }
+  ],
+  "staking.table.column.address": [
+    {
+      "type": 0,
+      "value": "Adres"
+    }
+  ],
+  "staking.table.column.apy": [
+    {
+      "type": 0,
+      "value": "APY"
+    }
+  ],
+  "staking.table.column.fee": [
+    {
+      "type": 0,
+      "value": "Opłata %"
+    }
+  ],
+  "staking.table.column.owner_stake": [
+    {
+      "type": 0,
+      "value": "Udział właściciela"
+    }
+  ],
+  "staking.table.column.total_stake": [
+    {
+      "type": 0,
+      "value": "Łączny udział"
+    }
+  ],
+  "staking.table.column.uptime": [
+    {
+      "type": 0,
+      "value": "Czas działania"
+    }
+  ],
+  "staking.table.column.validator": [
+    {
+      "type": 0,
+      "value": "Walidator"
+    }
+  ],
+  "staking.table_header.subtitle": [
+    {
+      "type": 0,
+      "value": "Przeglądaj wszystkie obecnie zarejestrowane węzły walidatorów Radix Network i zarządzaj własnymi udziałami XRD dla walidatorów"
+    }
+  ],
+  "staking.table_header.title": [
+    {
+      "type": 0,
+      "value": "Walidatorzy Stakingu"
+    }
+  ],
+  "staking.validator_panel.accepts_stake": [
+    {
+      "type": 0,
+      "value": "Akceptuje udział"
+    }
+  ],
+  "staking.validator_panel.address": [
+    {
+      "type": 0,
+      "value": "Adres"
+    }
+  ],
+  "staking.validator_panel.apy": [
+    {
+      "type": 0,
+      "value": "APY"
+    }
+  ],
+  "staking.validator_panel.close": [
+    {
+      "type": 0,
+      "value": "Zamknij"
+    }
+  ],
+  "staking.validator_panel.details": [
+    {
+      "type": 0,
+      "value": "Szczegóły"
+    }
+  ],
+  "staking.validator_panel.explorer": [
+    {
+      "type": 0,
+      "value": "Pokaż w eksploratorze"
+    }
+  ],
+  "staking.validator_panel.fee": [
+    {
+      "type": 0,
+      "value": "Opłata"
+    }
+  ],
+  "staking.validator_panel.na": [
+    {
+      "type": 0,
+      "value": "N/D"
+    }
+  ],
+  "staking.validator_panel.owner_stake": [
+    {
+      "type": 0,
+      "value": "Udział właściciela"
+    }
+  ],
+  "staking.validator_panel.registration_stake": [
+    {
+      "type": 0,
+      "value": "Udział w rejestracji"
+    }
+  ],
+  "staking.validator_panel.total_stake": [
+    {
+      "type": 0,
+      "value": "Łączny udział"
+    }
+  ],
+  "token_amount_select.amount.placeholder": [
+    {
+      "type": 0,
+      "value": "Ilość"
+    }
+  ],
+  "token_select.close": [
+    {
+      "type": 0,
+      "value": "Zamknij"
+    }
+  ],
+  "token_select.token.no_results.subtitle": [
+    {
+      "type": 0,
+      "value": "Proszę doprecyzować wyszukiwanie"
+    }
+  ],
+  "token_select.token.no_results.title": [
+    {
+      "type": 0,
+      "value": "Nie znaleziono tokenów"
+    }
+  ],
+  "token_select.token.placeholder": [
+    {
+      "type": 0,
+      "value": "Szukaj tokena..."
+    }
+  ],
+  "tokens.address": [
+    {
+      "type": 0,
+      "value": "Token"
+    }
+  ],
+  "tokens.amount": [
+    {
+      "type": 0,
+      "value": "Saldo"
+    }
+  ],
+  "tokens.change": [
+    {
+      "type": 0,
+      "value": "Zmiana"
+    }
+  ],
+  "tokens.empty_subtitle": [
+    {
+      "type": 0,
+      "value": "Nie znaleziono żadnych NFT w tym koncie"
+    }
+  ],
+  "tokens.empty_title": [
+    {
+      "type": 0,
+      "value": "Brak wyników"
+    }
+  ],
+  "tokens.value": [
+    {
+      "type": 0,
+      "value": "Wartość"
+    }
+  ],
+  "transaction.affected_global_entities": [
+    {
+      "type": 0,
+      "value": "Dotknięte globalne jednostki"
+    }
+  ],
+  "transaction.close": [
+    {
+      "type": 0,
+      "value": "Zamknij"
+    }
+  ],
+  "transaction.date": [
+    {
+      "type": 0,
+      "value": "Data"
+    }
+  ],
+  "transaction.details": [
+    {
+      "type": 0,
+      "value": "Szczegóły"
+    }
+  ],
+  "transaction.epoch": [
+    {
+      "type": 0,
+      "value": "Epoka"
+    }
+  ],
+  "transaction.explorer": [
+    {
+      "type": 0,
+      "value": "Otwórz w eksploratorze"
+    }
+  ],
+  "transaction.fee": [
+    {
+      "type": 0,
+      "value": "Opłata"
+    }
+  ],
+  "transaction.id": [
+    {
+      "type": 0,
+      "value": "ID"
+    }
+  ],
+  "transaction.manifest": [
+    {
+      "type": 0,
+      "value": "Manifest transakcji"
+    }
+  ],
+  "transaction.message": [
+    {
+      "type": 0,
+      "value": "Wiadomość"
+    }
+  ],
+  "transaction.round": [
+    {
+      "type": 0,
+      "value": "Runda"
+    }
+  ],
+  "transaction.status": [
+    {
+      "type": 0,
+      "value": "Status"
+    }
+  ],
+  "transaction.version": [
+    {
+      "type": 0,
+      "value": "Wersja stanu"
+    }
+  ],
+  "transfer.deploy.form.submit_button": [
+    {
+      "type": 0,
+      "value": "Wdrożenie"
+    }
+  ],
+  "transfer.deploy.form.validation.badge": [
+    {
+      "type": 0,
+      "value": "Proszę wybrać kolekcję NFT"
+    }
+  ],
+  "transfer.deploy.form.validation.badge_id": [
+    {
+      "type": 0,
+      "value": "Proszę wybrać element NFT"
+    }
+  ],
+  "transfer.deploy.form.validation.files.amount": [
+    {
+      "type": 0,
+      "value": "Wymagane są zarówno pliki WASM, jak i RPD"
+    }
+  ],
+  "transfer.deploy.form.validation.files.size": [
+    {
+      "type": 0,
+      "value": "Każdy plik musi mieć maksymalnie 10 MB"
+    }
+  ],
+  "transfer.deploy.form.validation.files.type": [
+    {
+      "type": 0,
+      "value": "Nieprawidłowe pliki, proszę przesłać zarówno plik WASM, jak i RPD z odpowiednimi typami"
+    }
+  ],
+  "transfer.deploy.form.validation.from": [
+    {
+      "type": 0,
+      "value": "Proszę wybrać konto"
+    }
+  ],
+  "transfer.deploy.form_fields.badge": [
+    {
+      "type": 0,
+      "value": "Odznaka właściciela"
+    }
+  ],
+  "transfer.deploy.form_fields.files": [
+    {
+      "type": 0,
+      "value": "Pliki"
+    }
+  ],
+  "transfer.deploy.form_fields.from": [
+    {
+      "type": 0,
+      "value": "Od"
+    }
+  ],
+  "transfer.form.button.add_account": [
+    {
+      "type": 0,
+      "value": "Dodaj innego odbiorcę"
+    }
+  ],
+  "transfer.form.button.add_token": [
+    {
+      "type": 0,
+      "value": "Dodaj inny element"
+    }
+  ],
+  "transfer.form.button.submit": [
+    {
+      "type": 0,
+      "value": "Wyślij"
+    }
+  ],
+  "transfer.form.field.from.subtitle": [
+    {
+      "type": 0,
+      "value": "Wybierz konto, z którego chcesz wysłać elementy"
+    }
+  ],
+  "transfer.form.field.from.title": [
+    {
+      "type": 0,
+      "value": "Z konta"
+    }
+  ],
+  "transfer.form.field.message.encrypt_title": [
+    {
+      "type": 0,
+      "value": "Zaszyfruj wiadomość"
+    }
+  ],
+  "transfer.form.field.message.placeholder": [
+    {
+      "type": 0,
+      "value": "Wprowadź wiadomość transakcji"
+    }
+  ],
+  "transfer.form.field.message.subtitle": [
+    {
+      "type": 0,
+      "value": "Wyślij opcjonalną wiadomość wraz z transakcją"
+    }
+  ],
+  "transfer.form.field.message.title": [
+    {
+      "type": 0,
+      "value": "Wiadomość"
+    }
+  ],
+  "transfer.form.field.to.subtitle": [
+    {
+      "type": 0,
+      "value": "Wybierz odbiorcę, do którego chcesz wysłać elementy"
+    }
+  ],
+  "transfer.form.field.to.title": [
+    {
+      "type": 0,
+      "value": "Do konta"
+    }
+  ],
+  "transfer.form.tab.nfts": [
+    {
+      "type": 0,
+      "value": "NFT"
+    }
+  ],
+  "transfer.form.tab.tokens": [
+    {
+      "type": 0,
+      "value": "Tokeny"
+    }
+  ],
+  "transfer.form.title": [
+    {
+      "type": 0,
+      "value": "Transfer"
+    }
+  ],
+  "transfer.known_address": [
+    {
+      "type": 0,
+      "value": "Znany adres"
+    }
+  ],
+  "transfer.navigation.deploy": [
+    {
+      "type": 0,
+      "value": "Wdrożenie paczki"
+    }
+  ],
+  "transfer.navigation.home": [
+    {
+      "type": 0,
+      "value": "Transfer"
+    }
+  ],
+  "transfer.navigation.raw": [
+    {
+      "type": 0,
+      "value": "Zaawansowane"
+    }
+  ],
+  "transfer.router.deploy": [
+    {
+      "type": 0,
+      "value": "Wdrożenie paczki"
+    }
+  ],
+  "transfer.router.home": [
+    {
+      "type": 0,
+      "value": "Transfer"
+    }
+  ],
+  "transfer.router.raw": [
+    {
+      "type": 0,
+      "value": "Zaawansowane"
+    }
+  ],
+  "transfer.validation.from": [
+    {
+      "type": 0,
+      "value": "Proszę wybrać konto"
+    }
+  ],
+  "transfer.validation.nft.collection": [
+    {
+      "type": 0,
+      "value": "Proszę wybrać kolekcję NFT"
+    }
+  ],
+  "transfer.validation.nft.item": [
+    {
+      "type": 0,
+      "value": "Proszę wybrać element NFT"
+    }
+  ],
+  "transfer.validation.to": [
+    {
+      "type": 0,
+      "value": "Proszę wybrać odbiorcę"
+    }
+  ],
+  "transfer.validation.token.address": [
+    {
+      "type": 0,
+      "value": "Proszę wybrać token"
+    }
+  ],
+  "transfer.validation.token.amount": [
+    {
+      "type": 0,
+      "value": "Proszę podać prawidłową ilość"
+    }
+  ],
+  "transfer_raw.form.button.submit": [
+    {
+      "type": 0,
+      "value": "Wyślij"
+    }
+  ],
+  "transfer_raw.form.raw.placeholder": [
+    {
+      "type": 0,
+      "value": "Wprowadź manifest transakcji..."
+    }
+  ],
+  "transfer_raw.form.raw.subtitle": [
+    {
+      "type": 0,
+      "value": "Wprowadź surowy manifest transakcji"
+    }
+  ],
+  "transfer_raw.form.raw.title": [
+    {
+      "type": 0,
+      "value": "Manifest transakcji"
+    }
+  ],
+  "transfer_raw.validation.raw": [
+    {
+      "type": 0,
+      "value": "Transakcja nie może być pusta"
+    }
+  ],
+  "unlock.error": [
+    {
+      "type": 0,
+      "value": "Niepoprawne hasło!"
+    }
+  ],
+  "unlock.form.button.title": [
+    {
+      "type": 0,
+      "value": "Odblokuj"
+    }
+  ],
+  "unlock.password.placeholder": [
+    {
+      "type": 0,
+      "value": "Hasło"
+    }
+  ]
+}

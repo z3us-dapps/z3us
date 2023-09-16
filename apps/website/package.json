@@ -10,10 +10,14 @@
 		"lint": "next lint",
 		"start": "next start",
 		"deploy": "rm -rf node_modules/.cache && next build && next export && touch out/.nojekyll",
-		"postbuild": "next-sitemap"
+		"postbuild": "next-sitemap",
+		"intl:extract": "formatjs extract 'src/**/*.{ts,tsx}' '../../packages/ui/src/**/*.{ts,tsx}' --ignore='**/*.d.ts' --out-file src/components/layouts/app-page/locales/en.json --id-interpolation-pattern '[sha512:contenthash:base64:6]'",
+		"intl:compile-en": "formatjs compile src/components/layouts/app-page/locales/en.json --ast --out-file src/components/layouts/app-page/locales/compiled/en.json",
+		"intl:compile-pl": "formatjs compile src/components/layouts/app-page/locales/pl.json --ast --out-file src/components/layouts/app-page/locales/compiled/pl.json",
+		"intl:compile": "yarn run intl:compile-en && yarn run intl:compile-pl"
 	},
 	"dependencies": {
-		"@radixdlt/radix-dapp-toolkit": "^0.6.1",
+		"@radixdlt/radix-dapp-toolkit": "^0.7.1",
 		"@vanilla-extract/css": "^1.11.1",
 		"@vanilla-extract/next-plugin": "^2.1.3",
 		"clsx": "^1.2.1",
@@ -27,10 +31,12 @@
 		"next-themes": "^0.2.1",
 		"react": "18.2.0",
 		"react-dom": "18.2.0",
+		"react-intl": "^6.4.6",
 		"react-router-dom": "^6.14.2",
 		"ui": "*"
 	},
 	"devDependencies": {
+		"@formatjs/cli": "^6.1.5",
 		"@tanstack/react-query-devtools": "^4.29.17",
 		"@types/eslint": "^8.40.2",
 		"@types/node": "20.3.1",

@@ -3,11 +3,12 @@ import { createStore } from 'zustand'
 import { createJSONStorage, devtools, persist, subscribeWithSelector } from 'zustand/middleware'
 import { immer } from 'zustand/middleware/immer'
 
-import { factory as createExtensionStore } from './extension'
-import { factory as createKeystoreStore } from './keystore'
-import { factory as createSettingsStore } from './settings'
 import { StateStorage } from './storage'
 import type { NoneSharedState, SharedState } from './types'
+import { factory as createExtensionStore } from './extension'
+import { factory as createIntlStore } from './intl'
+import { factory as createKeystoreStore } from './keystore'
+import { factory as createSettingsStore } from './settings'
 import { factory as createWalletStore } from './wallet'
 
 type MutatorsTypes = [
@@ -39,6 +40,7 @@ export const createNoneSharedStore = (name: string) =>
 		middlewares<NoneSharedState>(name, set => ({
 			...createSettingsStore(set),
 			...createExtensionStore(set),
+			...createIntlStore(set),
 		})),
 	)
 

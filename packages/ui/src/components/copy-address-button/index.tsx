@@ -1,19 +1,26 @@
 import clsx from 'clsx'
 import { AnimatePresence, motion } from 'framer-motion'
 import React, { useEffect, useState } from 'react'
+import { defineMessages, useIntl } from 'react-intl'
 
 import { Box } from 'ui/src/components/box'
 import { Button, type TSizeVariant, type TStyleVariant } from 'ui/src/components/button'
 import { CopyIcon } from 'ui/src/components/icons'
 import { type TThemeColorKey } from 'ui/src/components/system/theme.css'
 import { ToolTip } from 'ui/src/components/tool-tip'
-import Translation from 'ui/src/components/translation'
 import { Text } from 'ui/src/components/typography'
 import type * as textStyles from 'ui/src/components/typography/typography.css'
 import { copyTextToClipboard } from 'ui/src/utils/copy-to-clipboard'
 import { getShortAddress } from 'ui/src/utils/string-utils'
 
 import * as styles from './copy-address-button.css'
+
+const messages = defineMessages({
+	copied: {
+		id: 'copy_address_btn.success_message',
+		defaultMessage: 'Copied',
+	},
+})
 
 const CopyIconAnimation = ({ animate, tickColor }: { animate: boolean; tickColor: TThemeColorKey }) => (
 	<Box className={styles.copiedAnimationWrapper}>
@@ -85,6 +92,7 @@ export const CopyAddressButton: React.FC<ICopyAddressButtonProps> = props => {
 		toolTipDisabled = false,
 	} = props
 
+	const intl = useIntl()
 	const [copiedAnimate, setCopiedAnimate] = useState<boolean>(false)
 
 	const handleAddressClick = () => {
@@ -131,7 +139,7 @@ export const CopyAddressButton: React.FC<ICopyAddressButtonProps> = props => {
 							pointerEvents="none"
 						>
 							<Text capitalizeFirstLetter color="strong" align="center">
-								<Translation text="global.copied" />
+								{intl.formatMessage(messages.copied)}
 							</Text>
 						</Box>
 					</Box>

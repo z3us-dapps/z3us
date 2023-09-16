@@ -1,15 +1,24 @@
 import React, { useEffect, useState } from 'react'
+import { defineMessages, useIntl } from 'react-intl'
 import { useParams } from 'react-router-dom'
 
 import { Link } from 'ui/src/components/router-link'
-import Translation from 'ui/src/components/translation'
 import { useEntityMetadata } from 'ui/src/hooks/dapp/use-entity-metadata'
 import { getStringMetadata } from 'ui/src/services/metadata'
+
+const messages = defineMessages({
+	resource: {
+		id: 'accounts.breadcrumbs.resource',
+		defaultMessage: 'Resource',
+	},
+})
 
 interface IProps {
 	resourceType: 'token' | 'nft'
 }
+
 export const ResourceBreadcrumb: React.FC<IProps> = ({ resourceType }) => {
+	const intl = useIntl()
 	const { accountId, resourceId } = useParams()
 	const { data } = useEntityMetadata(resourceId)
 
@@ -24,7 +33,7 @@ export const ResourceBreadcrumb: React.FC<IProps> = ({ resourceType }) => {
 
 	return (
 		<Link to={`/accounts/${accountId}/${resourceType}s/${resourceId}`}>
-			{displayName || <Translation text="accounts.breadcrumbs.resource" />}
+			{displayName || intl.formatMessage(messages.resource)}
 		</Link>
 	)
 }

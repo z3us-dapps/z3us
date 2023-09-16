@@ -1,6 +1,5 @@
-/* eslint-disable  @typescript-eslint/no-unused-vars */
-import clsx, { type ClassValue } from 'clsx'
 import React from 'react'
+import { defineMessages, useIntl } from 'react-intl'
 import { useNavigate } from 'react-router-dom'
 
 import { Box } from 'ui/src/components/box'
@@ -20,12 +19,19 @@ import { BellIcon, Settings2Icon } from 'ui/src/components/icons'
 import { Link } from 'ui/src/components/router-link'
 import SimpleBar from 'ui/src/components/simple-bar'
 import { ToolTip } from 'ui/src/components/tool-tip'
-import Translation from 'ui/src/components/translation'
 import { Text } from 'ui/src/components/typography'
 
 import * as styles from './notifications-dropdown.css'
 
+const messages = defineMessages({
+	title: {
+		id: 'notifications.dropdown.title',
+		defaultMessage: 'Notifications',
+	},
+})
+
 export const NotificationsDropdown: React.FC = props => {
+	const intl = useIntl()
 	const navigate = useNavigate()
 
 	const handleGoToSettings = () => {
@@ -37,7 +43,7 @@ export const NotificationsDropdown: React.FC = props => {
 			<DropdownMenu>
 				<DropdownMenuTrigger asChild>
 					<Box>
-						<ToolTip message="global.notifications">
+						<ToolTip message={intl.formatMessage(messages.title)}>
 							<Button styleVariant="ghost" sizeVariant="small" iconOnly rounded>
 								<BellIcon />
 							</Button>

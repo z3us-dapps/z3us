@@ -2,6 +2,7 @@ import * as ScrollAreaPrimitive from '@radix-ui/react-scroll-area'
 import clsx from 'clsx'
 import type { PropsWithChildren } from 'react'
 import React, { forwardRef, useCallback, useEffect, useMemo, useState } from 'react'
+import { defineMessages, useIntl } from 'react-intl'
 import { useDebouncedCallback, useThrottledCallback } from 'use-debounce'
 import { useEventListener } from 'usehooks-ts'
 
@@ -11,6 +12,13 @@ import { ArrowUpIcon } from '../icons'
 import { ToolTip } from '../tool-tip'
 import { ScrollContext } from './context'
 import * as styles from './styles.css'
+
+const messages = defineMessages({
+	up: {
+		id: 'scroll_area_up',
+		defaultMessage: 'Go to top',
+	},
+})
 
 const SCROLL_TOP_BUTTON_VISIBLE_PX = 100
 const THROTTLE_MS = 50
@@ -77,6 +85,7 @@ export const ScrollAreaRadix: React.FC<PropsWithChildren<IScrollAreaRadix>> = ({
 		...rest
 	} = props
 
+	const intl = useIntl()
 	const [scrollParent, setScrollParent] = useState<HTMLElement | null>(null)
 	const [scrollHeight, setScrollHeight] = useState<number | undefined>(0)
 	const [isScrolledBottom, setIsScrolledBottom] = useState<boolean>(true)
@@ -173,7 +182,7 @@ export const ScrollAreaRadix: React.FC<PropsWithChildren<IScrollAreaRadix>> = ({
 				<Box
 					className={clsx(styles.scrolledButtonWrapper, isScrollUpButtonVisible && styles.scrolledButtonWrapperVisible)}
 				>
-					<ToolTip message="global.up" side="top">
+					<ToolTip message={intl.formatMessage(messages.up)} side="top">
 						<Button styleVariant="white-transparent" sizeVariant="small" iconOnly onClick={handleUpButtonClick}>
 							<ArrowUpIcon />
 						</Button>

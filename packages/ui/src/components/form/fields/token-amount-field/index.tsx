@@ -1,8 +1,6 @@
-import { t } from 'i18next'
 import { useBalances } from 'packages/ui/src/hooks/dapp/use-balances'
 import React, { forwardRef, useContext } from 'react'
-
-import { capitalizeFirstLetter } from 'ui/src/utils/capitalize-first-letter'
+import { defineMessages, useIntl } from 'react-intl'
 
 import { Box } from '../../../box'
 import { type IProps as WrapperProps } from '../../field-wrapper'
@@ -18,7 +16,15 @@ interface IProps extends Omit<WrapperProps, 'name'> {
 	resourceKey?: string
 }
 
+const messages = defineMessages({
+	amount_placeholder: {
+		id: 'token_amount_select.amount.placeholder',
+		defaultMessage: 'Amount',
+	},
+})
+
 export const TokenAmountSelect = forwardRef<HTMLInputElement, IProps>((props, ref) => {
+	const intl = useIntl()
 	const { fromAccount, amountKey = 'amount', resourceKey = 'address', ...rest } = props
 	const { name: parentName } = useContext(FieldContext)
 
@@ -34,7 +40,7 @@ export const TokenAmountSelect = forwardRef<HTMLInputElement, IProps>((props, re
 				{...rest}
 				ref={ref}
 				name={amountKey}
-				placeholder={capitalizeFirstLetter(`${t('token_amount_select.amount')}`)}
+				placeholder={intl.formatMessage(messages.amount_placeholder)}
 				sizeVariant="large"
 			/>
 			<TokenSelect name={resourceKey} balances={fungibleBalances} />

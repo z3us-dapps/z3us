@@ -1,5 +1,6 @@
 import clsx from 'clsx'
 import React from 'react'
+import { defineMessages, useIntl } from 'react-intl'
 
 import { Box } from 'ui/src/components/box'
 import { ArrowLeftIcon } from 'ui/src/components/icons'
@@ -8,6 +9,13 @@ import { ToolTip } from 'ui/src/components/tool-tip'
 import { Text } from 'ui/src/components/typography'
 
 import * as styles from './styles.css'
+
+const messages = defineMessages({
+	back: {
+		id: 'settings.title.back',
+		defaultMessage: 'Back',
+	},
+})
 
 export interface ISettingsTitle {
 	title: string | React.ReactElement
@@ -19,13 +27,15 @@ export interface ISettingsTitle {
 export const SettingsTitle: React.FC<ISettingsTitle> = props => {
 	const { backLink, title, subTitle, isBottomBorderVisible = true } = props
 
+	const intl = useIntl()
+
 	return (
 		<Box className={clsx(styles.settingsTitleWrapper, isBottomBorderVisible && styles.settingsSectionBorderWrapper)}>
 			<Box display="flex" flexDirection="column" gap="xsmall">
 				<Box display="flex" gap="small">
 					{backLink && (
 						<Box className={styles.settingsTitleBackLinkWrapper}>
-							<ToolTip message="global.back">
+							<ToolTip message={intl.formatMessage(messages.back)}>
 								<Button to={backLink} styleVariant="ghost" sizeVariant="small" iconOnly>
 									<ArrowLeftIcon />
 								</Button>

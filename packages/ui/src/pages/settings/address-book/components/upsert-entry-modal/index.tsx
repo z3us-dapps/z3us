@@ -1,5 +1,5 @@
-import { t } from 'i18next'
 import React, { useEffect } from 'react'
+import { defineMessages, useIntl } from 'react-intl'
 import { toast } from 'sonner'
 import { useImmer } from 'use-immer'
 
@@ -8,7 +8,6 @@ import { Button } from 'ui/src/components/button'
 import { Dialog } from 'ui/src/components/dialog'
 import { CheckCircleIcon } from 'ui/src/components/icons'
 import { type FormElement, Input } from 'ui/src/components/input'
-import Translation from 'ui/src/components/translation'
 import { Text } from 'ui/src/components/typography'
 import { ValidationErrorMessage } from 'ui/src/components/validation-error-message'
 import { useNetworkId } from 'ui/src/hooks/dapp/use-network-id'
@@ -16,6 +15,45 @@ import { useNoneSharedStore } from 'ui/src/hooks/use-store'
 
 import type { TZodValidation } from './validation'
 import { getError, validateAddressBookForm } from './validation'
+
+const messages = defineMessages({
+	title: {
+		id: 'address_book.upsert_modal.title',
+		defaultMessage: 'Address book entry',
+	},
+	updated_toast: {
+		id: 'address_book.upsert_modal.updated_toast',
+		defaultMessage: 'Successfully updated address book entry',
+	},
+	created_toast: {
+		id: 'address_book.upsert_modal.created_toast',
+		defaultMessage: 'Successfully added new address book entry',
+	},
+	name: {
+		id: 'address_book.upsert_modal.form.name',
+		defaultMessage: 'Name',
+	},
+	name_placeholder: {
+		id: 'address_book.upsert_modal.form.name_placeholder',
+		defaultMessage: 'Insert name...',
+	},
+	address: {
+		id: 'address_book.upsert_modal.form.address',
+		defaultMessage: 'Address',
+	},
+	address_placeholder: {
+		id: 'address_book.upsert_modal.form.address_placeholder',
+		defaultMessage: 'Insert address...',
+	},
+	cancel: {
+		id: 'address_book.upsert_modal.form.cancel',
+		defaultMessage: 'Cancel',
+	},
+	submit: {
+		id: 'address_book.upsert_modal.form.submit',
+		defaultMessage: 'Save',
+	},
+})
 
 const emptyEntry = {
 	name: '',
@@ -36,6 +74,7 @@ export interface IState {
 }
 
 const UpsertAddressBookEntryModal: React.FC<IProps> = ({ address, onClose }) => {
+	const intl = useIntl()
 	const networkId = useNetworkId()
 
 	const { addressBook, setAddressBookEntry } = useNoneSharedStore(state => ({
@@ -89,8 +128,8 @@ const UpsertAddressBookEntryModal: React.FC<IProps> = ({ address, onClose }) => 
 		setAddressBookEntry(networkId, state.address, entry)
 
 		const toastMessage = addressBook[address]
-			? t('settings.address_book.upsert_modal.updated_message')
-			: t('settings.address_book.upsert_modal.created_message')
+			? intl.formatMessage(messages.updated_toast)
+			: intl.formatMessage(messages.created_toast)
 
 		setState(draft => {
 			draft.name = ''
@@ -118,15 +157,13 @@ const UpsertAddressBookEntryModal: React.FC<IProps> = ({ address, onClose }) => 
 		<Dialog open={address !== undefined} onClose={handleClose}>
 			<Box component="form" padding="large" display="flex" flexDirection="column" gap="large" onSubmit={handleConfirm}>
 				<Text size="xlarge" color="strong" weight="strong">
-					<Translation capitalizeFirstLetter text="address_book.upsert_modal.title" />
+					{intl.formatMessage(messages.title)}
 				</Text>
 				<Box display="flex" flexDirection="column" gap="xsmall">
-					<Text size="xsmall">
-						<Translation capitalizeFirstLetter text="address_book.upsert_modal.name.title" />
-					</Text>
+					<Text size="xsmall">{intl.formatMessage(messages.name)}</Text>
 					<Box>
 						<Input
-							placeholder={t('address_book.upsert_modal.name.input_placeholder')}
+							placeholder={intl.formatMessage(messages.name_placeholder)}
 							value={state.name}
 							onChange={handleChangeName}
 							styleVariant={getError(state.validation, ['name']).error ? 'primary-error' : 'primary'}
@@ -135,13 +172,11 @@ const UpsertAddressBookEntryModal: React.FC<IProps> = ({ address, onClose }) => 
 					</Box>
 				</Box>
 				<Box display="flex" flexDirection="column" gap="xsmall">
-					<Text size="xsmall">
-						<Translation capitalizeFirstLetter text="address_book.upsert_modal.address.title" />
-					</Text>
+					<Text size="xsmall">{intl.formatMessage(messages.address)}</Text>
 					<Box>
 						<Input
 							disabled={!!addressBook[address]?.address}
-							placeholder={t('address_book.upsert_modal.address.input_placeholder')}
+							placeholder={intl.formatMessage(messages.address_placeholder)}
 							value={state.address}
 							styleVariant={getError(state.validation, ['address']).error ? 'primary-error' : 'primary'}
 							onChange={handleChangeAddress}
@@ -159,10 +194,10 @@ const UpsertAddressBookEntryModal: React.FC<IProps> = ({ address, onClose }) => 
 				</Box>
 				<Box display="flex" gap="small" justifyContent="flex-end">
 					<Button sizeVariant="small" styleVariant="secondary" onClick={handleClose}>
-						<Translation capitalizeFirstLetter text="global.cancel" />
+						{intl.formatMessage(messages.cancel)}
 					</Button>
 					<Button sizeVariant="small" type="submit">
-						<Translation capitalizeFirstLetter text="global.save" />
+						{intl.formatMessage(messages.submit)}
 					</Button>
 				</Box>
 			</Box>

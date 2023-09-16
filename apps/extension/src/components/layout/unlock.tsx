@@ -1,23 +1,38 @@
-import { t } from 'i18next'
-import { ValidationErrorMessage } from 'packages/ui/src/components/validation-error-message'
 import React, { useEffect, useRef, useState } from 'react'
+import { defineMessages, useIntl } from 'react-intl'
 
 import { Box } from 'ui/src/components/box'
 import { Form } from 'ui/src/components/form'
 import TextField from 'ui/src/components/form/fields/text-field'
-import Translation from 'ui/src/components/translation'
-import { capitalizeFirstLetter } from 'ui/src/utils/capitalize-first-letter'
+import { ValidationErrorMessage } from 'ui/src/components/validation-error-message'
 
 import { useMessageClient } from '@src/hooks/use-message-client'
+
+const messages = defineMessages({
+	password_placeholder: {
+		id: 'unlock.password.placeholder',
+		defaultMessage: 'Password',
+	},
+	unlock_error: {
+		id: 'unlock.error',
+		defaultMessage: 'Incorrect password!',
+	},
+	form_button_title: {
+		id: 'unlock.form.button.title',
+		defaultMessage: 'Unlock',
+	},
+})
 
 const initialValues = {
 	password: '',
 }
+
 interface IProps {
 	onUnlock: () => void
 }
 
 export const Unlock: React.FC<IProps> = ({ onUnlock }) => {
+	const intl = useIntl()
 	const inputRef = useRef(null)
 	const client = useMessageClient()
 
@@ -33,7 +48,7 @@ export const Unlock: React.FC<IProps> = ({ onUnlock }) => {
 			onUnlock()
 			setError('')
 		} catch (err) {
-			setError(t('unlock.password.incorrect'))
+			setError(intl.formatMessage(messages.password_placeholder))
 		}
 	}
 
@@ -41,7 +56,7 @@ export const Unlock: React.FC<IProps> = ({ onUnlock }) => {
 		<Form
 			onSubmit={handleSubmit}
 			initialValues={initialValues}
-			submitButtonTitle={<Translation capitalizeFirstLetter text="unlock.password.submitFormButtonTitle" />}
+			submitButtonTitle={intl.formatMessage(messages.form_button_title)}
 		>
 			<ValidationErrorMessage message={error} />
 			<Box>
@@ -49,7 +64,7 @@ export const Unlock: React.FC<IProps> = ({ onUnlock }) => {
 					<TextField
 						isPassword
 						name="password"
-						placeholder={capitalizeFirstLetter(`${t('unlock.password.inputPlaceholder')}`)}
+						placeholder={intl.formatMessage(messages.password_placeholder)}
 						sizeVariant="medium"
 					/>
 				</Box>

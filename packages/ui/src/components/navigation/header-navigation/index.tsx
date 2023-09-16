@@ -1,27 +1,43 @@
 import clsx from 'clsx'
 import { LayoutGroup } from 'framer-motion'
-import { t } from 'i18next'
 import React from 'react'
-import { useLocation, useMatches, useNavigate, useParams } from 'react-router-dom'
+import { defineMessages, useIntl } from 'react-intl'
+import { useMatches, useNavigate, useParams } from 'react-router-dom'
 
 import { Box } from 'ui/src/components/box'
 import { ConnectButton } from 'ui/src/components/connect-button'
 import { CopyAddressButton } from 'ui/src/components/copy-address-button'
-import { SearchIcon } from 'ui/src/components/icons'
 import { PillNavigation } from 'ui/src/components/pill-navigation'
-import { Button } from 'ui/src/components/router-button'
 import { Link, NavLink } from 'ui/src/components/router-link'
 import { SelectSimple } from 'ui/src/components/select'
 import * as containerStyles from 'ui/src/components/styles/container-styles.css'
-import { ToolTip } from 'ui/src/components/tool-tip'
 import { Z3usLogo } from 'ui/src/components/z3us-logo-babylon'
 import { useWalletAccounts } from 'ui/src/hooks/use-accounts'
 
 import { AccountViewDropdown } from '../account-view-dropdown'
 import * as styles from './styles.css'
 
+const messages = defineMessages({
+	accounts: {
+		id: 'navigation.accounts',
+		defaultMessage: 'Accounts',
+	},
+	transfer: {
+		id: 'navigation.transfer',
+		defaultMessage: 'Transfer',
+	},
+	staking: {
+		id: 'navigation.staking',
+		defaultMessage: 'Staking',
+	},
+	settings: {
+		id: 'navigation.settings',
+		defaultMessage: 'Settings',
+	},
+})
+
 const HeaderNavDesktop = () => {
-	const { pathname } = useLocation()
+	const intl = useIntl()
 	return (
 		<Box className={styles.headerDesktopNavWrapper}>
 			<Link to="/">
@@ -30,10 +46,10 @@ const HeaderNavDesktop = () => {
 			<Box component="ul" className={styles.navigationMenu}>
 				<LayoutGroup id="accounts-menu">
 					{[
-						{ text: t('accounts.navigation.accounts'), href: '/accounts' },
-						{ text: t('accounts.navigation.transfer'), href: '/transfer' },
-						{ text: t('accounts.navigation.staking'), href: '/staking' },
-						{ text: t('accounts.navigation.settings'), href: '/settings/general' },
+						{ text: intl.formatMessage(messages.accounts), href: '/accounts' },
+						{ text: intl.formatMessage(messages.transfer), href: '/transfer' },
+						{ text: intl.formatMessage(messages.staking), href: '/staking' },
+						{ text: intl.formatMessage(messages.settings), href: '/settings/general' },
 					].map(({ text, href }) => (
 						<Box key={href} component="li">
 							<NavLink to={href} underline="never">
@@ -44,12 +60,6 @@ const HeaderNavDesktop = () => {
 				</LayoutGroup>
 			</Box>
 			<Box display="flex" alignItems="center" gap="small" flexGrow={1} paddingRight="medium" justifyContent="flex-end">
-				{/* TODO: search */}
-				{/* <ToolTip message="global.search">
-					<Button rounded styleVariant="ghost" sizeVariant="small" to={`${pathname}?query=hello&account=all`} iconOnly>
-						<SearchIcon />
-					</Button>
-				</ToolTip> */}
 				<AccountViewDropdown />
 			</Box>
 		</Box>

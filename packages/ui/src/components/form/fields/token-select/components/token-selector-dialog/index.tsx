@@ -1,8 +1,8 @@
 import clsx from 'clsx'
-import { t } from 'i18next'
 import { config } from 'packages/ui/src/constants/config'
 import type { ResourceBalanceKind } from 'packages/ui/src/types/types'
 import React, { useEffect, useRef, useState } from 'react'
+import { defineMessages, useIntl } from 'react-intl'
 import { Virtuoso } from 'react-virtuoso'
 import { useDebounce } from 'use-debounce'
 
@@ -25,7 +25,6 @@ import { ScrollArea } from 'ui/src/components/scroll-area'
 import * as dialogStyles from 'ui/src/components/styles/dialog-styles.css'
 import { ToolTip } from 'ui/src/components/tool-tip'
 import { Text } from 'ui/src/components/typography'
-import { capitalizeFirstLetter } from 'ui/src/utils/capitalize-first-letter'
 import { getShortAddress } from 'ui/src/utils/string-utils'
 
 import * as styles from './styles.css'
@@ -36,6 +35,25 @@ export interface ITokenSelectorDialogProps {
 	onTokenUpdate: (address: string) => void
 	tokenAddress?: string
 }
+
+const messages = defineMessages({
+	close: {
+		id: 'token_select.close',
+		defaultMessage: 'Close',
+	},
+	token_placeholder: {
+		id: 'token_select.token.placeholder',
+		defaultMessage: 'Search token...',
+	},
+	no_results_title: {
+		id: 'token_select.token.no_results.title',
+		defaultMessage: 'No tokens found',
+	},
+	no_results_subtitle: {
+		id: 'token_select.token.no_results.subtitle',
+		defaultMessage: 'Please refine search',
+	},
+})
 
 const searchAndFilterArray = (array: Array<any>, searchString: string) =>
 	searchString
@@ -50,6 +68,7 @@ const searchAndFilterArray = (array: Array<any>, searchString: string) =>
 
 export const TokenSelectorDialog: React.FC<ITokenSelectorDialogProps> = props => {
 	const { trigger, balances, tokenAddress, onTokenUpdate } = props
+	const intl = useIntl()
 	const inputRef = useRef(null)
 	const [customScrollParent, setCustomScrollParent] = useState<HTMLElement | null>(null)
 	const [isScrolled, setIsScrolled] = useState<boolean>(false)
@@ -117,12 +136,12 @@ export const TokenSelectorDialog: React.FC<ITokenSelectorDialogProps> = props =>
 										styleVariant="secondary"
 										className={styles.searchElement}
 										leftIcon={<SearchIcon />}
-										placeholder={capitalizeFirstLetter(`${t('tokenSelectDialog.inputPlaceholder')}`)}
+										placeholder={intl.formatMessage(messages.token_placeholder)}
 										onChange={handleOnChange}
 									/>
 								</Box>
 								<Box flexShrink={0} display="flex" justifyContent="flex-end" gap="small">
-									<ToolTip message="global.close">
+									<ToolTip message={intl.formatMessage(messages.close)}>
 										<DialogClose asChild>
 											<Button styleVariant="ghost" sizeVariant="medium" iconOnly>
 												<Close2Icon />
@@ -156,8 +175,8 @@ export const TokenSelectorDialog: React.FC<ITokenSelectorDialogProps> = props =>
 							{localBalances?.length === 0 && (
 								<Box display="flex" alignItems="center" justifyContent="center" width="full" paddingTop="xxlarge">
 									<EmptyState
-										title={t('tokenSelectDialog.emptyStateTitle')}
-										subTitle={t('tokenSelectDialog.emptyStateSubTitle')}
+										title={intl.formatMessage(messages.no_results_title)}
+										subTitle={intl.formatMessage(messages.no_results_subtitle)}
 									/>
 								</Box>
 							)}

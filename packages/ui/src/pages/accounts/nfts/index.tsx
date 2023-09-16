@@ -1,6 +1,6 @@
-import { t } from 'i18next'
 import { Box } from 'packages/ui/src/components/box'
-import React from 'react'
+import React, { useMemo } from 'react'
+import { defineMessages, useIntl } from 'react-intl'
 import { useNavigate, useParams } from 'react-router-dom'
 
 import { EmptyState } from 'ui/src/components/empty-state'
@@ -16,37 +16,35 @@ import type { ResourceBalanceKind } from 'ui/src/types/types'
 
 import * as styles from './styles.css'
 
-const columns = [
-	{
-		Header: 'NFT',
-		accessor: 'address',
-		width: 'auto',
-		Cell: AssetNameCell,
+const messages = defineMessages({
+	address: {
+		id: 'nfts.address',
+		defaultMessage: 'NFT',
 	},
-	{
-		Header: 'Balance',
-		accessor: 'amount',
-		width: 'auto',
-		Cell: AssetAmountCell,
-		className: styles.mobileHideTableCellWrapper,
+	amount: {
+		id: 'nfts.amount',
+		defaultMessage: 'Balance',
 	},
-	{
-		Header: 'Value',
-		accessor: 'value',
-		width: 'auto',
-		Cell: AssetValueCell,
-		className: styles.mobileHideTableCellWrapper,
+	value: {
+		id: 'nfts.value',
+		defaultMessage: 'Value',
 	},
-	{
-		Header: 'Change',
-		accessor: 'change',
-		width: 'auto',
-		Cell: AssetChangeCell,
-		className: styles.mobileHideTableCellWrapper,
+	change: {
+		id: 'nfts.change',
+		defaultMessage: 'Change',
 	},
-]
+	empty_title: {
+		id: 'nfts.empty_title',
+		defaultMessage: 'No results',
+	},
+	empty_subtitle: {
+		id: 'nfts.empty_subtitle',
+		defaultMessage: 'Could not find any NFTs in this account',
+	},
+})
 
 const NFTs: React.FC = () => {
+	const intl = useIntl()
 	const { scrollableNode, isScrolledTop } = useScroll()
 	const navigate = useNavigate()
 	const { accountId } = useParams()
@@ -59,13 +57,46 @@ const NFTs: React.FC = () => {
 		navigate(`/accounts/${accountId}/nfts/${original.address}`)
 	}
 
+	const columns = useMemo(
+		() => [
+			{
+				Header: intl.formatMessage(messages.address),
+				accessor: 'address',
+				width: 'auto',
+				Cell: AssetNameCell,
+			},
+			{
+				Header: intl.formatMessage(messages.amount),
+				accessor: 'amount',
+				width: 'auto',
+				Cell: AssetAmountCell,
+				className: styles.mobileHideTableCellWrapper,
+			},
+			{
+				Header: intl.formatMessage(messages.value),
+				accessor: 'value',
+				width: 'auto',
+				Cell: AssetValueCell,
+				className: styles.mobileHideTableCellWrapper,
+			},
+			{
+				Header: intl.formatMessage(messages.change),
+				accessor: 'change',
+				width: 'auto',
+				Cell: AssetChangeCell,
+				className: styles.mobileHideTableCellWrapper,
+			},
+		],
+		[],
+	)
+
 	return (
 		<Box className={styles.tableWrapper}>
 			{nonFungibleBalances?.length === 0 ? (
 				<Box display="flex" alignItems="center" justifyContent="center" width="full" paddingY="xxlarge">
 					<EmptyState
-						title={t('accounts.nfts.noNftsEmptyStateTitle')}
-						subTitle={t('accounts.nfts.noNftsEmptyStateSubTitle')}
+						title={intl.formatMessage(messages.empty_title)}
+						subTitle={intl.formatMessage(messages.empty_subtitle)}
 					/>
 				</Box>
 			) : (

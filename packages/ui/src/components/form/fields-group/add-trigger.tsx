@@ -1,10 +1,21 @@
 import React from 'react'
+import { defineMessages, useIntl } from 'react-intl'
 
 import { Button } from 'ui/src/components/button'
-import Translation from 'ui/src/components/translation'
 
-export const AddTrigger: React.FC = () => (
-	<Button styleVariant="tertiary" sizeVariant="xlarge" fullWidth>
-		<Translation capitalizeFirstLetter text="form.group.add" />
-	</Button>
-)
+const messages = defineMessages({
+	add: {
+		id: 'form_group.add',
+		defaultMessage: 'Add',
+	},
+})
+
+export const AddTrigger: React.FC = () => {
+	const intl = useIntl()
+
+	return (
+		<Button styleVariant="tertiary" sizeVariant="xlarge" fullWidth>
+			{intl.formatMessage(messages.add)}
+		</Button>
+	)
+}

@@ -3,8 +3,6 @@ import * as TooltipPrimitive from '@radix-ui/react-tooltip'
 import clsx from 'clsx'
 import React from 'react'
 
-import Translation from 'ui/src/components/translation'
-
 import { Text } from '../typography'
 import * as styles from './tool-tip.css'
 
@@ -17,7 +15,7 @@ export const ToolTipArrow = TooltipPrimitive.Arrow
 
 interface IToolTipProps {
 	children: React.ReactNode
-	message: string | React.ReactNode
+	message: React.ReactNode
 	disabled?: boolean
 	sideOffset?: number
 	arrowOffset?: number
@@ -54,7 +52,7 @@ export const ToolTip: React.FC<IToolTipProps> = ({
 										// eslint-disable-next-line react/no-array-index-key
 										<React.Fragment key={`${i}-${m}`}>
 											{i > 0 ? ' ' : null}
-											<Translation capitalizeFirstLetter={i === 0} text={m as string} />
+											{message}
 										</React.Fragment>
 								  ))
 								: message}

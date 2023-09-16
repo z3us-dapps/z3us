@@ -1,14 +1,13 @@
-import { languages } from 'packages/ui/src/i18n/constants'
+import { languages } from 'packages/ui/src/constants/intl'
 import { Theme } from 'packages/ui/src/types/types'
 import React from 'react'
-import { useTranslation } from 'react-i18next'
+import { defineMessages, useIntl } from 'react-intl'
 import { useMatches } from 'react-router-dom'
 import { toast } from 'sonner'
 
 import { Box } from 'ui/src/components/box'
 import { SelectSimple } from 'ui/src/components/select'
 import { Switch } from 'ui/src/components/switch'
-import Translation from 'ui/src/components/translation'
 import { Text } from 'ui/src/components/typography'
 import { useSupportedCurrencies } from 'ui/src/hooks/queries/market'
 import { useNoneSharedStore } from 'ui/src/hooks/use-store'
@@ -18,8 +17,63 @@ import { SettingsBlock } from '../components/settings-block'
 import { SettingsTitle } from '../components/settings-title'
 import { SettingsWrapper } from '../components/settings-wrapper'
 
+const messages = defineMessages({
+	title: {
+		id: 'settings.general.title',
+		defaultMessage: 'General',
+	},
+	subtitle: {
+		id: 'settings.general.subtitle',
+		defaultMessage: `Fine-tune your Z3US preferences. Manage session time and choose your ideal color theme for a personalized and secure Z3US experience`,
+	},
+	currency_title: {
+		id: 'settings.general.currency.title',
+		defaultMessage: 'Currency',
+	},
+	currency_subtitle: {
+		id: 'settings.general.currency.subtitle',
+		defaultMessage: `Display balances in your preferred currency`,
+	},
+	language_title: {
+		id: 'settings.general.language.title',
+		defaultMessage: 'Language',
+	},
+	language_subtitle: {
+		id: 'settings.general.language.subtitle',
+		defaultMessage: `Select your preferred language`,
+	},
+	notifications_title: {
+		id: 'settings.general.notifications.title',
+		defaultMessage: 'Notifications',
+	},
+	notifications_subtitle: {
+		id: 'settings.general.notifications.subtitle',
+		defaultMessage: `Enable push notifications to receive real-time updates and important alerts`,
+	},
+	theme_title: {
+		id: 'settings.general.theme.title',
+		defaultMessage: 'Theme',
+	},
+	theme_subtitle: {
+		id: 'settings.general.theme.subtitle',
+		defaultMessage: `Color Your Z3US Experience, select from light or dark themes, or let your system select for you`,
+	},
+	theme_light: {
+		id: 'settings.general.theme.options.light',
+		defaultMessage: 'Light',
+	},
+	theme_dark: {
+		id: 'settings.general.theme.options.dark',
+		defaultMessage: 'Dark',
+	},
+	theme_system: {
+		id: 'settings.general.theme.options.system',
+		defaultMessage: 'System',
+	},
+})
+
 const General: React.FC = () => {
-	const { t, i18n } = useTranslation()
+	const intl = useIntl()
 	const { theme, setTheme } = useTheme()
 	const matches = useMatches()
 	const { data: currencies } = useSupportedCurrencies()
@@ -28,12 +82,16 @@ const General: React.FC = () => {
 		.filter(match => Boolean((match.handle as any)?.custom))
 		.map(match => (match.handle as any).custom)
 
-	const { currency, setCurrency, notifications, toggleNotifications } = useNoneSharedStore(state => ({
-		currency: state.currency,
-		setCurrency: state.setCurrencyAction,
-		notifications: state.pushNotificationsEnabled,
-		toggleNotifications: state.setPushNotificationsEnabledAction,
-	}))
+	const { currency, setCurrency, notifications, toggleNotifications, locale, selectLocale } = useNoneSharedStore(
+		state => ({
+			currency: state.currency,
+			setCurrency: state.setCurrencyAction,
+			notifications: state.pushNotificationsEnabled,
+			toggleNotifications: state.setPushNotificationsEnabledAction,
+			locale: state.locale,
+			selectLocale: state.selectLocaleAction,
+		}),
+	)
 
 	const handleToggleNotifications = () => {
 		toggleNotifications(!notifications)
@@ -43,19 +101,17 @@ const General: React.FC = () => {
 		<SettingsWrapper>
 			<SettingsTitle
 				backLink="/settings"
-				title={<Translation capitalizeFirstLetter text="settings.navigation.generalTitle" />}
-				subTitle={<Translation capitalizeFirstLetter text="settings.navigation.generalSubTitle" />}
+				title={intl.formatMessage(messages.title)}
+				subTitle={intl.formatMessage(messages.subtitle)}
 			/>
 			<SettingsBlock
 				leftCol={
 					<>
 						<Text size="large" weight="strong" color="strong">
-							<Translation capitalizeFirstLetter text="settings.theme.title" />
+							{intl.formatMessage(messages.theme_title)}
 						</Text>
 						<Box>
-							<Text size="xsmall">
-								<Translation capitalizeFirstLetter text="settings.theme.subTitle" />
-							</Text>
+							<Text size="xsmall">{intl.formatMessage(messages.theme_subtitle)}</Text>
 						</Box>
 					</>
 				}
@@ -70,9 +126,9 @@ const General: React.FC = () => {
 							setTheme(_theme as any)
 						}}
 						data={[
-							{ id: Theme.LIGHT, title: t('settings.theme.options.light') },
-							{ id: Theme.DARK, title: t('settings.theme.options.dark') },
-							{ id: Theme.SYSTEM, title: t('settings.theme.options.system') },
+							{ id: Theme.LIGHT, title: intl.formatMessage(messages.theme_light) },
+							{ id: Theme.DARK, title: intl.formatMessage(messages.theme_dark) },
+							{ id: Theme.SYSTEM, title: intl.formatMessage(messages.theme_system) },
 						]}
 					/>
 				}
@@ -81,12 +137,10 @@ const General: React.FC = () => {
 				leftCol={
 					<>
 						<Text size="large" weight="strong" color="strong">
-							<Translation capitalizeFirstLetter text="settings.currency.title" />
+							{intl.formatMessage(messages.currency_title)}
 						</Text>
 						<Box>
-							<Text size="xsmall">
-								<Translation capitalizeFirstLetter text="settings.currency.subTitle" />
-							</Text>
+							<Text size="xsmall">{intl.formatMessage(messages.currency_subtitle)}</Text>
 						</Box>
 					</>
 				}
@@ -102,19 +156,17 @@ const General: React.FC = () => {
 				leftCol={
 					<>
 						<Text size="large" weight="strong" color="strong">
-							<Translation capitalizeFirstLetter text="settings.language.title" />
+							{intl.formatMessage(messages.language_title)}
 						</Text>
 						<Box>
-							<Text size="xsmall">
-								<Translation capitalizeFirstLetter text="settings.language.subTitle" />
-							</Text>
+							<Text size="xsmall">{intl.formatMessage(messages.language_subtitle)}</Text>
 						</Box>
 					</>
 				}
 				rightCol={
 					<SelectSimple
-						value={i18n.language}
-						onValueChange={i18n.changeLanguage}
+						value={locale}
+						onValueChange={selectLocale}
 						data={Object.entries(languages).map(([id, lang]) => ({ id, title: `${lang.flag} ${lang.name}` }))}
 					/>
 				}
@@ -124,12 +176,10 @@ const General: React.FC = () => {
 				leftCol={
 					<>
 						<Text size="large" weight="strong" color="strong">
-							<Translation capitalizeFirstLetter text="settings.notifications.title" />
+							{intl.formatMessage(messages.notifications_title)}
 						</Text>
 						<Box>
-							<Text size="small">
-								<Translation capitalizeFirstLetter text="settings.notifications.subTitle" />
-							</Text>
+							<Text size="small">{intl.formatMessage(messages.notifications_subtitle)}</Text>
 						</Box>
 					</>
 				}

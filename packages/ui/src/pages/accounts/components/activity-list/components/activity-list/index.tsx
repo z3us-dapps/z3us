@@ -3,6 +3,7 @@ import BigNumber from 'bignumber.js'
 import clsx from 'clsx'
 import { AnimatePresence, motion } from 'framer-motion'
 import React, { forwardRef, useCallback, useState } from 'react'
+import { defineMessages, useIntl } from 'react-intl'
 import { useLocation } from 'react-router-dom'
 import { Virtuoso } from 'react-virtuoso'
 
@@ -15,7 +16,6 @@ import * as skeletonStyles from 'ui/src/components/styles/skeleton-loading.css'
 import { TokenPrice } from 'ui/src/components/token-price'
 import { ToolTip } from 'ui/src/components/tool-tip'
 import { TransactionIcon } from 'ui/src/components/transaction-icon'
-import Translation from 'ui/src/components/translation'
 import { Text } from 'ui/src/components/typography'
 import { config } from 'ui/src/constants/config'
 import { animatePageVariants } from 'ui/src/constants/page'
@@ -24,6 +24,13 @@ import { useSelectedAccounts } from 'ui/src/hooks/use-accounts'
 import { getShortAddress } from 'ui/src/utils/string-utils'
 
 import * as styles from './styles.css'
+
+const messages = defineMessages({
+	explorer: {
+		id: 'accounts.activity_list.explorer',
+		defaultMessage: 'Explorer',
+	},
+})
 
 const ListContainer = React.forwardRef<HTMLDivElement>((props, ref) => <div ref={ref} {...props} />)
 
@@ -76,6 +83,7 @@ interface IRowProps {
 const ItemWrapper: React.FC<IRowProps> = props => {
 	const { index, transaction, selected, hovered, setHovered, setSelected } = props
 
+	const intl = useIntl()
 	const { pathname } = useLocation()
 
 	const isSelected = selected === transaction.intent_hash
@@ -125,7 +133,7 @@ const ItemWrapper: React.FC<IRowProps> = props => {
 								(isSelected || isHovered) && styles.activityItemExternalLinkWrapperActive,
 							)}
 						>
-							<ToolTip message={<Translation capitalizeFirstLetter text="global.explorer" />}>
+							<ToolTip message={intl.formatMessage(messages.explorer)}>
 								<Button
 									sizeVariant="small"
 									styleVariant="ghost"

@@ -10,7 +10,7 @@ import { getSelectedKeystore } from './keystore'
 import { getSecret, removeSecret, saveSecret, setConnectionPassword } from './storage'
 
 type WalletData = {
-	timer: NodeJS.Timeout
+	timer?: NodeJS.Timeout
 	keystore: Keystore
 	data: Data
 }
@@ -44,12 +44,15 @@ export class Vault {
 
 			const noneSharedStore = await getNoneSharedStore(selectedKeystoreId)
 			await noneSharedStore.persist.rehydrate()
-			const { walletUnlockTimeoutInMinutes = 5 } = noneSharedStore.getState()
+			const { walletUnlockTimeoutInMinutes } = noneSharedStore.getState()
 
-			if (this.wallet) {
+			if (this.wallet?.timer) {
 				clearTimeout(this.wallet.timer)
 			}
-			this.wallet = { keystore, data, timer: setTimeout(this.lock, walletUnlockTimeoutInMinutes * 60 * 1000) }
+			this.wallet = { keystore, data }
+			if (walletUnlockTimeoutInMinutes > 0) {
+				this.wallet.timer = setTimeout(this.lock, walletUnlockTimeoutInMinutes * 60 * 1000)
+			}
 			await this.setConnectionPassword()
 		} catch (error) {
 			// eslint-disable-next-line no-console
@@ -169,12 +172,16 @@ export class Vault {
 
 			const noneSharedStore = await getNoneSharedStore(selectedKeystoreId)
 			await noneSharedStore.persist.rehydrate()
-			const { walletUnlockTimeoutInMinutes = 5 } = noneSharedStore.getState()
+			const { walletUnlockTimeoutInMinutes } = noneSharedStore.getState()
 
 			const release = await this.mutex.acquire()
 			try {
-				clearTimeout(this.wallet.timer)
-				this.wallet.timer = setTimeout(this.lock, walletUnlockTimeoutInMinutes * 60 * 1000)
+				if (this.wallet?.timer) {
+					clearTimeout(this.wallet.timer)
+				}
+				if (walletUnlockTimeoutInMinutes > 0) {
+					this.wallet.timer = setTimeout(this.lock, walletUnlockTimeoutInMinutes * 60 * 1000)
+				}
 			} catch (error) {
 				// eslint-disable-next-line no-console
 				console.error(error)

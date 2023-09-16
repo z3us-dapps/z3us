@@ -1,5 +1,6 @@
 import type { PropsWithChildren } from 'react'
 import React, { useState } from 'react'
+import { defineMessages, useIntl } from 'react-intl'
 
 import { Box } from 'ui/src/components/box'
 import { ToolTip } from 'ui/src/components/tool-tip'
@@ -9,6 +10,13 @@ import { AddTrigger } from './add-trigger'
 import { GroupField } from './group-field'
 import { TrashTrigger } from './trash-trigger'
 
+const messages = defineMessages({
+	remove: {
+		id: 'form.field_group.remove',
+		defaultMessage: 'Remove',
+	},
+})
+
 interface IProps {
 	name: string
 	defaultKeys?: number
@@ -17,6 +25,7 @@ interface IProps {
 }
 
 export const FieldsGroup: React.FC<PropsWithChildren<IProps>> = props => {
+	const intl = useIntl()
 	const { name, children, trashTrigger = <TrashTrigger />, addTrigger = <AddTrigger />, defaultKeys = 0 } = props
 	const [keys, setKeys] = useState<string[]>(Array.from({ length: defaultKeys }, generateId))
 
@@ -36,7 +45,7 @@ export const FieldsGroup: React.FC<PropsWithChildren<IProps>> = props => {
 						{children}
 					</GroupField>
 					{idx >= defaultKeys && (
-						<ToolTip message="global.remove">
+						<ToolTip message={intl.formatMessage(messages.remove)}>
 							{React.cloneElement(trashTrigger, {
 								onClick: () => handleRemove(key),
 							})}

@@ -1,6 +1,5 @@
 import { lazy } from 'react'
-
-import Translation from 'ui/src/components/translation'
+import { FormattedMessage } from 'react-intl'
 
 import Layout from './components/layout'
 
@@ -16,21 +15,21 @@ const route = {
 			index: true,
 			element: <Home />,
 			handle: {
-				title: <Translation capitalizeFirstLetter text="transfer.tokensNfts.title" />,
+				title: <FormattedMessage id="transfer.router.home" defaultMessage="Transfer" />,
 			},
 		},
 		{
 			path: 'deploy',
 			element: <Deploy />,
 			handle: {
-				title: <Translation capitalizeFirstLetter text="transfer.deploy.title" />,
+				title: <FormattedMessage id="transfer.router.deploy" defaultMessage="Deploy package" />,
 			},
 		},
 		{
 			path: 'raw',
 			element: <Raw />,
 			handle: {
-				title: <Translation capitalizeFirstLetter text="transfer.raw.title" />,
+				title: <FormattedMessage id="transfer.router.raw" defaultMessage="Advanced" />,
 			},
 		},
 	],

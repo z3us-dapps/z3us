@@ -1,14 +1,25 @@
 import React from 'react'
+import { defineMessages, useIntl } from 'react-intl'
 
 import { Box } from 'ui/src/components/box'
 import { Button } from 'ui/src/components/button'
 import { EditIcon, TrashIcon } from 'ui/src/components/icons'
 import { ResourceImageIcon } from 'ui/src/components/resource-image-icon'
-import Translation from 'ui/src/components/translation'
 import { Text } from 'ui/src/components/typography'
 import type { AddressBookEntry } from 'ui/src/store/types'
 
 import * as styles from './address-table-cell.css'
+
+const messages = defineMessages({
+	delete: {
+		id: 'settings.address_book.entry.delete',
+		defaultMessage: 'Delete',
+	},
+	edit: {
+		id: 'settings.address_book.entry.edit',
+		defaultMessage: 'Edit',
+	},
+})
 
 interface IAddressTableCellProps {
 	row: { original: AddressBookEntry }
@@ -16,8 +27,8 @@ interface IAddressTableCellProps {
 	onEdit: () => void
 }
 
-export const AddressTableCell: React.FC<IAddressTableCellProps> = props => {
-	const { row, onDelete, onEdit } = props
+export const AddressTableCell: React.FC<IAddressTableCellProps> = ({ row, onDelete, onEdit }) => {
+	const intl = useIntl()
 
 	return (
 		<Box key={row.original.address} className={styles.addressTableCellWrapper}>
@@ -31,10 +42,10 @@ export const AddressTableCell: React.FC<IAddressTableCellProps> = props => {
 				</Text>
 			</Box>
 			<Button sizeVariant="small" styleVariant="secondary" leftIcon={<TrashIcon />} onClick={onDelete}>
-				<Translation capitalizeFirstLetter text="settings.address_book.entry.delete" />
+				{intl.formatMessage(messages.delete)}
 			</Button>
 			<Button sizeVariant="small" styleVariant="secondary" leftIcon={<EditIcon />} onClick={onEdit}>
-				<Translation capitalizeFirstLetter text="settings.address_book.entry.edit" />
+				{intl.formatMessage(messages.edit)}
 			</Button>
 		</Box>
 	)

@@ -1,6 +1,6 @@
 import clsx from 'clsx'
 import React, { useRef } from 'react'
-import { useTranslation } from 'react-i18next'
+import { defineMessages, useIntl } from 'react-intl'
 import { useParams } from 'react-router-dom'
 import { useIntersectionObserver } from 'usehooks-ts'
 
@@ -11,17 +11,47 @@ import { Button } from 'ui/src/components/router-button'
 import { Link } from 'ui/src/components/router-link'
 import { useScroll } from 'ui/src/components/scroll-area-radix/use-scroll'
 import { ToolTip } from 'ui/src/components/tool-tip'
-import Translation from 'ui/src/components/translation'
 import { Text } from 'ui/src/components/typography'
 import { useEntityMetadata } from 'ui/src/hooks/dapp/use-entity-metadata'
 import { useResourceType } from 'ui/src/pages/accounts/hooks/use-resource-type'
 import { getStringMetadata } from 'ui/src/services/metadata'
-import { capitalizeFirstLetter } from 'ui/src/utils/capitalize-first-letter'
 
 import * as styles from './styles.css'
 import { useShowActivitiesParam } from './use-show-activities-param'
 
+const messages = defineMessages({
+	assets: {
+		id: 'mobile.menu.assets',
+		defaultMessage: 'Assets',
+	},
+	tokens: {
+		id: 'mobile.menu.tokens',
+		defaultMessage: 'Tokens {symbol}',
+	},
+	nfts: {
+		id: 'mobile.menu.nfts',
+		defaultMessage: 'NFTs',
+	},
+	activity: {
+		id: 'mobile.menu.activity',
+		defaultMessage: 'Activity',
+	},
+	back: {
+		id: 'mobile.menu.back',
+		defaultMessage: 'Back',
+	},
+	clear: {
+		id: 'mobile.menu.clear',
+		defaultMessage: 'Clear',
+	},
+	search: {
+		id: 'mobile.menu.search',
+		defaultMessage: 'Search...',
+	},
+})
+
 const TabTitle: React.FC = () => {
+	const intl = useIntl()
 	const { resourceId } = useParams()
 	const resourceType = useResourceType()
 	const { data } = useEntityMetadata(resourceId)
@@ -31,21 +61,16 @@ const TabTitle: React.FC = () => {
 
 	switch (resourceType) {
 		case 'fungibles':
-			return (
-				<>
-					{/* TODO: if the asset is XRD, should say `coin` not `token`  */}
-					<Translation capitalizeFirstLetter text="accounts.home.assetsTokens" />
-					{symbol ? ` (${symbol.toUpperCase()})` : ''}
-				</>
-			)
+			return <>{intl.formatMessage(messages.tokens, { symbol: symbol ? ` (${symbol.toUpperCase()})` : '' })}</>
 		case 'non-fungibles':
-			return <Translation capitalizeFirstLetter text="accounts.home.assetsNfts" />
+			return <>{intl.formatMessage(messages.nfts)}</>
 		default:
-			return <Translation capitalizeFirstLetter text="global.assets" />
+			return <>{intl.formatMessage(messages.assets)}</>
 	}
 }
 
 export const MobileScrollingButtons: React.FC = () => {
+	const intl = useIntl()
 	const { scrollableNode } = useScroll()
 	const { accountId, resourceId } = useParams()
 	const resourceType = useResourceType()
@@ -56,7 +81,6 @@ export const MobileScrollingButtons: React.FC = () => {
 	const isSticky = !entry?.isIntersecting
 	const isVerticalScrollable = scrollableNode?.scrollHeight > scrollableNode?.clientHeight
 	const { assetType } = useParams()
-	const { t } = useTranslation()
 
 	const onClickChevron = () => {
 		if (isSticky) {
@@ -111,7 +135,7 @@ export const MobileScrollingButtons: React.FC = () => {
 						)}
 					>
 						<Text size="medium" weight="strong" align="center" color={showActivities ? 'strong' : 'neutral'}>
-							<Translation capitalizeFirstLetter text="global.activity" />
+							{intl.formatMessage(messages.activity)}
 						</Text>
 					</Link>
 					<Button
@@ -130,7 +154,7 @@ export const MobileScrollingButtons: React.FC = () => {
 				</Box>
 				<Box className={styles.searchWrapper}>
 					{assetType ? (
-						<ToolTip message="global.back">
+						<ToolTip message={intl.formatMessage(messages.back)}>
 							<Button to={generateBackLink()} iconOnly styleVariant="ghost" sizeVariant="small" rounded>
 								<ChevronLeftIcon />
 							</Button>
@@ -140,7 +164,7 @@ export const MobileScrollingButtons: React.FC = () => {
 						sizeVariant="small"
 						className={styles.inputSearch}
 						value=""
-						placeholder={capitalizeFirstLetter(t('global.search'))}
+						placeholder={intl.formatMessage(messages.search)}
 						rounded
 						leftIcon={
 							<Box paddingLeft="small" display="flex" alignItems="center">
@@ -149,7 +173,7 @@ export const MobileScrollingButtons: React.FC = () => {
 						}
 						rightIcon={
 							showActivities ? (
-								<ToolTip message="global.clear">
+								<ToolTip message={intl.formatMessage(messages.clear)}>
 									<Button iconOnly sizeVariant="small" styleVariant="ghost" rounded>
 										<Close2Icon />
 									</Button>

@@ -1,4 +1,5 @@
 import React from 'react'
+import { defineMessages, useIntl } from 'react-intl'
 import { useParams } from 'react-router-dom'
 import { Area, AreaChart, ResponsiveContainer, Tooltip } from 'recharts'
 
@@ -15,6 +16,13 @@ import { useEntityDetails } from 'ui/src/hooks/dapp/use-entity-details'
 import { getStringMetadata } from 'ui/src/services/metadata'
 
 import * as styles from './styles.css'
+
+const messages = defineMessages({
+	back: {
+		id: 'accounts.resource_details.back',
+		defaultMessage: 'Back',
+	},
+})
 
 const chartData = [
 	{
@@ -62,6 +70,7 @@ const chartData = [
 ]
 
 const ResourceDetails: React.FC = () => {
+	const intl = useIntl()
 	const { resourceId, accountId } = useParams()
 	const { data = [], isLoading } = useEntityDetails(resourceId)
 	const details = data[0] || null
@@ -84,7 +93,7 @@ const ResourceDetails: React.FC = () => {
 		<Box flexShrink={0}>
 			<Box display="flex" flexDirection="column" alignItems="center">
 				<Box className={styles.assetCloseBtnWrapper}>
-					<ToolTip message="global.back">
+					<ToolTip message={intl.formatMessage(messages.back)}>
 						<Button iconOnly styleVariant="ghost" sizeVariant="small" to={`/accounts/${accountId}/${resourceId}`}>
 							<Close2Icon />
 						</Button>
