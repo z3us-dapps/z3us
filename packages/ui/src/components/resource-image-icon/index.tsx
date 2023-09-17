@@ -26,7 +26,7 @@ export const ResourceImageIcon = forwardRef<HTMLElement, IResourceImageIcon>(
 		const imageSrc = imageMapLookup || imageUrl
 
 		return (
-			<ToolTip isTranslated={false} side="top" message={symbol} disabled={!toolTipEnabled}>
+			<ToolTip side="top" message={symbol} disabled={!toolTipEnabled}>
 				<span>
 					<ImageIcon
 						imgSrc={imageSrc}

@@ -1,24 +1,14 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import { ContentContainer } from '@/components/content-container'
 import { NextButton } from '@/components/next-button'
 import { NextLink } from '@/components/next-link'
-import { ShowHideUi } from '@/components/show-hide-ui'
 import { clsx } from 'clsx'
-import { useRouter } from 'next/router'
+import { ConnectButton } from 'packages/ui/src/components/connect-button'
 import { GithubIcon, TelegramIcon, TwitterIcon } from 'packages/ui/src/components/icons'
-import { useNoneSharedStore } from 'packages/ui/src/hooks/use-store'
-import React, { useContext, useEffect, useState } from 'react'
-import { Link, Route, HashRouter as Router, Routes, redirect } from 'react-router-dom'
+import React from 'react'
 
 import { Box } from 'ui/src/components/box'
-import { ConnectButton } from 'ui/src/components/connect-button'
-import { CopyAddressButton } from 'ui/src/components/copy-address-button'
-import { NotificationsDropdown } from 'ui/src/components/notifications-dropdown'
 import { ToolTip } from 'ui/src/components/tool-tip'
 import { Z3usLogo, Z3usLogoText } from 'ui/src/components/z3us-logo-babylon'
-import { AccountDesktopLavaMenu, MobileMenu } from 'ui/src/containers/accounts/navigation'
-import { AccountViewDropdown } from 'ui/src/containers/accounts/navigation/account-view-dropdown'
-import { useConnected } from 'ui/src/hooks/dapp/use-connected'
 
 import * as styles from './styles.css'
 

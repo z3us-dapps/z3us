@@ -11,9 +11,9 @@ async function loadTranslation(locale: LOCALE): Promise<unknown> {
 	const l = LOCALE[locale]
 	switch (l) {
 		case LOCALE.pl:
-			return import('./locales/pl.json')
+			return import('./locales/compiled/pl.json')
 		default:
-			return import('./locales/en.json')
+			return import('./locales/compiled/en.json')
 	}
 }
 

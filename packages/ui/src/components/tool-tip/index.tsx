@@ -21,7 +21,6 @@ interface IToolTipProps {
 	arrowOffset?: number
 	side?: Side
 	isArrowVisible?: boolean
-	isTranslated?: boolean
 }
 
 export const ToolTip: React.FC<IToolTipProps> = ({
@@ -32,7 +31,6 @@ export const ToolTip: React.FC<IToolTipProps> = ({
 	sideOffset = 5,
 	isArrowVisible = false,
 	arrowOffset = 5,
-	isTranslated = true,
 }) => (
 	<TooltipProvider>
 		<ToolTipRoot>
@@ -47,15 +45,7 @@ export const ToolTip: React.FC<IToolTipProps> = ({
 					>
 						{isArrowVisible ? <ToolTipArrow offset={arrowOffset} className={clsx(styles.toolTipArrow)} /> : null}
 						<Text size="xxsmall" color="white">
-							{isTranslated
-								? `${message}`.split(' ').map((m, i) => (
-										// eslint-disable-next-line react/no-array-index-key
-										<React.Fragment key={`${i}-${m}`}>
-											{i > 0 ? ' ' : null}
-											{message}
-										</React.Fragment>
-								  ))
-								: message}
+							{message}
 						</Text>
 					</ToolTipContent>
 				) : null}

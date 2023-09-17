@@ -1,4 +1,3 @@
-import { getNoneSharedStore } from 'packages/ui/src/services/state'
 import { sharedStore } from 'packages/ui/src/store'
 import { KeystoreType } from 'packages/ui/src/store/types'
 
@@ -10,9 +9,5 @@ export const isHandledByRadix = async (): Promise<boolean> => {
 	if (!keystore) return false
 	if (keystore.type !== KeystoreType.RADIX_WALLET) return false
 
-	const noneSharedStore = await getNoneSharedStore(keystore.id)
-	await noneSharedStore.persist.rehydrate()
-
-	const noneSharedState = noneSharedStore.getState()
-	return noneSharedState.radixConnectorEnabled || false
+	return true
 }

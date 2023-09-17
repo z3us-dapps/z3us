@@ -13,7 +13,7 @@ const Pairing: React.FC = () => {
 	const outlet = useOutlet()
 
 	if (isLoading) return <Loader />
-	if (!isPaired && location.pathname !== pairingRoute) return <Navigate to={pairingRoute} />
+	if (!isPaired && !location.pathname.startsWith('/keystore/new')) return <Navigate to={pairingRoute} />
 
 	return outlet
 }

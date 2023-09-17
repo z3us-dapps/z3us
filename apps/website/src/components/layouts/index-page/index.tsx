@@ -20,9 +20,6 @@ import * as styles from './styles.css'
 const AppPage = dynamic(() => import('../app-page'), { ssr: false })
 
 export const IndexPage: React.FC = () => {
-	// eslint-disable-next-line @typescript-eslint/no-unused-vars
-	const test = 1
-
 	return (
 		<Box className={styles.landingPageWrapper}>
 			<Box style={{ position: 'fixed', top: '0', left: 0, right: '0', opacity: 0.0, pointerEvents: 'none' }}>
