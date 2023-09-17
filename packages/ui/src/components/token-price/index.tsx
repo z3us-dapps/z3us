@@ -1,9 +1,10 @@
 import BigNumber from 'bignumber.js'
+import { FormattedNumber } from 'react-intl'
 
-import { useXRDPriceOnDay } from '../../hooks/queries/market'
-import { useTokens } from '../../hooks/queries/oci'
-import { useNoneSharedStore } from '../../hooks/use-store'
-import { formatBigNumber } from '../../utils/formatters'
+import { useXRDPriceOnDay } from 'ui/src/hooks/queries/market'
+import { useTokens } from 'ui/src/hooks/queries/oci'
+import { useNoneSharedStore } from 'ui/src/hooks/use-store'
+
 import Loader from '../loader'
 
 interface IProps {
@@ -27,12 +28,13 @@ export const TokenPrice: React.FC<IProps> = ({ amount, symbol, currency }) => {
 	const token = tokens[symbol?.toUpperCase()]
 
 	return (
-		<>
-			{formatBigNumber(
-				amount.multipliedBy(new BigNumber(token?.price.xrd || 0)).multipliedBy(price || 0),
-				inCurrency,
-				2,
-			)}
-		</>
+		<FormattedNumber
+			value={amount
+				.multipliedBy(new BigNumber(token?.price.xrd || 0))
+				.multipliedBy(price || 0)
+				.toNumber()}
+			style="currency"
+			currency={inCurrency}
+		/>
 	)
 }

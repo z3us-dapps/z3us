@@ -1,12 +1,12 @@
 import type BigNumber from 'bignumber.js'
-import { ToolTip } from 'ui/src/components/tool-tip'
-import { useNoneSharedStore } from 'ui/src/hooks/use-store'
-import { formatBigNumber } from 'ui/src/utils/formatters'
 import React from 'react'
+import { FormattedNumber } from 'react-intl'
 
 import { Box } from 'ui/src/components/box'
 import { CopyAddressButton } from 'ui/src/components/copy-address-button'
+import { ToolTip } from 'ui/src/components/tool-tip'
 import { Text } from 'ui/src/components/typography'
+import { useNoneSharedStore } from 'ui/src/hooks/use-store'
 
 import * as styles from './styles.css'
 
@@ -47,7 +47,7 @@ export const ListRow: React.FC<IProps> = ({ address, symbol, name, value }) => {
 			<Box className={styles.dottedSpacer} />
 			<Box className={styles.addressInfoWrapperRight}>
 				<Text size="xsmall" truncate>
-					{formatBigNumber(value, currency, 2)}
+					<FormattedNumber value={value.toNumber()} style="currency" currency={currency} />
 				</Text>
 			</Box>
 		</Box>

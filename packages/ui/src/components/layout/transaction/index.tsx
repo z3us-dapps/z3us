@@ -1,12 +1,7 @@
 import BigNumber from 'bignumber.js'
 import clsx from 'clsx'
-import { TokenPrice } from 'packages/ui/src/components/token-price'
-import { TransactionManifest } from 'packages/ui/src/components/transaction-manifest'
-import { config } from 'packages/ui/src/constants/config'
-import { useTransaction } from 'packages/ui/src/hooks/dapp/use-transactions'
-import { formatBigNumber } from 'packages/ui/src/utils/formatters'
 import React, { useEffect, useState } from 'react'
-import { defineMessages, useIntl } from 'react-intl'
+import { FormattedNumber, defineMessages, useIntl } from 'react-intl'
 import { useLocation, useNavigate, useSearchParams } from 'react-router-dom'
 
 import { Box } from 'ui/src/components/box'
@@ -17,9 +12,14 @@ import { AccountsTransactionInfo } from 'ui/src/components/layout/account-transa
 import { Button } from 'ui/src/components/router-button'
 import { ScrollArea } from 'ui/src/components/scroll-area'
 import * as dialogStyles from 'ui/src/components/styles/dialog-styles.css'
+import { TimeFromNow } from 'ui/src/components/time-from-now'
+import { TokenPrice } from 'ui/src/components/token-price'
 import { ToolTip } from 'ui/src/components/tool-tip'
 import { TransactionIcon } from 'ui/src/components/transaction-icon'
+import { TransactionManifest } from 'ui/src/components/transaction-manifest'
 import { Text } from 'ui/src/components/typography'
+import { config } from 'ui/src/constants/config'
+import { useTransaction } from 'ui/src/hooks/dapp/use-transactions'
 import { useIsMobileWidth } from 'ui/src/hooks/use-is-mobile'
 import { getShortAddress } from 'ui/src/utils/string-utils'
 
@@ -153,15 +153,17 @@ export const Transaction = () => {
 										</Box>
 										<Box marginTop="xxsmall">
 											<Text size="xxxlarge" color="strong">
-												{formatBigNumber(new BigNumber((data?.transaction.fee_paid as any)?.value || 0), 'XRD', 8)}
+												<FormattedNumber
+													value={(data?.transaction.fee_paid as any) || 0}
+													style="currency"
+													currency="XRD"
+													maximumFractionDigits={8}
+												/>
 											</Text>
 										</Box>
 										<Box>
 											<Text size="xlarge">
-												<TokenPrice
-													amount={new BigNumber((data?.transaction.fee_paid as any)?.value || 0)}
-													symbol="XRD"
-												/>
+												<TokenPrice amount={new BigNumber((data?.transaction.fee_paid as any) || 0)} symbol="XRD" />
 											</Text>
 										</Box>
 									</Box>
@@ -217,15 +219,15 @@ export const Transaction = () => {
 											<AccountsTransactionInfo
 												leftTitle={intl.formatMessage(messages.date)}
 												rightData={
-													<Box display="flex">
-														<Text size="small">{intl.formatDate(data?.transaction.confirmed_at)}</Text>
-													</Box>
+													<Text size="small">
+														<TimeFromNow date={data?.transaction.confirmed_at} />
+													</Text>
 												}
 											/>
 											<AccountsTransactionInfo
 												leftTitle={intl.formatMessage(messages.affected_global_entities)}
 												rightData={
-													<Box display="flex" alignItems="flex-end" gap="xsmall">
+													<Box display="flex" flexDirection="column" alignItems="flex-end" gap="xsmall">
 														{data?.transaction.affected_global_entities?.map(entity => (
 															<Box>
 																<Box className={styles.transactionInfoCopyBtnWrapper}>
@@ -247,28 +249,34 @@ export const Transaction = () => {
 													</Box>
 												}
 											/>
-											{data?.transaction.message && (
-												<>
-													<Box position="relative" width="full">
-														<Box display="flex" alignItems="center" gap="xsmall">
-															<Text size="xsmall" color="strong">
-																{intl.formatMessage(messages.message)}
-															</Text>
-															<CopyAddressButton
-																styleVariant="ghost"
-																address="Copy message"
-																iconOnly
-																rounded={false}
-																tickColor="colorStrong"
-															/>
-														</Box>
+
+											<AccountsTransactionInfo
+												leftTitle={intl.formatMessage(messages.message)}
+												rightData={
+													<Box display="flex" flexDirection="column" alignItems="flex-end" gap="xsmall">
+														{data?.transaction.affected_global_entities?.map(entity => (
+															<Box>
+																<Box className={styles.transactionInfoCopyBtnWrapper}>
+																	<CopyAddressButton
+																		styleVariant="ghost"
+																		address={JSON.stringify(data?.transaction.message)}
+																		iconOnly
+																		rounded={false}
+																		tickColor="colorStrong"
+																	/>
+																</Box>
+																<ToolTip message={entity}>
+																	<Box>
+																		<Text size="xsmall">
+																			{data?.transaction.message ? JSON.stringify(data?.transaction.message) : 'N/A'}
+																		</Text>
+																	</Box>
+																</ToolTip>
+															</Box>
+														))}
 													</Box>
-													<Box position="relative" width="full">
-														{/* <Text size="xsmall">{Buffer.from(data?.transaction.message, 'hex').toString()}</Text> */}
-														<Text size="xsmall">{JSON.stringify(data?.transaction.message)}</Text>
-													</Box>
-												</>
-											)}
+												}
+											/>
 
 											<AccountsTransactionInfo
 												leftTitle={intl.formatMessage(messages.manifest)}

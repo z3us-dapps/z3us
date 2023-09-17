@@ -1,14 +1,13 @@
 import type BigNumber from 'bignumber.js'
 import clsx from 'clsx'
 import React, { useState } from 'react'
-import { defineMessages, useIntl } from 'react-intl'
+import { FormattedNumber, defineMessages, useIntl } from 'react-intl'
 import { Link } from 'react-router-dom'
 
 import { Box } from 'ui/src/components/box'
 import { Text } from 'ui/src/components/typography'
 import { useNoneSharedStore } from 'ui/src/hooks/use-store'
 import { type ResourceBalanceKind } from 'ui/src/types/types'
-import { formatBigNumber, formatChange } from 'ui/src/utils/formatters'
 
 import { OverlayAssetIcons } from '../overlay-asset-icons'
 import * as styles from './styles.css'
@@ -75,10 +74,10 @@ export const AssetsList: React.FC<IProps> = props => {
 					</Box>
 					<Box className={styles.assetsListTitleWrapper}>
 						<Text weight="strong" size="small" color="strong" truncate>
-							{formatBigNumber(fungibleValue, currency, 2)}
+							<FormattedNumber value={fungibleValue.toNumber()} style="currency" currency={currency} />
 						</Text>
 						<Text size="small" color={fungibleChange && fungibleChange.gt(0) ? 'green' : 'red'} truncate>
-							{formatChange(fungibleChange)}
+							<FormattedNumber value={fungibleChange.toNumber()} style="percent" maximumFractionDigits={2} />
 						</Text>
 					</Box>
 				</Link>
@@ -107,10 +106,10 @@ export const AssetsList: React.FC<IProps> = props => {
 					</Box>
 					<Box className={styles.assetsListTitleWrapper}>
 						<Text weight="strong" size="small" color="strong" truncate>
-							{formatBigNumber(nonFungibleValue, currency, 2)}
+							<FormattedNumber value={nonFungibleValue.toNumber()} style="currency" currency={currency} />
 						</Text>
 						<Text size="small" color={nonFungibleChange && nonFungibleChange.gt(0) ? 'green' : 'red'} truncate>
-							{formatChange(nonFungibleChange)}
+							<FormattedNumber value={nonFungibleChange.toNumber()} style="percent" maximumFractionDigits={2} />
 						</Text>
 					</Box>
 				</Link>

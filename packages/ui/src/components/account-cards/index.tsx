@@ -2,6 +2,7 @@ import clsx from 'clsx'
 import type { ClassValue } from 'clsx'
 import { AnimatePresence, motion } from 'framer-motion'
 import React from 'react'
+import { FormattedNumber } from 'react-intl'
 
 import { Box } from 'ui/src/components/box'
 import { Text } from 'ui/src/components/typography'
@@ -10,7 +11,6 @@ import { useBalances } from 'ui/src/hooks/dapp/use-balances'
 import { useAddressBook } from 'ui/src/hooks/use-address-book'
 import { useNoneSharedStore } from 'ui/src/hooks/use-store'
 import type { AddressBookEntry } from 'ui/src/store/types'
-import { formatBigNumber } from 'ui/src/utils/formatters'
 import { getShortAddress } from 'ui/src/utils/string-utils'
 
 import { CopyAddressButton } from '../copy-address-button'
@@ -78,7 +78,7 @@ export const AccountCard: React.FC<IAccountCardProps> = props => {
 				<Box paddingBottom="xsmall">
 					<Text size="xlarge" weight="stronger">
 						<Box component="span" className={clsx(styles.cardAccountText, isAllAccount && styles.cardAccountTextAll)}>
-							{formatBigNumber(totalValue, currency, 2)}
+							<FormattedNumber value={totalValue.toNumber()} style="currency" currency={currency} />
 						</Box>
 					</Text>
 					<Text size="large" weight="strong">

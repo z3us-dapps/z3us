@@ -13,6 +13,7 @@ import { ShareIcon } from 'ui/src/components/icons'
 import { Link } from 'ui/src/components/router-link'
 import { useScroll } from 'ui/src/components/scroll-area-radix/use-scroll'
 import * as skeletonStyles from 'ui/src/components/styles/skeleton-loading.css'
+import { TimeFromNow } from 'ui/src/components/time-from-now'
 import { TokenPrice } from 'ui/src/components/token-price'
 import { ToolTip } from 'ui/src/components/tool-tip'
 import { TransactionIcon } from 'ui/src/components/transaction-icon'
@@ -86,8 +87,8 @@ const ItemWrapper: React.FC<IRowProps> = props => {
 	const intl = useIntl()
 	const { pathname } = useLocation()
 
-	const isSelected = selected === transaction.intent_hash
-	const isHovered = hovered === transaction.intent_hash
+	const isSelected = selected === transaction?.intent_hash
+	const isHovered = hovered === transaction?.intent_hash
 
 	return (
 		<Box className={styles.activityItemOuter}>
@@ -114,16 +115,16 @@ const ItemWrapper: React.FC<IRowProps> = props => {
 										{getShortAddress(transaction.intent_hash)}
 									</Text>
 									<Text size="xsmall" truncate>
-										{transaction.confirmed_at?.toLocaleString()}
+										<TimeFromNow date={transaction.confirmed_at} />
 									</Text>
+								</Box>
+								<Box className={styles.activityItemTextWrapper}>
+									<Text size="xsmall">{transaction.transaction_status}</Text>
 								</Box>
 								<Box className={styles.activityItemTextWrapper}>
 									<Text size="xsmall">
 										<TokenPrice amount={new BigNumber((transaction.fee_paid as any)?.value || 0)} symbol="XRD" />
 									</Text>
-								</Box>
-								<Box className={styles.activityItemTextWrapper}>
-									<Text size="xsmall">{transaction.transaction_status}</Text>
 								</Box>
 							</Link>
 						</Box>

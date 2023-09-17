@@ -1,7 +1,7 @@
 import type BigNumber from 'bignumber.js'
 import clsx from 'clsx'
-import { formatChange } from 'ui/src/utils/formatters'
 import React from 'react'
+import { FormattedNumber } from 'react-intl'
 
 import { Box } from 'ui/src/components/box'
 import { Text } from 'ui/src/components/typography'
@@ -19,7 +19,7 @@ export const AssetChangeCell: React.FC<IProps> = props => {
 		<Box className={styles.assetStatisticCellWrapper}>
 			<Box className={clsx(styles.assetStatisticCellContentWrapper, 'td-cell')}>
 				<Text size="small" color={value && value.gt(0) ? 'green' : 'red'} truncate>
-					{formatChange(value)}
+					<FormattedNumber value={value.toNumber()} style="percent" maximumFractionDigits={2} />
 				</Text>
 			</Box>
 		</Box>

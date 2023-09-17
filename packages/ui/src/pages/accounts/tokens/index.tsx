@@ -39,7 +39,7 @@ const messages = defineMessages({
 	},
 	empty_subtitle: {
 		id: 'tokens.empty_subtitle',
-		defaultMessage: 'Could not find any NFTs in this account',
+		defaultMessage: 'Could not find any tokens in this account',
 	},
 })
 

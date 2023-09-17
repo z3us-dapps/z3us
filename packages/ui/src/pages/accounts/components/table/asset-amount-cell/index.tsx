@@ -1,10 +1,10 @@
 import type BigNumber from 'bignumber.js'
 import clsx from 'clsx'
 import React from 'react'
+import { FormattedNumber } from 'react-intl'
 
 import { Box } from 'ui/src/components/box'
 import { Text } from 'ui/src/components/typography'
-import { formatBigNumber } from 'ui/src/utils/formatters'
 
 import * as styles from './styles.css'
 
@@ -19,7 +19,7 @@ export const AssetAmountCell: React.FC<IProps> = props => {
 		<Box className={styles.assetStatisticCellWrapper}>
 			<Box className={clsx(styles.assetStatisticCellContentWrapper, 'td-cell')}>
 				<Text size="small" color="strong" truncate>
-					{value && formatBigNumber(value, '', 8)}
+					{value && <FormattedNumber value={value.toNumber()} style="currency" maximumFractionDigits={8} />}
 				</Text>
 			</Box>
 		</Box>
