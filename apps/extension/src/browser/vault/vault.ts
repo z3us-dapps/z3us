@@ -98,14 +98,6 @@ export class Vault {
 			if (!password) {
 				throw new Error('Missing password')
 			}
-			const selected = await getSelectedKeystore()
-			if (!selected) {
-				throw new Error('Keystore is not selected')
-			}
-			if (keystore.id !== selected.id) {
-				throw new Error('Forbidden!')
-			}
-
 			const secret = await this.crypto.encrypt<Data>(password, data)
 			await saveSecret(keystore, secret)
 		} catch (error) {
@@ -179,7 +171,7 @@ export class Vault {
 				if (this.wallet?.timer) {
 					clearTimeout(this.wallet.timer)
 				}
-				if (walletUnlockTimeoutInMinutes > 0) {
+				if (this.wallet && walletUnlockTimeoutInMinutes > 0) {
 					this.wallet.timer = setTimeout(this.lock, walletUnlockTimeoutInMinutes * 60 * 1000)
 				}
 			} catch (error) {

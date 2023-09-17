@@ -2,19 +2,20 @@ import { lazy } from 'react'
 import { Navigate } from 'react-router-dom'
 
 const Layout = lazy(() => import('./components/layout'))
-const Pairing = lazy(() => import('./pairing'))
+const Home = lazy(() => import('./home'))
+const NewRadix = lazy(() => import('./radix'))
 
 const route = {
-	path: 'radix',
+	path: 'keystore/new',
 	element: <Layout />,
 	children: [
 		{
 			index: true,
-			element: <Navigate to="/radix/pairing" />,
+			element: <Home />,
 		},
 		{
-			path: 'pairing',
-			element: <Pairing />,
+			path: 'radix',
+			element: <NewRadix />,
 		},
 	],
 }

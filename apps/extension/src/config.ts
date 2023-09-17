@@ -1,8 +1,19 @@
-import { config as radixCfg } from '@radixdlt/connector-extension/src/config'
+import {
+	defaultConnectionConfig as defaultConnectionConfigFromRadix,
+	defaultRadixConnectConfig as defaultRadixConnectConfigFromRadix,
+	mode as modeFromRadix,
+	config as radixCfg,
+	radixConnectConfig as radixConnectConfigFromRadix,
+} from '@radixdlt/connector-extension/src/config'
 
 import packageJson from '../package.json'
 
 const { version } = packageJson
+
+export const radixConnectConfig = radixConnectConfigFromRadix
+export const mode = modeFromRadix
+export const defaultRadixConnectConfig = defaultRadixConnectConfigFromRadix
+export const defaultConnectionConfig = defaultConnectionConfigFromRadix
 
 export type ConfigType = typeof radixCfg & {
 	isDevelopmentMode: boolean
@@ -10,7 +21,6 @@ export type ConfigType = typeof radixCfg & {
 	isExtensionContext: boolean
 	popup: typeof radixCfg.popup & {
 		pages: {
-			options: string
 			app: string
 		}
 	}
@@ -36,9 +46,8 @@ export const config: ConfigType = {
 		pages: {
 			...radixCfg.popup.pages,
 			ledger: 'src/pages/ledger/index.html',
-			pairing: 'src/pages/app/index.html#/radix/pairing',
-			options: 'src/pages/app/index.html#/radix/options',
-			app: 'src/pages/app/index.html#/accounts',
+			pairing: 'src/pages/app/index.html#/keystore/new/radix',
+			app: 'src/pages/app/index.html#/',
 		},
 	},
 	version,
@@ -47,7 +56,7 @@ export const config: ConfigType = {
 			id: 'knnddnciondgghmgcmjjebigcehhkeoi',
 		},
 	},
-	isDevelopmentMode: import.meta.env.MODE === 'development',
-	isProductionMode: import.meta.env.MODE === 'production' || import.meta.env.MODE === 'rcnet',
+	isDevelopmentMode: import.meta.env.MODE !== 'production',
+	isProductionMode: import.meta.env.MODE === 'production',
 	isExtensionContext: Boolean(globalThis.chrome?.runtime?.id || globalThis.browser?.runtime?.id),
 }

@@ -1,5 +1,5 @@
-import { openParingPopup } from '@radixdlt/connector-extension/src/chrome/helpers/open-pairing-popup'
 import browser from 'webextension-polyfill'
+import { openParingPopup } from '@radixdlt/connector-extension/src/chrome/helpers/open-pairing-popup'
 
 import { addDashboard } from '@src/browser/app/context-menu'
 import { handleInstall } from '@src/browser/background/install'
@@ -13,10 +13,7 @@ import watch from '@src/browser/background/watcher'
 import { addInjectContentScript } from '@src/browser/content-script/context-menu'
 import { addDevTools } from '@src/browser/dev-tools/context-menu'
 import { addLedger } from '@src/browser/ledger/context-menu'
-import { addOffscreen } from '@src/browser/offscreen/context-menu'
 import { createOffscreen } from '@src/browser/offscreen/offscreen'
-import { addOptions } from '@src/browser/options/context-menu'
-import { addPairing } from '@src/browser/pairing/context-menu'
 
 const messageHandler = MessageClient()
 
@@ -39,10 +36,7 @@ browser.omnibox.onInputChanged.addListener(handleOmniboxChange)
 
 browser.contextMenus.removeAll().then(() => {
 	addDevTools()
-	addPairing()
-	addOptions()
 	addLedger()
-	addOffscreen()
 	addDashboard()
 	addInjectContentScript()
 })

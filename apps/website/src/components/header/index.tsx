@@ -45,7 +45,7 @@ export const Header = () => {
 							</NextLink>
 						</Box>
 						<Box className={styles.headerSocialLinks}>
-							<ToolTip message="global.telegram">
+							<ToolTip message="telegram">
 								<NextButton
 									rounded
 									sizeVariant="small"
@@ -57,7 +57,7 @@ export const Header = () => {
 									<TelegramIcon />
 								</NextButton>
 							</ToolTip>
-							<ToolTip message="global.twitter">
+							<ToolTip message="twitter">
 								<NextButton
 									rounded
 									sizeVariant="small"
@@ -69,7 +69,7 @@ export const Header = () => {
 									<TwitterIcon />
 								</NextButton>
 							</ToolTip>
-							<ToolTip message="global.github">
+							<ToolTip message="github">
 								<NextButton
 									rounded
 									sizeVariant="small"

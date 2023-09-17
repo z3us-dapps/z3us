@@ -3,6 +3,7 @@ import { useZdtState } from 'packages/ui/src/hooks/zdt/use-zdt'
 import { Theme } from 'packages/ui/src/types/types'
 import React, { forwardRef, useState } from 'react'
 import { defineMessages, useIntl } from 'react-intl'
+import { useNavigate } from 'react-router-dom'
 
 import { Box } from 'ui/src/components/box'
 import type { TStyleVariant } from 'ui/src/components/button'
@@ -120,6 +121,7 @@ export const AccountViewDropdown = forwardRef<HTMLElement, IAccountViewDropdownP
 		const { className, styleVariant = 'ghost' } = props
 
 		const intl = useIntl()
+		const navigate = useNavigate()
 		const { lock, isWallet } = useZdtState()
 		const dappStatus = useDappStatus()
 		const isMobile = useIsMobileWidth()
@@ -149,7 +151,7 @@ export const AccountViewDropdown = forwardRef<HTMLElement, IAccountViewDropdownP
 		}
 
 		const handleAddNewWallet = () => {
-			window.open(window.location.href, '_blank', 'noreferrer')
+			navigate('/keystore/new')
 		}
 
 		return (

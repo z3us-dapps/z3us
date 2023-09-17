@@ -4,7 +4,7 @@ import { Navigate, useLocation, useOutlet } from 'react-router-dom'
 
 import { useIsPaired } from '@src/hooks/use-is-paired'
 
-const pairingRoute = '/radix/pairing'
+const pairingRoute = '/keystore/new/radix'
 
 const Pairing: React.FC = () => {
 	const location = useLocation()

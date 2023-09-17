@@ -12,7 +12,7 @@ import transferRoute from 'ui/src/pages/transfer/router'
 
 import ExtensionLayout from '@src/components/layout'
 import { config } from '@src/config'
-import radixRoute from '@src/pages/radix/router'
+import keystoreRoute from '@src/pages/keystore/router'
 
 import RadixSettings from './components/settings'
 
@@ -41,10 +41,9 @@ export const router = createHashRouter([
 				index: true,
 				element: <Navigate to={`/${accountsRoute.path}`} />,
 			},
-			radixRoute,
 			{
 				element: <AppLayout />,
-				children: [accountsRoute, patchedSettingsRoute, stakingRoute, transferRoute, noMatchRoute],
+				children: [accountsRoute, patchedSettingsRoute, stakingRoute, transferRoute, keystoreRoute, noMatchRoute],
 			},
 		],
 	},

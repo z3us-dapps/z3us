@@ -2,7 +2,7 @@ import type { Account, Persona } from '@radixdlt/radix-dapp-toolkit'
 import { Convert, LTSRadixEngineToolkit, type PublicKey } from '@radixdlt/radix-engine-toolkit'
 import { useSharedStore } from 'packages/ui/src/hooks/use-store'
 import type { AddressBook, AddressIndexes, Keystore } from 'packages/ui/src/store/types'
-import { useMemo } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 
 import { MessageClient } from '@src/browser/app/message-client'
 import type { MessageTypes } from '@src/browser/messages/message-handlers'
@@ -23,8 +23,6 @@ export const useMessageClient = () => {
 
 	return useMemo(
 		() => ({
-			port: client.port,
-
 			ping: async (): Promise<boolean> => client.sendMessage(MessageAction.PING).then(updateCursor),
 
 			lockVault: async (): Promise<void> => client.sendMessage(MessageAction.VAULT_LOCK).then(updateCursor),
@@ -88,6 +86,6 @@ export const useMessageClient = () => {
 			handleRadixMessage: async (message: MessageTypes[MessageAction.RADIX]): Promise<PublicKey | null> =>
 				client.sendMessage(MessageAction.RADIX, message as MessageTypes[MessageAction.RADIX]).then(updateCursor),
 		}),
-		[client.port],
+		[],
 	)
 }

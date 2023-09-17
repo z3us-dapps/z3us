@@ -70,7 +70,7 @@ export const Footer: React.FC<IProps> = props => {
 					<Box className={styles.footerRightWrapper}>
 						<Box className={styles.tabletLinks}>{pageLinks}</Box>
 						<Box display="flex" gap="xsmall">
-							<ToolTip message="global.telegram">
+							<ToolTip message="telegram">
 								<NextButton
 									rounded
 									sizeVariant="small"
@@ -82,7 +82,7 @@ export const Footer: React.FC<IProps> = props => {
 									<TelegramIcon />
 								</NextButton>
 							</ToolTip>
-							<ToolTip message="global.twitter">
+							<ToolTip message="twitter">
 								<NextButton
 									rounded
 									sizeVariant="small"
@@ -94,7 +94,7 @@ export const Footer: React.FC<IProps> = props => {
 									<TwitterIcon />
 								</NextButton>
 							</ToolTip>
-							<ToolTip message="global.github">
+							<ToolTip message="github">
 								<NextButton
 									rounded
 									sizeVariant="small"
