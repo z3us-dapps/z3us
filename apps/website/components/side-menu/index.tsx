@@ -133,7 +133,7 @@ export const SideMenu: React.FC<Docs> = ({ docs }) => {
 	return (
 		<div className="z3-docs-menu">
 			{Object.entries(docs)
-				// .filter(([key]) => key === 'migration')
+				.filter(([key]) => key === 'migration')
 				.map(([key, menu]) => (
 					<Accordion key={key} i={key} expanded={expanded} setExpanded={setExpanded} menu={menu} path={router.asPath} />
 				))}

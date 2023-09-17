@@ -2,11 +2,13 @@
 import { FlashCtaButton } from 'components/flash-cta-button'
 import { Footer } from 'components/footer'
 import { Header } from 'components/header'
+import { XIcon } from 'components/header/icons'
 import { LazyMotion } from 'components/lazy-motion'
 import { PageContainer } from 'components/page-container'
 import { config } from 'config'
 import { m, useScroll, useTransform } from 'framer-motion'
 import { NextSeo } from 'next-seo'
+import Image from 'next/image'
 import React from 'react'
 
 export const HomePage: React.FC = () => {
@@ -44,127 +46,49 @@ export const HomePage: React.FC = () => {
 					<Header notTabletSticky className="relative" />
 					<div className="overflow-hidden">
 						<PageContainer>
-							<div>
-								<h1 className="font-Inter font-bold homepage__h1">
-									<span>Control</span>
-									<span className="heeb">your future.</span>
-								</h1>
-								<div className="homepage__image-wrapper">
-									<div className="homepage__product">
-										<m.div className="homepage__angel-top" style={{ y: y1, x: 0 }}>
-											<img
-												src="/images/home-page/home-page-angel-top-right.webp"
-												alt="angel top"
-												width={885}
-												height={767}
-												loading="lazy"
-											/>
-										</m.div>
-										<m.div className="homepage__angel-bottom" style={{ y: y2, x: 0 }}>
-											<img
-												src="/images/home-page/home-page-angel-bottom-left.webp"
-												alt="angel bottom"
-												width={529}
-												height={804}
-												loading="lazy"
-											/>
-										</m.div>
-										<img
-											className="relative homepage__shot_light"
-											src="/images/home-page/home-product-dark-compress-x2.webp"
-											alt="Z3US wallet product"
-											width={360}
-											height={628}
+							<div className="coming-soon-wrapper">
+								<div className="bg-image-left">
+									<Image src="/images/landing-page-2023/bg-left.png" alt="bg one" width={822} height={1222} />
+								</div>
+								<div className="bg-image-right">
+									<Image src="/images/landing-page-2023/bg-right.png" alt="bg one" width={902} height={814} />
+								</div>
+								<div className="flex w-full pt-16">
+									<div className="w-full">
+										<Image
+											src="/images/landing-page-2023/something-big-coming.png"
+											alt="something big is coming"
+											width={878}
+											height={174}
 										/>
 									</div>
 								</div>
-								<div className="homepage__product-description">
-									<h2 className="font-Inter font-bold homepage__h2">
-										<span>DeFi</span> at your fingertips.
-									</h2>
-									<h4 className="text-xl text-white leading-relaxed sm:text-2xl sm:leading-relaxed">
-										Manage accounts, send and receive tokens, stake tokens to receive rewards and connect to DApps from
-										the Z3US browser wallet.
-									</h4>
-									<div className="mt-6">
-										<FlashCtaButton size="lg" variant="primary">
-											Get BETA access
-										</FlashCtaButton>
+								<div className="flex w-full pt-8 lg:pt-16 relative">
+									<div className="lg:w-6/12">&nbsp;</div>
+									<div className="lg:w-6/12">
+										<h4 className="homepage__header">
+											Behind the scenes we&apos;ve been building something extraordinary, and we can&apos;t wait to
+											share it with you!
+										</h4>
+										<a
+											href={config.TWITTER_URL}
+											target="_blank"
+											className="inline-flex items-center gap-3 cursor-pointer focus:outline-none text-white fill-purple-700 bg-purple-700 hover:bg-purple-800 focus:ring-4 focus:ring-purple-300 font-medium rounded-full text-med px-6 py-3 dark:bg-purple-600 dark:hover:bg-purple-700 dark:focus:ring-purple-900"
+											rel="noreferrer"
+										>
+											<XIcon />
+											<span>Get notified via X</span>
+										</a>
 									</div>
 								</div>
-								<div className="home-page__cells pb-8 mt-12 sm:mt-20 md:mt-24">
-									<div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-										<div className="home-page__cell flex-col md:flex bg-white dark:bg-black text-gray-800 dark:text-gray-100">
-											<div className="flex-1 px-6 pt-6 sm:px-10 sm:pt-11 sm:pb-2 md:px-6 md:pt-10 lg:px-11 lg:pt-11">
-												<h4 className="text-3xl sm:text-4xl relative z-10">
-													<b>UX driven</b>
-												</h4>
-											</div>
-											<div className="flex justify-center">
-												<img
-													className="relative home-page__cell-product-light"
-													src="/images/home-page/home-ux-driven-product-light-x2.webp"
-													alt="Z3US wallet product"
-													width={600}
-													height={648}
-													loading="lazy"
-												/>
-												<img
-													className="relative home-page__cell-product-dark"
-													src="/images/home-page/home-ux-driven-product-dark-x2.webp"
-													alt="Z3US wallet product"
-													width={600}
-													height={648}
-													loading="lazy"
-												/>
-											</div>
-										</div>
-										<div className="home-page__cell bg-white dark:bg-black text-gray-800 dark:text-gray-100">
-											<div className="flex flex-col justify-end h-full">
-												<div className="py-10 px-6 sm:px-10 sm:py-10 md:px-6 md:py-10 lg:px-11 lg:py-11">
-													<img
-														src="/images/home-page/radix-logo.svg"
-														alt="Radix logo"
-														width={94}
-														height={24}
-														className="home-page__radix-logo"
-													/>
-													<img
-														src="/images/home-page/radix-logo-dark-mode.svg"
-														alt="Radix logo"
-														width={94}
-														height={24}
-														className="home-page__radix-logo-dark"
-													/>
-													<h4 className="text-4xl sm:text-5xl lg:text-6xl font-bold mt-7 tracking-tighter">
-														A community centric open source browser wallet for the Radix DLT network.
-													</h4>
-													<div className="lg:pb-5">
-														<a href={config.RADIX_URL} className="mt-4 sm:mt-9 inline-flex text-sm hover:underline">
-															Learn more &#8594;
-														</a>
-													</div>
-												</div>
-											</div>
-										</div>
-									</div>
-									<div className="grid grid-cols-1 gap-6 mt-6">
-										<div className="home-page__cell bg-white dark:bg-black text-gray-800 dark:text-gray-100">
-											<div className="py-10 px-6 sm:py-12 sm:px-10 lg:py-20 xl:px-40 flex flex-col justify-center align-center md:text-center">
-												<h4 className="text-4xl sm:text-5xl lg:text-6xl font-bold md:px-20 tracking-tighter">
-													Ledger support and state of the art security.
-												</h4>
-												<p className="text-base leading-6 pt-3 md:pt-5 md:px-20 md:px-30 lg:px-40">
-													Whether you’re looking to keep your crypto safe for the future or manage it on a daily basis,
-													Z3US is the right web3 wallet for you.
-												</p>
-												<div className="pt-6">
-													<FlashCtaButton size="lg" variant="primary" showEffect={false}>
-														Get BETA access
-													</FlashCtaButton>
-												</div>
-											</div>
-										</div>
+								<div className="flex w-full pt-16">
+									<div className="w-full homepage__product">
+										<Image
+											src="/images/landing-page-2023/desktop-product.png"
+											alt="something big is coming"
+											width={1160}
+											height={788}
+										/>
 									</div>
 								</div>
 							</div>

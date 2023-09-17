@@ -26,6 +26,11 @@
 	color: #fff;
 }
 
+.dark .header-icon-x svg {
+	fill: #242428 !important;
+	color: #242428 !important;
+}
+
 .text-center {
 	text-align: center;
 }

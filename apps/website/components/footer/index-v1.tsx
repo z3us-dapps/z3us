@@ -4,7 +4,7 @@ import React from 'react'
 
 import { Z3usLogo } from 'ui/src/components/z3us-logo'
 
-// import { ThemeSelector } from './theme-selector'
+import { ThemeSelector } from './theme-selector'
 
 interface IProps {
 	className?: string | undefined
@@ -37,10 +37,9 @@ export const Footer = ({ className }: IProps) => (
 							<a className="hover:underline decoration-from-font underline-offset-4">Terms</a>
 						</Link>
 					</li>
-
-					{/* <li>
+					<li>
 						<ThemeSelector />
-					</li> */}
+					</li>
 				</ul>
 			</div>
 		</PageContainer>
