@@ -40,10 +40,6 @@ const messages = defineMessages({
 		id: 'accounts.resource_details.token.details_address',
 		defaultMessage: 'Address',
 	},
-	details_id_type: {
-		id: 'accounts.resource_details.token.details_id_type',
-		defaultMessage: 'ID Type',
-	},
 	details_total_supply: {
 		id: 'accounts.resource_details.token.details_total_supply',
 		defaultMessage: 'Total supply',
@@ -208,14 +204,6 @@ const TokenDetails: React.FC = () => {
 							</Text>
 						}
 						rightData={<Text size="small">{resourceId}</Text>}
-					/>
-					<AccountsTransactionInfo
-						leftTitle={
-							<Text size="large" color="strong">
-								{intl.formatMessage(messages.details_id_type)}
-							</Text>
-						}
-						rightData={<Text size="small">{details?.details?.non_fungible_id_type}</Text>}
 					/>
 					<AccountsTransactionInfo
 						leftTitle={
