@@ -8,6 +8,7 @@ import { NextLink } from '@/components/next-link'
 import clsx from 'clsx'
 import dynamic from 'next/dynamic'
 import Image from 'next/image'
+import { title } from 'process'
 import React from 'react'
 
 import { Box } from 'ui/src/components/box'
@@ -19,6 +20,33 @@ import * as styles from './styles.css'
 
 const AppPage = dynamic(() => import('../app-page'), { ssr: false })
 
+const GRID_DETAILS = {
+	easy_ux: {
+		title: 'Easy UX',
+		subTitle: 'Easy UX',
+	},
+	secure: {
+		title: 'Easy UX',
+		subTitle: 'Easy UX',
+	},
+	fast: {
+		title: 'Easy UX',
+		subTitle: 'Easy UX',
+	},
+	address_book: {
+		title: 'Easy UX',
+		subTitle: 'Easy UX',
+	},
+	community: {
+		title: 'Easy UX',
+		subTitle: 'Easy UX',
+	},
+	light_dark_mode: {
+		title: 'Easy UX',
+		subTitle: 'Easy UX',
+	},
+}
+
 export const IndexPage: React.FC = () => {
 	return (
 		<Box className={styles.landingPageWrapper}>
@@ -26,7 +54,6 @@ export const IndexPage: React.FC = () => {
 				<AppPage />
 			</Box>
 			<Header />
-
 			<Box className={styles.landingPageBodyWrapper}>
 				<Box className={styles.landingPageDarkWrapper}>
 					<ContentContainer>
@@ -289,16 +316,32 @@ export const IndexPage: React.FC = () => {
 						</Box>
 						{/* END: MAKE IT YOUR OWN */}
 
-						{/* START: MAKE IT YOUR OWN */}
+						{/* START: ADDRESS BOOK */}
 						<Box className={clsx(styles.landingFeaturePointBlockWrapper, styles.landingFeaturePointBlockBorder)}>
 							<Box className={styles.landingFeaturePointImgBlock}>
 								<Image
 									priority
-									src="/landing-page-2023/make-it-your-own-01.png"
+									src="/landing-page-2023/address-book-01.png"
 									width={360}
 									height={600}
 									alt="Vanilla Extract logo"
-									className={clsx(styles.landingHeroCalloutImg, styles.landingHeroCalloutRoundedImg)}
+									className={clsx(
+										styles.landingHeroCalloutImg,
+										styles.landingHeroCalloutRoundedImg,
+										styles.landingAddressBookImgOneLarge,
+									)}
+								/>
+								<Image
+									priority
+									src="/landing-page-2023/address-book-02.png"
+									width={360}
+									height={600}
+									alt="Vanilla Extract logo"
+									className={clsx(
+										styles.landingHeroCalloutImg,
+										styles.landingHeroCalloutRoundedImg,
+										styles.landingAddressBookImgTwoLarge,
+									)}
 								/>
 							</Box>
 							<Box className={styles.landingFeaturePointBlock}>
@@ -335,8 +378,164 @@ export const IndexPage: React.FC = () => {
 								</Box>
 							</Box>
 						</Box>
+						{/* END: ADDRESS BOOK */}
 
-						{/* END: MAKE IT YOUR OWN */}
+						{/* START: UNVEILING NFT */}
+						<Box className={clsx(styles.landingFeaturePointBlockWrapper, styles.landingFeaturePointBlockBorder)}>
+							<Box className={styles.landingFeaturePointBlock}>
+								<Text component="h4" capitalize size="large" weight="stronger" className={styles.landingTextPurple}>
+									Immersive
+								</Text>
+								<Text size="xxxxlarge" color="strong" weight="stronger">
+									Unveiling NFT excellence
+								</Text>
+								<Text size="large">
+									Whether you're a collector or an investor, Z3US has the tools you need to immerse yourself in the
+									captivating world of NFTs.
+								</Text>
+								<Box component="ul">
+									<Box component="li" color="colorNeutral">
+										<Check2Icon />
+										<Text>With Z3US&apos;s</Text>
+									</Box>
+									<Box component="li" color="colorNeutral">
+										<Check2Icon />
+										<Text>With Z3US&apos;s</Text>
+									</Box>
+									<Box component="li" color="colorNeutral">
+										<Check2Icon />
+										<Text>With Z3US&apos;s</Text>
+									</Box>
+								</Box>
+							</Box>
+							<Box className={styles.landingFeaturePointImgBlock}>
+								<Image
+									priority
+									src="/landing-page-2023/nft-01.png"
+									width={392}
+									height={636}
+									alt="Vanilla Extract logo"
+									className={clsx(
+										styles.landingHeroCalloutImg,
+										styles.landingHeroCalloutRoundedImg,
+										styles.landingNftOneLarge,
+									)}
+								/>
+								<Image
+									priority
+									src="/landing-page-2023/nft-02.png"
+									width={392}
+									height={636}
+									alt="Vanilla Extract logo"
+									className={clsx(
+										styles.landingHeroCalloutImg,
+										styles.landingHeroCalloutRoundedImg,
+										styles.landingNftTwoLarge,
+									)}
+								/>
+							</Box>
+						</Box>
+						{/* END: UNVEILING NFT */}
+
+						{/* START: MULTI-WALLET */}
+						<Box className={clsx(styles.landingFeaturePointBlockWrapper, styles.landingFeaturePointBlockBorder)}>
+							<Box className={styles.landingFeaturePointImgBlock}>
+								<Image
+									priority
+									src="/landing-page-2023/multi-wallet-01.png"
+									width={360}
+									height={600}
+									alt="Vanilla Extract logo"
+									className={clsx(
+										styles.landingHeroCalloutImg,
+										styles.landingHeroCalloutRoundedImg,
+										styles.landingMultiWalletImgOneLarge,
+									)}
+								/>
+								<Image
+									priority
+									src="/landing-page-2023/multi-wallet-02.png"
+									width={393}
+									height={636}
+									alt="Vanilla Extract logo"
+									className={clsx(
+										styles.landingHeroCalloutImg,
+										styles.landingHeroCalloutRoundedImg,
+										styles.landingMultiWalletImgTwoLarge,
+									)}
+								/>
+							</Box>
+							<Box className={styles.landingFeaturePointBlock}>
+								<Text
+									component="h4"
+									capitalize
+									size="large"
+									weight="stronger"
+									color="strong"
+									className={styles.landingTextPurple}
+								>
+									Analytics
+								</Text>
+								<Text size="xxxxlarge" color="strong" weight="stronger">
+									Holistic multi-wallet insights
+								</Text>
+								<Text size="large" color="strong">
+									Don't compromise clarity while managing multiple wallets. Z3US Analytics offers an intuitive platform
+									for a comprehensive view of all your wallets, presented through dynamic dashboards and insightful
+									reports.
+								</Text>
+								<Box component="ul">
+									<Box component="li" color="colorNeutral">
+										<Check2Icon />
+										<Text>With Z3US&apos;s</Text>
+									</Box>
+									<Box component="li" color="colorNeutral">
+										<Check2Icon />
+										<Text>With Z3US&apos;s</Text>
+									</Box>
+									<Box component="li" color="colorNeutral">
+										<Check2Icon />
+										<Text>With Z3US&apos;s</Text>
+									</Box>
+								</Box>
+							</Box>
+						</Box>
+						{/* END: MULTI-WALLET */}
+
+						{/* START: SWEAT DETAILS GRID */}
+						<Box className={clsx(styles.landingFeaturePointBlockWrapper, styles.landingFeaturePointBlockBorder)}>
+							<Box className={styles.landingDetailsGridWrapper}>
+								<Box className={styles.landingDetailsGridHeader}>
+									<Text
+										component="h4"
+										capitalize
+										size="large"
+										weight="stronger"
+										color="strong"
+										className={styles.landingTextPurple}
+									>
+										Sweat the details
+									</Text>
+									<Text size="xxxxlarge" color="strong" weight="stronger">
+										Secure. Simple. All-in-one.
+									</Text>
+								</Box>
+								<Box className={styles.landingDetailsGridBoxWrapper}>
+									{Object.entries(GRID_DETAILS).map(([key, { title, subTitle }]) => (
+										<Box key={key}>
+											<Box style={{ background: 'white', width: '100%', height: '208px' }} />
+											<Box className={styles.landingDetailsGridTextWrapper}>
+												<Text size="large" weight="stronger" color="strong">
+													{title}
+												</Text>
+												<Text>{subTitle}</Text>
+											</Box>
+										</Box>
+									))}
+								</Box>
+							</Box>
+						</Box>
+						{/* END: SWEAT DETAILS GRID */}
 					</ContentContainer>
 				</Box>
 				<Box className={styles.landingPageInvadersWrapper}>

@@ -8,9 +8,10 @@ import { vars } from 'ui/src/components/system/theme.css'
 export const landingPageWrapper = style([
 	sprinkles({
 		position: 'relative',
-		background: 'lead500',
+		// background: 'lead500',
 	}),
 	{
+		background: '#19191D',
 		minHeight: '100vh',
 	},
 ])
@@ -90,9 +91,11 @@ export const landingPageDarkWrapper = style([
 	sprinkles({
 		display: 'flex',
 		justifyContent: 'center',
-		background: 'lead500',
+		// background: 'lead500',
 	}),
-	{},
+	{
+		background: '#19191D',
+	},
 	responsiveStyle({
 		// mobile: { width: '100%' },
 		// tablet: { paddingTop: '72px' },
@@ -187,14 +190,16 @@ export const landingFeaturePointBlockWrapper = style([
 		paddingY: 'xxlarge',
 		display: 'flex',
 		justifyContent: 'space-between',
+		alignItems: 'center',
 		// background: 'blue_magenta400',
 	}),
 	{
 		// border: '1px solid red',
+		margin: '0 auto',
 	},
 	responsiveStyle({
 		// mobile: { width: '100%' },
-		tablet: { marginTop: '180px', paddingTop: '180px', paddingBottom: '180px' },
+		tablet: { marginTop: '120px', paddingTop: '120px', paddingBottom: '0px', maxWidth: '1040px' },
 		// desktop: { width: '25%' },
 	}),
 ])
@@ -234,6 +239,7 @@ export const landingFeaturePointBlock = style([
 ])
 
 globalStyle(`${landingFeaturePointBlock} ul`, {
+	marginTop: vars.spacing.medium,
 	listStyleType: 'none',
 	display: 'flex',
 	flexDirection: 'column',
@@ -290,6 +296,150 @@ export const landingMakeItYourOwnAccountsColumn = style([
 		// mobile: { width: '100%' },
 		tablet: { width: '316px', marginLeft: '0px' },
 		// desktop: { width: '25%' },
+	}),
+])
+
+export const landingAddressBookImgOneLarge = style([
+	sprinkles({
+		top: 0,
+		left: 0,
+	}),
+	{},
+	responsiveStyle({
+		// mobile: { width: '100%' },
+		tablet: { marginLeft: '-70px', marginBottom: '120px' },
+		// desktop: { width: '25%' },
+	}),
+])
+
+export const landingAddressBookImgTwoLarge = style([
+	sprinkles({
+		top: 0,
+		left: 0,
+	}),
+	{
+		position: 'absolute',
+	},
+	responsiveStyle({
+		// mobile: { width: '100%' },
+		tablet: { marginTop: '118px', marginLeft: '90px' },
+		// desktop: { width: '25%' },
+	}),
+])
+
+export const landingNftOneLarge = style([
+	sprinkles({}),
+	{
+		// border: '1px solid red',
+	},
+	responsiveStyle({
+		// mobile: { width: '100%' },
+		tablet: { marginBottom: '118px' },
+		// desktop: { width: '25%' },
+	}),
+])
+
+export const landingNftTwoLarge = style([
+	sprinkles({
+		top: 0,
+		left: 0,
+	}),
+	{
+		position: 'absolute',
+		// border: '1px solid red',
+	},
+	responsiveStyle({
+		// mobile: { width: '100%' },
+		tablet: { marginTop: '118px', marginLeft: '190px' },
+		// desktop: { width: '25%' },
+	}),
+])
+
+export const landingMultiWalletImgOneLarge = style([
+	sprinkles({
+		top: 0,
+		left: 0,
+	}),
+	{},
+	responsiveStyle({
+		// mobile: { width: '100%' },
+		tablet: { marginLeft: '-70px', marginBottom: '160px' },
+		// desktop: { width: '25%' },
+	}),
+])
+
+export const landingMultiWalletImgTwoLarge = style([
+	sprinkles({
+		top: 0,
+		left: 0,
+	}),
+	{
+		position: 'absolute',
+	},
+	responsiveStyle({
+		// mobile: { width: '100%' },
+		tablet: { marginTop: '118px', marginLeft: '60px' },
+		// desktop: { width: '25%' },
+	}),
+])
+
+export const landingDetailsGridWrapper = style([
+	sprinkles({
+		position: 'relative',
+		width: 'full',
+	}),
+	{},
+	responsiveStyle({
+		// mobile: { width: '100%' },
+		// tablet: { marginTop: '118px', marginLeft: '60px' },
+		// desktop: { width: '25%' },
+	}),
+])
+
+export const landingDetailsGridHeader = style([
+	sprinkles({
+		position: 'relative',
+		paddingBottom: 'xlarge',
+		width: 'full',
+	}),
+	{},
+	responsiveStyle({
+		// mobile: { width: '100%' },
+		// tablet: { marginTop: '118px', marginLeft: '60px' },
+		// desktop: { width: '25%' },
+	}),
+])
+
+export const landingDetailsGridBoxWrapper = style([
+	sprinkles({
+		display: 'grid',
+	}),
+	{},
+	responsiveStyle({
+		// mobile: { width: '100%' },
+		// tablet: { marginTop: '118px', marginLeft: '60px' },
+		desktop: {
+			gap: vars.spacing.xxlarge,
+			gridTemplateColumns: '1fr 1fr 1fr',
+		},
+	}),
+])
+
+export const landingDetailsGridTextWrapper = style([
+	sprinkles({
+		paddingTop: 'medium',
+		display: 'flex',
+		flexDirection: 'column',
+		gap: 'xxsmall',
+	}),
+	{},
+	responsiveStyle({
+		// mobile: { width: '100%' },
+		// tablet: { marginTop: '118px', marginLeft: '60px' },
+		// desktop: {
+		// 	gap: vars.spacing.large,
+		// 	gridTemplateColumns: '1fr 1fr 1fr',
+		// },
 	}),
 ])
 
