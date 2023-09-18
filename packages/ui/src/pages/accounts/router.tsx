@@ -5,6 +5,7 @@ import { FormattedMessage } from 'react-intl'
 import Layout from './components/layout'
 import { AccountBreadcrumb } from './components/layout/components/breadcrumbs/account-breadcrumb'
 import { LinkBreadcrumb } from './components/layout/components/breadcrumbs/link-breadcrumb'
+import { NftItemBreadcrumb } from './components/layout/components/breadcrumbs/nft-item-breadcrumb'
 import { ResourceBreadcrumb } from './components/layout/components/breadcrumbs/resource-breadcrumb'
 import { BackButton } from './components/layout/components/mobile/back-button'
 
@@ -19,7 +20,9 @@ const Tokens = lazy(() => import('./tokens'))
 const Nfts = lazy(() => import('./nfts'))
 
 const ActivityList = lazy(() => import('./components/activity-list'))
-const ResourceDetails = lazy(() => import('./components/resource-details'))
+const TokenDetails = lazy(() => import('./components/resource-details/token'))
+const NftCollectionDetails = lazy(() => import('./components/resource-details/nft-collection'))
+const NftDetails = lazy(() => import('./components/resource-details/nft-item'))
 
 const route = {
 	path: 'accounts',
@@ -63,7 +66,7 @@ const route = {
 							path: ':resourceId',
 							handle: {
 								crumb: () => <ResourceBreadcrumb resourceType="token" />,
-								sidebar: <ResourceDetails />,
+								sidebar: <TokenDetails />,
 							},
 						},
 					],
@@ -84,14 +87,14 @@ const route = {
 							path: ':resourceId',
 							handle: {
 								crumb: () => <ResourceBreadcrumb resourceType="nft" />,
-								sidebar: <ResourceDetails />,
+								sidebar: <NftCollectionDetails />,
 							},
 							children: [
 								{
-									path: ':nftId',
+									path: 'nft',
 									handle: {
-										crumb: ({ nftId }) => nftId,
-										sidebar: <ResourceDetails />,
+										crumb: () => <NftItemBreadcrumb />,
+										sidebar: <NftDetails />,
 									},
 								},
 							],

@@ -42,7 +42,7 @@ const transformFungibleResourceItemResponse =
 			description,
 			url,
 			imageUrl,
-			change: new BigNumber(token ? +(token.price.usd || 0) / +(token.price.usd_24h || 0) : 0),
+			change: new BigNumber(token ? +(token.price.usd || 0) / +(token.price.usd_24h || 0) : 0).dividedBy(100),
 		}
 
 		if (validator) {

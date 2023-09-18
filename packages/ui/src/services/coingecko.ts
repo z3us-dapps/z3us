@@ -88,7 +88,7 @@ export class CoinGeckoService {
 		days: number | string = 14,
 		interval: string = 'daily',
 	): Promise<number[][]> => {
-		const id = assetToCoingeckoIdMap[asset]
+		const id = assetToCoingeckoIdMap[asset.toLocaleLowerCase()]
 		if (!id) {
 			return []
 		}

@@ -1,8 +1,9 @@
-import { useBalances } from 'packages/ui/src/hooks/dapp/use-balances'
-import { useEntityNonFungibleIds } from 'packages/ui/src/hooks/dapp/use-entity-nft'
-import type { ResourceBalance, ResourceBalanceType } from 'packages/ui/src/types/types'
 import React, { forwardRef, useContext } from 'react'
 import { defineMessages, useIntl } from 'react-intl'
+
+import { useBalances } from 'ui/src/hooks/dapp/use-balances'
+import { useNonFungibleIds } from 'ui/src/hooks/dapp/use-entity-nft'
+import type { ResourceBalance, ResourceBalanceType } from 'ui/src/types/types'
 
 import { Box } from '../../../box'
 import { type IProps as WrapperProps } from '../../field-wrapper'
@@ -40,7 +41,7 @@ export const NftSelect = forwardRef<HTMLButtonElement, IProps>((props, ref) => {
 		b => b.address === resource,
 	) as ResourceBalance[ResourceBalanceType.NON_FUNGIBLE]
 
-	const pages = useEntityNonFungibleIds(fromAccount, selectedToken?.address, selectedToken?.vaults)
+	const pages = useNonFungibleIds(fromAccount, selectedToken?.address, selectedToken?.vaults)
 	const ids =
 		pages
 			?.filter(({ data }) => !!data)

@@ -1,4 +1,4 @@
-import type { StateEntityDetailsOptIns } from '@radixdlt/babylon-gateway-api-sdk'
+import type { StateEntityDetailsOptIns, StateEntityDetailsResponseItem } from '@radixdlt/babylon-gateway-api-sdk'
 import { ResourceAggregationLevel } from '@radixdlt/babylon-gateway-api-sdk'
 import { useQuery } from '@tanstack/react-query'
 
@@ -43,4 +43,7 @@ export const useEntityDetails = (
 	address: string,
 	aggregation: ResourceAggregationLevel = ResourceAggregationLevel.Vault,
 	optIns: StateEntityDetailsOptIns = defaultOptIns,
-) => useEntitiesDetails([address], aggregation, optIns)
+) => {
+	const { data, ...rest } = useEntitiesDetails([address], aggregation, optIns)
+	return { ...rest, data: data?.[0] || (null as StateEntityDetailsResponseItem) }
+}
