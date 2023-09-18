@@ -60,11 +60,11 @@ const SkeletonRow = ({ index }: { index: number }) => (
 				<Box flexGrow={1} display="flex" flexDirection="column" gap="small">
 					<Box
 						className={skeletonStyles.tokenListSkeleton}
-						style={{ height: '12px', width: index % 2 === 0 ? '25%' : '35%' }}
+						style={{ height: '12px', width: 2 % index === 0 ? '25%' : '35%' }}
 					/>
 					<Box
 						className={skeletonStyles.tokenListSkeleton}
-						style={{ height: '12px', width: index % 2 === 0 ? '35%' : '45%' }}
+						style={{ height: '12px', width: 2 % index === 0 ? '35%' : '45%' }}
 					/>
 				</Box>
 			</Box>

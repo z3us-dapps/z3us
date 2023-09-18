@@ -16,7 +16,7 @@ export const useSelectedAccounts = (): string[] => {
 	const accounts = useMemo(() => [...(rdtAccounts || []), ...(zdtAccounts || [])], [rdtAccounts, zdtAccounts])
 
 	return useMemo(
-		() => accounts?.map(({ address }) => address).filter(address => accountId === '-' || accountId === address),
+		() => (accountId === '-' ? accounts.map(({ address }) => address) : [accountId]),
 		[accountId, accounts],
 	)
 }
@@ -36,8 +36,8 @@ export const useWalletAccounts = (): { [key: string]: AddressBookEntry } => {
 		(ac, account, idx) => ({
 			...ac,
 			[account.address]: {
-				cardImage: CARD_IMAGES[CARD_IMAGES.length % idx],
-				cardColor: CARD_COLORS[CARD_COLORS.length % idx],
+				cardImage: CARD_IMAGES[idx % CARD_IMAGES.length],
+				cardColor: CARD_COLORS[idx % CARD_COLORS.length],
 				dateAdded: Date.now(),
 				dateUpdated: Date.now(),
 				...addressBook[account.address],

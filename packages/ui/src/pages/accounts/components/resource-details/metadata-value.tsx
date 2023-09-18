@@ -4,9 +4,7 @@ import React from 'react'
 export const getMetadataValue = (value?: EntityMetadataItem) => {
 	const typed: any = value?.value?.typed
 
-	return {
-		stringified: typed?.value ? typed?.value || '' : typed?.values.join(', '),
-	}
+	return typed?.value ? typed?.value || '' : typed?.values.join(', ')
 }
 
 interface IProps {
@@ -14,7 +12,7 @@ interface IProps {
 }
 
 const MetadataValue: React.FC<IProps> = ({ value }) => {
-	return <>{getMetadataValue(value).stringified}</>
+	return <>{getMetadataValue(value)}</>
 }
 
 export default MetadataValue

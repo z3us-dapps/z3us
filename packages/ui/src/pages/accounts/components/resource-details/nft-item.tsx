@@ -43,10 +43,12 @@ const NftDetails: React.FC = () => {
 	const name = getStringNftData('name', dataJson?.fields)
 	const description = getStringNftData('description', dataJson?.fields)
 
+	console.log(dataJson)
+
 	if (!resourceId) return null
 	if (!nftId) return null
 
-	if (isLoading || isCollectionLoading) return <Loader />
+	if (isLoading) return <Loader />
 
 	return (
 		<Box flexShrink={0}>

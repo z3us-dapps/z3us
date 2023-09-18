@@ -19,7 +19,7 @@ export const AccountBreadcrumb: React.FC = () => {
 	const accounts = useWalletAccounts()
 
 	return (
-		<Link to={`/accounts/${accounts[accountId]?.address || '-'}`}>
+		<Link to={`/accounts/${accountId}`}>
 			{accounts[accountId]?.name ||
 				getShortAddress(accounts[accountId]?.address) ||
 				intl.formatMessage(messages.account)}

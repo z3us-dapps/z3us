@@ -1,9 +1,9 @@
 import React from 'react'
 
 export const getDataValue = (field?: any) => {
-	return {
-		stringified: field?.value ? field?.value || '' : field?.values.join(', '),
-	}
+
+	console.error(field, field?.fields?.map(getDataValue))
+	return field?.value ? field?.value || '' : field?.fields?.map(getDataValue).join(', ') || ''
 }
 
 interface IProps {
@@ -11,7 +11,7 @@ interface IProps {
 }
 
 const FieldValue: React.FC<IProps> = ({ field }) => {
-	return <>{getDataValue(field).stringified}</>
+	return <>{getDataValue(field)}</>
 }
 
 export default FieldValue
