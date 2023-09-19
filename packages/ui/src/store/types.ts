@@ -91,6 +91,7 @@ export enum AddressType {
 export type Address = {
 	type: AddressType
 	label: string
+	olympiaAddress?: string
 }
 
 export type AddressIndexes = { [idx: number]: Address }

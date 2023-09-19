@@ -26,7 +26,7 @@ export function fromExtendedPrivateKey(xpriv: string): HDKey {
 }
 
 export function getPrivateKey(data: Data, index: number = 0): PrivateKey | null {
-	switch (data.type) {
+	switch (data?.type) {
 		case DataType.MNEMONIC:
 			return legacyDerivePrivateKeyFromIndex(legacyEntropyToPrivateKey(data.secret), index)
 		case DataType.PRIVATE_KEY:

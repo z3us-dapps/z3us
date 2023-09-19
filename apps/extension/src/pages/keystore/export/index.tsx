@@ -103,6 +103,7 @@ export const Export: React.FC = () => {
 					<Box>
 						{exports.map(data => (
 							<QRCodeSVG
+								key={data}
 								value={data}
 								size={180}
 								fgColor={resolvedTheme === Theme.DARK ? '#a6a6a6' : '#161718'}

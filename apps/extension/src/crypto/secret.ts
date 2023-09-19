@@ -3,7 +3,7 @@ import { entropyToMnemonic } from 'bip39'
 import { type Data, DataType } from '@src/types/vault'
 
 export function getSecret(data: Data): string {
-	switch (data.type) {
+	switch (data?.type) {
 		case DataType.MNEMONIC:
 			return entropyToMnemonic(Buffer.from(data.secret, 'hex'))
 		case DataType.PRIVATE_KEY:
@@ -13,6 +13,6 @@ export function getSecret(data: Data): string {
 		case DataType.EDDSA_ED25519:
 			throw new Error('Not implemented!')
 		default:
-			return null
+			return ''
 	}
 }

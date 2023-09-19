@@ -20,6 +20,7 @@ export const usePublicKey = (index: number): [PublicKey | null, Error | null] =>
 				setState(await client.getPublicKey(index))
 				setError(null)
 			} catch (err) {
+				console.error(err)
 				setState(null)
 				setError(err)
 			}

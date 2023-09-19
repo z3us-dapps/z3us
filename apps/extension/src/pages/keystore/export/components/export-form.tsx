@@ -48,6 +48,7 @@ export const ExportForm: React.FC<IProps> = ({ onUnlock }) => {
 			onUnlock(secret)
 			setError('')
 		} catch (err) {
+			console.error(err)
 			setError(intl.formatMessage(messages.unlock_error))
 		}
 	}

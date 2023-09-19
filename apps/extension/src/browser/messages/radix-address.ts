@@ -1,5 +1,5 @@
 import type { Account, Persona } from '@radixdlt/radix-dapp-toolkit'
-import { OlympiaNetwork, RadixEngineToolkit } from '@radixdlt/radix-engine-toolkit'
+import { Convert, OlympiaNetwork, RadixEngineToolkit } from '@radixdlt/radix-engine-toolkit'
 import type { PublicKey } from '@radixdlt/radix-engine-toolkit'
 
 import type { AddressBook, AddressIndexes } from 'ui/src/store/types'
@@ -59,25 +59,41 @@ const accountReducer =
 		return container
 	}
 
-const olympiaReducer = (publicMessageHandler: MessageHandler, addressBook: AddressBook) => async (container, idx) => {
-	container = await container
-	const publicKey = await getPublicKey(publicMessageHandler)(idx)
-	if (!publicKey) return container
+const olympiaReducer =
+	(publicMessageHandler: MessageHandler, accountIndexes: AddressIndexes, addressBook: AddressBook) =>
+	async (container, idx) => {
+		container = await container
 
-	const accountAddress = await RadixEngineToolkit.Derive.olympiaAccountAddressFromPublicKey(
-		publicKey.publicKey,
-		OlympiaNetwork.Mainnet,
-	)
-	const address = accountAddress.toString()
+		const details = accountIndexes[idx]
+		let address = details.olympiaAddress
+		let publicKeyHex = ''
 
-	container.push({
-		index: idx,
-		publicKey: publicKey.hexString(),
-		address,
-		label: addressBook[address]?.name || `From index: ${idx}`,
-	})
-	return container
-}
+		const publicKey = await getPublicKey(publicMessageHandler)(idx)
+		if (publicKey) {
+			const accountAddress = await RadixEngineToolkit.Derive.olympiaAccountAddressFromPublicKey(
+				publicKey.publicKey,
+				OlympiaNetwork.Mainnet,
+			)
+			address = accountAddress.toString()
+			publicKeyHex = publicKey.hexString()
+		} else if (address) {
+			// its hardware wallet entry
+			const publicKeyBuffer = await RadixEngineToolkit.Derive.publicKeyFromOlympiaAccountAddress(address)
+			publicKeyHex = Convert.Uint8Array.toHexString(publicKeyBuffer)
+		} else {
+			return container
+		}
+
+		if (!publicKeyHex) return container
+
+		container.push({
+			index: idx,
+			publicKey: publicKeyHex,
+			address,
+			label: addressBook[address]?.name || `From index: ${idx}`,
+		})
+		return container
+	}
 
 export const derivePersonas = (
 	publicMessageHandler: MessageHandler,
@@ -96,4 +112,4 @@ export const deriveOlympiaAddresses = (
 	publicMessageHandler: MessageHandler,
 	addressBook: AddressBook,
 	accountIndexes: AddressIndexes,
-) => Object.keys(accountIndexes).reduce(olympiaReducer(publicMessageHandler, addressBook), [])
+) => Object.keys(accountIndexes).reduce(olympiaReducer(publicMessageHandler, accountIndexes, addressBook), [])

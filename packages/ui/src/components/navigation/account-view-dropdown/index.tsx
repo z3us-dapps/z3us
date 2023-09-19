@@ -235,19 +235,6 @@ export const AccountViewDropdown = forwardRef<HTMLElement, IAccountViewDropdownP
 										</Box>
 									</DropdownMenuItem>
 								)}
-
-								{isWallet && (keystore.type === KeystoreType.LOCAL || keystore.type === KeystoreType.HARDWARE) && (
-									<DropdownMenuItem onSelect={handleExportWallet}>
-										<DropdownMenuLeftSlot>
-											<PlusIcon />
-										</DropdownMenuLeftSlot>
-										<Box display="flex" marginLeft="small">
-											<Text size="xsmall" truncate>
-												{intl.formatMessage(messages.wallet_export)}
-											</Text>
-										</Box>
-									</DropdownMenuItem>
-								)}
 							</Box>
 
 							<DropdownMenuSeparator />
@@ -276,6 +263,18 @@ export const AccountViewDropdown = forwardRef<HTMLElement, IAccountViewDropdownP
 											</Box>
 										</DropdownMenuItem>
 									</>
+								)}
+								{isWallet && (keystore.type === KeystoreType.LOCAL || keystore.type === KeystoreType.HARDWARE) && (
+									<DropdownMenuItem onSelect={handleExportWallet}>
+										<DropdownMenuLeftSlot>
+											<ShareIcon />
+										</DropdownMenuLeftSlot>
+										<Box display="flex" marginLeft="small">
+											<Text size="xsmall" truncate>
+												{intl.formatMessage(messages.wallet_export)}
+											</Text>
+										</Box>
+									</DropdownMenuItem>
 								)}
 								<DropdownMenuSub>
 									<DropdownMenuSubTrigger>

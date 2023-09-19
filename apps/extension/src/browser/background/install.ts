@@ -35,6 +35,7 @@ const migrateOlympiaAddresses = async () => {
 				Object.keys(olympiaAddresses).map(async idx => {
 					const current = currentKeystoreState.accountIndexes[idx]
 					currentKeystoreState.accountIndexes[idx] = {
+						olympiaAddress: olympiaAddresses[idx].address,
 						type: current ? AddressType.BOTH : AddressType.OLYMPIA,
 					} as Address
 				})

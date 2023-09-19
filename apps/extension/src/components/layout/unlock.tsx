@@ -48,6 +48,7 @@ export const Unlock: React.FC<IProps> = ({ onUnlock }) => {
 			onUnlock()
 			setError('')
 		} catch (err) {
+			console.error(err)
 			setError(intl.formatMessage(messages.unlock_error))
 		}
 	}
