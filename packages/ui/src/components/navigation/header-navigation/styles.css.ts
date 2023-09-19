@@ -14,11 +14,6 @@ export const navigationWrapper = style([
 			lightMode: 'bleached_silk600',
 			darkMode: 'lead500',
 		},
-		paddingX: {
-			mobile: 'medium',
-			tablet: 'xxlarge',
-			desktop: 'xxlarge',
-		},
 	}),
 	{},
 	responsiveStyle({
@@ -34,6 +29,7 @@ export const navigationInnerWrapper = style([
 		position: 'relative',
 		alignItems: 'center',
 	}),
+	{},
 	responsiveStyle({
 		mobile: {
 			height: '58px',

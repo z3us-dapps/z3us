@@ -48,7 +48,7 @@ const HeaderNavDesktop = () => {
 					{[
 						{ text: intl.formatMessage(messages.accounts), href: '/accounts' },
 						{ text: intl.formatMessage(messages.transfer), href: '/transfer' },
-						{ text: intl.formatMessage(messages.staking), href: '/staking' },
+						// { text: intl.formatMessage(messages.staking), href: '/staking' },
 						{ text: intl.formatMessage(messages.settings), href: '/settings/general' },
 					].map(({ text, href }) => (
 						<Box key={href} component="li">

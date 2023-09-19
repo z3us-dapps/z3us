@@ -15,7 +15,7 @@ export const AccountHomeCard: React.FC<IProps> = props => {
 
 	return (
 		<Link to={`/accounts/${address}`} className={styles.accountsHomeHorizontalCard} key={address} underline="never">
-			<AccountCard address={address} showCopyAddressButton={false} className={className} />
+			<AccountCard address={address} showCopyAddressButton className={className} />
 		</Link>
 	)
 }

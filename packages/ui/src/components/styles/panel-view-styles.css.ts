@@ -34,7 +34,6 @@ export const panelViewWrapper = style([
 			tablet: 'row',
 		},
 		width: 'full',
-		// height: 'full',
 		maxWidth: 'xxlarge',
 	}),
 	{

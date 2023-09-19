@@ -216,7 +216,11 @@ globalStyle(`.${darkMode} ${scrollAreaShowBottomShadowsWrapper}::after`, {
 })
 
 globalStyle(`${scrollAreaRootDisabledWrapper} > div`, {
-	overflow: 'unset !important',
+	overflow: 'unset !important' as 'unset',
+})
+
+globalStyle(`${scrollAreaRootDisabledWrapper} > div > div`, {
+	display: 'block !important' as 'block',
 })
 
 globalStyle(`${scrollAreaRootDisabledWrapper} > ${scrollAreaScrollbarWrapper}`, {

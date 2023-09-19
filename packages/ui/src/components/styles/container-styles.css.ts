@@ -10,6 +10,7 @@ export const containerWrapper = style([
 		justifyContent: 'center',
 		paddingX: {
 			mobile: 'medium',
+			tablet: 'large',
 			desktop: 'xxlarge',
 		},
 	}),
