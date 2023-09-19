@@ -3,7 +3,7 @@ import { NextButton } from '@/components/next-button'
 import { NextLink } from '@/components/next-link'
 import { clsx } from 'clsx'
 import { ConnectButton } from 'packages/ui/src/components/connect-button'
-import { GithubIcon, TelegramIcon, TwitterIcon } from 'packages/ui/src/components/icons'
+import { GithubIcon, TelegramIcon, XIcon } from 'packages/ui/src/components/icons'
 import React from 'react'
 
 import { Box } from 'ui/src/components/box'
@@ -47,7 +47,7 @@ export const Header = () => {
 									<TelegramIcon />
 								</NextButton>
 							</ToolTip>
-							<ToolTip message="twitter">
+							<ToolTip message="X">
 								<NextButton
 									rounded
 									sizeVariant="small"
@@ -56,7 +56,7 @@ export const Header = () => {
 									to="https://twitter.com/z3us_dapps"
 									target="_blank"
 								>
-									<TwitterIcon />
+									<XIcon />
 								</NextButton>
 							</ToolTip>
 							<ToolTip message="github">
