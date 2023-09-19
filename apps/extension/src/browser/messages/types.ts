@@ -8,6 +8,7 @@ export enum MessageSource {
 export enum MessageAction {
 	PING = 'v1-ping',
 
+	VAULT_GET = 'v1-vault-get',
 	VAULT_LOCK = 'v1-vault-lock',
 	VAULT_UNLOCK = 'v1-vault-unlock',
 	VAULT_SAVE = 'v1-vault-store',
@@ -19,6 +20,7 @@ export enum MessageAction {
 
 	GET_PERSONAS = 'v1-personas',
 	GET_ACCOUNTS = 'v1-accounts',
+	GET_OLYMPIA_ADDRESSES = 'v1-olympia-addresses',
 
 	RADIX = 'v1-radix',
 }
@@ -37,3 +39,5 @@ export type ResponseMessage = Message & { payload: any | { code: number; error: 
 export type MessageHandler = (message: Message) => Promise<any>
 
 export type MessageHandlers = { [key: string]: MessageHandler }
+
+export type OlympiaAddressDetails = { index: number; address: string; publicKey: string; label: string }

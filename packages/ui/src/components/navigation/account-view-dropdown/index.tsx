@@ -74,6 +74,10 @@ const messages = defineMessages({
 		id: 'account_menu.wallet_add',
 		defaultMessage: 'Add wallet...',
 	},
+	wallet_export: {
+		id: 'account_menu.wallet_export',
+		defaultMessage: 'Export to Radix Mobile',
+	},
 	account: {
 		id: 'account_menu.account',
 		defaultMessage: 'Account',
@@ -126,8 +130,8 @@ export const AccountViewDropdown = forwardRef<HTMLElement, IAccountViewDropdownP
 		const dappStatus = useDappStatus()
 		const isMobile = useIsMobileWidth()
 		const { resolvedTheme, theme, setTheme } = useTheme()
-		const { selectedKeystoreId, keystores, selectKeystore } = useSharedStore(state => ({
-			selectedKeystoreId: state.selectedKeystoreId,
+		const { keystore, keystores, selectKeystore } = useSharedStore(state => ({
+			keystore: state.keystores.find(({ id }) => id === state.selectedKeystoreId),
 			keystores: state.keystores,
 			selectKeystore: state.selectKeystoreAction,
 		}))
@@ -152,6 +156,10 @@ export const AccountViewDropdown = forwardRef<HTMLElement, IAccountViewDropdownP
 
 		const handleAddNewWallet = () => {
 			navigate('/keystore/new')
+		}
+
+		const handleExportWallet = () => {
+			navigate('/keystore/export')
 		}
 
 		return (
@@ -193,7 +201,7 @@ export const AccountViewDropdown = forwardRef<HTMLElement, IAccountViewDropdownP
 								</DropdownMenuLabel>
 								<DropdownMenuRadioGroup
 									disabled={isSwitchingKeystore}
-									value={selectedKeystoreId}
+									value={keystore.id}
 									onValueChange={handleSelectKeystore}
 								>
 									{[...keystores]
@@ -223,6 +231,19 @@ export const AccountViewDropdown = forwardRef<HTMLElement, IAccountViewDropdownP
 										<Box display="flex" marginLeft="small">
 											<Text size="xsmall" truncate>
 												{intl.formatMessage(messages.wallet_add)}
+											</Text>
+										</Box>
+									</DropdownMenuItem>
+								)}
+
+								{isWallet && (keystore.type === KeystoreType.LOCAL || keystore.type === KeystoreType.HARDWARE) && (
+									<DropdownMenuItem onSelect={handleExportWallet}>
+										<DropdownMenuLeftSlot>
+											<PlusIcon />
+										</DropdownMenuLeftSlot>
+										<Box display="flex" marginLeft="small">
+											<Text size="xsmall" truncate>
+												{intl.formatMessage(messages.wallet_export)}
 											</Text>
 										</Box>
 									</DropdownMenuItem>

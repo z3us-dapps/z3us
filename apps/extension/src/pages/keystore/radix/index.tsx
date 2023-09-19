@@ -7,7 +7,7 @@ import KeystoreForm from './components/keystore-form'
 import { Pairing, PairingState } from './components/pairing'
 import * as styles from './styles.css'
 
-export const New: React.FC = () => {
+export const Radix: React.FC = () => {
 	const [pairingState, setPairingState] = useState<PairingState>(PairingState.LOADING)
 	const [connectionPassword, setConnectionPassword] = useState<string>('')
 
@@ -28,4 +28,4 @@ export const New: React.FC = () => {
 	)
 }
 
-export default New
+export default Radix

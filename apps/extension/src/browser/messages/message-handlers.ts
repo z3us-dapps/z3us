@@ -12,13 +12,14 @@ import type { AddressBook, AddressIndexes, Keystore } from 'ui/src/store/types'
 import { KeystoreType } from 'ui/src/store/types'
 
 import { openAppPopup } from '@src/browser/app/popup'
-import type { Message, MessageHandlers } from '@src/browser/messages/types'
+import type { Message, MessageHandlers, OlympiaAddressDetails } from '@src/browser/messages/types'
 import { MessageAction } from '@src/browser/messages/types'
 import { Vault } from '@src/browser/vault/vault'
 import { getPublicKey as cryptoGetPublicKey, getPrivateKey } from '@src/crypto/key_pair'
+import { getSecret as cryptoGetSecret } from '@src/crypto/secret'
 import type { Data } from '@src/types/vault'
 
-import { deriveAccounts, derivePersonas } from './radix-address'
+import { deriveAccounts, deriveOlympiaAddresses, derivePersonas } from './radix-address'
 
 const vault = new Vault(globalThis.crypto)
 
@@ -80,6 +81,19 @@ async function sign(message: Message) {
 	return privateKey.signToSignature(Convert.HexString.toUint8Array(toSign))
 }
 
+export interface GetSecretMessage {
+	password: string
+}
+
+async function getSecret(message: Message) {
+	const { password } = message.payload as GetSecretMessage
+	const walletData = await vault.unlock(password)
+	if (!walletData) {
+		return null
+	}
+	return cryptoGetSecret(walletData.data)
+}
+
 export interface GetPublicKeyMessage {
 	index: number
 }
@@ -125,6 +139,22 @@ async function getAccounts(message: Message): Promise<Account[]> {
 
 	const accounts = await deriveAccounts(getPublicKey, addressBook, indexes, networkId)
 	return accounts
+}
+
+export interface GetOlympiaAddressesMessage {
+	indexes: AddressIndexes
+	addressBook: AddressBook
+}
+
+async function getOlympiaAddresses(message: Message): Promise<OlympiaAddressDetails[]> {
+	const { indexes, addressBook } = message.payload as GetOlympiaAddressesMessage
+	const walletData = await vault.get()
+	if (!walletData) {
+		return []
+	}
+
+	const addresses = await deriveOlympiaAddresses(getPublicKey, addressBook, indexes)
+	return addresses
 }
 
 async function handleRadixMessage(message: Message) {
@@ -230,6 +260,7 @@ async function handleRadixMessage(message: Message) {
 export type MessageTypes = {
 	[MessageAction.PING]: undefined
 
+	[MessageAction.VAULT_GET]: GetSecretMessage
 	[MessageAction.VAULT_LOCK]: undefined
 	[MessageAction.VAULT_UNLOCK]: UnlockVaultMessage
 	[MessageAction.VAULT_SAVE]: StoreInVaultMessage
@@ -241,6 +272,7 @@ export type MessageTypes = {
 
 	[MessageAction.GET_PERSONAS]: GetPersonasMessage
 	[MessageAction.GET_ACCOUNTS]: GetAccountsMessage
+	[MessageAction.GET_OLYMPIA_ADDRESSES]: GetOlympiaAddressesMessage
 
 	[MessageAction.RADIX]: RadixMessage
 }
@@ -253,12 +285,14 @@ export default {
 	[MessageAction.VAULT_SAVE]: storeInVault,
 	[MessageAction.VAULT_REMOVE]: removeFromVault,
 	[MessageAction.VAULT_IS_UNLOCKED]: isVaultUnlocked,
+	[MessageAction.VAULT_GET]: getSecret,
 
 	[MessageAction.SIGN]: sign,
 	[MessageAction.GET_PUBLIC_KEY]: getPublicKey,
 
 	[MessageAction.GET_PERSONAS]: getPersonas,
 	[MessageAction.GET_ACCOUNTS]: getAccounts,
+	[MessageAction.GET_OLYMPIA_ADDRESSES]: getOlympiaAddresses,
 
 	[MessageAction.RADIX]: handleRadixMessage,
 } as MessageHandlers
