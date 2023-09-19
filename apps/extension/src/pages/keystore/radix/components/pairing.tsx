@@ -1,7 +1,7 @@
 import { chromeLocalStore } from '@radixdlt/connector-extension/src/chrome/helpers/chrome-local-store'
-import { getExtensionOptions } from '@radixdlt/connector-extension/src/options'
+// import { getExtensionOptions } from '@radixdlt/connector-extension/src/options'
 import { logger } from '@radixdlt/connector-extension/src/utils/logger'
-import { ConnectorClient } from '@radixdlt/radix-connect-webrtc'
+// import { ConnectorClient } from '@radixdlt/radix-connect-webrtc'
 import { ok } from 'neverthrow'
 import { QRCodeSVG } from 'qrcode.react'
 import React, { useEffect } from 'react'
@@ -13,7 +13,8 @@ import { Text } from 'ui/src/components/typography'
 import { useTheme } from 'ui/src/hooks/use-theme'
 import { Theme } from 'ui/src/types/types'
 
-import { config, radixConnectConfig } from '@src/config'
+import { config, /* radixConnectConfig */ } from '@src/config'
+import { ConnectorClient } from '@radixdlt/connector-extension/src/connector/connector-client'
 
 const messages = defineMessages({
 	help: {
@@ -54,26 +55,33 @@ export const Pairing: React.FC<IProps> = ({
 	}
 
 	useEffect(() => {
+		// const connectorClient = ConnectorClient({
+		// 	source: 'extension',
+		// 	target: 'wallet',
+		// 	isInitiator: config.webRTC.isInitiator,
+		// 	logger,
+		// })
 		const connectorClient = ConnectorClient({
 			source: 'extension',
 			target: 'wallet',
+			signalingServerBaseUrl: config.signalingServer.baseUrl,
 			isInitiator: config.webRTC.isInitiator,
 			logger,
-		})
+		  })
 
-		getExtensionOptions().map(options => {
-			connectorClient.setConnectionConfig(radixConnectConfig[options.radixConnectConfiguration])
-		})
+		// getExtensionOptions().map(options => {
+		// 	connectorClient.setConnectionConfig(radixConnectConfig[options.radixConnectConfiguration])
+		// })
 
 		chrome.storage.onChanged.addListener((changes, area) => {
-			if (changes['options']) {
-				if (
-					changes['options'].newValue.radixConnectConfiguration !==
-					changes['options'].oldValue.radixConnectConfiguration
-				) {
-					connectorClient.setConnectionConfig(radixConnectConfig[changes['options'].newValue.radixConnectConfiguration])
-				}
-			}
+			// if (changes['options']) {
+			// 	if (
+			// 		changes['options'].newValue.radixConnectConfiguration !==
+			// 		changes['options'].oldValue.radixConnectConfiguration
+			// 	) {
+			// 		connectorClient.setConnectionConfig(radixConnectConfig[changes['options'].newValue.radixConnectConfiguration])
+			// 	}
+			// }
 			if (area === 'local' && changes['connectionPassword']) {
 				const { newValue } = changes['connectionPassword']
 				if (!newValue) connect()

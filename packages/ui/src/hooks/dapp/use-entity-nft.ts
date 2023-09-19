@@ -34,25 +34,25 @@ export const useNonFungibleIds = (
 	return useQueries({ queries })
 }
 
-export const useNonFungibleCollection = (address: string, cursor: string = null, limit: number = null) => {
-	const networkId = useNetworkId()
-	const { state } = useGatewayClient()!
+// export const useNonFungibleCollection = (address: string, cursor: string = null, limit: number = null) => {
+// 	const networkId = useNetworkId()
+// 	const { state } = useGatewayClient()!
 
-	return useQuery({
-		queryKey: ['useNonFungibleCollection', networkId, address],
-		queryFn: () =>
-			state.innerClient
-				.nonFungibleCollection({
-					stateNonFungibleCollectionRequest: {
-						resource_address: address,
-						cursor,
-						limit_per_page: limit,
-					},
-				})
-				.then(resp => resp.non_fungible_ids.items),
-		enabled: !!state && !!address,
-	})
-}
+// 	return useQuery({
+// 		queryKey: ['useNonFungibleCollection', networkId, address],
+// 		queryFn: () =>
+// 			state.innerClient
+// 				.nonFungibleCollection({
+// 					stateNonFungibleCollectionRequest: {
+// 						resource_address: address,
+// 						cursor,
+// 						limit_per_page: limit,
+// 					},
+// 				})
+// 				.then(resp => resp.non_fungible_ids.items),
+// 		enabled: !!state && !!address,
+// 	})
+// }
 
 export const useNonFungibleData = (address: string, id: string) => {
 	const networkId = useNetworkId()

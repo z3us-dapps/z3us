@@ -47,15 +47,27 @@ export const removeSecret = async (keystore: Keystore) => {
 	}
 }
 
-export const setConnectionPassword = async (password: string) => {
-	if (!password) {
-		await browser.storage.local.set({ connectionPassword: password })
+export const setConnectionPassword = async (connectionPassword: string) => {
+	if (connectionPassword) {
+		await browser.storage.local.set({ connectionPassword })
+		const { lastError } = browser.runtime
+		if (lastError) {
+			throw new Error(lastError.message)
+		}
 	} else {
 		await browser.storage.local.remove('connectionPassword')
+		const { lastError } = browser.runtime
+		if (lastError) {
+			throw new Error(lastError.message)
+		}
 	}
 }
 
 export const hasConnectionPassword = async (): Promise<boolean> => {
-	const data = await browser.storage.local.get(['connectionPassword'])
+	const data = await browser.storage.local.get('connectionPassword')
+	const { lastError } = browser.runtime
+	if (lastError) {
+		throw new Error(lastError.message)
+	}
 	return !!data?.connectionPassword
 }

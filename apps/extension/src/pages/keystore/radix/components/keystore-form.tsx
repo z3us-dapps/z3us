@@ -111,7 +111,7 @@ export const KeystoreForm: React.FC<IProps> = ({ connectionPassword }) => {
 
 		await client.storeInVault(keystore, data, values.password)
 		if (selectedKeystoreId === defaultKeystore.id) {
-			await client.removeFromVault('')
+			await client.removeFromVault(selectedKeystoreId)
 			removeKeystore(defaultKeystore.id)
 		}
 		addKeystore(keystore.id, keystore.name, keystore.type)
