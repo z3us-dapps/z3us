@@ -136,47 +136,62 @@ export const useBalances = (...addresses: string[]) => {
 		)
 
 		const fungibleBalances = Object.values(fungible)
-		const fungibleValue = fungibleBalances.reduce((total, balance) => total.plus(balance.amount), new BigNumber(0))
+		const fungibleValue = fungibleBalances.reduce((total, balance) => total.plus(balance.value), new BigNumber(0))
 		const fungibleChange = fungibleBalances.reduce(
-			(change, balance) => change.plus(balance.change.div(fungibleValue.dividedBy(balance.value))),
+			(change, balance) =>
+				change.plus(
+					balance.change.div(
+						fungibleValue.eq(0) ? 1 : fungibleValue.dividedBy(balance.value.eq(0) ? 1 : balance.value),
+					),
+				),
 			new BigNumber(0),
 		)
 
 		const nonFungibleBalances = Object.values(nonFungible)
-		const nonFungibleValue = nonFungibleBalances.reduce(
-			(total, balance) => total.plus(balance.amount),
-			new BigNumber(0),
-		)
+		const nonFungibleValue = nonFungibleBalances.reduce((total, balance) => total.plus(balance.value), new BigNumber(0))
 		const nonFungibleChange = nonFungibleBalances.reduce(
-			(change, balance) => change.plus(balance.change.div(nonFungibleValue.dividedBy(balance.value))),
+			(change, balance) =>
+				change.plus(
+					balance.change.div(
+						nonFungibleValue.eq(0) ? 1 : nonFungibleValue.dividedBy(balance.value.eq(0) ? 1 : balance.value),
+					),
+				),
 			new BigNumber(0),
 		)
 
 		const tokenBalances = Object.values(otherTokens)
-		const tokensValue = tokenBalances.reduce((total, balance) => total.plus(balance.amount), new BigNumber(0))
+		const tokensValue = tokenBalances.reduce((total, balance) => total.plus(balance.value), new BigNumber(0))
 		const tokensChange = tokenBalances.reduce(
-			(change, balance) => change.plus(balance.change.div(tokensValue.dividedBy(balance.value))),
+			(change, balance) =>
+				change.plus(
+					balance.change.div(tokensValue.eq(0) ? 1 : tokensValue.dividedBy(balance.value.eq(0) ? 1 : balance.value)),
+				),
 			new BigNumber(0),
 		)
 
 		const lpBalances = Object.values(lpTokens)
-		const lpValue = lpBalances.reduce((total, balance) => total.plus(balance.amount), new BigNumber(0))
+		const lpValue = lpBalances.reduce((total, balance) => total.plus(balance.value), new BigNumber(0))
 		const lpChange = lpBalances.reduce(
-			(change, balance) => change.plus(balance.change.div(lpValue.dividedBy(balance.value))),
+			(change, balance) =>
+				change.plus(balance.change.div(lpValue.eq(0) ? 1 : lpValue.dividedBy(balance.value.eq(0) ? 1 : balance.value))),
 			new BigNumber(0),
 		)
 
 		const puBalances = Object.values(poolUnits)
-		const puValue = puBalances.reduce((total, balance) => total.plus(balance.amount), new BigNumber(0))
+		const puValue = puBalances.reduce((total, balance) => total.plus(balance.value), new BigNumber(0))
 		const puChange = puBalances.reduce(
-			(change, balance) => change.plus(balance.change.div(puValue.dividedBy(balance.value))),
+			(change, balance) =>
+				change.plus(balance.change.div(puValue.eq(0) ? 1 : puValue.dividedBy(balance.value.eq(0) ? 1 : balance.value))),
 			new BigNumber(0),
 		)
 
 		const balances = [...fungibleBalances, ...nonFungibleBalances]
 		const totalValue = fungibleValue.plus(nonFungibleValue).plus(lpValue).plus(puValue)
 		const totalChange = balances.reduce(
-			(change, balance) => change.plus(balance.change.div(totalValue.dividedBy(balance.value))),
+			(change, balance) =>
+				change.plus(
+					balance.change.div(totalValue.eq(0) ? 1 : totalValue.dividedBy(balance.value.eq(0) ? 1 : balance.value)),
+				),
 			new BigNumber(0),
 		)
 

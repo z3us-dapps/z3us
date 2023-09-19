@@ -12,14 +12,19 @@ import { AssetAmountCell } from 'ui/src/pages/accounts/components/table/asset-am
 import { AssetChangeCell } from 'ui/src/pages/accounts/components/table/asset-change-cell'
 import { AssetNameCell } from 'ui/src/pages/accounts/components/table/asset-name-cell'
 import { AssetValueCell } from 'ui/src/pages/accounts/components/table/asset-value-cell'
-import type { ResourceBalanceKind } from 'ui/src/types/types'
+import type { ResourceBalance, ResourceBalanceType } from 'ui/src/types/types'
 
+import { PoolCell } from '../components/table/pool-cell'
 import * as styles from './styles.css'
 
 const messages = defineMessages({
 	address: {
 		id: 'pool_units.address',
 		defaultMessage: 'Pool Unit',
+	},
+	pool: {
+		id: 'pool_units.pool',
+		defaultMessage: 'Pool',
 	},
 	amount: {
 		id: 'pool_units.amount',
@@ -62,7 +67,7 @@ const Tokens: React.FC = () => {
 		return {}
 	}, [resourceId, isLoading, accountId])
 
-	const handleRowSelected = (row: { original: ResourceBalanceKind }) => {
+	const handleRowSelected = (row: { original: ResourceBalance[ResourceBalanceType.POOL_UNIT] }) => {
 		const { original } = row
 		navigate(`/accounts/${accountId}/pool-units/${original.address}`)
 	}
@@ -74,6 +79,12 @@ const Tokens: React.FC = () => {
 				accessor: 'address',
 				width: 'auto',
 				Cell: AssetNameCell,
+			},
+			{
+				Header: intl.formatMessage(messages.pool),
+				accessor: 'pool',
+				width: 'auto',
+				Cell: PoolCell,
 			},
 			{
 				Header: intl.formatMessage(messages.amount),

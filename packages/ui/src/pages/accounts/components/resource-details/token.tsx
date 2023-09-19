@@ -70,7 +70,7 @@ const TIMEFRAMES = {
 const TokenDetails: React.FC = () => {
 	const intl = useIntl()
 	const { resourceId, accountId } = useParams()
-	const { data: details, isLoading } = useEntityDetails(resourceId)
+	const { data, isLoading } = useEntityDetails(resourceId)
 
 	const { currency } = useNoneSharedStore(state => ({
 		currency: state.currency,
@@ -78,10 +78,10 @@ const TokenDetails: React.FC = () => {
 	const { data: xrdPrice } = useXRDPriceOnDay(currency, new Date())
 	const { data: tokens } = useTokens()
 
-	const name = getStringMetadata('name', details?.explicit_metadata?.items)
-	const symbol = getStringMetadata('symbol', details?.explicit_metadata?.items)
-	const description = getStringMetadata('description', details?.explicit_metadata?.items)
-	const validator = getStringMetadata('validator', details?.explicit_metadata?.items)
+	const name = getStringMetadata('name', data?.metadata?.items)
+	const symbol = getStringMetadata('symbol', data?.metadata?.items)
+	const description = getStringMetadata('description', data?.metadata?.items)
+	const validator = getStringMetadata('validator', data?.metadata?.items)
 
 	let tokenKey = symbol?.toUpperCase()
 	if (!tokenKey && validator) tokenKey = 'XRD'
@@ -216,7 +216,7 @@ const TokenDetails: React.FC = () => {
 								{intl.formatMessage(messages.details_divisibility)}
 							</Text>
 						}
-						rightData={<Text size="small">{details?.details?.divisibility}</Text>}
+						rightData={<Text size="small">{data?.details?.divisibility}</Text>}
 					/>
 					<AccountsTransactionInfo
 						leftTitle={
@@ -226,7 +226,7 @@ const TokenDetails: React.FC = () => {
 						}
 						rightData={
 							<Text size="small">
-								{intl.formatNumber(+details?.details?.total_supply || 0, {
+								{intl.formatNumber(+data?.details?.total_supply || 0, {
 									style: 'decimal',
 									maximumFractionDigits: 8,
 								})}
@@ -241,7 +241,7 @@ const TokenDetails: React.FC = () => {
 						}
 						rightData={
 							<Text size="small">
-								{intl.formatNumber(+details?.details?.total_minted || 0, {
+								{intl.formatNumber(+data?.details?.total_minted || 0, {
 									style: 'decimal',
 									maximumFractionDigits: 8,
 								})}
@@ -256,7 +256,7 @@ const TokenDetails: React.FC = () => {
 						}
 						rightData={
 							<Text size="small">
-								{intl.formatNumber(+details?.details?.total_burned || 0, {
+								{intl.formatNumber(+data?.details?.total_burned || 0, {
 									style: 'decimal',
 									maximumFractionDigits: 8,
 								})}
@@ -271,7 +271,7 @@ const TokenDetails: React.FC = () => {
 							{intl.formatMessage(messages.metadata)}
 						</Text>
 					</Box>
-					{details?.explicit_metadata.items.map(item => (
+					{data?.metadata.items.map(item => (
 						<AccountsTransactionInfo
 							key={item.key}
 							leftTitle={

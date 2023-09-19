@@ -12,14 +12,19 @@ import { AssetAmountCell } from 'ui/src/pages/accounts/components/table/asset-am
 import { AssetChangeCell } from 'ui/src/pages/accounts/components/table/asset-change-cell'
 import { AssetNameCell } from 'ui/src/pages/accounts/components/table/asset-name-cell'
 import { AssetValueCell } from 'ui/src/pages/accounts/components/table/asset-value-cell'
-import type { ResourceBalanceKind } from 'ui/src/types/types'
+import type { ResourceBalance, ResourceBalanceType } from 'ui/src/types/types'
 
+import { ValidatorCell } from '../components/table/validator-cell'
 import * as styles from './styles.css'
 
 const messages = defineMessages({
 	address: {
 		id: 'lp_tokens.address',
 		defaultMessage: 'LP Token',
+	},
+	validator: {
+		id: 'lp_tokens.validator',
+		defaultMessage: 'Validator',
 	},
 	amount: {
 		id: 'lp_tokens.amount',
@@ -62,7 +67,7 @@ const Tokens: React.FC = () => {
 		return {}
 	}, [resourceId, isLoading, accountId])
 
-	const handleRowSelected = (row: { original: ResourceBalanceKind }) => {
+	const handleRowSelected = (row: { original: ResourceBalance[ResourceBalanceType.LIQUIDITY_POOL_TOKEN] }) => {
 		const { original } = row
 		navigate(`/accounts/${accountId}/lp-tokens/${original.address}`)
 	}
@@ -74,6 +79,12 @@ const Tokens: React.FC = () => {
 				accessor: 'address',
 				width: 'auto',
 				Cell: AssetNameCell,
+			},
+			{
+				Header: intl.formatMessage(messages.validator),
+				accessor: 'validator',
+				width: 'auto',
+				Cell: ValidatorCell,
 			},
 			{
 				Header: intl.formatMessage(messages.amount),

@@ -55,10 +55,10 @@ const messages = defineMessages({
 const NftCollectionDetails: React.FC = () => {
 	const intl = useIntl()
 	const { resourceId, accountId } = useParams()
-	const { data: details, isLoading } = useEntityDetails(resourceId)
+	const { data, isLoading } = useEntityDetails(resourceId)
 
-	const name = getStringMetadata('name', details?.explicit_metadata?.items)
-	const description = getStringMetadata('description', details?.explicit_metadata?.items)
+	const name = getStringMetadata('name', data?.metadata?.items)
+	const description = getStringMetadata('description', data?.metadata?.items)
 
 	if (!resourceId) return null
 	if (isLoading) return <Loader />
@@ -106,7 +106,7 @@ const NftCollectionDetails: React.FC = () => {
 								{intl.formatMessage(messages.details_id_type)}
 							</Text>
 						}
-						rightData={<Text size="small">{details?.details?.non_fungible_id_type}</Text>}
+						rightData={<Text size="small">{data?.details?.non_fungible_id_type}</Text>}
 					/>
 					<AccountsTransactionInfo
 						leftTitle={
@@ -116,7 +116,7 @@ const NftCollectionDetails: React.FC = () => {
 						}
 						rightData={
 							<Text size="small">
-								{intl.formatNumber(+details?.details?.total_supply || 0, {
+								{intl.formatNumber(+data?.details?.total_supply || 0, {
 									style: 'decimal',
 									maximumFractionDigits: 8,
 								})}
@@ -131,7 +131,7 @@ const NftCollectionDetails: React.FC = () => {
 						}
 						rightData={
 							<Text size="small">
-								{intl.formatNumber(+details?.details?.total_minted || 0, {
+								{intl.formatNumber(+data?.details?.total_minted || 0, {
 									style: 'decimal',
 									maximumFractionDigits: 8,
 								})}
@@ -146,7 +146,7 @@ const NftCollectionDetails: React.FC = () => {
 						}
 						rightData={
 							<Text size="small">
-								{intl.formatNumber(+details?.details?.total_burned || 0, {
+								{intl.formatNumber(+data?.details?.total_burned || 0, {
 									style: 'decimal',
 									maximumFractionDigits: 8,
 								})}
@@ -161,7 +161,7 @@ const NftCollectionDetails: React.FC = () => {
 							{intl.formatMessage(messages.metadata)}
 						</Text>
 					</Box>
-					{details?.explicit_metadata.items.map(item => (
+					{data?.metadata.items.map(item => (
 						<AccountsTransactionInfo
 							key={item.key}
 							leftTitle={
