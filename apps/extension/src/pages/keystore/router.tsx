@@ -4,6 +4,7 @@ const Layout = lazy(() => import('./components/layout'))
 const Home = lazy(() => import('./home'))
 const NewRadix = lazy(() => import('./radix'))
 const Export = lazy(() => import('./export'))
+const Remove = lazy(() => import('./remove'))
 
 const route = {
 	path: 'keystore',
@@ -25,6 +26,10 @@ const route = {
 		{
 			path: 'export',
 			element: <Export />,
+		},
+		{
+			path: 'remove',
+			element: <Remove />,
 		},
 	],
 }

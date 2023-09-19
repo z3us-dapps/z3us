@@ -35,6 +35,7 @@ import {
 	PlusIcon,
 	ShareIcon,
 	SunIcon,
+	TrashIcon,
 	Z3usIcon,
 } from 'ui/src/components/icons'
 import { Link } from 'ui/src/components/router-link'
@@ -77,6 +78,10 @@ const messages = defineMessages({
 	wallet_export: {
 		id: 'account_menu.wallet_export',
 		defaultMessage: 'Export to Radix Mobile',
+	},
+	wallet_remove: {
+		id: 'account_menu.wallet_remove',
+		defaultMessage: 'Delete wallet',
 	},
 	account: {
 		id: 'account_menu.account',
@@ -162,6 +167,10 @@ export const AccountViewDropdown = forwardRef<HTMLElement, IAccountViewDropdownP
 			navigate('/keystore/export')
 		}
 
+		const handleRemoveWallet = () => {
+			navigate('/keystore/remove')
+		}
+
 		return (
 			<Box ref={ref} className={clsx(styles.accountViewDropdownWrapper, className)}>
 				<DropdownMenu>
@@ -223,6 +232,8 @@ export const AccountViewDropdown = forwardRef<HTMLElement, IAccountViewDropdownP
 										))}
 								</DropdownMenuRadioGroup>
 
+								<DropdownMenuSeparator />
+
 								{isWallet && (
 									<DropdownMenuItem onSelect={handleAddNewWallet}>
 										<DropdownMenuLeftSlot>
@@ -235,35 +246,19 @@ export const AccountViewDropdown = forwardRef<HTMLElement, IAccountViewDropdownP
 										</Box>
 									</DropdownMenuItem>
 								)}
-							</Box>
-
-							<DropdownMenuSeparator />
-
-							<Box className={styles.accountViewPaddingWrapper}>
 								{isWallet && (
-									<>
-										<DropdownMenuItem onSelect={lock}>
-											<DropdownMenuLeftSlot>
-												<LockIcon />
-											</DropdownMenuLeftSlot>
-											<Box display="flex" marginLeft="small">
-												<Text size="xsmall" truncate>
-													{intl.formatMessage(messages.lock)}
-												</Text>
-											</Box>
-										</DropdownMenuItem>
-										<DropdownMenuItem onSelect={handleOpenInBrowser}>
-											<DropdownMenuLeftSlot>
-												<ShareIcon />
-											</DropdownMenuLeftSlot>
-											<Box display="flex" marginLeft="small">
-												<Text size="xsmall" truncate>
-													{intl.formatMessage(messages.open_in_browser)}
-												</Text>
-											</Box>
-										</DropdownMenuItem>
-									</>
+									<DropdownMenuItem onSelect={handleRemoveWallet}>
+										<DropdownMenuLeftSlot>
+											<TrashIcon />
+										</DropdownMenuLeftSlot>
+										<Box display="flex" marginLeft="small">
+											<Text size="xsmall" truncate>
+												{intl.formatMessage(messages.wallet_remove)}
+											</Text>
+										</Box>
+									</DropdownMenuItem>
 								)}
+
 								{isWallet && (keystore.type === KeystoreType.LOCAL || keystore.type === KeystoreType.HARDWARE) && (
 									<DropdownMenuItem onSelect={handleExportWallet}>
 										<DropdownMenuLeftSlot>
@@ -276,6 +271,36 @@ export const AccountViewDropdown = forwardRef<HTMLElement, IAccountViewDropdownP
 										</Box>
 									</DropdownMenuItem>
 								)}
+							</Box>
+
+							<DropdownMenuSeparator />
+
+							<Box className={styles.accountViewPaddingWrapper}>
+								{isWallet && (
+									<>
+										<DropdownMenuItem onSelect={handleOpenInBrowser}>
+											<DropdownMenuLeftSlot>
+												<ShareIcon />
+											</DropdownMenuLeftSlot>
+											<Box display="flex" marginLeft="small">
+												<Text size="xsmall" truncate>
+													{intl.formatMessage(messages.open_in_browser)}
+												</Text>
+											</Box>
+										</DropdownMenuItem>
+										<DropdownMenuItem onSelect={lock}>
+											<DropdownMenuLeftSlot>
+												<LockIcon />
+											</DropdownMenuLeftSlot>
+											<Box display="flex" marginLeft="small">
+												<Text size="xsmall" truncate>
+													{intl.formatMessage(messages.lock)}
+												</Text>
+											</Box>
+										</DropdownMenuItem>
+									</>
+								)}
+
 								<DropdownMenuSub>
 									<DropdownMenuSubTrigger>
 										<DropdownMenuLeftSlot>
