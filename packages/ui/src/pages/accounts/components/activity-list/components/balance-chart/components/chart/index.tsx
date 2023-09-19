@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useMemo, useState } from 'react'
 import { Cell, Pie, PieChart, ResponsiveContainer, Tooltip } from 'recharts'
 
 import { ChartToolTip } from 'ui/src/components/chart-tool-tip'
@@ -26,9 +26,18 @@ export const Chart: React.FC<IProps> = ({ balances }) => {
 		return null
 	}
 
+	const data = useMemo(
+		() =>
+			balances.map(resource => ({
+				name: (resource as ResourceBalance[ResourceBalanceType.FUNGIBLE]).symbol || resource.name || 'Unknown', // @TODO: need a component here {resource address + amount}
+				value: resource.value.toNumber(),
+			})),
+		[balances],
+	)
+
 	return (
 		<ResponsiveContainer width="100%" height="100%">
-			<PieChart width={400} height={400}>
+			<PieChart>
 				<defs>
 					{balances.map((entry, index) => (
 						<linearGradient key={entry.address} id={`myGradient${index}`}>
@@ -41,17 +50,14 @@ export const Chart: React.FC<IProps> = ({ balances }) => {
 					dataKey="value"
 					startAngle={0}
 					endAngle={360}
-					data={balances.map(resource => ({
-						name: (resource as ResourceBalance[ResourceBalanceType.FUNGIBLE]).symbol || resource.name || 'Unknown', // @TODO: need a component here {resource address + amount}
-						value: resource.value.toNumber(),
-					}))}
+					data={data}
 					cx="50%"
 					cy="50%"
 					outerRadius={100}
 					innerRadius={40}
 					isAnimationActive={false} // Disable initial animation on mount
 				>
-					{balances.map((entry, index) => (
+					{balances.map((entry: ResourceBalance[ResourceBalanceType.FUNGIBLE], index) => (
 						<Cell
 							key={`cell-${entry.address}`}
 							fill={`url(#myGradient${index})`}

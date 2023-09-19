@@ -22,6 +22,14 @@ const messages = defineMessages({
 		id: 'accounts.activity_list.balance_chart.loading',
 		defaultMessage: 'Loading',
 	},
+	show_less: {
+		id: 'accounts.activity_list.balance_chart.show_less',
+		defaultMessage: 'Show less accounts',
+	},
+	show_all: {
+		id: 'accounts.activity_list.balance_chart.show_all',
+		defaultMessage: 'Show all accounts',
+	},
 })
 
 const defaultRowsShown = 3
@@ -43,7 +51,7 @@ export const BalanceChart: React.FC = () => {
 		if (resourceType === 'lp-tokens') return liquidityPoolTokensBalances
 		if (resourceType === 'pool-units') return poolUnitsBalances
 		return balances
-	}, [resourceType, isLoading])
+	}, [balances, resourceType])
 
 	const handleToggleFullAccountList = () => {
 		setShowFullAccountList(!showFullAccountList)
@@ -90,7 +98,9 @@ export const BalanceChart: React.FC = () => {
 								{selectedBalances?.length > defaultRowsShown && (
 									<Box display="flex" flexDirection="column" gap="xsmall" width="full" paddingTop="medium">
 										<Button styleVariant={isMobile ? 'tertiary' : 'secondary'} onClick={handleToggleFullAccountList}>
-											{showFullAccountList ? 'Show less accounts' : 'Show all accounts'}
+											{showFullAccountList
+												? intl.formatMessage(messages.show_less)
+												: intl.formatMessage(messages.show_all)}
 										</Button>
 									</Box>
 								)}

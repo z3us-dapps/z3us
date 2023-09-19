@@ -70,7 +70,9 @@ export const pieChartWrapper = style([
 		alignItems: 'center',
 		paddingTop: 'medium',
 	}),
-	{},
+	{
+		height: '400px',
+	},
 ])
 
 export const accountsListWrapper = style([
