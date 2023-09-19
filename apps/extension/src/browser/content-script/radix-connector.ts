@@ -1,5 +1,5 @@
-import { sharedStore } from 'packages/ui/src/store'
-import { KeystoreType } from 'packages/ui/src/store/types'
+import { sharedStore } from 'ui/src/store'
+import { KeystoreType } from 'ui/src/store/types'
 
 export const isHandledByRadix = async (): Promise<boolean> => {
 	await sharedStore.persist.rehydrate()

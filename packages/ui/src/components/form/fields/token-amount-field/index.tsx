@@ -1,6 +1,7 @@
-import { useBalances } from 'packages/ui/src/hooks/dapp/use-balances'
 import React, { forwardRef, useContext } from 'react'
 import { defineMessages, useIntl } from 'react-intl'
+
+import { useBalances } from 'ui/src/hooks/dapp/use-balances'
 
 import { Box } from '../../../box'
 import { type IProps as WrapperProps } from '../../field-wrapper'

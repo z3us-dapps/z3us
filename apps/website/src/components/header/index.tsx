@@ -2,11 +2,11 @@ import { ContentContainer } from '@/components/content-container'
 import { NextButton } from '@/components/next-button'
 import { NextLink } from '@/components/next-link'
 import { clsx } from 'clsx'
-import { ConnectButton } from 'packages/ui/src/components/connect-button'
-import { GithubIcon, TelegramIcon, XIcon } from 'packages/ui/src/components/icons'
 import React from 'react'
 
 import { Box } from 'ui/src/components/box'
+import { ConnectButton } from 'ui/src/components/connect-button'
+import { GithubIcon, TelegramIcon, XIcon } from 'ui/src/components/icons'
 import { ToolTip } from 'ui/src/components/tool-tip'
 import { Z3usLogo, Z3usLogoText } from 'ui/src/components/z3us-logo-babylon'
 

@@ -1,5 +1,4 @@
 import clsx from 'clsx'
-import { NftSelect } from 'packages/ui/src/components/form/fields/nft-select'
 import React, { useEffect, useRef } from 'react'
 import { defineMessages, useIntl } from 'react-intl'
 
@@ -9,6 +8,7 @@ import { FieldsGroup } from 'ui/src/components/form/fields-group'
 import { AccountSelect } from 'ui/src/components/form/fields/account-select'
 import { AddressBookSelect } from 'ui/src/components/form/fields/address-book-select'
 import { CheckboxField } from 'ui/src/components/form/fields/checkbox-field'
+import { NftSelect } from 'ui/src/components/form/fields/nft-select'
 import { TextAreaField } from 'ui/src/components/form/fields/text-area-field'
 import { TokenAmountSelect } from 'ui/src/components/form/fields/token-amount-field'
 import { useFieldValue } from 'ui/src/components/form/use-field-value'

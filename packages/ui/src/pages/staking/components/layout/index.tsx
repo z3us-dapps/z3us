@@ -1,11 +1,11 @@
-import { Box } from 'packages/ui/src/components/box'
-import { useScroll } from 'packages/ui/src/components/scroll-area-radix/use-scroll'
 import React, { Suspense } from 'react'
 import { useLocation, useOutlet } from 'react-router-dom'
 
+import { Box } from 'ui/src/components/box'
 import Loader from 'ui/src/components/loader'
 import MotionBox from 'ui/src/components/motion-box'
 import { ScrollAreaRadix as ScrollArea } from 'ui/src/components/scroll-area-radix'
+import { useScroll } from 'ui/src/components/scroll-area-radix/use-scroll'
 import { ScrollPanel } from 'ui/src/components/scroll-panel'
 import * as panelViewStyles from 'ui/src/components/styles/panel-view-styles.css'
 import { useIsMobileWidth } from 'ui/src/hooks/use-is-mobile'

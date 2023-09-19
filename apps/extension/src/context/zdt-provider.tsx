@@ -1,6 +1,7 @@
-import type { State } from 'packages/ui/src/context/zdt'
-import { ZdtContext } from 'packages/ui/src/context/zdt'
 import React, { type PropsWithChildren, useMemo } from 'react'
+
+import type { State } from 'ui/src/context/zdt'
+import { ZdtContext } from 'ui/src/context/zdt'
 
 import { useAccounts } from '@src/hooks/use-accounts'
 import { useIsUnlocked } from '@src/hooks/use-is-unlocked'

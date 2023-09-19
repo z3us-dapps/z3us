@@ -1,6 +1,7 @@
 import type { PublicKey } from '@radixdlt/radix-engine-toolkit'
-import { useSharedStore } from 'packages/ui/src/hooks/use-store'
 import { useEffect, useState } from 'react'
+
+import { useSharedStore } from 'ui/src/hooks/use-store'
 
 import { useMessageClient } from './use-message-client'
 

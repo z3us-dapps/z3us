@@ -1,7 +1,8 @@
 import type { Account, Persona } from '@radixdlt/radix-dapp-toolkit'
 import { RadixEngineToolkit } from '@radixdlt/radix-engine-toolkit'
 import type { PublicKey } from '@radixdlt/radix-engine-toolkit'
-import type { AddressBook, AddressIndexes } from 'packages/ui/src/store/types'
+
+import type { AddressBook, AddressIndexes } from 'ui/src/store/types'
 
 import { newMessage } from './message'
 import type { GetPublicKeyMessage } from './message-handlers'

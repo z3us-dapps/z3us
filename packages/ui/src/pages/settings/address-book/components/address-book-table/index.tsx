@@ -1,6 +1,6 @@
-import { useScroll } from 'packages/ui/src/components/scroll-area-radix/use-scroll'
 import React from 'react'
 
+import { useScroll } from 'ui/src/components/scroll-area-radix/use-scroll'
 import { Table } from 'ui/src/components/table'
 
 interface IProps {

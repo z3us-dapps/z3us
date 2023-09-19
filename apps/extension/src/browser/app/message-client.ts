@@ -10,6 +10,7 @@ export type MessageClientType = ReturnType<typeof MessageClient>
 export const MessageClient = () => {
 	let port = browser.runtime.connect({ name: PORT_NAME })
 	port.onDisconnect.addListener(() => {
+		console.error(`onDisconnect: ${port}`)
 		// eslint-disable-next-line no-console
 		if (port.error) console.error(`Disconnected due to an error: ${port.error.message}`)
 		port = browser.runtime.connect({ name: PORT_NAME })
@@ -33,6 +34,7 @@ export const MessageClient = () => {
 	})
 
 	const sendMessage = async (action: string, payload: any = {}) => {
+		console.error(`sendMessage: ${port}`)
 		const messageId = `${action}-${crypto.randomUUID()}`
 		const promise = new Promise<ResponseMessage['payload']>(resolve => {
 			messageHandlers[messageId] = (message: Message) => {

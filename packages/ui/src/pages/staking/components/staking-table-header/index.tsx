@@ -1,8 +1,8 @@
-import { Box } from 'packages/ui/src/components/box'
 import React from 'react'
 import { defineMessages, useIntl } from 'react-intl'
 import { useNavigate, useParams } from 'react-router-dom'
 
+import { Box } from 'ui/src/components/box'
 import { Text } from 'ui/src/components/typography'
 
 import * as styles from './styles.css'

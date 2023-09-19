@@ -1,14 +1,14 @@
 import clsx from 'clsx'
-import Loader from 'packages/ui/src/components/loader'
-import { useEntityDetails } from 'packages/ui/src/hooks/dapp/use-entity-details'
-import { getStringMetadata } from 'packages/ui/src/services/metadata'
 import React from 'react'
 import { defineMessages, useIntl } from 'react-intl'
 
 import { Box } from 'ui/src/components/box'
+import Loader from 'ui/src/components/loader'
 import { ResourceImageIcon } from 'ui/src/components/resource-image-icon'
 import { Text } from 'ui/src/components/typography'
+import { useEntityDetails } from 'ui/src/hooks/dapp/use-entity-details'
 import { useIsMobileWidth } from 'ui/src/hooks/use-is-mobile'
+import { getStringMetadata } from 'ui/src/services/metadata'
 import type { ResourceBalance, ResourceBalanceKind, ResourceBalanceType } from 'ui/src/types/types'
 
 import * as styles from './styles.css'

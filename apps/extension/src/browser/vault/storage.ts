@@ -1,5 +1,6 @@
-import type { Keystore } from 'packages/ui/src/store/types'
 import browser from 'webextension-polyfill'
+
+import type { Keystore } from 'ui/src/store/types'
 
 export const keystoreKey = 'z3us-keystore'
 

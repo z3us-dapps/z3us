@@ -1,14 +1,14 @@
 import type BigNumber from 'bignumber.js'
 import clsx from 'clsx'
-import Loader from 'packages/ui/src/components/loader'
-import { useBalances } from 'packages/ui/src/hooks/dapp/use-balances'
-import { useSelectedAccounts } from 'packages/ui/src/hooks/use-accounts'
 import React, { useState } from 'react'
 import { FormattedNumber, defineMessages, useIntl } from 'react-intl'
 import { Link, useParams } from 'react-router-dom'
 
 import { Box } from 'ui/src/components/box'
+import Loader from 'ui/src/components/loader'
 import { Text } from 'ui/src/components/typography'
+import { useBalances } from 'ui/src/hooks/dapp/use-balances'
+import { useSelectedAccounts } from 'ui/src/hooks/use-accounts'
 import { useNoneSharedStore } from 'ui/src/hooks/use-store'
 
 import { OverlayAssetIcons } from '../overlay-asset-icons'

@@ -1,8 +1,8 @@
-import { Box } from 'packages/ui/src/components/box'
 import React, { useMemo } from 'react'
 import { defineMessages, useIntl } from 'react-intl'
 import { useNavigate, useParams } from 'react-router-dom'
 
+import { Box } from 'ui/src/components/box'
 import { EmptyState } from 'ui/src/components/empty-state'
 import { useScroll } from 'ui/src/components/scroll-area-radix/use-scroll'
 import { Table } from 'ui/src/components/table'

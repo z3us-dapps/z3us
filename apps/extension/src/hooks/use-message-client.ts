@@ -1,8 +1,9 @@
 import type { Account, Persona } from '@radixdlt/radix-dapp-toolkit'
 import { Convert, LTSRadixEngineToolkit, type PublicKey } from '@radixdlt/radix-engine-toolkit'
-import { useSharedStore } from 'packages/ui/src/hooks/use-store'
-import type { AddressBook, AddressIndexes, Keystore } from 'packages/ui/src/store/types'
 import { useEffect, useMemo, useState } from 'react'
+
+import { useSharedStore } from 'ui/src/hooks/use-store'
+import type { AddressBook, AddressIndexes, Keystore } from 'ui/src/store/types'
 
 import { MessageClient } from '@src/browser/app/message-client'
 import type { MessageTypes } from '@src/browser/messages/message-handlers'

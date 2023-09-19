@@ -1,7 +1,9 @@
 import React, { useMemo, useState } from 'react'
+import { useIntl } from 'react-intl'
 import { Cell, Pie, PieChart, ResponsiveContainer, Tooltip } from 'recharts'
 
 import { ChartToolTip } from 'ui/src/components/chart-tool-tip'
+import { useNoneSharedStore } from 'ui/src/hooks/use-store'
 import type { ResourceBalance, ResourceBalanceKind, ResourceBalanceType } from 'ui/src/types/types'
 
 const COLORS = [
@@ -15,13 +17,17 @@ interface IProps {
 }
 
 export const Chart: React.FC<IProps> = ({ balances }) => {
+	const intl = useIntl()
+	const { currency } = useNoneSharedStore(state => ({
+		currency: state.currency,
+	}))
 	const [hoveredCellIndex, setHoveredCellIndex] = useState<number>(-1)
 
 	const renderCustomTooltip = ({ payload }) => {
 		if (payload && payload.length) {
 			const { name, value } = payload[0].payload
 
-			return <ChartToolTip name={name} value={value} />
+			return <ChartToolTip name={name} value={intl.formatNumber(value, { style: 'currency', currency })} />
 		}
 		return null
 	}

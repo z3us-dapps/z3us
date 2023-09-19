@@ -1,6 +1,3 @@
-import { CopyAddressButton } from 'packages/ui/src/components/copy-address-button'
-import { useWalletAccounts } from 'packages/ui/src/hooks/use-accounts'
-import { useIsAllAccounts } from 'packages/ui/src/hooks/use-is-all-accounts'
 import React from 'react'
 import { defineMessages, useIntl } from 'react-intl'
 import { useParams } from 'react-router-dom'
@@ -8,7 +5,10 @@ import useMeasure from 'react-use-measure'
 import { useWindowSize } from 'usehooks-ts'
 
 import { Box } from 'ui/src/components/box'
+import { CopyAddressButton } from 'ui/src/components/copy-address-button'
 import { Text } from 'ui/src/components/typography'
+import { useWalletAccounts } from 'ui/src/hooks/use-accounts'
+import { useIsAllAccounts } from 'ui/src/hooks/use-is-all-accounts'
 import { useIsMobileWidth } from 'ui/src/hooks/use-is-mobile'
 
 import { AssetsList } from '../components/assets-list'

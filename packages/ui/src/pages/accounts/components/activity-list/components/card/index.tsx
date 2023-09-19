@@ -1,7 +1,7 @@
-import { AccountCard } from 'packages/ui/src/components/account-cards'
 import React from 'react'
 import { useParams } from 'react-router-dom'
 
+import { AccountCard } from 'ui/src/components/account-cards'
 import { Box } from 'ui/src/components/box'
 import { CardButtons } from 'ui/src/components/card-buttons'
 

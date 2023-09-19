@@ -1,5 +1,6 @@
-import Loader from 'packages/ui/src/components/loader'
 import React from 'react'
+
+import Loader from 'ui/src/components/loader'
 
 import { useIsUnlocked } from '@src/hooks/use-is-unlocked'
 

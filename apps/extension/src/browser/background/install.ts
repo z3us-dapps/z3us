@@ -1,10 +1,11 @@
 /* eslint-disable no-console */
-import { getNoneSharedStore } from 'packages/ui/src/services/state'
-import { sharedStore } from 'packages/ui/src/store'
-import { AddressType, KeystoreType } from 'packages/ui/src/store/types'
-import type { Address, Keystore } from 'packages/ui/src/store/types'
 import type { Runtime } from 'webextension-polyfill'
 import browser from 'webextension-polyfill'
+
+import { getNoneSharedStore } from 'ui/src/services/state'
+import { sharedStore } from 'ui/src/store'
+import { AddressType, KeystoreType } from 'ui/src/store/types'
+import type { Address, Keystore } from 'ui/src/store/types'
 
 const migrateOlympiaAddresses = async () => {
 	const oldSharedStore = await browser.storage.local.get(['z3us-store-shared'])

@@ -1,5 +1,4 @@
 import clsx from 'clsx'
-import { ValidationErrorMessage } from 'packages/ui/src/components/validation-error-message'
 import React, { useEffect, useMemo, useRef, useState } from 'react'
 import { defineMessages, useIntl } from 'react-intl'
 import type { ZodError } from 'zod'
@@ -9,6 +8,7 @@ import { Box } from 'ui/src/components/box'
 import { Form } from 'ui/src/components/form'
 import TextAreaField from 'ui/src/components/form/fields/text-area-field'
 import { Text } from 'ui/src/components/typography'
+import { ValidationErrorMessage } from 'ui/src/components/validation-error-message'
 import { useSendTransaction } from 'ui/src/hooks/use-send-transaction'
 
 import * as styles from './styles.css'

@@ -1,10 +1,10 @@
 import { LayoutGroup } from 'framer-motion'
-import { PillNavigation } from 'packages/ui/src/components/pill-navigation'
 import React, { useMemo } from 'react'
 import { defineMessages, useIntl } from 'react-intl'
 
 import { Box } from 'ui/src/components/box'
 import { AddressBookIcon, CoinsIcon, Settings2Icon } from 'ui/src/components/icons'
+import { PillNavigation } from 'ui/src/components/pill-navigation'
 import { NavLink } from 'ui/src/components/router-link'
 
 const messages = defineMessages({

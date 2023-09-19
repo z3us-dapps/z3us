@@ -1,6 +1,7 @@
-import { useSharedStore } from 'packages/ui/src/hooks/use-store'
-import { KeystoreType } from 'packages/ui/src/store/types'
 import { useMemo, useState } from 'react'
+
+import { useSharedStore } from 'ui/src/hooks/use-store'
+import { KeystoreType } from 'ui/src/store/types'
 
 import { hasConnectionPassword } from '@src/browser/vault/storage'
 

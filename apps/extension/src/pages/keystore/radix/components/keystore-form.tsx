@@ -1,4 +1,3 @@
-import { defaultKeystore } from 'packages/ui/src/store/keystore'
 import React, { useEffect, useMemo, useRef, useState } from 'react'
 import { defineMessages, useIntl } from 'react-intl'
 import { useNavigate } from 'react-router-dom'
@@ -8,6 +7,7 @@ import { ZodError } from 'zod'
 import { Form } from 'ui/src/components/form'
 import TextField from 'ui/src/components/form/fields/text-field'
 import { useSharedStore } from 'ui/src/hooks/use-store'
+import { defaultKeystore } from 'ui/src/store/keystore'
 import { Keystore, KeystoreType } from 'ui/src/store/types'
 import { generateId } from 'ui/src/utils/generate-id'
 

@@ -6,9 +6,10 @@ import {
 import { createMessage as createRadixMessage } from '@radixdlt/connector-extension/src/chrome/messages/create-message'
 import type { Account, Persona } from '@radixdlt/radix-dapp-toolkit'
 import { Convert } from '@radixdlt/radix-engine-toolkit'
-import { sharedStore } from 'packages/ui/src/store'
-import type { AddressBook, AddressIndexes, Keystore } from 'packages/ui/src/store/types'
-import { KeystoreType } from 'packages/ui/src/store/types'
+
+import { sharedStore } from 'ui/src/store'
+import type { AddressBook, AddressIndexes, Keystore } from 'ui/src/store/types'
+import { KeystoreType } from 'ui/src/store/types'
 
 import { openAppPopup } from '@src/browser/app/popup'
 import type { Message, MessageHandlers } from '@src/browser/messages/types'

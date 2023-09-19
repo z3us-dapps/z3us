@@ -1,11 +1,11 @@
 import { fontMono, fontSans } from '@/lib/fonts'
 import { ThemeProvider as NextThemesProvider, useTheme } from 'next-themes'
-import type { State as ThemeState } from 'packages/ui/src/context/theme'
-import { ThemeContext } from 'packages/ui/src/context/theme'
-import type { Theme } from 'packages/ui/src/types/types'
 import React, { type PropsWithChildren, useEffect, useMemo } from 'react'
 
 import { darkThemeClass, lightThemeClass } from 'ui/src/components/system/theme.css'
+import type { State as ThemeState } from 'ui/src/context/theme'
+import { ThemeContext } from 'ui/src/context/theme'
+import type { Theme } from 'ui/src/types/types'
 
 export const InnerThemeProvider: React.FC<PropsWithChildren> = ({ children }) => {
 	const { setTheme, theme, resolvedTheme } = useTheme()

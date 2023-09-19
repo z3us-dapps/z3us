@@ -1,6 +1,6 @@
-import { AccountCard } from 'packages/ui/src/components/account-cards'
 import React from 'react'
 
+import { AccountCard } from 'ui/src/components/account-cards'
 import { Link } from 'ui/src/components/router-link'
 
 import * as styles from './styles.css'

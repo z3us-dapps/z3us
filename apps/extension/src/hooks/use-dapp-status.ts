@@ -1,8 +1,9 @@
-import { DAPP_ORIGIN } from 'packages/ui/src/constants/dapp'
-import type { State } from 'packages/ui/src/context/dapp-status'
 import { useEffect } from 'react'
 import { useImmer } from 'use-immer'
 import browser from 'webextension-polyfill'
+
+import { DAPP_ORIGIN } from 'ui/src/constants/dapp'
+import type { State } from 'ui/src/context/dapp-status'
 
 import { checkContentScript, showConnected, showDisconnected } from '@src/browser/content-script/status'
 import { config } from '@src/config'

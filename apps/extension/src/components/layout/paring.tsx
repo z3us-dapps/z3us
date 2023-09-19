@@ -1,6 +1,7 @@
-import Loader from 'packages/ui/src/components/loader'
 import React from 'react'
 import { Navigate, useLocation, useOutlet } from 'react-router-dom'
+
+import Loader from 'ui/src/components/loader'
 
 import { useIsPaired } from '@src/hooks/use-is-paired'
 

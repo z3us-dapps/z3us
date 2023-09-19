@@ -1,11 +1,11 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import clsx from 'clsx'
-import { useScroll } from 'packages/ui/src/components/scroll-area-radix/use-scroll'
-import { Table } from 'packages/ui/src/components/table'
 import React from 'react'
 
 import { Box } from 'ui/src/components/box'
 import { Link } from 'ui/src/components/router-link'
+import { useScroll } from 'ui/src/components/scroll-area-radix/use-scroll'
+import { Table } from 'ui/src/components/table'
 
 // import * as tableHeadStyles from 'ui/src/components/styles/table-head-shadow.css'
 import { StakingTableHeader } from '../components/staking-table-header'

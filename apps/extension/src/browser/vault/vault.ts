@@ -1,7 +1,8 @@
 import { Mutex } from 'async-mutex'
-import { getNoneSharedStore } from 'packages/ui/src/services/state'
-import { sharedStore } from 'packages/ui/src/store'
-import { type Keystore, KeystoreType } from 'packages/ui/src/store/types'
+
+import { getNoneSharedStore } from 'ui/src/services/state'
+import { sharedStore } from 'ui/src/store'
+import { type Keystore, KeystoreType } from 'ui/src/store/types'
 
 import { CryptoService } from '@src/crypto/crypto'
 import type { Data } from '@src/types/vault'

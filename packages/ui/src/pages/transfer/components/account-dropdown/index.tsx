@@ -1,5 +1,3 @@
-import type { AddressBookEntry } from 'packages/ui/src/store/types'
-import { getShortAddress } from 'packages/ui/src/utils/string-utils'
 import React from 'react'
 
 import { Box } from 'ui/src/components/box'
@@ -8,17 +6,19 @@ import {
 	DropdownMenuItemIndicator,
 	DropdownMenuRadioItem,
 	DropdownMenuVirtuoso,
-	type IDropdownMenuVirtuosoRequiredProps,
+	type IDropdownMenuVirtuosoProps,
 } from 'ui/src/components/dropdown-menu'
 import { Check2Icon, ChevronDown2Icon } from 'ui/src/components/icons'
 import { ResourceImageIcon } from 'ui/src/components/resource-image-icon'
 import { Text } from 'ui/src/components/typography'
+import type { AddressBookEntry } from 'ui/src/store/types'
+import { getShortAddress } from 'ui/src/utils/string-utils'
 
 interface IAccountDropdownProps {
 	account: string
-	accounts: IDropdownMenuVirtuosoRequiredProps['data']
+	accounts: IDropdownMenuVirtuosoProps['data']
 	knownAddresses?: { [key: string]: AddressBookEntry }
-	onUpdateAccount: IDropdownMenuVirtuosoRequiredProps['onValueChange']
+	onUpdateAccount: IDropdownMenuVirtuosoProps['onValueChange']
 	styleVariant?: TStyleVariant
 	sizeVariant?: TSizeVariant
 }

@@ -1,5 +1,5 @@
-import { sharedStore } from 'packages/ui/src/store'
-import type { Keystore } from 'packages/ui/src/store/types'
+import { sharedStore } from 'ui/src/store'
+import type { Keystore } from 'ui/src/store/types'
 
 export const getSelectedKeystore = async (): Promise<Keystore | null> => {
 	await sharedStore.persist.rehydrate()

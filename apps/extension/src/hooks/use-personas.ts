@@ -1,7 +1,8 @@
 import type { Persona } from '@radixdlt/radix-dapp-toolkit'
-import { useNetworkId } from 'packages/ui/src/hooks/dapp/use-network-id'
-import { useNoneSharedStore } from 'packages/ui/src/hooks/use-store'
 import { useEffect, useState } from 'react'
+
+import { useNetworkId } from 'ui/src/hooks/dapp/use-network-id'
+import { useNoneSharedStore } from 'ui/src/hooks/use-store'
 
 import { useIsUnlocked } from './use-is-unlocked'
 import { useMessageClient } from './use-message-client'

@@ -1,9 +1,9 @@
-import { useNonFungibleData } from 'packages/ui/src/hooks/dapp/use-entity-nft'
 import React, { useEffect, useState } from 'react'
 import { defineMessages, useIntl } from 'react-intl'
 import { useParams, useSearchParams } from 'react-router-dom'
 
 import { Link } from 'ui/src/components/router-link'
+import { useNonFungibleData } from 'ui/src/hooks/dapp/use-entity-nft'
 import { getStringNftData } from 'ui/src/services/metadata'
 
 const messages = defineMessages({

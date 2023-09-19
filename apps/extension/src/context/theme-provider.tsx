@@ -1,9 +1,9 @@
-import type { State as ThemeState } from 'packages/ui/src/context/theme'
-import { ThemeContext } from 'packages/ui/src/context/theme'
-import { Theme } from 'packages/ui/src/types/types'
 import React, { type PropsWithChildren, useEffect, useMemo, useState } from 'react'
 
 import { darkThemeClass, lightThemeClass } from 'ui/src/components/system/theme.css'
+import type { State as ThemeState } from 'ui/src/context/theme'
+import { ThemeContext } from 'ui/src/context/theme'
+import { Theme } from 'ui/src/types/types'
 
 const DARK_MODE_MEDIA_QUERY = '(prefers-color-scheme: dark)'
 

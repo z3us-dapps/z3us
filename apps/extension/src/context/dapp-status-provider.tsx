@@ -1,5 +1,6 @@
-import { DappStatusContext } from 'packages/ui/src/context/dapp-status'
 import React, { type PropsWithChildren } from 'react'
+
+import { DappStatusContext } from 'ui/src/context/dapp-status'
 
 import { useDappStatus } from '@src/hooks/use-dapp-status'
 
