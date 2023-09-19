@@ -1,3 +1,6 @@
+import { CopyAddressButton } from 'packages/ui/src/components/copy-address-button'
+import { useWalletAccounts } from 'packages/ui/src/hooks/use-accounts'
+import { useIsAllAccounts } from 'packages/ui/src/hooks/use-is-all-accounts'
 import React from 'react'
 import { defineMessages, useIntl } from 'react-intl'
 import { useParams } from 'react-router-dom'
@@ -5,10 +8,7 @@ import useMeasure from 'react-use-measure'
 import { useWindowSize } from 'usehooks-ts'
 
 import { Box } from 'ui/src/components/box'
-import Loader from 'ui/src/components/loader'
 import { Text } from 'ui/src/components/typography'
-import { useBalances } from 'ui/src/hooks/dapp/use-balances'
-import { useSelectedAccounts } from 'ui/src/hooks/use-accounts'
 import { useIsMobileWidth } from 'ui/src/hooks/use-is-mobile'
 
 import { AssetsList } from '../components/assets-list'
@@ -26,23 +26,13 @@ const messages = defineMessages({
 const Home: React.FC = () => {
 	const intl = useIntl()
 	const { accountId = '-' } = useParams()
+	const accounts = useWalletAccounts()
+	const isAllAccounts = useIsAllAccounts()
 	const [wrapperRef, { width: horizontalScrollWidth, top }] = useMeasure()
 	const { height } = useWindowSize()
 	const isMobile = useIsMobileWidth()
 	const mobileMinHeight = height - top - 48
-
-	const selectedAccounts = useSelectedAccounts()
-	const {
-		isLoading,
-		fungibleBalances,
-		fungibleChange,
-		fungibleValue,
-		nonFungibleBalances,
-		nonFungibleChange,
-		nonFungibleValue,
-	} = useBalances(...selectedAccounts)
-
-	if (isLoading) return <Loader />
+	const accountName = accounts?.[accountId]?.name
 
 	return (
 		<Box
@@ -53,19 +43,20 @@ const Home: React.FC = () => {
 			<HomeScrollShadow />
 			<HorizontalAccountsScrollList horizontalScrollWidth={horizontalScrollWidth} />
 			<Box className={styles.homeAssetsTitleWrapper}>
-				<Text capitalizeFirstLetter color="strong" weight="strong" size="medium">
-					{intl.formatMessage(messages.all_assets)}
-				</Text>
+				{isAllAccounts ? (
+					<Text capitalizeFirstLetter color="strong" weight="strong" size="medium">
+						{intl.formatMessage(messages.all_assets)}{' '}
+					</Text>
+				) : (
+					<>
+						<Text capitalizeFirstLetter color="strong" weight="strong" size="medium">
+							{accountName}
+						</Text>
+						<CopyAddressButton address={accountId} />
+					</>
+				)}
 			</Box>
-			<AssetsList
-				accountId={accountId}
-				fungibleBalances={fungibleBalances}
-				fungibleValue={fungibleValue}
-				fungibleChange={fungibleChange}
-				nonFungibleBalances={nonFungibleBalances}
-				nonFungibleValue={nonFungibleValue}
-				nonFungibleChange={nonFungibleChange}
-			/>
+			<AssetsList />
 		</Box>
 	)
 }

@@ -20,19 +20,34 @@ export const AccountTotalValue: React.FC = () => {
 	}))
 
 	const selectedAccounts = useSelectedAccounts()
-	const { totalValue, totalChange, fungibleValue, nonFungibleValue, fungibleChange, nonFungibleChange, isLoading } =
-		useBalances(...selectedAccounts)
+	const {
+		isLoading,
+		totalValue,
+		totalChange,
+		fungibleValue,
+		fungibleChange,
+		nonFungibleValue,
+		nonFungibleChange,
+		liquidityPoolTokensValue,
+		liquidityPoolTokensChange,
+		poolUnitsValue,
+		poolUnitsChange,
+	} = useBalances(...selectedAccounts)
 
 	const [hidden, setHidden] = useState<boolean>(false)
 
 	const value = useMemo(() => {
 		if (resourceType === 'nfts') return nonFungibleValue
 		if (resourceType === 'tokens') return fungibleValue
+		if (resourceType === 'lp-tokens') return liquidityPoolTokensValue
+		if (resourceType === 'pool-units') return poolUnitsValue
 		return totalValue
 	}, [resourceType, totalValue, fungibleValue, nonFungibleValue])
 	const change = useMemo(() => {
 		if (resourceType === 'nfts') return nonFungibleChange
 		if (resourceType === 'tokens') return fungibleChange
+		if (resourceType === 'lp-tokens') return liquidityPoolTokensChange
+		if (resourceType === 'pool-units') return poolUnitsChange
 		return totalChange
 	}, [resourceType, totalValue, fungibleValue, nonFungibleValue])
 

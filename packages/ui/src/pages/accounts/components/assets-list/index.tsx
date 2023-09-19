@@ -1,124 +1,128 @@
 import type BigNumber from 'bignumber.js'
 import clsx from 'clsx'
+import Loader from 'packages/ui/src/components/loader'
+import { useBalances } from 'packages/ui/src/hooks/dapp/use-balances'
+import { useSelectedAccounts } from 'packages/ui/src/hooks/use-accounts'
 import React, { useState } from 'react'
 import { FormattedNumber, defineMessages, useIntl } from 'react-intl'
-import { Link } from 'react-router-dom'
+import { Link, useParams } from 'react-router-dom'
 
 import { Box } from 'ui/src/components/box'
 import { Text } from 'ui/src/components/typography'
 import { useNoneSharedStore } from 'ui/src/hooks/use-store'
-import { type ResourceBalanceKind } from 'ui/src/types/types'
 
 import { OverlayAssetIcons } from '../overlay-asset-icons'
 import * as styles from './styles.css'
 
-const TOKENS_PATH = 'tokens'
-const NFTS_PATH = 'nfts'
-
-interface IProps {
-	accountId: string
-	fungibleBalances: ResourceBalanceKind[]
-	fungibleValue: BigNumber
-	fungibleChange: BigNumber
-	nonFungibleBalances: ResourceBalanceKind[]
-	nonFungibleValue: BigNumber
-	nonFungibleChange: BigNumber
-}
-
 const messages = defineMessages({
-	fungibles: {
-		id: 'accounts.assets_list.fungibles',
+	tokens: {
+		id: 'accounts.assets_list.tokens',
 		defaultMessage: 'Tokens',
 	},
-	non_fungibles: {
-		id: 'accounts.assets_list.non_fungibles',
+	nfts: {
+		id: 'accounts.assets_list.nfts',
 		defaultMessage: 'NFTs',
+	},
+	lp_tokens: {
+		id: 'accounts.assets_list.lp_tokens',
+		defaultMessage: 'Liquidity Pool Tokens',
+	},
+	pool_units: {
+		id: 'accounts.assets_list.pool_units',
+		defaultMessage: 'Pool Units',
 	},
 })
 
-export const AssetsList: React.FC<IProps> = props => {
-	const {
-		accountId,
-		fungibleBalances,
-		fungibleValue,
-		fungibleChange,
-		nonFungibleBalances,
-		nonFungibleValue,
-		nonFungibleChange,
-	} = props
-
+export const AssetsList: React.FC = () => {
 	const intl = useIntl()
+	const { accountId = '-' } = useParams()
+	const selectedAccounts = useSelectedAccounts()
 	const { currency } = useNoneSharedStore(state => ({
 		currency: state.currency,
 	}))
+	const {
+		isLoading,
+		nonFungibleBalances,
+		nonFungibleChange,
+		nonFungibleValue,
+		tokensBalances,
+		tokensValue,
+		tokensChange,
+		liquidityPoolTokensBalances,
+		liquidityPoolTokensValue,
+		liquidityPoolTokensChange,
+		poolUnitsBalances,
+		poolUnitsValue,
+		poolUnitsChange,
+	} = useBalances(...selectedAccounts)
+
+	const rows = {
+		tokens: {
+			balances: tokensBalances,
+			value: tokensValue,
+			change: tokensChange,
+			title: intl.formatMessage(messages.tokens),
+		},
+		nfts: {
+			balances: nonFungibleBalances,
+			value: nonFungibleValue,
+			change: nonFungibleChange,
+			title: intl.formatMessage(messages.nfts),
+		},
+		'lp-tokens': {
+			balances: liquidityPoolTokensBalances,
+			value: liquidityPoolTokensValue,
+			change: liquidityPoolTokensChange,
+			title: intl.formatMessage(messages.lp_tokens),
+		},
+		'pool-units': {
+			balances: poolUnitsBalances,
+			value: poolUnitsValue,
+			change: poolUnitsChange,
+			title: intl.formatMessage(messages.pool_units),
+		},
+	}
+
 	const [hoveredLink, setHoveredLink] = useState<string | null>(null)
+
+	if (isLoading) return <Loader />
 
 	return (
 		<Box component="ul" className={styles.assetsList}>
-			<Box component="li" className={styles.assetsListLi}>
-				<Link
-					to={`/accounts/${accountId}/${TOKENS_PATH}`}
-					className={clsx(styles.assetsListLink, hoveredLink === TOKENS_PATH && styles.assetsListLinkHover)}
-					onMouseOver={() => setHoveredLink(TOKENS_PATH)}
-					onMouseLeave={() => setHoveredLink(null)}
-				>
-					<Box className={styles.assetsListTitleWrapper}>
-						<Text capitalizeFirstLetter color="strong" weight="medium" size="small">
-							{intl.formatMessage(messages.fungibles)}
-						</Text>
-						{fungibleBalances.length > 0 && (
-							<Text size="small" truncate>
-								({fungibleBalances.length})
+			{Object.keys(rows).map(path => (
+				<Box key={path} component="li" className={styles.assetsListLi}>
+					<Link
+						to={`/accounts/${accountId}/${path}`}
+						className={clsx(styles.assetsListLink, hoveredLink === path && styles.assetsListLinkHover)}
+						onMouseOver={() => setHoveredLink(path)}
+						onMouseLeave={() => setHoveredLink(null)}
+					>
+						<Box className={styles.assetsListTitleWrapper}>
+							<Text capitalizeFirstLetter color="strong" weight="medium" size="small">
+								{rows[path].title}
 							</Text>
-						)}
-					</Box>
-					<Box className={styles.assetsListTitleWrapper}>
-						<Text weight="strong" size="small" color="strong" truncate>
-							<FormattedNumber value={fungibleValue.toNumber()} style="currency" currency={currency} />
-						</Text>
-						<Text size="small" color={fungibleChange && fungibleChange.gt(0) ? 'green' : 'red'} truncate>
-							<FormattedNumber value={fungibleChange.toNumber()} style="percent" maximumFractionDigits={2} />
-						</Text>
-					</Box>
-				</Link>
-				<OverlayAssetIcons
-					resourceType="token"
-					balances={fungibleBalances}
-					onButtonMouseOver={() => setHoveredLink(TOKENS_PATH)}
-				/>
-			</Box>
-			<Box component="li" className={styles.assetsListLi}>
-				<Link
-					to={`/accounts/${accountId}/${NFTS_PATH}`}
-					className={clsx(styles.assetsListLink, hoveredLink === NFTS_PATH && styles.assetsListLinkHover)}
-					onMouseOver={() => setHoveredLink(NFTS_PATH)}
-					onMouseLeave={() => setHoveredLink(null)}
-				>
-					<Box className={styles.assetsListTitleWrapper}>
-						<Text capitalizeFirstLetter color="strong" weight="medium" size="small">
-							{intl.formatMessage(messages.non_fungibles)}
-						</Text>
-						{nonFungibleBalances.length > 0 && (
-							<Text size="small" truncate>
-								({nonFungibleBalances.length})
+							{rows[path].balances.length > 0 && (
+								<Text size="small" truncate>
+									({rows[path].balances.length})
+								</Text>
+							)}
+						</Box>
+						<Box className={styles.assetsListTitleWrapper}>
+							<Text weight="strong" size="small" color="strong" truncate>
+								<FormattedNumber value={rows[path].value.toNumber()} style="currency" currency={currency} />
 							</Text>
-						)}
-					</Box>
-					<Box className={styles.assetsListTitleWrapper}>
-						<Text weight="strong" size="small" color="strong" truncate>
-							<FormattedNumber value={nonFungibleValue.toNumber()} style="currency" currency={currency} />
-						</Text>
-						<Text size="small" color={nonFungibleChange && nonFungibleChange.gt(0) ? 'green' : 'red'} truncate>
-							<FormattedNumber value={nonFungibleChange.toNumber()} style="percent" maximumFractionDigits={2} />
-						</Text>
-					</Box>
-				</Link>
-				<OverlayAssetIcons
-					resourceType="nft"
-					balances={nonFungibleBalances}
-					onButtonMouseOver={() => setHoveredLink(NFTS_PATH)}
-				/>
-			</Box>
+							<Text size="small" color={rows[path].change && rows[path].change.gt(0) ? 'green' : 'red'} truncate>
+								<FormattedNumber value={rows[path].change.toNumber()} style="percent" maximumFractionDigits={2} />
+							</Text>
+						</Box>
+					</Link>
+					<OverlayAssetIcons
+						resourceType={path.slice(0, -1) as any}
+						balances={rows[path].balances}
+						onButtonMouseOver={() => setHoveredLink(path)}
+					/>
+				</Box>
+			))}
 		</Box>
 	)
 }

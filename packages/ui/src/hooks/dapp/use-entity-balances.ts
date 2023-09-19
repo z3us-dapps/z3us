@@ -5,12 +5,12 @@ import { useQueries, useQuery } from '@tanstack/react-query'
 import { useGatewayClient } from './use-gateway-client'
 import { useNetworkId } from './use-network-id'
 
-const defaultFungiblesOptIns: StateEntityDetailsOptIns = {
+export const defaultFungiblesOptIns: StateEntityDetailsOptIns = {
 	ancestor_identities: false,
 	component_royalty_vault_balance: false,
 	package_royalty_vault_balance: false,
 	non_fungible_include_nfids: true,
-	explicit_metadata: ['name', 'symbol', 'description', 'tags', 'icon_url', 'info_url'],
+	explicit_metadata: ['name', 'symbol', 'description', 'tags', 'icon_url', 'info_url', 'validator', 'pool'],
 }
 
 export const useEntityFungibles = (
@@ -71,7 +71,7 @@ export const useEntitiesFungibles = (
 	return useQueries({ queries })
 }
 
-const defaultNonFungiblesOptIns: StateEntityDetailsOptIns = {
+export const defaultNonFungiblesOptIns: StateEntityDetailsOptIns = {
 	ancestor_identities: false,
 	component_royalty_vault_balance: false,
 	package_royalty_vault_balance: false,

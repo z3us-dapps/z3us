@@ -13,7 +13,7 @@ import * as styles from './styles.css'
 const DEFAULT_ITEMS = 3
 
 interface IProps {
-	resourceType: 'token' | 'nft'
+	resourceType: 'token' | 'nft' | 'lp-token' | 'pool-unit'
 	balances: ResourceBalanceKind[]
 	onButtonMouseOver: () => void
 }

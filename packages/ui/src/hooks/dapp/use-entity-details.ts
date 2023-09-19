@@ -2,6 +2,7 @@ import type { StateEntityDetailsOptIns, StateEntityDetailsResponseItem } from '@
 import { ResourceAggregationLevel } from '@radixdlt/babylon-gateway-api-sdk'
 import { useQuery } from '@tanstack/react-query'
 
+import { defaultFungiblesOptIns, defaultNonFungiblesOptIns } from './use-entity-balances'
 import { useGatewayClient } from './use-gateway-client'
 import { useNetworkId } from './use-network-id'
 
@@ -10,7 +11,10 @@ const defaultOptIns: StateEntityDetailsOptIns = {
 	component_royalty_vault_balance: true,
 	package_royalty_vault_balance: true,
 	non_fungible_include_nfids: true,
-	explicit_metadata: ['name', 'symbol', 'description', 'tags', 'icon_url', 'info_url', 'key_image_url', 'validator'],
+	explicit_metadata: [
+		...defaultFungiblesOptIns.explicit_metadata,
+		...defaultNonFungiblesOptIns.explicit_metadata,
+	].filter((value: string, index: number, array: string[]) => array.indexOf(value) === index),
 }
 
 export const useEntitiesDetails = (

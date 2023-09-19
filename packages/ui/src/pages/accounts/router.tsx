@@ -15,8 +15,9 @@ BigNumber.set({
 })
 
 const Home = lazy(() => import('./home'))
-const Account = lazy(() => import('./account'))
 const Tokens = lazy(() => import('./tokens'))
+const LPTokens = lazy(() => import('./lp-tokens'))
+const PoolUnits = lazy(() => import('./pool-units'))
 const Nfts = lazy(() => import('./nfts'))
 
 const ActivityList = lazy(() => import('./components/activity-list'))
@@ -48,7 +49,7 @@ const route = {
 			children: [
 				{
 					index: true,
-					element: <Account />,
+					element: <Home />,
 				},
 				{
 					path: 'tokens',
@@ -66,6 +67,48 @@ const route = {
 							path: ':resourceId',
 							handle: {
 								crumb: () => <ResourceBreadcrumb resourceType="token" />,
+								sidebar: <TokenDetails />,
+							},
+						},
+					],
+				},
+				{
+					path: 'lp-tokens',
+					element: <LPTokens />,
+					handle: {
+						backButton: <BackButton key="lp-tokens" />,
+						crumb: ({ accountId }) => (
+							<LinkBreadcrumb key={accountId} to={`/accounts/${accountId}/lp-tokens`}>
+								<FormattedMessage id="accounts.breadcrumbs.lp_tokens" defaultMessage="Liquidity Pool Tokens" />
+							</LinkBreadcrumb>
+						),
+					},
+					children: [
+						{
+							path: ':resourceId',
+							handle: {
+								crumb: () => <ResourceBreadcrumb resourceType="lp-token" />,
+								sidebar: <TokenDetails />,
+							},
+						},
+					],
+				},
+				{
+					path: 'pool-units',
+					element: <PoolUnits />,
+					handle: {
+						backButton: <BackButton key="pool-units" />,
+						crumb: ({ accountId }) => (
+							<LinkBreadcrumb key={accountId} to={`/accounts/${accountId}/pool-units`}>
+								<FormattedMessage id="accounts.breadcrumbs.lp_tokens" defaultMessage="Pool Units" />
+							</LinkBreadcrumb>
+						),
+					},
+					children: [
+						{
+							path: ':resourceId',
+							handle: {
+								crumb: () => <ResourceBreadcrumb resourceType="pool-unit" />,
 								sidebar: <TokenDetails />,
 							},
 						},

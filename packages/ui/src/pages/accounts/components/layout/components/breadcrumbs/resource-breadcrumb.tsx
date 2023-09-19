@@ -14,7 +14,7 @@ const messages = defineMessages({
 })
 
 interface IProps {
-	resourceType: 'token' | 'nft'
+	resourceType: 'token' | 'nft' | 'lp-token' | 'pool-unit'
 }
 
 export const ResourceBreadcrumb: React.FC<IProps> = ({ resourceType }) => {

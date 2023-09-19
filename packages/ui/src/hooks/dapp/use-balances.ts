@@ -24,6 +24,7 @@ const transformFungibleResourceItemResponse =
 		const imageUrl = getStringMetadata('icon_url', item.explicit_metadata?.items)
 		const url = getStringMetadata('info_url', item.explicit_metadata?.items)
 		const validator = getStringMetadata('validator', item.explicit_metadata?.items)
+		const pool = getStringMetadata('pool', item.explicit_metadata?.items)
 
 		const amount = item.vaults.items.reduce(
 			(acc, curr) => acc.plus(new BigNumber(curr.amount)),
@@ -48,9 +49,15 @@ const transformFungibleResourceItemResponse =
 		if (validator) {
 			container[item.resource_address] = {
 				...details,
-				type: ResourceBalanceType.LIQUIDITY_POOL,
+				type: ResourceBalanceType.LIQUIDITY_POOL_TOKEN,
 				validator,
-			} satisfies ResourceBalance[ResourceBalanceType.LIQUIDITY_POOL]
+			} satisfies ResourceBalance[ResourceBalanceType.LIQUIDITY_POOL_TOKEN]
+		} else if (pool) {
+			container[item.resource_address] = {
+				...details,
+				type: ResourceBalanceType.POOL_UNIT,
+				pool,
+			} satisfies ResourceBalance[ResourceBalanceType.POOL_UNIT]
 		} else {
 			container[item.resource_address] = {
 				...details,
@@ -88,6 +95,15 @@ const transformNonFungibleResourceItemResponse = (
 	return container
 }
 
+const filterBalancesByType =
+	(type: ResourceBalanceType) =>
+	(container: ResourceBalances, key: string): ResourceBalances => {
+		if (container[key].type !== type) {
+			delete container[key]
+		}
+		return container
+	}
+
 export const useBalances = (...addresses: string[]) => {
 	const { currency } = useNoneSharedStore(state => ({
 		currency: state.currency,
@@ -106,6 +122,19 @@ export const useBalances = (...addresses: string[]) => {
 			nonFungible = non_fungible_resources.items.reduce(transformNonFungibleResourceItemResponse, nonFungible)
 		})
 
+		const otherTokens: ResourceBalances = Object.keys(fungible).reduce(
+			filterBalancesByType(ResourceBalanceType.FUNGIBLE),
+			{ ...fungible },
+		)
+		const lpTokens: ResourceBalances = Object.keys(fungible).reduce(
+			filterBalancesByType(ResourceBalanceType.LIQUIDITY_POOL_TOKEN),
+			{ ...fungible },
+		)
+		const poolUnits: ResourceBalances = Object.keys(fungible).reduce(
+			filterBalancesByType(ResourceBalanceType.POOL_UNIT),
+			{ ...fungible },
+		)
+
 		const fungibleBalances = Object.values(fungible)
 		const fungibleValue = fungibleBalances.reduce((total, balance) => total.plus(balance.amount), new BigNumber(0))
 		const fungibleChange = fungibleBalances.reduce(
@@ -123,8 +152,29 @@ export const useBalances = (...addresses: string[]) => {
 			new BigNumber(0),
 		)
 
+		const tokenBalances = Object.values(otherTokens)
+		const tokensValue = tokenBalances.reduce((total, balance) => total.plus(balance.amount), new BigNumber(0))
+		const tokensChange = tokenBalances.reduce(
+			(change, balance) => change.plus(balance.change.div(tokensValue.dividedBy(balance.value))),
+			new BigNumber(0),
+		)
+
+		const lpBalances = Object.values(lpTokens)
+		const lpValue = lpBalances.reduce((total, balance) => total.plus(balance.amount), new BigNumber(0))
+		const lpChange = lpBalances.reduce(
+			(change, balance) => change.plus(balance.change.div(lpValue.dividedBy(balance.value))),
+			new BigNumber(0),
+		)
+
+		const puBalances = Object.values(poolUnits)
+		const puValue = puBalances.reduce((total, balance) => total.plus(balance.amount), new BigNumber(0))
+		const puChange = puBalances.reduce(
+			(change, balance) => change.plus(balance.change.div(puValue.dividedBy(balance.value))),
+			new BigNumber(0),
+		)
+
 		const balances = [...fungibleBalances, ...nonFungibleBalances]
-		const totalValue = fungibleValue.plus(nonFungibleValue)
+		const totalValue = fungibleValue.plus(nonFungibleValue).plus(lpValue).plus(puValue)
 		const totalChange = balances.reduce(
 			(change, balance) => change.plus(balance.change.div(totalValue.dividedBy(balance.value))),
 			new BigNumber(0),
@@ -132,14 +182,28 @@ export const useBalances = (...addresses: string[]) => {
 
 		return {
 			balances,
-			fungibleBalances: Object.values(fungible),
-			nonFungibleBalances: Object.values(nonFungible),
 			totalValue,
-			fungibleValue,
-			nonFungibleValue,
 			totalChange,
+
+			fungibleBalances: Object.values(fungible),
+			fungibleValue,
 			fungibleChange,
+
+			nonFungibleBalances: Object.values(nonFungible),
+			nonFungibleValue,
 			nonFungibleChange,
+
+			tokensBalances: Object.values(tokenBalances),
+			tokensValue,
+			tokensChange,
+
+			liquidityPoolTokensBalances: Object.values(lpBalances),
+			liquidityPoolTokensValue: lpValue,
+			liquidityPoolTokensChange: lpChange,
+
+			poolUnitsBalances: Object.values(puBalances),
+			poolUnitsValue: puValue,
+			poolUnitsChange: puChange,
 		}
 	}, [accounts, xrdPrice, tokens])
 

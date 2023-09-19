@@ -18,28 +18,28 @@ import * as styles from './styles.css'
 
 const messages = defineMessages({
 	address: {
-		id: 'tokens.address',
-		defaultMessage: 'Token',
+		id: 'pool_units.address',
+		defaultMessage: 'Pool Unit',
 	},
 	amount: {
-		id: 'tokens.amount',
+		id: 'pool_units.amount',
 		defaultMessage: 'Balance',
 	},
 	value: {
-		id: 'tokens.value',
+		id: 'pool_units.value',
 		defaultMessage: 'Value',
 	},
 	change: {
-		id: 'tokens.change',
+		id: 'pool_units.change',
 		defaultMessage: 'Change',
 	},
 	empty_title: {
-		id: 'tokens.empty_title',
+		id: 'pool_units.empty_title',
 		defaultMessage: 'No results',
 	},
 	empty_subtitle: {
-		id: 'tokens.empty_subtitle',
-		defaultMessage: 'Could not find any tokens in this account',
+		id: 'pool_units.empty_subtitle',
+		defaultMessage: 'Could not find any pool units in this account',
 	},
 })
 
@@ -50,10 +50,10 @@ const Tokens: React.FC = () => {
 	const { accountId, resourceId } = useParams()
 
 	const selectedAccounts = useSelectedAccounts()
-	const { tokensBalances, isLoading } = useBalances(...selectedAccounts)
+	const { poolUnitsBalances, isLoading } = useBalances(...selectedAccounts)
 
 	const selectedRowIds = React.useMemo(() => {
-		const idx = tokensBalances.findIndex(b => b.address === resourceId)
+		const idx = poolUnitsBalances.findIndex(b => b.address === resourceId)
 		if (idx >= 0) {
 			return {
 				[idx]: true,
@@ -64,7 +64,7 @@ const Tokens: React.FC = () => {
 
 	const handleRowSelected = (row: { original: ResourceBalanceKind }) => {
 		const { original } = row
-		navigate(`/accounts/${accountId}/tokens/${original.address}`)
+		navigate(`/accounts/${accountId}/pool-units/${original.address}`)
 	}
 
 	const columns = useMemo(
@@ -102,7 +102,7 @@ const Tokens: React.FC = () => {
 
 	return (
 		<Box className={styles.tableWrapper}>
-			{tokensBalances?.length === 0 ? (
+			{poolUnitsBalances?.length === 0 ? (
 				<Box display="flex" alignItems="center" justifyContent="center" width="full" paddingY="xxlarge">
 					<EmptyState
 						title={intl.formatMessage(messages.empty_title)}
@@ -115,7 +115,7 @@ const Tokens: React.FC = () => {
 					styleVariant="primary"
 					sizeVariant="large"
 					scrollableNode={scrollableNode ?? undefined}
-					data={tokensBalances}
+					data={poolUnitsBalances}
 					columns={columns}
 					isScrolledTop={isScrolledTop}
 					onRowSelected={handleRowSelected}

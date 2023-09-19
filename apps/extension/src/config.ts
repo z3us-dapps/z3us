@@ -10,6 +10,7 @@ import packageJson from '../package.json'
 
 const { version } = packageJson
 
+export const isPublicRelease = import.meta.env.MODE === 'production'
 export const radixConnectConfig = radixConnectConfigFromRadix
 export const mode = modeFromRadix
 export const defaultRadixConnectConfig = defaultRadixConnectConfigFromRadix
