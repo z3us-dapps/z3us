@@ -229,7 +229,7 @@ export const Transaction = () => {
 												rightData={
 													<Box display="flex" flexDirection="column" alignItems="flex-end" gap="xsmall">
 														{data?.transaction.affected_global_entities?.map(entity => (
-															<Box>
+															<Box key={entity}>
 																<Box className={styles.transactionInfoCopyBtnWrapper}>
 																	<CopyAddressButton
 																		styleVariant="ghost"
@@ -255,7 +255,7 @@ export const Transaction = () => {
 												rightData={
 													<Box display="flex" flexDirection="column" alignItems="flex-end" gap="xsmall">
 														{data?.transaction.affected_global_entities?.map(entity => (
-															<Box>
+															<Box key={entity}>
 																<Box className={styles.transactionInfoCopyBtnWrapper}>
 																	<CopyAddressButton
 																		styleVariant="ghost"
