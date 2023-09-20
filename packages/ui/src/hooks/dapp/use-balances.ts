@@ -104,6 +104,39 @@ const filterBalancesByType =
 		return container
 	}
 
+export const useAccountValues = (...addresses: string[]) => {
+	const { currency } = useNoneSharedStore(state => ({
+		currency: state.currency,
+	}))
+	const { data: xrdPrice, isLoading: isLoadingPrice } = useXRDPriceOnDay(currency, new Date())
+	const { data: tokens, isLoading: isLoadingTokens } = useTokens()
+	const { data: accounts = [], isLoading: isLoadingAccounts } = useEntitiesDetails(
+		addresses.filter(address => !!address),
+	)
+
+	const values = useMemo(
+		() =>
+			accounts.reduce(
+				(container, account) => ({
+					...container,
+					[account.address]: Object.values(
+						account.fungible_resources.items.reduce(transformFungibleResourceItemResponse(xrdPrice, tokens), {}),
+					).reduce(
+						(total: BigNumber, balance: ResourceBalance[ResourceBalanceType.FUNGIBLE]) => total.plus(balance.value),
+						new BigNumber(0),
+					),
+				}),
+				{},
+			),
+		[accounts, xrdPrice, tokens],
+	)
+
+	return {
+		values,
+		isLoading: isLoadingAccounts || isLoadingTokens || isLoadingPrice,
+	}
+}
+
 export const useBalances = (...addresses: string[]) => {
 	const { currency } = useNoneSharedStore(state => ({
 		currency: state.currency,

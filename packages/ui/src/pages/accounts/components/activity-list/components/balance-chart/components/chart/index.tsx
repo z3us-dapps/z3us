@@ -1,10 +1,9 @@
-import React, { useMemo, useState } from 'react'
+import React, { useState } from 'react'
 import { useIntl } from 'react-intl'
 import { Cell, Pie, PieChart, ResponsiveContainer, Tooltip } from 'recharts'
 
 import { ChartToolTip } from 'ui/src/components/chart-tool-tip'
 import { useNoneSharedStore } from 'ui/src/hooks/use-store'
-import type { ResourceBalance, ResourceBalanceKind, ResourceBalanceType } from 'ui/src/types/types'
 
 const COLORS = [
 	{ start: '#9e54ed', end: '#5c4cb6' },
@@ -12,11 +11,17 @@ const COLORS = [
 	{ start: '#da9d35', end: '#e96935' },
 ]
 
-interface IProps {
-	balances: ResourceBalanceKind[]
+type Data = {
+	address: string
+	name: string
+	value: number
 }
 
-export const Chart: React.FC<IProps> = ({ balances }) => {
+interface IProps {
+	data: Data[]
+}
+
+export const Chart: React.FC<IProps> = ({ data }) => {
 	const intl = useIntl()
 	const { currency } = useNoneSharedStore(state => ({
 		currency: state.currency,
@@ -32,20 +37,11 @@ export const Chart: React.FC<IProps> = ({ balances }) => {
 		return null
 	}
 
-	const data = useMemo(
-		() =>
-			balances.map(resource => ({
-				name: (resource as ResourceBalance[ResourceBalanceType.FUNGIBLE]).symbol || resource.name || 'Unknown', // @TODO: need a component here {resource address + amount}
-				value: resource.value.toNumber(),
-			})),
-		[balances],
-	)
-
 	return (
 		<ResponsiveContainer width="100%" height="100%">
 			<PieChart>
 				<defs>
-					{balances.map((entry, index) => (
+					{data.map((entry, index) => (
 						<linearGradient key={entry.address} id={`myGradient${index}`}>
 							<stop offset="0%" stopColor={COLORS[index % COLORS.length].start} />
 							<stop offset="100%" stopColor={COLORS[index % COLORS.length].end} />
@@ -63,7 +59,7 @@ export const Chart: React.FC<IProps> = ({ balances }) => {
 					innerRadius={40}
 					isAnimationActive={false} // Disable initial animation on mount
 				>
-					{balances.map((entry: ResourceBalance[ResourceBalanceType.FUNGIBLE], index) => (
+					{data.map((entry, index) => (
 						<Cell
 							key={`cell-${entry.address}`}
 							fill={`url(#myGradient${index})`}

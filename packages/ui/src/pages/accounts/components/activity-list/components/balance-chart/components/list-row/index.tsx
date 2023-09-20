@@ -11,13 +11,12 @@ import { useNoneSharedStore } from 'ui/src/hooks/use-store'
 import * as styles from './styles.css'
 
 interface IProps {
-	symbol?: string
-	name: string
 	address: string
-	value: BigNumber
+	name: string
+	value: number
 }
 
-export const ListRow: React.FC<IProps> = ({ address, symbol, name, value }) => {
+export const ListRow: React.FC<IProps> = ({ address, name, value }) => {
 	const { currency } = useNoneSharedStore(state => ({
 		currency: state.currency,
 	}))
@@ -30,7 +29,7 @@ export const ListRow: React.FC<IProps> = ({ address, symbol, name, value }) => {
 					<ToolTip message={name}>
 						<Box marginRight="xsmall">
 							<Text size="xsmall" color="strong" truncate>
-								{symbol || name}
+								{name}
 							</Text>
 						</Box>
 					</ToolTip>
@@ -47,7 +46,7 @@ export const ListRow: React.FC<IProps> = ({ address, symbol, name, value }) => {
 			<Box className={styles.dottedSpacer} />
 			<Box className={styles.addressInfoWrapperRight}>
 				<Text size="xsmall" truncate>
-					<FormattedNumber value={value.toNumber()} style="currency" currency={currency} />
+					<FormattedNumber value={value} style="currency" currency={currency} />
 				</Text>
 			</Box>
 		</Box>

@@ -1,5 +1,6 @@
 import clsx from 'clsx'
 import { AnimatePresence, motion } from 'framer-motion'
+import { useIsAllAccounts } from 'packages/ui/src/hooks/use-is-all-accounts'
 import React, { useMemo, useState } from 'react'
 import { defineMessages, useIntl } from 'react-intl'
 
@@ -8,10 +9,11 @@ import { Button } from 'ui/src/components/button'
 import { HeightAnimatePanel } from 'ui/src/components/height-animate-panel'
 import { Z3usLoading } from 'ui/src/components/z3us-loading'
 import { animatePageVariants } from 'ui/src/constants/page'
-import { useBalances } from 'ui/src/hooks/dapp/use-balances'
-import { useSelectedAccounts } from 'ui/src/hooks/use-accounts'
+import { useAccountValues, useBalances } from 'ui/src/hooks/dapp/use-balances'
+import { useSelectedAccounts, useWalletAccounts } from 'ui/src/hooks/use-accounts'
 import { useIsMobileWidth } from 'ui/src/hooks/use-is-mobile'
 import { useResourceType } from 'ui/src/pages/accounts/hooks/use-resource-type'
+import type { ResourceBalance, ResourceBalanceKind, ResourceBalanceType } from 'ui/src/types/types'
 
 import { Chart } from './components/chart'
 import { ListRow } from './components/list-row'
@@ -20,15 +22,19 @@ import * as styles from './styles.css'
 const messages = defineMessages({
 	loading: {
 		id: 'accounts.activity_list.balance_chart.loading',
-		defaultMessage: 'Loading',
+		defaultMessage: 'Loading...',
 	},
 	show_less: {
 		id: 'accounts.activity_list.balance_chart.show_less',
-		defaultMessage: 'Show less accounts',
+		defaultMessage: 'Show less',
 	},
-	show_all: {
-		id: 'accounts.activity_list.balance_chart.show_all',
-		defaultMessage: 'Show all accounts',
+	show_more: {
+		id: 'accounts.activity_list.balance_chart.show_more',
+		defaultMessage: 'Show more',
+	},
+	unknown: {
+		id: 'accounts.activity_list.balance_chart.data.unknown',
+		defaultMessage: 'Unknown',
 	},
 })
 
@@ -38,10 +44,13 @@ export const BalanceChart: React.FC = () => {
 	const intl = useIntl()
 	const isMobile = useIsMobileWidth()
 	const resourceType = useResourceType()
+	const isAllAccounts = useIsAllAccounts()
+	const accounts = useWalletAccounts()
 
 	const [showFullAccountList, setShowFullAccountList] = useState<boolean>(false)
 
 	const selectedAccounts = useSelectedAccounts()
+	const { values: accountValues } = useAccountValues(...selectedAccounts)
 	const { balances, tokensBalances, liquidityPoolTokensBalances, poolUnitsBalances, nonFungibleBalances, isLoading } =
 		useBalances(...selectedAccounts)
 
@@ -52,6 +61,25 @@ export const BalanceChart: React.FC = () => {
 		if (resourceType === 'pool-units') return poolUnitsBalances
 		return balances
 	}, [balances, resourceType])
+
+	const data = useMemo(
+		() =>
+			isAllAccounts
+				? Object.keys(accountValues).map(address => ({
+						address,
+						name: accounts[address]?.name || address,
+						value: accountValues[address].toNumber(),
+				  }))
+				: balances.map(resource => ({
+						address: resource.address,
+						name:
+							(resource as ResourceBalance[ResourceBalanceType.FUNGIBLE]).symbol ||
+							resource.name ||
+							intl.formatMessage(messages.unknown),
+						value: resource.value.toNumber(),
+				  })),
+		[isAllAccounts, selectedBalances],
+	)
 
 	const handleToggleFullAccountList = () => {
 		setShowFullAccountList(!showFullAccountList)
@@ -81,17 +109,15 @@ export const BalanceChart: React.FC = () => {
 							variants={animatePageVariants}
 						>
 							<Box className={styles.pieChartWrapper}>
-								<Chart balances={selectedBalances} />
+								<Chart data={data} />
 							</Box>
 							<Box className={styles.accountsListWrapper}>
 								<Box display="flex" flexDirection="column" gap="xsmall" width="full">
 									<HeightAnimatePanel>
 										<Box>
-											{(showFullAccountList ? selectedBalances : selectedBalances.slice(0, defaultRowsShown)).map(
-												resource => (
-													<ListRow key={resource.address} {...resource} />
-												),
-											)}
+											{(showFullAccountList ? data : data.slice(0, defaultRowsShown)).map(row => (
+												<ListRow key={row.address} {...row} />
+											))}
 										</Box>
 									</HeightAnimatePanel>
 								</Box>
@@ -100,7 +126,7 @@ export const BalanceChart: React.FC = () => {
 										<Button styleVariant={isMobile ? 'tertiary' : 'secondary'} onClick={handleToggleFullAccountList}>
 											{showFullAccountList
 												? intl.formatMessage(messages.show_less)
-												: intl.formatMessage(messages.show_all)}
+												: intl.formatMessage(messages.show_more)}
 										</Button>
 									</Box>
 								)}
