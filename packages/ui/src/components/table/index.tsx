@@ -13,7 +13,7 @@ import * as styles from './table.css'
 interface ITableProps {
 	columns: Array<{
 		Header: React.ReactNode | React.FC
-		Cell: React.ReactNode | React.FC
+		Cell?: React.ReactNode | React.FC
 		accessor: string
 		width: string
 		className?: string

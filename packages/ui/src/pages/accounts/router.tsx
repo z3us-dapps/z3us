@@ -18,6 +18,7 @@ const Home = lazy(() => import('./home'))
 const Tokens = lazy(() => import('./tokens'))
 const LPTokens = lazy(() => import('./lp-tokens'))
 const PoolUnits = lazy(() => import('./pool-units'))
+const NftCollections = lazy(() => import('./nft-collections'))
 const Nfts = lazy(() => import('./nfts'))
 
 const ActivityList = lazy(() => import('./components/activity-list'))
@@ -116,25 +117,29 @@ const route = {
 				},
 				{
 					path: 'nfts',
-					element: <Nfts />,
-					handle: {
-						backButton: <BackButton key="nfts" />,
-						crumb: ({ accountId }) => (
-							<LinkBreadcrumb key={accountId} to={`/accounts/${accountId}/nfts`}>
-								<FormattedMessage id="accounts.breadcrumbs.nfts" defaultMessage="NFTs" />
-							</LinkBreadcrumb>
-						),
-					},
 					children: [
 						{
+							index: true,
+							element: <NftCollections />,
+							handle: {
+								backButton: <BackButton key="nfts" />,
+								crumb: ({ accountId }) => (
+									<LinkBreadcrumb key={accountId} to={`/accounts/${accountId}/nfts`}>
+										<FormattedMessage id="accounts.breadcrumbs.nfts" defaultMessage="NFTs" />
+									</LinkBreadcrumb>
+								),
+							},
+						},
+						{
 							path: ':resourceId',
+							element: <Nfts />,
 							handle: {
 								crumb: () => <ResourceBreadcrumb resourceType="nft" />,
 								sidebar: <NftCollectionDetails />,
 							},
 							children: [
 								{
-									path: 'nft',
+									path: ':nftId',
 									handle: {
 										crumb: () => <NftItemBreadcrumb />,
 										sidebar: <NftDetails />,

@@ -15,9 +15,8 @@ const messages = defineMessages({
 
 export const NftItemBreadcrumb: React.FC = () => {
 	const intl = useIntl()
-	const [searchParams] = useSearchParams()
-	const nftId = searchParams.get('nft')
-	const { accountId, resourceId } = useParams()
+	const { accountId, resourceId, nftId: rawNftId } = useParams()
+	const nftId = decodeURIComponent(rawNftId)
 	const { data } = useNonFungibleData(resourceId, nftId)
 
 	const dataJson = data?.data.programmatic_json as any
