@@ -45,10 +45,9 @@ const messages = defineMessages({
 
 const NftCollections: React.FC = () => {
 	const intl = useIntl()
-	const { scrollableNode, isScrolledTop } = useScroll()
 	const navigate = useNavigate()
 	const { accountId } = useParams()
-
+	const { scrollableNode, isScrolledTop } = useScroll()
 	const selectedAccounts = useSelectedAccounts()
 	const { nonFungibleBalances, isLoading } = useBalances(...selectedAccounts)
 

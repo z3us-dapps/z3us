@@ -46,33 +46,29 @@ const messages = defineMessages({
 
 const NFTs: React.FC = () => {
 	const intl = useIntl()
-	const { scrollableNode, isScrolledTop } = useScroll()
 	const navigate = useNavigate()
+	const { scrollableNode, isScrolledTop } = useScroll()
 	const { accountId = '-', resourceId, nftId: rawNftId } = useParams()
 	const nftId = decodeURIComponent(rawNftId)
-
 	const selectedAccounts = useSelectedAccounts()
 	const { nonFungibleBalances, isLoading } = useBalances(...selectedAccounts)
 
-	const selectedToken = nonFungibleBalances.find(
-		b => b.address === resourceId,
-	) as ResourceBalance[ResourceBalanceType.NON_FUNGIBLE]
-
+	const selectedToken = useMemo(
+		() => nonFungibleBalances.find(b => b.address === resourceId) as ResourceBalance[ResourceBalanceType.NON_FUNGIBLE],
+		[resourceId, nonFungibleBalances],
+	)
 	const pages = useNonFungibleIds(accountId, selectedToken?.address, selectedToken?.vaults)
-	const ids =
-		pages
-			?.filter(({ data }) => !!data)
-			.map(({ data }) => data)
-			?.flat() || []
-
+	const ids = useMemo(
+		() =>
+			pages
+				?.filter(({ data }) => !!data)
+				.map(({ data }) => data)
+				?.flat() || [],
+		[pages],
+	)
 	const { data = [] } = useNonFungiblesData(resourceId, ids)
-
-	const handleRowSelected = (row: { original: StateNonFungibleDetailsResponseItem }) => {
-		const { original } = row
-		navigate(`/accounts/${accountId}/nfts/${resourceId}/${encodeURIComponent(original.non_fungible_id)}`)
-	}
-
-	const selectedRowIds = React.useMemo(() => {
+	const tableData = useMemo(() => data.map(data => ({ ...data, collection: resourceId })), [resourceId, data])
+	const selectedRowIds = useMemo(() => {
 		const idx = ids.findIndex(b => b === nftId)
 		if (idx >= 0) {
 			return {
@@ -80,7 +76,12 @@ const NFTs: React.FC = () => {
 			}
 		}
 		return {}
-	}, [ids, accountId, resourceId, nftId])
+	}, [ids, nftId])
+
+	const handleRowSelected = (row: { original: StateNonFungibleDetailsResponseItem }) => {
+		const { original } = row
+		navigate(`/accounts/${accountId}/nfts/${resourceId}/${encodeURIComponent(original.non_fungible_id)}`)
+	}
 
 	const columns = useMemo(
 		() => [
@@ -124,7 +125,7 @@ const NFTs: React.FC = () => {
 					styleVariant="primary"
 					sizeVariant="large"
 					scrollableNode={scrollableNode ?? undefined}
-					data={data.map(data => ({ ...data, collection: resourceId }))}
+					data={tableData}
 					columns={columns}
 					isScrolledTop={isScrolledTop}
 					onRowSelected={handleRowSelected}

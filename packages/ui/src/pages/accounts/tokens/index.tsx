@@ -45,14 +45,13 @@ const messages = defineMessages({
 
 const Tokens: React.FC = () => {
 	const intl = useIntl()
-	const { scrollableNode, isScrolledTop } = useScroll()
 	const navigate = useNavigate()
+	const { scrollableNode, isScrolledTop } = useScroll()
 	const { accountId, resourceId } = useParams()
-
 	const selectedAccounts = useSelectedAccounts()
 	const { tokensBalances, isLoading } = useBalances(...selectedAccounts)
 
-	const selectedRowIds = React.useMemo(() => {
+	const selectedRowIds = useMemo(() => {
 		const idx = tokensBalances.findIndex(b => b.address === resourceId)
 		if (idx >= 0) {
 			return {
@@ -60,7 +59,7 @@ const Tokens: React.FC = () => {
 			}
 		}
 		return {}
-	}, [resourceId, accountId, tokensBalances])
+	}, [resourceId, tokensBalances])
 
 	const handleRowSelected = (row: { original: ResourceBalance[ResourceBalanceType.FUNGIBLE] }) => {
 		const { original } = row

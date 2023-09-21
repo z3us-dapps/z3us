@@ -52,7 +52,7 @@ export const Table: React.FC<ITableProps> = props => {
 	} = props
 	const [isMounted, setIsMounted] = useState<boolean>(false)
 	const isMobile = useIsMobileWidth()
-	const initialSort = React.useMemo(() => {
+	const initialSort = useMemo(() => {
 		if (sort || !columns?.length) return sort
 		return [{ id: columns[0].accessor, desc: true }]
 	}, [sort])
