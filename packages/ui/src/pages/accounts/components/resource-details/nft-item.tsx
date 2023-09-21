@@ -1,3 +1,4 @@
+import { NftImageIcon } from 'packages/ui/src/components/nft-image-icon'
 import React from 'react'
 import { defineMessages, useIntl } from 'react-intl'
 import { useParams, useSearchParams } from 'react-router-dom'
@@ -42,8 +43,6 @@ const NftDetails: React.FC = () => {
 	const name = getStringNftData('name', dataJson?.fields)
 	const description = getStringNftData('description', dataJson?.fields)
 
-	console.log(dataJson)
-
 	if (!resourceId) return null
 	if (!nftId) return null
 
@@ -61,7 +60,7 @@ const NftDetails: React.FC = () => {
 				</Box>
 				<Box display="flex" flexDirection="column" justifyContent="center" alignItems="center">
 					<Box paddingBottom="small">
-						<ResourceImageIcon address={resourceId} />
+						<NftImageIcon address={resourceId} id={nftId} />
 					</Box>
 					<Text size="large" color="strong">
 						{`${name} ${nftId} ${data?.is_burned === true ? intl.formatMessage(messages.burned) : ''}`}

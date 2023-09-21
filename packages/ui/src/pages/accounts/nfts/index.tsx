@@ -14,12 +14,17 @@ import { useSelectedAccounts } from 'ui/src/hooks/use-accounts'
 import { AssetNameCell } from 'ui/src/pages/accounts/components/table/asset-name-cell'
 import type { ResourceBalance, ResourceBalanceType } from 'ui/src/types/types'
 
+import { NftDataCell } from '../components/table/nft-data-cell'
 import * as styles from './styles.css'
 
 const messages = defineMessages({
 	collection: {
 		id: 'nfts.collection',
 		defaultMessage: 'Collection',
+	},
+	nft: {
+		id: 'nfts.nft',
+		defaultMessage: 'NFT',
 	},
 	non_fungible_id: {
 		id: 'nfts.non_fungible_id',
@@ -43,7 +48,8 @@ const NFTs: React.FC = () => {
 	const intl = useIntl()
 	const { scrollableNode, isScrolledTop } = useScroll()
 	const navigate = useNavigate()
-	const { accountId = '-', resourceId } = useParams()
+	const { accountId = '-', resourceId, nftId: rawNftId } = useParams()
+	const nftId = decodeURIComponent(rawNftId)
 
 	const selectedAccounts = useSelectedAccounts()
 	const { nonFungibleBalances, isLoading } = useBalances(...selectedAccounts)
@@ -66,6 +72,16 @@ const NFTs: React.FC = () => {
 		navigate(`/accounts/${accountId}/nfts/${resourceId}/${encodeURIComponent(original.non_fungible_id)}`)
 	}
 
+	const selectedRowIds = React.useMemo(() => {
+		const idx = ids.findIndex(b => b === nftId)
+		if (idx >= 0) {
+			return {
+				[idx]: true,
+			}
+		}
+		return {}
+	}, [ids, accountId, resourceId, nftId])
+
 	const columns = useMemo(
 		() => [
 			{
@@ -78,6 +94,12 @@ const NFTs: React.FC = () => {
 				Header: intl.formatMessage(messages.non_fungible_id),
 				accessor: 'non_fungible_id',
 				width: 'auto',
+			},
+			{
+				Header: intl.formatMessage(messages.nft),
+				accessor: 'data',
+				width: 'auto',
+				Cell: NftDataCell,
 			},
 		],
 		[],
@@ -107,6 +129,7 @@ const NFTs: React.FC = () => {
 					isScrolledTop={isScrolledTop}
 					onRowSelected={handleRowSelected}
 					loading={isLoading}
+					selectedRowIds={selectedRowIds}
 					// loadMore={loadMore}
 					// onEndReached={onEndReached}
 				/>

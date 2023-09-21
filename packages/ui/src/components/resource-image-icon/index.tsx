@@ -1,20 +1,20 @@
 import React, { forwardRef } from 'react'
 
+import { type IImageIconOptionalProps, ImageIcon } from 'ui/src/components/image-icon'
 import { ToolTip } from 'ui/src/components/tool-tip'
+import { useEntityMetadata } from 'ui/src/hooks/dapp/use-entity-metadata'
 import { getStringMetadata } from 'ui/src/services/metadata'
 import { getStrPrefix } from 'ui/src/utils/get-str-prefix'
 import { getShortAddress } from 'ui/src/utils/string-utils'
 
-import { useEntityMetadata } from '../../hooks/dapp/use-entity-metadata'
-import { type IImageIconOptionalProps, ImageIcon } from '../image-icon'
 import { resourceImageMap } from './resource-image-map'
 
-interface IResourceImageIcon extends IImageIconOptionalProps {
+interface IProps extends IImageIconOptionalProps {
 	address: string
 	toolTipEnabled?: boolean
 }
 
-export const ResourceImageIcon = forwardRef<HTMLElement, IResourceImageIcon>(
+export const ResourceImageIcon = forwardRef<HTMLElement, IProps>(
 	({ address, toolTipEnabled = false, ...props }, ref: React.Ref<HTMLElement | null>) => {
 		const { data } = useEntityMetadata(address)
 		const shortAddress = getShortAddress(address)

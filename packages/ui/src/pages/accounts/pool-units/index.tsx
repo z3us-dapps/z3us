@@ -65,7 +65,7 @@ const Tokens: React.FC = () => {
 			}
 		}
 		return {}
-	}, [resourceId, isLoading, accountId])
+	}, [resourceId, accountId, poolUnitsBalances])
 
 	const handleRowSelected = (row: { original: ResourceBalance[ResourceBalanceType.POOL_UNIT] }) => {
 		const { original } = row
