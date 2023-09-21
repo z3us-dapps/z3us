@@ -134,7 +134,7 @@ export const MobileScrollingButtons: React.FC = () => {
 							isSticky && styles.tabsWrapperButtonSticky,
 						)}
 					>
-						<Text size="medium" weight="strong" align="center" color={showActivities ? 'strong' : 'neutral'}>
+						<Text size="small" weight="strong" align="center" color={showActivities ? 'strong' : 'neutral'}>
 							{intl.formatMessage(messages.activity)}
 						</Text>
 					</Link>
@@ -162,6 +162,7 @@ export const MobileScrollingButtons: React.FC = () => {
 					) : null}
 					<Input
 						sizeVariant="small"
+						styleVariant="secondary"
 						className={styles.inputSearch}
 						value=""
 						placeholder={intl.formatMessage(messages.search)}

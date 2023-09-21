@@ -22,15 +22,14 @@ export const accountViewContentWrapper = style([
 		position: 'relative',
 	}),
 	{
-		width: '200px',
 		paddingTop: 0,
 		paddingBottom: 0,
 		paddingLeft: 0,
 		paddingRight: 0,
 	},
 	responsiveStyle({
-		mobile: { minWidth: '220px' },
-		tablet: { minWidth: '220px' },
+		mobile: { width: '180px' },
+		tablet: { width: '220px' },
 	}),
 ])
 

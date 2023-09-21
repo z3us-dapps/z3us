@@ -29,7 +29,7 @@ const MobileFooterNavigation: React.FC = () => (
 		{[
 			{ href: '/accounts', icon: <Home2Icon /> },
 			{ href: '/transfer', icon: <SwitchHorizontal /> },
-			{ href: '/staking', icon: <CoinsIcon /> },
+			// { href: '/staking', icon: <CoinsIcon /> },
 			{ href: '/settings', icon: <Settings2Icon /> },
 		].map(({ href, icon }) => (
 			<MenuItemMobile key={href} href={href}>

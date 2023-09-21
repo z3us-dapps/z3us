@@ -5,17 +5,18 @@ import { vars } from 'ui/src/components/system/theme.css'
 
 export const overlayAssetIconsWrapper = style([
 	sprinkles({
-		position: 'absolute',
+		position: {
+			mobile: 'relative',
+			tablet: 'absolute',
+		},
 		top: 0,
 		right: 0,
 		marginRight: 'medium',
 		height: 'full',
 		alignItems: 'center',
 		pointerEvents: 'none',
-		display: {
-			mobile: 'none',
-			desktop: 'flex',
-		},
+		color: 'colorNeutral',
+		display: 'flex',
 	}),
 	{},
 ])
@@ -37,6 +38,17 @@ export const overlayAssetIconCircleWrapper = style([
 	},
 ])
 
-globalStyle(`${overlayAssetIconsWrapper} a:first-child`, {
+globalStyle(`${overlayAssetIconsWrapper} button:first-child`, {
 	marginLeft: '0',
 })
+
+export const overlayAssetChevronWrapper = style([
+	sprinkles({
+		paddingLeft: 'small',
+		display: {
+			mobile: 'none',
+			tablet: 'block',
+		},
+	}),
+	{},
+])

@@ -16,11 +16,17 @@ export const allChartWrapper = style([
 			mobile: 'large',
 			tablet: 'medium',
 		},
-		borderBottom: 1,
+		borderBottom: 0,
 		borderBottomStyle: 'solid',
 		borderColor: 'borderDivider',
 	}),
 	{},
+
+	responsiveStyle({
+		tablet: {
+			borderBottom: 1,
+		},
+	}),
 ])
 
 export const allChartInnerWrapper = style([
@@ -70,9 +76,14 @@ export const pieChartWrapper = style([
 		alignItems: 'center',
 		paddingTop: 'medium',
 	}),
-	{
-		height: '400px',
-	},
+	{},
+	responsiveStyle({
+		//TODO
+		mobile: { height: '50px' },
+		tablet: {
+			height: '400px',
+		},
+	}),
 ])
 
 export const accountsListWrapper = style([

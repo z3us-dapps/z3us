@@ -1,11 +1,12 @@
 import React from 'react'
-import { useParams } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 
 import { Box } from 'ui/src/components/box'
 import { ChevronRightIcon } from 'ui/src/components/icons'
 import { ResourceImageIcon } from 'ui/src/components/resource-image-icon'
 import { Button } from 'ui/src/components/router-button'
 import { Text } from 'ui/src/components/typography'
+import { useIsMobileWidth } from 'ui/src/hooks/use-is-mobile'
 import type { ResourceBalanceKind } from 'ui/src/types/types'
 
 import * as styles from './styles.css'
@@ -15,11 +16,12 @@ const DEFAULT_ITEMS = 3
 interface IProps {
 	resourceType: 'token' | 'nft' | 'lp-token' | 'pool-unit'
 	balances: ResourceBalanceKind[]
-	onButtonMouseOver: () => void
 }
 
-export const OverlayAssetIcons: React.FC<IProps> = ({ resourceType, balances, onButtonMouseOver }) => {
+export const OverlayAssetIcons: React.FC<IProps> = ({ resourceType, balances }) => {
+	const navigate = useNavigate()
 	const { accountId } = useParams()
+	const isMobile = useIsMobileWidth()
 
 	return (
 		<Box className={styles.overlayAssetIconsWrapper}>
@@ -34,17 +36,19 @@ export const OverlayAssetIcons: React.FC<IProps> = ({ resourceType, balances, on
 				<Button
 					key={resource.address}
 					className={styles.overlayAssetIconCircleWrapper}
-					onMouseOver={onButtonMouseOver}
-					href={`/accounts/${accountId || '-'}/${resourceType}s`}
+					onClick={(event: React.MouseEvent<HTMLElement>) => {
+						event.preventDefault()
+						navigate(`/accounts/${accountId || '-'}/${resourceType}s/${resource.address}`)
+					}}
 					styleVariant="avatar"
-					sizeVariant="medium"
+					sizeVariant={isMobile ? 'small' : 'medium'}
 					iconOnly
 					rounded
 				>
-					<ResourceImageIcon size="xlarge" address={resource.address} toolTipEnabled />
+					<ResourceImageIcon size={isMobile ? 'large' : 'xlarge'} address={resource.address} toolTipEnabled />
 				</Button>
 			))}
-			<Box paddingLeft="xsmall">
+			<Box className={styles.overlayAssetChevronWrapper}>
 				<ChevronRightIcon />
 			</Box>
 		</Box>

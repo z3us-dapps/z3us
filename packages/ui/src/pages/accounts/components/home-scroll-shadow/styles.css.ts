@@ -9,6 +9,7 @@ export const accountHeadShadow = style([
 		height: 'xlarge',
 		transition: 'fast',
 		pointerEvents: 'none',
+		zIndex: 1,
 		display: {
 			mobile: 'none',
 			tablet: 'block',
@@ -25,7 +26,7 @@ export const accountHeadShadow = style([
 			height: '24px',
 			transform: 'translateY(-24px)',
 			pointerEvents: 'none',
-			background: 'blue',
+			background: 'transparent',
 			opacity: 0,
 			transition: vars.transition.fast,
 			boxShadow: '0px 10px 11px -7px rgba(0, 0, 0, 0.4)',
