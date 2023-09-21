@@ -21,7 +21,7 @@ export const ScrollPanel: React.FC<PropsWithChildren<IScrollPanelProps>> = props
 
 	return (
 		<ScrollArea
-			fixHeight={!isMobile}
+			fixHeight
 			roundedScrollArea={!isMobile}
 			disabled={disabled}
 			className={clsx(styles.scrollWrapper, className)}

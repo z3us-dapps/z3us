@@ -209,14 +209,6 @@ export const tabsWrapperScrollBtn = style([
 	},
 ])
 
-export const tabsWrapperScrollBtnHidden = style([
-	sprinkles({
-		opacity: 0,
-		transition: 'fast',
-		pointerEvents: 'none',
-	}),
-])
-
 export const searchWrapper = style([
 	sprinkles({
 		width: 'full',
