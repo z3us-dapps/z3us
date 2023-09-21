@@ -1,12 +1,19 @@
 import type { Address, ExtensionState, IExtensionStateSetter } from './types'
 
 const defaultState = {
+	radixConnectorEnabled: true,
 	personaIndexes: {},
 	accountIndexes: {},
 }
 
 export const factory = (set: IExtensionStateSetter): ExtensionState => ({
 	...defaultState,
+
+	toggleRadixConnectorEnabledAction: (enabled: boolean) => {
+		set(state => {
+			state.radixConnectorEnabled = enabled
+		})
+	},
 
 	addPersonaAction: (idx: number, address: Address) => {
 		set(state => {

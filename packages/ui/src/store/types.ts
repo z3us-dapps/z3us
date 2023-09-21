@@ -97,6 +97,9 @@ export type Address = {
 export type AddressIndexes = { [idx: number]: Address }
 
 export type ExtensionState = {
+	radixConnectorEnabled: boolean
+	toggleRadixConnectorEnabledAction: (enabled: boolean) => void
+
 	personaIndexes: AddressIndexes
 	removePersonaAction: (idx: number) => void
 	addPersonaAction: (idx: number, address: Address) => void

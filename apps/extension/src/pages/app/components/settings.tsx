@@ -44,6 +44,14 @@ const messages = defineMessages({
 			other {{unlockTimer} minutes}
 		}`,
 	},
+	connector_extension_title: {
+		id: 'settings.connector_extension.title',
+		defaultMessage: 'Radix connector',
+	},
+	connector_extension_subtitle: {
+		id: 'settings.connector_extension.subtitle',
+		defaultMessage: 'Enable embedded radix connector',
+	},
 	dapp_request_notifications_title: {
 		id: 'settings.dapp_request_notifications.title',
 		defaultMessage: 'Request Notifications',
@@ -64,10 +72,13 @@ const messages = defineMessages({
 
 const Settings: React.FC = () => {
 	const intl = useIntl()
-	const { unlockTimer, setWalletUnlockTimeoutInMinutes } = useNoneSharedStore(state => ({
-		unlockTimer: state.walletUnlockTimeoutInMinutes,
-		setWalletUnlockTimeoutInMinutes: state.setWalletUnlockTimeoutInMinutesAction,
-	}))
+	const { unlockTimer, setWalletUnlockTimeoutInMinutes, radixConnectorEnabled, toggleRadixConnector } =
+		useNoneSharedStore(state => ({
+			unlockTimer: state.walletUnlockTimeoutInMinutes,
+			setWalletUnlockTimeoutInMinutes: state.setWalletUnlockTimeoutInMinutesAction,
+			radixConnectorEnabled: state.radixConnectorEnabled,
+			toggleRadixConnector: state.toggleRadixConnectorEnabledAction,
+		}))
 
 	const [isLoading, setIsLoading] = useState<boolean>(false)
 	const [options, setOptions] = useState<ConnectorExtensionOptions>(defaultConnectorExtensionOptions)
@@ -78,6 +89,10 @@ const Settings: React.FC = () => {
 
 	const handleChangeUnlockTime = (minute: string) => {
 		setWalletUnlockTimeoutInMinutes(parseInt(minute, 10))
+	}
+
+	const handleToggleRadixConnector = async () => {
+		toggleRadixConnector(!radixConnectorEnabled)
 	}
 
 	const handleToggleDAppRequestNotifications = async () => {
@@ -125,6 +140,30 @@ const Settings: React.FC = () => {
 							{ id: '60', title: intl.formatMessage(messages.session_sixty_minutes) },
 						]}
 					/>
+				}
+			/>
+			<SettingsBlock
+				isBottomBorderVisible={false}
+				leftCol={
+					<>
+						<Text size="large" weight="strong" color="strong">
+							{intl.formatMessage(messages.connector_extension_title)}
+						</Text>
+						<Box>
+							<Text size="small">{intl.formatMessage(messages.connector_extension_subtitle)}</Text>
+						</Box>
+					</>
+				}
+				rightCol={
+					<Box display="flex" alignItems="center" gap="medium">
+						<Box>
+							<Switch
+								disabled={isLoading}
+								defaultChecked={radixConnectorEnabled}
+								onCheckedChange={handleToggleRadixConnector}
+							/>
+						</Box>
+					</Box>
 				}
 			/>
 			<SettingsBlock
