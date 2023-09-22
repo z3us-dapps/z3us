@@ -1,7 +1,7 @@
 import browser from 'webextension-polyfill'
 
 import { PORT_NAME } from '@src/browser/messages/constants'
-import timeout from '@src/browser/messages/timeout'
+import timeout, { reason } from '@src/browser/messages/timeout'
 import type { Message, ResponseMessage } from '@src/browser/messages/types'
 import { MessageSource } from '@src/browser/messages/types'
 
@@ -55,7 +55,11 @@ export const MessageClient = () => {
 		} as Message)
 
 		try {
-			const response = await timeout(promise)
+			let response = await timeout(promise)
+			if (response?.error && response?.error === reason) {
+				// if timeout, might be because port reconnected, retry once
+				response = await timeout(promise)
+			}
 			if (response?.error) {
 				throw new Error(response.error)
 			}

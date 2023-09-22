@@ -1,5 +1,6 @@
 import { generateId } from 'ui/src/utils/generate-id'
 
+import timeout, { reason } from '@src/browser/messages/timeout'
 import type { Message, ResponseMessage } from '@src/browser/messages/types'
 import { MessageSource } from '@src/browser/messages/types'
 
@@ -51,7 +52,11 @@ export const MessageClient = () => {
 		)
 
 		try {
-			const response = await promise
+			let response = await timeout(promise)
+			if (response?.error && response?.error === reason) {
+				// if timeout, might be because port reconnected, retry once
+				response = await timeout(promise)
+			}
 			if (response?.error) {
 				throw new Error(response.error)
 			}
