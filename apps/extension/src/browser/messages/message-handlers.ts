@@ -43,6 +43,13 @@ async function unlockVault(message: Message): Promise<void> {
 
 async function isVaultUnlocked(): Promise<boolean> {
 	const walletData = await vault.get()
+	if (!walletData) {
+		try {
+			return !!(await vault.unlock(''))
+		} catch (error) {
+			return false
+		}
+	}
 	return !!walletData
 }
 
