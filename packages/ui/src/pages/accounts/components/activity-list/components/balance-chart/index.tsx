@@ -6,7 +6,9 @@ import { defineMessages, useIntl } from 'react-intl'
 
 import { Box } from 'ui/src/components/box'
 import { Button } from 'ui/src/components/button'
+import { CardButtons } from 'ui/src/components/card-buttons'
 import { HeightAnimatePanel } from 'ui/src/components/height-animate-panel'
+import { Text } from 'ui/src/components/typography'
 import { Z3usLoading } from 'ui/src/components/z3us-loading'
 import { animatePageVariants } from 'ui/src/constants/page'
 import { useAccountValues, useBalances } from 'ui/src/hooks/dapp/use-balances'
@@ -20,6 +22,10 @@ import { ListRow } from './components/list-row'
 import * as styles from './styles.css'
 
 const messages = defineMessages({
+	all_assets_total_balance: {
+		id: 'accounts.activity_list.all_assets_total_balance',
+		defaultMessage: 'Total Balance',
+	},
 	loading: {
 		id: 'accounts.activity_list.balance_chart.loading',
 		defaultMessage: 'Loading...',
@@ -108,8 +114,37 @@ export const BalanceChart: React.FC = () => {
 							animate="visible"
 							variants={animatePageVariants}
 						>
-							<Box className={styles.pieChartWrapper}>
+							<Box className={clsx(styles.pieChartWrapper, !isAllAccounts && styles.mobileHiddenWrapper)}>
 								<Chart data={data} />
+							</Box>
+							<Box className={clsx(styles.mobileHomeBalanceWrapper, !isAllAccounts && styles.mobileHiddenWrapper)}>
+								<Text color="strong" size="xlarge">
+									{intl.formatMessage(messages.all_assets_total_balance)}
+								</Text>
+								<Text color="strong" size="xxxlarge" weight="strong">
+									$1434,23
+								</Text>
+								<Text size="xlarge">34234 XRD</Text>
+							</Box>
+							<Box className={clsx(styles.mobileCardWrapper, isAllAccounts && styles.mobileHiddenWrapper)}>
+								<Box className={styles.mobileCardTransparentWrapper}>
+									<Box flexGrow={1}>
+										<Text color="strong" truncate>
+											Account name (TODO)
+										</Text>
+									</Box>
+									<Box>
+										<Text weight="stronger" size="xxlarge" color="strong" truncate>
+											$54546,009
+										</Text>
+										<Box display="flex">
+											<Text weight="strong" color="strong" className={styles.mobileCardTextSpaced} truncate>
+												34234...234235
+											</Text>
+										</Box>
+									</Box>
+								</Box>
+								<CardButtons />
 							</Box>
 							<Box className={styles.accountsListWrapper}>
 								<Box display="flex" flexDirection="column" gap="xsmall" width="full">

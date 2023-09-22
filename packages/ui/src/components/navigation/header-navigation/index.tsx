@@ -137,7 +137,7 @@ const HeaderNavMobile = () => {
 					)}
 				</>
 			)}
-			<AccountViewDropdown />
+			<AccountViewDropdown styleVariant="white-transparent" />
 		</Box>
 	)
 }
