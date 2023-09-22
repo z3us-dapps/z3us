@@ -5,6 +5,7 @@ import { FormattedNumber, defineMessages, useIntl } from 'react-intl'
 import { Link, useParams } from 'react-router-dom'
 
 import { Box } from 'ui/src/components/box'
+import { ChevronRightIcon } from 'ui/src/components/icons'
 import Loader from 'ui/src/components/loader'
 import { Text } from 'ui/src/components/typography'
 import { useBalances } from 'ui/src/hooks/dapp/use-balances'
@@ -83,45 +84,42 @@ export const AssetsList: React.FC = () => {
 		},
 	}
 
-	const [hoveredLink, setHoveredLink] = useState<string | null>(null)
-
 	if (isLoading) return <Loader />
 
 	return (
-		<Box component="ul" className={styles.assetsList}>
+		<Box className={styles.assetsList}>
 			{Object.keys(rows).map(path => (
-				<Box key={path} component="li" className={styles.assetsListLi}>
-					<Link
-						to={`/accounts/${accountId}/${path}`}
-						className={clsx(styles.assetsListLink, hoveredLink === path && styles.assetsListLinkHover)}
-						onMouseOver={() => setHoveredLink(path)}
-						onMouseLeave={() => setHoveredLink(null)}
-					>
-						<Box className={styles.assetsListTitleWrapper}>
-							<Text capitalizeFirstLetter color="strong" weight="medium" size="small">
-								{rows[path].title}
+				<Link key={path} to={`/accounts/${accountId}/${path}`} className={clsx(styles.assetsListLink)}>
+					<Box className={styles.assetsListTitleWrapper}>
+						<Text capitalizeFirstLetter color="strong" weight="medium" size="small">
+							{rows[path].title}
+						</Text>
+						{rows[path].balances.length > 0 && (
+							<Text size="small" truncate>
+								({rows[path].balances.length})
 							</Text>
-							{rows[path].balances.length > 0 && (
-								<Text size="small" truncate>
-									({rows[path].balances.length})
-								</Text>
-							)}
+						)}
+						<Box className={styles.assetsListTitleChevronWrapper}>
+							<ChevronRightIcon />
 						</Box>
-						<Box className={styles.assetsListTitleWrapper}>
-							<Text weight="strong" size="small" color="strong" truncate>
+					</Box>
+					<Box className={styles.assetsListBalancesWrapper}>
+						<OverlayAssetIcons resourceType={path.slice(0, -1) as any} balances={rows[path].balances} />
+						<Box className={styles.assetsListBalancesTextWrapper}>
+							<Text weight="strong" size="small" color="strong" truncate className={styles.assetsListBalancesText}>
 								<FormattedNumber value={rows[path].value.toNumber()} style="currency" currency={currency} />
 							</Text>
-							<Text size="small" color={rows[path].change && rows[path].change.gt(0) ? 'green' : 'red'} truncate>
+							<Text
+								size="small"
+								color={rows[path].change && rows[path].change.gt(0) ? 'green' : 'red'}
+								truncate
+								className={styles.assetsListBalancesText}
+							>
 								<FormattedNumber value={rows[path].change.toNumber()} style="percent" maximumFractionDigits={2} />
 							</Text>
 						</Box>
-					</Link>
-					<OverlayAssetIcons
-						resourceType={path.slice(0, -1) as any}
-						balances={rows[path].balances}
-						onButtonMouseOver={() => setHoveredLink(path)}
-					/>
-				</Box>
+					</Box>
+				</Link>
 			))}
 		</Box>
 	)

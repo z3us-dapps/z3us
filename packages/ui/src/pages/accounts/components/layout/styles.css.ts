@@ -14,7 +14,7 @@ export const accountsStickyWrapper = style([
 		background: 'backgroundSecondary',
 		position: 'sticky',
 		top: 0,
-		zIndex: 1,
+		zIndex: 2,
 		paddingX: {
 			tablet: 'xlarge',
 		},

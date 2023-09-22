@@ -23,9 +23,7 @@ interface IProps {
 
 export const Chart: React.FC<IProps> = ({ data }) => {
 	const intl = useIntl()
-	const { currency } = useNoneSharedStore(state => ({
-		currency: state.currency,
-	}))
+	const { currency } = useNoneSharedStore(state => ({ currency: state.currency }))
 	const [hoveredCellIndex, setHoveredCellIndex] = useState<number>(-1)
 
 	const renderCustomTooltip = ({ payload }) => {
