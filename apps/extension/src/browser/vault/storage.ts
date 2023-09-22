@@ -64,11 +64,15 @@ export const setConnectionPassword = async (connectionPassword: string) => {
 	}
 }
 
-export const hasConnectionPassword = async (): Promise<boolean> => {
+export const getConnectionPassword = async (): Promise<string> => {
 	const data = await browser.storage.local.get('connectionPassword')
 	const { lastError } = browser.runtime
 	if (lastError) {
 		throw new Error(lastError.message)
 	}
-	return !!data?.connectionPassword
+	return data?.connectionPassword || ''
+}
+
+export const hasConnectionPassword = async (): Promise<boolean> => {
+	return (await getConnectionPassword()) !== ''
 }

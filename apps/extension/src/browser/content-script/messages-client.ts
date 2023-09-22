@@ -6,7 +6,7 @@ import { PORT_NAME } from '@src/browser/messages/constants'
 import type { Message } from '@src/browser/messages/types'
 import { MessageAction, MessageSource } from '@src/browser/messages/types'
 
-import { addMetadata } from '../helpers/add-metadata'
+import { addMetadata } from '../metadata/add'
 import { newMessage } from '../messages/message'
 import { chromeDAppClient, radixMessageHandler, sendRadixMessage, sendRadixMessageToDapp } from './radix'
 import { isHandledByRadix } from './radix-connector'

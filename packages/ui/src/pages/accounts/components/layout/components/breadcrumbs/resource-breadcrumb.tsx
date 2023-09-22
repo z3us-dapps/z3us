@@ -3,6 +3,7 @@ import { defineMessages, useIntl } from 'react-intl'
 import { useParams } from 'react-router-dom'
 
 import { Link } from 'ui/src/components/router-link'
+import { Text } from 'ui/src/components/typography'
 import { useEntityMetadata } from 'ui/src/hooks/dapp/use-entity-metadata'
 import { getStringMetadata } from 'ui/src/services/metadata'
 
@@ -14,10 +15,11 @@ const messages = defineMessages({
 })
 
 interface IProps {
+	isLast?: boolean
 	resourceType: 'token' | 'nft' | 'lp-token' | 'pool-unit'
 }
 
-export const ResourceBreadcrumb: React.FC<IProps> = ({ resourceType }) => {
+export const ResourceBreadcrumb: React.FC<IProps> = ({ isLast, resourceType }) => {
 	const intl = useIntl()
 	const { accountId, resourceId } = useParams()
 	const { data } = useEntityMetadata(resourceId)
@@ -30,6 +32,8 @@ export const ResourceBreadcrumb: React.FC<IProps> = ({ resourceType }) => {
 	useEffect(() => {
 		setDisplayName(symbol ? symbol.toUpperCase() : name)
 	}, [name, symbol])
+
+	if (isLast) return <Text>{displayName || intl.formatMessage(messages.resource)}</Text>
 
 	return (
 		<Link to={`/accounts/${accountId}/${resourceType}s/${resourceId}`}>

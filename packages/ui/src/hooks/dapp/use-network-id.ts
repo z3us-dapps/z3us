@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 
 import { config } from '../../constants/config'
 import { useNoneSharedStore } from '../use-store'
-import { useNetworkConfiguration } from './use-network-configuration'
+import { useNetworkConfiguration } from './use-network'
 
 export const useNetworkId = () => {
 	const { data } = useNetworkConfiguration()

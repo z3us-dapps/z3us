@@ -26,17 +26,13 @@ interface IProps {
 }
 
 export const PoolCell: React.FC<IProps> = props => {
-	const {
-		value,
-		row: { original },
-	} = props
-	const { pool } = original
+	const { value } = props
 
 	const intl = useIntl()
 	const isMobile = useIsMobileWidth()
-	const { data, isLoading } = useEntityDetails(pool)
+	const { data, isLoading } = useEntityDetails(value)
 	const { data: entities, isLoading: isLoadingResources } = useEntitiesDetails(
-		data?.details?.state?.vaults.map(vault => vault.resource_address),
+		data?.details?.state?.vaults.map(vault => vault.resource_address) || [],
 	)
 
 	const name = getStringMetadata('name', data?.metadata?.items) || intl.formatMessage(messages.unknown)

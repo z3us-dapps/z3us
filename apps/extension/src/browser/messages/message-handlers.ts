@@ -6,6 +6,7 @@ import {
 import { createMessage as createRadixMessage } from '@radixdlt/connector-extension/src/chrome/messages/create-message'
 import type { Account, Persona } from '@radixdlt/radix-dapp-toolkit'
 import { Convert } from '@radixdlt/radix-engine-toolkit'
+import browser from 'webextension-polyfill'
 
 import { sharedStore } from 'ui/src/store'
 import type { AddressBook, AddressIndexes, Keystore } from 'ui/src/store/types'
@@ -71,7 +72,7 @@ export interface SignMessage {
 	toSign: string
 }
 
-async function sign(message: Message) {
+async function signToSignature(message: Message) {
 	const { index, password, toSign } = message.payload as SignMessage
 	const walletData = await vault.unlock(password)
 	if (!walletData) {
@@ -79,6 +80,16 @@ async function sign(message: Message) {
 	}
 	const privateKey = getPrivateKey(walletData.data, index)
 	return privateKey.signToSignature(Convert.HexString.toUint8Array(toSign))
+}
+
+async function signToSignatureWithPublicKey(message: Message) {
+	const { index, password, toSign } = message.payload as SignMessage
+	const walletData = await vault.unlock(password)
+	if (!walletData) {
+		return null
+	}
+	const privateKey = getPrivateKey(walletData.data, index)
+	return privateKey.signToSignatureWithPublicKey(Convert.HexString.toUint8Array(toSign))
 }
 
 export interface GetSecretMessage {
@@ -187,7 +198,7 @@ async function handleRadixMessage(message: Message) {
 				default:
 					try {
 						const { interactionId, items } = radixMsg.data
-						await chrome.runtime.sendMessage(
+						await browser.runtime.sendMessage(
 							createRadixMessage.sendMessageEventToDapp(
 								radixMessageSource.contentScript,
 								'receivedByExtension',
@@ -195,7 +206,7 @@ async function handleRadixMessage(message: Message) {
 							),
 						)
 
-						await chrome.runtime.sendMessage(
+						await browser.runtime.sendMessage(
 							createRadixMessage.sendMessageEventToDapp(
 								radixMessageSource.offScreen,
 								'receivedByWallet',
@@ -209,7 +220,7 @@ async function handleRadixMessage(message: Message) {
 						// 	} as GetPublicKeyMessage),
 						// )
 						// if (!publicKey) {
-						// 	await chrome.runtime.sendMessage(
+						// 	await browser.runtime.sendMessage(
 						// 		createRadixMessage.walletResponse(radixMessageSource.offScreen, {
 						// 			discriminator: 'success',
 						// 			items: createRadixMessage.sendMessageToTab,
@@ -224,7 +235,7 @@ async function handleRadixMessage(message: Message) {
 						// https://github.com/radixdlt/wallet-sdk/blob/c4a8433a2b2357c4d28dcf36fe2810f0d5fe158e/lib/__tests__/wallet-sdk.spec.ts#L93
 						console.info('items', interactionId, items) // @TODO: handle specifically using popup or such
 
-						await chrome.runtime.sendMessage(
+						await browser.runtime.sendMessage(
 							createRadixMessage.walletResponse(radixMessageSource.offScreen, {
 								discriminator: 'success',
 								items: {
@@ -267,8 +278,9 @@ export type MessageTypes = {
 	[MessageAction.VAULT_REMOVE]: RemoveFromVaultMessage
 	[MessageAction.VAULT_IS_UNLOCKED]: undefined
 
-	[MessageAction.SIGN]: SignMessage
 	[MessageAction.GET_PUBLIC_KEY]: GetPublicKeyMessage
+	[MessageAction.SIGN_TO_SIGNATURE]: SignMessage
+	[MessageAction.SIGN_TO_SIGNATURE_WITH_PUBLIC_KEY]: SignMessage
 
 	[MessageAction.GET_PERSONAS]: GetPersonasMessage
 	[MessageAction.GET_ACCOUNTS]: GetAccountsMessage
@@ -287,8 +299,9 @@ export default {
 	[MessageAction.VAULT_IS_UNLOCKED]: isVaultUnlocked,
 	[MessageAction.VAULT_GET]: getSecret,
 
-	[MessageAction.SIGN]: sign,
 	[MessageAction.GET_PUBLIC_KEY]: getPublicKey,
+	[MessageAction.SIGN_TO_SIGNATURE]: signToSignature,
+	[MessageAction.SIGN_TO_SIGNATURE_WITH_PUBLIC_KEY]: signToSignatureWithPublicKey,
 
 	[MessageAction.GET_PERSONAS]: getPersonas,
 	[MessageAction.GET_ACCOUNTS]: getAccounts,

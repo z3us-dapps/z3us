@@ -4,7 +4,7 @@ import { Buffer } from 'buffer'
 import React, { type PropsWithChildren, useEffect, useState } from 'react'
 
 import { DAPP_ADDRESS } from '../constants/dapp'
-import { useNetworkConfiguration } from '../hooks/dapp/use-network-configuration'
+import { useNetworkConfiguration } from '../hooks/dapp/use-network'
 import { useNoneSharedStore, useSharedStore } from '../hooks/use-store'
 import { RdtContext } from './rdt'
 

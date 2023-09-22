@@ -56,8 +56,6 @@ export class Vault {
 			}
 			await this.setConnectionPassword()
 		} catch (error) {
-			// eslint-disable-next-line no-console
-			console.error(error)
 			await this.clearState()
 			throw error
 		} finally {
@@ -80,8 +78,6 @@ export class Vault {
 				}
 			}
 		} catch (error) {
-			// eslint-disable-next-line no-console
-			console.error(error)
 			await this.clearState()
 			throw error
 		} finally {
@@ -93,7 +89,7 @@ export class Vault {
 		return this.wallet
 	}
 
-	save = async (keystore: Keystore, data: Data, password: string): Promise<WalletData> => {
+	save = async (keystore: Keystore, data: Data, password: string): Promise<void> => {
 		const release = await this.mutex.acquire()
 		try {
 			if (!password) {
@@ -102,15 +98,11 @@ export class Vault {
 			const secret = await this.crypto.encrypt<Data>(password, data)
 			await saveSecret(keystore, secret)
 		} catch (error) {
-			// eslint-disable-next-line no-console
-			console.error(error)
 			await this.clearState()
 			throw error
 		} finally {
 			release()
 		}
-
-		return this.unlock(password)
 	}
 
 	remove = async (password: string) => {
@@ -176,8 +168,6 @@ export class Vault {
 					this.wallet.timer = setTimeout(this.lock, walletUnlockTimeoutInMinutes * 60 * 1000)
 				}
 			} catch (error) {
-				// eslint-disable-next-line no-console
-				console.error(error)
 				await this.lock()
 				throw error
 			} finally {

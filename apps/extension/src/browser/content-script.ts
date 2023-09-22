@@ -1,4 +1,4 @@
-import browser from 'webextension-polyfill'
+import browser, { Storage } from 'webextension-polyfill'
 
 import { injectInpageScript } from '@src/browser/content-script/inpage'
 import { MessageClient } from '@src/browser/content-script/messages-client'
@@ -8,7 +8,7 @@ const { checkConnectButtonStatus, onRuntimeMessage, forwardMessageToBackground }
 window.addEventListener('message', forwardMessageToBackground, false)
 
 browser.runtime.onMessage.addListener(onRuntimeMessage)
-browser.storage.onChanged.addListener((changes: { [key: string]: chrome.storage.StorageChange }) => {
+browser.storage.onChanged.addListener((changes: { [key: string]: Storage.StorageChange }) => {
 	if (changes.connectionPassword) checkConnectButtonStatus()
 })
 

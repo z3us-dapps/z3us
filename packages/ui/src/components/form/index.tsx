@@ -3,6 +3,7 @@ import set from 'lodash/set'
 import unset from 'lodash/unset'
 import type { FormEvent, PropsWithChildren } from 'react'
 import React, { useEffect, useMemo } from 'react'
+import { defineMessages, useIntl } from 'react-intl'
 import { useImmer } from 'use-immer'
 
 import { Box } from 'ui/src/components/box'
@@ -30,6 +31,13 @@ type State<P = {}> = {
 	values: FormData<P>
 }
 
+const messages = defineMessages({
+	error: {
+		id: 'form.on_submit.error',
+		defaultMessage: 'Internal error, please try again.',
+	},
+})
+
 const rootFieldCtx = {
 	name: '',
 	value: undefined,
@@ -45,6 +53,7 @@ export const Form: React.FC<PropsWithChildren<Props>> = ({
 	onChange,
 	...rest
 }) => {
+	const intl = useIntl()
 	const [state, setState] = useImmer<State<Props['initialValues']>>({
 		error: '',
 		isLoading: false,
@@ -66,8 +75,9 @@ export const Form: React.FC<PropsWithChildren<Props>> = ({
 			const { values } = state
 			await onSubmit(values)
 		} catch (error) {
+			console.error(error)
 			setState(draft => {
-				draft.error = error?.message || error
+				draft.error = error?.message || intl.formatMessage(messages.error)
 			})
 		} finally {
 			setState(draft => {

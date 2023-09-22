@@ -15,7 +15,8 @@ export enum MessageAction {
 	VAULT_REMOVE = 'v1-vault-remove',
 	VAULT_IS_UNLOCKED = 'v1-vault-is-unlocked',
 
-	SIGN = 'v1-sign',
+	SIGN_TO_SIGNATURE = 'v1-sign-to-signature',
+	SIGN_TO_SIGNATURE_WITH_PUBLIC_KEY = 'v1-sign-to-signature-with-public-key',
 	GET_PUBLIC_KEY = 'v1-get-public-key',
 
 	GET_PERSONAS = 'v1-personas',
@@ -34,7 +35,7 @@ export type Message = {
 	payload: any
 }
 
-export type ResponseMessage = Message & { payload: any | { code: number; error: any }; request?: any }
+export type ResponseMessage = Message & { payload: any | { code: number; error: string }; request?: any }
 
 export type MessageHandler = (message: Message) => Promise<any>
 

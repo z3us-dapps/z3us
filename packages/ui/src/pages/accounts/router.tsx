@@ -30,8 +30,8 @@ const route = {
 	path: 'accounts',
 	element: <Layout />,
 	handle: {
-		crumb: () => (
-			<LinkBreadcrumb to="/accounts">
+		crumb: (_, isLast: boolean) => (
+			<LinkBreadcrumb isLast={isLast} to="/accounts">
 				<FormattedMessage id="accounts.breadcrumbs.accounts" defaultMessage="All accounts" />
 			</LinkBreadcrumb>
 		),
@@ -45,7 +45,7 @@ const route = {
 		{
 			path: ':accountId',
 			handle: {
-				crumb: () => <AccountBreadcrumb />,
+				crumb: (_, isLast: boolean) => <AccountBreadcrumb isLast={isLast} />,
 			},
 			children: [
 				{
@@ -57,8 +57,8 @@ const route = {
 					element: <Tokens />,
 					handle: {
 						backButton: <BackButton key="tokens" />,
-						crumb: ({ accountId }) => (
-							<LinkBreadcrumb key={accountId} to={`/accounts/${accountId}/tokens`}>
+						crumb: ({ accountId }, isLast: boolean) => (
+							<LinkBreadcrumb isLast={isLast} key={accountId} to={`/accounts/${accountId}/tokens`}>
 								<FormattedMessage id="accounts.breadcrumbs.tokens" defaultMessage="Tokens" />
 							</LinkBreadcrumb>
 						),
@@ -67,7 +67,7 @@ const route = {
 						{
 							path: ':resourceId',
 							handle: {
-								crumb: () => <ResourceBreadcrumb resourceType="token" />,
+								crumb: (_, isLast: boolean) => <ResourceBreadcrumb isLast={isLast} resourceType="token" />,
 								sidebar: <TokenDetails />,
 							},
 						},
@@ -78,8 +78,8 @@ const route = {
 					element: <LPTokens />,
 					handle: {
 						backButton: <BackButton key="lp-tokens" />,
-						crumb: ({ accountId }) => (
-							<LinkBreadcrumb key={accountId} to={`/accounts/${accountId}/lp-tokens`}>
+						crumb: ({ accountId }, isLast: boolean) => (
+							<LinkBreadcrumb isLast={isLast} key={accountId} to={`/accounts/${accountId}/lp-tokens`}>
 								<FormattedMessage id="accounts.breadcrumbs.lp_tokens" defaultMessage="Liquidity Pool Tokens" />
 							</LinkBreadcrumb>
 						),
@@ -88,7 +88,7 @@ const route = {
 						{
 							path: ':resourceId',
 							handle: {
-								crumb: () => <ResourceBreadcrumb resourceType="lp-token" />,
+								crumb: (_, isLast: boolean) => <ResourceBreadcrumb isLast={isLast} resourceType="lp-token" />,
 								sidebar: <TokenDetails />,
 							},
 						},
@@ -99,8 +99,8 @@ const route = {
 					element: <PoolUnits />,
 					handle: {
 						backButton: <BackButton key="pool-units" />,
-						crumb: ({ accountId }) => (
-							<LinkBreadcrumb key={accountId} to={`/accounts/${accountId}/pool-units`}>
+						crumb: ({ accountId }, isLast: boolean) => (
+							<LinkBreadcrumb isLast={isLast} key={accountId} to={`/accounts/${accountId}/pool-units`}>
 								<FormattedMessage id="accounts.breadcrumbs.lp_tokens" defaultMessage="Pool Units" />
 							</LinkBreadcrumb>
 						),
@@ -109,7 +109,7 @@ const route = {
 						{
 							path: ':resourceId',
 							handle: {
-								crumb: () => <ResourceBreadcrumb resourceType="pool-unit" />,
+								crumb: (_, isLast: boolean) => <ResourceBreadcrumb isLast={isLast} resourceType="pool-unit" />,
 								sidebar: <TokenDetails />,
 							},
 						},
@@ -123,8 +123,8 @@ const route = {
 							element: <NftCollections />,
 							handle: {
 								backButton: <BackButton key="nfts" />,
-								crumb: ({ accountId }) => (
-									<LinkBreadcrumb key={accountId} to={`/accounts/${accountId}/nfts`}>
+								crumb: ({ accountId }, isLast: boolean) => (
+									<LinkBreadcrumb isLast={isLast} key={accountId} to={`/accounts/${accountId}/nfts`}>
 										<FormattedMessage id="accounts.breadcrumbs.nfts" defaultMessage="NFTs" />
 									</LinkBreadcrumb>
 								),
@@ -134,14 +134,14 @@ const route = {
 							path: ':resourceId',
 							element: <Nfts />,
 							handle: {
-								crumb: () => <ResourceBreadcrumb resourceType="nft" />,
+								crumb: (_, isLast: boolean) => <ResourceBreadcrumb isLast={isLast} resourceType="nft" />,
 								sidebar: <NftCollectionDetails />,
 							},
 							children: [
 								{
 									path: ':nftId',
 									handle: {
-										crumb: () => <NftItemBreadcrumb />,
+										crumb: (_, isLast: boolean) => <NftItemBreadcrumb isLast={isLast} />,
 										sidebar: <NftDetails />,
 									},
 								},

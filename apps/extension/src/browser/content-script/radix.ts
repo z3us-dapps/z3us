@@ -11,6 +11,7 @@ import { MessageClient as RadixMessageClient } from '@radixdlt/connector-extensi
 import type { SendMessage } from '@radixdlt/connector-extension/src/chrome/messages/send-message'
 import { logger } from '@radixdlt/connector-extension/src/utils/logger'
 import { ResultAsync, errAsync, okAsync } from 'neverthrow'
+import browser from 'webextension-polyfill'
 
 import { config } from '@src/config'
 
@@ -31,7 +32,7 @@ export const sendRadixMessageEventToDapp: ContentScriptMessageHandlerOptions['se
 
 export const chromeSendRadixMessage = (message: RadixMessage) =>
 	ResultAsync.fromPromise(
-		APP_RADIX ? chrome.runtime.sendMessage(message) : chrome.runtime.sendMessage(config.radix.extension.id, message),
+		APP_RADIX ? browser.runtime.sendMessage(message) : browser.runtime.sendMessage(config.radix.extension.id, message),
 		error => error as Error,
 	)
 

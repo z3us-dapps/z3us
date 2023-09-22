@@ -77,9 +77,14 @@ export const MessageClient = () => {
 								const response = await handler(message)
 								sendReplyToInpage(message, response)
 							} catch (error) {
+								// eslint-disable-next-line no-console
+								console.error(
+									`⚡️Z3US⚡️: background message client failed to handle ${source} message: ${action}.`,
+									error,
+								)
 								sendReplyToInpage(message, {
 									code: 500,
-									error: error?.message || error,
+									error: error.message || `Failed ${source} message: ${action}`,
 								})
 							}
 						} else {
@@ -103,9 +108,14 @@ export const MessageClient = () => {
 								const response = await handler(message)
 								sendReplyToPopup(message, response)
 							} catch (error) {
+								// eslint-disable-next-line no-console
+								console.error(
+									`⚡️Z3US⚡️: background message client failed to handle ${source} message: ${action}.`,
+									error,
+								)
 								sendReplyToPopup(message, {
 									code: 500,
-									error: error?.message || error,
+									error: error.message || `Failed ${source} message: ${action}`,
 								})
 							}
 						} else {
@@ -123,11 +133,19 @@ export const MessageClient = () => {
 							if (response) sendReplyToRadix(message, response)
 						} catch (error) {
 							// eslint-disable-next-line no-console
-							console.error(`⚡️Z3US⚡️: background message client failed to handle radix message.`, error)
+							console.error(
+								`⚡️Z3US⚡️: background message client failed to handle ${source} message: ${action}.`,
+								error,
+							)
 						}
 					}
 					break
 				default:
+					// eslint-disable-next-line no-console
+					console.error(
+						`⚡️Z3US⚡️: background message client failed to handle ${source} message: ${action}.`,
+						'Invalid source',
+					)
 					break
 			}
 		})

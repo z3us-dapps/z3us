@@ -53,7 +53,7 @@ export const MessageClient = () => {
 		try {
 			const response = await promise
 			if (response?.error) {
-				throw response.error
+				throw new Error(response.error)
 			}
 			if (response?.code && response.code !== 200) {
 				throw new Error(`Unknown error (code ${response.code})`)

@@ -1,5 +1,11 @@
 import type { Account, Persona } from '@radixdlt/radix-dapp-toolkit'
-import { Convert, LTSRadixEngineToolkit, type PublicKey } from '@radixdlt/radix-engine-toolkit'
+import {
+	Convert,
+	LTSRadixEngineToolkit,
+	type PublicKey,
+	Signature,
+	SignatureWithPublicKey,
+} from '@radixdlt/radix-engine-toolkit'
 import { useMemo } from 'react'
 
 import { useSharedStore } from 'ui/src/hooks/use-store'
@@ -49,26 +55,37 @@ export const useMessageClient = () => {
 					.then(updateCursor),
 			isVaultUnlocked: async (): Promise<boolean> => client.sendMessage(MessageAction.VAULT_IS_UNLOCKED),
 
-			sign: async (password: string, data: string, index: number = 0): Promise<PublicKey | null> =>
-				client
-					.sendMessage(MessageAction.SIGN, {
-						index,
-						password,
-						toSign: Convert.Uint8Array.toHexString(Buffer.from(data, 'utf-8')),
-					} as MessageTypes[MessageAction.SIGN])
-					.then(updateCursor),
-			signHash: async (password: string, data: string, index: number = 0): Promise<PublicKey | null> =>
-				client
-					.sendMessage(MessageAction.SIGN, {
-						index,
-						password,
-						toSign: Convert.Uint8Array.toHexString(LTSRadixEngineToolkit.Utils.hash(Buffer.from(data, 'utf-8'))),
-					} as MessageTypes[MessageAction.SIGN])
-					.then(updateCursor),
-
 			getPublicKey: async (index: number = 0): Promise<PublicKey | null> =>
 				client
 					.sendMessage(MessageAction.GET_PUBLIC_KEY, { index } as MessageTypes[MessageAction.GET_PUBLIC_KEY])
+					.then(updateCursor),
+			signToSignature: async (password: string, data: Uint8Array, index: number = 0): Promise<Signature | null> =>
+				client
+					.sendMessage(MessageAction.SIGN_TO_SIGNATURE, {
+						index,
+						password,
+						toSign: Convert.Uint8Array.toHexString(data),
+					} as MessageTypes[MessageAction.SIGN_TO_SIGNATURE])
+					.then(updateCursor),
+			signToSignatureWithPublicKey: async (
+				password: string,
+				data: Uint8Array,
+				index: number = 0,
+			): Promise<SignatureWithPublicKey | null> =>
+				client
+					.sendMessage(MessageAction.SIGN_TO_SIGNATURE_WITH_PUBLIC_KEY, {
+						index,
+						password,
+						toSign: Convert.Uint8Array.toHexString(data),
+					} as MessageTypes[MessageAction.SIGN_TO_SIGNATURE_WITH_PUBLIC_KEY])
+					.then(updateCursor),
+			signHash: async (password: string, data: Uint8Array, index: number = 0): Promise<Signature | null> =>
+				client
+					.sendMessage(MessageAction.SIGN_TO_SIGNATURE, {
+						index,
+						password,
+						toSign: Convert.Uint8Array.toHexString(LTSRadixEngineToolkit.Utils.hash(data)),
+					} as MessageTypes[MessageAction.SIGN_TO_SIGNATURE])
 					.then(updateCursor),
 
 			getPersonas: async (networkId: number, indexes: AddressIndexes): Promise<Array<Persona>> =>

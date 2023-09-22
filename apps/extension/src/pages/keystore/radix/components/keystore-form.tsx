@@ -99,6 +99,8 @@ export const KeystoreForm: React.FC<IProps> = ({ connectionPassword }) => {
 			return
 		}
 
+		setValidation(undefined)
+
 		const keystore: Keystore = {
 			id: generateId(),
 			name: values.name,

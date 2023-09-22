@@ -37,7 +37,7 @@ const config = {
 			options: resolve(__dirname, '../../node_modules/@radixdlt/connector-extension/src/options'),
 			queues: resolve(__dirname, '../../node_modules/@radixdlt/connector-extension/src/queues'),
 			utils: resolve(__dirname, '../../node_modules/@radixdlt/connector-extension/src/utils'),
-			'chrome/helpers/add-metadata': resolve(__dirname, 'src/browser/helpers/add-metadata'),
+			'chrome/helpers/add-metadata': resolve(__dirname, 'src/browser/metadata/add'),
 		},
 	},
 	define: {
