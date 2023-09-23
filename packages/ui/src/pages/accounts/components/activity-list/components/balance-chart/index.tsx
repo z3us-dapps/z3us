@@ -119,6 +119,7 @@ export const BalanceChart: React.FC = () => {
 							<Box className={clsx(styles.pieChartWrapper, !isAllAccounts && styles.mobileHiddenWrapper)}>
 								<Chart data={data} />
 							</Box>
+							{/* TODO: refactor to component ?? */}
 							<Box className={clsx(styles.mobileHomeBalanceWrapper, !isAllAccounts && styles.mobileHiddenWrapper)}>
 								<Text color="strong" size="xlarge">
 									{intl.formatMessage(messages.all_assets_total_balance)}
@@ -145,6 +146,8 @@ export const BalanceChart: React.FC = () => {
 								</Box>
 								<CardButtons />
 							</Box>
+
+							{/* END TODO: refactor to component ?? */}
 							<Box className={styles.accountsListWrapper}>
 								<Box display="flex" flexDirection="column" gap="xsmall" width="full">
 									<HeightAnimatePanel>
