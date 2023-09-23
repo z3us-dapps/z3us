@@ -41,7 +41,6 @@ import {
 import { Link } from 'ui/src/components/router-link'
 import { Text } from 'ui/src/components/typography'
 import { useDappStatus } from 'ui/src/hooks/use-dapp-status'
-import { useIsMobileWidth } from 'ui/src/hooks/use-is-mobile'
 import { useSharedStore } from 'ui/src/hooks/use-store'
 import { useTheme } from 'ui/src/hooks/use-theme'
 import { useZdtState } from 'ui/src/hooks/zdt/use-zdt'
@@ -133,7 +132,6 @@ export const AccountViewDropdown = forwardRef<HTMLElement, IAccountViewDropdownP
 		const navigate = useNavigate()
 		const { lock, isWallet } = useZdtState()
 		const dappStatus = useDappStatus()
-		const isMobile = useIsMobileWidth()
 		const { resolvedTheme, theme, setTheme } = useTheme()
 		const { keystore, keystores, selectKeystore } = useSharedStore(state => ({
 			keystore: state.keystores.find(({ id }) => id === state.selectedKeystoreId),
