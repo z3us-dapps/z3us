@@ -59,7 +59,7 @@ export const ScrollAreaCorner = ({ ...props }) => (
 	<ScrollAreaPrimitive.Corner className={styles.scrollAreaCornerWrapper} {...props} />
 )
 
-interface IScrollAreaRadix extends ScrollAreaPrimitive.ScrollAreaProps {
+export interface IScrollAreaRadix extends ScrollAreaPrimitive.ScrollAreaProps {
 	disabled?: boolean
 	fixHeight?: boolean
 	showTopScrollShadow?: boolean

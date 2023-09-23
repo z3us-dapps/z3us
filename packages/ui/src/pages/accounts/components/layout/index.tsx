@@ -4,7 +4,7 @@ import { useLocation, useMatches, useOutlet } from 'react-router-dom'
 import { Box } from 'ui/src/components/box'
 import Loader from 'ui/src/components/loader'
 import MotionBox from 'ui/src/components/motion-box'
-import { ScrollAreaRadix as ScrollArea } from 'ui/src/components/scroll-area-radix'
+import MobileScrollArea from 'ui/src/components/scroll-area-radix/mobile'
 import { useScroll } from 'ui/src/components/scroll-area-radix/use-scroll'
 import { ScrollPanel } from 'ui/src/components/scroll-panel'
 import * as panelViewStyles from 'ui/src/components/styles/panel-view-styles.css'
@@ -57,23 +57,15 @@ const ScrollContent: React.FC = () => {
 	)
 }
 
-const Layout: React.FC = () => {
-	const isMobile = useIsMobileWidth()
-
-	return (
-		<MotionBox>
-			<Box className={panelViewStyles.panelViewOuterWrapper}>
-				<MobileBackground />
-				<ScrollArea
-					showTopScrollShadow={false}
-					disabled={!isMobile}
-					className={panelViewStyles.panelViewMobileScrollWrapper}
-				>
-					<ScrollContent />
-				</ScrollArea>
-			</Box>
-		</MotionBox>
-	)
-}
+const Layout: React.FC = () => (
+	<MotionBox>
+		<Box className={panelViewStyles.panelViewOuterWrapper}>
+			<MobileBackground />
+			<MobileScrollArea className={panelViewStyles.panelViewMobileScrollWrapper}>
+				<ScrollContent />
+			</MobileScrollArea>
+		</Box>
+	</MotionBox>
+)
 
 export default Layout
