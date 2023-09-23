@@ -35,10 +35,8 @@ export const factory = (set: IKeystoresStateSetter): KeystoresState => ({
 
 	selectKeystoreAction: (keystoreId: string) => {
 		set(draft => {
-			draft.selectedKeystoreId =
-				draft.keystores.find(({ id }) => id === keystoreId)?.id || draft.keystores.length > 0
-					? draft.keystores[0].id
-					: ''
+			const keystore = draft.keystores.find(({ id }) => id === keystoreId)
+			draft.selectedKeystoreId = keystore ? keystore.id : draft.keystores.length > 0 ? draft.keystores[0].id : ''
 		})
 	},
 })

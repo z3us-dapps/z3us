@@ -144,8 +144,8 @@ export const AccountViewDropdown = forwardRef<HTMLElement, IAccountViewDropdownP
 		const handleSelectKeystore = async (id: string) => {
 			setIsSwitchingKeystore(true)
 			try {
-				await lock()
 				selectKeystore(id)
+				await lock()
 			} catch (err) {
 				console.error(err)
 			} finally {
