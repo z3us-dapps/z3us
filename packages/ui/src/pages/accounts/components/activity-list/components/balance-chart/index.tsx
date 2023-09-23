@@ -3,6 +3,7 @@ import { AnimatePresence, motion } from 'framer-motion'
 import React, { useMemo, useState } from 'react'
 import { defineMessages, useIntl } from 'react-intl'
 
+// import { AccountTotalValue } from './components/total-value'
 import { Box } from 'ui/src/components/box'
 import { Button } from 'ui/src/components/button'
 import { CardButtons } from 'ui/src/components/card-buttons'
@@ -17,6 +18,7 @@ import { useIsMobileWidth } from 'ui/src/hooks/use-is-mobile'
 import { useResourceType } from 'ui/src/pages/accounts/hooks/use-resource-type'
 import type { ResourceBalance, ResourceBalanceKind, ResourceBalanceType } from 'ui/src/types/types'
 
+import { AccountTotalValue } from '../../../layout/components/total-value'
 import { Chart } from './components/chart'
 import { ListRow } from './components/list-row'
 import * as styles from './styles.css'
@@ -121,10 +123,7 @@ export const BalanceChart: React.FC = () => {
 								<Text color="strong" size="xlarge">
 									{intl.formatMessage(messages.all_assets_total_balance)}
 								</Text>
-								<Text color="strong" size="xxxlarge" weight="strong">
-									$1434,23
-								</Text>
-								<Text size="xlarge">34234 XRD</Text>
+								<AccountTotalValue className={styles.mobileAccountValueTotal} />
 							</Box>
 							<Box className={clsx(styles.mobileCardWrapper, isAllAccounts && styles.mobileHiddenWrapper)}>
 								<Box className={styles.mobileCardTransparentWrapper}>

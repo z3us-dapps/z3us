@@ -150,6 +150,8 @@ export const mobileHiddenWrapper = style([
 	}),
 ])
 
+export const mobileAccountValueTotal = style([{ display: 'flex' }])
+
 export const accountsListWrapper = style([
 	sprinkles({
 		display: {
