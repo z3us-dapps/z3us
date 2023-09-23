@@ -46,6 +46,7 @@
 		"react-test-renderer": "^18.2.0",
 		"react-virtuoso": "^4.3.11",
 		"readable-stream": "^4.3.0",
+		"recharts": "^2.8.0",
 		"simple-zustand-devtools": "^1.1.0",
 		"simplebar-react": "^3.2.4",
 		"use-debounce": "^9.0.4",

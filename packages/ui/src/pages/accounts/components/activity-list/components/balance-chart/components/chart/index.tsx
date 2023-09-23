@@ -39,7 +39,7 @@ export const Chart: React.FC<IProps> = ({ data }) => {
 	}
 
 	return (
-		<ResponsiveContainer width="100%" height="100%">
+		<ResponsiveContainer width="99%">
 			<PieChart>
 				<defs>
 					{data.map((entry, index) => (
