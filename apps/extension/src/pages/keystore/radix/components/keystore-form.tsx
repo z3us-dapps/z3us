@@ -70,7 +70,7 @@ export const KeystoreForm: React.FC<IProps> = ({ connectionPassword }) => {
 			z
 				.object({
 					name: z.string().min(1, intl.formatMessage(messages.validation_name)),
-					password: z.string().min(1, intl.formatMessage(messages.validation_password)),
+					password: z.string().min(8, intl.formatMessage(messages.validation_password)),
 					confirmPassword: z.string(),
 				})
 				.superRefine(({ confirmPassword, password }, ctx) => {
