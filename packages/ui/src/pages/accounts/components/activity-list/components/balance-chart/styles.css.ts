@@ -9,7 +9,7 @@ export const allChartWrapper = style([
 		position: 'relative',
 		paddingTop: {
 			mobile: 'medium',
-			tablet: 'large',
+			tablet: 'small',
 		},
 		paddingX: {
 			mobile: 'none',
@@ -38,9 +38,7 @@ export const allChartInnerWrapper = style([
 		position: 'relative',
 		width: 'full',
 	}),
-	{
-		// border: '1px solid red',
-	},
+	{},
 	responsiveStyle({
 		mobile: { aspectRatio: '8 / 5' },
 		tablet: {
@@ -79,13 +77,16 @@ export const pieChartWrapper = style([
 		display: 'flex',
 		alignItems: 'center',
 	}),
-	{},
+	{
+		margin: '0 auto',
+	},
 	responsiveStyle({
-		//TODO
-		mobile: { height: '140px' },
+		mobile: { width: '60%', aspectRatio: '8 / 5' },
 		tablet: {
 			display: 'flex',
-			height: '400px',
+			height: '230px',
+			width: '100%',
+			aspectRatio: 'unset',
 		},
 	}),
 ])
@@ -98,7 +99,6 @@ export const mobileHomeBalanceWrapper = style([
 		},
 		flexDirection: 'column',
 		alignItems: 'center',
-		paddingTop: 'medium',
 	}),
 	{},
 ])
@@ -146,24 +146,25 @@ export const mobileCardTextSpaced = style([
 export const mobileHiddenWrapper = style([
 	responsiveStyle({
 		mobile: { display: 'none' },
-		// tablet: { display: 'flex' },
 	}),
 ])
 
 export const mobileAccountValueTotal = style([{ display: 'flex' }])
 
-export const accountsListWrapper = style([
+export const cardButtonsWrapper = style([
 	sprinkles({
-		display: {
-			mobile: 'none',
-			tablet: 'flex',
-		},
-		flexDirection: 'column',
-		marginTop: 'small',
-		paddingX: 'large',
-		paddingBottom: 'medium',
+		display: 'none',
+		alignItems: 'center',
+		justifyContent: 'center',
+		width: 'full',
 	}),
 	{},
+])
+
+export const cardButtonsWrapperVisible = style([
+	{
+		display: 'flex',
+	},
 ])
 
 export const accountDotBg = style([
