@@ -31,7 +31,7 @@ export const scrollWrapper = style([
 			boxShadow: vars.color.shadowPanel,
 		},
 		desktop: {
-			maxHeight: 'calc(100vh - 168px)',
+			maxHeight: 'calc(100vh - 148px)',
 		},
 	}),
 ])

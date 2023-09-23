@@ -1,4 +1,5 @@
 import { style } from '@vanilla-extract/css'
+import { globalStyle } from '@vanilla-extract/css'
 
 import { sprinkles } from 'ui/src/components/system/sprinkles.css'
 import { responsiveStyle } from 'ui/src/components/system/theme-utils'
@@ -51,3 +52,17 @@ export const accountViewPaddingXWrapper = style([
 	}),
 	{},
 ])
+
+export const accountViewTriggerButton = style([
+	sprinkles({
+		position: 'relative',
+	}),
+])
+
+globalStyle(
+	`${accountViewTriggerButton} svg`,
+	responsiveStyle({
+		mobile: { opacity: '0.7' },
+		tablet: { opacity: '1' },
+	}),
+)

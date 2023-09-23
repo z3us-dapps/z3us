@@ -127,17 +127,19 @@ const HeaderNavMobile = () => {
 						/>
 					</Box>
 					{accountAddress && (
-						<CopyAddressButton
-							styleVariant="white-transparent"
-							sizeVariant="small"
-							address={accountAddress}
-							rounded
-							tickColor="colorStrong"
-						/>
+						<Box marginRight="xsmall">
+							<CopyAddressButton
+								styleVariant="white-transparent"
+								sizeVariant="small"
+								address={accountAddress}
+								rounded
+								tickColor="colorStrong"
+							/>
+						</Box>
 					)}
 				</>
 			)}
-			<AccountViewDropdown />
+			<AccountViewDropdown styleVariant="white-transparent" />
 		</Box>
 	)
 }

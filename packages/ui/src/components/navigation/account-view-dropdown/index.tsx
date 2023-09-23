@@ -54,7 +54,6 @@ import * as styles from './styles.css'
 interface IAccountViewDropdownProps {
 	className?: ClassValue
 	styleVariant?: TStyleVariant
-	icon?: React.ReactElement
 }
 
 const weights = {
@@ -128,7 +127,7 @@ const messages = defineMessages({
 
 export const AccountViewDropdown = forwardRef<HTMLElement, IAccountViewDropdownProps>(
 	(props, ref: React.Ref<HTMLElement | null>) => {
-		const { className, styleVariant = 'ghost', icon = <MenuIcon /> } = props
+		const { className, styleVariant = 'ghost' } = props
 
 		const intl = useIntl()
 		const navigate = useNavigate()
@@ -178,8 +177,14 @@ export const AccountViewDropdown = forwardRef<HTMLElement, IAccountViewDropdownP
 					<DropdownMenuTrigger asChild>
 						<Box>
 							<ToolTip message={intl.formatMessage(messages.menu)}>
-								<Button styleVariant={styleVariant} sizeVariant="small" rounded iconOnly>
-									{icon}
+								<Button
+									styleVariant={styleVariant}
+									sizeVariant="small"
+									rounded
+									iconOnly
+									className={styles.accountViewTriggerButton}
+								>
+									<MenuIcon />
 								</Button>
 							</ToolTip>
 						</Box>
