@@ -177,7 +177,13 @@ export const AccountViewDropdown = forwardRef<HTMLElement, IAccountViewDropdownP
 					<DropdownMenuTrigger asChild>
 						<Box>
 							<ToolTip message={intl.formatMessage(messages.menu)}>
-								<Button styleVariant={styleVariant} sizeVariant="small" rounded iconOnly>
+								<Button
+									styleVariant={styleVariant}
+									sizeVariant="small"
+									rounded
+									iconOnly
+									className={styles.accountViewTriggerButton}
+								>
 									<MenuIcon />
 								</Button>
 							</ToolTip>
