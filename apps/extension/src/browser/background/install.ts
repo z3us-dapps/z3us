@@ -90,5 +90,5 @@ export const handleInstall = async (details: Runtime.OnInstalledDetailsType) => 
 		await migrateOlympiaAddresses()
 	}
 
-	browser.runtime.setUninstallURL('https://github.com/z3us-dapps/z3us/discussions/150')
+	browser.runtime.setUninstallURL('https://z3us.com')
 }

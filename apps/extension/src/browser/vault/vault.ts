@@ -37,13 +37,10 @@ export class Vault {
 				throw new Error('Keystore is not selected')
 			}
 
-			const secret = await getSecret(keystore)
+			const secret = await getSecret(keystore.id)
 			const data = secret ? await this.crypto.decrypt<Data>(password, secret) : null
 
-			await sharedStore.persist.rehydrate()
-			const { selectedKeystoreId } = sharedStore.getState()
-
-			const noneSharedStore = await getNoneSharedStore(selectedKeystoreId)
+			const noneSharedStore = await getNoneSharedStore(keystore.id)
 			await noneSharedStore.persist.rehydrate()
 			const { walletUnlockTimeoutInMinutes } = noneSharedStore.getState()
 
@@ -92,11 +89,12 @@ export class Vault {
 	save = async (keystore: Keystore, data: Data, password: string): Promise<void> => {
 		const release = await this.mutex.acquire()
 		try {
-			if (!password) {
-				throw new Error('Missing password')
-			}
+			// check if we can decrypt
+			const old = await getSecret(keystore.id)
+			if (old) await this.crypto.decrypt<Data>(password, old)
+
 			const secret = await this.crypto.encrypt<Data>(password, data)
-			await saveSecret(keystore, secret)
+			await saveSecret(keystore.id, secret)
 		} catch (error) {
 			await this.clearState()
 			throw error
@@ -108,9 +106,6 @@ export class Vault {
 	remove = async (password: string) => {
 		const release = await this.mutex.acquire()
 		try {
-			if (!password) {
-				throw new Error('Missing password')
-			}
 			if (!this.wallet) {
 				throw new Error('Locked')
 			}
@@ -124,9 +119,9 @@ export class Vault {
 			}
 
 			// check if we can decrypt
-			const secret = await getSecret(keystore)
+			const secret = await getSecret(keystore.id)
 			if (secret) await this.crypto.decrypt<Data>(password, secret)
-			await removeSecret(keystore)
+			await removeSecret(keystore.id)
 			await this.clearState()
 		} finally {
 			release()

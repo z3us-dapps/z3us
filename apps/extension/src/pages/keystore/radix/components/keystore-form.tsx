@@ -7,9 +7,7 @@ import { ZodError } from 'zod'
 import { Form } from 'ui/src/components/form'
 import TextField from 'ui/src/components/form/fields/text-field'
 import { useSharedStore } from 'ui/src/hooks/use-store'
-import { defaultKeystore } from 'ui/src/store/keystore'
 import { Keystore, KeystoreType } from 'ui/src/store/types'
-import { generateId } from 'ui/src/utils/generate-id'
 
 import { useMessageClient } from '@src/hooks/use-message-client'
 import { Data, DataType } from '@src/types/vault'
@@ -60,10 +58,9 @@ export const KeystoreForm: React.FC<IProps> = ({ connectionPassword }) => {
 	const navigate = useNavigate()
 	const inputRef = useRef(null)
 	const client = useMessageClient()
-	const { selectedKeystoreId, addKeystore, removeKeystore } = useSharedStore(state => ({
-		selectedKeystoreId: state.selectedKeystoreId,
+	const { keystoreId, addKeystore } = useSharedStore(state => ({
+		keystoreId: state.selectedKeystoreId,
 		addKeystore: state.addKeystoreAction,
-		removeKeystore: state.removeKeystoreAction,
 	}))
 
 	const [validation, setValidation] = useState<ZodError>()
@@ -73,7 +70,7 @@ export const KeystoreForm: React.FC<IProps> = ({ connectionPassword }) => {
 			z
 				.object({
 					name: z.string().min(1, intl.formatMessage(messages.validation_name)),
-					password: z.string().min(8, intl.formatMessage(messages.validation_password)),
+					password: z.string().min(1, intl.formatMessage(messages.validation_password)),
 					confirmPassword: z.string(),
 				})
 				.superRefine(({ confirmPassword, password }, ctx) => {
@@ -102,7 +99,7 @@ export const KeystoreForm: React.FC<IProps> = ({ connectionPassword }) => {
 		setValidation(undefined)
 
 		const keystore: Keystore = {
-			id: generateId(),
+			id: keystoreId,
 			name: values.name,
 			type: KeystoreType.RADIX_WALLET,
 		}
@@ -112,11 +109,8 @@ export const KeystoreForm: React.FC<IProps> = ({ connectionPassword }) => {
 		}
 
 		await client.storeInVault(keystore, data, values.password)
-		if (selectedKeystoreId === defaultKeystore.id) {
-			await client.removeFromVault(selectedKeystoreId)
-			removeKeystore(defaultKeystore.id)
-		}
 		addKeystore(keystore.id, keystore.name, keystore.type)
+
 		navigate('/')
 	}
 

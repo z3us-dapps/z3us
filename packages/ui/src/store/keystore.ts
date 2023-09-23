@@ -7,10 +7,11 @@ export const factory = (set: IKeystoresStateSetter): KeystoresState => ({
 	keystores: [defaultKeystore],
 	selectedKeystoreId: defaultKeystore.id,
 
-	addKeystoreAction: (id: string, name: string, type: KeystoreType) => {
+	addKeystoreAction: (keystoreId: string, name: string, type: KeystoreType) => {
 		set(draft => {
-			draft.keystores = [...draft.keystores, { id, name, type }]
-			draft.selectedKeystoreId = id
+			const keystores = draft.keystores.filter(({ id }) => keystoreId !== id) || []
+			draft.selectedKeystoreId = keystoreId
+			draft.keystores = [...keystores, { id: keystoreId, name, type }]
 		})
 	},
 
@@ -23,21 +24,21 @@ export const factory = (set: IKeystoresStateSetter): KeystoresState => ({
 
 	removeKeystoreAction: (keystoreId: string) => {
 		set(draft => {
-			draft.keystores = draft.keystores.filter(({ id }) => keystoreId !== id) || []
-			const current = draft.keystores.find(({ id }) => id === draft.selectedKeystoreId)
+			const keystores = draft.keystores.filter(({ id }) => keystoreId !== id) || []
+			const current = keystores.find(({ id }) => id === draft.selectedKeystoreId)
 			if (!current) {
-				if (draft.keystores.length > 0) {
-					draft.selectedKeystoreId = draft.keystores[0].id
-				} else {
-					draft.selectedKeystoreId = ''
-				}
+				draft.selectedKeystoreId = keystores.length > 0 ? keystores[0].id : ''
 			}
+			draft.keystores = keystores
 		})
 	},
 
 	selectKeystoreAction: (keystoreId: string) => {
 		set(draft => {
-			draft.selectedKeystoreId = draft.keystores.find(({ id }) => id === keystoreId)?.id || ''
+			draft.selectedKeystoreId =
+				draft.keystores.find(({ id }) => id === keystoreId)?.id || draft.keystores.length > 0
+					? draft.keystores[0].id
+					: ''
 		})
 	},
 })

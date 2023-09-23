@@ -4,12 +4,12 @@ import type { Keystore } from 'ui/src/store/types'
 
 export const keystoreKey = 'z3us-keystore'
 
-export const saveSecret = async (keystore: Keystore, data: string) => {
-	if (!keystore) {
-		throw new Error(`Invalid keystore: ${JSON.stringify(keystore)}`)
+export const saveSecret = async (keystoreId: string, data: string) => {
+	if (!keystoreId) {
+		throw new Error('Invalid keystore!')
 	}
 
-	const itemKey = `${keystoreKey}-${keystore.id}`
+	const itemKey = `${keystoreKey}-${keystoreId}`
 
 	await browser.storage.local.set({ [itemKey]: data })
 	const { lastError } = browser.runtime
@@ -18,12 +18,12 @@ export const saveSecret = async (keystore: Keystore, data: string) => {
 	}
 }
 
-export const getSecret = async (keystore: Keystore): Promise<string | null> => {
-	if (!keystore) {
-		throw new Error(`Invalid keystore: ${JSON.stringify(keystore)}`)
+export const getSecret = async (keystoreId: string): Promise<string | null> => {
+	if (!keystoreId) {
+		throw new Error('Invalid keystore!')
 	}
 
-	const itemKey = `${keystoreKey}-${keystore.id}`
+	const itemKey = `${keystoreKey}-${keystoreId}`
 
 	const data = await browser.storage.local.get(itemKey)
 	const { lastError } = browser.runtime
@@ -34,12 +34,12 @@ export const getSecret = async (keystore: Keystore): Promise<string | null> => {
 	return data[itemKey] || null
 }
 
-export const removeSecret = async (keystore: Keystore) => {
-	if (!keystore) {
-		throw new Error(`Invalid keystore: ${JSON.stringify(keystore)}`)
+export const removeSecret = async (keystoreId: string) => {
+	if (!keystoreId) {
+		throw new Error('Invalid keystore!')
 	}
 
-	const itemKey = `${keystoreKey}-${keystore.id}`
+	const itemKey = `${keystoreKey}-${keystoreId}`
 
 	await browser.storage.local.remove(itemKey)
 	const { lastError } = browser.runtime

@@ -10,10 +10,11 @@ import {
 	generateRandomNonce,
 	rawRadixEngineToolkit,
 } from '@radixdlt/radix-engine-toolkit'
-// import { GeneratedConverter } from '@radixdlt/radix-engine-toolkit/dist/generated'
-import { useGatewayClient } from 'packages/ui/src/hooks/dapp/use-gateway-client'
-import { useNetworkId } from 'packages/ui/src/hooks/dapp/use-network-id'
 import { useCallback } from 'react'
+
+// import { GeneratedConverter } from '@radixdlt/radix-engine-toolkit/dist/generated'
+import { useGatewayClient } from 'ui/src/hooks/dapp/use-gateway-client'
+import { useNetworkId } from 'ui/src/hooks/dapp/use-network-id'
 
 import { useMessageClient } from '@src/hooks/use-message-client'
 

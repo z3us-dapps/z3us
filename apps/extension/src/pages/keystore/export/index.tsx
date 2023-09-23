@@ -1,12 +1,12 @@
-import { useNoneSharedStore, useSharedStore } from 'packages/ui/src/hooks/use-store'
-import { useTheme } from 'packages/ui/src/hooks/use-theme'
-import { KeystoreType } from 'packages/ui/src/store/types'
-import { Theme } from 'packages/ui/src/types/types'
 import { QRCodeSVG } from 'qrcode.react'
 import React, { useEffect, useState } from 'react'
 import { Navigate } from 'react-router-dom'
 
 import { Box } from 'ui/src/components/box'
+import { useNoneSharedStore, useSharedStore } from 'ui/src/hooks/use-store'
+import { useTheme } from 'ui/src/hooks/use-theme'
+import { KeystoreType } from 'ui/src/store/types'
+import { Theme } from 'ui/src/types/types'
 
 import { OlympiaAddressDetails } from '@src/browser/messages/types'
 import { useMessageClient } from '@src/hooks/use-message-client'
