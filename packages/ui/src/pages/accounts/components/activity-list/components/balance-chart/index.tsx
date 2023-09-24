@@ -1,26 +1,19 @@
 import clsx from 'clsx'
 import { AnimatePresence, motion } from 'framer-motion'
-import React, { useMemo, useState } from 'react'
+import React, { useMemo } from 'react'
 import { defineMessages, useIntl } from 'react-intl'
 
-// import { AccountTotalValue } from './components/total-value'
 import { Box } from 'ui/src/components/box'
-import { Button } from 'ui/src/components/button'
 import { CardButtons } from 'ui/src/components/card-buttons'
-import { HeightAnimatePanel } from 'ui/src/components/height-animate-panel'
-import { Text } from 'ui/src/components/typography'
 import { Z3usLoading } from 'ui/src/components/z3us-loading'
 import { animatePageVariants } from 'ui/src/constants/page'
 import { useAccountValues, useBalances } from 'ui/src/hooks/dapp/use-balances'
 import { useSelectedAccounts, useWalletAccounts } from 'ui/src/hooks/use-accounts'
 import { useIsAllAccounts } from 'ui/src/hooks/use-is-all-accounts'
-import { useIsMobileWidth } from 'ui/src/hooks/use-is-mobile'
 import { useResourceType } from 'ui/src/pages/accounts/hooks/use-resource-type'
-import type { ResourceBalance, ResourceBalanceKind, ResourceBalanceType } from 'ui/src/types/types'
+import type { ResourceBalance, ResourceBalanceType } from 'ui/src/types/types'
 
-import { AccountTotalValue } from '../../../layout/components/total-value'
 import { Chart } from './components/chart'
-import { ListRow } from './components/list-row'
 import * as styles from './styles.css'
 
 const messages = defineMessages({
@@ -48,12 +41,9 @@ const messages = defineMessages({
 
 export const BalanceChart: React.FC = () => {
 	const intl = useIntl()
-	const isMobile = useIsMobileWidth()
 	const resourceType = useResourceType()
 	const isAllAccounts = useIsAllAccounts()
 	const accounts = useWalletAccounts()
-
-	const [showFullAccountList, setShowFullAccountList] = useState<boolean>(false)
 
 	const selectedAccounts = useSelectedAccounts()
 	const { values: accountValues } = useAccountValues(...selectedAccounts)
@@ -112,33 +102,6 @@ export const BalanceChart: React.FC = () => {
 						>
 							<Box className={clsx(styles.pieChartWrapper, !isAllAccounts && styles.mobileHiddenWrapper)}>
 								<Chart data={data} />
-							</Box>
-							{/* TODO: refactor placement of AccountTotalValue  ?? */}
-							<Box className={clsx(styles.mobileHomeBalanceWrapper, !isAllAccounts && styles.mobileHiddenWrapper)}>
-								<Text color="strong" size="xlarge">
-									{intl.formatMessage(messages.all_assets_total_balance)}
-								</Text>
-								<AccountTotalValue className={styles.mobileAccountValueTotal} />
-							</Box>
-							{/* TODO: refactor to own component mobile card wrapper  ?? */}
-							<Box className={clsx(styles.mobileCardWrapper, isAllAccounts && styles.mobileHiddenWrapper)}>
-								<Box className={styles.mobileCardTransparentWrapper}>
-									<Box flexGrow={1}>
-										<Text color="strong" truncate>
-											Account name (TODO)
-										</Text>
-									</Box>
-									<Box>
-										<Text weight="stronger" size="xxlarge" color="strong" truncate>
-											$54546,009
-										</Text>
-										<Box display="flex">
-											<Text weight="strong" color="strong" className={styles.mobileCardTextSpaced} truncate>
-												34234...234235
-											</Text>
-										</Box>
-									</Box>
-								</Box>
 							</Box>
 							<Box className={clsx(styles.cardButtonsWrapper, !isAllAccounts && styles.cardButtonsWrapperVisible)}>
 								<CardButtons />

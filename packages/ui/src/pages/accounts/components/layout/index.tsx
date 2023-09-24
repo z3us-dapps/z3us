@@ -1,4 +1,6 @@
-import React, { Suspense, useMemo } from 'react'
+import { assignInlineVars } from '@vanilla-extract/dynamic'
+import clsx, { type ClassValue } from 'clsx'
+import React, { Suspense, useLayoutEffect, useMemo, useRef, useState } from 'react'
 import { useLocation, useMatches, useOutlet } from 'react-router-dom'
 
 import { Box } from 'ui/src/components/box'
@@ -22,6 +24,8 @@ const ScrollContent: React.FC = () => {
 	const matches = useMatches()
 	const isMobile = useIsMobileWidth()
 	const { scrollableNode } = useScroll()
+	const ref = useRef(null)
+	const [height, setHeight] = useState(0)
 
 	const sidebars = matches
 		.filter(match => Boolean((match.handle as any)?.sidebar))
@@ -30,21 +34,38 @@ const ScrollContent: React.FC = () => {
 	const [sidebar] = sidebars.reverse()
 	const key = useMemo(() => location.pathname.split('/')[2] || '-', [location.pathname])
 
+	useLayoutEffect(() => {
+		const updateSize = () => setHeight(ref.current.clientHeight)
+		window.addEventListener('resize', updateSize)
+		updateSize()
+		return () => window.removeEventListener('resize', updateSize)
+	})
+
 	return (
-		<Box className={panelViewStyles.panelViewWrapper}>
-			<Box className={panelViewStyles.panelViewLeftWrapper}>
+		<Box className={styles.wrapper}>
+			<Box className={styles.content}>
+				<Box className={styles.mobileHidden}>
+					<Breadcrumbs />
+				</Box>
+				<Box
+					className={styles.stickyBelowSidebar}
+					style={assignInlineVars({ [styles.distanceFromTop]: `${height}px` })}
+				>
+					<AccountTotalValue />
+				</Box>
+				<Box
+					className={clsx(styles.stickyBelowSidebar, styles.mobileOnlyVisible)}
+					style={assignInlineVars({ [styles.distanceFromTop]: `${height}px` })}
+				>
+					<MobileScrollingButtons />
+				</Box>
 				<ScrollPanel showTopScrollShadow={false} scrollParent={isMobile ? scrollableNode : undefined}>
-					<Box className={styles.accountsStickyWrapper}>
-						<Breadcrumbs />
-						<AccountTotalValue />
-					</Box>
 					<Suspense key={key} fallback={<Loader />}>
 						{outlet}
 					</Suspense>
 				</ScrollPanel>
 			</Box>
-			<MobileScrollingButtons />
-			<Box className={panelViewStyles.panelViewRightWrapper}>
+			<Box className={styles.sidebar} ref={ref}>
 				<ScrollPanel showTopScrollShadow={false} scrollParent={isMobile ? scrollableNode : undefined}>
 					<Suspense key={location.pathname} fallback={<Loader />}>
 						{sidebar}
@@ -57,12 +78,9 @@ const ScrollContent: React.FC = () => {
 
 const Layout: React.FC = () => (
 	<MotionBox>
-		<Box className={panelViewStyles.panelViewOuterWrapper}>
-			<MobileBackground />
-			<MobileScrollArea className={panelViewStyles.panelViewMobileScrollWrapper}>
-				<ScrollContent />
-			</MobileScrollArea>
-		</Box>
+		<MobileScrollArea className={panelViewStyles.panelViewMobileScrollWrapper}>
+			<ScrollContent />
+		</MobileScrollArea>
 	</MotionBox>
 )
 
