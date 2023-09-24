@@ -72,7 +72,7 @@ const TabTitle: React.FC = () => {
 export const MobileScrollingButtons: React.FC = () => {
 	const intl = useIntl()
 	const { scrollableNode } = useScroll()
-	const { accountId, resourceId } = useParams()
+	const { accountId = '-', resourceId } = useParams()
 
 	const resourceType = useResourceType()
 	const showActivities = useShowActivitiesParam()
@@ -93,10 +93,10 @@ export const MobileScrollingButtons: React.FC = () => {
 		}
 	}
 
-	const generateAccountLink = (isActivity = false, generateAssetLink = false) =>
-		!generateAssetLink
-			? `/accounts/${accountId}${isActivity ? `?activity=true` : ''}`
-			: `/accounts/${accountId}/${resourceType}/${resourceId}${isActivity ? `?show-activities=true` : ''}`
+	const generateAccountLink = (isActivity = false) =>
+		`/accounts/${accountId}/${resourceType ? `${resourceType}/` : ''}${resourceId ? `${resourceId}/` : ''}${
+			isActivity ? `?acts=true` : ''
+		}`
 
 	const generateBackLink = () => `/accounts`
 
@@ -133,7 +133,7 @@ export const MobileScrollingButtons: React.FC = () => {
 					</Link>
 					<Link
 						underline="never"
-						to={generateAccountLink(true, true)}
+						to={generateAccountLink(true)}
 						className={clsx(
 							styles.tabsWrapperButton,
 							styles.tabsWrapperButtonRight,

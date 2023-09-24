@@ -33,7 +33,7 @@ const transformFungibleResourceItemResponse =
 
 		let tokenKey = symbol?.toUpperCase()
 		if (!tokenKey && validator) tokenKey = 'XRD'
-		const token = tokens[tokenKey] || null
+		const token = tokens?.[tokenKey] || null
 
 		const details = {
 			address: item.resource_address,
