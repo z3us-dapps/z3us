@@ -84,7 +84,7 @@ export const HomePage: React.FC = () => {
 								<div className="flex w-full pt-16">
 									<div className="w-full homepage__product">
 										<Image
-											src="/images/landing-page-2023/desktop-product.png"
+											src="/images/landing-page-2023/desktop-product.jpg"
 											alt="something big is coming"
 											width={1160}
 											height={788}
