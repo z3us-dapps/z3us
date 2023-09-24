@@ -12,7 +12,6 @@ import { useIsMobileWidth } from 'ui/src/hooks/use-is-mobile'
 
 import { Breadcrumbs } from './components/breadcrumbs'
 import { MobileBackground } from './components/mobile/background'
-// import { MobileScrollingBackground } from './components/mobile/scrolling-background'
 import { MobileScrollingButtons } from './components/mobile/scrolling-buttons'
 import { AccountTotalValue } from './components/total-value'
 import * as styles from './styles.css'
@@ -44,7 +43,6 @@ const ScrollContent: React.FC = () => {
 					</Suspense>
 				</ScrollPanel>
 			</Box>
-			{/* <MobileScrollingBackground /> */}
 			<MobileScrollingButtons />
 			<Box className={panelViewStyles.panelViewRightWrapper}>
 				<ScrollPanel showTopScrollShadow={false} scrollParent={isMobile ? scrollableNode : undefined}>

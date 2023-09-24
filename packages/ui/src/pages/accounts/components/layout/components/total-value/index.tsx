@@ -1,3 +1,4 @@
+import clsx, { type ClassValue } from 'clsx'
 import React, { useMemo, useState } from 'react'
 import { useIntl } from 'react-intl'
 
@@ -11,7 +12,12 @@ import { useResourceType } from 'ui/src/pages/accounts/hooks/use-resource-type'
 
 import * as styles from './styles.css'
 
-export const AccountTotalValue: React.FC = () => {
+interface IProps {
+	className?: ClassValue
+}
+
+export const AccountTotalValue: React.FC<IProps> = props => {
+	const { className } = props
 	const intl = useIntl()
 	const resourceType = useResourceType()
 
@@ -57,7 +63,7 @@ export const AccountTotalValue: React.FC = () => {
 	}
 
 	return (
-		<Box className={styles.assetsHeaderWrapper}>
+		<Box className={clsx(styles.assetsHeaderWrapper, className)}>
 			<Box display="flex" width="full">
 				<Box flexGrow={1}>
 					<Box display="flex" alignItems="center" gap="small">

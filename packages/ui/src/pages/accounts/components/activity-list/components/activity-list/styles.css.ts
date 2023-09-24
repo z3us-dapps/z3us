@@ -15,6 +15,11 @@ export const activityWrapper = style([
 		borderBottomRightRadius: 'large',
 		borderBottomLeftRadius: 'large',
 		paddingBottom: 'medium',
+		marginTop: 'large',
+		paddingTop: 'large',
+		borderTop: 1,
+		borderStyle: 'solid',
+		borderColor: 'borderDivider',
 	}),
 	{
 		width: '100%',
