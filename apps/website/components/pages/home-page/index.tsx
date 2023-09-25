@@ -19,7 +19,7 @@ export const HomePage: React.FC = () => {
 	return (
 		<>
 			<NextSeo
-				title="An open source UX driven web3 wallet built for DeFi & NFTs"
+				title="Z3US: An open source UX driven web3 wallet built for DeFi & NFTs"
 				openGraph={{
 					type: 'website',
 					url: config.Z3US_URL,
@@ -44,6 +44,9 @@ export const HomePage: React.FC = () => {
 			<LazyMotion>
 				<div className="homepage">
 					<Header notTabletSticky className="relative" />
+					<div className="looking-call-migration">
+						Looking for Radix babylon migration guide? <a href="/docs/migration">Click here</a>
+					</div>
 					<div className="overflow-hidden">
 						<PageContainer>
 							<div className="coming-soon-wrapper">
@@ -81,10 +84,10 @@ export const HomePage: React.FC = () => {
 										</a>
 									</div>
 								</div>
-								<div className="flex w-full pt-16">
+								<div className="flex w-full pt-12 lg:pt-16">
 									<div className="w-full homepage__product">
 										<Image
-											src="/images/landing-page-2023/desktop-product.jpg"
+											src="/images/landing-page-2023/desktop-product.png"
 											alt="something big is coming"
 											width={1160}
 											height={788}

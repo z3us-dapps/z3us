@@ -39,6 +39,31 @@ body.home-page {
 	order: 2;
 }
 
+
+.homepage .looking-call-migration {
+	position: absolute;
+	top: 55px;
+	left: 50%;
+	margin-left: -140px;
+	width: 280px;
+	max-width: 80%;
+	z-index: 21;
+	border-radius: 6px;
+	padding: 12px;
+	font-size: 13px;
+	line-height: 18px;
+	text-align: center;
+	background: #323232;
+	border: 1px solid rgba(255,255,255, 0.15);
+	box-shadow: 0px 8px 28px rgba(0, 0, 0, 0.7);
+	border-radius: 12px;
+}
+
+.homepage .looking-call-migration a {
+	text-decoration: underline;
+}
+
+
 .homepage .coming-soon-wrapper {
 	position: relative;
 	min-height: calc(100vh - 160px);
@@ -66,8 +91,8 @@ body.home-page {
 
 .homepage .homepage__header {
 	position: relative;
-	font-size: 1.6rem;
-	line-height: 2rem;
+	font-size: 1.3rem;
+	line-height: 1.8rem;
 	letter-spacing: -0.04em;
 	padding-top: 0rem;
 	padding-bottom: 2rem;
@@ -92,6 +117,13 @@ body.home-page {
 		top: 200px;
 		width: 822px;
 		height: 1222px;
+	}
+
+
+	.homepage .looking-call-migration {
+		top: 12px;
+		margin-left: -200px;
+		width: 400px;
 	}
 }
 
@@ -122,11 +154,12 @@ body.home-page {
 	.homepage .homepage__product {
 		position: relative;
 		width: 1160px;
-		height: 788px;
+		height: 786px;
 		box-shadow: 0px 0px 0px 1px rgba(255, 255, 255, 0.15), 0px 136px 192px rgba(0, 0, 0, 0.3), 0px 50px 50px rgba(0, 0, 0, 0.25), 0px 24px 24px rgba(0, 0, 0, 0.2), 0px 12px 12px rgba(0, 0, 0, 0.15);
 		display: flex;
 		align-self: self-start;
-		border-radius: 8px;
+		border-radius: 12px;
+		overflow: hidden;
 	}
 
 }
