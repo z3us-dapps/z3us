@@ -1,31 +1,26 @@
 import clsx from 'clsx'
-import { FlashCtaButton } from 'components/flash-cta-button'
 import { PageContainer } from 'components/page-container'
 import { config } from 'config'
 import { useScroll } from 'framer-motion'
+import Image from 'next/image'
 import Link from 'next/link'
 import React, { useEffect, useState } from 'react'
 
-import { Z3usText } from 'ui/src/components/z3us-text'
+import { GithubIcon, TelegramIcon, XIcon } from './icons'
 
-import { GithubIcon, TelegramIcon, TwitterIcon } from './icons'
-import { MobileMenu } from './mobile-menu'
+// import { MobileMenu } from './mobile-menu'
 
 interface IProps {
 	className?: string | undefined
-	isBetaButtonVisible?: boolean
-	isDocsButtonVisible?: boolean
 	notTabletSticky?: boolean
 }
 
 const defaultProps = {
-	isBetaButtonVisible: true,
-	isDocsButtonVisible: true,
 	className: undefined,
 	notTabletSticky: false,
 }
 
-export const Header: React.FC<IProps> = ({ className, isBetaButtonVisible, isDocsButtonVisible, notTabletSticky }) => {
+export const Header: React.FC<IProps> = ({ className, notTabletSticky }) => {
 	const [isSticky, setIsSticky] = useState<boolean>(false)
 	const { scrollY } = useScroll()
 
@@ -52,31 +47,12 @@ export const Header: React.FC<IProps> = ({ className, isBetaButtonVisible, isDoc
 					<div className="flex-1 color-white z-30 flex items-start">
 						<Link href="/" passHref>
 							<a className="cursor-pointer inline-flex hover:opacity-60 transition-opacity mt-1">
-								<Z3usText css={{ maxWidth: '130px' }} />
+								<Image src="/images/landing-page-2023/header-z3us-logo.svg" alt="Z3US logo" width={424.5} height={24} />
 							</a>
 						</Link>
 					</div>
-					<MobileMenu />
+					{/* <MobileMenu /> */}
 					<ul className="font-medium text-sm gap-3 lg:gap-5 hidden md:flex items-center">
-						<li>
-							<Link href={config.HELLO_NEXT_FEEDBACK_URL} passHref>
-								<a className="cursor-pointer hover:underline decoration-from-font underline-offset-4" target="_blank">
-									Feedback
-								</a>
-							</Link>
-						</li>
-						<li>
-							<Link href="/roadmap" passHref>
-								<a className="cursor-pointer hover:underline decoration-from-font underline-offset-4">Road map</a>
-							</Link>
-						</li>
-						{isDocsButtonVisible ? (
-							<li>
-								<Link href="/docs" passHref>
-									<a className="cursor-pointer hover:underline decoration-from-font underline-offset-4">Docs</a>
-								</Link>
-							</li>
-						) : null}
 						<li className="h-6">
 							<a
 								className="header-icon cursor-pointer inline-flex items-center justify-center fill-inherit hover:opacity-60 transition-opacity"
@@ -87,10 +63,10 @@ export const Header: React.FC<IProps> = ({ className, isBetaButtonVisible, isDoc
 						</li>
 						<li className="h-6">
 							<a
-								className="header-icon cursor-pointer inline-flex items-center justify-center fill-inherit hover:opacity-60 transition-opacity"
+								className="header-icon-x cursor-pointer inline-flex items-center justify-center fill-inherit hover:opacity-60 transition-opacity"
 								href={config.TWITTER_URL}
 							>
-								<TwitterIcon />
+								<XIcon />
 							</a>
 						</li>
 						<li className="h-6">
@@ -101,14 +77,6 @@ export const Header: React.FC<IProps> = ({ className, isBetaButtonVisible, isDoc
 								<GithubIcon />
 							</a>
 						</li>
-						{isBetaButtonVisible ? (
-							<li>
-								<FlashCtaButton size="base" variant="secondary">
-									<span className="hidden lg:block">Get BETA access</span>
-									<span className="lg:hidden">Get BETA</span>
-								</FlashCtaButton>
-							</li>
-						) : null}
 					</ul>
 				</div>
 			</PageContainer>

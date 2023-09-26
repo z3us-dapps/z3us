@@ -1,7 +1,8 @@
-import React from 'react'
-import NextDocument, { Html, Head, Main, NextScript } from 'next/document'
-import { getCssText } from 'ui/src/theme'
 import { getPageClassName } from 'hooks/use-body-class'
+import NextDocument, { Head, Html, Main, NextScript } from 'next/document'
+import React from 'react'
+
+import { getCssText } from 'ui/src/theme'
 
 export default class Document extends NextDocument {
 	render() {
