@@ -46,7 +46,7 @@ body.docs-page {
 	}
 
 	@media (--viewport-desktop) {
-		max-width: 1174px;
+		max-width: 1160px;
 	}
 }
 

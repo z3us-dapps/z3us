@@ -1,10 +1,11 @@
-import React, { useState, useEffect } from 'react'
-import { darkTheme } from 'ui/src/theme'
-import { useTheme } from 'next-themes'
-import { ChevronUpIcon, ChevronDownIcon, CheckIcon, SunIcon, MoonIcon } from '@heroicons/react/24/solid'
+import { CheckIcon, ChevronDownIcon, ChevronUpIcon, MoonIcon, SunIcon } from '@heroicons/react/24/solid'
 import * as SelectPrimitive from '@radix-ui/react-select'
 import cx from 'classnames'
 import { Button } from 'components/button'
+import { useTheme } from 'next-themes'
+import React, { useEffect, useState } from 'react'
+
+import { darkTheme } from 'ui/src/theme'
 
 interface IProps {
 	className?: string | undefined

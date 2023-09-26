@@ -1,11 +1,11 @@
-import React, { useEffect, useState } from 'react'
+import { Footer } from 'components/footer'
+import { Header } from 'components/header'
+import { LazyMotion } from 'components/lazy-motion'
+import { MdxTheme } from 'components/mdx-theme'
+import { SideMenu } from 'components/side-menu'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
-import { MdxTheme } from 'components/mdx-theme'
-import { LazyMotion } from 'components/lazy-motion'
-import { Header } from 'components/header'
-import { Footer } from 'components/footer'
-import { SideMenu } from 'components/side-menu'
+import React, { useEffect, useState } from 'react'
 import { DocsPageProps } from 'types'
 
 export const PageDocs: React.FC<DocsPageProps> = ({ toc, docs, mdxSource }) => {
@@ -18,7 +18,7 @@ export const PageDocs: React.FC<DocsPageProps> = ({ toc, docs, mdxSource }) => {
 	return (
 		<LazyMotion>
 			<div className="z3-l-docs-wrapper">
-				<Header isBetaButtonVisible={false} isDocsButtonVisible={false} className="dark:fill-white" />
+				<Header className="dark:fill-white" />
 				<div className="z3-l-docs-container z3-container">
 					<div className="z3-l-docs-page">
 						<aside className="z3-l-docs-page__menu">
