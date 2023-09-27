@@ -47,7 +47,7 @@ const ScrollContent: React.FC = () => {
 			<Box className={panelViewStyles.panelViewRightWrapper}>
 				<ScrollPanel showTopScrollShadow={false} scrollParent={isMobile ? scrollableNode : undefined}>
 					<Suspense key={location.pathname} fallback={<Loader />}>
-						{sidebar}
+						<Box className={panelViewStyles.panelViewRightScrollWrapper}>{sidebar}</Box>
 					</Suspense>
 				</ScrollPanel>
 			</Box>

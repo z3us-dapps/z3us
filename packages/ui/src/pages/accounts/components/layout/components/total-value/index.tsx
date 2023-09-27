@@ -26,6 +26,7 @@ export const AccountTotalValue: React.FC<IProps> = props => {
 	}))
 
 	const selectedAccounts = useSelectedAccounts()
+
 	const {
 		isLoading,
 		totalValue,
@@ -49,6 +50,7 @@ export const AccountTotalValue: React.FC<IProps> = props => {
 		if (resourceType === 'pool-units') return poolUnitsValue
 		return totalValue
 	}, [resourceType, totalValue, fungibleValue, nonFungibleValue])
+
 	const change = useMemo(() => {
 		if (resourceType === 'nfts') return nonFungibleChange
 		if (resourceType === 'tokens') return fungibleChange
