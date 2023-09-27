@@ -1,16 +1,15 @@
-import browser, { Storage } from 'webextension-polyfill'
+import browser from 'webextension-polyfill'
 
 import { injectInpageScript } from '@src/browser/content-script/inpage'
 import { MessageClient } from '@src/browser/content-script/messages-client'
+import { checkConnectButtonStatus, onStorageChange } from '@src/browser/content-script/storage'
 
-const { checkConnectButtonStatus, onRuntimeMessage, forwardMessageToBackground } = MessageClient()
+const { onRuntimeMessage, onWindowMessage } = MessageClient()
 
-window.addEventListener('message', forwardMessageToBackground, false)
+window.addEventListener('message', onWindowMessage, false)
 
 browser.runtime.onMessage.addListener(onRuntimeMessage)
-browser.storage.onChanged.addListener((changes: { [key: string]: Storage.StorageChange }) => {
-	if (changes.connectionPassword) checkConnectButtonStatus()
-})
+browser.storage.onChanged.addListener(onStorageChange)
 
 injectInpageScript()
 checkConnectButtonStatus()

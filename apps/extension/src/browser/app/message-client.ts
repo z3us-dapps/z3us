@@ -1,9 +1,11 @@
-import browser from 'webextension-polyfill'
+import browser, { Runtime } from 'webextension-polyfill'
 
 import { PORT_NAME } from '@src/browser/messages/constants'
 import timeout, { reason } from '@src/browser/messages/timeout'
 import type { Message, ResponseMessage } from '@src/browser/messages/types'
 import { MessageSource } from '@src/browser/messages/types'
+
+import messageHandlers from './message-handlers'
 
 export type MessageClientType = ReturnType<typeof MessageClient>
 
@@ -15,18 +17,15 @@ export const MessageClient = () => {
 		port = browser.runtime.connect({ name: PORT_NAME })
 	})
 
-	const messageHandlers: {
+	const responseHandlers: {
 		[key: string]: any
 	} = {}
 
-	port.onMessage.addListener((message: Message) => {
-		if (message?.target !== MessageSource.POPUP) {
-			return
-		}
+	port.onMessage.addListener((message: ResponseMessage) => {
 		if (!message.messageId) {
 			return
 		}
-		const handler = messageHandlers[message.messageId]
+		const handler = responseHandlers[message.messageId]
 		if (handler) {
 			handler(message)
 		}
@@ -34,16 +33,8 @@ export const MessageClient = () => {
 
 	const sendMessage = async (action: string, payload: any = {}) => {
 		const messageId = `${action}-${crypto.randomUUID()}`
-		const promise = new Promise<ResponseMessage['payload']>(resolve => {
-			messageHandlers[messageId] = (message: Message) => {
-				if (message.target !== MessageSource.POPUP) {
-					return
-				}
-				if (!message.messageId || message.messageId !== messageId) {
-					return
-				}
-				resolve(message.payload)
-			}
+		const promise = new Promise<ResponseMessage>(resolve => {
+			responseHandlers[messageId] = resolve
 		})
 
 		port.postMessage({
@@ -63,16 +54,33 @@ export const MessageClient = () => {
 			if (response?.error) {
 				throw new Error(response.error)
 			}
-			if (response?.code && response.code !== 200) {
-				throw new Error(`Unknown error (code ${response.code})`)
-			}
-			return response
+			return response.payload
 		} finally {
-			delete messageHandlers[messageId]
+			delete responseHandlers[messageId]
+		}
+	}
+
+	const onMessage = (message: any, sender: Runtime.MessageSender) => {
+		const { messageId, target, action } = (message || {}) as Message
+		if (!messageId) {
+			return
+		}
+		if (target !== MessageSource.POPUP) {
+			return
+		}
+
+		message.fromTabId = message.fromTabId || sender?.tab?.id
+
+		const handler = messageHandlers[action]
+		if (handler) {
+			return handler(message)
+		} else {
+			throw new Error('Bad request')
 		}
 	}
 
 	return {
+		onMessage,
 		sendMessage,
 	}
 }

@@ -4,7 +4,7 @@ import browser from 'webextension-polyfill'
 
 import { getNoneSharedStore } from 'ui/src/services/state'
 import { sharedStore } from 'ui/src/store'
-import { AddressType, KeystoreType } from 'ui/src/store/types'
+import { KeystoreType } from 'ui/src/store/types'
 import type { Address, Keystore } from 'ui/src/store/types'
 
 const migrateOlympiaAddresses = async () => {
@@ -35,8 +35,8 @@ const migrateOlympiaAddresses = async () => {
 				Object.keys(olympiaAddresses).map(async idx => {
 					const current = currentKeystoreState.accountIndexes[idx]
 					currentKeystoreState.accountIndexes[idx] = {
+						...current,
 						olympiaAddress: olympiaAddresses[idx].address,
-						type: current ? AddressType.BOTH : AddressType.OLYMPIA,
 					} as Address
 				})
 

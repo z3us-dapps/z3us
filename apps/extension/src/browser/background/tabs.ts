@@ -11,9 +11,9 @@ export const ledgerTabWatcher = LedgerTabWatcher()
 export const handleTabActivated = ({ tabId }: Tabs.OnActivatedActiveInfoType) => handleCheckContentScript(tabId)
 
 export const getTabRemovedHandler = (messageHandler: MessageClientType) => (tabId: number) => {
-		ledgerTabWatcher.triggerTabRemoval(tabId)
-		messageHandler.onRadixMessage(createRadixMessage.closeDappTab('background', tabId), tabId)
-	}
+	ledgerTabWatcher.triggerTabRemoval(tabId)
+	messageHandler.onRadixMessage(createRadixMessage.closeDappTab('background', tabId), tabId)
+}
 
 export const getTabUpdatedHandler = (messageHandler: MessageClientType) => {
 	const handleTabRemoved = getTabRemovedHandler(messageHandler)

@@ -4,16 +4,11 @@ import {
 	ChromeDAppClient,
 	type ChromeDAppClient as ChromeDAppClientType,
 } from '@radixdlt/connector-extension/src/chrome/dapp/dapp-client'
-import { getTabById } from '@radixdlt/connector-extension/src/chrome/helpers/get-tab-by-id'
-import { sendMessageToTab as chromeSendMessageToTab } from '@radixdlt/connector-extension/src/chrome/helpers/send-message-to-tab'
-import type { Message as RadixMessage } from '@radixdlt/connector-extension/src/chrome/messages/_types'
 import { MessageClient as RadixMessageClient } from '@radixdlt/connector-extension/src/chrome/messages/message-client'
 import type { SendMessage } from '@radixdlt/connector-extension/src/chrome/messages/send-message'
 import { logger } from '@radixdlt/connector-extension/src/utils/logger'
 import { ResultAsync, errAsync, okAsync } from 'neverthrow'
 import browser from 'webextension-polyfill'
-
-import { config } from '@src/config'
 
 export const chromeDAppClient: ChromeDAppClientType = ChromeDAppClient()
 
@@ -30,31 +25,25 @@ export const sendRadixMessageEventToDapp: ContentScriptMessageHandlerOptions['se
 	return result.isErr() ? errAsync({ reason: 'unableToSendMessageEventToDapp' }) : okAsync(undefined)
 }
 
-export const chromeSendRadixMessage = (message: RadixMessage) =>
-	ResultAsync.fromPromise(
-		APP_RADIX ? browser.runtime.sendMessage(message) : browser.runtime.sendMessage(config.radix.extension.id, message),
-		error => error as Error,
-	)
-
 export const sendRadixMessage: SendMessage = (message, tabId) => {
 	const canSendMessageToTab = message.source === 'background' && tabId
 
 	if (canSendMessageToTab) {
-		return getTabById(tabId)
+		return ResultAsync.fromPromise(browser.tabs.get(tabId), err => err as Error)
 			.mapErr(error => ({
 				reason: 'tabNotFound',
 				message: 'could not find tab, user may have closed it',
 				jsError: error,
 			}))
 			.andThen(() =>
-				chromeSendMessageToTab(tabId, message).mapErr(error => ({
+				ResultAsync.fromPromise(browser.tabs.sendMessage(tabId, message), err => err as Error).mapErr(error => ({
 					reason: 'couldNotSendMessageToTab',
 					jsError: error,
 				})),
 			)
 	}
 
-	return chromeSendRadixMessage(message).mapErr(error => ({
+	return ResultAsync.fromPromise(browser.runtime.sendMessage(message), error => error as Error).mapErr(error => ({
 		reason: 'couldNotSendMessage',
 		jsError: error,
 	}))

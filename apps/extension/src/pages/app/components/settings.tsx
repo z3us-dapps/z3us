@@ -1,8 +1,8 @@
-import { chromeStorageSync } from '@radixdlt/connector-extension/src/chrome/helpers/chrome-storage-sync'
 import type { ConnectorExtensionOptions } from '@radixdlt/connector-extension/src/options'
-import { defaultConnectorExtensionOptions, getExtensionOptions } from '@radixdlt/connector-extension/src/options'
+import { defaultConnectorExtensionOptions } from '@radixdlt/connector-extension/src/options'
 import React, { useEffect, useState } from 'react'
 import { defineMessages, useIntl } from 'react-intl'
+import browser from 'webextension-polyfill'
 
 import { Box } from 'ui/src/components/box'
 import { SelectSimple } from 'ui/src/components/select'
@@ -84,7 +84,15 @@ const Settings: React.FC = () => {
 	const [options, setOptions] = useState<ConnectorExtensionOptions>(defaultConnectorExtensionOptions)
 
 	useEffect(() => {
-		getExtensionOptions().map(setOptions)
+		browser.storage.sync
+			.get('options')
+			.then(({ options }) => ({
+				...defaultConnectorExtensionOptions,
+				...options,
+			}))
+			.then(options => {
+				setOptions(options)
+			})
 	}, [])
 
 	const handleChangeUnlockTime = (minute: string) => {
@@ -102,7 +110,8 @@ const Settings: React.FC = () => {
 		}
 
 		setIsLoading(true)
-		await chromeStorageSync.setSingleItem('options', updatedOptions).map(() => setOptions(updatedOptions))
+		await browser.storage.sync.set({ options: updatedOptions })
+		setOptions(updatedOptions)
 		setIsLoading(false)
 	}
 
@@ -113,7 +122,8 @@ const Settings: React.FC = () => {
 		}
 
 		setIsLoading(true)
-		await chromeStorageSync.setSingleItem('options', updatedOptions).map(() => setOptions(updatedOptions))
+		await browser.storage.sync.set({ options: updatedOptions })
+		setOptions(updatedOptions)
 		setIsLoading(false)
 	}
 

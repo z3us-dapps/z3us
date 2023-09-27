@@ -82,14 +82,7 @@ export type NoneSharedState = SettingsState & ExtensionState & IntlState
 
 export type AppState = SharedState & NoneSharedState
 
-export enum AddressType {
-	OLYMPIA = 'olympia',
-	BABYLON = 'babylon',
-	BOTH = 'both',
-}
-
 export type Address = {
-	type: AddressType
 	label: string
 	olympiaAddress?: string
 }

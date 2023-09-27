@@ -4,25 +4,25 @@ import type { PublicKey } from '@radixdlt/radix-engine-toolkit'
 
 import type { AddressBook, AddressIndexes } from 'ui/src/store/types'
 
-import { newMessage } from './message'
+import { publicKeyFromJSON } from '@src/crypto/key_pair'
+
+import { newMessage } from '../messages/message'
+import { type MessageHandler, MessageSource } from '../messages/types'
 import type { GetPublicKeyMessage } from './message-handlers'
-import type { MessageHandler } from './types'
-import { MessageAction, MessageSource } from './types'
+import { MessageAction } from './types'
 
 const getPublicKey =
 	(handler: MessageHandler) =>
-	(index: number): Promise<PublicKey | null> =>
+	(msg: GetPublicKeyMessage): Promise<PublicKey | null> =>
 		handler(
-			newMessage(MessageAction.GET_PUBLIC_KEY, MessageSource.BACKGROUND, MessageSource.BACKGROUND, {
-				index,
-			} as GetPublicKeyMessage),
-		)
+			newMessage(MessageAction.BACKGROUND_GET_ACCOUNTS, MessageSource.BACKGROUND, MessageSource.BACKGROUND, msg),
+		).then(resp => publicKeyFromJSON(resp || {}))
 
 const personaReducer =
 	(publicMessageHandler: MessageHandler, accountIndexes: AddressIndexes, networkId: number) =>
 	async (container, idx) => {
 		container = await container
-		const publicKey = await getPublicKey(publicMessageHandler)(idx)
+		const publicKey = await getPublicKey(publicMessageHandler)({ index: idx, type: 'persona' } as GetPublicKeyMessage)
 		if (!publicKey) return container
 
 		const details = accountIndexes[idx]
@@ -45,7 +45,7 @@ const personaReducer =
 const accountReducer =
 	(publicMessageHandler: MessageHandler, addressBook: AddressBook, networkId: number) => async (container, idx) => {
 		container = await container
-		const publicKey = await getPublicKey(publicMessageHandler)(idx)
+		const publicKey = await getPublicKey(publicMessageHandler)({ index: idx, type: 'account' } as GetPublicKeyMessage)
 		if (!publicKey) return container
 
 		const accountAddress = await RadixEngineToolkit.Derive.virtualAccountAddressFromPublicKey(publicKey, networkId)
@@ -68,7 +68,7 @@ const olympiaReducer =
 		let address = details.olympiaAddress
 		let publicKeyHex = ''
 
-		const publicKey = await getPublicKey(publicMessageHandler)(idx)
+		const publicKey = await getPublicKey(publicMessageHandler)({ index: idx, type: 'account' } as GetPublicKeyMessage)
 		if (publicKey) {
 			const accountAddress = await RadixEngineToolkit.Derive.olympiaAccountAddressFromPublicKey(
 				publicKey.publicKey,

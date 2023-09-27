@@ -8,7 +8,7 @@ import { useTheme } from 'ui/src/hooks/use-theme'
 import { KeystoreType } from 'ui/src/store/types'
 import { Theme } from 'ui/src/types/types'
 
-import { OlympiaAddressDetails } from '@src/browser/messages/types'
+import { OlympiaAddressDetails } from '@src/browser/background/types'
 import { useMessageClient } from '@src/hooks/use-message-client'
 
 import ExportForm from './components/export-form'

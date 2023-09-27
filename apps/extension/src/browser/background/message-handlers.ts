@@ -5,7 +5,8 @@ import {
 } from '@radixdlt/connector-extension/src/chrome/messages/_types'
 import { createMessage as createRadixMessage } from '@radixdlt/connector-extension/src/chrome/messages/create-message'
 import type { Account, Persona } from '@radixdlt/radix-dapp-toolkit'
-import { Convert } from '@radixdlt/radix-engine-toolkit'
+import { Convert, PrivateKey } from '@radixdlt/radix-engine-toolkit'
+import { Err } from 'neverthrow'
 import browser from 'webextension-polyfill'
 
 import { sharedStore } from 'ui/src/store'
@@ -13,22 +14,35 @@ import type { AddressBook, AddressIndexes, Keystore } from 'ui/src/store/types'
 import { KeystoreType } from 'ui/src/store/types'
 
 import { openAppPopup } from '@src/browser/app/popup'
-import type { Message, MessageHandlers, OlympiaAddressDetails } from '@src/browser/messages/types'
-import { MessageAction } from '@src/browser/messages/types'
+import type { Message, MessageHandlers } from '@src/browser/messages/types'
 import { Vault } from '@src/browser/vault/vault'
-import { getPublicKey as cryptoGetPublicKey, getPrivateKey } from '@src/crypto/key_pair'
+import {
+	PublicKeyJSON,
+	getAccountPrivateKey,
+	getAccountPublicKey,
+	getPersonaPrivateKey,
+	getPersonaPublicKey,
+	publicKeyToJSON,
+} from '@src/crypto/key_pair'
 import { getSecret as cryptoGetSecret } from '@src/crypto/secret'
+import {
+	SignatureJSON,
+	SignatureWithPublicKeyJSON,
+	signatureToJSON,
+	signatureWithPublicKeyToJSON,
+} from '@src/crypto/signature'
 import type { Data } from '@src/types/vault'
 
 import { deriveAccounts, deriveOlympiaAddresses, derivePersonas } from './radix-address'
+import { MessageAction, OlympiaAddressDetails } from './types'
 
 const vault = new Vault(globalThis.crypto)
 
-async function ping() {
+async function ping(): Promise<boolean> {
 	return true
 }
 
-async function lockVault() {
+async function lockVault(): Promise<void> {
 	vault.lock()
 }
 
@@ -68,62 +82,96 @@ export interface RemoveFromVaultMessage {
 	password: string
 }
 
-async function removeFromVault(message: Message) {
+async function removeFromVault(message: Message): Promise<void> {
 	const { password } = message.payload as RemoveFromVaultMessage
 	return vault.remove(password)
+}
+
+export interface GetPublicKeyMessage {
+	index: number
+	type: 'account' | 'persona'
+}
+
+async function getPublicKey(message: Message): Promise<PublicKeyJSON | null> {
+	const { index, type } = message.payload as GetPublicKeyMessage
+	const walletData = await vault.get()
+	if (!walletData) {
+		return null
+	}
+	switch (type) {
+		case 'account':
+			return publicKeyToJSON(getAccountPublicKey(walletData.data, index))
+		case 'persona':
+			return publicKeyToJSON(getPersonaPublicKey(walletData.data, index))
+		default:
+			throw new Error(`Invalid type: ${type}`)
+	}
 }
 
 export interface SignMessage {
 	index: number
 	password: string
 	toSign: string
+	type: 'account' | 'persona'
 }
 
-async function signToSignature(message: Message) {
-	const { index, password, toSign } = message.payload as SignMessage
+async function signToSignature(message: Message): Promise<SignatureJSON | null> {
+	const { index, password, toSign, type } = message.payload as SignMessage
 	const walletData = await vault.unlock(password)
 	if (!walletData) {
 		return null
 	}
-	const privateKey = getPrivateKey(walletData.data, index)
-	return privateKey.signToSignature(Convert.HexString.toUint8Array(toSign))
+
+	let privateKey: PrivateKey
+	switch (type) {
+		case 'account':
+			privateKey = getAccountPrivateKey(walletData.data, index)
+			break
+		case 'persona':
+			privateKey = getPersonaPrivateKey(walletData.data, index)
+			break
+		default:
+			throw new Error(`Invalid type: ${type}`)
+	}
+
+	const signature = privateKey.signToSignature(Convert.HexString.toUint8Array(toSign))
+	return signatureToJSON(signature)
 }
 
-async function signToSignatureWithPublicKey(message: Message) {
-	const { index, password, toSign } = message.payload as SignMessage
+async function signToSignatureWithPublicKey(message: Message): Promise<SignatureWithPublicKeyJSON | null> {
+	const { index, password, toSign, type } = message.payload as SignMessage
 	const walletData = await vault.unlock(password)
 	if (!walletData) {
 		return null
 	}
-	const privateKey = getPrivateKey(walletData.data, index)
-	return privateKey.signToSignatureWithPublicKey(Convert.HexString.toUint8Array(toSign))
+
+	let privateKey: PrivateKey
+	switch (type) {
+		case 'account':
+			privateKey = getAccountPrivateKey(walletData.data, index)
+			break
+		case 'persona':
+			privateKey = getPersonaPrivateKey(walletData.data, index)
+			break
+		default:
+			throw new Error(`Invalid type: ${type}`)
+	}
+
+	const signature = privateKey.signToSignatureWithPublicKey(Convert.HexString.toUint8Array(toSign))
+	return signatureWithPublicKeyToJSON(signature)
 }
 
 export interface GetSecretMessage {
 	password: string
 }
 
-async function getSecret(message: Message) {
+async function getSecret(message: Message): Promise<string> {
 	const { password } = message.payload as GetSecretMessage
 	const walletData = await vault.unlock(password)
 	if (!walletData) {
 		return null
 	}
 	return cryptoGetSecret(walletData.data)
-}
-
-export interface GetPublicKeyMessage {
-	index: number
-}
-
-async function getPublicKey(message: Message) {
-	const { index } = message.payload as GetPublicKeyMessage
-	const walletData = await vault.get()
-	if (!walletData) {
-		return null
-	}
-	const publicKey = cryptoGetPublicKey(walletData.data, index)
-	return publicKey
 }
 
 export interface GetPersonasMessage {
@@ -222,7 +270,7 @@ async function handleRadixMessage(message: Message) {
 						)
 
 						// const publicKey = await getPublicKey(
-						// 	newMessage(MessageAction.GET_PUBLIC_KEY, MessageSource.BACKGROUND, MessageSource.BACKGROUND, {
+						// 	newMessage(MessageAction.BACKGROUND_GET_PUBLIC_KEY, MessageSource.BACKGROUND, MessageSource.BACKGROUND, {
 						// 		index: 0,
 						// 	} as GetPublicKeyMessage),
 						// )
@@ -275,44 +323,49 @@ async function handleRadixMessage(message: Message) {
 	}
 }
 
+async function openWallet() {
+	await openAppPopup()
+	// @TODO: send message to popup
+}
+
 export type MessageTypes = {
-	[MessageAction.PING]: undefined
+	[MessageAction.BACKGROUND_PING]: undefined
 
-	[MessageAction.VAULT_GET]: GetSecretMessage
-	[MessageAction.VAULT_LOCK]: undefined
-	[MessageAction.VAULT_UNLOCK]: UnlockVaultMessage
-	[MessageAction.VAULT_SAVE]: StoreInVaultMessage
-	[MessageAction.VAULT_REMOVE]: RemoveFromVaultMessage
-	[MessageAction.VAULT_IS_UNLOCKED]: undefined
+	[MessageAction.BACKGROUND_VAULT_GET]: GetSecretMessage
+	[MessageAction.BACKGROUND_VAULT_LOCK]: undefined
+	[MessageAction.BACKGROUND_VAULT_UNLOCK]: UnlockVaultMessage
+	[MessageAction.BACKGROUND_VAULT_SAVE]: StoreInVaultMessage
+	[MessageAction.BACKGROUND_VAULT_REMOVE]: RemoveFromVaultMessage
+	[MessageAction.BACKGROUND_VAULT_IS_UNLOCKED]: undefined
 
-	[MessageAction.GET_PUBLIC_KEY]: GetPublicKeyMessage
-	[MessageAction.SIGN_TO_SIGNATURE]: SignMessage
-	[MessageAction.SIGN_TO_SIGNATURE_WITH_PUBLIC_KEY]: SignMessage
+	[MessageAction.BACKGROUND_GET_PUBLIC_KEY]: GetPublicKeyMessage
+	[MessageAction.BACKGROUND_SIGN_TO_SIGNATURE]: SignMessage
+	[MessageAction.BACKGROUND_SIGN_TO_SIGNATURE_WITH_PUBLIC_KEY]: SignMessage
 
-	[MessageAction.GET_PERSONAS]: GetPersonasMessage
-	[MessageAction.GET_ACCOUNTS]: GetAccountsMessage
-	[MessageAction.GET_OLYMPIA_ADDRESSES]: GetOlympiaAddressesMessage
+	[MessageAction.BACKGROUND_GET_PERSONAS]: GetPersonasMessage
+	[MessageAction.BACKGROUND_GET_ACCOUNTS]: GetAccountsMessage
+	[MessageAction.BACKGROUND_GET_OLYMPIA_ADDRESSES]: GetOlympiaAddressesMessage
 
-	[MessageAction.RADIX]: RadixMessage
+	[MessageAction.BACKGROUND_RADIX]: RadixMessage
 }
 
 export default {
-	[MessageAction.PING]: ping,
+	[MessageAction.BACKGROUND_PING]: ping,
 
-	[MessageAction.VAULT_LOCK]: lockVault,
-	[MessageAction.VAULT_UNLOCK]: unlockVault,
-	[MessageAction.VAULT_SAVE]: storeInVault,
-	[MessageAction.VAULT_REMOVE]: removeFromVault,
-	[MessageAction.VAULT_IS_UNLOCKED]: isVaultUnlocked,
-	[MessageAction.VAULT_GET]: getSecret,
+	[MessageAction.BACKGROUND_VAULT_LOCK]: lockVault,
+	[MessageAction.BACKGROUND_VAULT_UNLOCK]: unlockVault,
+	[MessageAction.BACKGROUND_VAULT_SAVE]: storeInVault,
+	[MessageAction.BACKGROUND_VAULT_REMOVE]: removeFromVault,
+	[MessageAction.BACKGROUND_VAULT_IS_UNLOCKED]: isVaultUnlocked,
+	[MessageAction.BACKGROUND_VAULT_GET]: getSecret,
 
-	[MessageAction.GET_PUBLIC_KEY]: getPublicKey,
-	[MessageAction.SIGN_TO_SIGNATURE]: signToSignature,
-	[MessageAction.SIGN_TO_SIGNATURE_WITH_PUBLIC_KEY]: signToSignatureWithPublicKey,
+	[MessageAction.BACKGROUND_GET_PUBLIC_KEY]: getPublicKey,
+	[MessageAction.BACKGROUND_SIGN_TO_SIGNATURE]: signToSignature,
+	[MessageAction.BACKGROUND_SIGN_TO_SIGNATURE_WITH_PUBLIC_KEY]: signToSignatureWithPublicKey,
 
-	[MessageAction.GET_PERSONAS]: getPersonas,
-	[MessageAction.GET_ACCOUNTS]: getAccounts,
-	[MessageAction.GET_OLYMPIA_ADDRESSES]: getOlympiaAddresses,
+	[MessageAction.BACKGROUND_GET_PERSONAS]: getPersonas,
+	[MessageAction.BACKGROUND_GET_ACCOUNTS]: getAccounts,
+	[MessageAction.BACKGROUND_GET_OLYMPIA_ADDRESSES]: getOlympiaAddresses,
 
-	[MessageAction.RADIX]: handleRadixMessage,
+	[MessageAction.BACKGROUND_RADIX]: handleRadixMessage,
 } as MessageHandlers

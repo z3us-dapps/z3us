@@ -8,7 +8,7 @@ import { usePublicKey } from './use-public-key'
 // https://github.com/radixdlt/typescript-radix-engine-toolkit#deriving-virtual-identity-addresses-from-public-keys
 export const usePersonaAddress = (index: number = 0): [string, Error | null] => {
 	const networkId = useNetworkId()
-	const [publicKey, error] = usePublicKey(index)
+	const [publicKey, error] = usePublicKey('persona', index)
 
 	return useMemo(() => {
 		if (error) return ['', error]
@@ -19,7 +19,7 @@ export const usePersonaAddress = (index: number = 0): [string, Error | null] => 
 
 export const useAccountAddress = (index: number = 0) => {
 	const networkId = useNetworkId()
-	const [publicKey] = usePublicKey(index)
+	const [publicKey] = usePublicKey('account', index)
 
 	return useMemo(async () => {
 		if (!publicKey) {
@@ -38,7 +38,7 @@ export const useOlympiaAccountAddress = (
 	index: number = 0,
 	olympiaNetwork: OlympiaNetwork = OlympiaNetwork.Mainnet,
 ): [string, Error | null] => {
-	const [publicKey, error] = usePublicKey(index)
+	const [publicKey, error] = usePublicKey('account', index)
 
 	return useMemo(() => {
 		if (error) return ['', error]

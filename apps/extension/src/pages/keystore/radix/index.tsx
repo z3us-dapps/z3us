@@ -1,6 +1,6 @@
 // import { Paring } from '@radixdlt/connector-extension/src/pairing/pairing'
-import { chromeLocalStore } from '@radixdlt/connector-extension/src/chrome/helpers/chrome-local-store'
 import React, { useEffect, useState } from 'react'
+import browser from 'webextension-polyfill'
 
 import { Box } from 'ui/src/components/box'
 
@@ -13,7 +13,7 @@ export const Radix: React.FC = () => {
 	const [connectionPassword, setConnectionPassword] = useState<string>('')
 
 	useEffect(() => {
-		chromeLocalStore.removeItem(PASSWORD_STORAGE_KEY)
+		browser.storage.local.remove(PASSWORD_STORAGE_KEY)
 	}, [])
 
 	return (

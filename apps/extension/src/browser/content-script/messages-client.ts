@@ -1,15 +1,16 @@
-import { getConnectionPassword } from '@radixdlt/connector-extension/src/chrome/helpers/get-connection-password'
 import { createMessage as createRadixMessage } from '@radixdlt/connector-extension/src/chrome/messages/create-message'
 import browser from 'webextension-polyfill'
 
+import { MessageAction as BackgroundMessageAction } from '@src/browser/background/types'
 import { PORT_NAME } from '@src/browser/messages/constants'
-import type { Message } from '@src/browser/messages/types'
-import { MessageAction, MessageSource } from '@src/browser/messages/types'
+import { newMessage } from '@src/browser/messages/message'
+import type { Message, ResponseMessage } from '@src/browser/messages/types'
+import { MessageSource } from '@src/browser/messages/types'
+import { addMetadata } from '@src/browser/metadata/add'
 
-import { newMessage } from '../messages/message'
-import { addMetadata } from '../metadata/add'
-import { chromeDAppClient, radixMessageHandler, sendRadixMessage, sendRadixMessageToDapp } from './radix'
+import { chromeDAppClient, radixMessageHandler, sendRadixMessage } from './radix'
 import { isHandledByRadix } from './radix-connector'
+import { MessageAction } from './types'
 
 export type MessageClientType = ReturnType<typeof MessageClient>
 
@@ -23,61 +24,59 @@ export const MessageClient = () => {
 		port = browser.runtime.connect({ name: PORT_NAME })
 	})
 
-	port.onMessage.addListener((message: Message) => {
-		switch (message?.target) {
-			case MessageSource.INPAGE:
-				window.postMessage(message)
-				break
-			case MessageSource.RADIX:
-				sendRadixMessage(message.payload, message.fromTabId)
-				break
-			default:
-		}
+	port.onMessage.addListener((message: ResponseMessage | Message) => {
+		window.postMessage(message)
 	})
 
-	chromeDAppClient.messageListener(message => {
-		const radixMsg = addMetadata(createRadixMessage.incomingDappMessage('dApp', message))
-		isHandledByRadix().then(enabled =>
-			enabled
-				? radixMessageHandler.onMessage(radixMsg)
-				: port.postMessage(newMessage(MessageAction.RADIX, MessageSource.RADIX, MessageSource.BACKGROUND, radixMsg)),
-		)
-	})
-
-	const forwardMessageToBackground = (event: MessageEvent<Message>) => {
+	const onWindowMessage = (event: MessageEvent<Message>) => {
 		if (event.source !== window) {
 			return
 		}
-		const message = event.data
+		const message = (event.data || {}) as Message
 		if (message.target !== MessageSource.BACKGROUND) {
 			return
 		}
 		port.postMessage(message)
 	}
 
-	const onRuntimeMessage = async (message: any) => {
-		const { source, action } = (message || {}) as Message
-		if (source === MessageSource.BACKGROUND && action === MessageAction.PING) {
-			return true
+	const onRuntimeMessage = (message: any) => {
+		const { action, target } = (message || {}) as Message
+		switch (target) {
+			case MessageSource.BACKGROUND:
+			case MessageSource.POPUP:
+				return // ignore
+			case MessageSource.INPAGE:
+				switch (action) {
+					case MessageAction.CONTENT_SCRIPT_PING:
+						return Promise.resolve(true)
+					default:
+						window.postMessage(message)
+				}
+			case MessageSource.RADIX:
+				sendRadixMessage(message.payload, message.fromTabId)
+			default:
+				radixMessageHandler.onMessage(message)
 		}
-
-		return radixMessageHandler.onMessage(message)
 	}
 
-	const checkConnectButtonStatus = () =>
-		isHandledByRadix().then(enabled => {
-			if (enabled) {
-				getConnectionPassword().map(connectionPassword =>
-					sendRadixMessageToDapp(createRadixMessage.extensionStatus(!!connectionPassword)),
-				)
-			} else {
-				sendRadixMessageToDapp(createRadixMessage.extensionStatus(true))
-			}
-		})
+	chromeDAppClient.messageListener(message => {
+		const radixMsg = addMetadata(createRadixMessage.incomingDappMessage('dApp', message))
+		isHandledByRadix().then(enabled =>
+			enabled
+				? radixMessageHandler.onMessage(radixMsg)
+				: port.postMessage(
+						newMessage(
+							BackgroundMessageAction.BACKGROUND_RADIX,
+							MessageSource.RADIX,
+							MessageSource.BACKGROUND,
+							radixMsg,
+						),
+				  ),
+		)
+	})
 
 	return {
 		onRuntimeMessage,
-		forwardMessageToBackground,
-		checkConnectButtonStatus,
+		onWindowMessage,
 	}
 }

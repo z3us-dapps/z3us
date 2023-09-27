@@ -1,4 +1,11 @@
-import { type ManifestBuilder, address, bucket, decimal, nonFungibleLocalId } from '@radixdlt/radix-engine-toolkit'
+import {
+	type ManifestBuilder,
+	address,
+	bucket,
+	decimal,
+	enumeration,
+	nonFungibleLocalId,
+} from '@radixdlt/radix-engine-toolkit'
 
 interface SendFungibleTokens {
 	from: string
@@ -8,6 +15,8 @@ interface SendFungibleTokens {
 		amount: number
 	}>
 }
+
+const NONE = enumeration(0)
 
 export const sendFungibleTokens = (
 	manifest: ManifestBuilder,
@@ -41,7 +50,7 @@ export const sendFungibleTokens = (
 			tokens.reduce(
 				(amounts, { resource, amount }) =>
 					amounts.takeFromWorktop(resource, decimal(amount).value, (builder: ManifestBuilder, bucketId: number) =>
-						builder.callMethod(to, 'try_deposit_or_abort', [bucket(bucketId)]),
+						builder.callMethod(to, 'try_deposit_or_abort', [bucket(bucketId), NONE]),
 					),
 				group,
 			),
@@ -92,7 +101,7 @@ export const sendNftTokens = (manifest: ManifestBuilder, transfers: Array<SendNf
 			nfts.reduce(
 				(amounts, { resource, ids }) =>
 					amounts.takeNonFungiblesFromWorktop(resource, ids, (builder: ManifestBuilder, bucketId: number) =>
-						builder.callMethod(to, 'try_deposit_or_abort', [bucket(bucketId)]),
+						builder.callMethod(to, 'try_deposit_or_abort', [bucket(bucketId), NONE]),
 					),
 				group,
 			),

@@ -1,6 +1,6 @@
-import { getExtensionTabsByUrl } from '@radixdlt/connector-extension/src/chrome/helpers/get-extension-tabs-by-url'
 import browser from 'webextension-polyfill'
 
+import { getExtensionTabsByUrl } from '@src/browser/tabs'
 import { config } from '@src/config'
 
 const menuId = 'z3us-app'
@@ -8,14 +8,11 @@ const menuId = 'z3us-app'
 const openAppPage = async ({ menuItemId }) => {
 	if (menuItemId !== menuId) return
 
-	const url = browser.runtime.getURL(config.popup.pages.app)
-	const result = await getExtensionTabsByUrl(config.popup.pages.app)
-	if (result.isErr()) return
-
-	const [page] = result.value
+	const [page] = await getExtensionTabsByUrl(config.popup.pages.app)
 	if (page?.id) {
 		await browser.tabs.update(page.id, { active: true })
 	} else {
+		const url = browser.runtime.getURL(config.popup.pages.app)
 		await browser.tabs.create({ url })
 	}
 }

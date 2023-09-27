@@ -5,7 +5,7 @@ import { useSharedStore } from 'ui/src/hooks/use-store'
 
 import { useMessageClient } from './use-message-client'
 
-export const usePublicKey = (index: number): [PublicKey | null, Error | null] => {
+export const usePublicKey = (type: 'account' | 'persona', index: number): [PublicKey | null, Error | null] => {
 	const client = useMessageClient()
 	const { keystoreId } = useSharedStore(state => ({
 		keystoreId: state.selectedKeystoreId,
@@ -17,7 +17,7 @@ export const usePublicKey = (index: number): [PublicKey | null, Error | null] =>
 	useEffect(() => {
 		const load = async () => {
 			try {
-				setState(await client.getPublicKey(index))
+				setState(await client.getPublicKey(type, index))
 				setError(null)
 			} catch (err) {
 				console.error(err)

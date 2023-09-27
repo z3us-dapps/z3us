@@ -3,7 +3,9 @@ import { ResultAsync } from 'neverthrow'
 import { useCallback } from 'react'
 import { defineMessages, useIntl } from 'react-intl'
 
+import { KeystoreType } from '../store/types'
 import { useRdt } from './rdt/use-rdt'
+import { useSharedStore } from './use-store'
 import { useZdtState } from './zdt/use-zdt'
 
 const messages = defineMessages({
@@ -16,15 +18,21 @@ const messages = defineMessages({
 export const useSendTransaction: () => WalletApi['sendTransaction'] = () => {
 	const intl = useIntl()
 	const rdt = useRdt()!
-	const { isWallet, sendTransaction } = useZdtState()
+	const { sendTransaction } = useZdtState()
+	const { keystore } = useSharedStore(state => ({
+		keystore: state.keystores.find(({ id }) => id === state.selectedKeystoreId),
+	}))
 
 	return useCallback<typeof rdt.walletApi.sendTransaction>(
 		(input: SendTransactionInput) =>
-			isWallet
-				? ResultAsync.fromPromise(sendTransaction(input), (error: any) => ({
-						error: error?.message || intl.formatMessage(messages.error),
-				  }))
+			keystore.type !== KeystoreType.RADIX_WALLET
+				? ResultAsync.fromPromise(sendTransaction(input), (error: any) => {
+						console.error(error)
+						return {
+							error: error?.message || intl.formatMessage(messages.error),
+						}
+				  })
 				: rdt.walletApi.sendTransaction(input),
-		[isWallet, rdt, sendTransaction],
+		[keystore, rdt, sendTransaction],
 	)
 }

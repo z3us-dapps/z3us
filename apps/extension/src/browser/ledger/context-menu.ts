@@ -1,6 +1,6 @@
-import { getExtensionTabsByUrl } from '@radixdlt/connector-extension/src/chrome/helpers/get-extension-tabs-by-url'
 import browser from 'webextension-polyfill'
 
+import { getExtensionTabsByUrl } from '@src/browser/tabs'
 import { config } from '@src/config'
 
 const menuId = 'radix-ledger'
@@ -8,15 +8,12 @@ const menuId = 'radix-ledger'
 const openRadixLedgerPage = async ({ menuItemId }) => {
 	if (menuItemId !== menuId) return
 
-	const url = browser.runtime.getURL(config.popup.pages.ledger)
-	const result = await getExtensionTabsByUrl(config.popup.pages.ledger)
-	if (result.isErr()) return
-
-	const [page] = result.value
+	const [page] = await getExtensionTabsByUrl(config.popup.pages.ledger)
 	if (page?.id) {
 		await browser.tabs.update(page.id, { active: true })
 	} else {
-		await browser.tabs.create({url})
+		const url = browser.runtime.getURL(config.popup.pages.ledger)
+		await browser.tabs.create({ url })
 	}
 }
 

@@ -2,9 +2,10 @@ import '@src/helpers/polyfills'
 
 import { INIT } from '@src/browser/inpage/events'
 import { MessageClient } from '@src/browser/inpage/message-client'
-import type { ResponseMessage } from '@src/browser/messages/types';
-import { MessageAction } from '@src/browser/messages/types'
+import type { ResponseMessage } from '@src/browser/messages/types'
 import { config } from '@src/config'
+
+import { MessageAction } from './background/types'
 
 declare global {
 	interface Window {
@@ -22,7 +23,7 @@ if (!window.z3us) {
 
 	const z3us = {
 		version: config.version,
-		ping: async (): Promise<ResponseMessage> => messageHandler.sendMessage(MessageAction.PING),
+		ping: async (): Promise<ResponseMessage> => messageHandler.sendMessage(MessageAction.BACKGROUND_PING),
 	}
 
 	window.z3us = z3us

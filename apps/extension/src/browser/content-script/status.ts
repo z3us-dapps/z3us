@@ -3,9 +3,10 @@ import browser from 'webextension-polyfill'
 // @ts-ignore
 import contentScript from '@src/browser/content-script?script'
 import { newMessage } from '@src/browser/messages/message'
-import { MessageAction, MessageSource } from '@src/browser/messages/types'
+import { MessageSource } from '@src/browser/messages/types'
 
 import { STATUS_ICONS } from './constants'
+import { MessageAction } from './types'
 
 export const setIcon = async (path: string) => {
 	await chrome?.action?.setIcon({ path })
@@ -24,7 +25,7 @@ export const checkContentScript = async (tabId: number): Promise<boolean> => {
 	try {
 		const injected = await browser.tabs.sendMessage(
 			tabId,
-			newMessage(MessageAction.PING, MessageSource.BACKGROUND, MessageSource.INPAGE, null),
+			newMessage(MessageAction.CONTENT_SCRIPT_PING, MessageSource.BACKGROUND, MessageSource.INPAGE, null),
 		)
 		return injected === true
 	} catch {

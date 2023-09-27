@@ -1,30 +1,31 @@
-import { createPopupWindow } from '@radixdlt/connector-extension/src/chrome/helpers/create-popup-window'
-import { focusWindow } from '@radixdlt/connector-extension/src/chrome/helpers/focus-window'
-import { getActiveWindow } from '@radixdlt/connector-extension/src/chrome/helpers/get-active-window'
-import { getExtensionTabsByUrl } from '@radixdlt/connector-extension/src/chrome/helpers/get-extension-tabs-by-url'
-import { getPopupId } from '@radixdlt/connector-extension/src/chrome/helpers/get-popup-id'
-import { setPopupId } from '@radixdlt/connector-extension/src/chrome/helpers/set-popup-id'
+import browser, { Tabs } from 'webextension-polyfill'
 
+import { getExtensionTabsByUrl } from '@src/browser/tabs'
 import { config } from '@src/config'
 
 export const openAppPopup = async () => {
-	const result = await getExtensionTabsByUrl(config.popup.pages.app)
-	if (result.isErr()) throw result.error
+	const [tab] = await getExtensionTabsByUrl(config.popup.pages.app)
+	if (!tab) {
+		const popupWindow = await browser.windows.create({
+			url: browser.runtime.getURL(config.popup.pages.app),
+			type: 'popup',
+			width: config.popup.width,
+			height: config.popup.height,
+		})
 
-	const isPopupWindowOpen = result.value.length > 0
-
-	const windowResult = await getActiveWindow()
-	if (windowResult.isErr()) throw windowResult.error
-	const { width, left, height, top } = windowResult.value
-
-	if (isPopupWindowOpen) {
-		getPopupId().andThen(focusWindow)
-		return
+		return await new Promise<Tabs.Tab>(resolve => {
+			const listener = (tabId: number, info: Tabs.OnUpdatedChangeInfoType) => {
+				if (info.status === 'complete' && tabId === popupWindow?.tabs?.[0].id) {
+					browser.tabs.onUpdated.removeListener(listener)
+					resolve(popupWindow?.tabs?.[0])
+				}
+			}
+			browser.tabs.onUpdated.addListener(listener)
+		})
 	}
-	createPopupWindow(config.popup.pages.app, {
-		width,
-		left,
-		height,
-		top,
-	}).andThen(popup => setPopupId(popup?.id))
+
+	await chrome.windows.update(tab.windowId, { focused: true })
+
+	await browser.tabs.update(tab.id!, { active: true })
+	return tab
 }

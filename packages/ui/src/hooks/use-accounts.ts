@@ -2,18 +2,24 @@ import { useMemo } from 'react'
 import { useParams } from 'react-router-dom'
 
 import { CARD_COLORS, CARD_IMAGES } from '../constants/account'
-import type { AddressBookEntry } from '../store/types'
+import { type AddressBookEntry, KeystoreType } from '../store/types'
 import { useNetworkId } from './dapp/use-network-id'
 import { useRdtState } from './rdt/use-rdt-state'
-import { useNoneSharedStore } from './use-store'
+import { useNoneSharedStore, useSharedStore } from './use-store'
 import { useZdtState } from './zdt/use-zdt'
 
 export const useSelectedAccounts = (): string[] => {
 	const { accountId = '-' } = useParams()
-	const { accounts: rdtAccounts = [] } = useRdtState()
 	const { accounts: zdtAccounts = [] } = useZdtState()
+	const { accounts: rdtAccounts = [] } = useRdtState()
+	const { keystore } = useSharedStore(state => ({
+		keystore: state.keystores.find(({ id }) => id === state.selectedKeystoreId),
+	}))
 
-	const accounts = useMemo(() => [...(rdtAccounts || []), ...(zdtAccounts || [])], [rdtAccounts, zdtAccounts])
+	const accounts = useMemo(
+		() => (keystore.type !== KeystoreType.RADIX_WALLET ? zdtAccounts : rdtAccounts),
+		[keystore, rdtAccounts, zdtAccounts],
+	)
 
 	return useMemo(
 		() => (accountId === '-' ? accounts.map(({ address }) => address) : [accountId]),
@@ -23,10 +29,16 @@ export const useSelectedAccounts = (): string[] => {
 
 export const useWalletAccounts = (): { [key: string]: AddressBookEntry } => {
 	const networkId = useNetworkId()
-	const { accounts: rdtAccounts = [] } = useRdtState()
 	const { accounts: zdtAccounts = [] } = useZdtState()
+	const { accounts: rdtAccounts = [] } = useRdtState()
+	const { keystore } = useSharedStore(state => ({
+		keystore: state.keystores.find(({ id }) => id === state.selectedKeystoreId),
+	}))
 
-	const accounts = useMemo(() => [...(rdtAccounts || []), ...(zdtAccounts || [])], [rdtAccounts, zdtAccounts])
+	const accounts = useMemo(
+		() => (keystore.type !== KeystoreType.RADIX_WALLET ? zdtAccounts : rdtAccounts),
+		[keystore, rdtAccounts, zdtAccounts],
+	)
 
 	const { addressBook } = useNoneSharedStore(state => ({
 		addressBook: state.addressBook[networkId] || {},

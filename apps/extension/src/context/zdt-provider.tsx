@@ -8,7 +8,7 @@ import { useAccounts } from '@src/hooks/use-accounts'
 import { useIsUnlocked } from '@src/hooks/use-is-unlocked'
 import { useMessageClient } from '@src/hooks/use-message-client'
 import { usePersonas } from '@src/hooks/use-personas'
-import { useSendTransaction } from '@src/hooks/use-send-transacion'
+import { useSendTransaction } from '@src/hooks/use-send-transaction'
 
 export const ZdtProvider: React.FC<PropsWithChildren> = ({ children }) => {
 	const client = useMessageClient()
@@ -25,11 +25,26 @@ export const ZdtProvider: React.FC<PropsWithChildren> = ({ children }) => {
 				accounts,
 				personas,
 				sendTransaction: async (input: SendTransactionInput) => {
+					// create promise
+					// set as context value
+					// redirect to modal
+					// wait for promise resolve
+
+					// context with promises map by id
+					// submit tx and resolve promise
+					// modal route which resolves promise by submit
+
+					// from background
+					// open popup with tx modal
+					// submit tx, no promise to resolve
+					const transactionIntentHash = await sendTransaction(input, '')
+
 					return {
 						// @TODO: get password from user
 						// @TODO: allow user to select fee payer
-						transactionIntentHash: await sendTransaction(input, '', 0, 0),
-						status: TransactionStatus.CommittedSuccess,
+
+						transactionIntentHash,
+						status: TransactionStatus.Unknown,
 					}
 				},
 				unlock: client.unlockVault,

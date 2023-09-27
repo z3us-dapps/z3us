@@ -8,42 +8,34 @@ export type MessageClientType = ReturnType<typeof MessageClient>
 
 export const MessageClient = () => {
 	console.info(`⚡️Z3US⚡️: inpage message client initialized.`)
-	const messageHandlers: {
+	const responseHandlers: {
 		[key: string]: any
 	} = {}
 
-	const onMessage = (event: MessageEvent<Message>) => {
+	const onMessage = (event: MessageEvent<Message | ResponseMessage>) => {
 		if (event.source !== window) {
 			return
 		}
 		const message = event.data
-		if (message?.target !== MessageSource.INPAGE) {
-			return
-		}
 		if (!message.messageId) {
 			return
 		}
 
-		window.dispatchEvent(new CustomEvent(`z3us.${message.action}`, { detail: message.payload }))
-
-		const handler = messageHandlers[message.messageId]
+		const handler = responseHandlers[message.messageId]
 		if (handler) {
 			handler(message)
+		} else {
+			if (message?.target !== MessageSource.INPAGE) {
+				return
+			}
+			window.dispatchEvent(new CustomEvent(`z3us.${message.action}`, { detail: message.payload }))
 		}
 	}
 
 	const sendMessage = async (action: string, payload: any = {}) => {
 		const messageId = `${action}-${generateId()}`
-		const promise = new Promise<ResponseMessage['payload']>(resolve => {
-			messageHandlers[messageId] = (message: Message) => {
-				if (message.target !== MessageSource.INPAGE) {
-					return
-				}
-				if (!message.messageId || message.messageId !== messageId) {
-					return
-				}
-				resolve(message.payload)
-			}
+		const promise = new Promise<ResponseMessage>(resolve => {
+			responseHandlers[messageId] = resolve
 		})
 
 		window.postMessage(
@@ -60,12 +52,9 @@ export const MessageClient = () => {
 			if (response?.error) {
 				throw new Error(response.error)
 			}
-			if (response?.code && response.code !== 200) {
-				throw new Error(`Unknown error (code ${response.code})`)
-			}
-			return response
+			return response.payload
 		} finally {
-			delete messageHandlers[messageId]
+			delete responseHandlers[messageId]
 		}
 	}
 

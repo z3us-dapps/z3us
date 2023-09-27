@@ -6,7 +6,7 @@ export const newMessage = (
 	action: MessageAction,
 	source: MessageSource,
 	target: MessageSource,
-	payload: any,
+	payload?: any,
 	fromTabId?: number,
 ): Message => ({
 	messageId: `${action}-${generateId()}`,
