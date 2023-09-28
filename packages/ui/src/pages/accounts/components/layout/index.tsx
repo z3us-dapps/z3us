@@ -45,7 +45,7 @@ const ScrollContent: React.FC = () => {
 				</ScrollPanel>
 			</Box>
 			<MobileScrollingButtons />
-			<Box className={panelViewStyles.panelViewRightWrapper}>
+			<Box className={panelViewStyles.panelViewRightScrollWrapper}>
 				<ScrollPanel showTopScrollShadow={false} scrollParent={isMobile ? scrollableNode : undefined}>
 					<Suspense key={location.pathname} fallback={<FallbackLoading />}>
 						<ErrorBoundary fallbackRender={FallbackRenderer}>{sidebar}</ErrorBoundary>

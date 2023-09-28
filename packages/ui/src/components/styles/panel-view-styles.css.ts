@@ -85,6 +85,19 @@ export const panelViewRightWrapper = style([
 	}),
 ])
 
+export const panelViewRightScrollWrapper = style([
+	sprinkles({}),
+	{},
+	responsiveStyle({
+		mobile: {
+			aspectRatio: '8 / 5.3',
+		},
+		tablet: {
+			aspectRatio: 'unset',
+		},
+	}),
+])
+
 export const panelViewMobileScrollWrapper = style([
 	sprinkles({
 		position: 'relative',

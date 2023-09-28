@@ -18,7 +18,7 @@ export const MobileBackground: React.FC = () => {
 			style={{
 				...(!isAllAccounts
 					? {
-							backgroundSize: '140% auto',
+							backgroundSize: '170% auto',
 							backgroundRepeat: 'no-repeat',
 							backgroundImage: `url(/images/account-images/${CARD_IMAGES[cardImage]}), ${CARD_COLORS[cardColor]}`,
 					  }
