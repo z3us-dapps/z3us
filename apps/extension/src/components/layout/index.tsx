@@ -1,6 +1,6 @@
 import React from 'react'
 
-import Loader from 'ui/src/components/loader'
+import { FallbackLoading } from 'ui/src/components/fallback-renderer'
 
 import { useIsUnlocked } from '@src/hooks/use-is-unlocked'
 
@@ -10,7 +10,7 @@ import Unlock from './unlock'
 const Layout: React.FC = () => {
 	const { isUnlocked, isLoading, reload } = useIsUnlocked()
 
-	if (isLoading) return <Loader />
+	if (isLoading) return <FallbackLoading />
 	if (!isUnlocked) return <Unlock onUnlock={reload} />
 
 	return <Pairing />

@@ -4,9 +4,9 @@ import { useParams, useSearchParams } from 'react-router-dom'
 
 import { Box } from 'ui/src/components/box'
 import { CardButtons } from 'ui/src/components/card-buttons'
+import { FallbackLoading } from 'ui/src/components/fallback-renderer'
 import { Close2Icon } from 'ui/src/components/icons'
 import { AccountsTransactionInfo } from 'ui/src/components/layout/account-transaction-info'
-import Loader from 'ui/src/components/loader'
 import { NftImageIcon } from 'ui/src/components/nft-image-icon'
 import { ResourceImageIcon } from 'ui/src/components/resource-image-icon'
 import { Button } from 'ui/src/components/router-button'
@@ -46,7 +46,7 @@ const NftDetails: React.FC = () => {
 	if (!resourceId) return null
 	if (!nftId) return null
 
-	if (isLoading) return <Loader />
+	if (isLoading) return <FallbackLoading />
 
 	return (
 		<Box flexShrink={0}>

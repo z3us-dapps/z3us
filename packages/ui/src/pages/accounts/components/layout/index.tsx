@@ -1,8 +1,9 @@
 import React, { Suspense, useMemo } from 'react'
+import { ErrorBoundary } from 'react-error-boundary'
 import { useLocation, useMatches, useOutlet } from 'react-router-dom'
 
 import { Box } from 'ui/src/components/box'
-import Loader from 'ui/src/components/loader'
+import { FallbackLoading, FallbackRenderer } from 'ui/src/components/fallback-renderer'
 import MotionBox from 'ui/src/components/motion-box'
 import MobileScrollArea from 'ui/src/components/scroll-area-radix/mobile'
 import { useScroll } from 'ui/src/components/scroll-area-radix/use-scroll'
@@ -38,17 +39,19 @@ const ScrollContent: React.FC = () => {
 						<Breadcrumbs />
 						<AccountTotalValue />
 					</Box>
-					<Suspense key={key} fallback={<Loader />}>
-						{outlet}
+					<Suspense key={key} fallback={<FallbackLoading />}>
+						<ErrorBoundary fallbackRender={FallbackRenderer}>{outlet}</ErrorBoundary>
 					</Suspense>
 				</ScrollPanel>
 			</Box>
 			<MobileScrollingButtons />
 			<Box className={panelViewStyles.panelViewRightWrapper}>
 				<ScrollPanel showTopScrollShadow={false} scrollParent={isMobile ? scrollableNode : undefined}>
-					<Suspense key={location.pathname} fallback={<Loader />}>
-						<Box className={panelViewStyles.panelViewRightScrollWrapper}>{sidebar}</Box>
-					</Suspense>
+					<Box className={panelViewStyles.panelViewRightScrollWrapper}>
+						<Suspense key={location.pathname} fallback={<FallbackLoading />}>
+							<ErrorBoundary fallbackRender={FallbackRenderer}>{sidebar}</ErrorBoundary>
+						</Suspense>
+					</Box>
 				</ScrollPanel>
 			</Box>
 		</Box>

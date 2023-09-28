@@ -3,11 +3,11 @@ import browser, { Tabs } from 'webextension-polyfill'
 import { getExtensionTabsByUrl } from '@src/browser/tabs'
 import { config } from '@src/config'
 
-export const openAppPopup = async () => {
+export const openAppPopup = async (path: string = '') => {
 	const [tab] = await getExtensionTabsByUrl(config.popup.pages.app)
 	if (!tab) {
 		const popupWindow = await browser.windows.create({
-			url: browser.runtime.getURL(config.popup.pages.app),
+			url: browser.runtime.getURL(`${config.popup.pages.app}${path}`),
 			type: 'popup',
 			width: config.popup.width,
 			height: config.popup.height,

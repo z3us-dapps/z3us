@@ -1,9 +1,9 @@
-import { Box } from 'packages/ui/src/components/box'
 import React, { useState } from 'react'
 import { useIntl } from 'react-intl'
 import useMeasure from 'react-use-measure'
 import { Cell, Pie, PieChart, ResponsiveContainer, Tooltip } from 'recharts'
 
+import { Box } from 'ui/src/components/box'
 import { ChartToolTip } from 'ui/src/components/chart-tool-tip'
 import { useIsMobileWidth } from 'ui/src/hooks/use-is-mobile'
 import { useNoneSharedStore } from 'ui/src/hooks/use-store'
