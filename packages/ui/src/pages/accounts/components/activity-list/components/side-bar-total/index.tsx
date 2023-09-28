@@ -4,9 +4,9 @@ import { defineMessages, useIntl } from 'react-intl'
 
 import { Box } from 'ui/src/components/box'
 import { Text } from 'ui/src/components/typography'
+import { useTotalBalance } from 'ui/src/hooks/dapp/use-total-balance'
 import { useIsAllAccounts } from 'ui/src/hooks/use-is-all-accounts'
 
-import { AccountTotalValue } from '../../../layout/components/total-value'
 import * as styles from './styles.css'
 
 const messages = defineMessages({
@@ -20,12 +20,24 @@ export const SideBarTotal: React.FC = () => {
 	const intl = useIntl()
 	const isAllAccounts = useIsAllAccounts()
 
+	const { isLoading, formattedValue, formattedChange, changeStatusTextColor } = useTotalBalance()
+
 	return (
 		<Box className={clsx(styles.mobileHomeBalanceWrapper, !isAllAccounts && styles.mobileHiddenWrapper)}>
 			<Text color="strong" size="xlarge">
 				{intl.formatMessage(messages.all_assets_total_balance)}
 			</Text>
-			<AccountTotalValue className={styles.mobileAccountValueTotal} />
+			<Box display="flex" alignItems="center" gap="small">
+				<Text weight="medium" size="xxxlarge" color="strong" truncate>
+					{isLoading ? 'Loading ...' : formattedValue}
+				</Text>
+				<Text size="xxsmall" weight="medium" truncate color={changeStatusTextColor}>
+					{formattedChange}
+				</Text>
+			</Box>
+			<Text color="strong" size="xlarge">
+				100 XRD
+			</Text>
 		</Box>
 	)
 }
