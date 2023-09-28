@@ -120,7 +120,9 @@ export const useSendTransaction = () => {
 
 		const signatures = await Promise.all(
 			needSignaturesFrom.map(idx =>
-				confirm().then(password => client.signToSignatureWithPublicKey('account', password, intentHash.hash, +idx)),
+				confirm(input.transactionManifest).then(password =>
+					client.signToSignatureWithPublicKey('account', password, intentHash.hash, +idx),
+				),
 			),
 		)
 
@@ -135,7 +137,9 @@ export const useSendTransaction = () => {
 			signedIntentHash,
 		).compileNotarizedAsync(
 			async (hash: Uint8Array) =>
-				await confirm().then(password => client.signToSignature('account', password, hash, fromAccountIndex)),
+				await confirm(input.transactionManifest).then(password =>
+					client.signToSignature('account', password, hash, fromAccountIndex),
+				),
 		)
 
 		// VALIDATE AND SUMMARY

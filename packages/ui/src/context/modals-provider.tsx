@@ -45,15 +45,11 @@ export const ModalsProvider: React.FC<PropsWithChildren> = ({ children }) => {
 		<ModalsContext.Provider value={{ modals, addModal, removeModal }}>
 			<>
 				{children}
-				{Object.keys(modals).map(id =>
-					createPortal(
-						<Suspense key={id} fallback={<FallbackLoading />}>
-							<ErrorBoundary fallbackRender={FallbackRenderer}>{modals[id]}</ErrorBoundary>
-						</Suspense>,
-						root,
-						id,
-					),
-				)}
+				{Object.keys(modals).map(id => (
+					<Suspense key={id} fallback={<FallbackLoading />}>
+						<ErrorBoundary fallbackRender={FallbackRenderer}>{modals[id]}</ErrorBoundary>
+					</Suspense>
+				))}
 			</>
 		</ModalsContext.Provider>
 	)

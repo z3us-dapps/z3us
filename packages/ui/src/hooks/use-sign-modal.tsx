@@ -17,7 +17,7 @@ export const useSignModal = () => {
 	const intl = useIntl()
 	const { addModal, removeModal } = useModals()
 
-	const confirm = () => {
+	const confirm = (manifest: string) => {
 		return new Promise<string>((resolve, reject) => {
 			const id = generateId()
 			const handleConfirm = (password: string) => {
@@ -28,7 +28,7 @@ export const useSignModal = () => {
 				reject(intl.formatMessage(messages.rejected))
 				removeModal(id)
 			}
-			addModal(id, <SignModal key={id} onConfirm={handleConfirm} onCancel={handleCancel} />)
+			addModal(id, <SignModal key={id} manifest={manifest} onConfirm={handleConfirm} onCancel={handleCancel} />)
 		})
 	}
 
