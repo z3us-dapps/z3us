@@ -117,12 +117,12 @@ export interface SignMessage {
 
 async function signToSignature(message: Message): Promise<SignatureJSON | null> {
 	const { index, password, toSign, type } = message.payload as SignMessage
-	await vault.checkPassword(password)
-
 	const walletData = await vault.get()
 	if (!walletData) {
 		return null
 	}
+
+	await vault.checkPassword(password)
 
 	let privateKey: PrivateKey
 	switch (type) {
@@ -142,12 +142,12 @@ async function signToSignature(message: Message): Promise<SignatureJSON | null> 
 
 async function signToSignatureWithPublicKey(message: Message): Promise<SignatureWithPublicKeyJSON | null> {
 	const { index, password, toSign, type } = message.payload as SignMessage
-	await vault.checkPassword(password)
-
 	const walletData = await vault.get()
 	if (!walletData) {
 		return null
 	}
+
+	await vault.checkPassword(password)
 
 	let privateKey: PrivateKey
 	switch (type) {
@@ -171,12 +171,12 @@ export interface GetSecretMessage {
 
 async function getSecret(message: Message): Promise<string> {
 	const { password } = message.payload as GetSecretMessage
-	await vault.checkPassword(password)
-
 	const walletData = await vault.get()
 	if (!walletData) {
 		return null
 	}
+
+	await vault.checkPassword(password)
 
 	return cryptoGetSecret(walletData.data)
 }
