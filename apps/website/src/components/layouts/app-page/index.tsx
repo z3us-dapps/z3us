@@ -1,10 +1,10 @@
 import React from 'react'
 import { RouterProvider, createHashRouter } from 'react-router-dom'
 
-import LayoutErrorBoundary from 'ui/src/components/error-boundary'
+import { FallbackLoading, RouterErrorBoundary } from 'ui/src/components/fallback-renderer'
 import Layout from 'ui/src/components/layout'
-import Loader from 'ui/src/components/loader'
 import { DappStatusContext, defaultState as defaultDappState } from 'ui/src/context/dapp-status'
+import { ModalsProvider } from 'ui/src/context/modals-provider'
 import { RdtProvider } from 'ui/src/context/rdt-provider'
 import { ReactQueryProvider } from 'ui/src/context/react-query-provider'
 import { NoneSharedStoreProvider } from 'ui/src/context/state-provider'
@@ -23,7 +23,7 @@ export const router = createHashRouter([
 	{
 		path: '/',
 		element: <Layout />,
-		errorElement: <LayoutErrorBoundary />,
+		errorElement: <RouterErrorBoundary />,
 		children: [
 			// {
 			// 	index: true,
@@ -49,11 +49,13 @@ const AppPage: React.FC<Props> = ({ dehydratedState }: Props) => (
 		<ReactQueryProvider dehydratedState={dehydratedState}>
 			<NoneSharedStoreProvider>
 				<IntlProvider>
-					<ZdtContext.Provider value={defaultZdtState}>
+					<ModalsProvider>
 						<RdtProvider>
-							<RouterProvider router={router} fallbackElement={<Loader />} />
+							<ZdtContext.Provider value={defaultZdtState}>
+								<RouterProvider router={router} fallbackElement={<FallbackLoading />} />
+							</ZdtContext.Provider>
 						</RdtProvider>
-					</ZdtContext.Provider>
+					</ModalsProvider>
 				</IntlProvider>
 			</NoneSharedStoreProvider>
 		</ReactQueryProvider>

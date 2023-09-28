@@ -7,9 +7,9 @@ import { Area, AreaChart, ResponsiveContainer, Tooltip } from 'recharts'
 import { Box } from 'ui/src/components/box'
 import { CardButtons } from 'ui/src/components/card-buttons'
 import { ChartToolTip } from 'ui/src/components/chart-tool-tip'
+import { FallbackLoading } from 'ui/src/components/fallback-renderer'
 import { Close2Icon, LockIcon } from 'ui/src/components/icons'
 import { AccountsTransactionInfo } from 'ui/src/components/layout/account-transaction-info'
-import Loader from 'ui/src/components/loader'
 import { ResourceImageIcon } from 'ui/src/components/resource-image-icon'
 import { Button } from 'ui/src/components/router-button'
 import { ToolTip } from 'ui/src/components/tool-tip'
@@ -105,7 +105,7 @@ const TokenDetails: React.FC = () => {
 	}
 
 	if (!resourceId) return null
-	if (isLoading) return <Loader />
+	if (isLoading) return <FallbackLoading />
 
 	return (
 		<Box flexShrink={0}>

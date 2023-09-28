@@ -5,8 +5,8 @@ import { FormattedNumber, defineMessages, useIntl } from 'react-intl'
 import { Link, useParams } from 'react-router-dom'
 
 import { Box } from 'ui/src/components/box'
+import { FallbackLoading } from 'ui/src/components/fallback-renderer'
 import { ChevronRightIcon } from 'ui/src/components/icons'
-import Loader from 'ui/src/components/loader'
 import { Text } from 'ui/src/components/typography'
 import { useBalances } from 'ui/src/hooks/dapp/use-balances'
 import { useSelectedAccounts } from 'ui/src/hooks/use-accounts'
@@ -84,7 +84,7 @@ export const AssetsList: React.FC = () => {
 		},
 	}
 
-	if (isLoading) return <Loader />
+	if (isLoading) return <FallbackLoading />
 
 	return (
 		<Box className={styles.assetsList}>

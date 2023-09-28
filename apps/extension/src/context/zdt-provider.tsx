@@ -25,24 +25,8 @@ export const ZdtProvider: React.FC<PropsWithChildren> = ({ children }) => {
 				accounts,
 				personas,
 				sendTransaction: async (input: SendTransactionInput) => {
-					// create promise
-					// set as context value
-					// redirect to modal
-					// wait for promise resolve
-
-					// context with promises map by id
-					// submit tx and resolve promise
-					// modal route which resolves promise by submit
-
-					// from background
-					// open popup with tx modal
-					// submit tx, no promise to resolve
-					const transactionIntentHash = await sendTransaction(input, '')
-
+					const transactionIntentHash = await sendTransaction(input)
 					return {
-						// @TODO: get password from user
-						// @TODO: allow user to select fee payer
-
 						transactionIntentHash,
 						status: TransactionStatus.Unknown,
 					}

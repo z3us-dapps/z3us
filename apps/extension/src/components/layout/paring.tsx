@@ -1,7 +1,7 @@
 import React from 'react'
 import { Navigate, useLocation, useOutlet } from 'react-router-dom'
 
-import Loader from 'ui/src/components/loader'
+import { FallbackLoading } from 'ui/src/components/fallback-renderer'
 
 import { useIsPaired } from '@src/hooks/use-is-paired'
 
@@ -13,7 +13,7 @@ const Pairing: React.FC = () => {
 
 	const outlet = useOutlet()
 
-	if (isLoading) return <Loader />
+	if (isLoading) return <FallbackLoading />
 	if (!isPaired && !location.pathname.startsWith('/keystore/new')) return <Navigate to={pairingRoute} />
 
 	return outlet

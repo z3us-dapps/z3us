@@ -3,7 +3,7 @@ import React from 'react'
 import { defineMessages, useIntl } from 'react-intl'
 
 import { Box } from 'ui/src/components/box'
-import Loader from 'ui/src/components/loader'
+import { FallbackLoading } from 'ui/src/components/fallback-renderer'
 import { ResourceImageIcon } from 'ui/src/components/resource-image-icon'
 import { Text } from 'ui/src/components/typography'
 import { useEntitiesDetails, useEntityDetails } from 'ui/src/hooks/dapp/use-entity-details'
@@ -38,7 +38,7 @@ export const PoolCell: React.FC<IProps> = props => {
 	const name = getStringMetadata('name', data?.metadata?.items) || intl.formatMessage(messages.unknown)
 	const symbols = entities?.map(entity => getStringMetadata('symbol', entity?.metadata?.items).toUpperCase()) || []
 
-	if (isLoading || isLoadingResources) return <Loader />
+	if (isLoading || isLoadingResources) return <FallbackLoading />
 
 	return (
 		<Box className={styles.assetNameCellWrapper}>

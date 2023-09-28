@@ -2,6 +2,7 @@ import { enableMapSet } from 'immer'
 import React from 'react'
 import * as ReactDOM from 'react-dom/client'
 
+import { ModalsProvider } from 'ui/src/context/modals-provider'
 import { RdtProvider } from 'ui/src/context/rdt-provider'
 import { ReactQueryProvider } from 'ui/src/context/react-query-provider'
 import { NoneSharedStoreProvider } from 'ui/src/context/state-provider'
@@ -25,11 +26,13 @@ ReactDOM.createRoot(container).render(
 				<ReactQueryProvider>
 					<NoneSharedStoreProvider>
 						<IntlProvider>
-							<RdtProvider>
-								<ZdtProvider>
-									<App />
-								</ZdtProvider>
-							</RdtProvider>
+							<ModalsProvider>
+								<RdtProvider>
+									<ZdtProvider>
+										<App />
+									</ZdtProvider>
+								</RdtProvider>
+							</ModalsProvider>
 						</IntlProvider>
 					</NoneSharedStoreProvider>
 				</ReactQueryProvider>
