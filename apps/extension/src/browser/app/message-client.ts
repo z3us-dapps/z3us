@@ -22,7 +22,7 @@ export const MessageClient = () => {
 	} = {}
 
 	port.onMessage.addListener((message: ResponseMessage) => {
-		if (!message.messageId) {
+		if (!message?.messageId) {
 			return
 		}
 		const handler = responseHandlers[message.messageId]

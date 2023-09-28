@@ -24,8 +24,19 @@ export const MessageClient = () => {
 		port = browser.runtime.connect({ name: PORT_NAME })
 	})
 
-	port.onMessage.addListener((message: ResponseMessage | Message) => {
-		window.postMessage(message)
+	port.onMessage.addListener((message: ResponseMessage) => {
+		const { target, source } = message
+		switch (target) {
+			case MessageSource.BACKGROUND:
+				if (source === MessageSource.RADIX) {
+					if (message.payload !== undefined && message.payload !== null) radixMessageHandler.onMessage(message.payload)
+				} else {
+					window.postMessage(message.payload)
+				}
+				break
+			default:
+				break
+		}
 	})
 
 	const onWindowMessage = (event: MessageEvent<Message>) => {

@@ -7,7 +7,7 @@ import { DialogContent, DialogOverlay, DialogPortal, DialogRoot } from 'ui/src/c
 import { Form } from 'ui/src/components/form'
 import TextField from 'ui/src/components/form/fields/text-field'
 import { Close2Icon } from 'ui/src/components/icons'
-import { type IInputProps, Input } from 'ui/src/components/input'
+import { Input } from 'ui/src/components/input'
 import { Button } from 'ui/src/components/router-button'
 import { ScrollArea } from 'ui/src/components/scroll-area'
 import * as dialogStyles from 'ui/src/components/styles/dialog-styles.css'

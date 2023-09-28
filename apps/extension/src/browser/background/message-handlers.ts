@@ -4,9 +4,8 @@ import {
 	messageSource as radixMessageSource,
 } from '@radixdlt/connector-extension/src/chrome/messages/_types'
 import { createMessage as createRadixMessage } from '@radixdlt/connector-extension/src/chrome/messages/create-message'
-import type { Account, Persona } from '@radixdlt/radix-dapp-toolkit'
+import type { Account, Persona, WalletInteraction } from '@radixdlt/radix-dapp-toolkit'
 import { Convert, PrivateKey } from '@radixdlt/radix-engine-toolkit'
-import { Err } from 'neverthrow'
 import browser from 'webextension-polyfill'
 
 import { sharedStore } from 'ui/src/store'
@@ -31,6 +30,7 @@ import {
 	signatureToJSON,
 	signatureWithPublicKeyToJSON,
 } from '@src/crypto/signature'
+import { saveInteractions } from '@src/radix/interaction'
 import type { Data } from '@src/types/vault'
 
 import { deriveAccounts, deriveOlympiaAddresses, derivePersonas } from './radix-address'
@@ -257,7 +257,7 @@ async function handleRadixMessage(message: Message) {
 					}
 				default:
 					try {
-						const { interactionId, items } = radixMsg.data
+						const { interactionId, items } = radixMsg.data as WalletInteraction
 						await browser.runtime.sendMessage(
 							createRadixMessage.sendMessageEventToDapp(
 								radixMessageSource.contentScript,
@@ -266,51 +266,10 @@ async function handleRadixMessage(message: Message) {
 							),
 						)
 
-						await browser.runtime.sendMessage(
-							createRadixMessage.sendMessageEventToDapp(
-								radixMessageSource.offScreen,
-								'receivedByWallet',
-								interactionId,
-							),
-						)
-
-						// const publicKey = await getPublicKey(
-						// 	newMessage(MessageAction.BACKGROUND_GET_PUBLIC_KEY, MessageSource.BACKGROUND, MessageSource.BACKGROUND, {
-						// 		index: 0,
-						// 	} as GetPublicKeyMessage),
-						// )
-						// if (!publicKey) {
-						// 	await browser.runtime.sendMessage(
-						// 		createRadixMessage.walletResponse(radixMessageSource.offScreen, {
-						// 			discriminator: 'success',
-						// 			items: createRadixMessage.sendMessageToTab,
-						// 			interactionId,
-						// 		}),
-						// 	)
-						// 	return null
-						// }
-
-						// below are example payloads we need to return
-
-						// https://github.com/radixdlt/wallet-sdk/blob/c4a8433a2b2357c4d28dcf36fe2810f0d5fe158e/lib/__tests__/wallet-sdk.spec.ts#L93
-						console.info('items', interactionId, items) // @TODO: handle specifically using popup or such
-
-						await browser.runtime.sendMessage(
-							createRadixMessage.walletResponse(radixMessageSource.offScreen, {
-								discriminator: 'success',
-								items: {
-									discriminator: 'authorizedRequest',
-									auth: {
-										discriminator: 'loginWithoutChallenge',
-										persona: {},
-									},
-									ongoingAccounts: {
-										accounts: [],
-									},
-								},
-								interactionId,
-							}),
-						)
+						if (items) {
+							await saveInteractions(radixMsg.data as WalletInteraction)
+							await openAppPopup(`#/interaction${interactionId}`)
+						}
 
 						return null
 					} catch (error) {
@@ -322,15 +281,13 @@ async function handleRadixMessage(message: Message) {
 			}
 		}
 		default:
-			return createRadixMessage.confirmationError(radixMessageSource.contentScript, radixMsg.messageId, {
-				reason: 'unhandledMessageDiscriminator',
-			})
+			console.error(`⚡️Z3US⚡️: background handleRadixMessage: ${radixMsg?.discriminator}`, radixMsg, message)
+			if (radixMsg?.messageId) {
+				return createRadixMessage.confirmationError(radixMessageSource.contentScript, radixMsg.messageId, {
+					reason: 'unhandledMessageDiscriminator',
+				})
+			}
 	}
-}
-
-async function openWallet() {
-	await openAppPopup()
-	// @TODO: send message to popup
 }
 
 export type MessageTypes = {

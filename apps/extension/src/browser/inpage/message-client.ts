@@ -17,7 +17,7 @@ export const MessageClient = () => {
 			return
 		}
 		const message = event.data
-		if (!message.messageId) {
+		if (!message?.messageId) {
 			return
 		}
 
