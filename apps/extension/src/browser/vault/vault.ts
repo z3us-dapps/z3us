@@ -29,6 +29,23 @@ export class Vault {
 		this.wallet = null
 	}
 
+	checkPassword = async (password: string): Promise<WalletData> => {
+		const release = await this.mutex.acquire()
+		try {
+			const keystore = await getSelectedKeystore()
+			if (!keystore) {
+				throw new Error('Keystore is not selected')
+			}
+
+			const secret = await getSecret(keystore.id)
+			if (secret) await this.crypto.decrypt<Data>(password, secret)
+		} finally {
+			release()
+		}
+
+		return this.wallet
+	}
+
 	unlock = async (password: string): Promise<WalletData> => {
 		const release = await this.mutex.acquire()
 		try {

@@ -117,7 +117,9 @@ export interface SignMessage {
 
 async function signToSignature(message: Message): Promise<SignatureJSON | null> {
 	const { index, password, toSign, type } = message.payload as SignMessage
-	const walletData = await vault.unlock(password)
+	await vault.checkPassword(password)
+
+	const walletData = await vault.get()
 	if (!walletData) {
 		return null
 	}
@@ -140,7 +142,9 @@ async function signToSignature(message: Message): Promise<SignatureJSON | null> 
 
 async function signToSignatureWithPublicKey(message: Message): Promise<SignatureWithPublicKeyJSON | null> {
 	const { index, password, toSign, type } = message.payload as SignMessage
-	const walletData = await vault.unlock(password)
+	await vault.checkPassword(password)
+
+	const walletData = await vault.get()
 	if (!walletData) {
 		return null
 	}
@@ -167,10 +171,13 @@ export interface GetSecretMessage {
 
 async function getSecret(message: Message): Promise<string> {
 	const { password } = message.payload as GetSecretMessage
-	const walletData = await vault.unlock(password)
+	await vault.checkPassword(password)
+
+	const walletData = await vault.get()
 	if (!walletData) {
 		return null
 	}
+
 	return cryptoGetSecret(walletData.data)
 }
 
@@ -233,8 +240,6 @@ async function handleRadixMessage(message: Message) {
 
 	const radixMsg = message.payload as RadixMessage
 
-	console.error(`⚡️Z3US⚡️: background handleRadixMessage: ${radixMsg?.discriminator}`, radixMsg)
-
 	switch (radixMsg?.discriminator) {
 		case messageDiscriminator.incomingDappMessage: {
 			switch (radixMsg?.data?.discriminator) {
@@ -242,7 +247,7 @@ async function handleRadixMessage(message: Message) {
 					return createRadixMessage.extensionStatus(true)
 				case messageDiscriminator.openParingPopup:
 					try {
-						await openAppPopup()
+						await openAppPopup('#/keystore/new/radix')
 						return null
 					} catch (error) {
 						console.error(`⚡️Z3US⚡️: background handleRadixMessage: ${radixMsg?.discriminator}`, radixMsg, error)
