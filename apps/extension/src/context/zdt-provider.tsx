@@ -34,7 +34,7 @@ export const ZdtProvider: React.FC<PropsWithChildren> = ({ children }) => {
 				unlock: client.unlockVault,
 				lock: client.lockVault,
 			} as State),
-		[personas, accounts],
+		[isUnlocked, personas, accounts, sendTransaction],
 	)
 
 	return <ZdtContext.Provider value={ctx}>{children}</ZdtContext.Provider>

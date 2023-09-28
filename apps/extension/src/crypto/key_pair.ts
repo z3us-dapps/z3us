@@ -18,9 +18,8 @@ export function fromEntropy(entropyHex: string): HDKey {
 }
 
 export function deriveSecp256k1AccountForIndex(root: HDKey, index: number = 0): PrivateKey {
-	// const child = root.derive(`m/44'/1022'/0'/0/${index}`)
 	// m/44H/1022H/0H/0/0H
-	const child = root.derive(`m/44H/1022H/0H/0/${index}H`)
+	const child = root.derive(`m/44'/1022'/0'/0/${index}`)
 	return new PrivateKey.Secp256k1(child.privateKey)
 }
 

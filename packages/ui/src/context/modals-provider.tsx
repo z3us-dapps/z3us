@@ -1,5 +1,5 @@
-import type { Context } from 'react'
-import React, { PropsWithChildren, Suspense, createContext, useReducer } from 'react'
+import React, { PropsWithChildren, Suspense, useReducer } from 'react'
+import { createPortal } from 'react-dom'
 import { ErrorBoundary } from 'react-error-boundary'
 
 import { FallbackLoading, FallbackRenderer } from 'ui/src/components/fallback-renderer'
@@ -21,6 +21,9 @@ const reducer = (state: State['modals'], action: Action) => {
 }
 
 export const ModalsProvider: React.FC<PropsWithChildren> = ({ children }) => {
+	const root = document.getElementById('modals')
+	if (!root) throw new Error('Modals root node not found. Cannot render modal.')
+
 	const [modals, dispatch] = useReducer(reducer, {})
 
 	function addModal(id: string, modal: React.JSX.Element) {
@@ -42,11 +45,15 @@ export const ModalsProvider: React.FC<PropsWithChildren> = ({ children }) => {
 		<ModalsContext.Provider value={{ modals, addModal, removeModal }}>
 			<>
 				{children}
-				{Object.keys(modals).map(id => (
-					<Suspense key={id} fallback={<FallbackLoading />}>
-						<ErrorBoundary fallbackRender={FallbackRenderer}>{modals[id]}</ErrorBoundary>
-					</Suspense>
-				))}
+				{Object.keys(modals).map(id =>
+					createPortal(
+						<Suspense key={id} fallback={<FallbackLoading />}>
+							<ErrorBoundary fallbackRender={FallbackRenderer}>{modals[id]}</ErrorBoundary>
+						</Suspense>,
+						root,
+						id,
+					),
+				)}
 			</>
 		</ModalsContext.Provider>
 	)

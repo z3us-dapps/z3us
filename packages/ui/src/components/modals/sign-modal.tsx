@@ -28,15 +28,15 @@ const initialValues = {
 }
 
 export interface IProps {
-	isOpen: boolean
 	onConfirm: (password: string) => void
 	onCancel: () => void
 }
 
-const SignModal: React.FC<IProps> = ({ isOpen, onConfirm, onCancel }) => {
+const SignModal: React.FC<IProps> = ({ onConfirm, onCancel }) => {
 	const intl = useIntl()
 	const inputRef = useRef(null)
 
+	const [isOpen, setIsOpen] = useState<boolean>(true)
 	const [error, setError] = useState<string>('')
 
 	useEffect(() => {
@@ -47,14 +47,21 @@ const SignModal: React.FC<IProps> = ({ isOpen, onConfirm, onCancel }) => {
 		try {
 			onConfirm(values.password)
 			setError('')
+			setIsOpen(false)
 		} catch (err) {
 			console.error(err)
 			setError(intl.formatMessage(messages.unlock_error))
 		}
 	}
 
+	const handleCancel = () => {
+		onCancel()
+		setError('')
+		setIsOpen(false)
+	}
+
 	return (
-		<ModalContainer show={isOpen} closeOnTap onClose={onCancel}>
+		<ModalContainer show={isOpen} closeOnTap onClose={handleCancel}>
 			<Form
 				onSubmit={handleSubmit}
 				initialValues={initialValues}

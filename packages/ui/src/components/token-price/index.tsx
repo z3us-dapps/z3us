@@ -1,11 +1,10 @@
 import BigNumber from 'bignumber.js'
 import { FormattedNumber } from 'react-intl'
 
+import { FallbackLoading } from 'ui/src/components/fallback-renderer'
 import { useXRDPriceOnDay } from 'ui/src/hooks/queries/market'
 import { useTokens } from 'ui/src/hooks/queries/oci'
 import { useNoneSharedStore } from 'ui/src/hooks/use-store'
-
-import Loader from '../loader'
 
 interface IProps {
 	symbol: string
@@ -23,7 +22,7 @@ export const TokenPrice: React.FC<IProps> = ({ amount, symbol, currency }) => {
 	const { data: tokens, isLoading: isLoadingTokens } = useTokens()
 	const { data: price, isLoading: isLoadingPrice } = useXRDPriceOnDay(inCurrency, new Date())
 
-	if (isLoadingTokens || isLoadingPrice) return <Loader />
+	if (isLoadingTokens || isLoadingPrice) return <FallbackLoading />
 
 	const token = tokens[symbol?.toUpperCase()]
 

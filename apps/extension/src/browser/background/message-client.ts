@@ -101,7 +101,7 @@ export const MessageClient = () => {
 			case MessageSource.BACKGROUND:
 				return // ignore
 			default:
-				return onRadixMessage(message, sender.tab?.id)
+				onRadixMessage(message, sender.tab?.id)
 		}
 	}
 
