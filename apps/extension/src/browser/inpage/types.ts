@@ -3,7 +3,7 @@ export enum Event {
 }
 
 export enum MessageAction {
-	RDT_DISCONNECT = 'v1-inpage-rdt-disconnect',
+	INPAGE_RDT_DISCONNECT = 'v1-inpage-rdt-disconnect',
 }
 
 export interface Z3USEvent<T = any>

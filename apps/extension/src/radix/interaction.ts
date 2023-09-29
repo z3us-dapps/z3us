@@ -1,9 +1,10 @@
-import { WalletInteraction } from '@radixdlt/radix-dapp-toolkit'
 import browser from 'webextension-polyfill'
+
+import { WalletInteractionWithTabId } from '@src/browser/app/types'
 
 export const storageKey = 'z3us-interactions'
 
-export const saveInteractions = async (interaction: WalletInteraction) => {
+export const saveInteractions = async (interaction: WalletInteractionWithTabId) => {
 	if (!interaction.interactionId) {
 		throw new Error('Invalid interaction!')
 	}
@@ -17,7 +18,7 @@ export const saveInteractions = async (interaction: WalletInteraction) => {
 	}
 }
 
-export const getInteraction = async (interactionId: string): Promise<WalletInteraction> => {
+export const getInteraction = async (interactionId: string): Promise<WalletInteractionWithTabId> => {
 	if (!interactionId) {
 		throw new Error('Invalid keystore!')
 	}

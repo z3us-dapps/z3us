@@ -74,8 +74,6 @@ export const MessageClient = () => {
 		const handler = messageHandlers[action]
 		if (handler) {
 			return handler(message)
-		} else {
-			throw new Error('Bad request')
 		}
 	}
 

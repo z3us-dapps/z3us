@@ -13,7 +13,9 @@ import type { AddressBook, AddressIndexes, Keystore } from 'ui/src/store/types'
 import { KeystoreType } from 'ui/src/store/types'
 
 import { openAppPopup } from '@src/browser/app/popup'
-import type { Message, MessageHandlers } from '@src/browser/messages/types'
+import { MessageAction as AppMessageAction, WalletInteractionWithTabId } from '@src/browser/app/types'
+import { newMessage } from '@src/browser/messages/message'
+import { type Message, type MessageHandlers, MessageSource } from '@src/browser/messages/types'
 import { Vault } from '@src/browser/vault/vault'
 import {
 	PublicKeyJSON,
@@ -241,6 +243,14 @@ async function handleRadixMessage(message: Message) {
 	const radixMsg = message.payload as RadixMessage
 
 	switch (radixMsg?.discriminator) {
+		case messageDiscriminator.sendMessageEventToDapp:
+			return createRadixMessage.sendMessageEventToDapp(
+				radixMessageSource.contentScript,
+				radixMsg.messageEvent,
+				radixMsg.interactionId,
+			)
+		case messageDiscriminator.walletResponse:
+			return radixMsg.data
 		case messageDiscriminator.incomingDappMessage: {
 			switch (radixMsg?.data?.discriminator) {
 				case messageDiscriminator.extensionStatus:
@@ -250,38 +260,46 @@ async function handleRadixMessage(message: Message) {
 						await openAppPopup('#/keystore/new/radix')
 						return null
 					} catch (error) {
-						console.error(`⚡️Z3US⚡️: background handleRadixMessage: ${radixMsg?.discriminator}`, radixMsg, error)
 						return createRadixMessage.confirmationError(radixMessageSource.contentScript, radixMsg.messageId, {
 							reason: 'unableToOpenParingPopup',
+							jsError: error,
 						})
 					}
 				default:
 					try {
 						const { interactionId, items } = radixMsg.data as WalletInteraction
-						await browser.runtime.sendMessage(
-							createRadixMessage.sendMessageEventToDapp(
-								radixMessageSource.contentScript,
-								'receivedByExtension',
-								interactionId,
-							),
-						)
 
 						if (items) {
 							switch (items.discriminator) {
 								case 'cancelRequest':
+									browser.runtime.sendMessage(
+										newMessage(
+											AppMessageAction.APP_INTERACTION_CANCEL,
+											MessageSource.BACKGROUND,
+											MessageSource.POPUP,
+											radixMsg.data,
+										),
+									)
 									break
 								default:
-									await saveInteractions(radixMsg.data as WalletInteraction)
-									await openAppPopup(`#/interaction${interactionId}`)
+									saveInteractions({
+										...radixMsg.data,
+										fromTabId: message.fromTabId,
+									} as WalletInteractionWithTabId).then(() => openAppPopup(`#/interaction/${interactionId}`))
 									break
 							}
 						}
 
-						return null
+						return createRadixMessage.sendMessageEventToDapp(
+							radixMessageSource.contentScript,
+							'receivedByExtension',
+							interactionId,
+						)
 					} catch (error) {
 						console.error(`⚡️Z3US⚡️: background handleRadixMessage: ${radixMsg?.discriminator}`, radixMsg, error)
 						return createRadixMessage.confirmationError(radixMessageSource.contentScript, radixMsg.messageId, {
 							reason: 'failedToDetectWalletLink',
+							jsError: error,
 						})
 					}
 			}

@@ -1,6 +1,6 @@
 import { messageSource as radixMessageSource } from '@radixdlt/connector-extension/src/chrome/messages/_types'
 import { createMessage as createRadixMessage } from '@radixdlt/connector-extension/src/chrome/messages/create-message'
-import type { WalletInteraction, WalletTransactionResponseItems } from '@radixdlt/radix-dapp-toolkit'
+import type { WalletTransactionResponseItems } from '@radixdlt/radix-dapp-toolkit'
 import React, { useEffect, useState } from 'react'
 import { defineMessages, useIntl } from 'react-intl'
 import { useParams } from 'react-router-dom'
@@ -9,10 +9,8 @@ import browser from 'webextension-polyfill'
 import { Box } from 'ui/src/components/box'
 import { Button } from 'ui/src/components/button'
 import { Input } from 'ui/src/components/input'
-import { Text } from 'ui/src/components/typography'
 
-import { CancelInteractionMessage } from '@src/browser/app/message-handlers'
-import { MessageAction } from '@src/browser/app/types'
+import { MessageAction, WalletInteractionWithTabId } from '@src/browser/app/types'
 import { Z3USEvent } from '@src/browser/inpage/types'
 import { useAccounts } from '@src/hooks/use-accounts'
 import { usePersonas } from '@src/hooks/use-personas'
@@ -38,7 +36,7 @@ export const Home: React.FC = () => {
 	const sendTransaction = useSendTransaction()
 
 	const [isCanceled, setIsCanceled] = useState<boolean>(false)
-	const [interaction, setInteraction] = useState<WalletInteraction | undefined>()
+	const [interaction, setInteraction] = useState<WalletInteractionWithTabId | undefined>()
 
 	useEffect(() => {
 		const listener = (event: Z3USEvent) => {
@@ -53,14 +51,15 @@ export const Home: React.FC = () => {
 		return () => {
 			window.removeEventListener(`z3us.${MessageAction.APP_INTERACTION_CANCEL}`, listener)
 		}
-	}, [])
+	}, [interaction])
 
 	useEffect(() => {
 		if (!interactionId) return
 		getInteraction(interactionId)
 			.then(i => setInteraction(i))
 			.then(() =>
-				browser.runtime.sendMessage(
+				browser.tabs.sendMessage(
+					interaction.fromTabId,
 					createRadixMessage.sendMessageEventToDapp(radixMessageSource.offScreen, 'receivedByWallet', interactionId),
 				),
 			)
@@ -71,7 +70,8 @@ export const Home: React.FC = () => {
 		switch (interaction.items.discriminator) {
 			case 'authorizedRequest':
 				// https://github.com/radixdlt/wallet-sdk/blob/c4a8433a2b2357c4d28dcf36fe2810f0d5fe158e/lib/__tests__/wallet-sdk.spec.ts#L93
-				browser.runtime.sendMessage(
+				browser.tabs.sendMessage(
+					interaction.fromTabId,
 					createRadixMessage.walletResponse(radixMessageSource.offScreen, {
 						discriminator: 'success',
 						items: {
@@ -95,7 +95,8 @@ export const Home: React.FC = () => {
 				break
 			case 'transaction':
 				sendTransaction(interaction.items.send).then(transactionIntentHash =>
-					browser.runtime.sendMessage(
+					browser.tabs.sendMessage(
+						interaction.fromTabId,
 						createRadixMessage.walletResponse(radixMessageSource.offScreen, {
 							discriminator: 'success',
 							items: {
@@ -117,9 +118,8 @@ export const Home: React.FC = () => {
 	return (
 		<Box>
 			<Input value={JSON.stringify(interaction)} elementType="textarea" type="text" disabled />
-			{isCanceled && <Text>{intl.formatMessage(messages.canceled)}</Text>}
 			<Button onClick={handleInteraction} styleVariant="tertiary" sizeVariant="xlarge" fullWidth disabled={isCanceled}>
-				{intl.formatMessage(messages.interact)}
+				{isCanceled ? intl.formatMessage(messages.canceled) : intl.formatMessage(messages.interact)}
 			</Button>
 		</Box>
 	)
