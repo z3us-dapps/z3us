@@ -11,7 +11,7 @@ import { Button } from 'ui/src/components/button'
 import { Input } from 'ui/src/components/input'
 
 import { MessageAction, WalletInteractionWithTabId } from '@src/browser/app/types'
-import { Z3USEvent } from '@src/browser/inpage/types'
+import { Z3USEvent } from '@src/browser/messages/types'
 import { useAccounts } from '@src/hooks/use-accounts'
 import { usePersonas } from '@src/hooks/use-personas'
 import { useSendTransaction } from '@src/hooks/use-send-transaction'
