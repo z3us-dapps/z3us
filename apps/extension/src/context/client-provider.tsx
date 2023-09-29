@@ -1,9 +1,12 @@
 import { useSharedStore } from 'packages/ui/src/hooks/use-store'
 import { Keystore } from 'packages/ui/src/store/types'
 import React, { type PropsWithChildren, createContext, useEffect, useState } from 'react'
+import browser from 'webextension-polyfill'
 
 import { MessageClient } from '@src/browser/app/message-client'
-import { MessageAction as InpageMessageAction, Z3USEvent } from '@src/browser/inpage/types'
+import { MessageAction as InPageMessageAction } from '@src/browser/inpage/types'
+import { eventFromMessage, newMessage } from '@src/browser/messages/message'
+import { MessageSource } from '@src/browser/messages/types'
 
 const client = MessageClient()
 
@@ -18,11 +21,14 @@ export const ClientProvider: React.FC<PropsWithChildren> = ({ children }) => {
 
 	useEffect(() => {
 		if (current && current.id !== keystore?.id) {
-			window.dispatchEvent(
-				new CustomEvent(`z3us.${InpageMessageAction.INPAGE_RDT_DISCONNECT}`, {
-					detail: { data: keystore },
-				}) satisfies Z3USEvent,
+			const msg = newMessage(
+				InPageMessageAction.INPAGE_KEYSTORE_CHANGE,
+				MessageSource.POPUP,
+				MessageSource.INPAGE,
+				keystore,
 			)
+			window.dispatchEvent(eventFromMessage(msg))
+			browser.tabs.query({}).then(tabs => tabs.map(tab => chrome.tabs.sendMessage(tab.id, msg)))
 		} else if (keystore) {
 			setCurrent(keystore)
 		}

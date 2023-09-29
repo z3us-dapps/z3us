@@ -1,7 +1,7 @@
 import { MessageAction as AppMessageAction } from '@src/browser/app/types'
 import { MessageAction as BackgroundMessageAction } from '@src/browser/background/types'
 import { MessageAction as ContentScriptMessageAction } from '@src/browser/content-script/types'
-import { MessageAction as InpageMessageAction } from '@src/browser/inpage/types'
+import { MessageAction as InPageMessageAction } from '@src/browser/inpage/types'
 
 export enum MessageSource {
 	BACKGROUND = 'z3us-background',
@@ -14,7 +14,7 @@ export type MessageAction =
 	| AppMessageAction
 	| BackgroundMessageAction
 	| ContentScriptMessageAction
-	| InpageMessageAction
+	| InPageMessageAction
 
 export type Message = {
 	messageId: string
@@ -38,3 +38,9 @@ export type ResponseMessage = {
 export type MessageHandler = (message: Message) => Promise<any>
 
 export type MessageHandlers = { [key: string]: MessageHandler }
+
+export interface Z3USEvent<T = any>
+	extends CustomEvent<{
+		data?: T
+		error?: string
+	}> {}

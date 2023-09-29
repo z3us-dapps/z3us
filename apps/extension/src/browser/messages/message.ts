@@ -1,6 +1,6 @@
 import { generateId } from 'ui/src/utils/generate-id'
 
-import type { Message, MessageAction, MessageSource, ResponseMessage, ResponseMessageData } from './types'
+import type { Message, MessageAction, MessageSource, ResponseMessage, ResponseMessageData, Z3USEvent } from './types'
 
 export const newMessage = (
 	action: MessageAction,
@@ -25,3 +25,8 @@ export const newReply = (source: MessageSource, data: ResponseMessageData, messa
 	target: message.source,
 	source,
 })
+
+export const eventFromMessage = (message: Message | ResponseMessage): Z3USEvent =>
+	new CustomEvent(`z3us.${message.action}`, {
+		detail: { data: message.payload, error: (message as ResponseMessage).error },
+	})

@@ -1,10 +1,11 @@
 import '@src/helpers/polyfills'
+
+import { MessageAction as BackgroundMessageAction } from '@src/browser/background/types'
 import { MessageClient } from '@src/browser/inpage/message-client'
 import { Event } from '@src/browser/inpage/types'
+import { MessageAction as InPageMessageAction } from '@src/browser/inpage/types'
 import type { ResponseMessage } from '@src/browser/messages/types'
 import { config } from '@src/config'
-
-import { MessageAction } from './background/types'
 
 declare global {
 	interface Window {
@@ -22,7 +23,11 @@ if (!window.z3us) {
 
 	const z3us = {
 		version: config.version,
-		ping: async (): Promise<ResponseMessage> => messageHandler.sendMessage(MessageAction.BACKGROUND_PING),
+
+		ping: async (): Promise<ResponseMessage> => messageHandler.sendMessage(BackgroundMessageAction.BACKGROUND_PING),
+
+		onWalletChange: (fn: EventListenerOrEventListenerObject) =>
+			window.addEventListener(`z3us.${InPageMessageAction.INPAGE_KEYSTORE_CHANGE}`, fn),
 	}
 
 	window.z3us = z3us

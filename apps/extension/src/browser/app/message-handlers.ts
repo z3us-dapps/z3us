@@ -1,6 +1,6 @@
+import { eventFromMessage } from '@src/browser/messages/message'
 import type { Message, MessageHandlers } from '@src/browser/messages/types'
 
-import { Z3USEvent } from '../inpage/types'
 import { MessageAction } from './types'
 
 async function ping() {
@@ -12,11 +12,7 @@ export interface CancelInteractionMessage {
 }
 
 async function cancelInteraction(message: Message) {
-	window.dispatchEvent(
-		new CustomEvent(`z3us.${MessageAction.APP_INTERACTION_CANCEL}`, {
-			detail: { data: message.payload },
-		}) satisfies Z3USEvent,
-	)
+	window.dispatchEvent(eventFromMessage(message))
 }
 
 export type MessageTypes = {

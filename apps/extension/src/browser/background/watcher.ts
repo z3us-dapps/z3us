@@ -8,7 +8,7 @@ const watch = async () => {
 	release()
 }
 
-const BACKGROUND_EVENT = 'backgroundwatcher'
+const BACKGROUND_EVENT = 'z3us.backgroundwatcher'
 
 const triggerWatch = () => dispatchEvent(new CustomEvent(BACKGROUND_EVENT))
 

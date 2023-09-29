@@ -3,11 +3,5 @@ export enum Event {
 }
 
 export enum MessageAction {
-	INPAGE_RDT_DISCONNECT = 'v1-inpage-rdt-disconnect',
+	INPAGE_KEYSTORE_CHANGE = 'v1-inpage-keystore-change',
 }
-
-export interface Z3USEvent<T = any>
-	extends CustomEvent<{
-		data?: T
-		error?: string
-	}> {}

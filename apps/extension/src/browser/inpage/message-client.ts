@@ -1,10 +1,9 @@
 import { generateId } from 'ui/src/utils/generate-id'
 
+import { eventFromMessage } from '@src/browser/messages/message'
 import timeout, { reason } from '@src/browser/messages/timeout'
 import type { Message, ResponseMessage } from '@src/browser/messages/types'
 import { MessageSource } from '@src/browser/messages/types'
-
-import { Z3USEvent } from './types'
 
 export type MessageClientType = ReturnType<typeof MessageClient>
 
@@ -27,11 +26,7 @@ export const MessageClient = () => {
 		if (handler) {
 			handler(message)
 		} else if (message?.target === MessageSource.INPAGE) {
-			window.dispatchEvent(
-				new CustomEvent(`z3us.${message.action}`, {
-					detail: { data: message.payload, error: (message as ResponseMessage).error },
-				}) satisfies Z3USEvent,
-			)
+			window.dispatchEvent(eventFromMessage(message))
 		}
 	}
 
