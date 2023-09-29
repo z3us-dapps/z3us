@@ -267,8 +267,14 @@ async function handleRadixMessage(message: Message) {
 						)
 
 						if (items) {
-							await saveInteractions(radixMsg.data as WalletInteraction)
-							await openAppPopup(`#/interaction${interactionId}`)
+							switch (items.discriminator) {
+								case 'cancelRequest':
+									break
+								default:
+									await saveInteractions(radixMsg.data as WalletInteraction)
+									await openAppPopup(`#/interaction${interactionId}`)
+									break
+							}
 						}
 
 						return null
@@ -287,6 +293,7 @@ async function handleRadixMessage(message: Message) {
 					reason: 'unhandledMessageDiscriminator',
 				})
 			}
+			return null
 	}
 }
 

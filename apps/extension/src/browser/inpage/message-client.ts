@@ -4,6 +4,8 @@ import timeout, { reason } from '@src/browser/messages/timeout'
 import type { Message, ResponseMessage } from '@src/browser/messages/types'
 import { MessageSource } from '@src/browser/messages/types'
 
+import { Z3USEvent } from './types'
+
 export type MessageClientType = ReturnType<typeof MessageClient>
 
 export const MessageClient = () => {
@@ -24,11 +26,12 @@ export const MessageClient = () => {
 		const handler = responseHandlers[message.messageId]
 		if (handler) {
 			handler(message)
-		} else {
-			if (message?.target !== MessageSource.INPAGE) {
-				return
-			}
-			window.dispatchEvent(new CustomEvent(`z3us.${message.action}`, { detail: message.payload }))
+		} else if (message?.target === MessageSource.INPAGE) {
+			window.dispatchEvent(
+				new CustomEvent(`z3us.${message.action}`, {
+					detail: { data: message.payload, error: (message as ResponseMessage).error },
+				}) satisfies Z3USEvent,
+			)
 		}
 	}
 
@@ -44,7 +47,7 @@ export const MessageClient = () => {
 		)
 
 		try {
-			let response = await timeout(promise)
+			let response = await timeout<ResponseMessage>(promise)
 			if (response?.error && response?.error === reason) {
 				// if timeout, might be because port reconnected, retry once
 				response = await timeout(promise)

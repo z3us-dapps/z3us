@@ -1,6 +1,6 @@
 import { generateId } from 'ui/src/utils/generate-id'
 
-import type { Message, MessageAction, MessageSource, ResponseMessage } from './types'
+import type { Message, MessageAction, MessageSource, ResponseMessage, ResponseMessageData } from './types'
 
 export const newMessage = (
 	action: MessageAction,
@@ -17,15 +17,11 @@ export const newMessage = (
 	fromTabId,
 })
 
-export const newReply = (
-	message: Message,
-	source: MessageSource,
-	target: MessageSource,
-	payload: any,
-): ResponseMessage => ({
-	...message,
-	request: message.payload,
-	target,
+export const newReply = (source: MessageSource, data: ResponseMessageData, message: Message): ResponseMessage => ({
+	...data,
+	messageId: message.messageId,
+	fromTabId: message.fromTabId,
+	action: message.action,
+	target: message.source,
 	source,
-	payload,
 })

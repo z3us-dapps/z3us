@@ -6,23 +6,23 @@ import {
 	Signature,
 	SignatureWithPublicKey,
 } from '@radixdlt/radix-engine-toolkit'
-import { useEffect, useMemo } from 'react'
+import { useContext, useEffect, useMemo } from 'react'
 import browser from 'webextension-polyfill'
 
 import { useSharedStore } from 'ui/src/hooks/use-store'
 import type { AddressBook, AddressIndexes, Keystore } from 'ui/src/store/types'
 
-import { MessageClient } from '@src/browser/app/message-client'
 import { MessageTypes as BackgroundMessageTypes } from '@src/browser/background/message-handlers'
 import { OlympiaAddressDetails } from '@src/browser/background/types'
 import { MessageAction as BackgroundMessageAction } from '@src/browser/background/types'
+import { ClientContext } from '@src/context/client-provider'
 import { publicKeyFromJSON } from '@src/crypto/key_pair'
 import { signatureFromJSON, signatureWithPublicKeyFromJSON } from '@src/crypto/signature'
 import type { Data } from '@src/types/vault'
 
-const client = MessageClient()
-
 export const useMessageClient = () => {
+	const client = useContext(ClientContext)
+
 	const { reloadTrigger } = useSharedStore(state => ({
 		reloadTrigger: state.reloadSharedStoreAction,
 	}))
@@ -35,7 +35,7 @@ export const useMessageClient = () => {
 	useEffect(() => {
 		browser.runtime.onMessage.addListener(client.onMessage)
 		return () => browser.runtime.onMessage.removeListener(client.onMessage)
-	}, [])
+	}, [client])
 
 	return useMemo(
 		() => ({
@@ -160,6 +160,6 @@ export const useMessageClient = () => {
 					)
 					.then(updateCursor),
 		}),
-		[],
+		[client],
 	)
 }

@@ -1,12 +1,12 @@
 export const reason = 'z3us_message_timeout'
 const defaultTimeout = 30 * 1000 // 30 seconds
 
-const timeout = async (promise, time) => {
+const timeout = async <T>(promise: Promise<T>, time: number = defaultTimeout) => {
 	let timer
 	try {
 		return await Promise.race([
 			promise,
-			new Promise((_, reject) => {
+			new Promise<T>((_, reject) => {
 				timer = setTimeout(reject, time, reason)
 			}),
 		])
@@ -15,4 +15,4 @@ const timeout = async (promise, time) => {
 	}
 }
 
-export default async (p: Promise<any>, after: number = defaultTimeout) => timeout(p, after)
+export default timeout

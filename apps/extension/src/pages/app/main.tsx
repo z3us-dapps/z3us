@@ -7,6 +7,7 @@ import { RdtProvider } from 'ui/src/context/rdt-provider'
 import { ReactQueryProvider } from 'ui/src/context/react-query-provider'
 import { NoneSharedStoreProvider } from 'ui/src/context/state-provider'
 
+import { ClientProvider } from '@src/context/client-provider'
 import { DappStatusProvider } from '@src/context/dapp-status-provider'
 import IntlProvider from '@src/context/intl-provider'
 import { ThemeProvider } from '@src/context/theme-provider'
@@ -27,11 +28,13 @@ ReactDOM.createRoot(container).render(
 					<NoneSharedStoreProvider>
 						<IntlProvider>
 							<ModalsProvider>
-								<RdtProvider>
-									<ZdtProvider>
-										<App />
-									</ZdtProvider>
-								</RdtProvider>
+								<ClientProvider>
+									<RdtProvider>
+										<ZdtProvider>
+											<App />
+										</ZdtProvider>
+									</RdtProvider>
+								</ClientProvider>
 							</ModalsProvider>
 						</IntlProvider>
 					</NoneSharedStoreProvider>

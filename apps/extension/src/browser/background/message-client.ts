@@ -5,9 +5,10 @@ import type { AppLogger } from '@radixdlt/connector-extension/src/utils/logger'
 import type { Runtime } from 'webextension-polyfill'
 import browser from 'webextension-polyfill'
 
+import { newReply } from '@src/browser//messages/message'
 import { ledgerTabWatcher } from '@src/browser/background/tabs'
 import { PORT_NAME } from '@src/browser/messages/constants'
-import type { Message, ResponseMessage } from '@src/browser/messages/types'
+import type { Message } from '@src/browser/messages/types'
 import { MessageSource } from '@src/browser/messages/types'
 
 import messageHandlers from './message-handlers'
@@ -69,14 +70,14 @@ export const MessageClient = () => {
 				const handler = messageHandlers[action]
 				if (handler) {
 					const response = await handler(message)
-					port.postMessage({ ...message, payload: response } as ResponseMessage)
+					port.postMessage(newReply(MessageSource.BACKGROUND, { payload: response }, message))
 				} else {
 					throw new Error('Bad request')
 				}
 			} catch (error) {
 				// eslint-disable-next-line no-console
 				console.error(`⚡️Z3US⚡️: background message client failed to handle message`, error)
-				port.postMessage({ ...message, error: error?.message || 'Internal error' } as ResponseMessage)
+				port.postMessage(newReply(MessageSource.BACKGROUND, { error: error?.message }, message))
 			}
 		})
 
@@ -102,6 +103,7 @@ export const MessageClient = () => {
 				return // ignore
 			default:
 				onRadixMessage(message, sender.tab?.id)
+				break
 		}
 	}
 

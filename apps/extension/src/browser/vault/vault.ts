@@ -200,6 +200,7 @@ export class Vault {
 				await setConnectionPassword('')
 				break
 			default:
+				break
 			// we do not reset password on lock here to let connect button send events to radix mobile
 			// await setConnectionPassword('')
 		}

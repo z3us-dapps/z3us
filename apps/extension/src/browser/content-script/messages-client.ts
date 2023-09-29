@@ -25,17 +25,21 @@ export const MessageClient = () => {
 	})
 
 	port.onMessage.addListener((message: ResponseMessage) => {
-		const { target, source } = message
-		switch (target) {
-			case MessageSource.BACKGROUND:
-				if (source === MessageSource.RADIX) {
-					if (message.payload !== undefined && message.payload !== null) radixMessageHandler.onMessage(message.payload)
-				} else {
-					window.postMessage(message.payload)
-				}
-				break
-			default:
-				break
+		const { target, error } = message
+		if (error) {
+			console.error(`⚡️Z3US⚡️: content-script message client response error`, error)
+		} else {
+			switch (target) {
+				case MessageSource.BACKGROUND:
+				case MessageSource.POPUP:
+					break
+				case MessageSource.RADIX:
+					if (message.payload !== null && message.payload !== undefined) radixMessageHandler.onMessage(message.payload)
+					break
+				default:
+					window.postMessage(message)
+					break
+			}
 		}
 	})
 
@@ -62,11 +66,14 @@ export const MessageClient = () => {
 						return Promise.resolve(true)
 					default:
 						window.postMessage(message)
+						break
 				}
 			case MessageSource.RADIX:
 				sendRadixMessage(message.payload, message.fromTabId)
+				break
 			default:
 				radixMessageHandler.onMessage(message)
+				break
 		}
 	}
 

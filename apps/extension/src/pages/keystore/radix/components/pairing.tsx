@@ -85,14 +85,12 @@ export const Pairing: React.FC<IProps> = ({
 				}
 			}
 			if (area === 'local' && changes[PASSWORD_STORAGE_KEY]) {
-				console.log('browser.storage.onChanged.addListener', changes)
 				const { newValue } = changes[PASSWORD_STORAGE_KEY]
 				if (!newValue) connect()
 			}
 		})
 
 		const subscription = connectorClient.connectionPassword$.subscribe(password => {
-			console.log('connectorClient.connectionPassword$.subscribe', password)
 			onConnectionPasswordChange(password?.toString('hex'))
 		})
 
@@ -110,7 +108,6 @@ export const Pairing: React.FC<IProps> = ({
 						connectorClient
 							.connected()
 							.andThen(() => {
-								console.log('connectorClient.connected()', buffer.toString('hex'))
 								connectorClient.disconnect()
 								return ResultAsync.fromPromise(
 									setStorageConnectionPassword(buffer.toString('hex')),
