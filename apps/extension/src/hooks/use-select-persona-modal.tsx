@@ -4,33 +4,33 @@ import { defineMessages, useIntl } from 'react-intl'
 import { useModals } from 'ui/src/hooks/use-modals'
 import { generateId } from 'ui/src/utils/generate-id'
 
-const SignModal = lazy(() => import('ui/src/components/modals/sign-modal'))
+const Modal = lazy(() => import('@src/components/modals/select-persona-modal'))
 
 const messages = defineMessages({
 	rejected: {
-		id: 'hooks.modals.sign_modal.reject',
-		defaultMessage: 'Rejected',
+		id: 'hooks.modals.select_persona.reject',
+		defaultMessage: 'Persona select declined',
 	},
 })
 
-export const useSignModal = () => {
+export const useSelectPersonaModal = () => {
 	const intl = useIntl()
 	const { addModal, removeModal } = useModals()
 
-	const confirm = (manifest: string) => {
-		return new Promise<string>((resolve, reject) => {
+	const selectPersona = () => {
+		return new Promise<number>((resolve, reject) => {
 			const id = generateId()
-			const handleConfirm = (password: string) => {
-				resolve(password)
+			const handleConfirm = (index: number) => {
+				resolve(index)
 				removeModal(id)
 			}
 			const handleCancel = () => {
 				reject(intl.formatMessage(messages.rejected))
 				removeModal(id)
 			}
-			addModal(id, <SignModal key={id} manifest={manifest} onConfirm={handleConfirm} onCancel={handleCancel} />)
+			addModal(id, <Modal key={id} onConfirm={handleConfirm} onCancel={handleCancel} />)
 		})
 	}
 
-	return { confirm }
+	return selectPersona
 }

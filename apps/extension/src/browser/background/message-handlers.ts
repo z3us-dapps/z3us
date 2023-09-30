@@ -1,3 +1,4 @@
+import { messageLifeCycleEvent } from '@radixdlt/connector-extension/src/chrome/dapp/_types'
 import {
 	type Message as RadixMessage,
 	messageDiscriminator,
@@ -35,6 +36,7 @@ import {
 import { saveInteractions } from '@src/radix/interaction'
 import type { Data } from '@src/types/vault'
 
+import { addMetadata } from '../metadata/add'
 import { deriveAccounts, deriveOlympiaAddresses, derivePersonas } from './radix-address'
 import { MessageAction, OlympiaAddressDetails } from './types'
 
@@ -284,6 +286,10 @@ async function handleRadixMessage(message: Message) {
 								default:
 									saveInteractions({
 										...radixMsg.data,
+										metadata: {
+											...(radixMsg.metadata || {}),
+											...(radixMsg.data?.metadata || {}),
+										},
 										fromTabId: message.fromTabId,
 									} as WalletInteractionWithTabId).then(() => openAppPopup(`#/interaction/${interactionId}`))
 									break
@@ -292,7 +298,7 @@ async function handleRadixMessage(message: Message) {
 
 						return createRadixMessage.sendMessageEventToDapp(
 							radixMessageSource.contentScript,
-							'receivedByExtension',
+							messageLifeCycleEvent.receivedByExtension,
 							interactionId,
 						)
 					} catch (error) {

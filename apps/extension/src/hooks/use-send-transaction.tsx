@@ -17,12 +17,13 @@ import {
 import { useCallback } from 'react'
 import { defineMessages, useIntl } from 'react-intl'
 
+import { Input } from 'ui/src/components/input'
 import { useGatewayClient } from 'ui/src/hooks/dapp/use-gateway-client'
 import { useNetworkId } from 'ui/src/hooks/dapp/use-network-id'
-import { useSignModal } from 'ui/src/hooks/use-sign-modal'
 import { useNoneSharedStore } from 'ui/src/hooks/use-store'
 
 import { useMessageClient } from '@src/hooks/use-message-client'
+import { useSignModal } from '@src/hooks/use-sign-modal'
 
 import { useAccounts } from './use-accounts'
 
@@ -33,12 +34,14 @@ const messages = defineMessages({
 	},
 })
 
+const modalContent = (manifest: string) => <Input value={manifest} elementType="textarea" type="text" disabled />
+
 export const useSendTransaction = () => {
 	const intl = useIntl()
 	const client = useMessageClient()
 	const networkId = useNetworkId()
 	const accounts = useAccounts()
-	const { confirm } = useSignModal()
+	const confirm = useSignModal()
 	const { status, transaction } = useGatewayClient()
 	const { accountIndexes } = useNoneSharedStore(state => ({
 		accountIndexes: state.accountIndexes,
@@ -118,9 +121,10 @@ export const useSendTransaction = () => {
 		const intent: Intent = { header, manifest }
 		const intentHash = await RadixEngineToolkit.Intent.intentHash(intent)
 
+		const content = modalContent(input.transactionManifest)
 		const signatures = await Promise.all(
 			needSignaturesFrom.map(idx =>
-				confirm(input.transactionManifest).then(password =>
+				confirm(content).then(password =>
 					client.signToSignatureWithPublicKey('account', password, intentHash.hash, +idx),
 				),
 			),
@@ -137,9 +141,7 @@ export const useSendTransaction = () => {
 			signedIntentHash,
 		).compileNotarizedAsync(
 			async (hash: Uint8Array) =>
-				await confirm(input.transactionManifest).then(password =>
-					client.signToSignature('account', password, hash, fromAccountIndex),
-				),
+				await confirm(content).then(password => client.signToSignature('account', password, hash, fromAccountIndex)),
 		)
 
 		// VALIDATE AND SUMMARY
@@ -162,5 +164,5 @@ export const useSendTransaction = () => {
 		return notarizedTransaction.intentHashHex()
 	}
 
-	return useCallback(sendTransaction, [networkId, accounts, accountIndexes])
+	return useCallback(sendTransaction, [networkId, accounts, accountIndexes, confirm])
 }

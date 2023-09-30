@@ -9,6 +9,7 @@ export type MessageClientType = ReturnType<typeof MessageClient>
 
 export const MessageClient = () => {
 	console.info(`⚡️Z3US⚡️: inpage message client initialized.`)
+
 	const responseHandlers: {
 		[key: string]: any
 	} = {}

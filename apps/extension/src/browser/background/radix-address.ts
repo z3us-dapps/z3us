@@ -19,13 +19,13 @@ const getPublicKey =
 		).then(resp => publicKeyFromJSON(resp || {}))
 
 const personaReducer =
-	(publicMessageHandler: MessageHandler, accountIndexes: AddressIndexes, networkId: number) =>
+	(publicMessageHandler: MessageHandler, personaIndexes: AddressIndexes, networkId: number) =>
 	async (container, idx) => {
 		container = await container
 		const publicKey = await getPublicKey(publicMessageHandler)({ index: idx, type: 'persona' } as GetPublicKeyMessage)
 		if (!publicKey) return container
 
-		const details = accountIndexes[idx]
+		const details = personaIndexes[idx]
 
 		const virtualIdentityAddress = await RadixEngineToolkit.Derive.virtualIdentityAddressFromPublicKey(
 			publicKey,
@@ -54,7 +54,7 @@ const accountReducer =
 		container.push({
 			address,
 			label: addressBook[address]?.name || `Unknown: ${idx}`,
-			appearanceId: container.length + 1,
+			appearanceId: container.length,
 		} as Account)
 		return container
 	}

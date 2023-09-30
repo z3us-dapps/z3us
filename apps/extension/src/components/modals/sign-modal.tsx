@@ -1,5 +1,5 @@
 import clsx from 'clsx'
-import { useEffect, useRef, useState } from 'react'
+import { ReactNode, useEffect, useRef, useState } from 'react'
 import { defineMessages, useIntl } from 'react-intl'
 
 import { Box } from 'ui/src/components/box'
@@ -7,14 +7,12 @@ import { DialogContent, DialogOverlay, DialogPortal, DialogRoot } from 'ui/src/c
 import { Form } from 'ui/src/components/form'
 import TextField from 'ui/src/components/form/fields/text-field'
 import { Close2Icon } from 'ui/src/components/icons'
-import { Input } from 'ui/src/components/input'
 import { Button } from 'ui/src/components/router-button'
 import { ScrollArea } from 'ui/src/components/scroll-area'
 import * as dialogStyles from 'ui/src/components/styles/dialog-styles.css'
 import { ToolTip } from 'ui/src/components/tool-tip'
 import { ValidationErrorMessage } from 'ui/src/components/validation-error-message'
 
-import TextAreaField from '../form/fields/text-area-field'
 import * as styles from './styles.css'
 
 const messages = defineMessages({
@@ -41,12 +39,12 @@ const initialValues = {
 }
 
 export interface IProps {
-	manifest: string
+	content: ReactNode
 	onConfirm: (password: string) => void
 	onCancel: () => void
 }
 
-const SignModal: React.FC<IProps> = ({ manifest, onConfirm, onCancel }) => {
+const SignModal: React.FC<IProps> = ({ content, onConfirm, onCancel }) => {
 	const intl = useIntl()
 	const inputRef = useRef(null)
 
@@ -101,7 +99,7 @@ const SignModal: React.FC<IProps> = ({ manifest, onConfirm, onCancel }) => {
 				>
 					<ScrollArea onScroll={handleScroll}>
 						<Box className={styles.scrollWrapper}>
-							<Input value={manifest} elementType="textarea" type="text" disabled />
+							{content}
 							<Form
 								onSubmit={handleSubmit}
 								initialValues={initialValues}
@@ -109,14 +107,12 @@ const SignModal: React.FC<IProps> = ({ manifest, onConfirm, onCancel }) => {
 							>
 								<ValidationErrorMessage message={error} />
 								<Box>
-									<Box>
-										<TextField
-											isPassword
-											name="password"
-											placeholder={intl.formatMessage(messages.password_placeholder)}
-											sizeVariant="medium"
-										/>
-									</Box>
+									<TextField
+										isPassword
+										name="password"
+										placeholder={intl.formatMessage(messages.password_placeholder)}
+										sizeVariant="medium"
+									/>
 								</Box>
 							</Form>
 						</Box>
