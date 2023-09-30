@@ -12,7 +12,7 @@ const defaultState = {
 export const factory = (set: ISettingsStateSetter): SettingsState => ({
 	...defaultState,
 
-	setGatewayUrl: (gatewayBaseUrl: string) => {
+	setGatewayUrlAction: (gatewayBaseUrl: string) => {
 		set(state => {
 			state.gatewayBaseUrl = gatewayBaseUrl
 		})

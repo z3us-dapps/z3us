@@ -4,6 +4,7 @@ import { useMatches } from 'react-router-dom'
 import { toast } from 'sonner'
 
 import { Box } from 'ui/src/components/box'
+import { Input } from 'ui/src/components/input'
 import { SelectSimple } from 'ui/src/components/select'
 import { Switch } from 'ui/src/components/switch'
 import { Text } from 'ui/src/components/typography'
@@ -25,6 +26,14 @@ const messages = defineMessages({
 	subtitle: {
 		id: 'settings.general.subtitle',
 		defaultMessage: `Fine-tune your Z3US preferences. Manage session time and choose your ideal color theme for a personalized and secure Z3US experience`,
+	},
+	network_title: {
+		id: 'settings.general.network.title',
+		defaultMessage: 'Network',
+	},
+	network_subtitle: {
+		id: 'settings.general.network.subtitle',
+		defaultMessage: `Gateway API URL`,
 	},
 	currency_title: {
 		id: 'settings.general.currency.title',
@@ -82,19 +91,37 @@ const General: React.FC = () => {
 		.filter(match => Boolean((match.handle as any)?.custom))
 		.map(match => (match.handle as any).custom)
 
-	const { currency, setCurrency, notifications, toggleNotifications, locale, selectLocale } = useNoneSharedStore(
-		state => ({
-			currency: state.currency,
-			setCurrency: state.setCurrencyAction,
-			notifications: state.pushNotificationsEnabled,
-			toggleNotifications: state.setPushNotificationsEnabledAction,
-			locale: state.locale,
-			selectLocale: state.selectLocaleAction,
-		}),
-	)
+	const {
+		currency,
+		setCurrency,
+		notifications,
+		toggleNotifications,
+		locale,
+		selectLocale,
+		gatewayBaseUrl,
+		setGatewayUrl,
+	} = useNoneSharedStore(state => ({
+		currency: state.currency,
+		setCurrency: state.setCurrencyAction,
+		notifications: state.pushNotificationsEnabled,
+		toggleNotifications: state.setPushNotificationsEnabledAction,
+		locale: state.locale,
+		selectLocale: state.selectLocaleAction,
+		gatewayBaseUrl: state.gatewayBaseUrl,
+		setGatewayUrl: state.setGatewayUrlAction,
+	}))
 
 	const handleToggleNotifications = () => {
 		toggleNotifications(!notifications)
+	}
+
+	const handleGatewayChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+		const evt = event.nativeEvent as InputEvent
+		if (evt.isComposing) {
+			return
+		}
+
+		setGatewayUrl(event.target.value)
 	}
 
 	return (
@@ -103,6 +130,19 @@ const General: React.FC = () => {
 				backLink="/settings"
 				title={intl.formatMessage(messages.title)}
 				subTitle={intl.formatMessage(messages.subtitle)}
+			/>
+			<SettingsBlock
+				leftCol={
+					<>
+						<Text size="large" weight="strong" color="strong">
+							{intl.formatMessage(messages.network_title)}
+						</Text>
+						<Box>
+							<Text size="xsmall">{intl.formatMessage(messages.network_subtitle)}</Text>
+						</Box>
+					</>
+				}
+				rightCol={<Input value={gatewayBaseUrl} elementType="input" type="url" onChange={handleGatewayChange} />}
 			/>
 			<SettingsBlock
 				leftCol={

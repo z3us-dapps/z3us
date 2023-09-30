@@ -18,6 +18,7 @@ import {
 } from '@radixdlt/radix-dapp-toolkit'
 import { Convert, Curve } from '@radixdlt/radix-engine-toolkit'
 import { blake2b } from 'blakejs'
+import { useNetworkId } from 'packages/ui/src/hooks/dapp/use-network-id'
 import React, { useEffect, useState } from 'react'
 import { defineMessages, useIntl } from 'react-intl'
 import { useParams } from 'react-router-dom'
@@ -67,6 +68,10 @@ const messages = defineMessages({
 		id: 'interaction.login_challenge',
 		defaultMessage: 'Login to dApp {dappName}',
 	},
+	invalid_network: {
+		id: 'interaction.invalid_network',
+		defaultMessage: 'Network mismatch, dApp uses {dAppNetworkId} wallet uses {networkId}',
+	},
 })
 
 function proofCurve(curve: Curve): AuthLoginWithChallengeRequestResponseItem['proof']['curve'] {
@@ -113,6 +118,7 @@ export const Home: React.FC = () => {
 	const confirm = useSignModal()
 	const selectPersona = useSelectPersonaModal()
 	const selectAccounts = useSelectAccountsModal()
+	const networkId = useNetworkId()
 	const personas = usePersonas()
 	const accounts = useAccounts()
 	const { personaIndexes, accountIndexes } = useNoneSharedStore(state => ({
@@ -123,7 +129,8 @@ export const Home: React.FC = () => {
 	const [isCanceled, setIsCanceled] = useState<boolean>(false)
 	const [interaction, setInteraction] = useState<WalletInteractionWithTabId | undefined>()
 
-	const { data } = useEntityMetadata(interaction?.metadata.dAppDefinitionAddress)
+	const metadata: any = interaction?.metadata || {}
+	const { data } = useEntityMetadata(metadata.dAppDefinitionAddress)
 	const dappName = getStringMetadata('name', data)
 
 	useEffect(() => {
@@ -199,7 +206,7 @@ export const Home: React.FC = () => {
 					const signatureWithPublicKey = await client.signToSignatureWithPublicKey(
 						'account',
 						password,
-						getDataToSign(challenge, interaction.metadata.origin, interaction.metadata.dAppDefinitionAddress),
+						getDataToSign(challenge, metadata.origin, metadata.dAppDefinitionAddress),
 						+idx,
 					)
 					if (!signatureWithPublicKey) {
@@ -272,7 +279,7 @@ export const Home: React.FC = () => {
 			const signatureWithPublicKey = await client.signToSignatureWithPublicKey(
 				'persona',
 				password,
-				getDataToSign(challenge, interaction.metadata.origin, interaction.metadata.dAppDefinitionAddress),
+				getDataToSign(challenge, metadata.origin, metadata.dAppDefinitionAddress),
 				selectedIndex,
 			)
 			if (!signatureWithPublicKey) {
@@ -369,6 +376,10 @@ export const Home: React.FC = () => {
 		} finally {
 			window.close()
 		}
+	}
+
+	if (metadata.networkId && metadata.networkId !== networkId) {
+		return <h1>{intl.formatMessage(messages.invalid_network, { dAppNetworkId: metadata.networkId, networkId })}</h1>
 	}
 
 	return (

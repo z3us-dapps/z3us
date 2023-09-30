@@ -56,7 +56,7 @@ export enum CURRENCY {
 
 export type SettingsState = {
 	gatewayBaseUrl: string
-	setGatewayUrl: (currency: string) => void
+	setGatewayUrlAction: (currency: string) => void
 
 	currency: CURRENCY
 	setCurrencyAction: (currency: CURRENCY) => void
