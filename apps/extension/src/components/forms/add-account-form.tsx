@@ -1,8 +1,9 @@
-import { RadixEngineToolkit } from '@radixdlt/radix-engine-toolkit'
+import { LTSRadixEngineToolkit } from '@radixdlt/radix-engine-toolkit'
+import type { AddressBookEntry } from 'packages/ui/src/store/types'
 import { useMemo, useState } from 'react'
 import { defineMessages, useIntl } from 'react-intl'
-import type { ZodError } from 'zod';
-import { z  } from 'zod'
+import type { ZodError } from 'zod'
+import { z } from 'zod'
 
 import { Form } from 'ui/src/components/form'
 import TextField from 'ui/src/components/form/fields/text-field'
@@ -13,15 +14,15 @@ import { useMessageClient } from '@src/hooks/use-message-client'
 
 const messages = defineMessages({
 	name: {
-		id: 'forms.add_persona.form.name',
+		id: 'forms.add_account.form.name',
 		defaultMessage: 'Name',
 	},
 	validation_name: {
-		id: 'forms.add_persona.validation.name',
+		id: 'forms.add_account.validation.name',
 		defaultMessage: 'Name is required',
 	},
 	form_button_title: {
-		id: 'forms.add_persona.form.submit_button.title',
+		id: 'forms.add_account.form.submit_button.title',
 		defaultMessage: 'Add',
 	},
 })
@@ -30,20 +31,26 @@ const initialValues = {
 	name: '',
 }
 
-const AddPersonaForm: React.FC = () => {
+const AddAccountForm: React.FC = () => {
 	const intl = useIntl()
 	const client = useMessageClient()
 	const networkId = useNetworkId()
-	const { personaIndexes, addPersona } = useNoneSharedStore(state => ({
-		personaIndexes: state.personaIndexes[networkId],
-		addPersona: state.addPersonaAction,
+	const { accountIndexes, addressBook, addAccount, setAddressBookEntry } = useNoneSharedStore(state => ({
+		accountIndexes: state.accountIndexes[networkId],
+		addressBook: state.addressBook[networkId],
+		addAccount: state.addAccountAction,
+		setAddressBookEntry: state.setAddressBookEntryAction,
 	}))
 
 	const [validation, setValidation] = useState<ZodError>()
 
-	const validationSchema = useMemo(() => z.object({
-			name: z.string().min(1, intl.formatMessage(messages.validation_name)),
-		}), [])
+	const validationSchema = useMemo(
+		() =>
+			z.object({
+				name: z.string().min(1, intl.formatMessage(messages.validation_name)),
+			}),
+		[],
+	)
 
 	const handleSubmit = async (values: typeof initialValues) => {
 		const result = validationSchema.safeParse(values)
@@ -52,15 +59,13 @@ const AddPersonaForm: React.FC = () => {
 			return
 		}
 
-		const idx = Object.keys(personaIndexes)?.[0] || 0
-		const publicKey = await client.getPublicKey('persona', +idx)
-		const virtualIdentityAddress = RadixEngineToolkit.Derive.virtualIdentityAddressFromPublicKey(publicKey, networkId)
+		const idx = Object.keys(accountIndexes)?.[0] || 0
+		const publicKey = await client.getPublicKey('account', +idx)
+		const address: string = await LTSRadixEngineToolkit.Derive.virtualAccountAddress(publicKey, networkId)
+		const entry = { ...(addressBook[address] || {}), name: values.name } as AddressBookEntry
 
-		addPersona(networkId, +idx, {
-			label: values.name,
-			identityAddress: virtualIdentityAddress.toString(),
-			publicKeyHex: publicKey.hexString(),
-		})
+		addAccount(networkId, +idx, { address, publicKeyHex: publicKey.hexString() })
+		setAddressBookEntry(networkId, address, entry)
 		setValidation(undefined)
 	}
 
@@ -76,4 +81,4 @@ const AddPersonaForm: React.FC = () => {
 	)
 }
 
-export default AddPersonaForm
+export default AddAccountForm

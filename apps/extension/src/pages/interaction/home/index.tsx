@@ -1,7 +1,7 @@
 import { messageLifeCycleEvent } from '@radixdlt/connector-extension/src/chrome/dapp/_types'
 import { messageSource as radixMessageSource } from '@radixdlt/connector-extension/src/chrome/messages/_types'
 import { createMessage as createRadixMessage } from '@radixdlt/connector-extension/src/chrome/messages/create-message'
-import {
+import type {
 	AccountProof,
 	AccountsRequestItem,
 	AccountsRequestResponseItem,
@@ -14,9 +14,10 @@ import {
 	AuthUsePersonaRequestResponseItem,
 	PersonaDataRequestItem,
 	PersonaDataRequestResponseItem,
-	type WalletInteractionResponseItems,
+	WalletInteractionResponseItems,
 } from '@radixdlt/radix-dapp-toolkit'
-import { Convert, Curve } from '@radixdlt/radix-engine-toolkit'
+import type { Curve } from '@radixdlt/radix-engine-toolkit'
+import { Convert } from '@radixdlt/radix-engine-toolkit'
 import { blake2b } from 'blakejs'
 import { useNetworkId } from 'packages/ui/src/hooks/dapp/use-network-id'
 import React, { useEffect, useState } from 'react'
@@ -31,12 +32,11 @@ import { useEntityMetadata } from 'ui/src/hooks/dapp/use-entity-metadata'
 import { useNoneSharedStore } from 'ui/src/hooks/use-store'
 import { getStringMetadata } from 'ui/src/services/metadata'
 
-import { MessageAction, WalletInteractionWithTabId } from '@src/browser/app/types'
-import { Z3USEvent } from '@src/browser/messages/types'
+import type { WalletInteractionWithTabId } from '@src/browser/app/types'
+import { MessageAction } from '@src/browser/app/types'
+import type { Z3USEvent } from '@src/browser/messages/types'
 import { signatureWithPublicKeyToJSON } from '@src/crypto/signature'
-import { useAccounts } from '@src/hooks/use-accounts'
 import { useMessageClient } from '@src/hooks/use-message-client'
-import { usePersonas } from '@src/hooks/use-personas'
 import { useSelectAccountsModal } from '@src/hooks/use-select-accounts-modal'
 import { useSelectPersonaModal } from '@src/hooks/use-select-persona-modal'
 import { useSendTransaction } from '@src/hooks/use-send-transaction'
@@ -44,6 +44,10 @@ import { useSignModal } from '@src/hooks/use-sign-modal'
 import { getInteraction, removeInteraction } from '@src/radix/interaction'
 
 const messages = defineMessages({
+	unknown_account: {
+		id: 'interaction.unknown_account',
+		defaultMessage: 'Account: {appearanceId}',
+	},
 	interact: {
 		id: 'interaction.button_interact',
 		defaultMessage: 'Interact',
@@ -119,11 +123,10 @@ export const Home: React.FC = () => {
 	const selectPersona = useSelectPersonaModal()
 	const selectAccounts = useSelectAccountsModal()
 	const networkId = useNetworkId()
-	const personas = usePersonas()
-	const accounts = useAccounts()
-	const { personaIndexes, accountIndexes } = useNoneSharedStore(state => ({
-		personaIndexes: state.personaIndexes,
-		accountIndexes: state.accountIndexes,
+	const { personaIndexes, accountIndexes, addressBook } = useNoneSharedStore(state => ({
+		personaIndexes: state.personaIndexes[networkId],
+		accountIndexes: state.accountIndexes[networkId],
+		addressBook: state.addressBook[networkId],
 	}))
 
 	const [isCanceled, setIsCanceled] = useState<boolean>(false)
@@ -136,9 +139,9 @@ export const Home: React.FC = () => {
 	useEffect(() => {
 		const listener = (event: Z3USEvent) => {
 			const { detail } = event
-			const { data } = detail
+			const { data: message } = detail
 
-			if (interaction && data?.interactionId === interaction.interactionId) {
+			if (interaction && message?.interactionId === interaction.interactionId) {
 				setIsCanceled(true)
 				browser.tabs.sendMessage(
 					interaction.fromTabId,
@@ -185,23 +188,27 @@ export const Home: React.FC = () => {
 
 	const buildAccountsResponseItem = async (
 		req?: AccountsRequestItem,
-		reset: boolean,
-	): Promise<AccountsRequestResponseItem | undefined> => {
+		reset: boolean = false,
+	): Promise<AccountsRequestResponseItem | null> => {
 		if (!req) {
-			return
+			return null
+		}
+		if (reset) {
+			// eslint-disable-next-line no-console
+			console.error('Need to reset stored values!')
 		}
 		const { challenge, numberOfAccounts } = req
 		const selectedIndexes = await selectAccounts(numberOfAccounts.quantity, numberOfAccounts.quantifier === 'exactly')
 		if (!selectedIndexes || selectedIndexes.length === 0) {
-			return
+			return null
 		}
+
+		const selectedAccounts = Object.keys(accountIndexes).filter(idx => selectedIndexes.includes(+idx))
 
 		let proofs: AccountProof[]
 		if (challenge) {
 			proofs = await Promise.all<AccountProof>(
-				Object.keys(accountIndexes).map(async (idx, position) => {
-					if (!selectedIndexes.includes(+idx)) return null
-					const account = accounts[position]
+				selectedAccounts.map(async idx => {
 					const password = await confirm(intl.formatMessage(messages.account_proof_for_dapp, { dappName }))
 					const signatureWithPublicKey = await client.signToSignatureWithPublicKey(
 						'account',
@@ -215,7 +222,7 @@ export const Home: React.FC = () => {
 					const signature = signatureWithPublicKeyToJSON(signatureWithPublicKey)
 
 					return {
-						accountAddress: account.address,
+						accountAddress: accountIndexes[idx].address,
 						proof: {
 							signature: signature.signature,
 							publicKey: signature.publicKey,
@@ -227,48 +234,38 @@ export const Home: React.FC = () => {
 			proofs = proofs.filter(proof => proof !== null)
 		}
 
+		const accounts = Object.keys(selectedAccounts).map((idx, appearanceId) => ({
+			address: accountIndexes[idx].address,
+			label:
+				addressBook[accountIndexes[idx].address]?.name ||
+				intl.formatMessage(messages.unknown_account, { appearanceId }),
+			appearanceId,
+		}))
+
 		return { accounts, challenge, proofs }
 	}
 
 	const buildPersonaDataResponseItem = async (
 		req?: PersonaDataRequestItem,
-		reset: boolean,
-	): Promise<PersonaDataRequestResponseItem> => {
+		reset: boolean = false,
+	): Promise<PersonaDataRequestResponseItem | null> => {
 		if (!req) {
-			return
+			return null
 		}
-		throw new Error('Not implemented')
+		throw new Error(`Not implemented reset: ${reset}`)
 	}
 
-	const login = async (
-		request: AuthUsePersonaRequestItem | AuthLoginWithChallengeRequestItem | AuthLoginWithoutChallengeRequestItem,
-	): Promise<AuthRequestResponseItem> => {
-		switch (request?.discriminator) {
-			case 'usePersona':
-				return await usePersona(request)
-			case 'loginWithChallenge':
-				return await loginWithChallenge(request)
-			case 'loginWithoutChallenge':
-				return await loginWithoutChallenge(request)
-			default:
-				return
-		}
-	}
-
-	const usePersona = async (req: AuthUsePersonaRequestItem): Promise<AuthUsePersonaRequestResponseItem> => {
-		return {
-			discriminator: req.discriminator,
-			persona: personas.find(persona => persona.identityAddress === req.identityAddress),
-		}
-	}
+	const getPersona = async (req: AuthUsePersonaRequestItem): Promise<AuthUsePersonaRequestResponseItem> => ({
+		discriminator: req.discriminator,
+		persona: Object.values(personaIndexes).find(persona => persona.identityAddress === req.identityAddress),
+	})
 
 	const loginWithChallenge = async ({
 		challenge,
 		discriminator,
 	}: AuthLoginWithChallengeRequestItem): Promise<AuthLoginWithChallengeRequestResponseItem> => {
 		const selectedIndex = await selectPersona()
-		const position = Object.keys(personaIndexes).findIndex(idx => +idx === selectedIndex)
-		const persona = personas[position]
+		const persona = personaIndexes[selectedIndex]
 		if (!persona) {
 			throw new Error(intl.formatMessage(messages.login_declined))
 		}
@@ -300,8 +297,7 @@ export const Home: React.FC = () => {
 		req: AuthLoginWithoutChallengeRequestItem,
 	): Promise<AuthLoginWithoutChallengeRequestResponseItem> => {
 		const selectedIndex = await selectPersona()
-		const position = Object.keys(personaIndexes).findIndex(idx => +idx === selectedIndex)
-		const persona = personas[position]
+		const persona = personaIndexes[selectedIndex]
 		if (!persona) {
 			throw new Error(intl.formatMessage(messages.login_declined))
 		}
@@ -309,6 +305,21 @@ export const Home: React.FC = () => {
 		return {
 			discriminator: req.discriminator,
 			persona,
+		}
+	}
+
+	const login = async (
+		request: AuthUsePersonaRequestItem | AuthLoginWithChallengeRequestItem | AuthLoginWithoutChallengeRequestItem,
+	): Promise<AuthRequestResponseItem | null> => {
+		switch (request?.discriminator) {
+			case 'usePersona':
+				return getPersona(request)
+			case 'loginWithChallenge':
+				return loginWithChallenge(request)
+			case 'loginWithoutChallenge':
+				return loginWithoutChallenge(request)
+			default:
+				return null
 		}
 	}
 
@@ -321,6 +332,7 @@ export const Home: React.FC = () => {
 			let response: WalletInteractionResponseItems
 			switch (request.discriminator) {
 				case 'transaction':
+					// eslint-disable-next-line no-case-declarations
 					const transactionIntentHash = await sendTransaction(request.send)
 					response = {
 						discriminator: 'transaction',
@@ -353,7 +365,7 @@ export const Home: React.FC = () => {
 					}
 					break
 				default:
-					console.error(`Unhandled wallet interaction: ${interaction.items.discriminator}`)
+					throw new Error(`Unhandled wallet interaction: ${interaction.items.discriminator}`)
 			}
 
 			await browser.tabs.sendMessage(

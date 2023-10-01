@@ -1,5 +1,5 @@
 import { createMessage as createRadixMessage } from '@radixdlt/connector-extension/src/chrome/messages/create-message'
-import { Storage } from 'webextension-polyfill'
+import type { Storage } from 'webextension-polyfill'
 
 import { getConnectionPassword } from '@src/browser/vault/storage'
 

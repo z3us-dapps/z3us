@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import browser from 'webextension-polyfill'
 
 // @ts-ignore

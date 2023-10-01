@@ -71,6 +71,4 @@ export const getConnectionPassword = async (): Promise<string> => {
 	return data?.connectionPassword || ''
 }
 
-export const hasConnectionPassword = async (): Promise<boolean> => {
-	return (await getConnectionPassword()) !== ''
-}
+export const hasConnectionPassword = async (): Promise<boolean> => (await getConnectionPassword()) !== ''

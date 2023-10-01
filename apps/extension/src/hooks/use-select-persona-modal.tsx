@@ -17,8 +17,7 @@ export const useSelectPersonaModal = () => {
 	const intl = useIntl()
 	const { addModal, removeModal } = useModals()
 
-	const selectPersona = () => {
-		return new Promise<number>((resolve, reject) => {
+	const selectPersona = () => new Promise<number>((resolve, reject) => {
 			const id = generateId()
 			const handleConfirm = (index: number) => {
 				resolve(index)
@@ -30,7 +29,6 @@ export const useSelectPersonaModal = () => {
 			}
 			addModal(id, <Modal key={id} onConfirm={handleConfirm} onCancel={handleCancel} />)
 		})
-	}
 
 	return selectPersona
 }

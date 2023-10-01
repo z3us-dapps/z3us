@@ -1,23 +1,21 @@
 import clsx from 'clsx'
-import SelectField from 'packages/ui/src/components/form/fields/select-field'
-import { useNoneSharedStore } from 'packages/ui/src/hooks/use-store'
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { defineMessages, useIntl } from 'react-intl'
-import { z } from 'zod'
-import { ZodError } from 'zod'
+import type { ZodError } from 'zod';
+import { z  } from 'zod'
 
 import { Box } from 'ui/src/components/box'
 import { Button } from 'ui/src/components/button'
 import { DialogContent, DialogOverlay, DialogPortal, DialogRoot } from 'ui/src/components/dialog'
 import { Form } from 'ui/src/components/form'
 import { FieldsGroup } from 'ui/src/components/form/fields-group'
-import { CirclePlusIcon, TrashIcon } from 'ui/src/components/icons'
-import { Close2Icon } from 'ui/src/components/icons'
+import SelectField from 'ui/src/components/form/fields/select-field'
+import { CirclePlusIcon, TrashIcon , Close2Icon } from 'ui/src/components/icons'
 import { ScrollArea } from 'ui/src/components/scroll-area'
 import * as dialogStyles from 'ui/src/components/styles/dialog-styles.css'
 import { ToolTip } from 'ui/src/components/tool-tip'
-
-import { useAccounts } from '@src/hooks/use-accounts'
+import { useNetworkId } from 'ui/src/hooks/dapp/use-network-id'
+import { useNoneSharedStore } from 'ui/src/hooks/use-store'
 
 import * as styles from './styles.css'
 
@@ -66,16 +64,15 @@ export interface IProps {
 const SelectAccountsModal: React.FC<IProps> = ({ required, exactly, onConfirm, onCancel }) => {
 	const intl = useIntl()
 	const inputRef = useRef(null)
-	const accounts = useAccounts()
+	const networkId = useNetworkId()
 	const { accountIndexes, addressBook } = useNoneSharedStore(state => ({
-		accountIndexes: state.accountIndexes,
-		addressBook: state.addressBook,
+		accountIndexes: state.accountIndexes[networkId],
+		addressBook: state.addressBook[networkId],
 	}))
 
 	const [validation, setValidation] = useState<ZodError>()
 	const [isScrolled, setIsScrolled] = useState<boolean>(false)
 	const [isOpen, setIsOpen] = useState<boolean>(true)
-	const positions = useMemo(() => Object.keys(accountIndexes), [accountIndexes])
 
 	const validationSchema = useMemo(() => {
 		const accountSchema = z.object({
@@ -174,11 +171,11 @@ const SelectAccountsModal: React.FC<IProps> = ({ required, exactly, onConfirm, o
 									}
 								>
 									<SelectField
-										name={'index'}
+										name="index"
 										placeholder={intl.formatMessage(messages.accounts)}
-										data={positions.map(position => ({
-											id: positions[position],
-											title: addressBook[accounts[position]?.address]?.name || accounts[position]?.address,
+										data={Object.keys(accountIndexes).map(idx => ({
+											id: idx,
+											title: addressBook[accountIndexes[idx].address]?.name || accountIndexes[idx].address,
 										}))}
 									/>
 								</FieldsGroup>

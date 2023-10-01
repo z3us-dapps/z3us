@@ -1,4 +1,5 @@
-import browser, { Tabs } from 'webextension-polyfill'
+import type { Tabs } from 'webextension-polyfill';
+import browser from 'webextension-polyfill'
 
 import { getExtensionTabsByUrl } from '@src/browser/tabs'
 import { config } from '@src/config'
@@ -13,7 +14,7 @@ export const openAppPopup = async (path: string = '') => {
 			height: config.popup.height,
 		})
 
-		return await new Promise<Tabs.Tab>(resolve => {
+		return new Promise<Tabs.Tab>(resolve => {
 			const listener = (tabId: number, info: Tabs.OnUpdatedChangeInfoType) => {
 				if (info.status === 'complete' && tabId === popupWindow?.tabs?.[0].id) {
 					browser.tabs.onUpdated.removeListener(listener)

@@ -1,4 +1,4 @@
-import type { Address, ExtensionState, IExtensionStateSetter } from './types'
+import type { Account, ExtensionState, IExtensionStateSetter, Persona } from './types'
 
 const defaultState = {
 	radixConnectorEnabled: true,
@@ -15,35 +15,39 @@ export const factory = (set: IExtensionStateSetter): ExtensionState => ({
 		})
 	},
 
-	addPersonaAction: (idx: number, address: Address) => {
+	addPersonaAction: (networkId: number, idx: number, persona: Persona) => {
 		set(state => {
-			state.personaIndexes = {
-				...state.personaIndexes,
-				[idx]: address,
+			const indexes = state.personaIndexes[networkId] || {}
+			state.personaIndexes[networkId] = {
+				...indexes,
+				[idx]: persona,
 			}
 		})
 	},
 
-	removePersonaAction: (idx: number) => {
+	removePersonaAction: (networkId: number, idx: number) => {
 		set(state => {
-			delete state.personaIndexes[idx]
-			state.personaIndexes = { ...state.personaIndexes }
+			const indexes = state.personaIndexes[networkId] || {}
+			delete indexes[idx]
+			state.personaIndexes[networkId] = indexes
 		})
 	},
 
-	addAccountAction: (idx: number, address: Address) => {
+	addAccountAction: (networkId: number, idx: number, account: Account) => {
 		set(state => {
-			state.accountIndexes = {
-				...state.accountIndexes,
-				[idx]: address,
+			const indexes = state.accountIndexes[networkId] || {}
+			state.accountIndexes[networkId] = {
+				...indexes,
+				[idx]: account,
 			}
 		})
 	},
 
-	removeAccountAction: (idx: number) => {
+	removeAccountAction: (networkId: number, idx: number) => {
 		set(state => {
-			delete state.accountIndexes[idx]
-			state.accountIndexes = { ...state.personaIndexes }
+			const indexes = state.accountIndexes[networkId] || {}
+			delete indexes[idx]
+			state.accountIndexes[networkId] = indexes
 		})
 	},
 })

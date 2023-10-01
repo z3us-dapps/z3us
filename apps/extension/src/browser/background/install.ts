@@ -1,11 +1,13 @@
 /* eslint-disable no-console */
+import { Convert, RadixEngineToolkit } from '@radixdlt/radix-engine-toolkit'
+import { config } from 'packages/ui/src/constants/config'
 import type { Runtime } from 'webextension-polyfill'
 import browser from 'webextension-polyfill'
 
 import { getNoneSharedStore } from 'ui/src/services/state'
 import { sharedStore } from 'ui/src/store'
 import { KeystoreType } from 'ui/src/store/types'
-import type { Address, Keystore } from 'ui/src/store/types'
+import type { Account, AddressBookEntry, Keystore } from 'ui/src/store/types'
 
 const migrateOlympiaAddresses = async () => {
 	const oldSharedStore = await browser.storage.local.get(['z3us-store-shared'])
@@ -25,7 +27,8 @@ const migrateOlympiaAddresses = async () => {
 				const oldNoneSharedState = JSON.parse(oldNoneSharedStore[`z3us-store-${keystore.id}`] || {}).state
 				if (!oldNoneSharedState) return null
 
-				const olympiaAddresses: { [key: number]: { address: string } } = oldNoneSharedState?.publicAddresses || {}
+				const olympiaAddresses: { [key: number]: { address: string; name?: string } } =
+					oldNoneSharedState?.publicAddresses || {}
 
 				const noneSharedStore = await getNoneSharedStore(keystore.id)
 				await noneSharedStore.persist.rehydrate()
@@ -33,11 +36,38 @@ const migrateOlympiaAddresses = async () => {
 				const currentKeystoreState = noneSharedStore.getState()
 
 				Object.keys(olympiaAddresses).map(async idx => {
-					const current = currentKeystoreState.accountIndexes[idx]
-					currentKeystoreState.accountIndexes[idx] = {
-						...current,
-						olympiaAddress: olympiaAddresses[idx].address,
-					} as Address
+					const olympiaAddress = olympiaAddresses[idx].address
+					const olympiaName = olympiaAddresses[idx].name
+
+					const publicKeyBuffer = await RadixEngineToolkit.Derive.publicKeyFromOlympiaAccountAddress(olympiaAddress)
+					const publicKeyHex = Convert.Uint8Array.toHexString(publicKeyBuffer)
+					const accountAddress = await RadixEngineToolkit.Derive.virtualAccountAddressFromOlympiaAccountAddress(
+						olympiaAddress,
+						config.defaultNetworkId,
+					)
+					const address = accountAddress.toString()
+
+					const indexes = currentKeystoreState.accountIndexes[config.defaultNetworkId] || {}
+					const current = indexes[idx] || {}
+					currentKeystoreState.accountIndexes[config.defaultNetworkId] = {
+						...indexes,
+						[idx]: {
+							...current,
+							address,
+							publicKeyHex,
+							olympiaAddress,
+						} as Account,
+					}
+
+					const addressBook = currentKeystoreState.addressBook[config.defaultNetworkId] || {}
+					const entry = addressBook[address] || ({} as AddressBookEntry)
+					currentKeystoreState.addressBook[config.defaultNetworkId] = {
+						...addressBook,
+						[address]: {
+							...entry,
+							name: olympiaName || entry.name,
+						} as AddressBookEntry,
+					}
 				})
 
 				noneSharedStore.setState(currentKeystoreState)

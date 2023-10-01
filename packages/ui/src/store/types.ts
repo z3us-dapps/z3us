@@ -7,7 +7,6 @@ export type AddressBookEntry = {
 	dateUpdated: number
 	cardImage?: string
 	cardColor?: string
-	isOlympia?: boolean
 }
 
 export enum KeystoreType {
@@ -82,24 +81,33 @@ export type NoneSharedState = SettingsState & ExtensionState & IntlState
 
 export type AppState = SharedState & NoneSharedState
 
-export type Address = {
+export type Persona = {
 	label: string
+	identityAddress: string
+	publicKeyHex: string
+}
+
+export type PersonaIndexes = { [networkId: number]: { [idx: number]: Persona } }
+
+export type Account = {
+	address: string
+	publicKeyHex: string
 	olympiaAddress?: string
 }
 
-export type AddressIndexes = { [idx: number]: Address }
+export type AccountIndexes = { [networkId: number]: { [idx: number]: Account } }
 
 export type ExtensionState = {
 	radixConnectorEnabled: boolean
 	toggleRadixConnectorEnabledAction: (enabled: boolean) => void
 
-	personaIndexes: AddressIndexes
-	removePersonaAction: (idx: number) => void
-	addPersonaAction: (idx: number, address: Address) => void
+	personaIndexes: PersonaIndexes
+	removePersonaAction: (networkId: number, idx: number) => void
+	addPersonaAction: (networkId: number, idx: number, persona: Persona) => void
 
-	accountIndexes: AddressIndexes
-	removeAccountAction: (idx: number) => void
-	addAccountAction: (idx: number, address: Address) => void
+	accountIndexes: AccountIndexes
+	removeAccountAction: (networkId: number, idx: number) => void
+	addAccountAction: (networkId: number, idx: number, address: Account) => void
 }
 
 export interface IExtensionStateSetter {

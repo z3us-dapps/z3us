@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import { BackgroundMessageHandler } from '@radixdlt/connector-extension/src/chrome/background/message-handler'
 import type { Message as RadixMessage } from '@radixdlt/connector-extension/src/chrome/messages/_types'
 import { MessageClient as RadixMessageClient } from '@radixdlt/connector-extension/src/chrome/messages/message-client'
@@ -75,7 +76,6 @@ export const MessageClient = () => {
 					throw new Error('Bad request')
 				}
 			} catch (error) {
-				// eslint-disable-next-line no-console
 				console.error(`⚡️Z3US⚡️: background message client failed to handle message`, error)
 				port.postMessage(newReply(MessageSource.BACKGROUND, { error: error?.message }, message))
 			}
@@ -83,7 +83,6 @@ export const MessageClient = () => {
 
 		port.onDisconnect.addListener(() => {
 			if (port.error) {
-				// eslint-disable-next-line no-console
 				console.error(`Disconnected due to an error: ${port.error.message}`)
 			}
 		})
@@ -100,7 +99,7 @@ export const MessageClient = () => {
 			case MessageSource.RADIX:
 			case MessageSource.POPUP:
 			case MessageSource.BACKGROUND:
-				return // ignore
+				break
 			default:
 				onRadixMessage(message, sender.tab?.id)
 				break

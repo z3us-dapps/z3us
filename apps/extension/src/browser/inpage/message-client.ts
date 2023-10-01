@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import { generateId } from 'ui/src/utils/generate-id'
 
 import { eventFromMessage } from '@src/browser/messages/message'

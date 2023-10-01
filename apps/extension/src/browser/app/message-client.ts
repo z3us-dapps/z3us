@@ -1,4 +1,5 @@
-import browser, { Runtime } from 'webextension-polyfill'
+import type { Runtime } from 'webextension-polyfill'
+import browser from 'webextension-polyfill'
 
 import { PORT_NAME } from '@src/browser/messages/constants'
 import timeout, { reason } from '@src/browser/messages/timeout'
@@ -63,10 +64,10 @@ export const MessageClient = () => {
 	const onMessage = (message: any, sender: Runtime.MessageSender) => {
 		const { messageId, target, action } = (message || {}) as Message
 		if (!messageId) {
-			return
+			return undefined
 		}
 		if (target !== MessageSource.POPUP) {
-			return
+			return undefined
 		}
 
 		message.fromTabId = message.fromTabId || sender?.tab?.id
@@ -75,6 +76,7 @@ export const MessageClient = () => {
 		if (handler) {
 			return handler(message)
 		}
+		return undefined
 	}
 
 	return {

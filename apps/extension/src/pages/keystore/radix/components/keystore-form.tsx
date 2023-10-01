@@ -1,16 +1,18 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react'
 import { defineMessages, useIntl } from 'react-intl'
 import { useNavigate } from 'react-router-dom'
-import { z } from 'zod'
-import { ZodError } from 'zod'
+import type { ZodError } from 'zod';
+import { z  } from 'zod'
 
 import { Form } from 'ui/src/components/form'
 import TextField from 'ui/src/components/form/fields/text-field'
 import { useSharedStore } from 'ui/src/hooks/use-store'
-import { Keystore, KeystoreType } from 'ui/src/store/types'
+import type { Keystore} from 'ui/src/store/types';
+import { KeystoreType } from 'ui/src/store/types'
 
 import { useMessageClient } from '@src/hooks/use-message-client'
-import { Data, DataType } from '@src/types/vault'
+import type { Data} from '@src/types/vault';
+import { DataType } from '@src/types/vault'
 
 const messages = defineMessages({
 	name_placeholder: {

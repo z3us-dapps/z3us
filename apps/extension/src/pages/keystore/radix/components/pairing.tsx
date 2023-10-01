@@ -65,6 +65,30 @@ export const Pairing: React.FC<IProps> = ({
 			isInitiator: config.webRTC.isInitiator,
 		})
 
+		const connect = () =>
+			getStorageConnectionPassword().then(data => {
+				const password = data[PASSWORD_STORAGE_KEY]
+				if (password) {
+					connectorClient.setConnectionPassword(Buffer.from(password, 'hex'))
+					onPairingStateChange(PairingState.PAIRED)
+					return ok(null)
+				}
+				connectorClient.connect()
+				onPairingStateChange(PairingState.NOT_PAIRED)
+				return connectorClient.generateConnectionPassword().andThen(buffer =>
+					connectorClient
+						.connected()
+						.andThen(() => {
+							connectorClient.disconnect()
+							return ResultAsync.fromPromise(
+								setStorageConnectionPassword(buffer.toString('hex')),
+								error => error as Error,
+							)
+						})
+						.map(() => onPairingStateChange(PairingState.PAIRED)),
+				)
+			})
+
 		browser.storage.sync
 			.get('options')
 			.then(({ options }) => ({
@@ -76,12 +100,9 @@ export const Pairing: React.FC<IProps> = ({
 			})
 
 		browser.storage.onChanged.addListener((changes, area) => {
-			if (changes['options']) {
-				if (
-					changes['options'].newValue.radixConnectConfiguration !==
-					changes['options'].oldValue.radixConnectConfiguration
-				) {
-					connectorClient.setConnectionConfig(radixConnectConfig[changes['options'].newValue.radixConnectConfiguration])
+			if (changes.options) {
+				if (changes.options.newValue.radixConnectConfiguration !== changes.options.oldValue.radixConnectConfiguration) {
+					connectorClient.setConnectionConfig(radixConnectConfig[changes.options.newValue.radixConnectConfiguration])
 				}
 			}
 			if (area === 'local' && changes[PASSWORD_STORAGE_KEY]) {
@@ -93,33 +114,6 @@ export const Pairing: React.FC<IProps> = ({
 		const subscription = connectorClient.connectionPassword$.subscribe(password => {
 			onConnectionPasswordChange(password?.toString('hex'))
 		})
-
-		const connect = () =>
-			getStorageConnectionPassword().then(data => {
-				const connectionPassword = data[PASSWORD_STORAGE_KEY]
-				if (connectionPassword) {
-					connectorClient.setConnectionPassword(Buffer.from(connectionPassword, 'hex'))
-					onPairingStateChange(PairingState.PAIRED)
-					return ok(null)
-				} else {
-					connectorClient.connect()
-					onPairingStateChange(PairingState.NOT_PAIRED)
-					return connectorClient.generateConnectionPassword().andThen(buffer =>
-						connectorClient
-							.connected()
-							.andThen(() => {
-								connectorClient.disconnect()
-								return ResultAsync.fromPromise(
-									setStorageConnectionPassword(buffer.toString('hex')),
-									error => error as Error,
-								)
-							})
-							.map(() => {
-								onPairingStateChange(PairingState.PAIRED)
-							}),
-					)
-				}
-			})
 
 		connect()
 

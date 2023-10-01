@@ -1,6 +1,6 @@
 import browser from 'webextension-polyfill'
 
-import { WalletInteractionWithTabId } from '@src/browser/app/types'
+import type { WalletInteractionWithTabId } from '@src/browser/app/types'
 
 export const storageKey = 'z3us-interactions'
 

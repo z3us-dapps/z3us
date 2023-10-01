@@ -1,5 +1,6 @@
 import clsx from 'clsx'
-import { ReactNode, useEffect, useRef, useState } from 'react'
+import type { ReactNode } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { defineMessages, useIntl } from 'react-intl'
 
 import { Box } from 'ui/src/components/box'
@@ -69,6 +70,7 @@ const SignModal: React.FC<IProps> = ({ content, onConfirm, onCancel }) => {
 			setError('')
 			setIsOpen(false)
 		} catch (err) {
+			// eslint-disable-next-line no-console
 			console.error(err)
 			setError(intl.formatMessage(messages.unlock_error))
 		}

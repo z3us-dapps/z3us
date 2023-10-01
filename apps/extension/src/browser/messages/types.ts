@@ -1,7 +1,7 @@
-import { MessageAction as AppMessageAction } from '@src/browser/app/types'
-import { MessageAction as BackgroundMessageAction } from '@src/browser/background/types'
-import { MessageAction as ContentScriptMessageAction } from '@src/browser/content-script/types'
-import { MessageAction as InPageMessageAction } from '@src/browser/inpage/types'
+import type { MessageAction as AppMessageAction } from '@src/browser/app/types'
+import type { MessageAction as BackgroundMessageAction } from '@src/browser/background/types'
+import type { MessageAction as ContentScriptMessageAction } from '@src/browser/content-script/types'
+import type { MessageAction as InPageMessageAction } from '@src/browser/inpage/types'
 
 export enum MessageSource {
 	BACKGROUND = 'z3us-background',

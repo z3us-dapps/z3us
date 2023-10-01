@@ -1,5 +1,5 @@
 import { useSharedStore } from 'packages/ui/src/hooks/use-store'
-import { Keystore } from 'packages/ui/src/store/types'
+import type { Keystore } from 'packages/ui/src/store/types'
 import React, { type PropsWithChildren, createContext, useEffect, useState } from 'react'
 import browser from 'webextension-polyfill'
 

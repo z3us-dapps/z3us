@@ -1,14 +1,16 @@
-import { SendTransactionInput } from '@radixdlt/radix-dapp-toolkit'
-import {
-	CompiledSignedTransactionIntent,
-	Convert,
+import type { SendTransactionInput } from '@radixdlt/radix-dapp-toolkit'
+import type {
 	Instruction,
-	InstructionsKind,
 	Intent,
-	RadixEngineToolkit,
 	SignedIntent,
 	TransactionHeader,
 	TransactionManifest,
+} from '@radixdlt/radix-engine-toolkit'
+import {
+	CompiledSignedTransactionIntent,
+	Convert,
+	InstructionsKind,
+	RadixEngineToolkit,
 	ValueKind,
 	decimal,
 	generateRandomNonce,
@@ -25,11 +27,9 @@ import { useNoneSharedStore } from 'ui/src/hooks/use-store'
 import { useMessageClient } from '@src/hooks/use-message-client'
 import { useSignModal } from '@src/hooks/use-sign-modal'
 
-import { useAccounts } from './use-accounts'
-
 const messages = defineMessages({
 	empty_signatures_error: {
-		id: 'extension.hooks.send-transaction.empty_signatures_error',
+		id: 'hooks.send-transaction.empty_signatures_error',
 		defaultMessage: 'Failed to resolve authorization requirements, try with different wallet.',
 	},
 })
@@ -40,11 +40,10 @@ export const useSendTransaction = () => {
 	const intl = useIntl()
 	const client = useMessageClient()
 	const networkId = useNetworkId()
-	const accounts = useAccounts()
 	const confirm = useSignModal()
 	const { status, transaction } = useGatewayClient()
 	const { accountIndexes } = useNoneSharedStore(state => ({
-		accountIndexes: state.accountIndexes,
+		accountIndexes: state.accountIndexes[networkId],
 	}))
 
 	const sendTransaction = async (
@@ -70,26 +69,26 @@ export const useSendTransaction = () => {
 			...(feePayerAccount ? [feePayerAccount] : []),
 		].filter((value, index, array) => array.indexOf(value) === index) // unique
 
-		const needSignaturesFrom = Object.keys(accountIndexes).filter((_, position) =>
-			accountAddresses.includes(accounts[position].address),
+		const needSignaturesFrom = Object.keys(accountIndexes).filter(idx =>
+			accountAddresses.includes(accountIndexes[idx].address),
 		)
 		if (needSignaturesFrom.length === 0) {
 			throw new Error(intl.formatMessage(messages.empty_signatures_error))
 		}
 		if (!fromAccount) {
-			fromAccount = accounts[+needSignaturesFrom[0]].address
+			fromAccount = accountIndexes[+needSignaturesFrom[0]].address
 			needSignaturesFrom.shift()
 		}
 
-		const fromAccountIndex = accounts.findIndex(({ address }) => address === fromAccount)
+		const fromAccountIndex = +Object.keys(accountIndexes).find(idx => accountIndexes[idx].address === fromAccount)
 
 		// BUILD TX AND SIGN
-		const { ledger_state } = await status.getCurrent()
-		const validFromEpoch: number = ledger_state.epoch
+		const { ledger_state: ledgerState } = await status.getCurrent()
+		const validFromEpoch: number = ledgerState.epoch
 		const notaryPublicKey = await client.getPublicKey('account', fromAccountIndex)
 
 		const header: TransactionHeader = {
-			networkId: networkId,
+			networkId,
 			startEpochInclusive: validFromEpoch,
 			endEpochExclusive: validFromEpoch + 10,
 			nonce: generateRandomNonce(),
@@ -139,9 +138,8 @@ export const useSendTransaction = () => {
 			signedIntent,
 			compiledSignedIntent,
 			signedIntentHash,
-		).compileNotarizedAsync(
-			async (hash: Uint8Array) =>
-				await confirm(content).then(password => client.signToSignature('account', password, hash, fromAccountIndex)),
+		).compileNotarizedAsync(async (hash: Uint8Array) =>
+			confirm(content).then(password => client.signToSignature('account', password, hash, fromAccountIndex)),
 		)
 
 		// VALIDATE AND SUMMARY
@@ -154,15 +152,21 @@ export const useSendTransaction = () => {
 			transactionSubmitRequest: { notarized_transaction_hex: notarizedTransaction.toHex() },
 		})
 
+		// eslint-disable-next-line no-console
 		console.log('manifest', input.transactionManifest)
+		// eslint-disable-next-line no-console
 		console.log('summary', summary)
+		// eslint-disable-next-line no-console
 		console.log('submission', submission)
+		// eslint-disable-next-line no-console
 		console.log('intentHashHex', notarizedTransaction.intentHashHex())
+		// eslint-disable-next-line no-console
 		console.log('transactionIdHex', notarizedTransaction.transactionIdHex())
+		// eslint-disable-next-line no-console
 		console.log('intentHash', intentHash.id)
 
 		return notarizedTransaction.intentHashHex()
 	}
 
-	return useCallback(sendTransaction, [networkId, accounts, accountIndexes, confirm])
+	return useCallback(sendTransaction, [networkId, accountIndexes, confirm])
 }

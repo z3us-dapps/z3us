@@ -1,19 +1,20 @@
 import clsx from 'clsx'
-import SelectField from 'packages/ui/src/components/form/fields/select-field'
-import { useNoneSharedStore } from 'packages/ui/src/hooks/use-store'
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { defineMessages, useIntl } from 'react-intl'
-import { z } from 'zod'
-import { ZodError } from 'zod'
+import type { ZodError } from 'zod';
+import { z  } from 'zod'
 
 import { Box } from 'ui/src/components/box'
 import { DialogContent, DialogOverlay, DialogPortal, DialogRoot } from 'ui/src/components/dialog'
 import { Form } from 'ui/src/components/form'
+import SelectField from 'ui/src/components/form/fields/select-field'
 import { Close2Icon } from 'ui/src/components/icons'
 import { Button } from 'ui/src/components/router-button'
 import { ScrollArea } from 'ui/src/components/scroll-area'
 import * as dialogStyles from 'ui/src/components/styles/dialog-styles.css'
 import { ToolTip } from 'ui/src/components/tool-tip'
+import { useNetworkId } from 'ui/src/hooks/dapp/use-network-id'
+import { useNoneSharedStore } from 'ui/src/hooks/use-store'
 
 import AddPersonaForm from '../forms/add-persona-form'
 import * as styles from './styles.css'
@@ -49,19 +50,18 @@ export interface IProps {
 const SelectPersonaModal: React.FC<IProps> = ({ onConfirm, onCancel }) => {
 	const intl = useIntl()
 	const inputRef = useRef(null)
+	const networkId = useNetworkId()
 	const { personaIndexes } = useNoneSharedStore(state => ({
-		personaIndexes: state.personaIndexes,
+		personaIndexes: state.personaIndexes[networkId],
 	}))
 
 	const [validation, setValidation] = useState<ZodError>()
 	const [isScrolled, setIsScrolled] = useState<boolean>(false)
 	const [isOpen, setIsOpen] = useState<boolean>(true)
 
-	const validationSchema = useMemo(() => {
-		return z.object({
+	const validationSchema = useMemo(() => z.object({
 			persona: z.string().min(1, intl.formatMessage(messages.validation_persona)),
-		})
-	}, [])
+		}), [])
 
 	useEffect(() => {
 		inputRef?.current?.focus()
@@ -119,7 +119,7 @@ const SelectPersonaModal: React.FC<IProps> = ({ onConfirm, onCancel }) => {
 								>
 									<SelectField
 										ref={inputRef}
-										name={'persona'}
+										name="persona"
 										placeholder={intl.formatMessage(messages.persona)}
 										data={Object.keys(personaIndexes).map(idx => ({ id: idx, title: personaIndexes[idx].label }))}
 									/>

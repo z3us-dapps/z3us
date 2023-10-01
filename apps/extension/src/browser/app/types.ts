@@ -1,4 +1,4 @@
-import { WalletInteraction } from '@radixdlt/radix-dapp-toolkit'
+import type { WalletInteraction } from '@radixdlt/radix-dapp-toolkit'
 
 export enum MessageAction {
 	APP_PING = 'v1-app-ping',

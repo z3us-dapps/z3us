@@ -17,8 +17,8 @@ export const useSelectAccountsModal = () => {
 	const intl = useIntl()
 	const { addModal, removeModal } = useModals()
 
-	const selectAccounts = (required: number, exactly: boolean) => {
-		return new Promise<number[]>((resolve, reject) => {
+	const selectAccounts = (required: number, exactly: boolean) =>
+		new Promise<number[]>((resolve, reject) => {
 			const id = generateId()
 			const handleConfirm = (indexes: number[]) => {
 				resolve(indexes)
@@ -28,9 +28,11 @@ export const useSelectAccountsModal = () => {
 				reject(intl.formatMessage(messages.rejected))
 				removeModal(id)
 			}
-			addModal(id, <Modal key={id} required={required} exactly onConfirm={handleConfirm} onCancel={handleCancel} />)
+			addModal(
+				id,
+				<Modal key={id} required={required} exactly={exactly} onConfirm={handleConfirm} onCancel={handleCancel} />,
+			)
 		})
-	}
 
 	return selectAccounts
 }

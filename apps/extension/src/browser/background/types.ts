@@ -12,11 +12,5 @@ export enum MessageAction {
 	BACKGROUND_SIGN_TO_SIGNATURE_WITH_PUBLIC_KEY = 'v1-background-sign-to-signature-with-public-key',
 	BACKGROUND_GET_PUBLIC_KEY = 'v1-background-get-public-key',
 
-	BACKGROUND_GET_PERSONAS = 'v1-background-personas',
-	BACKGROUND_GET_ACCOUNTS = 'v1-background-accounts',
-	BACKGROUND_GET_OLYMPIA_ADDRESSES = 'v1-background-olympia-addresses',
-
 	BACKGROUND_RADIX = 'v1-background-radix',
 }
-
-export type OlympiaAddressDetails = { index: number; address: string; publicKey: string; label: string }

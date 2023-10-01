@@ -86,12 +86,12 @@ const Settings: React.FC = () => {
 	useEffect(() => {
 		browser.storage.sync
 			.get('options')
-			.then(({ options }) => ({
+			.then(({ options: storedOptions }) => ({
 				...defaultConnectorExtensionOptions,
-				...options,
+				...storedOptions,
 			}))
-			.then(options => {
-				setOptions(options)
+			.then(resolvedOptions => {
+				setOptions(resolvedOptions)
 			})
 	}, [])
 

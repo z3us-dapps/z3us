@@ -5,21 +5,23 @@ import {
 	messageSource as radixMessageSource,
 } from '@radixdlt/connector-extension/src/chrome/messages/_types'
 import { createMessage as createRadixMessage } from '@radixdlt/connector-extension/src/chrome/messages/create-message'
-import type { Account, Persona, WalletInteraction } from '@radixdlt/radix-dapp-toolkit'
-import { Convert, PrivateKey } from '@radixdlt/radix-engine-toolkit'
+import type { WalletInteraction } from '@radixdlt/radix-dapp-toolkit'
+import type { PrivateKey } from '@radixdlt/radix-engine-toolkit'
+import { Convert } from '@radixdlt/radix-engine-toolkit'
 import browser from 'webextension-polyfill'
 
 import { sharedStore } from 'ui/src/store'
-import type { AddressBook, AddressIndexes, Keystore } from 'ui/src/store/types'
+import type { Keystore } from 'ui/src/store/types'
 import { KeystoreType } from 'ui/src/store/types'
 
 import { openAppPopup } from '@src/browser/app/popup'
-import { MessageAction as AppMessageAction, WalletInteractionWithTabId } from '@src/browser/app/types'
+import type { WalletInteractionWithTabId } from '@src/browser/app/types'
+import { MessageAction as AppMessageAction } from '@src/browser/app/types'
 import { newMessage } from '@src/browser/messages/message'
 import { type Message, type MessageHandlers, MessageSource } from '@src/browser/messages/types'
 import { Vault } from '@src/browser/vault/vault'
+import type { PublicKeyJSON } from '@src/crypto/key_pair'
 import {
-	PublicKeyJSON,
 	getAccountPrivateKey,
 	getAccountPublicKey,
 	getPersonaPrivateKey,
@@ -27,18 +29,12 @@ import {
 	publicKeyToJSON,
 } from '@src/crypto/key_pair'
 import { getSecret as cryptoGetSecret } from '@src/crypto/secret'
-import {
-	SignatureJSON,
-	SignatureWithPublicKeyJSON,
-	signatureToJSON,
-	signatureWithPublicKeyToJSON,
-} from '@src/crypto/signature'
+import type { SignatureJSON, SignatureWithPublicKeyJSON } from '@src/crypto/signature'
+import { signatureToJSON, signatureWithPublicKeyToJSON } from '@src/crypto/signature'
 import { saveInteractions } from '@src/radix/interaction'
 import type { Data } from '@src/types/vault'
 
-import { addMetadata } from '../metadata/add'
-import { deriveAccounts, deriveOlympiaAddresses, derivePersonas } from './radix-address'
-import { MessageAction, OlympiaAddressDetails } from './types'
+import { MessageAction } from './types'
 
 const vault = new Vault(globalThis.crypto)
 
@@ -185,55 +181,6 @@ async function getSecret(message: Message): Promise<string> {
 	return cryptoGetSecret(walletData.data)
 }
 
-export interface GetPersonasMessage {
-	networkId: number
-	indexes: AddressIndexes
-}
-
-async function getPersonas(message: Message): Promise<Persona[]> {
-	const { networkId, indexes } = message.payload as GetPersonasMessage
-	const walletData = await vault.get()
-	if (!walletData) {
-		return []
-	}
-
-	const personas = await derivePersonas(getPublicKey, indexes, networkId)
-	return personas
-}
-
-export interface GetAccountsMessage {
-	networkId: number
-	indexes: AddressIndexes
-	addressBook: AddressBook
-}
-
-async function getAccounts(message: Message): Promise<Account[]> {
-	const { networkId, indexes, addressBook } = message.payload as GetAccountsMessage
-	const walletData = await vault.get()
-	if (!walletData) {
-		return []
-	}
-
-	const accounts = await deriveAccounts(getPublicKey, addressBook, indexes, networkId)
-	return accounts
-}
-
-export interface GetOlympiaAddressesMessage {
-	indexes: AddressIndexes
-	addressBook: AddressBook
-}
-
-async function getOlympiaAddresses(message: Message): Promise<OlympiaAddressDetails[]> {
-	const { indexes, addressBook } = message.payload as GetOlympiaAddressesMessage
-	const walletData = await vault.get()
-	if (!walletData) {
-		return []
-	}
-
-	const addresses = await deriveOlympiaAddresses(getPublicKey, addressBook, indexes)
-	return addresses
-}
-
 async function handleRadixMessage(message: Message) {
 	await sharedStore.persist.rehydrate()
 	const sharedState = sharedStore.getState()
@@ -302,6 +249,7 @@ async function handleRadixMessage(message: Message) {
 							interactionId,
 						)
 					} catch (error) {
+						// eslint-disable-next-line no-console
 						console.error(`⚡️Z3US⚡️: background handleRadixMessage: ${radixMsg?.discriminator}`, radixMsg, error)
 						return createRadixMessage.confirmationError(radixMessageSource.contentScript, radixMsg.messageId, {
 							reason: 'failedToDetectWalletLink',
@@ -311,6 +259,7 @@ async function handleRadixMessage(message: Message) {
 			}
 		}
 		default:
+			// eslint-disable-next-line no-console
 			console.error(`⚡️Z3US⚡️: background handleRadixMessage: ${radixMsg?.discriminator}`, radixMsg, message)
 			if (radixMsg?.messageId) {
 				return createRadixMessage.confirmationError(radixMessageSource.contentScript, radixMsg.messageId, {
@@ -335,10 +284,6 @@ export type MessageTypes = {
 	[MessageAction.BACKGROUND_SIGN_TO_SIGNATURE]: SignMessage
 	[MessageAction.BACKGROUND_SIGN_TO_SIGNATURE_WITH_PUBLIC_KEY]: SignMessage
 
-	[MessageAction.BACKGROUND_GET_PERSONAS]: GetPersonasMessage
-	[MessageAction.BACKGROUND_GET_ACCOUNTS]: GetAccountsMessage
-	[MessageAction.BACKGROUND_GET_OLYMPIA_ADDRESSES]: GetOlympiaAddressesMessage
-
 	[MessageAction.BACKGROUND_RADIX]: RadixMessage
 }
 
@@ -355,10 +300,6 @@ export default {
 	[MessageAction.BACKGROUND_GET_PUBLIC_KEY]: getPublicKey,
 	[MessageAction.BACKGROUND_SIGN_TO_SIGNATURE]: signToSignature,
 	[MessageAction.BACKGROUND_SIGN_TO_SIGNATURE_WITH_PUBLIC_KEY]: signToSignatureWithPublicKey,
-
-	[MessageAction.BACKGROUND_GET_PERSONAS]: getPersonas,
-	[MessageAction.BACKGROUND_GET_ACCOUNTS]: getAccounts,
-	[MessageAction.BACKGROUND_GET_OLYMPIA_ADDRESSES]: getOlympiaAddresses,
 
 	[MessageAction.BACKGROUND_RADIX]: handleRadixMessage,
 } as MessageHandlers

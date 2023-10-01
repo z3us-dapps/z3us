@@ -50,6 +50,7 @@ export const RemoveForm: React.FC = () => {
 			await client.lockVault()
 			setError('')
 		} catch (err) {
+			// eslint-disable-next-line no-console
 			console.error(err)
 			setError(intl.formatMessage(messages.unlock_error))
 		}

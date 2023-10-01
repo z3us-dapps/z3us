@@ -1,19 +1,18 @@
-import type { Account, Persona } from '@radixdlt/radix-dapp-toolkit'
-import {
-	Convert,
-	LTSRadixEngineToolkit,
+import type {
 	PublicKey,
 	Signature,
-	SignatureWithPublicKey,
+	SignatureWithPublicKey} from '@radixdlt/radix-engine-toolkit';
+import {
+	Convert,
+	LTSRadixEngineToolkit
 } from '@radixdlt/radix-engine-toolkit'
 import { useContext, useEffect, useMemo } from 'react'
 import browser from 'webextension-polyfill'
 
 import { useSharedStore } from 'ui/src/hooks/use-store'
-import type { AddressBook, AddressIndexes, Keystore } from 'ui/src/store/types'
+import type { Keystore } from 'ui/src/store/types'
 
-import { MessageTypes as BackgroundMessageTypes } from '@src/browser/background/message-handlers'
-import { OlympiaAddressDetails } from '@src/browser/background/types'
+import type { MessageTypes as BackgroundMessageTypes } from '@src/browser/background/message-handlers'
 import { MessageAction as BackgroundMessageAction } from '@src/browser/background/types'
 import { ClientContext } from '@src/context/client-provider'
 import { publicKeyFromJSON } from '@src/crypto/key_pair'
@@ -118,36 +117,6 @@ export const useMessageClient = () => {
 						password,
 						toSign: Convert.Uint8Array.toHexString(LTSRadixEngineToolkit.Utils.hash(data)),
 					} as BackgroundMessageTypes[BackgroundMessageAction.BACKGROUND_SIGN_TO_SIGNATURE])
-					.then(updateCursor),
-
-			getPersonas: async (networkId: number, indexes: AddressIndexes): Promise<Array<Persona>> =>
-				client
-					.sendMessage(BackgroundMessageAction.BACKGROUND_GET_PERSONAS, {
-						networkId,
-						indexes,
-					} as BackgroundMessageTypes[BackgroundMessageAction.BACKGROUND_GET_PERSONAS])
-					.then(updateCursor),
-			getAccounts: async (
-				networkId: number,
-				indexes: AddressIndexes,
-				addressBook: AddressBook,
-			): Promise<Array<Account>> =>
-				client
-					.sendMessage(BackgroundMessageAction.BACKGROUND_GET_ACCOUNTS, {
-						networkId,
-						indexes,
-						addressBook,
-					} as BackgroundMessageTypes[BackgroundMessageAction.BACKGROUND_GET_ACCOUNTS])
-					.then(updateCursor),
-			getOlympiaAddresses: async (
-				indexes: AddressIndexes,
-				addressBook: AddressBook,
-			): Promise<Array<OlympiaAddressDetails>> =>
-				client
-					.sendMessage(BackgroundMessageAction.BACKGROUND_GET_OLYMPIA_ADDRESSES, {
-						indexes,
-						addressBook,
-					} as BackgroundMessageTypes[BackgroundMessageAction.BACKGROUND_GET_OLYMPIA_ADDRESSES])
 					.then(updateCursor),
 
 			handleRadixMessage: async (

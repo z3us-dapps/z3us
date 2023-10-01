@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import { createMessage as createRadixMessage } from '@radixdlt/connector-extension/src/chrome/messages/create-message'
 import browser from 'webextension-polyfill'
 
@@ -19,7 +20,6 @@ export const MessageClient = () => {
 
 	let port = browser.runtime.connect({ name: PORT_NAME })
 	port.onDisconnect.addListener(() => {
-		// eslint-disable-next-line no-console
 		if (port.error) console.error(`Disconnected due to an error: ${port.error.message}`)
 		port = browser.runtime.connect({ name: PORT_NAME })
 	})
@@ -59,21 +59,21 @@ export const MessageClient = () => {
 		switch (target) {
 			case MessageSource.BACKGROUND:
 			case MessageSource.POPUP:
-				return // ignore
+				return undefined
 			case MessageSource.INPAGE:
 				switch (action) {
 					case MessageAction.CONTENT_SCRIPT_PING:
 						return Promise.resolve(true)
 					default:
 						window.postMessage(message)
-						break
+						return undefined
 				}
 			case MessageSource.RADIX:
 				sendRadixMessage(message.payload, message.fromTabId)
-				break
+				return undefined
 			default:
 				radixMessageHandler.onMessage(message)
-				break
+				return undefined
 		}
 	}
 

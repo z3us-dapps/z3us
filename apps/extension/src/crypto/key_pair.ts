@@ -1,7 +1,8 @@
-import { BaseHdWallet, createRadixWallet } from '@radixdlt/connector-extension/src/chrome/dev-tools/hd-wallet/hd-wallet'
+import type { BaseHdWallet} from '@radixdlt/connector-extension/src/chrome/dev-tools/hd-wallet/hd-wallet';
+import { createRadixWallet } from '@radixdlt/connector-extension/src/chrome/dev-tools/hd-wallet/hd-wallet'
 import { Curve as HDWalletCurve } from '@radixdlt/connector-extension/src/chrome/dev-tools/hd-wallet/models'
-import { Curve, PublicKey } from '@radixdlt/radix-engine-toolkit'
-import { Convert, PrivateKey } from '@radixdlt/radix-engine-toolkit'
+import type { Curve} from '@radixdlt/radix-engine-toolkit';
+import { PublicKey , Convert, PrivateKey } from '@radixdlt/radix-engine-toolkit'
 import { HDKey } from '@scure/bip32'
 import { entropyToMnemonic } from 'bip39'
 

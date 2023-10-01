@@ -41,7 +41,7 @@ export const factory = (set: ISettingsStateSetter): SettingsState => ({
 			const addressBook = state.addressBook[networkId] || {}
 			state.addressBook[networkId] = {
 				...addressBook,
-				[address]: { ...addressBook, ...{ address }, ...settings },
+				[address]: { dateAdded: Date.now(), ...settings, dateUpdated: Date.now() },
 			}
 		})
 	},
@@ -51,7 +51,7 @@ export const factory = (set: ISettingsStateSetter): SettingsState => ({
 			const addressBook = state.addressBook[networkId] || {}
 			delete addressBook[address]
 
-			state.addressBook = { ...state.addressBook, [networkId]: addressBook }
+			state.addressBook[networkId] = addressBook
 		})
 	},
 })

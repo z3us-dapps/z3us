@@ -1,5 +1,5 @@
-import { Curve, Signature, SignatureWithPublicKey } from '@radixdlt/radix-engine-toolkit'
-import { Convert } from '@radixdlt/radix-engine-toolkit'
+import type { Curve} from '@radixdlt/radix-engine-toolkit';
+import { Signature, SignatureWithPublicKey , Convert } from '@radixdlt/radix-engine-toolkit'
 
 export type SignatureJSON = {
 	signature: string
