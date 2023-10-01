@@ -1,4 +1,4 @@
-import { defaultConnectorExtensionOptions } from '@radixdlt/connector-extension/src/options'
+import { getExtensionOptions } from '@radixdlt/connector-extension/src/options'
 import { ConnectorClient } from '@radixdlt/radix-connect-webrtc'
 import { ResultAsync, ok } from 'neverthrow'
 import { QRCodeSVG } from 'qrcode.react'
@@ -89,15 +89,9 @@ export const Pairing: React.FC<IProps> = ({
 				)
 			})
 
-		browser.storage.sync
-			.get('options')
-			.then(({ options }) => ({
-				...defaultConnectorExtensionOptions,
-				...options,
-			}))
-			.then(options => {
-				connectorClient.setConnectionConfig(radixConnectConfig[options.radixConnectConfiguration])
-			})
+		getExtensionOptions().map(options =>
+			connectorClient.setConnectionConfig(radixConnectConfig[options.radixConnectConfiguration]),
+		)
 
 		browser.storage.onChanged.addListener((changes, area) => {
 			if (changes.options) {

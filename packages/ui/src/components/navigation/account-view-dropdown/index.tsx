@@ -215,15 +215,15 @@ export const AccountViewDropdown = forwardRef<HTMLElement, IAccountViewDropdownP
 								>
 									{[...keystores]
 										.sort((a, b) => weights[a.type] - weights[b.type])
-										.map(keystore => (
-											<DropdownMenuRadioItem key={keystore.id} value={keystore.id}>
+										.map(k => (
+											<DropdownMenuRadioItem key={k.id} value={k.id}>
 												<DropdownMenuLeftSlot>
-													{keystore.type === KeystoreType.RADIX_WALLET && <HomeIcon />}
-													{keystore.type === KeystoreType.HARDWARE && <HardwareWalletIcon />}
-													{keystore.type === KeystoreType.LOCAL && <Z3usIcon />}
+													{k.type === KeystoreType.RADIX_WALLET && <HomeIcon />}
+													{k.type === KeystoreType.HARDWARE && <HardwareWalletIcon />}
+													{k.type === KeystoreType.LOCAL && <Z3usIcon />}
 												</DropdownMenuLeftSlot>
 												<Box flexGrow={1} marginLeft="small">
-													<Text size="xsmall"> {keystore.name}</Text>
+													<Text size="xsmall"> {k.name}</Text>
 												</Box>
 												<DropdownMenuItemIndicator>
 													<CheckIcon />

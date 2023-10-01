@@ -38,6 +38,8 @@ const config = {
 			queues: resolve(__dirname, '../../node_modules/@radixdlt/connector-extension/src/queues'),
 			utils: resolve(__dirname, '../../node_modules/@radixdlt/connector-extension/src/utils'),
 			'chrome/helpers/add-metadata': resolve(__dirname, 'src/browser/metadata/add'),
+			'chrome/helpers/chrome-storage-sync': resolve(__dirname, 'src/radix/storage'),
+			
 		},
 	},
 	define: {

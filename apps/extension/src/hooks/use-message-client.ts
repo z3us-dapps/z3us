@@ -1,11 +1,5 @@
-import type {
-	PublicKey,
-	Signature,
-	SignatureWithPublicKey} from '@radixdlt/radix-engine-toolkit';
-import {
-	Convert,
-	LTSRadixEngineToolkit
-} from '@radixdlt/radix-engine-toolkit'
+import type { PublicKey, Signature, SignatureWithPublicKey } from '@radixdlt/radix-engine-toolkit'
+import { Convert, LTSRadixEngineToolkit } from '@radixdlt/radix-engine-toolkit'
 import { useContext, useEffect, useMemo } from 'react'
 import browser from 'webextension-polyfill'
 

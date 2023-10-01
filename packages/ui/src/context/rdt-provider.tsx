@@ -12,7 +12,7 @@ export const createChallenge = () => Buffer.from(crypto.getRandomValues(new Uint
 
 export const dataRequestStateClient = DataRequestStateClient({})
 
-const RDT_DISCONNECT_EVENT_NAME = 'z3us.v1-inpage-rdt-disconnect'
+const RDT_DISCONNECT_EVENT_NAME = 'z3us.v1-inpage-keystore-change'
 
 export const RdtProvider: React.FC<PropsWithChildren> = ({ children }) => {
 	const { data: configuration } = useNetworkConfiguration()
@@ -29,8 +29,7 @@ export const RdtProvider: React.FC<PropsWithChildren> = ({ children }) => {
 	}
 
 	useEffect(() => {
-		const listener = e => {
-			console.warn('RdtProvider.useEffect listener', !!state, e)
+		const listener = () => {
 			if (state) state.disconnect()
 		}
 
@@ -38,7 +37,7 @@ export const RdtProvider: React.FC<PropsWithChildren> = ({ children }) => {
 		return () => {
 			window.removeEventListener(RDT_DISCONNECT_EVENT_NAME, listener)
 		}
-	}, [])
+	}, [state])
 
 	useEffect(() => {
 		if (!configuration?.network_id) return () => {}

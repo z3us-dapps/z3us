@@ -1,5 +1,5 @@
 import type { ConnectorExtensionOptions } from '@radixdlt/connector-extension/src/options'
-import { defaultConnectorExtensionOptions } from '@radixdlt/connector-extension/src/options'
+import { defaultConnectorExtensionOptions, getExtensionOptions } from '@radixdlt/connector-extension/src/options'
 import React, { useEffect, useState } from 'react'
 import { defineMessages, useIntl } from 'react-intl'
 import browser from 'webextension-polyfill'
@@ -84,15 +84,7 @@ const Settings: React.FC = () => {
 	const [options, setOptions] = useState<ConnectorExtensionOptions>(defaultConnectorExtensionOptions)
 
 	useEffect(() => {
-		browser.storage.sync
-			.get('options')
-			.then(({ options: storedOptions }) => ({
-				...defaultConnectorExtensionOptions,
-				...storedOptions,
-			}))
-			.then(resolvedOptions => {
-				setOptions(resolvedOptions)
-			})
+		getExtensionOptions().map(setOptions)
 	}, [])
 
 	const handleChangeUnlockTime = (minute: string) => {
