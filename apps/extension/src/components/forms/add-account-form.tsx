@@ -36,8 +36,8 @@ const AddAccountForm: React.FC = () => {
 	const client = useMessageClient()
 	const networkId = useNetworkId()
 	const { accountIndexes, addressBook, addAccount, setAddressBookEntry } = useNoneSharedStore(state => ({
-		accountIndexes: state.accountIndexes[networkId],
-		addressBook: state.addressBook[networkId],
+		accountIndexes: state.accountIndexes[networkId] || {},
+		addressBook: state.addressBook[networkId] || {},
 		addAccount: state.addAccountAction,
 		setAddressBookEntry: state.setAddressBookEntryAction,
 	}))
@@ -59,9 +59,9 @@ const AddAccountForm: React.FC = () => {
 			return
 		}
 
-		const idx = Object.keys(accountIndexes)?.[0] || 0
+		const idx = Object.keys(accountIndexes).findLastIndex(() => true) + 1
 		const publicKey = await client.getPublicKey('account', +idx)
-		const address: string = await LTSRadixEngineToolkit.Derive.virtualAccountAddress(publicKey, networkId)
+		const address = await LTSRadixEngineToolkit.Derive.virtualAccountAddress(publicKey, networkId)
 		const entry = { ...(addressBook[address] || {}), name: values.name } as AddressBookEntry
 
 		addAccount(networkId, +idx, { address, publicKeyHex: publicKey.hexString() })

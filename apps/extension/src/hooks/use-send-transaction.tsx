@@ -43,7 +43,7 @@ export const useSendTransaction = () => {
 	const confirm = useSignModal()
 	const { status, transaction } = useGatewayClient()
 	const { accountIndexes } = useNoneSharedStore(state => ({
-		accountIndexes: state.accountIndexes[networkId],
+		accountIndexes: state.accountIndexes[networkId] || {},
 	}))
 
 	const sendTransaction = async (
@@ -142,8 +142,7 @@ export const useSendTransaction = () => {
 			confirm(content).then(password => client.signToSignature('account', password, hash, fromAccountIndex)),
 		)
 
-		// VALIDATE AND SUMMARY
-		const summary = await notarizedTransaction.summarizeTransaction()
+		// VALIDATE
 		const validity = await notarizedTransaction.staticallyValidate(networkId)
 		validity.throwIfInvalid()
 
@@ -152,10 +151,18 @@ export const useSendTransaction = () => {
 			transactionSubmitRequest: { notarized_transaction_hex: notarizedTransaction.toHex() },
 		})
 
+		try {
+			// SUMMARY
+			const summary = await notarizedTransaction.summarizeTransaction()
+			// eslint-disable-next-line no-console
+			console.log('summary', summary)
+		} catch (error) {
+			// eslint-disable-next-line no-console
+			console.error(`summarizeTransaction: ${error.message}`)
+		}
+
 		// eslint-disable-next-line no-console
 		console.log('manifest', input.transactionManifest)
-		// eslint-disable-next-line no-console
-		console.log('summary', summary)
 		// eslint-disable-next-line no-console
 		console.log('submission', submission)
 		// eslint-disable-next-line no-console

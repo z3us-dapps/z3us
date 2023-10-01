@@ -1,8 +1,8 @@
 import clsx from 'clsx'
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { defineMessages, useIntl } from 'react-intl'
-import type { ZodError } from 'zod';
-import { z  } from 'zod'
+import type { ZodError } from 'zod'
+import { z } from 'zod'
 
 import { Box } from 'ui/src/components/box'
 import { Button } from 'ui/src/components/button'
@@ -10,7 +10,7 @@ import { DialogContent, DialogOverlay, DialogPortal, DialogRoot } from 'ui/src/c
 import { Form } from 'ui/src/components/form'
 import { FieldsGroup } from 'ui/src/components/form/fields-group'
 import SelectField from 'ui/src/components/form/fields/select-field'
-import { CirclePlusIcon, TrashIcon , Close2Icon } from 'ui/src/components/icons'
+import { CirclePlusIcon, Close2Icon, TrashIcon } from 'ui/src/components/icons'
 import { ScrollArea } from 'ui/src/components/scroll-area'
 import * as dialogStyles from 'ui/src/components/styles/dialog-styles.css'
 import { ToolTip } from 'ui/src/components/tool-tip'
@@ -66,8 +66,8 @@ const SelectAccountsModal: React.FC<IProps> = ({ required, exactly, onConfirm, o
 	const inputRef = useRef(null)
 	const networkId = useNetworkId()
 	const { accountIndexes, addressBook } = useNoneSharedStore(state => ({
-		accountIndexes: state.accountIndexes[networkId],
-		addressBook: state.addressBook[networkId],
+		accountIndexes: state.accountIndexes[networkId] || {},
+		addressBook: state.addressBook[networkId] || {},
 	}))
 
 	const [validation, setValidation] = useState<ZodError>()
@@ -111,7 +111,7 @@ const SelectAccountsModal: React.FC<IProps> = ({ required, exactly, onConfirm, o
 			setValidation(result.error)
 			return
 		}
-		onConfirm(values.accounts.map(({ idx }) => +idx))
+		onConfirm(values.accounts.map(({ index }) => +index))
 		setIsOpen(false)
 		setValidation(undefined)
 	}

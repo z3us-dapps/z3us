@@ -43,6 +43,9 @@ import { useSendTransaction } from '@src/hooks/use-send-transaction'
 import { useSignModal } from '@src/hooks/use-sign-modal'
 import { getInteraction, removeInteraction } from '@src/radix/interaction'
 
+import { DappDetails } from './components/dapp-details'
+import { NetworkAlert } from './components/network-alert'
+
 const messages = defineMessages({
 	unknown_account: {
 		id: 'interaction.unknown_account',
@@ -64,6 +67,10 @@ const messages = defineMessages({
 		id: 'interaction.login_declined',
 		defaultMessage: 'User declined to login',
 	},
+	signature_failed: {
+		id: 'interaction.signature_failed',
+		defaultMessage: 'Failed to generate signature',
+	},
 	account_proof_for_dapp: {
 		id: 'interaction.account_proof_for_dapp',
 		defaultMessage: 'dApp {dappName} requires proof of account ownership',
@@ -71,10 +78,6 @@ const messages = defineMessages({
 	login_challenge: {
 		id: 'interaction.login_challenge',
 		defaultMessage: 'Login to dApp {dappName}',
-	},
-	invalid_network: {
-		id: 'interaction.invalid_network',
-		defaultMessage: 'Network mismatch, dApp uses {dAppNetworkId} wallet uses {networkId}',
 	},
 })
 
@@ -124,9 +127,9 @@ export const Home: React.FC = () => {
 	const selectAccounts = useSelectAccountsModal()
 	const networkId = useNetworkId()
 	const { personaIndexes, accountIndexes, addressBook } = useNoneSharedStore(state => ({
-		personaIndexes: state.personaIndexes[networkId],
-		accountIndexes: state.accountIndexes[networkId],
-		addressBook: state.addressBook[networkId],
+		personaIndexes: state.personaIndexes[networkId] || {},
+		accountIndexes: state.accountIndexes[networkId] || {},
+		addressBook: state.addressBook[networkId] || {},
 	}))
 
 	const [isCanceled, setIsCanceled] = useState<boolean>(false)
@@ -189,9 +192,9 @@ export const Home: React.FC = () => {
 	const buildAccountsResponseItem = async (
 		req?: AccountsRequestItem,
 		reset: boolean = false,
-	): Promise<AccountsRequestResponseItem | null> => {
+	): Promise<AccountsRequestResponseItem | undefined> => {
 		if (!req) {
-			return null
+			return undefined
 		}
 		if (reset) {
 			// eslint-disable-next-line no-console
@@ -200,24 +203,22 @@ export const Home: React.FC = () => {
 		const { challenge, numberOfAccounts } = req
 		const selectedIndexes = await selectAccounts(numberOfAccounts.quantity, numberOfAccounts.quantifier === 'exactly')
 		if (!selectedIndexes || selectedIndexes.length === 0) {
-			return null
+			return undefined
 		}
-
-		const selectedAccounts = Object.keys(accountIndexes).filter(idx => selectedIndexes.includes(+idx))
 
 		let proofs: AccountProof[]
 		if (challenge) {
 			proofs = await Promise.all<AccountProof>(
-				selectedAccounts.map(async idx => {
+				selectedIndexes.map(async idx => {
 					const password = await confirm(intl.formatMessage(messages.account_proof_for_dapp, { dappName }))
 					const signatureWithPublicKey = await client.signToSignatureWithPublicKey(
 						'account',
 						password,
 						getDataToSign(challenge, metadata.origin, metadata.dAppDefinitionAddress),
-						+idx,
+						idx,
 					)
 					if (!signatureWithPublicKey) {
-						throw new Error(intl.formatMessage(messages.login_declined))
+						throw new Error(intl.formatMessage(messages.signature_failed))
 					}
 					const signature = signatureWithPublicKeyToJSON(signatureWithPublicKey)
 
@@ -234,7 +235,7 @@ export const Home: React.FC = () => {
 			proofs = proofs.filter(proof => proof !== null)
 		}
 
-		const accounts = Object.keys(selectedAccounts).map((idx, appearanceId) => ({
+		const accounts = selectedIndexes.map((idx, appearanceId) => ({
 			address: accountIndexes[idx].address,
 			label:
 				addressBook[accountIndexes[idx].address]?.name ||
@@ -248,9 +249,9 @@ export const Home: React.FC = () => {
 	const buildPersonaDataResponseItem = async (
 		req?: PersonaDataRequestItem,
 		reset: boolean = false,
-	): Promise<PersonaDataRequestResponseItem | null> => {
+	): Promise<PersonaDataRequestResponseItem | undefined> => {
 		if (!req) {
-			return null
+			return undefined
 		}
 		throw new Error(`Not implemented reset: ${reset}`)
 	}
@@ -280,7 +281,7 @@ export const Home: React.FC = () => {
 				selectedIndex,
 			)
 			if (!signatureWithPublicKey) {
-				throw new Error(intl.formatMessage(messages.login_declined))
+				throw new Error(intl.formatMessage(messages.signature_failed))
 			}
 			const signature = signatureWithPublicKeyToJSON(signatureWithPublicKey)
 			proof = {
@@ -310,7 +311,7 @@ export const Home: React.FC = () => {
 
 	const login = async (
 		request: AuthUsePersonaRequestItem | AuthLoginWithChallengeRequestItem | AuthLoginWithoutChallengeRequestItem,
-	): Promise<AuthRequestResponseItem | null> => {
+	): Promise<AuthRequestResponseItem | undefined> => {
 		switch (request?.discriminator) {
 			case 'usePersona':
 				return getPersona(request)
@@ -319,7 +320,7 @@ export const Home: React.FC = () => {
 			case 'loginWithoutChallenge':
 				return loginWithoutChallenge(request)
 			default:
-				return null
+				return undefined
 		}
 	}
 
@@ -386,18 +387,17 @@ export const Home: React.FC = () => {
 				}),
 			)
 		} finally {
-			window.close()
+			// window.close()
 		}
-	}
-
-	if (metadata.networkId && metadata.networkId !== networkId) {
-		return <h1>{intl.formatMessage(messages.invalid_network, { dAppNetworkId: metadata.networkId, networkId })}</h1>
 	}
 
 	return (
 		<Box>
-			<h1>{dappName}</h1>
+			<DappDetails {...interaction?.metadata} />
+			<NetworkAlert {...interaction?.metadata} />
+
 			<Input value={JSON.stringify(interaction)} elementType="textarea" type="text" disabled />
+
 			<Button onClick={handleInteraction} styleVariant="tertiary" sizeVariant="xlarge" fullWidth disabled={isCanceled}>
 				{isCanceled ? intl.formatMessage(messages.canceled) : intl.formatMessage(messages.interact)}
 			</Button>

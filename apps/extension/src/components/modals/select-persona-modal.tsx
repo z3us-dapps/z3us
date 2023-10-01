@@ -1,8 +1,8 @@
 import clsx from 'clsx'
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { defineMessages, useIntl } from 'react-intl'
-import type { ZodError } from 'zod';
-import { z  } from 'zod'
+import type { ZodError } from 'zod'
+import { z } from 'zod'
 
 import { Box } from 'ui/src/components/box'
 import { DialogContent, DialogOverlay, DialogPortal, DialogRoot } from 'ui/src/components/dialog'
@@ -52,16 +52,20 @@ const SelectPersonaModal: React.FC<IProps> = ({ onConfirm, onCancel }) => {
 	const inputRef = useRef(null)
 	const networkId = useNetworkId()
 	const { personaIndexes } = useNoneSharedStore(state => ({
-		personaIndexes: state.personaIndexes[networkId],
+		personaIndexes: state.personaIndexes[networkId] || {},
 	}))
 
 	const [validation, setValidation] = useState<ZodError>()
 	const [isScrolled, setIsScrolled] = useState<boolean>(false)
 	const [isOpen, setIsOpen] = useState<boolean>(true)
 
-	const validationSchema = useMemo(() => z.object({
-			persona: z.string().min(1, intl.formatMessage(messages.validation_persona)),
-		}), [])
+	const validationSchema = useMemo(
+		() =>
+			z.object({
+				persona: z.string().min(1, intl.formatMessage(messages.validation_persona)),
+			}),
+		[],
+	)
 
 	useEffect(() => {
 		inputRef?.current?.focus()
