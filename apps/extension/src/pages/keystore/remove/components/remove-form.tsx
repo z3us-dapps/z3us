@@ -1,4 +1,3 @@
-import { useSharedStore } from 'packages/ui/src/hooks/use-store'
 import React, { useEffect, useRef, useState } from 'react'
 import { defineMessages, useIntl } from 'react-intl'
 
@@ -6,6 +5,7 @@ import { Box } from 'ui/src/components/box'
 import { Form } from 'ui/src/components/form'
 import TextField from 'ui/src/components/form/fields/text-field'
 import { ValidationErrorMessage } from 'ui/src/components/validation-error-message'
+import { useSharedStore } from 'ui/src/hooks/use-store'
 
 import { useMessageClient } from '@src/hooks/use-message-client'
 

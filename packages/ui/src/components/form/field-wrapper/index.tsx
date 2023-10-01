@@ -1,6 +1,5 @@
 import get from 'lodash/get'
 import React, { type PropsWithChildren, type ReactNode, useContext, useEffect } from 'react'
-import { useDebounce } from 'use-debounce'
 import { useImmer } from 'use-immer'
 
 import { Box } from 'ui/src/components/box'
@@ -32,8 +31,6 @@ export const FieldWrapper: React.FC<PropsWithChildren<IProps>> = ({ validate, ch
 		error: '',
 	})
 
-	const [debouncedValue] = useDebounce<any>(state.value, 200)
-
 	useEffect(
 		() => () => {
 			onFieldChange(fieldName, null)
@@ -50,12 +47,12 @@ export const FieldWrapper: React.FC<PropsWithChildren<IProps>> = ({ validate, ch
 	}, [errors])
 
 	useEffect(() => {
-		onFieldChange(fieldName, debouncedValue)
-		const error = validate ? validate(debouncedValue) : ''
+		onFieldChange(fieldName, state.value)
+		const error = validate ? validate(state.value) : ''
 		setState(draft => {
 			draft.error = error
 		})
-	}, [debouncedValue])
+	}, [state.value])
 
 	const onChange = (value: any) => {
 		setState(draft => {

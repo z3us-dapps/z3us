@@ -59,6 +59,7 @@ async function isVaultUnlocked(): Promise<boolean> {
 	const walletData = await vault.get()
 	if (!walletData) {
 		try {
+			await vault.checkPassword('')
 			return !!(await vault.unlock(''))
 		} catch (error) {
 			return false

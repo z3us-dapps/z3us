@@ -1,5 +1,4 @@
 import { LTSRadixEngineToolkit } from '@radixdlt/radix-engine-toolkit'
-import type { AddressBookEntry } from 'packages/ui/src/store/types'
 import { useMemo, useState } from 'react'
 import { defineMessages, useIntl } from 'react-intl'
 import type { ZodError } from 'zod'
@@ -9,6 +8,7 @@ import { Form } from 'ui/src/components/form'
 import TextField from 'ui/src/components/form/fields/text-field'
 import { useNetworkId } from 'ui/src/hooks/dapp/use-network-id'
 import { useNoneSharedStore } from 'ui/src/hooks/use-store'
+import type { AddressBookEntry } from 'ui/src/store/types'
 
 import { useMessageClient } from '@src/hooks/use-message-client'
 

@@ -1,6 +1,7 @@
-import { useNetworkId } from 'packages/ui/src/hooks/dapp/use-network-id'
 import React from 'react'
 import { defineMessages, useIntl } from 'react-intl'
+
+import { useNetworkId } from 'ui/src/hooks/dapp/use-network-id'
 
 const messages = defineMessages({
 	invalid_network: {

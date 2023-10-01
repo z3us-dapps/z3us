@@ -1,9 +1,9 @@
 /* eslint-disable no-console */
 import { Convert, RadixEngineToolkit } from '@radixdlt/radix-engine-toolkit'
-import { config } from 'packages/ui/src/constants/config'
 import type { Runtime } from 'webextension-polyfill'
 import browser from 'webextension-polyfill'
 
+import { config } from 'ui/src/constants/config'
 import { getNoneSharedStore } from 'ui/src/services/state'
 import { sharedStore } from 'ui/src/store'
 import { KeystoreType } from 'ui/src/store/types'

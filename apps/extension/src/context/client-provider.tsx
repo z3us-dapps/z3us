@@ -1,7 +1,8 @@
-import { useSharedStore } from 'packages/ui/src/hooks/use-store'
-import type { Keystore } from 'packages/ui/src/store/types'
 import React, { type PropsWithChildren, createContext, useEffect, useState } from 'react'
 import browser from 'webextension-polyfill'
+
+import { useSharedStore } from 'ui/src/hooks/use-store'
+import type { Keystore } from 'ui/src/store/types'
 
 import { MessageClient } from '@src/browser/app/message-client'
 import { MessageAction as InPageMessageAction } from '@src/browser/inpage/types'

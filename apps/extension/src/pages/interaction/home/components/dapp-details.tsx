@@ -1,9 +1,9 @@
-import { getShortAddress } from 'packages/ui/src/utils/string-utils'
 import React from 'react'
 import { defineMessages, useIntl } from 'react-intl'
 
 import { useEntityMetadata } from 'ui/src/hooks/dapp/use-entity-metadata'
 import { getStringMetadata } from 'ui/src/services/metadata'
+import { getShortAddress } from 'ui/src/utils/string-utils'
 
 const messages = defineMessages({
 	name: {
