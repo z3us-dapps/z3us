@@ -92,7 +92,7 @@ export const Export: React.FC = () => {
 					.map((idx, position) =>
 						accountSummary(
 							+idx,
-							indexes[idx].publicKey,
+							indexes[idx].publicKeyHex,
 							addressBook[indexes[idx].address]?.name || intl.formatMessage(messages.unknown_account, { position }),
 							keystore.type === KeystoreType.LOCAL,
 						),
