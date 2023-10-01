@@ -35,40 +35,42 @@ const migrateOlympiaAddresses = async () => {
 
 				const currentKeystoreState = noneSharedStore.getState()
 
-				Object.keys(olympiaAddresses).map(async idx => {
-					const olympiaAddress = olympiaAddresses[idx].address
-					const olympiaName = olympiaAddresses[idx].name
+				await Promise.all(
+					Object.keys(olympiaAddresses).map(async idx => {
+						const olympiaAddress = olympiaAddresses[idx].address
+						const olympiaName = olympiaAddresses[idx].name
 
-					const publicKeyBuffer = await RadixEngineToolkit.Derive.publicKeyFromOlympiaAccountAddress(olympiaAddress)
-					const publicKeyHex = Convert.Uint8Array.toHexString(publicKeyBuffer)
-					const accountAddress = await RadixEngineToolkit.Derive.virtualAccountAddressFromOlympiaAccountAddress(
-						olympiaAddress,
-						config.defaultNetworkId,
-					)
-					const address = accountAddress.toString()
-
-					const indexes = currentKeystoreState.accountIndexes[config.defaultNetworkId] || {}
-					const current = indexes[idx] || {}
-					currentKeystoreState.accountIndexes[config.defaultNetworkId] = {
-						...indexes,
-						[idx]: {
-							...current,
-							address,
-							publicKeyHex,
+						const publicKeyBuffer = await RadixEngineToolkit.Derive.publicKeyFromOlympiaAccountAddress(olympiaAddress)
+						const publicKeyHex = Convert.Uint8Array.toHexString(publicKeyBuffer)
+						const accountAddress = await RadixEngineToolkit.Derive.virtualAccountAddressFromOlympiaAccountAddress(
 							olympiaAddress,
-						} as Account,
-					}
+							config.defaultNetworkId,
+						)
+						const address = accountAddress.toString()
 
-					const addressBook = currentKeystoreState.addressBook[config.defaultNetworkId] || {}
-					const entry = addressBook[address] || ({} as AddressBookEntry)
-					currentKeystoreState.addressBook[config.defaultNetworkId] = {
-						...addressBook,
-						[address]: {
-							...entry,
-							name: olympiaName || entry.name,
-						} as AddressBookEntry,
-					}
-				})
+						const indexes = currentKeystoreState.accountIndexes[config.defaultNetworkId] || {}
+						const current = indexes[idx] || {}
+						currentKeystoreState.accountIndexes[config.defaultNetworkId] = {
+							...indexes,
+							[idx]: {
+								...current,
+								address,
+								publicKeyHex,
+								olympiaAddress,
+							} as Account,
+						}
+
+						const addressBook = currentKeystoreState.addressBook[config.defaultNetworkId] || {}
+						const entry = addressBook[address] || ({} as AddressBookEntry)
+						currentKeystoreState.addressBook[config.defaultNetworkId] = {
+							...addressBook,
+							[address]: {
+								...entry,
+								name: olympiaName || entry.name,
+							} as AddressBookEntry,
+						}
+					}),
+				)
 
 				noneSharedStore.setState(currentKeystoreState)
 
@@ -101,7 +103,7 @@ const migrateOlympiaAddresses = async () => {
 	await Promise.all(
 		oldSharedState.keystores.map(async keystore => {
 			try {
-				await browser.storage.local.remove(`z3us-store-${keystore.id}`)
+				// await browser.storage.local.remove(`z3us-store-${keystore.id}`)
 			} catch (error) {
 				console.error(`failed to remove none shared store for: ${JSON.stringify(keystore)}: ${error}`)
 			}
@@ -109,7 +111,8 @@ const migrateOlympiaAddresses = async () => {
 	)
 
 	try {
-		await browser.storage.local.remove('z3us-store-shared')
+		// await browser.storage.local.remove('z3us-store')
+		// await browser.storage.local.remove('z3us-store-shared')
 	} catch (error) {
 		console.error(`failed to remove old shared store: ${error}`)
 	}

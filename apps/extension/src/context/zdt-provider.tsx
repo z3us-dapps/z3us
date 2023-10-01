@@ -1,4 +1,4 @@
-import type { Account, Persona, SendTransactionInput} from '@radixdlt/radix-dapp-toolkit';
+import type { Account, Persona, SendTransactionInput } from '@radixdlt/radix-dapp-toolkit'
 import { TransactionStatus } from '@radixdlt/radix-dapp-toolkit'
 import React, { type PropsWithChildren, useMemo } from 'react'
 import { defineMessages, useIntl } from 'react-intl'
