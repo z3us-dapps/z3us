@@ -138,8 +138,6 @@ export const AccountViewDropdown = forwardRef<HTMLElement, IAccountViewDropdownP
 			try {
 				await lock()
 				selectKeystore(id)
-			} catch (err) {
-				console.error(err)
 			} finally {
 				setIsSwitchingKeystore(false)
 			}
