@@ -1,13 +1,14 @@
 import React from 'react'
 
 import { Box } from 'ui/src/components/box'
-import Text, { type TextProps } from 'ui/src/components/typography/text'
+import { RedGreenText } from 'ui/src/components/typography'
+import Text from 'ui/src/components/typography/text'
 import { useTotalBalance } from 'ui/src/hooks/dapp/use-total-balance'
 
 import * as styles from './styles.css'
 
 export const AccountTotalValue: React.FC = () => {
-	const { isLoading, formattedValue, formattedChange, changeStatusTextColor } = useTotalBalance()
+	const { isLoading, formattedValue, formattedChange, changeStatus } = useTotalBalance()
 
 	return (
 		<Box className={styles.assetsHeaderWrapper}>
@@ -17,9 +18,9 @@ export const AccountTotalValue: React.FC = () => {
 						{isLoading ? 'Loading ...' : formattedValue}
 					</Text>
 				</Box>
-				<Text size="xxsmall" weight="medium" truncate color={changeStatusTextColor}>
+				<RedGreenText size="xxsmall" weight="medium" truncate changeStatus={changeStatus}>
 					{formattedChange}
-				</Text>
+				</RedGreenText>
 			</Box>
 		</Box>
 	)

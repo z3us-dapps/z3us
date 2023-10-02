@@ -65,26 +65,12 @@ export const useTotalBalance = () => {
 		}
 	}
 
-	const getChangeStatusTextColor = (changeStatus: ChangeStatus): TextProps['color'] => {
-		switch (changeStatus) {
-			case 'positive':
-				return 'green'
-			case 'negative':
-				return 'red'
-			default:
-				return 'neutral'
-		}
-	}
-
-	const changeStatus = getChangeStatus()
-
 	return {
 		isLoading,
 		value,
 		formattedValue: intl.formatNumber(value.toNumber(), { style: 'currency', currency }),
 		change,
 		formattedChange: intl.formatNumber(change.toNumber(), { style: 'percent', maximumFractionDigits: 2 }),
-		changeStatus,
-		changeStatusTextColor: getChangeStatusTextColor(changeStatus),
+		changeStatus: getChangeStatus(),
 	}
 }
