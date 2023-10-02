@@ -1,4 +1,4 @@
-import { ScryptoSborValue, StateNonFungibleDetailsResponseItem } from '@radixdlt/babylon-gateway-api-sdk'
+import type { ScryptoSborValue, StateNonFungibleDetailsResponseItem } from '@radixdlt/babylon-gateway-api-sdk'
 import clsx from 'clsx'
 import React from 'react'
 

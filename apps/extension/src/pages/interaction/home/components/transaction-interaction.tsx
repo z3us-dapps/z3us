@@ -1,11 +1,11 @@
 import { messageSource as radixMessageSource } from '@radixdlt/connector-extension/src/chrome/messages/_types'
 import { createMessage as createRadixMessage } from '@radixdlt/connector-extension/src/chrome/messages/create-message'
-import { Box } from 'packages/ui/src/components/box'
-import { Button } from 'packages/ui/src/components/button'
 import { defineMessages, useIntl } from 'react-intl'
 import { useParams } from 'react-router-dom'
 import browser from 'webextension-polyfill'
 
+import { Box } from 'ui/src/components/box'
+import { Button } from 'ui/src/components/button'
 import { Text } from 'ui/src/components/typography'
 
 import type { WalletInteractionWithTabId } from '@src/browser/app/types'

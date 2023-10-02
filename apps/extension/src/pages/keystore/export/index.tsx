@@ -65,7 +65,10 @@ const exportAsCode = (accounts: string[], payloadSize: number, mnemonicLength: n
 const messages = defineMessages({
 	unknown_account: {
 		id: 'keystore.export.unknown_account',
-		defaultMessage: 'Account: {position}',
+		defaultMessage: `{hasLabel, select,
+			true {{label}}
+			other {Account: {position}}
+		}`,
 	},
 })
 
@@ -93,7 +96,11 @@ export const Export: React.FC = () => {
 						accountSummary(
 							+idx,
 							indexes[idx].publicKeyHex,
-							addressBook[indexes[idx].address]?.name || intl.formatMessage(messages.unknown_account, { position }),
+							intl.formatMessage(messages.unknown_account, {
+								hasLabel: !!addressBook[indexes[idx].address]?.name,
+								label: addressBook[indexes[idx].address]?.name,
+								position,
+							}),
 							keystore.type === KeystoreType.LOCAL,
 						),
 					)

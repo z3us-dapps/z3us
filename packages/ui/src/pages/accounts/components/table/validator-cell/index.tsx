@@ -9,14 +9,17 @@ import { Text } from 'ui/src/components/typography'
 import { useEntityDetails } from 'ui/src/hooks/dapp/use-entity-details'
 import { useIsMobileWidth } from 'ui/src/hooks/use-is-mobile'
 import { getStringMetadata } from 'ui/src/services/metadata'
-import type { ResourceBalance, ResourceBalanceKind, ResourceBalanceType } from 'ui/src/types/types'
+import type { ResourceBalance, ResourceBalanceType } from 'ui/src/types/types'
 
 import * as styles from './styles.css'
 
 const messages = defineMessages({
 	unknown: {
 		id: 'accounts.table.validator_cell.unknown',
-		defaultMessage: 'Unknown',
+		defaultMessage: `{hasName, select,
+			true {{name}}
+			other {Unknown}
+		}`,
 	},
 })
 
@@ -36,7 +39,7 @@ export const ValidatorCell: React.FC<IProps> = props => {
 	const isMobile = useIsMobileWidth()
 	const { data, isLoading } = useEntityDetails(validator)
 
-	const name = getStringMetadata('name', data?.metadata?.items) || intl.formatMessage(messages.unknown)
+	const name = getStringMetadata('name', data?.metadata?.items)
 
 	if (isLoading) return <FallbackLoading />
 
@@ -48,7 +51,7 @@ export const ValidatorCell: React.FC<IProps> = props => {
 					<Box className={styles.assetNameCellNameWrapper}>
 						<Text className="tr-text-elem" capitalizeFirstLetter size="small" color="strong" truncate weight="medium">
 							{symbol && `${symbol.toUpperCase()} - `}
-							{name}
+							{intl.formatMessage(messages.unknown, { hasName: !!name, name })}
 						</Text>
 					</Box>
 				</Box>

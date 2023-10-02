@@ -10,7 +10,10 @@ import { getStringMetadata } from 'ui/src/services/metadata'
 const messages = defineMessages({
 	resource: {
 		id: 'accounts.breadcrumbs.resource',
-		defaultMessage: 'Resource',
+		defaultMessage: `{hasDisplayName, select,
+			true {displayName}
+			other {Resource}
+		}`,
 	},
 })
 
@@ -33,11 +36,9 @@ export const ResourceBreadcrumb: React.FC<IProps> = ({ isLast, resourceType }) =
 		setDisplayName(symbol ? symbol.toUpperCase() : name)
 	}, [name, symbol])
 
-	if (isLast) return <Text>{displayName || intl.formatMessage(messages.resource)}</Text>
+	const content = intl.formatMessage(messages.resource, { hasDisplayName: !!displayName, displayName })
 
-	return (
-		<Link to={`/accounts/${accountId}/${resourceType}s/${resourceId}`}>
-			{displayName || intl.formatMessage(messages.resource)}
-		</Link>
-	)
+	if (isLast) return <Text>{content}</Text>
+
+	return <Link to={`/accounts/${accountId}/${resourceType}s/${resourceId}`}>{content}</Link>
 }

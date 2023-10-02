@@ -34,7 +34,10 @@ type State<P = {}> = {
 const messages = defineMessages({
 	error: {
 		id: 'form.on_submit.error',
-		defaultMessage: 'Internal error, please try again.',
+		defaultMessage: `Internal error{hasMessage, select,
+			true {: {message}}
+			other {, please try again}
+		}`,
 	},
 })
 
@@ -77,7 +80,7 @@ export const Form: React.FC<PropsWithChildren<Props>> = ({
 		} catch (error) {
 			console.error(error)
 			setState(draft => {
-				draft.error = error?.message || intl.formatMessage(messages.error)
+				draft.error = intl.formatMessage(messages.error, { hasMessage: !!error?.message, message: error?.message })
 			})
 		} finally {
 			setState(draft => {

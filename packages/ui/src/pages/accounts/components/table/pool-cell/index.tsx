@@ -9,20 +9,22 @@ import { Text } from 'ui/src/components/typography'
 import { useEntitiesDetails, useEntityDetails } from 'ui/src/hooks/dapp/use-entity-details'
 import { useIsMobileWidth } from 'ui/src/hooks/use-is-mobile'
 import { getStringMetadata } from 'ui/src/services/metadata'
-import type { ResourceBalance, ResourceBalanceKind, ResourceBalanceType } from 'ui/src/types/types'
 
 import * as styles from './styles.css'
 
 const messages = defineMessages({
 	unknown: {
 		id: 'accounts.table.pool_cell.unknown',
-		defaultMessage: 'Unknown',
+		defaultMessage: `{hasName, select,
+			true {{name}}
+			other {Unknown}
+		}`,
 	},
 })
 
 interface IProps {
 	value?: string
-	row?: { original: ResourceBalance[ResourceBalanceType.POOL_UNIT] }
+	// row?: { original: ResourceBalance[ResourceBalanceType.POOL_UNIT] }
 }
 
 export const PoolCell: React.FC<IProps> = props => {
@@ -35,7 +37,7 @@ export const PoolCell: React.FC<IProps> = props => {
 		data?.details?.state?.vaults.map(vault => vault.resource_address) || [],
 	)
 
-	const name = getStringMetadata('name', data?.metadata?.items) || intl.formatMessage(messages.unknown)
+	const name = getStringMetadata('name', data?.metadata?.items)
 	const symbols = entities?.map(entity => getStringMetadata('symbol', entity?.metadata?.items).toUpperCase()) || []
 
 	if (isLoading || isLoadingResources) return <FallbackLoading />
@@ -47,7 +49,7 @@ export const PoolCell: React.FC<IProps> = props => {
 				<Box className={styles.assetNameCellStatsWrapper}>
 					<Box className={styles.assetNameCellNameWrapper}>
 						<Text className="tr-text-elem" capitalizeFirstLetter size="small" color="strong" truncate weight="medium">
-							{`${name} (${symbols.join(', ')})`}
+							{`${intl.formatMessage(messages.unknown, { hasName: !!name, name })} (${symbols.join(', ')})`}
 						</Text>
 					</Box>
 				</Box>

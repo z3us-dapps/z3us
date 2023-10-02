@@ -1,6 +1,7 @@
 import React from 'react'
 
 import { Box } from 'ui/src/components/box'
+import { FallbackLoading } from 'ui/src/components/fallback-renderer'
 import { RedGreenText } from 'ui/src/components/typography'
 import Text from 'ui/src/components/typography/text'
 import { useTotalBalance } from 'ui/src/hooks/dapp/use-total-balance'
@@ -11,7 +12,7 @@ export const AccountTotalValue: React.FC = () => {
 	const { isLoading, formattedValue, formattedChange, changeStatus } = useTotalBalance()
 
 	if (isLoading) {
-		return null
+		return <FallbackLoading />
 	}
 
 	return (

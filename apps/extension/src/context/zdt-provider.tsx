@@ -19,7 +19,10 @@ const messages = defineMessages({
 	},
 	unknown_persona: {
 		id: 'zdt_provider.unknown_persona',
-		defaultMessage: 'Persona: {appearanceId}',
+		defaultMessage: `{hasLabel, select,
+			true {{label}}
+			other {Persona: {appearanceId}}
+		}`,
 	},
 })
 
@@ -51,7 +54,11 @@ export const ZdtProvider: React.FC<PropsWithChildren> = ({ children }) => {
 		() =>
 			Object.keys(personaIndexes).map((idx, appearanceId) => ({
 				identityAddress: personaIndexes[idx].identityAddress,
-				label: personaIndexes[idx].label || intl.formatMessage(messages.unknown_persona, { appearanceId }),
+				label: intl.formatMessage(messages.unknown_persona, {
+					hasLabel: !!personaIndexes[idx].label,
+					label: personaIndexes[idx].label,
+					appearanceId,
+				}),
 				appearanceId,
 			})),
 		[personaIndexes],

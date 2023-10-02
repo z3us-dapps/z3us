@@ -11,7 +11,10 @@ import { useZdtState } from './zdt/use-zdt'
 const messages = defineMessages({
 	error: {
 		id: 'hooks.send-transaction.error',
-		defaultMessage: 'Failed to submit transaction, please try again.',
+		defaultMessage: `Failed to submit transaction{hasMessage, select,
+			true {: {message}}
+			other {, please try again}
+		}`,
 	},
 })
 
@@ -29,7 +32,7 @@ export const useSendTransaction: () => WalletApi['sendTransaction'] = () => {
 				? ResultAsync.fromPromise(sendTransaction(input), (error: any) => {
 						console.error(error)
 						return {
-							error: error?.message || intl.formatMessage(messages.error),
+							error: intl.formatMessage(messages.error, { hasMessage: !!error?.message, message: error?.message }),
 						}
 				  })
 				: rdt.walletApi.sendTransaction(input),

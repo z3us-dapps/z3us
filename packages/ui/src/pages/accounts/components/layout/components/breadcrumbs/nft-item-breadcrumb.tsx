@@ -10,7 +10,10 @@ import { getStringNftData } from 'ui/src/services/metadata'
 const messages = defineMessages({
 	item: {
 		id: 'accounts.breadcrumbs.nft_item',
-		defaultMessage: 'NFT',
+		defaultMessage: `{hasDisplayName, select,
+			true {{displayName}}
+			other {NFT}
+		}`,
 	},
 })
 
@@ -33,11 +36,9 @@ export const NftItemBreadcrumb: React.FC<IProps> = ({ isLast }) => {
 		setDisplayName(name)
 	}, [name])
 
-	if (isLast) return <Text>{displayName || intl.formatMessage(messages.item)}</Text>
+	const content = intl.formatMessage(messages.item, { hasDisplayName: !!displayName, displayName })
 
-	return (
-		<Link to={`/accounts/${accountId}/nfts/${resourceId}/${nftId}`}>
-			{displayName || intl.formatMessage(messages.item)}
-		</Link>
-	)
+	if (isLast) return <Text>{content}</Text>
+
+	return <Link to={`/accounts/${accountId}/nfts/${resourceId}/${nftId}`}>{content}</Link>
 }
