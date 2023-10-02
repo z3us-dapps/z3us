@@ -208,29 +208,51 @@ export const AccountViewDropdown = forwardRef<HTMLElement, IAccountViewDropdownP
 										{intl.formatMessage(messages.wallet)}
 									</Text>
 								</DropdownMenuLabel>
-								<DropdownMenuRadioGroup
-									disabled={isSwitchingKeystore}
-									value={keystore.id}
-									onValueChange={handleSelectKeystore}
-								>
-									{[...keystores]
-										.sort((a, b) => weights[a.type] - weights[b.type])
-										.map(k => (
-											<DropdownMenuRadioItem key={k.id} value={k.id}>
-												<DropdownMenuLeftSlot>
-													{k.type === KeystoreType.RADIX_WALLET && <HomeIcon />}
-													{k.type === KeystoreType.HARDWARE && <HardwareWalletIcon />}
-													{k.type === KeystoreType.LOCAL && <Z3usIcon />}
-												</DropdownMenuLeftSlot>
-												<Box flexGrow={1} marginLeft="small">
-													<Text size="xsmall"> {k.name}</Text>
-												</Box>
-												<DropdownMenuItemIndicator>
-													<CheckIcon />
-												</DropdownMenuItemIndicator>
-											</DropdownMenuRadioItem>
-										))}
-								</DropdownMenuRadioGroup>
+
+								<DropdownMenuSub>
+									<DropdownMenuSubTrigger>
+										<DropdownMenuLeftSlot>
+											{keystore.type === KeystoreType.RADIX_WALLET && <HomeIcon />}
+											{keystore.type === KeystoreType.HARDWARE && <HardwareWalletIcon />}
+											{keystore.type === KeystoreType.LOCAL && <Z3usIcon />}
+										</DropdownMenuLeftSlot>
+										<Box flexGrow={1} display="flex" marginLeft="small">
+											<Text size="xsmall" truncate>
+												{keystore.name}
+											</Text>
+										</Box>
+										<DropdownMenuRightSlot>
+											<ChevronRightIcon />
+										</DropdownMenuRightSlot>
+									</DropdownMenuSubTrigger>
+									<DropdownMenuPortal>
+										<DropdownMenuSubContent>
+											<DropdownMenuRadioGroup
+												disabled={isSwitchingKeystore}
+												value={keystore.id}
+												onValueChange={handleSelectKeystore}
+											>
+												{[...keystores]
+													.sort((a, b) => weights[a.type] - weights[b.type])
+													.map(k => (
+														<DropdownMenuRadioItem key={k.id} value={k.id}>
+															<DropdownMenuLeftSlot>
+																{k.type === KeystoreType.RADIX_WALLET && <HomeIcon />}
+																{k.type === KeystoreType.HARDWARE && <HardwareWalletIcon />}
+																{k.type === KeystoreType.LOCAL && <Z3usIcon />}
+															</DropdownMenuLeftSlot>
+															<Box flexGrow={1} marginLeft="small">
+																<Text size="xsmall"> {k.name}</Text>
+															</Box>
+															<DropdownMenuItemIndicator>
+																<CheckIcon />
+															</DropdownMenuItemIndicator>
+														</DropdownMenuRadioItem>
+													))}
+											</DropdownMenuRadioGroup>
+										</DropdownMenuSubContent>
+									</DropdownMenuPortal>
+								</DropdownMenuSub>
 
 								<DropdownMenuSeparator />
 
@@ -300,6 +322,8 @@ export const AccountViewDropdown = forwardRef<HTMLElement, IAccountViewDropdownP
 										</DropdownMenuItem>
 									</>
 								)}
+
+								<DropdownMenuSeparator />
 
 								<DropdownMenuSub>
 									<DropdownMenuSubTrigger>
