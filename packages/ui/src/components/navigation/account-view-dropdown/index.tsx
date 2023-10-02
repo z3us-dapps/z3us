@@ -82,14 +82,6 @@ const messages = defineMessages({
 		id: 'account_menu.wallet_remove',
 		defaultMessage: 'Delete wallet',
 	},
-	account: {
-		id: 'account_menu.account',
-		defaultMessage: 'Account',
-	},
-	persona: {
-		id: 'account_menu.persona',
-		defaultMessage: 'Persona',
-	},
 	settings: {
 		id: 'account_menu.settings',
 		defaultMessage: 'Settings',
