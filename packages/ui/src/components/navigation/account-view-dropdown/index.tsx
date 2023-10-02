@@ -254,8 +254,6 @@ export const AccountViewDropdown = forwardRef<HTMLElement, IAccountViewDropdownP
 									</DropdownMenuPortal>
 								</DropdownMenuSub>
 
-								<DropdownMenuSeparator />
-
 								{isWallet && (
 									<DropdownMenuItem onSelect={handleAddNewWallet}>
 										<DropdownMenuLeftSlot>
@@ -268,102 +266,102 @@ export const AccountViewDropdown = forwardRef<HTMLElement, IAccountViewDropdownP
 										</Box>
 									</DropdownMenuItem>
 								)}
-								{isWallet && (
-									<DropdownMenuItem onSelect={handleRemoveWallet}>
-										<DropdownMenuLeftSlot>
-											<TrashIcon />
-										</DropdownMenuLeftSlot>
-										<Box display="flex" marginLeft="small">
-											<Text size="xsmall" truncate>
-												{intl.formatMessage(messages.wallet_remove)}
-											</Text>
-										</Box>
-									</DropdownMenuItem>
-								)}
-
-								{isWallet && (keystore.type === KeystoreType.LOCAL || keystore.type === KeystoreType.HARDWARE) && (
-									<DropdownMenuItem onSelect={handleExportWallet}>
-										<DropdownMenuLeftSlot>
-											<ShareIcon />
-										</DropdownMenuLeftSlot>
-										<Box display="flex" marginLeft="small">
-											<Text size="xsmall" truncate>
-												{intl.formatMessage(messages.wallet_export)}
-											</Text>
-										</Box>
-									</DropdownMenuItem>
-								)}
 							</Box>
 
 							<DropdownMenuSeparator />
 
-							<Box className={styles.accountViewPaddingWrapper}>
-								{isWallet && (
-									<>
-										<DropdownMenuItem onSelect={handleOpenInBrowser}>
-											<DropdownMenuLeftSlot>
-												<ShareIcon />
-											</DropdownMenuLeftSlot>
-											<Box display="flex" marginLeft="small">
-												<Text size="xsmall" truncate>
-													{intl.formatMessage(messages.open_in_browser)}
-												</Text>
-											</Box>
-										</DropdownMenuItem>
-										<DropdownMenuItem onSelect={lock}>
-											<DropdownMenuLeftSlot>
-												<LockIcon />
-											</DropdownMenuLeftSlot>
-											<Box display="flex" marginLeft="small">
-												<Text size="xsmall" truncate>
-													{intl.formatMessage(messages.lock)}
-												</Text>
-											</Box>
-										</DropdownMenuItem>
-									</>
-								)}
+							{isWallet && (
+								<DropdownMenuItem onSelect={handleOpenInBrowser}>
+									<DropdownMenuLeftSlot>
+										<ShareIcon />
+									</DropdownMenuLeftSlot>
+									<Box display="flex" marginLeft="small">
+										<Text size="xsmall" truncate>
+											{intl.formatMessage(messages.open_in_browser)}
+										</Text>
+									</Box>
+								</DropdownMenuItem>
+							)}
 
-								<DropdownMenuSeparator />
+							{isWallet && (keystore.type === KeystoreType.LOCAL || keystore.type === KeystoreType.HARDWARE) && (
+								<DropdownMenuItem onSelect={handleExportWallet}>
+									<DropdownMenuLeftSlot>
+										<ShareIcon />
+									</DropdownMenuLeftSlot>
+									<Box display="flex" marginLeft="small">
+										<Text size="xsmall" truncate>
+											{intl.formatMessage(messages.wallet_export)}
+										</Text>
+									</Box>
+								</DropdownMenuItem>
+							)}
 
-								<DropdownMenuSub>
-									<DropdownMenuSubTrigger>
-										<DropdownMenuLeftSlot>
-											{resolvedTheme === Theme.LIGHT && <SunIcon />}
-											{resolvedTheme === Theme.DARK && <MoonIcon />}
-										</DropdownMenuLeftSlot>
-										<Box flexGrow={1} display="flex" marginLeft="small">
-											<Text size="xsmall" truncate>
-												{intl.formatMessage(messages.theme)}
-											</Text>
-										</Box>
-										<DropdownMenuRightSlot>
-											<ChevronRightIcon />
-										</DropdownMenuRightSlot>
-									</DropdownMenuSubTrigger>
-									<DropdownMenuPortal>
-										<DropdownMenuSubContent>
-											<DropdownMenuRadioGroup value={theme} onValueChange={setTheme}>
-												{[
-													{ id: Theme.LIGHT, title: intl.formatMessage(messages.theme_light) },
-													{ id: Theme.DARK, title: intl.formatMessage(messages.theme_dark) },
-													{ id: Theme.SYSTEM, title: intl.formatMessage(messages.theme_system) },
-												].map(({ id, title }) => (
-													<DropdownMenuRadioItem key={id} value={id}>
-														<Box flexGrow={1} marginLeft="small">
-															<Text size="xsmall" capitalizeFirstLetter>
-																{title}
-															</Text>
-														</Box>
-														<DropdownMenuItemIndicator>
-															<CheckIcon />
-														</DropdownMenuItemIndicator>
-													</DropdownMenuRadioItem>
-												))}
-											</DropdownMenuRadioGroup>
-										</DropdownMenuSubContent>
-									</DropdownMenuPortal>
-								</DropdownMenuSub>
-							</Box>
+							{isWallet && (
+								<DropdownMenuItem onSelect={handleRemoveWallet}>
+									<DropdownMenuLeftSlot>
+										<TrashIcon />
+									</DropdownMenuLeftSlot>
+									<Box display="flex" marginLeft="small">
+										<Text size="xsmall" truncate>
+											{intl.formatMessage(messages.wallet_remove)}
+										</Text>
+									</Box>
+								</DropdownMenuItem>
+							)}
+
+							{isWallet && (
+								<DropdownMenuItem onSelect={lock}>
+									<DropdownMenuLeftSlot>
+										<LockIcon />
+									</DropdownMenuLeftSlot>
+									<Box display="flex" marginLeft="small">
+										<Text size="xsmall" truncate>
+											{intl.formatMessage(messages.lock)}
+										</Text>
+									</Box>
+								</DropdownMenuItem>
+							)}
+
+							<DropdownMenuSeparator />
+
+							<DropdownMenuSub>
+								<DropdownMenuSubTrigger>
+									<DropdownMenuLeftSlot>
+										{resolvedTheme === Theme.LIGHT && <SunIcon />}
+										{resolvedTheme === Theme.DARK && <MoonIcon />}
+									</DropdownMenuLeftSlot>
+									<Box flexGrow={1} display="flex" marginLeft="small">
+										<Text size="xsmall" truncate>
+											{intl.formatMessage(messages.theme)}
+										</Text>
+									</Box>
+									<DropdownMenuRightSlot>
+										<ChevronRightIcon />
+									</DropdownMenuRightSlot>
+								</DropdownMenuSubTrigger>
+								<DropdownMenuPortal>
+									<DropdownMenuSubContent>
+										<DropdownMenuRadioGroup value={theme} onValueChange={setTheme}>
+											{[
+												{ id: Theme.LIGHT, title: intl.formatMessage(messages.theme_light) },
+												{ id: Theme.DARK, title: intl.formatMessage(messages.theme_dark) },
+												{ id: Theme.SYSTEM, title: intl.formatMessage(messages.theme_system) },
+											].map(({ id, title }) => (
+												<DropdownMenuRadioItem key={id} value={id}>
+													<Box flexGrow={1} marginLeft="small">
+														<Text size="xsmall" capitalizeFirstLetter>
+															{title}
+														</Text>
+													</Box>
+													<DropdownMenuItemIndicator>
+														<CheckIcon />
+													</DropdownMenuItemIndicator>
+												</DropdownMenuRadioItem>
+											))}
+										</DropdownMenuRadioGroup>
+									</DropdownMenuSubContent>
+								</DropdownMenuPortal>
+							</DropdownMenuSub>
 							<DropdownMenuArrow />
 						</DropdownMenuContent>
 					</DropdownMenuPortal>
