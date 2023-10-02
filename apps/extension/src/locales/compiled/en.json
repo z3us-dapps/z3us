@@ -1491,6 +1491,18 @@
       "value": "General"
     }
   ],
+  "settings.general.wallet.subtitle": [
+    {
+      "type": 0,
+      "value": "Wallet name"
+    }
+  ],
+  "settings.general.wallet.title": [
+    {
+      "type": 0,
+      "value": "Wallet"
+    }
+  ],
   "settings.navigation.accounts.subtitle": [
     {
       "type": 0,

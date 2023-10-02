@@ -638,6 +638,12 @@
   "settings.general.title": {
     "defaultMessage": "General"
   },
+  "settings.general.wallet.subtitle": {
+    "defaultMessage": "Wallet name"
+  },
+  "settings.general.wallet.title": {
+    "defaultMessage": "Wallet"
+  },
   "settings.navigation.accounts.subtitle": {
     "defaultMessage": "Customize your Radix account's look and feel. Personalize your experience by choosing a unique background image and color scheme that suits your style."
   },

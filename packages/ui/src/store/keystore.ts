@@ -36,6 +36,7 @@ export const factory = (set: IKeystoresStateSetter): KeystoresState => ({
 	selectKeystoreAction: (keystoreId: string) => {
 		set(draft => {
 			const keystore = draft.keystores.find(({ id }) => id === keystoreId)
+			// eslint-disable-next-line no-nested-ternary
 			draft.selectedKeystoreId = keystore ? keystore.id : draft.keystores.length > 0 ? draft.keystores[0].id : ''
 		})
 	},
