@@ -1,31 +1,28 @@
-import type { BaseHdWallet} from '@radixdlt/connector-extension/src/chrome/dev-tools/hd-wallet/hd-wallet';
+import type { BaseHdWallet } from '@radixdlt/connector-extension/src/chrome/dev-tools/hd-wallet/hd-wallet'
 import { createRadixWallet } from '@radixdlt/connector-extension/src/chrome/dev-tools/hd-wallet/hd-wallet'
 import { Curve as HDWalletCurve } from '@radixdlt/connector-extension/src/chrome/dev-tools/hd-wallet/models'
-import type { Curve} from '@radixdlt/radix-engine-toolkit';
-import { PublicKey , Convert, PrivateKey } from '@radixdlt/radix-engine-toolkit'
+import type { Curve } from '@radixdlt/radix-engine-toolkit'
+import { Convert, PrivateKey, PublicKey } from '@radixdlt/radix-engine-toolkit'
 import { HDKey } from '@scure/bip32'
-import { entropyToMnemonic } from 'bip39'
 
 import { type Data, DataType } from '@src/types/vault'
+
+import { getSecret } from './secret'
 
 export function hdkeyFromExtendedPrivateKey(xpriv: string): HDKey {
 	return HDKey.fromJSON({ xpriv })
 }
 
-export function secp256k1FromEntropy(entropyHex: string): BaseHdWallet {
-	const entropy = Buffer.from(entropyHex, 'hex')
-	const phrase = entropyToMnemonic(entropy)
+export function secp256k1FromEntropy(seed: string): BaseHdWallet {
 	return createRadixWallet({
-		seed: phrase,
+		seed,
 		curve: HDWalletCurve.secp256k1,
 	})
 }
 
-export function ed25519FromEntropy(entropyHex: string): BaseHdWallet {
-	const entropy = Buffer.from(entropyHex, 'hex')
-	const phrase = entropyToMnemonic(entropy)
+export function ed25519FromEntropy(seed: string): BaseHdWallet {
 	return createRadixWallet({
-		seed: phrase,
+		seed,
 		curve: HDWalletCurve.ed25519,
 	})
 }
@@ -56,13 +53,14 @@ export function deriveHDKeyPersonaForIndex(root: HDKey, index: number = 0): Priv
 }
 
 export function getAccountPrivateKey(data: Data, index: number = 0): PrivateKey | null {
+	const secret = getSecret(data)
 	switch (data?.type) {
 		case DataType.ECDSA_SECP_256K1:
-			return deriveSecp256k1AccountForIndex(secp256k1FromEntropy(data.secret), index)
+			return deriveSecp256k1AccountForIndex(secp256k1FromEntropy(secret), index)
 		case DataType.EDDSA_ED25519:
-			return deriveEd25519AccountForIndex(ed25519FromEntropy(data.secret), index)
+			return deriveEd25519AccountForIndex(ed25519FromEntropy(secret), index)
 		case DataType.PRIVATE_KEY:
-			return deriveHDKeyAccountForIndex(hdkeyFromExtendedPrivateKey(data.secret), index)
+			return deriveHDKeyAccountForIndex(hdkeyFromExtendedPrivateKey(secret), index)
 		default:
 			return null
 	}
@@ -77,12 +75,13 @@ export function getAccountPublicKey(data: Data, index: number = 0): PublicKey | 
 }
 
 export function getPersonaPrivateKey(data: Data, index: number = 0): PrivateKey | null {
+	const secret = getSecret(data)
 	switch (data?.type) {
 		case DataType.ECDSA_SECP_256K1:
 		case DataType.EDDSA_ED25519:
-			return deriveEd25519PersonaForIndex(ed25519FromEntropy(data.secret), index)
+			return deriveEd25519PersonaForIndex(ed25519FromEntropy(secret), index)
 		case DataType.PRIVATE_KEY:
-			return deriveHDKeyPersonaForIndex(hdkeyFromExtendedPrivateKey(data.secret), index)
+			return deriveHDKeyPersonaForIndex(hdkeyFromExtendedPrivateKey(secret), index)
 		default:
 			return null
 	}

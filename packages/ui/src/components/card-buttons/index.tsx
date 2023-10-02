@@ -48,7 +48,7 @@ export const CardButtons: React.FC<ICardButtonsProps> = props => {
 	return (
 		<Box className={clsx(styles.cardButtonsWrapper, className)}>
 			<ToolTip message={intl.formatMessage(messages.send)}>
-				<Button iconOnly rounded styleVariant="inverse" sizeVariant={buttonSize} to="accounts/transfer">
+				<Button iconOnly rounded styleVariant="inverse" sizeVariant={buttonSize} to="/accounts/transfer">
 					<UpRight2Icon />
 				</Button>
 			</ToolTip>

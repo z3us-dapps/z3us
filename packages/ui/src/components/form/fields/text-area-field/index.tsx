@@ -18,7 +18,7 @@ export const TextAreaAdapter = forwardRef<HTMLInputElement, IAdapterProps>(({ on
 		onChange(event.target.value)
 	}
 
-	return <Input {...rest} elementType="textarea" type="text" ref={ref} onChange={handleChange} />
+	return <Input {...rest} elementType="textarea" type="textarea" ref={ref} onChange={handleChange} />
 })
 
 interface IProps extends Omit<IInputProps, 'onChange' | 'value' | 'type' | 'label' | 'name'>, WrapperProps {}

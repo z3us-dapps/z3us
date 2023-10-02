@@ -9,9 +9,9 @@ import { isHandledByRadix } from './radix-connector'
 export const checkConnectButtonStatus = () =>
 	isHandledByRadix().then(enabled => {
 		if (enabled) {
-			getConnectionPassword().then(connectionPassword =>
-				sendRadixMessageToDapp(createRadixMessage.extensionStatus(!!connectionPassword)),
-			)
+			getConnectionPassword().then(connectionPassword => {
+				sendRadixMessageToDapp(createRadixMessage.extensionStatus(!!connectionPassword))
+			})
 		} else {
 			sendRadixMessageToDapp(createRadixMessage.extensionStatus(true))
 		}

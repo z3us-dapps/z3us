@@ -10,21 +10,25 @@ import { KeystoreType } from 'ui/src/store/types'
 import { generateId } from 'ui/src/utils/generate-id'
 
 const messages = defineMessages({
-	radix: {
-		id: 'keystore.home.radix',
-		defaultMessage: 'Radix Mobile',
-	},
-	seed: {
+	seed_new: {
 		id: 'keystore.home.seed',
-		defaultMessage: 'Seed phrase (coming soon)',
+		defaultMessage: 'New',
+	},
+	seed_restore: {
+		id: 'keystore.home.seed',
+		defaultMessage: 'Restore from seed phrase',
 	},
 	key: {
 		id: 'keystore.home.key',
-		defaultMessage: 'Extended private key (coming soon)',
+		defaultMessage: 'Restore from from extended private key',
+	},
+	radix: {
+		id: 'keystore.home.radix',
+		defaultMessage: 'Connect Radix Mobile',
 	},
 	hw: {
 		id: 'keystore.home.hw',
-		defaultMessage: 'Hardware Wallet (coming soon)',
+		defaultMessage: 'Connect Hardware Wallet',
 	},
 })
 
@@ -35,16 +39,53 @@ export const Home: React.FC = () => {
 		addKeystore: state.addKeystoreAction,
 	}))
 
-	const handleAddRadix = () => {
+	const handleNew = () => {
+		const id = generateId()
+		addKeystore(id, id, KeystoreType.LOCAL)
+		navigate('/keystore/new/seed')
+	}
+
+	const handleRestoreSeed = () => {
+		const id = generateId()
+		addKeystore(id, id, KeystoreType.LOCAL)
+		navigate('/keystore/restore/seed')
+	}
+
+	const handleRestoreExtendedPrivateKey = () => {
+		const id = generateId()
+		addKeystore(id, id, KeystoreType.LOCAL)
+		navigate('/keystore/restore/extended-key')
+	}
+
+	const handleConnectRadix = () => {
 		const id = generateId()
 		addKeystore(id, id, KeystoreType.RADIX_WALLET)
 		navigate('/keystore/new/radix')
 	}
 
+	const handleConnectHardwareWallet = () => {
+		const id = generateId()
+		addKeystore(id, id, KeystoreType.HARDWARE)
+		navigate('/keystore/new/hardware-wallet')
+	}
+
 	return (
 		<Box>
 			<Button
-				onClick={handleAddRadix}
+				onClick={handleNew}
+				styleVariant="tertiary"
+				sizeVariant="xlarge"
+				fullWidth
+				leftIcon={
+					<Box marginLeft="small">
+						<Z3usIcon />
+					</Box>
+				}
+			>
+				{intl.formatMessage(messages.seed_new)}
+			</Button>
+			<Button
+				onClick={handleConnectRadix}
 				styleVariant="tertiary"
 				sizeVariant="xlarge"
 				fullWidth
@@ -57,33 +98,7 @@ export const Home: React.FC = () => {
 				{intl.formatMessage(messages.radix)}
 			</Button>
 			<Button
-				disabled
-				styleVariant="tertiary"
-				sizeVariant="xlarge"
-				fullWidth
-				leftIcon={
-					<Box marginLeft="small">
-						<Z3usIcon />
-					</Box>
-				}
-			>
-				{intl.formatMessage(messages.seed)}
-			</Button>
-			<Button
-				disabled
-				styleVariant="tertiary"
-				sizeVariant="xlarge"
-				fullWidth
-				leftIcon={
-					<Box marginLeft="small">
-						<Z3usIcon />
-					</Box>
-				}
-			>
-				{intl.formatMessage(messages.key)}
-			</Button>
-			<Button
-				disabled
+				onClick={handleConnectHardwareWallet}
 				styleVariant="tertiary"
 				sizeVariant="xlarge"
 				fullWidth
@@ -94,6 +109,32 @@ export const Home: React.FC = () => {
 				}
 			>
 				{intl.formatMessage(messages.hw)}
+			</Button>
+			<Button
+				onClick={handleRestoreSeed}
+				styleVariant="tertiary"
+				sizeVariant="xlarge"
+				fullWidth
+				leftIcon={
+					<Box marginLeft="small">
+						<Z3usIcon />
+					</Box>
+				}
+			>
+				{intl.formatMessage(messages.seed_restore)}
+			</Button>
+			<Button
+				onClick={handleRestoreExtendedPrivateKey}
+				styleVariant="tertiary"
+				sizeVariant="xlarge"
+				fullWidth
+				leftIcon={
+					<Box marginLeft="small">
+						<Z3usIcon />
+					</Box>
+				}
+			>
+				{intl.formatMessage(messages.key)}
 			</Button>
 		</Box>
 	)

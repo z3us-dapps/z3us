@@ -69,9 +69,7 @@ const manifest: ManifestV3Export = {
 		{
 			js: ['src/browser/content-script.ts'],
 			matches: contentScriptsMatches,
-			run_at: 'document_start',
-			// all_frames: true,
-			// run_at: 'document_idle',
+			run_at: 'document_idle',
 		},
 	],
 	content_security_policy: {

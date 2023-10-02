@@ -34,7 +34,7 @@ const messages = defineMessages({
 	},
 })
 
-const modalContent = (manifest: string) => <Input value={manifest} elementType="textarea" type="text" disabled />
+const modalContent = (manifest: string) => <Input value={manifest} elementType="textarea" type="textarea" disabled />
 
 export const useSendTransaction = () => {
 	const intl = useIntl()
