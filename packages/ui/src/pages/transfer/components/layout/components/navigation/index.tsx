@@ -33,10 +33,10 @@ const Navigation: React.FC = () => {
 							title: intl.formatMessage(messages.home),
 							href: '/transfer',
 						},
-						{
-							title: intl.formatMessage(messages.deploy),
-							href: '/transfer/deploy',
-						},
+						// {
+						// 	title: intl.formatMessage(messages.deploy),
+						// 	href: '/transfer/deploy',
+						// },
 						{
 							title: intl.formatMessage(messages.raw),
 							href: '/transfer/raw',

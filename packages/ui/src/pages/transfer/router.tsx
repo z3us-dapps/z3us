@@ -5,7 +5,7 @@ import Layout from './components/layout'
 
 const Home = lazy(() => import('./home'))
 const Raw = lazy(() => import('./raw'))
-const Deploy = lazy(() => import('./deploy'))
+// const Deploy = lazy(() => import('./deploy'))
 
 const route = {
 	path: 'transfer',
@@ -18,13 +18,13 @@ const route = {
 				title: <FormattedMessage id="transfer.router.home" defaultMessage="Transfer" />,
 			},
 		},
-		{
-			path: 'deploy',
-			element: <Deploy />,
-			handle: {
-				title: <FormattedMessage id="transfer.router.deploy" defaultMessage="Deploy package" />,
-			},
-		},
+		// {
+		// 	path: 'deploy',
+		// 	element: <Deploy />,
+		// 	handle: {
+		// 		title: <FormattedMessage id="transfer.router.deploy" defaultMessage="Deploy package" />,
+		// 	},
+		// },
 		{
 			path: 'raw',
 			element: <Raw />,
