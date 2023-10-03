@@ -1,26 +1,20 @@
 import {
 	type Message as RadixMessage,
 	messageDiscriminator,
-	messageSource as radixMessageSource,
 } from '@radixdlt/connector-extension/src/chrome/messages/_types'
-import { createMessage as createRadixMessage } from '@radixdlt/connector-extension/src/chrome/messages/create-message'
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import { defineMessages, useIntl } from 'react-intl'
-import browser from 'webextension-polyfill'
 
 import { Box } from 'ui/src/components/box'
 import { Button } from 'ui/src/components/button'
 import { KeystoreType } from 'ui/src/store/types'
 
-import { MessageClient } from '@src/browser/ledger/message-client'
-import { getDeviceInfoPayload } from '@src/browser/ledger/messages'
 import { secretToData } from '@src/crypto/secret'
+import { useLedgerClient } from '@src/hooks/use-ledger-client'
 import type { Data } from '@src/types/vault'
 import { DataType } from '@src/types/vault'
 
 import KeystoreForm from '../components/keystore-form'
-
-const client = MessageClient()
 
 const messages = defineMessages({
 	connect: {
@@ -35,23 +29,15 @@ const messages = defineMessages({
 
 export const New: React.FC = () => {
 	const intl = useIntl()
+	const client = useLedgerClient()
 
 	const [isLoading, setIsLoading] = useState<boolean>(false)
 	const [device, setDevice] = useState<any>()
 
-	useEffect(() => {
-		browser.runtime.onMessage.addListener(client.onMessage)
-		return () => {
-			browser.runtime.onMessage.removeListener(client.onMessage)
-		}
-	}, [])
-
 	const handleGetDeviceInfo = async () => {
 		setIsLoading(true)
 		try {
-			const message: RadixMessage = await client.sendMessage(
-				createRadixMessage.walletToLedger(radixMessageSource.offScreen, getDeviceInfoPayload()),
-			)
+			const message: RadixMessage = await client.getDeviceInfo()
 			if (message?.discriminator === messageDiscriminator.ledgerResponse) {
 				if (!message?.data) {
 					return

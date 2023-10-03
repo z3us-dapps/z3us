@@ -7,9 +7,10 @@ import { RdtProvider } from 'ui/src/context/rdt-provider'
 import { ReactQueryProvider } from 'ui/src/context/react-query-provider'
 import { NoneSharedStoreProvider } from 'ui/src/context/state-provider'
 
-import { ClientProvider } from '@src/context/client-provider'
 import { DappStatusProvider } from '@src/context/dapp-status-provider'
 import IntlProvider from '@src/context/intl-provider'
+import { ClientProvider as LedgerClientProvider } from '@src/context/ledger-client-provider'
+import { ClientProvider as MessageClientProvider } from '@src/context/message-client-provider'
 import { ThemeProvider } from '@src/context/theme-provider'
 import { ZdtProvider } from '@src/context/zdt-provider'
 import '@src/styles/global-style.css'
@@ -28,13 +29,15 @@ ReactDOM.createRoot(container).render(
 					<NoneSharedStoreProvider>
 						<IntlProvider>
 							<ModalsProvider>
-								<ClientProvider>
-									<RdtProvider>
-										<ZdtProvider>
-											<App />
-										</ZdtProvider>
-									</RdtProvider>
-								</ClientProvider>
+								<MessageClientProvider>
+									<LedgerClientProvider>
+										<RdtProvider>
+											<ZdtProvider>
+												<App />
+											</ZdtProvider>
+										</RdtProvider>
+									</LedgerClientProvider>
+								</MessageClientProvider>
 							</ModalsProvider>
 						</IntlProvider>
 					</NoneSharedStoreProvider>

@@ -8,7 +8,7 @@ import type { Keystore } from 'ui/src/store/types'
 
 import type { MessageTypes as BackgroundMessageTypes } from '@src/browser/background/message-handlers'
 import { MessageAction as BackgroundMessageAction } from '@src/browser/background/types'
-import { ClientContext } from '@src/context/client-provider'
+import { ClientContext } from '@src/context/message-client-provider'
 import { publicKeyFromJSON } from '@src/crypto/key_pair'
 import { signatureFromJSON, signatureWithPublicKeyFromJSON } from '@src/crypto/signature'
 import type { Data } from '@src/types/vault'

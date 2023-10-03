@@ -1,5 +1,5 @@
 import { config } from '../constants/config'
-import { type AddressBookEntry, CURRENCY, type ISettingsStateSetter, type SettingsState } from './types'
+import type { AddressBookEntry, CURRENCY, ISettingsStateSetter, SettingsState } from './types'
 
 const defaultState = {
 	gatewayBaseUrl: config.defaultGatewayBaseUrl,
