@@ -1,4 +1,5 @@
 import BigNumber from 'bignumber.js'
+import { useToken } from 'packages/ui/src/hooks/queries/oci'
 import React, { useState } from 'react'
 import { defineMessages, useIntl } from 'react-intl'
 import { useParams } from 'react-router-dom'
@@ -16,7 +17,6 @@ import { ToolTip } from 'ui/src/components/tool-tip'
 import { Text } from 'ui/src/components/typography'
 import { useEntityDetails } from 'ui/src/hooks/dapp/use-entity-details'
 import { useMarketChart, useXRDPriceOnDay } from 'ui/src/hooks/queries/market'
-import { useTokens } from 'ui/src/hooks/queries/oci'
 import { useNoneSharedStore } from 'ui/src/hooks/use-store'
 import { getStringMetadata } from 'ui/src/services/metadata'
 
@@ -76,7 +76,6 @@ const TokenDetails: React.FC = () => {
 		currency: state.currency,
 	}))
 	const { data: xrdPrice } = useXRDPriceOnDay(currency, new Date())
-	const { data: tokens } = useTokens()
 
 	const name = getStringMetadata('name', data?.metadata?.items)
 	const symbol = getStringMetadata('symbol', data?.metadata?.items)
@@ -85,11 +84,11 @@ const TokenDetails: React.FC = () => {
 
 	let tokenKey = symbol?.toUpperCase()
 	if (!tokenKey && validator) tokenKey = 'XRD'
-	const token = tokens[tokenKey] || null
+	const { data: token } = useToken(tokenKey)
 
-	const value = new BigNumber(token?.price.xrd || 0).multipliedBy(xrdPrice)
-	const change = new BigNumber(token ? +(token.price.usd || 0) / +(token.price.usd_24h || 0) : 0).dividedBy(100)
-	const increase = new BigNumber(token ? +(token.price.usd || 0) - +(token.price.usd_24h || 0) : 0)
+	const value = new BigNumber(token?.price.xrd.now || 0).multipliedBy(xrdPrice)
+	const change = new BigNumber(token ? +(token.price.usd.now || 0) / +(token.price.usd['24h'] || 0) : 0).dividedBy(100)
+	const increase = new BigNumber(token ? +(token.price.usd.now || 0) - +(token.price.usd['24h'] || 0) : 0)
 
 	const [timeFrame, setTimeFrame] = useState<string>('threeMonth')
 	const { data: chart } = useMarketChart(currency, symbol, TIMEFRAMES[timeFrame].days)

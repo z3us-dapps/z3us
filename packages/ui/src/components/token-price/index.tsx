@@ -3,7 +3,7 @@ import { FormattedNumber } from 'react-intl'
 
 import { FallbackLoading } from 'ui/src/components/fallback-renderer'
 import { useXRDPriceOnDay } from 'ui/src/hooks/queries/market'
-import { useTokens } from 'ui/src/hooks/queries/oci'
+import { useToken } from 'ui/src/hooks/queries/oci'
 import { useNoneSharedStore } from 'ui/src/hooks/use-store'
 
 interface IProps {
@@ -19,17 +19,15 @@ export const TokenPrice: React.FC<IProps> = ({ amount, symbol, currency }) => {
 
 	const inCurrency = currency || defaultCurrency
 
-	const { data: tokens, isLoading: isLoadingTokens } = useTokens()
+	const { data: token, isLoading: isLoadingToken } = useToken(symbol)
 	const { data: price, isLoading: isLoadingPrice } = useXRDPriceOnDay(inCurrency, new Date())
 
-	if (isLoadingTokens || isLoadingPrice) return <FallbackLoading />
-
-	const token = tokens[symbol?.toUpperCase()]
+	if (isLoadingToken || isLoadingPrice) return <FallbackLoading />
 
 	return (
 		<FormattedNumber
 			value={amount
-				.multipliedBy(new BigNumber(token?.price.xrd || 0))
+				.multipliedBy(new BigNumber(token?.price.xrd.now || 0))
 				.multipliedBy(price || 0)
 				.toNumber()}
 			style="currency"

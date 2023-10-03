@@ -9,11 +9,13 @@ import { useXRDPriceOnDay } from 'ui/src/hooks/queries/market'
 import { useTokens } from 'ui/src/hooks/queries/oci'
 import { useNoneSharedStore } from 'ui/src/hooks/use-store'
 import { getStringMetadata } from 'ui/src/services/metadata'
-import type { Token } from 'ui/src/services/swap/oci'
+import type { Token } from 'ui/src/services/oci'
 import { ResourceBalanceType } from 'ui/src/types/types'
 import type { ResourceBalance, ResourceBalances } from 'ui/src/types/types'
 
 import { useEntitiesDetails } from './use-entity-details'
+
+const ZERO = new BigNumber(0)
 
 const transformFungibleResourceItemResponse =
 	(xrdPrice: number, tokens: { [key: string]: Token }) =>
@@ -28,22 +30,27 @@ const transformFungibleResourceItemResponse =
 
 		const amount = item.vaults.items.reduce(
 			(acc, curr) => acc.plus(new BigNumber(curr.amount)),
-			container[item.resource_address]?.amount || new BigNumber(0),
+			container[item.resource_address]?.amount || ZERO,
 		)
 
-		let tokenKey = symbol?.toUpperCase()
-		if (!tokenKey && validator) tokenKey = 'XRD'
+		let tokenKey = symbol?.toLowerCase()
+		if (!tokenKey && validator) tokenKey = 'xrd'
 		const token = tokens?.[tokenKey] || null
+
+		let change = new BigNumber(token ? +(token.price.usd.now || 0) / +(token.price.usd['24h'] || 0) : 0).dividedBy(100)
+		if (!change.isFinite()) {
+			change = ZERO
+		}
 
 		const details = {
 			address: item.resource_address,
 			amount,
-			value: amount.multipliedBy(new BigNumber(token?.price.xrd || 0)).multipliedBy(xrdPrice),
+			value: amount.multipliedBy(new BigNumber(token?.price.xrd.now || 0)).multipliedBy(xrdPrice),
 			name,
 			description,
 			url,
 			imageUrl,
-			change: new BigNumber(token ? +(token.price.usd || 0) / +(token.price.usd_24h || 0) : 0).dividedBy(100),
+			change,
 		}
 
 		if (validator) {
@@ -88,8 +95,8 @@ const transformNonFungibleResourceItemResponse = (
 		description,
 		url,
 		imageUrl,
-		value: new BigNumber(0),
-		change: new BigNumber(0),
+		value: ZERO,
+		change: ZERO,
 	} satisfies ResourceBalance[ResourceBalanceType.NON_FUNGIBLE]
 
 	return container
@@ -123,7 +130,7 @@ export const useAccountValues = (...addresses: string[]) => {
 						account.fungible_resources.items.reduce(transformFungibleResourceItemResponse(xrdPrice, tokens), {}),
 					).reduce(
 						(total: BigNumber, balance: ResourceBalance[ResourceBalanceType.FUNGIBLE]) => total.plus(balance.value),
-						new BigNumber(0),
+						ZERO,
 					),
 				}),
 				{},
@@ -169,7 +176,7 @@ export const useBalances = (...addresses: string[]) => {
 		)
 
 		const fungibleBalances = Object.values(fungible)
-		const fungibleValue = fungibleBalances.reduce((total, balance) => total.plus(balance.value), new BigNumber(0))
+		const fungibleValue = fungibleBalances.reduce((total, balance) => total.plus(balance.value), ZERO)
 		const fungibleChange = fungibleBalances.reduce(
 			(change, balance) =>
 				change.plus(
@@ -177,11 +184,11 @@ export const useBalances = (...addresses: string[]) => {
 						fungibleValue.eq(0) ? 1 : fungibleValue.dividedBy(balance.value.eq(0) ? 1 : balance.value),
 					),
 				),
-			new BigNumber(0),
+			ZERO,
 		)
 
 		const nonFungibleBalances = Object.values(nonFungible)
-		const nonFungibleValue = nonFungibleBalances.reduce((total, balance) => total.plus(balance.value), new BigNumber(0))
+		const nonFungibleValue = nonFungibleBalances.reduce((total, balance) => total.plus(balance.value), ZERO)
 		const nonFungibleChange = nonFungibleBalances.reduce(
 			(change, balance) =>
 				change.plus(
@@ -189,33 +196,33 @@ export const useBalances = (...addresses: string[]) => {
 						nonFungibleValue.eq(0) ? 1 : nonFungibleValue.dividedBy(balance.value.eq(0) ? 1 : balance.value),
 					),
 				),
-			new BigNumber(0),
+			ZERO,
 		)
 
 		const tokenBalances = Object.values(otherTokens)
-		const tokensValue = tokenBalances.reduce((total, balance) => total.plus(balance.value), new BigNumber(0))
+		const tokensValue = tokenBalances.reduce((total, balance) => total.plus(balance.value), ZERO)
 		const tokensChange = tokenBalances.reduce(
 			(change, balance) =>
 				change.plus(
 					balance.change.div(tokensValue.eq(0) ? 1 : tokensValue.dividedBy(balance.value.eq(0) ? 1 : balance.value)),
 				),
-			new BigNumber(0),
+			ZERO,
 		)
 
 		const lpBalances = Object.values(lpTokens)
-		const lpValue = lpBalances.reduce((total, balance) => total.plus(balance.value), new BigNumber(0))
+		const lpValue = lpBalances.reduce((total, balance) => total.plus(balance.value), ZERO)
 		const lpChange = lpBalances.reduce(
 			(change, balance) =>
 				change.plus(balance.change.div(lpValue.eq(0) ? 1 : lpValue.dividedBy(balance.value.eq(0) ? 1 : balance.value))),
-			new BigNumber(0),
+			ZERO,
 		)
 
 		const puBalances = Object.values(poolUnits)
-		const puValue = puBalances.reduce((total, balance) => total.plus(balance.value), new BigNumber(0))
+		const puValue = puBalances.reduce((total, balance) => total.plus(balance.value), ZERO)
 		const puChange = puBalances.reduce(
 			(change, balance) =>
 				change.plus(balance.change.div(puValue.eq(0) ? 1 : puValue.dividedBy(balance.value.eq(0) ? 1 : balance.value))),
-			new BigNumber(0),
+			ZERO,
 		)
 
 		const balances = [...fungibleBalances, ...nonFungibleBalances]
@@ -225,7 +232,7 @@ export const useBalances = (...addresses: string[]) => {
 				change.plus(
 					balance.change.div(totalValue.eq(0) ? 1 : totalValue.dividedBy(balance.value.eq(0) ? 1 : balance.value)),
 				),
-			new BigNumber(0),
+			ZERO,
 		)
 
 		return {

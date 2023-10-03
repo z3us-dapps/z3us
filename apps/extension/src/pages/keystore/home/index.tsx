@@ -11,16 +11,16 @@ import { generateId } from 'ui/src/utils/generate-id'
 
 const messages = defineMessages({
 	seed_new: {
-		id: 'keystore.home.seed',
-		defaultMessage: 'New',
+		id: 'keystore.home.seed_new',
+		defaultMessage: 'I am new user',
 	},
 	seed_restore: {
-		id: 'keystore.home.seed',
+		id: 'keystore.home.seed_restore',
 		defaultMessage: 'Restore from seed phrase',
 	},
 	key: {
 		id: 'keystore.home.key',
-		defaultMessage: 'Restore from from extended private key',
+		defaultMessage: 'Restore from extended private key',
 	},
 	radix: {
 		id: 'keystore.home.radix',

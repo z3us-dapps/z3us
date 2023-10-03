@@ -82,6 +82,14 @@ const messages = defineMessages({
 		id: 'account_menu.wallet_remove',
 		defaultMessage: 'Delete wallet',
 	},
+	persona: {
+		id: 'account_menu.persona',
+		defaultMessage: 'Persona',
+	},
+	persona_add: {
+		id: 'account_menu.persona_add',
+		defaultMessage: 'Add persona...',
+	},
 	settings: {
 		id: 'account_menu.settings',
 		defaultMessage: 'Settings',
@@ -158,6 +166,10 @@ export const AccountViewDropdown = forwardRef<HTMLElement, IAccountViewDropdownP
 		const handleRemoveWallet = () => {
 			navigate('/keystore/remove')
 		}
+
+		const handleSelectPersona = () => {}
+
+		const handleAddNewPersona = () => {}
 
 		return (
 			<Box ref={ref} className={clsx(styles.accountViewDropdownWrapper, className)}>
@@ -252,6 +264,62 @@ export const AccountViewDropdown = forwardRef<HTMLElement, IAccountViewDropdownP
 										<Box display="flex" marginLeft="small">
 											<Text size="xsmall" truncate>
 												{intl.formatMessage(messages.wallet_add)}
+											</Text>
+										</Box>
+									</DropdownMenuItem>
+								)}
+							</Box>
+
+							<DropdownMenuSeparator />
+
+							<Box className={styles.accountViewPaddingWrapper}>
+								<DropdownMenuLabel>
+									<Text size="xsmall" weight="strong" color="strong">
+										{intl.formatMessage(messages.persona)}
+									</Text>
+								</DropdownMenuLabel>
+
+								<DropdownMenuSub>
+									<DropdownMenuSubTrigger>
+										<Box flexGrow={1} display="flex" marginLeft="small">
+											<Text size="xsmall" truncate>
+												Joe Doe
+											</Text>
+										</Box>
+										<DropdownMenuRightSlot>
+											<ChevronRightIcon />
+										</DropdownMenuRightSlot>
+									</DropdownMenuSubTrigger>
+									<DropdownMenuPortal>
+										<DropdownMenuSubContent>
+											<DropdownMenuRadioGroup
+												disabled={isSwitchingKeystore}
+												value={keystore.id}
+												onValueChange={handleSelectPersona}
+											>
+												{['This', 'is', 'sparta'].map(k => (
+													<DropdownMenuRadioItem key={k} value={k}>
+														<Box flexGrow={1} marginLeft="small">
+															<Text size="xsmall"> {k}</Text>
+														</Box>
+														<DropdownMenuItemIndicator>
+															<CheckIcon />
+														</DropdownMenuItemIndicator>
+													</DropdownMenuRadioItem>
+												))}
+											</DropdownMenuRadioGroup>
+										</DropdownMenuSubContent>
+									</DropdownMenuPortal>
+								</DropdownMenuSub>
+
+								{isWallet && (
+									<DropdownMenuItem onSelect={handleAddNewPersona}>
+										<DropdownMenuLeftSlot>
+											<PlusIcon />
+										</DropdownMenuLeftSlot>
+										<Box display="flex" marginLeft="small">
+											<Text size="xsmall" truncate>
+												{intl.formatMessage(messages.persona_add)}
 											</Text>
 										</Box>
 									</DropdownMenuItem>

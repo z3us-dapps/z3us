@@ -1,7 +1,4 @@
 {
-  "account_menu.account": {
-    "defaultMessage": "Account"
-  },
   "account_menu.content_script": {
     "defaultMessage": "Connected DApp: {DappLink}"
   },
@@ -16,6 +13,9 @@
   },
   "account_menu.persona": {
     "defaultMessage": "Persona"
+  },
+  "account_menu.persona_add": {
+    "defaultMessage": "Add persona..."
   },
   "account_menu.settings": {
     "defaultMessage": "Settings"
@@ -75,13 +75,16 @@
     "defaultMessage": "All accounts"
   },
   "accounts.breadcrumbs.lp_tokens": {
-    "defaultMessage": "Pool Units"
+    "defaultMessage": "Liquidity Pool Tokens"
   },
   "accounts.breadcrumbs.nft_item": {
     "defaultMessage": "{hasDisplayName, select, true {{displayName}} other {NFT} }"
   },
   "accounts.breadcrumbs.nfts": {
     "defaultMessage": "NFTs"
+  },
+  "accounts.breadcrumbs.pool_units": {
+    "defaultMessage": "Pool Units"
   },
   "accounts.breadcrumbs.resource": {
     "defaultMessage": "{hasDisplayName, select, true {displayName} other {Resource} }"
@@ -344,16 +347,25 @@
   "keystore.form.validation.password": {
     "defaultMessage": "Insert password (at least 8 characters)"
   },
+  "keystore.hardware_wallet.connect": {
+    "defaultMessage": "Connect device"
+  },
+  "keystore.hardware_wallet.info": {
+    "defaultMessage": "Do not close this tab and continue with the device in another one, we will come back here later."
+  },
   "keystore.home.hw": {
     "defaultMessage": "Connect Hardware Wallet"
   },
   "keystore.home.key": {
-    "defaultMessage": "Restore from from extended private key"
+    "defaultMessage": "Restore from extended private key"
   },
   "keystore.home.radix": {
     "defaultMessage": "Connect Radix Mobile"
   },
-  "keystore.home.seed": {
+  "keystore.home.seed_new": {
+    "defaultMessage": "I am new user"
+  },
+  "keystore.home.seed_restore": {
     "defaultMessage": "Restore from seed phrase"
   },
   "keystore.radix.pairing.help": {

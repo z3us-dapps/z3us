@@ -182,6 +182,14 @@ async function getSecret(message: Message): Promise<string> {
 	return cryptoGetSecret(walletData.data)
 }
 
+async function isSecretEmpty(): Promise<boolean> {
+	const walletData = await vault.get()
+	if (!walletData) {
+		return true
+	}
+	return cryptoGetSecret(walletData.data) === ''
+}
+
 async function handleRadixMessage(message: Message) {
 	await sharedStore.persist.rehydrate()
 	const sharedState = sharedStore.getState()
@@ -297,6 +305,7 @@ export default {
 	[MessageAction.BACKGROUND_VAULT_REMOVE]: removeFromVault,
 	[MessageAction.BACKGROUND_VAULT_IS_UNLOCKED]: isVaultUnlocked,
 	[MessageAction.BACKGROUND_VAULT_GET]: getSecret,
+	[MessageAction.BACKGROUND_VAULT_IS_SECRET_EMPTY]: isSecretEmpty,
 
 	[MessageAction.BACKGROUND_GET_PUBLIC_KEY]: getPublicKey,
 	[MessageAction.BACKGROUND_SIGN_TO_SIGNATURE]: signToSignature,

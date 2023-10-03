@@ -1,10 +1,4 @@
 {
-  "account_menu.account": [
-    {
-      "type": 0,
-      "value": "Account"
-    }
-  ],
   "account_menu.content_script": [
     {
       "type": 0,
@@ -37,6 +31,12 @@
     {
       "type": 0,
       "value": "Persona"
+    }
+  ],
+  "account_menu.persona_add": [
+    {
+      "type": 0,
+      "value": "Add persona..."
     }
   ],
   "account_menu.settings": [
@@ -156,7 +156,7 @@
   "accounts.breadcrumbs.lp_tokens": [
     {
       "type": 0,
-      "value": "Pool Units"
+      "value": "Liquidity Pool Tokens"
     }
   ],
   "accounts.breadcrumbs.nft_item": [
@@ -187,6 +187,12 @@
     {
       "type": 0,
       "value": "NFTs"
+    }
+  ],
+  "accounts.breadcrumbs.pool_units": [
+    {
+      "type": 0,
+      "value": "Pool Units"
     }
   ],
   "accounts.breadcrumbs.resource": [
@@ -883,6 +889,18 @@
       "value": "Insert password (at least 8 characters)"
     }
   ],
+  "keystore.hardware_wallet.connect": [
+    {
+      "type": 0,
+      "value": "Connect device"
+    }
+  ],
+  "keystore.hardware_wallet.info": [
+    {
+      "type": 0,
+      "value": "Do not close this tab and continue with the device in another one, we will come back here later."
+    }
+  ],
   "keystore.home.hw": [
     {
       "type": 0,
@@ -892,7 +910,7 @@
   "keystore.home.key": [
     {
       "type": 0,
-      "value": "Restore from from extended private key"
+      "value": "Restore from extended private key"
     }
   ],
   "keystore.home.radix": [
@@ -901,7 +919,13 @@
       "value": "Connect Radix Mobile"
     }
   ],
-  "keystore.home.seed": [
+  "keystore.home.seed_new": [
+    {
+      "type": 0,
+      "value": "I am new user"
+    }
+  ],
+  "keystore.home.seed_restore": [
     {
       "type": 0,
       "value": "Restore from seed phrase"

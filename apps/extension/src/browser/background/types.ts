@@ -7,6 +7,7 @@ export enum MessageAction {
 	BACKGROUND_VAULT_SAVE = 'v1-background-vault-store',
 	BACKGROUND_VAULT_REMOVE = 'v1-background-vault-remove',
 	BACKGROUND_VAULT_IS_UNLOCKED = 'v1-background-vault-is-unlocked',
+	BACKGROUND_VAULT_IS_SECRET_EMPTY = 'v1-background-vault-is-secret-empty',
 
 	BACKGROUND_SIGN_TO_SIGNATURE = 'v1-background-sign-to-signature',
 	BACKGROUND_SIGN_TO_SIGNATURE_WITH_PUBLIC_KEY = 'v1-background-sign-to-signature-with-public-key',

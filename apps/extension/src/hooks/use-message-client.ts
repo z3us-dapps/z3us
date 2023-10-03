@@ -41,6 +41,9 @@ export const useMessageClient = () => {
 						password,
 					} as BackgroundMessageTypes[BackgroundMessageAction.BACKGROUND_VAULT_GET])
 					.then(updateCursor),
+			isSecretEmpty: async (): Promise<boolean> =>
+				client.sendMessage(BackgroundMessageAction.BACKGROUND_VAULT_IS_SECRET_EMPTY).then(updateCursor),
+
 			lockVault: async (): Promise<void> =>
 				client.sendMessage(BackgroundMessageAction.BACKGROUND_VAULT_LOCK).then(updateCursor),
 			unlockVault: async (password: string): Promise<void> =>

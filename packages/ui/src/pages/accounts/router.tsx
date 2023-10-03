@@ -101,7 +101,7 @@ const route = {
 						backButton: <BackButton key="pool-units" />,
 						crumb: ({ accountId }, isLast: boolean) => (
 							<LinkBreadcrumb isLast={isLast} key={accountId} to={`/accounts/${accountId}/pool-units`}>
-								<FormattedMessage id="accounts.breadcrumbs.lp_tokens" defaultMessage="Pool Units" />
+								<FormattedMessage id="accounts.breadcrumbs.pool_units" defaultMessage="Pool Units" />
 							</LinkBreadcrumb>
 						),
 					},
