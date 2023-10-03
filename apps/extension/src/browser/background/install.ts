@@ -66,6 +66,7 @@ const migrateOlympiaAddresses = async () => {
 							...addressBook,
 							[address]: {
 								...entry,
+								address,
 								name: olympiaName || entry.name || `Olympia derived: ${idx}`,
 							} as AddressBookEntry,
 						}
