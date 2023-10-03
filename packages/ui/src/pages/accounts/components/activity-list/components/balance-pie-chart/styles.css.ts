@@ -15,7 +15,7 @@ export const allChartWrapper = style([
 			tablet: 'none',
 		},
 		paddingBottom: {
-			mobile: 'medium',
+			mobile: 'xsmall',
 			tablet: 'medium',
 		},
 	}),
@@ -82,5 +82,6 @@ export const pieChartWrapper = style([
 export const mobileHiddenWrapper = style([
 	responsiveStyle({
 		mobile: { display: 'none' },
+		tablet: { display: 'flex' },
 	}),
 ])

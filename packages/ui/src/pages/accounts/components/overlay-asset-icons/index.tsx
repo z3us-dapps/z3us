@@ -11,7 +11,7 @@ import type { ResourceBalanceKind } from 'ui/src/types/types'
 
 import * as styles from './styles.css'
 
-const DEFAULT_ITEMS = 3
+const DEFAULT_ITEMS = 6
 
 interface IProps {
 	resourceType: 'token' | 'nft' | 'lp-token' | 'pool-unit'
@@ -25,31 +25,33 @@ export const OverlayAssetIcons: React.FC<IProps> = ({ resourceType, balances }) 
 
 	return (
 		<Box className={styles.overlayAssetIconsWrapper}>
-			{balances.length > DEFAULT_ITEMS && (
-				<Box display="flex" alignItems="center" marginRight="large">
+			<Box display="flex" alignItems="center">
+				{balances.length > DEFAULT_ITEMS && (
 					<Text size="xsmall" weight="medium">
 						+{balances.length - DEFAULT_ITEMS}
 					</Text>
+				)}
+			</Box>
+			<Box display="flex" alignItems="center">
+				{balances.slice(0, DEFAULT_ITEMS).map(resource => (
+					<Button
+						key={resource.address}
+						className={styles.overlayAssetIconCircleWrapper}
+						onClick={(event: React.MouseEvent<HTMLElement>) => {
+							event.preventDefault()
+							navigate(`/accounts/${accountId || '-'}/${resourceType}s/${resource.address}`)
+						}}
+						styleVariant="avatar"
+						sizeVariant={isMobile ? 'small' : 'medium'}
+						iconOnly
+						rounded
+					>
+						<ResourceImageIcon size={isMobile ? 'large' : 'xlarge'} address={resource.address} toolTipEnabled />
+					</Button>
+				))}
+				<Box className={styles.overlayAssetChevronWrapper}>
+					<ChevronRightIcon />
 				</Box>
-			)}
-			{balances.slice(0, DEFAULT_ITEMS).map(resource => (
-				<Button
-					key={resource.address}
-					className={styles.overlayAssetIconCircleWrapper}
-					onClick={(event: React.MouseEvent<HTMLElement>) => {
-						event.preventDefault()
-						navigate(`/accounts/${accountId || '-'}/${resourceType}s/${resource.address}`)
-					}}
-					styleVariant="avatar"
-					sizeVariant={isMobile ? 'small' : 'medium'}
-					iconOnly
-					rounded
-				>
-					<ResourceImageIcon size={isMobile ? 'large' : 'xlarge'} address={resource.address} toolTipEnabled />
-				</Button>
-			))}
-			<Box className={styles.overlayAssetChevronWrapper}>
-				<ChevronRightIcon />
 			</Box>
 		</Box>
 	)

@@ -9,14 +9,25 @@ export const overlayAssetIconsWrapper = style([
 			mobile: 'relative',
 			tablet: 'absolute',
 		},
+		display: 'flex',
+		flexDirection: {
+			mobile: 'row-reverse',
+			tablet: 'row',
+		},
+		gap: {
+			mobile: 'xsmall',
+			tablet: 'medium',
+		},
+		justifyContent: {
+			mobile: 'flex-end',
+			tablet: 'flex-start',
+		},
 		top: 0,
 		right: 0,
-		marginRight: 'medium',
 		height: 'full',
 		alignItems: 'center',
 		pointerEvents: 'none',
 		color: 'colorNeutral',
-		display: 'flex',
 	}),
 	{},
 ])
