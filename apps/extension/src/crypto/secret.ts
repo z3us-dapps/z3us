@@ -8,7 +8,7 @@ export function createMnemonic(language: Language = Language.ENGLISH): string {
 }
 
 export function getSecret(data: Data): string {
-	const key = Language[data.language ?? Language.ENGLISH].toLowerCase()
+	const key = Language[data?.language ?? Language.ENGLISH].toLowerCase()
 	switch (data?.type) {
 		case DataType.MNEMONIC:
 			return entropyToMnemonic(Buffer.from(data.secret, 'hex'), wordlists[key])

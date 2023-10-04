@@ -1,5 +1,3 @@
-import type { Decoded } from 'bech32'
-import { bech32 } from 'bech32'
 import { QRCodeSVG } from 'qrcode.react'
 import React, { useEffect, useState } from 'react'
 import { defineMessages, useIntl } from 'react-intl'
@@ -39,12 +37,6 @@ const sanitizeName = (name: string = ''): string => {
 	return `${replacedName}${END_OF_ACCOUNT_NAME}`
 }
 
-const olympiaPublickKeyFromOlympiaAddress = (address: string): string => {
-	const decoded: Decoded = bech32.decode(address, 300)
-	const data = bech32.fromWords(decoded.words)
-	return Buffer.from(data).toString('hex')
-}
-
 const compressPublicKeyToHex = (publicKey: string): string => Buffer.from(publicKey, 'hex').toString('base64')
 
 const accountToExportPayload = (
@@ -54,9 +46,8 @@ const accountToExportPayload = (
 	name: string,
 ): string => [accountType, publicKey, addressIndex, sanitizeName(name)].join(INTRA_SEPARATOR)
 
-const accountSummary = (index: number, olympiaAddress: string, name: string, isLocal: boolean): string => {
+const accountSummary = (index: number, publicKeyHex: string, name: string, isLocal: boolean): string => {
 	const localType = isLocal ? 'S' : 'H'
-	const publicKeyHex = olympiaPublickKeyFromOlympiaAddress(olympiaAddress)
 	const compressedKey = compressPublicKeyToHex(publicKeyHex)
 	return accountToExportPayload(localType, compressedKey, index, name)
 }
@@ -115,7 +106,7 @@ export const Export: React.FC = () => {
 					.map((account, position) =>
 						accountSummary(
 							account.entityIndex,
-							account.olympiaAddress,
+							account.publicKeyHex,
 							intl.formatMessage(messages.unknown_account, {
 								hasLabel: !!addressBook[account.address]?.name,
 								label: addressBook[account.address]?.name,
