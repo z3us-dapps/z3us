@@ -1,6 +1,6 @@
 import clsx from 'clsx'
 import { AnimatePresence, motion } from 'framer-motion'
-import React, { useMemo, useState } from 'react'
+import React, { useMemo } from 'react'
 import { defineMessages, useIntl } from 'react-intl'
 
 import { Box } from 'ui/src/components/box'
@@ -31,8 +31,6 @@ export const BalancePieChart: React.FC = () => {
 	const resourceType = useResourceType()
 	const isAllAccounts = useIsAllAccounts()
 	const accounts = useWalletAccounts()
-
-	const [showFullAccountList, setShowFullAccountList] = useState<boolean>(false)
 
 	const selectedAccounts = useSelectedAccounts()
 	const { values: accountValues } = useAccountValues(...selectedAccounts)

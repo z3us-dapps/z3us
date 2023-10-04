@@ -35,12 +35,12 @@ export const SideBarTotal: React.FC = () => {
 				<Text weight="medium" size="xxxlarge" color="strong" truncate>
 					{formattedValue}
 				</Text>
-				<RedGreenText size="xxsmall" weight="medium" truncate changeStatus={changeStatus}>
+				<RedGreenText size="xsmall" weight="strong" truncate changeStatus={changeStatus}>
 					{formattedChange}
 				</RedGreenText>
 			</Box>
-			<Text color="strong" size="xlarge">
-				100 XRD
+			<Text weight="strong" size="xlarge">
+				100 XRD (TODO)
 			</Text>
 		</Box>
 	)
