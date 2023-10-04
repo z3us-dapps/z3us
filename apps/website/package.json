@@ -7,6 +7,7 @@
 		"next_kill_port": "npx kill-port 4000",
 		"next_dev": "next dev --port 4000",
 		"build": "next build",
+		"build:serve": "serve ./out",
 		"start": "next start",
 		"test": "jest --clearCache --detectOpenHandles --forceExit",
 		"check-types": "tsc --noemit",
@@ -64,6 +65,7 @@
 		"usehooks-ts": "^2.7.0"
 	},
 	"devDependencies": {
+		"serve": "^14.2.1",
 		"@types/node": "^17.0.0",
 		"@types/react": "^17.0.39",
 		"@types/react-dom": "^17.0.11",
