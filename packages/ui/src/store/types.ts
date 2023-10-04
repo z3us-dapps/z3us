@@ -114,6 +114,7 @@ export type Account = {
 	curve: CURVE
 	scheme: SCHEME
 	derivationPath: string
+	olympiaAddress?: string
 }
 
 export type AccountIndexes = { [networkId: number]: { [address: string]: Account } }

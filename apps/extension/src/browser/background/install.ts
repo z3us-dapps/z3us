@@ -60,6 +60,7 @@ const migrateOlympiaAddresses = async () => {
 								curve: CURVE.SECP256K1,
 								scheme: SCHEME.BIP440OLYMPIA,
 								derivationPath: `m/44H/1022H/0H/0/${idx}`,
+								olympiaAddress,
 							} as Account,
 						}
 
