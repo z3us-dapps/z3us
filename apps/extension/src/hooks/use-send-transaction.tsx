@@ -1,7 +1,6 @@
 /* eslint-disable no-case-declarations */
 import type { SendTransactionInput } from '@radixdlt/radix-dapp-toolkit'
 import type {
-	Curve,
 	Instruction,
 	Intent,
 	SignedIntent,
@@ -27,22 +26,13 @@ import { useNetworkId } from 'ui/src/hooks/dapp/use-network-id'
 import { useNoneSharedStore, useSharedStore } from 'ui/src/hooks/use-store'
 import { KeystoreType } from 'ui/src/store/types'
 
+import { signatureCurveFromLedgerCurve } from '@src/browser/ledger/signature'
 import { signatureFromJSON, signatureWithPublicKeyFromJSON, signatureWithPublicKeyToJSON } from '@src/crypto/signature'
 import { useMessageClient } from '@src/hooks/use-message-client'
 import { useSignModal } from '@src/hooks/use-sign-modal'
 
+import { useGetPublicKey } from './use-get-public-key'
 import { useLedgerClient } from './use-ledger-client'
-
-export function signatureCurveFromLedgerCurve(curve: 'secp256k1' | 'curve25519'): Curve {
-	switch (curve) {
-		case 'secp256k1':
-			return 'Secp256k1'
-		case 'curve25519':
-			return 'Ed25519'
-		default:
-			throw new Error(`Unknown curve: ${curve}`)
-	}
-}
 
 const messages = defineMessages({
 	empty_signatures_error: {
@@ -61,6 +51,7 @@ export const useSendTransaction = () => {
 	const client = useMessageClient()
 	const ledger = useLedgerClient()
 	const { status, transaction } = useGatewayClient()
+	const getPublicKey = useGetPublicKey()
 
 	const { keystore } = useSharedStore(state => ({
 		keystore: state.keystores.find(({ id }) => id === state.selectedKeystoreId),
@@ -70,7 +61,7 @@ export const useSendTransaction = () => {
 	}))
 
 	const sign = useCallback(
-		async (needSignaturesFrom: string[], password: string, hash: Uint8Array) => {
+		async (needSignaturesFrom: string[], hash: Uint8Array, password: string) => {
 			switch (keystore?.type) {
 				case KeystoreType.LOCAL:
 					return Promise.all(
@@ -86,7 +77,6 @@ export const useSendTransaction = () => {
 				case KeystoreType.HARDWARE:
 					const ledgerSignatures = await ledger.signTx(
 						needSignaturesFrom.map(idx => accountIndexes[idx]),
-						password,
 						hash,
 					)
 					return ledgerSignatures.map(ledgerSignature =>
@@ -139,7 +129,7 @@ export const useSendTransaction = () => {
 		// BUILD TX AND SIGN
 		const { ledger_state: ledgerState } = await status.getCurrent()
 		const validFromEpoch: number = ledgerState.epoch
-		const notaryPublicKey = await client.getPublicKey(
+		const notaryPublicKey = await getPublicKey(
 			accountIndexes[fromAccount].curve,
 			accountIndexes[fromAccount].derivationPath,
 		)
@@ -177,9 +167,12 @@ export const useSendTransaction = () => {
 		const intent: Intent = { header, manifest }
 		const intentHash = await RadixEngineToolkit.Intent.intentHash(intent)
 
-		const content = modalContent(input.transactionManifest)
-		const password = await confirm(content)
-		const signatures = await sign(needSignaturesFrom, password, intentHash.hash)
+		let password = ''
+		if (keystore.type === KeystoreType.LOCAL) {
+			const content = modalContent(input.transactionManifest)
+			password = await confirm(content)
+		}
+		const signatures = await sign(needSignaturesFrom, intentHash.hash, password)
 
 		const signedIntent: SignedIntent = { intent, intentSignatures: signatures }
 		const signedIntentHash = await RadixEngineToolkit.SignedIntent.signedIntentHash(signedIntent)
@@ -191,7 +184,7 @@ export const useSendTransaction = () => {
 			compiledSignedIntent,
 			signedIntentHash,
 		).compileNotarizedAsync(async (hash: Uint8Array) => {
-			const [signature] = await sign([fromAccount], password, hash)
+			const [signature] = await sign([fromAccount], hash, password)
 			return signatureFromJSON(signatureWithPublicKeyToJSON(signature))
 		})
 

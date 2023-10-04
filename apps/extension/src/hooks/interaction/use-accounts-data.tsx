@@ -42,12 +42,12 @@ export const useAccountsData = () => {
 	const sign = useCallback(
 		async (
 			needSignaturesFrom: string[],
-			password: string,
 			challenge: string,
 			metadata: { origin: string; dAppDefinitionAddress: string },
 		): Promise<AccountProof[]> => {
 			switch (keystore?.type) {
 				case KeystoreType.LOCAL:
+					const password = await confirm(intl.formatMessage(messages.account_challenge))
 					return Promise.all<AccountProof>(
 						needSignaturesFrom.map(async address => {
 							const signatureWithPublicKey = await client.signToSignatureWithPublicKey(
@@ -71,7 +71,6 @@ export const useAccountsData = () => {
 				case KeystoreType.HARDWARE:
 					const response = await ledger.signChallenge(
 						needSignaturesFrom.map(idx => accountIndexes[idx]),
-						password,
 						challenge,
 						metadata,
 					)
@@ -96,8 +95,7 @@ export const useAccountsData = () => {
 		const { challenge } = req
 		let proofs: AccountProof[]
 		if (challenge) {
-			const password = await confirm(intl.formatMessage(messages.account_challenge))
-			proofs = await sign(selectedAccounts, password, challenge, metadata)
+			proofs = await sign(selectedAccounts, challenge, metadata)
 		}
 
 		const accounts = selectedAccounts.map((idx, appearanceId) => ({

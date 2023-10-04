@@ -8,14 +8,9 @@ import type {
 	LedgerSignTransactionRequest,
 } from '@radixdlt/connector-extension/src/ledger/schemas'
 
-import type { Account, Keystore, Persona } from 'ui/src/store/types'
+import type { Account, Persona } from 'ui/src/store/types'
 
-export const deviceFromSecret = (keystore: Keystore, secret: string): LedgerDevice => ({
-	...JSON.parse(secret),
-	name: keystore.name,
-})
-
-export const keyParametersFromSingers = (singers: Array<Account | Persona>): KeyParameters[] =>
+export const keyParametersFromSingers = (singers: Array<Account | Persona | KeyParameters>): KeyParameters[] =>
 	singers.map(singer => ({
 		curve: singer.curve,
 		derivationPath: singer.derivationPath,

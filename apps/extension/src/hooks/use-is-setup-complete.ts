@@ -21,8 +21,8 @@ export const useIsSetUpComplete = (): {
 		keystore: state.keystores.find(({ id }) => id === state.selectedKeystoreId),
 	}))
 
-	const [isLoading, setIsLoading] = useState<boolean>(keystore?.type === KeystoreType.RADIX_WALLET)
-	const [isComplete, setIsComplete] = useState<boolean>(keystore?.type !== KeystoreType.RADIX_WALLET)
+	const [isLoading, setIsLoading] = useState<boolean>(true)
+	const [isComplete, setIsComplete] = useState<boolean>(true)
 	const [time, setTime] = useState<number>(Date.now())
 
 	useMemo(() => {

@@ -11,8 +11,8 @@ import { Convert } from '@radixdlt/radix-engine-toolkit'
 import browser from 'webextension-polyfill'
 
 import { sharedStore } from 'ui/src/store'
-import type { CURVE, Keystore } from 'ui/src/store/types'
 import { KeystoreType } from 'ui/src/store/types'
+import type { CURVE, Keystore } from 'ui/src/store/types'
 
 import { openAppPopup } from '@src/browser/app/popup'
 import type { WalletInteractionWithTabId } from '@src/browser/app/types'
@@ -94,8 +94,10 @@ async function getPublicKey(message: Message): Promise<PublicKeyJSON | null> {
 		return null
 	}
 
-	const privateKey: PrivateKey = getPrivateKey(walletData.data, curve, derivationPath)
-	return publicKeyToJSON(privateKey.publicKey())
+	const privateKey = getPrivateKey(walletData.data, curve, derivationPath)
+	if (privateKey) return publicKeyToJSON(privateKey.publicKey())
+
+	return null
 }
 
 export interface SignMessage {

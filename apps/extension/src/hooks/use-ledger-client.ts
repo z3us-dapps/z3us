@@ -5,7 +5,9 @@ import {
 } from '@radixdlt/connector-extension/src/chrome/messages/_types'
 import { createMessage as createRadixMessage } from '@radixdlt/connector-extension/src/chrome/messages/create-message'
 import type {
+	KeyParameters,
 	LedgerDevice,
+	LedgerPublicKeyResponse,
 	LedgerSignChallengeResponse,
 	LedgerSignTransactionResponse,
 } from '@radixdlt/connector-extension/src/ledger/schemas'
@@ -17,7 +19,7 @@ import { useSharedStore } from 'ui/src/hooks/use-store'
 import type { Account, Persona } from 'ui/src/store/types'
 
 import {
-	deviceFromSecret,
+	getDerivePublicKeyPayload,
 	getDeviceInfoPayload,
 	getSignChallengePayload,
 	getSignTxPayload,
@@ -64,14 +66,24 @@ export const useLedgerClient = () => {
 					.sendMessage(createRadixMessage.walletToLedger(radixMessageSource.offScreen, getDeviceInfoPayload()))
 					.then(processLedgerResponse),
 
+			derivePublicKeys: async (
+				singers: Array<Account | Persona | KeyParameters>,
+			): Promise<LedgerPublicKeyResponse['success']> => {
+				const device = { ...keystore.ledgerDevice, name: keystore.name } as LedgerDevice
+				const keysParameters = keyParametersFromSingers(singers)
+				const payload = getDerivePublicKeyPayload(device, keysParameters)
+
+				return client
+					.sendMessage(createRadixMessage.walletToLedger(radixMessageSource.offScreen, payload))
+					.then(processLedgerResponse)
+			},
+
 			signChallenge: async (
 				singers: Array<Account | Persona>,
-				password: string,
 				challenge: string,
 				metadata: { origin: string; dAppDefinitionAddress: string },
 			): Promise<LedgerSignChallengeResponse['success']> => {
-				const secret = await messageClient.getSecret(password)
-				const device = deviceFromSecret(keystore, secret)
+				const device = { ...keystore.ledgerDevice, name: keystore.name } as LedgerDevice
 				const keysParameters = keyParametersFromSingers(singers)
 				const payload = getSignChallengePayload(device, keysParameters, challenge, metadata)
 
@@ -82,11 +94,9 @@ export const useLedgerClient = () => {
 
 			signTx: async (
 				singers: Array<Account | Persona>,
-				password: string,
 				intent: Uint8Array,
 			): Promise<LedgerSignTransactionResponse['success']> => {
-				const secret = await messageClient.getSecret(password)
-				const device = deviceFromSecret(keystore, secret)
+				const device = { ...keystore.ledgerDevice, name: keystore.name } as LedgerDevice
 				const keysParameters = keyParametersFromSingers(singers)
 				const payload = getSignTxPayload(device, keysParameters, Convert.Uint8Array.toHexString(intent))
 

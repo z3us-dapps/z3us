@@ -1,7 +1,7 @@
 import { QRCodeSVG } from 'qrcode.react'
 import React, { useEffect, useState } from 'react'
 import { defineMessages, useIntl } from 'react-intl'
-import { Navigate } from 'react-router-dom'
+import { Navigate, useNavigate } from 'react-router-dom'
 
 import { Box } from 'ui/src/components/box'
 import { useNetworkId } from 'ui/src/hooks/dapp/use-network-id'
@@ -63,6 +63,10 @@ const exportAsCode = (accounts: string[], payloadSize: number, mnemonicLength: n
 }
 
 const messages = defineMessages({
+	nothing_to_export: {
+		id: 'keystore.export.nothing_to_export',
+		defaultMessage: `Wallet does not contain legacy accounts`,
+	},
 	unknown_account: {
 		id: 'keystore.export.unknown_account',
 		defaultMessage: `{hasLabel, select,
@@ -76,6 +80,7 @@ export const Export: React.FC = () => {
 	const intl = useIntl()
 	const { resolvedTheme } = useTheme()
 	const networkId = useNetworkId()
+	const navigate = useNavigate()
 	const { keystore } = useSharedStore(state => ({
 		keystore: state.keystores.find(({ id }) => id === state.selectedKeystoreId),
 	}))
@@ -86,6 +91,12 @@ export const Export: React.FC = () => {
 
 	const [secret, setSecret] = useState<string | undefined>()
 	const [exports, setExports] = useState<string[]>([])
+
+	useEffect(() => {
+		if (keystore?.type !== KeystoreType.LOCAL && keystore?.type !== KeystoreType.HARDWARE) {
+			navigate('/')
+		}
+	}, [keystore])
 
 	useEffect(() => {
 		const load = async () => {
@@ -137,6 +148,7 @@ export const Export: React.FC = () => {
 					<Box>{secret}</Box>
 				</Box>
 			)}
+			{secret !== undefined && exports.length === 0 && <Box>{intl.formatMessage(messages.nothing_to_export)}</Box>}
 		</Box>
 	)
 }

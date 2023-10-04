@@ -19,6 +19,7 @@ export type Keystore = {
 	id: string
 	name: string
 	type: KeystoreType
+	ledgerDevice?: object
 }
 
 export type KeystoresState = {
@@ -29,6 +30,7 @@ export type KeystoresState = {
 	addKeystoreAction: (id: string, name: string, type: KeystoreType) => void
 	removeKeystoreAction: (id: string) => void
 	changeKeystoreNameAction: (id: string, name: string) => void
+	changeKeystoreLedgerDeviceAction: (id: string, device: any) => void
 }
 
 export interface IKeystoresStateSetter {

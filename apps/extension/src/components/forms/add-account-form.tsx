@@ -11,7 +11,7 @@ import { useNoneSharedStore } from 'ui/src/hooks/use-store'
 import { type AddressBookEntry, CURVE, SCHEME } from 'ui/src/store/types'
 
 import { buildAccountDerivationPath } from '@src/crypto/derivation_path'
-import { useMessageClient } from '@src/hooks/use-message-client'
+import { useGetPublicKey } from '@src/hooks/use-get-public-key'
 
 const messages = defineMessages({
 	name: {
@@ -34,8 +34,9 @@ const initialValues = {
 
 const AddAccountForm: React.FC = () => {
 	const intl = useIntl()
-	const client = useMessageClient()
 	const networkId = useNetworkId()
+	const getPublicKey = useGetPublicKey()
+
 	const { accountIndexes, addressBook, addAccount, setAddressBookEntry } = useNoneSharedStore(state => ({
 		accountIndexes: state.accountIndexes[networkId] || {},
 		addressBook: state.addressBook[networkId] || {},
@@ -67,7 +68,7 @@ const AddAccountForm: React.FC = () => {
 					.map(account => account.entityIndex),
 			) + 1
 		const derivationPath = buildAccountDerivationPath(idx)
-		const publicKey = await client.getPublicKey(CURVE.CURVE25519, derivationPath)
+		const publicKey = await getPublicKey(CURVE.CURVE25519, derivationPath)
 		const address = await LTSRadixEngineToolkit.Derive.virtualAccountAddress(publicKey, networkId)
 		const entry = { ...(addressBook[address] || {}), name: values.name } as AddressBookEntry
 

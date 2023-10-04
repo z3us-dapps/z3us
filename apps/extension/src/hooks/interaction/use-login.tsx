@@ -45,12 +45,12 @@ export const useLogin = () => {
 	const sign = useCallback(
 		async (
 			persona: Persona,
-			password: string,
 			challenge: string,
 			metadata: { origin: string; dAppDefinitionAddress: string },
 		): Promise<AuthLoginWithChallengeRequestResponseItem['proof']> => {
 			switch (keystore?.type) {
 				case KeystoreType.LOCAL:
+					const password = await confirm(intl.formatMessage(messages.persona_challenge, { label: persona.label }))
 					const signatureWithPublicKey = await client.signToSignatureWithPublicKey(
 						persona.curve,
 						persona.derivationPath,
@@ -64,7 +64,7 @@ export const useLogin = () => {
 						curve: proofCurve(signature.curve),
 					}
 				case KeystoreType.HARDWARE:
-					const [ledgerSignature] = await ledger.signChallenge([persona], password, challenge, metadata)
+					const [ledgerSignature] = await ledger.signChallenge([persona], challenge, metadata)
 					return {
 						signature: ledgerSignature.signature,
 						publicKey: ledgerSignature.derivedPublicKey.publicKey,
@@ -87,8 +87,7 @@ export const useLogin = () => {
 		const persona = personaIndexes[selectedPersona]
 		let proof: AuthLoginWithChallengeRequestResponseItem['proof']
 		if (challenge) {
-			const password = await confirm(intl.formatMessage(messages.persona_challenge, { label: persona.label }))
-			proof = await sign(persona, password, challenge, metadata)
+			proof = await sign(persona, challenge, metadata)
 		}
 
 		return { discriminator, challenge, persona, proof }

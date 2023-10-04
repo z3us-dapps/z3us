@@ -7,18 +7,21 @@ export const factory = (set: IKeystoresStateSetter): KeystoresState => ({
 	keystores: [defaultKeystore],
 	selectedKeystoreId: defaultKeystore.id,
 
-	addKeystoreAction: (keystoreId: string, name: string, type: KeystoreType) => {
+	selectKeystoreAction: (keystoreId: string) => {
 		set(draft => {
-			const keystores = draft.keystores.filter(({ id }) => keystoreId !== id) || []
-			draft.selectedKeystoreId = keystoreId
-			draft.keystores = [...keystores, { id: keystoreId, name, type }]
+			const keystore = draft.keystores.find(({ id }) => id === keystoreId)
+			// eslint-disable-next-line no-nested-ternary
+			draft.selectedKeystoreId = keystore ? keystore.id : draft.keystores.length > 0 ? draft.keystores[0].id : ''
 		})
 	},
 
-	changeKeystoreNameAction: (id: string, name: string) => {
+	addKeystoreAction: (keystoreId: string, name: string, type: KeystoreType) => {
 		set(draft => {
-			const keystores = draft.keystores || []
-			draft.keystores = keystores.map(keystore => (keystore.id === id ? { ...keystore, name } : keystore))
+			const keystores = draft.keystores.filter(({ id }) => keystoreId !== id) || []
+			const current = draft.keystores.find(({ id }) => id === keystoreId)
+
+			draft.selectedKeystoreId = keystoreId
+			draft.keystores = [...keystores, { ...current, id: keystoreId, name, type }]
 		})
 	},
 
@@ -33,11 +36,17 @@ export const factory = (set: IKeystoresStateSetter): KeystoresState => ({
 		})
 	},
 
-	selectKeystoreAction: (keystoreId: string) => {
+	changeKeystoreNameAction: (id: string, name: string) => {
 		set(draft => {
-			const keystore = draft.keystores.find(({ id }) => id === keystoreId)
-			// eslint-disable-next-line no-nested-ternary
-			draft.selectedKeystoreId = keystore ? keystore.id : draft.keystores.length > 0 ? draft.keystores[0].id : ''
+			const keystores = draft.keystores || []
+			draft.keystores = keystores.map(keystore => (keystore.id === id ? { ...keystore, name } : keystore))
+		})
+	},
+
+	changeKeystoreLedgerDeviceAction: (id: string, ledgerDevice: any) => {
+		set(draft => {
+			const keystores = draft.keystores || []
+			draft.keystores = keystores.map(keystore => (keystore.id === id ? { ...keystore, ledgerDevice } : keystore))
 		})
 	},
 })

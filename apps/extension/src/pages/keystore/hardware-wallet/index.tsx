@@ -1,9 +1,11 @@
 import type { LedgerDevice } from '@radixdlt/connector-extension/src/ledger/schemas'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { defineMessages, useIntl } from 'react-intl'
+import { useNavigate } from 'react-router-dom'
 
 import { Box } from 'ui/src/components/box'
 import { Button } from 'ui/src/components/button'
+import { useSharedStore } from 'ui/src/hooks/use-store'
 import { KeystoreType } from 'ui/src/store/types'
 
 import { secretToData } from '@src/crypto/secret'
@@ -26,10 +28,22 @@ const messages = defineMessages({
 
 export const New: React.FC = () => {
 	const intl = useIntl()
+	const navigate = useNavigate()
 	const client = useLedgerClient()
+
+	const { keystore, changeKeystoreLedgerDevice } = useSharedStore(state => ({
+		keystore: state.keystores.find(({ id }) => id === state.selectedKeystoreId),
+		changeKeystoreLedgerDevice: state.changeKeystoreLedgerDeviceAction,
+	}))
 
 	const [isLoading, setIsLoading] = useState<boolean>(false)
 	const [device, setDevice] = useState<LedgerDevice>()
+
+	useEffect(() => {
+		if (keystore?.type !== KeystoreType.HARDWARE) {
+			navigate('/')
+		}
+	}, [keystore])
 
 	const handleGetDeviceInfo = async () => {
 		setIsLoading(true)
@@ -40,7 +54,10 @@ export const New: React.FC = () => {
 		}
 	}
 
-	const handleSubmit = (): Data => secretToData(DataType.STRING, JSON.stringify(device))
+	const handleSubmit = (): Data => {
+		changeKeystoreLedgerDevice(keystore.id, device)
+		return secretToData(DataType.STRING, JSON.stringify(device))
+	}
 
 	return (
 		<Box padding="xxxlarge">
