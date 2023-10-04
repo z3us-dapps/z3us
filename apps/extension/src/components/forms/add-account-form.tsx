@@ -67,7 +67,7 @@ const AddAccountForm: React.FC = () => {
 					.filter(account => account.scheme !== SCHEME.BIP440OLYMPIA)
 					.map(account => account.entityIndex),
 			) + 1
-		const derivationPath = buildAccountDerivationPath(idx)
+		const derivationPath = buildAccountDerivationPath(networkId, idx)
 		const publicKey = await getPublicKey(CURVE.CURVE25519, derivationPath)
 		const address = await LTSRadixEngineToolkit.Derive.virtualAccountAddress(publicKey, networkId)
 		const entry = { ...(addressBook[address] || {}), name: values.name } as AddressBookEntry
