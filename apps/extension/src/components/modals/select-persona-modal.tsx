@@ -43,7 +43,7 @@ const initialValues = {
 }
 
 export interface IProps {
-	onConfirm: (index: number) => void
+	onConfirm: (address: string) => void
 	onCancel: () => void
 }
 
@@ -84,7 +84,7 @@ const SelectPersonaModal: React.FC<IProps> = ({ onConfirm, onCancel }) => {
 			setValidation(result.error)
 			return
 		}
-		onConfirm(+values.persona)
+		onConfirm(values.persona)
 		setIsOpen(false)
 		setValidation(undefined)
 	}
@@ -125,7 +125,10 @@ const SelectPersonaModal: React.FC<IProps> = ({ onConfirm, onCancel }) => {
 										ref={inputRef}
 										name="persona"
 										placeholder={intl.formatMessage(messages.persona)}
-										data={Object.keys(personaIndexes).map(idx => ({ id: idx, title: personaIndexes[idx].label }))}
+										data={Object.keys(personaIndexes).map(address => ({
+											id: address,
+											title: personaIndexes[address].label || address,
+										}))}
 									/>
 								</Form>
 							</Box>

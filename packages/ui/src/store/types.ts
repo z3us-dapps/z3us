@@ -81,33 +81,52 @@ export type NoneSharedState = SettingsState & ExtensionState & IntlState
 
 export type AppState = SharedState & NoneSharedState
 
+export enum CURVE {
+	CURVE25519 = 'curve25519',
+	SECP256K1 = 'secp256k1',
+}
+
+export enum SCHEME {
+	CAP26 = 'cap26',
+	BIP440OLYMPIA = 'bip44Olympia',
+}
+
+// `m/44H/1022H/14H/618H/1460H/${index}H`
 export type Persona = {
 	label: string
 	identityAddress: string
+	entityIndex: number
 	publicKeyHex: string
+	curve: CURVE
+	scheme: SCHEME
+	derivationPath: string
 }
 
-export type PersonaIndexes = { [networkId: number]: { [idx: number]: Persona } }
+export type PersonaIndexes = { [networkId: number]: { [address: string]: Persona } }
 
+// `m/44H/1022H/14H/525H/1460H/${index}H`
 export type Account = {
 	address: string
+	entityIndex: number
 	publicKeyHex: string
-	olympiaAddress?: string
+	curve: CURVE
+	scheme: SCHEME
+	derivationPath: string
 }
 
-export type AccountIndexes = { [networkId: number]: { [idx: number]: Account } }
+export type AccountIndexes = { [networkId: number]: { [address: string]: Account } }
 
 export type ExtensionState = {
 	radixConnectorEnabled: boolean
 	toggleRadixConnectorEnabledAction: (enabled: boolean) => void
 
 	personaIndexes: PersonaIndexes
-	removePersonaAction: (networkId: number, idx: number) => void
-	addPersonaAction: (networkId: number, idx: number, persona: Persona) => void
+	removePersonaAction: (networkId: number, address: string) => void
+	addPersonaAction: (networkId: number, address: string, persona: Persona) => void
 
 	accountIndexes: AccountIndexes
-	removeAccountAction: (networkId: number, idx: number) => void
-	addAccountAction: (networkId: number, idx: number, address: Account) => void
+	removeAccountAction: (networkId: number, address: string) => void
+	addAccountAction: (networkId: number, address: string, account: Account) => void
 }
 
 export interface IExtensionStateSetter {

@@ -10,8 +10,7 @@ export function createMnemonic(language: Language = Language.ENGLISH): string {
 export function getSecret(data: Data): string {
 	const key = Language[data.language ?? Language.ENGLISH].toLowerCase()
 	switch (data?.type) {
-		case DataType.ECDSA_SECP_256K1:
-		case DataType.EDDSA_ED25519:
+		case DataType.MNEMONIC:
 			return entropyToMnemonic(Buffer.from(data.secret, 'hex'), wordlists[key])
 		case DataType.PRIVATE_KEY:
 		case DataType.STRING:
@@ -24,8 +23,7 @@ export function getSecret(data: Data): string {
 export function secretToData(type: DataType, secret: string = '', language: Language = Language.ENGLISH): Data {
 	const key = Language[language].toLowerCase()
 	switch (type) {
-		case DataType.ECDSA_SECP_256K1:
-		case DataType.EDDSA_ED25519:
+		case DataType.MNEMONIC:
 			return {
 				type,
 				secret: Buffer.from(

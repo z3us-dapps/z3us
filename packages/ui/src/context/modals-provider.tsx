@@ -1,10 +1,11 @@
-import React, { PropsWithChildren, Suspense, useReducer } from 'react'
-import { createPortal } from 'react-dom'
+import type { PropsWithChildren } from 'react'
+import React, { Suspense, useMemo, useReducer } from 'react'
 import { ErrorBoundary } from 'react-error-boundary'
 
 import { FallbackLoading, FallbackRenderer } from 'ui/src/components/fallback-renderer'
 
-import { ModalsContext, State } from './modals'
+import type { State } from './modals'
+import { ModalsContext } from './modals'
 
 type Action = { type: 'add_modal'; id: string; modal: React.JSX.Element } | { type: 'remove_modal'; id: string }
 
@@ -41,8 +42,10 @@ export const ModalsProvider: React.FC<PropsWithChildren> = ({ children }) => {
 		})
 	}
 
+	const ctx = useMemo(() => ({ modals, addModal, removeModal }), [modals])
+
 	return (
-		<ModalsContext.Provider value={{ modals, addModal, removeModal }}>
+		<ModalsContext.Provider value={ctx}>
 			<>
 				{children}
 				{Object.keys(modals).map(id => (

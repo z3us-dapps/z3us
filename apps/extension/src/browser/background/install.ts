@@ -6,7 +6,7 @@ import browser from 'webextension-polyfill'
 import { config } from 'ui/src/constants/config'
 import { getNoneSharedStore } from 'ui/src/services/state'
 import { sharedStore } from 'ui/src/store'
-import { KeystoreType } from 'ui/src/store/types'
+import { CURVE, KeystoreType, SCHEME } from 'ui/src/store/types'
 import type { Account, AddressBookEntry, Keystore } from 'ui/src/store/types'
 
 const migrateOlympiaAddresses = async () => {
@@ -49,14 +49,17 @@ const migrateOlympiaAddresses = async () => {
 						const address = accountAddress.toString()
 
 						const indexes = currentKeystoreState.accountIndexes[config.defaultNetworkId] || {}
-						const current = indexes[idx] || {}
+						const current = indexes[address] || {}
 						currentKeystoreState.accountIndexes[config.defaultNetworkId] = {
 							...indexes,
-							[idx]: {
+							[address]: {
 								...current,
 								address,
+								entityIndex: +idx,
 								publicKeyHex,
-								olympiaAddress,
+								curve: CURVE.SECP256K1,
+								scheme: SCHEME.BIP440OLYMPIA,
+								derivationPath: `m/44H/1022H/0H/0/${idx}`,
 							} as Account,
 						}
 

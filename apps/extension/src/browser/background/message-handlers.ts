@@ -11,7 +11,7 @@ import { Convert } from '@radixdlt/radix-engine-toolkit'
 import browser from 'webextension-polyfill'
 
 import { sharedStore } from 'ui/src/store'
-import type { Keystore } from 'ui/src/store/types'
+import type { CURVE, Keystore } from 'ui/src/store/types'
 import { KeystoreType } from 'ui/src/store/types'
 
 import { openAppPopup } from '@src/browser/app/popup'
@@ -21,13 +21,7 @@ import { newMessage } from '@src/browser/messages/message'
 import { type Message, type MessageHandlers, MessageSource } from '@src/browser/messages/types'
 import { Vault } from '@src/browser/vault/vault'
 import type { PublicKeyJSON } from '@src/crypto/key_pair'
-import {
-	getAccountPrivateKey,
-	getAccountPublicKey,
-	getPersonaPrivateKey,
-	getPersonaPublicKey,
-	publicKeyToJSON,
-} from '@src/crypto/key_pair'
+import { getPrivateKey, publicKeyToJSON } from '@src/crypto/key_pair'
 import { getSecret as cryptoGetSecret } from '@src/crypto/secret'
 import type { SignatureJSON, SignatureWithPublicKeyJSON } from '@src/crypto/signature'
 import { signatureToJSON, signatureWithPublicKeyToJSON } from '@src/crypto/signature'
@@ -89,35 +83,30 @@ async function removeFromVault(message: Message): Promise<void> {
 }
 
 export interface GetPublicKeyMessage {
-	index: number
-	type: 'account' | 'persona'
+	curve: CURVE
+	derivationPath: string
 }
 
 async function getPublicKey(message: Message): Promise<PublicKeyJSON | null> {
-	const { index, type } = message.payload as GetPublicKeyMessage
+	const { curve, derivationPath } = message.payload as GetPublicKeyMessage
 	const walletData = await vault.get()
 	if (!walletData) {
 		return null
 	}
-	switch (type) {
-		case 'account':
-			return publicKeyToJSON(getAccountPublicKey(walletData.data, index))
-		case 'persona':
-			return publicKeyToJSON(getPersonaPublicKey(walletData.data, index))
-		default:
-			throw new Error(`Invalid type: ${type}`)
-	}
+
+	const privateKey: PrivateKey = getPrivateKey(walletData.data, curve, derivationPath)
+	return publicKeyToJSON(privateKey.publicKey())
 }
 
 export interface SignMessage {
-	index: number
 	password: string
 	toSign: string
-	type: 'account' | 'persona'
+	curve: CURVE
+	derivationPath: string
 }
 
 async function signToSignature(message: Message): Promise<SignatureJSON | null> {
-	const { index, password, toSign, type } = message.payload as SignMessage
+	const { curve, derivationPath, password, toSign } = message.payload as SignMessage
 	const walletData = await vault.get()
 	if (!walletData) {
 		return null
@@ -125,24 +114,13 @@ async function signToSignature(message: Message): Promise<SignatureJSON | null> 
 
 	await vault.checkPassword(password)
 
-	let privateKey: PrivateKey
-	switch (type) {
-		case 'account':
-			privateKey = getAccountPrivateKey(walletData.data, index)
-			break
-		case 'persona':
-			privateKey = getPersonaPrivateKey(walletData.data, index)
-			break
-		default:
-			throw new Error(`Invalid type: ${type}`)
-	}
-
+	const privateKey: PrivateKey = getPrivateKey(walletData.data, curve, derivationPath)
 	const signature = privateKey.signToSignature(Convert.HexString.toUint8Array(toSign))
 	return signatureToJSON(signature)
 }
 
 async function signToSignatureWithPublicKey(message: Message): Promise<SignatureWithPublicKeyJSON | null> {
-	const { index, password, toSign, type } = message.payload as SignMessage
+	const { curve, derivationPath, password, toSign } = message.payload as SignMessage
 	const walletData = await vault.get()
 	if (!walletData) {
 		return null
@@ -150,18 +128,7 @@ async function signToSignatureWithPublicKey(message: Message): Promise<Signature
 
 	await vault.checkPassword(password)
 
-	let privateKey: PrivateKey
-	switch (type) {
-		case 'account':
-			privateKey = getAccountPrivateKey(walletData.data, index)
-			break
-		case 'persona':
-			privateKey = getPersonaPrivateKey(walletData.data, index)
-			break
-		default:
-			throw new Error(`Invalid type: ${type}`)
-	}
-
+	const privateKey: PrivateKey = getPrivateKey(walletData.data, curve, derivationPath)
 	const signature = privateKey.signToSignatureWithPublicKey(Convert.HexString.toUint8Array(toSign))
 	return signatureWithPublicKeyToJSON(signature)
 }

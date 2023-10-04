@@ -19,7 +19,7 @@ export const usePersonaData = () => {
 		personaIndexes: state.personaIndexes[networkId] || {},
 	}))
 
-	const buildPersonaData = async (selectedPersona: number, req?: PersonaDataRequestItem) => {
+	const buildPersonaData = async (selectedPersona: string, req?: PersonaDataRequestItem) => {
 		if (!req) return undefined
 		const persona = personaIndexes[selectedPersona]
 		console.log('buildPersonaData', persona)

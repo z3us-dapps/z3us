@@ -8,7 +8,9 @@ import { Form } from 'ui/src/components/form'
 import TextField from 'ui/src/components/form/fields/text-field'
 import { useNetworkId } from 'ui/src/hooks/dapp/use-network-id'
 import { useNoneSharedStore } from 'ui/src/hooks/use-store'
+import { CURVE, SCHEME } from 'ui/src/store/types'
 
+import { buildPersonaDerivationPath } from '@src/crypto/derivation_path'
 import { useMessageClient } from '@src/hooks/use-message-client'
 
 const messages = defineMessages({
@@ -56,14 +58,25 @@ const AddPersonaForm: React.FC = () => {
 			return
 		}
 
-		const idx = Object.keys(personaIndexes).findLastIndex(() => true) + 1
-		const publicKey = await client.getPublicKey('persona', +idx)
+		const idx =
+			Math.max(
+				...Object.values(personaIndexes)
+					.filter(persona => persona.scheme !== SCHEME.BIP440OLYMPIA)
+					.map(persona => persona.entityIndex),
+			) + 1
+		const derivationPath = buildPersonaDerivationPath(idx)
+		const publicKey = await client.getPublicKey(CURVE.CURVE25519, derivationPath)
 		const address = await RadixEngineToolkit.Derive.virtualIdentityAddressFromPublicKey(publicKey, networkId)
+		const identityAddress = address.toString()
 
-		addPersona(networkId, +idx, {
+		addPersona(networkId, identityAddress, {
 			label: values.name,
-			identityAddress: address.toString(),
+			entityIndex: +idx,
+			identityAddress,
 			publicKeyHex: publicKey.hexString(),
+			curve: CURVE.CURVE25519,
+			scheme: SCHEME.CAP26,
+			derivationPath,
 		})
 		setValidation(undefined)
 	}

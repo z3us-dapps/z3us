@@ -1,10 +1,10 @@
 import type { PublicKey, Signature, SignatureWithPublicKey } from '@radixdlt/radix-engine-toolkit'
-import { Convert, LTSRadixEngineToolkit } from '@radixdlt/radix-engine-toolkit'
+import { Convert } from '@radixdlt/radix-engine-toolkit'
 import { useContext, useEffect, useMemo } from 'react'
 import browser from 'webextension-polyfill'
 
 import { useSharedStore } from 'ui/src/hooks/use-store'
-import type { Keystore } from 'ui/src/store/types'
+import type { CURVE, Keystore } from 'ui/src/store/types'
 
 import type { MessageTypes as BackgroundMessageTypes } from '@src/browser/background/message-handlers'
 import { MessageAction as BackgroundMessageAction } from '@src/browser/background/types'
@@ -69,51 +69,44 @@ export const useMessageClient = () => {
 			isVaultUnlocked: async (): Promise<boolean> =>
 				client.sendMessage(BackgroundMessageAction.BACKGROUND_VAULT_IS_UNLOCKED),
 
-			getPublicKey: async (type: 'account' | 'persona', index: number = 0): Promise<PublicKey | null> =>
+			getPublicKey: async (curve: CURVE, derivationPath: string): Promise<PublicKey | null> =>
 				client
 					.sendMessage(BackgroundMessageAction.BACKGROUND_GET_PUBLIC_KEY, {
-						index,
-						type,
+						curve,
+						derivationPath,
 					} as BackgroundMessageTypes[BackgroundMessageAction.BACKGROUND_GET_PUBLIC_KEY])
 					.then(resp => publicKeyFromJSON(resp || {}))
 					.then(updateCursor),
+
 			signToSignature: async (
-				type: 'account' | 'persona',
+				curve: CURVE,
+				derivationPath: string,
 				password: string,
 				data: Uint8Array,
-				index: number = 0,
 			): Promise<Signature | null> =>
 				client
 					.sendMessage(BackgroundMessageAction.BACKGROUND_SIGN_TO_SIGNATURE, {
-						index,
-						type,
+						curve,
+						derivationPath,
 						password,
 						toSign: Convert.Uint8Array.toHexString(data),
 					} as BackgroundMessageTypes[BackgroundMessageAction.BACKGROUND_SIGN_TO_SIGNATURE])
 					.then(resp => signatureFromJSON(resp || {}))
 					.then(updateCursor),
 			signToSignatureWithPublicKey: async (
-				type: 'account' | 'persona',
+				curve: CURVE,
+				derivationPath: string,
 				password: string,
 				data: Uint8Array,
-				index: number = 0,
 			): Promise<SignatureWithPublicKey | null> =>
 				client
 					.sendMessage(BackgroundMessageAction.BACKGROUND_SIGN_TO_SIGNATURE_WITH_PUBLIC_KEY, {
-						index,
-						type,
+						curve,
+						derivationPath,
 						password,
 						toSign: Convert.Uint8Array.toHexString(data),
 					} as BackgroundMessageTypes[BackgroundMessageAction.BACKGROUND_SIGN_TO_SIGNATURE_WITH_PUBLIC_KEY])
 					.then(resp => signatureWithPublicKeyFromJSON(resp || {}))
-					.then(updateCursor),
-			signHash: async (password: string, data: Uint8Array, index: number = 0): Promise<Signature | null> =>
-				client
-					.sendMessage(BackgroundMessageAction.BACKGROUND_SIGN_TO_SIGNATURE, {
-						index,
-						password,
-						toSign: Convert.Uint8Array.toHexString(LTSRadixEngineToolkit.Utils.hash(data)),
-					} as BackgroundMessageTypes[BackgroundMessageAction.BACKGROUND_SIGN_TO_SIGNATURE])
 					.then(updateCursor),
 
 			handleRadixMessage: async (

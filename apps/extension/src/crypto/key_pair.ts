@@ -1,9 +1,11 @@
 import type { BaseHdWallet } from '@radixdlt/connector-extension/src/chrome/dev-tools/hd-wallet/hd-wallet'
 import { createRadixWallet } from '@radixdlt/connector-extension/src/chrome/dev-tools/hd-wallet/hd-wallet'
 import { Curve as HDWalletCurve } from '@radixdlt/connector-extension/src/chrome/dev-tools/hd-wallet/models'
-import type { Curve } from '@radixdlt/radix-engine-toolkit'
+import type { Curve as KeyCurve } from '@radixdlt/radix-engine-toolkit'
 import { Convert, PrivateKey, PublicKey } from '@radixdlt/radix-engine-toolkit'
 import { HDKey } from '@scure/bip32'
+
+import { CURVE } from 'ui/src/store/types'
 
 import { type Data, DataType } from '@src/types/vault'
 
@@ -27,77 +29,43 @@ export function ed25519FromEntropy(seed: string): BaseHdWallet {
 	})
 }
 
-export function deriveSecp256k1AccountForIndex(wallet: BaseHdWallet, index: number = 0): PrivateKey {
-	const child = wallet.deriveFullPath(`m/44H/1022H/0H/0/${index}H`.split('H').join("'"))
+export function deriveHDKey(root: HDKey, derivationPath: string): PrivateKey {
+	const child = root.derive(derivationPath.split('H').join("'"))
 	return new PrivateKey.Secp256k1(child.privateKey)
 }
 
-export function deriveEd25519AccountForIndex(wallet: BaseHdWallet, index: number = 0): PrivateKey {
-	const child = wallet.deriveFullPath(`m/44H/1022H/14H/525H/1460H/${index}H`.split('H').join("'"))
-	return new PrivateKey.Ed25519(child.privateKey)
-}
-
-export function deriveEd25519PersonaForIndex(wallet: BaseHdWallet, index: number = 0): PrivateKey {
-	const child = wallet.deriveFullPath(`m/44H/1022H/14H/618H/1460H/${index}H`.split('H').join("'"))
-	return new PrivateKey.Ed25519(child.privateKey)
-}
-
-export function deriveHDKeyAccountForIndex(root: HDKey, index: number = 0): PrivateKey {
-	const child = root.derive(`m/44'/1022'/0'/0/${index}`)
+export function deriveSecp256k1(wallet: BaseHdWallet, derivationPath: string): PrivateKey {
+	const child = wallet.deriveFullPath(derivationPath.split('H').join("'"))
 	return new PrivateKey.Secp256k1(child.privateKey)
 }
 
-export function deriveHDKeyPersonaForIndex(root: HDKey, index: number = 0): PrivateKey {
-	const child = root.derive(`m/44'/1022'/0'/0/${index}`)
+export function deriveEd25519(wallet: BaseHdWallet, derivationPath: string): PrivateKey {
+	const child = wallet.deriveFullPath(derivationPath.split('H').join("'"))
 	return new PrivateKey.Ed25519(child.privateKey)
 }
 
-export function getAccountPrivateKey(data: Data, index: number = 0): PrivateKey | null {
+export function getPrivateKey(data: Data, curve: CURVE, derivationPath: string): PrivateKey | null {
 	const secret = getSecret(data)
 	switch (data?.type) {
-		case DataType.ECDSA_SECP_256K1:
-			return deriveSecp256k1AccountForIndex(secp256k1FromEntropy(secret), index)
-		case DataType.EDDSA_ED25519:
-			return deriveEd25519AccountForIndex(ed25519FromEntropy(secret), index)
+		case DataType.MNEMONIC:
+			switch (curve) {
+				case CURVE.SECP256K1:
+					return deriveSecp256k1(secp256k1FromEntropy(secret), derivationPath)
+				case CURVE.CURVE25519:
+					return deriveEd25519(ed25519FromEntropy(secret), derivationPath)
+				default:
+					return null
+			}
 		case DataType.PRIVATE_KEY:
-			return deriveHDKeyAccountForIndex(hdkeyFromExtendedPrivateKey(secret), index)
+			return deriveHDKey(hdkeyFromExtendedPrivateKey(secret), derivationPath)
 		default:
 			return null
 	}
-}
-
-export function getAccountPublicKey(data: Data, index: number = 0): PublicKey | null {
-	const pk = getAccountPrivateKey(data, index)
-	if (!pk) {
-		return null
-	}
-	return pk.publicKey()
-}
-
-export function getPersonaPrivateKey(data: Data, index: number = 0): PrivateKey | null {
-	const secret = getSecret(data)
-	switch (data?.type) {
-		case DataType.ECDSA_SECP_256K1:
-		case DataType.EDDSA_ED25519:
-			return deriveEd25519PersonaForIndex(ed25519FromEntropy(secret), index)
-		case DataType.PRIVATE_KEY:
-			return deriveHDKeyPersonaForIndex(hdkeyFromExtendedPrivateKey(secret), index)
-		default:
-			return null
-	}
-}
-
-export function getPersonaPublicKey(data: Data, index: number = 0): PublicKey | null {
-	const pk = getPersonaPrivateKey(data, index)
-	if (!pk) {
-		return null
-	}
-	return pk.publicKey()
 }
 
 export type PublicKeyJSON = {
 	publicKey: string
-	curve: Curve
+	curve: KeyCurve
 }
 
 export function publicKeyToJSON(publicKey: PublicKey): PublicKeyJSON {

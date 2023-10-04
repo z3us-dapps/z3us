@@ -8,8 +8,9 @@ import { Form } from 'ui/src/components/form'
 import TextField from 'ui/src/components/form/fields/text-field'
 import { useNetworkId } from 'ui/src/hooks/dapp/use-network-id'
 import { useNoneSharedStore } from 'ui/src/hooks/use-store'
-import type { AddressBookEntry } from 'ui/src/store/types'
+import { type AddressBookEntry, CURVE, SCHEME } from 'ui/src/store/types'
 
+import { buildAccountDerivationPath } from '@src/crypto/derivation_path'
 import { useMessageClient } from '@src/hooks/use-message-client'
 
 const messages = defineMessages({
@@ -59,12 +60,25 @@ const AddAccountForm: React.FC = () => {
 			return
 		}
 
-		const idx = Object.keys(accountIndexes).findLastIndex(() => true) + 1
-		const publicKey = await client.getPublicKey('account', +idx)
+		const idx =
+			Math.max(
+				...Object.values(accountIndexes)
+					.filter(account => account.scheme !== SCHEME.BIP440OLYMPIA)
+					.map(account => account.entityIndex),
+			) + 1
+		const derivationPath = buildAccountDerivationPath(idx)
+		const publicKey = await client.getPublicKey(CURVE.CURVE25519, derivationPath)
 		const address = await LTSRadixEngineToolkit.Derive.virtualAccountAddress(publicKey, networkId)
 		const entry = { ...(addressBook[address] || {}), name: values.name } as AddressBookEntry
 
-		addAccount(networkId, +idx, { address, publicKeyHex: publicKey.hexString() })
+		addAccount(networkId, address, {
+			address,
+			entityIndex: +idx,
+			publicKeyHex: publicKey.hexString(),
+			curve: CURVE.CURVE25519,
+			scheme: SCHEME.CAP26,
+			derivationPath,
+		})
 		setAddressBookEntry(networkId, address, entry)
 		setValidation(undefined)
 	}

@@ -40,11 +40,9 @@ export const ZdtProvider: React.FC<PropsWithChildren> = ({ children }) => {
 
 	const accounts = useMemo<Account[]>(
 		() =>
-			Object.keys(accountIndexes).map((idx, appearanceId) => ({
-				address: accountIndexes[idx].address,
-				label:
-					addressBook[accountIndexes[idx].address]?.name ||
-					intl.formatMessage(messages.unknown_account, { appearanceId }),
+			Object.keys(accountIndexes).map((address, appearanceId) => ({
+				address,
+				label: addressBook[address]?.name || intl.formatMessage(messages.unknown_account, { appearanceId }),
 				appearanceId,
 			})),
 		[accountIndexes, addressBook],
@@ -52,11 +50,11 @@ export const ZdtProvider: React.FC<PropsWithChildren> = ({ children }) => {
 
 	const personas = useMemo<Persona[]>(
 		() =>
-			Object.keys(personaIndexes).map((idx, appearanceId) => ({
-				identityAddress: personaIndexes[idx].identityAddress,
+			Object.keys(personaIndexes).map((address, appearanceId) => ({
+				identityAddress: address,
 				label: intl.formatMessage(messages.unknown_persona, {
-					hasLabel: !!personaIndexes[idx].label,
-					label: personaIndexes[idx].label,
+					hasLabel: !!personaIndexes[address].label,
+					label: personaIndexes[address].label,
 					appearanceId,
 				}),
 				appearanceId,

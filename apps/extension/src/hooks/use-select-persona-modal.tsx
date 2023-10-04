@@ -17,10 +17,11 @@ export const useSelectPersonaModal = () => {
 	const intl = useIntl()
 	const { addModal, removeModal } = useModals()
 
-	const selectPersona = () => new Promise<number>((resolve, reject) => {
+	const selectPersona = () =>
+		new Promise<string>((resolve, reject) => {
 			const id = generateId()
-			const handleConfirm = (index: number) => {
-				resolve(index)
+			const handleConfirm = (address: string) => {
+				resolve(address)
 				removeModal(id)
 			}
 			const handleCancel = () => {

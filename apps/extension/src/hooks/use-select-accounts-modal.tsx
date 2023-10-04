@@ -18,10 +18,10 @@ export const useSelectAccountsModal = () => {
 	const { addModal, removeModal } = useModals()
 
 	const selectAccounts = (required: number, exactly: boolean) =>
-		new Promise<number[]>((resolve, reject) => {
+		new Promise<string[]>((resolve, reject) => {
 			const id = generateId()
-			const handleConfirm = (indexes: number[]) => {
-				resolve(indexes)
+			const handleConfirm = (addresses: string[]) => {
+				resolve(addresses)
 				removeModal(id)
 			}
 			const handleCancel = () => {

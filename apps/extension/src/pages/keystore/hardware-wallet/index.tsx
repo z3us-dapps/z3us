@@ -1,7 +1,4 @@
-import {
-	type Message as RadixMessage,
-	messageDiscriminator,
-} from '@radixdlt/connector-extension/src/chrome/messages/_types'
+import type { LedgerDevice } from '@radixdlt/connector-extension/src/ledger/schemas'
 import React, { useState } from 'react'
 import { defineMessages, useIntl } from 'react-intl'
 
@@ -32,21 +29,12 @@ export const New: React.FC = () => {
 	const client = useLedgerClient()
 
 	const [isLoading, setIsLoading] = useState<boolean>(false)
-	const [device, setDevice] = useState<any>()
+	const [device, setDevice] = useState<LedgerDevice>()
 
 	const handleGetDeviceInfo = async () => {
 		setIsLoading(true)
 		try {
-			const message: RadixMessage = await client.getDeviceInfo()
-			if (message?.discriminator === messageDiscriminator.ledgerResponse) {
-				if (!message?.data) {
-					return
-				}
-				const { success } = message.data
-				if (success) {
-					setDevice(success)
-				}
-			}
+			setDevice(await client.getDeviceInfo())
 		} finally {
 			setIsLoading(false)
 		}

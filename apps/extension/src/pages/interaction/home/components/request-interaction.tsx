@@ -11,7 +11,7 @@ import { Button } from 'ui/src/components/button'
 import { Text } from 'ui/src/components/typography'
 import { useNetworkId } from 'ui/src/hooks/dapp/use-network-id'
 import { useNoneSharedStore } from 'ui/src/hooks/use-store'
-import type { PersonaIndexes } from 'ui/src/store/types'
+import type { Persona } from 'ui/src/store/types'
 
 import type { WalletInteractionWithTabId } from '@src/browser/app/types'
 import { useAccountsData } from '@src/hooks/interaction/use-accounts-data'
@@ -40,14 +40,14 @@ const messages = defineMessages({
 })
 
 function getInitialPersona(
-	personaIndexes: PersonaIndexes,
+	personaIndexes: { [address: string]: Persona },
 	request: WalletAuthorizedRequestItems | WalletUnauthorizedRequestItems,
-): number {
+): string {
 	if (request.discriminator === 'authorizedRequest' && request.auth.discriminator === 'usePersona') {
 		const { identityAddress } = request.auth
-		return +Object.keys(personaIndexes).find(idx => personaIndexes[idx].identityAddress === identityAddress)
+		return Object.keys(personaIndexes).find(address => address === identityAddress)
 	}
-	return -1
+	return ''
 }
 
 export const RequestInteraction: React.FC<IProps> = ({ interaction }) => {
@@ -67,8 +67,8 @@ export const RequestInteraction: React.FC<IProps> = ({ interaction }) => {
 
 	const request = interaction.items as WalletAuthorizedRequestItems //| WalletUnauthorizedRequestItems
 
-	const [selectedPersona, setSelectedPersona] = useState<number>(getInitialPersona(personaIndexes, request))
-	const [selectedAccounts, setSelectedAccounts] = useState<number[]>([])
+	const [selectedPersona, setSelectedPersona] = useState<string>(getInitialPersona(personaIndexes, request))
+	const [selectedAccounts, setSelectedAccounts] = useState<string[]>([])
 
 	const handleSelectPersona = async () => {
 		setSelectedPersona(await selectPersona())

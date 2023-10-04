@@ -17,7 +17,7 @@ export const New: React.FC = () => {
 		if (!mnemonic) setMnemonic(createMnemonic())
 	}, [])
 
-	const handleSubmit = (): Data => secretToData(DataType.EDDSA_ED25519, mnemonic)
+	const handleSubmit = (): Data => secretToData(DataType.MNEMONIC, mnemonic)
 
 	return (
 		<Box padding="xxxlarge">

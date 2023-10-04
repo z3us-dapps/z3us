@@ -7,7 +7,7 @@ import { Box } from 'ui/src/components/box'
 import { useNetworkId } from 'ui/src/hooks/dapp/use-network-id'
 import { useNoneSharedStore, useSharedStore } from 'ui/src/hooks/use-store'
 import { useTheme } from 'ui/src/hooks/use-theme'
-import { KeystoreType } from 'ui/src/store/types'
+import { KeystoreType, SCHEME } from 'ui/src/store/types'
 import { Theme } from 'ui/src/types/types'
 
 import ExportForm from './components/export-form'
@@ -90,15 +90,15 @@ export const Export: React.FC = () => {
 	useEffect(() => {
 		const load = async () => {
 			try {
-				const summaries = Object.keys(indexes)
-					.filter(idx => !!indexes[idx].olympiaAddress)
-					.map((idx, position) =>
+				const summaries = Object.values(indexes)
+					.filter(account => account.scheme === SCHEME.BIP440OLYMPIA)
+					.map((account, position) =>
 						accountSummary(
-							+idx,
-							indexes[idx].publicKeyHex,
+							account.entityIndex,
+							account.publicKeyHex,
 							intl.formatMessage(messages.unknown_account, {
-								hasLabel: !!addressBook[indexes[idx].address]?.name,
-								label: addressBook[indexes[idx].address]?.name,
+								hasLabel: !!addressBook[account.address]?.name,
+								label: addressBook[account.address]?.name,
 								position,
 							}),
 							keystore.type === KeystoreType.LOCAL,

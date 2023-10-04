@@ -1,5 +1,4 @@
 import BigNumber from 'bignumber.js'
-import { useToken } from 'packages/ui/src/hooks/queries/oci'
 import React, { useState } from 'react'
 import { defineMessages, useIntl } from 'react-intl'
 import { useParams } from 'react-router-dom'
@@ -17,6 +16,7 @@ import { ToolTip } from 'ui/src/components/tool-tip'
 import { Text } from 'ui/src/components/typography'
 import { useEntityDetails } from 'ui/src/hooks/dapp/use-entity-details'
 import { useMarketChart, useXRDPriceOnDay } from 'ui/src/hooks/queries/market'
+import { useToken } from 'ui/src/hooks/queries/oci'
 import { useNoneSharedStore } from 'ui/src/hooks/use-store'
 import { getStringMetadata } from 'ui/src/services/metadata'
 

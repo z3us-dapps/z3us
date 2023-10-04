@@ -57,7 +57,7 @@ const initialValues = {
 export interface IProps {
 	required: number
 	exactly: boolean
-	onConfirm: (indexes: number[]) => void
+	onConfirm: (addresses: string[]) => void
 	onCancel: () => void
 }
 
@@ -76,7 +76,7 @@ const SelectAccountsModal: React.FC<IProps> = ({ required, exactly, onConfirm, o
 
 	const validationSchema = useMemo(() => {
 		const accountSchema = z.object({
-			index: z.string().min(1, intl.formatMessage(messages.validation_account)),
+			address: z.string().min(1, intl.formatMessage(messages.validation_account)),
 		})
 
 		let accountsSchema = z
@@ -111,7 +111,7 @@ const SelectAccountsModal: React.FC<IProps> = ({ required, exactly, onConfirm, o
 			setValidation(result.error)
 			return
 		}
-		onConfirm(values.accounts.map(({ index }) => +index))
+		onConfirm(values.accounts.map(({ address }) => address))
 		setIsOpen(false)
 		setValidation(undefined)
 	}
@@ -171,11 +171,11 @@ const SelectAccountsModal: React.FC<IProps> = ({ required, exactly, onConfirm, o
 									}
 								>
 									<SelectField
-										name="index"
+										name="address"
 										placeholder={intl.formatMessage(messages.accounts)}
-										data={Object.keys(accountIndexes).map(idx => ({
-											id: idx,
-											title: addressBook[accountIndexes[idx].address]?.name || accountIndexes[idx].address,
+										data={Object.keys(accountIndexes).map(address => ({
+											id: address,
+											title: addressBook[address]?.name || address,
 										}))}
 									/>
 								</FieldsGroup>
