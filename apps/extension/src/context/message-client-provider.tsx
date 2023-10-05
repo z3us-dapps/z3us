@@ -21,6 +21,11 @@ export const ClientProvider: React.FC<PropsWithChildren> = ({ children }) => {
 	const [current, setCurrent] = useState<Keystore>()
 
 	useEffect(() => {
+		browser.runtime.onMessage.addListener(client.onMessage)
+		return () => browser.runtime.onMessage.removeListener(client.onMessage)
+	}, [client])
+
+	useEffect(() => {
 		if (current && current.id !== keystore?.id) {
 			const msg = newMessage(
 				InPageMessageAction.INPAGE_KEYSTORE_CHANGE,
@@ -29,7 +34,7 @@ export const ClientProvider: React.FC<PropsWithChildren> = ({ children }) => {
 				keystore,
 			)
 			window.dispatchEvent(eventFromMessage(msg))
-			browser.tabs.query({}).then(tabs => tabs.map(tab => chrome.tabs.sendMessage(tab.id, msg)))
+			browser.tabs.query({}).then(tabs => tabs.map(tab => browser.tabs.sendMessage(tab.id, msg)))
 		} else if (keystore) {
 			setCurrent(keystore)
 		}

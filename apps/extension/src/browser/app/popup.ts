@@ -1,4 +1,4 @@
-import type { Tabs } from 'webextension-polyfill';
+import type { Tabs } from 'webextension-polyfill'
 import browser from 'webextension-polyfill'
 
 import { getExtensionTabsByUrl } from '@src/browser/tabs'
@@ -25,7 +25,7 @@ export const openAppPopup = async (path: string = '') => {
 		})
 	}
 
-	await chrome.windows.update(tab.windowId, { focused: true })
+	await browser.windows.update(tab.windowId, { focused: true })
 
 	await browser.tabs.update(tab.id!, { active: true })
 	return tab

@@ -18,6 +18,7 @@ import { KeystoreType } from 'ui/src/store/types'
 import { getDAppDataToSign, proofCurve, signatureWithPublicKeyToJSON } from '@src/crypto/signature'
 
 import { useLedgerClient } from '../use-ledger-client'
+import { useLedgerConfirmModal } from '../use-ledger-confirm-modal'
 import { useMessageClient } from '../use-message-client'
 import { useSignModal } from '../use-sign-modal'
 
@@ -34,6 +35,7 @@ export const useLogin = () => {
 	const ledger = useLedgerClient()
 	const networkId = useNetworkId()
 	const confirm = useSignModal()
+	const showModalAndWait = useLedgerConfirmModal()
 
 	const { keystore } = useSharedStore(state => ({
 		keystore: state.keystores.find(({ id }) => id === state.selectedKeystoreId),
@@ -64,7 +66,7 @@ export const useLogin = () => {
 						curve: proofCurve(signature.curve),
 					}
 				case KeystoreType.HARDWARE:
-					const [ledgerSignature] = await ledger.signChallenge([persona], challenge, metadata)
+					const [ledgerSignature] = await showModalAndWait(() => ledger.signChallenge([persona], challenge, metadata))
 					return {
 						signature: ledgerSignature.signature,
 						publicKey: ledgerSignature.derivedPublicKey.publicKey,

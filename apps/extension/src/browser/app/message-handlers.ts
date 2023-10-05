@@ -11,7 +11,7 @@ export interface CancelInteractionMessage {
 	interactionId: string
 }
 
-async function cancelInteraction(message: Message) {
+async function dispatchEvent(message: Message) {
 	window.dispatchEvent(eventFromMessage(message))
 }
 
@@ -22,5 +22,5 @@ export type MessageTypes = {
 
 export default {
 	[MessageAction.APP_PING]: ping,
-	[MessageAction.APP_INTERACTION_CANCEL]: cancelInteraction,
+	[MessageAction.APP_INTERACTION_CANCEL]: dispatchEvent,
 } as MessageHandlers

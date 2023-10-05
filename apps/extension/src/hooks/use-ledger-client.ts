@@ -12,8 +12,7 @@ import type {
 	LedgerSignTransactionResponse,
 } from '@radixdlt/connector-extension/src/ledger/schemas'
 import { Convert } from '@radixdlt/radix-engine-toolkit'
-import { useContext, useEffect, useMemo } from 'react'
-import browser from 'webextension-polyfill'
+import { useContext, useMemo } from 'react'
 
 import { useSharedStore } from 'ui/src/hooks/use-store'
 import type { Account, Persona } from 'ui/src/store/types'
@@ -53,11 +52,6 @@ export const useLedgerClient = () => {
 	const { keystore } = useSharedStore(state => ({
 		keystore: state.keystores.find(({ id }) => id === state.selectedKeystoreId),
 	}))
-
-	useEffect(() => {
-		browser.runtime.onMessage.addListener(client.onMessage)
-		return () => browser.runtime.onMessage.removeListener(client.onMessage)
-	}, [client])
 
 	return useMemo(
 		() => ({

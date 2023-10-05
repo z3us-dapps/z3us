@@ -6,9 +6,9 @@ import type { AppLogger } from '@radixdlt/connector-extension/src/utils/logger'
 import type { Runtime } from 'webextension-polyfill'
 import browser from 'webextension-polyfill'
 
-import { newReply } from '@src/browser//messages/message'
 import { ledgerTabWatcher } from '@src/browser/background/tabs'
 import { PORT_NAME } from '@src/browser/messages/constants'
+import { newReply } from '@src/browser/messages/message'
 import type { Message } from '@src/browser/messages/types'
 import { MessageSource } from '@src/browser/messages/types'
 

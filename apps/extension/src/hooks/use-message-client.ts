@@ -1,7 +1,6 @@
 import type { PublicKey, Signature, SignatureWithPublicKey } from '@radixdlt/radix-engine-toolkit'
 import { Convert } from '@radixdlt/radix-engine-toolkit'
-import { useContext, useEffect, useMemo } from 'react'
-import browser from 'webextension-polyfill'
+import { useContext, useMemo } from 'react'
 
 import { useSharedStore } from 'ui/src/hooks/use-store'
 import type { CURVE, Keystore } from 'ui/src/store/types'
@@ -24,11 +23,6 @@ export const useMessageClient = () => {
 		reloadTrigger()
 		return result
 	}
-
-	useEffect(() => {
-		browser.runtime.onMessage.addListener(client.onMessage)
-		return () => browser.runtime.onMessage.removeListener(client.onMessage)
-	}, [client])
 
 	return useMemo(
 		() => ({

@@ -33,6 +33,7 @@ import { useSignModal } from '@src/hooks/use-sign-modal'
 
 import { useGetPublicKey } from './use-get-public-key'
 import { useLedgerClient } from './use-ledger-client'
+import { useLedgerConfirmModal } from './use-ledger-confirm-modal'
 
 const messages = defineMessages({
 	empty_signatures_error: {
@@ -47,6 +48,7 @@ export const useSendTransaction = () => {
 	const intl = useIntl()
 	const networkId = useNetworkId()
 	const confirm = useSignModal()
+	const showModalAndWait = useLedgerConfirmModal()
 
 	const client = useMessageClient()
 	const ledger = useLedgerClient()
@@ -75,9 +77,11 @@ export const useSendTransaction = () => {
 						),
 					)
 				case KeystoreType.HARDWARE:
-					const ledgerSignatures = await ledger.signTx(
-						needSignaturesFrom.map(idx => accountIndexes[idx]),
-						hash,
+					const ledgerSignatures = await showModalAndWait(() =>
+						ledger.signTx(
+							needSignaturesFrom.map(idx => accountIndexes[idx]),
+							hash,
+						),
 					)
 					return ledgerSignatures.map(ledgerSignature =>
 						signatureWithPublicKeyFromJSON({
