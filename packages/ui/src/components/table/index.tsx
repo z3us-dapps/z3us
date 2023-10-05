@@ -1,10 +1,10 @@
 /* eslint-disable react/no-unstable-nested-components */
+import { assignInlineVars } from '@vanilla-extract/dynamic'
 import clsx, { type ClassValue } from 'clsx'
 import React, { useEffect, useMemo, useState } from 'react'
 import { useRowSelect, useSortBy, useTable } from 'react-table'
+import useMeasure from 'react-use-measure'
 import { type TableComponents, TableVirtuoso } from 'react-virtuoso'
-
-import { useIsMobileWidth } from 'ui/src/hooks/use-is-mobile'
 
 import { Box } from '../box'
 import { ChevronDown2Icon, ChevronUp2Icon, LoadingBarsIcon } from '../icons'
@@ -24,6 +24,8 @@ interface ITableProps {
 	sizeVariant?: 'medium' | 'large'
 	styleVariant?: 'primary' | 'secondary'
 	loading?: boolean
+	// Will adjust the THEAD sticky position and ensure shadow on sticky THEAD when scrolled
+	stickyShadowTop?: boolean
 	loadMore?: boolean
 	overscan?: number
 	isScrolledTop?: boolean
@@ -37,6 +39,7 @@ interface ITableProps {
 export const Table: React.FC<ITableProps> = props => {
 	const {
 		scrollableNode,
+		isScrolledTop,
 		className,
 		sizeVariant = 'medium',
 		styleVariant = 'primary',
@@ -45,13 +48,15 @@ export const Table: React.FC<ITableProps> = props => {
 		selectedRowIds = {},
 		loading = false,
 		loadMore = false,
+		stickyShadowTop = false,
 		overscan = 100,
 		sort,
 		onEndReached = () => {},
 		onRowSelected = () => {},
 	} = props
-	const [isMounted, setIsMounted] = useState<boolean>(false)
-	const isMobile = useIsMobileWidth()
+
+	const [measureRef, { top: tableTop }] = useMeasure()
+
 	const initialSort = useMemo(() => {
 		if (sort || !columns?.length) return sort
 		return [{ id: columns[0].accessor, desc: true }]
@@ -131,23 +136,25 @@ export const Table: React.FC<ITableProps> = props => {
 		[data, columns, loading, loadMore],
 	)
 
-	useEffect(() => {
-		if (!isMounted && !loading) {
-			setIsMounted(true)
-		}
-	}, [isMounted, loading])
-
 	return (
-		<Box className={clsx(className, styles.tableWrapper, isMounted && styles.tableMinHeightWrapper)}>
+		<Box
+			ref={measureRef}
+			className={clsx(styles.tableWrapper, className)}
+			style={assignInlineVars({ [styles.stickyTop]: `${tableTop - scrollableNode.getBoundingClientRect().top}px` })}
+		>
 			<TableVirtuoso
-				className={clsx(styles.tableRootWrapper, loading && styles.tableLoadingWrapper)}
+				className={clsx(
+					styles.tableRootWrapper,
+					loading && styles.tableLoadingWrapper,
+					stickyShadowTop && styles.tableRootTopStickyPosition,
+					!loading && stickyShadowTop && !isScrolledTop && styles.accountTheadShadow,
+				)}
 				overscan={{ main: overscan, reverse: overscan }}
 				totalCount={rows.length}
 				customScrollParent={scrollableNode}
 				components={memoizedComponents as TableComponents}
 				endReached={handleEndReached}
 				fixedHeaderContent={() =>
-					!isMobile &&
 					headerGroups.map(headerGroup => (
 						<tr {...headerGroup.getHeaderGroupProps()}>
 							{headerGroup.headers.map(column => (

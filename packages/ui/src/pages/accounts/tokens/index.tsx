@@ -120,6 +120,7 @@ const Tokens: React.FC = () => {
 					onRowSelected={handleRowSelected}
 					loading={isLoading}
 					selectedRowIds={selectedRowIds}
+					stickyShadowTop
 					// loadMore={loadMore}
 					// onEndReached={onEndReached}
 				/>

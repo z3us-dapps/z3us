@@ -1,10 +1,15 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
-import { globalStyle, style } from '@vanilla-extract/css'
+import { createVar, globalStyle, style } from '@vanilla-extract/css'
 import { recipe } from '@vanilla-extract/recipes'
 
-import { sprinkles } from '../system/sprinkles.css'
-import { recipeResponsiveGlobalStyle, responsiveStyle } from '../system/theme-utils'
+import { darkMode, sprinkles } from 'ui/src/components/system/sprinkles.css'
+
+import { breakpoints, recipeResponsiveGlobalStyle, responsiveStyle } from '../system/theme-utils'
 import { vars } from '../system/theme.css'
+
+const LIGHT_SHADOW = '0px 13px 13px -14px rgba(0, 0, 0, 0.4)'
+const DARK_SHADOW = '0px 13px 13px -14px rgba(0, 0, 0, 0.4)'
+
+export const stickyTop = createVar()
 
 export const tableWrapper = style([
 	sprinkles({
@@ -14,12 +19,6 @@ export const tableWrapper = style([
 	}),
 	{
 		transition: 'min-height 300ms ease',
-	},
-])
-
-export const tableMinHeightWrapper = style([
-	{
-		minHeight: '20px',
 	},
 ])
 
@@ -40,6 +39,37 @@ export const tableRootWrapper = style([
 		maxWidth: '100%',
 	},
 ])
+
+export const tableRootTopStickyPosition = style([
+	sprinkles({
+		position: 'relative',
+	}),
+	{},
+])
+
+globalStyle(`${tableRootTopStickyPosition} thead`, {
+	top: `${stickyTop} !important`,
+	display: 'none',
+	'@media': {
+		[`screen and (min-width: ${breakpoints.tablet}px)`]: {
+			display: 'table-header-group',
+		},
+	},
+})
+
+export const accountTheadShadow = style([
+	sprinkles({
+		position: 'relative',
+	}),
+])
+
+globalStyle(`${accountTheadShadow} thead tr th:first-child::before`, {
+	boxShadow: LIGHT_SHADOW,
+})
+
+globalStyle(`.${darkMode} ${accountTheadShadow} thead tr th:first-child::before`, {
+	boxShadow: DARK_SHADOW,
+})
 
 export const tFootWrapper = style([
 	sprinkles({
