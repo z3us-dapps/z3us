@@ -60,6 +60,7 @@ const AddPersonaForm: React.FC = () => {
 
 		const idx =
 			Math.max(
+				-1,
 				...Object.values(personaIndexes)
 					.filter(persona => persona.scheme !== SCHEME.BIP440OLYMPIA)
 					.map(persona => persona.entityIndex),

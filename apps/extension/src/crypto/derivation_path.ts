@@ -5,3 +5,7 @@ export function buildPersonaDerivationPath(networkId: number, idx: number) {
 export function buildAccountDerivationPath(networkId: number, idx: number) {
 	return `m/44H/1022H/${networkId}H/525H/1460H/${idx}H`
 }
+
+export function buildOlympiaDerivationPath(idx: number) {
+	return `m/44H/1022H/0H/0/${idx}H`
+}

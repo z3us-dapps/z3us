@@ -63,6 +63,7 @@ const AddAccountForm: React.FC = () => {
 
 		const idx =
 			Math.max(
+				-1,
 				...Object.values(accountIndexes)
 					.filter(account => account.scheme !== SCHEME.BIP440OLYMPIA)
 					.map(account => account.entityIndex),

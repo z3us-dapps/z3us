@@ -34,13 +34,13 @@ export function deriveHDKey(root: HDKey, derivationPath: string): PrivateKey {
 	return new PrivateKey.Secp256k1(child.privateKey)
 }
 
-export function deriveSecp256k1(wallet: BaseHdWallet, derivationPath: string): PrivateKey {
-	const child = wallet.deriveFullPath(derivationPath.split('H').join("'"))
+export function deriveSecp256k1(root: BaseHdWallet, derivationPath: string): PrivateKey {
+	const child = root.deriveFullPath(derivationPath.split('H').join("'"))
 	return new PrivateKey.Secp256k1(child.privateKey)
 }
 
-export function deriveEd25519(wallet: BaseHdWallet, derivationPath: string): PrivateKey {
-	const child = wallet.deriveFullPath(derivationPath.split('H').join("'"))
+export function deriveEd25519(root: BaseHdWallet, derivationPath: string): PrivateKey {
+	const child = root.deriveFullPath(derivationPath.split('H').join("'"))
 	return new PrivateKey.Ed25519(child.privateKey)
 }
 
