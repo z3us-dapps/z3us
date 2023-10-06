@@ -1,6 +1,7 @@
 import { style } from '@vanilla-extract/css'
 
 import { sprinkles } from 'ui/src/components/system/sprinkles.css'
+import { responsiveStyle } from 'ui/src/components/system/theme-utils'
 
 export const assetsHomeWrapper = style([
 	sprinkles({
@@ -9,6 +10,11 @@ export const assetsHomeWrapper = style([
 		background: 'backgroundSecondary',
 	}),
 	{},
+	responsiveStyle({
+		tablet: {
+			minHeight: 'unset !important',
+		},
+	}),
 ])
 
 export const homeAssetsTitleWrapper = style([
