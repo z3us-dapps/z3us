@@ -1,5 +1,5 @@
 import clsx from 'clsx'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { defineMessages, useIntl } from 'react-intl'
 
 import { Box } from 'ui/src/components/box'
@@ -26,14 +26,19 @@ const messages = defineMessages({
 })
 
 export interface IProps {
+	load: () => Promise<void>
 	onClose: () => void
 }
 
-const LedgerConfirmModal: React.FC<IProps> = ({ onClose }) => {
+const LedgerConfirmModal: React.FC<IProps> = ({ load, onClose }) => {
 	const intl = useIntl()
 
 	const [isScrolled, setIsScrolled] = useState<boolean>(false)
 	const [isOpen, setIsOpen] = useState<boolean>(true)
+
+	useEffect(() => {
+		load().finally(() => setIsOpen(false))
+	}, [])
 
 	const handleScroll = (event: Event) => {
 		const target = event.target as Element

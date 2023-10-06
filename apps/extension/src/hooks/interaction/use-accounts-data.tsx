@@ -12,7 +12,6 @@ import { useMessageClient } from '@src/hooks/use-message-client'
 import { useSignModal } from '@src/hooks/use-sign-modal'
 
 import { useLedgerClient } from '../use-ledger-client'
-import { useLedgerConfirmModal } from '../use-ledger-confirm-modal'
 
 const messages = defineMessages({
 	account_challenge: {
@@ -31,7 +30,6 @@ export const useAccountsData = () => {
 	const ledger = useLedgerClient()
 	const networkId = useNetworkId()
 	const confirm = useSignModal()
-	const showModalAndWait = useLedgerConfirmModal()
 
 	const { keystore } = useSharedStore(state => ({
 		keystore: state.keystores.find(({ id }) => id === state.selectedKeystoreId),
@@ -71,12 +69,10 @@ export const useAccountsData = () => {
 						}),
 					)
 				case KeystoreType.HARDWARE:
-					const response = await showModalAndWait(() =>
-						ledger.signChallenge(
-							needSignaturesFrom.map(idx => accountIndexes[idx]),
-							challenge,
-							metadata,
-						),
+					const response = await ledger.signChallenge(
+						needSignaturesFrom.map(idx => accountIndexes[idx]),
+						challenge,
+						metadata,
 					)
 					return response.map((signature, idx) => ({
 						accountAddress: accountIndexes[idx].address,
@@ -90,7 +86,7 @@ export const useAccountsData = () => {
 					throw new Error(`Can not sign with keystore type: ${keystore?.type}`)
 			}
 		},
-		[keystore],
+		[keystore, client, ledger],
 	)
 
 	const buildAccounts = async (selectedAccounts: string[], req?: AccountsRequestItem, metadata?: any) => {

@@ -27,13 +27,12 @@ import { useNoneSharedStore, useSharedStore } from 'ui/src/hooks/use-store'
 import { KeystoreType } from 'ui/src/store/types'
 
 import { signatureCurveFromLedgerCurve } from '@src/browser/ledger/signature'
-import { signatureFromJSON, signatureWithPublicKeyFromJSON, signatureWithPublicKeyToJSON } from '@src/crypto/signature'
+import { signatureFromJSON, signatureWithPublicKeyFromJSON } from '@src/crypto/signature'
 import { useMessageClient } from '@src/hooks/use-message-client'
 import { useSignModal } from '@src/hooks/use-sign-modal'
 
 import { useGetPublicKey } from './use-get-public-key'
 import { useLedgerClient } from './use-ledger-client'
-import { useLedgerConfirmModal } from './use-ledger-confirm-modal'
 
 const messages = defineMessages({
 	empty_signatures_error: {
@@ -48,7 +47,6 @@ export const useSendTransaction = () => {
 	const intl = useIntl()
 	const networkId = useNetworkId()
 	const confirm = useSignModal()
-	const showModalAndWait = useLedgerConfirmModal()
 
 	const client = useMessageClient()
 	const ledger = useLedgerClient()
@@ -62,39 +60,95 @@ export const useSendTransaction = () => {
 		accountIndexes: state.accountIndexes[networkId] || {},
 	}))
 
+	const signWithBackground = useCallback(
+		async (needSignaturesFrom: string[], notarizeBy: string, intent: Intent) => {
+			const content = modalContent('noting')
+			const password = await confirm(content)
+
+			const intentHash = await RadixEngineToolkit.Intent.intentHash(intent)
+			const intentSignatures = await Promise.all(
+				needSignaturesFrom.map(signBy =>
+					client.signToSignatureWithPublicKey(
+						accountIndexes[signBy].curve,
+						accountIndexes[signBy].derivationPath,
+						password,
+						intentHash.hash,
+					),
+				),
+			)
+
+			const signedIntent: SignedIntent = { intent, intentSignatures }
+			const signedIntentHash = await RadixEngineToolkit.SignedIntent.signedIntentHash(signedIntent)
+			const compiledSignedIntent = await RadixEngineToolkit.SignedIntent.compile(signedIntent)
+			const notarizedTransaction = await new CompiledSignedTransactionIntent(
+				await rawRadixEngineToolkit,
+				intentHash,
+				signedIntent,
+				compiledSignedIntent,
+				signedIntentHash,
+			).compileNotarizedAsync((hash: Uint8Array) =>
+				client.signToSignature(
+					accountIndexes[notarizeBy].curve,
+					accountIndexes[notarizeBy].derivationPath,
+					password,
+					hash,
+				),
+			)
+			return notarizedTransaction
+		},
+		[keystore, client],
+	)
+
+	const signWithLedger = useCallback(
+		async (needSignaturesFrom: string[], notarizeBy: string, intent: Intent) => {
+			const intentHash = await RadixEngineToolkit.Intent.intentHash(intent)
+			const signedIntent: SignedIntent = { intent, intentSignatures: [] }
+			if (needSignaturesFrom.length === 0) {
+				const compiledIntent = await RadixEngineToolkit.Intent.compile(intent)
+				const ledgerSignatures = await ledger.signTx(
+					needSignaturesFrom.map(idx => accountIndexes[idx]),
+					compiledIntent,
+				)
+				signedIntent.intentSignatures = ledgerSignatures.map(ledgerSignature =>
+					signatureWithPublicKeyFromJSON({
+						signature: ledgerSignature.signature,
+						publicKey: ledgerSignature.derivedPublicKey.publicKey,
+						curve: signatureCurveFromLedgerCurve(ledgerSignature.derivedPublicKey.curve),
+					}),
+				)
+			}
+			const signedIntentHash = await RadixEngineToolkit.SignedIntent.signedIntentHash(signedIntent)
+			const compiledSignedIntent = await RadixEngineToolkit.SignedIntent.compile(signedIntent)
+			const [notary] = await ledger.signTx([accountIndexes[notarizeBy]], compiledSignedIntent)
+			const notarizedTransaction = await new CompiledSignedTransactionIntent(
+				await rawRadixEngineToolkit,
+				intentHash,
+				signedIntent,
+				compiledSignedIntent,
+				signedIntentHash,
+			).compileNotarized(
+				signatureFromJSON({
+					signature: notary.signature,
+					curve: signatureCurveFromLedgerCurve(notary.derivedPublicKey.curve),
+				}),
+			)
+			return notarizedTransaction
+		},
+		[keystore, ledger],
+	)
+
 	const sign = useCallback(
-		async (needSignaturesFrom: string[], hash: Uint8Array, password: string) => {
+		async (needSignaturesFrom: string[], notarizeBy: string, intent: Intent) => {
 			switch (keystore?.type) {
 				case KeystoreType.LOCAL:
-					return Promise.all(
-						needSignaturesFrom.map(idx =>
-							client.signToSignatureWithPublicKey(
-								accountIndexes[idx].curve,
-								accountIndexes[idx].derivationPath,
-								password,
-								hash,
-							),
-						),
-					)
+					return signWithBackground(needSignaturesFrom, notarizeBy, intent)
 				case KeystoreType.HARDWARE:
-					const ledgerSignatures = await showModalAndWait(() =>
-						ledger.signTx(
-							needSignaturesFrom.map(idx => accountIndexes[idx]),
-							hash,
-						),
-					)
-					return ledgerSignatures.map(ledgerSignature =>
-						signatureWithPublicKeyFromJSON({
-							signature: ledgerSignature.signature,
-							publicKey: ledgerSignature.derivedPublicKey.publicKey,
-							curve: signatureCurveFromLedgerCurve(ledgerSignature.derivedPublicKey.curve),
-						}),
-					)
+					return signWithLedger(needSignaturesFrom, notarizeBy, intent)
 				default:
 					throw new Error(`Can not sign with keystore type: ${keystore?.type}`)
 			}
 		},
-		[keystore],
+		[keystore, signWithBackground, signWithLedger],
 	)
 
 	const sendTransaction = async (
@@ -169,28 +223,7 @@ export const useSendTransaction = () => {
 		}
 
 		const intent: Intent = { header, manifest }
-		const intentHash = await RadixEngineToolkit.Intent.intentHash(intent)
-
-		let password = ''
-		if (keystore.type === KeystoreType.LOCAL) {
-			const content = modalContent(input.transactionManifest)
-			password = await confirm(content)
-		}
-		const signatures = await sign(needSignaturesFrom, intentHash.hash, password)
-
-		const signedIntent: SignedIntent = { intent, intentSignatures: signatures }
-		const signedIntentHash = await RadixEngineToolkit.SignedIntent.signedIntentHash(signedIntent)
-		const compiledSignedIntent = await RadixEngineToolkit.SignedIntent.compile(signedIntent)
-		const notarizedTransaction = await new CompiledSignedTransactionIntent(
-			await rawRadixEngineToolkit,
-			intentHash,
-			signedIntent,
-			compiledSignedIntent,
-			signedIntentHash,
-		).compileNotarizedAsync(async (hash: Uint8Array) => {
-			const [signature] = await sign([fromAccount], hash, password)
-			return signatureFromJSON(signatureWithPublicKeyToJSON(signature))
-		})
+		const notarizedTransaction = await sign(needSignaturesFrom, fromAccount, intent)
 
 		// VALIDATE
 		const validity = await notarizedTransaction.staticallyValidate(networkId)
@@ -220,7 +253,7 @@ export const useSendTransaction = () => {
 		// eslint-disable-next-line no-console
 		console.log('transactionIdHex', notarizedTransaction.transactionIdHex())
 		// eslint-disable-next-line no-console
-		console.log('intentHash', intentHash.id)
+		// console.log('intentHash', intentHash.id)
 
 		return notarizedTransaction.intentHashHex()
 	}

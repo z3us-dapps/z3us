@@ -1,6 +1,8 @@
 import type { Runtime } from 'webextension-polyfill'
 import browser from 'webextension-polyfill'
 
+import type { MessageTypes as BackgroundMessageTypes } from '@src/browser/background/message-handlers'
+import type { MessageAction as BackgroundMessageAction } from '@src/browser/background/types'
 import { PORT_NAME } from '@src/browser/messages/constants'
 import timeout, { reason } from '@src/browser/messages/timeout'
 import type { Message, ResponseMessage } from '@src/browser/messages/types'
@@ -32,7 +34,10 @@ export const MessageClient = () => {
 		}
 	})
 
-	const sendMessage = async (action: string, payload: any = {}) => {
+	const sendMessage = async (
+		action: BackgroundMessageAction,
+		payload: BackgroundMessageTypes[keyof BackgroundMessageTypes] = {},
+	) => {
 		const messageId = `${action}-${crypto.randomUUID()}`
 		const promise = new Promise<ResponseMessage>(resolve => {
 			responseHandlers[messageId] = resolve

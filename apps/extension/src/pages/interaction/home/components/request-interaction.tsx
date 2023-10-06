@@ -80,8 +80,8 @@ export const RequestInteraction: React.FC<IProps> = ({ interaction }) => {
 	}
 
 	const handleShare = async () => {
-		browser.tabs
-			.sendMessage(
+		try {
+			await browser.tabs.sendMessage(
 				interaction.fromTabId,
 				createRadixMessage.walletResponse(radixMessageSource.offScreen, {
 					discriminator: 'success',
@@ -96,17 +96,18 @@ export const RequestInteraction: React.FC<IProps> = ({ interaction }) => {
 					interactionId,
 				}),
 			)
-			.catch(error =>
-				browser.tabs.sendMessage(
-					interaction.fromTabId,
-					createRadixMessage.walletResponse(radixMessageSource.offScreen, {
-						discriminator: 'failure',
-						error: error?.message,
-						interactionId,
-					}),
-				),
+		} catch (error) {
+			browser.tabs.sendMessage(
+				interaction.fromTabId,
+				createRadixMessage.walletResponse(radixMessageSource.offScreen, {
+					discriminator: 'failure',
+					error: error?.message,
+					interactionId,
+				}),
 			)
-			.finally(() => window.close())
+		} finally {
+			window.close()
+		}
 	}
 
 	if (interaction.items.discriminator !== 'authorizedRequest') {

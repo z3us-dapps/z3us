@@ -21,19 +21,18 @@ export const useLedgerConfirmModal = () => {
 		new Promise<T>((resolve, reject) => {
 			const id = generateId()
 
+			const handleLoad = async () =>
+				cb()
+					.then(resolve)
+					.catch(error => reject(error.message))
+					.finally(() => removeModal(id))
+
 			const handleCancel = () => {
 				reject(intl.formatMessage(messages.rejected))
 				removeModal(id)
 			}
 
-			addModal(id, <Modal key={id} onClose={handleCancel} />)
-
-			cb()
-				.then(resolve)
-				.catch(error => {
-					reject(error.message)
-					removeModal(id)
-				})
+			addModal(id, <Modal onClose={handleCancel} load={handleLoad} />)
 		})
 
 	return showModalAndWait

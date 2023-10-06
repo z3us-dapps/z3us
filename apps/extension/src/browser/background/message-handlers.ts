@@ -251,12 +251,13 @@ async function handleRadixMessage(message: Message) {
 export type MessageTypes = {
 	[MessageAction.BACKGROUND_PING]: undefined
 
-	[MessageAction.BACKGROUND_VAULT_GET]: GetSecretMessage
 	[MessageAction.BACKGROUND_VAULT_LOCK]: undefined
 	[MessageAction.BACKGROUND_VAULT_UNLOCK]: UnlockVaultMessage
 	[MessageAction.BACKGROUND_VAULT_SAVE]: StoreInVaultMessage
 	[MessageAction.BACKGROUND_VAULT_REMOVE]: RemoveFromVaultMessage
 	[MessageAction.BACKGROUND_VAULT_IS_UNLOCKED]: undefined
+	[MessageAction.BACKGROUND_VAULT_GET]: GetSecretMessage
+	[MessageAction.BACKGROUND_VAULT_IS_SECRET_EMPTY]: undefined
 
 	[MessageAction.BACKGROUND_GET_PUBLIC_KEY]: GetPublicKeyMessage
 	[MessageAction.BACKGROUND_SIGN_TO_SIGNATURE]: SignMessage

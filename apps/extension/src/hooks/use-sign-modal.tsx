@@ -1,4 +1,4 @@
-import type { ReactNode} from 'react';
+import type { ReactNode } from 'react'
 import { lazy } from 'react'
 import { defineMessages, useIntl } from 'react-intl'
 
@@ -18,7 +18,8 @@ export const useSignModal = () => {
 	const intl = useIntl()
 	const { addModal, removeModal } = useModals()
 
-	const confirm = (content: ReactNode) => new Promise<string>((resolve, reject) => {
+	const confirm = (content: ReactNode) =>
+		new Promise<string>((resolve, reject) => {
 			const id = generateId()
 			const handleConfirm = (password: string) => {
 				resolve(password)
@@ -28,7 +29,7 @@ export const useSignModal = () => {
 				reject(intl.formatMessage(messages.rejected))
 				removeModal(id)
 			}
-			addModal(id, <Modal key={id} content={content} onConfirm={handleConfirm} onCancel={handleCancel} />)
+			addModal(id, <Modal content={content} onConfirm={handleConfirm} onCancel={handleCancel} />)
 		})
 
 	return confirm
