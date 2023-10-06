@@ -4,12 +4,13 @@ import { ErrorBoundary } from 'react-error-boundary'
 
 import { FallbackLoading, FallbackRenderer } from 'ui/src/components/fallback-renderer'
 
-import type { State } from './modals'
 import { ModalsContext } from './modals'
+
+export type ModalsMap = { [id: string]: React.JSX.Element }
 
 type Action = { type: 'add_modal'; id: string; modal: React.JSX.Element } | { type: 'remove_modal'; id: string }
 
-const reducer = (state: State['modals'], action: Action) => {
+const reducer = (state: ModalsMap, action: Action) => {
 	switch (action.type) {
 		case 'add_modal':
 			return { ...state, [action.id]: action.modal }
@@ -42,7 +43,13 @@ export const ModalsProvider: React.FC<PropsWithChildren> = ({ children }) => {
 		})
 	}
 
-	const ctx = useMemo(() => ({ modals, addModal, removeModal }), [modals])
+	const ctx = useMemo(
+		() => ({
+			addModal,
+			removeModal,
+		}),
+		[dispatch],
+	)
 
 	return (
 		<ModalsContext.Provider value={ctx}>

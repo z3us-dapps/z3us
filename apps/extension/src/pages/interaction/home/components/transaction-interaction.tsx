@@ -28,33 +28,33 @@ export const TransactionInteraction: React.FC<IProps> = ({ interaction }) => {
 	const sendTransaction = useSendTransaction()
 
 	const handleSubmit = async () => {
-		sendTransaction((interaction.items as any).send)
-			.then(transactionIntentHash =>
-				browser.tabs.sendMessage(
-					interaction.fromTabId,
-					createRadixMessage.walletResponse(radixMessageSource.offScreen, {
-						discriminator: 'success',
-						items: {
-							discriminator: 'transaction',
-							send: {
-								transactionIntentHash,
-							},
+		try {
+			const transactionIntentHash = await sendTransaction((interaction.items as any).send)
+			await browser.tabs.sendMessage(
+				interaction.fromTabId,
+				createRadixMessage.walletResponse(radixMessageSource.offScreen, {
+					discriminator: 'success',
+					items: {
+						discriminator: 'transaction',
+						send: {
+							transactionIntentHash,
 						},
-						interactionId,
-					}),
-				),
+					},
+					interactionId,
+				}),
 			)
-			.catch(error =>
-				browser.tabs.sendMessage(
-					interaction.fromTabId,
-					createRadixMessage.walletResponse(radixMessageSource.offScreen, {
-						discriminator: 'failure',
-						error: error?.message,
-						interactionId,
-					}),
-				),
+		} catch (error) {
+			browser.tabs.sendMessage(
+				interaction.fromTabId,
+				createRadixMessage.walletResponse(radixMessageSource.offScreen, {
+					discriminator: 'failure',
+					error: error?.message,
+					interactionId,
+				}),
 			)
-			.finally(() => window.close())
+		} finally {
+			window.close()
+		}
 	}
 
 	if (interaction.items.discriminator !== 'transaction') return null

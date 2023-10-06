@@ -8,11 +8,12 @@ import type {
 	KeyParameters,
 	LedgerDevice,
 	LedgerPublicKeyResponse,
+	LedgerRequest,
 	LedgerSignChallengeResponse,
 	LedgerSignTransactionResponse,
 } from '@radixdlt/connector-extension/src/ledger/schemas'
 import { Convert } from '@radixdlt/radix-engine-toolkit'
-import { useContext, useMemo } from 'react'
+import { useCallback, useContext, useMemo } from 'react'
 
 import { useSharedStore } from 'ui/src/hooks/use-store'
 import type { Account, Persona } from 'ui/src/store/types'
@@ -26,7 +27,7 @@ import {
 } from '@src/browser/ledger/messages'
 import { ClientContext } from '@src/context/ledger-client-provider'
 
-import { useMessageClient } from './use-message-client'
+import { useLedgerConfirmModal } from './use-ledger-confirm-modal'
 
 function processLedgerResponse(message: RadixMessage) {
 	if (message?.discriminator === messageDiscriminator.ledgerResponse) {
@@ -35,6 +36,8 @@ function processLedgerResponse(message: RadixMessage) {
 		}
 		const { success, error } = message.data
 		if (error) {
+			// see for error code details
+			// https://github.com/radixdlt/babylon-ledger-app/blob/main/src/app_error.rs#L11
 			throw Error(error.message)
 		}
 		if (!success) {
@@ -47,32 +50,37 @@ function processLedgerResponse(message: RadixMessage) {
 
 export const useLedgerClient = () => {
 	const client = useContext(ClientContext)
-	const messageClient = useMessageClient()
+	const showModalAndWait = useLedgerConfirmModal()
 
 	const { keystore } = useSharedStore(state => ({
 		keystore: state.keystores.find(({ id }) => id === state.selectedKeystoreId),
 	}))
 
+	const sendMessageToLedger = useCallback(
+		(request: LedgerRequest) =>
+			showModalAndWait(() =>
+				client
+					.sendMessage(createRadixMessage.walletToLedger(radixMessageSource.offScreen, request))
+					.then(processLedgerResponse),
+			),
+		[client],
+	)
+
 	return useMemo(
 		() => ({
-			getDeviceInfo: async (): Promise<LedgerDevice> =>
-				client
-					.sendMessage(createRadixMessage.walletToLedger(radixMessageSource.offScreen, getDeviceInfoPayload()))
-					.then(processLedgerResponse),
+			getDeviceInfo: (): Promise<LedgerDevice> => sendMessageToLedger(getDeviceInfoPayload()),
 
-			derivePublicKeys: async (
+			derivePublicKeys: (
 				singers: Array<Account | Persona | KeyParameters>,
 			): Promise<LedgerPublicKeyResponse['success']> => {
 				const device = { ...keystore.ledgerDevice, name: keystore.name } as LedgerDevice
 				const keysParameters = keyParametersFromSingers(singers)
 				const payload = getDerivePublicKeyPayload(device, keysParameters)
 
-				return client
-					.sendMessage(createRadixMessage.walletToLedger(radixMessageSource.offScreen, payload))
-					.then(processLedgerResponse)
+				return sendMessageToLedger(payload)
 			},
 
-			signChallenge: async (
+			signChallenge: (
 				singers: Array<Account | Persona>,
 				challenge: string,
 				metadata: { origin: string; dAppDefinitionAddress: string },
@@ -81,12 +89,10 @@ export const useLedgerClient = () => {
 				const keysParameters = keyParametersFromSingers(singers)
 				const payload = getSignChallengePayload(device, keysParameters, challenge, metadata)
 
-				return client
-					.sendMessage(createRadixMessage.walletToLedger(radixMessageSource.offScreen, payload))
-					.then(processLedgerResponse)
+				return sendMessageToLedger(payload)
 			},
 
-			signTx: async (
+			signTx: (
 				singers: Array<Account | Persona>,
 				intent: Uint8Array,
 			): Promise<LedgerSignTransactionResponse['success']> => {
@@ -94,11 +100,9 @@ export const useLedgerClient = () => {
 				const keysParameters = keyParametersFromSingers(singers)
 				const payload = getSignTxPayload(device, keysParameters, Convert.Uint8Array.toHexString(intent))
 
-				return client
-					.sendMessage(createRadixMessage.walletToLedger(radixMessageSource.offScreen, payload))
-					.then(processLedgerResponse)
+				return sendMessageToLedger(payload)
 			},
 		}),
-		[client, messageClient, keystore],
+		[keystore, sendMessageToLedger],
 	)
 }
