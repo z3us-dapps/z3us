@@ -1,50 +1,24 @@
-const withTM = require('next-transpile-modules')(['ui'])
+const { withContentlayer } = require('next-contentlayer')
+const { createVanillaExtractPlugin } = require('@vanilla-extract/next-plugin')
 
-const nextConfig = withTM({
+const withVanillaExtract = createVanillaExtractPlugin()
+
+/**
+ * @type {import('next').NextConfig}
+ **/
+const config = {
+	experimental: {
+		appDir: false,
+	},
 	reactStrictMode: true,
+	swcMinify: true,
+	transpilePackages: ['ui'],
+	output: 'export',
 	images: {
 		unoptimized: true,
 	},
-	async headers() {
-		return [
-			{
-				source: '/fonts/:font*',
-				headers: [
-					{
-						key: 'Cache-Control',
-						value: 'public, immutable, max-age=31536000',
-					},
-				],
-			},
-		]
-	},
-	webpack: (config, { buildId, dev, isServer, defaultLoaders, webpack }) => {
-		config.resolve = {
-			...config.resolve,
-			fallback: {
-				...config.resolve.fallback,
-				fs: false,
-				stream: require.resolve('stream-browserify'),
-				buffer: require.resolve('buffer'),
-				crypto: require.resolve('crypto-browserify'),
-				assert: require.resolve('assert'),
-				http: require.resolve('stream-http'),
-				https: require.resolve('https-browserify'),
-				os: require.resolve('os-browserify'),
-				path: require.resolve('path-browserify'),
-			},
-		}
+}
 
-		config.plugins = [
-			...config.plugins,
-			new webpack.ProvidePlugin({
-				Buffer: ['buffer', 'Buffer'],
-				process: 'process/browser',
-			}),
-		]
+const nextConfig = withVanillaExtract(config)
 
-		return config
-	},
-})
-
-module.exports = nextConfig
+module.exports = withContentlayer(nextConfig)

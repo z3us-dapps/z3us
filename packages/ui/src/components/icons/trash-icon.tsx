@@ -1,27 +1,34 @@
 /* eslint-disable react/jsx-props-no-spreading */
 import * as React from 'react'
-import { IconProps } from './types'
+
+import type { IconProps } from './types'
 
 export const TrashIcon = React.forwardRef<SVGSVGElement, IconProps>(
 	({ color = 'currentColor', ...props }, forwardedRef) => (
 		<svg
-			width="15"
-			height="15"
-			viewBox="0 0 15 15"
+			width="24"
+			height="24"
+			viewBox="0 0 24 24"
+			fill="none"
 			xmlns="http://www.w3.org/2000/svg"
-			fill={color}
 			{...props}
 			ref={forwardedRef}
 		>
 			<path
-				fill={color}
-				fillRule="evenodd"
-				clipRule="evenodd"
-				d="M5.9,11.3c0,0.3-0.2,0.5-0.5,0.5c-0.3,0-0.5-0.2-0.5-0.5V5.9c0-0.3,0.2-0.5,0.5-0.5c0.3,0,0.5,0.2,0.5,0.5V11.3z M8,11.3
-	c0,0.3-0.2,0.5-0.5,0.5S7,11.6,7,11.3V5.9c0-0.3,0.2-0.5,0.5-0.5S8,5.6,8,5.9V11.3z M10.2,11.3c0,0.3-0.2,0.5-0.5,0.5
-	c-0.3,0-0.5-0.2-0.5-0.5V5.9c0-0.3,0.2-0.5,0.5-0.5c0.3,0,0.5,0.2,0.5,0.5V11.3z M12.9,2.1v1.1H2.1V2.1h3.1c0.5,0,0.9-0.6,0.9-1.1
-	h2.9c0,0.5,0.4,1.1,0.9,1.1H12.9z M11.3,4.2v8.7H3.7V4.2H2.6V14h9.8V4.2H11.3z"
+				stroke={color}
+				strokeWidth="1.5"
+				strokeLinecap="round"
+				strokeLinejoin="round"
+				d="M6.75 7.75L7.59115 17.4233C7.68102 18.4568 8.54622 19.25 9.58363 19.25H14.4164C15.4538 19.25 16.319 18.4568 16.4088 17.4233L17.25 7.75"
 			/>
+			<path
+				stroke={color}
+				strokeWidth="1.5"
+				strokeLinecap="round"
+				strokeLinejoin="round"
+				d="M9.75 7.5V6.75C9.75 5.64543 10.6454 4.75 11.75 4.75H12.25C13.3546 4.75 14.25 5.64543 14.25 6.75V7.5"
+			/>
+			<path stroke={color} strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" d="M5 7.75H19" />
 		</svg>
 	),
 )

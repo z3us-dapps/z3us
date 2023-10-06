@@ -1,0 +1,605 @@
+{
+  "account_menu.account": {
+    "defaultMessage": "Account"
+  },
+  "account_menu.content_script": {
+    "defaultMessage": "Connected DApp: {DappLink}"
+  },
+  "account_menu.lock": {
+    "defaultMessage": "Lock"
+  },
+  "account_menu.menu": {
+    "defaultMessage": "Menu"
+  },
+  "account_menu.open_in_browser": {
+    "defaultMessage": "Open in browser"
+  },
+  "account_menu.persona": {
+    "defaultMessage": "Persona"
+  },
+  "account_menu.settings": {
+    "defaultMessage": "Settings"
+  },
+  "account_menu.theme": {
+    "defaultMessage": "Theme"
+  },
+  "account_menu.theme_dark": {
+    "defaultMessage": "Dark"
+  },
+  "account_menu.theme_light": {
+    "defaultMessage": "Light"
+  },
+  "account_menu.theme_system": {
+    "defaultMessage": "System"
+  },
+  "account_menu.wallet": {
+    "defaultMessage": "Wallet"
+  },
+  "account_menu.wallet_add": {
+    "defaultMessage": "Add wallet..."
+  },
+  "accounts.account.all_assets": {
+    "defaultMessage": "All assets"
+  },
+  "accounts.activity_list.balance_chart.loading": {
+    "defaultMessage": "Loading"
+  },
+  "accounts.activity_list.explorer": {
+    "defaultMessage": "Explorer"
+  },
+  "accounts.assets_list.fungibles": {
+    "defaultMessage": "Tokens"
+  },
+  "accounts.assets_list.non_fungibles": {
+    "defaultMessage": "NFTs"
+  },
+  "accounts.breadcrumbs.account": {
+    "defaultMessage": "Account"
+  },
+  "accounts.breadcrumbs.accounts": {
+    "defaultMessage": "All accounts"
+  },
+  "accounts.breadcrumbs.nfts": {
+    "defaultMessage": "NFTs"
+  },
+  "accounts.breadcrumbs.resource": {
+    "defaultMessage": "Resource"
+  },
+  "accounts.breadcrumbs.tokens": {
+    "defaultMessage": "Tokens"
+  },
+  "accounts.home.all_assets": {
+    "defaultMessage": "All assets"
+  },
+  "accounts.layout.back_button.title": {
+    "defaultMessage": "Back"
+  },
+  "accounts.resource_details.back": {
+    "defaultMessage": "Back"
+  },
+  "address_book.delete_modal.button_text": {
+    "defaultMessage": "Delete"
+  },
+  "address_book.delete_modal.description": {
+    "defaultMessage": "Are you sure you want to delete {address} from address book ?"
+  },
+  "address_book.delete_modal.success_message": {
+    "defaultMessage": "Successfully deleted entry"
+  },
+  "address_book.delete_modal.title": {
+    "defaultMessage": "Are you sure?"
+  },
+  "address_book.upsert_modal.created_toast": {
+    "defaultMessage": "Successfully added new address book entry"
+  },
+  "address_book.upsert_modal.form.address": {
+    "defaultMessage": "Address"
+  },
+  "address_book.upsert_modal.form.address_placeholder": {
+    "defaultMessage": "Insert address..."
+  },
+  "address_book.upsert_modal.form.cancel": {
+    "defaultMessage": "Cancel"
+  },
+  "address_book.upsert_modal.form.name": {
+    "defaultMessage": "Name"
+  },
+  "address_book.upsert_modal.form.name_placeholder": {
+    "defaultMessage": "Insert name..."
+  },
+  "address_book.upsert_modal.form.submit": {
+    "defaultMessage": "Save"
+  },
+  "address_book.upsert_modal.title": {
+    "defaultMessage": "Address book entry"
+  },
+  "address_book.upsert_modal.updated_toast": {
+    "defaultMessage": "Successfully updated address book entry"
+  },
+  "card.buttons.address": {
+    "defaultMessage": "Address"
+  },
+  "card.buttons.receive": {
+    "defaultMessage": "Receive"
+  },
+  "card.buttons.send": {
+    "defaultMessage": "Send"
+  },
+  "copy_address_btn.success_message": {
+    "defaultMessage": "Copied"
+  },
+  "currency_select.favorite": {
+    "defaultMessage": "Favorite"
+  },
+  "currency_select.reset": {
+    "defaultMessage": "Reset"
+  },
+  "form.field_group.remove": {
+    "defaultMessage": "Remove"
+  },
+  "form_group.add": {
+    "defaultMessage": "Add"
+  },
+  "form_group.remove": {
+    "defaultMessage": "Remove"
+  },
+  "mobile.menu.activity": {
+    "defaultMessage": "Activity"
+  },
+  "mobile.menu.assets": {
+    "defaultMessage": "Assets"
+  },
+  "mobile.menu.back": {
+    "defaultMessage": "Back"
+  },
+  "mobile.menu.clear": {
+    "defaultMessage": "Clear"
+  },
+  "mobile.menu.nfts": {
+    "defaultMessage": "NFTs"
+  },
+  "mobile.menu.search": {
+    "defaultMessage": "Search..."
+  },
+  "mobile.menu.tokens": {
+    "defaultMessage": "Tokens {symbol}"
+  },
+  "navigation.accounts": {
+    "defaultMessage": "Accounts"
+  },
+  "navigation.settings": {
+    "defaultMessage": "Settings"
+  },
+  "navigation.staking": {
+    "defaultMessage": "Staking"
+  },
+  "navigation.transfer": {
+    "defaultMessage": "Transfer"
+  },
+  "nft.collection": {
+    "defaultMessage": "NFT Collection"
+  },
+  "nft.item": {
+    "defaultMessage": "NFT"
+  },
+  "nfts.address": {
+    "defaultMessage": "NFT"
+  },
+  "nfts.amount": {
+    "defaultMessage": "Balance"
+  },
+  "nfts.change": {
+    "defaultMessage": "Change"
+  },
+  "nfts.empty_subtitle": {
+    "defaultMessage": "Could not find any NFTs in this account"
+  },
+  "nfts.empty_title": {
+    "defaultMessage": "No results"
+  },
+  "nfts.value": {
+    "defaultMessage": "Value"
+  },
+  "notifications.dropdown.title": {
+    "defaultMessage": "Notifications"
+  },
+  "scroll_area_up": {
+    "defaultMessage": "Go to top"
+  },
+  "searchable_input.clear": {
+    "defaultMessage": "Clear"
+  },
+  "settings.accounts.account.color": {
+    "defaultMessage": "Account color"
+  },
+  "settings.accounts.account.image": {
+    "defaultMessage": "Account image"
+  },
+  "settings.accounts.account.subtitle": {
+    "defaultMessage": "Select account from the dropdown menu, and adjust color scheme and background image for the account card"
+  },
+  "settings.accounts.account.title": {
+    "defaultMessage": "Account"
+  },
+  "settings.accounts.subtitle": {
+    "defaultMessage": "Customize your Radix account's look and feel. Personalize your experience by choosing a unique background image and color scheme that suits your style"
+  },
+  "settings.accounts.title": {
+    "defaultMessage": "Accounts"
+  },
+  "settings.address_book.entry.delete": {
+    "defaultMessage": "Delete"
+  },
+  "settings.address_book.entry.edit": {
+    "defaultMessage": "Edit"
+  },
+  "settings.address_book.new_address": {
+    "defaultMessage": "New address"
+  },
+  "settings.address_book.subtitle": {
+    "defaultMessage": "Effortless organization for your address book accounts. Manage your Radix address book with ease, editing account names and addresses in a convenient table view for seamless transactions and better financial control"
+  },
+  "settings.address_book.title": {
+    "defaultMessage": "Address book"
+  },
+  "settings.dapp_request_notifications.subtitle": {
+    "defaultMessage": "Show DApp request Radix notifications"
+  },
+  "settings.dapp_request_notifications.title": {
+    "defaultMessage": "Request Notifications"
+  },
+  "settings.general.currency.subtitle": {
+    "defaultMessage": "Display balances in your preferred currency"
+  },
+  "settings.general.currency.title": {
+    "defaultMessage": "Currency"
+  },
+  "settings.general.language.subtitle": {
+    "defaultMessage": "Select your preferred language"
+  },
+  "settings.general.language.title": {
+    "defaultMessage": "Language"
+  },
+  "settings.general.notifications.subtitle": {
+    "defaultMessage": "Enable push notifications to receive real-time updates and important alerts"
+  },
+  "settings.general.notifications.title": {
+    "defaultMessage": "Notifications"
+  },
+  "settings.general.subtitle": {
+    "defaultMessage": "Fine-tune your Z3US preferences. Manage session time and choose your ideal color theme for a personalized and secure Z3US experience"
+  },
+  "settings.general.theme.options.dark": {
+    "defaultMessage": "Dark"
+  },
+  "settings.general.theme.options.light": {
+    "defaultMessage": "Light"
+  },
+  "settings.general.theme.options.system": {
+    "defaultMessage": "System"
+  },
+  "settings.general.theme.subtitle": {
+    "defaultMessage": "Color Your Z3US Experience, select from light or dark themes, or let your system select for you"
+  },
+  "settings.general.theme.title": {
+    "defaultMessage": "Theme"
+  },
+  "settings.general.title": {
+    "defaultMessage": "General"
+  },
+  "settings.navigation.accounts.subtitle": {
+    "defaultMessage": "Customize your Radix account's look and feel. Personalize your experience by choosing a unique background image and color scheme that suits your style."
+  },
+  "settings.navigation.accounts.title": {
+    "defaultMessage": "Accounts"
+  },
+  "settings.navigation.address_book.subtitle": {
+    "defaultMessage": "Effortless organization for your address book accounts. Manage your Radix address book with ease, editing account names and addresses in a convenient table view for seamless transactions and better financial control."
+  },
+  "settings.navigation.address_book.title": {
+    "defaultMessage": "Address book"
+  },
+  "settings.navigation.general.subtitle": {
+    "defaultMessage": "Fine-tune your Z3US preferences. Manage session time and choose your ideal color theme for a personalized and secure Z3US experience."
+  },
+  "settings.navigation.general.title": {
+    "defaultMessage": "General"
+  },
+  "settings.session.five_minutes": {
+    "defaultMessage": "5 Minutes"
+  },
+  "settings.session.never": {
+    "defaultMessage": "Keep unlocked"
+  },
+  "settings.session.one_minute": {
+    "defaultMessage": "1 Minute"
+  },
+  "settings.session.sixty_minutes": {
+    "defaultMessage": "1 Hour"
+  },
+  "settings.session.subtitle": {
+    "defaultMessage": "Z3US will automatically lock after {unlockTimer, plural, =0 {never} one {1 minute} other {{unlockTimer} minutes} }"
+  },
+  "settings.session.thirty_minutes": {
+    "defaultMessage": "Half an hour"
+  },
+  "settings.session.title": {
+    "defaultMessage": "Auto-Lock timer"
+  },
+  "settings.title.back": {
+    "defaultMessage": "Back"
+  },
+  "settings.tx_result_notifications.subtitle": {
+    "defaultMessage": "Show transaction result Radix notifications"
+  },
+  "settings.tx_result_notifications.title": {
+    "defaultMessage": "Transaction Result Notifications"
+  },
+  "staking.table.column.address": {
+    "defaultMessage": "Address"
+  },
+  "staking.table.column.apy": {
+    "defaultMessage": "APY"
+  },
+  "staking.table.column.fee": {
+    "defaultMessage": "Fee %"
+  },
+  "staking.table.column.owner_stake": {
+    "defaultMessage": "Owner stake"
+  },
+  "staking.table.column.total_stake": {
+    "defaultMessage": "Total stake"
+  },
+  "staking.table.column.uptime": {
+    "defaultMessage": "Uptime"
+  },
+  "staking.table.column.validator": {
+    "defaultMessage": "Validator"
+  },
+  "staking.table_header.subtitle": {
+    "defaultMessage": "View all currently registered Radix Network validator nodes, and manage your own XRD stakes to validators"
+  },
+  "staking.table_header.title": {
+    "defaultMessage": "Staking validators"
+  },
+  "staking.validator_panel.accepts_stake": {
+    "defaultMessage": "Accepts stake"
+  },
+  "staking.validator_panel.address": {
+    "defaultMessage": "Address"
+  },
+  "staking.validator_panel.apy": {
+    "defaultMessage": "APY"
+  },
+  "staking.validator_panel.close": {
+    "defaultMessage": "Close"
+  },
+  "staking.validator_panel.details": {
+    "defaultMessage": "Details"
+  },
+  "staking.validator_panel.explorer": {
+    "defaultMessage": "Show in explorer"
+  },
+  "staking.validator_panel.fee": {
+    "defaultMessage": "Fee"
+  },
+  "staking.validator_panel.na": {
+    "defaultMessage": "N/A"
+  },
+  "staking.validator_panel.owner_stake": {
+    "defaultMessage": "Owner stake"
+  },
+  "staking.validator_panel.registration_stake": {
+    "defaultMessage": "Registration stake"
+  },
+  "staking.validator_panel.total_stake": {
+    "defaultMessage": "Total stake"
+  },
+  "token_amount_select.amount.placeholder": {
+    "defaultMessage": "Amount"
+  },
+  "token_select.close": {
+    "defaultMessage": "Close"
+  },
+  "token_select.token.no_results.subtitle": {
+    "defaultMessage": "Please refine search"
+  },
+  "token_select.token.no_results.title": {
+    "defaultMessage": "No tokens found"
+  },
+  "token_select.token.placeholder": {
+    "defaultMessage": "Search token..."
+  },
+  "tokens.address": {
+    "defaultMessage": "Token"
+  },
+  "tokens.amount": {
+    "defaultMessage": "Balance"
+  },
+  "tokens.change": {
+    "defaultMessage": "Change"
+  },
+  "tokens.empty_subtitle": {
+    "defaultMessage": "Could not find any NFTs in this account"
+  },
+  "tokens.empty_title": {
+    "defaultMessage": "No results"
+  },
+  "tokens.value": {
+    "defaultMessage": "Value"
+  },
+  "transaction.affected_global_entities": {
+    "defaultMessage": "Affected global entities"
+  },
+  "transaction.close": {
+    "defaultMessage": "Close"
+  },
+  "transaction.date": {
+    "defaultMessage": "Date"
+  },
+  "transaction.details": {
+    "defaultMessage": "Details"
+  },
+  "transaction.epoch": {
+    "defaultMessage": "Epoch"
+  },
+  "transaction.explorer": {
+    "defaultMessage": "Open in explorer"
+  },
+  "transaction.fee": {
+    "defaultMessage": "Fee"
+  },
+  "transaction.id": {
+    "defaultMessage": "ID"
+  },
+  "transaction.manifest": {
+    "defaultMessage": "Transaction manifest"
+  },
+  "transaction.message": {
+    "defaultMessage": "Message"
+  },
+  "transaction.round": {
+    "defaultMessage": "Round"
+  },
+  "transaction.status": {
+    "defaultMessage": "Status"
+  },
+  "transaction.version": {
+    "defaultMessage": "State version"
+  },
+  "transfer.deploy.form.submit_button": {
+    "defaultMessage": "Deploy"
+  },
+  "transfer.deploy.form.validation.badge": {
+    "defaultMessage": "Please select NFT collection"
+  },
+  "transfer.deploy.form.validation.badge_id": {
+    "defaultMessage": "Please select NFT item"
+  },
+  "transfer.deploy.form.validation.files.amount": {
+    "defaultMessage": "Both WASM and RPD files are required"
+  },
+  "transfer.deploy.form.validation.files.size": {
+    "defaultMessage": "Each file must be a maximum of 10MB"
+  },
+  "transfer.deploy.form.validation.files.type": {
+    "defaultMessage": "Invalid files, please upload both WASM and RPD file with correct types"
+  },
+  "transfer.deploy.form.validation.from": {
+    "defaultMessage": "Please select account"
+  },
+  "transfer.deploy.form_fields.badge": {
+    "defaultMessage": "Owner badge"
+  },
+  "transfer.deploy.form_fields.files": {
+    "defaultMessage": "Files"
+  },
+  "transfer.deploy.form_fields.from": {
+    "defaultMessage": "From"
+  },
+  "transfer.form.button.add_account": {
+    "defaultMessage": "Add another recipient"
+  },
+  "transfer.form.button.add_token": {
+    "defaultMessage": "Add another item"
+  },
+  "transfer.form.button.submit": {
+    "defaultMessage": "Send"
+  },
+  "transfer.form.field.from.subtitle": {
+    "defaultMessage": "Select account you wish to send items from"
+  },
+  "transfer.form.field.from.title": {
+    "defaultMessage": "From account"
+  },
+  "transfer.form.field.message.encrypt_title": {
+    "defaultMessage": "Encrypt message"
+  },
+  "transfer.form.field.message.placeholder": {
+    "defaultMessage": "Enter transaction message"
+  },
+  "transfer.form.field.message.subtitle": {
+    "defaultMessage": "Send an optional message with the transaction"
+  },
+  "transfer.form.field.message.title": {
+    "defaultMessage": "Message"
+  },
+  "transfer.form.field.to.subtitle": {
+    "defaultMessage": "Select recipient to send items to"
+  },
+  "transfer.form.field.to.title": {
+    "defaultMessage": "To account"
+  },
+  "transfer.form.tab.nfts": {
+    "defaultMessage": "NFTs"
+  },
+  "transfer.form.tab.tokens": {
+    "defaultMessage": "Tokens"
+  },
+  "transfer.form.title": {
+    "defaultMessage": "Transfer"
+  },
+  "transfer.known_address": {
+    "defaultMessage": "Known address"
+  },
+  "transfer.navigation.deploy": {
+    "defaultMessage": "Deploy package"
+  },
+  "transfer.navigation.home": {
+    "defaultMessage": "Transfer"
+  },
+  "transfer.navigation.raw": {
+    "defaultMessage": "Advanced"
+  },
+  "transfer.router.deploy": {
+    "defaultMessage": "Deploy package"
+  },
+  "transfer.router.home": {
+    "defaultMessage": "Transfer"
+  },
+  "transfer.router.raw": {
+    "defaultMessage": "Advanced"
+  },
+  "transfer.validation.from": {
+    "defaultMessage": "Please select account"
+  },
+  "transfer.validation.nft.collection": {
+    "defaultMessage": "Please select NFT collection"
+  },
+  "transfer.validation.nft.item": {
+    "defaultMessage": "Please select NFT item"
+  },
+  "transfer.validation.to": {
+    "defaultMessage": "Please select recipient"
+  },
+  "transfer.validation.token.address": {
+    "defaultMessage": "Please select token"
+  },
+  "transfer.validation.token.amount": {
+    "defaultMessage": "Please enter a valid amount"
+  },
+  "transfer_raw.form.button.submit": {
+    "defaultMessage": "Send"
+  },
+  "transfer_raw.form.raw.placeholder": {
+    "defaultMessage": "Enter manifest..."
+  },
+  "transfer_raw.form.raw.subtitle": {
+    "defaultMessage": "Enter raw transaction manifest"
+  },
+  "transfer_raw.form.raw.title": {
+    "defaultMessage": "Transaction manifest"
+  },
+  "transfer_raw.validation.raw": {
+    "defaultMessage": "Transaction can not be empty"
+  },
+  "unlock.error": {
+    "defaultMessage": "Incorrect password!"
+  },
+  "unlock.form.button.title": {
+    "defaultMessage": "Unlock"
+  },
+  "unlock.password.placeholder": {
+    "defaultMessage": "Password"
+  }
+}

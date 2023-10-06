@@ -1,16 +1,11 @@
 {
 	"extends": "tsconfig/nextjs.json",
 	"compilerOptions": {
-		"baseUrl": ".",
 		"paths": {
-			"@/config/": ["config/index.ts"],
-			"@/public/*": ["public/*"],
-			"@/components/*": ["components/*"],
-			"@/hooks/*": ["hooks/*"],
-			"@/docs/*": ["docs/*"],
-			"@/utils/*": ["utils/*"]
+			"@/*": ["./apps/website/src/*"],
+			"contentlayer/generated": ["./apps/website/.contentlayer/generated"]
 		}
 	},
-	"include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],
-	"exclude": ["node_modules"]
+	"include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", ".contentlayer/generated"],
+	"exclude": ["node_modules", "./scripts/build-components.ts"]
 }

@@ -1,0 +1,34 @@
+{
+  "compilerOptions": {
+    "target": "ESNext",
+    "useDefineForClassFields": true,
+    "lib": ["DOM", "DOM.Iterable", "ESNext"],
+    "allowJs": false,
+    "skipLibCheck": true,
+    "esModuleInterop": false,
+    "allowSyntheticDefaultImports": true,
+    "strict": true,
+    "forceConsistentCasingInFileNames": true,
+    "module": "esnext",
+    "moduleResolution": "node",
+    "resolveJsonModule": true,
+    "isolatedModules": false,
+    "noEmit": false,
+    "jsx": "react-jsx",
+
+    "rootDir":"../../node_modules/@radixdlt/connector-extension",
+    "baseUrl": "../../node_modules/@radixdlt/connector-extension/src",
+    "outDir": ".radixdlt/connector-extension",
+
+    "composite": true,
+    "declaration": true,
+    "declarationMap": true,
+    "sourceMap": true,
+
+    "tsBuildInfoFile": ".build-cache/tsconfig.radix.tsbuildinfo"
+  },
+  "include": [
+    "../../node_modules/@radixdlt/connector-extension/src",
+    "../../node_modules/@radixdlt/connector-extension/src/*.d.ts",
+  ]
+}

@@ -4,7 +4,7 @@ module.exports = {
 		node: true,
 	},
 	extends: ['next', 'airbnb', 'airbnb-typescript', 'plugin:import/recommended', 'plugin:import/typescript', 'prettier'],
-	plugins: ['@typescript-eslint', 'import', 'require-explicit-generics'],
+	plugins: ['import', 'require-explicit-generics', 'formatjs'],
 	settings: {
 		next: {
 			rootDir: ['apps/*/', 'packages/*/'],
@@ -15,7 +15,7 @@ module.exports = {
 		'import/resolver': {
 			typescript: {
 				alwaysTryTypes: true,
-				project: ['apps/*/tsconfig.json'],
+				project: ['apps/*/tsconfig.json', 'packages/*/tsconfig.json'],
 			},
 		},
 	},
@@ -26,7 +26,9 @@ module.exports = {
 				namedComponents: 'arrow-function',
 			},
 		],
+		'react/react-in-jsx-scope': 'off',
 		'react/prop-types': 'off',
+		'react/require-default-props': 'off',
 		'no-console': 1,
 		'import/no-named-as-default': 'off',
 		'import/prefer-default-export': 'off',
@@ -38,6 +40,12 @@ module.exports = {
 		'import/no-extraneous-dependencies': [2, { devDependencies: true }],
 		'react/jsx-props-no-spreading': 'off',
 		'require-explicit-generics/require-explicit-generics': [2, ['React.useState', 'useState', 'useImmer']],
+		'@typescript-eslint/consistent-type-imports': 1,
+		'formatjs/no-offset': 'error',
+		// TODO: fix
+		// '@typescript-eslint/no-floating-promises': 1,
+		// '@typescript-eslint/await-thenable': 1,
+		// '@typescript-eslint/no-misused-promises': 1,
 	},
 	overrides: [
 		{

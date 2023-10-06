@@ -1,93 +1,112 @@
-import React, { useRef, useEffect } from 'react'
-import SimpleBar from 'simplebar-react'
+import clsx from 'clsx'
+import React, { useCallback, useEffect, useRef } from 'react'
 import { useImmer } from 'use-immer'
-import { Box } from '../atoms/box'
-import 'simplebar-react/dist/simplebar.min.css'
+import { useEventListener, useIsomorphicLayoutEffect } from 'usehooks-ts'
+
+import { Box } from '../box'
+import SimpleBar from '../simple-bar'
+import * as styles from './scroll-area.css'
 
 interface ImmerT {
 	isTopShadowVisible: boolean
-	isBottmShadowVisible: boolean
+	isBottomShadowVisible: boolean
 }
 
 interface IProps {
 	children: React.ReactNode
-	enabled?: boolean
+	isPointerEventsDisabled?: boolean
 	scrollableNodeProps?: any
 	onScrollAreaSizeChange?: () => void
 	onScroll?: (e: Event) => void
-}
-
-const defaultProps = {
-	enabled: true,
-	scrollableNodeProps: undefined,
-	onScrollAreaSizeChange: undefined,
-	onScroll: undefined,
+	isTopShadowVisible?: boolean
+	isBottomShadowVisible?: boolean
+	isSimpleBarDisabled?: boolean
 }
 
 export const ScrollArea: React.FC<IProps> = ({
 	children,
-	enabled,
 	scrollableNodeProps,
 	onScrollAreaSizeChange,
 	onScroll,
+	isSimpleBarDisabled = false,
+	isPointerEventsDisabled = false,
+	isTopShadowVisible = true,
+	isBottomShadowVisible = true,
 }) => {
 	const sRef: any = useRef()
 	const observer = useRef<ResizeObserver | null>(null)
 	const scrollObserver = useRef<ResizeObserver | null>(null)
+	const scrollElement = sRef?.current?.getScrollElement()
 
 	const [state, setState] = useImmer<ImmerT>({
 		isTopShadowVisible: false,
-		isBottmShadowVisible: false,
+		isBottomShadowVisible: false,
 	})
 
-	const handleScroll = (event: Event) => {
-		const target = event.target as Element
-		const { scrollHeight, scrollTop, clientHeight } = target
-		const isScrollable = scrollHeight > clientHeight
-		const isBottomReached = scrollHeight - Math.round(scrollTop) === clientHeight
-		const showBottomShadow = isScrollable && !isBottomReached
-		const showTopShadow = isScrollable && scrollTop > 0
-
-		setState(draft => {
-			draft.isTopShadowVisible = showTopShadow
-			draft.isBottmShadowVisible = showBottomShadow
-		})
-
-		if (onScroll) {
-			onScroll(event)
+	const handleScrollAreaSizeChange = useCallback(() => {
+		if (onScrollAreaSizeChange) {
+			onScrollAreaSizeChange()
 		}
-	}
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [scrollElement?.offsetHeight, scrollElement?.offsetWidth, scrollElement])
+
+	const handleScroll = useCallback(
+		(event: Event) => {
+			const target = event.target as Element
+			const { scrollHeight, scrollTop, clientHeight } = target
+			const isScrollable = scrollHeight > clientHeight
+			const isBottomReached = scrollHeight - Math.round(scrollTop) === clientHeight
+			const showBottomShadow = isScrollable && !isBottomReached
+			const showTopShadow = isScrollable && scrollTop > 0
+
+			setState(draft => {
+				draft.isTopShadowVisible = showTopShadow
+				draft.isBottomShadowVisible = showBottomShadow
+			})
+
+			if (onScroll) {
+				onScroll(event)
+			}
+			// eslint-disable-next-line react-hooks/exhaustive-deps
+		},
+		[scrollElement?.offsetHeight, scrollElement?.offsetWidth, scrollElement],
+	)
 
 	useEffect(() => {
 		const scrollRef = sRef?.current?.getScrollElement()
-		const simpleBarContent = scrollRef.getElementsByClassName('simplebar-content')[0]
-		scrollRef.addEventListener('scroll', handleScroll, { passive: true })
+		if (isSimpleBarDisabled) {
+			sRef?.current.unMount()
+		} else {
+			const simpleBarContent = scrollRef.getElementsByClassName('simplebar-content')[0]
+			scrollRef.addEventListener('scroll', handleScroll, { passive: true })
 
-		observer.current = new ResizeObserver(entries => {
-			entries.forEach(entry => {
-				if (onScrollAreaSizeChange) {
-					onScrollAreaSizeChange()
-				}
-				const contentBoxSize = Array.isArray(entry.contentBoxSize) ? entry.contentBoxSize[0] : entry.contentBoxSize
-				setState(draft => {
-					draft.isBottmShadowVisible = contentBoxSize.blockSize > scrollRef.clientHeight
+			observer.current = new ResizeObserver(entries => {
+				entries.forEach(entry => {
+					if (onScrollAreaSizeChange) {
+						onScrollAreaSizeChange()
+					}
+					const contentBoxSize = Array.isArray(entry.contentBoxSize) ? entry.contentBoxSize[0] : entry.contentBoxSize
+					setState(draft => {
+						draft.isBottomShadowVisible = contentBoxSize.blockSize > scrollRef.clientHeight
+					})
 				})
 			})
-		})
-		scrollObserver.current = new ResizeObserver(entries => {
-			entries.forEach(entry => {
-				const contentBoxSize = Array.isArray(entry.contentBoxSize) ? entry.contentBoxSize[0] : entry.contentBoxSize
-				setState(draft => {
-					draft.isBottmShadowVisible = simpleBarContent.clientHeight > contentBoxSize.blockSize
+			scrollObserver.current = new ResizeObserver(entries => {
+				entries.forEach(entry => {
+					const contentBoxSize = Array.isArray(entry.contentBoxSize) ? entry.contentBoxSize[0] : entry.contentBoxSize
+					setState(draft => {
+						draft.isBottomShadowVisible = simpleBarContent.clientHeight > contentBoxSize.blockSize
+					})
 				})
 			})
-		})
-		if (simpleBarContent) {
-			observer.current.observe(simpleBarContent)
+			if (simpleBarContent) {
+				observer.current.observe(simpleBarContent)
+			}
+			if (scrollRef) {
+				scrollObserver.current.observe(scrollRef)
+			}
 		}
-		if (scrollRef) {
-			scrollObserver.current.observe(scrollRef)
-		}
+
 		return () => {
 			scrollRef.removeEventListener('scroll', handleScroll)
 			if (observer.current) {
@@ -97,22 +116,23 @@ export const ScrollArea: React.FC<IProps> = ({
 				scrollObserver.current.disconnect()
 			}
 		}
-	}, [])
+	}, [scrollElement, isSimpleBarDisabled])
+
+	useEventListener('resize', handleScrollAreaSizeChange)
+
+	useIsomorphicLayoutEffect(() => {
+		handleScrollAreaSizeChange()
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [scrollElement?.offsetHeight, scrollElement?.offsetWidth])
 
 	return (
 		<Box
-			css={{
-				position: 'absolute',
-				pointerEvents: enabled ? 'auto' : 'none',
-				overflow: 'hidden',
-				top: 0,
-				left: 0,
-				right: 0,
-				bottom: 0,
-			}}
+			className={clsx(
+				styles.scrollAreaWrapper,
+				isSimpleBarDisabled && styles.scrollAreaSimpleBarDisabledWrapper,
+				isPointerEventsDisabled && styles.scrollAreaWrapperDisablePointerEvents,
+			)}
 		>
-			{/* @TODO: resolve typescript error, this will be resolved when upgrade to react 18 */}
-			{/* @ts-ignore */}
 			<SimpleBar
 				ref={sRef}
 				scrollableNodeProps={scrollableNodeProps}
@@ -124,33 +144,17 @@ export const ScrollArea: React.FC<IProps> = ({
 				{children}
 			</SimpleBar>
 			<Box
-				css={{
-					position: 'absolute',
-					opacity: state.isTopShadowVisible ? '1' : '0',
-					transition: '$default',
-					top: '0',
-					left: '0',
-					right: 0,
-					height: '10px',
-					background: '$bgPanelShadowDown',
-					pe: 'none',
-				}}
+				className={clsx(
+					styles.scrollAreaTopShadow,
+					isTopShadowVisible && state.isTopShadowVisible && styles.scrollAreaTopShadowVisible,
+				)}
 			/>
 			<Box
-				css={{
-					position: 'absolute',
-					opacity: state.isBottmShadowVisible ? '1' : '0',
-					bottom: '0',
-					left: '0',
-					right: 0,
-					height: '10px',
-					background: '$bgPanelShadowUp',
-					transition: '$default',
-					pe: 'none',
-				}}
+				className={clsx(
+					styles.scrollAreaBottomShadow,
+					isBottomShadowVisible && state.isBottomShadowVisible && styles.scrollAreaBottomShadowVisible,
+				)}
 			/>
 		</Box>
 	)
 }
-
-ScrollArea.defaultProps = defaultProps

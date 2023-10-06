@@ -1,6 +1,7 @@
-import path from 'path'
 import dotenv from 'dotenv'
-import { Page, ChromiumBrowserContext } from 'playwright'
+import path from 'path'
+import type { ChromiumBrowserContext, Page } from 'playwright'
+
 import { closePages, initBrowserWithExtension } from './util'
 
 dotenv.config({ path: path.resolve(__dirname, '../../../', '.env') })

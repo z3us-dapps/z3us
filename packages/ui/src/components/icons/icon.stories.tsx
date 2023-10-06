@@ -1,11 +1,11 @@
 /* eslint-disable react/jsx-props-no-spreading, @typescript-eslint/no-unused-vars */
+import type { ComponentMeta, ComponentStory } from '@storybook/react'
 import React from 'react'
-import { ComponentMeta, ComponentStory } from '@storybook/react'
-import { Box } from '../atoms/box'
-import { Flex } from '../atoms/flex'
-import { Tooltip, TooltipTrigger, TooltipContent, TooltipArrow } from '../tool-tip'
-import * as icons from '.'
 
+import * as icons from '.'
+import { Box } from '../box'
+// import { Flex } from '../atoms/flex'
+// import { Tooltip, TooltipArrow, TooltipContent, TooltipProvider, TooltipTrigger } from '../tool-tip'
 import Icon from './plus-icon'
 
 export default {
@@ -20,26 +20,13 @@ const Template: ComponentStory<typeof Icon> = args => <Icon {...args} />
 
 const CombinedTemplate: React.FC = () => (
 	<Box>
-		<Flex gap="6" justify="start" css={{ flexWrap: 'wrap' }}>
+		<Box display="flex">
 			{Object.entries(icons).map(([icon, Component]) => (
-				<Tooltip>
-					<TooltipTrigger asChild>
-						<Flex
-							key={icon}
-							align="center"
-							justify="center"
-							css={{ bg: '$bgPanel2', width: '50px', height: '50px', br: '$2' }}
-						>
-							<Component />
-						</Flex>
-					</TooltipTrigger>
-					<TooltipContent sideOffset={5}>
-						<TooltipArrow />
-						{icon}
-					</TooltipContent>
-				</Tooltip>
+				<Box key={icon}>
+					<Component />
+				</Box>
 			))}
-		</Flex>
+		</Box>
 	</Box>
 )
 

@@ -1,62 +1,54 @@
-/* eslint-disable react/jsx-props-no-spreading, @typescript-eslint/no-unused-vars */
-import { styled } from '@stitches/react'
 import * as TabsPrimitive from '@radix-ui/react-tabs'
+import clsx from 'clsx'
+import React from 'react'
 
-const StyledTabs = styled(TabsPrimitive.Root, {
-	display: 'flex',
-	flexDirection: 'column',
-	width: '100%',
-	boxShadow: '$shadowPanel2',
-	border: '1px solid $borderPanel2',
-	borderRadius: '$3',
-})
+import * as styles from './styles.css'
 
-const StyledList = styled(TabsPrimitive.List, {
-	flexShrink: 0,
-	display: 'flex',
-	borderBottom: `1px solid $borderPanel2`,
-	borderTopLeftRadius: '$3',
-	borderTopRightRadius: '$3',
-})
+export const TabsRoot = TabsPrimitive.Root
+export const TabsList = TabsPrimitive.List
+export const TabTrigger = TabsPrimitive.TabsTrigger
+export const TabsContent = TabsPrimitive.Content
 
-const StyledTrigger = styled(TabsPrimitive.Trigger, {
-	all: 'unset',
-	fontFamily: 'inherit',
-	backgroundColor: '$bgPanel2',
-	padding: '0 20px',
-	height: 45,
-	flex: 1,
-	display: 'flex',
-	alignItems: 'center',
-	justifyContent: 'center',
-	fontSize: 13,
-	fontWeight: 500,
-	lineHeight: 1,
-	userSelect: 'none',
-	transition: '$default',
-	'&:first-child': { borderTopLeftRadius: '$3' },
-	'&:last-child': { borderTopRightRadius: '$3' },
-	'&:hover': { backgroundColor: '$bgPanelHover' },
-	'&[data-state="active"]': {
-		color: '$txtDefault',
-		boxShadow: 'inset 0 -1px 0 0 #673bdf, 0 1px 0 0 #673bdf',
-	},
-	'&:focus': {
-		position: 'relative',
-		//boxShadow: `0 0 0 2px $shadowPanel`,
-	},
-})
+interface ITabsProps extends TabsPrimitive.TabsProps {
+	list: {
+		value: string
+		label: string
+	}[]
+	sizeVariant?: 'small' | 'medium' | 'large'
+	styleVariant?: 'primary' | 'secondary'
+}
 
-const StyledContent = styled(TabsPrimitive.Content, {
-	flexGrow: 1,
-	backgroundColor: '$bgPanel',
-	borderBottomLeftRadius: '$3',
-	borderBottomRightRadius: '$3',
-	outline: 'none',
-	'&:focus': { boxShadow: `0 0 0 2px $bgPanel` },
-})
+export const Tabs = (props: ITabsProps) => {
+	const { children, list, sizeVariant = 'medium', styleVariant = 'primary', ...rest } = props
 
-export const Tabs = StyledTabs
-export const TabsList = StyledList
-export const TabsTrigger = StyledTrigger
-export const TabsContent = StyledContent
+	return (
+		<TabsRoot {...rest}>
+			<TabsList
+				className={clsx(
+					styles.tabsListRootWrapper,
+					styles.tabsListRecipe({
+						sizeVariant,
+						styleVariant,
+					}),
+				)}
+			>
+				{list.map(({ label, value }) => (
+					<TabTrigger
+						key={value}
+						value={value}
+						className={clsx(
+							styles.tabsTriggerRecipe({
+								sizeVariant,
+								styleVariant,
+							}),
+							styles.tabsTriggerRoot,
+						)}
+					>
+						{label}
+					</TabTrigger>
+				))}
+			</TabsList>
+			{children}
+		</TabsRoot>
+	)
+}

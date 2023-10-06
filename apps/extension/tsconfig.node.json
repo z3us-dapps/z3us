@@ -1,0 +1,18 @@
+{
+    "compilerOptions": {
+      "composite": true,
+      "module": "esnext",
+      "resolveJsonModule": true,
+      "allowSyntheticDefaultImports": true,
+      "moduleResolution": "node",
+
+      "tsBuildInfoFile": ".build-cache/tsconfig.node.tsbuildinfo"
+    },
+    "include": [
+      "package.json",
+      "vite.config.ts",
+      "playwright.config.ts",
+      "src/browser/manifest/**/*.ts",
+      "src/browser/manifest/**/*.json",
+    ]
+}

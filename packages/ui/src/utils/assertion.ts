@@ -1,8 +1,8 @@
 // eslint-disable-next-line @typescript-eslint/naming-convention, no-underscore-dangle
-export const __DEV__ = process.env.NODE_ENV !== 'production'
+// export const __DEV__ = process.env.NODE_ENV !== 'production'
 
 // eslint-disable-next-line @typescript-eslint/naming-convention, no-underscore-dangle
-export const __TEST__ = process.env.NODE_ENV === 'test'
+// export const __TEST__ = process.env.NODE_ENV === 'test'
 
 export type Dict<T = any> = Record<string, T>
 

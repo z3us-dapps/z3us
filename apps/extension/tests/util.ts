@@ -1,6 +1,6 @@
 /* eslint-disable */
-import { chromium, ChromiumBrowserContext } from 'playwright'
 import { join } from 'path'
+import { ChromiumBrowserContext, chromium } from 'playwright'
 
 export const EXTENSION_PATH = join(__dirname, '../dist/chrome')
 

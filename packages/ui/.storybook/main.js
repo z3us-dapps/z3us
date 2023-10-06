@@ -9,12 +9,12 @@ module.exports = {
 		'@storybook/addon-viewport',
 		'storybook-dark-mode',
 	],
-	framework: '@storybook/react',
-	core: {
-		builder: '@storybook/builder-vite',
+	framework: {
+		name: '@storybook/react-vite',
+		options: {},
 	},
-	features: {
-		storyStoreV7: true,
+	docs: {
+		autodocs: 'tag',
 	},
 	async viteFinal(config) {
 		return mergeConfig(config, {

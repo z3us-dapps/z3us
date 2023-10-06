@@ -1,2 +1,6 @@
 .tubro
 node_modules
+
+vite.config.ts
+vite.config.d.ts
+src/browser/manifest/*.d.ts
