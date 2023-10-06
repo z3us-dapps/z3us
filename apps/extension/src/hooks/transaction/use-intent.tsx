@@ -61,7 +61,7 @@ export const useIntent = () => {
 			endEpochExclusive: validFromEpoch + 10,
 			nonce: generateRandomNonce(),
 			notaryPublicKey: notary.publicKey(),
-			notaryIsSignatory: true,
+			notaryIsSignatory: false,
 			tipPercentage,
 		}
 
