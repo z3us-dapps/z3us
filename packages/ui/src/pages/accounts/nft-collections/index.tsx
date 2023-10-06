@@ -14,7 +14,7 @@ import { AssetNameCell } from 'ui/src/pages/accounts/components/table/asset-name
 import { AssetValueCell } from 'ui/src/pages/accounts/components/table/asset-value-cell'
 import type { ResourceBalance, ResourceBalanceType } from 'ui/src/types/types'
 
-import * as styles from './styles.css'
+import * as styles from '../components/table/styles.css'
 
 const messages = defineMessages({
 	address: {
@@ -92,7 +92,7 @@ const NftCollections: React.FC = () => {
 	return (
 		<Box className={styles.tableWrapper}>
 			{nonFungibleBalances?.length === 0 ? (
-				<Box display="flex" alignItems="center" justifyContent="center" width="full" paddingY="xxlarge">
+				<Box className={styles.emptyStateWrapper}>
 					<EmptyState
 						title={intl.formatMessage(messages.empty_title)}
 						subTitle={intl.formatMessage(messages.empty_subtitle)}
@@ -100,7 +100,6 @@ const NftCollections: React.FC = () => {
 				</Box>
 			) : (
 				<Table
-					className={styles.tableMinHeightWrapper}
 					styleVariant="primary"
 					sizeVariant="large"
 					scrollableNode={scrollableNode ?? undefined}

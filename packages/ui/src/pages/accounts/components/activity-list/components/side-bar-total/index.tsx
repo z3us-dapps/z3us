@@ -32,14 +32,14 @@ export const SideBarTotal: React.FC = () => {
 				{intl.formatMessage(messages.all_assets_total_balance)}
 			</Text>
 			<Box display="flex" alignItems="center" gap="small">
-				<Text weight="medium" size="xxxlarge" color="strong" truncate>
+				<Text weight="medium" size="xxlarge" color="strong" truncate>
 					{formattedValue}
 				</Text>
-				<RedGreenText size="xsmall" weight="strong" truncate changeStatus={changeStatus}>
+				<RedGreenText size="small" weight="strong" truncate changeStatus={changeStatus}>
 					{formattedChange}
 				</RedGreenText>
 			</Box>
-			<Text weight="strong" size="xlarge">
+			<Text weight="medium" size="large">
 				100 XRD (TODO)
 			</Text>
 		</Box>

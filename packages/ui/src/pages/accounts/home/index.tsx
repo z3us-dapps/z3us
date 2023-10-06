@@ -31,7 +31,7 @@ const Home: React.FC = () => {
 	const [wrapperRef, { width: horizontalScrollWidth, top }] = useMeasure()
 	const { height } = useWindowSize()
 	const isMobile = useIsMobileWidth()
-	const mobileMinHeight = height - top - 48
+	const mobileMinHeight = Math.max(height - top - 48, 385)
 	const accountName = accounts?.[accountId]?.name
 
 	return (

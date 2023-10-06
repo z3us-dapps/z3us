@@ -17,7 +17,7 @@ export const RedGreenText: React.FC<IProps> = props => {
 	const { children, changeStatus, ...rest } = props
 
 	return (
-		<Text {...rest} color={colorMap[changeStatus] || colorMap['default']}>
+		<Text {...rest} color={colorMap[changeStatus] || colorMap.default}>
 			{children}
 		</Text>
 	)
