@@ -37,19 +37,20 @@ export const TransactionInteraction: React.FC<IProps> = ({ interaction }) => {
 	const sign = useSign()
 
 	const [intent, setIntent] = useState<{ intent: Intent; notary: PrivateKey; needSignaturesFrom: string[] }>()
-	const [summary, setSummary] = useState<TransactionSummary>()
+	const [summary, setSummary] = useState<TransactionSummary | null>(null)
 
 	useEffect(() => {
 		const { send: input } = interaction.items as WalletTransactionItems
 		buildIntent(input).then(async result => {
 			setIntent(result)
-			setSummary(
-				await LTSRadixEngineToolkit.Transaction.summarizeTransaction(
-					(
-						await RadixEngineToolkit.Intent.intentHash(result.intent)
-					).hash,
-				),
-			)
+
+			try {
+				const tx = await RadixEngineToolkit.Intent.intentHash(result.intent)
+				const txSummary = await LTSRadixEngineToolkit.Transaction.summarizeTransaction(tx.hash)
+				setSummary(txSummary)
+			} catch (error) {
+				setSummary(null)
+			}
 		})
 	}, [])
 
