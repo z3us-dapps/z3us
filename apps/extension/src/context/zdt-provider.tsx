@@ -1,5 +1,4 @@
-import type { Account, Persona, SendTransactionInput } from '@radixdlt/radix-dapp-toolkit'
-import { TransactionStatus } from '@radixdlt/radix-dapp-toolkit'
+import type { Account, Persona } from '@radixdlt/radix-dapp-toolkit'
 import React, { type PropsWithChildren, useMemo } from 'react'
 import { defineMessages, useIntl } from 'react-intl'
 
@@ -8,9 +7,9 @@ import { ZdtContext } from 'ui/src/context/zdt'
 import { useNetworkId } from 'ui/src/hooks/dapp/use-network-id'
 import { useNoneSharedStore } from 'ui/src/hooks/use-store'
 
+import { useSendTransaction } from '@src/hooks/transaction/use-send-transaction'
 import { useIsUnlocked } from '@src/hooks/use-is-unlocked'
 import { useMessageClient } from '@src/hooks/use-message-client'
-import { useSendTransaction } from '@src/hooks/use-send-transaction'
 
 const messages = defineMessages({
 	unknown_account: {
@@ -28,10 +27,10 @@ const messages = defineMessages({
 
 export const ZdtProvider: React.FC<PropsWithChildren> = ({ children }) => {
 	const intl = useIntl()
-	const client = useMessageClient()
-	const { isUnlocked } = useIsUnlocked()
 	const networkId = useNetworkId()
+	const client = useMessageClient()
 	const sendTransaction = useSendTransaction()
+	const { isUnlocked } = useIsUnlocked()
 	const { accountIndexes, personaIndexes, addressBook } = useNoneSharedStore(state => ({
 		accountIndexes: state.accountIndexes[networkId] || {},
 		personaIndexes: state.personaIndexes[networkId] || {},
@@ -69,13 +68,7 @@ export const ZdtProvider: React.FC<PropsWithChildren> = ({ children }) => {
 				isUnlocked,
 				accounts,
 				personas,
-				sendTransaction: async (input: SendTransactionInput) => {
-					const transactionIntentHash = await sendTransaction(input)
-					return {
-						transactionIntentHash,
-						status: TransactionStatus.Unknown,
-					}
-				},
+				sendTransaction,
 				unlock: client.unlockVault,
 				lock: client.lockVault,
 			} as State),
