@@ -5,6 +5,7 @@ const nextConfig = withTM({
 	images: {
 		unoptimized: true,
 	},
+	trailingSlash: true,
 	async headers() {
 		return [
 			{
