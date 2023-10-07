@@ -6,14 +6,25 @@ import { responsiveStyle } from 'ui/src/components/system/theme-utils'
 
 // import { vars } from 'ui/src/components/system/theme.css'
 
+export const assetInfoWrapper = style([
+	sprinkles({
+		display: 'flex',
+		flexDirection: 'column',
+		justifyContent: 'center',
+		alignItems: 'center',
+		paddingTop: 'xlarge',
+		paddingX: 'xlarge',
+	}),
+	{},
+])
+
 export const chartBgWrapper = style([
 	sprinkles({
 		position: 'relative',
-		// background: 'backgroundPrimary',
+		width: 'full',
 	}),
 	{
 		height: '220px',
-		width: '100%',
 	},
 ])
 
@@ -27,23 +38,7 @@ export const accountCardButtonWrapper = style([
 	}),
 ])
 
-export const assetCloseBtnWrapper = style([
-	sprinkles({
-		display: 'flex',
-		width: 'full',
-		justifyContent: 'flex-end',
-		paddingTop: {
-			mobile: 'small',
-			desktop: 'medium',
-		},
-		paddingX: {
-			mobile: 'small',
-			desktop: 'medium',
-		},
-	}),
-])
-
-export const assetChartBtnsWrapper = style([
+export const assetChartBtnWrapper = style([
 	sprinkles({
 		display: 'flex',
 		gap: {
@@ -63,4 +58,42 @@ export const assetChartBtnsWrapper = style([
 			desktop: 'small',
 		},
 	}),
+])
+
+export const tokenSummaryWrapper = style([
+	sprinkles({
+		display: 'flex',
+		flexDirection: 'column',
+		width: 'full',
+		borderTop: 1,
+		borderTopStyle: 'solid',
+		borderColor: 'borderDivider',
+		paddingX: {
+			mobile: 'small',
+			tablet: 'large',
+		},
+		paddingTop: {
+			mobile: 'small',
+			tablet: 'xlarge',
+		},
+		paddingBottom: {
+			mobile: 'small',
+			tablet: 'xxlarge',
+		},
+	}),
+	{},
+])
+
+export const tokenSummaryRightMaxWidth = style([
+	sprinkles({}),
+	{
+		maxWidth: '200px',
+	},
+])
+
+export const tokenMetaDataIconWrapper = style([
+	{
+		marginLeft: '-4px',
+		transform: 'translateY(5px)',
+	},
 ])

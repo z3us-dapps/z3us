@@ -7,13 +7,14 @@ import { Area, AreaChart, ResponsiveContainer, Tooltip } from 'recharts'
 import { Box } from 'ui/src/components/box'
 import { CardButtons } from 'ui/src/components/card-buttons'
 import { ChartToolTip } from 'ui/src/components/chart-tool-tip'
+import { CopyAddressButton } from 'ui/src/components/copy-address-button'
 import { FallbackLoading } from 'ui/src/components/fallback-renderer'
-import { Close2Icon, LockIcon } from 'ui/src/components/icons'
+import { LockIcon } from 'ui/src/components/icons'
 import { AccountsTransactionInfo } from 'ui/src/components/layout/account-transaction-info'
 import { ResourceImageIcon } from 'ui/src/components/resource-image-icon'
 import { Button } from 'ui/src/components/router-button'
 import { ToolTip } from 'ui/src/components/tool-tip'
-import { Text } from 'ui/src/components/typography'
+import { RedGreenText, Text } from 'ui/src/components/typography'
 import { useEntityDetails } from 'ui/src/hooks/dapp/use-entity-details'
 import { useMarketChart, useXRDPriceOnDay } from 'ui/src/hooks/queries/market'
 import { useToken } from 'ui/src/hooks/queries/oci'
@@ -58,7 +59,7 @@ const messages = defineMessages({
 	},
 })
 
-const TIMEFRAMES = {
+const TIME_FRAMES = {
 	week: { shortName: '1W', days: 7 },
 	month: { shortName: '1M', days: 30 },
 	threeMonth: { shortName: '3M', days: 90 },
@@ -91,7 +92,7 @@ const TokenDetails: React.FC = () => {
 	const increase = new BigNumber(token ? +(token.price.usd.now || 0) - +(token.price.usd['24h'] || 0) : 0)
 
 	const [timeFrame, setTimeFrame] = useState<string>('threeMonth')
-	const { data: chart } = useMarketChart(currency, symbol, TIMEFRAMES[timeFrame].days)
+	const { data: chart } = useMarketChart(currency, symbol, TIME_FRAMES[timeFrame].days)
 
 	const renderTooltipContent = ({ active, payload }) => {
 		if (active && payload && payload.length) {
@@ -109,35 +110,30 @@ const TokenDetails: React.FC = () => {
 	return (
 		<Box flexShrink={0}>
 			<Box display="flex" flexDirection="column" alignItems="center">
-				<Box className={styles.assetCloseBtnWrapper}>
-					<ToolTip message={intl.formatMessage(messages.back)}>
-						<Button iconOnly styleVariant="ghost" sizeVariant="small" to={`/accounts/${accountId}/${resourceId}`}>
-							<Close2Icon />
-						</Button>
-					</ToolTip>
-				</Box>
-				<Box display="flex" flexDirection="column" justifyContent="center" alignItems="center">
+				<Box className={styles.assetInfoWrapper}>
 					<Box paddingBottom="small">
-						<ResourceImageIcon address={resourceId} />
+						<ResourceImageIcon size="xlarge" address={resourceId} />
 					</Box>
-					<Text size="large" color="strong">
+					<Text size="xlarge" weight="strong" color="strong" align="center">
 						{name}
 					</Text>
-					<Text size="small">{description}</Text>
-					<Text size="xxxlarge" weight="medium" color="strong">
-						{intl.formatNumber(value.toNumber(), { style: 'currency', currency })}
-					</Text>
-					<Text size="xlarge">
-						{`${intl.formatNumber(increase.toNumber(), { style: 'currency', currency })} (${intl.formatNumber(
-							change.toNumber(),
-							{ style: 'percent', maximumFractionDigits: 2 },
-						)})`}
-					</Text>
+					<Box>
+						<Text size="xxxlarge" weight="strong" color="strong" align="center">
+							{intl.formatNumber(value.toNumber(), { style: 'currency', currency })}
+						</Text>
+						<Box display="flex" gap="xsmall">
+							<Text weight="medium" size="large" truncate>
+								{`${intl.formatNumber(increase.toNumber(), { style: 'currency', currency })}`}
+							</Text>
+							<RedGreenText size="large" truncate change={change}>
+								{`(${intl.formatNumber(change.toNumber(), { style: 'percent', maximumFractionDigits: 2 })})`}
+							</RedGreenText>
+						</Box>
+					</Box>
 				</Box>
-				<Box display="flex" paddingTop="large" gap="large" position="relative" paddingBottom="large">
+				<Box display="flex" paddingTop="large" gap="large" position="relative">
 					<CardButtons />
 				</Box>
-
 				{chart && (
 					<>
 						<Box className={styles.chartBgWrapper}>
@@ -145,10 +141,10 @@ const TokenDetails: React.FC = () => {
 								<AreaChart
 									width={500}
 									height={400}
-									data={chart.map(value => ({
-										name: intl.formatDate(value[0]),
-										value: value[1],
-										inCurrency: intl.formatNumber(value[1], { style: 'currency', currency }),
+									data={chart.map(_value => ({
+										name: intl.formatDate(_value[0]),
+										value: _value[1],
+										inCurrency: intl.formatNumber(_value[1], { style: 'currency', currency }),
 									}))}
 									margin={{
 										top: 10,
@@ -157,33 +153,23 @@ const TokenDetails: React.FC = () => {
 										bottom: 0,
 									}}
 								>
-									{/* <CartesianGrid strokeDasharray="3 3" /> */}
-									{/* <XAxis dataKey="name" /> */}
-									{/* <YAxis /> */}
 									<defs>
 										<linearGradient id="areaGradient" x1="0" y1="0" x2="0" y2="1">
 											<stop offset="5%" stopColor="#8884d8" stopOpacity={0.8} />
 											<stop offset="95%" stopColor="#82ca9d" stopOpacity={0} />
 										</linearGradient>
 									</defs>
-									<Area
-										// type="linear"
-										type="monotone"
-										dataKey="value"
-										stroke="#8884d8"
-										fill="url(#areaGradient)"
-										strokeWidth={3} // Adjust the stroke width here
-									/>
+									<Area type="monotone" dataKey="value" stroke="#8884d8" fill="url(#areaGradient)" strokeWidth={3} />
 									<Tooltip content={renderTooltipContent} cursor={false} />
 								</AreaChart>
 							</ResponsiveContainer>
 						</Box>
-						<Box className={styles.assetChartBtnsWrapper}>
-							{Object.entries(TIMEFRAMES).map(([id, { shortName }]) => (
+						<Box className={styles.assetChartBtnWrapper}>
+							{Object.entries(TIME_FRAMES).map(([id, { shortName }]) => (
 								<Button
 									key={id}
 									rounded
-									styleVariant={id === 'all' ? 'secondary' : 'tertiary'}
+									styleVariant={id === timeFrame ? 'secondary' : 'tertiary'}
 									sizeVariant="small"
 									onClick={() => setTimeFrame(id)}
 								>
@@ -194,37 +180,54 @@ const TokenDetails: React.FC = () => {
 					</>
 				)}
 
-				<Box display="flex" flexDirection="column">
-					<Box marginTop="xsmall" paddingBottom="medium">
-						<Text size="medium" weight="medium" color="strong">
-							{intl.formatMessage(messages.summary)}
-						</Text>
+				<Box className={styles.tokenSummaryWrapper}>
+					<Text size="large" weight="medium" color="strong">
+						{intl.formatMessage(messages.summary)}
+					</Text>
+					<Box paddingTop="xsmall">
+						<Text size="xxsmall">{description}</Text>
 					</Box>
+
 					<AccountsTransactionInfo
 						leftTitle={
-							<Text size="large" color="strong">
+							<Text size="xsmall" color="strong" weight="medium">
 								{intl.formatMessage(messages.details_address)}
 							</Text>
 						}
-						rightData={<Text size="small">{resourceId}</Text>}
+						rightData={
+							<Box display="flex" alignItems="flex-end" className={styles.tokenSummaryRightMaxWidth}>
+								<Text size="xsmall" truncate>
+									{resourceId}
+								</Text>
+								<CopyAddressButton
+									styleVariant="ghost"
+									sizeVariant="xsmall"
+									address={resourceId}
+									iconOnly
+									rounded={false}
+									tickColor="colorStrong"
+								/>
+							</Box>
+						}
 					/>
 
 					<AccountsTransactionInfo
 						leftTitle={
-							<Text size="large" color="strong">
+							<Text size="xsmall" color="strong" weight="medium">
 								{intl.formatMessage(messages.details_divisibility)}
 							</Text>
 						}
-						rightData={<Text size="small">{data?.details?.divisibility}</Text>}
+						rightData={<Text size="xsmall">{data?.details?.divisibility}</Text>}
 					/>
+
 					<AccountsTransactionInfo
 						leftTitle={
-							<Text size="large" color="strong">
+							<Text size="xsmall" color="strong" weight="medium">
 								{intl.formatMessage(messages.details_total_supply)}
 							</Text>
 						}
 						rightData={
-							<Text size="small">
+							<Text size="xsmall">
 								{intl.formatNumber(+data?.details?.total_supply || 0, {
 									style: 'decimal',
 									maximumFractionDigits: 8,
@@ -232,14 +235,15 @@ const TokenDetails: React.FC = () => {
 							</Text>
 						}
 					/>
+
 					<AccountsTransactionInfo
 						leftTitle={
-							<Text size="large" color="strong">
+							<Text size="xsmall" color="strong" weight="medium">
 								{intl.formatMessage(messages.details_total_minted)}
 							</Text>
 						}
 						rightData={
-							<Text size="small">
+							<Text size="xsmall">
 								{intl.formatNumber(+data?.details?.total_minted || 0, {
 									style: 'decimal',
 									maximumFractionDigits: 8,
@@ -247,14 +251,15 @@ const TokenDetails: React.FC = () => {
 							</Text>
 						}
 					/>
+
 					<AccountsTransactionInfo
 						leftTitle={
-							<Text size="large" color="strong">
+							<Text size="xsmall" color="strong" weight="medium">
 								{intl.formatMessage(messages.details_total_burned)}
 							</Text>
 						}
 						rightData={
-							<Text size="small">
+							<Text size="xsmall">
 								{intl.formatNumber(+data?.details?.total_burned || 0, {
 									style: 'decimal',
 									maximumFractionDigits: 8,
@@ -262,30 +267,37 @@ const TokenDetails: React.FC = () => {
 							</Text>
 						}
 					/>
-				</Box>
 
-				<Box display="flex" flexDirection="column">
-					<Box marginTop="xsmall" paddingBottom="medium">
-						<Text size="medium" weight="medium" color="strong">
+					<Box paddingTop="xlarge">
+						<Text size="large" weight="medium" color="strong">
 							{intl.formatMessage(messages.metadata)}
 						</Text>
 					</Box>
-					{data?.metadata.items.map(item => (
-						<AccountsTransactionInfo
-							key={item.key}
-							leftTitle={
-								<Text size="large" color="strong">
-									{item.is_locked === true && <LockIcon />}
-									{(item.key as string).toUpperCase()}
-								</Text>
-							}
-							rightData={
-								<Text size="small">
-									<MetadataValue value={item} />
-								</Text>
-							}
-						/>
-					))}
+
+					<Box>
+						{data?.metadata.items.map(item => (
+							<AccountsTransactionInfo
+								key={item.key}
+								leftTitle={
+									<Box display="flex" alignItems="flex-end" gap="xsmall">
+										<Box>
+											<Box className={styles.tokenMetaDataIconWrapper}>{item.is_locked === true && <LockIcon />}</Box>
+										</Box>
+										<Text size="xxsmall" color="strong" weight="medium">
+											{(item.key as string).toUpperCase()}
+										</Text>
+									</Box>
+								}
+								rightData={
+									<Box display="flex" alignItems="flex-end" className={styles.tokenSummaryRightMaxWidth}>
+										<Text size="xsmall" truncate>
+											<MetadataValue value={item} />
+										</Text>
+									</Box>
+								}
+							/>
+						))}
+					</Box>
 				</Box>
 			</Box>
 		</Box>

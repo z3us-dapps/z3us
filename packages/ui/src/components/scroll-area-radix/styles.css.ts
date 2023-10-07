@@ -119,7 +119,7 @@ export const scrollAreaThumbWrapper = style([
 			transform: 'translate(-50%, -50%)',
 			width: '100%',
 			height: '100%',
-			minWidth: '44px',
+			minWidth: '24px',
 			minHeight: '44px',
 		},
 	},

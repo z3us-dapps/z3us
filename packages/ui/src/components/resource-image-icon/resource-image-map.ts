@@ -18,7 +18,7 @@ interface ImageMapEntry {
 
 export const resourceImageMap: Map<string, ImageMapEntry> = new Map([
 	[
-		'resource_tdx_e_1tknxxxxxxxxxradxrdxxxxxxxxx009923554798xxxxxxxxx8rpsmc',
+		'resource_rdx1tkj69fpun8sgxrs9y09nvyhn4hms7f25m96tr3pu0q3yyfw8fj0prg',
 		{
 			name: 'radix',
 			imageUrl: '/images/token-images/radix-Icon-400x400.png',

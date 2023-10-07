@@ -32,6 +32,7 @@ export interface LProps {
 	color?: TextProps['color']
 	type?: TextProps['type']
 	display?: 'block' | 'flex' | 'inline-flex'
+	target?: '_blank' | '_self'
 	highlightOnFocus?: boolean
 	className?: string | ((props: { isActive: boolean; isPending: boolean }) => string | undefined)
 	children?: React.ReactNode | ((props: { isActive: boolean; isPending: boolean }) => React.ReactNode)
@@ -40,7 +41,7 @@ export interface LProps {
 export const LinkComponent = forwardRef<HTMLAnchorElement, LProps>(
 	(props, ref: React.Ref<HTMLAnchorElement | null>) => {
 		const {
-			href = undefined,
+			href,
 			linkFrameWorkComp = 'a',
 			baseline = false,
 			size = 'medium',
@@ -50,7 +51,7 @@ export const LinkComponent = forwardRef<HTMLAnchorElement, LProps>(
 			type = 'body',
 			highlightOnFocus = true,
 			display = 'inline-flex',
-			className = undefined,
+			className,
 			children,
 			...restProps
 		} = props
