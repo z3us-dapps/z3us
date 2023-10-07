@@ -9,7 +9,6 @@ import { CopyAddressButton } from 'ui/src/components/copy-address-button'
 import { Text } from 'ui/src/components/typography'
 import { useWalletAccounts } from 'ui/src/hooks/use-accounts'
 import { useIsAllAccounts } from 'ui/src/hooks/use-is-all-accounts'
-import { useIsMobileWidth } from 'ui/src/hooks/use-is-mobile'
 
 import { AssetsList } from '../components/assets-list'
 import { HomeScrollShadow } from '../components/home-scroll-shadow'
@@ -30,16 +29,11 @@ const Home: React.FC = () => {
 	const isAllAccounts = useIsAllAccounts()
 	const [wrapperRef, { width: horizontalScrollWidth, top }] = useMeasure()
 	const { height } = useWindowSize()
-	const isMobile = useIsMobileWidth()
-	const mobileMinHeight = height - top - 48
+	const mobileMinHeight = Math.max(height - top - 48, 385)
 	const accountName = accounts?.[accountId]?.name
 
 	return (
-		<Box
-			ref={wrapperRef}
-			className={styles.assetsHomeWrapper}
-			style={{ ...(isMobile ? { minHeight: `${mobileMinHeight}px` } : {}) }}
-		>
+		<Box ref={wrapperRef} className={styles.assetsHomeWrapper} style={{ minHeight: `${mobileMinHeight}px` }}>
 			<HomeScrollShadow />
 			<HorizontalAccountsScrollList horizontalScrollWidth={horizontalScrollWidth} />
 			<Box className={styles.homeAssetsTitleWrapper}>

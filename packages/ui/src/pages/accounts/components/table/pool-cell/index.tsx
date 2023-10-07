@@ -48,7 +48,7 @@ export const PoolCell: React.FC<IProps> = props => {
 				<ResourceImageIcon size={isMobile ? 'large' : 'xlarge'} address={value} />
 				<Box className={styles.assetNameCellStatsWrapper}>
 					<Box className={styles.assetNameCellNameWrapper}>
-						<Text className="tr-text-elem" capitalizeFirstLetter size="small" color="strong" truncate weight="medium">
+						<Text capitalizeFirstLetter size="small" color="strong" truncate weight="medium">
 							{`${intl.formatMessage(messages.unknown, { hasName: !!name, name })} (${symbols.join(', ')})`}
 						</Text>
 					</Box>

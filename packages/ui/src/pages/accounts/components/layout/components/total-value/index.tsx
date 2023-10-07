@@ -9,7 +9,7 @@ import { useTotalBalance } from 'ui/src/hooks/dapp/use-total-balance'
 import * as styles from './styles.css'
 
 export const AccountTotalValue: React.FC = () => {
-	const { isLoading, formattedValue, formattedChange, changeStatus } = useTotalBalance()
+	const { isLoading, formattedValue, formattedChange, change } = useTotalBalance()
 
 	if (isLoading) {
 		return <FallbackLoading />
@@ -23,7 +23,7 @@ export const AccountTotalValue: React.FC = () => {
 						{formattedValue}
 					</Text>
 				</Box>
-				<RedGreenText size="xxsmall" weight="medium" truncate changeStatus={changeStatus}>
+				<RedGreenText size="xxsmall" weight="medium" truncate change={change}>
 					{formattedChange}
 				</RedGreenText>
 			</Box>

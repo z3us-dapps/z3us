@@ -1,4 +1,4 @@
-import { StateNonFungibleDetailsResponseItem } from '@radixdlt/babylon-gateway-api-sdk'
+import type { StateNonFungibleDetailsResponseItem } from '@radixdlt/babylon-gateway-api-sdk'
 import React, { useMemo } from 'react'
 import { defineMessages, useIntl } from 'react-intl'
 import { useNavigate, useParams } from 'react-router-dom'

@@ -49,7 +49,7 @@ export const ValidatorCell: React.FC<IProps> = props => {
 				<ResourceImageIcon size={isMobile ? 'large' : 'xlarge'} address={value} />
 				<Box className={styles.assetNameCellStatsWrapper}>
 					<Box className={styles.assetNameCellNameWrapper}>
-						<Text className="tr-text-elem" capitalizeFirstLetter size="small" color="strong" truncate weight="medium">
+						<Text capitalizeFirstLetter size="small" color="strong" truncate weight="medium">
 							{symbol && `${symbol.toUpperCase()} - `}
 							{intl.formatMessage(messages.unknown, { hasName: !!name, name })}
 						</Text>

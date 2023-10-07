@@ -37,7 +37,7 @@ export const NftDataCell: React.FC<IProps> = props => {
 				/>
 				<Box className={styles.assetNameCellStatsWrapper}>
 					<Box className={styles.assetNameCellNameWrapper}>
-						<Text className="tr-text-elem" capitalizeFirstLetter size="small" color="strong" truncate weight="medium">
+						<Text capitalizeFirstLetter size="small" color="strong" truncate weight="medium">
 							<FieldValue field={name} />
 						</Text>
 					</Box>

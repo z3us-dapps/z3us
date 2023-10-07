@@ -1,6 +1,5 @@
-import type BigNumber from 'bignumber.js'
 import clsx from 'clsx'
-import React, { useState } from 'react'
+import React from 'react'
 import { FormattedNumber, defineMessages, useIntl } from 'react-intl'
 import { Link, useParams } from 'react-router-dom'
 
