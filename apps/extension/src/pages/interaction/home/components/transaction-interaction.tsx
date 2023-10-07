@@ -1,21 +1,22 @@
 import { messageSource as radixMessageSource } from '@radixdlt/connector-extension/src/chrome/messages/_types'
 import { createMessage as createRadixMessage } from '@radixdlt/connector-extension/src/chrome/messages/create-message'
 import type { WalletTransactionItems } from '@radixdlt/radix-dapp-toolkit'
-import { LTSRadixEngineToolkit, RadixEngineToolkit } from '@radixdlt/radix-engine-toolkit'
-import type { Intent, PrivateKey, TransactionSummary } from '@radixdlt/radix-engine-toolkit'
+import type { Intent, PrivateKey } from '@radixdlt/radix-engine-toolkit'
 import { useGatewayClient } from 'packages/ui/src/hooks/dapp/use-gateway-client'
-import { useEffect, useState } from 'react'
+import { useEffect } from 'react'
 import { defineMessages, useIntl } from 'react-intl'
 import { useParams } from 'react-router-dom'
+import { useImmer } from 'use-immer'
 import browser from 'webextension-polyfill'
 
 import { Box } from 'ui/src/components/box'
 import { Button } from 'ui/src/components/button'
-import { Text } from 'ui/src/components/typography'
 
 import type { WalletInteractionWithTabId } from '@src/browser/app/types'
 import { useIntent } from '@src/hooks/transaction/use-intent'
 import { useSign } from '@src/hooks/transaction/use-sign'
+
+import { Manifest } from './manifest'
 
 interface IProps {
 	interaction: WalletInteractionWithTabId
@@ -28,6 +29,8 @@ const messages = defineMessages({
 	},
 })
 
+type State = { intent?: Intent; notary?: PrivateKey; needSignaturesFrom?: string[] }
+
 export const TransactionInteraction: React.FC<IProps> = ({ interaction }) => {
 	const { interactionId } = useParams()
 	const intl = useIntl()
@@ -36,27 +39,16 @@ export const TransactionInteraction: React.FC<IProps> = ({ interaction }) => {
 	const buildIntent = useIntent()
 	const sign = useSign()
 
-	const [intent, setIntent] = useState<{ intent: Intent; notary: PrivateKey; needSignaturesFrom: string[] }>()
-	const [summary, setSummary] = useState<TransactionSummary | null>(null)
+	const [state, setState] = useImmer<State>({})
 
 	useEffect(() => {
 		const { send: input } = interaction.items as WalletTransactionItems
-		buildIntent(input).then(async result => {
-			setIntent(result)
-
-			try {
-				const tx = await RadixEngineToolkit.Intent.intentHash(result.intent)
-				const txSummary = await LTSRadixEngineToolkit.Transaction.summarizeTransaction(tx.hash)
-				setSummary(txSummary)
-			} catch (error) {
-				setSummary(null)
-			}
-		})
+		buildIntent(input).then(result => setState(result))
 	}, [])
 
 	const handleSubmit = async () => {
 		try {
-			const notarizedTransaction = await sign(intent.notary, intent.intent, intent.needSignaturesFrom)
+			const notarizedTransaction = await sign(state.notary, state.intent, state.needSignaturesFrom)
 			await transaction.innerClient.transactionSubmit({
 				transactionSubmitRequest: { notarized_transaction_hex: notarizedTransaction.toHex() },
 			})
@@ -92,8 +84,8 @@ export const TransactionInteraction: React.FC<IProps> = ({ interaction }) => {
 
 	return (
 		<Box>
-			<Text>{summary ? JSON.stringify(summary) : JSON.stringify((interaction.items as any).send)}</Text>
-			<Button onClick={handleSubmit} styleVariant="tertiary" sizeVariant="xlarge" fullWidth>
+			{state?.intent && <Manifest intent={state.intent} />}
+			<Button onClick={handleSubmit} styleVariant="tertiary" sizeVariant="xlarge" fullWidth disabled={!state?.intent}>
 				{intl.formatMessage(messages.submit)}
 			</Button>
 		</Box>

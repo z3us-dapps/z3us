@@ -1,15 +1,27 @@
 import type { Intent, SignatureWithPublicKey } from '@radixdlt/radix-engine-toolkit'
 import { RadixEngineToolkit } from '@radixdlt/radix-engine-toolkit'
 import { useCallback } from 'react'
+import { defineMessages, useIntl } from 'react-intl'
 
-import { Input } from 'ui/src/components/input'
+import { Text } from 'ui/src/components/typography'
 import { useNetworkId } from 'ui/src/hooks/dapp/use-network-id'
 import { useNoneSharedStore } from 'ui/src/hooks/use-store'
 
+import { useSignModal } from '@src/hooks/modal/use-sign-modal'
 import { useMessageClient } from '@src/hooks/use-message-client'
-import { useSignModal } from '@src/hooks/use-sign-modal'
 
-const modalContent = (manifest: string) => <Input value={manifest} elementType="textarea" type="textarea" disabled />
+const messages = defineMessages({
+	title: {
+		id: 'hooks.transaction.sign_background.title',
+		defaultMessage: 'Signature requested',
+	},
+})
+
+const Content = () => {
+	const intl = useIntl()
+
+	return <Text>{intl.formatMessage(messages.title)}</Text>
+}
 
 export const useSignTransactionWithBackground = () => {
 	const networkId = useNetworkId()
@@ -21,12 +33,7 @@ export const useSignTransactionWithBackground = () => {
 	}))
 
 	const sign = async (intent: Intent, needSignaturesFrom: string[]): Promise<SignatureWithPublicKey[]> => {
-		const content = modalContent(
-			(await RadixEngineToolkit.Instructions.convert(intent.manifest.instructions, networkId, 'String'))
-				.value as string,
-		)
-		const password = await confirm(content)
-
+		const password = await confirm(<Content />)
 		const intentHash = await RadixEngineToolkit.Intent.intentHash(intent)
 		return Promise.all(
 			needSignaturesFrom.map(signBy =>

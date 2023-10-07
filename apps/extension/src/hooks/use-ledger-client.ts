@@ -27,7 +27,7 @@ import {
 } from '@src/browser/ledger/messages'
 import { ClientContext } from '@src/context/ledger-client-provider'
 
-import { useLedgerConfirmModal } from './use-ledger-confirm-modal'
+import { useLedgerConfirmModal } from './modal/use-ledger-confirm-modal'
 
 function processLedgerResponse(message: RadixMessage) {
 	if (message?.discriminator === messageDiscriminator.ledgerResponse) {

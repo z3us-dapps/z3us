@@ -17,9 +17,9 @@ import { KeystoreType } from 'ui/src/store/types'
 
 import { getDAppDataToSign, proofCurve, signatureWithPublicKeyToJSON } from '@src/crypto/signature'
 
+import { useSignModal } from '../modal/use-sign-modal'
 import { useLedgerClient } from '../use-ledger-client'
 import { useMessageClient } from '../use-message-client'
-import { useSignModal } from '../use-sign-modal'
 
 const messages = defineMessages({
 	persona_challenge: {

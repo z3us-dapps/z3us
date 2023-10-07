@@ -17,8 +17,8 @@ import type { WalletInteractionWithTabId } from '@src/browser/app/types'
 import { useAccountsData } from '@src/hooks/interaction/use-accounts-data'
 import { useLogin } from '@src/hooks/interaction/use-login'
 import { usePersonaData } from '@src/hooks/interaction/use-persona-data'
-import { useSelectAccountsModal } from '@src/hooks/use-select-accounts-modal'
-import { useSelectPersonaModal } from '@src/hooks/use-select-persona-modal'
+import { useSelectAccountsModal } from '@src/hooks/modal/use-select-accounts-modal'
+import { useSelectPersonaModal } from '@src/hooks/modal/use-select-persona-modal'
 
 interface IProps {
 	interaction: WalletInteractionWithTabId

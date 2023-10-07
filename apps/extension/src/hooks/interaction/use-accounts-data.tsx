@@ -8,8 +8,8 @@ import { useNoneSharedStore, useSharedStore } from 'ui/src/hooks/use-store'
 import { KeystoreType } from 'ui/src/store/types'
 
 import { getDAppDataToSign, proofCurve, signatureWithPublicKeyToJSON } from '@src/crypto/signature'
+import { useSignModal } from '@src/hooks/modal/use-sign-modal'
 import { useMessageClient } from '@src/hooks/use-message-client'
-import { useSignModal } from '@src/hooks/use-sign-modal'
 
 import { useLedgerClient } from '../use-ledger-client'
 

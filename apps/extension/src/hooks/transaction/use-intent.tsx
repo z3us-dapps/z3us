@@ -15,7 +15,7 @@ import { appendLockFeeInstruction } from '@src/radix/transaction'
 
 const messages = defineMessages({
 	empty_signatures_error: {
-		id: 'hooks.transaction.send.empty_signatures_error',
+		id: 'hooks.transaction.intent.empty_signatures_error',
 		defaultMessage: 'Failed to resolve authorization requirements, try with different wallet.',
 	},
 })
