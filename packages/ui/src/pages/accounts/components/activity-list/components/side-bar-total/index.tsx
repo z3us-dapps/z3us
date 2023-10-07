@@ -20,7 +20,7 @@ export const SideBarTotal: React.FC = () => {
 	const intl = useIntl()
 	const isAllAccounts = useIsAllAccounts()
 
-	const { isLoading, formattedValue, formattedChange, changeStatus } = useTotalBalance()
+	const { isLoading, formattedValue, formattedChange, change } = useTotalBalance()
 
 	if (isLoading) {
 		return null
@@ -35,7 +35,7 @@ export const SideBarTotal: React.FC = () => {
 				<Text weight="medium" size="xxlarge" color="strong" truncate>
 					{formattedValue}
 				</Text>
-				<RedGreenText size="small" weight="strong" truncate changeStatus={changeStatus}>
+				<RedGreenText size="small" weight="strong" truncate change={change}>
 					{formattedChange}
 				</RedGreenText>
 			</Box>

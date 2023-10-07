@@ -52,7 +52,7 @@ export const AssetNameCell: React.FC<IProps> = props => {
 								)}
 							</Text>
 							<RedGreenText
-								changeStatus="positive"
+								change={change}
 								capitalizeFirstLetter
 								size="xsmall"
 								color="strong"

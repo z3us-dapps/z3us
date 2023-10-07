@@ -71,13 +71,13 @@ const Tokens: React.FC = () => {
 			{
 				Header: intl.formatMessage(messages.address),
 				accessor: 'address',
-				width: 'auto',
+				width: '40%',
 				Cell: AssetNameCell,
 			},
 			{
 				Header: intl.formatMessage(messages.amount),
 				accessor: 'amount',
-				width: 'auto',
+				width: '30%',
 				Cell: AssetAmountCell,
 				className: styles.mobileHideTableCellWrapper,
 			},
