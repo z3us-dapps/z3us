@@ -41,8 +41,11 @@ export const accountCardButtonWrapper = style([
 export const assetChartBtnWrapper = style([
 	sprinkles({
 		display: 'flex',
+		flexWrap: 'wrap',
+		justifyContent: 'center',
 		gap: {
 			mobile: 'xxsmall',
+			tablet: 'small',
 			desktop: 'small',
 		},
 		paddingTop: {
@@ -86,9 +89,12 @@ export const tokenSummaryWrapper = style([
 
 export const tokenSummaryRightMaxWidth = style([
 	sprinkles({}),
-	{
-		maxWidth: '200px',
-	},
+	{},
+	responsiveStyle({
+		mobile: { maxWidth: '130px' },
+		tablet: { maxWidth: '130px' },
+		desktop: { maxWidth: '200px' },
+	}),
 ])
 
 export const tokenMetaDataIconWrapper = style([
