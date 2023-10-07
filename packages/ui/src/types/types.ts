@@ -1,5 +1,3 @@
-import type BigNumber from 'bignumber.js'
-
 export enum Theme {
 	LIGHT = 'light',
 	DARK = 'dark',
@@ -19,9 +17,9 @@ export type ResourceBalance = {
 		address: string
 		name: string
 
-		amount: BigNumber
-		value: BigNumber
-		change: BigNumber
+		amount: number
+		value: number
+		change: number
 
 		symbol?: string
 		description?: string
@@ -33,9 +31,9 @@ export type ResourceBalance = {
 		address: string
 		validator: string
 
-		amount: BigNumber
-		value: BigNumber
-		change: BigNumber
+		amount: number
+		value: number
+		change: number
 
 		name: string
 		symbol?: string
@@ -49,9 +47,9 @@ export type ResourceBalance = {
 		vaults: string[]
 		name: string
 
-		amount: BigNumber
-		value: BigNumber
-		change: BigNumber
+		amount: number
+		value: number
+		change: number
 
 		description?: string
 		url?: string
@@ -62,9 +60,9 @@ export type ResourceBalance = {
 		address: string
 		pool: string
 
-		amount: BigNumber
-		value: BigNumber
-		change: BigNumber
+		amount: number
+		value: number
+		change: number
 
 		name: string
 		symbol?: string

@@ -29,7 +29,8 @@ export const TokenAmountSelect = forwardRef<HTMLInputElement, IProps>((props, re
 	const { fromAccount, amountKey = 'amount', resourceKey = 'address', ...rest } = props
 	const { name: parentName } = useContext(FieldContext)
 
-	const { fungibleBalances = [], isLoading } = useBalances(fromAccount)
+	const { data: balanceData, isLoading } = useBalances(fromAccount)
+	const { fungibleBalances = [] } = balanceData || {}
 	const amount = useFieldValue(`${parentName}${parentName ? '.' : ''}${amountKey}`)
 	const resource = useFieldValue(`${parentName}${parentName ? '.' : ''}${resourceKey}`)
 

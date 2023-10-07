@@ -1,8 +1,6 @@
-import BigNumber from 'bignumber.js'
 import { useMemo } from 'react'
 import { useIntl } from 'react-intl'
 
-import { type TextProps } from 'ui/src/components/typography/text'
 import { useBalances } from 'ui/src/hooks/dapp/use-balances'
 import { useSelectedAccounts } from 'ui/src/hooks/use-accounts'
 import { useNoneSharedStore } from 'ui/src/hooks/use-store'
@@ -24,8 +22,8 @@ export const useTotalBalance = () => {
 
 	const selectedAccounts = useSelectedAccounts()
 
+	const { data: balanceData, isLoading } = useBalances(...selectedAccounts)
 	const {
-		isLoading,
 		totalValue,
 		totalChange,
 		fungibleValue,
@@ -36,7 +34,7 @@ export const useTotalBalance = () => {
 		liquidityPoolTokensChange,
 		poolUnitsValue,
 		poolUnitsChange,
-	} = useBalances(...selectedAccounts)
+	} = balanceData || {}
 
 	const value = useMemo(() => {
 		if (resourceType === 'nfts') return nonFungibleValue
@@ -55,22 +53,21 @@ export const useTotalBalance = () => {
 	}, [resourceType, totalValue, fungibleValue, nonFungibleValue])
 
 	const getChangeStatus = (): ChangeStatus => {
-		const zero = new BigNumber(0)
-		if (change.gt(zero)) {
+		if (change > 0) {
 			return ChangeStatus.Positive
-		} else if (change.lt(zero)) {
-			return ChangeStatus.Negative
-		} else {
-			return ChangeStatus.Neutral
 		}
+		if (change < 0) {
+			return ChangeStatus.Negative
+		}
+		return ChangeStatus.Neutral
 	}
 
 	return {
 		isLoading,
 		value,
-		formattedValue: intl.formatNumber(value.toNumber(), { style: 'currency', currency }),
+		formattedValue: intl.formatNumber(value, { style: 'currency', currency }),
 		change,
-		formattedChange: intl.formatNumber(change.toNumber(), { style: 'percent', maximumFractionDigits: 2 }),
+		formattedChange: intl.formatNumber(change, { style: 'percent', maximumFractionDigits: 2 }),
 		changeStatus: getChangeStatus(),
 	}
 }

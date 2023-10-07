@@ -1,4 +1,3 @@
-import BigNumber from 'bignumber.js'
 import clsx from 'clsx'
 import React, { useEffect, useState } from 'react'
 import { FormattedNumber, defineMessages, useIntl } from 'react-intl'
@@ -163,7 +162,7 @@ export const Transaction = () => {
 										</Box>
 										<Box>
 											<Text size="xlarge">
-												<TokenPrice amount={new BigNumber((data?.transaction.fee_paid as any) || 0)} symbol="XRD" />
+												<TokenPrice amount={data?.transaction.fee_paid} symbol="XRD" />
 											</Text>
 										</Box>
 									</Box>

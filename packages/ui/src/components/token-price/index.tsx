@@ -1,4 +1,3 @@
-import BigNumber from 'bignumber.js'
 import { FormattedNumber } from 'react-intl'
 
 import { FallbackLoading } from 'ui/src/components/fallback-renderer'
@@ -8,7 +7,7 @@ import { useNoneSharedStore } from 'ui/src/hooks/use-store'
 
 interface IProps {
 	symbol: string
-	amount: BigNumber
+	amount?: number
 	currency?: string
 }
 
@@ -24,14 +23,7 @@ export const TokenPrice: React.FC<IProps> = ({ amount, symbol, currency }) => {
 
 	if (isLoadingToken || isLoadingPrice) return <FallbackLoading />
 
-	return (
-		<FormattedNumber
-			value={amount
-				.multipliedBy(new BigNumber(token?.price.xrd.now || 0))
-				.multipliedBy(price || 0)
-				.toNumber()}
-			style="currency"
-			currency={inCurrency}
-		/>
-	)
+	const value = (amount || 0) * +(token?.price.xrd.now || 0) * (price || 0)
+
+	return <FormattedNumber value={value} style="currency" currency={inCurrency} />
 }

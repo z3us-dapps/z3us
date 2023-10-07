@@ -1,5 +1,4 @@
 import type { CommittedTransactionInfo } from '@radixdlt/babylon-gateway-api-sdk'
-import BigNumber from 'bignumber.js'
 import clsx from 'clsx'
 import { AnimatePresence, motion } from 'framer-motion'
 import React, { forwardRef, useCallback, useState } from 'react'
@@ -123,7 +122,7 @@ const ItemWrapper: React.FC<IRowProps> = props => {
 								</Box>
 								<Box className={styles.activityItemTextWrapper}>
 									<Text size="xsmall">
-										<TokenPrice amount={new BigNumber((transaction.fee_paid as any)?.value || 0)} symbol="XRD" />
+										<TokenPrice amount={(transaction.fee_paid as any)?.value} symbol="XRD" />
 									</Text>
 								</Box>
 							</Link>

@@ -1,4 +1,4 @@
-import { StateNonFungibleDetailsResponseItem } from '@radixdlt/babylon-gateway-api-sdk'
+import type { StateNonFungibleDetailsResponseItem } from '@radixdlt/babylon-gateway-api-sdk'
 import React, { useMemo } from 'react'
 import { defineMessages, useIntl } from 'react-intl'
 import { useNavigate, useParams } from 'react-router-dom'
@@ -51,7 +51,9 @@ const NFTs: React.FC = () => {
 	const { accountId = '-', resourceId, nftId: rawNftId } = useParams()
 	const nftId = decodeURIComponent(rawNftId)
 	const selectedAccounts = useSelectedAccounts()
-	const { nonFungibleBalances, isLoading } = useBalances(...selectedAccounts)
+
+	const { data: balanceData, isLoading } = useBalances(...selectedAccounts)
+	const { nonFungibleBalances } = balanceData || {}
 
 	const selectedToken = useMemo(
 		() => nonFungibleBalances.find(b => b.address === resourceId) as ResourceBalance[ResourceBalanceType.NON_FUNGIBLE],

@@ -1,4 +1,3 @@
-import BigNumber from 'bignumber.js'
 import React, { useState } from 'react'
 import { defineMessages, useIntl } from 'react-intl'
 import { useParams } from 'react-router-dom'
@@ -86,9 +85,9 @@ const TokenDetails: React.FC = () => {
 	if (!tokenKey && validator) tokenKey = 'XRD'
 	const { data: token } = useToken(tokenKey)
 
-	const value = new BigNumber(token?.price.xrd.now || 0).multipliedBy(xrdPrice)
-	const change = new BigNumber(token ? +(token.price.usd.now || 0) / +(token.price.usd['24h'] || 0) : 0).dividedBy(100)
-	const increase = new BigNumber(token ? +(token.price.usd.now || 0) - +(token.price.usd['24h'] || 0) : 0)
+	const value = +(token?.price.xrd.now || 0) * xrdPrice
+	const change = (token ? +(token.price.usd.now || 0) / +(token.price.usd['24h'] || 0) : 0) / 100
+	const increase = token ? +(token.price.usd.now || 0) - +(token.price.usd['24h'] || 0) : 0
 
 	const [timeFrame, setTimeFrame] = useState<string>('threeMonth')
 	const { data: chart } = useMarketChart(currency, symbol, TIMEFRAMES[timeFrame].days)
@@ -125,13 +124,13 @@ const TokenDetails: React.FC = () => {
 					</Text>
 					<Text size="small">{description}</Text>
 					<Text size="xxxlarge" weight="medium" color="strong">
-						{intl.formatNumber(value.toNumber(), { style: 'currency', currency })}
+						{intl.formatNumber(value, { style: 'currency', currency })}
 					</Text>
 					<Text size="xlarge">
-						{`${intl.formatNumber(increase.toNumber(), { style: 'currency', currency })} (${intl.formatNumber(
-							change.toNumber(),
-							{ style: 'percent', maximumFractionDigits: 2 },
-						)})`}
+						{`${intl.formatNumber(increase, { style: 'currency', currency })} (${intl.formatNumber(change, {
+							style: 'percent',
+							maximumFractionDigits: 2,
+						})})`}
 					</Text>
 				</Box>
 				<Box display="flex" paddingTop="large" gap="large" position="relative" paddingBottom="large">

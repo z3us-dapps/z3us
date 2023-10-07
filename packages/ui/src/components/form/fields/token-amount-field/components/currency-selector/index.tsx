@@ -1,4 +1,3 @@
-import BigNumber from 'bignumber.js'
 import clsx from 'clsx'
 import React, { useState } from 'react'
 import { defineMessages, useIntl } from 'react-intl'
@@ -22,7 +21,7 @@ import { Text } from 'ui/src/components/typography'
 import { FAVORITE_CURRENCIES } from 'ui/src/constants/currency'
 import { useSupportedCurrencies } from 'ui/src/hooks/queries/market'
 import { useNoneSharedStore } from 'ui/src/hooks/use-store'
-import { CURRENCY } from 'ui/src/store/types'
+import type { CURRENCY } from 'ui/src/store/types'
 import type { ResourceBalance, ResourceBalanceKind, ResourceBalanceType } from 'ui/src/types/types'
 
 interface IProps {
@@ -71,7 +70,7 @@ export const CurrencySelect: React.FC<IProps> = ({ selectedToken, amount }) => {
 										symbol={
 											(selectedToken as ResourceBalance[ResourceBalanceType.FUNGIBLE])?.symbol || selectedToken?.name
 										}
-										amount={new BigNumber(amount || 0)}
+										amount={amount}
 										currency={currency}
 									/>
 									&nbsp;
