@@ -6,7 +6,6 @@ import { FormattedNumber } from 'react-intl'
 
 import { Box } from 'ui/src/components/box'
 import { Text } from 'ui/src/components/typography'
-import { CARD_COLORS, CARD_IMAGES } from 'ui/src/constants/account'
 import { useBalances } from 'ui/src/hooks/dapp/use-balances'
 import { useAddressBook } from 'ui/src/hooks/use-address-book'
 import { useNoneSharedStore } from 'ui/src/hooks/use-store'
@@ -42,11 +41,7 @@ export const AccountCard: React.FC<IAccountCardProps> = props => {
 			className={clsx(styles.card, isAllAccount && styles.cardAllWrapper, className)}
 			style={{
 				...(account?.cardImage
-					? {
-							backgroundImage: `url(/images/account-images/${account?.cardImage || CARD_IMAGES[0]}), ${
-								account?.cardColor || CARD_COLORS[0]
-							}`,
-					  }
+					? { backgroundImage: `url(/images/account-images/${account?.cardImage}), ${account?.cardColor}` }
 					: {}),
 			}}
 			variants={{
