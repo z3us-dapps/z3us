@@ -40,9 +40,13 @@ export const AccountCard: React.FC<IAccountCardProps> = props => {
 			key={address}
 			className={clsx(styles.card, isAllAccount && styles.cardAllWrapper, className)}
 			style={{
-				backgroundImage: `url(/images/account-images/${account?.cardImage || CARD_IMAGES[0]}), ${
-					account?.cardColor || CARD_COLORS[0]
-				}`,
+				...(account?.cardImage
+					? {
+							backgroundImage: `url(/images/account-images/${account?.cardImage || CARD_IMAGES[0]}), ${
+								account?.cardColor || CARD_COLORS[0]
+							}`,
+					  }
+					: {}),
 			}}
 			variants={{
 				visible: {
