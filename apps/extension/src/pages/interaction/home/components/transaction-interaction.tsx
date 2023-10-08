@@ -2,7 +2,6 @@ import { messageSource as radixMessageSource } from '@radixdlt/connector-extensi
 import { createMessage as createRadixMessage } from '@radixdlt/connector-extension/src/chrome/messages/create-message'
 import type { WalletTransactionItems } from '@radixdlt/radix-dapp-toolkit'
 import type { Intent, PrivateKey } from '@radixdlt/radix-engine-toolkit'
-import { useGatewayClient } from 'packages/ui/src/hooks/dapp/use-gateway-client'
 import { useEffect } from 'react'
 import { defineMessages, useIntl } from 'react-intl'
 import { useParams } from 'react-router-dom'
@@ -11,6 +10,7 @@ import browser from 'webextension-polyfill'
 
 import { Box } from 'ui/src/components/box'
 import { Button } from 'ui/src/components/button'
+import { useGatewayClient } from 'ui/src/hooks/dapp/use-gateway-client'
 
 import type { WalletInteractionWithTabId } from '@src/browser/app/types'
 import { useIntent } from '@src/hooks/transaction/use-intent'

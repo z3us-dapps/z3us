@@ -54,7 +54,9 @@ const Tokens: React.FC = () => {
 	const { scrollableNode, isScrolledTop } = useScroll()
 	const { accountId, resourceId } = useParams()
 	const selectedAccounts = useSelectedAccounts()
-	const { liquidityPoolTokensBalances, isLoading } = useBalances(...selectedAccounts)
+
+	const { data: balanceData, isLoading } = useBalances(...selectedAccounts)
+	const { liquidityPoolTokensBalances = [] } = balanceData || {}
 
 	const selectedRowIds = useMemo(() => {
 		const idx = liquidityPoolTokensBalances.findIndex(b => b.address === resourceId)

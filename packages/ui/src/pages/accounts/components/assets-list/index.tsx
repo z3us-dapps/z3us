@@ -40,8 +40,9 @@ export const AssetsList: React.FC = () => {
 	const { currency } = useNoneSharedStore(state => ({
 		currency: state.currency,
 	}))
+
+	const { data: balanceData, isLoading } = useBalances(...selectedAccounts)
 	const {
-		isLoading,
 		nonFungibleBalances,
 		nonFungibleChange,
 		nonFungibleValue,
@@ -54,7 +55,7 @@ export const AssetsList: React.FC = () => {
 		poolUnitsBalances,
 		poolUnitsValue,
 		poolUnitsChange,
-	} = useBalances(...selectedAccounts)
+	} = balanceData || {}
 
 	const rows = {
 		tokens: {
@@ -106,15 +107,15 @@ export const AssetsList: React.FC = () => {
 						<OverlayAssetIcons resourceType={path.slice(0, -1) as any} balances={rows[path].balances} />
 						<Box className={styles.assetsListBalancesTextWrapper}>
 							<Text weight="strong" size="small" color="strong" truncate className={styles.assetsListBalancesText}>
-								<FormattedNumber value={rows[path].value.toNumber()} style="currency" currency={currency} />
+								<FormattedNumber value={rows[path].value} style="currency" currency={currency} />
 							</Text>
 							<Text
 								size="small"
-								color={rows[path].change && rows[path].change.gt(0) ? 'green' : 'red'}
+								color={rows[path].change && rows[path].change > 0 ? 'green' : 'red'}
 								truncate
 								className={styles.assetsListBalancesText}
 							>
-								<FormattedNumber value={rows[path].change.toNumber()} style="percent" maximumFractionDigits={2} />
+								<FormattedNumber value={rows[path].change} style="percent" maximumFractionDigits={2} />
 							</Text>
 						</Box>
 					</Box>

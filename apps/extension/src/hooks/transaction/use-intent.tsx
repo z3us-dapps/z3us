@@ -70,7 +70,11 @@ export const useIntent = () => {
 			blobs: input.blobs?.map(blob => Convert.HexString.toUint8Array(blob)) || [],
 		}
 
+		// @TODO: messages
+		// https://docs.google.com/document/d/1cjc7_alyzIb2QQIGGn1PEpJyjrMRZYHq3VwkOXRP8J0/edit?pli=1
 		const intent: Intent = { header, manifest }
+
+		// manifest.analyzeExecution(transactionReceipt = preview.encodedReceipt.decodeHex().toUByteList())
 
 		return { notary, intent, needSignaturesFrom }
 	}

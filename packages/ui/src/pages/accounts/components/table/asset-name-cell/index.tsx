@@ -6,6 +6,7 @@ import { Box } from 'ui/src/components/box'
 import { ResourceImageIcon } from 'ui/src/components/resource-image-icon'
 import { RedGreenText, Text } from 'ui/src/components/typography'
 import { useIsMobileWidth } from 'ui/src/hooks/use-is-mobile'
+import { useNoneSharedStore } from 'ui/src/hooks/use-store'
 import type { ResourceBalance, ResourceBalanceKind, ResourceBalanceType } from 'ui/src/types/types'
 
 import * as styles from './styles.css'
@@ -23,6 +24,9 @@ export const AssetNameCell: React.FC<IProps> = props => {
 	const { symbol, name, amount, change, value: tokenValue } = original as ResourceBalance[ResourceBalanceType.FUNGIBLE]
 
 	const isMobile = useIsMobileWidth()
+	const { currency } = useNoneSharedStore(state => ({
+		currency: state.currency,
+	}))
 
 	return (
 		<Box className={styles.assetNameCellWrapper}>
@@ -41,15 +45,13 @@ export const AssetNameCell: React.FC<IProps> = props => {
 							weight="strong"
 							className={styles.assetNameCellBalanceWrapper}
 						>
-							{amount && <FormattedNumber value={amount.toNumber()} style="currency" maximumFractionDigits={8} />}
+							{amount && <FormattedNumber value={amount} style="decimal" maximumFractionDigits={8} />}
 						</Text>
 					</Box>
 					<Box className={styles.assetNameCellPriceWrapper}>
 						<Box className={styles.assetNameCellPriceTextWrapper}>
 							<Text capitalizeFirstLetter size="small" color="strong" truncate weight="medium" align="right">
-								{tokenValue && (
-									<FormattedNumber value={tokenValue.toNumber()} style="currency" maximumFractionDigits={8} />
-								)}
+								{tokenValue && <FormattedNumber value={tokenValue} style="currency" currency={currency} />}
 							</Text>
 							<RedGreenText
 								change={change}
@@ -60,7 +62,7 @@ export const AssetNameCell: React.FC<IProps> = props => {
 								weight="medium"
 								align="right"
 							>
-								{change && <FormattedNumber value={change.toNumber()} style="percent" maximumFractionDigits={2} />}
+								{change && <FormattedNumber value={change} style="percent" maximumFractionDigits={2} />}
 							</RedGreenText>
 						</Box>
 					</Box>

@@ -1,4 +1,3 @@
-import BigNumber from 'bignumber.js'
 import React, { useState } from 'react'
 import { defineMessages, useIntl } from 'react-intl'
 import { useParams } from 'react-router-dom'
@@ -15,6 +14,7 @@ import { Button } from 'ui/src/components/router-button'
 import { ToolTip } from 'ui/src/components/tool-tip'
 import { Text } from 'ui/src/components/typography'
 import { useEntityDetails } from 'ui/src/hooks/dapp/use-entity-details'
+import { useKnownAddresses } from 'ui/src/hooks/dapp/use-known-addresses'
 import { useMarketChart, useXRDPriceOnDay } from 'ui/src/hooks/queries/market'
 import { useToken } from 'ui/src/hooks/queries/oci'
 import { useNoneSharedStore } from 'ui/src/hooks/use-store'
@@ -75,6 +75,7 @@ const TokenDetails: React.FC = () => {
 	const { currency } = useNoneSharedStore(state => ({
 		currency: state.currency,
 	}))
+	const { data: knownAddresses } = useKnownAddresses()
 	const { data: xrdPrice } = useXRDPriceOnDay(currency, new Date())
 
 	const name = getStringMetadata('name', data?.metadata?.items)
@@ -82,13 +83,11 @@ const TokenDetails: React.FC = () => {
 	const description = getStringMetadata('description', data?.metadata?.items)
 	const validator = getStringMetadata('validator', data?.metadata?.items)
 
-	let tokenKey = symbol?.toUpperCase()
-	if (!tokenKey && validator) tokenKey = 'XRD'
-	const { data: token } = useToken(tokenKey)
+	const { data: token } = useToken(validator && knownAddresses ? knownAddresses.resourceAddresses.xrd : resourceId)
 
-	const value = new BigNumber(token?.price.xrd.now || 0).multipliedBy(xrdPrice)
-	const change = new BigNumber(token ? +(token.price.usd.now || 0) / +(token.price.usd['24h'] || 0) : 0).dividedBy(100)
-	const increase = new BigNumber(token ? +(token.price.usd.now || 0) - +(token.price.usd['24h'] || 0) : 0)
+	const value = parseFloat(token?.price?.xrd.now) || 0 * xrdPrice
+	const change = (token ? parseFloat(token?.price?.usd.now) || 0 / parseFloat(token?.price?.usd['24h']) || 0 : 0) / 100
+	const increase = token ? parseFloat(token?.price?.usd.now) || 0 - parseFloat(token?.price?.usd['24h']) || 0 : 0
 
 	const [timeFrame, setTimeFrame] = useState<string>('threeMonth')
 	const { data: chart } = useMarketChart(currency, symbol, TIMEFRAMES[timeFrame].days)
@@ -125,13 +124,13 @@ const TokenDetails: React.FC = () => {
 					</Text>
 					<Text size="small">{description}</Text>
 					<Text size="xxxlarge" weight="medium" color="strong">
-						{intl.formatNumber(value.toNumber(), { style: 'currency', currency })}
+						{intl.formatNumber(value, { style: 'currency', currency })}
 					</Text>
 					<Text size="xlarge">
-						{`${intl.formatNumber(increase.toNumber(), { style: 'currency', currency })} (${intl.formatNumber(
-							change.toNumber(),
-							{ style: 'percent', maximumFractionDigits: 2 },
-						)})`}
+						{`${intl.formatNumber(increase, { style: 'currency', currency })} (${intl.formatNumber(change, {
+							style: 'percent',
+							maximumFractionDigits: 2,
+						})})`}
 					</Text>
 				</Box>
 				<Box display="flex" paddingTop="large" gap="large" position="relative" paddingBottom="large">
@@ -145,10 +144,10 @@ const TokenDetails: React.FC = () => {
 								<AreaChart
 									width={500}
 									height={400}
-									data={chart.map(value => ({
-										name: intl.formatDate(value[0]),
-										value: value[1],
-										inCurrency: intl.formatNumber(value[1], { style: 'currency', currency }),
+									data={chart.map(element => ({
+										name: intl.formatDate(element[0]),
+										value: element[1],
+										inCurrency: intl.formatNumber(element[1], { style: 'currency', currency }),
 									}))}
 									margin={{
 										top: 10,
@@ -225,7 +224,7 @@ const TokenDetails: React.FC = () => {
 						}
 						rightData={
 							<Text size="small">
-								{intl.formatNumber(+data?.details?.total_supply || 0, {
+								{intl.formatNumber(parseFloat(data?.details?.total_supply) || 0, {
 									style: 'decimal',
 									maximumFractionDigits: 8,
 								})}
@@ -240,7 +239,7 @@ const TokenDetails: React.FC = () => {
 						}
 						rightData={
 							<Text size="small">
-								{intl.formatNumber(+data?.details?.total_minted || 0, {
+								{intl.formatNumber(parseFloat(data?.details?.total_minted) || 0, {
 									style: 'decimal',
 									maximumFractionDigits: 8,
 								})}
@@ -255,7 +254,7 @@ const TokenDetails: React.FC = () => {
 						}
 						rightData={
 							<Text size="small">
-								{intl.formatNumber(+data?.details?.total_burned || 0, {
+								{intl.formatNumber(parseFloat(data?.details?.total_burned) || 0, {
 									style: 'decimal',
 									maximumFractionDigits: 8,
 								})}

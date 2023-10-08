@@ -49,7 +49,9 @@ const Tokens: React.FC = () => {
 	const { scrollableNode, isScrolledTop } = useScroll()
 	const { accountId, resourceId } = useParams()
 	const selectedAccounts = useSelectedAccounts()
-	const { tokensBalances, isLoading } = useBalances(...selectedAccounts)
+
+	const { data: balanceData, isLoading } = useBalances(...selectedAccounts)
+	const { tokensBalances = [] } = balanceData || {}
 
 	const selectedRowIds = useMemo(() => {
 		const idx = tokensBalances.findIndex(b => b.address === resourceId)
