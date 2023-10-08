@@ -283,9 +283,7 @@ export const tableTrRecipe = recipe({
 				sizeVariant: 'large',
 				styleVariant: 'primary',
 			},
-			style: {
-				height: '80px',
-			},
+			style: {},
 		},
 		{
 			variants: {
@@ -409,26 +407,21 @@ recipeResponsiveGlobalStyle(
 	},
 )
 
+recipeResponsiveGlobalStyle(tableRecipe({ sizeVariant: 'large', styleVariant: 'primary' }), 'tbody tr', {
+	mobile: {
+		height: '72px',
+	},
+	tablet: {
+		height: '80px',
+	},
+})
+
 recipeResponsiveGlobalStyle(tableRecipe({ sizeVariant: 'large', styleVariant: 'primary' }), 'tbody tr:hover', {
 	tablet: {
 		backgroundColor: vars.color.bai_pearl200,
 		boxShadow: vars.color.shadowActivePanel,
 	},
 })
-
-recipeResponsiveGlobalStyle(
-	tableRecipe({ sizeVariant: 'large', styleVariant: 'primary' }),
-	'tbody tr:hover .tr-text-elem',
-	{
-		mobile: {
-			transition: vars.transition.fast,
-			color: vars.color.purple500,
-		},
-		tablet: {
-			color: 'unset',
-		},
-	},
-)
 
 recipeResponsiveGlobalStyle(tableRecipe({ sizeVariant: 'large', styleVariant: 'primary' }), 'tbody tr.tr-selected', {
 	tablet: {
@@ -441,6 +434,9 @@ recipeResponsiveGlobalStyle(
 	tableRecipe({ sizeVariant: 'large', styleVariant: 'primary' }),
 	'tbody tr:hover',
 	{
+		mobile: {
+			backgroundColor: vars.color.wax500,
+		},
 		tablet: {
 			backgroundColor: vars.color.wax500,
 			boxShadow: vars.color.shadowActivePanel,
@@ -453,6 +449,9 @@ recipeResponsiveGlobalStyle(
 	tableRecipe({ sizeVariant: 'large', styleVariant: 'primary' }),
 	'tbody tr.tr-selected',
 	{
+		mobile: {
+			backgroundColor: vars.color.wax500,
+		},
 		tablet: {
 			backgroundColor: vars.color.wax500,
 			boxShadow: vars.color.shadowActivePanel,
@@ -519,8 +518,8 @@ recipeResponsiveGlobalStyle(
 	'tbody tr td:nth-child(1):after',
 	{
 		mobile: {
-			left: vars.spacing.large,
-			right: vars.spacing.large,
+			left: 0,
+			right: 0,
 		},
 		tablet: {
 			left: vars.spacing.medium,

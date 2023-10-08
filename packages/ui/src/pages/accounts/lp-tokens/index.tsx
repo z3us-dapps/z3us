@@ -14,8 +14,8 @@ import { AssetNameCell } from 'ui/src/pages/accounts/components/table/asset-name
 import { AssetValueCell } from 'ui/src/pages/accounts/components/table/asset-value-cell'
 import type { ResourceBalance, ResourceBalanceType } from 'ui/src/types/types'
 
+import * as styles from '../components/table/styles.css'
 import { ValidatorCell } from '../components/table/validator-cell'
-import * as styles from './styles.css'
 
 const messages = defineMessages({
 	address: {
@@ -123,7 +123,6 @@ const Tokens: React.FC = () => {
 				</Box>
 			) : (
 				<Table
-					className={styles.tableMinHeightWrapper}
 					styleVariant="primary"
 					sizeVariant="large"
 					scrollableNode={scrollableNode ?? undefined}

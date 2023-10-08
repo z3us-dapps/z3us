@@ -6,12 +6,6 @@ import { useSelectedAccounts } from 'ui/src/hooks/use-accounts'
 import { useNoneSharedStore } from 'ui/src/hooks/use-store'
 import { useResourceType } from 'ui/src/pages/accounts/hooks/use-resource-type'
 
-export enum ChangeStatus {
-	Positive = 'positive',
-	Negative = 'negative',
-	Neutral = 'neutral',
-}
-
 export const useTotalBalance = () => {
 	const intl = useIntl()
 	const resourceType = useResourceType()
@@ -52,22 +46,11 @@ export const useTotalBalance = () => {
 		return totalChange
 	}, [resourceType, totalValue, fungibleValue, nonFungibleValue])
 
-	const getChangeStatus = (): ChangeStatus => {
-		if (change > 0) {
-			return ChangeStatus.Positive
-		}
-		if (change < 0) {
-			return ChangeStatus.Negative
-		}
-		return ChangeStatus.Neutral
-	}
-
 	return {
 		isLoading,
 		value,
-		formattedValue: intl.formatNumber(value, { style: 'currency', currency }),
 		change,
+		formattedValue: intl.formatNumber(value, { style: 'currency', currency }),
 		formattedChange: intl.formatNumber(change, { style: 'percent', maximumFractionDigits: 2 }),
-		changeStatus: getChangeStatus(),
 	}
 }

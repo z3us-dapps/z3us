@@ -77,7 +77,7 @@ export const accountRoutesScrollingStickyBtnWrapper = style([
 		},
 	}),
 	{
-		top: '0px',
+		top: '-1px',
 	},
 ])
 

@@ -13,6 +13,7 @@ import { SelectSimple } from 'ui/src/components/select'
 import * as containerStyles from 'ui/src/components/styles/container-styles.css'
 import { Z3usLogo } from 'ui/src/components/z3us-logo-babylon'
 import { useWalletAccounts } from 'ui/src/hooks/use-accounts'
+import { useIsAllAccounts } from 'ui/src/hooks/use-is-all-accounts'
 
 import { AccountViewDropdown } from '../account-view-dropdown'
 import * as styles from './styles.css'
@@ -71,6 +72,7 @@ const HeaderNavMobile = () => {
 	const { accountId } = useParams()
 	const matches = useMatches()
 	const navigate = useNavigate()
+	const isAllAccounts = useIsAllAccounts()
 
 	const accountMenuItems = [
 		...[{ id: 'home', title: 'All' }],
@@ -101,14 +103,16 @@ const HeaderNavMobile = () => {
 				<>
 					{backButton}
 					<Box display="flex" marginLeft="small" justifyContent="center" alignItems="center" gap="xsmall" flexGrow={1}>
-						<CopyAddressButton
-							styleVariant="white-transparent"
-							sizeVariant="small"
-							name={accountName}
-							address={accountAddress}
-							rounded
-							tickColor="colorStrong"
-						/>
+						{!isAllAccounts && (
+							<CopyAddressButton
+								styleVariant="white-transparent"
+								sizeVariant="small"
+								name={accountName}
+								address={accountAddress}
+								rounded
+								tickColor="colorStrong"
+							/>
+						)}
 					</Box>
 				</>
 			) : (
