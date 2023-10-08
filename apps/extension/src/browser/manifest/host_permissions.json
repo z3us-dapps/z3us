@@ -1,4 +1,7 @@
 [
+    "*://localhost/*",
+    "*://127.0.0.1/*",
+    "*://*.z3us.com/*",
     "*://*.radixdlt.com/*",
     "*://api.bitfinex.com/*",
     "*://api.coingecko.com/api/*",
