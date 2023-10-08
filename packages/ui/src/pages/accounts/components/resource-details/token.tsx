@@ -135,6 +135,8 @@ const TokenDetails: React.FC = () => {
 				{chart && (
 					<>
 						<Box className={styles.chartBgWrapper}>
+							{/* // TODO: fix, this is not responsive but 99% works?? */}
+							{/* <ResponsiveContainer width="99%" height="100%"> */}
 							<ResponsiveContainer width="100%" height="100%">
 								<AreaChart
 									width={500}
