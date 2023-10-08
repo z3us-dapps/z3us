@@ -1,5 +1,4 @@
 import clsx from 'clsx'
-import { useKnownAddresses } from 'packages/ui/src/hooks/dapp/use-known-addresses'
 import React, { useEffect, useState } from 'react'
 import { FormattedNumber, defineMessages, useIntl } from 'react-intl'
 import { useLocation, useNavigate, useSearchParams } from 'react-router-dom'
@@ -19,6 +18,7 @@ import { TransactionIcon } from 'ui/src/components/transaction-icon'
 import { TransactionManifest } from 'ui/src/components/transaction-manifest'
 import { Text } from 'ui/src/components/typography'
 import { config } from 'ui/src/constants/config'
+import { useKnownAddresses } from 'ui/src/hooks/dapp/use-known-addresses'
 import { useTransaction } from 'ui/src/hooks/dapp/use-transactions'
 import { useIsMobileWidth } from 'ui/src/hooks/use-is-mobile'
 import { getShortAddress } from 'ui/src/utils/string-utils'
@@ -155,7 +155,7 @@ export const Transaction = () => {
 										<Box marginTop="xxsmall">
 											<Text size="xxxlarge" color="strong">
 												<FormattedNumber
-													value={(data?.transaction.fee_paid as any) || 0}
+													value={parseFloat(data?.transaction.fee_paid) || 0}
 													style="decimal"
 													maximumFractionDigits={8}
 												/>
@@ -164,7 +164,7 @@ export const Transaction = () => {
 										<Box>
 											<Text size="xlarge">
 												<TokenPrice
-													amount={data?.transaction.fee_paid}
+													amount={parseFloat(data?.transaction.fee_paid) || 0}
 													address={knownAddresses?.resourceAddresses.xrd}
 												/>
 											</Text>

@@ -1,13 +1,13 @@
 import type { Instruction, Intent } from '@radixdlt/radix-engine-toolkit'
 import { RadixEngineToolkit } from '@radixdlt/radix-engine-toolkit'
-import { FallbackLoading } from 'packages/ui/src/components/fallback-renderer'
-import { useKnownAddresses } from 'packages/ui/src/hooks/dapp/use-known-addresses'
 import React, { useEffect, useState } from 'react'
 import { defineMessages, useIntl } from 'react-intl'
 
 import { Box } from 'ui/src/components/box'
+import { FallbackLoading } from 'ui/src/components/fallback-renderer'
 import { Input } from 'ui/src/components/input'
 import { Tabs, TabsContent } from 'ui/src/components/tabs'
+import { useKnownAddresses } from 'ui/src/hooks/dapp/use-known-addresses'
 
 import { Instructions } from './instructions'
 
