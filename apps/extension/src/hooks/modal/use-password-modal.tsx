@@ -14,7 +14,7 @@ const messages = defineMessages({
 	},
 })
 
-export const useSignModal = () => {
+export const usePasswordModal = () => {
 	const intl = useIntl()
 	const { addModal, removeModal } = useModals()
 

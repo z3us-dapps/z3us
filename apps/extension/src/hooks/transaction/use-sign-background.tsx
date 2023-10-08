@@ -7,7 +7,7 @@ import { Text } from 'ui/src/components/typography'
 import { useNetworkId } from 'ui/src/hooks/dapp/use-network-id'
 import { useNoneSharedStore } from 'ui/src/hooks/use-store'
 
-import { useSignModal } from '@src/hooks/modal/use-sign-modal'
+import { usePasswordModal } from '@src/hooks/modal/use-password-modal'
 import { useMessageClient } from '@src/hooks/use-message-client'
 
 const messages = defineMessages({
@@ -26,7 +26,7 @@ const Content = () => {
 export const useSignTransactionWithBackground = () => {
 	const networkId = useNetworkId()
 	const client = useMessageClient()
-	const confirm = useSignModal()
+	const confirm = usePasswordModal()
 
 	const { accountIndexes } = useNoneSharedStore(state => ({
 		accountIndexes: state.accountIndexes[networkId] || {},

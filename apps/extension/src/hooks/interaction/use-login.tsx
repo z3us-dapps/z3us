@@ -17,7 +17,7 @@ import { KeystoreType } from 'ui/src/store/types'
 
 import { getDAppDataToSign, proofCurve, signatureWithPublicKeyToJSON } from '@src/crypto/signature'
 
-import { useSignModal } from '../modal/use-sign-modal'
+import { usePasswordModal } from '../modal/use-password-modal'
 import { useLedgerClient } from '../use-ledger-client'
 import { useMessageClient } from '../use-message-client'
 
@@ -33,7 +33,7 @@ export const useLogin = () => {
 	const client = useMessageClient()
 	const ledger = useLedgerClient()
 	const networkId = useNetworkId()
-	const confirm = useSignModal()
+	const confirm = usePasswordModal()
 
 	const { keystore } = useSharedStore(state => ({
 		keystore: state.keystores.find(({ id }) => id === state.selectedKeystoreId),
