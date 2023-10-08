@@ -41,15 +41,13 @@ export const AssetNameCell: React.FC<IProps> = props => {
 							weight="strong"
 							className={styles.assetNameCellBalanceWrapper}
 						>
-							{amount && <FormattedNumber value={amount.toNumber()} style="currency" maximumFractionDigits={8} />}
+							{amount && <FormattedNumber value={amount} style="currency" maximumFractionDigits={8} />}
 						</Text>
 					</Box>
 					<Box className={styles.assetNameCellPriceWrapper}>
 						<Box className={styles.assetNameCellPriceTextWrapper}>
 							<Text capitalizeFirstLetter size="small" color="strong" truncate weight="medium" align="right">
-								{tokenValue && (
-									<FormattedNumber value={tokenValue.toNumber()} style="currency" maximumFractionDigits={8} />
-								)}
+								{tokenValue && <FormattedNumber value={tokenValue} style="currency" maximumFractionDigits={8} />}
 							</Text>
 							<RedGreenText
 								change={change}
@@ -60,7 +58,7 @@ export const AssetNameCell: React.FC<IProps> = props => {
 								weight="medium"
 								align="right"
 							>
-								{change && <FormattedNumber value={change.toNumber()} style="percent" maximumFractionDigits={2} />}
+								{change && <FormattedNumber value={change} style="percent" maximumFractionDigits={2} />}
 							</RedGreenText>
 						</Box>
 					</Box>
