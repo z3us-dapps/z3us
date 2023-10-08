@@ -1,10 +1,20 @@
 /* eslint-disable  @typescript-eslint/no-unused-vars */
 import { style } from '@vanilla-extract/css'
+import { vars } from 'packages/ui/src/components/system/theme.css'
 
 import { sprinkles } from 'ui/src/components/system/sprinkles.css'
 import { responsiveStyle } from 'ui/src/components/system/theme-utils'
 
-// import { vars } from 'ui/src/components/system/theme.css'
+export const tokenDetailWrapper = style([
+	sprinkles({
+		flexShrink: 0,
+	}),
+	{},
+	responsiveStyle({
+		mobile: { background: vars.color.backgroundPrimary },
+		tablet: { background: vars.color.backgroundSecondary },
+	}),
+])
 
 export const assetInfoWrapper = style([
 	sprinkles({

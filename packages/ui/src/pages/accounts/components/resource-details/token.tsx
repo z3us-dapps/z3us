@@ -69,7 +69,7 @@ const TIME_FRAMES = {
 
 const TokenDetails: React.FC = () => {
 	const intl = useIntl()
-	const { resourceId, accountId } = useParams()
+	const { resourceId } = useParams()
 	const { data, isLoading } = useEntityDetails(resourceId)
 
 	const { currency } = useNoneSharedStore(state => ({
@@ -107,7 +107,7 @@ const TokenDetails: React.FC = () => {
 	if (isLoading) return <FallbackLoading />
 
 	return (
-		<Box flexShrink={0}>
+		<Box className={styles.tokenDetailWrapper}>
 			<Box display="flex" flexDirection="column" alignItems="center">
 				<Box className={styles.assetInfoWrapper}>
 					<Box paddingBottom="small">
