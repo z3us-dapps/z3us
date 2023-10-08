@@ -60,9 +60,9 @@ const TabTitle: React.FC = () => {
 	const symbol = getStringMetadata('symbol', data) || name
 
 	switch (resourceType) {
-		case 'fungibles':
+		case 'tokens':
 			return <>{intl.formatMessage(messages.tokens, { symbol: symbol ? ` (${symbol.toUpperCase()})` : '' })}</>
-		case 'non-fungibles':
+		case 'nfts':
 			return <>{intl.formatMessage(messages.nfts)}</>
 		default:
 			return <>{intl.formatMessage(messages.assets)}</>
