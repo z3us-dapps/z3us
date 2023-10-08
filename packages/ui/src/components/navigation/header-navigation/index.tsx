@@ -82,10 +82,10 @@ const HeaderNavMobile = () => {
 		})),
 	]
 
-	const backButton = matches
-		.filter(match => Boolean((match.handle as any)?.backButton))
-		.map(match => (match.handle as any).backButton)
-	const hasBackButton = backButton?.length > 0
+	const validCrumbs = matches.filter(match => Boolean((match.handle as any)?.backButton))
+	const backButtons = validCrumbs.map(match => (match.handle as any).backButton(match.params))
+	const backButton = backButtons[backButtons.length - 1]
+	const hasBackButton = !!backButton
 	const accountName = accounts?.[accountId]?.name
 	const accountAddress = accounts?.[accountId]?.address
 

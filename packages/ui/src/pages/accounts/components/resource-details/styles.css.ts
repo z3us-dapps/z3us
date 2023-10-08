@@ -1,20 +1,45 @@
-/* eslint-disable  @typescript-eslint/no-unused-vars */
 import { style } from '@vanilla-extract/css'
+import { vars } from 'packages/ui/src/components/system/theme.css'
 
 import { sprinkles } from 'ui/src/components/system/sprinkles.css'
 import { responsiveStyle } from 'ui/src/components/system/theme-utils'
 
-// import { vars } from 'ui/src/components/system/theme.css'
+export const tokenDetailWrapper = style([
+	sprinkles({
+		flexShrink: 0,
+	}),
+	{},
+	responsiveStyle({
+		mobile: { background: vars.color.backgroundPrimary },
+		tablet: { background: vars.color.backgroundSecondary },
+	}),
+])
+
+export const assetInfoWrapper = style([
+	sprinkles({
+		display: 'flex',
+		flexDirection: 'column',
+		justifyContent: 'center',
+		alignItems: 'center',
+		paddingTop: {
+			mobile: 'small',
+			tablet: 'xlarge',
+		},
+		paddingX: 'xlarge',
+	}),
+	{},
+])
 
 export const chartBgWrapper = style([
 	sprinkles({
 		position: 'relative',
-		// background: 'backgroundPrimary',
+		width: 'full',
 	}),
-	{
-		height: '220px',
-		width: '100%',
-	},
+	{},
+	responsiveStyle({
+		mobile: { height: '160px' },
+		tablet: { height: '200px' },
+	}),
 ])
 
 export const accountCardButtonWrapper = style([
@@ -27,31 +52,18 @@ export const accountCardButtonWrapper = style([
 	}),
 ])
 
-export const assetCloseBtnWrapper = style([
+export const assetChartBtnWrapper = style([
 	sprinkles({
 		display: 'flex',
-		width: 'full',
-		justifyContent: 'flex-end',
-		paddingTop: {
-			mobile: 'small',
-			desktop: 'medium',
-		},
-		paddingX: {
-			mobile: 'small',
-			desktop: 'medium',
-		},
-	}),
-])
-
-export const assetChartBtnsWrapper = style([
-	sprinkles({
-		display: 'flex',
+		flexWrap: 'wrap',
+		justifyContent: 'center',
 		gap: {
-			mobile: 'xxsmall',
+			mobile: 'medium',
+			tablet: 'small',
 			desktop: 'small',
 		},
 		paddingTop: {
-			mobile: 'small',
+			mobile: 'medium',
 			desktop: 'small',
 		},
 		paddingBottom: {
@@ -63,4 +75,52 @@ export const assetChartBtnsWrapper = style([
 			desktop: 'small',
 		},
 	}),
+])
+
+export const tokenSummaryWrapper = style([
+	sprinkles({
+		display: 'flex',
+		flexDirection: 'column',
+		width: 'full',
+		borderTop: 1,
+		borderTopStyle: 'solid',
+		borderColor: 'borderDivider',
+		paddingX: {
+			mobile: 'large',
+			tablet: 'large',
+		},
+		paddingTop: {
+			mobile: 'large',
+			tablet: 'xlarge',
+		},
+		paddingBottom: {
+			mobile: 'xlarge',
+			tablet: 'xxlarge',
+		},
+	}),
+	{},
+])
+
+export const tokenSummaryRightMaxWidth = style([
+	sprinkles({}),
+	{},
+	responsiveStyle({
+		mobile: { maxWidth: '130px' },
+		tablet: { maxWidth: '130px' },
+		desktop: { maxWidth: '200px' },
+	}),
+])
+
+export const tokenMetaDataIconWrapper = style([
+	{
+		marginLeft: '-4px',
+		transform: 'translateY(5px)',
+	},
+])
+
+export const metaDataLinkWrapper = style([
+	sprinkles({
+		width: 'full',
+	}),
+	{},
 ])

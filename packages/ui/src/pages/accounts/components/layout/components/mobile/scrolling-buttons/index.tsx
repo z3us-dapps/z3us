@@ -60,16 +60,20 @@ const TabTitle: React.FC = () => {
 	const symbol = getStringMetadata('symbol', data) || name
 
 	switch (resourceType) {
-		case 'fungibles':
+		case 'tokens':
 			return <>{intl.formatMessage(messages.tokens, { symbol: symbol ? ` (${symbol.toUpperCase()})` : '' })}</>
-		case 'non-fungibles':
+		case 'nfts':
 			return <>{intl.formatMessage(messages.nfts)}</>
 		default:
 			return <>{intl.formatMessage(messages.assets)}</>
 	}
 }
 
-export const MobileScrollingButtons: React.FC = () => {
+export interface IProps {
+	className: string
+}
+
+export const MobileScrollingButtons: React.FC<IProps> = ({ className }) => {
 	const intl = useIntl()
 	const { scrollableNode } = useScroll()
 	const { accountId = '-', resourceId } = useParams()
@@ -112,6 +116,7 @@ export const MobileScrollingButtons: React.FC = () => {
 			className={clsx(
 				styles.accountRoutesScrollingStickyBtnWrapper,
 				isSticky && styles.accountRoutesScrollingStickyShadow,
+				className,
 			)}
 		>
 			<Box ref={stickyRef} className={styles.accountRoutesScrollingStickyElem} />
