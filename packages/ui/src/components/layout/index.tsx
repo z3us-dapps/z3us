@@ -7,6 +7,7 @@ import { Box } from 'ui/src/components/box'
 import { FallbackLoading, FallbackRenderer } from 'ui/src/components/fallback-renderer'
 import { HeaderNav, MobileFooterNavigation } from 'ui/src/components/navigation'
 import { Toasts } from 'ui/src/components/toasts'
+import { ImageProvider } from 'ui/src/context/images-provider'
 
 import * as styles from './styles.css'
 import { Transaction } from './transaction'
@@ -18,19 +19,21 @@ const Layout: React.FC = () => {
 	const key = useMemo(() => location.pathname.split('/')[1], [location.pathname])
 
 	return (
-		<Box className={styles.layoutWrapper}>
-			<HeaderNav />
-			<Box className={styles.layoutRouteWrapper}>
-				<AnimatePresence initial={false}>
-					<Suspense key={key} fallback={<FallbackLoading />}>
-						<ErrorBoundary fallbackRender={FallbackRenderer}>{outlet}</ErrorBoundary>
-					</Suspense>
-				</AnimatePresence>
+		<ImageProvider>
+			<Box className={styles.layoutWrapper}>
+				<HeaderNav />
+				<Box className={styles.layoutRouteWrapper}>
+					<AnimatePresence initial={false}>
+						<Suspense key={key} fallback={<FallbackLoading />}>
+							<ErrorBoundary fallbackRender={FallbackRenderer}>{outlet}</ErrorBoundary>
+						</Suspense>
+					</AnimatePresence>
+				</Box>
+				<MobileFooterNavigation />
+				<Transaction />
+				<Toasts />
 			</Box>
-			<MobileFooterNavigation />
-			<Transaction />
-			<Toasts />
-		</Box>
+		</ImageProvider>
 	)
 }
 
