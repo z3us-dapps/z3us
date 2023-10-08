@@ -1,11 +1,13 @@
-import type { Instruction, Intent, KnownAddresses } from '@radixdlt/radix-engine-toolkit'
+import type { Instruction, Intent } from '@radixdlt/radix-engine-toolkit'
 import { RadixEngineToolkit } from '@radixdlt/radix-engine-toolkit'
 import React, { useEffect, useState } from 'react'
 import { defineMessages, useIntl } from 'react-intl'
 
 import { Box } from 'ui/src/components/box'
+import { FallbackLoading } from 'ui/src/components/fallback-renderer'
 import { Input } from 'ui/src/components/input'
 import { Tabs, TabsContent } from 'ui/src/components/tabs'
+import { useKnownAddresses } from 'ui/src/hooks/dapp/use-known-addresses'
 
 import { Instructions } from './instructions'
 
@@ -30,15 +32,17 @@ interface IProps {
 export const Manifest: React.FC<IProps> = ({ intent }) => {
 	const intl = useIntl()
 
+	const { data: knownAddresses, isLoading: isLoadingKnownAddresses } = useKnownAddresses()
+
 	const [manifest, setManifest] = useState<string>('')
-	const [knownAddresses, setKnownAddresses] = useState<KnownAddresses>()
 
 	useEffect(() => {
 		RadixEngineToolkit.Instructions.convert(intent.manifest.instructions, intent.header.networkId, 'String').then(
 			converted => setManifest(converted.value as string),
 		)
-		RadixEngineToolkit.Utils.knownAddresses(intent.header.networkId).then(setKnownAddresses)
 	}, [intent])
+
+	if (isLoadingKnownAddresses) return <FallbackLoading />
 
 	return (
 		<Box>

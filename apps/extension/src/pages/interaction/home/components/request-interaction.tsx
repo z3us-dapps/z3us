@@ -16,7 +16,7 @@ import type { Persona } from 'ui/src/store/types'
 import type { WalletInteractionWithTabId } from '@src/browser/app/types'
 import { useAccountsData } from '@src/hooks/interaction/use-accounts-data'
 import { useLogin } from '@src/hooks/interaction/use-login'
-import { usePersonaData } from '@src/hooks/interaction/use-persona-data'
+import { usePersonaDataModal } from '@src/hooks/modal/use-persona-data-modal'
 import { useSelectAccountsModal } from '@src/hooks/modal/use-select-accounts-modal'
 import { useSelectPersonaModal } from '@src/hooks/modal/use-select-persona-modal'
 
@@ -56,10 +56,10 @@ export const RequestInteraction: React.FC<IProps> = ({ interaction }) => {
 	const networkId = useNetworkId()
 	const selectPersona = useSelectPersonaModal()
 	const selectAccounts = useSelectAccountsModal()
+	const getPersonaData = usePersonaDataModal()
 
 	const login = useLogin()
 	const buildAccounts = useAccountsData()
-	const buildPersonaData = usePersonaData()
 
 	const { personaIndexes } = useNoneSharedStore(state => ({
 		personaIndexes: state.personaIndexes[networkId] || {},
@@ -88,8 +88,8 @@ export const RequestInteraction: React.FC<IProps> = ({ interaction }) => {
 					items: {
 						discriminator: 'authorizedRequest',
 						auth: await login(selectedPersona, request.auth, interaction.metadata),
-						oneTimePersonaData: await buildPersonaData(selectedPersona, request.oneTimePersonaData),
-						ongoingPersonaData: await buildPersonaData(selectedPersona, request.ongoingPersonaData),
+						oneTimePersonaData: await getPersonaData(selectedPersona, request.oneTimePersonaData),
+						ongoingPersonaData: await getPersonaData(selectedPersona, request.ongoingPersonaData),
 						oneTimeAccounts: await buildAccounts(selectedAccounts, request.oneTimeAccounts, interaction.metadata),
 						ongoingAccounts: await buildAccounts(selectedAccounts, request.ongoingAccounts, interaction.metadata),
 					},

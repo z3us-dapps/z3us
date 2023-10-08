@@ -515,6 +515,12 @@
       "value": "Favorite"
     }
   ],
+  "currency_select.label": [
+    {
+      "type": 0,
+      "value": "Currency"
+    }
+  ],
   "currency_select.reset": [
     {
       "type": 0,
@@ -619,6 +625,38 @@
       "value": "Name is required"
     }
   ],
+  "hooks.interaction.accounts_data.account_challenge": [
+    {
+      "type": 0,
+      "value": "To confirm ownership of selected accounts, signature is required"
+    }
+  ],
+  "hooks.interaction.accounts_data.unknown_account": [
+    {
+      "type": 0,
+      "value": "Selected account: "
+    },
+    {
+      "type": 1,
+      "value": "appearanceId"
+    }
+  ],
+  "hooks.interaction.login.persona_challenge": [
+    {
+      "type": 0,
+      "value": "To confirm ownership, sign challenge with persona "
+    },
+    {
+      "type": 1,
+      "value": "label"
+    }
+  ],
+  "hooks.modals.persona_data.reject": [
+    {
+      "type": 0,
+      "value": "Persona data declined"
+    }
+  ],
   "hooks.modals.select_accounts.reject": [
     {
       "type": 0,
@@ -635,12 +673,6 @@
     {
       "type": 0,
       "value": "Rejected"
-    }
-  ],
-  "hooks.send-transaction.empty_signatures_error": [
-    {
-      "type": 0,
-      "value": "Failed to resolve authorization requirements, try with different wallet."
     }
   ],
   "hooks.send-transaction.error": [
@@ -675,6 +707,18 @@
       "value": "hasMessage"
     }
   ],
+  "hooks.transaction.intent.empty_signatures_error": [
+    {
+      "type": 0,
+      "value": "Failed to resolve authorization requirements, try with different wallet."
+    }
+  ],
+  "hooks.transaction.sign_background.title": [
+    {
+      "type": 0,
+      "value": "Signature requested"
+    }
+  ],
   "interaction.dapp_details.name": [
     {
       "type": 0,
@@ -685,30 +729,10 @@
       "value": "name"
     }
   ],
-  "interaction.home.authorized_request_interaction.account_challenge": [
+  "interaction.home.authorized_request_interaction.continue": [
     {
       "type": 0,
-      "value": "To confirm ownership, sign challenge with account "
-    },
-    {
-      "type": 1,
-      "value": "label"
-    }
-  ],
-  "interaction.home.authorized_request_interaction.login": [
-    {
-      "type": 0,
-      "value": "Login"
-    }
-  ],
-  "interaction.home.authorized_request_interaction.persona_challenge": [
-    {
-      "type": 0,
-      "value": "To confirm ownership, sign challenge with persona "
-    },
-    {
-      "type": 1,
-      "value": "label"
+      "value": "Continue"
     }
   ],
   "interaction.home.authorized_request_interaction.select_accounts": [
@@ -723,22 +747,6 @@
       "value": "Select persona"
     }
   ],
-  "interaction.home.authorized_request_interaction.share": [
-    {
-      "type": 0,
-      "value": "Share"
-    }
-  ],
-  "interaction.home.authorized_request_interaction.unknown_account": [
-    {
-      "type": 0,
-      "value": "Selected account: "
-    },
-    {
-      "type": 1,
-      "value": "appearanceId"
-    }
-  ],
   "interaction.home.canceled": [
     {
       "type": 0,
@@ -751,36 +759,96 @@
       "value": "Submit"
     }
   ],
-  "interaction.home.unauthorized_request_interaction.account_challenge": [
+  "interaction.manifest.instructions.call_method.deposit": [
     {
       "type": 0,
-      "value": "To confirm ownership, sign challenge with account "
+      "value": "Deposit "
     },
     {
       "type": 1,
-      "value": "label"
-    }
-  ],
-  "interaction.home.unauthorized_request_interaction.select": [
+      "value": "bucket"
+    },
     {
       "type": 0,
-      "value": "Select accounts"
-    }
-  ],
-  "interaction.home.unauthorized_request_interaction.share": [
-    {
-      "type": 0,
-      "value": "Share"
-    }
-  ],
-  "interaction.home.unauthorized_request_interaction.unknown_account": [
-    {
-      "type": 0,
-      "value": "Selected account: "
+      "value": " into "
     },
     {
       "type": 1,
-      "value": "appearanceId"
+      "value": "accountAddress"
+    }
+  ],
+  "interaction.manifest.instructions.call_method.lock_fee": [
+    {
+      "type": 0,
+      "value": "Lock "
+    },
+    {
+      "type": 1,
+      "value": "amount"
+    },
+    {
+      "type": 0,
+      "value": " fee using "
+    },
+    {
+      "type": 1,
+      "value": "accountAddress"
+    }
+  ],
+  "interaction.manifest.instructions.call_method.withdraw": [
+    {
+      "type": 0,
+      "value": "Withdraw "
+    },
+    {
+      "type": 1,
+      "value": "amount"
+    },
+    {
+      "type": 0,
+      "value": " of "
+    },
+    {
+      "type": 1,
+      "value": "resourceAddress"
+    },
+    {
+      "type": 0,
+      "value": " from "
+    },
+    {
+      "type": 1,
+      "value": "accountAddress"
+    }
+  ],
+  "interaction.manifest.instructions.take_from_worktop": [
+    {
+      "type": 0,
+      "value": "Withdraw "
+    },
+    {
+      "type": 1,
+      "value": "amount"
+    },
+    {
+      "type": 0,
+      "value": " of "
+    },
+    {
+      "type": 1,
+      "value": "resourceAddress"
+    }
+  ],
+  "interaction.manifest.tab_manifest": [
+    {
+      "type": 0,
+      "value": "Transaction manifest"
+    }
+  ],
+  "interaction.manifest.tab_summary": [
+    {
+      "type": 0,
+      "value": "Preview"
     }
   ],
   "interaction.network_alert.message": [
@@ -799,6 +867,12 @@
     {
       "type": 1,
       "value": "networkId"
+    }
+  ],
+  "keystore.export.nothing_to_export": [
+    {
+      "type": 0,
+      "value": "Wallet does not contain legacy accounts"
     }
   ],
   "keystore.export.password_form.error": [
@@ -961,18 +1035,6 @@
       "value": "Password"
     }
   ],
-  "keystore.seed.restore.ed25519": [
-    {
-      "type": 0,
-      "value": "New (Babylon wallet)"
-    }
-  ],
-  "keystore.seed.restore.secp256k1": [
-    {
-      "type": 0,
-      "value": "Legacy (Olympia wallet)"
-    }
-  ],
   "lp_tokens.address": [
     {
       "type": 0,
@@ -1059,6 +1121,182 @@
     {
       "type": 1,
       "value": "symbol"
+    }
+  ],
+  "modals.ledger_confirm.close_button": [
+    {
+      "type": 0,
+      "value": "Cancel"
+    }
+  ],
+  "modals.ledger_confirm.confirm_with_ledger": [
+    {
+      "type": 0,
+      "value": "Confirm with Ledger device"
+    }
+  ],
+  "modals.persona_data.close_button": [
+    {
+      "type": 0,
+      "value": "Cancel"
+    }
+  ],
+  "modals.persona_data.eastern": [
+    {
+      "type": 0,
+      "value": "Eastern"
+    }
+  ],
+  "modals.persona_data.form.button_add.email_address": [
+    {
+      "type": 0,
+      "value": "Add email address"
+    }
+  ],
+  "modals.persona_data.form.button_add.phone_number": [
+    {
+      "type": 0,
+      "value": "Add phone number"
+    }
+  ],
+  "modals.persona_data.form.email_address": [
+    {
+      "type": 0,
+      "value": "Email address"
+    }
+  ],
+  "modals.persona_data.form.family_name": [
+    {
+      "type": 0,
+      "value": "Family name"
+    }
+  ],
+  "modals.persona_data.form.given_names": [
+    {
+      "type": 0,
+      "value": "Given names"
+    }
+  ],
+  "modals.persona_data.form.nickname": [
+    {
+      "type": 0,
+      "value": "Nickname"
+    }
+  ],
+  "modals.persona_data.form.phone_number": [
+    {
+      "type": 0,
+      "value": "Phone number"
+    }
+  ],
+  "modals.persona_data.form.submit_button.title": [
+    {
+      "type": 0,
+      "value": "Login"
+    }
+  ],
+  "modals.persona_data.form.variant": [
+    {
+      "type": 0,
+      "value": "Name variant"
+    }
+  ],
+  "modals.persona_data.validation.email": [
+    {
+      "type": 0,
+      "value": "Please select valid email"
+    }
+  ],
+  "modals.persona_data.validation.emails": [
+    {
+      "type": 0,
+      "value": "Please select minimum "
+    },
+    {
+      "type": 1,
+      "value": "number"
+    },
+    {
+      "type": 0,
+      "value": " emails"
+    }
+  ],
+  "modals.persona_data.validation.family_name": [
+    {
+      "type": 0,
+      "value": "Please insert valid family name"
+    }
+  ],
+  "modals.persona_data.validation.given_names": [
+    {
+      "type": 0,
+      "value": "Please insert valid given names"
+    }
+  ],
+  "modals.persona_data.validation.names": [
+    {
+      "type": 0,
+      "value": "Name details are required"
+    }
+  ],
+  "modals.persona_data.validation.nickname": [
+    {
+      "type": 0,
+      "value": "Please insert valid nickname"
+    }
+  ],
+  "modals.persona_data.validation.phone_number": [
+    {
+      "type": 0,
+      "value": "Please select valid phone number"
+    }
+  ],
+  "modals.persona_data.validation.phone_numbers": [
+    {
+      "type": 0,
+      "value": "Please select minimum "
+    },
+    {
+      "type": 1,
+      "value": "number"
+    },
+    {
+      "type": 0,
+      "value": " phone numbers"
+    }
+  ],
+  "modals.persona_data.validation.validation_emails_exactly": [
+    {
+      "type": 0,
+      "value": "Please select exactly "
+    },
+    {
+      "type": 1,
+      "value": "number"
+    },
+    {
+      "type": 0,
+      "value": " emails"
+    }
+  ],
+  "modals.persona_data.validation.validation_phone_numbers_exactly": [
+    {
+      "type": 0,
+      "value": "Please select exactly "
+    },
+    {
+      "type": 1,
+      "value": "number"
+    },
+    {
+      "type": 0,
+      "value": " phone numbers"
+    }
+  ],
+  "modals.persona_data.western": [
+    {
+      "type": 0,
+      "value": "Western"
     }
   ],
   "modals.select_accounts.close_button": [
@@ -2089,12 +2327,6 @@
     {
       "type": 0,
       "value": "Advanced"
-    }
-  ],
-  "transfer.router.deploy": [
-    {
-      "type": 0,
-      "value": "Deploy package"
     }
   ],
   "transfer.router.home": [

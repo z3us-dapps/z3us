@@ -16,8 +16,8 @@ export const useTotalBalance = () => {
 
 	const selectedAccounts = useSelectedAccounts()
 
+	const { data: balanceData, isLoading } = useBalances(...selectedAccounts)
 	const {
-		isLoading,
 		totalValue,
 		totalChange,
 		fungibleValue,
@@ -28,7 +28,7 @@ export const useTotalBalance = () => {
 		liquidityPoolTokensChange,
 		poolUnitsValue,
 		poolUnitsChange,
-	} = useBalances(...selectedAccounts)
+	} = balanceData || {}
 
 	const value = useMemo(() => {
 		if (resourceType === 'nfts') return nonFungibleValue
@@ -49,8 +49,8 @@ export const useTotalBalance = () => {
 	return {
 		isLoading,
 		value,
-		formattedValue: intl.formatNumber(value.toNumber(), { style: 'currency', currency }),
-		formattedChange: intl.formatNumber(change.toNumber(), { style: 'percent', maximumFractionDigits: 2 }),
 		change,
+		formattedValue: intl.formatNumber(value, { style: 'currency', currency }),
+		formattedChange: intl.formatNumber(change, { style: 'percent', maximumFractionDigits: 2 }),
 	}
 }

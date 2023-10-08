@@ -55,7 +55,6 @@
 		"@tanstack/react-query-persist-client": "^4.29.17",
 		"@vitejs/plugin-react": "^4.0.1",
 		"async-mutex": "^0.4.0",
-		"bignumber.js": "^9.1.1",
 		"blakejs": "^1.2.1",
 		"clsx": "^1.2.1",
 		"config": "*",

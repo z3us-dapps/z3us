@@ -8,7 +8,7 @@ import { useNoneSharedStore, useSharedStore } from 'ui/src/hooks/use-store'
 import { KeystoreType } from 'ui/src/store/types'
 
 import { getDAppDataToSign, proofCurve, signatureWithPublicKeyToJSON } from '@src/crypto/signature'
-import { useSignModal } from '@src/hooks/modal/use-sign-modal'
+import { usePasswordModal } from '@src/hooks/modal/use-password-modal'
 import { useMessageClient } from '@src/hooks/use-message-client'
 
 import { useLedgerClient } from '../use-ledger-client'
@@ -29,7 +29,7 @@ export const useAccountsData = () => {
 	const client = useMessageClient()
 	const ledger = useLedgerClient()
 	const networkId = useNetworkId()
-	const confirm = useSignModal()
+	const confirm = usePasswordModal()
 
 	const { keystore } = useSharedStore(state => ({
 		keystore: state.keystores.find(({ id }) => id === state.selectedKeystoreId),

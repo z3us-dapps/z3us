@@ -215,6 +215,9 @@
   "currency_select.favorite": {
     "defaultMessage": "Favorite"
   },
+  "currency_select.label": {
+    "defaultMessage": "Currency"
+  },
   "currency_select.reset": {
     "defaultMessage": "Reset"
   },
@@ -254,6 +257,18 @@
   "forms.add_persona.validation.name": {
     "defaultMessage": "Name is required"
   },
+  "hooks.interaction.accounts_data.account_challenge": {
+    "defaultMessage": "To confirm ownership of selected accounts, signature is required"
+  },
+  "hooks.interaction.accounts_data.unknown_account": {
+    "defaultMessage": "Selected account: {appearanceId}"
+  },
+  "hooks.interaction.login.persona_challenge": {
+    "defaultMessage": "To confirm ownership, sign challenge with persona {label}"
+  },
+  "hooks.modals.persona_data.reject": {
+    "defaultMessage": "Persona data declined"
+  },
   "hooks.modals.select_accounts.reject": {
     "defaultMessage": "Accounts select declined"
   },
@@ -263,23 +278,20 @@
   "hooks.modals.sign.reject": {
     "defaultMessage": "Rejected"
   },
-  "hooks.send-transaction.empty_signatures_error": {
-    "defaultMessage": "Failed to resolve authorization requirements, try with different wallet."
-  },
   "hooks.send-transaction.error": {
     "defaultMessage": "Failed to submit transaction{hasMessage, select, true {: {message}} other {, please try again} }"
+  },
+  "hooks.transaction.intent.empty_signatures_error": {
+    "defaultMessage": "Failed to resolve authorization requirements, try with different wallet."
+  },
+  "hooks.transaction.sign_background.title": {
+    "defaultMessage": "Signature requested"
   },
   "interaction.dapp_details.name": {
     "defaultMessage": "dApp: {name}"
   },
-  "interaction.home.authorized_request_interaction.account_challenge": {
-    "defaultMessage": "To confirm ownership, sign challenge with account {label}"
-  },
-  "interaction.home.authorized_request_interaction.login": {
-    "defaultMessage": "Login"
-  },
-  "interaction.home.authorized_request_interaction.persona_challenge": {
-    "defaultMessage": "To confirm ownership, sign challenge with persona {label}"
+  "interaction.home.authorized_request_interaction.continue": {
+    "defaultMessage": "Continue"
   },
   "interaction.home.authorized_request_interaction.select_accounts": {
     "defaultMessage": "Select accounts"
@@ -287,32 +299,35 @@
   "interaction.home.authorized_request_interaction.select_persona": {
     "defaultMessage": "Select persona"
   },
-  "interaction.home.authorized_request_interaction.share": {
-    "defaultMessage": "Share"
-  },
-  "interaction.home.authorized_request_interaction.unknown_account": {
-    "defaultMessage": "Selected account: {appearanceId}"
-  },
   "interaction.home.canceled": {
     "defaultMessage": "Request canceled"
   },
   "interaction.home.transaction.submit": {
     "defaultMessage": "Submit"
   },
-  "interaction.home.unauthorized_request_interaction.account_challenge": {
-    "defaultMessage": "To confirm ownership, sign challenge with account {label}"
+  "interaction.manifest.instructions.call_method.deposit": {
+    "defaultMessage": "Deposit {bucket} into {accountAddress}"
   },
-  "interaction.home.unauthorized_request_interaction.select": {
-    "defaultMessage": "Select accounts"
+  "interaction.manifest.instructions.call_method.lock_fee": {
+    "defaultMessage": "Lock {amount} fee using {accountAddress}"
   },
-  "interaction.home.unauthorized_request_interaction.share": {
-    "defaultMessage": "Share"
+  "interaction.manifest.instructions.call_method.withdraw": {
+    "defaultMessage": "Withdraw {amount} of {resourceAddress} from {accountAddress}"
   },
-  "interaction.home.unauthorized_request_interaction.unknown_account": {
-    "defaultMessage": "Selected account: {appearanceId}"
+  "interaction.manifest.instructions.take_from_worktop": {
+    "defaultMessage": "Withdraw {amount} of {resourceAddress}"
+  },
+  "interaction.manifest.tab_manifest": {
+    "defaultMessage": "Transaction manifest"
+  },
+  "interaction.manifest.tab_summary": {
+    "defaultMessage": "Preview"
   },
   "interaction.network_alert.message": {
     "defaultMessage": "Network mismatch, dApp uses {dAppNetworkId} wallet uses {networkId}"
+  },
+  "keystore.export.nothing_to_export": {
+    "defaultMessage": "Wallet does not contain legacy accounts"
   },
   "keystore.export.password_form.error": {
     "defaultMessage": "Incorrect password!"
@@ -383,12 +398,6 @@
   "keystore.remove.password_form.password.placeholder": {
     "defaultMessage": "Password"
   },
-  "keystore.seed.restore.ed25519": {
-    "defaultMessage": "New (Babylon wallet)"
-  },
-  "keystore.seed.restore.secp256k1": {
-    "defaultMessage": "Legacy (Olympia wallet)"
-  },
   "lp_tokens.address": {
     "defaultMessage": "LP Token"
   },
@@ -430,6 +439,78 @@
   },
   "mobile.menu.tokens": {
     "defaultMessage": "Tokens {symbol}"
+  },
+  "modals.ledger_confirm.close_button": {
+    "defaultMessage": "Cancel"
+  },
+  "modals.ledger_confirm.confirm_with_ledger": {
+    "defaultMessage": "Confirm with Ledger device"
+  },
+  "modals.persona_data.close_button": {
+    "defaultMessage": "Cancel"
+  },
+  "modals.persona_data.eastern": {
+    "defaultMessage": "Eastern"
+  },
+  "modals.persona_data.form.button_add.email_address": {
+    "defaultMessage": "Add email address"
+  },
+  "modals.persona_data.form.button_add.phone_number": {
+    "defaultMessage": "Add phone number"
+  },
+  "modals.persona_data.form.email_address": {
+    "defaultMessage": "Email address"
+  },
+  "modals.persona_data.form.family_name": {
+    "defaultMessage": "Family name"
+  },
+  "modals.persona_data.form.given_names": {
+    "defaultMessage": "Given names"
+  },
+  "modals.persona_data.form.nickname": {
+    "defaultMessage": "Nickname"
+  },
+  "modals.persona_data.form.phone_number": {
+    "defaultMessage": "Phone number"
+  },
+  "modals.persona_data.form.submit_button.title": {
+    "defaultMessage": "Login"
+  },
+  "modals.persona_data.form.variant": {
+    "defaultMessage": "Name variant"
+  },
+  "modals.persona_data.validation.email": {
+    "defaultMessage": "Please select valid email"
+  },
+  "modals.persona_data.validation.emails": {
+    "defaultMessage": "Please select minimum {number} emails"
+  },
+  "modals.persona_data.validation.family_name": {
+    "defaultMessage": "Please insert valid family name"
+  },
+  "modals.persona_data.validation.given_names": {
+    "defaultMessage": "Please insert valid given names"
+  },
+  "modals.persona_data.validation.names": {
+    "defaultMessage": "Name details are required"
+  },
+  "modals.persona_data.validation.nickname": {
+    "defaultMessage": "Please insert valid nickname"
+  },
+  "modals.persona_data.validation.phone_number": {
+    "defaultMessage": "Please select valid phone number"
+  },
+  "modals.persona_data.validation.phone_numbers": {
+    "defaultMessage": "Please select minimum {number} phone numbers"
+  },
+  "modals.persona_data.validation.validation_emails_exactly": {
+    "defaultMessage": "Please select exactly {number} emails"
+  },
+  "modals.persona_data.validation.validation_phone_numbers_exactly": {
+    "defaultMessage": "Please select exactly {number} phone numbers"
+  },
+  "modals.persona_data.western": {
+    "defaultMessage": "Western"
   },
   "modals.select_accounts.close_button": {
     "defaultMessage": "Cancel"
@@ -919,9 +1000,6 @@
   },
   "transfer.navigation.raw": {
     "defaultMessage": "Advanced"
-  },
-  "transfer.router.deploy": {
-    "defaultMessage": "Deploy package"
   },
   "transfer.router.home": {
     "defaultMessage": "Transfer"

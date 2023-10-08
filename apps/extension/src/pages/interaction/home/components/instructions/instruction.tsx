@@ -11,6 +11,7 @@ interface IProps {
 	instruction: ManifestInstruction
 }
 
+// https://docs.radixdlt.com/docs/specifications
 export const Instruction: React.FC<IProps> = ({ intent, knownAddresses, instruction }) => {
 	switch (instruction.kind) {
 		case 'TakeFromWorktop':

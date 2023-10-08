@@ -33,9 +33,10 @@ export const BalancePieChart: React.FC = () => {
 	const accounts = useWalletAccounts()
 
 	const selectedAccounts = useSelectedAccounts()
-	const { values: accountValues } = useAccountValues(...selectedAccounts)
-	const { balances, tokensBalances, liquidityPoolTokensBalances, poolUnitsBalances, nonFungibleBalances, isLoading } =
-		useBalances(...selectedAccounts)
+	const { data: accountValues = {} } = useAccountValues(...selectedAccounts)
+	const { data: balanceData, isLoading } = useBalances(...selectedAccounts)
+	const { balances, tokensBalances, liquidityPoolTokensBalances, poolUnitsBalances, nonFungibleBalances } =
+		balanceData || {}
 
 	const selectedBalances = useMemo(() => {
 		if (resourceType === 'nfts') return nonFungibleBalances
@@ -51,7 +52,7 @@ export const BalancePieChart: React.FC = () => {
 				? Object.keys(accountValues).map(address => ({
 						address,
 						name: accounts[address]?.name || address,
-						value: accountValues[address].toNumber(),
+						value: accountValues[address],
 				  }))
 				: balances.map(resource => ({
 						address: resource.address,
@@ -59,7 +60,7 @@ export const BalancePieChart: React.FC = () => {
 							(resource as ResourceBalance[ResourceBalanceType.FUNGIBLE]).symbol ||
 							resource.name ||
 							intl.formatMessage(messages.unknown),
-						value: resource.value.toNumber(),
+						value: resource.value,
 				  })),
 		[isAllAccounts, selectedBalances],
 	)

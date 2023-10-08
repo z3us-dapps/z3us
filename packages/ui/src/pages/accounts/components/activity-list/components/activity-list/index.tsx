@@ -1,5 +1,4 @@
 import type { CommittedTransactionInfo } from '@radixdlt/babylon-gateway-api-sdk'
-import BigNumber from 'bignumber.js'
 import clsx from 'clsx'
 import { AnimatePresence, motion } from 'framer-motion'
 import React, { forwardRef, useCallback, useState } from 'react'
@@ -20,6 +19,7 @@ import { TransactionIcon } from 'ui/src/components/transaction-icon'
 import { Text } from 'ui/src/components/typography'
 import { config } from 'ui/src/constants/config'
 import { animatePageVariants } from 'ui/src/constants/page'
+import { useKnownAddresses } from 'ui/src/hooks/dapp/use-known-addresses'
 import { useTransactions } from 'ui/src/hooks/dapp/use-transactions'
 import { useSelectedAccounts } from 'ui/src/hooks/use-accounts'
 import { getShortAddress } from 'ui/src/utils/string-utils'
@@ -86,6 +86,7 @@ const ItemWrapper: React.FC<IRowProps> = props => {
 
 	const intl = useIntl()
 	const { pathname } = useLocation()
+	const { data: knownAddresses } = useKnownAddresses()
 
 	const isSelected = selected === transaction?.intent_hash
 	const isHovered = hovered === transaction?.intent_hash
@@ -123,7 +124,10 @@ const ItemWrapper: React.FC<IRowProps> = props => {
 								</Box>
 								<Box className={styles.activityItemTextWrapper}>
 									<Text size="xsmall">
-										<TokenPrice amount={new BigNumber((transaction.fee_paid as any)?.value || 0)} symbol="XRD" />
+										<TokenPrice
+											amount={(transaction.fee_paid as any)?.value}
+											address={knownAddresses?.resourceAddresses.xrd}
+										/>
 									</Text>
 								</Box>
 							</Link>

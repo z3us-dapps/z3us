@@ -1,4 +1,3 @@
-import BigNumber from 'bignumber.js'
 import { lazy } from 'react'
 import { FormattedMessage } from 'react-intl'
 
@@ -8,11 +7,6 @@ import { LinkBreadcrumb } from './components/layout/components/breadcrumbs/link-
 import { NftItemBreadcrumb } from './components/layout/components/breadcrumbs/nft-item-breadcrumb'
 import { ResourceBreadcrumb } from './components/layout/components/breadcrumbs/resource-breadcrumb'
 import { BackButton } from './components/layout/components/mobile/back-button'
-
-BigNumber.set({
-	ROUNDING_MODE: BigNumber.ROUND_HALF_UP,
-	EXPONENTIAL_AT: [-30, 30],
-})
 
 const Home = lazy(() => import('./home'))
 const Tokens = lazy(() => import('./tokens'))

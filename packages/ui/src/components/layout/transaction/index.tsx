@@ -1,4 +1,3 @@
-import BigNumber from 'bignumber.js'
 import clsx from 'clsx'
 import React, { useEffect, useState } from 'react'
 import { FormattedNumber, defineMessages, useIntl } from 'react-intl'
@@ -19,6 +18,7 @@ import { TransactionIcon } from 'ui/src/components/transaction-icon'
 import { TransactionManifest } from 'ui/src/components/transaction-manifest'
 import { Text } from 'ui/src/components/typography'
 import { config } from 'ui/src/constants/config'
+import { useKnownAddresses } from 'ui/src/hooks/dapp/use-known-addresses'
 import { useTransaction } from 'ui/src/hooks/dapp/use-transactions'
 import { useIsMobileWidth } from 'ui/src/hooks/use-is-mobile'
 import { getShortAddress } from 'ui/src/utils/string-utils'
@@ -87,6 +87,7 @@ export const Transaction = () => {
 	const { pathname } = useLocation()
 	const [searchParams] = useSearchParams()
 	const isMobile = useIsMobileWidth()
+	const { data: knownAddresses } = useKnownAddresses()
 
 	const transactionId = searchParams.get('tx')
 	const isTransactionVisible = !!transactionId
@@ -154,16 +155,18 @@ export const Transaction = () => {
 										<Box marginTop="xxsmall">
 											<Text size="xxxlarge" color="strong">
 												<FormattedNumber
-													value={(data?.transaction.fee_paid as any) || 0}
-													style="currency"
-													currency="XRD"
+													value={parseFloat(data?.transaction.fee_paid) || 0}
+													style="decimal"
 													maximumFractionDigits={8}
 												/>
 											</Text>
 										</Box>
 										<Box>
 											<Text size="xlarge">
-												<TokenPrice amount={new BigNumber((data?.transaction.fee_paid as any) || 0)} symbol="XRD" />
+												<TokenPrice
+													amount={parseFloat(data?.transaction.fee_paid) || 0}
+													address={knownAddresses?.resourceAddresses.xrd}
+												/>
 											</Text>
 										</Box>
 									</Box>

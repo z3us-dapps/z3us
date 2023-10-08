@@ -1,4 +1,4 @@
-import BigNumber from 'bignumber.js'
+import { CopyAddressButton } from 'packages/ui/src/components/copy-address-button'
 import React, { useState } from 'react'
 import { defineMessages, useIntl } from 'react-intl'
 import { useParams } from 'react-router-dom'
@@ -7,7 +7,6 @@ import { Area, AreaChart, ResponsiveContainer, Tooltip } from 'recharts'
 import { Box } from 'ui/src/components/box'
 import { CardButtons } from 'ui/src/components/card-buttons'
 import { ChartToolTip } from 'ui/src/components/chart-tool-tip'
-import { CopyAddressButton } from 'ui/src/components/copy-address-button'
 import { FallbackLoading } from 'ui/src/components/fallback-renderer'
 import { LockIcon } from 'ui/src/components/icons'
 import { AccountsTransactionInfo } from 'ui/src/components/layout/account-transaction-info'
@@ -15,6 +14,7 @@ import { ResourceImageIcon } from 'ui/src/components/resource-image-icon'
 import { Button } from 'ui/src/components/router-button'
 import { RedGreenText, Text } from 'ui/src/components/typography'
 import { useEntityDetails } from 'ui/src/hooks/dapp/use-entity-details'
+import { useKnownAddresses } from 'ui/src/hooks/dapp/use-known-addresses'
 import { useMarketChart, useXRDPriceOnDay } from 'ui/src/hooks/queries/market'
 import { useToken } from 'ui/src/hooks/queries/oci'
 import { useNoneSharedStore } from 'ui/src/hooks/use-store'
@@ -69,12 +69,13 @@ const TIME_FRAMES = {
 
 const TokenDetails: React.FC = () => {
 	const intl = useIntl()
-	const { resourceId } = useParams()
+	const { resourceId, accountId } = useParams()
 	const { data, isLoading } = useEntityDetails(resourceId)
 
 	const { currency } = useNoneSharedStore(state => ({
 		currency: state.currency,
 	}))
+	const { data: knownAddresses } = useKnownAddresses()
 	const { data: xrdPrice } = useXRDPriceOnDay(currency, new Date())
 
 	const name = getStringMetadata('name', data?.metadata?.items)
@@ -82,13 +83,11 @@ const TokenDetails: React.FC = () => {
 	const description = getStringMetadata('description', data?.metadata?.items)
 	const validator = getStringMetadata('validator', data?.metadata?.items)
 
-	let tokenKey = symbol?.toUpperCase()
-	if (!tokenKey && validator) tokenKey = 'XRD'
-	const { data: token } = useToken(tokenKey)
+	const { data: token } = useToken(validator && knownAddresses ? knownAddresses.resourceAddresses.xrd : resourceId)
 
-	const value = new BigNumber(token?.price.xrd.now || 0).multipliedBy(xrdPrice)
-	const change = new BigNumber(token ? +(token.price.usd.now || 0) / +(token.price.usd['24h'] || 0) : 0).dividedBy(100)
-	const increase = new BigNumber(token ? +(token.price.usd.now || 0) - +(token.price.usd['24h'] || 0) : 0)
+	const value = parseFloat(token?.price?.xrd.now) || 0 * xrdPrice
+	const change = (token ? parseFloat(token?.price?.usd.now) || 0 / parseFloat(token?.price?.usd['24h']) || 0 : 0) / 100
+	const increase = token ? parseFloat(token?.price?.usd.now) || 0 - parseFloat(token?.price?.usd['24h']) || 0 : 0
 
 	const [timeFrame, setTimeFrame] = useState<string>('threeMonth')
 	const { data: chart } = useMarketChart(currency, symbol, TIME_FRAMES[timeFrame].days)
@@ -107,32 +106,32 @@ const TokenDetails: React.FC = () => {
 	if (isLoading) return <FallbackLoading />
 
 	return (
-		<Box className={styles.tokenDetailWrapper}>
+		<Box flexShrink={0}>
 			<Box display="flex" flexDirection="column" alignItems="center">
 				<Box className={styles.assetInfoWrapper}>
 					<Box paddingBottom="small">
-						<ResourceImageIcon size="xlarge" address={resourceId} />
+						<ResourceImageIcon address={resourceId} />
 					</Box>
 					<Text size="xlarge" weight="strong" color="strong" align="center">
 						{name}
 					</Text>
-					<Box>
-						<Text size="xxxlarge" weight="strong" color="strong" align="center">
-							{intl.formatNumber(value.toNumber(), { style: 'currency', currency })}
-						</Text>
-						<Box display="flex" gap="xsmall">
-							<Text weight="medium" size="large" truncate>
-								{`${intl.formatNumber(increase.toNumber(), { style: 'currency', currency })}`}
-							</Text>
-							<RedGreenText size="large" truncate change={change}>
-								{`(${intl.formatNumber(change.toNumber(), { style: 'percent', maximumFractionDigits: 2 })})`}
-							</RedGreenText>
-						</Box>
+					<Text size="xxxlarge" weight="medium" color="strong">
+						{intl.formatNumber(value, { style: 'currency', currency })}
+					</Text>
+					<Box display="flex" gap="xsmall">
+						<Text size="large">{`${intl.formatNumber(increase, { style: 'currency', currency })}`}</Text>
+						<RedGreenText size="large" change={change}>
+							{`(${intl.formatNumber(change, {
+								style: 'percent',
+								maximumFractionDigits: 2,
+							})})`}
+						</RedGreenText>
 					</Box>
 				</Box>
 				<Box display="flex" paddingTop="large" gap="large" position="relative">
 					<CardButtons />
 				</Box>
+
 				{chart && (
 					<>
 						<Box className={styles.chartBgWrapper}>
@@ -179,99 +178,102 @@ const TokenDetails: React.FC = () => {
 					</>
 				)}
 				<Box className={styles.tokenSummaryWrapper}>
-					<Text size="large" weight="medium" color="strong">
-						{intl.formatMessage(messages.summary)}
-					</Text>
-					<Box paddingTop="xsmall">
-						<Text size="xxsmall">{description}</Text>
-					</Box>
-					<AccountsTransactionInfo
-						leftTitle={
-							<Text size="xsmall" color="strong" weight="medium">
-								{intl.formatMessage(messages.details_address)}
-							</Text>
-						}
-						rightData={
-							<Box display="flex" alignItems="flex-end" className={styles.tokenSummaryRightMaxWidth}>
-								<Text size="xsmall" truncate>
-									{resourceId}
-								</Text>
-								<CopyAddressButton
-									styleVariant="ghost"
-									sizeVariant="xsmall"
-									address={resourceId}
-									iconOnly
-									rounded={false}
-									tickColor="colorStrong"
-								/>
-							</Box>
-						}
-					/>
-
-					<AccountsTransactionInfo
-						leftTitle={
-							<Text size="xsmall" color="strong" weight="medium">
-								{intl.formatMessage(messages.details_divisibility)}
-							</Text>
-						}
-						rightData={<Text size="xsmall">{data?.details?.divisibility}</Text>}
-					/>
-
-					<AccountsTransactionInfo
-						leftTitle={
-							<Text size="xsmall" color="strong" weight="medium">
-								{intl.formatMessage(messages.details_total_supply)}
-							</Text>
-						}
-						rightData={
-							<Text size="xsmall">
-								{intl.formatNumber(+data?.details?.total_supply || 0, {
-									style: 'decimal',
-									maximumFractionDigits: 8,
-								})}
-							</Text>
-						}
-					/>
-
-					<AccountsTransactionInfo
-						leftTitle={
-							<Text size="xsmall" color="strong" weight="medium">
-								{intl.formatMessage(messages.details_total_minted)}
-							</Text>
-						}
-						rightData={
-							<Text size="xsmall">
-								{intl.formatNumber(+data?.details?.total_minted || 0, {
-									style: 'decimal',
-									maximumFractionDigits: 8,
-								})}
-							</Text>
-						}
-					/>
-
-					<AccountsTransactionInfo
-						leftTitle={
-							<Text size="xsmall" color="strong" weight="medium">
-								{intl.formatMessage(messages.details_total_burned)}
-							</Text>
-						}
-						rightData={
-							<Text size="xsmall">
-								{intl.formatNumber(+data?.details?.total_burned || 0, {
-									style: 'decimal',
-									maximumFractionDigits: 8,
-								})}
-							</Text>
-						}
-					/>
-
-					<Box paddingTop="xlarge">
-						<Text size="large" weight="medium" color="strong">
-							{intl.formatMessage(messages.metadata)}
-						</Text>
-					</Box>
-
 					<Box>
+						<Text size="large" weight="medium" color="strong">
+							{intl.formatMessage(messages.summary)}
+						</Text>
+						<Box paddingTop="xsmall">
+							<Text size="xxsmall">{description}</Text>
+						</Box>
+
+						<AccountsTransactionInfo
+							leftTitle={
+								<Text size="xsmall" color="strong">
+									{intl.formatMessage(messages.details_address)}
+								</Text>
+							}
+							rightData={
+								<Box display="flex" alignItems="flex-end" className={styles.tokenSummaryRightMaxWidth}>
+									<Text size="xsmall" truncate>
+										{resourceId}
+									</Text>
+									<CopyAddressButton
+										styleVariant="ghost"
+										sizeVariant="xsmall"
+										address={resourceId}
+										iconOnly
+										rounded={false}
+										tickColor="colorStrong"
+									/>
+								</Box>
+							}
+						/>
+
+						<AccountsTransactionInfo
+							leftTitle={
+								<Text size="xsmall" color="strong">
+									{intl.formatMessage(messages.details_divisibility)}
+								</Text>
+							}
+							rightData={<Text size="xsmall">{data?.details?.divisibility}</Text>}
+						/>
+
+						<AccountsTransactionInfo
+							leftTitle={
+								<Text size="xsmall" color="strong">
+									{intl.formatMessage(messages.details_total_supply)}
+								</Text>
+							}
+							rightData={
+								<Text size="xsmall">
+									{intl.formatNumber(parseFloat(data?.details?.total_supply) || 0, {
+										style: 'decimal',
+										maximumFractionDigits: 8,
+									})}
+								</Text>
+							}
+						/>
+
+						<AccountsTransactionInfo
+							leftTitle={
+								<Text size="xsmall" color="strong">
+									{intl.formatMessage(messages.details_total_minted)}
+								</Text>
+							}
+							rightData={
+								<Text size="xsmall">
+									{intl.formatNumber(parseFloat(data?.details?.total_minted) || 0, {
+										style: 'decimal',
+										maximumFractionDigits: 8,
+									})}
+								</Text>
+							}
+						/>
+
+						<AccountsTransactionInfo
+							leftTitle={
+								<Text size="xsmall" color="strong">
+									{intl.formatMessage(messages.details_total_burned)}
+								</Text>
+							}
+							rightData={
+								<Text size="xsmall">
+									{intl.formatNumber(parseFloat(data?.details?.total_burned) || 0, {
+										style: 'decimal',
+										maximumFractionDigits: 8,
+									})}
+								</Text>
+							}
+						/>
+					</Box>
+
+					<Box display="flex" flexDirection="column">
+						<Box paddingTop="xlarge">
+							<Text size="large" weight="medium" color="strong">
+								{intl.formatMessage(messages.metadata)}
+							</Text>
+						</Box>
+
 						{data?.metadata.items.map(item => (
 							<AccountsTransactionInfo
 								key={item.key}

@@ -22,11 +22,19 @@ interface IProps {
 	defaultKeys?: number
 	trashTrigger?: React.ReactElement
 	addTrigger?: React.ReactElement
+	ignoreTriggers?: boolean
 }
 
 export const FieldsGroup: React.FC<PropsWithChildren<IProps>> = props => {
 	const intl = useIntl()
-	const { name, children, trashTrigger = <TrashTrigger />, addTrigger = <AddTrigger />, defaultKeys = 0 } = props
+	const {
+		name,
+		children,
+		trashTrigger = <TrashTrigger />,
+		addTrigger = <AddTrigger />,
+		defaultKeys = 0,
+		ignoreTriggers,
+	} = props
 	const [keys, setKeys] = useState<string[]>(Array.from({ length: defaultKeys }, generateId))
 
 	const handleRemove = (key: string) => {
@@ -44,7 +52,7 @@ export const FieldsGroup: React.FC<PropsWithChildren<IProps>> = props => {
 					<GroupField idx={idx} name={name}>
 						{children}
 					</GroupField>
-					{idx >= defaultKeys && (
+					{!ignoreTriggers && idx >= defaultKeys && (
 						<ToolTip message={intl.formatMessage(messages.remove)}>
 							{React.cloneElement(trashTrigger, {
 								onClick: () => handleRemove(key),
@@ -53,9 +61,10 @@ export const FieldsGroup: React.FC<PropsWithChildren<IProps>> = props => {
 					)}
 				</Box>
 			))}
-			{React.cloneElement(addTrigger, {
-				onClick: handleAdd,
-			})}
+			{!ignoreTriggers &&
+				React.cloneElement(addTrigger, {
+					onClick: handleAdd,
+				})}
 		</>
 	)
 }

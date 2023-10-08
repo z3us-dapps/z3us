@@ -28,7 +28,8 @@ export const AccountCard: React.FC<IAccountCardProps> = props => {
 	const { address, isAllAccount = false, visible = true, showCopyAddressButton = true, className } = props
 
 	const addressBook = useAddressBook()
-	const { totalValue } = useBalances(address)
+	const { data: balanceData } = useBalances(address)
+	const { totalValue = 0 } = balanceData || {}
 	const { currency } = useNoneSharedStore(state => ({
 		currency: state.currency,
 	}))
@@ -82,7 +83,7 @@ export const AccountCard: React.FC<IAccountCardProps> = props => {
 				<Box paddingBottom="xsmall">
 					<Text size="xlarge" weight="stronger">
 						<Box component="span" className={clsx(styles.cardAccountText, isAllAccount && styles.cardAccountTextAll)}>
-							<FormattedNumber value={totalValue.toNumber()} style="currency" currency={currency} />
+							<FormattedNumber value={totalValue} style="currency" currency={currency} />
 						</Box>
 					</Text>
 					<Text size="large" weight="strong">
