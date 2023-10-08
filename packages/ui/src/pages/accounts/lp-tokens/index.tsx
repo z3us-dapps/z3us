@@ -56,7 +56,7 @@ const Tokens: React.FC = () => {
 	const selectedAccounts = useSelectedAccounts()
 
 	const { data: balanceData, isLoading } = useBalances(...selectedAccounts)
-	const { liquidityPoolTokensBalances } = balanceData || {}
+	const { liquidityPoolTokensBalances = [] } = balanceData || {}
 
 	const selectedRowIds = useMemo(() => {
 		const idx = liquidityPoolTokensBalances.findIndex(b => b.address === resourceId)

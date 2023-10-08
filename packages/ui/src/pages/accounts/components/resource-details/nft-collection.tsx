@@ -116,7 +116,7 @@ const NftCollectionDetails: React.FC = () => {
 						}
 						rightData={
 							<Text size="small">
-								{intl.formatNumber(+data?.details?.total_supply || 0, {
+								{intl.formatNumber(parseFloat(data?.details?.total_supply) || 0, {
 									style: 'decimal',
 									maximumFractionDigits: 8,
 								})}
@@ -131,7 +131,7 @@ const NftCollectionDetails: React.FC = () => {
 						}
 						rightData={
 							<Text size="small">
-								{intl.formatNumber(+data?.details?.total_minted || 0, {
+								{intl.formatNumber(parseFloat(data?.details?.total_minted) || 0, {
 									style: 'decimal',
 									maximumFractionDigits: 8,
 								})}
@@ -146,7 +146,7 @@ const NftCollectionDetails: React.FC = () => {
 						}
 						rightData={
 							<Text size="small">
-								{intl.formatNumber(+data?.details?.total_burned || 0, {
+								{intl.formatNumber(parseFloat(data?.details?.total_burned) || 0, {
 									style: 'decimal',
 									maximumFractionDigits: 8,
 								})}

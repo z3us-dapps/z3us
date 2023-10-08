@@ -1,6 +1,7 @@
 import type { CommittedTransactionInfo } from '@radixdlt/babylon-gateway-api-sdk'
 import clsx from 'clsx'
 import { AnimatePresence, motion } from 'framer-motion'
+import { useKnownAddresses } from 'packages/ui/src/hooks/dapp/use-known-addresses'
 import React, { forwardRef, useCallback, useState } from 'react'
 import { defineMessages, useIntl } from 'react-intl'
 import { useLocation } from 'react-router-dom'
@@ -85,6 +86,7 @@ const ItemWrapper: React.FC<IRowProps> = props => {
 
 	const intl = useIntl()
 	const { pathname } = useLocation()
+	const { data: knownAddresses } = useKnownAddresses()
 
 	const isSelected = selected === transaction?.intent_hash
 	const isHovered = hovered === transaction?.intent_hash
@@ -122,7 +124,10 @@ const ItemWrapper: React.FC<IRowProps> = props => {
 								</Box>
 								<Box className={styles.activityItemTextWrapper}>
 									<Text size="xsmall">
-										<TokenPrice amount={(transaction.fee_paid as any)?.value} symbol="XRD" />
+										<TokenPrice
+											amount={(transaction.fee_paid as any)?.value}
+											address={knownAddresses?.resourceAddresses.xrd}
+										/>
 									</Text>
 								</Box>
 							</Link>

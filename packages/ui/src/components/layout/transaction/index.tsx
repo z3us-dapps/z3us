@@ -1,4 +1,5 @@
 import clsx from 'clsx'
+import { useKnownAddresses } from 'packages/ui/src/hooks/dapp/use-known-addresses'
 import React, { useEffect, useState } from 'react'
 import { FormattedNumber, defineMessages, useIntl } from 'react-intl'
 import { useLocation, useNavigate, useSearchParams } from 'react-router-dom'
@@ -86,6 +87,7 @@ export const Transaction = () => {
 	const { pathname } = useLocation()
 	const [searchParams] = useSearchParams()
 	const isMobile = useIsMobileWidth()
+	const { data: knownAddresses } = useKnownAddresses()
 
 	const transactionId = searchParams.get('tx')
 	const isTransactionVisible = !!transactionId
@@ -154,15 +156,17 @@ export const Transaction = () => {
 											<Text size="xxxlarge" color="strong">
 												<FormattedNumber
 													value={(data?.transaction.fee_paid as any) || 0}
-													style="currency"
-													currency="XRD"
+													style="decimal"
 													maximumFractionDigits={8}
 												/>
 											</Text>
 										</Box>
 										<Box>
 											<Text size="xlarge">
-												<TokenPrice amount={data?.transaction.fee_paid} symbol="XRD" />
+												<TokenPrice
+													amount={data?.transaction.fee_paid}
+													address={knownAddresses?.resourceAddresses.xrd}
+												/>
 											</Text>
 										</Box>
 									</Box>

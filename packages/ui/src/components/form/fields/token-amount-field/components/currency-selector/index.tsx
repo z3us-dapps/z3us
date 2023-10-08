@@ -38,6 +38,10 @@ const messages = defineMessages({
 		id: 'currency_select.reset',
 		defaultMessage: 'Reset',
 	},
+	label: {
+		id: 'currency_select.label',
+		defaultMessage: 'Currency',
+	},
 })
 
 export const CurrencySelect: React.FC<IProps> = ({ selectedToken, amount }) => {
@@ -52,7 +56,7 @@ export const CurrencySelect: React.FC<IProps> = ({ selectedToken, amount }) => {
 
 	return (
 		<SelectRoot value={selectedCurrency} onValueChange={setCurrency}>
-			<SelectTrigger asChild aria-label="Currency">
+			<SelectTrigger asChild aria-label={intl.formatMessage(messages.label)}>
 				<Box
 					component="button"
 					display="inline-flex"
@@ -67,8 +71,9 @@ export const CurrencySelect: React.FC<IProps> = ({ selectedToken, amount }) => {
 							<Box display="flex">
 								<Box component="span">
 									<TokenPrice
-										symbol={
-											(selectedToken as ResourceBalance[ResourceBalanceType.FUNGIBLE])?.symbol || selectedToken?.name
+										address={
+											(selectedToken as ResourceBalance[ResourceBalanceType.FUNGIBLE])?.address ||
+											selectedToken?.address
 										}
 										amount={amount}
 										currency={currency}

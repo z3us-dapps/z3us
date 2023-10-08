@@ -35,7 +35,8 @@ export const BalancePieChart: React.FC = () => {
 	const selectedAccounts = useSelectedAccounts()
 	const { data: accountValues = {} } = useAccountValues(...selectedAccounts)
 	const { data: balanceData, isLoading } = useBalances(...selectedAccounts)
-	const { balances, tokensBalances, liquidityPoolTokensBalances, poolUnitsBalances, nonFungibleBalances } = balanceData
+	const { balances, tokensBalances, liquidityPoolTokensBalances, poolUnitsBalances, nonFungibleBalances } =
+		balanceData || {}
 
 	const selectedBalances = useMemo(() => {
 		if (resourceType === 'nfts') return nonFungibleBalances

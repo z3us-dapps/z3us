@@ -18,7 +18,7 @@ export const AssetAmountCell: React.FC<IProps> = props => {
 		<Box className={styles.assetStatisticCellWrapper}>
 			<Box className={clsx(styles.assetStatisticCellContentWrapper, 'td-cell')}>
 				<Text size="small" color="strong" truncate>
-					{value && <FormattedNumber value={value} style="currency" maximumFractionDigits={8} />}
+					{value && <FormattedNumber value={value} style="decimal" maximumFractionDigits={8} />}
 				</Text>
 			</Box>
 		</Box>

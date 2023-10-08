@@ -3,6 +3,7 @@ export type Token = {
 	name: string
 	address: string
 	symbol: string
+	slug: string
 	price: {
 		usd: {
 			'1h': string
@@ -31,9 +32,8 @@ export class OCIService {
 		},
 	}
 
-	getToken = async (symbol: string): Promise<Token> => {
-		const path = `${this.baseURL}/tokens/${symbol.toLowerCase()}`
-
+	getToken = async (address: string): Promise<Token> => {
+		const path = `${this.baseURL}/tokens/${address}`
 		const response = await fetch(path, this.options)
 		if (response.status !== 200) {
 			throw new Error(`Invalid request: ${response.status} received`)

@@ -2,6 +2,7 @@ import type {
 	FungibleResourcesCollectionItemVaultAggregated,
 	NonFungibleResourcesCollectionItemVaultAggregated,
 } from '@radixdlt/radix-dapp-toolkit'
+import type { KnownAddresses } from '@radixdlt/radix-engine-toolkit'
 import { useQuery } from '@tanstack/react-query'
 
 import { useXRDPriceOnDay } from 'ui/src/hooks/queries/market'
@@ -13,10 +14,11 @@ import { ResourceBalanceType } from 'ui/src/types/types'
 import type { ResourceBalance, ResourceBalances } from 'ui/src/types/types'
 
 import { useEntitiesDetails } from './use-entity-details'
+import { useKnownAddresses } from './use-known-addresses'
 import { useNetworkId } from './use-network-id'
 
 const transformFungibleResourceItemResponse =
-	(xrdPrice: number, tokens: { [key: string]: Token }) =>
+	(knownAddresses: KnownAddresses, xrdPrice: number, tokens: { [key: string]: Token }) =>
 	(container: ResourceBalances, item: FungibleResourcesCollectionItemVaultAggregated): ResourceBalances => {
 		const name = getStringMetadata('name', item.explicit_metadata?.items)
 		const symbol = getStringMetadata('symbol', item.explicit_metadata?.items)
@@ -31,11 +33,10 @@ const transformFungibleResourceItemResponse =
 			container[item.resource_address]?.amount || 0,
 		)
 
-		let tokenKey = symbol?.toLowerCase()
-		if (!tokenKey && validator) tokenKey = 'xrd'
-		const token = tokens?.[tokenKey] || null
+		const token = (validator ? tokens?.[knownAddresses.resourceAddresses.xrd] : tokens?.[item.resource_address]) || null
 
-		let change = (token ? +(token.price.usd.now || 0) / +(token.price.usd['24h'] || 0) : 0) / 100
+		let change =
+			(token ? (parseFloat(token?.price?.usd.now) || 0) / (parseFloat(token?.price?.usd['24h']) || 0) : 0) / 100
 		if (change === Infinity) {
 			change = 0
 		}
@@ -43,7 +44,7 @@ const transformFungibleResourceItemResponse =
 		const details = {
 			address: item.resource_address,
 			amount,
-			value: amount * +(token?.price.xrd.now || 0) * xrdPrice,
+			value: amount * (parseFloat(token?.price?.xrd.now) || 0) * xrdPrice,
 			name,
 			description,
 			url,
@@ -114,19 +115,27 @@ export const useAccountValues = (...addresses: string[]) => {
 	const { currency } = useNoneSharedStore(state => ({
 		currency: state.currency,
 	}))
-	const { data: xrdPrice } = useXRDPriceOnDay(currency, new Date())
-	const { data: tokens } = useTokens()
-	const { data: accounts = [] } = useEntitiesDetails(addresses.filter(address => !!address))
+
+	const { data: knownAddresses, isLoading: isLoadingKnownAddresses } = useKnownAddresses()
+	const { data: xrdPrice, isLoading: isLoadingXrdPrice } = useXRDPriceOnDay(currency, new Date())
+	const { data: tokens, isLoading: isLoadingTokens } = useTokens()
+	const { data: accounts, isLoading: isLoadingAccounts } = useEntitiesDetails(addresses.filter(address => !!address))
+
+	const isLoading = isLoadingKnownAddresses || isLoadingXrdPrice || isLoadingTokens || isLoadingAccounts
+	const enabled = !isLoading && !!accounts && !!xrdPrice && !!tokens && !!knownAddresses
 
 	return useQuery({
 		queryKey: ['useAccountValues', networkId, ...addresses],
-		enabled: accounts?.length > 0 && !!xrdPrice && !!tokens,
+		enabled,
 		queryFn: () =>
 			accounts.reduce(
 				(container, account) => ({
 					...container,
 					[account.address]: Object.values(
-						account.fungible_resources.items.reduce(transformFungibleResourceItemResponse(xrdPrice, tokens), {}),
+						account.fungible_resources.items.reduce(
+							transformFungibleResourceItemResponse(knownAddresses, xrdPrice, tokens),
+							{},
+						),
 					).reduce((total: number, balance: ResourceBalance[ResourceBalanceType.FUNGIBLE]) => total + balance.value, 0),
 				}),
 				{},
@@ -139,18 +148,26 @@ export const useBalances = (...addresses: string[]) => {
 	const { currency } = useNoneSharedStore(state => ({
 		currency: state.currency,
 	}))
-	const { data: xrdPrice } = useXRDPriceOnDay(currency, new Date())
-	const { data: tokens } = useTokens()
-	const { data: accounts = [] } = useEntitiesDetails(addresses.filter(address => !!address))
+
+	const { data: knownAddresses, isLoading: isLoadingKnownAddresses } = useKnownAddresses()
+	const { data: xrdPrice, isLoading: isLoadingXrdPrice } = useXRDPriceOnDay(currency, new Date())
+	const { data: tokens, isLoading: isLoadingTokens } = useTokens()
+	const { data: accounts, isLoading: isLoadingAccounts } = useEntitiesDetails(addresses.filter(address => !!address))
+
+	const isLoading = isLoadingKnownAddresses || isLoadingXrdPrice || isLoadingTokens || isLoadingAccounts
+	const enabled = !isLoading && !!accounts && !!xrdPrice && !!tokens && !!knownAddresses
 
 	return useQuery({
-		queryKey: ['useBalances', networkId, ...addresses],
-		enabled: accounts?.length > 0 && !!xrdPrice && !!tokens,
+		queryKey: ['useBalances', networkId, ...addresses, 'test5'],
+		enabled,
 		queryFn: () => {
 			let fungible: ResourceBalances = {}
 			let nonFungible: ResourceBalances = {}
 			accounts.forEach(({ fungible_resources, non_fungible_resources }) => {
-				fungible = fungible_resources.items.reduce(transformFungibleResourceItemResponse(xrdPrice, tokens), fungible)
+				fungible = fungible_resources.items.reduce(
+					transformFungibleResourceItemResponse(knownAddresses, xrdPrice, tokens),
+					fungible,
+				)
 				nonFungible = non_fungible_resources.items.reduce(transformNonFungibleResourceItemResponse, nonFungible)
 			})
 
