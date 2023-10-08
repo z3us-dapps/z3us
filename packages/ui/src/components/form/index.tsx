@@ -78,6 +78,7 @@ export const Form: React.FC<PropsWithChildren<Props>> = ({
 			const { values } = state
 			await onSubmit(values)
 		} catch (error) {
+			// eslint-disable-next-line no-console
 			console.error(error)
 			setState(draft => {
 				draft.error = intl.formatMessage(messages.error, { hasMessage: !!error?.message, message: error?.message })

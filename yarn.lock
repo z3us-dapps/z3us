@@ -4231,9 +4231,9 @@
   dependencies:
     lit "^2.7.5"
 
-"@radixdlt/connector-extension@https://github.com/radixdlt/connector-extension#v1.0.5":
+"@radixdlt/connector-extension@https://github.com/radixdlt/connector-extension#v1.1.1":
   version "0.0.0"
-  resolved "https://github.com/radixdlt/connector-extension#388b4a6c6f9d8bab1ea9bc7b875029678e8dc4e6"
+  resolved "https://github.com/radixdlt/connector-extension#671c064bf8b50ae7f3ed11392ad71b701092edb0"
   dependencies:
     "@emotion/react" "^11.11.1"
     "@emotion/styled" "^11.11.0"
@@ -4298,10 +4298,10 @@
     rxjs "^7.8.1"
     zod "^3.21.4"
 
-"@radixdlt/radix-engine-toolkit@^1.0.1":
-  version "1.0.1"
-  resolved "https://registry.yarnpkg.com/@radixdlt/radix-engine-toolkit/-/radix-engine-toolkit-1.0.1.tgz#7b9f0c07933ad381bc5874f70ae32bc58c65ece5"
-  integrity sha512-NpxrdsuUAc5Ket+VkjCiM/W98fY6bW73b7p5OPJ+ZDZu69z03PKh6VRfhPs3IJ70slHkbUw7u6rG8aJq8zX1lg==
+"@radixdlt/radix-engine-toolkit@^1.0.2":
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/@radixdlt/radix-engine-toolkit/-/radix-engine-toolkit-1.0.2.tgz#2617a9fb25310e91e88d06dafb8c9dc03549b7b5"
+  integrity sha512-eVI43CfRdjD0hAydEc4PpMJuL3UsUqfapk+Le8LcJNS5PpR/5yTUnPVIfvPPwYK12V0N1LddZb8WKMYIZ7x5yw==
   dependencies:
     "@noble/ed25519" "2.0.0"
     "@noble/hashes" "1.3.0"

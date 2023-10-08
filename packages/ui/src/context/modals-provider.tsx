@@ -23,9 +23,6 @@ const reducer = (state: ModalsMap, action: Action) => {
 }
 
 export const ModalsProvider: React.FC<PropsWithChildren> = ({ children }) => {
-	const root = document.getElementById('modals')
-	if (!root) throw new Error('Modals root node not found. Cannot render modal.')
-
 	const [modals, dispatch] = useReducer(reducer, {})
 
 	function addModal(id: string, modal: React.JSX.Element) {
