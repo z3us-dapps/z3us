@@ -49,9 +49,7 @@ const ScrollContent: React.FC = () => {
 					</Suspense>
 				</ScrollPanel>
 			</Box>
-			{!resourceId && (
-				<MobileScrollingButtons className={clsx(!!resourceId && panelViewStyles.panelViewResourceWrapper)} />
-			)}
+			{!resourceId && <MobileScrollingButtons />}
 			<Box className={panelViewStyles.panelViewRightWrapper}>
 				<ScrollPanel
 					showTopScrollShadow={false}

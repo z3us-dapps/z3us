@@ -5,7 +5,7 @@ import { useParams } from 'react-router-dom'
 import { useIntersectionObserver } from 'usehooks-ts'
 
 import { Box } from 'ui/src/components/box'
-import { ChevronDown3Icon, ChevronLeftIcon, Close2Icon, SearchIcon } from 'ui/src/components/icons'
+import { ChevronDown3Icon, Close2Icon, SearchIcon } from 'ui/src/components/icons'
 import { Input } from 'ui/src/components/input'
 import { Button } from 'ui/src/components/router-button'
 import { Link } from 'ui/src/components/router-link'
@@ -13,11 +13,11 @@ import { useScroll } from 'ui/src/components/scroll-area-radix/use-scroll'
 import { ToolTip } from 'ui/src/components/tool-tip'
 import { Text } from 'ui/src/components/typography'
 import { useEntityMetadata } from 'ui/src/hooks/dapp/use-entity-metadata'
+import { useIsActivitiesVisible } from 'ui/src/pages/accounts/hooks/use-is-activities-visible'
 import { useResourceType } from 'ui/src/pages/accounts/hooks/use-resource-type'
 import { getStringMetadata } from 'ui/src/services/metadata'
 
 import * as styles from './styles.css'
-import { useShowActivitiesParam } from './use-show-activities-param'
 
 const messages = defineMessages({
 	assets: {
@@ -54,6 +54,7 @@ const TabTitle: React.FC = () => {
 	const intl = useIntl()
 	const { resourceId } = useParams()
 	const resourceType = useResourceType()
+
 	const { data } = useEntityMetadata(resourceId)
 
 	const name = getStringMetadata('name', data)
@@ -69,22 +70,16 @@ const TabTitle: React.FC = () => {
 	}
 }
 
-export interface IProps {
-	className: string
-}
-
-export const MobileScrollingButtons: React.FC<IProps> = ({ className }) => {
+export const MobileScrollingButtons: React.FC = () => {
 	const intl = useIntl()
 	const { scrollableNode } = useScroll()
 	const { accountId = '-', resourceId } = useParams()
-
-	const resourceType = useResourceType()
-	const showActivities = useShowActivitiesParam()
 	const wrapperRef = useRef(null)
-	const [isSticky, setIsSticky] = useState<boolean>(false)
 	const stickyRef = useRef(null)
+	const [isSticky, setIsSticky] = useState<boolean>(false)
+	const resourceType = useResourceType()
+	const isActivitiesVisible = useIsActivitiesVisible()
 	const entry = useIntersectionObserver(stickyRef, { threshold: [1] })
-	const { assetType } = useParams()
 
 	const onClickChevron = () => {
 		if (isSticky) {
@@ -101,8 +96,6 @@ export const MobileScrollingButtons: React.FC<IProps> = ({ className }) => {
 			isActivity ? `?acts=true` : ''
 		}`
 
-	const generateBackLink = () => `/accounts`
-
 	useEffect(() => {
 		setIsSticky(!entry?.isIntersecting)
 	}, [entry?.isIntersecting])
@@ -113,7 +106,6 @@ export const MobileScrollingButtons: React.FC<IProps> = ({ className }) => {
 			className={clsx(
 				styles.accountRoutesScrollingStickyBtnWrapper,
 				isSticky && styles.accountRoutesScrollingStickyShadow,
-				className,
 			)}
 		>
 			<Box ref={stickyRef} className={styles.accountRoutesScrollingStickyElem} />
@@ -125,11 +117,11 @@ export const MobileScrollingButtons: React.FC<IProps> = ({ className }) => {
 						className={clsx(
 							styles.tabsWrapperButton,
 							styles.tabsWrapperButtonLeft,
-							!showActivities && styles.tabsWrapperButtonActive,
+							!isActivitiesVisible && styles.tabsWrapperButtonActive,
 							isSticky && styles.tabsWrapperButtonSticky,
 						)}
 					>
-						<Text size="medium" weight="strong" align="center" color={!showActivities ? 'strong' : 'neutral'}>
+						<Text size="medium" weight="strong" align="center" color={!isActivitiesVisible ? 'strong' : 'neutral'}>
 							<TabTitle />
 						</Text>
 					</Link>
@@ -139,11 +131,11 @@ export const MobileScrollingButtons: React.FC<IProps> = ({ className }) => {
 						className={clsx(
 							styles.tabsWrapperButton,
 							styles.tabsWrapperButtonRight,
-							showActivities && styles.tabsWrapperButtonActive,
+							isActivitiesVisible && styles.tabsWrapperButtonActive,
 							isSticky && styles.tabsWrapperButtonSticky,
 						)}
 					>
-						<Text size="small" weight="strong" align="center" color={showActivities ? 'strong' : 'neutral'}>
+						<Text size="small" weight="strong" align="center" color={isActivitiesVisible ? 'strong' : 'neutral'}>
 							{intl.formatMessage(messages.activity)}
 						</Text>
 					</Link>
@@ -158,13 +150,6 @@ export const MobileScrollingButtons: React.FC<IProps> = ({ className }) => {
 					</Button>
 				</Box>
 				<Box className={styles.searchWrapper}>
-					{assetType ? (
-						<ToolTip message={intl.formatMessage(messages.back)}>
-							<Button to={generateBackLink()} iconOnly styleVariant="ghost" sizeVariant="small" rounded>
-								<ChevronLeftIcon />
-							</Button>
-						</ToolTip>
-					) : null}
 					<Input
 						sizeVariant="small"
 						styleVariant="secondary"
@@ -178,7 +163,8 @@ export const MobileScrollingButtons: React.FC<IProps> = ({ className }) => {
 							</Box>
 						}
 						rightIcon={
-							showActivities ? (
+							// eslint-disable-next-line no-constant-condition
+							false ? (
 								<ToolTip message={intl.formatMessage(messages.clear)}>
 									<Button iconOnly sizeVariant="small" styleVariant="ghost" rounded>
 										<Close2Icon />
