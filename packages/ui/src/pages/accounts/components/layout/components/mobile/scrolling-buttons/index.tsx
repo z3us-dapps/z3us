@@ -2,7 +2,7 @@ import clsx from 'clsx'
 import React, { useEffect, useRef, useState } from 'react'
 import { defineMessages, useIntl } from 'react-intl'
 import { useParams } from 'react-router-dom'
-import { useIntersectionObserver, useIsMounted } from 'usehooks-ts'
+import { useIntersectionObserver } from 'usehooks-ts'
 
 import { Box } from 'ui/src/components/box'
 import { ChevronDown3Icon, ChevronLeftIcon, Close2Icon, SearchIcon } from 'ui/src/components/icons'
@@ -82,7 +82,6 @@ export const MobileScrollingButtons: React.FC<IProps> = ({ className }) => {
 	const showActivities = useShowActivitiesParam()
 	const wrapperRef = useRef(null)
 	const [isSticky, setIsSticky] = useState<boolean>(false)
-	const isMounted = useIsMounted()
 	const stickyRef = useRef(null)
 	const entry = useIntersectionObserver(stickyRef, { threshold: [1] })
 	const { assetType } = useParams()
@@ -105,10 +104,8 @@ export const MobileScrollingButtons: React.FC<IProps> = ({ className }) => {
 	const generateBackLink = () => `/accounts`
 
 	useEffect(() => {
-		if (isMounted) {
-			setIsSticky(!entry?.isIntersecting)
-		}
-	}, [isMounted, entry?.isIntersecting])
+		setIsSticky(!entry?.isIntersecting)
+	}, [entry?.isIntersecting])
 
 	return (
 		<Box
