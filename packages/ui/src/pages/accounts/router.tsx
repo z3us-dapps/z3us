@@ -25,7 +25,7 @@ const route = {
 	element: <Layout />,
 	handle: {
 		crumb: (_, isLast: boolean) => (
-			<LinkBreadcrumb isLast={isLast} to="/accounts">
+			<LinkBreadcrumb isFirst isLast={isLast} to="/accounts">
 				<FormattedMessage id="accounts.breadcrumbs.accounts" defaultMessage="All accounts" />
 			</LinkBreadcrumb>
 		),

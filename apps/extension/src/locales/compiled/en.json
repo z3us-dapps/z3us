@@ -143,8 +143,26 @@
   ],
   "accounts.breadcrumbs.account": [
     {
-      "type": 0,
-      "value": "Accounts"
+      "options": {
+        "other": {
+          "value": [
+            {
+              "type": 1,
+              "value": "address"
+            }
+          ]
+        },
+        "true": {
+          "value": [
+            {
+              "type": 1,
+              "value": "name"
+            }
+          ]
+        }
+      },
+      "type": 5,
+      "value": "hasName"
     }
   ],
   "accounts.breadcrumbs.accounts": [
@@ -735,6 +753,38 @@
       "value": "Continue"
     }
   ],
+  "interaction.home.authorized_request_interaction.error": [
+    {
+      "type": 0,
+      "value": "Failed to login "
+    },
+    {
+      "options": {
+        "other": {
+          "value": [
+            {
+              "type": 0,
+              "value": ", please try again"
+            }
+          ]
+        },
+        "true": {
+          "value": [
+            {
+              "type": 0,
+              "value": ": "
+            },
+            {
+              "type": 1,
+              "value": "message"
+            }
+          ]
+        }
+      },
+      "type": 5,
+      "value": "hasMessage"
+    }
+  ],
   "interaction.home.authorized_request_interaction.select_accounts": [
     {
       "type": 0,
@@ -751,6 +801,38 @@
     {
       "type": 0,
       "value": "Request canceled"
+    }
+  ],
+  "interaction.home.transaction.error": [
+    {
+      "type": 0,
+      "value": "Failed to submit transaction"
+    },
+    {
+      "options": {
+        "other": {
+          "value": [
+            {
+              "type": 0,
+              "value": ", please try again"
+            }
+          ]
+        },
+        "true": {
+          "value": [
+            {
+              "type": 0,
+              "value": ": "
+            },
+            {
+              "type": 1,
+              "value": "message"
+            }
+          ]
+        }
+      },
+      "type": 5,
+      "value": "hasMessage"
     }
   ],
   "interaction.home.transaction.submit": [

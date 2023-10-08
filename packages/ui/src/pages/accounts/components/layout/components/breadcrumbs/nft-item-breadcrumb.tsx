@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { defineMessages, useIntl } from 'react-intl'
 import { useParams } from 'react-router-dom'
 
+import { ChevronRightIcon } from 'ui/src/components/icons'
 import { Link } from 'ui/src/components/router-link'
 import { Text } from 'ui/src/components/typography'
 import { useNonFungibleData } from 'ui/src/hooks/dapp/use-entity-nft'
@@ -38,7 +39,14 @@ export const NftItemBreadcrumb: React.FC<IProps> = ({ isLast }) => {
 
 	const content = intl.formatMessage(messages.item, { hasDisplayName: !!displayName, displayName })
 
-	if (isLast) return <Text>{content}</Text>
-
-	return <Link to={`/accounts/${accountId}/nfts/${resourceId}/${nftId}`}>{content}</Link>
+	return (
+		<>
+			<ChevronRightIcon />
+			{isLast ? (
+				<Text>{content}</Text>
+			) : (
+				<Link to={`/accounts/${accountId}/nfts/${resourceId}/${nftId}`}>{content}</Link>
+			)}
+		</>
+	)
 }

@@ -69,7 +69,7 @@
     "defaultMessage": "Tokens"
   },
   "accounts.breadcrumbs.account": {
-    "defaultMessage": "Accounts"
+    "defaultMessage": "{hasName, select, true {{name}} other {{address}} }"
   },
   "accounts.breadcrumbs.accounts": {
     "defaultMessage": "All accounts"
@@ -293,6 +293,9 @@
   "interaction.home.authorized_request_interaction.continue": {
     "defaultMessage": "Continue"
   },
+  "interaction.home.authorized_request_interaction.error": {
+    "defaultMessage": "Failed to login {hasMessage, select, true {: {message}} other {, please try again} }"
+  },
   "interaction.home.authorized_request_interaction.select_accounts": {
     "defaultMessage": "Select accounts"
   },
@@ -301,6 +304,9 @@
   },
   "interaction.home.canceled": {
     "defaultMessage": "Request canceled"
+  },
+  "interaction.home.transaction.error": {
+    "defaultMessage": "Failed to submit transaction{hasMessage, select, true {: {message}} other {, please try again} }"
   },
   "interaction.home.transaction.submit": {
     "defaultMessage": "Submit"
