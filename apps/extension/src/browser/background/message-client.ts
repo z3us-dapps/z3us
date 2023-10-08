@@ -77,7 +77,7 @@ export const MessageClient = () => {
 				}
 			} catch (error) {
 				console.error(`⚡️Z3US⚡️: background message client failed to handle message`, error)
-				port.postMessage(newReply(MessageSource.BACKGROUND, { error: error?.message }, message))
+				port.postMessage(newReply(MessageSource.BACKGROUND, { error: error?.message || 'Internal error' }, message))
 			}
 		})
 

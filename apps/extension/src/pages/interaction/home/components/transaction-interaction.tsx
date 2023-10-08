@@ -27,6 +27,13 @@ const messages = defineMessages({
 		id: 'interaction.home.transaction.submit',
 		defaultMessage: 'Submit',
 	},
+	error: {
+		id: 'interaction.home.transaction.error',
+		defaultMessage: `Failed to submit transaction{hasMessage, select,
+			true {: {message}}
+			other {, please try again}
+		}`,
+	},
 })
 
 type State = { intent?: Intent; notary?: PrivateKey; needSignaturesFrom?: string[] }
@@ -71,8 +78,8 @@ export const TransactionInteraction: React.FC<IProps> = ({ interaction }) => {
 				interaction.fromTabId,
 				createRadixMessage.walletResponse(radixMessageSource.offScreen, {
 					discriminator: 'failure',
-					error: error?.message,
 					interactionId,
+					error: intl.formatMessage(messages.error, { hasMessage: !!error?.message, message: error?.message }),
 				}),
 			)
 		} finally {

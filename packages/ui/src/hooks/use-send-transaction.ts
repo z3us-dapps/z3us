@@ -30,6 +30,7 @@ export const useSendTransaction: () => WalletApi['sendTransaction'] = () => {
 		(input: SendTransactionInput) =>
 			keystore.type !== KeystoreType.RADIX_WALLET
 				? ResultAsync.fromPromise(sendTransaction(input), (error: any) => {
+						// eslint-disable-next-line no-console
 						console.error(error)
 						return {
 							error: intl.formatMessage(messages.error, { hasMessage: !!error?.message, message: error?.message }),

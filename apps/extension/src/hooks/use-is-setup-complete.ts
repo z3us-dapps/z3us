@@ -28,7 +28,7 @@ export const useIsSetUpComplete = (): {
 	useMemo(() => {
 		const load = async () => {
 			try {
-				switch (keystore?.type) {
+				switch (keystore.type) {
 					case KeystoreType.RADIX_WALLET:
 					case KeystoreType.HARDWARE:
 						setIsComplete(!(await client.isSecretEmpty()))
@@ -45,7 +45,7 @@ export const useIsSetUpComplete = (): {
 				if (isLoading) setIsLoading(false)
 			}
 		}
-		load()
+		if (keystore) load()
 	}, [time, keystore])
 
 	return { isComplete, isLoading, reload: () => setTime(Date.now()), redirect: redirectMap[keystore?.type] }

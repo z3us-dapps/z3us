@@ -37,6 +37,13 @@ const messages = defineMessages({
 		id: 'interaction.home.authorized_request_interaction.select_accounts',
 		defaultMessage: 'Select accounts',
 	},
+	error: {
+		id: 'interaction.home.authorized_request_interaction.error',
+		defaultMessage: `Failed to login {hasMessage, select,
+			true {: {message}}
+			other {, please try again}
+		}`,
+	},
 })
 
 function getInitialPersona(
@@ -101,8 +108,8 @@ export const RequestInteraction: React.FC<IProps> = ({ interaction }) => {
 				interaction.fromTabId,
 				createRadixMessage.walletResponse(radixMessageSource.offScreen, {
 					discriminator: 'failure',
-					error: error?.message,
 					interactionId,
+					error: intl.formatMessage(messages.error, { hasMessage: !!error?.message, message: error?.message }),
 				}),
 			)
 		} finally {
