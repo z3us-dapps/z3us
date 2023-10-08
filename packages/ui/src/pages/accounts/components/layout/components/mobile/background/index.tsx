@@ -12,7 +12,8 @@ import * as styles from './styles.css'
 export const MobileBackground: React.FC = () => {
 	const isAllAccounts = useIsAllAccounts()
 	const accounts = useWalletAccounts()
-	const { accountId } = useParams()
+
+	const { accountId, resourceId } = useParams()
 	const accountAddress = accounts?.[accountId]?.address
 	const addressBook = useAddressBook()
 	const account = addressBook[accountAddress]
@@ -21,7 +22,7 @@ export const MobileBackground: React.FC = () => {
 		<Box
 			className={styles.accountsBgCardWrapper}
 			style={{
-				...(!isAllAccounts
+				...(!isAllAccounts && !resourceId
 					? {
 							backgroundSize: '170% auto',
 							backgroundRepeat: 'no-repeat',

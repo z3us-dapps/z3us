@@ -9,7 +9,7 @@ export const transactionInfoWrapper = style([
 		width: 'full',
 		alignItems: 'flex-end',
 		height: {
-			mobile: 'large',
+			mobile: 'xlarge',
 			tablet: 'xlarge',
 		},
 	}),
