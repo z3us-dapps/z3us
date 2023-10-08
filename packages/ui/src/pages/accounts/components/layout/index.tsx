@@ -1,6 +1,7 @@
+import clsx from 'clsx'
 import React, { Suspense, useMemo } from 'react'
 import { ErrorBoundary } from 'react-error-boundary'
-import { useLocation, useMatches, useOutlet } from 'react-router-dom'
+import { useLocation, useMatches, useOutlet, useParams } from 'react-router-dom'
 
 import { Box } from 'ui/src/components/box'
 import { FallbackLoading, FallbackRenderer } from 'ui/src/components/fallback-renderer'
@@ -22,6 +23,8 @@ const ScrollContent: React.FC = () => {
 	const outlet = useOutlet()
 	const matches = useMatches()
 	const isMobile = useIsMobileWidth()
+
+	const { resourceId } = useParams()
 	const { scrollableNode } = useScroll()
 
 	const sidebars = matches
@@ -33,7 +36,9 @@ const ScrollContent: React.FC = () => {
 
 	return (
 		<Box className={panelViewStyles.panelViewWrapper}>
-			<Box className={panelViewStyles.panelViewLeftWrapper}>
+			<Box
+				className={clsx(panelViewStyles.panelViewLeftWrapper, !!resourceId && panelViewStyles.panelViewResourceWrapper)}
+			>
 				<ScrollPanel showTopScrollShadow={false} scrollParent={isMobile ? scrollableNode : undefined}>
 					<Box className={styles.accountsStickyWrapper}>
 						<Breadcrumbs />
@@ -44,12 +49,12 @@ const ScrollContent: React.FC = () => {
 					</Suspense>
 				</ScrollPanel>
 			</Box>
-			<MobileScrollingButtons />
+			<MobileScrollingButtons className={clsx(!!resourceId && panelViewStyles.panelViewResourceWrapper)} />
 			<Box className={panelViewStyles.panelViewRightWrapper}>
 				<ScrollPanel
 					showTopScrollShadow={false}
 					scrollParent={isMobile ? scrollableNode : undefined}
-					disabled={isMobile}
+					disabled={isMobile && !resourceId}
 				>
 					<Box className={panelViewStyles.panelViewRightScrollWrapper}>
 						<Suspense key={location.pathname} fallback={<FallbackLoading />}>

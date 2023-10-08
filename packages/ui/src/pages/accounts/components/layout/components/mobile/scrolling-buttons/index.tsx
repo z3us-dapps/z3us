@@ -69,7 +69,11 @@ const TabTitle: React.FC = () => {
 	}
 }
 
-export const MobileScrollingButtons: React.FC = () => {
+export interface IProps {
+	className: string
+}
+
+export const MobileScrollingButtons: React.FC<IProps> = ({ className }) => {
 	const intl = useIntl()
 	const { scrollableNode } = useScroll()
 	const { accountId = '-', resourceId } = useParams()
@@ -112,6 +116,7 @@ export const MobileScrollingButtons: React.FC = () => {
 			className={clsx(
 				styles.accountRoutesScrollingStickyBtnWrapper,
 				isSticky && styles.accountRoutesScrollingStickyShadow,
+				className,
 			)}
 		>
 			<Box ref={stickyRef} className={styles.accountRoutesScrollingStickyElem} />
