@@ -266,8 +266,8 @@
   "hooks.interaction.login.persona_challenge": {
     "defaultMessage": "To confirm ownership, sign challenge with persona {label}"
   },
-  "hooks.interaction.persona_data.not_implemented": {
-    "defaultMessage": "Not implemented"
+  "hooks.modals.persona_data.reject": {
+    "defaultMessage": "Persona data declined"
   },
   "hooks.modals.select_accounts.reject": {
     "defaultMessage": "Accounts select declined"
@@ -445,6 +445,72 @@
   },
   "modals.ledger_confirm.confirm_with_ledger": {
     "defaultMessage": "Confirm with Ledger device"
+  },
+  "modals.persona_data.close_button": {
+    "defaultMessage": "Cancel"
+  },
+  "modals.persona_data.eastern": {
+    "defaultMessage": "Eastern"
+  },
+  "modals.persona_data.form.button_add.email_address": {
+    "defaultMessage": "Add email address"
+  },
+  "modals.persona_data.form.button_add.phone_number": {
+    "defaultMessage": "Add phone number"
+  },
+  "modals.persona_data.form.email_address": {
+    "defaultMessage": "Email address"
+  },
+  "modals.persona_data.form.family_name": {
+    "defaultMessage": "Family name"
+  },
+  "modals.persona_data.form.given_names": {
+    "defaultMessage": "Given names"
+  },
+  "modals.persona_data.form.nickname": {
+    "defaultMessage": "Nickname"
+  },
+  "modals.persona_data.form.phone_number": {
+    "defaultMessage": "Phone number"
+  },
+  "modals.persona_data.form.submit_button.title": {
+    "defaultMessage": "Login"
+  },
+  "modals.persona_data.form.variant": {
+    "defaultMessage": "Name variant"
+  },
+  "modals.persona_data.validation.email": {
+    "defaultMessage": "Please select valid email"
+  },
+  "modals.persona_data.validation.emails": {
+    "defaultMessage": "Please select minimum {number} emails"
+  },
+  "modals.persona_data.validation.family_name": {
+    "defaultMessage": "Please insert valid family name"
+  },
+  "modals.persona_data.validation.given_names": {
+    "defaultMessage": "Please insert valid given names"
+  },
+  "modals.persona_data.validation.names": {
+    "defaultMessage": "Name details are required"
+  },
+  "modals.persona_data.validation.nickname": {
+    "defaultMessage": "Please insert valid nickname"
+  },
+  "modals.persona_data.validation.phone_number": {
+    "defaultMessage": "Please select valid phone number"
+  },
+  "modals.persona_data.validation.phone_numbers": {
+    "defaultMessage": "Please select minimum {number} phone numbers"
+  },
+  "modals.persona_data.validation.validation_emails_exactly": {
+    "defaultMessage": "Please select exactly {number} emails"
+  },
+  "modals.persona_data.validation.validation_phone_numbers_exactly": {
+    "defaultMessage": "Please select exactly {number} phone numbers"
+  },
+  "modals.persona_data.western": {
+    "defaultMessage": "Western"
   },
   "modals.select_accounts.close_button": {
     "defaultMessage": "Cancel"

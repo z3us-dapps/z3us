@@ -651,10 +651,10 @@
       "value": "label"
     }
   ],
-  "hooks.interaction.persona_data.not_implemented": [
+  "hooks.modals.persona_data.reject": [
     {
       "type": 0,
-      "value": "Not implemented"
+      "value": "Persona data declined"
     }
   ],
   "hooks.modals.select_accounts.reject": [
@@ -1133,6 +1133,170 @@
     {
       "type": 0,
       "value": "Confirm with Ledger device"
+    }
+  ],
+  "modals.persona_data.close_button": [
+    {
+      "type": 0,
+      "value": "Cancel"
+    }
+  ],
+  "modals.persona_data.eastern": [
+    {
+      "type": 0,
+      "value": "Eastern"
+    }
+  ],
+  "modals.persona_data.form.button_add.email_address": [
+    {
+      "type": 0,
+      "value": "Add email address"
+    }
+  ],
+  "modals.persona_data.form.button_add.phone_number": [
+    {
+      "type": 0,
+      "value": "Add phone number"
+    }
+  ],
+  "modals.persona_data.form.email_address": [
+    {
+      "type": 0,
+      "value": "Email address"
+    }
+  ],
+  "modals.persona_data.form.family_name": [
+    {
+      "type": 0,
+      "value": "Family name"
+    }
+  ],
+  "modals.persona_data.form.given_names": [
+    {
+      "type": 0,
+      "value": "Given names"
+    }
+  ],
+  "modals.persona_data.form.nickname": [
+    {
+      "type": 0,
+      "value": "Nickname"
+    }
+  ],
+  "modals.persona_data.form.phone_number": [
+    {
+      "type": 0,
+      "value": "Phone number"
+    }
+  ],
+  "modals.persona_data.form.submit_button.title": [
+    {
+      "type": 0,
+      "value": "Login"
+    }
+  ],
+  "modals.persona_data.form.variant": [
+    {
+      "type": 0,
+      "value": "Name variant"
+    }
+  ],
+  "modals.persona_data.validation.email": [
+    {
+      "type": 0,
+      "value": "Please select valid email"
+    }
+  ],
+  "modals.persona_data.validation.emails": [
+    {
+      "type": 0,
+      "value": "Please select minimum "
+    },
+    {
+      "type": 1,
+      "value": "number"
+    },
+    {
+      "type": 0,
+      "value": " emails"
+    }
+  ],
+  "modals.persona_data.validation.family_name": [
+    {
+      "type": 0,
+      "value": "Please insert valid family name"
+    }
+  ],
+  "modals.persona_data.validation.given_names": [
+    {
+      "type": 0,
+      "value": "Please insert valid given names"
+    }
+  ],
+  "modals.persona_data.validation.names": [
+    {
+      "type": 0,
+      "value": "Name details are required"
+    }
+  ],
+  "modals.persona_data.validation.nickname": [
+    {
+      "type": 0,
+      "value": "Please insert valid nickname"
+    }
+  ],
+  "modals.persona_data.validation.phone_number": [
+    {
+      "type": 0,
+      "value": "Please select valid phone number"
+    }
+  ],
+  "modals.persona_data.validation.phone_numbers": [
+    {
+      "type": 0,
+      "value": "Please select minimum "
+    },
+    {
+      "type": 1,
+      "value": "number"
+    },
+    {
+      "type": 0,
+      "value": " phone numbers"
+    }
+  ],
+  "modals.persona_data.validation.validation_emails_exactly": [
+    {
+      "type": 0,
+      "value": "Please select exactly "
+    },
+    {
+      "type": 1,
+      "value": "number"
+    },
+    {
+      "type": 0,
+      "value": " emails"
+    }
+  ],
+  "modals.persona_data.validation.validation_phone_numbers_exactly": [
+    {
+      "type": 0,
+      "value": "Please select exactly "
+    },
+    {
+      "type": 1,
+      "value": "number"
+    },
+    {
+      "type": 0,
+      "value": " phone numbers"
+    }
+  ],
+  "modals.persona_data.western": [
+    {
+      "type": 0,
+      "value": "Western"
     }
   ],
   "modals.select_accounts.close_button": [
