@@ -154,8 +154,8 @@ const TokenDetails: React.FC = () => {
 								>
 									<defs>
 										<linearGradient id="areaGradient" x1="0" y1="0" x2="0" y2="1">
-											<stop offset="5%" stopColor="#8884d8" stopOpacity={0.8} />
-											<stop offset="95%" stopColor="#82ca9d" stopOpacity={0} />
+											<stop offset="0%" stopColor="#8884d8" stopOpacity={0.3} />
+											<stop offset="100%" stopColor="#82ca9d" stopOpacity={0} />
 										</linearGradient>
 									</defs>
 									<Area type="monotone" dataKey="value" stroke="#8884d8" fill="url(#areaGradient)" strokeWidth={3} />
@@ -178,7 +178,6 @@ const TokenDetails: React.FC = () => {
 						</Box>
 					</>
 				)}
-
 				<Box className={styles.tokenSummaryWrapper}>
 					<Text size="large" weight="medium" color="strong">
 						{intl.formatMessage(messages.summary)}
@@ -186,7 +185,6 @@ const TokenDetails: React.FC = () => {
 					<Box paddingTop="xsmall">
 						<Text size="xxsmall">{description}</Text>
 					</Box>
-
 					<AccountsTransactionInfo
 						leftTitle={
 							<Text size="xsmall" color="strong" weight="medium">
@@ -289,9 +287,7 @@ const TokenDetails: React.FC = () => {
 								}
 								rightData={
 									<Box display="flex" alignItems="flex-end" className={styles.tokenSummaryRightMaxWidth}>
-										<Text size="xsmall" truncate>
-											<MetadataValue value={item} />
-										</Text>
+										<MetadataValue value={item} />
 									</Box>
 								}
 							/>

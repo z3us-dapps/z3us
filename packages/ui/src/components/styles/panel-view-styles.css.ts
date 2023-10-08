@@ -68,9 +68,6 @@ export const panelViewResourceWrapper = style([
 		mobile: {
 			display: 'none',
 		},
-		tablet: {
-			display: 'flex',
-		},
 	}),
 ])
 

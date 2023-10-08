@@ -1,4 +1,3 @@
-/* eslint-disable  @typescript-eslint/no-unused-vars */
 import { style } from '@vanilla-extract/css'
 import { vars } from 'packages/ui/src/components/system/theme.css'
 
@@ -22,7 +21,10 @@ export const assetInfoWrapper = style([
 		flexDirection: 'column',
 		justifyContent: 'center',
 		alignItems: 'center',
-		paddingTop: 'xlarge',
+		paddingTop: {
+			mobile: 'small',
+			tablet: 'xlarge',
+		},
 		paddingX: 'xlarge',
 	}),
 	{},
@@ -33,9 +35,11 @@ export const chartBgWrapper = style([
 		position: 'relative',
 		width: 'full',
 	}),
-	{
-		height: '220px',
-	},
+	{},
+	responsiveStyle({
+		mobile: { height: '160px' },
+		tablet: { height: '200px' },
+	}),
 ])
 
 export const accountCardButtonWrapper = style([
@@ -54,12 +58,12 @@ export const assetChartBtnWrapper = style([
 		flexWrap: 'wrap',
 		justifyContent: 'center',
 		gap: {
-			mobile: 'xxsmall',
+			mobile: 'medium',
 			tablet: 'small',
 			desktop: 'small',
 		},
 		paddingTop: {
-			mobile: 'small',
+			mobile: 'medium',
 			desktop: 'small',
 		},
 		paddingBottom: {
@@ -82,15 +86,15 @@ export const tokenSummaryWrapper = style([
 		borderTopStyle: 'solid',
 		borderColor: 'borderDivider',
 		paddingX: {
-			mobile: 'small',
+			mobile: 'large',
 			tablet: 'large',
 		},
 		paddingTop: {
-			mobile: 'small',
+			mobile: 'large',
 			tablet: 'xlarge',
 		},
 		paddingBottom: {
-			mobile: 'small',
+			mobile: 'xlarge',
 			tablet: 'xxlarge',
 		},
 	}),
@@ -112,4 +116,11 @@ export const tokenMetaDataIconWrapper = style([
 		marginLeft: '-4px',
 		transform: 'translateY(5px)',
 	},
+])
+
+export const metaDataLinkWrapper = style([
+	sprinkles({
+		width: 'full',
+	}),
+	{},
 ])
