@@ -927,10 +927,16 @@
       "value": "Transaction manifest"
     }
   ],
-  "interaction.manifest.tab_summary": [
+  "interaction.manifest.tab_preview": [
     {
       "type": 0,
       "value": "Preview"
+    }
+  ],
+  "interaction.manifest.tab_summary": [
+    {
+      "type": 0,
+      "value": "Summary"
     }
   ],
   "interaction.network_alert.message": [

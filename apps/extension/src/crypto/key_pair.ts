@@ -1,3 +1,4 @@
+import type { PublicKey as GatewayPublicKey } from '@radixdlt/babylon-gateway-api-sdk'
 import type { BaseHdWallet } from '@radixdlt/connector-extension/src/chrome/dev-tools/hd-wallet/hd-wallet'
 import { createRadixWallet } from '@radixdlt/connector-extension/src/chrome/dev-tools/hd-wallet/hd-wallet'
 import { Curve as HDWalletCurve } from '@radixdlt/connector-extension/src/chrome/dev-tools/hd-wallet/models'
@@ -5,6 +6,7 @@ import type { Curve as KeyCurve } from '@radixdlt/radix-engine-toolkit'
 import { Convert, PrivateKey, PublicKey } from '@radixdlt/radix-engine-toolkit'
 import { HDKey } from '@scure/bip32'
 
+import type { Account, Persona } from 'ui/src/store/types'
 import { CURVE } from 'ui/src/store/types'
 
 import { type Data, DataType } from '@src/types/vault'
@@ -83,5 +85,16 @@ export function publicKeyFromJSON({ publicKey, curve }: PublicKeyJSON): PublicKe
 			return new PublicKey.Ed25519(Convert.HexString.toUint8Array(publicKey))
 		default:
 			return null
+	}
+}
+
+export function gatewayPublicKeyFromPersonaOrAccount({ publicKeyHex, curve }: Account | Persona): GatewayPublicKey {
+	switch (curve) {
+		case CURVE.SECP256K1:
+			return { key_type: 'EcdsaSecp256k1', key_hex: publicKeyHex }
+		case CURVE.CURVE25519:
+			return { key_type: 'EddsaEd25519', key_hex: publicKeyHex }
+		default:
+			throw new Error(`Invalid curve: ${curve}`)
 	}
 }

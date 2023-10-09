@@ -1,12 +1,5 @@
-import {
-	Convert,
-	Instruction,
-	Intent,
-	LTSRadixEngineToolkit,
-	ManifestSborStringRepresentation,
-	NotarizedTransaction,
-	RadixEngineToolkit,
-} from '@radixdlt/radix-engine-toolkit'
+import type { NotarizedTransaction } from '@radixdlt/radix-engine-toolkit'
+import { Convert, RadixEngineToolkit } from '@radixdlt/radix-engine-toolkit'
 import React, { useEffect, useState } from 'react'
 
 import { Text } from 'ui/src/components/typography'
@@ -25,12 +18,6 @@ export const TransactionManifest: React.FC<IProps> = ({ manifestHex, ...textProp
 	useEffect(() => {
 		const decode = async () => {
 			if (manifestHex) {
-				const manifest = await RadixEngineToolkit.ManifestSbor.decodeToString(
-					Convert.HexString.toUint8Array(manifestHex),
-					networkId,
-					ManifestSborStringRepresentation.ManifestString,
-				)
-
 				const transactionIntent: NotarizedTransaction = await RadixEngineToolkit.NotarizedTransaction.decompile(
 					Convert.HexString.toUint8Array(manifestHex),
 					'String',

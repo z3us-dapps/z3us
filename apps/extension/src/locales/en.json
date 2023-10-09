@@ -326,8 +326,11 @@
   "interaction.manifest.tab_manifest": {
     "defaultMessage": "Transaction manifest"
   },
-  "interaction.manifest.tab_summary": {
+  "interaction.manifest.tab_preview": {
     "defaultMessage": "Preview"
+  },
+  "interaction.manifest.tab_summary": {
+    "defaultMessage": "Summary"
   },
   "interaction.network_alert.message": {
     "defaultMessage": "Network mismatch, dApp uses {dAppNetworkId} wallet uses {networkId}"

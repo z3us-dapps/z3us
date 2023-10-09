@@ -15,6 +15,7 @@ import { useGatewayClient } from 'ui/src/hooks/dapp/use-gateway-client'
 import type { WalletInteractionWithTabId } from '@src/browser/app/types'
 import { useIntent } from '@src/hooks/transaction/use-intent'
 import { useSign } from '@src/hooks/transaction/use-sign'
+import type { TransactionSettings } from '@src/types/transaction'
 
 import { Manifest } from './manifest'
 
@@ -36,7 +37,11 @@ const messages = defineMessages({
 	},
 })
 
-type State = { intent?: Intent; notary?: PrivateKey; needSignaturesFrom?: string[] }
+type State = {
+	intent?: Intent
+	notary?: PrivateKey
+	needSignaturesFrom?: string[]
+} & TransactionSettings
 
 export const TransactionInteraction: React.FC<IProps> = ({ interaction }) => {
 	const { interactionId } = useParams()
@@ -49,8 +54,14 @@ export const TransactionInteraction: React.FC<IProps> = ({ interaction }) => {
 	const [state, setState] = useImmer<State>({})
 
 	useEffect(() => {
-		const { send: input } = interaction.items as WalletTransactionItems
-		buildIntent(input).then(result => setState(result))
+		const { send } = interaction.items as WalletTransactionItems
+		buildIntent(send).then(response => {
+			setState(draft => {
+				draft.intent = response.intent
+				draft.notary = response.notary
+				draft.needSignaturesFrom = response.needSignaturesFrom
+			})
+		})
 	}, [])
 
 	const handleSubmit = async () => {

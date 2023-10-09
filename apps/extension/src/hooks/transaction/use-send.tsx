@@ -4,6 +4,8 @@ import { useCallback } from 'react'
 import { useGatewayClient } from 'ui/src/hooks/dapp/use-gateway-client'
 import { useNetworkId } from 'ui/src/hooks/dapp/use-network-id'
 
+import type { TransactionSettings } from '@src/types/transaction'
+
 import { useIntent } from './use-intent'
 import { useSign } from './use-sign'
 
@@ -16,13 +18,12 @@ export const useSendTransaction = () => {
 
 	const sendTransaction = async (
 		input: SendTransactionInput,
-		feePayer: string = undefined,
-		tipPercentage: number = 0,
+		settings: TransactionSettings = {},
 	): Promise<{
 		transactionIntentHash: string
 		status: TransactionStatus
 	}> => {
-		const { notary, intent, needSignaturesFrom } = await buildIntent(input, feePayer, tipPercentage)
+		const { notary, intent, needSignaturesFrom } = await buildIntent(input, settings)
 		const notarizedTransaction = await sign(notary, intent, needSignaturesFrom)
 
 		await transaction.innerClient.transactionSubmit({
