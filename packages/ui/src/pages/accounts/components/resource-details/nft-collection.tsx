@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import React from 'react'
 import { defineMessages, useIntl } from 'react-intl'
 import { useParams } from 'react-router-dom'
@@ -66,13 +67,6 @@ const NftCollectionDetails: React.FC = () => {
 	return (
 		<Box flexShrink={0}>
 			<Box display="flex" flexDirection="column" alignItems="center">
-				<Box className={styles.assetCloseBtnWrapper}>
-					<ToolTip message={intl.formatMessage(messages.back)}>
-						<Button iconOnly styleVariant="ghost" sizeVariant="small" to={`/accounts/${accountId}/${resourceId}`}>
-							<Close2Icon />
-						</Button>
-					</ToolTip>
-				</Box>
 				<Box display="flex" flexDirection="column" justifyContent="center" alignItems="center">
 					<Box paddingBottom="small">
 						<ResourceImageIcon address={resourceId} />
