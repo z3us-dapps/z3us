@@ -29,7 +29,6 @@ const Home: React.FC = () => {
 	const { accountId = '-' } = useParams()
 	const accounts = useWalletAccounts()
 	const isAllAccounts = useIsAllAccounts()
-
 	const isActivitiesVisible = useIsActivitiesVisible()
 	const [wrapperRef, { width: horizontalScrollWidth, top }] = useMeasure()
 	const { height } = useWindowSize()

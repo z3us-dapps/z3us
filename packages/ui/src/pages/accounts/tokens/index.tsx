@@ -12,8 +12,10 @@ import { AssetAmountCell } from 'ui/src/pages/accounts/components/table/asset-am
 import { AssetChangeCell } from 'ui/src/pages/accounts/components/table/asset-change-cell'
 import { AssetNameCell } from 'ui/src/pages/accounts/components/table/asset-name-cell'
 import { AssetValueCell } from 'ui/src/pages/accounts/components/table/asset-value-cell'
+import { useIsActivitiesVisible } from 'ui/src/pages/accounts/hooks/use-is-activities-visible'
 import type { ResourceBalance, ResourceBalanceType } from 'ui/src/types/types'
 
+import { ActivityList } from '../components/activity-list/components/activity-list'
 import * as styles from '../components/table/styles.css'
 
 const messages = defineMessages({
@@ -49,6 +51,8 @@ const Tokens: React.FC = () => {
 	const { scrollableNode, isScrolledTop } = useScroll()
 	const { accountId, resourceId } = useParams()
 	const selectedAccounts = useSelectedAccounts()
+
+	const isActivitiesVisible = useIsActivitiesVisible()
 
 	const { data: balanceData, isLoading } = useBalances(...selectedAccounts)
 	const { tokensBalances = [] } = balanceData || {}
@@ -101,33 +105,32 @@ const Tokens: React.FC = () => {
 		[],
 	)
 
-	return (
-		<Box className={styles.tableWrapper}>
-			{tokensBalances?.length === 0 ? (
-				<Box display="flex" alignItems="center" justifyContent="center" width="full" paddingY="xxlarge">
-					<EmptyState
-						title={intl.formatMessage(messages.empty_title)}
-						subTitle={intl.formatMessage(messages.empty_subtitle)}
-					/>
-				</Box>
-			) : (
-				<Table
-					styleVariant="primary"
-					sizeVariant="large"
-					scrollableNode={scrollableNode ?? undefined}
-					data={tokensBalances}
-					columns={columns}
-					isScrolledTop={isScrolledTop}
-					onRowSelected={handleRowSelected}
-					loading={isLoading}
-					selectedRowIds={selectedRowIds}
-					stickyShadowTop
-					// loadMore={loadMore}
-					// onEndReached={onEndReached}
+	const table =
+		tokensBalances?.length === 0 ? (
+			<Box display="flex" alignItems="center" justifyContent="center" width="full" paddingY="xxlarge">
+				<EmptyState
+					title={intl.formatMessage(messages.empty_title)}
+					subTitle={intl.formatMessage(messages.empty_subtitle)}
 				/>
-			)}
-		</Box>
-	)
+			</Box>
+		) : (
+			<Table
+				styleVariant="primary"
+				sizeVariant="large"
+				scrollableNode={scrollableNode ?? undefined}
+				data={tokensBalances}
+				columns={columns}
+				isScrolledTop={isScrolledTop}
+				onRowSelected={handleRowSelected}
+				loading={isLoading}
+				selectedRowIds={selectedRowIds}
+				stickyShadowTop
+				// loadMore={loadMore}
+				// onEndReached={onEndReached}
+			/>
+		)
+
+	return <Box className={styles.tableWrapper}>{isActivitiesVisible ? <ActivityList /> : table}</Box>
 }
 
 export default Tokens
