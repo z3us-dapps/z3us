@@ -73,11 +73,9 @@ const TabTitle: React.FC = () => {
 export const MobileScrollingButtons: React.FC = () => {
 	const intl = useIntl()
 	const { scrollableNode } = useScroll()
-	const { accountId = '-', resourceId } = useParams()
 	const wrapperRef = useRef(null)
 	const stickyRef = useRef(null)
 	const [isSticky, setIsSticky] = useState<boolean>(false)
-	const resourceType = useResourceType()
 	const isActivitiesVisible = useIsActivitiesVisible()
 	const entry = useIntersectionObserver(stickyRef, { threshold: [1] })
 
@@ -91,10 +89,12 @@ export const MobileScrollingButtons: React.FC = () => {
 		}
 	}
 
-	const generateAccountLink = (isActivity = false) =>
-		`/accounts/${accountId}/${resourceType ? `${resourceType}/` : ''}${resourceId ? `${resourceId}/` : ''}${
-			isActivity ? `?acts=true` : ''
-		}`
+	const generateAccountLink = (isActivity = false) => {
+		const [path, params] = window.location.hash.substring(1).split('?')
+		const query = new URLSearchParams(params)
+		query.set('acts', `${isActivity}`)
+		return `${path}?${query}`
+	}
 
 	useEffect(() => {
 		setIsSticky(!entry?.isIntersecting)

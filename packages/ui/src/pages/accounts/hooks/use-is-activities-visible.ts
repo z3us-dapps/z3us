@@ -4,5 +4,5 @@ import { useSearchParams } from 'react-router-dom'
 export const useIsActivitiesVisible = (): boolean => {
 	const [searchParams] = useSearchParams()
 
-	return useMemo(() => !!searchParams.get('acts'), [searchParams])
+	return useMemo(() => searchParams.get('acts') === 'true', [searchParams])
 }

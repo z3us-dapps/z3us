@@ -11,6 +11,7 @@ import { useWalletAccounts } from 'ui/src/hooks/use-accounts'
 import { useIsAllAccounts } from 'ui/src/hooks/use-is-all-accounts'
 import { useIsActivitiesVisible } from 'ui/src/pages/accounts/hooks/use-is-activities-visible'
 
+import { ActivityList } from '../components/activity-list/components/activity-list'
 import { AssetsList } from '../components/assets-list'
 import { HomeScrollShadow } from '../components/home-scroll-shadow'
 import { HorizontalAccountsScrollList } from '../components/horizontal-accounts-scroll-list'
@@ -53,13 +54,7 @@ const Home: React.FC = () => {
 					</>
 				)}
 			</Box>
-			{isActivitiesVisible ? (
-				<Box>
-					<Box>@TODO: implement activities here</Box>
-				</Box>
-			) : (
-				<AssetsList />
-			)}
+			{isActivitiesVisible ? <ActivityList /> : <AssetsList />}
 		</Box>
 	)
 }
