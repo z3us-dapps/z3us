@@ -1,7 +1,7 @@
 import type { EntityMetadataItem } from '@radixdlt/babylon-gateway-api-sdk'
-import { Box } from 'packages/ui/src/components/box'
 import React from 'react'
 
+import { Box } from 'ui/src/components/box'
 import { Link, Text } from 'ui/src/components/typography'
 
 import * as styles from './styles.css'

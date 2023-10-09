@@ -311,17 +311,29 @@
   "interaction.home.transaction.submit": {
     "defaultMessage": "Submit"
   },
+  "interaction.manifest.fee_summary": {
+    "defaultMessage": "Fee summary"
+  },
+  "interaction.manifest.instructions.call_function.unknown": {
+    "defaultMessage": "{package} -> {functionName} with values: {values}"
+  },
   "interaction.manifest.instructions.call_method.deposit": {
-    "defaultMessage": "Deposit {bucket} into {accountAddress}"
+    "defaultMessage": "Deposit {bucket} into {account}"
   },
   "interaction.manifest.instructions.call_method.lock_fee": {
-    "defaultMessage": "Lock {amount} fee using {accountAddress}"
+    "defaultMessage": "Lock {amount} fee using {account}"
+  },
+  "interaction.manifest.instructions.call_method.unknown": {
+    "defaultMessage": "{resource} -> {method} with values: {values}"
   },
   "interaction.manifest.instructions.call_method.withdraw": {
-    "defaultMessage": "Withdraw {amount} of {resourceAddress} from {accountAddress}"
+    "defaultMessage": "Withdraw {amount} of {resource} from {account}"
   },
   "interaction.manifest.instructions.take_from_worktop": {
     "defaultMessage": "Withdraw {amount} of {resourceAddress}"
+  },
+  "interaction.manifest.resource_changes": {
+    "defaultMessage": "Resource changes"
   },
   "interaction.manifest.tab_manifest": {
     "defaultMessage": "Transaction manifest"
@@ -331,6 +343,21 @@
   },
   "interaction.manifest.tab_summary": {
     "defaultMessage": "Summary"
+  },
+  "interaction.manifest.xrd_total_execution_cost": {
+    "defaultMessage": "Execution: {cost}"
+  },
+  "interaction.manifest.xrd_total_finalization_cost": {
+    "defaultMessage": "Finalization: {cost}"
+  },
+  "interaction.manifest.xrd_total_royalty_cost": {
+    "defaultMessage": "Royalty: {cost}"
+  },
+  "interaction.manifest.xrd_total_storage_cost": {
+    "defaultMessage": "Storage: {cost}"
+  },
+  "interaction.manifest.xrd_total_tipping_cost": {
+    "defaultMessage": "Tipping: {cost}"
   },
   "interaction.network_alert.message": {
     "defaultMessage": "Network mismatch, dApp uses {dAppNetworkId} wallet uses {networkId}"

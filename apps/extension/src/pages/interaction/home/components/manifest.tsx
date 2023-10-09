@@ -1,8 +1,6 @@
 import type { TransactionPreviewResponse } from '@radixdlt/radix-dapp-toolkit'
 import type { Instruction, Intent } from '@radixdlt/radix-engine-toolkit'
 import { RadixEngineToolkit } from '@radixdlt/radix-engine-toolkit'
-import { ResourceImageIcon } from 'packages/ui/src/components/resource-image-icon'
-import { Text } from 'packages/ui/src/components/typography'
 import React, { useEffect } from 'react'
 import { defineMessages, useIntl } from 'react-intl'
 import { useImmer } from 'use-immer'
@@ -10,7 +8,9 @@ import { useImmer } from 'use-immer'
 import { Box } from 'ui/src/components/box'
 import { FallbackLoading } from 'ui/src/components/fallback-renderer'
 import { Input } from 'ui/src/components/input'
+import { ResourceSnippet } from 'ui/src/components/resource-snippet'
 import { Tabs, TabsContent } from 'ui/src/components/tabs'
+import { Text } from 'ui/src/components/typography'
 import { useKnownAddresses } from 'ui/src/hooks/dapp/use-known-addresses'
 
 import { usePreview } from '@src/hooks/transaction/use-preview'
@@ -120,9 +120,9 @@ export const Manifest: React.FC<IProps> = ({ intent, settings = {} }) => {
 								<Text>{intl.formatMessage(messages.resource_changes)}</Text>
 								{state.preview.resource_changes.map((group: any) =>
 									group?.resource_changes.map(change => (
-										<Box display="flex" flexDirection="row">
-											<ResourceImageIcon address={change.component_entity.entity_address} />
-											<ResourceImageIcon address={change.resource_address} />
+										<Box key={`${group.index}${change.resource_address}`} display="flex" flexDirection="row">
+											<ResourceSnippet address={change.component_entity.entity_address} />
+											<ResourceSnippet address={change.resource_address} />
 											<Text>
 												{intl.formatNumber(parseFloat(change.amount) || 0, {
 													style: 'decimal',
