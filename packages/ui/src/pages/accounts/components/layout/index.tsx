@@ -11,7 +11,10 @@ import { useScroll } from 'ui/src/components/scroll-area-radix/use-scroll'
 import { ScrollPanel } from 'ui/src/components/scroll-panel'
 import * as panelViewStyles from 'ui/src/components/styles/panel-view-styles.css'
 import { useIsMobileWidth } from 'ui/src/hooks/use-is-mobile'
+import { useIsActivitiesVisible } from 'ui/src/pages/accounts/hooks/use-is-activities-visible'
 
+// import { ActivityList } from '../../components/activity-list/components/activity-list'
+import { ActivityList } from '../activity-list/components/activity-list'
 import { Breadcrumbs } from './components/breadcrumbs'
 import { MobileBackground } from './components/mobile/background'
 import { MobileScrollingButtons } from './components/mobile/scrolling-buttons'
@@ -23,6 +26,7 @@ const ScrollContent: React.FC = () => {
 	const outlet = useOutlet()
 	const matches = useMatches()
 	const isMobile = useIsMobileWidth()
+	const isActivitiesVisible = useIsActivitiesVisible()
 
 	const { resourceId } = useParams()
 	const { scrollableNode } = useScroll()
@@ -45,7 +49,10 @@ const ScrollContent: React.FC = () => {
 						<AccountTotalValue />
 					</Box>
 					<Suspense key={key} fallback={<FallbackLoading />}>
-						<ErrorBoundary fallbackRender={FallbackRenderer}>{outlet}</ErrorBoundary>
+						<ErrorBoundary fallbackRender={FallbackRenderer}>
+							<Box className={styles.outletTabletWrapper}>{outlet}</Box>
+							<Box className={styles.outletMobileWrapper}>{isActivitiesVisible ? <ActivityList /> : outlet}</Box>
+						</ErrorBoundary>
 					</Suspense>
 				</ScrollPanel>
 			</Box>

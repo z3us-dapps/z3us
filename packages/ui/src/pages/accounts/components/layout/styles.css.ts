@@ -1,7 +1,6 @@
-import { globalStyle, style } from '@vanilla-extract/css'
+import { style } from '@vanilla-extract/css'
 
 import { sprinkles } from 'ui/src/components/system/sprinkles.css'
-import { responsiveStyle } from 'ui/src/components/system/theme-utils'
 
 export const accountsStickyWrapper = style([
 	sprinkles({
@@ -26,4 +25,30 @@ export const accountsStickyWrapper = style([
 		},
 	}),
 	{},
+])
+
+export const outletTabletWrapper = style([
+	sprinkles({
+		background: 'backgroundSecondary',
+		display: {
+			mobile: 'none',
+			tablet: 'block',
+		},
+	}),
+	{
+		minHeight: '600px',
+	},
+])
+
+export const outletMobileWrapper = style([
+	sprinkles({
+		background: 'backgroundSecondary',
+		display: {
+			mobile: 'block',
+			tablet: 'none',
+		},
+	}),
+	{
+		minHeight: '380px',
+	},
 ])

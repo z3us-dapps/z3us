@@ -9,9 +9,7 @@ import { CopyAddressButton } from 'ui/src/components/copy-address-button'
 import { Text } from 'ui/src/components/typography'
 import { useWalletAccounts } from 'ui/src/hooks/use-accounts'
 import { useIsAllAccounts } from 'ui/src/hooks/use-is-all-accounts'
-import { useIsActivitiesVisible } from 'ui/src/pages/accounts/hooks/use-is-activities-visible'
 
-import { ActivityList } from '../components/activity-list/components/activity-list'
 import { AssetsList } from '../components/assets-list'
 import { HomeScrollShadow } from '../components/home-scroll-shadow'
 import { HorizontalAccountsScrollList } from '../components/horizontal-accounts-scroll-list'
@@ -29,7 +27,6 @@ const Home: React.FC = () => {
 	const { accountId = '-' } = useParams()
 	const accounts = useWalletAccounts()
 	const isAllAccounts = useIsAllAccounts()
-	const isActivitiesVisible = useIsActivitiesVisible()
 	const [wrapperRef, { width: horizontalScrollWidth, top }] = useMeasure()
 	const { height } = useWindowSize()
 	const mobileMinHeight = Math.max(height - top - 48, 385)
@@ -53,7 +50,7 @@ const Home: React.FC = () => {
 					</>
 				)}
 			</Box>
-			{isActivitiesVisible ? <ActivityList /> : <AssetsList />}
+			<AssetsList />
 		</Box>
 	)
 }

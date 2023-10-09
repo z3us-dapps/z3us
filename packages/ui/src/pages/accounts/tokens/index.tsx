@@ -3,19 +3,16 @@ import { defineMessages, useIntl } from 'react-intl'
 import { useNavigate, useParams } from 'react-router-dom'
 
 import { Box } from 'ui/src/components/box'
-import { EmptyState } from 'ui/src/components/empty-state'
 import { useScroll } from 'ui/src/components/scroll-area-radix/use-scroll'
-import { Table } from 'ui/src/components/table'
+import { TableWithEmptyState } from 'ui/src/components/table'
 import { useBalances } from 'ui/src/hooks/dapp/use-balances'
 import { useSelectedAccounts } from 'ui/src/hooks/use-accounts'
 import { AssetAmountCell } from 'ui/src/pages/accounts/components/table/asset-amount-cell'
 import { AssetChangeCell } from 'ui/src/pages/accounts/components/table/asset-change-cell'
 import { AssetNameCell } from 'ui/src/pages/accounts/components/table/asset-name-cell'
 import { AssetValueCell } from 'ui/src/pages/accounts/components/table/asset-value-cell'
-import { useIsActivitiesVisible } from 'ui/src/pages/accounts/hooks/use-is-activities-visible'
 import type { ResourceBalance, ResourceBalanceType } from 'ui/src/types/types'
 
-import { ActivityList } from '../components/activity-list/components/activity-list'
 import * as styles from '../components/table/styles.css'
 
 const messages = defineMessages({
@@ -51,8 +48,6 @@ const Tokens: React.FC = () => {
 	const { scrollableNode, isScrolledTop } = useScroll()
 	const { accountId, resourceId } = useParams()
 	const selectedAccounts = useSelectedAccounts()
-
-	const isActivitiesVisible = useIsActivitiesVisible()
 
 	const { data: balanceData, isLoading } = useBalances(...selectedAccounts)
 	const { tokensBalances = [] } = balanceData || {}
@@ -105,16 +100,11 @@ const Tokens: React.FC = () => {
 		[],
 	)
 
-	const table =
-		tokensBalances?.length === 0 ? (
-			<Box display="flex" alignItems="center" justifyContent="center" width="full" paddingY="xxlarge">
-				<EmptyState
-					title={intl.formatMessage(messages.empty_title)}
-					subTitle={intl.formatMessage(messages.empty_subtitle)}
-				/>
-			</Box>
-		) : (
-			<Table
+	return (
+		<Box className={styles.tableWrapper}>
+			<TableWithEmptyState
+				emptyStateTitle={intl.formatMessage(messages.empty_title)}
+				emptyStateSubTitle={intl.formatMessage(messages.empty_subtitle)}
 				styleVariant="primary"
 				sizeVariant="large"
 				scrollableNode={scrollableNode ?? undefined}
@@ -128,9 +118,8 @@ const Tokens: React.FC = () => {
 				// loadMore={loadMore}
 				// onEndReached={onEndReached}
 			/>
-		)
-
-	return <Box className={styles.tableWrapper}>{isActivitiesVisible ? <ActivityList /> : table}</Box>
+		</Box>
+	)
 }
 
 export default Tokens
