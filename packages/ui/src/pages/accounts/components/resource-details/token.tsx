@@ -1,4 +1,3 @@
-import { CopyAddressButton } from 'packages/ui/src/components/copy-address-button'
 import React, { useState } from 'react'
 import { defineMessages, useIntl } from 'react-intl'
 import { useParams } from 'react-router-dom'
@@ -7,6 +6,7 @@ import { Area, AreaChart, ResponsiveContainer, Tooltip } from 'recharts'
 import { Box } from 'ui/src/components/box'
 import { CardButtons } from 'ui/src/components/card-buttons'
 import { ChartToolTip } from 'ui/src/components/chart-tool-tip'
+import { CopyAddressButton } from 'ui/src/components/copy-address-button'
 import { FallbackLoading } from 'ui/src/components/fallback-renderer'
 import { LockIcon } from 'ui/src/components/icons'
 import { AccountsTransactionInfo } from 'ui/src/components/layout/account-transaction-info'
@@ -69,7 +69,7 @@ const TIME_FRAMES = {
 
 const TokenDetails: React.FC = () => {
 	const intl = useIntl()
-	const { resourceId, accountId } = useParams()
+	const { resourceId } = useParams()
 	const { data, isLoading } = useEntityDetails(resourceId)
 
 	const { currency } = useNoneSharedStore(state => ({

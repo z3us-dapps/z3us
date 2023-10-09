@@ -1,6 +1,7 @@
 import type { Intent, KnownAddresses, Instruction as ManifestInstruction } from '@radixdlt/radix-engine-toolkit'
 import React from 'react'
 
+import { CallFunction } from './call-function'
 import { CallMethod } from './call-method'
 import { TakeFromWorktop } from './take-from-worktop'
 import { Unknown } from './unknown'
@@ -18,6 +19,8 @@ export const Instruction: React.FC<IProps> = ({ intent, knownAddresses, instruct
 			return <TakeFromWorktop instruction={instruction} />
 		case 'CallMethod':
 			return <CallMethod knownAddresses={knownAddresses} instruction={instruction} />
+		case 'CallFunction':
+			return <CallFunction instruction={instruction} />
 		case 'TakeAllFromWorktop':
 		case 'TakeNonFungiblesFromWorktop':
 		case 'ReturnToWorktop':
@@ -39,7 +42,6 @@ export const Instruction: React.FC<IProps> = ({ intent, knownAddresses, instruct
 		case 'BurnResource':
 		case 'CloneProof':
 		case 'DropProof':
-		case 'CallFunction':
 		case 'CallRoyaltyMethod':
 		case 'CallMetadataMethod':
 		case 'CallRoleAssignmentMethod':

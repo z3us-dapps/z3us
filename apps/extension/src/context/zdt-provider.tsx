@@ -7,7 +7,7 @@ import { ZdtContext } from 'ui/src/context/zdt'
 import { useNetworkId } from 'ui/src/hooks/dapp/use-network-id'
 import { useNoneSharedStore } from 'ui/src/hooks/use-store'
 
-import { useSendTransaction } from '@src/hooks/transaction/use-send-transaction'
+import { useSendTransaction } from '@src/hooks/transaction/use-send'
 import { useIsUnlocked } from '@src/hooks/use-is-unlocked'
 import { useMessageClient } from '@src/hooks/use-message-client'
 

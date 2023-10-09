@@ -12,6 +12,7 @@ import { buildAccountDerivationPath } from '@src/crypto/derivation_path'
 import { deriveEd25519, ed25519FromEntropy } from '@src/crypto/key_pair'
 import { createMnemonic } from '@src/crypto/secret'
 import { appendLockFeeInstruction } from '@src/radix/transaction'
+import type { TransactionSettings } from '@src/types/transaction'
 
 const messages = defineMessages({
 	empty_signatures_error: {
@@ -29,7 +30,7 @@ export const useIntent = () => {
 		accountIndexes: state.accountIndexes[networkId] || {},
 	}))
 
-	const buildIntent = async (input: SendTransactionInput, feePayer: string = '', tipPercentage: number = 0) => {
+	const buildIntent = async (input: SendTransactionInput, settings: TransactionSettings = {}) => {
 		const instructions = await RadixEngineToolkit.Instructions.convert(
 			{
 				kind: InstructionsKind.String,
@@ -40,13 +41,11 @@ export const useIntent = () => {
 		)
 
 		const extractAddresses = await RadixEngineToolkit.Instructions.extractAddresses(instructions, networkId)
-		const accountAddresses = [
+		const needSignaturesFrom = [
 			...extractAddresses.GlobalVirtualEd25519Account,
 			...extractAddresses.GlobalVirtualSecp256k1Account,
-			...(feePayer ? [feePayer] : []),
+			...(settings.feePayer ? [settings.feePayer] : []),
 		].filter((value, index, array) => array.indexOf(value) === index) // unique
-
-		const needSignaturesFrom = Object.keys(accountIndexes).filter(address => accountAddresses.includes(address))
 		if (needSignaturesFrom.length === 0) {
 			throw new Error(intl.formatMessage(messages.empty_signatures_error))
 		}
@@ -62,11 +61,11 @@ export const useIntent = () => {
 			nonce: generateRandomNonce(),
 			notaryPublicKey: notary.publicKey(),
 			notaryIsSignatory: false,
-			tipPercentage,
+			tipPercentage: settings.tipPercentage,
 		}
 
 		const manifest: TransactionManifest = {
-			instructions: appendLockFeeInstruction(instructions, feePayer || needSignaturesFrom[0]),
+			instructions: appendLockFeeInstruction(instructions, settings.feePayer || needSignaturesFrom[0]),
 			blobs: input.blobs?.map(blob => Convert.HexString.toUint8Array(blob)) || [],
 		}
 

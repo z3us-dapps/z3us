@@ -3,7 +3,6 @@ import clsx from 'clsx'
 import { AnimatePresence, motion } from 'framer-motion'
 import React, { forwardRef, useCallback, useState } from 'react'
 import { defineMessages, useIntl } from 'react-intl'
-import { useLocation } from 'react-router-dom'
 import { Virtuoso } from 'react-virtuoso'
 
 import { Box } from 'ui/src/components/box'
@@ -85,11 +84,17 @@ const ItemWrapper: React.FC<IRowProps> = props => {
 	const { index, transaction, selected, hovered, setHovered, setSelected } = props
 
 	const intl = useIntl()
-	const { pathname } = useLocation()
 	const { data: knownAddresses } = useKnownAddresses()
 
 	const isSelected = selected === transaction?.intent_hash
 	const isHovered = hovered === transaction?.intent_hash
+
+	const addTransactionIdToPath = (txId: string) => {
+		const [path, params] = window.location.hash.substring(1).split('?')
+		const query = new URLSearchParams(params)
+		query.set('tx', `${txId}`)
+		return `${path}?${query}`
+	}
 
 	return (
 		<Box className={styles.activityItemOuter}>
@@ -102,7 +107,7 @@ const ItemWrapper: React.FC<IRowProps> = props => {
 						>
 							<Link
 								underline="never"
-								to={`${pathname}?tx=${transaction.intent_hash}`}
+								to={addTransactionIdToPath(transaction.intent_hash)}
 								className={styles.activityItemInnerBtn}
 								onClick={() => setSelected(transaction.intent_hash)}
 								onMouseOver={() => setHovered(transaction.intent_hash)}

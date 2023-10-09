@@ -841,6 +841,34 @@
       "value": "Submit"
     }
   ],
+  "interaction.manifest.fee_summary": [
+    {
+      "type": 0,
+      "value": "Fee summary"
+    }
+  ],
+  "interaction.manifest.instructions.call_function.unknown": [
+    {
+      "type": 1,
+      "value": "package"
+    },
+    {
+      "type": 0,
+      "value": " -> "
+    },
+    {
+      "type": 1,
+      "value": "functionName"
+    },
+    {
+      "type": 0,
+      "value": " with values: "
+    },
+    {
+      "type": 1,
+      "value": "values"
+    }
+  ],
   "interaction.manifest.instructions.call_method.deposit": [
     {
       "type": 0,
@@ -856,7 +884,7 @@
     },
     {
       "type": 1,
-      "value": "accountAddress"
+      "value": "account"
     }
   ],
   "interaction.manifest.instructions.call_method.lock_fee": [
@@ -874,7 +902,29 @@
     },
     {
       "type": 1,
-      "value": "accountAddress"
+      "value": "account"
+    }
+  ],
+  "interaction.manifest.instructions.call_method.unknown": [
+    {
+      "type": 1,
+      "value": "resource"
+    },
+    {
+      "type": 0,
+      "value": " -> "
+    },
+    {
+      "type": 1,
+      "value": "method"
+    },
+    {
+      "type": 0,
+      "value": " with values: "
+    },
+    {
+      "type": 1,
+      "value": "values"
     }
   ],
   "interaction.manifest.instructions.call_method.withdraw": [
@@ -892,7 +942,7 @@
     },
     {
       "type": 1,
-      "value": "resourceAddress"
+      "value": "resource"
     },
     {
       "type": 0,
@@ -900,7 +950,7 @@
     },
     {
       "type": 1,
-      "value": "accountAddress"
+      "value": "account"
     }
   ],
   "interaction.manifest.instructions.take_from_worktop": [
@@ -921,16 +971,78 @@
       "value": "resourceAddress"
     }
   ],
+  "interaction.manifest.resource_changes": [
+    {
+      "type": 0,
+      "value": "Resource changes"
+    }
+  ],
   "interaction.manifest.tab_manifest": [
     {
       "type": 0,
       "value": "Transaction manifest"
     }
   ],
-  "interaction.manifest.tab_summary": [
+  "interaction.manifest.tab_preview": [
     {
       "type": 0,
       "value": "Preview"
+    }
+  ],
+  "interaction.manifest.tab_summary": [
+    {
+      "type": 0,
+      "value": "Summary"
+    }
+  ],
+  "interaction.manifest.xrd_total_execution_cost": [
+    {
+      "type": 0,
+      "value": "Execution: "
+    },
+    {
+      "type": 1,
+      "value": "cost"
+    }
+  ],
+  "interaction.manifest.xrd_total_finalization_cost": [
+    {
+      "type": 0,
+      "value": "Finalization: "
+    },
+    {
+      "type": 1,
+      "value": "cost"
+    }
+  ],
+  "interaction.manifest.xrd_total_royalty_cost": [
+    {
+      "type": 0,
+      "value": "Royalty: "
+    },
+    {
+      "type": 1,
+      "value": "cost"
+    }
+  ],
+  "interaction.manifest.xrd_total_storage_cost": [
+    {
+      "type": 0,
+      "value": "Storage: "
+    },
+    {
+      "type": 1,
+      "value": "cost"
+    }
+  ],
+  "interaction.manifest.xrd_total_tipping_cost": [
+    {
+      "type": 0,
+      "value": "Tipping: "
+    },
+    {
+      "type": 1,
+      "value": "cost"
     }
   ],
   "interaction.network_alert.message": [

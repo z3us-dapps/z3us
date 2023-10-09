@@ -9,7 +9,7 @@ const messages = defineMessages({
 })
 
 interface IProps {
-	instruction: ManifestInstruction
+	instruction: Extract<ManifestInstruction, { kind: 'TakeFromWorktop' }>
 }
 
 export const TakeFromWorktop: React.FC<IProps> = ({ instruction }) => {
