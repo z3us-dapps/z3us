@@ -46,7 +46,8 @@ export const OverlayAssetIcons: React.FC<IProps> = ({ resourceType, balances }) 
 						iconOnly
 						rounded
 					>
-						<ResourceImageIcon responsiveSize={isMobile ? 'large' : 'xlarge'} address={resource.address} toolTipEnabled />
+						{/* TODO: remove isMobile */}
+						<ResourceImageIcon size={isMobile ? 'large' : 'xlarge'} address={resource.address} toolTipEnabled />
 					</Button>
 				))}
 				<Box className={styles.overlayAssetChevronWrapper}>
