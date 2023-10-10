@@ -52,6 +52,42 @@ interface IProps {
 
 type State = {
 	preview?: TransactionPreviewResponse
+	flatChanges?: Array<{ account: string; resource: string; amount: number }>
+}
+
+function aggregateConsecutiveChanges(
+	resourceChanges: TransactionPreviewResponse['resource_changes'],
+): State['flatChanges'] {
+	if (resourceChanges.length === 0) {
+		return []
+	}
+
+	const changes: State['flatChanges'] = []
+	resourceChanges.map((group: any) =>
+		group.resource_changes?.map((change: any) =>
+			changes.push({
+				account: change.component_entity.entity_address,
+				resource: change.resource_address,
+				amount: parseFloat(change.amount) || 0,
+			}),
+		),
+	)
+
+	const aggregatedData: State['flatChanges'] = [changes[0]]
+
+	// eslint-disable-next-line no-plusplus
+	for (let i = 1; i < changes.length; i++) {
+		const currentItem = changes[i]
+		const previousItem = aggregatedData[aggregatedData.length - 1]
+
+		if (currentItem.account === previousItem.account && currentItem.resource === previousItem.resource) {
+			previousItem.amount += currentItem.amount
+		} else {
+			aggregatedData.push(currentItem)
+		}
+	}
+
+	return aggregatedData
 }
 
 export const Preview: React.FC<IProps> = ({ intent, settings = {} }) => {
@@ -69,6 +105,7 @@ export const Preview: React.FC<IProps> = ({ intent, settings = {} }) => {
 		buildPreview(intent, settings).then(response => {
 			setState(draft => {
 				draft.preview = response
+				draft.flatChanges = aggregateConsecutiveChanges(response.resource_changes)
 			})
 		})
 	}, [intent])
@@ -79,27 +116,26 @@ export const Preview: React.FC<IProps> = ({ intent, settings = {} }) => {
 		<Box display="flex" flexDirection="column" gap="large">
 			<Box display="flex" flexDirection="column">
 				<Text align="center">{intl.formatMessage(messages.resource_changes)}</Text>
-				{state.preview?.resource_changes.map((group: any) =>
-					group?.resource_changes.map((change: any) => (
-						<Box
-							key={`${group.index}${change.component_entity.entity_address}${change.resource_address}`}
-							display="flex"
-							gap="small"
-							justifyContent="flex-start"
-							flexDirection={accountIndexes[change.component_entity.entity_address] ? 'row' : 'row-reverse'}
-						>
-							<ResourceSnippet address={change.component_entity.entity_address} />
-							<ResourceSnippet address={change.resource_address} />
-							<RedGreenText change={parseFloat(change.amount) || 0}>
-								{intl.formatNumber(parseFloat(change.amount) || 0, {
-									style: 'decimal',
-									maximumFractionDigits: 8,
-									signDisplay: 'always',
-								})}
-							</RedGreenText>
-						</Box>
-					)),
-				)}
+				{state.flatChanges.map((change, index) => (
+					<Box
+						// eslint-disable-next-line react/no-array-index-key
+						key={`${index}${change.account}${change.resource}`}
+						display="flex"
+						gap="small"
+						justifyContent="flex-start"
+						flexDirection={accountIndexes[change.account] ? 'row' : 'row-reverse'}
+					>
+						<ResourceSnippet address={change.account} />
+						<ResourceSnippet address={change.resource} />
+						<RedGreenText change={change.amount}>
+							{intl.formatNumber(change.amount, {
+								style: 'decimal',
+								maximumFractionDigits: 8,
+								signDisplay: 'always',
+							})}
+						</RedGreenText>
+					</Box>
+				))}
 			</Box>
 			<Box display="flex" flexDirection="column">
 				<Text align="center">{intl.formatMessage(messages.fee_summary)}</Text>
