@@ -13,7 +13,6 @@ import * as panelViewStyles from 'ui/src/components/styles/panel-view-styles.css
 import { useIsMobileWidth } from 'ui/src/hooks/use-is-mobile'
 import { useIsActivitiesVisible } from 'ui/src/pages/accounts/hooks/use-is-activities-visible'
 
-// import { ActivityList } from '../../components/activity-list/components/activity-list'
 import { ActivityList } from '../activity-list/components/activity-list'
 import { Breadcrumbs } from './components/breadcrumbs'
 import { MobileBackground } from './components/mobile/background'

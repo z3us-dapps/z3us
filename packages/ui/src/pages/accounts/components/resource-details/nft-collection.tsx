@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import React from 'react'
 import { defineMessages, useIntl } from 'react-intl'
 import { useParams } from 'react-router-dom'
@@ -6,17 +5,14 @@ import { useParams } from 'react-router-dom'
 import { Box } from 'ui/src/components/box'
 import { CardButtons } from 'ui/src/components/card-buttons'
 import { FallbackLoading } from 'ui/src/components/fallback-renderer'
-import { Close2Icon, LockIcon } from 'ui/src/components/icons'
+import { LockIcon } from 'ui/src/components/icons'
 import { AccountsTransactionInfo } from 'ui/src/components/layout/account-transaction-info'
 import { ResourceImageIcon } from 'ui/src/components/resource-image-icon'
-import { Button } from 'ui/src/components/router-button'
-import { ToolTip } from 'ui/src/components/tool-tip'
 import { Text } from 'ui/src/components/typography'
 import { useEntityDetails } from 'ui/src/hooks/dapp/use-entity-details'
 import { getStringMetadata } from 'ui/src/services/metadata'
 
 import MetadataValue from './metadata-value'
-import * as styles from './styles.css'
 
 const messages = defineMessages({
 	back: {
@@ -55,7 +51,7 @@ const messages = defineMessages({
 
 const NftCollectionDetails: React.FC = () => {
 	const intl = useIntl()
-	const { resourceId, accountId } = useParams()
+	const { resourceId } = useParams()
 	const { data, isLoading } = useEntityDetails(resourceId)
 
 	const name = getStringMetadata('name', data?.metadata?.items)
