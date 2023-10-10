@@ -17,6 +17,14 @@ const messages = defineMessages({
 		defaultMessage:
 			'Fine-tune your Z3US preferences. Manage session time and choose your ideal color theme for a personalized and secure Z3US experience.',
 	},
+	personas_title: {
+		id: 'settings.navigation.personas.title',
+		defaultMessage: 'Personas',
+	},
+	personas_subtitle: {
+		id: 'settings.navigation.personas.subtitle',
+		defaultMessage: `Manage your personas`,
+	},
 	accounts_title: {
 		id: 'settings.navigation.accounts.title',
 		defaultMessage: 'Accounts',
@@ -34,6 +42,14 @@ const messages = defineMessages({
 		defaultMessage:
 			'Effortless organization for your address book accounts. Manage your Radix address book with ease, editing account names and addresses in a convenient table view for seamless transactions and better financial control.',
 	},
+	authorized_dapps_title: {
+		id: 'settings.navigation.authorized_dapps.title',
+		defaultMessage: 'Authorized dApps',
+	},
+	authorized_dapps_subtitle: {
+		id: 'settings.navigation.authorized_dapps.subtitle',
+		defaultMessage: 'This are the dApps that you have logged into.',
+	},
 })
 
 export const DesktopNavigation: React.FC = () => {
@@ -48,6 +64,12 @@ export const DesktopNavigation: React.FC = () => {
 				icon: <Settings2Icon />,
 			},
 			{
+				title: intl.formatMessage(messages.personas_title),
+				subTitle: intl.formatMessage(messages.personas_subtitle),
+				href: '/settings/personas',
+				icon: <CoinsIcon />,
+			},
+			{
 				title: intl.formatMessage(messages.accounts_title),
 				subTitle: intl.formatMessage(messages.accounts_subtitle),
 				href: '/settings/accounts',
@@ -57,6 +79,12 @@ export const DesktopNavigation: React.FC = () => {
 				title: intl.formatMessage(messages.address_book_title),
 				subTitle: intl.formatMessage(messages.address_book_subtitle),
 				href: '/settings/address-book',
+				icon: <AddressBookIcon />,
+			},
+			{
+				title: intl.formatMessage(messages.authorized_dapps_title),
+				subTitle: intl.formatMessage(messages.authorized_dapps_subtitle),
+				href: '/settings/authorized-dapps',
 				icon: <AddressBookIcon />,
 			},
 		],

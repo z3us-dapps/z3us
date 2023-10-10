@@ -56,12 +56,12 @@ function getInitialPersona(
 		const { identityAddress } = request.auth
 		return Object.keys(personas).find(address => address === identityAddress)
 	}
-	const { persona = '' } = approvedDapps[dappAddress]
+	const { persona = '' } = approvedDapps[dappAddress] || {}
 	return persona
 }
 
 function getInitialAccounts(dappAddress: string, approvedDapps: ApprovedDapps): string[] {
-	const { accounts = [] } = approvedDapps[dappAddress]
+	const { accounts = [] } = approvedDapps[dappAddress] || {}
 	return accounts
 }
 

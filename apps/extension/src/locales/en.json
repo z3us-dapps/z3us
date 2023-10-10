@@ -11,12 +11,6 @@
   "account_menu.open_in_browser": {
     "defaultMessage": "Open in browser"
   },
-  "account_menu.persona": {
-    "defaultMessage": "Persona"
-  },
-  "account_menu.persona_add": {
-    "defaultMessage": "Add persona..."
-  },
   "account_menu.settings": {
     "defaultMessage": "Settings"
   },
@@ -287,9 +281,6 @@
   "hooks.transaction.sign_background.title": {
     "defaultMessage": "Signature requested"
   },
-  "interaction.dapp_details.name": {
-    "defaultMessage": "dApp: {name}"
-  },
   "interaction.home.authorized_request_interaction.continue": {
     "defaultMessage": "Continue"
   },
@@ -311,8 +302,8 @@
   "interaction.home.transaction.submit": {
     "defaultMessage": "Submit"
   },
-  "interaction.manifest.fee_summary": {
-    "defaultMessage": "Fee summary"
+  "interaction.home.transaction.unauthorized": {
+    "defaultMessage": "Transaction comes from unauthorized dApp and/or includes unauthorized accounts!"
   },
   "interaction.manifest.instructions.call_method.deposit": {
     "defaultMessage": "Deposit"
@@ -329,35 +320,35 @@
   "interaction.manifest.invalid_manifest": {
     "defaultMessage": "Invalid transaction manifest"
   },
-  "interaction.manifest.resource_changes": {
-    "defaultMessage": "Resource changes"
-  },
   "interaction.manifest.tab_manifest": {
     "defaultMessage": "Transaction manifest"
   },
   "interaction.manifest.tab_preview": {
     "defaultMessage": "Preview"
   },
-  "interaction.manifest.tab_summary": {
-    "defaultMessage": "Summary"
-  },
-  "interaction.manifest.xrd_total_execution_cost": {
-    "defaultMessage": "Execution: {cost}"
-  },
-  "interaction.manifest.xrd_total_finalization_cost": {
-    "defaultMessage": "Finalization: {cost}"
-  },
-  "interaction.manifest.xrd_total_royalty_cost": {
-    "defaultMessage": "Royalty: {cost}"
-  },
-  "interaction.manifest.xrd_total_storage_cost": {
-    "defaultMessage": "Storage: {cost}"
-  },
-  "interaction.manifest.xrd_total_tipping_cost": {
-    "defaultMessage": "Tipping: {cost}"
-  },
   "interaction.network_alert.message": {
     "defaultMessage": "Network mismatch, dApp uses {dAppNetworkId} wallet uses {networkId}"
+  },
+  "interaction.preview.fee_summary": {
+    "defaultMessage": "Fee summary"
+  },
+  "interaction.preview.resource_changes": {
+    "defaultMessage": "Resource changes"
+  },
+  "interaction.preview.xrd_total_execution_cost": {
+    "defaultMessage": "Execution: {cost, number, ::.00#######}"
+  },
+  "interaction.preview.xrd_total_finalization_cost": {
+    "defaultMessage": "Finalization: {cost, number, ::.00#######}"
+  },
+  "interaction.preview.xrd_total_royalty_cost": {
+    "defaultMessage": "Royalty: {cost, number, ::.00#######}"
+  },
+  "interaction.preview.xrd_total_storage_cost": {
+    "defaultMessage": "Storage: {cost, number, ::.00#######}"
+  },
+  "interaction.preview.xrd_total_tipping_cost": {
+    "defaultMessage": "Tipping: {cost, number, ::.00#######}"
   },
   "keystore.export.nothing_to_export": {
     "defaultMessage": "Wallet does not contain legacy accounts"
@@ -782,11 +773,23 @@
   "settings.navigation.address_book.title": {
     "defaultMessage": "Address book"
   },
+  "settings.navigation.authorized_dapps.subtitle": {
+    "defaultMessage": "This are the dApps that you have logged into."
+  },
+  "settings.navigation.authorized_dapps.title": {
+    "defaultMessage": "Authorized dApps"
+  },
   "settings.navigation.general.subtitle": {
     "defaultMessage": "Fine-tune your Z3US preferences. Manage session time and choose your ideal color theme for a personalized and secure Z3US experience."
   },
   "settings.navigation.general.title": {
     "defaultMessage": "General"
+  },
+  "settings.navigation.personas.subtitle": {
+    "defaultMessage": "Manage your personas"
+  },
+  "settings.navigation.personas.title": {
+    "defaultMessage": "Personas"
   },
   "settings.session.five_minutes": {
     "defaultMessage": "5 Minutes"

@@ -30,7 +30,7 @@ export const useIntent = () => {
 		accountIndexes: state.accountIndexes[networkId] || {},
 	}))
 
-	const buildIntent = async (input: SendTransactionInput, settings: TransactionSettings = {}) => {
+	const buildIntent = async (input: SendTransactionInput, settings: TransactionSettings = { tipPercentage: 0 }) => {
 		const instructions = await RadixEngineToolkit.Instructions.convert(
 			{
 				kind: InstructionsKind.String,

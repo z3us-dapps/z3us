@@ -70,7 +70,7 @@ export const TransactionRequest: React.FC<IProps> = ({ interaction }) => {
 
 	useEffect(() => {
 		buildIntent(state.input).then(response => {
-			const { accounts = [] } = approvedDapps[interaction.metadata.dAppDefinitionAddress]
+			const { accounts = [] } = approvedDapps[interaction.metadata.dAppDefinitionAddress] || {}
 			const authorizedAccounts = new Set(accounts)
 
 			setState(draft => {
