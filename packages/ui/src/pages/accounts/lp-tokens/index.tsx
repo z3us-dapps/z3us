@@ -3,9 +3,8 @@ import { defineMessages, useIntl } from 'react-intl'
 import { useNavigate, useParams } from 'react-router-dom'
 
 import { Box } from 'ui/src/components/box'
-import { EmptyState } from 'ui/src/components/empty-state'
 import { useScroll } from 'ui/src/components/scroll-area-radix/use-scroll'
-import { Table } from 'ui/src/components/table'
+import { TableWithEmptyState } from 'ui/src/components/table'
 import { useBalances } from 'ui/src/hooks/dapp/use-balances'
 import { useSelectedAccounts } from 'ui/src/hooks/use-accounts'
 import { AssetAmountCell } from 'ui/src/pages/accounts/components/table/asset-amount-cell'
@@ -114,28 +113,22 @@ const Tokens: React.FC = () => {
 
 	return (
 		<Box className={styles.tableWrapper}>
-			{liquidityPoolTokensBalances?.length === 0 ? (
-				<Box display="flex" alignItems="center" justifyContent="center" width="full" paddingY="xxlarge">
-					<EmptyState
-						title={intl.formatMessage(messages.empty_title)}
-						subTitle={intl.formatMessage(messages.empty_subtitle)}
-					/>
-				</Box>
-			) : (
-				<Table
-					styleVariant="primary"
-					sizeVariant="large"
-					scrollableNode={scrollableNode ?? undefined}
-					data={liquidityPoolTokensBalances}
-					columns={columns}
-					isScrolledTop={isScrolledTop}
-					onRowSelected={handleRowSelected}
-					loading={isLoading}
-					selectedRowIds={selectedRowIds}
-					// loadMore={loadMore}
-					// onEndReached={onEndReached}
-				/>
-			)}
+			<TableWithEmptyState
+				emptyStateTitle={intl.formatMessage(messages.empty_title)}
+				emptyStateSubTitle={intl.formatMessage(messages.empty_subtitle)}
+				styleVariant="primary"
+				sizeVariant="large"
+				scrollableNode={scrollableNode ?? undefined}
+				data={liquidityPoolTokensBalances}
+				columns={columns}
+				isScrolledTop={isScrolledTop}
+				onRowSelected={handleRowSelected}
+				loading={isLoading}
+				selectedRowIds={selectedRowIds}
+				stickyShadowTop
+				// loadMore={loadMore}
+				// onEndReached={onEndReached}
+			/>
 		</Box>
 	)
 }
