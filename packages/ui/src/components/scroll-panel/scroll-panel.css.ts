@@ -25,13 +25,13 @@ export const scrollWrapper = style([
 	},
 	responsiveStyle({
 		tablet: {
-			maxHeight: 'calc(100vh - 118px)',
+			maxHeight: 'calc(100vh - 112px)',
 			borderRadius: vars.border.radius.xlarge,
 			background: vars.color.backgroundSecondary,
 			boxShadow: vars.color.shadowPanel,
 		},
 		desktop: {
-			maxHeight: 'calc(100vh - 148px)',
+			maxHeight: 'calc(100vh - 142px)',
 		},
 	}),
 ])

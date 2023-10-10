@@ -29,52 +29,50 @@ export interface ITransferWrapperProps {
 export const TransferWrapper: React.FC<PropsWithChildren<ITransferWrapperProps>> = props => {
 	const { title, titleSuffix, description, helpTitle, help, children } = props
 	return (
-		<MotionBox>
-			<ScrollPanel>
-				<Box className={styles.transferDesktopWrapper}>
-					<Box width="full">
-						<Box display="flex" alignItems="flex-end" paddingBottom="xxsmall">
-							<Box display="flex" paddingTop="xxsmall" alignItems="center">
-								<Text size="xxlarge" weight="strong" color="strong">
-									{title}
+		<ScrollPanel>
+			<Box className={styles.transferDesktopWrapper}>
+				<Box width="full">
+					<Box display="flex" alignItems="flex-end" paddingBottom="xxsmall">
+						<Box display="flex" paddingTop="xxsmall" alignItems="center">
+							<Text size="xxlarge" weight="strong" color="strong">
+								{title}
+							</Text>
+							&nbsp;
+							{titleSuffix && (
+								<Text size="xxlarge" weight="strong">
+									({titleSuffix})
 								</Text>
-								&nbsp;
-								{titleSuffix && (
-									<Text size="xxlarge" weight="strong">
-										({titleSuffix})
-									</Text>
-								)}
-							</Box>
-							{(helpTitle || help) && (
-								<PopoverRoot>
-									<PopoverTrigger asChild>
-										<Box marginBottom="xxsmall">
-											<Button styleVariant="ghost" sizeVariant="xsmall" iconOnly aria-label="TODO">
-												<InformationIcon />
-											</Button>
-										</Box>
-									</PopoverTrigger>
-									<PopoverPortal>
-										<PopoverContent align="start" sideOffset={2} style={{ maxWidth: '300px' }}>
-											<Box padding="medium" display="flex" flexDirection="column" gap="small">
-												<Text size="xsmall" color="strong" weight="medium">
-													{helpTitle}
-												</Text>
-												<Text size="xsmall">{help}</Text>
-											</Box>
-										</PopoverContent>
-									</PopoverPortal>
-								</PopoverRoot>
 							)}
 						</Box>
-						<Box>
-							<Text size="small">{description}</Text>
-						</Box>
-						<Box marginTop="large">{children}</Box>
+						{(helpTitle || help) && (
+							<PopoverRoot>
+								<PopoverTrigger asChild>
+									<Box marginBottom="xxsmall">
+										<Button styleVariant="ghost" sizeVariant="xsmall" iconOnly aria-label="TODO">
+											<InformationIcon />
+										</Button>
+									</Box>
+								</PopoverTrigger>
+								<PopoverPortal>
+									<PopoverContent align="start" sideOffset={2} style={{ maxWidth: '300px' }}>
+										<Box padding="medium" display="flex" flexDirection="column" gap="small">
+											<Text size="xsmall" color="strong" weight="medium">
+												{helpTitle}
+											</Text>
+											<Text size="xsmall">{help}</Text>
+										</Box>
+									</PopoverContent>
+								</PopoverPortal>
+							</PopoverRoot>
+						)}
 					</Box>
+					<Box>
+						<Text size="small">{description}</Text>
+					</Box>
+					<Box marginTop="large">{children}</Box>
 				</Box>
-			</ScrollPanel>
-		</MotionBox>
+			</Box>
+		</ScrollPanel>
 	)
 }
 
