@@ -22,7 +22,7 @@ export type TLinkProps = Omit<LinkProps, 'to'> & {
 	href: LinkProps['to']
 }
 
-interface INavLinkProps extends Omit<LProps, 'children'>, Omit<NavLinkProps, 'color' | 'className'> {
+interface INavLinkProps extends Omit<LProps, 'children'>, Omit<NavLinkProps, 'color' | 'className' | 'target'> {
 	type?: TextProps['type']
 }
 

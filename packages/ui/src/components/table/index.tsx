@@ -1,10 +1,12 @@
 /* eslint-disable react/no-unstable-nested-components */
 import { assignInlineVars } from '@vanilla-extract/dynamic'
 import clsx, { type ClassValue } from 'clsx'
-import React, { useEffect, useMemo, useState } from 'react'
+import React, { useMemo } from 'react'
 import { useRowSelect, useSortBy, useTable } from 'react-table'
 import useMeasure from 'react-use-measure'
 import { type TableComponents, TableVirtuoso } from 'react-virtuoso'
+
+import { EmptyState } from 'ui/src/components/empty-state'
 
 import { Box } from '../box'
 import { ChevronDown2Icon, ChevronUp2Icon, LoadingBarsIcon } from '../icons'
@@ -227,5 +229,22 @@ export const Table: React.FC<ITableProps> = props => {
 				}}
 			/>
 		</Box>
+	)
+}
+
+interface ITableWithEmptyStateProps extends ITableProps {
+	emptyStateTitle: string
+	emptyStateSubTitle: string
+}
+
+export const TableWithEmptyState: React.FC<ITableWithEmptyStateProps> = props => {
+	const { emptyStateTitle, emptyStateSubTitle, data, ...rest } = props
+
+	return data?.length === 0 ? (
+		<Box className={styles.tableEmptyStateWrapper}>
+			<EmptyState title={emptyStateTitle} subTitle={emptyStateSubTitle} />
+		</Box>
+	) : (
+		<Table styleVariant="primary" sizeVariant="large" data={data} {...rest} />
 	)
 }

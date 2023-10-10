@@ -3,9 +3,8 @@ import { defineMessages, useIntl } from 'react-intl'
 import { useNavigate, useParams } from 'react-router-dom'
 
 import { Box } from 'ui/src/components/box'
-import { EmptyState } from 'ui/src/components/empty-state'
 import { useScroll } from 'ui/src/components/scroll-area-radix/use-scroll'
-import { Table } from 'ui/src/components/table'
+import { TableWithEmptyState } from 'ui/src/components/table'
 import { useBalances } from 'ui/src/hooks/dapp/use-balances'
 import { useSelectedAccounts } from 'ui/src/hooks/use-accounts'
 import { AssetAmountCell } from 'ui/src/pages/accounts/components/table/asset-amount-cell'
@@ -46,7 +45,7 @@ const messages = defineMessages({
 const NftCollections: React.FC = () => {
 	const intl = useIntl()
 	const navigate = useNavigate()
-	const { accountId } = useParams()
+	const { accountId, resourceId } = useParams()
 	const { scrollableNode, isScrolledTop } = useScroll()
 	const selectedAccounts = useSelectedAccounts()
 
@@ -57,6 +56,16 @@ const NftCollections: React.FC = () => {
 		const { original } = row
 		navigate(`/accounts/${accountId}/nfts/${original.address}`)
 	}
+
+	const selectedRowIds = useMemo(() => {
+		const idx = nonFungibleBalances.findIndex(b => b.address === resourceId)
+		if (idx >= 0) {
+			return {
+				[idx]: true,
+			}
+		}
+		return {}
+	}, [resourceId, nonFungibleBalances])
 
 	const columns = useMemo(
 		() => [
@@ -93,27 +102,22 @@ const NftCollections: React.FC = () => {
 
 	return (
 		<Box className={styles.tableWrapper}>
-			{nonFungibleBalances?.length === 0 ? (
-				<Box className={styles.emptyStateWrapper}>
-					<EmptyState
-						title={intl.formatMessage(messages.empty_title)}
-						subTitle={intl.formatMessage(messages.empty_subtitle)}
-					/>
-				</Box>
-			) : (
-				<Table
-					styleVariant="primary"
-					sizeVariant="large"
-					scrollableNode={scrollableNode ?? undefined}
-					data={nonFungibleBalances}
-					columns={columns}
-					isScrolledTop={isScrolledTop}
-					onRowSelected={handleRowSelected}
-					loading={isLoading}
-					// loadMore={loadMore}
-					// onEndReached={onEndReached}
-				/>
-			)}
+			<TableWithEmptyState
+				emptyStateTitle={intl.formatMessage(messages.empty_title)}
+				emptyStateSubTitle={intl.formatMessage(messages.empty_subtitle)}
+				styleVariant="primary"
+				sizeVariant="large"
+				scrollableNode={scrollableNode ?? undefined}
+				data={nonFungibleBalances}
+				columns={columns}
+				isScrolledTop={isScrolledTop}
+				onRowSelected={handleRowSelected}
+				loading={isLoading}
+				selectedRowIds={selectedRowIds}
+				stickyShadowTop
+				// loadMore={loadMore}
+				// onEndReached={onEndReached}
+			/>
 		</Box>
 	)
 }

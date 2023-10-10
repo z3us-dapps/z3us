@@ -22,6 +22,20 @@ export const tableWrapper = style([
 	},
 ])
 
+export const tableEmptyStateWrapper = style([
+	sprinkles({
+		display: 'flex',
+		alignItems: 'center',
+		justifyContent: 'center',
+		width: 'full',
+		paddingY: {
+			mobile: 'large',
+			tablet: 'xxlarge',
+		},
+	}),
+	{},
+])
+
 export const tableLoadingWrapper = style([
 	sprinkles({
 		position: 'relative',
