@@ -38,6 +38,7 @@ const messages = defineMessages({
 })
 
 type State = {
+	input: WalletTransactionItems['send']
 	intent?: Intent
 	notary?: PrivateKey
 	needSignaturesFrom?: string[]
@@ -51,18 +52,19 @@ export const TransactionInteraction: React.FC<IProps> = ({ interaction }) => {
 	const buildIntent = useIntent()
 	const sign = useSign()
 
-	const [state, setState] = useImmer<State>({})
+	const [state, setState] = useImmer<State>({
+		input: (interaction.items as WalletTransactionItems).send,
+	})
 
 	useEffect(() => {
-		const { send } = interaction.items as WalletTransactionItems
-		buildIntent(send).then(response => {
+		buildIntent(state.input).then(response => {
 			setState(draft => {
 				draft.intent = response.intent
 				draft.notary = response.notary
 				draft.needSignaturesFrom = response.needSignaturesFrom
 			})
 		})
-	}, [])
+	}, [state.input])
 
 	const handleSubmit = async () => {
 		try {
@@ -98,11 +100,17 @@ export const TransactionInteraction: React.FC<IProps> = ({ interaction }) => {
 		}
 	}
 
+	const handleManifestChange = (transactionManifest: string) => {
+		setState(draft => {
+			draft.input = { ...draft.input, transactionManifest }
+		})
+	}
+
 	if (interaction.items.discriminator !== 'transaction') return null
 
 	return (
 		<Box>
-			{state?.intent && <Manifest intent={state.intent} />}
+			{state?.intent && <Manifest intent={state.intent} onManifestChange={handleManifestChange} />}
 			<Button onClick={handleSubmit} styleVariant="tertiary" sizeVariant="xlarge" fullWidth disabled={!state?.intent}>
 				{intl.formatMessage(messages.submit)}
 			</Button>

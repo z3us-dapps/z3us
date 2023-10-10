@@ -48,6 +48,6 @@ export const useEntityDetails = (
 	aggregation: ResourceAggregationLevel = ResourceAggregationLevel.Vault,
 	optIns: StateEntityDetailsOptIns = defaultOptIns,
 ) => {
-	const { data, ...rest } = useEntitiesDetails([address], aggregation, optIns)
+	const { data, ...rest } = useEntitiesDetails(address ? [address] : [], aggregation, optIns)
 	return { ...rest, data: data?.[0] || (null as StateEntityDetailsResponseItem) }
 }

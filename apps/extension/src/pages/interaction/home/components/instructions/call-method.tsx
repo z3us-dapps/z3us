@@ -1,15 +1,10 @@
 /* eslint-disable no-case-declarations */
 import type { KnownAddresses, Instruction as ManifestInstruction } from '@radixdlt/radix-engine-toolkit'
-import {
-	castValue,
-	destructManifestValueTuple,
-	isAccountDepositCallMethod,
-	isAccountWithdrawCallMethod,
-	isLockFeeCallMethod,
-} from '@radixdlt/radix-engine-toolkit'
+import { castValue, destructManifestValueTuple } from '@radixdlt/radix-engine-toolkit'
 import React, { useEffect, useState } from 'react'
 import { defineMessages, useIntl } from 'react-intl'
 
+import { Box } from 'ui/src/components/box'
 import { ResourceSnippet } from 'ui/src/components/resource-snippet'
 import FieldValue from 'ui/src/pages/accounts/components/resource-details/field-value'
 
@@ -18,21 +13,32 @@ import { resolveManifestAddress } from '@src/radix/manifest'
 const messages = defineMessages({
 	lock_fee: {
 		id: 'interaction.manifest.instructions.call_method.lock_fee',
-		defaultMessage: `Lock {amount} fee using {account}`,
+		defaultMessage: `Lock {amount}`,
 	},
 	deposit: {
 		id: 'interaction.manifest.instructions.call_method.deposit',
-		defaultMessage: `Deposit {bucket} into {account}`,
+		defaultMessage: `Deposit`,
 	},
 	withdraw: {
 		id: 'interaction.manifest.instructions.call_method.withdraw',
-		defaultMessage: `Withdraw {amount} of {resource} from {account}`,
-	},
-	unknown: {
-		id: 'interaction.manifest.instructions.call_method.unknown',
-		defaultMessage: `{resource} -> {method} with values: {values}`,
+		defaultMessage: `Withdraw {amount}`,
 	},
 })
+
+enum Method {
+	WITHDRAW = 'withdraw',
+	DEPOSIT = 'deposit',
+	LOCK_FEE = 'lock_fee',
+	UNKNOWN = 'unknown',
+}
+
+const knownMethods: Map<string, Method> = new Map([
+	['try_deposit_or_abort', Method.DEPOSIT],
+	['deposit', Method.DEPOSIT],
+	['deposit_batch', Method.DEPOSIT],
+	['withdraw', Method.WITHDRAW],
+	['free', Method.LOCK_FEE],
+])
 
 interface IProps {
 	knownAddresses: KnownAddresses
@@ -42,22 +48,18 @@ interface IProps {
 export const CallMethod: React.FC<IProps> = ({ instruction, knownAddresses }) => {
 	const intl = useIntl()
 
-	const [method, setMethod] = useState<'withdraw' | 'deposit' | 'lock_fee' | 'unknown'>()
+	const [method, setMethod] = useState<Method>()
 
 	useEffect(() => {
-		const init = async () => {
-			const faucetComponentAddress = knownAddresses.componentAddresses.faucet
-			if (await isLockFeeCallMethod(instruction, faucetComponentAddress)) {
-				isAccountWithdrawCallMethod(instruction).then(() => setMethod('lock_fee'))
-			} else if (await isAccountWithdrawCallMethod(instruction)) {
-				isAccountWithdrawCallMethod(instruction).then(() => setMethod('withdraw'))
-			} else if (await isAccountDepositCallMethod(instruction)) {
-				isAccountWithdrawCallMethod(instruction).then(() => setMethod('deposit'))
-			} else {
-				setMethod('unknown')
+		const faucetComponentAddress = knownAddresses.componentAddresses.faucet
+		if (instruction.address.kind === 'Static') {
+			const possibleMethod = knownMethods[instruction.methodName] || Method.UNKNOWN
+			if (possibleMethod !== Method.LOCK_FEE || instruction.address.value === faucetComponentAddress) {
+				setMethod(possibleMethod)
+				return
 			}
 		}
-		init()
+		setMethod(Method.UNKNOWN)
 	}, [instruction, knownAddresses])
 
 	if (instruction.kind !== 'CallMethod') return null
@@ -70,12 +72,12 @@ export const CallMethod: React.FC<IProps> = ({ instruction, knownAddresses }) =>
 			const [feeValue] = destructManifestValueTuple(instruction.args)
 			const feeAmount = castValue<'Decimal'>(feeValue, 'Decimal').value
 			return (
-				<React.Fragment key="lock_fee">
+				<Box display="flex" flexDirection="row" gap="small">
+					<ResourceSnippet address={address} />
 					{intl.formatMessage(messages.lock_fee, {
-						account: <ResourceSnippet address={address} />,
 						amount: feeAmount.toString(),
 					})}
-				</React.Fragment>
+				</Box>
 			)
 		case 'withdraw':
 			const [resourceAddressValue, amountValue] = destructManifestValueTuple(instruction.args)
@@ -83,35 +85,31 @@ export const CallMethod: React.FC<IProps> = ({ instruction, knownAddresses }) =>
 			const amount = castValue<'Decimal'>(amountValue, 'Decimal').value
 
 			return (
-				<React.Fragment key="withdraw">
+				<Box display="flex" flexDirection="row" gap="small">
+					<ResourceSnippet address={address} />
+					<ResourceSnippet address={resourceAddress} />
 					{intl.formatMessage(messages.withdraw, {
-						account: <ResourceSnippet address={address} />,
-						resource: <ResourceSnippet address={resourceAddress} />,
 						amount: amount.toString(),
 					})}
-				</React.Fragment>
+				</Box>
 			)
 		case 'deposit':
 			const [bucketValue] = destructManifestValueTuple(instruction.args)
 			const accountAddress = resolveManifestAddress(instruction.address).value
 			const bucket = castValue<'Bucket'>(bucketValue, 'Bucket').value
 			return (
-				<React.Fragment key="deposit">
-					{intl.formatMessage(messages.deposit, {
-						account: <ResourceSnippet address={accountAddress} />,
-						bucket,
-					})}
-				</React.Fragment>
+				<Box display="flex" flexDirection="row" gap="small">
+					<ResourceSnippet address={accountAddress} />
+					{intl.formatMessage(messages.deposit, { bucket })}
+				</Box>
 			)
 		default:
 			return (
-				<React.Fragment key="default">
-					{intl.formatMessage(messages.unknown, {
-						method: instruction.methodName,
-						resource: <ResourceSnippet address={address} />,
-						values: <FieldValue field={instruction.args} />,
-					})}
-				</React.Fragment>
+				<Box display="flex" flexDirection="row" gap="small">
+					<ResourceSnippet address={address} />
+					{instruction.methodName}
+					<FieldValue field={instruction.args} />
+				</Box>
 			)
 	}
 }

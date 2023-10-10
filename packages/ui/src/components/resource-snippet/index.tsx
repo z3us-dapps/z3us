@@ -17,19 +17,23 @@ export const ResourceSnippet: React.FC<IProps> = ({ address }) => {
 	const { data, isLoading } = useEntityDetails(address)
 	const addressBook = useAddressBook()
 
+	const name = getStringMetadata('name', data?.metadata?.items)
+	const dappAddress = getStringMetadata('dapp_definition', data?.metadata?.items)
+
+	const { data: dappData } = useEntityDetails(dappAddress)
+
+	const dappName = getStringMetadata('name', dappData?.metadata?.items)
+
+	const displayName = addressBook[address]?.name || dappName || name || getShortAddress(address)
+
 	if (isLoading) return <FallbackLoading />
 
-	const name = getStringMetadata('name', data?.metadata?.items)
-	const displayName = addressBook[address]?.name || name || getShortAddress(address)
-
 	return (
-		<Box display="flex" flexDirection="column">
-			<Box display="flex" flexDirection="row">
-				<ResourceImageIcon address={address} />
-				<Text capitalizeFirstLetter size="small" color="strong" truncate weight="medium">
-					{displayName}
-				</Text>
-			</Box>
+		<Box display="flex" flexDirection="row" gap="small">
+			<ResourceImageIcon address={dappAddress || address} />
+			<Text capitalizeFirstLetter size="small" color="strong" truncate weight="medium">
+				{displayName}
+			</Text>
 		</Box>
 	)
 }

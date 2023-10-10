@@ -847,44 +847,10 @@
       "value": "Fee summary"
     }
   ],
-  "interaction.manifest.instructions.call_function.unknown": [
-    {
-      "type": 1,
-      "value": "package"
-    },
-    {
-      "type": 0,
-      "value": " -> "
-    },
-    {
-      "type": 1,
-      "value": "functionName"
-    },
-    {
-      "type": 0,
-      "value": " with values: "
-    },
-    {
-      "type": 1,
-      "value": "values"
-    }
-  ],
   "interaction.manifest.instructions.call_method.deposit": [
     {
       "type": 0,
-      "value": "Deposit "
-    },
-    {
-      "type": 1,
-      "value": "bucket"
-    },
-    {
-      "type": 0,
-      "value": " into "
-    },
-    {
-      "type": 1,
-      "value": "account"
+      "value": "Deposit"
     }
   ],
   "interaction.manifest.instructions.call_method.lock_fee": [
@@ -895,36 +861,6 @@
     {
       "type": 1,
       "value": "amount"
-    },
-    {
-      "type": 0,
-      "value": " fee using "
-    },
-    {
-      "type": 1,
-      "value": "account"
-    }
-  ],
-  "interaction.manifest.instructions.call_method.unknown": [
-    {
-      "type": 1,
-      "value": "resource"
-    },
-    {
-      "type": 0,
-      "value": " -> "
-    },
-    {
-      "type": 1,
-      "value": "method"
-    },
-    {
-      "type": 0,
-      "value": " with values: "
-    },
-    {
-      "type": 1,
-      "value": "values"
     }
   ],
   "interaction.manifest.instructions.call_method.withdraw": [
@@ -935,22 +871,6 @@
     {
       "type": 1,
       "value": "amount"
-    },
-    {
-      "type": 0,
-      "value": " of "
-    },
-    {
-      "type": 1,
-      "value": "resource"
-    },
-    {
-      "type": 0,
-      "value": " from "
-    },
-    {
-      "type": 1,
-      "value": "account"
     }
   ],
   "interaction.manifest.instructions.take_from_worktop": [
@@ -969,6 +889,12 @@
     {
       "type": 1,
       "value": "resourceAddress"
+    }
+  ],
+  "interaction.manifest.invalid_manifest": [
+    {
+      "type": 0,
+      "value": "Invalid transaction manifest"
     }
   ],
   "interaction.manifest.resource_changes": [

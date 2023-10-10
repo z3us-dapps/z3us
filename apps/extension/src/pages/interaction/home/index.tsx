@@ -82,7 +82,7 @@ export const Home: React.FC = () => {
 	}, [interactionId])
 
 	return (
-		<Box>
+		<Box display="flex" flexDirection="column" gap="large">
 			<DappDetails {...interaction?.metadata} />
 			<NetworkAlert {...interaction?.metadata} />
 
