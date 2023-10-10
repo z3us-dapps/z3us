@@ -2,6 +2,9 @@ import { messageSource as radixMessageSource } from '@radixdlt/connector-extensi
 import { createMessage as createRadixMessage } from '@radixdlt/connector-extension/src/chrome/messages/create-message'
 import type { WalletTransactionItems } from '@radixdlt/radix-dapp-toolkit'
 import type { Intent, PrivateKey } from '@radixdlt/radix-engine-toolkit'
+import { ValidationErrorMessage } from 'packages/ui/src/components/validation-error-message'
+import { useNetworkId } from 'packages/ui/src/hooks/dapp/use-network-id'
+import { useNoneSharedStore } from 'packages/ui/src/hooks/use-store'
 import { useEffect } from 'react'
 import { defineMessages, useIntl } from 'react-intl'
 import { useParams } from 'react-router-dom'
@@ -17,16 +20,16 @@ import { useIntent } from '@src/hooks/transaction/use-intent'
 import { useSign } from '@src/hooks/transaction/use-sign'
 import type { TransactionSettings } from '@src/types/transaction'
 
-import { Manifest } from './manifest'
-
-interface IProps {
-	interaction: WalletInteractionWithTabId
-}
+import { Manifest } from '../transaction/manifest'
 
 const messages = defineMessages({
 	submit: {
 		id: 'interaction.home.transaction.submit',
 		defaultMessage: 'Submit',
+	},
+	unauthorized: {
+		id: 'interaction.home.transaction.unauthorized',
+		defaultMessage: `Transaction comes from unauthorized dApp and/or includes unauthorized accounts!`,
 	},
 	error: {
 		id: 'interaction.home.transaction.error',
@@ -37,17 +40,26 @@ const messages = defineMessages({
 	},
 })
 
+interface IProps {
+	interaction: WalletInteractionWithTabId
+}
+
 type State = {
 	input: WalletTransactionItems['send']
 	intent?: Intent
 	notary?: PrivateKey
 	needSignaturesFrom?: string[]
+	isDappApproved?: boolean
 } & TransactionSettings
 
-export const TransactionInteraction: React.FC<IProps> = ({ interaction }) => {
+export const TransactionRequest: React.FC<IProps> = ({ interaction }) => {
 	const { interactionId } = useParams()
 	const intl = useIntl()
+	const networkId = useNetworkId()
 	const { transaction } = useGatewayClient()
+	const { approvedDapps } = useNoneSharedStore(state => ({
+		approvedDapps: state.approvedDapps[networkId] || {},
+	}))
 
 	const buildIntent = useIntent()
 	const sign = useSign()
@@ -58,10 +70,14 @@ export const TransactionInteraction: React.FC<IProps> = ({ interaction }) => {
 
 	useEffect(() => {
 		buildIntent(state.input).then(response => {
+			const { accounts = [] } = approvedDapps[interaction.metadata.dAppDefinitionAddress]
+			const authorizedAccounts = new Set(accounts)
+
 			setState(draft => {
 				draft.intent = response.intent
 				draft.notary = response.notary
 				draft.needSignaturesFrom = response.needSignaturesFrom
+				draft.isDappApproved = response.needSignaturesFrom.every(account => authorizedAccounts.has(account))
 			})
 		})
 	}, [state.input])
@@ -110,8 +126,17 @@ export const TransactionInteraction: React.FC<IProps> = ({ interaction }) => {
 
 	return (
 		<Box>
+			<ValidationErrorMessage
+				message={state.isDappApproved === false ? intl.formatMessage(messages.unauthorized) : ''}
+			/>
 			{state?.intent && <Manifest intent={state.intent} onManifestChange={handleManifestChange} />}
-			<Button onClick={handleSubmit} styleVariant="tertiary" sizeVariant="xlarge" fullWidth disabled={!state?.intent}>
+			<Button
+				onClick={handleSubmit}
+				styleVariant="tertiary"
+				sizeVariant="xlarge"
+				fullWidth
+				disabled={!state?.intent || state.isDappApproved === false}
+			>
 				{intl.formatMessage(messages.submit)}
 			</Button>
 		</Box>

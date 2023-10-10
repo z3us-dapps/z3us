@@ -4,6 +4,7 @@ const defaultState = {
 	radixConnectorEnabled: true,
 	personaIndexes: {},
 	accountIndexes: {},
+	approvedDapps: {},
 }
 
 export const factory = (set: IExtensionStateSetter): ExtensionState => ({
@@ -48,6 +49,24 @@ export const factory = (set: IExtensionStateSetter): ExtensionState => ({
 			const indexes = state.accountIndexes[networkId] || {}
 			delete indexes[address]
 			state.accountIndexes[networkId] = indexes
+		})
+	},
+
+	approveDappAction: (networkId: number, dappAddress: string, persona: string, accounts: string[]) => {
+		set(state => {
+			const dapps = state.approvedDapps[networkId] || {}
+			state.approvedDapps[networkId] = {
+				...dapps,
+				[dappAddress]: { persona, accounts },
+			}
+		})
+	},
+
+	forgetDappAction: (networkId: number, dappAddress: string) => {
+		set(state => {
+			const dapps = state.approvedDapps[networkId] || {}
+			delete dapps[dappAddress]
+			state.approvedDapps[networkId] = dapps
 		})
 	},
 })

@@ -1,6 +1,10 @@
 import { messageSource as radixMessageSource } from '@radixdlt/connector-extension/src/chrome/messages/_types'
 import { createMessage as createRadixMessage } from '@radixdlt/connector-extension/src/chrome/messages/create-message'
-import type { WalletAuthorizedRequestItems, WalletUnauthorizedRequestItems } from '@radixdlt/radix-dapp-toolkit'
+import type {
+	WalletAuthorizedRequestItems,
+	WalletAuthorizedRequestResponseItems,
+	WalletUnauthorizedRequestItems,
+} from '@radixdlt/radix-dapp-toolkit'
 import { useState } from 'react'
 import { defineMessages, useIntl } from 'react-intl'
 import { useParams } from 'react-router-dom'
@@ -11,7 +15,7 @@ import { Button } from 'ui/src/components/button'
 import { Text } from 'ui/src/components/typography'
 import { useNetworkId } from 'ui/src/hooks/dapp/use-network-id'
 import { useNoneSharedStore } from 'ui/src/hooks/use-store'
-import type { Persona } from 'ui/src/store/types'
+import type { ApprovedDapps, Personas } from 'ui/src/store/types'
 
 import type { WalletInteractionWithTabId } from '@src/browser/app/types'
 import { useAccountsData } from '@src/hooks/interaction/use-accounts-data'
@@ -19,10 +23,6 @@ import { useLogin } from '@src/hooks/interaction/use-login'
 import { usePersonaDataModal } from '@src/hooks/modal/use-persona-data-modal'
 import { useSelectAccountsModal } from '@src/hooks/modal/use-select-accounts-modal'
 import { useSelectPersonaModal } from '@src/hooks/modal/use-select-persona-modal'
-
-interface IProps {
-	interaction: WalletInteractionWithTabId
-}
 
 const messages = defineMessages({
 	continue: {
@@ -47,17 +47,29 @@ const messages = defineMessages({
 })
 
 function getInitialPersona(
-	personaIndexes: { [address: string]: Persona },
+	dappAddress: string,
+	approvedDapps: ApprovedDapps,
+	personas: Personas,
 	request: WalletAuthorizedRequestItems | WalletUnauthorizedRequestItems,
 ): string {
 	if (request.discriminator === 'authorizedRequest' && request.auth.discriminator === 'usePersona') {
 		const { identityAddress } = request.auth
-		return Object.keys(personaIndexes).find(address => address === identityAddress)
+		return Object.keys(personas).find(address => address === identityAddress)
 	}
-	return ''
+	const { persona = '' } = approvedDapps[dappAddress]
+	return persona
 }
 
-export const RequestInteraction: React.FC<IProps> = ({ interaction }) => {
+function getInitialAccounts(dappAddress: string, approvedDapps: ApprovedDapps): string[] {
+	const { accounts = [] } = approvedDapps[dappAddress]
+	return accounts
+}
+
+interface IProps {
+	interaction: WalletInteractionWithTabId
+}
+
+export const LoginRequest: React.FC<IProps> = ({ interaction }) => {
 	const { interactionId } = useParams()
 	const intl = useIntl()
 	const networkId = useNetworkId()
@@ -68,14 +80,20 @@ export const RequestInteraction: React.FC<IProps> = ({ interaction }) => {
 	const login = useLogin()
 	const buildAccounts = useAccountsData()
 
-	const { personaIndexes } = useNoneSharedStore(state => ({
+	const { approvedDapps, personaIndexes, approveDapp } = useNoneSharedStore(state => ({
+		approvedDapps: state.approvedDapps[networkId] || {},
 		personaIndexes: state.personaIndexes[networkId] || {},
+		approveDapp: state.approveDappAction,
 	}))
 
 	const request = interaction.items as WalletAuthorizedRequestItems //| WalletUnauthorizedRequestItems
 
-	const [selectedPersona, setSelectedPersona] = useState<string>(getInitialPersona(personaIndexes, request))
-	const [selectedAccounts, setSelectedAccounts] = useState<string[]>([])
+	const [selectedPersona, setSelectedPersona] = useState<string>(
+		getInitialPersona(interaction.metadata.dAppDefinitionAddress, approvedDapps, personaIndexes, request),
+	)
+	const [selectedAccounts, setSelectedAccounts] = useState<string[]>(
+		getInitialAccounts(interaction.metadata.dAppDefinitionAddress, approvedDapps),
+	)
 
 	const handleSelectPersona = async () => {
 		setSelectedPersona(await selectPersona())
@@ -88,21 +106,30 @@ export const RequestInteraction: React.FC<IProps> = ({ interaction }) => {
 
 	const handleShare = async () => {
 		try {
+			const response: WalletAuthorizedRequestResponseItems = {
+				discriminator: 'authorizedRequest',
+				auth: await login(selectedPersona, request.auth, interaction.metadata),
+				oneTimePersonaData: await getPersonaData(selectedPersona, request.oneTimePersonaData),
+				ongoingPersonaData: await getPersonaData(selectedPersona, request.ongoingPersonaData),
+				oneTimeAccounts: await buildAccounts(selectedAccounts, request.oneTimeAccounts, interaction.metadata),
+				ongoingAccounts: await buildAccounts(selectedAccounts, request.ongoingAccounts, interaction.metadata),
+			}
 			await browser.tabs.sendMessage(
 				interaction.fromTabId,
 				createRadixMessage.walletResponse(radixMessageSource.offScreen, {
 					discriminator: 'success',
-					items: {
-						discriminator: 'authorizedRequest',
-						auth: await login(selectedPersona, request.auth, interaction.metadata),
-						oneTimePersonaData: await getPersonaData(selectedPersona, request.oneTimePersonaData),
-						ongoingPersonaData: await getPersonaData(selectedPersona, request.ongoingPersonaData),
-						oneTimeAccounts: await buildAccounts(selectedAccounts, request.oneTimeAccounts, interaction.metadata),
-						ongoingAccounts: await buildAccounts(selectedAccounts, request.ongoingAccounts, interaction.metadata),
-					},
+					items: response,
 					interactionId,
 				}),
 			)
+			if (response.auth?.persona?.identityAddress && response.ongoingAccounts?.accounts?.length > 0) {
+				approveDapp(
+					networkId,
+					interaction.metadata.dAppDefinitionAddress,
+					response.auth.persona.identityAddress,
+					response.ongoingAccounts.accounts.map(({ address }) => address),
+				)
+			}
 		} catch (error) {
 			browser.tabs.sendMessage(
 				interaction.fromTabId,

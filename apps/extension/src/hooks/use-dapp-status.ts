@@ -44,7 +44,7 @@ export const useDappStatus = () => {
 			const tabHost = tabURL?.host || ''
 
 			const hasContentScript = await checkContentScript(tab.id)
-			const isConnected = !!hasContentScript //&& tabHost in approvedWebsites
+			const isConnected = !!hasContentScript
 
 			setState(draft => {
 				draft.isConnected = isConnected

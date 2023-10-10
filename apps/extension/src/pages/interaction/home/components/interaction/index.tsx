@@ -2,8 +2,8 @@ import React from 'react'
 
 import type { WalletInteractionWithTabId } from '@src/browser/app/types'
 
-import { RequestInteraction } from './request-interaction'
-import { TransactionInteraction } from './transaction-interaction'
+import { LoginRequest } from './login'
+import { TransactionRequest } from './transaction'
 
 interface IProps {
 	interaction: WalletInteractionWithTabId
@@ -12,10 +12,10 @@ interface IProps {
 export const Interaction: React.FC<IProps> = ({ interaction }) => {
 	switch (interaction?.items.discriminator) {
 		case 'transaction':
-			return <TransactionInteraction interaction={interaction} />
+			return <TransactionRequest interaction={interaction} />
 		case 'authorizedRequest':
 		case 'unauthorizedRequest':
-			return <RequestInteraction interaction={interaction} />
+			return <LoginRequest interaction={interaction} />
 		default:
 			return null
 	}

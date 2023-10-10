@@ -71,20 +71,8 @@ export const handleCheckContentScript = async (tabId: number) => {
 	const [tab] = await browser.tabs.query({ active: true, currentWindow: true })
 	if (tab?.id !== tabId) return
 
-	// const tabURL = tab?.url ? new URL(tab.url) : null
-	// const tabHost = tabURL?.host || ''
-
 	if ((await checkContentScript(tab.id)) === true) {
 		await showConnected()
-
-		// await sharedStore.persist.rehydrate()
-		// const { approvedWebsites } = sharedStore.getState()
-		// const approvedWebsites = [] // @TODO
-
-		// if (tabHost in approvedWebsites) {
-		// 	await showConnected()
-		// 	return
-		// }
 	} else {
 		await showDisconnected()
 	}

@@ -104,7 +104,9 @@ export type Persona = {
 	derivationPath: string
 }
 
-export type PersonaIndexes = { [networkId: number]: { [address: string]: Persona } }
+export type Personas = { [address: string]: Persona }
+
+export type NetworkPersonas = { [networkId: number]: Personas }
 
 // `m/44H/1022H/14H/525H/1460H/${index}H`
 export type Account = {
@@ -117,19 +119,29 @@ export type Account = {
 	olympiaAddress?: string
 }
 
-export type AccountIndexes = { [networkId: number]: { [address: string]: Account } }
+export type Accounts = { [address: string]: Account }
+
+export type NetworkAccounts = { [networkId: number]: Accounts }
+
+export type ApprovedDapps = { [dappAddress: string]: { persona: string; accounts: string[] } }
+
+export type NetworkApprovedDapps = { [networkId: number]: ApprovedDapps }
 
 export type ExtensionState = {
 	radixConnectorEnabled: boolean
 	toggleRadixConnectorEnabledAction: (enabled: boolean) => void
 
-	personaIndexes: PersonaIndexes
+	personaIndexes: NetworkPersonas
 	removePersonaAction: (networkId: number, address: string) => void
 	addPersonaAction: (networkId: number, address: string, persona: Persona) => void
 
-	accountIndexes: AccountIndexes
+	accountIndexes: NetworkAccounts
 	removeAccountAction: (networkId: number, address: string) => void
 	addAccountAction: (networkId: number, address: string, account: Account) => void
+
+	approvedDapps: NetworkApprovedDapps
+	approveDappAction: (networkId: number, dappAddress: string, persona: string, accounts: string[]) => void
+	forgetDappAction: (networkId: number, dappAddress: string) => void
 }
 
 export interface IExtensionStateSetter {
