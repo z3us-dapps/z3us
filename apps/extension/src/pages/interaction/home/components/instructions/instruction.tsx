@@ -33,12 +33,12 @@ export const Instruction: React.FC<IProps> = ({ intent, knownAddresses, instruct
 		case 'CreateProofFromAuthZoneOfAmount':
 		case 'CreateProofFromAuthZoneOfNonFungibles':
 		case 'CreateProofFromAuthZoneOfAll':
-		case 'DropNamedProofs':
-		case 'DropAuthZoneRegularProofs':
-		case 'DropAuthZoneSignatureProofs':
 		case 'CreateProofFromBucketOfAmount':
 		case 'CreateProofFromBucketOfNonFungibles':
 		case 'CreateProofFromBucketOfAll':
+		case 'DropNamedProofs':
+		case 'DropAuthZoneRegularProofs':
+		case 'DropAuthZoneSignatureProofs':
 		case 'BurnResource':
 		case 'CloneProof':
 		case 'DropProof':
