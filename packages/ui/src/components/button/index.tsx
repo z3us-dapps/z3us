@@ -34,6 +34,7 @@ interface IButtonOptionalProps {
 	rightIcon?: React.ReactNode
 	leftIcon?: React.ReactNode
 	sizeVariant?: TSizeVariant
+	sizeTabletVariant?: TSizeVariant
 	styleVariant?: TStyleVariant
 	type?: TType
 	href?: string
@@ -77,6 +78,7 @@ export const Button = forwardRef<HTMLButtonElement, IButtonProps>((props, ref: R
 		onClick,
 		className,
 		sizeVariant,
+		sizeTabletVariant,
 		styleVariant,
 		type,
 		linkFrameWorkComp,
@@ -107,6 +109,7 @@ export const Button = forwardRef<HTMLButtonElement, IButtonProps>((props, ref: R
 				styles.baseSprinkles,
 				styles.button({
 					sizeVariant,
+					sizeTabletVariant,
 					styleVariant,
 					iconOnly,
 					disabled,
@@ -124,6 +127,7 @@ export const Button = forwardRef<HTMLButtonElement, IButtonProps>((props, ref: R
 					className={clsx(
 						styles.buttonIconLeft({
 							sizeVariant,
+							sizeTabletVariant,
 							styleVariant,
 							iconOnly,
 						}),
@@ -138,6 +142,7 @@ export const Button = forwardRef<HTMLButtonElement, IButtonProps>((props, ref: R
 					className={clsx(
 						styles.buttonIconRight({
 							sizeVariant,
+							sizeTabletVariant,
 							styleVariant,
 							iconOnly,
 						}),

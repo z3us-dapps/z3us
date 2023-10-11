@@ -6,7 +6,6 @@ import { ChevronRightIcon } from 'ui/src/components/icons'
 import { ResourceImageIcon } from 'ui/src/components/resource-image-icon'
 import { Button } from 'ui/src/components/router-button'
 import { Text } from 'ui/src/components/typography'
-import { useIsMobileWidth } from 'ui/src/hooks/use-is-mobile'
 import type { ResourceBalanceKind } from 'ui/src/types/types'
 
 import * as styles from './styles.css'
@@ -21,7 +20,6 @@ interface IProps {
 export const OverlayAssetIcons: React.FC<IProps> = ({ resourceType, balances }) => {
 	const navigate = useNavigate()
 	const { accountId } = useParams()
-	const isMobile = useIsMobileWidth()
 
 	return (
 		<Box className={styles.overlayAssetIconsWrapper}>
@@ -42,7 +40,8 @@ export const OverlayAssetIcons: React.FC<IProps> = ({ resourceType, balances }) 
 							navigate(`/accounts/${accountId || '-'}/${resourceType}s/${resource.address}`)
 						}}
 						styleVariant="avatar"
-						sizeVariant={isMobile ? 'small' : 'medium'}
+						sizeVariant="small"
+						sizeTabletVariant="medium"
 						iconOnly
 						rounded
 					>
