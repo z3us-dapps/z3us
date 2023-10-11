@@ -43,18 +43,18 @@ export const AssetsList: React.FC = () => {
 
 	const { data: balanceData, isLoading } = useBalances(...selectedAccounts)
 	const {
-		nonFungibleBalances,
-		nonFungibleChange,
-		nonFungibleValue,
-		tokensBalances,
-		tokensValue,
-		tokensChange,
-		liquidityPoolTokensBalances,
-		liquidityPoolTokensValue,
-		liquidityPoolTokensChange,
-		poolUnitsBalances,
-		poolUnitsValue,
-		poolUnitsChange,
+		nonFungibleBalances = [],
+		nonFungibleChange = 0,
+		nonFungibleValue = 0,
+		tokensBalances = [],
+		tokensValue = 0,
+		tokensChange = 0,
+		liquidityPoolTokensBalances = [],
+		liquidityPoolTokensValue = 0,
+		liquidityPoolTokensChange = 0,
+		poolUnitsBalances = [],
+		poolUnitsValue = 0,
+		poolUnitsChange = 0,
 	} = balanceData || {}
 
 	const rows = {

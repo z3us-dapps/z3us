@@ -18,16 +18,16 @@ export const useTotalBalance = () => {
 
 	const { data: balanceData, isLoading } = useBalances(...selectedAccounts)
 	const {
-		totalValue,
-		totalChange,
-		fungibleValue,
-		fungibleChange,
-		nonFungibleValue,
-		nonFungibleChange,
-		liquidityPoolTokensValue,
-		liquidityPoolTokensChange,
-		poolUnitsValue,
-		poolUnitsChange,
+		totalValue = 0,
+		totalChange = 0,
+		fungibleValue = 0,
+		fungibleChange = 0,
+		nonFungibleValue = 0,
+		nonFungibleChange = 0,
+		liquidityPoolTokensValue = 0,
+		liquidityPoolTokensChange = 0,
+		poolUnitsValue = 0,
+		poolUnitsChange = 0,
 	} = balanceData || {}
 
 	const value = useMemo(() => {
