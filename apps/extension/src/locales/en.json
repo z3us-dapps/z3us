@@ -332,6 +332,9 @@
   "interaction.preview.fee_summary": {
     "defaultMessage": "Fee summary"
   },
+  "interaction.preview.proof": {
+    "defaultMessage": "Presenting proof"
+  },
   "interaction.preview.resource_changes": {
     "defaultMessage": "Resource changes"
   },
@@ -698,6 +701,12 @@
   "settings.address_book.title": {
     "defaultMessage": "Address book"
   },
+  "settings.authorized_dapps.subtitle": {
+    "defaultMessage": "This are the dApps that you have logged into."
+  },
+  "settings.authorized_dapps.title": {
+    "defaultMessage": "Authorized dApps"
+  },
   "settings.connector_extension.subtitle": {
     "defaultMessage": "Enable embedded radix connector"
   },
@@ -786,9 +795,15 @@
     "defaultMessage": "General"
   },
   "settings.navigation.personas.subtitle": {
-    "defaultMessage": "Manage your personas"
+    "defaultMessage": "Manage your Radix network identities"
   },
   "settings.navigation.personas.title": {
+    "defaultMessage": "Personas"
+  },
+  "settings.personas.subtitle": {
+    "defaultMessage": "Manage your Radix network identities"
+  },
+  "settings.personas.title": {
     "defaultMessage": "Personas"
   },
   "settings.session.five_minutes": {

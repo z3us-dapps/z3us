@@ -911,6 +911,12 @@
       "value": "Fee summary"
     }
   ],
+  "interaction.preview.proof": [
+    {
+      "type": 0,
+      "value": "Presenting proof"
+    }
+  ],
   "interaction.preview.resource_changes": [
     {
       "type": 0,
@@ -1807,6 +1813,18 @@
       "value": "Address book"
     }
   ],
+  "settings.authorized_dapps.subtitle": [
+    {
+      "type": 0,
+      "value": "This are the dApps that you have logged into."
+    }
+  ],
+  "settings.authorized_dapps.title": [
+    {
+      "type": 0,
+      "value": "Authorized dApps"
+    }
+  ],
   "settings.connector_extension.subtitle": [
     {
       "type": 0,
@@ -1984,10 +2002,22 @@
   "settings.navigation.personas.subtitle": [
     {
       "type": 0,
-      "value": "Manage your personas"
+      "value": "Manage your Radix network identities"
     }
   ],
   "settings.navigation.personas.title": [
+    {
+      "type": 0,
+      "value": "Personas"
+    }
+  ],
+  "settings.personas.subtitle": [
+    {
+      "type": 0,
+      "value": "Manage your Radix network identities"
+    }
+  ],
+  "settings.personas.title": [
     {
       "type": 0,
       "value": "Personas"
