@@ -2,6 +2,7 @@ import { style } from '@vanilla-extract/css'
 import { recipe } from '@vanilla-extract/recipes'
 
 import { sprinkles } from 'ui/src/components/system/sprinkles.css'
+import { responsiveStyle } from 'ui/src/components/system/theme-utils'
 
 export const imageWrapper = recipe({
 	base: {
@@ -17,6 +18,20 @@ export const imageWrapper = recipe({
 			medium: { width: '24px', height: '24px' },
 			large: { width: '32px', height: '32px' },
 			xlarge: { width: '40px', height: '40px' },
+		},
+		sizeTablet: {
+			small: responsiveStyle({
+				tablet: { width: '20px', height: '20px' },
+			}),
+			medium: responsiveStyle({
+				tablet: { width: '24px', height: '24px' },
+			}),
+			large: responsiveStyle({
+				tablet: { width: '32px', height: '32px' },
+			}),
+			xlarge: responsiveStyle({
+				tablet: { width: '40px', height: '40px' },
+			}),
 		},
 		rounded: {
 			true: { borderRadius: 999 },

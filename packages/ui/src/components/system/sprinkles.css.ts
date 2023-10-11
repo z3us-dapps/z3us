@@ -23,6 +23,7 @@ const responsiveProperties = defineProperties({
 		desktop: { '@media': 'screen and (min-width: 1024px)' },
 	},
 	defaultCondition: 'mobile',
+	responsiveArray: ['mobile', 'tablet', 'desktop'],
 	properties: {
 		position: ['absolute', 'relative', 'fixed', 'sticky'],
 		display: ['none', 'flex', 'block', 'inline-flex', 'grid', 'table-cell'],
