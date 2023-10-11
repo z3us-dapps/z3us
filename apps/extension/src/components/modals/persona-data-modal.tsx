@@ -125,8 +125,9 @@ const SelectPersonaModal: React.FC<IProps> = ({ identityAddress, request, onConf
 	const intl = useIntl()
 	const inputRef = useRef(null)
 	const networkId = useNetworkId()
-	const { personaIndexes } = useNoneSharedStore(state => ({
+	const { personaIndexes, updatePersona } = useNoneSharedStore(state => ({
 		personaIndexes: state.personaIndexes[networkId] || {},
+		updatePersona: state.addPersonaAction,
 	}))
 
 	const [validation, setValidation] = useState<ZodError>()
@@ -136,14 +137,14 @@ const SelectPersonaModal: React.FC<IProps> = ({ identityAddress, request, onConf
 	const initialValues = {
 		names: [
 			{
-				variant: 'western',
-				nickname: personaIndexes?.[identityAddress].label || '',
-				givenNames: '',
-				familyName: '',
+				variant: personaIndexes?.[identityAddress].nameVariant || 'western',
+				nickname: personaIndexes?.[identityAddress].nickName || '',
+				givenNames: personaIndexes?.[identityAddress].givenNames || '',
+				familyName: personaIndexes?.[identityAddress].familyName || '',
 			},
 		],
-		emailAddresses: [],
-		phoneNumbers: [],
+		emailAddresses: personaIndexes?.[identityAddress].emailAddresses?.map(email => ({ email })) || [],
+		phoneNumbers: personaIndexes?.[identityAddress].phoneNumbers?.map(number => ({ number })) || [],
 	}
 
 	const validationSchema = useMemo(() => {
@@ -232,6 +233,29 @@ const SelectPersonaModal: React.FC<IProps> = ({ identityAddress, request, onConf
 		if (request.numberOfRequestedPhoneNumbers) {
 			response.phoneNumbers = values.phoneNumbers.map(({ number }) => number)
 		}
+
+		const currentDetails = personaIndexes?.[identityAddress]
+		const labelParts: string[] = []
+		if (response.name?.givenNames) {
+			labelParts.push(response.name?.givenNames)
+		}
+		if (response.name?.nickname) {
+			labelParts.push(`"${response.name?.nickname}"`)
+		}
+		if (response.name?.familyName) {
+			labelParts.push(response.name?.familyName)
+		}
+
+		updatePersona(networkId, identityAddress, {
+			...currentDetails,
+			label: labelParts.length > 0 ? labelParts.join(' ') : currentDetails.label,
+			nickName: response.name?.nickname,
+			nameVariant: response.name?.variant,
+			givenNames: response.name?.givenNames,
+			familyName: response.name?.familyName,
+			emailAddresses: response.emailAddresses,
+			phoneNumbers: response.phoneNumbers,
+		})
 		onConfirm(response)
 		setIsOpen(false)
 		setValidation(undefined)
