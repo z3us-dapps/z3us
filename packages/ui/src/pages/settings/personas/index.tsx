@@ -39,8 +39,9 @@ const Personas: React.FC = () => {
 				{Object.values(personaIndexes).map(persona => (
 					<Box key={persona.identityAddress} display="flex" flexDirection="column" gap="small">
 						<Text size="small" weight="medium" color="strong">
-							{`${persona.label} ${persona.identityAddress}`}
-							Name: {`${persona.givenNames} ${persona.familyName} (${persona.nameVariant})`}
+							{persona.identityAddress}
+							Name ({persona.nameVariant || 'western'}):{' '}
+							{`${persona.givenNames || ''} ${persona.nickName || ''} ${persona.familyName || ''} ()`}
 							Email Addresses: {persona.emailAddresses?.join(', ')}
 							Phone Numbers: {persona.phoneNumbers?.join(', ')}
 						</Text>
