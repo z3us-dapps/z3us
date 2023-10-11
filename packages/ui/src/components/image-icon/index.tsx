@@ -8,8 +8,17 @@ import { Text } from 'ui/src/components/typography'
 
 import * as styles from './image-icon.css'
 
-export type TImageSizes = 'small' | 'medium' | 'large' | 'xlarge'
 export type TImageColors = 'primary' | 'secondary'
+
+type TImageSizeOption = 'small' | 'medium' | 'large' | 'xlarge'
+
+type TImageSizes =
+	| TImageSizeOption
+	| {
+			mobile?: TImageSizeOption
+			tablet?: TImageSizeOption
+			desktop?: TImageSizeOption
+	  }
 
 export interface IImageIconProps {
 	imgSrc: string
@@ -18,7 +27,6 @@ export interface IImageIconProps {
 	className?: ClassValue
 	imgFallbackDelay?: number
 	size?: TImageSizes
-	sizeTablet?: TImageSizes
 	backgroundColor?: TThemeColorKey
 	color?: TThemeColorKey
 	rounded?: boolean
@@ -31,24 +39,35 @@ export const ImageIcon = forwardRef<HTMLElement, IImageIconProps>((props, ref: R
 		imgFallbackDelay = 600,
 		imgAlt,
 		size = 'medium',
-		sizeTablet,
 		color = 'colorNeutral',
 		backgroundColor = 'backgroundPrimary',
 		rounded = true,
 		fallbackText,
 	} = props
 
+	const sizeVariantMobile = typeof size === 'object' ? size.mobile : size
+	const sizeVariantTablet = typeof size === 'object' ? size.tablet : undefined
+
 	return (
 		<Box
 			ref={ref}
 			color={color}
 			background={backgroundColor}
-			className={clsx(styles.imageWrapper({ size, sizeTablet, rounded }), className)}
+			className={clsx(
+				styles.imageWrapper({ size: sizeVariantMobile, sizeTablet: sizeVariantTablet, rounded }),
+				className,
+			)}
 		>
 			<AvatarPrimitive.Root className={styles.imageAvatarRootWrapper}>
 				<AvatarPrimitive.Image className={styles.imageAvatarImageWrapper} src={imgSrc} alt={imgAlt} />
 				<AvatarPrimitive.Fallback delayMs={imgFallbackDelay} className={styles.imageAvatarFallbackWrapper}>
-					<Text className={clsx(styles.imageFallbackTextWrapper({ size }))}>{fallbackText}</Text>
+					<Text
+						className={clsx(
+							styles.imageFallbackTextWrapper({ size: sizeVariantMobile, sizeTablet: sizeVariantTablet }),
+						)}
+					>
+						{fallbackText}
+					</Text>
 				</AvatarPrimitive.Fallback>
 			</AvatarPrimitive.Root>
 		</Box>
