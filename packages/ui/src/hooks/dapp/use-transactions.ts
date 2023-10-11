@@ -51,22 +51,27 @@ export const useTransactions = (addresses: string[]) => {
 		queryFn: async ({ pageParam }) => {
 			const responses = await Promise.all(
 				addresses.map((address, idx) =>
-					stream.innerClient.streamTransactions({
-						streamTransactionsRequest: { cursor: pageParam?.[idx], affected_global_entities_filter: [address] },
-					}),
+					pageParam?.[idx] === null
+						? { items: [], next_cursor: null }
+						: stream.innerClient.streamTransactions({
+								streamTransactionsRequest: { cursor: pageParam?.[idx], affected_global_entities_filter: [address] },
+						  }),
 				),
 			)
 
-			return responses.reduce(
+			const aggregatedResult = responses.reduce(
 				(accumulator, response) => {
 					accumulator.items.push(...response.items)
-					accumulator.next_cursors.push(response.next_cursor)
+					accumulator.next_cursors.push(response.next_cursor || null)
 					return accumulator
 				},
 				{ items: [], next_cursors: [] },
 			)
+
+			return aggregatedResult
 		},
-		getNextPageParam: lastPage => lastPage.next_cursors,
+		getNextPageParam: lastPage =>
+			lastPage.next_cursors.filter(cursor => cursor !== null).length === 0 ? undefined : lastPage.next_cursors,
 		// getPreviousPageParam: firstPage => firstPage.previous_cursor,
 		enabled: !!stream,
 	})
