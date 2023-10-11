@@ -71,7 +71,7 @@ export const useTransactions = (addresses: string[]) => {
 			return aggregatedResult
 		},
 		getNextPageParam: lastPage =>
-			lastPage.next_cursors.filter(cursor => cursor !== null).length === 0 ? undefined : lastPage.next_cursors,
+			lastPage.next_cursors?.filter(cursor => cursor !== null).length > 0 ? lastPage.next_cursors : undefined,
 		// getPreviousPageParam: firstPage => firstPage.previous_cursor,
 		enabled: !!stream,
 	})
