@@ -38,7 +38,7 @@ const transformFungibleResourceItemResponse =
 
 		const tokenPriceNow = parseFloat(token?.price?.usd.now) || 0
 		const tokenPrice24h = parseFloat(token?.price?.usd['24h']) || 0
-		const change = tokenPrice24h !== 0 ? tokenPriceNow / tokenPrice24h / 100 : 0
+		const change = tokenPriceNow !== 0 ? tokenPriceNow / tokenPrice24h / 100 : 0
 
 		const details = {
 			address: item.resource_address,
@@ -117,8 +117,8 @@ const transformBalances = (balanceValues: ResourceBalanceKind[], valueType: stri
 
 	return {
 		[`${valueType}Balances`]: balanceValues,
-		[`${valueType}Value`]: totalValue,
-		[`${valueType}Change`]: totalChange,
+		[`${valueType}Value`]: Number.isFinite(totalValue) ? totalValue : 0,
+		[`${valueType}Change`]: Number.isFinite(totalChange) ? totalChange : 0,
 	}
 }
 
