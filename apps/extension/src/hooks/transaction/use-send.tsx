@@ -18,7 +18,7 @@ export const useSendTransaction = () => {
 
 	const sendTransaction = async (
 		input: SendTransactionInput,
-		settings: TransactionSettings = { tipPercentage: 0 },
+		settings?: TransactionSettings,
 	): Promise<{
 		transactionIntentHash: string
 		status: TransactionStatus

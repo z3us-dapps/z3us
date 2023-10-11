@@ -15,7 +15,7 @@ export const usePreview = () => {
 		allAccountIndexes: state.accountIndexes,
 	}))
 
-	const buildPreview = async (intent: Intent, settings: TransactionSettings = { tipPercentage: 0 }) => {
+	const buildPreview = async (intent: Intent, settings: TransactionSettings = {}) => {
 		const accountIndexes = allAccountIndexes[intent.header.networkId] || {}
 		const { ledger_state: ledgerState } = await status.getCurrent()
 		const validFromEpoch: number = ledgerState.epoch
@@ -44,7 +44,7 @@ export const usePreview = () => {
 				end_epoch_exclusive: validFromEpoch + 10,
 				nonce: generateRandomNonce(),
 				signer_public_keys: signerPublicKeys,
-				tip_percentage: settings.tipPercentage,
+				tip_percentage: settings.tipPercentage || 0,
 				flags: {
 					use_free_credit: false,
 					assume_all_signature_proofs: true,

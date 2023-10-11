@@ -1,7 +1,7 @@
 import type { CommittedTransactionInfo } from '@radixdlt/babylon-gateway-api-sdk'
 import clsx from 'clsx'
 import { AnimatePresence, motion } from 'framer-motion'
-import React, { forwardRef, useCallback, useState } from 'react'
+import React, { forwardRef, useCallback, useMemo, useState } from 'react'
 import { defineMessages, useIntl } from 'react-intl'
 import { Virtuoso } from 'react-virtuoso'
 
@@ -176,8 +176,12 @@ export const ActivityList = forwardRef<HTMLElement>((_, ref: React.Ref<HTMLEleme
 	const addresses = useSelectedAccounts()
 	const { isFetching, data, fetchNextPage, hasNextPage } = useTransactions(addresses)
 
-	const flatten = data?.pages.reduce((container, page) => [...container, ...page.items], []) || []
-	const flattenWithLoading = hasNextPage && isFetching ? [...flatten, ...skeletons] : flatten
+	const flattenWithLoading = useMemo(() => {
+		const flatten = (data?.pages.reduce((container, page) => [...container, ...page.items], []) || []).sort(
+			(a, b) => new Date(b.round_timestamp).getTime() - new Date(a.round_timestamp).getTime(),
+		)
+		return hasNextPage && isFetching ? [...flatten, ...skeletons] : flatten
+	}, [data])
 
 	const loadMore = useCallback(() => {
 		if (isFetching) return

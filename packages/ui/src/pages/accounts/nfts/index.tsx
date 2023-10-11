@@ -52,7 +52,7 @@ const NFTs: React.FC = () => {
 	const selectedAccounts = useSelectedAccounts()
 
 	const { data: balanceData, isLoading } = useBalances(...selectedAccounts)
-	const { nonFungibleBalances } = balanceData || {}
+	const { nonFungibleBalances = [] } = balanceData || {}
 
 	const selectedToken = useMemo(
 		() => nonFungibleBalances.find(b => b.address === resourceId) as ResourceBalance[ResourceBalanceType.NON_FUNGIBLE],
@@ -68,7 +68,7 @@ const NFTs: React.FC = () => {
 		[pages],
 	)
 	const { data = [] } = useNonFungiblesData(resourceId, ids)
-	const tableData = useMemo(() => data.map(data => ({ ...data, collection: resourceId })), [resourceId, data])
+	const tableData = useMemo(() => data.map(d => ({ ...d, collection: resourceId })), [resourceId, data])
 	const selectedRowIds = useMemo(() => {
 		const idx = ids.findIndex(b => b === nftId)
 		if (idx >= 0) {

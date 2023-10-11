@@ -1,5 +1,5 @@
 import type { TransactionPreviewResponse } from '@radixdlt/radix-dapp-toolkit'
-import type { Intent } from '@radixdlt/radix-engine-toolkit'
+import type { Instruction, Intent } from '@radixdlt/radix-engine-toolkit'
 import { FallbackLoading } from 'packages/ui/src/components/fallback-renderer'
 import { useNetworkId } from 'packages/ui/src/hooks/dapp/use-network-id'
 import { useNoneSharedStore } from 'packages/ui/src/hooks/use-store'
@@ -12,7 +12,8 @@ import { ResourceSnippet } from 'ui/src/components/resource-snippet'
 import { RedGreenText, Text } from 'ui/src/components/typography'
 
 import { usePreview } from '@src/hooks/transaction/use-preview'
-import type { TransactionSettings } from '@src/types/transaction'
+import { summaryFromInstructions } from '@src/radix/manifest'
+import type { ResourceChanges, Summary, TransactionSettings } from '@src/types/transaction'
 
 const messages = defineMessages({
 	resource_changes: {
@@ -43,6 +44,10 @@ const messages = defineMessages({
 		id: 'interaction.preview.xrd_total_tipping_cost',
 		defaultMessage: 'Tipping: {cost, number, ::.00#######}',
 	},
+	proof: {
+		id: 'interaction.preview.proof',
+		defaultMessage: 'Presenting proof',
+	},
 })
 
 interface IProps {
@@ -52,7 +57,8 @@ interface IProps {
 
 type State = {
 	preview?: TransactionPreviewResponse
-	flatChanges?: Array<{ account: string; resource: string; amount: number }>
+	flatChanges?: ResourceChanges
+	summary?: Summary
 }
 
 function aggregateConsecutiveChanges(
@@ -102,10 +108,14 @@ export const Preview: React.FC<IProps> = ({ intent, settings = {} }) => {
 	const [state, setState] = useImmer<State>({})
 
 	useEffect(() => {
-		buildPreview(intent, settings).then(response => {
+		Promise.all([
+			buildPreview(intent, settings),
+			summaryFromInstructions(intent.manifest.instructions.value as Instruction[]),
+		]).then(([preview, summary]) => {
 			setState(draft => {
-				draft.preview = response
-				draft.flatChanges = aggregateConsecutiveChanges(response.resource_changes)
+				draft.preview = preview
+				draft.flatChanges = aggregateConsecutiveChanges(preview.resource_changes)
+				draft.summary = summary
 			})
 		})
 	}, [intent])
@@ -134,6 +144,19 @@ export const Preview: React.FC<IProps> = ({ intent, settings = {} }) => {
 								signDisplay: 'always',
 							})}
 						</RedGreenText>
+					</Box>
+				))}
+			</Box>
+			<Box display="flex" flexDirection="column">
+				{state.summary?.proofs.map((proof, idx) => (
+					<Box
+						// eslint-disable-next-line react/no-array-index-key
+						key={`${idx}`}
+						display="flex"
+						gap="small"
+					>
+						<Text align="center">{intl.formatMessage(messages.proof)}</Text>
+						<ResourceSnippet address={proof.resourceAddress} />
 					</Box>
 				))}
 			</Box>

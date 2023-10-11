@@ -95,8 +95,17 @@ export enum SCHEME {
 
 // `m/44H/1022H/14H/618H/1460H/${index}H`
 export type Persona = {
-	label: string
 	identityAddress: string
+
+	label: string
+
+	nameVariant?: 'western' | 'eastern'
+	nickName?: string
+	givenNames?: string
+	familyName?: string
+	emailAddresses?: string[]
+	phoneNumbers?: string[]
+
 	entityIndex: number
 	publicKeyHex: string
 	curve: CURVE

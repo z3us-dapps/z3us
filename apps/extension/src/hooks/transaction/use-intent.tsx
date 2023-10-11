@@ -30,7 +30,7 @@ export const useIntent = () => {
 		accountIndexes: state.accountIndexes[networkId] || {},
 	}))
 
-	const buildIntent = async (input: SendTransactionInput, settings: TransactionSettings = { tipPercentage: 0 }) => {
+	const buildIntent = async (input: SendTransactionInput, settings: TransactionSettings = {}) => {
 		const instructions = await RadixEngineToolkit.Instructions.convert(
 			{
 				kind: InstructionsKind.String,
@@ -61,7 +61,7 @@ export const useIntent = () => {
 			nonce: generateRandomNonce(),
 			notaryPublicKey: notary.publicKey(),
 			notaryIsSignatory: false,
-			tipPercentage: settings.tipPercentage,
+			tipPercentage: settings.tipPercentage || 0,
 		}
 
 		const manifest: TransactionManifest = {

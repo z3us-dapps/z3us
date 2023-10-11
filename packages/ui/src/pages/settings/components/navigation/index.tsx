@@ -23,7 +23,7 @@ const messages = defineMessages({
 	},
 	personas_subtitle: {
 		id: 'settings.navigation.personas.subtitle',
-		defaultMessage: `Manage your personas`,
+		defaultMessage: `Manage your Radix network identities`,
 	},
 	accounts_title: {
 		id: 'settings.navigation.accounts.title',

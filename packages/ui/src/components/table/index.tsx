@@ -138,11 +138,14 @@ export const Table: React.FC<ITableProps> = props => {
 		[data, columns, loading, loadMore],
 	)
 
+	const { top } = scrollableNode?.getBoundingClientRect() || {}
+	const stickyTop = tableTop - top
+
 	return (
 		<Box
 			ref={measureRef}
 			className={clsx(styles.tableWrapper, className)}
-			style={assignInlineVars({ [styles.stickyTop]: `${tableTop - scrollableNode.getBoundingClientRect().top}px` })}
+			style={assignInlineVars({ [styles.stickyTop]: `${stickyTop}px` })}
 		>
 			<TableVirtuoso
 				className={clsx(

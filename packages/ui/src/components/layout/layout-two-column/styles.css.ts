@@ -16,12 +16,12 @@ export const layoutTwoColWrapper = style([
 		paddingBottom: {
 			mobile: 'none',
 			tablet: 'large',
-			desktop: 'xxlarge',
+			desktop: 'xlarge',
 		},
 		paddingTop: {
 			mobile: 'none',
 			tablet: 'large',
-			desktop: 'xxlarge',
+			desktop: 'xlarge',
 		},
 	}),
 	{},
@@ -51,8 +51,8 @@ export const layoutTwoColLeftWrapper = style([
 			desktop: 'medium',
 		},
 		paddingTop: {
-			tablet: 'large',
-			desktop: 'large',
+			tablet: 'xlarge',
+			desktop: 'xxlarge',
 		},
 		alignItems: 'self-start',
 		flexShrink: 0,

@@ -50,7 +50,7 @@ const NftCollections: React.FC = () => {
 	const selectedAccounts = useSelectedAccounts()
 
 	const { data: balanceData, isLoading } = useBalances(...selectedAccounts)
-	const { nonFungibleBalances } = balanceData || {}
+	const { nonFungibleBalances = [] } = balanceData || {}
 
 	const handleRowSelected = (row: { original: ResourceBalance[ResourceBalanceType.NON_FUNGIBLE] }) => {
 		const { original } = row

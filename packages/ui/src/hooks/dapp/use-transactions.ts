@@ -48,11 +48,30 @@ export const useTransactions = (addresses: string[]) => {
 
 	const data = useInfiniteQuery({
 		queryKey: ['useTransactions', networkId, ...addresses],
-		queryFn: ({ pageParam }) =>
-			stream.innerClient.streamTransactions({
-				streamTransactionsRequest: { cursor: pageParam, affected_global_entities_filter: addresses },
-			}),
-		getNextPageParam: lastPage => lastPage.next_cursor,
+		queryFn: async ({ pageParam }) => {
+			const responses = await Promise.all(
+				addresses.map((address, idx) =>
+					pageParam?.[idx] === null
+						? { items: [], next_cursor: null }
+						: stream.innerClient.streamTransactions({
+								streamTransactionsRequest: { cursor: pageParam?.[idx], affected_global_entities_filter: [address] },
+						  }),
+				),
+			)
+
+			const aggregatedResult = responses.reduce(
+				(accumulator, response) => {
+					accumulator.items.push(...response.items)
+					accumulator.next_cursors.push(response.next_cursor || null)
+					return accumulator
+				},
+				{ items: [], next_cursors: [] },
+			)
+
+			return aggregatedResult
+		},
+		getNextPageParam: lastPage =>
+			lastPage.next_cursors.filter(cursor => cursor !== null).length === 0 ? undefined : lastPage.next_cursors,
 		// getPreviousPageParam: firstPage => firstPage.previous_cursor,
 		enabled: !!stream,
 	})
