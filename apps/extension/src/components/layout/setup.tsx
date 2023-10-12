@@ -1,20 +1,50 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useLocation, useNavigate, useOutlet } from 'react-router-dom'
 
 import { FallbackLoading } from 'ui/src/components/fallback-renderer'
+import { useSharedStore } from 'ui/src/hooks/use-store'
+import { KeystoreType } from 'ui/src/store/types'
 
-import { useIsSetUpComplete } from '@src/hooks/use-is-setup-complete'
+import { useMessageClient } from '@src/hooks/use-message-client'
+
+const redirectMap = {
+	[KeystoreType.RADIX_WALLET]: '/keystore/new/radix',
+	[KeystoreType.HARDWARE]: '/keystore/new/hardware-wallet',
+}
 
 const SetupChecker: React.FC = () => {
 	const location = useLocation()
 	const navigate = useNavigate()
-	const { isComplete, isLoading, redirect } = useIsSetUpComplete()
+	const client = useMessageClient()
+	const { keystore } = useSharedStore(state => ({
+		keystore: state.keystores.find(({ id }) => id === state.selectedKeystoreId),
+	}))
+
+	const [isLoading, setIsLoading] = useState<boolean>(true)
 
 	useEffect(() => {
-		if (!isComplete && !location.pathname.startsWith('/keystore')) {
-			navigate(redirect)
+		const load = async () => {
+			setIsLoading(true)
+			try {
+				switch (keystore?.type) {
+					case KeystoreType.RADIX_WALLET:
+					case KeystoreType.HARDWARE:
+						// eslint-disable-next-line no-case-declarations
+						const isComplete = await client.isSecretEmpty()
+						if (!isComplete && !location.pathname.startsWith('/keystore')) navigate(redirectMap[keystore.type])
+						break
+					default:
+						break
+				}
+			} catch (err) {
+				// eslint-disable-next-line no-console
+				console.error(err)
+			} finally {
+				setIsLoading(!keystore)
+			}
 		}
-	}, [isComplete, location.pathname])
+		load()
+	}, [keystore, location.pathname])
 
 	const outlet = useOutlet()
 
