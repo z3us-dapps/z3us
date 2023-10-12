@@ -125,39 +125,6 @@ const transformBalances = (balanceValues: ResourceBalanceKind[], valueType: stri
 const transformBalancesByType = (balances: ResourceBalances, type: string) =>
 	Object.values(balances).filter(balance => balance.type === type)
 
-export const useAccountValues = (...addresses: string[]) => {
-	const networkId = useNetworkId()
-	const { currency } = useNoneSharedStore(state => ({
-		currency: state.currency,
-	}))
-
-	const { data: knownAddresses, isLoading: isLoadingKnownAddresses } = useKnownAddresses()
-	const { data: xrdPrice, isLoading: isLoadingXrdPrice } = useXRDPriceOnDay(currency, new Date())
-	const { data: tokens, isLoading: isLoadingTokens } = useTokens()
-	const { data: accounts, isLoading: isLoadingAccounts } = useEntitiesDetails(addresses.filter(address => !!address))
-
-	const isLoading = isLoadingKnownAddresses || isLoadingXrdPrice || isLoadingTokens || isLoadingAccounts
-	const enabled = !isLoading && !!accounts && !!xrdPrice && !!tokens && !!knownAddresses
-
-	return useQuery({
-		queryKey: ['useAccountValues', networkId, ...addresses],
-		enabled,
-		queryFn: () =>
-			accounts.reduce(
-				(container, account) => ({
-					...container,
-					[account.address]: Object.values(
-						account.fungible_resources.items.reduce(
-							transformFungibleResourceItemResponse(knownAddresses, xrdPrice, tokens),
-							{},
-						),
-					).reduce((total: number, balance: ResourceBalance[ResourceBalanceType.FUNGIBLE]) => total + balance.value, 0),
-				}),
-				{},
-			),
-	})
-}
-
 type Balances = {
 	balances: ResourceBalanceKind[]
 	totalValue: number
@@ -240,5 +207,66 @@ export const useBalances = (...addresses: string[]) => {
 				...transformBalances(poolUnits, 'poolUnits'),
 			} as Balances
 		},
+	})
+}
+
+export const useAccountValues = (...addresses: string[]) => {
+	const networkId = useNetworkId()
+	const { currency } = useNoneSharedStore(state => ({
+		currency: state.currency,
+	}))
+
+	const { data: knownAddresses, isLoading: isLoadingKnownAddresses } = useKnownAddresses()
+	const { data: xrdPrice, isLoading: isLoadingXrdPrice } = useXRDPriceOnDay(currency, new Date())
+	const { data: tokens, isLoading: isLoadingTokens } = useTokens()
+	const { data: accounts, isLoading: isLoadingAccounts } = useEntitiesDetails(addresses.filter(address => !!address))
+
+	const isLoading = isLoadingKnownAddresses || isLoadingXrdPrice || isLoadingTokens || isLoadingAccounts
+	const enabled = !isLoading && !!accounts && !!xrdPrice && !!tokens && !!knownAddresses
+
+	return useQuery({
+		queryKey: ['useAccountValues', networkId, ...addresses],
+		enabled,
+		queryFn: () =>
+			accounts.reduce(
+				(container, account) => ({
+					...container,
+					[account.address]: Object.values(
+						account.fungible_resources.items.reduce(
+							transformFungibleResourceItemResponse(knownAddresses, xrdPrice, tokens),
+							{},
+						),
+					).reduce((total: number, balance: ResourceBalance[ResourceBalanceType.FUNGIBLE]) => total + balance.value, 0),
+				}),
+				{},
+			),
+	})
+}
+
+type AccountNfts = { resource: string; vault: string; account: string }
+
+export const useAccountNftVaults = (resource: string, ...addresses: string[]) => {
+	const networkId = useNetworkId()
+
+	const { data: accounts = [], isLoading } = useEntitiesDetails(addresses.filter(address => !!address))
+
+	return useQuery({
+		queryKey: ['useAccountNftVaults', networkId, ...addresses],
+		enabled: !!resource && !isLoading && accounts.length > 0,
+		queryFn: () =>
+			accounts.reduce((result: Array<AccountNfts>, account) => {
+				const items = account.non_fungible_resources.items as Array<NonFungibleResourcesCollectionItemVaultAggregated>
+				const resourceItems = items.find(({ resource_address }) => resource_address === resource)
+				if (resourceItems) {
+					return result.concat(
+						resourceItems.vaults.items.map(({ vault_address }) => ({
+							resource,
+							vault: vault_address,
+							account: account.address,
+						})),
+					)
+				}
+				return result
+			}, [] as Array<AccountNfts>),
 	})
 }
