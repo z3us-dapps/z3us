@@ -1,6 +1,6 @@
 import { getExtensionOptions } from '@radixdlt/connector-extension/src/options'
+import { logger } from '@radixdlt/connector-extension/src/utils/logger'
 import { ConnectorClient } from '@radixdlt/radix-connect-webrtc'
-import { ResultAsync, ok } from 'neverthrow'
 import { QRCodeSVG } from 'qrcode.react'
 import React, { useEffect } from 'react'
 import { defineMessages, useIntl } from 'react-intl'
@@ -12,11 +12,8 @@ import { Text } from 'ui/src/components/typography'
 import { useTheme } from 'ui/src/hooks/use-theme'
 import { Theme } from 'ui/src/types/types'
 
-import {
-	getConnectionPassword as getStorageConnectionPassword,
-	setConnectionPassword as setStorageConnectionPassword,
-} from '@src/browser/vault/storage'
 import { config, radixConnectConfig } from '@src/config'
+import { chromeLocalStore } from '@src/radix/storage-local'
 
 const messages = defineMessages({
 	help: {
@@ -63,35 +60,33 @@ export const Pairing: React.FC<IProps> = ({
 			source: 'extension',
 			target: 'wallet',
 			isInitiator: config.webRTC.isInitiator,
+			logger,
 		})
 
-		const connect = () =>
-			getStorageConnectionPassword().then(data => {
-				const password = data[PASSWORD_STORAGE_KEY]
-				if (password) {
-					connectorClient.setConnectionPassword(Buffer.from(password, 'hex'))
-					onPairingStateChange(PairingState.PAIRED)
-					return ok(null)
-				}
-				connectorClient.connect()
-				onPairingStateChange(PairingState.NOT_PAIRED)
-				return connectorClient.generateConnectionPassword().andThen(buffer =>
-					connectorClient
-						.connected()
-						.andThen(() => {
-							connectorClient.disconnect()
-							return ResultAsync.fromPromise(
-								setStorageConnectionPassword(buffer.toString('hex')),
-								error => error as Error,
-							)
+		const connect = () => {
+			onPairingStateChange(PairingState.LOADING)
+			return chromeLocalStore
+				.getItem('connectionPassword')
+				.andThen(({ connectionPassword: password }) => {
+					if (password) {
+						connectorClient.setConnectionPassword(Buffer.from(password, 'hex'))
+						return chromeLocalStore.setItem({
+							[PASSWORD_STORAGE_KEY]: password,
 						})
-						.map(() => onPairingStateChange(PairingState.PAIRED)),
-				)
-			})
-
-		getExtensionOptions().map(options =>
-			connectorClient.setConnectionConfig(radixConnectConfig[options.radixConnectConfiguration]),
-		)
+					}
+					connectorClient.connect()
+					onPairingStateChange(PairingState.NOT_PAIRED)
+					return connectorClient.generateConnectionPassword().andThen(buffer =>
+						connectorClient.connected().andThen(() => {
+							connectorClient.disconnect()
+							return chromeLocalStore.setItem({
+								[PASSWORD_STORAGE_KEY]: buffer.toString('hex'),
+							})
+						}),
+					)
+				})
+				.map(() => onPairingStateChange(PairingState.PAIRED))
+		}
 
 		browser.storage.onChanged.addListener((changes, area) => {
 			if (changes.options) {
@@ -108,6 +103,10 @@ export const Pairing: React.FC<IProps> = ({
 		const subscription = connectorClient.connectionPassword$.subscribe(password => {
 			onConnectionPasswordChange(password?.toString('hex'))
 		})
+
+		getExtensionOptions().map(options =>
+			connectorClient.setConnectionConfig(radixConnectConfig[options.radixConnectConfiguration]),
+		)
 
 		connect()
 
