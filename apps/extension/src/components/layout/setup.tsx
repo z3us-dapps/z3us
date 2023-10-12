@@ -11,8 +11,10 @@ const SetupChecker: React.FC = () => {
 	const { isComplete, isLoading, redirect } = useIsSetUpComplete()
 
 	useEffect(() => {
-		if (!isComplete && !location.pathname.startsWith('/keystore')) navigate(redirect)
-	}, [isComplete])
+		if (!isComplete && !location.pathname.startsWith('/keystore')) {
+			navigate(redirect)
+		}
+	}, [isComplete, location.pathname])
 
 	const outlet = useOutlet()
 
