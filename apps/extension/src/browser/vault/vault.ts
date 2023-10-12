@@ -112,6 +112,11 @@ export class Vault {
 
 			const secret = await this.crypto.encrypt<Data>(password, data)
 			await saveSecret(keystore.id, secret)
+
+			if (this.wallet?.keystore.id === keystore.id) {
+				this.wallet.keystore = keystore
+				this.wallet.data = data
+			}
 		} catch (error) {
 			await this.clearState()
 			throw error
