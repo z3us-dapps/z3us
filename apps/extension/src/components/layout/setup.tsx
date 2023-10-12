@@ -25,7 +25,6 @@ const SetupChecker: React.FC = () => {
 
 	useEffect(() => {
 		const load = async () => {
-			setIsLoading(true)
 			try {
 				switch (keystore?.type) {
 					case KeystoreType.RADIX_WALLET:
