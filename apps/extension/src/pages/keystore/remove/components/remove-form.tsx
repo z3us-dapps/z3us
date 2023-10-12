@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { defineMessages, useIntl } from 'react-intl'
+import { useNavigate } from 'react-router-dom'
 
 import { Box } from 'ui/src/components/box'
 import { Form } from 'ui/src/components/form'
@@ -31,6 +32,7 @@ const initialValues = {
 export const RemoveForm: React.FC = () => {
 	const intl = useIntl()
 	const inputRef = useRef(null)
+	const navigate = useNavigate()
 	const client = useMessageClient()
 	const { selectedKeystoreId, removeKeystore } = useSharedStore(state => ({
 		selectedKeystoreId: state.selectedKeystoreId,
@@ -48,6 +50,7 @@ export const RemoveForm: React.FC = () => {
 			await client.removeFromVault(values.password)
 			removeKeystore(selectedKeystoreId)
 			await client.lockVault()
+			navigate('/')
 			setError('')
 		} catch (err) {
 			// eslint-disable-next-line no-console
