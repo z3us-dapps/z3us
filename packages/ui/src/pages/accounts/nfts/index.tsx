@@ -1,17 +1,14 @@
 import type { StateNonFungibleDetailsResponseItem } from '@radixdlt/babylon-gateway-api-sdk'
-import React, { useMemo } from 'react'
+import React, { useCallback, useMemo } from 'react'
 import { defineMessages, useIntl } from 'react-intl'
 import { useNavigate, useParams } from 'react-router-dom'
 
 import { Box } from 'ui/src/components/box'
 import { useScroll } from 'ui/src/components/scroll-area-radix/use-scroll'
 import { TableWithEmptyState } from 'ui/src/components/table'
-import { Text } from 'ui/src/components/typography'
-import { useBalances } from 'ui/src/hooks/dapp/use-balances'
 import { useNonFungibleIds, useNonFungiblesData } from 'ui/src/hooks/dapp/use-entity-nft'
 import { useSelectedAccounts } from 'ui/src/hooks/use-accounts'
 import { AssetNameCell } from 'ui/src/pages/accounts/components/table/asset-name-cell'
-import type { ResourceBalance, ResourceBalanceType } from 'ui/src/types/types'
 
 import { NftDataCell } from '../components/table/nft-data-cell'
 import * as styles from '../components/table/styles.css'
@@ -37,10 +34,6 @@ const messages = defineMessages({
 		id: 'nfts.empty_subtitle',
 		defaultMessage: 'Could not find any NFTs in this account',
 	},
-	no_account_subtitle: {
-		id: 'nfts.no_account_subtitle',
-		defaultMessage: 'To see collection items select an account first',
-	},
 })
 
 const NFTs: React.FC = () => {
@@ -51,24 +44,13 @@ const NFTs: React.FC = () => {
 	const nftId = decodeURIComponent(rawNftId)
 	const selectedAccounts = useSelectedAccounts()
 
-	const { data: balanceData, isLoading } = useBalances(...selectedAccounts)
-	const { nonFungibleBalances = [] } = balanceData || {}
-
-	const selectedToken = useMemo(
-		() => nonFungibleBalances.find(b => b.address === resourceId) as ResourceBalance[ResourceBalanceType.NON_FUNGIBLE],
-		[resourceId, nonFungibleBalances],
-	)
-	const pages = useNonFungibleIds(accountId, selectedToken?.address, selectedToken?.vaults)
+	const { isFetching, data: idsData, fetchNextPage, hasNextPage } = useNonFungibleIds(resourceId, selectedAccounts)
 	const ids = useMemo(
-		() =>
-			pages
-				?.filter(({ data }) => !!data)
-				.map(({ data }) => data)
-				?.flat() || [],
-		[pages],
+		() => idsData?.pages.reduce((container, page) => [...container, ...page.items], []) || [],
+		[idsData],
 	)
-	const { data = [] } = useNonFungiblesData(resourceId, ids)
-	const tableData = useMemo(() => data.map(d => ({ ...d, collection: resourceId })), [resourceId, data])
+
+	const { data: tableData = [], isLoading } = useNonFungiblesData(resourceId, ids)
 	const selectedRowIds = useMemo(() => {
 		const idx = ids.findIndex(b => b === nftId)
 		if (idx >= 0) {
@@ -83,6 +65,13 @@ const NFTs: React.FC = () => {
 		const { original } = row
 		navigate(`/accounts/${accountId}/nfts/${resourceId}/${encodeURIComponent(original.non_fungible_id)}`)
 	}
+
+	const loadMore = useCallback(() => {
+		if (isFetching) return
+		if (hasNextPage) {
+			fetchNextPage()
+		}
+	}, [isFetching, fetchNextPage, hasNextPage])
 
 	const columns = useMemo(
 		() => [
@@ -107,10 +96,6 @@ const NFTs: React.FC = () => {
 		[],
 	)
 
-	if (accountId === '-') {
-		return <Text>{intl.formatMessage(messages.no_account_subtitle)}</Text>
-	}
-
 	return (
 		<Box className={styles.tableWrapper}>
 			<TableWithEmptyState
@@ -123,11 +108,11 @@ const NFTs: React.FC = () => {
 				columns={columns}
 				isScrolledTop={isScrolledTop}
 				onRowSelected={handleRowSelected}
-				loading={isLoading}
+				loading={isFetching || isLoading}
 				selectedRowIds={selectedRowIds}
 				stickyShadowTop
-				// loadMore={loadMore}
-				// onEndReached={onEndReached}
+				loadMore={hasNextPage && !isFetching && !isLoading}
+				onEndReached={loadMore}
 			/>
 		</Box>
 	)
