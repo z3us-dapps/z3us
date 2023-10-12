@@ -1,3 +1,4 @@
+/* eslint-disable no-case-declarations */
 import React, { useEffect, useState } from 'react'
 import { useLocation, useNavigate, useOutlet } from 'react-router-dom'
 
@@ -29,9 +30,11 @@ const SetupChecker: React.FC = () => {
 				switch (keystore?.type) {
 					case KeystoreType.RADIX_WALLET:
 					case KeystoreType.HARDWARE:
-						// eslint-disable-next-line no-case-declarations
+						const isUnlocked = await client.isVaultUnlocked()
 						const isNotCompleted = await client.isSecretEmpty()
-						if (isNotCompleted && !location.pathname.startsWith('/keystore')) navigate(redirectMap[keystore.type])
+						if (isUnlocked && isNotCompleted && !location.pathname.startsWith('/keystore')) {
+							navigate(redirectMap[keystore.type])
+						}
 						break
 					default:
 						break

@@ -116,6 +116,7 @@ export class Vault {
 			if (this.wallet?.keystore.id === keystore.id) {
 				this.wallet.keystore = keystore
 				this.wallet.data = data
+				await this.setConnectionPassword()
 			}
 		} catch (error) {
 			await this.clearState()
