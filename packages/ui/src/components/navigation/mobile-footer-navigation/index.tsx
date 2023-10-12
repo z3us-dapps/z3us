@@ -2,7 +2,7 @@ import clsx from 'clsx'
 import React from 'react'
 
 import { Box } from 'ui/src/components/box'
-import { CoinsIcon, Home2Icon, Settings2Icon, SwitchHorizontal } from 'ui/src/components/icons'
+import { Home2Icon, Settings2Icon, SwitchHorizontal } from 'ui/src/components/icons'
 import { NavLink } from 'ui/src/components/router-link'
 
 import * as styles from './styles.css'

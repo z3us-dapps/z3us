@@ -1,8 +1,8 @@
 import clsx from 'clsx'
 import { LayoutGroup } from 'framer-motion'
-import React from 'react'
+import React, { useMemo } from 'react'
 import { defineMessages, useIntl } from 'react-intl'
-import { useMatches, useNavigate, useParams } from 'react-router-dom'
+import { useLocation, useNavigate, useParams } from 'react-router-dom'
 
 import { Box } from 'ui/src/components/box'
 import { ConnectButton } from 'ui/src/components/connect-button'
@@ -14,6 +14,7 @@ import * as containerStyles from 'ui/src/components/styles/container-styles.css'
 import { Z3usLogo } from 'ui/src/components/z3us-logo-babylon'
 import { useWalletAccounts } from 'ui/src/hooks/use-accounts'
 import { useIsAllAccounts } from 'ui/src/hooks/use-is-all-accounts'
+import { BackButton } from 'ui/src/pages/accounts/components/layout/components/mobile/back-button'
 
 import { AccountViewDropdown } from '../account-view-dropdown'
 import * as styles from './styles.css'
@@ -67,10 +68,21 @@ const HeaderNavDesktop = () => {
 	)
 }
 
+function removeLastPartOfURL(path: string): [boolean, string] {
+	if (!path || path === '/') {
+		return [false, path]
+	}
+
+	const segments = path.replace('/-/', '/').split('/')
+	const canGoBack = segments.length > 2
+	segments.pop()
+	return [canGoBack, segments.join('/')]
+}
+
 const HeaderNavMobile = () => {
 	const accounts = useWalletAccounts()
 	const { accountId } = useParams()
-	const matches = useMatches()
+	const location = useLocation()
 	const navigate = useNavigate()
 	const isAllAccounts = useIsAllAccounts()
 
@@ -82,10 +94,7 @@ const HeaderNavMobile = () => {
 		})),
 	]
 
-	const validCrumbs = matches.filter(match => Boolean((match.handle as any)?.backButton))
-	const backButtons = validCrumbs.map(match => (match.handle as any).backButton(match.params))
-	const backButton = backButtons[backButtons.length - 1]
-	const hasBackButton = !!backButton
+	const [canGoBack, backPath] = useMemo(() => removeLastPartOfURL(location.pathname), [location.pathname])
 	const accountName = accounts?.[accountId]?.name
 	const accountAddress = accounts?.[accountId]?.address
 
@@ -99,9 +108,9 @@ const HeaderNavMobile = () => {
 
 	return (
 		<Box className={styles.headerMobileNavWrapper}>
-			{hasBackButton ? (
+			{canGoBack ? (
 				<>
-					{backButton}
+					<BackButton key="nfts" to={backPath} />
 					<Box display="flex" marginLeft="small" justifyContent="center" alignItems="center" gap="xsmall" flexGrow={1}>
 						{!isAllAccounts && (
 							<CopyAddressButton
