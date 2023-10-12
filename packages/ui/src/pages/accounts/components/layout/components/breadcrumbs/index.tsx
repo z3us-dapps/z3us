@@ -8,15 +8,13 @@ import * as styles from './styles.css'
 export const Breadcrumbs: React.FC = () => {
 	const matches = useMatches()
 	const validCrumbs = matches.filter(match => Boolean((match.handle as any)?.crumb))
-	const crumbs = validCrumbs.map((match, idx) =>
-		(match.handle as any).crumb(match.params, idx === validCrumbs.length - 1),
-	)
 
 	return (
 		<Box className={styles.accountBreadCrumbWrapper}>
-			{crumbs.map((crumb, index) => (
-				// eslint-disable-next-line react/no-array-index-key
-				<React.Fragment key={index}>{crumb}</React.Fragment>
+			{validCrumbs.map((match, idx) => (
+				<React.Fragment key={match.id}>
+					{(match.handle as any).crumb(match.params, idx === validCrumbs.length - 1)}
+				</React.Fragment>
 			))}
 		</Box>
 	)

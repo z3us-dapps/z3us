@@ -81,7 +81,7 @@
     "defaultMessage": "Pool Units"
   },
   "accounts.breadcrumbs.resource": {
-    "defaultMessage": "{hasDisplayName, select, true {displayName} other {Resource} }"
+    "defaultMessage": "{hasDisplayName, select, true {{displayName}} other {Resource} }"
   },
   "accounts.breadcrumbs.tokens": {
     "defaultMessage": "Tokens"
@@ -631,9 +631,6 @@
   },
   "nfts.nft": {
     "defaultMessage": "NFT"
-  },
-  "nfts.no_account_subtitle": {
-    "defaultMessage": "To see collection items select an account first"
   },
   "nfts.non_fungible_id": {
     "defaultMessage": "ID"

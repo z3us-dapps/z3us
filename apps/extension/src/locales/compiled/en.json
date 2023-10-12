@@ -215,7 +215,7 @@
         "true": {
           "value": [
             {
-              "type": 0,
+              "type": 1,
               "value": "displayName"
             }
           ]
@@ -1673,12 +1673,6 @@
     {
       "type": 0,
       "value": "NFT"
-    }
-  ],
-  "nfts.no_account_subtitle": [
-    {
-      "type": 0,
-      "value": "To see collection items select an account first"
     }
   ],
   "nfts.non_fungible_id": [

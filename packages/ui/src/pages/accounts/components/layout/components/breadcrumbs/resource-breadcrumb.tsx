@@ -12,7 +12,7 @@ const messages = defineMessages({
 	resource: {
 		id: 'accounts.breadcrumbs.resource',
 		defaultMessage: `{hasDisplayName, select,
-			true {displayName}
+			true {{displayName}}
 			other {Resource}
 		}`,
 	},
