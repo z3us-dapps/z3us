@@ -30,8 +30,8 @@ const SetupChecker: React.FC = () => {
 					case KeystoreType.RADIX_WALLET:
 					case KeystoreType.HARDWARE:
 						// eslint-disable-next-line no-case-declarations
-						const isComplete = await client.isSecretEmpty()
-						if (!isComplete && !location.pathname.startsWith('/keystore')) navigate(redirectMap[keystore.type])
+						const isNotCompleted = await client.isSecretEmpty()
+						if (isNotCompleted && !location.pathname.startsWith('/keystore')) navigate(redirectMap[keystore.type])
 						break
 					default:
 						break
