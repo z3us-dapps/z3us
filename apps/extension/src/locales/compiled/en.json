@@ -1897,22 +1897,28 @@
       "value": "Address book"
     }
   ],
-  "settings.authorized-dapps.entry.accounts": [
+  "settings.authorized-dapps.table.header": [
+    {
+      "type": 0,
+      "value": "dApp"
+    }
+  ],
+  "settings.authorized_dapps.entry.accounts": [
     {
       "type": 0,
       "value": "Selected accounts"
     }
   ],
-  "settings.authorized-dapps.entry.persona": [
+  "settings.authorized_dapps.entry.delete": [
+    {
+      "type": 0,
+      "value": "Revoke access"
+    }
+  ],
+  "settings.authorized_dapps.entry.persona": [
     {
       "type": 0,
       "value": "Persona"
-    }
-  ],
-  "settings.authorized-dapps.table.header": [
-    {
-      "type": 0,
-      "value": "dApp"
     }
   ],
   "settings.authorized_dapps.subtitle": [
