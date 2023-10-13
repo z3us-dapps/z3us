@@ -746,14 +746,17 @@
   "settings.address_book.title": {
     "defaultMessage": "Address book"
   },
-  "settings.authorized-dapps.entry.accounts": {
-    "defaultMessage": "Selected accounts"
-  },
-  "settings.authorized-dapps.entry.persona": {
-    "defaultMessage": "Persona"
-  },
   "settings.authorized-dapps.table.header": {
     "defaultMessage": "dApp"
+  },
+  "settings.authorized_dapps.entry.accounts": {
+    "defaultMessage": "Selected accounts"
+  },
+  "settings.authorized_dapps.entry.delete": {
+    "defaultMessage": "Revoke access"
+  },
+  "settings.authorized_dapps.entry.persona": {
+    "defaultMessage": "Persona"
   },
   "settings.authorized_dapps.subtitle": {
     "defaultMessage": "This are the dApps that you have logged into."
