@@ -35,9 +35,6 @@
   "account_menu.wallet_export": {
     "defaultMessage": "Export to Radix Mobile"
   },
-  "account_menu.wallet_remove": {
-    "defaultMessage": "Delete wallet"
-  },
   "accounts.activity_list.all_assets_total_balance": {
     "defaultMessage": "Total Balance"
   },
@@ -194,6 +191,18 @@
   "address_book.upsert_modal.updated_toast": {
     "defaultMessage": "Successfully updated address book entry"
   },
+  "authorized_dapps.delete_modal.button_text": {
+    "defaultMessage": "Revoke"
+  },
+  "authorized_dapps.delete_modal.description": {
+    "defaultMessage": "Are you sure you want to revoke {dappName} access ?"
+  },
+  "authorized_dapps.delete_modal.success_message": {
+    "defaultMessage": "Successfully revoked access"
+  },
+  "authorized_dapps.delete_modal.title": {
+    "defaultMessage": "Are you sure?"
+  },
   "card.buttons.address": {
     "defaultMessage": "Address"
   },
@@ -250,6 +259,54 @@
   },
   "forms.add_persona.validation.name": {
     "defaultMessage": "Name is required"
+  },
+  "forms.persona_data.button_add.email_address": {
+    "defaultMessage": "Add email address"
+  },
+  "forms.persona_data.button_add.phone_number": {
+    "defaultMessage": "Add phone number"
+  },
+  "forms.persona_data.eastern": {
+    "defaultMessage": "Eastern"
+  },
+  "forms.persona_data.email_address": {
+    "defaultMessage": "Email address"
+  },
+  "forms.persona_data.family_name": {
+    "defaultMessage": "Family name"
+  },
+  "forms.persona_data.given_names": {
+    "defaultMessage": "Given names"
+  },
+  "forms.persona_data.nickname": {
+    "defaultMessage": "Nickname"
+  },
+  "forms.persona_data.phone_number": {
+    "defaultMessage": "Phone number"
+  },
+  "forms.persona_data.submit_button.title": {
+    "defaultMessage": "Submit"
+  },
+  "forms.persona_data.validation.email": {
+    "defaultMessage": "Please select valid email"
+  },
+  "forms.persona_data.validation.family_name": {
+    "defaultMessage": "Please insert valid family name"
+  },
+  "forms.persona_data.validation.given_names": {
+    "defaultMessage": "Please insert valid given names"
+  },
+  "forms.persona_data.validation.nickname": {
+    "defaultMessage": "Please insert valid nickname"
+  },
+  "forms.persona_data.validation.phone_number": {
+    "defaultMessage": "Please select valid phone number"
+  },
+  "forms.persona_data.variant": {
+    "defaultMessage": "Name variant"
+  },
+  "forms.persona_data.western": {
+    "defaultMessage": "Western"
   },
   "hooks.interaction.accounts_data.account_challenge": {
     "defaultMessage": "To confirm ownership of selected accounts, signature is required"
@@ -353,9 +410,6 @@
   "interaction.preview.xrd_total_tipping_cost": {
     "defaultMessage": "Tipping: {cost, number, ::.00#######}"
   },
-  "keystore.export.nothing_to_export": {
-    "defaultMessage": "Wallet does not contain legacy accounts"
-  },
   "keystore.export.password_form.error": {
     "defaultMessage": "Incorrect password!"
   },
@@ -364,9 +418,6 @@
   },
   "keystore.export.password_form.password.placeholder": {
     "defaultMessage": "Password"
-  },
-  "keystore.export.unknown_account": {
-    "defaultMessage": "{hasLabel, select, true {{label}} other {Account: {position}} }"
   },
   "keystore.form.button.submit": {
     "defaultMessage": "Create"
@@ -409,6 +460,9 @@
   },
   "keystore.home.seed_restore": {
     "defaultMessage": "Restore from seed phrase"
+  },
+  "keystore.nav.back": {
+    "defaultMessage": "Back"
   },
   "keystore.radix.pairing.help": {
     "defaultMessage": "Scan the QR code with the Radix Wallet app on your mobile phone to start using it with dApps in this web browser"
@@ -476,36 +530,6 @@
   "modals.persona_data.close_button": {
     "defaultMessage": "Cancel"
   },
-  "modals.persona_data.eastern": {
-    "defaultMessage": "Eastern"
-  },
-  "modals.persona_data.form.button_add.email_address": {
-    "defaultMessage": "Add email address"
-  },
-  "modals.persona_data.form.button_add.phone_number": {
-    "defaultMessage": "Add phone number"
-  },
-  "modals.persona_data.form.email_address": {
-    "defaultMessage": "Email address"
-  },
-  "modals.persona_data.form.family_name": {
-    "defaultMessage": "Family name"
-  },
-  "modals.persona_data.form.given_names": {
-    "defaultMessage": "Given names"
-  },
-  "modals.persona_data.form.nickname": {
-    "defaultMessage": "Nickname"
-  },
-  "modals.persona_data.form.phone_number": {
-    "defaultMessage": "Phone number"
-  },
-  "modals.persona_data.form.submit_button.title": {
-    "defaultMessage": "Login"
-  },
-  "modals.persona_data.form.variant": {
-    "defaultMessage": "Name variant"
-  },
   "modals.persona_data.validation.email": {
     "defaultMessage": "Please select valid email"
   },
@@ -535,9 +559,6 @@
   },
   "modals.persona_data.validation.validation_phone_numbers_exactly": {
     "defaultMessage": "Please select exactly {number} phone numbers"
-  },
-  "modals.persona_data.western": {
-    "defaultMessage": "Western"
   },
   "modals.select_accounts.close_button": {
     "defaultMessage": "Cancel"
@@ -638,6 +659,30 @@
   "notifications.dropdown.title": {
     "defaultMessage": "Notifications"
   },
+  "personas.delete_modal.button_text": {
+    "defaultMessage": "Delete"
+  },
+  "personas.delete_modal.description": {
+    "defaultMessage": "Are you sure you want to delete {identityAddress} from wallet ?"
+  },
+  "personas.delete_modal.success_message": {
+    "defaultMessage": "Successfully deleted persona"
+  },
+  "personas.delete_modal.title": {
+    "defaultMessage": "Are you sure?"
+  },
+  "personas.upsert_modal.created_toast": {
+    "defaultMessage": "Successfully added new persona"
+  },
+  "personas.upsert_modal.form.cancel": {
+    "defaultMessage": "Cancel"
+  },
+  "personas.upsert_modal.title": {
+    "defaultMessage": "Persona details"
+  },
+  "personas.upsert_modal.updated_toast": {
+    "defaultMessage": "Successfully updated persona details"
+  },
   "pool_units.address": {
     "defaultMessage": "Pool Unit"
   },
@@ -695,8 +740,20 @@
   "settings.address_book.subtitle": {
     "defaultMessage": "Effortless organization for your address book accounts. Manage your Radix address book with ease, editing account names and addresses in a convenient table view for seamless transactions and better financial control"
   },
+  "settings.address_book.table.header": {
+    "defaultMessage": "Name"
+  },
   "settings.address_book.title": {
     "defaultMessage": "Address book"
+  },
+  "settings.authorized-dapps.entry.accounts": {
+    "defaultMessage": "Selected accounts"
+  },
+  "settings.authorized-dapps.entry.persona": {
+    "defaultMessage": "Persona"
+  },
+  "settings.authorized-dapps.table.header": {
+    "defaultMessage": "dApp"
   },
   "settings.authorized_dapps.subtitle": {
     "defaultMessage": "This are the dApps that you have logged into."
@@ -761,12 +818,6 @@
   "settings.general.title": {
     "defaultMessage": "General"
   },
-  "settings.general.wallet.subtitle": {
-    "defaultMessage": "Wallet name"
-  },
-  "settings.general.wallet.title": {
-    "defaultMessage": "Wallet"
-  },
   "settings.navigation.accounts.subtitle": {
     "defaultMessage": "Customize your Radix account's look and feel. Personalize your experience by choosing a unique background image and color scheme that suits your style."
   },
@@ -791,14 +842,38 @@
   "settings.navigation.general.title": {
     "defaultMessage": "General"
   },
+  "settings.navigation.key_management.subtitle": {
+    "defaultMessage": "Export your Private Key or Seed Phrase"
+  },
+  "settings.navigation.key_management.title": {
+    "defaultMessage": "Key management"
+  },
   "settings.navigation.personas.subtitle": {
     "defaultMessage": "Manage your Radix network identities"
   },
   "settings.navigation.personas.title": {
     "defaultMessage": "Personas"
   },
+  "settings.navigation.wallet.subtitle": {
+    "defaultMessage": "Manage your wallet"
+  },
+  "settings.navigation.wallet.title": {
+    "defaultMessage": "Wallet"
+  },
+  "settings.personas.entry.delete": {
+    "defaultMessage": "Delete"
+  },
+  "settings.personas.entry.edit": {
+    "defaultMessage": "Edit"
+  },
+  "settings.personas.new_persona": {
+    "defaultMessage": "New persona"
+  },
   "settings.personas.subtitle": {
     "defaultMessage": "Manage your Radix network identities"
+  },
+  "settings.personas.table.header": {
+    "defaultMessage": "Name"
   },
   "settings.personas.title": {
     "defaultMessage": "Personas"
@@ -832,6 +907,21 @@
   },
   "settings.tx_result_notifications.title": {
     "defaultMessage": "Transaction Result Notifications"
+  },
+  "settings.wallet.name.subtitle": {
+    "defaultMessage": "Change your wallet name"
+  },
+  "settings.wallet.name.title": {
+    "defaultMessage": "Name"
+  },
+  "settings.wallet.remove": {
+    "defaultMessage": "Delete wallet"
+  },
+  "settings.wallet.subtitle": {
+    "defaultMessage": "Manage your wallet"
+  },
+  "settings.wallet.title": {
+    "defaultMessage": "Wallet"
   },
   "staking.table.column.address": {
     "defaultMessage": "Address"
