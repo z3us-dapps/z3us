@@ -4,7 +4,9 @@ import { defineMessages, useIntl } from 'react-intl'
 import { Box } from 'ui/src/components/box'
 import { Form } from 'ui/src/components/form'
 import TextField from 'ui/src/components/form/fields/text-field'
+import { SelectSimple } from 'ui/src/components/select'
 import { ValidationErrorMessage } from 'ui/src/components/validation-error-message'
+import { useSharedStore } from 'ui/src/hooks/use-store'
 
 import { useMessageClient } from '@src/hooks/use-message-client'
 
@@ -36,6 +38,12 @@ export const Unlock: React.FC<IProps> = ({ onUnlock }) => {
 	const inputRef = useRef(null)
 	const client = useMessageClient()
 
+	const { keystore, keystores, selectKeystore } = useSharedStore(state => ({
+		keystore: state.keystores.find(({ id }) => id === state.selectedKeystoreId),
+		keystores: state.keystores,
+		selectKeystore: state.selectKeystoreAction,
+	}))
+
 	const [error, setError] = useState<string>('')
 
 	useEffect(() => {
@@ -54,14 +62,28 @@ export const Unlock: React.FC<IProps> = ({ onUnlock }) => {
 		}
 	}
 
+	const handleSelectKeystore = async (id: string) => {
+		await client.lockVault()
+		selectKeystore(id)
+	}
+
 	return (
 		<Form
 			onSubmit={handleSubmit}
 			initialValues={initialValues}
 			submitButtonTitle={intl.formatMessage(messages.form_button_title)}
 		>
-			<ValidationErrorMessage message={error} />
-			<Box>
+			<Box display="flex" alignItems="center" gap="medium" flexDirection="column">
+				<Box>
+					<ValidationErrorMessage message={error} />
+				</Box>
+				<Box>
+					<SelectSimple
+						value={keystore?.id}
+						onValueChange={handleSelectKeystore}
+						data={keystores.map(({ id, name }) => ({ id, title: name }))}
+					/>
+				</Box>
 				<Box>
 					<TextField
 						isPassword
