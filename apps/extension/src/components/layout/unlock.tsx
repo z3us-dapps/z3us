@@ -62,11 +62,6 @@ export const Unlock: React.FC<IProps> = ({ onUnlock }) => {
 		}
 	}
 
-	const handleSelectKeystore = async (id: string) => {
-		await client.lockVault()
-		selectKeystore(id)
-	}
-
 	return (
 		<Form
 			onSubmit={handleSubmit}
@@ -80,7 +75,7 @@ export const Unlock: React.FC<IProps> = ({ onUnlock }) => {
 				<Box>
 					<SelectSimple
 						value={keystore?.id}
-						onValueChange={handleSelectKeystore}
+						onValueChange={selectKeystore}
 						data={keystores.map(({ id, name }) => ({ id, title: name }))}
 					/>
 				</Box>
