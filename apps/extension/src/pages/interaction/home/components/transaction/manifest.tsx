@@ -1,6 +1,5 @@
 import type { Intent } from '@radixdlt/radix-engine-toolkit'
 import { InstructionsKind, RadixEngineToolkit } from '@radixdlt/radix-engine-toolkit'
-import { ValidationErrorMessage } from 'packages/ui/src/components/validation-error-message'
 import React, { useEffect } from 'react'
 import { defineMessages, useIntl } from 'react-intl'
 import { useImmer } from 'use-immer'
@@ -8,6 +7,7 @@ import { useImmer } from 'use-immer'
 import { Box } from 'ui/src/components/box'
 import { Input } from 'ui/src/components/input'
 import { Tabs, TabsContent } from 'ui/src/components/tabs'
+import { ValidationErrorMessage } from 'ui/src/components/validation-error-message'
 
 import type { TransactionSettings } from '@src/types/transaction'
 

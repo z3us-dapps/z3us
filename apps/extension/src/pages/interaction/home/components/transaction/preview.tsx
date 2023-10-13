@@ -1,15 +1,15 @@
 import type { TransactionPreviewResponse } from '@radixdlt/radix-dapp-toolkit'
 import type { Instruction, Intent } from '@radixdlt/radix-engine-toolkit'
-import { FallbackLoading } from 'packages/ui/src/components/fallback-renderer'
-import { useNetworkId } from 'packages/ui/src/hooks/dapp/use-network-id'
-import { useNoneSharedStore } from 'packages/ui/src/hooks/use-store'
 import React, { useEffect } from 'react'
 import { defineMessages, useIntl } from 'react-intl'
 import { useImmer } from 'use-immer'
 
 import { Box } from 'ui/src/components/box'
+import { FallbackLoading } from 'ui/src/components/fallback-renderer'
 import { ResourceSnippet } from 'ui/src/components/resource-snippet'
 import { RedGreenText, Text } from 'ui/src/components/typography'
+import { useNetworkId } from 'ui/src/hooks/dapp/use-network-id'
+import { useNoneSharedStore } from 'ui/src/hooks/use-store'
 
 import { usePreview } from '@src/hooks/transaction/use-preview'
 import { summaryFromInstructions } from '@src/radix/manifest'

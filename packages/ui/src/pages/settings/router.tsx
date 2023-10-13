@@ -3,6 +3,7 @@ import { lazy } from 'react'
 import Layout from './components/layout'
 
 const Home = lazy(() => import('./home'))
+const Wallet = lazy(() => import('./wallet'))
 const General = lazy(() => import('./general'))
 const Personas = lazy(() => import('./personas'))
 const Accounts = lazy(() => import('./accounts'))
@@ -16,6 +17,10 @@ const route = {
 		{
 			index: true,
 			element: <Home />,
+		},
+		{
+			path: 'wallet',
+			element: <Wallet />,
 		},
 		{
 			path: 'general',

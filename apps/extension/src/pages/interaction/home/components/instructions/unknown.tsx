@@ -4,8 +4,9 @@ import {
 	type Instruction as ManifestInstruction,
 	RadixEngineToolkit,
 } from '@radixdlt/radix-engine-toolkit'
-import { Text } from 'packages/ui/src/components/typography'
 import { useEffect, useState } from 'react'
+
+import { Text } from 'ui/src/components/typography'
 
 interface IProps {
 	intent: Intent

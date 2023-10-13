@@ -10,7 +10,7 @@ import { Switch } from 'ui/src/components/switch'
 import { Text } from 'ui/src/components/typography'
 import { languages } from 'ui/src/constants/intl'
 import { useSupportedCurrencies } from 'ui/src/hooks/queries/market'
-import { useNoneSharedStore, useSharedStore } from 'ui/src/hooks/use-store'
+import { useNoneSharedStore } from 'ui/src/hooks/use-store'
 import { useTheme } from 'ui/src/hooks/use-theme'
 import { Theme } from 'ui/src/types/types'
 
@@ -26,14 +26,6 @@ const messages = defineMessages({
 	subtitle: {
 		id: 'settings.general.subtitle',
 		defaultMessage: `Fine-tune your Z3US preferences. Manage session time and choose your ideal color theme for a personalized and secure Z3US experience`,
-	},
-	wallet_title: {
-		id: 'settings.general.wallet.title',
-		defaultMessage: 'Wallet',
-	},
-	wallet_subtitle: {
-		id: 'settings.general.wallet.subtitle',
-		defaultMessage: `Wallet name`,
 	},
 	network_title: {
 		id: 'settings.general.network.title',
@@ -99,11 +91,6 @@ const General: React.FC = () => {
 		.filter(match => Boolean((match.handle as any)?.custom))
 		.map(match => (match.handle as any).custom)
 
-	const { keystore, changeKeystoreName } = useSharedStore(state => ({
-		keystore: state.keystores.find(({ id }) => id === state.selectedKeystoreId),
-		changeKeystoreName: state.changeKeystoreNameAction,
-	}))
-
 	const {
 		currency,
 		setCurrency,
@@ -137,34 +124,12 @@ const General: React.FC = () => {
 		setGatewayUrl(event.target.value)
 	}
 
-	const handleWalletNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-		const evt = event.nativeEvent as InputEvent
-		if (evt.isComposing) {
-			return
-		}
-
-		changeKeystoreName(keystore.id, event.target.value)
-	}
-
 	return (
 		<SettingsWrapper>
 			<SettingsTitle
 				backLink="/settings"
 				title={intl.formatMessage(messages.title)}
 				subTitle={intl.formatMessage(messages.subtitle)}
-			/>
-			<SettingsBlock
-				leftCol={
-					<>
-						<Text size="large" weight="strong" color="strong">
-							{intl.formatMessage(messages.wallet_title)}
-						</Text>
-						<Box>
-							<Text size="xsmall">{intl.formatMessage(messages.wallet_subtitle)}</Text>
-						</Box>
-					</>
-				}
-				rightCol={<Input value={keystore.name} elementType="input" type="url" onChange={handleWalletNameChange} />}
 			/>
 			<SettingsBlock
 				leftCol={

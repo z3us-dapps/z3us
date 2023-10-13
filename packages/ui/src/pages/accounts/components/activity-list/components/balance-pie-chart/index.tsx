@@ -54,13 +54,15 @@ export const BalancePieChart: React.FC = () => {
 	const data = useMemo(
 		() =>
 			isAllAccounts
-				? Object.keys(accountValues).map(address => ({
+				? Object.keys(accountValues).map((address, index) => ({
 						address,
+						index,
 						name: accounts[address]?.name || address,
 						value: accountValues[address],
 				  }))
-				: balances.map(resource => ({
+				: balances.map((resource, index) => ({
 						address: resource.address,
+						index,
 						name:
 							(resource as ResourceBalance[ResourceBalanceType.FUNGIBLE]).symbol ||
 							resource.name ||

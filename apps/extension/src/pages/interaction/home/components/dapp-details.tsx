@@ -1,7 +1,7 @@
-import { Box } from 'packages/ui/src/components/box'
-import { ResourceImageIcon } from 'packages/ui/src/components/resource-image-icon'
 import React from 'react'
 
+import { Box } from 'ui/src/components/box'
+import { ResourceImageIcon } from 'ui/src/components/resource-image-icon'
 import { useEntityMetadata } from 'ui/src/hooks/dapp/use-entity-metadata'
 import { getStringMetadata } from 'ui/src/services/metadata'
 import { getShortAddress } from 'ui/src/utils/string-utils'

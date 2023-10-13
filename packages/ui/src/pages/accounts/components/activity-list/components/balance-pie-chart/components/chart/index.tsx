@@ -15,6 +15,7 @@ const COLORS = [
 ]
 
 type Data = {
+	index: number
 	address: string
 	name: string
 	value: number
@@ -34,9 +35,15 @@ export const Chart: React.FC<IProps> = ({ data }) => {
 
 	const renderCustomTooltip = ({ payload }) => {
 		if (payload && payload.length) {
-			const { name, value } = payload[0].payload
+			const { name, value, index } = payload[0].payload
 
-			return <ChartToolTip name={name} value={intl.formatNumber(value, { style: 'currency', currency })} />
+			return (
+				<ChartToolTip
+					color={COLORS[index % COLORS.length].start}
+					name={name}
+					value={intl.formatNumber(value, { style: 'currency', currency })}
+				/>
+			)
 		}
 		return null
 	}
@@ -46,10 +53,10 @@ export const Chart: React.FC<IProps> = ({ data }) => {
 			<ResponsiveContainer width="99%">
 				<PieChart>
 					<defs>
-						{data.map((entry, index) => (
-							<linearGradient key={entry.address} id={`myGradient${index}`}>
-								<stop offset="0%" stopColor={COLORS[index % COLORS.length].start} />
-								<stop offset="100%" stopColor={COLORS[index % COLORS.length].end} />
+						{data.map(entry => (
+							<linearGradient key={entry.address} id={`myGradient${entry.index}`}>
+								<stop offset="0%" stopColor={COLORS[entry.index % COLORS.length].start} />
+								<stop offset="100%" stopColor={COLORS[entry.index % COLORS.length].end} />
 							</linearGradient>
 						))}
 					</defs>
@@ -64,18 +71,18 @@ export const Chart: React.FC<IProps> = ({ data }) => {
 						innerRadius={isMobile ? chartWidth * 0.1 : 30}
 						isAnimationActive={false}
 					>
-						{data.map((entry, index) => (
+						{data.map(entry => (
 							<Cell
 								key={`cell-${entry.address}`}
-								fill={`url(#myGradient${index})`}
-								stroke={COLORS[index % COLORS.length].start}
-								strokeWidth={index === hoveredCellIndex ? 2 : 1}
+								fill={`url(#myGradient${entry.index})`}
+								stroke={COLORS[entry.index % COLORS.length].start}
+								strokeWidth={entry.index === hoveredCellIndex ? 2 : 1}
 								style={{
-									filter: `drop-shadow(0px 0px ${index === hoveredCellIndex ? '4' : '0'}px ${
-										COLORS[index % COLORS.length].start
+									filter: `drop-shadow(0px 0px ${entry.index === hoveredCellIndex ? '4' : '0'}px ${
+										COLORS[entry.index % COLORS.length].start
 									}`,
 								}}
-								onMouseOver={() => setHoveredCellIndex(index)}
+								onMouseOver={() => setHoveredCellIndex(entry.index)}
 								onMouseOut={() => setHoveredCellIndex(-1)}
 							/>
 						))}

@@ -35,7 +35,6 @@ import {
 	PlusIcon,
 	ShareIcon,
 	SunIcon,
-	TrashIcon,
 	Z3usIcon,
 } from 'ui/src/components/icons'
 import { Link } from 'ui/src/components/router-link'
@@ -49,17 +48,6 @@ import { Theme } from 'ui/src/types/types'
 
 import { ToolTip } from '../../tool-tip'
 import * as styles from './styles.css'
-
-interface IAccountViewDropdownProps {
-	className?: ClassValue
-	styleVariant?: TStyleVariant
-}
-
-const weights = {
-	[KeystoreType.RADIX_WALLET]: 1,
-	[KeystoreType.HARDWARE]: 2,
-	[KeystoreType.LOCAL]: 3,
-}
 
 const messages = defineMessages({
 	content_script: {
@@ -77,10 +65,6 @@ const messages = defineMessages({
 	wallet_export: {
 		id: 'account_menu.wallet_export',
 		defaultMessage: 'Export to Radix Mobile',
-	},
-	wallet_remove: {
-		id: 'account_menu.wallet_remove',
-		defaultMessage: 'Delete wallet',
 	},
 	settings: {
 		id: 'account_menu.settings',
@@ -116,6 +100,17 @@ const messages = defineMessages({
 	},
 })
 
+const weights = {
+	[KeystoreType.RADIX_WALLET]: 1,
+	[KeystoreType.HARDWARE]: 2,
+	[KeystoreType.LOCAL]: 3,
+}
+
+interface IAccountViewDropdownProps {
+	className?: ClassValue
+	styleVariant?: TStyleVariant
+}
+
 export const AccountViewDropdown = forwardRef<HTMLElement, IAccountViewDropdownProps>(
 	(props, ref: React.Ref<HTMLElement | null>) => {
 		const { className, styleVariant = 'ghost' } = props
@@ -149,14 +144,6 @@ export const AccountViewDropdown = forwardRef<HTMLElement, IAccountViewDropdownP
 
 		const handleAddNewWallet = () => {
 			navigate('/keystore/new')
-		}
-
-		const handleExportWallet = () => {
-			navigate('/keystore/export')
-		}
-
-		const handleRemoveWallet = () => {
-			navigate('/keystore/remove')
 		}
 
 		return (
@@ -268,32 +255,6 @@ export const AccountViewDropdown = forwardRef<HTMLElement, IAccountViewDropdownP
 									<Box display="flex" marginLeft="small">
 										<Text size="xsmall" truncate>
 											{intl.formatMessage(messages.open_in_browser)}
-										</Text>
-									</Box>
-								</DropdownMenuItem>
-							)}
-
-							{isWallet && (keystore.type === KeystoreType.LOCAL || keystore.type === KeystoreType.HARDWARE) && (
-								<DropdownMenuItem onSelect={handleExportWallet}>
-									<DropdownMenuLeftSlot>
-										<ShareIcon />
-									</DropdownMenuLeftSlot>
-									<Box display="flex" marginLeft="small">
-										<Text size="xsmall" truncate>
-											{intl.formatMessage(messages.wallet_export)}
-										</Text>
-									</Box>
-								</DropdownMenuItem>
-							)}
-
-							{isWallet && (
-								<DropdownMenuItem onSelect={handleRemoveWallet}>
-									<DropdownMenuLeftSlot>
-										<TrashIcon />
-									</DropdownMenuLeftSlot>
-									<Box display="flex" marginLeft="small">
-										<Text size="xsmall" truncate>
-											{intl.formatMessage(messages.wallet_remove)}
 										</Text>
 									</Box>
 								</DropdownMenuItem>
