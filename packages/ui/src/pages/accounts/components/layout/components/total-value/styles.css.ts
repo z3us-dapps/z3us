@@ -11,3 +11,9 @@ export const assetsHeaderWrapper = style([
 		zIndex: 1,
 	}),
 ])
+
+export const assetsXrdTotalWrapper = style([
+	{
+		paddingBottom: '5px',
+	},
+])

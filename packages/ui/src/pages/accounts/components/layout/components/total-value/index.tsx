@@ -18,9 +18,12 @@ export const AccountTotalValue: React.FC = () => {
 	return (
 		<Box className={styles.assetsHeaderWrapper}>
 			<Box flexGrow={1} display="flex" flexDirection="column" gap="xxsmall">
-				<Box display="flex" alignItems="center" gap="medium">
+				<Box display="flex" alignItems="flex-end" gap="medium">
 					<Text weight="medium" size="xxxlarge" color="strong" truncate>
 						{formattedValue}
+					</Text>
+					<Text weight="medium" size="medium" className={styles.assetsXrdTotalWrapper}>
+						1,003,957 XRD
 					</Text>
 				</Box>
 				<RedGreenText size="xxsmall" weight="medium" truncate change={change}>
