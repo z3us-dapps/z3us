@@ -1,5 +1,7 @@
 import clsx from 'clsx'
 import { LayoutGroup } from 'framer-motion'
+import { useSharedStore } from 'packages/ui/src/hooks/use-store'
+import { KeystoreType } from 'packages/ui/src/store/types'
 import React, { useMemo } from 'react'
 import { defineMessages, useIntl } from 'react-intl'
 import { useLocation, useNavigate, useParams } from 'react-router-dom'
@@ -157,12 +159,18 @@ const HeaderNavMobile = () => {
 	)
 }
 
-export const HeaderNav: React.FC = () => (
-	<Box component="nav" className={clsx(styles.navigationWrapper, containerStyles.containerWrapper)}>
-		<Box className={clsx(styles.navigationInnerWrapper, containerStyles.containerInnerWrapper)}>
-			<HeaderNavMobile />
-			<HeaderNavDesktop />
-			<ConnectButton />
+export const HeaderNav: React.FC = () => {
+	const { keystore } = useSharedStore(state => ({
+		keystore: state.keystores.find(({ id }) => id === state.selectedKeystoreId),
+	}))
+
+	return (
+		<Box component="nav" className={clsx(styles.navigationWrapper, containerStyles.containerWrapper)}>
+			<Box className={clsx(styles.navigationInnerWrapper, containerStyles.containerInnerWrapper)}>
+				<HeaderNavMobile />
+				<HeaderNavDesktop />
+				{keystore?.type === KeystoreType.RADIX_WALLET && <ConnectButton />}
+			</Box>
 		</Box>
-	</Box>
-)
+	)
+}
