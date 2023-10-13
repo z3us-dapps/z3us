@@ -19,6 +19,7 @@ export type ResourceBalance = {
 
 		amount: number
 		value: number
+		xrdValue: number
 		change: number
 
 		symbol?: string
@@ -33,6 +34,7 @@ export type ResourceBalance = {
 
 		amount: number
 		value: number
+		xrdValue: number
 		change: number
 
 		name: string
@@ -49,6 +51,7 @@ export type ResourceBalance = {
 
 		amount: number
 		value: number
+		xrdValue: number
 		change: number
 
 		description?: string
@@ -62,6 +65,7 @@ export type ResourceBalance = {
 
 		amount: number
 		value: number
+		xrdValue: number
 		change: number
 
 		name: string

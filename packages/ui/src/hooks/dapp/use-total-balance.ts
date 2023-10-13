@@ -18,14 +18,19 @@ export const useTotalBalance = () => {
 
 	const { data: balanceData, isLoading } = useBalances(...selectedAccounts)
 	const {
+		totalXrdValue = 0,
 		totalValue = 0,
 		totalChange = 0,
+		fungibleXrdValue = 0,
 		fungibleValue = 0,
 		fungibleChange = 0,
+		nonFungibleXrdValue = 0,
 		nonFungibleValue = 0,
 		nonFungibleChange = 0,
+		liquidityPoolTokensXrdValue = 0,
 		liquidityPoolTokensValue = 0,
 		liquidityPoolTokensChange = 0,
+		poolUnitsXrdValue = 0,
 		poolUnitsValue = 0,
 		poolUnitsChange = 0,
 	} = balanceData || {}
@@ -36,7 +41,7 @@ export const useTotalBalance = () => {
 		if (resourceType === 'lp-tokens') return liquidityPoolTokensValue
 		if (resourceType === 'pool-units') return poolUnitsValue
 		return totalValue
-	}, [resourceType, totalValue, fungibleValue, nonFungibleValue])
+	}, [resourceType, totalValue, nonFungibleValue, fungibleValue, liquidityPoolTokensValue, poolUnitsValue])
 
 	const change = useMemo(() => {
 		if (resourceType === 'nfts') return nonFungibleChange
@@ -44,12 +49,29 @@ export const useTotalBalance = () => {
 		if (resourceType === 'lp-tokens') return liquidityPoolTokensChange
 		if (resourceType === 'pool-units') return poolUnitsChange
 		return totalChange
-	}, [resourceType, totalValue, fungibleValue, nonFungibleValue])
+	}, [resourceType, totalChange, nonFungibleChange, fungibleChange, liquidityPoolTokensChange, poolUnitsChange])
+
+	const xrdValue = useMemo(() => {
+		if (resourceType === 'nfts') return nonFungibleXrdValue
+		if (resourceType === 'tokens') return fungibleXrdValue
+		if (resourceType === 'lp-tokens') return liquidityPoolTokensXrdValue
+		if (resourceType === 'pool-units') return poolUnitsXrdValue
+		return totalXrdValue
+	}, [
+		resourceType,
+		totalXrdValue,
+		fungibleXrdValue,
+		nonFungibleXrdValue,
+		liquidityPoolTokensXrdValue,
+		poolUnitsXrdValue,
+	])
 
 	return {
 		isLoading,
+		xrdValue,
 		value,
 		change,
+		formattedXrdValue: intl.formatNumber(xrdValue, { style: 'decimal', maximumFractionDigits: 8 }),
 		formattedValue: intl.formatNumber(value, { style: 'currency', currency }),
 		formattedChange: intl.formatNumber(change, { style: 'percent', maximumFractionDigits: 2 }),
 	}

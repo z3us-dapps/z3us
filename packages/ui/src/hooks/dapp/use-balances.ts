@@ -39,11 +39,13 @@ const transformFungibleResourceItemResponse =
 		const tokenPriceNow = parseFloat(token?.price?.usd.now) || 0
 		const tokenPrice24h = parseFloat(token?.price?.usd['24h']) || 0
 		const change = tokenPriceNow !== 0 ? tokenPriceNow / tokenPrice24h / 100 : 0
+		const xrdValue = amount * (parseFloat(token?.price?.xrd.now) || 0)
 
 		const details = {
 			address: item.resource_address,
 			amount,
-			value: amount * (parseFloat(token?.price?.xrd.now) || 0) * xrdPrice,
+			value: xrdValue * xrdPrice,
+			xrdValue,
 			name,
 			description,
 			url,
@@ -103,12 +105,14 @@ const transformNonFungibleResourceItemResponse = (
 		imageUrl,
 		value: 0,
 		change: 0,
+		xrdValue: 0,
 	} satisfies ResourceBalance[ResourceBalanceType.NON_FUNGIBLE]
 
 	return container
 }
 
 const transformBalances = (balanceValues: ResourceBalanceKind[], valueType: string) => {
+	const totalXrdValue = balanceValues.reduce((total, balance) => total + balance.xrdValue, 0)
 	const totalValue = balanceValues.reduce((total, balance) => total + balance.value, 0)
 	const totalChange = balanceValues.reduce(
 		(change, balance) => change + (balance.change / totalValue) * balance.value,
@@ -117,6 +121,7 @@ const transformBalances = (balanceValues: ResourceBalanceKind[], valueType: stri
 
 	return {
 		[`${valueType}Balances`]: balanceValues,
+		[`${valueType}XrdValue`]: Number.isFinite(totalXrdValue) ? totalXrdValue : 0,
 		[`${valueType}Value`]: Number.isFinite(totalValue) ? totalValue : 0,
 		[`${valueType}Change`]: Number.isFinite(totalChange) ? totalChange : 0,
 	}
@@ -129,26 +134,32 @@ type Balances = {
 	balances: ResourceBalanceKind[]
 	totalValue: number
 	totalChange: number
+	totalXrdValue: number
 
 	fungibleBalances: ResourceBalanceKind[]
 	fungibleValue: number
 	fungibleChange: number
+	fungibleXrdValue: number
 
 	nonFungibleBalances: ResourceBalanceKind[]
 	nonFungibleValue: number
 	nonFungibleChange: number
+	nonFungibleXrdValue: number
 
 	tokensBalances: ResourceBalanceKind[]
 	tokensValue: number
 	tokensChange: number
+	tokensXrdChange: number
 
 	liquidityPoolTokensBalances: ResourceBalanceKind[]
 	liquidityPoolTokensValue: number
 	liquidityPoolTokensChange: number
+	liquidityPoolTokensXrdValue: number
 
 	poolUnitsBalances: ResourceBalanceKind[]
 	poolUnitsValue: number
 	poolUnitsChange: number
+	poolUnitsXrdValue: number
 }
 
 export const useBalances = (...addresses: string[]) => {
@@ -200,6 +211,7 @@ export const useBalances = (...addresses: string[]) => {
 				balances,
 				totalValue,
 				totalChange,
+				totalXrdValue: fungibleBalances.fungibleXrdValue,
 				...fungibleBalances,
 				...nonFungibleBalances,
 				...transformBalances(otherTokens, 'tokens'),
