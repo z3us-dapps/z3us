@@ -3,39 +3,32 @@ import { defineMessages, useIntl } from 'react-intl'
 
 import { useScroll } from 'ui/src/components/scroll-area-radix/use-scroll'
 import { Table as BaseTable } from 'ui/src/components/table'
-import type { Persona } from 'ui/src/store/types'
+import type { ApprovedDapps } from 'ui/src/store/types'
 
-import { PersonaCell } from './persona-cell'
+import { DappCell } from './dapp-cell'
 
 const messages = defineMessages({
 	header: {
-		id: 'settings.personas.table.header',
-		defaultMessage: 'Name',
+		id: 'settings.authorized-dapps.table.header',
+		defaultMessage: 'dApp',
 	},
 })
 
 interface CellProps {
-	row: { original: Persona }
-	onEdit: (address: string) => void
+	row: { original: ApprovedDapps[keyof ApprovedDapps] & { address: string } }
 	onDelete: (address: string) => void
 }
 
-const Cell: React.FC<CellProps> = ({ row, onEdit, onDelete }: CellProps) => (
-	<PersonaCell
-		row={row}
-		key={row.original.identityAddress}
-		onEdit={() => onEdit(row.original.identityAddress)}
-		onDelete={() => onDelete(row.original.identityAddress)}
-	/>
+const Cell: React.FC<CellProps> = ({ row, onDelete }: CellProps) => (
+	<DappCell row={row} key={row.original.address} onDelete={() => onDelete(row.original.address)} />
 )
 
 interface IProps {
-	data: Persona[]
-	onEdit: (address: string) => void
+	data: ApprovedDapps
 	onDelete: (address: string) => void
 }
 
-export const Table: React.FC<IProps> = ({ data, onEdit, onDelete }) => {
+export const Table: React.FC<IProps> = ({ data, onDelete }) => {
 	const intl = useIntl()
 	const { scrollableNode } = useScroll()
 
@@ -43,12 +36,12 @@ export const Table: React.FC<IProps> = ({ data, onEdit, onDelete }) => {
 		() => [
 			{
 				Header: intl.formatMessage(messages.header),
-				accessor: 'name',
+				accessor: 'address',
 				width: 'auto',
 				Cell,
 			},
 		],
-		[onEdit, onDelete],
+		[onDelete],
 	)
 
 	return (
@@ -56,9 +49,9 @@ export const Table: React.FC<IProps> = ({ data, onEdit, onDelete }) => {
 			styleVariant="secondary"
 			sizeVariant="medium"
 			scrollableNode={scrollableNode}
-			data={data}
+			data={Object.keys(data).map(address => ({ ...data[address], address }))}
 			columns={columns}
-			cellProps={{ onEdit, onDelete }}
+			cellProps={{ onDelete }}
 		/>
 	)
 }

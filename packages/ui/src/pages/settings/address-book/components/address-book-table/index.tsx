@@ -1,10 +1,18 @@
 import React, { useMemo } from 'react'
+import { defineMessages, useIntl } from 'react-intl'
 
 import { useScroll } from 'ui/src/components/scroll-area-radix/use-scroll'
 import { Table } from 'ui/src/components/table'
 import type { AddressBookEntry } from 'ui/src/store/types'
 
 import { AddressTableCell } from '../address-table-cell'
+
+const messages = defineMessages({
+	header: {
+		id: 'settings.address_book.table.header',
+		defaultMessage: 'Name',
+	},
+})
 
 interface CellProps {
 	row: { original: AddressBookEntry }
@@ -28,12 +36,13 @@ interface IProps {
 }
 
 export const AddressBookTable: React.FC<IProps> = ({ data, onEdit, onDelete }) => {
+	const intl = useIntl()
 	const { scrollableNode } = useScroll()
 
 	const columns = useMemo(
 		() => [
 			{
-				Header: 'Name',
+				Header: intl.formatMessage(messages.header),
 				accessor: 'name',
 				width: 'auto',
 				Cell,
