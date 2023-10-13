@@ -63,32 +63,26 @@ export const Unlock: React.FC<IProps> = ({ onUnlock }) => {
 	}
 
 	return (
-		<Form
-			onSubmit={handleSubmit}
-			initialValues={initialValues}
-			submitButtonTitle={intl.formatMessage(messages.form_button_title)}
-		>
-			<Box display="flex" alignItems="center" gap="medium" flexDirection="column">
-				<Box>
-					<ValidationErrorMessage message={error} />
-				</Box>
-				<Box>
-					<SelectSimple
-						value={keystore?.id}
-						onValueChange={selectKeystore}
-						data={keystores.map(({ id, name }) => ({ id, title: name }))}
-					/>
-				</Box>
-				<Box>
-					<TextField
-						isPassword
-						name="password"
-						placeholder={intl.formatMessage(messages.password_placeholder)}
-						sizeVariant="medium"
-					/>
-				</Box>
-			</Box>
-		</Form>
+		<Box display="flex" alignItems="center" gap="medium" flexDirection="column">
+			<ValidationErrorMessage message={error} />
+			<SelectSimple
+				value={keystore?.id}
+				onValueChange={selectKeystore}
+				data={keystores.map(({ id, name }) => ({ id, title: name }))}
+			/>
+			<Form
+				onSubmit={handleSubmit}
+				initialValues={initialValues}
+				submitButtonTitle={intl.formatMessage(messages.form_button_title)}
+			>
+				<TextField
+					isPassword
+					name="password"
+					placeholder={intl.formatMessage(messages.password_placeholder)}
+					sizeVariant="medium"
+				/>
+			</Form>
+		</Box>
 	)
 }
 
