@@ -8,6 +8,7 @@ import tokens from 'design/dist/tokens.json'
  */
 export const primitiveColors = {
 	transparent: 'rgba(255,255,255,0)',
+	inherit: 'inherit',
 	white: '#fff',
 	black: '#0e0e10',
 

@@ -119,7 +119,7 @@ const HeaderNavMobile = () => {
 								name={accountName}
 								address={accountAddress}
 								rounded
-								tickColor="colorStrong"
+								tickColor="inherit"
 							/>
 						)}
 					</Box>
@@ -133,7 +133,7 @@ const HeaderNavMobile = () => {
 						<SelectSimple
 							value={accountAddress || 'home'}
 							onValueChange={handleSelectAccount}
-							styleVariant="white-transparent"
+							styleVariant="ghost"
 							sizeVariant="small"
 							rounded
 							data={accountMenuItems}
@@ -146,13 +146,13 @@ const HeaderNavMobile = () => {
 								sizeVariant="small"
 								address={accountAddress}
 								rounded
-								tickColor="colorStrong"
+								tickColor="inherit"
 							/>
 						</Box>
 					)}
 				</>
 			)}
-			<AccountViewDropdown styleVariant="white-transparent" />
+			<AccountViewDropdown styleVariant={isAllAccounts ? 'ghost' : 'white-transparent'} />
 		</Box>
 	)
 }

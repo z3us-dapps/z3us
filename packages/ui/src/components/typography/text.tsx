@@ -8,16 +8,13 @@ import { sprinkles } from '../system/sprinkles.css'
 import * as styles from './typography.css'
 
 const colorMap = {
+	inherit: 'inherit',
 	white: 'white',
 	black: 'white',
 	neutral: 'colorNeutral',
 	strong: 'colorStrong',
 	red: { lightMode: 'red500', darkMode: 'red500' },
 	green: { lightMode: 'green500', darkMode: 'green400' },
-	// TODO: add variants
-	// link: { lightMode: 'bleached_silk900', darkMode: 'bleached_silk100' },
-	// secondary: { lightMode: 'bleached_silk900', darkMode: 'bleached_silk100' },
-	// highlight: { lightMode: 'bleached_silk900', darkMode: 'purple500' },
 } as const
 
 interface TextStyleProps {
