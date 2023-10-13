@@ -7,8 +7,8 @@ export type TAddressBookSchema = z.infer<typeof addressBookSchema>
 export type TZodValidation = TZodValidationGeneric<TAddressBookSchema>
 
 export const addressBookSchema = z.object({
-	name: z.string().min(1, 'Must include from name').max(30, 'Must include from name'),
-	address: z.string().min(1, 'Must include valid address').max(30, 'Must include valid address'),
+	name: z.string().min(1, 'Must include from name'),
+	address: z.string().min(1, 'Must include valid address').startsWith('account_'),
 })
 
 export const validateAddressBookForm = (address: TAddressBookSchema): TZodValidation => {

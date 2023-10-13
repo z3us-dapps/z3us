@@ -33,6 +33,8 @@ interface ITableProps {
 	isScrolledTop?: boolean
 	selectedRowIds?: { [key: number]: boolean }
 	sort?: { id: string; desc: boolean }
+	headerProps?: any
+	cellProps?: any
 	onEndReached?: () => void
 	// TODO: should this just be ID?? and not the whole row??
 	onRowSelected?: (row: any) => void
@@ -53,6 +55,8 @@ export const Table: React.FC<ITableProps> = props => {
 		stickyShadowTop = false,
 		overscan = 100,
 		sort,
+		headerProps,
+		cellProps,
 		onEndReached = () => {},
 		onRowSelected = () => {},
 	} = props
@@ -178,7 +182,7 @@ export const Table: React.FC<ITableProps> = props => {
 									}}
 								>
 									<Box position="relative" component="span" display="inline-flex" alignItems="center" gap="xsmall">
-										<Box component="span">{column.render('Header')}</Box>
+										<Box component="span">{column.render('Header', headerProps)}</Box>
 										<Box component="span" className={styles.tableIconWrapper}>
 											{/* eslint-disable-next-line no-nested-ternary */}
 											{column.isSorted ? column.isSortedDesc ? <ChevronDown2Icon /> : <ChevronUp2Icon /> : ''}
@@ -226,7 +230,7 @@ export const Table: React.FC<ITableProps> = props => {
 							)}
 							{...cell.getCellProps()}
 						>
-							{cell.render('Cell')}
+							{cell.render('Cell', cellProps)}
 						</td>
 					))
 				}}

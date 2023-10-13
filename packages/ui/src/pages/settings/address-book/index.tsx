@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from 'react'
+import React, { useEffect } from 'react'
 import { defineMessages, useIntl } from 'react-intl'
 import { useImmer } from 'use-immer'
 
@@ -13,7 +13,6 @@ import type { AddressBookEntry } from 'ui/src/store/types'
 import { SettingsTitle } from '../components/settings-title'
 import { SettingsWrapper } from '../components/settings-wrapper'
 import { AddressBookTable } from './components/address-book-table'
-import { AddressTableCell } from './components/address-table-cell'
 import DeleteAddressBookEntryModal from './components/delete-entry-modal'
 import UpsertAddressBookEntryModal from './components/upsert-entry-modal'
 
@@ -33,8 +32,9 @@ const messages = defineMessages({
 })
 
 export interface IState {
-	deleteAccountAddress: string | undefined
-	editAccountAddress: string | undefined
+	entries: AddressBookEntry[]
+	deleting: string | undefined
+	editing: string | undefined
 }
 
 const AddressBook: React.FC = () => {
@@ -45,60 +45,41 @@ const AddressBook: React.FC = () => {
 		addressBook: state.addressBook[networkId] || {},
 	}))
 
-	const [entries, setEntries] = useState<AddressBookEntry[]>([])
-
 	const [state, setState] = useImmer<IState>({
-		deleteAccountAddress: undefined,
-		editAccountAddress: undefined,
+		entries: [],
+		deleting: undefined,
+		editing: undefined,
 	})
 
 	useEffect(() => {
-		setEntries(Object.values(addressBook).filter(e => !accounts[e.address]))
+		setState(draft => {
+			draft.entries = Object.values(addressBook).filter(e => !accounts[e.address])
+		})
 	}, [addressBook])
 
 	const handleDeleteAddress = (address: string) => {
 		setState(draft => {
-			draft.deleteAccountAddress = address
+			draft.deleting = address
 		})
 	}
 
 	const handleAddEditAddress = (address: string = '') => {
 		setState(draft => {
-			draft.editAccountAddress = address
+			draft.editing = address
 		})
 	}
 
 	const handleCloseEditAddressDialog = () => {
 		setState(draft => {
-			draft.editAccountAddress = undefined
+			draft.editing = undefined
 		})
 	}
 
 	const handleCloseDeleteAddress = () => {
 		setState(draft => {
-			draft.deleteAccountAddress = undefined
+			draft.deleting = undefined
 		})
 	}
-
-	const columns = useMemo(
-		() => [
-			{
-				Header: 'Name',
-				accessor: 'name',
-				width: 'auto',
-				// eslint-disable-next-line react/no-unstable-nested-components
-				Cell: ({ row }) => (
-					<AddressTableCell
-						row={row}
-						key={row.original.address}
-						onDelete={() => handleDeleteAddress(row.original.address)}
-						onEdit={() => handleAddEditAddress(row.original.address)}
-					/>
-				),
-			},
-		],
-		[entries],
-	)
 
 	return (
 		<>
@@ -114,12 +95,12 @@ const AddressBook: React.FC = () => {
 							{intl.formatMessage(messages.new_address)}
 						</Button>
 					</Box>
-					<AddressBookTable data={entries} columns={columns} />
+					<AddressBookTable data={state.entries} onEdit={handleAddEditAddress} onDelete={handleDeleteAddress} />
 				</Box>
 			</SettingsWrapper>
 
-			<DeleteAddressBookEntryModal address={state.deleteAccountAddress} onClose={handleCloseDeleteAddress} />
-			<UpsertAddressBookEntryModal address={state.editAccountAddress} onClose={handleCloseEditAddressDialog} />
+			<DeleteAddressBookEntryModal address={state.deleting} onClose={handleCloseDeleteAddress} />
+			<UpsertAddressBookEntryModal address={state.editing} onClose={handleCloseEditAddressDialog} />
 		</>
 	)
 }

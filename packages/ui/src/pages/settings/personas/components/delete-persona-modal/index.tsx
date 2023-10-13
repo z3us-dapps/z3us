@@ -9,39 +9,39 @@ import { useNetworkId } from 'ui/src/hooks/dapp/use-network-id'
 import { useNoneSharedStore } from 'ui/src/hooks/use-store'
 
 interface IProps {
-	address: string
+	identityAddress: string
 	onClose: () => void
 }
 
 const messages = defineMessages({
 	title: {
-		id: 'address_book.delete_modal.title',
+		id: 'personas.delete_modal.title',
 		defaultMessage: 'Are you sure?',
 	},
 	description: {
-		id: 'address_book.delete_modal.description',
-		defaultMessage: 'Are you sure you want to delete {address} from address book ?',
+		id: 'personas.delete_modal.description',
+		defaultMessage: 'Are you sure you want to delete {identityAddress} from wallet ?',
 	},
 	button_text: {
-		id: 'address_book.delete_modal.button_text',
+		id: 'personas.delete_modal.button_text',
 		defaultMessage: 'Delete',
 	},
 	success_message: {
-		id: 'address_book.delete_modal.success_message',
-		defaultMessage: 'Successfully deleted entry',
+		id: 'personas.delete_modal.success_message',
+		defaultMessage: 'Successfully deleted persona',
 	},
 })
 
-const DeleteAddressBookEntryModal: React.FC<IProps> = ({ address, onClose }) => {
+const DeletePersonaModal: React.FC<IProps> = ({ identityAddress, onClose }) => {
 	const intl = useIntl()
 	const networkId = useNetworkId()
 
-	const { handleRemoveAddress } = useNoneSharedStore(state => ({
-		handleRemoveAddress: state.removeAddressBookEntryAction,
+	const { remove } = useNoneSharedStore(state => ({
+		remove: state.removePersonaAction,
 	}))
 
 	const handleConfirm = () => {
-		handleRemoveAddress(networkId, address)
+		remove(networkId, identityAddress)
 
 		toast(intl.formatMessage(messages.success_message), {})
 		onClose()
@@ -49,11 +49,11 @@ const DeleteAddressBookEntryModal: React.FC<IProps> = ({ address, onClose }) => 
 
 	return (
 		<DialogAlert
-			open={!!address}
+			open={!!identityAddress}
 			title={intl.formatMessage(messages.title)}
 			description={
 				<Box component="span">
-					<Text truncate>{intl.formatMessage(messages.description, { address })}</Text>?
+					<Text truncate>{intl.formatMessage(messages.description, { identityAddress })}</Text>?
 				</Box>
 			}
 			confirmButtonText={intl.formatMessage(messages.button_text)}
@@ -63,4 +63,4 @@ const DeleteAddressBookEntryModal: React.FC<IProps> = ({ address, onClose }) => 
 	)
 }
 
-export default DeleteAddressBookEntryModal
+export default DeletePersonaModal
