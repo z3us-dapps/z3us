@@ -2104,7 +2104,7 @@
   "settings.navigation.wallet.subtitle": [
     {
       "type": 0,
-      "value": "Manage your wallet and it's keys"
+      "value": "Manage your wallet and private keys"
     }
   ],
   "settings.navigation.wallet.title": [
@@ -2290,7 +2290,7 @@
   "settings.wallet.subtitle": [
     {
       "type": 0,
-      "value": "Manage your wallet"
+      "value": "Manage your wallet and private keys"
     }
   ],
   "settings.wallet.title": [

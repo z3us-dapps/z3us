@@ -849,7 +849,7 @@
     "defaultMessage": "Personas"
   },
   "settings.navigation.wallet.subtitle": {
-    "defaultMessage": "Manage your wallet and it's keys"
+    "defaultMessage": "Manage your wallet and private keys"
   },
   "settings.navigation.wallet.title": {
     "defaultMessage": "Wallet"
@@ -924,7 +924,7 @@
     "defaultMessage": "Reveal"
   },
   "settings.wallet.subtitle": {
-    "defaultMessage": "Manage your wallet"
+    "defaultMessage": "Manage your wallet and private keys"
   },
   "settings.wallet.title": {
     "defaultMessage": "Wallet"

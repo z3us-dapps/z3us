@@ -22,7 +22,7 @@ const messages = defineMessages({
 	},
 	subtitle: {
 		id: 'settings.wallet.subtitle',
-		defaultMessage: `Manage your wallet`,
+		defaultMessage: `Manage your wallet and private keys`,
 	},
 	name_title: {
 		id: 'settings.wallet.name.title',
