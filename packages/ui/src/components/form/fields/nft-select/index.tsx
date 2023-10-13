@@ -1,9 +1,8 @@
-import React, { forwardRef, useContext } from 'react'
+import React, { forwardRef, useContext, useEffect, useMemo } from 'react'
 import { defineMessages, useIntl } from 'react-intl'
 
 import { useBalances } from 'ui/src/hooks/dapp/use-balances'
 import { useNonFungibleIds } from 'ui/src/hooks/dapp/use-entity-nft'
-import type { ResourceBalance, ResourceBalanceType } from 'ui/src/types/types'
 
 import { Box } from '../../../box'
 import { type IProps as WrapperProps } from '../../field-wrapper'
@@ -38,20 +37,22 @@ export const NftSelect = forwardRef<HTMLButtonElement, IProps>((props, ref) => {
 	const { nonFungibleBalances = [] } = balanceData || {}
 	const resource = useFieldValue(`${parentName ? `${parentName}.` : ''}${resourceKey}`)
 
-	const selectedToken = nonFungibleBalances.find(
-		b => b.address === resource,
-	) as ResourceBalance[ResourceBalanceType.NON_FUNGIBLE]
+	const { data: idsData, isFetching, hasNextPage, fetchNextPage } = useNonFungibleIds(resource, [fromAccount])
 
-	const pages = useNonFungibleIds(fromAccount, selectedToken?.address, selectedToken?.vaults)
-	const ids =
-		pages
-			?.filter(({ data }) => !!data)
-			.map(({ data }) => data)
-			?.flat()
-			.map(id => ({ id, title: id })) || []
+	useEffect(() => {
+		if (isFetching) return
+		if (hasNextPage) {
+			fetchNextPage()
+		}
+	}, [isFetching, fetchNextPage, hasNextPage])
+
+	const ids = useMemo(
+		() => idsData?.pages.reduce((container, page) => [...container, ...page.items], []) || [],
+		[idsData],
+	)
 
 	return (
-		<Box disabled={!fromAccount || isLoading}>
+		<Box disabled={!fromAccount || isLoading || isFetching}>
 			<SelectField
 				{...rest}
 				ref={ref}
