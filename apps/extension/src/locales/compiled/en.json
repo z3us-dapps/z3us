@@ -75,12 +75,6 @@
       "value": "Export to Radix Mobile"
     }
   ],
-  "account_menu.wallet_remove": [
-    {
-      "type": 0,
-      "value": "Delete wallet"
-    }
-  ],
   "accounts.activity_list.all_assets_total_balance": [
     {
       "type": 0,
@@ -491,6 +485,38 @@
       "value": "Successfully updated address book entry"
     }
   ],
+  "authorized_dapps.delete_modal.button_text": [
+    {
+      "type": 0,
+      "value": "Revoke"
+    }
+  ],
+  "authorized_dapps.delete_modal.description": [
+    {
+      "type": 0,
+      "value": "Are you sure you want to revoke "
+    },
+    {
+      "type": 1,
+      "value": "dappName"
+    },
+    {
+      "type": 0,
+      "value": " access ?"
+    }
+  ],
+  "authorized_dapps.delete_modal.success_message": [
+    {
+      "type": 0,
+      "value": "Successfully revoked access"
+    }
+  ],
+  "authorized_dapps.delete_modal.title": [
+    {
+      "type": 0,
+      "value": "Are you sure?"
+    }
+  ],
   "card.buttons.address": [
     {
       "type": 0,
@@ -629,6 +655,102 @@
     {
       "type": 0,
       "value": "Name is required"
+    }
+  ],
+  "forms.persona_data.button_add.email_address": [
+    {
+      "type": 0,
+      "value": "Add email address"
+    }
+  ],
+  "forms.persona_data.button_add.phone_number": [
+    {
+      "type": 0,
+      "value": "Add phone number"
+    }
+  ],
+  "forms.persona_data.eastern": [
+    {
+      "type": 0,
+      "value": "Eastern"
+    }
+  ],
+  "forms.persona_data.email_address": [
+    {
+      "type": 0,
+      "value": "Email address"
+    }
+  ],
+  "forms.persona_data.family_name": [
+    {
+      "type": 0,
+      "value": "Family name"
+    }
+  ],
+  "forms.persona_data.given_names": [
+    {
+      "type": 0,
+      "value": "Given names"
+    }
+  ],
+  "forms.persona_data.nickname": [
+    {
+      "type": 0,
+      "value": "Nickname"
+    }
+  ],
+  "forms.persona_data.phone_number": [
+    {
+      "type": 0,
+      "value": "Phone number"
+    }
+  ],
+  "forms.persona_data.submit_button.title": [
+    {
+      "type": 0,
+      "value": "Submit"
+    }
+  ],
+  "forms.persona_data.validation.email": [
+    {
+      "type": 0,
+      "value": "Please select valid email"
+    }
+  ],
+  "forms.persona_data.validation.family_name": [
+    {
+      "type": 0,
+      "value": "Please insert valid family name"
+    }
+  ],
+  "forms.persona_data.validation.given_names": [
+    {
+      "type": 0,
+      "value": "Please insert valid given names"
+    }
+  ],
+  "forms.persona_data.validation.nickname": [
+    {
+      "type": 0,
+      "value": "Please insert valid nickname"
+    }
+  ],
+  "forms.persona_data.validation.phone_number": [
+    {
+      "type": 0,
+      "value": "Please select valid phone number"
+    }
+  ],
+  "forms.persona_data.variant": [
+    {
+      "type": 0,
+      "value": "Name variant"
+    }
+  ],
+  "forms.persona_data.western": [
+    {
+      "type": 0,
+      "value": "Western"
     }
   ],
   "hooks.interaction.accounts_data.account_challenge": [
@@ -1043,12 +1165,6 @@
       "value": "cost"
     }
   ],
-  "keystore.export.nothing_to_export": [
-    {
-      "type": 0,
-      "value": "Wallet does not contain legacy accounts"
-    }
-  ],
   "keystore.export.password_form.error": [
     {
       "type": 0,
@@ -1065,34 +1181,6 @@
     {
       "type": 0,
       "value": "Password"
-    }
-  ],
-  "keystore.export.unknown_account": [
-    {
-      "options": {
-        "other": {
-          "value": [
-            {
-              "type": 0,
-              "value": "Account: "
-            },
-            {
-              "type": 1,
-              "value": "position"
-            }
-          ]
-        },
-        "true": {
-          "value": [
-            {
-              "type": 1,
-              "value": "label"
-            }
-          ]
-        }
-      },
-      "type": 5,
-      "value": "hasLabel"
     }
   ],
   "keystore.form.button.submit": [
@@ -1177,6 +1265,12 @@
     {
       "type": 0,
       "value": "Restore from seed phrase"
+    }
+  ],
+  "keystore.nav.back": [
+    {
+      "type": 0,
+      "value": "Back"
     }
   ],
   "keystore.radix.pairing.help": [
@@ -1315,66 +1409,6 @@
       "value": "Cancel"
     }
   ],
-  "modals.persona_data.eastern": [
-    {
-      "type": 0,
-      "value": "Eastern"
-    }
-  ],
-  "modals.persona_data.form.button_add.email_address": [
-    {
-      "type": 0,
-      "value": "Add email address"
-    }
-  ],
-  "modals.persona_data.form.button_add.phone_number": [
-    {
-      "type": 0,
-      "value": "Add phone number"
-    }
-  ],
-  "modals.persona_data.form.email_address": [
-    {
-      "type": 0,
-      "value": "Email address"
-    }
-  ],
-  "modals.persona_data.form.family_name": [
-    {
-      "type": 0,
-      "value": "Family name"
-    }
-  ],
-  "modals.persona_data.form.given_names": [
-    {
-      "type": 0,
-      "value": "Given names"
-    }
-  ],
-  "modals.persona_data.form.nickname": [
-    {
-      "type": 0,
-      "value": "Nickname"
-    }
-  ],
-  "modals.persona_data.form.phone_number": [
-    {
-      "type": 0,
-      "value": "Phone number"
-    }
-  ],
-  "modals.persona_data.form.submit_button.title": [
-    {
-      "type": 0,
-      "value": "Login"
-    }
-  ],
-  "modals.persona_data.form.variant": [
-    {
-      "type": 0,
-      "value": "Name variant"
-    }
-  ],
   "modals.persona_data.validation.email": [
     {
       "type": 0,
@@ -1465,12 +1499,6 @@
     {
       "type": 0,
       "value": " phone numbers"
-    }
-  ],
-  "modals.persona_data.western": [
-    {
-      "type": 0,
-      "value": "Western"
     }
   ],
   "modals.select_accounts.close_button": [
@@ -1687,6 +1715,62 @@
       "value": "Notifications"
     }
   ],
+  "personas.delete_modal.button_text": [
+    {
+      "type": 0,
+      "value": "Delete"
+    }
+  ],
+  "personas.delete_modal.description": [
+    {
+      "type": 0,
+      "value": "Are you sure you want to delete "
+    },
+    {
+      "type": 1,
+      "value": "identityAddress"
+    },
+    {
+      "type": 0,
+      "value": " from wallet ?"
+    }
+  ],
+  "personas.delete_modal.success_message": [
+    {
+      "type": 0,
+      "value": "Successfully deleted persona"
+    }
+  ],
+  "personas.delete_modal.title": [
+    {
+      "type": 0,
+      "value": "Are you sure?"
+    }
+  ],
+  "personas.upsert_modal.created_toast": [
+    {
+      "type": 0,
+      "value": "Successfully added new persona"
+    }
+  ],
+  "personas.upsert_modal.form.cancel": [
+    {
+      "type": 0,
+      "value": "Cancel"
+    }
+  ],
+  "personas.upsert_modal.title": [
+    {
+      "type": 0,
+      "value": "Persona details"
+    }
+  ],
+  "personas.upsert_modal.updated_toast": [
+    {
+      "type": 0,
+      "value": "Successfully updated persona details"
+    }
+  ],
   "pool_units.address": [
     {
       "type": 0,
@@ -1801,10 +1885,34 @@
       "value": "Effortless organization for your address book accounts. Manage your Radix address book with ease, editing account names and addresses in a convenient table view for seamless transactions and better financial control"
     }
   ],
+  "settings.address_book.table.header": [
+    {
+      "type": 0,
+      "value": "Name"
+    }
+  ],
   "settings.address_book.title": [
     {
       "type": 0,
       "value": "Address book"
+    }
+  ],
+  "settings.authorized-dapps.entry.accounts": [
+    {
+      "type": 0,
+      "value": "Selected accounts"
+    }
+  ],
+  "settings.authorized-dapps.entry.persona": [
+    {
+      "type": 0,
+      "value": "Persona"
+    }
+  ],
+  "settings.authorized-dapps.table.header": [
+    {
+      "type": 0,
+      "value": "dApp"
     }
   ],
   "settings.authorized_dapps.subtitle": [
@@ -1933,18 +2041,6 @@
       "value": "General"
     }
   ],
-  "settings.general.wallet.subtitle": [
-    {
-      "type": 0,
-      "value": "Wallet name"
-    }
-  ],
-  "settings.general.wallet.title": [
-    {
-      "type": 0,
-      "value": "Wallet"
-    }
-  ],
   "settings.navigation.accounts.subtitle": [
     {
       "type": 0,
@@ -1993,6 +2089,18 @@
       "value": "General"
     }
   ],
+  "settings.navigation.key_management.subtitle": [
+    {
+      "type": 0,
+      "value": "Export your Private Key or Seed Phrase"
+    }
+  ],
+  "settings.navigation.key_management.title": [
+    {
+      "type": 0,
+      "value": "Key management"
+    }
+  ],
   "settings.navigation.personas.subtitle": [
     {
       "type": 0,
@@ -2005,10 +2113,46 @@
       "value": "Personas"
     }
   ],
+  "settings.navigation.wallet.subtitle": [
+    {
+      "type": 0,
+      "value": "Manage your wallet"
+    }
+  ],
+  "settings.navigation.wallet.title": [
+    {
+      "type": 0,
+      "value": "Wallet"
+    }
+  ],
+  "settings.personas.entry.delete": [
+    {
+      "type": 0,
+      "value": "Delete"
+    }
+  ],
+  "settings.personas.entry.edit": [
+    {
+      "type": 0,
+      "value": "Edit"
+    }
+  ],
+  "settings.personas.new_persona": [
+    {
+      "type": 0,
+      "value": "New persona"
+    }
+  ],
   "settings.personas.subtitle": [
     {
       "type": 0,
       "value": "Manage your Radix network identities"
+    }
+  ],
+  "settings.personas.table.header": [
+    {
+      "type": 0,
+      "value": "Name"
     }
   ],
   "settings.personas.title": [
@@ -2111,6 +2255,36 @@
     {
       "type": 0,
       "value": "Transaction Result Notifications"
+    }
+  ],
+  "settings.wallet.name.subtitle": [
+    {
+      "type": 0,
+      "value": "Change your wallet name"
+    }
+  ],
+  "settings.wallet.name.title": [
+    {
+      "type": 0,
+      "value": "Name"
+    }
+  ],
+  "settings.wallet.remove": [
+    {
+      "type": 0,
+      "value": "Delete wallet"
+    }
+  ],
+  "settings.wallet.subtitle": [
+    {
+      "type": 0,
+      "value": "Manage your wallet"
+    }
+  ],
+  "settings.wallet.title": [
+    {
+      "type": 0,
+      "value": "Wallet"
     }
   ],
   "staking.table.column.address": [
