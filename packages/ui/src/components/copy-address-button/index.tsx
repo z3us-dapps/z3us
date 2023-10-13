@@ -13,7 +13,7 @@ import type * as textStyles from 'ui/src/components/typography/typography.css'
 import { copyTextToClipboard } from 'ui/src/utils/copy-to-clipboard'
 import { getShortAddress } from 'ui/src/utils/string-utils'
 
-import * as styles from './copy-address-button.css'
+import * as styles from './styles.css'
 
 const messages = defineMessages({
 	copied: {
@@ -28,7 +28,8 @@ const CopyIconAnimation = ({ animate, tickColor }: { animate: boolean; tickColor
 			<AnimatePresence initial={false}>
 				{animate && (
 					<Box color={tickColor} zIndex={1}>
-						<svg fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="CheckIcon">
+						{console.log('hell o', 999, tickColor)}
+						<svg fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor">
 							<motion.path
 								initial={{ pathLength: 0 }}
 								animate={{ pathLength: 1 }}
@@ -125,7 +126,7 @@ export const CopyAddressButton: React.FC<ICopyAddressButtonProps> = props => {
 				{!iconOnly ? (
 					<Box position="relative">
 						<Box transition="slow" opacity={copiedAnimate ? 0 : 1}>
-							<Text align="center" color="strong" size={textSize}>
+							<Text color="inherit" align="center" size={textSize}>
 								{name ? <>{name} - </> : null}
 								{getShortAddress(address)}
 							</Text>
@@ -139,7 +140,7 @@ export const CopyAddressButton: React.FC<ICopyAddressButtonProps> = props => {
 							textAlign="center"
 							pointerEvents="none"
 						>
-							<Text capitalizeFirstLetter color="strong" align="center">
+							<Text capitalizeFirstLetter color="inherit" align="center">
 								{intl.formatMessage(messages.copied)}
 							</Text>
 						</Box>
