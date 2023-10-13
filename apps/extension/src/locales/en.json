@@ -308,6 +308,15 @@
   "forms.persona_data.western": {
     "defaultMessage": "Western"
   },
+  "forms.wallet_secret.error": {
+    "defaultMessage": "Incorrect password!"
+  },
+  "forms.wallet_secret.form.button.title": {
+    "defaultMessage": "Show"
+  },
+  "forms.wallet_secret.password.placeholder": {
+    "defaultMessage": "Password"
+  },
   "hooks.interaction.accounts_data.account_challenge": {
     "defaultMessage": "To confirm ownership of selected accounts, signature is required"
   },
@@ -409,15 +418,6 @@
   },
   "interaction.preview.xrd_total_tipping_cost": {
     "defaultMessage": "Tipping: {cost, number, ::.00#######}"
-  },
-  "keystore.export.password_form.error": {
-    "defaultMessage": "Incorrect password!"
-  },
-  "keystore.export.password_form.form.button.title": {
-    "defaultMessage": "Show"
-  },
-  "keystore.export.password_form.password.placeholder": {
-    "defaultMessage": "Password"
   },
   "keystore.form.button.submit": {
     "defaultMessage": "Create"
@@ -842,12 +842,6 @@
   "settings.navigation.general.title": {
     "defaultMessage": "General"
   },
-  "settings.navigation.key_management.subtitle": {
-    "defaultMessage": "Export your Private Key or Seed Phrase"
-  },
-  "settings.navigation.key_management.title": {
-    "defaultMessage": "Key management"
-  },
   "settings.navigation.personas.subtitle": {
     "defaultMessage": "Manage your Radix network identities"
   },
@@ -855,7 +849,7 @@
     "defaultMessage": "Personas"
   },
   "settings.navigation.wallet.subtitle": {
-    "defaultMessage": "Manage your wallet"
+    "defaultMessage": "Manage your wallet and it's keys"
   },
   "settings.navigation.wallet.title": {
     "defaultMessage": "Wallet"
@@ -916,6 +910,18 @@
   },
   "settings.wallet.remove": {
     "defaultMessage": "Delete wallet"
+  },
+  "settings.wallet.remove.subtitle": {
+    "defaultMessage": "Remove your wallet and delete all cache data"
+  },
+  "settings.wallet.remove.title": {
+    "defaultMessage": "Remove wallet"
+  },
+  "settings.wallet.secret.subtitle": {
+    "defaultMessage": "Show seed phrase or extended private key"
+  },
+  "settings.wallet.secret.title": {
+    "defaultMessage": "Reveal"
   },
   "settings.wallet.subtitle": {
     "defaultMessage": "Manage your wallet"

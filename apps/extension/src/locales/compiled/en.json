@@ -753,6 +753,24 @@
       "value": "Western"
     }
   ],
+  "forms.wallet_secret.error": [
+    {
+      "type": 0,
+      "value": "Incorrect password!"
+    }
+  ],
+  "forms.wallet_secret.form.button.title": [
+    {
+      "type": 0,
+      "value": "Show"
+    }
+  ],
+  "forms.wallet_secret.password.placeholder": [
+    {
+      "type": 0,
+      "value": "Password"
+    }
+  ],
   "hooks.interaction.accounts_data.account_challenge": [
     {
       "type": 0,
@@ -1163,24 +1181,6 @@
       },
       "type": 2,
       "value": "cost"
-    }
-  ],
-  "keystore.export.password_form.error": [
-    {
-      "type": 0,
-      "value": "Incorrect password!"
-    }
-  ],
-  "keystore.export.password_form.form.button.title": [
-    {
-      "type": 0,
-      "value": "Show"
-    }
-  ],
-  "keystore.export.password_form.password.placeholder": [
-    {
-      "type": 0,
-      "value": "Password"
     }
   ],
   "keystore.form.button.submit": [
@@ -2089,18 +2089,6 @@
       "value": "General"
     }
   ],
-  "settings.navigation.key_management.subtitle": [
-    {
-      "type": 0,
-      "value": "Export your Private Key or Seed Phrase"
-    }
-  ],
-  "settings.navigation.key_management.title": [
-    {
-      "type": 0,
-      "value": "Key management"
-    }
-  ],
   "settings.navigation.personas.subtitle": [
     {
       "type": 0,
@@ -2116,7 +2104,7 @@
   "settings.navigation.wallet.subtitle": [
     {
       "type": 0,
-      "value": "Manage your wallet"
+      "value": "Manage your wallet and it's keys"
     }
   ],
   "settings.navigation.wallet.title": [
@@ -2273,6 +2261,30 @@
     {
       "type": 0,
       "value": "Delete wallet"
+    }
+  ],
+  "settings.wallet.remove.subtitle": [
+    {
+      "type": 0,
+      "value": "Remove your wallet and delete all cache data"
+    }
+  ],
+  "settings.wallet.remove.title": [
+    {
+      "type": 0,
+      "value": "Remove wallet"
+    }
+  ],
+  "settings.wallet.secret.subtitle": [
+    {
+      "type": 0,
+      "value": "Show seed phrase or extended private key"
+    }
+  ],
+  "settings.wallet.secret.title": [
+    {
+      "type": 0,
+      "value": "Reveal"
     }
   ],
   "settings.wallet.subtitle": [

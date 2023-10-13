@@ -6,19 +6,19 @@ import { Form } from 'ui/src/components/form'
 import TextField from 'ui/src/components/form/fields/text-field'
 import { ValidationErrorMessage } from 'ui/src/components/validation-error-message'
 
-import { useMessageClient } from '@src/hooks/use-message-client'
+import { useZdtState } from '../../hooks/zdt/use-zdt'
 
 const messages = defineMessages({
 	password_placeholder: {
-		id: 'keystore.export.password_form.password.placeholder',
+		id: 'forms.wallet_secret.password.placeholder',
 		defaultMessage: 'Password',
 	},
 	unlock_error: {
-		id: 'keystore.export.password_form.error',
+		id: 'forms.wallet_secret.error',
 		defaultMessage: 'Incorrect password!',
 	},
 	form_button_title: {
-		id: 'keystore.export.password_form.form.button.title',
+		id: 'forms.wallet_secret.form.button.title',
 		defaultMessage: 'Show',
 	},
 })
@@ -31,10 +31,10 @@ interface IProps {
 	onUnlock: (secret: string) => void
 }
 
-export const ExportForm: React.FC<IProps> = ({ onUnlock }) => {
+export const WalletSecretForm: React.FC<IProps> = ({ onUnlock }) => {
 	const intl = useIntl()
 	const inputRef = useRef(null)
-	const client = useMessageClient()
+	const { getSecret } = useZdtState()
 
 	const [error, setError] = useState<string>('')
 
@@ -44,7 +44,7 @@ export const ExportForm: React.FC<IProps> = ({ onUnlock }) => {
 
 	const handleSubmit = async (values: typeof initialValues) => {
 		try {
-			const secret = await client.getSecret(values.password)
+			const secret = await getSecret(values.password)
 			onUnlock(secret)
 			setError('')
 		} catch (err) {
@@ -75,4 +75,4 @@ export const ExportForm: React.FC<IProps> = ({ onUnlock }) => {
 	)
 }
 
-export default ExportForm
+export default WalletSecretForm
