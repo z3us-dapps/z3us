@@ -1,15 +1,15 @@
-import WalletSecretForm from 'packages/ui/src/components/form/wallet-secret-form'
-import { KeystoreType } from 'packages/ui/src/store/types'
 import React, { useState } from 'react'
 import { defineMessages, useIntl } from 'react-intl'
 import { useNavigate } from 'react-router-dom'
 
 import { Box } from 'ui/src/components/box'
 import { Button } from 'ui/src/components/button'
+import WalletSecretForm from 'ui/src/components/form/wallet-secret-form'
 import { Input } from 'ui/src/components/input'
 import { Text } from 'ui/src/components/typography'
 import { useSharedStore } from 'ui/src/hooks/use-store'
 import { useZdtState } from 'ui/src/hooks/zdt/use-zdt'
+import { KeystoreType } from 'ui/src/store/types'
 
 import { SettingsBlock } from '../components/settings-block'
 import { SettingsTitle } from '../components/settings-title'
