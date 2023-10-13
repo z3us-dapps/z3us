@@ -7,7 +7,6 @@ import { FallbackLoading } from 'ui/src/components/fallback-renderer'
 import { ResourceImageIcon } from 'ui/src/components/resource-image-icon'
 import { Text } from 'ui/src/components/typography'
 import { useEntitiesDetails, useEntityDetails } from 'ui/src/hooks/dapp/use-entity-details'
-import { useIsMobileWidth } from 'ui/src/hooks/use-is-mobile'
 import { getStringMetadata } from 'ui/src/services/metadata'
 
 import * as styles from './styles.css'
@@ -24,14 +23,12 @@ const messages = defineMessages({
 
 interface IProps {
 	value?: string
-	// row?: { original: ResourceBalance[ResourceBalanceType.POOL_UNIT] }
 }
 
 export const PoolCell: React.FC<IProps> = props => {
 	const { value } = props
 
 	const intl = useIntl()
-	const isMobile = useIsMobileWidth()
 	const { data, isLoading } = useEntityDetails(value)
 	const { data: entities, isLoading: isLoadingResources } = useEntitiesDetails(
 		data?.details?.state?.vaults.map(vault => vault.resource_address) || [],
@@ -45,7 +42,7 @@ export const PoolCell: React.FC<IProps> = props => {
 	return (
 		<Box className={styles.assetNameCellWrapper}>
 			<Box className={clsx(styles.assetNameCellContentWrapper, 'td-cell')}>
-				<ResourceImageIcon size={isMobile ? 'large' : 'xlarge'} address={value} />
+				<ResourceImageIcon size={{ mobile: 'large', tablet: 'xlarge' }} address={value} />
 				<Box className={styles.assetNameCellStatsWrapper}>
 					<Box className={styles.assetNameCellNameWrapper}>
 						<Text capitalizeFirstLetter size="small" color="strong" truncate weight="medium">

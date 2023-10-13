@@ -7,7 +7,6 @@ import { FallbackLoading } from 'ui/src/components/fallback-renderer'
 import { ResourceImageIcon } from 'ui/src/components/resource-image-icon'
 import { Text } from 'ui/src/components/typography'
 import { useEntityDetails } from 'ui/src/hooks/dapp/use-entity-details'
-import { useIsMobileWidth } from 'ui/src/hooks/use-is-mobile'
 import { getStringMetadata } from 'ui/src/services/metadata'
 import type { ResourceBalance, ResourceBalanceType } from 'ui/src/types/types'
 
@@ -36,7 +35,6 @@ export const ValidatorCell: React.FC<IProps> = props => {
 	const { symbol, validator } = original
 
 	const intl = useIntl()
-	const isMobile = useIsMobileWidth()
 	const { data, isLoading } = useEntityDetails(validator)
 
 	const name = getStringMetadata('name', data?.metadata?.items)
@@ -46,7 +44,7 @@ export const ValidatorCell: React.FC<IProps> = props => {
 	return (
 		<Box className={styles.assetNameCellWrapper}>
 			<Box className={clsx(styles.assetNameCellContentWrapper, 'td-cell')}>
-				<ResourceImageIcon size={isMobile ? 'large' : 'xlarge'} address={value} />
+				<ResourceImageIcon size={{ mobile: 'large', tablet: 'xlarge' }} address={value} />
 				<Box className={styles.assetNameCellStatsWrapper}>
 					<Box className={styles.assetNameCellNameWrapper}>
 						<Text capitalizeFirstLetter size="small" color="strong" truncate weight="medium">
