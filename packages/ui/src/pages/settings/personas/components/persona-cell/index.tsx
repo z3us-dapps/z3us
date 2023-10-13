@@ -6,39 +6,39 @@ import { Button } from 'ui/src/components/button'
 import { EditIcon, TrashIcon } from 'ui/src/components/icons'
 import { ResourceImageIcon } from 'ui/src/components/resource-image-icon'
 import { Text } from 'ui/src/components/typography'
-import type { AddressBookEntry } from 'ui/src/store/types'
+import type { Persona } from 'ui/src/store/types'
 
 import * as styles from './styles.css'
 
 const messages = defineMessages({
 	delete: {
-		id: 'settings.address_book.entry.delete',
+		id: 'settings.personas.entry.delete',
 		defaultMessage: 'Delete',
 	},
 	edit: {
-		id: 'settings.address_book.entry.edit',
+		id: 'settings.personas.entry.edit',
 		defaultMessage: 'Edit',
 	},
 })
 
 interface IProps {
-	row: { original: AddressBookEntry }
+	row: { original: Persona }
 	onDelete: () => void
 	onEdit: () => void
 }
 
-export const AddressTableCell: React.FC<IProps> = ({ row, onDelete, onEdit }) => {
+export const PersonaCell: React.FC<IProps> = ({ row, onDelete, onEdit }) => {
 	const intl = useIntl()
 
 	return (
-		<Box key={row.original.address} className={styles.addressTableCellWrapper}>
-			<ResourceImageIcon address={row.original.address} />
+		<Box key={row.original.identityAddress} className={styles.addressTableCellWrapper}>
+			<ResourceImageIcon address={row.original.identityAddress} />
 			<Box className={styles.addressTableCellTextWrapper}>
 				<Text size="small" color="strong" weight="medium" truncate>
-					{row.original.name}
+					{row.original.label}
 				</Text>
 				<Text size="xsmall" truncate>
-					{row.original.address}
+					{row.original.identityAddress}
 				</Text>
 			</Box>
 			<Button sizeVariant="small" styleVariant="secondary" leftIcon={<TrashIcon />} onClick={onDelete}>

@@ -1,7 +1,8 @@
-import { Button } from 'packages/ui/src/components/button'
 import React from 'react'
 import { defineMessages, useIntl } from 'react-intl'
 import { useNavigate } from 'react-router-dom'
+
+import { Button } from 'ui/src/components/button'
 
 const messages = defineMessages({
 	back: {

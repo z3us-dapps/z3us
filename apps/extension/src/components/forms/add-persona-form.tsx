@@ -58,13 +58,7 @@ const AddPersonaForm: React.FC = () => {
 			return
 		}
 
-		const idx =
-			Math.max(
-				-1,
-				...Object.values(personaIndexes)
-					.filter(persona => persona.scheme !== SCHEME.BIP440OLYMPIA)
-					.map(persona => persona.entityIndex),
-			) + 1
+		const idx = Math.max(-1, ...Object.values(personaIndexes).map(persona => persona.entityIndex)) + 1
 		const derivationPath = buildPersonaDerivationPath(networkId, idx)
 		const publicKey = await getPublicKey(CURVE.CURVE25519, derivationPath)
 		const address = await RadixEngineToolkit.Derive.virtualIdentityAddressFromPublicKey(publicKey, networkId)

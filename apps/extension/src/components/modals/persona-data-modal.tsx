@@ -1,17 +1,13 @@
 import type { PersonaDataRequestItem, PersonaDataRequestResponseItem } from '@radixdlt/radix-dapp-toolkit'
 import clsx from 'clsx'
-import { useEffect, useMemo, useRef, useState } from 'react'
+import { useMemo, useState } from 'react'
 import { defineMessages, useIntl } from 'react-intl'
-import type { ZodError } from 'zod'
 import { z } from 'zod'
 
 import { Box } from 'ui/src/components/box'
 import { DialogContent, DialogOverlay, DialogPortal, DialogRoot } from 'ui/src/components/dialog'
-import { Form } from 'ui/src/components/form'
-import { FieldsGroup } from 'ui/src/components/form/fields-group'
-import SelectField from 'ui/src/components/form/fields/select-field'
-import TextField from 'ui/src/components/form/fields/text-field'
-import { CirclePlusIcon, Close2Icon, TrashIcon } from 'ui/src/components/icons'
+import PersonaDataForm from 'ui/src/components/form/persona-data-form'
+import { Close2Icon } from 'ui/src/components/icons'
 import { Button } from 'ui/src/components/router-button'
 import { ScrollArea } from 'ui/src/components/scroll-area'
 import * as dialogStyles from 'ui/src/components/styles/dialog-styles.css'
@@ -22,17 +18,9 @@ import { useNoneSharedStore } from 'ui/src/hooks/use-store'
 import * as styles from './styles.css'
 
 const messages = defineMessages({
-	form_button_title: {
-		id: 'modals.persona_data.form.submit_button.title',
-		defaultMessage: 'Login',
-	},
-	email_address: {
-		id: 'modals.persona_data.form.email_address',
-		defaultMessage: 'Email address',
-	},
-	button_add_email_address: {
-		id: 'modals.persona_data.form.button_add.email_address',
-		defaultMessage: 'Add email address',
+	close: {
+		id: 'modals.persona_data.close_button',
+		defaultMessage: 'Cancel',
 	},
 	validation_email: {
 		id: 'modals.persona_data.validation.email',
@@ -46,14 +34,6 @@ const messages = defineMessages({
 		id: 'modals.persona_data.validation.validation_emails_exactly',
 		defaultMessage: 'Please select exactly {number} emails',
 	},
-	phone_number: {
-		id: 'modals.persona_data.form.phone_number',
-		defaultMessage: 'Phone number',
-	},
-	button_add_phone_number: {
-		id: 'modals.persona_data.form.button_add.phone_number',
-		defaultMessage: 'Add phone number',
-	},
 	validation_phone_number: {
 		id: 'modals.persona_data.validation.phone_number',
 		defaultMessage: 'Please select valid phone number',
@@ -66,41 +46,13 @@ const messages = defineMessages({
 		id: 'modals.persona_data.validation.validation_phone_numbers_exactly',
 		defaultMessage: 'Please select exactly {number} phone numbers',
 	},
-	close: {
-		id: 'modals.persona_data.close_button',
-		defaultMessage: 'Cancel',
-	},
-	variant: {
-		id: 'modals.persona_data.form.variant',
-		defaultMessage: 'Name variant',
-	},
-	western: {
-		id: 'modals.persona_data.western',
-		defaultMessage: 'Western',
-	},
-	eastern: {
-		id: 'modals.persona_data.eastern',
-		defaultMessage: 'Eastern',
-	},
-	nickname: {
-		id: 'modals.persona_data.form.nickname',
-		defaultMessage: 'Nickname',
-	},
 	validation_nickname: {
 		id: 'modals.persona_data.validation.nickname',
 		defaultMessage: 'Please insert valid nickname',
 	},
-	given_names: {
-		id: 'modals.persona_data.form.given_names',
-		defaultMessage: 'Given names',
-	},
 	validation_given_names: {
 		id: 'modals.persona_data.validation.given_names',
 		defaultMessage: 'Please insert valid given names',
-	},
-	family_name: {
-		id: 'modals.persona_data.form.family_name',
-		defaultMessage: 'Family name',
 	},
 	validation_family_name: {
 		id: 'modals.persona_data.validation.family_name',
@@ -112,8 +64,6 @@ const messages = defineMessages({
 	},
 })
 
-const nameVariants = ['western', 'eastern']
-
 export interface IProps {
 	identityAddress: string
 	request: PersonaDataRequestItem
@@ -123,29 +73,14 @@ export interface IProps {
 
 const SelectPersonaModal: React.FC<IProps> = ({ identityAddress, request, onConfirm, onCancel }) => {
 	const intl = useIntl()
-	const inputRef = useRef(null)
 	const networkId = useNetworkId()
 	const { personaIndexes, updatePersona } = useNoneSharedStore(state => ({
 		personaIndexes: state.personaIndexes[networkId] || {},
 		updatePersona: state.addPersonaAction,
 	}))
 
-	const [validation, setValidation] = useState<ZodError>()
 	const [isScrolled, setIsScrolled] = useState<boolean>(false)
 	const [isOpen, setIsOpen] = useState<boolean>(true)
-
-	const initialValues = {
-		names: [
-			{
-				variant: personaIndexes?.[identityAddress].nameVariant || 'western',
-				nickname: personaIndexes?.[identityAddress].nickName || '',
-				givenNames: personaIndexes?.[identityAddress].givenNames || '',
-				familyName: personaIndexes?.[identityAddress].familyName || '',
-			},
-		],
-		emailAddresses: personaIndexes?.[identityAddress].emailAddresses?.map(email => ({ email })) || [],
-		phoneNumbers: personaIndexes?.[identityAddress].phoneNumbers?.map(number => ({ number })) || [],
-	}
 
 	const validationSchema = useMemo(() => {
 		const schema: any = {}
@@ -206,10 +141,6 @@ const SelectPersonaModal: React.FC<IProps> = ({ identityAddress, request, onConf
 		return z.object(schema)
 	}, [])
 
-	useEffect(() => {
-		inputRef?.current?.focus()
-	}, [])
-
 	const handleScroll = (event: Event) => {
 		const target = event.target as Element
 		const { scrollTop } = target
@@ -217,12 +148,7 @@ const SelectPersonaModal: React.FC<IProps> = ({ identityAddress, request, onConf
 		setIsScrolled(scrollTop > 0)
 	}
 
-	const handleSubmit = async (values: typeof initialValues) => {
-		const result = validationSchema.safeParse(values)
-		if (result.success === false) {
-			setValidation(result.error)
-			return
-		}
+	const handleSubmit = async values => {
 		const response: PersonaDataRequestResponseItem = {}
 		if (request.isRequestingName) {
 			response.name = values.names[0] as PersonaDataRequestResponseItem['name']
@@ -258,13 +184,11 @@ const SelectPersonaModal: React.FC<IProps> = ({ identityAddress, request, onConf
 		})
 		onConfirm(response)
 		setIsOpen(false)
-		setValidation(undefined)
 	}
 
 	const handleCancel = () => {
 		onCancel()
 		setIsOpen(false)
-		setValidation(undefined)
 	}
 
 	const handleEscapeKeyDown = () => {
@@ -286,76 +210,11 @@ const SelectPersonaModal: React.FC<IProps> = ({ identityAddress, request, onConf
 				>
 					<ScrollArea onScroll={handleScroll}>
 						<Box className={styles.scrollWrapper}>
-							<Form
+							<PersonaDataForm
+								identityAddress={identityAddress}
+								customValidationSchema={validationSchema}
 								onSubmit={handleSubmit}
-								initialValues={initialValues}
-								errors={validation?.format()}
-								submitButtonTitle={intl.formatMessage(messages.form_button_title)}
-							>
-								<FieldsGroup name="names" defaultKeys={1} ignoreTriggers>
-									<SelectField
-										name="variant"
-										placeholder={intl.formatMessage(messages.variant)}
-										data={nameVariants.map(variant => ({
-											id: variant,
-											title: intl.formatMessage(messages[variant]),
-										}))}
-									/>
-									<TextField name="nickname" placeholder={intl.formatMessage(messages.nickname)} />
-									<TextField name="givenNames" placeholder={intl.formatMessage(messages.given_names)} />
-									<TextField name="familyName" placeholder={intl.formatMessage(messages.family_name)} />
-								</FieldsGroup>
-								<FieldsGroup
-									name="emailAddresses"
-									defaultKeys={1}
-									trashTrigger={
-										<Button styleVariant="ghost" sizeVariant="small" iconOnly>
-											<TrashIcon />
-										</Button>
-									}
-									addTrigger={
-										<Button
-											styleVariant="secondary"
-											sizeVariant="xlarge"
-											fullWidth
-											leftIcon={
-												<Box marginLeft="small">
-													<CirclePlusIcon />
-												</Box>
-											}
-										>
-											{intl.formatMessage(messages.button_add_email_address)}
-										</Button>
-									}
-								>
-									<TextField name="email" placeholder={intl.formatMessage(messages.email_address)} />
-								</FieldsGroup>
-								<FieldsGroup
-									name="phoneNumbers"
-									defaultKeys={1}
-									trashTrigger={
-										<Button styleVariant="ghost" sizeVariant="small" iconOnly>
-											<TrashIcon />
-										</Button>
-									}
-									addTrigger={
-										<Button
-											styleVariant="secondary"
-											sizeVariant="xlarge"
-											fullWidth
-											leftIcon={
-												<Box marginLeft="small">
-													<CirclePlusIcon />
-												</Box>
-											}
-										>
-											{intl.formatMessage(messages.button_add_phone_number)}
-										</Button>
-									}
-								>
-									<TextField name="number" placeholder={intl.formatMessage(messages.phone_number)} />
-								</FieldsGroup>
-							</Form>
+							/>
 						</Box>
 					</ScrollArea>
 					<Box className={clsx(styles.headerWrapper, isScrolled && styles.headerWrapperShadow)}>
