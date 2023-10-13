@@ -118,6 +118,7 @@ export const ZdtProvider: React.FC<PropsWithChildren> = ({ children }) => {
 				sendTransaction,
 				unlock: client.unlockVault,
 				lock: client.lockVault,
+				getSecret: client.getSecret,
 				buildNewPersonKeyParts,
 				buildNewAccountKeyParts,
 			} as State),

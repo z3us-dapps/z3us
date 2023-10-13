@@ -1,4 +1,6 @@
-import React from 'react'
+import WalletSecretForm from 'packages/ui/src/components/form/wallet-secret-form'
+import { KeystoreType } from 'packages/ui/src/store/types'
+import React, { useState } from 'react'
 import { defineMessages, useIntl } from 'react-intl'
 import { useNavigate } from 'react-router-dom'
 
@@ -22,13 +24,29 @@ const messages = defineMessages({
 		id: 'settings.wallet.subtitle',
 		defaultMessage: `Manage your wallet`,
 	},
-	wallet_title: {
+	name_title: {
 		id: 'settings.wallet.name.title',
 		defaultMessage: 'Name',
 	},
-	wallet_subtitle: {
+	name_subtitle: {
 		id: 'settings.wallet.name.subtitle',
 		defaultMessage: `Change your wallet name`,
+	},
+	secret_title: {
+		id: 'settings.wallet.secret.title',
+		defaultMessage: 'Reveal',
+	},
+	secret_subtitle: {
+		id: 'settings.wallet.secret.subtitle',
+		defaultMessage: `Show seed phrase or extended private key`,
+	},
+	remove_title: {
+		id: 'settings.wallet.remove.title',
+		defaultMessage: 'Remove wallet',
+	},
+	remove_subtitle: {
+		id: 'settings.wallet.remove.subtitle',
+		defaultMessage: `Remove your wallet and delete all cache data`,
 	},
 	remove: {
 		id: 'settings.wallet.remove',
@@ -45,6 +63,8 @@ const General: React.FC = () => {
 		keystore: state.keystores.find(({ id }) => id === state.selectedKeystoreId),
 		changeKeystoreName: state.changeKeystoreNameAction,
 	}))
+
+	const [secret, setSecret] = useState<string | undefined>()
 
 	const handleWalletNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
 		const evt = event.nativeEvent as InputEvent
@@ -70,21 +90,48 @@ const General: React.FC = () => {
 				leftCol={
 					<>
 						<Text size="large" weight="strong" color="strong">
-							{intl.formatMessage(messages.wallet_title)}
+							{intl.formatMessage(messages.name_title)}
 						</Text>
 						<Box>
-							<Text size="xsmall">{intl.formatMessage(messages.wallet_subtitle)}</Text>
+							<Text size="xsmall">{intl.formatMessage(messages.name_subtitle)}</Text>
 						</Box>
 					</>
 				}
 				rightCol={<Input value={keystore.name} elementType="input" type="url" onChange={handleWalletNameChange} />}
 			/>
+			{isWallet && keystore?.type === KeystoreType.LOCAL && (
+				<SettingsBlock
+					leftCol={
+						<>
+							<Text size="large" weight="strong" color="strong">
+								{intl.formatMessage(messages.secret_title)}
+							</Text>
+							<Box>
+								<Text size="xsmall">{intl.formatMessage(messages.secret_subtitle)}</Text>
+							</Box>
+						</>
+					}
+					rightCol={secret ? <Box>{secret}</Box> : <WalletSecretForm onUnlock={setSecret} />}
+				/>
+			)}
 			{isWallet && (
-				<Box display="flex" flexDirection="column" gap="small">
-					<Button onClick={handleRemoveWallet} styleVariant="destructive" sizeVariant="xlarge" fullWidth>
-						{intl.formatMessage(messages.remove)}
-					</Button>
-				</Box>
+				<SettingsBlock
+					leftCol={
+						<>
+							<Text size="large" weight="strong" color="strong">
+								{intl.formatMessage(messages.remove_title)}
+							</Text>
+							<Box>
+								<Text size="xsmall">{intl.formatMessage(messages.remove_subtitle)}</Text>
+							</Box>
+						</>
+					}
+					rightCol={
+						<Button onClick={handleRemoveWallet} styleVariant="destructive" sizeVariant="xlarge" fullWidth>
+							{intl.formatMessage(messages.remove)}
+						</Button>
+					}
+				/>
 			)}
 		</SettingsWrapper>
 	)

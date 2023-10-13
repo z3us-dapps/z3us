@@ -7,7 +7,6 @@ const RestoreSeed = lazy(() => import('./seed/restore'))
 const NewRadix = lazy(() => import('./radix'))
 const NewHW = lazy(() => import('./hardware-wallet'))
 const RestoreExtendedKey = lazy(() => import('./extended-key/restore'))
-const Export = lazy(() => import('./export'))
 const Remove = lazy(() => import('./remove'))
 
 const route = {
@@ -47,10 +46,6 @@ const route = {
 					element: <RestoreExtendedKey />,
 				},
 			],
-		},
-		{
-			path: 'export',
-			element: <Export />,
 		},
 		{
 			path: 'remove',

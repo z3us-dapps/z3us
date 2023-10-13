@@ -14,12 +14,13 @@ export type State = {
 	isUnlocked: boolean
 	personas: RadixPersona[]
 	accounts: RadixAccount[]
-	lock: () => Promise<void>
-	unlock: (password: string) => Promise<void>
 	sendTransaction: (input: SendTransactionInput) => Promise<{
 		transactionIntentHash: string
 		status: TransactionStatus
 	}>
+	lock: () => Promise<void>
+	unlock: (password: string) => Promise<void>
+	getSecret: (password: string) => Promise<string>
 	buildNewPersonKeyParts: () => Promise<Partial<Persona>>
 	buildNewAccountKeyParts: (legacy: boolean) => Promise<Partial<Account>>
 }
@@ -31,6 +32,9 @@ export const defaultState: State = {
 	accounts: [],
 	unlock: async () => {},
 	lock: async () => {},
+	getSecret: async () => {
+		throw Error('Can not get secret without wallet!')
+	},
 	sendTransaction: async () => {
 		throw Error('Incorrect method used!')
 	},

@@ -12,7 +12,7 @@ const messages = defineMessages({
 	},
 	wallet_subtitle: {
 		id: 'settings.navigation.wallet.subtitle',
-		defaultMessage: 'Manage your wallet',
+		defaultMessage: "Manage your wallet and it's keys",
 	},
 	general_title: {
 		id: 'settings.navigation.general.title',
@@ -56,14 +56,6 @@ const messages = defineMessages({
 		id: 'settings.navigation.authorized_dapps.subtitle',
 		defaultMessage: 'This are the dApps that you have logged into.',
 	},
-	key_management_title: {
-		id: 'settings.navigation.key_management.title',
-		defaultMessage: 'Key management',
-	},
-	key_management_subtitle: {
-		id: 'settings.navigation.key_management.subtitle',
-		defaultMessage: 'Export your Private Key or Seed Phrase',
-	},
 })
 
 export const useMenuItems = () => {
@@ -75,16 +67,16 @@ export const useMenuItems = () => {
 	return useMemo(() => {
 		const items = [
 			{
-				title: intl.formatMessage(messages.wallet_title),
-				subTitle: intl.formatMessage(messages.wallet_subtitle),
-				href: '/settings/wallet',
-				icon: <SettingsIcon />,
-			},
-			{
 				title: intl.formatMessage(messages.general_title),
 				subTitle: intl.formatMessage(messages.general_subtitle),
 				href: '/settings/general',
 				icon: <Settings2Icon />,
+			},
+			{
+				title: intl.formatMessage(messages.wallet_title),
+				subTitle: intl.formatMessage(messages.wallet_subtitle),
+				href: '/settings/wallet',
+				icon: <SettingsIcon />,
 			},
 			{
 				title: intl.formatMessage(messages.accounts_title),
@@ -92,40 +84,35 @@ export const useMenuItems = () => {
 				href: '/settings/accounts',
 				icon: <CoinsIcon />,
 			},
-			{
-				title: intl.formatMessage(messages.address_book_title),
-				subTitle: intl.formatMessage(messages.address_book_subtitle),
-				href: '/settings/address-book',
-				icon: <AddressBookIcon />,
-			},
 		]
-		const personasItem = {
-			title: intl.formatMessage(messages.personas_title),
-			subTitle: intl.formatMessage(messages.personas_subtitle),
-			href: '/settings/personas',
-			icon: <CoinsIcon />,
-		}
-		const authorizedDappsItem = {
-			title: intl.formatMessage(messages.authorized_dapps_title),
-			subTitle: intl.formatMessage(messages.authorized_dapps_subtitle),
-			href: '/settings/authorized-dapps',
-			icon: <AddressBookIcon />,
-		}
-		const keyManagementItem = {
-			title: intl.formatMessage(messages.key_management_title),
-			subTitle: intl.formatMessage(messages.key_management_subtitle),
-			href: '/keystore/export',
-			icon: <AddressBookIcon />,
-		}
 		switch (keystore?.type) {
 			case KeystoreType.LOCAL:
-				items.push(personasItem)
-				items.push(authorizedDappsItem)
-				items.push(keyManagementItem)
-				break
 			case KeystoreType.HARDWARE:
-				items.push(personasItem)
-				items.push(authorizedDappsItem)
+				items.push({
+					title: intl.formatMessage(messages.personas_title),
+					subTitle: intl.formatMessage(messages.personas_subtitle),
+					href: '/settings/personas',
+					icon: <CoinsIcon />,
+				})
+				break
+			default:
+				break
+		}
+		items.push({
+			title: intl.formatMessage(messages.address_book_title),
+			subTitle: intl.formatMessage(messages.address_book_subtitle),
+			href: '/settings/address-book',
+			icon: <AddressBookIcon />,
+		})
+		switch (keystore?.type) {
+			case KeystoreType.LOCAL:
+			case KeystoreType.HARDWARE:
+				items.push({
+					title: intl.formatMessage(messages.authorized_dapps_title),
+					subTitle: intl.formatMessage(messages.authorized_dapps_subtitle),
+					href: '/settings/authorized-dapps',
+					icon: <AddressBookIcon />,
+				})
 				break
 			default:
 				break
