@@ -6,7 +6,7 @@ import { ChevronRightIcon } from 'ui/src/components/icons'
 import { ResourceImageIcon } from 'ui/src/components/resource-image-icon'
 import { Button } from 'ui/src/components/router-button'
 import { Text } from 'ui/src/components/typography'
-import type { ResourceBalanceKind } from 'ui/src/types/types'
+import type { ResourceBalanceKind } from 'ui/src/types'
 
 import * as styles from './styles.css'
 

@@ -4,7 +4,7 @@ import { NextLink } from '@/components/next-link'
 import { Z3usLogoLink } from '@/components/z3us-logo-link'
 import clsx from 'clsx'
 // import { useTheme } from 'ui/src/hooks/use-theme'
-// import { type Theme } from 'ui/src/types/types'
+// import { type Theme } from 'ui/src/types'
 import { Props } from 'next/script'
 import React from 'react'
 

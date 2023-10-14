@@ -87,3 +87,12 @@ export interface Ticker {
 	last_price: number
 	volume: number
 }
+
+export enum TimeFrames {
+	WEEK = '1W',
+	MONTH = '1M',
+	THREE_MONTHS = '3M',
+	SIX_MONTHS = '6M',
+	YEAR = '1Y',
+	FIVE_YEARS = '5Y',
+}

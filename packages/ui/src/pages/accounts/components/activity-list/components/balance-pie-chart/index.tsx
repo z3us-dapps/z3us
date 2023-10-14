@@ -10,7 +10,7 @@ import { useAccountValues, useBalances } from 'ui/src/hooks/dapp/use-balances'
 import { useSelectedAccounts, useWalletAccounts } from 'ui/src/hooks/use-accounts'
 import { useIsAllAccounts } from 'ui/src/hooks/use-is-all-accounts'
 import { useResourceType } from 'ui/src/pages/accounts/hooks/use-resource-type'
-import type { ResourceBalance, ResourceBalanceType } from 'ui/src/types/types'
+import type { ResourceBalance, ResourceBalanceType } from 'ui/src/types'
 
 import { Chart } from './components/chart'
 import * as styles from './styles.css'

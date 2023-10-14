@@ -8,7 +8,7 @@ import { ResourceImageIcon } from 'ui/src/components/resource-image-icon'
 import { Text } from 'ui/src/components/typography'
 import { useEntityDetails } from 'ui/src/hooks/dapp/use-entity-details'
 import { getStringMetadata } from 'ui/src/services/metadata'
-import type { ResourceBalance, ResourceBalanceType } from 'ui/src/types/types'
+import type { ResourceBalance, ResourceBalanceType } from 'ui/src/types'
 
 import * as styles from './styles.css'
 

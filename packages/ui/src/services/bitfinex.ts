@@ -1,4 +1,4 @@
-import type { Ticker } from 'ui/src/types/types'
+import type { Ticker } from 'ui/src/types'
 
 // https://docs.bitfinex.com/reference#rest-public-ticker
 const parseTicker = (ticker: Array<string | number>) => ({

@@ -5,7 +5,7 @@ import { Button } from 'ui/src/components/button'
 import { ChevronDown2Icon } from 'ui/src/components/icons'
 import { ResourceImageIcon } from 'ui/src/components/resource-image-icon'
 import { Text } from 'ui/src/components/typography'
-import type { ResourceBalance, ResourceBalanceType } from 'ui/src/types/types'
+import type { ResourceBalance, ResourceBalanceType } from 'ui/src/types'
 
 import { FieldWrapper, type IProps as WrapperProps } from '../../field-wrapper'
 import { type ITokenSelectorDialogProps, TokenSelectorDialog } from './components/token-selector-dialog'

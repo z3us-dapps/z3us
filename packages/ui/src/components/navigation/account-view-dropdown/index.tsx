@@ -44,7 +44,7 @@ import { useSharedStore } from 'ui/src/hooks/use-store'
 import { useTheme } from 'ui/src/hooks/use-theme'
 import { useZdtState } from 'ui/src/hooks/zdt/use-zdt'
 import { KeystoreType } from 'ui/src/store/types'
-import { Theme } from 'ui/src/types/types'
+import { Theme } from 'ui/src/types'
 
 import { ToolTip } from '../../tool-tip'
 import * as styles from './styles.css'

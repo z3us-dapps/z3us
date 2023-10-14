@@ -15,10 +15,11 @@ import { Button } from 'ui/src/components/router-button'
 import { RedGreenText, Text } from 'ui/src/components/typography'
 import { useEntityDetails } from 'ui/src/hooks/dapp/use-entity-details'
 import { useKnownAddresses } from 'ui/src/hooks/dapp/use-known-addresses'
-import { useMarketChart, useXRDPriceOnDay } from 'ui/src/hooks/queries/market'
-import { useToken } from 'ui/src/hooks/queries/oci'
+import { useXRDPriceOnDay } from 'ui/src/hooks/queries/market'
+import { useToken, useUsfHistory } from 'ui/src/hooks/queries/oci'
 import { useNoneSharedStore } from 'ui/src/hooks/use-store'
 import { getStringMetadata } from 'ui/src/services/metadata'
+import { TimeFrames } from 'ui/src/types'
 
 import MetadataValue from './metadata-value'
 import * as styles from './styles.css'
@@ -58,15 +59,6 @@ const messages = defineMessages({
 	},
 })
 
-const TIME_FRAMES = {
-	week: { shortName: '1W', days: 7 },
-	month: { shortName: '1M', days: 30 },
-	threeMonth: { shortName: '3M', days: 90 },
-	sixMonth: { shortName: '6M', days: 6 * 30 },
-	oneYear: { shortName: '1Y', days: 356 },
-	allTime: { shortName: 'All', days: 'max' },
-}
-
 const TokenDetails: React.FC = () => {
 	const intl = useIntl()
 	const { resourceId } = useParams()
@@ -79,7 +71,6 @@ const TokenDetails: React.FC = () => {
 	const { data: xrdPrice } = useXRDPriceOnDay(currency, new Date())
 
 	const name = getStringMetadata('name', data?.metadata?.items)
-	const symbol = getStringMetadata('symbol', data?.metadata?.items)
 	const description = getStringMetadata('description', data?.metadata?.items)
 	const validator = getStringMetadata('validator', data?.metadata?.items)
 
@@ -89,14 +80,14 @@ const TokenDetails: React.FC = () => {
 	const change = (token ? parseFloat(token?.price?.usd.now) || 0 / parseFloat(token?.price?.usd['24h']) || 0 : 0) / 100
 	const increase = token ? parseFloat(token?.price?.usd.now) || 0 - parseFloat(token?.price?.usd['24h']) || 0 : 0
 
-	const [timeFrame, setTimeFrame] = useState<string>('threeMonth')
-	const { data: chart } = useMarketChart(currency, symbol, TIME_FRAMES[timeFrame].days)
+	const [timeFrame, setTimeFrame] = useState<TimeFrames>(TimeFrames.THREE_MONTHS)
+	const { data: udfHistory } = useUsfHistory(resourceId, timeFrame)
 
 	const renderTooltipContent = ({ active, payload }) => {
 		if (active && payload && payload.length) {
 			const dataItem = payload[0].payload
 
-			return <ChartToolTip name={dataItem.name} value={dataItem.inCurrency} />
+			return <ChartToolTip color="#8884d8" name={dataItem.name} value={dataItem.inCurrency} />
 		}
 
 		return null
@@ -132,7 +123,7 @@ const TokenDetails: React.FC = () => {
 					<CardButtons />
 				</Box>
 
-				{chart && (
+				{udfHistory && (
 					<>
 						<Box className={styles.chartBgWrapper}>
 							{/* // TODO: fix, this is not responsive but 99% works?? */}
@@ -141,11 +132,17 @@ const TokenDetails: React.FC = () => {
 								<AreaChart
 									width={500}
 									height={400}
-									data={chart.map(_value => ({
-										name: intl.formatDate(_value[0]),
-										value: _value[1],
-										inCurrency: intl.formatNumber(_value[1], { style: 'currency', currency }),
-									}))}
+									data={udfHistory.t.map((t, idx) => {
+										const v = parseFloat(udfHistory.c[idx]) || 0
+										return {
+											name: intl.formatDate(t * 1000, {
+												dateStyle: 'short',
+												timeStyle: 'short',
+											}),
+											value: v,
+											inCurrency: intl.formatNumber(v * xrdPrice, { style: 'currency', currency }),
+										}
+									})}
 									margin={{
 										top: 10,
 										right: 0,
@@ -165,15 +162,15 @@ const TokenDetails: React.FC = () => {
 							</ResponsiveContainer>
 						</Box>
 						<Box className={styles.assetChartBtnWrapper}>
-							{Object.entries(TIME_FRAMES).map(([id, { shortName }]) => (
+							{Object.keys(TimeFrames).map(tf => (
 								<Button
-									key={id}
+									key={tf}
 									rounded
-									styleVariant={id === timeFrame ? 'secondary' : 'tertiary'}
+									styleVariant={tf === timeFrame ? 'secondary' : 'tertiary'}
 									sizeVariant="small"
-									onClick={() => setTimeFrame(id)}
+									onClick={() => setTimeFrame(TimeFrames[tf])}
 								>
-									{shortName}
+									{TimeFrames[tf]}
 								</Button>
 							))}
 						</Box>

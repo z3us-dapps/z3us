@@ -22,7 +22,7 @@ import { FAVORITE_CURRENCIES } from 'ui/src/constants/currency'
 import { useSupportedCurrencies } from 'ui/src/hooks/queries/market'
 import { useNoneSharedStore } from 'ui/src/hooks/use-store'
 import type { CURRENCY } from 'ui/src/store/types'
-import type { ResourceBalance, ResourceBalanceKind, ResourceBalanceType } from 'ui/src/types/types'
+import type { ResourceBalance, ResourceBalanceKind, ResourceBalanceType } from 'ui/src/types'
 
 interface IProps {
 	selectedToken: ResourceBalanceKind
