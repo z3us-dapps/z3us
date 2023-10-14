@@ -1,17 +1,24 @@
 import type { NotarizedTransaction } from '@radixdlt/radix-engine-toolkit'
 import { Convert, RadixEngineToolkit } from '@radixdlt/radix-engine-toolkit'
+import clsx from 'clsx'
 import React, { useEffect, useState } from 'react'
 
+import {
+	ScrollAreaRoot,
+	ScrollAreaScrollbar,
+	ScrollAreaThumb,
+	ScrollAreaViewport,
+} from 'ui/src/components/scroll-area-radix'
 import { Text } from 'ui/src/components/typography'
 
 import { useNetworkId } from '../../hooks/dapp/use-network-id'
-import type { TextProps } from '../typography/text'
+import * as styles from './styles.css'
 
-interface IProps extends Omit<TextProps, 'children'> {
+interface TProps {
 	manifestHex: string
 }
 
-export const TransactionManifest: React.FC<IProps> = ({ manifestHex, ...textProps }) => {
+export const TransactionManifest: React.FC<TProps> = ({ manifestHex }) => {
 	const networkId = useNetworkId()
 	const [manifest, setManifest] = useState<string>('')
 
@@ -39,5 +46,23 @@ export const TransactionManifest: React.FC<IProps> = ({ manifestHex, ...textProp
 		}
 	}, [manifestHex])
 
-	return <Text {...textProps}>{manifest}</Text>
+	// eslint-disable-next-line react/jsx-no-useless-fragment
+	return <>{manifest}</>
 }
+
+interface SProps extends TProps {
+	className?: string
+}
+
+export const StyledTransactionManifest: React.FC<SProps> = ({ className, ...rest }) => (
+	<ScrollAreaRoot className={clsx(styles.transactionManifestWrapper, className)}>
+		<ScrollAreaViewport>
+			<Text size="xxsmall" className={styles.transactionManifestTextWrapper}>
+				<TransactionManifest {...rest} />
+			</Text>
+		</ScrollAreaViewport>
+		<ScrollAreaScrollbar orientation="horizontal">
+			<ScrollAreaThumb />
+		</ScrollAreaScrollbar>
+	</ScrollAreaRoot>
+)
