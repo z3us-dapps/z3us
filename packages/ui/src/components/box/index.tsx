@@ -2,7 +2,6 @@ import clsx, { type ClassValue } from 'clsx'
 import type { AllHTMLAttributes, ElementType } from 'react'
 import { createElement, forwardRef } from 'react'
 
-import { useTextDirection } from '../../hooks/use-text-direction'
 import { type Sprinkles, resetBase, sprinkles } from '../system/sprinkles.css'
 
 export interface BoxProps
@@ -129,9 +128,8 @@ export const Box = forwardRef(
 			}),
 			className,
 		)
-		const [dir] = useTextDirection()
 
-		return createElement(component, { className: atomClasses, dir, ref, ...restProps })
+		return createElement(component, { className: atomClasses, ref, ...restProps })
 	},
 )
 

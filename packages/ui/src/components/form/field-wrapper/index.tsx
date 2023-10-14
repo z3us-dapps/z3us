@@ -21,7 +21,7 @@ type State = {
 }
 
 export const FieldWrapper: React.FC<PropsWithChildren<IProps>> = ({ validate, children, name, label }) => {
-	const { errors, getFieldValue, onFieldChange } = useContext(FormContext)
+	const { values, errors, getFieldValue, onFieldChange } = useContext(FormContext)
 	const { name: parentName } = useContext(FieldContext)
 	const fieldName = `${parentName ? `${parentName}.` : ''}${name}`
 
@@ -37,6 +37,12 @@ export const FieldWrapper: React.FC<PropsWithChildren<IProps>> = ({ validate, ch
 		},
 		[],
 	)
+
+	useEffect(() => {
+		setState(draft => {
+			draft.value = getFieldValue(fieldName)
+		})
+	}, [values])
 
 	useEffect(() => {
 		setState(draft => {

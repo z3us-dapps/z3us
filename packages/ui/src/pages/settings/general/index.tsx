@@ -137,9 +137,7 @@ const General: React.FC = () => {
 						<Text size="large" weight="strong" color="strong">
 							{intl.formatMessage(messages.network_title)}
 						</Text>
-						<Box>
-							<Text size="xsmall">{intl.formatMessage(messages.network_subtitle)}</Text>
-						</Box>
+						<Text size="xsmall">{intl.formatMessage(messages.network_subtitle)}</Text>
 					</>
 				}
 				rightCol={<Input value={gatewayBaseUrl} elementType="input" type="url" onChange={handleGatewayChange} />}
@@ -150,9 +148,7 @@ const General: React.FC = () => {
 						<Text size="large" weight="strong" color="strong">
 							{intl.formatMessage(messages.theme_title)}
 						</Text>
-						<Box>
-							<Text size="xsmall">{intl.formatMessage(messages.theme_subtitle)}</Text>
-						</Box>
+						<Text size="xsmall">{intl.formatMessage(messages.theme_subtitle)}</Text>
 					</>
 				}
 				rightCol={
@@ -179,9 +175,7 @@ const General: React.FC = () => {
 						<Text size="large" weight="strong" color="strong">
 							{intl.formatMessage(messages.currency_title)}
 						</Text>
-						<Box>
-							<Text size="xsmall">{intl.formatMessage(messages.currency_subtitle)}</Text>
-						</Box>
+						<Text size="xsmall">{intl.formatMessage(messages.currency_subtitle)}</Text>
 					</>
 				}
 				rightCol={
@@ -198,9 +192,7 @@ const General: React.FC = () => {
 						<Text size="large" weight="strong" color="strong">
 							{intl.formatMessage(messages.language_title)}
 						</Text>
-						<Box>
-							<Text size="xsmall">{intl.formatMessage(messages.language_subtitle)}</Text>
-						</Box>
+						<Text size="xsmall">{intl.formatMessage(messages.language_subtitle)}</Text>
 					</>
 				}
 				rightCol={
@@ -218,16 +210,12 @@ const General: React.FC = () => {
 						<Text size="large" weight="strong" color="strong">
 							{intl.formatMessage(messages.notifications_title)}
 						</Text>
-						<Box>
-							<Text size="small">{intl.formatMessage(messages.notifications_subtitle)}</Text>
-						</Box>
+						<Text size="small">{intl.formatMessage(messages.notifications_subtitle)}</Text>
 					</>
 				}
 				rightCol={
 					<Box display="flex" alignItems="center" gap="medium">
-						<Box>
-							<Switch defaultChecked={notifications} onCheckedChange={handleToggleNotifications} />
-						</Box>
+						<Switch defaultChecked={notifications} onCheckedChange={handleToggleNotifications} />
 					</Box>
 				}
 			/>
