@@ -316,10 +316,14 @@ export const button = recipe({
 				sizeVariantTablet: 'xsmall',
 				iconOnly: true,
 			},
-			style: {
-				width: '26px',
-				padding: '0px',
-			},
+			style: [
+				responsiveStyle({
+					tablet: {
+						width: '26px',
+						padding: '0px',
+					},
+				}),
+			],
 		},
 		{
 			variants: {
@@ -336,10 +340,14 @@ export const button = recipe({
 				sizeVariantTablet: 'small',
 				iconOnly: true,
 			},
-			style: {
-				width: '32px',
-				padding: '0px',
-			},
+			style: [
+				responsiveStyle({
+					tablet: {
+						width: '32px',
+						padding: '0px',
+					},
+				}),
+			],
 		},
 		{
 			variants: {
@@ -356,10 +364,14 @@ export const button = recipe({
 				sizeVariantTablet: 'medium',
 				iconOnly: true,
 			},
-			style: {
-				width: '40px',
-				padding: '0px',
-			},
+			style: [
+				responsiveStyle({
+					tablet: {
+						width: '40px',
+						padding: '0px',
+					},
+				}),
+			],
 		},
 		{
 			variants: {
@@ -376,10 +388,14 @@ export const button = recipe({
 				sizeVariantTablet: 'large',
 				iconOnly: true,
 			},
-			style: {
-				width: '44px',
-				padding: '0px',
-			},
+			style: [
+				responsiveStyle({
+					tablet: {
+						width: '44px',
+						padding: '0px',
+					},
+				}),
+			],
 		},
 		{
 			variants: {
@@ -396,10 +412,14 @@ export const button = recipe({
 				sizeVariantTablet: 'xlarge',
 				iconOnly: true,
 			},
-			style: {
-				width: '48px',
-				padding: '0px',
-			},
+			style: [
+				responsiveStyle({
+					tablet: {
+						width: '48px',
+						padding: '0px',
+					},
+				}),
+			],
 		},
 		{
 			variants: {
