@@ -283,6 +283,7 @@ export const Transaction = () => {
 														<Box className={styles.transactionInfoCopyBtnWrapper}>
 															<CopyAddressButton
 																styleVariant="ghost"
+																sizeVariant="xsmall"
 																address="Copy transaction manifest"
 																iconOnly
 																rounded={false}
