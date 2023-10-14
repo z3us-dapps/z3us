@@ -1,4 +1,3 @@
-/* eslint-disable no-case-declarations */
 import { useQuery } from '@tanstack/react-query'
 
 import type { Token, UdfHistory } from 'ui/src/services/oci'
@@ -47,60 +46,32 @@ export const useUsfHistory = (address: string, timeFrame: TimeFrames) =>
 	useQuery(
 		['oci', 'useUsfHistory', address, timeFrame],
 		async (): Promise<UdfHistory> => {
+			const from = new Date()
 			const now = new Date()
 			switch (timeFrame) {
 				case TimeFrames.WEEK:
-					const weekAgo = new Date()
-					weekAgo.setDate(weekAgo.getDate() - 1)
-					return oci.getUdfHistory(
-						address,
-						'240',
-						Math.round(weekAgo.getTime() / 1000),
-						Math.round(now.getTime() / 1000),
-					)
+					from.setDate(from.getDate() - 1)
+					break
 				case TimeFrames.MONTH:
-					const monthAgo = new Date()
-					monthAgo.setMonth(monthAgo.getMonth() - 1)
-					return oci.getUdfHistory(
-						address,
-						'720',
-						Math.round(monthAgo.getTime() / 1000),
-						Math.round(now.getTime() / 1000),
-					)
+					from.setMonth(from.getMonth() - 1)
+					break
 				case TimeFrames.THREE_MONTHS:
-					const threeMonthsAgo = new Date()
-					threeMonthsAgo.setMonth(threeMonthsAgo.getMonth() - 3)
-					return oci.getUdfHistory(
-						address,
-						'1D',
-						Math.round(threeMonthsAgo.getTime() / 1000),
-						Math.round(now.getTime() / 1000),
-					)
+					from.setMonth(from.getMonth() - 3)
+					break
 				case TimeFrames.SIX_MONTHS:
-					const sixMonthsAgo = new Date()
-					sixMonthsAgo.setMonth(sixMonthsAgo.getMonth() - 6)
-					return oci.getUdfHistory(
-						address,
-						'3D',
-						Math.round(sixMonthsAgo.getTime() / 1000),
-						Math.round(now.getTime() / 1000),
-					)
+					from.setMonth(from.getMonth() - 6)
+					break
 				case TimeFrames.YEAR:
-					const yearAgo = new Date()
-					yearAgo.setUTCFullYear(yearAgo.getUTCFullYear() - 1)
-					return oci.getUdfHistory(address, 'W', Math.round(yearAgo.getTime() / 1000), Math.round(now.getTime() / 1000))
+					from.setUTCFullYear(from.getUTCFullYear() - 1)
+					break
 				case TimeFrames.FIVE_YEARS:
-					const fiveYearsAgo = new Date()
-					fiveYearsAgo.setUTCFullYear(yearAgo.getUTCFullYear() - 5)
-					return oci.getUdfHistory(
-						address,
-						'M',
-						Math.round(fiveYearsAgo.getTime() / 1000),
-						Math.round(now.getTime() / 1000),
-					)
+					from.setUTCFullYear(from.getUTCFullYear() - 5)
+					break
 				default:
-					throw new Error(`Invalid time frame: ${timeFrame}`)
+					from.setMonth(from.getMonth() - 3)
 			}
+
+			return oci.getUdfHistory(address, '1D', Math.round(from.getTime() / 1000), Math.round(now.getTime() / 1000))
 		},
 		{
 			enabled: !!address && !!timeFrame,

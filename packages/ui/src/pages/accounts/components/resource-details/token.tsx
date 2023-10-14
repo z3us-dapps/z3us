@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useMemo, useState } from 'react'
 import { defineMessages, useIntl } from 'react-intl'
 import { useParams } from 'react-router-dom'
 import { Area, AreaChart, ResponsiveContainer, Tooltip } from 'recharts'
@@ -15,7 +15,7 @@ import { Button } from 'ui/src/components/router-button'
 import { RedGreenText, Text } from 'ui/src/components/typography'
 import { useEntityDetails } from 'ui/src/hooks/dapp/use-entity-details'
 import { useKnownAddresses } from 'ui/src/hooks/dapp/use-known-addresses'
-import { useXRDPriceOnDay } from 'ui/src/hooks/queries/market'
+import { useMarketChart, useXRDPriceOnDay } from 'ui/src/hooks/queries/market'
 import { useToken, useUsfHistory } from 'ui/src/hooks/queries/oci'
 import { useNoneSharedStore } from 'ui/src/hooks/use-store'
 import { getStringMetadata } from 'ui/src/services/metadata'
@@ -71,6 +71,7 @@ const TokenDetails: React.FC = () => {
 	const { data: xrdPrice } = useXRDPriceOnDay(currency, new Date())
 
 	const name = getStringMetadata('name', data?.metadata?.items)
+	const symbol = getStringMetadata('symbol', data?.metadata?.items)
 	const description = getStringMetadata('description', data?.metadata?.items)
 	const validator = getStringMetadata('validator', data?.metadata?.items)
 
@@ -82,6 +83,27 @@ const TokenDetails: React.FC = () => {
 
 	const [timeFrame, setTimeFrame] = useState<TimeFrames>(TimeFrames.THREE_MONTHS)
 	const { data: udfHistory } = useUsfHistory(resourceId, timeFrame)
+	const { data: marketData } = useMarketChart(currency, symbol, timeFrame)
+
+	const chartData = useMemo(() => {
+		if (resourceId === knownAddresses.resourceAddresses.xrd) {
+			if (!marketData) return []
+			return marketData.map(_value => ({
+				name: intl.formatDate(_value[0]),
+				value: _value[1],
+				inCurrency: intl.formatNumber(_value[1], { style: 'currency', currency }),
+			}))
+		}
+		if (!udfHistory) return []
+		return udfHistory.t.map((t, idx) => {
+			const v = parseFloat(udfHistory.c[idx]) || 0
+			return {
+				name: intl.formatDate(t * 1000),
+				value: v,
+				inCurrency: intl.formatNumber(v * xrdPrice, { style: 'currency', currency }),
+			}
+		})
+	}, [resourceId, knownAddresses, udfHistory, marketData])
 
 	const renderTooltipContent = ({ active, payload }) => {
 		if (active && payload && payload.length) {
@@ -132,17 +154,7 @@ const TokenDetails: React.FC = () => {
 								<AreaChart
 									width={500}
 									height={400}
-									data={udfHistory.t.map((t, idx) => {
-										const v = parseFloat(udfHistory.c[idx]) || 0
-										return {
-											name: intl.formatDate(t * 1000, {
-												dateStyle: 'short',
-												timeStyle: 'short',
-											}),
-											value: v,
-											inCurrency: intl.formatNumber(v * xrdPrice, { style: 'currency', currency }),
-										}
-									})}
+									data={chartData}
 									margin={{
 										top: 10,
 										right: 0,
