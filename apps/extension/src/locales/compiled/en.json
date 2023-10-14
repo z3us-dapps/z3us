@@ -2434,7 +2434,7 @@
   "token_amount_select.max_amount": [
     {
       "type": 0,
-      "value": "Max: "
+      "value": "Balance: "
     },
     {
       "style": {

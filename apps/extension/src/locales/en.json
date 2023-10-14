@@ -996,7 +996,7 @@
     "defaultMessage": "Amount"
   },
   "token_amount_select.max_amount": {
-    "defaultMessage": "Max: {amount, number, ::.00#######}"
+    "defaultMessage": "Balance: {amount, number, ::.00#######}"
   },
   "token_select.close": {
     "defaultMessage": "Close"

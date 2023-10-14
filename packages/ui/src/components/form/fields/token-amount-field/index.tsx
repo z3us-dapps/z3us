@@ -26,7 +26,7 @@ const messages = defineMessages({
 	},
 	max_amount: {
 		id: 'token_amount_select.max_amount',
-		defaultMessage: 'Max: {amount, number, ::.00#######}',
+		defaultMessage: 'Balance: {amount, number, ::.00#######}',
 	},
 })
 
