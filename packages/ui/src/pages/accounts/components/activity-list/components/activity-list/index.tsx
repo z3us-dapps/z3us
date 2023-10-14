@@ -178,14 +178,11 @@ export const ActivityList = forwardRef<HTMLElement>((_, ref: React.Ref<HTMLEleme
 
 	const flattenWithLoading = useMemo(() => {
 		const uniqueItems = new Map()
-		data?.pages.forEach(page => {
-			page.items.forEach(item => {
-				const itemId = item.id
-				if (!uniqueItems.has(itemId) || item.round_timestamp > uniqueItems.get(itemId).round_timestamp) {
-					uniqueItems.set(itemId, item)
-				}
-			})
-		})
+		data?.pages.forEach(page =>
+			page.items.forEach((item: CommittedTransactionInfo) => {
+				if (!uniqueItems.has(item.intent_hash)) uniqueItems.set(item.intent_hash, item)
+			}),
+		)
 		const sortedItems = Array.from(uniqueItems.values()).sort(
 			(a, b) => new Date(b.round_timestamp).getTime() - new Date(a.round_timestamp).getTime(),
 		)
