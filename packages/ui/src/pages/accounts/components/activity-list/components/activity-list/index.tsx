@@ -1,36 +1,25 @@
 import type { CommittedTransactionInfo } from '@radixdlt/babylon-gateway-api-sdk'
 import clsx from 'clsx'
 import { AnimatePresence, motion } from 'framer-motion'
-import React, { forwardRef, useCallback, useMemo, useState } from 'react'
-import { defineMessages, useIntl } from 'react-intl'
+import React, { forwardRef, useCallback, useEffect, useMemo, useState } from 'react'
 import { Virtuoso } from 'react-virtuoso'
 
 import { Box } from 'ui/src/components/box'
-import { Button } from 'ui/src/components/button'
-import { ShareIcon } from 'ui/src/components/icons'
 import { Link } from 'ui/src/components/router-link'
 import { useScroll } from 'ui/src/components/scroll-area-radix/use-scroll'
 import * as skeletonStyles from 'ui/src/components/styles/skeleton-loading.css'
 import { TimeFromNow } from 'ui/src/components/time-from-now'
 import { TokenPrice } from 'ui/src/components/token-price'
-import { ToolTip } from 'ui/src/components/tool-tip'
 import { TransactionIcon } from 'ui/src/components/transaction-icon'
 import { Text } from 'ui/src/components/typography'
-import { config } from 'ui/src/constants/config'
 import { animatePageVariants } from 'ui/src/constants/page'
 import { useKnownAddresses } from 'ui/src/hooks/dapp/use-known-addresses'
 import { useTransactions } from 'ui/src/hooks/dapp/use-transactions'
 import { useSelectedAccounts } from 'ui/src/hooks/use-accounts'
+import { useIsTransactionVisible } from 'ui/src/pages/accounts/hooks/use-is-transaction-visible'
 import { getShortAddress } from 'ui/src/utils/string-utils'
 
 import * as styles from './styles.css'
-
-const messages = defineMessages({
-	explorer: {
-		id: 'accounts.activity_list.explorer',
-		defaultMessage: 'Explorer',
-	},
-})
 
 const ListContainer = React.forwardRef<HTMLDivElement>((props, ref) => <div ref={ref} {...props} />)
 
@@ -83,7 +72,6 @@ interface IRowProps {
 const ItemWrapper: React.FC<IRowProps> = props => {
 	const { index, transaction, selected, hovered, setHovered, setSelected } = props
 
-	const intl = useIntl()
 	const { data: knownAddresses } = useKnownAddresses()
 
 	const isSelected = selected === transaction?.intent_hash
@@ -101,64 +89,44 @@ const ItemWrapper: React.FC<IRowProps> = props => {
 			<AnimatePresence initial={false}>
 				{!transaction && <SkeletonRow index={index} />}
 				{transaction && (
-					<>
-						<Box
-							className={clsx(styles.activityItemInner, (isSelected || isHovered) && styles.activityItemInnerSelected)}
+					<Box
+						className={clsx(styles.activityItemInner, (isSelected || isHovered) && styles.activityItemInnerSelected)}
+					>
+						<Link
+							underline="never"
+							to={addTransactionIdToPath(transaction.intent_hash)}
+							className={styles.activityItemInnerBtn}
+							onClick={() => {
+								setSelected(transaction.intent_hash)
+								setHovered(null)
+							}}
+							onMouseOver={() => setHovered(transaction.intent_hash)}
+							onMouseLeave={() => setHovered(null)}
 						>
-							<Link
-								underline="never"
-								to={addTransactionIdToPath(transaction.intent_hash)}
-								className={styles.activityItemInnerBtn}
-								onClick={() => setSelected(transaction.intent_hash)}
-								onMouseOver={() => setHovered(transaction.intent_hash)}
-								onMouseLeave={() => setHovered(null)}
-							>
-								<Box className={styles.indicatorCircle}>
-									<TransactionIcon transactionType="deposit" />
-								</Box>
-								<Box className={styles.activityItemTextWrapper}>
-									<Text weight="stronger" size="small" color="strong" truncate>
-										{getShortAddress(transaction.intent_hash)}
-									</Text>
-									<Text size="xsmall" truncate>
-										<TimeFromNow date={transaction.confirmed_at} />
-									</Text>
-								</Box>
-								<Box className={styles.activityItemTextWrapper}>
-									<Text size="xsmall">{transaction.transaction_status}</Text>
-								</Box>
-								<Box className={styles.activityItemTextWrapper}>
-									<Text size="xsmall">
-										<TokenPrice
-											amount={(transaction.fee_paid as any)?.value}
-											address={knownAddresses?.resourceAddresses.xrd}
-										/>
-									</Text>
-								</Box>
-							</Link>
-						</Box>
-						<Box
-							className={clsx(
-								styles.activityItemExternalLinkWrapper,
-								(isSelected || isHovered) && styles.activityItemExternalLinkWrapperActive,
-							)}
-						>
-							<ToolTip message={intl.formatMessage(messages.explorer)}>
-								<Button
-									sizeVariant="small"
-									styleVariant="ghost"
-									iconOnly
-									onMouseOver={() => setHovered(transaction.intent_hash)}
-									onMouseOut={() => setHovered(null)}
-									onClick={() =>
-										window.open(`${config.defaultExplorerURL}/transaction/${transaction.intent_hash}`, '_blank').focus()
-									}
-								>
-									<ShareIcon />
-								</Button>
-							</ToolTip>
-						</Box>
-					</>
+							<Box className={styles.indicatorCircle}>
+								<TransactionIcon transactionType="deposit" />
+							</Box>
+							<Box className={styles.activityItemTextWrapper}>
+								<Text weight="stronger" size="small" color="strong" truncate>
+									{getShortAddress(transaction.intent_hash)}
+								</Text>
+								<Text size="xsmall" truncate>
+									<TimeFromNow date={transaction.confirmed_at} />
+								</Text>
+							</Box>
+							<Box className={styles.activityItemTextWrapper}>
+								<Text size="xsmall">{transaction.transaction_status}</Text>
+							</Box>
+							<Box className={styles.activityItemTextWrapper}>
+								<Text size="xsmall">
+									<TokenPrice
+										amount={(transaction.fee_paid as any)?.value}
+										address={knownAddresses?.resourceAddresses.xrd}
+									/>
+								</Text>
+							</Box>
+						</Link>
+					</Box>
 				)}
 			</AnimatePresence>
 		</Box>
@@ -175,6 +143,7 @@ export const ActivityList = forwardRef<HTMLButtonElement, IProps>((props, ref: R
 	const { className } = props
 	const { scrollableNode } = useScroll()
 
+	const isTransactionVisible = useIsTransactionVisible()
 	const [selected, setSelected] = useState<string | null>(null)
 	const [hovered, setHovered] = useState<string | null>(null)
 
@@ -200,6 +169,12 @@ export const ActivityList = forwardRef<HTMLButtonElement, IProps>((props, ref: R
 			fetchNextPage()
 		}
 	}, [isFetching, fetchNextPage, hasNextPage])
+
+	useEffect(() => {
+		if (selected && !isTransactionVisible) {
+			setSelected(null)
+		}
+	}, [isTransactionVisible, selected])
 
 	const renderItem = (index: number, tx?: CommittedTransactionInfo) => (
 		<ItemWrapper
