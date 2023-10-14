@@ -15,9 +15,7 @@
 		"lint": "yarn run eslint && yarn run check-types",
 		"test": "jest --maxWorkers=1  --detectOpenHandles --forceExit",
 		"intl:extract": "formatjs extract 'src/**/*.{ts,tsx}' '../../packages/ui/src/**/*.{ts,tsx}' --ignore='**/*.d.ts' --out-file src/locales/en.json --id-interpolation-pattern '[sha512:contenthash:base64:6]'",
-		"intl:compile-en": "formatjs compile src/locales/en.json --ast --out-file src/locales/compiled/en.json",
-		"intl:compile-pl": "formatjs compile src/locales/pl.json --ast --out-file src/locales/compiled/pl.json",
-		"intl:compile": "yarn run intl:compile-en && yarn run intl:compile-pl"
+		"intl:compile": "formatjs compile-folder --ast src/locales src/locales/compiled"
 	},
 	"dependencies": {
 		"@radix-ui/react-avatar": "^1.0.2",

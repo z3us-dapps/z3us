@@ -12,9 +12,7 @@
 		"deploy": "rm -rf node_modules/.cache && next build && next export && touch out/.nojekyll",
 		"postbuild": "next-sitemap",
 		"intl:extract": "formatjs extract 'src/**/*.{ts,tsx}' '../../packages/ui/src/**/*.{ts,tsx}' --ignore='**/*.d.ts' --out-file src/components/layouts/app-page/locales/en.json --id-interpolation-pattern '[sha512:contenthash:base64:6]'",
-		"intl:compile-en": "formatjs compile src/components/layouts/app-page/locales/en.json --ast --out-file src/components/layouts/app-page/locales/compiled/en.json",
-		"intl:compile-pl": "formatjs compile src/components/layouts/app-page/locales/pl.json --ast --out-file src/components/layouts/app-page/locales/compiled/pl.json",
-		"intl:compile": "yarn run intl:compile-en && yarn run intl:compile-pl"
+		"intl:compile": "formatjs compile-folder --ast src/components/layouts/app-page/locales src/components/layouts/app-page/locales/compiled"
 	},
 	"dependencies": {
 		"@radixdlt/radix-dapp-toolkit": "^1.1.2",

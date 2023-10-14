@@ -11,10 +11,10 @@ import packageJson from '../package.json'
 const { version } = packageJson
 
 export const isPublicRelease = true //import.meta.env.MODE === 'production'
-export const radixConnectConfig = radixConnectConfigFromRadix
+export const radixConnectConfig: typeof radixConnectConfigFromRadix = radixConnectConfigFromRadix
 export const mode = modeFromRadix
 export const defaultRadixConnectConfig = defaultRadixConnectConfigFromRadix
-export const defaultConnectionConfig = defaultConnectionConfigFromRadix
+export const defaultConnectionConfig: typeof defaultConnectionConfigFromRadix = defaultConnectionConfigFromRadix
 
 export type ConfigType = typeof radixCfg & {
 	isDevelopmentMode: boolean

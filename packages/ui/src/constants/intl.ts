@@ -3,5 +3,25 @@ const getFlagEmoji = countryCode =>
 
 export const languages = {
 	en: { name: 'English', flag: getFlagEmoji('US') },
+	zh: { name: '中国人', flag: getFlagEmoji('CN') },
+	es: { name: 'Española', flag: getFlagEmoji('ES') },
+	hi: { name: 'हिंदी', flag: getFlagEmoji('IN') },
+	ru: { name: 'Русский', flag: getFlagEmoji('RU') },
+	ar: { name: 'عربي', flag: getFlagEmoji('AE') },
+	pt: { name: 'Português', flag: getFlagEmoji('PT') },
+	ms: { name: 'Melayu', flag: getFlagEmoji('MS') },
+	fr: { name: 'Français', flag: getFlagEmoji('FR') },
+	de: { name: 'Deutsch', flag: getFlagEmoji('DE') },
+	it: { name: 'Italiano', flag: getFlagEmoji('IT') },
 	pl: { name: 'Polski', flag: getFlagEmoji('PL') },
+	jp: { name: '日本語', flag: getFlagEmoji('JP') },
+}
+
+export function getDirection(locale: keyof typeof languages) {
+	switch (locale) {
+		case 'ar':
+			return 'rtl'
+		default:
+			return 'ltr'
+	}
 }

@@ -1,9 +1,9 @@
-import { type IIntlStateSetter, type IntlState, LOCALE } from './types'
+import type { IIntlStateSetter, IntlState, LOCALE } from './types'
 
-export const DEFAULT_LOCALE = LOCALE[navigator?.language] || LOCALE.en
+export const DEFAULT_LOCALE = navigator?.language || 'en'
 
 export const factory = (set: IIntlStateSetter): IntlState => ({
-	locale: DEFAULT_LOCALE,
+	locale: (navigator?.language as LOCALE) || 'en',
 
 	selectLocaleAction: (locale: LOCALE) => {
 		set(draft => {

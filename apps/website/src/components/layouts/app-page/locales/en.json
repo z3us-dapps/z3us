@@ -1,7 +1,4 @@
 {
-  "account_menu.account": {
-    "defaultMessage": "Account"
-  },
   "account_menu.content_script": {
     "defaultMessage": "Connected DApp: {DappLink}"
   },
@@ -13,9 +10,6 @@
   },
   "account_menu.open_in_browser": {
     "defaultMessage": "Open in browser"
-  },
-  "account_menu.persona": {
-    "defaultMessage": "Persona"
   },
   "account_menu.settings": {
     "defaultMessage": "Settings"
@@ -38,32 +32,53 @@
   "account_menu.wallet_add": {
     "defaultMessage": "Add wallet..."
   },
-  "accounts.account.all_assets": {
-    "defaultMessage": "All assets"
+  "account_menu.wallet_export": {
+    "defaultMessage": "Export to Radix Mobile"
+  },
+  "accounts.activity_list.all_assets_total_balance": {
+    "defaultMessage": "Total Balance"
+  },
+  "accounts.activity_list.balance_chart.data.unknown": {
+    "defaultMessage": "Unknown"
   },
   "accounts.activity_list.balance_chart.loading": {
-    "defaultMessage": "Loading"
+    "defaultMessage": "Loading..."
   },
   "accounts.activity_list.explorer": {
     "defaultMessage": "Explorer"
   },
-  "accounts.assets_list.fungibles": {
-    "defaultMessage": "Tokens"
+  "accounts.assets_list.lp_tokens": {
+    "defaultMessage": "Liquidity Pool Tokens"
   },
-  "accounts.assets_list.non_fungibles": {
+  "accounts.assets_list.nfts": {
     "defaultMessage": "NFTs"
   },
+  "accounts.assets_list.pool_units": {
+    "defaultMessage": "Pool Units"
+  },
+  "accounts.assets_list.tokens": {
+    "defaultMessage": "Tokens"
+  },
   "accounts.breadcrumbs.account": {
-    "defaultMessage": "Account"
+    "defaultMessage": "{hasName, select, true {{name}} other {{address}} }"
   },
   "accounts.breadcrumbs.accounts": {
     "defaultMessage": "All accounts"
   },
+  "accounts.breadcrumbs.lp_tokens": {
+    "defaultMessage": "Liquidity Pool Tokens"
+  },
+  "accounts.breadcrumbs.nft_item": {
+    "defaultMessage": "{hasDisplayName, select, true {{displayName}} other {NFT} }"
+  },
   "accounts.breadcrumbs.nfts": {
     "defaultMessage": "NFTs"
   },
+  "accounts.breadcrumbs.pool_units": {
+    "defaultMessage": "Pool Units"
+  },
   "accounts.breadcrumbs.resource": {
-    "defaultMessage": "Resource"
+    "defaultMessage": "{hasDisplayName, select, true {{displayName}} other {Resource} }"
   },
   "accounts.breadcrumbs.tokens": {
     "defaultMessage": "Tokens"
@@ -74,8 +89,68 @@
   "accounts.layout.back_button.title": {
     "defaultMessage": "Back"
   },
-  "accounts.resource_details.back": {
+  "accounts.resource_details.nft_collection.back": {
     "defaultMessage": "Back"
+  },
+  "accounts.resource_details.nft_collection.details_address": {
+    "defaultMessage": "Address"
+  },
+  "accounts.resource_details.nft_collection.details_id_type": {
+    "defaultMessage": "ID Type"
+  },
+  "accounts.resource_details.nft_collection.details_total_burned": {
+    "defaultMessage": "Total burned"
+  },
+  "accounts.resource_details.nft_collection.details_total_minted": {
+    "defaultMessage": "Total minted"
+  },
+  "accounts.resource_details.nft_collection.details_total_supply": {
+    "defaultMessage": "Total supply"
+  },
+  "accounts.resource_details.nft_collection.metadata": {
+    "defaultMessage": "Metadata"
+  },
+  "accounts.resource_details.nft_collection.summary": {
+    "defaultMessage": "Summary"
+  },
+  "accounts.resource_details.nft_item.back": {
+    "defaultMessage": "Back"
+  },
+  "accounts.resource_details.nft_item.burned": {
+    "defaultMessage": "(burned)"
+  },
+  "accounts.resource_details.nft_item.data": {
+    "defaultMessage": "Data"
+  },
+  "accounts.resource_details.token.back": {
+    "defaultMessage": "Back"
+  },
+  "accounts.resource_details.token.details_address": {
+    "defaultMessage": "Address"
+  },
+  "accounts.resource_details.token.details_divisibility": {
+    "defaultMessage": "Divisibility"
+  },
+  "accounts.resource_details.token.details_total_burned": {
+    "defaultMessage": "Total burned"
+  },
+  "accounts.resource_details.token.details_total_minted": {
+    "defaultMessage": "Total minted"
+  },
+  "accounts.resource_details.token.details_total_supply": {
+    "defaultMessage": "Total supply"
+  },
+  "accounts.resource_details.token.metadata": {
+    "defaultMessage": "Metadata"
+  },
+  "accounts.resource_details.token.summary": {
+    "defaultMessage": "Summary"
+  },
+  "accounts.table.pool_cell.unknown": {
+    "defaultMessage": "{hasName, select, true {{name}} other {Unknown} }"
+  },
+  "accounts.table.validator_cell.unknown": {
+    "defaultMessage": "{hasName, select, true {{name}} other {Unknown} }"
   },
   "address_book.delete_modal.button_text": {
     "defaultMessage": "Delete"
@@ -116,6 +191,18 @@
   "address_book.upsert_modal.updated_toast": {
     "defaultMessage": "Successfully updated address book entry"
   },
+  "authorized_dapps.delete_modal.button_text": {
+    "defaultMessage": "Revoke"
+  },
+  "authorized_dapps.delete_modal.description": {
+    "defaultMessage": "Are you sure you want to revoke {dappName} access ?"
+  },
+  "authorized_dapps.delete_modal.success_message": {
+    "defaultMessage": "Successfully revoked access"
+  },
+  "authorized_dapps.delete_modal.title": {
+    "defaultMessage": "Are you sure?"
+  },
   "card.buttons.address": {
     "defaultMessage": "Address"
   },
@@ -131,17 +218,287 @@
   "currency_select.favorite": {
     "defaultMessage": "Favorite"
   },
+  "currency_select.label": {
+    "defaultMessage": "Currency"
+  },
   "currency_select.reset": {
     "defaultMessage": "Reset"
   },
+  "fallback_renderer.button.reload": {
+    "defaultMessage": "Click here to reload the app"
+  },
+  "fallback_renderer.title": {
+    "defaultMessage": "Oops, something went wrong..."
+  },
   "form.field_group.remove": {
     "defaultMessage": "Remove"
+  },
+  "form.on_submit.error": {
+    "defaultMessage": "Internal error{hasMessage, select, true {: {message}} other {, please try again} }"
   },
   "form_group.add": {
     "defaultMessage": "Add"
   },
   "form_group.remove": {
     "defaultMessage": "Remove"
+  },
+  "forms.add_account.form.name": {
+    "defaultMessage": "Name"
+  },
+  "forms.add_account.form.submit_button.title": {
+    "defaultMessage": "Add"
+  },
+  "forms.add_account.validation.name": {
+    "defaultMessage": "Name is required"
+  },
+  "forms.add_persona.form.name": {
+    "defaultMessage": "Name"
+  },
+  "forms.add_persona.form.submit_button.title": {
+    "defaultMessage": "Add"
+  },
+  "forms.add_persona.validation.name": {
+    "defaultMessage": "Name is required"
+  },
+  "forms.persona_data.button_add.email_address": {
+    "defaultMessage": "Add email address"
+  },
+  "forms.persona_data.button_add.phone_number": {
+    "defaultMessage": "Add phone number"
+  },
+  "forms.persona_data.eastern": {
+    "defaultMessage": "Eastern"
+  },
+  "forms.persona_data.email_address": {
+    "defaultMessage": "Email address"
+  },
+  "forms.persona_data.family_name": {
+    "defaultMessage": "Family name"
+  },
+  "forms.persona_data.given_names": {
+    "defaultMessage": "Given names"
+  },
+  "forms.persona_data.nickname": {
+    "defaultMessage": "Nickname"
+  },
+  "forms.persona_data.phone_number": {
+    "defaultMessage": "Phone number"
+  },
+  "forms.persona_data.submit_button.title": {
+    "defaultMessage": "Submit"
+  },
+  "forms.persona_data.validation.email": {
+    "defaultMessage": "Please select valid email"
+  },
+  "forms.persona_data.validation.family_name": {
+    "defaultMessage": "Please insert valid family name"
+  },
+  "forms.persona_data.validation.given_names": {
+    "defaultMessage": "Please insert valid given names"
+  },
+  "forms.persona_data.validation.nickname": {
+    "defaultMessage": "Please insert valid nickname"
+  },
+  "forms.persona_data.validation.phone_number": {
+    "defaultMessage": "Please select valid phone number"
+  },
+  "forms.persona_data.variant": {
+    "defaultMessage": "Name variant"
+  },
+  "forms.persona_data.western": {
+    "defaultMessage": "Western"
+  },
+  "forms.wallet_secret.error": {
+    "defaultMessage": "Incorrect password!"
+  },
+  "forms.wallet_secret.form.button.title": {
+    "defaultMessage": "Show"
+  },
+  "forms.wallet_secret.password.placeholder": {
+    "defaultMessage": "Password"
+  },
+  "hooks.interaction.accounts_data.account_challenge": {
+    "defaultMessage": "To confirm ownership of selected accounts, signature is required"
+  },
+  "hooks.interaction.accounts_data.unknown_account": {
+    "defaultMessage": "Selected account: {appearanceId}"
+  },
+  "hooks.interaction.login.persona_challenge": {
+    "defaultMessage": "To confirm ownership, sign challenge with persona {label}"
+  },
+  "hooks.modals.persona_data.reject": {
+    "defaultMessage": "Persona data declined"
+  },
+  "hooks.modals.select_accounts.reject": {
+    "defaultMessage": "Accounts select declined"
+  },
+  "hooks.modals.select_persona.reject": {
+    "defaultMessage": "Persona select declined"
+  },
+  "hooks.modals.sign.reject": {
+    "defaultMessage": "Rejected"
+  },
+  "hooks.send-transaction.error": {
+    "defaultMessage": "Failed to submit transaction{hasMessage, select, true {: {message}} other {, please try again} }"
+  },
+  "hooks.transaction.intent.empty_signatures_error": {
+    "defaultMessage": "Failed to resolve authorization requirements, try with different wallet."
+  },
+  "hooks.transaction.sign_background.title": {
+    "defaultMessage": "Signature requested"
+  },
+  "interaction.home.authorized_request_interaction.continue": {
+    "defaultMessage": "Continue"
+  },
+  "interaction.home.authorized_request_interaction.error": {
+    "defaultMessage": "Failed to login {hasMessage, select, true {: {message}} other {, please try again} }"
+  },
+  "interaction.home.authorized_request_interaction.select_accounts": {
+    "defaultMessage": "Select accounts"
+  },
+  "interaction.home.authorized_request_interaction.select_persona": {
+    "defaultMessage": "Select persona"
+  },
+  "interaction.home.canceled": {
+    "defaultMessage": "Request canceled"
+  },
+  "interaction.home.transaction.error": {
+    "defaultMessage": "Failed to submit transaction{hasMessage, select, true {: {message}} other {, please try again} }"
+  },
+  "interaction.home.transaction.submit": {
+    "defaultMessage": "Submit"
+  },
+  "interaction.home.transaction.unauthorized": {
+    "defaultMessage": "Transaction comes from unauthorized dApp and/or includes unauthorized accounts!"
+  },
+  "interaction.manifest.instructions.call_method.deposit": {
+    "defaultMessage": "Deposit"
+  },
+  "interaction.manifest.instructions.call_method.lock_fee": {
+    "defaultMessage": "Lock {amount}"
+  },
+  "interaction.manifest.instructions.call_method.withdraw": {
+    "defaultMessage": "Withdraw {amount}"
+  },
+  "interaction.manifest.instructions.take_from_worktop": {
+    "defaultMessage": "Withdraw {amount} of {resourceAddress}"
+  },
+  "interaction.manifest.invalid_manifest": {
+    "defaultMessage": "Invalid transaction manifest"
+  },
+  "interaction.manifest.tab_manifest": {
+    "defaultMessage": "Transaction manifest"
+  },
+  "interaction.manifest.tab_preview": {
+    "defaultMessage": "Preview"
+  },
+  "interaction.network_alert.message": {
+    "defaultMessage": "Network mismatch, dApp uses {dAppNetworkId} wallet uses {networkId}"
+  },
+  "interaction.preview.fee_summary": {
+    "defaultMessage": "Fee summary"
+  },
+  "interaction.preview.proof": {
+    "defaultMessage": "Presenting proof"
+  },
+  "interaction.preview.resource_changes": {
+    "defaultMessage": "Resource changes"
+  },
+  "interaction.preview.xrd_total_execution_cost": {
+    "defaultMessage": "Execution: {cost, number, ::.00#######}"
+  },
+  "interaction.preview.xrd_total_finalization_cost": {
+    "defaultMessage": "Finalization: {cost, number, ::.00#######}"
+  },
+  "interaction.preview.xrd_total_royalty_cost": {
+    "defaultMessage": "Royalty: {cost, number, ::.00#######}"
+  },
+  "interaction.preview.xrd_total_storage_cost": {
+    "defaultMessage": "Storage: {cost, number, ::.00#######}"
+  },
+  "interaction.preview.xrd_total_tipping_cost": {
+    "defaultMessage": "Tipping: {cost, number, ::.00#######}"
+  },
+  "keystore.form.button.submit": {
+    "defaultMessage": "Create"
+  },
+  "keystore.form.confirm_password.placeholder": {
+    "defaultMessage": "Confirm your password"
+  },
+  "keystore.form.name.placeholder": {
+    "defaultMessage": "Name"
+  },
+  "keystore.form.password.placeholder": {
+    "defaultMessage": "Password"
+  },
+  "keystore.form.validation.confirm_password": {
+    "defaultMessage": "Password does not match"
+  },
+  "keystore.form.validation.new": {
+    "defaultMessage": "Please insert name"
+  },
+  "keystore.form.validation.password": {
+    "defaultMessage": "Insert password (at least 8 characters)"
+  },
+  "keystore.hardware_wallet.connect": {
+    "defaultMessage": "Connect device"
+  },
+  "keystore.hardware_wallet.info": {
+    "defaultMessage": "Do not close this tab and continue with the device in another one, we will come back here later."
+  },
+  "keystore.home.hw": {
+    "defaultMessage": "Connect Hardware Wallet"
+  },
+  "keystore.home.key": {
+    "defaultMessage": "Restore from extended private key"
+  },
+  "keystore.home.radix": {
+    "defaultMessage": "Connect Radix Mobile"
+  },
+  "keystore.home.seed_new": {
+    "defaultMessage": "I am new user"
+  },
+  "keystore.home.seed_restore": {
+    "defaultMessage": "Restore from seed phrase"
+  },
+  "keystore.nav.back": {
+    "defaultMessage": "Back"
+  },
+  "keystore.radix.pairing.help": {
+    "defaultMessage": "Scan the QR code with the Radix Wallet app on your mobile phone to start using it with dApps in this web browser"
+  },
+  "keystore.radix.pairing.link": {
+    "defaultMessage": "Don't have Radix Wallet?"
+  },
+  "keystore.remove.password_form.error": {
+    "defaultMessage": "Incorrect password!"
+  },
+  "keystore.remove.password_form.form.button.title": {
+    "defaultMessage": "Confirm"
+  },
+  "keystore.remove.password_form.password.placeholder": {
+    "defaultMessage": "Password"
+  },
+  "lp_tokens.address": {
+    "defaultMessage": "LP Token"
+  },
+  "lp_tokens.amount": {
+    "defaultMessage": "Balance"
+  },
+  "lp_tokens.change": {
+    "defaultMessage": "Change"
+  },
+  "lp_tokens.empty_subtitle": {
+    "defaultMessage": "Could not find any liquidity pool tokens in this account"
+  },
+  "lp_tokens.empty_title": {
+    "defaultMessage": "No results"
+  },
+  "lp_tokens.validator": {
+    "defaultMessage": "Validator"
+  },
+  "lp_tokens.value": {
+    "defaultMessage": "Value"
   },
   "mobile.menu.activity": {
     "defaultMessage": "Activity"
@@ -164,6 +521,90 @@
   "mobile.menu.tokens": {
     "defaultMessage": "Tokens {symbol}"
   },
+  "modals.ledger_confirm.close_button": {
+    "defaultMessage": "Cancel"
+  },
+  "modals.ledger_confirm.confirm_with_ledger": {
+    "defaultMessage": "Confirm with Ledger device"
+  },
+  "modals.persona_data.close_button": {
+    "defaultMessage": "Cancel"
+  },
+  "modals.persona_data.validation.email": {
+    "defaultMessage": "Please select valid email"
+  },
+  "modals.persona_data.validation.emails": {
+    "defaultMessage": "Please select minimum {number} emails"
+  },
+  "modals.persona_data.validation.family_name": {
+    "defaultMessage": "Please insert valid family name"
+  },
+  "modals.persona_data.validation.given_names": {
+    "defaultMessage": "Please insert valid given names"
+  },
+  "modals.persona_data.validation.names": {
+    "defaultMessage": "Name details are required"
+  },
+  "modals.persona_data.validation.nickname": {
+    "defaultMessage": "Please insert valid nickname"
+  },
+  "modals.persona_data.validation.phone_number": {
+    "defaultMessage": "Please select valid phone number"
+  },
+  "modals.persona_data.validation.phone_numbers": {
+    "defaultMessage": "Please select minimum {number} phone numbers"
+  },
+  "modals.persona_data.validation.validation_emails_exactly": {
+    "defaultMessage": "Please select exactly {number} emails"
+  },
+  "modals.persona_data.validation.validation_phone_numbers_exactly": {
+    "defaultMessage": "Please select exactly {number} phone numbers"
+  },
+  "modals.select_accounts.close_button": {
+    "defaultMessage": "Cancel"
+  },
+  "modals.select_accounts.form.accounts": {
+    "defaultMessage": "Accounts"
+  },
+  "modals.select_accounts.form.button_add_account.title": {
+    "defaultMessage": "Add another account"
+  },
+  "modals.select_accounts.form.submit_button.title": {
+    "defaultMessage": "Share"
+  },
+  "modals.select_accounts.validation.account": {
+    "defaultMessage": "Please select valid account"
+  },
+  "modals.select_accounts.validation.accounts": {
+    "defaultMessage": "Please select minimum {number} accounts"
+  },
+  "modals.select_accounts.validation.validation_accounts_exactly": {
+    "defaultMessage": "Please select exactly {number} accounts"
+  },
+  "modals.select_persona.close_button": {
+    "defaultMessage": "Cancel"
+  },
+  "modals.select_persona.form.persona": {
+    "defaultMessage": "Persona"
+  },
+  "modals.select_persona.form.submit_button.title": {
+    "defaultMessage": "Login"
+  },
+  "modals.select_persona.validation.persona": {
+    "defaultMessage": "Please select persona"
+  },
+  "modals.sign.close_button": {
+    "defaultMessage": "Cancel"
+  },
+  "modals.sign.form.error": {
+    "defaultMessage": "Incorrect password!"
+  },
+  "modals.sign.form.password.placeholder": {
+    "defaultMessage": "Password"
+  },
+  "modals.sign.form.submit_button.title": {
+    "defaultMessage": "Sign"
+  },
   "navigation.accounts": {
     "defaultMessage": "Accounts"
   },
@@ -182,14 +623,26 @@
   "nft.item": {
     "defaultMessage": "NFT"
   },
-  "nfts.address": {
+  "nft_collections.address": {
     "defaultMessage": "NFT"
   },
-  "nfts.amount": {
+  "nft_collections.amount": {
     "defaultMessage": "Balance"
   },
-  "nfts.change": {
+  "nft_collections.change": {
     "defaultMessage": "Change"
+  },
+  "nft_collections.empty_subtitle": {
+    "defaultMessage": "Could not find any NFT collections in this account"
+  },
+  "nft_collections.empty_title": {
+    "defaultMessage": "No results"
+  },
+  "nft_collections.value": {
+    "defaultMessage": "Value"
+  },
+  "nfts.collection": {
+    "defaultMessage": "Collection"
   },
   "nfts.empty_subtitle": {
     "defaultMessage": "Could not find any NFTs in this account"
@@ -197,11 +650,59 @@
   "nfts.empty_title": {
     "defaultMessage": "No results"
   },
-  "nfts.value": {
-    "defaultMessage": "Value"
+  "nfts.nft": {
+    "defaultMessage": "NFT"
+  },
+  "nfts.non_fungible_id": {
+    "defaultMessage": "ID"
   },
   "notifications.dropdown.title": {
     "defaultMessage": "Notifications"
+  },
+  "personas.delete_modal.button_text": {
+    "defaultMessage": "Delete"
+  },
+  "personas.delete_modal.description": {
+    "defaultMessage": "Are you sure you want to delete {identityAddress} from wallet ?"
+  },
+  "personas.delete_modal.success_message": {
+    "defaultMessage": "Successfully deleted persona"
+  },
+  "personas.delete_modal.title": {
+    "defaultMessage": "Are you sure?"
+  },
+  "personas.upsert_modal.created_toast": {
+    "defaultMessage": "Successfully added new persona"
+  },
+  "personas.upsert_modal.form.cancel": {
+    "defaultMessage": "Cancel"
+  },
+  "personas.upsert_modal.title": {
+    "defaultMessage": "Persona details"
+  },
+  "personas.upsert_modal.updated_toast": {
+    "defaultMessage": "Successfully updated persona details"
+  },
+  "pool_units.address": {
+    "defaultMessage": "Pool Unit"
+  },
+  "pool_units.amount": {
+    "defaultMessage": "Balance"
+  },
+  "pool_units.change": {
+    "defaultMessage": "Change"
+  },
+  "pool_units.empty_subtitle": {
+    "defaultMessage": "Could not find any pool units in this account"
+  },
+  "pool_units.empty_title": {
+    "defaultMessage": "No results"
+  },
+  "pool_units.pool": {
+    "defaultMessage": "Pool"
+  },
+  "pool_units.value": {
+    "defaultMessage": "Value"
   },
   "scroll_area_up": {
     "defaultMessage": "Go to top"
@@ -239,8 +740,35 @@
   "settings.address_book.subtitle": {
     "defaultMessage": "Effortless organization for your address book accounts. Manage your Radix address book with ease, editing account names and addresses in a convenient table view for seamless transactions and better financial control"
   },
+  "settings.address_book.table.header": {
+    "defaultMessage": "Name"
+  },
   "settings.address_book.title": {
     "defaultMessage": "Address book"
+  },
+  "settings.authorized-dapps.table.header": {
+    "defaultMessage": "dApp"
+  },
+  "settings.authorized_dapps.entry.accounts": {
+    "defaultMessage": "Selected accounts"
+  },
+  "settings.authorized_dapps.entry.delete": {
+    "defaultMessage": "Revoke access"
+  },
+  "settings.authorized_dapps.entry.persona": {
+    "defaultMessage": "Persona"
+  },
+  "settings.authorized_dapps.subtitle": {
+    "defaultMessage": "This are the dApps that you have logged into."
+  },
+  "settings.authorized_dapps.title": {
+    "defaultMessage": "Authorized dApps"
+  },
+  "settings.connector_extension.subtitle": {
+    "defaultMessage": "Enable embedded radix connector"
+  },
+  "settings.connector_extension.title": {
+    "defaultMessage": "Radix connector"
   },
   "settings.dapp_request_notifications.subtitle": {
     "defaultMessage": "Show DApp request Radix notifications"
@@ -259,6 +787,12 @@
   },
   "settings.general.language.title": {
     "defaultMessage": "Language"
+  },
+  "settings.general.network.subtitle": {
+    "defaultMessage": "Gateway API URL"
+  },
+  "settings.general.network.title": {
+    "defaultMessage": "Network"
   },
   "settings.general.notifications.subtitle": {
     "defaultMessage": "Enable push notifications to receive real-time updates and important alerts"
@@ -299,11 +833,47 @@
   "settings.navigation.address_book.title": {
     "defaultMessage": "Address book"
   },
+  "settings.navigation.authorized_dapps.subtitle": {
+    "defaultMessage": "This are the dApps that you have logged into."
+  },
+  "settings.navigation.authorized_dapps.title": {
+    "defaultMessage": "Authorized dApps"
+  },
   "settings.navigation.general.subtitle": {
     "defaultMessage": "Fine-tune your Z3US preferences. Manage session time and choose your ideal color theme for a personalized and secure Z3US experience."
   },
   "settings.navigation.general.title": {
     "defaultMessage": "General"
+  },
+  "settings.navigation.personas.subtitle": {
+    "defaultMessage": "Manage your Radix network identities"
+  },
+  "settings.navigation.personas.title": {
+    "defaultMessage": "Personas"
+  },
+  "settings.navigation.wallet.subtitle": {
+    "defaultMessage": "Manage your wallet and private keys"
+  },
+  "settings.navigation.wallet.title": {
+    "defaultMessage": "Wallet"
+  },
+  "settings.personas.entry.delete": {
+    "defaultMessage": "Delete"
+  },
+  "settings.personas.entry.edit": {
+    "defaultMessage": "Edit"
+  },
+  "settings.personas.new_persona": {
+    "defaultMessage": "New persona"
+  },
+  "settings.personas.subtitle": {
+    "defaultMessage": "Manage your Radix network identities"
+  },
+  "settings.personas.table.header": {
+    "defaultMessage": "Name"
+  },
+  "settings.personas.title": {
+    "defaultMessage": "Personas"
   },
   "settings.session.five_minutes": {
     "defaultMessage": "5 Minutes"
@@ -334,6 +904,33 @@
   },
   "settings.tx_result_notifications.title": {
     "defaultMessage": "Transaction Result Notifications"
+  },
+  "settings.wallet.name.subtitle": {
+    "defaultMessage": "Change your wallet name"
+  },
+  "settings.wallet.name.title": {
+    "defaultMessage": "Name"
+  },
+  "settings.wallet.remove": {
+    "defaultMessage": "Delete wallet"
+  },
+  "settings.wallet.remove.subtitle": {
+    "defaultMessage": "Remove your wallet and delete all cache data"
+  },
+  "settings.wallet.remove.title": {
+    "defaultMessage": "Remove wallet"
+  },
+  "settings.wallet.secret.subtitle": {
+    "defaultMessage": "Show seed phrase or extended private key"
+  },
+  "settings.wallet.secret.title": {
+    "defaultMessage": "Reveal"
+  },
+  "settings.wallet.subtitle": {
+    "defaultMessage": "Manage your wallet and private keys"
+  },
+  "settings.wallet.title": {
+    "defaultMessage": "Wallet"
   },
   "staking.table.column.address": {
     "defaultMessage": "Address"
@@ -420,7 +1017,7 @@
     "defaultMessage": "Change"
   },
   "tokens.empty_subtitle": {
-    "defaultMessage": "Could not find any NFTs in this account"
+    "defaultMessage": "Could not find any tokens in this account"
   },
   "tokens.empty_title": {
     "defaultMessage": "No results"
@@ -551,9 +1148,6 @@
   "transfer.navigation.raw": {
     "defaultMessage": "Advanced"
   },
-  "transfer.router.deploy": {
-    "defaultMessage": "Deploy package"
-  },
   "transfer.router.home": {
     "defaultMessage": "Transfer"
   },
@@ -601,5 +1195,11 @@
   },
   "unlock.password.placeholder": {
     "defaultMessage": "Password"
+  },
+  "zdt_provider.unknown_account": {
+    "defaultMessage": "Account: {appearanceId}"
+  },
+  "zdt_provider.unknown_persona": {
+    "defaultMessage": "{hasLabel, select, true {{label}} other {Persona: {appearanceId}} }"
   }
 }

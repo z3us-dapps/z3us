@@ -1,3 +1,5 @@
+import type { languages } from 'ui/src/constants/intl'
+
 export type AddressBook = { [networkId: number]: { [key: string]: AddressBookEntry } }
 
 export type AddressBookEntry = {
@@ -157,10 +159,7 @@ export interface IExtensionStateSetter {
 	(fn: (state: ExtensionState) => void): void
 }
 
-export enum LOCALE {
-	en = 'en',
-	pl = 'pl',
-}
+export type LOCALE = keyof typeof languages
 
 export type IntlState = {
 	locale: LOCALE

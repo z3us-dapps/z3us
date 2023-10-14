@@ -1,17 +1,30 @@
+import { getDirection } from 'packages/ui/src/constants/intl'
 import React, { type PropsWithChildren, useEffect } from 'react'
 import { IntlProvider } from 'react-intl'
 
 import { MessagesProvider } from 'ui/src/context/messages-provider'
+import { TextDirectionProvider } from 'ui/src/context/text-direction-provider'
 import { useLocale } from 'ui/src/hooks/use-locale'
 import { useMessages } from 'ui/src/hooks/use-messages'
+import { useTextDirection } from 'ui/src/hooks/use-text-direction'
 import { DEFAULT_LOCALE } from 'ui/src/store/intl'
-import { LOCALE } from 'ui/src/store/types'
+import type { LOCALE } from 'ui/src/store/types'
 
 async function loadTranslation(locale: LOCALE): Promise<unknown> {
-	const l = LOCALE[locale]
-	switch (l) {
-		case LOCALE.pl:
-			return import('./locales/compiled/pl.json')
+	switch (locale) {
+		case 'en': return import('./locales/compiled/en.json')
+		case 'zh': return import('./locales/compiled/zh.json')
+		case 'es': return import('./locales/compiled/es.json')
+		case 'hi': return import('./locales/compiled/hi.json')
+		case 'ru': return import('./locales/compiled/ru.json')
+		case 'ar': return import('./locales/compiled/ar.json')
+		case 'pt': return import('./locales/compiled/pt.json')
+		case 'ms': return import('./locales/compiled/ms.json')
+		case 'fr': return import('./locales/compiled/fr.json')
+		case 'de': return import('./locales/compiled/de.json')
+		case 'it': return import('./locales/compiled/it.json')
+		case 'pl': return import('./locales/compiled/pl.json')
+		case 'jp': return import('./locales/compiled/jp.json')
 		default:
 			return import('./locales/compiled/en.json')
 	}
@@ -20,9 +33,11 @@ async function loadTranslation(locale: LOCALE): Promise<unknown> {
 const LanguageProvider: React.FC<PropsWithChildren> = ({ children }) => {
 	const locale = useLocale()
 	const [messages, setMessages] = useMessages()
+	const [, setDirection] = useTextDirection()
 
 	useEffect(() => {
-		loadTranslation(locale).then(setMessages)
+		loadTranslation(locale).then((result: any) => setMessages(result?.default || result))
+		setDirection(getDirection(locale))
 	}, [locale, setMessages])
 
 	return (
@@ -33,9 +48,11 @@ const LanguageProvider: React.FC<PropsWithChildren> = ({ children }) => {
 }
 
 const Intl: React.FC<PropsWithChildren> = ({ children }) => (
-	<MessagesProvider>
-		<LanguageProvider>{React.Children.only(children)}</LanguageProvider>
-	</MessagesProvider>
+	<TextDirectionProvider>
+		<MessagesProvider>
+			<LanguageProvider>{React.Children.only(children)}</LanguageProvider>
+		</MessagesProvider>
+	</TextDirectionProvider>
 )
 
 export default Intl
