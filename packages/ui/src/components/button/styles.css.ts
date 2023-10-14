@@ -313,7 +313,27 @@ export const button = recipe({
 		},
 		{
 			variants: {
+				sizeVariantTablet: 'xsmall',
+				iconOnly: true,
+			},
+			style: {
+				width: '26px',
+				padding: '0px',
+			},
+		},
+		{
+			variants: {
 				sizeVariant: 'small',
+				iconOnly: true,
+			},
+			style: {
+				width: '32px',
+				padding: '0px',
+			},
+		},
+		{
+			variants: {
+				sizeVariantTablet: 'small',
 				iconOnly: true,
 			},
 			style: {
@@ -333,6 +353,16 @@ export const button = recipe({
 		},
 		{
 			variants: {
+				sizeVariantTablet: 'medium',
+				iconOnly: true,
+			},
+			style: {
+				width: '40px',
+				padding: '0px',
+			},
+		},
+		{
+			variants: {
 				sizeVariant: 'large',
 				iconOnly: true,
 			},
@@ -343,7 +373,27 @@ export const button = recipe({
 		},
 		{
 			variants: {
+				sizeVariantTablet: 'large',
+				iconOnly: true,
+			},
+			style: {
+				width: '44px',
+				padding: '0px',
+			},
+		},
+		{
+			variants: {
 				sizeVariant: 'xlarge',
+				iconOnly: true,
+			},
+			style: {
+				width: '48px',
+				padding: '0px',
+			},
+		},
+		{
+			variants: {
+				sizeVariantTablet: 'xlarge',
 				iconOnly: true,
 			},
 			style: {
