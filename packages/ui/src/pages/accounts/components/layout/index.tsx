@@ -50,7 +50,9 @@ const ScrollContent: React.FC = () => {
 					<Suspense key={key} fallback={<FallbackLoading />}>
 						<ErrorBoundary fallbackRender={FallbackRenderer}>
 							<Box className={styles.outletTabletWrapper}>{outlet}</Box>
-							<Box className={styles.outletMobileWrapper}>{isActivitiesVisible ? <ActivityList /> : outlet}</Box>
+							<Box className={styles.outletMobileWrapper}>
+								{isActivitiesVisible ? <ActivityList className={styles.outletMobileWrapper} /> : outlet}
+							</Box>
 						</ErrorBoundary>
 					</Suspense>
 				</ScrollPanel>

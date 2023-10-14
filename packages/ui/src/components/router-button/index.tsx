@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom'
 
 import type { IButtonProps } from 'ui/src/components/button'
 import { Button as ButtonComponent } from 'ui/src/components/button'
+import { isExternalHref } from 'ui/src/utils/is-external-href'
 
 interface IProps extends IButtonProps {
 	to?: string
@@ -17,9 +18,6 @@ const defaultProps = {
 	onMouseOver: undefined,
 	onMouseLeave: undefined,
 }
-
-// TODO: move to helpers
-export const isExternalHref = (href: string) => /(http(s?)):\/\//i.test(href)
 
 export const Button = forwardRef<HTMLElement, IProps>((props, ref: React.Ref<HTMLButtonElement | null>) => {
 	const { to } = props

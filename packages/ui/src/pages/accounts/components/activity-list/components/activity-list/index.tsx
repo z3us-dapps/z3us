@@ -167,7 +167,12 @@ const ItemWrapper: React.FC<IRowProps> = props => {
 
 const skeletons = [null, null, null, null, null]
 
-export const ActivityList = forwardRef<HTMLElement>((_, ref: React.Ref<HTMLElement | null>) => {
+interface IProps {
+	className?: string
+}
+
+export const ActivityList = forwardRef<HTMLButtonElement, IProps>((props, ref: React.Ref<HTMLElement | null>) => {
+	const { className } = props
 	const { scrollableNode } = useScroll()
 
 	const [selected, setSelected] = useState<string | null>(null)
@@ -208,7 +213,7 @@ export const ActivityList = forwardRef<HTMLElement>((_, ref: React.Ref<HTMLEleme
 	)
 
 	return (
-		<Box ref={ref} className={clsx(styles.activityWrapper)} style={{ minHeight: '100px' }}>
+		<Box ref={ref} className={clsx(styles.activityWrapper, className)} style={{ minHeight: '100px' }}>
 			<Virtuoso
 				customScrollParent={scrollableNode}
 				totalCount={flattenWithLoading.length}
