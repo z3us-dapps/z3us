@@ -166,7 +166,7 @@ const TokenDetails: React.FC = () => {
 								<Button
 									key={tf}
 									rounded
-									styleVariant={tf === timeFrame ? 'secondary' : 'tertiary'}
+									styleVariant={TimeFrames[tf] === timeFrame ? 'secondary' : 'tertiary'}
 									sizeVariant="small"
 									onClick={() => setTimeFrame(TimeFrames[tf])}
 								>
