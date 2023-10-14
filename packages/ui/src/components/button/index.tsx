@@ -6,7 +6,16 @@ import { Box } from 'ui/src/components/box'
 import * as styles from './styles.css'
 
 export type TType = 'button' | 'submit'
-export type TSizeVariant = 'xsmall' | 'small' | 'medium' | 'large' | 'xlarge'
+type TTSizeVariantOption = 'xsmall' | 'small' | 'medium' | 'large' | 'xlarge'
+
+export type TSizeVariant =
+	| TTSizeVariantOption
+	| {
+			mobile?: TTSizeVariantOption
+			tablet?: TTSizeVariantOption
+			desktop?: TTSizeVariantOption
+	  }
+
 export type TStyleVariant =
 	| 'primary'
 	| 'secondary'
@@ -86,6 +95,9 @@ export const Button = forwardRef<HTMLButtonElement, IButtonProps>((props, ref: R
 		...rest
 	} = props
 
+	const sizeVariantMobile = typeof sizeVariant === 'object' ? sizeVariant.mobile : sizeVariant
+	const sizeVariantTablet = typeof sizeVariant === 'object' ? sizeVariant.tablet : undefined
+
 	const ButtonComponent = linkFrameWorkComp || Box
 
 	const clickHandler = (e: React.MouseEvent<HTMLButtonElement>) => {
@@ -106,7 +118,8 @@ export const Button = forwardRef<HTMLButtonElement, IButtonProps>((props, ref: R
 				className,
 				styles.baseSprinkles,
 				styles.button({
-					sizeVariant,
+					sizeVariant: sizeVariantMobile,
+					sizeVariantTablet,
 					styleVariant,
 					iconOnly,
 					disabled,
@@ -123,7 +136,8 @@ export const Button = forwardRef<HTMLButtonElement, IButtonProps>((props, ref: R
 				<Box
 					className={clsx(
 						styles.buttonIconLeft({
-							sizeVariant,
+							sizeVariant: sizeVariantMobile,
+							sizeVariantTablet,
 							styleVariant,
 							iconOnly,
 						}),
@@ -137,7 +151,8 @@ export const Button = forwardRef<HTMLButtonElement, IButtonProps>((props, ref: R
 				<Box
 					className={clsx(
 						styles.buttonIconRight({
-							sizeVariant,
+							sizeVariant: sizeVariantMobile,
+							sizeVariantTablet,
 							styleVariant,
 							iconOnly,
 						}),

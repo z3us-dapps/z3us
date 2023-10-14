@@ -2,6 +2,8 @@ import { style } from '@vanilla-extract/css'
 import { type RecipeVariants } from '@vanilla-extract/recipes'
 import { recipe } from '@vanilla-extract/recipes'
 
+import { responsiveStyle } from 'ui/src/components/system/theme-utils'
+
 import { sprinkles } from '../system/sprinkles.css'
 import { vars } from '../system/theme.css'
 
@@ -201,10 +203,79 @@ export const button = recipe({
 					fontSize: '16px',
 					lineHeight: '16px',
 					fontWeight: '700',
-					// fontSize: '18px',
-					// lineHeight: '24px',
-					// fontWeight: '700',
 				},
+			],
+		},
+		sizeVariantTablet: {
+			xsmall: [
+				sprinkles({
+					borderRadius: 'small',
+					padding: 'small',
+				}),
+				{
+					height: '26px',
+					fontSize: '12px',
+					lineHeight: '12px',
+					paddingLeft: '8px',
+					paddingRight: '8px',
+				},
+			],
+			small: [
+				sprinkles({
+					borderRadius: 'small',
+					padding: 'small',
+				}),
+				responsiveStyle({
+					tablet: {
+						height: '32px',
+						fontSize: '14px',
+						lineHeight: '14px',
+						paddingLeft: '8px',
+						paddingRight: '8px',
+					},
+				}),
+			],
+			medium: [
+				sprinkles({
+					borderRadius: 'medium',
+				}),
+				responsiveStyle({
+					tablet: {
+						height: '40px',
+						fontSize: '14px',
+						fontWeight: '500',
+						lineHeight: '14px',
+						paddingLeft: '16px',
+						paddingRight: '16px',
+					},
+				}),
+			],
+			large: [
+				sprinkles({
+					borderRadius: 'large',
+					paddingX: 'large',
+				}),
+				responsiveStyle({
+					tablet: {
+						height: '44px',
+						fontSize: '15px',
+						lineHeight: '15px',
+					},
+				}),
+			],
+			xlarge: [
+				sprinkles({
+					borderRadius: 'large',
+					paddingX: 'large',
+				}),
+				responsiveStyle({
+					tablet: {
+						height: '48px',
+						fontSize: '16px',
+						lineHeight: '16px',
+						fontWeight: '700',
+					},
+				}),
 			],
 		},
 		fullWidth: {
@@ -412,6 +483,33 @@ export const buttonIconLeft = recipe({
 			large: [{ marginRight: '6px', marginLeft: '-6px' }],
 			xlarge: [{ marginRight: '6px', marginLeft: '-6px' }],
 		},
+		sizeVariantTablet: {
+			xsmall: [
+				responsiveStyle({
+					tablet: { marginRight: '4px', marginLeft: '-2px' },
+				}),
+			],
+			small: [
+				responsiveStyle({
+					tablet: { marginRight: '4px', marginLeft: '-4px' },
+				}),
+			],
+			medium: [
+				responsiveStyle({
+					tablet: { marginRight: '2px', marginLeft: '-6px' },
+				}),
+			],
+			large: [
+				responsiveStyle({
+					tablet: { marginRight: '6px', marginLeft: '-6px' },
+				}),
+			],
+			xlarge: [
+				responsiveStyle({
+					tablet: { marginRight: '6px', marginLeft: '-6px' },
+				}),
+			],
+		},
 		iconOnly: {
 			true: {},
 		},
@@ -476,6 +574,13 @@ export const buttonIconRight = recipe({
 			}),
 		},
 		sizeVariant: {
+			xsmall: [{ marginLeft: '4px', marginRight: '-6px' }],
+			small: [{ marginLeft: '4px', marginRight: '-4px' }],
+			medium: [{ marginLeft: '4px', marginRight: '-8px' }],
+			large: [{ marginLeft: '6px', marginRight: '-6px' }],
+			xlarge: [{ marginLeft: '6px', marginRight: '-6px' }],
+		},
+		sizeVariantTablet: {
 			xsmall: [{ marginLeft: '4px', marginRight: '-6px' }],
 			small: [{ marginLeft: '4px', marginRight: '-4px' }],
 			medium: [{ marginLeft: '4px', marginRight: '-8px' }],

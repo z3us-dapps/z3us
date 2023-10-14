@@ -1,11 +1,11 @@
 import React, { forwardRef } from 'react'
 
-import { type IImageIconOptionalProps, ImageIcon } from 'ui/src/components/image-icon'
+import { type IImageIconProps, ImageIcon } from 'ui/src/components/image-icon'
 import { ToolTip } from 'ui/src/components/tool-tip'
 import { useNonFungibleData } from 'ui/src/hooks/dapp/use-entity-nft'
 import { getStringNftData } from 'ui/src/services/metadata'
 
-interface IProps extends IImageIconOptionalProps {
+interface IProps extends Omit<IImageIconProps, 'fallbackText' | 'imgAlt' | 'imgSrc'> {
 	address: string
 	id: string
 	toolTipEnabled?: boolean
