@@ -1,10 +1,12 @@
 import { globalStyle, style } from '@vanilla-extract/css'
 
 import { darkMode, sprinkles } from 'ui/src/components/system/sprinkles.css'
+import { responsiveStyle } from 'ui/src/components/system/theme-utils'
 import { vars } from 'ui/src/components/system/theme.css'
 
 export const activityWrapper = style([
 	sprinkles({
+		width: 'full',
 		position: 'relative',
 		background: 'backgroundSecondary',
 		display: {
@@ -12,10 +14,20 @@ export const activityWrapper = style([
 			tablet: 'flex',
 		},
 		flexDirection: 'column',
+		marginTop: {
+			tablet: 'small',
+		},
+		paddingTop: {
+			tablet: 'small',
+		},
+		paddingBottom: {
+			tablet: 'small',
+		},
 	}),
-	{
-		width: '100%',
-	},
+	{},
+	responsiveStyle({
+		tablet: { borderTop: '1px solid', borderColor: vars.color.borderDivider },
+	}),
 ])
 
 export const activityItem = style([
@@ -29,37 +41,13 @@ export const activityItem = style([
 export const activityItemOuter = style([
 	sprinkles({
 		position: 'relative',
-	}),
-	{
-		height: '60px',
-	},
-])
-
-export const activityItemExternalLinkWrapper = style([
-	sprinkles({
-		position: 'absolute',
-		right: 0,
-		top: 0,
-		display: 'flex',
-		alignItems: 'center',
-		pointerEvents: 'none',
-		opacity: 0,
-	}),
-	{
-		height: '64px',
-	},
-])
-
-export const activityItemExternalLinkWrapperActive = style([
-	sprinkles({
-		opacity: 1,
+		paddingY: 'xsmall',
+		borderTop: 1,
+		borderStyle: 'solid',
+		borderColor: 'borderDivider',
 	}),
 	{},
 ])
-
-globalStyle(`${activityItemExternalLinkWrapperActive} > a`, {
-	pointerEvents: 'auto',
-})
 
 export const activityItemInner = style([
 	sprinkles({
@@ -72,9 +60,8 @@ export const activityItemInner = style([
 		border: 0,
 	}),
 	{
+		height: '60px',
 		width: '100%',
-		height: 'auto',
-		boxShadow: '0 -1px 0 0',
 		'::before': {
 			content: '""',
 			position: 'absolute',
@@ -84,13 +71,9 @@ export const activityItemInner = style([
 			bottom: 0,
 			left: `calc(${vars.spacing.medium} * -1)`,
 			right: `calc(${vars.spacing.medium} * -1)`,
-			pointerEvents: 'none',
-
-			// TODO: fix needing to make these a string
-			boxShadow: `${vars.color.shadowActivePanel}`,
-			color: `${vars.color.borderDivider}`,
 			borderRadius: vars.border.radius.medium,
-			background: vars.color.bai_pearl200,
+			pointerEvents: 'none',
+			background: vars.color.bai_pearl600,
 		},
 		selectors: {
 			[`.${darkMode} &::before`]: {
@@ -104,11 +87,18 @@ export const activityItemInner = style([
 			},
 		},
 	},
+
+	responsiveStyle({
+		tablet: {
+			'::before': {
+				boxShadow: `${vars.color.shadowActivePanel}`,
+			},
+		},
+	}),
 ])
 
-// TODO: put a class on ListContainer to fix this
-globalStyle(`${activityWrapper} > div > div > div > div:first-child ${activityItemInner}`, {
-	boxShadow: 'none',
+globalStyle(`${activityWrapper} > div > div > div > div:first-child ${activityItemOuter}`, {
+	borderTop: 'none',
 })
 
 export const activityItemInnerBtn = style([
@@ -144,9 +134,7 @@ export const activityItemTextWrapper = style([
 		flexDirection: 'column',
 		flexGrow: 1,
 	}),
-	{
-		// maxWidth: 'calc(100% - 82px)',
-	},
+	{},
 ])
 
 export const activityItemInnerSelected = style([
@@ -159,28 +147,11 @@ export const activityItemInnerSelected = style([
 	},
 ])
 
-globalStyle(`${activityItemInnerSelected} ${activityItemTextWrapper}`, {
-	maxWidth: 'calc(100% - 82px)',
-})
-
 export const activityItemInnerSelectedContent = style([
 	sprinkles({
 		width: 'full',
 	}),
 	{},
-])
-
-export const transactionDottedLine = style([
-	sprinkles({
-		flexGrow: 1,
-	}),
-	{
-		borderTop: '1px dashed',
-		borderColor: vars.color.wax300,
-		height: '0px',
-		marginTop: '10px',
-		color: 'white',
-	},
 ])
 
 export const indicatorCircle = style([

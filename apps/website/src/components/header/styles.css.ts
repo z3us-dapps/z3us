@@ -6,14 +6,8 @@ import { vars } from 'ui/src/components/system/theme.css'
 
 export const headerWrapper = style([
 	sprinkles({
-		// position: 'sticky',
-		// zIndex: 1,
-		// top: 0,
-		// TODO: inner shadow border
 		borderBottom: 1,
 		borderBottomStyle: 'solid',
-		// borderColor: 'transparent',
-
 		borderColor: 'lead800',
 	}),
 	{},
