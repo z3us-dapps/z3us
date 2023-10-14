@@ -2,8 +2,6 @@ import clsx from 'clsx'
 import type { ElementType, ReactNode } from 'react'
 import React from 'react'
 
-import { useTextDirection } from 'ui/src/hooks/use-text-direction'
-
 import { Box } from '../box'
 import type { Sprinkles } from '../system/sprinkles.css'
 import { sprinkles } from '../system/sprinkles.css'
@@ -118,36 +116,31 @@ const Text = ({
 	blur,
 	inheritColor,
 	lineClamp,
-}: TextProps) => {
-	const [dir] = useTextDirection()
-
-	return (
-		<Box
-			dir={dir}
-			component={component}
-			display={display}
-			className={textStyles({
-				size,
-				color,
-				weight,
-				type,
-				align,
-				baseline,
-				className,
-				capitalizeFirstLetter,
-				capitalize,
-				truncate,
-				blur,
-				underline,
-				inheritColor,
-				lineClamp,
-			})}
-			style={{ ...(lineClamp ? { WebkitLineClamp: lineClamp } : {}) }}
-		>
-			{children}
-		</Box>
-	)
-}
+}: TextProps) => (
+	<Box
+		component={component}
+		display={display}
+		className={textStyles({
+			size,
+			color,
+			weight,
+			type,
+			align,
+			baseline,
+			className,
+			capitalizeFirstLetter,
+			capitalize,
+			truncate,
+			blur,
+			underline,
+			inheritColor,
+			lineClamp,
+		})}
+		style={{ ...(lineClamp ? { WebkitLineClamp: lineClamp } : {}) }}
+	>
+		{children}
+	</Box>
+)
 
 export default Text
 
