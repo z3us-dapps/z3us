@@ -8,16 +8,22 @@ import { Text } from 'ui/src/components/typography'
 
 import * as styles from './image-icon.css'
 
-export type TImageSizes = 'small' | 'medium' | 'large' | 'xlarge'
 export type TImageColors = 'primary' | 'secondary'
 
-export interface IImageIconRequiredProps {
+type TImageSizeOption = 'small' | 'medium' | 'large' | 'xlarge'
+
+type TImageSizes =
+	| TImageSizeOption
+	| {
+			mobile?: TImageSizeOption
+			tablet?: TImageSizeOption
+			desktop?: TImageSizeOption
+	  }
+
+export interface IImageIconProps {
 	imgSrc: string
 	imgAlt: string
 	fallbackText: string
-}
-
-export interface IImageIconOptionalProps {
 	className?: ClassValue
 	imgFallbackDelay?: number
 	size?: TImageSizes
@@ -26,35 +32,44 @@ export interface IImageIconOptionalProps {
 	rounded?: boolean
 }
 
-export interface IImageIconProps extends IImageIconRequiredProps, IImageIconOptionalProps {}
-
-const defaultProps: IImageIconOptionalProps = {
-	className: undefined,
-	imgFallbackDelay: 600,
-	size: 'medium',
-	color: 'colorNeutral',
-	backgroundColor: 'backgroundPrimary',
-	rounded: true,
-}
-
 export const ImageIcon = forwardRef<HTMLElement, IImageIconProps>((props, ref: React.Ref<HTMLElement | null>) => {
-	const { className, imgSrc, imgFallbackDelay, imgAlt, size, color, backgroundColor, rounded, fallbackText } = props
+	const {
+		className,
+		imgSrc,
+		imgFallbackDelay = 600,
+		imgAlt,
+		size = 'medium',
+		color = 'colorNeutral',
+		backgroundColor = 'backgroundPrimary',
+		rounded = true,
+		fallbackText,
+	} = props
+
+	const sizeVariantMobile = typeof size === 'object' ? size.mobile : size
+	const sizeVariantTablet = typeof size === 'object' ? size.tablet : undefined
 
 	return (
 		<Box
 			ref={ref}
 			color={color}
 			background={backgroundColor}
-			className={clsx(styles.imageWrapper({ size, rounded }), className)}
+			className={clsx(
+				styles.imageWrapper({ size: sizeVariantMobile, sizeTablet: sizeVariantTablet, rounded }),
+				className,
+			)}
 		>
 			<AvatarPrimitive.Root className={styles.imageAvatarRootWrapper}>
 				<AvatarPrimitive.Image className={styles.imageAvatarImageWrapper} src={imgSrc} alt={imgAlt} />
 				<AvatarPrimitive.Fallback delayMs={imgFallbackDelay} className={styles.imageAvatarFallbackWrapper}>
-					<Text className={clsx(styles.imageFallbackTextWrapper({ size }))}>{fallbackText}</Text>
+					<Text
+						className={clsx(
+							styles.imageFallbackTextWrapper({ size: sizeVariantMobile, sizeTablet: sizeVariantTablet }),
+						)}
+					>
+						{fallbackText}
+					</Text>
 				</AvatarPrimitive.Fallback>
 			</AvatarPrimitive.Root>
 		</Box>
 	)
 })
-
-ImageIcon.defaultProps = defaultProps

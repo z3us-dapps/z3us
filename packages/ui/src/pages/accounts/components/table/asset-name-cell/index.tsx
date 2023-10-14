@@ -5,7 +5,6 @@ import { FormattedNumber } from 'react-intl'
 import { Box } from 'ui/src/components/box'
 import { ResourceImageIcon } from 'ui/src/components/resource-image-icon'
 import { RedGreenText, Text } from 'ui/src/components/typography'
-import { useIsMobileWidth } from 'ui/src/hooks/use-is-mobile'
 import { useNoneSharedStore } from 'ui/src/hooks/use-store'
 import type { ResourceBalance, ResourceBalanceKind, ResourceBalanceType } from 'ui/src/types'
 
@@ -23,7 +22,6 @@ export const AssetNameCell: React.FC<IProps> = props => {
 	} = props
 	const { symbol, name, amount, change, value: tokenValue } = original as ResourceBalance[ResourceBalanceType.FUNGIBLE]
 
-	const isMobile = useIsMobileWidth()
 	const { currency } = useNoneSharedStore(state => ({
 		currency: state.currency,
 	}))
@@ -31,7 +29,7 @@ export const AssetNameCell: React.FC<IProps> = props => {
 	return (
 		<Box className={styles.assetNameCellWrapper}>
 			<Box className={clsx(styles.assetNameCellContentWrapper, 'td-cell')}>
-				<ResourceImageIcon size={isMobile ? 'large' : 'xlarge'} address={value} />
+				<ResourceImageIcon size={{ mobile: 'large', tablet: 'xlarge' }} address={value} />
 				<Box className={styles.assetNameCellStatsWrapper}>
 					<Box className={styles.assetNameCellNameWrapper}>
 						<Text capitalizeFirstLetter size="small" color="strong" truncate weight="medium">

@@ -5,7 +5,6 @@ import { defineMessages, useIntl } from 'react-intl'
 import { Box } from 'ui/src/components/box'
 import { DownLeft2Icon, QrCode2Icon, UpRight2Icon } from 'ui/src/components/icons'
 import { ToolTip } from 'ui/src/components/tool-tip'
-import { useIsMobileWidth } from 'ui/src/hooks/use-is-mobile'
 
 import { Button } from '../router-button'
 import * as styles from './card-buttons.css'
@@ -41,24 +40,39 @@ export const CardButtons: React.FC<ICardButtonsProps> = props => {
 	const { className } = props
 
 	const intl = useIntl()
-	const isMobile = useIsMobileWidth()
-
-	const buttonSize = isMobile ? 'medium' : 'large'
 
 	return (
 		<Box className={clsx(styles.cardButtonsWrapper, className)}>
 			<ToolTip message={intl.formatMessage(messages.send)}>
-				<Button iconOnly rounded styleVariant="inverse" sizeVariant={buttonSize} to="/accounts/transfer">
+				<Button
+					iconOnly
+					rounded
+					styleVariant="inverse"
+					sizeVariant={{ mobile: 'medium', tablet: 'large' }}
+					to="/accounts/transfer"
+				>
 					<UpRight2Icon />
 				</Button>
 			</ToolTip>
 			<ToolTip message={intl.formatMessage(messages.receive)}>
-				<Button iconOnly rounded styleVariant="inverse" sizeVariant={buttonSize} to="/accounts/transfer">
+				<Button
+					iconOnly
+					rounded
+					styleVariant="inverse"
+					sizeVariant={{ mobile: 'medium', tablet: 'large' }}
+					to="/accounts/transfer"
+				>
 					<DownLeft2Icon />
 				</Button>
 			</ToolTip>
 			<ToolTip message={intl.formatMessage(messages.address)}>
-				<Button iconOnly rounded styleVariant="inverse" sizeVariant={buttonSize} to="/accounts/transfer">
+				<Button
+					iconOnly
+					rounded
+					styleVariant="inverse"
+					sizeVariant={{ mobile: 'medium', tablet: 'large' }}
+					to="/accounts/transfer"
+				>
 					<QrCode2Icon />
 				</Button>
 			</ToolTip>
