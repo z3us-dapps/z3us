@@ -2431,6 +2431,30 @@
       "value": "Amount"
     }
   ],
+  "token_amount_select.max_amount": [
+    {
+      "type": 0,
+      "value": "Max: "
+    },
+    {
+      "style": {
+        "parsedOptions": {
+          "maximumFractionDigits": 9,
+          "minimumFractionDigits": 2
+        },
+        "tokens": [
+          {
+            "options": [
+            ],
+            "stem": ".00#######"
+          }
+        ],
+        "type": 0
+      },
+      "type": 2,
+      "value": "amount"
+    }
+  ],
   "token_select.close": [
     {
       "type": 0,

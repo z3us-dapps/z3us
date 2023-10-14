@@ -995,6 +995,9 @@
   "token_amount_select.amount.placeholder": {
     "defaultMessage": "Amount"
   },
+  "token_amount_select.max_amount": {
+    "defaultMessage": "Max: {amount, number, ::.00#######}"
+  },
   "token_select.close": {
     "defaultMessage": "Close"
   },
