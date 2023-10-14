@@ -28,7 +28,6 @@ const CopyIconAnimation = ({ animate, tickColor }: { animate: boolean; tickColor
 			<AnimatePresence initial={false}>
 				{animate && (
 					<Box color={tickColor} zIndex={1}>
-						{console.log('hell o', 999, tickColor)}
 						<svg fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor">
 							<motion.path
 								initial={{ pathLength: 0 }}

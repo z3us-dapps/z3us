@@ -1,6 +1,6 @@
 import React, { forwardRef } from 'react'
 
-import { type IImageIconOptionalProps, ImageIcon } from 'ui/src/components/image-icon'
+import { type IImageIconProps, ImageIcon } from 'ui/src/components/image-icon'
 import { ToolTip } from 'ui/src/components/tool-tip'
 import { useEntityMetadata } from 'ui/src/hooks/dapp/use-entity-metadata'
 import { useImages } from 'ui/src/hooks/use-images'
@@ -8,7 +8,7 @@ import { getStringMetadata } from 'ui/src/services/metadata'
 import { getStrPrefix } from 'ui/src/utils/get-str-prefix'
 import { getShortAddress } from 'ui/src/utils/string-utils'
 
-interface IProps extends IImageIconOptionalProps {
+interface IProps extends Omit<IImageIconProps, 'fallbackText' | 'imgAlt' | 'imgSrc'> {
 	address: string
 	toolTipEnabled?: boolean
 }
