@@ -177,10 +177,19 @@ export const ActivityList = forwardRef<HTMLElement>((_, ref: React.Ref<HTMLEleme
 	const { isFetching, data, fetchNextPage, hasNextPage } = useTransactions(addresses)
 
 	const flattenWithLoading = useMemo(() => {
-		const flatten = (data?.pages.reduce((container, page) => [...container, ...page.items], []) || []).sort(
+		const uniqueItems = new Map()
+		data?.pages.forEach(page => {
+			page.items.forEach(item => {
+				const itemId = item.id
+				if (!uniqueItems.has(itemId) || item.round_timestamp > uniqueItems.get(itemId).round_timestamp) {
+					uniqueItems.set(itemId, item)
+				}
+			})
+		})
+		const sortedItems = Array.from(uniqueItems.values()).sort(
 			(a, b) => new Date(b.round_timestamp).getTime() - new Date(a.round_timestamp).getTime(),
 		)
-		return hasNextPage && isFetching ? [...flatten, ...skeletons] : flatten
+		return hasNextPage && isFetching ? [...sortedItems, ...skeletons] : sortedItems
 	}, [data])
 
 	const loadMore = useCallback(() => {
