@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 
 import { Box } from 'ui/src/components/box'
 import { FallbackLoading } from 'ui/src/components/fallback-renderer'
@@ -11,6 +11,12 @@ import * as styles from './styles.css'
 export const AccountTotalValue: React.FC = () => {
 	const { isLoading, formattedXrdValue, formattedValue, formattedChange, change } = useTotalBalance()
 
+	const [value, setValue] = useState<'currency' | 'xrd'>('currency')
+
+	const handleToggleValue = () => {
+		setValue(value === 'currency' ? 'xrd' : 'currency')
+	}
+
 	if (isLoading) {
 		return <FallbackLoading />
 	}
@@ -18,12 +24,15 @@ export const AccountTotalValue: React.FC = () => {
 	return (
 		<Box className={styles.assetsHeaderWrapper}>
 			<Box flexGrow={1} display="flex" flexDirection="column" gap="xxsmall">
-				<Box display="flex" alignItems="flex-end" gap="medium">
+				<Box
+					display="flex"
+					alignItems="flex-end"
+					gap="medium"
+					onClick={handleToggleValue}
+					className={styles.totalValueWrapper}
+				>
 					<Text weight="medium" size="xxxlarge" color="strong" truncate>
-						{formattedValue}
-					</Text>
-					<Text weight="medium" size="medium" className={styles.assetsXrdTotalWrapper}>
-						{formattedXrdValue} XRD
+						{value === 'currency' ? formattedValue : `${formattedXrdValue} XRD`}
 					</Text>
 				</Box>
 				<RedGreenText size="xxsmall" weight="medium" truncate change={change}>

@@ -12,8 +12,8 @@ export const assetsHeaderWrapper = style([
 	}),
 ])
 
-export const assetsXrdTotalWrapper = style([
+export const totalValueWrapper = style([
 	{
-		paddingBottom: '5px',
+		cursor: 'pointer',
 	},
 ])

@@ -21,4 +21,8 @@ export const mobileHiddenWrapper = style([
 	}),
 ])
 
-export const mobileAccountValueTotal = style([{ display: 'flex' }])
+export const totalValueWrapper = style([
+	{
+		cursor: 'pointer',
+	},
+])

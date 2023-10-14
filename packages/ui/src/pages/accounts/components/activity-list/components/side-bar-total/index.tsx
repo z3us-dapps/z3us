@@ -1,5 +1,5 @@
 import clsx from 'clsx'
-import React from 'react'
+import React, { useState } from 'react'
 import { defineMessages, useIntl } from 'react-intl'
 
 import { Box } from 'ui/src/components/box'
@@ -22,6 +22,12 @@ export const SideBarTotal: React.FC = () => {
 
 	const { isLoading, formattedXrdValue, formattedValue, formattedChange, change } = useTotalBalance()
 
+	const [value, setValue] = useState<'currency' | 'xrd'>('currency')
+
+	const handleToggleValue = () => {
+		setValue(value === 'currency' ? 'xrd' : 'currency')
+	}
+
 	if (isLoading) {
 		return null
 	}
@@ -31,17 +37,14 @@ export const SideBarTotal: React.FC = () => {
 			<Text color="strong" size="xlarge">
 				{intl.formatMessage(messages.all_assets_total_balance)}
 			</Text>
-			<Box display="flex" alignItems="center" gap="small">
-				<Text weight="medium" size="xxlarge" color="strong" truncate>
-					{formattedValue}
+			<Box display="flex" alignItems="center" gap="small" onClick={handleToggleValue}>
+				<Text weight="medium" size="xxlarge" color="strong" truncate className={styles.totalValueWrapper}>
+					{value === 'currency' ? formattedValue : `${formattedXrdValue} XRD`}
 				</Text>
-				<RedGreenText size="small" weight="strong" truncate change={change}>
-					{formattedChange}
-				</RedGreenText>
 			</Box>
-			<Text weight="medium" size="medium">
-				{formattedXrdValue} XRD
-			</Text>
+			<RedGreenText size="small" weight="strong" truncate change={change}>
+				{formattedChange}
+			</RedGreenText>
 		</Box>
 	)
 }
