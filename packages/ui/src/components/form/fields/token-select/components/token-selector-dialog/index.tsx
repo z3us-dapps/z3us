@@ -24,7 +24,7 @@ import * as dialogStyles from 'ui/src/components/styles/dialog-styles.css'
 import { ToolTip } from 'ui/src/components/tool-tip'
 import { Text } from 'ui/src/components/typography'
 import { config } from 'ui/src/constants/config'
-import type { ResourceBalanceKind } from 'ui/src/types/types'
+import type { ResourceBalanceKind } from 'ui/src/types'
 import { getShortAddress } from 'ui/src/utils/string-utils'
 
 import * as styles from './styles.css'

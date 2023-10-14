@@ -10,7 +10,7 @@ import { Box } from 'ui/src/components/box'
 import { Button } from 'ui/src/components/button'
 import { Text } from 'ui/src/components/typography'
 import { useTheme } from 'ui/src/hooks/use-theme'
-import { Theme } from 'ui/src/types/types'
+import { Theme } from 'ui/src/types'
 
 import { config, radixConnectConfig } from '@src/config'
 import { chromeLocalStore } from '@src/radix/storage-local'

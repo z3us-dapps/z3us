@@ -11,7 +11,7 @@ import { AssetAmountCell } from 'ui/src/pages/accounts/components/table/asset-am
 import { AssetChangeCell } from 'ui/src/pages/accounts/components/table/asset-change-cell'
 import { AssetNameCell } from 'ui/src/pages/accounts/components/table/asset-name-cell'
 import { AssetValueCell } from 'ui/src/pages/accounts/components/table/asset-value-cell'
-import type { ResourceBalance, ResourceBalanceType } from 'ui/src/types/types'
+import type { ResourceBalance, ResourceBalanceType } from 'ui/src/types'
 
 import { PoolCell } from '../components/table/pool-cell'
 import * as styles from '../components/table/styles.css'

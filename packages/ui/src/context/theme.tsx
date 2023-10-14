@@ -1,7 +1,7 @@
 import type { Context } from 'react'
 import { createContext } from 'react'
 
-import { Theme } from 'ui/src/types/types'
+import { Theme } from 'ui/src/types'
 
 export type State = {
 	theme: Theme

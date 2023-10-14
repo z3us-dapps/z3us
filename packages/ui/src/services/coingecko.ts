@@ -1,4 +1,4 @@
-import type { Ticker } from 'ui/src/types/types'
+import type { Ticker } from 'ui/src/types'
 
 const parseTicker = (ticker: any, currency: string) => ({
 	last_price: (ticker[currency.toLowerCase()] || 0) as number,

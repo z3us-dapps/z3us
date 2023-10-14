@@ -7,7 +7,7 @@ import { ResourceImageIcon } from 'ui/src/components/resource-image-icon'
 import { RedGreenText, Text } from 'ui/src/components/typography'
 import { useIsMobileWidth } from 'ui/src/hooks/use-is-mobile'
 import { useNoneSharedStore } from 'ui/src/hooks/use-store'
-import type { ResourceBalance, ResourceBalanceKind, ResourceBalanceType } from 'ui/src/types/types'
+import type { ResourceBalance, ResourceBalanceKind, ResourceBalanceType } from 'ui/src/types'
 
 import * as styles from './styles.css'
 

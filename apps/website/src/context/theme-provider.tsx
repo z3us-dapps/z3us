@@ -5,7 +5,7 @@ import React, { type PropsWithChildren, useEffect, useMemo } from 'react'
 import { darkThemeClass, lightThemeClass } from 'ui/src/components/system/theme.css'
 import type { State as ThemeState } from 'ui/src/context/theme'
 import { ThemeContext } from 'ui/src/context/theme'
-import type { Theme } from 'ui/src/types/types'
+import type { Theme } from 'ui/src/types'
 
 export const InnerThemeProvider: React.FC<PropsWithChildren> = ({ children }) => {
 	const { setTheme, theme, resolvedTheme } = useTheme()

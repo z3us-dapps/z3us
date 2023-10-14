@@ -9,7 +9,7 @@ import { Text } from 'ui/src/components/typography'
 import { useEntityDetails } from 'ui/src/hooks/dapp/use-entity-details'
 import { useIsMobileWidth } from 'ui/src/hooks/use-is-mobile'
 import { getStringMetadata } from 'ui/src/services/metadata'
-import type { ResourceBalance, ResourceBalanceType } from 'ui/src/types/types'
+import type { ResourceBalance, ResourceBalanceType } from 'ui/src/types'
 
 import * as styles from './styles.css'
 

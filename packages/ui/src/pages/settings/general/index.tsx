@@ -12,7 +12,7 @@ import { languages } from 'ui/src/constants/intl'
 import { useSupportedCurrencies } from 'ui/src/hooks/queries/market'
 import { useNoneSharedStore } from 'ui/src/hooks/use-store'
 import { useTheme } from 'ui/src/hooks/use-theme'
-import { Theme } from 'ui/src/types/types'
+import { Theme } from 'ui/src/types'
 
 import { SettingsBlock } from '../components/settings-block'
 import { SettingsTitle } from '../components/settings-title'
