@@ -15,12 +15,13 @@ import { TimeFromNow } from 'ui/src/components/time-from-now'
 import { TokenPrice } from 'ui/src/components/token-price'
 import { ToolTip } from 'ui/src/components/tool-tip'
 import { TransactionIcon } from 'ui/src/components/transaction-icon'
-import { StyledTransactionManifest, TransactionManifest } from 'ui/src/components/transaction-manifest'
+import { StyledTransactionManifest } from 'ui/src/components/transaction-manifest'
 import { Text } from 'ui/src/components/typography'
 import { config } from 'ui/src/constants/config'
 import { useKnownAddresses } from 'ui/src/hooks/dapp/use-known-addresses'
 import { useTransaction } from 'ui/src/hooks/dapp/use-transactions'
 import { useIsMobileWidth } from 'ui/src/hooks/use-is-mobile'
+import { useIsActivitiesVisible } from 'ui/src/pages/accounts/hooks/use-is-activities-visible'
 import { getShortAddress } from 'ui/src/utils/string-utils'
 
 import { TransactionLoadingSkeleton } from './components/transaction-loading-skeleton'
@@ -89,14 +90,16 @@ export const Transaction = () => {
 	const isMobile = useIsMobileWidth()
 	const { data: knownAddresses } = useKnownAddresses()
 
+	const isActivitiesVisible = useIsActivitiesVisible()
 	const transactionId = searchParams.get('tx')
 	const isTransactionVisible = !!transactionId
+
 	const { data, isLoading } = useTransaction(transactionId)
 
 	const [isScrolled, setIsScrolled] = useState<boolean>(false)
 
 	const navigateBack = () => {
-		navigate(pathname)
+		navigate(`${pathname}${isActivitiesVisible ? '?acts=true' : ''}`)
 	}
 
 	const handleEscapeKeyDown = () => {

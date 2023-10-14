@@ -16,7 +16,7 @@ export const allChartWrapper = style([
 		},
 		paddingBottom: {
 			mobile: 'xsmall',
-			tablet: 'medium',
+			tablet: 'none',
 		},
 	}),
 	{},

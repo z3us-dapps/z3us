@@ -1,10 +1,12 @@
 import { globalStyle, style } from '@vanilla-extract/css'
 
 import { darkMode, sprinkles } from 'ui/src/components/system/sprinkles.css'
+import { responsiveStyle } from 'ui/src/components/system/theme-utils'
 import { vars } from 'ui/src/components/system/theme.css'
 
 export const activityWrapper = style([
 	sprinkles({
+		width: 'full',
 		position: 'relative',
 		background: 'backgroundSecondary',
 		display: {
@@ -12,10 +14,20 @@ export const activityWrapper = style([
 			tablet: 'flex',
 		},
 		flexDirection: 'column',
+		marginTop: {
+			tablet: 'small',
+		},
+		paddingTop: {
+			tablet: 'small',
+		},
+		paddingBottom: {
+			tablet: 'small',
+		},
 	}),
-	{
-		width: '100%',
-	},
+	{},
+	responsiveStyle({
+		tablet: { borderTop: '1px solid', borderColor: vars.color.borderDivider },
+	}),
 ])
 
 export const activityItem = style([
