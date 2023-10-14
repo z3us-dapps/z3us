@@ -87,6 +87,14 @@ export const activityItemInner = style([
 			},
 		},
 	},
+
+	responsiveStyle({
+		tablet: {
+			'::before': {
+				boxShadow: `${vars.color.shadowActivePanel}`,
+			},
+		},
+	}),
 ])
 
 globalStyle(`${activityWrapper} > div > div > div > div:first-child ${activityItemOuter}`, {
