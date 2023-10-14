@@ -15,7 +15,7 @@ import { TimeFromNow } from 'ui/src/components/time-from-now'
 import { TokenPrice } from 'ui/src/components/token-price'
 import { ToolTip } from 'ui/src/components/tool-tip'
 import { TransactionIcon } from 'ui/src/components/transaction-icon'
-import { TransactionManifest } from 'ui/src/components/transaction-manifest'
+import { StyledTransactionManifest, TransactionManifest } from 'ui/src/components/transaction-manifest'
 import { Text } from 'ui/src/components/typography'
 import { config } from 'ui/src/constants/config'
 import { useKnownAddresses } from 'ui/src/hooks/dapp/use-known-addresses'
@@ -144,13 +144,11 @@ export const Transaction = () => {
 									<Box display="flex" flexDirection="column" alignItems="center">
 										<TransactionIcon
 											transactionIconBorderColor="borderDividerSecondary"
-											transactionIconSize="large"
+											transactionIconSize="medium"
 											transactionType="deposit"
 										/>
 										<Box marginTop="small">
-											<Text size="small" color="strong">
-												{intl.formatMessage(messages.fee)}
-											</Text>
+											<Text size="small">{intl.formatMessage(messages.fee)}</Text>
 										</Box>
 										<Box marginTop="xxsmall">
 											<Text size="xxxlarge" color="strong">
@@ -180,49 +178,45 @@ export const Transaction = () => {
 											<AccountsTransactionInfo
 												leftTitle={intl.formatMessage(messages.id)}
 												rightData={
-													<Box display="flex" alignItems="flex-end" gap="xsmall">
+													<Box display="flex" alignItems="flex-end" gap="small">
+														<ToolTip message={data?.transaction.intent_hash}>
+															<Box>
+																<Text size="xsmall">{getShortAddress(data?.transaction.intent_hash)}</Text>
+															</Box>
+														</ToolTip>
 														<Box className={styles.transactionInfoCopyBtnWrapper}>
 															<CopyAddressButton
 																styleVariant="ghost"
 																address={data?.transaction.intent_hash}
+																sizeVariant="xsmall"
 																iconOnly
 																rounded={false}
 																tickColor="colorStrong"
 															/>
 														</Box>
-														<ToolTip message={data?.transaction.intent_hash}>
-															<Box>
-																<Text size="small">{getShortAddress(data?.transaction.intent_hash)}</Text>
-															</Box>
-														</ToolTip>
 													</Box>
 												}
 											/>
 											<AccountsTransactionInfo
 												leftTitle={intl.formatMessage(messages.status)}
-												rightData={<Text size="small">{data?.transaction.transaction_status}</Text>}
+												rightData={<Text size="xsmall">{data?.transaction.transaction_status}</Text>}
 											/>
-											{/* TODO: ? */}
-											{/* <AccountsTransactionInfo
-											leftTitle={<Translation capitalizeFirstLetter text={intl.formatMessage(messages.status)} />}
-											rightData={<Text size="small">{data?.transaction.receipt?.status}</Text>}
-										/> */}
 											<AccountsTransactionInfo
 												leftTitle={intl.formatMessage(messages.version)}
-												rightData={<Text size="small">{data?.transaction.state_version}</Text>}
+												rightData={<Text size="xsmall">{data?.transaction.state_version}</Text>}
 											/>
 											<AccountsTransactionInfo
 												leftTitle={intl.formatMessage(messages.epoch)}
-												rightData={<Text size="small">{data?.transaction.epoch}</Text>}
+												rightData={<Text size="xsmall">{data?.transaction.epoch}</Text>}
 											/>
 											<AccountsTransactionInfo
 												leftTitle={intl.formatMessage(messages.round)}
-												rightData={<Text size="small">{data?.transaction.round}</Text>}
+												rightData={<Text size="xsmall">{data?.transaction.round}</Text>}
 											/>
 											<AccountsTransactionInfo
 												leftTitle={intl.formatMessage(messages.date)}
 												rightData={
-													<Text size="small">
+													<Text size="xsmall">
 														<TimeFromNow date={data?.transaction.confirmed_at} />
 													</Text>
 												}
@@ -230,56 +224,57 @@ export const Transaction = () => {
 											<AccountsTransactionInfo
 												leftTitle={intl.formatMessage(messages.affected_global_entities)}
 												rightData={
-													<Box display="flex" flexDirection="column" alignItems="flex-end" gap="xsmall">
-														{data?.transaction.affected_global_entities?.map(entity => (
-															<Box key={entity}>
+													<Box display="flex" flexDirection="column" gap="xsmall">
+														{[data?.transaction.affected_global_entities?.[0]]?.map(entity => (
+															<Box
+																key={entity}
+																display="flex"
+																alignItems="flex-end"
+																gap="small"
+																justifyContent="flex-end"
+															>
+																<ToolTip message={entity}>
+																	<Box>
+																		<Text size="xsmall">{getShortAddress(entity, 8)}</Text>
+																	</Box>
+																</ToolTip>
 																<Box className={styles.transactionInfoCopyBtnWrapper}>
 																	<CopyAddressButton
 																		styleVariant="ghost"
+																		sizeVariant="xsmall"
 																		address={entity}
 																		iconOnly
 																		rounded={false}
 																		tickColor="colorStrong"
 																	/>
 																</Box>
-																<ToolTip message={entity}>
-																	<Box>
-																		<Text size="small">{getShortAddress(entity)}</Text>
-																	</Box>
-																</ToolTip>
 															</Box>
 														))}
 													</Box>
 												}
 											/>
 
-											<AccountsTransactionInfo
-												leftTitle={intl.formatMessage(messages.message)}
-												rightData={
-													<Box display="flex" flexDirection="column" alignItems="flex-end" gap="xsmall">
-														{data?.transaction.affected_global_entities?.map(entity => (
-															<Box key={entity}>
-																<Box className={styles.transactionInfoCopyBtnWrapper}>
-																	<CopyAddressButton
-																		styleVariant="ghost"
-																		address={JSON.stringify(data?.transaction.message)}
-																		iconOnly
-																		rounded={false}
-																		tickColor="colorStrong"
-																	/>
-																</Box>
-																<ToolTip message={entity}>
-																	<Box>
-																		<Text size="xsmall">
-																			{data?.transaction.message ? JSON.stringify(data?.transaction.message) : 'N/A'}
-																		</Text>
-																	</Box>
-																</ToolTip>
+											<Box className={styles.transactionExtraRowsWrapper}>
+												{data?.transaction.affected_global_entities?.slice(1)?.map(entity => (
+													<Box key={entity} display="flex" alignItems="flex-end" gap="small" justifyContent="flex-end">
+														<ToolTip message={entity}>
+															<Box>
+																<Text size="xsmall">{getShortAddress(entity, 8)}</Text>
 															</Box>
-														))}
+														</ToolTip>
+														<Box className={styles.transactionInfoCopyBtnWrapper}>
+															<CopyAddressButton
+																styleVariant="ghost"
+																sizeVariant="xsmall"
+																address={entity}
+																iconOnly
+																rounded={false}
+																tickColor="colorStrong"
+															/>
+														</Box>
 													</Box>
-												}
-											/>
+												))}
+											</Box>
 
 											<AccountsTransactionInfo
 												leftTitle={intl.formatMessage(messages.manifest)}
@@ -294,12 +289,12 @@ export const Transaction = () => {
 																tickColor="colorStrong"
 															/>
 														</Box>
-														<Box>
-															<TransactionManifest manifestHex={data?.transaction.raw_hex} size="xsmall" />
-														</Box>
 													</Box>
 												}
 											/>
+											<Box paddingY="xsmall">
+												<StyledTransactionManifest manifestHex={data?.transaction.raw_hex} />
+											</Box>
 										</Box>
 									</Box>
 								</>

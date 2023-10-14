@@ -23,7 +23,7 @@ export const transactionRowDotted = style([
 		flexGrow: 1,
 		borderBottom: 1,
 		borderColor: 'borderDividerSecondary',
-		marginBottom: 'xsmall',
+		marginBottom: 'xxsmall',
 		marginX: 'medium',
 	}),
 	{},

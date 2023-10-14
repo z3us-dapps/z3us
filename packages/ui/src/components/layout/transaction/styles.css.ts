@@ -146,6 +146,18 @@ export const transactionInfoCopyBtnWrapper = style([
 	},
 ])
 
+export const transactionExtraRowsWrapper = style([
+	sprinkles({
+		position: 'relative',
+		display: 'flex',
+		flexDirection: 'column',
+		gap: 'xsmall',
+	}),
+	{
+		marginTop: '-8px',
+	},
+])
+
 export const transactionDetailsWrapper = style([
 	sprinkles({
 		position: 'relative',

@@ -18,7 +18,6 @@ const fontMetrics = {
 	body: {
 		...interFontMetrics,
 	},
-	// TODO: better mono font suisse mono ? jetbrains mono ?
 	code: {
 		...interFontMetrics,
 	},
@@ -77,8 +76,7 @@ export const sharedThemeValues = {
 		brand: 'var(--font-sans), "Inter", "Helvetica Neue", HelveticaNeue, Helvetica, sans-serif',
 		heading: 'var(--font-sans), "Inter", BlinkMacSystemFont, "Helvetica Neue", HelveticaNeue, Helvetica, sans-serif',
 		body: 'var(--font-sans), "Inter", BlinkMacSystemFont, "Helvetica Neue", HelveticaNeue, Helvetica, Arial, sans-serif',
-		// TODO: fix font
-		code: 'var(--font-mono), ml, "Roboto Mono", Menlo, monospace',
+		code: 'var(--font-mono), "SF Mono", SFMono-Regular, ui-monospace, "DejaVu Sans Mono", Menlo, Consolas, monospace',
 	},
 	grid: px(grid),
 	spacing: {
